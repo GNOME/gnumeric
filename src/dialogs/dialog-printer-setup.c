@@ -237,7 +237,7 @@ static void
 margin_preview_page_destroy (PrinterSetupState *state)
 {
 	if (state->preview.group) {
-		g_object_unref (G_OBJECT (state->preview.group));
+		g_object_unref (state->preview.group);
 		state->preview.group = NULL;
 	}
 }
@@ -1563,7 +1563,7 @@ static void
 free_hf_mark_info (HFMarkInfo *info)
 {
 	if (info->mark)
-		g_object_unref (G_OBJECT (info->mark));
+		g_object_unref (info->mark);
 	g_free (info->options);
 	g_free (info);
 }

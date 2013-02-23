@@ -449,7 +449,7 @@ cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
 
 	sheet_object_set_sheet (SHEET_OBJECT (cc), sheet);
 	/* setting the sheet added a reference */
-	g_object_unref (G_OBJECT (cc));
+	g_object_unref (cc);
 
 	return cc;
 }

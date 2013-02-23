@@ -150,7 +150,7 @@ go_data_slicer_set_cache (GODataSlicer *ds, GODataCache *cache)
 	g_return_if_fail (IS_GO_DATA_SLICER (ds));
 
 	if (NULL != cache)
-		g_object_ref (G_OBJECT (cache));
+		g_object_ref (cache);
 	if (NULL != ds->cache)
 		g_object_unref (ds->cache);
 	ds->cache = cache;

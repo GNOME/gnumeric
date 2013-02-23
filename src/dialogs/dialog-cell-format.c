@@ -2077,7 +2077,7 @@ cb_fmt_dialog_dialog_destroy (FormatState *state)
 	gnm_style_unref (state->back.style);
 	gnm_style_unref (state->style);
 	gnm_style_unref (state->result);
-	g_object_unref (G_OBJECT (state->gui));
+	g_object_unref (state->gui);
 	g_free (state);
 }
 

@@ -581,7 +581,7 @@ ms_biff_put_destroy (BiffPut *bp)
 
 	if (bp->output != NULL) {
 		gsf_output_close (bp->output);
-		g_object_unref (G_OBJECT (bp->output));
+		g_object_unref (bp->output);
 		bp->output = NULL;
 	}
 	g_free (bp->buf);

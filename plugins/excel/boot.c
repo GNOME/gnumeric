@@ -114,10 +114,10 @@ excel_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 
 	stream = find_content_stream (ole, NULL);
 	if (stream != NULL) {
-		g_object_unref (G_OBJECT (stream));
+		g_object_unref (stream);
 		res = TRUE;
 	}
-	g_object_unref (G_OBJECT (ole));
+	g_object_unref (ole);
 
 	return res;
 }
@@ -185,12 +185,12 @@ excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *conte
 	if (stream == NULL) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			 _("No Workbook or Book streams found."));
-		g_object_unref (G_OBJECT (ole));
+		g_object_unref (ole);
 		return;
 	}
 
 	excel_read_workbook (context, wbv, stream, &is_double_stream_file, enc);
-	g_object_unref (G_OBJECT (stream));
+	g_object_unref (stream);
 
 	meta_data = gsf_doc_meta_data_new ();
 	excel_read_metadata (meta_data, ole, "\05SummaryInformation", context);
@@ -215,7 +215,7 @@ excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *conte
 					g_object_set_data_full (G_OBJECT (wb), "VBA",
 						modules, (GDestroyNotify) g_hash_table_destroy);
 				}
-				g_object_unref (G_OBJECT (vba));
+				g_object_unref (vba);
 			}
 
 			/* LOOKS BROKEN */
@@ -223,12 +223,12 @@ excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *conte
 				gsf_structured_blob_read (stream), g_object_unref);
 			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_MACROS",
 				gsf_structured_blob_read (macros), g_object_unref);
-			g_object_unref (G_OBJECT (macros));
+			g_object_unref (macros);
 		}
-		g_object_unref (G_OBJECT (stream));
+		g_object_unref (stream);
 	}
 
-	g_object_unref (G_OBJECT (ole));
+	g_object_unref (ole);
 
 	/* simple guess of format based on stream names */
 	if (is_double_stream_file)
@@ -287,13 +287,13 @@ excel_save (GOIOContext *context, WorkbookView const *wbv, GsfOutput *output,
 			"\05DocumentSummaryInformation", FALSE);
 		gsf_doc_meta_data_write_to_msole (meta_data, content, TRUE);
 		gsf_output_close (content);
-		g_object_unref (G_OBJECT (content));
+		g_object_unref (content);
 
 		content = gsf_outfile_new_child (outfile,
 			"\05SummaryInformation", FALSE);
 		gsf_doc_meta_data_write_to_msole (meta_data, content, FALSE);
 		gsf_output_close (content);
-		g_object_unref (G_OBJECT (content));
+		g_object_unref (content);
 	}
 
 	/* restore the macros we loaded */
@@ -305,7 +305,7 @@ excel_save (GOIOContext *context, WorkbookView const *wbv, GsfOutput *output,
 		gsf_structured_blob_write (blob, outfile);
 
 	gsf_output_close (GSF_OUTPUT (outfile));
-	g_object_unref (G_OBJECT (outfile));
+	g_object_unref (outfile);
 }
 
 void

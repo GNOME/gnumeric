@@ -111,9 +111,9 @@ cb_dialog_so_size_destroy (SOSizeState *state)
 	g_free (state->active_anchor);
 	g_free (state->old_name);
 	if (state->so!= NULL)
-		g_object_unref (G_OBJECT (state->so));
+		g_object_unref (state->so);
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 	g_free (state);
 }
 
@@ -190,7 +190,7 @@ static GOUndo *
 set_params (SheetObject *so, char *name)
 {
 	return go_undo_binary_new
-		(g_object_ref (G_OBJECT (so)), name,
+		(g_object_ref (so), name,
 		 (GOUndoBinaryFunc)sheet_object_set_name,
 		 g_object_unref, g_free);
 }
@@ -202,7 +202,7 @@ set_print_flag (SheetObject *so, gboolean print)
 
 	*p_print = print;
 	return go_undo_binary_new
-		(g_object_ref (G_OBJECT (so)), p_print,
+		(g_object_ref (so), p_print,
 		 (GOUndoBinaryFunc)sheet_object_set_print_flag,
 		 g_object_unref, g_free);
 }

@@ -462,7 +462,7 @@ gnm_font_init (void)
 	gnm_font_default_width = pts_scale *
 		PANGO_PIXELS (gnumeric_default_font->go.metrics->avg_digit_width);
 	gnm_font_unref (gnumeric_default_font);
-	g_object_unref (G_OBJECT (context));
+	g_object_unref (context);
 }
 
 static void

@@ -141,7 +141,7 @@ static void
 cb_destroy (PasteSpecialState *state)
 {
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 	g_free (state);
 }

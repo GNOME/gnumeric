@@ -427,7 +427,7 @@ fs_destroy (GtkWidget *widget)
 	}
 
 	if (fs->gui) {
-		g_object_unref (G_OBJECT (fs->gui));
+		g_object_unref (fs->gui);
 		fs->gui = NULL;
 	}
 

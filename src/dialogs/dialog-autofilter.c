@@ -77,7 +77,7 @@ static void
 cb_autofilter_destroy (AutoFilterState *state)
 {
 	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 		state->gui = NULL;
 	}
 

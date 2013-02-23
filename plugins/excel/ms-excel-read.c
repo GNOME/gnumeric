@@ -4399,7 +4399,7 @@ excel_read_os2bmp (BiffQuery *q, guint32 image_len)
 			   err->message);
 		g_error_free (err);
 	}
-	g_object_unref (G_OBJECT (loader));
+	g_object_unref (loader);
 	return pixbuf;
 }
 

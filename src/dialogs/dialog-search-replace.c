@@ -211,7 +211,7 @@ cancel_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 static void
 cb_dialog_destroy (DialogState *dd)
 {
-	g_object_unref (G_OBJECT (dd->gui));
+	g_object_unref (dd->gui);
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
 }

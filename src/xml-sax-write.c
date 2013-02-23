@@ -1460,7 +1460,7 @@ gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs,
 	g_hash_table_destroy (state.expr_map);
 	g_string_free (state.cell_str, TRUE);
 	gnm_conventions_unref (state.convs);
-	g_object_unref (G_OBJECT (state.output));
+	g_object_unref (state.output);
 
 	if (gzout) {
 		gsf_output_close (gzout);
@@ -1608,7 +1608,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	g_hash_table_destroy (state.state.expr_map);
 	g_string_free (state.state.cell_str, TRUE);
 	gnm_conventions_unref (state.state.convs);
-	g_object_unref (G_OBJECT (state.state.output));
+	g_object_unref (state.state.output);
 
 	gsf_output_close (buf);
 

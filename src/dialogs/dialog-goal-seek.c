@@ -273,7 +273,7 @@ cb_dialog_destroy (GoalSeekState *state)
 
 	value_release (state->old_value);
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 	g_free (state);

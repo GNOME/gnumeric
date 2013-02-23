@@ -270,7 +270,7 @@ static void
 cb_dialog_destroy (ConsolidateState *state)
 {
 	if (state->pixmap != NULL)
-		g_object_unref (G_OBJECT (state->pixmap));
+		g_object_unref (state->pixmap);
 	if (state->construct_error != NULL) {
 		g_warning ("The construct error was not freed, this should not happen!");
 		g_free (state->construct_error);

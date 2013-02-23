@@ -1029,8 +1029,8 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	}
 	if (same_text_and_not_same_markup) {
 		/*We had the same text and differnt markup but we are not entering strings. */
-		g_object_unref (G_OBJECT (undo));
-		g_object_unref (G_OBJECT (redo));
+		g_object_unref (undo);
+		g_object_unref (redo);
 		g_free (text);
 		range_fragment_free (selection);
 		return TRUE;
@@ -1257,7 +1257,7 @@ cmd_create_data_table (WorkbookControl *wbc, Sheet *sheet, GnmRange const *r,
 	g_free (name);
 
 	if (texpr == NULL) {
-		g_object_unref (G_OBJECT (undo));
+		g_object_unref (undo);
 		g_free (text);
 		return TRUE;
 	}
@@ -4830,8 +4830,8 @@ cmd_object_format (WorkbookControl *wbc, SheetObject *so,
 
 	me = g_object_new (CMD_OBJECT_FORMAT_TYPE, NULL);
 
-	me->so    = g_object_ref (G_OBJECT (so));
-	me->style = g_object_ref (G_OBJECT (orig_style));
+	me->so    = g_object_ref (so);
+	me->style = g_object_ref (orig_style);
 	me->text  = g_strdup (orig_text);
 	if (orig_attr != NULL) {
 		me->attr = orig_attr;
@@ -5310,7 +5310,7 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 static void
 cmd_analysis_tool_draw_old_so (SheetObject *so, data_analysis_output_t *dao)
 {
-	g_object_ref (G_OBJECT (so));
+	g_object_ref (so);
 	dao_set_sheet_object (dao, 0, 1, so);
 }
 
@@ -5807,7 +5807,7 @@ cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector 
 	me = g_object_new (CMD_OBJECT_RAISE_TYPE, NULL);
 
 	me->so = so;
-	g_object_ref (G_OBJECT (so));
+	g_object_ref (so);
 
 	me->cmd.sheet = sheet_object_get_sheet (so);
 	me->cmd.size = 1;
@@ -6979,12 +6979,12 @@ cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 	me = g_object_new (CMD_SO_GRAPH_CONFIG_TYPE, NULL);
 
 	me->so = so;
-	g_object_ref (G_OBJECT (so));
+	g_object_ref (so);
 
 	me->new_graph = GOG_GRAPH (n_graph);
-	g_object_ref (G_OBJECT (me->new_graph));
+	g_object_ref (me->new_graph);
 	me->old_graph = GOG_GRAPH (o_graph);
-	g_object_ref (G_OBJECT (me->old_graph));
+	g_object_ref (me->old_graph);
 
 	me->cmd.sheet = sheet_object_get_sheet (so);;
 	me->cmd.size = 10;
@@ -7051,7 +7051,7 @@ cmd_so_component_config (WorkbookControl *wbc, SheetObject *so,
 	me = g_object_new (CMD_SO_COMPONENT_CONFIG_TYPE, NULL);
 
 	me->so = so;
-	g_object_ref (G_OBJECT (so));
+	g_object_ref (so);
 
 	me->new_obj = GO_COMPONENT (g_object_ref (n_obj));
 	me->old_obj = GO_COMPONENT (g_object_ref (o_obj));

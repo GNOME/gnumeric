@@ -233,7 +233,7 @@ gplp_func_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GOPluginService *ser
 	if (input_wrapper != NULL &&
 	    loader_data->python_func_file_probe != NULL) {
 		/* wrapping adds a reference */
-		g_object_unref (G_OBJECT (input));
+		g_object_unref (input);
 		probe_result = PyObject_CallFunction
 			(loader_data->python_func_file_probe,
 			 (char *) "O", input_wrapper);
@@ -276,7 +276,7 @@ gplp_func_file_open (G_GNUC_UNUSED GOFileOpener const *fo,
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper != NULL) {
 		 /* wrapping adds a reference */
-		g_object_unref (G_OBJECT (input));
+		g_object_unref (input);
 		open_result = PyObject_CallFunction
 			(loader_data->python_func_file_open,
 			 (char *) "NO",
@@ -381,7 +381,7 @@ gplp_func_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOPluginService *servi
 	output_wrapper = pygobject_new (G_OBJECT (output));
 	if (output_wrapper != NULL) {
 		/* wrapping adds a reference */
-		g_object_unref (G_OBJECT (output));
+		g_object_unref (output);
 		save_result = PyObject_CallFunction
 			(saver_data->python_func_file_save,
 			 (char *) "NO", py_workbook, output_wrapper);

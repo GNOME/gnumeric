@@ -125,7 +125,7 @@ cb_c_fmt_dialog_dialog_destroy (CFormatState *state)
 		gnm_style_unref (state->editor.style);
 	if (state->style)
 		gnm_style_unref (state->style);
-	g_object_unref (G_OBJECT (state->gui));
+	g_object_unref (state->gui);
 	g_free (state);
 }
 
@@ -626,7 +626,7 @@ c_fmt_dialog_condition_setter_tiled (G_GNUC_UNUSED SheetView *sv, GnmRange const
 		if (gnm_style_is_element_set (sr->style, MSTYLE_CONDITIONS) &&
 		    NULL != (old_cond = gnm_style_get_conditions (sr->style)))
 			gnm_style_set_conditions (state->action.old_style,
-						  g_object_ref (G_OBJECT (old_cond)));
+						  g_object_ref (old_cond));
 		else
 			gnm_style_set_conditions (state->action.old_style, NULL);
 		c_fmt_dialog_condition_setter (state->sv, &r, state);
@@ -650,7 +650,7 @@ c_fmt_dialog_set_conditions (CFormatState *state, char const *cmd_label)
 		state->action.old_style = gnm_style_new ();
 		old_cond = gnm_style_get_conditions (state->style);
 		gnm_style_set_conditions (state->action.old_style,
-					  old_cond ? g_object_ref (G_OBJECT (old_cond)) : NULL);
+					  old_cond ? g_object_ref (old_cond) : NULL);
 
 		sv_selection_foreach (state->sv,
 				      (GnmSelectionFunc)c_fmt_dialog_condition_setter,

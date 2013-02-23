@@ -465,7 +465,7 @@ cb_dialog_solver_destroy (SolverState *state)
 	check_for_changed_options (state);
 
 	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 		state->gui = NULL;
 	}
 

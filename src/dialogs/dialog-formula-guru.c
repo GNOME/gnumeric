@@ -526,18 +526,18 @@ cb_dialog_formula_guru_destroy (FormulaGuruState *state)
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
 	if (state->model != NULL)
-		g_object_unref (G_OBJECT (state->model));
+		g_object_unref (state->model);
 	g_free (state->prefix);
 	g_free (state->suffix);
 	g_free (state->pos);
 	if (state->editable)
 		g_object_unref (state->editable);
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 	gnm_expr_entry_enable_tips (wbcg_get_entry_logical (state->wbcg));
 	if (state->tooltip_widget) {
-		g_object_unref (G_OBJECT (state->tooltip_widget));
-		g_object_unref (G_OBJECT (state->tooltip_label));
+		g_object_unref (state->tooltip_widget);
+		g_object_unref (state->tooltip_label);
 	}
 	g_free (state);
 }
@@ -836,8 +836,8 @@ cb_dialog_formula_guru_query_tooltip (G_GNUC_UNUSED GtkWidget  *widget,
 			gnumeric_tooltip_set_style (state->tooltip_label);
 			gnumeric_tooltip_set_style (state->tooltip_widget);
 			gtk_widget_show_all (state->tooltip_widget);
-			g_object_ref (G_OBJECT (state->tooltip_widget));
-			g_object_ref (G_OBJECT (state->tooltip_label));
+			g_object_ref (state->tooltip_widget);
+			g_object_ref (state->tooltip_label);
 		}
 		gtk_tooltip_set_custom (tooltip, state->tooltip_widget);
 		window = gtk_widget_get_toplevel (state->tooltip_widget);

@@ -50,7 +50,7 @@ static void
 cb_dialog_cell_comment_destroy (CommentState *state)
 {
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 	g_free (state);
 }
 

@@ -216,7 +216,7 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 			GOC_TYPE_PIXBUF,
 			"pixbuf", pixbuf,
 			NULL));
-		g_object_unref (G_OBJECT (pixbuf));
+		g_object_unref (pixbuf);
 		g_object_set_data (G_OBJECT (item), "tile", placeholder);
 	}
 

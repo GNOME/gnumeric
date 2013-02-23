@@ -378,7 +378,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 		stf_dialog_result_free (dialogresult);
 	}
 
-	g_object_unref (G_OBJECT (buf));
+	g_object_unref (buf);
 }
 
 static void

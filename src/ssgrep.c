@@ -465,7 +465,7 @@ main (int argc, char const **argv)
 		}
 
 		textline = (GsfInputTextline *)gsf_input_textline_new (input);
-		g_object_unref (G_OBJECT (input));
+		g_object_unref (input);
 
 		pat = g_string_new (NULL);
 		while (NULL != (line = gsf_input_textline_ascii_gets (textline))) {
@@ -482,7 +482,7 @@ main (int argc, char const **argv)
 
 		ssgrep_pattern = g_string_free (pat, FALSE);
 
-		g_object_unref (G_OBJECT (textline));
+		g_object_unref (textline);
 
 		i = 1;
 		N = argc - i;

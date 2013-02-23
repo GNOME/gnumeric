@@ -120,7 +120,7 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 	    go_io_warning_occurred (io_context))
 		go_io_error_display (io_context);
 
-	g_object_unref (G_OBJECT (io_context));
+	g_object_unref (io_context);
 	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), TRUE);
 
 	if (wbv != NULL) {
@@ -148,7 +148,7 @@ gui_file_template (WBCGtk *wbcg, char const *uri)
 	    go_io_warning_occurred (io_context))
 		go_io_error_display (io_context);
 
-	g_object_unref (G_OBJECT (io_context));
+	g_object_unref (io_context);
 	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), TRUE);
 
 	if (wbv != NULL) {

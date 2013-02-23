@@ -56,7 +56,7 @@ static void
 cb_data_table_destroy (GnmDialogDataTable *state)
 {
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 	g_free (state);
 }
 

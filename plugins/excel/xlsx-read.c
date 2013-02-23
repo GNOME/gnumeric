@@ -340,7 +340,7 @@ xlsx_parse_stream (XLSXReadState *state, GsfInput *in, GsfXMLInNode const *dtd)
 				gsf_input_name (in));
 
 		gsf_xml_in_doc_free (doc);
-		g_object_unref (G_OBJECT (in));
+		g_object_unref (in);
 	}
 	return success;
 }
@@ -4326,10 +4326,10 @@ xlsx_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GsfInput *input, G_GNUC_U
 
 	if (NULL != (zip = gsf_infile_zip_new (input, NULL))) {
 		if (NULL != (stream = gsf_infile_child_by_vname (zip, "xl", "workbook.xml", NULL))) {
-			g_object_unref (G_OBJECT (stream));
+			g_object_unref (stream);
 			res = TRUE;
 		}
-		g_object_unref (G_OBJECT (zip));
+		g_object_unref (zip);
 	}
 	return res;
 }
@@ -4430,7 +4430,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 		} else
 			go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 				_("No workbook stream found."));
-		g_object_unref (G_OBJECT (state.zip));
+		g_object_unref (state.zip);
 	}
 
 	gnm_pop_C_locale (locale);

@@ -54,7 +54,7 @@ static void
 cb_insert_cell_destroy (InsertCellState *state)
 {
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 	g_free (state);
 }
 

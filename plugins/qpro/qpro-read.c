@@ -92,9 +92,9 @@ qpro_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 						   "PerfectOffice_MAIN");
 		if (stream != NULL) {
 			res = qpro_check_signature (stream);
-			g_object_unref (G_OBJECT (stream));
+			g_object_unref (stream);
 		}
-		g_object_unref (G_OBJECT (ole));
+		g_object_unref (ole);
 	} else
 		res = qpro_check_signature (input);
 
@@ -939,11 +939,11 @@ qpro_file_open (GOFileOpener const *fo, GOIOContext *context,
 						   "PerfectOffice_MAIN");
 		if (stream != NULL) {
 			qpro_read_workbook (&state, stream);
-			g_object_unref (G_OBJECT (stream));
+			g_object_unref (stream);
 		} else
 			go_io_warning (context,
 				_("Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro file?"));
-		g_object_unref (G_OBJECT (ole));
+		g_object_unref (ole);
 	} else
 		qpro_read_workbook (&state, input);
 

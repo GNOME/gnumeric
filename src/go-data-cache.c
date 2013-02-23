@@ -228,7 +228,7 @@ go_data_cache_set_source (GODataCache *cache, GODataCacheSource *src)
 	g_return_if_fail (NULL == src || IS_GO_DATA_CACHE_SOURCE (src));
 
 	if (cache->data_source)
-		g_object_unref (G_OBJECT (cache->data_source));
+		g_object_unref (cache->data_source);
 	cache->data_source = src;
 }
 

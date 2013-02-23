@@ -687,7 +687,7 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		/* absorb a ref, and set the id, and atype */
 		gog_object_add_by_name (GOG_OBJECT (state->chart),
 			role, GOG_OBJECT (state->axis.obj));
-		g_object_ref (G_OBJECT (state->axis.obj));
+		g_object_ref (state->axis.obj);
 		for (ptr = state->axis.info->plots; ptr != NULL ; ptr = ptr->next) {
 #ifdef DEBUG_AXIS
 			g_print ("connect plot %p to %p in role %s\n", ptr->data, state->axis.obj, role);
@@ -1945,7 +1945,7 @@ xlsx_axis_cleanup (XLSXReadState *state)
 		    NULL == g_hash_table_lookup (state->axis.by_obj, ptr->data)) {
 			if (gog_object_is_deletable (GOG_OBJECT (ptr->data))) {
 				gog_object_clear_parent	(GOG_OBJECT (ptr->data));
-				g_object_unref (G_OBJECT (ptr->data));
+				g_object_unref (ptr->data);
 			}
 		}
 	g_slist_free (list);

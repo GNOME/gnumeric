@@ -658,7 +658,7 @@ sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph)
 		if (sog->graph == graph)
 			return;
 
-		g_object_ref (G_OBJECT (graph));
+		g_object_ref (graph);
 	} else
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 

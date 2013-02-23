@@ -80,7 +80,7 @@ cb_zoom_destroy (ZoomState *state)
 	}
 
 	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 		state->gui = NULL;
 	}
 

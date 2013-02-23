@@ -4170,7 +4170,7 @@ blipinf_new (SheetObjectImage *soi)
 						   NULL,
 						   NULL);
 			blip->bytes.len = len;
-			g_object_unref (G_OBJECT (pixbuf));
+			g_object_unref (pixbuf);
 		}
 
 		if (buffer) {

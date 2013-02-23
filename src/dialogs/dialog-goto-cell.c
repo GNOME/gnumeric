@@ -91,9 +91,9 @@ cb_dialog_goto_free (GotoState  *state)
 					     state->sheet_deleted_listener);
 
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 	if (state->model != NULL)
-		g_object_unref (G_OBJECT (state->model));
+		g_object_unref (state->model);
 	g_free (state);
 }
 

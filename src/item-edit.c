@@ -667,7 +667,7 @@ item_edit_unrealize (GocItem *item)
 		gnm_pane_expr_cursor_stop (pane););
 
 	if (ie->layout) {
-		g_object_unref (G_OBJECT (ie->layout));
+		g_object_unref (ie->layout);
 		ie->layout = NULL;
 	}
 

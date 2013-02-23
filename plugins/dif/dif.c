@@ -76,7 +76,7 @@ static void
 dif_input_context_destroy (DifInputContext *ctxt)
 {
 	go_io_progress_unset (ctxt->io_context);
-	g_object_unref (G_OBJECT (ctxt->input)); ctxt->input = NULL;
+	g_object_unref (ctxt->input); ctxt->input = NULL;
 	gsf_iconv_close (ctxt->converter);
 	g_free (ctxt->line);
 	g_free (ctxt);

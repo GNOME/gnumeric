@@ -1,3 +1,7 @@
+2013-02-23  Morten Welinder  <terra@gnome.org>
+
+	* */*.c: Avoid G_OBJECT casts for g_object_ref and g_object_unref.
+
 2013-02-21  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (sheet_style_foreach): Take a GFunc, not a

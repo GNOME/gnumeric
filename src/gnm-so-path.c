@@ -322,7 +322,7 @@ gnm_so_path_draw_cairo (SheetObject const *so, cairo_t *cr,
 		pango_cairo_show_layout (cr, pl);
 		cairo_new_path (cr);
 		cairo_restore (cr);
-		g_object_unref(G_OBJECT (pl));
+		g_object_unref (pl);
 	}
 }
 

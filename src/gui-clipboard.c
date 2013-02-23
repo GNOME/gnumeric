@@ -335,8 +335,8 @@ out:
 		g_object_unref (wb_view);
 	if (wb)
 		g_object_unref (wb);
-	g_object_unref (G_OBJECT (ioc));
-	g_object_unref (G_OBJECT (input));
+	g_object_unref (ioc);
+	g_object_unref (input);
 
 	return ret;
 }

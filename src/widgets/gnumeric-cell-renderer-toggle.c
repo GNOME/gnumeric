@@ -149,9 +149,9 @@ gnumeric_cell_renderer_toggle_set_property (GObject      *object,
 	case PROP_PIXBUF:
 		pixbuf = (GdkPixbuf*) g_value_get_object (value);
 		if (pixbuf)
-			g_object_ref (G_OBJECT (pixbuf));
+			g_object_ref (pixbuf);
 		if (celltoggle->pixbuf)
-			g_object_unref (G_OBJECT (celltoggle->pixbuf));
+			g_object_unref (celltoggle->pixbuf);
 		celltoggle->pixbuf = pixbuf;
 		break;
 	default:

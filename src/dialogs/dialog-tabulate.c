@@ -175,7 +175,7 @@ get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *numb
 static void
 cb_dialog_destroy (DialogState *dd)
 {
-	g_object_unref (G_OBJECT (dd->gui));
+	g_object_unref (dd->gui);
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
 }

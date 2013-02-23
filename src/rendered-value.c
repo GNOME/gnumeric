@@ -516,7 +516,7 @@ void
 gnm_rendered_value_destroy (GnmRenderedValue *rv)
 {
 	if (rv->layout) {
-		g_object_unref (G_OBJECT (rv->layout));
+		g_object_unref (rv->layout);
 		rv->layout = NULL;
 	}
 

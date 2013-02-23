@@ -1295,7 +1295,7 @@ sheet_widget_adjustment_finalize (GObject *obj)
 
 	dependent_set_expr (&swa->dep, NULL);
 	if (swa->adjustment != NULL) {
-		g_object_unref (G_OBJECT (swa->adjustment));
+		g_object_unref (swa->adjustment);
 		swa->adjustment = NULL;
 	}
 
@@ -3055,7 +3055,7 @@ list_content_eval (GnmDependent *dep)
 	}
 
 	if (NULL != swl->model)
-		g_object_unref (G_OBJECT (swl->model));
+		g_object_unref (swl->model);
 	swl->model = GTK_TREE_MODEL (model);
 	g_signal_emit (G_OBJECT (swl), list_base_signals [LIST_BASE_MODEL_CHANGED], 0);
 }

@@ -317,7 +317,7 @@ xls_write_pivot_caches (ExcelWriteState *ewb, GsfOutfile *outfile,
 		ewb->bp = NULL;
 	}
 	gsf_output_close ((GsfOutput *)dir);
-	g_object_unref (G_OBJECT (dir));
+	g_object_unref (dir);
 
 	g_hash_table_destroy (ewb->base.pivot_caches);
 	ewb->base.pivot_caches = NULL;

@@ -710,7 +710,7 @@ cb_table_destroy (SheetControlGUI *scg)
 			scg->pane[i] = NULL;
 		}
 
-	g_object_unref (G_OBJECT (scg));
+	g_object_unref (scg);
 }
 
 static void
@@ -1831,7 +1831,7 @@ scg_unant (SheetControl *sc)
 		GSList *l;
 
 		for (l = pane->cursor.animated; l; l = l->next)
-			g_object_unref (G_OBJECT (l->data));
+			g_object_unref (l->data);
 
 		g_slist_free (pane->cursor.animated);
 		pane->cursor.animated = NULL;
@@ -2845,7 +2845,7 @@ cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsDat
 				SheetObjectView *sov = sheet_object_get_view (so,
 					(SheetObjectViewContainer *)pane);
 
-				g_object_unref (G_OBJECT (ctrl_pts[9]));
+				g_object_unref (ctrl_pts[9]);
 				ctrl_pts[9] = NULL;
 
 				if (NULL == sov)

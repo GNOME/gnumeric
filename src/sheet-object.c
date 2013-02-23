@@ -548,7 +548,7 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 		return TRUE;
 	}
 
-	g_object_ref (G_OBJECT (so));
+	g_object_ref (so);
 	sheet->sheet_objects = g_slist_prepend (sheet->sheet_objects, so);
 	/* FIXME : add a flag to sheet to have sheet_update do this */
 	sheet_objects_max_extent (sheet);
@@ -593,7 +593,7 @@ sheet_object_clear_sheet (SheetObject *so)
 
 	while (so->realized_list != NULL) {
 		g_object_set_qdata (G_OBJECT (so->realized_list->data), sov_so_quark, NULL);
-		g_object_unref (G_OBJECT (so->realized_list->data));
+		g_object_unref (so->realized_list->data);
 		so->realized_list = g_list_remove (so->realized_list, so->realized_list->data);
 
 	}
@@ -611,7 +611,7 @@ sheet_object_clear_sheet (SheetObject *so)
 		sheet_objects_max_extent (so->sheet);
 
 	so->sheet = NULL;
-	g_object_unref (G_OBJECT (so));
+	g_object_unref (so);
 }
 
 static void

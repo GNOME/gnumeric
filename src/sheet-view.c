@@ -216,7 +216,7 @@ sv_real_dispose (GObject *object)
 	if (sv->controls != NULL) {
 		SHEET_VIEW_FOREACH_CONTROL (sv, control, {
 			sv_detach_control (control);
-			g_object_unref (G_OBJECT (control));
+			g_object_unref (control);
 		});
 		if (sv->controls != NULL)
 			g_warning ("Unexpected left-over controls");

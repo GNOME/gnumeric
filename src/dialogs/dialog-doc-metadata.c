@@ -2116,7 +2116,7 @@ dialog_doc_metadata_free (DialogDocMetaData *state)
 	if (state->gui != NULL) {
 		dialog_doc_metadata_set_file_permissions (state);
 
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 		state->gui = NULL;
 	}
 

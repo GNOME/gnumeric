@@ -67,11 +67,11 @@ static void
 dhl_free (HyperlinkState *state)
 {
 	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 		state->gui = NULL;
 	}
 	if (state->link != NULL) {
-		g_object_unref (G_OBJECT (state->link));
+		g_object_unref (state->link);
 		state->link = NULL;
 	}
 	state->dialog = NULL;

@@ -436,9 +436,9 @@ cb_dialog_destroy (SortFlowState  *state)
 	state->sel = NULL;
 
 	if (state->model != NULL)
-		g_object_unref (G_OBJECT (state->model));
+		g_object_unref (state->model);
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 

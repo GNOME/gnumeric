@@ -102,7 +102,7 @@ static void
 cb_dialog_row_height_destroy (RowHeightState *state)
 {
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 	g_free (state);
 }
 

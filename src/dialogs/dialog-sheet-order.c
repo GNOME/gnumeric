@@ -1197,10 +1197,10 @@ cb_sheet_order_destroy (SheetManager *state)
 					     state->sheet_deleted_listener);
 
 	if (state->model != NULL) {
-		g_object_unref (G_OBJECT (state->model));
+		g_object_unref (state->model);
 		state->model = NULL;
 	}
-	g_object_unref (G_OBJECT (state->gui));
+	g_object_unref (state->gui);
 	g_object_set_data (G_OBJECT (wb), SHEET_ORDER_KEY, NULL);
 	state->gui = NULL;
 

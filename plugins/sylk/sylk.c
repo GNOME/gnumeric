@@ -851,7 +851,7 @@ sylk_file_open (GOFileOpener const *fo,
 	g_ptr_array_free (state.formats, TRUE);
 
 	gsf_iconv_close (state.converter);
-	g_object_unref (G_OBJECT (state.input));
+	g_object_unref (state.input);
 }
 
 gboolean

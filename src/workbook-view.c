@@ -812,7 +812,7 @@ wb_view_dispose (GObject *object)
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control, {
 			wb_control_sheet_remove_all (control);
 			wb_view_detach_control (control);
-			g_object_unref (G_OBJECT (control));
+			g_object_unref (control);
 		});
 		if (wbv->wb_controls != NULL)
 			g_warning ("Unexpected left-over controls");
@@ -1139,7 +1139,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	}
 	if (has_error || has_warning)
 		go_io_error_display (io_context);
-	g_object_unref (G_OBJECT (io_context));
+	g_object_unref (io_context);
 	g_object_unref (wb);
 
 	return !has_error;
@@ -1190,7 +1190,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	if (has_error || has_warning)
 		go_io_error_display (io_context);
 
-	g_object_unref (G_OBJECT (io_context));
+	g_object_unref (io_context);
 	g_object_unref (wb);
 
 	return !has_error;
@@ -1275,12 +1275,12 @@ workbook_view_new_from_input (GsfInput *input,
 		workbook_enable_recursive_dirty (new_wb, old);
 
 		if (go_io_error_occurred (io_context)) {
-			g_object_unref (G_OBJECT (new_wb));
+			g_object_unref (new_wb);
 			new_wbv = NULL;
 		} else if (workbook_sheet_count (new_wb) == 0) {
 			/* we didn't get a sheet nor an error, */
 			/* the user must have canceled        */
-			g_object_unref (G_OBJECT (new_wb));
+			g_object_unref (new_wb);
 			new_wbv = NULL;
 		} else {
 			workbook_share_expressions (new_wb, TRUE);
@@ -1333,7 +1333,7 @@ workbook_view_new_from_uri (char const *uri,
 		res = workbook_view_new_from_input (input, uri,
 					      optional_fmt, io_context,
 					      optional_enc);
-		g_object_unref (G_OBJECT (input));
+		g_object_unref (input);
 		return res;
 	}
 

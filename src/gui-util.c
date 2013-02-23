@@ -449,7 +449,7 @@ kill_popup_menu (G_GNUC_UNUSED GtkWidget *widget, GtkMenu *menu)
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
 
-	g_object_unref (G_OBJECT (menu));
+	g_object_unref (menu);
 }
 
 /**

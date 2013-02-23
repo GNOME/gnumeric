@@ -1869,9 +1869,9 @@ wbc_gtk_close (WBCGtk *wbcg)
 			return FALSE;
 		}
 
-		g_object_unref (G_OBJECT (wb_view));
+		g_object_unref (wb_view);
 	} else
-		g_object_unref (G_OBJECT (wbcg));
+		g_object_unref (wbcg);
 
 	_gnm_app_flag_windows_changed ();
 
@@ -4462,7 +4462,7 @@ wbc_gtk_setup_icons (void)
 		during introspection with no proper initialization.*/
 		g_object_set_data_full (app, "icon-factory", factory,
 					(GDestroyNotify)gtk_icon_factory_remove_default);
-		g_object_unref (G_OBJECT (factory));
+		g_object_unref (factory);
 		done = TRUE;
 	}
 }

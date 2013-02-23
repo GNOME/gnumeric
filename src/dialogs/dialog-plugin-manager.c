@@ -466,13 +466,13 @@ cb_pm_dialog_free (PluginManagerGUI *pm_gui)
 	}
 
 	if (pm_gui->gui != NULL)
-		g_object_unref (G_OBJECT (pm_gui->gui));
+		g_object_unref (pm_gui->gui);
 	if (pm_gui->model_plugins != NULL)
-		g_object_unref (G_OBJECT (pm_gui->model_plugins));
+		g_object_unref (pm_gui->model_plugins);
 	if (pm_gui->model_details != NULL)
-		g_object_unref (G_OBJECT (pm_gui->model_details));
+		g_object_unref (pm_gui->model_details);
 	if (pm_gui->model_directories != NULL)
-		g_object_unref (G_OBJECT (pm_gui->model_directories));
+		g_object_unref (pm_gui->model_directories);
 	g_free (pm_gui);
 }
 

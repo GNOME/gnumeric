@@ -2087,11 +2087,11 @@ gnm_pane_size_guide_stop (GnmPane *pane)
 	g_return_if_fail (pane != NULL);
 
 	if (pane->size_guide.start != NULL) {
-		g_object_unref (G_OBJECT (pane->size_guide.start));
+		g_object_unref (pane->size_guide.start);
 		pane->size_guide.start = NULL;
 	}
 	if (pane->size_guide.guide != NULL) {
-		g_object_unref (G_OBJECT (pane->size_guide.guide));
+		g_object_unref (pane->size_guide.guide);
 		pane->size_guide.guide = NULL;
 	}
 }
@@ -2191,7 +2191,7 @@ void
 gnm_pane_rangesel_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane->cursor.rangesel != NULL);
-	g_object_unref (G_OBJECT (pane->cursor.rangesel));
+	g_object_unref (pane->cursor.rangesel);
 	pane->cursor.rangesel = NULL;
 
 	/* Make the primary cursor visible again */
@@ -2230,7 +2230,7 @@ gnm_pane_special_cursor_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane->cursor.special != NULL);
 
-	g_object_unref (G_OBJECT (pane->cursor.special));
+	g_object_unref (pane->cursor.special);
 	pane->cursor.special = NULL;
 }
 
@@ -2293,7 +2293,7 @@ void
 gnm_pane_edit_stop (GnmPane *pane)
 {
 	if (pane->editor != NULL) {
-		g_object_unref (G_OBJECT (pane->editor));
+		g_object_unref (pane->editor);
 		pane->editor = NULL;
 	}
 }

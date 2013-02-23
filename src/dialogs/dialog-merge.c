@@ -301,9 +301,9 @@ static void
 cb_merge_destroy (MergeState *state)
 {
 	if (state->model != NULL)
-		g_object_unref (G_OBJECT (state->model));
+		g_object_unref (state->model);
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 	g_free (state);
 }
 

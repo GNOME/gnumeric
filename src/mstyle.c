@@ -447,15 +447,15 @@ elem_assign_contents (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
 		return;
 	case MSTYLE_HLINK:
 		if ((dst->hlink = src->hlink))
-			g_object_ref (G_OBJECT (dst->hlink));
+			g_object_ref (dst->hlink);
 		return;
 	case MSTYLE_INPUT_MSG:
 		if ((dst->input_msg = src->input_msg))
-			g_object_ref (G_OBJECT (dst->input_msg));
+			g_object_ref (dst->input_msg);
 		return;
 	case MSTYLE_CONDITIONS:
 		if ((dst->conditions = src->conditions))
-			g_object_ref (G_OBJECT (dst->conditions));
+			g_object_ref (dst->conditions);
 		return;
 	default:
 		;

@@ -327,7 +327,7 @@ cb_dialog_function_select_destroy (FunctionSelectState  *state)
 	}
 
 	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 	g_slist_free (state->recent_funcs);
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_functions),
 				cb_unref,

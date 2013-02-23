@@ -547,19 +547,19 @@ cb_name_guru_destroy (NameGuruState *state)
 
 	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
 	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 		state->gui = NULL;
 	}
 
 	if (state->is_paste_dialog)
-		g_object_unref (G_OBJECT (state->image_paste));
+		g_object_unref (state->image_paste);
 	else {
 		wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
-		g_object_unref (G_OBJECT (state->image_add));
-		g_object_unref (G_OBJECT (state->image_delete));
-		g_object_unref (G_OBJECT (state->image_lock));
-		g_object_unref (G_OBJECT (state->image_up));
-		g_object_unref (G_OBJECT (state->image_down));
+		g_object_unref (state->image_add);
+		g_object_unref (state->image_delete);
+		g_object_unref (state->image_lock);
+		g_object_unref (state->image_up);
+		g_object_unref (state->image_down);
 	}
 
 	state->dialog = NULL;

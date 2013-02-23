@@ -75,7 +75,7 @@ wbcg_auto_complete_destroy (WBCGtk *wbcg)
 	}
 
 	if (wbcg->auto_complete != NULL) {
-		g_object_unref (G_OBJECT (wbcg->auto_complete));
+		g_object_unref (wbcg->auto_complete);
 		wbcg->auto_complete = NULL;
 	}
 
@@ -1062,7 +1062,7 @@ wbcg_insert_object_clear (WBCGtk *wbcg)
 		int i, npages;
 		SheetControlGUI *scg;
 
-		g_object_unref (G_OBJECT (wbcg->new_object));
+		g_object_unref (wbcg->new_object);
 		wbcg->new_object = NULL;
 
 		npages = wbcg_get_n_scg (wbcg);

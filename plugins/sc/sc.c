@@ -1038,7 +1038,7 @@ sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		workbook_sheet_delete (state.sheet);
 		go_io_error_info_set (io_context, error);
 	}
-	g_object_unref (G_OBJECT (state.textline));
+	g_object_unref (state.textline);
 	g_iconv_close (state.converter);
 	gnm_conventions_unref (state.convs);
 	g_free (state.last_error);

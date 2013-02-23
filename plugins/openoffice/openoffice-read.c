@@ -975,7 +975,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 								     NULL)) {
 						gdk_pixbuf_loader_close (loader, NULL);
 						pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-						g_object_ref (G_OBJECT (pixbuf));
+						g_object_ref (pixbuf);
 						if (style->fill.image.image != NULL)
 							g_object_set
 								(G_OBJECT (style->fill.image.image),
@@ -985,7 +985,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 								go_pixbuf_new_from_pixbuf (pixbuf);
 						go_image_set_name (style->fill.image.image,
 								   fill_image_name);
-						g_object_unref (G_OBJECT (loader));
+						g_object_unref (loader);
 					} else {
 						oo_warning (xin, _("Unable to load "
 								   "the file \'%s\'."),
@@ -6463,7 +6463,7 @@ oo_chart_style_to_series (GsfXMLIn *xin, OOChartStyle *oostyle, GObject *obj)
 	g_object_get (obj, "style", &style, NULL);
 	if (style != NULL) {
 		odf_apply_style_props (xin, oostyle->style_props, style);
-		g_object_unref (G_OBJECT (style));
+		g_object_unref (style);
 	}
 }
 
@@ -9125,7 +9125,7 @@ odf_custom_shape_replace_object (OOParseState *state, SheetObject *so)
 		GOStyle *style = NULL;
 		g_object_get (state->chart.so, "style", &style, NULL);
 		g_object_set (so, "style", style, NULL);
-		g_object_unref (G_OBJECT (style));
+		g_object_unref (style);
 	}
 	if (NULL != g_object_class_find_property (klass, "markup")) {
 		PangoAttrList   *attrs = NULL;
@@ -9133,7 +9133,7 @@ odf_custom_shape_replace_object (OOParseState *state, SheetObject *so)
 		g_object_set (so, "markup", attrs, NULL);
 		pango_attr_list_unref (attrs);
 	}
-	g_object_unref (G_OBJECT (state->chart.so));
+	g_object_unref (state->chart.so);
 	state->chart.so = so;
 }
 

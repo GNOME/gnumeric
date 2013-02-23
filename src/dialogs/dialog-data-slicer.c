@@ -66,9 +66,9 @@ enum {
 static void
 cb_dialog_data_slicer_destroy (DialogDataSlicer *state)
 {
-	if (NULL != state->slicer)	{ g_object_unref (G_OBJECT (state->slicer));	state->slicer = NULL; }
-	if (NULL != state->cache)	{ g_object_unref (G_OBJECT (state->cache));	state->cache = NULL; }
-	if (NULL != state->source)	{ g_object_unref (G_OBJECT (state->source));	state->source = NULL; }
+	if (NULL != state->slicer)	{ g_object_unref (state->slicer);	state->slicer = NULL; }
+	if (NULL != state->cache)	{ g_object_unref (state->cache);	state->cache = NULL; }
+	if (NULL != state->source)	{ g_object_unref (state->source);	state->source = NULL; }
 	state->dialog = NULL;
 	g_free (state);
 }
@@ -272,11 +272,11 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	if (NULL == state->slicer) {
 		state->slicer = g_object_new (GNM_SHEET_SLICER_TYPE, NULL);
 	} else {
-		g_object_ref (G_OBJECT (state->slicer));
+		g_object_ref (state->slicer);
 		g_object_get (G_OBJECT (state->slicer), "cache", &state->cache, NULL);
 		if (NULL != state->cache &&
 		    NULL != (state->source = go_data_cache_get_source (state->cache)))
-		    g_object_ref (G_OBJECT (state->source));
+		    g_object_ref (state->source);
 	}
 
 	state->source_expr = gnm_expr_entry_new (state->wbcg, TRUE);
