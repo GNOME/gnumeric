@@ -37,7 +37,7 @@ struct _GnmStyle {
 	GnmBorder	*borders[MSTYLE_BORDER_DIAGONAL - MSTYLE_BORDER_TOP + 1];
 	guint32          pattern;
 
-#warning TODO use GOFont
+	/* FIXME: TODO use GOFont */
 	struct _GnmStyleFontDetails {
 		GOString	*name;
 		gboolean	bold;
