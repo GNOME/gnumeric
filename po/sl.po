@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-02-22 20:48+0000\n"
-"PO-Revision-Date: 2013-02-22 22:18+0100\n"
+"POT-Creation-Date: 2013-02-24 16:36+0000\n"
+"PO-Revision-Date: 2013-02-24 20:31+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -34,7 +34,7 @@ msgid "Spreadsheet"
 msgstr "Preglednica"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:3 ../src/main-application.c:301
+#: ../gnumeric.desktop.in.h:3 ../src/main-application.c:300
 msgid "Gnumeric Spreadsheet"
 msgstr "Preglednica Gnumeric"
 
@@ -759,59 +759,59 @@ msgstr "Izračuni obrestnih mer"
 #. Merriam-Webster dictionary
 #. xgettext: Tishri to Adar II are transliterations of the
 #. xgettext: hebrew months' names using Latin characters.
-#: ../plugins/fn-hebrew-date/hdate_strings.c:114
+#: ../plugins/fn-hebrew-date/hdate_strings.c:113
 msgid "Tishri"
 msgstr "Tišri"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:114
+#: ../plugins/fn-hebrew-date/hdate_strings.c:113
 msgid "Heshwan"
 msgstr "Ehesvan"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:114
+#: ../plugins/fn-hebrew-date/hdate_strings.c:113
 msgid "Kislev"
 msgstr "Kislev"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:115
+#: ../plugins/fn-hebrew-date/hdate_strings.c:114
 msgid "Tebet"
 msgstr "Tebet"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:115
+#: ../plugins/fn-hebrew-date/hdate_strings.c:114
 msgid "Shebat"
 msgstr "Šebat"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:115
+#: ../plugins/fn-hebrew-date/hdate_strings.c:114
 msgid "Adar"
 msgstr "Adar"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:116
+#: ../plugins/fn-hebrew-date/hdate_strings.c:115
 msgid "Nisan"
 msgstr "Risan"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:116
+#: ../plugins/fn-hebrew-date/hdate_strings.c:115
 msgid "Iyar"
 msgstr "Ijjar"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:116
+#: ../plugins/fn-hebrew-date/hdate_strings.c:115
 msgid "Sivan"
 msgstr "Sivan"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:116
+#: ../plugins/fn-hebrew-date/hdate_strings.c:115
 msgid "Tammuz"
 msgstr "Thamus"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:117
+#: ../plugins/fn-hebrew-date/hdate_strings.c:116
 msgid "Ab"
 msgstr "Ab"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:117
+#: ../plugins/fn-hebrew-date/hdate_strings.c:116
 msgid "Elul"
 msgstr "Elul"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:117
+#: ../plugins/fn-hebrew-date/hdate_strings.c:116
 msgid "Adar I"
 msgstr "Adar I"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:117
+#: ../plugins/fn-hebrew-date/hdate_strings.c:116
 msgid "Adar II"
 msgstr "Adar II"
 
@@ -946,7 +946,7 @@ msgstr ""
 #: ../plugins/fn-r/plugin.xml.in.h:3 ../plugins/fn-stat/plugin.xml.in.h:2
 #: ../src/dialogs/dialog-doc-metadata.c:2241
 #: ../src/dialogs/descriptive-stats.ui.h:20
-#: ../src/dialogs/doc-meta-data.ui.h:35
+#: ../src/dialogs/doc-meta-data.ui.h:42
 msgid "Statistics"
 msgstr "Statistika"
 
@@ -1829,11 +1829,11 @@ msgstr "Neveljavni metapodatki '%s'"
 msgid "settings.xml stream is malformed!"
 msgstr "datoteka pretoka settings.xml je napačno oblikovana!"
 
-#: ../plugins/openoffice/openoffice-write.c:8092
+#: ../plugins/openoffice/openoffice-write.c:8093
 msgid "Writing Sheets..."
 msgstr "Čakanje na delovne liste ..."
 
-#: ../plugins/openoffice/openoffice-write.c:8130
+#: ../plugins/openoffice/openoffice-write.c:8134
 msgid "Writing Sheet Objects..."
 msgstr "Zapisovanje predmetov delovnega lista ..."
 
@@ -2078,7 +2078,7 @@ msgstr "Vzorčni vstavek Python za izvajanje nekaterih (neuporabnih) funkcij."
 msgid "Python"
 msgstr "Python"
 
-#: ../plugins/python-loader/gnm-py-interpreter.c:255
+#: ../plugins/python-loader/gnm-py-interpreter.c:254
 msgid "Default interpreter"
 msgstr "Privzeti tolmač"
 
@@ -2257,16 +2257,16 @@ msgstr "Uvažanje datotek programa SC/XSpread"
 msgid "SC/xspread"
 msgstr "SC/xspread"
 
-#: ../plugins/sc/sc.c:113
+#: ../plugins/sc/sc.c:111
 #, c-format
 msgid "On worksheet %s:"
 msgstr "Na delovnem listu %s:"
 
-#: ../plugins/sc/sc.c:115
+#: ../plugins/sc/sc.c:113
 msgid "General SC import error"
 msgstr "Splošna napaka uvoza SC"
 
-#: ../plugins/sc/sc.c:166
+#: ../plugins/sc/sc.c:164
 #, c-format
 msgid ""
 "The cell in row %i and column %i is beyond Gnumeric's maximum sheet size."
@@ -2274,26 +2274,26 @@ msgstr ""
 "Celica v vrstici %i in v stolpcu %i je za omejitvijo največje dovoljene "
 "velikosti programa Gnumeric."
 
-#: ../plugins/sc/sc.c:389
+#: ../plugins/sc/sc.c:387
 msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Delovni list je širši, kot ga podpira program Gnumeric."
 
-#: ../plugins/sc/sc.c:452
+#: ../plugins/sc/sc.c:450
 msgid "Encountered precision dependent format without set precision."
 msgstr "Zaznan je zapis, ki zahteva določilo natančnosti, vendar ta ni podana."
 
-#: ../plugins/sc/sc.c:473
+#: ../plugins/sc/sc.c:471
 #, c-format
 msgid "Column format %i is undefined."
 msgstr "Oblika stolpca %i ni določena."
 
-#: ../plugins/sc/sc.c:799
+#: ../plugins/sc/sc.c:797
 #, c-format
 msgid "Unable to parse cmd='%s', str='%s', col=%d, row=%d."
 msgstr ""
 "Ni mogoče razčleniti ukaza '%s' v nizu '%s' v stolpcu %d in vrstici %d."
 
-#: ../plugins/sc/sc.c:934
+#: ../plugins/sc/sc.c:932
 msgid "Error parsing line"
 msgstr "Napaka med razčlenjevanjem vrstice"
 
@@ -2355,7 +2355,7 @@ msgstr "Uvažanje datotek programa XBase"
 msgid "Xbase (*.dbf) file format"
 msgstr "Xbase (*.dbf)"
 
-#: ../plugins/xbase/xbase.c:190
+#: ../plugins/xbase/xbase.c:189
 msgid "Failed to read DBF header."
 msgstr "Branje glave DBF je spodletelo."
 
@@ -5688,7 +5688,7 @@ msgid "Max:"
 msgstr "Največ:"
 
 #: ../src/dialogs/dialog-cell-format.c:1697
-#: ../src/dialogs/doc-meta-data.ui.h:27 ../src/dialogs/so-radiobutton.ui.h:2
+#: ../src/dialogs/doc-meta-data.ui.h:34 ../src/dialogs/so-radiobutton.ui.h:2
 msgid "Value:"
 msgstr "Vrednost:"
 
@@ -6252,19 +6252,19 @@ msgid "File"
 msgstr "Datoteka"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2242
-#: ../src/dialogs/doc-meta-data.ui.h:28
+#: ../src/dialogs/doc-meta-data.ui.h:35
 msgid "Properties"
 msgstr "Lastnosti"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2243
 #: ../src/dialogs/dialog-function-select.c:1245
 #: ../src/dialogs/dialog-plugin-manager.c:720
-#: ../src/dialogs/doc-meta-data.ui.h:22
+#: ../src/dialogs/doc-meta-data.ui.h:29
 msgid "Description"
 msgstr "Opis"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2245
-#: ../src/dialogs/doc-meta-data.ui.h:42
+#: ../src/dialogs/doc-meta-data.ui.h:49
 msgid "Calculation"
 msgstr "Računanje"
 
@@ -7932,11 +7932,11 @@ msgstr "Predogled"
 msgid "Name:"
 msgstr "Ime:"
 
-#: ../src/dialogs/autoformat.ui.h:5 ../src/dialogs/doc-meta-data.ui.h:19
+#: ../src/dialogs/autoformat.ui.h:5 ../src/dialogs/doc-meta-data.ui.h:17
 msgid "Author:"
 msgstr "Avtor:"
 
-#: ../src/dialogs/autoformat.ui.h:6 ../src/dialogs/doc-meta-data.ui.h:16
+#: ../src/dialogs/autoformat.ui.h:6 ../src/dialogs/doc-meta-data.ui.h:20
 #: ../src/dialogs/function-select.ui.h:3
 msgid "Category:"
 msgstr "Kategorija:"
@@ -8943,7 +8943,7 @@ msgstr "_Navajanje:"
 msgid "Quote _character:"
 msgstr "Navedni _znak:"
 
-#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:315
+#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:314
 msgid "Character _encoding:"
 msgstr "Znakovno _kodiranje:"
 
@@ -9306,90 +9306,118 @@ msgid "<b>Other:</b>"
 msgstr "<b>Drugo:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:15
-msgid "Comments:"
-msgstr "Opombe:"
+msgid "Title:"
+msgstr "Naslov:"
 
-#: ../src/dialogs/doc-meta-data.ui.h:17
-msgid "Company:"
-msgstr "Podjetje:"
+#: ../src/dialogs/doc-meta-data.ui.h:16
+msgid "Subject:"
+msgstr "Zadeva:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:18
 msgid "Manager:"
 msgstr "Upravljalnik:"
 
-#: ../src/dialogs/doc-meta-data.ui.h:20
-msgid "Subject:"
-msgstr "Zadeva:"
+#: ../src/dialogs/doc-meta-data.ui.h:19
+msgid "Company:"
+msgstr "Podjetje:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:21
-msgid "Title:"
-msgstr "Naslov:"
+msgid "Comments:"
+msgstr "Opombe:"
+
+#: ../src/dialogs/doc-meta-data.ui.h:22
+msgid "The document title (not filename)"
+msgstr "Naslov dokumenta (ne ime datoteke)"
 
 #: ../src/dialogs/doc-meta-data.ui.h:23
+msgid "The document subject"
+msgstr "Zadeva dokumenta"
+
+#: ../src/dialogs/doc-meta-data.ui.h:24
+msgid "The document author"
+msgstr "Avtor dokumenta"
+
+#: ../src/dialogs/doc-meta-data.ui.h:25
+msgid "The document manager"
+msgstr "Upravljavec dokumenta"
+
+#: ../src/dialogs/doc-meta-data.ui.h:26
+msgid "The document company"
+msgstr "Podjetje dokumenta"
+
+#: ../src/dialogs/doc-meta-data.ui.h:27
+msgid "The document category"
+msgstr "Kategorija dokumenta"
+
+#: ../src/dialogs/doc-meta-data.ui.h:28
+msgid "The document comments"
+msgstr "Opombe dokumenta"
+
+#: ../src/dialogs/doc-meta-data.ui.h:30
 msgid "Edit item inside the above listing."
 msgstr "Uredi predmet znotraj zgornjega seznama."
 
-#: ../src/dialogs/doc-meta-data.ui.h:24
+#: ../src/dialogs/doc-meta-data.ui.h:31
 msgid "New Document Property:"
 msgstr "Nova lastnost dokumenta:"
 
-#: ../src/dialogs/doc-meta-data.ui.h:25
+#: ../src/dialogs/doc-meta-data.ui.h:32
 msgid "Name: "
 msgstr "Ime: "
 
-#: ../src/dialogs/doc-meta-data.ui.h:26
+#: ../src/dialogs/doc-meta-data.ui.h:33
 msgid "Type: "
 msgstr "Vrsta:"
 
-#: ../src/dialogs/doc-meta-data.ui.h:29
+#: ../src/dialogs/doc-meta-data.ui.h:36
 msgid "<b>Number of sheets:</b>"
 msgstr "<b>Število delovnih listov:</b>"
 
-#: ../src/dialogs/doc-meta-data.ui.h:30
-msgid "<b>Number of cells:</b>"
-msgstr "<b>Število celic:</b>"
-
-#: ../src/dialogs/doc-meta-data.ui.h:31
-msgid "<b>Number of pages:</b>"
-msgstr "<b>Število strani:</b>"
-
-#: ../src/dialogs/doc-meta-data.ui.h:32
+#: ../src/dialogs/doc-meta-data.ui.h:37
 msgid "<sheets>"
 msgstr "<delovni listi>"
 
-#: ../src/dialogs/doc-meta-data.ui.h:33
+#: ../src/dialogs/doc-meta-data.ui.h:38
+msgid "<b>Number of cells:</b>"
+msgstr "<b>Število celic:</b>"
+
+#: ../src/dialogs/doc-meta-data.ui.h:39
 msgid "<cells>"
 msgstr "<celice>"
 
-#: ../src/dialogs/doc-meta-data.ui.h:34
+#: ../src/dialogs/doc-meta-data.ui.h:40
+msgid "<b>Number of pages:</b>"
+msgstr "<b>Število strani:</b>"
+
+#: ../src/dialogs/doc-meta-data.ui.h:41
 msgid "<pages>"
 msgstr "<strani>"
 
-#: ../src/dialogs/doc-meta-data.ui.h:36
+#: ../src/dialogs/doc-meta-data.ui.h:43
 msgid "Recalculation:"
 msgstr "Ponovni izračun:"
 
-#: ../src/dialogs/doc-meta-data.ui.h:37
+#: ../src/dialogs/doc-meta-data.ui.h:44
 msgid "A_utomatic"
 msgstr "_Samodejno"
 
-#: ../src/dialogs/doc-meta-data.ui.h:38
+#: ../src/dialogs/doc-meta-data.ui.h:45
 msgid "_Manual"
 msgstr "_Ročno"
 
-#: ../src/dialogs/doc-meta-data.ui.h:39
+#: ../src/dialogs/doc-meta-data.ui.h:46
 msgid "Maximum it_erations:"
 msgstr "Največje _število ponovitev:"
 
-#: ../src/dialogs/doc-meta-data.ui.h:40
+#: ../src/dialogs/doc-meta-data.ui.h:47
 msgid "Maximum c_hange:"
 msgstr "Največja spreme_mba:"
 
-#: ../src/dialogs/doc-meta-data.ui.h:41
+#: ../src/dialogs/doc-meta-data.ui.h:48
 msgid "_Iteration"
 msgstr "_Ponovitev"
 
-#: ../src/dialogs/doc-meta-data.ui.h:43
+#: ../src/dialogs/doc-meta-data.ui.h:50
 msgid "page 6"
 msgstr "stran 6"
 
@@ -11729,7 +11757,7 @@ msgstr "Napaka notranje vrste"
 msgid "Unknown evaluation error"
 msgstr "Neznana napaka vrednotenja"
 
-#: ../src/file-autoft.c:88
+#: ../src/file-autoft.c:87
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Neveljavna datoteka predloge: %s"
@@ -12046,49 +12074,49 @@ msgstr "odložišče"
 msgid "Cut of %s"
 msgstr "Izreži %s"
 
-#: ../src/gui-file.c:71
+#: ../src/gui-file.c:70
 msgid "Automatically detected"
 msgstr "Samodejno zaznano"
 
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
-#: ../src/gui-file.c:204 ../src/gui-file.c:334
+#: ../src/gui-file.c:203 ../src/gui-file.c:333
 msgid "Advanc_ed"
 msgstr "Napre_dno"
 
-#: ../src/gui-file.c:207
+#: ../src/gui-file.c:206
 msgid "Simpl_e"
 msgstr "_Enostavno"
 
-#: ../src/gui-file.c:304
+#: ../src/gui-file.c:303
 msgid "Open Spreadsheet File"
 msgstr "Odpri datoteko preglednice"
 
-#: ../src/gui-file.c:307
+#: ../src/gui-file.c:306
 msgid "Import Data File"
 msgstr "Uvozi podatkovno datoteko"
 
-#: ../src/gui-file.c:361 ../src/gui-file.c:537
+#: ../src/gui-file.c:360 ../src/gui-file.c:536
 msgid "All Files"
 msgstr "Vse datoteke"
 
-#: ../src/gui-file.c:369
+#: ../src/gui-file.c:368
 msgid "Text Files"
 msgstr "Besedilne datoteke"
 
-#: ../src/gui-file.c:374 ../src/gui-file.c:542
+#: ../src/gui-file.c:373 ../src/gui-file.c:541
 msgid "Spreadsheets"
 msgstr "Preglednice"
 
-#: ../src/gui-file.c:377
+#: ../src/gui-file.c:376
 msgid "Data Files"
 msgstr "Podatkovne datoteke"
 
-#: ../src/gui-file.c:393 ../src/gui-file.c:566
+#: ../src/gui-file.c:392 ../src/gui-file.c:565
 msgid "File _type:"
 msgstr "Vrs_ta datoteke:"
 
-#: ../src/gui-file.c:454
+#: ../src/gui-file.c:453
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -12101,15 +12129,15 @@ msgstr ""
 "ali pa izberite drug zapis.\n"
 "Ali želite shraniti le trenutni delovni list?"
 
-#: ../src/gui-file.c:488
+#: ../src/gui-file.c:487
 msgid "Save the current workbook as"
 msgstr "Shrani trenutni delovni zvezek kot"
 
-#: ../src/gui-file.c:489
+#: ../src/gui-file.c:488
 msgid "Export the current workbook or sheet to"
 msgstr "Izvozi trenutni delovni zvezek ali delovni list v"
 
-#: ../src/gui-file.c:629
+#: ../src/gui-file.c:628
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -12117,7 +12145,7 @@ msgstr ""
 "Podana pripona datoteke se ne sklada z izbrano vrsto datoteke. Ali naj bo "
 "vseeno uporabljeno to ime?"
 
-#: ../src/gui-file.c:720
+#: ../src/gui-file.c:719
 #, c-format
 msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
@@ -12126,7 +12154,7 @@ msgstr ""
 "Ali želite izvoziti <b>trenutni delovni list</b> na mesto '<b>%s</b>' z "
 "uporabo izvoznika '<b>%s</b>'?"
 
-#: ../src/gui-file.c:724
+#: ../src/gui-file.c:723
 #, c-format
 msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
@@ -12135,7 +12163,7 @@ msgstr ""
 "Ali želite izvoziti delovno knjiga na mesto '<b>%s</b>' z uporabo izvoznika "
 "'<b>%s</b>'?"
 
-#: ../src/gui-file.c:751
+#: ../src/gui-file.c:750
 msgid ""
 "Unable to repeat export since no previous export information has been saved "
 "in this session."
@@ -12289,48 +12317,48 @@ msgstr "Možnosti programa"
 msgid "Show Gnumeric Options"
 msgstr "Pokaži možnosti programa Gnumeric"
 
-#: ../src/main-application.c:63
+#: ../src/main-application.c:62
 msgid "Specify the size and location of the initial window"
 msgstr "Določi položaj in velikost glavnega okna"
 
-#: ../src/main-application.c:64
+#: ../src/main-application.c:63
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ŠIRINAxVIŠINA+XZAMIK+YZAMIK"
 
-#: ../src/main-application.c:67
+#: ../src/main-application.c:66
 msgid "Don't show splash screen"
 msgstr "Ne pokaži pozdravnega okna"
 
-#: ../src/main-application.c:69
+#: ../src/main-application.c:68
 msgid "Don't display warning dialogs when importing"
 msgstr "Ne pokaži opozorilnih pogovornih oken med uvažanjem"
 
-#: ../src/main-application.c:78 ../src/main-application.c:84
+#: ../src/main-application.c:77 ../src/main-application.c:83
 msgid "Dumps the function definitions"
 msgstr "Izpiše definicije funkcije"
 
-#: ../src/main-application.c:79 ../src/main-application.c:85
-#: ../src/main-application.c:91 ../src/ssgrep.c:75
+#: ../src/main-application.c:78 ../src/main-application.c:84
+#: ../src/main-application.c:90 ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "DATOTEKA"
 
-#: ../src/main-application.c:90
+#: ../src/main-application.c:89
 msgid "Dumps web page for function help"
 msgstr "Izpiše spletno stran s pomočo o funkciji"
 
-#: ../src/main-application.c:96
+#: ../src/main-application.c:95
 msgid "Generate new help and po files"
 msgstr "Ustvari nove datoteke pomoči in datoteke po"
 
-#: ../src/main-application.c:102
+#: ../src/main-application.c:101
 msgid "Exit immediately after loading the selected books"
 msgstr "Končaj takoj po nalaganju izbranih knjig."
 
-#: ../src/main-application.c:145
+#: ../src/main-application.c:144
 msgid "[FILE ...]"
 msgstr "[DATOTEKA ...]"
 
-#: ../src/main-application.c:163 ../src/ssconvert.c:801 ../src/ssdiff.c:987
+#: ../src/main-application.c:162 ../src/ssconvert.c:801 ../src/ssdiff.c:987
 #: ../src/ssgrep.c:434 ../src/ssindex.c:255
 #, c-format
 msgid ""
@@ -12341,23 +12369,23 @@ msgstr ""
 "Zaženite '%s --help' za podroben pregled celotnega seznama možnosti ukazne "
 "vrstice.\n"
 
-#: ../src/mathfunc.c:3896
+#: ../src/mathfunc.c:3894
 msgid "bessel_i allocation error"
 msgstr "napaka dodeljevanja Besselove _i funkcije"
 
-#: ../src/mathfunc.c:3904 ../src/mathfunc.c:3907
+#: ../src/mathfunc.c:3902 ../src/mathfunc.c:3905
 msgid "bessel_i(%"
 msgstr "bessel_i(%"
 
-#: ../src/mathfunc.c:4367
+#: ../src/mathfunc.c:4365
 msgid "bessel_k allocation error"
 msgstr "napaka dodeljevanja Besselove _k funkcije"
 
-#: ../src/mathfunc.c:4375 ../src/mathfunc.c:4378
+#: ../src/mathfunc.c:4373 ../src/mathfunc.c:4376
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: ../src/mathfunc.c:6774
+#: ../src/mathfunc.c:6772
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -13331,7 +13359,7 @@ msgstr "Pokaži oris na desni"
 msgid "Control whether outline symbols are shown to the right."
 msgstr "Ali naj bodo simboli orisa izrisani na desni."
 
-#: ../src/sheet.c:945 ../src/workbook-view.c:957
+#: ../src/sheet.c:945 ../src/workbook-view.c:955
 msgid "Protected"
 msgstr "Zaščiteno"
 
@@ -13966,7 +13994,7 @@ msgid "Text (configurable)"
 msgstr "Besedilo (nastavljivo)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1316
+#: ../src/stf-parse.c:1315
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -13975,7 +14003,7 @@ msgstr ""
 "bodo prezrte."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1338
+#: ../src/stf-parse.c:1337
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -15360,7 +15388,7 @@ msgstr "#N/A"
 msgid "Failed to create temporary file for sending."
 msgstr "Napaka med ustvarjanjem začasne datoteke za pošiljanje."
 
-#: ../src/wbc-gtk-actions.c:217 ../src/workbook-view.c:1182
+#: ../src/wbc-gtk-actions.c:217 ../src/workbook-view.c:1180
 msgid "Default file saver is not available."
 msgstr "Privzeti shranjevalnik datotek ni na voljo."
 
@@ -16973,7 +17001,7 @@ msgstr "Prilagodi vrtilno razpredelnico"
 
 #. Standard Toolbar
 #: ../src/wbc-gtk-actions.c:2698 ../src/wbc-gtk.c:4641
-#: ../src/workbook-view.c:1027
+#: ../src/workbook-view.c:1025
 msgid "Sum"
 msgstr "Vsota"
 
@@ -18089,143 +18117,143 @@ msgid "The workbook view being controlled."
 msgstr "Nadzorovan pogled delovnega zvezka."
 
 #. Translators: "%dC" is a very short format to indicate the number of full columns
-#: ../src/workbook-view.c:398
+#: ../src/workbook-view.c:396
 #, c-format
 msgid "%dC"
 msgstr "%dS"
 
 #. Translators: "%dR" is a very short format to indicate the number of full rows
-#: ../src/workbook-view.c:401
+#: ../src/workbook-view.c:399
 #, c-format
 msgid "%dR"
 msgstr "%dV"
 
 #. Translators: "%dR x %dC" is a very short format to indicate the number of rows and columns
-#: ../src/workbook-view.c:404
+#: ../src/workbook-view.c:402
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dV x %dS"
 
-#: ../src/workbook-view.c:859
+#: ../src/workbook-view.c:857
 msgid "Auto-expression function"
 msgstr "Funkcija samodejnega izraza"
 
-#: ../src/workbook-view.c:860
+#: ../src/workbook-view.c:858
 msgid "The automatically computed sheet function."
 msgstr "Samodejno izračunana funkcija delovnega lista"
 
-#: ../src/workbook-view.c:867
+#: ../src/workbook-view.c:865
 msgid "Auto-expression description"
 msgstr "Opis samodejnega izraza"
 
-#: ../src/workbook-view.c:868
+#: ../src/workbook-view.c:866
 msgid "Description of the automatically computed sheet function."
 msgstr "Opis samodejno izračunane funkcije delovnega lista"
 
-#: ../src/workbook-view.c:876
+#: ../src/workbook-view.c:874
 msgid "Auto-expression maximum precision"
 msgstr "Natančnost samodejnega izpisovanja izrazov"
 
-#: ../src/workbook-view.c:877
+#: ../src/workbook-view.c:875
 msgid "Use maximum available precision for auto-expressions"
 msgstr ""
 "Uporabi največjo razpoložljivo natančnost pri izpisovanju samodejnih izrazov."
 
-#: ../src/workbook-view.c:885
+#: ../src/workbook-view.c:883
 msgid "Auto-expression value"
 msgstr "Vrednost samodejnega izraza"
 
-#: ../src/workbook-view.c:886
+#: ../src/workbook-view.c:884
 msgid "The current value of the auto-expression."
 msgstr "Trenutna vrednost samodejnega izraza."
 
-#: ../src/workbook-view.c:894
+#: ../src/workbook-view.c:892
 msgid "Auto-expression position"
 msgstr "Položaj samodejnega izraza"
 
-#: ../src/workbook-view.c:895
+#: ../src/workbook-view.c:893
 msgid "The cell position to track."
 msgstr "Položaj celice za sledenje."
 
-#: ../src/workbook-view.c:902
+#: ../src/workbook-view.c:900
 msgid "Show horizontal scrollbar"
 msgstr "Pokaži vodoravni drsnik"
 
-#: ../src/workbook-view.c:903
+#: ../src/workbook-view.c:901
 msgid "Show the horizontal scrollbar"
 msgstr "Pokaži vodoravni drsnik okna"
 
-#: ../src/workbook-view.c:911
+#: ../src/workbook-view.c:909
 msgid "Show vertical scrollbar"
 msgstr "Pokaži navpični drsnik"
 
-#: ../src/workbook-view.c:912
+#: ../src/workbook-view.c:910
 msgid "Show the vertical scrollbar"
 msgstr "Pokaži navpični drsnik okna"
 
-#: ../src/workbook-view.c:920
+#: ../src/workbook-view.c:918
 msgid "Show notebook tabs"
 msgstr "Pokaži zavihke beležnice"
 
-#: ../src/workbook-view.c:921
+#: ../src/workbook-view.c:919
 msgid "Show the notebook tabs for sheets"
 msgstr "Prikaži zavihke beležnice delovnih listov"
 
-#: ../src/workbook-view.c:929
+#: ../src/workbook-view.c:927
 msgid "Show formula cell markers"
 msgstr "Pokaži označevalnike celic s formulami"
 
-#: ../src/workbook-view.c:930
+#: ../src/workbook-view.c:928
 msgid "Mark each cell containing a formula"
 msgstr "Označi vsako celico, ki vsebuje formulo"
 
-#: ../src/workbook-view.c:938
+#: ../src/workbook-view.c:936
 msgid "Show extension markers"
 msgstr "Pokaži označevalnike prirezane vsebine"
 
-#: ../src/workbook-view.c:939
+#: ../src/workbook-view.c:937
 msgid "Mark each cell that fails to show the complete content"
 msgstr "Označi vsako celico, v kateri se ne pokaže celotna vsebina."
 
-#: ../src/workbook-view.c:948
+#: ../src/workbook-view.c:946
 msgid "Do auto completion"
 msgstr "Omogoči samodejno dopolnjevanje"
 
-#: ../src/workbook-view.c:949
+#: ../src/workbook-view.c:947
 msgid "Auto-complete text"
 msgstr "Samodejno dopolnjevanje besedila"
 
-#: ../src/workbook-view.c:958
+#: ../src/workbook-view.c:956
 msgid "Is view protected?"
 msgstr "Ali je pogled zaščiten?"
 
-#: ../src/workbook-view.c:966 ../src/workbook-view.c:967
+#: ../src/workbook-view.c:964 ../src/workbook-view.c:965
 msgid "Preferred width"
 msgstr "Prednostna širina"
 
-#: ../src/workbook-view.c:975 ../src/workbook-view.c:976
+#: ../src/workbook-view.c:973 ../src/workbook-view.c:974
 msgid "Preferred height"
 msgstr "Prednostna višina"
 
-#: ../src/workbook-view.c:1062
+#: ../src/workbook-view.c:1060
 msgid "An unexplained error happened while saving."
 msgstr "Prišlo je do nepričakovane napake med shranjevanjem."
 
-#: ../src/workbook-view.c:1078
+#: ../src/workbook-view.c:1076
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Ni mogoče odpreti '%s' za pisanje: %s"
 
-#: ../src/workbook-view.c:1082
+#: ../src/workbook-view.c:1080
 #, c-format
 msgid "Can't open '%s' for writing"
 msgstr "Ni mogoče odpreti '%s' za pisanje!"
 
-#: ../src/workbook-view.c:1298
+#: ../src/workbook-view.c:1296
 msgid "Unsupported file format."
 msgstr "Nepodprta vrsta datotek."
 
-#: ../src/workbook-view.c:1349
+#: ../src/workbook-view.c:1347
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Prišlo je do nepričakovane napake med odpiranjem %s"
