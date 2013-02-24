@@ -808,18 +808,18 @@ gnm_sheet_range_dup (GnmSheetRange const *sr)
 
 /**
  * gnm_sheet_range_from_value :
- * @res :
+ * @r :
  * @v :
  *
- * Convert @v into a GnmSheetRange and return in @res
+ * Convert @v into a GnmSheetRange and return in @r
  **/
 gboolean
-gnm_sheet_range_from_value (GnmSheetRange *res, GnmValue const *v)
+gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v)
 {
 	g_return_val_if_fail (v->type == VALUE_CELLRANGE, FALSE);
 
-	res->sheet = v->v_range.cell.a.sheet;
-	range_init_value (&res->range, v);
+	r->sheet = v->v_range.cell.a.sheet;
+	range_init_value (&r->range, v);
 
 	return TRUE;
 }

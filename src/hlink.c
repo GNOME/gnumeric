@@ -129,22 +129,22 @@ gnm_hlink_set_target (GnmHLink *lnk, gchar const *target)
 }
 
 gchar const *
-gnm_hlink_get_tip (GnmHLink const *l)
+gnm_hlink_get_tip (GnmHLink const *lnk)
 {
-	g_return_val_if_fail (IS_GNM_HLINK (l), NULL);
-	return l->tip;
+	g_return_val_if_fail (IS_GNM_HLINK (lnk), NULL);
+	return lnk->tip;
 }
 
 void
-gnm_hlink_set_tip (GnmHLink *l, gchar const *tip)
+gnm_hlink_set_tip (GnmHLink *lnk, gchar const *tip)
 {
 	gchar *tmp;
 
-	g_return_if_fail (IS_GNM_HLINK (l));
+	g_return_if_fail (IS_GNM_HLINK (lnk));
 
 	tmp = g_strdup (tip);
-	g_free (l->tip);
-	l->tip = tmp;
+	g_free (lnk->tip);
+	lnk->tip = tmp;
 }
 
 /***************************************************************************/

@@ -26,10 +26,10 @@ GnmStyle const *sheet_style_get		(Sheet const *sheet, int col, int row);
 GnmStyle *sheet_style_find  		(Sheet const *sheet, GnmStyle *st);
 void	 sheet_style_get_row		(Sheet const *sheet, GnmStyleRow *sr);
 GnmStyle **sheet_style_get_row2		(Sheet const *sheet, int row);
-void	 sheet_style_apply_border	(Sheet *sheet, GnmRange const *r,
+void	 sheet_style_apply_border	(Sheet *sheet, GnmRange const *range,
 					 GnmBorder **borders);
-void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *r,
-					 GnmStyle *style);
+void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *range,
+					 GnmStyle *pstyle);
 void	 sheet_style_set_range		(Sheet  *sheet, GnmRange const *range,
 					 GnmStyle *style);
 void	 sheet_style_apply_col		(Sheet  *sheet, int col,
@@ -88,9 +88,12 @@ GnmSpanCalcFlags   sheet_style_set_list  (Sheet *sheet,
 					  sheet_style_set_list_cb_t range_modify,
 					  gpointer data);
 
-GnmStyleList *sheet_style_collect_conditions	(Sheet const *s, GnmRange const *r);
-GnmStyleList *sheet_style_collect_hlinks	(Sheet const *s, GnmRange const *r);
-GnmStyleList *sheet_style_collect_validations	(Sheet const *s, GnmRange const *r);
+GnmStyleList *sheet_style_collect_conditions	(Sheet const *sheet,
+						 GnmRange const *r);
+GnmStyleList *sheet_style_collect_hlinks	(Sheet const *sheet,
+						 GnmRange const *r);
+GnmStyleList *sheet_style_collect_validations	(Sheet const *sheet,
+						 GnmRange const *r);
 
 GType gnm_style_region_get_type (void); /* boxed type */
 GnmStyleRegion *gnm_style_region_new (GnmRange const *range, GnmStyle *style);

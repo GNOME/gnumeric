@@ -1100,6 +1100,7 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
  * @res : where to store the result
  * @start : the start of the string to parse
  * @pp : the location to parse relative to
+ * @convs: #GnmConventions
  *
  * Returns a pointer to the first invalid character.
  * If the result != @start then @res is valid.
@@ -1556,7 +1557,7 @@ parse_util_shutdown (void)
 /* ------------------------------------------------------------------------- */
 /**
  * gnm_expr_conv_quote:
- * @conv: #GnmConventions
+ * @convs: #GnmConventions
  * @str: string to quote
  *
  * Quotes @str according to the convention @convs if necessary.

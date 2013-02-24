@@ -13,12 +13,12 @@ char  *format_value	    (GOFormat const *format,
 			     int col_width,
 			     GODateConventions const *date_conv);
 
-GOFormatNumberError format_value_gstring (GString *result,
+GOFormatNumberError format_value_gstring (GString *str,
 					  GOFormat const *format,
 					  GnmValue const *value,
 					  int col_width,
 					  GODateConventions const *date_conv);
-GOFormatNumberError format_value_layout (PangoLayout *result,
+GOFormatNumberError format_value_layout (PangoLayout *layout,
 					 GOFormat const *format,
 					 GnmValue const *value,
 					 int col_width,

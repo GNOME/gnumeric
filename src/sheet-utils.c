@@ -94,45 +94,43 @@ gnm_sheet_guess_region (Sheet *sheet, GnmRange *region)
 /**
  * gnm_sheet_guess_data_range :
  * @sheet : #Sheet
- * @range : #GnmRange
+ * @region : #GnmRange
  *
  * Makes a guess at the logical range containing @region and returns the possibly
  * expanded result in @region. The range is also expanded upwards.
  **/
 void
-gnm_sheet_guess_data_range (Sheet *sheet, GnmRange *range)
+gnm_sheet_guess_data_range (Sheet *sheet, GnmRange *region)
 {
 	int col;
 	int row;
-	GnmRange region = *range;
-	int start = range->start.col;
+	int start = region->start.col;
 
 	/* look for previous empty column */
 	for (col = start - 1; col > 0; col--)
-		if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region.start.row))
+		if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row))
 			break;
-	region.start.col = col + 1;
+	region->start.col = col + 1;
 
 	/* look for next empty column */
-	start = range->end.col;
+	start = region->end.col;
 	for (col = start + 1; col < gnm_sheet_get_max_cols (sheet); col++)
-		if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region.start.row))
+		if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row))
 			break;
-	region.end.col = col - 1;
+	region->end.col = col - 1;
 
-	for (col = region.start.col; col <= region.end.col; col++) {
+	for (col = region->start.col; col <= region->end.col; col++) {
 		gboolean empties = FALSE;
-		for (row = region.start.row - 2; row >= 0; row--)
+		for (row = region->start.row - 2; row >= 0; row--)
 			if (!sheet_cell_or_one_below_is_not_empty (sheet, col, row)) {
 				empties = TRUE;
 				break;
 			}
-		region.start.row = empties ? row + 2 : 0;
-		for (row = region.end.row + 1; row < gnm_sheet_get_max_rows (sheet); row++)
+		region->start.row = empties ? row + 2 : 0;
+		for (row = region->end.row + 1; row < gnm_sheet_get_max_rows (sheet); row++)
 			if (!sheet_cell_or_one_below_is_not_empty (sheet, col, row))
 				break;
-		region.end.row = row - 1;
+		region->end.row = row - 1;
 	}
-	*range = region;
 	return;
 }

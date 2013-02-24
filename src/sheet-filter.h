@@ -69,9 +69,9 @@ GType               gnm_filter_condition_get_type   (void);
 GnmFilterCondition *gnm_filter_condition_dup        (GnmFilterCondition const *src);
 void                gnm_filter_condition_free       (GnmFilterCondition *cond);
 GnmFilterCondition *gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v);
-GnmFilterCondition *gnm_filter_condition_new_double (GnmFilterOp op1, GnmValue *v1,
+GnmFilterCondition *gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
 						     gboolean join_with_and,
-						     GnmFilterOp op2, GnmValue *v2);
+						     GnmFilterOp op1, GnmValue *v1);
 GnmFilterCondition *gnm_filter_condition_new_bucket (gboolean top,
 						     gboolean absolute,
 						     gboolean rel_range,

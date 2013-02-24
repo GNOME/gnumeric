@@ -59,7 +59,7 @@ GnmExprTop const *gnm_expr_entry_parse	  (GnmExprEntry *gee,
 					   GnmParseError *perr, gboolean start_sel,
 					   GnmExprParseFlags flags);
 char    *gnm_expr_entry_global_range_name (GnmExprEntry *gee, Sheet *sheet);
-void	 gnm_expr_entry_load_from_text	  (GnmExprEntry *gee, char const *str);
+void	 gnm_expr_entry_load_from_text	  (GnmExprEntry *gee, char const *txt);
 void	 gnm_expr_entry_load_from_dep	  (GnmExprEntry *gee,
 					   GnmDependent const *dep);
 void	 gnm_expr_entry_load_from_expr	  (GnmExprEntry *gee,

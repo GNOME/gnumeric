@@ -1175,7 +1175,7 @@ workbook_unlink_3d_dep (GnmDependent *dep)
  * @texpr:
  * @r:
  *
- * Returns: (element-type GnmDependent):
+ * Returns: (element-type GnmDependent) (transfer full):
  **/
 GSList *
 gnm_dep_style_dependency (Sheet *sheet,

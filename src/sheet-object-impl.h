@@ -54,15 +54,15 @@ typedef struct {
 	void (*signal_pad2)	(void);
 
 	/* Virtual methods */
-	gboolean (*remove_from_sheet) (SheetObject	*sheet_object);
-	gboolean   (*assign_to_sheet) (SheetObject	*sheet_object,
+	gboolean (*remove_from_sheet) (SheetObject	*so);
+	gboolean   (*assign_to_sheet) (SheetObject	*so,
 				       Sheet		*sheet);
 
-	SheetObjectView	*(*new_view) (SheetObject	*sheet_object,
+	SheetObjectView	*(*new_view) (SheetObject	*so,
 				      SheetObjectViewContainer *container);
 	void        (*populate_menu) (SheetObject	*so,
 				      GPtrArray		*actions);
-	void	      (*user_config) (SheetObject	*sheet_object,
+	void	      (*user_config) (SheetObject	*so,
 				      SheetControl	*s_control);
 	void      (*prep_sax_parser) (SheetObject *so,
 				      GsfXMLIn *xin, xmlChar const **attrs,

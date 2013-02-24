@@ -287,7 +287,7 @@ sv_selection_col_type (SheetView const *sv, int col)
 /**
  * sv_selection_row_type:
  * @sv:
- * @col:
+ * @row:
  *
  * Returns: How much of column @col is selected in @sv.
  **/

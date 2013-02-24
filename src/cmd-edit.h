@@ -13,7 +13,7 @@ void sv_select_cur_array   (SheetView *sv);
 void sv_select_cur_depends (SheetView *sv);
 void sv_select_cur_inputs  (SheetView *sv);
 
-void cmd_paste_to_selection (WorkbookControl *wbc, SheetView *sv, int flags);
+void cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flags);
 void cmd_paste		    (WorkbookControl *wbc, GnmPasteTarget const *pt);
 
 void cmd_shift_cols  (WorkbookControl *wbc, Sheet *sheet,

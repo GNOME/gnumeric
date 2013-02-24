@@ -28,7 +28,7 @@ char const *cellref_parse	(GnmCellRef *out, GnmSheetSize const *ss,
 
 void        rangeref_as_string  (GnmConventionsOut *out,
 				 GnmRangeRef const *ref);
-char const *rangeref_parse	(GnmRangeRef *res, char const *in,
+char const *rangeref_parse	(GnmRangeRef *res, char const *start,
 				 GnmParsePos const *pp,
 				 GnmConventions const *convs);
 				 /* GError **err); */
@@ -236,7 +236,7 @@ void	    parse_text_value_or_expr (GnmParsePos const *pos,
 				      GnmValue **val,
 				      GnmExprTop const **texpr);
 
-GString	*gnm_expr_conv_quote (GnmConventions const *conv, char const *str);
+GString	*gnm_expr_conv_quote (GnmConventions const *convs, char const *str);
 
 G_END_DECLS
 

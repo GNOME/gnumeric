@@ -1095,7 +1095,7 @@ wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
  * @wbv: Workbook View
  * @fs: GOFileSaver object
  * @uri: URI to save as.
- * @context:
+ * @cc:
  *
  * Saves @wbv and workbook it's attached to into @uri file using
  * @fs file saver.  If the format sufficiently advanced make it the saver
@@ -1105,7 +1105,7 @@ wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
  */
 gboolean
 wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
-		 GOCmdContext *context)
+		 GOCmdContext *cc)
 {
 	GOIOContext *io_context;
 	Workbook  *wb;
@@ -1114,15 +1114,15 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
-	g_return_val_if_fail (GO_IS_CMD_CONTEXT (context), FALSE);
+	g_return_val_if_fail (GO_IS_CMD_CONTEXT (cc), FALSE);
 
 	wb = wb_view_get_workbook (wbv);
 	g_object_ref (wb);
-	io_context = go_io_context_new (context);
+	io_context = go_io_context_new (cc);
 
-	go_cmd_context_set_sensitive (context, FALSE);
+	go_cmd_context_set_sensitive (cc, FALSE);
 	wb_view_save_to_uri (wbv, fs, uri, io_context);
-	go_cmd_context_set_sensitive (context, TRUE);
+	go_cmd_context_set_sensitive (cc, TRUE);
 
 	has_error   = go_io_error_occurred (io_context);
 	has_warning = go_io_warning_occurred (io_context);

@@ -95,7 +95,7 @@ GnmSheetSlicer *sv_editpos_in_slicer (SheetView const *sv);
 /* Manipulation */
 void	 sv_flag_status_update_pos   (SheetView *sv, GnmCellPos const *pos);
 void	 sv_flag_status_update_range (SheetView *sv, GnmRange const *range);
-void	 sv_flag_style_update_range  (SheetView *sv, GnmRange const *r);
+void	 sv_flag_style_update_range  (SheetView *sv, GnmRange const *range);
 void	 sv_flag_selection_change    (SheetView *sv);
 
 void	 sv_unant		(SheetView *sv);
@@ -113,7 +113,7 @@ void     sv_cursor_set		(SheetView *sv,
 				 GnmCellPos const *edit,
 				 int base_col, int base_row,
 				 int move_col, int move_row,
-				 GnmRange const *cursor_bound);
+				 GnmRange const *bound);
 void     sv_set_edit_pos	(SheetView *sv, GnmCellPos const *pos);
 
 void	 sv_freeze_panes	(SheetView *sv,

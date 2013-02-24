@@ -2996,7 +2996,7 @@ gnm_expr_top_new_array_elem  (int x, int y)
  * @texpr :
  *
  * A collect the set of GnmRanges in @expr.
- * Return: (element-type GnmRange) (transfer full): a list of the unique
+ * Returns: (element-type GnmRange) (transfer full): a list of the unique
  * references Caller is responsible for releasing the list and the content.
  **/
 GSList *

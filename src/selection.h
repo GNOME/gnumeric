@@ -27,7 +27,7 @@ gboolean sv_is_full_range_selected  (SheetView const *sv, GnmRange const *r);
 gboolean sv_is_colrow_selected	    (SheetView const *sv,
 				    int colrow, gboolean is_col);
 gboolean sv_is_full_colrow_selected (SheetView const *sv,
-				     gboolean is_cols, int col);
+				     gboolean is_cols, int index);
 ColRowSelectionType sv_selection_col_type (SheetView const *sv, int col);
 ColRowSelectionType sv_selection_row_type (SheetView const *sv, int row);
 

@@ -536,12 +536,12 @@ gnumeric_create_tooltip_widget (void)
 /**
  * gnumeric_convert_to_tooltip:
  * @ref_widget:
- * @label:
+ * @widget:
  *
- * Returns: (transfer full): the newly allcated #GtkWindow.
+ * Returns: (transfer none): @widget
  **/
 GtkWidget *
-gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *label)
+gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *widget)
 {
 	GtkWidget *tip, *frame;
 
@@ -553,14 +553,14 @@ gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *label)
 	gtk_window_set_screen (GTK_WINDOW (tip), gtk_widget_get_screen (ref_widget));
 	gtk_widget_set_name (tip, "gnumeric-tooltip");
 
-	frame = gtk_widget_get_toplevel (label);
+	frame = gtk_widget_get_toplevel (widget);
 
 	gtk_container_add (GTK_CONTAINER (tip), frame);
 
 	gnumeric_tooltip_set_style (tip);
-	gnumeric_tooltip_set_style (label);
+	gnumeric_tooltip_set_style (widget);
 
-	return label;
+	return widget;
 }
 
 /**
@@ -641,7 +641,7 @@ popup_item_activate (GtkWidget *item, gpointer *user_data)
 
 /**
  * gnumeric_create_popup_menu:
- * @element:
+ * @elements:
  * @handler: (scope async):
  * @user_data: user data to pass to @handler.
  * @display_filter:
@@ -649,7 +649,7 @@ popup_item_activate (GtkWidget *item, gpointer *user_data)
  * @event:
  **/
 void
-gnumeric_create_popup_menu (GnumericPopupMenuElement const *element,
+gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 			    GnumericPopupMenuHandler handler,
 			    gpointer user_data,
 			    int display_filter, int sensitive_filter,
@@ -660,29 +660,29 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *element,
 	GtkWidget *menu, *item;
 
 	menu = gtk_menu_new ();
-	for (; NULL != element->name ; element++) {
-		char const * const name = element->name;
-		char const * const pix_name = element->pixmap;
+	for (; NULL != elements->name ; elements++) {
+		char const * const name = elements->name;
+		char const * const pix_name = elements->pixmap;
 
 		item = NULL;
 
-		if (element->display_filter != 0 &&
-		    !(element->display_filter & display_filter)) {
-			if (element->allocated_name) {
-				g_free (element->allocated_name);
-				*(gchar **)(&element->allocated_name) = NULL;
+		if (elements->display_filter != 0 &&
+		    !(elements->display_filter & display_filter)) {
+			if (elements->allocated_name) {
+				g_free (elements->allocated_name);
+				*(gchar **)(&elements->allocated_name) = NULL;
 			}
 			continue;
 		}
 
 		if (name != NULL && *name != '\0') {
-			if (element->allocated_name)
-				trans = element->allocated_name;
+			if (elements->allocated_name)
+				trans = elements->allocated_name;
 			else
 				trans = _(name);
 			item = gtk_image_menu_item_new_with_mnemonic (trans);
-			if (element->sensitive_filter != 0 &&
-			    (element->sensitive_filter & sensitive_filter))
+			if (elements->sensitive_filter != 0 &&
+			    (elements->sensitive_filter & sensitive_filter))
 				gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);
 			if (pix_name != NULL) {
 				GtkWidget *image = gtk_image_new_from_stock (pix_name,
@@ -692,22 +692,22 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *element,
 					GTK_IMAGE_MENU_ITEM (item),
 					image);
 			}
-			if (element->allocated_name) {
-				g_free (element->allocated_name);
-				*(gchar **)(&element->allocated_name) = NULL;
+			if (elements->allocated_name) {
+				g_free (elements->allocated_name);
+				*(gchar **)(&elements->allocated_name) = NULL;
 			}
-		} else if (element->index >= 0) {
+		} else if (elements->index >= 0) {
 			/* separator */
 			item = gtk_menu_item_new ();
 			gtk_widget_set_sensitive (item, FALSE);
 		}
 
-		if (element->index > 0) {
+		if (elements->index > 0) {
 			g_signal_connect (G_OBJECT (item),
 				"activate",
 				G_CALLBACK (&popup_item_activate), user_data);
 			g_object_set_data (
-				G_OBJECT (item), "descriptor", (gpointer)(element));
+				G_OBJECT (item), "descriptor", (gpointer)(elements));
 			g_object_set_data (
 				G_OBJECT (item), "handler", (gpointer)handler);
 		}
@@ -715,7 +715,7 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *element,
 			gtk_widget_show (item);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		}
-	      	if (element->index < 0) {
+	      	if (elements->index < 0) {
 			if (NULL != item) {
 				menu_stack = g_slist_prepend (menu_stack, menu);
 				menu = gtk_menu_new ();

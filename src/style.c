@@ -571,17 +571,17 @@ gnm_style_required_spanflags (GnmStyle const *style)
 }
 
 /**
- * gnm_style_default_halign :
- * @mstyle :
+ * gnm_style_default_halign:
+ * @style :
  * @c  :
  *
  * Select the appropriate horizontal alignment depending on the style and cell
  * value.
  */
 GnmHAlign
-gnm_style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
+gnm_style_default_halign (GnmStyle const *style, GnmCell const *c)
 {
-	GnmHAlign align = gnm_style_get_align_h (mstyle);
+	GnmHAlign align = gnm_style_get_align_h (style);
 	GnmValue *v;
 
 	if (align != GNM_HALIGN_GENERAL)
@@ -599,7 +599,7 @@ gnm_style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 			return GNM_HALIGN_CENTER;
 
 		case VALUE_FLOAT: {
-			double a = gnm_style_get_rotation (mstyle);
+			double a = gnm_style_get_rotation (style);
 			if (a > 0 && a < 180)
 				return GNM_HALIGN_LEFT;
 			return GNM_HALIGN_RIGHT;
@@ -613,7 +613,7 @@ gnm_style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 			}
 
 		default:
-			if (gnm_style_get_rotation (mstyle) > 180)
+			if (gnm_style_get_rotation (style) > 180)
 				return GNM_HALIGN_RIGHT;
 			return GNM_HALIGN_LEFT;
 		}

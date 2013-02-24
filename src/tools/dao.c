@@ -651,21 +651,21 @@ dao_autofit_column (data_analysis_output_t *dao, int col)
 /**
  * dao_autofit_these_columns:
  * @dao:
- * @from:
- * @to:
+ * @from_col:
+ * @to_col:
  *
  * fits all columns to their content
  *
  *
  **/
 void
-dao_autofit_these_columns (data_analysis_output_t *dao, int from, int to)
+dao_autofit_these_columns (data_analysis_output_t *dao, int from_col, int to_col)
 {
 	int i;
 
 	if (!dao->autofit_flag)
 		return;
-	for (i = from; i <= to; i++)
+	for (i = from_col; i <= to_col; i++)
 		dao_autofit_column (dao,i);
 }
 

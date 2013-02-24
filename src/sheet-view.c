@@ -751,12 +751,12 @@ sv_editpos_in_slicer (SheetView const *sv)
 
 /**
  * sv_freeze_panes :
- * @sv       : the sheet
- * @frozen   : top left corner of the frozen region
- * @unfrozen : top left corner of the unfrozen region
+ * @sv: the sheet
+ * @frozen_top_left: top left corner of the frozen region
+ * @unfrozen_top_left: top left corner of the unfrozen region
  *
  * By definition the unfrozen region must be below the frozen.
- * If @frozen == @unfrozen or @frozen == NULL unfreeze
+ * If @frozen_top_left == @unfrozen_top_left or @frozen_top_left == NULL unfreeze
  **/
 void
 sv_freeze_panes (SheetView *sv,

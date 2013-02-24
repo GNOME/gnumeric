@@ -456,7 +456,7 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 
 /**
  * expr_name_lookup:
- * @pp :
+ * @pos :
  * @name :
  *
  * lookup but do not reference a named expression.
@@ -920,8 +920,7 @@ expr_name_set_pos (GnmNamedExpr *nexpr, GnmParsePos const *pp)
 /**
  * expr_name_set_expr :
  * @nexpr : the named expression
- * @new_expr : the new content
- * @rwinfo : optional.
+ * @texpr : the new content
  *
  * Unrefs the current content of @nexpr and absorbs a ref to @new_expr.
  **/

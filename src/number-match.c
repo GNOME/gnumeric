@@ -61,7 +61,7 @@ value_is_error (char const *str)
 
 /**
  * format_match_simple :
- * @s : A String to match against.
+ * @text : A String to match against.
  *
  * Attempt to match the supplied string as a simple value.
  *
@@ -1137,7 +1137,7 @@ set_money_format (GnmValue *v)
 
 
 /**
- * format_match :
+ * format_match:
  * @text    : The text to parse
  * @cur_fmt : The current format for the value (potentially NULL)
  * @date_conv: optional date convention
