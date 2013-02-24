@@ -3881,7 +3881,7 @@ typedef struct {
 	SheetObject	*so;
 	GogGraph const	*graph;
 	GogObject const	*chart;
-	GogView const	*root_view;
+	GogView		*root_view;
 
 	unsigned	 nest_level;
 	unsigned cur_series;
