@@ -1,3 +1,9 @@
+2013-02-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (get_style), (ms_excel_chart_read): add explicit casts to
+	fix some warnings.
+	* xlsx-read-drawing.c (xlsx_style_line_start): ditto.
+
 2013-02-22  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (gather_styles): Use sheet_cells, not

@@ -1153,7 +1153,7 @@ xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	state->sp_type |= GO_STYLE_LINE;
 	if (!state->cur_style)
-		state->cur_style = gog_style_new ();
+		state->cur_style = (GOStyle *) gog_style_new ();
 	state->gocolor = &state->cur_style->line.color;
 }
 
