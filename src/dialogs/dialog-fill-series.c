@@ -179,7 +179,7 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 
 
 	state->date_steps_type  = go_gtk_builder_get_widget (state->base.gui,
-							"table_date_unit");
+							"table-date-unit");
 	gtk_widget_set_sensitive (state->date_steps_type, FALSE);
 
 	button = (sel == NULL ||

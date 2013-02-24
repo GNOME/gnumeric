@@ -146,7 +146,7 @@ typedef struct {
 	GtkCheckButton		*recalc_iteration;
 	GtkEntry		*recalc_max;
 	GtkEntry		*recalc_tolerance;
-	GtkWidget               *recalc_iteration_table;
+	GtkWidget               *recalc_iteration_grid;
 
 } DialogDocMetaData;
 
@@ -2038,7 +2038,7 @@ cb_dialog_doc_metadata_recalc_iteration_changed (G_GNUC_UNUSED GtkWidget *widget
 {
 	/* FIXME: make undoable */
 	workbook_iteration_enabled (state->wb, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
-	gtk_widget_set_sensitive (state->recalc_iteration_table, state->wb->iteration.enabled);
+	gtk_widget_set_sensitive (state->recalc_iteration_grid, state->wb->iteration.enabled);
 }
 
 /**
@@ -2059,7 +2059,7 @@ dialog_doc_metadata_init_calculations_page (DialogDocMetaData *state)
 		 TRUE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->recalc_iteration),
 				      state->wb->iteration.enabled);
-	gtk_widget_set_sensitive (state->recalc_iteration_table, state->wb->iteration.enabled);
+	gtk_widget_set_sensitive (state->recalc_iteration_grid, state->wb->iteration.enabled);
 
 	buf = g_strdup_printf ("%d", state->wb->iteration.max_number);
 	gtk_entry_set_text (state->recalc_max, buf);
@@ -2198,7 +2198,7 @@ dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
 	state->recalc_iteration = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (state->gui, "iteration_enabled"));
 	state->recalc_max  = GTK_ENTRY (go_gtk_builder_get_widget (state->gui, "max_iterations"));
 	state->recalc_tolerance  = GTK_ENTRY (go_gtk_builder_get_widget (state->gui, "iteration_tolerance"));
-	state->recalc_iteration_table = go_gtk_builder_get_widget (state->gui, "iteration_table");
+	state->recalc_iteration_grid = go_gtk_builder_get_widget (state->gui, "iteration-grid");
 }
 
 static void

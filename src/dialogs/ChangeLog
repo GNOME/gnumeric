@@ -1,3 +1,10 @@
+2013-02-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-doc-metadata.c: replaced GtkTable with GtkGrid.
+	* dialog-fill-series.c: ditto.
+	* doc-meta-data.ui: ditto.
+	* fill-series.ui: ditto.
+
 2013-02-20  Morten Welinder  <terra@gnome.org>
 
 	* dialog-sheet-order.c (create_sheet_list): Don't leak a cell
