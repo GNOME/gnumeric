@@ -832,6 +832,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	/* TODO: How to insert the font box in the right place initially */
 	gtk_widget_show (tmp);
 	gtk_widget_set_vexpand (tmp, TRUE);
+	gtk_widget_set_hexpand (tmp, TRUE);
 	gtk_grid_attach (GTK_GRID (container), tmp, 0, 0, 5, 1);
 
 	font_selector_editable_enters (font_widget, GTK_WINDOW (state->dialog));

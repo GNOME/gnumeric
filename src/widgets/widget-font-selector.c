@@ -30,7 +30,7 @@
 #include <string.h>
 
 struct _FontSelector {
-	GtkBox box;
+	GtkGrid grid;
 	GtkBuilder *gui;
 
 	GtkWidget *font_name_entry;
@@ -50,7 +50,7 @@ struct _FontSelector {
 };
 
 typedef struct {
-	GtkBoxClass parent_class;
+	GtkGridClass parent_class;
 
 	void (* font_changed) (FontSelector *fs, GnmStyle *mstyle);
 } FontSelectorClass;
@@ -380,8 +380,8 @@ fs_init (FontSelector *fs)
 	gnm_style_set_align_h   (fs->mstyle, GNM_HALIGN_CENTER);
 	gnm_style_set_font_size (fs->mstyle, 10);
 
-	gtk_box_pack_start (GTK_BOX (fs),
-		go_gtk_builder_get_widget (fs->gui, "toplevel-table"), TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (fs),
+			go_gtk_builder_get_widget (fs->gui, "toplevel-grid"));
 
 	fs->font_name_entry  = go_gtk_builder_get_widget (fs->gui, "font-name-entry");
 	fs->font_style_entry = go_gtk_builder_get_widget (fs->gui, "font-style-entry");
@@ -395,8 +395,8 @@ fs_init (FontSelector *fs)
 	goc_canvas_scroll_to (fs->font_preview_canvas, 0, 0);
 	gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, &gs_white);
 	gtk_widget_show_all (w);
-	w = go_gtk_builder_get_widget (fs->gui, "font-preview-frame");
-	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (fs->font_preview_canvas));
+	w = go_gtk_builder_get_widget (fs->gui, "toplevel-grid");
+	gtk_grid_attach (GTK_GRID (w), GTK_WIDGET (fs->font_preview_canvas), 0, 4, 4, 1);
 	fs->font_preview_grid = GOC_ITEM (goc_item_new (
 		goc_canvas_get_root (fs->font_preview_canvas),
 		preview_grid_get_type (),
@@ -406,6 +406,7 @@ fs_init (FontSelector *fs)
 		"default-value",	value_new_string (_("AaBbCcDdEe12345")),
 		"default-style",	fs->mstyle,
 		NULL));
+	gtk_widget_set_size_request (GTK_WIDGET (fs->font_preview_canvas), -1, 96);
 
 	g_signal_connect (G_OBJECT (fs->font_preview_canvas),
 		"size-allocate",
@@ -459,7 +460,7 @@ fs_class_init (GObjectClass *klass)
 }
 
 GSF_CLASS (FontSelector, font_selector,
-	   fs_class_init, fs_init, GTK_TYPE_BOX)
+	   fs_class_init, fs_init, GTK_TYPE_GRID)
 
 GtkWidget *
 font_selector_new (void)

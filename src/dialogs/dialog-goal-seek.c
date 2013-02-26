@@ -73,7 +73,7 @@ typedef struct {
 	GtkWidget *current_value_label;
 	GtkWidget *solution_label;
 	GtkWidget *result_label;
-	GtkWidget *result_table;
+	GtkWidget *result_grid;
 	Sheet	  *sheet;
 	Workbook  *wb;
 	WBCGtk  *wbcg;
@@ -456,7 +456,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 	state->cancelled = FALSE;
 
-	gtk_widget_show (state->result_table);
+	gtk_widget_show (state->result_grid);
 	return;
 }
 
@@ -472,7 +472,7 @@ static void
 dialog_realized (G_GNUC_UNUSED GtkWidget *dialog,
 		 GoalSeekState *state)
 {
-	gtk_widget_hide (state->result_table);
+	gtk_widget_hide (state->result_grid);
 }
 
 /**
@@ -505,7 +505,7 @@ dialog_preload_selection (GoalSeekState *state, GnmExprEntry *entry)
 static gboolean
 dialog_init (GoalSeekState *state)
 {
-	GtkTable *table;
+	GtkGrid *grid;
 
 	state->dialog = go_gtk_builder_get_widget (state->gui, "GoalSeek");
         if (state->dialog == NULL)
@@ -540,18 +540,17 @@ dialog_init (GoalSeekState *state)
 	gtk_label_set_justify (GTK_LABEL (state->solution_label), GTK_JUSTIFY_RIGHT);
 
 	state->result_label = go_gtk_builder_get_widget (state->gui, "result-label");
-	state->result_table = go_gtk_builder_get_widget (state->gui, "result-table");
+	state->result_grid = go_gtk_builder_get_widget (state->gui, "result-grid");
 
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "goal-table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (state->gui, "goal-grid"));
 	state->set_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->set_cell_entry,
 				  GNM_EE_SINGLE_RANGE |
 				  GNM_EE_FORCE_ABS_REF,
 				  GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (state->set_cell_entry),
-			  2, 3, 1, 2,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_grid_attach (grid, GTK_WIDGET (state->set_cell_entry),
+			  1, 0, 1, 1);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->set_cell_entry), TRUE);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->set_cell_entry));
 	dialog_preload_selection (state, state->set_cell_entry);
@@ -562,10 +561,9 @@ dialog_init (GoalSeekState *state)
 				  GNM_EE_SINGLE_RANGE |
 				  GNM_EE_FORCE_ABS_REF,
 				  GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
-			  2, 3, 3, 4,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_grid_attach (grid, GTK_WIDGET (state->change_cell_entry),
+			  1, 2, 1, 1);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->change_cell_entry), TRUE);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->change_cell_entry));
 	dialog_preload_selection (state, state->change_cell_entry);

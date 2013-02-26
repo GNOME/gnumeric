@@ -1,3 +1,13 @@
+2013-02-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* cell-format.ui: replaced GtkTable with GtkGrid.
+	* dialog-cell-format.c (fmt_dialog_init_font_page): ditto.
+	* dialog-goal-seek.c (cb_dialog_apply_clicked), (dialog_realized),
+	(dialog_init): ditto.
+	* font-sel.ui: ditto.
+	* formula-guru.ui: ditto.
+	* goalseek.ui: ditto.
+
 2013-02-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-doc-metadata.c: replaced GtkTable with GtkGrid.

@@ -37,12 +37,12 @@
 #undef DEBUG_NUMBER_MATCH
 
 /*
- * value_is_error : Check to see if a string begins with one of the magic
+ * value_is_error: Check to see if a string begins with one of the magic
  * error strings.
  *
- * @str : The string to test
+ * @str: The string to test
  *
- * returns : an error if there is one, or NULL.
+ * Returns: an error if there is one, or %NULL.
  */
 static GnmValue *
 value_is_error (char const *str)
@@ -60,8 +60,8 @@ value_is_error (char const *str)
 }
 
 /**
- * format_match_simple :
- * @text : A String to match against.
+ * format_match_simple:
+ * @text: A String to match against.
  *
  * Attempt to match the supplied string as a simple value.
  *
@@ -1138,8 +1138,8 @@ set_money_format (GnmValue *v)
 
 /**
  * format_match:
- * @text    : The text to parse
- * @cur_fmt : The current format for the value (potentially NULL)
+ * @text: The text to parse
+ * @cur_fmt: The current format for the value (potentially NULL)
  * @date_conv: optional date convention
  *
  * Attempts to parse the supplied string to see if it matches a known value
@@ -1283,9 +1283,9 @@ format_match (char const *text, GOFormat const *cur_fmt,
 }
 
 /**
- * format_match_number :
- * @text    : The text to parse
- * @cur_fmt : The current format for the value (potentially NULL)
+ * format_match_number:
+ * @text: The text to parse
+ * @cur_fmt: The current format for the value (potentially NULL)
  * @date_conv: optional date convention
  *
  * Attempts to parse the supplied string to see if it matches a known value format.

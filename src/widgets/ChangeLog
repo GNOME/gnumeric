@@ -1,3 +1,7 @@
+2013-02-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* widget-font-selector.c (fs_init): replaced GtkTable with GtkGrid.
+
 2013-01-10  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): Look up translated
