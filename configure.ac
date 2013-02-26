@@ -983,20 +983,40 @@ enable_introspection=$found_introspection
 
 AC_MSG_RESULT([$found_introspection])
 
-INTROSPECTION_SCANNER=
-INTROSPECTION_COMPILER=
-INTROSPECTION_GENERATE=
-INTROSPECTION_GIRDIR=
-INTROSPECTION_TYPELIBDIR=
 if test "x$found_introspection" = "xyes"; then
+   dnl You can override INTROSPECTION_GIRDIR and INTROSPECTION_TYPELIBDIR
+   dnl if you wish.  If you override the latter, you might want to set
+   dnl GI_TYPELIB_PATH to include the same directory.  For example
+   dnl
+   dnl GI_TYPELIB_PATH=$PREFIX/lib64/girepository-1.0
+   dnl INTROSPECTION_TYPELIBDIR=$GI_TYPELIB_PATH
+   dnl INTROSPECTION_GIRDIR=$PREFIX/share/gir-1.0
+   dnl
+   dnl Note, that unlike gnumeric's binaries, nothing tells python where
+   dnl to find gnumeric libraries, so you might also need to set
+   dnl LD_LIBRARY_PATH.
+
    INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
    INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
    INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
-   INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
-   INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
+   if test "x$INTROSPECTION_GIRDIR" = x; then
+     INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
+   fi
+   if test "x$INTROSPECTION_TYPELIBDIR" = x; then
+     INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
+   fi
    INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
    INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
    INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
+else
+   INTROSPECTION_SCANNER=
+   INTROSPECTION_COMPILER=
+   INTROSPECTION_GENERATE=
+   INTROSPECTION_GIRDIR=
+   INTROSPECTION_TYPELIBDIR=
+   INTROSPECTION_CFLAGS=
+   INTROSPECTION_LIBS=
+   INTROSPECTION_MAKEFILE=
 fi
 AC_SUBST(INTROSPECTION_SCANNER)
 AC_SUBST(INTROSPECTION_COMPILER)
