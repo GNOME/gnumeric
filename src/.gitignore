@@ -30,3 +30,5 @@ GNOME_Gnumeric-gtk.xml
 libspreadsheet.def
 local.def
 stamp-local.def
+Gnm-1.12.gir
+Gnm-1.12.typelib
