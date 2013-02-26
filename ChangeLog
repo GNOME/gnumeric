@@ -1,3 +1,7 @@
+2013-02-26  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (convert): Avoid segfault.  Fixes #694741.
+
 2013-02-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/number-match.c: more introspection warnings.

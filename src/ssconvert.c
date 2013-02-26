@@ -631,6 +631,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				    ssconvert_export_id);
 			goto out;
 		} else if (outfile == NULL &&
+			   !ssconvert_one_file_per_sheet &&
 			   go_file_saver_get_extension (fs) != NULL) {
 			char const *ext = gsf_extension_pointer (infile);
 			if (*infile) {
