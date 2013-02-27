@@ -1290,8 +1290,6 @@
                     </child>
                     <child>
                       <object class="GtkGrid" id="first-page-grid">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
                         <property name="can_focus">False</property>
                         <property name="column_spacing">12</property>
                         <child>
