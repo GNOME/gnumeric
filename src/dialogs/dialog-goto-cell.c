@@ -348,16 +348,14 @@ dialog_goto_load_selection (GotoState *state)
 static gboolean
 dialog_goto_init (GotoState *state)
 {
-	GtkTable *table;
+	GtkGrid *grid;
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
 
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "names"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (state->gui, "names"));
 	state->goto_text = GTK_ENTRY (gtk_entry_new ());
-	gtk_table_attach (table, GTK_WIDGET (state->goto_text),
-			  0, 1, 2, 3,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->goto_text), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (state->goto_text), 0, 2, 1, 1);
 	g_signal_connect_after (G_OBJECT (state->goto_text),
 		"changed",
 		G_CALLBACK (cb_dialog_goto_update_sensitivity), state);

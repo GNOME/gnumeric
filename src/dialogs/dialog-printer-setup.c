@@ -405,87 +405,76 @@ draw_margins (PrinterSetupState *state, double x1, double y1, double x2, double 
 }
 
 static void
-margin_preview_page_available_size(PrinterSetupState *state,
-				   MarginPreviewPageAvailableSize *available_size)
+margin_preview_page_available_size (PrinterSetupState *state,
+				    MarginPreviewPageAvailableSize *available_size)
 {
-
-	GtkTable *table;
-	GtkBox *container;
-	GtkAlignment *align;
 	GList *child_list;
-	GtkWidget *child_widget;
-	guint *widths, *heights;
+	GtkWidget *child_widget, *grid;
+	unsigned *widths, *heights;
 	GtkRequisition requisition;
-	guint top_att, bottom_att, left_att, right_att, i;
-	int nrows, ncols;
+	unsigned top, left, width, height, i;
+	unsigned nrows, ncols, first_col, first_row;
 
 	/* Reset available size to zero*/
 	available_size->width = 0;
 	available_size->height = 0;
 
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "table-paper-selector"));
-
-	gtk_table_get_size (table, &nrows, &ncols);
-	widths = g_new0(guint, ncols);
-	heights = g_new0(guint, nrows);
-
-	container = GTK_BOX (go_gtk_builder_get_widget (state->gui,
-						   "container-paper-sample"));
-
-	align = GTK_ALIGNMENT (gtk_widget_get_parent(GTK_WIDGET(container)));
-
-	/* Iterate through all child widgets in the table */
-	for (child_list = gtk_container_get_children(GTK_CONTAINER(table));
+	grid = go_gtk_builder_get_widget (state->gui, "paper-selector-grid");
+	gtk_container_child_get (GTK_CONTAINER (grid),
+	                         go_gtk_builder_get_widget (state->gui, "container-paper-sample"),
+				 "top-attach", &first_row,
+				 "left-attach", &first_col,
+				 "width", &ncols,
+				 "height", &nrows,
+				 NULL);
+	widths = g_new0 (guint, ncols);
+	heights = g_new0 (guint, nrows);
+	
+	/* Iterate through all child widgets in the grid */
+	for (child_list = gtk_container_get_children (GTK_CONTAINER (grid));
 	     child_list; child_list = child_list->next) {
 
 		child_widget = child_list->data;
 
 		/* Determine which cells the align widget spans across */
-		gtk_container_child_get(GTK_CONTAINER(table), GTK_WIDGET(child_widget),
-					"top-attach", &top_att,
-					"bottom-attach", &bottom_att,
-					"left-attach", &left_att,
-					"right-attach", &right_att,
-					NULL);
+		gtk_container_child_get (GTK_CONTAINER (grid), GTK_WIDGET (child_widget),
+					 "top-attach", &top,
+					 "left-attach", &left,
+					 "width", &width,
+					 "height", &height,
+					 NULL);
 
 		/* Determine the requisition size for the widget */
 		gtk_widget_get_preferred_size (GTK_WIDGET(child_widget), &requisition, NULL);
 
 		/* Find largest widget in each table column */
-		/* Exclude widgets that expand across more than one table cells */
-		if ( left_att + 1 == right_att){
-			if ((guint) requisition.width > widths[left_att]) {
-				widths[left_att] = (guint) requisition.width;
+		/* Exclude widgets that expand across more than one grid cells 
+		 * or are not in a relevant column */
+		if (left >= first_col && width == 1 && left < first_col + ncols) {
+			if ((guint) requisition.width > widths[left - first_col]) {
+				widths[left - first_col] = (guint) requisition.width;
 			}
 		}
 
 		/* Find largest widget in each table row */
-		/* Exclude widgets that expand across more than one table cells */
-		if ( top_att + 1 == bottom_att){
-			if ((guint) requisition.height > heights[top_att]) {
-				heights[top_att] = (guint) requisition.height;
+		/* Exclude widgets that expand across more than one grid cells
+		 * or are not in a relevant column */
+		if (top >= first_row && height == 1 && top < first_row + nrows) {
+			if ((guint) requisition.height > heights[top - first_row]) {
+				heights[top - first_row] = (guint) requisition.height;
 			}
 		}
 	}
 
-	/* Determine which cells the align widget spans across */
-	gtk_container_child_get(GTK_CONTAINER(table),
-				GTK_WIDGET(align),
-				"top-attach", &top_att,
-				"bottom-attach", &bottom_att,
-				"left-attach", &left_att,
-				"right-attach", &right_att,
-				NULL);
-
 	/* Calculate width of container widget using maximum */
 	/* widget widths from above */
-	for (i = left_att; i <  right_att; i++){
+	for (i = 0; i <  ncols; i++){
 		available_size->width = available_size->width + widths[i];
 	}
 
 	/* Calculate height of container widget using maximum */
 	/* widget heights from above */
-	for (i = top_att; i < bottom_att; i++){
+	for (i = 0; i < nrows; i++){
 		available_size->height = available_size->height + heights[i];
 	}
 
@@ -494,9 +483,9 @@ margin_preview_page_available_size(PrinterSetupState *state,
 
 	/* Account for the spacing between table cells */
 	available_size->width = available_size->width +
-		gtk_table_get_default_col_spacing(GTK_TABLE(table)) * (right_att - left_att);
+		gtk_grid_get_column_spacing (GTK_GRID (grid)) * (ncols - 1);
 	available_size->height = available_size->height +
-		gtk_table_get_default_row_spacing(GTK_TABLE(table)) * (bottom_att - top_att);
+		gtk_grid_get_row_spacing (GTK_GRID (grid)) * (nrows - 1);
 }
 
 static void
@@ -508,7 +497,7 @@ margin_preview_page_create (PrinterSetupState *state)
 	GOStyle *style;
 	MarginPreviewPageAvailableSize margin_available_size;
 
-	margin_preview_page_available_size(state, &margin_available_size);
+	margin_preview_page_available_size (state, &margin_available_size);
 
 	width = state->width;
 	height = state->height;
@@ -520,8 +509,8 @@ margin_preview_page_create (PrinterSetupState *state)
 
 	pi->offset_x = (margin_available_size.width - (width  * pi->scale)) / 2;
 	pi->offset_y = (margin_available_size.height - (height * pi->scale)) / 2;
-	x1 = pi->offset_x + 0 * pi->scale;
-	y1 = pi->offset_y + 0 * pi->scale;
+	x1 = pi->offset_x;
+	y1 = pi->offset_y;
 	x2 = pi->offset_x + width * pi->scale;
 	y2 = pi->offset_y + height * pi->scale;
 
@@ -786,17 +775,8 @@ unit_sort_func (GtkTreeModel *model,
 static void
 do_setup_margin (PrinterSetupState *state)
 {
-	GtkWidget *table;
-	GtkBox *container;
+	GtkWidget *grid, *container;
 	MarginPreviewPageAvailableSize margin_available_size;
-
-	margin_preview_page_available_size(state, &margin_available_size);
-
-	g_return_if_fail (state && state->pi);
-
-	state->preview.canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
-	gtk_widget_set_size_request (state->preview.canvas, margin_available_size.width, margin_available_size.height);
-	gtk_widget_show (state->preview.canvas);
 
 	{
 		GtkListStore *list_store;
@@ -837,13 +817,21 @@ do_setup_margin (PrinterSetupState *state)
 
 		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->unit_selector), &current);
 	}
-	table = go_gtk_builder_get_widget (state->gui, "table-paper-selector");
-	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 3, 4, 8, 9,
-					GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	grid = go_gtk_builder_get_widget (state->gui, "paper-selector-grid");
+	gtk_widget_set_hexpand (state->unit_selector, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), state->unit_selector, 3, 8, 1, 1);
 
 	g_signal_connect (G_OBJECT (state->unit_selector), "changed",
 			  G_CALLBACK (cb_unit_selector_changed), state);
 	gtk_widget_show (state->unit_selector);
+
+	margin_preview_page_available_size (state, &margin_available_size);
+
+	g_return_if_fail (state && state->pi);
+
+	state->preview.canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
+	gtk_widget_set_size_request (state->preview.canvas, margin_available_size.width, margin_available_size.height);
+	gtk_widget_show (state->preview.canvas);
 
 	margin_spin_configure  (&state->margins.header, state, "spin-header",
 				value_changed_header_cb);
@@ -869,9 +857,9 @@ do_setup_margin (PrinterSetupState *state)
 				      GTK_TOGGLE_BUTTON (state->check_center_h),
 				      state->pi->center_horizontally == 1);
 
-	container = GTK_BOX (go_gtk_builder_get_widget (state->gui,
-						   "container-paper-sample"));
-	gtk_box_pack_start (container, state->preview.canvas, TRUE, TRUE, 0);
+	container = go_gtk_builder_get_widget (state->gui,
+					       "container-paper-sample");
+	gtk_container_add (GTK_CONTAINER (container), state->preview.canvas);
 
 }
 
@@ -1878,7 +1866,7 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 {
 	GtkBuilder *gui;
 
-	GtkWidget *dialog, *format_sel, *table;
+	GtkWidget *dialog, *format_sel, *grid;
 	HFDTFormatState* hf_dt_state;
 	gint result;
 	char *result_string = NULL;
@@ -1911,8 +1899,8 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 	gnumeric_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL);
 
-	table = go_gtk_builder_get_widget (gui, "layout-table");
-	if (table == NULL) {
+	grid = go_gtk_builder_get_widget (gui, "layout-grid");
+	if (grid == NULL) { /* how can this happen? */
 		gtk_widget_destroy (dialog);
 		return NULL;
 	}
@@ -1922,7 +1910,7 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 		 date ? go_format_default_date () : go_format_default_time ());
 
 	gtk_widget_show_all (dialog);
-	gtk_table_attach_defaults (GTK_TABLE (table), format_sel, 0, 3, 1, 4);
+	gtk_grid_attach (GTK_GRID (grid), format_sel, 0, 1, 2, 1);
 	gtk_widget_show (format_sel);
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -2005,8 +1993,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
  	gostyle = go_styled_object_get_style (
 		GO_STYLED_OBJECT (goc_item_new (goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
 			GOC_TYPE_RECTANGLE,
-			"x",		shadow,
-			"y",		(header ? shadow : 0),
+			"x",		1. + shadow,
+			"y",		(header ? shadow : 0.),
 			"width",	width,
 			"height",	height + (header ? -shadow: shadow),
 			NULL)));
@@ -2017,8 +2005,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	gostyle = go_styled_object_get_style (
 		GO_STYLED_OBJECT (goc_item_new (goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
 			GOC_TYPE_RECTANGLE,
-		        "x",		0.0,
-			"y",		0.0,
+		        "x",		1.0,
+			"y",		(header? 1.0: 0.),
 			"width",	width,
 			"height",	height,
 			NULL)));
@@ -2085,10 +2073,9 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 			G_CALLBACK (footer_preview_event), state);
 		wid = go_gtk_builder_get_widget (state->gui, "container-footer-sample");
 	}
-	gtk_widget_set_size_request (wid, width, height);
+	gtk_widget_set_size_request (pi->canvas, width + shadow + 1, height + (header ? 1: shadow));
 
-
-	gtk_box_pack_start (GTK_BOX (wid), GTK_WIDGET (pi->canvas), TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (wid), GTK_WIDGET (pi->canvas));
 }
 
 /*
@@ -2255,37 +2242,36 @@ do_setup_comment_display (PrinterSetupState *state)
 static void
 do_setup_page_area (PrinterSetupState *state)
 {
-	GtkWidget *pa_hbox   = go_gtk_builder_get_widget (state->gui,
-						     "print-area-hbox");
-	GtkWidget *repeat_table = go_gtk_builder_get_widget (state->gui,
-							"repeat-table");
+	GtkWidget *pa_grid   = go_gtk_builder_get_widget (state->gui,
+						     "print-area-grid");
+	GtkWidget *repeat_grid = go_gtk_builder_get_widget (state->gui,
+							"area-grid");
 
 	state->area_entry = gnm_expr_entry_new (state->wbcg, FALSE);
 	gnm_expr_entry_set_flags (state->area_entry,
 		GNM_EE_SHEET_OPTIONAL,
 		GNM_EE_SHEET_OPTIONAL);
-	gtk_box_pack_start (GTK_BOX (pa_hbox), GTK_WIDGET (state->area_entry),
-			    TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (pa_grid),
+	                   GTK_WIDGET (state->area_entry));
+	gtk_widget_set_hexpand (GTK_WIDGET (state->area_entry), TRUE);
 	gtk_widget_show (GTK_WIDGET (state->area_entry));
 
 	state->top_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->top_entry,
 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_SHEET_OPTIONAL,
 		GNM_EE_MASK);
-	gtk_table_attach (GTK_TABLE (repeat_table),
-			  GTK_WIDGET (state->top_entry),
-			  1, 2, 0, 1,
-			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->top_entry), TRUE);
+	gtk_grid_attach (GTK_GRID (repeat_grid),
+			 GTK_WIDGET (state->top_entry), 1, 2, 1, 1);
 	gtk_widget_show (GTK_WIDGET (state->top_entry));
 
 	state->left_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->left_entry,
 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_SHEET_OPTIONAL,
 		GNM_EE_MASK);
-	gtk_table_attach (GTK_TABLE (repeat_table),
-			  GTK_WIDGET (state->left_entry),
-			  1, 2, 1, 2,
-			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->left_entry), TRUE);
+	gtk_grid_attach (GTK_GRID (repeat_grid),
+			 GTK_WIDGET (state->left_entry), 1, 3, 1, 1);
 	gtk_widget_show (GTK_WIDGET (state->left_entry));
 
 
@@ -2314,7 +2300,7 @@ do_setup_page_info (PrinterSetupState *state)
 	GtkWidget *do_not_print = go_gtk_builder_get_widget (state->gui, "check-do-not-print");
 	GtkWidget *order_rd  = go_gtk_builder_get_widget (state->gui, "radio-order-right");
 	GtkWidget *order_dr  = go_gtk_builder_get_widget (state->gui, "radio-order-down");
-	GtkWidget *order_table = go_gtk_builder_get_widget (state->gui, "page-order-table");
+	GtkWidget *order_grid = go_gtk_builder_get_widget (state->gui, "page-order-grid");
 	GtkWidget *order;
 
 	state->error_display.combo = go_gtk_builder_get_widget (state->gui, "error-box");
@@ -2333,12 +2319,8 @@ do_setup_page_info (PrinterSetupState *state)
 	gtk_widget_hide (state->icon_dr);
 	gtk_widget_hide (state->icon_rd);
 
-	gtk_table_attach (
-		GTK_TABLE (order_table), state->icon_rd,
-		2, 3, 0, 2, GTK_FILL, GTK_FILL, 0, 0);
-	gtk_table_attach (
-		GTK_TABLE (order_table), state->icon_dr,
-		2, 3, 0, 2, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (order_grid), state->icon_rd, 1, 0, 1, 2);
+	gtk_grid_attach (GTK_GRID (order_grid), state->icon_dr, 1, 0, 1, 2);
 
 	g_signal_connect (G_OBJECT (order_rd), "toggled", G_CALLBACK (display_order_icon), state);
 
@@ -2750,13 +2732,13 @@ cb_do_sheet_selector_toggled (GtkToggleButton *togglebutton,
 static void
 do_setup_sheet_selector (PrinterSetupState *state)
 {
-	GtkWidget *table, *w;
+	GtkWidget *grid, *w;
 	int i, n, n_this = 0;
 
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->sheet != NULL);
 
-	table = go_gtk_builder_get_widget (state->gui, "table-sheet");
+	grid = go_gtk_builder_get_widget (state->gui, "sheet-grid");
 	state->sheet_selector = gtk_combo_box_text_new ();
 	n = workbook_sheet_count (state->sheet->workbook);
 	for (i = 0 ; i < n ; i++) {
@@ -2767,10 +2749,8 @@ do_setup_sheet_selector (PrinterSetupState *state)
 					a_sheet->name_unquoted);
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->sheet_selector), n_this);
-	gtk_table_attach (GTK_TABLE (table), state->sheet_selector,
-			  1, 2, 1, 2,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (state->sheet_selector, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), state->sheet_selector, 1, 1, 1, 1);
 	w = go_gtk_builder_get_widget (state->gui, "apply-to-all");
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
@@ -2781,7 +2761,7 @@ do_setup_sheet_selector (PrinterSetupState *state)
 	w = go_gtk_builder_get_widget (state->gui, "apply-to-selected");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 				      !gnm_conf_get_printsetup_all_sheets ());
-	gtk_widget_show_all (table);
+	gtk_widget_show_all (grid);
 }
 
 static void

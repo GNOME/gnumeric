@@ -1,3 +1,16 @@
+2013-02-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-goto-cell.c (dialog_goto_init): GtkTable to GtkGrid.
+	* dialog-printer-setup.c (margin_preview_page_available_size),
+	(margin_preview_page_create), (do_setup_margin),
+	(do_hf_dt_format_customize), (create_hf_preview_canvas),
+	(do_setup_page_area), (do_setup_page_info),
+	(do_setup_sheet_selector):
+	* goto.ui: ditto.
+	* hf-config.ui: ditto.
+	* hf-dt-format.ui: ditto.
+	* print.ui: ditto.
+
 2013-02-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* cell-format.ui: replaced GtkTable with GtkGrid.
