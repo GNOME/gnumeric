@@ -137,6 +137,7 @@ libspreadsheet_la_SOURCES =			\
 	mathfunc.c				\
 	mstyle.c				\
 	number-match.c				\
+	outoflinedocs.c				\
 	parser.y				\
 	parse-util.c				\
 	pattern.c				\
