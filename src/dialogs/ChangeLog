@@ -1,3 +1,7 @@
+2013-02-28  Morten Welinder  <terra@gnome.org>
+
+	* dialog-recent.c (dialog_recent_used): Rewrite.
+
 2013-02-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* chi-squared.ui: fixed layout.

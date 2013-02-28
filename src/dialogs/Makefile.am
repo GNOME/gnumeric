@@ -151,6 +151,7 @@ embedded_uis = 			\
 	random-generation-cor.ui	\
 	random-generation.ui		\
 	rank.ui				\
+	recent.ui			\
 	regression.ui			\
 	row-height.ui			\
 	sampling.ui			\
