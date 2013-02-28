@@ -1,5 +1,14 @@
 2013-02-28  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* chi-squared.ui: fixed layout.
+	* dialog-random-generator.c (dialog_random_realized),
+	(dialog_random_tool_init): GtkTable to GtkGrid.
+	* exp-smoothing.ui: fixed layout.
+	* kaplan-meier.ui: ditto.
+	* random-generation.ui: GtkTable to GtkGrid.
+
+2013-02-28  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* dialog-hyperlink.c (dhl_init): GtkTable to GtkGrid.
 	* dialog-merge.c (dialog_merge): ditto.
 	* dialog-plugin-manager.c (dialog_plugin_manager): ditto.

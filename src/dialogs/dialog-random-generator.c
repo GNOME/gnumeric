@@ -62,7 +62,7 @@
 
 typedef struct {
 	GenericToolState base;
-	GtkWidget *distribution_table;
+	GtkWidget *distribution_grid;
         GtkWidget *distribution_combo;
 	GtkWidget *par1_label;
 	GtkWidget *par1_entry;
@@ -81,7 +81,7 @@ typedef struct {
 
 typedef struct {
         GtkWidget *dialog;
-	GtkWidget *distribution_table;
+	GtkWidget *distribution_grid;
         GtkWidget *distribution_combo;
 	GtkWidget *par1_label, *par1_entry;
 	GtkWidget *par2_label, *par2_entry;
@@ -491,9 +491,9 @@ distribution_callback (G_GNUC_UNUSED GtkWidget *widget,
  *
  * Make initial geometry of distribution table permanent.
  *
- * The dialog is constructed with the distribution_table containing the widgets
+ * The dialog is constructed with the distribution_grid containing the widgets
  * which need the most space. At construction time, we do not know how large
- * the distribution_table needs to be, but we do know when the dialog is
+ * the distribution_grid needs to be, but we do know when the dialog is
  * realized. This callback for "realized" makes this size the user specified
  * size so that the table will not shrink when we later change label texts and
  * hide/show widgets.
@@ -502,7 +502,7 @@ distribution_callback (G_GNUC_UNUSED GtkWidget *widget,
 static void
 dialog_random_realized (GtkWidget *widget, RandomToolState *state)
 {
-	GtkWidget *t = state->distribution_table;
+	GtkWidget *t = state->distribution_grid;
 	GtkWidget *l = state->par1_label;
 	GtkAllocation a;
 
@@ -715,7 +715,7 @@ dialog_random_tool_init (RandomToolState *state)
 	int   i, dist_str_no;
 	const DistributionStrs *ds;
 /*	GList *distribution_type_strs = NULL;*/
-	GtkTable *table;
+	GtkGrid *grid;
 	GtkListStore *store;
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
@@ -723,8 +723,8 @@ dialog_random_tool_init (RandomToolState *state)
 
 	state->distribution = UniformDistribution;
 
-	state->distribution_table = go_gtk_builder_get_widget (state->base.gui,
-							  "distribution_table");
+	state->distribution_grid = go_gtk_builder_get_widget (state->base.gui,
+							  "distribution-grid");
 	state->distribution_combo = go_gtk_builder_get_widget (state->base.gui,
 							  "distribution_combo");
 	state->par1_entry = go_gtk_builder_get_widget (state->base.gui, "par1_entry");
@@ -766,14 +766,12 @@ dialog_random_tool_init (RandomToolState *state)
 		"changed",
 		G_CALLBACK (random_tool_update_sensitivity_cb), state);
 
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->base.gui, "distribution_table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (state->base.gui, "distribution-grid"));
 	state->par1_expr_entry = GTK_WIDGET (gnm_expr_entry_new (state->base.wbcg, TRUE));
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->par1_expr_entry),
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
-	gtk_table_attach (table, state->par1_expr_entry,
-			  1, 2, 1, 2,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (state->par1_expr_entry, TRUE);
+	gtk_grid_attach (grid, state->par1_expr_entry, 1, 1, 1, 1);
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->par1_expr_entry));
 
