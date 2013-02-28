@@ -36,10 +36,23 @@ m4_define([version_iface],
 AC_SUBST([VERSION_INFO], [version_iface:gnumeric_version_minor:0])
 AC_SUBST([VERSION_IFACE], [version_iface])
 
+if test `expr gnumeric_version_major % 2` -eq 1; then
+    AC_MSG_NOTICE([NOTE: This is a development release])
+    gnumeric_devel=yes
+    gnumeric_api_ver=gnumeric_version_epoch.`expr gnumeric_version_major + 1`
+    dnl An explicit version number should be used in place of the above
+    dnl if the epoch is to change.
+    dnl gnumeric_api_ver=2_0
+else
+    gnumeric_devel=no
+    gnumeric_api_ver=gnumeric_version_epoch.gnumeric_version_major
+fi
+gnumeric_api_ver_=`echo $gnumeric_api_ver | sed -e 's/\./_/g'`
+
 dnl Almost like epoch.major but development versions look forward to the next
 dnl stable release.
-AC_SUBST([GNUMERIC_API_VER], [1.12])
-AC_SUBST([GNUMERIC_API_VER_], [1_12])
+AC_SUBST([GNUMERIC_API_VER], [$gnumeric_api_ver])
+AC_SUBST([GNUMERIC_API_VER_], [$gnumeric_api_ver_])
 
 dnl This one is created by autoheader, ...
 AC_CONFIG_HEADERS(gnumeric-config.h)
@@ -59,13 +72,6 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 dnl We use a LINGUAS file, so we need intltool >= 0.35:
 IT_PROG_INTLTOOL([0.35.0])
 IT_PO_SUBDIR(po-functions)
-
-if test `expr gnumeric_version_major % 2` -eq 1; then
-    AC_MSG_NOTICE([NOTE: This is a development release])
-    gnumeric_devel=yes
-else
-    gnumeric_devel=no
-fi
 
 dnl We use $host and $host_os:
 AC_CANONICAL_HOST
