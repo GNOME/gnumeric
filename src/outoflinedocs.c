@@ -7,7 +7,7 @@
 /* ------------------------------------------------------------------------- */
 
 /**
- * log1pmx
+ * log1pmx:
  * @x: a number
  *
  * Returns: log(1+@x)-@x with less rounding error than the naive formula,
@@ -20,7 +20,8 @@
  * @x: a number
  * @y: a number
  *
- * Returns: (1+@x)^@y with less rounding error than the naive formula.
+ * Returns: The result of (1+@x)^@y with less rounding error than the
+ * naive formula.
  */
 
 
@@ -29,13 +30,14 @@
  * @x: a number
  * @y: a number
  *
- * Returns: (1+@x)^@y-1 with less rounding error than the naive formula.
+ * Returns: The result of (1+@x)^@y-1 with less rounding error than the
+ * naive formula.
  */
 
 /* ------------------------------------------------------------------------- */
 
 /**
- * dnorm: the density function of the normal distribution
+ * dnorm:
  * @x: observation
  * @mu: mean of the distribution
  * @sigma: standard deviation of the distribution
@@ -45,7 +47,7 @@
  */
 
 /**
- * pnorm: the cumulative density function of the normal distribution
+ * pnorm:
  * @x: observation
  * @mu: mean of the distribution
  * @sigma: standard deviation of the distribution
@@ -56,7 +58,7 @@
  */
 
 /**
- * qnorm: the probability quantile function of the normal distribution
+ * qnorm:
  * @p: probability
  * @mu: mean of the distribution
  * @sigma: standard deviation of the distribution
