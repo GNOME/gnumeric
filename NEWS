@@ -35,6 +35,7 @@ Morten:
 	* FreeBSD portability fix.  [#693761]
 	* Introspection fixes.
 	* Fix ssconvert crash.  [#694741]
+	* Unconditionally enable solver.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

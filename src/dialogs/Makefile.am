@@ -2,12 +2,7 @@
 # Keep this in sync with ../../icons/Makefile.am
 #
 
-libdialogs_la_SOURCES = $(base_files)
 nodist_libdialogs_la_SOURCES = embedded-ui.c
-
-if ENABLE_SOLVER
-  libdialogs_la_SOURCES += dialog-solver.c
-endif
 
 AM_CPPFLAGS = 								\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 			\
@@ -20,7 +15,7 @@ AM_CPPFLAGS = 								\
 
 noinst_LTLIBRARIES = libdialogs.la
 
-base_files =					\
+libdialogs_la_SOURCES =					\
 	help.h					\
 	dao-gui-utils.c				\
 	dao-gui-utils.h				\

@@ -379,11 +379,6 @@ if test $struct_timeval_works = no ; then
 	fi
 fi
 
-AC_CHECK_FUNC(gettimeofday,
-	[AC_DEFINE(HAVE_GETTIMEOFDAY, 1,
-		[Define if the gettimeofday function is available]
-	)])
-
 dnl src/functions/fn-math.c uses M_PI
 
 AC_MSG_CHECKING([whether M_PI is available])
@@ -490,15 +485,6 @@ fi
 AM_CONDITIONAL(WITH_PARADOX, $enable_paradox)
 AC_SUBST(PARADOX_LIBS)
 AC_SUBST(PARADOX_CFLAGS)
-
-AC_ARG_ENABLE(solver, AS_HELP_STRING([--disable-solver], [Don't compile the solver]))
-if test "x$enable_solver" = xno; then
-	enable_solver=false
-else
-	enable_solver=true
-	AC_DEFINE(GNM_ENABLE_SOLVER, 1, [Define if SOLVER is compiled])
-fi
-AM_CONDITIONAL(ENABLE_SOLVER, $enable_solver)
 
 plugin_list_given=false
 PLUGIN_LIST=""
