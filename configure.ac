@@ -235,20 +235,6 @@ else
 fi
 AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
 
-dnl disable for in stable release, enable for development series
-if test $gnumeric_devel = yes; then
-    CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
-    CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
-    if test "x$gnumeric_with_gtk" = xtrue; then
-	    CFLAGS="$CFLAGS -DGDK_PIXBUF_DISABLE_DEPRECATED"
-	    CFLAGS="$CFLAGS -DGDK_DISABLE_DEPRECATED"
-	    CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
-	    CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
-	    # CFLAGS="$CFLAGS -DGSEAL_ENABLE"
-    fi
-fi
-
-
 dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
@@ -266,8 +252,8 @@ ifdef([GNOME_COMPILE_WARNINGS],
 )
 set_more_warnings=yes
 if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
-	dnl Clang needs to option, or else it will appear to support any
-	dnl warning option
+	dnl Clang needs this option, or else it will appear to support any
+	dnl warning option, only to spew warnings about them later.
 	uwoption="-Werror=unknown-warning-option"
 	SAVE_CFLAGS="$CFLAGS"
 	CFLAGS="$CFLAGS $uwoption"

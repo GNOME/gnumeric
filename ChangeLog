@@ -1,3 +1,9 @@
+2013-02-28  Morten Welinder  <terra@gnome.org>
+
+	* configure.ac: remove the DISABLE_DEPRECATED defines even from
+	development versions.  We now get the information through gcc
+	warnings.
+
 2013-02-26  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (convert): Avoid segfault.  Fixes #694741.
