@@ -728,7 +728,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (pm_gui->view_details));
 
 	pm_gui->frame_mark_for_deactivation =
-		go_gtk_builder_get_widget (gui, "frame_mark_for_deactivation");
+		go_gtk_builder_get_widget (gui, "mark-for-deactivation-grid");
 	pm_gui->checkbutton_mark_for_deactivation =
 		go_gtk_builder_get_widget (gui, "checkbutton_mark_for_deactivation");
 

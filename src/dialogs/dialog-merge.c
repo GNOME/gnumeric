@@ -312,7 +312,7 @@ dialog_merge (WBCGtk *wbcg)
 {
 	MergeState *state;
 	GtkBuilder *gui;
-	GtkTable *table;
+	GtkGrid *grid;
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
 	GtkTreeSelection  *selection;
@@ -344,17 +344,15 @@ dialog_merge (WBCGtk *wbcg)
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_btn), 0., .5);
 	gtk_button_set_alignment (GTK_BUTTON (state->change_btn), 0., .5);
 
-	table = GTK_TABLE (go_gtk_builder_get_widget (gui, "main_table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (gui, "main-grid"));
 	state->zone = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->zone, GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->zone));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (go_gtk_builder_get_widget (gui, "var1-label")),
 				       GTK_WIDGET (state->zone));
-	gtk_table_attach (table, GTK_WIDGET (state->zone),
-			  1, 3, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->zone), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (state->zone), 1, 0, 2, 1);
 	r = selection_first_range (
 		wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)), NULL, NULL);
 	if (r != NULL)
@@ -363,17 +361,13 @@ dialog_merge (WBCGtk *wbcg)
 
 	state->data = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->data, GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (state->data),
-			  0, 1, 8, 9,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->data), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (state->data), 0, 5, 1, 1);
 
 	state->field = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->field, GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (state->field),
-			  1, 2, 8, 9,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->field), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (state->field), 1, 5, 1, 1);
 
 	scrolled = go_gtk_builder_get_widget (state->gui, "scrolled");
 	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING);

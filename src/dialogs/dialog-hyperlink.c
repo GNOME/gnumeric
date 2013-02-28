@@ -304,23 +304,23 @@ static struct {
 	char * (*get_target) (HyperlinkState *state, gboolean *success);
 } const type [] = {
 	{ N_("Internal Link"), "Gnumeric_Link_Internal",
-	  "GnmHLinkCurWB",	"internal-link-box",
+	  "GnmHLinkCurWB",	"internal-link-grid",
 	  N_("Jump to specific cells or named range in the current workbook"),
 	  dhl_set_target_cur_wb,
 	  dhl_get_target_cur_wb },
 
 	{ N_("External Link"), "Gnumeric_Link_External",
-	  "GnmHLinkExternal",	"external-link-box" ,
+	  "GnmHLinkExternal",	"external-link-grid" ,
 	  N_("Open an external file with the specified name"),
 	  dhl_set_target_external,
 	  dhl_get_target_external },
 	{ N_("Email Link"),	"Gnumeric_Link_EMail",
-	  "GnmHLinkEMail",	"email-box" ,
+	  "GnmHLinkEMail",	"email-grid" ,
 	  N_("Prepare an email"),
 	  dhl_set_target_email,
 	  dhl_get_target_email },
 	{ N_("Web Link"),		"Gnumeric_Link_URL",
-	  "GnmHLinkURL",	"url-box" ,
+	  "GnmHLinkURL",	"url-grid" ,
 	  N_("Browse to the specified URL"),
 	  dhl_set_target_url,
 	  dhl_get_target_url }
@@ -482,7 +482,7 @@ dhl_init (HyperlinkState *state)
 	GtkCellRenderer *renderer;
 
 #ifdef GNM_NO_MAILTO
-	gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "email-box"));
+	gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "email-grid"));
 #endif
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 	for (i = 0 ; i < G_N_ELEMENTS (label); i++)
@@ -495,9 +495,10 @@ dhl_init (HyperlinkState *state)
 	w = go_gtk_builder_get_widget (state->gui, "link-type-descriptor");
 	state->type_descriptor = GTK_LABEL (w);
 
-	w = go_gtk_builder_get_widget (state->gui, "internal-link-box");
+	w = go_gtk_builder_get_widget (state->gui, "internal-link-grid");
 	expr_entry = gnm_expr_entry_new (state->wbcg, TRUE);
-	gtk_box_pack_end (GTK_BOX (w), GTK_WIDGET (expr_entry), TRUE, TRUE, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (expr_entry), TRUE); 
+	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (expr_entry));
 	gtk_entry_set_activates_default
 		(gnm_expr_entry_get_entry (expr_entry), TRUE);
 	state->internal_link_ee = expr_entry;

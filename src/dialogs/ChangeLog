@@ -1,3 +1,15 @@
+2013-02-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-hyperlink.c (dhl_init): GtkTable to GtkGrid.
+	* dialog-merge.c (dialog_merge): ditto.
+	* dialog-plugin-manager.c (dialog_plugin_manager): ditto.
+	* hyperlink.ui: ditto.
+	* insert-cells.ui: ditto.
+	* mean-tests.ui: ditto.
+	* merge.ui: ditto.
+	* paste-special.ui: ditto.
+	* plugin-manager.ui: ditto.
+
 2013-02-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-goto-cell.c (dialog_goto_init): GtkTable to GtkGrid.
