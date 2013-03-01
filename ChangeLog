@@ -1,3 +1,9 @@
+2013-03-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gui-file.c (gui_file_open): GtkTable to GtkGrid.
+	* src/print.c (gnm_create_widget_cb): ditto.
+	* src/sheet-object-graph.c (sheet_object_graph_guru): ditto.
+
 2013-03-01  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.h: Make sure the "q" functions take "p" as their

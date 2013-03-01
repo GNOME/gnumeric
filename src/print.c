@@ -1458,7 +1458,7 @@ static GObject*
 gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
-	GtkWidget *frame, *table;
+	GtkWidget *grid;
 	GtkWidget *button_all_sheets, *button_selected_sheet, *button_spec_sheets;
 	GtkWidget *button_selection, *button_ignore_printarea;
 	GtkWidget *button_print_hidden_sheets;
@@ -1468,69 +1468,79 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	GtkPrintSettings * settings;
 	guint n_sheets = workbook_visible_sheet_count (pi->wb);
 
-	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-	gtk_container_set_border_width (GTK_CONTAINER (frame), 5);
-
-	table = gtk_table_new (9, 7, FALSE);
-	gtk_table_set_col_spacing (GTK_TABLE (table), 1,20);
-	gtk_container_add (GTK_CONTAINER (frame), table);
-
+	grid = gtk_grid_new ();
+	g_object_set (grid,
+	              "column-spacing", 12,
+	              "row-spacing", 6,
+	              "border-width", 6,
+	              NULL);
 
 	button_all_sheets = gtk_radio_button_new_with_mnemonic (NULL,
 								_("_All workbook sheets"));
-	gtk_table_attach (GTK_TABLE (table), button_all_sheets, 1, 3, 1, 2,
-			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	gtk_widget_set_hexpand (button_all_sheets, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), button_all_sheets, 0, 0, 5, 1);
 
 	button_print_hidden_sheets  = gtk_check_button_new_with_mnemonic
 		(_("Also print _hidden sheets"));
-	gtk_table_attach (GTK_TABLE (table), button_print_hidden_sheets, 2, 7, 2, 3,
-			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	g_object_set (button_print_hidden_sheets,
+	             "hexpand", TRUE,
+	             "margin-left", 24,
+	             NULL);
+	gtk_grid_attach (GTK_GRID (grid), button_print_hidden_sheets, 0, 1, 5, 1);
 
 	button_selected_sheet = gtk_radio_button_new_with_mnemonic_from_widget
 		(GTK_RADIO_BUTTON (button_all_sheets), _("A_ctive workbook sheet"));
-	gtk_table_attach (GTK_TABLE (table), button_selected_sheet, 1, 3, 3, 4,
-			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	gtk_widget_set_hexpand (button_selected_sheet, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), button_selected_sheet, 0, 2, 5, 1);
 
 	button_spec_sheets = gtk_radio_button_new_with_mnemonic_from_widget
 		(GTK_RADIO_BUTTON (button_all_sheets), _("_Workbook sheets:"));
-	gtk_table_attach (GTK_TABLE (table), button_spec_sheets, 1, 3, 6, 7,
-			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	gtk_widget_set_hexpand (button_spec_sheets, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), button_spec_sheets, 0, 5, 1, 1);
 
 	button_selection = gtk_check_button_new_with_mnemonic
 		(_("Current _selection only"));
-	gtk_table_attach (GTK_TABLE (table), button_selection, 2, 7, 4, 5,
-			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	g_object_set (button_selection,
+	             "hexpand", TRUE,
+	             "margin-left", 24,
+	             NULL);
+	gtk_grid_attach (GTK_GRID (grid), button_selection, 0, 3, 5, 1);
 
 	button_ignore_printarea  = gtk_check_button_new_with_mnemonic
 		(_("_Ignore defined print area"));
-	gtk_table_attach (GTK_TABLE (table), button_ignore_printarea, 2, 7, 5, 6,
-			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	g_object_set (button_ignore_printarea,
+	             "hexpand", TRUE,
+	             "margin-left", 24,
+	             NULL);
+	gtk_grid_attach (GTK_GRID (grid), button_ignore_printarea, 0, 4, 5, 1);
 
 	label_from = gtk_label_new (_("from:"));
-	gtk_table_attach (GTK_TABLE (table), label_from, 3, 4, 6, 7,
-			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	g_object_set (label_from,
+	             "hexpand", TRUE,
+	             "margin-left", 24,
+	             NULL);
+	gtk_grid_attach (GTK_GRID (grid), label_from, 1, 5, 1, 1);
 
 	spin_from = gtk_spin_button_new_with_range (1, n_sheets, 1);
-	gtk_table_attach (GTK_TABLE (table), spin_from, 4, 5, 6, 7,
-			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	gtk_widget_set_hexpand (spin_from, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), spin_from, 2, 5, 1, 1);
 
 	label_to = gtk_label_new (_("to:"));
-	gtk_table_attach (GTK_TABLE (table), label_to, 5, 6, 6, 7,
-			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	gtk_widget_set_hexpand (label_to, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), label_to, 3, 5, 1, 1);
 
 	spin_to = gtk_spin_button_new_with_range (1, n_sheets, 1);
-	gtk_table_attach (GTK_TABLE (table), spin_to, 6, 7, 6, 7,
-			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	gtk_widget_set_hexpand (spin_to, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), spin_to, 4, 5, 1, 1);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_to), n_sheets);
 
 	button_ignore_page_breaks = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_table_attach (GTK_TABLE (table), button_ignore_page_breaks, 1, 7, 7, 8,
-		  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,5,5);
+	gtk_widget_set_hexpand (button_ignore_page_breaks, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), button_ignore_page_breaks, 0, 6, 5, 1);
 
 	button_ignore_page_breaks = gtk_check_button_new_with_mnemonic (_("Ignore all _manual page breaks"));
-	gtk_table_attach (GTK_TABLE (table), button_ignore_page_breaks, 1, 7, 8, 9,
-		  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	gtk_widget_set_hexpand (button_ignore_page_breaks, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), button_ignore_page_breaks, 0, 7, 5, 1);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_page_breaks), TRUE);
 
 	g_signal_connect_after (G_OBJECT (button_selected_sheet), "toggled",
@@ -1601,7 +1611,7 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (button_selected_sheet));
 	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (button_spec_sheets));
 
-	gtk_widget_show_all (frame);
+	gtk_widget_show_all (grid);
 
 	/* Let's save the widgets */
 	pi->button_all_sheets = button_all_sheets;
@@ -1614,7 +1624,7 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	pi->spin_to = spin_to;
 	pi->button_ignore_page_breaks = button_ignore_page_breaks;
 
-	return G_OBJECT (frame);
+	return G_OBJECT (grid);
 }
 
 static void

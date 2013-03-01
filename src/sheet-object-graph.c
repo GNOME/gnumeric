@@ -744,14 +744,18 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 		GO_CMD_CONTEXT (wbcg), closure);
 	if (!graph) {
 		GnmGraphDataClosure *data = (GnmGraphDataClosure *) g_new0 (GnmGraphDataClosure, 1);
-		GtkWidget *custom = gtk_table_new (2, 3, FALSE), *w;
+		GtkWidget *custom = gtk_grid_new (), *w;
 		GObject *object;
 
 		data->dalloc = GOG_DATA_ALLOCATOR (wbcg);
-		g_object_set (custom, "row-spacing", 6, "column-spacing", 12, NULL);
+		g_object_set (custom,
+		              "row-spacing", 6,
+		              "column-spacing", 12,
+		              "margin-top", 6,
+		              NULL);
 		w = gtk_label_new (_("Series as:"));
 		g_object_set (w, "xalign", 0., NULL);
-		gtk_table_attach (GTK_TABLE (custom), w, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+		gtk_grid_attach (GTK_GRID (custom), w, 0, 0, 1, 1);
 		w = gtk_combo_box_text_new ();
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Auto"));
 		/*Translators: Series as "Columns"*/
@@ -760,13 +764,13 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), C_("graph", "Rows"));
 		gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
 		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_selection_mode_changed), data);
-		gtk_table_attach (GTK_TABLE (custom), w, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+		gtk_grid_attach (GTK_GRID (custom), w, 1, 0, 1, 1);
 		w = gtk_check_button_new_with_label (_("Use first series as shared abscissa"));
 		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_shared_mode_changed), data);
-		gtk_table_attach (GTK_TABLE (custom), w, 0, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
+		gtk_grid_attach (GTK_GRID (custom), w, 0, 1, 2, 1);
 		w = gtk_check_button_new_with_label (_("New graph sheet"));
 		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_sheet_target_changed), data);
-		gtk_table_attach (GTK_TABLE (custom), w, 0, 2, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
+		gtk_grid_attach (GTK_GRID (custom), w, 0, 2, 2, 1);
 		data->obj = G_OBJECT (custom);
 		gog_guru_add_custom_widget (dialog, custom);
 		object = (GObject*) g_object_get_data (data->obj, "graph");

@@ -384,28 +384,30 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 
 	{
 		GtkWidget *label;
-		GtkWidget *box = gtk_table_new (2, 2, FALSE);
+		GtkWidget *grid = gtk_grid_new ();
 
-		gtk_table_attach (GTK_TABLE (box),
-				  GTK_WIDGET (format_combo),
-				  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
+		g_object_set (grid,
+		              "column-spacing", 12,
+		              "row-spacing", 6,
+		              NULL);
+		gtk_widget_set_hexpand (GTK_WIDGET (format_combo), TRUE);
+		gtk_grid_attach (GTK_GRID (grid),
+		                 GTK_WIDGET (format_combo),
+				 1, 0, 1, 1);
 		label = gtk_label_new_with_mnemonic (_("File _type:"));
-		gtk_table_attach (GTK_TABLE (box), label,
-				  0, 1, 0, 1, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
+		gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1, 1);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
-		gtk_table_attach (GTK_TABLE (box),
-				  go_charmap_sel,
-				  1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
-		gtk_table_attach (GTK_TABLE (box), data.charmap_label,
-				  0, 1, 1, 2, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
+		gtk_widget_set_hexpand (go_charmap_sel, TRUE);
+		gtk_grid_attach (GTK_GRID (grid), go_charmap_sel, 1, 1, 1, 1);
+		gtk_grid_attach (GTK_GRID (grid), data.charmap_label, 0, 1, 1, 1);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
 					       go_charmap_sel);
 
-		g_object_ref_sink (box);
+		g_object_ref_sink (grid);
 		g_object_set_data_full (G_OBJECT (advanced_button), "extra",
-					box, g_object_unref);
-		gtk_widget_show_all (box);
+					grid, g_object_unref);
+		gtk_widget_show_all (grid);
 		g_signal_connect (G_OBJECT (advanced_button),
 				  "clicked",
 				  G_CALLBACK (cb_advanced_clicked),
