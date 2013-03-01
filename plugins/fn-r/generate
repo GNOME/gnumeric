@@ -44,8 +44,6 @@ my %argoverride = ();
 	[\&distribution,
 	 'gamma',
 	 ({ @common })];
-    $argoverride{"pgamma:p"} = "shape";
-    $argoverride{"qgamma:alpha"} = "shape";
 
     $funcs{'dbeta'} = $funcs{'pbeta'} = $funcs{'qbeta'} =
 	[\&distribution,

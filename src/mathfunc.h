@@ -62,8 +62,8 @@ gnm_float qlnorm (gnm_float p, gnm_float logmean, gnm_float logsd, gboolean lowe
 
 /* The gamma distribution.  */
 gnm_float dgamma (gnm_float x, gnm_float shape, gnm_float scale, gboolean give_log);
-gnm_float pgamma (gnm_float x, gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_p);
-gnm_float qgamma (gnm_float p, gnm_float alpha, gnm_float scale, gboolean lower_tail, gboolean log_p);
+gnm_float pgamma (gnm_float x, gnm_float shape, gnm_float scale, gboolean lower_tail, gboolean log_p);
+gnm_float qgamma (gnm_float p, gnm_float shape, gnm_float scale, gboolean lower_tail, gboolean log_p);
 
 /* The beta distribution.  */
 gnm_float dbeta (gnm_float x, gnm_float a, gnm_float b, gboolean give_log);
