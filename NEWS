@@ -36,7 +36,7 @@ Morten:
 	* Introspection fixes.
 	* Fix ssconvert crash.  [#694741]
 	* Unconditionally enable solver.
-	* Rewrite the file history dialog.
+	* Rewrite the file history dialog.  [#694777]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0
