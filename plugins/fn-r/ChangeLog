@@ -1,3 +1,8 @@
+2013-03-01  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: Re-generate to catch mathfunc.h fixes and thus fix
+	q-functions' documentation.
+
 2013-02-27  Morten Welinder  <terra@gnome.org>
 
 	* extra.c (qsnorm): Implement.

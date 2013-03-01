@@ -103,8 +103,6 @@ my %argoverride = ();
 	 ({ 'n' => 'the number of trials',
 	    'psuc' => "the probability of success in each trial",
 	    @common })];
-    $argoverride{"dbinom:p"} = $argoverride{"pbinom:p"} = $argoverride{"qbinom:p"} =
-	"psuc";
 
     $funcs{'dnbinom'} = $funcs{'pnbinom'} = $funcs{'qnbinom'} =
 	[\&distribution,

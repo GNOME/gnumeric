@@ -148,7 +148,7 @@ gnumeric_r_plnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_r_qlnorm[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.QLNORM:probability quantile function of the log-normal distribution") },
-	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
+	{ GNM_FUNC_HELP_ARG, F_("p:probability") },
 	{ GNM_FUNC_HELP_ARG, F_("logmean:mean of the underlying normal distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("logsd:standard deviation of the underlying normal distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
@@ -161,13 +161,13 @@ static GnmFuncHelp const help_r_qlnorm[] = {
 static GnmValue *
 gnumeric_r_qlnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	gnm_float x = value_get_as_float (args[0]);
+	gnm_float p = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
 	gnm_float logsd = value_get_as_float (args[2]);
 	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
 	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
-	return value_new_float (qlnorm (x, logmean, logsd, lower_tail, log_p));
+	return value_new_float (qlnorm (p, logmean, logsd, lower_tail, log_p));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -458,7 +458,7 @@ gnumeric_r_pf (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_r_qf[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.QF:probability quantile function of the F distribution") },
-	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
+	{ GNM_FUNC_HELP_ARG, F_("p:probability") },
 	{ GNM_FUNC_HELP_ARG, F_("n1:the first number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("n2:the second number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
@@ -471,13 +471,13 @@ static GnmFuncHelp const help_r_qf[] = {
 static GnmValue *
 gnumeric_r_qf (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	gnm_float x = value_get_as_float (args[0]);
+	gnm_float p = value_get_as_float (args[0]);
 	gnm_float n1 = value_get_as_float (args[1]);
 	gnm_float n2 = value_get_as_float (args[2]);
 	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
 	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
-	return value_new_float (qf (x, n1, n2, lower_tail, log_p));
+	return value_new_float (qf (p, n1, n2, lower_tail, log_p));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -838,7 +838,7 @@ gnumeric_r_pbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_r_qbinom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.QBINOM:probability quantile function of the binomial distribution") },
-	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
+	{ GNM_FUNC_HELP_ARG, F_("p:probability") },
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of trials") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
@@ -851,13 +851,13 @@ static GnmFuncHelp const help_r_qbinom[] = {
 static GnmValue *
 gnumeric_r_qbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	gnm_float x = value_get_as_float (args[0]);
+	gnm_float p = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
 	gnm_float psuc = value_get_as_float (args[2]);
 	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
 	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
-	return value_new_float (qbinom (x, n, psuc, lower_tail, log_p));
+	return value_new_float (qbinom (p, n, psuc, lower_tail, log_p));
 }
 
 /* ------------------------------------------------------------------------- */

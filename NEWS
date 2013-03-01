@@ -37,6 +37,7 @@ Morten:
 	* Fix ssconvert crash.  [#694741]
 	* Unconditionally enable solver.
 	* Rewrite the file history dialog.  [#694777]
+	* Fix R.QF and R.QBINOM documentation.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

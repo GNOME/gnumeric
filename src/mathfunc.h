@@ -58,7 +58,7 @@ gnm_float qnorm (gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail
 /* The log-normal distribution.  */
 gnm_float dlnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean give_log);
 gnm_float plnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p);
-gnm_float qlnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p);
+gnm_float qlnorm (gnm_float p, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p);
 
 /* The gamma distribution.  */
 gnm_float dgamma (gnm_float x, gnm_float shape, gnm_float scale, gboolean give_log);
@@ -78,7 +78,7 @@ gnm_float qt (gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p);
 /* The F distribution.  */
 gnm_float df (gnm_float x, gnm_float m, gnm_float n, gboolean give_log);
 gnm_float pf (gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p);
-gnm_float qf (gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p);
+gnm_float qf (gnm_float p, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p);
 
 /* The chi-squared distribution.  */
 gnm_float dchisq (gnm_float x, gnm_float df, gboolean give_log);
@@ -101,10 +101,10 @@ gnm_float pexp (gnm_float x, gnm_float scale, gboolean lower_tail, gboolean log_
 gnm_float qexp (gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_p);
 
 /* Binomial distribution.  */
-gnm_float dbinom (gnm_float x, gnm_float n, gnm_float p, gboolean give_log);
-gnm_float pbinom (gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p);
+gnm_float dbinom (gnm_float x, gnm_float n, gnm_float psuc, gboolean give_log);
+gnm_float pbinom (gnm_float x, gnm_float n, gnm_float psuc, gboolean lower_tail, gboolean log_p);
 gnm_float pbinom2 (gnm_float x0, gnm_float x1, gnm_float n, gnm_float p);
-gnm_float qbinom (gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p);
+gnm_float qbinom (gnm_float p, gnm_float n, gnm_float psuc, gboolean lower_tail, gboolean log_p);
 
 /* Negative binomial distribution.  */
 gnm_float dnbinom (gnm_float x, gnm_float n, gnm_float p, gboolean give_log);
