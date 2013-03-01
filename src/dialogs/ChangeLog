@@ -1,3 +1,8 @@
+2013-03-01  Morten Welinder  <terra@gnome.org>
+
+	* dialog-recent.c (age_renderer_func): Use a time format without
+	seconds.  Center.
+
 2013-02-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-recent.c (dialog_recent_used): Rewrite.

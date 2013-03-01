@@ -124,6 +124,8 @@ age_renderer_func (GtkTreeViewColumn *tree_column,
 	GDateTime *last_used;
 	GTimeSpan age;
 	char *text;
+	const char *date_format;
+	const char *p;
 
 	gtk_tree_model_get (model, iter, RECENT_COL_INFO, &ri, -1);
 	last_used = g_date_time_new_from_unix_local (gtk_recent_info_get_modified (ri));
@@ -132,12 +134,32 @@ age_renderer_func (GtkTreeViewColumn *tree_column,
 	age = g_date_time_difference (now, last_used);
 	if (age < G_TIME_SPAN_DAY &&
 	    g_date_time_get_day_of_month (now) == g_date_time_get_day_of_month (last_used)) {
-		text = g_date_time_format (last_used, "%X");
+		if (go_locale_24h ())
+			/*
+			 * xgettext: This is a time format for
+			 * g_date_time_format used in locales that use a
+			 * 24 hour clock.  You probably do not need to change
+			 * this.  The default will show things like "09:50"
+			 * and "21:50".
+			 */
+			date_format = _("%H:%M");
+		else
+			/*
+			 * xgettext: This is a time format for
+			 * g_date_time_format used in locales that use
+			 * a 12 hour clock. You probably do not need
+			 * to change this.  The default will show
+			 * things like " 9:50 am" and " 9:50 pm".
+			 */
+			date_format = _("%l:%M %P");
 	} else {
-		text = g_date_time_format (last_used, "%x");
+		date_format = "%x";
 	}
 
-	g_object_set (cell, "text", text, NULL);
+	p = text = g_date_time_format (last_used, date_format);
+	while (g_ascii_isspace (*p))
+		p++;
+	g_object_set (cell, "text", p, "xalign", 0.5, NULL);
 	g_free (text);
 
 	g_date_time_unref (last_used);
