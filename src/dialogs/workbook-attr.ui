@@ -19,6 +19,7 @@
             <child>
               <object class="GtkButton" id="help_button">
                 <property name="label">gtk-help</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -35,6 +36,7 @@
             <child>
               <object class="GtkButton" id="close_button">
                 <property name="label">gtk-close</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -76,11 +78,13 @@
                     <child>
                       <object class="GtkCheckButton" id="WorkbookView::show_notebook_tabs">
                         <property name="label" translatable="yes">Notebook _Tabs for Sheets</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
+                        <property name="xalign">0.5</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -92,11 +96,13 @@
                     <child>
                       <object class="GtkCheckButton" id="WorkbookView::show_horizontal_scrollbar">
                         <property name="label" translatable="yes">_Horizontal Scrollbar</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
+                        <property name="xalign">0.5</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -108,11 +114,13 @@
                     <child>
                       <object class="GtkCheckButton" id="WorkbookView::show_vertical_scrollbar">
                         <property name="label" translatable="yes">_Vertical Scrollbar</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
+                        <property name="xalign">0.5</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -135,44 +143,28 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTable" id="table2">
+                  <object class="GtkGrid" id="protect-grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="n_rows">2</property>
-                    <property name="n_columns">2</property>
-                    <property name="column_spacing">12</property>
                     <property name="row_spacing">6</property>
+                    <property name="column_spacing">12</property>
                     <child>
                       <object class="GtkCheckButton" id="WorkbookView::workbook_protected">
                         <property name="label" translatable="yes">_Protect Workbook</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
+                        <property name="xalign">0</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
-                        <property name="right_attach">2</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="password_entry">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Unimplementented</property>
-                        <property name="visibility">False</property>
-                        <property name="invisible_char">•</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="y_options"></property>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -186,11 +178,49 @@
                         <property name="mnemonic_widget">password_entry</property>
                       </object>
                       <packing>
+                        <property name="left_attach">0</property>
                         <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
                       </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="password_entry">
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup" translatable="yes">Unimplementented</property>
+                        <property name="tooltip_text" translatable="yes">Unimplementented</property>
+                        <property name="hexpand">True</property>
+                        <property name="visibility">False</property>
+                        <property name="invisible_char">•</property>
+                        <property name="invisible_char_set">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">1</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                   </object>
                   <packing>
@@ -217,11 +247,13 @@
                     <child>
                       <object class="GtkCheckButton" id="WorkbookView::do_auto_completion">
                         <property name="label" translatable="yes">A_uto Complete Text in Cells</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
+                        <property name="xalign">0.5</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -254,6 +286,7 @@
                     <child>
                       <object class="GtkCheckButton" id="WorkbookView::show_function_cell_markers">
                         <property name="label" translatable="yes">Show _Formula Cell Markers</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -272,6 +305,7 @@
                     <child>
                       <object class="GtkCheckButton" id="WorkbookView::show_extension_markers">
                         <property name="label" translatable="yes">Show _Extension Markers</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

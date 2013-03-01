@@ -233,7 +233,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	GtkBuilder *gui;
 	GtkDialog *dialog;
 	DialogState *dd;
-	GtkTable *table;
+	GtkGrid *grid;
 	char *selection_text;
 
 	g_return_if_fail (wbcg != NULL);
@@ -260,30 +260,23 @@ dialog_search_replace (WBCGtk *wbcg,
 	dd->cb = cb;
 	dd->dialog = dialog;
 
-	table = GTK_TABLE (go_gtk_builder_get_widget (gui, "search_table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (gui, "normal-grid"));
 	dd->search_text = GTK_ENTRY (gtk_entry_new ());
-	gtk_table_attach (table, GTK_WIDGET (dd->search_text),
-			  1, 4, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (dd->search_text), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (dd->search_text), 1, 1, 2, 1);
 	gnumeric_editable_enters (GTK_WINDOW (dialog),
 				  GTK_WIDGET (dd->search_text));
 
 	dd->replace_text = GTK_ENTRY (gtk_entry_new ());
-	gtk_table_attach (table, GTK_WIDGET (dd->replace_text),
-			  1, 4, 1, 2,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (dd->replace_text), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (dd->replace_text), 1, 2, 2, 1);
 	gnumeric_editable_enters (GTK_WINDOW (dialog),
 				  GTK_WIDGET (dd->replace_text));
 
-	table = GTK_TABLE (go_gtk_builder_get_widget (gui, "scope_table"));
 	dd->rangetext = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (dd->rangetext, 0, GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (dd->rangetext),
-			  1, 2, 2, 3,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (dd->rangetext), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (dd->rangetext), 1, 9, 2, 1);
 	selection_text = selection_to_string (
 		wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)),
 		TRUE);

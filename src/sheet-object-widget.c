@@ -862,7 +862,7 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
 	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	ButtonConfigState *state;
-	GtkWidget *table;
+	GtkWidget *grid;
 	GtkBuilder *gui;
 
 	g_return_if_fail (swb != NULL);
@@ -882,7 +882,7 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	state->old_label = g_strdup (swb->label);
 	state->dialog = go_gtk_builder_get_widget (gui, "SO-Button");
 
-	table = go_gtk_builder_get_widget (gui, "table");
+	grid = go_gtk_builder_get_widget (gui, "main-grid");
 
 	state->expression = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
@@ -891,10 +891,8 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	gnm_expr_entry_load_from_dep (state->expression, &swb->dep);
 	go_atk_setup_label (go_gtk_builder_get_widget (gui, "label_linkto"),
 			     GTK_WIDGET (state->expression));
-	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_grid_attach (GTK_GRID (grid),
+	                 GTK_WIDGET (state->expression), 1, 0, 1, 1);
 	gtk_widget_show (GTK_WIDGET (state->expression));
 
 	state->label = go_gtk_builder_get_widget (gui, "label_entry");
@@ -1424,7 +1422,7 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	SheetWidgetAdjustmentClass *swa_class = SWA_CLASS (swa);
 	WBCGtk *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	AdjustmentConfigState *state;
-	GtkWidget *table;
+	GtkWidget *grid;
 	GtkBuilder *gui;
 	gboolean has_directions = swa_class->has_orientation;
 
@@ -1446,7 +1444,7 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	if (dialog_label != NULL)
 		gtk_window_set_title (GTK_WINDOW (state->dialog), dialog_label);
 
-	table = go_gtk_builder_get_widget (gui, "table");
+	grid = go_gtk_builder_get_widget (gui, "main-grid");
 
 	state->expression = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
@@ -1455,10 +1453,8 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	gnm_expr_entry_load_from_dep (state->expression, &swa->dep);
 	go_atk_setup_label (go_gtk_builder_get_widget (gui, "label_linkto"),
 			     GTK_WIDGET (state->expression));
-	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_grid_attach (GTK_GRID (grid),
+	                 GTK_WIDGET (state->expression), 1, 0, 2, 1);
 	gtk_widget_show (GTK_WIDGET (state->expression));
 
 	if (has_directions) {
@@ -2097,7 +2093,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	SheetWidgetCheckbox *swc = GNM_SOW_CHECKBOX (so);
 	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	CheckboxConfigState *state;
-	GtkWidget *table;
+	GtkWidget *grid;
 	GtkBuilder *gui;
 
 	g_return_if_fail (swc != NULL);
@@ -2117,7 +2113,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	state->old_label = g_strdup (swc->label);
 	state->dialog = go_gtk_builder_get_widget (gui, "SO-Checkbox");
 
-	table = go_gtk_builder_get_widget (gui, "table");
+	grid = go_gtk_builder_get_widget (gui, "main-grid");
 
 	state->expression = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
@@ -2126,10 +2122,8 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	gnm_expr_entry_load_from_dep (state->expression, &swc->dep);
 	go_atk_setup_label (go_gtk_builder_get_widget (gui, "label_linkto"),
 			     GTK_WIDGET (state->expression));
-	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_grid_attach (GTK_GRID (grid),
+	                 GTK_WIDGET (state->expression), 1, 0, 1, 1);
 	gtk_widget_show (GTK_WIDGET (state->expression));
 
 	state->label = go_gtk_builder_get_widget (gui, "label_entry");
@@ -2773,7 +2767,7 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	SheetWidgetRadioButton *swrb = GNM_SOW_RADIO_BUTTON (so);
  	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
  	RadioButtonConfigState *state;
- 	GtkWidget *table;
+ 	GtkWidget *grid;
 	GString *valstr;
 	GtkBuilder *gui;
 
@@ -2795,7 +2789,7 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	state->old_value = value_dup (swrb->value);
  	state->dialog = go_gtk_builder_get_widget (gui, "SO-Radiobutton");
 
- 	table = go_gtk_builder_get_widget (gui, "table");
+ 	grid = go_gtk_builder_get_widget (gui, "main-grid");
 
  	state->expression = gnm_expr_entry_new (wbcg, TRUE);
  	gnm_expr_entry_set_flags (state->expression,
@@ -2804,10 +2798,8 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	gnm_expr_entry_load_from_dep (state->expression, &swrb->dep);
  	go_atk_setup_label (go_gtk_builder_get_widget (gui, "label_linkto"),
 			    GTK_WIDGET (state->expression));
- 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
- 			  1, 2, 0, 1,
- 			  GTK_EXPAND | GTK_FILL, 0,
- 			  0, 0);
+ 	gtk_grid_attach (GTK_GRID (grid),
+	                  GTK_WIDGET (state->expression), 1, 0, 1, 1);
  	gtk_widget_show (GTK_WIDGET (state->expression));
 
  	state->label = go_gtk_builder_get_widget (gui, "label_entry");

@@ -1,3 +1,14 @@
+2013-03-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* INSTALL:
+	* src/sheet-object-widget.c (sheet_widget_button_user_config),
+	(sheet_widget_adjustment_user_config_impl),
+	(sheet_widget_checkbox_user_config),
+	(sheet_widget_radio_button_user_config):
+	* src/wbc-gtk.c (wbc_gtk_init):
+
 2013-02-28  Morten Welinder  <terra@gnome.org>
 
 	* configure.ac: remove the DISABLE_DEPRECATED defines even from

@@ -643,7 +643,7 @@ static GnmSolverResult *
 run_solver (SolverState *state, GnmSolverParameters *param)
 {
 	GtkDialog *dialog;
-	GtkWidget *table;
+	GtkWidget *grid;
 	int dialog_res;
 	GError *err = NULL;
 	gboolean ok;
@@ -695,7 +695,12 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 					  GTK_STOCK_OK,
 					  GTK_RESPONSE_YES);
 
-	table = gtk_table_new (4, 2, FALSE);
+	grid = gtk_grid_new ();
+	g_object_set (grid,
+	              "column-spacing", 12,
+	              "row-spacing", 6,
+	              "border-width", 6,
+	              NULL);
 	for (y = 0; y < 4; y++) {
 		static const char *ltxt[4] = {
 			N_("Solver Status:"),
@@ -703,15 +708,16 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 			N_("Objective Value:"),
 			N_("Elapsed Time:")
 		};
-		GtkWidget *w, *a;
+		GtkWidget *w;
 		PangoContext *context =
 			gtk_widget_get_pango_context (state->dialog);
 
 		w = gtk_label_new (_(ltxt[y]));
-		a = gtk_alignment_new (1.0, 0.5, 0.0, 0.0);
-		gtk_container_add (GTK_CONTAINER(a), w);
-		gtk_table_attach_defaults (GTK_TABLE (table),
-					   a, 0, 1, y, y + 1);
+		g_object_set (w,
+		              "halign", GTK_ALIGN_END,
+		              "valign", GTK_ALIGN_CENTER,
+		              NULL);
+		gtk_grid_attach (GTK_GRID (grid), w, 0, y, 1, 1);
 		w = gtk_label_new ("");
 		ctxt = gtk_widget_get_style_context (w);
 		gtk_widget_set_size_request
@@ -721,8 +727,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 			  gtk_style_context_get_font (ctxt, GTK_STATE_FLAG_NORMAL),
 			  "0") * (5 + GNM_DIG),
 			 -1);
-		gtk_table_attach_defaults (GTK_TABLE (table),
-					   w, 1, 2, y, y + 1);
+		gtk_grid_attach (GTK_GRID (grid), w, 1, y, 1, 1);
 		switch (y) {
 		case 0: state->run.status_widget = w; break;
 		case 1: state->run.problem_status_widget = w; break;
@@ -733,7 +738,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	}
 
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (dialog)),
-			    table, TRUE, TRUE, 0);
+			    grid, TRUE, TRUE, 0);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 
 	state->run.sig_notify_status =
@@ -964,7 +969,7 @@ do {									\
 static gboolean
 dialog_init (SolverState *state)
 {
-	GtkTable *table;
+	GtkGrid *grid;
 	GnmSolverParameters *param;
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
@@ -1014,16 +1019,15 @@ dialog_init (SolverState *state)
 			  G_CALLBACK (cb_dialog_delete_clicked), state);
 
 	/* target_entry */
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui,
-						 "parameter_table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (state->gui,
+						 "parameter-grid"));
 	state->target_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->target_entry,
 		GNM_EE_SINGLE_RANGE |
 		GNM_EE_FORCE_ABS_REF |
 		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (state->target_entry),
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->target_entry), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (state->target_entry), 1, 0, 1, 1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->target_entry));
 	gtk_widget_show (GTK_WIDGET (state->target_entry));
@@ -1032,16 +1036,14 @@ dialog_init (SolverState *state)
 				state);
 
 	/* change_cell_entry */
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui,
-						 "parameter_table"));
 	state->change_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->change_cell_entry,
 		GNM_EE_SINGLE_RANGE |
 		GNM_EE_FORCE_ABS_REF |
 		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
-			  1, 2, 2, 3,
-			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->change_cell_entry), TRUE);
+	gtk_grid_attach (grid,
+	                 GTK_WIDGET (state->change_cell_entry), 1, 2, 1, 1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->change_cell_entry));
 	gtk_widget_show (GTK_WIDGET (state->change_cell_entry));
@@ -1080,16 +1082,15 @@ dialog_init (SolverState *state)
 				   param->options.max_time_sec);
 
 	/* lhs_entry */
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "edit-table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (state->gui,
+	                                            "constraints-grid"));
 	state->lhs.entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->lhs.entry,
 		GNM_EE_SINGLE_RANGE |
 		GNM_EE_FORCE_ABS_REF |
 		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (state->lhs.entry),
-			  0, 1, 1, 2,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->lhs.entry), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (state->lhs.entry), 0, 4, 1, 1);
 	state->lhs.label = go_gtk_builder_get_widget (state->gui, "lhs_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (state->lhs.label),
 		GTK_WIDGET (state->lhs.entry));
@@ -1102,7 +1103,6 @@ dialog_init (SolverState *state)
 		"activate", G_CALLBACK (cb_dialog_add_clicked), state);
 
 	/* rhs_entry */
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "edit-table"));
 	state->rhs.entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->rhs.entry,
 				  GNM_EE_SINGLE_RANGE |
@@ -1110,9 +1110,8 @@ dialog_init (SolverState *state)
 				  GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_CONSTANT_ALLOWED,
 				  GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (state->rhs.entry),
-			  2, 3, 1, 2,
-			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->rhs.entry), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (state->rhs.entry), 2, 4, 1, 1);
 	gtk_widget_show (GTK_WIDGET (state->rhs.entry));
 	state->rhs.label = go_gtk_builder_get_widget (state->gui, "rhs_label");
 	gtk_label_set_mnemonic_widget (

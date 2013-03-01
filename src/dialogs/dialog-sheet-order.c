@@ -1431,7 +1431,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 {
 	SheetManager *state;
 	GtkBuilder *gui;
-	GtkTable *table;
+	GtkGrid *grid;
 	GOColorGroup *cg;
 	Workbook *wb;
 
@@ -1498,7 +1498,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 		"sheet_deleted", G_CALLBACK (cb_sheet_deleted),
 		state);
 
-	table = GTK_TABLE (go_gtk_builder_get_widget (gui,"sheet_order_buttons_table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (gui,"main-grid"));
 	cg = go_color_group_fetch ("back_color_group",
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	state->ccombo_back = go_combo_color_new (
@@ -1507,7 +1507,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	g_object_unref (cg);
 	go_combo_color_set_instant_apply (
 		GO_COMBO_COLOR (state->ccombo_back), TRUE);
-	gtk_table_attach (table, state->ccombo_back, 0, 1, 4, 5, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (grid, state->ccombo_back, 1, 4, 1, 1);
 	gtk_widget_set_sensitive (state->ccombo_back, FALSE);
 
 	cg = go_color_group_fetch ("fore_color_group",
@@ -1518,7 +1518,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	g_object_unref (cg);
 	go_combo_color_set_instant_apply (
 		GO_COMBO_COLOR (state->ccombo_fore), TRUE);
-	gtk_table_attach (table, state->ccombo_fore, 1, 2, 4, 5, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (grid, state->ccombo_fore, 2, 4, 1, 1);
 	gtk_widget_set_sensitive (state->ccombo_fore, FALSE);
 
 	create_sheet_list (state);

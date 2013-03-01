@@ -57,13 +57,13 @@ init_entry (GnmDialogSOList *state, GtkBuilder *gui, int col, int row,
 {
 	GnmExprEntry *gee = gnm_expr_entry_new (state->wbcg, TRUE);
 	GtkWidget *w = GTK_WIDGET (gee);
-	GtkTable *table = GTK_TABLE (gtk_builder_get_object (gui, "table"));
+	GtkGrid *grid = GTK_GRID (gtk_builder_get_object (gui, "main-grid"));
 	Sheet *sheet = sheet_object_get_sheet (state->so);
 	GnmParsePos pp;
 
 	g_return_val_if_fail (w != NULL, NULL);
 
-	gtk_table_attach (table, w, col, col + 1, row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (grid, w, col, row, 1, 1);
 	gnm_expr_entry_set_flags (gee, GNM_EE_FORCE_ABS_REF |
 				  GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);

@@ -129,7 +129,7 @@ connect_notification (GOConfNode *node, GOConfMonitorFunc func,
 /*************************************************************************/
 
 static void
-pref_create_label (GOConfNode *node, GtkWidget *table,
+pref_create_label (GOConfNode *node, GtkWidget *grid,
 		   gint row, gchar const *default_label, GtkWidget *w)
 {
 	GtkWidget *label;
@@ -142,9 +142,8 @@ pref_create_label (GOConfNode *node, GtkWidget *table,
 
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1,
-		GTK_FILL | GTK_EXPAND,
-		GTK_FILL | GTK_SHRINK, 5, 2);
+	gtk_widget_set_hexpand (label, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, row, 1, 1);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), w);
 	go_atk_setup_label (label, w);
@@ -179,7 +178,7 @@ bool_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 }
 
 static void
-bool_pref_create_widget (GOConfNode *node, GtkWidget *table,
+bool_pref_create_widget (GOConfNode *node, GtkWidget *grid,
 			 gint row, gboolean_conf_setter_t setter,
 			 gboolean_conf_getter_t getter,
 			 char const *default_label)
@@ -194,12 +193,10 @@ bool_pref_create_widget (GOConfNode *node, GtkWidget *table,
 	g_signal_connect (G_OBJECT (item), "toggled",
 			  G_CALLBACK (bool_pref_widget_to_conf),
 			  (gpointer) setter);
-	gtk_table_attach (GTK_TABLE (table), item,
-		0, 2, row, row + 1,
-		GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
+	gtk_grid_attach (GTK_GRID (grid), item, 0, row, 2, 1);
 
 	connect_notification (node, (GOConfMonitorFunc)bool_pref_conf_to_widget,
-			      item, table);
+			      item, grid);
 	set_tip (node, item);
 }
 
@@ -263,7 +260,7 @@ enum_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 }
 
 static void
-enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
+enum_pref_create_widget (GOConfNode *node, GtkWidget *grid,
 			 gint row, GType enum_type,
 			 enum_conf_setter_t setter,
 			 enum_conf_getter_t getter,
@@ -300,16 +297,14 @@ enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (combo), current_index);
 
-	gtk_table_attach (GTK_TABLE (table), combo,
-		1, 2, row, row + 1,
-		GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
+	gtk_grid_attach (GTK_GRID (grid), combo, 1, row, 1, 1);
 
 	g_signal_connect (G_OBJECT (combo), "changed",
 		G_CALLBACK (cb_enum_changed), (gpointer) setter);
 	connect_notification (node, (GOConfMonitorFunc)enum_pref_conf_to_widget,
-			      combo, table);
+			      combo, grid);
 
-	pref_create_label (node, table, row, default_label, combo);
+	pref_create_label (node, grid, row, default_label, combo);
 	set_tip (node, combo);
 }
 
@@ -342,7 +337,7 @@ int_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 }
 
 static GtkWidget *
-int_pref_create_widget (GOConfNode *node, GtkWidget *table,
+int_pref_create_widget (GOConfNode *node, GtkWidget *grid,
 			gint row, gint val, gint from, gint to, gint step,
 			gint_conf_setter_t setter,  gint_conf_getter_t getter,
 			char const *default_label)
@@ -354,18 +349,17 @@ int_pref_create_widget (GOConfNode *node, GtkWidget *table,
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), (gdouble) getter ());
 
 	g_object_set_data (G_OBJECT (w), "node", node);
-	gtk_table_attach (GTK_TABLE (table), w,
-		1, 2, row, row + 1,
-		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
+	gtk_widget_set_hexpand (w, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), w, 1, row, 1, 1);
 
 	g_object_set_data (G_OBJECT (w), "getter", getter);
 	g_signal_connect (G_OBJECT (w), "value-changed",
 			  G_CALLBACK (int_pref_widget_to_conf),
 			  (gpointer) setter);
 	connect_notification (node, (GOConfMonitorFunc)int_pref_conf_to_widget,
-			      w, table);
+			      w, grid);
 
-	pref_create_label (node, table, row, default_label, w);
+	pref_create_label (node, grid, row, default_label, w);
 	set_tip (node, w);
 	return w;
 }
@@ -424,7 +418,7 @@ double_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 		gtk_spin_button_set_value (button, val_in_conf);
 }
 static void
-double_pref_create_widget (GOConfNode *node, GtkWidget *table,
+double_pref_create_widget (GOConfNode *node, GtkWidget *grid,
 			   gint row, gnm_float val, gnm_float from, gnm_float to,
 			   gnm_float step, gint digits,
 			   double_conf_setter_t setter,
@@ -436,18 +430,17 @@ double_pref_create_widget (GOConfNode *node, GtkWidget *table,
 		1, digits);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), getter ());
 	g_object_set_data (G_OBJECT (w), "node", node);
-	gtk_table_attach (GTK_TABLE (table), w,
-		1, 2, row, row + 1,
-		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
+	gtk_widget_set_hexpand (w, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), w, 1, row, 1, 1);
 
 	g_object_set_data (G_OBJECT (w), "getter", getter);
 	g_signal_connect (G_OBJECT (w), "value-changed",
 		G_CALLBACK (double_pref_widget_to_conf), (gpointer) setter);
 	connect_notification (node,
 			      (GOConfMonitorFunc)double_pref_conf_to_widget,
-			      w, table);
+			      w, grid);
 
-	pref_create_label (node, table, row, default_label, w);
+	pref_create_label (node, grid, row, default_label, w);
 	set_tip (node, w);
 }
 
@@ -532,14 +525,14 @@ wordlist_pref_update_remove_button (GtkTreeSelection *selection, GtkButton *butt
 }
 
 static GtkWidget *
-wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
+wordlist_pref_create_widget (GOConfNode *node, GtkWidget *grid,
 			     gint row, wordlist_conf_setter_t setter,
 			     wordlist_conf_getter_t getter,
 			     char const *default_label)
 {
-	GtkWidget *w= gtk_table_new (5, 2, FALSE);
-	GtkWidget *sw= gtk_scrolled_window_new (NULL, NULL);
-	GtkWidget *tv= gtk_tree_view_new ();
+	GtkWidget *w = gtk_grid_new ();
+	GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+	GtkWidget *tv = gtk_tree_view_new ();
 	GtkWidget *entry = gtk_entry_new ();
 	GtkWidget *add_button = gtk_button_new_from_stock (GTK_STOCK_ADD);
 	GtkWidget *remove_button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
@@ -553,21 +546,16 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tv), FALSE);
 	gtk_container_add (GTK_CONTAINER (sw), tv);
 
-	gtk_table_attach (GTK_TABLE (table), w,
-		0, 2, row, row + 1,
-		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 5, 2);
-	gtk_table_attach (GTK_TABLE (w), sw,
-		0, 1, 1, 4,
-		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 5, 2);
-	gtk_table_attach (GTK_TABLE (w), entry,
-		0, 1, 4, 5,
-		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
-	gtk_table_attach (GTK_TABLE (w), remove_button,
-		1, 2, 3, 4,
-		GTK_FILL | GTK_SHRINK, GTK_SHRINK, 0, 2);
-	gtk_table_attach (GTK_TABLE (w), add_button,
-		1, 2, 4, 5,
-		GTK_FILL | GTK_SHRINK, GTK_SHRINK, 0, 2);
+	g_object_set (w, "column-spacing", 12, "row-spacing", 6, 
+	              "hexpand", TRUE, "vexpand", TRUE, NULL);
+	gtk_grid_attach (GTK_GRID (grid), w, 0, row, 2, 1);
+	g_object_set (sw, "hexpand", TRUE, "vexpand", TRUE, NULL);
+	gtk_grid_attach (GTK_GRID (w), sw, 0, 1, 1, 3);
+	gtk_widget_set_hexpand (entry, TRUE);
+	gtk_grid_attach (GTK_GRID (w), entry, 0, 4, 1, 1);
+	gtk_widget_set_valign (remove_button, GTK_ALIGN_END);
+	gtk_grid_attach (GTK_GRID (w), remove_button, 1, 3, 1, 1);
+	gtk_grid_attach (GTK_GRID (w), add_button, 1, 4, 1, 1);
 
 	gtk_tree_view_set_model (GTK_TREE_VIEW (tv),
 				 GTK_TREE_MODEL (model));
@@ -596,7 +584,7 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
 					    GTK_BUTTON (remove_button));
 
 	connect_notification (node, (GOConfMonitorFunc)wordlist_pref_conf_to_widget,
-			      model, table);
+			      model, grid);
 
 	pref_create_label (node, w, 0, default_label, tv);
 	set_tip (node, tv);
@@ -731,9 +719,11 @@ pref_undo_page_initializer (PrefState *state,
 			    G_GNUC_UNUSED GtkNotebook *notebook,
 			    G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = gtk_table_new (4, 2, FALSE);
+	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	              "vexpand", TRUE, NULL);
 	int_pref_create_widget (gnm_conf_get_undo_max_descriptor_width_node (),
 				page, row++, 5, 5, 200, 1,
 				gnm_conf_set_undo_max_descriptor_width,
@@ -769,9 +759,11 @@ pref_sort_page_initializer (PrefState *state,
 			    G_GNUC_UNUSED GtkNotebook *notebook,
 			    G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = gtk_table_new (3, 2, FALSE);
+	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	              "vexpand", TRUE, NULL);
 	int_pref_create_widget (gnm_conf_get_core_sort_dialog_max_initial_clauses_node (),
 				page, row++, 10, 0, 50, 1,
 				gnm_conf_set_core_sort_dialog_max_initial_clauses,
@@ -807,10 +799,12 @@ pref_window_page_initializer (PrefState *state,
 			      G_GNUC_UNUSED GtkNotebook *notebook,
 			      G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = gtk_table_new (7, 2, FALSE);
+	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 	GtkWidget *w;
 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	              "vexpand", TRUE, NULL);
 	double_pref_create_widget (gnm_conf_get_core_gui_window_y_node (),
 				   page, row++, 0.75, 0.25, 1, 0.05, 2,
 				   gnm_conf_set_core_gui_window_y,
@@ -905,7 +899,7 @@ custom_pref_conf_to_widget_ecd (GOConfNode *node, G_GNUC_UNUSED char const *key,
 		gtk_toggle_button_set_active (button, val_in_conf);
 }
 static void
-custom_pref_create_widget_ecd (GOConfNode *node, GtkWidget *table,
+custom_pref_create_widget_ecd (GOConfNode *node, GtkWidget *grid,
 			       gint row, gboolean_conf_setter_t setter,
 			       gboolean_conf_getter_t getter,
 			       char const *default_label)
@@ -918,12 +912,10 @@ custom_pref_create_widget_ecd (GOConfNode *node, GtkWidget *table,
 	g_signal_connect (G_OBJECT (item), "toggled",
 			  G_CALLBACK (bool_pref_widget_to_conf),
 			  (gpointer) setter);
-	gtk_table_attach (GTK_TABLE (table), item,
-		0, 2, row, row + 1,
-		GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
+	gtk_grid_attach (GTK_GRID (grid), item, 0, row, 2, 1);
 
 	connect_notification (node, (GOConfMonitorFunc)custom_pref_conf_to_widget_ecd,
-			      item, table);
+			      item, grid);
 }
 
 
@@ -935,9 +927,11 @@ pref_file_page_initializer (PrefState *state,
 			    G_GNUC_UNUSED GtkNotebook *notebook,
 			    G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	              "vexpand", TRUE, NULL);
 	int_pref_create_widget (gnm_conf_get_core_xml_compression_level_node (),
 				page, row++, 9, 0, 9, 1,
 				gnm_conf_set_core_xml_compression_level,
@@ -985,9 +979,11 @@ pref_screen_page_initializer (PrefState *state,
 			      G_GNUC_UNUSED GtkNotebook *notebook,
 			      G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	              "vexpand", TRUE, NULL);
 	double_pref_create_widget (gnm_conf_get_core_gui_screen_horizontaldpi_node (),
 				   page, row++, 96, 50, 250, 1, 1,
 				   gnm_conf_set_core_gui_screen_horizontaldpi,
@@ -1013,9 +1009,11 @@ pref_tool_page_initializer (PrefState *state,
 			    G_GNUC_UNUSED GtkNotebook *notebook,
 			    G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	              "vexpand", TRUE, NULL);
 	enum_pref_create_widget (gnm_conf_get_core_gui_editing_enter_moves_dir_node (),
 				 page, row++,
 				 GO_TYPE_DIRECTION,
@@ -1075,9 +1073,11 @@ pref_copypaste_page_initializer (PrefState *state,
 				 G_GNUC_UNUSED GtkNotebook *notebook,
 				 G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	              "vexpand", TRUE, NULL);
 	bool_pref_create_widget (gnm_conf_get_cut_and_paste_prefer_clipboard_node (),
 				 page, row++,
 				 gnm_conf_set_cut_and_paste_prefer_clipboard,
@@ -1100,7 +1100,7 @@ pref_autocorrect_general_page_initializer (PrefState *state,
 				 G_GNUC_UNUSED GtkNotebook *notebook,
 				 G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
 	bool_pref_create_widget (gnm_conf_get_autocorrect_names_of_days_node (),
@@ -1123,7 +1123,7 @@ pref_autocorrect_initialcaps_page_initializer (PrefState *state,
 				 G_GNUC_UNUSED GtkNotebook *notebook,
 				 G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
 	bool_pref_create_widget (gnm_conf_get_autocorrect_init_caps_node (),
@@ -1150,7 +1150,7 @@ pref_autocorrect_firstletter_page_initializer (PrefState *state,
 				 G_GNUC_UNUSED GtkNotebook *notebook,
 				 G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
 	bool_pref_create_widget (gnm_conf_get_autocorrect_first_letter_node (),

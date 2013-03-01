@@ -478,15 +478,13 @@ dialog_search (WBCGtk *wbcg)
 	GtkBuilder *gui;
 	GtkDialog *dialog;
 	DialogState *dd;
-	GtkTable *table;
+	GtkGrid *grid;
 
 	g_return_if_fail (wbcg != NULL);
 
-#ifdef USE_GURU
 	/* Only one guru per workbook. */
 	if (wbc_gtk_get_guru (wbcg))
 		return;
-#endif
 
 	gui = gnm_gtk_builder_load ("search.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
@@ -508,17 +506,11 @@ dialog_search (WBCGtk *wbcg)
 		gtk_notebook_page_num (dd->notebook,
 				       go_gtk_builder_get_widget (gui, "matches_tab"));
 
-#ifdef USE_GURU
 	dd->rangetext = gnm_expr_entry_new (wbcg, TRUE);
-#else
-	dd->rangetext = gnm_expr_entry_new (wbcg, FALSE);
-#endif
 	gnm_expr_entry_set_flags (dd->rangetext, 0, GNM_EE_MASK);
-	table = GTK_TABLE (gtk_builder_get_object (gui, "page1-table"));
-	gtk_table_attach (table, GTK_WIDGET (dd->rangetext),
-			  1, 2, 6, 7,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	grid = GTK_GRID (gtk_builder_get_object (gui, "normal-grid"));
+	gtk_widget_set_hexpand (GTK_WIDGET (dd->rangetext), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (dd->rangetext), 1, 6, 1, 1);
 	{
 		char *selection_text =
 			selection_to_string (
@@ -529,10 +521,8 @@ dialog_search (WBCGtk *wbcg)
 	}
 
 	dd->gentry = GTK_ENTRY (gtk_entry_new ());
-	gtk_table_attach (table, GTK_WIDGET (dd->gentry),
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (dd->gentry), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (dd->gentry), 1, 0, 1, 1);
 	gtk_widget_grab_focus (GTK_WIDGET (dd->gentry));
 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (dd->gentry));
 
@@ -599,9 +589,7 @@ dialog_search (WBCGtk *wbcg)
 	go_gtk_builder_signal_connect (gui, "scope_range", "toggled",
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
-#ifdef USE_GURU
 	wbc_gtk_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
-#endif
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", dd, (GDestroyNotify) free_state);
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
