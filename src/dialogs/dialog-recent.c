@@ -120,12 +120,27 @@ age_renderer_func (GtkTreeViewColumn *tree_column,
 		   gpointer           user_data)
 {
 	GtkRecentInfo *ri = NULL;
+	GDateTime *now = user_data;
+	GDateTime *last_used;
+	GTimeSpan age;
+	char *text;
 
 	gtk_tree_model_get (model, iter, RECENT_COL_INFO, &ri, -1);
-
-	g_object_set (cell, "text", "TBD", NULL);
-
+	last_used = g_date_time_new_from_unix_local (gtk_recent_info_get_modified (ri));
 	gtk_recent_info_unref (ri);
+
+	age = g_date_time_difference (now, last_used);
+	if (age < G_TIME_SPAN_DAY &&
+	    g_date_time_get_day_of_month (now) == g_date_time_get_day_of_month (last_used)) {
+		text = g_date_time_format (last_used, "%X");
+	} else {
+		text = g_date_time_format (last_used, "%x");
+	}
+
+	g_object_set (cell, "text", text, NULL);
+	g_free (text);
+
+	g_date_time_unref (last_used);
 }
 
 static gint
@@ -209,8 +224,8 @@ dialog_recent_used (WBCGtk *wbcg)
 		(GTK_TREE_VIEW_COLUMN (gtk_builder_get_object (gui, "age_column")),
 		 GTK_CELL_RENDERER (gtk_builder_get_object (gui, "age_renderer")),
 		 age_renderer_func,
-		 NULL,
-		 NULL);
+		 g_date_time_new_now_local (),
+		 (GDestroyNotify)g_date_time_unref);
 
 	g_signal_connect (G_OBJECT (dialog), "response",
 			  G_CALLBACK (cb_response), wbcg);
@@ -229,7 +244,7 @@ dialog_recent_used (WBCGtk *wbcg)
 		pango_layout_get_pixel_size (layout, &width, &height);
 		gtk_widget_set_size_request (go_gtk_builder_get_widget (gui, "docs_scrolledwindow"),
 					     width * 60 / 4,
-					     (2 * height + vsep) * (4 + 1));
+					     (2 * height + vsep) * (5 + 1));
 		g_object_unref (layout);
 	}
 
