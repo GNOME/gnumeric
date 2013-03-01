@@ -71,6 +71,7 @@ libdialogs_la_SOURCES =					\
 	dialog-simulation.c			\
 	dialog-so-list.c			\
 	dialog-so-styled.c			\
+	dialog-solver.c				\
 	dialog-stf.c				\
 	dialog-stf.h				\
 	dialog-stf-main-page.c			\
