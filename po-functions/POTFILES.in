@@ -196,6 +196,7 @@ src/dialogs/dialog-zoom.c
 [type: gettext/glade]src/dialogs/random-generation-cor.ui
 [type: gettext/glade]src/dialogs/random-generation.ui
 [type: gettext/glade]src/dialogs/rank.ui
+[type: gettext/glade]src/dialogs/recent.ui
 [type: gettext/glade]src/dialogs/regression.ui
 [type: gettext/glade]src/dialogs/row-height.ui
 [type: gettext/glade]src/dialogs/sampling.ui
