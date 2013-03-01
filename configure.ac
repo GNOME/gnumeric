@@ -42,7 +42,7 @@ if test `expr gnumeric_version_major % 2` -eq 1; then
     gnumeric_api_ver=gnumeric_version_epoch.`expr gnumeric_version_major + 1`
     dnl An explicit version number should be used in place of the above
     dnl if the epoch is to change.
-    dnl gnumeric_api_ver=2_0
+    dnl gnumeric_api_ver=2.0
 else
     gnumeric_devel=no
     gnumeric_api_ver=gnumeric_version_epoch.gnumeric_version_major

@@ -935,12 +935,7 @@ static GNM_ACTION_DEF (cb_tools_goal_seek)	{ dialog_goal_seek (wbcg, wbcg_cur_sh
 static GNM_ACTION_DEF (cb_tools_tabulate)	{ dialog_tabulate (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_merge)		{ dialog_merge (wbcg); }
 
-static GNM_ACTION_DEF (cb_tools_solver)
-	{
-#ifdef GNM_ENABLE_SOLVER
-	dialog_solver (wbcg, wbcg_cur_sheet (wbcg));
-#endif
-}
+static GNM_ACTION_DEF (cb_tools_solver)         { dialog_solver (wbcg, wbcg_cur_sheet (wbcg)); }
 
 static GNM_ACTION_DEF (cb_tools_scenario_add)	{ dialog_scenario_add (wbcg); }
 static GNM_ACTION_DEF (cb_tools_scenarios)	{ dialog_scenarios (wbcg); }

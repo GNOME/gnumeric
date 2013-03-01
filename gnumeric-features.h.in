@@ -19,8 +19,6 @@
 #undef GNM_WITH_GTK
 /* Define if the long double type is to be used */
 #undef GNM_WITH_LONG_DOUBLE
-/* Define if SOLVER is compiled */
-#undef GNM_ENABLE_SOLVER
 
 /* Define to 1 if you have the <ieeefp.h> header file. */
 #undef HAVE_IEEEFP_H

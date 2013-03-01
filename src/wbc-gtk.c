@@ -5731,9 +5731,7 @@ wbc_gtk_init (GObject *obj)
 
 	wbcg_set_autosave_time (wbcg, gnm_conf_get_core_workbook_autosave_time ());
 
-#ifndef GNM_ENABLE_SOLVER
 	wbc_gtk_set_action_sensitivity (wbcg, "ToolsSolver", FALSE);
-#endif
 
 	if (gnm_debug_flag ("actions")) {
 		list_actions (wbcg->permanent_actions);
