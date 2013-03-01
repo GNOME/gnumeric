@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-01 14:48+0000\n"
-"PO-Revision-Date: 2013-03-01 16:00+0100\n"
+"POT-Creation-Date: 2013-03-01 18:43+0000\n"
+"PO-Revision-Date: 2013-03-01 20:21+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -2372,7 +2372,7 @@ msgstr ""
 "seznam."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:3
-#: ../src/dialogs/dialog-preferences.c:1059
+#: ../src/dialogs/dialog-preferences.c:1057
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Največje število predmetov na seznamu nedavno uporabljenih funkcij"
 
@@ -2893,7 +2893,7 @@ msgid "Header/Footer Format (Right Portion)"
 msgstr "Oblika glave in noge (desni del)"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:95
-#: ../src/dialogs/dialog-preferences.c:1054
+#: ../src/dialogs/dialog-preferences.c:1052
 msgid "Allow Unfocused Range Selections"
 msgstr "Dovoli izbiranje poljubnega obsega"
 
@@ -3083,7 +3083,7 @@ msgstr ""
 "oboje."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:3
-#: ../src/dialogs/dialog-preferences.c:756
+#: ../src/dialogs/dialog-preferences.c:746
 msgid "Show Sheet Name in Undo List"
 msgstr "Pokaži ime delovnega lista v seznamu razveljavitev"
 
@@ -3096,7 +3096,7 @@ msgstr ""
 "razveljavitev in ponovnih uveljavitev."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:5
-#: ../src/dialogs/dialog-preferences.c:746
+#: ../src/dialogs/dialog-preferences.c:736
 msgid "Maximal Undo Size"
 msgstr "Največja velikost pomnilnika razveljavitev"
 
@@ -3112,7 +3112,7 @@ msgstr ""
 "opravila. Ko je zgornja meja dosežena, se seznam razveljavitev razdeli."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:7
-#: ../src/dialogs/dialog-preferences.c:751
+#: ../src/dialogs/dialog-preferences.c:741
 msgid "Number of Undo Items"
 msgstr "Število ravni razveljavitev"
 
@@ -3174,7 +3174,7 @@ msgstr ""
 "pisava ."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:19
-#: ../src/dialogs/dialog-preferences.c:833
+#: ../src/dialogs/dialog-preferences.c:827
 msgid "Default Number of Sheets"
 msgstr "Privzeto število delovnih listov"
 
@@ -3217,7 +3217,7 @@ msgid "The number of seconds between autosaves."
 msgstr "Časovni razmik med samodejnim shranjevanjem v sekundah."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:27
-#: ../src/dialogs/dialog-preferences.c:995
+#: ../src/dialogs/dialog-preferences.c:991
 msgid "Horizontal DPI"
 msgstr "Vodoravne vrednosti DPI"
 
@@ -3226,7 +3226,7 @@ msgid "Screen resolution in the horizontal direction."
 msgstr "Ločljivost zaslona v vodoravni smeri."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:29
-#: ../src/dialogs/dialog-preferences.c:1000
+#: ../src/dialogs/dialog-preferences.c:996
 msgid "Vertical DPI"
 msgstr "Navpične vrednosti DPI"
 
@@ -3348,7 +3348,7 @@ msgid ""
 msgstr "Spremenljivka določa ali naj se celice s prirezano vsebino označijo."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:51
-#: ../src/dialogs/dialog-preferences.c:1034
+#: ../src/dialogs/dialog-preferences.c:1032
 msgid "Autocomplete"
 msgstr "Samodejno dopolnjevanje"
 
@@ -3357,7 +3357,7 @@ msgid "This variable determines whether autocompletion is set on."
 msgstr "Spremenljivka določa ali je omogočeno samodejno dopolnjevanje."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:53
-#: ../src/dialogs/dialog-preferences.c:1039
+#: ../src/dialogs/dialog-preferences.c:1037
 msgid "Minimum Number of Characters for Autocompletion"
 msgstr "Najmanjše število znakov za začetek samodejnega dopolnjevanja."
 
@@ -3369,7 +3369,7 @@ msgstr ""
 "Spremenljivka določa najmanjše število znakov za samodejno dopolnjevanje."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:55
-#: ../src/dialogs/dialog-preferences.c:1044
+#: ../src/dialogs/dialog-preferences.c:1042
 msgid "Show Function Name Tooltips"
 msgstr "Pokaži orodne namige imen funkcij"
 
@@ -3378,7 +3378,7 @@ msgid "This variable determines whether to show function name tooltips."
 msgstr "Spremenljivka določa ali naj se prikažejo orodni namigi imen funkcij."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:57
-#: ../src/dialogs/dialog-preferences.c:1049
+#: ../src/dialogs/dialog-preferences.c:1047
 msgid "Show Function Argument Tooltips"
 msgstr "Pokaži orodne namige argumentov funkcije"
 
@@ -3396,7 +3396,7 @@ msgid "Which direction pressing Enter will move the edit position."
 msgstr "V katero smer se pomakne žarišče urejanja pri pritisku vnosne tipke."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:61
-#: ../src/dialogs/dialog-preferences.c:855
+#: ../src/dialogs/dialog-preferences.c:849
 msgid "Live Scrolling"
 msgstr "Živo drsenje"
 
@@ -3429,7 +3429,7 @@ msgstr ""
 "preračunavanje izvede šele v `zamiku ' ob nedejavnosti."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:65
-#: ../src/dialogs/dialog-preferences.c:1029
+#: ../src/dialogs/dialog-preferences.c:1027
 msgid "Transition Keys"
 msgstr "Tipke premikanja"
 
@@ -3444,7 +3444,7 @@ msgstr ""
 "ali konec niza podatkov."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:67
-#: ../src/dialogs/dialog-preferences.c:823
+#: ../src/dialogs/dialog-preferences.c:817
 msgid "Default Horizontal Window Size"
 msgstr "Privzeta vodoravna velikost okna"
 
@@ -3457,7 +3457,7 @@ msgstr ""
 "pokriva glavno okno programa."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:69
-#: ../src/dialogs/dialog-preferences.c:818
+#: ../src/dialogs/dialog-preferences.c:812
 msgid "Default Vertical Window Size"
 msgstr "Privzeta navpična velikost okna"
 
@@ -3470,7 +3470,7 @@ msgstr ""
 "pokriva glavno okno programa."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:71
-#: ../src/dialogs/dialog-preferences.c:828
+#: ../src/dialogs/dialog-preferences.c:822
 msgid "Default Zoom Factor"
 msgstr "Privzeta vrednost povečave"
 
@@ -3479,7 +3479,7 @@ msgid "The initial zoom factor for new workbooks."
 msgstr "Začetna vrednost približanja za nove delovne zvezke."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
-#: ../src/dialogs/dialog-preferences.c:945
+#: ../src/dialogs/dialog-preferences.c:939
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Privzeta raven stiskanja datotek Gnumeric"
 
@@ -3494,7 +3494,7 @@ msgstr ""
 "pa največjo."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:75
-#: ../src/dialogs/dialog-preferences.c:961
+#: ../src/dialogs/dialog-preferences.c:955
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Opozori pred izvozom v zapis z le enim delovnim listom."
 
@@ -3509,7 +3509,7 @@ msgstr ""
 "delovnih listov med shranjevanjem."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
-#: ../src/dialogs/dialog-preferences.c:956
+#: ../src/dialogs/dialog-preferences.c:950
 msgid "Default To Overwriting Files"
 msgstr "Privzeto se datoteke prepišejo"
 
@@ -3550,7 +3550,7 @@ msgstr ""
 "označnega polja za upoštevanje velikosti črk v pogovornem oknu razvrščanja."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:83
-#: ../src/dialogs/dialog-preferences.c:784
+#: ../src/dialogs/dialog-preferences.c:776
 msgid "Sorting Preserves Formats"
 msgstr "Razvrščanje ohrani obliko"
 
@@ -3565,7 +3565,7 @@ msgstr ""
 "označnega polja za ohranjevanje oblikovanja v pogovornem oknu razvrščanja."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:85
-#: ../src/dialogs/dialog-preferences.c:794 ../src/wbc-gtk-actions.c:2700
+#: ../src/dialogs/dialog-preferences.c:786 ../src/wbc-gtk-actions.c:2700
 msgid "Sort Ascending"
 msgstr "Razvrsti naraščajoče"
 
@@ -3578,7 +3578,7 @@ msgstr ""
 "razvrščanja."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:87
-#: ../src/dialogs/dialog-preferences.c:779
+#: ../src/dialogs/dialog-preferences.c:771
 msgid "Number of Automatic Clauses"
 msgstr "Število samodejnih stavkov"
 
@@ -3608,7 +3608,7 @@ msgstr ""
 "kot sta Xterm in Emacs, ki uporabljata le OSNOVNI način."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:1
-#: ../src/dialogs/dialog-preferences.c:967
+#: ../src/dialogs/dialog-preferences.c:961
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Uporabi nabor UTF-8 za izvoz LaTeX"
 
@@ -4401,7 +4401,7 @@ msgstr "Nastavi izbirni gumb"
 msgid "Configure Checkbox"
 msgstr "Nastavi označno polje"
 
-#: ../src/commands.c:7905 ../src/sheet-object-widget.c:1533
+#: ../src/commands.c:7905 ../src/sheet-object-widget.c:1529
 msgid "Configure Adjustment"
 msgstr "Nastavi prilagoditve"
 
@@ -5678,17 +5678,17 @@ msgid "Criteria"
 msgstr "Kriterij"
 
 #: ../src/dialogs/dialog-cell-format.c:1693
-#: ../src/dialogs/dialog-cell-format.c:1702 ../src/dialogs/so-scrollbar.ui.h:6
+#: ../src/dialogs/dialog-cell-format.c:1702 ../src/dialogs/so-scrollbar.ui.h:4
 msgid "Min:"
 msgstr "Najmanj:"
 
 #: ../src/dialogs/dialog-cell-format.c:1694
-#: ../src/dialogs/dialog-cell-format.c:1706 ../src/dialogs/so-scrollbar.ui.h:3
+#: ../src/dialogs/dialog-cell-format.c:1706 ../src/dialogs/so-scrollbar.ui.h:5
 msgid "Max:"
 msgstr "Največ:"
 
 #: ../src/dialogs/dialog-cell-format.c:1698
-#: ../src/dialogs/doc-meta-data.ui.h:34 ../src/dialogs/so-radiobutton.ui.h:2
+#: ../src/dialogs/doc-meta-data.ui.h:34 ../src/dialogs/so-radiobutton.ui.h:4
 msgid "Value:"
 msgstr "Vrednost:"
 
@@ -6404,7 +6404,7 @@ msgid "Sheet"
 msgstr "Delovni list"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:439
-#: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:5
+#: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
 #: ../src/sheet-control-gui.c:2231 ../src/tools/gnm-solver.c:1442
 #: ../src/tools/gnm-solver.c:1490
 msgid "Cell"
@@ -6589,40 +6589,40 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Mapa"
 
-#: ../src/dialogs/dialog-preferences.c:741
+#: ../src/dialogs/dialog-preferences.c:731
 msgid "Length of Undo Descriptors"
 msgstr "Dolžina opisnikov razveljavitve"
 
-#: ../src/dialogs/dialog-preferences.c:789
+#: ../src/dialogs/dialog-preferences.c:781
 msgid "Sorting is Case-Sensitive"
 msgstr "Razvrščanje upošteva velikost črk"
 
-#: ../src/dialogs/dialog-preferences.c:840
+#: ../src/dialogs/dialog-preferences.c:834
 msgid "Default Number of Rows in a Sheet"
 msgstr "Privzeto število vrstic delovnih listov"
 
-#: ../src/dialogs/dialog-preferences.c:848
+#: ../src/dialogs/dialog-preferences.c:842
 msgid "Default Number of Columns in a Sheet"
 msgstr "Privzeto število stolpcev delovnega lista"
 
-#: ../src/dialogs/dialog-preferences.c:860
+#: ../src/dialogs/dialog-preferences.c:854
 msgid "By default, mark cells with spreadsheet functions"
 msgstr "Privzeto označi celice s funkcijami"
 
-#: ../src/dialogs/dialog-preferences.c:865
+#: ../src/dialogs/dialog-preferences.c:859
 msgid "By default, mark cells with truncated content"
 msgstr "Privzeto označi celice s prirezano vsebino"
 
-#: ../src/dialogs/dialog-preferences.c:951
+#: ../src/dialogs/dialog-preferences.c:945
 msgid "Default autosave frequency in seconds"
 msgstr "Privzeta pogostost samodejnega shranjevanja v sekundah"
 
-#: ../src/dialogs/dialog-preferences.c:972
+#: ../src/dialogs/dialog-preferences.c:966
 msgid "Disable Extension Check for Configurable Text Exporter"
 msgstr ""
 "Onemogoči preverjanje pripone za prilagodljive programnike izvoza besedila"
 
-#: ../src/dialogs/dialog-preferences.c:1024
+#: ../src/dialogs/dialog-preferences.c:1022
 msgid "Enter _Moves Selection"
 msgstr "Z vnosno tipko se izbor premakne"
 
@@ -6769,7 +6769,7 @@ msgid "Print as #N/A"
 msgstr "Izpiši kot #N/A"
 
 #: ../src/dialogs/dialog-printer-setup.c:2213
-#: ../src/dialogs/sheetobject-size.ui.h:14
+#: ../src/dialogs/sheetobject-size.ui.h:7
 msgid "Do not print"
 msgstr "Ne natisniti"
 
@@ -7423,39 +7423,39 @@ msgstr "Zaustavi zagnan reševalnik"
 msgid "OK"
 msgstr "V redu"
 
-#: ../src/dialogs/dialog-solver.c:701
+#: ../src/dialogs/dialog-solver.c:706
 msgid "Solver Status:"
 msgstr "Stanje reševalnika:"
 
-#: ../src/dialogs/dialog-solver.c:702
+#: ../src/dialogs/dialog-solver.c:707
 msgid "Problem Status:"
 msgstr "Stanje problema:"
 
-#: ../src/dialogs/dialog-solver.c:703
+#: ../src/dialogs/dialog-solver.c:708
 msgid "Objective Value:"
 msgstr "Končna vrednost:"
 
-#: ../src/dialogs/dialog-solver.c:704
+#: ../src/dialogs/dialog-solver.c:709
 msgid "Elapsed Time:"
 msgstr "Pretečni čas:"
 
-#: ../src/dialogs/dialog-solver.c:842
+#: ../src/dialogs/dialog-solver.c:847
 msgid "Running solver"
 msgstr "Zaganjanje reševalnika"
 
-#: ../src/dialogs/dialog-solver.c:879
+#: ../src/dialogs/dialog-solver.c:884
 msgid "Optimal solution created by solver.\n"
 msgstr "Najustreznejša rešitev, ki jo je podal reševalnik.\n"
 
-#: ../src/dialogs/dialog-solver.c:883
+#: ../src/dialogs/dialog-solver.c:888
 msgid "Feasible solution created by solver.\n"
 msgstr "Verjetna rešitev, ki jo je podal reševalnik.\n"
 
-#: ../src/dialogs/dialog-solver.c:1147
+#: ../src/dialogs/dialog-solver.c:1146
 msgid "Subject to the Constraints:"
 msgstr "Upoštevanje omejitev"
 
-#: ../src/dialogs/dialog-solver.c:1297
+#: ../src/dialogs/dialog-solver.c:1296
 msgid "Could not create the Solver dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna reševalnika."
 
@@ -7600,43 +7600,43 @@ msgstr "Besedilo"
 msgid "Data (from %s)"
 msgstr "Podatki (iz %s)"
 
-#: ../src/dialogs/dialog-tabulate.c:220
+#: ../src/dialogs/dialog-tabulate.c:176
 msgid "You should introduce a single valid cell as dependency cell"
 msgstr "Določiti je treba le eno veljavno celico kot celico odvisnosti."
 
-#: ../src/dialogs/dialog-tabulate.c:227
+#: ../src/dialogs/dialog-tabulate.c:183
 msgid "The dependency cells should not contain an expression"
 msgstr "Odvisna celica ne sme vsebovati izraza"
 
-#: ../src/dialogs/dialog-tabulate.c:236
+#: ../src/dialogs/dialog-tabulate.c:192
 msgid "You should introduce a valid number as minimum"
 msgstr "Vpeljati je treba veljavno število kot najmanjše dovoljeno število."
 
-#: ../src/dialogs/dialog-tabulate.c:245
+#: ../src/dialogs/dialog-tabulate.c:201
 msgid "You should introduce a valid number as maximum"
 msgstr "Vpeljati je treba veljavno število kot največje dovoljeno število."
 
-#: ../src/dialogs/dialog-tabulate.c:253
+#: ../src/dialogs/dialog-tabulate.c:209
 msgid "The maximum value should be bigger than the minimum"
 msgstr "Največja vrednost mora biti večja od najmanjše."
 
-#: ../src/dialogs/dialog-tabulate.c:262
+#: ../src/dialogs/dialog-tabulate.c:218
 msgid "You should introduce a valid number as step size"
 msgstr "Vpeljati je treba veljavno število za velikost koraka."
 
-#: ../src/dialogs/dialog-tabulate.c:270
+#: ../src/dialogs/dialog-tabulate.c:226
 msgid "The step size should be positive"
 msgstr "Velikost koraka mora biti pozitivna vrednost."
 
-#: ../src/dialogs/dialog-tabulate.c:281
+#: ../src/dialogs/dialog-tabulate.c:237
 msgid "You should introduce one or more dependency cells"
 msgstr "Vključiti je treba eno ali več odvisnih celic"
 
-#: ../src/dialogs/dialog-tabulate.c:291
+#: ../src/dialogs/dialog-tabulate.c:247
 msgid "You should introduce a single valid cell as result cell"
 msgstr "Vključiti je treba enojno veljavno celico kot rezultat celice"
 
-#: ../src/dialogs/dialog-tabulate.c:299
+#: ../src/dialogs/dialog-tabulate.c:255
 msgid "The target cell should contain an expression"
 msgstr "Ciljna celica mora vsebovati izraz"
 
@@ -8468,7 +8468,7 @@ msgstr ""
 "Prva vrstica oziroma prvi stolpec obsega podatkov je izločen iz razvrščanja "
 "s predvidevanjem, da vsebuje glave vrstic ali stolpcev."
 
-#: ../src/dialogs/cell-sort.ui.h:9 ../src/dialogs/so-scrollbar.ui.h:7
+#: ../src/dialogs/cell-sort.ui.h:9 ../src/dialogs/so-scrollbar.ui.h:3
 msgid "Direction:"
 msgstr "Smer:"
 
@@ -8561,7 +8561,7 @@ msgid "Column width in points:"
 msgstr "Širina stolpca v točkah:"
 
 #: ../src/dialogs/col-width.ui.h:4 ../src/dialogs/row-height.ui.h:4
-#: ../src/dialogs/sheetobject-size.ui.h:3
+#: ../src/dialogs/sheetobject-size.ui.h:15
 msgid "x"
 msgstr "x"
 
@@ -10569,7 +10569,7 @@ msgstr "Odstrani i zbor vseh dokumentov za shranjevanje"
 msgid "_Discard All"
 msgstr "Zavrzi _vse"
 
-#: ../src/dialogs/quit.ui.h:7
+#: ../src/dialogs/quit.ui.h:7 ../src/dialogs/recent.ui.h:4
 msgid "Discard changes in all files"
 msgstr "Zavrzi spremembe v vseh datotekah"
 
@@ -10593,7 +10593,7 @@ msgstr "Shrani izbrane dokumente in končaj."
 msgid "Save"
 msgstr "Shrani"
 
-#: ../src/dialogs/quit.ui.h:13
+#: ../src/dialogs/quit.ui.h:13 ../src/dialogs/recent.ui.h:5
 msgid "Save document"
 msgstr "Shrani dokument"
 
@@ -10601,7 +10601,7 @@ msgstr "Shrani dokument"
 msgid "Save?"
 msgstr "Ali naj se shrani?"
 
-#: ../src/dialogs/quit.ui.h:15
+#: ../src/dialogs/quit.ui.h:15 ../src/dialogs/recent.ui.h:6
 msgid "Document"
 msgstr "Dokument"
 
@@ -10660,6 +10660,22 @@ msgstr "_Povprečni rang"
 #: ../src/dialogs/rank.ui.h:13
 msgid "_Top rank"
 msgstr "Vrhnji _rang"
+
+#: ../src/dialogs/recent.ui.h:1
+msgid "Recently Used Documents"
+msgstr "Nedavno uporabljeni dokumenti"
+
+#: ../src/dialogs/recent.ui.h:2
+msgid "Existing only"
+msgstr "Le obstoječe"
+
+#: ../src/dialogs/recent.ui.h:3
+msgid "Gnumeric files only"
+msgstr "Le datoteke Gnumeric"
+
+#: ../src/dialogs/recent.ui.h:7
+msgid "Last Used"
+msgstr "Nazadnje uporabljeno"
 
 #: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3597
 #: ../src/tools/analysis-tools.c:3600
@@ -10843,137 +10859,137 @@ msgstr "Vprašaj pred vsako spremembo"
 msgid "Search & Replace"
 msgstr "Poišči in zamenjaj"
 
-#: ../src/dialogs/search-replace.ui.h:12
-msgid "_Replace by"
-msgstr "_Zamenjaj z"
+#: ../src/dialogs/search-replace.ui.h:12 ../src/dialogs/search.ui.h:1
+msgid "Search"
+msgstr "Iskanje"
 
 #: ../src/dialogs/search-replace.ui.h:13
 msgid "_Search for"
 msgstr "_Poišči"
 
-#: ../src/dialogs/search-replace.ui.h:14 ../src/dialogs/search.ui.h:7
+#: ../src/dialogs/search-replace.ui.h:14
+msgid "_Replace by"
+msgstr "_Zamenjaj z"
+
+#: ../src/dialogs/search-replace.ui.h:15 ../src/dialogs/search.ui.h:7
 msgid "_Ignore case"
 msgstr "_Prezri velikost črk"
 
-#: ../src/dialogs/search-replace.ui.h:15 ../src/dialogs/search.ui.h:8
+#: ../src/dialogs/search-replace.ui.h:16 ../src/dialogs/search.ui.h:8
 msgid "When set, do not distinguish between upper and lower case letters"
 msgstr ""
 "Izbrana možnost določa, da ločevanje med velikimi in malimi črkami ni "
 "omogočeno."
 
-#: ../src/dialogs/search-replace.ui.h:16
-msgid "Ma_tch whole words only"
-msgstr "_Upoštevaj le cele besede"
-
-#: ../src/dialogs/search-replace.ui.h:17 ../src/dialogs/search.ui.h:10
-msgid "Do not consider matches in the middle of words"
-msgstr "Ne upoštevaj zadetkov na sredini besed"
-
-#: ../src/dialogs/search-replace.ui.h:18
+#: ../src/dialogs/search-replace.ui.h:17
 msgid "_Preserve case"
 msgstr "_Upoštevaj velikost črk"
 
-#: ../src/dialogs/search-replace.ui.h:19
+#: ../src/dialogs/search-replace.ui.h:18
 msgid "Attempt to preserve case of text when replacing"
 msgstr "Poskusi ohraniti velikost črk med zamenjavo besedila"
 
-#: ../src/dialogs/search-replace.ui.h:20 ../src/dialogs/search.ui.h:1
-msgid "Search"
-msgstr "Iskanje"
+#: ../src/dialogs/search-replace.ui.h:19
+msgid "Ma_tch whole words only"
+msgstr "_Upoštevaj le cele besede"
 
-#: ../src/dialogs/search-replace.ui.h:21 ../src/dialogs/search.ui.h:11
-msgid "_Entire workbook"
-msgstr "_Celoten delovni zvezek"
+#: ../src/dialogs/search-replace.ui.h:20 ../src/dialogs/search.ui.h:10
+msgid "Do not consider matches in the middle of words"
+msgstr "Ne upoštevaj zadetkov na sredini besed"
 
-#: ../src/dialogs/search-replace.ui.h:22
-msgid "Search and replace in all cells in the workbook"
-msgstr "Poišči in zamenjaj v vseh celicah delovnega zvezka."
-
-#: ../src/dialogs/search-replace.ui.h:23 ../src/dialogs/search.ui.h:13
-msgid "_Current sheet"
-msgstr "_Trenutni delovni list"
-
-#: ../src/dialogs/search-replace.ui.h:24
-msgid "Search and replace in current sheet only"
-msgstr "Poišči in zamenjaj le v trenutnem delovnem listu."
-
-#: ../src/dialogs/search-replace.ui.h:25
-msgid "Ra_nge"
-msgstr "Podatkovna _vrsta"
-
-#: ../src/dialogs/search-replace.ui.h:26
-msgid "Search and replace in specified range only"
-msgstr "Poišči in zamenjaj le v izbranem obsegu celic."
-
-#: ../src/dialogs/search-replace.ui.h:27 ../src/search.c:816
+#: ../src/dialogs/search-replace.ui.h:21 ../src/search.c:816
 msgid "Scope"
 msgstr "Obseg"
 
-#: ../src/dialogs/search-replace.ui.h:29 ../src/dialogs/search.ui.h:18
-msgid "_Other values"
-msgstr "_Druge vrednosti"
+#: ../src/dialogs/search-replace.ui.h:22 ../src/dialogs/search.ui.h:11
+msgid "_Entire workbook"
+msgstr "_Celoten delovni zvezek"
 
-#: ../src/dialogs/search-replace.ui.h:30
-msgid "Perform changes within non-string values"
-msgstr "Izvedi spremembe znotraj vrednosti, ki niso nizi"
+#: ../src/dialogs/search-replace.ui.h:23
+msgid "Search and replace in all cells in the workbook"
+msgstr "Poišči in zamenjaj v vseh celicah delovnega zvezka."
 
-#: ../src/dialogs/search-replace.ui.h:31 ../src/dialogs/search.ui.h:24
-msgid "_Comments"
-msgstr "_Opombe"
+#: ../src/dialogs/search-replace.ui.h:24 ../src/dialogs/search.ui.h:13
+msgid "_Current sheet"
+msgstr "_Trenutni delovni list"
 
-#: ../src/dialogs/search-replace.ui.h:32
-msgid "Perform changes within cell comments"
-msgstr "Izvedi spremembe znotraj opomb celic"
+#: ../src/dialogs/search-replace.ui.h:25
+msgid "Search and replace in current sheet only"
+msgstr "Poišči in zamenjaj le v trenutnem delovnem listu."
 
-#: ../src/dialogs/search-replace.ui.h:33 ../src/dialogs/search.ui.h:20
-msgid "_Expressions"
-msgstr "_Izraz"
+#: ../src/dialogs/search-replace.ui.h:26
+msgid "Ra_nge"
+msgstr "Podatkovna _vrsta"
 
-#: ../src/dialogs/search-replace.ui.h:34
-msgid "Perform changes within expressions"
-msgstr "Izvedi spremembe znotraj izrazov"
+#: ../src/dialogs/search-replace.ui.h:27
+msgid "Search and replace in specified range only"
+msgstr "Poišči in zamenjaj le v izbranem obsegu celic."
 
-#: ../src/dialogs/search-replace.ui.h:35 ../src/dialogs/search.ui.h:22
-msgid "_Strings"
-msgstr "_Nizi"
-
-#: ../src/dialogs/search-replace.ui.h:36
-msgid "Perform changes within string values"
-msgstr "Izvedi spremembe znotraj vrednosti nizov"
-
-#: ../src/dialogs/search-replace.ui.h:37
+#: ../src/dialogs/search-replace.ui.h:29
 msgid "<span weight=\"bold\">Change Cells Containing</span>"
 msgstr "<span weight=\"bold\">Spremeni celice, ki vsebujejo</span>"
 
-#: ../src/dialogs/search-replace.ui.h:38 ../src/dialogs/search.ui.h:29
+#: ../src/dialogs/search-replace.ui.h:30 ../src/dialogs/search.ui.h:19
+msgid "_Strings"
+msgstr "_Nizi"
+
+#: ../src/dialogs/search-replace.ui.h:31
+msgid "Perform changes within string values"
+msgstr "Izvedi spremembe znotraj vrednosti nizov"
+
+#: ../src/dialogs/search-replace.ui.h:32 ../src/dialogs/search.ui.h:21
+msgid "_Other values"
+msgstr "_Druge vrednosti"
+
+#: ../src/dialogs/search-replace.ui.h:33
+msgid "Perform changes within non-string values"
+msgstr "Izvedi spremembe znotraj vrednosti, ki niso nizi"
+
+#: ../src/dialogs/search-replace.ui.h:34 ../src/dialogs/search.ui.h:25
+msgid "_Expressions"
+msgstr "_Izraz"
+
+#: ../src/dialogs/search-replace.ui.h:35
+msgid "Perform changes within expressions"
+msgstr "Izvedi spremembe znotraj izrazov"
+
+#: ../src/dialogs/search-replace.ui.h:36 ../src/dialogs/search.ui.h:23
+msgid "_Comments"
+msgstr "_Opombe"
+
+#: ../src/dialogs/search-replace.ui.h:37
+msgid "Perform changes within cell comments"
+msgstr "Izvedi spremembe znotraj opomb celic"
+
+#: ../src/dialogs/search-replace.ui.h:38
+msgid "<span weight=\"bold\">Search Text Type</span>"
+msgstr "<span weight=\"bold\">Iskanje vrste besedila</span>"
+
+#: ../src/dialogs/search-replace.ui.h:39 ../src/dialogs/search.ui.h:38
 msgid "_Plain text"
 msgstr "_Običajno besedilo"
 
-#: ../src/dialogs/search-replace.ui.h:39 ../src/dialogs/search.ui.h:30
+#: ../src/dialogs/search-replace.ui.h:40 ../src/dialogs/search.ui.h:39
 msgid "The search text is taken literally."
 msgstr "Iskalno besedilo se obravnava dobesedno."
 
-#: ../src/dialogs/search-replace.ui.h:40 ../src/dialogs/search.ui.h:31
+#: ../src/dialogs/search-replace.ui.h:41 ../src/dialogs/search.ui.h:40
 msgid "Re_gular expression"
 msgstr "_Logični izraz"
 
-#: ../src/dialogs/search-replace.ui.h:41 ../src/dialogs/search.ui.h:32
+#: ../src/dialogs/search-replace.ui.h:42 ../src/dialogs/search.ui.h:41
 msgid "The search text is a regular expression"
 msgstr "Iskalni niz je logični izraz"
-
-#: ../src/dialogs/search-replace.ui.h:42
-msgid "<span weight=\"bold\">Search Text Type</span>"
-msgstr "<span weight=\"bold\">Iskanje vrste besedila</span>"
 
 #: ../src/dialogs/search-replace.ui.h:43
 msgid "<span weight=\"bold\">Miscellaneous</span>"
 msgstr "<span weight=\"bold\">Razno</span>"
 
-#: ../src/dialogs/search-replace.ui.h:44 ../src/dialogs/search.ui.h:35
+#: ../src/dialogs/search-replace.ui.h:44 ../src/dialogs/search.ui.h:30
 msgid "_Row major"
 msgstr "Sledi _vrsticam"
 
-#: ../src/dialogs/search-replace.ui.h:45 ../src/dialogs/search.ui.h:36
+#: ../src/dialogs/search-replace.ui.h:45 ../src/dialogs/search.ui.h:31
 msgid "Search line by line"
 msgstr "Preišči po vrsticah"
 
@@ -10981,7 +10997,7 @@ msgstr "Preišči po vrsticah"
 msgid "_Column major"
 msgstr "Sledi _stolpcem"
 
-#: ../src/dialogs/search-replace.ui.h:47 ../src/dialogs/search.ui.h:38
+#: ../src/dialogs/search-replace.ui.h:47 ../src/dialogs/search.ui.h:33
 msgid "Search column by column"
 msgstr "Preišči po stolpcih"
 
@@ -11009,7 +11025,7 @@ msgstr ""
 "Izbrana možnost določa, da bodo trenutne nastavitve shranjene kot privzete "
 "za bodoče zagone tega in iskalnega pogovornega okna."
 
-#: ../src/dialogs/search-replace.ui.h:52 ../src/dialogs/search.ui.h:42
+#: ../src/dialogs/search-replace.ui.h:52 ../src/dialogs/search.ui.h:43
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
 msgid "Advanced"
 msgstr "Napredno"
@@ -11039,18 +11055,22 @@ msgid "Make _error expression"
 msgstr "Ustvari izraz _napake"
 
 #: ../src/dialogs/search-replace.ui.h:59
+msgid "Create =ERROR(&quot;...&quot;)"
+msgstr "Ustvari =ERROR(&quot;...&quot;)"
+
+#: ../src/dialogs/search-replace.ui.h:60
 msgid "Create =ERROR(\"...\")"
 msgstr "Ustvari =NAPAKA(\"...\")"
 
-#: ../src/dialogs/search-replace.ui.h:60
+#: ../src/dialogs/search-replace.ui.h:61
 msgid "Make _string value"
 msgstr "Ustvari _vrednost niza"
 
-#: ../src/dialogs/search-replace.ui.h:61
+#: ../src/dialogs/search-replace.ui.h:62
 msgid "Turn unparsable entries into string values"
 msgstr "Pretvori nerazčlenljive vnose v niz"
 
-#: ../src/dialogs/search-replace.ui.h:62
+#: ../src/dialogs/search-replace.ui.h:63
 msgid "Error Behaviour"
 msgstr "Obnašanje napake"
 
@@ -11094,59 +11114,63 @@ msgstr "_Podatkovna vrsta"
 msgid "Search in specified range only"
 msgstr "Poišči le v izbranem obsegu celic"
 
-#: ../src/dialogs/search.ui.h:19
-msgid "Find text within non-string values"
-msgstr "Najdi besedilo znotraj vrednosti, ki niso nizi"
+#: ../src/dialogs/search.ui.h:18
+msgid "Search cells containing"
+msgstr "poišči celice ki vsebujejo"
 
-#: ../src/dialogs/search.ui.h:21
-msgid "Find text within expressions"
-msgstr "Najdi besedilo znotraj izrazov"
-
-#: ../src/dialogs/search.ui.h:23
+#: ../src/dialogs/search.ui.h:20
 msgid "Find text within string values"
 msgstr "Najdi besedilo znotraj vrednosti niza"
 
-#: ../src/dialogs/search.ui.h:25
+#: ../src/dialogs/search.ui.h:22
+msgid "Find text within non-string values"
+msgstr "Najdi besedilo znotraj vrednosti, ki niso nizi"
+
+#: ../src/dialogs/search.ui.h:24
 msgid "Find text within cell comments"
 msgstr "Najdi besedilo znotraj opomb celice"
 
 #: ../src/dialogs/search.ui.h:26
+msgid "Find text within expressions"
+msgstr "Najdi besedilo znotraj izrazov"
+
+#: ../src/dialogs/search.ui.h:27
 msgid "_Results"
 msgstr "_Rezultati"
 
-#: ../src/dialogs/search.ui.h:27
+#: ../src/dialogs/search.ui.h:28
 msgid "Find text within the calculated values of expressions"
 msgstr "Najdi besedilo znotraj izračunanih vrednosti izrazov"
 
-#: ../src/dialogs/search.ui.h:28
-msgid "Search cells containing"
-msgstr "poišči celice ki vsebujejo"
-
-#: ../src/dialogs/search.ui.h:33
-msgid "_Number"
-msgstr "_Številka"
-
-#: ../src/dialogs/search.ui.h:34
-msgid "Search text is"
-msgstr "Iskano besedilo je"
-
-#: ../src/dialogs/search.ui.h:37
-msgid "C_olumn major"
-msgstr "Sledi s_tolpcem"
-
-#: ../src/dialogs/search.ui.h:39
-msgid "Save settings as _default"
-msgstr "Shrani nastavitve kot _privzete"
-
-#: ../src/dialogs/search.ui.h:40
-msgid "These settings are shared with the Search & Replace dialog."
-msgstr "Nastavitve so v souporabi s pogovornim oknom iskanja in zamenjave."
-
-#: ../src/dialogs/search.ui.h:41
+#: ../src/dialogs/search.ui.h:29
 msgid "Miscellaneous"
 msgstr "Razno"
 
-#: ../src/dialogs/search.ui.h:43
+#: ../src/dialogs/search.ui.h:32
+msgid "C_olumn major"
+msgstr "Sledi s_tolpcem"
+
+#: ../src/dialogs/search.ui.h:34
+msgid "Save settings as _default"
+msgstr "Shrani nastavitve kot _privzete"
+
+#: ../src/dialogs/search.ui.h:35
+msgid "These settings are shared with the Search &amp; Replace dialog."
+msgstr "Nastavitve so v souporabi s pogovornim oknom iskanja in zamenjave."
+
+#: ../src/dialogs/search.ui.h:36
+msgid "These settings are shared with the Search & Replace dialog."
+msgstr "Nastavitve so v souporabi s pogovornim oknom iskanja in zamenjave."
+
+#: ../src/dialogs/search.ui.h:37
+msgid "Search text is"
+msgstr "Iskano besedilo je"
+
+#: ../src/dialogs/search.ui.h:42
+msgid "_Number"
+msgstr "_Številka"
+
+#: ../src/dialogs/search.ui.h:44
 msgid "Matches"
 msgstr "Zadetki"
 
@@ -11158,23 +11182,34 @@ msgstr "Velikost in položaj"
 msgid "_Width in pixels:"
 msgstr "_Širina v točkah:"
 
-#: ../src/dialogs/sheetobject-size.ui.h:4
-msgid "Width in points:"
-msgstr "Širina v točkah:"
-
-#: ../src/dialogs/sheetobject-size.ui.h:5
+#: ../src/dialogs/sheetobject-size.ui.h:3
 msgid "_Height in pixels:"
 msgstr "Višina v točkah:"
 
-#: ../src/dialogs/sheetobject-size.ui.h:6
-msgid "Height in points:"
-msgstr "Višina v točkah:"
+#: ../src/dialogs/sheetobject-size.ui.h:4
+msgid "Object position relative to its current position:"
+msgstr "Relativni položaj predmeta glede na trenutno mesto:"
 
-#: ../src/dialogs/sheetobject-size.ui.h:7
+#: ../src/dialogs/sheetobject-size.ui.h:5
+msgid "_x-Offset in pixels:"
+msgstr "Odmik osi _X v točkah:"
+
+#: ../src/dialogs/sheetobject-size.ui.h:6
+msgid "_y-Offset in pixels:"
+msgstr "Odmik osi _Y v točkah:"
+
+#: ../src/dialogs/sheetobject-size.ui.h:8
+msgid ""
+"Sheet objects with this property do not print with the remainder of the "
+"sheet."
+msgstr ""
+"Predmeti s to lastnostjo se ne natisnejo s preostalo vsebino delovnega lista."
+
+#: ../src/dialogs/sheetobject-size.ui.h:9
 msgid "_Name:"
 msgstr "_Ime:"
 
-#: ../src/dialogs/sheetobject-size.ui.h:8
+#: ../src/dialogs/sheetobject-size.ui.h:10
 msgid ""
 "This name is used by some plugins that provide programmability to address "
 "this object. Most users will not need to set this name. "
@@ -11182,53 +11217,42 @@ msgstr ""
 "Ime je uporabljeno pri nekaterih vstavkih, ki omogočajo programiranje tega "
 "predmeta. Večina uporabnikov ne bo določala tega imena."
 
-#: ../src/dialogs/sheetobject-size.ui.h:9
-msgid "Object position relative to its current position:"
-msgstr "Relativni položaj predmeta glede na trenutno mesto:"
-
-#: ../src/dialogs/sheetobject-size.ui.h:10
-msgid "_x-Offset in pixels:"
-msgstr "Odmik osi _X v točkah:"
-
 #: ../src/dialogs/sheetobject-size.ui.h:11
-msgid "_y-Offset in pixels:"
-msgstr "Odmik osi _Y v točkah:"
+msgid "Width in points:"
+msgstr "Širina v točkah:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:12
+msgid "Height in points:"
+msgstr "Višina v točkah:"
+
+#: ../src/dialogs/sheetobject-size.ui.h:13
 msgid "x-Offset in points:"
 msgstr "Odmik osi X v točkah:"
 
-#: ../src/dialogs/sheetobject-size.ui.h:13
+#: ../src/dialogs/sheetobject-size.ui.h:14
 msgid "y-Offset in points:"
 msgstr "Odmik osi _Y v točkah:"
-
-#: ../src/dialogs/sheetobject-size.ui.h:15
-msgid ""
-"Sheet objects with this property do not print with the remainder of the "
-"sheet."
-msgstr ""
-"Predmeti s to lastnostjo se ne natisnejo s preostalo vsebino delovnega lista."
 
 #: ../src/dialogs/sheet-order.ui.h:1
 msgid "Manage Sheets"
 msgstr "Upravljanje z delovnimi listi"
 
-#: ../src/dialogs/sheet-order.ui.h:2
-msgid "Apply _Name Changes"
-msgstr "Uveljavi _spremembe imena"
-
-#: ../src/dialogs/sheet-order.ui.h:3 ../src/wbc-gtk-actions.c:1990
+#: ../src/dialogs/sheet-order.ui.h:2 ../src/wbc-gtk-actions.c:1990
 #: ../src/wbc-gtk-actions.c:2106
 msgid "_Insert"
 msgstr "_Vstavi"
+
+#: ../src/dialogs/sheet-order.ui.h:3
+msgid "A_ppend"
+msgstr "_Pripni"
 
 #: ../src/dialogs/sheet-order.ui.h:4
 msgid "Du_plicate"
 msgstr "Po_dvoji"
 
 #: ../src/dialogs/sheet-order.ui.h:5
-msgid "A_ppend"
-msgstr "_Pripni"
+msgid "Apply _Name Changes"
+msgstr "Uveljavi _spremembe imena"
 
 #: ../src/dialogs/sheet-order.ui.h:6
 msgid "_Show advanced sheet properties"
@@ -11392,7 +11416,7 @@ msgid "Button Properties"
 msgstr "Lastnosti gumba"
 
 #: ../src/dialogs/so-button.ui.h:2 ../src/dialogs/so-checkbox.ui.h:2
-#: ../src/dialogs/so-radiobutton.ui.h:4 ../src/dialogs/so-scrollbar.ui.h:2
+#: ../src/dialogs/so-radiobutton.ui.h:2 ../src/dialogs/so-scrollbar.ui.h:2
 msgid "Link to:"
 msgstr "Povezava z:"
 
@@ -11418,16 +11442,16 @@ msgid "_Link :"
 msgstr "_Povezava:"
 
 #: ../src/dialogs/so-list.ui.h:3
-msgid "_Content :"
-msgstr "_Vsebina:"
-
-#: ../src/dialogs/so-list.ui.h:4
 msgid "As value"
 msgstr "Kot vrednost"
 
-#: ../src/dialogs/so-list.ui.h:5
+#: ../src/dialogs/so-list.ui.h:4
 msgid "As index"
 msgstr "Kot kazalo"
+
+#: ../src/dialogs/so-list.ui.h:5
+msgid "_Content :"
+msgstr "_Vsebina:"
 
 #: ../src/dialogs/solver.ui.h:1
 msgid "Solver"
@@ -11438,68 +11462,68 @@ msgid "Solve"
 msgstr "Reši"
 
 #: ../src/dialogs/solver.ui.h:3
+msgid "_Set Target Cell:       "
+msgstr "_Nastavi ciljno celico:"
+
+#: ../src/dialogs/solver.ui.h:4
 msgid "_Equal To:"
 msgstr "_Je enako:"
 
-#: ../src/dialogs/solver.ui.h:4
+#: ../src/dialogs/solver.ui.h:5
 msgid "B_y Changing Cells: "
 msgstr "S _spreminjanjem celic:"
 
-#: ../src/dialogs/solver.ui.h:5
+#: ../src/dialogs/solver.ui.h:6
 msgid "_Max"
 msgstr "Naj_večja vrednost"
 
-#: ../src/dialogs/solver.ui.h:6
+#: ../src/dialogs/solver.ui.h:7
 msgid "M_in"
 msgstr "Naj_manjša vrednost"
-
-#: ../src/dialogs/solver.ui.h:7
-msgid "_Set Target Cell:       "
-msgstr "_Nastavi ciljno celico:"
 
 #: ../src/dialogs/solver.ui.h:8 ../src/tools/gnm-solver.c:1656
 msgid "Parameters"
 msgstr "Parametri"
 
 #: ../src/dialogs/solver.ui.h:9
-msgid "_Algorithm:"
-msgstr "_Algoritem:"
+msgid "_Linear Model (LP/MILP)"
+msgstr "_Linearni model (LP/MILP)"
 
 #: ../src/dialogs/solver.ui.h:10
 msgid "_Quadratic Model (QP/MIQP)"
 msgstr "_Kvadratni model (QP/MIQP)"
 
 #: ../src/dialogs/solver.ui.h:11
-msgid "_Linear Model (LP/MILP)"
-msgstr "_Linearni model (LP/MILP)"
-
-#: ../src/dialogs/solver.ui.h:12
 msgid "_Non-Linear Model"
 msgstr "_Ne-linearni model"
 
-#: ../src/dialogs/solver.ui.h:13
+#: ../src/dialogs/solver.ui.h:12
 msgid "_Assume Non-Negative"
 msgstr "Predvidi _ne-negativno"
 
-#: ../src/dialogs/solver.ui.h:14
+#: ../src/dialogs/solver.ui.h:13
 msgid "Assume _Integer (Discrete)"
 msgstr "Predvidi _celo število (diskretno)"
+
+#: ../src/dialogs/solver.ui.h:14
+msgid "_Algorithm:"
+msgstr "_Algoritem:"
 
 #: ../src/dialogs/solver.ui.h:15
 msgid "Model"
 msgstr "Model"
 
 #: ../src/dialogs/solver.ui.h:16
-msgid "_Right Hand Side:"
-msgstr "_Desnoročna stran:"
+msgid "_Left Hand Side:"
+msgstr "_Levoročna stran:"
 
 #: ../src/dialogs/solver.ui.h:17
 msgid "_Type:"
 msgstr "Vrs_ta:"
 
 #: ../src/dialogs/solver.ui.h:18
-msgid "_Left Hand Side:"
-msgstr "_Levoročna stran:"
+msgid "_Right Hand Side:"
+msgstr "_Desnoročna stran:"
 
 #: ../src/dialogs/solver.ui.h:19
 msgid "Re_place"
@@ -11570,15 +11594,15 @@ msgstr "Logična vrednost"
 msgid "Radiobutton Properties"
 msgstr "Lastnosti izbirnega gumba"
 
-#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1692
+#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1688
 msgid "Scrollbar Properties"
 msgstr "Lastnosti drsnika"
 
-#: ../src/dialogs/so-scrollbar.ui.h:4
+#: ../src/dialogs/so-scrollbar.ui.h:6
 msgid "Increment:"
 msgstr "Povečevanje:"
 
-#: ../src/dialogs/so-scrollbar.ui.h:5
+#: ../src/dialogs/so-scrollbar.ui.h:7
 msgid "Page:"
 msgstr "Stran:"
 
@@ -11595,47 +11619,47 @@ msgid "Tabulate Dependency"
 msgstr "Razvrščanje odvisnosti v razpredelnice "
 
 #: ../src/dialogs/tabulate.ui.h:2
+msgid "Dependency cells"
+msgstr "Celice odvisnosti"
+
+#: ../src/dialogs/tabulate.ui.h:4
 msgid "Minimum"
 msgstr "Najmanjša vrednost"
 
-#: ../src/dialogs/tabulate.ui.h:3
+#: ../src/dialogs/tabulate.ui.h:5
 msgid "Maximum"
 msgstr "Največja vrednost"
 
-#: ../src/dialogs/tabulate.ui.h:4
+#: ../src/dialogs/tabulate.ui.h:6
 msgid "Step"
 msgstr "Korak"
-
-#: ../src/dialogs/tabulate.ui.h:6
-msgid "Dependency cells"
-msgstr "Celice odvisnosti"
 
 #: ../src/dialogs/tabulate.ui.h:7
 msgid "Result cell"
 msgstr "Celica rezultata"
 
 #: ../src/dialogs/tabulate.ui.h:8
+msgid "Tabulation Mode"
+msgstr "Način razvrščanja v razpredelnice"
+
+#: ../src/dialogs/tabulate.ui.h:9
+msgid "_Coordinate"
+msgstr "_Koordinata"
+
+#: ../src/dialogs/tabulate.ui.h:10
+msgid "Make one long list of coordinates and values"
+msgstr "Ustvari en dolg seznam koordinat in vrednosti"
+
+#: ../src/dialogs/tabulate.ui.h:11
 msgid "_Visual"
 msgstr "_Predočeno"
 
-#: ../src/dialogs/tabulate.ui.h:9
+#: ../src/dialogs/tabulate.ui.h:12
 msgid ""
 "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
 "Uporabite navzdol za prvi vir, desno za drugi, in več delovnih listov za "
 "tretji"
-
-#: ../src/dialogs/tabulate.ui.h:10
-msgid "_Coordinate"
-msgstr "_Koordinata"
-
-#: ../src/dialogs/tabulate.ui.h:11
-msgid "Make one long list of coordinates and values"
-msgstr "Ustvari en dolg seznam koordinat in vrednosti"
-
-#: ../src/dialogs/tabulate.ui.h:12
-msgid "Tabulation Mode"
-msgstr "Način razvrščanja v razpredelnice"
 
 #: ../src/dialogs/variance-tests.ui.h:1
 msgid "Testing Equality of 2 Variances (F-Test)"
@@ -11709,12 +11733,12 @@ msgid "_Protect Workbook"
 msgstr "_Zaščiti delovni zvezek"
 
 #: ../src/dialogs/workbook-attr.ui.h:7
-msgid "Unimplementented"
-msgstr "Nepodprto"
-
-#: ../src/dialogs/workbook-attr.ui.h:8
 msgid "Pa_ssword:"
 msgstr "Ge_slo:"
+
+#: ../src/dialogs/workbook-attr.ui.h:8
+msgid "Unimplementented"
+msgstr "Nepodprto"
 
 #: ../src/dialogs/workbook-attr.ui.h:9
 msgid "A_uto Complete Text in Cells"
@@ -13197,54 +13221,54 @@ msgid "Released Button"
 msgstr "Sproščen gumb"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1195
+#: ../src/sheet-object-widget.c:1193
 msgid "Change widget"
 msgstr "Spremeni gradnik"
 
-#: ../src/sheet-object-widget.c:1534
+#: ../src/sheet-object-widget.c:1530
 msgid "Adjustment Properties"
 msgstr "Lastnosti prilagoditev"
 
-#: ../src/sheet-object-widget.c:1691
+#: ../src/sheet-object-widget.c:1687
 msgid "Configure Scrollbar"
 msgstr "Nastavi drsnik"
 
-#: ../src/sheet-object-widget.c:1739
+#: ../src/sheet-object-widget.c:1735
 msgid "Configure Spinbutton"
 msgstr "Nastavi vrtilnegi gumb"
 
-#: ../src/sheet-object-widget.c:1740
+#: ../src/sheet-object-widget.c:1736
 msgid "Spinbutton Properties"
 msgstr "Lastnosti vrtilnega gumba"
 
-#: ../src/sheet-object-widget.c:1788
+#: ../src/sheet-object-widget.c:1784
 msgid "Configure Slider"
 msgstr "Nastavitev drsnika"
 
-#: ../src/sheet-object-widget.c:1789
+#: ../src/sheet-object-widget.c:1785
 msgid "Slider Properties"
 msgstr "Lastnosti drsnika"
 
-#: ../src/sheet-object-widget.c:1931
+#: ../src/sheet-object-widget.c:1927
 #, c-format
 msgid "CheckBox %d"
 msgstr "Označno polje %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1976
+#: ../src/sheet-object-widget.c:1972
 msgid "Clicking checkbox"
 msgstr "Klik označnega polja"
 
-#: ../src/sheet-object-widget.c:2467 ../src/wbc-gtk-actions.c:2744
+#: ../src/sheet-object-widget.c:2461 ../src/wbc-gtk-actions.c:2744
 msgid "RadioButton"
 msgstr "Izbirni gubm"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:2513
+#: ../src/sheet-object-widget.c:2507
 msgid "Clicking radiobutton"
 msgstr "Klik izbirnega gumba"
 
-#: ../src/sheet-object-widget.c:2956
+#: ../src/sheet-object-widget.c:2948
 msgid "Clicking in list"
 msgstr "Klik seznama"
 
@@ -18574,9 +18598,6 @@ msgstr "Bledo vijoličasta predloga seznama"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
 msgstr "Predloga enostavnega seznama"
-
-#~ msgid "Recently Used Files"
-#~ msgstr "Nedavno uporabljene datoteke"
 
 #~ msgid "All files"
 #~ msgstr "Vse datoteke"
