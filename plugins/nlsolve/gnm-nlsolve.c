@@ -621,7 +621,6 @@ polish_iter (GnmNlsolve *nl)
 
 	x = g_new (gnm_float, n);
 	for (step = gnm_pow2 (-10); step > GNM_EPSILON; step *= 0.75) {
-		gboolean any = FALSE;
 		int c, s;
 
 		for (c = 0; c < n; c++) {
@@ -640,7 +639,6 @@ polish_iter (GnmNlsolve *nl)
 				if (y < nl->yk && gnm_solver_check_constraints (sol))  {
 					nl->yk = y;
 					memcpy (nl->xk, x, n * sizeof (gnm_float));
-					any = TRUE;
 					any_at_all = TRUE;
 					if (nl->debug)
 						g_printerr ("Polish step %.15" GNM_FORMAT_g
