@@ -993,7 +993,6 @@ gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 		      gboolean is_col_header)
 {
 	Sheet *sheet = scg_sheet (scg);
-	GtkWidget *alignment;
 	GocCanvas *canvas = gnm_simple_canvas_new (scg);
 	GocGroup *group = goc_canvas_get_root (canvas);
 	GocItem *item = goc_item_new (group,
@@ -1009,13 +1008,10 @@ gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 			goc_canvas_set_direction (canvas, GOC_DIRECTION_RTL);
 		pane->col.canvas = canvas;
 		pane->col.item = ITEM_BAR (item);
-		alignment = pane->col.alignment = gtk_alignment_new (0, 1, 1, 0);
 	} else {
 		pane->row.canvas = canvas;
 		pane->row.item = ITEM_BAR (item);
-		alignment = pane->row.alignment = gtk_alignment_new (1, 0, 0, 1);
 	}
-	gtk_container_add (GTK_CONTAINER (alignment), GTK_WIDGET (canvas));
 
 	pane->size_guide.points = NULL;
 	pane->size_guide.start  = NULL;

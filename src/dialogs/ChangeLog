@@ -1,3 +1,7 @@
+2013-03-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-printer-setup.c (margin_preview_page_create): fixed preview.
+
 2013-03-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* kaplan-meier.ui: fixed layout.

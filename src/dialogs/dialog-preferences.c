@@ -546,7 +546,7 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *grid,
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tv), FALSE);
 	gtk_container_add (GTK_CONTAINER (sw), tv);
 
-	g_object_set (w, "column-spacing", 12, "row-spacing", 6, 
+	g_object_set (w, "column-spacing", 12, "row-spacing", 6,
 	              "hexpand", TRUE, "vexpand", TRUE, NULL);
 	gtk_grid_attach (GTK_GRID (grid), w, 0, row, 2, 1);
 	g_object_set (sw, "hexpand", TRUE, "vexpand", TRUE, NULL);
@@ -722,7 +722,7 @@ pref_undo_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
-	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6,
 	              "vexpand", TRUE, NULL);
 	int_pref_create_widget (gnm_conf_get_undo_max_descriptor_width_node (),
 				page, row++, 5, 5, 200, 1,
@@ -762,7 +762,7 @@ pref_sort_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
-	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6,
 	              "vexpand", TRUE, NULL);
 	int_pref_create_widget (gnm_conf_get_core_sort_dialog_max_initial_clauses_node (),
 				page, row++, 10, 0, 50, 1,
@@ -803,7 +803,7 @@ pref_window_page_initializer (PrefState *state,
 	gint row = 0;
 	GtkWidget *w;
 
-	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6,
 	              "vexpand", TRUE, NULL);
 	double_pref_create_widget (gnm_conf_get_core_gui_window_y_node (),
 				   page, row++, 0.75, 0.25, 1, 0.05, 2,
@@ -930,7 +930,7 @@ pref_file_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
-	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6,
 	              "vexpand", TRUE, NULL);
 	int_pref_create_widget (gnm_conf_get_core_xml_compression_level_node (),
 				page, row++, 9, 0, 9, 1,
@@ -982,7 +982,7 @@ pref_screen_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
-	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6,
 	              "vexpand", TRUE, NULL);
 	double_pref_create_widget (gnm_conf_get_core_gui_screen_horizontaldpi_node (),
 				   page, row++, 96, 50, 250, 1, 1,
@@ -1012,7 +1012,7 @@ pref_tool_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
-	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6,
 	              "vexpand", TRUE, NULL);
 	enum_pref_create_widget (gnm_conf_get_core_gui_editing_enter_moves_dir_node (),
 				 page, row++,
@@ -1076,7 +1076,7 @@ pref_copypaste_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_grid_new ();
 	gint row = 0;
 
-	g_object_set (page, "column-spacing", 12, "row-spacing", 6, 
+	g_object_set (page, "column-spacing", 12, "row-spacing", 6,
 	              "vexpand", TRUE, NULL);
 	bool_pref_create_widget (gnm_conf_get_cut_and_paste_prefer_clipboard_node (),
 				 page, row++,

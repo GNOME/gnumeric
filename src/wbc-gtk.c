@@ -480,7 +480,7 @@ cb_show_sheet (SheetControlGUI *scg)
 {
 	WBCGtk *wbcg = scg->wbcg;
 	int page_number = gtk_notebook_page_num (wbcg->snotebook,
-						 GTK_WIDGET (scg->table));
+						 GTK_WIDGET (scg->grid));
 	gnm_notebook_set_current_page (wbcg->bnotebook, page_number);
 }
 
@@ -600,7 +600,7 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 		return FALSE;
 
 	page_number = gtk_notebook_page_num (wbcg->snotebook,
-					     GTK_WIDGET (scg->table));
+					     GTK_WIDGET (scg->grid));
 	gnm_notebook_set_current_page (wbcg->bnotebook, page_number);
 
 	if (event->button == 1 || NULL != wbcg->rangesel)
@@ -1035,7 +1035,7 @@ cb_sheet_visibility_change (Sheet *sheet,
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	viz = sheet_is_visible (sheet);
-	gtk_widget_set_visible (GTK_WIDGET (scg->table), viz);
+	gtk_widget_set_visible (GTK_WIDGET (scg->grid), viz);
 	gtk_widget_set_visible (GTK_WIDGET (scg->label), viz);
 
 	wbcg_menu_state_sheet_count (scg->wbcg);
@@ -1103,7 +1103,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 
 	scg = sheet_control_gui_new (sv, wbcg);
 
-	g_object_set_data (G_OBJECT (scg->table), SHEET_CONTROL_KEY, scg);
+	g_object_set_data (G_OBJECT (scg->grid), SHEET_CONTROL_KEY, scg);
 
 	g_object_set_data (G_OBJECT (scg->label), SHEET_CONTROL_KEY, scg);
 	g_signal_connect_after (G_OBJECT (scg->label),
@@ -1132,9 +1132,9 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 		NULL);
 
 	gtk_widget_show (scg->label);
-	gtk_widget_show_all (GTK_WIDGET (scg->table));
+	gtk_widget_show_all (GTK_WIDGET (scg->grid));
 	if (!visible) {
-		gtk_widget_hide (GTK_WIDGET (scg->table));
+		gtk_widget_hide (GTK_WIDGET (scg->grid));
 		gtk_widget_hide (GTK_WIDGET (scg->label));
 	}
 	g_object_connect (G_OBJECT (sheet),
@@ -1151,7 +1151,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 		 */
 		int pos = -1;
 		gtk_notebook_insert_page (wbcg->snotebook,
-					  GTK_WIDGET (scg->table), NULL,
+					  GTK_WIDGET (scg->grid), NULL,
 					  pos);
 		gnm_notebook_insert_tab (wbcg->bnotebook,
 					 GTK_WIDGET (scg->label),
@@ -1182,7 +1182,7 @@ wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 	disconnect_sheet_signals (scg);
 
 	gtk_widget_destroy (GTK_WIDGET (scg->label));
-	gtk_widget_destroy (GTK_WIDGET (scg->table));
+	gtk_widget_destroy (GTK_WIDGET (scg->grid));
 
 	wbcg_menu_state_sheet_count (wbcg);
 }
@@ -1195,7 +1195,7 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 
 	if (scg) {
 		int n = gtk_notebook_page_num (wbcg->snotebook,
-					       GTK_WIDGET (scg->table));
+					       GTK_WIDGET (scg->grid));
 		gnm_notebook_set_current_page (wbcg->bnotebook, n);
 
 		if (wbcg->rangesel == NULL)
@@ -1252,7 +1252,7 @@ wbcg_sheet_order_changed (WBCGtk *wbcg)
 	for (i = 0, l = scgs; l; l = l->next, i++) {
 		SheetControlGUI *scg = l->data;
 		gtk_notebook_reorder_child (wbcg->snotebook,
-					    GTK_WIDGET (scg->table),
+					    GTK_WIDGET (scg->grid),
 					    i);
 		gnm_notebook_move_tab (wbcg->bnotebook,
 				       GTK_WIDGET (scg->label),
@@ -1299,7 +1299,7 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 			disconnect_sheet_signals (scg);
 			if (scg != current) {
 				gtk_widget_destroy (GTK_WIDGET (scg->label));
-				gtk_widget_destroy (GTK_WIDGET (scg->table));
+				gtk_widget_destroy (GTK_WIDGET (scg->grid));
 			}
 		}
 
@@ -1308,7 +1308,7 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 		/* Do current scg last.  */
 		if (current) {
 			gtk_widget_destroy (GTK_WIDGET (current->label));
-			gtk_widget_destroy (GTK_WIDGET (current->table));
+			gtk_widget_destroy (GTK_WIDGET (current->grid));
 		}
 
 		wbcg->snotebook = tmp;
@@ -5858,7 +5858,7 @@ wbcg_get_nth_scg (WBCGtk *wbcg, int i)
 	if (NULL != wbcg->snotebook &&
 	    NULL != (w = gtk_notebook_get_nth_page (wbcg->snotebook, i)) &&
 	    NULL != (scg = get_scg (w)) &&
-	    NULL != scg->table &&
+	    NULL != scg->grid &&
 	    NULL != scg_sheet (scg) &&
 	    NULL != scg_view (scg))
 		return scg;

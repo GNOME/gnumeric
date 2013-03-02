@@ -687,9 +687,9 @@ cb_table_destroy (SheetControlGUI *scg)
 	SheetControl *sc = (SheetControl *) scg;
 	int i;
 
-	if (scg->table) {
-		g_object_unref (scg->table);
-		scg->table = NULL;
+	if (scg->grid) {
+		g_object_unref (scg->grid);
+		scg->grid = NULL;
 	}
 
 	scg_mode_edit (scg);	/* finish any object edits */
@@ -1134,18 +1134,12 @@ scg_set_panes (SheetControl *sc)
 			if (!scg->pane[1]) {
 				scg->pane[1] = gnm_pane_new (scg, TRUE, FALSE, 1);
 				gnm_pane_set_direction (scg->pane[1], direction);
-				gtk_table_attach (scg->inner_table,
-					GTK_WIDGET (scg->pane[1]),
-					1, 2, 2, 3,
-					GTK_FILL | GTK_SHRINK,
-					GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-					0, 0);
-				gtk_table_attach (scg->inner_table,
-					GTK_WIDGET (scg->pane[1]->col.alignment),
-					1, 2, 0, 1,
-					GTK_FILL | GTK_SHRINK,
-					GTK_FILL,
-					0, 0);
+				gtk_grid_attach (scg->grid,
+				                 GTK_WIDGET (scg->pane[1]),
+				                 2, 3, 1, 1);
+				gtk_grid_attach (scg->grid,
+				                 GTK_WIDGET (scg->pane[1]->col.canvas),
+						 2, 0, 1, 2);
 			}
 			gnm_pane_bound_set (scg->pane[1],
 				tl->col, br->row, br->col - 1, gnm_sheet_get_last_row (sv->sheet));
@@ -1155,12 +1149,9 @@ scg_set_panes (SheetControl *sc)
 			if (!scg->pane[2]) {
 				scg->pane[2] = gnm_pane_new (scg, FALSE, FALSE,  2);
 				gnm_pane_set_direction (scg->pane[2], direction);
-				gtk_table_attach (scg->inner_table,
-					GTK_WIDGET (scg->pane[2]),
-					1, 2, 1, 2,
-					GTK_FILL | GTK_SHRINK,
-					GTK_FILL,
-					0, 0);
+				gtk_grid_attach (scg->grid,
+				                 GTK_WIDGET (scg->pane[2]),
+				                 2, 2, 1, 1);
 			}
 			gnm_pane_bound_set (scg->pane[2],
 				tl->col, tl->row, br->col - 1, br->row - 1);
@@ -1170,18 +1161,12 @@ scg_set_panes (SheetControl *sc)
 			if (!scg->pane[3]) {
 				scg->pane[3] = gnm_pane_new (scg, FALSE, TRUE, 3);
 				gnm_pane_set_direction (scg->pane[3], direction);
-				gtk_table_attach (scg->inner_table,
-					GTK_WIDGET (scg->pane[3]),
-					2, 3, 1, 2,
-					GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-					GTK_FILL | GTK_SHRINK,
-					0, 0);
-				gtk_table_attach (scg->inner_table,
-					GTK_WIDGET (scg->pane[3]->row.alignment),
-					0, 1, 1, 2,
-					GTK_FILL | GTK_SHRINK,
-					GTK_FILL,
-					0, 0);
+				gtk_grid_attach (scg->grid,
+				                 GTK_WIDGET (scg->pane[3]),
+				                 3, 2, 1, 1);
+				gtk_grid_attach (scg->grid,
+				                 GTK_WIDGET (scg->pane[3]->row.canvas),
+				                 0, 2, 2, 1);
 			}
 			gnm_pane_bound_set (scg->pane[3],
 				br->col, tl->row, gnm_sheet_get_last_col (sv->sheet), br->row - 1);
@@ -1199,7 +1184,7 @@ scg_set_panes (SheetControl *sc)
 			0, 0, gnm_sheet_get_last_col (sv->sheet), gnm_sheet_get_last_row (sv->sheet));
 	}
 
-	gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
+	gtk_widget_show_all (GTK_WIDGET (scg->grid));
 
 	/* in case headers are hidden */
 	scg_adjust_preferences (scg);
@@ -1332,21 +1317,22 @@ static void
 set_resize_pane_pos (SheetControlGUI *scg, GtkPaned *p)
 {
 	int handle_size, pane_pos, size;
+	GtkAllocation alloc;
 
 	if (!scg->pane[0])
 		return;
 
 	if (p == scg->vpane) {
-		gtk_widget_get_size_request (
-			GTK_WIDGET (scg->pane[0]->col.canvas), NULL, &pane_pos);
+		gtk_widget_get_allocation (GTK_WIDGET (scg->pane[0]->col.canvas), &alloc);
+		pane_pos = alloc.height;
 		if (scg->pane[3]) {
 			gtk_widget_get_size_request (
 				GTK_WIDGET (scg->pane[3]), NULL, &size);
 			pane_pos += size;
 		}
 	} else {
-		gtk_widget_get_size_request (
-			GTK_WIDGET (scg->pane[0]->row.canvas), &pane_pos, NULL);
+		gtk_widget_get_allocation (GTK_WIDGET (scg->pane[0]->row.canvas), &alloc);
+		pane_pos = alloc.width;
 		if (scg->pane[1]) {
 			gtk_widget_get_size_request (
 				GTK_WIDGET (scg->pane[1]), &size, NULL);
@@ -1468,6 +1454,31 @@ cb_check_resize (GtkPaned *p, GtkAllocation *allocation,
 	}
 }
 
+struct resize_closure {
+	GtkPaned *p;
+	SheetControlGUI *scg;
+};
+
+static gboolean
+idle_resize (struct resize_closure *r)
+{
+
+	set_resize_pane_pos (r->scg, r->p);
+	g_free (r);
+	return FALSE;
+}
+
+static void
+cb_canvas_resize (GtkWidget *w, GtkAllocation *allocation,
+		 SheetControlGUI *scg)
+{
+	struct resize_closure *r = g_new (struct resize_closure, 1);
+	r->scg = scg;
+	r->p = (w == GTK_WIDGET (scg->pane[0]->col.canvas))? scg->hpane: scg->vpane;
+	/* The allocation is not correct at this point, weird */
+	g_idle_add ((GSourceFunc) idle_resize, r);
+}
+
 static gboolean
 post_create_cb (SheetControlGUI *scg)
 {
@@ -1528,7 +1539,7 @@ SheetControlGUI *
 sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 {
 	SheetControlGUI *scg;
-	GnmUpdateType scroll_update_policy;
+/*	GnmUpdateType scroll_update_policy; */ /* see warning below */
 	Sheet *sheet;
 	GocDirection direction;
 	GdkRGBA cfore, cback;
@@ -1557,9 +1568,15 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		scg->col_group.buttons = g_ptr_array_new ();
 		scg->row_group.buttons = g_ptr_array_new ();
 		scg->col_group.button_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-		gtk_box_set_homogeneous (GTK_BOX (scg->col_group.button_box), TRUE);
+		g_object_set (scg->col_group.button_box,
+		              "halign", GTK_ALIGN_CENTER,
+		              "homogeneous", TRUE,
+		              NULL);
 		scg->row_group.button_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-		gtk_box_set_homogeneous (GTK_BOX (scg->row_group.button_box), TRUE);
+		g_object_set (scg->row_group.button_box,
+		              "valign", GTK_ALIGN_CENTER,
+		              "homogeneous", TRUE,
+		              NULL);
 		scg->select_all_btn = gtk_drawing_area_new ();
 		gtk_widget_add_events (scg->select_all_btn, GDK_BUTTON_PRESS_MASK);
 		g_signal_connect (G_OBJECT (scg->select_all_btn), "draw",
@@ -1567,52 +1584,36 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		g_signal_connect (G_OBJECT (scg->select_all_btn), "event",
 				  G_CALLBACK (cb_select_all_btn_event), scg);
 
-		scg->corner	 = GTK_TABLE (gtk_table_new (2, 2, FALSE));
-		gtk_table_attach (scg->corner, scg->col_group.button_box,
-			1, 2, 0, 1,
-			GTK_SHRINK,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			0, 0);
-		gtk_table_attach (scg->corner, scg->row_group.button_box,
-			0, 1, 1, 2,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			GTK_SHRINK,
-			0, 0);
-		gtk_table_attach (scg->corner, scg->select_all_btn,
-			1, 2, 1, 2,
-			0,
-			0,
-			0, 0);
+		scg->grid = GTK_GRID (gtk_grid_new ());
+		gtk_grid_attach (scg->grid, scg->col_group.button_box,
+		                 1, 0, 1, 1);
+		gtk_grid_attach (scg->grid, scg->row_group.button_box,
+		                 0, 1, 1, 1);
+		gtk_grid_attach (scg->grid, scg->select_all_btn, 1, 1, 1, 1);
 
 		scg->pane[1] = scg->pane[2] = scg->pane[3] = NULL;
 		scg->pane[0] = gnm_pane_new (scg, TRUE, TRUE, 0);
 		gnm_pane_set_direction (scg->pane[0], direction);
-		scg->inner_table = GTK_TABLE (gtk_table_new (3, 3, FALSE));
-		gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->corner),
-			0, 1, 0, 1,
-			GTK_FILL,
-			GTK_FILL,
-			0, 0);
-		gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]->col.alignment),
-			2, 3, 0, 1,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			GTK_FILL,
-			0, 0);
-		gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]->row.alignment),
-			0, 1, 2, 3,
-			GTK_FILL,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			0, 0);
-		gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]),
-			2, 3, 2, 3,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			0, 0);
-		gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
+		gtk_grid_attach (scg->grid,
+		                 GTK_WIDGET (scg->pane[0]->col.canvas),
+		                 3, 0, 1, 2);
+		gtk_grid_attach (scg->grid,
+		                 GTK_WIDGET (scg->pane[0]->row.canvas),
+		                 0, 3, 2, 1);
+		g_object_set (scg->pane[0],
+		              "hexpand", TRUE,
+		              "vexpand", TRUE,
+		              NULL);
+		gtk_grid_attach (scg->grid, GTK_WIDGET (scg->pane[0]),
+		                 3, 3, 1, 1);
+		g_signal_connect_after (G_OBJECT (scg->pane[0]->col.canvas), "size-allocate",
+			G_CALLBACK (cb_canvas_resize), scg);
+		g_signal_connect_after (G_OBJECT (scg->pane[0]->row.canvas), "size-allocate",
+			G_CALLBACK (cb_canvas_resize), scg);
 
 		/* Scroll bars and their adjustments */
-		scroll_update_policy = gnm_conf_get_core_gui_editing_livescrolling ()
-			? GNM_UPDATE_CONTINUOUS : GNM_UPDATE_DELAYED;
+/*		scroll_update_policy = gnm_conf_get_core_gui_editing_livescrolling ()
+			? GNM_UPDATE_CONTINUOUS : GNM_UPDATE_DELAYED;*/ /* see below */
 		scg->va = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 		scg->vs = g_object_new (GTK_TYPE_SCROLLBAR,
 		                "orientation", GTK_ORIENTATION_VERTICAL,
@@ -1644,31 +1645,21 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			"adjust_bounds",
 			G_CALLBACK (cb_hscrollbar_adjust_bounds), sheet);
 
-		scg->table = GTK_TABLE (gtk_table_new (4, 4, FALSE));
-		g_object_ref (scg->table);
-		gtk_table_attach (scg->table, GTK_WIDGET (scg->inner_table),
-			0, 1, 0, 1,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			0, 0);
+		g_object_ref (scg->grid);
 		scg->vpane = g_object_new (GTK_TYPE_PANED, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
-		gtk_paned_add1 (scg->vpane, gtk_label_new (NULL)); /* use a spacer */
+			gtk_paned_add1 (scg->vpane, gtk_label_new (NULL)); /* use a spacer */
 		gtk_paned_add2 (scg->vpane, scg->vs);
 		scg_gtk_paned_set_position (scg, scg->vpane, 0);
-		gtk_table_attach (scg->table, GTK_WIDGET (scg->vpane),
-			1, 2, 0, 1,
-			GTK_FILL,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			0, 0);
+		gtk_widget_set_vexpand (GTK_WIDGET (scg->vpane), TRUE);
+		gtk_grid_attach (scg->grid,
+		                 GTK_WIDGET (scg->vpane), 4, 0, 1, 4);
 		scg->hpane = g_object_new (GTK_TYPE_PANED, NULL);
 		gtk_paned_add1 (scg->hpane, gtk_label_new (NULL)); /* use a spacer */
 		gtk_paned_add2 (scg->hpane, scg->hs);
 		scg_gtk_paned_set_position (scg, scg->hpane, 0);
-		gtk_table_attach (scg->table, GTK_WIDGET (scg->hpane),
-			0, 1, 1, 2,
-			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			GTK_FILL,
-			0, 0);
+		gtk_widget_set_hexpand (GTK_WIDGET (scg->hpane), TRUE);
+		gtk_grid_attach (scg->grid,
+		                 GTK_WIDGET (scg->hpane), 0, 4, 4, 1);
 		/* do not connect until after setting position */
 		g_signal_connect (G_OBJECT (scg->vpane), "notify::position",
 			G_CALLBACK (cb_resize_pane_motion), scg);
@@ -1679,11 +1670,11 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		g_signal_connect_after (G_OBJECT (scg->hpane), "size-allocate",
 			G_CALLBACK (cb_check_resize), scg);
 
-		g_signal_connect_data (G_OBJECT (scg->table),
+		g_signal_connect_data (G_OBJECT (scg->grid),
 			"size-allocate",
 			G_CALLBACK (scg_scrollbar_config), scg, NULL,
 			G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-		g_signal_connect_object (G_OBJECT (scg->table),
+		g_signal_connect_object (G_OBJECT (scg->grid),
 			"destroy",
 			G_CALLBACK (cb_table_destroy), G_OBJECT (scg),
 			G_CONNECT_SWAPPED);
@@ -1706,16 +1697,16 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			 NULL);
 	} else {
 		scg->active_panes = 0;
-		scg->table = GTK_TABLE (gtk_table_new (1, 1, FALSE));
-		g_object_ref (scg->table);
+		scg->grid = GTK_GRID (gtk_grid_new ());
+		g_object_ref (scg->grid);
 		sheet->hide_col_header = sheet->hide_row_header = FALSE;
 		if (sheet->sheet_type == GNM_SHEET_OBJECT) {
 			scg->vs = g_object_new (GOC_TYPE_CANVAS, NULL);
-			gtk_table_attach (scg->table, scg->vs,
-				0, 1, 0, 1,
-				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-				0, 0);
+			g_object_set (scg->vs,
+			              "hexpand", TRUE,
+			              "vexpand", TRUE,
+			              NULL);
+			gtk_grid_attach (scg->grid, scg->vs, 0, 0, 1, 1);
 			gtk_widget_set_can_focus (scg->vs, TRUE);
 			gtk_widget_set_can_default (scg->vs, TRUE);
 			g_signal_connect (G_OBJECT (scg->vs), "key-press-event",
@@ -1728,7 +1719,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			g_object_set_data (G_OBJECT (scg->vs), "sheet-control", scg);
 			if (sheet->sheet_objects) {
 				/* we need an idle function because not every thing is initialized at this point */
-				sheet_object_new_view ((SheetObject *) sheet->sheet_objects->data, 
+				sheet_object_new_view ((SheetObject *) sheet->sheet_objects->data,
 						       (SheetObjectViewContainer*) scg->vs);
 				g_idle_add ((GSourceFunc) post_create_cb, scg);
 			}
@@ -1797,10 +1788,10 @@ scg_finalize (GObject *object)
 		sv_detach_control (sc);
 	}
 
-	if (scg->table) {
-		gtk_widget_destroy (GTK_WIDGET (scg->table));
-		g_object_unref (scg->table);
-		scg->table = NULL;
+	if (scg->grid) {
+		gtk_widget_destroy (GTK_WIDGET (scg->grid));
+		g_object_unref (scg->grid);
+		scg->grid = NULL;
 	}
 
 	if (scg->label) {
@@ -1877,19 +1868,22 @@ scg_adjust_preferences (SheetControlGUI *scg)
 
 	SCG_FOREACH_PANE (scg, pane, {
 		if (pane->col.canvas != NULL) {
-			gtk_widget_set_visible (GTK_WIDGET (pane->col.alignment),
+			gtk_widget_set_visible (GTK_WIDGET (pane->col.canvas),
 						!sheet->hide_col_header);
 		}
 
 		if (pane->row.canvas != NULL) {
-			gtk_widget_set_visible (GTK_WIDGET (pane->row.alignment),
+			gtk_widget_set_visible (GTK_WIDGET (pane->row.canvas),
 						!sheet->hide_row_header);
 		}
 	});
 
-	if (scg->corner) {
-		gtk_widget_set_visible (GTK_WIDGET (scg->corner),
-					!(sheet->hide_col_header || sheet->hide_row_header));
+	if (scg->select_all_btn) {
+		/* we used to test for the corner table existence, why??? */
+		gboolean visible = !(sheet->hide_col_header || sheet->hide_row_header);
+		gtk_widget_set_visible (scg->select_all_btn, visible);
+		gtk_widget_set_visible (scg->row_group.button_box, visible);
+		gtk_widget_set_visible (scg->col_group.button_box, visible);
 
 		if (scg_wbc (scg) != NULL) {
 			WorkbookView *wbv = wb_control_view (scg_wbc (scg));
@@ -2484,7 +2478,7 @@ scg_mode_edit (SheetControlGUI *scg)
 
 	/* During destruction we have already been disconnected
 	 * so don't bother changing the cursor */
-	if (scg->table != NULL &&
+	if (scg->grid != NULL &&
 	    scg_sheet (scg) != NULL &&
 	    scg_view (scg) != NULL) {
 		scg_set_display_cursor (scg);

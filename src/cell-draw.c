@@ -27,7 +27,7 @@
 static char const hashes[] =
 "################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################";
 
-static gboolean 
+static gboolean
 cell_draw_simplify_cb (PangoAttribute *attribute,
 		       gboolean *recalc_height)
 {
@@ -35,18 +35,18 @@ cell_draw_simplify_cb (PangoAttribute *attribute,
 	    (attribute->klass->type == PANGO_ATTR_SCALE)) {
 		*recalc_height = TRUE;
 		return TRUE;
-	} 
+	}
 	return (attribute->klass->type == PANGO_ATTR_SHAPE);
 }
 
 static void
 cell_draw_simplify_attributes (GnmRenderedValue *rv)
 {
-	PangoAttrList *pal = pango_attr_list_ref 
+	PangoAttrList *pal = pango_attr_list_ref
 		(pango_layout_get_attributes (rv->layout));
 	gboolean recalc_height = FALSE;
-	pango_attr_list_unref 
-		(pango_attr_list_filter 
+	pango_attr_list_unref
+		(pango_attr_list_filter
 		 (pal, (PangoAttrFilterFunc) cell_draw_simplify_cb, &recalc_height));
 	if (recalc_height)
 		pango_layout_get_size (rv->layout, NULL,

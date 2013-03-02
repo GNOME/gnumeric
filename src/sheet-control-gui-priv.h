@@ -16,9 +16,7 @@ struct _SheetControlGUI {
 	/* Cached SheetControl attribute to reduce casting. */
 	WBCGtk *wbcg;
 
-	GtkTable	*table;
-	GtkTable	*inner_table;
-	GtkTable	*corner;
+	GtkGrid		*grid;
 	GtkWidget	*select_all_btn;
 	GtkWidget       *label;
 	struct {

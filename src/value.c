@@ -1848,7 +1848,7 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
  * @unique_only:
  *
  * Finds the rows from the given database that match the criteria.
- * Returns: (element-type int) (transfer full): the list of matching rows. 
+ * Returns: (element-type int) (transfer full): the list of matching rows.
  **/
 GSList *
 find_rows_that_match (Sheet *sheet, int first_col, int first_row,

@@ -381,7 +381,7 @@ sop_sax_path (GsfXMLIn *xin, xmlChar const **attrs)
 			g_object_set (G_OBJECT (sop), "paths", sop->paths, NULL);
 			g_ptr_array_unref (sop->paths);
 			return;
-		}	
+		}
 }
 
 static void
@@ -426,7 +426,7 @@ gnm_so_path_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 				g_object_set (G_OBJECT (sop), "path", path, NULL);
 				go_path_free (path);
 			}
-		}	
+		}
 }
 
 static void
@@ -522,7 +522,7 @@ gnm_so_path_set_property (GObject *obj, guint param_id,
 		g_free (sop->text);
 		sop->text = g_strdup (str == NULL ? "" : str);
 		break;
-	}	
+	}
 	case SOP_PROP_MARKUP:
 		if (sop->markup != NULL)
 			pango_attr_list_unref (sop->markup);
@@ -602,13 +602,13 @@ gnm_so_path_class_init (GObjectClass *gobject_class)
 	so_class->copy			= gnm_so_path_copy;
 	so_class->rubber_band_directly	= FALSE;
 	so_class->xml_export_name	= "SheetObjectPath";
-	
+
 #ifdef GNM_WITH_GTK
 	so_class->new_view		= gnm_so_path_new_view;
 	so_class->user_config	= gnm_so_path_user_config;
 #endif /* GNM_WITH_GTK */
 	so_class->draw_cairo	= gnm_so_path_draw_cairo;
-	
+
     g_object_class_install_property (gobject_class, SOP_PROP_PATH,
              g_param_spec_boxed ("path", NULL, NULL, GO_TYPE_PATH,
 		GSF_PARAM_STATIC | G_PARAM_READWRITE));

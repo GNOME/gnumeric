@@ -168,7 +168,7 @@ null_sheet_order_changed (G_GNUC_UNUSED GnmDiffState *state)
 {
 }
 
-static void 
+static void
 null_sheet_attr_int_changed (G_GNUC_UNUSED GnmDiffState *state,
 			     G_GNUC_UNUSED const char *name,
 			     G_GNUC_UNUSED int o,
@@ -252,7 +252,7 @@ def_sheet_order_changed (GnmDiffState *state)
 	gsf_output_printf (state->output, _("Sheet order changed.\n"));
 }
 
-static void 
+static void
 def_sheet_attr_int_changed (GnmDiffState *state, const char *name,
 			    G_GNUC_UNUSED int o, G_GNUC_UNUSED int n)
 {
@@ -260,7 +260,7 @@ def_sheet_attr_int_changed (GnmDiffState *state, const char *name,
 			   name);
 }
 
-static void 
+static void
 def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
 	if (oc && nc)
@@ -273,7 +273,7 @@ def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 		g_assert_not_reached ();
 }
 
-static void 
+static void
 def_style_changed (GnmDiffState *state, GnmRange const *r,
 		   G_GNUC_UNUSED Sheet const *osh,
 		   G_GNUC_UNUSED Sheet const *nsh,
@@ -353,7 +353,7 @@ xml_sheet_end (GnmDiffState *state)
 	gsf_xml_out_end_element (state->xml); /* </Sheet> */
 }
 
-static void 
+static void
 xml_sheet_attr_int_changed (GnmDiffState *state, const char *name,
 			    int o, int n)
 {
@@ -399,7 +399,7 @@ output_cell (GnmDiffState *state, GnmCell const *cell,
 	g_string_free (str, TRUE);
 }
 
-static void 
+static void
 xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
 	const GnmCellPos *pos;
@@ -428,9 +428,9 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 	  gsf_xml_out_add_int (state->xml, "New", (fun) (ns));	\
 	  gsf_xml_out_end_element (state->xml);			\
   } while (0)
-	  
 
-static void 
+
+static void
 xml_style_changed (GnmDiffState *state, GnmRange const *r,
 		   G_GNUC_UNUSED Sheet const *osh,
 		   G_GNUC_UNUSED Sheet const *nsh,
@@ -489,7 +489,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 				"Rev-Diagonal",
 				"Diagonal"
 			};
-		
+
 			char *tag = g_strconcat ("Border",
 						 border_names[e - MSTYLE_BORDER_TOP],
 						 NULL);
@@ -673,7 +673,7 @@ highlight_apply (GnmDiffState *state, const char *sheetname,
 	sheet_style_apply_range (sheet, r, state->highlight_style);
 }
 
-static void 
+static void
 highlight_cell_changed (GnmDiffState *state,
 			GnmCell const *oc, GnmCell const *nc)
 {
@@ -683,7 +683,7 @@ highlight_cell_changed (GnmDiffState *state,
 	highlight_apply (state, nc->base.sheet->name_unquoted, &r);
 }
 
-static void 
+static void
 highlight_style_changed (GnmDiffState *state, GnmRange const *r,
 			 G_GNUC_UNUSED Sheet const *osh,
 			 Sheet const *nsh,
@@ -724,7 +724,7 @@ compare_corresponding_cells (GnmCell const *co, GnmCell const *cn)
 		return !(value_equal (co->value, cn->value) &&
 			 go_format_eq (VALUE_FMT (co->value),
 				       VALUE_FMT (cn->value)));
-			
+
 
 	return FALSE;
 }
@@ -776,7 +776,7 @@ diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 					state->actions->cell_changed (state, co, cn);
 				io++, in++;
 				continue;
-			}			
+			}
 		}
 
 		if (co) {
@@ -913,7 +913,7 @@ diff (char const *oldfilename, char const *newfilename,
 		Sheet *new_sheet = workbook_sheet_by_name (state.new.wb,
 							   old_sheet->name_unquoted);
 		state.actions->sheet_start (&state, old_sheet, new_sheet);
-		
+
 		if (new_sheet) {
 			if (new_sheet->index_in_wb < last_index)
 				sheet_order_changed = TRUE;
@@ -1000,7 +1000,7 @@ main (int argc, char const **argv)
 		g_printerr (_("%s: Only one output format may be specified.\n"),
 			    g_get_prgname ());
 		return 1;
-	}			    
+	}
 
 	if (ssdiff_highlight) {
 		actions = &highlight_actions;

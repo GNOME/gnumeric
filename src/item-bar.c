@@ -169,7 +169,11 @@ item_bar_calc_size (ItemBar *ib)
 
 	g_list_free (item_list);
 
-	ib->indent = ib_compute_pixels_from_indent (sheet, ib->is_col_header);
+	size = ib_compute_pixels_from_indent (sheet, ib->is_col_header);
+	if (size != ib->indent) {
+		ib->indent = size;
+		goc_item_bounds_changed (GOC_ITEM (ib));
+	}
 
 	pango_font_description_free (desc);
 	g_object_unref (layout);
@@ -526,7 +530,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 					cairo_restore (cr);
 				}
 			}
-				prev_visible = cri->visible;
+			prev_visible = cri->visible;
 			prev_level = cri->outline_level;
 			++col;
 		} while ((rtl && end <= total) || (!rtl && total <= end));

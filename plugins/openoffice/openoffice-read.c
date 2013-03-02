@@ -1819,7 +1819,7 @@ odf_fix_en_collect (gchar const *key, G_GNUC_UNUSED GnmNamedExpr *nexpr, odf_fix
 			int i, limit = g_utf8_next_char (here) - here;
 			for (i = 0; i<limit;i++)
 				here[i] = '_';
-		}	
+		}
 	}
 	while (!odf_fix_en_validate (str->str, fen))
 		g_string_append_c (str, '_');
@@ -1848,8 +1848,8 @@ odf_fix_en_apply (const char *orig, const char *fixed, odf_fix_expr_names_t *fen
 		fen->nexpr = NULL;
 		workbook_foreach_name (fen->state->pos.wb, FALSE,
 				       (GHFunc)odf_fix_en_find, fen);
-		
-		if (fen->nexpr == NULL) 
+
+		if (fen->nexpr == NULL)
 			return;
 
 		expr_name_set_name (fen->nexpr, fixed);
@@ -1871,7 +1871,7 @@ odf_fix_expr_names (OOParseState *state)
 	odf_fix_expr_names_t *fen = odf_fix_expr_names_t_new (state);
 
 	workbook_foreach_name (state->pos.wb, FALSE,
-			       (GHFunc)odf_fix_en_collect, fen);	
+			       (GHFunc)odf_fix_en_collect, fen);
 	g_hash_table_foreach (fen->orig2fixed, (GHFunc)odf_fix_en_apply, fen);
 
 	odf_fix_expr_names_t_free (fen);
@@ -5077,7 +5077,7 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "literal-E",
 				       &use_literal_E));
 	if (engineering)
-		details->exponent_step = 3;	
+		details->exponent_step = 3;
 	details->use_markup = !use_literal_E;
 	details->simplify_mantissa = (details->min_digits == 0) && !use_literal_E;
 	go_format_generate_str (state->cur_format.accum, details);
@@ -6203,7 +6203,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 #endif
 
-	gnm_style_set_font_strike (style, strike_through_style > 0 || 
+	gnm_style_set_font_strike (style, strike_through_style > 0 ||
 				   (strike_through_type > 0 &&  strike_through_style == -1));
 
 }
@@ -9141,7 +9141,7 @@ static gnm_float
 odf_parse_float (char *text, char **end)
 {
 	gnm_float x = gnm_strto (text, end);
-	
+
 	if (text == *end)
 		x = 1.;
 
@@ -9167,7 +9167,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 	double viewbox_top = 0.;
 	double viewbox_width = 0.;
 	double viewbox_height = 0.;
-	
+
 	if (x)
 		return *x;
 
@@ -9175,18 +9175,18 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 
 	if (level < 0) {
 		oo_warning (xin, _("Infinite loop encountered while parsing formula '%s' "
-				   "of name '%s'"), 
+				   "of name '%s'"),
 			    o_formula, key);
 		return 0;
 	}
-	
+
 	g_return_val_if_fail (formula != NULL, level);
 
 	if (state->chart.cs_viewbox) {
 		/*
 		  Note:
 		  In ODF 1.2 part 1 19.570 svg:viewBox we have:
-		  "The syntax for using this attribute is the same as the [SVG] syntax. 
+		  "The syntax for using this attribute is the same as the [SVG] syntax.
 		  The value of the attribute are four numbers separated by white spaces,
 		  which define the left, top, right, and bottom dimensions of the user
 		  coordinate system."
@@ -9200,9 +9200,9 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		viewbox_left = go_strtod (state->chart.cs_viewbox, &end);
 		viewbox_top = go_strtod (end, &end);
 		viewbox_width = go_strtod (end, &end);
-		viewbox_height = go_strtod (end, &end);		
+		viewbox_height = go_strtod (end, &end);
 	}
-	
+
 	gstr = g_string_new ("");
 
 	while (*formula != 0) {
@@ -9222,9 +9222,9 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 			   function_reference::= "?" name
 			   name::= [^#x20#x9]+
 			   --------------------------
-			   so we should graball non-space, non-tab characters 
+			   so we should graball non-space, non-tab characters
 			   as a function_reference name.
-			   
+
 			   The problem is that LO creates files in which these
 			   function reference are not terminated by space or tab!
 
@@ -9278,7 +9278,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		case 'b':
 			if (g_str_has_prefix (formula, "bottom")) {
 				formula += 6;
-				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, 
+				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g,
 							viewbox_top + viewbox_height);
 			} else {
 				g_string_append_c (gstr, *formula);
@@ -9297,7 +9297,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		case 'r':
 			if (g_str_has_prefix (formula, "right")) {
 				formula += 5;
-				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, 
+				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g,
 							viewbox_left + viewbox_width);
 			} else {
 				g_string_append_c (gstr, *formula);
@@ -9324,8 +9324,8 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 			break;
 
 
-			/* The ODF specs says (in ODF 1.2 part 1 item 19.171): 
-			   "sin(n) returns the trigonometric sine of n, where n is an angle 
+			/* The ODF specs says (in ODF 1.2 part 1 item 19.171):
+			   "sin(n) returns the trigonometric sine of n, where n is an angle
 			   specified in degrees"
 			   but LibreOffice clearly uses sin(n) with n in radians
 			*/
@@ -9354,7 +9354,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		default:
 			g_string_append_c (gstr, *formula);
 			formula++;
-			break;			
+			break;
 		}
 	}
 
@@ -9377,12 +9377,12 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 			*x = x_ret;
 			g_hash_table_insert (vals, g_strdup (key), x);
 		} else
-			oo_warning (xin, _("Unable to evaluate formula '%s' ('%s') of name '%s'"), 
+			oo_warning (xin, _("Unable to evaluate formula '%s' ('%s') of name '%s'"),
 				    o_formula, gstr->str, key);
 		value_release (val);
 		gnm_expr_top_unref (texpr);
 	} else
-		oo_warning (xin, _("Unable to parse formula '%s' ('%s') of name '%s'"), 
+		oo_warning (xin, _("Unable to parse formula '%s' ('%s') of name '%s'"),
 			    o_formula, gstr->str, key);
 	g_string_free (gstr, TRUE);
 	return x_ret;
@@ -9396,7 +9396,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 	GHashTable *vals = NULL;
 	char **strs, **cur;
 	GPtrArray *paths;
-	
+
 	if (state->chart.cs_variables || state->chart.cs_modifiers) {
 		vals = g_hash_table_new_full
 			(g_str_hash, g_str_equal,
@@ -9404,7 +9404,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 		if (state->chart.cs_modifiers) {
 			int i = 0;
 			char *next = state->chart.cs_modifiers;
-			
+
 			while (*next != 0) {
 				char *end  = next;
 				gnm_float x = odf_parse_float (next, &end);
@@ -9440,9 +9440,9 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 
 	if (vals)
 		g_hash_table_unref (vals);
-		
+
 	/* Note that we have already created a rectangle */
-	
+
 	if (paths->len == 1) {
 		odf_custom_shape_replace_object
 			(state, g_object_new (GNM_SO_PATH_TYPE,
@@ -9471,7 +9471,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 		oo_warning (xin , _("An unsupported custom shape was encountered and "
 				    "converted to a rectangle."));
 	g_ptr_array_unref (paths);
-	
+
 	od_draw_text_frame_end (xin, blob);
 
 	g_free (state->chart.cs_enhanced_path);
@@ -9491,7 +9491,7 @@ odf_custom_shape_equation (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gchar const *name = NULL, *meaning = NULL;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) 
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					OO_NS_DRAW, "name"))
 			name = CXML2C (attrs[1]);

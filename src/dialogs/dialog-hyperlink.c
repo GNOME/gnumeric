@@ -497,7 +497,7 @@ dhl_init (HyperlinkState *state)
 
 	w = go_gtk_builder_get_widget (state->gui, "internal-link-grid");
 	expr_entry = gnm_expr_entry_new (state->wbcg, TRUE);
-	gtk_widget_set_hexpand (GTK_WIDGET (expr_entry), TRUE); 
+	gtk_widget_set_hexpand (GTK_WIDGET (expr_entry), TRUE);
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (expr_entry));
 	gtk_entry_set_activates_default
 		(gnm_expr_entry_get_entry (expr_entry), TRUE);

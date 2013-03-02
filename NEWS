@@ -12,6 +12,9 @@ Andreas:
 
 Jean:
 	* Fixed aspect ratio for graph sheets. [#691472]
+	* Replaced all GtkTable instances by GtkGrid.
+	* Make the row and column header clickable even when indented.
+	* Fix horizontal and vertical pane positions after indentation.
 
 Morten:
 	* Fix a few compiler warnings.

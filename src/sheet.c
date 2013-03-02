@@ -3752,7 +3752,7 @@ GPtrArray *
 sheet_cells (Sheet *sheet, const GnmRange *r)
 {
 	GPtrArray *res = g_ptr_array_new ();
-	GHashTableIter hiter;	
+	GHashTableIter hiter;
 	gpointer value;
 
 	g_hash_table_iter_init (&hiter, sheet->cell_hash);

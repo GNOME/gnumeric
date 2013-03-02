@@ -1,3 +1,20 @@
+2013-03-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-pane-impl.h: remove alignments.
+	* src/gnm-pane.c (gnm_pane_header_init): dittO;
+	* src/gnm-plugin.c (plugin_service_ui_read_xml): fixed a C++ type comment.
+	* src/item-bar.c (item_bar_calc_size): force recalc when indent changed.
+	* src/sheet-control-gui-priv.h: remove all tables by one grid.
+	* src/sheet-control-gui.c (cb_table_destroy), (scg_set_panes),
+	(set_resize_pane_pos), (idle_resize), (cb_canvas_resize),
+	(sheet_control_gui_new), (scg_finalize), (scg_adjust_preferences),
+	(scg_mode_edit): ditto.
+	* src/wbc-gtk.c (cb_show_sheet), (cb_sheet_label_button_press),
+	(cb_sheet_visibility_change), (wbcg_sheet_add),
+	(wbcg_sheet_remove), (wbcg_sheet_focus),
+	(wbcg_sheet_order_changed), (wbcg_sheet_remove_all),
+	(wbcg_get_nth_scg): ditto.
+
 2013-03-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gui-file.c (gui_file_open): GtkTable to GtkGrid.

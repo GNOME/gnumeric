@@ -993,8 +993,8 @@ workbook_view_new (Workbook *wb)
 
 	g_return_val_if_fail (wb != NULL, NULL);
 
-	wbv = g_object_new 
-		(WORKBOOK_VIEW_TYPE, 
+	wbv = g_object_new
+		(WORKBOOK_VIEW_TYPE,
 		 "show-horizontal-scrollbar", TRUE,
 		 "show-vertical-scrollbar", TRUE,
 		 "show-notebook-tabs", TRUE,

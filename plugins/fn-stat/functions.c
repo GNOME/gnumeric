@@ -4203,7 +4203,7 @@ gnumeric_subtotal (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	switch (fun_nbr) {
 	case  1: func = gnm_range_average;	break;
-	case  2: flags_errors = COLLECT_IGNORE_ERRORS;		
+	case  2: flags_errors = COLLECT_IGNORE_ERRORS;
 		 func = gnm_range_count;        break;
 	case  3: flags_errors = COLLECT_ZERO_ERRORS;
 		 flags_strings = COLLECT_ZERO_STRINGS;

@@ -685,7 +685,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			&start_sheet, &end_sheet, &r);
 
 		/* clip here rather than relying on sheet_foreach
-		 * because that only clips if we ignore blanks 
+		 * because that only clips if we ignore blanks
 		 * but add +1 to max_used so that we can have matrices with
 		 * empty cells at the end, see #684072 */
 		if (r.end.row > start_sheet->rows.max_used)

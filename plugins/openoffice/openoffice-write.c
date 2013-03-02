@@ -3648,7 +3648,7 @@ odf_write_sheet (GnmOOExport *state)
 	/* and TABLE "table-rows" wrapper, */
 	/* MS Excel 2010 stumbles over it */
 	/* So we may not use them! */
-	
+
 	Sheet const *sheet = state->sheet;
 	int max_cols = gnm_sheet_get_max_cols (sheet);
 	int max_rows = gnm_sheet_get_max_rows (sheet);
@@ -3677,7 +3677,7 @@ odf_write_sheet (GnmOOExport *state)
 		if (repeat_left_end < max_cols)
 			odf_write_formatted_columns (state, sheet, col_styles,
 						     repeat_left_end + 1, max_cols);
-	} else 
+	} else
 		odf_write_formatted_columns (state, sheet, col_styles, 0, max_cols);
 
 	if (print_load_repeat_range (sheet->print_info->repeat_top, &r, sheet)) {

@@ -124,14 +124,14 @@ cb_ok_clicked (ResizeState *state)
 		sheets = workbook_sheets (wb);
 		for (l = sheets; l; l = l->next) {
 			Sheet *this_sheet = l->data;
-			
+
 			if (this_sheet == state->sheet)
 				continue;
-			
+
 			if (cols == gnm_sheet_get_max_cols (this_sheet) &&
 			    rows == gnm_sheet_get_max_rows (this_sheet))
 				continue;
-			
+
 			changed_sheets = g_slist_prepend (changed_sheets, this_sheet);
 		}
 		g_slist_free (sheets);
@@ -145,7 +145,7 @@ cb_ok_clicked (ResizeState *state)
 		changed_sheets = g_slist_prepend (changed_sheets, state->sheet);
 	}
 
-	
+
 
 	if (changed_sheets)
 		cmd_resize_sheets (wbc, changed_sheets,

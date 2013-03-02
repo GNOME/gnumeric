@@ -789,7 +789,7 @@ gnm_func_group_free (GnmFuncGroup *fn_group)
 	g_free (fn_group);
 }
 
-static GnmFuncGroup * 
+static GnmFuncGroup *
 gnm_func_group_ref (GnmFuncGroup *fn_group)
 {
 	fn_group->ref_count++;
@@ -1083,7 +1083,7 @@ GnmFunc *
 gnm_func_lookup_localized (char const *name, Workbook *scope)
 {
 	GnmFunc *fd;
-	GHashTableIter hiter;	
+	GHashTableIter hiter;
 	gpointer value;
 
 	/* Must localize all function names.  */
@@ -1113,7 +1113,7 @@ GSList *
 gnm_func_lookup_prefix (char const *prefix, Workbook *scope, gboolean trans)
 {
 	GSList *res = NULL;
-	GHashTableIter hiter;	
+	GHashTableIter hiter;
 	gpointer value;
 
 	/*

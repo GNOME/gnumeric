@@ -73,6 +73,7 @@ typedef struct {
 	GocItem  *group;
 
 	/* Values for the scaling of the nice preview */
+	int width, height;
 	int offset_x, offset_y;	/* For centering the small page preview */
 	double scale;
 } MarginPreviewInfo;
@@ -429,7 +430,7 @@ margin_preview_page_available_size (PrinterSetupState *state,
 				 NULL);
 	widths = g_new0 (guint, ncols);
 	heights = g_new0 (guint, nrows);
-	
+
 	/* Iterate through all child widgets in the grid */
 	for (child_list = gtk_container_get_children (GTK_CONTAINER (grid));
 	     child_list; child_list = child_list->next) {
@@ -448,7 +449,7 @@ margin_preview_page_available_size (PrinterSetupState *state,
 		gtk_widget_get_preferred_size (GTK_WIDGET(child_widget), &requisition, NULL);
 
 		/* Find largest widget in each table column */
-		/* Exclude widgets that expand across more than one grid cells 
+		/* Exclude widgets that expand across more than one grid cells
 		 * or are not in a relevant column */
 		if (left >= first_col && width == 1 && left < first_col + ncols) {
 			if ((guint) requisition.width > widths[left - first_col]) {
@@ -498,14 +499,13 @@ margin_preview_page_create (PrinterSetupState *state)
 	MarginPreviewPageAvailableSize margin_available_size;
 
 	margin_preview_page_available_size (state, &margin_available_size);
+	gtk_widget_set_size_request (state->preview.canvas, margin_available_size.width, margin_available_size.height);
 
 	width = state->width;
 	height = state->height;
-
-	if (width < height)
-		pi->scale = (margin_available_size.height - PREVIEW_MARGIN_Y) / height;
-	else
-		pi->scale = (margin_available_size.width - PREVIEW_MARGIN_X) / width;
+	x1 = (margin_available_size.width - PREVIEW_MARGIN_X) / width;
+	x2 = (margin_available_size.height - PREVIEW_MARGIN_Y) / height;
+	pi->scale = MIN (x1, x2);
 
 	pi->offset_x = (margin_available_size.width - (width  * pi->scale)) / 2;
 	pi->offset_y = (margin_available_size.height - (height * pi->scale)) / 2;

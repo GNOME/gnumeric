@@ -391,7 +391,7 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 			    strcmp (CXML2C (ptr->name), "action"))
 				continue;
 			name  = go_xml_node_get_cstr (ptr, "name");
-//			label = go_xml_node_get_cstr (ptr, "label");
+/*			label = go_xml_node_get_cstr (ptr, "label");*/
 /*****************************************************************************************/
 			label_node = go_xml_get_child_by_name_no_lang (ptr, "label");
 			label = label_node
