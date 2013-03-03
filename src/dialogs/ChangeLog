@@ -2,6 +2,7 @@
 
 	* dialog-goal-seek.c (dialog_init): Setup destroy handler for
 	sheet removal.  [#364291]
+	* dialog-define-names.c (name_guru_init): Ditto.
 
 2013-03-02  Jean Brefort  <jean.brefort@normalesup.org>
 

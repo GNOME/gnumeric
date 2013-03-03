@@ -41,7 +41,7 @@ Morten:
 	* Unconditionally enable solver.
 	* Rewrite the file history dialog.  [#694777]
 	* Fix R.QF and R.QBINOM documentation.
-	* Fix sheet-removed crash for goal-seek.c.  [#364291]
+	* Fix sheet-removed crash for goal-seek and define-name.  [#364291]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

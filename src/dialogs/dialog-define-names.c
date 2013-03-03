@@ -1073,6 +1073,9 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 
 	state->dialog = go_gtk_builder_get_widget (state->gui, "NameGuru");
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 	state->model	 = gtk_tree_store_new
 		(NUM_COLMNS,
 		 G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING,
