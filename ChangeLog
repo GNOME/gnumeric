@@ -1,3 +1,8 @@
+2013-03-03  Morten Welinder  <terra@gnome.org>
+
+	* src/libgnumeric.c (gnm_pre_parse_init): Don't call deprecated
+	g_thread_init if compiled with later than glib 2.32.0.
+
 2013-03-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane-impl.h: remove alignments.

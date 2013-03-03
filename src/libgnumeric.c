@@ -185,7 +185,9 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 		g_mem_set_vtable (glib_mem_profiler_table);
 	}
 
+#if !GLIB_CHECK_VERSION(2,32,0)
 	g_thread_init (NULL);
+#endif
 	g_type_init ();
 
 	/* On win32 argv contains 'ansi' encoded args.  We need to manually
