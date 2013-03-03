@@ -1,3 +1,8 @@
+2013-03-03  Morten Welinder  <terra@gnome.org>
+
+	* dialog-goal-seek.c (dialog_init): Setup destroy handler for
+	sheet removal.  [#364291]
+
 2013-03-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-printer-setup.c (margin_preview_page_create): fixed preview.

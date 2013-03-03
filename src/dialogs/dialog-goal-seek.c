@@ -511,6 +511,10 @@ dialog_init (GoalSeekState *state)
         if (state->dialog == NULL)
                 return TRUE;
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
+
 	state->close_button     = go_gtk_builder_get_widget (state->gui, "closebutton");
 	g_signal_connect (G_OBJECT (state->close_button),
 		"clicked",
