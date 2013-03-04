@@ -37,10 +37,10 @@
 #include <widgets/gnumeric-text-view.h>
 
 typedef struct {
-	GObject			*so;
-	WBCGtk	*wbcg;
-	GOStyle		*orig_style;
-	char    *orig_text;
+	GObject *so;
+	WBCGtk *wbcg;
+	GOStyle *orig_style;
+	char *orig_text;
 	PangoAttrList *orig_attributes;
 } DialogSOStyled;
 
@@ -144,6 +144,10 @@ dialog_so_styled (WBCGtk *wbcg,
 		wbcg_toplevel (state->wbcg),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		NULL, NULL);
+
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (dialog),
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
 	help = gtk_dialog_add_button (GTK_DIALOG (dialog),
 		GTK_STOCK_HELP,		GTK_RESPONSE_HELP);

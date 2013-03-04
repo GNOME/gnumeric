@@ -1087,6 +1087,10 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 	}
 
 	state->dialog = go_gtk_builder_get_widget (state->gui, "formula_guru");
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
+
 
 	if (dialog_formula_guru_init (state)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,

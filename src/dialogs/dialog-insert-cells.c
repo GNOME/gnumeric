@@ -156,6 +156,10 @@ dialog_insert_cells (WBCGtk *wbcg)
 		return ;
 	}
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
+
 	state->ok_button = go_gtk_builder_get_widget (state->gui, "okbutton");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",

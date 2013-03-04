@@ -97,6 +97,9 @@ data_table_init (GnmDialogDataTable *state, WBCGtk *wbcg)
                 return TRUE;
 
 	state->dialog = go_gtk_builder_get_widget (state->gui, "DataTable");
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
 	state->row_entry = init_entry (state, 0);
 	state->col_entry = init_entry (state, 1);

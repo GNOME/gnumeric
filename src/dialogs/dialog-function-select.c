@@ -1390,6 +1390,10 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 	state->paste.from = from;
 	state->paste.to = to;
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
+
 	if (mode == PASTE_MODE && state->paste.from >= 0) {
 		GtkEditable *entry
 			= GTK_EDITABLE (wbcg_get_entry (state->wbcg));

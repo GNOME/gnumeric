@@ -111,6 +111,10 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 	state->so     = so;
 	state->dialog = go_gtk_builder_get_widget (gui, "SOList");
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
+
 	texpr = sheet_widget_list_base_get_content_link (so);
 	state->content_entry = init_entry (state, gui, 1, 4, texpr);
 	if (texpr) gnm_expr_top_unref (texpr);
