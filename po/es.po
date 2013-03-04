@@ -23,16 +23,16 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-02 13:45+0000\n"
-"PO-Revision-Date: 2013-03-03 11:16+0100\n"
+"POT-Creation-Date: 2013-03-04 00:55+0000\n"
+"PO-Revision-Date: 2013-03-04 12:21+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Gtranslator 2.91.5\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:443
@@ -193,8 +193,8 @@ msgstr "Atributo inesperado %s::%s == «%s»."
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
 msgstr ""
-"Contenido no válido del elemento «ss:data», se esperaba un número, se "
-"recibió «%s»"
+"Contenido no válido del elemento «ss:data», se esperaba un número, se recibió "
+"«%s»"
 
 #: ../plugins/excel/excel-xml-read.c:510
 #, c-format
@@ -324,8 +324,8 @@ msgstr "Función rota"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d "
-"no %d"
+"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d no "
+"%d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
@@ -599,8 +599,8 @@ msgstr "Falló al encontrar la función «%s» en XLL/DLL/SO %s .\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file "
-"%s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
+"s."
 msgstr ""
 "Cargador del complemento para Excel / xlfRegister: se deben proporcionar al "
 "menos tres argumentos XLOPER (nombre DLL [ignorado],nombre exportado "
@@ -1345,8 +1345,7 @@ msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s
 #: ../plugins/openoffice/openoffice-read.c:693
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
-msgstr ""
-"Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
+msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:715
 #, c-format
@@ -1405,8 +1404,7 @@ msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 #: ../plugins/openoffice/openoffice-read.c:1089
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr ""
-"Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
+msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:1166
 #, c-format
@@ -1460,8 +1458,8 @@ msgstr "%s_EN_ARCHIVO_CORRUPTO"
 #: ../plugins/openoffice/openoffice-read.c:2219
 #, c-format
 msgid ""
-"This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
-"\"%s\"."
+"This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
+"s\"."
 msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
@@ -1731,8 +1729,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7533
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr ""
-"Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
+msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7499
 #, c-format
@@ -1955,11 +1952,11 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
-"'%d' caracter."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
+"d' caracter."
 msgstr[1] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
-"'%d' caracteres."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
+"d' caracteres."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
@@ -6125,11 +6122,11 @@ msgstr "_Abajo"
 msgid "_Remove"
 msgstr "_Quitar"
 
-#: ../src/dialogs/dialog-data-table.c:141
+#: ../src/dialogs/dialog-data-table.c:144
 msgid "Create Data Table"
 msgstr "Crear una tabla de datos"
 
-#: ../src/dialogs/dialog-data-table.c:146
+#: ../src/dialogs/dialog-data-table.c:149
 #, c-format
 msgid ""
 "The selection must have more than 1 column and row to create a Data Table."
@@ -6137,12 +6134,12 @@ msgstr ""
 "La selección debe tener más de una columna y fila para crear una tabla de "
 "datos."
 
-#: ../src/dialogs/dialog-data-table.c:156
-#: ../src/dialogs/dialog-data-table.c:160 ../src/dialogs/data-table.ui.h:1
+#: ../src/dialogs/dialog-data-table.c:159
+#: ../src/dialogs/dialog-data-table.c:163 ../src/dialogs/data-table.ui.h:1
 msgid "Data Table"
 msgstr "Tabla de datos"
 
-#: ../src/dialogs/dialog-data-table.c:170
+#: ../src/dialogs/dialog-data-table.c:173
 msgid "Could not create the Data Table definition dialog."
 msgstr "No se pudo crear el diálogo de definición de la tabla de datos."
 
@@ -6166,21 +6163,21 @@ msgstr "¿Por qué quiere definir un nombre como #NAME?"
 msgid "This name is already in use!"
 msgstr "Este nombre ya está en uso"
 
-#: ../src/dialogs/dialog-define-names.c:1158
+#: ../src/dialogs/dialog-define-names.c:1161
 msgid "content"
 msgstr "contenido"
 
-#: ../src/dialogs/dialog-define-names.c:1223
+#: ../src/dialogs/dialog-define-names.c:1226
 #: ../src/dialogs/dialog-function-select.c:1269
 msgid "Erase the search entry."
 msgstr "Eliminar la entrada de búsqueda."
 
-#: ../src/dialogs/dialog-define-names.c:1261
+#: ../src/dialogs/dialog-define-names.c:1264
 msgid "Paste Defined Names"
 msgstr "Pegar nombres definidos"
 
-#: ../src/dialogs/dialog-define-names.c:1295
-#: ../src/dialogs/dialog-define-names.c:1325
+#: ../src/dialogs/dialog-define-names.c:1298
+#: ../src/dialogs/dialog-define-names.c:1328
 msgid "Could not create the Name Guru."
 msgstr "No se pudo crear el asistente de nombre."
 
@@ -6318,7 +6315,7 @@ msgstr "[%s]"
 msgid "Function/Argument"
 msgstr "Función/Argumento"
 
-#: ../src/dialogs/dialog-formula-guru.c:1093
+#: ../src/dialogs/dialog-formula-guru.c:1097
 msgid "Could not create the formula guru."
 msgstr "No se pudo crear el asistente de fórmula."
 
@@ -6415,7 +6412,7 @@ msgid "Goal seeking with cell %s did not find a solution."
 msgstr ""
 "El objetivo de la búsqueda con la celda %s no ha encontrado la solución."
 
-#: ../src/dialogs/dialog-goal-seek.c:699
+#: ../src/dialogs/dialog-goal-seek.c:703
 msgid "Could not create the Goal-Seek dialog."
 msgstr "No se pudo crear el diálogo de búsqueda-objetivo."
 
@@ -7125,7 +7122,7 @@ msgstr "No se pudo crear el diálogo de la herramienta de aleatoriedad."
 #.
 #: ../src/dialogs/dialog-recent.c:145
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #.
 #. * xgettext: This is a time format for
@@ -7136,7 +7133,7 @@ msgstr ""
 #.
 #: ../src/dialogs/dialog-recent.c:154
 msgid "%l:%M %P"
-msgstr ""
+msgstr "%l:%M %P"
 
 #: ../src/dialogs/dialog-row-height.c:228
 msgid "Set standard/default row height"
@@ -7222,7 +7219,7 @@ msgstr "Expresión"
 msgid "Other value"
 msgstr "Otro valor"
 
-#: ../src/dialogs/dialog-search.c:441 ../src/dialogs/dialog-so-styled.c:170
+#: ../src/dialogs/dialog-search.c:441 ../src/dialogs/dialog-so-styled.c:174
 msgid "Content"
 msgstr "Contenido"
 
@@ -7369,7 +7366,7 @@ msgstr ""
 msgid "Could not create the Simulation dialog."
 msgstr "No se pudo crear el diálogo de simulación."
 
-#: ../src/dialogs/dialog-so-list.c:160
+#: ../src/dialogs/dialog-so-list.c:164
 msgid "Could not create the List Property dialog."
 msgstr "No se pudo crear el diálogo de propiedad de lista."
 
@@ -9105,8 +9102,8 @@ msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Cada columna en el texto está delimitada por un carácter de «separación», "
-"ej. punto y coma."
+"Cada columna en el texto está delimitada por un carácter de «separación», ej. "
+"punto y coma."
 
 #: ../src/dialogs/dialog-stf.ui.h:23
 msgid "Fi_xed width"
@@ -10704,24 +10701,20 @@ msgid "_Top rank"
 msgstr "_Rango superior"
 
 #: ../src/dialogs/recent.ui.h:1
-#, fuzzy
-#| msgid "Recently Used Files"
 msgid "Recently Used Documents"
-msgstr "Archivos usados recientemente"
+msgstr "Documentos usados recientemente"
 
 #: ../src/dialogs/recent.ui.h:2
 msgid "Existing only"
-msgstr ""
+msgstr "Sólo existentes"
 
 #: ../src/dialogs/recent.ui.h:3
-#, fuzzy
-#| msgid "Gnumeric Options"
 msgid "Gnumeric files only"
-msgstr "Opciones de Gnumeric"
+msgstr "Solo archivos de Gnumeric"
 
 #: ../src/dialogs/recent.ui.h:7
 msgid "Last Used"
-msgstr ""
+msgstr "Último usado"
 
 #: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3597
 #: ../src/tools/analysis-tools.c:3600
@@ -11101,10 +11094,8 @@ msgid "Make _error expression"
 msgstr "Crear expresión de _error"
 
 #: ../src/dialogs/search-replace.ui.h:59
-#, fuzzy
-#| msgid "Create =ERROR(\"...\")"
 msgid "Create =ERROR(&quot;...&quot;)"
-msgstr "Crear =ERROR(\"…\")"
+msgstr "Crear =ERROR(&quot;...&quot;)"
 
 #: ../src/dialogs/search-replace.ui.h:60
 msgid "Create =ERROR(\"...\")"
@@ -11203,8 +11194,6 @@ msgid "Save settings as _default"
 msgstr "Guardar configuraciones como _predeterminadas"
 
 #: ../src/dialogs/search.ui.h:35
-#, fuzzy
-#| msgid "These settings are shared with the Search & Replace dialog."
 msgid "These settings are shared with the Search &amp; Replace dialog."
 msgstr ""
 "Estas configuraciones se comparten con el diálogo de buscar y reemplazar."
@@ -18711,9 +18700,8 @@ msgstr "Una plantilla de lista simple"
 #~ "value."
 #~ msgstr ""
 #~ ">Este valor determina el ajuste predeterminado en el diálogo "
-#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. "
-#~ "Por favor use el diálogo «Configuración de impresión» para editar este "
-#~ "valor."
+#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. Por "
+#~ "favor use el diálogo «Configuración de impresión» para editar este valor."
 
 #~ msgid ""
 #~ ">This value determines whether the default setting in the Print Setup "
