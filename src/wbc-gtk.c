@@ -5558,9 +5558,12 @@ wbc_gtk_class_init (GObjectClass *gobject_class)
 static void
 list_actions (GtkActionGroup *group)
 {
-	GList *actions = gtk_action_group_list_actions (group);
-	GList *l;
+	GList *actions, *l;
 
+	if (!group)
+		return;
+
+	actions = gtk_action_group_list_actions (group);
 	for (l = actions; l; l = l->next) {
 		GtkAction *act = l->data;
 		const char *name = gtk_action_get_name (act);
