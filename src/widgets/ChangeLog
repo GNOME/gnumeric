@@ -1,3 +1,7 @@
+2013-03-07  Morten Welinder  <terra@gnome.org>
+
+	* gnm-dao.c (gnm_dao_init): Drop C++ comment.
+
 2013-02-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* widget-font-selector.c (fs_init): replaced GtkTable with GtkGrid.

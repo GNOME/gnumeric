@@ -98,7 +98,6 @@ gnm_dao_init (GnmDao *gdao)
 	gdao->wbcg = NULL;
 
 	gtk_container_add (GTK_CONTAINER (gdao), toplevel);
-//	gtk_widget_queue_resize (toplevel);
 }
 
 static void
