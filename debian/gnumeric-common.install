@@ -1,8 +1,7 @@
 /usr/share/applications/gnumeric.desktop
-/usr/share/gnumeric/*.md5sum
 /usr/share/gnumeric/*/autoformat-templates/*/*.xml
 /usr/share/gnumeric/*/autoformat-templates/*/.category
-/usr/share/gnumeric/*/ui/*.ui
+# /usr/share/gnumeric/*/ui/*.ui
 # /usr/share/gnumeric/*/gnome*/ui/*.xml
 # /usr/share/gnumeric/*/idl/*.idl
 /usr/share/gnumeric/*/templates/*.gnumeric

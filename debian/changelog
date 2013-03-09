@@ -1,3 +1,67 @@
+gnumeric (1.12.1-1) unstable; urgency=low
+
+  * New upstream release, first of the new stable series.
+  * [debian/control]
+    * Bumped goffice build dependency as per configure.ac .
+  * [debian/patches/no-nested-externs-error] Added. Don't build
+    -Werror=nested-externs as this breaks a test used for GLIB_WITH_NLS
+    which in turn makes the locales directory come out wrong.
+  * [debian/gnumeric.install] Include ssdiff.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 09 Mar 2013 22:18:14 +0100
+
+gnumeric (1.12.0-1) unstable; urgency=low
+
+  * New upstream release, first of the new stable series.
+  * [debian/rules] Use dh_autotools-dev_updateconfig instead of our own
+    config.{guess,sub} handling.
+  * [debian/control]
+    * Update build dependencies following gsf and goffice gir
+      packaging fixes.
+    * Drop obsoleted python-gtk2-dev build dependency.
+    * Add autotools-dev build dependency for dh_autotools-dev_updateconfig.
+  * [debian/patches] None needed currently.
+  * [debian/watch] Upstream has switched to .xz tarballs.
+  * Issues fixed in this release or in the 1.11 development series:
+    * Import of charts in a table:shapes environment in ODF. (Closes: 672451)
+    * Redefining a deleted name no longer requires a restart. (Closes: 661505)
+    * Data -> Export Data provides access to all supported export formats.
+      (Closes: 666699)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 01 Jan 2013 18:20:39 +0100
+
+gnumeric (1.11.90-1) experimental; urgency=low
+
+  * New upstream development release.
+  * [debian/patches/update-translations] Post-release translation updates.
+  * [debian/rules]
+    * Harden build.
+    * Enable Introspection support.
+    * Added --disable-maintainer-mode to configure flags.
+    * Don't update config.{guess,sub} as part of "clean".
+  * [debian/control]
+    * Updated goffice build dependency.
+    * Updated glib build dependency.
+    * Updated pango build dependency.
+    * Updated libgsf build dependency.
+    * Switched gtk build dependency to gtk3.
+    * Switched python-gobject build dependency to python-gi-dev.
+    * Added versioned dpkg-dev build dependency for hardening data.
+    * Added libgirepository1.0-dev and libgsf and goffice gir build
+      dependencies for introspection support.
+    * Updated Standards-Version.
+  * [debian/gir1.2-gnumeric.dirs, debian/gir1.2-gnumeric.install] New.
+  * [debian/gnumeric.install, debian/gnumeric-common.install, debian/rules]
+    Removed references to gconf schemes.
+  * [debian/gnumeric-common.install] Removed reference to UI files as they
+    are embedded now.
+  * [debian/patches/patches/ffd85ed-backport] New. Adding per upstream's
+    recommendation.
+  * [debian/patches/re-auto-all] Drop.
+  * [debian/patches/series] Updated accordingly.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 02 Dec 2012 14:52:34 +0100
+
 gnumeric (1.10.17-1) unstable; urgency=low
 
   * New upstream stable release.

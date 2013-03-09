@@ -1,6 +1,6 @@
-/etc/gconf/schemas/*.schemas
 /usr/bin/gnumeric*
 /usr/bin/ssconvert*
+/usr/bin/ssdiff*
 /usr/bin/ssgrep*
 /usr/bin/ssindex*
 # /usr/include/libspreadsheet-*/spreadsheet
