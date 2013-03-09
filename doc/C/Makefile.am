@@ -95,8 +95,7 @@ endif
 # from gnumeric-doc.make
 dist-hook: validate
 
-# Explicitly ship the manpages even if they are disabled
-EXTRA_DIST += gnumeric.1 ssconvert.1 ssindex.1 ssgrep.1	\
+EXTRA_DIST += $(manpage_DATA) \
 	gnumeric-docbook-2-htmlhelp.xsl gnumeric-C.omf
 
 if ENABLE_PDFDOCS
