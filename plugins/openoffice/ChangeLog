@@ -1,3 +1,7 @@
+2013-03-09  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.1
+
 2013-02-20  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_write_sheet): Plug leak.

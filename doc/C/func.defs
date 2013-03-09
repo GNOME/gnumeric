@@ -5346,8 +5346,8 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @CATEGORY=Statistics
 @FUNCTION=R.QBINOM
 @SHORTDESC=probability quantile function of the binomial distribution
-@SYNTAX=R.QBINOM(x,n,psuc,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{x}: observation
+@SYNTAX=R.QBINOM(p,n,psuc,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{p}: probability
 @{n}: the number of trials
 @{psuc}: the probability of success in each trial
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
@@ -5393,8 +5393,8 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @CATEGORY=Statistics
 @FUNCTION=R.QF
 @SHORTDESC=probability quantile function of the F distribution
-@SYNTAX=R.QF(x,n1,n2,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{x}: observation
+@SYNTAX=R.QF(p,n1,n2,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{p}: probability
 @{n1}: the first number of degrees of freedom of the distribution
 @{n2}: the second number of degrees of freedom of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
@@ -5441,8 +5441,8 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @CATEGORY=Statistics
 @FUNCTION=R.QLNORM
 @SHORTDESC=probability quantile function of the log-normal distribution
-@SYNTAX=R.QLNORM(x,logmean,logsd,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{x}: observation
+@SYNTAX=R.QLNORM(p,logmean,logsd,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{p}: probability
 @{logmean}: mean of the underlying normal distribution
 @{logsd}: standard deviation of the underlying normal distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered

@@ -1,3 +1,7 @@
+2013-03-09  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.1
+
 2013-01-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_normsdist): use correct technical term

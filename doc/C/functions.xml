@@ -18394,11 +18394,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+        <synopsis><function>R.QBINOM</function>(<parameter>p</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>p</parameter>: probability</para>
         <para><parameter>n</parameter>: the number of trials</para>
         <para><parameter>psuc</parameter>: the probability of success in each trial</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
@@ -18540,11 +18540,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QF</function>(<parameter>x</parameter>,<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+        <synopsis><function>R.QF</function>(<parameter>p</parameter>,<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>p</parameter>: probability</para>
         <para><parameter>n1</parameter>: the first number of degrees of freedom of the distribution</para>
         <para><parameter>n2</parameter>: the second number of degrees of freedom of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
@@ -18684,11 +18684,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QLNORM</function>(<parameter>x</parameter>,<parameter>logmean</parameter>,<parameter>logsd</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+        <synopsis><function>R.QLNORM</function>(<parameter>p</parameter>,<parameter>logmean</parameter>,<parameter>logsd</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>p</parameter>: probability</para>
         <para><parameter>logmean</parameter>: mean of the underlying normal distribution</para>
         <para><parameter>logsd</parameter>: standard deviation of the underlying normal distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>

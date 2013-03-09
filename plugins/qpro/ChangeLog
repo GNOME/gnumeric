@@ -1,3 +1,7 @@
+2013-03-09  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.1
+
 2013-01-01  Morten Welinder  <terra@gnome.org>
 
 	* qpro-read.c (qpro_parse_formula): Fix warnings for debug code.
