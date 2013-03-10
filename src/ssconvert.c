@@ -223,30 +223,43 @@ handle_export_options (GOFileSaver *fs, GODoc *doc)
 }
 
 
-typedef GList *(*get_them_f)(void);
 typedef gchar const *(*get_desc_f)(void *);
 
 static void
-list_them (get_them_f get_them,
+list_them (GList *them,
 	   get_desc_f get_his_id,
 	   get_desc_f get_his_description)
 {
 	GList *ptr;
-	int len = 0;
+	guint len = 0;
+	gboolean interactive;
 
-	for (ptr = (*get_them) (); ptr ; ptr = ptr->next) {
-		char const *id = (*get_his_id) (ptr->data);
-		int tmp = strlen (id);
-		if (len < tmp)
-			len = tmp;
+	for (ptr = them; ptr ; ptr = ptr->next) {
+		GObject *obj = ptr->data;
+		char const *id;
+
+		g_object_get (obj, "interactive", &interactive, NULL);
+		if (interactive)
+			continue;
+
+		id = get_his_id (obj);
+		if (!id) id = "";
+		len = MAX (len, strlen (id));
 	}
 
 	g_printerr ("%-*s | %s\n", len,
 		    /* Translate these? */
 		    "ID",
 		    "Description");
-	for (ptr = (*get_them) (); ptr ; ptr = ptr->next) {
-		char const *id = (*get_his_id) (ptr->data);
+	for (ptr = them; ptr ; ptr = ptr->next) {
+		GObject *obj = ptr->data;
+		char const *id = get_his_id (obj);
+
+		g_object_get (obj, "interactive", &interactive, NULL);
+		if (interactive)
+			continue;
+
+		if (!id) id = "";
 		g_printerr ("%-*s | %s\n", len,
 			    id,
 			    (*get_his_description) (ptr->data));
@@ -828,11 +841,11 @@ main (int argc, char const **argv)
 	go_component_set_default_command_context (cc);
 
 	if (ssconvert_list_exporters)
-		list_them (&go_get_file_savers,
+		list_them (go_get_file_savers (),
 			   (get_desc_f) &go_file_saver_get_id,
 			   (get_desc_f) &go_file_saver_get_description);
 	else if (ssconvert_list_importers)
-		list_them (&go_get_file_openers,
+		list_them (go_get_file_openers (),
 			   (get_desc_f) &go_file_opener_get_id,
 			   (get_desc_f) &go_file_opener_get_description);
 	else if (ssconvert_merge_target!=NULL && argc>=3) {

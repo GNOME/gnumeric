@@ -1,7 +1,11 @@
 2013-03-10  Morten Welinder  <terra@gnome.org>
 
+	* src/ssconvert.c (list_them): Skip interactive savers/openers.
+
 	* src/stf.c (stf_read_workbook): Set error when we fail due to
 	lack of GUI.
+	(stf_init): Mark the configurable saver/opener as interactive.
+
 	* src/ssconvert.c (convert): Fix error handling.  Fixes #695529.
 
 2013-03-09  Morten Welinder <terra@gnome.org>

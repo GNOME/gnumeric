@@ -655,10 +655,12 @@ stf_init (void)
 		_("Text import (configurable)"),
 		NULL, mimes_txt,
 		NULL, stf_read_workbook);
+	g_object_set (G_OBJECT (opener), "interactive", TRUE, NULL);
 	go_file_opener_register (opener, 0);
 	g_object_unref (opener);
 
 	saver = gnm_stf_file_saver_create ("Gnumeric_stf:stf_assistant");
+	g_object_set (G_OBJECT (saver), "interactive", TRUE, NULL);
 	go_file_saver_register (saver);
 	g_object_unref (saver);
 
