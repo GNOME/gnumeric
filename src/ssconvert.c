@@ -253,12 +253,13 @@ list_them (GList *them,
 		    "Description");
 	for (ptr = them; ptr ; ptr = ptr->next) {
 		GObject *obj = ptr->data;
-		char const *id = get_his_id (obj);
+		char const *id;
 
 		g_object_get (obj, "interactive", &interactive, NULL);
 		if (interactive)
 			continue;
 
+		id = get_his_id (obj);
 		if (!id) id = "";
 		g_printerr ("%-*s | %s\n", len,
 			    id,

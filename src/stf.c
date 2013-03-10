@@ -660,7 +660,7 @@ stf_init (void)
 	g_object_unref (opener);
 
 	saver = gnm_stf_file_saver_create ("Gnumeric_stf:stf_assistant");
-	g_object_set (G_OBJECT (saver), "interactive", TRUE, NULL);
+	/* Unlike the opener, the saver doesn't require interaction.  */
 	go_file_saver_register (saver);
 	g_object_unref (saver);
 
