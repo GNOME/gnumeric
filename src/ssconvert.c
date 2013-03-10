@@ -238,7 +238,7 @@ list_them (GList *them,
 		GObject *obj = ptr->data;
 		char const *id;
 
-		g_object_get (obj, "interactive", &interactive, NULL);
+		g_object_get (obj, "interactive-only", &interactive, NULL);
 		if (interactive)
 			continue;
 
@@ -255,7 +255,7 @@ list_them (GList *them,
 		GObject *obj = ptr->data;
 		char const *id;
 
-		g_object_get (obj, "interactive", &interactive, NULL);
+		g_object_get (obj, "interactive-only", &interactive, NULL);
 		if (interactive)
 			continue;
 

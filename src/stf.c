@@ -655,7 +655,7 @@ stf_init (void)
 		_("Text import (configurable)"),
 		NULL, mimes_txt,
 		NULL, stf_read_workbook);
-	g_object_set (G_OBJECT (opener), "interactive", TRUE, NULL);
+	g_object_set (G_OBJECT (opener), "interactive-only", TRUE, NULL);
 	go_file_opener_register (opener, 0);
 	g_object_unref (opener);
 
