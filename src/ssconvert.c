@@ -217,7 +217,7 @@ handle_export_options (GOFileSaver *fs, GODoc *doc)
 
 		return 0;
 	} else {
-		g_printerr (_("The file saver does not take options"));
+		g_printerr (_("The file saver does not take options\n"));
 		return 1;
 	}
 }
@@ -686,8 +686,12 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		wbv = workbook_view_new (NULL);
 	}
 
-	if (wbv == NULL || go_io_error_occurred (io_context)) {
+	if (go_io_error_occurred (io_context)) {
 		go_io_error_display (io_context);
+		res = 1;
+		goto out;
+	} else if (wbv == NULL) {
+		g_printerr (_("Loading %s failed\n"), infile);
 		res = 1;
 		goto out;
 	}

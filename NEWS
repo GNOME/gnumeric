@@ -45,6 +45,7 @@ Morten:
 	* Rewrite the file history dialog.  [#694777]
 	* Fix R.QF and R.QBINOM documentation.
 	* Fix sheet-removed crashes for a few dialogs.  [#364291]
+	* Improve ssconvert error handling.  [#695529]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0
