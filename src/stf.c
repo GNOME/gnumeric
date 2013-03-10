@@ -229,9 +229,10 @@ stf_read_workbook (G_GNUC_UNUSED GOFileOpener const *fo,  gchar const *enc,
 	size_t data_len;
 	WorkbookView *wbv = WORKBOOK_VIEW (view);
 
-	/* FIXME : how to do this cleanly ? */
-	if (!IS_WBC_GTK (context->impl))
+	if (!IS_WBC_GTK (context->impl)) {
+		go_io_error_string (context, _("This importer can only be used with a GUI."));
 		return;
+	}
 
 	name = g_path_get_basename (gsf_input_name (input));
 	nameutf8 = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
