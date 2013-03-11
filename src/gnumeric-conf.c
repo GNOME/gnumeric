@@ -1402,35 +1402,6 @@ gnm_conf_get_core_gui_editing_function_name_tooltips_node (void)
 	return get_watch_node (&watch_core_gui_editing_function_name_tooltips);
 }
 
-static struct cb_watch_bool watch_core_gui_editing_livescrolling = {
-	0, "core/gui/editing/livescrolling",
-	"Live Scrolling",
-	"This variable determines whether live (versus delayed) scrolling is performed.",
-	TRUE,
-};
-
-gboolean
-gnm_conf_get_core_gui_editing_livescrolling (void)
-{
-	if (!watch_core_gui_editing_livescrolling.handler)
-		watch_bool (&watch_core_gui_editing_livescrolling);
-	return watch_core_gui_editing_livescrolling.var;
-}
-
-void
-gnm_conf_set_core_gui_editing_livescrolling (gboolean x)
-{
-	if (!watch_core_gui_editing_livescrolling.handler)
-		watch_bool (&watch_core_gui_editing_livescrolling);
-	set_bool (&watch_core_gui_editing_livescrolling, x);
-}
-
-GOConfNode *
-gnm_conf_get_core_gui_editing_livescrolling_node (void)
-{
-	return get_watch_node (&watch_core_gui_editing_livescrolling);
-}
-
 static struct cb_watch_int watch_core_gui_editing_recalclag = {
 	0, "core/gui/editing/recalclag",
 	"Auto Expression Recalculation Lag",

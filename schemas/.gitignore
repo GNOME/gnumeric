@@ -1,9 +1,6 @@
 Makefile.in
 Makefile
 .deps
-gnumeric-dialogs.schemas
-gnumeric-general.schemas
-gnumeric-plugins.schemas
 *.reg
 org.gnome.gnumeric*.gschema.xml.in
 org.gnome.gnumeric*.gschema.xml

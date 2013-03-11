@@ -127,10 +127,6 @@ GOConfNode *gnm_conf_get_core_gui_editing_function_name_tooltips_node (void);
 gboolean gnm_conf_get_core_gui_editing_function_name_tooltips (void);
 void gnm_conf_set_core_gui_editing_function_name_tooltips (gboolean x);
 
-GOConfNode *gnm_conf_get_core_gui_editing_livescrolling_node (void);
-gboolean gnm_conf_get_core_gui_editing_livescrolling (void);
-void gnm_conf_set_core_gui_editing_livescrolling (gboolean x);
-
 GOConfNode *gnm_conf_get_core_gui_editing_recalclag_node (void);
 int gnm_conf_get_core_gui_editing_recalclag (void);
 void gnm_conf_set_core_gui_editing_recalclag (int x);

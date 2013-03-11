@@ -842,11 +842,6 @@ pref_window_page_initializer (PrefState *state,
 				    _("Default Number of Columns in a Sheet"));
 	power_of_2_handlers (w);
 
-	bool_pref_create_widget (gnm_conf_get_core_gui_editing_livescrolling_node (),
-                                 page, row++,
-				 gnm_conf_set_core_gui_editing_livescrolling,
-				 gnm_conf_get_core_gui_editing_livescrolling,
-				 _("Live Scrolling"));
 	bool_pref_create_widget (gnm_conf_get_core_gui_cells_function_markers_node (),
 				 page, row++,
 				 gnm_conf_set_core_gui_cells_function_markers,

@@ -182,11 +182,6 @@
       <_summary>Enter Direction</_summary>
       <_description>Which direction pressing Enter will move the edit position.</_description>
     </key>
-    <key name="livescrolling" type="b">
-      <default>true</default>
-      <_summary>Live Scrolling</_summary>
-      <_description>This variable determines whether live (versus delayed) scrolling is performed.</_description>
-    </key>
     <key name="recalclag" type="i">
       <default>200</default>
       <_summary>Auto Expression Recalculation Lag</_summary>

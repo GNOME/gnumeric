@@ -1,4 +1,4 @@
-SUFFIXES = .schemas.in .reg .hkcu.reg .xml.in .xml.in.in .gschema.xml.in
+SUFFIXES = .reg .hkcu.reg .xml.in .xml.in.in .gschema.xml.in
 
 gschema_inin_files = \
 	org.gnome.gnumeric.gschema.xml.in.in	\

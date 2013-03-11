@@ -1539,7 +1539,6 @@ SheetControlGUI *
 sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 {
 	SheetControlGUI *scg;
-/*	GnmUpdateType scroll_update_policy; */ /* see warning below */
 	Sheet *sheet;
 	GocDirection direction;
 	GdkRGBA cfore, cback;
@@ -1611,17 +1610,10 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		g_signal_connect_after (G_OBJECT (scg->pane[0]->row.canvas), "size-allocate",
 			G_CALLBACK (cb_canvas_resize), scg);
 
-		/* Scroll bars and their adjustments */
-/*		scroll_update_policy = gnm_conf_get_core_gui_editing_livescrolling ()
-			? GNM_UPDATE_CONTINUOUS : GNM_UPDATE_DELAYED;*/ /* see below */
 		scg->va = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 		scg->vs = g_object_new (GTK_TYPE_SCROLLBAR,
 		                "orientation", GTK_ORIENTATION_VERTICAL,
 				"adjustment",	 scg->va,
-#warning GTK3: update-policy is gone from gtk, what should we do?
-#if 0
-		                "update-policy", scroll_update_policy,
-#endif
 		                NULL);
 		g_signal_connect (G_OBJECT (scg->vs),
 			"value_changed",
@@ -1633,10 +1625,6 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		scg->ha = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 		scg->hs = g_object_new (GTK_TYPE_SCROLLBAR,
 				"adjustment", scg->ha,
-#warning GTK3: update-policy is gone from gtk, what should we do?
-#if 0
-		                "update-policy", scroll_update_policy,
-#endif
 				NULL);
 		g_signal_connect (G_OBJECT (scg->hs),
 			"value_changed",
