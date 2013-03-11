@@ -3338,7 +3338,116 @@ wbc_gtk_init_color_back (WBCGtk *gtk)
 /****************************************************************************/
 
 static void
-cb_font_name_changed (GOActionComboText *a, WBCGtk *gtk)
+set_font_name_feedback (GtkAction *act, const char *name)
+{
+	char *tooltip = g_strdup_printf (_("Use font \"%s\""), name);
+
+	g_object_set (act,
+		      "label", name,
+		      "tooltip", tooltip,
+		      NULL);
+
+	g_free (tooltip);
+}
+
+typedef struct { GtkAction base; } GnmFontAction;
+typedef struct { GtkActionClass base; } GnmFontActionClass;
+
+static void
+cb_font_name_selected (GtkMenuItem *i, GtkAction *act)
+{
+	const char *font_name = gtk_menu_item_get_label (i);
+	set_font_name_feedback (act, font_name);
+	gtk_action_activate (act);
+}
+
+static void
+add_font_to_menu (GtkWidget *m, const char *name, GtkAction *act)
+{
+	GtkWidget *w = gtk_menu_item_new_with_label (name);
+	gtk_menu_shell_append (GTK_MENU_SHELL (m), w);
+	g_signal_connect (w,
+			  "activate",
+			  G_CALLBACK (cb_font_name_selected),
+			  act);
+}
+
+static void
+cb_font_name_action_label (GtkAction *act, G_GNUC_UNUSED GParamSpec *pspec,
+			   GtkEntry *e)
+{
+	gtk_entry_set_text (e, gtk_action_get_label (act));
+}
+
+static GtkWidget *
+gnm_font_action_create_tool_item (GtkAction *action)
+{
+	GtkWidget *item = g_object_new (GTK_TYPE_MENU_TOOL_BUTTON, NULL);
+	GtkWidget *m, *m2, *sm, *e;
+	GSList *fast_choices, *p, *families;
+	WBCGtk *wbcg = g_object_get_data (G_OBJECT (action), "wbcg");
+	PangoContext *context = gtk_widget_get_pango_context
+		(GTK_WIDGET (wbcg_toplevel (wbcg)));
+
+	m = gtk_menu_new ();
+	gtk_menu_set_title (GTK_MENU (m), _("Font"));
+
+	/* FIMXE: Where should these come from and how do we validate them?  */
+	fast_choices = go_slist_create
+		((char *)"Sans", "Serif", "Monospace", NULL);
+	for (p = fast_choices; p; p = p->next) {
+		const char *name = p->data;
+		add_font_to_menu (m, name, action);
+	}
+	g_slist_free (fast_choices);
+
+	m2 = gtk_menu_new ();
+	families = go_fonts_list_families (context);
+	for (p = families; p != NULL; p = p->next) {
+		const char *name = p->data;
+		add_font_to_menu (m2, name, action);
+	}
+	g_slist_free_full (families, (GDestroyNotify)g_free);
+	sm = gtk_menu_item_new_with_label (_("All fonts..."));
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (sm), m2);
+	gtk_menu_shell_append (GTK_MENU_SHELL (m), sm);
+
+	gtk_widget_show_all (m);
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (item), m);
+
+	gtk_menu_tool_button_set_arrow_tooltip_text
+		(GTK_MENU_TOOL_BUTTON (item),
+		 _("Pick another font"));
+
+	e = g_object_new (GTK_TYPE_ENTRY,
+			  "width-chars", 10,
+			  "editable", FALSE,
+			  NULL);
+	gtk_tool_button_set_label_widget (GTK_TOOL_BUTTON (item), e);
+	g_signal_connect (action,
+			  "notify::label",
+			  G_CALLBACK (cb_font_name_action_label),
+			  e);
+
+	return item;
+}
+
+static void
+gnm_font_action_class_init (GObjectClass *gobject_class)
+{
+	GtkActionClass *act = GTK_ACTION_CLASS (gobject_class);
+
+	act->toolbar_item_type = GTK_TYPE_MENU_TOOL_BUTTON;
+	act->create_tool_item = gnm_font_action_create_tool_item;
+}
+
+static
+GSF_CLASS (GnmFontAction, gnm_font_action,
+	   gnm_font_action_class_init, NULL, GTK_TYPE_ACTION)
+
+
+static void
+cb_font_name_changed (GtkAction *a, WBCGtk *gtk)
 {
 	char const *new_name;
 
@@ -3350,10 +3459,7 @@ cb_font_name_changed (GOActionComboText *a, WBCGtk *gtk)
 	if (gtk->snotebook == NULL)
 		return;
 
-	new_name = go_action_combo_text_get_entry (gtk->font_name);
-
-	while (g_ascii_isspace (*new_name))
-		++new_name;
+	new_name = gtk_action_get_label (gtk->font_name);
 
 	if (*new_name) {
 		if (wbcg_is_editing (WBC_GTK (gtk))) {
@@ -3368,38 +3474,21 @@ cb_font_name_changed (GOActionComboText *a, WBCGtk *gtk)
 		}
 	} else
 		wb_control_style_feedback (WORKBOOK_CONTROL (gtk), NULL);
-
 }
 
 static void
 wbc_gtk_init_font_name (WBCGtk *gtk)
 {
-	PangoContext *context;
-	GSList *ptr, *families;
-
-	gtk->font_name = g_object_new (go_action_combo_text_get_type (),
-				       "name", "FontName",
-				       "case-sensitive", FALSE,
-				       "stock-id", GTK_STOCK_SELECT_FONT,
-				       "visible-vertical", FALSE,
-				       "tooltip", _("Font"),
-				       NULL);
-
-	/* TODO: Create vertical version of this.  */
-
-	context = gtk_widget_get_pango_context
-		(GTK_WIDGET (wbcg_toplevel (WBC_GTK (gtk))));
-	families = go_fonts_list_families (context);
-	for (ptr = families; ptr != NULL; ptr = ptr->next)
-		go_action_combo_text_add_item (gtk->font_name, ptr->data);
-	g_slist_free_full (families, (GDestroyNotify)g_free);
+	gtk->font_name = g_object_new
+		(gnm_font_action_get_type (),
+		 "name", "FontName",
+		 //"stock-id", GTK_STOCK_SELECT_FONT,
+		 NULL);
+	g_object_set_data (G_OBJECT (gtk->font_name), "wbcg", gtk);
 
 	g_signal_connect (G_OBJECT (gtk->font_name),
 		"activate",
 		G_CALLBACK (cb_font_name_changed), gtk);
-#if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
-#endif
 	gtk_action_group_add_action (gtk->font_actions,
 				     GTK_ACTION (gtk->font_name));
 }
@@ -3568,8 +3657,8 @@ wbc_gtk_style_feedback_real (WorkbookControl *wbc, GnmStyle const *changes)
 	}
 
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_NAME))
-		go_action_combo_text_set_entry (wbcg->font_name,
-			gnm_style_get_font_name (changes), GO_ACTION_COMBO_SEARCH_FROM_TOP);
+		set_font_name_feedback (wbcg->font_name,
+					gnm_style_get_font_name (changes));
 
 	wbcg_ui_update_end (WBC_GTK (wbc));
 }
