@@ -3383,8 +3383,8 @@ static GtkWidget *
 gnm_font_action_create_tool_item (GtkAction *action)
 {
 	GtkWidget *item = g_object_new (GTK_TYPE_MENU_TOOL_BUTTON, NULL);
-	GtkWidget *m, *m2, *sm, *e;
-	GSList *fast_choices, *p, *families;
+	GtkWidget *m, *e;
+	GSList *fast_choices, *p;
 	WBCGtk *wbcg = g_object_get_data (G_OBJECT (action), "wbcg");
 	PangoContext *context = gtk_widget_get_pango_context
 		(GTK_WIDGET (wbcg_toplevel (wbcg)));
@@ -3401,16 +3401,36 @@ gnm_font_action_create_tool_item (GtkAction *action)
 	}
 	g_slist_free (fast_choices);
 
-	m2 = gtk_menu_new ();
-	families = go_fonts_list_families (context);
-	for (p = families; p != NULL; p = p->next) {
-		const char *name = p->data;
-		add_font_to_menu (m2, name, action);
+	gtk_menu_shell_append (GTK_MENU_SHELL (m),
+			       gtk_separator_menu_item_new ());
+
+	{
+		GtkWidget *sm, *m2 = gtk_menu_new (), *m3 = NULL;
+		GSList *p, *families = go_fonts_list_families (context);
+		gunichar uc = 0;
+		for (p = families; p != NULL; p = p->next) {
+			const char *name = p->data;
+			gunichar fc;
+			if (!name || !*name)
+				continue;
+			fc = g_unichar_toupper (g_utf8_get_char (name));
+			if (fc != uc || !m3) {
+				char txt[10];
+
+				uc = fc;
+				txt[g_unichar_to_utf8 (uc, txt)] = 0;
+				m3 = gtk_menu_new ();
+				sm = gtk_menu_item_new_with_label (txt);
+				gtk_menu_item_set_submenu (GTK_MENU_ITEM (sm), m3);
+				gtk_menu_shell_append (GTK_MENU_SHELL (m2), sm);
+			}
+			add_font_to_menu (m3, name, action);
+		}
+		g_slist_free_full (families, (GDestroyNotify)g_free);
+		sm = gtk_menu_item_new_with_label (_("All fonts..."));
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (sm), m2);
+		gtk_menu_shell_append (GTK_MENU_SHELL (m), sm);
 	}
-	g_slist_free_full (families, (GDestroyNotify)g_free);
-	sm = gtk_menu_item_new_with_label (_("All fonts..."));
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (sm), m2);
-	gtk_menu_shell_append (GTK_MENU_SHELL (m), sm);
 
 	gtk_widget_show_all (m);
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (item), m);
