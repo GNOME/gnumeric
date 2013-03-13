@@ -11,6 +11,8 @@ noinst_LTLIBRARIES = libwidgets.la
 libwidgets_la_SOURCES =				\
 	gnm-dao.c				\
 	gnm-dao.h				\
+	gnm-fontbutton.c			\
+	gnm-fontbutton.h			\
 	gnm-format-sel.c			\
 	gnm-format-sel.h			\
 	gnm-notebook.c				\
