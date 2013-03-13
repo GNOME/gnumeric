@@ -36,7 +36,6 @@
 #include "workbook-control.h"
 #include "wbc-gtk.h"
 #include "number-match.h"
-#include "widgets/widget-font-selector.h"
 #include "widgets/gnumeric-cell-renderer-text.h"
 
 #include "gnumeric-conf.h"
@@ -596,21 +595,45 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *grid,
 /*******************************************************************************************/
 
 static void
+do_set_font (GOFontSel *fs,
+	     const char *name, double size,
+	     gboolean is_bold, gboolean is_italic)
+{
+	PangoFontDescription *desc;
+	GOFont const *go_font;
+
+	desc = pango_font_description_new ();
+	pango_font_description_set_family (desc, name);
+	pango_font_description_set_size (desc, PANGO_SCALE * size);
+	pango_font_description_set_weight
+		(desc,
+		 is_bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
+	pango_font_description_set_style
+		(desc,
+		 is_italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+
+	go_font = go_font_new_by_desc (desc);
+	go_font_sel_set_font (fs, go_font);
+	go_font_unref (go_font);
+}
+
+
+static void
 cb_pref_font_set_fonts (G_GNUC_UNUSED GOConfNode *node,
 			G_GNUC_UNUSED char const *key,
 			GtkWidget *page)
 {
-	FontSelector *fs = FONT_SELECTOR (page);
+	GOFontSel *fs = GO_FONT_SEL (page);
 
-	font_selector_set_name (fs, gnm_conf_get_core_defaultfont_name ());
-	font_selector_set_points (fs, gnm_conf_get_core_defaultfont_size ());
-	font_selector_set_style (fs,
-				 gnm_conf_get_core_defaultfont_bold (),
-				 gnm_conf_get_core_defaultfont_italic ());
+	do_set_font (fs,
+		     gnm_conf_get_core_defaultfont_name (),
+		     gnm_conf_get_core_defaultfont_size (),
+		     gnm_conf_get_core_defaultfont_bold (),
+		     gnm_conf_get_core_defaultfont_italic ());
 }
 
 static gboolean
-cb_pref_font_has_changed (G_GNUC_UNUSED FontSelector *fs,
+cb_pref_font_has_changed (G_GNUC_UNUSED GOFontSel *fs,
 			  GnmStyle *mstyle, PrefState *state)
 {
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
@@ -634,7 +657,7 @@ pref_font_initializer (PrefState *state,
 		       G_GNUC_UNUSED GtkNotebook *notebook,
 		       G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = font_selector_new ();
+	GtkWidget *page = go_font_sel_new ();
 
 	cb_pref_font_set_fonts (NULL, NULL, page);
 
@@ -659,17 +682,16 @@ cb_pref_font_hf_set_fonts (G_GNUC_UNUSED GOConfNode *node,
 			   G_GNUC_UNUSED char const *key,
 			   GtkWidget *page)
 {
-	FontSelector *fs = FONT_SELECTOR (page);
-
-	font_selector_set_name (fs, gnm_conf_get_printsetup_hf_font_name ());
-	font_selector_set_points (fs, gnm_conf_get_printsetup_hf_font_size ());
-	font_selector_set_style (fs,
-				 gnm_conf_get_printsetup_hf_font_bold (),
-				 gnm_conf_get_printsetup_hf_font_italic ());
+	GOFontSel *fs = GO_FONT_SEL (page);
+	do_set_font (fs,
+		     gnm_conf_get_printsetup_hf_font_name (),
+		     gnm_conf_get_printsetup_hf_font_size (),
+		     gnm_conf_get_printsetup_hf_font_bold (),
+		     gnm_conf_get_printsetup_hf_font_italic ());
 }
 
 static gboolean
-cb_pref_font_hf_has_changed (G_GNUC_UNUSED FontSelector *fs,
+cb_pref_font_hf_has_changed (G_GNUC_UNUSED GOFontSel *fs,
 			     GnmStyle *mstyle, PrefState *state)
 {
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
@@ -694,7 +716,7 @@ pref_font_hf_initializer (PrefState *state,
 			  G_GNUC_UNUSED GtkNotebook *notebook,
 			  G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = font_selector_new ();
+	GtkWidget *page = go_font_sel_new ();
 
 	cb_pref_font_hf_set_fonts (NULL, NULL, page);
 	connect_notification (gnm_conf_get_printsetup_dir_node (),

@@ -1,3 +1,7 @@
+2013-03-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-preferences.c: Use GOFontSel instead of our own.
+
 2013-03-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.1
