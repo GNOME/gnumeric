@@ -20,8 +20,6 @@ libwidgets_la_SOURCES =				\
 	gnm-radiobutton.h			\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
-	widget-font-selector.c			\
-	widget-font-selector.h			\
 	gnm-cell-combo-view.c		\
 	gnm-cell-combo-view.h		\
 	gnm-cell-combo-view-impl.h		\

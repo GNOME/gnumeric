@@ -2,6 +2,7 @@ Gnumeric 1.12.2
 
 Morten:
 	* Improve ssconvert error handling.  [#695529]
+	* New font selector for toolbar.  [#695031]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

@@ -50,7 +50,6 @@
 #include <commands.h>
 #include <mathfunc.h>
 #include <preview-grid.h>
-#include <widgets/widget-font-selector.h>
 #include <widgets/gnumeric-dashed-canvas-line.h>
 #include <widgets/gnm-format-sel.h>
 #include <style-conditions.h>
@@ -150,7 +149,7 @@ typedef struct _FormatState {
 		GORotationSel	*rotation;
 	} align;
 	struct {
-		FontSelector	*selector;
+		GOFontSel	*selector;
 		GtkToggleButton	*superscript, *subscript;
 		ColorPicker      color;
 	} font;
@@ -349,21 +348,6 @@ setup_pattern_button (GdkScreen *screen,
 }
 
 static void
-replace_in_grid (GtkWidget *w, GtkWidget *neww)
-{	
-	GtkWidget *parent = gtk_widget_get_parent (w);
-	int col, row, width, height;
-	gtk_container_child_get (GTK_CONTAINER (parent),
-				 w,
-				 "left-attach", &col,
-				 "top-attach", &row,
-				 "width", &width,
-				 "height", &height,
-				 NULL);
-	gtk_grid_attach (GTK_GRID (parent), neww, col, row, width, height);
-}
-
-static void
 setup_color_pickers (FormatState *state,
 		     ColorPicker *picker,
 		     char const *color_group,
@@ -429,7 +413,7 @@ setup_color_pickers (FormatState *state,
 	gtk_widget_show_all (frame);
 
 	w = go_gtk_builder_get_widget (state->gui, placeholder);
-	replace_in_grid (w, frame);
+	go_gtk_widget_replace (w, frame);
 
 	w = go_gtk_builder_get_widget (state->gui, label);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), combo);
@@ -493,6 +477,8 @@ static void
 fmt_dialog_init_format_page (FormatState *state)
 {
 	GOFormatSel *gfs;
+	GODateConventions const *date_conv =
+		workbook_date_conv (state->sheet->workbook);
 
 	state->format_sel = gnm_format_sel_new ();
 	gfs = GO_FORMAT_SEL (state->format_sel);
@@ -506,10 +492,7 @@ fmt_dialog_init_format_page (FormatState *state)
 		GOFormat const *fmt = gnm_style_get_format (state->style);
 		go_format_sel_set_style_format (gfs, fmt);
 	}
-	if (state->value)
-		gnm_format_sel_set_value (gfs, state->value);
-	go_format_sel_set_dateconv (gfs,
-				    workbook_date_conv (state->sheet->workbook));
+	go_format_sel_set_dateconv (gfs, date_conv);
 	go_format_sel_editable_enters (gfs, GTK_WINDOW (state->dialog));
 
 	g_signal_connect (G_OBJECT (state->format_sel), "format_changed",
@@ -708,7 +691,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	go_rotation_sel_set_rotation (state->align.rotation, r);
 	g_signal_connect (G_OBJECT (state->align.rotation), "rotation-changed",
 			  G_CALLBACK (cb_rotation_changed), state);
-	replace_in_grid (go_gtk_builder_get_widget (state->gui, "rotation_placeholder"),
+	go_gtk_widget_replace (go_gtk_builder_get_widget (state->gui, "rotation_placeholder"),
 			 GTK_WIDGET (state->align.rotation));
 }
 
@@ -716,20 +699,13 @@ fmt_dialog_init_align_page (FormatState *state)
 
 static void
 cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
-		 GnmStyle *style, FormatState *state)
+		 PangoAttrList *attrs, FormatState *state)
 {
-	static GnmStyleElement const font_types[] = {
-		MSTYLE_FONT_NAME,
-		MSTYLE_FONT_SIZE,
-		MSTYLE_FONT_BOLD,
-		MSTYLE_FONT_ITALIC,
-		MSTYLE_FONT_UNDERLINE,
-		MSTYLE_FONT_STRIKETHROUGH,
-		MSTYLE_FONT_SCRIPT,
-		MSTYLE_FONT_COLOR
-	};
-	int i;
-	static int const num_font_types = G_N_ELEMENTS (font_types);
+	PangoAttrIterator *aiter;
+	const PangoAttribute *attr;
+	GnmStyle *res = state->result;
+	GOFontScript script = GO_FONT_SCRIPT_STANDARD;
+	gboolean has_script_attr = FALSE;
 
 	gboolean changed = FALSE;
 	g_return_if_fail (state != NULL);
@@ -737,16 +713,139 @@ cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
 	if (!state->enable_edit)
 		return;
 
-	for (i = 0 ; i < num_font_types; i++) {
-		GnmStyleElement const t = font_types[i];
-		if (gnm_style_is_element_set (style, t)) {
-			gnm_style_merge_element (state->result, style, t);
+	aiter = pango_attr_list_get_iterator (attrs);
+
+	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_FAMILY);
+	if (attr) {
+		const char *s = ((PangoAttrString*)attr)->value;
+		if (!gnm_style_is_element_set (res, MSTYLE_FONT_NAME) ||
+		    !g_str_equal (s, gnm_style_get_font_name (res))) {
 			changed = TRUE;
+			gnm_style_set_font_name (res, s);
 		}
 	}
 
+	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_SIZE);
+	if (attr) {
+		int i = ((PangoAttrInt*)attr)->value;
+		double d = i / (double)PANGO_SCALE;
+		if (!gnm_style_is_element_set (res, MSTYLE_FONT_SIZE) ||
+		    d != gnm_style_get_font_size (res)) {
+			changed = TRUE;
+			gnm_style_set_font_size (res, d);
+		}
+	}
+
+	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_WEIGHT);
+	if (attr) {
+		int i = ((PangoAttrInt*)attr)->value;
+		gboolean b = (i >= PANGO_WEIGHT_BOLD);
+		if (!gnm_style_is_element_set (res, MSTYLE_FONT_BOLD) ||
+		    b != gnm_style_get_font_bold (res)) {
+			changed = TRUE;
+			gnm_style_set_font_bold (res, b);
+		}
+	}
+
+	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_STYLE);
+	if (attr) {
+		int i = ((PangoAttrInt*)attr)->value;
+		gboolean b = (i != PANGO_STYLE_NORMAL);
+		if (!gnm_style_is_element_set (res, MSTYLE_FONT_ITALIC) ||
+		    b != gnm_style_get_font_italic (res)) {
+			changed = TRUE;
+			gnm_style_set_font_italic (res, b);
+		}
+	}
+
+	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_UNDERLINE);
+	if (attr) {
+		int i = ((PangoAttrInt*)attr)->value;
+		GnmUnderline u = gnm_translate_underline_from_pango (i);
+		if (!gnm_style_is_element_set (res, MSTYLE_FONT_UNDERLINE) ||
+		    u != gnm_style_get_font_uline (res)) {
+			changed = TRUE;
+			gnm_style_set_font_uline (res, u);
+		}
+	}
+
+	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_STRIKETHROUGH);
+	if (attr) {
+		int i = ((PangoAttrInt*)attr)->value;
+		gboolean b = (i != 0);
+		if (!gnm_style_is_element_set (res, MSTYLE_FONT_STRIKETHROUGH) ||
+		    b != gnm_style_get_font_strike (res)) {
+			changed = TRUE;
+			gnm_style_set_font_strike (res, b);
+		}
+	}
+
+	attr = pango_attr_iterator_get (aiter, go_pango_attr_subscript_get_attr_type ());
+	if (attr) {
+		has_script_attr = TRUE;
+		if (((GOPangoAttrSubscript*)attr)->val)
+			script = GO_FONT_SCRIPT_SUB;
+	}
+	attr = pango_attr_iterator_get (aiter, go_pango_attr_superscript_get_attr_type ());
+	if (attr) {
+		has_script_attr = TRUE;
+		if (((GOPangoAttrSuperscript*)attr)->val)
+			script = GO_FONT_SCRIPT_SUPER;
+	}
+	if (has_script_attr &&
+	    (!gnm_style_is_element_set (res, MSTYLE_FONT_SCRIPT) ||
+	     script != gnm_style_get_font_script (res))) {
+		changed = TRUE;
+		gnm_style_set_font_script (res, script);
+	}
+
+	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_FOREGROUND);
+	if (attr) {
+		const PangoColor *pc = &((PangoAttrColor*)attr)->color;
+		GnmColor *c = gnm_color_new_pango (pc);
+		if (!gnm_style_is_element_set (res, MSTYLE_FONT_COLOR) ||
+		    !style_color_equal (c, gnm_style_get_font_color (res))) {
+			changed = TRUE;
+			gnm_style_set_font_color (res, c);
+		} else
+			style_color_unref (c);
+	}
+
+	pango_attr_iterator_destroy (aiter);
+
 	if (changed)
 		fmt_dialog_changed (state);
+}
+
+static void
+change_font_attr (FormatState *state, PangoAttribute *attr)
+{
+	GOFontSel *gfs = state->font.selector;
+	PangoAttrList *attrs = pango_attr_list_copy
+		(go_font_sel_get_sample_attributes (gfs));
+	attr->start_index = 0;
+	attr->end_index = -1;
+	pango_attr_list_change (attrs, attr);
+	go_font_sel_set_sample_attributes (gfs, attrs);
+	cb_font_changed (NULL, attrs, state);
+	pango_attr_list_unref (attrs);
+}
+
+static void
+set_font_underline (FormatState *state, GnmUnderline u)
+{
+	PangoUnderline pu = gnm_translate_underline_to_pango (u);
+	change_font_attr (state, pango_attr_underline_new (pu));
+}
+
+static void
+set_font_script (FormatState *state, GOFontScript s)
+{
+	gboolean is_super = (s == GO_FONT_SCRIPT_SUPER);
+	gboolean is_sub = (s == GO_FONT_SCRIPT_SUB);
+
+	change_font_attr (state, go_pango_attr_subscript_new (is_sub));
+	change_font_attr (state, go_pango_attr_superscript_new (is_super));
 }
 
 /*
@@ -768,18 +867,20 @@ cb_font_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 	col = is_default
 		? style_color_auto_font ()
 		: gnm_color_new_go (c);
-	font_selector_set_color (state->font.selector, col);
+
+	change_font_attr (state, go_color_to_pango (col->go_color, TRUE));
+	style_color_unref (col);
 }
 
 static void
 cb_font_strike_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
-		font_selector_set_strike (
-			state->font.selector,
-			gtk_toggle_button_get_active (button));
+		gboolean b = gtk_toggle_button_get_active (button);
+		change_font_attr (state, pango_attr_strikethrough_new (b));
 	}
 }
+
 static void
 cb_font_script_toggle (GtkToggleButton *button, FormatState *state)
 {
@@ -796,7 +897,7 @@ cb_font_script_toggle (GtkToggleButton *button, FormatState *state)
 			}
 			state->enable_edit = TRUE;
 		}
-		font_selector_set_script (state->font.selector, script);
+		set_font_script (state, script);
 	}
 }
 
@@ -819,7 +920,7 @@ cb_font_underline_changed (GtkComboBoxText *combo,
 			break;
 		}
 
-	font_selector_set_underline (state->font.selector, res);
+	set_font_underline (state, res);
 	g_free (new_text);
 	return TRUE;
 }
@@ -828,14 +929,18 @@ cb_font_underline_changed (GtkComboBoxText *combo,
 static void
 fmt_dialog_init_font_page (FormatState *state)
 {
-	GtkWidget *tmp = font_selector_new ();
-	FontSelector *font_widget = FONT_SELECTOR (tmp);
+	GtkWidget *tmp = g_object_new (GO_TYPE_FONT_SEL,
+				       "show-style", TRUE,
+				       NULL);
+	GOFontSel *font_widget = GO_FONT_SEL (tmp);
 	GtkWidget *uline = gtk_combo_box_text_new_with_entry ();
 	GtkEntry *uline_entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (uline)));
 	char const *uline_str;
 	GtkWidget *strike = go_gtk_builder_get_widget (state->gui, "strikethrough_button");
 	gboolean   strikethrough = FALSE;
 	GOFontScript script = GO_FONT_SCRIPT_STANDARD;
+	GODateConventions const *date_conv =
+		workbook_date_conv (state->sheet->workbook);
 	int i;
 
 	g_return_if_fail (uline != NULL);
@@ -844,27 +949,40 @@ fmt_dialog_init_font_page (FormatState *state)
 	gtk_widget_set_vexpand (tmp, TRUE);
 	gtk_widget_set_hexpand (tmp, TRUE);
 	gtk_widget_show (tmp);
-	replace_in_grid (go_gtk_builder_get_widget (state->gui, "font_sel_placeholder"),
+	go_gtk_widget_replace (go_gtk_builder_get_widget (state->gui, "font_sel_placeholder"),
 			 tmp);
 
-	font_selector_editable_enters (font_widget, GTK_WINDOW (state->dialog));
+	go_font_sel_editable_enters (font_widget, GTK_WINDOW (state->dialog));
 
-	state->font.selector = FONT_SELECTOR (font_widget);
+	state->font.selector = GO_FONT_SEL (font_widget);
 
-	font_selector_set_value (state->font.selector, state->value);
+	if (state->value) {
+		char *s = format_value (NULL, state->value, -1, date_conv);
+		go_font_sel_set_sample_text (state->font.selector, s);
+		g_free (s);
+	}
 
-	if (0 == (state->conflicts & (1 << MSTYLE_FONT_NAME)))
-		font_selector_set_name (state->font.selector,
-					gnm_style_get_font_name (state->style));
+	if (0 == (state->conflicts & (1 << MSTYLE_FONT_NAME))) {
+		const char *family = gnm_style_get_font_name (state->style);
+		go_font_sel_set_family (state->font.selector, family);
+	}
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_BOLD)) &&
-	    0 == (state->conflicts & (1 << MSTYLE_FONT_ITALIC)))
-		font_selector_set_style (state->font.selector,
-					 gnm_style_get_font_bold (state->style),
-					 gnm_style_get_font_italic (state->style));
-	if (0 == (state->conflicts & (1 << MSTYLE_FONT_SIZE)))
-		font_selector_set_points (state->font.selector,
-					  gnm_style_get_font_size (state->style));
+	    0 == (state->conflicts & (1 << MSTYLE_FONT_ITALIC))) {
+		gboolean is_bold = gnm_style_get_font_bold (state->style);
+		gboolean is_italic = gnm_style_get_font_italic (state->style);
+
+		go_font_sel_set_style
+			(state->font.selector,
+			 is_bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL,
+			 is_italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+	}
+
+	if (0 == (state->conflicts & (1 << MSTYLE_FONT_SIZE))) {
+		double pts = gnm_style_get_font_size (state->style);
+		go_font_sel_set_size (state->font.selector,
+				      pts * PANGO_SCALE);
+	}
 
 	for (i = 0; i < (int)G_N_ELEMENTS (underline_types); i++)
 		gtk_combo_box_text_append_text
@@ -874,7 +992,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_UNDERLINE))) {
 		GnmUnderline ut = gnm_style_get_font_uline (state->style);
 		uline_str = g_dpgettext2 (NULL, "underline", underline_types[ut].Cname);
-		font_selector_set_underline (state->font.selector, ut);
+		set_font_underline (state, ut);
 	} else
 		uline_str = "";
 	gtk_entry_set_text (uline_entry, uline_str);
@@ -886,7 +1004,7 @@ fmt_dialog_init_font_page (FormatState *state)
 			  "changed",
 			  G_CALLBACK (cb_font_underline_changed), state);
 	gtk_widget_show_all (uline);
-	replace_in_grid (go_gtk_builder_get_widget (state->gui, "underline_placeholder"),
+	go_gtk_widget_replace (go_gtk_builder_get_widget (state->gui, "underline_placeholder"),
 			 uline);
 
 	tmp = go_gtk_builder_get_widget (state->gui, "underline_label");
@@ -895,14 +1013,14 @@ fmt_dialog_init_font_page (FormatState *state)
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_STRIKETHROUGH)))
 		strikethrough = gnm_style_get_font_strike (state->style);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
-	font_selector_set_strike (state->font.selector, strikethrough);
+	change_font_attr (state, pango_attr_strikethrough_new (strikethrough));
 	g_signal_connect (G_OBJECT (strike),
 			  "toggled",
 			  G_CALLBACK (cb_font_strike_toggle), state);
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_SCRIPT)))
 		script = gnm_style_get_font_script (state->style);
-	font_selector_set_script (state->font.selector, script);
+	set_font_script (state, script);
 	if (NULL != (tmp = go_gtk_builder_get_widget (state->gui, "superscript_button"))) {
 		state->font.superscript = GTK_TOGGLE_BUTTON (tmp);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
@@ -919,9 +1037,10 @@ fmt_dialog_init_font_page (FormatState *state)
 	}
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_COLOR)))
-		font_selector_set_color (
-			state->font.selector,
-			style_color_ref (gnm_style_get_font_color (state->style)));
+		change_font_attr
+			(state,
+			 go_color_to_pango (gnm_style_get_font_color (state->style)->go_color,
+					    TRUE));
 
 	g_signal_connect (G_OBJECT (font_widget),
 			  "font_changed",
@@ -1291,7 +1410,7 @@ draw_border_preview (FormatState *state)
 		gtk_widget_show (GTK_WIDGET (state->border.canvas));
 		gtk_widget_set_size_request (GTK_WIDGET (state->border.canvas),
 					     150, 100);
-		replace_in_grid (go_gtk_builder_get_widget (state->gui, "border_sample_placeholder"),
+		go_gtk_widget_replace (go_gtk_builder_get_widget (state->gui, "border_sample_placeholder"),
 				 GTK_WIDGET (state->border.canvas));
 		group = GOC_GROUP (goc_canvas_get_root (state->border.canvas));
 

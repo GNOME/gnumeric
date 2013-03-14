@@ -227,7 +227,6 @@ src/dialogs/dialog-zoom.c
 [type: gettext/glade]src/dialogs/doc-meta-data.ui
 [type: gettext/glade]src/dialogs/exp-smoothing.ui
 [type: gettext/glade]src/dialogs/fill-series.ui
-[type: gettext/glade]src/dialogs/font-sel.ui
 [type: gettext/glade]src/dialogs/formula-guru.ui
 [type: gettext/glade]src/dialogs/fourier-analysis.ui
 [type: gettext/glade]src/dialogs/frequency.ui
@@ -383,7 +382,6 @@ src/widgets/gnumeric-cell-renderer-text.c
 src/widgets/gnumeric-cell-renderer-toggle.c
 src/widgets/gnumeric-expr-entry.c
 src/widgets/gnumeric-text-view.c
-src/widgets/widget-font-selector.c
 src/workbook-cmd-format.c
 src/workbook-control.c
 src/workbook-view.c

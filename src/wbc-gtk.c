@@ -50,6 +50,7 @@
 #include "gnumeric-conf.h"
 #include "dialogs/dialogs.h"
 #include "widgets/widget-editable-label.h"
+#include "widgets/gnm-fontbutton.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "gui-clipboard.h"
 #include "libgnumeric.h"
@@ -3337,134 +3338,99 @@ wbc_gtk_init_color_back (WBCGtk *gtk)
 }
 /****************************************************************************/
 
-static void
-set_font_name_feedback (GtkAction *act, const char *name)
-{
-	char *tooltip = g_strdup_printf (_("Use font \"%s\""), name);
-
-	g_object_set (act,
-		      "label", name,
-		      "tooltip", tooltip,
-		      NULL);
-
-	g_free (tooltip);
-}
-
 typedef struct { GtkAction base; } GnmFontAction;
 typedef struct { GtkActionClass base; } GnmFontActionClass;
 
-static void
-cb_font_name_selected (GtkMenuItem *i, GtkAction *act)
+static PangoFontDescription *
+gnm_font_action_get_font_desc (GnmFontAction *act)
 {
-	const char *font_name = gtk_menu_item_get_label (i);
-	set_font_name_feedback (act, font_name);
-	gtk_action_activate (act);
+	PangoFontDescription *desc =
+		g_object_get_data (G_OBJECT (act), "font-data");
+	return desc;
 }
 
 static void
-add_font_to_menu (GtkWidget *m, const char *name, GtkAction *act)
+gnm_font_action_set_font_desc (GnmFontAction *act, PangoFontDescription *desc)
 {
-	GtkWidget *w = gtk_menu_item_new_with_label (name);
-	gtk_menu_shell_append (GTK_MENU_SHELL (m), w);
-	g_signal_connect (w,
-			  "activate",
-			  G_CALLBACK (cb_font_name_selected),
-			  act);
+	PangoFontDescription *old_desc;
+	GSList *p;
+
+	old_desc = g_object_get_data (G_OBJECT (act), "font-data");
+	if (!old_desc) {
+		old_desc = pango_font_description_new ();
+		g_object_set_data_full (G_OBJECT (act),
+					"font-data", old_desc,
+					(GDestroyNotify)pango_font_description_free);
+	}
+	pango_font_description_merge (old_desc, desc, TRUE);
+
+	for (p = gtk_action_get_proxies (GTK_ACTION (act)); p; p = p->next) {
+		GtkWidget *w = p->data;
+		GtkWidget *child;
+		GtkFontChooser *chooser;
+
+		if (!GTK_IS_BIN (w))
+			continue;
+
+		child = gtk_bin_get_child (GTK_BIN (w));
+		if (!GTK_IS_FONT_CHOOSER (child))
+			continue;
+
+		chooser = GTK_FONT_CHOOSER (child);
+		gtk_font_chooser_set_font_desc (chooser, old_desc);
+	}
 }
 
 static void
-cb_font_name_action_label (GtkAction *act, G_GNUC_UNUSED GParamSpec *pspec,
-			   GtkEntry *e)
+cb_font_set (GtkFontChooser *chooser, GnmFontAction *act)
 {
-	gtk_entry_set_text (e, gtk_action_get_label (act));
+	PangoFontDescription *desc = gtk_font_chooser_get_font_desc (chooser);
+	gnm_font_action_set_font_desc (act, desc);
+	pango_font_description_free (desc);
+	gtk_action_activate (GTK_ACTION (act));
+}
+
+static void
+cb_font_button_screen_changed (GtkWidget *widget)
+{
+/* Doesn't look right */
+#if 0
+	GdkScreen *screen = gtk_widget_get_screen (widget);
+
+	if (screen) {
+		PangoContext *context = gtk_widget_get_pango_context (widget);
+		const PangoFontDescription *desc = gtk_style_context_get_font
+			(gtk_widget_get_style_context (widget),
+			 GTK_STATE_FLAG_NORMAL);
+		int w = go_pango_measure_string (context, desc,
+						 "XXMonospace | 99XX");
+		gtk_widget_set_size_request (widget, w, -1);
+	}
+#endif
 }
 
 static GtkWidget *
 gnm_font_action_create_tool_item (GtkAction *action)
 {
-	GtkWidget *item = g_object_new (GTK_TYPE_MENU_TOOL_BUTTON, NULL);
-	GtkWidget *m, *e;
-	GSList *fast_choices, *p;
-	WBCGtk *wbcg = g_object_get_data (G_OBJECT (action), "wbcg");
-	PangoContext *context = gtk_widget_get_pango_context
-		(GTK_WIDGET (wbcg_toplevel (wbcg)));
-
-	m = gtk_menu_new ();
-	gtk_menu_set_title (GTK_MENU (m), _("Font"));
-
-	/* FIMXE: Where should these come from and how do we validate them?  */
-	fast_choices = go_slist_create
-		((char *)"Sans", "Serif", "Monospace", NULL);
-	for (p = fast_choices; p; p = p->next) {
-		const char *name = p->data;
-		add_font_to_menu (m, name, action);
-	}
-	g_slist_free (fast_choices);
-
-	gtk_menu_shell_append (GTK_MENU_SHELL (m),
-			       gtk_separator_menu_item_new ());
-
-	{
-		GtkWidget *sm, *mall, *msingle = NULL, *mother = NULL;
-		GSList *p, *families = go_fonts_list_families (context);
-		gunichar uc = 0;
-		mall = gtk_menu_new ();
-		for (p = families; p != NULL; p = p->next) {
-			const char *name = p->data;
-			gunichar fc;
-			if (!name || !*name)
-				continue;
-			fc = g_unichar_toupper (g_utf8_get_char (name));
-
-			if (!g_unichar_isalpha (fc)) {
-				if (!mother)
-					mother = gtk_menu_new ();
-				add_font_to_menu (mother, name, action);
-				continue;
-			}
-
-			if (fc != uc || !msingle) {
-				char txt[10];
-
-				uc = fc;
-				txt[g_unichar_to_utf8 (uc, txt)] = 0;
-				msingle = gtk_menu_new ();
-				sm = gtk_menu_item_new_with_label (txt);
-				gtk_menu_item_set_submenu (GTK_MENU_ITEM (sm), msingle);
-				gtk_menu_shell_append (GTK_MENU_SHELL (mall), sm);
-			}
-
-			add_font_to_menu (msingle, name, action);
-		}
-		if (mother) {
-			sm = gtk_menu_item_new_with_label (_("Other"));
-			gtk_menu_item_set_submenu (GTK_MENU_ITEM (sm), mother);
-			gtk_menu_shell_append (GTK_MENU_SHELL (mall), sm);
-		}
-
-		g_slist_free_full (families, (GDestroyNotify)g_free);
-		sm = gtk_menu_item_new_with_label (_("All fonts..."));
-		gtk_menu_item_set_submenu (GTK_MENU_ITEM (sm), mall);
-		gtk_menu_shell_append (GTK_MENU_SHELL (m), sm);
-	}
-
-	gtk_widget_show_all (m);
-	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (item), m);
-
-	gtk_menu_tool_button_set_arrow_tooltip_text
-		(GTK_MENU_TOOL_BUTTON (item),
-		 _("Pick another font"));
-
-	e = g_object_new (GTK_TYPE_ENTRY,
-			  "width-chars", 10,
-			  "editable", FALSE,
-			  NULL);
-	gtk_tool_button_set_label_widget (GTK_TOOL_BUTTON (item), e);
-	g_signal_connect (action,
-			  "notify::label",
-			  G_CALLBACK (cb_font_name_action_label),
-			  e);
-
+	GtkWidget *item = g_object_new (GTK_TYPE_TOOL_ITEM, NULL);
+	GtkWidget *but = g_object_new
+		(gnm_font_button_get_type(),
+		 "dialog-type", GO_TYPE_FONT_SEL_DIALOG,
+//		 "dialog-type", GTK_TYPE_FONT_CHOOSER_DIALOG,
+		 NULL);
+	gtk_widget_show_all (but);
+	gtk_button_set_relief
+		(GTK_BUTTON (but),
+		 gtk_tool_item_get_relief_style (GTK_TOOL_ITEM (item)));
+	gtk_button_set_focus_on_click (GTK_BUTTON (but), FALSE);
+	gtk_container_add (GTK_CONTAINER (item), but);
+	g_signal_connect (but,
+			  "font-set", G_CALLBACK (cb_font_set),
+			  action);
+	g_signal_connect (but,
+			  "screen-changed",
+			  G_CALLBACK (cb_font_button_screen_changed),
+			  action);
 	return item;
 }
 
@@ -3480,12 +3446,17 @@ gnm_font_action_class_init (GObjectClass *gobject_class)
 static
 GSF_CLASS (GnmFontAction, gnm_font_action,
 	   gnm_font_action_class_init, NULL, GTK_TYPE_ACTION)
-
+#if 0
+	;
+#endif
+#define GNM_FONT_ACTION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), gnm_font_action_get_type(), GnmFontAction))
 
 static void
-cb_font_name_changed (GtkAction *a, WBCGtk *gtk)
+cb_font_changed (GnmFontAction *act, WBCGtk *gtk)
 {
-	char const *new_name;
+	PangoFontDescription *desc = gnm_font_action_get_font_desc (act);
+	const char *family = pango_font_description_get_family (desc);
+	int size = pango_font_description_get_size (desc);
 
 	/*
 	 * Ignore events during destruction.  This is an attempt at avoiding
@@ -3495,21 +3466,41 @@ cb_font_name_changed (GtkAction *a, WBCGtk *gtk)
 	if (gtk->snotebook == NULL)
 		return;
 
-	new_name = gtk_action_get_label (gtk->font_name);
+	if (wbcg_is_editing (WBC_GTK (gtk))) {
+		wbcg_edit_add_markup (WBC_GTK (gtk),
+				      pango_attr_family_new (family));
+		wbcg_edit_add_markup (WBC_GTK (gtk),
+				      pango_attr_size_new (size));
+	} else {
+		GnmStyle *style = gnm_style_new ();
+		char *font_name = pango_font_description_to_string (desc);
+		char *title = g_strdup_printf (_("Setting Font %s"), font_name);
+		g_free (font_name);
 
-	if (*new_name) {
-		if (wbcg_is_editing (WBC_GTK (gtk))) {
-			wbcg_edit_add_markup (WBC_GTK (gtk),
-				pango_attr_family_new (new_name));
-		} else {
-			GnmStyle *style = gnm_style_new ();
-			char *title = g_strdup_printf (_("Font Name %s"), new_name);
-			gnm_style_set_font_name (style, new_name);
-			cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
-			g_free (title);
-		}
-	} else
-		wb_control_style_feedback (WORKBOOK_CONTROL (gtk), NULL);
+		gnm_style_set_font_name (style, family);
+		gnm_style_set_font_size (style, size / (double)PANGO_SCALE);
+
+		cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
+		g_free (title);
+	}
+}
+
+static void
+set_font_name_feedback (GtkAction *act, const char *family)
+{
+	PangoFontDescription *desc = pango_font_description_new ();
+	pango_font_description_set_family (desc, family);
+	gnm_font_action_set_font_desc (GNM_FONT_ACTION (act), desc);
+	pango_font_description_free (desc);
+}
+
+static void
+set_font_size_feedback (GtkAction *act, double size)
+{
+	PangoFontDescription *desc = pango_font_description_new ();
+	pango_font_description_set_size (desc, size * PANGO_SCALE);
+	gnm_font_action_set_font_desc (GNM_FONT_ACTION (act), desc);
+	pango_font_description_free (desc);
 }
 
 static void
@@ -3518,85 +3509,19 @@ wbc_gtk_init_font_name (WBCGtk *gtk)
 	gtk->font_name = g_object_new
 		(gnm_font_action_get_type (),
 		 "name", "FontName",
-		 //"stock-id", GTK_STOCK_SELECT_FONT,
+		 "tooltip", _("Change font"),
 		 NULL);
 	g_object_set_data (G_OBJECT (gtk->font_name), "wbcg", gtk);
 
 	g_signal_connect (G_OBJECT (gtk->font_name),
 		"activate",
-		G_CALLBACK (cb_font_name_changed), gtk);
+		G_CALLBACK (cb_font_changed), gtk);
 	gtk_action_group_add_action (gtk->font_actions,
 				     GTK_ACTION (gtk->font_name));
 }
+
 /****************************************************************************/
 
-static void
-cb_font_size_changed (GOActionComboText *a, WBCGtk *gtk)
-{
-	char const *new_size;
-	char *end;
-	double size;
-
-	/*
-	 * Ignore events during destruction.  This is an attempt at avoiding
-	 * https://bugzilla.redhat.com/show_bug.cgi?id=803904 for which we
-	 * blame gtk.
-	 */
-	if (gtk->snotebook == NULL)
-		return;
-
-	new_size = go_action_combo_text_get_entry (gtk->font_size);
-	size = go_strtod (new_size, &end);
-	size = floor ((size * 20.) + .5) / 20.;	/* round .05 */
-
-	if (new_size != end && errno != ERANGE && 1. <= size && size <= 400.) {
-		if (wbcg_is_editing (WBC_GTK (gtk))) {
-			wbcg_edit_add_markup (WBC_GTK (gtk),
-				pango_attr_size_new (size * PANGO_SCALE));
-		} else {
-			GnmStyle *style = gnm_style_new ();
-			char *title = g_strdup_printf (_("Font Size %f"), size);
-			gnm_style_set_font_size (style, size);
-			cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
-			g_free (title);
-		}
-	} else
-		wb_control_style_feedback (WORKBOOK_CONTROL (gtk), NULL);
-}
-
-static void
-wbc_gtk_init_font_size (WBCGtk *gtk)
-{
-	GSList *ptr, *font_sizes;
-
-	gtk->font_size = g_object_new (go_action_combo_text_get_type (),
-				       "name", "FontSize",
-				       "stock-id", GTK_STOCK_SELECT_FONT,
-				       "visible-vertical", FALSE,
-				       "label", _("Font Size"),
-				       "tooltip", _("Font Size"),
-				       NULL);
-
-	/* TODO: Create vertical version of this.  */
-
-	font_sizes = go_fonts_list_sizes ();
-	for (ptr = font_sizes; ptr != NULL ; ptr = ptr->next) {
-		int psize = GPOINTER_TO_INT (ptr->data);
-		char *size_text = g_strdup_printf ("%g", psize / (double)PANGO_SCALE);
-		go_action_combo_text_add_item (gtk->font_size, size_text);
-		g_free (size_text);
-	}
-	g_slist_free (font_sizes);
-	go_action_combo_text_set_width (gtk->font_size, "888");
-	g_signal_connect (G_OBJECT (gtk->font_size),
-		"activate",
-		G_CALLBACK (cb_font_size_changed), gtk);
-#if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
-#endif
-	gtk_action_group_add_action (gtk->font_actions,
-		GTK_ACTION (gtk->font_size));
-}
 static WorkbookControl *
 wbc_gtk_control_new (G_GNUC_UNUSED WorkbookControl *wbc,
 		     WorkbookView *wbv,
@@ -3685,12 +3610,9 @@ wbc_gtk_style_feedback_real (WorkbookControl *wbc, GnmStyle const *changes)
 		go_action_combo_pixmaps_select_id (wbcg->valignment, align);
 	}
 
-	if (gnm_style_is_element_set (changes, MSTYLE_FONT_SIZE)) {
-		char *size_str = g_strdup_printf ("%d", (int)gnm_style_get_font_size (changes));
-		go_action_combo_text_set_entry (wbcg->font_size,
-			size_str, GO_ACTION_COMBO_SEARCH_FROM_TOP);
-		g_free (size_str);
-	}
+	if (gnm_style_is_element_set (changes, MSTYLE_FONT_SIZE))
+		set_font_size_feedback (wbcg->font_name,
+					gnm_style_get_font_size (changes));
 
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_NAME))
 		set_font_name_feedback (wbcg->font_name,
@@ -5246,7 +5168,6 @@ wbc_gtk_finalize (GObject *obj)
 	UNREF_OBJ (fore_color);
 	UNREF_OBJ (back_color);
 	UNREF_OBJ (font_name);
-	UNREF_OBJ (font_size);
 	UNREF_OBJ (redo_haction);
 	UNREF_OBJ (redo_vaction);
 	UNREF_OBJ (undo_haction);
@@ -5787,7 +5708,6 @@ wbc_gtk_init (GObject *obj)
 	wbc_gtk_init_color_fore (wbcg);
 	wbc_gtk_init_color_back (wbcg);
 	wbc_gtk_init_font_name (wbcg);
-	wbc_gtk_init_font_size (wbcg);
 	wbc_gtk_init_zoom (wbcg);
 	wbc_gtk_init_borders (wbcg);
 

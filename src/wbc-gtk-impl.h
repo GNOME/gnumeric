@@ -114,7 +114,7 @@ struct _WBCGtk {
 	GtkAction		*undo_vaction, *redo_vaction;
 	GOActionComboColor	*fore_color, *back_color;
 	GtkAction               *font_name;
-	GOActionComboText	*font_size, *zoom_haction;
+	GOActionComboText	*zoom_haction;
 	GtkAction               *zoom_vaction;
 	GOActionComboPixmaps	*borders, *halignment, *valignment;
 	struct {

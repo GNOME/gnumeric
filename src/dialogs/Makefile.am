@@ -125,7 +125,6 @@ embedded_uis = 			\
 	doc-meta-data.ui		\
 	exp-smoothing.ui		\
 	fill-series.ui			\
-	font-sel.ui			\
 	formula-guru.ui			\
 	fourier-analysis.ui		\
 	frequency.ui			\
