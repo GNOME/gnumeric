@@ -25,12 +25,10 @@
             <child>
               <object class="GtkButton" id="helpbutton">
                 <property name="label">gtk-help</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -42,12 +40,10 @@
             <child>
               <object class="GtkButton" id="applybutton">
                 <property name="label">gtk-apply</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -59,12 +55,10 @@
             <child>
               <object class="GtkButton" id="cancelbutton">
                 <property name="label">gtk-cancel</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -76,13 +70,11 @@
             <child>
               <object class="GtkButton" id="okbutton">
                 <property name="label">gtk-ok</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -130,13 +122,11 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_left">
                     <property name="label" translatable="yes">_Left</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="margin_left">24</property>
                     <property name="margin_top">6</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -152,12 +142,10 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_general">
                     <property name="label" translatable="yes">_General</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="margin_left">24</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -173,12 +161,10 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_center_across_selection">
                     <property name="label" translatable="yes">Center across _selection</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="margin_left">24</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -227,11 +213,9 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_center">
                     <property name="label" translatable="yes">Ce_nter</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -247,11 +231,9 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_right">
                     <property name="label" translatable="yes">_Right</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -267,11 +249,9 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_fill">
                     <property name="label" translatable="yes">_Fill</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -287,11 +267,9 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_justify">
                     <property name="label" translatable="yes">_Justify</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="active">True</property>
@@ -307,11 +285,9 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_distributed">
                     <property name="label" translatable="yes">D_istributed</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -347,13 +323,11 @@
                 <child>
                   <object class="GtkRadioButton" id="valign_top">
                     <property name="label" translatable="yes">_Top</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="margin_left">24</property>
                     <property name="margin_top">6</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="active">True</property>
@@ -369,12 +343,10 @@
                 <child>
                   <object class="GtkRadioButton" id="valign_center">
                     <property name="label" translatable="yes">C_enter</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="margin_left">24</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -390,12 +362,10 @@
                 <child>
                   <object class="GtkRadioButton" id="valign_bottom">
                     <property name="label" translatable="yes">_Bottom</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="margin_left">24</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -411,11 +381,9 @@
                 <child>
                   <object class="GtkRadioButton" id="valign_justify">
                     <property name="label" translatable="yes">J_ustify</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -431,11 +399,9 @@
                 <child>
                   <object class="GtkRadioButton" id="valign_distributed">
                     <property name="label" translatable="yes">_Distributed</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -467,13 +433,11 @@
                 <child>
                   <object class="GtkCheckButton" id="align_wrap">
                     <property name="label" translatable="yes">_Wrap text</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="margin_left">24</property>
                     <property name="margin_top">6</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -488,13 +452,11 @@
                 <child>
                   <object class="GtkCheckButton" id="align_shrink">
                     <property name="label" translatable="yes">Shrin_k to fit</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="margin_left">24</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -598,11 +560,9 @@
                 <child>
                   <object class="GtkCheckButton" id="strikethrough_button">
                     <property name="label" translatable="yes">Stri_kethrough</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -617,12 +577,10 @@
                 <child>
                   <object class="GtkCheckButton" id="superscript_button">
                     <property name="label" translatable="yes">Sup_erscript</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="halign">end</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -637,12 +595,10 @@
                 <child>
                   <object class="GtkCheckButton" id="subscript_button">
                     <property name="label" translatable="yes">Su_bscript</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="halign">start</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -655,10 +611,34 @@
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkBox" id="font_color_placeholder">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkBox" id="underline_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">3</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
                 <child>
                   <placeholder/>
@@ -709,7 +689,6 @@
                     <property name="column_homogeneous">True</property>
                     <child>
                       <object class="GtkToggleButton" id="rev_diag_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -718,7 +697,6 @@
                         <property name="tooltip_text" translatable="yes">Reverse Diagonal</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -729,7 +707,6 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="top_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -738,7 +715,6 @@
                         <property name="tooltip_text" translatable="yes">Top</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -749,7 +725,6 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="diag_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -758,7 +733,6 @@
                         <property name="tooltip_text" translatable="yes">Diagonal</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -769,7 +743,6 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="left_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -778,7 +751,6 @@
                         <property name="tooltip_text" translatable="yes">Left</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -789,7 +761,6 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="right_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -798,7 +769,6 @@
                         <property name="tooltip_text" translatable="yes">Right</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -809,7 +779,6 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="bottom_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -818,7 +787,6 @@
                         <property name="tooltip_text" translatable="yes">Bottom</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -829,7 +797,6 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="no_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -839,7 +806,6 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="border_width">6</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -850,7 +816,6 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="outline_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -860,7 +825,6 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="border_width">6</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -871,7 +835,6 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="inside_vert_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -881,7 +844,6 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="border_width">6</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -892,7 +854,6 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="inside_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -902,7 +863,6 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="border_width">6</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">3</property>
@@ -913,7 +873,6 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="inside_horiz_border">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -923,7 +882,6 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="border_width">6</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -1039,11 +997,9 @@
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_none">
                         <property name="label" translatable="yes" context="line" comments="Cell border line">None</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                       </object>
                       <packing>
@@ -1055,11 +1011,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_medium_dash_dot_dot">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1070,11 +1024,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_hair">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -1085,11 +1037,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_slant">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1100,11 +1050,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_dotted">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -1115,11 +1063,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_medium_dash_dot">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1130,11 +1076,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_dash_dot_dot">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -1145,11 +1089,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_medium_dash">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1160,11 +1102,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_dash_dot">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -1175,11 +1115,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_medium">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1190,11 +1128,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_dashed">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -1205,11 +1141,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_thick">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1220,11 +1154,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_thin">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -1235,11 +1167,9 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_double">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1273,7 +1203,19 @@
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkBox" id="border_color_placeholder">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">2</property>
+                    <property name="top_attach">3</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -1430,7 +1372,6 @@
                         <property name="column_spacing">6</property>
                         <child>
                           <object class="GtkToggleButton" id="gp_solid">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1438,7 +1379,6 @@
                             <property name="tooltip_markup" translatable="yes">Solid</property>
                             <property name="tooltip_text" translatable="yes">Solid</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
@@ -1449,7 +1389,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_75grey">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1457,7 +1396,6 @@
                             <property name="tooltip_markup" translatable="yes">75% Grey</property>
                             <property name="tooltip_text" translatable="yes">75% Grey</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1468,7 +1406,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_50grey">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1476,7 +1413,6 @@
                             <property name="tooltip_markup" translatable="yes">50% Grey</property>
                             <property name="tooltip_text" translatable="yes">50% Grey</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">2</property>
@@ -1487,7 +1423,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_25grey">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1495,7 +1430,6 @@
                             <property name="tooltip_markup" translatable="yes">25% Grey</property>
                             <property name="tooltip_text" translatable="yes">25% Grey</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">3</property>
@@ -1506,7 +1440,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_125grey">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1514,7 +1447,6 @@
                             <property name="tooltip_markup" translatable="yes">12.5% Grey</property>
                             <property name="tooltip_text" translatable="yes">12.5% Grey</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">4</property>
@@ -1525,7 +1457,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_625grey">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1533,7 +1464,6 @@
                             <property name="tooltip_markup" translatable="yes">6.25% Grey</property>
                             <property name="tooltip_text" translatable="yes">6.25% Grey</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">5</property>
@@ -1544,7 +1474,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_horiz">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1552,7 +1481,6 @@
                             <property name="tooltip_markup" translatable="yes">Horizontal Stripe</property>
                             <property name="tooltip_text" translatable="yes">Horizontal Stripe</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
@@ -1563,7 +1491,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_vert">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1571,7 +1498,6 @@
                             <property name="tooltip_markup" translatable="yes">Vertical Stripe</property>
                             <property name="tooltip_text" translatable="yes">Vertical Stripe</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1582,7 +1508,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_rev_diag">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1590,7 +1515,6 @@
                             <property name="tooltip_markup" translatable="yes">Reverse Diagonal Stripe</property>
                             <property name="tooltip_text" translatable="yes">Reverse Diagonal Stripe</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">2</property>
@@ -1601,7 +1525,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_diag">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1609,7 +1532,6 @@
                             <property name="tooltip_markup" translatable="yes">Diagonal Stripe</property>
                             <property name="tooltip_text" translatable="yes">Diagonal Stripe</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">3</property>
@@ -1620,7 +1542,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_diag_cross">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1628,7 +1549,6 @@
                             <property name="tooltip_markup" translatable="yes">Diagonal Crosshatch</property>
                             <property name="tooltip_text" translatable="yes">Diagonal Crosshatch</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">4</property>
@@ -1639,7 +1559,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thick_diag_cross">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1647,7 +1566,6 @@
                             <property name="tooltip_markup" translatable="yes">Thick Diagonal Crosshatch</property>
                             <property name="tooltip_text" translatable="yes">Thick Diagonal Crosshatch</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">5</property>
@@ -1658,7 +1576,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_horiz">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1666,7 +1583,6 @@
                             <property name="tooltip_markup" translatable="yes">Thin Horizontal Stripe</property>
                             <property name="tooltip_text" translatable="yes">Thin Horizontal Stripe</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
@@ -1677,7 +1593,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_vert">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1685,7 +1600,6 @@
                             <property name="tooltip_markup" translatable="yes">Thin Vertical Stripe</property>
                             <property name="tooltip_text" translatable="yes">Thin Vertical Stripe</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1696,7 +1610,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_rev_diag">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1704,7 +1617,6 @@
                             <property name="tooltip_markup" translatable="yes">Thin Reverse Diagonal Stripe</property>
                             <property name="tooltip_text" translatable="yes">Thin Reverse Diagonal Stripe</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">2</property>
@@ -1715,7 +1627,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_diag">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1723,7 +1634,6 @@
                             <property name="tooltip_markup" translatable="yes">Thin Diagonal Stripe</property>
                             <property name="tooltip_text" translatable="yes">Thin Diagonal Stripe</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">3</property>
@@ -1734,7 +1644,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_horiz_cross">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1742,7 +1651,6 @@
                             <property name="tooltip_markup" translatable="yes">Thin Horizontal Crosshatch</property>
                             <property name="tooltip_text" translatable="yes">Thin Horizontal Crosshatch</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">4</property>
@@ -1753,7 +1661,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_diag_cross">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1761,7 +1668,6 @@
                             <property name="tooltip_markup" translatable="yes">Thin Diagonal Crosshatch</property>
                             <property name="tooltip_text" translatable="yes">Thin Diagonal Crosshatch</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">5</property>
@@ -1772,7 +1678,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_foreground_solid">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1780,7 +1685,6 @@
                             <property name="tooltip_markup" translatable="yes">Foreground Solid</property>
                             <property name="tooltip_text" translatable="yes">Foreground Solid</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
@@ -1791,7 +1695,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_small_circle">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1799,7 +1702,6 @@
                             <property name="tooltip_markup" translatable="yes">Small Circles</property>
                             <property name="tooltip_text" translatable="yes">Small Circles</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1810,7 +1712,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_semi_circle">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1818,7 +1719,6 @@
                             <property name="tooltip_markup" translatable="yes">Semi Circles</property>
                             <property name="tooltip_text" translatable="yes">Semi Circles</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">2</property>
@@ -1829,7 +1729,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thatch">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1837,7 +1736,6 @@
                             <property name="tooltip_markup" translatable="yes">Thatch</property>
                             <property name="tooltip_text" translatable="yes">Thatch</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">3</property>
@@ -1848,7 +1746,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_large_circles">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1856,7 +1753,6 @@
                             <property name="tooltip_markup" translatable="yes">Large Circles</property>
                             <property name="tooltip_text" translatable="yes">Large Circles</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">4</property>
@@ -1867,7 +1763,6 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_bricks">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1875,7 +1770,6 @@
                             <property name="tooltip_markup" translatable="yes">Bricks</property>
                             <property name="tooltip_text" translatable="yes">Bricks</property>
                             <property name="border_width">3</property>
-                            <property name="use_action_appearance">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">5</property>
@@ -1901,10 +1795,34 @@
                   <placeholder/>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkBox" id="background_color_placeholder">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkBox" id="pattern_color_placeholder">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">3</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -1933,11 +1851,9 @@
                 <child>
                   <object class="GtkCheckButton" id="protection_locked">
                     <property name="label" translatable="yes">_Lock</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -1952,11 +1868,9 @@
                 <child>
                   <object class="GtkCheckButton" id="protection_hidden">
                     <property name="label" translatable="yes">Hi_de</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -1988,11 +1902,9 @@
                 <child>
                   <object class="GtkCheckButton" id="protection_sheet_protected">
                     <property name="label" translatable="yes">_Protect worksheet</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -2122,12 +2034,10 @@
                 <child>
                   <object class="GtkCheckButton" id="validation_ignore_blank">
                     <property name="label" translatable="yes">Ignore _blank cells</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="margin_left">18</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -2142,11 +2052,9 @@
                 <child>
                   <object class="GtkCheckButton" id="validation_in_dropdown">
                     <property name="label" translatable="yes">I_n-cell dropdown</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
@@ -2368,11 +2276,9 @@
                 <child>
                   <object class="GtkCheckButton" id="input_msg_flag">
                     <property name="label" translatable="yes">_Show input message when cell is selected</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>

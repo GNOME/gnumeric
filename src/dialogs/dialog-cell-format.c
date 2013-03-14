@@ -353,7 +353,6 @@ setup_color_pickers (FormatState *state,
 		     ColorPicker *picker,
 		     char const *color_group,
 		     char const *container,
-                     int col, int row,
 		     char const *label,
 		     char const *default_caption,
 		     char const *caption,
@@ -361,10 +360,11 @@ setup_color_pickers (FormatState *state,
 		     GnmStyleElement e,
                      gboolean allow_alpha)
 {
-	GtkWidget *combo, *w, *frame;
+	GtkWidget *combo, *w, *parent, *frame;
 	GOColorGroup *cg;
 	GnmColor *mcolor = NULL;
 	GnmColor *def_sc = NULL;
+	int col, row;
 
 	switch (e) {
 	case MSTYLE_COLOR_PATTERN:
@@ -412,10 +412,16 @@ setup_color_pickers (FormatState *state,
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 	gtk_container_add (GTK_CONTAINER (frame), combo);
+	gtk_widget_show_all (frame);
 
 	w = go_gtk_builder_get_widget (state->gui, container);
-	gtk_grid_attach (GTK_GRID (w), frame, col, row, 1, 1);
-	gtk_widget_show_all (frame);
+	parent = gtk_widget_get_parent (w);
+	gtk_container_child_get (GTK_CONTAINER (parent),
+				 w,
+				 "left-attach", &col,
+				 "top-attach", &row,
+				 NULL);
+	gtk_grid_attach (GTK_GRID (parent), frame, col, row, 1, 1);
 
 	w = go_gtk_builder_get_widget (state->gui, label);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), combo);
@@ -2281,19 +2287,19 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 				      default_border_style, 54);
 
 	setup_color_pickers (state, &state->border.color,	"border_color_group",
-			     "border-grid", 2, 3,		"border_color_label",
+			     "border_color_placeholder",	"border_color_label",
 			     _("Automatic"),			_("Border"),
 			     G_CALLBACK (cb_border_color),	MSTYLE_BORDER_TOP, FALSE);
 	setup_color_pickers (state, NULL,			"fore_color_group",
-			     "font-grid", 1, 2,		"font_color_label",
+			     "font_color_placeholder",		"font_color_label",
 			     _("Automatic"),			_("Foreground"),
 			     G_CALLBACK (cb_font_preview_color), MSTYLE_FONT_COLOR, TRUE);
 	setup_color_pickers (state, &state->back.back_color,	"back_color_group",
-			     "background-grid",	1, 1,		"back_color_label",
+			     "background_color_placeholder",	"back_color_label",
 			     _("Clear Background"),		_("Background"),
 			     G_CALLBACK (cb_back_preview_color), MSTYLE_COLOR_BACK, FALSE);
 	setup_color_pickers (state, &state->back.pattern_color, "pattern_color_group",
-			     "background-grid", 1, 3,		"pattern_color_label",
+			     "pattern_color_placeholder",	"pattern_color_label",
 			     _("Automatic"),			_("Pattern"),
 			     G_CALLBACK (cb_pattern_preview_color), MSTYLE_COLOR_PATTERN, FALSE);
 
