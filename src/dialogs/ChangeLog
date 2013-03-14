@@ -3,6 +3,7 @@
 	* dialog-preferences.c (cb_pref_font_hf_has_changed): Adapt to new
 	signal args.
 	(cb_pref_font_has_changed): Ditto.
+	(do_set_font): Simplify.
 
 2013-03-13  Morten Welinder  <terra@gnome.org>
 

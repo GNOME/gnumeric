@@ -600,7 +600,6 @@ do_set_font (GOFontSel *fs,
 	     gboolean is_bold, gboolean is_italic)
 {
 	PangoFontDescription *desc;
-	GOFont const *go_font;
 
 	desc = pango_font_description_new ();
 	pango_font_description_set_family (desc, name);
@@ -612,9 +611,8 @@ do_set_font (GOFontSel *fs,
 		(desc,
 		 is_italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
 
-	go_font = go_font_new_by_desc (desc);
-	go_font_sel_set_font (fs, go_font);
-	go_font_unref (go_font);
+	go_font_sel_set_font_desc (fs, desc);
+	pango_font_description_free (desc);
 }
 
 
