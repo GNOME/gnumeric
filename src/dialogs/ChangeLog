@@ -2,6 +2,9 @@
 
 	* dialog-cell-format.c (setup_color_pickers): Find grid
 	coordinates directly from placeholder widgets.
+	(draw_border_preview): Ditto.
+	(fmt_dialog_init_align_page): Ditto.
+	(fmt_dialog_init_font_page): Ditto.
 
 	* dialog-preferences.c: Use GOFontSel instead of our own.
 

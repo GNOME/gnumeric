@@ -469,6 +469,21 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkBox" id="rotation_placeholder">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">3</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">12</property>
+                  </packing>
+                </child>
+                <child>
                   <placeholder/>
                 </child>
                 <child>
@@ -626,7 +641,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="underline_box">
+                  <object class="GtkBox" id="underline_placeholder">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
@@ -641,16 +656,19 @@
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
+                  <object class="GtkBox" id="font_sel_placeholder">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">4</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -891,31 +909,19 @@
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
+                      <object class="GtkBox" id="border_sample_placeholder">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">1</property>
+                        <property name="width">3</property>
+                        <property name="height">3</property>
+                      </packing>
                     </child>
                     <child>
                       <placeholder/>
@@ -1792,9 +1798,6 @@
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
                   <object class="GtkBox" id="background_color_placeholder">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -1823,6 +1826,9 @@
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>

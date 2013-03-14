@@ -349,10 +349,25 @@ setup_pattern_button (GdkScreen *screen,
 }
 
 static void
+replace_in_grid (GtkWidget *w, GtkWidget *neww)
+{	
+	GtkWidget *parent = gtk_widget_get_parent (w);
+	int col, row, width, height;
+	gtk_container_child_get (GTK_CONTAINER (parent),
+				 w,
+				 "left-attach", &col,
+				 "top-attach", &row,
+				 "width", &width,
+				 "height", &height,
+				 NULL);
+	gtk_grid_attach (GTK_GRID (parent), neww, col, row, width, height);
+}
+
+static void
 setup_color_pickers (FormatState *state,
 		     ColorPicker *picker,
 		     char const *color_group,
-		     char const *container,
+		     char const *placeholder,
 		     char const *label,
 		     char const *default_caption,
 		     char const *caption,
@@ -360,11 +375,10 @@ setup_color_pickers (FormatState *state,
 		     GnmStyleElement e,
                      gboolean allow_alpha)
 {
-	GtkWidget *combo, *w, *parent, *frame;
+	GtkWidget *combo, *w, *frame;
 	GOColorGroup *cg;
 	GnmColor *mcolor = NULL;
 	GnmColor *def_sc = NULL;
-	int col, row;
 
 	switch (e) {
 	case MSTYLE_COLOR_PATTERN:
@@ -414,14 +428,8 @@ setup_color_pickers (FormatState *state,
 	gtk_container_add (GTK_CONTAINER (frame), combo);
 	gtk_widget_show_all (frame);
 
-	w = go_gtk_builder_get_widget (state->gui, container);
-	parent = gtk_widget_get_parent (w);
-	gtk_container_child_get (GTK_CONTAINER (parent),
-				 w,
-				 "left-attach", &col,
-				 "top-attach", &row,
-				 NULL);
-	gtk_grid_attach (GTK_GRID (parent), frame, col, row, 1, 1);
+	w = go_gtk_builder_get_widget (state->gui, placeholder);
+	replace_in_grid (w, frame);
 
 	w = go_gtk_builder_get_widget (state->gui, label);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), combo);
@@ -697,11 +705,11 @@ fmt_dialog_init_align_page (FormatState *state)
 	} else
 		r = 0;
 	state->align.rotation = (GORotationSel *) go_rotation_sel_new ();
-	gtk_grid_attach (GTK_GRID (go_gtk_builder_get_widget (state->gui, "alignment-grid")),
-	                    GTK_WIDGET (state->align.rotation), 3, 0, 1, 12);
 	go_rotation_sel_set_rotation (state->align.rotation, r);
 	g_signal_connect (G_OBJECT (state->align.rotation), "rotation-changed",
 			  G_CALLBACK (cb_rotation_changed), state);
+	replace_in_grid (go_gtk_builder_get_widget (state->gui, "rotation_placeholder"),
+			 GTK_WIDGET (state->align.rotation));
 }
 
 /*****************************************************************************/
@@ -822,7 +830,6 @@ fmt_dialog_init_font_page (FormatState *state)
 {
 	GtkWidget *tmp = font_selector_new ();
 	FontSelector *font_widget = FONT_SELECTOR (tmp);
-	GtkWidget *container = go_gtk_builder_get_widget (state->gui, "font-grid");
 	GtkWidget *uline = gtk_combo_box_text_new_with_entry ();
 	GtkEntry *uline_entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (uline)));
 	char const *uline_str;
@@ -831,15 +838,14 @@ fmt_dialog_init_font_page (FormatState *state)
 	GOFontScript script = GO_FONT_SCRIPT_STANDARD;
 	int i;
 
-	g_return_if_fail (container != NULL);
 	g_return_if_fail (uline != NULL);
 	g_return_if_fail (strike != NULL);
 
-	/* TODO: How to insert the font box in the right place initially */
-	gtk_widget_show (tmp);
 	gtk_widget_set_vexpand (tmp, TRUE);
 	gtk_widget_set_hexpand (tmp, TRUE);
-	gtk_grid_attach (GTK_GRID (container), tmp, 0, 0, 5, 1);
+	gtk_widget_show (tmp);
+	replace_in_grid (go_gtk_builder_get_widget (state->gui, "font_sel_placeholder"),
+			 tmp);
 
 	font_selector_editable_enters (font_widget, GTK_WINDOW (state->dialog));
 
@@ -880,7 +886,8 @@ fmt_dialog_init_font_page (FormatState *state)
 			  "changed",
 			  G_CALLBACK (cb_font_underline_changed), state);
 	gtk_widget_show_all (uline);
-	gtk_grid_attach (GTK_GRID (container), uline, 3, 2, 1, 1);
+	replace_in_grid (go_gtk_builder_get_widget (state->gui, "underline_placeholder"),
+			 uline);
 
 	tmp = go_gtk_builder_get_widget (state->gui, "underline_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (tmp), uline);
@@ -1284,8 +1291,8 @@ draw_border_preview (FormatState *state)
 		gtk_widget_show (GTK_WIDGET (state->border.canvas));
 		gtk_widget_set_size_request (GTK_WIDGET (state->border.canvas),
 					     150, 100);
-		gtk_grid_attach (GTK_GRID (go_gtk_builder_get_widget (state->gui, "border-sample-container")),
-				   GTK_WIDGET (state->border.canvas), 1, 1, 3, 3);
+		replace_in_grid (go_gtk_builder_get_widget (state->gui, "border_sample_placeholder"),
+				 GTK_WIDGET (state->border.canvas));
 		group = GOC_GROUP (goc_canvas_get_root (state->border.canvas));
 
 		g_signal_connect (G_OBJECT (state->border.canvas),
