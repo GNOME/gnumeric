@@ -375,6 +375,7 @@ src/wbc-gtk.c
 src/widgets/gnm-cell-combo-view.c
 src/widgets/gnm-dao.c
 src/widgets/gnm-filter-combo-view.c
+src/widgets/gnm-fontbutton.c
 src/widgets/gnm-format-sel.c
 src/widgets/gnm-sheet-slicer-combo-view.c
 src/widgets/gnumeric-cell-renderer-expr-entry.c
