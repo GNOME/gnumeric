@@ -633,21 +633,27 @@ cb_pref_font_set_fonts (G_GNUC_UNUSED GOConfNode *node,
 }
 
 static gboolean
-cb_pref_font_has_changed (G_GNUC_UNUSED GOFontSel *fs,
-			  GnmStyle *mstyle, PrefState *state)
+cb_pref_font_has_changed (GOFontSel *fs, G_GNUC_UNUSED PangoAttrList *attrs,
+			  PrefState *state)
 {
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
-		gnm_conf_set_core_defaultfont_size
-			(gnm_style_get_font_size (mstyle));
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_NAME))
+	PangoFontDescription *desc = go_font_sel_get_font_desc (fs);
+	PangoFontMask fields = pango_font_description_get_set_fields (desc);
+
+	if (fields & PANGO_FONT_MASK_FAMILY)
 		gnm_conf_set_core_defaultfont_name
-			(gnm_style_get_font_name (mstyle));
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_BOLD))
+			(pango_font_description_get_family (desc));
+	if (fields & PANGO_FONT_MASK_SIZE)
+		gnm_conf_set_core_defaultfont_size
+			(pango_font_description_get_size (desc) / (double)PANGO_SCALE);
+	if (fields & PANGO_FONT_MASK_WEIGHT)
 		gnm_conf_set_core_defaultfont_bold
-			(gnm_style_get_font_bold (mstyle));
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
+			(pango_font_description_get_weight (desc) >= PANGO_WEIGHT_BOLD);
+	if (fields & PANGO_FONT_MASK_STYLE)
 		gnm_conf_set_core_defaultfont_italic
-			(gnm_style_get_font_italic (mstyle));
+			(pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL);
+
+	pango_font_description_free (desc);
+
 	return TRUE;
 }
 
@@ -657,7 +663,9 @@ pref_font_initializer (PrefState *state,
 		       G_GNUC_UNUSED GtkNotebook *notebook,
 		       G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = go_font_sel_new ();
+	GtkWidget *page = g_object_new (GO_TYPE_FONT_SEL,
+					"show-style", TRUE,
+					NULL);
 
 	cb_pref_font_set_fonts (NULL, NULL, page);
 
@@ -691,21 +699,26 @@ cb_pref_font_hf_set_fonts (G_GNUC_UNUSED GOConfNode *node,
 }
 
 static gboolean
-cb_pref_font_hf_has_changed (G_GNUC_UNUSED GOFontSel *fs,
-			     GnmStyle *mstyle, PrefState *state)
+cb_pref_font_hf_has_changed (GOFontSel *fs, G_GNUC_UNUSED PangoAttrList *attrs,
+			     PrefState *state)
 {
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
-		gnm_conf_set_printsetup_hf_font_size
-			(gnm_style_get_font_size (mstyle));
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_NAME))
+	PangoFontDescription *desc = go_font_sel_get_font_desc (fs);
+	PangoFontMask fields = pango_font_description_get_set_fields (desc);
+
+	if (fields & PANGO_FONT_MASK_FAMILY)
 		gnm_conf_set_printsetup_hf_font_name
-			(gnm_style_get_font_name (mstyle));
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_BOLD))
+			(pango_font_description_get_family (desc));
+	if (fields & PANGO_FONT_MASK_SIZE)
+		gnm_conf_set_printsetup_hf_font_size
+			(pango_font_description_get_size (desc) / (double)PANGO_SCALE);
+	if (fields & PANGO_FONT_MASK_WEIGHT)
 		gnm_conf_set_printsetup_hf_font_bold
-			(gnm_style_get_font_bold (mstyle));
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
+			(pango_font_description_get_weight (desc) >= PANGO_WEIGHT_BOLD);
+	if (fields & PANGO_FONT_MASK_STYLE)
 		gnm_conf_set_printsetup_hf_font_italic
-			(gnm_style_get_font_italic (mstyle));
+			(pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL);
+
+	pango_font_description_free (desc);
 
 	return TRUE;
 }
@@ -716,7 +729,9 @@ pref_font_hf_initializer (PrefState *state,
 			  G_GNUC_UNUSED GtkNotebook *notebook,
 			  G_GNUC_UNUSED gint page_num)
 {
-	GtkWidget *page = go_font_sel_new ();
+	GtkWidget *page = g_object_new (GO_TYPE_FONT_SEL,
+					"show-style", TRUE,
+					NULL);
 
 	cb_pref_font_hf_set_fonts (NULL, NULL, page);
 	connect_notification (gnm_conf_get_printsetup_dir_node (),

@@ -1,3 +1,9 @@
+2013-03-14  Morten Welinder  <terra@gnome.org>
+
+	* dialog-preferences.c (cb_pref_font_hf_has_changed): Adapt to new
+	signal args.
+	(cb_pref_font_has_changed): Ditto.
+
 2013-03-13  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (setup_color_pickers): Find grid
