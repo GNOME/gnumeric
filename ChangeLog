@@ -1,3 +1,8 @@
+2013-03-14  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (gnm_font_action_create_tool_item): Add filter to
+	ignore non-scalable fonts.
+
 2013-03-11  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_init_font_name): New implementation.

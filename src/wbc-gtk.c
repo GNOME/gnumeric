@@ -3409,6 +3409,32 @@ cb_font_button_screen_changed (GtkWidget *widget)
 #endif
 }
 
+/* Filter to ignore non-scalable fonts. */
+static gboolean
+cb_font_filter (G_GNUC_UNUSED const PangoFontFamily *family,
+		const PangoFontFace *face_,
+		gpointer user)
+{
+	PangoFontFace *face = (PangoFontFace*)face_;
+	int n_sizes;
+	int *sizes = NULL;
+	static int debug = -1;
+
+	pango_font_face_list_sizes (face, &sizes, &n_sizes);
+	g_free (sizes);
+
+	if (debug == -1)
+		debug = gnm_debug_flag ("fonts");
+
+	if (n_sizes > 0 && debug) {
+		g_printerr ("Ignoring face %s\n",
+			    pango_font_description_to_string
+			    (pango_font_face_describe (face)));
+	}
+
+	return n_sizes == 0;
+}
+
 static GtkWidget *
 gnm_font_action_create_tool_item (GtkAction *action)
 {
@@ -3418,6 +3444,10 @@ gnm_font_action_create_tool_item (GtkAction *action)
 		 "dialog-type", GO_TYPE_FONT_SEL_DIALOG,
 //		 "dialog-type", GTK_TYPE_FONT_CHOOSER_DIALOG,
 		 NULL);
+	gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER (but),
+					  cb_font_filter,
+					  NULL,
+					  NULL);
 	gtk_widget_show_all (but);
 	gtk_button_set_relief
 		(GTK_BUTTON (but),
