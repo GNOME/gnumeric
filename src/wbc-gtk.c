@@ -3443,6 +3443,7 @@ gnm_font_action_create_tool_item (GtkAction *action)
 		(gnm_font_button_get_type(),
 		 "dialog-type", GO_TYPE_FONT_SEL_DIALOG,
 //		 "dialog-type", GTK_TYPE_FONT_CHOOSER_DIALOG,
+		 "show-preview-entry", TRUE,
 		 NULL);
 	gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER (but),
 					  cb_font_filter,
