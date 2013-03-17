@@ -1,3 +1,8 @@
+2013-03-17  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (gnm_font_action_create_tool_item): Don't show the
+	style since we're not picking it explicitly.
+
 2013-03-14  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (gnm_font_action_create_tool_item): Add filter to

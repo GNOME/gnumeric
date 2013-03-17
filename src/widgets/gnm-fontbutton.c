@@ -760,7 +760,7 @@ gnm_font_button_set_title (GnmFontButton *font_button,
                            const gchar   *title)
 {
   gchar *old_title;
-  g_return_if_fail (GTK_IS_FONT_BUTTON (font_button));
+  g_return_if_fail (GNM_IS_FONT_BUTTON (font_button));
   
   old_title = font_button->priv->title;
   font_button->priv->title = g_strdup (title);
@@ -786,7 +786,7 @@ gnm_font_button_set_title (GnmFontButton *font_button,
 const gchar*
 gnm_font_button_get_title (GnmFontButton *font_button)
 {
-  g_return_val_if_fail (GTK_IS_FONT_BUTTON (font_button), NULL);
+  g_return_val_if_fail (GNM_IS_FONT_BUTTON (font_button), NULL);
 
   return font_button->priv->title;
 } 
@@ -804,7 +804,7 @@ gnm_font_button_get_title (GnmFontButton *font_button)
 gboolean
 gnm_font_button_get_use_font (GnmFontButton *font_button)
 {
-  g_return_val_if_fail (GTK_IS_FONT_BUTTON (font_button), FALSE);
+  g_return_val_if_fail (GNM_IS_FONT_BUTTON (font_button), FALSE);
 
   return font_button->priv->use_font;
 } 
@@ -822,7 +822,7 @@ void
 gnm_font_button_set_use_font (GnmFontButton *font_button,
 			      gboolean       use_font)
 {
-  g_return_if_fail (GTK_IS_FONT_BUTTON (font_button));
+  g_return_if_fail (GNM_IS_FONT_BUTTON (font_button));
   
   use_font = (use_font != FALSE);
   
@@ -850,7 +850,7 @@ gnm_font_button_set_use_font (GnmFontButton *font_button,
 gboolean
 gnm_font_button_get_use_size (GnmFontButton *font_button)
 {
-  g_return_val_if_fail (GTK_IS_FONT_BUTTON (font_button), FALSE);
+  g_return_val_if_fail (GNM_IS_FONT_BUTTON (font_button), FALSE);
 
   return font_button->priv->use_size;
 } 
@@ -868,7 +868,7 @@ void
 gnm_font_button_set_use_size (GnmFontButton *font_button,
                               gboolean       use_size)
 {
-  g_return_if_fail (GTK_IS_FONT_BUTTON (font_button));
+  g_return_if_fail (GNM_IS_FONT_BUTTON (font_button));
   
   use_size = (use_size != FALSE);
   if (font_button->priv->use_size != use_size) 
@@ -894,7 +894,7 @@ gnm_font_button_set_use_size (GnmFontButton *font_button,
 gboolean 
 gnm_font_button_get_show_style (GnmFontButton *font_button)
 {
-  g_return_val_if_fail (GTK_IS_FONT_BUTTON (font_button), FALSE);
+  g_return_val_if_fail (GNM_IS_FONT_BUTTON (font_button), FALSE);
 
   return font_button->priv->show_style;
 }
@@ -912,7 +912,7 @@ void
 gnm_font_button_set_show_style (GnmFontButton *font_button,
                                 gboolean       show_style)
 {
-  g_return_if_fail (GTK_IS_FONT_BUTTON (font_button));
+  g_return_if_fail (GNM_IS_FONT_BUTTON (font_button));
   
   show_style = (show_style != FALSE);
   if (font_button->priv->show_style != show_style) 
@@ -939,7 +939,7 @@ gnm_font_button_set_show_style (GnmFontButton *font_button,
 gboolean 
 gnm_font_button_get_show_size (GnmFontButton *font_button)
 {
-  g_return_val_if_fail (GTK_IS_FONT_BUTTON (font_button), FALSE);
+  g_return_val_if_fail (GNM_IS_FONT_BUTTON (font_button), FALSE);
 
   return font_button->priv->show_size;
 }
@@ -957,7 +957,7 @@ void
 gnm_font_button_set_show_size (GnmFontButton *font_button,
                                gboolean       show_size)
 {
-  g_return_if_fail (GTK_IS_FONT_BUTTON (font_button));
+  g_return_if_fail (GNM_IS_FONT_BUTTON (font_button));
   
   show_size = (show_size != FALSE);
 
@@ -994,7 +994,7 @@ gnm_font_button_set_show_size (GnmFontButton *font_button,
 const gchar *
 gnm_font_button_get_font_name (GnmFontButton *font_button)
 {
-  g_return_val_if_fail (GTK_IS_FONT_BUTTON (font_button), NULL);
+  g_return_val_if_fail (GNM_IS_FONT_BUTTON (font_button), NULL);
 
   return font_button->priv->fontname;
 }
@@ -1016,7 +1016,7 @@ gnm_font_button_set_font_name (GnmFontButton *font_button,
 {
   PangoFontDescription *font_desc;
 
-  g_return_val_if_fail (GTK_IS_FONT_BUTTON (font_button), FALSE);
+  g_return_val_if_fail (GNM_IS_FONT_BUTTON (font_button), FALSE);
   g_return_val_if_fail (fontname != NULL, FALSE);
 
   font_desc = pango_font_description_from_string (fontname);
