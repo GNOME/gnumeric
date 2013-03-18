@@ -3448,7 +3448,7 @@ gnm_font_action_create_tool_item (GtkAction *action)
 		 "show-preview-entry", TRUE,
 		 "show-style", FALSE,
 		 NULL);
-	gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER (but),
+	if (0) gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER (but),
 					  cb_font_filter,
 					  NULL,
 					  NULL);

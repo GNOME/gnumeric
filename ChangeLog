@@ -1,3 +1,8 @@
+2013-03-18  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (gnm_font_action_create_tool_item): Disable the
+	filter.  It takes just long enough to be irritating.
+
 2013-03-17  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (gnm_font_action_create_tool_item): Don't show the
