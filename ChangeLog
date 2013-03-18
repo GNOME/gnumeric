@@ -2,6 +2,7 @@
 
 	* src/wbc-gtk.c (gnm_font_action_create_tool_item): Don't show the
 	style since we're not picking it explicitly.
+	(cb_font_filter): Fix leak.
 
 2013-03-14  Morten Welinder  <terra@gnome.org>
 

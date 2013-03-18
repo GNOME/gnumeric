@@ -3427,9 +3427,11 @@ cb_font_filter (G_GNUC_UNUSED const PangoFontFamily *family,
 		debug = gnm_debug_flag ("fonts");
 
 	if (n_sizes > 0 && debug) {
-		g_printerr ("Ignoring face %s\n",
-			    pango_font_description_to_string
-			    (pango_font_face_describe (face)));
+		PangoFontDescription *desc = pango_font_face_describe (face);
+		char *s = pango_font_description_to_string (desc);
+		g_printerr ("Ignoring bitmap face %s\n", s);
+		g_free (s);
+		pango_font_description_free (desc);
 	}
 
 	return n_sizes == 0;
