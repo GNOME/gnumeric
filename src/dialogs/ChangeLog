@@ -4835,7 +4835,7 @@
 2005-03-18  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-format-page.c (cb_col_check_clicked): Schedule a
-	redraw of the entire treeview in order to make sure strikethough
+	redraw of the entire treeview in order to make sure strikethrough
 	changes are actually seen.  See also bug 169961.
 
 2005-03-17  Jon K Hellan  <hellan@acm.org>
