@@ -321,7 +321,7 @@ static void
 gnm_soc_copy (SheetObject *dst, SheetObject const *src)
 {
 	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (src);
-	GOComponent *component = go_component_duplicate (soc->component);;
+	GOComponent *component = go_component_duplicate (soc->component);
 	sheet_object_component_set_component (dst, component);
 	g_object_unref (component);
 }

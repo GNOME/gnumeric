@@ -165,7 +165,7 @@ workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
 	struct workbook_cmd_wrap_sort_t cl = {NULL, NULL, NULL};
 
 	cl.r = selection_first_range
-		(sv, GO_CMD_CONTEXT (wbc), _("Wrap SORT"));;
+		(sv, GO_CMD_CONTEXT (wbc), _("Wrap SORT"));
 	cl.wb = wb_control_get_workbook (wbc);
 
 	if (g_slist_length (l) > 1) {

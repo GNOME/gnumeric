@@ -1141,7 +1141,7 @@ xlsx_write_init_row (gboolean *needs_row, GsfXMLOut *xml, int r, char const *spa
 	if (*needs_row) {
 		gsf_xml_out_start_element (xml, "row");
 		gsf_xml_out_add_int (xml, "r", r+1);
-		gsf_xml_out_add_cstr_unchecked (xml, "spans", span);;
+		gsf_xml_out_add_cstr_unchecked (xml, "spans", span);
 		*needs_row = FALSE;
 	}
 }

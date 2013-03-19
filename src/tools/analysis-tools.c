@@ -2695,7 +2695,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	/* P two-tail */
 	{
-		GnmFunc *fd_min = gnm_func_lookup_or_add_placeholder ("MIN");;
+		GnmFunc *fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
 
 		gnm_func_ref (fd_min);
 

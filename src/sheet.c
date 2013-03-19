@@ -5346,7 +5346,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 			else
 				invalid = g_slist_append (NULL, gnm_range_dup (&dst));
 
-			reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
+			reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;
 
 			/* send to infinity to invalidate, but try to assist
 			 * the relocation heuristics only move in 1

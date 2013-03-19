@@ -100,7 +100,7 @@ gnm_owent (gnm_float h, gnm_float a)
 	{
 		gnm_float h1 = 0.5 * a;
 		as *= 0.25;
-		for (;;)
+		while (1)
 		{
 			gnm_float rt = as + 1.0;
 			h2 = h1 + (hs * as + LIM3 - log(rt))

@@ -221,7 +221,7 @@ do_tabulation (WorkbookControl *wbc,
 				range.start.col = 0;
 				range.start.row = 0;
 				range.end.col   = 0;
-				range.end.row   = counts[0];;
+				range.end.row   = counts[0];
 
 				border = gnm_style_border_fetch (GNM_STYLE_BORDER_MEDIUM,
 							     style_color_black (),

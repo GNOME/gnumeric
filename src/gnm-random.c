@@ -1455,7 +1455,7 @@ gnm_float
 random_skew_tdist (gnm_float nu, gnm_float a)
 {
 	gnm_float chi = random_chisq (nu);
-	gnm_float z = random_skew_normal (a);;
+	gnm_float z = random_skew_normal (a);
 
 	return (z * gnm_sqrt(nu/chi));
 }

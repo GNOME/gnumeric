@@ -2070,7 +2070,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	}
 	g_string_free (list, TRUE);
 
-	saved_state = colrow_get_sizes (sheet, is_cols, selection, new_size);;
+	saved_state = colrow_get_sizes (sheet, is_cols, selection, new_size);
 	undo = gnm_undo_colrow_restore_state_group_new
 		(sheet, is_cols, colrow_index_list_copy (selection), saved_state);
 
@@ -2098,7 +2098,7 @@ cmd_autofit_selection (WorkbookControl *wbc, SheetView *sv, Sheet *sheet, gboole
 
 	g_free (names);
 
-	saved_state = colrow_get_sizes (sheet, fit_width, selectionlist, -1);;
+	saved_state = colrow_get_sizes (sheet, fit_width, selectionlist, -1);
 	undo = gnm_undo_colrow_restore_state_group_new
 		(sheet, fit_width, colrow_index_list_copy (selectionlist), saved_state);
 
@@ -2908,8 +2908,8 @@ typedef struct {
 	gboolean         only_objects;
 	ColRowStateGroup *saved_sizes_rows;
 	ColRowStateGroup *saved_sizes_cols;
-	ColRowIndexList  *saved_list_rows;;
-	ColRowIndexList  *saved_list_cols;;
+	ColRowIndexList  *saved_list_rows;
+	ColRowIndexList  *saved_list_cols;
 	gboolean single_merge_to_single_merge;
 } CmdPasteCopy;
 
@@ -6986,7 +6986,7 @@ cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 	me->old_graph = GOG_GRAPH (o_graph);
 	g_object_ref (me->old_graph);
 
-	me->cmd.sheet = sheet_object_get_sheet (so);;
+	me->cmd.sheet = sheet_object_get_sheet (so);
 	me->cmd.size = 10;
 	me->cmd.cmd_descriptor = g_strdup (_("Reconfigure Graph"));
 
@@ -7056,7 +7056,7 @@ cmd_so_component_config (WorkbookControl *wbc, SheetObject *so,
 	me->new_obj = GO_COMPONENT (g_object_ref (n_obj));
 	me->old_obj = GO_COMPONENT (g_object_ref (o_obj));
 
-	me->cmd.sheet = sheet_object_get_sheet (so);;
+	me->cmd.sheet = sheet_object_get_sheet (so);
 	me->cmd.size = 10;
 	me->cmd.cmd_descriptor = g_strdup (_("Reconfigure Object"));
 

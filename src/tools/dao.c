@@ -190,7 +190,7 @@ dao_command_descriptor (data_analysis_output_t *dao, char const *format,
 		rangename = dao_range_name (dao);
 		*text = g_strdup_printf (format, rangename);
 		g_free (rangename);
-		break;;
+		break;
 	}
 	return *text;
 }

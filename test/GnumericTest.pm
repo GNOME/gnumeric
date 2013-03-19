@@ -474,7 +474,7 @@ sub test_ssindex {
 	}
     }
 
-    local $_ = \@items;;
+    local $_ = \@items;
     if (&$test ($_)) {
 	print STDERR "Pass\n";
     } else {

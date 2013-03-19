@@ -239,7 +239,7 @@ static GNM_ACTION_DEF (cb_file_print_area_set)
 	char *message;
 	char * selection;
 	GnmRange const *r = selection_first_range (sv,
-				       GO_CMD_CONTEXT (wbcg), _("Set Print Area"));;
+				       GO_CMD_CONTEXT (wbcg), _("Set Print Area"));
 	if (r != NULL) {
 		parse_pos_init_sheet (&pp, sheet);
 		selection = undo_range_name (sheet, r);
@@ -399,7 +399,7 @@ static GNM_ACTION_DEF (cb_edit_delete_links)
 		gchar const *format;
 		gchar *name;
 		WorkbookControl *wbc   = WORKBOOK_CONTROL (wbcg);
-		Sheet *sheet = wb_control_cur_sheet (wbc);;
+		Sheet *sheet = wb_control_cur_sheet (wbc);
 
 		for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
 			GnmRange const *r = l->data;

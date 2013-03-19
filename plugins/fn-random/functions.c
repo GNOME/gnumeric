@@ -957,7 +957,7 @@ gnumeric_randstdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float alpha = argv[1] ? value_get_as_float (argv[1]) : 0.;
 
 	return ((alpha == 0.) ? value_new_float (random_tdist (nu))
-		: value_new_float (random_skew_tdist (nu, alpha)));;
+		: value_new_float (random_skew_tdist (nu, alpha)));
 }
 
 /***************************************************************************/

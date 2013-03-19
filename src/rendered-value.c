@@ -599,7 +599,7 @@ gnm_rendered_value_get_text (GnmRenderedValue const *rv)
 GOColor
 gnm_rendered_value_get_color (GnmRenderedValue const * rv)
 {
-	return rv->go_fore_color;;
+	return rv->go_fore_color;
 }
 
 /* ------------------------------------------------------------------------- */

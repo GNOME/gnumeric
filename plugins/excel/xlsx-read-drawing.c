@@ -2581,7 +2581,7 @@ xlsx_vml_client_data (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		double coords[4];
 		int default_size = sheet_col_get_default_size_pixels (state->sheet);
 		int pos, sum, size;
-		for (pos = 0, sum = 0;;pos++) {
+		for (pos = 0, sum = 0; /* no test */; pos++) {
 			cri = sheet_col_get (state->sheet, pos);
 			size = (cri)? cri->size_pixels: default_size;
 			if (sum + size > state->chart_pos[0])
@@ -2601,7 +2601,7 @@ xlsx_vml_client_data (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		r.end.col = pos;
 		coords[2] = (state->chart_pos[2] - sum) / size;
 		default_size = sheet_row_get_default_size_pixels (state->sheet);
-		for (pos = 0, sum = 0;;pos++) {
+		for (pos = 0, sum = 0; /* no test */; pos++) {
 			cri = sheet_row_get (state->sheet, pos);
 			size = (cri)? cri->size_pixels: default_size;
 			if (sum + size > state->chart_pos[1])

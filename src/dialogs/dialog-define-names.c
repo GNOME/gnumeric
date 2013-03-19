@@ -1037,7 +1037,7 @@ cb_name_guru_selection_function (G_GNUC_UNUSED GtkTreeSelection *selection,
 	if (path_currently_selected)
 		return TRUE;
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
-		gboolean is_pastable, is_editable;;
+		gboolean is_pastable, is_editable;
 		gtk_tree_model_get (model,
 				    &iter,
 				    ITEM_PASTABLE, &is_pastable,
