@@ -41,8 +41,8 @@ IMAGES = 							\
 	equal-sign.xpm		\
 	formula_guru_16.png		formula_guru_24.png	\
 	insert_image_16.png		insert_image_24.png	\
-	bucket.xpm		\
-	font.xpm		\
+	bucket.xpm              \
+	font.xpm                \
 	expr_entry.png		\
 	\
 	gnm_subscript_16.png		gnm_subscript_24.png	\
@@ -64,57 +64,6 @@ IMAGES = 							\
 	object_spinbutton_24.png 	\
 	object_slider_24.png 		\
 	\
-	bottom_border.xpm		\
-	diag_border.xpm			\
-	inside_border.xpm		\
-	inside_horiz_border.xpm		\
-	inside_vert_border.xpm		\
-	left_border.xpm			\
-	no_border.xpm			\
-	outline_border.xpm		\
-	rev_diag_border.xpm		\
-	right_border.xpm		\
-	top_border.xpm			\
-	\
-	gp_125grey.xpm			\
-	gp_25grey.xpm			\
-	gp_50grey.xpm			\
-	gp_625grey.xpm			\
-	gp_75grey.xpm			\
-	gp_bricks.xpm			\
-	gp_diag.xpm			\
-	gp_diag_cross.xpm		\
-	gp_foreground_solid.xpm		\
-	gp_horiz.xpm			\
-	gp_large_circles.xpm		\
-	gp_rev_diag.xpm			\
-	gp_semi_circle.xpm		\
-	gp_small_circle.xpm		\
-	gp_solid.xpm			\
-	gp_thatch.xpm			\
-	gp_thick_diag_cross.xpm		\
-	gp_thin_diag.xpm		\
-	gp_thin_diag_cross.xpm		\
-	gp_thin_horiz.xpm		\
-	gp_thin_horiz_cross.xpm		\
-	gp_thin_rev_diag.xpm		\
-	gp_thin_vert.xpm		\
-	gp_vert.xpm			\
-	\
-	line_pattern_dash_dot.xpm		\
-	line_pattern_dash_dot_dot.xpm		\
-	line_pattern_dashed.xpm			\
-	line_pattern_dotted.xpm			\
-	line_pattern_double.xpm			\
-	line_pattern_hair.xpm			\
-	line_pattern_medium.xpm			\
-	line_pattern_medium_dash.xpm		\
-	line_pattern_medium_dash_dot.xpm	\
-	line_pattern_medium_dash_dot_dot.xpm	\
-	line_pattern_slant.xpm			\
-	line_pattern_thick.xpm			\
-	line_pattern_thin.xpm			\
-	\
 	border_all.xpm			\
 	border_bottom.xpm		\
 	border_double_bottom.xpm	\
@@ -133,9 +82,6 @@ IMAGES = 							\
 	protection_yes_24.png 		\
 	protection_yes_48.png 		\
 	visible.png			\
-	\
-	cursor_cross.xpm		\
-	sheet-move-marker.xpm		\
 	\
 	link_add_16.png 		link_add_24.png		\
 	link_delete_16.png 					\
@@ -225,13 +171,11 @@ VARIABLES = 		 									\
 	gnm_formula_guru_24			$(srcdir)/formula_guru_24.png			\
 	gnm_insert_image_16			$(srcdir)/insert_image_16.png			\
 	gnm_insert_image_24			$(srcdir)/insert_image_24.png			\
-	gnm_bucket				$(srcdir)/bucket.xpm				\
-	gnm_font				$(srcdir)/font.xpm				\
+	gnm_bucket                              $(srcdir)/bucket.xpm                            \
+	gnm_font                                $(srcdir)/font.xpm                              \
 	gnm_expr_entry				$(srcdir)/expr_entry.png			\
 	gnm_brush_16				$(srcdir)/brush-16.png				\
 	gnm_brush_22				$(srcdir)/brush-22.png				\
-	\
-	unknown_image				$(srcdir)/unknown_image.png			\
 	\
 	gnm_object_arrow_24			$(srcdir)/object_arrow_24.png			\
 	gnm_object_ellipse_24			$(srcdir)/object_ellipse_24.png			\
@@ -248,57 +192,6 @@ VARIABLES = 		 									\
 	gnm_object_slider_24			$(srcdir)/object_slider_24.png			\
 	gnm_object_combo_24			$(srcdir)/object_combo_24.png			\
 	gnm_object_list_24			$(srcdir)/object_list_24.png			\
-	\
-	bottom_border				$(srcdir)/bottom_border.xpm			\
-	diag_border				$(srcdir)/diag_border.xpm			\
-	inside_border				$(srcdir)/inside_border.xpm			\
-	inside_horiz_border			$(srcdir)/inside_horiz_border.xpm		\
-	inside_vert_border			$(srcdir)/inside_vert_border.xpm		\
-	left_border				$(srcdir)/left_border.xpm			\
-	no_border				$(srcdir)/no_border.xpm				\
-	outline_border				$(srcdir)/outline_border.xpm			\
-	rev_diag_border				$(srcdir)/rev_diag_border.xpm			\
-	right_border				$(srcdir)/right_border.xpm			\
-	top_border				$(srcdir)/top_border.xpm			\
-	\
-	gp_125grey				$(srcdir)/gp_125grey.xpm			\
-	gp_25grey				$(srcdir)/gp_25grey.xpm				\
-	gp_50grey				$(srcdir)/gp_50grey.xpm				\
-	gp_625grey				$(srcdir)/gp_625grey.xpm			\
-	gp_75grey				$(srcdir)/gp_75grey.xpm				\
-	gp_bricks				$(srcdir)/gp_bricks.xpm				\
-	gp_diag					$(srcdir)/gp_diag.xpm				\
-	gp_diag_cross				$(srcdir)/gp_diag_cross.xpm			\
-	gp_foreground_solid			$(srcdir)/gp_foreground_solid.xpm		\
-	gp_horiz				$(srcdir)/gp_horiz.xpm				\
-	gp_large_circles			$(srcdir)/gp_large_circles.xpm			\
-	gp_rev_diag				$(srcdir)/gp_rev_diag.xpm			\
-	gp_semi_circle				$(srcdir)/gp_semi_circle.xpm			\
-	gp_small_circle				$(srcdir)/gp_small_circle.xpm			\
-	gp_solid				$(srcdir)/gp_solid.xpm				\
-	gp_thatch				$(srcdir)/gp_thatch.xpm				\
-	gp_thick_diag_cross			$(srcdir)/gp_thick_diag_cross.xpm		\
-	gp_thin_diag				$(srcdir)/gp_thin_diag.xpm			\
-	gp_thin_diag_cross			$(srcdir)/gp_thin_diag_cross.xpm		\
-	gp_thin_horiz				$(srcdir)/gp_thin_horiz.xpm			\
-	gp_thin_horiz_cross			$(srcdir)/gp_thin_horiz_cross.xpm		\
-	gp_thin_rev_diag			$(srcdir)/gp_thin_rev_diag.xpm			\
-	gp_thin_vert				$(srcdir)/gp_thin_vert.xpm			\
-	gp_vert					$(srcdir)/gp_vert.xpm				\
-	\
-	line_pattern_dash_dot			$(srcdir)/line_pattern_dash_dot.xpm		\
-	line_pattern_dash_dot_dot		$(srcdir)/line_pattern_dash_dot_dot.xpm		\
-	line_pattern_dashed			$(srcdir)/line_pattern_dashed.xpm		\
-	line_pattern_dotted			$(srcdir)/line_pattern_dotted.xpm		\
-	line_pattern_double			$(srcdir)/line_pattern_double.xpm		\
-	line_pattern_hair			$(srcdir)/line_pattern_hair.xpm			\
-	line_pattern_medium			$(srcdir)/line_pattern_medium.xpm		\
-	line_pattern_medium_dash		$(srcdir)/line_pattern_medium_dash.xpm		\
-	line_pattern_medium_dash_dot		$(srcdir)/line_pattern_medium_dash_dot.xpm	\
-	line_pattern_medium_dash_dot_dot	$(srcdir)/line_pattern_medium_dash_dot_dot.xpm	\
-	line_pattern_slant			$(srcdir)/line_pattern_slant.xpm		\
-	line_pattern_thick			$(srcdir)/line_pattern_thick.xpm		\
-	line_pattern_thin			$(srcdir)/line_pattern_thin.xpm			\
 	\
 	gnm_border_left				$(srcdir)/border_left.xpm			\
 	gnm_border_none				$(srcdir)/border_none.xpm			\
@@ -320,8 +213,6 @@ VARIABLES = 		 									\
 	gnm_protection_yes_48 		        $(srcdir)/protection_yes_48.png 		\
 	gnm_visible				$(srcdir)/visible.png \
 	\
-	gnm_cursor_cross			$(srcdir)/cursor_cross.xpm			\
-	sheet_move_marker			$(srcdir)/sheet-move-marker.xpm			\
 	\
 	gnm_link_add_16				$(srcdir)/link_add_16.png			\
 	gnm_link_add_24				$(srcdir)/link_add_24.png			\

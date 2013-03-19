@@ -415,8 +415,60 @@ gnumeric_app_libs =				\
 	tools/libtools.la			\
 	widgets/libwidgets.la
 
-embedded_imgs = \
-	pixmaps/gnumeric_splash_1.4.png		\
+embedded_imgs =						\
+	pixmaps/cursor_cross.xpm			\
+	pixmaps/bucket.xpm				\
+	pixmaps/font.xpm				\
+	pixmaps/sheet_move_marker.xpm			\
+	pixmaps/gp_125grey.xpm				\
+	pixmaps/gp_25grey.xpm				\
+	pixmaps/gp_50grey.xpm				\
+	pixmaps/gp_625grey.xpm				\
+	pixmaps/gp_75grey.xpm				\
+	pixmaps/gp_bricks.xpm				\
+	pixmaps/gp_diag.xpm				\
+	pixmaps/gp_diag_cross.xpm			\
+	pixmaps/gp_foreground_solid.xpm			\
+	pixmaps/gp_horiz.xpm				\
+	pixmaps/gp_large_circles.xpm			\
+	pixmaps/gp_rev_diag.xpm				\
+	pixmaps/gp_semi_circle.xpm			\
+	pixmaps/gp_small_circle.xpm			\
+	pixmaps/gp_solid.xpm				\
+	pixmaps/gp_thatch.xpm				\
+	pixmaps/gp_thick_diag_cross.xpm			\
+	pixmaps/gp_thin_diag.xpm			\
+	pixmaps/gp_thin_diag_cross.xpm			\
+	pixmaps/gp_thin_horiz.xpm			\
+	pixmaps/gp_thin_horiz_cross.xpm			\
+	pixmaps/gp_thin_rev_diag.xpm			\
+	pixmaps/gp_thin_vert.xpm			\
+	pixmaps/gp_vert.xpm				\
+	pixmaps/line_pattern_dash_dot.xpm		\
+	pixmaps/line_pattern_dash_dot_dot.xpm		\
+	pixmaps/line_pattern_dashed.xpm			\
+	pixmaps/line_pattern_dotted.xpm			\
+	pixmaps/line_pattern_double.xpm			\
+	pixmaps/line_pattern_hair.xpm			\
+	pixmaps/line_pattern_medium.xpm			\
+	pixmaps/line_pattern_medium_dash.xpm		\
+	pixmaps/line_pattern_medium_dash_dot.xpm	\
+	pixmaps/line_pattern_medium_dash_dot_dot.xpm	\
+	pixmaps/line_pattern_slant.xpm			\
+	pixmaps/line_pattern_thick.xpm			\
+	pixmaps/line_pattern_thin.xpm			\
+	pixmaps/bottom_border.xpm			\
+	pixmaps/diag_border.xpm				\
+	pixmaps/inside_border.xpm			\
+	pixmaps/inside_horiz_border.xpm			\
+	pixmaps/inside_vert_border.xpm			\
+	pixmaps/left_border.xpm				\
+	pixmaps/no_border.xpm				\
+	pixmaps/outline_border.xpm			\
+	pixmaps/rev_diag_border.xpm			\
+	pixmaps/right_border.xpm			\
+	pixmaps/top_border.xpm				\
+	pixmaps/gnumeric_splash_1.4.png			\
 	pixmaps/unknown_image.png
 
 embedded-imgs.c: $(top_srcdir)/tools/embedder $(embedded_imgs) Makefile

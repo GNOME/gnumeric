@@ -13,6 +13,7 @@ gnumeric-component
 parser.c
 gnm-marshalers.c
 gnm-marshalers.h
+embedded-imgs.c
 gnumeric-paths.h
 ssconvert
 ssconvert.exe

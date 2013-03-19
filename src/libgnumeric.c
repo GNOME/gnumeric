@@ -243,6 +243,8 @@ gnm_init (void)
 	inited = TRUE;
 
 	libgoffice_init ();
+	gnm_register_ui_files ();
+	gnm_register_imgs_files ();
 	go_plugin_service_define ("function_group",
 		&plugin_service_function_group_get_type);
 	go_plugin_service_define ("ui",
@@ -252,8 +254,6 @@ gnm_init (void)
 	go_plugin_loader_module_register_version ("gnumeric", GNM_VERSION_FULL);
 
 	g_object_new (GNM_APP_TYPE, NULL);
-	gnm_register_ui_files ();
-	gnm_register_imgs_files ();
 	mathfunc_init ();
 
 	gnm_style_init ();

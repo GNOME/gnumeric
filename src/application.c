@@ -23,7 +23,6 @@
 #include "gutils.h"
 #include "ranges.h"
 #include "sheet-object.h"
-#include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "commands.h"
 #include "gui-clipboard.h"
 
@@ -722,74 +721,83 @@ gnumeric_application_get_property (GObject *obj, guint param_id,
 static void
 install_icons (void)
 {
-	static struct {
-		guchar const   *scalable_data;
-		gchar const    *name;
-	} const entry [] = {
+	static const char *icons[] = {
 		/* Cursors */
-		{ gnm_cursor_cross, "cursor_cross" },
-		{ gnm_bucket, "bucket" },
-		{ gnm_font, "font" },
-		{ sheet_move_marker, "sheet_move_marker" },
+		"cursor_cross.xpm",
+		"bucket.xpm",
+		"font.xpm",
+		"sheet_move_marker.xpm",
+
 		/* Patterns */
-		{ gp_125grey, "gp_125grey" },
-		{ gp_25grey, "gp_25grey" },
-		{ gp_50grey, "gp_50grey" },
-		{ gp_625grey, "gp_625grey" },
-		{ gp_75grey, "gp_75grey" },
-		{ gp_bricks, "gp_bricks" },
-		{ gp_diag, "gp_diag" },
-		{ gp_diag_cross, "gp_diag_cross" },
-		{ gp_foreground_solid, "gp_foreground_solid" },
-		{ gp_horiz, "gp_horiz" },
-		{ gp_large_circles, "gp_large_circles" },
-		{ gp_rev_diag, "gp_rev_diag" },
-		{ gp_semi_circle, "gp_semi_circle" },
-		{ gp_small_circle, "gp_small_circle" },
-		{ gp_solid, "gp_solid" },
-		{ gp_thatch, "gp_thatch" },
-		{ gp_thick_diag_cross, "gp_thick_diag_cross" },
-		{ gp_thin_diag, "gp_thin_diag" },
-		{ gp_thin_diag_cross, "gp_thin_diag_cross" },
-		{ gp_thin_horiz, "gp_thin_horiz" },
-		{ gp_thin_horiz_cross, "gp_thin_horiz_cross" },
-		{ gp_thin_rev_diag, "gp_thin_rev_diag" },
-		{ gp_thin_vert, "gp_thin_vert" },
-		{ gp_vert, "gp_vert" },
-		{ line_pattern_dash_dot, "line_pattern_dash_dot" },
-		{ line_pattern_dash_dot_dot, "line_pattern_dash_dot_dot" },
-		{ line_pattern_dashed, "line_pattern_dashed" },
-		{ line_pattern_dotted, "line_pattern_dotted" },
-		{ line_pattern_double, "line_pattern_double" },
-		{ line_pattern_hair, "line_pattern_hair" },
-		{ line_pattern_medium, "line_pattern_medium" },
-		{ line_pattern_medium_dash, "line_pattern_medium_dash" },
-		{ line_pattern_medium_dash_dot, "line_pattern_medium_dash_dot" },
-		{ line_pattern_medium_dash_dot_dot, "line_pattern_medium_dash_dot_dot" },
-		{ line_pattern_slant, "line_pattern_slant" },
-		{ line_pattern_thick, "line_pattern_thick" },
-		{ line_pattern_thin, "line_pattern_thin" },
+		"gp_125grey.xpm",
+		"gp_25grey.xpm",
+		"gp_50grey.xpm",
+		"gp_625grey.xpm",
+		"gp_75grey.xpm",
+		"gp_bricks.xpm",
+		"gp_diag.xpm",
+		"gp_diag_cross.xpm",
+		"gp_foreground_solid.xpm",
+		"gp_horiz.xpm",
+		"gp_large_circles.xpm",
+		"gp_rev_diag.xpm",
+		"gp_semi_circle.xpm",
+		"gp_small_circle.xpm",
+		"gp_solid.xpm",
+		"gp_thatch.xpm",
+		"gp_thick_diag_cross.xpm",
+		"gp_thin_diag.xpm",
+		"gp_thin_diag_cross.xpm",
+		"gp_thin_horiz.xpm",
+		"gp_thin_horiz_cross.xpm",
+		"gp_thin_rev_diag.xpm",
+		"gp_thin_vert.xpm",
+		"gp_vert.xpm",
+		"line_pattern_dash_dot.xpm",
+		"line_pattern_dash_dot_dot.xpm",
+		"line_pattern_dashed.xpm",
+		"line_pattern_dotted.xpm",
+		"line_pattern_double.xpm",
+		"line_pattern_hair.xpm",
+		"line_pattern_medium.xpm",
+		"line_pattern_medium_dash.xpm",
+		"line_pattern_medium_dash_dot.xpm",
+		"line_pattern_medium_dash_dot_dot.xpm",
+		"line_pattern_slant.xpm",
+		"line_pattern_thick.xpm",
+		"line_pattern_thin.xpm",
+
 		/* Borders */
-		{ bottom_border, "bottom_border" },
-		{ diag_border, "diag_border" },
-		{ inside_border, "inside_border" },
-		{ inside_horiz_border, "inside_horiz_border" },
-		{ inside_vert_border, "inside_vert_border" },
-		{ left_border, "left_border" },
-		{ no_border, "no_border" },
-		{ outline_border, "outline_border" },
-		{ rev_diag_border, "rev_diag_border" },
-		{ right_border, "right_border" },
-		{ top_border, "top_border" },
+		"bottom_border.xpm",
+		"diag_border.xpm",
+		"inside_border.xpm",
+		"inside_horiz_border.xpm",
+		"inside_vert_border.xpm",
+		"left_border.xpm",
+		"no_border.xpm",
+		"outline_border.xpm",
+		"rev_diag_border.xpm",
+		"right_border.xpm",
+		"top_border.xpm"
 	};
 	unsigned int ui;
 
-	for (ui = 0; ui < G_N_ELEMENTS (entry); ui++) {
-		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
-			(-1, entry[ui].scalable_data, FALSE, NULL);
-		gtk_icon_theme_add_builtin_icon (entry[ui].name,
-			gdk_pixbuf_get_width (pixbuf), pixbuf);
+	for (ui = 0; ui < G_N_ELEMENTS (icons); ui++) {
+		const char *filename = icons[ui];
+		char *res = g_strconcat ("res:gnm:pixmaps/", filename, NULL);
+		char *iconname;
+		GdkPixbuf *pixbuf = go_gdk_pixbuf_load_from_file (res);
+		int size = gdk_pixbuf_get_width (pixbuf);
+
+		iconname = g_strdup (filename);
+		strchr(iconname, '.')[0] = 0;
+		gtk_icon_theme_add_builtin_icon (iconname,
+						 size,
+						 pixbuf);
+
 		g_object_unref (pixbuf);
+		g_free (iconname);
+		g_free (res);
 	}
 }
 
@@ -863,14 +871,18 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-
-	install_icons ();
 }
 
 static void
 gnm_app_init (GObject *obj)
 {
 	GnmApp *gnm_app = GNM_APP (obj);
+	static gboolean icons_installed = FALSE;
+
+	if (!icons_installed) {
+		icons_installed = TRUE;
+		install_icons ();
+	}
 
 	gnm_app->clipboard_copied_contents = NULL;
 	gnm_app->clipboard_sheet_view = NULL;
