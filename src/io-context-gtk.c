@@ -18,7 +18,6 @@
 #include "application.h"
 #include "libgnumeric.h"
 #include "dialogs.h"
-#include "pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
@@ -127,8 +126,8 @@ icg_show_gui (GnmIOContextGtk *icg)
 
 	box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 0));
 	if (icg->show_splash) {
-		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
-			(-1, gnumeric_splash, FALSE, NULL);
+		GdkPixbuf *pixbuf = go_gdk_pixbuf_load_from_file
+			("res:gnm:pixmaps/gnumeric_splash_1.4.png");
 		gtk_box_pack_start (box, gtk_image_new_from_pixbuf (pixbuf),
 				    TRUE, FALSE, 0);
 		g_object_unref (pixbuf);

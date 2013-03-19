@@ -781,8 +781,6 @@ install_icons (void)
 		{ rev_diag_border, "rev_diag_border" },
 		{ right_border, "right_border" },
 		{ top_border, "top_border" },
-		/* Stuff */
-		{ unknown_image, "unknown_image" }
 	};
 	unsigned int ui;
 

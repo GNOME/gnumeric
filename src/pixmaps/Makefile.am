@@ -45,10 +45,8 @@ IMAGES = 							\
 	font.xpm		\
 	expr_entry.png		\
 	\
-	gnumeric_splash_1.4.png	\
 	gnm_subscript_16.png		gnm_subscript_24.png	\
 	gnm_superscript_16.png		gnm_superscript_24.png	\
-	unknown_image.png	\
 	\
 	object_arrow_24.png 	\
 	object_ellipse_24.png 	\
@@ -233,7 +231,6 @@ VARIABLES = 		 									\
 	gnm_brush_16				$(srcdir)/brush-16.png				\
 	gnm_brush_22				$(srcdir)/brush-22.png				\
 	\
-	gnumeric_splash				$(srcdir)/gnumeric_splash_1.4.png		\
 	unknown_image				$(srcdir)/unknown_image.png			\
 	\
 	gnm_object_arrow_24			$(srcdir)/object_arrow_24.png			\
@@ -351,7 +348,7 @@ VARIABLES = 		 									\
 	gnm_printsetup_hf_time                  $(srcdir)/hf_time.png                           \
 	gnm_printsetup_hf_sheet                 $(srcdir)/hf_sheet.png
 
-pixbuf_file = $(top_builddir)/src/pixmaps/gnumeric-stock-pixbufs.h
+pixbuf_file = $(builddir)/gnumeric-stock-pixbufs.h
 noinst_DATA = $(pixbuf_file)
 CLEANFILES = $(noinst_DATA)
 

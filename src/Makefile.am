@@ -22,7 +22,7 @@ bin_PROGRAMS =
 check_PROGRAMS =
 noinst_PROGRAMS = sstest
 
-noinst_HEADERS = dead-kittens.h compilation.h
+noinst_HEADERS = dead-kittens.h compilation.h embedded-imgs.h gnm-i18n.h
 
 if WITH_GTK
   SUBDIRS += pixmaps dialogs widgets
@@ -44,10 +44,11 @@ AM_CPPFLAGS = 								\
 BUILT_SOURCES =					\
 	gnm-marshalers.c			\
 	gnm-marshalers.h			\
+	embedded-imgs.c				\
 	gnumeric-paths.h
 
 # Another hint, see bugs #172211 and #172212:
-non-intermediate: gnm-marshalers.c
+non-intermediate: gnm-marshalers.c embedded-imgs.c
 
 CLEANFILES = $(BUILT_SOURCES)			\
 	gnumeric.exe.a
@@ -197,6 +198,8 @@ libspreadsheet_la_SOURCES =			\
 	print.c					\
 	print-cell.c
 
+nodist_libspreadsheet_la_SOURCES = embedded-imgs.c
+
 # When we switch to subversion fix this to nest as
 # libspreadsheet-ver/spreadsheet/header
 # doing it now would require massive cvs surgery.
@@ -294,7 +297,7 @@ libspreadsheet_include_HEADERS = 	\
 	sheet-object-widget-impl.h		\
 	gnm-so-filled.h				\
 	gnm-so-line.h				\
-	gnm-so-path.h			\
+	gnm-so-path.h				\
 	gnm-so-polygon.h			\
 	sheet-object-component.h		\
 	sheet-object-graph.h			\
@@ -412,6 +415,19 @@ gnumeric_app_libs =				\
 	tools/libtools.la			\
 	widgets/libwidgets.la
 
+embedded_imgs = \
+	pixmaps/gnumeric_splash_1.4.png		\
+	pixmaps/unknown_image.png
+
+embedded-imgs.c: $(top_srcdir)/tools/embedder $(embedded_imgs) Makefile
+	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
+		--register-function=gnm_register_imgs_files \
+		--register-file-function=go_rsm_register_file \
+		--id-prefix=gnm: \
+		--include '<goffice/goffice.h>' \
+		--include embedded-imgs.h \
+		NOCOMPRESS $(embedded_imgs) >$(abs_builddir)/$@
+
 # Rules for the marshalers code:
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_
 
@@ -482,9 +498,10 @@ uninstall-hook:
 # include conditional files to ensure everything gets distributed no matter
 # what the build
 EXTRA_DIST = \
+	$(embedded_imgs)			\
 	gnm-marshalers.list			\
 	README.gnm_float			\
-	gnumeric.rc gnm-i18n.h			\
+	gnumeric.rc				\
 	GNOME_Gnumeric-gtk.xml.in
 
 gtkactiondir=$(gnumeric_datadir)

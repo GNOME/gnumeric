@@ -207,9 +207,8 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 			NULL));
 
 	} else {
-		GdkPixbuf *placeholder = gtk_icon_theme_load_icon
-			(gtk_icon_theme_get_default (),
-			 "unknown_image", 100, 0, NULL);
+		GdkPixbuf *placeholder = go_gdk_pixbuf_load_from_file
+			("res:gnm:pixmaps/unknown_image.png");
 		GdkPixbuf *pixbuf = gdk_pixbuf_copy (placeholder);
 
 		goc_item_hide (goc_item_new (GOC_GROUP (item),

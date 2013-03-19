@@ -56,6 +56,7 @@
 #include "mathfunc.h"
 #include "hlink.h"
 #include "wbc-gtk-impl.h"
+#include "embedded-imgs.h"
 #include "dialogs/embedded-ui.h"
 #include <goffice/goffice.h>
 
@@ -252,6 +253,7 @@ gnm_init (void)
 
 	g_object_new (GNM_APP_TYPE, NULL);
 	gnm_register_ui_files ();
+	gnm_register_imgs_files ();
 	mathfunc_init ();
 
 	gnm_style_init ();
