@@ -1,3 +1,8 @@
+2013-03-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-control-gui.c (cb_collect_objects_to_commit): fixed not sizeable
+	objects bounds after dragging when zoom is not 100%.
+
 2013-03-18  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (gnm_font_action_create_tool_item): Disable the

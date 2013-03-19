@@ -2808,9 +2808,10 @@ cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsDat
 	SheetObjectAnchor *anchor = sheet_object_anchor_dup (
 		sheet_object_get_anchor (so));
 	if (!sheet_object_can_resize (so)) {
+		double scale = goc_canvas_get_pixels_per_unit (GOC_CANVAS (data->scg->pane[0])) / 72.;
 		sheet_object_default_size (so, coords + 2, coords + 3);
-		coords[2] *= gnm_app_display_dpi_get (TRUE) / 72;
-		coords[3] *= gnm_app_display_dpi_get (FALSE) / 72;
+		coords[2] *= gnm_app_display_dpi_get (TRUE) * scale;
+		coords[3] *= gnm_app_display_dpi_get (FALSE) * scale;
 		coords[2] += coords[0];
 		coords[3] += coords[1];
 	}
