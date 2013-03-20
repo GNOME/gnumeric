@@ -10,12 +10,13 @@ mimeicon_DATA = gnome-application-x-gnumeric.png \
 	       win32-gnumeric.ico
 
 iconsdir = $(gnumeric_icondir)
-icons_DATA = \
-	$(mimeicon_DATA)	\
-	orient-horizontal.png	\
-	orient-vertical.png	\
-	gnumeric-about.png	\
-	stf-druid.png
+icons_DATA = $(mimeicon_DATA)
+
+# Not currently used:
+#	orient-horizontal.png	\
+#	orient-vertical.png	\
+#	gnumeric-about.png	\
+#	stf-druid.png
 
 EXTRA_DIST = $(icons_DATA) $(mimeicon_DATA) fake-index-theme
 
