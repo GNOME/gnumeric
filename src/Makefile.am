@@ -25,7 +25,7 @@ noinst_PROGRAMS = sstest
 noinst_HEADERS = dead-kittens.h compilation.h embedded-imgs.h gnm-i18n.h
 
 if WITH_GTK
-  SUBDIRS += pixmaps dialogs widgets
+  SUBDIRS += dialogs widgets
   bin_PROGRAMS += gnumeric
   check_PROGRAMS += test-pango
 endif
@@ -416,10 +416,57 @@ gnumeric_app_libs =				\
 	widgets/libwidgets.la
 
 embedded_imgs =						\
-	pixmaps/cursor_cross.xpm			\
+	pixmaps/add_decimals.png			\
+	pixmaps/auto-sum.xpm				\
+	pixmaps/autofilter_16.png			\
+	pixmaps/autofilter_24.png			\
+	pixmaps/autofilter_delete_16.png		\
+	pixmaps/autofilter_delete_24.png		\
+	pixmaps/border_all.xpm				\
+	pixmaps/border_bottom.xpm			\
+	pixmaps/border_double_bottom.xpm		\
+	pixmaps/border_left.xpm				\
+	pixmaps/border_none.xpm				\
+	pixmaps/border_outside.xpm			\
+	pixmaps/border_right.xpm			\
+	pixmaps/border_thick_bottom.xpm			\
+	pixmaps/border_thick_outside.xpm		\
+	pixmaps/border_top_n_bottom.xpm			\
+	pixmaps/border_top_n_double_bottom.xpm		\
+	pixmaps/border_top_n_thick_bottom.xpm		\
+	pixmaps/bottom_border.xpm			\
+	pixmaps/brush-16.png				\
+	pixmaps/brush-22.png				\
 	pixmaps/bucket.xpm				\
+	pixmaps/center_across_selection_16.xpm		\
+	pixmaps/center_across_selection_24.xpm		\
+	pixmaps/column_add_16.xpm			\
+	pixmaps/column_add_24.xpm			\
+	pixmaps/column_delete_16.xpm			\
+	pixmaps/column_delete_24.xpm			\
+	pixmaps/column_hide_16.xpm			\
+	pixmaps/column_hide_24.xpm			\
+	pixmaps/column_size_16.xpm			\
+	pixmaps/column_size_24.xpm			\
+	pixmaps/column_unhide_16.xpm			\
+	pixmaps/column_unhide_24.xpm			\
+	pixmaps/comment_add_16.xpm			\
+	pixmaps/comment_delete_16.xpm			\
+	pixmaps/comment_edit_16.xpm			\
+	pixmaps/cursor_cross.xpm			\
+	pixmaps/diag_border.xpm				\
+	pixmaps/equal-sign.xpm				\
+	pixmaps/expr_entry.png				\
 	pixmaps/font.xpm				\
-	pixmaps/sheet_move_marker.xpm			\
+	pixmaps/format_money_24.png			\
+	pixmaps/format_percent_24.png			\
+	pixmaps/formula_guru_16.png			\
+	pixmaps/formula_guru_24.png			\
+	pixmaps/gnm_subscript_16.png			\
+	pixmaps/gnm_subscript_24.png			\
+	pixmaps/gnm_superscript_16.png			\
+	pixmaps/gnm_superscript_24.png			\
+	pixmaps/gnumeric_splash_1.4.png			\
 	pixmaps/gp_125grey.xpm				\
 	pixmaps/gp_25grey.xpm				\
 	pixmaps/gp_50grey.xpm				\
@@ -444,6 +491,30 @@ embedded_imgs =						\
 	pixmaps/gp_thin_rev_diag.xpm			\
 	pixmaps/gp_thin_vert.xpm			\
 	pixmaps/gp_vert.xpm				\
+	pixmaps/graph_guru_16.xpm			\
+	pixmaps/graph_guru_24.xpm			\
+	pixmaps/group_16.xpm				\
+	pixmaps/group_24.xpm				\
+	pixmaps/halign-fill_24.png			\
+	pixmaps/halign-general_24.png			\
+	pixmaps/hf_cell.png				\
+	pixmaps/hf_date.png				\
+	pixmaps/hf_page.png				\
+	pixmaps/hf_pages.png				\
+	pixmaps/hf_sheet.png				\
+	pixmaps/hf_time.png				\
+	pixmaps/hide_detail_16.xpm			\
+	pixmaps/hide_detail_24.xpm			\
+	pixmaps/insert_component_16.xpm			\
+	pixmaps/insert_component_24.xpm			\
+	pixmaps/insert_image_16.png			\
+	pixmaps/insert_image_24.png			\
+	pixmaps/insert_shaped_component_16.xpm		\
+	pixmaps/insert_shaped_component_24.xpm		\
+	pixmaps/inside_border.xpm			\
+	pixmaps/inside_horiz_border.xpm			\
+	pixmaps/inside_vert_border.xpm			\
+	pixmaps/left_border.xpm				\
 	pixmaps/line_pattern_dash_dot.xpm		\
 	pixmaps/line_pattern_dash_dot_dot.xpm		\
 	pixmaps/line_pattern_dashed.xpm			\
@@ -457,19 +528,65 @@ embedded_imgs =						\
 	pixmaps/line_pattern_slant.xpm			\
 	pixmaps/line_pattern_thick.xpm			\
 	pixmaps/line_pattern_thin.xpm			\
-	pixmaps/bottom_border.xpm			\
-	pixmaps/diag_border.xpm				\
-	pixmaps/inside_border.xpm			\
-	pixmaps/inside_horiz_border.xpm			\
-	pixmaps/inside_vert_border.xpm			\
-	pixmaps/left_border.xpm				\
+	pixmaps/link_add_16.png				\
+	pixmaps/link_add_24.png				\
+	pixmaps/link_delete_16.png			\
+	pixmaps/link_edit_16.png			\
+	pixmaps/link_email_16.png			\
+	pixmaps/link_email_24.png			\
+	pixmaps/link_external_16.png			\
+	pixmaps/link_external_24.png			\
+	pixmaps/link_internal_16.png			\
+	pixmaps/link_internal_24.png			\
+	pixmaps/link_url_16.png				\
+	pixmaps/link_url_24.png				\
+	pixmaps/merge_cells_16.xpm			\
+	pixmaps/merge_cells_24.xpm			\
 	pixmaps/no_border.xpm				\
+	pixmaps/object_arrow_24.png			\
+	pixmaps/object_button_24.png			\
+	pixmaps/object_checkbox_24.png			\
+	pixmaps/object_combo_24.png			\
+	pixmaps/object_ellipse_24.png			\
+	pixmaps/object_frame_24.png			\
+	pixmaps/object_label_24.png			\
+	pixmaps/object_line_24.png			\
+	pixmaps/object_list_24.png			\
+	pixmaps/object_radiobutton_24.png		\
+	pixmaps/object_rectangle_24.png			\
+	pixmaps/object_scrollbar_24.png			\
+	pixmaps/object_slider_24.png			\
+	pixmaps/object_spinbutton_24.png		\
 	pixmaps/outline_border.xpm			\
+	pixmaps/pivottable_16.png			\
+	pixmaps/pivottable_24.png			\
+	pixmaps/protection_no_24.png			\
+	pixmaps/protection_yes_24.png			\
+	pixmaps/protection_yes_48.png			\
+	pixmaps/remove_decimals.png			\
 	pixmaps/rev_diag_border.xpm			\
 	pixmaps/right_border.xpm			\
+	pixmaps/row_add_16.xpm				\
+	pixmaps/row_add_24.xpm				\
+	pixmaps/row_delete_16.xpm			\
+	pixmaps/row_delete_24.xpm			\
+	pixmaps/row_hide_16.xpm				\
+	pixmaps/row_hide_24.xpm				\
+	pixmaps/row_size_16.xpm				\
+	pixmaps/row_size_24.xpm				\
+	pixmaps/row_unhide_16.xpm			\
+	pixmaps/row_unhide_24.xpm			\
+	pixmaps/sheet_move_marker.xpm			\
+	pixmaps/show_detail_16.xpm			\
+	pixmaps/show_detail_24.xpm			\
+	pixmaps/split_cells_16.xpm			\
+	pixmaps/split_cells_24.xpm			\
+	pixmaps/thousands.xpm				\
 	pixmaps/top_border.xpm				\
-	pixmaps/gnumeric_splash_1.4.png			\
-	pixmaps/unknown_image.png
+	pixmaps/ungroup_16.xpm				\
+	pixmaps/ungroup_24.xpm				\
+	pixmaps/unknown_image.png			\
+	pixmaps/visible.png
 
 embedded-imgs.c: $(top_srcdir)/tools/embedder $(embedded_imgs) Makefile
 	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \

@@ -931,6 +931,9 @@ fmt_dialog_init_font_page (FormatState *state)
 {
 	GtkWidget *tmp = g_object_new (GO_TYPE_FONT_SEL,
 				       "show-style", TRUE,
+				       "show-color", TRUE,
+				       "show-script", TRUE,
+				       "show-strikethrough", TRUE,
 				       NULL);
 	GOFontSel *font_widget = GO_FONT_SEL (tmp);
 	GtkWidget *uline = gtk_combo_box_text_new_with_entry ();

@@ -991,14 +991,13 @@ int_to_entry (GtkEntry *entry, gint the_int)
 GtkWidget *
 gnumeric_load_image (char const *filename)
 {
-	char *path = g_build_filename (gnm_icon_dir (), filename, NULL);
-	GtkWidget *image = gtk_image_new_from_file (path);
-	g_free (path);
-
-	if (image)
-		gtk_widget_show (image);
-
-	return image;
+	GdkPixbuf *pixbuf = gnumeric_load_pixbuf (filename);
+	if (pixbuf) {
+		GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
+		g_object_unref (pixbuf);
+		return image;
+	}
+	return NULL;
 }
 
 /**
@@ -1012,10 +1011,15 @@ gnumeric_load_image (char const *filename)
 GdkPixbuf *
 gnumeric_load_pixbuf (char const *filename)
 {
-	char *path = g_build_filename (gnm_icon_dir (), filename, NULL);
-	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (path, NULL);
-	g_free (path);
-	return pixbuf;
+	if (strncmp (filename, "res:", 4) == 0 ||
+	    g_path_is_absolute (filename))
+		return go_gdk_pixbuf_load_from_file (filename);
+	else {
+		char *path = g_build_filename (gnm_icon_dir (), filename, NULL);
+		GdkPixbuf *pixbuf = go_gdk_pixbuf_load_from_file (path);
+		g_free (path);
+		return pixbuf;
+	}
 }
 
 

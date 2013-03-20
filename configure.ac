@@ -1074,7 +1074,6 @@ icons/48x48/Makefile
 icons/scalable/Makefile
 src/Makefile
 src/dialogs/Makefile
-src/pixmaps/Makefile
 src/widgets/Makefile
 src/tools/Makefile
 src/cut-n-paste-code/Makefile

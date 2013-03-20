@@ -719,7 +719,54 @@ gnumeric_application_get_property (GObject *obj, guint param_id,
 }
 
 static void
-install_icons (void)
+add_icon (GtkIconFactory *factory,
+	  const char *scalable_filename,
+	  const char *sized_filename,
+	  const char *stock_id)
+{
+	GtkIconSet *set = gtk_icon_set_new ();
+	GtkIconSource *src = gtk_icon_source_new ();
+
+	if (scalable_filename) {
+		char *res = g_strconcat ("res:gnm:pixmaps/",
+					 scalable_filename,
+					 NULL);
+		GdkPixbuf *pix = go_gdk_pixbuf_load_from_file (res);
+		if (pix) {
+			gtk_icon_source_set_size_wildcarded (src, TRUE);
+			gtk_icon_source_set_pixbuf (src, pix);
+			gtk_icon_set_add_source (set, src);
+			g_object_unref (pix);
+		} else {
+			g_warning ("Missing resource %s\n", res);
+		}
+		g_free (res);
+	}
+
+	/*
+	 * For now, don't register a fixed-sized icon as doing so without
+	 * catching style changes kills things like bug 302902.
+	 */
+	if (sized_filename && !scalable_filename) {
+		char *res = g_strconcat ("res:gnm:pixmaps/",
+					 sized_filename,
+					 NULL);
+		GdkPixbuf *pix = go_gdk_pixbuf_load_from_file (res);
+		gtk_icon_source_set_size (src, GTK_ICON_SIZE_MENU);
+		gtk_icon_source_set_size_wildcarded (src, FALSE);
+		gtk_icon_source_set_pixbuf (src, pix);
+		gtk_icon_set_add_source (set, src);
+		g_object_unref (pix);
+	}
+
+	gtk_icon_factory_add (factory, stock_id, set);
+	gtk_icon_set_unref (set);
+	gtk_icon_source_free (src);
+}
+
+
+static void
+install_icons (GnmApp *app)
 {
 	static const char *icons[] = {
 		/* Cursors */
@@ -780,6 +827,459 @@ install_icons (void)
 		"right_border.xpm",
 		"top_border.xpm"
 	};
+	static struct {
+		const char *scalable_filename;
+		const char *sized_filename;
+		const char *stock_id;
+	} const icons2[] = {
+		{
+			"column_add_24.xpm",
+			"column_add_16.xpm",
+			"Gnumeric_ColumnAdd"
+		},
+		{
+			"column_delete_24.xpm",
+			"column_delete_16.xpm",
+			"Gnumeric_ColumnDelete"
+		},
+		{
+			"column_size_24.xpm",
+			"column_size_16.xpm",
+			"Gnumeric_ColumnSize"
+		},
+		{
+			"column_hide_24.xpm",
+			"column_hide_16.xpm",
+			"Gnumeric_ColumnHide"
+		},
+		{
+			"column_unhide_24.xpm",
+			"column_unhide_16.xpm",
+			"Gnumeric_ColumnUnhide"
+		},
+		{
+			"row_add_24.xpm",
+			"row_add_16.xpm",
+			"Gnumeric_RowAdd"
+		},
+		{
+			"row_delete_24.xpm",
+			"row_delete_16.xpm",
+			"Gnumeric_RowDelete"
+		},
+		{
+			"row_size_24.xpm",
+			"row_size_16.xpm",
+			"Gnumeric_RowSize"
+		},
+		{
+			"row_hide_24.xpm",
+			"row_hide_16.xpm",
+			"Gnumeric_RowHide"
+		},
+		{
+			"row_unhide_24.xpm",
+			"row_unhide_16.xpm",
+			"Gnumeric_RowUnhide"
+		},
+
+		{
+			"group_24.xpm",
+			"group_16.xpm",
+			"Gnumeric_Group"
+		},
+		{
+			"ungroup_24.xpm",
+			"ungroup_16.xpm",
+			"Gnumeric_Ungroup"
+		},
+		{
+			"show_detail_24.xpm",
+			"show_detail_16.xpm",
+			"Gnumeric_ShowDetail"
+		},
+		{
+			"hide_detail_24.xpm",
+			"hide_detail_16.xpm",
+			"Gnumeric_HideDetail"
+		},
+
+		{
+			"graph_guru_24.xpm",
+			"graph_guru_16.xpm",
+			"Gnumeric_GraphGuru"
+		},
+		{
+			"insert_component_24.xpm",
+			"insert_component_16.xpm",
+			"Gnumeric_InsertComponent"
+		},
+		{
+			"insert_shaped_component_24.xpm",
+			"insert_shaped_component_16.xpm",
+			"Gnumeric_InsertShapedComponent"
+		},
+
+		{
+			"center_across_selection_24.xpm",
+			"center_across_selection_16.xpm",
+			"Gnumeric_CenterAcrossSelection"
+		},
+		{
+			"merge_cells_24.xpm",
+			"merge_cells_16.xpm",
+			"Gnumeric_MergeCells"
+		},
+		{
+			"split_cells_24.xpm",
+			"split_cells_16.xpm",
+			"Gnumeric_SplitCells"
+		},
+
+		{
+			"halign-fill_24.png",
+			NULL,
+			"Gnumeric_HAlignFill"
+		},
+		{
+			"halign-general_24.png",
+			NULL,
+			"Gnumeric_HAlignGeneral"
+		},
+
+		{
+			NULL,
+			"comment_add_16.xpm",
+			"Gnumeric_CommentAdd"
+		},
+		{
+			NULL,
+			"comment_delete_16.xpm",
+			"Gnumeric_CommentDelete"
+		},
+		{
+			NULL,
+			"comment_edit_16.xpm",
+			"Gnumeric_CommentEdit"
+		},
+
+		{
+			"add_decimals.png",
+			NULL,
+			"Gnumeric_FormatAddPrecision"
+		},
+		{
+			"remove_decimals.png",
+			NULL,
+			"Gnumeric_FormatRemovePrecision"
+		},
+		{
+			"format_money_24.png",
+			NULL,
+			"Gnumeric_FormatAsAccounting"
+		},
+		{
+			"format_percent_24.png",
+			NULL,
+			"Gnumeric_FormatAsPercentage"
+		},
+		{
+			"thousands.xpm",
+			NULL,
+			"Gnumeric_FormatThousandSeparator"
+		},
+		{
+			"gnm_subscript_24.png",
+			"gnm_subscript_16.png",
+			"Gnumeric_Subscript"
+		},
+		{
+			"gnm_superscript_24.png",
+			"gnm_superscript_16.png",
+			"Gnumeric_Superscript"
+		},
+
+		{
+			"auto-sum.xpm",
+			NULL,
+			"Gnumeric_AutoSum"
+		},
+		{
+			"equal-sign.xpm",
+			NULL,
+			"Gnumeric_Equal"
+		},
+		{
+			"formula_guru_24.png",
+			"formula_guru_16.png",
+			"Gnumeric_FormulaGuru"
+		},
+		{
+			"insert_image_24.png",
+			"insert_image_16.png",
+			"Gnumeric_InsertImage"
+		},
+		{
+			"bucket.xpm",
+			NULL,
+			"Gnumeric_Bucket"
+		},
+		{
+			"font.xpm",
+			NULL,
+			"Gnumeric_Font"
+		},
+		{
+			"expr_entry.png",
+			NULL,
+			"Gnumeric_ExprEntry"
+		},
+		{
+			"brush-22.png",
+			"brush-16.png",
+			"Gnumeric_Brush"
+		},
+
+		{
+			"object_arrow_24.png",
+			NULL,
+			"Gnumeric_ObjectArrow"
+		},
+		{
+			"object_ellipse_24.png",
+			NULL,
+			"Gnumeric_ObjectEllipse"
+		},
+		{
+			"object_line_24.png",
+			NULL,
+			"Gnumeric_ObjectLine"
+		},
+
+		{
+			"object_rectangle_24.png",
+			NULL,
+			"Gnumeric_ObjectRectangle"
+		},
+
+		{
+			"object_frame_24.png",
+			NULL,
+			"Gnumeric_ObjectFrame"
+		},
+		{
+			"object_label_24.png",
+			NULL,
+			"Gnumeric_ObjectLabel"
+		},
+		{
+			"object_button_24.png",
+			NULL,
+			"Gnumeric_ObjectButton"
+		},
+		{
+			"object_checkbox_24.png",
+			NULL,
+			"Gnumeric_ObjectCheckbox"
+		},
+		{
+			"object_radiobutton_24.png",
+			NULL,
+			"Gnumeric_ObjectRadioButton"
+		},
+		{
+			"object_scrollbar_24.png",
+			NULL,
+			"Gnumeric_ObjectScrollbar"
+		},
+		{
+			"object_spinbutton_24.png",
+			NULL,
+			"Gnumeric_ObjectSpinButton"
+		},
+		{
+			"object_slider_24.png",
+			NULL,
+			"Gnumeric_ObjectSlider"
+		},
+		{
+			"object_combo_24.png",
+			NULL,
+			"Gnumeric_ObjectCombo"
+		},
+		{
+			"object_list_24.png",
+			NULL,
+			"Gnumeric_ObjectList"
+		},
+
+		{
+			"pivottable_24.png",
+			"pivottable_16.png",
+			"Gnumeric_PivotTable"
+		},
+		{
+			"protection_yes_24.png",
+			NULL,
+			"Gnumeric_Protection_Yes"
+		},
+		{
+			"protection_no_24.png",
+			NULL,
+			"Gnumeric_Protection_No"
+		},
+		{
+			"protection_yes_48.png",
+			NULL,
+			"Gnumeric_Protection_Yes_Dialog"
+		},
+		{
+			"visible.png",
+			NULL,
+			"Gnumeric_Visible"
+		},
+
+		{
+			"link_add_24.png",
+			"link_add_16.png",
+			"Gnumeric_Link_Add"
+		},
+		{
+			NULL,
+			"link_delete_16.png",
+			"Gnumeric_Link_Delete"
+		},
+		{
+			NULL,
+			"link_edit_16.png",
+			"Gnumeric_Link_Edit"
+		},
+		{
+			"link_external_24.png",
+			"link_external_16.png",
+			"Gnumeric_Link_External"
+		},
+		{
+			"link_internal_24.png",
+			"link_internal_16.png",
+			"Gnumeric_Link_Internal"
+		},
+		{
+			"link_email_24.png",
+			"link_email_16.png",
+			"Gnumeric_Link_EMail"
+		},
+		{
+			"link_url_24.png",
+			"link_url_16.png",
+			"Gnumeric_Link_URL"
+		},
+
+		{
+			"autofilter_24.png",
+			"autofilter_16.png",
+			"Gnumeric_AutoFilter"
+		},
+		{
+			"autofilter_delete_24.png",
+			"autofilter_delete_16.png",
+			"Gnumeric_AutoFilterDelete"
+		},
+
+		{
+			"border_left.xpm",
+			NULL,
+			"Gnumeric_BorderLeft"
+		},
+		{
+			"border_none.xpm",
+			NULL,
+			"Gnumeric_BorderNone"
+		},
+		{
+			"border_right.xpm",
+			NULL,
+			"Gnumeric_BorderRight"
+		},
+		{
+			"border_all.xpm",
+			NULL,
+			"Gnumeric_BorderAll"
+		},
+		{
+			"border_outside.xpm",
+			NULL,
+			"Gnumeric_BorderOutside"
+		},
+		{
+			"border_thick_outside.xpm",
+			NULL,
+			"Gnumeric_BorderThickOutside"
+		},
+		{
+			"border_bottom.xpm",
+			NULL,
+			"Gnumeric_BorderBottom"
+		},
+		{
+			"border_double_bottom.xpm",
+			NULL,
+			"Gnumeric_BorderDoubleBottom"
+		},
+		{
+			"border_thick_bottom.xpm",
+			NULL,
+			"Gnumeric_BorderThickBottom"
+		},
+		{
+			"border_top_n_bottom.xpm",
+			NULL,
+			"Gnumeric_BorderTop_n_Bottom"
+		},
+		{
+			"border_top_n_double_bottom.xpm",
+			NULL,
+			"Gnumeric_BorderTop_n_DoubleBottom"
+		},
+		{
+			"border_top_n_thick_bottom.xpm",
+			NULL,
+			"Gnumeric_BorderTop_n_ThickBottom"
+		},
+
+		{
+			"hf_page.png",
+			NULL,
+			"Gnumeric_Pagesetup_HF_Page"
+		},
+		{
+			"hf_pages.png",
+			NULL,
+			"Gnumeric_Pagesetup_HF_Pages"
+		},
+		{
+			"hf_time.png",
+			NULL,
+			"Gnumeric_Pagesetup_HF_Time"
+		},
+		{
+			"hf_date.png",
+			NULL,
+			"Gnumeric_Pagesetup_HF_Date"
+		},
+		{
+			"hf_sheet.png",
+			NULL,
+			"Gnumeric_Pagesetup_HF_Sheet"
+		},
+		{
+			"hf_cell.png",
+			NULL,
+			"Gnumeric_Pagesetup_HF_Cell"
+		},
+	};
+
+	GtkIconFactory *factory = gtk_icon_factory_new ();
 	unsigned int ui;
 
 	for (ui = 0; ui < G_N_ELEMENTS (icons); ui++) {
@@ -799,6 +1299,17 @@ install_icons (void)
 		g_free (iconname);
 		g_free (res);
 	}
+
+	for (ui = 0; ui < G_N_ELEMENTS (icons2) ; ui++)
+		add_icon (factory,
+			  icons2[ui].scalable_filename,
+			  icons2[ui].sized_filename,
+			  icons2[ui].stock_id);
+	gtk_icon_factory_add_default (factory);
+	g_object_set_data_full (G_OBJECT (app),
+				"icon-factory", factory,
+				(GDestroyNotify)gtk_icon_factory_remove_default);
+	g_object_unref (factory);
 }
 
 
@@ -881,7 +1392,7 @@ gnm_app_init (GObject *obj)
 
 	if (!icons_installed) {
 		icons_installed = TRUE;
-		install_icons ();
+		install_icons (gnm_app);
 	}
 
 	gnm_app->clipboard_copied_contents = NULL;

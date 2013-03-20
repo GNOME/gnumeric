@@ -51,7 +51,6 @@
 #include "dialogs/dialogs.h"
 #include "widgets/widget-editable-label.h"
 #include "widgets/gnm-fontbutton.h"
-#include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "gui-clipboard.h"
 #include "libgnumeric.h"
 #include "gnm-pane-impl.h"
@@ -4372,182 +4371,6 @@ cb_wbcg_window_state_event (GtkWidget           *widget,
 	}
 }
 
-
-static void
-add_icon (GtkIconFactory *factory,
-	  guchar const   *scalable_data,
-	  guchar const   *sized_data,
-	  gchar const    *stock_id)
-{
-	GtkIconSet *set = gtk_icon_set_new ();
-	GtkIconSource *src = gtk_icon_source_new ();
-
-	if (scalable_data != NULL) {
-		GdkPixbuf *pix =
-			gdk_pixbuf_new_from_inline (-1, scalable_data,
-						    FALSE, NULL);
-		gtk_icon_source_set_size_wildcarded (src, TRUE);
-		gtk_icon_source_set_pixbuf (src, pix);
-		gtk_icon_set_add_source (set, src);	/* copies the src */
-		g_object_unref (pix);
-	}
-
-	/*
-	 * For now, don't register a fixed-sized icon as doing so without
-	 * catching style changes kills things like bug 302902.
-	 */
-	if (scalable_data == NULL && sized_data != NULL) {
-		GdkPixbuf *pix =
-			gdk_pixbuf_new_from_inline (-1, sized_data,
-						    FALSE, NULL);
-		gtk_icon_source_set_size (src, GTK_ICON_SIZE_MENU);
-		gtk_icon_source_set_size_wildcarded (src, FALSE);
-		gtk_icon_source_set_pixbuf (src, pix);
-		gtk_icon_set_add_source (set, src);	/* copies the src */
-		g_object_unref (pix);
-	}
-
-	gtk_icon_factory_add (factory, stock_id, set);	/* keeps reference to set */
-	gtk_icon_set_unref (set);
-	gtk_icon_source_free (src);
-}
-
-static void
-wbc_gtk_setup_icons (void)
-{
-	static struct {
-		guchar const   *scalable_data;
-		guchar const   *sized_data;
-		gchar const    *stock_id;
-	} const entry [] = {
-		{ gnm_column_add_24,			gnm_column_add_16,		"Gnumeric_ColumnAdd" },
-		{ gnm_column_delete_24,			gnm_column_delete_16,		"Gnumeric_ColumnDelete" },
-		{ gnm_column_size_24,			gnm_column_size_16,		"Gnumeric_ColumnSize" },
-		{ gnm_column_hide_24,			gnm_column_hide_16,		"Gnumeric_ColumnHide" },
-		{ gnm_column_unhide_24,			gnm_column_unhide_16,		"Gnumeric_ColumnUnhide" },
-		{ gnm_row_add_24,			gnm_row_add_16,			"Gnumeric_RowAdd" },
-		{ gnm_row_delete_24,			gnm_row_delete_16,		"Gnumeric_RowDelete" },
-		{ gnm_row_size_24,			gnm_row_size_16,		"Gnumeric_RowSize" },
-		{ gnm_row_hide_24,			gnm_row_hide_16,		"Gnumeric_RowHide" },
-		{ gnm_row_unhide_24,			gnm_row_unhide_16,		"Gnumeric_RowUnhide" },
-
-		{ gnm_group_24,				gnm_group_16,			"Gnumeric_Group" },
-		{ gnm_ungroup_24,			gnm_ungroup_16,			"Gnumeric_Ungroup" },
-		{ gnm_show_detail_24,			gnm_show_detail_16,		"Gnumeric_ShowDetail" },
-		{ gnm_hide_detail_24,			gnm_hide_detail_16,		"Gnumeric_HideDetail" },
-
-		{ gnm_graph_guru_24,			gnm_graph_guru_16,		"Gnumeric_GraphGuru" },
-		{ gnm_insert_component_24,		gnm_insert_component_16,	"Gnumeric_InsertComponent" },
-		{ gnm_insert_shaped_component_24,	gnm_insert_shaped_component_16,	"Gnumeric_InsertShapedComponent" },
-
-		{ gnm_center_across_selection_24,	gnm_center_across_selection_16,	"Gnumeric_CenterAcrossSelection" },
-		{ gnm_merge_cells_24,			gnm_merge_cells_16,		"Gnumeric_MergeCells" },
-		{ gnm_split_cells_24,			gnm_split_cells_16,		"Gnumeric_SplitCells" },
-
-		{ gnm_halign_fill_24,			NULL,				"Gnumeric_HAlignFill" },
-		{ gnm_halign_general_24,		NULL,				"Gnumeric_HAlignGeneral" },
-
-		{ NULL,					gnm_comment_add_16,		"Gnumeric_CommentAdd" },
-		{ NULL,					gnm_comment_delete_16,		"Gnumeric_CommentDelete" },
-		{ NULL,					gnm_comment_edit_16,		"Gnumeric_CommentEdit" },
-
-		{ gnm_add_decimals,			NULL,				"Gnumeric_FormatAddPrecision" },
-		{ gnm_remove_decimals,			NULL,				"Gnumeric_FormatRemovePrecision" },
-		{ gnm_money,				NULL,				"Gnumeric_FormatAsAccounting" },
-		{ gnm_percent,				NULL,				"Gnumeric_FormatAsPercentage" },
-		{ gnm_thousand,				NULL,				"Gnumeric_FormatThousandSeparator" },
-		{ gnm_subscript_24,			gnm_subscript_16,		"Gnumeric_Subscript" },
-		{ gnm_superscript_24,			gnm_superscript_16,		"Gnumeric_Superscript" },
-
-		{ gnm_auto,				NULL,				"Gnumeric_AutoSum" },
-		{ gnm_equal,				NULL,				"Gnumeric_Equal" },
-		{ gnm_formula_guru_24,			gnm_formula_guru_16,		"Gnumeric_FormulaGuru" },
-		{ gnm_insert_image_24,			gnm_insert_image_16,		"Gnumeric_InsertImage" },
-		{ gnm_bucket,				NULL,				"Gnumeric_Bucket" },
-		{ gnm_font,				NULL,				"Gnumeric_Font" },
-		{ gnm_expr_entry,			NULL,				"Gnumeric_ExprEntry" },
-		{ gnm_brush_22,				gnm_brush_16,			"Gnumeric_Brush" },
-
-		{ gnm_object_arrow_24,			NULL,				"Gnumeric_ObjectArrow" },
-		{ gnm_object_ellipse_24,		NULL,				"Gnumeric_ObjectEllipse" },
-		{ gnm_object_line_24,			NULL,				"Gnumeric_ObjectLine" },
-		{ gnm_object_label_24,		        NULL,				"Gnumeric_ObjectRectangle" },
-
-		{ gnm_object_frame_24,			NULL,				"Gnumeric_ObjectFrame" },
-		{ gnm_object_button_24,			NULL,				"Gnumeric_ObjectButton" },
-		{ gnm_object_checkbox_24,		NULL,				"Gnumeric_ObjectCheckbox" },
-		{ gnm_object_radiobutton_24,		NULL,				"Gnumeric_ObjectRadioButton" },
-		{ gnm_object_scrollbar_24,		NULL,				"Gnumeric_ObjectScrollbar" },
-		{ gnm_object_spinbutton_24,		NULL,				"Gnumeric_ObjectSpinButton" },
-		{ gnm_object_slider_24,			NULL,				"Gnumeric_ObjectSlider" },
-		{ gnm_object_combo_24,			NULL,				"Gnumeric_ObjectCombo" },
-		{ gnm_object_list_24,			NULL,				"Gnumeric_ObjectList" },
-
-		{ gnm_pivottable_24,			gnm_pivottable_16,		"Gnumeric_PivotTable" },
-		{ gnm_protection_yes,			NULL,				"Gnumeric_Protection_Yes" },
-		{ gnm_protection_no,			NULL,				"Gnumeric_Protection_No" },
-		{ gnm_protection_yes_48,		NULL,				"Gnumeric_Protection_Yes_Dialog" },
-		{ gnm_visible,				NULL,				"Gnumeric_Visible" },
-
-		{ gnm_link_add_24,			gnm_link_add_16,		"Gnumeric_Link_Add" },
-		{ NULL,					gnm_link_delete_16,		"Gnumeric_Link_Delete" },
-		{ NULL,					gnm_link_edit_16,		"Gnumeric_Link_Edit" },
-		{ gnm_link_external_24,			gnm_link_external_16,		"Gnumeric_Link_External" },
-		{ gnm_link_internal_24,			gnm_link_internal_16,		"Gnumeric_Link_Internal" },
-		{ gnm_link_email_24,			gnm_link_email_16,		"Gnumeric_Link_EMail" },
-		{ gnm_link_url_24,			gnm_link_url_16,		"Gnumeric_Link_URL" },
-
-		{ gnm_autofilter_24,			gnm_autofilter_16,		"Gnumeric_AutoFilter" },
-		{ gnm_autofilter_delete_24,		gnm_autofilter_delete_16,	"Gnumeric_AutoFilterDelete" },
-
-		{ gnm_border_left,			NULL,				"Gnumeric_BorderLeft" },
-		{ gnm_border_none,			NULL,				"Gnumeric_BorderNone" },
-		{ gnm_border_right,			NULL,				"Gnumeric_BorderRight" },
-
-		{ gnm_border_all,			NULL,				"Gnumeric_BorderAll" },
-		{ gnm_border_outside,			NULL,				"Gnumeric_BorderOutside" },
-		{ gnm_border_thick_outside,		NULL,				"Gnumeric_BorderThickOutside" },
-
-		{ gnm_border_bottom,			NULL,				"Gnumeric_BorderBottom" },
-		{ gnm_border_double_bottom,		NULL,				"Gnumeric_BorderDoubleBottom" },
-		{ gnm_border_thick_bottom,		NULL,				"Gnumeric_BorderThickBottom" },
-
-		{ gnm_border_top_n_bottom,		NULL,				"Gnumeric_BorderTop_n_Bottom" },
-		{ gnm_border_top_n_double_bottom,	NULL,				"Gnumeric_BorderTop_n_DoubleBottom" },
-		{ gnm_border_top_n_thick_bottom,	NULL,				"Gnumeric_BorderTop_n_ThickBottom" },
-
-		{ gnm_printsetup_hf_page,               NULL,                           "Gnumeric_Pagesetup_HF_Page"},
-		{ gnm_printsetup_hf_pages,              NULL,                           "Gnumeric_Pagesetup_HF_Pages"},
-		{ gnm_printsetup_hf_time,               NULL,                           "Gnumeric_Pagesetup_HF_Time"},
-		{ gnm_printsetup_hf_date,               NULL,                           "Gnumeric_Pagesetup_HF_Date"},
-		{ gnm_printsetup_hf_sheet,              NULL,                           "Gnumeric_Pagesetup_HF_Sheet"},
-		{ gnm_printsetup_hf_cell,               NULL,                           "Gnumeric_Pagesetup_HF_Cell"},
-	};
-	static gboolean done = FALSE;
-
-	if (!done) {
-		unsigned int ui = 0;
-		GtkIconFactory *factory = gtk_icon_factory_new ();
-		GObject *app = gnm_app_get_app ();
-		/* adding a test because this is called from  wbc_gtk_class_init()
-		during introspection with no proper initialization.*/
-		if (!app)
-			return;
-		for (ui = 0; ui < G_N_ELEMENTS (entry) ; ui++)
-			add_icon (factory,
-				  entry[ui].scalable_data,
-				  entry[ui].sized_data,
-				  entry[ui].stock_id);
-		gtk_icon_factory_add_default (factory);
-		/* adding a test because this is called from  wbc_gtk_class_init()
-		during introspection with no proper initialization.*/
-		g_object_set_data_full (app, "icon-factory", factory,
-					(GDestroyNotify)gtk_icon_factory_remove_default);
-		g_object_unref (factory);
-		done = TRUE;
-	}
-}
-
 /****************************************************************************/
 
 static void
@@ -5605,8 +5428,6 @@ wbc_gtk_class_init (GObjectClass *gobject_class)
 	wbc_class->control_new		= wbc_gtk_control_new;
 	wbc_class->init_state		= wbc_gtk_init_state;
 	wbc_class->style_feedback	= wbc_gtk_style_feedback;
-
-	wbc_gtk_setup_icons ();
 
         g_object_class_install_property (gobject_class,
 		 WBG_GTK_PROP_AUTOSAVE_PROMPT,

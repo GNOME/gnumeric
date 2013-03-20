@@ -1,7 +1,22 @@
+2013-03-19  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (install_icons): Install also the icon themed
+	icons.  No idea why we have both.
+
+	* src/wbc-gtk.c (wbc_gtk_setup_icons, add_icon): Remove.
+
+	* src/Makefile.am (SUBDIRS): No longer enter pixmaps.
+	(embedded_imgs): Add the rest from pixmaps.
+
+	* configure.ac: No longer create src/pixmaps/Makefile
+
+	* src/gui-util.c (gnumeric_load_image, gnumeric_load_pixbuf): Make
+	these work for resources and absolute paths.
+
 2013-03-19  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/sheet-control-gui.c (cb_collect_objects_to_commit): fixed not sizeable
-	objects bounds after dragging when zoom is not 100%.
+	* src/sheet-control-gui.c (cb_collect_objects_to_commit): fixed
+	not sizeable objects bounds after dragging when zoom is not 100%.
 
 2013-03-18  Morten Welinder  <terra@gnome.org>
 
