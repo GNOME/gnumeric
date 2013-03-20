@@ -932,6 +932,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	GtkWidget *tmp = g_object_new (GO_TYPE_FONT_SEL,
 				       "show-style", TRUE,
 				       "show-color", TRUE,
+				       "color-unset-text", _("Automatic"),
 				       "show-script", TRUE,
 				       "show-strikethrough", TRUE,
 				       NULL);
