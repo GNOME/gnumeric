@@ -14,8 +14,6 @@ icons_DATA = \
 	$(mimeicon_DATA)	\
 	orient-horizontal.png	\
 	orient-vertical.png	\
-	right-down.png		\
-	down-right.png		\
 	gnumeric-about.png	\
 	stf-druid.png
 

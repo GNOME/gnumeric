@@ -455,6 +455,7 @@ embedded_imgs =						\
 	pixmaps/comment_edit_16.xpm			\
 	pixmaps/cursor_cross.xpm			\
 	pixmaps/diag_border.xpm				\
+	pixmaps/down-right.png				\
 	pixmaps/equal-sign.xpm				\
 	pixmaps/expr_entry.png				\
 	pixmaps/font.xpm				\
@@ -565,6 +566,7 @@ embedded_imgs =						\
 	pixmaps/protection_yes_48.png			\
 	pixmaps/remove_decimals.png			\
 	pixmaps/rev_diag_border.xpm			\
+	pixmaps/right-down.png				\
 	pixmaps/right_border.xpm			\
 	pixmaps/row_add_16.xpm				\
 	pixmaps/row_add_24.xpm				\
