@@ -835,29 +835,19 @@ set_font_underline (FormatState *state, GnmUnderline u)
 	change_font_attr (state, pango_attr_underline_new (pu));
 }
 
-static gboolean
-cb_font_underline_changed (GtkComboBoxText *combo,
-			   FormatState *state)
+static void
+cb_underline_changed (GOOptionMenu *om, FormatState *state)
 {
-	GnmUnderline res = UNDERLINE_NONE;
-	int i;
-	char *new_text = gtk_combo_box_text_get_active_text (combo);
+	GtkWidget *selected = go_option_menu_get_history (om);
+	GnmUnderline u;
 
-	if (!state->enable_edit) {
-		g_free (new_text);
-		return FALSE;
-	}
+	if (!selected)
+		return;
 
-	for (i = G_N_ELEMENTS (underline_types); i-- > 0; )
-		if (go_utf8_collate_casefold (new_text, g_dpgettext2 (NULL, "underline", underline_types[i].Cname)) == 0) {
-			res = underline_types[i].ut;
-			break;
-		}
-
-	set_font_underline (state, res);
-	g_free (new_text);
-	return TRUE;
+	u = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (selected), "value"));
+	set_font_underline (state, u);
 }
+
 
 /* Manually insert the font selector, and setup signals */
 static void
@@ -865,19 +855,23 @@ fmt_dialog_init_font_page (FormatState *state)
 {
 	GOColorGroup *cg;
 	GtkWidget *font_widget;
-	GtkWidget *uline = gtk_combo_box_text_new_with_entry ();
-	GtkEntry *uline_entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (uline)));
-	char const *uline_str;
 	gboolean strikethrough = FALSE;
 	GOFontScript script = GO_FONT_SCRIPT_STANDARD;
 	GODateConventions const *date_conv =
 		workbook_date_conv (state->sheet->workbook);
-	int i;
 	GnmColor *mcolor = NULL;
 	GnmColor *def_sc;
+	GtkWidget *up;
 
-	g_return_if_fail (uline != NULL);
-
+	up = go_option_menu_build
+		(C_("underline", "None"), UNDERLINE_NONE,
+		 C_("underline", "Single"), UNDERLINE_SINGLE,
+		 C_("underline", "Double"), UNDERLINE_DOUBLE,
+		 C_("underline", "Single Low"), UNDERLINE_SINGLE_LOW,
+		 C_("underline", "Double Low"), UNDERLINE_DOUBLE_LOW,
+		 NULL);
+	g_signal_connect (up,
+			  "changed", G_CALLBACK (cb_underline_changed), state);
 	def_sc = style_color_auto_font ();
 	cg = go_color_group_fetch ("fore_color_group", NULL);
 	font_widget = g_object_new (GO_TYPE_FONT_SEL,
@@ -886,6 +880,8 @@ fmt_dialog_init_font_page (FormatState *state)
 				    "color-unset-text", _("Automatic"),
 				    "color-group", cg,
 				    "color-default", def_sc->go_color,
+				    "show-underline", TRUE,
+				    "underline-picker", up,
 				    "show-script", TRUE,
 				    "show-strikethrough", TRUE,
 				    "vexpand", TRUE,
@@ -894,10 +890,11 @@ fmt_dialog_init_font_page (FormatState *state)
 	g_object_unref (cg);
 	style_color_unref (def_sc);
 	state->font.selector = GO_FONT_SEL (font_widget);
+	g_object_unref (up);
 
 	gtk_widget_show (font_widget);
-	go_gtk_widget_replace (go_gtk_builder_get_widget (state->gui, "font_sel_placeholder"),
-			       font_widget);
+	gtk_container_add (GTK_CONTAINER (go_gtk_builder_get_widget (state->gui, "font_sel_placeholder")),
+			   font_widget);
 
 	go_font_sel_editable_enters (state->font.selector,
 				     GTK_WINDOW (state->dialog));
@@ -930,30 +927,10 @@ fmt_dialog_init_font_page (FormatState *state)
 				      pts * PANGO_SCALE);
 	}
 
-	for (i = 0; i < (int)G_N_ELEMENTS (underline_types); i++)
-		gtk_combo_box_text_append_text
-			(GTK_COMBO_BOX_TEXT (uline),
-			 g_dpgettext2 (NULL, "underline",
-				       underline_types[i].Cname));
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_UNDERLINE))) {
 		GnmUnderline ut = gnm_style_get_font_uline (state->style);
-		uline_str = g_dpgettext2 (NULL, "underline", underline_types[ut].Cname);
 		set_font_underline (state, ut);
-	} else
-		uline_str = "";
-	gtk_entry_set_text (uline_entry, uline_str);
-	g_object_set (uline_entry,
-		      "editable", FALSE,
-		      "can-focus", FALSE,
-		      NULL);
-	g_signal_connect (G_OBJECT (uline),
-			  "changed",
-			  G_CALLBACK (cb_font_underline_changed), state);
-	gtk_widget_show_all (uline);
-	go_gtk_widget_replace (go_gtk_builder_get_widget (state->gui, "underline_placeholder"),
-			 uline);
-
-	gtk_label_set_mnemonic_widget (GTK_LABEL (go_gtk_builder_get_widget (state->gui, "underline_label")), uline);
+	}
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_COLOR)))
 		mcolor = gnm_style_get_font_color (state->style);
