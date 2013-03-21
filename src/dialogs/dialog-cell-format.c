@@ -387,8 +387,7 @@ setup_color_pickers (FormatState *state,
 	default:
 		g_warning ("Unhandled style element!");
 	}
-	cg = go_color_group_fetch (color_group,
-		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
+	cg = go_color_group_fetch (color_group, NULL);
 	combo = go_combo_color_new (NULL, default_caption,
 		def_sc ? def_sc->go_color : GO_COLOR_BLACK, cg);
 	g_object_unref (cg);
@@ -706,6 +705,7 @@ cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
 	GnmStyle *res = state->result;
 	GOFontScript script = GO_FONT_SCRIPT_STANDARD;
 	gboolean has_script_attr = FALSE;
+	GnmColor *c;
 
 	gboolean changed = FALSE;
 	g_return_if_fail (state != NULL);
@@ -800,16 +800,15 @@ cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
 	}
 
 	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_FOREGROUND);
-	if (attr) {
-		const PangoColor *pc = &((PangoAttrColor*)attr)->color;
-		GnmColor *c = gnm_color_new_pango (pc);
-		if (!gnm_style_is_element_set (res, MSTYLE_FONT_COLOR) ||
-		    !style_color_equal (c, gnm_style_get_font_color (res))) {
-			changed = TRUE;
-			gnm_style_set_font_color (res, c);
-		} else
-			style_color_unref (c);
-	}
+	c = attr
+		? gnm_color_new_pango (&((PangoAttrColor*)attr)->color)
+		: style_color_auto_font ();
+	if (!gnm_style_is_element_set (res, MSTYLE_FONT_COLOR) ||
+	    !style_color_equal (c, gnm_style_get_font_color (res))) {
+		changed = TRUE;
+		gnm_style_set_font_color (res, c);
+	} else
+		style_color_unref (c);
 
 	pango_attr_iterator_destroy (aiter);
 
@@ -846,39 +845,6 @@ set_font_script (FormatState *state, GOFontScript s)
 
 	change_font_attr (state, go_pango_attr_subscript_new (is_sub));
 	change_font_attr (state, go_pango_attr_superscript_new (is_super));
-}
-
-/*
- * A callback to set the font color.
- * It is called whenever the color combo changes value.
- */
-static void
-cb_font_preview_color (G_GNUC_UNUSED GOComboColor *combo,
-		       GOColor c,
-		       G_GNUC_UNUSED gboolean is_custom,
-		       G_GNUC_UNUSED gboolean by_user,
-		       gboolean is_default, FormatState *state)
-{
-	GnmColor *col;
-
-	if (!state->enable_edit)
-		return;
-
-	col = is_default
-		? style_color_auto_font ()
-		: gnm_color_new_go (c);
-
-	change_font_attr (state, go_color_to_pango (col->go_color, TRUE));
-	style_color_unref (col);
-}
-
-static void
-cb_font_strike_toggle (GtkToggleButton *button, FormatState *state)
-{
-	if (state->enable_edit) {
-		gboolean b = gtk_toggle_button_get_active (button);
-		change_font_attr (state, pango_attr_strikethrough_new (b));
-	}
 }
 
 static void
@@ -929,36 +895,44 @@ cb_font_underline_changed (GtkComboBoxText *combo,
 static void
 fmt_dialog_init_font_page (FormatState *state)
 {
-	GtkWidget *tmp = g_object_new (GO_TYPE_FONT_SEL,
-				       "show-style", TRUE,
-				       "show-color", TRUE,
-				       "color-unset-text", _("Automatic"),
-				       "show-script", TRUE,
-				       "show-strikethrough", TRUE,
-				       NULL);
-	GOFontSel *font_widget = GO_FONT_SEL (tmp);
+	GOColorGroup *cg;
+	GtkWidget *font_widget;
 	GtkWidget *uline = gtk_combo_box_text_new_with_entry ();
 	GtkEntry *uline_entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (uline)));
 	char const *uline_str;
-	GtkWidget *strike = go_gtk_builder_get_widget (state->gui, "strikethrough_button");
-	gboolean   strikethrough = FALSE;
+	gboolean strikethrough = FALSE;
 	GOFontScript script = GO_FONT_SCRIPT_STANDARD;
 	GODateConventions const *date_conv =
 		workbook_date_conv (state->sheet->workbook);
 	int i;
+	GnmColor *mcolor = NULL;
+	GnmColor *def_sc;
 
 	g_return_if_fail (uline != NULL);
-	g_return_if_fail (strike != NULL);
 
-	gtk_widget_set_vexpand (tmp, TRUE);
-	gtk_widget_set_hexpand (tmp, TRUE);
-	gtk_widget_show (tmp);
-	go_gtk_widget_replace (go_gtk_builder_get_widget (state->gui, "font_sel_placeholder"),
-			 tmp);
-
-	go_font_sel_editable_enters (font_widget, GTK_WINDOW (state->dialog));
-
+	def_sc = style_color_auto_font ();
+	/* FIXME: Use def_sc */
+	cg = go_color_group_fetch ("fore_color_group", NULL);
+	font_widget = g_object_new (GO_TYPE_FONT_SEL,
+				    "show-style", TRUE,
+				    "show-color", TRUE,
+				    "color-unset-text", _("Automatic"),
+				    "color-group", cg,
+				    "show-script", TRUE,
+				    "show-strikethrough", TRUE,
+				    "vexpand", TRUE,
+				    "hexpand", TRUE,
+				    NULL);
+	g_object_unref (cg);
+	style_color_unref (def_sc);
 	state->font.selector = GO_FONT_SEL (font_widget);
+
+	gtk_widget_show (font_widget);
+	go_gtk_widget_replace (go_gtk_builder_get_widget (state->gui, "font_sel_placeholder"),
+			       font_widget);
+
+	go_font_sel_editable_enters (state->font.selector,
+				     GTK_WINDOW (state->dialog));
 
 	if (state->value) {
 		char *s = format_value (NULL, state->value, -1, date_conv);
@@ -1011,34 +985,33 @@ fmt_dialog_init_font_page (FormatState *state)
 	go_gtk_widget_replace (go_gtk_builder_get_widget (state->gui, "underline_placeholder"),
 			 uline);
 
-	tmp = go_gtk_builder_get_widget (state->gui, "underline_label");
-	gtk_label_set_mnemonic_widget (GTK_LABEL (tmp), uline);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (go_gtk_builder_get_widget (state->gui, "underline_label")), uline);
+
+	if (0 == (state->conflicts & (1 << MSTYLE_FONT_COLOR)))
+		mcolor = gnm_style_get_font_color (state->style);
+	go_font_sel_set_color (state->font.selector,
+			       mcolor ? mcolor->go_color : GO_COLOR_BLACK,
+			       !mcolor || mcolor->is_auto);
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_STRIKETHROUGH)))
 		strikethrough = gnm_style_get_font_strike (state->style);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
-	change_font_attr (state, pango_attr_strikethrough_new (strikethrough));
-	g_signal_connect (G_OBJECT (strike),
-			  "toggled",
-			  G_CALLBACK (cb_font_strike_toggle), state);
+	go_font_sel_set_strikethrough (state->font.selector, strikethrough);
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_SCRIPT)))
 		script = gnm_style_get_font_script (state->style);
 	set_font_script (state, script);
-	if (NULL != (tmp = go_gtk_builder_get_widget (state->gui, "superscript_button"))) {
-		state->font.superscript = GTK_TOGGLE_BUTTON (tmp);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
-					      script == GO_FONT_SCRIPT_SUPER);
-		g_signal_connect (G_OBJECT (tmp), "toggled",
-				  G_CALLBACK (cb_font_script_toggle), state);
-	}
-	if (NULL != (tmp =  go_gtk_builder_get_widget (state->gui, "subscript_button"))) {
-		state->font.subscript = GTK_TOGGLE_BUTTON (tmp);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
-					      script == GO_FONT_SCRIPT_SUB);
-		g_signal_connect (G_OBJECT (tmp), "toggled",
-				  G_CALLBACK (cb_font_script_toggle), state);
-	}
+
+	state->font.superscript = GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "superscript_button"));
+	gtk_toggle_button_set_active (state->font.superscript,
+				      script == GO_FONT_SCRIPT_SUPER);
+	g_signal_connect (G_OBJECT (state->font.superscript), "toggled",
+			  G_CALLBACK (cb_font_script_toggle), state);
+
+	state->font.subscript = GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "subscript_button"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->font.subscript),
+				      script == GO_FONT_SCRIPT_SUB);
+	g_signal_connect (G_OBJECT (state->font.subscript), "toggled",
+			  G_CALLBACK (cb_font_script_toggle), state);
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_COLOR)))
 		change_font_attr
@@ -1046,7 +1019,7 @@ fmt_dialog_init_font_page (FormatState *state)
 			 go_color_to_pango (gnm_style_get_font_color (state->style)->go_color,
 					    TRUE));
 
-	g_signal_connect (G_OBJECT (font_widget),
+	g_signal_connect (G_OBJECT (state->font.selector),
 			  "font_changed",
 			  G_CALLBACK (cb_font_changed), state);
 }
@@ -2420,10 +2393,6 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 			     "border_color_placeholder",	"border_color_label",
 			     _("Automatic"),			_("Border"),
 			     G_CALLBACK (cb_border_color),	MSTYLE_BORDER_TOP, FALSE);
-	setup_color_pickers (state, NULL,			"fore_color_group",
-			     "font_color_placeholder",		"font_color_label",
-			     _("Automatic"),			_("Foreground"),
-			     G_CALLBACK (cb_font_preview_color), MSTYLE_FONT_COLOR, TRUE);
 	setup_color_pickers (state, &state->back.back_color,	"back_color_group",
 			     "background_color_placeholder",	"back_color_label",
 			     _("Clear Background"),		_("Background"),
