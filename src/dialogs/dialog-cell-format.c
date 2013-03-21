@@ -150,8 +150,6 @@ typedef struct _FormatState {
 	} align;
 	struct {
 		GOFontSel	*selector;
-		GtkToggleButton	*superscript, *subscript;
-		ColorPicker      color;
 	} font;
 	struct {
 		GocCanvas	*canvas;
@@ -837,36 +835,6 @@ set_font_underline (FormatState *state, GnmUnderline u)
 	change_font_attr (state, pango_attr_underline_new (pu));
 }
 
-static void
-set_font_script (FormatState *state, GOFontScript s)
-{
-	gboolean is_super = (s == GO_FONT_SCRIPT_SUPER);
-	gboolean is_sub = (s == GO_FONT_SCRIPT_SUB);
-
-	change_font_attr (state, go_pango_attr_subscript_new (is_sub));
-	change_font_attr (state, go_pango_attr_superscript_new (is_super));
-}
-
-static void
-cb_font_script_toggle (GtkToggleButton *button, FormatState *state)
-{
-	if (state->enable_edit) {
-		GOFontScript script = GO_FONT_SCRIPT_STANDARD;
-		if (gtk_toggle_button_get_active (button)) {
-			state->enable_edit = FALSE;
-			if (button == state->font.superscript) {
-				script = GO_FONT_SCRIPT_SUPER;
-				gtk_toggle_button_set_active (state->font.subscript, FALSE);
-			} else {
-				script = GO_FONT_SCRIPT_SUB;
-				gtk_toggle_button_set_active (state->font.superscript, FALSE);
-			}
-			state->enable_edit = TRUE;
-		}
-		set_font_script (state, script);
-	}
-}
-
 static gboolean
 cb_font_underline_changed (GtkComboBoxText *combo,
 			   FormatState *state)
@@ -911,13 +879,13 @@ fmt_dialog_init_font_page (FormatState *state)
 	g_return_if_fail (uline != NULL);
 
 	def_sc = style_color_auto_font ();
-	/* FIXME: Use def_sc */
 	cg = go_color_group_fetch ("fore_color_group", NULL);
 	font_widget = g_object_new (GO_TYPE_FONT_SEL,
 				    "show-style", TRUE,
 				    "show-color", TRUE,
 				    "color-unset-text", _("Automatic"),
 				    "color-group", cg,
+				    "color-default", def_sc->go_color,
 				    "show-script", TRUE,
 				    "show-strikethrough", TRUE,
 				    "vexpand", TRUE,
@@ -999,19 +967,7 @@ fmt_dialog_init_font_page (FormatState *state)
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_SCRIPT)))
 		script = gnm_style_get_font_script (state->style);
-	set_font_script (state, script);
-
-	state->font.superscript = GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "superscript_button"));
-	gtk_toggle_button_set_active (state->font.superscript,
-				      script == GO_FONT_SCRIPT_SUPER);
-	g_signal_connect (G_OBJECT (state->font.superscript), "toggled",
-			  G_CALLBACK (cb_font_script_toggle), state);
-
-	state->font.subscript = GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "subscript_button"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->font.subscript),
-				      script == GO_FONT_SCRIPT_SUB);
-	g_signal_connect (G_OBJECT (state->font.subscript), "toggled",
-			  G_CALLBACK (cb_font_script_toggle), state);
+	go_font_sel_set_script (state->font.selector, script);
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_COLOR)))
 		change_font_attr
