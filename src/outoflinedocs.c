@@ -421,3 +421,143 @@
  */
 
 /* ------------------------------------------------------------------------- */
+
+/**
+ * dexp:
+ * @x: observation
+ * @scale: the scale parameter of the distribution
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the exponential distribution.
+ */
+
+/**
+ * pexp:
+ * @x: observation
+ * @scale: the scale parameter of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the exponential distribution.
+ */
+
+/**
+ * qexp:
+ * @p: probability
+ * @scale: the scale parameter of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * exponential distribution.
+ */
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * dbinom:
+ * @x: observation
+ * @n: the number of trials
+ * @psuc: the probability of success in each trial
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the binomial distribution.
+ */
+
+/**
+ * pbinom:
+ * @x: observation
+ * @n: the number of trials
+ * @psuc: the probability of success in each trial
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the binomial distribution.
+ */
+
+/**
+ * qbinom:
+ * @p: probability
+ * @n: the number of trials
+ * @psuc: the probability of success in each trial
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * binomial distribution.
+ */
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * dnbinom:
+ * @x: observation
+ * @n: the number of trials
+ * @psuc: the probability of success in each trial
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the negative binomial distribution.
+ */
+
+/**
+ * pnbinom:
+ * @x: observation
+ * @n: the number of trials
+ * @psuc: the probability of success in each trial
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the negative binomial distribution.
+ */
+
+/**
+ * qnbinom:
+ * @p: probability
+ * @n: the number of trials
+ * @psuc: the probability of success in each trial
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * negative binomial distribution.
+ */
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * dhyper:
+ * @x: observation
+ * @r: the number of red balls
+ * @b: the number of black balls
+ * @n: the number of balls drawn
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the hypergeometric distribution.
+ */
+
+/**
+ * phyper:
+ * @x: observation
+ * @r: the number of red balls
+ * @b: the number of black balls
+ * @n: the number of balls drawn
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the hypergeometric distribution.
+ */
+
+/**
+ * qhyper:
+ * @p: probability
+ * @r: the number of red balls
+ * @b: the number of black balls
+ * @n: the number of balls drawn
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * hypergeometric distribution.
+ */
+
+/* ------------------------------------------------------------------------- */

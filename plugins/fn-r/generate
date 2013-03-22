@@ -100,8 +100,6 @@ my %argoverride = ();
 	 ({ 'n' => 'the number of trials',
 	    'psuc' => "the probability of success in each trial",
 	    @common })];
-    $argoverride{"dnbinom:p"} = $argoverride{"pnbinom:p"} = $argoverride{"qnbinom:pr"} =
-	"psuc";
 
     $funcs{'dhyper'} = $funcs{'phyper'} = $funcs{'qhyper'} =
 	[\&distribution,
@@ -110,8 +108,6 @@ my %argoverride = ();
 	    'b' => "the number of black balls",
 	    'n' => "the number of balls drawn",	    
 	    @common })];
-    $argoverride{"phyper:NR"} = $argoverride{"qhyper:NR"} = 'r';
-    $argoverride{"phyper:NB"} = $argoverride{"qhyper:NB"} = 'b';
 
     $funcs{'dcauchy'} = $funcs{'pcauchy'} = $funcs{'qcauchy'} =
 	[\&distribution,

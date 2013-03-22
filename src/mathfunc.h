@@ -107,14 +107,14 @@ gnm_float pbinom2 (gnm_float x0, gnm_float x1, gnm_float n, gnm_float p);
 gnm_float qbinom (gnm_float p, gnm_float n, gnm_float psuc, gboolean lower_tail, gboolean log_p);
 
 /* Negative binomial distribution.  */
-gnm_float dnbinom (gnm_float x, gnm_float n, gnm_float p, gboolean give_log);
-gnm_float pnbinom (gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p);
-gnm_float qnbinom (gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, gboolean log_p);
+gnm_float dnbinom (gnm_float x, gnm_float n, gnm_float psuc, gboolean give_log);
+gnm_float pnbinom (gnm_float x, gnm_float n, gnm_float psuc, gboolean lower_tail, gboolean log_p);
+gnm_float qnbinom (gnm_float p, gnm_float n, gnm_float psuc, gboolean lower_tail, gboolean log_p);
 
 /* Hyper-geometrical distribution.  */
 gnm_float dhyper (gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean give_log);
-gnm_float phyper (gnm_float x, gnm_float NR, gnm_float NB, gnm_float n, gboolean lower_tail, gboolean log_p);
-gnm_float qhyper (gnm_float p, gnm_float NR, gnm_float NB, gnm_float n, gboolean lower_tail, gboolean log_p);
+gnm_float phyper (gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean lower_tail, gboolean log_p);
+gnm_float qhyper (gnm_float p, gnm_float r, gnm_float b, gnm_float n, gboolean lower_tail, gboolean log_p);
 
 /* Geometric distribution.  */
 gnm_float dgeom (gnm_float x, gnm_float psuc, gboolean give_log);
