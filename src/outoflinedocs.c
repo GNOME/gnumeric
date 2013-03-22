@@ -223,3 +223,70 @@
  */
 
 /* ------------------------------------------------------------------------- */
+
+/**
+ * dt:
+ * @x: observation
+ * @n: the number of degrees of freedom of the distribution
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the Student t distribution.
+ */
+
+/**
+ * pt:
+ * @x: observation
+ * @n: the number of degrees of freedom of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the Student t distribution.
+ */
+
+/**
+ * qt:
+ * @p: probability
+ * @n: the number of degrees of freedom of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * Student t distribution.
+ */
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * df:
+ * @x: observation
+ * @n1: the first number of degrees of freedom of the distribution
+ * @n2: the first number of degrees of freedom of the distribution
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the F distribution.
+ */
+
+/**
+ * pf:
+ * @x: observation
+ * @n1: the first number of degrees of freedom of the distribution
+ * @n2: the first number of degrees of freedom of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the F distribution.
+ */
+
+/**
+ * qf:
+ * @p: probability
+ * @n1: the first number of degrees of freedom of the distribution
+ * @n2: the first number of degrees of freedom of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * F distribution.
+ */
+
+/* ------------------------------------------------------------------------- */

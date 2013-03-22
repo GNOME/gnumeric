@@ -73,10 +73,10 @@ gnm_float qbeta (gnm_float p, gnm_float a, gnm_float b, gboolean lower_tail, gbo
 /* The t distribution.  */
 gnm_float dt (gnm_float x, gnm_float n, gboolean give_log);
 gnm_float pt (gnm_float x, gnm_float n, gboolean lower_tail, gboolean log_p);
-gnm_float qt (gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p);
+gnm_float qt (gnm_float p, gnm_float n, gboolean lower_tail, gboolean log_p);
 
 /* The F distribution.  */
-gnm_float df (gnm_float x, gnm_float m, gnm_float n, gboolean give_log);
+gnm_float df (gnm_float x, gnm_float n1, gnm_float n2, gboolean give_log);
 gnm_float pf (gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p);
 gnm_float qf (gnm_float p, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p);
 

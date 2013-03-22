@@ -57,7 +57,6 @@ my %argoverride = ();
 	 'Student t',
 	 ({ 'n' => "the number of degrees of freedom $of",
 	    @common })];
-    $argoverride{"qt:ndf"} = "n";
 
     $funcs{'df'} = $funcs{'pf'} = $funcs{'qf'} =
 	[\&distribution,
@@ -65,8 +64,6 @@ my %argoverride = ();
 	 ({ 'n1' => "the first number of degrees of freedom $of",
 	    'n2' => "the second number of degrees of freedom $of",
 	    @common })];
-    $argoverride{"df:m"} = "n1";
-    $argoverride{"df:n"} = "n2";
 
     $funcs{'dchisq'} = $funcs{'pchisq'} = $funcs{'qchisq'} =
 	[\&distribution,
