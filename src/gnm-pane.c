@@ -1810,7 +1810,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 	return FALSE;
 }
 
-/* TODO : All the slide_* members of GnmPane really aught to be in
+/* TODO : All the slide_* members of GnmPane really ought to be in
  * SheetControlGUI, most of these routines also belong there.  However, since
  * the primary point of access is via GnmPane and SCG is very large
  * already I'm leaving them here for now.  Move them when we return to
@@ -2035,7 +2035,7 @@ gnm_pane_size_guide_start (GnmPane *pane, gboolean vert, int colrow, int width)
 		x0 = x;
 		y0 = scg_colrow_distance_get (scg, FALSE,
 					0, pane->first.row) / zoom;
-		x1= x;
+		x1 = x;
 		y1 = scg_colrow_distance_get (scg, FALSE,
 					0, pane->last_visible.row+1) / zoom;
 	} else {

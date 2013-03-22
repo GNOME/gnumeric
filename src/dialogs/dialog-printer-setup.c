@@ -409,8 +409,8 @@ static void
 margin_preview_page_available_size (PrinterSetupState *state,
 				    MarginPreviewPageAvailableSize *available_size)
 {
-	GList *child_list;
-	GtkWidget *child_widget, *grid;
+	GList *children, *l;
+	GtkWidget *grid;
 	unsigned *widths, *heights;
 	GtkRequisition requisition;
 	unsigned top, left, width, height, i;
@@ -432,10 +432,9 @@ margin_preview_page_available_size (PrinterSetupState *state,
 	heights = g_new0 (guint, nrows);
 
 	/* Iterate through all child widgets in the grid */
-	for (child_list = gtk_container_get_children (GTK_CONTAINER (grid));
-	     child_list; child_list = child_list->next) {
-
-		child_widget = child_list->data;
+	children = gtk_container_get_children (GTK_CONTAINER (grid));
+	for (l = children; l; l = l->next) {
+		GtkWidget *child_widget = l->data;
 
 		/* Determine which cells the align widget spans across */
 		gtk_container_child_get (GTK_CONTAINER (grid), GTK_WIDGET (child_widget),
@@ -466,6 +465,7 @@ margin_preview_page_available_size (PrinterSetupState *state,
 			}
 		}
 	}
+	g_list_free (children);
 
 	/* Calculate width of container widget using maximum */
 	/* widget widths from above */
