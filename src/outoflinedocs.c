@@ -389,3 +389,35 @@
  */
 
 /* ------------------------------------------------------------------------- */
+
+/**
+ * dpois:
+ * @x: observation
+ * @lambda: the mean of the distribution
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the Poisson distribution.
+ */
+
+/**
+ * ppois:
+ * @x: observation
+ * @lambda: the mean of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the Poisson distribution.
+ */
+
+/**
+ * qpois:
+ * @p: probability
+ * @lambda: the mean of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * Poisson distribution.
+ */
+
+/* ------------------------------------------------------------------------- */

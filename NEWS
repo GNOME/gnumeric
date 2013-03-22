@@ -5,6 +5,7 @@ Morten:
 	* New font selector for toolbar.  [#695031]
 	* Embed more artwork.
 	* Plug leaks.
+	* Introspection improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
