@@ -34,6 +34,54 @@
  * naive formula.
  */
 
+/**
+ * gnm_cot:
+ * @x: an angle in radians
+ *
+ * Returns: The co-tangent of the given angle.
+ */
+
+/**
+ * gnm_acot:
+ * @x: a number
+ *
+ * Returns: The inverse co-tangent of the given number.
+ */
+
+/**
+ * gnm_coth:
+ * @x: a number.
+ *
+ * Returns: The hyperbolic co-tangent of the given number.
+ */
+
+/**
+ * gnm_acoth:
+ * @x: a number
+ *
+ * Returns: The inverse hyperbolic co-tangent of the given number.
+ */
+
+/**
+ * beta:
+ * @a: a number
+ * @b: a number
+ *
+ * Returns: the beta function evaluated at @a and @b.
+ */
+
+/**
+ * lbeta3:
+ * @a: a number
+ * @b: a number
+ * @sign: (out): the sign
+ *
+ * Returns: the logarithm of the absolute value of the beta function
+ * evaluated at @a and @b.  The sign will be stored in @sign as -1 or
+ * +1.  This function is useful because the result of the beta
+ * function can be too large for doubles.
+ */
+
 /* ------------------------------------------------------------------------- */
 
 /**
@@ -137,6 +185,41 @@
  *
  * Returns: the observation with cumulative probability @p for the
  * gamma distribution.
+ */
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * dbeta:
+ * @x: observation
+ * @a: the first shape parameter of the distribution
+ * @b: the second scale parameter of the distribution
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the beta distribution.
+ */
+
+/**
+ * pbeta:
+ * @x: observation
+ * @a: the first shape parameter of the distribution
+ * @b: the second scale parameter of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the beta distribution.
+ */
+
+/**
+ * qbeta:
+ * @p: probability
+ * @a: the first shape parameter of the distribution
+ * @b: the second scale parameter of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * beta distribution.
  */
 
 /* ------------------------------------------------------------------------- */

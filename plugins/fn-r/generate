@@ -51,11 +51,6 @@ my %argoverride = ();
 	 ({ 'a' => "the first shape parameter $of",
 	    'b' => "the second scale parameter $of",
 	    @common })];
-    $argoverride{"pbeta:pin"} = "a";
-    $argoverride{"pbeta:qin"} = "b";
-    $argoverride{"qbeta:alpha"} = "p";
-    $argoverride{"qbeta:p"} = "a";
-    $argoverride{"qbeta:q"} = "b";
 
     $funcs{'dt'} = $funcs{'pt'} = $funcs{'qt'} =
 	[\&distribution,
