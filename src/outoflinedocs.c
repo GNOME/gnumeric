@@ -290,3 +290,102 @@
  */
 
 /* ------------------------------------------------------------------------- */
+
+/**
+ * dgeom:
+ * @x: observation
+ * @psuc: the probability of success in each trial
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the geometric distribution.
+ */
+
+/**
+ * pgeom:
+ * @x: observation
+ * @psuc: the probability of success in each trial
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the geometric distribution.
+ */
+
+/**
+ * qgeom:
+ * @p: probability
+ * @psuc: the probability of success in each trial
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * geometric distribution.
+ */
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * dchisq:
+ * @x: observation
+ * @df: the number of degrees of freedom of the distribution
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the &#x1D712;&#xb2; distribution.
+ */
+
+/**
+ * pchisq:
+ * @x: observation
+ * @df: the number of degrees of freedom of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the &#x1D712;&#xb2; distribution.
+ */
+
+/**
+ * qchisq:
+ * @p: probability
+ * @df: the number of degrees of freedom of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * &#x1D712;&#xb2; distribution.
+ */
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * dweibull:
+ * @x: observation
+ * @shape: the shape parameter of the distribution
+ * @scale: the scale parameter of the distribution
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the Weibull distribution.
+ */
+
+/**
+ * pweibull:
+ * @x: observation
+ * @shape: the shape parameter of the distribution
+ * @scale: the scale parameter of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the Weibull distribution.
+ */
+
+/**
+ * qweibull:
+ * @p: probability
+ * @shape: the shape parameter of the distribution
+ * @scale: the scale parameter of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * Weibull distribution.
+ */
+
+/* ------------------------------------------------------------------------- */

@@ -124,8 +124,6 @@ my %argoverride = ();
 	 'geometric',
 	 ({ 'psuc' => "the probability of success in each trial",
 	    @common })];
-    $argoverride{"dgeom:p"} = $argoverride{"pgeom:p"} = $argoverride{"qgeom:prob"} =
-	"psuc";
 
     $funcs{'dsnorm'} =  $funcs{'psnorm'} =  
 #$funcs{'qsnorm'} =

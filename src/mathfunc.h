@@ -116,10 +116,10 @@ gnm_float dhyper (gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean g
 gnm_float phyper (gnm_float x, gnm_float NR, gnm_float NB, gnm_float n, gboolean lower_tail, gboolean log_p);
 gnm_float qhyper (gnm_float p, gnm_float NR, gnm_float NB, gnm_float n, gboolean lower_tail, gboolean log_p);
 
-/* Geometrical distribution.  */
-gnm_float dgeom (gnm_float x, gnm_float p, gboolean give_log);
-gnm_float pgeom (gnm_float x, gnm_float p, gboolean lower_tail, gboolean log_p);
-gnm_float qgeom (gnm_float p, gnm_float prob, gboolean lower_tail, gboolean log_p);
+/* Geometric distribution.  */
+gnm_float dgeom (gnm_float x, gnm_float psuc, gboolean give_log);
+gnm_float pgeom (gnm_float x, gnm_float psuc, gboolean lower_tail, gboolean log_p);
+gnm_float qgeom (gnm_float p, gnm_float psuc, gboolean lower_tail, gboolean log_p);
 
 /* Cauchy distribution.  */
 gnm_float dcauchy (gnm_float x, gnm_float location, gnm_float scale, gboolean give_log);
