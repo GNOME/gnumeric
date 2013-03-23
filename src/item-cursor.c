@@ -316,7 +316,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	cairo_set_line_width (cr, 1.);
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-	cairo_set_source_rgba (cr, gs_black.red, gs_black.green, gs_black.blue, gs_black.alpha);
+	gdk_cairo_set_source_rgba (cr, &gs_black);
 
 	if (draw_xor)
 		cairo_set_operator (cr, CAIRO_OPERATOR_HARD_LIGHT);
@@ -439,11 +439,11 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 			double dashes[] = {4., 4.};
 			cairo_set_dash (cr, dashes, 2, 0.);
 			cairo_set_line_width (cr, draw_thick);
-			cairo_set_source_rgba (cr, back->red, back->green, back->blue, back->alpha);
+			gdk_cairo_set_source_rgba (cr, back);
 			cairo_rectangle (cr, x0, y0, abs (x1 - x0), abs (y1 - y0));
 			cairo_stroke_preserve (cr);
 			cairo_set_dash (cr, dashes, 2, 4.);
-			cairo_set_source_rgba (cr, fore->red, fore->green, fore->blue, fore->alpha);
+			gdk_cairo_set_source_rgba (cr, fore);
 			cairo_stroke (cr);
 		}
 
