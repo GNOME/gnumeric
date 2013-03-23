@@ -256,8 +256,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
 	PangoFont *font;
 	PangoRectangle size;
-	GOColor color, font_color;
-	GdkRGBA rgba;
+	GdkRGBA color, font_color;
 	int ascent;
 
 	/* add "button" to the context path */
@@ -268,36 +267,33 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	case COL_ROW_NO_SELECTION:
 		font   = ib->normal_font;
 		gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
-		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_NORMAL, &rgba);
-		color = GO_COLOR_FROM_GDK_RGBA (rgba);
-		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &rgba);
-		font_color = GO_COLOR_FROM_GDK_RGBA (rgba);
+		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_NORMAL, &color);
+		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL,
+					     &font_color);
 		ascent = ib->normal_font_ascent;
 		break;
 
 	case COL_ROW_PARTIAL_SELECTION:
 		font   = ib->bold_font;
 		gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_PRELIGHT);
-		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_PRELIGHT, &rgba);
-		color = GO_COLOR_FROM_GDK_RGBA (rgba);
-		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_PRELIGHT, &rgba);
-		font_color = GO_COLOR_FROM_GDK_RGBA (rgba);
+		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_PRELIGHT, &color);
+		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_PRELIGHT,
+					     &font_color);
 		ascent = ib->bold_font_ascent;
 		break;
 
 	case COL_ROW_FULL_SELECTION:
 		font   = ib->bold_font;
 		gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_ACTIVE);
-		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_ACTIVE, &rgba);
-		color = GO_COLOR_FROM_GDK_RGBA (rgba);
-		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_ACTIVE, &rgba);
-		font_color = GO_COLOR_FROM_GDK_RGBA (rgba);
+		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_ACTIVE, &color);
+		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_ACTIVE,
+					     &font_color);
 		ascent = ib->bold_font_ascent;
 		break;
 	}
 	/* When we are really small leave out the shadow and the text */
 	cairo_save (cr);
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
+	gdk_cairo_set_source_rgba (cr, &color);
 	if (rect->width <= 2 || rect->height <= 2) {
 		cairo_rectangle (cr, rect->x, rect->y, rect->width, rect->height);
 		cairo_fill (cr);
@@ -320,7 +316,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 
 	cairo_save (cr);
 	cairo_clip (cr);
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (font_color));
+	gdk_cairo_set_source_rgba (cr, &font_color);
 	cairo_translate (cr,
 					 rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
 					 rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent);

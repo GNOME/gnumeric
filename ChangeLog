@@ -1,3 +1,8 @@
+2013-03-23  Morten Welinder  <terra@gnome.org>
+
+	* src/item-bar.c (ib_draw_cell): There's no point in going to and
+	from GOColor here.  Just use the color as-is.
+
 2013-03-19  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (install_icons): Install also the icon themed
