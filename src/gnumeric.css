@@ -1,7 +1,6 @@
 /* ------------------------------------------------------------------------- */
-/* GnmPane is the canvas. */
 /* The ItemGrid is the canvas area that holds all the cells.  */
-GnmPane, ItemGrid {
+ItemGrid {
   background: white;
 }
 

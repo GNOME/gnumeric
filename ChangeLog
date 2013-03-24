@@ -1,3 +1,8 @@
+2013-03-24  Morten Welinder  <terra@gnome.org>
+
+	* src/item-grid.c (item_grid_draw_region): Draw the background at
+	the right coordinates!
+
 2013-03-23  Morten Welinder  <terra@gnome.org>
 
 	* src/item-bar.c (ib_draw_cell): There's no point in going to and

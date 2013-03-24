@@ -475,7 +475,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 
 #if 0
 	g_printerr ("%s:", cell_coord_name (start_col, start_row));
-	g_printerr ("%s <= %d vs %d", cell_coord_name(end_col, end_row), y, expose->area.y);
+	g_printerr ("%s <= %ld vs ???", cell_coord_name(end_col, end_row), (long)y);
 	g_printerr (" [%s]\n", cell_coord_name (ig->bound.end.col, ig->bound.end.row));
 
 #endif
@@ -515,7 +515,10 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 	/* Fill entire region with default background (even past far edge) */
 	cairo_save (cr);
 	gtk_render_background (goc_item_get_style_context (item),
-			       cr, x0, y0, width, height);
+			       cr,
+			       x0 - canvas->scroll_x1 * scale,
+			       y0 - canvas->scroll_y1 * scale,
+			       width, height);
 	cairo_restore (cr);
 
 	/* Get ordered list of merged regions */
