@@ -489,7 +489,7 @@ item_cursor_reposition (ItemCursor *ic)
 
 static double
 item_cursor_distance (GocItem *item, double x, double y,
-		   GocItem **actual_item)
+		      GocItem **actual_item)
 {
 	ItemCursor const *ic = ITEM_CURSOR (item);
 

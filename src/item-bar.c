@@ -53,6 +53,10 @@ struct _ItemBar {
 		PangoItem	 *item;
 		PangoGlyphString *glyphs;
 	} pango;
+
+	/* Style: */
+	GdkRGBA selection_colors[3];  /* [ColRowSelectionType] */
+	GtkBorder padding;
 };
 
 typedef GocItemClass ItemBarClass;
@@ -65,8 +69,9 @@ enum {
 };
 
 static int
-ib_compute_pixels_from_indent (Sheet const *sheet, gboolean const is_cols)
+ib_compute_pixels_from_indent (ItemBar *ib, Sheet const *sheet)
 {
+	gboolean is_cols = ib->is_col_header;
 	double const scale =
 		sheet->last_zoom_factor_used *
 		gnm_app_display_dpi_get (is_cols) / 72.;
@@ -75,21 +80,44 @@ ib_compute_pixels_from_indent (Sheet const *sheet, gboolean const is_cols)
 		: sheet->rows.max_outline_level;
 	if (!sheet->display_outlines || indent <= 0)
 		return 0;
-	return (int)(5 + (indent + 1) * 14 * scale + 0.5);
+	return (int)(ib->padding.left + (indent + 1) * 14 * scale + 0.5);
 }
 
 static void
-ib_fonts_unref (ItemBar *ib)
+ib_dispose_fonts (ItemBar *ib)
 {
-	if (ib->normal_font != NULL) {
-		g_object_unref (ib->normal_font);
-		ib->normal_font = NULL;
-	}
+	g_clear_object (&ib->normal_font);
+	g_clear_object (&ib->bold_font);
+}
 
-	if (ib->bold_font != NULL) {
-		g_object_unref (ib->bold_font);
-		ib->bold_font = NULL;
-	}
+static const gboolean selection_type_bold[3] = {
+	FALSE, TRUE, TRUE
+};
+static const GtkStateFlags selection_type_flags[3] = {
+	GTK_STATE_FLAG_NORMAL,
+	GTK_STATE_FLAG_PRELIGHT,
+	GTK_STATE_FLAG_ACTIVE
+};
+
+
+static void
+ib_reload_style (ItemBar *ib)
+{
+	GocItem *item = GOC_ITEM (ib);
+	GtkStyleContext *context = goc_item_get_style_context (item);
+
+	gtk_style_context_get_color
+		(context, selection_type_flags[COL_ROW_NO_SELECTION],
+		 &ib->selection_colors[COL_ROW_NO_SELECTION]);
+	gtk_style_context_get_color
+		(context, selection_type_flags[COL_ROW_PARTIAL_SELECTION],
+		 &ib->selection_colors[COL_ROW_PARTIAL_SELECTION]);
+	gtk_style_context_get_color
+		(context, selection_type_flags[COL_ROW_FULL_SELECTION],
+		 &ib->selection_colors[COL_ROW_FULL_SELECTION]);
+
+	gtk_style_context_get_padding (context, GTK_STATE_NORMAL,
+				       &ib->padding);
 }
 
 /**
@@ -116,7 +144,8 @@ item_bar_calc_size (ItemBar *ib)
 	GList *item_list;
 	PangoAttrList *attr_list;
 
-	ib_fonts_unref (ib);
+	ib_dispose_fonts (ib);
+	ib_reload_style (ib);
 
 	context = gtk_widget_get_pango_context (GTK_WIDGET (ib->pane));
 	desc = pango_font_description_copy (src_desc);
@@ -137,22 +166,25 @@ item_bar_calc_size (ItemBar *ib)
 
 	/*
 	 * Use the size of the bold header font to size the free dimensions.
-	 * Add 2 pixels above and below.
 	 */
 	pango_font_description_set_weight (desc, PANGO_WEIGHT_BOLD);
 	ib->bold_font = pango_context_load_font (context, desc);
 	pango_layout_set_font_description (layout, desc);
 	pango_layout_get_extents (layout, &ink_rect, &logical_rect);
-	ib->cell_height = 2 + 2 + PANGO_PIXELS (logical_rect.height);
+	ib->cell_height = PANGO_PIXELS (logical_rect.height) +
+		(ib->padding.top + ib->padding.bottom);
 	ib->bold_font_ascent = PANGO_PIXELS (ink_rect.height + ink_rect.y);
 
-	/* 5 pixels left and right plus the width of the widest string I can think of */
+	/* The width of the widest string I can think of + padding */
 	if (char_label)
-		pango_layout_set_text (layout, "WWWWWWWWWW", strlen (col_name (gnm_sheet_get_last_col (sheet))));
+		pango_layout_set_text (layout, "WWWWWWWWWW",
+				       strlen (col_name (gnm_sheet_get_last_col (sheet))));
 	else
-		pango_layout_set_text (layout, "8888888888", strlen (row_name (gnm_sheet_get_last_row (sheet))));
+		pango_layout_set_text (layout, "8888888888",
+				       strlen (row_name (gnm_sheet_get_last_row (sheet))));
 	pango_layout_get_extents (layout, NULL, &logical_rect);
-	ib->cell_width = 5 + 5 + PANGO_PIXELS (logical_rect.width);
+	ib->cell_width = PANGO_PIXELS (logical_rect.width) +
+		(ib->padding.left + ib->padding.right);
 
 	attr_list = pango_attr_list_new ();
 	pango_attr_list_insert (attr_list, pango_attr_font_desc_new (desc));
@@ -160,16 +192,16 @@ item_bar_calc_size (ItemBar *ib)
 	pango_attr_list_unref (attr_list);
 
 	if (ib->pango.item)
-	  pango_item_free (ib->pango.item);
+		pango_item_free (ib->pango.item);
 	ib->pango.item = item_list->data;
 	item_list->data = NULL;
 
 	if (item_list->next != NULL)
-	  g_warning ("Leaking pango items");
+		g_warning ("Leaking pango items");
 
 	g_list_free (item_list);
 
-	size = ib_compute_pixels_from_indent (sheet, ib->is_col_header);
+	size = ib_compute_pixels_from_indent (ib, sheet);
 	if (size != ib->indent) {
 		ib->indent = size;
 		goc_item_bounds_changed (GOC_ITEM (ib));
@@ -218,20 +250,20 @@ item_bar_update_bounds (GocItem *item)
 static void
 item_bar_realize (GocItem *item)
 {
-	ItemBar *ib;
+	ItemBar *ib = ITEM_BAR (item);
 	GdkDisplay *display;
 
-	if (parent_class->realize)
-		(*parent_class->realize)(item);
-
-	ib = ITEM_BAR (item);
+	parent_class->realize (item);
 
 	display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
-	ib->normal_cursor = gdk_cursor_new_for_display (display, GDK_LEFT_PTR);
-	if (ib->is_col_header)
-		ib->change_cursor = gdk_cursor_new_for_display (display, GDK_SB_H_DOUBLE_ARROW);
-	else
-		ib->change_cursor = gdk_cursor_new_for_display (display, GDK_SB_V_DOUBLE_ARROW);
+	ib->normal_cursor =
+		gdk_cursor_new_for_display (display, GDK_LEFT_PTR);
+	ib->change_cursor =
+		gdk_cursor_new_for_display (display, 
+					    ib->is_col_header
+					    ? GDK_SB_H_DOUBLE_ARROW
+					    : GDK_SB_V_DOUBLE_ARROW);
+
 	item_bar_calc_size (ib);
 }
 
@@ -240,8 +272,8 @@ item_bar_unrealize (GocItem *item)
 {
 	ItemBar *ib = ITEM_BAR (item);
 
-	g_object_unref (ib->change_cursor);
-	g_object_unref (ib->normal_cursor);
+	g_clear_object (&ib->change_cursor);
+	g_clear_object (&ib->normal_cursor);
 
 	parent_class->unrealize (item);
 }
@@ -251,89 +283,74 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	      ColRowSelectionType const type,
 	      char const * const str, GocRect *rect)
 {
-	GtkLayout *canvas = GTK_LAYOUT (ib->base.canvas);
-	GtkWidget *widget = GTK_WIDGET (canvas);
-	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
-	PangoFont *font;
-	PangoRectangle size;
-	GdkRGBA color, font_color;
-	int ascent;
+	GtkStyleContext *ctxt = goc_item_get_style_context (GOC_ITEM (ib));
 
-	/* add "button" to the context path */
+	g_return_if_fail ((size_t)type < G_N_ELEMENTS (selection_type_bold));
+
+	cairo_save (cr);
+
+	/* Style-wise we are a button in the given state.  */
 	gtk_style_context_save (ctxt);
 	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
-	switch (type) {
-	default:
-	case COL_ROW_NO_SELECTION:
-		font   = ib->normal_font;
-		gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
-		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_NORMAL, &color);
-		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL,
-					     &font_color);
-		ascent = ib->normal_font_ascent;
-		break;
+	gtk_style_context_set_state (ctxt, selection_type_flags[type]);
+	gtk_render_background (ctxt, cr, rect->x, rect->y,
+			       rect->width + 1, rect->height + 1);
 
-	case COL_ROW_PARTIAL_SELECTION:
-		font   = ib->bold_font;
-		gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_PRELIGHT);
-		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_PRELIGHT, &color);
-		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_PRELIGHT,
-					     &font_color);
-		ascent = ib->bold_font_ascent;
-		break;
-
-	case COL_ROW_FULL_SELECTION:
-		font   = ib->bold_font;
-		gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_ACTIVE);
-		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_ACTIVE, &color);
-		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_ACTIVE,
-					     &font_color);
-		ascent = ib->bold_font_ascent;
-		break;
-	}
 	/* When we are really small leave out the shadow and the text */
-	cairo_save (cr);
-	gdk_cairo_set_source_rgba (cr, &color);
-	if (rect->width <= 2 || rect->height <= 2) {
-		cairo_rectangle (cr, rect->x, rect->y, rect->width, rect->height);
-		cairo_fill (cr);
-		cairo_restore (cr);
-		/* restore style context */
-		gtk_style_context_restore (ctxt);
-		return;
+	if (rect->width >= 2 && rect->height >= 2) {
+		PangoRectangle size;
+		PangoFont *font;
+		int ascent;
+		int w, h;
+
+		if (selection_type_bold[type]) {
+			font = ib->bold_font;
+			ascent = ib->bold_font_ascent;
+		} else {
+			font = ib->normal_font;
+			ascent = ib->normal_font_ascent;
+		}
+
+		g_return_if_fail (font != NULL);
+		g_object_unref (ib->pango.item->analysis.font);
+		ib->pango.item->analysis.font = g_object_ref (font);
+		pango_shape (str, strlen (str),
+			     &(ib->pango.item->analysis), ib->pango.glyphs);
+		pango_glyph_string_extents (ib->pango.glyphs, font,
+					    NULL, &size);
+
+		gtk_render_frame (ctxt, cr, rect->x, rect->y,
+				  rect->width + 1, rect->height + 1);
+		w = rect->width - (ib->padding.left + ib->padding.right);
+		h = rect->height - (ib->padding.top + ib->padding.bottom);
+		cairo_rectangle (cr, rect->x + 1, rect->y + 1,
+				 rect->width - 2, rect->height - 2);
+		cairo_clip (cr);
+
+		gdk_cairo_set_source_rgba (cr, &ib->selection_colors[type]);
+
+		cairo_translate (cr,
+				 rect->x + ib->padding.left +
+				 (w - PANGO_PIXELS (size.width)) / 2,
+				 rect->y + ib->padding.top + ascent +
+				 (h - PANGO_PIXELS (size.height)) / 2);
+		pango_cairo_show_glyph_string (cr, font, ib->pango.glyphs);
 	}
-
-	gtk_render_background (ctxt, cr, rect->x, rect->y, rect->width + 1, rect->height + 1);
-	gtk_render_frame (ctxt, cr, rect->x, rect->y, rect->width + 1, rect->height + 1);
-	cairo_rectangle (cr, rect->x + 1, rect->y + 1, rect->width - 2, rect->height - 2);
-	cairo_restore (cr);
-
-	g_return_if_fail (font != NULL);
-	g_object_unref (ib->pango.item->analysis.font);
-	ib->pango.item->analysis.font = g_object_ref (font);
-	pango_shape (str, strlen (str), &(ib->pango.item->analysis), ib->pango.glyphs);
-	pango_glyph_string_extents (ib->pango.glyphs, font, NULL, &size);
-
-	cairo_save (cr);
-	cairo_clip (cr);
-	gdk_cairo_set_source_rgba (cr, &font_color);
-	cairo_translate (cr,
-					 rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
-					 rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent);
-	pango_cairo_show_glyph_string (cr, font, ib->pango.glyphs);
-	cairo_restore (cr);
-	/* restore style context */
 	gtk_style_context_restore (ctxt);
+	cairo_restore (cr);
 }
 
 int
 item_bar_group_size (ItemBar const *ib, int max_outline)
 {
-	return (max_outline > 0) ? (ib->indent - 2) / (max_outline + 1) : 0;
+	return max_outline > 0
+		? (ib->indent - 2) / (max_outline + 1)
+		: 0;
 }
 
 static gboolean
-item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, double x_1, double y_1)
+item_bar_draw_region (GocItem const *item, cairo_t *cr,
+		      double x_0, double y_0, double x_1, double y_1)
 {
 	double scale = item->canvas->pixels_per_unit;
 	int x0, x1, y0, y1;
@@ -342,7 +359,6 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 	SheetControlGUI const *scg    = pane->simple.scg;
 	Sheet const           *sheet  = scg_sheet (scg);
 	SheetView const	      *sv     = scg_view (scg);
-	GtkWidget *canvas = GTK_WIDGET (item->canvas);
 	ColRowInfo const *cri, *next = NULL;
 	int pixels;
 	gboolean prev_visible;
@@ -355,14 +371,12 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 	gboolean const rtl = sheet->text_is_rtl != FALSE;
 	int shadow;
 	int first_line_offset = 1;
-	GdkRGBA rgba;
-	GtkStyleContext *ctxt = gtk_widget_get_style_context (canvas);
-	GOColor color;
+	GdkRGBA color;
+	GtkStyleContext *ctxt = goc_item_get_style_context (item);
 
 	gtk_style_context_save (ctxt);
 	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
-	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &rgba);
-	color = GO_COLOR_FROM_GDK_RGBA (rgba);
+	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &color);
 	goc_canvas_c2w (item->canvas, x_0, y_0, &x0, &y0);
 	goc_canvas_c2w (item->canvas, x_1, y_1, &x1, &y1);
 
@@ -431,7 +445,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 					cairo_set_line_width (cr, 2.0);
 					cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 					cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-					cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
+					gdk_cairo_set_source_rgba (cr, &color);
 					if (!draw_right) {
 						next = sheet_col_get_info (sheet, col + 1);
 						prev_level = next->outline_level;
@@ -590,7 +604,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 					cairo_set_line_width (cr, 2.0);
 					cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 					cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-					cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
+					gdk_cairo_set_source_rgba (cr, &color);
 					if (!draw_below) {
 						next = sheet_row_get_info (sheet, row + 1);
 						points[0].y = top;
@@ -700,7 +714,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 
 static double
 item_bar_distance (GocItem *item, double x, double y,
-		GocItem **actual_item)
+		   GocItem **actual_item)
 {
 	*actual_item = item;
 	return 0.0;
@@ -1095,7 +1109,7 @@ item_bar_dispose (GObject *obj)
 {
 	ItemBar *ib = ITEM_BAR (obj);
 
-	ib_fonts_unref (ib);
+	ib_dispose_fonts (ib);
 
 	if (ib->tip) {
 		gtk_widget_destroy (ib->tip);

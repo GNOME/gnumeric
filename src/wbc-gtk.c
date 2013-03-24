@@ -2300,6 +2300,27 @@ cb_realize (GtkWindow *toplevel, WBCGtk *wbcg)
 	}
 }
 
+static void
+cb_screen_changed (GtkWidget *widget)
+{
+	GdkScreen *screen = gtk_widget_get_screen (widget);
+	const char *key = "wbcg-screen-css";
+
+	if (screen && !g_object_get_data (G_OBJECT (screen), key)) {
+		GtkCssProvider *css = gtk_css_provider_new ();
+		const char *csstext = go_rsm_lookup ("gnm:gnumeric.css", NULL);
+
+		gtk_css_provider_load_from_data	(css, csstext, -1, NULL);
+		gtk_style_context_add_provider_for_screen
+			(screen,
+			 GTK_STYLE_PROVIDER (css),
+			 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+		g_object_unref (css);
+
+		g_object_set_data (G_OBJECT (screen), key, css);
+	}
+}
+
 void
 wbcg_set_status_text (WBCGtk *wbcg, char const *text)
 {
@@ -4919,6 +4940,9 @@ wbcg_set_toplevel (WBCGtk *wbcg, GtkWidget *w)
 		G_CALLBACK (cb_scroll_wheel), wbcg);
 	g_signal_connect (w, "realize",
 		G_CALLBACK (cb_realize), wbcg);
+	g_signal_connect (w, "screen-changed",
+		G_CALLBACK (cb_screen_changed), NULL);
+	cb_screen_changed (w);
 
 	/* Setup a test of Drag and Drop */
 	gtk_drag_dest_set (GTK_WIDGET (w),

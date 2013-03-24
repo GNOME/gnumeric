@@ -39,6 +39,7 @@
 #include "commands.h"
 #include "hlink.h"
 #include "gui-util.h"
+#include "gnm-i18n.h"
 
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
@@ -71,13 +72,21 @@ struct _ItemGrid {
 	/* information for the cursor motion handler */
 	guint cursor_timer;
 	gint64 last_x, last_y;
-	GnmHLink *cur_link; /* do not derference, just a pointer */
+	GnmHLink *cur_link; /* do not dereference, just a pointer */
 	GtkWidget *tip;
 	guint tip_timer;
 
 	GdkCursor *cursor_link, *cursor_cross;
 
 	guint32 last_click_time;
+
+	/* Style: */
+	GdkRGBA function_marker_color;
+	GdkRGBA function_marker_border_color;
+
+	GdkRGBA pane_divider_color;
+	int pane_divider_width;
+
 };
 typedef GocItemClass ItemGridClass;
 static GocItemClass *parent_class;
@@ -87,6 +96,30 @@ enum {
 	ITEM_GRID_PROP_SHEET_CONTROL_GUI,
 	ITEM_GRID_PROP_BOUND
 };
+
+static void
+ig_reload_style (ItemGrid *ig)
+{
+	GocItem *item = GOC_ITEM (ig);
+	GtkStyleContext *context = goc_item_get_style_context (item);
+	GtkBorder border;
+
+	gtk_style_context_save (context);
+	gtk_style_context_add_region (context, "function-marker", 0);
+	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+				     &ig->function_marker_color);
+	gtk_style_context_get_border_color (context, GTK_STATE_FLAG_NORMAL,
+					    &ig->function_marker_border_color);
+	gtk_style_context_restore (context);
+
+	gtk_style_context_save (context);
+	gtk_style_context_add_region (context, "pane-divider", 0);
+	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+				     &ig->pane_divider_color);
+	gtk_style_context_get_border (context, GTK_STATE_FLAG_NORMAL, &border);
+	ig->pane_divider_width = border.top;  /* Hack? */
+	gtk_style_context_restore (context);
+}
 
 static void
 ig_clear_hlink_tip (ItemGrid *ig)
@@ -160,6 +193,7 @@ item_grid_realize (GocItem *item)
 		parent_class->realize (item);
 
 	ig = ITEM_GRID (item);
+	ig_reload_style (ig);
 
 	display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
 	ig->cursor_link  = gdk_cursor_new_for_display (display, GDK_HAND2);
@@ -198,7 +232,8 @@ item_grid_update_bounds (GocItem *item)
 }
 
 static void
-draw_function_marker (GnmCell const *cell, cairo_t *cr,
+draw_function_marker (ItemGrid *ig,
+		      GnmCell const *cell, cairo_t *cr,
 		      double x, double y, double w, double h, int const dir)
 {
 	if (cell == NULL || !gnm_cell_has_expr (cell))
@@ -219,9 +254,9 @@ draw_function_marker (GnmCell const *cell, cairo_t *cr,
 		cairo_arc (cr, x + w, y, 10., M_PI/2., M_PI);
 	}
 	cairo_close_path (cr);
-	cairo_set_source_rgb(cr, 0.0, 1.0, 0.0);
+	gdk_cairo_set_source_rgba (cr, &ig->function_marker_color);
 	cairo_fill_preserve (cr);
-	cairo_set_source_rgb(cr, 0.3, 0.3, 0.3);
+	gdk_cairo_set_source_rgba (cr, &ig->function_marker_border_color);
 	cairo_set_line_width (cr, 0.5);
 	cairo_stroke (cr);
 	cairo_restore (cr);
@@ -311,14 +346,14 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 
 		if (dir > 0) {
 			if (show_function_cell_markers)
-				draw_function_marker (cell, cr, l, t,
+				draw_function_marker (ig, cell, cr, l, t,
 						      r - l, b - t, dir);
 			cell_draw (cell, cr,
 				   l, t, r - l, b - t, -1,
 				   show_extension_markers);
 		} else {
 			if (show_function_cell_markers)
-				draw_function_marker (cell, cr, r, t,
+				draw_function_marker (ig, cell, cr, r, t,
 						      l - r, b - t, dir);
 			cell_draw (cell, cr,
 				   r, t, l - r, b - t, -1,
@@ -366,20 +401,22 @@ merged_col_cmp (GnmRange const *a, GnmRange const *b)
 }
 
 static void
-ig_cairo_draw_bound (cairo_t* cr, int x0, int y0, int x1, int y1)
+ig_cairo_draw_bound (ItemGrid *ig, cairo_t* cr, int x0, int y0, int x1, int y1)
 {
-	cairo_set_line_width (cr, 1.);
+	double width = ig->pane_divider_width;
+	cairo_set_line_width (cr, width);
 	cairo_set_dash (cr, NULL, 0, 0.);
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-	cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 1.);
-	cairo_move_to (cr, x0 - .5, y0 - .5);
-	cairo_line_to (cr, x1 - .5, y1 - .5);
+	gdk_cairo_set_source_rgba (cr, &ig->pane_divider_color);
+	cairo_move_to (cr, x0 - width / 2, y0 - width / 2);
+	cairo_line_to (cr, x1 - width / 2, y1 - width / 2);
 	cairo_stroke (cr);
 }
 
 static gboolean
-item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, double x_1, double y_1)
+item_grid_draw_region (GocItem const *item, cairo_t *cr,
+		       double x_0, double y_0, double x_1, double y_1)
 {
 	GocCanvas *canvas = item->canvas;
 	double scale = canvas->pixels_per_unit;
@@ -477,10 +514,8 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0,
 
 	/* Fill entire region with default background (even past far edge) */
 	cairo_save (cr);
-	/* FIXME: we previously used gs_white */
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (GO_COLOR_WHITE));
-	cairo_rectangle (cr, x0, y0, width, height);
-	cairo_fill (cr);
+	gtk_render_background (goc_item_get_style_context (item),
+			       cr, x0, y0, width, height);
 	cairo_restore (cr);
 
 	/* Get ordered list of merged regions */
@@ -670,7 +705,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 			item_grid_draw_background (cr, ig,
 				style, col, row, x, y,
 				ci->size_pixels, ri->size_pixels,
-						   draw_selection, ctxt);
+				draw_selection, ctxt);
 
 
 			/* Is this part of a span?
@@ -689,7 +724,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!gnm_cell_is_empty (cell) && cell != edit_cell) {
 					if (show_function_cell_markers)
-						draw_function_marker (cell, cr, x, y,
+						draw_function_marker (ig, cell, cr, x, y,
 								      ci->size_pixels,
 								      ri->size_pixels,
 								      dir);
@@ -747,7 +782,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				}
 
 				if (show_function_cell_markers)
-					draw_function_marker (cell, cr, real_x, y,
+					draw_function_marker (ig, cell, cr, real_x, y,
 							      tmp_width,
 							      ri->size_pixels, dir);
 				cell_draw (cell, cr,
@@ -792,13 +827,13 @@ plain_draw : /* a quick hack to deal with 142267 */
 	}
 
 	if (ig->bound.start.row > 0 && start_y < 1)
-		ig_cairo_draw_bound (cr, start_x, 1, x, 1);
+		ig_cairo_draw_bound (ig, cr, start_x, 1, x, 1);
 	if (ig->bound.start.col > 0) {
 		if (canvas->direction == GOC_DIRECTION_RTL && start_x >= goc_canvas_get_width (canvas)) {
 			x = goc_canvas_get_width (canvas);
-			ig_cairo_draw_bound (cr, x, start_y, x, y);
+			ig_cairo_draw_bound (ig, cr, x, start_y, x, y);
 		} else if (canvas->direction == GOC_DIRECTION_LTR && start_x < 1)
-			ig_cairo_draw_bound (cr, 1, start_y, 1, y);
+			ig_cairo_draw_bound (ig, cr, 1, start_y, 1, y);
 	}
 
 	gtk_widget_destroy (entry);

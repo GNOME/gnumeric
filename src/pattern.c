@@ -89,8 +89,7 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 		return TRUE;
 	} else if (is_selected) {
 		if (ctxt == NULL)
-			cairo_set_source_rgb
-				(cr, gs_lavender.red, gs_lavender.green, gs_lavender.blue);
+			gdk_cairo_set_source_rgba (cr, &gs_lavender);
 		else {
 			GdkRGBA rgba;
 			gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_SELECTED, &rgba);

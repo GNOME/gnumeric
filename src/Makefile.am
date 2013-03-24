@@ -416,6 +416,7 @@ gnumeric_app_libs =				\
 	widgets/libwidgets.la
 
 embedded_imgs =						\
+	gnumeric.css					\
 	pixmaps/add_decimals.png			\
 	pixmaps/auto-sum.xpm				\
 	pixmaps/autofilter_16.png			\
