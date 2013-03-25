@@ -1,5 +1,8 @@
 2013-03-25  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-control-gui.c (cb_select_all_btn_draw): Fix drawing of
+	the "all" button.
+
 	* src/item-bar.c (ib_reload_style): Load fonts from style.
 
 2013-03-24  Morten Welinder  <terra@gnome.org>

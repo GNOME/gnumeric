@@ -336,7 +336,7 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 					   "is_cols", GINT_TO_POINTER (1));
 	}
 
-	font_desc = pango_font_describe (item_bar_normal_font (ib));
+	font_desc = item_bar_normal_font (ib);
 
 	/* size all of the button so things work after a zoom */
 	for (i = 0 ; i < btns->len ; i++) {
@@ -611,20 +611,20 @@ cb_select_all_btn_draw (GtkWidget *widget, cairo_t *cr, SheetControlGUI *scg)
 {
 	int offset = scg_sheet (scg)->text_is_rtl ? -1 : 0;
 	GtkAllocation a;
-	GdkRGBA rgba;
 	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
+
+	gtk_style_context_save (ctxt);
+	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
+	gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
+	gtk_style_context_add_region (ctxt, "all-button", 0);
 
 	gtk_widget_get_allocation (widget, &a);
 
-	/* This should be keep in sync with item_bar_cell code (item-bar.c) */
+	gtk_render_background (ctxt, cr, offset + 1, 1,
+			       a.width - 1, a.height - 1);
+	gtk_render_frame (ctxt, cr, offset, 0, a.width + 1, a.height + 1);
 
-	gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_ACTIVE, &rgba);
-	gdk_cairo_set_source_rgba (cr, &rgba);
-	cairo_rectangle (cr, offset + 1, 1, a.width - 1, a.height - 1);
-	cairo_fill (cr);
-#warning GTK3: how do we select the shadow type there, see also item-bar.c
-	gtk_render_frame (gtk_widget_get_style_context (widget), cr,
-			  offset, 0, a.width + 1, a.height + 1);
+	gtk_style_context_restore (ctxt);
 }
 
 static gboolean

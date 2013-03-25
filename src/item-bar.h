@@ -16,7 +16,7 @@ GType    item_bar_get_type	(void);
 int      item_bar_calc_size	(ItemBar *ib);
 int      item_bar_group_size	(ItemBar const *ib, int max_outline);
 int      item_bar_indent	(ItemBar const *ib);
-PangoFont *item_bar_normal_font	(ItemBar const *ib);
+PangoFontDescription *item_bar_normal_font (ItemBar const *ib);
 
 G_END_DECLS
 

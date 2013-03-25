@@ -226,13 +226,12 @@ item_bar_calc_size (ItemBar *ib)
  * item_bar_normal_font:
  * @ib: #ItemBar
  *
- * Returns: (transfer none): the bar normal font.
+ * Returns: (transfer full): the bar normal font.
  **/
-PangoFont *
+PangoFontDescription *
 item_bar_normal_font (ItemBar const *ib)
 {
-	/* Really? */
-	return ib->selection_fonts[COL_ROW_NO_SELECTION];
+	return pango_font_describe (ib->selection_fonts[COL_ROW_NO_SELECTION]);
 }
 
 int

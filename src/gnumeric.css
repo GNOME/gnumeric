@@ -41,6 +41,13 @@ ItemBar:hover {
 }
 
 /* ------------------------------------------------------------------------- */
+/* This GtkDrawingArea is the select-all button above the row buttons.  */
+
+GtkDrawingArea all-button {
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* GnmNotebook is a fake notebook holding just the sheet tabs area */
 
 GnmNotebook tab {

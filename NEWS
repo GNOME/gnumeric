@@ -6,6 +6,7 @@ Morten:
 	* Embed more artwork.
 	* Plug leaks.
 	* Introspection improvements.
+	* Fix drawing of the select-all button.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
