@@ -1,5 +1,11 @@
 2013-03-25  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric.css: use deprecated px-free syntax for padding, so
+	gtk+ 3.2 can deal with it.
+
+	* src/wbc-gtk.c (cb_screen_changed): Install error handler so we
+	can suppress deprecations.
+
 	* src/sheet-control-gui.c (cb_select_all_btn_draw): Fix drawing of
 	the "all" button.
 

@@ -2301,6 +2301,17 @@ cb_realize (GtkWindow *toplevel, WBCGtk *wbcg)
 }
 
 static void
+cb_css_parse_error (GtkCssProvider *css, GtkCssSection *section, GError *err)
+{
+	if (g_error_matches (err, GTK_CSS_PROVIDER_ERROR,
+			     GTK_CSS_PROVIDER_ERROR_DEPRECATED) &&
+	    !gnm_debug_flag ("css")) 
+		return;
+
+	g_warning ("Theme parsing error: %s", err->message);
+}
+
+static void
 cb_screen_changed (GtkWidget *widget)
 {
 	GdkScreen *screen = gtk_widget_get_screen (widget);
@@ -2308,7 +2319,15 @@ cb_screen_changed (GtkWidget *widget)
 
 	if (screen && !g_object_get_data (G_OBJECT (screen), key)) {
 		GtkCssProvider *css = gtk_css_provider_new ();
-		const char *csstext = go_rsm_lookup ("gnm:gnumeric.css", NULL);
+		const char *resource = "gnm:gnumeric.css";
+		const char *csstext = go_rsm_lookup (resource, NULL);
+
+		if (gnm_debug_flag ("css"))
+			g_printerr ("Loading style from %s\n", resource);
+
+		g_signal_connect (css, "parsing-error",
+				  G_CALLBACK (cb_css_parse_error),
+				  NULL);
 
 		gtk_css_provider_load_from_data	(css, csstext, -1, NULL);
 		gtk_style_context_add_provider_for_screen
