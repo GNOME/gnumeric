@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------- */
 /* The ItemGrid is the canvas area that holds all the cells.  */
 ItemGrid {
-  background: white;
+  background-color: white;
 }
 
 /* Function markers are enabled from View->View Properties->Cell Markers */
@@ -65,7 +65,7 @@ GtkDrawingArea all-button {
 /* GnmNotebook is a fake notebook holding just the sheet tabs area */
 
 GnmNotebook tab {
-  /* background: #ff0000; */ /* Debug */
+  /* background-color: #ff0000; */ /* Debug */
 }
 
 GnmNotebook {
