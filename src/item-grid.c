@@ -83,6 +83,7 @@ struct _ItemGrid {
 	/* Style: */
 	GdkRGBA function_marker_color;
 	GdkRGBA function_marker_border_color;
+	int function_marker_size;
 
 	GdkRGBA pane_divider_color;
 	int pane_divider_width;
@@ -103,13 +104,18 @@ ig_reload_style (ItemGrid *ig)
 	GocItem *item = GOC_ITEM (ig);
 	GtkStyleContext *context = goc_item_get_style_context (item);
 	GtkBorder border;
+	GtkStateFlags state = GTK_STATE_FLAG_NORMAL;
 
 	gtk_style_context_save (context);
 	gtk_style_context_add_region (context, "function-marker", 0);
 	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
 				     &ig->function_marker_color);
-	gtk_style_context_get_border_color (context, GTK_STATE_FLAG_NORMAL,
+	gtk_style_context_get_border_color (context, state,
 					    &ig->function_marker_border_color);
+	gtk_style_context_get (context, state,
+			       "border-radius",
+			       &ig->function_marker_size,
+			       NULL);
 	gtk_style_context_restore (context);
 
 	gtk_style_context_save (context);
@@ -236,6 +242,7 @@ draw_function_marker (ItemGrid *ig,
 		      GnmCell const *cell, cairo_t *cr,
 		      double x, double y, double w, double h, int const dir)
 {
+	int size = ig->function_marker_size;
 	if (cell == NULL || !gnm_cell_has_expr (cell))
 		return;
 
@@ -246,12 +253,12 @@ draw_function_marker (ItemGrid *ig,
 	cairo_new_path (cr);
 	if (dir > 0) {
 		cairo_move_to (cr, x, y);
-		cairo_line_to (cr, x + 10., y);
-		cairo_arc (cr, x, y, 10., 0., M_PI / 2.);
+		cairo_line_to (cr, x + size, y);
+		cairo_arc (cr, x, y, size, 0., M_PI / 2.);
 	} else {
 		cairo_move_to (cr, x + w, y);
-		cairo_line_to (cr, x + w, y + 10.);
-		cairo_arc (cr, x + w, y, 10., M_PI/2., M_PI);
+		cairo_line_to (cr, x + w, y + size);
+		cairo_arc (cr, x + w, y, size, M_PI/2., M_PI);
 	}
 	cairo_close_path (cr);
 	gdk_cairo_set_source_rgba (cr, &ig->function_marker_color);

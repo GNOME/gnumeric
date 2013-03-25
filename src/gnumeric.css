@@ -8,6 +8,7 @@ ItemGrid {
 ItemGrid function-marker {
   color: green;
   border-color: #555555;
+  border-radius: 10px;  /* Cheesy overload of property. */
 }
 
 /* This is the divider between panes when an area is frozen.  */
