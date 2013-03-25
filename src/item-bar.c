@@ -37,8 +37,6 @@ struct _ItemBar {
 	GnmPane		*pane;
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
-	PangoFont	*normal_font, *bold_font;
-	int             normal_font_ascent, bold_font_ascent;
 	GtkWidget       *tip;			/* Tip for scrolling */
 	gboolean	 dragging;
 	gboolean	 is_col_header;
@@ -55,7 +53,12 @@ struct _ItemBar {
 	} pango;
 
 	/* Style: */
-	GdkRGBA selection_colors[3];  /* [ColRowSelectionType] */
+
+	/* [ColRowSelectionType] */
+	GdkRGBA selection_colors[3];
+	PangoFont *selection_fonts[3];
+	int selection_font_ascents[3];      
+	PangoRectangle selection_logical_sizes[3];
 	GtkBorder padding;
 };
 
@@ -86,13 +89,12 @@ ib_compute_pixels_from_indent (ItemBar *ib, Sheet const *sheet)
 static void
 ib_dispose_fonts (ItemBar *ib)
 {
-	g_clear_object (&ib->normal_font);
-	g_clear_object (&ib->bold_font);
+	unsigned ui;
+
+	for (ui = 0; ui < G_N_ELEMENTS (ib->selection_fonts); ui++)
+		g_clear_object (&ib->selection_fonts[ui]);
 }
 
-static const gboolean selection_type_bold[3] = {
-	FALSE, TRUE, TRUE
-};
 static const GtkStateFlags selection_type_flags[3] = {
 	GTK_STATE_FLAG_NORMAL,
 	GTK_STATE_FLAG_PRELIGHT,
@@ -104,20 +106,80 @@ static void
 ib_reload_style (ItemBar *ib)
 {
 	GocItem *item = GOC_ITEM (ib);
+	SheetControlGUI	* const scg = ib->pane->simple.scg;
+	Sheet const *sheet = scg_sheet (scg);
+	double const zoom_factor = sheet->last_zoom_factor_used;
+	gboolean const char_label =
+		ib->is_col_header && !sheet->convs->r1c1_addresses;
 	GtkStyleContext *context = goc_item_get_style_context (item);
+	unsigned ui;
+	PangoContext *pcontext =
+		gtk_widget_get_pango_context (GTK_WIDGET (item->canvas));
+	PangoLayout *layout = pango_layout_new (pcontext);
+	PangoAttrList *attr_list;
+	GList *item_list;
 
-	gtk_style_context_get_color
-		(context, selection_type_flags[COL_ROW_NO_SELECTION],
-		 &ib->selection_colors[COL_ROW_NO_SELECTION]);
-	gtk_style_context_get_color
-		(context, selection_type_flags[COL_ROW_PARTIAL_SELECTION],
-		 &ib->selection_colors[COL_ROW_PARTIAL_SELECTION]);
-	gtk_style_context_get_color
-		(context, selection_type_flags[COL_ROW_FULL_SELECTION],
-		 &ib->selection_colors[COL_ROW_FULL_SELECTION]);
+	gtk_style_context_save (context);
+	gtk_style_context_add_class (context, GTK_STYLE_CLASS_BUTTON);
+	for (ui = 0; ui < G_N_ELEMENTS (selection_type_flags); ui++) {
+		GtkStateFlags state = selection_type_flags[ui];
+		PangoFontDescription *desc;
+		PangoRectangle ink_rect;
+		const char *long_name;
+
+		gtk_style_context_set_state (context, state);
+
+		gtk_style_context_get_color
+			(context, state, &ib->selection_colors[ui]);
+
+		gtk_style_context_get (context, state, "font", &desc, NULL);
+		pango_font_description_set_size (desc,
+						 zoom_factor * pango_font_description_get_size (desc));
+		/*
+		 * Figure out how tall the label can be.
+		 * (Note that we avoid J/Q/Y which may go below the line.)
+		 */
+		pango_layout_set_text (layout,
+				       char_label ? "AHW" : "0123456789",
+				       -1);
+		ib->selection_fonts[ui] =
+			pango_context_load_font (pcontext, desc);
+		pango_layout_set_font_description (layout, desc);
+		pango_layout_get_extents (layout, &ink_rect, NULL);
+		ib->selection_font_ascents[ui] =
+			PANGO_PIXELS (ink_rect.height + ink_rect.y);
+
+		/* The width of the widest string I can think of + padding */
+		if (ib->is_col_header) {
+			int last = gnm_sheet_get_last_col (sheet);
+			long_name = char_label ? col_name (last) :  /* HACK: */row_name (last);
+		} else
+			long_name = row_name (gnm_sheet_get_last_row (sheet));
+		pango_layout_set_text
+			(layout,
+			 char_label ? "WWWWWWWWWW" : "8888888888",
+			 strlen (long_name));
+		pango_layout_get_extents (layout, NULL,
+					  &ib->selection_logical_sizes[ui]);
+	}
 
 	gtk_style_context_get_padding (context, GTK_STATE_NORMAL,
 				       &ib->padding);
+
+	gtk_style_context_restore (context);
+
+	attr_list = pango_attr_list_new ();
+	item_list = pango_itemize (pcontext, "A", 0, 1, attr_list, NULL);
+	pango_attr_list_unref (attr_list);
+	if (ib->pango.item)
+		pango_item_free (ib->pango.item);
+	ib->pango.item = item_list->data;
+	item_list->data = NULL;
+	if (item_list->next != NULL)
+		g_warning ("Leaking pango items");
+	g_list_free (item_list);
+
+	g_object_unref (layout);
 }
 
 /**
@@ -133,82 +195,28 @@ item_bar_calc_size (ItemBar *ib)
 {
 	SheetControlGUI	* const scg = ib->pane->simple.scg;
 	Sheet const *sheet = scg_sheet (scg);
-	double const zoom_factor = sheet->last_zoom_factor_used;
-	PangoContext *context;
-	PangoFontDescription const *src_desc = wbcg_get_font_desc (scg_wbcg (scg));
-	PangoFontDescription *desc;
-	int size = pango_font_description_get_size (src_desc);
-	PangoLayout *layout;
-	PangoRectangle ink_rect, logical_rect;
-	gboolean const char_label = ib->is_col_header && !sheet->convs->r1c1_addresses;
-	GList *item_list;
-	PangoAttrList *attr_list;
+	int size;
+	unsigned ui;
 
 	ib_dispose_fonts (ib);
 	ib_reload_style (ib);
 
-	context = gtk_widget_get_pango_context (GTK_WIDGET (ib->pane));
-	desc = pango_font_description_copy (src_desc);
-	pango_font_description_set_size (desc, zoom_factor * size);
-	layout = pango_layout_new (context);
-
-	/*
-	 * Figure out how tall the label can be.
-	 * (Note that we avoid J/Q/Y which may go below the line.)
-	 */
-	pango_layout_set_text (layout,
-			       char_label ? "AHW" : "0123456789",
-			       -1);
-	ib->normal_font = pango_context_load_font (context, desc);
-	pango_layout_set_font_description (layout, desc);
-	pango_layout_get_extents (layout, &ink_rect, NULL);
-	ib->normal_font_ascent = PANGO_PIXELS (ink_rect.height + ink_rect.y);
-
-	/*
-	 * Use the size of the bold header font to size the free dimensions.
-	 */
-	pango_font_description_set_weight (desc, PANGO_WEIGHT_BOLD);
-	ib->bold_font = pango_context_load_font (context, desc);
-	pango_layout_set_font_description (layout, desc);
-	pango_layout_get_extents (layout, &ink_rect, &logical_rect);
-	ib->cell_height = PANGO_PIXELS (logical_rect.height) +
-		(ib->padding.top + ib->padding.bottom);
-	ib->bold_font_ascent = PANGO_PIXELS (ink_rect.height + ink_rect.y);
-
-	/* The width of the widest string I can think of + padding */
-	if (char_label)
-		pango_layout_set_text (layout, "WWWWWWWWWW",
-				       strlen (col_name (gnm_sheet_get_last_col (sheet))));
-	else
-		pango_layout_set_text (layout, "8888888888",
-				       strlen (row_name (gnm_sheet_get_last_row (sheet))));
-	pango_layout_get_extents (layout, NULL, &logical_rect);
-	ib->cell_width = PANGO_PIXELS (logical_rect.width) +
-		(ib->padding.left + ib->padding.right);
-
-	attr_list = pango_attr_list_new ();
-	pango_attr_list_insert (attr_list, pango_attr_font_desc_new (desc));
-	item_list = pango_itemize (context, "A", 0, 1, attr_list, NULL);
-	pango_attr_list_unref (attr_list);
-
-	if (ib->pango.item)
-		pango_item_free (ib->pango.item);
-	ib->pango.item = item_list->data;
-	item_list->data = NULL;
-
-	if (item_list->next != NULL)
-		g_warning ("Leaking pango items");
-
-	g_list_free (item_list);
+	ib->cell_height = 0;
+	ib->cell_width = 0;
+	for (ui = 0; ui < G_N_ELEMENTS (ib->selection_logical_sizes); ui++) {
+		int h = PANGO_PIXELS (ib->selection_logical_sizes[ui].height) +
+			(ib->padding.top + ib->padding.bottom);
+		int w = PANGO_PIXELS (ib->selection_logical_sizes[ui].width) +
+			(ib->padding.left + ib->padding.right);
+		ib->cell_height = MAX (ib->cell_height, h);
+		ib->cell_width = MAX (ib->cell_width, w);
+	}
 
 	size = ib_compute_pixels_from_indent (ib, sheet);
 	if (size != ib->indent) {
 		ib->indent = size;
 		goc_item_bounds_changed (GOC_ITEM (ib));
 	}
-
-	pango_font_description_free (desc);
-	g_object_unref (layout);
 
 	return ib->indent +
 		(ib->is_col_header ? ib->cell_height : ib->cell_width);
@@ -223,7 +231,8 @@ item_bar_calc_size (ItemBar *ib)
 PangoFont *
 item_bar_normal_font (ItemBar const *ib)
 {
-	return ib->normal_font;
+	/* Really? */
+	return ib->selection_fonts[COL_ROW_NO_SELECTION];
 }
 
 int
@@ -285,7 +294,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 {
 	GtkStyleContext *ctxt = goc_item_get_style_context (GOC_ITEM (ib));
 
-	g_return_if_fail ((size_t)type < G_N_ELEMENTS (selection_type_bold));
+	g_return_if_fail ((size_t)type < G_N_ELEMENTS (selection_type_flags));
 
 	cairo_save (cr);
 
@@ -299,17 +308,9 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	/* When we are really small leave out the shadow and the text */
 	if (rect->width >= 2 && rect->height >= 2) {
 		PangoRectangle size;
-		PangoFont *font;
-		int ascent;
+		PangoFont *font = ib->selection_fonts[type];
+		int ascent = ib->selection_font_ascents[type];
 		int w, h;
-
-		if (selection_type_bold[type]) {
-			font = ib->bold_font;
-			ascent = ib->bold_font_ascent;
-		} else {
-			font = ib->normal_font;
-			ascent = ib->normal_font_ascent;
-		}
 
 		g_return_if_fail (font != NULL);
 		g_object_unref (ib->pango.item->analysis.font);
@@ -1142,8 +1143,6 @@ item_bar_init (ItemBar *ib)
 	ib->indent = 0;
 	ib->start_selection = -1;
 
-	ib->normal_font = NULL;
-	ib->bold_font = NULL;
 	ib->tip = NULL;
 
 	ib->colrow_being_resized = -1;

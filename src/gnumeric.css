@@ -30,6 +30,16 @@ ItemBar {
   padding-bottom: 2px;
 }
 
+/* The whole column/row selected. */
+ItemBar:active {
+  font: bold;
+}
+
+/* Some, but not all, of a column/row selected. */
+ItemBar:hover {
+  font: bold;
+}
+
 /* ------------------------------------------------------------------------- */
 /* GnmNotebook is a fake notebook holding just the sheet tabs area */
 
