@@ -105,6 +105,7 @@ ig_reload_style (ItemGrid *ig)
 	GtkStyleContext *context = goc_item_get_style_context (item);
 	GtkBorder border;
 	GtkStateFlags state = GTK_STATE_FLAG_NORMAL;
+	GnmPane *pane = GNM_PANE (item->canvas);
 
 	gtk_style_context_save (context);
 	gtk_style_context_add_region (context, "function-marker", 0);
@@ -112,10 +113,6 @@ ig_reload_style (ItemGrid *ig)
 				     &ig->function_marker_color);
 	gtk_style_context_get_border_color (context, state,
 					    &ig->function_marker_border_color);
-	gtk_style_context_get (context, state,
-			       "border-radius",
-			       &ig->function_marker_size,
-			       NULL);
 	gtk_style_context_restore (context);
 
 	gtk_style_context_save (context);
@@ -125,6 +122,14 @@ ig_reload_style (ItemGrid *ig)
 	gtk_style_context_get_border (context, GTK_STATE_FLAG_NORMAL, &border);
 	ig->pane_divider_width = border.top;  /* Hack? */
 	gtk_style_context_restore (context);
+
+	/* ---------------------------------------- */
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (pane));
+	gtk_widget_style_get (GTK_WIDGET (pane),
+			      "function-indicator-size",
+			      &ig->function_marker_size,
+			      NULL);
 }
 
 static void
@@ -195,8 +200,7 @@ item_grid_realize (GocItem *item)
 	GdkDisplay *display;
 	ItemGrid   *ig;
 
-	if (parent_class->realize)
-		parent_class->realize (item);
+	parent_class->realize (item);
 
 	ig = ITEM_GRID (item);
 	ig_reload_style (ig);
@@ -213,19 +217,9 @@ static void
 item_grid_unrealize (GocItem *item)
 {
 	ItemGrid *ig = ITEM_GRID (item);
-
-	if (ig->cursor_link) {
-		g_object_unref (ig->cursor_link);
-		ig->cursor_link = NULL;
-	}
-
-	if (ig->cursor_cross) {
-		g_object_unref (ig->cursor_cross);
-		ig->cursor_cross = NULL;
-	}
-
-	if (parent_class->unrealize)
-		parent_class->unrealize (item);
+	g_clear_object (&ig->cursor_link);
+	g_clear_object (&ig->cursor_cross);
+	parent_class->unrealize (item);
 }
 
 static void

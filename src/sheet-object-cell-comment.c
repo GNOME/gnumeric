@@ -45,6 +45,7 @@ struct _GnmComment {
 	PangoAttrList  *markup;
 };
 typedef SheetObjectClass GnmCommentClass;
+static GObjectClass *cell_comment_parent_class;
 enum {
 	CC_PROP_0,
 	CC_PROP_TEXT,
@@ -52,13 +53,37 @@ enum {
 	CC_PROP_MARKUP
 };
 
-static GObjectClass *parent_klass;
+typedef struct {
+	SheetObjectView base;
 
-#define TRIANGLE_WIDTH 6
+	GdkRGBA comment_indicator_color;
+	int comment_indicator_size;
+} CommentView;
+typedef SheetObjectViewClass	CommentViewClass;
+static GocItemClass *comment_view_parent_class;
+
+static void
+comment_view_reload_style (CommentView *cv)
+{
+	GocItem *item = GOC_ITEM (cv);
+	GnmPane *pane = GNM_PANE (item->canvas);
+	GtkStyleContext *context;
+
+	context = goc_item_get_style_context (item);
+	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+				     &cv->comment_indicator_color);
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (pane));
+	gtk_widget_style_get (GTK_WIDGET (pane),
+			      "comment-indicator-size",
+			      &cv->comment_indicator_size,
+			      NULL);
+}
 
 static void
 comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
+	CommentView *cv = (CommentView *)sov;
 	GocPoints *points = goc_points_new (3);
 	GocItem *item = GOC_ITEM (GOC_GROUP (sov)->children->data);
 	if (visible) {
@@ -83,9 +108,9 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		y = scg_colrow_distance_get (scg, FALSE, 0, so->anchor.cell_bound.start.row)+ 1;
 		points->points[0].y = scale * y;
 		points->points[1].y = scale * y;
-		points->points[2].y = scale * y + TRIANGLE_WIDTH;
+		points->points[2].y = scale * y + cv->comment_indicator_size;
 
-		dx = TRIANGLE_WIDTH;
+		dx = cv->comment_indicator_size;
 		x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
 		points->points[0].x = scale * x - dx;
 		points->points[1].x = scale * x;
@@ -168,6 +193,8 @@ comment_view_class_init (SheetObjectViewClass *sov_klass)
 {
 	GocItemClass *item_klass = (GocItemClass *) sov_klass;
 
+	comment_view_parent_class = g_type_class_peek_parent (sov_klass);
+
 	sov_klass->set_bounds	= comment_view_set_bounds;
 
 	item_klass->button_pressed = comment_view_button_pressed;
@@ -177,8 +204,6 @@ comment_view_class_init (SheetObjectViewClass *sov_klass)
 	item_klass->leave_notify = comment_view_leave_notify;
 }
 
-typedef SheetObjectView		CommentView;
-typedef SheetObjectViewClass	CommentViewClass;
 static GSF_CLASS (CommentView, comment_view,
 	comment_view_class_init, NULL,
 	SHEET_OBJECT_VIEW_TYPE)
@@ -206,7 +231,7 @@ cell_comment_finalize (GObject *object)
 		cc->markup = NULL;
 	}
 
-	parent_klass->finalize (object);
+	cell_comment_parent_class->finalize (object);
 }
 
 static void
@@ -264,13 +289,17 @@ cell_comment_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmPane	*pane = GNM_PANE (container);
 	GocItem	*view = goc_item_new (pane->grid_items,
-		comment_view_get_type (),
-		NULL);
+				      comment_view_get_type (),
+				      NULL);
+	CommentView *cv = (CommentView *)view;
 	GOStyle *style = go_styled_object_get_style (
 		GO_STYLED_OBJECT (goc_item_new (GOC_GROUP (view),
 			GOC_TYPE_POLYGON, NULL)));
+
+	comment_view_reload_style (cv);
+
 	style->line.dash_type = GO_LINE_NONE;
-	style->fill.pattern.back = GO_COLOR_RED;
+	style->fill.pattern.back = go_color_from_gdk_rgba (&cv->comment_indicator_color, NULL);
 	return gnm_pane_object_register (so, view, FALSE);
 }
 
@@ -331,7 +360,7 @@ cell_comment_class_init (GObjectClass *gobject_class)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (gobject_class);
 
-	parent_klass = g_type_class_peek_parent (gobject_class);
+	cell_comment_parent_class = g_type_class_peek_parent (gobject_class);
 
 	/* Object class method overrides */
 	gobject_class->finalize		= cell_comment_finalize;

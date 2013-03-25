@@ -7,7 +7,7 @@
  *     Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
+#include <gnm-i18n.h>
 #include "gnumeric.h"
 #include "gnm-pane-impl.h"
 #include "gnm-pane.h"
@@ -972,6 +972,26 @@ gnm_pane_class_init (GnmPaneClass *klass)
 	widget_class->key_release_event	   = gnm_pane_key_release;
 	widget_class->focus_in_event	   = gnm_pane_focus_in;
 	widget_class->focus_out_event	   = gnm_pane_focus_out;
+
+	gtk_widget_class_install_style_property
+		(widget_class,
+		 g_param_spec_int ("function-indicator-size",
+				   P_("Function Indicator Size"),
+				   P_("Size of function indicator"),
+				   0,
+				   G_MAXINT,
+				   10,
+				   G_PARAM_READABLE));
+
+	gtk_widget_class_install_style_property
+		(widget_class,
+		 g_param_spec_int ("comment-indicator-size",
+				   P_("comment Indicator Size"),
+				   P_("Size of comment indicator"),
+				   0,
+				   G_MAXINT,
+				   6,
+				   G_PARAM_READABLE));
 }
 
 GSF_CLASS (GnmPane, gnm_pane,
