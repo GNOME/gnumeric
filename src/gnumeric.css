@@ -35,10 +35,10 @@ CommentView {
 }
 
 /* ------------------------------------------------------------------------- */
-/* ItemBar canvas items are the header buttons "A".."IV" and "1".."65536" */
+/* GnmItemBar canvas items are the header buttons "A".."IV" and "1".."65536" */
 /* These are also styled with class button */
 
-ItemBar {
+GnmItemBar {
   padding-left: 5/*px*/;     /* From gtk3.4 always use "px" */
   padding-right: 5/*px*/;
   padding-top: 2/*px*/;
@@ -46,12 +46,12 @@ ItemBar {
 }
 
 /* The whole column/row selected. */
-ItemBar:active {
+GnmItemBar:active {
   font: bold;
 }
 
 /* Some, but not all, of a column/row selected. */
-ItemBar:hover {
+GnmItemBar:hover {
   font: bold;
 }
 

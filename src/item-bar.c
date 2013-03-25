@@ -31,7 +31,7 @@
 
 #include <string.h>
 
-struct _ItemBar {
+struct _GnmItemBar {
 	GocItem	 base;
 
 	GnmPane		*pane;
@@ -62,17 +62,17 @@ struct _ItemBar {
 	GtkBorder padding;
 };
 
-typedef GocItemClass ItemBarClass;
+typedef GocItemClass GnmItemBarClass;
 static GocItemClass *parent_class;
 
 enum {
-	ITEM_BAR_PROP_0,
-	ITEM_BAR_PROP_PANE,
-	ITEM_BAR_PROP_IS_COL_HEADER
+	GNM_ITEM_BAR_PROP_0,
+	GNM_ITEM_BAR_PROP_PANE,
+	GNM_ITEM_BAR_PROP_IS_COL_HEADER
 };
 
 static int
-ib_compute_pixels_from_indent (ItemBar *ib, Sheet const *sheet)
+ib_compute_pixels_from_indent (GnmItemBar *ib, Sheet const *sheet)
 {
 	gboolean is_cols = ib->is_col_header;
 	double const scale =
@@ -87,7 +87,7 @@ ib_compute_pixels_from_indent (ItemBar *ib, Sheet const *sheet)
 }
 
 static void
-ib_dispose_fonts (ItemBar *ib)
+ib_dispose_fonts (GnmItemBar *ib)
 {
 	unsigned ui;
 
@@ -103,7 +103,7 @@ static const GtkStateFlags selection_type_flags[3] = {
 
 
 static void
-ib_reload_style (ItemBar *ib)
+ib_reload_style (GnmItemBar *ib)
 {
 	GocItem *item = GOC_ITEM (ib);
 	SheetControlGUI	* const scg = ib->pane->simple.scg;
@@ -183,15 +183,15 @@ ib_reload_style (ItemBar *ib)
 }
 
 /**
- * item_bar_calc_size :
- * @ib : #ItemBar
+ * gnm_item_bar_calc_size:
+ * @ib : #GnmItemBar
  *
  * Scale fonts and sizes by the pixels_per_unit of the associated sheet.
  *
  * Returns : the size of the fixed dimension.
  **/
 int
-item_bar_calc_size (ItemBar *ib)
+gnm_item_bar_calc_size (GnmItemBar *ib)
 {
 	SheetControlGUI	* const scg = ib->pane->simple.scg;
 	Sheet const *sheet = scg_sheet (scg);
@@ -224,18 +224,18 @@ item_bar_calc_size (ItemBar *ib)
 
 /**
  * item_bar_normal_font:
- * @ib: #ItemBar
+ * @ib: #GnmItemBar
  *
  * Returns: (transfer full): the bar normal font.
  **/
 PangoFontDescription *
-item_bar_normal_font (ItemBar const *ib)
+item_bar_normal_font (GnmItemBar const *ib)
 {
 	return pango_font_describe (ib->selection_fonts[COL_ROW_NO_SELECTION]);
 }
 
 int
-item_bar_indent	(ItemBar const *ib)
+gnm_item_bar_indent (GnmItemBar const *ib)
 {
 	return ib->indent;
 }
@@ -243,7 +243,7 @@ item_bar_indent	(ItemBar const *ib)
 static void
 item_bar_update_bounds (GocItem *item)
 {
-	ItemBar *ib = ITEM_BAR (item);
+	GnmItemBar *ib = GNM_ITEM_BAR (item);
 	item->x0 = 0;
 	item->y0 = 0;
 	if (ib->is_col_header) {
@@ -258,7 +258,7 @@ item_bar_update_bounds (GocItem *item)
 static void
 item_bar_realize (GocItem *item)
 {
-	ItemBar *ib = ITEM_BAR (item);
+	GnmItemBar *ib = GNM_ITEM_BAR (item);
 	GdkDisplay *display;
 
 	parent_class->realize (item);
@@ -272,13 +272,13 @@ item_bar_realize (GocItem *item)
 					    ? GDK_SB_H_DOUBLE_ARROW
 					    : GDK_SB_V_DOUBLE_ARROW);
 
-	item_bar_calc_size (ib);
+	gnm_item_bar_calc_size (ib);
 }
 
 static void
 item_bar_unrealize (GocItem *item)
 {
-	ItemBar *ib = ITEM_BAR (item);
+	GnmItemBar *ib = GNM_ITEM_BAR (item);
 
 	g_clear_object (&ib->change_cursor);
 	g_clear_object (&ib->normal_cursor);
@@ -287,7 +287,7 @@ item_bar_unrealize (GocItem *item)
 }
 
 static void
-ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
+ib_draw_cell (GnmItemBar const * const ib, cairo_t *cr,
 	      ColRowSelectionType const type,
 	      char const * const str, GocRect *rect)
 {
@@ -341,7 +341,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 }
 
 int
-item_bar_group_size (ItemBar const *ib, int max_outline)
+gnm_item_bar_group_size (GnmItemBar const *ib, int max_outline)
 {
 	return max_outline > 0
 		? (ib->indent - 2) / (max_outline + 1)
@@ -354,7 +354,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr,
 {
 	double scale = item->canvas->pixels_per_unit;
 	int x0, x1, y0, y1;
-	ItemBar const         *ib = ITEM_BAR (item);
+	GnmItemBar const         *ib = GNM_ITEM_BAR (item);
 	GnmPane	 const	      *pane = ib->pane;
 	SheetControlGUI const *scg    = pane->simple.scg;
 	Sheet const           *sheet  = scg_sheet (scg);
@@ -381,7 +381,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr,
 	goc_canvas_c2w (item->canvas, x_1, y_1, &x1, &y1);
 
 	if (ib->is_col_header) {
-		int const inc = item_bar_group_size (ib, sheet->cols.max_outline_level);
+		int const inc = gnm_item_bar_group_size (ib, sheet->cols.max_outline_level);
 		int const base_pos = .2 * inc;
 		int const len = (inc > 4) ? 4 : inc;
 		int end, total, col = pane->first.col;
@@ -545,7 +545,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr,
 			++col;
 		} while ((rtl && end <= total) || (!rtl && total <= end));
 	} else {
-		int const inc = item_bar_group_size (ib, sheet->rows.max_outline_level);
+		int const inc = gnm_item_bar_group_size (ib, sheet->rows.max_outline_level);
 		int base_pos = .2 * inc;
 		int const len = (inc > 4) ? 4 : inc;
 		int const end = y1;
@@ -722,7 +722,7 @@ item_bar_distance (GocItem *item, double x, double y,
 
 /**
  * is_pointer_on_division :
- * @ib : #ItemBar
+ * @ib : #GnmItemBar
  * @x  : in world coords
  * @y  : in world coords
  * @the_total :
@@ -735,7 +735,7 @@ item_bar_distance (GocItem *item, double x, double y,
  * Returns non-NULL if point (@x,@y) is on a division
  **/
 static ColRowInfo const *
-is_pointer_on_division (ItemBar const *ib, gint64 x, gint64 y,
+is_pointer_on_division (GnmItemBar const *ib, gint64 x, gint64 y,
 			gint64 *the_total, int *the_element, gint64 *minor_pos)
 {
 	Sheet *sheet = scg_sheet (ib->pane->simple.scg);
@@ -795,7 +795,7 @@ is_pointer_on_division (ItemBar const *ib, gint64 x, gint64 y,
 
 /* x & y in world coords */
 static void
-ib_set_cursor (ItemBar *ib, gint64 x, gint64 y)
+ib_set_cursor (GnmItemBar *ib, gint64 x, gint64 y)
 {
 	GdkWindow *window = gtk_widget_get_window (GTK_WIDGET (ib->base.canvas));
 	GdkCursor *cursor = ib->normal_cursor;
@@ -809,7 +809,7 @@ ib_set_cursor (ItemBar *ib, gint64 x, gint64 y)
 }
 
 static void
-colrow_tip_setlabel (ItemBar *ib, gboolean const is_cols, int size_pixels)
+colrow_tip_setlabel (GnmItemBar *ib, gboolean const is_cols, int size_pixels)
 {
 	if (ib->tip != NULL) {
 		char *buffer, *points, *pixels;
@@ -838,7 +838,7 @@ colrow_tip_setlabel (ItemBar *ib, gboolean const is_cols, int size_pixels)
 }
 
 static void
-item_bar_resize_stop (ItemBar *ib, int new_size)
+item_bar_resize_stop (GnmItemBar *ib, int new_size)
 {
 	if (new_size != 0 && ib->colrow_being_resized >= 0)
 		scg_colrow_size_set (ib->pane->simple.scg,
@@ -857,7 +857,7 @@ item_bar_resize_stop (ItemBar *ib, int new_size)
 static gboolean
 cb_extend_selection (GnmPane *pane, GnmPaneSlideInfo const *info)
 {
-	ItemBar * const ib = info->user_data;
+	GnmItemBar * const ib = info->user_data;
 	gboolean const is_cols = ib->is_col_header;
 	scg_colrow_select (pane->simple.scg,
 		is_cols, is_cols ? info->col : info->row, GDK_SHIFT_MASK);
@@ -865,7 +865,7 @@ cb_extend_selection (GnmPane *pane, GnmPaneSlideInfo const *info)
 }
 
 static gint
-outline_button_press (ItemBar const *ib, int element, int pixel)
+outline_button_press (GnmItemBar const *ib, int element, int pixel)
 {
 	SheetControlGUI *scg = ib->pane->simple.scg;
 	Sheet * const sheet = scg_sheet (scg);
@@ -893,7 +893,7 @@ item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 {
 	ColRowInfo const *cri;
 	GocCanvas	* const canvas = item->canvas;
-	ItemBar		* const ib = ITEM_BAR (item);
+	GnmItemBar		* const ib = GNM_ITEM_BAR (item);
 	GnmPane		* const pane = ib->pane;
 	SheetControlGUI	* const scg = pane->simple.scg;
 	SheetControl	* const sc = (SheetControl *) pane->simple.scg;
@@ -981,7 +981,7 @@ item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 static gboolean
 item_bar_2button_pressed (GocItem *item, int button, double x, double y)
 {
-	ItemBar		* const ib = ITEM_BAR (item);
+	GnmItemBar		* const ib = GNM_ITEM_BAR (item);
 	if (button > 3)
 		return FALSE;
 
@@ -993,7 +993,7 @@ item_bar_2button_pressed (GocItem *item, int button, double x, double y)
 static gboolean
 item_bar_enter_notify (GocItem *item, double x_, double y_)
 {
-	ItemBar		* const ib = ITEM_BAR (item);
+	GnmItemBar		* const ib = GNM_ITEM_BAR (item);
 	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
 	ib_set_cursor (ib, x, y);
 	return TRUE;
@@ -1004,7 +1004,7 @@ item_bar_motion (GocItem *item, double x_, double y_)
 {
 	ColRowInfo const *cri;
 	GocCanvas	* const canvas = item->canvas;
-	ItemBar		* const ib = ITEM_BAR (item);
+	GnmItemBar		* const ib = GNM_ITEM_BAR (item);
 	GnmPane		* const pane = ib->pane;
 	SheetControlGUI	* const scg = pane->simple.scg;
 	SheetControl	* const sc = (SheetControl *) pane->simple.scg;
@@ -1053,7 +1053,7 @@ item_bar_motion (GocItem *item, double x_, double y_)
 		colrow_tip_setlabel (ib, is_cols, new_size);
 		scg_size_guide_motion (scg, is_cols, pos);
 
-		/* Redraw the ItemBar to show nice incremental progress */
+		/* Redraw the GnmItemBar to show nice incremental progress */
 		goc_canvas_invalidate (canvas, 0, 0, G_MAXINT/2,  G_MAXINT/2);
 
 	} else if (ib->start_selection != -1) {
@@ -1070,7 +1070,7 @@ item_bar_motion (GocItem *item, double x_, double y_)
 static gboolean
 item_bar_button_released (GocItem *item, int button, double x, double y)
 {
-	ItemBar	*ib = ITEM_BAR (item);
+	GnmItemBar	*ib = GNM_ITEM_BAR (item);
 	if (item == goc_canvas_get_grabbed_item (item->canvas))
 		gnm_simple_canvas_ungrab (item, 0);
 	if (ib->colrow_being_resized >= 0) {
@@ -1091,13 +1091,13 @@ static void
 item_bar_set_property (GObject *obj, guint param_id,
 		       GValue const *value, GParamSpec *pspec)
 {
-	ItemBar *ib = ITEM_BAR (obj);
+	GnmItemBar *ib = GNM_ITEM_BAR (obj);
 
 	switch (param_id){
-	case ITEM_BAR_PROP_PANE:
+	case GNM_ITEM_BAR_PROP_PANE:
 		ib->pane = g_value_get_object (value);
 		break;
-	case ITEM_BAR_PROP_IS_COL_HEADER:
+	case GNM_ITEM_BAR_PROP_IS_COL_HEADER:
 		ib->is_col_header = g_value_get_boolean (value);
 		goc_item_bounds_changed (GOC_ITEM (obj));
 		break;
@@ -1107,7 +1107,7 @@ item_bar_set_property (GObject *obj, guint param_id,
 static void
 item_bar_dispose (GObject *obj)
 {
-	ItemBar *ib = ITEM_BAR (obj);
+	GnmItemBar *ib = GNM_ITEM_BAR (obj);
 
 	ib_dispose_fonts (ib);
 
@@ -1129,7 +1129,7 @@ item_bar_dispose (GObject *obj)
 }
 
 static void
-item_bar_init (ItemBar *ib)
+item_bar_init (GnmItemBar *ib)
 {
 	ib->base.x0 = 0;
 	ib->base.y0 = 0;
@@ -1159,12 +1159,12 @@ item_bar_class_init (GObjectClass  *gobject_klass)
 
 	gobject_klass->dispose = item_bar_dispose;
 	gobject_klass->set_property = item_bar_set_property;
-	g_object_class_install_property (gobject_klass, ITEM_BAR_PROP_PANE,
+	g_object_class_install_property (gobject_klass, GNM_ITEM_BAR_PROP_PANE,
 		g_param_spec_object ("pane", "pane",
 			"The pane containing the associated grid",
 			GNM_PANE_TYPE,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
-	g_object_class_install_property (gobject_klass, ITEM_BAR_PROP_IS_COL_HEADER,
+	g_object_class_install_property (gobject_klass, GNM_ITEM_BAR_PROP_IS_COL_HEADER,
 		g_param_spec_boolean ("IsColHeader", "IsColHeader",
 			"Is the item-bar a header for columns or rows",
 			FALSE,
@@ -1182,6 +1182,6 @@ item_bar_class_init (GObjectClass  *gobject_klass)
 	item_klass->motion = item_bar_motion;
 }
 
-GSF_CLASS (ItemBar, item_bar,
+GSF_CLASS (GnmItemBar, gnm_item_bar,
 	   item_bar_class_init, item_bar_init,
 	   GOC_TYPE_ITEM)

@@ -294,7 +294,7 @@ cb_outline_button (GtkWidget *btn, SheetControlGUI *scg)
 
 static void
 scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
-			 ItemBar const *ib, gboolean is_cols, int w, int h,
+			 GnmItemBar const *ib, gboolean is_cols, int w, int h,
 			 GPtrArray *btns, GtkWidget *box)
 {
 	PangoFontDescription *font_desc;
@@ -365,15 +365,15 @@ scg_resize (SheetControlGUI *scg, gboolean force_scroll)
 			FALSE, 0, pane->first.row);
 
 		/* resize Pane[0] headers */
-		h = item_bar_calc_size (scg->pane[0]->col.item);
-		btn_h = h - item_bar_indent (scg->pane[0]->col.item);
-		w = item_bar_calc_size (scg->pane[0]->row.item);
-		btn_w = w - item_bar_indent (scg->pane[0]->row.item);
+		h = gnm_item_bar_calc_size (scg->pane[0]->col.item);
+		btn_h = h - gnm_item_bar_indent (scg->pane[0]->col.item);
+		w = gnm_item_bar_calc_size (scg->pane[0]->row.item);
+		btn_w = w - gnm_item_bar_indent (scg->pane[0]->row.item);
 		gtk_widget_set_size_request (scg->select_all_btn, btn_w, btn_h);
 		gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0]->col.canvas), -1, h);
 		gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0]->row.canvas), w, -1);
 
-		tmp = item_bar_group_size (scg->pane[0]->col.item,
+		tmp = gnm_item_bar_group_size (scg->pane[0]->col.item,
 			sheet->cols.max_outline_level);
 		scg_setup_group_buttons (scg, sheet->cols.max_outline_level,
 			scg->pane[0]->col.item, TRUE,
@@ -414,14 +414,14 @@ scg_resize (SheetControlGUI *scg, gboolean force_scroll)
 				 * It likes it to be at the origin, we can live with that for now.
 				 * However, we really should track the bug eventually.
 				 */
-				h = item_bar_calc_size (scg->pane[1]->col.item);
+				h = gnm_item_bar_calc_size (scg->pane[1]->col.item);
 				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]->col.canvas), r - l, h);
 			}
 
 			if (scg->pane[3]) {
 				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]), -1,    b - t);
 				/* The item_bar_calcs should be equal */
-				w = item_bar_calc_size (scg->pane[3]->row.item);
+				w = gnm_item_bar_calc_size (scg->pane[3]->row.item);
 				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]->row.canvas), w, b - t);
 			}
 

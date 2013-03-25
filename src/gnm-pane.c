@@ -1006,7 +1006,7 @@ gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 	GocCanvas *canvas = gnm_simple_canvas_new (scg);
 	GocGroup *group = goc_canvas_get_root (canvas);
 	GocItem *item = goc_item_new (group,
-		item_bar_get_type (),
+		gnm_item_bar_get_type (),
 		"pane",	pane,
 		"IsColHeader", is_col_header,
 		NULL);
@@ -1017,10 +1017,10 @@ gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 		if (sheet && sheet->text_is_rtl)
 			goc_canvas_set_direction (canvas, GOC_DIRECTION_RTL);
 		pane->col.canvas = canvas;
-		pane->col.item = ITEM_BAR (item);
+		pane->col.item = GNM_ITEM_BAR (item);
 	} else {
 		pane->row.canvas = canvas;
-		pane->row.item = ITEM_BAR (item);
+		pane->row.item = GNM_ITEM_BAR (item);
 	}
 
 	pane->size_guide.points = NULL;

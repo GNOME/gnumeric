@@ -1,5 +1,7 @@
 2013-03-25  Morten Welinder  <terra@gnome.org>
 
+	* src/item-bar.c: Rename: ItemBar to GnmItemBar.
+
 	* src/gnumeric.css: use deprecated px-free syntax for padding, so
 	gtk+ 3.2 can deal with it.
 

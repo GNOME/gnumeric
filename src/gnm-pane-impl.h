@@ -44,7 +44,7 @@ struct _GnmPane {
 	int		 index;
 	struct {
 		GocCanvas *canvas;
-		ItemBar   *item;
+		GnmItemBar *item;
 	} col, row;
 
 	/* Lines across the grid.  Used for col/row resize and the creation of
