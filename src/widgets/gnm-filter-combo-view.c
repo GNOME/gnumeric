@@ -25,7 +25,7 @@
 #include "gnm-filter-combo-view.h"
 #include "gnm-cell-combo-view-impl.h"
 
-#include "gui-gnumeric.h"
+#include "gnumeric.h"
 #include "sheet-filter.h"
 #include "sheet-filter-combo.h"
 #include "gnm-format.h"

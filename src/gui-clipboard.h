@@ -2,7 +2,7 @@
 #ifndef _GNM_GUI_CLIPBOARD_H_
 # define _GNM_GUI_CLIPBOARD_H_
 
-#include "gui-gnumeric.h"
+#include "gnumeric-fwd.h"
 
 G_BEGIN_DECLS
 

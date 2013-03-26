@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_EXPR_ENTRY_H
 #define GNUMERIC_EXPR_ENTRY_H
 
-#include "gui-gnumeric.h"
+#include "gnumeric-fwd.h"
 #include "parse-util.h"
 #include <gtk/gtk.h>
 

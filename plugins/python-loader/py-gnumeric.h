@@ -5,7 +5,7 @@
 #include <glib.h>
 #include <goffice/goffice.h>
 #include "gnm-py-interpreter.h"
-#include <gui-gnumeric.h>
+#include <gnumeric-fwd.h>
 
 void     py_initgnumeric (GnmPyInterpreter *interpreter);
 

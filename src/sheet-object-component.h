@@ -24,7 +24,7 @@
 #define _GNM_SHEET_OBJECT_COMPONENT_H_
 
 #include "sheet-object.h"
-#include "gui-gnumeric.h"
+#include "gnumeric-fwd.h"
 #include <goffice/component/go-component.h>
 
 G_BEGIN_DECLS

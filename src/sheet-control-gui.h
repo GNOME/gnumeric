@@ -2,7 +2,7 @@
 #ifndef _GNM_SHEET_CONTROL_GUI_H_
 # define _GNM_SHEET_CONTROL_GUI_H_
 
-#include "gui-gnumeric.h"
+#include "gnumeric-fwd.h"
 #include "sheet-control.h"
 #include <gtk/gtk.h>
 

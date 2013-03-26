@@ -21,7 +21,7 @@
 
 #include "gnumeric-cell-renderer-text.h"
 #include "gnumeric-expr-entry.h"
-#include <gui-gnumeric.h>
+#include <gnumeric-fwd.h>
 
 G_BEGIN_DECLS
 

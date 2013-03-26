@@ -2,7 +2,7 @@
 #ifndef _GNM_GUI_UTIL_H_
 # define _GNM_GUI_UTIL_H_
 
-#include "gui-gnumeric.h"
+#include "gnumeric-fwd.h"
 #include <goffice/goffice.h>
 #include "numbers.h"
 #include <gtk/gtk.h>

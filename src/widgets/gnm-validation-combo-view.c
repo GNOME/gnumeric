@@ -39,7 +39,7 @@
 #include "expr.h"
 #include "value.h"
 
-#include "gui-gnumeric.h"
+#include "gnumeric.h"
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>

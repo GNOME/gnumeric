@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_DIALOGS_H
 #define GNUMERIC_DIALOGS_H
 
-#include "gui-gnumeric.h"
+#include "gnumeric.h"
 #include "consolidate.h"
 #include <goffice/goffice.h>
 

@@ -3,7 +3,7 @@
 # define _GNM_SHEET_OBJECT_GRAPH_H_
 
 #include "sheet-object.h"
-#include "gui-gnumeric.h"
+#include "gnumeric-fwd.h"
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

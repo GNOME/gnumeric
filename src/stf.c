@@ -25,6 +25,7 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "stf.h"
+#include "stf-export.h"
 
 #include <goffice/goffice.h>
 #include "cell.h"

@@ -2,7 +2,7 @@
 # define _GNM_IO_CONTEXT_GTK_H_
 
 #include <stdarg.h>
-#include "gui-gnumeric.h"
+#include "gnumeric-fwd.h"
 #include <gtk/gtk.h>
 #include <goffice/goffice.h>
 

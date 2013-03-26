@@ -1,7 +1,7 @@
 #ifndef GNM_CELL_COMBO_VIEW_IMPL_H
 #define GNM_CELL_COMBO_VIEW_IMPL_H
 
-#include "gui-gnumeric.h"
+#include "gnumeric-fwd.h"
 #include "sheet-object-impl.h"
 #include <gtk/gtk.h>
 

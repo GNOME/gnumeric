@@ -21,7 +21,7 @@
 #ifndef __GNM_DAO_H__
 #define __GNM_DAO_H__
 
-#include <gui-gnumeric.h>
+#include <gnumeric-fwd.h>
 #include <gui-util.h>
 #include <tools/dao.h>
 

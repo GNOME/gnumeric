@@ -31,7 +31,7 @@
 #include "sheet-view.h"
 #include "value.h"
 
-#include "gui-gnumeric.h"
+#include "gnumeric.h"
 #include "go-data-slicer-field.h"
 #include "go-data-cache-field.h"
 #include <goffice/goffice.h>

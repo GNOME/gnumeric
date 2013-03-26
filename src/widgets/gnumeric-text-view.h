@@ -22,7 +22,7 @@
 #ifndef GNUMERIC_TEXT_VIEW_H
 #define GNUMERIC_TEXT_VIEW_H
 
-#include "gui-gnumeric.h"
+#include "gnumeric-fwd.h"
 #include <gtk/gtk.h>
 
 #define GNM_TEXT_VIEW_TYPE	(gnm_text_view_get_type ())

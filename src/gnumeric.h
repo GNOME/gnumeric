@@ -4,6 +4,7 @@
 
 #include <glib.h>
 #include <goffice/goffice.h>
+#include <gnumeric-fwd.h>
 
 G_BEGIN_DECLS
 
@@ -23,12 +24,6 @@ G_BEGIN_DECLS
  * Note: more than 364238 columns will introduce a column named TRUE.
  */
 
-typedef struct _GnmApp			GnmApp;
-typedef struct _Workbook		Workbook;
-typedef struct _WorkbookView		WorkbookView;
-typedef struct _WorkbookControl		WorkbookControl;
-typedef struct _WorkbookSheetState	WorkbookSheetState;
-
 typedef enum {
 	GNM_SHEET_VISIBILITY_VISIBLE,
 	GNM_SHEET_VISIBILITY_HIDDEN,
@@ -39,30 +34,6 @@ typedef enum {
 	GNM_SHEET_OBJECT,
 	GNM_SHEET_XLM
 } GnmSheetType;
-
-typedef struct _Sheet			Sheet;
-typedef struct _SheetView		SheetView;
-typedef struct _SheetControl		SheetControl;
-
-typedef struct _SheetObject		SheetObject;
-typedef struct _SheetObjectAnchor	SheetObjectAnchor;
-typedef struct _SheetObjectView		SheetObjectView;
-typedef struct _SheetObjectViewContainer SheetObjectViewContainer;
-typedef struct _SheetObjectImageable    SheetObjectImageable;
-typedef struct _SheetObjectExportable   SheetObjectExportable;
-
-typedef struct _GnmDepContainer		GnmDepContainer;
-typedef struct _GnmDependent		GnmDependent;
-typedef struct _GnmCell			GnmCell;
-typedef struct _GnmComment		GnmComment;
-
-typedef union  _GnmValue		GnmValue;
-typedef struct _GnmValueBool		GnmValueBool;
-typedef struct _GnmValueFloat		GnmValueFloat;
-typedef struct _GnmValueErr		GnmValueErr;
-typedef struct _GnmValueStr		GnmValueStr;
-typedef struct _GnmValueRange		GnmValueRange;
-typedef struct _GnmValueArray		GnmValueArray;
 
 typedef enum {
 	GNM_ERROR_NULL,
@@ -75,55 +46,6 @@ typedef enum {
 	GNM_ERROR_UNKNOWN
 } GnmStdError;
 
-typedef struct _GnmRenderedValue	GnmRenderedValue;
-typedef struct _GnmRenderedRotatedValue	GnmRenderedRotatedValue;
-typedef struct _GnmRenderedValueCollection GnmRenderedValueCollection;
-
-typedef GSList				GnmExprList;
-typedef union  _GnmExpr			GnmExpr;
-typedef struct _GnmExprConstant		GnmExprConstant;
-typedef struct _GnmExprFunction		GnmExprFunction;
-typedef struct _GnmExprUnary		GnmExprUnary;
-typedef struct _GnmExprBinary		GnmExprBinary;
-typedef struct _GnmExprName		GnmExprName;
-typedef struct _GnmExprCellRef		GnmExprCellRef;
-typedef struct _GnmExprArrayCorner	GnmExprArrayCorner;
-typedef struct _GnmExprArrayElem	GnmExprArrayElem;
-typedef struct _GnmExprSet		GnmExprSet;
-typedef GnmExpr const *			GnmExprConstPtr;
-
-typedef struct _GnmExprTop		GnmExprTop;
-typedef struct _GnmExprSharer		GnmExprSharer;
-
-typedef struct _GnmExprRelocateInfo	GnmExprRelocateInfo;
-
-typedef struct _GnmNamedExpr		GnmNamedExpr;
-typedef struct _GnmNamedExprCollection	GnmNamedExprCollection;
-
-typedef struct _GnmPasteTarget		GnmPasteTarget;
-typedef struct _GnmCellRegion		GnmCellRegion;
-
-typedef struct _ColRowInfo		ColRowInfo;
-typedef struct _ColRowCollection	ColRowCollection;
-typedef struct _ColRowSegment		ColRowSegment;
-typedef GSList				ColRowVisList;
-typedef GSList				ColRowStateGroup;
-typedef GSList				ColRowStateList;
-typedef GList				ColRowIndexList;
-typedef struct _ColRowIndexSet          ColRowIndexSet;
-
-typedef struct _GnmFont			GnmFont;
-typedef struct _GnmFontMetrics		GnmFontMetrics;
-typedef struct _GnmColor	        GnmColor;
-typedef struct _GnmBorder	        GnmBorder;
-typedef struct _GnmStyle		GnmStyle;
-typedef struct _GnmStyleRow		GnmStyleRow;
-typedef GSList				GnmStyleList;
-typedef struct _GnmStyleRegion	        GnmStyleRegion;
-typedef struct _GnmStyleConditions	GnmStyleConditions;
-typedef struct _GnmSheetStyleData       GnmSheetStyleData;
-typedef struct _GnmFormatTemplate       GnmFormatTemplate; /* does not really belong here */
-
 typedef struct {
 	int col, row;	/* these must be int not unsigned in some places (eg SUMIF ) */
 } GnmCellPos;
@@ -134,19 +56,6 @@ typedef struct {
 	Sheet *sheet;
 	GnmRange  range;
 } GnmSheetRange;
-typedef struct _GnmCellRef	        GnmCellRef;	/* abs/rel point with sheet */
-typedef struct _GnmRangeRef	        GnmRangeRef;	/* abs/rel range with sheet */
-typedef struct _GnmEvalPos		GnmEvalPos;
-typedef struct _GnmParsePos	        GnmParsePos;
-typedef struct _GnmSheetSize		GnmSheetSize;
-typedef struct _GnmParseError	        GnmParseError;
-typedef struct _GnmConventions		GnmConventions;
-typedef struct _GnmConventionsOut	GnmConventionsOut;
-typedef struct _GnmFuncEvalInfo         GnmFuncEvalInfo;
-typedef struct _GnmFunc			GnmFunc;
-typedef struct _GnmFuncGroup		GnmFuncGroup;
-typedef struct _GnmFuncDescriptor	GnmFuncDescriptor;
-typedef struct _GnmAction		GnmAction;
 
 typedef enum {
 	CELL_ITER_ALL			= 0,
@@ -178,26 +87,6 @@ typedef enum {
 	GNM_EXPR_EVAL_WANT_REF		= 0x4,
 	GNM_EXPR_EVAL_ARRAY_CONTEXT     = 0x8
 } GnmExprEvalFlags;
-
-typedef struct _XmlParseContext		XmlParseContext;
-
-typedef struct _GnmSortData		GnmSortData;
-typedef struct _GnmSearchReplace	GnmSearchReplace;
-typedef struct _GnmConsolidate		GnmConsolidate;
-typedef struct _GnmValidation		GnmValidation;
-typedef struct _GnmFilter		GnmFilter;
-typedef struct _GnmFilterCondition	GnmFilterCondition;
-typedef struct _GnmHLink		GnmHLink;
-typedef struct _GnmInputMsg		GnmInputMsg;
-typedef struct _GnmSheetSlicer		GnmSheetSlicer;
-
-typedef struct _PrintInformation        PrintInformation;
-
-typedef struct GnmSolverParameters_	GnmSolverParameters;
-typedef struct GnmSolverConstraint_     GnmSolverConstraint;
-typedef struct GnmSolverFactory_        GnmSolverFactory;
-
-typedef struct GnmScenario_             GnmScenario;
 
 G_END_DECLS
 

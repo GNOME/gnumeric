@@ -174,8 +174,7 @@ static void
 preview_grid_draw_background (cairo_t *cr, GnmPreviewGrid const *pg, GnmStyle const *mstyle,
 			      int col, int row, int x, int y, int w, int h)
 {
-	GtkStyleContext *context = goc_item_get_style_context (GOC_ITEM (pg));
-	if (gnumeric_background_set (mstyle, cr, FALSE, context)) {
+	if (gnumeric_background_set (mstyle, cr, FALSE, NULL)) {
 		cairo_rectangle (cr, x, y, w+1, h+1);
 		cairo_fill (cr);
 	}
@@ -359,10 +358,7 @@ preview_grid_dispose (GObject *obj)
 	value_release (pg->defaults.value);
 	pg->defaults.value = NULL;
 
-	if (pg->sheet) {
-		g_object_unref (pg->sheet);
-		pg->sheet = NULL;
-	}
+	g_clear_object (&pg->sheet);
 
 	G_OBJECT_CLASS (parent_klass)->dispose (obj);
 }

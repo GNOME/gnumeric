@@ -16,7 +16,7 @@
 #ifndef GNUMERIC_DIALOG_STF_PREVIEW_H
 #define GNUMERIC_DIALOG_STF_PREVIEW_H
 
-#include <gui-gnumeric.h>
+#include <gnumeric-fwd.h>
 #include <stf.h>
 #include <gtk/gtk.h>
 

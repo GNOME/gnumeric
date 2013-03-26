@@ -27,7 +27,6 @@ typedef enum {
 GType gnm_stf_format_mode_get_type (void);
 #define GNM_STF_FORMAT_MODE_TYPE (gnm_stf_format_mode_get_type ())
 
-typedef struct _GnmStfExport GnmStfExport;
 GType gnm_stf_export_get_type (void);
 
 void gnm_stf_export_options_sheet_list_clear    (GnmStfExport *stfe);

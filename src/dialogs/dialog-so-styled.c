@@ -26,7 +26,6 @@
 #include "gnumeric.h"
 #include "dialogs.h"
 
-#include "gui-gnumeric.h"
 #include "gui-util.h"
 #include "dialogs/help.h"
 #include "wbc-gtk.h"

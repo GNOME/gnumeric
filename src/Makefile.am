@@ -240,6 +240,7 @@ libspreadsheet_include_HEADERS = 	\
 	gnm-sheet-slicer.h			\
 	gnm-style-impl.h			\
 	gnumeric.h				\
+	gnumeric-fwd.h				\
 	gnumeric-simple-canvas.h		\
 	go-data-cache-source.h 			\
 	go-data-cache.h 			\
@@ -252,7 +253,6 @@ libspreadsheet_include_HEADERS = 	\
 	gui-clipboard.h				\
 	gui-file.h				\
 	gui-util.h				\
-	gui-gnumeric.h				\
 	hlink.h					\
 	hlink-impl.h				\
 	history.h				\

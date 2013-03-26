@@ -248,7 +248,7 @@ print_merged_range_gtk (cairo_t *context,
 			style = g_ptr_array_index (style->cond_styles, res);
 	}
 
-	if (gnumeric_background_set_gtk (style, context, FALSE, NULL))
+	if (gnumeric_background_set (style, context, FALSE, NULL))
 		print_rectangle_gtk (context, l, t, r-l+0.2, b-t+0.2);
 
 	if (range->start.col < view->start.col)
