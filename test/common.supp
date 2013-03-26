@@ -692,3 +692,10 @@
    Memcheck:Addr8
    fun:wcscmp
 }
+
+{
+   GLIBC/WCSLEN/SSE
+   Memcheck:Addr8
+   fun:wcslen
+}
+
