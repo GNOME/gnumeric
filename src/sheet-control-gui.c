@@ -613,17 +613,13 @@ cb_select_all_btn_draw (GtkWidget *widget, cairo_t *cr, SheetControlGUI *scg)
 	GtkAllocation a;
 	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
 
-	gtk_style_context_save (ctxt);
-	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
-	gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
-	gtk_style_context_add_region (ctxt, "all-button", 0);
-
 	gtk_widget_get_allocation (widget, &a);
 
+	gtk_style_context_save (ctxt);
+	gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
 	gtk_render_background (ctxt, cr, offset + 1, 1,
 			       a.width - 1, a.height - 1);
 	gtk_render_frame (ctxt, cr, offset, 0, a.width + 1, a.height + 1);
-
 	gtk_style_context_restore (ctxt);
 }
 
@@ -1574,6 +1570,9 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		              "homogeneous", TRUE,
 		              NULL);
 		scg->select_all_btn = gtk_drawing_area_new ();
+		gtk_style_context_add_class (gtk_widget_get_style_context (scg->select_all_btn),
+					     GTK_STYLE_CLASS_BUTTON);
+		gtk_widget_set_name (scg->select_all_btn, "all-button");
 		gtk_widget_add_events (scg->select_all_btn, GDK_BUTTON_PRESS_MASK);
 		g_signal_connect (G_OBJECT (scg->select_all_btn), "draw",
 				  G_CALLBACK (cb_select_all_btn_draw), scg);

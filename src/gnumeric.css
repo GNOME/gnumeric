@@ -71,7 +71,7 @@ GnmItemBar:hover {
 /* ------------------------------------------------------------------------- */
 /* This GtkDrawingArea is the select-all button above the row buttons.  */
 
-GtkDrawingArea all-button {
+GtkDrawingArea#all-button {
 }
 
 /* ------------------------------------------------------------------------- */

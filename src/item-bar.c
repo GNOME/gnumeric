@@ -120,7 +120,6 @@ ib_reload_style (GnmItemBar *ib)
 	GList *item_list;
 
 	gtk_style_context_save (context);
-	gtk_style_context_add_class (context, GTK_STYLE_CLASS_BUTTON);
 	for (ui = 0; ui < G_N_ELEMENTS (selection_type_flags); ui++) {
 		GtkStateFlags state = selection_type_flags[ui];
 		PangoFontDescription *desc;
@@ -297,9 +296,7 @@ ib_draw_cell (GnmItemBar const * const ib, cairo_t *cr,
 
 	cairo_save (cr);
 
-	/* Style-wise we are a button in the given state.  */
 	gtk_style_context_save (ctxt);
-	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
 	gtk_style_context_set_state (ctxt, selection_type_flags[type]);
 	gtk_render_background (ctxt, cr, rect->x, rect->y,
 			       rect->width + 1, rect->height + 1);
@@ -375,7 +372,6 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr,
 	GtkStyleContext *ctxt = goc_item_get_style_context (item);
 
 	gtk_style_context_save (ctxt);
-	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
 	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &color);
 	goc_canvas_c2w (item->canvas, x_0, y_0, &x0, &y0);
 	goc_canvas_c2w (item->canvas, x_1, y_1, &x1, &y1);
@@ -1148,6 +1144,11 @@ gnm_item_bar_init (GnmItemBar *ib)
 	ib->has_resize_guides = FALSE;
 	ib->pango.item = NULL;
 	ib->pango.glyphs = pango_glyph_string_new ();
+
+	/* Style-wise we are a button.  */
+	gtk_style_context_add_class
+		(goc_item_get_style_context (GOC_ITEM (ib)),
+		 GTK_STYLE_CLASS_BUTTON);
 }
 
 static void
