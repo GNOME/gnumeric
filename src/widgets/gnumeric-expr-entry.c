@@ -599,17 +599,14 @@ static void
 gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef *rr, int colour,
 			      PangoAttrList **attrs, gboolean insert_cursor)
 {
-	static struct {
-		guint16 red;
-		guint16 green;
-		guint16 blue;
-		gchar const *name;
-	} colours[] = {{0x0, 0xFFFF, 0x0, "00:ff:00:ff"},
-		       {0x0, 0x0, 0xFFFF, "00:00:ff:ff"},
-		       {0xFFFF, 0x0, 0x0, "ff:00:00:ff"},
-		       {0x0, 0x80FF, 0x80FF, "00:80:80:ff"},
-		       {0xA0FF, 0xA0FF, 0x0, "a0:a0:00:ff"},
-		       {0xA0FF, 0x0, 0xA0FF, "a0:00:a0:ff"}};
+	static const GOColor colours[] = {
+		GO_COLOR_FROM_RGB (0x00, 0xff, 0x00),
+		GO_COLOR_FROM_RGB (0x00, 0x00, 0xff),
+		GO_COLOR_FROM_RGB (0xff, 0x00, 0x00),
+		GO_COLOR_FROM_RGB (0x00, 0x80, 0x80),
+		GO_COLOR_FROM_RGB (0xa0, 0xa0, 0x00),
+		GO_COLOR_FROM_RGB (0xa0, 0x00, 0xa0)
+	};
 	PangoAttribute *at;
 	GnmRange r;
 	GnmRange const *merge; /*[#127415]*/
@@ -646,11 +643,10 @@ gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef
 		}
 
 		SCG_FOREACH_PANE (scg, pane, gnm_pane_expr_cursor_bound_set
-				  (pane, &r, colours[colour].name););
+				  (pane, &r, colours[colour]););
 	}
 
-	at = pango_attr_foreground_new (colours[colour].red, colours[colour].green,
-					colours[colour].blue);
+	at = go_color_to_pango (colours[colour], TRUE);
 	at->start_index = start;
 	at->end_index = end;
 

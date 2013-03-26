@@ -1394,7 +1394,6 @@ item_cursor_set_property (GObject *obj, guint param_id,
 			  GValue const *value, GParamSpec *pspec)
 {
 	GnmItemCursor *ic = GNM_ITEM_CURSOR (obj);
-	char const *color_name;
 
 	switch (param_id) {
 	case ITEM_CURSOR_PROP_SHEET_CONTROL_GUI:
@@ -1406,14 +1405,9 @@ item_cursor_set_property (GObject *obj, guint param_id,
 	case ITEM_CURSOR_PROP_BUTTON :
 		ic->drag_button = g_value_get_int (value);
 		break;
-	case ITEM_CURSOR_PROP_COLOR: {
-		GOColor color;
-		color_name = g_value_get_string (value);
-		if (go_color_from_str (color_name, &color)) {
-			go_color_to_gdk_rgba (color, &ic->color);
-			ic->use_color = 1;
-		}
-	}
+	case ITEM_CURSOR_PROP_COLOR:
+		go_color_to_gdk_rgba (g_value_get_uint (value), &ic->color);
+		ic->use_color = 1;
 	}
 }
 
@@ -1446,10 +1440,11 @@ gnm_item_cursor_class_init (GObjectClass *gobject_klass)
 			0, G_MAXINT, 0,
                         GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_COLOR,
-		g_param_spec_string ("color", "Color",
-			"name of the cursor's color",
-			"black",
-                        GSF_PARAM_STATIC |  G_PARAM_WRITABLE));
+		g_param_spec_uint ("color", "Color",
+				   "Name of the cursor's color",
+				   0, 0xffffffff, 
+				   GO_COLOR_BLACK,
+				   GSF_PARAM_STATIC |  G_PARAM_WRITABLE));
 
 	item_klass->realize     = item_cursor_realize;
 	item_klass->unrealize   = item_cursor_unrealize;

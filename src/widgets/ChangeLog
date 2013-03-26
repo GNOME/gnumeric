@@ -1,3 +1,8 @@
+2013-03-25  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_colour_ranges): Make sure
+	we only have the colours once here.
+
 2013-03-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.1

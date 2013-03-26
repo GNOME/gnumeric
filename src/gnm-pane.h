@@ -42,7 +42,7 @@ void	 gnm_pane_special_cursor_start	   (GnmPane *pane, int style, int button);
 void	 gnm_pane_special_cursor_stop	   (GnmPane *pane);
 void	 gnm_pane_mouse_cursor_set         (GnmPane *pane, GdkCursor *c);
 void	 gnm_pane_expr_cursor_bound_set    (GnmPane *pane, GnmRange const *r,
-					    gchar const *color);
+					    GOColor color);
 void	 gnm_pane_expr_cursor_stop	   (GnmPane *pane);
 
 /************************************************************************/

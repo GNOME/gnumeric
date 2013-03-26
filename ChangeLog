@@ -1,5 +1,11 @@
 2013-03-25  Morten Welinder  <terra@gnome.org>
 
+	* src/item-cursor.c (gnm_item_cursor_class_init): Change type of
+	color to GOColor.
+
+	* src/gnm-pane.c (gnm_pane_expr_cursor_bound_set): Take GOColor,
+	not colour name.
+
 	* src/item-bar.c: Rename: ItemBar to GnmItemBar.
 
 	* src/gnumeric.css: use deprecated px-free syntax for padding, so

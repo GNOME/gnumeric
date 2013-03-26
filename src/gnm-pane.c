@@ -2254,7 +2254,7 @@ gnm_pane_mouse_cursor_set (GnmPane *pane, GdkCursor *c)
 
 void
 gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r,
-				gchar const *color)
+				GOColor color)
 {
 	GnmItemCursor *cursor;
 
