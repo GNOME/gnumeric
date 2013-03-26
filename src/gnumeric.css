@@ -2,6 +2,8 @@
 /* The GnmItemGrid is the canvas area that holds all the cells.  */
 /* GnmPreviewGrid is the canvas used for auto-format previews. */
 GnmItemGrid, GnmPreviewGrid {
+  /* The background must be solid and rectangular since we cheat and print
+     only parts of it.  */
   background-color: white;
   padding: 0;
   border-style: none;
@@ -24,6 +26,9 @@ GnmItemGrid pane-divider {
   border-width: 1px;
 }
 
+/* ------------------------------------------------------------------------- */
+/* The GnmItemCursor item is what marks a cell or selection on the sheet.  */
+
 /* The default cursor.  */
 GnmItemCursor.normal {
   color: #000000;
@@ -43,6 +48,7 @@ GnmItemCursor.autofill {
   background-color: black;
 }
 
+/* ------------------------------------------------------------------------- */
 
 /* GnmPane is the canvas we use for sheets.  We store custom properties
    here because there is no un-deprecated way to store them for the

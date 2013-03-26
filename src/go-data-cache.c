@@ -145,7 +145,7 @@ go_data_cache_set_property (GObject *obj, guint property_id,
 	switch (property_id) {
 	case PROP_REFRESHED_BY :
 		g_free (cache->refreshed_by);
-		cache->refreshed_by = g_strdup (g_value_get_string (value));
+		cache->refreshed_by = g_value_dup_string (value);
 		break;
 	case PROP_REFRESHED_ON :
 		go_val_free (cache->refreshed_on);

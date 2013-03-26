@@ -234,9 +234,9 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	GnmItemCursor *ic = GNM_ITEM_CURSOR (item);
 	int x0, y0, x1, y1; /* in widget coordinates */
 	GocPoint points[5];
-	int i, draw_thick, draw_handle;
+	int i, draw_thick, draw_stippled, draw_handle;
 	int premove = 0;
-	gboolean draw_stippled, draw_center, draw_external, draw_internal, draw_xor;
+	gboolean draw_center, draw_external, draw_internal, draw_xor;
 	double scale = item->canvas->pixels_per_unit;
 	GdkEventExpose *expose = (GdkEventExpose *) goc_canvas_get_cur_event (item->canvas);
 	GdkRGBA *fore = NULL, *back = NULL;
@@ -274,24 +274,26 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	draw_handle   = 0;
 	draw_thick    = 1;
 	draw_center   = FALSE;
-	draw_stippled = FALSE;
+	draw_stippled = 4;
 	draw_xor      = TRUE;
 
 	switch (ic->style) {
 	case GNM_ITEM_CURSOR_AUTOFILL:
 		draw_center   = TRUE;
 		draw_thick    = 3;
-		draw_stippled = TRUE;
+		draw_stippled = 1;
 		fore          = &ic->autofill_color;
 		back          = &ic->autofill_background_color;
+		draw_xor      = FALSE;
 		break;
 
 	case GNM_ITEM_CURSOR_DRAG:
 		draw_center   = TRUE;
 		draw_thick    = 3;
-		draw_stippled = TRUE;
+		draw_stippled = 1;
 		fore          = &ic->drag_color;
 		back          = &ic->drag_background_color;
+		draw_xor      = FALSE;
 		break;
 
 	case GNM_ITEM_CURSOR_EXPR_RANGE:
@@ -457,44 +459,21 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	}
 
 	if (draw_center) {
-		/* Stay in the boundary */
-		if ((draw_thick % 2) == 0) {
-			x0++;
-			y0++;
-		}
-		if ((draw_thick % 1) == 1) {
-			x0 += .5;
-			y0 += .5;
-		}
+		double dashes[2];
 
-		if (draw_stippled) {
-			GOPattern pat;
-			double scalex = 1., scaley = 1.;
-			cairo_pattern_t *cp;
-			cairo_matrix_t mat;
-			pat.fore = GO_COLOR_FROM_GDK_RGBA (*fore);
-			pat.back = GO_COLOR_FROM_GDK_RGBA (*back);
-			pat.pattern = GO_PATTERN_GREY50;
-			cp = go_pattern_create_cairo_pattern (&pat, cr);
-			cairo_user_to_device_distance (cr, &scalex, &scaley);
-			cairo_matrix_init_scale (&mat, scalex, scaley);
-			cairo_pattern_set_matrix (cp, &mat);
-			cairo_set_source (cr, cp);
-			cairo_pattern_destroy (cp);
-			cairo_set_line_width (cr, draw_thick);
-			cairo_rectangle (cr, x0, y0, abs (x1 - x0), abs (y1 - y0));
-			cairo_stroke (cr);
-		} else {
-			double dashes[] = {4., 4.};
-			cairo_set_dash (cr, dashes, 2, 0.);
-			cairo_set_line_width (cr, draw_thick);
-			gdk_cairo_set_source_rgba (cr, back);
-			cairo_rectangle (cr, x0, y0, abs (x1 - x0), abs (y1 - y0));
-			cairo_stroke_preserve (cr);
-			cairo_set_dash (cr, dashes, 2, 4.);
-			gdk_cairo_set_source_rgba (cr, fore);
-			cairo_stroke (cr);
-		}
+		/* Stay in the boundary */
+		x0 += (draw_thick / 2.0);
+		y0 += (draw_thick / 2.0);
+
+		dashes[0] = dashes[1] = draw_stippled;
+		cairo_set_dash (cr, dashes, 2, 0.);
+		cairo_set_line_width (cr, draw_thick);
+		gdk_cairo_set_source_rgba (cr, back);
+		cairo_rectangle (cr, x0, y0, abs (x1 - x0), abs (y1 - y0));
+		cairo_stroke_preserve (cr);
+		cairo_set_dash (cr, dashes, 2, dashes[1]);
+		gdk_cairo_set_source_rgba (cr, fore);
+		cairo_stroke (cr);
 	}
 	cairo_restore (cr);
 }

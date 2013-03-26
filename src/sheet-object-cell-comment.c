@@ -59,7 +59,7 @@ typedef struct {
 	GdkRGBA comment_indicator_color;
 	int comment_indicator_size;
 } CommentView;
-typedef SheetObjectViewClass	CommentViewClass;
+typedef SheetObjectViewClass CommentViewClass;
 static GocItemClass *comment_view_parent_class;
 
 static void
@@ -243,11 +243,11 @@ cell_comment_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case CC_PROP_TEXT:
 		g_free (cc->text);
-		cc->text = g_strdup (g_value_get_string (value));
+		cc->text = g_value_dup_string (value);
 		break;
 	case CC_PROP_AUTHOR:
 		g_free (cc->author);
-		cc->author = g_strdup (g_value_get_string (value));
+		cc->author = g_value_dup_string (value);
 		break;
 	case CC_PROP_MARKUP :
 		if (cc->markup != NULL)

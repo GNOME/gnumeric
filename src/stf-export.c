@@ -516,12 +516,12 @@ gnm_stf_export_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_CHARSET:
-		scopy = g_strdup (g_value_get_string (value));
+		scopy = g_value_dup_string (value);
 		g_free (stfe->charset);
 		stfe->charset = scopy;
 		break;
 	case PROP_LOCALE:
-		scopy = g_strdup (g_value_get_string (value));
+		scopy = g_value_dup_string (value);
 		g_free (stfe->locale);
 		stfe->locale = scopy;
 		break;
