@@ -165,7 +165,7 @@ typedef struct _FormatState {
 	} border;
 	struct {
 		GocCanvas	*canvas;
-		PreviewGrid     *grid;
+		GnmPreviewGrid     *grid;
 		GnmStyle        *style;
 
 		ColorPicker	 back_color;
@@ -1039,9 +1039,9 @@ fmt_dialog_init_background_page (FormatState *state)
 			   GTK_WIDGET (state->back.canvas));
 	gtk_widget_show_all (widget);
 
-	state->back.grid = PREVIEW_GRID (goc_item_new (
+	state->back.grid = GNM_PREVIEW_GRID (goc_item_new (
 						 goc_canvas_get_root (state->back.canvas),
-						 preview_grid_get_type (),
+						 gnm_preview_grid_get_type (),
 						 "render-gridlines",	FALSE,
 						 "default-col-width",	w,
 						 "default-row-height",	h,

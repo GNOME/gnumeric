@@ -473,7 +473,6 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 			gdk_cairo_set_source_rgba (cr, fore);
 			cairo_stroke (cr);
 		}
-
 	}
 	cairo_restore (cr);
 }

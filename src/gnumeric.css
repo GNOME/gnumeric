@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------- */
 /* The GnmItemGrid is the canvas area that holds all the cells.  */
-GnmItemGrid {
+GnmItemGrid, GnmPreviewGrid {
   background-color: white;
 }
 

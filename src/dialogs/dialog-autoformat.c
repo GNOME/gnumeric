@@ -121,13 +121,13 @@ typedef struct {
 /********************************************************************************/
 
 typedef struct {
-	PreviewGrid base;
+	GnmPreviewGrid base;
 	GnmFormatTemplate *ft;
 } AutoFormatGrid;
-typedef PreviewGridClass AutoFormatGridClass;
+typedef GnmPreviewGridClass AutoFormatGridClass;
 
 static GnmStyle *
-afg_get_cell_style (PreviewGrid *pg, int col, int row)
+afg_get_cell_style (GnmPreviewGrid *pg, int col, int row)
 {
 	/* If this happens to be NULL the default style
 	 * will automatically be used. */
@@ -136,7 +136,7 @@ afg_get_cell_style (PreviewGrid *pg, int col, int row)
 }
 
 static GnmValue *
-afg_get_cell_value (G_GNUC_UNUSED PreviewGrid *pg, int col, int row)
+afg_get_cell_value (G_GNUC_UNUSED GnmPreviewGrid *pg, int col, int row)
 {
 	char const *text;
 	char *endptr = NULL;
@@ -154,7 +154,7 @@ afg_get_cell_value (G_GNUC_UNUSED PreviewGrid *pg, int col, int row)
 }
 
 static void
-auto_format_grid_class_init (PreviewGridClass *klass)
+auto_format_grid_class_init (GnmPreviewGridClass *klass)
 {
 	klass->get_cell_style = afg_get_cell_style;
 	klass->get_cell_value = afg_get_cell_value;
@@ -162,7 +162,7 @@ auto_format_grid_class_init (PreviewGridClass *klass)
 
 static GSF_CLASS (AutoFormatGrid, auto_format_grid,
 		  auto_format_grid_class_init, NULL,
-		  preview_grid_get_type())
+		  gnm_preview_grid_get_type())
 
 static GocItem *
 auto_format_grid_new (AutoFormatState *state, int i, GnmFormatTemplate *ft)

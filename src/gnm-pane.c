@@ -1940,7 +1940,7 @@ gnm_pane_object_autoscroll (GnmPane *pane, GdkDragContext *context,
  * gnm_pane_object_group:
  * @pane: #GnmPane
  *
- * Returns: (transfer none): the #GocGroup including all #ShetObjectiew
+ * Returns: (transfer none): the #GocGroup including all #SheetObjectView
  * instances in @pane.
  **/
 GocGroup *

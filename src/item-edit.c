@@ -249,7 +249,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 
 static double
 item_edit_distance (GocItem *item, double cx, double cy,
-		 GocItem **actual_item)
+		    GocItem **actual_item)
 {
 	*actual_item = NULL;
 	if ((cx < item->x0) || (cy < item->y0) || (cx >= item->x1) || (cy >= item->y1))

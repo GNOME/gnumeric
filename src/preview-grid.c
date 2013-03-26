@@ -54,9 +54,9 @@ enum {
 /*****************************************************************************/
 
 static GnmStyle *
-pg_get_style (PreviewGrid *pg, int col, int row)
+pg_get_style (GnmPreviewGrid *pg, int col, int row)
 {
-	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
+	GnmPreviewGridClass *klass = GNM_PREVIEW_GRID_GET_CLASS (pg);
 	GnmStyle *style;
 
 	g_return_val_if_fail (col >= 0 && col < gnm_sheet_get_max_cols (pg->sheet), NULL);
@@ -73,9 +73,9 @@ pg_get_style (PreviewGrid *pg, int col, int row)
 }
 
 static GnmCell *
-pg_fetch_cell (PreviewGrid *pg, int col, int row)
+pg_fetch_cell (GnmPreviewGrid *pg, int col, int row)
 {
-	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
+	GnmPreviewGridClass *klass = GNM_PREVIEW_GRID_GET_CLASS (pg);
 	GnmCell *cell;
 	GnmValue *v = NULL;
 
@@ -106,7 +106,7 @@ pg_fetch_cell (PreviewGrid *pg, int col, int row)
  * Return value: Row containing pixel y (and origin in @row_origin)
  **/
 static int
-pg_get_row_offset (PreviewGrid *pg, int const y, int *row_origin)
+pg_get_row_offset (GnmPreviewGrid *pg, int const y, int *row_origin)
 {
 	int row   = 0;
 	int pixel = 1;
@@ -137,7 +137,7 @@ pg_get_row_offset (PreviewGrid *pg, int const y, int *row_origin)
  * Return value: Column containing pixel x (and origin in @col_origin)
  **/
 static int
-pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
+pg_get_col_offset (GnmPreviewGrid *pg, int const x, int *col_origin)
 {
 	int col   = 0;
 	int pixel = 1;
@@ -171,7 +171,7 @@ preview_grid_update_bounds (GocItem *item)
 }
 
 static void
-preview_grid_draw_background (cairo_t *cr, PreviewGrid const *pg, GnmStyle const *mstyle,
+preview_grid_draw_background (cairo_t *cr, GnmPreviewGrid const *pg, GnmStyle const *mstyle,
 			      int col, int row, int x, int y, int w, int h)
 {
 	if (gnumeric_background_set (mstyle, cr, FALSE, NULL)) {
@@ -182,7 +182,7 @@ preview_grid_draw_background (cairo_t *cr, PreviewGrid const *pg, GnmStyle const
 }
 
 static void
-pg_style_get_row (PreviewGrid *pg, GnmStyleRow *sr)
+pg_style_get_row (GnmPreviewGrid *pg, GnmStyleRow *sr)
 {
 	int const row = sr->row;
 	int col;
@@ -207,7 +207,7 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 	gint width  = expose->area.width;
 	gint height = expose->area.height;
 #endif
-	PreviewGrid *pg = PREVIEW_GRID (item);
+	GnmPreviewGrid *pg = GNM_PREVIEW_GRID (item);
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
 	 * pixels around the target area which would include the surrounding
@@ -254,9 +254,8 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 		colwidths[col] = pg->defaults.col_width;
 
 	/* Fill entire region with default background (even past far edge) */
-	cairo_set_source_rgb (cr, 1., 1., 1.);
-	cairo_rectangle (cr, diff_x, diff_y, x1 - x0, y1 - y0);
-	cairo_fill (cr);
+	gtk_render_background (goc_item_get_style_context (item),
+			       cr, diff_x, diff_y, x1 - x0, y1 - y0);
 
 	for (y = diff_y; row <= end_row; row = sr.row = next_sr.row) {
 		if (++next_sr.row > end_row) {
@@ -311,7 +310,7 @@ static void
 preview_grid_set_property (GObject *obj, guint param_id,
 			   GValue const *value, GParamSpec *pspec)
 {
-	PreviewGrid *pg = PREVIEW_GRID (obj);
+	GnmPreviewGrid *pg = GNM_PREVIEW_GRID (obj);
 
 	switch (param_id){
 	case PREVIEW_GRID_PROP_RENDER_GRIDLINES :
@@ -350,7 +349,7 @@ preview_grid_set_property (GObject *obj, guint param_id,
 static void
 preview_grid_dispose (GObject *obj)
 {
-	PreviewGrid *pg = PREVIEW_GRID (obj);
+	GnmPreviewGrid *pg = GNM_PREVIEW_GRID (obj);
 
 	if (pg->defaults.style != NULL) {
 		gnm_style_unref (pg->defaults.style);
@@ -368,7 +367,7 @@ preview_grid_dispose (GObject *obj)
 }
 
 static void
-preview_grid_init (PreviewGrid *pg)
+gnm_preview_grid_init (GnmPreviewGrid *pg)
 {
 	pg->sheet = g_object_new (GNM_SHEET_TYPE,
 				  "rows", 256,
@@ -382,7 +381,7 @@ preview_grid_init (PreviewGrid *pg)
 }
 
 static void
-preview_grid_class_init (GObjectClass *gobject_klass)
+gnm_preview_grid_class_init (GObjectClass *gobject_klass)
 {
 	GocItemClass *item_klass = (GocItemClass *)gobject_klass;
 
@@ -414,6 +413,6 @@ preview_grid_class_init (GObjectClass *gobject_klass)
 	item_klass->distance    = preview_grid_distance;
 }
 
-GSF_CLASS (PreviewGrid, preview_grid,
-	   preview_grid_class_init, preview_grid_init,
+GSF_CLASS (GnmPreviewGrid, gnm_preview_grid,
+	   gnm_preview_grid_class_init, gnm_preview_grid_init,
 	   GOC_TYPE_GROUP)
