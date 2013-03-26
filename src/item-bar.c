@@ -1129,7 +1129,7 @@ item_bar_dispose (GObject *obj)
 }
 
 static void
-item_bar_init (GnmItemBar *ib)
+gnm_item_bar_init (GnmItemBar *ib)
 {
 	ib->base.x0 = 0;
 	ib->base.y0 = 0;
@@ -1151,7 +1151,7 @@ item_bar_init (GnmItemBar *ib)
 }
 
 static void
-item_bar_class_init (GObjectClass  *gobject_klass)
+gnm_item_bar_class_init (GObjectClass  *gobject_klass)
 {
 	GocItemClass *item_klass = (GocItemClass *) gobject_klass;
 
@@ -1183,5 +1183,5 @@ item_bar_class_init (GObjectClass  *gobject_klass)
 }
 
 GSF_CLASS (GnmItemBar, gnm_item_bar,
-	   item_bar_class_init, item_bar_init,
+	   gnm_item_bar_class_init, gnm_item_bar_init,
 	   GOC_TYPE_ITEM)

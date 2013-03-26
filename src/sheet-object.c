@@ -1307,7 +1307,7 @@ sheet_object_view_enter_notify (GocItem *item, double x, double y)
 	SheetObject *so;
 
 	if (IS_GNM_PANE (item->canvas) && scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
-		ItemGrid *grid = GNM_PANE (item->canvas)->grid;
+		GnmItemGrid *grid = GNM_PANE (item->canvas)->grid;
 		return GOC_ITEM_GET_CLASS (grid)->enter_notify (GOC_ITEM (grid), x, y);
 	}
 
@@ -1393,7 +1393,7 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 	SheetObject *so;
 	if (IS_GNM_PANE (item->canvas)) {
 		if (scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
-			ItemGrid *grid = GNM_PANE (item->canvas)->grid;
+			GnmItemGrid *grid = GNM_PANE (item->canvas)->grid;
 			return GOC_ITEM_GET_CLASS (grid)->button_pressed (GOC_ITEM (grid), button, x, y);
 		}
 

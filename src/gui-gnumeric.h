@@ -6,10 +6,10 @@
 
 G_BEGIN_DECLS
 
-typedef struct _ItemCursor		ItemCursor;
-typedef struct _ItemGrid		ItemGrid;
+typedef struct _GnmItemCursor		GnmItemCursor;
+typedef struct _GnmItemGrid		GnmItemGrid;
 typedef struct _GnmItemBar		GnmItemBar;
-typedef struct _ItemEdit		ItemEdit;
+typedef struct _GnmItemEdit		GnmItemEdit;
 typedef struct _GnmPane			GnmPane;
 
 typedef struct _SheetControlGUI		SheetControlGUI;

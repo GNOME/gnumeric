@@ -54,11 +54,11 @@ struct _GnmPane {
 		GocPoint  *points;
 	} size_guide;
 
-	ItemGrid      *grid;
-	ItemEdit      *editor;
+	GnmItemGrid *grid;
+	GnmItemEdit *editor;
 
 	struct {
-		ItemCursor *std, *rangesel, *special;
+		GnmItemCursor *std, *rangesel, *special;
 		GSList *animated;
 
 		GSList *expr_range;	/* highlight refs while editing */

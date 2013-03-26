@@ -43,7 +43,7 @@
 
 static GocItemClass *parent_class;
 
-struct _ItemEdit {
+struct _GnmItemEdit {
 	GocItem item;
 
 	SheetControlGUI *scg;
@@ -61,7 +61,7 @@ struct _ItemEdit {
 	GnmStyle  *style;
 };
 
-typedef GocItemClass ItemEditClass;
+typedef GocItemClass GnmItemEditClass;
 
 /* The arguments we take */
 enum {
@@ -70,7 +70,7 @@ enum {
 };
 
 static void
-get_top_left (ItemEdit const *ie, int *top, int *left, PangoDirection dir)
+get_top_left (GnmItemEdit const *ie, int *top, int *left, PangoDirection dir)
 {
 	GnmVAlign const align = gnm_style_get_align_v (ie->style);
 	GocItem *item = GOC_ITEM (ie);
@@ -116,7 +116,7 @@ gnm_apply_attribute_list (PangoAttrList *attrs, PangoAttrList *added_attrs)
 static void
 item_edit_draw (GocItem const *item, cairo_t *cr)
 {
-	ItemEdit  const *ie	= ITEM_EDIT (item);
+	GnmItemEdit  const *ie	= GNM_ITEM_EDIT (item);
 	int top, left;
 	GOColor color;
 	int x0, y0, x1, y1; /* in widget coordinates */
@@ -270,7 +270,7 @@ static int
 item_edit_button_pressed (GocItem *item, int button, double x, double y)
 {
 	if (button == 1) {
-		ItemEdit *ie = ITEM_EDIT (item);
+		GnmItemEdit *ie = GNM_ITEM_EDIT (item);
 		GtkEditable *ed = GTK_EDITABLE (ie->entry);
 		int target_index, trailing;
 		char const *text = pango_layout_get_text (ie->layout);
@@ -323,7 +323,7 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 static gboolean
 item_edit_motion (GocItem *item, double x, double y)
 {
-	ItemEdit *ie = ITEM_EDIT (item);
+	GnmItemEdit *ie = GNM_ITEM_EDIT (item);
 	if (ie->sel_start >= 0) {
 		GtkEditable *ed = GTK_EDITABLE (ie->entry);
 		int target_index, trailing;
@@ -381,7 +381,7 @@ static gboolean
 item_edit_button_released (GocItem *item, G_GNUC_UNUSED int button,
 			   G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
-	ItemEdit *ie = ITEM_EDIT (item);
+	GnmItemEdit *ie = GNM_ITEM_EDIT (item);
 	if (ie->sel_start >= 0) {
 		ie->sel_start = -1;
 		return TRUE;
@@ -392,7 +392,7 @@ item_edit_button_released (GocItem *item, G_GNUC_UNUSED int button,
 static void
 item_edit_update_bounds (GocItem *item)
 {
-	ItemEdit *ie = ITEM_EDIT (item);
+	GnmItemEdit *ie = GNM_ITEM_EDIT (item);
 	double scale = item->canvas->pixels_per_unit;
 
 	if (ie->gfont != NULL) {
@@ -545,14 +545,14 @@ cb_entry_cursor_event (GocItem *item)
 {
 	/* ensure we draw a cursor when moving quickly no matter what the
 	 * current state is */
-	ITEM_EDIT (item)->cursor_visible = TRUE;
+	GNM_ITEM_EDIT (item)->cursor_visible = TRUE;
 	goc_item_invalidate (item);
 
 	return TRUE;
 }
 
 static int
-cb_item_edit_cursor_blink (ItemEdit *ie)
+cb_item_edit_cursor_blink (GnmItemEdit *ie)
 {
 	GocItem *item = GOC_ITEM (ie);
 
@@ -563,7 +563,7 @@ cb_item_edit_cursor_blink (ItemEdit *ie)
 }
 
 static void
-item_edit_cursor_blink_stop (ItemEdit *ie)
+item_edit_cursor_blink_stop (GnmItemEdit *ie)
 {
 	if (ie->blink_timer != -1) {
 		g_source_remove (ie->blink_timer);
@@ -572,7 +572,7 @@ item_edit_cursor_blink_stop (ItemEdit *ie)
 }
 
 static void
-item_edit_cursor_blink_start (ItemEdit *ie)
+item_edit_cursor_blink_start (GnmItemEdit *ie)
 {
 	gboolean blink;
 	int	 blink_time;
@@ -590,7 +590,7 @@ item_edit_cursor_blink_start (ItemEdit *ie)
 static void
 item_edit_realize (GocItem *item)
 {
-	ItemEdit *ie = ITEM_EDIT (item);
+	GnmItemEdit *ie = GNM_ITEM_EDIT (item);
 	Sheet const *sheet;
 	GnmPane	*pane;
 	double scale;
@@ -658,7 +658,7 @@ item_edit_realize (GocItem *item)
 static void
 item_edit_unrealize (GocItem *item)
 {
-	ItemEdit *ie = ITEM_EDIT (item);
+	GnmItemEdit *ie = GNM_ITEM_EDIT (item);
 
 	item_edit_cursor_blink_stop (ie);
 
@@ -684,7 +684,7 @@ item_edit_unrealize (GocItem *item)
 }
 
 static void
-item_edit_init (ItemEdit *ie)
+gnm_item_edit_init (GnmItemEdit *ie)
 {
 	ie->scg = NULL;
 	ie->pos.col = -1;
@@ -699,7 +699,7 @@ static void
 item_edit_set_property (GObject *gobject, guint param_id,
 			GValue const *value, GParamSpec *pspec)
 {
-	ItemEdit *ie = ITEM_EDIT (gobject);
+	GnmItemEdit *ie = GNM_ITEM_EDIT (gobject);
 
 	switch (param_id) {
 	case ARG_SHEET_CONTROL_GUI: {
@@ -718,7 +718,7 @@ item_edit_set_property (GObject *gobject, guint param_id,
 }
 
 static void
-item_edit_class_init (GObjectClass *gobject_class)
+gnm_item_edit_class_init (GObjectClass *gobject_class)
 {
 	GocItemClass *item_class = (GocItemClass *) gobject_class;
 
@@ -748,6 +748,6 @@ item_edit_class_init (GObjectClass *gobject_class)
 	item_class->button_released = item_edit_button_released;
 }
 
-GSF_CLASS (ItemEdit, item_edit,
-	   item_edit_class_init, item_edit_init,
+GSF_CLASS (GnmItemEdit, gnm_item_edit,
+	   gnm_item_edit_class_init, gnm_item_edit_init,
 	   GOC_TYPE_ITEM)

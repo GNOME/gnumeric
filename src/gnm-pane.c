@@ -1191,16 +1191,16 @@ gnm_pane_new (SheetControlGUI *scg,
 	gnm_pane_drag_dest_init (pane, scg);
 
 	item = goc_item_new (pane->grid_items,
-		item_grid_get_type (),
+		gnm_item_grid_get_type (),
 		"SheetControlGUI", scg,
 		NULL);
-	pane->grid = ITEM_GRID (item);
+	pane->grid = GNM_ITEM_GRID (item);
 
 	item = goc_item_new (pane->grid_items,
-		item_cursor_get_type (),
+		gnm_item_cursor_get_type (),
 		"SheetControlGUI", scg,
 		NULL);
-	pane->cursor.std = ITEM_CURSOR (item);
+	pane->cursor.std = GNM_ITEM_CURSOR (item);
 	if (col_headers)
 		gnm_pane_header_init (pane, scg, TRUE);
 	else
@@ -2143,15 +2143,15 @@ gnm_pane_reposition_cursors (GnmPane *pane)
 {
 	GSList *l;
 
-	item_cursor_reposition (pane->cursor.std);
+	gnm_item_cursor_reposition (pane->cursor.std);
 	if (NULL != pane->cursor.rangesel)
-		item_cursor_reposition (pane->cursor.rangesel);
+		gnm_item_cursor_reposition (pane->cursor.rangesel);
 	if (NULL != pane->cursor.special)
-		item_cursor_reposition (pane->cursor.special);
+		gnm_item_cursor_reposition (pane->cursor.special);
 	for (l = pane->cursor.expr_range; l; l = l->next)
-		item_cursor_reposition (ITEM_CURSOR (l->data));
+		gnm_item_cursor_reposition (GNM_ITEM_CURSOR (l->data));
 	for (l = pane->cursor.animated; l; l = l->next)
-		item_cursor_reposition (ITEM_CURSOR (l->data));
+		gnm_item_cursor_reposition (GNM_ITEM_CURSOR (l->data));
 
 	/* ctrl pts do not scale with the zoom, compensate */
 	if (pane->drag.ctrl_pts != NULL)
@@ -2162,7 +2162,7 @@ gnm_pane_reposition_cursors (GnmPane *pane)
 gboolean
 gnm_pane_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 {
-	return item_cursor_bound_set (pane->cursor.std, r);
+	return gnm_item_cursor_bound_set (pane->cursor.std, r);
 }
 
 /****************************************************************************/
@@ -2170,7 +2170,7 @@ gnm_pane_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 gboolean
 gnm_pane_rangesel_bound_set (GnmPane *pane, GnmRange const *r)
 {
-	return item_cursor_bound_set (pane->cursor.rangesel, r);
+	return gnm_item_cursor_bound_set (pane->cursor.rangesel, r);
 }
 void
 gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
@@ -2183,14 +2183,14 @@ gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 	/* Hide the primary cursor while the range selection cursor is visible
 	 * and we are selecting on a different sheet than the expr being edited */
 	if (scg_sheet (scg) != wb_control_cur_sheet (scg_wbc (scg)))
-		item_cursor_set_visibility (pane->cursor.std, FALSE);
+		gnm_item_cursor_set_visibility (pane->cursor.std, FALSE);
 	item = goc_item_new (pane->grid_items,
-		item_cursor_get_type (),
+		gnm_item_cursor_get_type (),
 		"SheetControlGUI", scg,
-		"style",	ITEM_CURSOR_ANTED,
+		"style",	GNM_ITEM_CURSOR_ANTED,
 		NULL);
-	pane->cursor.rangesel = ITEM_CURSOR (item);
-	item_cursor_bound_set (pane->cursor.rangesel, r);
+	pane->cursor.rangesel = GNM_ITEM_CURSOR (item);
+	gnm_item_cursor_bound_set (pane->cursor.rangesel, r);
 }
 
 void
@@ -2201,7 +2201,7 @@ gnm_pane_rangesel_stop (GnmPane *pane)
 	pane->cursor.rangesel = NULL;
 
 	/* Make the primary cursor visible again */
-	item_cursor_set_visibility (pane->cursor.std, TRUE);
+	gnm_item_cursor_set_visibility (pane->cursor.std, TRUE);
 
 	gnm_pane_slide_stop (pane);
 }
@@ -2211,7 +2211,7 @@ gnm_pane_rangesel_stop (GnmPane *pane)
 gboolean
 gnm_pane_special_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 {
-	return item_cursor_bound_set (pane->cursor.special, r);
+	return gnm_item_cursor_bound_set (pane->cursor.special, r);
 }
 
 void
@@ -2223,12 +2223,12 @@ gnm_pane_special_cursor_start (GnmPane *pane, int style, int button)
 	g_return_if_fail (pane->cursor.special == NULL);
 	item = goc_item_new (
 		GOC_GROUP (canvas->root),
-		item_cursor_get_type (),
+		gnm_item_cursor_get_type (),
 		"SheetControlGUI", pane->simple.scg,
 		"style",	   style,
 		"button",	   button,
 		NULL);
-	pane->cursor.special = ITEM_CURSOR (item);
+	pane->cursor.special = GNM_ITEM_CURSOR (item);
 }
 
 void
@@ -2256,17 +2256,17 @@ void
 gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r,
 				gchar const *color)
 {
-	ItemCursor *cursor;
+	GnmItemCursor *cursor;
 
-	cursor = (ItemCursor *) goc_item_new
+	cursor = (GnmItemCursor *) goc_item_new
 		(GOC_GROUP (GOC_CANVAS (pane)->root),
-		 item_cursor_get_type (),
+		 gnm_item_cursor_get_type (),
 		 "SheetControlGUI",	pane->simple.scg,
-		 "style",		ITEM_CURSOR_EXPR_RANGE,
+		 "style",		GNM_ITEM_CURSOR_EXPR_RANGE,
 		 "color",		color,
 		 NULL);
 
-	item_cursor_bound_set (cursor, r);
+	gnm_item_cursor_bound_set (cursor, r);
 	pane->cursor.expr_range = g_slist_prepend
 		(pane->cursor.expr_range, cursor);
 }
@@ -2288,9 +2288,9 @@ gnm_pane_edit_start (GnmPane *pane)
 	g_return_if_fail (pane->editor == NULL);
 
 	/* edit item handles visibility checks */
-	pane->editor = (ItemEdit *) goc_item_new (
+	pane->editor = (GnmItemEdit *) goc_item_new (
 		GOC_GROUP (canvas->root),
-		item_edit_get_type (),
+		gnm_item_edit_get_type (),
 		"SheetControlGUI",	pane->simple.scg,
 		NULL);
 }

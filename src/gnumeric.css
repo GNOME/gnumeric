@@ -1,18 +1,18 @@
 /* ------------------------------------------------------------------------- */
-/* The ItemGrid is the canvas area that holds all the cells.  */
-ItemGrid {
+/* The GnmItemGrid is the canvas area that holds all the cells.  */
+GnmItemGrid {
   background-color: white;
 }
 
 /* Function markers are enabled from View->View Properties->Cell Markers */
-ItemGrid function-marker {
+GnmItemGrid function-marker {
   color: green;
   border-color: #555555;
   /* See also GnmPane */
 }
 
 /* This is the divider between panes when an area is frozen.  */
-ItemGrid pane-divider {
+GnmItemGrid pane-divider {
   color: #333333;
 
   /* This isn't working well yet: */

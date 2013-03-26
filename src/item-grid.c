@@ -55,12 +55,12 @@
 #endif
 
 typedef enum {
-	ITEM_GRID_NO_SELECTION,
-	ITEM_GRID_SELECTING_CELL_RANGE,
-	ITEM_GRID_SELECTING_FORMULA_RANGE
+	GNM_ITEM_GRID_NO_SELECTION,
+	GNM_ITEM_GRID_SELECTING_CELL_RANGE,
+	GNM_ITEM_GRID_SELECTING_FORMULA_RANGE
 } ItemGridSelectionType;
 
-struct _ItemGrid {
+struct _GnmItemGrid {
 	GocItem canvas_item;
 
 	SheetControlGUI *scg;
@@ -89,17 +89,17 @@ struct _ItemGrid {
 	int pane_divider_width;
 
 };
-typedef GocItemClass ItemGridClass;
+typedef GocItemClass GnmItemGridClass;
 static GocItemClass *parent_class;
 
 enum {
-	ITEM_GRID_PROP_0,
-	ITEM_GRID_PROP_SHEET_CONTROL_GUI,
-	ITEM_GRID_PROP_BOUND
+	GNM_ITEM_GRID_PROP_0,
+	GNM_ITEM_GRID_PROP_SHEET_CONTROL_GUI,
+	GNM_ITEM_GRID_PROP_BOUND
 };
 
 static void
-ig_reload_style (ItemGrid *ig)
+ig_reload_style (GnmItemGrid *ig)
 {
 	GocItem *item = GOC_ITEM (ig);
 	GtkStyleContext *context = goc_item_get_style_context (item);
@@ -133,7 +133,7 @@ ig_reload_style (ItemGrid *ig)
 }
 
 static void
-ig_clear_hlink_tip (ItemGrid *ig)
+ig_clear_hlink_tip (GnmItemGrid *ig)
 {
 	if (ig->tip_timer != 0) {
 		g_source_remove (ig->tip_timer);
@@ -149,7 +149,7 @@ ig_clear_hlink_tip (ItemGrid *ig)
 static void
 item_grid_finalize (GObject *object)
 {
-	ItemGrid *ig = ITEM_GRID (object);
+	GnmItemGrid *ig = GNM_ITEM_GRID (object);
 
 	if (ig->cursor_timer != 0) {
 		g_source_remove (ig->cursor_timer);
@@ -162,7 +162,7 @@ item_grid_finalize (GObject *object)
 }
 
 static gint
-cb_cursor_motion (ItemGrid *ig)
+cb_cursor_motion (GnmItemGrid *ig)
 {
 	Sheet const *sheet = scg_sheet (ig->scg);
 	GocCanvas *canvas = ig->canvas_item.canvas;
@@ -198,11 +198,11 @@ static void
 item_grid_realize (GocItem *item)
 {
 	GdkDisplay *display;
-	ItemGrid   *ig;
+	GnmItemGrid   *ig;
 
 	parent_class->realize (item);
 
-	ig = ITEM_GRID (item);
+	ig = GNM_ITEM_GRID (item);
 	ig_reload_style (ig);
 
 	display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
@@ -216,7 +216,7 @@ item_grid_realize (GocItem *item)
 static void
 item_grid_unrealize (GocItem *item)
 {
-	ItemGrid *ig = ITEM_GRID (item);
+	GnmItemGrid *ig = GNM_ITEM_GRID (item);
 	g_clear_object (&ig->cursor_link);
 	g_clear_object (&ig->cursor_cross);
 	parent_class->unrealize (item);
@@ -232,7 +232,7 @@ item_grid_update_bounds (GocItem *item)
 }
 
 static void
-draw_function_marker (ItemGrid *ig,
+draw_function_marker (GnmItemGrid *ig,
 		      GnmCell const *cell, cairo_t *cr,
 		      double x, double y, double w, double h, int const dir)
 {
@@ -264,7 +264,7 @@ draw_function_marker (ItemGrid *ig,
 }
 
 static void
-item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
+item_grid_draw_merged_range (cairo_t *cr, GnmItemGrid *ig,
 			     int start_x, int start_y,
 			     GnmRange const *view, GnmRange const *range,
 			     gboolean draw_selection, GtkStyleContext *ctxt)
@@ -368,7 +368,7 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 }
 
 static void
-item_grid_draw_background (cairo_t *cr, ItemGrid *ig,
+item_grid_draw_background (cairo_t *cr, GnmItemGrid *ig,
 			   GnmStyle const *style,
 			   int col, int row, int x, int y, int w, int h,
 			   gboolean draw_selection, GtkStyleContext *ctxt)
@@ -402,7 +402,7 @@ merged_col_cmp (GnmRange const *a, GnmRange const *b)
 }
 
 static void
-ig_cairo_draw_bound (ItemGrid *ig, cairo_t* cr, int x0, int y0, int x1, int y1)
+ig_cairo_draw_bound (GnmItemGrid *ig, cairo_t* cr, int x0, int y0, int x1, int y1)
 {
 	double width = ig->pane_divider_width;
 	cairo_set_line_width (cr, width);
@@ -428,7 +428,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 	Sheet const *sheet = scg_sheet (pane->simple.scg);
 	WBCGtk *wbcg = scg_wbcg (pane->simple.scg);
 	GnmCell const * const edit_cell = wbcg->editing_cell;
-	ItemGrid *ig = ITEM_GRID (item);
+	GnmItemGrid *ig = GNM_ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int const dir = sheet->text_is_rtl ? -1 : 1;
 	SheetView const *sv = scg_view (ig->scg);
@@ -860,7 +860,7 @@ item_grid_distance (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double 
 /***********************************************************************/
 
 static gboolean
-ig_obj_create_begin (ItemGrid *ig, int button, gint64 x, gint64 y)
+ig_obj_create_begin (GnmItemGrid *ig, int button, gint64 x, gint64 y)
 {
 	GnmPane *pane = GNM_PANE (GOC_ITEM (ig)->canvas);
 	SheetObject *so = ig->scg->wbcg->new_object;
@@ -887,7 +887,7 @@ ig_obj_create_begin (ItemGrid *ig, int button, gint64 x, gint64 y)
 static int
 item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 {
-	ItemGrid *ig = ITEM_GRID (item);
+	GnmItemGrid *ig = GNM_ITEM_GRID (item);
 	GocCanvas    *canvas = item->canvas;
 	GnmPane *pane = GNM_PANE (canvas);
 	SheetControlGUI *scg = ig->scg;
@@ -927,7 +927,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 	 * reset the location to a new place, or extend the selection.
 	 */
 	if (button == 1 && scg->rangesel.active) {
-		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
+		ig->selecting = GNM_ITEM_GRID_SELECTING_FORMULA_RANGE;
 		if (event->state & GDK_SHIFT_MASK)
 			scg_rangesel_extend_to (scg, pos.col, pos.row);
 		else
@@ -944,7 +944,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 	 */
 	if (button == 1 && wbcg_rangesel_possible (wbcg)) {
 		scg_rangesel_start (scg, pos.col, pos.row, pos.col, pos.row);
-		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
+		ig->selecting = GNM_ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnm_pane_slide_init (pane);
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
@@ -1006,7 +1006,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 		}
 
 		ig->last_click_time = event->time;
-		ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
+		ig->selecting = GNM_ITEM_GRID_SELECTING_CELL_RANGE;
 		gnm_pane_slide_init (pane);
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
@@ -1045,7 +1045,7 @@ cb_extend_expr_range (GnmPane *pane, GnmPaneSlideInfo const *info)
 }
 
 static gint
-cb_cursor_come_to_rest (ItemGrid *ig)
+cb_cursor_come_to_rest (GnmItemGrid *ig)
 {
 	Sheet const *sheet = scg_sheet (ig->scg);
 	GocCanvas *canvas = ig->canvas_item.canvas;
@@ -1085,13 +1085,13 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 static gboolean
 item_grid_motion (GocItem *item, double x_, double y_)
 {
-	ItemGrid *ig = ITEM_GRID (item);
+	GnmItemGrid *ig = GNM_ITEM_GRID (item);
 	GocCanvas *canvas = item->canvas;
 	GnmPane   *pane = GNM_PANE (canvas);
 	GnmPaneSlideHandler slide_handler = NULL;
 	gint64 x = x_ * canvas->pixels_per_unit, y = y_ * canvas->pixels_per_unit;
 	switch (ig->selecting) {
-	case ITEM_GRID_NO_SELECTION:
+	case GNM_ITEM_GRID_NO_SELECTION:
 		if (ig->cursor_timer == 0)
 			ig->cursor_timer = g_timeout_add (100,
 				(GSourceFunc)cb_cursor_motion, ig);
@@ -1102,10 +1102,10 @@ item_grid_motion (GocItem *item, double x_, double y_)
 		ig->last_x = x;
 		ig->last_y = y;
 		return TRUE;
-	case ITEM_GRID_SELECTING_CELL_RANGE :
+	case GNM_ITEM_GRID_SELECTING_CELL_RANGE :
 		slide_handler = &cb_extend_cell_range;
 		break;
-	case ITEM_GRID_SELECTING_FORMULA_RANGE :
+	case GNM_ITEM_GRID_SELECTING_FORMULA_RANGE :
 		slide_handler = &cb_extend_expr_range;
 		break;
 	default:
@@ -1122,7 +1122,7 @@ item_grid_motion (GocItem *item, double x_, double y_)
 static gboolean
 item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G_GNUC_UNUSED double y_)
 {
-	ItemGrid *ig = ITEM_GRID (item);
+	GnmItemGrid *ig = GNM_ITEM_GRID (item);
 	GnmPane  *pane = GNM_PANE (item->canvas);
 	SheetControlGUI *scg = ig->scg;
 	Sheet *sheet = scg_sheet (scg);
@@ -1135,16 +1135,16 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 	gnm_pane_slide_stop (pane);
 
 	switch (selecting) {
-	case ITEM_GRID_NO_SELECTION:
+	case GNM_ITEM_GRID_NO_SELECTION:
 		return TRUE;
 
-	case ITEM_GRID_SELECTING_FORMULA_RANGE :
+	case GNM_ITEM_GRID_SELECTING_FORMULA_RANGE :
 /*  Removal of this code (2 lines)                                                */
 /*  should fix http://bugzilla.gnome.org/show_bug.cgi?id=63485                    */
 /*			sheet_make_cell_visible (sheet,                           */
 /*				sheet->edit_pos.col, sheet->edit_pos.row, FALSE); */
 		/* Fall through */
-	case ITEM_GRID_SELECTING_CELL_RANGE :
+	case GNM_ITEM_GRID_SELECTING_CELL_RANGE :
 		sv_selection_simplify (scg_view (scg));
 		wb_view_selection_desc (
 			wb_control_view (scg_wbc (scg)), TRUE, NULL);
@@ -1154,14 +1154,14 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 		g_assert_not_reached ();
 	}
 
-	ig->selecting = ITEM_GRID_NO_SELECTION;
+	ig->selecting = GNM_ITEM_GRID_NO_SELECTION;
 	gnm_simple_canvas_ungrab (item, event->time);
 
-	if (selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
+	if (selecting == GNM_ITEM_GRID_SELECTING_FORMULA_RANGE)
 		gnm_expr_entry_signal_update (
 			wbcg_get_entry_logical (scg_wbcg (scg)), TRUE);
 
-	if (selecting == ITEM_GRID_SELECTING_CELL_RANGE) {
+	if (selecting == GNM_ITEM_GRID_SELECTING_CELL_RANGE) {
 		GnmCellPos const *pos = sv_is_singleton_selected (scg_view (scg));
 		if (pos != NULL) {
 			GnmHLink *link;
@@ -1177,7 +1177,7 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 static gboolean
 item_grid_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
-	ItemGrid  *ig = ITEM_GRID (item);
+	GnmItemGrid  *ig = GNM_ITEM_GRID (item);
 	scg_set_display_cursor (ig->scg);
 	return TRUE;
 }
@@ -1185,7 +1185,7 @@ item_grid_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED dou
 static gboolean
 item_grid_leave_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
-	ItemGrid  *ig = ITEM_GRID (item);
+	GnmItemGrid  *ig = GNM_ITEM_GRID (item);
 	ig_clear_hlink_tip (ig);
 	if (ig->cursor_timer != 0) {
 		g_source_remove (ig->cursor_timer);
@@ -1195,7 +1195,7 @@ item_grid_leave_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED dou
 }
 
 static void
-item_grid_init (ItemGrid *ig)
+gnm_item_grid_init (GnmItemGrid *ig)
 {
 	GocItem *item = GOC_ITEM (ig);
 
@@ -1204,7 +1204,7 @@ item_grid_init (ItemGrid *ig)
 	item->x1 = 0;
 	item->y1 = 0;
 
-	ig->selecting = ITEM_GRID_NO_SELECTION;
+	ig->selecting = GNM_ITEM_GRID_NO_SELECTION;
 	/* We need something at least as big as any sheet.  */
 	ig->bound.start.col = ig->bound.start.row = 0;
 	ig->bound.end.col = GNM_MAX_COLS - 1;
@@ -1219,15 +1219,15 @@ static void
 item_grid_set_property (GObject *obj, guint param_id,
 			GValue const *value, G_GNUC_UNUSED GParamSpec *pspec)
 {
-	ItemGrid *ig = ITEM_GRID (obj);
+	GnmItemGrid *ig = GNM_ITEM_GRID (obj);
 	GnmRange const *r;
 
 	switch (param_id) {
-	case ITEM_GRID_PROP_SHEET_CONTROL_GUI :
+	case GNM_ITEM_GRID_PROP_SHEET_CONTROL_GUI :
 		ig->scg = g_value_get_object (value);
 		break;
 
-	case ITEM_GRID_PROP_BOUND :
+	case GNM_ITEM_GRID_PROP_BOUND :
 		r = g_value_get_pointer (value);
 		g_return_if_fail (r != NULL);
 		ig->bound =  *r;
@@ -1236,7 +1236,7 @@ item_grid_set_property (GObject *obj, guint param_id,
 }
 
 static void
-item_grid_class_init (GObjectClass *gobject_klass)
+gnm_item_grid_class_init (GObjectClass *gobject_klass)
 {
 	GocItemClass *item_klass = (GocItemClass *) gobject_klass;
 
@@ -1244,12 +1244,12 @@ item_grid_class_init (GObjectClass *gobject_klass)
 
 	gobject_klass->finalize     = item_grid_finalize;
 	gobject_klass->set_property = item_grid_set_property;
-	g_object_class_install_property (gobject_klass, ITEM_GRID_PROP_SHEET_CONTROL_GUI,
+	g_object_class_install_property (gobject_klass, GNM_ITEM_GRID_PROP_SHEET_CONTROL_GUI,
 		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
 			"the sheet control gui controlling the item",
 			SHEET_CONTROL_GUI_TYPE,
                         GSF_PARAM_STATIC | G_PARAM_WRITABLE));
-	g_object_class_install_property (gobject_klass, ITEM_GRID_PROP_BOUND,
+	g_object_class_install_property (gobject_klass, GNM_ITEM_GRID_PROP_BOUND,
 		g_param_spec_pointer ("bound", "Bound",
 			"The display bounds",
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
@@ -1266,6 +1266,6 @@ item_grid_class_init (GObjectClass *gobject_klass)
 	item_klass->distance        = item_grid_distance;
 }
 
-GSF_CLASS (ItemGrid, item_grid,
-	   item_grid_class_init, item_grid_init,
+GSF_CLASS (GnmItemGrid, gnm_item_grid,
+	   gnm_item_grid_class_init, gnm_item_grid_init,
 	   GOC_TYPE_ITEM)

@@ -1836,13 +1836,13 @@ scg_ant (SheetControl *sc)
 		GnmRange const *r = l->data;
 
 		SCG_FOREACH_PANE (scg, pane, {
-			ItemCursor *ic = ITEM_CURSOR (goc_item_new (
+			GnmItemCursor *ic = GNM_ITEM_CURSOR (goc_item_new (
 				pane->grid_items,
-				item_cursor_get_type (),
+				gnm_item_cursor_get_type (),
 				"SheetControlGUI", scg,
-				"style",	ITEM_CURSOR_ANTED,
+				"style",	GNM_ITEM_CURSOR_ANTED,
 				NULL));
-			item_cursor_bound_set (ic, r);
+			gnm_item_cursor_bound_set (ic, r);
 			pane->cursor.animated =
 				g_slist_prepend (pane->cursor.animated, ic);
 		});
@@ -2436,7 +2436,7 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 		return;
 
 	SCG_FOREACH_PANE (scg, pane,
-		item_cursor_set_visibility (pane->cursor.std, is_visible););
+		gnm_item_cursor_set_visibility (pane->cursor.std, is_visible););
 
 	sv_selection_foreach (sc->view, cb_redraw_sel, sc);
 }
