@@ -874,10 +874,7 @@ gnm_pane_dispose (GObject *obj)
 	g_slist_free_full (pane->cursor.expr_range, g_object_unref);
 	pane->cursor.expr_range = NULL;
 
-	if (pane->mouse_cursor) {
-		g_object_unref (pane->mouse_cursor);
-		pane->mouse_cursor = NULL;
-	}
+	g_clear_object (&pane->mouse_cursor);
 	gnm_pane_clear_obj_size_tip (pane);
 
 	if (pane->drag.ctrl_pts) {
@@ -2092,14 +2089,8 @@ gnm_pane_size_guide_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane != NULL);
 
-	if (pane->size_guide.start != NULL) {
-		g_object_unref (pane->size_guide.start);
-		pane->size_guide.start = NULL;
-	}
-	if (pane->size_guide.guide != NULL) {
-		g_object_unref (pane->size_guide.guide);
-		pane->size_guide.guide = NULL;
-	}
+	g_clear_object (&pane->size_guide.start);
+	g_clear_object (&pane->size_guide.guide);
 }
 
 /**
@@ -2197,8 +2188,8 @@ void
 gnm_pane_rangesel_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane->cursor.rangesel != NULL);
-	g_object_unref (pane->cursor.rangesel);
-	pane->cursor.rangesel = NULL;
+
+	g_clear_object (&pane->cursor.rangesel);
 
 	/* Make the primary cursor visible again */
 	gnm_item_cursor_set_visibility (pane->cursor.std, TRUE);
@@ -2236,8 +2227,7 @@ gnm_pane_special_cursor_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane->cursor.special != NULL);
 
-	g_object_unref (pane->cursor.special);
-	pane->cursor.special = NULL;
+	g_clear_object (&pane->cursor.special);
 }
 
 void
@@ -2298,10 +2288,7 @@ gnm_pane_edit_start (GnmPane *pane)
 void
 gnm_pane_edit_stop (GnmPane *pane)
 {
-	if (pane->editor != NULL) {
-		g_object_unref (pane->editor);
-		pane->editor = NULL;
-	}
+	g_clear_object (&pane->editor);
 }
 
 void

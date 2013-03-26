@@ -105,10 +105,7 @@ gnm_dao_destroy (GtkWidget *widget)
 {
 	GnmDao *gdao = GNM_DAO (widget);
 
-	if (gdao->gui) {
-		g_object_unref (gdao->gui);
-		gdao->gui = NULL;
-	}
+	g_clear_object (&gdao->gui);
 
 	((GtkWidgetClass *)(gnm_dao_parent_class))->destroy (widget);
 }

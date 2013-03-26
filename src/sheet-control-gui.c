@@ -687,10 +687,7 @@ cb_table_destroy (SheetControlGUI *scg)
 	SheetControl *sc = (SheetControl *) scg;
 	int i;
 
-	if (scg->grid) {
-		g_object_unref (scg->grid);
-		scg->grid = NULL;
-	}
+	g_clear_object (&scg->grid);
 
 	scg_mode_edit (scg);	/* finish any object edits */
 	scg_unant (sc);		/* Make sure that everything is unanted */
@@ -1782,10 +1779,7 @@ scg_finalize (GObject *object)
 		scg->grid = NULL;
 	}
 
-	if (scg->label) {
-		g_object_unref (scg->label);
-		scg->label = NULL;
-	}
+	g_clear_object (&scg->label);
 
 	if (scg->wbcg != NULL)
 		g_object_weak_unref (G_OBJECT (scg->wbcg),

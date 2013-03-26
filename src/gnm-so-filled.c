@@ -482,10 +482,11 @@ gnm_so_filled_finalize (GObject *object)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (object);
 
-	g_object_unref (sof->style);
-	sof->style = NULL;
+	g_clear_object (&sof->style);
+
 	g_free (sof->text);
 	sof->text = NULL;
+
 	if (NULL != sof->markup) {
 		pango_attr_list_unref (sof->markup);
 		sof->markup = NULL;

@@ -5020,8 +5020,6 @@ wbc_gtk_set_property (GObject *object, guint property_id,
 	}
 }
 
-#define UNREF_OBJ(f) do { if (wbcg->f) { g_object_unref (wbcg->f); wbcg->f = NULL; } } while (0)
-
 static void
 wbc_gtk_finalize (GObject *obj)
 {
@@ -5037,19 +5035,19 @@ wbc_gtk_finalize (GObject *obj)
 
 	if (wbcg->file_history.merge_id != 0)
 		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->file_history.merge_id);
-	UNREF_OBJ (file_history.actions);
+	g_clear_object (&wbcg->file_history.actions);
 
 	if (wbcg->toolbar.merge_id != 0)
 		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->toolbar.merge_id);
-	UNREF_OBJ (toolbar.actions);
+	g_clear_object (&wbcg->toolbar.actions);
 
 	if (wbcg->windows.merge_id != 0)
 		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->windows.merge_id);
-	UNREF_OBJ (windows.actions);
+	g_clear_object (&wbcg->windows.actions);
 
 	if (wbcg->templates.merge_id != 0)
 		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->templates.merge_id);
-	UNREF_OBJ (templates.actions);
+	g_clear_object (&wbcg->templates.actions);
 
 	{
 		GSList *l, *uis = go_hash_keys (wbcg->custom_uis);
@@ -5063,24 +5061,24 @@ wbc_gtk_finalize (GObject *obj)
 	g_hash_table_destroy (wbcg->custom_uis);
 	wbcg->custom_uis = NULL;
 
-	UNREF_OBJ (zoom_vaction);
-	UNREF_OBJ (zoom_haction);
-	UNREF_OBJ (borders);
-	UNREF_OBJ (fore_color);
-	UNREF_OBJ (back_color);
-	UNREF_OBJ (font_name);
-	UNREF_OBJ (redo_haction);
-	UNREF_OBJ (redo_vaction);
-	UNREF_OBJ (undo_haction);
-	UNREF_OBJ (undo_vaction);
-	UNREF_OBJ (halignment);
-	UNREF_OBJ (valignment);
-	UNREF_OBJ (actions);
-	UNREF_OBJ (permanent_actions);
-	UNREF_OBJ (font_actions);
-	UNREF_OBJ (data_only_actions);
-	UNREF_OBJ (semi_permanent_actions);
-	UNREF_OBJ (ui);
+	g_clear_object (&wbcg->zoom_vaction);
+	g_clear_object (&wbcg->zoom_haction);
+	g_clear_object (&wbcg->borders);
+	g_clear_object (&wbcg->fore_color);
+	g_clear_object (&wbcg->back_color);
+	g_clear_object (&wbcg->font_name);
+	g_clear_object (&wbcg->redo_haction);
+	g_clear_object (&wbcg->redo_vaction);
+	g_clear_object (&wbcg->undo_haction);
+	g_clear_object (&wbcg->undo_vaction);
+	g_clear_object (&wbcg->halignment);
+	g_clear_object (&wbcg->valignment);
+	g_clear_object (&wbcg->actions);
+	g_clear_object (&wbcg->permanent_actions);
+	g_clear_object (&wbcg->font_actions);
+	g_clear_object (&wbcg->data_only_actions);
+	g_clear_object (&wbcg->semi_permanent_actions);
+	g_clear_object (&wbcg->ui);
 
 	/* Disconnect signals that would attempt to change things during
 	 * destruction.
@@ -5092,7 +5090,7 @@ wbc_gtk_finalize (GObject *obj)
 		g_signal_handlers_disconnect_by_func (
 			G_OBJECT (wbcg->bnotebook),
 			G_CALLBACK (cb_notebook_switch_page), wbcg);
-	UNREF_OBJ (bnotebook);
+	g_clear_object (&wbcg->bnotebook);
 
 	g_signal_handlers_disconnect_by_func (
 		G_OBJECT (wbcg->toplevel),
@@ -5112,10 +5110,10 @@ wbc_gtk_finalize (GObject *obj)
 		wbcg->font_desc = NULL;
 	}
 
-	UNREF_OBJ (auto_expr_label);
+	g_clear_object (&wbcg->auto_expr_label);
 
 	g_hash_table_destroy (wbcg->visibility_widgets);
-	UNREF_OBJ (undo_for_fullscreen);
+	g_clear_object (&wbcg->undo_for_fullscreen);
 
 	g_slist_free (wbcg->hide_for_fullscreen);
 	wbcg->hide_for_fullscreen = NULL;
@@ -5124,12 +5122,10 @@ wbc_gtk_finalize (GObject *obj)
 	g_free (wbcg->preferred_geometry);
 	wbcg->preferred_geometry = NULL;
 
-	UNREF_OBJ (gui);
+	g_clear_object (&wbcg->gui);
 
 	parent_class->finalize (obj);
 }
-
-#undef UNREF_OBJ
 
 /***************************************************************************/
 

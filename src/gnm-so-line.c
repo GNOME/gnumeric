@@ -441,8 +441,7 @@ static void
 gnm_so_line_finalize (GObject *object)
 {
 	GnmSOLine *sol = GNM_SO_LINE (object);
-	g_object_unref (sol->style);
-	sol->style = NULL;
+	g_clear_object (&sol->style);
 	G_OBJECT_CLASS (gnm_so_line_parent_class)->finalize (object);
 }
 

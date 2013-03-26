@@ -549,14 +549,8 @@ gnm_style_clear_pango (GnmStyle *style)
 static inline void
 gnm_style_clear_font (GnmStyle *style)
 {
-	if (style->font) {
-		gnm_font_unref (style->font);
-		style->font = NULL;
-	}
-	if (style->font_context) {
-		g_object_unref (style->font_context);
-		style->font_context = NULL;
-	}
+	g_clear_object (&style->font);
+	g_clear_object (&style->font_context);
 }
 
 /**
