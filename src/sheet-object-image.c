@@ -124,11 +124,11 @@ enum {
 
 /**
  * sheet_object_image_set_image :
- * @soi  : #SheetObjectImage
- * @type :
- * @data :
+ * @soi: #SheetObjectImage
+ * @type:
+ * @data:
  * @data_len
- * @copy_data :
+ * @copy_data:
  *
  * Assign raw data and type to @so assuming that it has not been initialized
  * yet.

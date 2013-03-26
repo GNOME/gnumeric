@@ -307,8 +307,8 @@ skip_bytes (BiffQuery *q, int start, int count)
 
 /**
  * ms_biff_query_set_decrypt :
- * @q :
- * @password : password in UTF-8 encoding.
+ * @q:
+ * @password: password in UTF-8 encoding.
  **/
 gboolean
 ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
@@ -532,9 +532,9 @@ ms_biff_query_destroy (BiffQuery *q)
 
 /**
  * ms_biff_put_new :
- * @output   : the output storage
- * @version  :
- * @codepage : Ignored if negative
+ * @output: the output storage
+ * @version:
+ * @codepage: Ignored if negative
  *
  * Take responsibility for @output
  * and prepare to generate biff records.

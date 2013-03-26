@@ -344,7 +344,7 @@ dependent_types_shutdown (void)
 
 /**
  * dependent_register_type :
- * @klass : A vtable
+ * @klass: A vtable
  *
  * Store the vtable and allocate an ID for a new class
  * of dependents.
@@ -376,7 +376,7 @@ dependent_type_register (GnmDependentClass const *klass)
 
 /**
  * dependent_changed:
- * @cell : the dependent that changed
+ * @cell: the dependent that changed
  *
  * Queues a recalc.
  */
@@ -501,7 +501,7 @@ dependent_queue_recalc_main (GSList *work)
 
 /**
  * dependent_queue_recalc_list :
- * @list :
+ * @list:
  *
  * Queues any elements of @list for recalc that are not already queued,
  * and marks all elements as needing a recalc.
@@ -1685,7 +1685,7 @@ iterate :
 
 /**
  * dependent_eval :
- * @dep :
+ * @dep:
  */
 static void
 dependent_eval (GnmDependent *dep)
@@ -1722,7 +1722,7 @@ gnm_cell_eval (GnmCell *cell)
 
 /**
  * cell_queue_recalc :
- * @cell :
+ * @cell:
  *
  * Queue the cell and everything that depends on it for recalculation.
  * If a dependency is already queued ignore it.
@@ -1948,7 +1948,7 @@ typedef struct
 
 /**
  * dependents_unrelocate_free :
- * @info :
+ * @info:
  *
  * Free the undo info associated with a dependent relocation.
  */
@@ -1966,7 +1966,7 @@ dependents_unrelocate_free (GSList *info)
 
 /**
  * dependents_unrelocate :
- * @info :
+ * @info:
  *
  * Apply the undo info associated with a dependent relocation.
  */
@@ -2788,7 +2788,7 @@ workbook_queue_all_recalc (Workbook *wb)
 
 /**
  * workbook_recalc :
- * @wb :
+ * @wb:
  *
  * Computes all dependents in @wb that have been flaged as requiring
  * recomputation.
@@ -2828,7 +2828,7 @@ workbook_recalc (Workbook *wb)
 
 /**
  * workbook_recalc_all :
- * @wb :
+ * @wb:
  *
  * Queues all dependents for recalc and recalculates.
  */
@@ -2966,7 +2966,7 @@ dependent_debug_name_for_sheet (GnmDependent const *dep, Sheet *sheet,
 
 /**
  * dependent_debug_name :
- * @dep : The dependent we are interested in.
+ * @dep: The dependent we are interested in.
  *
  * A useful little debugging utility.
  */
@@ -3073,7 +3073,7 @@ dump_dynamic_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 
 /**
  * gnm_dep_container_dump :
- * @deps :
+ * @deps:
  *
  * A useful utility for checking the state of the dependency data structures.
  */

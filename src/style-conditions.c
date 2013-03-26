@@ -80,7 +80,7 @@ gnm_style_cond_op_operands (GnmStyleCondOp op)
 
 /**
  * gnm_style_cond_is_valid :
- * @cond : #GnmStyleCond
+ * @cond: #GnmStyleCond
  *
  * Returns: TRUE if @cond is in a reasonable state
  **/
@@ -382,9 +382,9 @@ gnm_style_conditions_details (GnmStyleConditions const *sc)
 
 /**
  * gnm_style_conditions_insert :
- * @sc : #GnmStyleConditions
- * @cond : #GnmStyleCond
- * @pos : position.
+ * @sc: #GnmStyleConditions
+ * @cond: #GnmStyleCond
+ * @pos: position.
  *
  * Insert @cond before @pos (append if @pos < 0).
  **/

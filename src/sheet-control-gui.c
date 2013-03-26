@@ -443,7 +443,7 @@ scg_resize_virt (SheetControl *sc, gboolean force_scroll)
 
 /**
  * scg_scrollbar_config :
- * @sc :
+ * @sc:
  *
  * Manages the scrollbar dimensions and paging parameters.
  * Currently sizes things based on the cols/rows visible in pane-0.  This has
@@ -2557,8 +2557,8 @@ cb_scg_object_unselect (SheetObject *so, double *coords, SheetControlGUI *scg)
 
 /**
  * scg_object_unselect :
- * @scg : #SheetControlGUI
- * @so : #SheetObject (optionally NULL)
+ * @scg: #SheetControlGUI
+ * @so: #SheetObject (optionally NULL)
  *
  * unselect the supplied object, and drop out of edit mode if this is the last
  * one.  If @so == NULL unselect _all_ objects.
@@ -2747,12 +2747,12 @@ cb_drag_selected_objects (SheetObject *so, double *coords, ObjDragInfo *info)
 
 /**
  * scg_objects_drag :
- * @scg : #SheetControlGUI
- * @primary : #SheetObject (optionally NULL)
- * @dx :
- * @dy :
- * @drag_type :
- * @symmetric :
+ * @scg: #SheetControlGUI
+ * @primary: #SheetObject (optionally NULL)
+ * @dx:
+ * @dy:
+ * @drag_type:
+ * @symmetric:
  *
  * Move the control points and drag views of the currently selected objects to
  * a new position.  This movement is only made in @scg not in the actual
@@ -2994,8 +2994,8 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
 
 /**
  * scg_comment_display :
- * @scg : The SheetControl
- * @cc  : A cell comment
+ * @scg: The SheetControl
+ * @cc: A cell comment
  *
  */
 void
@@ -3080,8 +3080,8 @@ cb_cell_comment_timer (SheetControlGUI *scg)
 
 /**
  * scg_comment_select :
- * @scg : The SheetControl
- * @cc  : A cell comment
+ * @scg: The SheetControl
+ * @cc: A cell comment
  *
  * Prepare @cc for display.
  */
@@ -3104,8 +3104,8 @@ scg_comment_select (SheetControlGUI *scg, GnmComment *cc, int x, int y)
 
 /**
  * scg_comment_unselect :
- * @scg : The SheetControl
- * @cc  : A cell comment
+ * @scg: The SheetControl
+ * @cc: A cell comment
  *
  * If @cc is the current cell comment being edited/displayed shutdown the
  * display mechanism.
@@ -3330,7 +3330,7 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 
 /**
  * scg_set_display_cursor :
- * @scg :
+ * @scg:
  *
  * Set the displayed cursor type.
  */
@@ -3489,11 +3489,11 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 
 /**
  * scg_cursor_extend :
- * @scg                : The scg
- * @n                  : Units to extend the selection
- * @jump_to_bound      : Move to transitions between cells and blanks,
+ * @scg: The scg
+ * @n: Units to extend the selection
+ * @jump_to_bound: Move to transitions between cells and blanks,
  *                       or move in single steps.
- * @horiz              : extend vertically or horizontally.
+ * @horiz: extend vertically or horizontally.
  */
 void
 scg_cursor_extend (SheetControlGUI *scg, int n,

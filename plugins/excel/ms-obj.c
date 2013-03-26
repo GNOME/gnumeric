@@ -1220,9 +1220,9 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 
 /**
  * ms_read_OBJ :
- * @q : The biff record to start with.
- * @c : The object's container
- * @attrs : an optional hash of object attributes.
+ * @q: The biff record to start with.
+ * @c: The object's container
+ * @attrs: an optional hash of object attributes.
  *
  * This function takes ownership of attrs.
  *

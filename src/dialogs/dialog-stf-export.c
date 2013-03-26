@@ -697,9 +697,9 @@ cb_next_page (TextExportState *state)
 
 /**
  * stf_dialog
- * @wbcg : #WBCGtk (can be NULL)
- * @stfe : An exporter to set up (and take defaults from)
- * @wb : The #Workbook to export
+ * @wbcg: #WBCGtk (can be NULL)
+ * @stfe: An exporter to set up (and take defaults from)
+ * @wb: The #Workbook to export
  *
  * This will start the export assistant.
  * returns : TRUE if cancelled.

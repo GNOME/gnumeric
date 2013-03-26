@@ -505,9 +505,9 @@ elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
 
 /**
  * gnm_style_find_conflicts :
- * @accum : accumulator #GnmStyle
- * @overlay : #GnmStyle
- * @conflicts : flags
+ * @accum: accumulator #GnmStyle
+ * @overlay: #GnmStyle
+ * @conflicts: flags
  *
  * Copy any items from @overlay that do not conflict with the values in @accum.
  * If an element had a previous conflict (flagged via @conflicts) it is ignored.
@@ -665,8 +665,8 @@ gnm_style_dup (GnmStyle const *src)
 
 /**
  * gnm_style_new_merged :
- * @base    : #GnmStyle
- * @overlay : #GnmStyle
+ * @base: #GnmStyle
+ * @overlay: #GnmStyle
  *
  * A new GnmStyle that contains any elements of @overlay that are set, and uses
  * @base for anything that is not set in @overlay.
@@ -706,7 +706,7 @@ gnm_style_ref (GnmStyle const *style)
 
 /**
  * gnm_style_unref :
- * @style : #GnmStyle const
+ * @style: #GnmStyle const
  *
  * Unrefs and _potentially frees_ @style.
  * Takes a _const_ pointer to facilitate life cycles.  The const indicates that
@@ -863,8 +863,8 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 
 /**
  * gnm_style_link_sheet :
- * @style :
- * @sheet :
+ * @style:
+ * @sheet:
  *
  * ABSORBS a reference to the style and sets the link count to 1.
  *
@@ -1082,9 +1082,9 @@ gnm_style_cmp (GnmStyle const *a, GnmStyle const *b)
 
 /**
  * gnm_style_equal_header :
- * @a : #GnmStyle
- * @b : #GnmStyle
- * @top : is this a header vertically or horizontally
+ * @a: #GnmStyle
+ * @b: #GnmStyle
+ * @top: is this a header vertically or horizontally
  *
  * Check to see if @a is different enough from @b to make us think that @a is
  * from a header.
@@ -1116,7 +1116,7 @@ gnm_style_is_element_set (GnmStyle const *style, GnmStyleElement elem)
 
 /**
  * gnm_style_is_complete :
- * @style : #GnmStyle
+ * @style: #GnmStyle
  *
  * Returns TRUE if all elements are set.
  **/
@@ -1142,8 +1142,8 @@ gnm_style_unset_element (GnmStyle *style, GnmStyleElement elem)
 
 /**
  * gnm_style_merge :
- * @base    : #GnmStyle
- * @overlay : #GnmStyle
+ * @base: #GnmStyle
+ * @overlay: #GnmStyle
  *
  * Applies all active elements of @overlay onto @base.
  **/
@@ -1204,8 +1204,8 @@ gnm_style_set_font_color (GnmStyle *style, GnmColor *col)
 
 /**
  * gnm_style_set_back_color :
- * @style : #GnmStyle
- * @col : #GnmColor
+ * @style: #GnmStyle
+ * @col: #GnmColor
  *
  * Assigns @col as the background of @style.
  *
@@ -1974,7 +1974,7 @@ add_attr (PangoAttrList *attrs, PangoAttribute *attr)
 
 /**
  * gnm_style_get_pango_attrs :
- * @style : #GnmStyle
+ * @style: #GnmStyle
  **/
 PangoAttrList *
 gnm_style_get_pango_attrs (GnmStyle const *style,

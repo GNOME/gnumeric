@@ -109,7 +109,7 @@ colrow_is_default (ColRowInfo const *cri)
 
 /**
  * colrow_is_empty :
- * @cri : #ColRowInfo
+ * @cri: #ColRowInfo
  *
  * TRUE if there is no information in col/row @cri.
  **/
@@ -126,8 +126,8 @@ colrow_is_empty (ColRowInfo const *cri)
 
 /**
  * colrow_equal :
- * @a : ColRowInfo #1
- * @b : ColRowInfo #2
+ * @a: ColRowInfo #1
+ * @b: ColRowInfo #2
  *
  * Returns true if the infos are equivalent.
  **/
@@ -148,8 +148,8 @@ colrow_equal (ColRowInfo const *a, ColRowInfo const *b)
 
 /**
  * colrow_copy :
- * @dst :
- * @src :
+ * @dst:
+ * @src:
  *
  * Assign all content, except the position of @src to @dst
  */
@@ -1081,9 +1081,9 @@ colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
 
 /**
  * colrow_set_outline :
- * @cri		  : the col/row to tweak
- * @outline_level :
- * @is_collapsed  :
+ * @cri: the col/row to tweak
+ * @outline_level:
+ * @is_collapsed:
  *
  * Adjust the outline state of a col/row
  */
@@ -1224,11 +1224,11 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 
 /**
  * colrow_get_global_outline :
- * @sheet :
- * @is_cols :
- * @depth :
- * @show :
- * @hide :
+ * @sheet:
+ * @is_cols:
+ * @depth:
+ * @show:
+ * @hide:
  *
  * Collect the set of visiblity changes required to change the visiblity of
  * all outlined columns such tach those > @depth are visible.

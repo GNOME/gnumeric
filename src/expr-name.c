@@ -456,8 +456,8 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 
 /**
  * expr_name_lookup:
- * @pos :
- * @name :
+ * @pos:
+ * @name:
  *
  * lookup but do not reference a named expression.
  */
@@ -747,7 +747,7 @@ gnm_named_expr_get_type (void)
 
 /**
  * expr_name_remove :
- * @nexpr :
+ * @nexpr:
  *
  * Remove a @nexpr from its container and deactivate it.
  * NOTE : @nexpr may continue to exist if things still have references to it,
@@ -779,8 +779,8 @@ expr_name_name (GnmNamedExpr const *nexpr)
 
 /**
  * expr_name_set_name :
- * @nexpr : the named expression
- * @new_name : the new name of the expression
+ * @nexpr: the named expression
+ * @new_name: the new name of the expression
  *
  * returns: TRUE on error.
  */
@@ -830,8 +830,8 @@ expr_name_set_name (GnmNamedExpr *nexpr,
 
 /**
  * expr_name_as_string :
- * @nexpr :
- * @pp : optionally null.
+ * @nexpr:
+ * @pp: optionally null.
  *
  * returns a string that the caller needs to free.
  */
@@ -919,8 +919,8 @@ expr_name_set_pos (GnmNamedExpr *nexpr, GnmParsePos const *pp)
 
 /**
  * expr_name_set_expr :
- * @nexpr : the named expression
- * @texpr : the new content
+ * @nexpr: the named expression
+ * @texpr: the new content
  *
  * Unrefs the current content of @nexpr and absorbs a ref to @new_expr.
  **/
@@ -989,7 +989,7 @@ expr_name_remove_dep (GnmNamedExpr *nexpr, GnmDependent *dep)
 
 /**
  * expr_name_is_placeholder :
- * @ne :
+ * @ne:
  *
  * Returns TRUE if @ne is a placeholder for an unknown name
  **/
@@ -1106,8 +1106,8 @@ expr_name_cmp_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
 
 /**
  * sheet_names_check :
- * @sheet :
- * @r :
+ * @sheet:
+ * @r:
  *
  * Returns a constant string if @sheet!@r is the target of a named range.
  * Preference is given to workbook scope over sheet.

@@ -1797,8 +1797,8 @@ GSF_CLASS_FULL (GnmExprEntry, gnm_expr_entry,
 
 /**
  * gee_prepare_range :
- * @gee :
- * @dst :
+ * @gee:
+ * @dst:
  *
  * Adjust @dst as necessary to conform to @gee's requirements
  * Produces the _logical_ range, a merge is displayed as only the topleft.

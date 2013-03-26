@@ -133,8 +133,8 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
 
 /**
  * latex_raw_str :
- * @p :	    a pointer to a char, start of the string to be processed
- * @output : output stream where the processed characters are written.
+ * @p:	    a pointer to a char, start of the string to be processed
+ * @output: output stream where the processed characters are written.
  * @utf8:   is this a utf8 string?
  *
  * @return:
@@ -176,8 +176,8 @@ latex_raw_str(char const *p, GsfOutput *output, gboolean utf8)
 /**
  * latex_fputs_utf :
  *
- * @p :      a pointer to a char, start of the string to be processed.
- * @output : output stream where the processed characters are written.
+ * @p:      a pointer to a char, start of the string to be processed.
+ * @output: output stream where the processed characters are written.
  *
  * This escapes any special LaTeX characters from the LaTeX engine,
  * except the ones enclosed in "\L{" and "}".
@@ -222,7 +222,7 @@ latex_fputs_utf (char const *p, GsfOutput *output)
 /**
  * latex_math_fputs_utf :
  *
- * @p :     a pointer to a char, start of the string to be processed.
+ * @p:     a pointer to a char, start of the string to be processed.
  * @output: output stream where the processed characters are written.
  *
  * This escapes any special LaTeX characters from the LaTeX engine,
@@ -310,8 +310,8 @@ latex_convert_latin_to_utf (char const *text)
 /**
  * latex_fputs_latin :
  *
- * @p :      a pointer to a char, start of the string to be processed.
- * @output : output stream where the processed characters are written.
+ * @p:      a pointer to a char, start of the string to be processed.
+ * @output: output stream where the processed characters are written.
  *
  * This escapes any special LaTeX characters from the LaTeX engine,
  * except the ones enclosed in "\L{" and "}".
@@ -361,7 +361,7 @@ latex_fputs_latin (char const *text, GsfOutput *output)
 /**
  * latex_math_fputs_latin :
  *
- * @p :     a pointer to a char, start of the string to be processed.
+ * @p:     a pointer to a char, start of the string to be processed.
  * @output: output stream where the processed characters are written.
  *
  * This escapes any special LaTeX characters from the LaTeX engine,
@@ -737,7 +737,7 @@ latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border
 /**
  * latex2e_print_vert_border:
  *
- * @output : Output stream where the cell contents will be written.
+ * @output: Output stream where the cell contents will be written.
  * @clines:  GnmStyleBorderType indicating the type of border
  *
  */
@@ -752,12 +752,12 @@ latex2e_print_vert_border (GsfOutput *output, GnmStyleBorderType style)
 /**
  * latex2e_write_blank_multicolumn_cell:
  *
- * @output : output stream where the cell contents will be written.
- * @star_col :
- * @start_row :
- * @num_merged_cols : an integer value of the number of columns to merge.
- * @num_merged_rows : an integer value of the number of rows to merge.
- * @sheet :  the current sheet.
+ * @output: output stream where the cell contents will be written.
+ * @star_col:
+ * @start_row:
+ * @num_merged_cols: an integer value of the number of columns to merge.
+ * @num_merged_rows: an integer value of the number of rows to merge.
+ * @sheet:  the current sheet.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
  * the code that might fall between two ampersands (&)), assuming that
@@ -865,12 +865,12 @@ latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col,
 /**
  * latex2e_write_multicolumn_cell:
  *
- * @output : output stream where the cell contents will be written.
- * @cell :   the cell whose contents are to be written.
- * @star_col :
- * @num_merged_cols : an integer value of the number of columns to merge.
- * @num_merged_rows : an integer value of the number of rows to merge.
- * @sheet :  the current sheet.
+ * @output: output stream where the cell contents will be written.
+ * @cell:   the cell whose contents are to be written.
+ * @star_col:
+ * @num_merged_cols: an integer value of the number of columns to merge.
+ * @num_merged_rows: an integer value of the number of rows to merge.
+ * @sheet:  the current sheet.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
  * the code that might fall between two ampersands (&)).
@@ -1122,9 +1122,9 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
  *
  * @clines:  array of GnmStyleBorderType* indicating the type of border
  * @length:  (remaining) positions in clines
- * @col :
- * @row :
- * @sheet :
+ * @col:
+ * @row:
+ * @sheet:
  *
  * Determine the border style
  *
@@ -1161,9 +1161,9 @@ latex2e_find_hhlines (GnmStyleBorderType *clines, int length, int col, int row,
 /**
  * latex2e_print_hhline :
  *
- * @output : output stream where the cell contents will be written.
+ * @output: output stream where the cell contents will be written.
  * @clines:  an array of GnmStyleBorderType* indicating the type of border
- * @n : the number of elements in clines
+ * @n: the number of elements in clines
  *
  * This procedure prints an hhline command according to the content
  * of clines.
@@ -1237,10 +1237,10 @@ file_saver_sheet_get_extent (Sheet *sheet)
 /**
  * latex_file_save :  The LaTeX2e exporter plugin function.
  *
- * @FileSaver :        New structure for file plugins. I don't understand.
- * @IOcontext :        currently not used but reserved for the future.
- * @WorkbookView :     this provides the way to access the sheet being exported.
- * @filename :         where we'll write.
+ * @FileSaver:        New structure for file plugins. I don't understand.
+ * @IOcontext:        currently not used but reserved for the future.
+ * @WorkbookView:     this provides the way to access the sheet being exported.
+ * @filename:         where we'll write.
  *
  * This writes the top sheet of a Gnumeric workbook to a LaTeX2e longtable. We
  * check for merges here, then call the function latex2e_write_multicolum_cell()
@@ -1465,8 +1465,8 @@ latex_file_save (G_GNUC_UNUSED GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext 
 /**
  * latex2e_table_cell:
  *
- * @output : output stream where the cell contents will be written.
- * @cell :   the cell whose contents are to be written.
+ * @output: output stream where the cell contents will be written.
+ * @cell:   the cell whose contents are to be written.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
  * the code that might fall between two ampersands (&)).
@@ -1513,10 +1513,10 @@ latex2e_table_write_file_header(GsfOutput *output)
 /**
  * latex_table_file_save :  The LaTeX2e exporter plugin function.
  *
- * @FileSaver :        New structure for file plugins. I don't understand.
- * @IOcontext :        currently not used but reserved for the future.
- * @WorkbookView :     this provides the way to access the sheet being exported.
- * @filename :         where we'll write.
+ * @FileSaver:        New structure for file plugins. I don't understand.
+ * @IOcontext:        currently not used but reserved for the future.
+ * @WorkbookView:     this provides the way to access the sheet being exported.
+ * @filename:         where we'll write.
  *
  * This writes the top sheet of a Gnumeric workbook as the content of a latex table environment.
  * We try to avoid all formatting.

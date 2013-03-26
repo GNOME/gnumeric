@@ -74,8 +74,8 @@ excel_write_prep_sheet (ExcelWriteState *ewb, Sheet const *sheet)
 
 /**
  * excel_write_prep_expr :
- * @ewb :
- * @texpr :
+ * @ewb:
+ * @texpr:
  *
  *  Searches for interesting functions, names, or sheets.
  * and builds a database of things to write out later.

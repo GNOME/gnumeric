@@ -1900,10 +1900,10 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
  * xml_cell_set_array_expr : Utility routine to parse an expression
  *     and store it as an array.
  *
- * @cell : The upper left hand corner of the array.
- * @text : The text to parse.
- * @rows : The number of rows.
- * @cols : The number of columns.
+ * @cell: The upper left hand corner of the array.
+ * @text: The text to parse.
+ * @rows: The number of rows.
+ * @cols: The number of columns.
  */
 static void
 xml_cell_set_array_expr (XMLSaxParseState *state,

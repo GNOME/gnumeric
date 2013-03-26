@@ -3839,9 +3839,9 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 /* A wrapper which reads and checks the BOF record then calls ms_excel_chart_read */
 /**
  * ms_excel_chart_read_BOF :
- * @q : #BiffQuery
- * @container : #MSContainer
- * @sog : #SheetObjectGraph
+ * @q: #BiffQuery
+ * @container: #MSContainer
+ * @sog: #SheetObjectGraph
  **/
 gboolean
 ms_excel_chart_read_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)

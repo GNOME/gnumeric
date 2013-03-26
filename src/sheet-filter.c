@@ -46,8 +46,8 @@
 
 /**
  * gnm_filter_condition_new_single :
- * @op : #GnmFilterOp
- * @v : #GnmValue
+ * @op: #GnmFilterOp
+ * @v: #GnmValue
  *
  * Create a new condition with 1 value.
  * Absorbs the reference to @v.
@@ -63,11 +63,11 @@ gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
 
 /**
  * gnm_filter_condition_new_double :
- * @op0 : #GnmFilterOp
- * @v0 : #GnmValue
- * @join_with_and :
- * @op1 : #GnmFilterOp
- * @v1 : #GnmValue
+ * @op0: #GnmFilterOp
+ * @v0: #GnmValue
+ * @join_with_and:
+ * @op1: #GnmFilterOp
+ * @v1: #GnmValue
  *
  * Create a new condition with 2 value.
  * Absorbs the reference to @v0 and @v1.
@@ -409,8 +409,8 @@ gnm_filter_combo_index (GnmFilterCombo *fcombo)
 
 /**
  * gnm_filter_combo_apply :
- * @fcombo : #GnmFilterCombo
- * @target_sheet : @Sheet
+ * @fcombo: #GnmFilterCombo
+ * @target_sheet: @Sheet
  *
  **/
 void
@@ -641,8 +641,8 @@ gnm_filter_attach (GnmFilter *filter, Sheet *sheet)
 
 /**
  * gnm_filter_new :
- * @sheet :
- * @r :
+ * @sheet:
+ * @r:
  *
  * Init a filter and add it to @sheet
  **/
@@ -668,8 +668,8 @@ gnm_filter_new (Sheet *sheet, GnmRange const *r)
 
 /**
  * gnm_filter_dup :
- * @src : #GnmFilter
- * @sheet : #Sheet
+ * @src: #GnmFilter
+ * @sheet: #Sheet
  *
  * Duplicate @src into @sheet
  **/
@@ -767,8 +767,8 @@ gnm_filter_remove (GnmFilter *filter)
 
 /**
  * gnm_filter_get_condition :
- * @filter :
- * @i :
+ * @filter:
+ * @i:
  *
  **/
 GnmFilterCondition const *
@@ -822,10 +822,10 @@ gnm_filter_update_active (GnmFilter *filter)
 
 /**
  * gnm_filter_set_condition :
- * @filter :
- * @i :
- * @cond : #GnmFilterCondition
- * @apply :
+ * @filter:
+ * @i:
+ * @cond: #GnmFilterCondition
+ * @apply:
  *
  * Change the @i-th condition of @filter to @cond.  If @apply is
  * TRUE @filter is used to set the visibility of the rows in @filter::sheet
@@ -871,8 +871,8 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 
 /**
  * gnm_filter_overlaps_range :
- * @filter : #GnmFilter
- * @r : #GnmRange
+ * @filter: #GnmFilter
+ * @r: #GnmRange
  *
  * Returns: %TRUE if @filter overlaps @r.
  **/
@@ -889,7 +889,7 @@ gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r)
 
 /**
  * gnm_sheet_filter_at_pos :
- * @sheet : #Sheet
+ * @sheet: #Sheet
  *
  * Returns : #GnmRange
  **/
@@ -1009,12 +1009,12 @@ gnm_filter_set_range (GnmFilter *filter, GnmRange *r)
 
 /**
  * gnm_sheet_filter_insdel_colrow :
- * @sheet :
- * @is_cols :
- * @is_insert :
- * @start :
- * @count :
- * @pundo : location to store undo closures.
+ * @sheet:
+ * @is_cols:
+ * @is_insert:
+ * @start:
+ * @count:
+ * @pundo: location to store undo closures.
  *
  * Adjust filters as necessary to handle col/row insertions and deletions
  **/

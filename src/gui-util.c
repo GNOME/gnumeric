@@ -454,8 +454,8 @@ kill_popup_menu (G_GNUC_UNUSED GtkWidget *widget, GtkMenu *menu)
 
 /**
  * gnumeric_popup_menu :
- * @menu : #GtkMenu
- * @event : #GdkEventButton optionally NULL
+ * @menu: #GtkMenu
+ * @event: #GdkEventButton optionally NULL
  *
  * Bring up a popup and if @event is non-NULL ensure that the popup is on the
  * right screen.

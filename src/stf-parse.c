@@ -458,7 +458,7 @@ stf_parse_options_fixed_splitpositions_nth (StfParseOptions_t *parseoptions, int
 
 /**
  * stf_parse_options_valid:
- * @parseoptions : an import options struct
+ * @parseoptions: an import options struct
  *
  * Checks if @parseoptions is correctly filled
  *

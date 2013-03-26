@@ -529,7 +529,7 @@ cb_treeview_key_press (GtkWidget *treeview,
 
 /**
  * format_page_update_preview
- * @pagedata : mother struct
+ * @pagedata: mother struct
  *
  * Will simply utilize the preview rendering functions to update
  * the preview
@@ -693,7 +693,7 @@ locale_changed_cb (GOLocaleSel *ls, char const *new_locale,
 
 /**
  * stf_dialog_format_page_prepare
- * @data : mother struct
+ * @data: mother struct
  *
  * This will prepare the widgets on the format page before
  * the page gets displayed

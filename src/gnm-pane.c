@@ -1318,7 +1318,7 @@ gnm_pane_find_row (GnmPane const *pane, gint64 y, gint64 *row_origin)
  * gnm_pane_compute_visible_region : Keeps the top left col/row the same and
  *     recalculates the visible boundaries.
  *
- * @full_recompute :
+ * @full_recompute:
  *       if TRUE recompute the pixel offsets of the top left row/col
  *       else assumes that the pixel offsets of the top left have not changed.
  */

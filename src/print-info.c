@@ -1353,8 +1353,8 @@ print_info_get_page_setup (PrintInformation *pi)
 
 /**
  * print_info_set_page_setup :
- * @pi : #PrintInformation
- * @page_setup : #GtkPageSetup
+ * @pi: #PrintInformation
+ * @page_setup: #GtkPageSetup
  *
  * Absorb a ref to @page_setup.
  *
@@ -1408,8 +1408,8 @@ print_info_set_paper_orientation (PrintInformation *pi,
 
 /**
  * print_info_set_breaks :
- * @pi : #PrintInformation
- * @breaks : #GnmPageBreaks
+ * @pi: #PrintInformation
+ * @breaks: #GnmPageBreaks
  *
  * NOTE : Takes ownership of @breaks.  DO NOT FREE after calling.
  **/
@@ -1444,7 +1444,7 @@ print_info_has_manual_breaks (PrintInformation *pi)
 
 /**
  * gnm_page_breaks_new :
- * @is_vert :
+ * @is_vert:
  *
  * Allocate a collection of page breaks.
  **/
@@ -1655,7 +1655,7 @@ gnm_page_breaks_set_break (GnmPageBreaks *breaks,
 
 /**
  * gnm_page_break_type_from_str:
- * @str :
+ * @str:
  *
  **/
 GnmPageBreakType

@@ -867,10 +867,10 @@ dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
 /**
  * dialog_doc_metadata_set_gsf_prop
  *
- * @state : dialog main struct
- * @name  : property name
- * @value : property value
- * @link  : property linked to
+ * @state: dialog main struct
+ * @name: property name
+ * @value: property value
+ * @link: property linked to
  *
  * Sets a new value to the property in the GsfDocMetaData struct
  *
@@ -971,9 +971,9 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 /**
  * dialog_doc_metadata_set_prop
  *
- * @state      : dialog main struct
- * @prop_name  : property name
- * @prop_value : property value
+ * @state: dialog main struct
+ * @prop_name: property name
+ * @prop_value: property value
  *
  * Tries to update the property value in all the dialog and in the GsfDocMetaData
  * struct. If the property was not found, creates a new one.
@@ -1161,7 +1161,7 @@ cb_dialog_doc_metadata_comments_changed (GtkTextView     *view,
 /**
  * dialog_doc_metadata_init_description_page
  *
- * @state : dialog main struct
+ * @state: dialog main struct
  *
  * Initializes the widgets and signals for the 'Description' page.
  *
@@ -1320,7 +1320,7 @@ cb_dialog_doc_metadata_keyword_edited (G_GNUC_UNUSED GtkCellRendererText *render
 /**
  * dialog_doc_metadata_init_keywords_page
  *
- * @state : dialog main struct
+ * @state: dialog main struct
  *
  * Initializes the widgets and signals for the 'Description' page.
  *
@@ -1399,8 +1399,8 @@ cb_dialog_doc_metadata_value_edited (G_GNUC_UNUSED GtkCellRendererText *renderer
 /**
  * cb_dialog_doc_metadata_add_clicked
  *
- * @w     : widget
- * @state : dialog main struct
+ * @w: widget
+ * @state: dialog main struct
  *
  * Adds a new "empty" property to the tree view.
  *
@@ -1434,9 +1434,9 @@ cb_dialog_doc_metadata_add_clicked (G_GNUC_UNUSED GtkWidget *w,
 /**
  * dialog_doc_metadata_update_prop
  *
- * @state      : dialog main struct
- * @prop_name  : property name
- * @prop_value : property value
+ * @state: dialog main struct
+ * @prop_name: property name
+ * @prop_value: property value
  *
  * Updates a label or a entry text with the new value.
  *
@@ -1522,8 +1522,8 @@ dialog_doc_metadata_update_prop (DialogDocMetaData *state,
 /**
  * cb_dialog_doc_metadata_remove_clicked
  *
- * @remove_bt : widget
- * @state     : dialog main struct
+ * @remove_bt: widget
+ * @state: dialog main struct
  *
  * Removes a property from the tree view and updates all the dialog and
  * the GsfDocMetaData struct.
@@ -1574,8 +1574,8 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 /**
  * cb_dialog_doc_metadata_tree_prop_selected
  *
- * @combo_box : widget
- * @state     : dialog main struct
+ * @combo_box: widget
+ * @state: dialog main struct
  *
  * Update the highlited item in the 'Properties' page combo box.
  *
@@ -1639,8 +1639,8 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
 /**
  * dialog_doc_metadata_get_prop_val
  *
- * @prop_name  : property name
- * @prop_value : property value
+ * @prop_name: property name
+ * @prop_value: property value
  *
  * Retrieves an arbitrary property value always as string.
  *
@@ -1670,9 +1670,9 @@ dialog_doc_metadata_get_prop_val (G_GNUC_UNUSED DialogDocMetaData *state,
 /**
  * dialog_doc_metadata_populate_tree_view
  *
- * @name  : property name
- * @prop  : property stored in GsfDocMetaData
- * @state : dialog main struct
+ * @name: property name
+ * @prop: property stored in GsfDocMetaData
+ * @state: dialog main struct
  *
  * Populates the tree view in 'Properties' page.
  *
@@ -1844,7 +1844,7 @@ cb_dialog_doc_metadata_ppt_name_changed (G_GNUC_UNUSED GtkEntry          *entry,
 /**
  * dialog_doc_metadata_init_properties_page
  *
- * @state : dialog main struct
+ * @state: dialog main struct
  *
  * Initializes the widgets and signals for the 'Properties' page.
  *
@@ -1982,7 +1982,7 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 /**
  * dialog_doc_metadata_init_statistics_page
  *
- * @state : dialog main struct
+ * @state: dialog main struct
  *
  * Initializes the widgets and signals for the 'Statistics' page.
  *
@@ -2044,7 +2044,7 @@ cb_dialog_doc_metadata_recalc_iteration_changed (G_GNUC_UNUSED GtkWidget *widget
 /**
  * dialog_doc_metadata_init_calculations_page
  *
- * @state : dialog main struct
+ * @state: dialog main struct
  *
  * Initializes the widgets and signals for the 'Calculations' page.
  *
@@ -2092,7 +2092,7 @@ dialog_doc_metadata_init_calculations_page (DialogDocMetaData *state)
 /**
  * dialog_doc_metadata_set_file_permissions
  *
- * @state : dialog main struct
+ * @state: dialog main struct
  *
  * Writes the new file permissions if there were any changes.
  *
@@ -2428,7 +2428,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 /**
  * dialog_doc_metadata_new
  *
- * @wbcg  : WBCGtk
+ * @wbcg: WBCGtk
  *
  * Creates a new instance of the dialog.
  *

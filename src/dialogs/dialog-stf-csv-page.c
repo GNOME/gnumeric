@@ -32,8 +32,8 @@
 
 /**
  * csv_page_global_change
- * @widget : the widget which emitted the signal
- * @data : mother struct
+ * @widget: the widget which emitted the signal
+ * @data: mother struct
  *
  * This will update the preview based on the state of
  * the widgets on the csv page
@@ -100,8 +100,8 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 
 /**
  * csv_page_custom_toggled
- * @button : the Checkbutton that emitted the signal
- * @data : a mother struct
+ * @button: the Checkbutton that emitted the signal
+ * @data: a mother struct
  *
  * This will nicely activate the @data->csv_info->csv_customseparator widget
  * so the user can enter text into it.
@@ -196,7 +196,7 @@ csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 
 /**
  * stf_dialog_csv_page_prepare
- * @data : mother struct
+ * @data: mother struct
  *
  * Will prepare the csv page
  *
@@ -217,7 +217,7 @@ stf_dialog_csv_page_prepare (StfDialogData *pagedata)
 
 /**
  * stf_dialog_csv_page_cleanup
- * @pagedata : mother struct
+ * @pagedata: mother struct
  *
  * Will cleanup csv page run-time data
  *

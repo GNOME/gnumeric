@@ -820,7 +820,7 @@ paste_target_init (GnmPasteTarget *pt, Sheet *sheet, GnmRange const *r, int flag
 
 /**
  * gnm_cell_region_new :
- * @origin_sheet : optionally NULL.
+ * @origin_sheet: optionally NULL.
  *
  * A convenience routine to create CellRegions and init the flags nicely.
  */
@@ -934,8 +934,8 @@ cb_invalidate_cellcopy (GnmCellCopy *cc, gconstpointer ignore,
 
 /**
  * cellregion_invalidate_sheet :
- * @cr    : #GnmCellRegion
- * @sheet : #Sheet
+ * @cr: #GnmCellRegion
+ * @sheet: #Sheet
  *
  * Invalidate references from cell content, objects or style to @sheet.
  **/
@@ -985,8 +985,8 @@ cb_cellregion_extent (GnmCellCopy *cc, gconstpointer ignore, GnmRange *extent)
 
 /**
  * cellregion_extent:
- * @cr : #GnmCellRegion
- * @extent : #GnmRange
+ * @cr: #GnmCellRegion
+ * @extent: #GnmRange
  *
  * Find the min and max col/row with cell content
  **/

@@ -106,9 +106,9 @@ main_page_update_preview (StfDialogData *pagedata)
 
 /**
  * main_page_set_spin_button_adjustment
- * @spinbutton : the spinbutton to adjust
- * @min : the minimum number the user may enter into the spinbutton
- * @max : the maximum number the user may enter into the spinbutton
+ * @spinbutton: the spinbutton to adjust
+ * @min: the minimum number the user may enter into the spinbutton
+ * @max: the maximum number the user may enter into the spinbutton
  *
  * returns : nothing
  **/
@@ -124,7 +124,7 @@ main_page_set_spin_button_adjustment (GtkSpinButton* spinbutton, int min, int ma
 
 /**
  * main_page_import_range_changed
- * @data : mother struct
+ * @data: mother struct
  *
  * Updates the "number of lines to import" label on the main page
  *
@@ -196,8 +196,8 @@ encodings_changed_cb (GOCharmapSel *cs, char const *new_charmap,
 
 /**
  * main_page_startrow_changed
- * @button : the spinbutton the event handler is attached to
- * @data : mother struct
+ * @button: the spinbutton the event handler is attached to
+ * @data: mother struct
  *
  * This function will adjust the amount of displayed text to
  * reflect the number of lines the user wants to import
@@ -212,8 +212,8 @@ main_page_startrow_changed (GtkSpinButton* button, StfDialogData *data)
 
 /**
  * main_page_stoprow_changed
- * @button : the spinbutton the event handler is attached to
- * @data : mother struct
+ * @button: the spinbutton the event handler is attached to
+ * @data: mother struct
  *
  * returns : nothing
  **/
@@ -263,7 +263,7 @@ cb_line_breaks (G_GNUC_UNUSED GtkWidget *widget,
 
 /**
  * stf_dialog_main_page_prepare
- * @data : mother struct
+ * @data: mother struct
  *
  * This will prepare the widgets on the format page before
  * the page gets displayed

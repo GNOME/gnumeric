@@ -35,7 +35,7 @@ sheet_cell_or_one_below_is_not_empty (Sheet *sheet, int col, int row)
 
 /**
  * gnm_sheet_guess_region :
- * @sheet : #Sheet
+ * @sheet: #Sheet
  * @region: #GnmRange
  *
  * Makes a guess at the logical containing @region and returns the possibly
@@ -93,8 +93,8 @@ gnm_sheet_guess_region (Sheet *sheet, GnmRange *region)
 
 /**
  * gnm_sheet_guess_data_range :
- * @sheet : #Sheet
- * @region : #GnmRange
+ * @sheet: #Sheet
+ * @region: #GnmRange
  *
  * Makes a guess at the logical range containing @region and returns the possibly
  * expanded result in @region. The range is also expanded upwards.

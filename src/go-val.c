@@ -77,8 +77,8 @@ go_val_bucketer_validate (GOValBucketer *bucketer)
 
 /**
  * go_val_bucketer_apply :
- * @bucketer : #GOValBucketer
- * @v : #GOVal
+ * @bucketer: #GOValBucketer
+ * @v: #GOVal
  *
  * Calculate which bucket @v falls into.
  *

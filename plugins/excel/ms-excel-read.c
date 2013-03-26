@@ -951,12 +951,12 @@ excel_unexpected_biff (BiffQuery *q, char const *state,
 
 /**
  * excel_read_string_header :
- * @data : a pointer to the start of the string header
- * @maxlen : the length of the data area
- * @use_utf16 : Is the content in 8 or 16 bit chars
- * @n_markup : number of trailing markup records
- * @has_extended : Is there trailing extended string info (eg japanese PHONETIC)
- * @post_data_len :
+ * @data: a pointer to the start of the string header
+ * @maxlen: the length of the data area
+ * @use_utf16: Is the content in 8 or 16 bit chars
+ * @n_markup: number of trailing markup records
+ * @has_extended: Is there trailing extended string info (eg japanese PHONETIC)
+ * @post_data_len:
  *
  * returns the length of the header (in bytes)
  **/
@@ -1106,10 +1106,10 @@ excel_get_text (GnmXLImporter const *importer,
 
 /**
  * excel_get_text_fixme :
- * @importer :
- * @pos : pointer to the start of string information
- * @length : in _characters_
- * @byte_len : The number of bytes between @pos and the end of string data
+ * @importer:
+ * @pos: pointer to the start of string information
+ * @length: in _characters_
+ * @byte_len: The number of bytes between @pos and the end of string data
  *
  * Returns a string which the caller is responsible for freeing
  **/

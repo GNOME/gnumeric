@@ -232,10 +232,10 @@ gnm_validation_op_get_type (void)
 
 /**
  * gnm_validation_new :
- * @title : will be copied.
- * @msg   : will be copied.
- * @texpr0 : absorb the reference to the expression (optionally %NULL).
- * @texpr1 : absorb the reference to the expression (optionally %NULL).
+ * @title: will be copied.
+ * @msg: will be copied.
+ * @texpr0: absorb the reference to the expression (optionally %NULL).
+ * @texpr1: absorb the reference to the expression (optionally %NULL).
  *
  * Does _NOT_ require all necessary information to be set here.
  * gnm_validation_set_expr can be used to change the expressions after creation,
@@ -401,9 +401,9 @@ gnm_validation_set_sheet (GnmValidation *v, Sheet *sheet)
 
 /**
  * gnm_validation_set_expr :
- * @v : #GnmValidation
- * @texpr : #GnmExprTop
- * @indx : 0 or 1
+ * @v: #GnmValidation
+ * @texpr: #GnmExprTop
+ * @indx: 0 or 1
  *
  * Assign an expression to a validation.  gnm_validation_is_ok can be used to
  * verify that @v has all of the required information.
@@ -480,9 +480,9 @@ cb_validate_custom (GnmValueIter const *v_iter, GnmValue const *target)
 
 /**
  * gnm_validation_eval:
- * @wbc :
- * @mstyle :
- * @sheet :
+ * @wbc:
+ * @mstyle:
+ * @sheet:
  *
  * validation set in the GnmStyle if applicable.
  **/

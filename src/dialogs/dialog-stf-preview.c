@@ -141,7 +141,7 @@ stf_preview_new (GtkWidget *data_container,
 
 /**
  * stf_preview_free
- * @renderdata : a renderdata struct
+ * @renderdata: a renderdata struct
  *
  * This will free the @renderdata
  *
@@ -243,7 +243,7 @@ stf_preview_set_lines (RenderData_t *renderdata,
 
 /**
  * stf_preview_colformats_clear
- * @renderdata : a struct containing rendering information
+ * @renderdata: a struct containing rendering information
  *
  * This will clear the @renderdata->colformats array which contains the format of
  * each column.
@@ -264,8 +264,8 @@ stf_preview_colformats_clear (RenderData_t *renderdata)
 
 /**
  * stf_preview_colformats_add
- * @renderdata : a struct containing rendering information
- * @format : the format of the column
+ * @renderdata: a struct containing rendering information
+ * @format: the format of the column
  *
  * This will add an entry to the @renderdata->colformats array.
  * The widths of the columns will be set to at least have the width of

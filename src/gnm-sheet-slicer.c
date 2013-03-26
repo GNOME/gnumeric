@@ -238,8 +238,8 @@ gnm_sheet_slicer_set_range (GnmSheetSlicer *gss, GnmRange const *r)
 
 /**
  * gnm_sheet_slicer_overlaps_range :
- * @gss : #GnmSheetSlicer
- * @r : #GnmRange
+ * @gss: #GnmSheetSlicer
+ * @r: #GnmRange
  *
  * Returns: %TRUE if @gss overlaps @r.
  **/
@@ -252,8 +252,8 @@ gnm_sheet_slicer_overlaps_range (GnmSheetSlicer const *gss, GnmRange const *r)
 
 /**
  * gnm_sheet_slicer_field_header_at_pos :
- * @gss : #GnmSheetSlicer const
- * @pos : #GnmCellPos const
+ * @gss: #GnmSheetSlicer const
+ * @pos: #GnmCellPos const
  *
  * Checks to see if @pos (in absolute position, not relative to @gss' corner)
  * corresponds to a field header.  [Does not add a reference]

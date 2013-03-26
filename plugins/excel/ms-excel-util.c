@@ -167,8 +167,8 @@ two_way_table_put (TwoWayTable const *table, gpointer key,
 /**
  * two_way_table_move
  * @table Table
- * @dst_idx : The new idx for the value
- * @src_idx : stored here
+ * @dst_idx: The new idx for the value
+ * @src_idx: stored here
  *
  * Moves the key at index @src_idx into index @dst_idx, and drops the original
  * content of @dst_idx

@@ -213,8 +213,8 @@ dump_externals (GPtrArray *defs, FILE *out)
 
 /**
  * function_dump_defs :
- * @filename :
- * @dump_type :
+ * @filename:
+ * @dump_type:
  *
  * A generic utility routine to operate on all funtion defs
  * in various ways.  @dump_type will change/extend as needed
@@ -1718,7 +1718,7 @@ free_values (GnmValue **values, int top)
 /**
  * function_call_with_exprs:
  * @ei: EvalInfo containing valid fn_def!
- * @flags :
+ * @flags:
  *
  * Do the guts of calling a function.
  *

@@ -69,7 +69,7 @@ static GOMemChunk *expression_pool_small, *expression_pool_big;
 
 /**
  * gnm_expr_new_constant :
- * @v :
+ * @v:
  *
  * Absorbs the value.
  **/
@@ -274,9 +274,9 @@ gnm_expr_is_array (GnmExpr const *expr)
 
 /**
  * gnm_expr_new_array_corner :
- * @cols :
- * @rows :
- * @expr : optionally NULL.
+ * @cols:
+ * @rows:
+ * @expr: optionally NULL.
  *
  * Absorb a referernce to @expr if it is non NULL.
  **/
@@ -724,8 +724,8 @@ handle_empty (GnmValue *res, GnmExprEvalFlags flags)
 
 /**
  * value_intersection :
- * @v   : a VALUE_CELLRANGE or VALUE_ARRAY
- * @pos :
+ * @v: a VALUE_CELLRANGE or VALUE_ARRAY
+ * @pos:
  *
  * Handle the implicit union of a single row or column with the eval position.
  *
@@ -1214,8 +1214,8 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 
 /**
  * gnm_expr_eval :
- * @expr :
- * @pos  :
+ * @expr:
+ * @pos:
  * @flags:
  *
  * if GNM_EXPR_EVAL_PERMIT_EMPTY is not set then return int(0) if the
@@ -2451,7 +2451,7 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 
 /**
  * gnm_expr_containts_subtotal :
- * @expr :
+ * @expr:
  *
  * return TRUE if the expression calls the SUBTOTAL function
  **/
@@ -2561,7 +2561,7 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, Sheet const *sheet,
 
 /**
  * gnm_expr_get_range:
- * @expr :
+ * @expr:
  *
  * If this expression contains a single range return it.
  * Caller is responsible for value_releasing the result.
@@ -2657,7 +2657,7 @@ do_gnm_expr_get_ranges (GnmExpr const *expr, GSList *ranges)
 
 /**
  * gnm_expr_is_rangeref :
- * @expr :
+ * @expr:
  *
  * Returns TRUE if the expression can generate a reference.
  * NOTE : in the future it would be nice to know if a function
@@ -2993,7 +2993,7 @@ gnm_expr_top_new_array_elem  (int x, int y)
 
 /**
  * gnm_expr_top_get_ranges:
- * @texpr :
+ * @texpr:
  *
  * A collect the set of GnmRanges in @expr.
  * Returns: (element-type GnmRange) (transfer full): a list of the unique
@@ -3068,9 +3068,9 @@ gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
 
 /*
  * gnm_expr_top_relocate :
- * @texpr : #GnmExprTop to fixup
- * @rinfo : #GnmExprRelocateInfo details of relocation
- * @ignore_rel : Do not adjust relative refs (for internal use when
+ * @texpr: #GnmExprTop to fixup
+ * @rinfo: #GnmExprRelocateInfo details of relocation
+ * @ignore_rel: Do not adjust relative refs (for internal use when
  *		  relocating named expressions.   Most callers will want FALSE.
  *
  * GNM_EXPR_RELOCATE_INVALIDATE_SHEET :
@@ -3200,7 +3200,7 @@ gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError err)
 
 /**
  * gnm_expr_top_get_constant:
- * @texpr :
+ * @texpr:
  *
  * If this expression consists of just a constant, return it.
  */
@@ -3228,7 +3228,7 @@ gnm_expr_top_get_cellref (GnmExprTop const *texpr)
 
 /**
  * gnm_expr_top_first_funcall :
- * @texpr :
+ * @texpr:
  *
  */
 GnmExpr const *

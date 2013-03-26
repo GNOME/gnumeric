@@ -346,9 +346,9 @@ editable_label_get_text  (EditableLabel const *el)
 
 /**
  * editable_label_set_color :
- * @el :
- * @base_color : optionally NULL.
- * @text_color : optionally NULL.
+ * @el:
+ * @base_color: optionally NULL.
+ * @text_color: optionally NULL.
  *
  * assign the specified colours.  If we are editing just store them for later use.
  */

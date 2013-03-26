@@ -261,8 +261,8 @@ static void cb_ccombo_cancel_button	(GtkWidget *list)	{ ccombo_popup_destroy (li
 
 /**
  * gnm_cell_combo_view_popdown:
- * @sov : #SheetObjectView
- * @activate_time : event time
+ * @sov: #SheetObjectView
+ * @activate_time: event time
  *
  * Open the popup window associated with @sov
  **/
@@ -418,9 +418,9 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 
 /**
  * gnm_cell_combo_view_new:
- * @so : #SheetObject
- * @type : #GType
- * @container : SheetObjectViewContainer (a GnmPane)
+ * @so: #SheetObject
+ * @type: #GType
+ * @container: SheetObjectViewContainer (a GnmPane)
  *
  * Create and register an in cell combo to pick from an autofilter list.
  **/

@@ -187,9 +187,9 @@ GSF_CLASS_FULL (GnmDataCacheSource, gnm_data_cache_source, NULL, NULL,
 
 /**
  * gnm_data_cache_source_new:
- * @src_sheet : #Sheet
- * @src_range : #GnmRange
- * @src_name : char *, optionally %NULL
+ * @src_sheet: #Sheet
+ * @src_range: #GnmRange
+ * @src_name: char *, optionally %NULL
  *
  * Allocates a new Allocates a new #GnmDataCacheSource
  *

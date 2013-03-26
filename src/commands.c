@@ -311,7 +311,7 @@ select_selection (Sheet *sheet, GSList *selection, WorkbookControl *wbc)
 /**
  * get_menu_label:
  *     with a list of commands.
- * @cmd_list : The command list to check.
+ * @cmd_list: The command list to check.
  *
  * Utility routine to get the descriptor associated
  * Returns : A static reference to a descriptor.  DO NOT free this.
@@ -510,7 +510,7 @@ command_repeat (WorkbookControl *wbc)
 
 /**
  * command_setup_combos :
- * @wbc :
+ * @wbc:
  *
  * Initialize the combos to correspond to the current undo/redo state.
  */
@@ -648,8 +648,8 @@ truncate_undo_info (Workbook *wb)
 
 /**
  * command_register_undo:
- * @wbc : The workbook control that issued the command.
- * @cmd : The new command to add.
+ * @wbc: The workbook control that issued the command.
+ * @cmd: The new command to add.
  *
  * An internal utility to tack a new command
  *    onto the undo list.
@@ -1827,7 +1827,7 @@ cmd_format_finalize (GObject *cmd)
  * @sheet: the sheet
  * @style: style to apply to the selection
  * @borders: borders to apply to the selection
- * @opt_translated_name : An optional name to use in place of 'Format Cells'
+ * @opt_translated_name: An optional name to use in place of 'Format Cells'
  *
  * If borders is non NULL, then the GnmBorder references are passed,
  * the GnmStyle reference is also passed.
@@ -6051,11 +6051,11 @@ cmd_define_name_finalize (GObject *cmd)
 
 /**
  * cmd_define_name :
- * @wbc :
- * @name :
- * @pp   :
- * @texpr : absorbs a ref to the texpr.
- * @descriptor : optional descriptor.
+ * @wbc:
+ * @name:
+ * @pp:
+ * @texpr: absorbs a ref to the texpr.
+ * @descriptor: optional descriptor.
  *
  * If the @name has never been defined in context @pp create a new name
  * If its a placeholder assign @texpr to it and make it real
@@ -6206,8 +6206,8 @@ cmd_remove_name_finalize (GObject *cmd)
 
 /**
  * cmd_remove_name :
- * @wbc :
- * @nexpr : name to remove.
+ * @wbc:
+ * @nexpr: name to remove.
  *
  * Returns TRUE on error
  **/
@@ -6285,8 +6285,8 @@ cmd_rescope_name_finalize (GObject *cmd)
 
 /**
  * cmd_rescope_name :
- * @wbc :
- * @nexpr : name to rescope.
+ * @wbc:
+ * @nexpr: name to rescope.
  *
  * Returns TRUE on error
  **/
@@ -6803,10 +6803,10 @@ cmd_freeze_panes_finalize (GObject *cmd)
 
 /**
  * cmd_freeze_panes :
- * @wbc : where to report errors
- * @sv  : the view to freeze
- * @frozen   :
- * @unfrozen :
+ * @wbc: where to report errors
+ * @sv: the view to freeze
+ * @frozen:
+ * @unfrozen:
  *
  * Returns TRUE on error
  **/

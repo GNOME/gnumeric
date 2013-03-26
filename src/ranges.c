@@ -131,8 +131,8 @@ range_init (GnmRange *r, int start_col, int start_row,
 
 /**
  * range_parse :
- * @r : #GnmRange
- * @text :
+ * @r: #GnmRange
+ * @text:
  *
  * Parse a simple range (no abs/rel refs, no sheet refs)
  * Store the result in @res.
@@ -568,9 +568,9 @@ range_is_singleton (GnmRange const *r)
 
 /**
  * range_is_full :
- * @r    : the range.
- * @sheet : the sheet in which @r lives
- * @horiz : TRUE to check for a horizontal full ref (_cols_ [0..MAX))
+ * @r: the range.
+ * @sheet: the sheet in which @r lives
+ * @horiz: TRUE to check for a horizontal full ref (_cols_ [0..MAX))
  *
  * This determines whether @r completely spans a sheet
  * in the dimension specified by @horiz.
@@ -590,8 +590,8 @@ range_is_full (GnmRange const *r, Sheet const *sheet, gboolean horiz)
 
 /**
  * range_clip_to_finite :
- * @range :
- * @sheet : the sheet in which @range lives
+ * @range:
+ * @sheet: the sheet in which @range lives
  *
  * Clip the range to the area of the sheet with content.
  * if the range reaches the edge
@@ -668,8 +668,8 @@ range_translate (GnmRange *range, Sheet const *sheet, int col_offset, int row_of
 
 /**
  * range_ensure_sanity :
- * @range : the range to check
- * @sheet : the sheet in which @range lives
+ * @range: the range to check
+ * @sheet: the sheet in which @range lives
  *
  * Silently clip a range to ensure that it does not contain areas
  * outside the valid bounds.  Does NOT fix inverted ranges.
@@ -686,7 +686,7 @@ range_ensure_sanity (GnmRange *range, Sheet const *sheet)
 
 /**
  * range_is_sane :
- * @range : the range to check
+ * @range: the range to check
  *
  * Generate warnings if the range is out of bounds or inverted.
  **/
@@ -808,8 +808,8 @@ gnm_sheet_range_dup (GnmSheetRange const *sr)
 
 /**
  * gnm_sheet_range_from_value :
- * @r :
- * @v :
+ * @r:
+ * @v:
  *
  * Convert @v into a GnmSheetRange and return in @r
  **/

@@ -216,8 +216,8 @@ go_data_cache_get_source (GODataCache const *cache)
 
 /**
  * go_data_cache_set_source :
- * @cache : #GODataCache
- * @src   : #GODataCacheSource
+ * @cache: #GODataCache
+ * @src: #GODataCacheSource
  *
  * Absorbs the reference to @src.
  **/
@@ -248,8 +248,8 @@ go_data_cache_add_field (GODataCache *cache, GODataCacheField *field)
 
 /**
  * go_data_cache_import_start :
- * @cache :#GODataCache
- * @n : num records
+ * @cache:#GODataCache
+ * @n: num records
  *
  * Validate the field setup and initialize the storage.
  **/
@@ -390,8 +390,8 @@ go_data_cache_set_index (GODataCache *cache,
 
 /**
  * go_data_cache_import_done :
- * @cache : #GODataCache
- * @actual_records : count
+ * @cache: #GODataCache
+ * @actual_records: count
  *
  * Tidy up after an import, and tighten up the amount of memory used to store
  * the records.
@@ -504,9 +504,9 @@ cb_go_data_cache_cmp (int const *a, int const * b,
 
 /**
  * go_data_cache_permute:
- * @cache : #GODataCache
- * @field_order : #GArray of unsigned int
- * @permutation : #GArray of unsigned int that will be re-ordered according to the fields.
+ * @cache: #GODataCache
+ * @field_order: #GArray of unsigned int
+ * @permutation: #GArray of unsigned int that will be re-ordered according to the fields.
  *
  **/
 void

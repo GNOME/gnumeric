@@ -171,9 +171,9 @@ ms_container_realize_objs (MSContainer *container)
 /**
  * ms_container_parse_expr:
  *
- * @c : The container
- * @data : the encoded expression
- * @length : the size of the encoded expression
+ * @c: The container
+ * @data: the encoded expression
+ * @length: the size of the encoded expression
  *
  * Attempts to parse the encoded expression in the context of the container.
  */
@@ -191,7 +191,7 @@ ms_container_parse_expr (MSContainer *c, guint8 const *data, int length)
 /**
  * ms_container_sheet:
  *
- * @c : The container
+ * @c: The container
  *
  * DEPRECATED !
  * This will become dependent_container when that abstraction is added
@@ -222,8 +222,8 @@ ms_container_get_fmt (MSContainer const *c, unsigned indx)
 
 /**
  * ms_container_get_markup :
- * @c : #MSContainer
- * @indx :
+ * @c: #MSContainer
+ * @indx:
  *
  * Return a #PangoAttrList the caller should not modify or free the list.
  **/

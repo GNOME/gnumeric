@@ -124,7 +124,7 @@ GSF_CLASS (GODataSlicer, go_data_slicer,
 
 /**
  * go_data_slicer_get_cache :
- * @ds : #GODataSlicer
+ * @ds: #GODataSlicer
  *
  * Does not add a reference.
  *
@@ -139,8 +139,8 @@ go_data_slicer_get_cache (GODataSlicer const *ds)
 
 /**
  * go_data_slicer_set_cache:
- * @ds : #GODataSlicer
- * @cache : #GODataCache
+ * @ds: #GODataSlicer
+ * @cache: #GODataCache
  *
  * Assign @cache to @ds, and adds a reference to @cache
  **/

@@ -84,7 +84,7 @@ stf_warning (GOIOContext *context, char const *msg)
 
 /*
  * stf_open_and_read:
- * @filename : name of the file to open&read
+ * @filename: name of the file to open&read
  *
  * Will open filename, read the file into a g_alloced memory buffer
  *
@@ -211,11 +211,11 @@ resize_columns (Sheet *sheet)
 
 /*
  * stf_read_workbook:
- * @fo       : file opener
- * @enc      : encoding of file
- * @context  : command context
- * @book     : workbook
- * @input    : file to read from+convert
+ * @fo: file opener
+ * @enc: encoding of file
+ * @context: command context
+ * @book: workbook
+ * @input: file to read from+convert
  *
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  */
@@ -414,11 +414,11 @@ clear_stray_NULs (GOIOContext *context, GString *utf8data)
 
 /*
  * stf_read_workbook_auto_csvtab:
- * @fo       : file opener
- * @enc      : optional encoding
- * @context  : command context
- * @book     : workbook
- * @input    : file to read from+convert
+ * @fo: file opener
+ * @enc: optional encoding
+ * @context: command context
+ * @book: workbook
+ * @input: file to read from+convert
  *
  * Attempt to auto-detect CSV or tab-delimited file
  */

@@ -74,8 +74,8 @@ GSF_CLASS (GnmInputMsg, gnm_input_msg,
 
 /**
  * gnm_input_msg_new :
- * @msg :
- * @title :
+ * @msg:
+ * @title:
  *
  * Returns: a ref to new #GnmInputMsg.
  **/

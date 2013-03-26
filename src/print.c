@@ -469,7 +469,7 @@ print_hf_line (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet,
 /**
  * print_page:
  * @pj:        printing context
- * @gsr :      the page information
+ * @gsr:      the page information
  *
  * Excel prints repeated rows like this: Pages up to and including the page
  * where the first of the repeated rows "naturally" occurs are printed in

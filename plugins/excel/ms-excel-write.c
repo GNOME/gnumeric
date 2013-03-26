@@ -262,8 +262,8 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 
 /**
  * excel_strlen :
- * @str : The utf8 encoded string in question
- * @bytes :
+ * @str: The utf8 encoded string in question
+ * @bytes:
  *
  * Returns the size of the string in _characters_ and stores the number of
  * bytes in @bytes.
@@ -286,9 +286,9 @@ excel_strlen (guint8 const *str, size_t *bytes)
 
 /**
  * excel_write_string :
- * @bp :
- * @flags :
- * @txt :
+ * @bp:
+ * @flags:
+ * @txt:
  *
  * NOTE : I considered putting markup here too to be strictly correct and
  * export rich text directly.  But it was easier to just use RSTRING.
@@ -1734,8 +1734,8 @@ palette_free (XLExportBase *ewb)
 
 /**
  * palette_get_index
- * @ewb : #XLExportBase
- * @c   : color
+ * @ewb: #XLExportBase
+ * @c: color
  *
  * Get index of color
  * The color index to use is *not* simply the index into the palette.
@@ -2117,8 +2117,8 @@ after_put_font (ExcelWriteFont *f, gboolean was_added, gint index, gconstpointer
 
 /**
  * put_efont :
- * @efont : #ExcelWriteFont
- * @xle : #XLExportBase
+ * @efont: #ExcelWriteFont
+ * @xle: #XLExportBase
  *
  * Absorbs ownership of @efont potentially freeing it.
  *
@@ -3584,8 +3584,8 @@ write_mulblank (BiffPut *bp, ExcelWriteSheet *esheet, guint32 end_col, guint32 r
 
 /**
  * excel_write_GUTS
- * @bp    :  BIFF buffer
- * @esheet : sheet
+ * @bp:  BIFF buffer
+ * @esheet: sheet
  *
  * Write information about outline mode gutters.
  **/
@@ -3670,10 +3670,10 @@ excel_write_DEFCOLWIDTH (BiffPut *bp, ExcelWriteSheet *esheet)
  * excel_write_COLINFO
  * @bp:   BIFF buffer
  * @esheet:
- * @ci   : the descriptor of the first col (possibly NULL)
- * @first_col : the index of the last contiguous identical col
- * @last_col  : the index of the last contiguous identical col
- * @xf_index   : the style index to the entire col (< 0 for none)
+ * @ci: the descriptor of the first col (possibly NULL)
+ * @first_col: the index of the last contiguous identical col
+ * @last_col: the index of the last contiguous identical col
+ * @xf_index: the style index to the entire col (< 0 for none)
  *
  * Write column info for a run of identical columns
  **/

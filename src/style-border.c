@@ -153,7 +153,7 @@ gnm_style_border_none (void)
 
 /**
  * gnm_style_border_none_set_color:
- * @color :
+ * @color:
  *
  * This function updates the color of gnm_style_border_none when the wanted grid
  * color is known. gnm_style_border_none tells how to render the grid. Because
@@ -183,9 +183,9 @@ gnm_style_border_none_set_color (GnmColor *color)
 
 /**
  * gnm_style_border_fetch :
- * @line_type : dash style
- * @color : colour
- * @orientation : Not currently used.
+ * @line_type: dash style
+ * @color: colour
+ * @orientation: Not currently used.
  *
  * Fetches a GnmBorder from the cache, creating one if necessary.  Absorbs
  * the colour reference.  In the future we may have different dash styles for

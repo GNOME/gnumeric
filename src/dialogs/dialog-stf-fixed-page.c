@@ -368,7 +368,7 @@ cb_col_key_press (GtkWidget *button,
 
 /**
  * fixed_page_update_preview
- * @pagedata : mother struct
+ * @pagedata: mother struct
  *
  * Will simply update the preview
  *
@@ -458,7 +458,7 @@ fixed_page_auto_clicked (G_GNUC_UNUSED GtkButton *button,
 
 /**
  * stf_dialog_fixed_page_prepare
- * @data : mother struct
+ * @data: mother struct
  *
  * Will prepare the fixed page
  *
@@ -591,7 +591,7 @@ cb_treeview_draw_2 (GtkWidget *widget,
 
 /**
  * stf_dialog_fixed_page_cleanup
- * @pagedata : mother struct
+ * @pagedata: mother struct
  *
  * Will cleanup fixed page run-time data
  *

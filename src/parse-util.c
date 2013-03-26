@@ -254,9 +254,9 @@ wb_rel_uri (Workbook *wb, Workbook *ref_wb)
 
 /**
  * cellref_as_string :
- * @out : #GnmConventionsOut
- * @cell_ref :
- * @no_sheetname :
+ * @out: #GnmConventionsOut
+ * @cell_ref:
+ * @no_sheetname:
  *
  * Returns a string that the caller needs to free containing the A1 format
  * representation of @ref as evaluated at @pp.  @no_sheetname can be used to
@@ -311,8 +311,8 @@ cellref_as_string (GnmConventionsOut *out,
 
 /**
  * rangeref_as_string :
- * @out : #GnmConventionsOut
- * @ref : #GnmRangeRef
+ * @out: #GnmConventionsOut
+ * @ref: #GnmRangeRef
  *
  **/
 void
@@ -420,8 +420,8 @@ rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 
 /**
  * gnm_1_0_rangeref_as_string :
- * @out : #GnmConventionsOut
- * @ref : #GnmRangeRef
+ * @out: #GnmConventionsOut
+ * @ref: #GnmRangeRef
  *
  * Simplified variant of rangeref_as_string that old versions of gnumeric can
  * read.  It drops support for full col/row references.  We can remap them on
@@ -885,9 +885,9 @@ unquote (char *dst, char const *src, int n)
 
 /**
  * wbref_parse :
- * @convs : #GnmConventions const
- * @start :
- * @wb :
+ * @convs: #GnmConventions const
+ * @start:
+ * @wb:
  *
  * Returns : NULL if there is a valid workbook name but it is unknown.
  *           If the string is a valid workbook known name it returns a pointer
@@ -935,11 +935,11 @@ wbref_parse (GnmConventions const *convs,
 
 /**
  * sheetref_parse :
- * @convs :
- * @start :
- * @sheet :
- * @wb    :
- * @allow_3d :
+ * @convs:
+ * @start:
+ * @sheet:
+ * @wb:
+ * @allow_3d:
  *
  * Returns : NULL if there is a valid sheet name but it is unknown.
  *           If the string is a valid sheet name it returns a pointer
@@ -1097,9 +1097,9 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 
 /**
  * rangeref_parse :
- * @res : where to store the result
- * @start : the start of the string to parse
- * @pp : the location to parse relative to
+ * @res: where to store the result
+ * @start: the start of the string to parse
+ * @pp: the location to parse relative to
  * @convs: #GnmConventions
  *
  * Returns a pointer to the first invalid character.
@@ -1421,7 +1421,7 @@ std_string_parser (char const *in, GString *target,
 
 /**
  * gnm_conventions_new_full :
- * @size :
+ * @size:
  *
  * Construct a GnmConventions of @size.
  *
@@ -1481,7 +1481,7 @@ gnm_conventions_new (void)
 
 /**
  * gnm_conventions_unref :
- * @c : #GnmConventions
+ * @c: #GnmConventions
  *
  * Release a convention
  **/

@@ -992,7 +992,7 @@ dialog_formula_guru_show (FormulaGuruState *state)
 
 /**
  * dialog_formula_guru
- * @wbcg : The workbook to use as a parent window.
+ * @wbcg: The workbook to use as a parent window.
  *
  * Pop up a function selector then a formula guru.
  */

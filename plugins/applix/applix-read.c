@@ -136,7 +136,7 @@ applix_parse_error (ApplixReadState *state, char const *format, ...)
 /**
  * applix_parse_value : Parse applix's optionally quoted values.
  *
- * @follow : A pointer to a char * that is adjusted to point 2 chars AFTER the
+ * @follow: A pointer to a char * that is adjusted to point 2 chars AFTER the
  *           end of the string.
  *
  * returns the strings and null terminates it.

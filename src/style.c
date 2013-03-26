@@ -572,8 +572,8 @@ gnm_style_required_spanflags (GnmStyle const *style)
 
 /**
  * gnm_style_default_halign:
- * @style :
- * @c  :
+ * @style:
+ * @c:
  *
  * Select the appropriate horizontal alignment depending on the style and cell
  * value.
