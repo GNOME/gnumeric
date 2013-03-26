@@ -91,6 +91,7 @@ struct _GnmItemCursor {
 	GdkRGBA normal_color;
 	GdkRGBA ant_color, ant_background_color;
 	GdkRGBA drag_color, drag_background_color;
+	GdkRGBA autofill_color, autofill_background_color;
 };
 typedef GocItemClass GnmItemCursorClass;
 
@@ -110,24 +111,33 @@ ic_reload_style (GnmItemCursor *ic)
 {
 	GocItem *item = GOC_ITEM (ic);
 	GtkStyleContext *context = goc_item_get_style_context (item);
+	GtkStateFlags state = GTK_STATE_FLAG_NORMAL;
 
-	gtk_style_context_get_color
-		(context, GTK_STATE_FLAG_NORMAL,
-		 &ic->normal_color);
+	gtk_style_context_save (context);
+	gtk_style_context_add_class (context, "normal");
+	gtk_style_context_get_color (context, state, &ic->normal_color);
+	gtk_style_context_restore (context);
 
-	gtk_style_context_get_color
-		(context, GTK_STATE_FLAG_PRELIGHT,
-		 &ic->ant_color);
-	gtk_style_context_get_background_color
-		(context, GTK_STATE_FLAG_PRELIGHT,
-		 &ic->ant_background_color);
+	gtk_style_context_save (context);
+	gtk_style_context_add_class (context, "ant");
+	gtk_style_context_get_color (context, state, &ic->ant_color);
+	gtk_style_context_get_background_color (context, state,
+						&ic->ant_background_color);
+	gtk_style_context_restore (context);
 
-	gtk_style_context_get_color
-		(context, GTK_STATE_FLAG_SELECTED,
-		 &ic->drag_color);
-	gtk_style_context_get_background_color
-		(context, GTK_STATE_FLAG_SELECTED,
-		 &ic->drag_background_color);
+	gtk_style_context_save (context);
+	gtk_style_context_add_class (context, "drag");
+	gtk_style_context_get_color (context, state, &ic->drag_color);
+	gtk_style_context_get_background_color (context, state,
+						&ic->drag_background_color);
+	gtk_style_context_restore (context);
+
+	gtk_style_context_save (context);
+	gtk_style_context_add_class (context, "autofill");
+	gtk_style_context_get_color (context, state, &ic->autofill_color);
+	gtk_style_context_get_background_color (context, state,
+						&ic->autofill_background_color);
+	gtk_style_context_restore (context);
 }
 
 static int
@@ -269,6 +279,13 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 
 	switch (ic->style) {
 	case GNM_ITEM_CURSOR_AUTOFILL:
+		draw_center   = TRUE;
+		draw_thick    = 3;
+		draw_stippled = TRUE;
+		fore          = &ic->autofill_color;
+		back          = &ic->autofill_background_color;
+		break;
+
 	case GNM_ITEM_CURSOR_DRAG:
 		draw_center   = TRUE;
 		draw_thick    = 3;

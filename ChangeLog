@@ -1,3 +1,9 @@
+2013-03-26  Morten Welinder  <terra@gnome.org>
+
+	* src/item-cursor.c (ic_reload_style): Use class, not state, to
+	separate the different cursor types.  Separate autofill colouring
+	from drag ditto.
+
 2013-03-25  Morten Welinder  <terra@gnome.org>
 
 	* src/item-cursor.c (gnm_item_cursor_class_init): Change type of

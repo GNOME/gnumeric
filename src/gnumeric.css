@@ -25,19 +25,20 @@ GnmItemGrid pane-divider {
 }
 
 /* The default cursor.  */
-GnmItemCursor {
+GnmItemCursor.normal {
   color: #000000;
 }
 
 /* The anted cursor.  We clearly should be using an animation, but neither
    we not gtk are ready for that.  */
-GnmItemCursor:hover {
+GnmItemCursor.ant {
   color: #333333;
   background-color: #c7c7c7;
 }
 
 /* The dragging/autofill cursor.  These colors are combined in a stipple.  */
-GnmItemCursor:selected {
+GnmItemCursor.drag,
+GnmItemCursor.autofill {
   color: white;
   background-color: black;
 }
