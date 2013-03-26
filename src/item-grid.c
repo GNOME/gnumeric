@@ -314,8 +314,8 @@ item_grid_draw_merged_range (cairo_t *cr, GnmItemGrid *ig,
 	}
 
 	/* Check for background THEN selection */
-	if (gnumeric_background_set (style, cr,
-				     is_selected, ctxt) || is_selected) {
+	if (gnumeric_background_set (style, cr, is_selected, ctxt) ||
+	    is_selected) {
 		/* Remember X excludes the far pixels */
 		if (dir > 0)
 			cairo_rectangle (cr, l, t, r-l+1, b-t+1);
@@ -378,8 +378,7 @@ item_grid_draw_background (cairo_t *cr, GnmItemGrid *ig,
 		(sv->edit_pos.col != col || sv->edit_pos.row != row) &&
 		sv_is_pos_selected (sv, col, row);
 	gboolean const has_back =
-		gnumeric_background_set (style, cr,
-					 is_selected, ctxt);
+		gnumeric_background_set (style, cr, is_selected, ctxt);
 
 #if DEBUG_SELECTION_PAINT
 	if (is_selected) {

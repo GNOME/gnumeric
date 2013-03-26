@@ -174,7 +174,8 @@ static void
 preview_grid_draw_background (cairo_t *cr, GnmPreviewGrid const *pg, GnmStyle const *mstyle,
 			      int col, int row, int x, int y, int w, int h)
 {
-	if (gnumeric_background_set (mstyle, cr, FALSE, NULL)) {
+	GtkStyleContext *context = goc_item_get_style_context (GOC_ITEM (pg));
+	if (gnumeric_background_set (mstyle, cr, FALSE, context)) {
 		cairo_rectangle (cr, x, y, w+1, h+1);
 		cairo_fill (cr);
 	}

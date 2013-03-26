@@ -116,7 +116,8 @@ gnm_apply_attribute_list (PangoAttrList *attrs, PangoAttrList *added_attrs)
 static void
 item_edit_draw (GocItem const *item, cairo_t *cr)
 {
-	GnmItemEdit  const *ie	= GNM_ITEM_EDIT (item);
+	GnmItemEdit const *ie = GNM_ITEM_EDIT (item);
+	GtkStyleContext *context = goc_item_get_style_context (item);
 	int top, left;
 	GOColor color;
 	int x0, y0, x1, y1; /* in widget coordinates */
@@ -150,7 +151,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	/* avoid a weak/strong cursor to extent outside the item,
 	 a better fix would be to have enough room for cursors */
 	cairo_clip_preserve (cr);
-	if (!gnumeric_background_set (ie->style, cr, FALSE, NULL))
+	if (!gnumeric_background_set (ie->style, cr, FALSE, context))
 		cairo_set_source_rgba (cr, 1., 1., 0.878431373, 1.);
 	cairo_fill (cr);
 

@@ -48,17 +48,13 @@ static GOPatternType patterns[] = {
  * return : TRUE if there is a background to paint.
  */
 
-static double
-gnm_get_light (double c)
-{
-	return ((1 + c)/2);
-}
-
 gboolean
 gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 			 gboolean const is_selected, GtkStyleContext *ctxt)
 {
 	int pattern;
+
+	g_return_val_if_fail (ctxt != NULL, FALSE);
 
 	/*
 	 * Draw the background if the PATTERN is non 0
@@ -74,12 +70,9 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 		if (is_selected) {
 			GOColor light;
 			GdkRGBA rgba;
-			if (ctxt) {
-				gtk_style_context_get_background_color (ctxt,
-				                GTK_STATE_FLAG_SELECTED, &rgba);
-				light = GO_COLOR_FROM_GDK_RGBA (rgba);
-			} else
-				light = GO_COLOR_FROM_RGB (230, 230, 250);
+			gtk_style_context_get_background_color
+				(ctxt, GTK_STATE_FLAG_SELECTED, &rgba);
+			light = GO_COLOR_FROM_GDK_RGBA (rgba);
 			gopat.fore = GO_COLOR_INTERPOLATE (light, gopat.fore, .5);
 			gopat.back = GO_COLOR_INTERPOLATE (light, gopat.back, .5);
 		}
@@ -88,17 +81,14 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 		cairo_pattern_destroy (crpat);
 		return TRUE;
 	} else if (is_selected) {
-		if (ctxt == NULL)
-			gdk_cairo_set_source_rgba (cr, &gs_lavender);
-		else {
-			GdkRGBA rgba;
-			gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_SELECTED, &rgba);
-			cairo_set_source_rgba
-				(cr, gnm_get_light (rgba.red),
-				 gnm_get_light (rgba.green),
-				 gnm_get_light (rgba.blue),
-				 gnm_get_light (rgba.alpha));
-		}
+		GdkRGBA rgba;
+		GOColor color;
+
+		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_SELECTED, &rgba);
+		color = GO_COLOR_FROM_GDK_RGBA (rgba);
+		/* Make a lighter version. */
+		color = GO_COLOR_INTERPOLATE (GO_COLOR_WHITE, color, .5);
+		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	}
 	return FALSE;
 }

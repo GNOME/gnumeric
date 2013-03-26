@@ -1,5 +1,12 @@
 2013-03-26  Morten Welinder  <terra@gnome.org>
 
+	* src/pattern.c (gnumeric_background_set): Insist that ctxt is
+	non-NULL.
+
+	* src/preview-grid.c (preview_grid_draw_background): Always
+	provide a context to gnumeric_background_set.
+	* src/item-edit.c (item_edit_draw): Ditto.
+
 	* src/item-cursor.c (ic_reload_style): Use class, not state, to
 	separate the different cursor types.  Separate autofill colouring
 	from drag ditto.
