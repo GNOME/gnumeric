@@ -24,6 +24,11 @@ GnmItemGrid pane-divider {
   border-width: 1px;
 }
 
+/* The default cursor.  */
+GnmItemCursor {
+  color: #000000;
+}
+
 /* The anted cursor.  We clearly should be using an animation, but neither
    we not gtk are ready for that.  */
 GnmItemCursor:hover {
