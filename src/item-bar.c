@@ -183,7 +183,7 @@ ib_reload_style (GnmItemBar *ib)
 
 /**
  * gnm_item_bar_calc_size:
- * @ib : #GnmItemBar
+ * @ib: #GnmItemBar
  *
  * Scale fonts and sizes by the pixels_per_unit of the associated sheet.
  *
