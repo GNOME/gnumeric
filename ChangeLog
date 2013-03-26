@@ -1,7 +1,9 @@
 2013-03-26  Morten Welinder  <terra@gnome.org>
 
 	* src/pattern.c (gnumeric_background_set): Insist that ctxt is
-	non-NULL.
+	non-NULL if there is a selection.
+	(gnumeric_background_set_gtk): Delete.  Make callers use
+	gnumeric_background_set.
 
 	* src/preview-grid.c (preview_grid_draw_background): Always
 	provide a context to gnumeric_background_set.

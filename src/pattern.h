@@ -12,8 +12,6 @@ gboolean    gnumeric_background_set	(GnmStyle const *mstyle,
 					 cairo_t *cr,
 					 gboolean const is_selected,
 					 GtkStyleContext *ctxt);
-gboolean    gnumeric_background_set_gtk	(GnmStyle const *mstyle,
-					 cairo_t *context);
 
 G_END_DECLS
 

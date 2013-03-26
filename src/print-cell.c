@@ -192,7 +192,7 @@ print_cell_background_gtk (cairo_t *context,
 			   G_GNUC_UNUSED int col, G_GNUC_UNUSED int row,
 			   double x, double y, double w, double h)
 {
-	if (gnumeric_background_set_gtk (style, context))
+	if (gnumeric_background_set (style, context, FALSE, NULL))
 		/* Remember api excludes the far pixels */
 		print_rectangle_gtk (context, x, y, w+0.2, h+0.2);
 	gnm_style_border_print_diag_gtk (style, context, x, y, x+w, y+h);
@@ -248,7 +248,7 @@ print_merged_range_gtk (cairo_t *context,
 			style = g_ptr_array_index (style->cond_styles, res);
 	}
 
-	if (gnumeric_background_set_gtk (style, context))
+	if (gnumeric_background_set_gtk (style, context, FALSE, NULL))
 		print_rectangle_gtk (context, l, t, r-l+0.2, b-t+0.2);
 
 	if (range->start.col < view->start.col)
