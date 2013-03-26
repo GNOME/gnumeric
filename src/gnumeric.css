@@ -1,7 +1,11 @@
 /* ------------------------------------------------------------------------- */
 /* The GnmItemGrid is the canvas area that holds all the cells.  */
+/* GnmPreviewGrid is the canvas used for auto-format previews. */
 GnmItemGrid, GnmPreviewGrid {
   background-color: white;
+  padding: 0;
+  border-style: none;
+  border-width: 0;
 }
 
 /* Function markers are enabled from View->View Properties->Cell Markers */

@@ -88,6 +88,7 @@ struct _GnmItemCursor {
 	GdkRGBA  color;
 
 	/* Style: */
+	GdkRGBA normal_color;
 	GdkRGBA ant_color, ant_background_color;
 	GdkRGBA drag_color, drag_background_color;
 };
@@ -109,6 +110,10 @@ ic_reload_style (GnmItemCursor *ic)
 {
 	GocItem *item = GOC_ITEM (ic);
 	GtkStyleContext *context = goc_item_get_style_context (item);
+
+	gtk_style_context_get_color
+		(context, GTK_STATE_FLAG_NORMAL,
+		 &ic->normal_color);
 
 	gtk_style_context_get_color
 		(context, GTK_STATE_FLAG_PRELIGHT,
@@ -342,7 +347,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	cairo_set_line_width (cr, 1.);
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-	gdk_cairo_set_source_rgba (cr, &gs_black);
+	gdk_cairo_set_source_rgba (cr, &ic->normal_color);
 
 	if (draw_xor)
 		cairo_set_operator (cr, CAIRO_OPERATOR_HARD_LIGHT);
@@ -1470,11 +1475,11 @@ gnm_item_cursor_class_init (GObjectClass *gobject_klass)
 				   "Name of the cursor's color",
 				   0, 0xffffffff, 
 				   GO_COLOR_BLACK,
-				   GSF_PARAM_STATIC |  G_PARAM_WRITABLE));
+				   GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	item_klass->realize     = item_cursor_realize;
 	item_klass->unrealize   = item_cursor_unrealize;
-	item_klass->draw		= item_cursor_draw;
+	item_klass->draw	= item_cursor_draw;
 	item_klass->update_bounds = item_cursor_update_bounds;
 	item_klass->distance	= item_cursor_distance;
 	item_klass->button_pressed = item_cursor_button_pressed;
