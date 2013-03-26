@@ -20,6 +20,19 @@ GnmItemGrid pane-divider {
   border-width: 1px;
 }
 
+/* The anted cursor.  We clearly should be using an animation, but neither
+   we not gtk are ready for that.  */
+GnmItemCursor:hover {
+  color: #333333;
+  background-color: #c7c7c7;
+}
+
+/* The dragging/autofill cursor.  These colors are combined in a stipple.  */
+GnmItemCursor:selected {
+  color: white;
+  background-color: black;
+}
+
 
 /* GnmPane is the canvas we use for sheets.  We store custom properties
    here because there is no un-deprecated way to store them for the

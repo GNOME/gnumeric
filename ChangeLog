@@ -2,6 +2,7 @@
 
 	* src/item-cursor.c (gnm_item_cursor_class_init): Change type of
 	color to GOColor.
+	(ic_reload_style): Theme some of the cursor colors.
 
 	* src/gnm-pane.c (gnm_pane_expr_cursor_bound_set): Take GOColor,
 	not colour name.

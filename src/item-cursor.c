@@ -86,6 +86,10 @@ struct _GnmItemCursor {
 	gboolean auto_fill_handle_at_left;
 
 	GdkRGBA  color;
+
+	/* Style: */
+	GdkRGBA ant_color, ant_background_color;
+	GdkRGBA drag_color, drag_background_color;
 };
 typedef GocItemClass GnmItemCursorClass;
 
@@ -98,6 +102,28 @@ enum {
 	ITEM_CURSOR_PROP_BUTTON,
 	ITEM_CURSOR_PROP_COLOR
 };
+
+
+static void
+ic_reload_style (GnmItemCursor *ic)
+{
+	GocItem *item = GOC_ITEM (ic);
+	GtkStyleContext *context = goc_item_get_style_context (item);
+
+	gtk_style_context_get_color
+		(context, GTK_STATE_FLAG_PRELIGHT,
+		 &ic->ant_color);
+	gtk_style_context_get_background_color
+		(context, GTK_STATE_FLAG_PRELIGHT,
+		 &ic->ant_background_color);
+
+	gtk_style_context_get_color
+		(context, GTK_STATE_FLAG_SELECTED,
+		 &ic->drag_color);
+	gtk_style_context_get_background_color
+		(context, GTK_STATE_FLAG_SELECTED,
+		 &ic->drag_background_color);
+}
 
 static int
 cb_item_cursor_animation (GnmItemCursor *ic)
@@ -127,8 +153,9 @@ item_cursor_realize (GocItem *item)
 {
 	GnmItemCursor *ic = GNM_ITEM_CURSOR (item);
 
-	if (parent_class->realize)
-		(*parent_class->realize) (item);
+	parent_class->realize (item);
+
+	ic_reload_style (ic);
 
 	if (ic->style == GNM_ITEM_CURSOR_ANTED) {
 		g_return_if_fail (ic->animation_timer == -1);
@@ -148,8 +175,7 @@ item_cursor_unrealize (GocItem *item)
 		ic->animation_timer = -1;
 	}
 
-	if (parent_class->unrealize)
-		(*parent_class->unrealize) (item);
+	parent_class->unrealize (item);
 }
 
 static void
@@ -201,12 +227,12 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	GdkRGBA *fore = NULL, *back = NULL;
 
 #if 0
-		g_print ("draw[%d] %lx,%lx %lx,%lx\n",
-		 GNM_PANE (item->canvas)->index,
-		 ic->outline.x1,
-		 ic->outline.y1,
-		 ic->outline.x2,
-		 ic->outline.y2);
+	g_printerr ("draw[%d] %lx,%lx %lx,%lx\n",
+		    GNM_PANE (item->canvas)->index,
+		    ic->outline.x1,
+		    ic->outline.y1,
+		    ic->outline.x2,
+		    ic->outline.y2);
 #endif
 	if (!ic->visible || !ic->pos_initialized)
 		return;
@@ -242,8 +268,8 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 		draw_center   = TRUE;
 		draw_thick    = 3;
 		draw_stippled = TRUE;
-		fore          = &gs_black;
-		back          = &gs_white;
+		fore          = &ic->drag_color;
+		back          = &ic->drag_background_color;
 		break;
 
 	case GNM_ITEM_CURSOR_EXPR_RANGE:
@@ -252,40 +278,40 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 		draw_xor      = FALSE;
 		break;
 
-	case GNM_ITEM_CURSOR_SELECTION:
+	case GNM_ITEM_CURSOR_SELECTION: {
+		GnmPane const *pane = GNM_PANE (item->canvas);
+		GnmPane const *pane0 = scg_pane (pane->simple.scg, 0);
+
 		draw_internal = TRUE;
 		draw_external = TRUE;
-		{
-			GnmPane const *pane = GNM_PANE (item->canvas);
-			GnmPane const *pane0 = scg_pane (pane->simple.scg, 0);
 
-			/* In pane */
-			if (ic->pos.end.row <= pane->last_full.row)
-				draw_handle = 1;
-			/* In pane below */
-			else if ((pane->index == 2 || pane->index == 3) &&
-				 ic->pos.end.row >= pane0->first.row &&
-				 ic->pos.end.row <= pane0->last_full.row)
-				draw_handle = 1;
-			/* TODO : do we want to add checking for pane above ? */
-			else if (ic->pos.start.row < pane->first.row)
-				draw_handle = 0;
-			else if (ic->pos.start.row != pane->first.row)
-				draw_handle = 2;
-			else
-				draw_handle = 3;
-		}
+		/* In pane */
+		if (ic->pos.end.row <= pane->last_full.row)
+			draw_handle = 1;
+		/* In pane below */
+		else if ((pane->index == 2 || pane->index == 3) &&
+			 ic->pos.end.row >= pane0->first.row &&
+			 ic->pos.end.row <= pane0->last_full.row)
+			draw_handle = 1;
+		/* TODO : do we want to add checking for pane above ? */
+		else if (ic->pos.start.row < pane->first.row)
+			draw_handle = 0;
+		else if (ic->pos.start.row != pane->first.row)
+			draw_handle = 2;
+		else
+			draw_handle = 3;
 		break;
+	}
 
 	case GNM_ITEM_CURSOR_ANTED:
 		draw_center   = TRUE;
 		draw_thick    = 2;
+		fore = &ic->ant_color;
+		back = &ic->ant_background_color;
 		if (ic->state) {
-			fore = &gs_light_gray;
-			back = &gs_dark_gray;
-		} else {
-			fore = &gs_dark_gray;
-			back = &gs_light_gray;
+			GdkRGBA *swap = fore;
+			fore = back;
+			back = swap;
 		}
 	}
 
@@ -323,12 +349,12 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	if (draw_external) {
 		switch (draw_handle) {
 		/* Auto handle at bottom */
-		case 1 :
+		case 1:
 			premove = AUTO_HANDLE_SPACE;
 			/* Fall through */
 
 		/* No auto handle */
-		case 0 :
+		case 0:
 			points [0].x = x1 + 1.5;
 			points [0].y = y1 + 1 - premove;
 			points [1].x = points [0].x;
@@ -342,11 +368,12 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 			break;
 
 		/* Auto handle at top */
-		case 2 : premove = AUTO_HANDLE_SPACE;
-			 /* Fall through */
+		case 2:
+			premove = AUTO_HANDLE_SPACE;
+			/* Fall through */
 
 		/* Auto handle at top of sheet */
-		case 3 :
+		case 3:
 			points [0].x = x1 + 1.5;
 			points [0].y = y0 - .5 + AUTO_HANDLE_SPACE;
 			points [1].x = points [0].x;
@@ -359,7 +386,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 			points [4].y = points [3].y;
 			break;
 
-		default :
+		default:
 			g_assert_not_reached ();
 		}
 		cairo_move_to (cr, points[0].x, points[0].y);
@@ -448,7 +475,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 		}
 
 	}
-		cairo_restore (cr);
+	cairo_restore (cr);
 }
 
 gboolean

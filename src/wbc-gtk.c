@@ -2321,13 +2321,14 @@ cb_screen_changed (GtkWidget *widget)
 		GtkCssProvider *css = gtk_css_provider_new ();
 		const char *resource = "gnm:gnumeric.css";
 		const char *csstext = go_rsm_lookup (resource, NULL);
+		gboolean debug = gnm_debug_flag ("css");
 
-		if (gnm_debug_flag ("css"))
+		if (debug)
 			g_printerr ("Loading style from %s\n", resource);
-
-		g_signal_connect (css, "parsing-error",
-				  G_CALLBACK (cb_css_parse_error),
-				  NULL);
+		else
+			g_signal_connect (css, "parsing-error",
+					  G_CALLBACK (cb_css_parse_error),
+					  NULL);
 
 		gtk_css_provider_load_from_data	(css, csstext, -1, NULL);
 		gtk_style_context_add_provider_for_screen

@@ -666,10 +666,7 @@ item_edit_unrealize (GocItem *item)
 	SCG_FOREACH_PANE (ie->scg, pane,
 		gnm_pane_expr_cursor_stop (pane););
 
-	if (ie->layout) {
-		g_object_unref (ie->layout);
-		ie->layout = NULL;
-	}
+	g_clear_object (&ie->layout);
 
 	if (ie->gfont != NULL) {
 		gnm_font_unref (ie->gfont);
