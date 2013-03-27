@@ -64,6 +64,17 @@ CommentView {
 }
 
 /* ------------------------------------------------------------------------- */
+/* GnmItemEdit canvas items are the in-sheet editing area. */
+
+GnmItemEdit {
+  background-color: #ffffe0;
+
+  /* This doens't seem to kick in.  We seem to get the color from the
+     style.  */
+  color: black;
+}
+
+/* ------------------------------------------------------------------------- */
 /* GnmItemBar canvas items are the header buttons "A".."IV" and "1".."65536" */
 /* These are also styled with class button */
 

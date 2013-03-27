@@ -1,5 +1,7 @@
 2013-03-26  Morten Welinder  <terra@gnome.org>
 
+	* src/item-edit.c: Theme the in-cell edit background color.
+
 	* src/gnumeric-fwd.h: Merge most of gnumeric.h and gui-gnumeric.h
 	into here.
 	src/gui-gnumeric.h: Remove.

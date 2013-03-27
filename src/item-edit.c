@@ -117,12 +117,14 @@ static void
 item_edit_draw (GocItem const *item, cairo_t *cr)
 {
 	GnmItemEdit const *ie = GNM_ITEM_EDIT (item);
+	GtkStyleContext *context = goc_item_get_style_context (item);
 	int top, left;
 	GOColor color;
 	int x0, y0, x1, y1; /* in widget coordinates */
 	int start, end;
 	PangoRectangle pos, weak;
 	char const *text = gtk_entry_get_text (ie->entry);
+	GdkRGBA fcolor;
 	PangoDirection dir = pango_find_base_dir (text, -1);
 	PangoAttrList *entry_attributes
 		= g_object_get_data(G_OBJECT (ie->entry),
@@ -147,20 +149,21 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	cairo_save (cr);
 
 	cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
-	/* avoid a weak/strong cursor to extent outside the item,
+	/* avoid a weak/strong cursor to extend outside the item,
 	 a better fix would be to have enough room for cursors */
-	cairo_clip_preserve (cr);
-	if (!gnumeric_background_set (ie->style, cr, FALSE, NULL))
-		cairo_set_source_rgba (cr, 1., 1., 0.878431373, 1.);
-	cairo_fill (cr);
+	cairo_clip (cr);
+	if (gnumeric_background_set (ie->style, cr, FALSE, NULL)) {
+		cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
+		cairo_fill (cr);
+	} else {
+		gtk_render_background (context, cr, x0, y0, x1 - x0, y1 - y0);
+	}
 
 	/* set the default color */
-#warning GTK3: no black in style context, using just black for now
-#if 0
-	color = GO_COLOR_FROM_GDK (gtk_widget_get_style (GTK_WIDGET (item->canvas))->black);
-#endif
-	color = GO_COLOR_BLACK;
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
+	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &fcolor);
+	gdk_cairo_set_source_rgba (cr, &fcolor);
+	color = go_color_from_gdk_rgba (&fcolor, NULL);
+
 	if (dir == PANGO_DIRECTION_RTL) {
 		pango_layout_get_pixel_extents (ie->layout, NULL, &pos);
 		left -= pos.width + GNM_COL_MARGIN / goc_canvas_get_pixels_per_unit (item->canvas);
