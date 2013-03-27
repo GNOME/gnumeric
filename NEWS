@@ -1,5 +1,8 @@
 Gnumeric 1.12.2
 
+Jean:
+	* Fix problems with sheet widgets.  [#696533]
+
 Morten:
 	* Improve ssconvert error handling.  [#695529]
 	* New font selector for toolbar.  [#695031]
