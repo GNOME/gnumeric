@@ -4,6 +4,7 @@
 GnmItemGrid, GnmPreviewGrid {
   /* The background must be solid and rectangular since we cheat and print
      only parts of it.  */
+  background-image: none;
   background-color: white;
   padding: 0;
   border-style: none;
@@ -35,7 +36,7 @@ GnmItemCursor.normal {
 }
 
 /* The anted cursor.  We clearly should be using an animation, but neither
-   we not gtk are ready for that.  */
+   we nor gtk are ready for that.  */
 GnmItemCursor.ant {
   color: #333333;
   background-color: #c7c7c7;
@@ -98,7 +99,7 @@ GnmItemBar:hover {
 /* ------------------------------------------------------------------------- */
 /* This GtkDrawingArea is the select-all button above the row buttons.  */
 
-GtkDrawingArea#all-button {
+GtkDrawingArea.button.all {
 }
 
 /* ------------------------------------------------------------------------- */

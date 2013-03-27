@@ -1572,7 +1572,8 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		scg->select_all_btn = gtk_drawing_area_new ();
 		gtk_style_context_add_class (gtk_widget_get_style_context (scg->select_all_btn),
 					     GTK_STYLE_CLASS_BUTTON);
-		gtk_widget_set_name (scg->select_all_btn, "all-button");
+		gtk_style_context_add_class (gtk_widget_get_style_context (scg->select_all_btn),
+					     "all");
 		gtk_widget_add_events (scg->select_all_btn, GDK_BUTTON_PRESS_MASK);
 		g_signal_connect (G_OBJECT (scg->select_all_btn), "draw",
 				  G_CALLBACK (cb_select_all_btn_draw), scg);
