@@ -1610,7 +1610,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		scg->va = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 		scg->vs = g_object_new (GTK_TYPE_SCROLLBAR,
 		                "orientation", GTK_ORIENTATION_VERTICAL,
-				"adjustment",	 scg->va,
+				"adjustment", scg->va,
 		                NULL);
 		g_signal_connect (G_OBJECT (scg->vs),
 			"value_changed",
@@ -1686,11 +1686,13 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		g_object_ref (scg->grid);
 		sheet->hide_col_header = sheet->hide_row_header = FALSE;
 		if (sheet->sheet_type == GNM_SHEET_OBJECT) {
-			scg->vs = g_object_new (GOC_TYPE_CANVAS, NULL);
-			g_object_set (scg->vs,
-			              "hexpand", TRUE,
-			              "vexpand", TRUE,
-			              NULL);
+			/* WHY store this in ->vs?  */
+			scg->vs = g_object_new (GOC_TYPE_CANVAS,
+						"hexpand", TRUE,
+						"vexpand", TRUE,
+						NULL);
+			gtk_style_context_add_class (gtk_widget_get_style_context (scg->vs),
+						     "full-sheet");
 			gtk_grid_attach (scg->grid, scg->vs, 0, 0, 1, 1);
 			gtk_widget_set_can_focus (scg->vs, TRUE);
 			gtk_widget_set_can_default (scg->vs, TRUE);
@@ -1699,8 +1701,6 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		}
 		sv_attach_control (sv, SHEET_CONTROL (scg));
 		if (scg->vs) {
-#warning GTK3: we used GtkStyle::white there */
-			gtk_widget_override_background_color (scg->vs, GTK_STATE_FLAG_NORMAL, &gs_white);
 			g_object_set_data (G_OBJECT (scg->vs), "sheet-control", scg);
 			if (sheet->sheet_objects) {
 				/* we need an idle function because not every thing is initialized at this point */

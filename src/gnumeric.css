@@ -122,6 +122,17 @@ GtkDrawingArea.button.all {
 }
 
 /* ------------------------------------------------------------------------- */
+/* This is for full-sheet sheet object, presumably graphs.  */
+
+GocCanvas.full-sheet {
+  background-image: none;
+  background-color: white;
+  padding: 0;
+  border-style: none;
+  border-width: 0;
+}
+
+/* ------------------------------------------------------------------------- */
 
 /* GnmNotebook is a fake notebook holding just the sheet tabs area */
 
