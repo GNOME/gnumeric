@@ -683,7 +683,7 @@ gnm_conf_get_detachable_toolbars (void)
 #else
 	return go_conf_get_bool
 		(NULL,
-		 "/desktop/gnome/interface/toolbar_detachable");
+		 "/desktop/interface/toolbar_detachable");
 #endif
 }
 
