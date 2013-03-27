@@ -1014,7 +1014,9 @@ item_bar_motion (GocItem *item, double x_, double y_)
 		if (!ib->has_resize_guides) {
 			ib->has_resize_guides = TRUE;
 			scg_size_guide_start (ib->pane->simple.scg,
-				ib->is_col_header, ib->colrow_being_resized, 1);
+					      ib->is_col_header,
+					      ib->colrow_being_resized,
+					      TRUE);
 		}
 
 		cri = sheet_colrow_get_info (sheet,

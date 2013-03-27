@@ -989,6 +989,26 @@ gnm_pane_class_init (GnmPaneClass *klass)
 				   G_MAXINT,
 				   6,
 				   G_PARAM_READABLE));
+
+	gtk_widget_class_install_style_property
+		(widget_class,
+		 g_param_spec_int ("resize-guide-width",
+				   P_("Resize Guide Width"),
+				   P_("With of the guides used for resizing columns and rows"),
+				   0,
+				   G_MAXINT,
+				   1,
+				   G_PARAM_READABLE));
+
+	gtk_widget_class_install_style_property
+		(widget_class,
+		 g_param_spec_int ("pane-resize-guide-width",
+				   P_("Pane Resize Guide Width"),
+				   P_("With of the guides used for resizing panes"),
+				   0,
+				   G_MAXINT,
+				   7,
+				   G_PARAM_READABLE));
 }
 
 GSF_CLASS (GnmPane, gnm_pane,
@@ -2021,12 +2041,19 @@ gnm_pane_bound_set (GnmPane *pane,
 /****************************************************************************/
 
 void
-gnm_pane_size_guide_start (GnmPane *pane, gboolean vert, int colrow, int width)
+gnm_pane_size_guide_start (GnmPane *pane,
+			   gboolean vert, int colrow, gboolean is_colrow_resize)
 {
 	SheetControlGUI const *scg;
-	double x0, y0, x1, y1;
+	double x0, y0, x1, y1, pos;
 	double zoom;
 	GOStyle *style;
+	GdkRGBA rgba;
+	GtkStyleContext *context;
+	const char *guide_class = is_colrow_resize ? "resize-guide" : "pane-resize-guide";
+	const char *colrow_class = vert ? "col" : "row";
+	const char *width_prop_name = is_colrow_resize ? "resize-guide-width" : "pane-resize-guide-width";
+	int width;
 
 	g_return_if_fail (pane != NULL);
 	g_return_if_fail (pane->size_guide.guide  == NULL);
@@ -2036,25 +2063,24 @@ gnm_pane_size_guide_start (GnmPane *pane, gboolean vert, int colrow, int width)
 	zoom = GOC_CANVAS (pane)->pixels_per_unit;
 	scg = pane->simple.scg;
 
+	pos = scg_colrow_distance_get (scg, vert, 0, colrow) / zoom;
 	if (vert) {
-		double x = (scg_colrow_distance_get (scg, TRUE,
-					0, colrow) - .5) / zoom;
-		x0 = x;
+		x0 = pos;
 		y0 = scg_colrow_distance_get (scg, FALSE,
-					0, pane->first.row) / zoom;
-		x1 = x;
+					      0, pane->first.row) / zoom;
+		x1 = pos;
 		y1 = scg_colrow_distance_get (scg, FALSE,
-					0, pane->last_visible.row+1) / zoom;
+					      0, pane->last_visible.row+1) / zoom;
 	} else {
-		double const y = (scg_colrow_distance_get (scg, FALSE,
-					0, colrow) - .5) / zoom;
 		x0 = scg_colrow_distance_get (scg, TRUE,
-					0, pane->first.col) / zoom;
-		y0 = y;
+					      0, pane->first.col) / zoom;
+		y0 = pos;
 		x1 = scg_colrow_distance_get (scg, TRUE,
-					0, pane->last_visible.col+1) / zoom;
-		y1 = y;
+					      0, pane->last_visible.col+1) / zoom;
+		y1 = pos;
 	}
+
+	gtk_widget_style_get (GTK_WIDGET (pane), width_prop_name, &width, NULL);
 
 	/* Guideline positioning is done in gnm_pane_size_guide_motion */
 	pane->size_guide.guide = goc_item_new (pane->action_items,
@@ -2064,23 +2090,28 @@ gnm_pane_size_guide_start (GnmPane *pane, gboolean vert, int colrow, int width)
 		NULL);
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (pane->size_guide.guide));
 	style->line.width = width;
+	context = goc_item_get_style_context (pane->size_guide.guide);
+	gtk_style_context_add_class (context, guide_class);
+	gtk_style_context_add_class (context, colrow_class);
+	if (is_colrow_resize)
+		gtk_style_context_add_class (context, "end");
+	gtk_style_context_get_color (context, GTK_STATE_FLAG_SELECTED, &rgba);
+	go_color_from_gdk_rgba (&rgba, &style->line.color);
 
-	/* cheat for now and differentiate between col/row resize and frozen panes
-	 * using the width.  Frozen pane guides do not require a start line */
-	if (width == 1) {
-		style->line.color = GO_COLOR_BLACK;
+	if (is_colrow_resize) {
 		pane->size_guide.start = goc_item_new (pane->action_items,
 			GOC_TYPE_LINE,
 			"x0", x0, "y0", y0,
 			"x1", x1, "y1", y1,
 			NULL);
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (pane->size_guide.start));
-		style->line.color = GO_COLOR_BLACK;
+		context = goc_item_get_style_context (pane->size_guide.start);
+		gtk_style_context_add_class (context, guide_class);
+		gtk_style_context_add_class (context, colrow_class);
+		gtk_style_context_add_class (context, "start");
+		gtk_style_context_get_color (context, GTK_STATE_FLAG_SELECTED, &rgba);
+		go_color_from_gdk_rgba (&rgba, &style->line.color);
 		style->line.width = width;
-	} else {
-		style->line.pattern = GO_PATTERN_GREY25;
-		style->line.color = GO_COLOR_WHITE;
-		style->line.fore = GO_COLOR_BLACK;
 	}
 }
 

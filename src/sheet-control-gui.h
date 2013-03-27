@@ -91,7 +91,7 @@ void scg_set_left_col		(SheetControlGUI *scg, int new_first_col);
 void scg_set_top_row		(SheetControlGUI *scg, int new_first_row);
 
 void scg_size_guide_start	(SheetControlGUI *scg, gboolean vert,
-				 int colrow, int width);
+				 int colrow, gboolean is_colrow_resize);
 void scg_size_guide_motion	(SheetControlGUI *scg, gboolean vert,
 				 gint64 guide_pos);
 void scg_size_guide_stop	(SheetControlGUI *scg);

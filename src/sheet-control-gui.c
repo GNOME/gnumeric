@@ -1414,7 +1414,7 @@ cb_resize_pane_motion (GtkPaned *p,
 		g_signal_handlers_block_by_func
 			(G_OBJECT (p),
 			 G_CALLBACK (cb_check_resize), scg);
-		scg_size_guide_start (scg, vert, colrow, 7);
+		scg_size_guide_start (scg, vert, colrow, FALSE);
 		scg->pane_drag_handler = g_timeout_add (250,
 			vert ? (GSourceFunc) cb_resize_hpane_finish
 			     : (GSourceFunc) cb_resize_vpane_finish,
@@ -3534,11 +3534,12 @@ scg_take_focus (SheetControlGUI *scg)
 
 /*********************************************************************************/
 void
-scg_size_guide_start (SheetControlGUI *scg, gboolean vert, int colrow, int width)
+scg_size_guide_start (SheetControlGUI *scg,
+		      gboolean vert, int colrow, gboolean is_colrow_resize)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 	SCG_FOREACH_PANE (scg, pane,
-		gnm_pane_size_guide_start (pane, vert, colrow, width););
+			  gnm_pane_size_guide_start (pane, vert, colrow, is_colrow_resize););
 }
 void
 scg_size_guide_motion (SheetControlGUI *scg, gboolean vert, gint64 guide_pos)

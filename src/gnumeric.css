@@ -1,4 +1,16 @@
 /* ------------------------------------------------------------------------- */
+
+/* GnmPane is the canvas we use for sheets.  We store custom properties
+   here because there is no un-deprecated way to store them for the
+   canvas items which aren't widgets.  */
+GnmPane {
+  -GnmPane-function-indicator-size: 10px;
+  -GnmPane-cell-comment-indicator-size: 6px;
+  -GnmPane-resize-guide-width: 1px;
+  -GnmPane-pane-resize-guide-width: 7px;
+}
+
+/* ------------------------------------------------------------------------- */
 /* The GnmItemGrid is the canvas area that holds all the cells.  */
 /* GnmPreviewGrid is the canvas used for auto-format previews. */
 GnmItemGrid, GnmPreviewGrid {
@@ -51,14 +63,6 @@ GnmItemCursor.autofill {
 
 /* ------------------------------------------------------------------------- */
 
-/* GnmPane is the canvas we use for sheets.  We store custom properties
-   here because there is no un-deprecated way to store them for the
-   canvas items which aren't widgets.  */
-GnmPane {
-  -GnmPane-function-indicator-size: 10px;
-  -GnmPane-cell-comment-indicator-size: 6px;
-}
-
 CommentView {
   color: red;
   /* See also GnmPane */
@@ -94,6 +98,21 @@ GnmItemBar:active {
 /* Some, but not all, of a column/row selected. */
 GnmItemBar:hover {
   font: bold;
+}
+
+/* ------------------------------------------------------------------------- */
+/* The resize guide used when resizing columns or rows.  This can be
+   subclassed with "row" or "col" as well as with "start" or "end".  */
+GnmPane GocLine.resize-guide {
+  color: black;
+  /* See also GnmPane */
+}
+
+/* The resize guide used when resizing panes.  This can be subclassed with
+   "row" or "col".  */
+GnmPane GocLine.pane-resize-guide {
+  color: #c0c0c0;
+  /* See also GnmPane */
 }
 
 /* ------------------------------------------------------------------------- */

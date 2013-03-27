@@ -28,7 +28,7 @@ void  gnm_pane_bound_set	(GnmPane *pane,
 void	gnm_pane_edit_start  (GnmPane *p);
 void	gnm_pane_edit_stop   (GnmPane *p);
 
-void	gnm_pane_size_guide_start  (GnmPane *p, gboolean vert, int colrow, int width);
+void	gnm_pane_size_guide_start  (GnmPane *p, gboolean vert, int colrow, gboolean is_colrow_resize);
 void	gnm_pane_size_guide_motion	(GnmPane *p, gboolean vert, gint64 guide_pos);
 void	gnm_pane_size_guide_stop	(GnmPane *p);
 
