@@ -3408,8 +3408,9 @@ static GtkWidget *
 sheet_widget_combo_create_widget (SheetObjectWidget *sow)
 {
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (sow);
-	GtkWidget *combo = gtk_combo_box_new_with_entry ();
+	GtkWidget *widget = gtk_event_box_new (), *combo;
 
+	combo = gtk_combo_box_new_with_entry ();
 	gtk_widget_set_can_focus (gtk_bin_get_child (GTK_BIN (combo)),
 				  FALSE);
 	if (swl->model != NULL)
@@ -3426,7 +3427,9 @@ sheet_widget_combo_create_widget (SheetObjectWidget *sow)
 	g_signal_connect (G_OBJECT (combo), "changed",
 		G_CALLBACK (cb_combo_changed), swl);
 
-	return combo;
+	gtk_container_add (GTK_CONTAINER (widget), combo);
+	gtk_event_box_set_visible_window (GTK_EVENT_BOX (widget), FALSE);
+	return widget;
 }
 
 static void
