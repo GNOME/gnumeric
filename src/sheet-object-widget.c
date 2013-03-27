@@ -3324,6 +3324,7 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow)
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (sow);
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
+	GtkWidget *widget = gtk_event_box_new ();
 	GtkWidget *frame = g_object_new (GTK_TYPE_FRAME, NULL);
 	GtkWidget *list = gtk_tree_view_new_with_model (swl->model);
 	GtkWidget *sw = gtk_scrolled_window_new (
@@ -3340,6 +3341,8 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow)
 
 	gtk_container_add (GTK_CONTAINER (sw), list);
 	gtk_container_add (GTK_CONTAINER (frame), sw);
+	gtk_container_add (GTK_CONTAINER (widget), frame);
+	gtk_event_box_set_visible_window (GTK_EVENT_BOX (widget), FALSE);
 
 	g_signal_connect_object (G_OBJECT (swl), "model-changed",
 		G_CALLBACK (cb_list_model_changed), list, 0);
@@ -3352,7 +3355,7 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow)
 		G_CALLBACK (cb_list_selection_changed), selection, 0);
 	g_signal_connect (selection, "changed",
 		G_CALLBACK (cb_selection_changed), swl);
-	return frame;
+	return widget;
 }
 
 static void
@@ -3410,7 +3413,7 @@ static GtkWidget *
 sheet_widget_combo_create_widget (SheetObjectWidget *sow)
 {
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (sow);
-	GtkWidget *combo;
+	GtkWidget *widget = gtk_event_box_new (), *combo;
 
 	combo = gtk_combo_box_new_with_entry ();
 	gtk_widget_set_can_focus (gtk_bin_get_child (GTK_BIN (combo)),
@@ -3429,7 +3432,9 @@ sheet_widget_combo_create_widget (SheetObjectWidget *sow)
 	g_signal_connect (G_OBJECT (combo), "changed",
 		G_CALLBACK (cb_combo_changed), swl);
 
-	return combo;
+	gtk_container_add (GTK_CONTAINER (widget), combo);
+	gtk_event_box_set_visible_window (GTK_EVENT_BOX (widget), FALSE);
+	return widget;
 }
 
 static void
