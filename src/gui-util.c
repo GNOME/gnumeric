@@ -490,44 +490,12 @@ gnumeric_tooltip_set_style (GtkWidget *widget)
 {
 	gtk_style_context_add_class (gtk_widget_get_style_context (widget),
 				     GTK_STYLE_CLASS_TOOLTIP);
-}
-
-/**
- * gnumeric_create_tooltip_text_view_widget:
- *
- * Returns: (transfer full): the newly allocated #GtkWidget.
- **/
-GtkWidget *
-gnumeric_create_tooltip_text_view_widget (void)
-{
-	GtkWidget *label, *frame;
-
-	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
-	label = gtk_text_view_new ();
-
-	gtk_container_add (GTK_CONTAINER (frame), label);
-
-	return label;
-}
-
-/**
- * gnumeric_create_tooltip_widget:
- *
- * Returns: (transfer full): the newly allocated #GtkWidget.
- **/
-GtkWidget *
-gnumeric_create_tooltip_widget (void)
-{
-	GtkWidget *label, *frame;
-
-	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
-	label = gtk_label_new ("");
-
-	gtk_container_add (GTK_CONTAINER (frame), label);
-
-	return label;
+	gtk_style_context_add_class (gtk_widget_get_style_context (widget),
+				     "pseudo-tooltip");
+	if (GTK_IS_CONTAINER (widget))
+		gtk_container_forall (GTK_CONTAINER (widget),
+				      (GtkCallback) (gnumeric_tooltip_set_style),
+				      NULL);
 }
 
 /**
@@ -541,19 +509,22 @@ GtkWidget *
 gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *widget)
 {
 	GtkWidget *tip, *frame;
+	GdkScreen *screen = gtk_widget_get_screen (ref_widget);
 
 	tip = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_type_hint (GTK_WINDOW (tip),
 				  GDK_WINDOW_TYPE_HINT_TOOLTIP);
 	gtk_window_set_resizable (GTK_WINDOW (tip), FALSE);
 	gtk_window_set_gravity (GTK_WINDOW (tip), GDK_GRAVITY_NORTH_WEST);
-	gtk_window_set_screen (GTK_WINDOW (tip), gtk_widget_get_screen (ref_widget));
+	gtk_window_set_screen (GTK_WINDOW (tip), screen);
+	gtk_widget_set_name (tip, "gtk-tooltip");
 
-	frame = gtk_widget_get_toplevel (widget);
-
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
+	gtk_widget_show (frame);
+	gtk_container_add (GTK_CONTAINER (frame), widget);
 	gtk_container_add (GTK_CONTAINER (tip), frame);
 
-	gnumeric_tooltip_set_style (frame);
 	gnumeric_tooltip_set_style (tip);
 
 	return widget;
@@ -567,7 +538,7 @@ gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *widget)
 GtkWidget *
 gnumeric_create_tooltip (GtkWidget *ref_widget)
 {
-	return gnumeric_convert_to_tooltip (ref_widget, gnumeric_create_tooltip_widget ());
+	return gnumeric_convert_to_tooltip (ref_widget, gtk_label_new (""));
 }
 
 void

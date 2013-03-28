@@ -829,7 +829,7 @@ cb_dialog_formula_guru_query_tooltip (G_GNUC_UNUSED GtkWidget  *widget,
 		if (markup == NULL || markup[0]=='\0')
 			return FALSE;
 		if (!state->tooltip_widget) {
-			state->tooltip_label = gnumeric_create_tooltip_widget ();
+			state->tooltip_label = gtk_label_new ("");
 			state->tooltip_widget
 				= gtk_widget_get_toplevel (state->tooltip_label);
 			gtk_widget_show_all (state->tooltip_widget);

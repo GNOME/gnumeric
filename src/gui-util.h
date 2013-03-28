@@ -40,8 +40,6 @@ void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
  */
 void        gnumeric_position_tooltip (GtkWidget *tip, int px, int py,
 				       gboolean horizontal);
-GtkWidget  *gnumeric_create_tooltip_widget (void);
-GtkWidget  *gnumeric_create_tooltip_text_view_widget (void);
 GtkWidget  *gnumeric_create_tooltip (GtkWidget *ref_widget);
 GtkWidget  *gnumeric_convert_to_tooltip (GtkWidget *ref_widget,
 					 GtkWidget *widget);

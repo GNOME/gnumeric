@@ -805,7 +805,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 			(G_OBJECT (toplevel), "focus-out-event",
 			 G_CALLBACK (cb_gee_focus_out_event), gee);
 
-	label = gnumeric_convert_to_tooltip (toplevel, gnumeric_create_tooltip_text_view_widget ());
+	label = gnumeric_convert_to_tooltip (toplevel, gtk_text_view_new ());
 	tip = gtk_widget_get_toplevel (label);
 
 	if (str)
