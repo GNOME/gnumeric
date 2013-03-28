@@ -3719,18 +3719,6 @@ cb_handlebox_dock_status (GtkHandleBox *hb,
 			  GtkToolbar *toolbar, gpointer pattached)
 {
 	gboolean attached = GPOINTER_TO_INT (pattached);
-#warning GTK3: looks like there is no replacement in gtk3
-#if 0
-	GtkWidget *box = GTK_WIDGET (hb);
-
-	/* BARF!  */
-	/* See http://bugzilla.gnome.org/show_bug.cgi?id=139184  */
-	GtkStyle *style = gtk_style_copy (gtk_widget_get_style (box));
-	style->ythickness = attached ? 2 : 0;
-	gtk_widget_set_style (box, style);
-	g_object_unref (style);
-#endif
-
 	gtk_toolbar_set_show_arrow (toolbar, attached);
 }
 
