@@ -832,9 +832,6 @@ cb_dialog_formula_guru_query_tooltip (G_GNUC_UNUSED GtkWidget  *widget,
 			state->tooltip_label = gnumeric_create_tooltip_widget ();
 			state->tooltip_widget
 				= gtk_widget_get_toplevel (state->tooltip_label);
-#warning GTK3: are these two lines useful? gnumeric_create_tooltip_widget_should do it
-			gnumeric_tooltip_set_style (state->tooltip_label);
-			gnumeric_tooltip_set_style (state->tooltip_widget);
 			gtk_widget_show_all (state->tooltip_widget);
 			g_object_ref (state->tooltip_widget);
 			g_object_ref (state->tooltip_label);
@@ -842,8 +839,6 @@ cb_dialog_formula_guru_query_tooltip (G_GNUC_UNUSED GtkWidget  *widget,
 		gtk_tooltip_set_custom (tooltip, state->tooltip_widget);
 		window = gtk_widget_get_toplevel (state->tooltip_widget);
 		/* Applying to window */
-		gnumeric_tooltip_set_style (window);
-		gtk_widget_set_name (window, "gnumeric-tooltip");
 		gtk_widget_set_app_paintable (window, FALSE);
 
 		parent = gtk_widget_get_parent (state->tooltip_widget);

@@ -485,14 +485,11 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 			: gtk_get_current_event_time());
 }
 
-void
+static void
 gnumeric_tooltip_set_style (GtkWidget *widget)
 {
-	int i;
-	for (i = 0; i < 5 ; i++) {
-		gtk_widget_override_color (widget, i, &gs_black);
-		gtk_widget_override_background_color (widget, i, &gs_yellow);
-	}
+	gtk_style_context_add_class (gtk_widget_get_style_context (widget),
+				     GTK_STYLE_CLASS_TOOLTIP);
 }
 
 /**
@@ -551,14 +548,13 @@ gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *widget)
 	gtk_window_set_resizable (GTK_WINDOW (tip), FALSE);
 	gtk_window_set_gravity (GTK_WINDOW (tip), GDK_GRAVITY_NORTH_WEST);
 	gtk_window_set_screen (GTK_WINDOW (tip), gtk_widget_get_screen (ref_widget));
-	gtk_widget_set_name (tip, "gnumeric-tooltip");
 
 	frame = gtk_widget_get_toplevel (widget);
 
 	gtk_container_add (GTK_CONTAINER (tip), frame);
 
+	gnumeric_tooltip_set_style (frame);
 	gnumeric_tooltip_set_style (tip);
-	gnumeric_tooltip_set_style (widget);
 
 	return widget;
 }

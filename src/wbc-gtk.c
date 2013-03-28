@@ -4678,7 +4678,6 @@ static void
 wbc_gtk_create_status_area (WBCGtk *wbcg)
 {
 	GtkWidget *ebox;
-	GdkRGBA const white = {1.,1.,1.,1.};
 
 	g_object_ref (wbcg->auto_expr_label);
 	gtk_label_set_max_width_chars (GTK_LABEL (wbcg->auto_expr_label),
@@ -4695,9 +4694,8 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 		gtk_style_context_get_font (gtk_widget_get_style_context (wbcg->status_text), GTK_STATE_FLAG_NORMAL),
 	        "W") * 5, -1);
 	ebox = GET_GUI_ITEM ("auto_expr_event_box");
-	gtk_widget_override_background_color (GTK_WIDGET (ebox),
-					      GTK_STATE_FLAG_NORMAL,
-					      &white);
+	gtk_style_context_add_class (gtk_widget_get_style_context (ebox),
+				     "auto-expr");
 	g_signal_connect (G_OBJECT (ebox),
 		"button_press_event",
 		G_CALLBACK (cb_select_auto_expr), wbcg);

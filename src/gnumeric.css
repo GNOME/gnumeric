@@ -13,9 +13,12 @@ GnmPane {
 /* ------------------------------------------------------------------------- */
 /* The GnmItemGrid is the canvas area that holds all the cells.  */
 /* GnmPreviewGrid is the canvas used for auto-format previews. */
-GnmItemGrid, GnmPreviewGrid {
-  /* The background must be solid and rectangular since we cheat and print
-     only parts of it.  */
+GnmItemGrid,
+GnmPreviewGrid,
+GocCanvas.full-sheet,
+GtkBin.auto-expr {
+  /* GnmItemGrid requires that the background be solid and rectangular
+     since we cheat and print only parts of it.  */
   background-image: none;
   background-color: white;
   padding: 0;
@@ -122,17 +125,6 @@ GtkDrawingArea.button.all {
 }
 
 /* ------------------------------------------------------------------------- */
-/* This is for full-sheet sheet object, presumably graphs.  */
-
-GocCanvas.full-sheet {
-  background-image: none;
-  background-color: white;
-  padding: 0;
-  border-style: none;
-  border-width: 0;
-}
-
-/* ------------------------------------------------------------------------- */
 
 /* GnmNotebook is a fake notebook holding just the sheet tabs area */
 
@@ -149,6 +141,13 @@ GnmNotebook {
 GtkHandleBox {
   color: transparent;
   padding: 0px;
+}
+
+/* ------------------------------------------------------------------------- */
+/* When we stuff a GtkTextView into a tooltip, we need to prevent it from
+   having its own background.  Ideally the theme would handle this.  */
+.tooltip GtkTextView {
+  background-color: transparent;
 }
 
 /* ------------------------------------------------------------------------- */
