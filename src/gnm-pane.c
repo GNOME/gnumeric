@@ -1009,6 +1009,26 @@ gnm_pane_class_init (GnmPaneClass *klass)
 				   G_MAXINT,
 				   7,
 				   G_PARAM_READABLE));
+
+	gtk_widget_class_install_style_property
+		(widget_class,
+		 g_param_spec_int ("control-circle-size",
+				   P_("Control Circle Size"),
+				   P_("Size of control circle for sizing sheet objects"),
+				   0,
+				   G_MAXINT,
+				   4,
+				   G_PARAM_READABLE));
+
+	gtk_widget_class_install_style_property
+		(widget_class,
+		 g_param_spec_int ("control-circle-outline",
+				   P_("Control Circle Outline"),
+				   P_("Width of outline of control circle for sizing sheet objects"),
+				   0,
+				   G_MAXINT,
+				   1,
+				   G_PARAM_READABLE));
 }
 
 GSF_CLASS (GnmPane, gnm_pane,
@@ -2338,11 +2358,6 @@ gnm_pane_objects_drag (GnmPane *pane, SheetObject *so,
 	pane->drag.last_y += dy;
 }
 
-#define CTRL_PT_SIZE		4
-#define CTRL_PT_OUTLINE		0
-/* space for 2 halves and a full */
-#define CTRL_PT_TOTAL_SIZE	(CTRL_PT_SIZE*4 + CTRL_PT_OUTLINE*2)
-
 /* new_x and new_y are in world coords */
 static void
 gnm_pane_object_move (GnmPane *pane, GObject *ctrl_pt,
@@ -2617,13 +2632,13 @@ gnm_pane_object_start_resize (GnmPane *pane, int button, guint64 x, gint64 y,
 }
 
 /*
- ControlCircleItem
+ GnmControlCircleItem
  */
-typedef GocCircle ControlCircle;
-typedef GocCircleClass ControlCircleClass;
+typedef GocCircle GnmControlCircle;
+typedef GocCircleClass GnmControlCircleClass;
 
 #define CONTROL_TYPE_CIRCLE	(control_circle_get_type ())
-#define CONTROL_CIRCLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), CONTROL_TYPE_CIRCLE, ControlCircle))
+#define CONTROL_CIRCLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), CONTROL_TYPE_CIRCLE, GnmControlCircle))
 #define CONTROL_IS_CIRCLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), CONTROL_TYPE_CIRCLE))
 
 static GType control_circle_get_type (void);
@@ -2741,6 +2756,20 @@ control_point_button2_pressed (GocItem *item, int button, G_GNUC_UNUSED double x
 	return TRUE;
 }
 
+static void
+update_control_point_colors (GocItem *item, GtkStateFlags flags)
+{
+	GtkStyleContext *context = goc_item_get_style_context (item);
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	GdkRGBA rgba;
+
+	gtk_style_context_get_color (context, flags, &rgba);
+	go_color_from_gdk_rgba (&rgba, &style->line.color);
+	gtk_style_context_get_background_color (context, flags, &rgba);
+	go_color_from_gdk_rgba (&rgba, &style->fill.pattern.back);
+	goc_item_invalidate (item);
+}
+
 static gboolean
 control_point_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
@@ -2753,9 +2782,7 @@ control_point_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED
 	pane->cur_object  = g_object_get_data (G_OBJECT (item), "so");
 	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
 	if (idx != 8) {
-		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-		style->fill.pattern.back = GO_COLOR_GREEN;
-		goc_item_invalidate (item);
+		update_control_point_colors (item, GTK_STATE_FLAG_PRELIGHT);
 		gnm_pane_display_obj_size_tip (pane, item);
 	}
 	return TRUE;
@@ -2772,16 +2799,16 @@ control_point_leave_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED
 
 	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
 	if (idx != 8) {
-		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-		style->fill.pattern.back = GO_COLOR_WHITE;
-		goc_item_invalidate (item);
+		update_control_point_colors (item, GTK_STATE_FLAG_NORMAL);
 		gnm_pane_clear_obj_size_tip (pane);
 	}
 	pane->cur_object = NULL;
 	return TRUE;
 }
 
-static void control_circle_class_init (GocItemClass *item_klass) {
+static void
+control_circle_class_init (GocItemClass *item_klass)
+{
 	item_klass->button_pressed = control_point_button_pressed;
 	item_klass->button_released = control_point_button_released;
 	item_klass->motion = control_point_motion;
@@ -2790,7 +2817,7 @@ static void control_circle_class_init (GocItemClass *item_klass) {
 	item_klass->leave_notify = control_point_leave_notify;
 }
 
-static GSF_CLASS (ControlCircle, control_circle,
+static GSF_CLASS (GnmControlCircle, control_circle,
 		  control_circle_class_init, NULL,
 		  GOC_TYPE_CIRCLE)
 
@@ -2805,8 +2832,7 @@ typedef GocRectangle		ItemAcetate;
 typedef GocRectangleClass	ItemAcetateClass;
 
 static double
-item_acetate_distance (GocItem *item, double x, double y,
-		    GocItem **actual_item)
+item_acetate_distance (GocItem *item, double x, double y, GocItem **actual_item)
 {
 	if (x < (item->x0 - MARGIN) ||
 	    x > (item->x1 + MARGIN) ||
@@ -2855,22 +2881,34 @@ static GSF_CLASS (ItemAcetate, item_acetate,
  *         objects
  **/
 static GocItem *
-new_control_point (GnmPane *pane, SheetObject *so, int idx, double x, double y, double radius)
+new_control_point (GnmPane *pane, SheetObject *so, int idx, double x, double y)
 {
-	GOStyle *style = go_style_new ();
+	GOStyle *style;
 	GocItem *item;
+	int radius, outline;
+	double scale = GOC_CANVAS (pane)->pixels_per_unit;
 
-	style->line.width = CTRL_PT_OUTLINE;
+	gtk_widget_style_get (GTK_WIDGET (pane),
+			      "control-circle-size", &radius,
+			      "control-circle-outline", &outline,
+			      NULL);
+
+	style = go_style_new ();
+	style->line.width = outline;
+	style->line.auto_color = FALSE;
+	style->line.dash_type = GO_LINE_SOLID; /* anything but 0 */
+	style->line.pattern = GO_PATTERN_SOLID;
 	item = goc_item_new (
 		pane->action_items,
 		CONTROL_TYPE_CIRCLE,
 		"x", x,
 		"y", y,
-		"radius", radius,
-		"style", style,
+		"radius", radius / scale,
 		NULL);
-
 	g_object_unref (style);
+
+	update_control_point_colors (item, GTK_STATE_FLAG_NORMAL);
+
 	g_object_set_data (G_OBJECT (item), "index",  GINT_TO_POINTER (idx));
 	g_object_set_data (G_OBJECT (item), "so",  so);
 
@@ -2888,10 +2926,9 @@ set_item_x_y (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 {
 	double scale = GOC_CANVAS (pane)->pixels_per_unit;
 	if (ctrl_pts [idx] == NULL)
-		ctrl_pts [idx] = new_control_point (pane, so, idx, x / scale, y / scale, CTRL_PT_SIZE / scale);
+		ctrl_pts [idx] = new_control_point (pane, so, idx, x / scale, y / scale);
 	else
-		goc_item_set (ctrl_pts [idx], "x", x / scale, "y", y / scale,
-		              "radius", CTRL_PT_SIZE / scale, NULL);
+		goc_item_set (ctrl_pts [idx], "x", x / scale, "y", y / scale, NULL);
 	if (visible)
 		goc_item_show (ctrl_pts [idx]);
 	else
@@ -2905,6 +2942,8 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 		    double l, double t, double r, double b)
 {
 	double scale = goc_canvas_get_pixels_per_unit (GOC_CANVAS (pane));
+	int radius, outline;
+
 	if (!sheet_object_rubber_band_directly (so)) {
 		if (NULL == ctrl_pts [9]) {
 			GOStyle *style = go_style_new ();
@@ -2945,10 +2984,15 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 		normalize_high_low (b, t);
 	}
 
-	l -= (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
-	r += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2;
-	t -= (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
-	b += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2;
+	gtk_widget_style_get (GTK_WIDGET (pane),
+			      "control-circle-size", &radius,
+			      "control-circle-outline", &outline,
+			      NULL);
+
+	l -= (radius + outline) / 2 - 1;
+	r += (radius + outline) / 2;
+	t -= (radius + outline) / 2 - 1;
+	b += (radius + outline) / 2;
 
 	if (NULL == ctrl_pts [8]) {
 		GOStyle *style = go_style_new ();
@@ -3005,6 +3049,7 @@ gnm_pane_object_update_bbox (GnmPane *pane, SheetObject *so)
 	GocItem **ctrl_pts = g_hash_table_lookup (pane->drag.ctrl_pts, so);
 	double const *pts = g_hash_table_lookup (
 		pane->simple.scg->selected_objects, so);
+	int radius, outline, total_size;
 
 	if (ctrl_pts == NULL) {
 		ctrl_pts = g_new0 (GocItem *, 10);
@@ -3013,20 +3058,27 @@ gnm_pane_object_update_bbox (GnmPane *pane, SheetObject *so)
 
 	g_return_if_fail (ctrl_pts != NULL);
 
+	gtk_widget_style_get (GTK_WIDGET (pane),
+			      "control-circle-size", &radius,
+			      "control-circle-outline", &outline,
+			      NULL);
+	/* space for 2 halves and a full */
+	total_size = radius * 4 + outline * 2;
+
 	/* set the acetate 1st so that the other points will override it */
 	set_acetate_coords (pane, so, ctrl_pts, pts[0], pts[1], pts[2], pts[3]);
 	if (sheet_object_can_resize (so)) {
 		set_item_x_y (pane, so, ctrl_pts, 0, pts[0], pts[1], TRUE);
 		set_item_x_y (pane, so, ctrl_pts, 1, (pts[0] + pts[2]) / 2, pts[1],
-			      fabs (pts[2]-pts[0]) >= CTRL_PT_TOTAL_SIZE);
+			      fabs (pts[2]-pts[0]) >= total_size);
 		set_item_x_y (pane, so, ctrl_pts, 2, pts[2], pts[1], TRUE);
 		set_item_x_y (pane, so, ctrl_pts, 3, pts[0], (pts[1] + pts[3]) / 2,
-			      fabs (pts[3]-pts[1]) >= CTRL_PT_TOTAL_SIZE);
+			      fabs (pts[3]-pts[1]) >= total_size);
 		set_item_x_y (pane, so, ctrl_pts, 4, pts[2], (pts[1] + pts[3]) / 2,
-			      fabs (pts[3]-pts[1]) >= CTRL_PT_TOTAL_SIZE);
+			      fabs (pts[3]-pts[1]) >= total_size);
 		set_item_x_y (pane, so, ctrl_pts, 5, pts[0], pts[3], TRUE);
 		set_item_x_y (pane, so, ctrl_pts, 6, (pts[0] + pts[2]) / 2, pts[3],
-			      fabs (pts[2]-pts[0]) >= CTRL_PT_TOTAL_SIZE);
+			      fabs (pts[2]-pts[0]) >= total_size);
 		set_item_x_y (pane, so, ctrl_pts, 7, pts[2], pts[3], TRUE);
 	}
 }

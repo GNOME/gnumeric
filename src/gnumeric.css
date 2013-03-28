@@ -8,6 +8,8 @@ GnmPane {
   -GnmPane-cell-comment-indicator-size: 6px;
   -GnmPane-resize-guide-width: 1px;
   -GnmPane-pane-resize-guide-width: 7px;
+  -GnmPane-control-circle-size: 5px;
+  -GnmPane-control-circle-outline: 1px;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -150,6 +152,19 @@ GtkHandleBox {
 GtkWindow>GtkFrame.pseudo-tooltip {
   border-width: 0;
   padding: 5/*px*/;
+}
+
+/* ------------------------------------------------------------------------- */
+/* This is used for the eight circles put around a sheet object being sized. */
+
+GnmControlCircle {
+  background-color: white;
+  color: black;
+  /* See also GnmPane */
+}
+
+GnmControlCircle:hover {
+  background-color: green;
 }
 
 /* ------------------------------------------------------------------------- */
