@@ -829,8 +829,8 @@ cb_ctrl_pts_free (GocItem **ctrl_pts)
 {
 	int i = 10;
 	while (i-- > 0)
-		if (ctrl_pts [i] != NULL)
-			g_object_unref (ctrl_pts [i]);
+		if (ctrl_pts[i] != NULL)
+			g_object_unref (ctrl_pts[i]);
 	g_free (ctrl_pts);
 }
 
@@ -2617,7 +2617,7 @@ gnm_pane_object_start_resize (GnmPane *pane, int button, guint64 x, gint64 y,
 					 NULL, NULL, NULL);
 		return;
 	}
-	gnm_simple_canvas_grab (ctrl_pts [drag_type],
+	gnm_simple_canvas_grab (ctrl_pts[drag_type],
 		GDK_POINTER_MOTION_MASK |
 		GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK,
@@ -2925,14 +2925,14 @@ set_item_x_y (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 	      int idx, double x, double y, gboolean visible)
 {
 	double scale = GOC_CANVAS (pane)->pixels_per_unit;
-	if (ctrl_pts [idx] == NULL)
-		ctrl_pts [idx] = new_control_point (pane, so, idx, x / scale, y / scale);
+	if (ctrl_pts[idx] == NULL)
+		ctrl_pts[idx] = new_control_point (pane, so, idx, x / scale, y / scale);
 	else
-		goc_item_set (ctrl_pts [idx], "x", x / scale, "y", y / scale, NULL);
+		goc_item_set (ctrl_pts[idx], "x", x / scale, "y", y / scale, NULL);
 	if (visible)
-		goc_item_show (ctrl_pts [idx]);
+		goc_item_show (ctrl_pts[idx]);
 	else
-		goc_item_hide (ctrl_pts [idx]);
+		goc_item_hide (ctrl_pts[idx]);
 }
 
 #define normalize_high_low(d1,d2) if (d1<d2) { double tmp=d1; d1=d2; d2=tmp;}
@@ -2945,29 +2945,39 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 	int radius, outline;
 
 	if (!sheet_object_rubber_band_directly (so)) {
-		if (NULL == ctrl_pts [9]) {
+		if (NULL == ctrl_pts[9]) {
 			GOStyle *style = go_style_new ();
+			GtkStyleContext *context;
+			GdkRGBA rgba;
+			GocItem *item;
+
+			ctrl_pts[9] = item = goc_item_new (pane->action_items,
+				GOC_TYPE_RECTANGLE,
+				NULL);
+			context = goc_item_get_style_context (item);
+			gtk_style_context_add_class (context, "object-size");
+			gtk_style_context_add_class (context, "rubber-band");
+
 			style->fill.auto_type = FALSE;
 			style->fill.type  = GO_STYLE_FILL_PATTERN;
 			style->fill.auto_back = FALSE;
 			style->fill.pattern.back = 0;
 			style->fill.auto_fore = FALSE;
 			style->fill.pattern.fore = 0;
-			style->line.pattern = GO_PATTERN_THIN_DIAG;
+			style->line.pattern = GO_PATTERN_FOREGROUND_SOLID;
 			style->line.width = 0.;
 			style->line.auto_color = FALSE;
 			style->line.color = 0;
-			style->line.fore = GO_COLOR_BLACK;
-			ctrl_pts [9] = goc_item_new (pane->action_items,
-				GOC_TYPE_RECTANGLE,
-				"style", style,
-				NULL);
+			gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &rgba);
+			go_color_from_gdk_rgba (&rgba, &style->line.fore);
+			go_styled_object_set_style (GO_STYLED_OBJECT (item),
+						    style);
 			g_object_unref (style);
-			goc_item_lower_to_bottom (ctrl_pts [9]);
+			goc_item_lower_to_bottom (item);
 		}
 		normalize_high_low (r, l);
 		normalize_high_low (b, t);
-		goc_item_set (ctrl_pts [9],
+		goc_item_set (ctrl_pts[9],
 		       "x", l / scale, "y", t / scale,
 		       "width", (r - l) / scale, "height", (b - t) / scale,
 		       NULL);
@@ -2994,7 +3004,7 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 	t -= (radius + outline) / 2 - 1;
 	b += (radius + outline) / 2;
 
-	if (NULL == ctrl_pts [8]) {
+	if (NULL == ctrl_pts[8]) {
 		GOStyle *style = go_style_new ();
 		GocItem *item;
 
@@ -3018,9 +3028,9 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 			GINT_TO_POINTER (8));
 		g_object_set_data (G_OBJECT (item), "so", so);
 
-		ctrl_pts [8] = item;
+		ctrl_pts[8] = item;
 	}
-	goc_item_set (ctrl_pts [8],
+	goc_item_set (ctrl_pts[8],
 	       "x", l / scale,
 	       "y", t / scale,
 	       "width", (r - l) / scale,

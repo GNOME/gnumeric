@@ -150,8 +150,20 @@ GtkHandleBox {
    to be a problem if the theme somehow adds its own.  */
 
 GtkWindow>GtkFrame.pseudo-tooltip {
+  border-style: none;
   border-width: 0;
   padding: 5/*px*/;
+}
+
+GtkWindow>GtkFrame>GtkLabel.pseudo-tooltip {
+  border-style: none;
+  border-width: 0;
+  padding: 0;
+}
+
+GtkWindow .pseudo-tooltip {
+  background-image: none;
+  background-color: rgba(0,0,0,0);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -165,6 +177,10 @@ GnmControlCircle {
 
 GnmControlCircle:hover {
   background-color: green;
+}
+
+GocItem.object-size.rubber-band {
+  color: black;
 }
 
 /* ------------------------------------------------------------------------- */
