@@ -45,6 +45,9 @@
 #include <goffice/goffice.h>
 #include <string.h>
 
+#define DARK_GRAY  GO_COLOR_GREY(51)    /* "gray20" */
+#define LIGHT_GRAY GO_COLOR_GREY(199)   /* "gray78" */
+
 typedef struct {
 	GenericToolState base;
 
@@ -133,7 +136,7 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 		dao_set_colors (&p->dao, 2 + p->col, 3 + *index,
 				2 + p->col, 3 + *index,
 				gnm_color_new_go (GO_COLOR_BLACK),
-				gnm_color_new_gdk (&gs_light_gray));
+				gnm_color_new_go (LIGHT_GRAY));
 
 	} else {
 		/* New cell. */
@@ -156,7 +159,7 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 		dao_set_colors (&p->dao, 2 + p->col, 3 + p->row,
 				2 + p->col, 3 + p->row,
 				gnm_color_new_go (GO_COLOR_BLACK),
-				gnm_color_new_gdk (&gs_light_gray));
+				gnm_color_new_go (LIGHT_GRAY));
 
 		/* Insert row number into the hash table. */
 		r  = g_new (int, 1);
@@ -228,10 +231,10 @@ scenario_summary (WorkbookControl *wbc,
 
 	dao_set_colors (&cb.dao, 0, 0, cb.col + 1, 1,
 			gnm_color_new_go (GO_COLOR_WHITE),
-			gnm_color_new_gdk (&gs_dark_gray));
+			gnm_color_new_go (DARK_GRAY));
 	dao_set_colors (&cb.dao, 0, 2, 0, 2 + cb.row,
 			gnm_color_new_go (GO_COLOR_BLACK),
-			gnm_color_new_gdk (&gs_light_gray));
+			gnm_color_new_go (LIGHT_GRAY));
 
 	dao_set_align (&cb.dao, 1, 1, cb.col + 1, 1, GNM_HALIGN_RIGHT,
 		       GNM_VALIGN_BOTTOM);

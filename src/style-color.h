@@ -18,14 +18,6 @@ struct _GnmColor {
 	gboolean is_auto;
 };
 
-/* Colors used by any GnumericSheet item */
-GNM_VAR_DECL GdkRGBA gs_white;
-GNM_VAR_DECL GdkRGBA gs_light_gray;
-GNM_VAR_DECL GdkRGBA gs_dark_gray;
-GNM_VAR_DECL GdkRGBA gs_black;
-GNM_VAR_DECL GdkRGBA gs_lavender;
-GNM_VAR_DECL GdkRGBA gs_yellow;
-
 GType     gnm_color_get_type    (void);
 GnmColor *gnm_color_new_go    (GOColor c);
 GnmColor *gnm_color_new_name  (char const *name);

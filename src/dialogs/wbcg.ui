@@ -73,10 +73,8 @@
                     <property name="show_arrow">False</property>
                     <child>
                       <object class="GtkToolItem" id="selection_descriptor_item">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_action_appearance">False</property>
                         <child>
                           <object class="GtkEntry" id="selection_descriptor">
                             <property name="visible">True</property>
@@ -91,11 +89,9 @@
                     </child>
                     <child>
                       <object class="GtkToolButton" id="cancel_button">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Cancel change</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="stock_id">gtk-cancel</property>
                       </object>
@@ -106,12 +102,10 @@
                     </child>
                     <child>
                       <object class="GtkMenuToolButton" id="ok_button">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Accept change</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="stock_id">gtk-ok</property>
                       </object>
@@ -121,11 +115,9 @@
                     </child>
                     <child>
                       <object class="GtkToolButton" id="func_button">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Enter formula...</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="stock_id">Gnumeric_Equal</property>
                       </object>
@@ -136,10 +128,8 @@
                     </child>
                     <child>
                       <object class="GtkToolButton" id="debug_button">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="visible_vertical">False</property>
                         <property name="use_underline">True</property>
                         <property name="stock_id">gtk-info</property>
@@ -151,10 +141,8 @@
                     </child>
                     <child>
                       <object class="GtkToolItem" id="edit_line_entry_item">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_action_appearance">False</property>
                         <child>
                           <placeholder/>
                         </child>
@@ -256,7 +244,6 @@
                   <object class="GtkLabel" id="bnotebook_placeholder">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">label</property>
                   </object>
                   <packing>
                     <property name="resize">False</property>

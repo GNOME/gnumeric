@@ -302,8 +302,10 @@ fcombo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
 	gtk_arrow_set (GTK_ARROW (arrow),
 		fcombo->cond != NULL ? GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
 		GTK_SHADOW_IN);
-	gtk_widget_override_color (arrow, GTK_STATE_FLAG_NORMAL,
-		fcombo->cond != NULL ? &gs_yellow : &gs_black);
+	if (fcombo->cond)
+		gtk_widget_set_state_flags (arrow, GTK_STATE_FLAG_ACTIVE, FALSE);
+	else 
+		gtk_widget_unset_state_flags (arrow, GTK_STATE_FLAG_ACTIVE);
 }
 
 static GtkWidget *
@@ -311,6 +313,8 @@ fcombo_create_arrow (SheetObject *so)
 {
 	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (so);
 	GtkWidget *arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
+	gtk_style_context_add_class (gtk_widget_get_style_context (arrow),
+				     "auto-filter");
 	fcombo_arrow_format (fcombo, arrow);
 	g_signal_connect_object (G_OBJECT (so),
 		"cond-changed",

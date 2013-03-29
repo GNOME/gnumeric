@@ -12,14 +12,6 @@
 #include "style-border.h"
 #include <gtk/gtk.h>
 
-/* Public _unallocated_ colours, i.e., no valid .pixel.  */
-GdkRGBA gs_black      = { 0, 0, 0, 1 };    /* "Black" */
-GdkRGBA gs_white      = { 1, 1, 1, 1 };    /* "White" */
-GdkRGBA gs_yellow     = { 1, 1, .88, 1 };    /* "LightYellow" */
-GdkRGBA gs_lavender   = { .9, .9, .98, 1 };    /* "lavender" */
-GdkRGBA gs_dark_gray  = { .2, .2, .2, 1 };    /* "gray20" */
-GdkRGBA gs_light_gray = { .78, .78, .78, 1 };    /* "gray78" */
-
 static GHashTable *style_color_hash;
 static GnmColor *sc_black;
 static GnmColor *sc_white;

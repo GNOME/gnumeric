@@ -11,6 +11,7 @@ Morten:
 	* Introspection improvements.
 	* Fix drawing of the select-all button.
 	* Fix getting the detachable-toolbars setting.
+	* Style most of Gnumeric using css.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

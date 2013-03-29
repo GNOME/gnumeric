@@ -1847,24 +1847,24 @@ excel_palette_get (GnmXLImporter *importer, gint idx)
 		return style_color_white ();
 	switch (idx) {
 	case 0:   /* black */
-	case 64 : /* system text ? */
-	case 81 : /* tooltip text */
-	case 0x7fff : /* system text ? */
+	case 64: /* system text ? */
+	case 81: /* tooltip text */
+	case 0x7fff: /* system text ? */
 		return style_color_black ();
-	case 1 :  /* white */
-	case 65 : /* system back ? */
+	case 1:  /* white */
+	case 65: /* system back ? */
 		return style_color_white ();
 
-	case 80 : /* tooltip background */
-		return gnm_color_new_gdk (&gs_yellow);
+	case 80: /* tooltip background */
+		return gnm_color_new_rgb8 (0xff, 0xff, 0xe0);
 
-	case 2 : return gnm_color_new_rgb8 (0xff,    0,    0); /* red */
-	case 3 : return gnm_color_new_rgb8 (   0, 0xff,    0); /* green */
-	case 4 : return gnm_color_new_rgb8 (   0,    0, 0xff); /* blue */
-	case 5 : return gnm_color_new_rgb8 (0xff, 0xff,    0); /* yellow */
-	case 6 : return gnm_color_new_rgb8 (0xff,    0, 0xff); /* magenta */
-	case 7 : return gnm_color_new_rgb8 (   0, 0xff, 0xff); /* cyan */
-	default :
+	case 2: return gnm_color_new_rgb8 (0xff,    0,    0); /* red */
+	case 3: return gnm_color_new_rgb8 (   0, 0xff,    0); /* green */
+	case 4: return gnm_color_new_rgb8 (   0,    0, 0xff); /* blue */
+	case 5: return gnm_color_new_rgb8 (0xff, 0xff,    0); /* yellow */
+	case 6: return gnm_color_new_rgb8 (0xff,    0, 0xff); /* magenta */
+	case 7: return gnm_color_new_rgb8 (   0, 0xff, 0xff); /* cyan */
+	default:
 		break;
 	}
 

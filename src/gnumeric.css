@@ -184,3 +184,14 @@ GocItem.object-size.rubber-band {
 }
 
 /* ------------------------------------------------------------------------- */
+/* Auto filter in two versions: the first one for "all", second for others.  */
+
+GtkArrow.auto-filter {
+  color: black;
+}
+
+GtkArrow.auto-filter:active {
+  color: yellow;
+}
+
+/* ------------------------------------------------------------------------- */
