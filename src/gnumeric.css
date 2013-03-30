@@ -161,7 +161,7 @@ GtkWindow>GtkFrame>GtkLabel.pseudo-tooltip {
   padding: 0;
 }
 
-GtkWindow .pseudo-tooltip {
+GtkWindow *.pseudo-tooltip {
   background-image: none;
   background-color: rgba(0,0,0,0);
 }
