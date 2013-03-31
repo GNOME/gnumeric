@@ -235,6 +235,14 @@ else
 fi
 AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
 
+dnl **************************************************
+dnl This needs to be done before we add aggressive -Werror=foo flags
+dnl below.
+AC_SUBST(GETTEXT_PACKAGE, gnumeric)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
+	[The package name, for gettext])
+AM_GLIB_GNU_GETTEXT
+
 dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
@@ -502,10 +510,6 @@ for lang in $ALL_LINGUAS; do
 done
 AC_SUBST(POFILES_FULL)
 
-AC_SUBST(GETTEXT_PACKAGE, gnumeric)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
-	[The package name, for gettext])
-AM_GLIB_GNU_GETTEXT
 dnl
 dnl Code to handle po-functions/Makefile* and po-functions/POTFILES*
 dnl

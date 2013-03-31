@@ -1,5 +1,8 @@
 Gnumeric 1.12.2
 
+Dominique Leuenberger:
+	* Fix locale directory.
+
 Jean:
 	* Fix problems with sheet widgets.  [#696533]
 
