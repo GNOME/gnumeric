@@ -65,6 +65,7 @@ libdialogs_la_SOURCES =					\
 	dialog-search.c				\
 	dialog-search-replace.c			\
 	dialog-sheet-order.c			\
+	dialog-sheet-rename.c			\
 	dialog-sheet-resize.c			\
 	dialog-sheetobject-size.c		\
 	dialog-shuffle.c			\
@@ -160,6 +161,7 @@ embedded_uis = 			\
 	search-replace.ui		\
 	search.ui			\
 	sheet-order.ui			\
+	sheet-rename.ui			\
 	sheet-resize.ui			\
 	sheetobject-size.ui		\
 	shuffle.ui			\

@@ -70,7 +70,6 @@
 #include <goffice/goffice.h>
 #include <goffice/component/goffice-component.h>
 
-#include "widgets/widget-editable-label.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-input.h>
@@ -918,8 +917,9 @@ static GNM_ACTION_DEF (cb_insert_comment)
 
 static GNM_ACTION_DEF (cb_sheet_name)
 {
-	SheetControlGUI *scg = wbcg_cur_scg(wbcg);
-	editable_label_start_editing (EDITABLE_LABEL(scg->label));
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	dialog_sheet_rename (wbcg, sheet);
 }
 
 static GNM_ACTION_DEF (cb_sheet_order)		{ dialog_sheet_order (wbcg); }

@@ -16,6 +16,7 @@ Morten:
 	* Fix getting the detachable-toolbars setting.
 	* Style most of Gnumeric using css.
 	* Fix focus problem in cell comment dialog.  [#696826]
+	* Move sheet renaming into a dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

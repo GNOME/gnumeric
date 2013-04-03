@@ -415,23 +415,6 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 	}
 }
 
-static gboolean
-cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
-			      WBCGtk *wbcg)
-{
-	gboolean reject = FALSE;
-	if (new_name != NULL) {
-		char const *old_name = editable_label_get_text (el);
-		Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
-		Sheet *sheet = workbook_sheet_by_name (wb, old_name);
-		reject = cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
-					   sheet,
-					   new_name);
-	}
-	wbcg_focus_cur_scg (wbcg);
-	return reject;
-}
-
 void
 wbcg_insert_sheet (GtkWidget *unused, WBCGtk *wbcg)
 {
@@ -490,7 +473,7 @@ static void cb_sheets_manage (SheetControlGUI *scg) { dialog_sheet_order (scg->w
 static void cb_sheets_insert (SheetControlGUI *scg) { wbcg_insert_sheet (NULL, scg->wbcg); }
 static void cb_sheets_add    (SheetControlGUI *scg) { wbcg_append_sheet (NULL, scg->wbcg); }
 static void cb_sheets_clone  (SheetControlGUI *scg) { wbcg_clone_sheet  (NULL, scg->wbcg); }
-static void cb_sheets_rename (SheetControlGUI *scg) { editable_label_start_editing (EDITABLE_LABEL(scg->label)); }
+static void cb_sheets_rename (SheetControlGUI *scg) { dialog_sheet_rename (scg->wbcg, scg_sheet (scg)); }
 static void cb_sheets_resize (SheetControlGUI *scg) { dialog_sheet_resize (scg->wbcg); }
 
 
@@ -1103,9 +1086,6 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	g_object_set_data (G_OBJECT (scg->grid), SHEET_CONTROL_KEY, scg);
 
 	g_object_set_data (G_OBJECT (scg->label), SHEET_CONTROL_KEY, scg);
-	g_signal_connect_after (G_OBJECT (scg->label),
-				"edit_finished",
-				G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
 
 	/* do not preempt the editable label handler */
 	g_signal_connect_after (G_OBJECT (scg->label),
