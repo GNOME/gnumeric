@@ -79,6 +79,8 @@ static void
 gnm_notebook_init (GnmNotebook *notebook)
 {
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
+	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_BOTTOM);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
 }
 
 GSF_CLASS (GnmNotebook, gnm_notebook,

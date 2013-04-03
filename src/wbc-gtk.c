@@ -964,10 +964,7 @@ wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 {
 	GtkWidget *placeholder;
 
-	wbcg->bnotebook = g_object_new (GNM_NOTEBOOK_TYPE,
-					"tab-pos", GTK_POS_BOTTOM,
-					"show-border", FALSE,
-					NULL);
+	wbcg->bnotebook = g_object_new (GNM_NOTEBOOK_TYPE, NULL);
 	g_object_ref (wbcg->bnotebook);
 
 	g_signal_connect_after (G_OBJECT (wbcg->bnotebook),
