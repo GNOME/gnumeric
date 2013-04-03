@@ -2,6 +2,8 @@
 
 	* gnm-notebook.c (GnmNoteBookButton): New widget for use as
 	notebook tab.
+	(gnm_notebook_button_set_property): Clear the layouts for
+	background changes.
 
 	* Makefile.am: Remove editable-widget.
 

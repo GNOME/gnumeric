@@ -78,6 +78,8 @@ gnm_notebook_button_set_property (GObject      *obj,
 		gdk_rgba_free (nbb->bg);
 		nbb->bg = g_value_dup_boxed (value);
 		gtk_widget_queue_draw (GTK_WIDGET (obj));
+		g_clear_object (&nbb->layout);
+		g_clear_object (&nbb->layout_active);
 		break;
 	case NBB_PROP_TEXT_COLOR:
 		gdk_rgba_free (nbb->fg);
@@ -155,6 +157,7 @@ gnm_notebook_button_screen_changed (GtkWidget *widget, G_GNUC_UNUSED GdkScreen *
 {
 	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (widget);
 	g_clear_object (&nbb->layout);
+	g_clear_object (&nbb->layout_active);
 }
 
 static gboolean
