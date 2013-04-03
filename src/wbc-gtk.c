@@ -2576,7 +2576,7 @@ cb_wbcg_drag_motion (GtkWidget *widget, GdkDragContext *context,
 {
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 
-	if (IS_EDITABLE_LABEL (source_widget)) {
+	if (GNM_IS_NOTEBOOK (gtk_widget_get_parent (source_widget))) {
 		/* The user wants to reorder sheets. We simulate a
 		 * drag motion over a label.
 		 */
@@ -2598,7 +2598,7 @@ cb_wbcg_drag_leave (GtkWidget *widget, GdkDragContext *context,
 
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 
-	if (IS_EDITABLE_LABEL (source_widget))
+	if (GNM_IS_NOTEBOOK (gtk_widget_get_parent (source_widget)))
 		gtk_widget_hide (
 			g_object_get_data (G_OBJECT (source_widget), "arrow"));
 	else if (wbcg_is_local_drag (wbcg, source_widget))
