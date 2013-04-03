@@ -345,14 +345,6 @@ gtv_build_button_bold (GtkWidget *tb, GnmTextView *gtv)
 
 static GObjectClass *parent_class = NULL;
 
-/* Do we realy need a finalize method there? */
-static void
-gtv_destroy (GtkWidget *widget)
-{
-	((GtkWidgetClass *)(parent_class))->destroy (widget);
-}
-
-
 static void
 gtv_set_property (GObject      *object,
 		  guint         prop_id,
@@ -366,12 +358,13 @@ gtv_set_property (GObject      *object,
 					  g_value_get_string (value), -1);
 		break;
 	case PROP_WRAP:
-		gtk_text_view_set_wrap_mode (gtv->view, g_value_get_int (value));
+		gtk_text_view_set_wrap_mode (gtv->view,
+					     g_value_get_enum (value));
 		break;
 	case PROP_ATTR:
 		gnm_load_pango_attributes_into_buffer (g_value_get_boxed (value),
 						       gtv->buffer, NULL);
-	break;
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
@@ -386,28 +379,24 @@ gtv_get_property (GObject      *object,
 	GnmTextView *gtv = GNM_TEXT_VIEW (object);
 	switch (prop_id) {
 	case PROP_TEXT:
-	{
-		char *text;
-		text = gnumeric_textbuffer_get_text (gtv->buffer);
-		g_value_set_string (value, text);
-		g_free (text);
-	}
-	break;
+		g_value_take_string
+			(value,
+			 gnumeric_textbuffer_get_text (gtv->buffer));
+		break;
 	case PROP_WRAP:
-		g_value_set_int (value, gtk_text_view_get_wrap_mode (gtv->view));
-	break;
-	case PROP_ATTR:
-	{
+		g_value_set_enum (value,
+				  gtk_text_view_get_wrap_mode (gtv->view));
+		break;
+	case PROP_ATTR:	{
 		PangoAttrList *attr = gnm_get_pango_attributes_from_buffer
 			(gtv->buffer);
 		g_value_take_boxed (value, attr);
+		break;
 	}
-	break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
 }
-
 
 static void
 gtv_init (GnmTextView *gtv)
@@ -415,7 +404,9 @@ gtv_init (GnmTextView *gtv)
 	GtkWidget *tb = gtk_toolbar_new ();
 	GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
 
-	g_object_set (G_OBJECT (gtv), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
+	g_object_set (G_OBJECT (gtv),
+		      "orientation", GTK_ORIENTATION_VERTICAL,
+		      NULL);
 
 	gtv->view = GTK_TEXT_VIEW (gtk_text_view_new ());
 	gtv->buffer = gtk_text_view_get_buffer (gtv->view);
@@ -445,9 +436,15 @@ gtv_init (GnmTextView *gtv)
 	gtk_box_pack_start (GTK_BOX (gtv), tb, FALSE, TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (gtv->view));
 	gtk_box_pack_start (GTK_BOX (gtv), sw, TRUE, TRUE, 0);
-
-
 }
+
+static void
+gtv_grab_focus (GtkWidget *widget)
+{
+	GnmTextView *gtv = GNM_TEXT_VIEW (widget);	
+	gtk_widget_grab_focus (GTK_WIDGET (gtv->view));
+}
+
 
 static void
 gtv_class_init (GObjectClass *gobject_class)
@@ -456,7 +453,7 @@ gtv_class_init (GObjectClass *gobject_class)
 
 	gobject_class->set_property	= gtv_set_property;
 	gobject_class->get_property	= gtv_get_property;
-	((GtkWidgetClass *)(gobject_class))->destroy = gtv_destroy;
+	((GtkWidgetClass*)gobject_class)->grab_focus = gtv_grab_focus;
 
 	signals [CHANGED] = g_signal_new ("changed",
 		GNM_TEXT_VIEW_TYPE,
@@ -474,11 +471,11 @@ gtv_class_init (GObjectClass *gobject_class)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		PROP_WRAP,
-		g_param_spec_int ("wrap", "Wrap",
-				  "The wrapping mode",
-				  GTK_WRAP_NONE, GTK_WRAP_WORD_CHAR,
-				  GTK_WRAP_WORD,
-				  GSF_PARAM_STATIC | G_PARAM_READWRITE));
+		g_param_spec_enum ("wrap", "Wrap",
+				   "The wrapping mode",
+				   GTK_TYPE_WRAP_MODE,
+				   GTK_WRAP_WORD,
+				   GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property
 		(gobject_class, PROP_ATTR,
 		 g_param_spec_boxed

@@ -1,5 +1,7 @@
 2013-04-02  Morten Welinder  <terra@gnome.org>
 
+	* gnumeric-text-view.c (gtv_grab_focus): Bounce focus to textview.
+
 	* gnm-notebook.h (GNM_IS_NOTEBOOK): Rename from IS_GNM_NOTEBOOK.
 
 2013-03-25  Morten Welinder  <terra@gnome.org>

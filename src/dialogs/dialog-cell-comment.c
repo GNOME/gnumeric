@@ -143,8 +143,8 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	real_user = g_get_real_name ();
 	if ((real_user != NULL) && g_utf8_validate (real_user, -1, NULL)) {
 		gtk_entry_set_text (GTK_ENTRY (new_author), real_user);
-		gtk_editable_select_region (GTK_EDITABLE (new_author), 0, -1);
 	}
+	gtk_widget_grab_focus (GTK_WIDGET (state->gtv));
 
 	comment = sheet_get_comment (sheet, pos);
 	if (comment) {
