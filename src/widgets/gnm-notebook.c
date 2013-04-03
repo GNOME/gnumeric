@@ -365,7 +365,8 @@ gnm_notebook_button_press (GtkWidget      *widget,
 		}
 	}
 
-	return TRUE;
+	return GTK_WIDGET_CLASS(gnm_notebook_parent_class)
+		->button_press_event (widget, event);
 }
 
 static GType
