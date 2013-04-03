@@ -37,6 +37,7 @@ struct GnmNotebookButton_ {
 	PangoLayout *layout;
 	PangoLayout *layout_active;
 
+	PangoRectangle logical, logical_active;
 	int x_offset, x_offset_active;
 
 	GdkRGBA *fg, *bg;
@@ -104,17 +105,20 @@ gnm_notebook_button_ensure_layout (GnmNotebookButton *nbb)
 	const char *text = gtk_label_get_text (GTK_LABEL (nbb));
 
 	if (nbb->layout) {
-		/* Optimize?  */
+		if (strcmp (text, pango_layout_get_text (nbb->layout)) == 0)
+			return;
 		pango_layout_set_text (nbb->layout, text, -1);
 		pango_layout_set_text (nbb->layout_active, text, -1);
 	} else {
 		PangoAttrList *attrs, *attrs_active;
 		PangoAttribute *attr;
 		PangoFontDescription *desc;
-		GtkStyleContext *context = gtk_widget_get_style_context (GTK_WIDGET (nbb));
+		GtkWidget *widget = GTK_WIDGET (nbb);
+		GtkStyleContext *context =
+			gtk_widget_get_style_context (widget);
 
-		nbb->layout = gtk_widget_create_pango_layout (GTK_WIDGET (nbb), text);
-		nbb->layout_active = gtk_widget_create_pango_layout (GTK_WIDGET (nbb), text);
+		nbb->layout = gtk_widget_create_pango_layout (widget, text);
+		nbb->layout_active = gtk_widget_create_pango_layout (widget, text);
 
 		/* Common */
 		attrs = pango_attr_list_new ();
@@ -150,6 +154,9 @@ gnm_notebook_button_ensure_layout (GnmNotebookButton *nbb)
 		pango_layout_set_attributes (nbb->layout_active, attrs_active);
 		pango_attr_list_unref (attrs_active);
 	}
+
+	pango_layout_get_extents (nbb->layout, NULL, &nbb->logical);
+	pango_layout_get_extents (nbb->layout_active, NULL, &nbb->logical_active);
 }
 
 static void
@@ -199,7 +206,6 @@ gnm_notebook_button_get_preferred_height (GtkWidget *widget,
 					  gint      *natural)
 {
 	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (widget);
-	PangoRectangle logical, logical_active;
 	GtkBorder padding;
 
 	gtk_style_context_get_padding (gtk_widget_get_style_context (widget),
@@ -207,12 +213,11 @@ gnm_notebook_button_get_preferred_height (GtkWidget *widget,
 				       &padding);
 
 	gnm_notebook_button_ensure_layout (nbb);
-	pango_layout_get_extents (nbb->layout, NULL, &logical);
-	pango_layout_get_extents (nbb->layout_active, NULL, &logical_active);
 
 	*minimum = *natural =
 		(padding.top +
-		 PANGO_PIXELS_CEIL (MAX (logical.height, logical_active.height)) +
+		 PANGO_PIXELS_CEIL (MAX (nbb->logical.height,
+					 nbb->logical_active.height)) +
 		 padding.bottom);
 }
 
@@ -222,26 +227,35 @@ gnm_notebook_button_get_preferred_width (GtkWidget *widget,
 					 gint      *natural)
 {
 	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (widget);
-	PangoRectangle logical, logical_active;
 	GtkBorder padding;
-	int dx;
 
 	gtk_style_context_get_padding (gtk_widget_get_style_context (widget),
 				       GTK_STATE_FLAG_NORMAL,
 				       &padding);
 
 	gnm_notebook_button_ensure_layout (nbb);
-	pango_layout_get_extents (nbb->layout, NULL, &logical);
-	pango_layout_get_extents (nbb->layout_active, NULL, &logical_active);
-
-	dx = logical_active.width - logical.width;
-	nbb->x_offset = PANGO_PIXELS (MAX (0, dx / 2));
-	nbb->x_offset_active = PANGO_PIXELS (MAX (0, -dx / 2));
 
 	*minimum = *natural =
 		(padding.left +
-		 PANGO_PIXELS_CEIL (MAX (logical.width, logical_active.width)) +
+		 PANGO_PIXELS_CEIL (MAX (nbb->logical.width,
+					 nbb->logical_active.width)) +
 		 padding.right);
+}
+
+static void
+gnm_notebook_button_size_allocate (GtkWidget     *widget,
+				   GtkAllocation *allocation)
+{
+	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (widget);
+
+	gnm_notebook_button_ensure_layout (nbb);
+	nbb->x_offset =
+		(allocation->width - PANGO_PIXELS (nbb->logical.width)) / 2;
+	nbb->x_offset_active =
+		(allocation->width - PANGO_PIXELS (nbb->logical_active.width)) / 2;
+
+	GTK_WIDGET_CLASS(gnm_notebook_button_parent_class)
+		->size_allocate (widget, allocation);
 }
 
 static void
@@ -275,6 +289,7 @@ gnm_notebook_button_class_init (GObjectClass *klass)
 	wclass->get_request_mode = gnm_notebook_button_get_request_mode;
 	wclass->get_preferred_width = gnm_notebook_button_get_preferred_width;
 	wclass->get_preferred_height = gnm_notebook_button_get_preferred_height;
+	wclass->size_allocate = gnm_notebook_button_size_allocate;
 }
 
 static void

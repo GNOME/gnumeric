@@ -4,6 +4,7 @@
 	notebook tab.
 	(gnm_notebook_button_set_property): Clear the layouts for
 	background changes.
+	(gnm_notebook_button_draw): Center label within allocation.
 
 	* Makefile.am: Remove editable-widget.
 
