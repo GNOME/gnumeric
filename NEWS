@@ -15,6 +15,7 @@ Morten:
 	* Fix drawing of the select-all button.
 	* Fix getting the detachable-toolbars setting.
 	* Style most of Gnumeric using css.
+	* Fix focus problem in cell comment dialog.  [#696826]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
