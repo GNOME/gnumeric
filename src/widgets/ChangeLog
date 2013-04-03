@@ -1,3 +1,7 @@
+2013-04-02  Morten Welinder  <terra@gnome.org>
+
+	* gnm-notebook.h (GNM_IS_NOTEBOOK): Rename from IS_GNM_NOTEBOOK.
+
 2013-03-25  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_colour_ranges): Make sure

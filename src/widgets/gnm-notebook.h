@@ -25,7 +25,7 @@
 
 #define GNM_NOTEBOOK_TYPE        (gnm_notebook_get_type ())
 #define GNM_NOTEBOOK(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_NOTEBOOK_TYPE, GnmNotebook))
-#define IS_GNM_NOTEBOOK(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GNM_NOTEBOOK_TYPE))
+#define GNM_IS_NOTEBOOK(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GNM_NOTEBOOK_TYPE))
 
 typedef struct _GnmNotebook GnmNotebook;
 

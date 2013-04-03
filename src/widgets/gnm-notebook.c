@@ -106,7 +106,7 @@ gnm_notebook_get_nth_label (GnmNotebook *nb, int n)
 {
 	GtkWidget *page;
 
-	g_return_val_if_fail (IS_GNM_NOTEBOOK (nb), NULL);
+	g_return_val_if_fail (GNM_IS_NOTEBOOK (nb), NULL);
 
 	page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (nb), n);
 	if (!page)
