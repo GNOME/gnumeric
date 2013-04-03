@@ -17,6 +17,8 @@ Morten:
 	* Style most of Gnumeric using css.
 	* Fix focus problem in cell comment dialog.  [#696826]
 	* Move sheet renaming into a dialog.
+	* Make it easier to see what sheet is selected.  [#659317]
+
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

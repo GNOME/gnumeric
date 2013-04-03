@@ -21,7 +21,272 @@
 
 #include <gnumeric-config.h>
 #include "gnm-notebook.h"
+#include <goffice/goffice.h>
+#include "gnm-i18n.h"
 #include <gsf/gsf-impl-utils.h>
+
+/* ------------------------------------------------------------------------- */
+
+struct GnmNotebookButton_ {
+	/*
+	 * We need to derive from GtkLabel mostly for theming reasons,
+	 * but GtkLabel is also special for clipping.
+	 */
+	GtkLabel base;
+
+	PangoLayout *layout;
+	PangoLayout *layout_active;
+
+	int x_offset, x_offset_active;
+
+	GdkRGBA *fg, *bg;
+};
+
+typedef struct {
+	GtkLabelClass parent_class;
+} GnmNotebookButtonClass;
+
+static GObjectClass *gnm_notebook_button_parent_class;
+
+enum {
+	NBB_PROP_0,
+	NBB_PROP_BACKGROUND_COLOR,
+	NBB_PROP_TEXT_COLOR
+};
+
+static void
+gnm_notebook_button_finalize (GObject *obj)
+{
+	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (obj);
+	g_clear_object (&nbb->layout);
+	g_clear_object (&nbb->layout_active);
+	gdk_rgba_free (nbb->fg);
+	gdk_rgba_free (nbb->bg);
+	gnm_notebook_button_parent_class->finalize (obj);
+}
+
+static void
+gnm_notebook_button_set_property (GObject      *obj,
+				  guint         prop_id,
+				  const GValue *value,
+				  GParamSpec   *pspec)
+{
+	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (obj);
+
+	switch (prop_id) {
+	case NBB_PROP_BACKGROUND_COLOR:
+		gdk_rgba_free (nbb->bg);
+		nbb->bg = g_value_dup_boxed (value);
+		gtk_widget_queue_draw (GTK_WIDGET (obj));
+		break;
+	case NBB_PROP_TEXT_COLOR:
+		gdk_rgba_free (nbb->fg);
+		nbb->fg = g_value_dup_boxed (value);
+		gtk_widget_queue_draw (GTK_WIDGET (obj));
+		gtk_widget_override_color (GTK_WIDGET (obj),
+					   GTK_STATE_FLAG_NORMAL,
+					   nbb->fg);
+		gtk_widget_override_color (GTK_WIDGET (obj),
+					   GTK_STATE_FLAG_ACTIVE,
+					   nbb->fg);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, prop_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_notebook_button_ensure_layout (GnmNotebookButton *nbb)
+{
+	const char *text = gtk_label_get_text (GTK_LABEL (nbb));
+
+	if (nbb->layout) {
+		/* Optimize?  */
+		pango_layout_set_text (nbb->layout, text, -1);
+		pango_layout_set_text (nbb->layout_active, text, -1);
+	} else {
+		PangoAttrList *attrs, *attrs_active;
+		PangoAttribute *attr;
+		PangoFontDescription *desc;
+		GtkStyleContext *context = gtk_widget_get_style_context (GTK_WIDGET (nbb));
+
+		nbb->layout = gtk_widget_create_pango_layout (GTK_WIDGET (nbb), text);
+		nbb->layout_active = gtk_widget_create_pango_layout (GTK_WIDGET (nbb), text);
+
+		/* Common */
+		attrs = pango_attr_list_new ();
+		if (nbb->bg) {
+			attr = go_color_to_pango
+				(go_color_from_gdk_rgba (nbb->bg, NULL),
+				 FALSE);
+			attr->start_index = 0;
+			attr->end_index = -1;
+			pango_attr_list_insert (attrs, attr);
+		}			
+		attrs_active = pango_attr_list_copy (attrs);
+
+		/* Normal */
+		gtk_style_context_get (context, GTK_STATE_FLAG_NORMAL,
+				       "font", &desc, NULL);
+		attr = pango_attr_font_desc_new (desc);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
+		pango_font_description_free (desc);
+		pango_layout_set_attributes (nbb->layout, attrs);
+		pango_attr_list_unref (attrs);
+
+		/* Active */
+		gtk_style_context_get (context, GTK_STATE_FLAG_ACTIVE,
+				       "font", &desc, NULL);
+		attr = pango_attr_font_desc_new (desc);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs_active, attr);
+		pango_font_description_free (desc);
+		pango_layout_set_attributes (nbb->layout_active, attrs_active);
+		pango_attr_list_unref (attrs_active);
+	}
+}
+
+static void
+gnm_notebook_button_screen_changed (GtkWidget *widget, G_GNUC_UNUSED GdkScreen *prev)
+{
+	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (widget);
+	g_clear_object (&nbb->layout);
+}
+
+static gboolean
+gnm_notebook_button_draw (GtkWidget *widget, cairo_t *cr)
+{
+	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (widget);
+	GnmNotebook *nb = GNM_NOTEBOOK (gtk_widget_get_parent (widget));
+	GtkStyleContext *context = gtk_widget_get_style_context (widget);
+	gboolean is_active = (widget == gnm_notebook_get_current_label (nb));
+	GtkStateFlags state =
+		is_active ? GTK_STATE_FLAG_ACTIVE : GTK_STATE_FLAG_NORMAL;
+	GtkBorder padding;
+
+	gtk_style_context_save (context);
+	gtk_style_context_set_state (context, state);
+
+	gtk_style_context_get_padding (context, state, &padding);
+
+	gnm_notebook_button_ensure_layout (nbb);
+
+	gtk_render_layout (context, cr,
+			   padding.left + (is_active ? nbb->x_offset_active : nbb->x_offset),
+			   0,
+			   is_active ? nbb->layout_active : nbb->layout);
+
+	gtk_style_context_restore (context);
+	return FALSE;
+}
+
+static GtkSizeRequestMode 
+gnm_notebook_button_get_request_mode (GtkWidget *widget)
+{ 
+	return GTK_SIZE_REQUEST_CONSTANT_SIZE;
+}
+
+static void
+gnm_notebook_button_get_preferred_height (GtkWidget *widget,
+					  gint      *minimum,
+					  gint      *natural)
+{
+	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (widget);
+	PangoRectangle logical, logical_active;
+	GtkBorder padding;
+
+	gtk_style_context_get_padding (gtk_widget_get_style_context (widget),
+				       GTK_STATE_FLAG_NORMAL,
+				       &padding);
+
+	gnm_notebook_button_ensure_layout (nbb);
+	pango_layout_get_extents (nbb->layout, NULL, &logical);
+	pango_layout_get_extents (nbb->layout_active, NULL, &logical_active);
+
+	*minimum = *natural =
+		(padding.top +
+		 PANGO_PIXELS_CEIL (MAX (logical.height, logical_active.height)) +
+		 padding.bottom);
+}
+
+static void
+gnm_notebook_button_get_preferred_width (GtkWidget *widget,
+					 gint      *minimum,
+					 gint      *natural)
+{
+	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (widget);
+	PangoRectangle logical, logical_active;
+	GtkBorder padding;
+	int dx;
+
+	gtk_style_context_get_padding (gtk_widget_get_style_context (widget),
+				       GTK_STATE_FLAG_NORMAL,
+				       &padding);
+
+	gnm_notebook_button_ensure_layout (nbb);
+	pango_layout_get_extents (nbb->layout, NULL, &logical);
+	pango_layout_get_extents (nbb->layout_active, NULL, &logical_active);
+
+	dx = logical_active.width - logical.width;
+	nbb->x_offset = PANGO_PIXELS (MAX (0, dx / 2));
+	nbb->x_offset_active = PANGO_PIXELS (MAX (0, -dx / 2));
+
+	*minimum = *natural =
+		(padding.left +
+		 PANGO_PIXELS_CEIL (MAX (logical.width, logical_active.width)) +
+		 padding.right);
+}
+
+static void
+gnm_notebook_button_class_init (GObjectClass *klass)
+{
+	GtkWidgetClass *wclass = (GtkWidgetClass *)klass;
+
+	gnm_notebook_button_parent_class = g_type_class_peek_parent (klass);
+	klass->finalize = gnm_notebook_button_finalize;
+	klass->set_property = gnm_notebook_button_set_property;
+
+	g_object_class_install_property
+		(klass,
+		 NBB_PROP_BACKGROUND_COLOR,
+		 g_param_spec_boxed ("background-color",
+				     P_("Background Color"),
+				     P_("Override color to use for background"),
+				     GDK_TYPE_RGBA,
+				     G_PARAM_WRITABLE));
+	g_object_class_install_property
+		(klass,
+		 NBB_PROP_TEXT_COLOR,
+		 g_param_spec_boxed ("text-color",
+				     P_("Text Color"),
+				     P_("Override color to use for label"),
+				     GDK_TYPE_RGBA,
+				     G_PARAM_WRITABLE));
+
+	wclass->draw = gnm_notebook_button_draw;
+	wclass->screen_changed = gnm_notebook_button_screen_changed;
+	wclass->get_request_mode = gnm_notebook_button_get_request_mode;
+	wclass->get_preferred_width = gnm_notebook_button_get_preferred_width;
+	wclass->get_preferred_height = gnm_notebook_button_get_preferred_height;
+}
+
+static void
+gnm_notebook_button_init (GnmNotebookButton *nbb)
+{
+}
+
+GSF_CLASS (GnmNotebookButton, gnm_notebook_button,
+	   gnm_notebook_button_class_init,
+	   gnm_notebook_button_init, GTK_TYPE_LABEL)
+#if 0
+	;
+#endif
+
+/* ------------------------------------------------------------------------- */
 
 struct _GnmNotebook {
 	GtkNotebook parent;
@@ -68,11 +333,56 @@ gnm_notebook_size_allocate (GtkWidget     *widget,
 		(widget, &alc);
 }
 
+static gboolean
+gnm_notebook_button_press (GtkWidget      *widget,
+			   GdkEventButton *event)
+{
+	GnmNotebook *nb = GNM_NOTEBOOK (widget);
+	unsigned ui;
+
+	for (ui = 0; /* Nothing */; ui++) {
+		GtkWidget *child = gnm_notebook_get_nth_label (nb, ui);
+		GtkAllocation child_allocation;
+
+		if (!child)
+			break;
+
+		if (!gtk_widget_get_child_visible (child))
+			continue;
+
+		gtk_widget_get_allocation (child, &child_allocation);
+
+		if (event->x >= child_allocation.x &&
+		    event->x <  child_allocation.x + child_allocation.width &&
+		    event->y >= child_allocation.y &&
+		    event->y <  child_allocation.y + child_allocation.height) {
+			if (0)
+				g_printerr ("Button %d pressed\n", ui);
+			return gtk_widget_event (child, (GdkEvent*)event);
+		}
+	}
+
+	return TRUE;
+}
+
+static GType
+gnm_notebook_child_type (G_GNUC_UNUSED GtkContainer *container)
+{
+	return GNM_NOTEBOOK_BUTTON_TYPE;
+}
+
 static void
 gnm_notebook_class_init (GtkWidgetClass *klass)
 {
+	GtkWidgetClass *wclass = (GtkWidgetClass *)klass;
+	GtkContainerClass *cclass = (GtkContainerClass *)klass;
+
 	gnm_notebook_parent_class = g_type_class_peek (GTK_TYPE_NOTEBOOK);
 	klass->size_allocate = gnm_notebook_size_allocate;
+
+	cclass->child_type = gnm_notebook_child_type;
+
+	wclass->button_press_event = gnm_notebook_button_press;
 }
 
 static void
@@ -115,6 +425,17 @@ gnm_notebook_get_nth_label (GnmNotebook *nb, int n)
 		return NULL;
 
 	return gtk_notebook_get_tab_label (GTK_NOTEBOOK (nb), page);
+}
+
+GtkWidget *
+gnm_notebook_get_current_label (GnmNotebook *nb)
+{
+	int i;
+
+	g_return_val_if_fail (GNM_IS_NOTEBOOK (nb), NULL);
+
+	i = gtk_notebook_get_current_page (GTK_NOTEBOOK (nb));
+	return i == -1 ? NULL : gnm_notebook_get_nth_label (nb, i);
 }
 
 static void

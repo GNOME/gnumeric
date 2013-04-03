@@ -62,7 +62,6 @@
 #include "item-bar.h"
 #include "item-cursor.h"
 #include "widgets/gnumeric-expr-entry.h"
-#include "widgets/widget-editable-label.h"
 #include "gnm-sheet-slicer.h"
 
 #include <go-data-slicer-field.h>
@@ -1711,14 +1710,21 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		}
 	}
 
-	scg->label = editable_label_new
-		(sheet->name_unquoted,
-		 sheet->tab_color
-		 ? go_color_to_gdk_rgba (sheet->tab_color->go_color, &cback)
-		 : NULL,
-		 sheet->tab_text_color
-		 ? go_color_to_gdk_rgba (sheet->tab_text_color->go_color, &cfore)
-		 : NULL);
+	scg->label = g_object_new
+		(GNM_NOTEBOOK_BUTTON_TYPE,
+		 "label", sheet->name_unquoted,
+		 //"valign", GTK_ALIGN_START,
+		 "background-color",
+		 (sheet->tab_color
+		  ? go_color_to_gdk_rgba (sheet->tab_color->go_color,
+					  &cback)
+		  : NULL),
+		 "text-color",
+		 (sheet->tab_text_color
+		  ? go_color_to_gdk_rgba (sheet->tab_text_color->go_color,
+					  &cfore)
+		  : NULL),
+		 NULL);
 	g_object_ref (scg->label);
 
 	return scg;

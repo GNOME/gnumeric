@@ -1,3 +1,11 @@
+2013-04-03  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_sheet_tab_change): Use g_object_set to set
+	attributes of the tab.
+
+	* src/sheet-control-gui.c (sheet_control_gui_new): Create a
+	GnmNotebookButton, not an EditableLabel.
+
 2013-04-02  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_wbcg_drag_motion): Fix test for notebook tab

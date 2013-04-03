@@ -1,3 +1,10 @@
+2013-04-03  Morten Welinder  <terra@gnome.org>
+
+	* gnm-notebook.c (GnmNoteBookButton): New widget for use as
+	notebook tab.
+
+	* Makefile.am: Remove editable-widget.
+
 2013-04-02  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-text-view.c (gtv_grab_focus): Bounce focus to textview.

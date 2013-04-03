@@ -194,3 +194,10 @@ GtkArrow.auto-filter:active {
 }
 
 /* ------------------------------------------------------------------------- */
+/* GnmNotebookButton is the sheet name buttons used to select sheets.  */
+
+GnmNotebookButton:active {
+  font-weight: bold;
+}
+
+/* ------------------------------------------------------------------------- */

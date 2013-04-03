@@ -23,6 +23,12 @@
 
 #include <gtk/gtk.h>
 
+GType		gnm_notebook_button_get_type	(void);
+typedef struct GnmNotebookButton_ GnmNotebookButton;
+#define GNM_NOTEBOOK_BUTTON_TYPE        (gnm_notebook_button_get_type ())
+#define GNM_NOTEBOOK_BUTTON(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_NOTEBOOK_BUTTON_TYPE, GnmNotebookButton))
+#define GNM_IS_NOTEBOOK_BUTTON(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GNM_NOTEBOOK_BUTTON_TYPE))
+
 #define GNM_NOTEBOOK_TYPE        (gnm_notebook_get_type ())
 #define GNM_NOTEBOOK(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_NOTEBOOK_TYPE, GnmNotebook))
 #define GNM_IS_NOTEBOOK(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GNM_NOTEBOOK_TYPE))
@@ -33,6 +39,7 @@ GType		gnm_notebook_get_type	(void);
 
 int             gnm_notebook_get_n_visible (GnmNotebook *nb);
 GtkWidget *     gnm_notebook_get_nth_label (GnmNotebook *nb, int n);
+GtkWidget *     gnm_notebook_get_current_label (GnmNotebook *nb);
 void            gnm_notebook_insert_tab (GnmNotebook *nb, GtkWidget *label,
 					 int pos);
 void            gnm_notebook_move_tab (GnmNotebook *nb, GtkWidget *label, int newpos);

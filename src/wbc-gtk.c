@@ -49,7 +49,6 @@
 #include "style-border.h"
 #include "gnumeric-conf.h"
 #include "dialogs/dialogs.h"
-#include "widgets/widget-editable-label.h"
 #include "widgets/gnm-fontbutton.h"
 #include "gui-clipboard.h"
 #include "libgnumeric.h"
@@ -382,8 +381,8 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 		for (i = 0; i < N; i++) {
 			GtkWidget *label =
 				gnm_notebook_get_nth_label (wbcg->bnotebook, i);
-			editable_label_set_editable (EDITABLE_LABEL (label),
-						     enable_actions);
+			g_object_set_data (G_OBJECT (label), "editable",
+					   GINT_TO_POINTER (enable_actions));
 		}
 	}
 
@@ -569,7 +568,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 /**
  * cb_sheet_label_button_press:
  *
- * Invoked when the user has clicked on the EditableLabel widget.
+ * Invoked when the user has clicked on the sheet name widget.
  * This takes care of switching to the notebook that contains the label
  */
 static gboolean
@@ -592,7 +591,7 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	if (event->button == 3) {
 		if ((scg_wbcg (scg))->edit_line.guru == NULL)
 			scg_object_unselect (scg, NULL);
-		if (editable_label_get_editable (EDITABLE_LABEL (widget))) {
+		if (g_object_get_data (G_OBJECT (widget), "editable")) {
 			sheet_menu_label_run (scg, event);
 			scg_take_focus (scg);
 			return TRUE;
@@ -978,22 +977,27 @@ wbcg_menu_state_sheet_count (WBCGtk *wbcg)
 static void
 cb_sheet_tab_change (Sheet *sheet,
 		     G_GNUC_UNUSED GParamSpec *pspec,
-		     EditableLabel *el)
+		     GtkWidget *widget)
 {
 	GdkRGBA cfore, cback;
-	SheetControlGUI *scg = get_scg (GTK_WIDGET (el));
+	SheetControlGUI *scg = get_scg (widget);
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	/* We're lazy and just set all relevant attributes.  */
-	editable_label_set_text (el, sheet->name_unquoted);
-	editable_label_set_color (el,
-				  sheet->tab_color
-				  ? go_color_to_gdk_rgba (sheet->tab_color->go_color, &cback)
-				  : NULL,
-				  sheet->tab_text_color
-				  ? go_color_to_gdk_rgba (sheet->tab_text_color->go_color, &cfore)
-				  : NULL);
+	g_object_set (widget,
+		      "label", sheet->name_unquoted,
+		      "background-color",
+		      (sheet->tab_color
+		       ? go_color_to_gdk_rgba (sheet->tab_color->go_color,
+					       &cback)
+		       : NULL),
+		      "text-color",
+		      (sheet->tab_text_color
+		       ? go_color_to_gdk_rgba (sheet->tab_text_color->go_color,
+					       &cfore)
+		       : NULL),
+		      NULL);
 }
 
 static void

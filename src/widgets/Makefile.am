@@ -18,17 +18,15 @@ libwidgets_la_SOURCES =				\
 	gnm-notebook.c				\
 	gnm-radiobutton.c			\
 	gnm-radiobutton.h			\
-	widget-editable-label.c			\
-	widget-editable-label.h			\
-	gnm-cell-combo-view.c		\
-	gnm-cell-combo-view.h		\
+	gnm-cell-combo-view.c			\
+	gnm-cell-combo-view.h			\
 	gnm-cell-combo-view-impl.h		\
-	gnm-filter-combo-view.c		\
-	gnm-filter-combo-view.h		\
+	gnm-filter-combo-view.c			\
+	gnm-filter-combo-view.h			\
 	gnm-validation-combo-view.c		\
 	gnm-validation-combo-view.h		\
-	gnm-sheet-slicer-combo-view.c	\
-	gnm-sheet-slicer-combo-view.h	\
+	gnm-sheet-slicer-combo-view.c		\
+	gnm-sheet-slicer-combo-view.h		\
 	gnumeric-cell-renderer-text.c		\
 	gnumeric-cell-renderer-text.h		\
 	gnumeric-cell-renderer-expr-entry.c	\
