@@ -165,6 +165,10 @@ GtkWindow *.pseudo-tooltip {
   background-color: rgba(0,0,0,0);
 }
 
+GtkTextView.pseudo-tooltip {
+  color: inherit;
+}
+
 /* ------------------------------------------------------------------------- */
 /* This is used for the eight circles put around a sheet object being sized. */
 
