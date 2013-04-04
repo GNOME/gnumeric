@@ -205,6 +205,7 @@ src/dialogs/dialog-zoom.c
 [type: gettext/glade]src/dialogs/search.ui
 [type: gettext/glade]src/dialogs/sheetobject-size.ui
 [type: gettext/glade]src/dialogs/sheet-order.ui
+[type: gettext/glade]src/dialogs/sheet-rename.ui
 [type: gettext/glade]src/dialogs/sheet-resize.ui
 [type: gettext/glade]src/dialogs/shuffle.ui
 [type: gettext/glade]src/dialogs/sign-test-two.ui
