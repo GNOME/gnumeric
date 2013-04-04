@@ -712,13 +712,18 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 
 	case VALUE_ARRAY : {
 		int last = 0;
-		int len = vec->as_col? vec->val->v_array.y: vec->val->v_array.x;
+		int len = vec->val->v_array.y * vec->val->v_array.x;
+		int x = 0, y = vec->val->v_array.y;
+		GnmValue *v;
 		maximum = - G_MAXDOUBLE;
 		minimum = G_MAXDOUBLE;
 		while (len-- > 0) {
-			GnmValue *v = vec->as_col
-				? vec->val->v_array.vals [0][len]
-				: vec->val->v_array.vals [len][0];
+			if (x == 0) {
+				x = vec->val->v_array.x;
+				y--; 
+			}
+			x--;
+			v = vec->val->v_array.vals [x][y];
 
 			if (v->type == VALUE_CELLRANGE) {
 				gnm_rangeref_normalize (&v->v_range.cell,
@@ -863,11 +868,15 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	eval_pos_init_dep (&ep, &vec->dep);
 	if (vec->val->type == VALUE_ARRAY) {
 		/* we need to cache the strings if needed */
-		int len = vec->as_col? vec->val->v_array.y: vec->val->v_array.x;
+		int len = vec->val->v_array.y * vec->val->v_array.x;
+		int x = 0, y = vec->val->v_array.y;
 		while (len-- > 0) {
-			v = vec->as_col
-				? vec->val->v_array.vals [0][len]
-				: vec->val->v_array.vals [len][0];
+			if (x == 0) {
+				x = vec->val->v_array.x;
+				y--; 
+			}
+			x--;
+			v = vec->val->v_array.vals [x][y];
 
 			if (v->type == VALUE_CELLRANGE) {
 				/* actually we only need to cache in that case */
