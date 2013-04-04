@@ -35,6 +35,7 @@
 #include "auto-format.h"
 #include "ranges.h"
 #include "parse-util.h"
+#include "expr-impl.h"
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -534,7 +535,8 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 	eval_pos_init_dep (&ep, &vec->dep);
 	if (vec->val == NULL && vec->dep.texpr != NULL) {
 		GSList *l = NULL;
-		if (gnm_expr_is_rangeref (vec->dep.texpr->expr) && ((l = gnm_expr_top_get_ranges (vec->dep.texpr))) && l->next != NULL) {
+		if (GNM_EXPR_GET_OPER (vec->dep.texpr->expr) != GNM_EXPR_OP_FUNCALL &&
+		    gnm_expr_is_rangeref (vec->dep.texpr->expr) && ((l = gnm_expr_top_get_ranges (vec->dep.texpr))) && l->next != NULL) {
 			unsigned len = g_slist_length (l);
 			GSList *cur = l;
 			unsigned i;

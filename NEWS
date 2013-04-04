@@ -6,6 +6,7 @@ Dominique Leuenberger:
 Jean:
 	* Fix problems with sheet widgets.  [#696533]
 	* Fixed graph data loading from vectors that are array values. [#697107]
+	[697281]
 
 Morten:
 	* Improve ssconvert error handling.  [#695529]
