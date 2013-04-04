@@ -5,6 +5,7 @@ Dominique Leuenberger:
 
 Jean:
 	* Fix problems with sheet widgets.  [#696533]
+	* Fixed graph data loading from vectors that are array values. [#697107]
 
 Morten:
 	* Improve ssconvert error handling.  [#695529]
@@ -893,7 +894,6 @@ Jean:
 	* Do not ungrab a not grabbed item. [#620369]
 	* Always update the right series entry. [#620719]
 	* Fixed multi-line item edit selection. [#621235]
-	* Fixed graph data loading from vectors that are array values. [#697107]
 
 Morten:
 	* Make sure windows for help commands show up on right screen.
