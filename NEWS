@@ -20,7 +20,7 @@ Morten:
 	* Fix focus problem in cell comment dialog.  [#696826]
 	* Move sheet renaming into a dialog.
 	* Make it easier to see what sheet is selected.  [#659317]
-
+	* Implement R.PST, R.QST, and R.QSNORM.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

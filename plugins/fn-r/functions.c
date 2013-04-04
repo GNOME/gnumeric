@@ -1187,7 +1187,7 @@ static GnmFuncHelp const help_r_dsnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the skew-normal distribution.") },
-	{ GNM_FUNC_HELP_SEEALSO, "R.PSNORM" },
+	{ GNM_FUNC_HELP_SEEALSO, "R.PSNORM,R.QSNORM" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1215,7 +1215,7 @@ static GnmFuncHelp const help_r_psnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the skew-normal distribution.") },
-	{ GNM_FUNC_HELP_SEEALSO, "R.DSNORM" },
+	{ GNM_FUNC_HELP_SEEALSO, "R.DSNORM,R.QSNORM" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1235,6 +1235,35 @@ gnumeric_r_psnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 
+static GnmFuncHelp const help_r_qsnorm[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.QSNORM:probability quantile function of the skew-normal distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("p:probability") },
+	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("location:the location parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
+	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the skew-normal distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.DSNORM,R.PSNORM" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_qsnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float p = value_get_as_float (args[0]);
+	gnm_float shape = value_get_as_float (args[1]);
+	gnm_float location = value_get_as_float (args[2]);
+	gnm_float scale = value_get_as_float (args[3]);
+	gboolean lower_tail = args[4] ? value_get_as_checked_bool (args[4]) : TRUE;
+	gboolean log_p = args[5] ? value_get_as_checked_bool (args[5]) : FALSE;
+
+	return value_new_float (qsnorm (p, shape, location, scale, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
 static GnmFuncHelp const help_r_dst[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DST:probability density function of the skew-t distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
@@ -1242,7 +1271,7 @@ static GnmFuncHelp const help_r_dst[] = {
 	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the skew-t distribution.") },
-	{ GNM_FUNC_HELP_SEEALSO, "" },
+	{ GNM_FUNC_HELP_SEEALSO, "R.PST,R.QST" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1255,6 +1284,60 @@ gnumeric_r_dst (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (dst (x, n, shape, give_log));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
+static GnmFuncHelp const help_r_pst[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.PST:cumulative distribution function of the skew-t distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
+	{ GNM_FUNC_HELP_ARG, F_("n:the number of degrees of freedom of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
+	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the skew-t distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.DST,R.QST" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_pst (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float x = value_get_as_float (args[0]);
+	gnm_float n = value_get_as_float (args[1]);
+	gnm_float shape = value_get_as_float (args[2]);
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
+
+	return value_new_float (pst (x, n, shape, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
+static GnmFuncHelp const help_r_qst[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.QST:probability quantile function of the skew-t distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("p:probability") },
+	{ GNM_FUNC_HELP_ARG, F_("n:the number of degrees of freedom of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
+	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the skew-t distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.DST,R.PST" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_qst (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float p = value_get_as_float (args[0]);
+	gnm_float n = value_get_as_float (args[1]);
+	gnm_float shape = value_get_as_float (args[2]);
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
+
+	return value_new_float (qst (p, n, shape, lower_tail, log_p));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1602,10 +1685,31 @@ GnmFuncDescriptor const stat_functions[] = {
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{
+		"r.qsnorm",
+		"ffff|bb",
+		help_r_qsnorm,
+		gnumeric_r_qsnorm, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
 		"r.dst",
 		"fff|b",
 		help_r_dst,
 		gnumeric_r_dst, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.pst",
+		"fff|bb",
+		help_r_pst,
+		gnumeric_r_pst, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.qst",
+		"fff|bb",
+		help_r_qst,
+		gnumeric_r_qst, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{ NULL }

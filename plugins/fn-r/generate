@@ -121,15 +121,13 @@ my %argoverride = ();
 	 ({ 'psuc' => "the probability of success in each trial",
 	    @common })];
 
-    $funcs{'dsnorm'} =  $funcs{'psnorm'} =  
-#$funcs{'qsnorm'} =
+    $funcs{'dsnorm'} =  $funcs{'psnorm'} =  $funcs{'qsnorm'} =
 	[\&distribution,
 	 'skew-normal',
 	 ({ 'location' => "the location parameter $of",
 	    @common })];
 
-    $funcs{'dst'} = 
-#$funcs{'pst'} = $funcs{'qst'} =
+    $funcs{'dst'} = $funcs{'pst'} = $funcs{'qst'} =
 	[\&distribution,
 	 'skew-t',
 	 ({ 'n' => "the number of degrees of freedom $of",

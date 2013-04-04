@@ -1,3 +1,7 @@
+2013-04-04  Morten Welinder  <terra@gnome.org>
+
+	* extra.c (pst): Implement.
+
 2013-03-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.1

@@ -210,12 +210,21 @@ dst (gnm_float x, gnm_float n, gnm_float shape, gboolean give_log)
 	}
 }
 
-
 gnm_float
 pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean log_p)
 {
+	gnm_float p;
+
+	if (n <= 0)
+		return gnm_nan;
+
 	if (shape == 0.)
 		return pt (x, n, lower_tail, log_p);
+
+	if (n > 100) {
+		/* Approximation */
+		return psnorm (x, shape, 0.0, 1.0, lower_tail, log_p);
+	}
 
 	/* Generic fallback.  */
 	if (!lower_tail)
@@ -225,10 +234,70 @@ pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean lo
 	if (log_p)
 		gnm_log (pst (x, n, shape, TRUE, FALSE));
 
-	/* FIXME: Numerical integration of dst from -inf to x.  */
+	if (n != gnm_floor (n)) {
+		/* We would need numerical integration for this.  */
+		return gnm_nan;
+	}
 
-	/* Give up.  */
-	return gnm_nan;
+	/*
+	 * Use recurrence formula from "Recurrent relations for
+	 * distributions of a skew-t and a linear combination of order
+	 * statistics form a bivariate-t", Computational Statistics
+	 * and Data Analysis volume 52, 2009 by Jamallizadeh,
+	 * Khosravi, Balakrishnan.
+	 *
+	 * This brings us down to n==1 or n==2 for which explicit formulas
+	 * are available.
+	 */
+
+	p = 0;
+	while (n > 2) {
+		double a, lb, c, d, pv, v = n - 1;
+
+		d = v == 2
+			? M_LN2gnum - gnm_log (M_PIgnum) + gnm_log (3) / 2
+			: (0.5 + M_LN2gnum / 2 - gnm_log (M_PIgnum) / 2 +
+			   v / 2 * (gnm_log1p (-1 / (v - 1)) + gnm_log (v + 1)) -
+			   0.5 * (gnm_log (v - 2) + gnm_log (v + 1)) +
+			   stirlerr (v / 2 - 1) -
+			   stirlerr ((v - 1) / 2));
+
+		a = v + 1 + x * x;
+		lb = (d - gnm_log (a) * v / 2);
+		c = pt (gnm_sqrt (v) * shape * x / gnm_sqrt (a), v, TRUE, FALSE);
+		pv = x * gnm_exp (lb) * c;
+		p += pv;
+
+		n -= 2;
+		x *= gnm_sqrt ((v - 1) / (v + 1));
+	}
+
+	g_return_val_if_fail (n == 1 || n == 2, gnm_nan);
+	if (n == 1) {
+		gnm_float p1;
+
+		p1 = (gnm_atan (x) + gnm_acos (shape / gnm_sqrt ((1 + shape * shape) * (1 + x * x)))) / M_PIgnum;
+		p += p1;
+	} else if (n == 2) {
+		gnm_float p2, f;
+
+		f = x / gnm_sqrt (2 + x * x);
+
+		p2 = (0.5 - gnm_atan (shape) / M_PIgnum) +
+			f * (0.5 + gnm_atan (shape * f) / M_PIgnum);
+
+		p += p2;
+	} else {
+		return gnm_nan;
+	}
+
+	/*
+	 * Negatives can occur due to rounding errors and hopefully for no
+	 * other reason.
+	 */
+	p = CLAMP (p, 0.0, 1.0);
+
+	return p;
 }
 
 

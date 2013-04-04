@@ -905,7 +905,7 @@ gnm_float ppois(gnm_float x, gnm_float lambda, gboolean lower_tail, gboolean log
  * see also lgammacor() in ./lgammacor.c  which computes almost the same!
  */
 
-static gnm_float stirlerr(gnm_float n)
+gnm_float stirlerr(gnm_float n)
 {
 
 #define S0 GNM_const(0.083333333333333333333)       /* 1/12 */

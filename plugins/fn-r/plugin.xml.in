@@ -42,6 +42,7 @@
 				<function name="r.pnorm"/>
 				<function name="r.ppois"/>
 				<function name="r.psnorm"/>
+				<function name="r.pst"/>
 				<function name="r.pt"/>
 				<function name="r.pweibull"/>
 				<function name="r.qbeta"/>
@@ -57,6 +58,8 @@
 				<function name="r.qnbinom"/>
 				<function name="r.qnorm"/>
 				<function name="r.qpois"/>
+				<function name="r.qsnorm"/>
+				<function name="r.qst"/>
 				<function name="r.qt"/>
 				<function name="r.qweibull"/>
 			</functions>
