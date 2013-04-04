@@ -145,15 +145,14 @@ dsnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 gnm_float
 psnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gboolean lower_tail, gboolean log_p)
 {
-	gnm_float result;
+	gnm_float result, a, b;
 
 	if (shape == 0.)
 		return pnorm (x, location, scale, lower_tail, log_p);
 
-	result = pnorm (x, location, scale, TRUE, FALSE) - 2 * gnm_owent ((x - location)/scale, shape);
-
-	if (!lower_tail)
-		result = 1. - result;
+	a = pnorm (x, location, scale, lower_tail, FALSE);
+	b = 2 * gnm_owent ((x - location) / scale, shape);
+	result = lower_tail ? a - b : a + b;
 
 	if (log_p)
 		return gnm_log (result);

@@ -1,6 +1,7 @@
 2013-04-04  Morten Welinder  <terra@gnome.org>
 
 	* extra.c (pst): Implement.
+	(psnorm): Improve right-tail accuracy a bit.
 
 2013-03-09  Morten Welinder <terra@gnome.org>
 
