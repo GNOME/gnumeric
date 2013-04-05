@@ -22,7 +22,8 @@ Morten:
 	* Make it easier to see what sheet is selected.  [#659317]
 	* Implement R.PST, R.QST, and R.QSNORM.
 	* Fix dependency tabulation.
-	* FIx problems with R.PSNORM.  [#697293]
+	* Fix problems with R.PSNORM.  [#697293]
+	* New function OWENT.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

@@ -16844,6 +16844,35 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-OWENT">
+      <refmeta>
+        <refentrytitle>
+          <function>OWENT</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>OWENT</function>
+        </refname>
+        <refpurpose>
+        Owen's T function
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>OWENT</function>(<parameter>h</parameter>,<parameter>a</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>h</parameter>: number</para>
+        <para><parameter>a</parameter>: number</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.PSNORM"><function>R.PSNORM</function></link>,
+        <link linkend="gnumeric-function-R.PST"><function>R.PST</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-PARETO">
       <refmeta>
         <refentrytitle>
@@ -17665,7 +17694,8 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-function-R.PSNORM"><function>R.PSNORM</function></link>.
+        <para><link linkend="gnumeric-function-R.PSNORM"><function>R.PSNORM</function></link>,
+        <link linkend="gnumeric-function-R.QSNORM"><function>R.QSNORM</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -17696,6 +17726,12 @@
       <refsect1>
         <title>Description</title>
         <para>This function returns the probability density function of the skew-t distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.PST"><function>R.PST</function></link>,
+        <link linkend="gnumeric-function-R.QST"><function>R.QST</function></link>.
+      </para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-function-R.DT">
@@ -18268,7 +18304,44 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-function-R.DSNORM"><function>R.DSNORM</function></link>.
+        <para><link linkend="gnumeric-function-R.DSNORM"><function>R.DSNORM</function></link>,
+        <link linkend="gnumeric-function-R.QSNORM"><function>R.QSNORM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-R.PST">
+      <refmeta>
+        <refentrytitle>
+          <function>R.PST</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.PST</function>
+        </refname>
+        <refpurpose>
+        cumulative distribution function of the skew-t distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.PST</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>shape</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>n</parameter>: the number of degrees of freedom of the distribution</para>
+        <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
+        <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
+        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the cumulative distribution function of the skew-t distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.DST"><function>R.DST</function></link>,
+        <link linkend="gnumeric-function-R.QST"><function>R.QST</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -18809,6 +18882,79 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-R.DPOIS"><function>R.DPOIS</function></link>,
         <link linkend="gnumeric-function-R.PPOIS"><function>R.PPOIS</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-R.QSNORM">
+      <refmeta>
+        <refentrytitle>
+          <function>R.QSNORM</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.QSNORM</function>
+        </refname>
+        <refpurpose>
+        probability quantile function of the skew-normal distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.QSNORM</function>(<parameter>p</parameter>,<parameter>shape</parameter>,<parameter>location</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>p</parameter>: probability</para>
+        <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
+        <para><parameter>location</parameter>: the location parameter of the distribution</para>
+        <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
+        <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
+        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the skew-normal distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.DSNORM"><function>R.DSNORM</function></link>,
+        <link linkend="gnumeric-function-R.PSNORM"><function>R.PSNORM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-R.QST">
+      <refmeta>
+        <refentrytitle>
+          <function>R.QST</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.QST</function>
+        </refname>
+        <refpurpose>
+        probability quantile function of the skew-t distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.QST</function>(<parameter>p</parameter>,<parameter>n</parameter>,<parameter>shape</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>p</parameter>: probability</para>
+        <para><parameter>n</parameter>: the number of degrees of freedom of the distribution</para>
+        <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
+        <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
+        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the skew-t distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.DST"><function>R.DST</function></link>,
+        <link linkend="gnumeric-function-R.PST"><function>R.PST</function></link>.
       </para>
       </refsect1>
     </refentry>

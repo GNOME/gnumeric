@@ -4866,6 +4866,14 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST
 
 @CATEGORY=Statistics
+@FUNCTION=OWENT
+@SHORTDESC=Owen's T function
+@SYNTAX=OWENT(h,a)
+@ARGUMENTDESCRIPTION=@{h}: number
+@{a}: number
+@SEEALSO=R.PSNORM,R.PST
+
+@CATEGORY=Statistics
 @FUNCTION=PARETO
 @SHORTDESC=probability density function of the Pareto distribution
 @SYNTAX=PARETO(x,a,b)
@@ -5108,7 +5116,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @{scale}: the scale parameter of the distribution
 @{give_log}: if true, log of the result will be returned instead
 @DESCRIPTION=This function returns the probability density function of the skew-normal distribution.
-@SEEALSO=R.PSNORM
+@SEEALSO=R.PSNORM,R.QSNORM
 
 @CATEGORY=Statistics
 @FUNCTION=R.DST
@@ -5119,6 +5127,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @{shape}: the shape parameter of the distribution
 @{give_log}: if true, log of the result will be returned instead
 @DESCRIPTION=This function returns the probability density function of the skew-t distribution.
+@SEEALSO=R.PST,R.QST
 
 @CATEGORY=Statistics
 @FUNCTION=R.DT
@@ -5306,7 +5315,19 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
 @DESCRIPTION=This function returns the cumulative distribution function of the skew-normal distribution.
-@SEEALSO=R.DSNORM
+@SEEALSO=R.DSNORM,R.QSNORM
+
+@CATEGORY=Statistics
+@FUNCTION=R.PST
+@SHORTDESC=cumulative distribution function of the skew-t distribution
+@SYNTAX=R.PST(x,n,shape,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{x}: observation
+@{n}: the number of degrees of freedom of the distribution
+@{shape}: the shape parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered
+@{log_p}: if true, log of the probability is used
+@DESCRIPTION=This function returns the cumulative distribution function of the skew-t distribution.
+@SEEALSO=R.DST,R.QST
 
 @CATEGORY=Statistics
 @FUNCTION=R.PT
@@ -5484,6 +5505,31 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @{log_p}: if true, log of the probability is used
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Poisson distribution.
 @SEEALSO=R.DPOIS,R.PPOIS
+
+@CATEGORY=Statistics
+@FUNCTION=R.QSNORM
+@SHORTDESC=probability quantile function of the skew-normal distribution
+@SYNTAX=R.QSNORM(p,shape,location,scale,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{p}: probability
+@{shape}: the shape parameter of the distribution
+@{location}: the location parameter of the distribution
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered
+@{log_p}: if true, log of the probability is used
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the skew-normal distribution.
+@SEEALSO=R.DSNORM,R.PSNORM
+
+@CATEGORY=Statistics
+@FUNCTION=R.QST
+@SHORTDESC=probability quantile function of the skew-t distribution
+@SYNTAX=R.QST(p,n,shape,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{p}: probability
+@{n}: the number of degrees of freedom of the distribution
+@{shape}: the shape parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered
+@{log_p}: if true, log of the probability is used
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the skew-t distribution.
+@SEEALSO=R.DST,R.PST
 
 @CATEGORY=Statistics
 @FUNCTION=R.QT

@@ -487,6 +487,26 @@ gnumeric_normsinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_owent[] = {
+	{ GNM_FUNC_HELP_NAME, F_("OWENT:Owen's T function")},
+	{ GNM_FUNC_HELP_ARG, F_("h:number")},
+	{ GNM_FUNC_HELP_ARG, F_("a:number")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=OWENT(0.1,11)" },
+	{ GNM_FUNC_HELP_SEEALSO, "R.PSNORM,R.PST"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_owent (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+        gnm_float h = value_get_as_float (argv[0]);
+        gnm_float a = value_get_as_float (argv[1]);
+
+	return value_new_float (gnm_owent (h, a));
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_lognormdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LOGNORMDIST:cumulative distribution function of the lognormal distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
@@ -5143,6 +5163,9 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "normsinv",     "f",
 	  help_normsinv, gnumeric_normsinv, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "owent",    "ff",
+	  help_owent, gnumeric_owent, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "pearson",      "AA",
 	  help_pearson, gnumeric_pearson, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
