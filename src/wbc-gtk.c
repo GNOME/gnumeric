@@ -2300,12 +2300,17 @@ cb_screen_changed (GtkWidget *widget)
 {
 	GdkScreen *screen = gtk_widget_get_screen (widget);
 	const char *key = "wbcg-screen-css";
+	GObject *app = gnm_app_get_app ();
+	const char *app_key = "css-provider";
+	GtkCssProvider *css;
 
-	if (screen && !g_object_get_data (G_OBJECT (screen), key)) {
-		GtkCssProvider *css = gtk_css_provider_new ();
+	css = g_object_get_data (app, app_key); 
+	if (!css) {
 		const char *resource = "gnm:gnumeric.css";
 		const char *csstext = go_rsm_lookup (resource, NULL);
 		gboolean debug = gnm_debug_flag ("css");
+
+		css = gtk_css_provider_new ();
 
 		if (debug)
 			g_printerr ("Loading style from %s\n", resource);
@@ -2315,12 +2320,14 @@ cb_screen_changed (GtkWidget *widget)
 					  NULL);
 
 		gtk_css_provider_load_from_data	(css, csstext, -1, NULL);
+		g_object_set_data_full (app, app_key, css, g_object_unref);
+	}
+
+	if (screen && !g_object_get_data (G_OBJECT (screen), key)) {
 		gtk_style_context_add_provider_for_screen
 			(screen,
 			 GTK_STYLE_PROVIDER (css),
 			 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-		g_object_unref (css);
-
 		g_object_set_data (G_OBJECT (screen), key, css);
 	}
 }
