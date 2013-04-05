@@ -2309,6 +2309,16 @@ cb_screen_changed (GtkWidget *widget)
 		const char *resource = "gnm:gnumeric.css";
 		const char *csstext = go_rsm_lookup (resource, NULL);
 		gboolean debug = gnm_debug_flag ("css");
+#if !GTK_CHECK_VERSION(3,4,0)
+		char *csstext_copy = g_strdup (csstext);
+		csstext = csstext_copy;
+		while (1) {
+			char *magic = strstr (csstext_copy, "/*MAGIC*/");
+			if (!magic)
+				break;
+			memset (magic, ' ', strchr (magic, '\n') - magic);
+		}
+#endif
 
 		css = gtk_css_provider_new ();
 
@@ -2321,6 +2331,9 @@ cb_screen_changed (GtkWidget *widget)
 
 		gtk_css_provider_load_from_data	(css, csstext, -1, NULL);
 		g_object_set_data_full (app, app_key, css, g_object_unref);
+#if !GTK_CHECK_VERSION(3,4,0)
+		g_free (csstext_copy);
+#endif
 	}
 
 	if (screen && !g_object_get_data (G_OBJECT (screen), key)) {

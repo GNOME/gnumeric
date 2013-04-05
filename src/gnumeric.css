@@ -166,7 +166,8 @@ GtkWindow *.pseudo-tooltip {
 }
 
 GtkTextView.pseudo-tooltip {
-  color: inherit;
+  /* Code in wbc-gtk.c:cb_screen_changed will kill the following line pre-GTK 3.4 */
+/*MAGIC*/  color: inherit;
 }
 
 /* ------------------------------------------------------------------------- */
