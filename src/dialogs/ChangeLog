@@ -1,3 +1,9 @@
+2013-04-05  Morten Welinder  <terra@gnome.org>
+
+	* dialog-tabulate.c (get_grid_float_entry): Get child at the right
+	grid coordinates.
+	(tabulate_ok_clicked): Ditto.
+
 2013-04-02  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-comment.c (dialog_cell_comment): Set focus on

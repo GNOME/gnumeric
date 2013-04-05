@@ -21,6 +21,7 @@ Morten:
 	* Move sheet renaming into a dialog.
 	* Make it easier to see what sheet is selected.  [#659317]
 	* Implement R.PST, R.QST, and R.QSNORM.
+	* Fix dependency tabulation.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

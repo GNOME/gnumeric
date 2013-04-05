@@ -115,7 +115,7 @@ get_grid_float_entry (GtkGrid *g, int y, int x, GnmCell *cell, gnm_float *number
 		       GtkEntry **wp, gboolean with_default, gnm_float default_float)
 {
 	GOFormat const *format;
-	GtkWidget *w = gtk_grid_get_child_at (g, x, y + 2);
+	GtkWidget *w = gtk_grid_get_child_at (g, x, y + 1);
 
 	g_return_val_if_fail (GTK_IS_ENTRY (w), 3);
 
@@ -164,7 +164,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	for (row = 1; row < nrows; row++) {
 		GtkEntry *e_w;
-		GnmExprEntry *w = GNM_EXPR_ENTRY (gtk_grid_get_child_at (dd->grid, COL_CELL, row + 2));
+		GnmExprEntry *w = GNM_EXPR_ENTRY (gtk_grid_get_child_at (dd->grid, COL_CELL, row + 1));
 
 		if (!w || gnm_expr_entry_is_blank (w))
 			continue;
