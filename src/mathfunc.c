@@ -25,7 +25,7 @@
  * into C, adapted to Gnumeric naming convensions, and R's API conventions
  * by Morten Welinder.  Blame me for problems.)
  *
- * Copyright � Ian Smith 2002-2003
+ * Copyright © Ian Smith 2002-2003
  * Version 1.0.24
  * Thanks to Jerry W. Lewis for help with testing of and improvements to the code.
  *
@@ -6816,6 +6816,291 @@ gnm_float_hash (gnm_float const *d)
 	if (*d >= 0)
 		h ^= 0x55555555;
 	return h;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static gnm_float
+gnm_owent_T1 (gnm_float h, gnm_float a, int order)
+{
+	const gnm_float hs = -0.5 * (h * h);
+	const gnm_float dhs = gnm_exp (hs);
+	const gnm_float as = a * a;
+	gnm_float aj = a / (M_PIgnum * 2);
+	gnm_float dj = gnm_expm1 (hs);
+	gnm_float gj = hs * dhs;
+	gnm_float res = gnm_atan (a) / (M_PIgnum * 2);
+	int j;
+
+	for (j = 1; j <= order; j++) {
+		res += dj * aj / (j + j - 1);
+
+		aj *= as;
+		dj = gj - dj;
+		gj *= hs / (j + 1);
+	}
+
+	return res;
+}
+
+static gnm_float
+gnm_owent_T2 (gnm_float h, gnm_float a, int order)
+{
+	const gnm_float ah = a * h;
+	const gnm_float as = -a * a;
+	const gnm_float y = 1 / (h * h);
+	gnm_float val = 0;
+	gnm_float vi = a * dnorm (ah, 0, 1, FALSE);
+	gnm_float z = gnm_erf (ah / M_SQRT2gnum) / (2 * h);
+	int i;
+
+	for (i = 1; i <= 2 * order + 1; i += 2) {
+		val += z;
+		z = y * (vi - i * z);
+		vi *= as;
+	}
+	return val * dnorm (h, 0, 1, FALSE);
+}
+
+static gnm_float
+gnm_owent_T3 (gnm_float h, gnm_float a, int order)
+{
+	static const gnm_float c2[] = {
+		GNM_const(+0.99999999999999987510),
+		GNM_const(-0.99999999999988796462),
+		GNM_const(+0.99999999998290743652),
+		GNM_const(-0.99999999896282500134),
+		GNM_const(+0.99999996660459362918),
+		GNM_const(-0.99999933986272476760),
+		GNM_const(+0.99999125611136965852),
+		GNM_const(-0.99991777624463387686),
+		GNM_const(+0.99942835555870132569),
+		GNM_const(-0.99697311720723000295),
+		GNM_const(+0.98751448037275303682),
+		GNM_const(-0.95915857980572882813),
+		GNM_const(+0.89246305511006708555),
+		GNM_const(-0.76893425990463999675),
+		GNM_const(+0.58893528468484693250),
+		GNM_const(-0.38380345160440256652),
+		GNM_const(+0.20317601701045299653),
+		GNM_const(-0.82813631607004984866E-01),
+		GNM_const(+0.24167984735759576523E-01),
+		GNM_const(-0.44676566663971825242E-02),
+		GNM_const(+0.39141169402373836468E-03)
+	};
+
+	const gnm_float ah = a * h;
+	const gnm_float as = a * a;
+	const gnm_float y = 1 / (h * h);
+	gnm_float vi = a * dnorm (ah, 0, 1, FALSE);
+	gnm_float zi = gnm_erf (ah / M_SQRT2gnum) / (2 * h);
+	gnm_float val = 0;
+	int i;
+
+	g_return_val_if_fail (order < (int)G_N_ELEMENTS(c2), gnm_nan);
+
+	for (i = 0; i <= order; i++) {
+		val += zi * c2[i];
+		zi = y * ((i + i + 1) * zi - vi);
+		vi *= as;
+	}
+	return val * dnorm (h, 0, 1, FALSE);
+}
+
+static gnm_float
+gnm_owent_T4 (gnm_float h, gnm_float a, int order)
+{
+	const gnm_float hs = h * h;
+	const gnm_float as = -a * a;
+	gnm_float ai = a * gnm_exp (-0.5 * hs * (1 - as)) / (2 * M_PIgnum);
+	gnm_float yi = 1;
+	gnm_float val = 0;
+	int i;
+
+	for (i = 1; i <= 2 * order + 1; i += 2) {
+		val += ai * yi;
+		yi = (1 - hs * yi) / (i + 2);
+		ai *= as;
+	}
+	return val;
+}
+
+static gnm_float
+gnm_owent_T5 (gnm_float h, gnm_float a, int order)
+{
+	static const gnm_float pts[] = {
+		GNM_const(0.35082039676451715489E-02),
+		GNM_const(0.31279042338030753740E-01),
+		GNM_const(0.85266826283219451090E-01),
+		GNM_const(0.16245071730812277011),
+		GNM_const(0.25851196049125434828),
+		GNM_const(0.36807553840697533536),
+		GNM_const(0.48501092905604697475),
+		GNM_const(0.60277514152618576821),
+		GNM_const(0.71477884217753226516),
+		GNM_const(0.81475510988760098605),
+		GNM_const(0.89711029755948965867),
+		GNM_const(0.95723808085944261843),
+		GNM_const(0.99178832974629703586)
+	};
+	static const gnm_float wts[] = {
+		0.18831438115323502887E-01,
+		0.18567086243977649478E-01,
+		0.18042093461223385584E-01,
+		0.17263829606398753364E-01,
+		0.16243219975989856730E-01,
+		0.14994592034116704829E-01,
+		0.13535474469662088392E-01,
+		0.11886351605820165233E-01,
+		0.10070377242777431897E-01,
+		0.81130545742299586629E-02,
+		0.60419009528470238773E-02,
+		0.38862217010742057883E-02,
+		0.16793031084546090448E-02
+	};
+	const gnm_float as = a * a;
+	const gnm_float hs = -0.5 * h * h;
+	gnm_float val = 0;
+	int i;
+
+	g_return_val_if_fail (order <= (int)G_N_ELEMENTS(pts), gnm_nan);
+	g_return_val_if_fail (order <= (int)G_N_ELEMENTS(wts), gnm_nan);
+
+	for (i = 0; i < order; i++) {
+		gnm_float r = 1 + as * pts[i];
+		val += wts[i] * gnm_exp (hs * r) / r;
+	}
+
+	return val * a;
+}
+
+static gnm_float
+gnm_owent_T6 (gnm_float h, gnm_float a, int order)
+{
+	const gnm_float normh = pnorm (h, 0, 1, FALSE, FALSE);
+	const gnm_float normhC = 1 - normh;
+	const gnm_float y = 1 - a;
+	const gnm_float r = gnm_atan2 (y, 1 + a);
+	gnm_float val = 0.5 * normh * normhC;
+
+	if (r != 0)
+		val -= r * gnm_exp (-0.5 * y * h * h / r) / (2 * M_PIgnum);
+
+	return val;
+}
+
+static gnm_float
+gnm_owent_helper (gnm_float h, gnm_float a)
+{
+	static const double hrange[] = {
+		0.02, 0.06, 0.09, 0.125, 0.26, 0.4,  0.6,
+		1.6,  1.7,  2.33,  2.4,  3.36, 3.4,  4.8
+	};
+	static const double arange[] = {
+		0.025, 0.09, 0.15, 0.36, 0.5, 0.9, 0.99999
+	};
+	static const guint8 method[] = {
+		1, 1, 2,13,13,13,13,13,13,13,13,16,16,16, 9,
+		1, 2, 2, 3, 3, 5, 5,14,14,15,15,16,16,16, 9,
+		2, 2, 3, 3, 3, 5, 5,15,15,15,15,16,16,16,10,
+		2, 2, 3, 5, 5, 5, 5, 7, 7,16,16,16,16,16,10,
+		2, 3, 3, 5, 5, 6, 6, 8, 8,17,17,17,12,12,11,
+		2, 3, 5, 5, 5, 6, 6, 8, 8,17,17,17,12,12,12,
+		2, 3, 4, 4, 6, 6, 8, 8,17,17,17,17,17,12,12,
+		2, 3, 4, 4, 6, 6,18,18,18,18,17,17,17,12,12
+	};
+	int ai, hi;
+
+	g_return_val_if_fail (h >= 0, gnm_nan);
+	g_return_val_if_fail (a >= 0 && a <= 1, gnm_nan);
+
+	for (ai = 0; ai < (int)G_N_ELEMENTS(arange); ai++)
+		if (a <= arange[ai])
+			break;
+	for (hi = 0; hi < (int)G_N_ELEMENTS(hrange); hi++)
+		if (h <= hrange[hi])
+			break;
+
+	switch (method[ai * (1 + G_N_ELEMENTS(hrange)) + hi]) {
+	case  1: return gnm_owent_T1 (h, a, 2);
+	case  2: return gnm_owent_T1 (h, a, 3);
+	case  3: return gnm_owent_T1 (h, a, 4);
+	case  4: return gnm_owent_T1 (h, a, 5);
+	case  5: return gnm_owent_T1 (h, a, 7);
+	case  6: return gnm_owent_T1 (h, a, 10);
+	case  7: return gnm_owent_T1 (h, a, 12);
+	case  8: return gnm_owent_T1 (h, a, 18);
+	case  9: return gnm_owent_T2 (h, a, 10);
+	case 10: return gnm_owent_T2 (h, a, 20);
+	case 11: return gnm_owent_T2 (h, a, 30);
+	case 12: return gnm_owent_T3 (h, a, 20);
+	case 13: return gnm_owent_T4 (h, a, 4);
+	case 14: return gnm_owent_T4 (h, a, 7);
+	case 15: return gnm_owent_T4 (h, a, 8);
+	case 16: return gnm_owent_T4 (h, a, 20);
+	case 17: return gnm_owent_T5 (h, a, 13);
+	case 18: return gnm_owent_T6 (h, a, 0);
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+/*
+ * See "Fast and Accurate Calculation of Owen’s T-Function" by
+ * Mike Patefield and David Tandy.  Journal of Statistical Software,
+ * Volume 5, Issue 5, July 2000.
+ *
+ * Original code licensed under GPLv2+.
+ */
+gnm_float
+gnm_owent (gnm_float h, gnm_float a)
+{
+	gnm_float res;
+	gboolean neg;
+
+	/* Even in the "h" argument.  */
+	h = gnm_abs (h);
+
+	/* Odd in the "a" argument.  */
+	neg = (a < 0);
+	a = gnm_abs (a);
+
+	if (a == 0)
+		res = 0;
+	else if (h == 0)
+		res = gnm_atan (a) / (2 * M_PIgnum);
+	else if (a == 1)
+		res = 0.5 * pnorm (h, 0, 1, TRUE, FALSE) *
+			pnorm (h, 0, 1, FALSE, TRUE);
+	else if (a <= 1)
+		res = gnm_owent_helper (h, a);
+	else {
+		gnm_float ah = h * a;
+		/*
+		 * Use formula (2):
+		 *
+		 * T(h,a) = .5N(h) + .5N(ha) - N(h)N(ha) - T(ha,1/a)
+		 *
+		 * with care to avoid cancellation.
+		 */
+		if (h <= 0.67) {
+			gnm_float nh = 0.5 * gnm_erf (h / M_SQRT2gnum);
+			gnm_float nah = 0.5 * gnm_erf (ah / M_SQRT2gnum);
+			res = 0.25 - nh * nah -
+				gnm_owent_helper (ah, 1 / a);
+		} else {
+			gnm_float nh = pnorm (h, 0, 1, FALSE, FALSE);
+			gnm_float nah = pnorm (ah, 0, 1, FALSE, FALSE);
+			res = 0.5 * (nh + nah) - nh * nah -
+				gnm_owent_helper (ah, 1 / a);
+		}
+	}
+
+	/* Odd in the "a" argument.  */
+	if (neg)
+		res = 0 - res;
+
+	return res;
 }
 
 /* ------------------------------------------------------------------------- */

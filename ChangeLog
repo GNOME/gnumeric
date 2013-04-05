@@ -1,3 +1,7 @@
+2013-04-05  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_owent): New function.
+
 2013-04-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_vector_load_len): correctly evaluate array

@@ -1,3 +1,8 @@
+2013-04-05  Morten Welinder  <terra@gnome.org>
+
+	* extra.c (psnorm): Base on new gnm_owent.  Fixes #697293.  Clamp
+	to [0;1].
+
 2013-04-04  Morten Welinder  <terra@gnome.org>
 
 	* extra.c (pst): Implement.
