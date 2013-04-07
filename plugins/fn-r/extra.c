@@ -59,17 +59,33 @@ dsnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 gnm_float
 psnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gboolean lower_tail, gboolean log_p)
 {
-	gnm_float result, a, b;
+	gnm_float result, h;
 
-	if (gnm_isnan (x) || gnm_isnan (shape) || gnm_isnan (location) || gnm_isnan (scale))
+	if (gnm_isnan (x) || gnm_isnan (shape) ||
+	    gnm_isnan (location) || gnm_isnan (scale))
 		return gnm_nan;
 
 	if (shape == 0.)
 		return pnorm (x, location, scale, lower_tail, log_p);
 
-	a = pnorm (x, location, scale, lower_tail, FALSE);
-	b = 2 * gnm_owent ((x - location) / scale, shape);
-	result = lower_tail ? a - b : a + b;
+	h = (x - location) / scale;
+
+	if (gnm_abs (shape) < 10) {
+		gnm_float s = pnorm (x, location, scale, lower_tail, FALSE);
+		gnm_float t = 2 * gnm_owent (h, shape);
+		result = lower_tail ? s - t : s + t;
+	} else {
+		/*
+		 * Make use of this result for Owen's T:
+		 *
+		 * T(h,a) = .5N(h) + .5N(ha) - N(h)N(ha) - T(ha,1/a)
+		 */
+		gnm_float s = pnorm (h * shape, 0, 1, TRUE, FALSE);
+		gnm_float u = gnm_erf (h / M_SQRT2gnum);
+		gnm_float t = 2 * gnm_owent (h * shape, 1 / shape);
+		result = s * u + t;
+		if (!lower_tail) result = 1 - result;
+	}
 
 	/*
 	 * Negatives can occur due to rounding errors and hopefully for no
