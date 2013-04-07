@@ -7104,3 +7104,48 @@ gnm_owent (gnm_float h, gnm_float a)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/*
+ * Pochhammer's symbol: (x)_n = Gamma(x+n)/Gamma(x).
+ *
+ * While n is often an integer, that is not a requirement.
+ */
+
+gnm_float
+pochhammer (gnm_float x, gnm_float n, gboolean give_log)
+{
+	if (gnm_isnan (x) || gnm_isnan (n))
+		return gnm_nan;
+
+	/* This isn't a fundamental restriction, but one we impose.  */
+	if (x <= 0 || x + n <= 0)
+		return gnm_nan;
+
+	if (n == gnm_floor (n) && n >= 0 && n <= 40 && !give_log) {
+		gnm_float r;
+		for (r = 1; n-- > 0; x++)
+			r *= x;
+		return r;
+	}
+
+	if (give_log) {
+		gnm_float lr;
+
+		if (x < 10 || x + n < 10) {
+			int s;
+			lr = gnm_lgamma_r (x + n, &s) - gnm_lgamma_r (x, &s);
+		} else {
+			lr = ((x + n - 0.5) * gnm_log (x + n) -
+			      (x     - 0.5) * gnm_log (x) -
+			      n +
+			      lgammacor (x + n) -
+			      lgammacor (x));
+		}
+		return lr;
+	} else {
+		gnm_float lr = pochhammer (x, n, TRUE);
+		return gnm_exp (lr);
+	}
+}
+
+/* ------------------------------------------------------------------------- */

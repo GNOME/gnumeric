@@ -36,6 +36,7 @@ gnm_float logspace_add (gnm_float logx, gnm_float logy);
 gnm_float logspace_sub (gnm_float logx, gnm_float logy);
 gnm_float stirlerr(gnm_float n);
 gnm_float gnm_owent (gnm_float h, gnm_float a);
+gnm_float pochhammer (gnm_float x, gnm_float n, gboolean give_log);
 
 gnm_float gnm_cot (gnm_float x);
 gnm_float gnm_acot (gnm_float x);

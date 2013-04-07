@@ -3564,6 +3564,15 @@ The depreciation coefficient used is:
 @SEEALSO=SQRTPI
 
 @CATEGORY=Mathematics
+@FUNCTION=POCHHAMMER
+@SHORTDESC=the value of GAMMA(@{x}+@{n})/GAMMA(@{x})
+@SYNTAX=POCHHAMMER(x,n,give_log)
+@ARGUMENTDESCRIPTION=@{x}: number
+@{n}: number
+@{give_log}: if true, log of the result will be returned instead
+@SEEALSO=GAMMA
+
+@CATEGORY=Mathematics
 @FUNCTION=POWER
 @SHORTDESC=the value of @{x} raised to the power @{y} raised to the power of 1/@{z}
 @SYNTAX=POWER(x,y,z)

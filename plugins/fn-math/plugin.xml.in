@@ -68,7 +68,9 @@
 				<function name="multinomial"/>
 				<function name="munit"/>
 				<function name="odd"/>
+				<function name="odf.sumproduct"/>
 				<function name="pi"/>
+				<function name="pochhammer"/>
 				<function name="power"/>
 				<function name="quotient"/>
 				<function name="radians"/>
@@ -87,7 +89,6 @@
 				<function name="suma"/>
 				<function name="sumif"/>
 				<function name="sumproduct"/>
-				<function name="odf.sumproduct"/>
 				<function name="sumsq"/>
 				<function name="sumx2my2"/>
 				<function name="sumx2py2"/>

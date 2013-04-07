@@ -12089,6 +12089,35 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-POCHHAMMER">
+      <refmeta>
+        <refentrytitle>
+          <function>POCHHAMMER</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>POCHHAMMER</function>
+        </refname>
+        <refpurpose>
+        the value of GAMMA(<parameter>x</parameter>+<parameter>n</parameter>)/GAMMA(<parameter>x</parameter>)
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>POCHHAMMER</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>give_log</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: number</para>
+        <para><parameter>n</parameter>: number</para>
+        <para><parameter>give_log</parameter>: if true, log of the result will be returned instead</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-GAMMA"><function>GAMMA</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-POWER">
       <refmeta>
         <refentrytitle>

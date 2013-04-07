@@ -24,6 +24,7 @@ Morten:
 	* Fix dependency tabulation.
 	* Fix problems with R.PSNORM.  [#697293]
 	* New function OWENT.
+	* New function POCHHAMMER.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
