@@ -68,12 +68,20 @@ psnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 	if (shape == 0.)
 		return pnorm (x, location, scale, lower_tail, log_p);
 
+	/* Normalize */
 	h = (x - location) / scale;
 
+	/* Flip to a lower-tail problem.  */
+	if (!lower_tail) {
+		h = -h;
+		shape = -shape;
+		lower_tail = !lower_tail;
+	}
+
 	if (gnm_abs (shape) < 10) {
-		gnm_float s = pnorm (x, location, scale, lower_tail, FALSE);
+		gnm_float s = pnorm (h, 0, 1, lower_tail, FALSE);
 		gnm_float t = 2 * gnm_owent (h, shape);
-		result = lower_tail ? s - t : s + t;
+		result = s - t;
 	} else {
 		/*
 		 * Make use of this result for Owen's T:
@@ -84,7 +92,6 @@ psnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 		gnm_float u = gnm_erf (h / M_SQRT2gnum);
 		gnm_float t = 2 * gnm_owent (h * shape, 1 / shape);
 		result = s * u + t;
-		if (!lower_tail) result = 1 - result;
 	}
 
 	/*
@@ -154,6 +161,15 @@ dst (gnm_float x, gnm_float n, gnm_float shape, gboolean give_log)
 	}
 }
 
+static gnm_float
+gnm_atan_mpihalf (gnm_float x)
+{
+	if (x > 0)
+		return gnm_acot (-x);
+	else
+		return gnm_atan (x) - (M_PIgnum / 2);
+}
+
 gnm_float
 pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean log_p)
 {
@@ -170,11 +186,14 @@ pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean lo
 		return psnorm (x, shape, 0.0, 1.0, lower_tail, log_p);
 	}
 
+	/* Flip to a lower-tail problem.  */
+	if (!lower_tail) {
+		x = -x;
+		shape = -shape;
+		lower_tail = !lower_tail;
+	}
+
 	/* Generic fallback.  */
-	if (!lower_tail)
-		return log_p
-			? swap_log_tail (pst (x, n, shape, TRUE, TRUE))
-			: 1 - pst (x, n, shape, TRUE, FALSE);
 	if (log_p)
 		gnm_log (pst (x, n, shape, TRUE, FALSE));
 
@@ -227,8 +246,7 @@ pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean lo
 
 		f = x / gnm_sqrt (2 + x * x);
 
-		p2 = (0.5 - gnm_atan (shape) / M_PIgnum) +
-			f * (0.5 + gnm_atan (shape * f) / M_PIgnum);
+		p2 = (gnm_atan_mpihalf (shape) + f * gnm_atan_mpihalf (-shape * f)) / -M_PIgnum;
 
 		p += p2;
 	} else {
