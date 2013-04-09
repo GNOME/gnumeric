@@ -1,5 +1,11 @@
 2013-04-09  Morten Welinder  <terra@gnome.org>
 
+	* src/complex.c (complex_from_string): Make this handle embedded
+	spaces systematically.
+	(is_unit_imaginary): Delete.
+
+2013-04-09  Morten Welinder  <terra@gnome.org>
+
 	* src/complex.c (complex_pow): Use Goffice's copy.
 
 2013-04-05  Morten Welinder  <terra@gnome.org>

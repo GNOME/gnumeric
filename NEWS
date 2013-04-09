@@ -27,6 +27,7 @@ Morten:
 	* New function POCHHAMMER.
 	* Fix import of IFERROR from xls.
 	* Add test sheet for complex number parsing.
+	* Improve complex number parsing.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

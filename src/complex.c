@@ -64,40 +64,55 @@ complex_to_string (complex_t const *src, char const *reformat,
 
 /* ------------------------------------------------------------------------- */
 
-static int
-is_unit_imaginary (char const *src, gnm_float *im, char *imunit)
-{
-	if (*src == '-') {
-		*im = -1.0;
-		src++;
-	} else {
-		*im = +1.0;
-		if (*src == '+') src++;
-	}
+#define EAT_SPACES(src_) do {					\
+	while (g_unichar_isspace (g_utf8_get_char (src_)))	\
+		src_ = g_utf8_next_char (src_);			\
+} while (0)
 
-	if ((*src == 'i' || *src == 'j') && src[1] == 0) {
-		*imunit = *src;
-		return 1;
-	} else
-		return 0;
-}
+#define HANDLE_SIGN(src_,sign_) do {				\
+	switch (*src_) {					\
+	case '+': sign_ = +1; src_++; EAT_SPACES (src_); break;	\
+	case '-': sign_ = -1; src_++; EAT_SPACES (src_); break;	\
+	default: sign_ = 0; break;				\
+	}							\
+} while (0)
 
+/**
+ * complex_from_string:
+ * @dst: return location
+ * @src: string to parse
+ * @imunit: (out): return location of imaginary unit.
+ *
+ * Returns: zero on success, -1 otherwise.
+ *
+ * This function differs from Excel's parsing in at least the following
+ * ways:
+ * (1) We allow spaces before the imaginary unit used with an impled "1".
+ * Therefore we allow "+ i".
+ * (2) We do not allow a thousands separator as in "1,000i".
+ */
 int
 complex_from_string (complex_t *dst, char const *src, char *imunit)
 {
 	gnm_float x, y;
 	char *end;
+	int sign;
+
+	EAT_SPACES (src);
+	HANDLE_SIGN (src, sign);
 
 	/* Case: "i", "+i", "-i", ...  */
-	if (is_unit_imaginary (src, &dst->im, imunit)) {
-		dst->re = 0;
-		return 0;
+	if (*src == 'i' || *src == 'j') {
+		x = 1;
+	} else {
+		x = gnm_strto (src, &end);
+		if (src == end || errno == ERANGE)
+			return -1;
+		src = end;
+		EAT_SPACES (src);
 	}
-
-	x = gnm_strto (src, &end);
-	if (src == end || errno == ERANGE)
-		return -1;
-	src = end;
+	if (sign < 0)
+		x = 0 - x;
 
 	/* Case: "42", "+42", "-42", ...  */
 	if (*src == 0) {
@@ -106,32 +121,41 @@ complex_from_string (complex_t *dst, char const *src, char *imunit)
 		return 0;
 	}
 
-	/* Case: "42i", "+42i", "-42i", ...  */
-	if ((*src == 'i' || *src == 'j') && src[1] == 0) {
-		complex_init (dst, 0, x);
-		*imunit = *src;
-		return 0;
+	/* Case: "42i", "+42i", "-42i", "-i", "i", ...  */
+	if (*src == 'i' || *src == 'j') {
+		*imunit = *src++;
+		EAT_SPACES (src);
+		if (*src == 0) {
+			complex_init (dst, 0, x);
+			return 0;
+		} else
+			return -1;
 	}
 
-	if (*src != '-' && *src != '+')
+	HANDLE_SIGN (src, sign);
+	if (!sign)
 		return -1;
 
-	/* Case: "42+i", "+42-i", "-42-i", ...  */
-	if (is_unit_imaginary (src, &dst->im, imunit)) {
-		dst->re = x;
-		return 0;
+	if (*src == 'i' || *src == 'j') {
+		y = 1;
+	} else {
+		y = gnm_strto (src, &end);
+		if (src == end || errno == ERANGE)
+			return -1;
+		src = end;
+		EAT_SPACES (src);
 	}
+	if (sign < 0)
+		y = 0 - y;
 
-	y = gnm_strto (src, &end);
-	if (src == end || errno == ERANGE)
-		return -1;
-	src = end;
-
-	/* Case: "42+12i", "+42-12i", "-42-12i", ...  */
-	if ((*src == 'i' || *src == 'j') && src[1] == 0) {
-		complex_init (dst, x, y);
-		*imunit = *src;
-		return 0;
+	/* Case: "42+12i", "+42-12i", "-42-12i", "-42+i", "+42-i", ...  */
+	if (*src == 'i' || *src == 'j') {
+		*imunit = *src++;
+		EAT_SPACES (src);
+		if (*src == 0) {
+			complex_init (dst, x, y);
+			return 0;
+		}
 	}
 
 	return -1;
