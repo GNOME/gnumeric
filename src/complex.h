@@ -27,6 +27,7 @@ G_BEGIN_DECLS
 #define complex_sin go_complex_sinl
 #define complex_cos go_complex_cosl
 #define complex_tan go_complex_tanl
+#define complex_pow go_complex_powl
 #define complex_scale_real go_complex_scale_reall
 #define complex_to_polar go_complex_to_polarl
 #define complex_from_polar go_complex_from_polarl
@@ -49,6 +50,7 @@ G_BEGIN_DECLS
 #define complex_sin go_complex_sin
 #define complex_cos go_complex_cos
 #define complex_tan go_complex_tan
+#define complex_pow go_complex_pow
 #define complex_scale_real go_complex_scale_real
 #define complex_to_polar go_complex_to_polar
 #define complex_from_polar go_complex_from_polar
@@ -63,7 +65,6 @@ char *complex_to_string (complex_t const *src, char const *reformat,
 
 int complex_from_string (complex_t *dst, char const *src, char *imunit);
 
-void complex_pow  (complex_t *dst, complex_t const *a, complex_t const *b);
 int complex_invalid_p (complex_t const *src);
 
 /* ------------------------------------------------------------------------- */
