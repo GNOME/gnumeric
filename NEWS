@@ -25,6 +25,7 @@ Morten:
 	* Fix problems with R.PSNORM.  [#697293]
 	* New function OWENT.
 	* New function POCHHAMMER.
+	* Fix import of IFERROR from xls.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

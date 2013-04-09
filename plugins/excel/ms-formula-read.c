@@ -657,6 +657,11 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 			return FALSE;
 		}
 
+		/* This happens for IFERROR */
+		if (g_str_has_prefix (f_name, "_xlfn.") &&
+		    gnm_func_lookup (f_name + 6, wb))
+			f_name += 6;
+
 		name = gnm_func_lookup (f_name, wb);
 		d (2, g_printerr ("Function '%s' of %d args\n",
 			       f_name, numargs););

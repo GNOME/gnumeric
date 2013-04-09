@@ -1,3 +1,8 @@
+2013-04-09  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-read.c (make_function): Fix importing of IFERROR and
+	perhaps other newer functions.
+
 2013-03-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.1
