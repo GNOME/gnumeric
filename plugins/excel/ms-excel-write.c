@@ -579,17 +579,14 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb)
 	ms_biff_put_commit (ewb->bp);
 
 	for (i = 0; i < ewb->externnames->len ; i++) {
-		GnmFunc *func;
-		char *func_name;
+		const char *func_name;
 
 		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNNAME_v0); /* yes v0 */
 		ms_biff_put_var_write (ewb->bp, zeros, 6);
 
 		/* write the name and the 1 byte length */
-		func = g_ptr_array_index (ewb->externnames, i);
-		func_name = g_utf8_strup (func->name, -1);
+		func_name = g_ptr_array_index (ewb->externnames, i);
 		excel_write_string (ewb->bp, STR_ONE_BYTE_LENGTH, func_name);
-		g_free (func_name);
 
 		ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 		ms_biff_put_commit (ewb->bp);
@@ -630,17 +627,14 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 		ms_biff_put_commit (ewb->bp);
 
 		for (i = 0; i < ewb->externnames->len ; i++) {
-			GnmFunc *func;
-			char *func_name;
+			const char *func_name;
 
 			ms_biff_put_var_next (ewb->bp, BIFF_EXTERNNAME_v0); /* yes v0 */
 			ms_biff_put_var_write (ewb->bp, zeros, 6);
 
 			/* write the name and the 1 byte length */
-			func = g_ptr_array_index (ewb->externnames, i);
-			func_name = g_utf8_strup (func->name, -1);
+			func_name = g_ptr_array_index (ewb->externnames, i);
 			excel_write_string (ewb->bp, STR_ONE_BYTE_LENGTH, func_name);
-			g_free (func_name);
 			ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 			ms_biff_put_commit (ewb->bp);
 		}
@@ -6524,6 +6518,7 @@ excel_write_state_free (ExcelWriteState *ewb)
 	g_ptr_array_free (ewb->esheets, TRUE);
 
 	g_hash_table_destroy (ewb->names);
+	g_ptr_array_foreach (ewb->externnames, (GFunc)g_free, NULL);
 	g_ptr_array_free (ewb->externnames, TRUE);
 	g_hash_table_destroy (ewb->function_map);
 	g_hash_table_destroy (ewb->sheet_pairs);

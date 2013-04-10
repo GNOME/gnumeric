@@ -121,7 +121,8 @@ do_excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 			ef->macro_name = g_strdup (func->name);
 			ef->idx = -1;
 		} else {
-			g_ptr_array_add (ewb->externnames, func);
+			g_ptr_array_add (ewb->externnames,
+					 g_utf8_strup (gnm_func_get_name (func, FALSE), -1));
 			ef->macro_name = NULL;
 			ef->idx = ewb->externnames->len;
 		}
