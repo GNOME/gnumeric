@@ -83,6 +83,7 @@ typedef enum {
 } ExcelFuncFlag;
 
 typedef struct {
+	int idx;
 	char const *name;
 	gint8	    min_args;
 	gint8	    max_args;

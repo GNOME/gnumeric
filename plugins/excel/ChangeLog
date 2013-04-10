@@ -1,5 +1,7 @@
 2013-04-10  Morten Welinder  <terra@gnome.org>
 
+	* formula-types.h (ExcelFuncDesc): Add explicit index.
+
 	* ms-formula-read.c (make_function): Fix importing of GAMMA (and
 	others) from LibreOffice's xls files.
 
