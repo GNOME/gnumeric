@@ -29,6 +29,7 @@ Morten:
 	* Add test sheet for complex number parsing.
 	* Improve complex number parsing.
 	* Fix error codes for complex number functions.
+	* Fix import of non-Excel functions from LO's xls files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

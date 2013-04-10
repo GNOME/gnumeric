@@ -657,12 +657,20 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 			return FALSE;
 		}
 
-		/* This happens for IFERROR */
-		if (g_str_has_prefix (f_name, "_xlfn.") &&
-		    gnm_func_lookup (f_name + 6, wb))
-			f_name += 6;
+		name = NULL;
 
-		name = gnm_func_lookup (f_name, wb);
+		if (g_str_has_prefix (f_name, "_xlfn.") &&
+		    (name = gnm_func_lookup (f_name + 6, wb))) {
+			/* This happens for IFERROR, for example. */
+			f_name += 6;
+		} else if (g_str_has_prefix (f_name, "_xlfnodf.") &&
+			   (name = gnm_func_lookup (f_name + 9, wb))) {
+			/* This happens for GAMMA, for example. */
+			f_name += 69;
+		}
+
+		if (!name)
+			name = gnm_func_lookup (f_name, wb);
 		d (2, g_printerr ("Function '%s' of %d args\n",
 			       f_name, numargs););
 
