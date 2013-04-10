@@ -98,12 +98,17 @@ do_excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmFunc *func = expr->func.func;
-		ExcelFunc *ef = g_hash_table_lookup (ewb->function_map, func);
+		ExcelFunc *ef;
 		int i;
 
 		for (i = 0; i < expr->func.argc; i++)
 			do_excel_write_prep_expr (ewb, expr->func.argv[i]);
 
+		/*
+		 * Lookup here.  The loop above might have defined the
+		 * name alreasy.
+		 */
+		ef = g_hash_table_lookup (ewb->function_map, func);
 		if (ef != NULL)
 			return;
 

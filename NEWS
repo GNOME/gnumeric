@@ -30,6 +30,7 @@ Morten:
 	* Improve complex number parsing.
 	* Fix error codes for complex number functions.
 	* Fix import of non-Excel functions from LO's xls files.
+	* Fix problem with xls saving of externnames.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

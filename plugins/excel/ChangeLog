@@ -1,5 +1,8 @@
 2013-04-10  Morten Welinder  <terra@gnome.org>
 
+	* ms-formula-write.c (do_excel_write_prep_expr): Fix unintentional
+	duplication of externnames.
+
 	* ms-excel-write.h (struct _XLSExporter): Change externnames
 	member to a GPtrArray of char*.
 
