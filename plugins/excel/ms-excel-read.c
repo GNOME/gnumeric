@@ -7225,6 +7225,26 @@ excel_read_workbook (GOIOContext *context, WorkbookView *wb_view,
 
 static GSList *formats;
 
+/*
+ * These are special in that they appear to be saved as macros.
+ * Excel will only recognize them when saved as macros: neither
+ * externname as "IFERROR" nor "_xlfn.IFERROR" will work.
+ */
+static const ExcelFuncDesc excel97_func_desc[] = {
+	{ 0xff, "_xlfn.AVERAGEIF", -1, -1, XL_XLM },
+	{ 0xff, "_xlfn.AVERAGEIFS", -1, -1, XL_XLM },
+	{ 0xff, "_xlfn.CUBEKPIMEMBER", -1, -1, XL_XLM },
+	{ 0xff, "_xlfn.CUBEMEMBER", -1, -1, XL_XLM },
+	{ 0xff, "_xlfn.CUBEMEMBERPROPERTY", -1, -1, XL_XLM },
+	{ 0xff, "_xlfn.CUBERANKEDMEMBER", -1, -1, XL_XLM },
+	{ 0xff, "_xlfn.CUBESET", -1, -1, XL_XLM },
+	{ 0xff, "_xlfn.CUBESETCOUNT", -1, -1, XL_XLM },
+	{ 0xff, "_xlfn.CUBEVALUE", -1, -1, XL_XLM },
+	{ 0xff, "_xlfn.COUNTIFS", -1, -1, XL_XLM },
+	{ 0xff, "_xlfn.IFERROR", 2, 2, XL_XLM, 2, 'V', "VV" },
+	{ 0xff, "_xlfn.SUMIFS", -1, -1, XL_XLM }
+};
+
 void
 excel_read_init (void)
 {
@@ -7261,6 +7281,23 @@ excel_read_init (void)
 			  NULL);
 		g_hash_table_insert (excel_func_by_name,
 				     (gpointer)name,
+				     (gpointer)efd);
+	}
+
+	for (i = 0; i < (int)G_N_ELEMENTS(excel97_func_desc); i++) {
+		const ExcelFuncDesc *efd = excel97_func_desc + i;
+		const char *excel_name = efd->name;
+		const char *gnm_name = strchr (excel_name, '.') + 1;
+		GnmFunc *func = gnm_func_lookup (gnm_name, NULL);
+
+		/* Fix case.  */
+		if (func)
+			gnm_name = gnm_func_get_name (func, FALSE);
+
+		g_assert (g_hash_table_lookup (excel_func_by_name, gnm_name) ==
+			  NULL);
+		g_hash_table_insert (excel_func_by_name,
+				     (gpointer)gnm_name,
 				     (gpointer)efd);
 	}
 }

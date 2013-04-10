@@ -110,7 +110,7 @@ do_excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		 */
 		ef = g_hash_table_lookup (ewb->function_map, func);
 		if (ef != NULL)
-			return;
+			break;
 
 		ef = g_new (ExcelFunc, 1);
 		ef->efunc = (func->flags & (GNM_FUNC_IS_PLACEHOLDER |
@@ -119,15 +119,20 @@ do_excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 			: g_hash_table_lookup (excel_func_by_name,
 					       func->name);
 
-		if (ef->efunc) {
-			ef->idx = ef->efunc - excel_func_desc;
+		if (ef->efunc && ef->efunc->idx == 0xff) {
+			/* These functions appear to be saved as macros! */
+			ef->macro_name = g_strdup (ef->efunc->name);
+			ef->idx = -1;
+		} else if (ef->efunc) {
 			ef->macro_name = NULL;
+			ef->idx = ef->efunc->idx;
 		} else if (func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL) {
 			ef->macro_name = g_strdup (func->name);
 			ef->idx = -1;
 		} else {
-			g_ptr_array_add (ewb->externnames,
-					 g_utf8_strup (gnm_func_get_name (func, FALSE), -1));
+			char *fname =
+				g_utf8_strup (gnm_func_get_name (func, FALSE), -1);
+			g_ptr_array_add (ewb->externnames, fname);
 			ef->macro_name = NULL;
 			ef->idx = ewb->externnames->len;
 		}
@@ -523,7 +528,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 {
 	static guint8 const zeros [12];
 
-	int arg;
+	int arg, min_args, max_args, name_arg = 0;
 	gboolean prompt   = FALSE;
 	gboolean cmdequiv = FALSE;
 	char const *arg_types = NULL;
@@ -531,10 +536,25 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 	GnmFunc *func = expr->func.func;
 	ExcelFunc *ef = g_hash_table_lookup (pd->ewb->function_map, func);
 	XLOpType arg_type = XL_VAL; /* default */
+	XLOpType func_type;
+	int func_idx;
+	guint8 op_class;
 
 	g_return_if_fail (ef != NULL);
 
-	if (ef->efunc == NULL) {
+	if (ef->efunc) {
+		min_args = ef->efunc->min_args;
+		max_args = ef->efunc->max_args;
+		func_idx = ef->efunc->idx;
+		func_type = xl_map_char_to_type (ef->efunc->type);
+		arg_types = ef->efunc->known_args;
+	} else {
+		min_args = max_args = expr->func.argc;
+		func_idx = 0xff;
+		func_type = XL_VAL;  /*Assumption */
+	}
+
+	if (ef->efunc == NULL || ef->efunc->idx == 0xff) {
 		if (ef->macro_name != NULL) {
 			push_guint8 (pd, FORMULA_PTG_NAME);
 			push_guint16 (pd, ef->idx);
@@ -556,14 +576,13 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 				push_guint16 (pd, ef->idx);
 				push_guint16 (pd, 0); /* reserved */
 			}
-
-			arg_types_holder = guess_arg_types (func);
-			arg_types = arg_types_holder;
 		}
-	} else
-		arg_types = ef->efunc->known_args;
+		name_arg = 1;
+	}
 
-	for (arg = 0; arg < expr->func.argc; arg++)
+	if (!arg_types)
+		arg_types = arg_types_holder = guess_arg_types (func);
+	for (arg = 0; arg < expr->func.argc; arg++) {
 		if (ef->efunc != NULL && arg >= ef->efunc->max_args) {
 			go_io_warning (pd->ewb->io_context,
 				_("Too many arguments for function '%s', MS Excel can only handle %d not %d"),
@@ -577,35 +596,21 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 			}
 			write_node (pd, expr->func.argv[arg], 0, arg_type);
 		}
+	}
+	/* If XL requires more arguments than we do
+	 * pad the remainder with missing args */
+	for ( ; arg < min_args ; arg++)
+		push_guint8 (pd, FORMULA_PTG_MISSARG);
 	g_free (arg_types_holder);
 
-	if (ef->efunc != NULL) {
-		guint8 op_class = xl_get_op_class (pd,
-			xl_map_char_to_type (ef->efunc->type), target_type);
-
-#if FORMULA_DEBUG > 1
-		g_printerr ("Writing function '%s' as idx %d, args %d\n",
-			    name, ef->u.std.idx, fce->u.std.efunc->num_known_args);
-#endif
-
-		/* If XL requires more arguments than we do
-		 * pad the remainder with missing args */
-		for ( ; arg < ef->efunc->min_args ; arg++)
-			push_guint8 (pd, FORMULA_PTG_MISSARG);
-
-		if (ef->efunc->min_args != ef->efunc->max_args) {
-			push_guint8  (pd, FORMULA_PTG_FUNC_VAR + op_class);
-			push_guint8  (pd, arg | (prompt ? 0x80 : 0));
-			push_guint16 (pd, ef->idx  | (cmdequiv ? 0x8000 : 0));
-		} else {
-			push_guint8  (pd, FORMULA_PTG_FUNC + op_class);
-			push_guint16 (pd, ef->idx);
-		}
-	} else { /* Undocumented, assume result is XL_VAL */
-		push_guint8  (pd, FORMULA_PTG_FUNC_VAR +
-			xl_get_op_class (pd,  XL_VAL, target_type));
-		push_guint8  (pd, (arg + 1)	| (prompt   ? 0x80 : 0));
-		push_guint16 (pd, 0xff		| (cmdequiv ? 0x8000 : 0));
+	op_class = xl_get_op_class (pd, func_type, target_type);
+	if (name_arg || min_args != max_args) {
+		push_guint8  (pd, FORMULA_PTG_FUNC_VAR + op_class);
+		push_guint8  (pd, (arg + name_arg) | (prompt ? 0x80 : 0));
+		push_guint16 (pd, func_idx         | (cmdequiv ? 0x8000 : 0));
+	} else {
+		push_guint8  (pd, FORMULA_PTG_FUNC + op_class);
+		push_guint16 (pd, func_idx);
 	}
 }
 

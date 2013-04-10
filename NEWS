@@ -25,12 +25,13 @@ Morten:
 	* Fix problems with R.PSNORM.  [#697293]
 	* New function OWENT.
 	* New function POCHHAMMER.
-	* Fix import of IFERROR from xls.
+	* Fix import of XL97 functions like IFERROR from xls.
 	* Add test sheet for complex number parsing.
 	* Improve complex number parsing.
 	* Fix error codes for complex number functions.
 	* Fix import of non-Excel functions from LO's xls files.
 	* Fix problem with xls saving of externnames.
+	* Fix saving of certain XL97 functions like IFERROR.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
