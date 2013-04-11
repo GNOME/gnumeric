@@ -853,8 +853,6 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int const cols = value_area_get_width (Pt, ep);
 	int const rows = value_area_get_height (Pt, ep);
 
-	char f[5 + 4 * sizeof (int) + sizeof (GNM_FORMAT_g)];
-
 	if (cols != 1 && rows != 1) {
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 		return res;
@@ -901,10 +899,9 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (out && !sep_columns) {
 		res = value_new_array_empty (1 , nb);
-		sprintf (f, "%%.%d" GNM_FORMAT_g, GNM_DIG);
 		for (i = 0; i < nb; i++)
 			res->v_array.vals[0][i] = value_new_string_nocopy
-				(complex_to_string (&(out[i]), f, f, 'i'));
+				(complex_to_string (&(out[i]), 'i'));
 		g_free (out);
 	} else if (out && sep_columns) {
 		res = value_new_array_empty (2 , nb);

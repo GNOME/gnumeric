@@ -32,6 +32,7 @@ Morten:
 	* Fix import of non-Excel functions from LO's xls files.
 	* Fix problem with xls saving of externnames.
 	* Fix saving of certain XL2007 functions like IFERROR.
+	* Ensure full precision for complex numbers.  [#697634]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

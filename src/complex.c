@@ -18,8 +18,7 @@
 /* ------------------------------------------------------------------------- */
 
 char *
-complex_to_string (complex_t const *src, char const *reformat,
-		   char const *imformat, char imunit)
+complex_to_string (complex_t const *src, char imunit)
 {
 	char *re_buffer = NULL;
 	char *im_buffer = NULL;
@@ -27,10 +26,18 @@ complex_to_string (complex_t const *src, char const *reformat,
 	char const *suffix = "";
 	char *res;
 	char suffix_buffer[2];
+	const char *fmt = "%.*" GNM_FORMAT_g;
+	static int digits = -1;
+
+	if (digits == -1) {
+		gnm_float l10 = gnm_log10 (FLT_RADIX);
+		digits = (int)gnm_ceil (GNM_MANT_DIG * l10) +
+			(l10 == (int)l10 ? 0 : 1);
+	}
 
 	if (src->re != 0 || src->im == 0) {
 		/* We have a real part.  */
-		re_buffer = g_strdup_printf (reformat, src->re);
+		re_buffer = g_strdup_printf (fmt, digits, src->re);
 	}
 
 	if (src->im != 0) {
@@ -44,7 +51,7 @@ complex_to_string (complex_t const *src, char const *reformat,
 		} else if (src->im == -1) {
 			sign = "-";
 		} else {
-			im_buffer = g_strdup_printf (imformat, src->im);
+			im_buffer = g_strdup_printf (fmt, digits, src->im);
 			if (re_buffer && *im_buffer != '-' && *im_buffer != '+')
 				sign = (src->im >= 0) ? "+" : "-";
 		}

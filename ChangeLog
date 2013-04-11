@@ -1,3 +1,9 @@
+2013-04-11  Morten Welinder  <terra@gnome.org>
+
+	* src/complex.c (complex_to_string): Drop format arguments.  All
+	callers changed.  Make up a format with enough precision for round
+	tripping.  Fixes #697634.
+
 2013-04-09  Morten Welinder  <terra@gnome.org>
 
 	* src/complex.c (complex_from_string): Make this handle embedded

@@ -60,8 +60,7 @@ G_BEGIN_DECLS
 
 /* ------------------------------------------------------------------------- */
 
-char *complex_to_string (complex_t const *src, char const *reformat,
-			 char const *imformat, char imunit);
+char *complex_to_string (complex_t const *src, char imunit);
 
 int complex_from_string (complex_t *dst, char const *src, char *imunit);
 

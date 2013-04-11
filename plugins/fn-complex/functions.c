@@ -68,11 +68,8 @@ value_new_complex (complex_t const *c, char imunit)
 		return value_new_error_NUM (NULL);
 	else if (complex_real_p (c))
 		return value_new_float (c->re);
-	else {
-		char f[5 + 4 * sizeof (int) + sizeof (GNM_FORMAT_g)];
-		sprintf (f, "%%.%d" GNM_FORMAT_g, GNM_DIG);
-		return value_new_string_nocopy (complex_to_string (c, f, f, imunit));
-	}
+	else
+		return value_new_string_nocopy (complex_to_string (c, imunit));
 }
 
 /***************************************************************************/
