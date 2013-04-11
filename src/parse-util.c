@@ -1128,6 +1128,8 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	if (ptr == NULL)
 		return start; /* TODO error unknown sheet */
 	if (ptr != start_sheet) {
+		const char *ref;
+
 		if (*ptr == ':') { /* 3d ref */
 			ptr = sheetref_parse (convs, ptr+1, &res->b.sheet, wb, FALSE);
 			if (ptr == NULL)
@@ -1137,6 +1139,16 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 
 		if (*ptr++ != '!')
 			return start; /* TODO syntax error */
+
+		ref = value_error_name (GNM_ERROR_REF, FALSE);
+		if (strncmp (ptr, ref, strlen (ref)) == 0) {
+			res->a.sheet = invalid_sheet;
+			res->a.col = res->a.row = 0;
+			res->a.col_relative = res->a.row_relative = FALSE;
+			res->b.sheet = res->a.sheet;
+			ptr += strlen (ref);
+			return ptr;
+		}
 	} else {
 		if (start_sheet != start_wb)
 			return start; /* Workbook, but no sheet.  */
@@ -1144,7 +1156,7 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	}
 
 	if (convs->r1c1_addresses) { /* R1C1 handler */
-		tmp1 = r1c1_rangeref_parse (res, ptr, pp);
+		const char *tmp1 = r1c1_rangeref_parse (res, ptr, pp);
 		return (tmp1 != NULL) ? tmp1 : start;
 	}
 

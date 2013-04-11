@@ -1,5 +1,8 @@
 2013-04-11  Morten Welinder  <terra@gnome.org>
 
+	* src/parse-util.c (rangeref_parse): Parse Sheet!#REF and return a
+	reference with invalid_sheet.  Fixes #683494.
+
 	* src/complex.c (complex_to_string): Drop format arguments.  All
 	callers changed.  Make up a format with enough precision for round
 	tripping.  Fixes #697634.
