@@ -2998,7 +2998,7 @@ gnm_float pnbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gb
 	return x + n + p;
     if(!gnm_finite(n) || !gnm_finite(p))	ML_ERR_return_NAN;
 #endif
-    if (n <= 0 || p <= 0 || p >= 1)	ML_ERR_return_NAN;
+    if (n < 0 || p <= 0 || p > 1)	ML_ERR_return_NAN;
 
     x = gnm_fake_floor(x);
     if (x < 0) return R_DT_0;

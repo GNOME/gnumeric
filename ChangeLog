@@ -2,6 +2,8 @@
 
 	* src/mathfunc.c (gnm_owent): Fix a==1 special case.  Part of
 	#697850.
+	(pnbinom): Allow prob==1 (already fixed in R) and n==0 (now
+	reported to R).
 
 2013-04-11  Morten Welinder  <terra@gnome.org>
 
