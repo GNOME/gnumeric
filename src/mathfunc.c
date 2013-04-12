@@ -7071,7 +7071,7 @@ gnm_owent (gnm_float h, gnm_float a)
 		res = gnm_atan (a) / (2 * M_PIgnum);
 	else if (a == 1)
 		res = 0.5 * pnorm (h, 0, 1, TRUE, FALSE) *
-			pnorm (h, 0, 1, FALSE, TRUE);
+			pnorm (h, 0, 1, FALSE, FALSE);
 	else if (a <= 1)
 		res = gnm_owent_helper (h, a);
 	else {

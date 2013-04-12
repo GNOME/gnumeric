@@ -1,3 +1,8 @@
+2013-04-12  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_owent): Fix a==1 special case.  Part of
+	#697850.
+
 2013-04-11  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (rangeref_parse): Parse Sheet!#REF and return a
