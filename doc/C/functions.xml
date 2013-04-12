@@ -13255,6 +13255,39 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-NT_OMEGA">
+      <refmeta>
+        <refentrytitle>
+          <function>NT_OMEGA</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>NT_OMEGA</function>
+        </refname>
+        <refpurpose>
+        Numer of distinct prime factors
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>NT_OMEGA</function>(<parameter>n</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>n</parameter>: positive integer</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>Returns the number of distinct prime factors without multiplicity.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-NT_D"><function>NT_D</function></link>,
+        <link linkend="gnumeric-function-ITHPRIME"><function>ITHPRIME</function></link>,
+        <link linkend="gnumeric-function-NT_SIGMA"><function>NT_SIGMA</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-NT_PHI">
       <refmeta>
         <refentrytitle>

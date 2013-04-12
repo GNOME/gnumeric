@@ -1,3 +1,9 @@
+2013-04-12  Morten Welinder  <terra@gnome.org>
+
+	* numtheory.c (ithprime): Minor speed-up.  Increase limit to 10^7
+	primes.
+	(gnumeric_nt_omega): New function.
+
 2013-03-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.1

@@ -3872,6 +3872,14 @@ Strings and empty cells are simply ignored.
 @SEEALSO=ITHPRIME,NT_PHI,NT_SIGMA,NT_D
 
 @CATEGORY=Number Theory
+@FUNCTION=NT_OMEGA
+@SHORTDESC=Numer of distinct prime factors
+@SYNTAX=NT_OMEGA(n)
+@ARGUMENTDESCRIPTION=@{n}: positive integer
+@NOTE=Returns the number of distinct prime factors without multiplicity.
+@SEEALSO=NT_D,ITHPRIME,NT_SIGMA
+
+@CATEGORY=Number Theory
 @FUNCTION=NT_PHI
 @SHORTDESC=Euler's totient function
 @SYNTAX=NT_PHI(n)

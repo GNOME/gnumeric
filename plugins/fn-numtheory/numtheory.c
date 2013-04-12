@@ -62,47 +62,48 @@ intpow (int p, int v)
 	return (v % 2) ? temp * p : temp;
 }
 
-#define ITHPRIME_LIMIT (1 << 22)
-static gint *prime_table = NULL;
+#define ITHPRIME_LIMIT 10000000
+static guint *prime_table = NULL;
 
 /* Calculate the i-th prime.  Returns TRUE on error.  */
 static gboolean
 ithprime (int i, guint64 *res)
 {
-	static int computed = 0;
-	static int allocated = 0;
+	static guint computed = 0;
+	static guint allocated = 0;
 
-	if (i < 1 || i > ITHPRIME_LIMIT)
+	if (i < 1 || (guint)i > ITHPRIME_LIMIT)
 		return TRUE;
 
-	if (i > computed) {
-		int candidate;
+	if ((guint)i > computed) {
+		static guint candidate = 3;
+		static guint jlim = 1;
 
-		if (i > allocated) {
-			allocated = MAX (i, 2 * allocated + 100);
+		if ((guint)i > allocated) {
+			allocated = MAX ((guint)i, 2 * allocated + 100);
 			allocated = MIN (allocated, ITHPRIME_LIMIT);
-			prime_table = g_renew (int, prime_table, allocated);
+			prime_table = g_renew (guint, prime_table, allocated);
 			if (computed == 0) {
 				prime_table[computed++] = 2;
 				prime_table[computed++] = 3;
 			}
 		}
 
-		candidate = prime_table[computed - 1];
-		/*
-		 * Note, that the candidate is odd since we filled in the first
-		 * two prime numbers.
-		 */
-		while (i > computed) {
+		while ((guint)i > computed) {
 			gboolean prime = TRUE;
-			int j;
+			guint j;
+
 			candidate += 2;  /* Skip even candidates.  */
 
-			for (j = 1; prime_table[j] * prime_table[j] <= candidate; j++)
+			while (candidate >= prime_table[jlim] * prime_table[jlim])
+				jlim++;
+
+			for (j = 1; j < jlim; j++) {
 				if (candidate % prime_table[j] == 0) {
 					prime = FALSE;
 					break;
 				}
+			}
 
 			if (prime)
 				prime_table[computed++] = candidate;
@@ -210,6 +211,39 @@ isprime (guint64 n)
 	}
 
 	return 1;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static GnmFuncHelp const help_nt_omega[] = {
+ 	{ GNM_FUNC_HELP_NAME, F_("NT_OMEGA:Numer of distinct prime factors")},
+	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_NOTE, F_("Returns the number of distinct prime factors without multiplicity.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NT_PHI(9)" },
+	{ GNM_FUNC_HELP_SEEALSO, "NT_D,ITHPRIME,NT_SIGMA"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static void
+walk_for_omega (guint64 p, int v, void *data_)
+{
+	int *data = data_;
+	(*data)++;
+}
+
+static GnmValue *
+gnumeric_nt_omega (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	int omega = 0;
+	gnm_float n = gnm_floor (value_get_as_float (args[0]));
+
+	if (n < 1 || n > bit_max)
+		return value_new_error_NUM (ei->pos);
+
+	if (walk_factorization ((guint64)n, &omega, walk_for_omega))
+		return value_new_error (ei->pos, OUT_OF_BOUNDS);
+
+	return value_new_int (omega);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -645,6 +679,9 @@ const GnmFuncDescriptor num_theory_functions[] = {
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{"pfactor", "f", help_pfactor,
 	 &gnumeric_pfactor, NULL, NULL, NULL,
+	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{"nt_omega",   "f", help_nt_omega,
+	 &gnumeric_nt_omega,  NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{"nt_phi",   "f", help_phi,
 	 &gnumeric_phi,      NULL, NULL, NULL,

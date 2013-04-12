@@ -34,6 +34,7 @@ Morten:
 	* Fix saving of certain XL2007 functions like IFERROR.
 	* Ensure full precision for complex numbers.  [#697634]
 	* Fix parsing of 'Sheet1!#REF!' as used by XL.  [#683494]
+	* New function NT_OMEGA.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

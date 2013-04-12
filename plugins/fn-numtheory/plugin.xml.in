@@ -15,6 +15,7 @@
 				<function name="ithprime"/>
 				<function name="nt_d"/>
 				<function name="nt_mu"/>
+				<function name="nt_omega"/>
 				<function name="nt_phi"/>
 				<function name="nt_pi"/>
 				<function name="nt_sigma"/>
