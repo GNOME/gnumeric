@@ -36,6 +36,7 @@ Morten:
 	* Fix parsing of 'Sheet1!#REF!' as used by XL.  [#683494]
 	* New function NT_OMEGA.
 	* Fix minor R.PBINOM problems.
+	* Improve FACT and GAMMA accuracy.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

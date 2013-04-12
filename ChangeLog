@@ -4,6 +4,7 @@
 	#697850.
 	(pnbinom): Allow prob==1 (already fixed in R) and n==0 (now
 	reported to R).
+	(fact): Use table for n<=1; rewrite using pochhammer otherwise.
 
 2013-04-11  Morten Welinder  <terra@gnome.org>
 
