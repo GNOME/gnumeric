@@ -7226,19 +7226,20 @@ pochhammer (gnm_float x, gnm_float n, gboolean give_log)
 	}
 
 	if (give_log) {
-		gnm_float lr;
+		gnm_float lf = 0, lr;
 
-		if (x < 10 || x + n < 10) {
-			int s;
-			lr = gnm_lgamma_r (x + n, &s) - gnm_lgamma_r (x, &s);
-		} else {
-			lr = ((x + n - 0.5) * gnm_log (x + n) -
-			      (x     - 0.5) * gnm_log (x) -
-			      n +
-			      lgammacor (x + n) -
-			      lgammacor (x));
+		while (x < 10 || x + n < 10) {
+			/* P(x,n) = (x/(x+n)) * P(x+1,n) */
+			lf -= gnm_log1p (n / x);
+			x++;
 		}
-		return lr;
+
+		lr = ((x - 0.5) * gnm_log1p (n / x) +
+		      n * gnm_log (x + n) -
+		      n +
+		      (lgammacor (x + n) - lgammacor (x)));
+
+		return lr + lf;
 	} else {
 		gnm_float lr = pochhammer (x, n, TRUE);
 		return gnm_exp (lr);
