@@ -125,7 +125,9 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define gnm_quad_end go_quad_endl
 #define gnm_quad_init go_quad_initl
 #define gnm_quad_value go_quad_valuel
+#define gnm_quad_add go_quad_addl
 #define gnm_quad_mul go_quad_mull
+#define gnm_quad_div go_quad_divl
 #define gnm_quad_mul12 go_quad_mul12l
 #define GnmAccumulator GOAccumulatorl
 #define gnm_accumulator_start go_accumulator_startl
@@ -211,7 +213,9 @@ typedef double gnm_float;
 #define gnm_quad_end go_quad_end
 #define gnm_quad_init go_quad_init
 #define gnm_quad_value go_quad_value
+#define gnm_quad_add go_quad_add
 #define gnm_quad_mul go_quad_mul
+#define gnm_quad_div go_quad_div
 #define gnm_quad_mul12 go_quad_mul12
 #define GnmAccumulator GOAccumulator
 #define gnm_accumulator_start go_accumulator_start
