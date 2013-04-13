@@ -1,3 +1,9 @@
+2013-04-13  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_range_calc_spans): Don't mark the sheet
+	dirty.  Callers already appear to handle this when needed
+	and not when not wanted.  Fixes #697927.
+
 2013-04-12  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (gnm_owent): Fix a==1 special case.  Part of

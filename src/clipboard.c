@@ -741,7 +741,8 @@ cb_clipboard_copy_range_undo (GnmCellRegion *cr, GnmSheetRange *sr,
  * @sheet: #Sheet
  * @r: #GnmRange
  *
- * Returns: (transfer full):
+ * Returns: (transfer full): A #GOUndo object that will restore the contents
+ * of the given range.
  **/
 GOUndo *
 clipboard_copy_range_undo (Sheet *sheet, GnmRange const *r)

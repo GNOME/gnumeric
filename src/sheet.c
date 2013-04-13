@@ -1449,7 +1449,6 @@ cb_clear_rendered_values (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 void
 sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, GnmSpanCalcFlags flags)
 {
-	sheet_mark_dirty (sheet);
 	if (flags & GNM_SPANCALC_RE_RENDER)
 		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 			r->start.col, r->start.row, r->end.col, r->end.row,

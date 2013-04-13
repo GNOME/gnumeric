@@ -37,6 +37,7 @@ Morten:
 	* New function NT_OMEGA.
 	* Fix minor R.PBINOM problems.
 	* Improve FACT and GAMMA accuracy.
+	* Fix dirty/undo tracking issue.  [#697927]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
