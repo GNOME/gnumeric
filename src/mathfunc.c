@@ -5646,7 +5646,7 @@ binomialcf (gnm_float ii, gnm_float jj, gnm_float pp, gnm_float qq,
 {
 	const gnm_float sumAlways = 0;
 	const gnm_float sumFactor = 6;
-	const gnm_float cfSmall = 1.0e-12;
+	const gnm_float cfSmall = 1.0e-15;
 
 	gnm_float prob,p,q,a1,a2,b1,b2,c1,c2,c3,c4,n1,q1,dfm;
 	gnm_float i,j,ni,nj,numb,ip1;

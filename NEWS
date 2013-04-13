@@ -39,6 +39,7 @@ Morten:
 	* Improve FACT and GAMMA accuracy.
 	* Fix dirty/undo tracking issue.  [#697927]
 	* Add version number to translation files.
+	* Improve precision of R.PBETA slightly.  [#697850]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

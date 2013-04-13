@@ -1,6 +1,8 @@
 2013-04-13  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (pochhammer): Improve precision a bit.
+	(binomialcf): Lower cfSmall by 10^3.  This helps
+	pbeta(0.9,10,0.5).
 
 	* configure.ac (GETTEXT_PACKAGE): Add version number so that
 	doesn't prevent multiple versions from co-existing.
