@@ -238,7 +238,7 @@ AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
 dnl **************************************************
 dnl This needs to be done before we add aggressive -Werror=foo flags
 dnl below.
-AC_SUBST(GETTEXT_PACKAGE, gnumeric)
+AC_SUBST(GETTEXT_PACKAGE, gnumeric-${VERSION})
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 	[The package name, for gettext])
 AM_GLIB_GNU_GETTEXT
