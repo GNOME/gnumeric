@@ -27,7 +27,7 @@ msgstr "חישוב, ניתוח והדמיית נתונים"
 
 #: ../gnumeric.desktop.in.h:2 ../src/func-builtin.c:440
 msgid "Gnumeric"
-msgstr "‏Gnumeric"
+msgstr "Gnumeric"
 
 #. Keep in sync with .desktop file
 #: ../gnumeric.desktop.in.h:3 ../src/main-application.c:374
