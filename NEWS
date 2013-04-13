@@ -40,6 +40,7 @@ Morten:
 	* Fix dirty/undo tracking issue.  [#697927]
 	* Add version number to translation files.
 	* Improve precision of R.PBETA slightly.  [#697850]
+	* Add new test for a collection of special functions.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
