@@ -1,4 +1,12 @@
+
+/*
+ * Include this test values from
+ *     http://people.sc.fsu.edu/~jburkardt/c_src/test_values/test_values.c
+ *
+ * Omega(0) is overridden to be 0.  This is a matter of definition.
+ */
 #include "test_values.c"
+
 #include <string.h>
 
 #define FMT "%.17g"
@@ -35,6 +43,9 @@ test_func (const char *func_name,
 	int special_args = order && strchr (order, '%') != NULL;
 
 	while (1) {
+		int r = row + 1;
+		char restype;
+
 		switch (gentype) {
 		case GT_D_D:
 			generator (&n_data, &xd[0], &yd);
@@ -139,7 +150,8 @@ test_func (const char *func_name,
 		}
 		printf (")\",");
 
-		switch (types[n_args + 1]) {
+		restype = types[n_args + 1];
+		switch (restype) {
 		case 'D':
 			printf (FMT ",", yd);
 			break;
@@ -148,7 +160,17 @@ test_func (const char *func_name,
 			break;
 		}
 
-		printf ("=B%d-C%d\n", row+1, row+1);
+		switch (restype) {
+		case 'D':
+			printf ("\"=IF(B%d=C%d,\"\"\"\",IF(C%d=0,-LOG10(ABS(B%d)),-LOG10(ABS((B%d-C%d)/C%d))))\"", r, r, r, r, r, r, r);
+			break;
+		case 'I':
+			printf ("\"=IF(B%d=C%d,\"\"\"\",0)\"", r, r);
+			break;
+		}
+
+		printf ("\n");
+
 		row++;
 	}
 }
@@ -159,6 +181,14 @@ main (int argc, char **argv)
 {
 	row = 0;
 	int do_slow = 0;
+
+	if (argc >= 2 && strcmp (argv[1], "--slow") == 0)
+		do_slow = 1;
+
+	printf ("WORST,\"\",\"\",=MIN(D3:D65525)\n");
+	row++;
+	printf ("\"\",\"\",\"\",\"\"\n");
+	row++;
 
 	test_func ("acos", arccos_values, GT_D_D, NULL);
 	test_func ("acosh", arccosh_values, GT_D_D, NULL);
