@@ -1,3 +1,9 @@
+2013-04-14  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_NAME): Store the name's length in
+	characters, not bytes.  This matches the read side and fixes
+	#608780.
+
 2013-04-10  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (do_excel_write_prep_expr): Fix unintentional

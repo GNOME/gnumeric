@@ -1589,7 +1589,7 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 			ms_biff_put_var_write (ewb->bp, data, 15);
 		}
 	} else {
-		excel_strlen (name, &name_len);
+		name_len = excel_strlen (name, NULL);
 		GSF_LE_SET_GUINT8 (data + 3, name_len); /* name_len */
 		ms_biff_put_var_write (ewb->bp, data, 14);
 		excel_write_string (ewb->bp, STR_NO_LENGTH, name);

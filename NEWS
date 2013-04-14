@@ -41,6 +41,7 @@ Morten:
 	* Add version number to translation files.
 	* Improve precision of R.PBETA slightly.  [#697850]
 	* Add new test for a collection of special functions.
+	* Fix xls writing of non-ascii names.  [#608780]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
