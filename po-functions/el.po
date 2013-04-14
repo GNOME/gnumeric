@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumer"
 "ic&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-07 22:26+0000\n"
-"PO-Revision-Date: 2013-04-08 09:53+0300\n"
+"POT-Creation-Date: 2013-04-12 16:12+0000\n"
+"PO-Revision-Date: 2013-04-14 22:45+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -137,43 +137,43 @@ msgstr ""
 "year:το έτος μεταξύ 1582 και 9956, η προεπιλογή είναι το έτος της επόμενης "
 "Πέμπτης της Αναλήψεως"
 
-#: ../plugins/fn-complex/functions.c:81
+#: ../plugins/fn-complex/functions.c:78
 msgid "COMPLEX:a complex number of the form @{x} + @{y}@{i}"
 msgstr "COMPLEX:ένας μιγαδικός αριθμός της μορφής @{x} + @{y}@{i}"
 
-#: ../plugins/fn-complex/functions.c:82
+#: ../plugins/fn-complex/functions.c:79
 msgid "x:real part"
 msgstr "x:πραγματικό μέρος"
 
-#: ../plugins/fn-complex/functions.c:83
+#: ../plugins/fn-complex/functions.c:80
 msgid "y:imaginary part"
 msgstr "y:φανταστικό μέρος"
 
-#: ../plugins/fn-complex/functions.c:84
+#: ../plugins/fn-complex/functions.c:81
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
 "i:η κατάληξη για το μιγαδικό αριθμό, είτε \"i\" είτε \"j\", η προεπιλογή "
 "είναι \"i\""
 
-#: ../plugins/fn-complex/functions.c:85
+#: ../plugins/fn-complex/functions.c:82
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
 msgstr ""
 "Αν το @{i} δεν είναι ούτε \"i\" ούτε \"j\", η συνάρτηση COMPLEX επιστρέφει "
 "#ΤΙΜΗ!"
 
-#: ../plugins/fn-complex/functions.c:86 ../plugins/fn-complex/functions.c:114
-#: ../plugins/fn-complex/functions.c:141 ../plugins/fn-complex/functions.c:165
-#: ../plugins/fn-complex/functions.c:192 ../plugins/fn-complex/functions.c:263
-#: ../plugins/fn-complex/functions.c:289 ../plugins/fn-complex/functions.c:395
-#: ../plugins/fn-complex/functions.c:423 ../plugins/fn-complex/functions.c:449
-#: ../plugins/fn-complex/functions.c:474 ../plugins/fn-complex/functions.c:501
-#: ../plugins/fn-complex/functions.c:528 ../plugins/fn-complex/functions.c:563
-#: ../plugins/fn-complex/functions.c:595
-#: ../plugins/fn-complex/functions.c:1078
-#: ../plugins/fn-complex/functions.c:1105
-#: ../plugins/fn-complex/functions.c:1135
-#: ../plugins/fn-complex/functions.c:1204 ../plugins/fn-date/functions.c:84
+#: ../plugins/fn-complex/functions.c:83 ../plugins/fn-complex/functions.c:111
+#: ../plugins/fn-complex/functions.c:138 ../plugins/fn-complex/functions.c:162
+#: ../plugins/fn-complex/functions.c:189 ../plugins/fn-complex/functions.c:260
+#: ../plugins/fn-complex/functions.c:286 ../plugins/fn-complex/functions.c:392
+#: ../plugins/fn-complex/functions.c:420 ../plugins/fn-complex/functions.c:446
+#: ../plugins/fn-complex/functions.c:471 ../plugins/fn-complex/functions.c:498
+#: ../plugins/fn-complex/functions.c:525 ../plugins/fn-complex/functions.c:560
+#: ../plugins/fn-complex/functions.c:592
+#: ../plugins/fn-complex/functions.c:1075
+#: ../plugins/fn-complex/functions.c:1102
+#: ../plugins/fn-complex/functions.c:1132
+#: ../plugins/fn-complex/functions.c:1201 ../plugins/fn-date/functions.c:84
 #: ../plugins/fn-date/functions.c:197 ../plugins/fn-date/functions.c:219
 #: ../plugins/fn-date/functions.c:354 ../plugins/fn-date/functions.c:389
 #: ../plugins/fn-date/functions.c:406 ../plugins/fn-date/functions.c:431
@@ -281,117 +281,117 @@ msgstr ""
 msgid "This function is Excel compatible."
 msgstr "Η συνάρτηση αυτή είναι συμβατή με το Excel."
 
-#: ../plugins/fn-complex/functions.c:111
+#: ../plugins/fn-complex/functions.c:108
 msgid "IMAGINARY:the imaginary part of the complex number @{z}"
 msgstr "IMAGINARY:το φανταστικό μέρος του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:112 ../plugins/fn-complex/functions.c:139
-#: ../plugins/fn-complex/functions.c:163 ../plugins/fn-complex/functions.c:190
-#: ../plugins/fn-complex/functions.c:215 ../plugins/fn-complex/functions.c:238
-#: ../plugins/fn-complex/functions.c:261 ../plugins/fn-complex/functions.c:287
-#: ../plugins/fn-complex/functions.c:313 ../plugins/fn-complex/functions.c:340
-#: ../plugins/fn-complex/functions.c:366 ../plugins/fn-complex/functions.c:393
-#: ../plugins/fn-complex/functions.c:420 ../plugins/fn-complex/functions.c:444
-#: ../plugins/fn-complex/functions.c:472 ../plugins/fn-complex/functions.c:499
-#: ../plugins/fn-complex/functions.c:593 ../plugins/fn-complex/functions.c:618
-#: ../plugins/fn-complex/functions.c:642 ../plugins/fn-complex/functions.c:667
-#: ../plugins/fn-complex/functions.c:692 ../plugins/fn-complex/functions.c:716
-#: ../plugins/fn-complex/functions.c:741 ../plugins/fn-complex/functions.c:765
-#: ../plugins/fn-complex/functions.c:792 ../plugins/fn-complex/functions.c:819
-#: ../plugins/fn-complex/functions.c:846 ../plugins/fn-complex/functions.c:870
-#: ../plugins/fn-complex/functions.c:895 ../plugins/fn-complex/functions.c:919
-#: ../plugins/fn-complex/functions.c:946 ../plugins/fn-complex/functions.c:974
-#: ../plugins/fn-complex/functions.c:1002
-#: ../plugins/fn-complex/functions.c:1026
-#: ../plugins/fn-complex/functions.c:1051
-#: ../plugins/fn-complex/functions.c:1076
+#: ../plugins/fn-complex/functions.c:109 ../plugins/fn-complex/functions.c:136
+#: ../plugins/fn-complex/functions.c:160 ../plugins/fn-complex/functions.c:187
+#: ../plugins/fn-complex/functions.c:212 ../plugins/fn-complex/functions.c:235
+#: ../plugins/fn-complex/functions.c:258 ../plugins/fn-complex/functions.c:284
+#: ../plugins/fn-complex/functions.c:310 ../plugins/fn-complex/functions.c:337
+#: ../plugins/fn-complex/functions.c:363 ../plugins/fn-complex/functions.c:390
+#: ../plugins/fn-complex/functions.c:417 ../plugins/fn-complex/functions.c:441
+#: ../plugins/fn-complex/functions.c:469 ../plugins/fn-complex/functions.c:496
+#: ../plugins/fn-complex/functions.c:590 ../plugins/fn-complex/functions.c:615
+#: ../plugins/fn-complex/functions.c:639 ../plugins/fn-complex/functions.c:664
+#: ../plugins/fn-complex/functions.c:689 ../plugins/fn-complex/functions.c:713
+#: ../plugins/fn-complex/functions.c:738 ../plugins/fn-complex/functions.c:762
+#: ../plugins/fn-complex/functions.c:789 ../plugins/fn-complex/functions.c:816
+#: ../plugins/fn-complex/functions.c:843 ../plugins/fn-complex/functions.c:867
+#: ../plugins/fn-complex/functions.c:892 ../plugins/fn-complex/functions.c:916
+#: ../plugins/fn-complex/functions.c:943 ../plugins/fn-complex/functions.c:971
+#: ../plugins/fn-complex/functions.c:999
+#: ../plugins/fn-complex/functions.c:1023
+#: ../plugins/fn-complex/functions.c:1048
+#: ../plugins/fn-complex/functions.c:1073
 msgid "z:a complex number"
 msgstr "z:μιγαδικός αριθμός"
 
-#: ../plugins/fn-complex/functions.c:113 ../plugins/fn-complex/functions.c:140
-#: ../plugins/fn-complex/functions.c:164 ../plugins/fn-complex/functions.c:191
-#: ../plugins/fn-complex/functions.c:216 ../plugins/fn-complex/functions.c:239
-#: ../plugins/fn-complex/functions.c:262 ../plugins/fn-complex/functions.c:288
-#: ../plugins/fn-complex/functions.c:315 ../plugins/fn-complex/functions.c:342
-#: ../plugins/fn-complex/functions.c:368 ../plugins/fn-complex/functions.c:394
-#: ../plugins/fn-complex/functions.c:422 ../plugins/fn-complex/functions.c:448
-#: ../plugins/fn-complex/functions.c:473 ../plugins/fn-complex/functions.c:500
-#: ../plugins/fn-complex/functions.c:594 ../plugins/fn-complex/functions.c:619
-#: ../plugins/fn-complex/functions.c:643 ../plugins/fn-complex/functions.c:668
-#: ../plugins/fn-complex/functions.c:693 ../plugins/fn-complex/functions.c:717
-#: ../plugins/fn-complex/functions.c:742 ../plugins/fn-complex/functions.c:768
-#: ../plugins/fn-complex/functions.c:795 ../plugins/fn-complex/functions.c:822
-#: ../plugins/fn-complex/functions.c:847 ../plugins/fn-complex/functions.c:871
-#: ../plugins/fn-complex/functions.c:896 ../plugins/fn-complex/functions.c:922
-#: ../plugins/fn-complex/functions.c:950 ../plugins/fn-complex/functions.c:978
-#: ../plugins/fn-complex/functions.c:1003
-#: ../plugins/fn-complex/functions.c:1027
-#: ../plugins/fn-complex/functions.c:1052
-#: ../plugins/fn-complex/functions.c:1077
+#: ../plugins/fn-complex/functions.c:110 ../plugins/fn-complex/functions.c:137
+#: ../plugins/fn-complex/functions.c:161 ../plugins/fn-complex/functions.c:188
+#: ../plugins/fn-complex/functions.c:213 ../plugins/fn-complex/functions.c:236
+#: ../plugins/fn-complex/functions.c:259 ../plugins/fn-complex/functions.c:285
+#: ../plugins/fn-complex/functions.c:312 ../plugins/fn-complex/functions.c:339
+#: ../plugins/fn-complex/functions.c:365 ../plugins/fn-complex/functions.c:391
+#: ../plugins/fn-complex/functions.c:419 ../plugins/fn-complex/functions.c:445
+#: ../plugins/fn-complex/functions.c:470 ../plugins/fn-complex/functions.c:497
+#: ../plugins/fn-complex/functions.c:591 ../plugins/fn-complex/functions.c:616
+#: ../plugins/fn-complex/functions.c:640 ../plugins/fn-complex/functions.c:665
+#: ../plugins/fn-complex/functions.c:690 ../plugins/fn-complex/functions.c:714
+#: ../plugins/fn-complex/functions.c:739 ../plugins/fn-complex/functions.c:765
+#: ../plugins/fn-complex/functions.c:792 ../plugins/fn-complex/functions.c:819
+#: ../plugins/fn-complex/functions.c:844 ../plugins/fn-complex/functions.c:868
+#: ../plugins/fn-complex/functions.c:893 ../plugins/fn-complex/functions.c:919
+#: ../plugins/fn-complex/functions.c:947 ../plugins/fn-complex/functions.c:975
+#: ../plugins/fn-complex/functions.c:1000
+#: ../plugins/fn-complex/functions.c:1024
+#: ../plugins/fn-complex/functions.c:1049
+#: ../plugins/fn-complex/functions.c:1074
 msgid "If @{z} is not a valid complex number, #VALUE! is returned."
 msgstr "Αν ο @{z} δεν είναι έγκυρος μιγαδικός αριθμός, επιστρέφεται #ΤΙΜΗ!."
 
-#: ../plugins/fn-complex/functions.c:138
+#: ../plugins/fn-complex/functions.c:135
 msgid "IMABS:the absolute value of the complex number @{z}"
 msgstr "IMABS:η απόλυτη τιμή του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:162
+#: ../plugins/fn-complex/functions.c:159
 msgid "IMREAL:the real part of the complex number @{z}"
 msgstr "IMREAL:το πραγματικό μέρος του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:189
+#: ../plugins/fn-complex/functions.c:186
 msgid "IMCONJUGATE:the complex conjugate of the complex number @{z}"
 msgstr "IMCONJUGATE:ο συζυγής μιγαδικός του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:214
+#: ../plugins/fn-complex/functions.c:211
 msgid "IMINV:the reciprocal, or inverse, of the complex number @{z}"
 msgstr "IMINV:ο αντίστροφος, του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:237
+#: ../plugins/fn-complex/functions.c:234
 msgid "IMNEG:the negative of the complex number @{z}"
 msgstr "IMNEG:ο αρνητικός του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:260
+#: ../plugins/fn-complex/functions.c:257
 msgid "IMCOS:the cosine of the complex number @{z}"
 msgstr "IMCOS:το συνημίτονο του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:286
+#: ../plugins/fn-complex/functions.c:283
 msgid "IMTAN:the tangent of the complex number @{z}"
 msgstr "IMTAN:η εφαπτομένη του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:312
+#: ../plugins/fn-complex/functions.c:309
 msgid "IMSEC:the secant of the complex number @{z}"
 msgstr "IMSEC:η τέμνουσα του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:314
+#: ../plugins/fn-complex/functions.c:311
 msgid "IMSEC(@{z}) = 1/IMCOS(@{z})."
 msgstr "IMSEC(@{z}) = 1/IMCOS(@{z})."
 
-#: ../plugins/fn-complex/functions.c:339
+#: ../plugins/fn-complex/functions.c:336
 msgid "IMCSC:the cosecant of the complex number @{z}"
 msgstr "IMCSC:η συντέμνουσα του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:341
+#: ../plugins/fn-complex/functions.c:338
 msgid "IMCSC(@{z}) = 1/IMSIN(@{z})."
 msgstr "IMCSC(@{z}) = 1/IMSIN(@{z})."
 
-#: ../plugins/fn-complex/functions.c:365
+#: ../plugins/fn-complex/functions.c:362
 msgid "IMCOT:the cotangent of the complex number @{z}"
 msgstr "IMCOT:η συνεφαπτομένη του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:367
+#: ../plugins/fn-complex/functions.c:364
 msgid "IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z})."
 msgstr "IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z})."
 
-#: ../plugins/fn-complex/functions.c:392
+#: ../plugins/fn-complex/functions.c:389
 msgid "IMEXP:the exponential of the complex number @{z}"
 msgstr "IMEXP:το εκθετικό του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:419
+#: ../plugins/fn-complex/functions.c:416
 msgid "IMARGUMENT:the argument theta of the complex number @{z} "
 msgstr "IMARGUMENT:το όρισμα θήτα του μιγαδικού αριθμού @{z} "
 
-#: ../plugins/fn-complex/functions.c:421
+#: ../plugins/fn-complex/functions.c:418
 msgid ""
 "The argument theta of a complex number is its angle in radians from the real "
 "axis."
@@ -399,11 +399,11 @@ msgstr ""
 "Το όρισμα θήτα ενός μιγαδικού αριθμού είναι η γωνία του σε ακτίνια από τον "
 "άξονα των πραγματικών."
 
-#: ../plugins/fn-complex/functions.c:443
+#: ../plugins/fn-complex/functions.c:440
 msgid "IMLN:the natural logarithm of the complex number @{z}"
 msgstr "IMLN:ο φυσικός λογάριθμος του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:445
+#: ../plugins/fn-complex/functions.c:442
 msgid ""
 "The result will have an imaginary part between -π and +π.\n"
 "The natural logarithm is not uniquely defined on complex numbers. You may "
@@ -414,76 +414,76 @@ msgstr ""
 "Ενδεχομένως να πρέπει να προσθέσετε ή να αφαιρέσετε ένα περιττό πολλαπλάσιο "
 "του π στο φανταστικό μέρος."
 
-#: ../plugins/fn-complex/functions.c:471
+#: ../plugins/fn-complex/functions.c:468
 msgid "IMLOG2:the base-2 logarithm of the complex number @{z}"
 msgstr "IMLOG2:ο λογάριθμος με βάση 2 του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:498
+#: ../plugins/fn-complex/functions.c:495
 msgid "IMLOG10:the base-10 logarithm of the complex number @{z}"
 msgstr "IMLOG10:ο λογάριθμος με βάση 10 του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:524
+#: ../plugins/fn-complex/functions.c:521
 msgid "IMPOWER:the complex number @{z1} raised to the @{z2}th power"
 msgstr "IMPOWER:ο μιγαδικός αριθμός @{z1} υψωμένος στη δύναμη του @{z2}"
 
-#: ../plugins/fn-complex/functions.c:525 ../plugins/fn-complex/functions.c:560
-#: ../plugins/fn-complex/functions.c:1102
-#: ../plugins/fn-complex/functions.c:1132
-#: ../plugins/fn-complex/functions.c:1201
+#: ../plugins/fn-complex/functions.c:522 ../plugins/fn-complex/functions.c:557
+#: ../plugins/fn-complex/functions.c:1099
+#: ../plugins/fn-complex/functions.c:1129
+#: ../plugins/fn-complex/functions.c:1198
 msgid "z1:a complex number"
 msgstr "z1:ένας μιγαδικός αριθμός"
 
-#: ../plugins/fn-complex/functions.c:526 ../plugins/fn-complex/functions.c:561
-#: ../plugins/fn-complex/functions.c:1103
-#: ../plugins/fn-complex/functions.c:1133
-#: ../plugins/fn-complex/functions.c:1202
+#: ../plugins/fn-complex/functions.c:523 ../plugins/fn-complex/functions.c:558
+#: ../plugins/fn-complex/functions.c:1100
+#: ../plugins/fn-complex/functions.c:1130
+#: ../plugins/fn-complex/functions.c:1199
 msgid "z2:a complex number"
 msgstr "z2:ένας μιγαδικός αριθμός"
 
-#: ../plugins/fn-complex/functions.c:527 ../plugins/fn-complex/functions.c:562
-#: ../plugins/fn-complex/functions.c:1104
+#: ../plugins/fn-complex/functions.c:524 ../plugins/fn-complex/functions.c:559
+#: ../plugins/fn-complex/functions.c:1101
 msgid "If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned."
 msgstr ""
 "Αν το @{z1} ή το @{z2} δεν είναι έγκυρος μιγαδικός αριθμός, επιστρέφεται "
 "#ΤΙΜΗ!."
 
-#: ../plugins/fn-complex/functions.c:559
+#: ../plugins/fn-complex/functions.c:556
 msgid "IMDIV:the quotient of two complex numbers @{z1}/@{z2}"
 msgstr "IMDIV:το πηλίκο των δύο μιγαδικών αριθμών @{z1}/@{z2}"
 
-#: ../plugins/fn-complex/functions.c:592
+#: ../plugins/fn-complex/functions.c:589
 msgid "IMSIN:the sine of the complex number @{z}"
 msgstr "IMSIN:το ημίτονο του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:617
+#: ../plugins/fn-complex/functions.c:614
 msgid "IMSINH:the hyperbolic sine of the complex number @{z}"
 msgstr "IMSINH:το υπερβολικό ημίτονο του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:641
+#: ../plugins/fn-complex/functions.c:638
 msgid "IMCOSH:the hyperbolic cosine of the complex number @{z}"
 msgstr "IMCOSH:το υπερβολικό συνημίτονο του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:666
+#: ../plugins/fn-complex/functions.c:663
 msgid "IMTANH:the hyperbolic tangent of the complex number @{z}"
 msgstr "IMTANH:η υπερβολική εφαπτομένη του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:691
+#: ../plugins/fn-complex/functions.c:688
 msgid "IMSECH:the hyperbolic secant of the complex number @{z}"
 msgstr "IMSECH:η υπερβολική τέμνουσα του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:715
+#: ../plugins/fn-complex/functions.c:712
 msgid "IMCSCH:the hyperbolic cosecant of the complex number @{z}"
 msgstr "IMCSCH:η υπερβολική συντέμνουσα του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:740
+#: ../plugins/fn-complex/functions.c:737
 msgid "IMCOTH:the hyperbolic cotangent of the complex number @{z}"
 msgstr "IMCOTH:η υπερβολική συνεφαπτομένη του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:764
+#: ../plugins/fn-complex/functions.c:761
 msgid "IMARCSIN:the complex arcsine of the complex number @{z}"
 msgstr "IMARCSIN:το μιγαδικό τόξο ημιτόνου του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:766
+#: ../plugins/fn-complex/functions.c:763
 msgid ""
 "IMARCSIN returns the complex arcsine of the complex number @{z}. The branch "
 "cuts are on the real axis, less than -1 and greater than 1."
@@ -492,11 +492,11 @@ msgstr ""
 "αριθμού @{z}. Οι τομές διακλάδωσης είναι στον άξονα των πραγματικών, "
 "μικρότερες από -1 και μεγαλύτερες από 1."
 
-#: ../plugins/fn-complex/functions.c:791
+#: ../plugins/fn-complex/functions.c:788
 msgid "IMARCCOS:the complex arccosine of the complex number "
 msgstr "IMARCCOS:το μιγαδικό τόξο συνημιτόνου του μιγαδικού αριθμού"
 
-#: ../plugins/fn-complex/functions.c:793
+#: ../plugins/fn-complex/functions.c:790
 msgid ""
 "IMARCCOS returns the complex arccosine of the complex number @{z}. The "
 "branch cuts are on the real axis, less than -1 and greater than 1."
@@ -505,11 +505,11 @@ msgstr ""
 "αριθμού @{z}. Οι τομές διακλάδωσης είναι στον άξονα των πραγματικών, "
 "μικρότερες από -1 και μεγαλύτερες από 1."
 
-#: ../plugins/fn-complex/functions.c:818
+#: ../plugins/fn-complex/functions.c:815
 msgid "IMARCTAN:the complex arctangent of the complex number "
 msgstr "IMARCTAN:το μιγαδικό τόξο εφαπτομένης του μιγαδικού αριθμού"
 
-#: ../plugins/fn-complex/functions.c:820
+#: ../plugins/fn-complex/functions.c:817
 msgid ""
 "IMARCTAN returns the complex arctangent of the complex number @{z}. The "
 "branch cuts are on the imaginary axis, below -i and above i."
@@ -518,24 +518,24 @@ msgstr ""
 "αριθμού @{z}. Οι τομές διακλάδωσης είναι στο άξονα των φανταστικών, κάτω από "
 "-i και πάνω από i."
 
-#: ../plugins/fn-complex/functions.c:845
+#: ../plugins/fn-complex/functions.c:842
 msgid "IMARCSEC:the complex arcsecant of the complex number @{z}"
 msgstr "IMARCSEC:το μιγαδικό τόξο τέμνουσας του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:869
+#: ../plugins/fn-complex/functions.c:866
 msgid "IMARCCSC:the complex arccosecant of the complex number @{z}"
 msgstr "IMARCCSC:το μιγαδικό τόξο συντέμνουσας του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:894
+#: ../plugins/fn-complex/functions.c:891
 msgid "IMARCCOT:the complex arccotangent of the complex number @{z}"
 msgstr "IMARCCOT:το μιγαδικό τόξο συνεφαπτομένης του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:918
+#: ../plugins/fn-complex/functions.c:915
 msgid "IMARCSINH:the complex hyperbolic arcsine of the complex number @{z}"
 msgstr ""
 "IMARCSINH:το μιγαδικό υπερβολικό τόξο ημιτόνου του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:920
+#: ../plugins/fn-complex/functions.c:917
 msgid ""
 "IMARCSINH returns the complex hyperbolic arcsine of the complex number @"
 "{z}.  The branch cuts are on the imaginary axis, below -i and above i."
@@ -544,12 +544,12 @@ msgstr ""
 "μιγαδικού αριθμού @{z}.  Οι τομές διακλάδωσης είναι στον άξονα των "
 "φανταστικών, κάτω από -i και πάνω από i."
 
-#: ../plugins/fn-complex/functions.c:945
+#: ../plugins/fn-complex/functions.c:942
 msgid "IMARCCOSH:the complex hyperbolic arccosine of the complex number @{z}"
 msgstr ""
 "IMARCCOSH:το μιγαδικό υπερβολικό τόξο συνημιτόνου του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:947
+#: ../plugins/fn-complex/functions.c:944
 msgid ""
 "IMARCCOSH returns the complex hyperbolic arccosine of the complex number @"
 "{z}. The branch cut is on the real axis, less than 1."
@@ -558,12 +558,12 @@ msgstr ""
 "μιγαδικού αριθμού @{z}. Η τομή διακλάδωσης είναι στον άξονα των πραγματικών, "
 "μικρότερη από 1."
 
-#: ../plugins/fn-complex/functions.c:973
+#: ../plugins/fn-complex/functions.c:970
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
 msgstr ""
 "IMARCTANH:το μιγαδικό υπερβολικό τόξο εφαπτομένης του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:975
+#: ../plugins/fn-complex/functions.c:972
 msgid ""
 "IMARCTANH returns the complex hyperbolic arctangent of the complex number @"
 "{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
@@ -572,37 +572,37 @@ msgstr ""
 "μιγαδικού αριθμού @{z}. Οι τομές διακλάδωσης είναι στον άξονα των "
 "πραγματικών, μικρότερες από -1 και μεγαλύτερες από 1."
 
-#: ../plugins/fn-complex/functions.c:1001
+#: ../plugins/fn-complex/functions.c:998
 msgid "IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}"
 msgstr ""
 "IMARCSECH:το μιγαδικό υπερβολικό τόξο τέμνουσας του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:1025
+#: ../plugins/fn-complex/functions.c:1022
 msgid "IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
 msgstr ""
 "IMARCCSCH:το μιγαδικό υπερβολικό τόξο συντέμνουσας του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:1050
+#: ../plugins/fn-complex/functions.c:1047
 msgid ""
 "IMARCCOTH:the complex hyperbolic arccotangent of the complex number @{z}"
 msgstr ""
 "IMARCCOTH:το μιγαδικό υπερβολικό τόξο συνεφαπτομένης του μιγαδικού αριθμού @"
 "{z}"
 
-#: ../plugins/fn-complex/functions.c:1075
+#: ../plugins/fn-complex/functions.c:1072
 msgid "IMSQRT:the square root of the complex number @{z}"
 msgstr "IMSQRT:η τετραγωνική ρίζα του μιγαδικού αριθμού @{z}"
 
-#: ../plugins/fn-complex/functions.c:1101
+#: ../plugins/fn-complex/functions.c:1098
 msgid "IMSUB:the difference of two complex numbers"
 msgstr "IMSUB:η διαφορά των δύο μιγαδικών αριθμών"
 
-#: ../plugins/fn-complex/functions.c:1131
+#: ../plugins/fn-complex/functions.c:1128
 msgid "IMPRODUCT:the product of the given complex numbers"
 msgstr "IMPRODUCT:το γινόμενο των δοθέντων μιγαδικών αριθμών"
 
-#: ../plugins/fn-complex/functions.c:1134
-#: ../plugins/fn-complex/functions.c:1203
+#: ../plugins/fn-complex/functions.c:1131
+#: ../plugins/fn-complex/functions.c:1200
 msgid ""
 "If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is "
 "returned."
@@ -610,7 +610,7 @@ msgstr ""
 "Αν οποιοδήποτε από τα @{z1}, @{z2},... δεν είναι έγκυρος μιγαδικός αριθμός, "
 "επιστρέφεται #ΤΙΜΗ!."
 
-#: ../plugins/fn-complex/functions.c:1200
+#: ../plugins/fn-complex/functions.c:1197
 msgid "IMSUM:the sum of the given complex numbers"
 msgstr "IMSUM:το άθροισμα των δοσμένων μιγαδικών αριθμών"
 
@@ -2518,8 +2518,8 @@ msgstr ""
 "BASE:συμβολοσειρά με ψηφία που αντιπροσωπεύουν τον αριθμό @{n} στη βάση @{b}"
 
 #: ../plugins/fn-eng/functions.c:206 ../plugins/fn-math/functions.c:1327
-#: ../plugins/fn-numtheory/numtheory.c:578
-#: ../plugins/fn-numtheory/numtheory.c:608
+#: ../plugins/fn-numtheory/numtheory.c:612
+#: ../plugins/fn-numtheory/numtheory.c:642
 msgid "n:integer"
 msgstr "n:ακέραιος"
 
@@ -6553,13 +6553,14 @@ msgstr ""
 msgid "FIB:Fibonacci numbers"
 msgstr "FIB:Αριθμοί Φιμπονάτσι"
 
-#: ../plugins/fn-math/functions.c:1818 ../plugins/fn-numtheory/numtheory.c:219
+#: ../plugins/fn-math/functions.c:1818 ../plugins/fn-numtheory/numtheory.c:220
 #: ../plugins/fn-numtheory/numtheory.c:253
-#: ../plugins/fn-numtheory/numtheory.c:294
-#: ../plugins/fn-numtheory/numtheory.c:326
-#: ../plugins/fn-numtheory/numtheory.c:386
-#: ../plugins/fn-numtheory/numtheory.c:442
-#: ../plugins/fn-numtheory/numtheory.c:473
+#: ../plugins/fn-numtheory/numtheory.c:287
+#: ../plugins/fn-numtheory/numtheory.c:328
+#: ../plugins/fn-numtheory/numtheory.c:360
+#: ../plugins/fn-numtheory/numtheory.c:420
+#: ../plugins/fn-numtheory/numtheory.c:476
+#: ../plugins/fn-numtheory/numtheory.c:507
 msgid "n:positive integer"
 msgstr "n:θετικός αριθμός"
 
@@ -6991,11 +6992,20 @@ msgstr ""
 "Αν ο @{matrix} δεν περιέχει ίσο αριθμό στηλών και γραμμών, η συνάρτηση EIGEN "
 "επιστρέφει #ΤΙΜΗ!"
 
-#: ../plugins/fn-numtheory/numtheory.c:218
+#: ../plugins/fn-numtheory/numtheory.c:219
+msgid "NT_OMEGA:Numer of distinct prime factors"
+msgstr "NT_OMEGA:Ο αριθμός των διακριτών πρώτων παραγόντων"
+
+#: ../plugins/fn-numtheory/numtheory.c:221
+msgid "Returns the number of distinct prime factors without multiplicity."
+msgstr ""
+"Επιστρέφει τον αριθμό των διακριτών πρώτων παραγόντων χωρίς πολλαπλότητα."
+
+#: ../plugins/fn-numtheory/numtheory.c:252
 msgid "NT_PHI:Euler's totient function"
 msgstr "NT_PHI:η συνάρτηση φ του Όιλερ"
 
-#: ../plugins/fn-numtheory/numtheory.c:220
+#: ../plugins/fn-numtheory/numtheory.c:254
 msgid ""
 "Euler's totient function gives the number of integers less than or equal to @"
 "{n} that are relatively prime (coprime) to @{n}."
@@ -7004,15 +7014,15 @@ msgstr ""
 "μικρότεροι ή ίσοι με @{n} και είναι σχετικά πρώτοι (πρώτοι προς αλλήλους) "
 "στο @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:223
+#: ../plugins/fn-numtheory/numtheory.c:257
 msgid "wiki:en:Euler's_totient_function"
 msgstr "wiki:el:Συνάρτηση_φ_Οιλερ"
 
-#: ../plugins/fn-numtheory/numtheory.c:252
+#: ../plugins/fn-numtheory/numtheory.c:286
 msgid "NT_MU:Möbius mu function"
 msgstr "NT_MU:συνάρτηση Möbius mu"
 
-#: ../plugins/fn-numtheory/numtheory.c:255
+#: ../plugins/fn-numtheory/numtheory.c:289
 msgid ""
 "NT_MU function (Möbius mu function) returns 0  if @{n} is divisible by the "
 "square of a prime. Otherwise, if @{n} has an odd  number of different prime "
@@ -7025,121 +7035,121 @@ msgstr ""
 "έχει άρτιο αριθμό διαφορετικών άρτιων παραγόντων, τότε επιστρέφει 1. Αν @{n} "
 "= 1, η NT_MU επιστρέφει 1."
 
-#: ../plugins/fn-numtheory/numtheory.c:262
+#: ../plugins/fn-numtheory/numtheory.c:296
 msgid "wiki:en:Möbius_function"
 msgstr "wiki:el:Συνάρτηση_Möbius"
 
-#: ../plugins/fn-numtheory/numtheory.c:263
+#: ../plugins/fn-numtheory/numtheory.c:297
 msgid "wolfram:MoebiusFunction.html"
 msgstr "wolfram:MoebiusFunction.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:293
+#: ../plugins/fn-numtheory/numtheory.c:327
 msgid "NT_D:number of divisors"
 msgstr "NT_D:ο αριθμός διαιρετών"
 
-#: ../plugins/fn-numtheory/numtheory.c:295
+#: ../plugins/fn-numtheory/numtheory.c:329
 msgid "NT_D calculates the number of divisors of @{n}."
 msgstr "Η συνάρτηση NT_D υπολογίζειτον αριθμό των διαιρετών του @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:325
+#: ../plugins/fn-numtheory/numtheory.c:359
 msgid "NT_SIGMA:sigma function"
 msgstr "NT_SIGMA:συνάρτηση σίγμα"
 
-#: ../plugins/fn-numtheory/numtheory.c:327
+#: ../plugins/fn-numtheory/numtheory.c:361
 msgid "NT_SIGMA calculates the sum of the divisors of @{n}."
 msgstr "Η συνάρτηση NT_SIGMA υπολογίζει το άθροισμα των διαιρετών του @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:330
+#: ../plugins/fn-numtheory/numtheory.c:364
 msgid "wiki:en:Divisor_function"
 msgstr "wiki:el:Συνάρτηση_διαιρέτη"
 
-#: ../plugins/fn-numtheory/numtheory.c:359
+#: ../plugins/fn-numtheory/numtheory.c:393
 msgid "ITHPRIME:@{i}th prime"
 msgstr "ITHPRIME:ο @{i}ος πρώτος αριθμός"
 
-#: ../plugins/fn-numtheory/numtheory.c:360
+#: ../plugins/fn-numtheory/numtheory.c:394
 msgid "i:positive integer"
 msgstr "i:θετικός ακέραιος"
 
-#: ../plugins/fn-numtheory/numtheory.c:361
+#: ../plugins/fn-numtheory/numtheory.c:395
 msgid "ITHPRIME finds the @{i}th prime."
 msgstr "Η συνάρτηση ITHPRIME επιστρέφει τον @{i}ο πρώτο αριθμό."
 
-#: ../plugins/fn-numtheory/numtheory.c:385
+#: ../plugins/fn-numtheory/numtheory.c:419
 msgid "ISPRIME:whether @{n} is prime"
 msgstr "ISPRIME:αν ο @{n} είναι πρώτος αριθμός"
 
-#: ../plugins/fn-numtheory/numtheory.c:387
+#: ../plugins/fn-numtheory/numtheory.c:421
 msgid "ISPRIME returns TRUE if @{n} is prime and FALSE otherwise."
 msgstr ""
 "Η συνάρτηση ISPRIME επιστρέφει ΑΛΗΘΗΣ αν ο @{n} είναι πρώτος και ΨΕΥΔΗΣ "
 "ειδάλλως."
 
-#: ../plugins/fn-numtheory/numtheory.c:390
+#: ../plugins/fn-numtheory/numtheory.c:424
 msgid "wolfram:PrimeNumber.html"
 msgstr "wolfram:PrimeNumber.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:441
+#: ../plugins/fn-numtheory/numtheory.c:475
 msgid "PFACTOR:smallest prime factor"
 msgstr "PFACTOR:ο μικρότερος πρώτος παράγοντας"
 
-#: ../plugins/fn-numtheory/numtheory.c:443
+#: ../plugins/fn-numtheory/numtheory.c:477
 msgid "PFACTOR finds the smallest prime factor of its argument."
 msgstr ""
 "Η συνάρτηση PFACTOR επιστρέφει το μικρότερο πρώτο παράγοντα των ορισμάτων "
 "της."
 
-#: ../plugins/fn-numtheory/numtheory.c:444
+#: ../plugins/fn-numtheory/numtheory.c:478
 msgid ""
 "The argument @{n} must be at least 2. Otherwise a #VALUE! error is returned."
 msgstr ""
 "Το όρισμα @{n} πρέπει να είναι τουλάχιστον 2. Ειδάλλως επιστρέφεται το "
 "σφάλμα #ΤΙΜΗ!."
 
-#: ../plugins/fn-numtheory/numtheory.c:472
+#: ../plugins/fn-numtheory/numtheory.c:506
 msgid "NT_PI:number of primes upto @{n}"
 msgstr "NT_PI:ο αριθμός των πρώτων αριθμών μέχρι το @{n}"
 
-#: ../plugins/fn-numtheory/numtheory.c:474
+#: ../plugins/fn-numtheory/numtheory.c:508
 msgid "NT_PI returns the number of primes less than or equal to @{n}."
 msgstr ""
 "Η συνάρτηση NT_PI επιστρέφει το πλήθος των πρώτων αριθμών που είναι ίσοι ή "
 "μικρότεροι από το @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:477
+#: ../plugins/fn-numtheory/numtheory.c:511
 msgid "wolfram:PrimeCountingFunction.html"
 msgstr "wolfram:PrimeCountingFunction.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:503
+#: ../plugins/fn-numtheory/numtheory.c:537
 msgid "BITOR:bitwise or"
 msgstr "BITOR:λογική διάζευξη"
 
-#: ../plugins/fn-numtheory/numtheory.c:504
-#: ../plugins/fn-numtheory/numtheory.c:528
-#: ../plugins/fn-numtheory/numtheory.c:552
-#: ../plugins/fn-numtheory/numtheory.c:577
-#: ../plugins/fn-numtheory/numtheory.c:607
+#: ../plugins/fn-numtheory/numtheory.c:538
+#: ../plugins/fn-numtheory/numtheory.c:562
+#: ../plugins/fn-numtheory/numtheory.c:586
+#: ../plugins/fn-numtheory/numtheory.c:611
+#: ../plugins/fn-numtheory/numtheory.c:641
 msgid "a:non-negative integer"
 msgstr "a:μη-αρνητικός ακέραιος"
 
-#: ../plugins/fn-numtheory/numtheory.c:505
-#: ../plugins/fn-numtheory/numtheory.c:529
-#: ../plugins/fn-numtheory/numtheory.c:553
+#: ../plugins/fn-numtheory/numtheory.c:539
+#: ../plugins/fn-numtheory/numtheory.c:563
+#: ../plugins/fn-numtheory/numtheory.c:587
 msgid "b:non-negative integer"
 msgstr "b:μη-αρνητικός ακέραιος"
 
-#: ../plugins/fn-numtheory/numtheory.c:506
+#: ../plugins/fn-numtheory/numtheory.c:540
 msgid ""
 "BITOR returns the bitwise or of the binary representations of its arguments."
 msgstr ""
 "Η συνάρτηση BITOR επιστρέφει τη λογική διάζευξη των δυαδικών απεικονίσεων "
 "των ορισμάτων της."
 
-#: ../plugins/fn-numtheory/numtheory.c:527
+#: ../plugins/fn-numtheory/numtheory.c:561
 msgid "BITXOR:bitwise exclusive or"
 msgstr "BITXOR:αποκλειστική λογική διάζευξη"
 
-#: ../plugins/fn-numtheory/numtheory.c:530
+#: ../plugins/fn-numtheory/numtheory.c:564
 msgid ""
 "BITXOR returns the bitwise exclusive or of the binary representations of its "
 "arguments."
@@ -7147,11 +7157,11 @@ msgstr ""
 "Η συνάρτηση BITXOR επιστρέφει την αποκλειστική λογική διάζευξη των δυαδικών "
 "απεικονίσεων των ορισμάτων της."
 
-#: ../plugins/fn-numtheory/numtheory.c:551
+#: ../plugins/fn-numtheory/numtheory.c:585
 msgid "BITAND:bitwise and"
 msgstr "BITAND:λογική σύζευξη"
 
-#: ../plugins/fn-numtheory/numtheory.c:554
+#: ../plugins/fn-numtheory/numtheory.c:588
 msgid ""
 "BITAND returns the bitwise and of the binary representations of its "
 "arguments."
@@ -7159,11 +7169,11 @@ msgstr ""
 "Η συνάρτηση BITAND επιστρέφει τη λογική σύζευξη των δυαδικών απεικονίσεων "
 "των ορισμάτων της."
 
-#: ../plugins/fn-numtheory/numtheory.c:576
+#: ../plugins/fn-numtheory/numtheory.c:610
 msgid "BITLSHIFT:bit-shift to the left"
 msgstr "BITLSHIFT:μετατόπιση δυαδικού αριστερά"
 
-#: ../plugins/fn-numtheory/numtheory.c:579
+#: ../plugins/fn-numtheory/numtheory.c:613
 msgid ""
 "BITLSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the left."
@@ -7171,7 +7181,7 @@ msgstr ""
 "Η συνάρτηση BITLSHIFT επιστρέφει τις δυαδικές απεικονίσεις του @{a} "
 "μετατοπισμένες κατά @{n} θέσεις στα αριστερά."
 
-#: ../plugins/fn-numtheory/numtheory.c:580
+#: ../plugins/fn-numtheory/numtheory.c:614
 msgid ""
 "If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) "
 "positions."
@@ -7179,11 +7189,11 @@ msgstr ""
 "Αν το @{n} είναι αρνητικό, η συνάρτηση BITLSHIFT μετατοπίζει τα δυαδικά "
 "ψηφία στα δεξιά κατά ABS(@{n}) θέσεις."
 
-#: ../plugins/fn-numtheory/numtheory.c:606
+#: ../plugins/fn-numtheory/numtheory.c:640
 msgid "BITRSHIFT:bit-shift to the right"
 msgstr "BITRSHIFT:μετατόπιση δυαδικού ψηφίου προς τα δεξιά"
 
-#: ../plugins/fn-numtheory/numtheory.c:609
+#: ../plugins/fn-numtheory/numtheory.c:643
 msgid ""
 "BITRSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the right."
@@ -7191,7 +7201,7 @@ msgstr ""
 "Η συνάρτηση BITRSHIFT επιστρέφει τις δυαδικές απεικονίσεις του @{a} "
 "μετατοπισμένες κατά @{n} θέσεις προς τα δεξιά."
 
-#: ../plugins/fn-numtheory/numtheory.c:610
+#: ../plugins/fn-numtheory/numtheory.c:644
 msgid ""
 "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) "
 "positions."
@@ -8015,17 +8025,12 @@ msgstr ""
 "κανονικής κατανομής."
 
 #: ../plugins/fn-r/functions.c:1239
-#| msgid "R.QNORM:probability quantile function of the normal distribution"
 msgid "R.QSNORM:probability quantile function of the skew-normal distribution"
 msgstr ""
 "R.QNORM:η συνάρτηση πιθανότητας του ποσοστημορίου της λοξής κανονικής "
 "κατανομής"
 
 #: ../plugins/fn-r/functions.c:1246
-#| msgid ""
-#| "This function returns the probability quantile function, i.e., the "
-#| "inverse of the cumulative distribution function, of the normal "
-#| "distribution."
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the skew-normal distribution."
@@ -8047,14 +8052,10 @@ msgstr ""
 "κατανομής t."
 
 #: ../plugins/fn-r/functions.c:1293
-#| msgid "R.PBETA:cumulative distribution function of the beta distribution"
 msgid "R.PST:cumulative distribution function of the skew-t distribution"
 msgstr "R.PST:η αθροιστική συνάρτηση κατανομής της λοξής κατανομής t"
 
 #: ../plugins/fn-r/functions.c:1299
-#| msgid ""
-#| "This function returns the cumulative distribution function of the beta "
-#| "distribution."
 msgid ""
 "This function returns the cumulative distribution function of the skew-t "
 "distribution."
@@ -8063,14 +8064,10 @@ msgstr ""
 "κατανομής t."
 
 #: ../plugins/fn-r/functions.c:1320
-#| msgid "R.QBETA:probability quantile function of the beta distribution"
 msgid "R.QST:probability quantile function of the skew-t distribution"
 msgstr "R.QST:η συνάρτηση ποσοστιαίας πιθανότητας της λοξής κατανομής t"
 
 #: ../plugins/fn-r/functions.c:1326
-#| msgid ""
-#| "This function returns the probability quantile function, i.e., the "
-#| "inverse of the cumulative distribution function, of the beta distribution."
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the skew-t distribution."
@@ -9045,12 +9042,10 @@ msgid "OWENT:Owen's T function"
 msgstr "OWENT:Η συνάρτηση Τ του Owen"
 
 #: ../plugins/fn-stat/functions.c:492
-#| msgid "X:number"
 msgid "h:number"
 msgstr "h:αριθμός"
 
 #: ../plugins/fn-stat/functions.c:493
-#| msgid "X:number"
 msgid "a:number"
 msgstr "a:αριθμός"
 
@@ -11923,7 +11918,7 @@ msgstr ""
 msgid "FOURIER:Fourier or inverse Fourier transform"
 msgstr "FOURIER:Μετασχηματισμός Φουριέ και αντίστροφος μετασχηματισμός Φουριέ"
 
-#: ../plugins/fn-tsa/functions.c:827 ../plugins/fn-tsa/functions.c:926
+#: ../plugins/fn-tsa/functions.c:827 ../plugins/fn-tsa/functions.c:923
 msgid "Sequence:the data sequence to be transformed"
 msgstr "Sequence:η ακολουθία δεδομένων που θα μετασχηματιστεί"
 
@@ -11968,7 +11963,7 @@ msgstr ""
 "Εάν το @{Separate} είναι αληθές η πρώτη στήλη εξόδου περιέχει τα πραγματικά "
 "μέρη και η δεύτερη στήλη τα φανταστικά μέρη."
 
-#: ../plugins/fn-tsa/functions.c:833 ../plugins/fn-tsa/functions.c:930
+#: ../plugins/fn-tsa/functions.c:833 ../plugins/fn-tsa/functions.c:927
 msgid ""
 "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns "
 "#VALUE!"
@@ -11976,15 +11971,15 @@ msgstr ""
 "Αν η @{Sequence} δεν είναι πίνακας ούτε n επί 1 ούτε 1 επί n, αυτή η "
 "συνάρτηση επιστρέφει #ΤΙΜΗ!"
 
-#: ../plugins/fn-tsa/functions.c:925
+#: ../plugins/fn-tsa/functions.c:922
 msgid "HPFILTER:Hodrick Prescott Filter"
 msgstr "HPFILTER:Φίλτρο Χόντρικ Πρέσκοτ"
 
-#: ../plugins/fn-tsa/functions.c:927
+#: ../plugins/fn-tsa/functions.c:924
 msgid "λ:filter parameter λ, defaults to 1600"
 msgstr "d:παράμετρος φίλτρου λ, η προεπιλογή είναι 1600"
 
-#: ../plugins/fn-tsa/functions.c:928
+#: ../plugins/fn-tsa/functions.c:925
 msgid ""
 "This array function returns the trend and cyclical components obtained by "
 "applying the Hodrick Prescott Filter with parameter @{λ} to the given data "
@@ -11994,7 +11989,7 @@ msgstr ""
 "παίρνονται εφαρμόζοντας το φίλτρο Χόντρικ Πρέσκοτ με παράμετρο @{λ} στη "
 "δεδομένη σειρά δεδομένων."
 
-#: ../plugins/fn-tsa/functions.c:929
+#: ../plugins/fn-tsa/functions.c:926
 msgid ""
 "The output consists of two columns of numbers, the first containing the "
 "trend component, the second the cyclical component."
@@ -12002,7 +11997,7 @@ msgstr ""
 "Η έξοδος αποτελείται από δύο στήλες αριθμών, η πρώτη περιέχει το συστατικό "
 "τάσης, το δεύτερο το κυκλικό συστατικό."
 
-#: ../plugins/fn-tsa/functions.c:931
+#: ../plugins/fn-tsa/functions.c:928
 msgid ""
 "If @{Sequence} contians less than 6 numerical values, this function returns "
 "#VALUE!"
