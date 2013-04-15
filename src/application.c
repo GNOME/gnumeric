@@ -757,6 +757,7 @@ add_icon (GtkIconFactory *factory,
 		gtk_icon_source_set_pixbuf (src, pix);
 		gtk_icon_set_add_source (set, src);
 		g_object_unref (pix);
+		g_free (res);
 	}
 
 	gtk_icon_factory_add (factory, stock_id, set);

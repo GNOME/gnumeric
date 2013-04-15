@@ -1,5 +1,7 @@
 2013-04-15  Morten Welinder  <terra@gnome.org>
 
+	* src/application.c (add_icon): Plug leak.
+
 	* src/number-match.c (format_match_decimal_number): Try also major
 	non-locale currencies.  Fixes #577768.
 
