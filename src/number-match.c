@@ -1103,26 +1103,21 @@ format_match_decimal_number_with_locale (char const *text, GOFormatFamily *famil
 	}
 }
 
-static GnmValue *
-format_match_decimal_number (char const *text, GOFormatFamily *family)
-{
-	GString const *curr = go_locale_get_currency (NULL, NULL);
-	GString const *thousand = go_locale_get_thousand ();
-	GString const *decimal = go_locale_get_decimal ();
-
-	return format_match_decimal_number_with_locale (text, family, curr, thousand, decimal);
-}
-
 #undef DO_SIGN
 #undef SKIP_SPACES
 #undef SKIP_DIGITS
 
 static void
-set_money_format (GnmValue *v)
+set_money_format (GnmValue *v, const char *fmttxt)
 {
 	gnm_float f = value_get_as_float (v);
 
-	value_set_fmt (v, go_format_default_money ());
+	if (fmttxt) {
+		GOFormat *fmt = go_format_new_from_XL (fmttxt);
+		value_set_fmt (v, fmt);
+		go_format_unref (fmt);
+	} else
+		value_set_fmt (v, go_format_default_money ());
 
 	if (f != gnm_floor (f)) {
 		int i;
@@ -1135,6 +1130,49 @@ set_money_format (GnmValue *v)
 	}
 }
 
+/*
+ * Major alternate currencies to try after the locale's currency.
+ * We do not want three-letter currency codes in here.
+ */
+static const struct {
+	const char *sym;
+	const char *fmt;
+} alternate_currencies[] = {
+	{ "€", "[$€-2]0" },
+	{ "£", "£0" },
+	{ "¥", "¥0" },
+	{ "$", "$0" }
+};
+
+static GnmValue *
+format_match_decimal_number (char const *text, GOFormatFamily *family,
+			     gboolean try_alternates)
+{
+	GString const *curr = go_locale_get_currency (NULL, NULL);
+	GString const *thousand = go_locale_get_thousand ();
+	GString const *decimal = go_locale_get_decimal ();
+	GnmValue *v;
+	unsigned ui;
+
+	v = format_match_decimal_number_with_locale (text, family, curr, thousand, decimal);
+	for (ui = 0;
+	     try_alternates && v == NULL && ui < G_N_ELEMENTS (alternate_currencies);
+	     ui++) {
+		const char *sym = alternate_currencies[ui].sym;
+		if (strstr (text, sym) == 0)
+			continue;
+		else {
+			GString *altcurr = g_string_new (sym);
+			v = format_match_decimal_number_with_locale
+				(text, family, altcurr, thousand, decimal);
+			g_string_free (altcurr, TRUE);
+			if (v)
+				set_money_format (v, alternate_currencies[ui].fmt);
+		}
+	}
+
+	return v;
+}
 
 /**
  * format_match:
@@ -1170,7 +1208,7 @@ format_match (char const *text, GOFormat const *cur_fmt,
 	case GO_FORMAT_ACCOUNTING:
 	case GO_FORMAT_PERCENTAGE:
 	case GO_FORMAT_SCIENTIFIC:
-		v = format_match_decimal_number (text, &fam);
+		v = format_match_decimal_number (text, &fam, FALSE);
 		if (!v)
 			v = value_is_error (text);
 		if (v)
@@ -1186,7 +1224,7 @@ format_match (char const *text, GOFormat const *cur_fmt,
 					   FALSE,
 					   TRUE);
 		if (!v)
-			v = format_match_decimal_number (text, &fam);
+			v = format_match_decimal_number (text, &fam, FALSE);
 		if (!v)
 			v = value_is_error (text);
 		if (v)
@@ -1208,7 +1246,7 @@ format_match (char const *text, GOFormat const *cur_fmt,
 		if (!v)
 			v = format_match_time (text, TRUE, prefer_hour, FALSE);
 		if (!v)
-			v = format_match_decimal_number (text, &fam);
+			v = format_match_decimal_number (text, &fam, FALSE);
 		if (!v)
 			v = value_is_error (text);
 		if (v)
@@ -1219,7 +1257,7 @@ format_match (char const *text, GOFormat const *cur_fmt,
 	case GO_FORMAT_FRACTION:
 		v = format_match_fraction (text, &denlen, FALSE);
 		if (!v)
-			v = format_match_decimal_number (text, &fam);
+			v = format_match_decimal_number (text, &fam, FALSE);
 		if (!v)
 			v = value_is_error (text);
 		if (v)
@@ -1235,14 +1273,15 @@ format_match (char const *text, GOFormat const *cur_fmt,
 	if (v != NULL)
 		return v;
 
-	v = format_match_decimal_number (text, &fam);
+	v = format_match_decimal_number (text, &fam, TRUE);
 	if (v) {
 		switch (fam) {
 		case GO_FORMAT_PERCENTAGE:
 			value_set_fmt (v, go_format_default_percentage ());
 			break;
 		case GO_FORMAT_CURRENCY:
-			set_money_format (v);
+			if (!VALUE_FMT (v))
+				set_money_format (v, NULL);
 			break;
 		case GO_FORMAT_ACCOUNTING:
 			value_set_fmt (v, go_format_default_accounting ());
