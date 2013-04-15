@@ -8,6 +8,9 @@
 	(excel_parse_name): Add argument for array data length.  All
 	callers changed.  Fixes #654211.
 
+	* ms-excel-write.c (excel_write_PAGE_BREAK): Make implied cast of
+	columnm/row number to guint16 explicit.  See #693979.
+
 2013-04-14  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_NAME): Store the name's length in
