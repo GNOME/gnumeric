@@ -942,7 +942,11 @@ write_arrays (PolishData *pd)
 			for (x = 0; x < array->v_array.x; x++) {
 				GnmValue const *v = array->v_array.vals[x][y];
 
-				if (VALUE_IS_BOOLEAN (v)) {
+				if (VALUE_IS_EMPTY (v)) {
+					push_guint8 (pd, 0);
+					push_guint32 (pd, 0);
+					push_guint32 (pd, 0);
+				} else if (VALUE_IS_BOOLEAN (v)) {
 					push_guint8 (pd, 4);
 					push_guint32 (pd, v->v_bool.val ? 1 : 0);
 					push_guint32 (pd, 0);

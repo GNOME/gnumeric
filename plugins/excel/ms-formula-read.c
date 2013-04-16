@@ -1343,6 +1343,11 @@ excel_parse_formula1 (MSContainer const *container,
 					}
 #endif
 					switch (val_type) {
+					case 0:
+						CHECK_FORMULA_ARRAY_LEN(8);
+						elem = value_new_empty ();
+						array_data += 8;
+						break;
 					case 1:
 						CHECK_FORMULA_ARRAY_LEN(8);
 						elem = value_new_float (gsf_le_get_double (array_data));
@@ -1383,10 +1388,12 @@ excel_parse_formula1 (MSContainer const *container,
 					case 4:
 						CHECK_FORMULA_ARRAY_LEN(8);
 						elem = value_new_bool (array_data[0] ? TRUE : FALSE);
+						array_data += 8;
 						break;
 					case 16:
 						CHECK_FORMULA_ARRAY_LEN(8);
 						elem = xls_value_new_err (NULL, array_data[0]);
+						array_data += 8;
 						break;
 
 					default :

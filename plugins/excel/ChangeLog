@@ -1,3 +1,13 @@
+2013-04-15  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-write.c (write_arrays): Handle empty values properly.
+
+	* ms-formula-read.c (excel_parse_formula1): Handle empty values in
+	array constants.  Fix handling of booleans and errors in array
+	constants.
+	(excel_parse_name): Add argument for array data length.  All
+	callers changed.  Fixes #654211.
+
 2013-04-14  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_NAME): Store the name's length in

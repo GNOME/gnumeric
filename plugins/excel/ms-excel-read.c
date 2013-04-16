@@ -3644,6 +3644,7 @@ excel_builtin_name (guint8 const *ptr)
 static GnmNamedExpr *
 excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 		  guint8 const *expr_data, unsigned expr_len,
+		  unsigned array_data_len,
 		  gboolean link_to_container,
 		  GnmNamedExpr *stub)
 {
@@ -3661,7 +3662,8 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 		texpr = gnm_expr_top_new_constant (value_new_error_NAME (NULL));
 	} else {
 		texpr = excel_parse_formula (&importer->container, NULL, 0, 0,
-					     expr_data, expr_len, 0 /* FIXME? */,
+					     expr_data, expr_len,
+					     array_data_len,
 					     TRUE, NULL);
 
 		if (texpr == NULL) {
@@ -3781,6 +3783,7 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 	MsBiffVersion const ver = container->importer->ver;
 	GnmNamedExpr *nexpr = NULL;
 	char *name = NULL;
+	unsigned array_data_len = 0;  /* Is this always true? */
 
 	d (2, {
 			g_printerr ("EXTERNNAME\n");
@@ -3822,19 +3825,22 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 				       name ? name : "NULL");
 
 		nexpr = excel_parse_name (container->importer, NULL,
-					  name, expr_data, expr_len, FALSE, NULL);
+					  name, expr_data, expr_len,
+					  array_data_len, FALSE, NULL);
 	} else if (ver >= MS_BIFF_V5) {
 		XL_CHECK_CONDITION (q->length >= 7);
 
 		name = excel_biff_text_1 (container->importer, q, 6);
 		nexpr = excel_parse_name (container->importer, NULL,
-					  name, NULL, 0, FALSE, NULL);
+					  name, NULL, 0, array_data_len,
+					  FALSE, NULL);
 	} else {
 		XL_CHECK_CONDITION (q->length >= 3);
 
 		name = excel_biff_text_1 (container->importer, q, 2);
 		nexpr = excel_parse_name (container->importer, NULL,
-					  name, NULL, 0, FALSE, NULL);
+					  name, NULL, 0, array_data_len,
+					  FALSE, NULL);
 	}
 
 	/* nexpr is potentially NULL if there was an error */
@@ -3951,6 +3957,7 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 	data += name_len;
 
 	if (name != NULL) {
+		unsigned array_data_len;
 		Sheet *sheet = NULL;
 		d (1, g_printerr ("NAME=%s, sheet_index=%d  flags=0x%x\n",
 				  name, sheet_index, flags););
@@ -3976,8 +3983,10 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 			nexpr = g_ptr_array_index (importer->names, importer->num_name_records);
 
 		XL_NEED_BYTES (expr_len);
+		array_data_len = expr_len ? q->length - (data - q->data) : 0;
 		nexpr = excel_parse_name (importer, sheet,
-					  name, data, expr_len, TRUE, nexpr);
+					  name, data, expr_len,
+					  array_data_len, TRUE, nexpr);
 		g_free (name);
 		data += expr_len;
 

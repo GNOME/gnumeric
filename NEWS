@@ -43,6 +43,8 @@ Morten:
 	* Add new test for a collection of special functions.
 	* Fix xls writing of non-ascii names.  [#608780]
 	* Improve entry of non-locale currency amounts.  [#577768]
+	* Fix XL import of names with array constants.  [#654211]
+	* Fix XL import of booleans/error/empties in array constants.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
