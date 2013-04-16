@@ -1,3 +1,7 @@
+2013-04-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-so-styled.c (dialog_so_styled): Plug leak.
+
 2013-04-05  Morten Welinder  <terra@gnome.org>
 
 	* dialog-tabulate.c (get_grid_float_entry): Get child at the right

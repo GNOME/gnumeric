@@ -131,18 +131,21 @@ dialog_so_styled (WBCGtk *wbcg,
 	GtkWidget	*dialog, *help, *editor;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, GNM_SO_STYLED_KEY))
+	if (gnumeric_dialog_raise_if_exists (wbcg, GNM_SO_STYLED_KEY)) {
+		g_object_unref (default_style);
 		return;
+	}
 
 	state = g_new0 (DialogSOStyled, 1);
 	state->so    = G_OBJECT (so);
 	state->wbcg  = wbcg;
 	state->orig_style = go_style_dup (orig);
 	state->orig_text = NULL;
-	dialog = gtk_dialog_new_with_buttons (title,
-		wbcg_toplevel (state->wbcg),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		NULL, NULL);
+	dialog = gtk_dialog_new_with_buttons
+		(title,
+		 wbcg_toplevel (state->wbcg),
+		 GTK_DIALOG_DESTROY_WITH_PARENT,
+		 NULL, NULL);
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (dialog),
 					   state->wbcg,
