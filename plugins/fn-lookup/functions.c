@@ -585,7 +585,8 @@ wildcard_string_match (const char *key, LookupBisectionCacheItem *bc)
 	GORegmatch rm;
 	int i, res = LOOKUP_NOT_THERE;
 
-	if (gnm_regcomp_XL (&rx, key, GO_REG_ICASE, TRUE) != GO_REG_OK) {
+	/* FIXME: Do we want to anchor at the end here? */
+	if (gnm_regcomp_XL (&rx, key, GO_REG_ICASE, TRUE, TRUE) != GO_REG_OK) {
 		g_warning ("Unexpected regcomp result");
 		return LOOKUP_DATA_ERROR;
 	}

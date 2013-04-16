@@ -1,3 +1,11 @@
+2013-04-16  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (parse_criteria): Anchor only at start.  Fixes
+	#661800.
+
+	* src/gutils.c (gnm_regcomp_XL): Split argument "full" into
+	"anchor_start" and "anchor_end".  All callers changed.
+
 2013-04-15  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (add_icon): Plug leak.

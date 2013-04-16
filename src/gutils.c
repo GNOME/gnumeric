@@ -336,12 +336,12 @@ gnm_utf8_strtol (const char *s, char **end)
 
 int
 gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags,
-		gboolean full)
+		gboolean anchor_start, gboolean anchor_end)
 {
 	GString *res = g_string_new (NULL);
 	int retval;
 
-	if (full)
+	if (anchor_start)
 		g_string_append_c (res, '^');
 
 	while (*pattern) {
@@ -367,7 +367,7 @@ gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags,
 		}
 	}
 
-	if (full)
+	if (anchor_end)
 		g_string_append_c (res, '$');
 
 	retval = go_regcomp (preg, res->str, cflags);

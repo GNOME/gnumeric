@@ -24,8 +24,8 @@ long gnm_utf8_strtol (const char *s, char **end);
 
 #define PLUGIN_SUBDIR "plugins"
 
-int gnm_regcomp_XL (GORegexp *preg, char const *pattern,
-		    int cflags, gboolean full);
+int gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags,
+		    gboolean anchor_start, gboolean anchor_end);
 
 gboolean gnm_pango_attr_list_equal (PangoAttrList const *l1, PangoAttrList const *l2);
 

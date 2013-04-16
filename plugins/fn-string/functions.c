@@ -1343,7 +1343,7 @@ gnumeric_search (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		hay2 = g_utf8_next_char (hay2);
 	}
 
-	if (gnm_regcomp_XL (&r, needle, GO_REG_ICASE, FALSE) == GO_REG_OK) {
+	if (gnm_regcomp_XL (&r, needle, GO_REG_ICASE, FALSE, FALSE) == GO_REG_OK) {
 		GORegmatch rm;
 
 		switch (go_regexec (&r, hay2, 1, &rm, 0)) {
@@ -1412,7 +1412,7 @@ gnumeric_searchb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (istart > 0)
 		istart = g_utf8_next_char(haystack + istart - 1) - haystack;
 
-	if (gnm_regcomp_XL (&r, needle, GO_REG_ICASE, FALSE) == GO_REG_OK) {
+	if (gnm_regcomp_XL (&r, needle, GO_REG_ICASE, FALSE, FALSE) == GO_REG_OK) {
 		GORegmatch rm;
 
 		switch (go_regexec (&r, haystack + istart, 1, &rm, 0)) {

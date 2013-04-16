@@ -45,6 +45,7 @@ Morten:
 	* Improve entry of non-locale currency amounts.  [#577768]
 	* Fix XL import of names with array constants.  [#654211]
 	* Fix XL import of booleans/error/empties in array constants.
+	* Fix database criteria anchoring.  [#661800]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
