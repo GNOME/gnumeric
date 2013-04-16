@@ -46,6 +46,7 @@ Morten:
 	* Fix XL import of names with array constants.  [#654211]
 	* Fix XL import of booleans/error/empties in array constants.
 	* Fix database criteria anchoring.  [#661800]
+	* Fix database criterias "=" and "<>" for emptiness test.  [#686156]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

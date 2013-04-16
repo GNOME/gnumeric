@@ -2,6 +2,9 @@
 
 	* src/value.c (parse_criteria): Anchor only at start.  Fixes
 	#661800.
+	(parse_criteria): Handle criteria "=" and "<>" (with no value
+	after the operator) special.  These test for empty and non-empty
+	values.  Fixes #686156.
 
 	* src/gutils.c (gnm_regcomp_XL): Split argument "full" into
 	"anchor_start" and "anchor_end".  All callers changed.

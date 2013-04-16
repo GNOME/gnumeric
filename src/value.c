@@ -1573,6 +1573,18 @@ criteria_test_match (GnmValue const *x, GnmCriteria *crit)
 		GO_REG_OK;
 }
 
+static gboolean
+criteria_test_empty (GnmValue const *x, GnmCriteria *crit)
+{
+	return VALUE_IS_EMPTY (x);
+}
+
+static gboolean
+criteria_test_nonempty (GnmValue const *x, GnmCriteria *crit)
+{
+	return !VALUE_IS_EMPTY (x);
+}
+
 /*
  * Finds a column index of a field.
  */
@@ -1718,13 +1730,15 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 		res->fun = criteria_test_greater_or_equal;
 		len = 2;
 	} else if (strncmp (criteria, "<>", 2) == 0) {
-		res->fun = criteria_test_unequal;
+		/* "<>" by itself is special: */
+		res->fun = (criteria[2] == 0) ? criteria_test_nonempty : criteria_test_unequal;
 		len = 2;
 	} else if (*criteria == '<') {
 		res->fun = criteria_test_less;
 		len = 1;
 	} else if (*criteria == '=') {
-		res->fun = criteria_test_equal;
+		/* "=" by itself is special: */
+		res->fun = (criteria[1] == 0) ? criteria_test_empty : criteria_test_equal;
 		len = 1;
 	} else if (*criteria == '>') {
 		res->fun = criteria_test_greater;
