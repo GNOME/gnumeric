@@ -1,5 +1,9 @@
 2013-04-16  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbcg_update_action_sensitivity): Turn on context
+	menu for graph sheets.  Fixes #685446.
+	(sheet_menu_label_run): Disable resize for graph sheets.
+
 	* src/value.c (parse_criteria): Anchor only at start.  Fixes
 	#661800.
 	(parse_criteria): Handle criteria "=" and "<>" (with no value

@@ -377,12 +377,15 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 	gtk_widget_set_sensitive (wbcg->func_button, enable_actions);
 
 	if (wbcg->snotebook) {
+		gboolean tab_context_menu =
+			enable_actions ||
+			scg_sheet (scg)->sheet_type == GNM_SHEET_OBJECT;
 		int i, N = wbcg_get_n_scg (wbcg);
 		for (i = 0; i < N; i++) {
 			GtkWidget *label =
 				gnm_notebook_get_nth_label (wbcg->bnotebook, i);
 			g_object_set_data (G_OBJECT (label), "editable",
-					   GINT_TO_POINTER (enable_actions));
+					   GINT_TO_POINTER (tab_context_menu));
 		}
 	}
 
@@ -491,22 +494,23 @@ cb_by_scg_sheet_name (gconstpointer a_, gconstpointer b_)
 static void
 sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 {
+	enum { CM_MULTIPLE = 1, CM_DATA_SHEET = 2 };
 	struct SheetTabMenu {
 		char const *text;
 		void (*function) (SheetControlGUI *scg);
-		gboolean req_multiple_sheets;
+		int flags;
 		int submenu;
 	} const sheet_label_context_actions [] = {
-		{ N_("Manage sheets..."), &cb_sheets_manage,	FALSE, 0},
-		{ NULL, NULL, FALSE, 0 },
-		{ N_("Insert"),		  &cb_sheets_insert,	FALSE, 0 },
-		{ N_("Append"),		  &cb_sheets_add,	FALSE, 0 },
-		{ N_("Duplicate"),	  &cb_sheets_clone,	FALSE, 0 },
-		{ N_("Remove"),		  &scg_delete_sheet_if_possible, TRUE, 0 },
-		{ N_("Rename"),		  &cb_sheets_rename,	FALSE, 0 },
-		{ N_("Resize..."),        &cb_sheets_resize,    FALSE, 0 },
-		{ N_("Select"),           NULL,                 FALSE, 1 },
-		{ N_("Select (sorted)"),  NULL,                 FALSE, 2 }
+		{ N_("Manage sheets..."), &cb_sheets_manage,	0, 0},
+		{ NULL, NULL, 0, 0 },
+		{ N_("Insert"),		  &cb_sheets_insert,	0, 0 },
+		{ N_("Append"),		  &cb_sheets_add,	0, 0 },
+		{ N_("Duplicate"),	  &cb_sheets_clone,	0, 0 },
+		{ N_("Remove"),		  &scg_delete_sheet_if_possible, CM_MULTIPLE, 0 },
+		{ N_("Rename"),		  &cb_sheets_rename,	0, 0 },
+		{ N_("Resize..."),        &cb_sheets_resize,    CM_DATA_SHEET, 0 },
+		{ N_("Select"),           NULL,                 0, 1 },
+		{ N_("Select (sorted)"),  NULL,                 0, 2 }
 	};
 
 	unsigned int ui;
@@ -544,7 +548,8 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		const struct SheetTabMenu *it =
 			sheet_label_context_actions + ui;
 		gboolean inactive =
-			(it->req_multiple_sheets && N_visible <= 1) ||
+			((it->flags & CM_MULTIPLE) && N_visible <= 1) ||
+			((it->flags & CM_DATA_SHEET) && scg_sheet (scg)->sheet_type != GNM_SHEET_DATA) ||
 			(!it->submenu && guru != NULL);
 
 		item = it->text
