@@ -216,7 +216,7 @@ isprime (guint64 n)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_nt_omega[] = {
- 	{ GNM_FUNC_HELP_NAME, F_("NT_OMEGA:Numer of distinct prime factors")},
+ 	{ GNM_FUNC_HELP_NAME, F_("NT_OMEGA:Number of distinct prime factors")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_NOTE, F_("Returns the number of distinct prime factors without multiplicity.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=NT_PHI(9)" },
