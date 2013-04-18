@@ -3488,23 +3488,22 @@ cb_font_filter (G_GNUC_UNUSED const PangoFontFamily *family,
 static GtkWidget *
 gnm_font_action_create_tool_item (GtkAction *action)
 {
-	GtkWidget *item = g_object_new (GTK_TYPE_TOOL_ITEM, NULL);
+	GtkWidget *item = g_object_new
+		(GTK_TYPE_TOOL_ITEM,
+		 NULL);
 	GtkWidget *but = g_object_new
 		(gnm_font_button_get_type(),
 		 "dialog-type", GO_TYPE_FONT_SEL_DIALOG,
-//		 "dialog-type", GTK_TYPE_FONT_CHOOSER_DIALOG,
 		 "show-preview-entry", TRUE,
 		 "show-style", FALSE,
+		 "relief", gtk_tool_item_get_relief_style (GTK_TOOL_ITEM (item)),
+		 "focus-on-click", FALSE,
 		 NULL);
 	if (0) gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER (but),
 					  cb_font_filter,
 					  NULL,
 					  NULL);
 	gtk_widget_show_all (but);
-	gtk_button_set_relief
-		(GTK_BUTTON (but),
-		 gtk_tool_item_get_relief_style (GTK_TOOL_ITEM (item)));
-	gtk_button_set_focus_on_click (GTK_BUTTON (but), FALSE);
 	gtk_container_add (GTK_CONTAINER (item), but);
 	g_signal_connect (but,
 			  "font-set", G_CALLBACK (cb_font_set),
@@ -3590,6 +3589,7 @@ wbc_gtk_init_font_name (WBCGtk *gtk)
 {
 	gtk->font_name = g_object_new
 		(gnm_font_action_get_type (),
+		 "visible-vertical", FALSE,
 		 "name", "FontName",
 		 "tooltip", _("Change font"),
 		 NULL);

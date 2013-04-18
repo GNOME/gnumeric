@@ -1,5 +1,8 @@
 2013-04-17  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_init_font_name): Show the font button
+	only for horizontal toolbars.
+
 	* src/gui-file.c (file_saver_format_changed_cb): New function to
 	change the extension when the format is changed.
 	(gui_file_save_as): Don't try to hide the extension -- it
