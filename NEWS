@@ -49,6 +49,7 @@ Morten:
 	* Fix database criterias "=" and "<>" for emptiness test.  [#686156]
 	* Enable context menu for graph sheet tabs.  [#685446]
 	* Fix bad interaction between save-as and GtkFileChooser.  [#695839]
+	* Fix vertical toolbar's font button.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

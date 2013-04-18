@@ -1,5 +1,11 @@
 2013-04-17  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_init): Add also a vertical font chooser
+	button.
+
+	* src/wbc-gtk-impl.h (_WBCGtk): Rename font_name member to
+	font_name_haction.
+
 	* src/wbc-gtk.c (wbc_gtk_init_font_name): Show the font button
 	only for horizontal toolbars.
 
