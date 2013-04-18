@@ -32,9 +32,9 @@
 
 typedef struct {
 	GOCharmapSel *go_charmap_sel;
-	GtkWidget	*charmap_label;
+	GtkWidget *charmap_label;
 	GList *openers;
-} file_format_changed_cb_data;
+} file_opener_format_changed_cb_data;
 
 
 
@@ -64,16 +64,15 @@ make_format_chooser (GList *list, GtkComboBox *combo)
 
 	/* Make format chooser */
 	for (l = list; l != NULL; l = l->next) {
+		GObject *obj = l->data;
 		gchar const *descr;
 
-		if (!l->data)
+		if (!obj)
 			descr = _("Automatically detected");
-		else if (GO_IS_FILE_OPENER (l->data))
-			descr = go_file_opener_get_description (
-						GO_FILE_OPENER (l->data));
+		else if (GO_IS_FILE_OPENER (obj))
+			descr = go_file_opener_get_description (GO_FILE_OPENER (obj));
 		else
-			descr = go_file_saver_get_description (
-						GO_FILE_SAVER (l->data));
+			descr = go_file_saver_get_description (GO_FILE_SAVER (obj));
 
 		gtk_combo_box_text_append_text (bt, descr);
 	}
@@ -161,8 +160,8 @@ gui_file_template (WBCGtk *wbcg, char const *uri)
 }
 
 static void
-file_format_changed_cb (GtkComboBox *format_combo,
-			file_format_changed_cb_data *data)
+file_opener_format_changed_cb (GtkComboBox *format_combo,
+			       file_opener_format_changed_cb_data *data)
 {
 	GOFileOpener *fo = g_list_nth_data (data->openers,
 		gtk_combo_box_get_active (format_combo));
@@ -220,7 +219,7 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 	GtkWidget *advanced_button;
 	GtkComboBox *format_combo;
 	GtkWidget *go_charmap_sel;
-	file_format_changed_cb_data data;
+	file_opener_format_changed_cb_data data;
 	gint opener_default;
 	char const *title = NULL;
 	GSList *uris = NULL;
@@ -317,10 +316,10 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 	format_combo = GTK_COMBO_BOX (gtk_combo_box_text_new ());
 	make_format_chooser (openers, format_combo);
 	g_signal_connect (G_OBJECT (format_combo), "changed",
-			  G_CALLBACK (file_format_changed_cb), &data);
+			  G_CALLBACK (file_opener_format_changed_cb), &data);
 	gtk_combo_box_set_active (format_combo, opener_default);
 	gtk_widget_set_sensitive (GTK_WIDGET (format_combo), opener_default == 0);
-	file_format_changed_cb (format_combo, &data);
+	file_opener_format_changed_cb (format_combo, &data);
 
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
@@ -473,6 +472,44 @@ extension_check_disabled (GOFileSaver *fs)
 	return (NULL != g_slist_find_custom (list, id, go_str_compare));
 }
 
+typedef struct {
+	GtkFileChooser *fsel;
+	GList *savers;
+} file_saver_format_changed_cb_data;
+
+/*
+ * Change or add the extension for the newly chosen saver to the file
+ * name in the file chooser.
+ */
+static void
+file_saver_format_changed_cb (GtkComboBox *format_combo,
+			      file_saver_format_changed_cb_data *data)
+{
+	GOFileSaver *fs = g_list_nth_data (data->savers, gtk_combo_box_get_active (format_combo));
+	char *uri = gtk_file_chooser_get_uri (data->fsel);
+	char *basename = NULL, *newname = NULL, *dot;
+	char const *ext = go_file_saver_get_extension (fs);
+
+	if (!uri || !ext)
+		goto out;
+
+	basename = go_basename_from_uri (uri);
+	if (!basename)
+		goto out;
+
+	dot = strchr (basename, '.');
+	if (dot)
+		*dot = 0;
+
+	newname = g_strconcat (basename, ".", ext, NULL);
+	gtk_file_chooser_set_current_name (data->fsel, newname);
+
+out:
+	g_free (uri);
+	g_free (basename);
+	g_free (newname);
+}
+
 gboolean
 gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 		  char const *default_format)
@@ -481,6 +518,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	GtkFileChooser *fsel;
 	GtkComboBox *format_combo;
 	GOFileSaver *fs;
+	file_saver_format_changed_cb_data data;
 	gboolean success  = FALSE;
 	gchar const *wb_uri;
 	char *uri;
@@ -514,9 +552,9 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 				savers = g_list_prepend (savers, l->data);
 			break;
 	}
-	savers = g_list_sort (savers, file_saver_description_cmp);
+	data.savers = savers = g_list_sort (savers, file_saver_description_cmp);
 
-	fsel = GTK_FILE_CHOOSER
+	data.fsel = fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_SAVE,
 			       "local-only", FALSE,
@@ -567,6 +605,8 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 		GtkWidget *label = gtk_label_new_with_mnemonic (_("File _type:"));
 		format_combo = GTK_COMBO_BOX (gtk_combo_box_text_new ());
 		make_format_chooser (savers, format_combo);
+		g_signal_connect (G_OBJECT (format_combo), "changed",
+				  G_CALLBACK (file_saver_format_changed_cb), &data);
 
 		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 6);
 		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (format_combo), FALSE, TRUE, 6);
@@ -599,15 +639,17 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 
 	if (wb_uri != NULL) {
 		char *basename = go_basename_from_uri (wb_uri);
-		char *dot = basename ? strrchr (basename, '.') : NULL;
 
+		/*
+		 * If the file exists, the following is dominated by the
+		 * final set_uri.  If the file does not exist, we get the
+		 * directory from the first set_uri and the basename set
+		 * with set_current_name.
+		 */
 		gtk_file_chooser_set_uri (fsel, wb_uri);
-		gtk_file_chooser_unselect_all (fsel);
-
-		/* Remove extension.  */
-		if (dot && dot != basename)
-			*dot = 0;
 		gtk_file_chooser_set_current_name (fsel, basename);
+		gtk_file_chooser_set_uri (fsel, wb_uri);
+
 		g_free (basename);
 	}
 

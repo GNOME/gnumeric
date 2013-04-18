@@ -1,3 +1,10 @@
+2013-04-17  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (file_saver_format_changed_cb): New function to
+	change the extension when the format is changed.
+	(gui_file_save_as): Don't try to hide the extension -- it
+	interferes with the file chooser's completion.  Fixes #695839.
+
 2013-04-16  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_update_action_sensitivity): Turn on context
