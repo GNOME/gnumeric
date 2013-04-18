@@ -22,7 +22,6 @@
 #include "ranges.h"
 #include "gnm-format.h"
 #include "number-match.h"
-#include "sheet-object-cell-comment.h"
 #include "sheet-style.h"
 #include "parse-util.h"
 
