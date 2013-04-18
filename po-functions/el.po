@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumer"
 "ic&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-12 16:12+0000\n"
-"PO-Revision-Date: 2013-04-14 22:45+0300\n"
+"POT-Creation-Date: 2013-04-17 19:02+0000\n"
+"PO-Revision-Date: 2013-04-18 13:39+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -5114,19 +5114,19 @@ msgstr "FALSE:η τιμή ΨΕΥΔΗΣ"
 msgid "FALSE returns the value FALSE."
 msgstr "Η συνάρτηση FALSE επιστρέφει την τιμή ΨΕΥΔΗΣ."
 
-#: ../plugins/fn-lookup/functions.c:729
+#: ../plugins/fn-lookup/functions.c:730
 msgid "ADDRESS:cell address as text"
 msgstr "ADDRESS:η διεύθυνση κελιού ως κείμενο"
 
-#: ../plugins/fn-lookup/functions.c:730
+#: ../plugins/fn-lookup/functions.c:731
 msgid "row_num:row number"
 msgstr "row_num:αριθμός γραμμής"
 
-#: ../plugins/fn-lookup/functions.c:731
+#: ../plugins/fn-lookup/functions.c:732
 msgid "col_num:column number"
 msgstr "col_num:αριθμός στήλης"
 
-#: ../plugins/fn-lookup/functions.c:732
+#: ../plugins/fn-lookup/functions.c:733
 msgid ""
 "abs_num:1 for an absolute, 2 for a row absolute and column relative, 3 for a "
 "row relative and column absolute, and 4 for a relative reference; defaults "
@@ -5136,7 +5136,7 @@ msgstr ""
 "στήλη, 3 για μία σχετική γραμμή και απόλυτη τιμή στήλης και, 4 για μία "
 "σχετική παραπομπή, η προεπιλογή είναι 1"
 
-#: ../plugins/fn-lookup/functions.c:735
+#: ../plugins/fn-lookup/functions.c:736
 msgid ""
 "a1:if TRUE, an A1-style reference is provided, otherwise an R1C1-style "
 "reference; defaults to TRUE"
@@ -5144,51 +5144,51 @@ msgstr ""
 "a1:αν είναι ΑΛΗΘΗΣ, παρέχεται μία παραπομπή με τύπο Α1, ειδάλλως μία "
 "παραπομπή με τύπο R1C1, η προεπιλογή είναι ΑΛΗΘΗΣ"
 
-#: ../plugins/fn-lookup/functions.c:737
+#: ../plugins/fn-lookup/functions.c:738
 msgid "text:name of the worksheet, defaults to no sheet"
 msgstr "text:το όνομα του φύλλου εργασίας, η προεπιλογή είναι κανένα φύλλο"
 
-#: ../plugins/fn-lookup/functions.c:738
+#: ../plugins/fn-lookup/functions.c:739
 msgid "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!"
 msgstr ""
 "Αν το @{row_num} ή το @{col_num} είναι λιγότερο από ένα, η συνάρτηση ADDRESS "
 "επιστρέφει #ΤΙΜΗ!"
 
-#: ../plugins/fn-lookup/functions.c:740
+#: ../plugins/fn-lookup/functions.c:741
 msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
 msgstr ""
 "Αν το @{abs_num} είναι μεγαλύτερο από 4, η συνάρτηση ADDRESS επιστρέφει "
 "#ΤΙΜΗ!"
 
-#: ../plugins/fn-lookup/functions.c:827
+#: ../plugins/fn-lookup/functions.c:828
 msgid "AREAS:number of areas in @{reference}"
 msgstr "AREAS:αριθμός περιοχών στην @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:828
+#: ../plugins/fn-lookup/functions.c:829
 msgid "reference:range"
 msgstr "reference:περιοχή"
 
-#: ../plugins/fn-lookup/functions.c:895
+#: ../plugins/fn-lookup/functions.c:896
 msgid "CHOOSE:the (@{index}+1)th argument"
 msgstr "CHOOSE:το (@{index}+1)οστό όρισμα"
 
-#: ../plugins/fn-lookup/functions.c:896
+#: ../plugins/fn-lookup/functions.c:897
 msgid "index:positive number"
 msgstr "index:θετικός αριθμός"
 
-#: ../plugins/fn-lookup/functions.c:897
+#: ../plugins/fn-lookup/functions.c:898
 msgid "value1:first value"
 msgstr "value1:η πρώτη τιμή"
 
-#: ../plugins/fn-lookup/functions.c:898
+#: ../plugins/fn-lookup/functions.c:899
 msgid "value2:second value"
 msgstr "value2:η δεύτερη τιμή"
 
-#: ../plugins/fn-lookup/functions.c:899
+#: ../plugins/fn-lookup/functions.c:900
 msgid "CHOOSE returns its (@{index}+1)th argument."
 msgstr "Η συνάρτηση CHOOSE επιστρέφει το (@{index}+1)-οστό όρισμα."
 
-#: ../plugins/fn-lookup/functions.c:900
+#: ../plugins/fn-lookup/functions.c:901
 msgid ""
 "@{index} is truncated to an integer. If @{index} < 1 or the truncated @"
 "{index} > number of values, CHOOSE returns #VALUE!"
@@ -5196,25 +5196,25 @@ msgstr ""
 "Το @{index} παραλείπεται σε ακέραιο. Αν @{index} < 1 ή το παραλειπόμενο @"
 "{index} > από τον αριθμό τιμών, η συνάρτηση CHOOSE επιστρέφει #ΤΙΜΗ!"
 
-#: ../plugins/fn-lookup/functions.c:942
+#: ../plugins/fn-lookup/functions.c:943
 msgid "VLOOKUP:search the first column of @{range} for @{value}"
 msgstr "VLOOKUP:αναζήτηση στην πρώτη στήλη της @{range} για την @{value}"
 
-#: ../plugins/fn-lookup/functions.c:943 ../plugins/fn-lookup/functions.c:1011
+#: ../plugins/fn-lookup/functions.c:944 ../plugins/fn-lookup/functions.c:1012
 msgid "value:search value"
 msgstr "value:τιμή αναζήτησης"
 
-#: ../plugins/fn-lookup/functions.c:944 ../plugins/fn-lookup/functions.c:1012
+#: ../plugins/fn-lookup/functions.c:945 ../plugins/fn-lookup/functions.c:1013
 msgid "range:range to search"
 msgstr "range:περιοχή για αναζήτηση"
 
-#: ../plugins/fn-lookup/functions.c:945
+#: ../plugins/fn-lookup/functions.c:946
 msgid "column:1-based column offset indicating the return values"
 msgstr ""
 "column:αντιστάθμιση στήλης με βάση το 1 που παρουσιάζει τις επιστρεφόμενες "
 "τιμές"
 
-#: ../plugins/fn-lookup/functions.c:946 ../plugins/fn-lookup/functions.c:1014
+#: ../plugins/fn-lookup/functions.c:947 ../plugins/fn-lookup/functions.c:1015
 msgid ""
 "approximate:if false, an exact match of @{value} must be found; defaults to "
 "TRUE"
@@ -5222,13 +5222,13 @@ msgstr ""
 "approximate:αν είναι αληθής, πρέπει να βρεθεί ακριβώς ένα αποτέλεσμα για την "
 "@{value}, η προεπιλογή είναι ΑΛΗΘΗΣ"
 
-#: ../plugins/fn-lookup/functions.c:948
+#: ../plugins/fn-lookup/functions.c:949
 msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
 msgstr ""
 "as_index:αν είναι αληθής, επιστρέφεται μία αντιστάθμιση με καμία γραμμή· η "
 "προεπιλογή είναι ΨΕΥΔΗΣ"
 
-#: ../plugins/fn-lookup/functions.c:950
+#: ../plugins/fn-lookup/functions.c:951
 msgid ""
 "VLOOKUP function finds the row in @{range} that has a first cell similar to @"
 "{value}.  If @{approximate} is not true it finds the row with an exact "
@@ -5243,7 +5243,7 @@ msgstr ""
 "{value}. Αν το @{as_index} είναι αληθές επιστρέφεται η αντιστάθμιση γραμμής "
 "με βάση 0."
 
-#: ../plugins/fn-lookup/functions.c:957 ../plugins/fn-lookup/functions.c:1025
+#: ../plugins/fn-lookup/functions.c:958 ../plugins/fn-lookup/functions.c:1026
 msgid ""
 "If @{approximate} is true, then the values must be sorted in order of "
 "ascending value."
@@ -5251,29 +5251,29 @@ msgstr ""
 "Αν το @{approximate} είναι αληθές, τότε οι τιμές πρέπει να ταξινομούνται σε "
 "αύξουσα τιμή."
 
-#: ../plugins/fn-lookup/functions.c:959
+#: ../plugins/fn-lookup/functions.c:960
 msgid "VLOOKUP returns #REF! if @{column} falls outside @{range}."
 msgstr ""
 "Η συνάρτηση VLOOKUP επιστρέφει #ΑΝΑΦ! αν το @{column} είναι έξω από του @"
 "{range}."
 
-#: ../plugins/fn-lookup/functions.c:1010
+#: ../plugins/fn-lookup/functions.c:1011
 msgid "HLOOKUP:search the first row of @{range} for @{value}"
 msgstr "HLOOKUP:αναζήτηση στην πρώτη γραμμή του @{range} για @{value}"
 
-#: ../plugins/fn-lookup/functions.c:1013
+#: ../plugins/fn-lookup/functions.c:1014
 msgid "row:1-based row offset indicating the return values "
 msgstr ""
 "γραμμή:η αντιστάθμιση γραμμής με βάση το 1 δείχνει τις τιμές επιστροφής"
 
-#: ../plugins/fn-lookup/functions.c:1016
+#: ../plugins/fn-lookup/functions.c:1017
 msgid ""
 "as_index:if true, the 0-based column offset is returned; defaults to FALSE"
 msgstr ""
 "as_index:αν είναι αληθής, επιστρέφεται μία αντιστάθμιση στήλης με βάση το 0· "
 "η προεπιλογή είναι ΨΕΥΔΗΣ"
 
-#: ../plugins/fn-lookup/functions.c:1018
+#: ../plugins/fn-lookup/functions.c:1019
 msgid ""
 "HLOOKUP function finds the row in @{range} that has a first cell similar to @"
 "{value}.  If @{approximate} is not true it finds the column with an exact "
@@ -5288,12 +5288,12 @@ msgstr ""
 "Εάν το @{as_index} είναι αληθές επιστρέφεται η αντιστάθμιση στήλης με βάση "
 "το 0."
 
-#: ../plugins/fn-lookup/functions.c:1027
+#: ../plugins/fn-lookup/functions.c:1028
 msgid "HLOOKUP returns #REF! if @{row} falls outside @{range}."
 msgstr ""
 "Η συνάρτηση HLOOKUP επιστρέφει #ΑΝΑΦ! αν η @{row} είναι έξω από το @{range}."
 
-#: ../plugins/fn-lookup/functions.c:1078
+#: ../plugins/fn-lookup/functions.c:1079
 msgid ""
 "LOOKUP:contents of @{vector2} at the corresponding location to @{value} in @"
 "{vector1}"
@@ -5301,19 +5301,19 @@ msgstr ""
 "LOOKUP:τα περιεχόμενα του @{vector2} στην αντίστοιχη θέση στην @{value} μέσα "
 "στο @{vector1}"
 
-#: ../plugins/fn-lookup/functions.c:1080
+#: ../plugins/fn-lookup/functions.c:1081
 msgid "value:value to look up"
 msgstr "value:τιμή για αναζήτηση"
 
-#: ../plugins/fn-lookup/functions.c:1081
+#: ../plugins/fn-lookup/functions.c:1082
 msgid "vector1:range to search:"
 msgstr "vector1:περιοχή για αναζήτηση:"
 
-#: ../plugins/fn-lookup/functions.c:1082
+#: ../plugins/fn-lookup/functions.c:1083
 msgid "vector2:range of return values"
 msgstr "vector2:περιοχή για επιστροφή τιμών"
 
-#: ../plugins/fn-lookup/functions.c:1083
+#: ../plugins/fn-lookup/functions.c:1084
 msgid ""
 "If  @{vector1} has more rows than columns, LOOKUP searches the first row of @"
 "{vector1}, otherwise the first column. If @{vector2} is omitted the return "
@@ -5324,40 +5324,40 @@ msgstr ""
 "το @{vector2} παραλείπεται η επιστρεφόμενη τιμή εξάγεται από την τελευταία "
 "γραμμή ή στήλη του @{vector1}."
 
-#: ../plugins/fn-lookup/functions.c:1087
+#: ../plugins/fn-lookup/functions.c:1088
 msgid ""
 "If LOOKUP can't find @{value} it uses the largest value less than @{value}."
 msgstr ""
 "Αν η συνάρτηση LOOKUP δεν μπορεί να εντοπίσει το @{value} χρησιμοποιεί τη "
 "μεγαλύτερη τιμή που είναι μικρότερη από το @{value}."
 
-#: ../plugins/fn-lookup/functions.c:1089
+#: ../plugins/fn-lookup/functions.c:1090
 msgid "The data must be sorted."
 msgstr "Τα δεδομένα πρέπει να ταξινομηθούν."
 
-#: ../plugins/fn-lookup/functions.c:1090
+#: ../plugins/fn-lookup/functions.c:1091
 msgid "If @{value} is smaller than the first value it returns #N/A."
 msgstr ""
 "Αν το @{value} είναι μικρότερο από την πρώτη τιμή, τότε επιστρέφεται #Δ/Υ."
 
-#: ../plugins/fn-lookup/functions.c:1091
+#: ../plugins/fn-lookup/functions.c:1092
 msgid ""
 "If the corresponding location does not exist in @{vector2}, it returns #N/A."
 msgstr "Αν η αντίστοιχη θέση δεν υπάρχει στο @{vector2}, επιστρέφεται #Δ/Υ."
 
-#: ../plugins/fn-lookup/functions.c:1178
+#: ../plugins/fn-lookup/functions.c:1179
 msgid "MATCH:the index of @{seek} in @{vector}"
 msgstr "MATCH:η ευρετηρίαση του @{seek} στο @{vector}"
 
-#: ../plugins/fn-lookup/functions.c:1179
+#: ../plugins/fn-lookup/functions.c:1180
 msgid "seek:value to find"
 msgstr "seek:τιμή για αναζήτηση"
 
-#: ../plugins/fn-lookup/functions.c:1180
+#: ../plugins/fn-lookup/functions.c:1181
 msgid "vector:n by 1 or 1 by n range to be searched"
 msgstr "vector:περιοχή για αναζήτηση n επί 1 ή 1 επί n"
 
-#: ../plugins/fn-lookup/functions.c:1181
+#: ../plugins/fn-lookup/functions.c:1182
 msgid ""
 "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the "
 "first value = @{seek}, or-1 to find the smallest value ≥ @{seek}"
@@ -5366,13 +5366,13 @@ msgstr ""
 "{seek}, 0 για να αναζητείται η πρώτη τιμή που είναι = @{seek}, ή -1 για να "
 "αναζητείται η μικρότερη τιμή που είναι ≥ @{seek}"
 
-#: ../plugins/fn-lookup/functions.c:1184
+#: ../plugins/fn-lookup/functions.c:1185
 msgid "MATCH searches @{vector} for @{seek} and returns the 1-based index."
 msgstr ""
 "Η συνάρτηση MATCH αναζητεί το @{vector} για το @{seek} και επιστρέφει ένα "
 "δείκτη με βάση το 1."
 
-#: ../plugins/fn-lookup/functions.c:1185
+#: ../plugins/fn-lookup/functions.c:1186
 msgid ""
 " For @{type} = -1 the data must be sorted in descending order; for @{type} = "
 "+1 the data must be sorted in ascending order."
@@ -5380,26 +5380,26 @@ msgstr ""
 " Για @{type} = -1 τα δεδομένα πρέπει να ταξινομούνται σε φθίνουσα σειρά, για "
 "@{type} = +1 θα πρέπει να ταξινομούνται σε αύξουσα σειρά."
 
-#: ../plugins/fn-lookup/functions.c:1187
+#: ../plugins/fn-lookup/functions.c:1188
 msgid "If @{seek} could not be found, #N/A is returned."
 msgstr "Αν δεν είναι δυνατή η εύρεση του @{seek}, επιστρέφεται #Δ/Υ."
 
-#: ../plugins/fn-lookup/functions.c:1188
+#: ../plugins/fn-lookup/functions.c:1189
 msgid "If @{vector} is neither n by 1 nor 1 by n, #N/A is returned."
 msgstr ""
 "Αν το @{vector} δεν είναι ούτε n επί 1 ούτε 1 επί n, επιστρέφεται #Δ/Υ."
 
-#: ../plugins/fn-lookup/functions.c:1232
+#: ../plugins/fn-lookup/functions.c:1233
 msgid "INDIRECT:contents of the cell pointed to by the @{ref_text} string"
 msgstr ""
 "INDIRECT:τα περιεχόμενα του κελιού που τοποθετήθηκαν από το αλφαριθμητικό @"
 "{ref_text}"
 
-#: ../plugins/fn-lookup/functions.c:1233
+#: ../plugins/fn-lookup/functions.c:1234
 msgid "ref_text:textual reference"
 msgstr "ref_text:παραπομπή με κείμενο"
 
-#: ../plugins/fn-lookup/functions.c:1234
+#: ../plugins/fn-lookup/functions.c:1235
 msgid ""
 "format:if true, @{ref_text} is given in A1-style, otherwise it is given in "
 "R1C1 style; defaults to true"
@@ -5407,7 +5407,7 @@ msgstr ""
 "format:αν είναι αληθής, το @{ref_text} δίνεται στον A1-τύπο, ειδάλλως "
 "δίνεται στον τύπο R1C1· η προεπιλογή είναι αληθής"
 
-#: ../plugins/fn-lookup/functions.c:1236
+#: ../plugins/fn-lookup/functions.c:1237
 msgid ""
 "If @{ref_text} is not a valid reference in the style determined by @"
 "{format}, INDIRECT returns #REF!"
@@ -5415,27 +5415,27 @@ msgstr ""
 "Αν το @{ref_text} δεν είναι έγκυρη παραπομπή με τύπο που καθορίστηκε από τη @"
 "{format}, η συνάρτηση INDIRECT επιστρέφει #ΑΝΑΦ!"
 
-#: ../plugins/fn-lookup/functions.c:1270
+#: ../plugins/fn-lookup/functions.c:1271
 msgid "INDEX:reference to a cell in the given @{array}"
 msgstr "INDEX:η παραπομπή σε ένα κελί στο δοσμένο @{array}"
 
-#: ../plugins/fn-lookup/functions.c:1271
+#: ../plugins/fn-lookup/functions.c:1272
 msgid "array:cell or inline array"
 msgstr "array:κελί ή ενσωματωμένος πίνακας"
 
-#: ../plugins/fn-lookup/functions.c:1272
+#: ../plugins/fn-lookup/functions.c:1273
 msgid "row:desired row, defaults to 1"
 msgstr "row:προτιμώμενη γραμμή, η προεπιλογή είναι 1"
 
-#: ../plugins/fn-lookup/functions.c:1273
+#: ../plugins/fn-lookup/functions.c:1274
 msgid "col:desired column, defaults to 1"
 msgstr "col:προτιμώμενη στήλη, η προεπιλογή είναι 1"
 
-#: ../plugins/fn-lookup/functions.c:1274
+#: ../plugins/fn-lookup/functions.c:1275
 msgid "area:from which area to select a cell, defaults to 1"
 msgstr "area:από ποια περιοχή θα επιλεγεί ένα κελί, η προεπιλογή είναι 1"
 
-#: ../plugins/fn-lookup/functions.c:1275
+#: ../plugins/fn-lookup/functions.c:1276
 msgid ""
 "INDEX gives a reference to a cell in the given @{array}. The cell is "
 "selected by @{row} and @{col}, which count the rows and columns in the array."
@@ -5444,14 +5444,14 @@ msgstr ""
 "Το κελί επιλέγεται ανά @{row} και @{col}, το οποίο καταμετρά τις γραμμές και "
 "τις στήλες στον πίνακα στοιχείων."
 
-#: ../plugins/fn-lookup/functions.c:1280
+#: ../plugins/fn-lookup/functions.c:1281
 msgid ""
 "If the reference falls outside the range of @{array}, INDEX returns #REF!"
 msgstr ""
 "Αν η παραπομπή είναι έξω από το εύρος του @{array}, η συνάρτηση INDEX "
 "επιστρέφει #ΑΝΑΦ!"
 
-#: ../plugins/fn-lookup/functions.c:1282
+#: ../plugins/fn-lookup/functions.c:1283
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
@@ -5459,15 +5459,15 @@ msgstr ""
 "Ας θεωρήσουμε ότι τα κελιά A1, A2, …, A5 περιέχουν τους αριθμούς 11.4, 17.3, "
 "21.3, 25.9, και 40.1. Τότε το INDEX(A1:A5,4,1,1) ισούται με 25.9"
 
-#: ../plugins/fn-lookup/functions.c:1371
+#: ../plugins/fn-lookup/functions.c:1372
 msgid "COLUMN:vector of column numbers"
 msgstr "COLUMN:το διάνυσμα αριθμών στήλης"
 
-#: ../plugins/fn-lookup/functions.c:1372 ../plugins/fn-lookup/functions.c:1524
+#: ../plugins/fn-lookup/functions.c:1373 ../plugins/fn-lookup/functions.c:1525
 msgid "x:reference, defaults to the position of the current expression"
 msgstr "x:η παραπομπή, η προεπιλογή είναι η θέση της τρέχουσας έκφρασης"
 
-#: ../plugins/fn-lookup/functions.c:1373
+#: ../plugins/fn-lookup/functions.c:1374
 msgid ""
 "COLUMN function returns a Nx1 array containing the sequence of integers from "
 "the first column to the last column of @{x}."
@@ -5475,38 +5475,38 @@ msgstr ""
 "Η συνάρτηση COLUMN επιστρέφει έναν πίνακα στοιχείων Nx1 που περιέχει την "
 "ακολουθία ακεραίων από την πρώτη στήλη μέχρι την τελευταία του @{x}."
 
-#: ../plugins/fn-lookup/functions.c:1376 ../plugins/fn-lookup/functions.c:1528
+#: ../plugins/fn-lookup/functions.c:1377 ../plugins/fn-lookup/functions.c:1529
 msgid ""
 "If @{x} is neither an array nor a reference nor a range, returns #VALUE!"
 msgstr ""
 "Αν το @{x} δεν είναι ούτε πίνακας ούτε αναφορά ούτε περιοχή, επιστρέφεται "
 "#ΤΙΜΗ!"
 
-#: ../plugins/fn-lookup/functions.c:1380
+#: ../plugins/fn-lookup/functions.c:1381
 msgid "column() in G13 equals 7."
 msgstr "Το column() στο G13 ισούται με 7."
 
-#: ../plugins/fn-lookup/functions.c:1420
+#: ../plugins/fn-lookup/functions.c:1421
 msgid "COLUMNNUMBER:column number for the given column called @{name}"
 msgstr "COLUMNNUMBER:ο αριθμός στήλης για τη δοσμένη στήλη με όνομα @{name}"
 
-#: ../plugins/fn-lookup/functions.c:1421
+#: ../plugins/fn-lookup/functions.c:1422
 msgid "name:column name such as \"IV\""
 msgstr "name:όνομα στήλης, όπως το \"IV\""
 
-#: ../plugins/fn-lookup/functions.c:1422
+#: ../plugins/fn-lookup/functions.c:1423
 msgid "If @{name} is invalid, COLUMNNUMBER returns #VALUE!"
 msgstr "Αν το @{name} είναι άκυρο, η συνάρτηση COLUMNNUMBER επιστρέφει #ΤΙΜΗ!"
 
-#: ../plugins/fn-lookup/functions.c:1447
+#: ../plugins/fn-lookup/functions.c:1448
 msgid "COLUMNS:number of columns in @{reference}"
 msgstr "COLUMNS:ο αριθμός στηλών στο @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1448
+#: ../plugins/fn-lookup/functions.c:1449
 msgid "reference:array or area"
 msgstr "reference:πίνακας ή περιοχή"
 
-#: ../plugins/fn-lookup/functions.c:1449
+#: ../plugins/fn-lookup/functions.c:1450
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, COLUMNS "
 "returns #VALUE!"
@@ -5514,35 +5514,35 @@ msgstr ""
 "Αν το @{reference} δεν είναι ούτε πίνακας ούτε αναφορά ούτε περιοχή, η "
 "συνάρτηση COLUMNS επιστρέφει #ΤΙΜΗ!"
 
-#: ../plugins/fn-lookup/functions.c:1465
+#: ../plugins/fn-lookup/functions.c:1466
 msgid "OFFSET:an offset cell range"
 msgstr "OFFSET:μία αντισταθμιζόμενη περιοχή κελιών"
 
-#: ../plugins/fn-lookup/functions.c:1466
+#: ../plugins/fn-lookup/functions.c:1467
 msgid "range:reference or range"
 msgstr "range:παραπομπή ή περιοχή"
 
-#: ../plugins/fn-lookup/functions.c:1467
+#: ../plugins/fn-lookup/functions.c:1468
 msgid "row:number of rows to offset @{range}"
 msgstr "row:ο αριθμός των γραμμών για αντιστάθμιση του @{range}"
 
-#: ../plugins/fn-lookup/functions.c:1468
+#: ../plugins/fn-lookup/functions.c:1469
 msgid "col:number of columns to offset @{range}"
 msgstr "col:ο αριθμός των στηλών για αντιστάθμιση του @{range}"
 
-#: ../plugins/fn-lookup/functions.c:1469
+#: ../plugins/fn-lookup/functions.c:1470
 msgid "height:height of the offset range, defaults to height of @{range}"
 msgstr ""
 "height:το ύψος της αντισταθμιζόμενης περιοχής, η προεπιλογή είναι το ύψος "
 "του @{range}"
 
-#: ../plugins/fn-lookup/functions.c:1470
+#: ../plugins/fn-lookup/functions.c:1471
 msgid "width:width of the offset range, defaults to width of @{range}"
 msgstr ""
 "width:το πλάτος της αντισταθμιζόμενης περιοχής, η προεπιλογή είναι το πλάτος "
 "του @{range}"
 
-#: ../plugins/fn-lookup/functions.c:1471
+#: ../plugins/fn-lookup/functions.c:1472
 msgid ""
 "OFFSET returns the cell range starting at offset (@{row},@{col}) from @"
 "{range} of height @{height} and width @{width}."
@@ -5551,17 +5551,17 @@ msgstr ""
 "αντιστάθμιση (@{row},@{col}) από @{range} ύψους @{height} και πλάτους @"
 "{width}."
 
-#: ../plugins/fn-lookup/functions.c:1474
+#: ../plugins/fn-lookup/functions.c:1475
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
 msgstr ""
 "Αν η @{range} δεν είναι ούτε παραπομπή ούτε περιοχή, η συνάρτηση OFFSET "
 "επιστρέφει #ΤΙΜΗ!"
 
-#: ../plugins/fn-lookup/functions.c:1523
+#: ../plugins/fn-lookup/functions.c:1524
 msgid "ROW:vector of row numbers"
 msgstr "ROW:διάνυσμα των αριθμών γραμμής"
 
-#: ../plugins/fn-lookup/functions.c:1525
+#: ../plugins/fn-lookup/functions.c:1526
 msgid ""
 "ROW function returns a 1xN array containing the sequence of integers from "
 "the first row to the last row of @{x}."
@@ -5569,15 +5569,15 @@ msgstr ""
 "Η συνάρτηση ROW επιστρέφει έναν 1xN πίνακα στοιχείων που περιέχει την "
 "ακολουθία ακεραίων από την πρώτη γραμμή ως την τελευταία του @{x}."
 
-#: ../plugins/fn-lookup/functions.c:1571
+#: ../plugins/fn-lookup/functions.c:1572
 msgid "ROWS:number of rows in @{reference}"
 msgstr "ROWS:αριθμός γραμμών στο @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1572
+#: ../plugins/fn-lookup/functions.c:1573
 msgid "reference:array, reference, or range"
 msgstr "reference:πίνακας στοιχείων, παραπομπή, ή περιοχή"
 
-#: ../plugins/fn-lookup/functions.c:1573
+#: ../plugins/fn-lookup/functions.c:1574
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, ROWS "
 "returns #VALUE!"
@@ -5585,17 +5585,17 @@ msgstr ""
 "Αν το @{reference} δεν είναι ούτε πίνακας ούτε παραπομπή ούτε περιοχή, η "
 "συνάρτηση ROWS επιστρέφει #ΤΙΜΗ!"
 
-#: ../plugins/fn-lookup/functions.c:1589
+#: ../plugins/fn-lookup/functions.c:1590
 msgid "SHEETS:number of sheets in @{reference}"
 msgstr "SHEETS:αριθμός φύλλων στο @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1590
+#: ../plugins/fn-lookup/functions.c:1591
 msgid "reference:array, reference, or range, defaults to the maximum range"
 msgstr ""
 "reference:πίνακας, παραπομπή, ή περιοχή, η προεπιλογή είναι η μεγαλύτερη "
 "περιοχή"
 
-#: ../plugins/fn-lookup/functions.c:1591
+#: ../plugins/fn-lookup/functions.c:1592
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, SHEETS "
 "returns #VALUE!"
@@ -5603,18 +5603,18 @@ msgstr ""
 "Αν το @{reference} δεν είναι ούτε πίνακας, ούτε παραπομπή, ούτε περιοχή, η "
 "συνάρτηση SHEETS επιστρέφει #ΤΙΜΗ!"
 
-#: ../plugins/fn-lookup/functions.c:1627
+#: ../plugins/fn-lookup/functions.c:1628
 msgid "SHEET:sheet number of @{reference}"
 msgstr "SHEET:αριθμός φύλλου στο @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1628
+#: ../plugins/fn-lookup/functions.c:1629
 msgid ""
 "reference:reference or literal sheet name, defaults to the current sheet"
 msgstr ""
 "reference:παραπομπή ή ακριβές όνομα φύλλου, η προεπιλογή είναι το τρέχον "
 "φύλλο"
 
-#: ../plugins/fn-lookup/functions.c:1629
+#: ../plugins/fn-lookup/functions.c:1630
 msgid ""
 "If @{reference} is neither a reference nor a literal sheet name, SHEET "
 "returns #VALUE!"
@@ -5622,19 +5622,19 @@ msgstr ""
 "Αν το @{reference} δεν είναι ούτε παραπομπή ούτε το ακριβές όνομα φύλλου, η "
 "συνάρτηση SHEET επιστρέφει #ΤΙΜΗ!"
 
-#: ../plugins/fn-lookup/functions.c:1675
+#: ../plugins/fn-lookup/functions.c:1676
 msgid "HYPERLINK:second or first arguments"
 msgstr "HYPERLINK:τα δεύτερα ή τα πρώτα ορίσματα"
 
-#: ../plugins/fn-lookup/functions.c:1676
+#: ../plugins/fn-lookup/functions.c:1677
 msgid "link_location:string"
 msgstr "link_location:συμβολοσειρά"
 
-#: ../plugins/fn-lookup/functions.c:1677
+#: ../plugins/fn-lookup/functions.c:1678
 msgid "label:string, optional"
 msgstr "label:συμβολοσειρά, προαιρετικό"
 
-#: ../plugins/fn-lookup/functions.c:1678
+#: ../plugins/fn-lookup/functions.c:1679
 msgid ""
 "HYPERLINK function currently returns its 2nd argument, or if that is omitted "
 "the 1st argument."
@@ -5642,19 +5642,19 @@ msgstr ""
 "Η συνάρτηση HYPERLINK αυτή τη στιγμή επιστρέφει το 2ο όρισμά της, ή αν "
 "παραλείπεται το 1ο της όρισμα."
 
-#: ../plugins/fn-lookup/functions.c:1697
+#: ../plugins/fn-lookup/functions.c:1698
 msgid "TRANSPOSE:the transpose of @{matrix}"
 msgstr "TRANSPOSE:ο αντιμετάθεση του @{matrix}"
 
-#: ../plugins/fn-lookup/functions.c:1698 ../plugins/fn-lookup/functions.c:1736
+#: ../plugins/fn-lookup/functions.c:1699 ../plugins/fn-lookup/functions.c:1737
 msgid "matrix:range"
 msgstr "matrix:περιοχή"
 
-#: ../plugins/fn-lookup/functions.c:1735
+#: ../plugins/fn-lookup/functions.c:1736
 msgid "FLIP:@{matrix} flipped"
 msgstr "FLIP:@{matrix} ανεστραμμένο"
 
-#: ../plugins/fn-lookup/functions.c:1737
+#: ../plugins/fn-lookup/functions.c:1738
 msgid ""
 "vertical:if true, @{matrix} is flipped vertically, otherwise horizontally; "
 "defaults to TRUE"
@@ -5662,32 +5662,32 @@ msgstr ""
 "κάθετα: εάν αληθές, το @{matrix} αναστρέφεται κάθετα, αλλιώς οριζόντια· "
 "προεπιλογή το ΑΛΗΘΕΣ"
 
-#: ../plugins/fn-lookup/functions.c:1782
+#: ../plugins/fn-lookup/functions.c:1783
 msgid "ARRAY:vertical array of the arguments"
 msgstr "ARRAY:κατακόρυφος πίνακας των ορισμάτων"
 
-#: ../plugins/fn-lookup/functions.c:1783
+#: ../plugins/fn-lookup/functions.c:1784
 msgid "v:value"
 msgstr "v:τιμή"
 
-#: ../plugins/fn-lookup/functions.c:1839
+#: ../plugins/fn-lookup/functions.c:1840
 msgid "SORT:sorted list of numbers as vertical array"
 msgstr "SORT:ταξινομημένη λίστα αριθμών σε κατακόρυφο πίνακα"
 
-#: ../plugins/fn-lookup/functions.c:1840 ../plugins/fn-stat/functions.c:163
+#: ../plugins/fn-lookup/functions.c:1841 ../plugins/fn-stat/functions.c:163
 #: ../plugins/fn-stat/functions.c:215
 msgid "ref:list of numbers"
 msgstr "ref:η λίστα αριθμών"
 
-#: ../plugins/fn-lookup/functions.c:1841
+#: ../plugins/fn-lookup/functions.c:1842
 msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
 msgstr "order:0 (φθίνουσα σειρά) ή 1 (αύξουσα σειρά), η προεπιλογή είναι 0"
 
-#: ../plugins/fn-lookup/functions.c:1842
+#: ../plugins/fn-lookup/functions.c:1843
 msgid "Strings, booleans, and empty cells are ignored."
 msgstr "Τα αλφαριθμητικά, οι τιμές Μπουλ και τα κενά κελιά παραβλέπονται."
 
-#: ../plugins/fn-lookup/functions.c:1843
+#: ../plugins/fn-lookup/functions.c:1844
 msgid "SORT({4,3,5}) evaluates to {5,4,3}"
 msgstr "Η συνάρτηση SORT({4,3,5}) εκτιμάται σε {5,4,3}"
 
@@ -6993,7 +6993,8 @@ msgstr ""
 "επιστρέφει #ΤΙΜΗ!"
 
 #: ../plugins/fn-numtheory/numtheory.c:219
-msgid "NT_OMEGA:Numer of distinct prime factors"
+#| msgid "NT_OMEGA:Numer of distinct prime factors"
+msgid "NT_OMEGA:Number of distinct prime factors"
 msgstr "NT_OMEGA:Ο αριθμός των διακριτών πρώτων παραγόντων"
 
 #: ../plugins/fn-numtheory/numtheory.c:221
