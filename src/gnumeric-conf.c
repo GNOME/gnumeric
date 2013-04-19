@@ -573,13 +573,11 @@ gnm_conf_get_printer_decoration_font (void)
 	return style;
 }
 
-#define TOOLBAR_TANGO(Object,Format,LongFormat,Standard)	\
+#define TOOLBAR_TANGO(Object,Format,Standard)	\
 	if (strcmp (name, "ObjectToolbar") == 0)		\
 		Object						\
 	else if (strcmp (name, "FormatToolbar") == 0)		\
 		Format						\
-	else if (strcmp (name, "LongFormatToolbar") == 0)	\
-		LongFormat					\
 	else if (strcmp (name, "StandardToolbar") == 0)		\
 		Standard
 
@@ -590,7 +588,6 @@ gnm_conf_get_toolbar_visible (const char *name)
 	TOOLBAR_TANGO
 		(return gnm_conf_get_core_gui_toolbars_object_visible ();,
 		 return gnm_conf_get_core_gui_toolbars_format_visible ();,
-		 return gnm_conf_get_core_gui_toolbars_longformat_visible ();,
 		 return gnm_conf_get_core_gui_toolbars_standard_visible (););
 
 	g_warning ("Unknown toolbar: %s", name);
@@ -603,7 +600,6 @@ gnm_conf_set_toolbar_visible (const char *name, gboolean x)
 	TOOLBAR_TANGO
 		(gnm_conf_set_core_gui_toolbars_object_visible (x);,
 		 gnm_conf_set_core_gui_toolbars_format_visible (x);,
-		 gnm_conf_set_core_gui_toolbars_longformat_visible (x);,
 		 gnm_conf_set_core_gui_toolbars_standard_visible (x););
 }
 
@@ -613,7 +609,6 @@ gnm_conf_get_toolbar_position (const char *name)
 	TOOLBAR_TANGO
 		(return gnm_conf_get_core_gui_toolbars_object_position ();,
 		 return gnm_conf_get_core_gui_toolbars_format_position ();,
-		 return gnm_conf_get_core_gui_toolbars_longformat_position ();,
 		 return gnm_conf_get_core_gui_toolbars_standard_position (););
 
 	g_warning ("Unknown toolbar: %s", name);
@@ -626,7 +621,6 @@ gnm_conf_set_toolbar_position (const char *name, GtkPositionType x)
 	TOOLBAR_TANGO
 		(gnm_conf_set_core_gui_toolbars_object_position (x);,
 		 gnm_conf_set_core_gui_toolbars_format_position (x);,
-		 gnm_conf_set_core_gui_toolbars_longformat_position (x);,
 		 gnm_conf_set_core_gui_toolbars_standard_position (x););
 }
 
@@ -1574,64 +1568,6 @@ GOConfNode *
 gnm_conf_get_core_gui_toolbars_format_visible_node (void)
 {
 	return get_watch_node (&watch_core_gui_toolbars_format_visible);
-}
-
-static struct cb_watch_int watch_core_gui_toolbars_longformat_position = {
-	0, "core/gui/toolbars/longformat-position",
-	"Long format toolbar position",
-	"This variable determines where the long format toolbar should be shown.  0 is left, 1 is right, 2 is top.",
-	0, 3, 2,
-};
-
-GtkPositionType
-gnm_conf_get_core_gui_toolbars_longformat_position (void)
-{
-	if (!watch_core_gui_toolbars_longformat_position.handler)
-		watch_int (&watch_core_gui_toolbars_longformat_position);
-	return watch_core_gui_toolbars_longformat_position.var;
-}
-
-void
-gnm_conf_set_core_gui_toolbars_longformat_position (GtkPositionType x)
-{
-	if (!watch_core_gui_toolbars_longformat_position.handler)
-		watch_int (&watch_core_gui_toolbars_longformat_position);
-	set_int (&watch_core_gui_toolbars_longformat_position, x);
-}
-
-GOConfNode *
-gnm_conf_get_core_gui_toolbars_longformat_position_node (void)
-{
-	return get_watch_node (&watch_core_gui_toolbars_longformat_position);
-}
-
-static struct cb_watch_bool watch_core_gui_toolbars_longformat_visible = {
-	0, "core/gui/toolbars/longformat-visible",
-	"Long format toolbar visible",
-	"This variable determines whether the long format toolbar should be visible initially.",
-	FALSE,
-};
-
-gboolean
-gnm_conf_get_core_gui_toolbars_longformat_visible (void)
-{
-	if (!watch_core_gui_toolbars_longformat_visible.handler)
-		watch_bool (&watch_core_gui_toolbars_longformat_visible);
-	return watch_core_gui_toolbars_longformat_visible.var;
-}
-
-void
-gnm_conf_set_core_gui_toolbars_longformat_visible (gboolean x)
-{
-	if (!watch_core_gui_toolbars_longformat_visible.handler)
-		watch_bool (&watch_core_gui_toolbars_longformat_visible);
-	set_bool (&watch_core_gui_toolbars_longformat_visible, x);
-}
-
-GOConfNode *
-gnm_conf_get_core_gui_toolbars_longformat_visible_node (void)
-{
-	return get_watch_node (&watch_core_gui_toolbars_longformat_visible);
 }
 
 static struct cb_watch_int watch_core_gui_toolbars_object_position = {

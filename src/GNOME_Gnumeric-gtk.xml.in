@@ -380,37 +380,12 @@
     <toolitem action="FormatDecreaseIndent"/>
     <toolitem action="FormatIncreaseIndent"/>
     <separator/>
-    <toolitem action="BorderSelector"/>
-    <toolitem action="ColorBack"/>
-    <toolitem action="ColorFore"/>
-  </toolbar>
-  <toolbar _name="LongFormatToolbar">
-    <toolitem action="FontName"/>
     <toolitem action="FontSuperscript"/>
     <toolitem action="FontSubscript"/>
-    <toolitem action="FontBold"/>
-    <toolitem action="FontItalic"/>
-    <toolitem action="FontUnderline"/>
     <separator/>
     <toolitem action="BorderSelector"/>
     <toolitem action="ColorBack"/>
     <toolitem action="ColorFore"/>
-    <separator/>
-    <toolitem action="AlignLeft"/>
-    <toolitem action="AlignCenter"/>
-    <toolitem action="AlignRight"/>
-    <toolitem action="CenterAcrossSelection"/>
-    <toolitem action="FormatMergeCells"/>
-    <toolitem action="FormatUnmergeCells"/>
-    <separator/>
-    <toolitem action="FormatAsAccounting"/>
-    <toolitem action="FormatAsPercentage"/>
-    <toolitem action="FormatWithThousands"/>
-    <toolitem action="FormatIncreasePrecision"/>
-    <toolitem action="FormatDecreasePrecision"/>
-    <separator/>
-    <toolitem action="FormatDecreaseIndent"/>
-    <toolitem action="FormatIncreaseIndent"/>
   </toolbar>
   <toolbar _name="ObjectToolbar">
     <toolitem action="CreateRectangle"/>

@@ -4259,7 +4259,6 @@ static struct ToolbarInfo {
 } toolbar_info[] = {
 	{ "StandardToolbar", N_("Standard Toolbar"), "<control>7" },
 	{ "FormatToolbar", N_("Format Toolbar"), NULL },
-	{ "LongFormatToolbar", N_("Long Format Toolbar"), NULL },
 	{ "ObjectToolbar", N_("Object Toolbar"), NULL },
 	{ NULL, NULL, NULL }
 };

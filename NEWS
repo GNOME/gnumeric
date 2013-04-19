@@ -55,6 +55,7 @@ Morten:
 	* Fix vertical toolbar's font button.
 	* Fix criticals in insert-comment dialog.
 	* Improve vertical toolbars.  [#590889]
+	* Merge long format toolbar into regular one.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

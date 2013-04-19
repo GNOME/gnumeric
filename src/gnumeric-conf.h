@@ -151,14 +151,6 @@ GOConfNode *gnm_conf_get_core_gui_toolbars_format_visible_node (void);
 gboolean gnm_conf_get_core_gui_toolbars_format_visible (void);
 void gnm_conf_set_core_gui_toolbars_format_visible (gboolean x);
 
-GOConfNode *gnm_conf_get_core_gui_toolbars_longformat_position_node (void);
-GtkPositionType gnm_conf_get_core_gui_toolbars_longformat_position (void);
-void gnm_conf_set_core_gui_toolbars_longformat_position (GtkPositionType x);
-
-GOConfNode *gnm_conf_get_core_gui_toolbars_longformat_visible_node (void);
-gboolean gnm_conf_get_core_gui_toolbars_longformat_visible (void);
-void gnm_conf_set_core_gui_toolbars_longformat_visible (gboolean x);
-
 GOConfNode *gnm_conf_get_core_gui_toolbars_object_position_node (void);
 GtkPositionType gnm_conf_get_core_gui_toolbars_object_position (void);
 void gnm_conf_set_core_gui_toolbars_object_position (GtkPositionType x);

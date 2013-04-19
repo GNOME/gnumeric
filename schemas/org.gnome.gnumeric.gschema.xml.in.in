@@ -123,16 +123,6 @@
       <_summary>Format toolbar position</_summary>
       <_description>This variable determines where the format toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
     </key>
-    <key name="longformat-visible" type="b">
-      <default>false</default>
-      <_summary>Long format toolbar visible</_summary>
-      <_description>This variable determines whether the long format toolbar should be visible initially.</_description>
-    </key>
-    <key name="longformat-position" type="i">
-      <default>2</default>
-      <_summary>Long format toolbar position</_summary>
-      <_description>This variable determines where the long format toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
-    </key>
     <key name="object-visible" type="b">
       <default>true</default>
       <_summary>Object toolbar visible</_summary>

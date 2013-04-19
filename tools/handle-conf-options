@@ -192,12 +192,6 @@ my %extra_attributes =
 	 'max' => 3,
      },
 
-     '/org/gnome/gnumeric/core/gui/toolbars/longformat-position' => {
-	 'gtype' => 'GTK_TYPE_POSITION',
-	 'min' => 0,
-	 'max' => 3,
-     },
-
      '/org/gnome/gnumeric/core/gui/toolbars/object-position' => {
 	 'gtype' => 'GTK_TYPE_POSITION',
 	 'min' => 0,
