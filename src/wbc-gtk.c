@@ -3167,11 +3167,8 @@ wbc_gtk_init_borders (WBCGtk *wbcg)
 	g_object_set (G_OBJECT (wbcg->borders),
 		      "label", _("Borders"),
 		      "tooltip", _("Borders"),
-		      "visible-vertical", FALSE,
 		      NULL);
-	/* TODO: Create vertical version.  */
 #if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 	go_combo_pixmaps_select (wbcg->borders, 1); /* default to none */
 #endif
 	g_signal_connect (G_OBJECT (wbcg->borders),
