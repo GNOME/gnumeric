@@ -3318,9 +3318,7 @@ wbc_gtk_init_color_fore (WBCGtk *gtk)
 	g_object_set (G_OBJECT (gtk->fore_color),
 		      "label", _("Foreground"),
 		      "tooltip", _("Foreground"),
-		      "visible-vertical", FALSE,
 		      NULL);
-	/* TODO: Create vertical version.  */
 	g_signal_connect (G_OBJECT (gtk->fore_color),
 		"combo-activate",
 		G_CALLBACK (cb_fore_color_changed), gtk);
@@ -3369,9 +3367,7 @@ wbc_gtk_init_color_back (WBCGtk *gtk)
 	g_object_set (G_OBJECT (gtk->back_color),
 		      "label", _("Background"),
 		      "tooltip", _("Background"),
-		      "visible-vertical", FALSE,
 		      NULL);
-	/* TODO: Create vertical version.  */
 	g_object_connect (G_OBJECT (gtk->back_color),
 		"signal::combo-activate", G_CALLBACK (cb_back_color_changed), gtk,
 		"signal::display-custom-dialog", G_CALLBACK (cb_custom_color_created), gtk,

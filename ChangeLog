@@ -2,6 +2,8 @@
 
 	* src/wbc-gtk.c (wbc_gtk_init_borders): Show also in vertical
 	mode.
+	(wbc_gtk_init_color_fore): Ditto.
+	(wbc_gtk_init_color_back): Ditto.
 
 2013-04-17  Morten Welinder  <terra@gnome.org>
 

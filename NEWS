@@ -51,6 +51,7 @@ Morten:
 	* Fix bad interaction between save-as and GtkFileChooser.  [#695839]
 	* Fix vertical toolbar's font button.
 	* Fix criticals in insert-comment dialog.
+	* Improve vertical toolbars.  [#590889]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
