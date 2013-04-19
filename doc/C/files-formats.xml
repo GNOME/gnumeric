@@ -11,7 +11,7 @@
 
 <!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
 <table frame='all'><title>The file formats supported by &gnum;</title>
-<tgroup cols='4' align='left' colsep='1' rowsep='1'>
+<tgroup cols='7' align='left' colsep='1' rowsep='1'>
        
 
 <thead>
@@ -20,20 +20,26 @@
   <entry align="left">Extension</entry>
   <entry align="left">Open</entry>
   <entry align="left">Save</entry>
+  <entry align="left">Import</entry>
+  <entry align="left">Export</entry>
   <entry align="left">MIME type</entry>
 </row>
 </thead>
 <tbody>
 <row>
   <entry><link linkend="file-format-gnumeric">Gnumeric</link></entry>
-  <entry><literal>.gnumeric</literal> / <literal>.gnm</literal></entry> 
+  <entry><literal>.gnumeric</literal> / <literal>.gnm</literal> / <literal>.xml</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry></entry>
+  <entry></entry>
   <entry>application/x-gnumeric</entry>
 </row>
 <row>
   <entry><link linkend="file-format-applix">Applix</link></entry>
   <entry><literal>.as</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry></entry>
   <entry>application/x-applix-spreadsheet</entry>
@@ -41,6 +47,8 @@
 <row>
   <entry><link linkend="file-format-csv">Comma Separated Values</link></entry>
   <entry><literal>.csv</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>YES</entry>
   <entry>text/plain</entry>
@@ -48,6 +56,8 @@
 <row>
   <entry><link linkend="file-format-dif">Data Interchange Format</link></entry>
   <entry><literal>.dif</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>YES</entry>
   <entry></entry>
@@ -55,6 +65,8 @@
 <row>
   <entry><link linkend="file-format-oleo">GNU Oleo</link></entry>
   <entry><literal>.oleo</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry></entry>
   <entry>application/x-oleo</entry>
@@ -62,6 +74,8 @@
 <row>
   <entry><link linkend="file-format-html">HTML</link></entry>
   <entry><literal>.html</literal> / <literal>.htm</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>YES</entry>
   <entry>text/html</entry>
@@ -70,12 +84,16 @@
   <entry><link linkend="file-format-latex">LaTeX</link></entry>
   <entry><literal>.tex</literal></entry> 
   <entry></entry>
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>text/x-tex</entry>
 </row>
 <row>
   <entry><link linkend="file-format-mps">Linear and Integer Program</link></entry>
   <entry>none / <literal>.mps</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry></entry>
   <entry>application/x-mps</entry>
@@ -83,6 +101,8 @@
 <row>
   <entry><link linkend="file-format-lotus">Lotus 1-2-3</link></entry>
   <entry><literal>.wk1</literal> / <literal>.wks</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry></entry>
   <entry>application/vnd.lotus-1-2-3, application/x-123</entry>
@@ -93,6 +113,8 @@
   <entry><literal>.xls</literal> / <literal>.xlt</literal> / <literal>.xlw</literal></entry> 
   <entry>YES</entry>
   <entry></entry>
+  <entry></entry>
+  <entry></entry>
   <entry>application/vnd.ms-excel</entry>
 </row>
 <row>
@@ -101,13 +123,17 @@
   <entry><literal>.xls</literal> / <literal>.xlt</literal> / <literal>.xlw</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry></entry>
+  <entry></entry>
   <entry>application/vnd.ms-excel</entry>
 </row>
 <row>
   <entry><link linkend="file-format-excel-oldxml">Microsoft Excel 2003 SpreadsheetML</link></entry>
   <entry><literal>.xlsx</literal></entry> 
   <entry>YES</entry>
-  <entry>YES (incomplete)</entry>
+  <entry></entry>
+  <entry></entry>
+  <entry></entry>
   <entry>application/vnd.ms-excel</entry>
 </row>
 <row>
@@ -115,14 +141,18 @@
   <entry><literal>.xlsx</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry></entry>
+  <entry></entry>
   <entry>application/vnd.ms-excel</entry>
 </row>
 <row>
   <entry><link linkend="file-format-sxc">OpenOffice.Org / StarOffice
   Old Format</link></entry>
   <entry><literal>.sxc</literal> / <literal>.stc</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
-  <entry>YES (incomplete)</entry>
+  <entry></entry>
   <entry>application/vnd.sun.xml.calc</entry>
 </row>
 <row>
@@ -130,11 +160,15 @@
   <entry><literal>.ods</literal> / <literal>.odt</literal> / <literal>.sxc</literal> / <literal>.stc</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry></entry>
+  <entry></entry>
   <entry>application/vnd.oasis.opendocument.spreadsheet</entry>
 </row>
 <row>
   <entry><!--<link linkend="file-format-paradox">-->Paradox Database<!--</link>--></entry>
   <entry><literal>.px</literal> / <literal>.db</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>YES</entry>
   <entry></entry>
@@ -142,6 +176,8 @@
 <row>
   <entry><link linkend="file-format-planperfect">Plan Perfect</link></entry>
   <entry><literal>.pln</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry></entry>
   <entry>application/x-planperfect</entry>
@@ -149,6 +185,8 @@
 <row>
   <entry><!--<link linkend="file-format-psiconv">-->Psion 5 Sheet Files<!--</link>--></entry>
   <entry><literal>.psisheet</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry></entry>
   <entry></entry>
@@ -157,6 +195,8 @@
   <entry><link linkend="file-format-ps">Postscript</link></entry>
   <entry><literal>.ps</literal> / <literal>.eps</literal></entry> 
   <entry></entry>
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>application/postscript</entry>
 </row>
@@ -164,12 +204,16 @@
   <entry><link linkend="file-format-pdf">PDF</link></entry>
   <entry><literal>.pdf</literal></entry> 
   <entry></entry>
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>application/pdf</entry>
 </row>
 <row>
   <entry><link linkend="file-format-qpro">Quattro Pro</link></entry>
   <entry><literal>.wb1</literal> / <literal>.wb2</literal> / <literal>.wb3</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry></entry>
   <entry>application/x-quattropro, application/x-quattro-pro</entry>
@@ -177,6 +221,8 @@
 <row>
   <entry><link linkend="file-format-sc">SC/XSpread</link></entry>
   <entry>none / .<literal>sc</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry></entry>
   <entry>application/x-sc</entry>
@@ -186,11 +232,15 @@
   <entry> <literal>.sylk</literal> / <literal>.slk</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry></entry>
+  <entry></entry>
   <entry>application/x-sylk</entry>
 </row>
 <row>
   <entry><link linkend="file-format-tab">Tab Separated Values</link></entry>
   <entry><literal>.tsv</literal> / <literal>.tab</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>YES</entry>
   <entry>text/plain</entry>
@@ -198,6 +248,8 @@
 <row>
   <entry><link linkend="file-format-text">Text Formats</link></entry>
   <entry><literal>.txt</literal> / <literal>.text</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>YES</entry>
   <entry>text/plain</entry>
@@ -206,12 +258,16 @@
   <entry><link linkend="file-format-troff">TROFF</link></entry>
   <entry><literal>.me</literal></entry> 
   <entry></entry>
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>application/x-troff</entry>
 </row>
 <row>
   <entry><link linkend="file-format-xbase">Xbase</link></entry>
   <entry><literal>.dbf</literal></entry> 
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry></entry>
   <entry>application/dbase, application/dbf, application/x-dbase,
@@ -221,6 +277,8 @@
   <entry><link linkend="file-format-xhtml">XHTML</link></entry>
   <entry><literal>.xhtml</literal> / <literal>.html</literal></entry> 
   <entry></entry>
+  <entry></entry>
+  <entry></entry>
   <entry>YES</entry>
   <entry>application/xhtml+xml</entry>
 </row>
@@ -229,6 +287,20 @@
 </table>
 <!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
 
+<note>
+  <para>
+    Files in the file formats marked as Save/Open can be opened or saved
+    with the
+    <guimenuitem>Open</guimenuitem>, <guimenuitem>Save</guimenuitem>,
+    and <guimenuitem>Save As</guimenuitem> menu items in the
+    <guimenuitem>File</guimenuitem> menu.
+    Files in the file formats marked as Import/Export can be imported or
+    exported with the items on the
+    <guimenuitem>Import Data</guimenuitem> and <guimenuitem>Export Data
+    </guimenuitem> submenus of the 
+    <guimenuitem>Data</guimenuitem> menu. 
+  </para>
+</note>
 
 
 
@@ -550,9 +622,9 @@ gunzip Book1.text.gz
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Open only</entry>
+	    <entry>Import only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -659,7 +731,7 @@ gunzip Book1.text.gz
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
 	    <entry>Both</entry>
 	  </row>
@@ -773,7 +845,7 @@ gunzip Book1.text.gz
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
 	    <entry>Both</entry>
 	  </row>
@@ -879,7 +951,7 @@ gunzip Book1.text.gz
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
 	    <entry>Open Only</entry>
 	  </row>
@@ -978,9 +1050,9 @@ gunzip Book1.text.gz
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Save Only, but also can import HTML &lt;table&gt; 
+	    <entry>Export only, but also can import HTML &lt;table&gt; 
 	           structures</entry>
 	  </row>
 	</tbody>
@@ -1161,9 +1233,9 @@ gunzip Book1.text.gz
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Save only</entry>
+	    <entry>Export only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -1421,9 +1493,9 @@ pdflatex Book1.tex
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Open only</entry>
+	    <entry>Import only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -1561,9 +1633,9 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Open only.</entry>
+	    <entry>Import only.</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -2146,9 +2218,9 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Open only</entry>
+	    <entry>Import only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -2367,7 +2439,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
 	    <entry>Both</entry>
 	  </row>
@@ -2454,9 +2526,9 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Open only.</entry>
+	    <entry>Import only.</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -2569,9 +2641,9 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Save only.</entry>
+	    <entry>Export only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -2698,9 +2770,9 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Save only</entry>
+	    <entry>Export only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -2809,9 +2881,9 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Open only</entry>
+	    <entry>Import only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -2900,9 +2972,9 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Open only.</entry>
+	    <entry>Import only.</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -3011,7 +3083,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
 	    <entry>Both</entry>
 	  </row>
@@ -3108,7 +3180,14 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <para>
-      Choosing the "Text import (configurable)" or "Text export
+      Choosing <guimenuitem>Import Text File...</guimenuitem> menu
+      item in the
+      <guimenuitem>Import Data</guimenuitem> submenu of the
+      <guimenuitem>Data</guimenuitem> menu or the <guimenuitem>Import
+      Other File...</guimenuitem> menu item in the
+      <guimenuitem>Import Data</guimenuitem> submenu of the
+      <guimenuitem>Data</guimenuitem> menu and specifying the
+      "Text import (configurable)" or "Text export
       (configurable)" file formats to open or save files will cause
       &gnum; to start the <interface>Text Import</interface> or
       <interface>Text Export</interface> druids. These allow the users
@@ -3132,13 +3211,14 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <para>
-      &gnum; can open and save files to a wide variety of text file
+      &gnum; can import and export files from and to a wide variety
+      of text file
       formats when the text importer or the text exporter is
       configured appropriately. File can be generated with many
       different encodings. See the section on <link
       linkend="sect-file-textImport">importing text files</link> or
       the section on <link linkend="sect-file-textExport">exporting
-      text files</link> for an explanation of how to open or save
+      text files</link> for an explanation of how to import or export
       these formatted text files.
     </para>
 
@@ -3166,7 +3246,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
 	    <entry>Both</entry>
 	  </row>
@@ -3287,9 +3367,9 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Save only</entry>
+	    <entry>Export only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -3498,9 +3578,9 @@ Sheet 0
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Open only</entry>
+	    <entry>Import only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -3613,7 +3693,7 @@ Sheet 0
 	  </row>
 	  <row>
 	    <entry>
-	      <emphasis role="bold">Open / Save:</emphasis>
+	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
 	    <entry>Both</entry>
 	  </row>

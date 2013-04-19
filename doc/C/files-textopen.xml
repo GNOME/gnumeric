@@ -10,10 +10,11 @@
     intervention on the part of the user so &gnum; provides a
     <interface>Text Import</interface> druid, which is a three paneled
     dialog with configuration options. For text imported from files,
-    this druid appears after the file has been opened, using the file
-    format named "Text Import (configurable)" in the <interface>File
-    Open</interface> dialog, as is explained in <xref
-    linkend="sect-file-open" />. For text imported from the clipboard,
+    this druid appears after the file has been imported, using the 
+    <guimenuitem>Import Text File...</guimenuitem> menu item in the
+    <guimenuitem>Import Data</guimenuitem> submenu of the
+    <guimenuitem>Data</guimenuitem> menu as described in
+    <xref linkend="Data-Menu"/>. For text imported from the clipboard,
     the druid appears when a user attempts to paste the text into a
     worksheet, as is explained in <xref
     linkend="sect-movecopy-xclipboard" />.

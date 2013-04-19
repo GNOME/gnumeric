@@ -1,5 +1,8 @@
 Gnumeric 1.12.2
 
+Andreas:
+	* Update documentation.
+
 Dominique Leuenberger:
 	* Fix locale directory.
 

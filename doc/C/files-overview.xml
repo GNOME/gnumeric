@@ -28,8 +28,10 @@
     Excel. &gnum; can use the Excel file format as if it were the
     native file format, meaning that &gnum; can store and retrieve
     essentially every aspect of a worksheet using the Excel
-    format. Similarly, &gnum; supports the OASIS standard Open Office
-    XML file format as if it were the native format.
+    format. Similarly, &gnum; supports the OASIS Open Document Format
+    for Office Applications (ODF 1.2) file format (ISO/IEC 26300:2006/Amd
+    1:2012) as well as the ECMA 376 2nd Edition file format (ISO/IEC 
+    29500:2008) as if they were the native format.
   </para>
 
   <warning>
@@ -57,7 +59,7 @@
     systems to structure the data such as using commas, tabs or spaces
     to separate values. &gnum; features a flexible system that enables
     users to define exactly the structure of the text file to be
-    opened or saved.
+    imported or exported.
   </para>
 
   <para>

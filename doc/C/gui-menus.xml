@@ -2346,7 +2346,7 @@
 	      <para>
 		The items in this submenu allow the user to import data
 		from various non-spreadsheet formats. To open files in  a
-		non-spreadsheet format,
+		spreadsheet format,
 		use the <guimenuitem>Open</guimenuitem> menu described in
 		<xref linkend="File-Menu"/>. See <xref
 	        linkend="sect-file-formats" /> for details.  These
