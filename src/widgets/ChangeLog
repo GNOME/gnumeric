@@ -1,3 +1,12 @@
+2013-04-18  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-text-view.c
+	(gnm_toggle_tool_button_set_active_no_signal): Avoid criticals on
+	dialog close.
+	(gtv_underline_button_activated): Set the data on the right object.
+	(gtv_init): Hold a ref on ->italic and ->strikethrough to avoid
+	accessing freed memory.
+
 2013-04-03  Morten Welinder  <terra@gnome.org>
 
 	* gnm-notebook.c (GnmNoteBookButton): New widget for use as

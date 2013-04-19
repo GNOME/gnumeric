@@ -30,7 +30,7 @@
 #include <gtk/gtk.h>
 
 struct _GnmTextView {
-	GtkBox	parent;
+	GtkBox parent;
 
 	GtkTextBuffer *buffer;
 	GtkTextView *view;
@@ -76,12 +76,11 @@ gnm_toggle_tool_button_set_active_no_signal (GtkToggleToolButton *button,
 					     gboolean is_active,
 					     GnmTextView *gtv)
 {
-	gulong handler_id = g_signal_handler_find (button, G_SIGNAL_MATCH_DATA,
-						   0, 0, NULL, NULL, gtv);
-
-	g_signal_handler_block (button, handler_id);
+	g_signal_handlers_block_matched
+		(button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, gtv);
 	gtk_toggle_tool_button_set_active (button, is_active);
-	g_signal_handler_unblock (button, handler_id);
+	g_signal_handlers_unblock_matched
+		(button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, gtv);
 }
 
 static void
@@ -178,9 +177,9 @@ gtv_build_toggle_button (GtkWidget *tb,  GnmTextView *gtv,
 	GtkToolItem * tb_button;
 
 	tb_button = gtk_toggle_tool_button_new_from_stock (button_name);
-	gtk_toolbar_insert(GTK_TOOLBAR(tb), tb_button, -1);
+	gtk_toolbar_insert (GTK_TOOLBAR (tb), tb_button, -1);
 	g_signal_connect (G_OBJECT (tb_button), "toggled", cb, gtv);
-	return GTK_TOGGLE_TOOL_BUTTON (tb_button);
+	return g_object_ref (tb_button);
 }
 
 static void
@@ -237,7 +236,7 @@ gtv_underline_button_activated (GtkMenuItem *menuitem, GnmTextView *gtv)
 			gtk_text_buffer_apply_tag (gtv->buffer, tag, &start, &end);
 			cb_gtv_emit_changed (NULL, gtv);
 		}
-		g_object_set_data (G_OBJECT (gtv->bold), "underlinevalue", (char *) val);
+		g_object_set_data (G_OBJECT (gtv->underline), "underlinevalue", (char *) val);
 	}
 }
 
@@ -346,6 +345,17 @@ gtv_build_button_bold (GtkWidget *tb, GnmTextView *gtv)
 static GObjectClass *parent_class = NULL;
 
 static void
+gtv_finalize (GObject *object)
+{
+	GnmTextView *gtv = GNM_TEXT_VIEW (object);
+
+	g_clear_object (&gtv->italic);
+	g_clear_object (&gtv->strikethrough);
+
+	parent_class->finalize (object);
+}
+
+static void
 gtv_set_property (GObject      *object,
 		  guint         prop_id,
 		  GValue const *value,
@@ -418,7 +428,8 @@ gtv_init (GnmTextView *gtv)
 						      GTK_STOCK_STRIKETHROUGH,
 						      G_CALLBACK
 						      (cb_gtv_set_strikethrough));
-	gtk_toolbar_insert(GTK_TOOLBAR(tb), gtk_separator_tool_item_new (), -1);
+	gtk_toolbar_insert (GTK_TOOLBAR(tb),
+			    gtk_separator_tool_item_new (), -1);
 	gtv->bold = gtv_build_button_bold (tb, gtv);
 	gtv->underline = gtv_build_button_underline (tb, gtv);
 
@@ -451,6 +462,7 @@ gtv_class_init (GObjectClass *gobject_class)
 {
 	parent_class = g_type_class_peek_parent (gobject_class);
 
+	gobject_class->finalize = gtv_finalize;
 	gobject_class->set_property	= gtv_set_property;
 	gobject_class->get_property	= gtv_get_property;
 	((GtkWidgetClass*)gobject_class)->grab_focus = gtv_grab_focus;

@@ -50,6 +50,7 @@ Morten:
 	* Enable context menu for graph sheet tabs.  [#685446]
 	* Fix bad interaction between save-as and GtkFileChooser.  [#695839]
 	* Fix vertical toolbar's font button.
+	* Fix criticals in insert-comment dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
