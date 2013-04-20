@@ -3748,7 +3748,7 @@ excel_read_name_str (GnmXLImporter *importer,
 	 * and stored the id as a character (possibly two byte).
 	 * NOTE : len is in _characters_ (not bytes) does not include
 	 *	the header */
-	if (is_builtin) {
+	if (is_builtin && *name_len) {
 		guint8 const *str = data;
 		char const *builtin;
 
@@ -3952,6 +3952,7 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		sheet_index = 0; /* no sheets */
 	}
 
+	XL_NEED_BYTES (name_len);
 	name = excel_read_name_str (importer, data, &name_len, builtin_name);
 	XL_NEED_BYTES (name_len);
 	data += name_len;

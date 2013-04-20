@@ -57,6 +57,7 @@ Morten:
 	* Improve vertical toolbars.  [#590889]
 	* Merge long format toolbar into regular one.
 	* Work around gtk+ behaviour change.  [#689283]
+	* Improve handling of broken xls.  [#698424]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

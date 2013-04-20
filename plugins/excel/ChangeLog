@@ -1,3 +1,9 @@
+2013-04-20  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_name_str): Make sure we don't end up
+	requesting (size_t)-1 characters worth of data.  Fixes #698424,
+	initial item.
+
 2013-04-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (write_arrays): Handle empty values properly.
