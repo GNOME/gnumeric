@@ -3210,6 +3210,7 @@ ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
 {
 	ExcelReadSheet dummy_sheet;
 
+	dummy_sheet.container.vtbl = NULL;
 	dummy_sheet.container.importer = (GnmXLImporter *)container;
 	dummy_sheet.sheet = NULL;
 	dummy_sheet.shared_formulae = NULL;
