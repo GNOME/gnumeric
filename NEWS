@@ -56,6 +56,7 @@ Morten:
 	* Fix criticals in insert-comment dialog.
 	* Improve vertical toolbars.  [#590889]
 	* Merge long format toolbar into regular one.
+	* Work around gtk+ behaviour change.  [#689283]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

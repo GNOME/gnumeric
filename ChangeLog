@@ -1,5 +1,8 @@
 2013-04-19  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-control-gui.c (scg_comment_display): Abandon the text
+	view approach.  Fixes #689283.
+
 	* src/wbc-gtk.c (wbc_gtk_init_borders): Show also in vertical
 	mode.
 	(wbc_gtk_init_color_fore): Ditto.

@@ -3025,34 +3025,28 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
 	if (scg->comment.item == NULL) {
-		GtkWidget *text, *frame;
-		GtkTextBuffer *buffer;
-		GtkWindow *toplevel = wbcg_toplevel (scg_wbcg (scg));
-		GdkScreen *screen = gtk_window_get_screen (toplevel);
+		GtkWidget *label;
 		char *comment_text;
-		char const *comment_author;
 		PangoAttrList *comment_markup;
+#if 0
+		char const *comment_author;
+#endif
 
-		scg->comment.item = gtk_window_new (GTK_WINDOW_POPUP);
-		gtk_window_set_screen (GTK_WINDOW (scg->comment.item), screen);
-		gtk_window_move (GTK_WINDOW (scg->comment.item), x+10, y+10);
+		g_object_get (G_OBJECT (cc),
+			      "text", &comment_text,
+			      "markup", &comment_markup,
+			      NULL);
+		label = gtk_label_new (comment_text);
+		gtk_label_set_attributes (GTK_LABEL (label), comment_markup);
+		g_free (comment_text);
 
-		text = gtk_text_view_new ();
-		gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text), GTK_WRAP_NONE);
-		gtk_text_view_set_editable  (GTK_TEXT_VIEW (text), FALSE);
-		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text));
-		go_create_std_tags_for_buffer (buffer);
+		gnumeric_convert_to_tooltip (GTK_WIDGET (scg->grid), label);
 
-		g_object_get (G_OBJECT (cc), "text", &comment_text,
-			      "markup", &comment_markup, NULL);
+		scg->comment.item = gtk_widget_get_toplevel (label);
+		gtk_window_move (GTK_WINDOW (scg->comment.item),
+				 x + 10, y + 10);
 
-		if (comment_text != NULL) {
-			gtk_text_buffer_set_text (buffer, comment_text, -1);
-			gnm_load_pango_attributes_into_buffer
-				(comment_markup, buffer, comment_text);
-			g_free (comment_text);
-		}
-
+#if 0
 		comment_author = cell_comment_author_get (cc);
 		if (comment_author != NULL) {
 			GtkTextIter iter;
@@ -3063,12 +3057,8 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 			gtk_text_buffer_insert_with_tags_by_name
 				(buffer, &iter, ":\n", -1, "PANGO_WEIGHT_BOLD", NULL);
 		}
+#endif
 
-		frame = gtk_frame_new (NULL);
-		gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-
-		gtk_container_add (GTK_CONTAINER (scg->comment.item), frame);
-		gtk_container_add (GTK_CONTAINER (frame), text);
 		gtk_widget_show_all (scg->comment.item);
 	}
 }
