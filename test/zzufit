@@ -2,27 +2,34 @@
 
 use strict;
 use Getopt::Long;
+use IO::File;
 
-my $file = "../samples/excel/mathfuns.xls";
+# We don't actually need these, but fuzzxml does.
+use XML::Parser;
+use XML::Writer;
+
+my @corpus;
+my %file_type;
+
 my $n = 0;
-my $rate = .0001;
+my $rate = 0.0001;
 my $LOG = "zzuf.log";
 my $DIR = "zzuftmp";
-my $xml = 0;
-my $ods = 0;
 my $valgrind = 0;
 
 &GetOptions ("rate=f" => \$rate,
 	     "seed=i" => \$n,
-	     "victim=s" => \$file,
-	     'xml' => \$xml,
-	     'ods' => \$ods,
 	     'valgrind' => \$valgrind,
 	     )
     or die &usage (1);
 
-die "$0: Only one of --xml and --ods may be specified.\n"
-    if $xml + $ods > 1;
+die &usage (1) unless @ARGV;
+@corpus = @ARGV;
+
+if ($valgrind) {
+    $ENV{'G_SLICE'} = 'always-malloc';
+    $ENV{'G_DEBUG'} = 'resident-modules';
+}
 
 if (!-d $DIR) {
     mkdir ($DIR, 0777) or die "$0: Cannot create $DIR: $!\n";
@@ -33,6 +40,10 @@ while (1) {
     print STDERR "Test $n\n";
     &append_log ("-------------------------------------------------------\n");
 
+    my $file = $corpus[$n % @corpus];
+    my $type = &determine_file_type ($file);
+    die "$0: unable to determine type of $file\n" unless defined $type;
+
     my ($filepath,$filebase,$fileext) =
 	($file =~ m:^(|.*/)([^/]+)(\.[^./]+)$:);
     if (!defined $filepath) {
@@ -41,18 +52,38 @@ while (1) {
     }
 
     my $zzuffile = "$DIR/${filebase}-${n}${fileext}";
-    my $fuzzcmd = $xml
-	? "./fuzzxml -s$n -r$rate '$file' '$zzuffile'"
-	: ($ods
-	   ? "./fuzzzip --subfuzzer='./fuzzxml -s$n -r$rate %i %o' --subfile content.xml --subfile styles.xml '$file' '$zzuffile'"
-	   : "zzuf -s$n -r$rate <'$file' >'$zzuffile'");
+    my $fuzzcmd;
+
+    if ($type eq 'xml') {
+	$fuzzcmd = "./fuzzxml -s$n -r$rate '$file' '$zzuffile'";
+    } elsif ($type eq 'xml.gz') {
+	$fuzzcmd = "gzip -dc '$file' | ./fuzzxml -s$n -r$rate - '$zzuffile'";
+    } elsif ($type eq 'raw') {
+	$fuzzcmd = "zzuf -s$n -r$rate <'$file' >'$zzuffile'";
+    } elsif ($type eq 'zip') {
+	$fuzzcmd = "./fuzzzip --subfuzzer='./fuzzxml -s$n -r$rate %i %o' --subfile content.xml --subfile styles.xml '$file' '$zzuffile'";
+    } else {
+	die "$0: Internal error.\n";
+    }
+
     &append_log ("Fuzz command $fuzzcmd\n");
-    system ($fuzzcmd);
+    {
+	system ($fuzzcmd);
+	my $code = $?;
+	my $sig = $code & 0x7f;
+	last if $sig == 2;
+    }
 
     my $outfile = "$DIR/${filebase}-${n}.gnumeric";
     my $cmd = "../src/ssconvert '$zzuffile' '$outfile' >>'$LOG' 2>&1";
     if ($valgrind) {
-	$cmd = "../libtool --mode=execute valgrind --num-callers=20 $cmd";
+	$cmd = "../libtool --mode=execute " .
+	    "valgrind " .
+	    "--track-origins=yes " .
+	    "--suppressions=common.supp ".
+	    "--num-callers=20 " .
+	    "--leak-check=full " .
+	    $cmd;
     }
     system ($cmd);
     my $code = $?;
@@ -90,7 +121,45 @@ sub usage {
     print STDERR "$0 [options]\n\n";
     print STDERR "  --rate=frac      Fraction of bits to flip.\n";
     print STDERR "  --seed=int       Initial seed.\n";
-    print STDERR "  --victim=file    File to create corrupted copies of.\n";
+    print STDERR "  --valgrind       Run under Valgrind.\n";
 
     exit ($res);
+}
+
+sub determine_file_type {
+    my ($file) = @_;
+
+    return $file_type{$file} if exists $file_type{$file};
+
+    return undef unless -r $file && -f _;
+
+    if ($file =~ /\.xls$/) {
+	return $file_type{$file} = 'raw';
+    }
+
+    if ($file =~ /\.ods$/) {
+	return $file_type{$file} = 'zip';
+    }
+
+    if ($file =~ /\.xml$/) {
+	return $file_type{$file} = 'xml';
+    }
+
+    if ($file =~ /\.gnumeric$/) {
+	my $f = new IO::File ($file, "r");
+	my $data;
+	my $nread = read $f,$data,10;
+	return undef unless $nread == 10;
+
+	if ($data =~ /^<\?xml/) {
+	    return $file_type{$file} = 'xml';
+	}
+
+	if (ord (substr ($data, 0, 1)) == 0x1f &&
+	    ord (substr ($data, 1, 1)) == 0x8b) {
+	    return $file_type{$file} = 'xml.gz';
+	}
+    }
+
+    return $file_type{$file} = undef;
 }
