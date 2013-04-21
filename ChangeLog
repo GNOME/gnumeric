@@ -1,3 +1,9 @@
+2013-04-20  Morten Welinder  <terra@gnome.org>
+
+	* src/go-data-slicer-field.c
+	(go_data_slicer_field_set_field_type_pos): Add precondition for
+	slicer.
+
 2013-04-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet.c (sheet_range_set_expr_cb): don't try to empty empty

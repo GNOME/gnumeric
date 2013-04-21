@@ -63,8 +63,11 @@ static void
 go_data_slicer_field_finalize (GObject *obj)
 {
 	GODataSlicerField *dsf = (GODataSlicerField *)obj;
-	go_string_unref (dsf->name); dsf->name = NULL;
-	(parent_klass->finalize) (obj);
+
+	go_string_unref (dsf->name);
+	dsf->name = NULL;
+
+	parent_klass->finalize (obj);
 }
 
 static void
@@ -75,10 +78,19 @@ go_data_slicer_field_set_property (GObject *obj, guint property_id,
 
 	switch (property_id) {
 	/* we do not hold a ref */
-	case PROP_SLICER :	 dsf->ds = g_value_get_object (value); break;
-	case PROP_NAME :	 go_string_unref (dsf->name); dsf->name = g_value_dup_boxed (value); break;
-	case PROP_DATA_CACHE_FIELD_INDEX : dsf->data_cache_field_indx = g_value_get_int (value); break;
-	case PROP_AGGREGATIONS : dsf->aggregations = g_value_get_uint (value); break;
+	case PROP_SLICER:
+		dsf->ds = g_value_get_object (value);
+		break;
+	case PROP_NAME:
+		go_string_unref (dsf->name);
+		dsf->name = g_value_dup_boxed (value);
+		break;
+	case PROP_DATA_CACHE_FIELD_INDEX:
+		dsf->data_cache_field_indx = g_value_get_int (value);
+		break;
+	case PROP_AGGREGATIONS:
+		dsf->aggregations = g_value_get_uint (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 	}
@@ -90,12 +102,21 @@ go_data_slicer_field_get_property (GObject *obj, guint property_id,
 {
 	GODataSlicerField const *dsf = (GODataSlicerField const *)obj;
 	switch (property_id) {
-	case PROP_SLICER :	 g_value_set_object (value, dsf->ds); break;
-	case PROP_NAME  :	 g_value_set_boxed (value, dsf->name); break;	/* actual name, do not fall back to cache */
-	case PROP_INDEX :	 g_value_set_int (value, dsf->indx); break;
-	case PROP_DATA_CACHE_FIELD_INDEX :
-				 g_value_set_int (value, dsf->data_cache_field_indx); break;
-	case PROP_AGGREGATIONS : g_value_set_uint (value, dsf->aggregations); break;
+	case PROP_SLICER:
+		g_value_set_object (value, dsf->ds);
+		break;
+	case PROP_NAME:
+		g_value_set_boxed (value, dsf->name);
+		break;	/* actual name, do not fall back to cache */
+	case PROP_INDEX:
+		g_value_set_int (value, dsf->indx);
+		break;
+	case PROP_DATA_CACHE_FIELD_INDEX:
+		g_value_set_int (value, dsf->data_cache_field_indx);
+		break;
+	case PROP_AGGREGATIONS:
+		g_value_set_uint (value, dsf->aggregations);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 	}
@@ -200,6 +221,7 @@ go_data_slicer_field_set_field_type_pos (GODataSlicerField *dsf,
 	int cur_pos, i;
 
 	g_return_if_fail (IS_GO_DATA_SLICER_FIELD (dsf));
+	g_return_if_fail (IS_GO_DATA_SLICER (dsf->ds));
 	g_return_if_fail (field_type > GDS_FIELD_TYPE_UNSET &&
 			  field_type < GDS_FIELD_TYPE_MAX);
 
