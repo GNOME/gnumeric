@@ -1678,7 +1678,8 @@ odf_text_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		end = ((ptr->gstr) ? ptr->gstr->len : 0);
 
 		ssi = ptr->span_style_stack->data;
-		ptr->span_style_stack = ptr->span_style_stack->next;
+		ptr->span_style_stack = g_slist_delete_link (ptr->span_style_stack,
+							     ptr->span_style_stack);
 
 		if (ssi != NULL) {
 			if (ssi->style_name != NULL && end > 0 && end > ssi->start) {
