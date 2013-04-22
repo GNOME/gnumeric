@@ -1701,6 +1701,17 @@ odf_compare_ci (gconstpointer a, gconstpointer b)
 }
 
 static void
+col_row_styles_free (gpointer data)
+{
+	col_row_styles_t *style = data;
+
+	if (data) {
+		g_free (style->name);
+		g_free (style);
+	}
+}
+
+static void
 odf_write_row_style (GnmOOExport *state, ColRowInfo const *ci)
 {
 	gsf_xml_out_start_element (state->xml, STYLE "table-row-properties");
@@ -8183,8 +8194,8 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	g_hash_table_unref (state.graph_fill_images);
 	g_hash_table_unref (state.arrow_markers);
 	g_hash_table_unref (state.text_colours);
-	g_slist_free (state.col_styles);
-	g_slist_free (state.row_styles);
+	g_slist_free_full (state.col_styles,  col_row_styles_free);
+	g_slist_free_full (state.row_styles,  col_row_styles_free);
 	if (state.default_style_region)
 		gnm_style_region_free (state.default_style_region);
 	go_format_unref (state.time_fmt);
