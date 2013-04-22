@@ -170,6 +170,7 @@ excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *conte
 			excel_read_workbook (context, wbv, input,
 					     &is_double_stream_file, enc);
 			/* NOTE : we lack a saver for the early formats */
+			g_clear_error (&err);
 			return;
 		}
 

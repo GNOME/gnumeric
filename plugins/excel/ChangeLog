@@ -1,5 +1,7 @@
 2013-04-22  Morten Welinder  <terra@gnome.org>
 
+	* boot.c (excel_enc_file_open): Plug leak.
+
 	* ms-excel-read.c (excel_read_FONT): Ensure ->script, ->underline,
 	and ->codepage are set.
 	(gnm_xl_importer_new): Set more pivot fields.
