@@ -1618,14 +1618,17 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 	XL_CHECK_CONDITION (q->length >= 4);
 	fd->height = GSF_LE_GET_GUINT16 (q->data + 0);
 	data = GSF_LE_GET_GUINT16 (q->data + 2);
-	fd->italic     = (data & 0x2) == 0x2;
+	fd->italic = (data & 0x2) == 0x2;
 	fd->struck_out = (data & 0x8) == 0x8;
+	fd->script = GO_FONT_SCRIPT_STANDARD;
+	fd->underline = XLS_ULINE_NONE;
+	fd->codepage = 1252;
+
 	if (ver <= MS_BIFF_V2) {
 		int cp;
 		guint16 opcode;
 		fd->boldness  = (data & 0x1) ? 0x2bc : 0x190;
 		fd->underline = (data & 0x4) ? XLS_ULINE_SINGLE : XLS_ULINE_NONE;
-		fd->script = GO_FONT_SCRIPT_STANDARD;
 		fd->fontname = excel_biff_text_1 (importer, q, 4);
 		if (ms_biff_query_peek_next (q, &opcode) &&
 		    opcode == BIFF_FONT_COLOR) {
@@ -1641,7 +1644,6 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
 		fd->boldness  = (data & 0x1) ? 0x2bc : 0x190;
 		fd->underline = (data & 0x4) ? XLS_ULINE_SINGLE : XLS_ULINE_NONE;
-		fd->script = GO_FONT_SCRIPT_STANDARD;
 		fd->fontname = excel_biff_text_1 (importer, q, 6);
 		cp = gnm_font_override_codepage (fd->fontname);
 		fd->codepage = (cp > 0 ? cp : 1252);
