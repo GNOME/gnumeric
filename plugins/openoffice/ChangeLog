@@ -1,3 +1,8 @@
+2013-04-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_chart_title_end): fix typo
+	(oo_legend): read location specifier
+
 2013-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (df_hf_item_start): new

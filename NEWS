@@ -5,6 +5,7 @@ Andreas:
 	* Fix angle import of ODF graphs. [#698389]
 	* Don't insert ODF local tables as sheets. [#698388]
 	* Improve import of header/footer info from ODF.
+	* Fix legend placement in ODF import. [#698535]
 
 Dominique Leuenberger:
 	* Fix locale directory.

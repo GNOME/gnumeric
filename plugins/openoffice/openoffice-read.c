@@ -7944,7 +7944,7 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			      "is-position-manual", state->chart.title_manual_pos,
 			      NULL);
 		if (state->chart.title_manual_pos) {
-			if (go_finite (state->chart.width) && (state->chart.height)) {
+			if (go_finite (state->chart.width) && go_finite (state->chart.height)) {
 				GogViewAllocation alloc;
 				alloc.x = state->chart.title_x / state->chart.width;
 				alloc.w = 0;
@@ -8916,6 +8916,7 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 	GogObject *legend;
 	int tmp;
 	char const *style_name = NULL;
+	double x = go_nan, y = go_nan;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "legend-position", positions, &tmp))
@@ -8924,12 +8925,14 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 			align = tmp;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "x"))
+			oo_parse_distance (xin, attrs[1], "x", &x);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "y"))
+			oo_parse_distance (xin, attrs[1], "y", &y);
 
 	legend = gog_object_add_by_name ((GogObject *)state->chart.chart, "Legend", NULL);
 	state->chart.legend = legend;
 	if (legend != NULL) {
-		gog_object_set_position_flags (legend, pos | align,
-					       GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
 		if (style_name) {
 			GOStyle *style = NULL;
 			g_object_get (G_OBJECT (legend), "style", &style, NULL);
@@ -8940,6 +8943,19 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 				g_object_unref (style);
 			}
 		}
+		if (go_finite (x) && go_finite (y) && go_finite (state->chart.width) && go_finite (state->chart.height)) {
+			GogViewAllocation alloc;
+			alloc.x = x / state->chart.width;
+			alloc.w = 0;
+			alloc.y = y / state->chart.height;
+			alloc.h = 0;
+			
+			gog_object_set_position_flags (legend, GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
+			gog_object_set_manual_position (legend, &alloc);			
+		} else
+			gog_object_set_position_flags (legend, pos | align,
+						       GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
+			
 	}
 }
 
