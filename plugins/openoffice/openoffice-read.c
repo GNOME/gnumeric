@@ -5785,6 +5785,18 @@ odf_hf_region (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 }
 
 static void
+odf_hf_item_start (GsfXMLIn *xin)
+{
+       OOParseState *state = (OOParseState *)xin->user_state;
+
+       if (xin->content->str != NULL && *xin->content->str != 0) {
+	       oo_text_p_t *ptr = state->text_p_stack->data;
+	       odf_text_p_add_text (state, xin->content->str + ptr->offset);
+	       ptr->offset = strlen (xin->content->str);
+       }	
+}
+
+static void
 odf_hf_item (GsfXMLIn *xin, char const *item)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -5797,6 +5809,7 @@ odf_hf_item (GsfXMLIn *xin, char const *item)
 static void
 odf_hf_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
+	odf_hf_item_start (xin);
 	odf_hf_item (xin, _("tab"));
 }
 
@@ -5810,6 +5823,7 @@ odf_hf_item_w_data_style (GsfXMLIn *xin, xmlChar const **attrs, char const *item
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "data-style-name"))
 			data_style_name = CXML2C (attrs[1]);
 
+	odf_hf_item_start (xin);
 	if (data_style_name == NULL)
 		odf_hf_item (xin, item);
 	else {
@@ -5827,24 +5841,28 @@ odf_hf_item_w_data_style (GsfXMLIn *xin, xmlChar const **attrs, char const *item
 static void
 odf_hf_date (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	odf_hf_item_start (xin);
 	odf_hf_item_w_data_style (xin, attrs, _("date"));
 }
 
 static void
 odf_hf_time (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	odf_hf_item_start (xin);
 	odf_hf_item_w_data_style (xin, attrs, _("time"));
 }
 
 static void
 odf_hf_page_number (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
+	odf_hf_item_start (xin);
 	odf_hf_item (xin, _("page"));
 }
 
 static void
 odf_hf_page_count (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
+	odf_hf_item_start (xin);
 	odf_hf_item (xin, _("pages"));
 }
 
@@ -5867,6 +5885,7 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_TEXT, "display", display_types, &tmp)) ;
 
+	odf_hf_item_start (xin);
 	switch (tmp) {
 	case 0:
 		odf_hf_item (xin, _("path"));
@@ -5912,6 +5931,7 @@ odf_hf_expression (GsfXMLIn *xin, xmlChar const **attrs)
 		gchar const *str = odf_string_id (state, formula);
 		char *new;
 		new = g_strconcat ((tmp == 1) ? "cellt" : "cell", ":", str, NULL);
+	        odf_hf_item_start (xin);
 		odf_hf_item (xin, new);
 		g_free (new);
 	}
@@ -5920,6 +5940,7 @@ odf_hf_expression (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 odf_hf_title (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
+	        odf_hf_item_start (xin);
 	odf_hf_item (xin, _("title"));
 }
 
