@@ -828,6 +828,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			gnm_hatch = g_value_get_int (&prop->value);
 		else if (0 == strcmp (prop->name, "text-rotation-angle")) {
 			int angle = g_value_get_int (&prop->value);
+			if (angle > 180)
+				angle -= 360;
 			go_style_set_text_angle (style, angle);
 		} else if (0 == strcmp (prop->name, "font-size")) {
 			pango_font_description_set_size
