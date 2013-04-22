@@ -3044,7 +3044,7 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 			PangoAttribute *attr;
 
 			/* xgettext: this is a by-line for cell comments */
-			text = g_strdup_printf (_("By %s:\n"), comment_author);
+			text = g_strdup_printf (_("By %s:"), comment_author);
 			label = gtk_label_new (text);
 			g_free (text);
 
@@ -3057,7 +3057,8 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 			pango_attr_list_unref (attrs);
 
 			gtk_widget_set_halign (label, GTK_ALIGN_START);
-			gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 10);
+			gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
+			gtk_box_set_spacing (GTK_BOX (box), 10);
 		}
 
 		label = gtk_label_new (comment_text);
