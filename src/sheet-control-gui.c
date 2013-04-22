@@ -3025,39 +3025,52 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
 	if (scg->comment.item == NULL) {
-		GtkWidget *label;
+		GtkWidget *label, *box;
 		char *comment_text;
 		PangoAttrList *comment_markup;
-#if 0
 		char const *comment_author;
-#endif
 
 		g_object_get (G_OBJECT (cc),
 			      "text", &comment_text,
 			      "markup", &comment_markup,
 			      NULL);
+		comment_author = cell_comment_author_get (cc);
+
+		box = gtk_box_new (GTK_ORIENTATION_VERTICAL, FALSE);
+
+		if (comment_author != NULL) {
+			char *text;
+			PangoAttrList *attrs;
+			PangoAttribute *attr;
+
+			/* xgettext: this is a by-line for cell comments */
+			text = g_strdup_printf (_("By %s:\n"), comment_author);
+			label = gtk_label_new (text);
+			g_free (text);
+
+			attrs = pango_attr_list_new ();
+			attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
+			attr->start_index = 0;
+			attr->end_index = G_MAXINT;
+			pango_attr_list_insert (attrs, attr);
+			gtk_label_set_attributes (GTK_LABEL (label), attrs);
+			pango_attr_list_unref (attrs);
+
+			gtk_widget_set_halign (label, GTK_ALIGN_START);
+			gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 10);
+		}
+
 		label = gtk_label_new (comment_text);
 		gtk_label_set_attributes (GTK_LABEL (label), comment_markup);
 		g_free (comment_text);
+		gtk_widget_set_halign (label, GTK_ALIGN_START);
+		gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
 
-		gnumeric_convert_to_tooltip (GTK_WIDGET (scg->grid), label);
+		gnumeric_convert_to_tooltip (GTK_WIDGET (scg->grid), box);
 
-		scg->comment.item = gtk_widget_get_toplevel (label);
+		scg->comment.item = gtk_widget_get_toplevel (box);
 		gtk_window_move (GTK_WINDOW (scg->comment.item),
 				 x + 10, y + 10);
-
-#if 0
-		comment_author = cell_comment_author_get (cc);
-		if (comment_author != NULL) {
-			GtkTextIter iter;
-			gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
-			gtk_text_buffer_insert_with_tags_by_name
-				(buffer, &iter, comment_author, -1,
-				 "PANGO_WEIGHT_BOLD", NULL);
-			gtk_text_buffer_insert_with_tags_by_name
-				(buffer, &iter, ":\n", -1, "PANGO_WEIGHT_BOLD", NULL);
-		}
-#endif
 
 		gtk_widget_show_all (scg->comment.item);
 	}
