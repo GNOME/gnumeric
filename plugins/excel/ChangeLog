@@ -2,6 +2,7 @@
 
 	* ms-excel-read.c (excel_read_FONT): Ensure ->script, ->underline,
 	and ->codepage are set.
+	(gnm_xl_importer_new): Set more pivot fields.
 
 2013-04-20  Morten Welinder  <terra@gnome.org>
 

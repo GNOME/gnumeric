@@ -3430,7 +3430,9 @@ gnm_xl_importer_new (GOIOContext *context, WorkbookView *wb_view, char const *op
 	importer->excel_sheets     = g_ptr_array_new ();
 	importer->XF_cell_records  = g_ptr_array_new ();
 	importer->pivot.cache_by_index = g_ptr_array_new ();
-	importer->pivot.slicer= NULL;
+	importer->pivot.slicer = NULL;
+	importer->pivot.field_count = 0;
+	importer->pivot.record_count = 0;
 	importer->format_table     = g_hash_table_new_full (
 							    g_direct_hash, g_direct_equal,
 							    NULL, (GDestroyNotify)biff_format_data_destroy);
