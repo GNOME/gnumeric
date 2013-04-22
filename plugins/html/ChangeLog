@@ -1,3 +1,9 @@
+2013-04-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* html.c (html_write_border_style_40_for_merged_cell): new
+	(write_cell): call html_write_border_style_40_for_merged_cell
+	as appropriate. [#635217]
+
 2013-03-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.1

@@ -4,8 +4,8 @@
  *
  * Copyright (C) 1999, 2000 Rasca, Berlin
  * EMail: thron@gmx.de
- * Copyright (c) 2001 Andreas J. Guelzow
- * EMail: aguelzow@taliesin.ca
+ * Copyright (c) 2001-2013 Andreas J. Guelzow
+ * EMail: aguelzow@pyrshep.ca
  * Copyright 2013 Morten Welinder <terra@gnone.org>
  *
  * Contributors :
@@ -476,7 +476,40 @@ html_write_border_style_40 (GsfOutput *output, GnmStyle const *style)
 }
 
 static void
-write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t version)
+html_write_border_style_40_for_merged_cell (GsfOutput *output, GnmStyle const *style, 
+					    Sheet *sheet, gint row, gint col)
+{
+	GnmBorder *border;
+	GnmRange const *merge_range;
+	GnmCellPos pos;
+	pos.col = col;
+	pos.row = row;
+
+
+	border = gnm_style_get_border (style, MSTYLE_BORDER_TOP);
+	if (!gnm_style_border_is_blank (border))
+		html_write_one_border_style_40 (output, border, "border-top");
+	border = gnm_style_get_border (style, MSTYLE_BORDER_LEFT);
+	if (!gnm_style_border_is_blank (border))
+		html_write_one_border_style_40 (output, border, "border-left");
+
+	merge_range = gnm_sheet_merge_contains_pos (sheet, &pos);
+	if (merge_range != NULL) {
+		style = sheet_style_get (sheet, merge_range->end.col, merge_range->end.row);
+		if (style == NULL)
+			return;
+	}
+
+	border = gnm_style_get_border (style, MSTYLE_BORDER_BOTTOM);
+	if (!gnm_style_border_is_blank (border))
+		html_write_one_border_style_40 (output, border, "border-bottom");
+	border = gnm_style_get_border (style, MSTYLE_BORDER_RIGHT);
+	if (!gnm_style_border_is_blank (border))
+		html_write_one_border_style_40 (output, border, "border-right");
+}
+
+static void
+write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t version, gboolean is_merge)
 {
 	GnmCell *cell;
 	GnmStyle const *style;
@@ -547,8 +580,10 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 				if (gnm_style_get_contents_hidden (style))
 					gsf_output_puts (output, " visibility:hidden;");
 			}
-
-			html_write_border_style_40 (output, style);
+			if (is_merge)
+				html_write_border_style_40_for_merged_cell (output, style, sheet, row, col);
+			else
+				html_write_border_style_40 (output, style);
 			gsf_output_printf (output, "\"");
 		}
 	}
@@ -588,7 +623,7 @@ write_row (GsfOutput *output, Sheet *sheet, gint row, GnmRange *range, html_vers
 		the_span = row_span_get (ri, col);
 		if (the_span != NULL) {
 			gsf_output_printf (output, "<td colspan=\"%i\" ", the_span->right - col + 1);
-			write_cell (output, sheet, row, the_span->cell->pos.col, version);
+			write_cell (output, sheet, row, the_span->cell->pos.col, version, FALSE);
 			col = the_span->right;
 			continue;
 		}
@@ -602,12 +637,12 @@ write_row (GsfOutput *output, Sheet *sheet, gint row, GnmRange *range, html_vers
 			gsf_output_printf (output, "<td colspan=\"%i\" rowspan=\"%i\" ",
 				 merge_range->end.col - merge_range->start.col + 1,
 				 merge_range->end.row - merge_range->start.row + 1);
-			write_cell (output, sheet, row, col, version);
+			write_cell (output, sheet, row, col, version, TRUE);
 			col = merge_range->end.col;
 			continue;
 		}
 		gsf_output_puts (output, "<td ");
-		write_cell (output, sheet, row, col, version);
+		write_cell (output, sheet, row, col, version, FALSE);
 	}
 }
 

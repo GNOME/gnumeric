@@ -8,6 +8,7 @@ Andreas:
 	* Fix legend placement in ODF import. [#698535]
 	* Fix plot placement in ODF import.
 	* Plug leaks.
+	* Fix border handling in html4 export. [#635217]
 
 Dominique Leuenberger:
 	* Fix locale directory.
