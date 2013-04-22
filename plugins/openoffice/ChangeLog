@@ -1,5 +1,10 @@
 2013-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_header_footer_end): fix leak
+	(odf_hf_file): don't try to circumvent the GString handling
+
+2013-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_object): delete tables created during
 	parsing of objects.
 

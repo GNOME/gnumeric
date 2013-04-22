@@ -5709,6 +5709,7 @@ odf_header_footer_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->text_p_stack) {
 		oo_text_p_t *ptr = state->text_p_stack->data;
 		if (ptr->gstr) {
+			g_free (*(state->print.cur_hf_format));
 			*(state->print.cur_hf_format) = g_string_free (ptr->gstr, FALSE);
 			ptr->gstr = NULL;
 		}
@@ -5859,7 +5860,6 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int tmp = 2;
-	char *new;
 
 	if (state->print.cur_hf_format == NULL)
 		return;
@@ -5870,9 +5870,7 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 	switch (tmp) {
 	case 0:
 		odf_hf_item (xin, _("path"));
-		new = g_strconcat (*(state->print.cur_hf_format), "/", NULL);
-		g_free (*(state->print.cur_hf_format));
-		*(state->print.cur_hf_format) = new;
+		odf_text_p_add_text (state, "/");
 		odf_hf_item (xin, _("file"));
 		break;
 	case 1:
