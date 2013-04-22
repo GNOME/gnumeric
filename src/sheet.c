@@ -2622,7 +2622,7 @@ sheet_range_set_expr_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const *tmp = ptr->data;
 		sheet_foreach_cell_in_range
-			(sr->sheet, CELL_ITER_ALL,
+			(sr->sheet, CELL_ITER_IGNORE_BLANK,
 			 tmp->start.col, tmp->start.row,
 			 tmp->end.col, tmp->end.row,
 			 (CellIterFunc)&cb_clear_non_corner,
@@ -2696,7 +2696,7 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 	merged = gnm_sheet_merge_get_overlap (sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const *tmp = ptr->data;
-		sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL,
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
 			tmp->start.col, tmp->start.row,
 			tmp->end.col, tmp->end.row,
 			(CellIterFunc)&cb_clear_non_corner, (gpointer)tmp);

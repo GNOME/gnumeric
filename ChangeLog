@@ -1,5 +1,11 @@
 2013-04-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet.c (sheet_range_set_expr_cb): don't try to empty empty
+	cells.
+	(sheet_range_set_text): ditto
+
+2013-04-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-control-gui.c (scg_comment_display): use spacing rather
 	than padding.
 
