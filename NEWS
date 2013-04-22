@@ -3,6 +3,7 @@ Gnumeric 1.12.2
 Andreas:
 	* Update documentation.
 	* Fix angle import of ODF graphs. [#698389]
+	* Don't insert ODF local tables as sheets. [#698388]
 
 Dominique Leuenberger:
 	* Fix locale directory.

@@ -7597,13 +7597,14 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	gchar * name;
 	gint name_len;
 	GsfInput	*content = NULL;
+	gint old_sheet_count, sc;
 
 	if (state->chart.so != NULL) {
 		if (IS_SHEET_OBJECT_GRAPH (state->chart.so))
 			/* Only one object per frame! */
 			return;
 		/* We prefer objects over images etc. */
-		/* We probably should figure out though whetehr */
+		/* We probably should figure out though whether */
 		/* we in fact understand this object. */
 		g_object_unref (state->chart.so);
 		state->chart.so = NULL;
@@ -7667,10 +7668,16 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	name = g_strndup (name_start, name_len);
 	state->object_name = name;
 
+	/* We should be saving/protecting some info to avoid it being overwritten. */
+
+	/* ODF objects can contain there own tables. During parsing of the object we will */
+	/* add these tables as new sheets to the workbook. After we are done with this    */
+	/* workbook we have to remove those sheets again.                                 */
+
+	old_sheet_count = workbook_sheet_count (state->pos.wb);
+
 	if (state->debug)
 		g_print ("START %s\n", name);
-
-	/* We should be saving/protecting some info to avoid it being overwritten. */
 
 	content = gsf_infile_child_by_vname (state->zip, name, "styles.xml", NULL);
 	if (content != NULL) {
@@ -7710,6 +7717,9 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 		  &state->chart.fill_image_styles);
 	pop_hash (&state->chart.saved_gradient_styles,
 		  &state->chart.gradient_styles);
+
+	for (sc = workbook_sheet_count (state->pos.wb); sc > old_sheet_count; sc--)
+		workbook_sheet_delete (workbook_sheet_by_index (state->pos.wb, sc - 1));
 }
 
 static void
@@ -10875,7 +10885,7 @@ static GsfXMLInNode const *get_styles_dtd () { return styles_dtd; }
 /****************************************************************************/
 
 static GnmExpr const *
-odf_func_address_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_address_handler (GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
 
@@ -10893,7 +10903,7 @@ odf_func_address_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 }
 
 static GnmExpr const *
-odf_func_phi_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_phi_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
 {
 	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("NORMDIST");
 
@@ -10910,7 +10920,7 @@ odf_func_phi_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope
 }
 
 static GnmExpr const *
-odf_func_gauss_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_gauss_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
 	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("ERF");
@@ -10933,7 +10943,7 @@ odf_func_gauss_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *sco
 }
 
 static GnmExpr const *
-odf_func_floor_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_floor_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
 	GnmExpr const *expr_x;
@@ -11020,7 +11030,7 @@ odf_func_floor_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *sco
 }
 
 static GnmExpr const *
-odf_func_ceiling_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_ceiling_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
 	switch (argc) {
@@ -11099,7 +11109,7 @@ odf_func_ceiling_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *s
 }
 
 static GnmExpr const *
-odf_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
 {
 	switch (gnm_expr_list_length (args)) {
 	case 2: {
