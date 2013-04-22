@@ -6,6 +6,7 @@ Andreas:
 	* Don't insert ODF local tables as sheets. [#698388]
 	* Improve import of header/footer info from ODF.
 	* Fix legend placement in ODF import. [#698535]
+	* Fix plot placement in ODF import.
 	* Plug leaks.
 
 Dominique Leuenberger:

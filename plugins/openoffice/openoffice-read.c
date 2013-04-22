@@ -280,9 +280,20 @@ typedef struct {
 	OOPlotType		 plot_type;
 	SheetObjectAnchor	 anchor;	/* anchor to draw the frame (images or graphs) */
 	double                   frame_offset[4]; /* offset as given in the file */
-	gnm_float                width;
-	gnm_float                height;
+	gnm_float                width;   /* This refers to the ODF frame element */
+	gnm_float                height;  /* This refers to the ODF frame element */
 	gint                     z_index;
+
+	/* Plot Area */
+	gnm_float                plot_area_x;   
+	gnm_float                plot_area_y;
+	gnm_float                plot_area_width;   
+	gnm_float                plot_area_height;
+
+	/* Legend */
+	gnm_float                legend_x;   
+	gnm_float                legend_y;
+	GogObjectPosition        legend_flag;
 
 	/* Custom Shape */
 	char                    *cs_type;
@@ -7340,6 +7351,11 @@ odf_draw_frame_store_location (OOParseState *state, double *frame_offset, gdoubl
 	state->chart.width = width;
 	state->chart.height = height;
 
+	state->chart.plot_area_x = 0;
+	state->chart.plot_area_y = 0;
+	state->chart.plot_area_width = width;
+	state->chart.plot_area_height =height;
+
 	/* Column width and row heights are not correct */
 	/* yet so we need to save this */
 	/* info and adjust later. */
@@ -8227,6 +8243,30 @@ odf_gog_plot_area_check_position (GsfXMLIn *xin, xmlChar const **attrs, GSList *
 									    CXML2C(attrs[1])));
 }
 
+
+static void
+oo_legend_set_position (OOParseState *state)
+{
+	GogObject *legend = state->chart.legend;
+
+	if (legend == NULL)
+		return;
+	
+	if (go_finite (state->chart.legend_x) && go_finite (state->chart.legend_y) && 
+	    go_finite (state->chart.width) && go_finite (state->chart.height)) {
+		GogViewAllocation alloc;
+		alloc.x = (state->chart.legend_x - state->chart.plot_area_x) / state->chart.plot_area_width;
+		alloc.w = 0;
+		alloc.y = (state->chart.legend_y - state->chart.plot_area_y) / state->chart.plot_area_height;
+		alloc.h = 0;
+		
+		gog_object_set_position_flags (legend, GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
+		gog_object_set_manual_position (legend, &alloc);			
+	} else
+		gog_object_set_position_flags (legend, state->chart.legend_flag,
+					       GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
+}
+
 static void
 oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -8243,6 +8283,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const   *source_range_str = NULL;
 	int label_flags = 0;
 	GSList *prop_list = NULL;
+	double x = go_nan, y = go_nan, width = go_nan, height = go_nan;
 
 	odf_gog_plot_area_check_position (xin, attrs, &prop_list);
 
@@ -8255,6 +8296,14 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 			source_range_str = attrs[1];
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "data-source-has-labels", labels, &label_flags))
 			;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "x"))
+			oo_parse_distance (xin, attrs[1], "x", &x);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "y"))
+			oo_parse_distance (xin, attrs[1], "y", &y);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "width"))
+			oo_parse_distance (xin, attrs[1], "width", &width);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "height"))
+			oo_parse_distance (xin, attrs[1], "height", &height);
 
 	state->chart.src_n_vectors = -1;
 	state->chart.src_in_rows = TRUE;
@@ -8370,6 +8419,28 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL)
 		oo_prop_list_apply (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA]->
 				    plot_props, G_OBJECT (state->chart.plot));
+
+	if (go_finite (x) && go_finite (y) &&
+	    go_finite (width) && go_finite (height) &&
+	    go_finite (state->chart.width) && go_finite (state->chart.height)) {
+			GogViewAllocation alloc;
+			alloc.x = x / state->chart.width;
+			alloc.w = width / state->chart.width;
+			alloc.y = y / state->chart.height;
+			alloc.h = height / state->chart.height;
+			
+			gog_object_set_position_flags (GOG_OBJECT (state->chart.chart),
+						       GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
+			gog_object_set_manual_position (GOG_OBJECT (state->chart.chart), &alloc);
+
+			state->chart.plot_area_x = x;
+			state->chart.plot_area_y = y;
+			state->chart.plot_area_width = width;
+			state->chart.plot_area_height = height;
+
+			/* Since the plot area has changed we need to fix the legend position */
+			oo_legend_set_position (state);
+		}
 
 	if (state->chart.plot_type == OO_PLOT_GANTT) {
 		GogObject *yaxis = gog_object_get_child_by_name (GOG_OBJECT (state->chart.chart),
@@ -8838,6 +8909,8 @@ oo_chart_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	g_free (state->chart.cat_expr);
 	state->chart.cat_expr = NULL;
+
+	state->chart.legend = NULL;
 }
 
 static void
@@ -8944,29 +9017,14 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 				g_object_unref (style);
 			}
 		}
-		if (go_finite (x) && go_finite (y) && go_finite (state->chart.width) && go_finite (state->chart.height)) {
-			GogViewAllocation alloc;
-			alloc.x = x / state->chart.width;
-			alloc.w = 0;
-			alloc.y = y / state->chart.height;
-			alloc.h = 0;
-			
-			gog_object_set_position_flags (legend, GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
-			gog_object_set_manual_position (legend, &alloc);			
-		} else
-			gog_object_set_position_flags (legend, pos | align,
-						       GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
-			
+		state->chart.legend_x = x;
+		state->chart.legend_y = y;
+		state->chart.legend_flag = pos | align;
+
+		/* We will need to redo this if we encounter a plot-area specification later */
+		oo_legend_set_position (state);
 	}
 }
-
-static void
-oo_legend_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-	state->chart.legend = NULL;
-}
-
 
 static void
 oo_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
@@ -10779,7 +10837,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	        GSF_XML_IN_NODE (CHART_SUBTITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
 	      GSF_XML_IN_NODE_FULL (CHART_CHART, CHART_FOOTER, OO_NS_CHART, "footer", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 2),
 	        GSF_XML_IN_NODE (CHART_FOOTER, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
-	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, &oo_legend_end),
+	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, NULL),
 	        GSF_XML_IN_NODE (CHART_LEGEND, CHART_LEGEND_TITLE, OO_GNUM_NS_EXT, "title", GSF_XML_NO_CONTENT, &oo_chart_title, &oo_chart_title_end),
 		  GSF_XML_IN_NODE (CHART_LEGEND_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_PLOT_AREA, OO_NS_CHART, "plot-area", GSF_XML_NO_CONTENT, &oo_plot_area, &oo_plot_area_end),

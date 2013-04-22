@@ -1,5 +1,15 @@
 2013-04-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_draw_frame_store_location):
+	initialize plot-area dimensions
+	(oo_legend_set_position): new
+	(oo_plot_area): also adjust position and size
+	(oo_chart_end): zero legend ratherthan at the end of the legend.
+	(oo_legend): use oo_legend_set_position
+	(oo_legend_end): deleted
+
+2013-04-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (col_row_styles_free): new
 	(openoffice_file_save_real): use col_row_styles_free
 	to free the styles lists
