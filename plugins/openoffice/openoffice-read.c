@@ -8914,6 +8914,19 @@ oo_chart_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+odf_chart_set_default_style (GogObject *chart)
+{
+	GOStyle *style;
+
+	style = go_styled_object_get_style (GO_STYLED_OBJECT (chart));
+
+	style->line.width = -1.0;
+	style->line.dash_type = GO_LINE_NONE;
+
+	go_styled_object_style_changed (GO_STYLED_OBJECT (chart));
+}
+
+static void
 oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static OOEnum const types[] = {
@@ -8951,6 +8964,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.plot_type = type;
 	state->chart.chart = GOG_CHART (gog_object_add_by_name (
 		GOG_OBJECT (state->chart.graph), "Chart", NULL));
+	odf_chart_set_default_style (GOG_OBJECT (state->chart.chart));
 	state->chart.plot = NULL;
 	state->chart.series = NULL;
 	state->chart.axis = NULL;
