@@ -29,8 +29,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumer"
 "ic&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-04 20:51+0000\n"
-"PO-Revision-Date: 2013-04-08 10:06+0300\n"
+"POT-Creation-Date: 2013-04-22 16:18+0000\n"
+"PO-Revision-Date: 2013-04-23 08:42+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -100,8 +100,8 @@ msgstr "Εισάγει φύλλα της έκδοσης 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7026
-#: ../plugins/openoffice/openoffice-read.c:11882 ../src/xml-sax-read.c:3336
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7037
+#: ../plugins/openoffice/openoffice-read.c:11930 ../src/xml-sax-read.c:3336
 msgid "Reading file..."
 msgstr "Ανάγνωση αρχείου..."
 
@@ -212,7 +212,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Άκυρο περιεχόμενο του ss:στοιχείο δεδομένων, λήφθηκε '%s'"
 
 #: ../plugins/excel/excel-xml-read.c:1093
-#: ../plugins/openoffice/openoffice-read.c:11989 ../src/xml-sax-read.c:3353
+#: ../plugins/openoffice/openoffice-read.c:12037 ../src/xml-sax-read.c:3353
 msgid "XML document not well formed!"
 msgstr "Έγγραφο XML με κακή διαμόρφωση!"
 
@@ -241,17 +241,17 @@ msgstr "Γράφημα%d"
 msgid "Module%d"
 msgstr "Άρθρωμα%d"
 
-#: ../plugins/excel/ms-excel-read.c:3668
+#: ../plugins/excel/ms-excel-read.c:3671
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Αποτυχία ανάλυσης ονόματος '%s'"
 
-#: ../plugins/excel/ms-excel-read.c:3812
+#: ../plugins/excel/ms-excel-read.c:3816
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Λανθασμένη έκφραση ονόματος '%s': το περιεχόμενο θα χαθεί.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3817
+#: ../plugins/excel/ms-excel-read.c:3821
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -260,7 +260,7 @@ msgstr ""
 "Οι δεσμοί DDE δεν υποστηρίζονται ακόμη.\n"
 "Το όνομα '%s' θα χαθεί.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3821
+#: ../plugins/excel/ms-excel-read.c:3825
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -269,11 +269,11 @@ msgstr ""
 "Οι δεσμοί OLE δεν υποστηρίζονται ακόμη.\n"
 "Το όνομα '%s' θα χαθεί.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6159
+#: ../plugins/excel/ms-excel-read.c:6170
 msgid "external references"
 msgstr "εξωτερικές αναφορές"
 
-#: ../plugins/excel/ms-excel-read.c:6198
+#: ../plugins/excel/ms-excel-read.c:6209
 msgid "No password supplied"
 msgstr "Δε δόθηκε κωδικός"
 
@@ -318,20 +318,20 @@ msgstr ""
 "προβλημάτων κωδικοποίησης."
 
 #
-#: ../plugins/excel/ms-excel-write.c:6302
+#: ../plugins/excel/ms-excel-write.c:6296
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Αποτυχία ανοίγματος βιβλίου ροής για εγγραφή\n"
 
 # gconf/gconf-internals.c:789
-#: ../plugins/excel/ms-excel-write.c:6324
+#: ../plugins/excel/ms-excel-write.c:6318
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Αδύνατο το άνοιγμα αρχείου συνεδρίας 'Βιβλίο εργασίας' για εγγραφή\n"
 
-#: ../plugins/excel/ms-formula-read.c:655
+#: ../plugins/excel/ms-formula-read.c:654
 msgid "Broken function"
 msgstr "Χαλασμένη συνάρτηση"
 
-#: ../plugins/excel/ms-formula-write.c:563
+#: ../plugins/excel/ms-formula-write.c:588
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -518,7 +518,7 @@ msgstr ""
 "τελευταίο."
 
 #: ../plugins/excel/xlsx-read.c:1775
-#: ../plugins/openoffice/openoffice-read.c:2624
+#: ../plugins/openoffice/openoffice-read.c:2627
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Παράβλεψη άκυρης επικύρωσης δεδομένων επειδή : %s"
@@ -590,7 +590,7 @@ msgid "Unsupported GnmValue type (%d)"
 msgstr "Μη υποστηριζόμενος τύπος GnmValue (%d)"
 
 #: ../plugins/excelplugins/excelplugins.c:610
-#: ../src/widgets/gnumeric-expr-entry.c:903
+#: ../src/widgets/gnumeric-expr-entry.c:914
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
@@ -862,7 +862,7 @@ msgstr "%s έκδοση %s"
 
 #: ../plugins/fn-info/functions.c:1406 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2327
-#: ../src/dialogs/dialog-cell-format.c:2335 ../src/wbc-gtk.c:3294
+#: ../src/dialogs/dialog-cell-format.c:2335 ../src/wbc-gtk.c:3316
 msgid "Automatic"
 msgstr "Αυτόματο"
 
@@ -1366,111 +1366,111 @@ msgstr "Άκυρη ιδιότητα '%s', προσδοκώμενο ποσοστ�
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Άκυρη ιδιότητα '%s', προσδοκώμενο χρώμα, λήφθηκε '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:902
+#: ../plugins/openoffice/openoffice-read.c:904
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Παρουσιάστηκε άγνωστο όνομα hatch '%s'!"
 
-#: ../plugins/openoffice/openoffice-read.c:910
+#: ../plugins/openoffice/openoffice-read.c:912
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Παρουσιάστηκε γέμισμα γραμμοσκίασης χωρίς όνομα γραμμοσκίασης!"
 
-#: ../plugins/openoffice/openoffice-read.c:918
+#: ../plugins/openoffice/openoffice-read.c:920
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Παρουσιάστηκε άγνωστο όνομα απόχρωσης '%s'!"
 
-#: ../plugins/openoffice/openoffice-read.c:931
+#: ../plugins/openoffice/openoffice-read.c:933
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Παρουσιάστηκε γέμισμα διαβάθμισης χωρίς όνομα διαβάθμισης!"
 
-#: ../plugins/openoffice/openoffice-read.c:939
+#: ../plugins/openoffice/openoffice-read.c:941
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Παρουσιάστηκε άγνωστο όνομα γεμίσματος εικόνας '%s'!"
 
-#: ../plugins/openoffice/openoffice-read.c:949
+#: ../plugins/openoffice/openoffice-read.c:951
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Παρουσιάστηκε άκυρη απόλυτη προδιαγραφή αρχείου '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:962
+#: ../plugins/openoffice/openoffice-read.c:964
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "Αδύνατο το άνοιγμα του '%s'."
 
 # gconf/gconf-internals.c:2416
-#: ../plugins/openoffice/openoffice-read.c:990
-#: ../plugins/openoffice/openoffice-read.c:7750
+#: ../plugins/openoffice/openoffice-read.c:992
+#: ../plugins/openoffice/openoffice-read.c:7782
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Αδύνατη η φόρτωση του αρχείου '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:998
+#: ../plugins/openoffice/openoffice-read.c:1000
 msgid "Image fill without image name encountered!"
 msgstr "Παρουσιάστηκε γέμισμα εικόνας η οποία δεν έχει όνομα εικόνας!"
 
-#: ../plugins/openoffice/openoffice-read.c:1084
-#: ../plugins/openoffice/openoffice-read.c:1160
+#: ../plugins/openoffice/openoffice-read.c:1086
+#: ../plugins/openoffice/openoffice-read.c:1162
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Άκυρη ιδιότητα '%s', άγνωστη ενότητα '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1089
+#: ../plugins/openoffice/openoffice-read.c:1091
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Άκυρη ιδιότητα '%s', προσδοκώμενη απόσταση, λήφθηκε '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1166
+#: ../plugins/openoffice/openoffice-read.c:1168
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Άκυρη ιδιότητα '%s', αναμενόμενη γωνία, λήφθηκε '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1233
+#: ../plugins/openoffice/openoffice-read.c:1235
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Άκυρη ιδιότητα '%s', άγνωστη αριθμητική τιμή '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1433
+#: ../plugins/openoffice/openoffice-read.c:1435
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Παράβλεψη αναφοράς σε άγνωστο εξωτερικό βιβλίο εργασίας '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1685
+#: ../plugins/openoffice/openoffice-read.c:1688
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Παρουσιάστηκε άγνωστη τεχνοτροπία κειμένου με όνομα \"%s\"!"
 
-#: ../plugins/openoffice/openoffice-read.c:2015
+#: ../plugins/openoffice/openoffice-read.c:2018
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Αδύνατη η ανάλυση του '%s' ('%s')"
 
-#: ../plugins/openoffice/openoffice-read.c:2110
-#: ../plugins/openoffice/openoffice-read.c:3663
+#: ../plugins/openoffice/openoffice-read.c:2113
+#: ../plugins/openoffice/openoffice-read.c:3666
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Παρουσιάστηκε άγνωστο είδος τύπου: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2116
-#: ../plugins/openoffice/openoffice-read.c:3670
+#: ../plugins/openoffice/openoffice-read.c:2119
+#: ../plugins/openoffice/openoffice-read.c:3673
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Η έκφραση '%s' δεν ξεκινάει με αναγνωρίσιμο χαρακτήρα"
 
-#: ../plugins/openoffice/openoffice-read.c:2155
-#: ../plugins/openoffice/openoffice-write.c:4916
-#: ../plugins/openoffice/openoffice-write.c:4928 ../src/print-info.c:659
+#: ../plugins/openoffice/openoffice-read.c:2158
+#: ../plugins/openoffice/openoffice-write.c:4927
+#: ../plugins/openoffice/openoffice-write.c:4939 ../src/print-info.c:659
 #: ../src/ssgrep.c:352
 msgid "cell"
 msgstr "κελί"
 
-#: ../plugins/openoffice/openoffice-read.c:2214
+#: ../plugins/openoffice/openoffice-read.c:2217
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_IN_CORRUPTED_FILE"
 
-#: ../plugins/openoffice/openoffice-read.c:2219
+#: ../plugins/openoffice/openoffice-read.c:2222
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1479,30 +1479,30 @@ msgstr ""
 "Αυτό το αρχείο έχει αλλοιωθεί με ένα διπλότυπο όνομα φύλλου \"%s\", που τώρα "
 "έχει μετονομαστεί σε \"%s\"."
 
-#: ../plugins/openoffice/openoffice-read.c:2232
+#: ../plugins/openoffice/openoffice-read.c:2235
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "SHEET_IN_CORRUPTED_FILE"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:2240
+#: ../plugins/openoffice/openoffice-read.c:2243
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Αυτό το αρχείο έχει αλλοιωθεί με ένα ανώνυμο φύλλο που ονομάζεται τώρα \"%s"
 "\"."
 
-#: ../plugins/openoffice/openoffice-read.c:2575
+#: ../plugins/openoffice/openoffice-read.c:2578
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr "Η συνθήκη επικύρωσης '%s' δεν υποστηρίζεται. Έχει αλλαχτεί σε '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:2607
+#: ../plugins/openoffice/openoffice-read.c:2610
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Παρουσιάστηκε αόριστη τεχνοτροπία επικύρωσης: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2633
+#: ../plugins/openoffice/openoffice-read.c:2636
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
@@ -1511,43 +1511,43 @@ msgstr ""
 "Παρουσιάστηκε ανυποστήρικτη συνθήκη επικύρωσης: \"%s\" με βάση διεύθυνση: "
 "\"%s\""
 
-#: ../plugins/openoffice/openoffice-read.c:3313
+#: ../plugins/openoffice/openoffice-read.c:3316
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Παρουσιάστηκε άγνωστη συνθήκη '%s', γίνεται παράβλεψη."
 
-#: ../plugins/openoffice/openoffice-read.c:3391
+#: ../plugins/openoffice/openoffice-read.c:3394
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Παράβλεψη των πληροφοριών στήλης πέρα από τη στήλη %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3514
-#: ../plugins/openoffice/openoffice-read.c:3879
+#: ../plugins/openoffice/openoffice-read.c:3517
+#: ../plugins/openoffice/openoffice-read.c:3882
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr ""
 "Το περιεχόμενο ξεπερνά το μέγιστο αριθμό γραμμών (%i) που υποστηρίζονται."
 
-#: ../plugins/openoffice/openoffice-read.c:3655
-#: ../plugins/openoffice/openoffice-read.c:5908
+#: ../plugins/openoffice/openoffice-read.c:3658
+#: ../plugins/openoffice/openoffice-read.c:5928
 msgid "Missing expression"
 msgstr "Λείπει έκφραση"
 
-#: ../plugins/openoffice/openoffice-read.c:3852
+#: ../plugins/openoffice/openoffice-read.c:3855
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Άκυρη έκφραση πίνακα που δεν καθορίζει τον αριθμό των στηλών."
 
-#: ../plugins/openoffice/openoffice-read.c:3855
+#: ../plugins/openoffice/openoffice-read.c:3858
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Άκυρη έκφραση πίνακα που δεν καθορίζει τον αριθμό των γραμμών."
 
-#: ../plugins/openoffice/openoffice-read.c:3871
+#: ../plugins/openoffice/openoffice-read.c:3874
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr ""
 "Το περιεχόμενο ξεπερνά το μέγιστο αριθμό στηλών (%i)που υποστηρίζονται."
 
-#: ../plugins/openoffice/openoffice-read.c:4063
+#: ../plugins/openoffice/openoffice-read.c:4066
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
@@ -1556,157 +1556,157 @@ msgstr ""
 "Κάντε αριστερό κλικ μία φορά για να μεταβείτε στο σύνδεσμο αυτόν.\n"
 "Κάντε μεσαίο κλικ μία φορά για να επιλέξετε αυτο το κελί"
 
-#: ../plugins/openoffice/openoffice-read.c:4197
+#: ../plugins/openoffice/openoffice-read.c:4200
 msgid "Unnamed dash style encountered."
 msgstr "Παρουσιάστηκε ανώνυμη τεχνοτροπία παύλας."
 
-#: ../plugins/openoffice/openoffice-read.c:4215
+#: ../plugins/openoffice/openoffice-read.c:4218
 msgid "Unnamed image fill style encountered."
 msgstr "Παρουσιάστηκε ανώνυμη τεχνοτροπία γεμίσματος εικόνας."
 
-#: ../plugins/openoffice/openoffice-read.c:4217
+#: ../plugins/openoffice/openoffice-read.c:4220
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr ""
 "Η τεχνοτροπία γεμίσματος εικόνας '%s' δεν έχει κάποια επισυναπτόμενη εικόνα."
 
-#: ../plugins/openoffice/openoffice-read.c:4254
-#: ../plugins/openoffice/openoffice-read.c:4260
+#: ../plugins/openoffice/openoffice-read.c:4257
+#: ../plugins/openoffice/openoffice-read.c:4263
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Αδύνατη η ανάλυση της απόχρωσης του χρώματος: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4280
+#: ../plugins/openoffice/openoffice-read.c:4283
 msgid "Unnamed gradient style encountered."
 msgstr "Παρουσιάστηκε ανώνυμη τεχνοτροπία διαβάθμισης."
 
-#: ../plugins/openoffice/openoffice-read.c:4301
+#: ../plugins/openoffice/openoffice-read.c:4304
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Αδύνατη η ανάλυση του χρώματος γραμμοσκίασης: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4375
+#: ../plugins/openoffice/openoffice-read.c:4378
 msgid "Unnamed hatch encountered!"
 msgstr "Παρουσιάστηκε ανώνυμη γραμμοσκίαση!"
 
-#: ../plugins/openoffice/openoffice-read.c:4469
+#: ../plugins/openoffice/openoffice-read.c:4472
 msgid "Duplicate default column style encountered."
 msgstr "Παρουσιάστηκε διπλότυπη προεπιλεγμένη τεχνοτροπία στήλης."
 
-#: ../plugins/openoffice/openoffice-read.c:4485
+#: ../plugins/openoffice/openoffice-read.c:4488
 msgid "Duplicate default row style encountered."
 msgstr "Παρουσιάστηκε διπλότυπη προεπιλεγμένη τεχνοτροπία γραμμής."
 
-#: ../plugins/openoffice/openoffice-read.c:4520
+#: ../plugins/openoffice/openoffice-read.c:4523
 msgid "Duplicate default chart/graphics style encountered."
 msgstr ""
 "Παρουσιάστηκε διπλότυπη προεπιλεγμένη τεχνοτροπία διαγράμματος/γραφικού."
 
-#: ../plugins/openoffice/openoffice-read.c:4902
+#: ../plugins/openoffice/openoffice-read.c:4905
 msgid "Unnamed date style ignored."
 msgstr "Αγνοήθηκε η ανώνυμη τεχνοτροπία ημερομηνίας."
 
-#: ../plugins/openoffice/openoffice-read.c:5209
+#: ../plugins/openoffice/openoffice-read.c:5212
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Κατεστραμμένο αρχείο: αγνοήθηκε η ανώνυμη τεχνοτροπία αριθμού."
 
-#: ../plugins/openoffice/openoffice-read.c:5245
-#: ../plugins/openoffice/openoffice-read.c:5272
-#: ../plugins/openoffice/openoffice-read.c:5300
-#: ../plugins/openoffice/openoffice-read.c:5341
-#: ../plugins/openoffice/openoffice-read.c:5367
-#: ../plugins/openoffice/openoffice-read.c:5395
+#: ../plugins/openoffice/openoffice-read.c:5248
+#: ../plugins/openoffice/openoffice-read.c:5275
+#: ../plugins/openoffice/openoffice-read.c:5303
+#: ../plugins/openoffice/openoffice-read.c:5344
+#: ../plugins/openoffice/openoffice-read.c:5370
+#: ../plugins/openoffice/openoffice-read.c:5398
 msgid "This file appears corrupted, required formats are missing."
 msgstr ""
 "Το αρχείο αυτό φαίνεται κατεστραμμένο, λείπουν οι απαιτούμενες μορφοποιήσεις."
 
-#: ../plugins/openoffice/openoffice-read.c:5461
+#: ../plugins/openoffice/openoffice-read.c:5464
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Φύλλο από αρχείο ODF: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:5647
+#: ../plugins/openoffice/openoffice-read.c:5650
 msgid "Missing page layout identifier"
 msgstr "Λείπει ο ταυτοποιητής διάταξης σελίδας"
 
-#: ../plugins/openoffice/openoffice-read.c:5677
+#: ../plugins/openoffice/openoffice-read.c:5680
 msgid "Master page style without page layout encountered!"
 msgstr "Παρουσιάστηκε τεχνοτροπία κύριας σελίδας χωρίς διάταξη σελίδας!"
 
-#: ../plugins/openoffice/openoffice-read.c:5688
+#: ../plugins/openoffice/openoffice-read.c:5691
 msgid "Master page style without name encountered!"
 msgstr "Παρουσιάστηκε τεχνοτροπία κύριας σελίδας χωρίς όνομα!"
 
-#: ../plugins/openoffice/openoffice-read.c:5797
-#: ../plugins/openoffice/openoffice-write.c:4909
-#: ../plugins/openoffice/openoffice-write.c:4921 ../src/print-info.c:652
+#: ../plugins/openoffice/openoffice-read.c:5814
+#: ../plugins/openoffice/openoffice-write.c:4920
+#: ../plugins/openoffice/openoffice-write.c:4932 ../src/print-info.c:652
 msgid "tab"
 msgstr "στηλοθέτης"
 
-#: ../plugins/openoffice/openoffice-read.c:5827
-#: ../plugins/openoffice/openoffice-write.c:4912
-#: ../plugins/openoffice/openoffice-write.c:4924 ../src/print-info.c:655
+#: ../plugins/openoffice/openoffice-read.c:5846
+#: ../plugins/openoffice/openoffice-write.c:4923
+#: ../plugins/openoffice/openoffice-write.c:4935 ../src/print-info.c:655
 msgid "date"
 msgstr "ημ/νία"
 
-#: ../plugins/openoffice/openoffice-read.c:5833
-#: ../plugins/openoffice/openoffice-write.c:4913
-#: ../plugins/openoffice/openoffice-write.c:4925 ../src/print-info.c:656
+#: ../plugins/openoffice/openoffice-read.c:5853
+#: ../plugins/openoffice/openoffice-write.c:4924
+#: ../plugins/openoffice/openoffice-write.c:4936 ../src/print-info.c:656
 msgid "time"
 msgstr "ώρα"
 
-#: ../plugins/openoffice/openoffice-read.c:5839
-#: ../plugins/openoffice/openoffice-write.c:4910
-#: ../plugins/openoffice/openoffice-write.c:4922 ../src/print-info.c:653
+#: ../plugins/openoffice/openoffice-read.c:5860
+#: ../plugins/openoffice/openoffice-write.c:4921
+#: ../plugins/openoffice/openoffice-write.c:4933 ../src/print-info.c:653
 msgid "page"
 msgstr "σελίδα"
 
-#: ../plugins/openoffice/openoffice-read.c:5845
-#: ../plugins/openoffice/openoffice-write.c:4911
-#: ../plugins/openoffice/openoffice-write.c:4923 ../src/print-info.c:654
+#: ../plugins/openoffice/openoffice-read.c:5867
+#: ../plugins/openoffice/openoffice-write.c:4922
+#: ../plugins/openoffice/openoffice-write.c:4934 ../src/print-info.c:654
 msgid "pages"
 msgstr "σελίδες"
 
-#: ../plugins/openoffice/openoffice-read.c:5870
-#: ../plugins/openoffice/openoffice-read.c:5877
-#: ../plugins/openoffice/openoffice-write.c:4915
-#: ../plugins/openoffice/openoffice-write.c:4927 ../src/print-info.c:658
+#: ../plugins/openoffice/openoffice-read.c:5892
+#: ../plugins/openoffice/openoffice-read.c:5897
+#: ../plugins/openoffice/openoffice-write.c:4926
+#: ../plugins/openoffice/openoffice-write.c:4938 ../src/print-info.c:658
 msgid "path"
 msgstr "διαδρομή"
 
-#: ../plugins/openoffice/openoffice-read.c:5874
-#: ../plugins/openoffice/openoffice-read.c:5881
-#: ../plugins/openoffice/openoffice-write.c:4914
-#: ../plugins/openoffice/openoffice-write.c:4926 ../src/print-info.c:657
+#: ../plugins/openoffice/openoffice-read.c:5894
+#: ../plugins/openoffice/openoffice-read.c:5901
+#: ../plugins/openoffice/openoffice-write.c:4925
+#: ../plugins/openoffice/openoffice-write.c:4937 ../src/print-info.c:657
 #: ../src/ssconvert.c:95 ../src/ssdiff.c:55
 msgid "file"
 msgstr "αρχείο"
 
-#: ../plugins/openoffice/openoffice-read.c:5923
+#: ../plugins/openoffice/openoffice-read.c:5945
 msgid "title"
 msgstr "τίτλος"
 
-#: ../plugins/openoffice/openoffice-read.c:5954
+#: ../plugins/openoffice/openoffice-read.c:5976
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Παρουσιάστηκε άγνωστη τεχνοτροπία περιγράμματος Gnumeric '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:6223
+#: ../plugins/openoffice/openoffice-read.c:6245
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Άγνωστος τύπος αλλαγής '%s' με προεπιλογή το ΚΑΝΕΝΑ"
 
-#: ../plugins/openoffice/openoffice-read.c:6300
+#: ../plugins/openoffice/openoffice-read.c:6322
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Αδύνατη η ανάλυση του χρώματος της καρτέλας '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:6311
+#: ../plugins/openoffice/openoffice-read.c:6333
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Αδύνατη η ανάλυση του χρώματος κειμένου για την καρτέλα '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:6718
+#: ../plugins/openoffice/openoffice-read.c:6740
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1715,27 +1715,27 @@ msgstr ""
 "Παρουσιάστηκε άγνωστος τύπος παρεμβολής: '%s', χρήση στη θέση του κυβικής "
 "εύκαμπτης Μπεζιέ."
 
-#: ../plugins/openoffice/openoffice-read.c:6727
+#: ../plugins/openoffice/openoffice-read.c:6749
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Παρουσιάστηκε άγνωστος τύπος παρεμβολής: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7123
+#: ../plugins/openoffice/openoffice-read.c:7145
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "Η έκφραση '%s' @ '%s' δεν είναι μία αναφορά-κελιών"
 
-#: ../plugins/openoffice/openoffice-read.c:7140
+#: ../plugins/openoffice/openoffice-read.c:7162
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Η έκφραση '%s' έχει άγνωστο χώρο ονόματος"
 
-#: ../plugins/openoffice/openoffice-read.c:7192
+#: ../plugins/openoffice/openoffice-read.c:7214
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Άκυρη περιοχή DB: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7460
+#: ../plugins/openoffice/openoffice-read.c:7482
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1744,13 +1744,13 @@ msgstr ""
 "Οι γραμμές αντικειμένου φύλλου του Gnumeric δεν υποστηρίζουν επισυναπτόμενο "
 "κείμενο. Το κείμενο \"%s\" απορρίφθηκε."
 
-#: ../plugins/openoffice/openoffice-read.c:7494
-#: ../plugins/openoffice/openoffice-read.c:7533
+#: ../plugins/openoffice/openoffice-read.c:7516
+#: ../plugins/openoffice/openoffice-read.c:7555
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Άκυρη ιδιότητα 'μορφή:τιμή', αναμενόμενος αριθμός, λήφθηκε '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:7499
+#: ../plugins/openoffice/openoffice-read.c:7521
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1759,18 +1759,18 @@ msgstr ""
 "Άκυρος τύπος τιμής '%s' δημοσιεύτηκε για την ιδιότητα 'μορφή:τιμή' στο "
 "στοιχείο 'μορφή:εύρος τιμών'."
 
-#: ../plugins/openoffice/openoffice-read.c:7929
+#: ../plugins/openoffice/openoffice-read.c:7961
 msgid "Unable to determine manual position for a chart component!"
 msgstr ""
 "Αδυναμία προσδιορισμού χειροκίνητης θέσης για ένα συστατικό διαγράμματος!"
 
-#: ../plugins/openoffice/openoffice-read.c:8113
+#: ../plugins/openoffice/openoffice-read.c:8145
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 "Δεν υπάρχουν αρκετά δεδομένα στην παρεχόμενη περιοχή (%s) για όλα τα αιτήματα"
 
-#: ../plugins/openoffice/openoffice-read.c:8645
+#: ../plugins/openoffice/openoffice-read.c:8677
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1778,44 +1778,44 @@ msgstr ""
 "Το Gnumeric δεν υποστηρίζει μη αυτόματες εξισώσεις παλινδρόμησης. "
 "Χρησιμοποιεί αυτόματες εξισώσεις."
 
-#: ../plugins/openoffice/openoffice-read.c:8788
+#: ../plugins/openoffice/openoffice-read.c:8820
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr ""
 "Παρουσιάστηκαν γραμμές απόθεσης σε ένα γράφημα που δεν τις υποστηρίζει."
 
-#: ../plugins/openoffice/openoffice-read.c:8858
+#: ../plugins/openoffice/openoffice-read.c:8890
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 "Παρουσιάστηκε άγνωστος τύπος γραφήματος, γίνεται προσπάθεια να δημιουργηθεί "
 "ένα διάγραμμα γραμμής."
 
-#: ../plugins/openoffice/openoffice-read.c:9089
+#: ../plugins/openoffice/openoffice-read.c:9137
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 "Ένας ανυποστήρικτος τίτλος παρουσιάστηκε και μετατράπηκε σε ένα ορθογώνιο "
 "κείμενο."
 
-#: ../plugins/openoffice/openoffice-read.c:9177
+#: ../plugins/openoffice/openoffice-read.c:9225
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr ""
 "Παρουσιάστηκε άπειρος βρόχος κατά την ανάλυση του τύπου '%s' του ονόματος "
 "'%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:9380
+#: ../plugins/openoffice/openoffice-read.c:9428
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Αδύνατος ο υπολογισμός του τύπου '%s' ('%s') του ονόματος '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:9385
+#: ../plugins/openoffice/openoffice-read.c:9433
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Αδύνατη η ανάλυση του τύπου '%s' ('%s') του ονόματος '%s'"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:9465
-#: ../plugins/openoffice/openoffice-read.c:9468
+#: ../plugins/openoffice/openoffice-read.c:9513
+#: ../plugins/openoffice/openoffice-read.c:9516
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
@@ -1824,44 +1824,44 @@ msgstr ""
 "Ένα ανυποστήρικτο προσαρμοσμένο σχήμα του τύπου '%s' παρουσιάστηκε και "
 "μετατράπηκε σε ένα ορθογώνιο."
 
-#: ../plugins/openoffice/openoffice-read.c:9471
+#: ../plugins/openoffice/openoffice-read.c:9519
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 "Ένα ανυποστήρικτο προσαρμοσμένο σχήμα παρουσιάστηκε και μετατράπηκε σε ένα "
 "ορθογώνιο."
 
-#: ../plugins/openoffice/openoffice-read.c:9789
+#: ../plugins/openoffice/openoffice-read.c:9837
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "H ιδιότητα '%s' έχει την ανυποστήρικτη τιμή '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:11739
+#: ../plugins/openoffice/openoffice-read.c:11787
 msgid "Unknown mimetype for openoffice file."
 msgstr "Άγνωστος τύπος mime για το αρχείο του openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:11749
+#: ../plugins/openoffice/openoffice-read.c:11797
 msgid "No stream named content.xml found."
 msgstr "Δε βρέθηκε η ροή με ονομασία content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11757
+#: ../plugins/openoffice/openoffice-read.c:11805
 msgid "No stream named styles.xml found."
 msgstr "Δε βρέθηκε η ροή με όνομα styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11892
+#: ../plugins/openoffice/openoffice-read.c:11940
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Άκυρο μετα-δεδομένο: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:11961
+#: ../plugins/openoffice/openoffice-read.c:12009
 msgid "settings.xml stream is malformed!"
 msgstr "Η ροή settings.xml δεν υποστηρίζεται!"
 
-#: ../plugins/openoffice/openoffice-write.c:8093
+#: ../plugins/openoffice/openoffice-write.c:8104
 msgid "Writing Sheets..."
 msgstr "Εγγραφή φύλλων..."
 
-#: ../plugins/openoffice/openoffice-write.c:8134
+#: ../plugins/openoffice/openoffice-write.c:8145
 msgid "Writing Sheet Objects..."
 msgstr "Εγγραφή αντικειμένων φύλλων..."
 
@@ -3362,35 +3362,10 @@ msgstr ""
 
 #
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:39
-msgid "Long format toolbar visible"
-msgstr "Ορατή μακρινή εργαλειοθήκη μορφοποίησης"
-
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:40
-msgid ""
-"This variable determines whether the long format toolbar should be visible "
-"initially."
-msgstr ""
-"Αυτή η μεταβλητή καθορίζει αν η εργαλειοθήκη μακράς μορφοποίησης θα είναι "
-"αρχικά ορατή."
-
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:41
-msgid "Long format toolbar position"
-msgstr "Μακρινή θέσης εργαλειοθήκης μορφοποίησης"
-
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:42
-msgid ""
-"This variable determines where the long format toolbar should be shown. 0 is "
-"left, 1 is right, 2 is top."
-msgstr ""
-"Αυτή η μεταβλητή καθορίζει αν η εργαλειοθήκη μακράς μορφοποίησης θα "
-"εμφανίζεται.Το 0 είναι αριστερά, το 1 είναι δεξιά, το 2 είναι πάνω."
-
-#
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:43
 msgid "Object toolbar visible"
 msgstr "Ορατή εργαλειοθήκη αντικειμένων"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:44
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:40
 msgid ""
 "This variable determines whether the object toolbar should be visible "
 "initially."
@@ -3399,11 +3374,11 @@ msgstr ""
 "ορατή."
 
 #
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:45
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:41
 msgid "Object toolbar position"
 msgstr "Θέση εργαλειοθήκης αντικειμένων"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:46
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:42
 msgid ""
 "This variable determines where the object toolbar should be shown. 0 is "
 "left, 1 is right, 2 is top."
@@ -3411,11 +3386,11 @@ msgstr ""
 "Αυτή η μεταβλητή καθορίζει αν η εργαλειοθήκη αντικειμένων θα είναι αρχικά "
 "ορατή.Το 0 είναι αριστερά,1 είναι δεξιά,2 είναι πάνω."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:47
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:43
 msgid "Function Markers"
 msgstr "Σημειωτές συνάρτησης"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:48
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:44
 msgid ""
 "This variable determines whether cells containing spreadsheet function are "
 "marked."
@@ -3423,32 +3398,32 @@ msgstr ""
 "Αυτή η μεταβλητή καθορίζει εάν θα σημειώνονται τα κελιά που περιέχουν "
 "συνάρτηση υπολογιστικού φύλλου."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:49
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:45
 msgid "Extension Markers"
 msgstr "Σημειωτές επέκτασης"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:50
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:46
 msgid ""
 "This variable determines whether cells with truncated content are marked."
 msgstr ""
 "Αυτή η μεταβλητή καθορίζει αν θα σημειώνονται τα κελιά με κολοβό περιεχόμενο."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:51
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:47
 #: ../src/dialogs/dialog-preferences.c:1062
 msgid "Autocomplete"
 msgstr "Αυτόματη συμπλήρωση"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:52
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:48
 msgid "This variable determines whether autocompletion is set on."
 msgstr ""
 "Αυτή η μεταβλητή καθορίζει αν η αυτόματη συμπλήρωση είναι ενεργοποιημένη."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:53
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:49
 #: ../src/dialogs/dialog-preferences.c:1067
 msgid "Minimum Number of Characters for Autocompletion"
 msgstr "Ελάχιστος αριθμός χαρακτήρων για αυτόματη συμπλήρωση"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:54
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:50
 msgid ""
 "This variable determines the minimum number of characters required for "
 "autocompletion."
@@ -3456,42 +3431,42 @@ msgstr ""
 "Αυτή η μεταβλητή καθορίζει τον ελάχιστο αριθμό απαιτούμενων χαρακτήρων για "
 "αυτόματη συμπλήρωση."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:55
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:51
 #: ../src/dialogs/dialog-preferences.c:1072
 msgid "Show Function Name Tooltips"
 msgstr "Εργαλεία - Εμφάνιση ονόματος συνάρτησης"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:56
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:52
 msgid "This variable determines whether to show function name tooltips."
 msgstr ""
 "Αυτή η μεταβλητή καθορίζει αν θα εμφανίζονται οι συμβουλές ονομάτων "
 "συναρτήσεων."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:57
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:53
 #: ../src/dialogs/dialog-preferences.c:1077
 msgid "Show Function Argument Tooltips"
 msgstr "Εργαλεία - Εμφάνιση ορίσματος συνάρτησης"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:54
 msgid "This variable determines whether to show function argument tooltips."
 msgstr ""
 "Αυτή η μεταβλητή καθορίζει αν θα εμφανίζονται οι συμβουλές ορισμάτων "
 "συναρτήσεων."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:59
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:55
 msgid "Enter Direction"
 msgstr "Εισαγωγή κατεύθυνσης"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:56
 msgid "Which direction pressing Enter will move the edit position."
 msgstr ""
 "Προς ποια κατεύθυνση πατώντας εισαγωγή θα μετακινηθεί η θέση επεξεργασίας."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:61
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:57
 msgid "Auto Expression Recalculation Lag"
 msgstr "Υστέρηση επανυπολογισμού αυτόματων εκφράσεων"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:62
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
 msgid ""
 "If `lag' is 0, gnumeric recalculates all auto expressions immediately after "
 "every change. Non-zero values of `lag' allow gnumeric to accumulate more "
@@ -3511,12 +3486,12 @@ msgstr ""
 "αρνητική, τότε ο επανυπολογισμός συμβαίνει μόνο μετά από μία ήσυχη περίοδο |"
 "lag| χιλιοστών του δευτερολέπτου."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:63
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:59
 #: ../src/dialogs/dialog-preferences.c:1057
 msgid "Transition Keys"
 msgstr "Πλήκτρα μετάβασης"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:64
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
 msgid ""
 "This variable determines whether transition keys are set on. Transition keys "
 "are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into "
@@ -3527,12 +3502,12 @@ msgstr ""
 "Στριφογυρίζουν με Ctrl+βέλος στη σελίδα αντί για να μεταπηδούν στην αρχή/"
 "τέλος της σειράς."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:65
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:61
 #: ../src/dialogs/dialog-preferences.c:852
 msgid "Default Horizontal Window Size"
 msgstr "Προεπιλεγμένο οριζόντιο μέγεθος παραθύρου"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:66
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:62
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
@@ -3540,12 +3515,12 @@ msgstr ""
 "Αυτός ο αριθμός (μεταξύ 0.25 και 1.00) καθορίζει το οριζόντιο κλάσμα του "
 "μεγέθους της οθόνης που καλύπτεται από το προεπιλεγμένο παράθυρο."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:67
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:63
 #: ../src/dialogs/dialog-preferences.c:847
 msgid "Default Vertical Window Size"
 msgstr "Προεπιλεγμένο κάθετο μέγεθος παραθύρου"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:68
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:64
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
@@ -3553,21 +3528,21 @@ msgstr ""
 "Αυτός ο αριθμός (μεταξύ 0.25 και 1.00) καθορίζει το κάθετο κλάσμα του "
 "μεγέθους της οθόνης που καλύπτεται από το προεπιλεγμένο παράθυρο."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:69
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:65
 #: ../src/dialogs/dialog-preferences.c:857
 msgid "Default Zoom Factor"
 msgstr "Προεπιλεγμένος συντελεστής εστίασης"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:70
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:66
 msgid "The initial zoom factor for new workbooks."
 msgstr "Ο αρχικός συντελεστής εστίασης για νέα βιβλία εργασίας."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:71
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:67
 #: ../src/dialogs/dialog-preferences.c:969
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Προεπιλεγμένο επίπεδο συμπίεσης για τα αρχεία του Gnumeric"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:68
 msgid ""
 "This integer (between 0 and 9) specifies the amount of compression performed "
 "by Gnumeric when saving files in the default file format. 0 is minimal "
@@ -3577,12 +3552,12 @@ msgstr ""
 "κάνει το Gnumeric κατά την αποθήκευση των αρχείων στον προεπιλεγμένο τύπο "
 "αρχείου. Το 0 είναι η ελάχιστη συμπίεση και το 9 η μέγιστη."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:69
 #: ../src/dialogs/dialog-preferences.c:985
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Ειδοποίηση για την εξαγωγή σε απλό τύπο φύλλου"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:74
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:70
 msgid ""
 "Some file formats can contain only a single sheet. This variable determines "
 "whether the user will be warned if only a single sheet of a multi-sheet "
@@ -3592,12 +3567,12 @@ msgstr ""
 "μεταβλητή καθορίζει πότε ο χρήστης θα ειδοποιείται αν μόνο ένα μεμονωμένο "
 "φύλλο ενός βιβλίου εργασίας πολλαπλών φύλλων θα αποθηκεύεται."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:75
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:71
 #: ../src/dialogs/dialog-preferences.c:980
 msgid "Default To Overwriting Files"
 msgstr "Προεπιλεγμένες ρυθμίσεις για την αντικατάσταση αρχείων"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:76
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
 msgid ""
 "Before an existing file is being overwritten, gnumeric will present a "
 "warning dialog. Setting this option will make the overwrite button in that "
@@ -3607,12 +3582,12 @@ msgstr ""
 "παρουσιάσει έναν προειδοποιητικό διάλογο. Θέτοντας αυτήν την επιλογή, το "
 "κουμπί της αντικατάστασης θα είναι το προεπιλεγμένο κουμπί."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
 msgid "List of file savers with disabled extension check."
 msgstr ""
 "Λίστα πρόσθετων λειτουργιών αποθηκεύσης αρχείων με απενεργοποιημένη επέκταση."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:78
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:74
 msgid ""
 "This list contains the ids of the file savers for which the extension check "
 "is disabled."
@@ -3620,11 +3595,11 @@ msgstr ""
 "Η λίστα περιέχει τα αναγνωριστικά των πρόσθετων λειτουργιών αποθήκευσης "
 "αρχείων για τις οποίες η επέκταση είναι απενεργοποιημένη."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:75
 msgid "Sort is Case-Sensitive"
 msgstr "Η ταξινόμηση κάνει διάκριση πεζών από κεφαλαία"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:80
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:76
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
 "case-sensitive sort and determine the initial state of the case-sensitive "
@@ -3635,12 +3610,12 @@ msgstr ""
 "να θεωρήσουν την αρχική κατάσταση του κουτιού ελέγχου ότι είναι σε σχέση με "
 "την περίπτωση στο διάλογο ταξινόμησης."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:81
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
 #: ../src/dialogs/dialog-preferences.c:811
 msgid "Sorting Preserves Formats"
 msgstr "Η ταξινόμηση διατηρεί τις μορφοποιήσεις"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:82
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:78
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
 "the cell formats while sorting and determines the initial state of the "
@@ -3650,12 +3625,12 @@ msgstr ""
 "εργαλειοθήκη να καθιστούν τις μορφοποιήσεις των κελιών κατά την ταξινόμηση "
 "και θεωρεί την αρχική κατάστασητου κουτιού ελέγχου στο διάλογο ταξινόμησης."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:83
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
 #: ../src/dialogs/dialog-preferences.c:821 ../src/wbc-gtk-actions.c:2700
 msgid "Sort Ascending"
 msgstr "Αύξουσα ταξινόμηση"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:84
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:80
 msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
@@ -3663,12 +3638,12 @@ msgstr ""
 "Αυτή η επιλογή καθορίζει την αρχική κατάσταση του κουμπιού της σειράς "
 "ταξινόμησης μέσα στο διάλογο ταξινόμησης."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:85
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:81
 #: ../src/dialogs/dialog-preferences.c:806
 msgid "Number of Automatic Clauses"
 msgstr "Αριθμός αυτόματων ρητρών"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:86
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:82
 msgid ""
 "When selecting a sort region in the sort dialog, sort clauses are "
 "automatically added. This number determines the maximum number of clauses to "
@@ -3678,11 +3653,11 @@ msgstr ""
 "ταξινομημένες ρήτρες προστίθενται αυτόματα. Αυτός ο αριθμός καθορίζει το "
 "μέγιστο αριθμό ρητρών που θα προστεθούν αυτόματα."
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:87
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:83
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Προτιμά το ΠΡΟΧΕΙΡΟ από την ΠΡΩΤΗ επιλογή"
 
-#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:88
+#: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:84
 msgid ""
 "When TRUE, Gnumeric will prefer the modern CLIPBOARD selection over the "
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
@@ -3743,11 +3718,6 @@ msgstr "Εργαλειοθήκη μορφοποίησης"
 
 #
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:3
-msgid "LongFormatToolbar"
-msgstr "Εργαλειοθήκη μακράς μορφοποίησης"
-
-#
-#: ../src/GNOME_Gnumeric-gtk.xml.in.h:4
 msgid "ObjectToolbar"
 msgstr "Εργαλειοθήκη αντικειμένων"
 
@@ -3755,11 +3725,11 @@ msgstr "Εργαλειοθήκη αντικειμένων"
 msgid "Cut Object"
 msgstr "Αποκοπή αντικειμένου"
 
-#: ../src/application.c:1325
+#: ../src/application.c:1326
 msgid "File History List"
 msgstr "Λίστα ιστορικού αρχείων"
 
-#: ../src/application.c:1326
+#: ../src/application.c:1327
 msgid "A list of filenames that have been read recently"
 msgstr "Λίστα από ονόματα αρχείων που έχουν αναγνωστεί πρόσφατα"
 
@@ -3972,7 +3942,7 @@ msgstr "Διαγραφή γραμμών %s"
 msgid "Deleting row %s"
 msgstr "Διαγραφή γραμμής %s"
 
-#: ../src/commands.c:1598 ../src/commands.c:1599 ../src/sheet.c:4599
+#: ../src/commands.c:1598 ../src/commands.c:1599 ../src/sheet.c:4598
 msgid "Clear"
 msgstr "Απαλοιφή"
 
@@ -4481,7 +4451,7 @@ msgstr "Ρύθμιση προσαρμογής"
 msgid "Add Filter"
 msgstr "Προσθήκη φίλτρου"
 
-#: ../src/commands.c:7952 ../src/wbc-gtk.c:1538
+#: ../src/commands.c:7952 ../src/wbc-gtk.c:1543
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Το αυτόματο φίλτρο εμποδίστηκε από το %s"
@@ -4522,19 +4492,19 @@ msgstr "Αλλαγή συνθηκών φίλτρου για %s"
 msgid "Clear All Page Breaks"
 msgstr "Καθαρισμός όλων των αλλαγών σελίδας"
 
-#: ../src/commands.c:8157 ../src/wbc-gtk.c:1473
+#: ../src/commands.c:8157 ../src/wbc-gtk.c:1478
 msgid "Remove Column Page Break"
 msgstr "Αφαίρεση αλλαγής σελίδας στήλης"
 
-#: ../src/commands.c:8157 ../src/wbc-gtk.c:1483
+#: ../src/commands.c:8157 ../src/wbc-gtk.c:1488
 msgid "Remove Row Page Break"
 msgstr "Αφαίρεση αλλαγής σελίδας γραμμής"
 
-#: ../src/commands.c:8160 ../src/wbc-gtk.c:1476
+#: ../src/commands.c:8160 ../src/wbc-gtk.c:1481
 msgid "Add Column Page Break"
 msgstr "Προσθήκη αλλαγής σελίδας στήλης"
 
-#: ../src/commands.c:8160 ../src/wbc-gtk.c:1486
+#: ../src/commands.c:8160 ../src/wbc-gtk.c:1491
 msgid "Add Row Page Break"
 msgstr "Προσθήκη αλλαγής σελίδας γραμμής"
 
@@ -5805,13 +5775,13 @@ msgstr "Μορφοποίηση κελιών"
 msgid "Border"
 msgstr "Πλαίσιο"
 
-#: ../src/dialogs/dialog-cell-format.c:2331 ../src/wbc-gtk.c:3346
+#: ../src/dialogs/dialog-cell-format.c:2331 ../src/wbc-gtk.c:3366
 msgid "Clear Background"
 msgstr "Απαλοιφή παρασκηνίου"
 
 #: ../src/dialogs/dialog-cell-format.c:2331
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:74
-#: ../src/wbc-gtk.c:3348 ../src/wbc-gtk.c:3349 ../src/wbc-gtk.c:3358
+#: ../src/wbc-gtk.c:3368 ../src/wbc-gtk.c:3369 ../src/wbc-gtk.c:3376
 msgid "Background"
 msgstr "Παρασκήνιο"
 
@@ -6566,7 +6536,7 @@ msgstr "Αφαίρεση υπερσυνδέσμου"
 msgid "Could not create the hyperlink dialog."
 msgstr "Αδύνατη η δημιουργία του διαλόγου υπερσυνδέσμου."
 
-#: ../src/dialogs/dialog-insert-cells.c:125 ../src/wbc-gtk.c:502
+#: ../src/dialogs/dialog-insert-cells.c:125 ../src/wbc-gtk.c:506
 msgid "Insert"
 msgstr "Εισαγωγή"
 
@@ -6974,7 +6944,7 @@ msgstr "Ομοιόμορφη ακέραια"
 
 #: ../src/dialogs/dialog-random-generator.c:110
 #: ../src/dialogs/search-replace.ui.h:28 ../src/dialogs/search.ui.h:17
-#: ../src/widgets/gnumeric-text-view.c:323
+#: ../src/widgets/gnumeric-text-view.c:322
 msgid "Normal"
 msgstr "Κανονική"
 
@@ -7455,7 +7425,7 @@ msgstr "Έκφραση"
 msgid "Other value"
 msgstr "Άλλη τιμή"
 
-#: ../src/dialogs/dialog-search.c:441 ../src/dialogs/dialog-so-styled.c:173
+#: ../src/dialogs/dialog-search.c:441 ../src/dialogs/dialog-so-styled.c:176
 msgid "Content"
 msgstr "Περιεχόμενο"
 
@@ -7573,16 +7543,16 @@ msgid "Run on"
 msgstr "Εκτέλεση σε"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4558
+#: ../src/wbc-gtk.c:4630
 msgid "Min"
 msgstr "Ελάχιστο"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4560
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4632
 msgid "Average"
 msgstr "Μέσος όρος"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4559
+#: ../src/wbc-gtk.c:4631
 msgid "Max"
 msgstr "Μέγιστο"
 
@@ -7849,7 +7819,7 @@ msgid "Line"
 msgstr "Γραμμή"
 
 #: ../src/dialogs/dialog-stf-main-page.c:398
-#: ../src/widgets/gnumeric-expr-entry.c:1735
+#: ../src/widgets/gnumeric-expr-entry.c:1746
 msgid "Text"
 msgstr "Κείμενο"
 
@@ -8172,7 +8142,7 @@ msgid "Top"
 msgstr "Επάνω"
 
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:28
-#: ../src/wbc-gtk.c:3044
+#: ../src/wbc-gtk.c:3069
 msgid "Bottom"
 msgstr "Κάτω"
 
@@ -8367,16 +8337,16 @@ msgstr "Διαγώνια"
 
 #. start sub menu
 #: ../src/dialogs/cell-format.ui.h:26 ../src/sheet-control-gui.c:2193
-#: ../src/wbc-gtk.c:3036
+#: ../src/wbc-gtk.c:3061
 msgid "Left"
 msgstr "Αριστερά"
 
 #: ../src/dialogs/cell-format.ui.h:27 ../src/sheet-control-gui.c:2196
-#: ../src/wbc-gtk.c:3038
+#: ../src/wbc-gtk.c:3063
 msgid "Right"
 msgstr "Δεξιά"
 
-#: ../src/dialogs/cell-format.ui.h:29 ../src/widgets/gnumeric-text-view.c:281
+#: ../src/dialogs/cell-format.ui.h:29 ../src/widgets/gnumeric-text-view.c:280
 msgid "None"
 msgstr "Κανένα"
 
@@ -9201,7 +9171,7 @@ msgstr "_Παρενθέσεις:"
 msgid "Quote _character:"
 msgstr "Χαρακτήρες _εισαγωγικών:"
 
-#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:314
+#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:313
 msgid "Character _encoding:"
 msgstr "_Κωδικοποίηση χαρακτήρων:"
 
@@ -9471,8 +9441,8 @@ msgid "Source Locale:"
 msgstr "Τοπική πηγή:"
 
 #. ----- vertical -----
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:3000
-#: ../src/wbc-gtk.c:3016
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:3025
+#: ../src/wbc-gtk.c:3041
 msgid "Zoom"
 msgstr "Μεγέθυνση"
 
@@ -11532,18 +11502,14 @@ msgid "_Show advanced sheet properties"
 msgstr "_Εμφάνιση εξειδικευμένων ιδιοτήτων φύλλου"
 
 #: ../src/dialogs/sheet-rename.ui.h:1
-#| msgid "Renaming sheet"
-#| msgid_plural "Renaming %d sheets"
 msgid "Rename Sheet"
 msgstr "Μετονομασία φύλλου"
 
 #: ../src/dialogs/sheet-rename.ui.h:2
-#| msgid "Name:"
 msgid "Old Name:"
 msgstr "Παλιό όνομα:"
 
 #: ../src/dialogs/sheet-rename.ui.h:3
-#| msgid "New Name"
 msgid "New Name:"
 msgstr "Νέο όνομα:"
 
@@ -12415,49 +12381,49 @@ msgstr "πρόχειρο"
 msgid "Cut of %s"
 msgstr "Αποκοπή του %s"
 
-#: ../src/gui-file.c:70
+#: ../src/gui-file.c:71
 msgid "Automatically detected"
 msgstr "Αυτόματος εντοπισμός"
 
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
-#: ../src/gui-file.c:203 ../src/gui-file.c:333
+#: ../src/gui-file.c:202 ../src/gui-file.c:332
 msgid "Advanc_ed"
 msgstr "_Εξειδικευμένο"
 
-#: ../src/gui-file.c:206
+#: ../src/gui-file.c:205
 msgid "Simpl_e"
 msgstr "Απ_λό"
 
-#: ../src/gui-file.c:303
+#: ../src/gui-file.c:302
 msgid "Open Spreadsheet File"
 msgstr "Άνοιγμα αρχείου υπολογιστικού φύλλου"
 
-#: ../src/gui-file.c:306
+#: ../src/gui-file.c:305
 msgid "Import Data File"
 msgstr "Εισαγωγή αρχείου δεδομένων"
 
-#: ../src/gui-file.c:360 ../src/gui-file.c:538
+#: ../src/gui-file.c:359 ../src/gui-file.c:576
 msgid "All Files"
 msgstr "Όλα τα αρχεία"
 
-#: ../src/gui-file.c:368
+#: ../src/gui-file.c:367
 msgid "Text Files"
 msgstr "Αρχεία κειμένου"
 
-#: ../src/gui-file.c:373 ../src/gui-file.c:543
+#: ../src/gui-file.c:372 ../src/gui-file.c:581
 msgid "Spreadsheets"
 msgstr "Λογιστικά φύλλα"
 
-#: ../src/gui-file.c:376
+#: ../src/gui-file.c:375
 msgid "Data Files"
 msgstr "Αρχεία δεδομένων"
 
-#: ../src/gui-file.c:397 ../src/gui-file.c:567
+#: ../src/gui-file.c:396 ../src/gui-file.c:605
 msgid "File _type:"
 msgstr "_Τύπος αρχείου:"
 
-#: ../src/gui-file.c:455
+#: ../src/gui-file.c:454
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -12470,15 +12436,15 @@ msgstr ""
 "επιλέξτε διαφορετικό τύπο αρχείου.\n"
 "Θέλετε να αποθηκεύσετε μόνο το τρέχον φύλλο;"
 
-#: ../src/gui-file.c:489
+#: ../src/gui-file.c:527
 msgid "Save the current workbook as"
 msgstr "Αποθήκευση τρέχοντος βιβλίου εργασίας ως"
 
-#: ../src/gui-file.c:490
+#: ../src/gui-file.c:528
 msgid "Export the current workbook or sheet to"
 msgstr "Εξαγωγή του τρέχοντος βιβλίου εργασίας ή φύλλου ως"
 
-#: ../src/gui-file.c:630
+#: ../src/gui-file.c:672
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -12486,7 +12452,7 @@ msgstr ""
 "Η δεδομένη επέκταση αρχείου δεν ταιριάζει με τον τύπο του επιλεγμένου "
 "αρχείου. Θέλετε να χρησιμοποιήσετε αυτό το όνομα οπωσδήποτε;"
 
-#: ../src/gui-file.c:721
+#: ../src/gui-file.c:763
 #, c-format
 msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
@@ -12495,7 +12461,7 @@ msgstr ""
 "Θέλετε να εξάγετε το <b>τρέχον φύλλο</b> αυτού του βιβλίου εργασίας στην "
 "θέση '<b>%s</b>' χρησιμοποιώντας τον εξαγωγέα '<b>%s</b>';"
 
-#: ../src/gui-file.c:725
+#: ../src/gui-file.c:767
 #, c-format
 msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
@@ -12504,7 +12470,7 @@ msgstr ""
 "Θέλετε να εξάγετε αυτό το βιβλίο εργασίας στην θέση '<b>%s</b>' "
 "χρησιμοποιώντας τον εξαγωγέα '<b>%s</b>';"
 
-#: ../src/gui-file.c:752
+#: ../src/gui-file.c:794
 msgid ""
 "Unable to repeat export since no previous export information has been saved "
 "in this session."
@@ -12727,7 +12693,7 @@ msgstr "Σφάλμα κατανομής bessel_k"
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: ../src/mathfunc.c:6772
+#: ../src/mathfunc.c:6869
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -13378,6 +13344,12 @@ msgid_plural "Resize %d Objects"
 msgstr[0] "Αλλαγή μεγέθους αντικειμένου %d"
 msgstr[1] "Αλλαγή μεγέθους αντικειμένων %d"
 
+#. xgettext: this is a by-line for cell comments
+#: ../src/sheet-control-gui.c:3047
+#, c-format
+msgid "By %s:"
+msgstr "Κατά %s:"
+
 #. Format toolbar
 #: ../src/sheet-merge.c:74 ../src/wbc-gtk-actions.c:2749
 msgid "Merge"
@@ -13872,31 +13844,31 @@ msgstr "Αριθμός στηλών στο φύλλο"
 msgid "Rows number in the sheet"
 msgstr "Αριθμός γραμμών στο φύλλο"
 
-#: ../src/sheet.c:3463
+#: ../src/sheet.c:3462
 msgid "Target region contains merged cells"
 msgstr "Η επιλεγμένη περιοχή περιέχει συγχωνευμένα κελιά"
 
-#: ../src/sheet.c:3526
+#: ../src/sheet.c:3525
 msgid "cannot operate on merged cells"
 msgstr "αδύνατη η επεξεργασία σε συγχωνευμένα κελιά"
 
-#: ../src/sheet.c:3536
+#: ../src/sheet.c:3535
 msgid "cannot operate on array formulæ"
 msgstr "αδύνατη η επεξεργασία στη σύνθεση πινάκων"
 
-#: ../src/sheet.c:4986
+#: ../src/sheet.c:4985
 msgid "Insert Columns"
 msgstr "Εισαγωγή στηλών"
 
-#: ../src/sheet.c:5077
+#: ../src/sheet.c:5076
 msgid "Delete Columns"
 msgstr "Διαγραφή στηλών"
 
-#: ../src/sheet.c:5158
+#: ../src/sheet.c:5157
 msgid "Insert Rows"
 msgstr "Εισαγωγή γραμμών"
 
-#: ../src/sheet.c:5249
+#: ../src/sheet.c:5248
 msgid "Delete Rows"
 msgstr "Διαγραφή γραμμών"
 
@@ -15562,7 +15534,7 @@ msgstr "Κύρτωση"
 msgid "Range"
 msgstr "Έυρος"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4561
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4633
 msgid "Count"
 msgstr "Πλήθος"
 
@@ -16248,7 +16220,7 @@ msgstr "Μετονο_μασία"
 msgid "Rename the current sheet"
 msgstr "Μετονομασία τρέχοντος φύλλου"
 
-#: ../src/wbc-gtk-actions.c:2125 ../src/wbc-gtk.c:507
+#: ../src/wbc-gtk-actions.c:2125 ../src/wbc-gtk.c:511
 msgid "Resize..."
 msgstr "Αλλαγή μεγέθους..."
 
@@ -16472,7 +16444,7 @@ msgstr "Επόμενο _αντικείμενο"
 msgid "Select the next sheet object"
 msgstr "Επιλογή του επόμενου φύλλου"
 
-#: ../src/wbc-gtk-actions.c:2251 ../src/wbc-gtk.c:2644
+#: ../src/wbc-gtk-actions.c:2251 ../src/wbc-gtk.c:2669
 msgid "Go to Top"
 msgstr "Μετάβαση στην κορυφή"
 
@@ -16480,7 +16452,7 @@ msgstr "Μετάβαση στην κορυφή"
 msgid "Go to the top of the data"
 msgstr "Μετάβαση στην αρχή των δεδομένων"
 
-#: ../src/wbc-gtk-actions.c:2254 ../src/wbc-gtk.c:2645
+#: ../src/wbc-gtk-actions.c:2254 ../src/wbc-gtk.c:2670
 msgid "Go to Bottom"
 msgstr "Μετάβαση κάτω"
 
@@ -16589,11 +16561,11 @@ msgid "Change Gnumeric Preferences"
 msgstr "Αλλαγή προτιμήσεων Gnumeric"
 
 #. View
-#: ../src/wbc-gtk-actions.c:2303 ../src/wbc-gtk.c:1508
+#: ../src/wbc-gtk-actions.c:2303 ../src/wbc-gtk.c:1513
 msgid "_Freeze Panes"
 msgstr "_Πάγωμα αντικειμένων"
 
-#: ../src/wbc-gtk-actions.c:2304 ../src/wbc-gtk.c:1511
+#: ../src/wbc-gtk-actions.c:2304 ../src/wbc-gtk.c:1516
 msgid "Freeze the top left of the sheet"
 msgstr "Πάγωμα του πάνω και αριστερού μέρους του φύλλου"
 
@@ -17207,11 +17179,11 @@ msgstr "Εξαγωγή ως αρχείο _CSV"
 msgid "Export the current sheet as a csv file"
 msgstr "Εξαγωγή του τρέχοντος φύλλου ως αρχείου csv"
 
-#: ../src/wbc-gtk-actions.c:2619 ../src/wbc-gtk.c:1629
+#: ../src/wbc-gtk-actions.c:2619 ../src/wbc-gtk.c:1634
 msgid "Repeat Export"
 msgstr "Επανάληψη εξαγωγής"
 
-#: ../src/wbc-gtk-actions.c:2620 ../src/wbc-gtk.c:1625 ../src/wbc-gtk.c:1629
+#: ../src/wbc-gtk-actions.c:2620 ../src/wbc-gtk.c:1630 ../src/wbc-gtk.c:1634
 msgid "Repeat the last data export"
 msgstr "Επανάληψη της τελευταίας εξαγωγής δεδομένων"
 
@@ -17319,7 +17291,7 @@ msgid "Remove an outline group"
 msgstr "Απαλοιφή ομάδας εξωτερικών περιγραμμάτων"
 
 #. Data -> Filter
-#: ../src/wbc-gtk-actions.c:2663 ../src/wbc-gtk.c:1550
+#: ../src/wbc-gtk-actions.c:2663 ../src/wbc-gtk.c:1555
 msgid "Add _Auto Filter"
 msgstr "Προσθήκη _αυτόματου φίλτρου"
 
@@ -17387,7 +17359,7 @@ msgid "Adjust a data slicer"
 msgstr "Προσαρμογή πίτας δεδομένων"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2693 ../src/wbc-gtk.c:4557
+#: ../src/wbc-gtk-actions.c:2693 ../src/wbc-gtk.c:4629
 #: ../src/workbook-view.c:1025
 msgid "Sum"
 msgstr "Άθροισμα"
@@ -17788,7 +17760,7 @@ msgid "_Bold"
 msgstr "Έν_τονα"
 
 #. ALSO "<control>2"
-#: ../src/wbc-gtk-actions.c:2909 ../src/widgets/gnumeric-text-view.c:326
+#: ../src/wbc-gtk-actions.c:2909 ../src/widgets/gnumeric-text-view.c:325
 msgid "Bold"
 msgstr "Έντονο"
 
@@ -17918,287 +17890,286 @@ msgstr "Απαλοιφή διαμόρφωσης"
 msgid "Show this dialog next time."
 msgstr "Εμφάνιση αυτού του διαλόγου την επόμενη φορά."
 
-#: ../src/wbc-gtk.c:500
+#: ../src/wbc-gtk.c:504
 msgid "Manage sheets..."
 msgstr "Διαχείριση φύλλων..."
 
-#: ../src/wbc-gtk.c:503
+#: ../src/wbc-gtk.c:507
 msgid "Append"
 msgstr "Προσάρτηση"
 
-#: ../src/wbc-gtk.c:504
+#: ../src/wbc-gtk.c:508
 msgid "Duplicate"
 msgstr "Αντιγραφή"
 
-#: ../src/wbc-gtk.c:505
+#: ../src/wbc-gtk.c:509
 msgid "Remove"
 msgstr "Αφαίρεση"
 
-#: ../src/wbc-gtk.c:506
+#: ../src/wbc-gtk.c:510
 msgid "Rename"
 msgstr "Μετονομασία"
 
-#: ../src/wbc-gtk.c:508
+#: ../src/wbc-gtk.c:512
 msgid "Select"
 msgstr "Επιλογή"
 
-#: ../src/wbc-gtk.c:509
+#: ../src/wbc-gtk.c:513
 msgid "Select (sorted)"
 msgstr "Επιλογή (με ταξινόμηση)"
 
-#: ../src/wbc-gtk.c:1254
+#: ../src/wbc-gtk.c:1259
 msgid " - Gnumeric"
 msgstr " - Gnumeric"
 
-#: ../src/wbc-gtk.c:1376
+#: ../src/wbc-gtk.c:1381
 msgid "Invalid format"
 msgstr "Άκυρη μορφή"
 
-#: ../src/wbc-gtk.c:1474
+#: ../src/wbc-gtk.c:1479
 msgid "Remove the page break to the left of the current column"
 msgstr "Αφαίρεση της αλλαγής σελίδας στα αριστερά της τρέχουσας στήλης"
 
-#: ../src/wbc-gtk.c:1477
+#: ../src/wbc-gtk.c:1482
 msgid "Add a page break to the left of the current column"
 msgstr "Προσθήκη αλλαγής σελίδας στα αριστερά της τρέχουσας στήλης"
 
-#: ../src/wbc-gtk.c:1484
+#: ../src/wbc-gtk.c:1489
 msgid "Remove the page break above the current row"
 msgstr "Αφαίρεση της αλλαγής σελίδας πάνω από την τρέχουσα γραμμή"
 
-#: ../src/wbc-gtk.c:1487
+#: ../src/wbc-gtk.c:1492
 msgid "Add a page break above current row"
 msgstr "Προσθήκη αλλαγής σελίδας πάνω από την τρέχουσα γραμμή"
 
-#: ../src/wbc-gtk.c:1507
+#: ../src/wbc-gtk.c:1512
 msgid "Un_freeze Panes"
 msgstr "Α_παλοιφή παγωμένων αντικειμένων"
 
-#: ../src/wbc-gtk.c:1510
+#: ../src/wbc-gtk.c:1515
 msgid "Unfreeze the top left of the sheet"
 msgstr "Απαλοιφή παγώματος στο πάνω αριστερά κομμάτι του φύλλου"
 
-#: ../src/wbc-gtk.c:1528
+#: ../src/wbc-gtk.c:1533
 #, c-format
 msgid "Extend _Auto Filter to %s"
 msgstr "Επέκταση _αυτόματου φίλτρου σε %s"
 
-#: ../src/wbc-gtk.c:1530
+#: ../src/wbc-gtk.c:1535
 msgid "Extend the existing filter."
 msgstr "Επέκταση του υπάρχοντος φίλτρου."
 
-#: ../src/wbc-gtk.c:1540
+#: ../src/wbc-gtk.c:1545
 msgid "The selection intersects an existing auto filter."
 msgstr "Η επιλογή τέμνει ένα υπάρχον αυτόματο φίλτρο."
 
-#: ../src/wbc-gtk.c:1549
+#: ../src/wbc-gtk.c:1554
 msgid "Remove _Auto Filter"
 msgstr "Αφαίρεση _αυτόματου φίλτρου"
 
-#: ../src/wbc-gtk.c:1552
+#: ../src/wbc-gtk.c:1557
 msgid "Remove a filter"
 msgstr "Aφαίρεση φίλτρου"
 
-#: ../src/wbc-gtk.c:1553
+#: ../src/wbc-gtk.c:1558
 msgid "Add a filter"
 msgstr "Προσθήκη φίλτρου"
 
-#: ../src/wbc-gtk.c:1621
+#: ../src/wbc-gtk.c:1626
 #, c-format
 msgid "Repeat Export to %s"
 msgstr "Επανάληψη εξαγωγής σε %s"
 
-#: ../src/wbc-gtk.c:1634
+#: ../src/wbc-gtk.c:1639
 msgid "Remove _Data Slicer"
 msgstr "Αφαίρεση _πίτας δεδομένων"
 
-#: ../src/wbc-gtk.c:1635
+#: ../src/wbc-gtk.c:1640
 msgid "Create _Data Slicer"
 msgstr "Δημιουργία _πίτας δεδομένων"
 
-#: ../src/wbc-gtk.c:1637
+#: ../src/wbc-gtk.c:1642
 msgid "Remove a Data Slicer"
 msgstr "Αφαίρεση πίτας δεδομένων"
 
-#: ../src/wbc-gtk.c:1638
+#: ../src/wbc-gtk.c:1643
 msgid "Create a Data Slicer"
 msgstr "Δημιουργία πίτας δεδομένων"
 
-#: ../src/wbc-gtk.c:1651
+#: ../src/wbc-gtk.c:1656
 msgid "_Redo"
 msgstr "_Επανάληψη"
 
-#: ../src/wbc-gtk.c:1652
+#: ../src/wbc-gtk.c:1657
 msgid "_Undo"
 msgstr "_Αναίρεση"
 
-#: ../src/wbc-gtk.c:1683
+#: ../src/wbc-gtk.c:1688
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Αποθήκευση των αλλαγών στο βιβλίο εργασίας '%s' πριν το κλείσιμο;"
 
-#: ../src/wbc-gtk.c:1688
+#: ../src/wbc-gtk.c:1693
 msgid "Save changes to workbook before closing?"
 msgstr "Αποθήκευση των αλλαγών στο βιβλίο εργασίας πριν το κλείσιμο;"
 
-#: ../src/wbc-gtk.c:1695
+#: ../src/wbc-gtk.c:1700
 msgid "If you close without saving, changes will be discarded."
 msgstr "Αν κλείσετε χωρίς ν' αποθηκεύσετε, οι αλλαγές θα χαθούν."
 
-#: ../src/wbc-gtk.c:1701
+#: ../src/wbc-gtk.c:1706
 msgid "Discard all"
 msgstr "Απόρριψη όλων"
 
-#: ../src/wbc-gtk.c:1703 ../src/wbc-gtk.c:1710 ../src/wbc-gtk.c:1716
+#: ../src/wbc-gtk.c:1708 ../src/wbc-gtk.c:1715 ../src/wbc-gtk.c:1721
 msgid "Discard"
 msgstr "Απόρριψη"
 
-#: ../src/wbc-gtk.c:1705
+#: ../src/wbc-gtk.c:1710
 msgid "Save all"
 msgstr "Αποθήκευση όλων"
 
-#: ../src/wbc-gtk.c:1707 ../src/wbc-gtk.c:1712
+#: ../src/wbc-gtk.c:1712 ../src/wbc-gtk.c:1717
 msgid "Don't quit"
 msgstr "Όχι έξοδος"
 
-#: ../src/wbc-gtk.c:1718
+#: ../src/wbc-gtk.c:1723
 msgid "Don't close"
 msgstr "Όχι κλείσιμο"
 
-#: ../src/wbc-gtk.c:2020
+#: ../src/wbc-gtk.c:2025
 msgid "Enter in current cell"
 msgstr "Εισαγωγή στο τρέχον κελί"
 
-#: ../src/wbc-gtk.c:2022
+#: ../src/wbc-gtk.c:2027
 msgid "Enter in current cell without autocorrection"
 msgstr "Εισαγωγή στο τρέχον κελί χωρίς αυτόματη διόρθωση"
 
-#: ../src/wbc-gtk.c:2029
+#: ../src/wbc-gtk.c:2034
 msgid "Enter in current range merged"
 msgstr "Εισαγωγή στην τρέχουσα περιοχή που συγχωνεύθηκε"
 
-#: ../src/wbc-gtk.c:2032
+#: ../src/wbc-gtk.c:2037
 msgid "Enter in selected ranges"
 msgstr "Εισαγωγή σε επιλεγμένες περιοχές"
 
-#: ../src/wbc-gtk.c:2034
+#: ../src/wbc-gtk.c:2039
 msgid "Enter in selected ranges as array"
 msgstr "Εισαγωγή σε επιλεγμένες περιοχές ως πίνακας στοιχείων"
 
-#: ../src/wbc-gtk.c:2380
+#: ../src/wbc-gtk.c:2405
 msgid "END"
 msgstr "END"
 
-#: ../src/wbc-gtk.c:2646
+#: ../src/wbc-gtk.c:2671
 msgid "Go to First"
 msgstr "Μετάβαση στο πρώτο"
 
-#: ../src/wbc-gtk.c:2647
+#: ../src/wbc-gtk.c:2672
 msgid "Go to Last"
 msgstr "Μετάβαση στο τελευταίο"
 
-#: ../src/wbc-gtk.c:2649
+#: ../src/wbc-gtk.c:2674
 msgid "Go to Cell ..."
 msgstr "Μετάβαση στο κελί..."
 
-#: ../src/wbc-gtk.c:2718
+#: ../src/wbc-gtk.c:2743
 msgid "Accept change in multiple cells"
 msgstr "Αποδοχή αλλαγών σε πολλαπλά κελιά"
 
-#: ../src/wbc-gtk.c:2787 ../src/wbc-gtk.c:2802
+#: ../src/wbc-gtk.c:2812 ../src/wbc-gtk.c:2827
 msgid "_Re-Edit"
 msgstr "Επε_ξεργασία ξανά"
 
-#: ../src/wbc-gtk.c:2788 ../src/wbc-gtk.c:2793
+#: ../src/wbc-gtk.c:2813 ../src/wbc-gtk.c:2818
 msgid "_Discard"
 msgstr "Α_πόρριψη"
 
-#: ../src/wbc-gtk.c:2792 ../src/wbc-gtk.c:2803
+#: ../src/wbc-gtk.c:2817 ../src/wbc-gtk.c:2828
 msgid "_Accept"
 msgstr "_Αποδοχή"
 
-#: ../src/wbc-gtk.c:2998
+#: ../src/wbc-gtk.c:3023
 msgid "_Zoom"
 msgstr "Μεγέ_θυνση"
 
 # #-#-#-#-#  memory.el.po (abiword 1.0)  #-#-#-#-#
 # #-#-#-#-#  gnome-libs-el.po (gnome-libs 1.2.12)  #-#-#-#-#
 #
-#: ../src/wbc-gtk.c:3037
+#: ../src/wbc-gtk.c:3062
 msgid "Clear Borders"
 msgstr "Απαλοιφή περιγραμμάτων"
 
 # #-#-#-#-#  memory.el.po (abiword 1.0)  #-#-#-#-#
 # #-#-#-#-#  gnome-libs-el.po (gnome-libs 1.2.12)  #-#-#-#-#
 #
-#: ../src/wbc-gtk.c:3040
+#: ../src/wbc-gtk.c:3065
 msgid "All Borders"
 msgstr "Όλα τα περιγράμματα"
 
-#: ../src/wbc-gtk.c:3041
+#: ../src/wbc-gtk.c:3066
 msgid "Outside Borders"
 msgstr "Εξωτερικά περιγράμματα"
 
-#: ../src/wbc-gtk.c:3042
+#: ../src/wbc-gtk.c:3067
 msgid "Thick Outside Borders"
 msgstr "Παχιά εξωτερικά περιγράμματα"
 
-#: ../src/wbc-gtk.c:3045
+#: ../src/wbc-gtk.c:3070
 msgid "Double Bottom"
 msgstr "Διπλό κάτω"
 
-#: ../src/wbc-gtk.c:3046
+#: ../src/wbc-gtk.c:3071
 msgid "Thick Bottom"
 msgstr "Παχύ κάτω"
 
-#: ../src/wbc-gtk.c:3048
+#: ../src/wbc-gtk.c:3073
 msgid "Top and Bottom"
 msgstr "Πάνω και κάτω"
 
-#: ../src/wbc-gtk.c:3049
+#: ../src/wbc-gtk.c:3074
 msgid "Top and Double Bottom"
 msgstr "Πάνω και διπλό κάτω"
 
-#: ../src/wbc-gtk.c:3050
+#: ../src/wbc-gtk.c:3075
 msgid "Top and Thick Bottom"
 msgstr "Πάνω και παχύ κάτω"
 
-#: ../src/wbc-gtk.c:3135
+#: ../src/wbc-gtk.c:3160
 msgid "Set Borders"
 msgstr "Ορισμός περιγραμμάτων"
 
-#: ../src/wbc-gtk.c:3143 ../src/wbc-gtk.c:3144
+#: ../src/wbc-gtk.c:3168 ../src/wbc-gtk.c:3169
 msgid "Borders"
 msgstr "Περιγράμματα"
 
-#: ../src/wbc-gtk.c:3149 ../src/wbc-gtk.c:3297 ../src/wbc-gtk.c:3298
-#: ../src/wbc-gtk.c:3309
-msgid "Foreground"
-msgstr "Προσκήνιο"
-
-#: ../src/wbc-gtk.c:3244
+#: ../src/wbc-gtk.c:3266
 msgid "Redo the undone action"
 msgstr "Επανάληψη της ανολοκλήρωτης ενέργειας"
 
-#: ../src/wbc-gtk.c:3249
+#: ../src/wbc-gtk.c:3271
 msgid "Undo the last action"
 msgstr "Ακύρωση της τελευταίας ενέργειας"
 
-#: ../src/wbc-gtk.c:3283
+#: ../src/wbc-gtk.c:3305
 msgid "Set Foreground Color"
 msgstr "Ορισμός χρώματος προσκηνίου"
 
+#: ../src/wbc-gtk.c:3319 ../src/wbc-gtk.c:3320 ../src/wbc-gtk.c:3329
+msgid "Foreground"
+msgstr "Προσκήνιο"
+
 #. Set background to NONE
-#: ../src/wbc-gtk.c:3339
+#: ../src/wbc-gtk.c:3359
 msgid "Set Background Color"
 msgstr "Ορισμός χρώματος παρασκηνίου"
 
-#: ../src/wbc-gtk.c:3534
+#: ../src/wbc-gtk.c:3551
 #, c-format
 msgid "Setting Font %s"
 msgstr "Ορισμός γραμματοσειράς του %s"
 
-#: ../src/wbc-gtk.c:3569
+#: ../src/wbc-gtk.c:3629
 msgid "Change font"
 msgstr "Αλλαγή γραμματοσειράς"
 
@@ -18208,90 +18179,85 @@ msgstr "Αλλαγή γραμματοσειράς"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3758
+#: ../src/wbc-gtk.c:3831
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "Στο `%s' μενού, το κλειδί `%s' χρησιμοποιείται για `%s' και για `%s'."
 
-#: ../src/wbc-gtk.c:4076
+#: ../src/wbc-gtk.c:4149
 msgid "Display above sheets"
 msgstr "Εμφάνιση πάνω από τα φύλλα"
 
-#: ../src/wbc-gtk.c:4077
+#: ../src/wbc-gtk.c:4150
 msgid "Display to the left of sheets"
 msgstr "Εμφάνιση στα αριστερά των φύλλων"
 
-#: ../src/wbc-gtk.c:4078
+#: ../src/wbc-gtk.c:4151
 msgid "Display to the right of sheets"
 msgstr "Εμφάνιση στα δεξιά των φύλλων"
 
-#: ../src/wbc-gtk.c:4089
+#: ../src/wbc-gtk.c:4162
 msgid "Reattach to main window"
 msgstr "Επαναπροσάρτηση στο κύριο παράθυρο"
 
-#: ../src/wbc-gtk.c:4123
+#: ../src/wbc-gtk.c:4196
 msgid "Hide"
 msgstr "Απόκρυψη"
 
-#: ../src/wbc-gtk.c:4187
+#: ../src/wbc-gtk.c:4260
 msgid "Standard Toolbar"
 msgstr "Τυπική εργαλειοθήκη"
 
 #
-#: ../src/wbc-gtk.c:4188
+#: ../src/wbc-gtk.c:4261
 msgid "Format Toolbar"
 msgstr "Εργαλειοθήκη μορφοποίησης"
 
 #
-#: ../src/wbc-gtk.c:4189
-msgid "Long Format Toolbar"
-msgstr "Εργαλειοθήκη μακράς μορφοποίησης"
-
-#
-#: ../src/wbc-gtk.c:4190
+#: ../src/wbc-gtk.c:4262
 msgid "Object Toolbar"
 msgstr "Εργαλειοθήκη αντικειμένων"
 
-#: ../src/wbc-gtk.c:4204
+#: ../src/wbc-gtk.c:4276
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Προβολή/απόκρυψη εργαλειοθήκης %s"
 
-#: ../src/wbc-gtk.c:4618
+#: ../src/wbc-gtk.c:4690
 #, c-format
 msgid "Content of %s"
 msgstr "Περιεχόμενα του %s"
 
-#: ../src/wbc-gtk.c:4633
+#: ../src/wbc-gtk.c:4705
 msgid "Use maximum precision"
 msgstr "Χρήση μέγιστης ακρίβειας"
 
-#: ../src/wbc-gtk.c:4645
+#: ../src/wbc-gtk.c:4717
 msgid "Insert formula below."
 msgstr "Εισαγωγή μαθηματικού τύπου παρακάτω."
 
-#: ../src/wbc-gtk.c:4651
+#: ../src/wbc-gtk.c:4723
 msgid "Insert formula to side."
 msgstr "Εισαγωγή μαθηματικού τύπου στα πλάγια."
 
-#: ../src/wbc-gtk.c:4734
+#: ../src/wbc-gtk.c:4806
 #, c-format
 msgid "Open %s"
 msgstr "Άνοιγμα %s"
 
-#: ../src/wbc-gtk.c:5444
+#: ../src/wbc-gtk.c:5517
 msgid "Autosave prompt"
 msgstr "Προτροπή για αυτόματη αποθήκευση"
 
-#: ../src/wbc-gtk.c:5445
+#: ../src/wbc-gtk.c:5518
 msgid "Ask about autosave?"
 msgstr "Ερώτηση για αυτόματη αποθήκευση;"
 
-#: ../src/wbc-gtk.c:5451
+#: ../src/wbc-gtk.c:5524
 msgid "Autosave time in seconds"
 msgstr "Χρόνος αυτόματης αποθήκευσης σε δευτερόλεπτα"
 
-#: ../src/wbc-gtk.c:5452
+#: ../src/wbc-gtk.c:5525
 msgid "Seconds before autosave"
 msgstr "Δευτερόλεπτα πριν την αυτόματη αποθήκευση"
 
@@ -18383,17 +18349,17 @@ msgstr "Αν το επιλεγμένο μέγεθος γραμματοσειρά
 msgid "<Blank>"
 msgstr "<Κενό>"
 
-#: ../src/widgets/gnumeric-expr-entry.c:924
+#: ../src/widgets/gnumeric-expr-entry.c:935
 #, c-format
 msgid "%s takes no arguments"
 msgstr "Το %s δε δέχεται ορίσματα"
 
-#: ../src/widgets/gnumeric-expr-entry.c:928
+#: ../src/widgets/gnumeric-expr-entry.c:939
 #, c-format
 msgid "Too many arguments for %s"
 msgstr "Πάρα πολλά ορίσματα για το %s"
 
-#: ../src/widgets/gnumeric-expr-entry.c:939
+#: ../src/widgets/gnumeric-expr-entry.c:950
 msgid ""
 "\n"
 "\n"
@@ -18405,20 +18371,20 @@ msgstr ""
 
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
-#: ../src/widgets/gnumeric-expr-entry.c:968
+#: ../src/widgets/gnumeric-expr-entry.c:979
 #, c-format
 msgid "\t%s \t%s\n"
 msgstr "\t%s \t%s\n"
 
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
-#: ../src/widgets/gnumeric-expr-entry.c:973
+#: ../src/widgets/gnumeric-expr-entry.c:984
 #, c-format
 msgid "✓\t%s \t%s\n"
 msgstr "✓\t%s \t%s\n"
 
 #. xgettext: short form for: "type F4-key to complete the name"
-#: ../src/widgets/gnumeric-expr-entry.c:986
+#: ../src/widgets/gnumeric-expr-entry.c:997
 msgid ""
 "\n"
 "\t<i>F4 to complete</i>"
@@ -18427,7 +18393,7 @@ msgstr ""
 "\t<i>F4 για ολοκλήρωση</i>"
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
-#: ../src/widgets/gnumeric-expr-entry.c:989
+#: ../src/widgets/gnumeric-expr-entry.c:1000
 msgid ""
 "\n"
 "\t<i>⇧F4 to select</i>"
@@ -18435,101 +18401,101 @@ msgstr ""
 "\n"
 "\t<i>⇧F4 για επιλογή</i>"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1719
+#: ../src/widgets/gnumeric-expr-entry.c:1730
 msgid "Update policy"
 msgstr "Ενημέρωση ασφαλείας"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1720
+#: ../src/widgets/gnumeric-expr-entry.c:1731
 msgid "How frequently changes to the entry should be applied"
 msgstr "Πόσο συχνά οι αλλαγές εισαγωγής θα έπρεπε να εφαρμόζονται"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1727
+#: ../src/widgets/gnumeric-expr-entry.c:1738
 msgid "With icon"
 msgstr "Με εικονίδιο"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1728
+#: ../src/widgets/gnumeric-expr-entry.c:1739
 msgid "Should there be an icon to the right of the entry?"
 msgstr ""
 "Θα έπρεπε να βρίσκεται ένα εικονίδιο στα αριστερά του πεδίου εισαγωγής;"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1736
+#: ../src/widgets/gnumeric-expr-entry.c:1747
 msgid "The contents of the entry"
 msgstr "Τα περιεχόμενα της εισόδου"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1749
+#: ../src/widgets/gnumeric-expr-entry.c:1760
 msgid "SheetControlGUI"
 msgstr "SheetControlGUI"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1750
+#: ../src/widgets/gnumeric-expr-entry.c:1761
 msgid "The GUI container associated with the entry."
 msgstr "Το συσχετισμένο περιεχόμενο του GUI με την είσοδο."
 
-#: ../src/widgets/gnumeric-expr-entry.c:1757
+#: ../src/widgets/gnumeric-expr-entry.c:1768
 msgid "WBCGtk"
 msgstr "WBCGtk"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1758
+#: ../src/widgets/gnumeric-expr-entry.c:1769
 msgid "The toplevel GUI container associated with the entry."
 msgstr "Το συσχετισμένο περιεχόμενο GUI ανώτερου επιπέδου με την είσοδο."
 
-#: ../src/widgets/gnumeric-expr-entry.c:1765
+#: ../src/widgets/gnumeric-expr-entry.c:1776
 msgid "Constant Format"
 msgstr "Μορφοποίηση σταθερών"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1766
+#: ../src/widgets/gnumeric-expr-entry.c:1777
 msgid "Format for constants"
 msgstr "Μορφοποίηση για σταθερές"
 
-#: ../src/widgets/gnumeric-expr-entry.c:2663
+#: ../src/widgets/gnumeric-expr-entry.c:2674
 #, c-format
 msgid "Expecting a single range"
 msgstr "Αναμένεται ένα απλό εύρος"
 
-#: ../src/widgets/gnumeric-text-view.c:282
+#: ../src/widgets/gnumeric-text-view.c:281
 msgid "Single"
 msgstr "Απλή"
 
-#: ../src/widgets/gnumeric-text-view.c:283
+#: ../src/widgets/gnumeric-text-view.c:282
 msgid "Double"
 msgstr "Διπλή"
 
-#: ../src/widgets/gnumeric-text-view.c:284
+#: ../src/widgets/gnumeric-text-view.c:283
 msgid "Wavy"
 msgstr "Κυματιστό"
 
-#: ../src/widgets/gnumeric-text-view.c:285
+#: ../src/widgets/gnumeric-text-view.c:284
 msgid "Low Single"
 msgstr "Χαμηλό μονό"
 
-#: ../src/widgets/gnumeric-text-view.c:320
+#: ../src/widgets/gnumeric-text-view.c:319
 msgid "Thin"
 msgstr "Λεπτά"
 
-#: ../src/widgets/gnumeric-text-view.c:321
+#: ../src/widgets/gnumeric-text-view.c:320
 msgid "Ultralight"
 msgstr "Πολύ φωτεινά"
 
-#: ../src/widgets/gnumeric-text-view.c:322
+#: ../src/widgets/gnumeric-text-view.c:321
 msgid "Light"
 msgstr "Ελαφρό"
 
-#: ../src/widgets/gnumeric-text-view.c:324
+#: ../src/widgets/gnumeric-text-view.c:323
 msgid "Medium"
 msgstr "Μεσαίο"
 
-#: ../src/widgets/gnumeric-text-view.c:325
+#: ../src/widgets/gnumeric-text-view.c:324
 msgid "Semibold"
 msgstr "Μερικώς έντονο"
 
-#: ../src/widgets/gnumeric-text-view.c:327
+#: ../src/widgets/gnumeric-text-view.c:326
 msgid "Ultrabold"
 msgstr "Πολύ έντονα"
 
-#: ../src/widgets/gnumeric-text-view.c:328
+#: ../src/widgets/gnumeric-text-view.c:327
 msgid "Heavy"
 msgstr "Παχιά"
 
-#: ../src/widgets/gnumeric-text-view.c:329
+#: ../src/widgets/gnumeric-text-view.c:328
 msgid "Ultraheavy"
 msgstr "Πολύ παχιά"
 
@@ -19023,6 +18989,35 @@ msgstr "Πρότυπο λίστας Λίλα"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
 msgstr "Ένα απλό πρότυπο λίστας"
+
+#
+#~ msgid "Long format toolbar visible"
+#~ msgstr "Ορατή μακρινή εργαλειοθήκη μορφοποίησης"
+
+#~ msgid ""
+#~ "This variable determines whether the long format toolbar should be "
+#~ "visible initially."
+#~ msgstr ""
+#~ "Αυτή η μεταβλητή καθορίζει αν η εργαλειοθήκη μακράς μορφοποίησης θα είναι "
+#~ "αρχικά ορατή."
+
+#~ msgid "Long format toolbar position"
+#~ msgstr "Μακρινή θέσης εργαλειοθήκης μορφοποίησης"
+
+#~ msgid ""
+#~ "This variable determines where the long format toolbar should be shown. 0 "
+#~ "is left, 1 is right, 2 is top."
+#~ msgstr ""
+#~ "Αυτή η μεταβλητή καθορίζει αν η εργαλειοθήκη μακράς μορφοποίησης θα "
+#~ "εμφανίζεται.Το 0 είναι αριστερά, το 1 είναι δεξιά, το 2 είναι πάνω."
+
+#
+#~ msgid "LongFormatToolbar"
+#~ msgstr "Εργαλειοθήκη μακράς μορφοποίησης"
+
+#
+#~ msgid "Long Format Toolbar"
+#~ msgstr "Εργαλειοθήκη μακράς μορφοποίησης"
 
 #~ msgid "<b>Style</b>"
 #~ msgstr "<b>Τεχνοτροπία</b>"
