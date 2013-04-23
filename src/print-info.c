@@ -644,6 +644,22 @@ render_path (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args
 		g_string_append (target, _("Path "));
 }
 
+static void
+render_title (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
+{
+	if (info->sheet != NULL && info->sheet->workbook != NULL) {
+		GsfDocProp *prop;
+		prop = gsf_doc_meta_data_lookup
+			(go_doc_get_meta_data (GO_DOC (info->sheet->workbook)), GSF_META_NAME_TITLE);
+		if (prop != NULL) {
+			GValue *prop_value = (GValue *) gsf_doc_prop_get_val (prop);
+			if (prop_value != NULL)
+				g_string_append (target, g_value_get_string (prop_value));
+		}
+	} else
+		g_string_append (target, _("Title"));
+}
+
 static struct {
 	char const *name;
 	void (*render)(GString *target, HFRenderInfo *info, char const *args);
@@ -657,6 +673,7 @@ static struct {
 	{ N_("file"),  render_file  , NULL},
 	{ N_("path"),  render_path  , NULL},
 	{ N_("cell"),  render_cell  , NULL},
+	{ N_("title"), render_title  , NULL},
 	{ NULL , NULL, NULL},
 };
 /*
