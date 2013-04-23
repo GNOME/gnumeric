@@ -67,6 +67,7 @@ Morten:
 	* Work around gtk+ behaviour change.  [#689283]
 	* Improve handling of broken xls.  [#698424]
 	* Fix failed-read focus problem.  [#625687]
+	* Fix critical.  [#698680]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

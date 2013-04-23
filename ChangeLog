@@ -1,5 +1,8 @@
 2013-04-23  Morten Welinder  <terra@gnome.org>
 
+	* src/item-edit.c (gnm_item_edit_init): Set ->blink_timer to avoid
+	critical.  Fixes #698680.
+
 	* src/gui-file.c (gui_file_save_as): For export, change extension.
 	Fixes #698636.
 

@@ -693,6 +693,7 @@ gnm_item_edit_init (GnmItemEdit *ie)
 	ie->style      = NULL;
 	ie->cursor_visible = TRUE;
 	ie->sel_start = -1;
+	ie->blink_timer = -1;
 }
 
 static void
