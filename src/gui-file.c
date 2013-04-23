@@ -637,12 +637,32 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
 	/* Set default file name */
-	if (!(wb_uri = workbook_get_last_export_uri (wb)) || (type != FILE_SAVE_AS_EXPORT)
-	    || (fs !=  workbook_get_file_exporter (wb)))
-		wb_uri = go_doc_get_uri (GO_DOC (wb));
+	if (type == FILE_SAVE_AS_EXPORT) {
+		char *basename, *dot, *newname;
+		char const *ext = go_file_saver_get_extension (fs);
 
-	if (wb_uri != NULL) {
-		char *basename = go_basename_from_uri (wb_uri);
+		wb_uri = workbook_get_last_export_uri (wb);
+		if (!wb_uri || fs !=  workbook_get_file_exporter (wb))
+			wb_uri = go_doc_get_uri (GO_DOC (wb));
+		if (!wb_uri) wb_uri = _("Untitled");
+		if (!ext) ext = "txt";
+
+		basename = go_basename_from_uri (wb_uri);
+		dot = strchr (basename, '.');
+		if (dot) *dot = 0;
+		newname = g_strconcat (basename, ".", ext, NULL);
+
+		gtk_file_chooser_set_uri (fsel, wb_uri);
+		gtk_file_chooser_set_current_name (fsel, newname);
+
+		g_free (basename);
+		g_free (newname);
+	} else {
+		char *basename;
+
+		wb_uri = go_doc_get_uri (GO_DOC (wb));
+		if (!wb_uri) wb_uri = _("Untitled");
+		basename = go_basename_from_uri (wb_uri);
 
 		/*
 		 * If the file exists, the following is dominated by the

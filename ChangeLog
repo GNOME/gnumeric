@@ -1,3 +1,8 @@
+2013-04-23  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (gui_file_save_as): For export, change extension.
+	Fixes #698636.
+
 2013-04-22  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_file_read): Re-take focus if the read fails.
