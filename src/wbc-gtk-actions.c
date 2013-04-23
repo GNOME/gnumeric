@@ -2254,13 +2254,13 @@ static GtkActionEntry const actions[] = {
 	{ "EditGotoBottom", GTK_STOCK_GOTO_BOTTOM, N_("Go to Bottom"),
 		NULL, N_("Go to the bottom of the data"),
 		G_CALLBACK (cb_edit_goto_bottom) },
-	{ "EditGotoFirst", GTK_STOCK_GOTO_FIRST, N_("Go to the First"),
+	{ "EditGotoFirst", GTK_STOCK_GOTO_FIRST, N_("Go to First"),
 		NULL, N_("Go to the first data cell"),
 		G_CALLBACK (cb_edit_goto_first) },
-	{ "EditGotoLast", GTK_STOCK_GOTO_LAST, N_("Go to the Last"),
+	{ "EditGotoLast", GTK_STOCK_GOTO_LAST, N_("Go to Last"),
 		NULL, N_("Go to the last data cell"),
 		G_CALLBACK (cb_edit_goto_last) },
-	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Go to cell..."),
+	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Go to Cell..."),
 		"<control>G", N_("Jump to a specified cell"),
 		G_CALLBACK (cb_edit_goto) },
 
@@ -2268,7 +2268,7 @@ static GtkActionEntry const actions[] = {
 	{ "Repeat", NULL, N_("Repeat"),
 		"F4", N_("Repeat the previous action"),
 		G_CALLBACK (cb_repeat) },
-	{ "EditPasteSpecial", NULL, N_("P_aste special..."),
+	{ "EditPasteSpecial", NULL, N_("P_aste Special..."),
 		"<shift><control>V", N_("Paste with optional filters and transformations"),
 		G_CALLBACK (cb_edit_paste_special) },
 
@@ -2336,7 +2336,7 @@ static GtkActionEntry const actions[] = {
 	{ "NewGOComponent", "New Goffice_Component", N_("_New..."),
 		NULL, N_("Insert a new Goffice component object"),
 		G_CALLBACK (cb_launch_go_component_new) },
-	{ "GOComponentFromFile", "New Goffice_Component from a file", N_("_From file..."),
+	{ "GOComponentFromFile", "New Goffice_Component from a file", N_("_From File..."),
 		NULL, N_("Insert a new Goffice component object from a file"),
 		G_CALLBACK (cb_launch_go_component_from_file) },
 	{ "InsertImage", "Gnumeric_InsertImage", N_("_Image..."),
@@ -2357,15 +2357,15 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_insert_sort_ascending) },
 
 /* Insert -> Special */
-	{ "InsertCurrentDate", NULL, N_("Current _date"),
+	{ "InsertCurrentDate", NULL, N_("Current _Date"),
 		"<control>semicolon", N_("Insert the current date into the selected cell(s)"),
 		G_CALLBACK (cb_insert_current_date) },
 
-	{ "InsertCurrentTime", NULL, N_("Current _time"),
+	{ "InsertCurrentTime", NULL, N_("Current _Time"),
 		"<control>colon", N_("Insert the current time into the selected cell(s)"),
 		G_CALLBACK (cb_insert_current_time) },
 
-	{ "InsertCurrentDateTime", NULL, N_("Current d_ate and time"),
+	{ "InsertCurrentDateTime", NULL, N_("Current D_ate and Time"),
 		"<control>period", N_("Insert the current date and time into the selected cell(s)"),
 		G_CALLBACK (cb_insert_current_date_time) },
 
@@ -2639,9 +2639,9 @@ static GtkActionEntry const actions[] = {
 	{ "RandomGeneratorCorrelated", NULL, N_("_Correlated..."),
 		NULL, N_("Generate variates for correlated normal distributed random variables"),
 		G_CALLBACK (cb_tools_random_generator_correlated) },
-	{ "CopyDown", NULL, N_("Fill downwards"), "<control>D",
+	{ "CopyDown", NULL, N_("Fill Downwards"), "<control>D",
 	  N_("Copy the content from the top row to the cells below"), G_CALLBACK (cb_copydown) },
-	{ "CopyRight", NULL, N_("Fill to right"), "<control>R",
+	{ "CopyRight", NULL, N_("Fill to Right"), "<control>R",
 	  N_("Copy the content from the left column to the cells on the right"), G_CALLBACK (cb_copyright) },
 
 
