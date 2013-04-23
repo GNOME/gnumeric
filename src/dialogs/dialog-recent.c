@@ -52,19 +52,22 @@ cb_response (GtkWidget *dialog,
 	case GTK_RESPONSE_OK: {
 		GtkTreeModel *model;
 		GtkTreeIter iter;
-		const char *uri = NULL;
+		char *uri = NULL;
 
 		if (gtk_tree_selection_get_selected (tsel, &model, &iter)) {
 			GtkRecentInfo *info;
 			gtk_tree_model_get (model, &iter, RECENT_COL_INFO, &info, -1);
-			uri = gtk_recent_info_get_uri (info);
+			uri = g_strdup (gtk_recent_info_get_uri (info));
 			gtk_recent_info_unref (info);
 		}
 
-		if (uri)
-			gui_file_read (wbcg, uri, NULL, NULL);
-
 		gtk_widget_destroy (dialog);
+
+		if (uri) {
+			gui_file_read (wbcg, uri, NULL, NULL);
+			g_free (uri);
+		}
+
 		break;
 	}
 

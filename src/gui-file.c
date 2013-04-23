@@ -126,7 +126,11 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 		gui_wb_view_show (wbcg, wbv);
 		workbook_update_history (wb_view_get_workbook (wbv), FILE_SAVE_AS_SAVE);
 		return TRUE;
+	} else {
+		/* Somehow fixes #625687.  Don't know why.  */
+		wbcg_focus_cur_scg (wbcg);
 	}
+
 	return FALSE;
 }
 
