@@ -1886,7 +1886,7 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 		if (debug_style_deps ())
 			g_printerr ("Linking %s for %p\n",
 				    range_as_string (r), style);
-		for (ui = 0; ui < conds->len; ui++) {
+		for (ui = 0; conds && ui < conds->len; ui++) {
 			GnmStyleCond const *c = g_ptr_array_index (conds, ui);
 			guint ei;
 
