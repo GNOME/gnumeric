@@ -1,5 +1,8 @@
 2013-04-24  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (gnm_func_convert_markup_to_pango): Add a target
+	widget parameter.  All callers changed.
+
 	* src/sheet-control-gui.c (scg_init): Ditto comment.timer and
 	delayedMovement.timer.
 

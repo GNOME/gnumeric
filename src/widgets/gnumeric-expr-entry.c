@@ -808,6 +808,9 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	label = gnumeric_convert_to_tooltip (toplevel, gtk_text_view_new ());
 	tip = gtk_widget_get_toplevel (label);
 
+	gtk_style_context_add_class (gtk_widget_get_style_context (label),
+				     "function-help");
+
 #if !GTK_CHECK_VERSION(3,4,0)
 	/* Workaround for theme bugs and missing "inherit" in pre GTK 3.4. */
 	{
@@ -820,7 +823,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 #endif
 
 	if (str)
-		markup = gnm_func_convert_markup_to_pango (str);
+		markup = gnm_func_convert_markup_to_pango (str, label);
 	string = g_string_new (markup);
 	if (marked_str)
 		g_string_append (string, marked_str);

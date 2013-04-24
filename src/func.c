@@ -1671,15 +1671,27 @@ gnm_func_get_arg_description (GnmFunc const *fn_def, guint arg_idx)
 /**
  * gnm_func_convert_markup_to_pango:
  * @desc: the fn or arg description string
+ * @target: target widget for the markup.
  *
  * Return value: the escaped string with @{} markup converted to
  *               pango markup
  **/
 char *
-gnm_func_convert_markup_to_pango (char const *desc)
+gnm_func_convert_markup_to_pango (char const *desc, GtkWidget *target)
 {
 	GString *str;
 	gchar *markup, *at;
+	GdkColor *link_color = NULL;
+	char *link_color_text, *span_text;
+	size_t span_text_len;
+
+	gtk_widget_style_get (target, "link-color", &link_color, NULL);
+	link_color_text = gdk_color_to_string (link_color);
+	gdk_color_free (link_color);
+	span_text = g_strdup_printf ("<span foreground=\"%s\">",
+				     link_color_text);
+	span_text_len = strlen (span_text);
+	g_free (link_color_text);
 
 	markup = g_markup_escape_text (desc, -1);
 	str = g_string_new (markup);
@@ -1687,15 +1699,15 @@ gnm_func_convert_markup_to_pango (char const *desc)
 
 	while ((at = strstr (str->str, "@{"))) {
 		gint len = at - str->str;
-		go_string_replace (str, len, 2,
-				   "<span foreground=\"#0000FF\">", -1);
+		go_string_replace (str, len, 2, span_text, -1);
 		if ((at = strstr
-		     (str->str + len + 26, "}"))) {
+		     (str->str + len + span_text_len, "}"))) {
 			len = at - str->str;
 			go_string_replace (str, len, 1, "</span>", -1);
 		} else
 			g_string_append (str, "</span>");
 	}
+	g_free (span_text);
 
 	return g_string_free (str, FALSE);
 }

@@ -309,8 +309,6 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 					       &iter, parent, args))
 		gtk_tree_store_remove (state->model, &iter);
 	for (i = 0; i < args; i++) {
-		gchar *desc;
-
 		if (!gtk_tree_model_iter_nth_child (GTK_TREE_MODEL(state->model),
 						    &iter, parent, i)) {
 			gtk_tree_store_append (state->model, &iter, parent);
@@ -328,14 +326,12 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 			g_free (arg_name);
 			arg_name = mod_name;
 		}
-		desc = gnm_func_convert_markup_to_pango
-			(gnm_func_get_arg_description (fd, i));
+
 		gtk_tree_store_set (state->model, &iter,
 				    ARG_NAME, arg_name,
-				    ARG_TOOLTIP, desc,
+				    ARG_TOOLTIP, gnm_func_get_arg_description (fd, i),
 				    ARG_TYPE, function_def_get_arg_type_string (fd, i),
 				    -1);
-		g_free (desc);
 		g_free (arg_name);
 	}
 
@@ -821,12 +817,12 @@ cb_dialog_formula_guru_query_tooltip (G_GNUC_UNUSED GtkWidget  *widget,
 
 	if (gtk_tree_view_get_tooltip_context
 	    (state->treeview, &x_, &y_, keyboard_mode, NULL, &path, &iter)) {
-		char *markup;
+		char *markup, *arg_desc;
 		GtkWidget *parent, *window;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
-				    ARG_TOOLTIP, &markup, -1);
-		if (markup == NULL || markup[0]=='\0')
+				    ARG_TOOLTIP, &arg_desc, -1);
+		if (arg_desc == NULL || arg_desc[0]=='\0')
 			return FALSE;
 		if (!state->tooltip_widget) {
 			state->tooltip_label = gtk_label_new ("");
@@ -850,8 +846,13 @@ cb_dialog_formula_guru_query_tooltip (G_GNUC_UNUSED GtkWidget  *widget,
 					(GTK_ALIGNMENT (parent),
 					 0,0,0,0);
 		}
+
+		markup = gnm_func_convert_markup_to_pango
+			(arg_desc,
+			 state->tooltip_label);
 		gtk_label_set_markup (GTK_LABEL (state->tooltip_label), markup);
 		g_free (markup);
+		g_free (arg_desc);
 		gtk_tree_view_set_tooltip_row (state->treeview,
 					       tooltip, path);
 		gtk_tree_path_free (path);
