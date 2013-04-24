@@ -1286,8 +1286,8 @@ gnumeric_yearfrac (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_days[] = {
         { GNM_FUNC_HELP_NAME, F_("DAYS:difference between dates in days") },
-        { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
         { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("DAYS returns the positive or negative number of days from @{start_date} to @{end_date}.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DAYS(DATE(2003,2,3),DATE(2007,4,2))" },
@@ -1311,7 +1311,7 @@ gnumeric_days (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	go_date_serial_to_g (&d1, date1, conv);
 	go_date_serial_to_g (&d2, date2, conv);
 
-	return value_new_int (g_date_days_between (&d1, &d2));
+	return value_new_int (g_date_days_between (&d2, &d1));
 }
 
 /***************************************************************************/

@@ -69,6 +69,7 @@ Morten:
 	* Fix failed-read focus problem.  [#625687]
 	* Fix critical.  [#698680]
 	* Fix type problems with glib timers.
+	* Fix swapped arguments in DAYS.  [#698772]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1
