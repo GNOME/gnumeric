@@ -710,9 +710,9 @@ scg_init (SheetControlGUI *scg)
 {
 	scg->comment.selected = NULL;
 	scg->comment.item = NULL;
-	scg->comment.timer = -1;
+	scg->comment.timer = 0;
 
-	scg->delayedMovement.timer = -1;
+	scg->delayedMovement.timer = 0;
 	scg->delayedMovement.handler = NULL;
 
 	scg->grab_stack = 0;
@@ -1733,9 +1733,9 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 static void
 scg_comment_timer_clear (SheetControlGUI *scg)
 {
-	if (scg->comment.timer != -1) {
+	if (scg->comment.timer != 0) {
 		g_source_remove (scg->comment.timer);
-		scg->comment.timer = -1;
+		scg->comment.timer = 0;
 	}
 }
 
@@ -1763,9 +1763,9 @@ scg_finalize (GObject *object)
 
 	scg_comment_timer_clear (scg);
 
-	if (scg->delayedMovement.timer != -1) {
+	if (scg->delayedMovement.timer != 0) {
 		g_source_remove (scg->delayedMovement.timer);
-		scg->delayedMovement.timer = -1;
+		scg->delayedMovement.timer = 0;
 	}
 	scg_comment_unselect (scg, scg->comment.selected);
 
@@ -3081,9 +3081,9 @@ static gint
 cb_cell_comment_timer (SheetControlGUI *scg)
 {
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
-	g_return_val_if_fail (scg->comment.timer != -1, FALSE);
+	g_return_val_if_fail (scg->comment.timer != 0, FALSE);
 
-	scg->comment.timer = -1;
+	scg->comment.timer = 0;
 	scg_comment_display (scg, scg->comment.selected,
 			     scg->comment.x, scg->comment.y);
 	return FALSE;
@@ -3104,7 +3104,7 @@ scg_comment_select (SheetControlGUI *scg, GnmComment *cc, int x, int y)
 	if (scg->comment.selected != NULL)
 		scg_comment_unselect (scg, scg->comment.selected);
 
-	g_return_if_fail (scg->comment.timer == -1);
+	g_return_if_fail (scg->comment.timer == 0);
 
 	scg->comment.selected = cc;
 	scg->comment.timer = g_timeout_add (1000,
@@ -3671,7 +3671,7 @@ static gint
 cb_scg_queued_movement (SheetControlGUI *scg)
 {
 	Sheet const *sheet = scg_sheet (scg);
-	scg->delayedMovement.timer = -1;
+	scg->delayedMovement.timer = 0;
 	(*scg->delayedMovement.handler) (scg,
 		scg->delayedMovement.n, FALSE,
 		scg->delayedMovement.horiz);
@@ -3701,7 +3701,7 @@ scg_queue_movement (SheetControlGUI	*scg,
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	/* do we need to flush a pending movement */
-	if (scg->delayedMovement.timer != -1) {
+	if (scg->delayedMovement.timer != 0) {
 		if (jump ||
 		    /* do not skip more than 3 requests at a time */
 		    scg->delayedMovement.counter > 3 ||
@@ -3712,7 +3712,7 @@ scg_queue_movement (SheetControlGUI	*scg,
 				scg->delayedMovement.n, FALSE,
 				scg->delayedMovement.horiz);
 			scg->delayedMovement.handler = NULL;
-			scg->delayedMovement.timer = -1;
+			scg->delayedMovement.timer = 0;
 		} else {
 			scg->delayedMovement.counter++;
 			scg->delayedMovement.n += n;

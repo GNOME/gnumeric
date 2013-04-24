@@ -86,7 +86,7 @@ struct _WBCGtk {
 	/* Autosave */
         gboolean   autosave_prompt;
         gint       autosave_time;
-        gint       autosave_timer;
+        guint      autosave_timer;
 
 	PangoFontDescription *font_desc;
 

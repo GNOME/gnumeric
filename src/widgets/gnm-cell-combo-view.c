@@ -128,13 +128,13 @@ ccombo_autoscroll_set (GObject *list, int dir)
 	gpointer id = g_object_get_data (list, AUTOSCROLL_ID);
 	if (id == NULL) {
 		if (dir != 0) {
-			int timer_id = g_timeout_add (50,
+			guint timer_id = g_timeout_add (50,
 				(GSourceFunc)cb_ccombo_autoscroll, list);
 			g_object_set_data (list, AUTOSCROLL_ID,
-				GINT_TO_POINTER (timer_id));
+				GUINT_TO_POINTER (timer_id));
 		}
 	} else if (dir == 0) {
-		g_source_remove (GPOINTER_TO_INT (id));
+		g_source_remove (GPOINTER_TO_UINT (id));
 		g_object_set_data (list, AUTOSCROLL_ID, NULL);
 	}
 	g_object_set_data (list, AUTOSCROLL_DIR, GINT_TO_POINTER (dir));

@@ -54,7 +54,7 @@ struct _GnmItemEdit {
 	/* Where are we */
 	GnmCellPos pos;
 	gboolean   cursor_visible;
-	int        blink_timer;
+	guint      blink_timer;
 	int	   sel_start;
 
 	GnmFont   *gfont;
@@ -568,9 +568,9 @@ cb_item_edit_cursor_blink (GnmItemEdit *ie)
 static void
 item_edit_cursor_blink_stop (GnmItemEdit *ie)
 {
-	if (ie->blink_timer != -1) {
+	if (ie->blink_timer != 0) {
 		g_source_remove (ie->blink_timer);
-		ie->blink_timer = -1;
+		ie->blink_timer = 0;
 	}
 }
 
@@ -693,7 +693,7 @@ gnm_item_edit_init (GnmItemEdit *ie)
 	ie->style      = NULL;
 	ie->cursor_visible = TRUE;
 	ie->sel_start = -1;
-	ie->blink_timer = -1;
+	ie->blink_timer = 0;
 }
 
 static void

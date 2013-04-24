@@ -59,7 +59,7 @@ struct _GnmItemCursor {
 
 	GnmItemCursorStyle style;
 	int      state;
-	int      animation_timer;
+	guint    animation_timer;
 
 	/*
 	 * For the autofill mode:
@@ -173,7 +173,7 @@ item_cursor_realize (GocItem *item)
 	ic_reload_style (ic);
 
 	if (ic->style == GNM_ITEM_CURSOR_ANTED) {
-		g_return_if_fail (ic->animation_timer == -1);
+		g_return_if_fail (ic->animation_timer == 0);
 		ic->animation_timer = g_timeout_add (
 			150, (GSourceFunc) cb_item_cursor_animation,
 			ic);
@@ -185,9 +185,9 @@ item_cursor_unrealize (GocItem *item)
 {
 	GnmItemCursor *ic = GNM_ITEM_CURSOR (item);
 
-	if (ic->animation_timer != -1) {
+	if (ic->animation_timer != 0) {
 		g_source_remove (ic->animation_timer);
-		ic->animation_timer = -1;
+		ic->animation_timer = 0;
 	}
 
 	parent_class->unrealize (item);
@@ -1507,7 +1507,7 @@ gnm_item_cursor_init (GnmItemCursor *ic)
 
 	ic->style = GNM_ITEM_CURSOR_SELECTION;
 	ic->state = 0;
-	ic->animation_timer = -1;
+	ic->animation_timer = 0;
 
 	ic->visible = TRUE;
 	ic->auto_fill_handle_at_top = FALSE;

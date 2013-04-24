@@ -1545,13 +1545,13 @@ gnm_app_foreach_extra_ui (GFunc func, gpointer data)
 
 /**********************************************************************/
 
-static gint windows_update_timer = -1;
+static gint windows_update_timer = 0;
 static gboolean
 cb_flag_windows_changed (void)
 {
 	if (app)
 		g_signal_emit (G_OBJECT (app), signals[WINDOW_LIST_CHANGED], 0);
-	windows_update_timer = -1;
+	windows_update_timer = 0;
 	return FALSE;
 }
 
@@ -1563,7 +1563,7 @@ cb_flag_windows_changed (void)
 void
 _gnm_app_flag_windows_changed (void)
 {
-	if (windows_update_timer < 0)
+	if (windows_update_timer == 0)
 		windows_update_timer = g_timeout_add (100,
 			(GSourceFunc)cb_flag_windows_changed, NULL);
 }

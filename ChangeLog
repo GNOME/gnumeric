@@ -1,3 +1,21 @@
+2013-04-24  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_init): Ditto comment.timer and
+	delayedMovement.timer.
+
+	* src/item-cursor.c (gnm_item_cursor_init): Ditto
+	animation_cursor.
+
+	* src/application.c (_gnm_app_flag_windows_changed): Ditto for
+	windows_update_timer.
+
+	* src/item-edit.c (GnmItemEdit): change type of blink_timer to
+	guint to match glib.  Use 0 as undefined since (guint)-1 is a
+	valid tag.
+
+	* src/gnm-pane.c (gnm_pane_init): Ditto sliding_timer (nee
+	sliding).
+
 2013-04-23  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_link_dependents): Fix segfault.

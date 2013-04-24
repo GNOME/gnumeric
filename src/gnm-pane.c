@@ -919,7 +919,7 @@ gnm_pane_init (GnmPane *pane)
 
 	pane->slide_handler = NULL;
 	pane->slide_data = NULL;
-	pane->sliding = -1;
+	pane->sliding_timer = 0;
 	pane->sliding_x  = pane->sliding_dx = -1;
 	pane->sliding_y  = pane->sliding_dy = -1;
 	pane->sliding_adjacent_h = pane->sliding_adjacent_v = FALSE;
@@ -1525,13 +1525,13 @@ gnm_pane_redraw_range (GnmPane *pane, GnmRange const *r)
 void
 gnm_pane_slide_stop (GnmPane *pane)
 {
-	if (pane->sliding == -1)
+	if (pane->sliding_timer == 0)
 		return;
 
-	g_source_remove (pane->sliding);
+	g_source_remove (pane->sliding_timer);
 	pane->slide_handler = NULL;
 	pane->slide_data = NULL;
-	pane->sliding = -1;
+	pane->sliding_timer = 0;
 }
 
 static int
@@ -1716,9 +1716,8 @@ cb_pane_sliding (GnmPane *pane)
 
 	if (!slide_x && !slide_y)
 		gnm_pane_slide_stop (pane);
-	else if (pane->sliding == -1)
-		pane->sliding = g_timeout_add (
-					       300, (GSourceFunc) cb_pane_sliding, pane);
+	else if (pane->sliding_timer == 0)
+		pane->sliding_timer = g_timeout_add (300, (GSourceFunc)cb_pane_sliding, pane);
 
 	return TRUE;
 }
@@ -1852,7 +1851,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 	pane->slide_handler = slide_handler;
 	pane->slide_data = user_data;
 
-	if (pane->sliding == -1)
+	if (pane->sliding_timer == 0)
 		cb_pane_sliding (pane);
 	return FALSE;
 }
@@ -1969,7 +1968,7 @@ gnm_pane_object_autoscroll (GnmPane *pane, GdkDragContext *context,
 	pane->slide_data    = NULL;
 	pane->sliding_x     = x;
 	pane->sliding_y     = y;
-	if (pane->sliding == -1)
+	if (pane->sliding_timer == 0)
 		cb_pane_sliding (pane);
 }
 

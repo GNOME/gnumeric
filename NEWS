@@ -68,6 +68,7 @@ Morten:
 	* Improve handling of broken xls.  [#698424]
 	* Fix failed-read focus problem.  [#625687]
 	* Fix critical.  [#698680]
+	* Fix type problems with glib timers.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

@@ -28,7 +28,7 @@ struct _GnmPane {
 	/* Sliding scroll */
 	GnmPaneSlideHandler slide_handler;
 	gpointer   slide_data;
-	int        sliding;	/* a gtk_timeout tag, -1 means not set */
+	guint      sliding_timer;	/* a gtk_timeout tag, 0 means not set */
 	int        sliding_x, sliding_y;
 	int        sliding_dx, sliding_dy;
 	gboolean   sliding_adjacent_h, sliding_adjacent_v;
