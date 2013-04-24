@@ -29,8 +29,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumer"
 "ic&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-22 16:18+0000\n"
-"PO-Revision-Date: 2013-04-23 08:42+0300\n"
+"POT-Creation-Date: 2013-04-23 23:33+0000\n"
+"PO-Revision-Date: 2013-04-24 09:07+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -100,8 +100,8 @@ msgstr "Εισάγει φύλλα της έκδοσης 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7037
-#: ../plugins/openoffice/openoffice-read.c:11930 ../src/xml-sax-read.c:3336
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7041
+#: ../plugins/openoffice/openoffice-read.c:12002 ../src/xml-sax-read.c:3336
 msgid "Reading file..."
 msgstr "Ανάγνωση αρχείου..."
 
@@ -182,15 +182,15 @@ msgstr ""
 msgid "Data Interchange Format (*.dif)"
 msgstr "Data Interchange Format (*.dif)"
 
-#: ../plugins/excel/boot.c:187
+#: ../plugins/excel/boot.c:188
 msgid "No Workbook or Book streams found."
 msgstr "Δεν βρέθηκαν ροές βιβλίου εργασίας ή βιβλίου."
 
-#: ../plugins/excel/boot.c:263
+#: ../plugins/excel/boot.c:264
 msgid "Preparing to save..."
 msgstr "Προετοιμασία για αποθήκευση..."
 
-#: ../plugins/excel/boot.c:275
+#: ../plugins/excel/boot.c:276
 msgid "Saving file..."
 msgstr "Αποθήκευση αρχείου..."
 
@@ -212,7 +212,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Άκυρο περιεχόμενο του ss:στοιχείο δεδομένων, λήφθηκε '%s'"
 
 #: ../plugins/excel/excel-xml-read.c:1093
-#: ../plugins/openoffice/openoffice-read.c:12037 ../src/xml-sax-read.c:3353
+#: ../plugins/openoffice/openoffice-read.c:12109 ../src/xml-sax-read.c:3353
 msgid "XML document not well formed!"
 msgstr "Έγγραφο XML με κακή διαμόρφωση!"
 
@@ -241,17 +241,17 @@ msgstr "Γράφημα%d"
 msgid "Module%d"
 msgstr "Άρθρωμα%d"
 
-#: ../plugins/excel/ms-excel-read.c:3671
+#: ../plugins/excel/ms-excel-read.c:3675
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Αποτυχία ανάλυσης ονόματος '%s'"
 
-#: ../plugins/excel/ms-excel-read.c:3816
+#: ../plugins/excel/ms-excel-read.c:3820
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Λανθασμένη έκφραση ονόματος '%s': το περιεχόμενο θα χαθεί.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3821
+#: ../plugins/excel/ms-excel-read.c:3825
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -260,7 +260,7 @@ msgstr ""
 "Οι δεσμοί DDE δεν υποστηρίζονται ακόμη.\n"
 "Το όνομα '%s' θα χαθεί.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3825
+#: ../plugins/excel/ms-excel-read.c:3829
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -269,11 +269,11 @@ msgstr ""
 "Οι δεσμοί OLE δεν υποστηρίζονται ακόμη.\n"
 "Το όνομα '%s' θα χαθεί.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6170
+#: ../plugins/excel/ms-excel-read.c:6174
 msgid "external references"
 msgstr "εξωτερικές αναφορές"
 
-#: ../plugins/excel/ms-excel-read.c:6209
+#: ../plugins/excel/ms-excel-read.c:6213
 msgid "No password supplied"
 msgstr "Δε δόθηκε κωδικός"
 
@@ -518,7 +518,7 @@ msgstr ""
 "τελευταίο."
 
 #: ../plugins/excel/xlsx-read.c:1775
-#: ../plugins/openoffice/openoffice-read.c:2627
+#: ../plugins/openoffice/openoffice-read.c:2638
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Παράβλεψη άκυρης επικύρωσης δεδομένων επειδή : %s"
@@ -1337,140 +1337,140 @@ msgstr "Εισάγει έγγραφα GNU Oleo"
 msgid "GNU Oleo (*.oleo)"
 msgstr "GNU Oleo (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:557
+#: ../plugins/openoffice/openoffice-read.c:568
 msgid "General ODF error"
 msgstr "Γενικό σφάλμα ODF"
 
-#: ../plugins/openoffice/openoffice-read.c:611
+#: ../plugins/openoffice/openoffice-read.c:622
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Άκυρος ακέραιος '%s', για το '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:626
+#: ../plugins/openoffice/openoffice-read.c:637
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Πιθανώς αλλοιωμένος ακέραιος '%s' για '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:670
+#: ../plugins/openoffice/openoffice-read.c:681
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Άκυρη ιδιότητα '%s', προσδοκώμενος αριθμός, λήφθηκε '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:693
+#: ../plugins/openoffice/openoffice-read.c:704
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Άκυρη ιδιότητα '%s', προσδοκώμενο ποσοστό, λήφθηκε '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:715
+#: ../plugins/openoffice/openoffice-read.c:726
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Άκυρη ιδιότητα '%s', προσδοκώμενο χρώμα, λήφθηκε '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:904
+#: ../plugins/openoffice/openoffice-read.c:915
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Παρουσιάστηκε άγνωστο όνομα hatch '%s'!"
 
-#: ../plugins/openoffice/openoffice-read.c:912
+#: ../plugins/openoffice/openoffice-read.c:923
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Παρουσιάστηκε γέμισμα γραμμοσκίασης χωρίς όνομα γραμμοσκίασης!"
 
-#: ../plugins/openoffice/openoffice-read.c:920
+#: ../plugins/openoffice/openoffice-read.c:931
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Παρουσιάστηκε άγνωστο όνομα απόχρωσης '%s'!"
 
-#: ../plugins/openoffice/openoffice-read.c:933
+#: ../plugins/openoffice/openoffice-read.c:944
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Παρουσιάστηκε γέμισμα διαβάθμισης χωρίς όνομα διαβάθμισης!"
 
-#: ../plugins/openoffice/openoffice-read.c:941
+#: ../plugins/openoffice/openoffice-read.c:952
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Παρουσιάστηκε άγνωστο όνομα γεμίσματος εικόνας '%s'!"
 
-#: ../plugins/openoffice/openoffice-read.c:951
+#: ../plugins/openoffice/openoffice-read.c:962
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Παρουσιάστηκε άκυρη απόλυτη προδιαγραφή αρχείου '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:964
+#: ../plugins/openoffice/openoffice-read.c:975
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "Αδύνατο το άνοιγμα του '%s'."
 
 # gconf/gconf-internals.c:2416
-#: ../plugins/openoffice/openoffice-read.c:992
-#: ../plugins/openoffice/openoffice-read.c:7782
+#: ../plugins/openoffice/openoffice-read.c:1003
+#: ../plugins/openoffice/openoffice-read.c:7798
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Αδύνατη η φόρτωση του αρχείου '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:1000
+#: ../plugins/openoffice/openoffice-read.c:1011
 msgid "Image fill without image name encountered!"
 msgstr "Παρουσιάστηκε γέμισμα εικόνας η οποία δεν έχει όνομα εικόνας!"
 
-#: ../plugins/openoffice/openoffice-read.c:1086
-#: ../plugins/openoffice/openoffice-read.c:1162
+#: ../plugins/openoffice/openoffice-read.c:1097
+#: ../plugins/openoffice/openoffice-read.c:1173
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Άκυρη ιδιότητα '%s', άγνωστη ενότητα '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1091
+#: ../plugins/openoffice/openoffice-read.c:1102
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Άκυρη ιδιότητα '%s', προσδοκώμενη απόσταση, λήφθηκε '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1168
+#: ../plugins/openoffice/openoffice-read.c:1179
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Άκυρη ιδιότητα '%s', αναμενόμενη γωνία, λήφθηκε '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1235
+#: ../plugins/openoffice/openoffice-read.c:1246
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Άκυρη ιδιότητα '%s', άγνωστη αριθμητική τιμή '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1435
+#: ../plugins/openoffice/openoffice-read.c:1446
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Παράβλεψη αναφοράς σε άγνωστο εξωτερικό βιβλίο εργασίας '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1688
+#: ../plugins/openoffice/openoffice-read.c:1699
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Παρουσιάστηκε άγνωστη τεχνοτροπία κειμένου με όνομα \"%s\"!"
 
-#: ../plugins/openoffice/openoffice-read.c:2018
+#: ../plugins/openoffice/openoffice-read.c:2029
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Αδύνατη η ανάλυση του '%s' ('%s')"
 
-#: ../plugins/openoffice/openoffice-read.c:2113
-#: ../plugins/openoffice/openoffice-read.c:3666
+#: ../plugins/openoffice/openoffice-read.c:2124
+#: ../plugins/openoffice/openoffice-read.c:3677
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Παρουσιάστηκε άγνωστο είδος τύπου: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2119
-#: ../plugins/openoffice/openoffice-read.c:3673
+#: ../plugins/openoffice/openoffice-read.c:2130
+#: ../plugins/openoffice/openoffice-read.c:3684
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Η έκφραση '%s' δεν ξεκινάει με αναγνωρίσιμο χαρακτήρα"
 
-#: ../plugins/openoffice/openoffice-read.c:2158
+#: ../plugins/openoffice/openoffice-read.c:2169
 #: ../plugins/openoffice/openoffice-write.c:4927
-#: ../plugins/openoffice/openoffice-write.c:4939 ../src/print-info.c:659
+#: ../plugins/openoffice/openoffice-write.c:4939 ../src/print-info.c:675
 #: ../src/ssgrep.c:352
 msgid "cell"
 msgstr "κελί"
 
-#: ../plugins/openoffice/openoffice-read.c:2217
+#: ../plugins/openoffice/openoffice-read.c:2228
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_IN_CORRUPTED_FILE"
 
-#: ../plugins/openoffice/openoffice-read.c:2222
+#: ../plugins/openoffice/openoffice-read.c:2233
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1479,30 +1479,30 @@ msgstr ""
 "Αυτό το αρχείο έχει αλλοιωθεί με ένα διπλότυπο όνομα φύλλου \"%s\", που τώρα "
 "έχει μετονομαστεί σε \"%s\"."
 
-#: ../plugins/openoffice/openoffice-read.c:2235
+#: ../plugins/openoffice/openoffice-read.c:2246
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "SHEET_IN_CORRUPTED_FILE"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:2243
+#: ../plugins/openoffice/openoffice-read.c:2254
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Αυτό το αρχείο έχει αλλοιωθεί με ένα ανώνυμο φύλλο που ονομάζεται τώρα \"%s"
 "\"."
 
-#: ../plugins/openoffice/openoffice-read.c:2578
+#: ../plugins/openoffice/openoffice-read.c:2589
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr "Η συνθήκη επικύρωσης '%s' δεν υποστηρίζεται. Έχει αλλαχτεί σε '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:2610
+#: ../plugins/openoffice/openoffice-read.c:2621
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Παρουσιάστηκε αόριστη τεχνοτροπία επικύρωσης: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2636
+#: ../plugins/openoffice/openoffice-read.c:2647
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
@@ -1511,43 +1511,43 @@ msgstr ""
 "Παρουσιάστηκε ανυποστήρικτη συνθήκη επικύρωσης: \"%s\" με βάση διεύθυνση: "
 "\"%s\""
 
-#: ../plugins/openoffice/openoffice-read.c:3316
+#: ../plugins/openoffice/openoffice-read.c:3327
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Παρουσιάστηκε άγνωστη συνθήκη '%s', γίνεται παράβλεψη."
 
-#: ../plugins/openoffice/openoffice-read.c:3394
+#: ../plugins/openoffice/openoffice-read.c:3405
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Παράβλεψη των πληροφοριών στήλης πέρα από τη στήλη %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3517
-#: ../plugins/openoffice/openoffice-read.c:3882
+#: ../plugins/openoffice/openoffice-read.c:3528
+#: ../plugins/openoffice/openoffice-read.c:3893
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr ""
 "Το περιεχόμενο ξεπερνά το μέγιστο αριθμό γραμμών (%i) που υποστηρίζονται."
 
-#: ../plugins/openoffice/openoffice-read.c:3658
-#: ../plugins/openoffice/openoffice-read.c:5928
+#: ../plugins/openoffice/openoffice-read.c:3669
+#: ../plugins/openoffice/openoffice-read.c:5939
 msgid "Missing expression"
 msgstr "Λείπει έκφραση"
 
-#: ../plugins/openoffice/openoffice-read.c:3855
+#: ../plugins/openoffice/openoffice-read.c:3866
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Άκυρη έκφραση πίνακα που δεν καθορίζει τον αριθμό των στηλών."
 
-#: ../plugins/openoffice/openoffice-read.c:3858
+#: ../plugins/openoffice/openoffice-read.c:3869
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Άκυρη έκφραση πίνακα που δεν καθορίζει τον αριθμό των γραμμών."
 
-#: ../plugins/openoffice/openoffice-read.c:3874
+#: ../plugins/openoffice/openoffice-read.c:3885
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr ""
 "Το περιεχόμενο ξεπερνά το μέγιστο αριθμό στηλών (%i)που υποστηρίζονται."
 
-#: ../plugins/openoffice/openoffice-read.c:4066
+#: ../plugins/openoffice/openoffice-read.c:4077
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
@@ -1556,157 +1556,157 @@ msgstr ""
 "Κάντε αριστερό κλικ μία φορά για να μεταβείτε στο σύνδεσμο αυτόν.\n"
 "Κάντε μεσαίο κλικ μία φορά για να επιλέξετε αυτο το κελί"
 
-#: ../plugins/openoffice/openoffice-read.c:4200
+#: ../plugins/openoffice/openoffice-read.c:4211
 msgid "Unnamed dash style encountered."
 msgstr "Παρουσιάστηκε ανώνυμη τεχνοτροπία παύλας."
 
-#: ../plugins/openoffice/openoffice-read.c:4218
+#: ../plugins/openoffice/openoffice-read.c:4229
 msgid "Unnamed image fill style encountered."
 msgstr "Παρουσιάστηκε ανώνυμη τεχνοτροπία γεμίσματος εικόνας."
 
-#: ../plugins/openoffice/openoffice-read.c:4220
+#: ../plugins/openoffice/openoffice-read.c:4231
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr ""
 "Η τεχνοτροπία γεμίσματος εικόνας '%s' δεν έχει κάποια επισυναπτόμενη εικόνα."
 
-#: ../plugins/openoffice/openoffice-read.c:4257
-#: ../plugins/openoffice/openoffice-read.c:4263
+#: ../plugins/openoffice/openoffice-read.c:4268
+#: ../plugins/openoffice/openoffice-read.c:4274
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Αδύνατη η ανάλυση της απόχρωσης του χρώματος: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4283
+#: ../plugins/openoffice/openoffice-read.c:4294
 msgid "Unnamed gradient style encountered."
 msgstr "Παρουσιάστηκε ανώνυμη τεχνοτροπία διαβάθμισης."
 
-#: ../plugins/openoffice/openoffice-read.c:4304
+#: ../plugins/openoffice/openoffice-read.c:4315
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Αδύνατη η ανάλυση του χρώματος γραμμοσκίασης: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4378
+#: ../plugins/openoffice/openoffice-read.c:4389
 msgid "Unnamed hatch encountered!"
 msgstr "Παρουσιάστηκε ανώνυμη γραμμοσκίαση!"
 
-#: ../plugins/openoffice/openoffice-read.c:4472
+#: ../plugins/openoffice/openoffice-read.c:4483
 msgid "Duplicate default column style encountered."
 msgstr "Παρουσιάστηκε διπλότυπη προεπιλεγμένη τεχνοτροπία στήλης."
 
-#: ../plugins/openoffice/openoffice-read.c:4488
+#: ../plugins/openoffice/openoffice-read.c:4499
 msgid "Duplicate default row style encountered."
 msgstr "Παρουσιάστηκε διπλότυπη προεπιλεγμένη τεχνοτροπία γραμμής."
 
-#: ../plugins/openoffice/openoffice-read.c:4523
+#: ../plugins/openoffice/openoffice-read.c:4534
 msgid "Duplicate default chart/graphics style encountered."
 msgstr ""
 "Παρουσιάστηκε διπλότυπη προεπιλεγμένη τεχνοτροπία διαγράμματος/γραφικού."
 
-#: ../plugins/openoffice/openoffice-read.c:4905
+#: ../plugins/openoffice/openoffice-read.c:4916
 msgid "Unnamed date style ignored."
 msgstr "Αγνοήθηκε η ανώνυμη τεχνοτροπία ημερομηνίας."
 
-#: ../plugins/openoffice/openoffice-read.c:5212
+#: ../plugins/openoffice/openoffice-read.c:5223
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Κατεστραμμένο αρχείο: αγνοήθηκε η ανώνυμη τεχνοτροπία αριθμού."
 
-#: ../plugins/openoffice/openoffice-read.c:5248
-#: ../plugins/openoffice/openoffice-read.c:5275
-#: ../plugins/openoffice/openoffice-read.c:5303
-#: ../plugins/openoffice/openoffice-read.c:5344
-#: ../plugins/openoffice/openoffice-read.c:5370
-#: ../plugins/openoffice/openoffice-read.c:5398
+#: ../plugins/openoffice/openoffice-read.c:5259
+#: ../plugins/openoffice/openoffice-read.c:5286
+#: ../plugins/openoffice/openoffice-read.c:5314
+#: ../plugins/openoffice/openoffice-read.c:5355
+#: ../plugins/openoffice/openoffice-read.c:5381
+#: ../plugins/openoffice/openoffice-read.c:5409
 msgid "This file appears corrupted, required formats are missing."
 msgstr ""
 "Το αρχείο αυτό φαίνεται κατεστραμμένο, λείπουν οι απαιτούμενες μορφοποιήσεις."
 
-#: ../plugins/openoffice/openoffice-read.c:5464
+#: ../plugins/openoffice/openoffice-read.c:5475
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Φύλλο από αρχείο ODF: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:5650
+#: ../plugins/openoffice/openoffice-read.c:5661
 msgid "Missing page layout identifier"
 msgstr "Λείπει ο ταυτοποιητής διάταξης σελίδας"
 
-#: ../plugins/openoffice/openoffice-read.c:5680
+#: ../plugins/openoffice/openoffice-read.c:5691
 msgid "Master page style without page layout encountered!"
 msgstr "Παρουσιάστηκε τεχνοτροπία κύριας σελίδας χωρίς διάταξη σελίδας!"
 
-#: ../plugins/openoffice/openoffice-read.c:5691
+#: ../plugins/openoffice/openoffice-read.c:5702
 msgid "Master page style without name encountered!"
 msgstr "Παρουσιάστηκε τεχνοτροπία κύριας σελίδας χωρίς όνομα!"
 
-#: ../plugins/openoffice/openoffice-read.c:5814
+#: ../plugins/openoffice/openoffice-read.c:5825
 #: ../plugins/openoffice/openoffice-write.c:4920
-#: ../plugins/openoffice/openoffice-write.c:4932 ../src/print-info.c:652
+#: ../plugins/openoffice/openoffice-write.c:4932 ../src/print-info.c:668
 msgid "tab"
 msgstr "στηλοθέτης"
 
-#: ../plugins/openoffice/openoffice-read.c:5846
+#: ../plugins/openoffice/openoffice-read.c:5857
 #: ../plugins/openoffice/openoffice-write.c:4923
-#: ../plugins/openoffice/openoffice-write.c:4935 ../src/print-info.c:655
+#: ../plugins/openoffice/openoffice-write.c:4935 ../src/print-info.c:671
 msgid "date"
 msgstr "ημ/νία"
 
-#: ../plugins/openoffice/openoffice-read.c:5853
+#: ../plugins/openoffice/openoffice-read.c:5864
 #: ../plugins/openoffice/openoffice-write.c:4924
-#: ../plugins/openoffice/openoffice-write.c:4936 ../src/print-info.c:656
+#: ../plugins/openoffice/openoffice-write.c:4936 ../src/print-info.c:672
 msgid "time"
 msgstr "ώρα"
 
-#: ../plugins/openoffice/openoffice-read.c:5860
+#: ../plugins/openoffice/openoffice-read.c:5871
 #: ../plugins/openoffice/openoffice-write.c:4921
-#: ../plugins/openoffice/openoffice-write.c:4933 ../src/print-info.c:653
+#: ../plugins/openoffice/openoffice-write.c:4933 ../src/print-info.c:669
 msgid "page"
 msgstr "σελίδα"
 
-#: ../plugins/openoffice/openoffice-read.c:5867
+#: ../plugins/openoffice/openoffice-read.c:5878
 #: ../plugins/openoffice/openoffice-write.c:4922
-#: ../plugins/openoffice/openoffice-write.c:4934 ../src/print-info.c:654
+#: ../plugins/openoffice/openoffice-write.c:4934 ../src/print-info.c:670
 msgid "pages"
 msgstr "σελίδες"
 
-#: ../plugins/openoffice/openoffice-read.c:5892
-#: ../plugins/openoffice/openoffice-read.c:5897
+#: ../plugins/openoffice/openoffice-read.c:5903
+#: ../plugins/openoffice/openoffice-read.c:5908
 #: ../plugins/openoffice/openoffice-write.c:4926
-#: ../plugins/openoffice/openoffice-write.c:4938 ../src/print-info.c:658
+#: ../plugins/openoffice/openoffice-write.c:4938 ../src/print-info.c:674
 msgid "path"
 msgstr "διαδρομή"
 
-#: ../plugins/openoffice/openoffice-read.c:5894
-#: ../plugins/openoffice/openoffice-read.c:5901
+#: ../plugins/openoffice/openoffice-read.c:5905
+#: ../plugins/openoffice/openoffice-read.c:5912
 #: ../plugins/openoffice/openoffice-write.c:4925
-#: ../plugins/openoffice/openoffice-write.c:4937 ../src/print-info.c:657
+#: ../plugins/openoffice/openoffice-write.c:4937 ../src/print-info.c:673
 #: ../src/ssconvert.c:95 ../src/ssdiff.c:55
 msgid "file"
 msgstr "αρχείο"
 
-#: ../plugins/openoffice/openoffice-read.c:5945
+#: ../plugins/openoffice/openoffice-read.c:5956 ../src/print-info.c:676
 msgid "title"
 msgstr "τίτλος"
 
-#: ../plugins/openoffice/openoffice-read.c:5976
+#: ../plugins/openoffice/openoffice-read.c:5987
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Παρουσιάστηκε άγνωστη τεχνοτροπία περιγράμματος Gnumeric '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:6245
+#: ../plugins/openoffice/openoffice-read.c:6256
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Άγνωστος τύπος αλλαγής '%s' με προεπιλογή το ΚΑΝΕΝΑ"
 
-#: ../plugins/openoffice/openoffice-read.c:6322
+#: ../plugins/openoffice/openoffice-read.c:6333
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Αδύνατη η ανάλυση του χρώματος της καρτέλας '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:6333
+#: ../plugins/openoffice/openoffice-read.c:6344
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Αδύνατη η ανάλυση του χρώματος κειμένου για την καρτέλα '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:6740
+#: ../plugins/openoffice/openoffice-read.c:6751
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1715,27 +1715,27 @@ msgstr ""
 "Παρουσιάστηκε άγνωστος τύπος παρεμβολής: '%s', χρήση στη θέση του κυβικής "
 "εύκαμπτης Μπεζιέ."
 
-#: ../plugins/openoffice/openoffice-read.c:6749
+#: ../plugins/openoffice/openoffice-read.c:6760
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Παρουσιάστηκε άγνωστος τύπος παρεμβολής: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7145
+#: ../plugins/openoffice/openoffice-read.c:7156
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "Η έκφραση '%s' @ '%s' δεν είναι μία αναφορά-κελιών"
 
-#: ../plugins/openoffice/openoffice-read.c:7162
+#: ../plugins/openoffice/openoffice-read.c:7173
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Η έκφραση '%s' έχει άγνωστο χώρο ονόματος"
 
-#: ../plugins/openoffice/openoffice-read.c:7214
+#: ../plugins/openoffice/openoffice-read.c:7225
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Άκυρη περιοχή DB: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7482
+#: ../plugins/openoffice/openoffice-read.c:7498
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1744,13 +1744,13 @@ msgstr ""
 "Οι γραμμές αντικειμένου φύλλου του Gnumeric δεν υποστηρίζουν επισυναπτόμενο "
 "κείμενο. Το κείμενο \"%s\" απορρίφθηκε."
 
-#: ../plugins/openoffice/openoffice-read.c:7516
-#: ../plugins/openoffice/openoffice-read.c:7555
+#: ../plugins/openoffice/openoffice-read.c:7532
+#: ../plugins/openoffice/openoffice-read.c:7571
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Άκυρη ιδιότητα 'μορφή:τιμή', αναμενόμενος αριθμός, λήφθηκε '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:7521
+#: ../plugins/openoffice/openoffice-read.c:7537
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1759,18 +1759,18 @@ msgstr ""
 "Άκυρος τύπος τιμής '%s' δημοσιεύτηκε για την ιδιότητα 'μορφή:τιμή' στο "
 "στοιχείο 'μορφή:εύρος τιμών'."
 
-#: ../plugins/openoffice/openoffice-read.c:7961
+#: ../plugins/openoffice/openoffice-read.c:7977
 msgid "Unable to determine manual position for a chart component!"
 msgstr ""
 "Αδυναμία προσδιορισμού χειροκίνητης θέσης για ένα συστατικό διαγράμματος!"
 
-#: ../plugins/openoffice/openoffice-read.c:8145
+#: ../plugins/openoffice/openoffice-read.c:8161
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 "Δεν υπάρχουν αρκετά δεδομένα στην παρεχόμενη περιοχή (%s) για όλα τα αιτήματα"
 
-#: ../plugins/openoffice/openoffice-read.c:8677
+#: ../plugins/openoffice/openoffice-read.c:8748
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1778,44 +1778,44 @@ msgstr ""
 "Το Gnumeric δεν υποστηρίζει μη αυτόματες εξισώσεις παλινδρόμησης. "
 "Χρησιμοποιεί αυτόματες εξισώσεις."
 
-#: ../plugins/openoffice/openoffice-read.c:8820
+#: ../plugins/openoffice/openoffice-read.c:8891
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr ""
 "Παρουσιάστηκαν γραμμές απόθεσης σε ένα γράφημα που δεν τις υποστηρίζει."
 
-#: ../plugins/openoffice/openoffice-read.c:8890
+#: ../plugins/openoffice/openoffice-read.c:8977
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 "Παρουσιάστηκε άγνωστος τύπος γραφήματος, γίνεται προσπάθεια να δημιουργηθεί "
 "ένα διάγραμμα γραμμής."
 
-#: ../plugins/openoffice/openoffice-read.c:9137
+#: ../plugins/openoffice/openoffice-read.c:9209
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 "Ένας ανυποστήρικτος τίτλος παρουσιάστηκε και μετατράπηκε σε ένα ορθογώνιο "
 "κείμενο."
 
-#: ../plugins/openoffice/openoffice-read.c:9225
+#: ../plugins/openoffice/openoffice-read.c:9297
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr ""
 "Παρουσιάστηκε άπειρος βρόχος κατά την ανάλυση του τύπου '%s' του ονόματος "
 "'%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:9428
+#: ../plugins/openoffice/openoffice-read.c:9500
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Αδύνατος ο υπολογισμός του τύπου '%s' ('%s') του ονόματος '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:9433
+#: ../plugins/openoffice/openoffice-read.c:9505
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Αδύνατη η ανάλυση του τύπου '%s' ('%s') του ονόματος '%s'"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:9513
-#: ../plugins/openoffice/openoffice-read.c:9516
+#: ../plugins/openoffice/openoffice-read.c:9585
+#: ../plugins/openoffice/openoffice-read.c:9588
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
@@ -1824,36 +1824,36 @@ msgstr ""
 "Ένα ανυποστήρικτο προσαρμοσμένο σχήμα του τύπου '%s' παρουσιάστηκε και "
 "μετατράπηκε σε ένα ορθογώνιο."
 
-#: ../plugins/openoffice/openoffice-read.c:9519
+#: ../plugins/openoffice/openoffice-read.c:9591
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 "Ένα ανυποστήρικτο προσαρμοσμένο σχήμα παρουσιάστηκε και μετατράπηκε σε ένα "
 "ορθογώνιο."
 
-#: ../plugins/openoffice/openoffice-read.c:9837
+#: ../plugins/openoffice/openoffice-read.c:9909
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "H ιδιότητα '%s' έχει την ανυποστήρικτη τιμή '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:11787
+#: ../plugins/openoffice/openoffice-read.c:11859
 msgid "Unknown mimetype for openoffice file."
 msgstr "Άγνωστος τύπος mime για το αρχείο του openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:11797
+#: ../plugins/openoffice/openoffice-read.c:11869
 msgid "No stream named content.xml found."
 msgstr "Δε βρέθηκε η ροή με ονομασία content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11805
+#: ../plugins/openoffice/openoffice-read.c:11877
 msgid "No stream named styles.xml found."
 msgstr "Δε βρέθηκε η ροή με όνομα styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11940
+#: ../plugins/openoffice/openoffice-read.c:12012
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Άκυρο μετα-δεδομένο: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:12009
+#: ../plugins/openoffice/openoffice-read.c:12081
 msgid "settings.xml stream is malformed!"
 msgstr "Η ροή settings.xml δεν υποστηρίζεται!"
 
@@ -6877,7 +6877,7 @@ msgstr "%.0f χιλιοστά πλάτος επί %.0f χιλιοστά ύψος
 msgid "%.1f wide by %.1f tall"
 msgstr "%.1f πλάτος επί %.1f ύψος"
 
-#: ../src/dialogs/dialog-quit.c:83 ../src/dialogs/dialog-recent.c:102
+#: ../src/dialogs/dialog-quit.c:83 ../src/dialogs/dialog-recent.c:105
 #, c-format
 msgid ""
 "<b>%s</b>\n"
@@ -7325,7 +7325,7 @@ msgstr "Αδύνατη η δημιουργία του διαλόγου τυχα�
 #. * this.  The default will show things like "09:50"
 #. * and "21:50".
 #.
-#: ../src/dialogs/dialog-recent.c:145
+#: ../src/dialogs/dialog-recent.c:148
 msgid "%H:%M"
 msgstr "%H:%M"
 
@@ -7336,7 +7336,7 @@ msgstr "%H:%M"
 #. * to change this.  The default will show
 #. * things like " 9:50 am" and " 9:50 pm".
 #.
-#: ../src/dialogs/dialog-recent.c:154
+#: ../src/dialogs/dialog-recent.c:157
 msgid "%l:%M %P"
 msgstr "%l:%M %P"
 
@@ -9171,7 +9171,7 @@ msgstr "_Παρενθέσεις:"
 msgid "Quote _character:"
 msgstr "Χαρακτήρες _εισαγωγικών:"
 
-#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:313
+#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:317
 msgid "Character _encoding:"
 msgstr "_Κωδικοποίηση χαρακτήρων:"
 
@@ -11456,9 +11456,9 @@ msgid ""
 "This name is used by some plugins that provide programmability to address "
 "this object. Most users will not need to set this name. "
 msgstr ""
-"Το όνομα αυτό χρησιμοποείται από μερικές πρόσθετες λειτουργίες που παρέχουν "
-"τον προγραμματισμός για την κατεύθυνση του αντικειμένου αυτού. Οι "
-"περισσότεροι χρήστες δεν θα χρειαστεί να θέσουν αυτό το όνομα."
+"Το όνομα αυτό χρησιμοποιείται από μερικά πρόσθετα που παρέχουν "
+"προγραμματισμό για την διεύθυνση του αντικειμένου αυτού. Οι περισσότεροι "
+"χρήστες δεν θα χρειαστεί να θέσουν αυτό το όνομα."
 
 #: ../src/dialogs/sheetobject-size.ui.h:11
 msgid "Width in points:"
@@ -12387,43 +12387,43 @@ msgstr "Αυτόματος εντοπισμός"
 
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
-#: ../src/gui-file.c:202 ../src/gui-file.c:332
+#: ../src/gui-file.c:206 ../src/gui-file.c:336
 msgid "Advanc_ed"
 msgstr "_Εξειδικευμένο"
 
-#: ../src/gui-file.c:205
+#: ../src/gui-file.c:209
 msgid "Simpl_e"
 msgstr "Απ_λό"
 
-#: ../src/gui-file.c:302
+#: ../src/gui-file.c:306
 msgid "Open Spreadsheet File"
 msgstr "Άνοιγμα αρχείου υπολογιστικού φύλλου"
 
-#: ../src/gui-file.c:305
+#: ../src/gui-file.c:309
 msgid "Import Data File"
 msgstr "Εισαγωγή αρχείου δεδομένων"
 
-#: ../src/gui-file.c:359 ../src/gui-file.c:576
+#: ../src/gui-file.c:363 ../src/gui-file.c:580
 msgid "All Files"
 msgstr "Όλα τα αρχεία"
 
-#: ../src/gui-file.c:367
+#: ../src/gui-file.c:371
 msgid "Text Files"
 msgstr "Αρχεία κειμένου"
 
-#: ../src/gui-file.c:372 ../src/gui-file.c:581
+#: ../src/gui-file.c:376 ../src/gui-file.c:585
 msgid "Spreadsheets"
 msgstr "Λογιστικά φύλλα"
 
-#: ../src/gui-file.c:375
+#: ../src/gui-file.c:379
 msgid "Data Files"
 msgstr "Αρχεία δεδομένων"
 
-#: ../src/gui-file.c:396 ../src/gui-file.c:605
+#: ../src/gui-file.c:400 ../src/gui-file.c:609
 msgid "File _type:"
 msgstr "_Τύπος αρχείου:"
 
-#: ../src/gui-file.c:454
+#: ../src/gui-file.c:458
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -12436,15 +12436,20 @@ msgstr ""
 "επιλέξτε διαφορετικό τύπο αρχείου.\n"
 "Θέλετε να αποθηκεύσετε μόνο το τρέχον φύλλο;"
 
-#: ../src/gui-file.c:527
+#: ../src/gui-file.c:531
 msgid "Save the current workbook as"
 msgstr "Αποθήκευση τρέχοντος βιβλίου εργασίας ως"
 
-#: ../src/gui-file.c:528
+#: ../src/gui-file.c:532
 msgid "Export the current workbook or sheet to"
 msgstr "Εξαγωγή του τρέχοντος βιβλίου εργασίας ή φύλλου ως"
 
-#: ../src/gui-file.c:672
+#: ../src/gui-file.c:647 ../src/gui-file.c:664
+#| msgid "title"
+msgid "Untitled"
+msgstr "Χωρίς τίτλο"
+
+#: ../src/gui-file.c:696
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -12452,7 +12457,7 @@ msgstr ""
 "Η δεδομένη επέκταση αρχείου δεν ταιριάζει με τον τύπο του επιλεγμένου "
 "αρχείου. Θέλετε να χρησιμοποιήσετε αυτό το όνομα οπωσδήποτε;"
 
-#: ../src/gui-file.c:763
+#: ../src/gui-file.c:787
 #, c-format
 msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
@@ -12461,7 +12466,7 @@ msgstr ""
 "Θέλετε να εξάγετε το <b>τρέχον φύλλο</b> αυτού του βιβλίου εργασίας στην "
 "θέση '<b>%s</b>' χρησιμοποιώντας τον εξαγωγέα '<b>%s</b>';"
 
-#: ../src/gui-file.c:767
+#: ../src/gui-file.c:791
 #, c-format
 msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
@@ -12470,7 +12475,7 @@ msgstr ""
 "Θέλετε να εξάγετε αυτό το βιβλίο εργασίας στην θέση '<b>%s</b>' "
 "χρησιμοποιώντας τον εξαγωγέα '<b>%s</b>';"
 
-#: ../src/gui-file.c:794
+#: ../src/gui-file.c:818
 msgid ""
 "Unable to repeat export since no previous export information has been saved "
 "in this session."
@@ -12835,27 +12840,31 @@ msgstr "Όνομα αρχείου"
 msgid "Path "
 msgstr "Διαδρομή"
 
-#: ../src/print-info.c:872 ../src/stf-export.c:706
+#: ../src/print-info.c:660 ../src/widgets/gnm-fontbutton.c:464
+msgid "Title"
+msgstr "Τίτλος"
+
+#: ../src/print-info.c:889 ../src/stf-export.c:706
 #, c-format
 msgid "There is no such sheet"
 msgstr "Δεν υπάρχει τέτοιο είδος φύλλου."
 
-#: ../src/print-info.c:915
+#: ../src/print-info.c:932
 #, c-format
 msgid "There is no object with name '%s'"
 msgstr "Δεν υπάρχει αντικείμενο με όνομα '%s'"
 
-#: ../src/print-info.c:932
+#: ../src/print-info.c:949
 #, c-format
 msgid "Unknown paper size"
 msgstr "Άγνωστο μέγεθος φύλλου"
 
-#: ../src/print-info.c:942
+#: ../src/print-info.c:959
 #, c-format
 msgid "Invalid option for pdf exporter"
 msgstr "Άκυρη επιλογή για εξαγωγή σε pdf"
 
-#: ../src/print-info.c:963
+#: ../src/print-info.c:980
 msgid "PDF export"
 msgstr "Εξαγωγή σε PDF"
 
@@ -13140,8 +13149,9 @@ msgid "Clear Co_ntents"
 msgstr "Απαλοιφή περιε_χομένων"
 
 #: ../src/sheet-control-gui.c:2164
-msgid "Add _Co_mment"
-msgstr "Προσθήκη _σχ_ολίου"
+#| msgid "Add _Co_mment"
+msgid "Add _Co_mment..."
+msgstr "Προσθήκη _σχ_ολίου..."
 
 #: ../src/sheet-control-gui.c:2166
 msgid "Edit Co_mment..."
@@ -13152,12 +13162,14 @@ msgid "_Remove Comments"
 msgstr "_Απομάκρυνση σχολίων"
 
 #: ../src/sheet-control-gui.c:2171
-msgid "Add _Hyperlink"
-msgstr "Προσθήκη _υπερσυνδέσμου"
+#| msgid "Add _Hyperlink"
+msgid "Add _Hyperlink..."
+msgstr "Προσθήκη _υπερσυνδέσμου..."
 
 #: ../src/sheet-control-gui.c:2174
-msgid "Edit _Hyperlink"
-msgstr "Επεξεργασία _υπερσυνδέσμου"
+#| msgid "Edit _Hyperlink"
+msgid "Edit _Hyperlink..."
+msgstr "Επεξεργασία _υπερσυνδέσμου..."
 
 #: ../src/sheet-control-gui.c:2177
 msgid "_Remove Hyperlink"
@@ -16213,8 +16225,9 @@ msgid "Irrevocably remove an entire sheet"
 msgstr "Αμετάκλητη απαλοιφή ενός ολόκληρου φύλλου"
 
 #: ../src/wbc-gtk-actions.c:2122
-msgid "Re_name"
-msgstr "Μετονο_μασία"
+#| msgid "Re_name"
+msgid "Re_name..."
+msgstr "Μετονο_μασία..."
 
 #: ../src/wbc-gtk-actions.c:2123
 msgid "Rename the current sheet"
@@ -16460,16 +16473,16 @@ msgstr "Μετάβαση κάτω"
 msgid "Go to the bottom of the data"
 msgstr "Μετάβαση στο τέλος των δεδομένων"
 
-#: ../src/wbc-gtk-actions.c:2257
-msgid "Go to the First"
+#: ../src/wbc-gtk-actions.c:2257 ../src/wbc-gtk.c:2671
+msgid "Go to First"
 msgstr "Μετάβαση στο πρώτο"
 
 #: ../src/wbc-gtk-actions.c:2258
 msgid "Go to the first data cell"
 msgstr "Μετάβαση στο πρώτο κελί με δεδομένα"
 
-#: ../src/wbc-gtk-actions.c:2260
-msgid "Go to the Last"
+#: ../src/wbc-gtk-actions.c:2260 ../src/wbc-gtk.c:2672
+msgid "Go to Last"
 msgstr "Μετάβαση στο τελευταίο"
 
 #: ../src/wbc-gtk-actions.c:2261
@@ -16477,8 +16490,9 @@ msgid "Go to the last data cell"
 msgstr "Μετάβαση στο τελευταίο κελί δεδομένων"
 
 #: ../src/wbc-gtk-actions.c:2263
-msgid "_Go to cell..."
-msgstr "Μετά_βαση στο κελί..."
+#| msgid "_Go to cell..."
+msgid "_Go to Cell..."
+msgstr "Μετά_βαση σε κελί..."
 
 #: ../src/wbc-gtk-actions.c:2264
 msgid "Jump to a specified cell"
@@ -16494,7 +16508,8 @@ msgid "Repeat the previous action"
 msgstr "Επανάληψη της τελευταίας ενέργειας"
 
 #: ../src/wbc-gtk-actions.c:2271
-msgid "P_aste special..."
+#| msgid "P_aste special..."
+msgid "P_aste Special..."
 msgstr "Ει_δική επικόλληση..."
 
 #: ../src/wbc-gtk-actions.c:2272
@@ -16622,7 +16637,8 @@ msgid "Insert a new Goffice component object"
 msgstr "Εισαγωγή νέου αντικειμένου συστατικού Goffice"
 
 #: ../src/wbc-gtk-actions.c:2339
-msgid "_From file..."
+#| msgid "_From file..."
+msgid "_From File..."
 msgstr "_Από αρχείο..."
 
 #: ../src/wbc-gtk-actions.c:2340
@@ -16663,15 +16679,17 @@ msgstr "Αναδίπλωση με τη συνάρτηση SORT (αύξουσα)"
 
 #. Insert -> Special
 #: ../src/wbc-gtk-actions.c:2360
-msgid "Current _date"
-msgstr "Τρέχουσα ημ/_νία"
+#| msgid "Current _date"
+msgid "Current _Date"
+msgstr "Τρέχουσα ημερομη_νία"
 
 #: ../src/wbc-gtk-actions.c:2361
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Εισαγωγή τρέχουσας ημερομηνίας στα επιλεγμένα κελιά"
 
 #: ../src/wbc-gtk-actions.c:2364
-msgid "Current _time"
+#| msgid "Current _time"
+msgid "Current _Time"
 msgstr "Τρέχουσα ώ_ρα"
 
 #: ../src/wbc-gtk-actions.c:2365
@@ -16679,8 +16697,9 @@ msgid "Insert the current time into the selected cell(s)"
 msgstr "Εισαγωγή τρέχουσας ώρας στα επιλεγμένα κελιά"
 
 #: ../src/wbc-gtk-actions.c:2368
-msgid "Current d_ate and time"
-msgstr "Τρέχουσα _ημ/νία και ώρα"
+#| msgid "Current d_ate and time"
+msgid "Current D_ate and Time"
+msgstr "Τρέχουσα _ημερομηνία και ώρα"
 
 #: ../src/wbc-gtk-actions.c:2369
 msgid "Insert the current date and time into the selected cell(s)"
@@ -17156,24 +17175,27 @@ msgstr ""
 "εισόδους"
 
 #: ../src/wbc-gtk-actions.c:2610
-msgid "E_xport into Other Format"
-msgstr "Ε_ξαγωγή σε άλλη μορφή"
+#| msgid "E_xport into Other Format"
+msgid "E_xport into Other Format..."
+msgstr "Ε_ξαγωγή σε άλλη μορφή..."
 
 #: ../src/wbc-gtk-actions.c:2611
 msgid "Export the current workbook or sheet"
 msgstr "Εξαγωγή του τρέχοντος βιβλίου εργασίας ή φύλλου"
 
 #: ../src/wbc-gtk-actions.c:2613
-msgid "Export as _Text File"
-msgstr "Εξαγωγή ως αρχείου _κειμένου"
+#| msgid "Export as _Text File"
+msgid "Export as _Text File..."
+msgstr "Εξαγωγή ως αρχείου _κειμένου..."
 
 #: ../src/wbc-gtk-actions.c:2614
 msgid "Export the current sheet as a text file"
 msgstr "Εξαγωγή του τρέχοντος φύλλου ως αρχείου κειμένου"
 
 #: ../src/wbc-gtk-actions.c:2616
-msgid "Export as _CSV File"
-msgstr "Εξαγωγή ως αρχείο _CSV"
+#| msgid "Export as _CSV File"
+msgid "Export as _CSV File..."
+msgstr "Εξαγωγή ως αρχείο _CSV..."
 
 #: ../src/wbc-gtk-actions.c:2617
 msgid "Export the current sheet as a csv file"
@@ -17242,7 +17264,8 @@ msgstr ""
 "κατανομή."
 
 #: ../src/wbc-gtk-actions.c:2642
-msgid "Fill downwards"
+#| msgid "Fill downwards"
+msgid "Fill Downwards"
 msgstr "Συμπλήρωση προς τα κάτω"
 
 #: ../src/wbc-gtk-actions.c:2643
@@ -17250,8 +17273,9 @@ msgid "Copy the content from the top row to the cells below"
 msgstr "Αντιγραφή του περιεχομένου από την πρώτη γραμμή στα κελιά παρακάτω"
 
 #: ../src/wbc-gtk-actions.c:2644
-msgid "Fill to right"
-msgstr "Γέμισμα προς τα δεξιά"
+#| msgid "Fill to right"
+msgid "Fill to Right"
+msgstr "Συμπλήρωση προς τα δεξιά"
 
 #: ../src/wbc-gtk-actions.c:2645
 msgid "Copy the content from the left column to the cells on the right"
@@ -17369,8 +17393,9 @@ msgid "Sum into the current cell"
 msgstr "Άθροιση μέσα στο τρέχον κελί"
 
 #: ../src/wbc-gtk-actions.c:2696
-msgid "_Function"
-msgstr "_Συνάρτηση"
+#| msgid "_Function"
+msgid "_Function..."
+msgstr "_Συνάρτηση..."
 
 #: ../src/wbc-gtk-actions.c:2697
 msgid "Edit a function in the current cell"
@@ -17806,12 +17831,14 @@ msgid "Double Low Underline"
 msgstr "Διπλή υπογράμμιση"
 
 #: ../src/wbc-gtk-actions.c:2926
-msgid "_Strike Through"
-msgstr "_Διείσδυση"
+#| msgid "Stri_kethrough"
+msgid "_Strikethrough"
+msgstr "_Διαγράμμιση"
 
 #: ../src/wbc-gtk-actions.c:2927
-msgid "Strike Through"
-msgstr "Διείσδυση"
+#| msgid "Stri_kethrough"
+msgid "Strikethrough"
+msgstr "Διαγράμμιση"
 
 #: ../src/wbc-gtk-actions.c:2929
 msgid "Su_perscript"
@@ -18061,14 +18088,6 @@ msgstr "Εισαγωγή σε επιλεγμένες περιοχές ως πί�
 msgid "END"
 msgstr "END"
 
-#: ../src/wbc-gtk.c:2671
-msgid "Go to First"
-msgstr "Μετάβαση στο πρώτο"
-
-#: ../src/wbc-gtk.c:2672
-msgid "Go to Last"
-msgstr "Μετάβαση στο τελευταίο"
-
 #: ../src/wbc-gtk.c:2674
 msgid "Go to Cell ..."
 msgstr "Μετάβαση στο κελί..."
@@ -18292,10 +18311,6 @@ msgstr "Τύπος διαλόγου"
 #: ../src/widgets/gnm-fontbutton.c:448
 msgid "The type of the dialog"
 msgstr "Ο τύπος του διαλόγου"
-
-#: ../src/widgets/gnm-fontbutton.c:464
-msgid "Title"
-msgstr "Τίτλος"
 
 #: ../src/widgets/gnm-fontbutton.c:465
 msgid "The title of the font chooser dialog"
@@ -18990,6 +19005,18 @@ msgstr "Πρότυπο λίστας Λίλα"
 msgid "A simple list template"
 msgstr "Ένα απλό πρότυπο λίστας"
 
+#~ msgid "Go to the First"
+#~ msgstr "Μετάβαση στο πρώτο"
+
+#~ msgid "Go to the Last"
+#~ msgstr "Μετάβαση στο τελευταίο"
+
+#~ msgid "_Strike Through"
+#~ msgstr "_Διείσδυση"
+
+#~ msgid "Strike Through"
+#~ msgstr "Διείσδυση"
+
 #
 #~ msgid "Long format toolbar visible"
 #~ msgstr "Ορατή μακρινή εργαλειοθήκη μορφοποίησης"
@@ -19024,9 +19051,6 @@ msgstr "Ένα απλό πρότυπο λίστας"
 
 #~ msgid "_Underline:"
 #~ msgstr "_Υπογράμμιση:"
-
-#~ msgid "Stri_kethrough"
-#~ msgstr "Δια_γεγραμμένο"
 
 #~ msgid "Sup_erscript"
 #~ msgstr "Εκ_θέτης"
