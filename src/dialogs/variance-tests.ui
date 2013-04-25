@@ -4,7 +4,7 @@
   <object class="GtkDialog" id="VarianceTests">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
-    <property name="title" translatable="yes">Testing Equality of 2 Variances (F-Test)</property>
+    <property name="title" translatable="yes">Claims About Two Variances</property>
     <property name="type_hint">normal</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="vbox1">

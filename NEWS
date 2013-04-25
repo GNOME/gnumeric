@@ -10,6 +10,7 @@ Andreas:
 	* Plug leaks.
 	* Fix border handling in html4 export. [#635217]
 	* Support ODF's title tag in headers and footers.
+	* Rename some items in the Statistics menu.
 
 Dominique Leuenberger:
 	* Fix locale directory.

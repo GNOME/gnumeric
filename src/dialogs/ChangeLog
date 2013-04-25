@@ -1,3 +1,10 @@
+2013-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* mean-tests.ui: change dialog title
+	* one-mean-test.ui: change dialog title
+	* sign-test-two.ui: change dialog title
+	* variance-tests.ui: change dialog title
+
 2013-04-24  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-fixed-page.c (cb_treeview_motion): Take cell padding

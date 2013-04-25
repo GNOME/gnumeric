@@ -2007,10 +2007,10 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuStatisticsTimeSeries",	NULL, N_("De_pendent Observations") },
 			{ "MenuToolForecast",	NULL,	N_("F_orecast") },
 		{ "MenuStatisticsOneSample",	NULL,	N_("_One Sample Tests") },
-			{ "MenuToolOneMedian",	NULL,	N_("_One Median") },
+			{ "MenuToolOneMedian",	NULL,	N_("Claims About a Me_dian") },
 		{ "MenuStatisticsTwoSamples",	NULL,	N_("_Two Sample Tests") },
-			{ "MenuToolTwoMedians",	NULL,	N_("Two Me_dians") },
-			{ "MenuToolTTest",	NULL,	N_("Two _Means") },
+			{ "MenuToolTwoMedians",	NULL,	N_("Claims About Two Me_dians") },
+			{ "MenuToolTTest",	NULL,	N_("Claims About Two _Means") },
 		{ "MenuStatisticsMultipleSamples",	NULL,	N_("_Multiple Sample Tests") },
 			{ "MenuANOVA",	NULL,	N_("_ANOVA") },
 			{ "MenuContingencyTests",	NULL,	N_("Contin_gency Table") },
@@ -2519,7 +2519,7 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsNormalityTests", NULL, N_("_Normality Tests..."),
 		NULL, N_("Testing a sample for normality"),
 		G_CALLBACK (cb_tools_normality_tests) },
-	{ "ToolsOneMeanTest", NULL, N_("_Student-T Test..."),
+	{ "ToolsOneMeanTest", NULL, N_("Claims About a _Mean..."),
 	        NULL, N_("Testing the value of a mean"),
 	        G_CALLBACK (cb_tools_one_mean_test) },
 
@@ -2534,26 +2534,26 @@ static GtkActionEntry const actions[] = {
 
 /* Statistics -> TwoSamples */
 
-	{ "ToolsFTest", NULL, N_("_Two Variances: FTest..."),
+	{ "ToolsFTest", NULL, N_("Claims About Two _Variances"),
 		NULL, N_("Comparing two population variances"),
 		G_CALLBACK (cb_tools_ftest) },
 
 /* Statistics -> TwoSamples -> Two Means*/
 
-	{ "ToolTTestPaired", NULL, N_("_Paired Samples: T-Test..."),
-		NULL, N_("Comparing two population means for two paired samples: t-test..."),
+	{ "ToolTTestPaired", NULL, N_("_Paired Samples..."),
+		NULL, N_("Comparing two population means for two paired samples"),
 		G_CALLBACK (cb_tools_ttest_paired) },
 
-	{ "ToolTTestEqualVar", NULL, N_("Unpaired Samples, _Equal Variances: T-Test..."),
-		NULL, N_("Comparing two population means for two unpaired samples from populations with equal variances: t-test..."),
+	{ "ToolTTestEqualVar", NULL, N_("Unpaired Samples, _Equal Variances..."),
+		NULL, N_("Comparing two population means for two unpaired samples from populations with equal variances"),
 		G_CALLBACK (cb_tools_ttest_equal_var) },
 
-	{ "ToolTTestUnequalVar", NULL, N_("Unpaired Samples, _Unequal Variances: T-Test..."),
-		NULL, N_("Comparing two population means for two unpaired samples from populations with unequal variances: t-test..."),
+	{ "ToolTTestUnequalVar", NULL, N_("Unpaired Samples, _Unequal Variances..."),
+		NULL, N_("Comparing two population means for two unpaired samples from populations with unequal variances"),
 		G_CALLBACK (cb_tools_ttest_unequal_var) },
 
-	{ "ToolZTest", NULL, N_("_Known Variances: Z-Test..."),
-		NULL, N_("Comparing two population means from populations with known variances: z-test..."),
+	{ "ToolZTest", NULL, N_("Unpaired Samples, _Known Variances..."),
+		NULL, N_("Comparing two population means from populations with known variances"),
 		G_CALLBACK (cb_tools_ztest) },
 
 /* Statistics -> TwoSamples -> Two Medians*/
