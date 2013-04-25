@@ -1,5 +1,11 @@
 2013-04-24  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf-fixed-page.c (cb_treeview_motion): Take cell padding
+	into account.
+
+	* dialog-stf-preview.c (stf_preview_find_column): Cleanup using
+	gtk+ 3.2 functions.  Take cell padding into account.
+
 	* dialog-stf-fixed-page.c (stf_dialog_fixed_page_init): Cleanup.
 	Gtk+ 3.2 has the required fix.
 

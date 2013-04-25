@@ -86,7 +86,9 @@ calc_char_index (RenderData_t *renderdata, int col, int *dx)
 	GtkCellRenderer *cell =	stf_preview_get_cell_renderer (renderdata, col);
 	PangoLayout *layout;
 	PangoFontDescription *font_desc;
-	int ci, width;
+	int ci, width, padx;
+
+	gtk_cell_renderer_get_padding (cell, &padx, NULL);
 
 	g_object_get (G_OBJECT (cell), "font_desc", &font_desc, NULL);
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (renderdata->tree_view), "x");
@@ -96,7 +98,7 @@ calc_char_index (RenderData_t *renderdata, int col, int *dx)
 	pango_font_description_free (font_desc);
 
 	if (width < 1) width = 1;
-	ci = (*dx < 0) ? 0 : (*dx + width / 2) / width;
+	ci = (*dx < padx) ? 0 : (*dx - padx + width / 2) / width;
 	*dx -= ci * width;
 
 	return ci;
@@ -522,8 +524,14 @@ cb_treeview_motion (GtkWidget *widget,
 
 	if (col >= 0 && col < renderdata->colcount) {
 		int ci = calc_char_index (renderdata, col, &dx);
-		if (ci <= colwidth)
-			pagedata->fixed.ruler_x = x - dx - 1;
+		if (ci <= colwidth) {
+			int padx;
+			GtkCellRenderer *cell =
+				stf_preview_get_cell_renderer (renderdata, col);
+
+			gtk_cell_renderer_get_padding (cell, &padx, NULL);
+			pagedata->fixed.ruler_x = x - dx + padx;
+		}
 	}
 
 	gdk_event_request_motions (event);
