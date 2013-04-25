@@ -565,7 +565,7 @@ dialog_function_select_cat_row_separator (GtkTreeModel *model,
 /*************************************************************************/
 
 static GtkTextTag *
-make_link (GtkTextBuffer *description, const char *name,
+make_link (GtkTextBuffer *description, GtkWidget *target, const char *name,
 	   GCallback cb, gpointer user)
 {
 	GtkTextTag *link =
@@ -573,11 +573,20 @@ make_link (GtkTextBuffer *description, const char *name,
 		(gtk_text_buffer_get_tag_table (description), name);
 
 	if (!link) {
+		GdkColor *link_color = NULL;
+		char *link_color_text;
+
+		gtk_widget_style_get (target, "link-color", &link_color, NULL);
+		link_color_text = gdk_color_to_string (link_color);
+		gdk_color_free (link_color);
+
 		link = gtk_text_buffer_create_tag
 			(description, name,
 			 "underline", PANGO_UNDERLINE_SINGLE,
-			 "foreground", "#0000ff",
+			 "foreground", link_color_text,
 			 NULL);
+
+		g_free (link_color_text);
 
 		if (cb)
 			g_signal_connect (link, "event", cb, user);
@@ -694,7 +703,9 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 	}
 
 static void
-describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *sheet)
+describe_new_style (GtkTextBuffer *description,
+		    GtkWidget *target,
+		    GnmFunc const *func, Sheet *sheet)
 {
 	GnmFuncHelp const *help;
 	GtkTextIter ti;
@@ -784,7 +795,8 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 			const char *text = help->text;  /* Not translated */
 			const char *pre = _("See also: ");
 			GtkTextTag *link =
-				make_link (description, "LINK", NULL, NULL);
+				make_link (description, target, "LINK",
+					   NULL, NULL);
 
 			FINISH_ARGS;
 			ADD_TEXT ("\n");
@@ -824,9 +836,8 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 
 			tagname = g_strdup_printf ("EXTLINK-%s", func->name);
 			link = make_link
-				(description, tagname,
-				 G_CALLBACK (cb_link_event),
-				 NULL);
+				(description, target, tagname,
+				 G_CALLBACK (cb_link_event), NULL);
 
 			g_object_set_data_full (G_OBJECT (link),
 						"uri", uri,
@@ -1014,7 +1025,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 	GtkTextMark *mark;
 	gboolean active = FALSE;
 
-	description =  gtk_text_view_get_buffer (state->description_view);
+	description = gtk_text_view_get_buffer (state->description_view);
 
 	mark = gtk_text_buffer_get_mark (description, "start-mark");
 	gtk_text_view_scroll_to_mark (state->description_view, mark,
@@ -1031,7 +1042,9 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 		if (func->help == NULL)
 			gtk_text_buffer_set_text (description, "?", -1);
 		else
-			describe_new_style (description, func, state->sheet);
+			describe_new_style (description,
+					    GTK_WIDGET (state->description_view),
+					    func, state->sheet);
 		active = TRUE;
 	}
 	gtk_widget_set_sensitive (state->ok_button, active);
@@ -1223,7 +1236,7 @@ dialog_function_select_init (FunctionSelectState *state)
 	gtk_tree_model_filter_set_visible_column
 		(GTK_TREE_MODEL_FILTER (state->model_filter), FUNCTION_VISIBLE);
 
-	state->treeview= GTK_TREE_VIEW
+	state->treeview = GTK_TREE_VIEW
 		(go_gtk_builder_get_widget (state->gui, "function-list"));
 	gtk_tree_view_set_model (state->treeview,
 				 state->model_filter);
@@ -1295,6 +1308,9 @@ dialog_function_select_init (FunctionSelectState *state)
 
 	state->description_view = GTK_TEXT_VIEW (go_gtk_builder_get_widget
 						 (state->gui, "description"));
+	gtk_style_context_add_class
+		(gtk_widget_get_style_context (GTK_WIDGET (state->description_view)),
+		 "function-help");
 	description = gtk_text_view_get_buffer (state->description_view);
 	gtk_text_buffer_get_start_iter (description, &where);
 	gtk_text_buffer_create_mark (description, "start-mark", &where, TRUE);

@@ -208,8 +208,13 @@ GnmNotebookButton:active {
 /* ------------------------------------------------------------------------- */
 /* Functions' arguments link-like appearance in pseudo-tooltips.  */
 
-GtkTextView.function-help {
-  -GtkWidget-link-color: red;
+GtkTextView.pseudo-tooltip.function-help {
+  -GtkWidget-link-color: #4040ff;
+}
+
+/* Ditto in the function selector.  */
+GtkDialog GtkTextView.function-help {
+  -GtkWidget-link-color: #4040ff;
 }
 
 /* ------------------------------------------------------------------------- */
