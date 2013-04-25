@@ -744,7 +744,7 @@ latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border
 static void
 latex2e_print_vert_border (GsfOutput *output, GnmStyleBorderType style)
 {
-	g_return_if_fail (style >= 0 && style < G_N_ELEMENTS (border_styles));
+	g_return_if_fail (/* style >= 0 && */ style < G_N_ELEMENTS (border_styles));
 
 	gsf_output_printf (output, "%s", border_styles[style].vertical);
 }
@@ -1131,29 +1131,33 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
  */
 
 static gboolean
-latex2e_find_hhlines (GnmStyleBorderType *clines, int length, int col, int row,
+latex2e_find_hhlines (GnmStyleBorderType *clines, G_GNUC_UNUSED int length, int col, int row,
 		      Sheet *sheet, GnmStyleElement type)
 {
 	GnmStyle const	*style;
 	GnmBorder const	*border;
-	GnmRange const	*merge_range;
-	GnmCellPos pos;
+	/* GnmRange const	*merge_range; */
+	/* GnmCellPos pos; */
 
 	style = sheet_style_get (sheet, col, row);
 	border = gnm_style_get_border (style, type);
 	if (gnm_style_border_is_blank (border))
 		return FALSE;
 	clines[0] = border->line_type;
-	pos.col = col;
-	pos.row = row;
-	merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
-	if (merge_range != NULL) {
-		int i;
 
-		for (i = 1; i < MIN (merge_range->end.col - merge_range->start.col + 1,
-				    length); i++)
-			     clines[i] = border->line_type;
-	}
+	/* The following code completes the border above a merged cell. As long as we allow partial */
+	/* borders above & below merged cells in Gnumeric we should not enable this.                */ 
+	/* pos.col = col; */
+	/* pos.row = row; */
+	/* merge_range = gnm_sheet_merge_is_corner (sheet, &pos); */
+	/* if (merge_range != NULL) { */
+	/* 	int i; */
+
+	/* 	for (i = 1; i < MIN (merge_range->end.col - merge_range->start.col + 1, */
+	/* 			    length); i++) */
+	/* 		     clines[i] = border->line_type; */
+	/* } */
+
 	return TRUE;
 }
 
