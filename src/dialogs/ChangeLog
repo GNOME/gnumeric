@@ -1,5 +1,8 @@
 2013-04-24  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf-fixed-page.c (stf_dialog_fixed_page_init): Cleanup.
+	Gtk+ 3.2 has the required fix.
+
 	* dialog-function-select.c (dialog_function_select_init): Style
 	links.
 
