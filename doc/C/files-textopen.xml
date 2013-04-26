@@ -381,7 +381,7 @@
      <para>
        In GNU operating systems and other systems that inherit from
        the UNIX legacy, the end of a line was defined simply using the
-       'linefeed' character. The Macintosh operating system chose
+       'linefeed' character. The pre-OSX Macintosh operating system chose
        instead to use only the 'carriage return' character. The
        Windows operating system uses both characters in the sequence
        'carriage return' then 'linefeed'. 

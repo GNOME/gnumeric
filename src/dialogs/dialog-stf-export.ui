@@ -11,7 +11,7 @@
         <col id="0" translatable="yes">Unix (linefeed)</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Macintosh (carriage return)</col>
+        <col id="0" translatable="yes">Macintosh before OS X (carriage return)</col>
       </row>
       <row>
         <col id="0" translatable="yes">Windows (carriage return + linefeed)</col>
