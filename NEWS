@@ -72,6 +72,7 @@ Morten:
 	* Fix critical.  [#698680]
 	* Fix type problems with glib timers.
 	* Fix swapped arguments in DAYS.  [#698772]
+	* Fix showing multiple toolbars on the left.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.1

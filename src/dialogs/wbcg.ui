@@ -49,7 +49,6 @@
               <object class="GtkBox" id="toolbar_zone_left">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <placeholder/>
                 </child>
