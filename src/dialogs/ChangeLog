@@ -1,3 +1,10 @@
+2013-04-25  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf.c (stf_dialog): Name the dialog.
+
+	* dialog-stf-fixed-page.c (cb_treeview_draw): Get the color from
+	css.
+
 2013-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* mean-tests.ui: change dialog title

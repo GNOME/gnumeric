@@ -218,3 +218,11 @@ GtkDialog GtkTextView.function-help {
 }
 
 /* ------------------------------------------------------------------------- */
+/* This is the vertical line used in the fixed-width part of the stf */
+/* import dialog to show where a new column division will be placed */
+
+GtkDialog#stf-import fixed-format-ruler {
+  color: red;
+}
+
+/* ------------------------------------------------------------------------- */

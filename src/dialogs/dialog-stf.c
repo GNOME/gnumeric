@@ -289,6 +289,8 @@ stf_dialog (WBCGtk *wbcg,
 	pagedata.finish_button    = go_gtk_builder_get_widget (gui, "finish_button");
 	pagedata.parseoptions = NULL;
 
+	gtk_widget_set_name (GTK_WIDGET (pagedata.dialog), "stf-import");
+
 	stf_dialog_main_page_init   (gui, &pagedata);
 	stf_dialog_csv_page_init    (gui, &pagedata);
 	stf_dialog_fixed_page_init  (gui, &pagedata);

@@ -555,6 +555,8 @@ cb_treeview_draw (GtkWidget *widget,
 	int height;
 	GtkAllocation a;
 	GdkWindow *bin_window;
+	GdkRGBA ruler_color;
+	GtkStyleContext *context;
 
 	if (ruler_x < 0)
 		return FALSE;
@@ -566,10 +568,17 @@ cb_treeview_draw (GtkWidget *widget,
 	gtk_widget_get_allocation (widget, &a);
 	height = a.height;
 
+	context = gtk_widget_get_style_context (GTK_WIDGET (pagedata->dialog));
+	gtk_style_context_save (context);
+	gtk_style_context_add_region (context, "fixed-format-ruler", 0);
+	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+				     &ruler_color);
+	gtk_style_context_restore (context);
+
 	cairo_save (cr);
 	cairo_rectangle (cr, ruler_x, 0, ruler_x + 1, height);
 	cairo_clip (cr);
-	cairo_set_source_rgb (cr, 1.0, 0, 0);
+	gdk_cairo_set_source_rgba (cr, &ruler_color);
 	cairo_move_to (cr, ruler_x, 0);
 	cairo_line_to (cr, ruler_x, height);
 	cairo_stroke (cr);
