@@ -29,8 +29,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumer"
 "ic&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-23 23:33+0000\n"
-"PO-Revision-Date: 2013-04-24 09:07+0300\n"
+"POT-Creation-Date: 2013-04-25 02:42+0000\n"
+"PO-Revision-Date: 2013-04-26 10:33+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -590,7 +590,7 @@ msgid "Unsupported GnmValue type (%d)"
 msgstr "Μη υποστηριζόμενος τύπος GnmValue (%d)"
 
 #: ../plugins/excelplugins/excelplugins.c:610
-#: ../src/widgets/gnumeric-expr-entry.c:914
+#: ../src/widgets/gnumeric-expr-entry.c:917
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
@@ -1274,7 +1274,7 @@ msgstr "Περιορισμός"
 msgid "Value"
 msgstr "Τιμή"
 
-#: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:897
+#: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
 #: ../src/dialogs/dialog-search.c:440 ../src/tools/gnm-solver.c:1444
 msgid "Type"
 msgstr "Τύπος"
@@ -4263,8 +4263,8 @@ msgstr "Μορφοποίηση αντικειμένου"
 
 #: ../src/commands.c:4954 ../src/commands.c:6019
 #: ../src/dialogs/dialog-doc-metadata.c:1912
-#: ../src/dialogs/dialog-formula-guru.c:893
-#: ../src/dialogs/dialog-function-select.c:1240
+#: ../src/dialogs/dialog-formula-guru.c:894
+#: ../src/dialogs/dialog-function-select.c:1253
 #: ../src/dialogs/dialog-scenarios.c:520
 #: ../src/dialogs/dialog-simulation.c:216 ../src/dialogs/dialog-zoom.c:196
 #: ../src/format-template.c:218 ../src/sheet.c:877
@@ -6204,7 +6204,7 @@ msgid "content"
 msgstr "περιεχόμενο"
 
 #: ../src/dialogs/dialog-define-names.c:1226
-#: ../src/dialogs/dialog-function-select.c:1269
+#: ../src/dialogs/dialog-function-select.c:1282
 msgid "Erase the search entry."
 msgstr "Διαγραφή της εισόδου αναζήτησης."
 
@@ -6328,7 +6328,7 @@ msgid "Properties"
 msgstr "Ιδιότητες"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2243
-#: ../src/dialogs/dialog-function-select.c:1245
+#: ../src/dialogs/dialog-function-select.c:1258
 #: ../src/dialogs/dialog-plugin-manager.c:720
 #: ../src/dialogs/doc-meta-data.ui.h:29
 msgid "Description"
@@ -6347,16 +6347,16 @@ msgstr "Αδύνατη η δημιουργία του διαλόγου ιδιο�
 msgid "Could not create the Fill Series dialog."
 msgstr "Αδύνατη η δημιουργία του διαλόγου γεμίσματος σειρών."
 
-#: ../src/dialogs/dialog-formula-guru.c:327
+#: ../src/dialogs/dialog-formula-guru.c:325
 #, c-format
 msgid "[%s]"
 msgstr "[%s]"
 
-#: ../src/dialogs/dialog-formula-guru.c:908
+#: ../src/dialogs/dialog-formula-guru.c:909
 msgid "Function/Argument"
 msgstr "Συνάρτηση/Όρισμα"
 
-#: ../src/dialogs/dialog-formula-guru.c:1092
+#: ../src/dialogs/dialog-formula-guru.c:1093
 msgid "Could not create the formula guru."
 msgstr "Αδύνατη η δημιουργία του οδηγού μαθηματικών τύπων."
 
@@ -6372,53 +6372,53 @@ msgstr "Πρόσφατα χρησιμοποιημένες"
 msgid "In Use"
 msgstr "Σε χρήση"
 
-#: ../src/dialogs/dialog-function-select.c:665
+#: ../src/dialogs/dialog-function-select.c:674
 #, c-format
 msgid "%s evaluates to %s."
 msgstr "Το %s εκτιμάται σε %s."
 
-#: ../src/dialogs/dialog-function-select.c:734
+#: ../src/dialogs/dialog-function-select.c:745
 msgid "Arguments:"
 msgstr "Ορίσματα:"
 
-#: ../src/dialogs/dialog-function-select.c:756
+#: ../src/dialogs/dialog-function-select.c:767
 msgid "Note: "
 msgstr "Σημείωση: "
 
-#: ../src/dialogs/dialog-function-select.c:769
+#: ../src/dialogs/dialog-function-select.c:780
 msgid "Examples:"
 msgstr "Παραδείγματα:"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:785
+#: ../src/dialogs/dialog-function-select.c:796
 msgid "See also: "
 msgstr "Δείτε επίσης: "
 
-#: ../src/dialogs/dialog-function-select.c:801
+#: ../src/dialogs/dialog-function-select.c:813
 msgid ", "
 msgstr ", "
 
-#: ../src/dialogs/dialog-function-select.c:835
+#: ../src/dialogs/dialog-function-select.c:846
 msgid "Further information: "
 msgstr "Περισσότερες πληροφορίες: "
 
-#: ../src/dialogs/dialog-function-select.c:837
+#: ../src/dialogs/dialog-function-select.c:848
 msgid "online descriptions"
 msgstr "διαδικτυακές περιγραφές"
 
-#: ../src/dialogs/dialog-function-select.c:849
+#: ../src/dialogs/dialog-function-select.c:860
 msgid "Microsoft Excel: "
 msgstr "Microsoft Excel: "
 
-#: ../src/dialogs/dialog-function-select.c:858
+#: ../src/dialogs/dialog-function-select.c:869
 msgid "ODF (OpenFormula): "
 msgstr "ODF (OpenFormula): "
 
-#: ../src/dialogs/dialog-function-select.c:1356
+#: ../src/dialogs/dialog-function-select.c:1372
 msgid "Gnumeric Function Help Browser"
 msgstr "Περιηγητής βοήθειας για τις συναρτήσεις του Gnumeric"
 
-#: ../src/dialogs/dialog-function-select.c:1360
+#: ../src/dialogs/dialog-function-select.c:1376
 msgid "Paste Function Name dialog"
 msgstr "Επικόλληση διαλόγου με το όνομα της συνάρτησης"
 
@@ -7819,7 +7819,7 @@ msgid "Line"
 msgstr "Γραμμή"
 
 #: ../src/dialogs/dialog-stf-main-page.c:398
-#: ../src/widgets/gnumeric-expr-entry.c:1746
+#: ../src/widgets/gnumeric-expr-entry.c:1749
 msgid "Text"
 msgstr "Κείμενο"
 
@@ -10229,8 +10229,8 @@ msgid "O_ptions"
 msgstr "_Επιλογές"
 
 #: ../src/dialogs/mean-tests.ui.h:1
-msgid "Testing the Difference of 2 Means"
-msgstr "Έλεγχος της διαφοράς 2 μέσων όρων"
+msgid "Claims About Two Means"
+msgstr "Αιτήσεις για δύο διάμεσους"
 
 #: ../src/dialogs/mean-tests.ui.h:2 ../src/dialogs/sign-test-two.ui.h:2
 #: ../src/dialogs/variance-tests.ui.h:2
@@ -10389,10 +10389,8 @@ msgid "Test"
 msgstr "Έλεγχος"
 
 #: ../src/dialogs/one-mean-test.ui.h:1
-#: ../src/tools/analysis-one-mean-test.c:168
-#: ../src/tools/analysis-one-mean-test.c:171
-msgid "Student-t Test"
-msgstr "Δοκιμή Student-t"
+msgid "Claims About a Mean"
+msgstr "Αιτήσεις για διάμεσο"
 
 #: ../src/dialogs/one-mean-test.ui.h:11
 msgid "_Predicted Mean:"
@@ -11569,8 +11567,9 @@ msgid "_Area"
 msgstr "_Περιοχή"
 
 #: ../src/dialogs/sign-test-two.ui.h:1
-msgid "Comparing 2 Medians (Paired Sample)"
-msgstr "Σύγκριση 2 διαμέσων (Συζευγμένο δείγμα)"
+#| msgid "Comparing 2 Medians (Paired Sample)"
+msgid "Claims About Two Medians (Paired Samples)"
+msgstr "Αιτήσεις για δύο διάμεσους (συζευγμένα δείγματα)"
 
 #: ../src/dialogs/sign-test-two.ui.h:6 ../src/dialogs/sign-test.ui.h:11
 #: ../src/tools/analysis-sign-test.c:364 ../src/tools/analysis-sign-test.c:367
@@ -11938,8 +11937,8 @@ msgstr ""
 "φύλλα για την τρίτη"
 
 #: ../src/dialogs/variance-tests.ui.h:1
-msgid "Testing Equality of 2 Variances (F-Test)"
-msgstr "Έλεγχος ισότητας 2 διακυμάνσεων (F-Test)"
+msgid "Claims About Two Variances"
+msgstr "Αιτήσεις για δύο διακυμάνσεις"
 
 #: ../src/dialogs/view.ui.h:1
 msgid "Create New View"
@@ -12292,7 +12291,7 @@ msgstr "300 %"
 msgid "500%"
 msgstr "500 %"
 
-#: ../src/gnm-pane.c:2037
+#: ../src/gnm-pane.c:2036
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -12445,7 +12444,6 @@ msgid "Export the current workbook or sheet to"
 msgstr "Εξαγωγή του τρέχοντος βιβλίου εργασίας ή φύλλου ως"
 
 #: ../src/gui-file.c:647 ../src/gui-file.c:664
-#| msgid "title"
 msgid "Untitled"
 msgstr "Χωρίς τίτλο"
 
@@ -13149,7 +13147,6 @@ msgid "Clear Co_ntents"
 msgstr "Απαλοιφή περιε_χομένων"
 
 #: ../src/sheet-control-gui.c:2164
-#| msgid "Add _Co_mment"
 msgid "Add _Co_mment..."
 msgstr "Προσθήκη _σχ_ολίου..."
 
@@ -13162,12 +13159,10 @@ msgid "_Remove Comments"
 msgstr "_Απομάκρυνση σχολίων"
 
 #: ../src/sheet-control-gui.c:2171
-#| msgid "Add _Hyperlink"
 msgid "Add _Hyperlink..."
 msgstr "Προσθήκη _υπερσυνδέσμου..."
 
 #: ../src/sheet-control-gui.c:2174
-#| msgid "Edit _Hyperlink"
 msgid "Edit _Hyperlink..."
 msgstr "Επεξεργασία _υπερσυνδέσμου..."
 
@@ -14786,6 +14781,11 @@ msgstr ""
 msgid "Student-t Test (%s)"
 msgstr "Δοκιμή Στιούντεντ-Τ (%s)"
 
+#: ../src/tools/analysis-one-mean-test.c:168
+#: ../src/tools/analysis-one-mean-test.c:171
+msgid "Student-t Test"
+msgstr "Δοκιμή Student-t"
+
 #: ../src/tools/analysis-principal-components.c:67
 msgid "Principal components analysis has insufficient space."
 msgstr "Η ανάλυση κυρίων συνιστωσών έχει ανεπαρκή χώρο."
@@ -15994,20 +15994,22 @@ msgid "_One Sample Tests"
 msgstr "Έλεγχοι _ενός δείγματος"
 
 #: ../src/wbc-gtk-actions.c:2010
-msgid "_One Median"
-msgstr "_Μία διάμεσος"
+msgid "Claims About a Me_dian"
+msgstr "Αιτήσεις για _διάμεσο"
 
 #: ../src/wbc-gtk-actions.c:2011
 msgid "_Two Sample Tests"
 msgstr "Έλεγχοι _δύο δειγμάτων"
 
 #: ../src/wbc-gtk-actions.c:2012
-msgid "Two Me_dians"
-msgstr "Δύο _διάμεσοι"
+#| msgid "Two Me_dians"
+msgid "Claims About Two Me_dians"
+msgstr "Αιτήσεις για δύο _διάμεσους"
 
 #: ../src/wbc-gtk-actions.c:2013
-msgid "Two _Means"
-msgstr "Δύο _μέσοι όροι"
+#| msgid "Two _Means"
+msgid "Claims About Two _Means"
+msgstr "Αιτήσεις για δύο _διάμεσους"
 
 #: ../src/wbc-gtk-actions.c:2014
 msgid "_Multiple Sample Tests"
@@ -16225,7 +16227,6 @@ msgid "Irrevocably remove an entire sheet"
 msgstr "Αμετάκλητη απαλοιφή ενός ολόκληρου φύλλου"
 
 #: ../src/wbc-gtk-actions.c:2122
-#| msgid "Re_name"
 msgid "Re_name..."
 msgstr "Μετονο_μασία..."
 
@@ -16490,7 +16491,6 @@ msgid "Go to the last data cell"
 msgstr "Μετάβαση στο τελευταίο κελί δεδομένων"
 
 #: ../src/wbc-gtk-actions.c:2263
-#| msgid "_Go to cell..."
 msgid "_Go to Cell..."
 msgstr "Μετά_βαση σε κελί..."
 
@@ -16508,7 +16508,6 @@ msgid "Repeat the previous action"
 msgstr "Επανάληψη της τελευταίας ενέργειας"
 
 #: ../src/wbc-gtk-actions.c:2271
-#| msgid "P_aste special..."
 msgid "P_aste Special..."
 msgstr "Ει_δική επικόλληση..."
 
@@ -16637,7 +16636,6 @@ msgid "Insert a new Goffice component object"
 msgstr "Εισαγωγή νέου αντικειμένου συστατικού Goffice"
 
 #: ../src/wbc-gtk-actions.c:2339
-#| msgid "_From file..."
 msgid "_From File..."
 msgstr "_Από αρχείο..."
 
@@ -16679,7 +16677,6 @@ msgstr "Αναδίπλωση με τη συνάρτηση SORT (αύξουσα)"
 
 #. Insert -> Special
 #: ../src/wbc-gtk-actions.c:2360
-#| msgid "Current _date"
 msgid "Current _Date"
 msgstr "Τρέχουσα ημερομη_νία"
 
@@ -16688,7 +16685,6 @@ msgid "Insert the current date into the selected cell(s)"
 msgstr "Εισαγωγή τρέχουσας ημερομηνίας στα επιλεγμένα κελιά"
 
 #: ../src/wbc-gtk-actions.c:2364
-#| msgid "Current _time"
 msgid "Current _Time"
 msgstr "Τρέχουσα ώ_ρα"
 
@@ -16697,7 +16693,6 @@ msgid "Insert the current time into the selected cell(s)"
 msgstr "Εισαγωγή τρέχουσας ώρας στα επιλεγμένα κελιά"
 
 #: ../src/wbc-gtk-actions.c:2368
-#| msgid "Current d_ate and time"
 msgid "Current D_ate and Time"
 msgstr "Τρέχουσα _ημερομηνία και ώρα"
 
@@ -17001,8 +16996,8 @@ msgid "Testing a sample for normality"
 msgstr "Έλεγχος δείγματος για κανονικότητα"
 
 #: ../src/wbc-gtk-actions.c:2522
-msgid "_Student-T Test..."
-msgstr "Δοκιμή _στιούντετ-Τ..."
+msgid "Claims About a _Mean..."
+msgstr "Αιτήσεις για _διάμεσο..."
 
 #: ../src/wbc-gtk-actions.c:2523
 msgid "Testing the value of a mean"
@@ -17024,8 +17019,8 @@ msgstr "Έλεγχος προσημασμένων βαθμών του _Wilcoxon.
 
 #. Statistics -> TwoSamples
 #: ../src/wbc-gtk-actions.c:2537
-msgid "_Two Variances: FTest..."
-msgstr "_Δύο διακυμάνσεις: F-Test..."
+msgid "Claims About Two _Variances"
+msgstr "Αιτήσεις για δύο δ_ιακυμάνσεις"
 
 #: ../src/wbc-gtk-actions.c:2538
 msgid "Comparing two population variances"
@@ -17033,48 +17028,58 @@ msgstr "Σύγκριση δύο πληθυσμιακών διακυμάνσεω�
 
 #. Statistics -> TwoSamples -> Two Means
 #: ../src/wbc-gtk-actions.c:2543
-msgid "_Paired Samples: T-Test..."
-msgstr "_Συζευγμένα δείγματα: Έλεγχος T..."
+#| msgid "_Paired Samples: T-Test..."
+msgid "_Paired Samples..."
+msgstr "_Συζευγμένα δείγματα..."
 
 #: ../src/wbc-gtk-actions.c:2544
-msgid "Comparing two population means for two paired samples: t-test..."
-msgstr ""
-"Σύγκριση 2 πληθυσμιακών μέσων για δύο συζευγμένα δείγματα: έλεγχος t..."
+#| msgid "Comparing two population means for two paired samples: t-test..."
+msgid "Comparing two population means for two paired samples"
+msgstr "Σύγκριση δύο πληθυσμιακών μέσων για δύο συζευγμένα δείγματα"
 
 #: ../src/wbc-gtk-actions.c:2547
-msgid "Unpaired Samples, _Equal Variances: T-Test..."
-msgstr "Ασύζευκτα δείγματα, Ί_σες διακυμάνσεις: Έλεγχος T..."
+#| msgid "Unpaired Samples, _Equal Variances: T-Test..."
+msgid "Unpaired Samples, _Equal Variances..."
+msgstr "Ασύζευκτα δείγματα, Ί_σες διακυμάνσεις..."
 
 #: ../src/wbc-gtk-actions.c:2548
+#| msgid ""
+#| "Comparing two population means for two unpaired samples from populations "
+#| "with equal variances: t-test..."
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
-"with equal variances: t-test..."
+"with equal variances"
 msgstr ""
 "Σύγκριση 2 πληθυσμιακών μέσων για δύο ασύζευκτα δείγματα από πληθυσμούς με "
-"ίσες διακυμάνσεις: t-test..."
+"ίσες διακυμάνσεις"
 
 #: ../src/wbc-gtk-actions.c:2551
-msgid "Unpaired Samples, _Unequal Variances: T-Test..."
-msgstr "Ασύζευκτα δείγματα, Ά_νισες διακυμάνσεις: Έλεγχος T..."
+#| msgid "Unpaired Samples, _Unequal Variances: T-Test..."
+msgid "Unpaired Samples, _Unequal Variances..."
+msgstr "Ασύζευκτα δείγματα, ά_νισες διακυμάνσεις..."
 
 #: ../src/wbc-gtk-actions.c:2552
+#| msgid ""
+#| "Comparing two population means for two unpaired samples from populations "
+#| "with unequal variances: t-test..."
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
-"with unequal variances: t-test..."
+"with unequal variances"
 msgstr ""
 "Σύγκριση 2 πληθυσμιακών μέσων για δύο ασύζευκτα δείγματα από πληθυσμούς με "
-"άνισες διακυμάνσεις: έλεγχος t..."
+"άνισες διακυμάνσεις"
 
 #: ../src/wbc-gtk-actions.c:2555
-msgid "_Known Variances: Z-Test..."
-msgstr "_Γνωστές διακυμάνσεις: Z-Test..."
+#| msgid "Unpaired Samples, _Unequal Variances: T-Test..."
+msgid "Unpaired Samples, _Known Variances..."
+msgstr "Ασύζευκτα δείγματα, _γνωστές διακυμάνσεις..."
 
 #: ../src/wbc-gtk-actions.c:2556
-msgid ""
-"Comparing two population means from populations with known variances: z-"
-"test..."
-msgstr ""
-"Σύγκριση 2 πληθυσμιακών μέσων πληθυσμών με γνωστές διακυμάνσεις: Z-test..."
+#| msgid ""
+#| "Comparing two population means from populations with known variances: z-"
+#| "test..."
+msgid "Comparing two population means from populations with known variances"
+msgstr "Σύγκριση δύο πληθυσμιακών μέσων από πληθυσμούς με γνωστές διακυμάνσεις"
 
 #: ../src/wbc-gtk-actions.c:2562 ../src/wbc-gtk-actions.c:2565
 msgid "Comparing the values of two medians of paired observations"
@@ -17175,7 +17180,6 @@ msgstr ""
 "εισόδους"
 
 #: ../src/wbc-gtk-actions.c:2610
-#| msgid "E_xport into Other Format"
 msgid "E_xport into Other Format..."
 msgstr "Ε_ξαγωγή σε άλλη μορφή..."
 
@@ -17184,7 +17188,6 @@ msgid "Export the current workbook or sheet"
 msgstr "Εξαγωγή του τρέχοντος βιβλίου εργασίας ή φύλλου"
 
 #: ../src/wbc-gtk-actions.c:2613
-#| msgid "Export as _Text File"
 msgid "Export as _Text File..."
 msgstr "Εξαγωγή ως αρχείου _κειμένου..."
 
@@ -17193,7 +17196,6 @@ msgid "Export the current sheet as a text file"
 msgstr "Εξαγωγή του τρέχοντος φύλλου ως αρχείου κειμένου"
 
 #: ../src/wbc-gtk-actions.c:2616
-#| msgid "Export as _CSV File"
 msgid "Export as _CSV File..."
 msgstr "Εξαγωγή ως αρχείο _CSV..."
 
@@ -17264,7 +17266,6 @@ msgstr ""
 "κατανομή."
 
 #: ../src/wbc-gtk-actions.c:2642
-#| msgid "Fill downwards"
 msgid "Fill Downwards"
 msgstr "Συμπλήρωση προς τα κάτω"
 
@@ -17273,7 +17274,6 @@ msgid "Copy the content from the top row to the cells below"
 msgstr "Αντιγραφή του περιεχομένου από την πρώτη γραμμή στα κελιά παρακάτω"
 
 #: ../src/wbc-gtk-actions.c:2644
-#| msgid "Fill to right"
 msgid "Fill to Right"
 msgstr "Συμπλήρωση προς τα δεξιά"
 
@@ -17393,7 +17393,6 @@ msgid "Sum into the current cell"
 msgstr "Άθροιση μέσα στο τρέχον κελί"
 
 #: ../src/wbc-gtk-actions.c:2696
-#| msgid "_Function"
 msgid "_Function..."
 msgstr "_Συνάρτηση..."
 
@@ -17831,12 +17830,10 @@ msgid "Double Low Underline"
 msgstr "Διπλή υπογράμμιση"
 
 #: ../src/wbc-gtk-actions.c:2926
-#| msgid "Stri_kethrough"
 msgid "_Strikethrough"
 msgstr "_Διαγράμμιση"
 
 #: ../src/wbc-gtk-actions.c:2927
-#| msgid "Stri_kethrough"
 msgid "Strikethrough"
 msgstr "Διαγράμμιση"
 
@@ -18364,17 +18361,17 @@ msgstr "Αν το επιλεγμένο μέγεθος γραμματοσειρά
 msgid "<Blank>"
 msgstr "<Κενό>"
 
-#: ../src/widgets/gnumeric-expr-entry.c:935
+#: ../src/widgets/gnumeric-expr-entry.c:938
 #, c-format
 msgid "%s takes no arguments"
 msgstr "Το %s δε δέχεται ορίσματα"
 
-#: ../src/widgets/gnumeric-expr-entry.c:939
+#: ../src/widgets/gnumeric-expr-entry.c:942
 #, c-format
 msgid "Too many arguments for %s"
 msgstr "Πάρα πολλά ορίσματα για το %s"
 
-#: ../src/widgets/gnumeric-expr-entry.c:950
+#: ../src/widgets/gnumeric-expr-entry.c:953
 msgid ""
 "\n"
 "\n"
@@ -18386,20 +18383,20 @@ msgstr ""
 
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
-#: ../src/widgets/gnumeric-expr-entry.c:979
+#: ../src/widgets/gnumeric-expr-entry.c:982
 #, c-format
 msgid "\t%s \t%s\n"
 msgstr "\t%s \t%s\n"
 
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
-#: ../src/widgets/gnumeric-expr-entry.c:984
+#: ../src/widgets/gnumeric-expr-entry.c:987
 #, c-format
 msgid "✓\t%s \t%s\n"
 msgstr "✓\t%s \t%s\n"
 
 #. xgettext: short form for: "type F4-key to complete the name"
-#: ../src/widgets/gnumeric-expr-entry.c:997
+#: ../src/widgets/gnumeric-expr-entry.c:1000
 msgid ""
 "\n"
 "\t<i>F4 to complete</i>"
@@ -18408,7 +18405,7 @@ msgstr ""
 "\t<i>F4 για ολοκλήρωση</i>"
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
-#: ../src/widgets/gnumeric-expr-entry.c:1000
+#: ../src/widgets/gnumeric-expr-entry.c:1003
 msgid ""
 "\n"
 "\t<i>⇧F4 to select</i>"
@@ -18416,52 +18413,52 @@ msgstr ""
 "\n"
 "\t<i>⇧F4 για επιλογή</i>"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1730
+#: ../src/widgets/gnumeric-expr-entry.c:1733
 msgid "Update policy"
 msgstr "Ενημέρωση ασφαλείας"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1731
+#: ../src/widgets/gnumeric-expr-entry.c:1734
 msgid "How frequently changes to the entry should be applied"
 msgstr "Πόσο συχνά οι αλλαγές εισαγωγής θα έπρεπε να εφαρμόζονται"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1738
+#: ../src/widgets/gnumeric-expr-entry.c:1741
 msgid "With icon"
 msgstr "Με εικονίδιο"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1739
+#: ../src/widgets/gnumeric-expr-entry.c:1742
 msgid "Should there be an icon to the right of the entry?"
 msgstr ""
 "Θα έπρεπε να βρίσκεται ένα εικονίδιο στα αριστερά του πεδίου εισαγωγής;"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1747
+#: ../src/widgets/gnumeric-expr-entry.c:1750
 msgid "The contents of the entry"
 msgstr "Τα περιεχόμενα της εισόδου"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1760
+#: ../src/widgets/gnumeric-expr-entry.c:1763
 msgid "SheetControlGUI"
 msgstr "SheetControlGUI"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1761
+#: ../src/widgets/gnumeric-expr-entry.c:1764
 msgid "The GUI container associated with the entry."
 msgstr "Το συσχετισμένο περιεχόμενο του GUI με την είσοδο."
 
-#: ../src/widgets/gnumeric-expr-entry.c:1768
+#: ../src/widgets/gnumeric-expr-entry.c:1771
 msgid "WBCGtk"
 msgstr "WBCGtk"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1769
+#: ../src/widgets/gnumeric-expr-entry.c:1772
 msgid "The toplevel GUI container associated with the entry."
 msgstr "Το συσχετισμένο περιεχόμενο GUI ανώτερου επιπέδου με την είσοδο."
 
-#: ../src/widgets/gnumeric-expr-entry.c:1776
+#: ../src/widgets/gnumeric-expr-entry.c:1779
 msgid "Constant Format"
 msgstr "Μορφοποίηση σταθερών"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1777
+#: ../src/widgets/gnumeric-expr-entry.c:1780
 msgid "Format for constants"
 msgstr "Μορφοποίηση για σταθερές"
 
-#: ../src/widgets/gnumeric-expr-entry.c:2674
+#: ../src/widgets/gnumeric-expr-entry.c:2677
 #, c-format
 msgid "Expecting a single range"
 msgstr "Αναμένεται ένα απλό εύρος"
@@ -19004,6 +19001,24 @@ msgstr "Πρότυπο λίστας Λίλα"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
 msgstr "Ένα απλό πρότυπο λίστας"
+
+#~ msgid "Testing the Difference of 2 Means"
+#~ msgstr "Έλεγχος της διαφοράς 2 μέσων όρων"
+
+#~ msgid "Testing Equality of 2 Variances (F-Test)"
+#~ msgstr "Έλεγχος ισότητας 2 διακυμάνσεων (F-Test)"
+
+#~ msgid "_One Median"
+#~ msgstr "_Μία διάμεσος"
+
+#~ msgid "_Student-T Test..."
+#~ msgstr "Δοκιμή _στιούντετ-Τ..."
+
+#~ msgid "_Two Variances: FTest..."
+#~ msgstr "_Δύο διακυμάνσεις: F-Test..."
+
+#~ msgid "_Known Variances: Z-Test..."
+#~ msgstr "_Γνωστές διακυμάνσεις: Z-Test..."
 
 #~ msgid "Go to the First"
 #~ msgstr "Μετάβαση στο πρώτο"
