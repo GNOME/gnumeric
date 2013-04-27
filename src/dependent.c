@@ -77,7 +77,7 @@ static GOMemChunk *cset_pool;
 /* ------------------------------------------------------------------------- */
 /* Maps between row numbers and bucket numbers.  */
 
-#define BUCKET_SIZE	128
+#define BUCKET_SIZE	1024
 #define BUCKET_OF_ROW(row) ((row) / BUCKET_SIZE)
 #define BUCKET_START_ROW(b) ((b) * BUCKET_SIZE)
 #define BUCKET_END_ROW(b) ((b) * BUCKET_SIZE + (BUCKET_SIZE - 1))
