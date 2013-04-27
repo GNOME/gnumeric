@@ -2431,12 +2431,12 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>DAYS</function>(<parameter>start_date</parameter>,<parameter>end_date</parameter>)</synopsis>
+        <synopsis><function>DAYS</function>(<parameter>end_date</parameter>,<parameter>start_date</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>start_date</parameter>: starting date serial value</para>
         <para><parameter>end_date</parameter>: ending date serial value</para>
+        <para><parameter>start_date</parameter>: starting date serial value</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -13266,7 +13266,7 @@
           <function>NT_OMEGA</function>
         </refname>
         <refpurpose>
-        Numer of distinct prime factors
+        Number of distinct prime factors
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>

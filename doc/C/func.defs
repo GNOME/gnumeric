@@ -658,9 +658,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @CATEGORY=Date/Time
 @FUNCTION=DAYS
 @SHORTDESC=difference between dates in days
-@SYNTAX=DAYS(start_date,end_date)
-@ARGUMENTDESCRIPTION=@{start_date}: starting date serial value
-@{end_date}: ending date serial value
+@SYNTAX=DAYS(end_date,start_date)
+@ARGUMENTDESCRIPTION=@{end_date}: ending date serial value
+@{start_date}: starting date serial value
 @DESCRIPTION=DAYS returns the positive or negative number of days from @{start_date} to @{end_date}.
 @ODF=This function is OpenFormula compatible.
 @SEEALSO=DATEDIF
@@ -3873,7 +3873,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Number Theory
 @FUNCTION=NT_OMEGA
-@SHORTDESC=Numer of distinct prime factors
+@SHORTDESC=Number of distinct prime factors
 @SYNTAX=NT_OMEGA(n)
 @ARGUMENTDESCRIPTION=@{n}: positive integer
 @NOTE=Returns the number of distinct prime factors without multiplicity.

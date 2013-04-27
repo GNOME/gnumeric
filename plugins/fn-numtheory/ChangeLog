@@ -1,3 +1,7 @@
+2013-04-26  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.2
+
 2013-04-12  Morten Welinder  <terra@gnome.org>
 
 	* numtheory.c (ithprime): Minor speed-up.  Increase limit to 10^7
