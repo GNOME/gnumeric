@@ -700,7 +700,7 @@ latex2e_write_table_header(GsfOutput *output, int num_cols)
  *
  */
 static GnmStyleBorderType
-latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border)
+latex2e_find_this_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border)
 {
 	GnmBorder const	*border;
 	GnmStyle const	*style;
@@ -711,8 +711,7 @@ latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border
 	style = sheet_style_get (sheet, col, row);
 	border = gnm_style_get_border (style, which_border);
 
-	if (!(gnm_style_border_is_blank (border) ||
-	      border->line_type == GNM_STYLE_BORDER_NONE))
+	if (!gnm_style_border_is_blank (border))
 		return border->line_type;
 
 	if (which_border == MSTYLE_BORDER_LEFT) {
@@ -720,18 +719,41 @@ latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border
 			return GNM_STYLE_BORDER_NONE;
 		style = sheet_style_get (sheet, col - 1, row);
 		border = gnm_style_get_border (style, MSTYLE_BORDER_RIGHT);
-		return ((gnm_style_border_is_blank (border)) ? GNM_STYLE_BORDER_NONE :
-			border->line_type);
+		return ((border == NULL) ? GNM_STYLE_BORDER_NONE : border->line_type);
 	} else {
 		if ((col+1) >= colrow_max (TRUE, sheet))
 		    return GNM_STYLE_BORDER_NONE;
 		style = sheet_style_get (sheet, col + 1, row);
 		border = gnm_style_get_border (style, MSTYLE_BORDER_LEFT);
-		return ((gnm_style_border_is_blank (border)) ? GNM_STYLE_BORDER_NONE :
-			border->line_type);
+		return ((border == NULL) ? GNM_STYLE_BORDER_NONE : border->line_type);
 	}
 
 	return GNM_STYLE_BORDER_NONE;
+}
+
+static GnmStyleBorderType
+latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border)
+{
+	/* We are checking for NONE boreders first since there should only be a few merged ranges */
+	GnmStyleBorderType result = latex2e_find_this_vline (col, row, sheet, which_border);
+	GnmCellPos pos;
+	GnmRange const * range;
+
+	if (result == GNM_STYLE_BORDER_NONE)
+		return GNM_STYLE_BORDER_NONE;
+	
+	pos.col = col;
+	pos.row = row;
+	range = gnm_sheet_merge_contains_pos (sheet, &pos);
+
+	if (range) {
+		if ((which_border == MSTYLE_BORDER_LEFT && col == range->start.col)
+		    || (which_border == MSTYLE_BORDER_RIGHT&& col == range->end.col))
+			return result;
+		else
+			return GNM_STYLE_BORDER_NONE;	
+	}
+	return result;
 }
 
 /**
@@ -1136,8 +1158,8 @@ latex2e_find_hhlines (GnmStyleBorderType *clines, G_GNUC_UNUSED int length, int 
 {
 	GnmStyle const	*style;
 	GnmBorder const	*border;
-	/* GnmRange const	*merge_range; */
-	/* GnmCellPos pos; */
+	GnmRange const	*range;
+	GnmCellPos pos;
 
 	style = sheet_style_get (sheet, col, row);
 	border = gnm_style_get_border (style, type);
@@ -1145,19 +1167,17 @@ latex2e_find_hhlines (GnmStyleBorderType *clines, G_GNUC_UNUSED int length, int 
 		return FALSE;
 	clines[0] = border->line_type;
 
-	/* The following code completes the border above a merged cell. As long as we allow partial */
-	/* borders above & below merged cells in Gnumeric we should not enable this.                */ 
-	/* pos.col = col; */
-	/* pos.row = row; */
-	/* merge_range = gnm_sheet_merge_is_corner (sheet, &pos); */
-	/* if (merge_range != NULL) { */
-	/* 	int i; */
-
-	/* 	for (i = 1; i < MIN (merge_range->end.col - merge_range->start.col + 1, */
-	/* 			    length); i++) */
-	/* 		     clines[i] = border->line_type; */
-	/* } */
-
+	pos.col = col;
+	pos.row = row;
+	range = gnm_sheet_merge_contains_pos (sheet, &pos);
+	if (range) {
+		if ((type == MSTYLE_BORDER_TOP && row > range->start.row)
+		    || (type == MSTYLE_BORDER_BOTTOM&& row < range->end.row)) {
+			clines[0] = GNM_STYLE_BORDER_NONE;
+			return FALSE;
+		}
+	}
+	
 	return TRUE;
 }
 

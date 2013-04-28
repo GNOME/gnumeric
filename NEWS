@@ -1,5 +1,8 @@
 Gnumeric 1.12.3
 
+Andreas:
+	* Fix border handling for merged cells in LaTeX export.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.2
 

@@ -1,3 +1,9 @@
+2013-04-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* latex.c (latex2e_find_this_vline): renamed from latex2e_find_vline
+	(latex2e_find_vline): new, taking care of merges
+	(latex2e_find_hhlines): handle merges
+
 2013-04-26  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.2
