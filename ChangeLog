@@ -1,3 +1,8 @@
+2013-04-29  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (cb_write_cell): Ignore completely empty
+	cells.
+
 2013-04-26  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

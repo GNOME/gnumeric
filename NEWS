@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* Improve xlsx import of style-only cells.
+	* Don't write empty cells to .gnumeric.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2

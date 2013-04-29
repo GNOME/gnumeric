@@ -895,8 +895,13 @@ xml_write_cell_and_position (GnmOutputXML *state,
 static GnmValue *
 cb_write_cell (GnmCellIter const *iter, GnmOutputXML *state)
 {
-	xml_write_cell_and_position (state,
-		iter->cell->base.texpr, iter->cell->value, &iter->pp);
+	GnmExprTop const *texpr = iter->cell->base.texpr;
+	GnmValue const *value = iter->cell->value;
+
+	if (texpr == NULL && VALUE_IS_EMPTY (value))
+		return NULL;
+
+	xml_write_cell_and_position (state, texpr, value, &iter->pp);
 	return NULL;
 }
 
