@@ -1338,8 +1338,14 @@ static void
 xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmCell *cell = sheet_cell_fetch (state->sheet,
-		state->pos.col, state->pos.row);
+	GnmCell *cell;
+
+	if (state->texpr == NULL && state->val == NULL) {
+		/* A cell with only style.  */
+		return;
+	}
+
+	cell = sheet_cell_fetch (state->sheet, state->pos.col, state->pos.row);
 
 	if (NULL == cell) {
 		xlsx_warning (xin, _("Invalid cell %s"),

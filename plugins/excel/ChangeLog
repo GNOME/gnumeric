@@ -1,3 +1,7 @@
+2013-04-29  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_cell_end): Don't create empty cells.
+
 2013-04-26  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.2
