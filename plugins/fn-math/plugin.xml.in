@@ -64,6 +64,7 @@
 				<function name="minverse"/>
 				<function name="mmult"/>
 				<function name="mod"/>
+				<function name="mpseudoinverse"/>
 				<function name="mround"/>
 				<function name="multinomial"/>
 				<function name="munit"/>

@@ -2642,6 +2642,43 @@ out:
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_mpseudoinverse[] = {
+        { GNM_FUNC_HELP_NAME, F_("MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}")},
+        { GNM_FUNC_HELP_ARG, F_("matrix:a matrix")},
+        { GNM_FUNC_HELP_ARG, F_("threshold:a relative size threshold for discarding eigenvalues")},
+	{ GNM_FUNC_HELP_SEEALSO, "MINVERSE"},
+        { GNM_FUNC_HELP_END}
+};
+
+
+static GnmValue *
+gnumeric_mpseudominverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmMatrix *A = NULL;
+	GnmMatrix *B = NULL;
+	GnmValue *res = NULL;
+        gnm_float threshold = argv[1] ? value_get_as_float (argv[1]) : GNM_EPSILON;
+
+	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
+	if (!A) goto out;
+
+	if (A->cols != A->rows || gnm_matrix_is_empty (A)) {
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
+	}
+
+	B = gnm_matrix_new (A->cols, A->rows);  /* Shape of A^t */
+	gnm_matrix_pseudo_inverse (A->data, A->rows, A->cols, threshold, B->data);
+	res = gnm_matrix_to_value (B);
+
+out:
+	if (A) gnm_matrix_free (A);
+	if (B) gnm_matrix_free (B);
+	return res;
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_cholesky[] = {
         { GNM_FUNC_HELP_NAME, F_("CHOLESKY:the Cholesky decomposition of the symmetric positive-definite @{matrix}")},
         { GNM_FUNC_HELP_ARG, F_("matrix:a symmetric positive definite matrix")},
@@ -3410,6 +3447,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "minverse","A",      help_minverse,
 	  gnumeric_minverse, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "mpseudoinverse","A|f", help_mpseudoinverse,
+	  gnumeric_mpseudominverse, NULL, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "linsolve", "AA",  help_linsolve,
 	  gnumeric_linsolve, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

@@ -19,6 +19,7 @@ G_BEGIN_DECLS
 #	define GnmRegressionFunction GORegressionFunctionl
 #	define gnm_non_linear_regression go_non_linear_regressionl
 #	define gnm_matrix_invert go_matrix_invertl
+#	define gnm_matrix_pseudo_inverse go_matrix_pseudo_inversel
 #	define gnm_matrix_determinant go_matrix_determinantl
 #	define gnm_linear_solve go_linear_solvel
 #	define gnm_linear_solve_multiple go_linear_solve_multiplel
@@ -34,6 +35,7 @@ G_BEGIN_DECLS
 #	define GnmRegressionFunction GORegressionFunction
 #	define gnm_non_linear_regression go_non_linear_regression
 #	define gnm_matrix_invert go_matrix_invert
+#	define gnm_matrix_pseudo_inverse go_matrix_pseudo_inverse
 #	define gnm_matrix_determinant go_matrix_determinant
 #	define gnm_linear_solve go_linear_solve
 #	define gnm_linear_solve_multiple go_linear_solve_multiple
