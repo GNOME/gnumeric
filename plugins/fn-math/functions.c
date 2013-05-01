@@ -2662,7 +2662,7 @@ gnumeric_mpseudominverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
 	if (!A) goto out;
 
-	if (A->cols != A->rows || gnm_matrix_is_empty (A)) {
+	if (gnm_matrix_is_empty (A)) {
 		res = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
