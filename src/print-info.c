@@ -29,6 +29,8 @@
 #include "sheet-object-graph.h"
 
 #include <goffice/goffice.h>
+#include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-meta-names.h>
 
 #include <glib/gi18n-lib.h>
 #include <string.h>

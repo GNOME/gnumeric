@@ -1,3 +1,8 @@
+2013-05-01  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c: Add gsf includes to make things work with
+	libgsf 1.14.24.  Redhat #957851.
+
 2013-04-29  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (cb_write_cell): Ignore completely empty
