@@ -4702,7 +4702,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
 
-	item = gtk_check_menu_item_new_with_label (_("Use maximum precision"));
+	item = gtk_check_menu_item_new_with_label (_("Use Maximum Precision"));
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item),
 		wbv->auto_expr.use_max_precision);
 	g_signal_connect (G_OBJECT (item), "activate",
@@ -4714,13 +4714,13 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
 
-	item = gtk_menu_item_new_with_label (_("Insert formula below."));
+	item = gtk_menu_item_new_with_label (_("Insert Formula Below"));
 	g_signal_connect (G_OBJECT (item), "activate",
 		G_CALLBACK (cb_auto_expr_insert_formula_below), wbcg);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
 
-	item = gtk_menu_item_new_with_label (_("Insert formula to side."));
+	item = gtk_menu_item_new_with_label (_("Insert Formula to Side"));
 	g_signal_connect (G_OBJECT (item), "activate",
 		G_CALLBACK (cb_auto_expr_insert_formula_to_side), wbcg);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
