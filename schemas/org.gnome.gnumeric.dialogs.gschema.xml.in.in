@@ -299,7 +299,7 @@
     </key>
     <key name="format" type="s">
       <default>'automatic'</default>
-      <_summary>Text Export Formating Rule</_summary>
+      <_summary>Text Export Formatting Rule</_summary>
       <_description>Please use the Text Export dialog to edit this value.</_description>
     </key>
     <key name="transliteration" type="b">

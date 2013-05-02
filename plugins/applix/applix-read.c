@@ -507,7 +507,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 		else
 			++sep;
 
-		/* Formating and alignment */
+		/* Formatting and alignment */
 		for (; *sep && *sep != '|' && *sep != ')' ; ) {
 
 			if (*sep == ',') {

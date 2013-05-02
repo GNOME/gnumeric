@@ -2208,7 +2208,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		{ N_("_Format All Cells..."), GTK_STOCK_PROPERTIES,
 		    0, 0, CONTEXT_FORMAT_CELL },
-		{ N_("C_onditional Formating..."), GTK_STOCK_PROPERTIES,
+		{ N_("C_onditional Formatting..."), GTK_STOCK_PROPERTIES,
 		    0, 0, CONTEXT_FORMAT_CELL_COND },
 		{ N_("Cell"), NULL, 0, 0, -1},/* start sub menu */
 		{ N_("_Merge"), "Gnumeric_MergeCells",   0,

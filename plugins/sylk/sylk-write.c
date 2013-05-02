@@ -169,7 +169,7 @@ sylk_write_sheet (SylkWriter *state)
 	 * 3) global formats F;
 	 */
 
-/* Global Formating */
+/* Global Formatting */
 	/* F;P0;DG0G10;SM0;Z;M280;N3 10 */
 
 /* Bounds */

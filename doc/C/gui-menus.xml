@@ -1581,8 +1581,8 @@
 	      </listitem>
 	      <listitem>
 		<para>
-		  <guimenuitem>Conditional Formating...</guimenuitem> &mdash; The
-		  <guimenuitem>Conditional Formating...</guimenuitem> menu item 
+		  <guimenuitem>Conditional Formatting...</guimenuitem> &mdash; The
+		  <guimenuitem>Conditional Formatting...</guimenuitem> menu item 
 		  opens the
 		  conditional format dialog. This dialog is used to set cell data
 		  types and formats that depend on values in the workbook.

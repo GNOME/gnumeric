@@ -2386,7 +2386,7 @@ static GtkActionEntry const actions[] = {
 	{ "FormatCells", NULL, N_("_Format..."),
 	  "<control>1", N_("Modify the formatting of the selected cells"),
 	  G_CALLBACK (cb_format_cells) },
-	{ "FormatCellsCond", NULL, N_("_Conditional Formating..."), NULL,
+	{ "FormatCellsCond", NULL, N_("_Conditional Formatting..."), NULL,
 	  N_("Modify the conditional formatting of the selected cells"),
 	  G_CALLBACK (cb_format_cells_cond) },
 	{ "FormatCellsFitHeight", "Gnumeric_RowSize", N_("Auto Fit _Height"), NULL,
