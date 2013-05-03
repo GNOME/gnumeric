@@ -1028,7 +1028,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		go_undo_undo (undo);
 	}
 	if (same_text_and_not_same_markup) {
-		/*We had the same text and differnt markup but we are not entering strings. */
+		/*We had the same text and different markup but we are not entering strings. */
 		g_object_unref (undo);
 		g_object_unref (redo);
 		g_free (text);

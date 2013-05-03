@@ -2726,6 +2726,7 @@ sheet_range_set_text_cb (GnmSheetRange const *sr, gchar const *text)
 	sheet_flag_status_update_range (sr->sheet, &sr->range);
 	sheet_queue_respan (sr->sheet, sr->range.start.row,
 			    sr->range.end.row);
+	sheet_redraw_range (sr->sheet, &sr->range);
 }
 
 /**
