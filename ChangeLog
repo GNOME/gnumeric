@@ -1,5 +1,8 @@
 2013-05-03  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (create_undo_redo): Add Ctrl-Shift-z as alternate
+	accelerator for redo.  Fixes #699579.
+
 	* src/sheet.c (sheet_range_set_text_cb): Add redraw.
 
 2013-05-01  Morten Welinder  <terra@gnome.org>

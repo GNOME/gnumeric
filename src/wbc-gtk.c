@@ -3212,7 +3212,8 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		  GCallback vcb,
 		  WBCGtk *gtk,
 		  char const *tooltip,
-		  char const *stock_id, char const *accel)
+		  char const *stock_id,
+		  char const *accel, const char *alt_accel)
 {
 	*haction = g_object_new
 		(go_action_combo_stack_get_type (),
@@ -3222,8 +3223,10 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		 "sensitive", FALSE,
 		 "visible-vertical", FALSE,
 		 NULL);
-	gtk_action_group_add_action_with_accel (gtk->semi_permanent_actions,
-		GTK_ACTION (*haction), accel);
+	gtk_action_group_add_action_with_accel
+		(gtk->semi_permanent_actions,
+		 GTK_ACTION (*haction),
+		 accel);
 	g_signal_connect (G_OBJECT (*haction), "activate", hcb, gtk);
 
 	*vaction = gtk_action_new (vname, NULL, tooltip, stock_id);
@@ -3231,7 +3234,10 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		      "sensitive", FALSE,
 		      "visible-horizontal", FALSE,
 		      NULL);
-	gtk_action_group_add_action (gtk->semi_permanent_actions, GTK_ACTION (*vaction));
+	gtk_action_group_add_action_with_accel
+		(gtk->semi_permanent_actions,
+		 GTK_ACTION (*vaction),
+		 alt_accel);
 	g_signal_connect_swapped (G_OBJECT (*vaction), "activate", vcb, gtk);
 
 	g_signal_connect (G_OBJECT (*haction), "notify::sensitive",
@@ -3264,12 +3270,12 @@ wbc_gtk_init_undo_redo (WBCGtk *gtk)
 		&gtk->redo_haction, "Redo", G_CALLBACK (cb_redo_activated),
 		&gtk->redo_vaction, "VRedo", G_CALLBACK (command_redo),
 		gtk, _("Redo the undone action"),
-		GTK_STOCK_REDO, "<control>y");
+		GTK_STOCK_REDO, "<control>y", "<control><shift>z");
 	create_undo_redo (
 		&gtk->undo_haction, "Undo", G_CALLBACK (cb_undo_activated),
 		&gtk->undo_vaction, "VUndo", G_CALLBACK (command_undo),
 		gtk, _("Undo the last action"),
-		GTK_STOCK_UNDO, "<control>z");
+		GTK_STOCK_UNDO, "<control>z", NULL);
 }
 
 /****************************************************************************/
