@@ -501,7 +501,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		int flags;
 		int submenu;
 	} const sheet_label_context_actions [] = {
-		{ N_("Manage sheets..."), &cb_sheets_manage,	0, 0},
+		{ N_("Manage Sheets..."), &cb_sheets_manage,	0, 0},
 		{ NULL, NULL, 0, 0 },
 		{ N_("Insert"),		  &cb_sheets_insert,	0, 0 },
 		{ N_("Append"),		  &cb_sheets_add,	0, 0 },
