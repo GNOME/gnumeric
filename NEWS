@@ -8,6 +8,7 @@ Morten:
 	* Don't write empty cells to .gnumeric.
 	* Add MPSEUDOINVERSE function.
 	* Add ctrl-shift-z as extra accelerator for redo.  [#699579]
+	* Fix conditional format problem.  [#699647]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2

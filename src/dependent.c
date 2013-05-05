@@ -283,11 +283,12 @@ static const GnmDependentClass managed_dep_class = {
 	managed_dep_debug_name,
 };
 
+static void style_dep_eval (GnmDependent *dep);
 static GSList *style_dep_changed (GnmDependent *dep);
 static GnmCellPos const *style_dep_pos (GnmDependent const *dep);
 static void style_dep_debug_name (GnmDependent const *dep, GString *target);
 static const GnmDependentClass style_dep_class = {
-	dummy_dep_eval,
+	style_dep_eval,
 	NULL,
 	style_dep_changed,
 	style_dep_pos,
@@ -1339,16 +1340,16 @@ debug_style_deps (void)
 	return debug;
 }
 
-static GSList *
-style_dep_changed (GnmDependent *dep)
+static void
+style_dep_unrender (GnmDependent *dep, const char *what)
 {
 	GnmCellPos const *pos = dependent_pos (dep);
 	GnmCell *cell;
 	Sheet *sheet = dep->sheet;
 
 	if (debug_style_deps ())
-		g_printerr ("StyleDep %p at %s changed\n",
-			    dep, cellpos_as_string (pos));
+		g_printerr ("StyleDep %p at %s %s\n",
+			    dep, cellpos_as_string (pos), what);
 
 	/*
 	 * If the cell exists, unrender it so format changes can take
@@ -1362,6 +1363,23 @@ style_dep_changed (GnmDependent *dep)
 			     pos->col, pos->row,
 			     pos->col, pos->row);
 
+
+}
+
+static void
+style_dep_eval (GnmDependent *dep)
+{
+	/*
+	 * It is possible that the cell has been rendered between we ::changed
+	 * was called.
+	 */
+	style_dep_unrender (dep, "being evaluated");
+}
+
+static GSList *
+style_dep_changed (GnmDependent *dep)
+{
+	style_dep_unrender (dep, "changed");
 	return NULL;
 }
 

@@ -33,6 +33,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <parse-util.h>
+#include "gutils.h"
 
 #define BLANKS_STRING_FOR_MATCHING " \t\n\r"
 
@@ -44,6 +45,15 @@ struct _GnmStyleConditions {
 };
 
 static GObjectClass *parent_class;
+
+static gboolean
+debug_style_conds (void)
+{
+	static int debug = -1;
+	if (debug < 0)
+		debug = gnm_debug_flag ("style-conds");
+	return debug;
+}
 
 static unsigned
 gnm_style_cond_op_operands (GnmStyleCondOp op)
@@ -485,13 +495,20 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	GnmParsePos pp;
 	GnmCell const *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
 	GnmValue const *cv = cell ? cell->value : NULL;
-	/*We should really assert that cv is not NULL, but asserts are apparently frowned upon.*/
 
 	g_return_val_if_fail (sc != NULL, -1);
 	g_return_val_if_fail (sc->conditions != NULL, -1);
 
 	conds = sc->conditions;
 	parse_pos_init_evalpos (&pp, ep);
+
+	if (debug_style_conds ()) {
+		g_printerr ("Evaluating conditions %p at %s with %d clauses\n",
+			    sc,
+			    parsepos_as_string (&pp),
+			    conds->len);
+	}
+
 	for (i = 0 ; i < conds->len ; i++) {
 		GnmStyleCond const *cond = g_ptr_array_index (conds, i);
 
@@ -583,8 +600,14 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 			value_release (val);
 		}
 
-		if (use_this)
+		if (use_this) {
+			if (debug_style_conds ())
+				g_printerr ("  Using clause %d\n", i);
 			return i;
+		}
 	}
+
+	if (debug_style_conds ())
+		g_printerr ("  No matching clauses\n");
 	return -1;
 }

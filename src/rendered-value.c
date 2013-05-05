@@ -245,10 +245,11 @@ gnm_rendered_value_new (GnmCell const *cell,
 		GnmEvalPos ep;
 		int res;
 		eval_pos_init_cell (&ep, cell);
-		if ((res = gnm_style_conditions_eval (mstyle->conditions, &ep)) >= 0)
+
+		res = gnm_style_conditions_eval (mstyle->conditions, &ep);
+		if (res >= 0)
 			mstyle = g_ptr_array_index (mstyle->cond_styles, res);
 	}
-
 
 	rotation = gnm_style_get_rotation (mstyle);
 	if (rotation) {
