@@ -2657,7 +2657,7 @@ gnumeric_mpseudominverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmMatrix *A = NULL;
 	GnmMatrix *B = NULL;
 	GnmValue *res = NULL;
-        gnm_float threshold = argv[1] ? value_get_as_float (argv[1]) : GNM_EPSILON;
+        gnm_float threshold = argv[1] ? value_get_as_float (argv[1]) : 256 * GNM_EPSILON;
 
 	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
 	if (!A) goto out;
