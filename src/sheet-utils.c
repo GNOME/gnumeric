@@ -107,7 +107,7 @@ gnm_sheet_guess_data_range (Sheet *sheet, GnmRange *region)
 	int start = region->start.col;
 
 	/* look for previous empty column */
-	for (col = start - 1; col > 0; col--)
+	for (col = start - 1; col >= 0; col--)
 		if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row))
 			break;
 	region->start.col = col + 1;

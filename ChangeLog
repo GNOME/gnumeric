@@ -1,3 +1,8 @@
+2013-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-utils.c (gnm_sheet_guess_data_range): also check
+	first column
+
 2013-05-05  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (style_dep_eval): New function.  Re-clear the
