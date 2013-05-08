@@ -5578,12 +5578,12 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 				GnmCell *target_cell = sheet_cell_get ((Sheet *)target_sheet->data,
 								      col_target, row_target);
 				if (target_cell != NULL)
-					gnm_cell_assign_value (target_cell,
+					gnm_cell_set_value (target_cell,
 							   value_new_empty ());
 			} else {
 				GnmCell *target_cell = sheet_cell_fetch ((Sheet *)target_sheet->data,
 								      col_target, row_target);
-				gnm_cell_assign_value (target_cell,
+				gnm_cell_set_value (target_cell,
 						   value_dup (source_cell->value));
 			}
 			target_sheet = target_sheet->next;

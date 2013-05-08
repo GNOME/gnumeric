@@ -3,6 +3,7 @@ Gnumeric 1.12.3
 Andreas:
 	* Fix border handling for merged cells in LaTeX export.
 	* Fix 'Go to First'. [#699631]
+	* Fix data merges. [#699897]
 
 Morten:
 	* Improve xlsx import of style-only cells.
