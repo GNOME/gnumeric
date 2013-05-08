@@ -5552,6 +5552,7 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			paste_target_init (&pt, new_sheet, &target_range, PASTE_ALL_TYPES),
 			GO_CMD_CONTEXT (wbc));
 	}
+	cellregion_unref (merge_contents);
 	me->sheet_list = g_slist_reverse (me->sheet_list);
 	colrow_state_list_destroy (state_col);
 	colrow_state_list_destroy (state_row);

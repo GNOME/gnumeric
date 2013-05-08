@@ -1,5 +1,9 @@
 2013-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_merge_data_redo): unref merge_contents
+
+2013-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (cmd_merge_data_redo): use gnm_cell_set_value
 	rather than gnm_cell_assign_value
 
