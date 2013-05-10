@@ -12746,7 +12746,7 @@ msgstr "セルの書式設定(_F)..."
 #: ../src/sheet-control-gui.c:2190
 #, fuzzy
 #| msgid "_Exponential Smoothing..."
-msgid "C_onditional Formating..."
+msgid "C_onditional Formatting..."
 msgstr "指数のスムーズ化(_E)..."
 
 #: ../src/sheet-control-gui.c:2195

@@ -12446,7 +12446,7 @@ msgid "_Format All Cells..."
 msgstr "格式化所有儲存格(_F)..."
 
 #: ../src/sheet-control-gui.c:2229
-msgid "C_onditional Formating..."
+msgid "C_onditional Formatting..."
 msgstr "條件式格式化(_O)..."
 
 #: ../src/sheet-control-gui.c:2234

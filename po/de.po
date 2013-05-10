@@ -12827,7 +12827,7 @@ msgid "_Format All Cells..."
 msgstr "Alle Zellen _formatieren …"
 
 #: ../src/sheet-control-gui.c:2190
-msgid "C_onditional Formating..."
+msgid "C_onditional Formatting..."
 msgstr "_Bedingte Formatierung …"
 
 #: ../src/sheet-control-gui.c:2195

@@ -12805,7 +12805,7 @@ msgid "_Format All Cells..."
 msgstr "_Formát všech buněk…"
 
 #: ../src/sheet-control-gui.c:2211
-msgid "C_onditional Formating..."
+msgid "C_onditional Formatting..."
 msgstr "P_odmíněný formát…"
 
 #: ../src/sheet-control-gui.c:2216

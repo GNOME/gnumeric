@@ -12683,8 +12683,8 @@ msgid "_Format All Cells..."
 msgstr "_Format All Cells..."
 
 #: ../src/sheet-control-gui.c:2228
-msgid "C_onditional Formating..."
-msgstr "C_onditional Formating..."
+msgid "C_onditional Formatting..."
+msgstr "C_onditional Formatting..."
 
 #: ../src/sheet-control-gui.c:2233
 msgid "_Unmerge"

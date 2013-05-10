@@ -12834,7 +12834,7 @@ msgid "_Format All Cells..."
 msgstr "_Oblikuj sva polja..."
 
 #: ../src/sheet-control-gui.c:2211
-msgid "C_onditional Formating..."
+msgid "C_onditional Formatting..."
 msgstr "_Uslovljeno oblikovanje..."
 
 #: ../src/sheet-control-gui.c:2216

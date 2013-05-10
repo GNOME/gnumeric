@@ -13196,7 +13196,7 @@ msgid "_Format All Cells..."
 msgstr "Μορ_φοποίηση όλων των κελιών..."
 
 #: ../src/sheet-control-gui.c:2211
-msgid "C_onditional Formating..."
+msgid "C_onditional Formatting..."
 msgstr "Μορφοποίηση υπό ό_ρους..."
 
 #: ../src/sheet-control-gui.c:2216

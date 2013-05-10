@@ -12925,7 +12925,7 @@ msgstr "Cari dalam semua sel pada workbook"
 
 #: ../src/sheet-control-gui.c:2225
 #, fuzzy
-msgid "C_onditional Formating..."
+msgid "C_onditional Formatting..."
 msgstr "Pemformatan teks penyunting"
 
 #: ../src/sheet-control-gui.c:2230

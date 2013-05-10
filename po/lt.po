@@ -12850,7 +12850,7 @@ msgid "_Format All Cells..."
 msgstr "_Formatuoti visus langelius..."
 
 #: ../src/sheet-control-gui.c:2211
-msgid "C_onditional Formating..."
+msgid "C_onditional Formatting..."
 msgstr "Sąlyginis f_ormatavimas..."
 
 #: ../src/sheet-control-gui.c:2216

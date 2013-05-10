@@ -13260,7 +13260,7 @@ msgstr "_Formatta celle..."
 
 #: ../src/sheet-control-gui.c:2228
 #, fuzzy
-msgid "C_onditional Formating..."
+msgid "C_onditional Formatting..."
 msgstr "Livellamento _esponenziale..."
 
 #: ../src/sheet-control-gui.c:2233
