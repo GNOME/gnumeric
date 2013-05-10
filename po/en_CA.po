@@ -16879,17 +16879,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "Show/Hide toolbar %s"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
-msgstr "Use maximum precision"
+msgid "Use Maximum Precision"
+msgstr "Use Maximum Precision"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Enter formula..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Enter formula..."
 
 #: ../src/wbc-gtk.c:4975
@@ -17157,7 +17157,7 @@ msgstr ""
 #: ../src/workbook-view.c:884
 #, fuzzy
 msgid "Auto-expression maximum precision"
-msgstr "Use maximum precision"
+msgstr "Use Maximum Precision"
 
 #: ../src/workbook-view.c:885
 msgid "Use maximum available precision for auto-expressions"

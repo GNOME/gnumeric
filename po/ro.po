@@ -17437,17 +17437,17 @@ msgstr "Configurează bările de unelte"
 
 #: ../src/wbc-gtk.c:4841
 #, fuzzy
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Măreşte precizia"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "_AutoFormatare..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "_AutoFormatare..."
 
 #: ../src/wbc-gtk.c:4975

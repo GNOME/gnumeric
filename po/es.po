@@ -17852,15 +17852,15 @@ msgid "Content of %s"
 msgstr "Contenido de %s"
 
 #: ../src/wbc-gtk.c:4705
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Usar precisión máxima"
 
 #: ../src/wbc-gtk.c:4717
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Insertar fórmula debajo."
 
 #: ../src/wbc-gtk.c:4723
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Insertar fórmula al lado."
 
 #: ../src/wbc-gtk.c:4806

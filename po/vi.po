@@ -16714,17 +16714,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "Hiện/Ẩn thanh công cụ %s"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Dùng độ chính xác tối đa"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Gõ công thức..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Gõ công thức..."
 
 #: ../src/wbc-gtk.c:4975

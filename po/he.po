@@ -16592,17 +16592,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "הצג/הסתר סרגל כלים %s"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "השתמש בדיוק מירבי"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "הכנס נוסחה..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "הכנס נוסחה..."
 
 #: ../src/wbc-gtk.c:4975

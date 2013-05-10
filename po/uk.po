@@ -17352,17 +17352,17 @@ msgstr "Налаштувати пенали"
 
 #: ../src/wbc-gtk.c:4841
 #, fuzzy
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Збільшити точність"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Автоформатування..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Автоформатування..."
 
 #: ../src/wbc-gtk.c:4975

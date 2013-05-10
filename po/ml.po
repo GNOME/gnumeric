@@ -16879,17 +16879,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "ഉപകരണപ്പട്ടകള്‌ സജ്ജീകരിക്കുക"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr ""
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "സ്വയം ക്രമീകരണം..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "സ്വയം ക്രമീകരണം..."
 
 #: ../src/wbc-gtk.c:4975

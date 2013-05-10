@@ -17811,15 +17811,15 @@ msgid "Content of %s"
 msgstr "%s _turinys"
 
 #: ../src/wbc-gtk.c:4764
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Naudoti didžiausią tikslumą"
 
 #: ../src/wbc-gtk.c:4776
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Įterpti formulę žemiau."
 
 #: ../src/wbc-gtk.c:4782
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Įterpti formulę kairėje."
 
 #: ../src/wbc-gtk.c:4867

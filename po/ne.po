@@ -16766,17 +16766,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "उपकरणपट्टी %s देखाउनुहोस्/लुकाउनुहोस्"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "अधिकतम सुक्षमता प्रयोग गर्नुहोस्"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "सूत्र प्रविष्ट गर्नुहोस्..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "सूत्र प्रविष्ट गर्नुहोस्..."
 
 #: ../src/wbc-gtk.c:4975

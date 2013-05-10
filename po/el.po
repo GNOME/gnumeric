@@ -18245,15 +18245,15 @@ msgid "Content of %s"
 msgstr "Περιεχόμενα του %s"
 
 #: ../src/wbc-gtk.c:4705
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Χρήση μέγιστης ακρίβειας"
 
 #: ../src/wbc-gtk.c:4717
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Εισαγωγή μαθηματικού τύπου παρακάτω."
 
 #: ../src/wbc-gtk.c:4723
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Εισαγωγή μαθηματικού τύπου στα πλάγια."
 
 #: ../src/wbc-gtk.c:4806

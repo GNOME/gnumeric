@@ -17762,15 +17762,15 @@ msgid "Content of %s"
 msgstr "Obsah buňky %s"
 
 #: ../src/wbc-gtk.c:4633
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Používat maximální přesnost"
 
 #: ../src/wbc-gtk.c:4645
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Vložit vzorec pod."
 
 #: ../src/wbc-gtk.c:4651
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Vložit vzorec vedle."
 
 #: ../src/wbc-gtk.c:4734

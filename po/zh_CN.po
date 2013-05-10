@@ -16820,16 +16820,16 @@ msgid "Content of cell %s!%s"
 msgstr "单元格 %s!%s 的内容"
 
 #: ../src/wbc-gtk.c:4759
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "使用最高精度"
 
 #: ../src/wbc-gtk.c:4771
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "在下方插入公式。"
 
 #: ../src/wbc-gtk.c:4777
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "在一边插入公式。"
 
 #: ../src/wbc-gtk.c:4895

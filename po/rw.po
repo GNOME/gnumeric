@@ -19716,7 +19716,7 @@ msgstr "Umwanyabikoresho"
 
 #: ../src/wbc-gtk.c:4841
 #, fuzzy
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Kinini"
 
 # #-#-#-#-#  sch.pot (PACKAGE VERSION)  #-#-#-#-#
@@ -19725,7 +19725,7 @@ msgstr "Kinini"
 # sch/source\ui\app\menuids.src:MN_AUTOFORMAT.SID_AUTOFORMAT.text
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Nyamwihamiterere..."
 
 # #-#-#-#-#  sch.pot (PACKAGE VERSION)  #-#-#-#-#
@@ -19734,7 +19734,7 @@ msgstr "Nyamwihamiterere..."
 # sch/source\ui\app\menuids.src:MN_AUTOFORMAT.SID_AUTOFORMAT.text
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Nyamwihamiterere..."
 
 # sfx2/source\appl\minbox.src:RID_MAIL_INBOX.BTN_MAILINBOX_OPEN.text

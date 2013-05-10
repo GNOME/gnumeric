@@ -17231,15 +17231,15 @@ msgid "Content of %s"
 msgstr "%s 的內容"
 
 #: ../src/wbc-gtk.c:4718
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "使用最大精確度"
 
 #: ../src/wbc-gtk.c:4730
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "在下方插入公式"
 
 #: ../src/wbc-gtk.c:4736
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "在側邊插入公式"
 
 #: ../src/wbc-gtk.c:4821

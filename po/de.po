@@ -17656,15 +17656,15 @@ msgid "Content of %s"
 msgstr "Inhalt von %s"
 
 #: ../src/wbc-gtk.c:4690
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Höchste Genauigkeit verwenden"
 
 #: ../src/wbc-gtk.c:4702
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Formel unten einfügen."
 
 #: ../src/wbc-gtk.c:4708
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Formel an der Seite einfügen."
 
 #: ../src/wbc-gtk.c:4792

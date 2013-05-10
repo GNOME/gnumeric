@@ -18259,17 +18259,17 @@ msgid "Content of %s"
 msgstr "_Sommario"
 
 #: ../src/wbc-gtk.c:4718
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Usa precisione massima"
 
 #: ../src/wbc-gtk.c:4730
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Inserisci formula..."
 
 #: ../src/wbc-gtk.c:4736
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Inserisci formula..."
 
 # è un commento alle voci di menu dei file recenti

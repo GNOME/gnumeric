@@ -16854,17 +16854,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "ལག་ཆས་ཕྲ་རིང་ %s སྟོན་/སྦ་"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "མང་མཐའ་ཀྲིག་ཀྲི་ལག་ལེན་འཐབ་"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "ཤན་ངག་ཐོ་བཀོད་འབད་..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "ཤན་ངག་ཐོ་བཀོད་འབད་..."
 
 #: ../src/wbc-gtk.c:4975

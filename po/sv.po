@@ -16889,17 +16889,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "Dölj/visa verktygsrad %s"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Använd maximal noggrannhet"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Ange formel..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Ange formel..."
 
 #: ../src/wbc-gtk.c:4975

@@ -16392,17 +16392,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "Прикажи/скриј ја лентата со алатки %s"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Користи максимална прецизност"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Внеси формула..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Внеси формула..."
 
 #: ../src/wbc-gtk.c:4975

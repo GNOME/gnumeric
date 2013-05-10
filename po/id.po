@@ -17881,17 +17881,17 @@ msgid "Content of %s"
 msgstr "Isi"
 
 #: ../src/wbc-gtk.c:4718
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Gunakan presisi maksimum"
 
 #: ../src/wbc-gtk.c:4730
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Teks di bawah ikon"
 
 #: ../src/wbc-gtk.c:4736
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Pilih sebuah fungsi untuk disisipkan:"
 
 #: ../src/wbc-gtk.c:4821

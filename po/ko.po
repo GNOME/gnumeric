@@ -16988,17 +16988,17 @@ msgstr "도구 모음을 설정합니다"
 
 #: ../src/wbc-gtk.c:4841
 #, fuzzy
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "증가"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "자동서식(_A)..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "자동서식(_A)..."
 
 #: ../src/wbc-gtk.c:4975

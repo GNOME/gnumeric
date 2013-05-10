@@ -17683,17 +17683,17 @@ msgstr "セル %s!%s 内の注釈"
 
 #: ../src/wbc-gtk.c:4712
 #, fuzzy
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "精度の増加"
 
 #: ../src/wbc-gtk.c:4724
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "自動書式設定(_A)..."
 
 #: ../src/wbc-gtk.c:4730
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "自動書式設定(_A)..."
 
 #: ../src/wbc-gtk.c:4815

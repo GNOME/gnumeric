@@ -17810,15 +17810,15 @@ msgid "Content of %s"
 msgstr "Садржај из %s"
 
 #: ../src/wbc-gtk.c:4653
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Користи највећу тачност"
 
 #: ../src/wbc-gtk.c:4665
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Уметните формулу испод."
 
 #: ../src/wbc-gtk.c:4671
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Уметните формулу са стране."
 
 #: ../src/wbc-gtk.c:4754

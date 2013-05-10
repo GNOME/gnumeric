@@ -16632,17 +16632,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "Erakutsi/ezkutatu %s tresna-barra"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Erabili ahalik eta doitasun handiena"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Sartu formula..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Sartu formula..."
 
 #: ../src/wbc-gtk.c:4975

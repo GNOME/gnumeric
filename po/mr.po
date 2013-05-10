@@ -17145,17 +17145,17 @@ msgstr "टूलबारला कॉन्फिगर करा"
 
 #: ../src/wbc-gtk.c:4841
 #, fuzzy
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "अचूकतेला वाढवा"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "स्वयंचलित रूपरेषा"
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "स्वयंचलित रूपरेषा"
 
 #: ../src/wbc-gtk.c:4975

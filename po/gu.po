@@ -16089,17 +16089,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "સાધનપટ્ટી %s ને બતાવો/છુપોડો"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "મહત્તમ ચોકસાઇને વાપરો"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "સૂત્ર ને દાખલ કરો..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "સૂત્ર ને દાખલ કરો..."
 
 #: ../src/wbc-gtk.c:4975

@@ -17275,17 +17275,17 @@ msgid "Show/Hide toolbar %s"
 msgstr "Werkbalk %s tonen/verbergen"
 
 #: ../src/wbc-gtk.c:4841
-msgid "Use maximum precision"
+msgid "Use Maximum Precision"
 msgstr "Maximale nauwkeurigheid"
 
 #: ../src/wbc-gtk.c:4853
 #, fuzzy
-msgid "Insert formula below."
+msgid "Insert Formula Below"
 msgstr "Formule invoeren..."
 
 #: ../src/wbc-gtk.c:4859
 #, fuzzy
-msgid "Insert formula to side."
+msgid "Insert Formula to Side"
 msgstr "Formule invoeren..."
 
 #: ../src/wbc-gtk.c:4975
