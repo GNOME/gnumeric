@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-28 22:18+0000\n"
-"PO-Revision-Date: 2013-04-28 17:50-0500\n"
+"POT-Creation-Date: 2013-05-10 17:02+0000\n"
+"PO-Revision-Date: 2013-05-11 22:13-0500\n"
 "Last-Translator: milale <maim92@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -217,8 +217,8 @@ msgstr "Si @{i} no es «i» ni «j», COMPLEX devuelve #VALUE!"
 #: ../plugins/fn-math/functions.c:2051 ../plugins/fn-math/functions.c:2178
 #: ../plugins/fn-math/functions.c:2426 ../plugins/fn-math/functions.c:2470
 #: ../plugins/fn-math/functions.c:2513 ../plugins/fn-math/functions.c:2556
-#: ../plugins/fn-math/functions.c:2613 ../plugins/fn-math/functions.c:2765
-#: ../plugins/fn-math/functions.c:2863 ../plugins/fn-math/functions.c:2908
+#: ../plugins/fn-math/functions.c:2613 ../plugins/fn-math/functions.c:2802
+#: ../plugins/fn-math/functions.c:2900 ../plugins/fn-math/functions.c:2945
 #: ../plugins/fn-random/functions.c:48 ../plugins/fn-random/functions.c:249
 #: ../plugins/fn-stat/functions.c:83 ../plugins/fn-stat/functions.c:111
 #: ../plugins/fn-stat/functions.c:138 ../plugins/fn-stat/functions.c:166
@@ -1194,8 +1194,8 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:433
 #: ../plugins/fn-math/functions.c:1033 ../plugins/fn-math/functions.c:1060
 #: ../plugins/fn-math/functions.c:1411 ../plugins/fn-math/functions.c:1431
-#: ../plugins/fn-math/functions.c:2099 ../plugins/fn-math/functions.c:2726
-#: ../plugins/fn-math/functions.c:2925 ../plugins/fn-stat/functions.c:1545
+#: ../plugins/fn-math/functions.c:2099 ../plugins/fn-math/functions.c:2763
+#: ../plugins/fn-math/functions.c:2962 ../plugins/fn-stat/functions.c:1545
 #: ../plugins/fn-stat/functions.c:2423 ../plugins/fn-stat/functions.c:4602
 #: ../plugins/fn-string/functions.c:304 ../plugins/fn-string/functions.c:388
 #: ../plugins/fn-string/functions.c:515 ../plugins/fn-string/functions.c:1103
@@ -6653,7 +6653,7 @@ msgstr "coef:coeficientes de las serie de potencias\t"
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE:la matriz inversa de @{matriz}"
 
-#: ../plugins/fn-math/functions.c:2610 ../plugins/fn-math/functions.c:2861
+#: ../plugins/fn-math/functions.c:2610 ../plugins/fn-math/functions.c:2898
 msgid "matrix:a square matrix"
 msgstr "matriz:una matriz cuadrada"
 
@@ -6670,6 +6670,18 @@ msgstr ""
 "devuelve #VALUE!"
 
 #: ../plugins/fn-math/functions.c:2646
+msgid "MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}"
+msgstr "MPSEUDOINVERSE:la matriz pseudoinversa de @{matriz}"
+
+#: ../plugins/fn-math/functions.c:2647
+msgid "matrix:a matrix"
+msgstr "matriz:una matriz"
+
+#: ../plugins/fn-math/functions.c:2648
+msgid "threshold:a relative size threshold for discarding eigenvalues"
+msgstr "umbral:un umbral de tamaño relativo para descartar valores propios"
+
+#: ../plugins/fn-math/functions.c:2683
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite @"
 "{matrix}"
@@ -6677,11 +6689,11 @@ msgstr ""
 "CHOLESKY:la descomposición de Cholesky de la @{matriz} simétrica definida "
 "positiva"
 
-#: ../plugins/fn-math/functions.c:2647
+#: ../plugins/fn-math/functions.c:2684
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "matriz:una matriz simétrica definida positiva"
 
-#: ../plugins/fn-math/functions.c:2648
+#: ../plugins/fn-math/functions.c:2685
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
@@ -6689,7 +6701,7 @@ msgstr ""
 "Si el algoritmo Cholesky-Banachiewicz aplicado a @{matriz} falla, Cholesky "
 "devuelve #NUM!"
 
-#: ../plugins/fn-math/functions.c:2649
+#: ../plugins/fn-math/functions.c:2686
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
@@ -6697,55 +6709,55 @@ msgstr ""
 "Si @{matriz} no contiene un número igual de columnas y filas, CHOLESKY "
 "devuelve #VALUE!"
 
-#: ../plugins/fn-math/functions.c:2724
+#: ../plugins/fn-math/functions.c:2761
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT:la matriz identidad de @{n} por @{n}"
 
-#: ../plugins/fn-math/functions.c:2725
+#: ../plugins/fn-math/functions.c:2762
 msgid "n:size of the matrix"
 msgstr "n:tamaño de la matriz"
 
-#: ../plugins/fn-math/functions.c:2762
+#: ../plugins/fn-math/functions.c:2799
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:el producto de la matriz de @{mat1} y @{mat2}"
 
-#: ../plugins/fn-math/functions.c:2763
+#: ../plugins/fn-math/functions.c:2800
 msgid "mat1:a matrix"
 msgstr "mat1:una matriz"
 
-#: ../plugins/fn-math/functions.c:2764
+#: ../plugins/fn-math/functions.c:2801
 msgid "mat2:a matrix"
 msgstr "mat2:una matriz"
 
-#: ../plugins/fn-math/functions.c:2804
+#: ../plugins/fn-math/functions.c:2841
 msgid "LINSOLVE:solve linear equation"
 msgstr "LINSOLVE:resolver ecuación linear"
 
-#: ../plugins/fn-math/functions.c:2805 ../plugins/fn-stat/functions.c:3154
+#: ../plugins/fn-math/functions.c:2842 ../plugins/fn-stat/functions.c:3154
 msgid "A:a matrix"
 msgstr "A:una matriz"
 
-#: ../plugins/fn-math/functions.c:2806
+#: ../plugins/fn-math/functions.c:2843
 msgid "B:a matrix"
 msgstr "B:una matriz"
 
-#: ../plugins/fn-math/functions.c:2808
+#: ../plugins/fn-math/functions.c:2845
 msgid "Solves the equation @{A}*X=@{B} and returns X."
 msgstr "Resuelve la ecuación @{A}*X=@{B} y devuelve X."
 
-#: ../plugins/fn-math/functions.c:2809
+#: ../plugins/fn-math/functions.c:2846
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
 msgstr "Si la matriz @{A} es singular, se devuelve #VALUE!."
 
-#: ../plugins/fn-math/functions.c:2860
+#: ../plugins/fn-math/functions.c:2897
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:la determinante de la matriz @{matriz}"
 
-#: ../plugins/fn-math/functions.c:2892
+#: ../plugins/fn-math/functions.c:2929
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:multiplica componentes y añade los resultados"
 
-#: ../plugins/fn-math/functions.c:2894 ../plugins/fn-math/functions.c:2917
+#: ../plugins/fn-math/functions.c:2931 ../plugins/fn-math/functions.c:2954
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -6753,11 +6765,11 @@ msgstr ""
 "Multiplica las entradas de datos correspondientes en las matrices o rangos "
 "dados y entonces devuelve la suma de esos productos."
 
-#: ../plugins/fn-math/functions.c:2897
+#: ../plugins/fn-math/functions.c:2934
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Si una entrada no es numérica, se usa el valor cero en su lugar."
 
-#: ../plugins/fn-math/functions.c:2898 ../plugins/fn-math/functions.c:2921
+#: ../plugins/fn-math/functions.c:2935 ../plugins/fn-math/functions.c:2958
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -6765,7 +6777,7 @@ msgstr ""
 "Si los argumentos de las matrices o rangos no tienen las mismas dimensiones, "
 "se devuelve el error #VALUE!"
 
-#: ../plugins/fn-math/functions.c:2900
+#: ../plugins/fn-math/functions.c:2937
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
@@ -6773,43 +6785,43 @@ msgstr ""
 "Esta función ignora lógicos, así que usando SUMAPRODUCT(A1:A5>0) no "
 "funcionará. En su lugar use SUMPRODUCT(--(A1:A5>0))"
 
-#: ../plugins/fn-math/functions.c:2909
+#: ../plugins/fn-math/functions.c:2946
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
 "Esta no es una función comatible con OpenFormula. Use ODF.SUMPRODUCT en su "
 "lugar."
 
-#: ../plugins/fn-math/functions.c:2915
+#: ../plugins/fn-math/functions.c:2952
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT:multiplica componentes y añade los resultados"
 
-#: ../plugins/fn-math/functions.c:2920
+#: ../plugins/fn-math/functions.c:2957
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr ""
 "Si una entrada no es numérica o lógica, se usa el valor cero en su lugar."
 
-#: ../plugins/fn-math/functions.c:2923
+#: ../plugins/fn-math/functions.c:2960
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr "Esta función difiere de SUMPRODUCT considerando booleanos."
 
-#: ../plugins/fn-math/functions.c:2924
+#: ../plugins/fn-math/functions.c:2961
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr "Esta función no es compatible con Excel. Use SUMPRODUCT en su lugar."
 
-#: ../plugins/fn-math/functions.c:3059
+#: ../plugins/fn-math/functions.c:3096
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:valores propios y vectores propios de la {@matriz} simétrica"
 
-#: ../plugins/fn-math/functions.c:3060
+#: ../plugins/fn-math/functions.c:3097
 msgid "matrix:a symmetric matrix"
 msgstr "matriz:una matriz simétrica"
 
-#: ../plugins/fn-math/functions.c:3061
+#: ../plugins/fn-math/functions.c:3098
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
 msgstr "Si @{matriz} no es simétrica, EIGEN devuelve #NUM!"
 
-#: ../plugins/fn-math/functions.c:3062
+#: ../plugins/fn-math/functions.c:3099
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -11858,10 +11870,6 @@ msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "Esto no está destinado a ser activado generalmente y está desactivado "
 "predeterminadamente."
-
-#~| msgid "mat1:a matrix"
-#~ msgid "mat:a matrix"
-#~ msgstr "mat:una matriz"
 
 #~| msgid "col_num:column number"
 #~ msgid "col:a column"
