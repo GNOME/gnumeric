@@ -231,6 +231,7 @@ src/format-template.c
 src/func-builtin.c
 src/func.c
 src/gnm-commands-slicer.c
+src/gnm-data-cache-source.c
 src/gnm-datetime.c
 src/gnm-format.c
 src/gnm-graph-window.c
@@ -248,8 +249,10 @@ src/gutils.c
 src/history.c
 src/hlink.c
 src/input-msg.c
+src/io-context-gtk.c
 src/item-bar.c
 src/item-cursor.c
+src/item-edit.c
 src/item-grid.c
 src/libgnumeric.c
 src/main-application.c
