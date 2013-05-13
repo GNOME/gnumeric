@@ -11698,7 +11698,7 @@ msgstr "సార_ములను శుభ్రపరచు"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "వ్యా_ఖ్యలు"
 
 #: ../src/sheet-control-gui.c:2063

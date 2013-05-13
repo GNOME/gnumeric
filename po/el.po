@@ -13147,7 +13147,7 @@ msgid "Clear Co_ntents"
 msgstr "Απαλοιφή περιε_χομένων"
 
 #: ../src/sheet-control-gui.c:2164
-msgid "Add _Co_mment..."
+msgid "Add _Comment..."
 msgstr "Προσθήκη _σχ_ολίου..."
 
 #: ../src/sheet-control-gui.c:2166

@@ -12464,7 +12464,7 @@ msgstr "Очистити вміст"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Коментарі"
 
 #: ../src/sheet-control-gui.c:2063

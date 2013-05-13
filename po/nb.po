@@ -12501,7 +12501,7 @@ msgid "Clear Co_ntents"
 msgstr "Tøm i_nnhold"
 
 #: ../src/sheet-control-gui.c:2182
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Legg til ko_mmentar"
 
 #: ../src/sheet-control-gui.c:2184

@@ -12806,7 +12806,7 @@ msgid "Clear Co_ntents"
 msgstr "Počisti _vsebino"
 
 #: ../src/sheet-control-gui.c:2164
-msgid "Add _Co_mment..."
+msgid "Add _Comment..."
 msgstr "_Dodaj opombo ..."
 
 #: ../src/sheet-control-gui.c:2166

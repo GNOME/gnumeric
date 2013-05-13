@@ -12003,7 +12003,7 @@ msgstr "Xoá _nội dung"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "G_hi chú"
 
 #: ../src/sheet-control-gui.c:2063

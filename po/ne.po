@@ -12020,7 +12020,7 @@ msgstr "सामग्रीहरू खाली गर्नुहोस्"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "टिप्पणी"
 
 #: ../src/sheet-control-gui.c:2063

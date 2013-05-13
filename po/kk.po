@@ -11489,7 +11489,7 @@ msgid "Clear Co_ntents"
 msgstr "Құрамасын та_зарту"
 
 #: ../src/sheet-control-gui.c:2061
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "_Пікірді кірістіру"
 
 #: ../src/sheet-control-gui.c:2063

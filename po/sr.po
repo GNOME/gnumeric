@@ -12763,8 +12763,8 @@ msgid "Clear Co_ntents"
 msgstr "Очисти _садржаје"
 
 #: ../src/sheet-control-gui.c:2164
-#| msgid "Add _Co_mment"
-msgid "Add _Co_mment..."
+#| msgid "Add _Comment"
+msgid "Add _Comment..."
 msgstr "Додај _напомену..."
 
 #: ../src/sheet-control-gui.c:2166

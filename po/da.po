@@ -12214,7 +12214,7 @@ msgstr "Ryd i_ndhold"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "_Kommentarer"
 
 #: ../src/sheet-control-gui.c:2063

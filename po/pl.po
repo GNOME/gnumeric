@@ -12307,7 +12307,7 @@ msgstr "Wyczyść _zawartość"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "K_omentarze"
 
 #: ../src/sheet-control-gui.c:2063

@@ -12433,7 +12433,7 @@ msgstr "I_nhoud leegmaken"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Op_merkingen"
 
 #: ../src/sheet-control-gui.c:2063

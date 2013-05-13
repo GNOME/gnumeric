@@ -2161,7 +2161,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		{ "", NULL, CONTEXT_DISPLAY_FOR_CELLS, 0, 0 },
 
-		{ N_("Add _Co_mment..."),	  "Gnumeric_CommentAdd",
+		{ N_("Add _Comment..."),	  "Gnumeric_CommentAdd",
 		    CONTEXT_DISPLAY_WITHOUT_COMMENT, 0, CONTEXT_COMMENT_ADD },
 		{ N_("Edit Co_mment..."),"Gnumeric_CommentEdit",
 		    CONTEXT_DISPLAY_WITH_COMMENT, 0, CONTEXT_COMMENT_EDIT },

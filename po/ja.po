@@ -12688,7 +12688,7 @@ msgstr "内容を消去(_N)"
 
 #: ../src/sheet-control-gui.c:2143
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "注釈(_M)"
 
 #: ../src/sheet-control-gui.c:2145

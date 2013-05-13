@@ -12868,7 +12868,7 @@ msgstr "Hapus I_si"
 
 # typo: dual shortcut?
 #: ../src/sheet-control-gui.c:2178
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Ubah Ko_mentar"
 
 #: ../src/sheet-control-gui.c:2180

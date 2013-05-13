@@ -12160,7 +12160,7 @@ msgstr "내용 지우기(_N)"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "설명(_M)"
 
 #: ../src/sheet-control-gui.c:2063

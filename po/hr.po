@@ -12330,7 +12330,7 @@ msgstr "Obriši sa_držaj"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "_Komentare"
 
 #: ../src/sheet-control-gui.c:2063

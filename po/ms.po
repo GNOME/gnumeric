@@ -12271,7 +12271,7 @@ msgstr "Ko_songkan Kandungan"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Ko_men"
 
 #: ../src/sheet-control-gui.c:2063

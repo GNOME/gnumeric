@@ -12258,7 +12258,7 @@ msgstr "Limpar Co_nteudo"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Co_mentários"
 
 #: ../src/sheet-control-gui.c:2063

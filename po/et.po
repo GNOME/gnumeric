@@ -12030,7 +12030,7 @@ msgstr "Eemalda s_isu"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Märk_used"
 
 #: ../src/sheet-control-gui.c:2063

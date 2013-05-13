@@ -11803,7 +11803,7 @@ msgstr "_Llimpiar el conteníu"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Co_mentarios"
 
 #: ../src/sheet-control-gui.c:2063

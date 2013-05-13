@@ -13203,7 +13203,7 @@ msgstr "Cancella co_ntenuto"
 
 #: ../src/sheet-control-gui.c:2181
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Co_mmenti"
 
 #: ../src/sheet-control-gui.c:2183

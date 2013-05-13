@@ -14043,7 +14043,7 @@ msgstr ""
 # filter/source\xsltdialog\xmlfiltertabpagebasic.src:RID_XML_FILTER_TABPAGE_BASIC.FT_XML_DESCRIPTION.text
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Ibisobanuro"
 
 # sc/source\ui\miscdlgs\acredlin.src:RID_POPUP_CHANGES.SC_CHANGES_COMMENT.text

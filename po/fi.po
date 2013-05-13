@@ -11850,7 +11850,7 @@ msgstr "Tyhjennä _sisältö"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "_Kommentit"
 
 #: ../src/sheet-control-gui.c:2063

@@ -12198,7 +12198,7 @@ msgid "Clear Co_ntents"
 msgstr ""
 
 #: ../src/sheet-control-gui.c:2143
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Aldoni _ko_menton"
 
 #: ../src/sheet-control-gui.c:2145

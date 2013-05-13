@@ -12778,7 +12778,7 @@ msgid "Clear Co_ntents"
 msgstr "Inhalt e_ntfernen"
 
 #: ../src/sheet-control-gui.c:2143
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Ko_mmentar hinzufügen"
 
 #: ../src/sheet-control-gui.c:2145

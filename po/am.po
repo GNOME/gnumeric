@@ -11863,7 +11863,7 @@ msgstr ""
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "አስተያየቶች"
 
 #: ../src/sheet-control-gui.c:2063

@@ -11757,7 +11757,7 @@ msgstr "Избриши ги со_држините"
 
 #: ../src/sheet-control-gui.c:2061
 #, fuzzy
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Ко_ментари"
 
 #: ../src/sheet-control-gui.c:2063

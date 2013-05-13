@@ -12801,7 +12801,7 @@ msgid "Clear Co_ntents"
 msgstr "Išvalyti _turinį"
 
 #: ../src/sheet-control-gui.c:2164
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "Pridėti ko_mentarą"
 
 #: ../src/sheet-control-gui.c:2166

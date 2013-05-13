@@ -12151,7 +12151,7 @@ msgid "Clear Co_ntents"
 msgstr "清除内容(_N)"
 
 #: ../src/sheet-control-gui.c:2125
-msgid "Add _Co_mment"
+msgid "Add _Comment"
 msgstr "添加注释(_C)"
 
 #: ../src/sheet-control-gui.c:2127
