@@ -20,7 +20,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include <gnumeric.h>
 #include "gnumeric-text-view.h"
 
@@ -477,22 +477,25 @@ gtv_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property (gobject_class,
 		PROP_TEXT,
-		g_param_spec_string ("text", "Text",
-			"The text content",
-			"",
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+		g_param_spec_string ("text",
+				     P_("Text"),
+				     P_("The text content"),
+				     "",
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		PROP_WRAP,
-		g_param_spec_enum ("wrap", "Wrap",
-				   "The wrapping mode",
+		g_param_spec_enum ("wrap",
+				   P_("Wrap"),
+				   P_("The wrapping mode"),
 				   GTK_TYPE_WRAP_MODE,
 				   GTK_WRAP_WORD,
 				   GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property
 		(gobject_class, PROP_ATTR,
 		 g_param_spec_boxed
-		 ("attributes", "PangoAttrList",
-		  "A PangoAttrList derived from the buffer content.",
+		 ("attributes",
+		  P_("PangoAttrList"),
+		  P_("A PangoAttrList derived from the buffer content."),
 		  PANGO_TYPE_ATTR_LIST,
 		  GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }

@@ -7,7 +7,7 @@
  *	Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include "gnumeric.h"
 #include "sheet-object-image.h"
 #include "sheet.h"
@@ -620,13 +620,15 @@ gnm_soi_class_init (GObjectClass *object_class)
 
 	/* The property strings don't need translation */
 	g_object_class_install_property (object_class, PROP_IMAGE_TYPE,
-		 g_param_spec_string ("image-type", "Image type",
-				      "Type of image",
+		 g_param_spec_string ("image-type",
+				      P_("Image type"),
+				      P_("Type of image"),
 				      NULL,
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 	g_object_class_install_property (object_class, PROP_IMAGE_DATA,
-		 g_param_spec_pointer ("image-data", "Image data",
-				       "Image data",
+		 g_param_spec_pointer ("image-data",
+				       P_("Image data"),
+				       P_("Image data"),
 				       GSF_PARAM_STATIC | G_PARAM_READABLE));
 	g_object_class_install_property (object_class, PROP_PIXBUF,
 		 g_param_spec_object ("pixbuf", "Pixbuf",

@@ -22,7 +22,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include "gnumeric.h"
 #include "workbook-control-priv.h"
 
@@ -496,8 +496,8 @@ workbook_control_class_init (GObjectClass *object_class)
 		(object_class,
 		 PROP_VIEW,
 		 g_param_spec_object ("view",
-				      _("View"),
-				      _("The workbook view being controlled."),
+				      P_("View"),
+				      P_("The workbook view being controlled."),
 				      WORKBOOK_VIEW_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));

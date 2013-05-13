@@ -68,7 +68,7 @@
 #include "gutils.h"
 #include <goffice/goffice.h>
 
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include <gsf/gsf-impl-utils.h>
 #include <stdlib.h>
 #include <string.h>
@@ -858,8 +858,9 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 	gobject_class->constructed      = gnm_sheet_constructed;
 
         g_object_class_install_property (gobject_class, PROP_SHEET_TYPE,
-		 g_param_spec_enum ("sheet-type", _("Sheet Type"),
-				    _("Which type of sheet this is."),
+		 g_param_spec_enum ("sheet-type",
+				    P_("Sheet Type"),
+				    P_("Which type of sheet this is."),
 				    GNM_SHEET_TYPE_TYPE,
 				    GNM_SHEET_DATA,
 				    GSF_PARAM_STATIC |
@@ -867,34 +868,38 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				    G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property (gobject_class, PROP_WORKBOOK,
 		g_param_spec_object ("workbook",
-				     _("Parent workbook"),
-				     _("The workbook in which this sheet lives"),
+				     P_("Parent workbook"),
+				     P_("The workbook in which this sheet lives"),
 				     WORKBOOK_TYPE,
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE |
 				     G_PARAM_CONSTRUCT_ONLY));
         g_object_class_install_property (gobject_class, PROP_NAME,
-		 g_param_spec_string ("name", _("Name"),
-				      _("The name of the sheet."),
+		 g_param_spec_string ("name",
+				      P_("Name"),
+				      P_("The name of the sheet."),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, PROP_RTL,
-		 g_param_spec_boolean ("text-is-rtl", _("text-is-rtl"),
-				       _("Text goes from right to left."),
+		 g_param_spec_boolean ("text-is-rtl",
+				       P_("text-is-rtl"),
+				       P_("Text goes from right to left."),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, PROP_VISIBILITY,
-		 g_param_spec_enum ("visibility", _("Visibility"),
-				    _("How visible the sheet is."),
+		 g_param_spec_enum ("visibility",
+				    P_("Visibility"),
+				    P_("How visible the sheet is."),
 				    GNM_SHEET_VISIBILITY_TYPE,
 				    GNM_SHEET_VISIBILITY_VISIBLE,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_DISPLAY_FORMULAS,
-		 g_param_spec_boolean ("display-formulas", _("Display Formul\303\246"),
-				       _("Control whether formul\303\246 are shown instead of values."),
+		 g_param_spec_boolean ("display-formulas",
+				       P_("Display Formul\303\246"),
+				       P_("Control whether formul\303\246 are shown instead of values."),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -911,149 +916,175 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_DISPLAY_COLUMN_HEADER,
-		 g_param_spec_boolean ("display-column-header", _("Display Column Headers"),
-				       _("Control whether column headers are shown."),
+		 g_param_spec_boolean ("display-column-header",
+				       P_("Display Column Headers"),
+				       P_("Control whether column headers are shown."),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_DISPLAY_ROW_HEADER,
-		 g_param_spec_boolean ("display-row-header", _("Display Row Headers"),
-				       _("Control whether row headers are shown."),
+		 g_param_spec_boolean ("display-row-header",
+				       P_("Display Row Headers"),
+				       P_("Control whether row headers are shown."),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_DISPLAY_OUTLINES,
-		 g_param_spec_boolean ("display-outlines", _("Display Outlines"),
-				       _("Control whether outlines are shown."),
+		 g_param_spec_boolean ("display-outlines",
+				       P_("Display Outlines"),
+				       P_("Control whether outlines are shown."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_DISPLAY_OUTLINES_BELOW,
-		 g_param_spec_boolean ("display-outlines-below", _("Display Outlines Below"),
-				       _("Control whether outline symbols are shown below."),
+		 g_param_spec_boolean ("display-outlines-below",
+				       P_("Display Outlines Below"),
+				       P_("Control whether outline symbols are shown below."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_DISPLAY_OUTLINES_RIGHT,
-		 g_param_spec_boolean ("display-outlines-right", _("Display Outlines Right"),
-				       _("Control whether outline symbols are shown to the right."),
+		 g_param_spec_boolean ("display-outlines-right",
+				       P_("Display Outlines Right"),
+				       P_("Control whether outline symbols are shown to the right."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
 
         g_object_class_install_property (gobject_class, PROP_PROTECTED,
-		 g_param_spec_boolean ("protected", _("Protected"),
-				       _("Sheet is protected."),
+		 g_param_spec_boolean ("protected",
+				       P_("Protected"),
+				       P_("Sheet is protected."),
 				       FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_EDIT_OBJECTS,
-		g_param_spec_boolean ("protected-allow-edit-objects", _("Protected Allow Edit objects"),
-				      _("Allow objects to be edited while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-edit-objects",
+				      P_("Protected Allow Edit objects"),
+				      P_("Allow objects to be edited while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_EDIT_SCENARIOS,
-		g_param_spec_boolean ("protected-allow-edit-scenarios", _("Protected allow edit scenarios"),
-				      _("Allow scenarios to be edited while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-edit-scenarios",
+				      P_("Protected allow edit scenarios"),
+				      P_("Allow scenarios to be edited while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_CELL_FORMATTING,
-		g_param_spec_boolean ("protected-allow-cell-formatting", _("Protected allow cell formatting"),
-				      _("Allow cell format changes while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-cell-formatting",
+				      P_("Protected allow cell formatting"),
+				      P_("Allow cell format changes while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_COLUMN_FORMATTING,
-		g_param_spec_boolean ("protected-allow-column-formatting", _("Protected allow column formatting"),
-				      _("Allow column formatting while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-column-formatting",
+				      P_("Protected allow column formatting"),
+				      P_("Allow column formatting while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_ROW_FORMATTING,
-		g_param_spec_boolean ("protected-allow-row-formatting", _("Protected allow row formatting"),
-				      _("Allow row formatting while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-row-formatting",
+				      P_("Protected allow row formatting"),
+				      P_("Allow row formatting while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_INSERT_COLUMNS,
-		g_param_spec_boolean ("protected-allow-insert-columns", _("Protected allow insert columns"),
-				      _("Allow columns to be inserted while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-insert-columns",
+				      P_("Protected allow insert columns"),
+				      P_("Allow columns to be inserted while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_INSERT_ROWS,
-		g_param_spec_boolean ("protected-allow-insert-rows", _("Protected allow insert rows"),
-				      _("Allow rows to be inserted while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-insert-rows",
+				      P_("Protected allow insert rows"),
+				      P_("Allow rows to be inserted while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_INSERT_HYPERLINKS,
-		g_param_spec_boolean ("protected-allow-insert-hyperlinks", _("Protected allow insert hyperlinks"),
-				      _("Allow hyperlinks to be inserted while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-insert-hyperlinks",
+				      P_("Protected allow insert hyperlinks"),
+				      P_("Allow hyperlinks to be inserted while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_DELETE_COLUMNS,
-		g_param_spec_boolean ("protected-allow-delete-columns", _("Protected allow delete columns"),
-				      _("Allow columns to be deleted while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-delete-columns",
+				      P_("Protected allow delete columns"),
+				      P_("Allow columns to be deleted while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_DELETE_ROWS,
-		g_param_spec_boolean ("protected-allow-delete-rows", _("Protected allow delete rows"),
-				      _("Allow rows to be deleted while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-delete-rows",
+				      P_("Protected allow delete rows"),
+				      P_("Allow rows to be deleted while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_SELECT_LOCKED_CELLS,
-		g_param_spec_boolean ("protected-allow-select-locked-cells", _("Protected allow select locked cells"),
-				      _("Allow the user to select locked cells while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-select-locked-cells",
+				      P_("Protected allow select locked cells"),
+				      P_("Allow the user to select locked cells while a sheet is protected"),
 				      TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_SORT_RANGES,
-		g_param_spec_boolean ("protected-allow-sort-ranges", _("Protected allow sort ranges"),
-				      _("Allow ranges to be sorted while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-sort-ranges",
+				      P_("Protected allow sort ranges"),
+				      P_("Allow ranges to be sorted while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_EDIT_AUTO_FILTERS,
-		g_param_spec_boolean ("protected-allow-edit-auto-filters", _("Protected allow edit auto filters"),
-				      _("Allow auto filters to be edited while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-edit-auto-filters",
+				      P_("Protected allow edit auto filters"),
+				      P_("Allow auto filters to be edited while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE,
-		g_param_spec_boolean ("protected-allow-edit-pivottable", _("Protected allow edit pivottable"),
-				      _("Allow pivottable to be edited while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-edit-pivottable",
+				      P_("Protected allow edit pivottable"),
+				      P_("Allow pivottable to be edited while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS,
-		g_param_spec_boolean ("protected-allow-select-unlocked-cells", _("Protected allow select unlocked cells"),
-				      _("Allow the user to select unlocked cells while a sheet is protected"),
+		g_param_spec_boolean ("protected-allow-select-unlocked-cells",
+				      P_("Protected allow select unlocked cells"),
+				      P_("Allow the user to select unlocked cells while a sheet is protected"),
 				      TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_CONVENTIONS,
-		 g_param_spec_pointer ("conventions", _("Display convention for expressions (default Gnumeric A1)"),
-				       _("How to format displayed expressions, (A1 vs R1C1, function names, ...)"),
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
+		g_param_spec_pointer ("conventions",
+				      P_("Display convention for expressions (default Gnumeric A1)"),
+				      P_("How to format displayed expressions, (A1 vs R1C1, function names, ...)"),
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_USE_R1C1, /* convenience wrapper to CONVENTIONS */
-		 g_param_spec_boolean ("use-r1c1", _("Display convention for expressions as XLS_R1C1 vs default"),
-				       _("How to format displayed expressions, (a convenience api)"),
-				       FALSE,
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
+		g_param_spec_boolean ("use-r1c1",
+				      P_("Display convention for expressions as XLS_R1C1 vs default"),
+				      P_("How to format displayed expressions, (a convenience api)"),
+				      FALSE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_TAB_FOREGROUND,
-		 g_param_spec_boxed ("tab-foreground", _("Tab Foreground"),
-				     _("The foreground color of the tab."),
-				     GNM_STYLE_COLOR_TYPE,
-				     GSF_PARAM_STATIC |
-				     G_PARAM_READWRITE));
+		g_param_spec_boxed ("tab-foreground",
+				    P_("Tab Foreground"),
+				    P_("The foreground color of the tab."),
+				    GNM_STYLE_COLOR_TYPE,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_TAB_BACKGROUND,
-		 g_param_spec_boxed ("tab-background", _("Tab Background"),
-				     _("The background color of the tab."),
-				     GNM_STYLE_COLOR_TYPE,
-				     GSF_PARAM_STATIC |
-				     G_PARAM_READWRITE));
+		g_param_spec_boxed ("tab-background",
+				    P_("Tab Background"),
+				    P_("The background color of the tab."),
+				    GNM_STYLE_COLOR_TYPE,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE));
 
 	/* What is this doing in sheet?  */
 	g_object_class_install_property (gobject_class, PROP_ZOOM_FACTOR,
-		 g_param_spec_double ("zoom-factor", _("Zoom Factor"),
-				      _("The level of zoom used for this sheet."),
-				      0.1, 5.0,
-				      1.0,
-				      GSF_PARAM_STATIC |
-				      G_PARAM_CONSTRUCT |
-				      G_PARAM_READWRITE));
+		g_param_spec_double ("zoom-factor",
+				     P_("Zoom Factor"),
+				     P_("The level of zoom used for this sheet."),
+				     0.1, 5.0,
+				     1.0,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_CONSTRUCT |
+				     G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_COLUMNS,
 		g_param_spec_int ("columns",
-			C_("sheetsize", "Columns"),
-			_("Columns number in the sheet"),
-			0, GNM_MAX_COLS, GNM_DEFAULT_COLS,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+				  P_("Columns"),
+				  P_("Columns number in the sheet"),
+				  0, GNM_MAX_COLS, GNM_DEFAULT_COLS,
+				  GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (gobject_class, PROP_ROWS,
 		g_param_spec_int ("rows",
-			C_("sheetsize", "Rows"),
-			_("Rows number in the sheet"),
-			0, GNM_MAX_ROWS, GNM_DEFAULT_ROWS,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+				  P_("Rows"),
+				  P_("Rows number in the sheet"),
+				  0, GNM_MAX_ROWS, GNM_DEFAULT_ROWS,
+				  GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 
 	signals[DETACHED_FROM_WORKBOOK] = g_signal_new
 		("detached_from_workbook",

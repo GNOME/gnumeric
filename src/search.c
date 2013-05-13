@@ -5,7 +5,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include "gnumeric.h"
 #include "search.h"
 
@@ -705,8 +705,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_IS_NUMBER,
 		 g_param_spec_boolean ("is-number",
-				       _("Is Number"),
-				       _("Search for Specific Number Regardless of Formatting?"),
+				       P_("Is Number"),
+				       P_("Search for Specific Number Regardless of Formatting?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -714,8 +714,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SEARCH_STRINGS,
 		 g_param_spec_boolean ("search-strings",
-				       _("Search Strings"),
-				       _("Should strings be searched?"),
+				       P_("Search Strings"),
+				       P_("Should strings be searched?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -723,8 +723,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SEARCH_OTHER_VALUES,
 		 g_param_spec_boolean ("search-other-values",
-				       _("Search Other Values"),
-				       _("Should non-strings be searched?"),
+				       P_("Search Other Values"),
+				       P_("Should non-strings be searched?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -732,8 +732,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SEARCH_EXPRESSIONS,
 		 g_param_spec_boolean ("search-expressions",
-				       _("Search Expressions"),
-				       _("Should expressions be searched?"),
+				       P_("Search Expressions"),
+				       P_("Should expressions be searched?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -741,8 +741,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SEARCH_EXPRESSION_RESULTS,
 		 g_param_spec_boolean ("search-expression-results",
-				       _("Search Expression Results"),
-				       _("Should the results of expressions be searched?"),
+				       P_("Search Expression Results"),
+				       P_("Should the results of expressions be searched?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -750,8 +750,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SEARCH_COMMENTS,
 		 g_param_spec_boolean ("search-comments",
-				       _("Search Comments"),
-				       _("Should cell comments be searched?"),
+				       P_("Search Comments"),
+				       P_("Should cell comments be searched?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -759,8 +759,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SEARCH_SCRIPTS,
 		 g_param_spec_boolean ("search-scripts",
-				       _("Search Scripts"),
-				       _("Should scrips (workbook, and worksheet) be searched?"),
+				       P_("Search Scripts"),
+				       P_("Should scrips (workbook, and worksheet) be searched?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -768,8 +768,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_INVERT,
 		 g_param_spec_boolean ("invert",
-				       _("Invert"),
-				       _("Collect non-matching items"),
+				       P_("Invert"),
+				       P_("Collect non-matching items"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -777,8 +777,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_BY_ROW,
 		 g_param_spec_boolean ("by-row",
-				       _("By Row"),
-				       _("Is the search order by row?"),
+				       P_("By Row"),
+				       P_("Is the search order by row?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -786,8 +786,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_QUERY,
 		 g_param_spec_boolean ("query",
-				       _("Query"),
-				       _("Should we query for each replacement?"),
+				       P_("Query"),
+				       P_("Should we query for each replacement?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -795,8 +795,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_REPLACE_KEEP_STRINGS,
 		 g_param_spec_boolean ("replace-keep-strings",
-				       _("Keep Strings"),
-				       _("Should replacement keep strings as strings?"),
+				       P_("Keep Strings"),
+				       P_("Should replacement keep strings as strings?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -804,8 +804,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SHEET,
 		 g_param_spec_object ("sheet",
-				      _("Sheet"),
-				      _("The sheet in which to search."),
+				      P_("Sheet"),
+				      P_("The sheet in which to search."),
 				      GNM_SHEET_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
@@ -813,8 +813,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SCOPE,
 		 g_param_spec_enum ("scope",
-				    _("Scope"),
-				    _("Where to search."),
+				    P_("Scope"),
+				    P_("Where to search."),
 				    GNM_SEARCH_REPLACE_SCOPE_TYPE,
 				    GNM_SRS_SHEET,
 				    GSF_PARAM_STATIC |
@@ -823,8 +823,8 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_RANGE_TEXT,
 		 g_param_spec_string ("range-text",
-				      _("Range as Text"),
-				      _("The range in which to search."),
+				      P_("Range as Text"),
+				      P_("The range in which to search."),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));

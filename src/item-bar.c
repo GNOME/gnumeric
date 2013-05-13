@@ -8,7 +8,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include "gnumeric.h"
 #include "item-bar.h"
 #include "gnm-pane-impl.h"
@@ -1163,15 +1163,17 @@ gnm_item_bar_class_init (GObjectClass  *gobject_klass)
 	gobject_klass->dispose = item_bar_dispose;
 	gobject_klass->set_property = item_bar_set_property;
 	g_object_class_install_property (gobject_klass, GNM_ITEM_BAR_PROP_PANE,
-		g_param_spec_object ("pane", "pane",
-			"The pane containing the associated grid",
-			GNM_PANE_TYPE,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+		g_param_spec_object ("pane",
+				     P_("Pane"),
+				     P_("The pane containing the associated grid"),
+				     GNM_PANE_TYPE,
+				     GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, GNM_ITEM_BAR_PROP_IS_COL_HEADER,
-		g_param_spec_boolean ("IsColHeader", "IsColHeader",
-			"Is the item-bar a header for columns or rows",
-			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+		g_param_spec_boolean ("IsColHeader",
+				      P_("IsColHeader"),
+				      P_("Is the item-bar a header for columns or rows"),
+				      FALSE,
+				      GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	item_klass->realize     = item_bar_realize;
 	item_klass->unrealize   = item_bar_unrealize;

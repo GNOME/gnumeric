@@ -23,6 +23,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric-cell-renderer-toggle.h"
 #include <gsf/gsf-impl-utils.h>
+#include "gnm-i18n.h"
 
 static void gnumeric_cell_renderer_toggle_get_property  (GObject         *object,
 							 guint            param_id,
@@ -103,8 +104,8 @@ gnumeric_cell_renderer_toggle_class_init (GnumericCellRendererToggleClass *class
 	g_object_class_install_property
 		(object_class, PROP_PIXBUF,
 		 g_param_spec_object ("pixbuf",
-				      "Pixbuf Object",
-				      "The pixbuf to render.",
+				      P_("Pixbuf Object"),
+				      P_("The pixbuf to render."),
 				      GDK_TYPE_PIXBUF,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }

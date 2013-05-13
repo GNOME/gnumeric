@@ -1244,14 +1244,16 @@ gnm_item_grid_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize     = item_grid_finalize;
 	gobject_klass->set_property = item_grid_set_property;
 	g_object_class_install_property (gobject_klass, GNM_ITEM_GRID_PROP_SHEET_CONTROL_GUI,
-		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
-			"the sheet control gui controlling the item",
-			SHEET_CONTROL_GUI_TYPE,
-                        GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+		g_param_spec_object ("SheetControlGUI",
+				     P_("SheetControlGUI"),
+				     P_("The sheet control gui controlling the item"),
+				     SHEET_CONTROL_GUI_TYPE,
+				     GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, GNM_ITEM_GRID_PROP_BOUND,
-		g_param_spec_pointer ("bound", "Bound",
-			"The display bounds",
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+		g_param_spec_pointer ("bound",
+				      P_("Bound"),
+				      P_("The display bounds"),
+				      GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	item_klass->realize     = item_grid_realize;
 	item_klass->unrealize     = item_grid_unrealize;

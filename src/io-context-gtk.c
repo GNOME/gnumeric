@@ -18,6 +18,7 @@
 #include "application.h"
 #include "libgnumeric.h"
 #include "dialogs.h"
+#include "gnm-i18n.h"
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
@@ -376,13 +377,15 @@ icg_class_init (GObjectClass *gobj_klass)
 	gobj_klass->set_property   = icg_set_property;
 
         g_object_class_install_property (gobj_klass, PROP_SHOW_SPLASH,
-		 g_param_spec_boolean ("show-splash", "show-splash",
-				       "Show a splash screen if loading takes more than a moment.",
+		 g_param_spec_boolean ("show-splash",
+				       P_("Show splash"),
+				       P_("Show a splash screen if loading takes more than a moment"),
 				       TRUE,
 				       GSF_PARAM_STATIC | G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
         g_object_class_install_property (gobj_klass, PROP_SHOW_WARNINGS,
-		 g_param_spec_boolean ("show-warnings", "show-warnings",
-				       "Show warning and password dialogs.",
+		 g_param_spec_boolean ("show-warnings",
+				       P_("Show warnings"),
+				       P_("Show warning and password dialogs"),
 				       TRUE,
 				       GSF_PARAM_STATIC | G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 

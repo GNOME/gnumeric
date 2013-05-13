@@ -29,7 +29,7 @@
 #include <gnumeric-conf.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include <gtk/gtk.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
@@ -1323,8 +1323,9 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize = gnumeric_application_finalize;
 	gobject_klass->get_property = gnumeric_application_get_property;
 	g_object_class_install_property (gobject_klass, APPLICATION_PROP_FILE_HISTORY_LIST,
-		g_param_spec_pointer ("file-history-list", _("File History List"),
-				      _("A list of filenames that have been read recently"),
+		g_param_spec_pointer ("file-history-list",
+				      P_("File History List"),
+				      P_("A list of filenames that have been read recently"),
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 
 	signals[WORKBOOK_ADDED] = g_signal_new ("workbook_added",

@@ -27,7 +27,7 @@
 
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include "stf-export.h"
 
 #include "gnumeric-conf.h"
@@ -552,8 +552,8 @@ gnm_stf_export_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_CHARSET,
 		 g_param_spec_string ("charset",
-				      _("Character set"),
-				      _("The character encoding of the output."),
+				      P_("Character set"),
+				      P_("The character encoding of the output."),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
@@ -561,8 +561,8 @@ gnm_stf_export_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_LOCALE,
 		 g_param_spec_string ("locale",
-				      _("Locale"),
-				      _("The locale to use for number and date formatting."),
+				      P_("Locale"),
+				      P_("The locale to use for number and date formatting."),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
@@ -570,8 +570,8 @@ gnm_stf_export_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_TRANSLITERATE_MODE,
 		 g_param_spec_enum ("transliterate-mode",
-				    _("Transliterate mode"),
-				    _("What to do with unrepresentable characters."),
+				    P_("Transliterate mode"),
+				    P_("What to do with unrepresentable characters."),
 				    GNM_STF_TRANSLITERATE_MODE_TYPE,
 				    GNM_STF_TRANSLITERATE_MODE_ESCAPE,
 				    GSF_PARAM_STATIC |
@@ -580,8 +580,8 @@ gnm_stf_export_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_FORMAT,
 		 g_param_spec_enum ("format",
-				    _("Format"),
-				    _("How should cells be formatted?"),
+				    P_("Format"),
+				    P_("How should cells be formatted?"),
 				    GNM_STF_FORMAT_MODE_TYPE,
 				    GNM_STF_FORMAT_AUTO,
 				    GSF_PARAM_STATIC |

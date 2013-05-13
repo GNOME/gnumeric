@@ -32,7 +32,7 @@
 #include <expr-name.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include <string.h>
 
 struct _GnmDataCacheSource {
@@ -157,16 +157,20 @@ gnm_data_cache_source_class_init (GnmDataCacheSourceClass *klass)
 	gobject_class->finalize		= gnm_data_cache_source_finalize;
 
 	g_object_class_install_property (gobject_class, PROP_SHEET,
-		 g_param_spec_object ("src-sheet", "sheet",
-			"The source sheet.",
+		 g_param_spec_object ("src-sheet",
+				      P_("Sheet"),
+				      P_("The source sheet"),
 			GNM_SHEET_TYPE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_RANGE,
-		 g_param_spec_boxed ("src-range", "range",
-			"Optional named expression to generate a source range.",
+		 g_param_spec_boxed ("src-range",
+				     P_("Range"),
+				     P_("Optional named expression to generate a source range"),
 			gnm_range_get_type (), GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_NAME,
-		 g_param_spec_string ("src-name", "src-name",
-			"Optional named expression to generate a source range.", NULL,
+		 g_param_spec_string ("src-name",
+				      P_("source-name"),
+				      P_("Optional named expression to generate a source range"),
+				      NULL,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	parent_klass = g_type_class_peek_parent (klass);

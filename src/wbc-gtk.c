@@ -66,7 +66,7 @@
 #include <gsf/gsf-doc-meta-data.h>
 #include <gtk/gtk.h>
 #include "gdk/gdkkeysyms-compat.h"
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include <errno.h>
 #include <string.h>
 
@@ -5522,15 +5522,15 @@ wbc_gtk_class_init (GObjectClass *gobject_class)
         g_object_class_install_property (gobject_class,
 		 WBG_GTK_PROP_AUTOSAVE_PROMPT,
 		 g_param_spec_boolean ("autosave-prompt",
-				       _("Autosave prompt"),
-				       _("Ask about autosave?"),
+				       P_("Autosave prompt"),
+				       P_("Ask about autosave?"),
 				       FALSE,
 				       GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class,
 		 WBG_GTK_PROP_AUTOSAVE_TIME,
 		 g_param_spec_int ("autosave-time",
-				   _("Autosave time in seconds"),
-				   _("Seconds before autosave"),
+				   P_("Autosave time in seconds"),
+				   P_("Seconds before autosave"),
 				   0, G_MAXINT, 0,
 				   GSF_PARAM_STATIC | G_PARAM_READWRITE));
 

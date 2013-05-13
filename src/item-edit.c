@@ -12,7 +12,7 @@
  *     ranges are highlighted on the spreadsheet).
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include "gnumeric.h"
 #include "item-edit.h"
 #include "gnm-pane-impl.h"
@@ -728,14 +728,15 @@ gnm_item_edit_class_init (GObjectClass *gobject_class)
 	gobject_class->set_property = item_edit_set_property;
 
 	g_object_class_install_property (gobject_class, ARG_SHEET_CONTROL_GUI,
-		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
-			"the sheet control gui controlling the item",
-			SHEET_CONTROL_GUI_TYPE,
-			/* resist the urge to use G_PARAM_CONSTRUCT_ONLY
-			 * We are going through goc_item_new, which
-			 * calls g_object_new assigns the parent pointer before
-			 * setting the construction parameters */
-			 GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+		g_param_spec_object ("SheetControlGUI",
+				     P_("SheetControlGUI"),
+				     P_("The sheet control gui controlling the item"),
+				     SHEET_CONTROL_GUI_TYPE,
+				     /* resist the urge to use G_PARAM_CONSTRUCT_ONLY
+				      * We are going through goc_item_new, which
+				      * calls g_object_new assigns the parent pointer before
+				      * setting the construction parameters */
+				     GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	/* GocItem method overrides */
 	item_class->realize         = item_edit_realize;

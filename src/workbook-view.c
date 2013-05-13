@@ -56,7 +56,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-input.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include <glib/gstdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -854,16 +854,16 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_AUTO_EXPR_FUNC,
 		 g_param_spec_pointer ("auto-expr-func",
-				       _("Auto-expression function"),
-				       _("The automatically computed sheet function."),
+				       P_("Auto-expression function"),
+				       P_("The automatically computed sheet function."),
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_AUTO_EXPR_DESCR,
 		 g_param_spec_string ("auto-expr-descr",
-				      _("Auto-expression description"),
-				      _("Description of the automatically computed sheet function."),
+				      P_("Auto-expression description"),
+				      P_("Description of the automatically computed sheet function."),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
@@ -871,8 +871,8 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_AUTO_EXPR_MAX_PRECISION,
 		 g_param_spec_boolean ("auto-expr-max-precision",
-				       _("Auto-expression maximum precision"),
-				       _("Use maximum available precision for auto-expressions"),
+				       P_("Auto-expression maximum precision"),
+				       P_("Use maximum available precision for auto-expressions"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -880,8 +880,8 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_AUTO_EXPR_VALUE,
 		 g_param_spec_boxed ("auto-expr-value",
-				     _("Auto-expression value"),
-				     _("The current value of the auto-expression."),
+				     P_("Auto-expression value"),
+				     P_("The current value of the auto-expression."),
 				     gnm_value_get_type (),
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE));
@@ -889,16 +889,16 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_AUTO_EXPR_EVAL_POS,
 		 g_param_spec_pointer ("auto-expr-eval-pos",
-				       _("Auto-expression position"),
-				       _("The cell position to track."),
+				       P_("Auto-expression position"),
+				       P_("The cell position to track."),
 				       GSF_PARAM_STATIC |
 				       G_PARAM_WRITABLE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_SHOW_HORIZONTAL_SCROLLBAR,
 		 g_param_spec_boolean ("show-horizontal-scrollbar",
-				       _("Show horizontal scrollbar"),
-				       _("Show the horizontal scrollbar"),
+				       P_("Show horizontal scrollbar"),
+				       P_("Show the horizontal scrollbar"),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -906,8 +906,8 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SHOW_VERTICAL_SCROLLBAR,
 		 g_param_spec_boolean ("show-vertical-scrollbar",
-				       _("Show vertical scrollbar"),
-				       _("Show the vertical scrollbar"),
+				       P_("Show vertical scrollbar"),
+				       P_("Show the vertical scrollbar"),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -915,8 +915,8 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SHOW_NOTEBOOK_TABS,
 		 g_param_spec_boolean ("show-notebook-tabs",
-				       _("Show notebook tabs"),
-				       _("Show the notebook tabs for sheets"),
+				       P_("Show notebook tabs"),
+				       P_("Show the notebook tabs for sheets"),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -924,8 +924,8 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SHOW_FUNCTION_CELL_MARKERS,
 		 g_param_spec_boolean ("show-function-cell-markers",
-				       _("Show formula cell markers"),
-				       _("Mark each cell containing a formula"),
+				       P_("Show formula cell markers"),
+				       P_("Mark each cell containing a formula"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -933,9 +933,8 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SHOW_EXTENSION_MARKERS,
 		 g_param_spec_boolean ("show-extension-markers",
-				       _("Show extension markers"),
-				       _("Mark each cell that fails to show "
-					 "the complete content"),
+				       P_("Show extension markers"),
+				       P_("Mark each cell that fails to show the complete content"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -943,8 +942,8 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_DO_AUTO_COMPLETION,
 		 g_param_spec_boolean ("do-auto-completion",
-				       _("Do auto completion"),
-				       _("Auto-complete text"),
+				       P_("Do auto completion"),
+				       P_("Auto-complete text"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -952,8 +951,8 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_PROTECTED,
 		 g_param_spec_boolean ("protected",
-				       _("Protected"),
-				       _("Is view protected?"),
+				       P_("Protected"),
+				       P_("Is view protected?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -961,8 +960,8 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_PREFERRED_WIDTH,
 		 g_param_spec_int ("preferred-width",
-				   _("Preferred width"),
-				   _("Preferred width"),
+				   P_("Preferred width"),
+				   P_("Preferred width"),
 				   1, G_MAXINT, 1024,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READWRITE));
@@ -970,8 +969,8 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_PREFERRED_HEIGHT,
 		 g_param_spec_int ("preferred-height",
-				   _("Preferred height"),
-				   _("Preferred height"),
+				   P_("Preferred height"),
+				   P_("Preferred height"),
 				   1, G_MAXINT, 768,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READWRITE));

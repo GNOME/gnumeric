@@ -1,3 +1,7 @@
+2013-05-13  Morten Welinder  <terra@gnome.org>
+
+	* src/*.c: Mark gobject property strings as P_(...).
+
 2013-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_merge_data_redo): unref merge_contents

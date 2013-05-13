@@ -44,7 +44,7 @@
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-meta-names.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include <string.h>
 #include <errno.h>
 
@@ -262,8 +262,9 @@ workbook_class_init (GObjectClass *gobject_class)
 	gobject_class->dispose	    = workbook_dispose;
 
         g_object_class_install_property (gobject_class, RECALC_MODE,
-		 g_param_spec_boolean ("recalc-mode", "recalc-mode",
-				       _("Enable automatic recalculation."),
+		 g_param_spec_boolean ("recalc-mode",
+				       P_("Recalc mode"),
+				       P_("Enable automatic recalculation."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));

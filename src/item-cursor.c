@@ -8,7 +8,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include "gnumeric.h"
 #include "item-cursor.h"
 #include "gnm-pane-impl.h"
@@ -1452,23 +1452,27 @@ gnm_item_cursor_class_init (GObjectClass *gobject_klass)
 	gobject_klass->set_property = item_cursor_set_property;
 	gobject_klass->dispose = item_cursor_dispose;
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_SHEET_CONTROL_GUI,
-		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
-			"the sheet control gui controlling the item",
-			SHEET_CONTROL_GUI_TYPE,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+		g_param_spec_object ("SheetControlGUI",
+				     P_("SheetControlGUI"),
+				     P_("The sheet control gui controlling the item"),
+				     SHEET_CONTROL_GUI_TYPE,
+				     GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_STYLE,
-		g_param_spec_int ("style", "Style",
-			"What type of cursor",
-			0, G_MAXINT, 0,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+		g_param_spec_int ("style",
+				  P_("Style"),
+				  P_("What type of cursor"),
+				  0, G_MAXINT, 0,
+				  GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_BUTTON,
-		g_param_spec_int ("button", "Button",
-			"what button initiated the drag",
-			0, G_MAXINT, 0,
-                        GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+		g_param_spec_int ("button",
+				  P_("Button"),
+				  P_("What button initiated the drag"),
+				  0, G_MAXINT, 0,
+				  GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_COLOR,
-		g_param_spec_uint ("color", "Color",
-				   "Name of the cursor's color",
+		g_param_spec_uint ("color",
+				   P_("Color"),
+				   P_("Name of the cursor's color"),
 				   0, 0xffffffff, 
 				   GO_COLOR_BLACK,
 				   GSF_PARAM_STATIC | G_PARAM_WRITABLE));

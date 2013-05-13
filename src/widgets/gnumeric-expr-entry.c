@@ -9,7 +9,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
+#include "gnm-i18n.h"
 #include <gnumeric.h>
 #include "gnumeric-expr-entry.h"
 
@@ -1730,24 +1730,24 @@ gee_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class, PROP_UPDATE_POLICY,
 		 g_param_spec_enum ("update-policy",
-				    _("Update policy"),
-				    _("How frequently changes to the entry should be applied"),
+				    P_("Update policy"),
+				    P_("How frequently changes to the entry should be applied"),
 				    GNM_TYPE_UPDATE_TYPE, GNM_UPDATE_CONTINUOUS,
 				    GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class, PROP_WITH_ICON,
 		 g_param_spec_boolean ("with-icon",
-				       _("With icon"),
-				       _("Should there be an icon to the right of the entry?"),
+				       P_("With icon"),
+				       P_("Should there be an icon to the right of the entry?"),
 				       TRUE,
 				       GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class, PROP_TEXT,
 		 g_param_spec_string ("text",
-				      _("Text"),
-				      _("The contents of the entry"),
+				      P_("Text"),
+				      P_("The contents of the entry"),
 				      "",
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
@@ -1760,24 +1760,24 @@ gee_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class, PROP_SCG,
 		 g_param_spec_object ("scg",
-				      _("SheetControlGUI"),
-				      _("The GUI container associated with the entry."),
+				      P_("SheetControlGUI"),
+				      P_("The GUI container associated with the entry."),
 				      SHEET_CONTROL_GUI_TYPE,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class, PROP_WBCG,
 		 g_param_spec_object ("wbcg",
-				      _("WBCGtk"),
-				      _("The toplevel GUI container associated with the entry."),
+				      P_("WBCGtk"),
+				      P_("The toplevel GUI container associated with the entry."),
 				      WBC_GTK_TYPE,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class, PROP_CONSTANT_FORMAT,
 		 g_param_spec_pointer ("constant-format",
-				       _("Constant Format"),
-				       _("Format for constants"),
+				       P_("Constant Format"),
+				       P_("Format for constants"),
 				       GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	gee_debug = gnm_debug_flag ("gee");

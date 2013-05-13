@@ -12,6 +12,7 @@
 #include "workbook-control.h"
 #include "gnm-marshalers.h"
 #include "dao.h"
+#include "gnm-i18n.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <glib/gi18n-lib.h>
@@ -737,16 +738,18 @@ gnm_solver_param_class_init (GObjectClass *object_class)
 	object_class->get_property = gnm_solver_param_get_property;
 
 	g_object_class_install_property (object_class, SOLP_PROP_SHEET,
-		 g_param_spec_object ("sheet", _("Sheet"),
-				      _("Sheet"),
+		g_param_spec_object ("sheet",
+				      P_("Sheet"),
+				      P_("Sheet"),
 				      GNM_SHEET_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_CONSTRUCT_ONLY |
 				      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, SOLP_PROP_PROBLEM_TYPE,
-		 g_param_spec_enum ("problem-type", _("Problem Type"),
-				    _("Problem Type"),
+		g_param_spec_enum ("problem-type",
+				    P_("Problem Type"),
+				    P_("Problem Type"),
 				    GNM_SOLVER_PROBLEM_TYPE_TYPE,
 				    GNM_SOLVER_MAXIMIZE,
 				    GSF_PARAM_STATIC |
@@ -1638,48 +1641,54 @@ gnm_solver_class_init (GObjectClass *object_class)
 	object_class->get_property = gnm_solver_get_property;
 
         g_object_class_install_property (object_class, SOL_PROP_STATUS,
-		 g_param_spec_enum ("status", _("status"),
-				    _("The solver's current status"),
+		g_param_spec_enum ("status",
+				    P_("status"),
+				    P_("The solver's current status"),
 				    GNM_SOLVER_STATUS_TYPE,
 				    GNM_SOLVER_STATUS_READY,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
 
         g_object_class_install_property (object_class, SOL_PROP_REASON,
-		 g_param_spec_string ("reason", _("reason"),
-				      _("The reason behind the solver's status"),
-				      NULL,
-				      GSF_PARAM_STATIC |
-				      G_PARAM_READWRITE));
+		g_param_spec_string ("reason",
+				     P_("reason"),
+				     P_("The reason behind the solver's status"),
+				     NULL,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, SOL_PROP_PARAMS,
-		 g_param_spec_object ("params", _("Parameters"),
-				      _("Solver parameters"),
-				      GNM_SOLVER_PARAMETERS_TYPE,
-				      GSF_PARAM_STATIC |
-				      G_PARAM_CONSTRUCT_ONLY |
-				      G_PARAM_READWRITE));
+		g_param_spec_object ("params",
+				     P_("Parameters"),
+				     P_("Solver parameters"),
+				     GNM_SOLVER_PARAMETERS_TYPE,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_CONSTRUCT_ONLY |
+				     G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, SOL_PROP_RESULT,
-		 g_param_spec_object ("result", _("Result"),
-				      _("Current best feasible result"),
-				      GNM_SOLVER_RESULT_TYPE,
-				      GSF_PARAM_STATIC |
-				      G_PARAM_READWRITE));
+		g_param_spec_object ("result",
+				     P_("Result"),
+				     P_("Current best feasible result"),
+				     GNM_SOLVER_RESULT_TYPE,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, SOL_PROP_STARTTIME,
-		 g_param_spec_double ("starttime", _("Start Time"),
-				      _("Time the solver was started"),
-				      -1, 1e10, -1,
-				      GSF_PARAM_STATIC |
-				      G_PARAM_READWRITE));
+		g_param_spec_double ("starttime",
+				     P_("Start Time"),
+				     P_("Time the solver was started"),
+				     -1, 1e10, -1,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, SOL_PROP_ENDTIME,
-		 g_param_spec_double ("endtime", _("End Time"),
-				      _("Time the solver finished"),
-				      -1, 1e10, -1,
-				      GSF_PARAM_STATIC |
-				      G_PARAM_READWRITE));
+		g_param_spec_double ("endtime",
+				     P_("End Time"),
+				     P_("Time the solver finished"),
+				     -1, 1e10, -1,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
 
 	solver_signals[SOL_SIG_PREPARE] =
 		g_signal_new ("prepare",

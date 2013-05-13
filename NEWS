@@ -14,6 +14,7 @@ Morten:
 	* Add MPSEUDOINVERSE function.
 	* Add ctrl-shift-z as extra accelerator for redo.  [#699579]
 	* Fix conditional format problem.  [#699647]
+	* Remove gobject property strings from translation corpus.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2
