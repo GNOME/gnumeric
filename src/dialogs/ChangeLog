@@ -1,3 +1,7 @@
+2013-05-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* doc-meta-data.ui: adjust labels vertical alignment. [#700156]
+
 2013-04-26  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.2

@@ -5,6 +5,9 @@ Andreas:
 	* Fix 'Go to First'. [#699631]
 	* Fix data merges. [#699897]
 
+Jean:
+	* Adjust labels vertical alignment in document properties dialog. [#700156]
+
 Morten:
 	* Improve xlsx import of style-only cells.
 	* Don't write empty cells to .gnumeric.
