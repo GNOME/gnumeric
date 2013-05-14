@@ -1,3 +1,8 @@
+2013-05-14  Morten Welinder  <terra@gnome.org>
+
+	* src/rangefunc.c (gnm_range_multinomial): Add range check.
+	(gnm_range_geometric_mean): Handle two FIXMEs.
+
 2013-05-13  Morten Welinder  <terra@gnome.org>
 
 	* src/*.c: Mark gobject property strings as P_(...).

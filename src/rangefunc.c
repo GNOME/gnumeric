@@ -273,11 +273,9 @@ gnm_range_geometric_mean (gnm_float const *xs, int n, gnm_float *res)
 	int exp2;
 	gboolean zerop, anynegp;
 
-	/* FIXME: check empty case.  */
 	if (n < 1)
 		return 1;
 
-	/* FIXME: check zero case.  */
 	product_helper (xs, n, res, &exp2, &zerop, &anynegp);
 	if (zerop || anynegp)
 		return 1;
@@ -321,7 +319,7 @@ gnm_range_multinomial (gnm_float const *xs, int n, gnm_float *res)
 		gnm_float x = xs[i];
 		int xi;
 
-		if (x < 0)
+		if (x < 0 || x > INT_MAX)
 			return 1;
 
 		xi = (int)x;
