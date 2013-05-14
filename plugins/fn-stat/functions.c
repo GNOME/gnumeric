@@ -3418,6 +3418,15 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (withstat) {
 		result = value_new_array (dim + 1, 5);
 
+		for (i = 2; i <= dim; i++) {
+			value_array_set (result, i, 2,
+					 value_new_error_NA (ei->pos));
+			value_array_set (result, i, 3,
+					 value_new_error_NA (ei->pos));
+			value_array_set (result, i, 4,
+					 value_new_error_NA (ei->pos));
+		}
+
 		value_array_set (result, 0, 2,
 				 value_new_float (extra_stat->sqr_r));
 		value_array_set (result, 1, 2,

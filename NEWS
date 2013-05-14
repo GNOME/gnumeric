@@ -15,6 +15,7 @@ Morten:
 	* Add ctrl-shift-z as extra accelerator for redo.  [#699579]
 	* Fix conditional format problem.  [#699647]
 	* Remove gobject property strings from translation corpus.
+	* Improve LINEST.  [#551457]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2

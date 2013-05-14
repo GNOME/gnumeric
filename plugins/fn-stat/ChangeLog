@@ -1,3 +1,8 @@
+2013-05-14  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_linest): Set unused entries in the stat
+	matrix to #NA for compatibility.
+
 2013-04-26  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.2
