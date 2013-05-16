@@ -1,3 +1,8 @@
+2013-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (gnm_create_widget_cb): by default observe
+	manual page breaks
+
 2013-05-14  Morten Welinder  <terra@gnome.org>
 
 	* src/rangefunc.c (gnm_range_multinomial): Add range check.

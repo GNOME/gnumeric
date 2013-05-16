@@ -1603,7 +1603,7 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_page_breaks),
 					      0 != gtk_print_settings_get_int_with_default
 					      (settings, GNUMERIC_PRINT_SETTING_IGNORE_PAGE_BREAKS_KEY,
-					       1));
+					       0));
 	}
 
 	/* We are sending toggled signals to ensure that all widgets are */
