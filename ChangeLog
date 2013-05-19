@@ -1,3 +1,8 @@
+2013-05-19  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (ptukey_wprob): Sanitize handling of integration
+	boundaries.
+
 2013-05-18  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (pnorm2): New function.

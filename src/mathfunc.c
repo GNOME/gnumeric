@@ -5211,9 +5211,9 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	GNM_const(0.233492536538354808760849898925),
 	GNM_const(0.249147045813402785000562436043)
     };
-    gnm_float a, ac, pr_w, b, binc, c, cc1,
+    gnm_float ac, pr_w, binc, c, cc1,
 	qexpo, qsqz, rinsum, wi, wincr, xx;
-    /*LDOUBLE*/ gnm_float blb, bub, einsum, elsum;
+    /*LDOUBLE*/ gnm_float blb, einsum, elsum;
     int j, jj;
 
 
@@ -5254,19 +5254,16 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 
     blb = qsqz;
     binc = (bb - qsqz) / wincr;
-    bub = blb + binc;
     einsum = 0.0;
 
     /* integrate over each interval */
 
     cc1 = cc - 1.0;
     for (wi = 1; wi <= wincr; wi++) {
+	gnm_float a = blb + binc * 0.5;
 	elsum = 0.0;
-	a = (gnm_float)(0.5 * (bub + blb));
 
 	/* legendre quadrature with order = nleg */
-
-	b = (gnm_float)(0.5 * (bub - blb));
 
 	for (jj = 1; jj <= nleg; jj++) {
 	    if (ihalf < jj) {
@@ -5276,7 +5273,7 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 		j = jj;
 		xx = -xleg[j-1];
 	    }
-	    c = b * xx;
+	    c = binc * 0.5 * xx;
 	    ac = a + c;
 
 	    /* if exp(-qexpo/2) < 9e-14, */
@@ -5291,15 +5288,14 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 
 	    // rinsum = (pplus * 0.5) - (pminus * 0.5);
 	    rinsum = pnorm2 (ac - w, ac, 0.0, 1.0, FALSE);
-	    if (rinsum >= exp(C1 / cc1)) {
+	    if (rinsum >= gnm_exp(C1 / cc1)) {
 		rinsum = (aleg[j-1] * gnm_exp(-(0.5 * qexpo))) * gnm_pow(rinsum, cc1);
 		elsum += rinsum;
 	    }
 	}
-	elsum *= (((2.0 * b) * cc) * M_1_SQRT_2PI);
+	elsum *= ((binc * cc) * M_1_SQRT_2PI);
 	einsum += elsum;
-	blb = bub;
-	bub += binc;
+	blb += binc;
     }
 
     /* if pr_w ^ rr < 9e-14, then return 0 */
