@@ -2,6 +2,7 @@
 
 	* src/mathfunc.c (ptukey_wprob): Sanitize handling of integration
 	boundaries.
+	(pnorm2): Get rid of mu and sigma arguments.  Improve accuracy.
 
 2013-05-18  Morten Welinder  <terra@gnome.org>
 

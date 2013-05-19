@@ -27,11 +27,13 @@ my %defaults;
 		  'scale' => "the scale parameter $of",
 		  );
 
-    $funcs{'dnorm'} = $funcs{'pnorm'} = $funcs{'qnorm'} =
+    $funcs{'dnorm'} = $funcs{'pnorm'} = $funcs{'pnorm2'} = $funcs{'qnorm'} =
 	[\&distribution,
 	 'normal',
 	 ({ 'mu' => "mean $of",
 	    'sigma' => "standard deviation $of",
+	    'x1' => 'first observation',
+	    'x2' => 'first observation',
 	    @common })];
 
     $funcs{'dlnorm'} = $funcs{'plnorm'} = $funcs{'qlnorm'} =
@@ -319,7 +321,10 @@ sub distribution {
 	       (defined ($def) ? " : $def" : "") .
 	       ";\n");
 
-	if (defined ($def) && $typespec !~ /\|/) {
+	if ($typespec =~ /\|/) {
+	    die "$0: argument $name for $func needs a default"
+		unless defined $def;
+	} elsif (defined ($def)) {
 	    $typespec .= "|" ;
 	}
 	$typespec .= $type_spec{$type};

@@ -5287,7 +5287,7 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	    /* then doesn't contribute to integral */
 
 	    // rinsum = (pplus * 0.5) - (pminus * 0.5);
-	    rinsum = pnorm2 (ac - w, ac, 0.0, 1.0, FALSE);
+	    rinsum = pnorm2 (ac - w, ac, FALSE);
 	    if (rinsum >= gnm_exp(C1 / cc1)) {
 		rinsum = (aleg[j-1] * gnm_exp(-(0.5 * qexpo))) * gnm_pow(rinsum, cc1);
 		elsum += rinsum;
@@ -5552,47 +5552,66 @@ swap_log_tail (gnm_float lp)
 
 
 gnm_float
-pnorm2 (gnm_float x1, gnm_float x2, gnm_float mu, gnm_float sigma, gboolean log_p)
+pnorm2 (gnm_float x1, gnm_float x2, gboolean log_p)
 {
-	gnm_float raw;
-	const gnm_float RAWOK = 0.1;
-	const gnm_float LOG_RAWOK = GNM_const(-2.3025850929940455);
-
-	if (gnm_isnan(x1) || gnm_isnan(x2) ||
-	    gnm_isnan(mu) || gnm_isnan(sigma) ||
-	    sigma <= 0)
+	if (gnm_isnan(x1) || gnm_isnan(x2))
 		return gnm_nan;
 
 	if (x1 > x2)
-		return log_p ? gnm_nan : 0 - pnorm2 (x2, x1, mu, sigma, log_p);
+		return log_p ? gnm_nan : 0 - pnorm2 (x2, x1, log_p);
 
 	if (x1 == x2)
 		return R_D__0;
 
-	x1 = (x1 - mu) / sigma;
-	x2 = (x2 - mu) / sigma;
+	if (x1 == gnm_ninf)
+		return pnorm (x2, 0.0, 1.0, TRUE, log_p);
 
-	/* At this point x1<x2 and we can assume N(0,1).  */
+	if (x2 == gnm_pinf)
+		return pnorm (x1, 0.0, 1.0, FALSE, log_p);
 
-	if (x1 < 0) {
-		gnm_float p1 = pnorm (x1, 0.0, 1.0, TRUE, log_p);
-		gnm_float p2 = pnorm (x2, 0.0, 1.0, TRUE, log_p);
-		raw = log_p ? logspace_sub (p2, p1) : p2 - p1;
-	} else {
-		gnm_float p1C = pnorm (x1, 0.0, 1.0, FALSE, log_p);
-		gnm_float p2C = pnorm (x2, 0.0, 1.0, FALSE, log_p);
-		raw = log_p ? logspace_sub (p1C, p2C) : p1C - p2C;
+	if (x1 == 0 && !log_p) {
+		return gnm_erf (x2 / M_SQRT2gnum) / 2;
+
+		/*
+		 * for the log case we can use this log(erf(x)) expansion:
+		 * (log(2 x)-(log(pi))/2)-x^2/3+(2 x^4)/45-(8 x^6)/2835-(4 x^8)/14175+(32 x^10)/467775+(736 x^12)/1915538625-(2944 x^14)/1915538625+(5024 x^16)/44405668125+(49690112 x^18)/1754068296605625+O(x^20)
+		 */
+	}
+	if (x2 == 0 && !log_p) {
+		return gnm_erf (x1 / -M_SQRT2gnum) / 2;
 	}
 
-	if (raw > (log_p ? LOG_RAWOK : RAWOK))
-		return raw;
+	if (x1 <= 0 && x2 >= 0) {
+		/* The interval spans 0.  */
+		gnm_float p1 = pnorm2 (0, MIN (-x1, x2), log_p);
+		gnm_float p2 = pnorm2 (MIN (-x1, x2), MAX (-x1, x2), log_p);
+		return log_p
+			? logspace_add (p1 + M_LN2gnum, p2)
+			: 2 * p1 + p2;
+	} else if (x1 < 0) {
+		/* Both < 0 -- use symmetry */
+		return pnorm2 (-x2, -x1, log_p);
+	} else {
+		/* Both >= 0 */
+		gnm_float p1C = pnorm (x1, 0.0, 1.0, FALSE, log_p);
+		gnm_float p2C = pnorm (x2, 0.0, 1.0, FALSE, log_p);
+		gnm_float raw = log_p ? logspace_sub (p1C, p2C) : p1C - p2C;
+		gnm_float dx, d1, d2, ub, lb;
 
-	if (0)
-		g_printerr ("x1=%.10g x2=%.10g  p1=%.10g p2=%.10g\n",
-			    x1, x2,
-			    pnorm (x1, 0.0, 1.0, TRUE, FALSE),
-			    pnorm (x2, 0.0, 1.0, TRUE, FALSE));
-	return raw;
+		if (gnm_abs (p1C - p2C) * 32 > gnm_abs (p1C + p2C))
+			return raw;
+
+		/* dnorm is strictly decreasing in this area.  */
+		dx = log_p ? gnm_log (x2 - x1) : x2 - x1;
+		d1 = dnorm (x1, 0.0, 1.0, log_p);
+		d2 = dnorm (x2, 0.0, 1.0, log_p);
+		ub = log_p ? dx + d1 : dx * d1;  /* upper bound */
+		lb = log_p ? dx + d2 : dx * d2;  /* lower bound */
+
+		raw = MAX (raw, lb);
+		raw = MIN (raw, ub);
+		return raw;
+	}
 }
 
 
