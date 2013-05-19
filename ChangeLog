@@ -1,3 +1,8 @@
+2013-05-18  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (pnorm2): New function.
+	(R_ptukey): New function imported from R with local improvements.
+
 2013-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (gnm_create_widget_cb): by default observe

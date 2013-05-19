@@ -8,6 +8,7 @@ sub distribution;
 
 my %funcs = ();
 my %argoverride = ();
+my %defaults;
 
 {
     my $of = "of the distribution";
@@ -132,6 +133,15 @@ my %argoverride = ();
 	 'skew-t',
 	 ({ 'n' => "the number of degrees of freedom $of",
 	    @common })];
+
+    $funcs{'ptukey'} =
+	[\&distribution,
+	 'Studentized range',
+	 ({ 'nranges' => "the number of ranges; default is 1",
+	    'nmeans' => "the number of means",
+	    'df' => "the number of degrees of freedom $of",
+	    @common })];
+    $defaults{'ptukey:nranges'} = 1;
 }
 
 
@@ -281,7 +291,9 @@ sub distribution {
     $seealso .= ",R.P$F1" if $func !~ /^p/ && exists $funcs{"p$f1"};
     $seealso .= ",R.Q$F1" if $func !~ /^q/ && exists $funcs{"q$f1"};
     $seealso =~ s/^,\s*//;
-    &emit ("\t{ GNM_FUNC_HELP_SEEALSO, \"$seealso\" },\n");
+    if ($seealso) {
+	&emit ("\t{ GNM_FUNC_HELP_SEEALSO, \"$seealso\" },\n");
+    }
 
     &emit ("\t{ GNM_FUNC_HELP_END }\n" .
 	   "};\n\n");
@@ -297,7 +309,7 @@ sub distribution {
     my $n = 0;
     foreach (@args) {
 	my ($type,$name) = @{ $_ };
-	my $def = undef;
+	my $def = $defaults{"$func:$name"};
 	$def = 'TRUE' if $name eq 'lower_tail';
 	$def = 'FALSE' if $name eq 'give_log' || $name eq 'log_p';
 

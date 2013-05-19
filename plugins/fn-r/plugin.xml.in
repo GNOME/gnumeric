@@ -44,6 +44,7 @@
 				<function name="r.psnorm"/>
 				<function name="r.pst"/>
 				<function name="r.pt"/>
+				<function name="r.ptukey"/>
 				<function name="r.pweibull"/>
 				<function name="r.qbeta"/>
 				<function name="r.qbinom"/>
