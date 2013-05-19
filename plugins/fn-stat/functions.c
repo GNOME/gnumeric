@@ -437,7 +437,6 @@ gnumeric_negbinomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_normsdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NORMSDIST:cumulative distribution function of the standard normal distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("NORMSDIST is the OpenFormula function LEGACY.NORMSDIST.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=NORMSDIST(2)" },
@@ -450,9 +449,7 @@ static GnmFuncHelp const help_normsdist[] = {
 static GnmValue *
 gnumeric_normsdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float x;
-
-        x = value_get_as_float (argv[0]);
+	gnm_float x = value_get_as_float (argv[0]);
 
 	return value_new_float (pnorm (x, 0, 1, TRUE, FALSE));
 }
@@ -476,9 +473,8 @@ static GnmFuncHelp const help_normsinv[] = {
 static GnmValue *
 gnumeric_normsinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p;
+	gnm_float p = value_get_as_float (argv[0]);
 
-        p = value_get_as_float (argv[0]);
 	if (p < 0 || p > 1)
 		return value_new_error_NUM (ei->pos);
 
@@ -499,8 +495,8 @@ static GnmFuncHelp const help_owent[] = {
 static GnmValue *
 gnumeric_owent (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float h = value_get_as_float (argv[0]);
-        gnm_float a = value_get_as_float (argv[1]);
+	gnm_float h = value_get_as_float (argv[0]);
+	gnm_float a = value_get_as_float (argv[1]);
 
 	return value_new_float (gnm_owent (h, a));
 }
@@ -525,12 +521,12 @@ static GnmFuncHelp const help_lognormdist[] = {
 static GnmValue *
 gnumeric_lognormdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float x	 = value_get_as_float (argv[0]);
-        gnm_float mean   = value_get_as_float (argv[1]);
-        gnm_float stddev = value_get_as_float (argv[2]);
+	gnm_float x	 = value_get_as_float (argv[0]);
+	gnm_float mean   = value_get_as_float (argv[1]);
+	gnm_float stddev = value_get_as_float (argv[2]);
 
-        if (x <= 0 || mean < 0 || stddev <= 0)
-                return value_new_error_NUM (ei->pos);
+	if (x <= 0 || mean < 0 || stddev <= 0)
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (plnorm (x, mean, stddev, TRUE, FALSE));
 }
@@ -554,11 +550,11 @@ static GnmFuncHelp const help_loginv[] = {
 static GnmValue *
 gnumeric_loginv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p, mean, stddev;
+	gnm_float p, mean, stddev;
 
-        p = value_get_as_float (argv[0]);
-        mean = value_get_as_float (argv[1]);
-        stddev = value_get_as_float (argv[2]);
+	p = value_get_as_float (argv[0]);
+	mean = value_get_as_float (argv[1]);
+	stddev = value_get_as_float (argv[2]);
 
 	if (p < 0 || p > 1 || stddev <= 0)
 		return value_new_error_NUM (ei->pos);
@@ -581,7 +577,7 @@ static GnmFuncHelp const help_fisherinv[] = {
 static GnmValue *
 gnumeric_fisherinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-       return value_new_float (gnm_tanh (value_get_as_float (argv[0])));
+	return value_new_float (gnm_tanh (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -915,7 +911,7 @@ static GnmFuncHelp const help_bernoulli[] = {
 static gnm_float
 random_bernoulli_pdf (gnm_float k, gnm_float p)
 {
-        if (k == 0)
+	if (k == 0)
 		return 1 - p;
 	else if (k == 1)
 		return p;
@@ -932,7 +928,7 @@ gnumeric_bernoulli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (p < 0 || p > 1 || (k != 0 && k != 1))
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_bernoulli_pdf (k, p));
+	return value_new_float (random_bernoulli_pdf (k, p));
 }
 
 /***************************************************************************/
@@ -986,9 +982,9 @@ static GnmFuncHelp const help_gammainv[] = {
 static GnmValue *
 gnumeric_gammainv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p, alpha, beta;
+	gnm_float p, alpha, beta;
 
-        p = value_get_as_float (argv[0]);
+	p = value_get_as_float (argv[0]);
 	alpha = value_get_as_float (argv[1]);
 	beta = value_get_as_float (argv[2]);
 
@@ -1044,7 +1040,7 @@ static GnmFuncHelp const help_chiinv[] = {
 static GnmValue *
 gnumeric_chiinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p = value_get_as_float (argv[0]);
+	gnm_float p = value_get_as_float (argv[0]);
 	gnm_float dof = gnm_fake_floor (value_get_as_float (argv[1]));
 
 	if (p < 0 || p > 1 || dof < 1)
@@ -1284,7 +1280,7 @@ static GnmFuncHelp const help_tinv[] = {
 static GnmValue *
 gnumeric_tinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p = value_get_as_float (argv[0]);
+	gnm_float p = value_get_as_float (argv[0]);
 	gnm_float dof = value_get_as_float (argv[1]);
 	gnm_float result;
 
@@ -1346,60 +1342,60 @@ static GnmFuncHelp const help_landau[] = {
 static gnm_float
 random_landau_pdf (gnm_float x)
 {
-        static gnm_float P1[5] = {
+	static const gnm_float P1[5] = {
 		0.4259894875E0, -0.1249762550E0, 0.3984243700E-1,
 		-0.6298287635E-2, 0.1511162253E-2
 	};
-	static gnm_float P2[5] = {
+	static const gnm_float P2[5] = {
 		0.1788541609E0, 0.1173957403E0, 0.1488850518E-1,
 		-0.1394989411E-2, 0.1283617211E-3
 	};
-	static gnm_float P3[5] = {
+	static const gnm_float P3[5] = {
 		0.1788544503E0, 0.9359161662E-1, 0.6325387654E-2,
 		0.6611667319E-4, -0.2031049101E-5
 	};
-	static gnm_float P4[5] = {
+	static const gnm_float P4[5] = {
 		0.9874054407E0, 0.1186723273E3, 0.8492794360E3,
 		-0.7437792444E3, 0.4270262186E3
 	};
-	static gnm_float P5[5] = {
+	static const gnm_float P5[5] = {
 		0.1003675074E1, 0.1675702434E3, 0.4789711289E4,
 		0.2121786767E5, -0.2232494910E5
 	};
-	static gnm_float P6[5] = {
+	static const gnm_float P6[5] = {
 		0.1000827619E1, 0.6649143136E3, 0.6297292665E5,
 		0.4755546998E6, -0.5743609109E7
 	};
 
-	static gnm_float Q1[5] = {
+	static const gnm_float Q1[5] = {
 		1.0, -0.3388260629E0, 0.9594393323E-1,
 		-0.1608042283E-1, 0.3778942063E-2
 	};
-	static gnm_float Q2[5] = {
+	static const gnm_float Q2[5] = {
 		1.0, 0.7428795082E0, 0.3153932961E0,
 		0.6694219548E-1, 0.8790609714E-2
 	};
-	static gnm_float Q3[5] = {
+	static const gnm_float Q3[5] = {
 		1.0, 0.6097809921E0, 0.2560616665E0,
 		0.4746722384E-1, 0.6957301675E-2
 	};
-	static gnm_float Q4[5] = {
+	static const gnm_float Q4[5] = {
 		1.0, 0.1068615961E3, 0.3376496214E3,
 		0.2016712389E4, 0.1597063511E4
 	};
-	static gnm_float Q5[5] = {
+	static const gnm_float Q5[5] = {
 		1.0, 0.1569424537E3, 0.3745310488E4,
 		0.9834698876E4, 0.6692428357E5
 	};
-	static gnm_float Q6[5] = {
+	static const gnm_float Q6[5] = {
 		1.0, 0.6514101098E3, 0.5697473333E5,
 		0.1659174725E6, -0.2815759939E7
 	};
 
-	static gnm_float A1[3] = {
+	static const gnm_float A1[3] = {
 		0.4166666667E-1, -0.1996527778E-1, 0.2709538966E-1
 	};
-	static gnm_float A2[2] = {
+	static const gnm_float A2[2] = {
 		-0.1845568670E1, -0.4284640743E1
 	};
 
@@ -1485,7 +1481,7 @@ static GnmFuncHelp const help_finv[] = {
 static GnmValue *
 gnumeric_finv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p = value_get_as_float (argv[0]);
+	gnm_float p = value_get_as_float (argv[0]);
 	gnm_float dof1 = gnm_fake_floor (value_get_as_float (argv[1]));
 	gnm_float dof2 = gnm_fake_floor (value_get_as_float (argv[2]));
 
@@ -1612,11 +1608,11 @@ static GnmFuncHelp const help_critbinom[] = {
 static GnmValue *
 gnumeric_critbinom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float trials = gnm_fake_floor (value_get_as_float (argv[0]));
-        gnm_float p = value_get_as_float (argv[1]);
-        gnm_float alpha = value_get_as_float (argv[2]);
+	gnm_float trials = gnm_fake_floor (value_get_as_float (argv[0]));
+	gnm_float p = value_get_as_float (argv[1]);
+	gnm_float alpha = value_get_as_float (argv[2]);
 
-        if (trials < 0 || p < 0 || p > 1 || alpha < 0 || alpha > 1)
+	if (trials < 0 || p < 0 || p > 1 || alpha < 0 || alpha > 1)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (qbinom (alpha, trials, p, TRUE, FALSE));
@@ -1745,7 +1741,7 @@ gnumeric_standardize (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_weibull[] = {
 	{ GNM_FUNC_HELP_NAME, F_("WEIBULL:probability density or cumulative distribution function of the Weibull distribution")},
-           { GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
@@ -1763,25 +1759,25 @@ static GnmFuncHelp const help_weibull[] = {
 static GnmValue *
 gnumeric_weibull (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float x = value_get_as_float (argv[0]);
-        gnm_float alpha = value_get_as_float (argv[1]);
-        gnm_float beta = value_get_as_float (argv[2]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float alpha = value_get_as_float (argv[1]);
+	gnm_float beta = value_get_as_float (argv[2]);
 	gboolean cuml = value_get_as_checked_bool (argv[3]);
 
-        if (x < 0 || alpha <= 0 || beta <= 0)
-                return value_new_error_NUM (ei->pos);
+	if (x < 0 || alpha <= 0 || beta <= 0)
+		return value_new_error_NUM (ei->pos);
 
-        if (cuml)
-                return value_new_float (pweibull (x, alpha, beta, TRUE, FALSE));
-        else
-		return value_new_float (dweibull (x, alpha, beta, FALSE));
+	if (cuml)
+		return value_new_float (pweibull (x, alpha, beta, TRUE, FALSE));
+	else
+	 	return value_new_float (dweibull (x, alpha, beta, FALSE));
 }
 
 /***************************************************************************/
 
 static GnmFuncHelp const help_normdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NORMDIST:probability density or cumulative distribution function of a normal distribution")},
-           { GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("mean:mean of the distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
@@ -1796,18 +1792,18 @@ static GnmFuncHelp const help_normdist[] = {
 static GnmValue *
 gnumeric_normdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float x = value_get_as_float (argv[0]);
-        gnm_float mean = value_get_as_float (argv[1]);
-        gnm_float stddev = value_get_as_float (argv[2]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float mean = value_get_as_float (argv[1]);
+	gnm_float stddev = value_get_as_float (argv[2]);
 	gboolean cuml = value_get_as_checked_bool (argv[3]);
 
-        if (stddev <= 0)
-                return value_new_error_NUM (ei->pos);
+	if (stddev <= 0)
+		return value_new_error_NUM (ei->pos);
 
-        if (cuml)
+	if (cuml)
 		return value_new_float (pnorm (x, mean, stddev, TRUE, FALSE));
-        else
-		return value_new_float (dnorm (x, mean, stddev, FALSE));
+	else
+	 	return value_new_float (dnorm (x, mean, stddev, FALSE));
 }
 
 /***************************************************************************/
@@ -1827,7 +1823,7 @@ static GnmFuncHelp const help_norminv[] = {
 static GnmValue *
 gnumeric_norminv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p = value_get_as_float (argv[0]);
+	gnm_float p = value_get_as_float (argv[0]);
 	gnm_float mean = value_get_as_float (argv[1]);
 	gnm_float stddev = value_get_as_float (argv[2]);
 
@@ -1948,7 +1944,7 @@ gnumeric_devsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_fisher[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FISHER:Fisher transformation")},
-           { GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is not a number, this function returns a #VALUE! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -1960,17 +1956,12 @@ static GnmFuncHelp const help_fisher[] = {
 static GnmValue *
 gnumeric_fisher (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float x;
+	gnm_float x = value_get_as_float (argv[0]);
 
-        if (!VALUE_IS_NUMBER (argv[0]))
-                return value_new_error_VALUE (ei->pos);
+	if (x <= -1.0 || x >= 1.0)
+		return value_new_error_NUM (ei->pos);
 
-        x = value_get_as_float (argv[0]);
-
-        if (x <= -1.0 || x >= 1.0)
-                return value_new_error_NUM (ei->pos);
-
-        return value_new_float (gnm_atanh (x));
+	return value_new_float (gnm_atanh (x));
 }
 
 /***************************************************************************/
@@ -3150,12 +3141,12 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_leverage[] = {
-        { GNM_FUNC_HELP_NAME, F_("LEVERAGE:calculate regression leverage")},
-        { GNM_FUNC_HELP_ARG, F_("A:a matrix")},
+	{ GNM_FUNC_HELP_NAME, F_("LEVERAGE:calculate regression leverage")},
+	{ GNM_FUNC_HELP_ARG, F_("A:a matrix")},
 	{ GNM_FUNC_HELP_DESCRIPTION,
 	  F_("Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}T as a column vector.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If the matrix is singular, #VALUE! is returned.") },
-        { GNM_FUNC_HELP_END}
+	{ GNM_FUNC_HELP_END}
 };
 
 
@@ -3622,12 +3613,12 @@ static GnmFuncHelp const help_logfit[] = {
 static GnmValue *
 gnumeric_logfit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float         *xs = NULL, *ys = NULL;
+	gnm_float         *xs = NULL, *ys = NULL;
 	GnmValue              *result = NULL;
 	int                nx, ny, i;
 	gnm_float         *logfit_res = NULL;
 
-        if (argv[0] == NULL || argv[0]->type != VALUE_CELLRANGE)
+	if (argv[0] == NULL || argv[0]->type != VALUE_CELLRANGE)
 		goto out;
 	ys = collect_floats_value (argv[0], ei->pos,
 				   COLLECT_IGNORE_BLANKS | /* zeroing blanks
@@ -4203,7 +4194,7 @@ static GnmFuncHelp const help_subtotal[] = {
 static GnmValue *
 gnumeric_subtotal (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-        GnmExpr const *expr;
+	GnmExpr const *expr;
 	GnmValue *val;
 	int   fun_nbr;
 	float_range_function_t func;
@@ -4418,7 +4409,7 @@ static GnmFuncHelp const help_logistic[] = {
 static gnm_float
 random_logistic_pdf (gnm_float x, gnm_float a)
 {
-        gnm_float u = gnm_exp (-gnm_abs (x) / a);
+	gnm_float u = gnm_exp (-gnm_abs (x) / a);
 
 	return u / (gnm_abs (a) * (1 + u) * (1 + u));
 }
@@ -4432,7 +4423,7 @@ gnumeric_logistic (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (a <= 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_logistic_pdf (x, a));
+	return value_new_float (random_logistic_pdf (x, a));
 }
 
 /***************************************************************************/
@@ -4450,7 +4441,7 @@ static GnmFuncHelp const help_pareto[] = {
 static gnm_float
 random_pareto_pdf (gnm_float x, gnm_float a, gnm_float b)
 {
-        if (x >= b)
+	if (x >= b)
 		return (a / b) / gnm_pow (x / b, a + 1);
 	else
 		return 0;
@@ -4466,7 +4457,7 @@ gnumeric_pareto (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (a <= 0 || b <= 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_pareto_pdf (x, a, b));
+	return value_new_float (random_pareto_pdf (x, a, b));
 }
 
 /***************************************************************************/
@@ -4483,7 +4474,7 @@ static GnmFuncHelp const help_rayleigh[] = {
 static gnm_float
 random_rayleigh_pdf (gnm_float x, gnm_float sigma)
 {
-        if (x < 0)
+	if (x < 0)
 		return 0;
 	else {
 		gnm_float u = x / sigma;
@@ -4501,7 +4492,7 @@ gnumeric_rayleigh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (sigma <= 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_rayleigh_pdf (x, sigma));
+	return value_new_float (random_rayleigh_pdf (x, sigma));
 }
 
 /***************************************************************************/
@@ -4519,7 +4510,7 @@ static GnmFuncHelp const help_rayleightail[] = {
 static gnm_float
 random_rayleigh_tail_pdf (gnm_float x, gnm_float a, gnm_float sigma)
 {
-        if (x < a)
+	if (x < a)
 		return 0;
 	else {
 		gnm_float u = x / sigma ;
@@ -4539,7 +4530,7 @@ gnumeric_rayleightail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (sigma <= 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_rayleigh_tail_pdf (x, a, sigma));
+	return value_new_float (random_rayleigh_tail_pdf (x, a, sigma));
 }
 
 /***************************************************************************/
@@ -4573,7 +4564,7 @@ gnumeric_exppowdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (b <= 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_exppow_pdf (x, a, b));
+	return value_new_float (random_exppow_pdf (x, a, b));
 }
 
 /***************************************************************************/
@@ -4596,24 +4587,24 @@ gnumeric_laplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (a <= 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_laplace_pdf (x, a));
+	return value_new_float (random_laplace_pdf (x, a));
 }
 
 /***************************************************************************/
 
 static GnmFuncHelp const help_permutationa[] = {
-        { GNM_FUNC_HELP_NAME, F_("PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed")},
-        { GNM_FUNC_HELP_ARG, F_("x:total number of objects")},
-        { GNM_FUNC_HELP_ARG, F_("y:number of selected objects")},
+	{ GNM_FUNC_HELP_NAME, F_("PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed")},
+	{ GNM_FUNC_HELP_ARG, F_("x:total number of objects")},
+	{ GNM_FUNC_HELP_ARG, F_("y:number of selected objects")},
 	{ GNM_FUNC_HELP_NOTE, F_("If both @{x} and @{y} equal 0, PERMUTATIONA returns 1.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{y} are not integers, they are truncated") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(2,7)" },
-        { GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(2.3,7.6)" },
-        { GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(0,0)" },
-        { GNM_FUNC_HELP_SEEALSO, "POWER"},
-        { GNM_FUNC_HELP_END}
+	{ GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(2,7)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(2.3,7.6)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(0,0)" },
+	{ GNM_FUNC_HELP_SEEALSO, "POWER"},
+	{ GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -4991,7 +4982,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	  help_lkstest, gnumeric_lkstest, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
-        { "avedev", NULL,
+	{ "avedev", NULL,
 	  help_avedev, NULL, gnumeric_avedev, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -5004,7 +4995,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "bernoulli", "ff",    help_bernoulli,
+	{ "bernoulli", "ff",    help_bernoulli,
 	  gnumeric_bernoulli, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
@@ -5021,7 +5012,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	  help_binom_dist_range, gnumeric_binom_dist_range, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
-        { "cauchy", "ffb",    help_cauchy,
+	{ "cauchy", "ffb",    help_cauchy,
 	  gnumeric_cauchy, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
@@ -5037,7 +5028,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "confidence",   "fff",
 	  help_confidence, gnumeric_confidence, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "correl",       "AA",
+	{ "correl",       "AA",
 	  help_correl, gnumeric_correl, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "count", NULL,
@@ -5046,16 +5037,16 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "counta", NULL,
 	  help_counta, NULL, gnumeric_counta, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "covar",        "AA",
+	{ "covar",        "AA",
 	  help_covar, gnumeric_covar, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "covariance.s", "AA",
+	{ "covariance.s", "AA",
 	  help_covariance_s, gnumeric_covariance_s, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "critbinom",    "fff",
 	  help_critbinom, gnumeric_critbinom, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "devsq", NULL,
+	{ "devsq", NULL,
 	  help_devsq, NULL, gnumeric_devsq, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "expondist",    "ffb",
@@ -5067,13 +5058,13 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "finv",         "fff",
 	  help_finv, gnumeric_finv, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "fisher",       "f",
+	{ "fisher",       "f",
 	  help_fisher, gnumeric_fisher, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "fisherinv",    "f",
+	{ "fisherinv",    "f",
 	  help_fisherinv, gnumeric_fisherinv, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "forecast",     "frr",
+	{ "forecast",     "frr",
 	  help_forecast, gnumeric_forecast, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "frequency",    "AA",
@@ -5102,10 +5093,10 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "hypgeomdist",  "ffff|b",
 	  help_hypgeomdist, gnumeric_hypgeomdist, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "intercept",    "AA",
+	{ "intercept",    "AA",
 	  help_intercept, gnumeric_intercept, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "kurt", NULL,
+	{ "kurt", NULL,
 	  help_kurt, NULL, gnumeric_kurt, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "large", "Af",
@@ -5175,10 +5166,10 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "owent",    "ff",
 	  help_owent, gnumeric_owent, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "pearson",      "AA",
+	{ "pearson",      "AA",
 	  help_pearson, gnumeric_pearson, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "percentile",   "Af",
+	{ "percentile",   "Af",
 	  help_percentile, gnumeric_percentile, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "percentrank",  "Af|f",
@@ -5193,7 +5184,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "prob",         "AAf|f",
 	  help_prob, gnumeric_prob, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "quartile",     "Af",
+	{ "quartile",     "Af",
 	  help_quartile, gnumeric_quartile, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "rank",         "fr|b",
@@ -5212,7 +5203,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "standardize",  "fff",
 	  help_standardize, gnumeric_standardize, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "ssmedian",   "A|f",
+	{ "ssmedian",   "A|f",
 	  help_ssmedian, gnumeric_ssmedian, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "stdev", NULL,
@@ -5234,7 +5225,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "steyx",        "AA",
 	  help_steyx, gnumeric_steyx, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "rsq",          "AA",
+	{ "rsq",          "AA",
 	  help_rsq, gnumeric_rsq, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "skew", NULL,
@@ -5268,38 +5259,38 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "varpa", NULL,
 	  help_varpa, NULL, gnumeric_varpa, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "weibull",      "fffb",
+	{ "weibull",      "fffb",
 	  help_weibull, gnumeric_weibull, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "ztest", "Af|f",
 	  help_ztest, gnumeric_ztest, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "exppowdist", "fff",          help_exppowdist,
+	{ "exppowdist", "fff",          help_exppowdist,
 	  gnumeric_exppowdist, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "geomdist", "ffb",     help_geomdist,
+	{ "geomdist", "ffb",     help_geomdist,
 	  gnumeric_geomdist, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "kurtp", NULL,
+	{ "kurtp", NULL,
 	  help_kurtp, NULL, gnumeric_kurtp, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "landau", "f",  help_landau,
+	{ "landau", "f",  help_landau,
 	  gnumeric_landau, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "laplace", "ff",  help_laplace,
+	{ "laplace", "ff",  help_laplace,
 	  gnumeric_laplace, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "logistic", "ff",  help_logistic,
+	{ "logistic", "ff",  help_logistic,
 	  gnumeric_logistic, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "pareto", "fff",  help_pareto,
+	{ "pareto", "fff",  help_pareto,
 	  gnumeric_pareto, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "rayleigh", "ff",  help_rayleigh,
+	{ "rayleigh", "ff",  help_rayleigh,
 	  gnumeric_rayleigh, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "rayleightail", "fff",  help_rayleightail,
+	{ "rayleightail", "fff",  help_rayleightail,
 	  gnumeric_rayleightail, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "skewp", NULL,
@@ -5315,5 +5306,5 @@ GnmFuncDescriptor const stat_functions[] = {
 	  gnumeric_permutationa, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
-        {NULL}
+	{NULL}
 };

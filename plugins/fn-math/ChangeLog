@@ -1,3 +1,7 @@
+2013-05-19  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: Mark examples for translation when appropriate.
+
 2013-04-26  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.2

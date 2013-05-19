@@ -2424,8 +2424,8 @@ static GnmFuncHelp const help_sumx2my2[] = {
         { GNM_FUNC_HELP_DESCRIPTION, F_("SUMX2MY2 function returns the sum of the difference of squares of "
 					"corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2).")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.\n"
-	  "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SUMX2MY2(A1:A5,B1:B5) yields -1299.")},
         { GNM_FUNC_HELP_SEEALSO, "SUMSQ,SUMX2PY2"},
         { GNM_FUNC_HELP_END}
 };
@@ -2468,8 +2468,8 @@ static GnmFuncHelp const help_sumx2py2[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array0} and @{array1} have different number of data points, SUMX2PY2 returns #N/A.\n"
 				 "Strings and empty cells are simply ignored.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.\n"
-	  "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SUMX2PY2(A1:A5,B1:B5) yields 7149.") },
         { GNM_FUNC_HELP_SEEALSO, "SUMSQ,SUMX2MY2"},
         { GNM_FUNC_HELP_END}
 };
@@ -2511,8 +2511,8 @@ static GnmFuncHelp const help_sumxmy2[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array0} and @{array1} have different number of data points, SUMXMY2 returns #N/A.\n"
 				 "Strings and empty cells are simply ignored.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.\n"
-	  "Then SUMXMY2(A1:A5,B1:B5) yields 409."},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SUMXMY2(A1:A5,B1:B5) yields 409.") },
         { GNM_FUNC_HELP_SEEALSO, "SUMSQ,SUMX2MY2,SUMX2PY2"},
         { GNM_FUNC_HELP_END}
 };
@@ -2554,8 +2554,8 @@ static GnmFuncHelp const help_seriessum[] = {
         { GNM_FUNC_HELP_ARG, F_("m:increment to each exponent")},
         { GNM_FUNC_HELP_ARG, F_("coeff:coefficients of the power series")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, 2.98, 3.42, and 4.33.\n"
-	  " Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, 2.98, 3.42, and 4.33.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926") },
         { GNM_FUNC_HELP_SEEALSO, "COUNT,SUM"},
         { GNM_FUNC_HELP_END}
 };
@@ -2896,7 +2896,7 @@ out:
 static GnmFuncHelp const help_mdeterm[] = {
         { GNM_FUNC_HELP_NAME, F_("MDETERM:the determinant of the matrix @{matrix}")},
         { GNM_FUNC_HELP_ARG, F_("matrix:a square matrix")},
-        { GNM_FUNC_HELP_EXAMPLES, "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, 2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then MDETERM(A1:D4) yields 148."},
+        { GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, 2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then MDETERM(A1:D4) yields 148.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_SEEALSO, "MMULT,MINVERSE"},
         { GNM_FUNC_HELP_END}

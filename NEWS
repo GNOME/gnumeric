@@ -19,6 +19,7 @@ Morten:
 	* Improve statfuns tests.  [#700294]
 	* Improve mathfuns tests.  [#700295]
 	* Add new R.PTUKEY function.  [#700132]
+	* Fix missing translation of certain function examples.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2
