@@ -314,6 +314,7 @@ EXTRA_DIST = \
      menu-data-import.png \
      menu-data-labelled.png \
      menu-edit-labelled.png \
+     menu-edit-modify-names.png \
      menu-edit-paste-special.png \
      menu-edit-select.png \
      menu-file-labelled.png \

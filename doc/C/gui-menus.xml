@@ -7,10 +7,12 @@
 
   <para>
     This section of the manual describes the use of the menubar and
-    the menus themselves. The rest of <xref linkend="sect-gui-menus"
-    /> then explains each entry in every
+    the menus themselves. It then explains each entry in every
     &gnum; menu, submenu or context menu.
   </para>
+
+  <sect2 id="menu-nav">
+    <title>Using Menus</title>    
 
   <para>
     A menu is a graphical element within a program which appears with
@@ -34,23 +36,32 @@
 
   <para>
     Both the main menus, on the menubar, and context menus may have
-    sub-menus. Sub-menus are indicated by a small right pointing
-    arrow. To access the sub-menus, the user must move the pointer
-    down to the sub-menu entry and carefully across to the position of
-    the little arrow. After an instant the sub-menu will open up and
-    the user must carefully move the pointer directly across into the
-    sub-menu. Occasionally, when there is not enough room to the right
-    of the currently open menu, sub-menus may open to the
-    left. Navigating sub-menus can be difficult since the menu will
+    submenus. A submenu is indicated by a small right-pointing
+    arrow. To access a submenu, move the pointer
+    down to the submenu entry. When the submenu opens, 
+    move the pointer directly across into the submenu.
+    When there is not enough room to the right
+    of the currently open menu, submenus may open to the
+    left. Note that the submenu will
     close if the mouse pointer moves into any other menu entry.
   </para>
 
   <para>
-    Menu entries which are followed by an ellipsis (three dots)
-    indicate that this entry will open a dialog window which will ask
-    the user for more choices.
+    You can also use the keyboard to navigate menus and submenus.
+    See <xref linkend="menu-bars" /> to access the main menus using the keyboard.
+    Once a menu is displayed, menu entries can be highlighted by pressing the
+    down and up arrow keys. When a submenu opens, pressing the right
+    arrow key moves the highlight to the first entry of the submenu. When
+    a submenu entry is highlighted, pressing the left arrow key removes
+    the highlight from the submenu. Pressing the space bar or the <keycap>Enter</keycap>
+    key activates the highlighted menu entry.
   </para>
-	
+
+  <para>
+    Menu entries ending with an ellipsis (three dots) open a dialog window which
+    asks for more choices.
+  </para>
+  </sect2>
 
   <sect2 id="menu-bars">
     <title>The Menubar</title>    
@@ -78,20 +89,23 @@
 
 
     <para>
-      &gnum; menus are opened with a
-      simple click on the name of the menu in the menu bar. Once
-      clicked, the menu will stay open. If the mouse pointer is
-      dragged over the name of another menu on the menubar, the first
-      menu will close and the new menu open up. This is a useful way
+      To open a &gnum; menu, click on the name of the menu in the menu bar.
+      Once clicked, the menu will stay open.
+      If the mouse pointer is moved to the name of another menu on the
+      menubar, the first menu will close and the new menu open up. This is a useful way
       to look in each menu to hunt for a commands. Menus can also be
-      opened through the keyboard. One of the letters in each menu is
-      underlined. Typing the <keycap>Alt</keycap> key at the same time
-      as the underlined letter key will open the menu. This is also
-      true of sub-menus. Once the menus are open, the arrow keys can
-      be used to move between menus or select an entry in a particular
-      menu. An open menu can be closed with a click over any other
-      area of the application or of the desktop. The menus can also be
-      closed by typing the escape key, <keysym>Esc</keysym>.
+      opened through the keyboard.
+      Pressing and holding the <keycap>Alt</keycap> key causes 
+      one of the letters in each menu name to be underlined.
+      Press-and-hold <keycap>Alt</keycap> and press the underlined letter
+      to open the associated menu.
+      Using the keyboard for menu activation or navigation causes
+      a letter of each menu or submenu item label to be underlined.
+      Press that letter key to activate the menu item.
+      Once a menu is open, the arrow keys can be used to move between
+      menus or select an entry in a particular menu.
+      To close an open menu, click over any other area of the application
+      or of the desktop or press the Escape key, <keysym>Esc</keysym>.
     </para>
 
     <para>
@@ -705,56 +719,76 @@
 			Data entry and removal operations.
 		</term>
 		<listitem>
-			<para>These operations either add or remove data from the worksheet. They
-			differ in the type of data removed and the re-arrangement of
-			remaining data. The differences are explained below.
+			<para>These operations add or remove data from the worksheet. They
+			differ in the type of data modified or removed and the possible
+			re-arrangement of remaining data, as explained below. With one
+			exception noted below, these operations are like the previous group
+			in acting based on the selected cells.
 			</para>
 
 
 			<itemizedlist>
       	    	<listitem>
      	      	<para>
-     	       	<guimenuitem>Clear</guimenuitem> &mdash; The
-			       <guimenuitem>clear</guimenuitem> menu item merely opens a
-				   sub-menu with four choices. The user can choose to clear all
-				   the elements of the cells in a selection: the formats, the
-				   comments, the contents. Alternatively, the user can choose
-				   to clear a single one of those elements. Clearing the formats
-				   will leave the data or formula in the cell intact. It will
-				   remove any borders, re-set the cell alignments, change the
-				   background colour to white and the text colour to black and
-				   reset the number format to <guilabel>General</guilabel>. Clearing the comments
-				   will simply delete the comments for the cells in that
-				   location. Finally clearing the contents will leave the
-				   cell's formatting in place but remove the formula or data
-				   contents of the cell.
-				   </para>
+			<guimenuitem>Clear</guimenuitem> opens a submenu
+			with eight choices, organized into two sets of four.
+			The first group affects all cells in the selection.
+			The second group applies the same actions to just the
+			selected cells that are in rows selected by the filter.
+			See <xref linkend="sect-data-filter" />
+			for details of setting up a filter.
+			</para>
+		<para>
+			Choose <guimenuitem>All</guimenuitem> to clear all
+			the elements of the cells in the selection: the formats and hyperlinks,
+			the comments, and the contents.
+			Choose <guimenuitem>Formats &amp; Hyperlinks</guimenuitem>
+			to clear the formats and hyperlinks while leaving the data or
+			formula in the cell intact.
+			This removes any borders, re-sets the cell alignments, changes the
+			background colour to white and the text colour to black,
+			resets the number format to <guilabel>General</guilabel>, and removes
+			the hyperlink associated with each cell, if any.
+			Choose <guimenuitem>Comments</guimenuitem> to delete the
+			comments for the cells in the selection.
+			Choose <guimenuitem>Contents</guimenuitem> to leave the
+			cell's formatting in place but remove the formula or data
+			contents of the cell.
+			</para>
      	   		</listitem>
 
       	    	<listitem>
+      	    	<para>
+      	    		<guimenuitem>Delete</guimenuitem> opens a submenu
+      	    		with five choices. They permit deleting a range of rows or
+      	    		columns, deleting just the
+      	    		selected cells, or deleting just the comments or hyperlinks
+      	    		associated with the selected cells.
+      	    	</para>
      	      	<para>
-     	       	<guimenuitem>Delete</guimenuitem> &mdash; The
-			       <guimenuitem>delete</guimenuitem> menu item may open a dialog
-				 giving the user a choice of options. Any of the options
-				 will completely delete the selected cells. Depending on the
-				 selection, &gnum; will fill in the space the cells
-				 were occupying differently. With column or row selections,
-				 the effect is easy to understand and no choice is possible
-				 so &gnum; does not open the dialog. The space left by
-				 selected rows, is filled by moving lower rows up
-				 whereas the space filled by deleting columns is filled by
-				 moving to the left columns which were right of the selection. 
-				 For example, if columns D and E are selected for deletion,
-				 &gnum; will move the contents of all columns from F
-				 onwards two columns to the left.
-				 </para>
-				 <para>
-				 With blocks of cells, the <guimenuitem>delete</guimenuitem> 
-				 menu item will open a dialog asking the user how to fill in the
-				 deleted cells. Blocks of cells will either be filled in by the
-				 columns of cells below the block selection or by the rows on 
-				 the right of the block. 
-				 </para>
+     	      		Choose <guimenuitem>Columns</guimenuitem> or
+     	      		<guimenuitem>Rows</guimenuitem> to delete the columns or rows,
+			respectively, that cover the cells in the selection.
+			Selecting <guimenuitem>Rows</guimenuitem> when the selection
+			is one or more columns or <guimenuitem>Columns</guimenuitem>
+			when the selection is one or more rows deletes all cells in the
+			worksheet.
+			The space left by deleted rows is filled by moving lower rows up.
+			The space left by deleted columns is filled by moving to the
+			left columns which were right of the selection.
+			For example, if columns D and E are deleted,
+			&gnum; will move the contents of all columns from F onwards two
+			columns to the left.
+		</para>
+		<para>
+			<guimenuitem>Cells...</guimenuitem>: If the selection is one or more
+			columns or one or more rows, <guimenuitem>Cells...</guimenuitem>
+			deletes the selected columns or rows as described above.
+			If the selection is a block of cells, <guimenuitem>Cells...</guimenuitem>
+			opens a dialog asking how to fill in the deleted cells. Blocks of
+			cells can be filled in by the columns of cells below the block
+			selection or by the rows on the right of the block. 
+		</para>
 
     <figure id="menu-edit-delete-cells.png">
 		    <title>The Delete Cells Dialog</title>
@@ -770,16 +804,152 @@
 		    </screenshot>
     </figure>
 
-
 				 <para>
-				 For example, if the user chose the
-				 block of cells from E6:G8 for deletion, those cells could be
+				 For example, if the
+				 block of cells from E6:G8 is deleted, those cells would be
 				 filled in by the cells below E8, F8 and G8 if the <guilabel>Shift cells
-				 up</guilabel> option were chosen. Alternatively, the cells to the right
-				 of G6, G7 and G8 could fill in the space from the right if the
-				 <guilabel>Shift cells left</guilabel> option were chosen.
+				 up</guilabel> option were chosen. The cells to the right
+				 of G6, G7 and G8 would fill in the space from the right if the
+				 <guilabel>Shift cells left</guilabel> option were chosen. The
+				 two <guilabel>Delete</guilabel> choices are the same as
+				<guimenuitem>Edit &#9654; Delete &#9654; Rows</guimenuitem> and
+				<guimenuitem>Edit &#9654; Delete &#9654; Columns</guimenuitem>.
 				 </para>
+		<para>
+			<guimenuitem>Comments</guimenuitem>: This is the same as
+			<guimenuitem>Edit &#9654; Clear &#9654; Comments</guimenuitem>,
+			described above.
+		</para>
+		<para>
+			<guimenuitem>Hyperlinks</guimenuitem>: This is similar
+			to <guimenuitem>Edit &#9654; Clear &#9654; Formats &amp;
+				Hyperlinks</guimenuitem>, as described above, except
+			that existing cell formats are not disturbed.
+		</para>
      	   		</listitem>
+		<listitem>
+		  <para>
+		    <guimenuitem>Modify</guimenuitem> opens a submenu with three choices:
+		    </para>
+		  <itemizedlist>
+		    <listitem>
+		      <para>
+		        <guimenuitem>Comment...</guimenuitem> opens the
+		        <guimenu>Edit Cell Comment</guimenu> dialog.
+		        This is the same as the dialog for
+		        <guimenuitem>Edit&nbsp;&#9654; Insert&nbsp;&#9654; Comment...</guimenuitem>.
+		        See <xref linkend="Insert-Menu" /> for more information.
+		        </para>
+		      </listitem>
+		    <listitem>
+		      <para>
+		        <guimenuitem>Hyperlink...</guimenuitem> opens the
+		        <guimenu>Hyperlink</guimenu> dialog.
+		        This is the same as the dialog for
+		        <guimenuitem>Edit&nbsp;&#9654; Insert&nbsp;&#9654; Hyperlink...</guimenuitem>.
+		        See <xref linkend="Insert-Menu" /> for more information.
+		        </para>
+		      </listitem>
+		    <listitem>
+		      <para>
+		        <guimenuitem>Names...</guimenuitem> opens the
+		        <guimenu>Define Names</guimenu> dialog.
+		        <xref linkend="sect-data-formulas-names" />
+		        explains names in greater detail.
+		        </para>
+
+			<figure id="menu-edit-modify-names.png">
+			<title>The <guimenu>Define Names</guimenu> dialog</title>
+			  <screenshot>
+			    <mediaobject>
+			      <imageobject>
+				<imagedata fileref="figures/menu-edit-modify-names.png" />
+			      </imageobject>
+			      <textobject>
+				<phrase>An image of the Define Names dialog.</phrase>
+			      </textobject>
+			    </mediaobject>
+			  </screenshot>
+			</figure>
+			<para>
+			The <guimenu>Define Names</guimenu> dialog lists the
+			names defined in the workbook, organized into two or more groups
+			corresponding to the workbook, the active sheet, and the inactive
+			sheets, if any. When the dialog is opened, only the names defined
+			for the workbook and the active sheet are visible; the definitions
+			for any inactive sheets are collapsed into a single line for each,
+			identified by the sheet name. The definitions for the workbook or
+			a sheet can be exposed or hidden by clicking on the arrow at the
+			left end of the workbook or sheet line.
+			</para>
+			<para>
+			The second column of the <guimenu>Define Names</guimenu> dialog can 
+			show one of three icons. To define a new name, click on the
+			plus sign in the row for the workbook or the active worksheet.
+			Names defined under a worksheet name are visible
+			only on that worksheet.
+			Names defined for the workbook are visible to any
+			worksheet that does not have a private definition of the name.
+			Names are created as "&lt;new-name&gt;", which must be changed
+			before the definition can be used. Click on the new line to select
+			it, then click on the name field and type the new name, followed by
+			the <keycap>Enter</keycap> key.
+			When you press <keycap>Enter</keycap>, the name is fixed.
+			Only its value can then be changed.
+			</para>
+			<para>
+			If the second column shows a minus sign, the line is for a
+			user-defined name. 
+			Click on the minus sign to delete the definition of the name.
+			If the second column shows a padlock icon, the definition is created 
+			automatically and cannot be modified from this dialog.
+			</para>
+			<para>
+			For user-defined names, the third column of the <guimenu>Define
+			Names</guimenu> dialog contains a downward- or upward-pointing arrow.
+			Click on the arrow to move the definition down to the worksheet or
+			up to the workbook.
+			This operation is not permitted if the moved definition would replace
+			a name already defined for the destination.
+			To do such a replacement, first delete the name in the destination,
+			then move the definition.
+			</para>
+			<para>
+			The last column of the dialog shows the value defined for the name. 
+			When a new name is created, this field is initialized with an absolute 
+			reference to the currently selected cells.
+			To modify a definition, click on the value field and edit it as
+			desired, then press the <keycap>Enter</keycap> key.
+			To define a string value, enclose it in quotation marks, for example,
+			'string one' or "string two".
+			To specify a range of cells, use absolute references.
+			Relative references change in meaning depending on the cell where
+			they are used, which is unlikely to produce your intended result.
+			</para>
+			<para>
+			Below the display of defined names is a filter box.
+			If the workbook or sheet contains many defined names, you can see
+			a subset of the names by typing a partial name in the filter box
+			and pressing <keycap>Enter</keycap>.
+			All names that do not contain the entered string are omitted from the
+			display.
+			Differences of case are ignored.
+			For example, if &ldquo;real&rdquo; were entered in the filter box,
+			names such as "Real_Value" and "Surreal" would be displayed.
+			When <keycap>Enter</keycap> is pressed, contexts that contain
+			no matching names are automatically collapsed; you may later need 
+			to manually expand the workbook line, for example, if the filter
+			string is changed.
+			If the line for the workbook or a worksheet begins with a
+			right-pointing arrow, it contains names that pass the filter.
+			Clicking on the arrow will change it to a downward-pointing arrow
+			and make the names visible.
+			To see all the defined names, clear the filter by clicking on the
+			button at the right end of the filter box.
+			</para>
+		      </listitem>
+		    </itemizedlist>
+			</listitem>
 			</itemizedlist>
 		</listitem>
 	</varlistentry>
@@ -812,7 +982,7 @@
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Search &amp; Replace...</guimenuitem> &mdash; The
-			       <guimenuitem>.Search &amp; Replace..</guimenuitem> menu item
+			       <guimenuitem>Search &amp; Replace..</guimenuitem> menu item
 				 will launch a dialog to find cells with particular
 				 characteristics and replace them all with a common content.
 				 This dialog is similar to the <guilabel>Search</guilabel>
@@ -1110,7 +1280,7 @@
               <para>
                 <guimenuitem>Windows</guimenuitem> &mdash; The
                 <guimenuitem>Windows</guimenuitem> menu item provides
-		access to a sub-menu which lists all of the windows
+		access to a submenu which lists all of the windows
 		which are currently open. This provides an easy way to
 		jump between all the different instances and views of
 		&gnum; documents.
@@ -1448,7 +1618,7 @@
 	     <para>
 	       <guimenuitem>Name...</guimenuitem> &mdash; The
 	       <guimenuitem>Name...</guimenuitem> menu item opens a
-	       dialog (see <xref linkend="menu-insert-names.png"/>) with a 
+	       dialog with a 
 	       list of all defined names that can be pasted into
 	       the current cell.  <xref linkend="sect-data-formulas-names"
 	       /> explains names in greater detail.
@@ -1475,6 +1645,10 @@
 		enter a comment to the currently selected cell. A red
 		triangle will appear in the top right corner of the
 		cell to show that the cell has a comment.
+		If the cell already has an associated comment, the
+		dialog is initialized with the existing comment.
+		When you click on OK, the modified comment replaces
+		the existing comment.
 	     </para>
 	   </listitem>
 
@@ -1492,6 +1666,10 @@
 		Universal Resource Locator (URL). If the URL points to
 		a resource accessible over the Internet, &gnum; will
 		launch the desktop web browser to open that URL.
+		If the cell already has an associated hyperlink, the dialog
+		is initialized with that information.
+		When you click on OK, the modified hyperlink information
+		replaces the existing hyperlink.
 	   </para>
 	   </listitem>
 
@@ -1499,7 +1677,7 @@
 	     <para>
 	       <guimenuitem>Special</guimenuitem> &mdash; The
 	       <guimenuitem>Special</guimenuitem> menu item opens a
-	       sub-menu which allows the user to insert predefined
+	       submenu which allows the user to insert predefined
 	       content into a cell. The current choices are to insert
 	       the current date, time or both.
 	     </para>
@@ -1563,7 +1741,7 @@
           <listitem>
            <para>
             <guimenuitem>Cells</guimenuitem> &mdash; The
-	    <guimenuitem>Cells...</guimenuitem> menu item opens a sub-menu
+	    <guimenuitem>Cells...</guimenuitem> menu item opens a submenu
 	    with choices to allows the user to modify the formatting of the
 	    selected cells.
 	   </para>
@@ -1628,7 +1806,7 @@
          <para>
 
           <guimenuitem>Column</guimenuitem> &mdash; The
-	  <guimenuitem>Column</guimenuitem> menu item opens a sub-menu
+	  <guimenuitem>Column</guimenuitem> menu item opens a submenu
 	  with choices to allows the user to modify the view of the
 	  selected columns.
         </para>
@@ -1755,7 +1933,7 @@
         <listitem>
          <para>
           <guimenuitem>Sheet</guimenuitem> &mdash; The <guimenuitem>Sheet</guimenuitem>
-			menu item opens a sub-menu with operations to change properties of the
+			menu item opens a submenu with operations to change properties of the
 			worksheet. This submenu has three sections.
         </para>
     <figure id="menu-format-sheet.png">
@@ -2231,7 +2409,7 @@
 	      <para>
 	        <guimenuitem>Shuffle...</guimenuitem> &mdash; The
 		<guimenuitem>Shuffle...</guimenuitem> menu item opens a
-		sub-menu that allows various forms of data to be created.
+		submenu that allows various forms of data to be created.
 	      </para>
 	    </listitem>
 
@@ -2250,7 +2428,7 @@
 	      <para>
 	        <guimenuitem>Filter</guimenuitem> &mdash; The
 		<guimenuitem>Filter</guimenuitem> menu item opens a
-		sub-menu with three entries: <guimenuitem>Add Auto
+		submenu with three entries: <guimenuitem>Add Auto
 		Filter</guimenuitem>, <guimenuitem>Show
 		All</guimenuitem>, and <guimenuitem>Advanced
 		Filter</guimenuitem> entry. Filters are explained in
@@ -2289,7 +2467,7 @@
 	      <para>
 	        <guimenuitem>Group and Outline</guimenuitem> &mdash; The
 		<guimenuitem>Group and Outline</guimenuitem> menu item
-		provides a sub-menu through which users can group rows
+		provides a submenu through which users can group rows
 		or columns into units which can be collapsed to be
 		hidden from view. These entries also allow users to
 		alter the display of the grouping handles on the
@@ -2328,7 +2506,7 @@
 	      <para>
 	        <guimenuitem>Import Data</guimenuitem> &mdash; The
 		<guimenuitem>Import Data</guimenuitem> menu item
-		provides the following  sub-menu:
+		provides the following submenu:
 	      </para>
 	      <figure id="menu-data-import.png">
 		<title>The <guimenu>Import Data</guimenu> submenu.</title>
@@ -2361,7 +2539,7 @@
 	      <para>
 	        <guimenuitem>Export Data</guimenuitem> &mdash; The
 		<guimenuitem>Export Data</guimenuitem> menu item
-		provides the following sub-menu:
+		provides the following submenu:
 	      </para>
 	      <figure id="menu-data-export.png">
 		<title>The <guimenu>Export Data</guimenu> submenu.</title>

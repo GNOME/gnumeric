@@ -751,10 +751,10 @@ FUNCTIONNAME(ARGUMENTS)
     <title>Names</title>
 
     <para>
-      Names are labels which have a meaning defined by the user. Names
+      Names are labels which have a meaning defined by the user or by &gnum;. Names
       can be defined to apply to a whole workbook or to a particular
-      sheet in a workbook. Names can refer to a numeric value, to a
-      particular range of cells, or to part of a formula. The name can
+      sheet in a workbook. A name can refer to a numeric value, a string,
+      a range of cells, or a formula. The name can
       be used wherever its meaning could otherwise be used.
     </para>
 
@@ -776,12 +776,14 @@ FUNCTIONNAME(ARGUMENTS)
     </example>
 
     <para>
-      Names are defined using the <guimenu>Insert</guimenu>
-      <guimenuitem>Name</guimenuitem> dialog. This allows manipulation
-      of all the names in the related workbook. A name can have any
-      form except that it cannot consist of a number, of the name of a
-      sheet or of that of a function, since this would cause
-      confusion.
+      Names are defined using the <guimenu>Define Names</guimenu>
+      dialog, accessed through the <guimenu>Edit&nbsp;&#9654;</guimenu> <guimenuitem>Modify</guimenuitem>
+      submenu; see <xref linkend="Edit-Menu" />.
+      This allows manipulation
+      of all the names in the related workbook.
+      A name is a sequence of letters, digits, and underscore characters,
+      beginning with a letter or underscore; a name cannot have the same
+      form as a cell identifier, e.g., "D7" is not a permitted name.
     </para>
 
     <para>
@@ -793,8 +795,16 @@ FUNCTIONNAME(ARGUMENTS)
     <itemizedlist>
       <listitem>
         <para>
-          "Sheet_Title:" this returns the name of the current
-          sheet
+          Sheet_Title: The name of the current sheet.
+        </para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <listitem>
+        <para>
+          Print_Area: The range of cells set as the sheet's
+          print area; undefined if print area is not set.
         </para>
       </listitem>
     </itemizedlist>

@@ -5,6 +5,9 @@ Andreas:
 	* Fix 'Go to First'. [#699631]
 	* Fix data merges. [#699897]
 
+Darrell Tangman:
+	* Update documentation for Edit and Insert menus. [#700596]
+
 Jean:
 	* Adjust labels vertical alignment in document properties dialog. [#700156]
 
