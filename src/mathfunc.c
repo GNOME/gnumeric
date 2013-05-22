@@ -5188,9 +5188,6 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
        (see how C1-C3 are used) <MM>
     */
     /* const gnm_float iMax  = 1.; not used if = 1*/
-    const static gnm_float C1 = -30.;
-    const static gnm_float C2 = -50.;
-    const static gnm_float C3 = 60.;
     const static gnm_float bb   = 8.;
     const static gnm_float wlar = 3.;
     const static gnm_float wincr1 = 2.;
@@ -5212,7 +5209,7 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	GNM_const(0.249147045813402785000562436043)
     };
     gnm_float ac, pr_w, binc, c, cc1,
-	qexpo, qsqz, rinsum, wi, wincr, xx;
+	qsqz, rinsum, wi, wincr, xx;
     /*LDOUBLE*/ gnm_float blb, einsum, elsum;
     int j, jj;
 
@@ -5225,16 +5222,10 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
     if (qsqz >= bb)
 	return 1.0;
 
-    /* find (f(w/2) - 1) ^ cc */
+    /* find (F(w/2) - 1) ^ cc */
     /* (first term in integral of hartley's form). */
 
-    pr_w = gnm_erf (qsqz / M_SQRT2gnum);
-
-    /* if pr_w ^ cc < 2e-22 then set pr_w = 0 */
-    if (pr_w >= gnm_exp(C2 / cc))
-	pr_w = gnm_pow(pr_w, cc);
-    else
-	pr_w = 0.0;
+    pr_w = gnm_pow (gnm_erf (qsqz / M_SQRT2gnum), cc);
 
     /* if w is large then the second component of the */
     /* integral is small, so fewer intervals are needed. */
@@ -5276,38 +5267,17 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	    c = binc * 0.5 * xx;
 	    ac = a + c;
 
-	    /* if exp(-qexpo/2) < 9e-14, */
-	    /* then doesn't contribute to integral */
-
-	    qexpo = ac * ac;
-	    if (qexpo > C3)
-		break;
-
-	    /* if rinsum ^ (cc-1) < 9e-14, */
-	    /* then doesn't contribute to integral */
-
-	    // rinsum = (pplus * 0.5) - (pminus * 0.5);
 	    rinsum = pnorm2 (ac - w, ac, FALSE);
-	    if (rinsum >= gnm_exp(C1 / cc1)) {
-		rinsum = (aleg[j-1] * gnm_exp(-(0.5 * qexpo))) * gnm_pow(rinsum, cc1);
-		elsum += rinsum;
-	    }
+	    elsum += gnm_pow (rinsum, cc1) *
+		    aleg[j-1] *
+		    gnm_exp(-(0.5 * ac * ac));
 	}
-	elsum *= ((binc * cc) * M_1_SQRT_2PI);
-	einsum += elsum;
+	einsum += elsum * (binc * cc * M_1_SQRT_2PI);
 	blb += binc;
     }
 
-    /* if pr_w ^ rr < 9e-14, then return 0 */
-    pr_w += (gnm_float) einsum;
-    if (pr_w <= gnm_exp(C1 / rr))
-	return 0.;
-
-    pr_w = gnm_pow(pr_w, rr);
-    if (pr_w >= 1.)/* 1 was iMax was eps */
-	return 1.;
-    return pr_w;
-} /* wprob() */
+    return gnm_pow (MIN (1.0, pr_w + einsum), rr);
+}
 
 
 static gnm_float
@@ -5366,11 +5336,11 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 	All values matched the tables (provided in same reference)
 	to 30 significant digits.
 
-	f(x) = .5 + erf(x / sqrt(2)) / 2      for x > 0
+	F(x) = .5 + erf(x / sqrt(2)) / 2      for x > 0
 
-	f(x) = erfc( -x / sqrt(2)) / 2	      for x < 0
+	F(x) = erfc( -x / sqrt(2)) / 2	      for x < 0
 
-	where f(x) is standard normal c. d. f.
+	where F(x) is standard normal c. d. f.
 
 	if degrees of freedom large, approximate integral
 	with range distribution.
@@ -5409,8 +5379,8 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 	GNM_const(0.182603415044923588866763667969),
 	GNM_const(0.189450610455068496285396723208)
     };
-    gnm_float ans, f2, f21, f2lf, ff4, otsum, qsqz, rotsum, t1, twa1, ulen, wprb;
-    int i, j, jj;
+    gnm_float ans, f2, f21, f2lf, ff4, otsum, t1, twa1, ulen, wprb;
+    int i, jj;
 
 #ifdef IEEE_754
     if (gnm_isnan(q) || gnm_isnan(rr) || gnm_isnan(cc) || gnm_isnan(df))
@@ -5420,7 +5390,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
     if (q <= 0)
 	return R_DT_0;
 
-    /* FIXME: Special case for cc==2: we have explicit formula  */
+    /* FIXME: Special case for cc==2&&cc=1: we have explicit formula  */
 
 
     /* df must be > 1 */
@@ -5439,6 +5409,10 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
     f2 = df * 0.5;
     /* gnm_lgamma(u) = log(gamma(u)) */
     f2lf = ((f2 * gnm_log(df)) - (df * M_LN2gnum)) - gnm_lgamma(f2);
+    if (0) g_printerr ("%.20g  %.20g  %.20g\n",
+		(f2 * gnm_log(df)),
+		gnm_lgamma(f2),
+		f2lf);
     f21 = f2 - 1.0;
 
     /* integral is divided into unit, half-unit, quarter-unit, or */
@@ -5465,35 +5439,35 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 
 	twa1 = (2 * i - 1) * ulen;
 
-	for (jj = 1; jj <= nlegq; jj++) {
-	    if (ihalfq < jj) {
-		j = jj - ihalfq - 1;
-		t1 = (f2lf + (f21 * gnm_log(twa1 + (xlegq[j] * ulen))))
-		    - (((xlegq[j] * ulen) + twa1) * ff4);
-	    } else {
-		j = jj - 1;
-		t1 = (f2lf + (f21 * gnm_log(twa1 - (xlegq[j] * ulen))))
-		    + (((xlegq[j] * ulen) - twa1) * ff4);
+	for (jj = 0; jj < nlegq; jj++) {
+	    gnm_float xx, aa;
 
+	    if (ihalfq <= jj) {
+		xx = xlegq[jj - ihalfq];
+		aa = alegq[jj - ihalfq];
+	    } else {
+		xx = -xlegq[jj];
+		aa = alegq[jj];
 	    }
 
+	    t1 = (f2lf +
+		  f21 * gnm_log(xx * ulen + twa1) -
+		  (xx * ulen + twa1) * ff4);
+
 	    /* if exp(t1) < 9e-14, then doesn't contribute to integral */
-	    if (t1 >= eps1) {
-		if (ihalfq < jj) {
-		    qsqz = q * gnm_sqrt(((xlegq[j] * ulen) + twa1) * 0.5);
-		} else {
-		    qsqz = q * gnm_sqrt(((-(xlegq[j] * ulen)) + twa1) * 0.5);
-		}
+	    if (1 || t1 >= eps1) {
+		gnm_float w = q * gnm_sqrt((xx * ulen + twa1) * 0.5);
 
 		/* call wprob to find integral of range portion */
 
-		wprb = ptukey_wprob(qsqz, rr, cc);
-		rotsum = (wprb * alegq[j]) * gnm_exp(t1);
-		otsum += rotsum;
+		wprb = ptukey_wprob(w, rr, cc);
+		otsum += (wprb * aa) * gnm_exp(t1);
 	    }
 	    /* end legendre integral for interval i */
 	    /* L200: */
 	}
+
+	ans += otsum;
 
 	/* if integral for interval i < 1e-14, then stop.
 	 * However, in order to avoid small area under left tail,
@@ -5504,8 +5478,6 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 
 	/* end of interval i */
 	/* L330: */
-
-	ans += otsum;
     }
 
     if(otsum > eps2) { /* not converged */
