@@ -5400,11 +5400,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 
     f2 = df * 0.5;
     /* gnm_lgamma(u) = log(gamma(u)) */
-    f2lf = ((f2 * gnm_log(df)) - (df * M_LN2gnum)) - gnm_lgamma(f2);
-    if (0) g_printerr ("%.20g  %.20g  %.20g\n",
-		(f2 * gnm_log(df)),
-		gnm_lgamma(f2),
-		f2lf);
+    f2lf = f2 * gnm_log(f2 * 0.5) - gnm_lgamma(f2);
 
     /* integral is divided into unit, half-unit, quarter-unit, or */
     /* eighth-unit length intervals depending on the value of the */
@@ -5418,6 +5414,18 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
     /* integrate over each subinterval */
 
     ans = 0.0;
+
+    if (0) {
+	    gnm_float probe_u = 0.0001;
+	    gnm_float probe_u2 = probe_u * 2;
+	    gnm_float t1 = f2lf + (f2 - 1) * gnm_log(probe_u2) - probe_u * f2;
+	    gnm_float probe_w = ptukey_wprob(q * gnm_sqrt(probe_u), rr, cc)
+		    * gnm_exp (t1);
+	    if (probe_w > probe_u)
+		    g_printerr ("q=%g cc=%g df=%g  %.20g\n",
+				q, cc, df, probe_w);
+    }
+
 
     for (i = 1; TRUE; i++) {
 	gnm_float otsum = 0.0;
