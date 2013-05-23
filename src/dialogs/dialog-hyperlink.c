@@ -603,9 +603,11 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 	/* We are duplicating it here rather than in an ok handler in case */
 	/* The link is changed for a differnt cell in a different view. */
 	state->link = g_object_new (gnm_hlink_url_get_type (), NULL);
-	if (link == NULL)
+	if (link == NULL) {
+		state->link = g_object_new (gnm_hlink_url_get_type (), NULL);
 		state->is_new = TRUE;
-	else {
+	} else {
+		state->link = g_object_new (G_OBJECT_TYPE (link), NULL);
 		state->is_new = FALSE;
 		gnm_hlink_set_target (state->link, gnm_hlink_get_target (link));
 		gnm_hlink_set_tip (state->link, gnm_hlink_get_tip (link));

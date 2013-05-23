@@ -1,3 +1,8 @@
+2013-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-hyperlink.c (dialog_hyperlink): preserve the type of
+	the link
+
 2013-05-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* doc-meta-data.ui: adjust labels vertical alignment. [#700156]
