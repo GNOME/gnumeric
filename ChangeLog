@@ -1,3 +1,7 @@
+2013-05-22  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (R_ptukey): Even more C, even less Fortran.
+
 2013-05-21  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (R_ptukey): More C, less Fortran.

@@ -5161,15 +5161,12 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	w     = value of range
 	rr    = no. of rows or groups
 	cc    = no. of columns or treatments
-	ir    = error flag = 1 if pr_w probability > 1
-	pr_w = returned probability integral from (0, w)
+	pr_w = returned probability integral
 
 	program will not terminate if ir is raised.
 
 	bb = upper limit of legendre integration
-	iMax = maximum acceptable value of integral
 	nleg = order of legendre quadrature
-	ihalf = int ((nleg + 1) / 2)
 	wlar = value of range above which wincr1 intervals are used to
 	       calculate second part of integral,
 	       else wincr2 intervals are used.
@@ -5181,18 +5178,15 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	xleg = legendre 12-point nodes
 	aleg = legendre 12-point coefficients
  */
-#define nleg	12
-#define ihalf	6
 
     /* looks like this is suboptimal for gnm_float precision.
        (see how C1-C3 are used) <MM>
     */
-    /* const gnm_float iMax  = 1.; not used if = 1*/
     const static gnm_float bb   = 8.;
     const static gnm_float wlar = 3.;
     const static gnm_float wincr1 = 2.;
     const static gnm_float wincr2 = 3.;
-    const static gnm_float xleg[ihalf] = {
+    const static gnm_float xleg[] = {
 	GNM_const(0.981560634246719250690549090149),
 	GNM_const(0.904117256370474856678465866119),
 	GNM_const(0.769902674194304687036893833213),
@@ -5200,7 +5194,7 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	GNM_const(0.367831498998180193752691536644),
 	GNM_const(0.125233408511468915472441369464)
     };
-    const static gnm_float aleg[ihalf] = {
+    const static gnm_float aleg[G_N_ELEMENTS (xleg)] = {
 	GNM_const(0.047175336386511827194615961485),
 	GNM_const(0.106939325995318430960254718194),
 	GNM_const(0.160078328543346226334652529543),
@@ -5208,11 +5202,10 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	GNM_const(0.233492536538354808760849898925),
 	GNM_const(0.249147045813402785000562436043)
     };
-    gnm_float ac, pr_w, binc, c, cc1,
-	qsqz, rinsum, wi, wincr, xx;
-    /*LDOUBLE*/ gnm_float blb, einsum, elsum;
-    int j, jj;
-
+    const int nleg = G_N_ELEMENTS (xleg) * 2;
+    gnm_float pr_w, binc, qsqz, wi, wincr; 
+    /*LDOUBLE*/ gnm_float blb, einsum;
+    int jj;
 
     qsqz = w * 0.5;
 
@@ -5249,34 +5242,38 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 
     /* integrate over each interval */
 
-    cc1 = cc - 1.0;
     for (wi = 1; wi <= wincr; wi++) {
 	gnm_float a = blb + binc * 0.5;
-	elsum = 0.0;
+	gnm_float elsum = 0.0;
 
 	/* legendre quadrature with order = nleg */
 
-	for (jj = 1; jj <= nleg; jj++) {
-	    if (ihalf < jj) {
-		j = (nleg - jj) + 1;
-		xx = xleg[j-1];
+	for (jj = 0; jj < nleg; jj++) {
+	    gnm_float xx, aa, c, ac, rinsum;
+
+	    if (nleg / 2 <= jj) {
+		int j = (nleg - 1) - jj;
+		xx = xleg[j];
+		aa = aleg[j];
 	    } else {
-		j = jj;
-		xx = -xleg[j-1];
+		xx = -xleg[jj];
+		aa = aleg[jj];
 	    }
 	    c = binc * 0.5 * xx;
 	    ac = a + c;
 
 	    rinsum = pnorm2 (ac - w, ac, FALSE);
-	    elsum += gnm_pow (rinsum, cc1) *
-		    aleg[j-1] *
-		    gnm_exp(-(0.5 * ac * ac));
+	    elsum += gnm_pow (rinsum, cc - 1) *
+		    aa *
+		    gnm_exp(-0.5 * ac * ac);
 	}
 	einsum += elsum * (binc * cc * M_1_SQRT_2PI);
 	blb += binc;
     }
 
-    return gnm_pow (MIN (1.0, pr_w + einsum), rr);
+    pr_w += einsum;
+
+    return gnm_pow (MIN (1.0, pr_w), rr);
 }
 
 
@@ -5308,7 +5305,6 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 	given to 25 significant digits.
 
 	nlegq = order of legendre quadrature
-	ihalfq = int ((nlegq + 1) / 2)
 	eps = max. allowable value of integral
 	eps1 & eps2 = values below which there is
 		      no contribution to integral.
@@ -5345,12 +5341,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 	if degrees of freedom large, approximate integral
 	with range distribution.
  */
-#define nlegq	16
-#define ihalfq	8
 
-/*  const gnm_float eps = 1.0; not used if = 1 */
-    const static gnm_float eps1 = -30.0;
-    const static gnm_float eps2 = GNM_const(1.0e-14);
     const static gnm_float dhaf  = 100.0;
     const static gnm_float dquar = 800.0;
     const static gnm_float deigh = 5000.0;
@@ -5359,7 +5350,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
     const static gnm_float ulen2 = 0.5;
     const static gnm_float ulen3 = 0.25;
     const static gnm_float ulen4 = 0.125;
-    const static gnm_float xlegq[ihalfq] = {
+    const static gnm_float xlegq[] = {
 	GNM_const(0.989400934991649932596154173450),
 	GNM_const(0.944575023073232576077988415535),
 	GNM_const(0.865631202387831743880467897712),
@@ -5369,7 +5360,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 	GNM_const(0.281603550779258913230460501460),
 	GNM_const(0.950125098376374401853193354250e-1)
     };
-    const static gnm_float alegq[ihalfq] = {
+    const static gnm_float alegq[G_N_ELEMENTS (xlegq)] = {
 	GNM_const(0.271524594117540948517805724560e-1),
 	GNM_const(0.622535239386478928628438369944e-1),
 	GNM_const(0.951585116824927848099251076022e-1),
@@ -5379,8 +5370,9 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 	GNM_const(0.182603415044923588866763667969),
 	GNM_const(0.189450610455068496285396723208)
     };
-    gnm_float ans, f2, f21, f2lf, ff4, otsum, t1, twa1, ulen, wprb;
-    int i, jj;
+    const int nlegq = G_N_ELEMENTS (xlegq) * 2;
+    gnm_float ans, f2, f21, f2lf, ulen;
+    int i;
 
 #ifdef IEEE_754
     if (gnm_isnan(q) || gnm_isnan(rr) || gnm_isnan(cc) || gnm_isnan(df))
@@ -5419,80 +5411,63 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
     /* eighth-unit length intervals depending on the value of the */
     /* degrees of freedom. */
 
-    ff4 = df * 0.25;
     if	    (df <= dhaf)	ulen = ulen1;
     else if (df <= dquar)	ulen = ulen2;
     else if (df <= deigh)	ulen = ulen3;
     else			ulen = ulen4;
 
-    f2lf += gnm_log(ulen);
-
     /* integrate over each subinterval */
 
     ans = 0.0;
 
-    for (i = 1; i <= 50; i++) {
-	otsum = 0.0;
-
-	/* legendre quadrature with order = nlegq */
-	/* nodes (stored in xlegq) are symmetric around zero. */
-
-	twa1 = (2 * i - 1) * ulen;
+    for (i = 1; TRUE; i++) {
+	gnm_float otsum = 0.0;
+	gnm_float twa1 = (2 * i - 1) * ulen; /* 2*center of the interval.  */
+	int jj;
 
 	for (jj = 0; jj < nlegq; jj++) {
-	    gnm_float xx, aa;
+	    gnm_float xx, aa, u2, u, t1, wprb;
 
-	    if (ihalfq <= jj) {
-		xx = xlegq[jj - ihalfq];
-		aa = alegq[jj - ihalfq];
+	    if (nlegq / 2 <= jj) {
+		xx = xlegq[jj - nlegq / 2];
+		aa = alegq[jj - nlegq / 2];
 	    } else {
 		xx = -xlegq[jj];
 		aa = alegq[jj];
 	    }
 
-	    t1 = (f2lf +
-		  f21 * gnm_log(xx * ulen + twa1) -
-		  (xx * ulen + twa1) * ff4);
+	    u2 = xx * ulen + twa1;
+	    u = u2 * 0.5;
 
-	    /* if exp(t1) < 9e-14, then doesn't contribute to integral */
-	    if (1 || t1 >= eps1) {
-		gnm_float w = q * gnm_sqrt((xx * ulen + twa1) * 0.5);
+	    t1 = f2lf + f21 * gnm_log(u2) - u * f2;
 
-		/* call wprob to find integral of range portion */
-
-		wprb = ptukey_wprob(w, rr, cc);
-		otsum += (wprb * aa) * gnm_exp(t1);
-	    }
-	    /* end legendre integral for interval i */
-	    /* L200: */
+	    wprb = ptukey_wprob(q * gnm_sqrt(u), rr, cc);
+	    otsum += (wprb * aa) * ulen * gnm_exp(t1);
 	}
 
 	ans += otsum;
+	if (otsum < ans * GNM_EPSILON) {
+		/*
+		 * This interval contributed nothing.  This can either be
+		 * because the integrand is so flat that we haven't seen
+		 * anyting yet or because we're done.  Or both.
+		 *
+		 * The maximum of the integrand falls not far from u=(f-2)/f,
+		 * but let's go a little further.
+		 */
+		if (ans > 0 || twa1 > 2)
+			break;
+	}
 
-	/* if integral for interval i < 1e-14, then stop.
-	 * However, in order to avoid small area under left tail,
-	 * at least  1 / ulen  intervals are calculated.
-	 */
-	if (i * ulen >= 1.0 && otsum <= eps2)
-	    break;
-
-	/* end of interval i */
-	/* L330: */
+	if (i == 50) {
+		ML_ERROR(ME_PRECISION);
+		break;
+	}
     }
 
-    if(otsum > eps2) { /* not converged */
-	ML_ERROR(ME_PRECISION);
-    }
-    if (ans > 1.)
-	ans = 1.;
+    ans = MIN (ans, 1.0);
     return R_DT_val(ans);
 }
-
-/* Cleaning up done by tools/import-R:  */
-#undef nlegq
-#undef ihalfq
-#undef nleg
-#undef ihalf
 
 /* ------------------------------------------------------------------------ */
 /* --- END MAGIC R SOURCE MARKER --- */
