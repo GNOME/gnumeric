@@ -2801,7 +2801,11 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	if (!r)
+	if (r) {
+		/* This can happen if the last row or column is deleted.  */
+		if (!range_valid (r))
+			return NULL;
+	} else
 		r = range_init_full_sheet (&full_sheet, sheet);
 
 	data.accum = g_ptr_array_new ();

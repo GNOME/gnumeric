@@ -25,6 +25,7 @@ Morten:
 	* Add new R.PTUKEY function.  [#700132]
 	* Fix missing translation of certain function examples.
 	* Add new R.PNORM2 function.
+	* Fix critical when last row deleted.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2
