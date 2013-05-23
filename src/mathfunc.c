@@ -5371,7 +5371,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 	GNM_const(0.189450610455068496285396723208)
     };
     const int nlegq = G_N_ELEMENTS (xlegq) * 2;
-    gnm_float ans, f2, f21, f2lf, ulen;
+    gnm_float ans, f2, f2lf, ulen;
     int i;
 
 #ifdef IEEE_754
@@ -5405,7 +5405,6 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 		(f2 * gnm_log(df)),
 		gnm_lgamma(f2),
 		f2lf);
-    f21 = f2 - 1.0;
 
     /* integral is divided into unit, half-unit, quarter-unit, or */
     /* eighth-unit length intervals depending on the value of the */
@@ -5439,7 +5438,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 	    u2 = xx * ulen + twa1;
 	    u = u2 * 0.5;
 
-	    t1 = f2lf + f21 * gnm_log(u2) - u * f2;
+	    t1 = f2lf + (f2 - 1) * gnm_log(u2) - u * f2;
 
 	    wprb = ptukey_wprob(q * gnm_sqrt(u), rr, cc);
 	    otsum += (wprb * aa) * ulen * gnm_exp(t1);
@@ -5455,7 +5454,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 		 * The maximum of the integrand falls not far from u=(f-2)/f,
 		 * but let's go a little further.
 		 */
-		if (ans > 0 || twa1 > 2)
+		if (ans > 0 || twa1 > 2 * 2)
 			break;
 	}
 
