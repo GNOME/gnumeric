@@ -5276,6 +5276,56 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
     return gnm_pow (MIN (1.0, pr_w), rr);
 }
 
+static gnm_float
+ptukey_otsum (gnm_float C, gnm_float L, gnm_float f2, gnm_float f2lf,
+	      gnm_float q, gnm_float rr, gnm_float cc)
+{
+	const static gnm_float xlegq[] = {
+		GNM_const(0.989400934991649932596154173450),
+		GNM_const(0.944575023073232576077988415535),
+		GNM_const(0.865631202387831743880467897712),
+		GNM_const(0.755404408355003033895101194847),
+		GNM_const(0.617876244402643748446671764049),
+		GNM_const(0.458016777657227386342419442984),
+		GNM_const(0.281603550779258913230460501460),
+		GNM_const(0.950125098376374401853193354250e-1)
+	};
+	const static gnm_float alegq[G_N_ELEMENTS (xlegq)] = {
+		GNM_const(0.271524594117540948517805724560e-1),
+		GNM_const(0.622535239386478928628438369944e-1),
+		GNM_const(0.951585116824927848099251076022e-1),
+		GNM_const(0.124628971255533872052476282192),
+		GNM_const(0.149595988816576732081501730547),
+		GNM_const(0.169156519395002538189312079030),
+		GNM_const(0.182603415044923588866763667969),
+		GNM_const(0.189450610455068496285396723208)
+	};
+	const int nlegq = G_N_ELEMENTS (xlegq) * 2;
+	int jj;
+	gnm_float otsum = 0.0;
+
+	for (jj = 0; jj < nlegq; jj++) {
+	    gnm_float xx, aa, u, t1, wprb;
+
+	    if (nlegq / 2 <= jj) {
+		xx = xlegq[nlegq - 1 - jj];
+		aa = alegq[nlegq - 1 - jj];
+	    } else {
+		xx = -xlegq[jj];
+		aa = alegq[jj];
+	    }
+
+	    u = xx * (0.5 * L) + C;
+
+	    t1 = f2lf + (f2 - 1) * gnm_log(u) - u * f2;
+
+	    wprb = ptukey_wprob(q * gnm_sqrt(u), rr, cc);
+	    otsum += aa * (wprb * (0.5 * L) * gnm_exp(t1));
+	}
+
+	return otsum;
+}
+
 
 static gnm_float
 R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
@@ -5316,8 +5366,6 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 
 	d.f. > dlarg:	the range is used to calculate integral.
 
-	M_LN2 = log(2)
-
 	xlegq = legendre 16-point nodes
 	alegq = legendre 16-point coefficients
 
@@ -5350,27 +5398,6 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
     const static gnm_float ulen2 = 0.5;
     const static gnm_float ulen3 = 0.25;
     const static gnm_float ulen4 = 0.125;
-    const static gnm_float xlegq[] = {
-	GNM_const(0.989400934991649932596154173450),
-	GNM_const(0.944575023073232576077988415535),
-	GNM_const(0.865631202387831743880467897712),
-	GNM_const(0.755404408355003033895101194847),
-	GNM_const(0.617876244402643748446671764049),
-	GNM_const(0.458016777657227386342419442984),
-	GNM_const(0.281603550779258913230460501460),
-	GNM_const(0.950125098376374401853193354250e-1)
-    };
-    const static gnm_float alegq[G_N_ELEMENTS (xlegq)] = {
-	GNM_const(0.271524594117540948517805724560e-1),
-	GNM_const(0.622535239386478928628438369944e-1),
-	GNM_const(0.951585116824927848099251076022e-1),
-	GNM_const(0.124628971255533872052476282192),
-	GNM_const(0.149595988816576732081501730547),
-	GNM_const(0.169156519395002538189312079030),
-	GNM_const(0.182603415044923588866763667969),
-	GNM_const(0.189450610455068496285396723208)
-    };
-    const int nlegq = G_N_ELEMENTS (xlegq) * 2;
     gnm_float ans, f2, f2lf, ulen;
     int i;
 
@@ -5400,7 +5427,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 
     f2 = df * 0.5;
     /* gnm_lgamma(u) = log(gamma(u)) */
-    f2lf = f2 * gnm_log(f2 * 0.5) - gnm_lgamma(f2);
+    f2lf = f2 * gnm_log(f2) - gnm_lgamma(f2);
 
     /* integral is divided into unit, half-unit, quarter-unit, or */
     /* eighth-unit length intervals depending on the value of the */
@@ -5415,63 +5442,59 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 
     ans = 0.0;
 
-    if (0) {
-	    gnm_float probe_u = 0.0001;
-	    gnm_float probe_u2 = probe_u * 2;
-	    gnm_float t1 = f2lf + (f2 - 1) * gnm_log(probe_u2) - probe_u * f2;
-	    gnm_float probe_w = ptukey_wprob(q * gnm_sqrt(probe_u), rr, cc)
-		    * gnm_exp (t1);
-	    if (probe_w > probe_u)
-		    g_printerr ("q=%g cc=%g df=%g  %.20g\n",
-				q, cc, df, probe_w);
-    }
-
-
+    /*
+     * Integration for [0;ulen/2] happens here.
+     */
     for (i = 1; TRUE; i++) {
-	gnm_float otsum = 0.0;
-	gnm_float twa1 = (2 * i - 1) * ulen; /* 2*center of the interval.  */
-	int jj;
+	    gnm_float F = 8;
+	    gnm_float u0 = ulen * 0.5 * gnm_pow (F, -i);
+	    gnm_float u1 = F * u0;
+	    gnm_float C = 0.5 * (u0 + u1);
+	    gnm_float otsum = ptukey_otsum (C, u1 - u0, f2, f2lf, q, rr, cc);
 
-	for (jj = 0; jj < nlegq; jj++) {
-	    gnm_float xx, aa, u2, u, t1, wprb;
-
-	    if (nlegq / 2 <= jj) {
-		xx = xlegq[jj - nlegq / 2];
-		aa = alegq[jj - nlegq / 2];
-	    } else {
-		xx = -xlegq[jj];
-		aa = alegq[jj];
+	    ans += otsum;
+	    if (otsum < ans * GNM_EPSILON) {
+		    /* This interval contributed nothing.  We're done.  */
+		    break;
 	    }
 
-	    u2 = xx * ulen + twa1;
-	    u = u2 * 0.5;
-
-	    t1 = f2lf + (f2 - 1) * gnm_log(u2) - u * f2;
-
-	    wprb = ptukey_wprob(q * gnm_sqrt(u), rr, cc);
-	    otsum += (wprb * aa) * ulen * gnm_exp(t1);
-	}
-
-	ans += otsum;
-	if (otsum < ans * GNM_EPSILON) {
-		/*
-		 * This interval contributed nothing.  This can either be
-		 * because the integrand is so flat that we haven't seen
-		 * anyting yet or because we're done.  Or both.
-		 *
-		 * The maximum of the integrand falls not far from u=(f-2)/f,
-		 * but let's go a little further.
-		 */
-		if (ans > 0 || twa1 > 2 * 2)
-			break;
-	}
-
-	if (i == 50) {
-		ML_ERROR(ME_PRECISION);
-		break;
-	}
+	    if (i == 50)
+		    goto fail;
     }
 
+    /*
+     * Regular Copenhaver-Holland intervals of length ulen, except
+     * that intervals are shifted ulen/2 to the right.  In other
+     * words, we don't cover [0;ulen/2] here.
+     */
+    for (i = 1; TRUE; i++) {
+	    gnm_float C = i * ulen; /* Center of the interval.  */
+	    gnm_float otsum = ptukey_otsum (C, ulen, f2, f2lf, q, rr, cc);
+
+	    ans += otsum;
+	    if (otsum < ans * GNM_EPSILON) {
+		    /*
+		     * This interval contributed nothing.  This can either be
+		     * because the integrand is so flat that we haven't seen
+		     * anyting yet or because we're done.  Or both.
+		     *
+		     * The maximum of the integrand falls not far from
+		     *     u=(f-2)/f,
+		     * but let's go a little further.
+		     */
+		    if (ans > 0 || C > 2)
+			    break;
+	    }
+
+	    if (i == 50)
+		    goto fail;
+    }
+
+    ans = MIN (ans, 1.0);
+    return R_DT_val(ans);
+
+fail:
+    ML_ERROR(ME_PRECISION);
     ans = MIN (ans, 1.0);
     return R_DT_val(ans);
 }
