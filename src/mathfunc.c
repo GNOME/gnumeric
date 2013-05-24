@@ -5277,7 +5277,7 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 }
 
 static gnm_float
-ptukey_otsum (gnm_float C, gnm_float L, gnm_float f2, gnm_float f2lf,
+ptukey_otsum (gnm_float u0, gnm_float u1, gnm_float f2, gnm_float f2lf,
 	      gnm_float q, gnm_float rr, gnm_float cc)
 {
 	const static gnm_float xlegq[] = {
@@ -5302,6 +5302,8 @@ ptukey_otsum (gnm_float C, gnm_float L, gnm_float f2, gnm_float f2lf,
 	};
 	const int nlegq = G_N_ELEMENTS (xlegq) * 2;
 	int jj;
+	gnm_float C = 0.5 * (u0 + u1);
+	gnm_float L = u1 - u0;
 	gnm_float otsum = 0.0;
 
 	for (jj = 0; jj < nlegq; jj++) {
@@ -5398,8 +5400,10 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
     const static gnm_float ulen2 = 0.5;
     const static gnm_float ulen3 = 0.25;
     const static gnm_float ulen4 = 0.125;
-    gnm_float ans, f2, f2lf, ulen;
+    gnm_float ans, f2, f2lf, ulen, u0, u1;
     int i;
+    gboolean fail = FALSE;
+    gboolean debug = TRUE;
 
 #ifdef IEEE_754
     if (gnm_isnan(q) || gnm_isnan(rr) || gnm_isnan(cc) || gnm_isnan(df))
@@ -5439,37 +5443,54 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
     else			ulen = ulen4;
 
     /* integrate over each subinterval */
-
     ans = 0.0;
 
     /*
-     * Integration for [0;ulen/2] happens here.
+     * Integration for [0;ulen/2].
+     *
+     * We use a sequence of intervals each covering an ever increasing
+     * fraction of what is left.  Breaking the interval takes care of
+     * some very un-polynomial behaviour of the integrand:
+     * (1) Infinite derivative at 0 for low df.
+     * (2) Infinite roots (due to underflow) in the left part of an
+     *     interval with meaningful contributions from its right part
      */
+    u1 = ulen / 2;
     for (i = 1; TRUE; i++) {
-	    gnm_float F = 8;
-	    gnm_float u0 = ulen * 0.5 * gnm_pow (F, -i);
-	    gnm_float u1 = F * u0;
-	    gnm_float C = 0.5 * (u0 + u1);
-	    gnm_float otsum = ptukey_otsum (C, u1 - u0, f2, f2lf, q, rr, cc);
+	    gnm_float otsum;
+
+	    u0 = u1 / (i + 1);
+	    otsum = ptukey_otsum (u0, u1, f2, f2lf, q, rr, cc);
 
 	    ans += otsum;
-	    if (otsum < ans * GNM_EPSILON) {
+	    if (otsum <= ans * (GNM_EPSILON / 2)) {
 		    /* This interval contributed nothing.  We're done.  */
 		    break;
 	    }
 
-	    if (i == 50)
-		    goto fail;
+	    if (i == 20) {
+		    if (debug)
+			    g_printerr ("PTUKEY FAIL LEFT: %d q=%g cc=%g df=%g otsum=%g ans=%g\n",
+					i, q, cc, df, otsum, ans);
+		    fail = TRUE;
+		    break;
+	    }
+
+	    u1 = u0;
     }
 
     /*
-     * Regular Copenhaver-Holland intervals of length ulen, except
-     * that intervals are shifted ulen/2 to the right.  In other
-     * words, we don't cover [0;ulen/2] here.
+     * Integration for [ulen/2;Infinity].
+     *
+     * We use a sequence of intervals starting with length ulen, but
+     * when we think we're in the tail we ramp up the length.
      */
+    u0 = ulen / 2;
     for (i = 1; TRUE; i++) {
-	    gnm_float C = i * ulen; /* Center of the interval.  */
-	    gnm_float otsum = ptukey_otsum (C, ulen, f2, f2lf, q, rr, cc);
+	    gnm_float otsum;
+
+	    u1 = u0 + ulen;
+	    otsum = ptukey_otsum (u0, u1, f2, f2lf, q, rr, cc);
 
 	    ans += otsum;
 	    if (otsum < ans * GNM_EPSILON) {
@@ -5482,19 +5503,32 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 		     *     u=(f-2)/f,
 		     * but let's go a little further.
 		     */
-		    if (ans > 0 || C > 2)
+		    if (ans > 0 || u0 > 2) {
 			    break;
+		    }
 	    }
 
-	    if (i == 50)
-		    goto fail;
+	    if (i == 100) {
+		    if (debug)
+			    g_printerr ("PTUKEY FAIL RIGHT: %i %g %g\n",
+					i, otsum, ans);
+		    fail = TRUE;
+		    break;
+	    }
+
+	    /*
+	     * When we see a contribution that added less than 0.1%
+	     * to the result, start ramping up the interval size.
+	     * Note that this will not trigger unless ans>0.
+	     */
+	    if (otsum < ans / 1000)
+		    ulen *= 2;
+
+	    u0 = u1;
     }
 
-    ans = MIN (ans, 1.0);
-    return R_DT_val(ans);
-
-fail:
-    ML_ERROR(ME_PRECISION);
+    if (fail)
+	    ML_ERROR(ME_PRECISION);
     ans = MIN (ans, 1.0);
     return R_DT_val(ans);
 }

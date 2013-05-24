@@ -1,3 +1,8 @@
+2013-05-24  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (R_ptukey): Accelerate handling of right tail of
+	the outer integral.
+
 2013-05-23  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (ptukey_otsum): Split integration of a single
