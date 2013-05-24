@@ -5544,6 +5544,28 @@ ptukey(gnm_float x, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean 
 }
 
 static gnm_float
+ptukey1 (gnm_float x, const gnm_float shape[],
+	 gboolean lower_tail, gboolean log_p)
+{
+	return ptukey (x, shape[0], shape[1], shape[2], lower_tail, log_p);
+}
+
+gnm_float
+qtukey (gnm_float p, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean lower_tail, gboolean log_p)
+{
+	gnm_float x0, shape[3];
+
+	/* This is accurate for nmeans==2 and nranges==1.   */
+	x0 = M_SQRT2gnum * qt ((1 + p) / 2, df, lower_tail, log_p);
+
+	shape[0] = nmeans;
+	shape[1] = df;
+	shape[2] = nranges;
+
+	return pfuncinverter (p, shape, lower_tail, log_p, 0, gnm_pinf, x0, ptukey1, NULL);
+}
+
+static gnm_float
 logspace_signed_add (gnm_float logx, gnm_float logabsy, gboolean ypos)
 {
 	return ypos
@@ -6360,6 +6382,8 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 	gnm_float x = 0, e = 0, px;
 	int i;
 
+	g_return_val_if_fail (pfunc != NULL, gnm_nan);
+
 	R_Q_P01_check (p);
 	if (p == R_DT_0) return xlow;
 	if (p == R_DT_1) return xhigh;
@@ -6468,7 +6492,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 				goto done;
 			}
 
-			if (i % 3 < 2 && (i == 0 || prec < 0.05)) {
+			if (dpfunc_dx && i % 3 < 2 && (i == 0 || prec < 0.05)) {
 				gnm_float d = dpfunc_dx (x, shape, log_p);
 				if (log_p) d = gnm_exp (d - px);
 #ifdef DEBUG_pfuncinverter

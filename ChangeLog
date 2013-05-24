@@ -2,6 +2,7 @@
 
 	* src/mathfunc.c (R_ptukey): Accelerate handling of right tail of
 	the outer integral.
+	(pfuncinverter): Handle lack of dfunc (poorly).
 
 2013-05-23  Morten Welinder  <terra@gnome.org>
 

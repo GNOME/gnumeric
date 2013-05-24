@@ -1183,6 +1183,7 @@ static GnmFuncHelp const help_r_ptukey[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the Studentized range distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.QTUKEY" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1197,6 +1198,35 @@ gnumeric_r_ptukey (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	gboolean log_p = args[5] ? value_get_as_checked_bool (args[5]) : FALSE;
 
 	return value_new_float (ptukey (x, nmeans, df, nranges, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
+static GnmFuncHelp const help_r_qtukey[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.QTUKEY:probability quantile function of the Studentized range distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("p:probability") },
+	{ GNM_FUNC_HELP_ARG, F_("nmeans:the number of means") },
+	{ GNM_FUNC_HELP_ARG, F_("df:the number of degrees of freedom of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("nranges:the number of ranges; default is 1") },
+	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
+	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Studentized range distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.PTUKEY" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_qtukey (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float p = value_get_as_float (args[0]);
+	gnm_float nmeans = value_get_as_float (args[1]);
+	gnm_float df = value_get_as_float (args[2]);
+	gnm_float nranges = args[3] ? value_get_as_float (args[3]) : 1;
+	gboolean lower_tail = args[4] ? value_get_as_checked_bool (args[4]) : TRUE;
+	gboolean log_p = args[5] ? value_get_as_checked_bool (args[5]) : FALSE;
+
+	return value_new_float (qtukey (p, nmeans, df, nranges, lower_tail, log_p));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1725,6 +1755,13 @@ GnmFuncDescriptor const stat_functions[] = {
 		"fff|fbb",
 		help_r_ptukey,
 		gnumeric_r_ptukey, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.qtukey",
+		"fff|fbb",
+		help_r_qtukey,
+		gnumeric_r_qtukey, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{

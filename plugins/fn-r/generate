@@ -136,14 +136,14 @@ my %defaults;
 	 ({ 'n' => "the number of degrees of freedom $of",
 	    @common })];
 
-    $funcs{'ptukey'} =
+    $funcs{'ptukey'} = $funcs{'qtukey'} =
 	[\&distribution,
 	 'Studentized range',
 	 ({ 'nranges' => "the number of ranges; default is 1",
 	    'nmeans' => "the number of means",
 	    'df' => "the number of degrees of freedom $of",
 	    @common })];
-    $defaults{'ptukey:nranges'} = 1;
+    $defaults{'ptukey:nranges'} = $defaults{'qtukey:nranges'} = 1;
 }
 
 

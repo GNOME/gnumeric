@@ -63,6 +63,7 @@
 				<function name="r.qsnorm"/>
 				<function name="r.qst"/>
 				<function name="r.qt"/>
+				<function name="r.qtukey"/>
 				<function name="r.qweibull"/>
 			</functions>
 		</service>

@@ -136,6 +136,7 @@ gnm_float random_laplace_pdf    (gnm_float x, gnm_float a);
 /* Studentized range distribution */
 /* Note: argument order differs from R.  */
 gnm_float ptukey(gnm_float x, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean lower_tail, gboolean log_p);
+gnm_float qtukey(gnm_float p, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean lower_tail, gboolean log_p);
 
 /* ------------------------------------------------------------------------- */
 
