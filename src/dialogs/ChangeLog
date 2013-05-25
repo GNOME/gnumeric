@@ -1,3 +1,15 @@
+2013-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-format-cond.c (CFormatState): add field
+	(cb_c_fmt_dialog_dialog_destroy): delete format dialog if it still
+	exists
+	(editor_destroy_cb): new
+	(c_fmt_dialog_select_style): new
+	(cb_c_fmt_dialog_edit_style_button): use c_fmt_dialog_select_style
+	(dialog_cell_format_cond): initialize new field
+	* dialog-cell-format.c (dialog_cell_format_select_style): return dialog
+	* dialogs.h: return GtkDialog  from dialog_cell_format_select_style
+
 2013-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-hyperlink.c (dialog_hyperlink): preserve the type of

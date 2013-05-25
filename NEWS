@@ -5,6 +5,7 @@ Andreas:
 	* Fix 'Go to First'. [#699631]
 	* Fix data merges. [#699897]
 	* Fix editing of hyperlinks. [#700732]
+	* Fix conditional formatting crash. [#700969]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]

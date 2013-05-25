@@ -2583,7 +2583,7 @@ dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno)
  *	- How to distinguish between auto & custom colors on extraction from styles.
  */
 
-void
+GtkDialog *
 dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 				 GtkWindow *w,
 				 GnmStyle *style, gpointer closure)
@@ -2622,4 +2622,6 @@ dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 
 	go_gtk_nonmodal_dialog (w, GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
+
+	return state->dialog;
 }

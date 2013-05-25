@@ -92,6 +92,7 @@ typedef struct _CFormatState {
 		GtkListStore    *typestore;
 		GnmStyle        *style;
 		GtkWidget       *style_label;
+		GtkDialog       *dialog;
 	} editor;
 } CFormatState;
 
@@ -121,6 +122,10 @@ cb_c_fmt_dialog_dialog_buttons (G_GNUC_UNUSED GtkWidget *btn, CFormatState *stat
 static void
 cb_c_fmt_dialog_dialog_destroy (CFormatState *state)
 {
+	if (state->editor.dialog) {
+		gtk_widget_destroy (GTK_WIDGET (state->editor.dialog));
+		state->editor.dialog = NULL;
+	}
 	if (state->editor.style)
 		gnm_style_unref (state->editor.style);
 	if (state->style)
@@ -257,6 +262,25 @@ cb_c_fmt_dialog_chooser_check_page (CFormatState *state, gchar const *name,
 }
 
 static void
+editor_destroy_cb (G_GNUC_UNUSED GObject *obj, CFormatState *state)
+{
+	state->editor.dialog = NULL;
+}
+
+static void
+c_fmt_dialog_select_style (CFormatState *state, int pages)
+{
+	if (state->editor.dialog)
+		gtk_widget_destroy (GTK_WIDGET (state->editor.dialog));
+	state->editor.dialog = dialog_cell_format_select_style 
+		(state->wbcg, pages,
+		 GTK_WINDOW (state->dialog),
+		 state->editor.style, state);
+	g_signal_connect (G_OBJECT (state->editor.dialog), 
+			  "destroy", G_CALLBACK (editor_destroy_cb), state);
+}
+
+static void
 cb_c_fmt_dialog_edit_style_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 {
 	int pages = 0;
@@ -277,9 +301,7 @@ cb_c_fmt_dialog_edit_style_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *s
 
 	if (state->editor.style != NULL)
 		gnm_style_ref (state->editor.style);
-	dialog_cell_format_select_style (state->wbcg, pages,
-					 GTK_WINDOW (state->dialog),
-					 state->editor.style, state);
+	c_fmt_dialog_select_style (state, pages);
 }
 
 static GnmStyleCond *
@@ -1270,6 +1292,7 @@ dialog_cell_format_cond (WBCGtk *wbcg)
 	state->sheet	= sv_sheet (state->sv);
 	state->style	= NULL;
 	state->editor.style = NULL;
+	state->editor.dialog = NULL;
 
 	dialog = go_gtk_builder_get_widget (state->gui, "CellFormat");
 	g_return_if_fail (dialog != NULL);
