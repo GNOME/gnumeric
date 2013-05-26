@@ -5170,7 +5170,6 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	wlar = value of range above which wincr1 intervals are used to
 	       calculate second part of integral,
 	       else wincr2 intervals are used.
-	C1, C2, C3 = values which are used as cutoffs for terminating
 	or modifying a calculation.
 
 	M_1_SQRT_2PI = 1 / sqrt(2 * pi);  from abramowitz & stegun, p. 3.
@@ -5179,13 +5178,8 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	aleg = legendre 12-point coefficients
  */
 
-    /* looks like this is suboptimal for gnm_float precision.
-       (see how C1-C3 are used) <MM>
-    */
+    static const gboolean debug = FALSE;
     const static gnm_float bb   = 8.;
-    const static gnm_float wlar = 3.;
-    const static gnm_float wincr1 = 2.;
-    const static gnm_float wincr2 = 3.;
     const static gnm_float xleg[] = {
 	GNM_const(0.981560634246719250690549090149),
 	GNM_const(0.904117256370474856678465866119),
@@ -5203,9 +5197,8 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	GNM_const(0.249147045813402785000562436043)
     };
     const int nleg = G_N_ELEMENTS (xleg) * 2;
-    gnm_float pr_w, binc, qsqz, wi, wincr; 
-    /*LDOUBLE*/ gnm_float blb, einsum;
-    int jj;
+    gnm_float pr_w, binc, qsqz, blb; 
+    int i, jj;
 
     qsqz = w * 0.5;
 
@@ -5220,66 +5213,72 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 
     pr_w = gnm_pow (gnm_erf (qsqz / M_SQRT2gnum), cc);
 
-    /* if w is large then the second component of the */
-    /* integral is small, so fewer intervals are needed. */
-
-    if (w > wlar)
-	wincr = wincr1;
-    else
-	wincr = wincr2;
-
     /* find the integral of second term of hartley's form */
-    /* for the integral of the range for equal-length */
-    /* intervals using legendre quadrature.  limits of */
-    /* integration are from (w/2, 8).  two or three */
-    /* equal-length intervals are used. */
+    /* Limits of integration are (w/2, Inf).  Large cc means that */
+    /* that we need smaller step size.  The formula for binc is */
+    /* a heuristic.  */
 
     /* blb and bub are lower and upper limits of integration. */
 
     blb = qsqz;
-    binc = (bb - qsqz) / wincr;
-    einsum = 0.0;
+    binc = 3.0 / gnm_log1p (cc);
 
     /* integrate over each interval */
 
-    for (wi = 1; wi <= wincr; wi++) {
-	gnm_float a = blb + binc * 0.5;
+    for (i = 1; TRUE; i++) {
+	gnm_float C = blb + binc * 0.5;
 	gnm_float elsum = 0.0;
 
 	/* legendre quadrature with order = nleg */
 
 	for (jj = 0; jj < nleg; jj++) {
-	    gnm_float xx, aa, c, ac, rinsum;
+	    gnm_float xx, aa, v, rinsum;
 
 	    if (nleg / 2 <= jj) {
-		int j = (nleg - 1) - jj;
-		xx = xleg[j];
-		aa = aleg[j];
+		xx = xleg[nleg - 1 - jj];
+		aa = aleg[nleg - 1 - jj];
 	    } else {
 		xx = -xleg[jj];
 		aa = aleg[jj];
 	    }
-	    c = binc * 0.5 * xx;
-	    ac = a + c;
+	    v = C + binc * 0.5 * xx;
 
-	    rinsum = pnorm2 (ac - w, ac, FALSE);
+	    rinsum = pnorm2 (v - w, v, FALSE);
 	    elsum += gnm_pow (rinsum, cc - 1) *
 		    aa *
-		    gnm_exp(-0.5 * ac * ac);
+		    gnm_exp(-0.5 * v * v);
 	}
-	einsum += elsum * (binc * cc * M_1_SQRT_2PI);
+	elsum *= (binc * cc * M_1_SQRT_2PI);
+	pr_w += elsum;
+
+	if (pr_w >= 1) {
+		/* Nothing more will contribute.  */
+		pr_w = 1;
+		break;
+	}
+
+	if (elsum <= pr_w * (GNM_EPSILON / 2)) {
+		/* This interval contributed nothing.  We're done.  */
+		if (debug) {
+			g_printerr ("End at i=%d  for w=%g  cc=%g  dP=%g  P=%g\n",
+				    i, w, cc, elsum, pr_w);
+		}
+		break;
+	}
+
 	blb += binc;
     }
 
-    pr_w += einsum;
+    if (0) g_printerr ("w=%g pr_w=%.20g\n", w, pr_w);
 
-    return gnm_pow (MIN (1.0, pr_w), rr);
+    return gnm_pow (pr_w, rr);
 }
 
 static gnm_float
 ptukey_otsum (gnm_float u0, gnm_float u1, gnm_float f2, gnm_float f2lf,
 	      gnm_float q, gnm_float rr, gnm_float cc)
 {
+	gboolean debug = FALSE;
 	const static gnm_float xlegq[] = {
 		GNM_const(0.989400934991649932596154173450),
 		GNM_const(0.944575023073232576077988415535),
@@ -5324,6 +5323,11 @@ ptukey_otsum (gnm_float u0, gnm_float u1, gnm_float f2, gnm_float f2lf,
 	    wprb = ptukey_wprob(q * gnm_sqrt(u), rr, cc);
 	    otsum += aa * (wprb * (0.5 * L) * gnm_exp(t1));
 	}
+
+	if (debug)
+		g_printerr ("Integral over [%g;%g] was %g\n",
+			    u0, u1, otsum);
+
 
 	return otsum;
 }
@@ -5508,7 +5512,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 		    }
 	    }
 
-	    if (i == 100) {
+	    if (i == 150) {
 		    if (debug)
 			    g_printerr ("PTUKEY FAIL RIGHT: %i %g %g\n",
 					i, otsum, ans);
