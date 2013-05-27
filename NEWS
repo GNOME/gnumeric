@@ -9,6 +9,8 @@ Andreas:
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]
+	* Update documentation for comments and hyperlinks. [#700797]
+	* Consolidate comment, hyperlinks, names documentation.
 
 Jean:
 	* Adjust labels vertical alignment in document properties dialog. [#700156]

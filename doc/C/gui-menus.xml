@@ -64,7 +64,7 @@
   </sect2>
 
   <sect2 id="menu-bars">
-    <title>The Menubar</title>    
+    <title>Menubar</title>    
 
     <para>
       The default location of the menubar is at the top of the
@@ -128,7 +128,7 @@
 
   <!-- ************************  FILE MENU   *************************** -->
   <sect2 id="File-Menu">
-    <title>The File Menu</title>
+    <title>File Menu</title>
 
     <para>
       The <guimenu>File</guimenu> menu is the most important menu in
@@ -478,7 +478,7 @@
 
   <!--  ******************************** EDIT MENU    ******************** -->
   <sect2 id="Edit-Menu">
-    <title>The Edit Menu</title>
+    <title>Edit Menu</title>
 
     <para>
       The <guimenu>Edit</guimenu> menu is mostly used for operations
@@ -727,10 +727,12 @@
 			</para>
 
 
-			<itemizedlist>
+		<itemizedlist>
       	    	<listitem>
-     	      	<para>
-			<guimenuitem>Clear</guimenuitem> opens a submenu
+<!-- Do NOT introduce any whitespace AROUND the <anchor>. -->
+     	      	<para><anchor id="edit-menu-clear-links"
+     	      		  xreflabel="Clear&nbsp;&#9654; Formats &amp; Hyperlinks"
+			  /><guimenuitem>Clear</guimenuitem> opens a submenu
 			with eight choices, organized into two sets of four.
 			The first group affects all cells in the selection.
 			The second group applies the same actions to just the
@@ -837,8 +839,9 @@
 		        <guimenuitem>Comment...</guimenuitem> opens the
 		        <guimenu>Edit Cell Comment</guimenu> dialog.
 		        This is the same as the dialog for
-		        <guimenuitem>Edit&nbsp;&#9654; Insert&nbsp;&#9654; Comment...</guimenuitem>.
-		        See <xref linkend="Insert-Menu" /> for more information.
+		        <guimenuitem>Comment...</guimenuitem> on the
+		        <xref linkend="Insert-Menu" />.
+		        See <xref linkend="sect-data-comment" /> for more information.
 		        </para>
 		      </listitem>
 		    <listitem>
@@ -846,107 +849,19 @@
 		        <guimenuitem>Hyperlink...</guimenuitem> opens the
 		        <guimenu>Hyperlink</guimenu> dialog.
 		        This is the same as the dialog for
-		        <guimenuitem>Edit&nbsp;&#9654; Insert&nbsp;&#9654; Hyperlink...</guimenuitem>.
-		        See <xref linkend="Insert-Menu" /> for more information.
+		        <guimenuitem>Hyperlink...</guimenuitem> on the
+		        <xref linkend="Insert-Menu" />.
+		        See <xref linkend="sect-data-link" /> for more information.
 		        </para>
 		      </listitem>
 		    <listitem>
 		      <para>
 		        <guimenuitem>Names...</guimenuitem> opens the
 		        <guimenu>Define Names</guimenu> dialog.
-		        <xref linkend="sect-data-formulas-names" />
-		        explains names in greater detail.
+		        <xref linkend="sect-data-names" />
+		        explains names and describes the dialog.
 		        </para>
 
-			<figure id="menu-edit-modify-names.png">
-			<title>The <guimenu>Define Names</guimenu> dialog</title>
-			  <screenshot>
-			    <mediaobject>
-			      <imageobject>
-				<imagedata fileref="figures/menu-edit-modify-names.png" />
-			      </imageobject>
-			      <textobject>
-				<phrase>An image of the Define Names dialog.</phrase>
-			      </textobject>
-			    </mediaobject>
-			  </screenshot>
-			</figure>
-			<para>
-			The <guimenu>Define Names</guimenu> dialog lists the
-			names defined in the workbook, organized into two or more groups
-			corresponding to the workbook, the active sheet, and the inactive
-			sheets, if any. When the dialog is opened, only the names defined
-			for the workbook and the active sheet are visible; the definitions
-			for any inactive sheets are collapsed into a single line for each,
-			identified by the sheet name. The definitions for the workbook or
-			a sheet can be exposed or hidden by clicking on the arrow at the
-			left end of the workbook or sheet line.
-			</para>
-			<para>
-			The second column of the <guimenu>Define Names</guimenu> dialog can 
-			show one of three icons. To define a new name, click on the
-			plus sign in the row for the workbook or the active worksheet.
-			Names defined under a worksheet name are visible
-			only on that worksheet.
-			Names defined for the workbook are visible to any
-			worksheet that does not have a private definition of the name.
-			Names are created as "&lt;new-name&gt;", which must be changed
-			before the definition can be used. Click on the new line to select
-			it, then click on the name field and type the new name, followed by
-			the <keycap>Enter</keycap> key.
-			When you press <keycap>Enter</keycap>, the name is fixed.
-			Only its value can then be changed.
-			</para>
-			<para>
-			If the second column shows a minus sign, the line is for a
-			user-defined name. 
-			Click on the minus sign to delete the definition of the name.
-			If the second column shows a padlock icon, the definition is created 
-			automatically and cannot be modified from this dialog.
-			</para>
-			<para>
-			For user-defined names, the third column of the <guimenu>Define
-			Names</guimenu> dialog contains a downward- or upward-pointing arrow.
-			Click on the arrow to move the definition down to the worksheet or
-			up to the workbook.
-			This operation is not permitted if the moved definition would replace
-			a name already defined for the destination.
-			To do such a replacement, first delete the name in the destination,
-			then move the definition.
-			</para>
-			<para>
-			The last column of the dialog shows the value defined for the name. 
-			When a new name is created, this field is initialized with an absolute 
-			reference to the currently selected cells.
-			To modify a definition, click on the value field and edit it as
-			desired, then press the <keycap>Enter</keycap> key.
-			To define a string value, enclose it in quotation marks, for example,
-			'string one' or "string two".
-			To specify a range of cells, use absolute references.
-			Relative references change in meaning depending on the cell where
-			they are used, which is unlikely to produce your intended result.
-			</para>
-			<para>
-			Below the display of defined names is a filter box.
-			If the workbook or sheet contains many defined names, you can see
-			a subset of the names by typing a partial name in the filter box
-			and pressing <keycap>Enter</keycap>.
-			All names that do not contain the entered string are omitted from the
-			display.
-			Differences of case are ignored.
-			For example, if &ldquo;real&rdquo; were entered in the filter box,
-			names such as "Real_Value" and "Surreal" would be displayed.
-			When <keycap>Enter</keycap> is pressed, contexts that contain
-			no matching names are automatically collapsed; you may later need 
-			to manually expand the workbook line, for example, if the filter
-			string is changed.
-			If the line for the workbook or a worksheet begins with a
-			right-pointing arrow, it contains names that pass the filter.
-			Clicking on the arrow will change it to a downward-pointing arrow
-			and make the names visible.
-			To see all the defined names, clear the filter by clicking on the
-			button at the right end of the filter box.
-			</para>
 		      </listitem>
 		    </itemizedlist>
 			</listitem>
@@ -1161,7 +1076,7 @@
 
   <!-- *************************** View Menu *********** -->
   <sect2 id="View-Menu">
-    <title>The View Menu</title>
+    <title>View Menu</title>
 
  
 
@@ -1421,7 +1336,7 @@
 
   <!--  *********************************** INSERT MENU ********************* -->
   <sect2 id="Insert-Menu">
-    <title>The Insert Menu</title>
+    <title>Insert Menu</title>
 
     <para>
       The <guimenu>Insert</guimenu> menu is 
@@ -1616,70 +1531,36 @@
 
 	   <listitem>
 	     <para>
-	       <guimenuitem>Name...</guimenuitem> &mdash; The
-	       <guimenuitem>Name...</guimenuitem> menu item opens a
-	       dialog with a 
+	       <guimenuitem>Name...</guimenuitem> opens a dialog with a 
 	       list of all defined names that can be pasted into
-	       the current cell.  <xref linkend="sect-data-formulas-names"
-	       /> explains names in greater detail.
-	     </para>
-    <figure id="menu-insert-names.png">
-      <title>The <guimenu>Insert Name</guimenu> dialog.</title>
-        <screenshot>
-	  <mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/menu-insert-names.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the Insert Name dialog.</phrase>
-            </textobject>
-           </mediaobject>
-	 </screenshot>
-    </figure>
-	   </listitem>
-
-	   <listitem>
-	     <para>
-	       <guimenuitem>Comment...</guimenuitem> &mdash;
-		This menu item opens a dialog to allow the user to
-		enter a comment to the currently selected cell. A red
-		triangle will appear in the top right corner of the
-		cell to show that the cell has a comment.
-		If the cell already has an associated comment, the
-		dialog is initialized with the existing comment.
-		When you click on OK, the modified comment replaces
-		the existing comment.
+	       the current cell.
+	       The dialog is similar to the <guimenu>Define Names</guimenu> dialog
+	       opened by choosing <guimenuitem>Modify&nbsp;&#9654; Names...</guimenuitem>
+	       from the <xref linkend="Edit-Menu" />.
+	       See <xref linkend="sect-data-formulas-names" /> for details.
 	     </para>
 	   </listitem>
 
-<!-- TODO: cell selection (not here) how to select a cell with a hyperlink. -->
-
 	   <listitem>
 	     <para>
-	       <guimenuitem>Hyperlink...</guimenuitem> &mdash; This menu
-		item opens a dialog to allow the user to enter the
-		location of a link. The cell contents will become the
-		text for the link and clicking on the cell will move
-		the user to the new location. The link can point to
-		another area of the worksheet, to another worksheet,
-		or to any location which can be defined with a
-		Universal Resource Locator (URL). If the URL points to
-		a resource accessible over the Internet, &gnum; will
-		launch the desktop web browser to open that URL.
-		If the cell already has an associated hyperlink, the dialog
-		is initialized with that information.
-		When you click on OK, the modified hyperlink information
-		replaces the existing hyperlink.
-	   </para>
+	       <guimenuitem>Comment...</guimenuitem> opens a dialog where
+		you can enter or edit a comment for the active cell. 
+		The dialog is described in <xref linkend="sect-data-comment" />.
+	     </para>
 	   </listitem>
 
 	   <listitem>
 	     <para>
-	       <guimenuitem>Special</guimenuitem> &mdash; The
-	       <guimenuitem>Special</guimenuitem> menu item opens a
-	       submenu which allows the user to insert predefined
-	       content into a cell. The current choices are to insert
-	       the current date, time or both.
+	       <guimenuitem>Hyperlink...</guimenuitem> opens a dialog for entering the
+	       location of a link. The dialog is described in <xref linkend="sect-data-link" />.
+	       </para>
+	   </listitem>
+
+	   <listitem>
+	     <para>
+	       <guimenuitem>Special</guimenuitem> opens a submenu from which
+	       you can insert predefined content into a cell.
+	       You can insert the current date, the current time, or both.
 	     </para>
 	   </listitem>
 
@@ -1705,7 +1586,7 @@
 
   <!--  ************************************FORMAT MENU ********************* -->
   <sect2 id="Format-Menu">
-    <title>The Format Menu</title>
+    <title>Format Menu</title>
 
     <para>
       The <guimenu>Format</guimenu> menu allows users to control the
@@ -2139,7 +2020,7 @@
 
 <!--   ********************* TOOLS MENU ************  -->
 <sect2 id="Tools-Menu">
-	<title>The Tools Menu</title>
+	<title>Tools Menu</title>
 
 	<para>The <guimenu>Tools</guimenu> menu is </para>
 		<figure id="menu-tools-labelled.png">
@@ -2303,7 +2184,7 @@
 
 <!--   ********************* Statistics MENU ************  -->
 <sect2 id="Statistics-Menu">
-  <title>The Statistics Menu</title>
+  <title>Statistics Menu</title>
   
   <para>The <guimenu>Statistics</guimenu> menu is </para>
   <figure id="menu-statistics-labelled.png">
@@ -2327,7 +2208,7 @@
 
   <!-- ******************* THE DATA MENU   ************** -->
   <sect2 id="Data-Menu">
-    <title>The Data Menu</title>
+    <title>Data Menu</title>
 
     <para>
       The <guimenu>Data</guimenu> menu is 
@@ -2584,7 +2465,7 @@
 
   <!--  *********************** HELP MENU *****************-->
   <sect2 id="Help-Menu">
-    <title>The Help Menu</title>
+    <title>Help Menu</title>
 
     <para>
       The <guimenu>Help</guimenu> menu is quite simple.

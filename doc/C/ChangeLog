@@ -1,3 +1,15 @@
+2013-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Darrell Tangman <dgtangman@acm.org>
+
+	* data-commentNlink.xml: Populate, add Names.
+	* data-selections.xml: Cell selection and hyperlinks.
+	* data-types.xml: Move Names to data-commentNlink.xml.
+	* gui-menus.xml: Comments and hyperlinks.
+	* figures/menu-edit-modify-names.png: Update
+	* figures/menu-insert-comment.png: New
+	* figures/menu-insert-hyperlink.png: New
+	* Makefile.am: Include the above.
+
 2013-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Darrell Tangman <dgtangman@acm.org>
 

@@ -1,53 +1,380 @@
 <sect1 id="sect-data-comment">
-  <title>Adding a Comment to a Cell</title>
+  <title>Comments in Cells</title>
   
-  <note>
-    <para>
-      This section needs to be written.
-    </para>
-  </note>
+  <para>
+    Each cell in a worksheet can have an associated comment.
+    Comments are not ordinarily visible.
+    Cells having associated comments are marked with a red triangle
+    in the top right corner of the cell.
+    If you move the mouse cursor over the red triangle, the cursor
+    changes to the left-pointing arrow.
+    If the cursor remains over the triangle long enough, a pop-up
+    window appears, displaying the author's name and the text of
+    the comment.
+    The pop-up window is removed when the mouse cursor is moved off
+    the red triangle.
+  </para>
 
-<!--
-  <sect2 id="sect-data-comment-">
-    <title>ing Data</title>
-
-    <para>
-      This section has not yet been written...
-    </para>
-
-  </sect2>
--->
-
-
-
+  <para>
+    To add a comment to a cell, first select the cell.
+    Next choose <guimenuitem>Comment...</guimenuitem> from the
+    <xref linkend="Insert-Menu" /> to open the <guimenu>New Cell Comment</guimenu> dialog.
+    If the cell already has an associated comment, &gnum; instead opens the
+    <guimenu>Edit Cell Comment</guimenu> dialog, which is shown below. The
+    only difference is that the <guimenu>Edit Cell Comment</guimenu> dialog
+    is initialized with the existing comment and it includes a line identifying
+    the author of the existing comment.
+  </para>
+  <figure id="menu-insert-comment.png">
+    <title>The <guimenu>Insert Comment</guimenu> dialog.</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/menu-insert-comment.png" />
+        </imageobject>
+        <textobject>
+          <phrase>An image of the Insert Comment dialog.</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+  </figure>
+  <para>
+    To change the appearance of the comment text, select the
+    text to be formatted, then click on one of the character
+    attribute selectors above the comment text box. You can
+    select italics, strike-through, character weight, and
+    underlining. The italics and strike-through selectors toggle the
+    character attributes, based on the first character of the
+    selected text. For example, if the first character is
+    italic, clicking on the italics selector removes the italic
+    attribute from all characters of the selected text.
+  </para>
+  <para>
+    The arrows next to the weight and underlining
+    selectors open menus from which you can select a
+    weight or underline style.
+    Selecting a weight or underline style applies it to
+    the selected text and makes it the meaning of the
+    associated selector. For example, if you select
+    <guimenuitem>Light</guimenuitem> from the weight menu,
+    the selected text is made light. If you subsequently
+    click on the weight selector, the text selected at that
+    time is also made light.
+    The weights may not all be visibly different,
+    depending on the font in use. 
+  </para>
+  <para>
+    "Wrap in properties window" controls word wrap in the comment
+    editing box just above it.
+    By default, lines are broken at spaces between words to prevent
+    a line from exceeding the width of the text box.
+    Click on the check-box to toggle word wrap.
+    Line breaks occur in the comment pop-up only where you place
+    them explicitly by pressing <keycap>Enter</keycap>.
+    Turning off word wrap lets you see how the comment will be displayed
+    in the pop-up.
+  </para>
 
 </sect1>
 
 
 <sect1 id="sect-data-link">
-  <title>Adding a Hyperlink to a Cell</title>
+  <title>Hyperlinks</title>
   
+  <para>
+    Each cell can have an associated hyperlink.
+    A hyperlink permits the user of a spreadsheet to go directly to
+    a particular cell or group of cells, to access another file on
+    the local computer or on the web, or to send an email message
+    to an address built into the link.
+  </para>
 
+  <para>
+    To add a hyperlink to one or more cells, first select the cells.
+    Next choose <guimenuitem>Hyperlink...</guimenuitem>
+    from the <xref linkend="Insert-Menu" /> to open the <guimenu>HyperLink</guimenu> dialog.
+  </para>
+  <figure id="menu-insert-hyperlink.png">
+    <title>The <guimenu>HyperLink</guimenu> dialog.</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/menu-insert-hyperlink.png" />
+        </imageobject>
+        <textobject>
+          <phrase>An image of the HyperLink dialog.</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+  </figure>
+  <para>
+    If the selection includes a hyperlink, the dialog is initialized from
+    the existing link.
+    If there is more than one hyperlink in the selection, the cell in
+    the first row that has a hyperlink, and the first such column of that
+    row, is used to initialize the dialog.
+  </para>
+  <para>
+    When you click on <guibutton>OK</guibutton>, the information in the
+    dialog is attached to each cell in the selection, replacing any
+    previously defined links.
+    For any empty cells in the selection, the text of the link is set as
+    the contents of the cell.
+    For all cells in the selection, the cell format is modified to give
+    the contents a distinctive color, and the text is underlined.
+  </para>
+  <para>
+    If the link location text box is empty when you click on <guibutton>OK</guibutton>, 
+    no hyperlink is created.
+    Instead, if any cells in the selection have existing hyperlinks, those
+    hyperlinks are removed.
+    The distinctive format applied to links is not removed.
+    For that reason it might be preferrable to choose
+    <xref linkend="edit-menu-clear-links" />
+    from the <xref linkend="Edit-Menu" /> to remove existing hyperlinks.
+  </para>
+  <para>
+    &gnum; supports four types of hyperlink.
+    The first element of the <guimenu>HyperLink</guimenu> dialog, the
+    <guimenu>Type</guimenu> menu, selects the type of hyperlink to
+    be created.
+    The <guimenu>HyperLink</guimenu> dialog varies slightly, depending
+    on the selected hyperlink type:
+    <itemizedlist>
+      <listitem>
+        <para>
+          Internal Link: The second element of the dialog is a text box
+          labeled "Target Range". You can enter a single range, with or 
+          without a worksheet name.
+          To select the range from the worksheet, click on the button
+          at the end of the "Target Range" line. This collapses the
+          dialog to a single line and makes it possible to interact with
+          the cell grid. Select the desired sheet tab, if necessary,
+          then select the desired cells.
+          When the selection is complete, click on the button at the
+          end of the Target Range input box to open the full
+          <guimenu>HyperLink</guimenu> dialog again.
+        </para>
+        <para>
+          When an internal link is activated by clicking on the cell,
+          the range of cells given by the link address
+          becomes the current selection. The cell closest to A1 in the
+          new selection becomes the active cell.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          External Link: The second element of the dialog is a text box
+          labeled "File". Enter the path to a file. You can also enter
+          a Universal Resource Locator (URL) here; the URL is accessed
+          as described for Web Link below.
+        </para>
+        <para>
+          When an external link is activated by clicking on the cell,
+          &gnum; launches an application to present the file,
+          based on its apparent type. For example, "mypic.jpg" would
+          be opened in an image viewer, while "myinfo.html" would be
+          opened in a web browser.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          Email Link: The dialog provides text boxes where you can
+          enter the destination address and subject line for an e-mail message.
+        </para>
+        <para>
+          When an email link is activated by clicking on the cell,
+          &gnum; launches an e-mail client to send a message. The message
+          is initialized with the destination address and
+          subject specified in the dialog.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          Web Link: Enter a Universal Resource Locator (URL) in the
+          Web Address text box.
+        </para>
+        <para>
+          When the link is activated by clicking on the cell,
+          &gnum; launches an application to display the information
+          at the specified URL, based on its apparent type. For a
+          web address beginning with "http://" or "https://" the application is
+          the default web browser.
+        </para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <para>
+    When you move the mouse pointer to a hyperlink in the cell grid,
+    a tool tip appears.
+    The default tip shows the link address and instructions for
+    activating the link or selecting the cell.
+    To define a tip specific to the link, select the radio button
+    next to "Tip", then enter the tip text in the text box.
+    If the link-specific tip is selected and left blank, no tip is displayed
+    when the mouse pointer is on the link.
+  </para>
 
-  <note>
-    <para>
-      This section needs to be written.
-    </para>
-  </note>
+</sect1>
 
+<sect1 id="sect-data-names">
+  <title>Defining Names</title>
 
-<!--
-  <sect2 id="sect-data-link-">
-    <title>ing Data</title>
+  <para>
+    Names are labels with a meaning defined in the spreadsheet or by &gnum;.
+    Names can be defined for a whole workbook or for just a single worksheet.
+    A name can refer to a numeric value, a string, a range of cells, or a formula.
+    A name can be used wherever its meaning could otherwise be used.
+  </para>
+  <para>
+    A name is a sequence of letters, digits, and underscore characters,
+    beginning with a letter or underscore.
+    A name cannot look like a cell identifier.
+    For example, "D7" is not a permitted name, while "D_7" and "_D7" are permitted.
+  </para>
+  <para>
+    To define a name or modify the definition of an existing name:
+  </para>
+  <itemizedlist>
+    <listitem>
+      <para>
+        If you wish to define or modify a name for use within a single
+        worksheet and it is not the current worksheet, click on the
+	appropriate worksheet tab at the bottom of the &gnum; window.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        Open the <guimenu>Define Names</guimenu> dialog by choosing
+        <guimenuitem>Modify&nbsp;&#9654; Names</guimenuitem> from
+        the <xref linkend="Edit-Menu" />.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        Use the dialog to modify the defined names as desired.
+        When your changes are complete, click on <guibutton>Close</guibutton>
+        to close the dialog.
+      </para>
+    </listitem>
+  </itemizedlist>
+  <figure id="menu-edit-modify-names.png">
+    <title>The <guimenu>Define Names</guimenu> dialog</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/menu-edit-modify-names.png" />
+        </imageobject>
+        <textobject>
+          <phrase>An image of the Define Names dialog.</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+  </figure>
+  <para>
+    The <guimenu>Define Names</guimenu> dialog lists the
+    names defined in the workbook, organized into two or more groups
+    corresponding to the workbook, the active sheet, and the inactive
+    sheets, if any. When the dialog is opened, only the names defined
+    for the workbook and the active sheet are visible; the definitions
+    for any inactive sheets are collapsed into a single line for each,
+    identified by the sheet name. The definitions for the workbook or
+    a sheet can be exposed or hidden by clicking on the arrow at the
+    left end of the workbook or sheet line.
+  </para>
+  <para>
+    The second column of the <guimenu>Define Names</guimenu> dialog can 
+    show one of three icons. To define a new name, click on the
+    plus sign in the row for the workbook or the active worksheet.
+    Names defined under a worksheet name are visible
+    only on that worksheet.
+    Names defined for the workbook are visible to any
+    worksheet that does not have its own definition of the name.
+    Names are created as "&lt;new-name&gt;", which must be changed
+    before the definition can be used. Click on the new line to select
+    it, then click on the name field and type the new name, followed by
+    the <keycap>Enter</keycap> key.
+    When you press <keycap>Enter</keycap>, the name is fixed.
+    Only its value can then be changed.
+  </para>
+  <para>
+    If the second column shows a minus sign, the line is for a
+    user-defined name. 
+    Click on the minus sign to delete the definition of the name.
+    If the second column shows a padlock icon, the definition is created 
+    automatically and cannot be modified from this dialog.
+  </para>
+  <para>
+    For user-defined names, the third column of the <guimenu>Define
+    Names</guimenu> dialog contains a downward- or upward-pointing arrow.
+    Click on the arrow to move the definition down to the worksheet or
+    up to the workbook.
+    This operation is not permitted if the moved definition would replace
+    a name already defined for the destination.
+    To do such a replacement, first delete the name in the destination,
+    then move the definition.
+  </para>
+  <para>
+    The last column of the dialog shows the value defined for the name. 
+    When a new name is created, this field is initialized with an absolute 
+    reference to the currently selected cells.
+    To modify a definition, click on the value field and edit it as
+    desired, then press the <keycap>Enter</keycap> key.
+    To define a string value, enclose it in quotation marks, for example,
+    'string one' or "string two".
+    To specify a range of cells, use absolute references.
+    Relative references change in meaning depending on the cell where
+    they are used, which is unlikely to produce your intended result.
+    You can define a name as a cell or range of cells by clearing its
+    existing definition, if any, and then selecting the desired cell or
+    cells on the cell grid.
+    You can switch worksheets prior to selecting cells.
+    The dialog continues to modify names defined for the workbook or the
+    worksheet that was displayed when the dialog was opened.
+    A reference created by selection in the <guimenu>Define Names</guimenu>
+    dialog includes the worksheet name and uses absolute cell coordinates.
+    That is, a selection would look like "Sheet1!$A$1:$B$24".
+  </para>
+  <para>
+    Below the display of defined names is a filter box.
+    If the workbook or sheet contains many defined names, you can see
+    a subset of the names by typing a partial name in the filter box
+    and pressing <keycap>Enter</keycap>.
+    All names that do not contain the entered string are omitted from the
+    display.
+    Differences of case are ignored.
+    For example, if &ldquo;real&rdquo; were entered in the filter box,
+    names such as "Real_Value" and "Surreal" would be displayed.
+    When you press <keycap>Enter</keycap> in the filter box, contexts that contain
+    no matching names are automatically collapsed. You may later need 
+    to manually expand the workbook line, for example, if the filter
+    string is changed.
+    If the line for the workbook or a worksheet begins with a
+    right-pointing arrow, it contains names that pass the filter.
+    Clicking on the arrow will change it to a downward-pointing arrow
+    and make the names visible.
+    To see all the defined names, clear the filter by clicking on the
+    button at the right end of the filter box.
+  </para>
+  <para>
+    In addition to the names defined by the user, &gnum; has some pre-defined names
+    for useful elements:
+  </para>
+  <itemizedlist>
+    <listitem>
+      <para>
+        Sheet_Title: The name of the current sheet.
+      </para>
+    </listitem>
+  </itemizedlist>
 
-    <para>
-      This section has not yet been written...
-    </para>
-
-  </sect2>
--->
-
-
-
+  <itemizedlist>
+    <listitem>
+      <para>
+        Print_Area: The range of cells set as the sheet's
+        print area; undefined if print area is not set.
+      </para>
+    </listitem>
+  </itemizedlist>
 
 </sect1>

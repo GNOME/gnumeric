@@ -323,7 +323,9 @@ EXTRA_DIST = \
      menu-format-labelled.png \
      menu-format-sheet.png \
      menu-help-labelled.png \
+     menu-insert-comment.png \
      menu-insert-fw.png \
+     menu-insert-hyperlink.png \
      menu-insert-labelled.png \
      menu-insert-names.png \
      menu-statistics-labelled.png \

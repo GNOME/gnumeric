@@ -24,7 +24,7 @@
     <title>Simple Selections</title>
 
     <para>
-      The simplest selection involves a single cell. Simply clicking
+      The simplest selection involves a single cell. In most cases, simply clicking
       with the left hand mouse button while the mouse cursor is over a
       cell will cause that cell to become selected.
     </para>
@@ -53,9 +53,13 @@
     <para>
       To make a cell become the selected cell, simply move the
       white-cross cursor over the cell and press the left mouse
-      button.
+      button. There is one exception: When on a cell that contains a
+      hyperlink, the mouse cursor changes from the white cross to
+      a hand and clicking the left mouse button activates the
+      link. In that case the cell can be selected by clicking
+      the middle mouse button.
     </para>
-    
+
     <figure id="fig-selecting-cell-by-cursor">
       <title>Selecting a cell with the mouse cursor.</title>
       <screenshot>
