@@ -71,7 +71,6 @@ static GnmFuncHelp const help_r_pnorm2[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PNORM2:cumulative distribution function of the normal distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("x1:first observation") },
 	{ GNM_FUNC_HELP_ARG, F_("x2:first observation") },
-	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the normal distribution.") },
 	{ GNM_FUNC_HELP_END }
 };
@@ -81,9 +80,8 @@ gnumeric_r_pnorm2 (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x1 = value_get_as_float (args[0]);
 	gnm_float x2 = value_get_as_float (args[1]);
-	gboolean log_p = args[2] ? value_get_as_checked_bool (args[2]) : FALSE;
 
-	return value_new_float (pnorm2 (x1, x2, log_p));
+	return value_new_float (pnorm2 (x1, x2));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1451,7 +1449,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pnorm2",
-		"ff|b",
+		"ff",
 		help_r_pnorm2,
 		gnumeric_r_pnorm2, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,

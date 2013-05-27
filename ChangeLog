@@ -1,3 +1,8 @@
+2013-05-27  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (pnorm2): Drop log_p argument.  We don't need it
+	and we aren't very good at it.
+
 2013-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: ctrl-a will be handled in gnm-pane.c

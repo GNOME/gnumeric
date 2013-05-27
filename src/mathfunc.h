@@ -56,7 +56,7 @@ gnm_float bessel_k (gnm_float x, gnm_float alpha, gnm_float expo);
 /* The normal distribution.  */
 gnm_float dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log);
 gnm_float pnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean lower_tail, gboolean log_p);
-gnm_float pnorm2 (gnm_float x1, gnm_float x2, gboolean log_p);
+gnm_float pnorm2 (gnm_float x1, gnm_float x2);
 gnm_float qnorm (gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail, gboolean log_p);
 
 /* The log-normal distribution.  */
