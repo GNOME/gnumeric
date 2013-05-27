@@ -2665,6 +2665,22 @@ xlsx_CT_worksheet (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 #endif
 }
 
+static void
+xlsx_ext_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	gboolean warned = FALSE;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "uri")) {
+			xlsx_warning (xin,
+				      _("Encountered uninterpretable \"ext\" extension in namespace \"%s\""),
+				      attrs[1]);
+			warned = TRUE;
+		}
+	if (!warned)
+		xlsx_warning (xin,
+			      _("Encountered uninterpretable \"ext\" extension with missing namespace"));
+}
+
 static GsfXMLInNode const xlsx_sheet_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, &xlsx_CT_worksheet, 0),
@@ -2693,6 +2709,8 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 	GSF_XML_IN_NODE (CELL, VALUE, XL_NS_SS, "v", GSF_XML_CONTENT, NULL, &xlsx_cell_val_end),
 	GSF_XML_IN_NODE (CELL, FMLA, XL_NS_SS,  "f", GSF_XML_CONTENT, &xlsx_cell_expr_begin, &xlsx_cell_expr_end),
         GSF_XML_IN_NODE (CELL, TEXTINLINE, XL_NS_SS,  "is", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CELL, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (EXTLST, EXTITEM, XL_NS_SS, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, NULL),
 	  GSF_XML_IN_NODE (TEXTINLINE, TEXTRUN, XL_NS_SS,  "t", GSF_XML_CONTENT, NULL, &xlsx_cell_inline_text_end),
 
   GSF_XML_IN_NODE (SHEET, CALC_PR, XL_NS_SS, "sheetCalcPr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2705,6 +2723,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 
   GSF_XML_IN_NODE (SHEET, CT_AutoFilter, XL_NS_SS, "autoFilter", GSF_XML_NO_CONTENT,
 		   &xlsx_CT_AutoFilter_begin, &xlsx_CT_AutoFilter_end),
+    GSF_XML_IN_NODE (CT_AutoFilter, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),          /* 2nd Def */
     GSF_XML_IN_NODE (CT_AutoFilter, CT_SortState, XL_NS_SS, "sortState", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
     GSF_XML_IN_NODE (CT_AutoFilter, CT_FilterColumn, XL_NS_SS,    "filterColumn", GSF_XML_NO_CONTENT,
 		     &xlsx_CT_FilterColumn_begin, NULL),
@@ -2734,6 +2753,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
   GSF_XML_IN_NODE (SHEET, PHONETIC, XL_NS_SS, "phoneticPr", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, COND_FMTS, XL_NS_SS, "conditionalFormatting", GSF_XML_NO_CONTENT,
 		   &xlsx_cond_fmt_begin, &xlsx_cond_fmt_end),
+    GSF_XML_IN_NODE (COND_FMTS, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
     GSF_XML_IN_NODE (COND_FMTS, COND_RULE, XL_NS_SS, "cfRule", GSF_XML_NO_CONTENT,
 		   &xlsx_cond_fmt_rule_begin, &xlsx_cond_fmt_rule_end),
       GSF_XML_IN_NODE (COND_RULE, COND_FMLA, XL_NS_SS, "formula", GSF_XML_CONTENT, NULL, &xlsx_cond_fmt_formula_end),
@@ -3407,8 +3427,6 @@ xlsx_webpub_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 }
 
-
-
 static GsfXMLInNode const xlsx_workbook_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, &xlsx_wb_end, 0),
@@ -3421,7 +3439,7 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT,
   GSF_XML_IN_NODE (WORKBOOK, CUSTOMWVIEWS, XL_NS_SS, "customWorkbookViews", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CUSTOMWVIEWS, CUSTOMWVIEW , XL_NS_SS, "customWorkbookView", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (CUSTOMWVIEW, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
-
+        GSF_XML_IN_NODE (EXTLST, EXTITEM, XL_NS_SS, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, NULL),
   GSF_XML_IN_NODE (WORKBOOK, SHEETS,	 XL_NS_SS, "sheets", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (SHEETS, SHEET,	 XL_NS_SS, "sheet", GSF_XML_NO_CONTENT, &xlsx_sheet_begin, NULL),
   GSF_XML_IN_NODE (WORKBOOK, FGROUPS,	 XL_NS_SS, "functionGroups", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -4079,7 +4097,8 @@ xlsx_dxf_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 static GsfXMLInNode const xlsx_styles_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-
+  GSF_XML_IN_NODE (STYLE_INFO, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (EXTLST, EXTITEM, XL_NS_SS, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, NULL),
   GSF_XML_IN_NODE (STYLE_INFO, NUM_FMTS, XL_NS_SS, "numFmts", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (NUM_FMTS, NUM_FMT, XL_NS_SS, "numFmt", GSF_XML_NO_CONTENT, &xlsx_style_numfmt, NULL),
 
@@ -4159,7 +4178,7 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
 
   GSF_XML_IN_NODE (STYLE_INFO, STYLE_NAMES, XL_NS_SS, "cellStyles", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (STYLE_NAMES, STYLE_NAME, XL_NS_SS, "cellStyle", GSF_XML_NO_CONTENT, &xlsx_cell_style, NULL),
-
+    GSF_XML_IN_NODE (STYLE_NAME, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),                 /* 2nd Def */
   GSF_XML_IN_NODE_FULL (STYLE_INFO, PARTIAL_XFS, XL_NS_SS, "dxfs", GSF_XML_NO_CONTENT,
 			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_DXFS),
     GSF_XML_IN_NODE (PARTIAL_XFS, PARTIAL_XF, XL_NS_SS, "dxf", GSF_XML_NO_CONTENT, &xlsx_dxf_begin, &xlsx_dxf_end),
@@ -4169,7 +4188,7 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
       GSF_XML_IN_NODE (PARTIAL_XF, BORDER,  XL_NS_SS, "border", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
       GSF_XML_IN_NODE (PARTIAL_XF, DXF_ALIGNMENT, XL_NS_SS, "alignment", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (PARTIAL_XF, DXF_PROTECTION, XL_NS_SS, "protection", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (PARTIAL_XF, DXF_FSB, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (PARTIAL_XF, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),                 /* 2nd Def */
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, TABLE_STYLES, XL_NS_SS, "tableStyles", GSF_XML_NO_CONTENT,
 			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_TABLE_STYLES),

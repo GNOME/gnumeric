@@ -1,3 +1,10 @@
+2013-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_ext_begin): new
+	(xlsx_sheet_dtd): connect the above
+	(xlsx_workbook_dtd): connect the above
+	(xlsx_styles_dtd): connect the above
+
 2013-04-29  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_cell_end): Don't create empty cells.
