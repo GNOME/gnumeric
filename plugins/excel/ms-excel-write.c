@@ -214,7 +214,7 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 	GnmRange r;
 
 	/* Ignore spans and merges past the bound */
-	*extent = sheet_get_extent (sheet, FALSE);
+	*extent = sheet_get_extent (sheet, FALSE, TRUE);
 
 	range_init (&r, 0, 0,
 		    MAX (maxcols, gnm_sheet_get_max_cols(sheet)) - 1,

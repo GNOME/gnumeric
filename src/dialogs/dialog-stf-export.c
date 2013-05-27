@@ -609,7 +609,7 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 
 	for (i = 0 ; i < state->sheets.num ; i++) {
 		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
-		GnmRange total_range = sheet_get_extent (sheet, TRUE);
+		GnmRange total_range = sheet_get_extent (sheet, TRUE, TRUE);
 		gboolean empty = sheet_is_region_empty (sheet, &total_range);
 		gboolean export =
 			!sheet_list || g_slist_find (sheet_list, sheet);

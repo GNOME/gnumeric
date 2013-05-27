@@ -1,3 +1,12 @@
+2013-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet.c (sheet_get_extent): add argument to indicate whether
+	to include hidden cells
+	(cb_sheet_get_extent): handle hidden cells setting
+	(sheet_get_printarea): do not include hidden cells
+	* src/sheet.h (sheet_get_extent): add argument and change all
+	callers
+
 2013-05-26  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (ptukey_wprob): Use as many intervals as needed.

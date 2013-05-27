@@ -1255,7 +1255,7 @@ file_saver_sheet_get_extent (Sheet *sheet)
 		if (start_sheet == sheet)
 			return r;
 	}
-	return sheet_get_extent (sheet, TRUE);
+	return sheet_get_extent (sheet, TRUE, TRUE);
 }
 
 /**

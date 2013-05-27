@@ -302,7 +302,7 @@ stf_export_sheet (GnmStfExport *stfe, Sheet *sheet)
 		if (start_sheet != sheet)
 			return TRUE;
 	} else
-		r = sheet_get_extent (sheet, FALSE);
+		r = sheet_get_extent (sheet, FALSE, TRUE);
 
 	for (row = r.start.row; row <= r.end.row; row++) {
 		for (col = r.start.col; col <= r.end.col; col++) {

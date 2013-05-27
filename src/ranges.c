@@ -612,7 +612,7 @@ range_clip_to_finite (GnmRange *range, Sheet *sheet)
 	 * way of doing this.  possibly using a flag for content changes, and
 	 * using the current values as a cache
 	 */
-	extent = sheet_get_extent (sheet, FALSE);
+	extent = sheet_get_extent (sheet, FALSE, TRUE);
 	if (range->end.col >= gnm_sheet_get_max_cols (sheet) - 1)
 		range->end.col = extent.end.col;
 	if (range->end.row >= gnm_sheet_get_max_rows (sheet) - 1)

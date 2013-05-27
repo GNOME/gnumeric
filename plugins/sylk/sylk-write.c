@@ -156,7 +156,7 @@ sylk_write_sheet (SylkWriter *state)
 	GnmRange extent;
 
 /* collect style and font info */
-	extent = sheet_get_extent (state->sheet, FALSE);
+	extent = sheet_get_extent (state->sheet, FALSE, TRUE);
 	sheet_style_foreach (state->sheet,
 			     (GFunc)cb_sylk_collect_styles, state);
 	sheet_cell_foreach (state->sheet,

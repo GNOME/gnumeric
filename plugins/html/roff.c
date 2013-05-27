@@ -98,7 +98,7 @@ roff_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
-		GnmRange r = sheet_get_extent (sheet, FALSE);
+		GnmRange r = sheet_get_extent (sheet, FALSE, TRUE);
 
 		gsf_output_printf (output, "%s\n\n", sheet->name_unquoted);
 		gsf_output_printf (output, ".TS H\n");

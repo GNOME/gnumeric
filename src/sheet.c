@@ -341,7 +341,7 @@ cb_colrow_compute_pixels_from_pts (GnmColRowIter const *iter,
 }
 
 static void
-cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
+cb_clear_rendered_cells (G_GNUC_UNUSED gpointer ignored, GnmCell *cell)
 {
 	if (gnm_cell_get_rendered_value (cell) != NULL) {
 		sheet_cell_queue_respan (cell);
@@ -2139,17 +2139,27 @@ struct sheet_extent_data {
 	GnmRange range;
 	gboolean spans_and_merges_extend;
 	gboolean ignore_empties;
+	gboolean include_hidden;
 };
 
 static void
-cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
+cb_sheet_get_extent (G_GNUC_UNUSED gpointer ignored, gpointer value, gpointer data)
 {
 	GnmCell const *cell = (GnmCell const *) value;
 	struct sheet_extent_data *res = data;
 	Sheet *sheet = cell->base.sheet;
+	ColRowInfo *ri = NULL;
 
 	if (res->ignore_empties && gnm_cell_is_empty (cell))
 		return;
+	if (!res->include_hidden) {
+		ri = sheet_col_get (sheet, cell->pos.col);
+		if (!ri->visible)
+			return;
+		ri = sheet_row_get (sheet, cell->pos.row);
+		if (!ri->visible)
+			return;
+	}
 
 	/* Remember the first cell is the min & max */
 	if (res->range.start.col > cell->pos.col)
@@ -2171,7 +2181,8 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 		res->range = range_union (&res->range, merged);
 	} else {
 		CellSpanInfo const *span;
-		ColRowInfo *ri = sheet_row_get (sheet, cell->pos.row);
+		if (ri == NULL)
+			ri = sheet_row_get (sheet, cell->pos.row);
 		if (ri->needs_respan)
 			row_calc_spans (ri, cell->pos.row, sheet);
 		span = row_span_get (ri, cell->pos.col);
@@ -2188,6 +2199,7 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
  * sheet_get_extent:
  * @sheet: the sheet
  * @spans_and_merges_extend: optionally extend region for spans and merges.
+ * @include_hidden: whether to include the content of hidden cells.
  *
  * calculates the area occupied by cell data.
  *
@@ -2200,7 +2212,7 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
  * Return value: the range.
  **/
 GnmRange
-sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
+sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend, gboolean include_hidden)
 {
 	static GnmRange const dummy = { { 0,0 }, { 0,0 } };
 	struct sheet_extent_data closure;
@@ -2213,6 +2225,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 	closure.range.end.col   = 0;
 	closure.range.end.row   = 0;
 	closure.spans_and_merges_extend = spans_and_merges_extend;
+	closure.include_hidden = include_hidden;
 	closure.ignore_empties = TRUE;
 
 	sheet_cell_foreach (sheet, &cb_sheet_get_extent, &closure);
@@ -2263,6 +2276,7 @@ sheet_get_cells_extent (Sheet const *sheet)
 	closure.range.end.col   = 0;
 	closure.range.end.row   = 0;
 	closure.spans_and_merges_extend = FALSE;
+	closure.include_hidden = TRUE;
 	closure.ignore_empties = FALSE;
 
 	sheet_cell_foreach (sheet, &cb_sheet_get_extent, &closure);
@@ -2331,7 +2345,7 @@ sheet_get_printarea	(Sheet const *sheet,
 		}
 	}
 
-	print_area = sheet_get_extent (sheet, TRUE);
+	print_area = sheet_get_extent (sheet, TRUE, FALSE);
 	if (include_styles)
 		sheet_style_get_extent (sheet, &print_area);
 
@@ -2490,7 +2504,7 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row, int scol, int ecol,
 		return 0;
 
 	data.max = -1;
-	data.ignore_strings = FALSE;
+	data.ignore_strings = ignore_strings;
 	sheet_foreach_cell_in_range (sheet,
 		CELL_ITER_IGNORE_NONEXISTENT |
 		CELL_ITER_IGNORE_HIDDEN |
@@ -4405,7 +4419,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 }
 
 static void
-cb_remove_allcells (gpointer ignore0, GnmCell *cell, gpointer ignore1)
+cb_remove_allcells (G_GNUC_UNUSED gpointer ignore0, GnmCell *cell, G_GNUC_UNUSED gpointer ignore1)
 {
 	cell->base.flags &= ~GNM_CELL_IN_SHEET_LIST;
 	cell_free (cell);
@@ -5967,7 +5981,7 @@ sheet_dup_names (Sheet const *src, Sheet *dst)
 }
 
 static void
-cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
+cb_sheet_cell_copy (G_GNUC_UNUSED gpointer unused, gpointer key, gpointer new_sheet_param)
 {
 	GnmCell const *cell = key;
 	Sheet *dst = new_sheet_param;

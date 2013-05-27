@@ -320,7 +320,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			scg_set_top_row (scg, sv->edit_pos.row);
 		} else if (end_mode) {
 			/* Same as ctrl-end.  */
-			GnmRange r = sheet_get_extent (sheet, FALSE);
+			GnmRange r = sheet_get_extent (sheet, FALSE, TRUE);
 			(*movefn) (scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
 			(*movefn)(scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
 		} else {
@@ -339,7 +339,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			scg_set_left_col (scg, new_col);
 			scg_set_top_row (scg, new_row);
 		} else if ((event->state & GDK_CONTROL_MASK)) {
-			GnmRange r = sheet_get_extent (sheet, FALSE);
+			GnmRange r = sheet_get_extent (sheet, FALSE, TRUE);
 
 			/* do the ctrl-end jump to the extent in 2 steps */
 			(*movefn)(scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);

@@ -315,7 +315,7 @@ dif_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		return;
 	}
 
-	r = sheet_get_extent (sheet, FALSE);
+	r = sheet_get_extent (sheet, FALSE, TRUE);
 
 	/* Write out the standard headers */
 	gsf_output_puts   (out, "TABLE\n"   "0,1\n" "\"GNUMERIC\"\n");

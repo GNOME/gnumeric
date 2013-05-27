@@ -312,7 +312,7 @@ paradox_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		return;
 	}
 
-	r = sheet_get_extent (sheet, FALSE);
+	r = sheet_get_extent (sheet, FALSE, TRUE);
 
 #ifdef PX_MEMORY_DEBUGGING
 	pxdoc = PX_new2 (gn_errorhandler, PX_mp_malloc, PX_mp_realloc, PX_mp_free);

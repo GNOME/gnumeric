@@ -6,6 +6,7 @@ Andreas:
 	* Fix data merges. [#699897]
 	* Fix editing of hyperlinks. [#700732]
 	* Fix conditional formatting crash. [#700969]
+	* Do not include hidden cells in automatic print range. [#700994]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]

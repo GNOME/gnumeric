@@ -678,7 +678,7 @@ write_sheet (GsfOutput *output, Sheet *sheet,
 		html_print_encoded (output, sheet->name_unquoted);
 		gsf_output_puts (output, "</caption>\n");
 	}
-	total_range = sheet_get_extent (sheet, TRUE);
+	total_range = sheet_get_extent (sheet, TRUE, TRUE);
 	for (row = total_range.start.row; row <=  total_range.end.row; row++) {
 		gsf_output_puts (output, "<tr>\n");
 		write_row (output, sheet, row, &total_range, version);
