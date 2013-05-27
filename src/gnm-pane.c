@@ -175,6 +175,9 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			: scg_cursor_move;
 
 	switch (event->keyval) {
+	case GDK_KEY_a:
+		scg_select_all (scg);
+		break;
 	case GDK_KEY_KP_Left:
 	case GDK_KEY_Left:
 		if (event->state & GDK_MOD1_MASK)

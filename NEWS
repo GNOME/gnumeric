@@ -9,6 +9,7 @@ Andreas:
 	* Do not include hidden cells in automatic print range. [#700994]
 	* Make buttons 1 and 2 behave similarly when selecting cells. [#700792]
 	* Warn when encountering extLst in xlsx import. [#700018]
+	* Use ctrl-a only to select the whole sheet, if the sheet has focus. [#699746]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]

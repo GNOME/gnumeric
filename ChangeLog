@@ -1,3 +1,10 @@
+2013-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: ctrl-a will be handled in gnm-pane.c
+	* src/GNOME_Gnumeric-gtk.xml.in: ctrl-a will be handled in gnm-pane.c
+	* src/wbc-gtk-actions.c: ctrl-a will be handled in gnm-pane.c
+	* src/gnm-pane.c (gnm_pane_key_mode_sheet): recognize and handle ctrl-a
+
 2013-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/item-grid.c (item_grid_button_pressed): make buttons 1 and 2

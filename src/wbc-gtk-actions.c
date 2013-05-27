@@ -2223,10 +2223,6 @@ static GtkActionEntry const actions[] = {
 	{ "EditSelectAll", NULL, N_("_All"),
 		"<control><shift>space", N_("Select all cells in the spreadsheet"),
 		G_CALLBACK (cb_edit_select_all) },
-	/* A duplicate that should not go into the menus, used only for the accelerator */
-	{ "EditSelectAllXL", NULL, N_("_All"),
-		"<control>a", N_("Select all cells in the spreadsheet"),
-		G_CALLBACK (cb_edit_select_all) },
 	{ "EditSelectColumn", NULL, N_("_Column"),
 		"<control>space", N_("Select an entire column"),
 		G_CALLBACK (cb_edit_select_col) },
