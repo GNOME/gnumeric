@@ -27,13 +27,11 @@ my %defaults;
 		  'scale' => "the scale parameter $of",
 		  );
 
-    $funcs{'dnorm'} = $funcs{'pnorm'} = $funcs{'pnorm2'} = $funcs{'qnorm'} =
+    $funcs{'dnorm'} = $funcs{'pnorm'} = $funcs{'qnorm'} =
 	[\&distribution,
 	 'normal',
 	 ({ 'mu' => "mean $of",
 	    'sigma' => "standard deviation $of",
-	    'x1' => 'first observation',
-	    'x2' => 'first observation',
 	    @common })];
 
     $funcs{'dlnorm'} = $funcs{'plnorm'} = $funcs{'qlnorm'} =
@@ -251,7 +249,7 @@ sub distribution {
     # Output help description.
 
     &emit_line ();
-    &emit ("\nstatic GnmFuncHelp const help_r_$func\[\] = {\n");
+    &emit ("static GnmFuncHelp const help_r_$func\[\] = {\n");
 
     my $short_what = ($func =~ /^d/
 		      ? "probability density function"

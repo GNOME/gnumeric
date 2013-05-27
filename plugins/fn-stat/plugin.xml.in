@@ -75,6 +75,7 @@
 				<function name="normdist"/>
 				<function name="norminv"/>
 				<function name="normsdist"/>
+				<function name="snorm.dist.range"/>
 				<function name="normsinv"/>
 				<function name="owent"/>
 				<function name="pareto"/>

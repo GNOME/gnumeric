@@ -40,7 +40,6 @@
 				<function name="r.plnorm"/>
 				<function name="r.pnbinom"/>
 				<function name="r.pnorm"/>
-				<function name="r.pnorm2"/>
 				<function name="r.ppois"/>
 				<function name="r.psnorm"/>
 				<function name="r.pst"/>

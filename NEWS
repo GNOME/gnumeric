@@ -9,7 +9,8 @@ Andreas:
 	* Do not include hidden cells in automatic print range. [#700994]
 	* Make buttons 1 and 2 behave similarly when selecting cells. [#700792]
 	* Warn when encountering extLst in xlsx import. [#700018]
-	* Use ctrl-a only to select the whole sheet, if the sheet has focus. [#699746]
+	* Use ctrl-a only to select the whole sheet, if the sheet
+	  has focus. [#699746]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]
@@ -17,7 +18,8 @@ Darrell Tangman:
 	* Consolidate comment, hyperlinks, names documentation.
 
 Jean:
-	* Adjust labels vertical alignment in document properties dialog. [#700156]
+	* Adjust labels vertical alignment in document properties
+	  dialog. [#700156]
 
 Morten:
 	* Improve xlsx import of style-only cells.
@@ -32,7 +34,7 @@ Morten:
 	* Add new R.PTUKEY function.  [#700132]
 	* Add new Q.PTUKEY function.  [#700132]
 	* Fix missing translation of certain function examples.
-	* Add new R.PNORM2 function.
+	* Add new SNORM.DIST.RANGE function.
 	* Fix critical when last row deleted.
 
 --------------------------------------------------------------------------

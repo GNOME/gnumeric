@@ -456,6 +456,25 @@ gnumeric_normsdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_snorm_dist_range[] = {
+	{ GNM_FUNC_HELP_NAME, F_("SNORM.DIST.RANGE:probability of the standard normal distribution over an interval") },
+	{ GNM_FUNC_HELP_ARG, F_("x1:first observation") },
+	{ GNM_FUNC_HELP_ARG, F_("x2:first observation") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative probability over a range of the standard normal distribution.") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_snorm_dist_range (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float x1 = value_get_as_float (args[0]);
+	gnm_float x2 = value_get_as_float (args[1]);
+
+	return value_new_float (pnorm2 (x1, x2));
+}
+
+/* ------------------------------------------------------------------------- */
+
 static GnmFuncHelp const help_normsinv[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NORMSINV:inverse of the cumulative distribution function of the standard normal distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("p:given probability")},
@@ -5154,6 +5173,10 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "normdist",     "fffb",
 	  help_normdist, gnumeric_normdist, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "snorm.dist.range", "ff",
+	  help_snorm_dist_range, gnumeric_snorm_dist_range, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
 	{ "norminv",      "fff",
 	  help_norminv, gnumeric_norminv, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
