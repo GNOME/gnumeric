@@ -963,22 +963,26 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 	if (button == 1 && !sheet_selection_is_allowed (sheet, &pos))
 		return TRUE;
 
-	/* button 1 will always change the selection,  the other buttons will
+	/* Button == 1 is used to trigger hyperlinks (and possibly similar */
+	/* special cases. Otherwise button == 2 should behave exactly like */
+	/* button == 1. See bug #700792                                    */
+	
+	/* buttons 1 and 2 will always change the selection,  the other buttons will
 	 * only effect things if the target is not already selected.  */
 	already_selected = sv_is_pos_selected (sv, pos.col, pos.row);
-	if (button == 1 || !already_selected) {
+	if (button == 1 || button == 2 || !already_selected) {
 		if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 			sv_selection_reset (sv);
 
-		if (event->button != 1 || !(event->state & GDK_SHIFT_MASK) ||
+		if ((event->button != 1 && event->button != 2) 
+		    || !(event->state & GDK_SHIFT_MASK) ||
 		    sv->selections == NULL) {
 			sv_selection_add_pos (sv, pos.col, pos.row,
 					      (already_selected && (event->state & GDK_CONTROL_MASK)) ?
 					      GNM_SELECTION_MODE_REMOVE :
 					      GNM_SELECTION_MODE_ADD);
 			sv_make_cell_visible (sv, pos.col, pos.row, FALSE);
-		} else if (event->button != 2)
-			sv_selection_extend_to (sv, pos.col, pos.row);
+		} else sv_selection_extend_to (sv, pos.col, pos.row);
 		sheet_update (sheet);
 	}
 
@@ -986,7 +990,8 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 		return TRUE;  /* we already ignored the button release */
 
 	switch (button) {
-	case 1: {
+	case 1:
+	case 2: {
 		guint32 double_click_time;
 
 		/*
@@ -1012,8 +1017,6 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 			NULL, event->time);
 		break;
 	}
-
-	case 2: break;
 
 	case 3: scg_context_menu (scg, event, FALSE, FALSE);
 		break;
@@ -1128,7 +1131,7 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 	ItemGridSelectionType selecting = ig->selecting;
 	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
 
-	if (button != 1)
+	if (button != 1 && button != 2)
 		return FALSE;
 
 	gnm_pane_slide_stop (pane);

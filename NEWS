@@ -7,6 +7,7 @@ Andreas:
 	* Fix editing of hyperlinks. [#700732]
 	* Fix conditional formatting crash. [#700969]
 	* Do not include hidden cells in automatic print range. [#700994]
+	* Make buttons 1 and 2 behave similarly when selecting cells. [#700792]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]

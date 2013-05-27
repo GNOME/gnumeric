@@ -1,5 +1,12 @@
 2013-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/item-grid.c (item_grid_button_pressed): make buttons 1 and 2
+	behave the same as far as cell selection is concerned. This fixes
+	bug #700792
+	(item_grid_button_released): ditto
+
+2013-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet.c (sheet_get_extent): add argument to indicate whether
 	to include hidden cells
 	(cb_sheet_get_extent): handle hidden cells setting
