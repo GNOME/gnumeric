@@ -677,6 +677,11 @@ static GNM_ACTION_DEF (cb_edit_goto)
 {
 	dialog_goto_cell (wbcg);
 }
+static GNM_ACTION_DEF (cb_edit_goto_cell_indicator)
+{
+	if (IS_WBC_GTK (wbcg))
+		wbcg_focus_current_cell_indicator (WBC_GTK (wbcg));
+}
 
 static GNM_ACTION_DEF (cb_edit_recalc)
 {
@@ -2259,6 +2264,11 @@ static GtkActionEntry const actions[] = {
 	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Go to Cell..."),
 		"<control>G", N_("Jump to a specified cell"),
 		G_CALLBACK (cb_edit_goto) },
+	/* Tis is a navigational aid that is not supposed to appear */
+	/* in the menu */
+	{ "EditGotoCellIndicator", NULL, "Go to Current Cell Indicator",
+		"<shift><control>G", "Go to Current Cell Indicator",
+		G_CALLBACK (cb_edit_goto_cell_indicator) },
 
 /* Edit */
 	{ "Repeat", NULL, N_("Repeat"),

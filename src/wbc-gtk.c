@@ -4418,9 +4418,9 @@ cb_disconnect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
 }
 
 static void
-cb_post_activate (WBCGtk *wbcg)
+cb_post_activate (G_GNUC_UNUSED GtkUIManager *manager, GtkAction *action, WBCGtk *wbcg)
 {
-	if (!wbcg_is_editing (wbcg))
+	if (!wbcg_is_editing (wbcg) && strcmp(gtk_action_get_name (action), "EditGotoCellIndicator") != 0)
 		wbcg_focus_cur_scg (wbcg);
 }
 
@@ -5662,7 +5662,7 @@ wbc_gtk_init (GObject *obj)
 		"signal::add_widget",	 G_CALLBACK (cb_add_menus_toolbars), wbcg,
 		"signal::connect_proxy",    G_CALLBACK (cb_connect_proxy), wbcg,
 		"signal::disconnect_proxy", G_CALLBACK (cb_disconnect_proxy), wbcg,
-		"swapped_object_signal::post_activate", G_CALLBACK (cb_post_activate), wbcg,
+		"signal::post_activate", G_CALLBACK (cb_post_activate), wbcg,
 		NULL);
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->permanent_actions, 0);
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->actions, 0);
@@ -5980,4 +5980,11 @@ wbcg_find_for_workbook (Workbook *wb,
 	});
 
 	return candidate;
+}
+
+void
+wbcg_focus_current_cell_indicator (WBCGtk const *wbcg)
+{
+	gtk_widget_grab_focus (GTK_WIDGET (wbcg->selection_descriptor));
+	gtk_editable_select_region (GTK_EDITABLE (wbcg->selection_descriptor), 0, -1);
 }

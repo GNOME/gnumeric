@@ -423,5 +423,6 @@
   <accelerator name="FormatClearBorders" action="FormatClearBorders"/>
   <accelerator name="Repeat"		 action="Repeat"/>
   <accelerator name="EditDeleteCellsXL"	 action="EditDeleteCellsXL"/>
+  <accelerator name="EditGotoCellIndicator" action="EditGotoCellIndicator"/>
   <accelerator name="InsertCellsXL"	 action="InsertCellsXL"/>
 </ui>

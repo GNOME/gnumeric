@@ -5,6 +5,16 @@
 
 2013-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* component/Gnumeric-embed.xml.in: add accelerator
+	* src/GNOME_Gnumeric-gtk.xml.in: add accelerator
+	* src/wbc-gtk-actions.c (cb_edit_goto_cell_indicator): new
+	(EditGotoCellIndicator): new
+	* src/wbc-gtk.c (cb_post_activate): do not interfere with EditGotoCellIndicator
+	(wbcg_focus_current_cell_indicator): new
+	* src/wbc-gtk.h (wbcg_focus_current_cell_indicator): new
+
+2013-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* component/Gnumeric-embed.xml.in: ctrl-a will be handled in gnm-pane.c
 	* src/GNOME_Gnumeric-gtk.xml.in: ctrl-a will be handled in gnm-pane.c
 	* src/wbc-gtk-actions.c: ctrl-a will be handled in gnm-pane.c

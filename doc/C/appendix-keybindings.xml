@@ -160,6 +160,18 @@
 	Toggles strikethrough of the current selection.
       </para>
     </listitem>
+    <listitem>
+      <para>
+        <keycap>Shift-Ctrl-G</keycap>
+	Changes the keyboard focus to the current cell indicator described in <xref linkend="data-entry-currentcell" />.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <keycap>Ctrl-a</keycap>
+	Select all cells on the currently focused sheet.
+      </para>
+    </listitem>
 
   </itemizedlist>
 </appendix>

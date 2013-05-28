@@ -83,6 +83,8 @@ void	      wbcg_set_entry		(WBCGtk *wbc,
 					 GnmExprEntry *new_entry);
 gboolean      wbcg_entry_has_logical	(WBCGtk const *wbcg);
 
+void          wbcg_focus_current_cell_indicator (WBCGtk const *wbcg);
+
 G_END_DECLS
 
 #endif /* _GNM_WBC_GTK_H_ */
