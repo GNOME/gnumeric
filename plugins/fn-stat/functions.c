@@ -458,9 +458,11 @@ gnumeric_normsdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_snorm_dist_range[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SNORM.DIST.RANGE:probability of the standard normal distribution over an interval") },
-	{ GNM_FUNC_HELP_ARG, F_("x1:first observation") },
-	{ GNM_FUNC_HELP_ARG, F_("x2:first observation") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative probability over a range of the standard normal distribution.") },
+	{ GNM_FUNC_HELP_ARG, F_("x1:start of the interval") },
+	{ GNM_FUNC_HELP_ARG, F_("x2:end of the interval") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative probability over a range of the standard normal distribution; that is the integral over the probability density function from @{x1} to @{x2}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x1}>@{x2}, this function returns a negative value.")},
+	{ GNM_FUNC_HELP_SEEALSO, "NORMSDIST,R.PNORM,R.QNORM,R.DNORM"},
 	{ GNM_FUNC_HELP_END }
 };
 

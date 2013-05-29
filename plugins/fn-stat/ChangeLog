@@ -1,3 +1,7 @@
+2013-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_snorm_dist_range): add note and seealso.
+
 2013-05-19  Morten Welinder  <terra@gnome.org>
 
 	* functions.c: Mark examples for translation when appropriate.
