@@ -1163,7 +1163,7 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 		gnm_expr_entry_signal_update (
 			wbcg_get_entry_logical (scg_wbcg (scg)), TRUE);
 
-	if (selecting == GNM_ITEM_GRID_SELECTING_CELL_RANGE) {
+	if (selecting == GNM_ITEM_GRID_SELECTING_CELL_RANGE && button == 1) {
 		GnmCellPos const *pos = sv_is_singleton_selected (scg_view (scg));
 		if (pos != NULL) {
 			GnmHLink *link;
