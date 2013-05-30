@@ -38,6 +38,7 @@ Morten:
 	* Fix missing translation of certain function examples.
 	* Add new SNORM.DIST.RANGE function.
 	* Fix critical when last row deleted.
+	* Fix criticals in about dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2

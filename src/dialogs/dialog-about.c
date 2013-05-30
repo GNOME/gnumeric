@@ -440,6 +440,12 @@ about_dialog_anim_draw (G_GNUC_UNUSED GtkWidget *widget,
 	return FALSE;
 }
 
+#define APPENDR(r_) do {			\
+  tail->next = g_list_prepend (NULL, (r_));	\
+  tail->next->prev = tail;			\
+  tail = tail->next;				\
+} while (0)
+
 static void
 create_animation (AboutState *state)
 {
@@ -459,15 +465,13 @@ create_animation (AboutState *state)
 
 	r = make_text_item (state, _("the efforts of many people."), 3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
-	tail->next = g_list_prepend (NULL, r);
-	tail = tail->next;
+	APPENDR (r);
 
 	state->now -= 2000;  /* Overlap.  */
 
 	r = make_text_item (state, _("Your help is much appreciated!"), 3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
-	tail->next = g_list_prepend (NULL, r);
-	tail = tail->next;
+	APPENDR (r);
 
 	permutation = g_new (unsigned, N);
 	for (ui = 0; ui < N; ui++)
@@ -506,8 +510,7 @@ create_animation (AboutState *state)
 #endif
 		}
 
-		tail->next = g_list_prepend (NULL, r);
-		tail = tail->next;
+		APPENDR (r);
 	}
 
 	g_free (permutation);
@@ -517,39 +520,36 @@ create_animation (AboutState *state)
 	r = make_text_item (state, _("We apologize if anyone was left out."),
 			    3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
-	tail->next = g_list_prepend (NULL, r);
-	tail = tail->next;
+	APPENDR (r);
 
 	state->now -= 2000;  /* Overlap.  */
 
 	r = make_text_item (state, _("Please contact us to correct mistakes."),
 			    3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
-	tail->next = g_list_prepend (NULL, r);
-	tail = tail->next;
+	APPENDR (r);
 
 	state->now -= 2000;  /* Overlap.  */
 
 	r = make_text_item (state, _("Report problems at http://bugzilla.gnome.org"), 3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
-	tail->next = g_list_prepend (NULL, r);
-	tail = tail->next;
+	APPENDR (r);
 
 	r = make_text_item (state, _("We aim to please!"), 3000);
 	r->fade_out = FALSE;
-	tail->next = g_list_prepend (NULL, r);
-	tail = tail->next;
+	APPENDR (r);
 
 	state->now -= 100;  /* Overlap.  */
 
 	r = make_text_item (state, _("We aim to please!"), 1000);
 	r->fade_in = FALSE;
 	set_text_expansion (r, 4);
-	tail->next = g_list_prepend (NULL, r);
-	tail = tail->next;
+	APPENDR (r);
 
 	state->now = 0;
 }
+
+#undef APPENDR
 
 void
 dialog_about (WBCGtk *wbcg)
