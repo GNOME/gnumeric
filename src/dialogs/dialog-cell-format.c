@@ -579,7 +579,7 @@ fmt_dialog_init_align_radio (char const *const name,
 }
 
 static void
-cb_rotation_changed (GORotationSel *grs, int angle, FormatState *state)
+cb_rotation_changed (G_GNUC_UNUSED GORotationSel *grs, int angle, FormatState *state)
 {
 	if (angle < 0)
 		angle += 360;
@@ -602,7 +602,7 @@ fmt_dialog_init_align_page (FormatState *state)
 		{ "halign_fill",	GNM_HALIGN_FILL },
 		{ "halign_center_across_selection",	GNM_HALIGN_CENTER_ACROSS_SELECTION },
 		{ "halign_distributed",			GNM_HALIGN_DISTRIBUTED },
-		{ NULL }
+		{ NULL, 0}
 	};
 	static struct {
 		char const *const	name;
@@ -613,7 +613,7 @@ fmt_dialog_init_align_page (FormatState *state)
 		{ "valign_bottom", GNM_VALIGN_BOTTOM },
 		{ "valign_justify", GNM_VALIGN_JUSTIFY },
 		{ "valign_distributed", GNM_VALIGN_DISTRIBUTED },
-		{ NULL }
+		{ NULL, 0}
 	};
 
 	GtkWidget *w;
@@ -2205,7 +2205,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		{ "line_pattern_thin", GNM_STYLE_BORDER_THIN },
 		{ "line_pattern_double", GNM_STYLE_BORDER_DOUBLE },
 
-		{ NULL }
+		{ NULL, 0}
 	};
 	static char const *const pattern_buttons[] = {
 		"gp_solid", "gp_75grey", "gp_50grey",
@@ -2591,12 +2591,9 @@ dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 	FormatState  *state;
 	gint i;
 
-	g_return_if_fail (wbcg != NULL);
-
+	g_return_val_if_fail (wbcg != NULL, NULL);
 	state = dialog_cell_format_init (wbcg);
-
-        if (state == NULL)
-                return;
+	g_return_val_if_fail (state != NULL, NULL);
 
 	state->style_selector.is_selector = TRUE;
 	state->style_selector.w = w;
