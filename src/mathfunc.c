@@ -5173,13 +5173,12 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	or modifying a calculation.
 
 	M_1_SQRT_2PI = 1 / sqrt(2 * pi);  from abramowitz & stegun, p. 3.
-	M_SQRT2 = sqrt(2)
+	M_SQRT2gnum = sqrt(2)
 	xleg = legendre 12-point nodes
 	aleg = legendre 12-point coefficients
  */
 
     static const gboolean debug = FALSE;
-    const static gnm_float bb   = 8.;
     const static gnm_float xleg[] = {
 	GNM_const(0.981560634246719250690549090149),
 	GNM_const(0.904117256370474856678465866119),
@@ -5202,16 +5201,18 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 
     qsqz = w * 0.5;
 
-    /* if w >= 16 then the integral lower bound (occurs for c=20) */
-    /* is 0.99999999999995 so return a value of 1. */
-
-    if (qsqz >= bb)
-	return 1.0;
-
-    /* find (F(w/2) - 1) ^ cc */
+    /* find (2F(w/2) - 1) ^ cc */
     /* (first term in integral of hartley's form). */
 
-    pr_w = gnm_pow (gnm_erf (qsqz / M_SQRT2gnum), cc);
+    /*
+     * Use different formulas for different size of qsqz to avoid
+     * cancellation for pnorm or squeezing erf's result against 1.
+     */
+    pr_w = qsqz > 1
+	    ? pow1p (-2.0 * pnorm (qsqz, 0, 1, FALSE, FALSE), cc)
+	    : gnm_pow (gnm_erf (qsqz / M_SQRT2gnum), cc);
+    if (pr_w >= 1.0)
+	return 1.0;
 
     /* find the integral of second term of hartley's form */
     /* Limits of integration are (w/2, Inf).  Large cc means that */
