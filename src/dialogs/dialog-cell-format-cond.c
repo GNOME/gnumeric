@@ -276,8 +276,10 @@ c_fmt_dialog_select_style (CFormatState *state, int pages)
 		(state->wbcg, pages,
 		 GTK_WINDOW (state->dialog),
 		 state->editor.style, state);
-	g_signal_connect (G_OBJECT (state->editor.dialog), 
-			  "destroy", G_CALLBACK (editor_destroy_cb), state);
+	if (state->editor.dialog)
+		g_signal_connect 
+			(G_OBJECT (state->editor.dialog), 
+			 "destroy", G_CALLBACK (editor_destroy_cb), state);
 }
 
 static void
