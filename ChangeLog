@@ -1,3 +1,8 @@
+2013-06-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/item-grid.c (cb_cursor_come_to_rest): gnumeric_position_tooltip needs the
+	tooltip size, so load the text before calling it.
+
 2013-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/item-grid.c (item_grid_button_released): do not trigger hyper link

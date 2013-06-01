@@ -1075,8 +1075,8 @@ cb_cursor_come_to_rest (GnmItemGrid *ig)
 			gnm_canvas_get_position (canvas, &wx, &wy,
 						 ig->last_x, ig->last_y);
 			ig->tip = gnumeric_create_tooltip (cw);
-			gnumeric_position_tooltip (ig->tip, wx, wy, TRUE);
 			gtk_label_set_text (GTK_LABEL (ig->tip), tiptext);
+			gnumeric_position_tooltip (ig->tip, wx, wy, TRUE);
 			gtk_widget_show_all (gtk_widget_get_toplevel (ig->tip));
 		}
 	}
