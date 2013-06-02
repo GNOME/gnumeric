@@ -350,7 +350,7 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 }
 
 static void
-scg_resize (SheetControlGUI *scg, gboolean force_scroll)
+scg_resize (SheetControlGUI *scg, G_GNUC_UNUSED gboolean force_scroll)
 {
 	Sheet const *sheet = scg_sheet (scg);
 	GnmPane *pane = scg_pane (scg, 0);
@@ -623,7 +623,7 @@ cb_select_all_btn_draw (GtkWidget *widget, cairo_t *cr, SheetControlGUI *scg)
 }
 
 static gboolean
-cb_select_all_btn_event (GtkWidget *widget, GdkEvent *event, SheetControlGUI *scg)
+cb_select_all_btn_event (G_GNUC_UNUSED GtkWidget *widget, GdkEvent *event, SheetControlGUI *scg)
 {
 	if (event->type == GDK_BUTTON_PRESS) {
 		scg_select_all (scg);
@@ -1425,7 +1425,7 @@ cb_resize_pane_motion (GtkPaned *p,
 }
 
 static void
-cb_check_resize (GtkPaned *p, GtkAllocation *allocation,
+cb_check_resize (GtkPaned *p, G_GNUC_UNUSED GtkAllocation *allocation,
 		 SheetControlGUI *scg)
 {
 	gboolean const vert = (p == scg->vpane);
@@ -1461,7 +1461,7 @@ idle_resize (struct resize_closure *r)
 }
 
 static void
-cb_canvas_resize (GtkWidget *w, GtkAllocation *allocation,
+cb_canvas_resize (GtkWidget *w, G_GNUC_UNUSED GtkAllocation *allocation,
 		 SheetControlGUI *scg)
 {
 	struct resize_closure *r = g_new (struct resize_closure, 1);
@@ -1481,7 +1481,7 @@ post_create_cb (SheetControlGUI *scg)
 }
 
 static gboolean
-sheet_object_key_pressed (GtkWidget *w, GdkEventKey *event, SheetControlGUI *scg)
+sheet_object_key_pressed (G_GNUC_UNUSED GtkWidget *w, GdkEventKey *event, SheetControlGUI *scg)
 {
 	Sheet *sheet = scg_sheet (scg);
 	WorkbookControl * wbc = scg_wbc (scg);
@@ -2123,120 +2123,120 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 	static GnumericPopupMenuElement popup_elements[] = {
 		{ N_("Cu_t"),           GTK_STOCK_CUT,
-		    0, 0, CONTEXT_CUT },
+		    0, 0, CONTEXT_CUT, NULL },
 		{ N_("_Copy"),          GTK_STOCK_COPY,
-		    0, 0, CONTEXT_COPY },
+		    0, 0, CONTEXT_COPY, NULL },
 		{ N_("_Paste"),         GTK_STOCK_PASTE,
-		    0, 0, CONTEXT_PASTE },
+		    0, 0, CONTEXT_PASTE, NULL },
 		{ N_("Paste _Special"),	NULL,
-		    0, CONTEXT_DISABLE_PASTE_SPECIAL, CONTEXT_PASTE_SPECIAL },
+		    0, CONTEXT_DISABLE_PASTE_SPECIAL, CONTEXT_PASTE_SPECIAL, NULL },
 
-		{ "", NULL, 0, 0, 0 },
+		{ "", NULL, 0, 0, 0, NULL },
 
 		{ N_("_Insert Cells..."),	NULL,
 		    CONTEXT_DISPLAY_FOR_CELLS,
-		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION, CONTEXT_INSERT },
+		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION, CONTEXT_INSERT, NULL },
 		{ N_("_Delete Cells..."),	GTK_STOCK_DELETE,
 		    CONTEXT_DISPLAY_FOR_CELLS,
-		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION, CONTEXT_DELETE },
+		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION, CONTEXT_DELETE, NULL },
 		{ N_("_Insert Column(s)"), "Gnumeric_ColumnAdd",
 		    CONTEXT_DISPLAY_FOR_COLS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
-		  CONTEXT_INSERT },
+		  CONTEXT_INSERT, NULL },
 		{ N_("_Delete Column(s)"), "Gnumeric_ColumnDelete",
 		    CONTEXT_DISPLAY_FOR_COLS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
-		  CONTEXT_DELETE },
+		  CONTEXT_DELETE, NULL },
 		{ N_("_Insert Row(s)"), "Gnumeric_RowAdd",
 		    CONTEXT_DISPLAY_FOR_ROWS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
-		  CONTEXT_INSERT },
+		  CONTEXT_INSERT, NULL },
 		{ N_("_Delete Row(s)"), "Gnumeric_RowDelete",
 		    CONTEXT_DISPLAY_FOR_ROWS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
-		  CONTEXT_DELETE },
+		  CONTEXT_DELETE, NULL },
 
 		{ N_("Clear Co_ntents"), GTK_STOCK_CLEAR,
-		    0, 0, CONTEXT_CLEAR_CONTENT },
+		    0, 0, CONTEXT_CLEAR_CONTENT, NULL },
 
-		{ "", NULL, CONTEXT_DISPLAY_FOR_CELLS, 0, 0 },
+		{ "", NULL, CONTEXT_DISPLAY_FOR_CELLS, 0, 0, NULL },
 
 		{ N_("Add _Comment..."),	  "Gnumeric_CommentAdd",
-		    CONTEXT_DISPLAY_WITHOUT_COMMENT, 0, CONTEXT_COMMENT_ADD },
+		    CONTEXT_DISPLAY_WITHOUT_COMMENT, 0, CONTEXT_COMMENT_ADD, NULL },
 		{ N_("Edit Co_mment..."),"Gnumeric_CommentEdit",
-		    CONTEXT_DISPLAY_WITH_COMMENT, 0, CONTEXT_COMMENT_EDIT },
+		    CONTEXT_DISPLAY_WITH_COMMENT, 0, CONTEXT_COMMENT_EDIT, NULL },
 		{ N_("_Remove Comments"),	  "Gnumeric_CommentDelete",
-		    CONTEXT_DISPLAY_WITH_COMMENT_IN_RANGE, 0, CONTEXT_COMMENT_REMOVE },
+		    CONTEXT_DISPLAY_WITH_COMMENT_IN_RANGE, 0, CONTEXT_COMMENT_REMOVE, NULL },
 
 		{ N_("Add _Hyperlink..."),	  "Gnumeric_Link_Add",
 		    CONTEXT_DISPLAY_WITHOUT_HYPERLINK, 0,
-		    CONTEXT_HYPERLINK_ADD },
+		    CONTEXT_HYPERLINK_ADD, NULL },
 		{ N_("Edit _Hyperlink..."),	  "Gnumeric_Link_Edit",
 		    CONTEXT_DISPLAY_WITH_HYPERLINK, 0,
-		    CONTEXT_HYPERLINK_EDIT },
+		    CONTEXT_HYPERLINK_EDIT, NULL },
 		{ N_("_Remove Hyperlink"),	  "Gnumeric_Link_Delete",
 		    CONTEXT_DISPLAY_WITH_HYPERLINK_IN_RANGE, 0,
-		    CONTEXT_HYPERLINK_REMOVE },
+		    CONTEXT_HYPERLINK_REMOVE, NULL },
 
-		{ "", NULL, 0, 0, 0 },
+		{ "", NULL, 0, 0, 0, NULL },
 
 		{ N_("_Edit DataSlicer"),	NULL,
 		     CONTEXT_DISPLAY_WITH_DATA_SLICER, 0,
-		     CONTEXT_DATA_SLICER_EDIT },
+		     CONTEXT_DATA_SLICER_EDIT, NULL },
 		{ N_("_Refresh DataSlicer"),	NULL,
 		     CONTEXT_DISPLAY_WITH_DATA_SLICER, 0,
-		     CONTEXT_DATA_SLICER_REFRESH },
+		     CONTEXT_DATA_SLICER_REFRESH, NULL },
 
 		{ N_("DataSlicer Field _Order "), NULL,
 		     CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW | CONTEXT_DISPLAY_WITH_DATA_SLICER_COL, 0,
-		     -1 },	/* start sub menu */
+		     -1, NULL },	/* start sub menu */
 		{ N_("Left"), GTK_STOCK_GO_BACK,
 		     CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW, 0,
-		     CONTEXT_DATA_SLICER_REFRESH },
+		     CONTEXT_DATA_SLICER_REFRESH, NULL },
 		{ N_("Right"), GTK_STOCK_GO_FORWARD,
 		     CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW, 0,
-		     CONTEXT_DATA_SLICER_REFRESH },
+		     CONTEXT_DATA_SLICER_REFRESH, NULL },
 		{ N_("Up"), GTK_STOCK_GO_UP,
 		     CONTEXT_DISPLAY_WITH_DATA_SLICER_COL, 0,
-		     CONTEXT_DATA_SLICER_REFRESH },
+		     CONTEXT_DATA_SLICER_REFRESH, NULL },
 		{ N_("Down"), GTK_STOCK_GO_DOWN,
 		     CONTEXT_DISPLAY_WITH_DATA_SLICER_COL, 0,
-		     CONTEXT_DATA_SLICER_REFRESH },
+		     CONTEXT_DATA_SLICER_REFRESH, NULL },
 		{ "",	NULL,
 		     CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW | CONTEXT_DISPLAY_WITH_DATA_SLICER_COL, 0,
-		     -1 },	/* end sub menu */
+		     -1, NULL },	/* end sub menu */
 
 		{ N_("_Format All Cells..."), GTK_STOCK_PROPERTIES,
-		    0, 0, CONTEXT_FORMAT_CELL },
+		    0, 0, CONTEXT_FORMAT_CELL, NULL },
 		{ N_("C_onditional Formatting..."), GTK_STOCK_PROPERTIES,
-		    0, 0, CONTEXT_FORMAT_CELL_COND },
-		{ N_("Cell"), NULL, 0, 0, -1},/* start sub menu */
+		    0, 0, CONTEXT_FORMAT_CELL_COND, NULL },
+		{ N_("Cell"), NULL, 0, 0, -1, NULL},/* start sub menu */
 		{ N_("_Merge"), "Gnumeric_MergeCells",   0,
-		  CONTEXT_DISABLE_FOR_ONLYMERGES, CONTEXT_CELL_MERGE },
+		  CONTEXT_DISABLE_FOR_ONLYMERGES, CONTEXT_CELL_MERGE, NULL },
 		{ N_("_Unmerge"), "Gnumeric_SplitCells",   0,
-		  CONTEXT_DISABLE_FOR_NOMERGES, CONTEXT_CELL_UNMERGE },
-		{ N_("Auto Fit _Width"), "Gnumeric_ColumnSize",   0, 0, CONTEXT_CELL_AUTOFIT_WIDTH },
-		{ N_("Auto Fit _Height"), "Gnumeric_RowSize",   0, 0, CONTEXT_CELL_AUTOFIT_HEIGHT },
-		{ N_(""), NULL, 0, 0, -1},/* end sub menu */
+		  CONTEXT_DISABLE_FOR_NOMERGES, CONTEXT_CELL_UNMERGE, NULL },
+		{ N_("Auto Fit _Width"), "Gnumeric_ColumnSize",   0, 0, CONTEXT_CELL_AUTOFIT_WIDTH, NULL },
+		{ N_("Auto Fit _Height"), "Gnumeric_RowSize",   0, 0, CONTEXT_CELL_AUTOFIT_HEIGHT, NULL },
+		{ "", NULL, 0, 0, -1, NULL},/* end sub menu */
 
 
 		/* Column specific (Note some labels duplicate row labels) */
-		{ N_("Column"), NULL, 0, 0, -1},/* start sub menu */
-		{ N_("_Width..."), "Gnumeric_ColumnSize",   0, 0, CONTEXT_COL_WIDTH },
-		{ N_("_Auto Fit Width"), "Gnumeric_ColumnSize",   0, 0, CONTEXT_COL_AUTOFIT },
-		{ N_("_Hide"),	   "Gnumeric_ColumnHide",   0, CONTEXT_DISABLE_FOR_ALL_COLS, CONTEXT_COL_HIDE },
-		{ N_("_Unhide"),   "Gnumeric_ColumnUnhide", 0, 0, CONTEXT_COL_UNHIDE },
-		{ N_(""), NULL, 0, 0, -1},/* end sub menu */
+		{ N_("Column"), NULL, 0, 0, -1, NULL},/* start sub menu */
+		{ N_("_Width..."), "Gnumeric_ColumnSize",   0, 0, CONTEXT_COL_WIDTH, NULL },
+		{ N_("_Auto Fit Width"), "Gnumeric_ColumnSize",   0, 0, CONTEXT_COL_AUTOFIT, NULL },
+		{ N_("_Hide"),	   "Gnumeric_ColumnHide",   0, CONTEXT_DISABLE_FOR_ALL_COLS, CONTEXT_COL_HIDE, NULL },
+		{ N_("_Unhide"),   "Gnumeric_ColumnUnhide", 0, 0, CONTEXT_COL_UNHIDE, NULL },
+		{ "", NULL, 0, 0, -1, NULL},/* end sub menu */
 
 		/* Row specific (Note some labels duplicate col labels) */
-		{ N_("Row"), NULL, 0, 0, -1},/* start sub menu */
-		{ N_("Hei_ght..."), "Gnumeric_RowSize",   0, 0, CONTEXT_ROW_HEIGHT },
-		{ N_("_Auto Fit Height"), "Gnumeric_RowSize",   0, 0, CONTEXT_ROW_AUTOFIT },
-		{ N_("_Hide"),	    "Gnumeric_RowHide",   0, CONTEXT_DISABLE_FOR_ALL_ROWS, CONTEXT_ROW_HIDE },
-		{ N_("_Unhide"),    "Gnumeric_RowUnhide", 0, 0, CONTEXT_ROW_UNHIDE },
-		{ N_(""), NULL, 0, 0, -1},/* end sub menu */
+		{ N_("Row"), NULL, 0, 0, -1, NULL},/* start sub menu */
+		{ N_("Hei_ght..."), "Gnumeric_RowSize",   0, 0, CONTEXT_ROW_HEIGHT, NULL },
+		{ N_("_Auto Fit Height"), "Gnumeric_RowSize",   0, 0, CONTEXT_ROW_AUTOFIT, NULL },
+		{ N_("_Hide"),	    "Gnumeric_RowHide",   0, CONTEXT_DISABLE_FOR_ALL_ROWS, CONTEXT_ROW_HIDE, NULL },
+		{ N_("_Unhide"),    "Gnumeric_RowUnhide", 0, 0, CONTEXT_ROW_UNHIDE, NULL },
+		{ "", NULL, 0, 0, -1, NULL},/* end sub menu */
 
-		{ NULL, NULL, 0, 0, 0 },
+		{ NULL, NULL, 0, 0, 0, NULL },
 	};
 
 	/* row and column specific operations */
@@ -2418,7 +2418,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 }
 
 static gboolean
-cb_redraw_sel (SheetView *sv, GnmRange const *r, gpointer user_data)
+cb_redraw_sel (G_GNUC_UNUSED SheetView *sv, GnmRange const *r, gpointer user_data)
 {
 	SheetControl *sc = user_data;
 	scg_redraw_range (sc, r);
@@ -2555,7 +2555,7 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 }
 
 static void
-cb_scg_object_unselect (SheetObject *so, double *coords, SheetControlGUI *scg)
+cb_scg_object_unselect (SheetObject *so, G_GNUC_UNUSED double *coords, SheetControlGUI *scg)
 {
 	SCG_FOREACH_PANE (scg, pane, gnm_pane_object_unselect (pane, so););
 	g_signal_handlers_disconnect_by_func (so,
@@ -2999,6 +2999,15 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
 
 /***************************************************************************/
 
+static gboolean
+scg_comment_display_filter_cb (PangoAttribute *attribute, gboolean *state)
+{
+	if (attribute->klass->type == PANGO_ATTR_FOREGROUND &&
+	    attribute->start_index != attribute->end_index)
+		*state = TRUE;
+	return FALSE;
+}
+
 /**
  * scg_comment_display :
  * @scg: The SheetControl
@@ -3062,7 +3071,27 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 		}
 
 		label = gtk_label_new (comment_text);
-		gtk_label_set_attributes (GTK_LABEL (label), comment_markup);
+		if (comment_markup) {
+			gboolean font_colour_set = FALSE;
+			pango_attr_list_filter 
+				(comment_markup,
+				 (PangoAttrFilterFunc) scg_comment_display_filter_cb,
+				 &font_colour_set);
+			if (font_colour_set) {
+				/* Imported comments may have a font colour set. */
+				/* If that is the case, we set a background colour. */
+				guint length = strlen (comment_text);
+				PangoAttribute *attr = pango_attr_foreground_new (0,0,0);
+				attr->start_index = 0;
+				attr->end_index = length;
+				pango_attr_list_insert_before (comment_markup, attr);
+				attr = pango_attr_background_new (255*255, 255*255, 224*255 );
+				attr->start_index = 0;
+				attr->end_index = length;
+				pango_attr_list_insert_before (comment_markup, attr);
+			}
+			gtk_label_set_attributes (GTK_LABEL (label), comment_markup);
+		}
 		g_free (comment_text);
 		gtk_widget_set_halign (label, GTK_ALIGN_START);
 		gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
@@ -4083,7 +4112,7 @@ scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 }
 
 static void
-scg_drag_send_image (SheetControlGUI *scg,
+scg_drag_send_image (G_GNUC_UNUSED SheetControlGUI *scg,
 		     GtkSelectionData *selection_data,
 		     GSList *objects,
 		     gchar const *mime_type)
@@ -4128,7 +4157,7 @@ scg_drag_send_image (SheetControlGUI *scg,
 }
 
 static void
-scg_drag_send_graph (SheetControlGUI *scg,
+scg_drag_send_graph (G_GNUC_UNUSED SheetControlGUI *scg,
 		     GtkSelectionData *selection_data,
 		     GSList *objects,
 		     gchar const *mime_type)

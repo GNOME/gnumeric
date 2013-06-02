@@ -1,5 +1,10 @@
 2013-06-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-control-gui.c (scg_comment_display_filter_cb): new
+	(scg_comment_display): adjust background and fontcolor if necessary
+
+2013-06-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/item-grid.c (cb_cursor_come_to_rest): gnumeric_position_tooltip needs the
 	tooltip size, so load the text before calling it.
 

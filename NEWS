@@ -14,6 +14,7 @@ Andreas:
 	* Add a keyboard shortcut to jump to the current cell indicator.
 	  [#699710]
 	* Fix placement of hyperlink tooltip. [#701436]
+	* Adjust cell comment display. [#698519]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]
