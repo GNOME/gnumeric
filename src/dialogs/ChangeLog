@@ -1,3 +1,8 @@
+2013-06-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-define-names.c (name_guru_store_names): use sheet specific
+	conventions
+
 2013-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-format.c (dialog_cell_format_select_style): fix returns

@@ -15,6 +15,8 @@ Andreas:
 	  [#699710]
 	* Fix placement of hyperlink tooltip. [#701436]
 	* Adjust cell comment display. [#698519]
+	* Make reference display in paste/define names dialog consistent with
+	  sheet preferences. [Debian #699054]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]

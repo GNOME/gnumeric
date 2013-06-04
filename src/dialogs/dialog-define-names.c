@@ -360,7 +360,7 @@ name_guru_store_names (GList            *list,
 			adj_type = type;
 
 		content = expr_name_as_string (nexpr, &state->pp,
-					       gnm_conventions_default);
+					       sheet_get_conventions (state->sheet));
 
 
 		gtk_tree_store_append (state->model, &name_iter,
