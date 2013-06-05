@@ -1,3 +1,7 @@
+2013-06-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-sort.c (dialog_init): remove unused variable
+
 2013-06-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-define-names.c (name_guru_store_names): use sheet specific

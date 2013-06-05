@@ -261,7 +261,7 @@ append_data (SortFlowState *state, int i, int index)
 }
 
 static void
-cb_sort_field_selection(GtkWidget *item, AddSortFieldMenuState *menu_state)
+cb_sort_field_selection(G_GNUC_UNUSED GtkWidget *item, AddSortFieldMenuState *menu_state)
 {
 	append_data(menu_state->state,
 		    menu_state->start,
@@ -846,7 +846,7 @@ cb_add_clicked (SortFlowState *state)
 }
 
 static gint
-cb_treeview_button_press(GtkWidget *w, GdkEvent *event, SortFlowState *state)
+cb_treeview_button_press(G_GNUC_UNUSED GtkWidget *w, GdkEvent *event, SortFlowState *state)
 {
 	if ((event->type == GDK_BUTTON_PRESS) &&
 	    (event->button.button == 3)) {
@@ -931,7 +931,7 @@ cb_toggled_descending (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 #if 0
 /* We are currently not supporting `by-value' vs not. */
 static void
-cb_toggled_sort_by_value (GtkCellRendererToggle *cell,
+cb_toggled_sort_by_value (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 			  const gchar *path_string,
 			  SortFlowState *state)
 {
@@ -940,7 +940,7 @@ cb_toggled_sort_by_value (GtkCellRendererToggle *cell,
 #endif
 
 static void
-cb_toggled_case_sensitive (GtkCellRendererToggle *cell,
+cb_toggled_case_sensitive (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 			   const gchar           *path_string,
 			   SortFlowState *state)
 {
@@ -956,7 +956,6 @@ dialog_init (SortFlowState *state)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	gboolean col_rb;
-	GnmRange const *range;
 
 	grid = GTK_GRID (go_gtk_builder_get_widget (state->gui, "cell-sort-grid"));
 	/* setup range entry */
@@ -1137,7 +1136,7 @@ dialog_init (SortFlowState *state)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state, (GDestroyNotify) cb_dialog_destroy);
 
-	range = dialog_load_selection (state, &col_rb);
+	dialog_load_selection (state, &col_rb);
 
 	cb_sort_selection_changed (state);
 	gnm_expr_entry_grab_focus(GNM_EXPR_ENTRY (state->add_entry), TRUE);
