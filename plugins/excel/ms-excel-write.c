@@ -1161,8 +1161,6 @@ excel_write_conditions (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	g_hash_table_foreach (group, (GHFunc) cb_write_condition, esheet);
 	g_hash_table_destroy (group);
-	style_list_free (esheet->conditions);
-	esheet->conditions = NULL;
 }
 
 static void
@@ -1438,8 +1436,6 @@ excel_write_DVALs (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	g_hash_table_foreach (group, (GHFunc) excel_write_DV, esheet);
 	g_hash_table_destroy (group);
-	style_list_free (esheet->validations);
-	esheet->validations = NULL;
 }
 
 static void
@@ -5519,11 +5515,8 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	 * cannot handle.
 	 */
 	esheet->hlinks = sheet_style_collect_hlinks (sheet, NULL);
-
-	if (biff8) {
-		esheet->conditions  = sheet_style_collect_conditions (sheet, NULL);
-		esheet->validations = sheet_style_collect_validations (sheet, NULL);
-	}
+	esheet->conditions  = sheet_style_collect_conditions (sheet, NULL);
+	esheet->validations = sheet_style_collect_validations (sheet, NULL);
 
 	esheet->cur_obj = esheet->num_objs = 0;
 
@@ -6470,10 +6463,8 @@ excel_write_state_new (GOIOContext *context, WorkbookView const *wb_view,
 		if (sheet->sheet_type != GNM_SHEET_DATA)
 			continue;
 
-		if (esheet->conditions != NULL)
-			excel_write_prep_conditions (esheet);
-		if (esheet->validations != NULL)
-			excel_write_prep_validations (esheet);
+		excel_write_prep_conditions (esheet);
+		excel_write_prep_validations (esheet);
 		if (sheet->filters != NULL)
 			excel_write_prep_sheet (ewb, sheet);
 		for (ptr = esheet->graphs ; ptr != NULL ; ptr = ptr->next)
