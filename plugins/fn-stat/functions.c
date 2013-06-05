@@ -437,6 +437,7 @@ gnumeric_negbinomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_normsdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NORMSDIST:cumulative distribution function of the standard normal distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("NORMSDIST is the OpenFormula function LEGACY.NORMSDIST.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=NORMSDIST(2)" },
