@@ -1409,8 +1409,6 @@ excel_write_HLINKs (BiffPut *bp, ExcelWriteSheet *esheet)
 			ms_biff_put_commit (bp);
 		}
 	}
-	style_list_free (esheet->hlinks);
-	esheet->hlinks = NULL;
 }
 
 static void
@@ -5516,9 +5514,14 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	if (esheet->max_row > maxrows)
 		esheet->max_row = maxrows;
 
+	/*
+	 * Supposedly biff8 only, but just let readers ignore what they
+	 * cannot handle.
+	 */
+	esheet->hlinks = sheet_style_collect_hlinks (sheet, NULL);
+
 	if (biff8) {
 		esheet->conditions  = sheet_style_collect_conditions (sheet, NULL);
-		esheet->hlinks      = sheet_style_collect_hlinks (sheet, NULL);
 		esheet->validations = sheet_style_collect_validations (sheet, NULL);
 	}
 

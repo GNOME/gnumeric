@@ -1,3 +1,9 @@
+2013-06-05  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_HLINKs): Don't remove hlinks here.
+	(excel_sheet_new): Collect hlinks regardless of biff version.
+	Fixes #701604.
+
 2013-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (xlsx_ext_begin): new

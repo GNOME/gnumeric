@@ -44,6 +44,7 @@ Morten:
 	* Fix critical when last row deleted.
 	* Fix criticals in about dialog.
 	* Introspection fixes.
+	* Fix xls/biff5 link export.  [#701604]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2
