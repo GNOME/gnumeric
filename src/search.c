@@ -248,6 +248,10 @@ gnm_search_collect_cells (GnmSearchReplace *sr)
 	return cells;
 }
 
+/**
+ * gnm_search_collect_cells_free:
+ * @cells: (element-type GnmEvalPos) (transfer full):
+ */
 void
 gnm_search_collect_cells_free (GPtrArray *cells)
 {
@@ -262,10 +266,9 @@ gnm_search_collect_cells_free (GPtrArray *cells)
 /**
  * gnm_search_filter_matching:
  * @sr: The search spec.
- * @cells: An array of GnmEvalPos*, presumably a result of gnm_search_collect_cells.
+ * @cells: (element-type GnmEvalPos): Cell positions to filter, presumably a result of gnm_search_collect_cells.
  *
- * Returns: (element-type GnmSearchReplace) (transfer full): an array of
- * GnmSearchFilterResult*s, which the caller must free.
+ * Returns: (element-type GnmSearchFilterResult) (transfer full): matches
  */
 
 GPtrArray *
@@ -313,6 +316,10 @@ gnm_search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 	return result;
 }
 
+/**
+ * gnm_search_filter_matching_free:
+ * @matches: (element-type GnmSearchFilterResult) (transfer full): matches
+ */
 void
 gnm_search_filter_matching_free (GPtrArray *matches)
 {

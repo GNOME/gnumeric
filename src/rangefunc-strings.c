@@ -11,6 +11,13 @@
 
 #include <string.h>
 
+/**
+ * range_concatenate:
+ * @data: (element-type utf8) (transfer none):
+ * @res: (out) (transfer full):
+ *
+ * Returns: non-zero on error.
+ */
 int
 range_concatenate (GPtrArray *data, char **res)
 {

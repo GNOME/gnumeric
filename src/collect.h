@@ -30,10 +30,10 @@ typedef enum {
 	COLLECT_INFO		= 0x1000000
 } CollectFlags;
 
-typedef int (*float_range_function_t) (gnm_float const *, int, gnm_float *);
-typedef int (*float_range_function2_t) (gnm_float const *, gnm_float const *, int, gnm_float *);
-typedef int (*float_range_function2d_t) (gnm_float const *, gnm_float const *, int, gnm_float *, gpointer);
-typedef int (*string_range_function_t) (GPtrArray *, char**);
+typedef int (*float_range_function_t) (gnm_float const *xs, int n, gnm_float *res);
+typedef int (*float_range_function2_t) (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res);
+typedef int (*float_range_function2d_t) (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res, gpointer data);
+typedef int (*string_range_function_t) (GPtrArray *xs, char**res);
 
 gnm_float *collect_floats_value (GnmValue const *val,
 				 GnmEvalPos const *ep,

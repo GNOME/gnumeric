@@ -380,7 +380,7 @@ gnm_style_conditions_set_sheet (GnmStyleConditions *sc, Sheet *sheet)
  * gnm_style_conditions_details:
  * @sc: #GnmStyleConditions
  *
- * Returns: (transfer none): an array of GnmStyleCond which should not be modified.
+ * Returns: (element-type GnmStyleCond) (transfer none): style details.
  **/
 GPtrArray const *
 gnm_style_conditions_details (GnmStyleConditions const *sc)

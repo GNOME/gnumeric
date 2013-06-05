@@ -812,6 +812,9 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 	return line;
 }
 
+/**
+ * stf_parse_general_free: (skip)
+ */
 void
 stf_parse_general_free (GPtrArray *lines)
 {
@@ -827,7 +830,7 @@ stf_parse_general_free (GPtrArray *lines)
 
 
 /**
- * stf_parse_general:
+ * stf_parse_general: (skip)
  *
  * Returns: (transfer full): a GPtrArray of lines, where each line is itself a
  * GPtrArray of strings.
@@ -883,7 +886,7 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 }
 
 /**
- * stf_parse_lines:
+ * stf_parse_lines: (skip)
  * @parseoptions: #StfParseOptions_t
  * @lines_chunk:
  * @data:

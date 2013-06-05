@@ -62,7 +62,7 @@ void	sv_selection_walk_step	   (SheetView *sv,
 				    gboolean horizontal);
 
 /* Utilities for operating on a selection */
-typedef void	 (*SelectionApplyFunc)	(SheetView *sv, GnmRange const *,
+typedef void	 (*SelectionApplyFunc)	(SheetView *sv, GnmRange const *r,
 					 gpointer user_data);
 typedef gboolean (*GnmSelectionFunc)	(SheetView *sv, GnmRange const *r,
 					 gpointer user_data);

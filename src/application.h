@@ -8,7 +8,7 @@
 G_BEGIN_DECLS
 
 #define GNM_APP_TYPE	(gnm_app_get_type ())
-typedef gboolean (*GnmWbIterFunc) (Workbook *, gpointer data);
+typedef gboolean (*GnmWbIterFunc) (Workbook *wb, gpointer data);
 
 GType	     gnm_app_get_type (void);
 GObject     *gnm_app_get_app (void);

@@ -263,7 +263,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 /**
  * sheet_object_populate_menu:
  * @so: #SheetObject
- * @actions: #GPtrArray
+ * @actions: (inout) (transfer full) (element-type SheetObjectAction): #GPtrArray
  *
  * Get a list of the actions that can be performed on @so
  **/

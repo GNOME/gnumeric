@@ -43,6 +43,7 @@ Morten:
 	* Add new SNORM.DIST.RANGE function.
 	* Fix critical when last row deleted.
 	* Fix criticals in about dialog.
+	* Introspection fixes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2

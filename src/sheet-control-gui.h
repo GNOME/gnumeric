@@ -96,7 +96,7 @@ void scg_size_guide_motion	(SheetControlGUI *scg, gboolean vert,
 				 gint64 guide_pos);
 void scg_size_guide_stop	(SheetControlGUI *scg);
 
-typedef void (*SCGUIMoveFunc)	(SheetControlGUI *, int n,
+typedef void (*SCGUIMoveFunc)	(SheetControlGUI *scg, int n,
 				 gboolean jump, gboolean horiz);
 void scg_queue_movement		(SheetControlGUI *scg,
 				 SCGUIMoveFunc	  handler,

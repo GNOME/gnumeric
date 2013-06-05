@@ -1968,6 +1968,12 @@ gnm_draw_so_page_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
 	cairo_restore (cr);
 }
 
+/**
+ * gnm_print_so:
+ * @wbc:
+ * @sos: (element-type SheetObject) (transfer none):
+ * @export_dst:
+ */
 void
 gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 	      GsfOutput *export_dst)
