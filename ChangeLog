@@ -1,3 +1,7 @@
+2013-06-04  Morten Welinder  <terra@gnome.org>
+
+	* src/ssdiff.c (xml_style_changed): Teach this a bit about links.
+
 2013-06-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (scg_comment_display_filter_cb): new

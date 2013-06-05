@@ -28,6 +28,7 @@
 #include "ranges.h"
 #include "mstyle.h"
 #include "xml-sax.h"
+#include "hlink.h"
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-input.h>
@@ -595,8 +596,25 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 			DO_INT ("Hidden", gnm_style_get_contents_hidden);
 			break;
 
+		case MSTYLE_HLINK: {
+			GnmHLink const *ol = gnm_style_get_hlink (os);
+			GnmHLink const *nl = gnm_style_get_hlink (ns);
+
+			gsf_xml_out_start_element (state->xml, "HLink");
+			if (ol) {
+				gsf_xml_out_add_cstr (state->xml, "OldTarget", gnm_hlink_get_target (ol));
+				gsf_xml_out_add_cstr (state->xml, "OldTip", gnm_hlink_get_tip (ol));
+			}
+			if (nl) {
+				gsf_xml_out_add_cstr (state->xml, "NewTarget", gnm_hlink_get_target (nl));
+				gsf_xml_out_add_cstr (state->xml, "NewTip", gnm_hlink_get_tip (nl));
+			}
+			gsf_xml_out_end_element (state->xml); /* </HLink> */
+
+			break;
+		}
+
 		case MSTYLE_VALIDATION:
-		case MSTYLE_HLINK:
 		case MSTYLE_INPUT_MSG:
 		case MSTYLE_CONDITIONS:
 		default:
