@@ -1,3 +1,9 @@
+2013-06-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_text_content_end): check for NULL
+	before dereferencing to avoid fedora crash
+	https://bugzilla.redhat.com/show_bug.cgi?id=971573
+
 2013-04-26  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.2

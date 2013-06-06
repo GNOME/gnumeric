@@ -1640,6 +1640,9 @@ odf_text_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	oo_text_p_t *ptr = state->text_p_stack->data;
 
+	g_return_if_fail (ptr != NULL);
+	g_return_if_fail (xin->content != NULL);
+
 	if (strlen (xin->content->str) > ptr->offset)
 		odf_text_p_add_text
 			(state, xin->content->str + ptr->offset);
