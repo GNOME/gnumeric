@@ -25,7 +25,11 @@
 #
 # 90xx: Misc stuff.
 
-TESTS = $(sort $(wildcard $(srcdir)/t[0-9][0-9][0-9][0-9]-*.pl))
+# This is a working for automake's problem with wildcards.  See
+# http://permalink.gmane.org/gmane.comp.sysutils.automake.bugs/7413
+TESTS_EXTENSIONS=.pl
+TESTS = @auto_find_tests@
+
 SUPPS = common.supp gui.supp t8003-valgrind-pdf.supp
 
 import-db:

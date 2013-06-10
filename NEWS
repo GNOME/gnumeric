@@ -46,6 +46,7 @@ Morten:
 	* Fix criticals in about dialog.
 	* Introspection fixes.
 	* Fix xls/biff5 link export.  [#701604]
+	* Workaround problems with automake 1.13.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2

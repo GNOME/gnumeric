@@ -1,3 +1,8 @@
+2013-06-10  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am (TESTS): Work around automake problems with
+	wildcards by going via configure.
+
 2013-04-26  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.2
