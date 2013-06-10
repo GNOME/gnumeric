@@ -17,6 +17,7 @@ Andreas:
 	* Adjust cell comment display. [#698519]
 	* Make reference display in paste/define names dialog consistent with
 	  sheet preferences. [Debian #699054]
+	* Write pagesetup orientation to xlsx. [#701834]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]

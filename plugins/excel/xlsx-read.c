@@ -1584,6 +1584,25 @@ xlsx_CT_SheetFormatPr (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	PrintInformation *pi = state->sheet->print_info;
+	int tmp;
+	static EnumVal const types[] = {
+		{ "default",	GTK_PAGE_ORIENTATION_PORTRAIT },
+		{ "portrait",	GTK_PAGE_ORIENTATION_PORTRAIT },
+		{ "landscape",	GTK_PAGE_ORIENTATION_LANDSCAPE },
+		{ NULL, 0 }
+	};
+
+	if (pi->page_setup != NULL)
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+			if (attr_enum (xin, attrs, "orientation", types, &tmp))
+				gtk_page_setup_set_orientation (pi->page_setup, tmp);
+}
+
+static void
 xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2769,7 +2788,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 
   GSF_XML_IN_NODE (SHEET, PRINT_OPTS, XL_NS_SS, "printOptions", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, PRINT_MARGINS, XL_NS_SS, "pageMargins", GSF_XML_NO_CONTENT, &xlsx_CT_PageMargins, NULL),
-  GSF_XML_IN_NODE (SHEET, PRINT_SETUP, XL_NS_SS, "pageSetup", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SHEET, PRINT_SETUP, XL_NS_SS, "pageSetup", GSF_XML_NO_CONTENT, &xlsx_CT_PageSetup, NULL),
   GSF_XML_IN_NODE (SHEET, PRINT_HEADER_FOOTER, XL_NS_SS, "headerFooter", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PRINT_HEADER_FOOTER, ODD_HEADER, XL_NS_SS, "oddHeader", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PRINT_HEADER_FOOTER, ODD_FOOTER, XL_NS_SS, "oddFooter", GSF_XML_NO_CONTENT, NULL, NULL),

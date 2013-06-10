@@ -1803,6 +1803,24 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	gsf_xml_out_end_element (xml); /* </pageMargins> */
 
 	gsf_xml_out_start_element (xml, "pageSetup");
+	if (pi->page_setup) {
+		GtkPageOrientation orient;
+		orient = gtk_page_setup_get_orientation (pi->page_setup);
+		switch (orient) {
+		case GTK_PAGE_ORIENTATION_PORTRAIT:
+		case GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT:
+			gsf_xml_out_add_cstr_unchecked (xml, "orientation", "portrait");
+			break;
+		case GTK_PAGE_ORIENTATION_LANDSCAPE:
+		case GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE:
+			gsf_xml_out_add_cstr_unchecked (xml, "orientation", "landscape");
+			break;
+		default:
+			gsf_xml_out_add_cstr_unchecked (xml, "orientation", "default");
+			break;
+		}
+	} else
+		gsf_xml_out_add_cstr_unchecked (xml, "orientation", "default");
 	gsf_xml_out_end_element (xml); /* </pageSetup> */
 
 	if (NULL != pi->page_breaks.v)

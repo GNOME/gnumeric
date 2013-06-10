@@ -1,3 +1,8 @@
+2013-06-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_CT_PageSetup): new
+	* xlsx-write.c (xlsx_write_print_info): write orientation
+
 2013-06-05  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_HLINKs): Don't remove hlinks here.
