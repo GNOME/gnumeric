@@ -296,6 +296,15 @@ static GsfXMLInNS const xlsx_ns[] = {
 	{ NULL, 0 }
 };
 
+typedef struct {
+	int code;
+	gdouble width;
+	gdouble height;
+	GtkUnit unit;
+	gchar const *name;
+} XLSXPaperDefs;
+
+
 static void
 maybe_update_progress (GsfXMLIn *xin)
 {
@@ -652,6 +661,72 @@ attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
 	}
 
 	return res;
+}
+
+/* returns pts */
+static gboolean
+xlsx_parse_distance (GsfXMLIn *xin, xmlChar const *str,
+		  char const *name, gnm_float *pts)
+{
+	double num;
+	char *end = NULL;
+
+	g_return_val_if_fail (str != NULL, FALSE);
+
+	num = go_strtod (CXML2C (str), &end);
+	if (CXML2C (str) != end) {
+		if (0 == strncmp (end, "mm", 2)) {
+			num = GO_CM_TO_PT (num/10.);
+			end += 2;
+		} else if (0 == strncmp (end, "cm", 2)) {
+			num = GO_CM_TO_PT (num);
+			end += 2;
+		} else if (0 == strncmp (end, "pt", 2)) {
+			end += 2;
+		} else if (0 == strncmp (end, "pc", 2)) { /* pica 12pt == 1 pica */
+			num /= 12.;
+			end += 2;
+		} else if (0 == strncmp (end, "pi", 2)) { /* pica 12pt == 1 pica */
+			num /= 12.;
+			end += 2;
+		} else if (0 == strncmp (end, "in", 2)) {
+			num = GO_IN_TO_PT (num);
+			end += 2;
+		} else {
+			xlsx_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),
+				    name, str);
+			return FALSE;
+		}
+	} else {
+		xlsx_warning (xin, _("Invalid attribute '%s', expected distance, received '%s'"),
+			    name, str);
+		return FALSE;
+	}
+
+	if  (*end) {
+		return xlsx_warning (xin,
+			_("Invalid attribute '%s', expected distance, received '%s'"),
+				     name, str);
+		return FALSE;
+	}
+
+	*pts = num;
+	return TRUE;
+}
+
+/* returns pts */
+static gboolean
+attr_distance (GsfXMLIn *xin, xmlChar const **attrs,
+	       char const *target, gnm_float *pts)
+{
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], target))
+		return FALSE;
+
+	return xlsx_parse_distance (xin, attrs[1], target, pts);
 }
 
 /***********************************************************************/
@@ -1583,23 +1658,155 @@ xlsx_CT_SheetFormatPr (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 }
 
+static GtkPaperSize *
+xlsx_paper_size (gdouble width, gdouble height, GtkUnit unit, int code)
+{
+	GtkPaperSize *size;
+	gchar *name;
+	gchar *display_name;
+
+	if (code == 0) {
+		name = g_strdup_printf ("xlsx_%ix%i", (int)width, (int)height);
+		display_name = g_strdup_printf (_("Paper from XLSX file: %ipt\xE2\xA8\x89%ipt"), 
+						(int)width, (int)height);
+	} else {
+		name = g_strdup_printf ("xlsx_%i", code);
+		display_name = g_strdup_printf (_("Paper from XLSX file, #%i"), code);
+	}
+	size = gtk_paper_size_new_custom (name, display_name, width, height, unit);
+	g_free (name);
+	g_free (display_name);
+	return size;
+}
+
+static gboolean
+xlsx_set_paper_from_code (PrintInformation *pi, int code)
+{
+	XLSXPaperDefs paper[] =
+		{{ 0 , 0 , 0 , GTK_UNIT_MM , NULL },
+		 { 1 , 8.5 , 11 , GTK_UNIT_INCH , GTK_PAPER_NAME_LETTER },
+		 { 2 , 8.5 , 11 , GTK_UNIT_INCH , GTK_PAPER_NAME_LETTER },
+		 { 3 , 11 , 17 , GTK_UNIT_INCH , "na_ledger_11x17in" },
+		 { 4 , 17 , 11 , GTK_UNIT_INCH , NULL },
+		 { 5 , 8.5 , 14 , GTK_UNIT_INCH , GTK_PAPER_NAME_LEGAL },
+		 { 6 , 5.5 , 8.5 , GTK_UNIT_INCH , "na_invoice_5.5x8.5in" },
+		 { 7 , 7.25 , 10.5 , GTK_UNIT_INCH , GTK_PAPER_NAME_EXECUTIVE },
+		 { 8 , 297 , 420 , GTK_UNIT_MM , GTK_PAPER_NAME_A3 },
+		 { 9 , 210 , 297 , GTK_UNIT_MM , GTK_PAPER_NAME_A4 },
+		 { 10 , 210 , 297 , GTK_UNIT_MM , GTK_PAPER_NAME_A4 },
+		 { 11 , 148 , 210 , GTK_UNIT_MM , GTK_PAPER_NAME_A5 },
+		 { 12 , 250 , 353 , GTK_UNIT_MM , "iso_b4_250x353mm" },
+		 { 13 , 176 , 250 , GTK_UNIT_MM , GTK_PAPER_NAME_B5 },
+		 { 14 , 8.5 , 13 , GTK_UNIT_INCH , "na_foolscap_8.5x13in" },
+		 { 15 , 215 , 275 , GTK_UNIT_MM , NULL },
+		 { 16 , 10 , 14 , GTK_UNIT_INCH , "na_10x14_10x14in" },
+		 { 17 , 11 , 17 , GTK_UNIT_INCH , "na_ledger_11x17in" },
+		 { 18 , 8.5 , 11 , GTK_UNIT_INCH , GTK_PAPER_NAME_LETTER },
+		 { 19 , 3.875 , 8.875 , GTK_UNIT_INCH , "na_number-9_3.875x8.875in" },
+		 { 20 , 4.125 , 9.5 , GTK_UNIT_INCH , "na_number-10_4.125x9.5in" },
+		 { 21 , 4.5 , 10.375 , GTK_UNIT_INCH , "na_number-11_4.5x10.375in" },
+		 { 22 , 4.75 , 11 , GTK_UNIT_INCH , "na_number-12_4.75x11in" },
+		 { 23 , 5 , 11.5 , GTK_UNIT_INCH , "na_number-14_5x11.5in" },
+		 { 24 , 17 , 22 , GTK_UNIT_INCH , "na_c_17x22in" },
+		 { 25 , 22 , 34 , GTK_UNIT_INCH , "na_d_22x34in" },
+		 { 26 , 34 , 44 , GTK_UNIT_INCH , "na_e_34x44in" },
+		 { 27 , 110 , 220 , GTK_UNIT_MM , "iso_dl_110x220mm" },
+		 { 28 , 162 , 229 , GTK_UNIT_MM , "iso_c5_162x229mm" },
+		 { 29 , 324 , 458 , GTK_UNIT_MM , "iso_c3_324x458mm" },
+		 { 30 , 229 , 324 , GTK_UNIT_MM , "iso_c4_229x324mm" },
+		 { 31 , 114 , 162 , GTK_UNIT_MM , "iso_c6_114x162mm" },
+		 { 32 , 114 , 229 , GTK_UNIT_MM , "iso_c6c5_114x229mm" },
+		 { 33 , 250 , 353 , GTK_UNIT_MM , "iso_b4_250x353mm" },
+		 { 34 , 176 , 250 , GTK_UNIT_MM , GTK_PAPER_NAME_B5 },
+		 { 35 , 176 , 125 , GTK_UNIT_MM , NULL },
+		 { 36 , 110 , 230 , GTK_UNIT_MM , "om_italian_110x230mm" },
+		 { 37 , 3.875 , 7.5 , GTK_UNIT_INCH , "na_monarch_3.875x7.5in" },
+		 { 38 , 3.625 , 6.5 , GTK_UNIT_INCH , "na_personal_3.625x6.5in" },
+		 { 39 , 14.875 , 11 , GTK_UNIT_INCH , NULL },
+		 { 40 , 8.5 , 12 , GTK_UNIT_INCH , "na_fanfold-eur_8.5x12in" },
+		 { 41 , 8.5 , 13 , GTK_UNIT_INCH , "na_foolscap_8.5x13in" },
+		 { 42 , 250 , 353 , GTK_UNIT_MM , "iso_b4_250x353mm" },
+		 { 43 , 200 , 148 , GTK_UNIT_MM , NULL },
+		 { 44 , 9 , 11 , GTK_UNIT_INCH , "na_9x11_9x11in" },
+		 { 45 , 10 , 11 , GTK_UNIT_INCH , "na_10x11_10x11in" },
+		 { 46 , 15 , 11 , GTK_UNIT_INCH , NULL },
+		 { 47 , 220 , 220 , GTK_UNIT_MM , "om_invite_220x220mm" },
+		 { 48 , 0 , 0 , GTK_UNIT_MM , NULL },
+		 { 49 , 0 , 0 , GTK_UNIT_MM , NULL },
+		 { 50 , 9.275 , 12 , GTK_UNIT_INCH , NULL },
+		 { 51 , 9.275 , 15 , GTK_UNIT_INCH , NULL },
+		 { 52 , 11.69 , 18 , GTK_UNIT_INCH , NULL },
+		 { 53 , 236 , 322 , GTK_UNIT_MM , "iso_a4-extra_235.5x322.3" },
+		 { 54 , 8.275 , 11 , GTK_UNIT_INCH , NULL },
+		 { 55 , 210 , 297 , GTK_UNIT_MM , GTK_PAPER_NAME_A4 },
+		 { 56 , 9.275 , 12 , GTK_UNIT_INCH , NULL },
+		 { 57 , 227 , 356 , GTK_UNIT_MM , NULL },
+		 { 58 , 305 , 487 , GTK_UNIT_MM , NULL },
+		 { 59 , 8.5 , 12.69 , GTK_UNIT_INCH , "na_letter-plus_8.5x12.69in" },
+		 { 60 , 210 , 330 , GTK_UNIT_MM , "om_folio_210x330mm" },
+		 { 61 , 148 , 210 , GTK_UNIT_MM , GTK_PAPER_NAME_A5 },
+		 { 62 , 182 , 257 , GTK_UNIT_MM , "jis_b5_182x257mm" },
+		 { 63 , 322 , 445 , GTK_UNIT_MM , "iso_a3-extra_322x445mm" },
+		 { 64 , 174 , 235 , GTK_UNIT_MM , "iso_a5-extra_174x235mm" },
+		 { 65 , 201 , 276 , GTK_UNIT_MM , "iso_b5-extra_201x276mm" },
+		 { 66 , 420 , 594 , GTK_UNIT_MM , "iso_a2_420x594mm" },
+		 { 67 , 297 , 420 , GTK_UNIT_MM , GTK_PAPER_NAME_A3 },
+		 { 68 , 322 , 445 , GTK_UNIT_MM , "iso_a3-extra_322x445mm" }};
+
+	if (code < 1 || ((guint) code) >= G_N_ELEMENTS (paper) || paper[code].code == 0)
+		return FALSE;
+	g_return_val_if_fail (paper[code].code == code, FALSE);
+
+	if (paper[code].name != NULL) {
+		GtkPaperSize *ps = gtk_paper_size_new (paper[code].name);
+		if (ps != NULL) {
+			gtk_page_setup_set_paper_size (pi->page_setup, ps);
+			return TRUE;
+		}
+	}
+	if (paper[code].width > 0.0 && paper[code].height > 0.0) {
+		GtkPaperSize *ps = xlsx_paper_size (paper[code].width, paper[code].height, paper[code].unit, code);
+		if (ps != NULL) {
+			gtk_page_setup_set_paper_size (pi->page_setup, ps);
+			return TRUE;
+		}		
+	}
+
+	return FALSE;
+}
+
 static void
 xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	PrintInformation *pi = state->sheet->print_info;
-	int tmp;
+	int orient, paper_code = 0;
+	gboolean orient_set = FALSE;
+	gnm_float width = 0., height = 0.;
 	static EnumVal const types[] = {
 		{ "default",	GTK_PAGE_ORIENTATION_PORTRAIT },
 		{ "portrait",	GTK_PAGE_ORIENTATION_PORTRAIT },
 		{ "landscape",	GTK_PAGE_ORIENTATION_LANDSCAPE },
 		{ NULL, 0 }
 	};
+	
+	if (pi->page_setup == NULL)
+		print_info_load_defaults (pi);
 
-	if (pi->page_setup != NULL)
-		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-			if (attr_enum (xin, attrs, "orientation", types, &tmp))
-				gtk_page_setup_set_orientation (pi->page_setup, tmp);
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_enum (xin, attrs, "orientation", types, &orient))
+			orient_set = TRUE;
+		else if (attr_int (xin, attrs, "paperSize", &paper_code))
+			;
+		else if (attr_distance (xin, attrs, "paperWidth", &width))
+				 ;
+		else if (attr_distance (xin, attrs, "paperHeight", &height))
+			;
+	if (!xlsx_set_paper_from_code (pi, paper_code) && width > 0.0 && height > 0.0)
+		gtk_page_setup_set_paper_size (pi->page_setup, xlsx_paper_size (width, height, GTK_UNIT_POINTS, 0));
+
+	if (orient_set)
+		print_info_set_paper_orientation (pi, orient);
 }
 
 static void

@@ -1,5 +1,13 @@
 2013-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-read.c (lsx_parse_distance): new
+	(attr_distance): new
+	(xlsx_paper_size): new
+	(xlsx_set_paper_from_code): new
+	(xlsx_CT_PageSetup): handle paper size
+
+2013-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_print_info): write paper size
 	(xlsx_add_pt): new
 	(xlsx_find_paper_code): new

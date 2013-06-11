@@ -18,7 +18,7 @@ Andreas:
 	* Make reference display in paste/define names dialog consistent with
 	  sheet preferences. [Debian #699054]
 	* Write/read pagesetup orientation to/from xlsx. [#701834]
-	* Write paper size to xlsx.
+	* Write/read paper size to/from xlsx.
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]
