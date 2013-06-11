@@ -123,6 +123,14 @@ typedef struct {
 	GsfXMLOut	*xml;
 } XLSXClosure;
 
+typedef struct {
+	int code;
+	int width_mm;
+	gdouble width;
+	gdouble height;
+	GtkUnit unit;
+} XLSXPaperDefs;
+
 static void
 xlsx_add_bool (GsfXMLOut *xml, char const *id, gboolean val)
 {
@@ -162,6 +170,15 @@ xlsx_add_range_list (GsfXMLOut *xml, char const *id, GSList const *ranges)
 
 	gsf_xml_out_add_cstr_unchecked (xml, id, accum->str);
 	g_string_free (accum, TRUE);
+}
+static void
+xlsx_add_pt (GsfXMLOut *xml, char const *id, double l)
+{
+	GString *str = g_string_new (NULL);
+
+	g_string_append_printf (str, "%.2fpt", l);
+	gsf_xml_out_add_cstr_unchecked (xml, id, str->str);
+	g_string_free (str, TRUE);
 }
 
 /****************************************************************************/
@@ -837,7 +854,7 @@ xlsx_write_style_want_alignment (GnmStyle const *style)
 }
 
 static void
-xlsx_write_style_write_alignment (XLSXWriteState *state, GsfXMLOut *xml,
+xlsx_write_style_write_alignment (G_GNUC_UNUSED XLSXWriteState *state, GsfXMLOut *xml,
 		  GnmStyle const *style)
 {
 	gsf_xml_out_start_element (xml, "alignment");
@@ -1393,7 +1410,7 @@ xlsx_write_validation_expr (XLSXClosure *info, GnmCellPos const *pos,
 }
 
 static void
-xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, XLSXClosure *info)
+xlsx_write_validation (XLValInputPair const *vip, G_GNUC_UNUSED gpointer dummy, XLSXClosure *info)
 {
 #if 0
 	/* Get docs on this */
@@ -1492,7 +1509,7 @@ xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, XLSXClosure *i
 }
 
 static void
-xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
+xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED GnmRange const *extent)
 {
 	GnmStyleList *validations = sheet_style_collect_validations (state->sheet, NULL);
 
@@ -1547,7 +1564,7 @@ xlsx_write_hlink (GnmHLink const *link, GSList *ranges, XLSXClosure *info)
 }
 
 static void
-xlsx_write_hlinks (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
+xlsx_write_hlinks (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED GnmRange const *extent)
 {
 	GnmStyleList *hlinks = sheet_style_collect_hlinks (state->sheet, NULL);
 
@@ -1747,7 +1764,7 @@ xlsx_write_protection (XLSXWriteState *state, GsfXMLOut *xml)
 }
 
 static void
-xlsx_write_breaks (XLSXWriteState *state, GsfXMLOut *xml, GnmPageBreaks *breaks)
+xlsx_write_breaks (G_GNUC_UNUSED XLSXWriteState *state, GsfXMLOut *xml, GnmPageBreaks *breaks)
 {
 	unsigned const maxima = (breaks->is_vert ? XLSX_MaxCol : XLSX_MaxRow) - 1;
 	GArray const *details = breaks->details;
@@ -1775,6 +1792,113 @@ xlsx_write_breaks (XLSXWriteState *state, GsfXMLOut *xml, GnmPageBreaks *breaks)
 		gsf_xml_out_end_element (xml); /* </brk> */
 	}
 	gsf_xml_out_end_element (xml);
+}
+
+static int
+xlsx_find_paper_code (GtkPaperSize *psize)
+{
+	XLSXPaperDefs *paper_defs;
+	XLSXPaperDefs paper[] =
+		{{ 38 , 92 , 3.625 , 6.5 , GTK_UNIT_INCH },
+		 { 19 , 98 , 3.875 , 8.875 , GTK_UNIT_INCH },
+		 { 37 , 98 , 3.875 , 7.5 , GTK_UNIT_INCH },
+		 { 20 , 104 , 4.125 , 9.5 , GTK_UNIT_INCH },
+		 { 27 , 110 , 110 , 220 , GTK_UNIT_MM },
+		 { 36 , 110 , 110 , 230 , GTK_UNIT_MM },
+		 { 31 , 114 , 114 , 162 , GTK_UNIT_MM },
+		 { 32 , 114 , 114 , 229 , GTK_UNIT_MM },
+		 { 21 , 114 , 4.5 , 10.375 , GTK_UNIT_INCH },
+		 { 22 , 120 , 4.75 , 11 , GTK_UNIT_INCH },
+		 { 23 , 127 , 5 , 11.5 , GTK_UNIT_INCH },
+		 { 6 , 139 , 5.5 , 8.5 , GTK_UNIT_INCH },
+		 { 11 , 148 , 148 , 210 , GTK_UNIT_MM },
+		 /* { 61 , 148 , 148 , 210 , GTK_UNIT_MM }, */
+		 { 28 , 162 , 162 , 229 , GTK_UNIT_MM },
+		 { 64 , 174 , 174 , 235 , GTK_UNIT_MM },
+		 { 13 , 176 , 176 , 250 , GTK_UNIT_MM },
+		 /* { 34 , 176 , 176 , 250 , GTK_UNIT_MM }, */
+		 { 35 , 176 , 176 , 125 , GTK_UNIT_MM },
+		 { 62 , 182 , 182 , 257 , GTK_UNIT_MM },
+		 { 7 , 184 , 7.25 , 10.5 , GTK_UNIT_INCH },
+		 { 43 , 200 , 200 , 148 , GTK_UNIT_MM },
+		 { 65 , 201 , 201 , 276 , GTK_UNIT_MM },
+		 { 9 , 210 , 210 , 297 , GTK_UNIT_MM },
+		 /* { 10 , 210 , 210 , 297 , GTK_UNIT_MM }, */
+		 /* { 55 , 210 , 210 , 297 , GTK_UNIT_MM }, */
+		 { 60 , 210 , 210 , 330 , GTK_UNIT_MM },
+		 { 54 , 210 , 8.275 , 11 , GTK_UNIT_INCH },
+		 { 15 , 215 , 215 , 275 , GTK_UNIT_MM },
+		 { 1 , 215 , 8.5 , 11 , GTK_UNIT_INCH },
+		 /* { 2 , 215 , 8.5 , 11 , GTK_UNIT_INCH }, */
+		 { 5 , 215 , 8.5 , 14 , GTK_UNIT_INCH },
+		 { 14 , 215 , 8.5 , 13 , GTK_UNIT_INCH },
+		 { 18 , 215 , 8.5 , 11 , GTK_UNIT_INCH },
+		 { 40 , 215 , 8.5 , 12 , GTK_UNIT_INCH },
+		 /* { 41 , 215 , 8.5 , 13 , GTK_UNIT_INCH }, */
+		 { 59 , 215 , 8.5 , 12.69 , GTK_UNIT_INCH },
+		 { 47 , 220 , 220 , 220 , GTK_UNIT_MM },
+		 { 57 , 227 , 227 , 356 , GTK_UNIT_MM },
+		 { 44 , 228 , 9 , 11 , GTK_UNIT_INCH },
+		 { 30 , 229 , 229 , 324 , GTK_UNIT_MM },
+		 { 50 , 235 , 9.275 , 12 , GTK_UNIT_INCH },
+		 { 51 , 235 , 9.275 , 15 , GTK_UNIT_INCH },
+		 /* { 56 , 235 , 9.275 , 12 , GTK_UNIT_INCH }, */
+		 { 53 , 236 , 236 , 322 , GTK_UNIT_MM },
+		 { 12 , 250 , 250 , 353 , GTK_UNIT_MM },
+		 /* { 33 , 250 , 250 , 353 , GTK_UNIT_MM }, */
+		 /* { 42 , 250 , 250 , 353 , GTK_UNIT_MM }, */
+		 { 16 , 254 , 10 , 14 , GTK_UNIT_INCH },
+		 { 45 , 254 , 10 , 11 , GTK_UNIT_INCH },
+		 { 3 , 279 , 11 , 17 , GTK_UNIT_INCH },
+		 /* { 17 , 279 , 11 , 17 , GTK_UNIT_INCH }, */
+		 { 52 , 296 , 11.69 , 18 , GTK_UNIT_INCH },
+		 { 8 , 297 , 297 , 420 , GTK_UNIT_MM },
+		 /* { 67 , 297 , 297 , 420 , GTK_UNIT_MM }, */
+		 { 58 , 305 , 305 , 487 , GTK_UNIT_MM },
+		 { 63 , 322 , 322 , 445 , GTK_UNIT_MM },
+		 /* { 68 , 322 , 322 , 445 , GTK_UNIT_MM }, */
+		 { 29 , 324 , 324 , 458 , GTK_UNIT_MM },
+		 { 39 , 377 , 14.875 , 11 , GTK_UNIT_INCH },
+		 { 46 , 381 , 15 , 11 , GTK_UNIT_INCH },
+		 { 66 , 420 , 420 , 594 , GTK_UNIT_MM },
+		 { 4 , 431 , 17 , 11 , GTK_UNIT_INCH },
+		 { 24 , 431 , 17 , 22 , GTK_UNIT_INCH },
+		 { 25 , 558 , 22 , 34 , GTK_UNIT_INCH },
+		 { 26 , 863 , 34 , 44 , GTK_UNIT_INCH },
+		 {0,0,0,0,0 }};
+	gchar const *psize_name;
+	int width_mm;
+
+	psize_name = gtk_paper_size_get_name (psize);
+	if (0 == strcmp (psize_name, GTK_PAPER_NAME_LETTER))
+		return 1;
+	if (0 == strcmp (psize_name, GTK_PAPER_NAME_A4))
+		return 9;
+	if (0 == strcmp (psize_name, GTK_PAPER_NAME_A3))
+		return 8;
+	if (0 == strcmp (psize_name, GTK_PAPER_NAME_A5))
+		return 11;
+	if (0 == strcmp (psize_name, GTK_PAPER_NAME_B5))
+		return 13;
+	if (0 == strcmp (psize_name, GTK_PAPER_NAME_EXECUTIVE))
+		return 7;
+	if (0 == strcmp (psize_name, GTK_PAPER_NAME_LEGAL))
+		return 5;
+
+	width_mm = (int) gtk_paper_size_get_width (psize, GTK_UNIT_MM);
+	
+	for (paper_defs = paper; paper_defs->code > 0; paper_defs++) {
+		if (width_mm < paper_defs->width_mm)
+			return 0;
+		if (width_mm == paper_defs->width_mm) {
+			gdouble width = gtk_paper_size_get_width (psize,  paper_defs->unit);
+			gdouble height = gtk_paper_size_get_height (psize,  paper_defs->unit);
+			
+			if (width == paper_defs->width && height == paper_defs->height)
+				return paper_defs->code;
+		}
+	}
+	return 0;
 }
 
 static void
@@ -1805,6 +1929,9 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	gsf_xml_out_start_element (xml, "pageSetup");
 	if (pi->page_setup) {
 		GtkPageOrientation orient;
+		GtkPaperSize *psize;
+		int paper_code;
+
 		orient = gtk_page_setup_get_orientation (pi->page_setup);
 		switch (orient) {
 		case GTK_PAGE_ORIENTATION_PORTRAIT:
@@ -1818,6 +1945,19 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 		default:
 			gsf_xml_out_add_cstr_unchecked (xml, "orientation", "default");
 			break;
+		}
+
+		psize = gtk_page_setup_get_paper_size (pi->page_setup);
+		paper_code = xlsx_find_paper_code (psize);
+
+		if (paper_code > 0)
+			gsf_xml_out_add_int (xml, "paperSize", paper_code);
+		else {
+			gdouble width = gtk_paper_size_get_width (psize, GTK_UNIT_POINTS);
+			gdouble height = gtk_paper_size_get_height (psize, GTK_UNIT_POINTS);
+			
+			xlsx_add_pt (xml, "paperHeight", height);
+			xlsx_add_pt (xml, "paperWidth", width);
 		}
 	} else
 		gsf_xml_out_add_cstr_unchecked (xml, "orientation", "default");
@@ -2128,7 +2268,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 }
 
 static void
-xlsx_write_named_expression (gpointer key, GnmNamedExpr *nexpr, XLSXClosure *closure)
+xlsx_write_named_expression (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr, XLSXClosure *closure)
 {
 	char *formula;
 
@@ -2321,7 +2461,7 @@ G_MODULE_EXPORT void
 xlsx_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		gconstpointer wb_view, GsfOutput *output);
 void
-xlsx_file_save (GOFileSaver const *fs, GOIOContext *io_context,
+xlsx_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *io_context,
 		gconstpointer wb_view, GsfOutput *output)
 {
 	XLSXWriteState state;
@@ -2348,7 +2488,7 @@ G_MODULE_EXPORT void
 xlsx2_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		gconstpointer wb_view, GsfOutput *output);
 void
-xlsx2_file_save (GOFileSaver const *fs, GOIOContext *io_context,
+xlsx2_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *io_context,
 		gconstpointer wb_view, GsfOutput *output)
 {
 	XLSXWriteState state;
