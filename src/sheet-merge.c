@@ -67,19 +67,25 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 	GnmCell   *cell;
 	GnmStyle *style;
 	GnmComment *comment;
+	GnmRange r2;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (range_is_sane (r), TRUE);
+	g_return_val_if_fail (r->end.col < gnm_sheet_get_max_cols (sheet), TRUE);
+	g_return_val_if_fail (r->end.row < gnm_sheet_get_max_rows (sheet), TRUE);
 
-	if (sheet_range_splits_array (sheet, r, NULL, cc, _("Merge")))
+	r2 = *r;
+	range_ensure_sanity (&r2, sheet);
+
+	if (sheet_range_splits_array (sheet, &r2, NULL, cc, _("Merge")))
 		return TRUE;
 
-	test = gnm_sheet_merge_get_overlap (sheet, r);
+	test = gnm_sheet_merge_get_overlap (sheet, &r2);
 	if (test != NULL) {
 		if (cc != NULL)
 			go_cmd_context_error (cc, g_error_new (go_error_invalid(), 0,
 				_("There is already a merged region that intersects\n%s!%s"),
-				sheet->name_unquoted, range_as_string (r)));
+				sheet->name_unquoted, range_as_string (&r2)));
 		g_slist_free (test);
 		return TRUE;
 	}
@@ -87,63 +93,63 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 	if (clear) {
 		int i;
 
-		sheet_redraw_range (sheet, r);
+		sheet_redraw_range (sheet, &r2);
 
 		/* Clear the non-corner content */
-		if (r->start.col != r->end.col)
+		if (r2.start.col != r2.end.col)
 			sheet_clear_region (sheet,
-					    r->start.col+1, r->start.row,
-					    r->end.col, r->end.row,
+					    r2.start.col+1, r2.start.row,
+					    r2.end.col, r2.end.row,
 					    CLEAR_VALUES | CLEAR_COMMENTS | CLEAR_NOCHECKARRAY | CLEAR_NORESPAN,
 					    cc);
-		if (r->start.row != r->end.row)
+		if (r2.start.row != r2.end.row)
 			sheet_clear_region (sheet,
-					    r->start.col, r->start.row+1,
-	    /* yes I mean start.col */	    r->start.col, r->end.row,
+					    r2.start.col, r2.start.row+1,
+	    /* yes I mean start.col */	    r2.start.col, r2.end.row,
 					    CLEAR_VALUES | CLEAR_COMMENTS | CLEAR_NOCHECKARRAY | CLEAR_NORESPAN,
 					    cc);
 
 		/* Apply the corner style to the entire region */
-		style = gnm_style_dup (sheet_style_get (sheet, r->start.col,
-						      r->start.row));
+		style = gnm_style_dup (sheet_style_get (sheet, r2.start.col,
+						      r2.start.row));
 		for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++)
 			gnm_style_unset_element (style, i);
-		sheet_style_apply_range (sheet, r, style);
-		sheet_region_queue_recalc (sheet, r);
+		sheet_style_apply_range (sheet, &r2, style);
+		sheet_region_queue_recalc (sheet, &r2);
 	}
 
-	r_copy = gnm_range_dup (r);
+	r_copy = gnm_range_dup (&r2);
 	g_hash_table_insert (sheet->hash_merged, &r_copy->start, r_copy);
 
 	/* Store in order from bottom to top then LEFT TO RIGHT (by start coord) */
 	sheet->list_merged = g_slist_insert_sorted (sheet->list_merged, r_copy,
 						    (GCompareFunc)range_row_cmp);
 
-	cell = sheet_cell_get (sheet, r->start.col, r->start.row);
+	cell = sheet_cell_get (sheet, r2.start.col, r2.start.row);
 	if (cell != NULL) {
 		cell->base.flags |= GNM_CELL_IS_MERGED;
 		cell_unregister_span (cell);
 	}
-	sheet_queue_respan (sheet, r->start.row, r->end.row);
+	sheet_queue_respan (sheet, r2.start.row, r2.end.row);
 
 	/* Ensure that edit pos is not in the center of a region. */
 	SHEET_FOREACH_VIEW (sheet, sv, {
 		sv->reposition_selection = TRUE;
-		if (range_contains (r, sv->edit_pos.col, sv->edit_pos.row))
-			sv_set_edit_pos (sv, &r->start);
+		if (range_contains (&r2, sv->edit_pos.col, sv->edit_pos.row))
+			sv_set_edit_pos (sv, &r2.start);
 	});
 
-	comment = sheet_get_comment (sheet, &r->start);
+	comment = sheet_get_comment (sheet, &r2.start);
 	if (comment != NULL)
 		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
 
-	sheet_flag_status_update_range (sheet, r);
-	if (sheet->cols.max_used < r->end.col) {
-		sheet->cols.max_used = r->end.col;
+	sheet_flag_status_update_range (sheet, &r2);
+	if (sheet->cols.max_used < r2.end.col) {
+		sheet->cols.max_used = r2.end.col;
 		sheet->priv->resize_scrollbar = TRUE;
 	}
-	if (sheet->rows.max_used < r->end.row) {
-		sheet->rows.max_used = r->end.row;
+	if (sheet->rows.max_used < r2.end.row) {
+		sheet->rows.max_used = r2.end.row;
 		sheet->priv->resize_scrollbar = TRUE;
 	}
 	return FALSE;

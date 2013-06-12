@@ -50,6 +50,7 @@ Morten:
 	* Introspection fixes.
 	* Fix xls/biff5 link export.  [#701604]
 	* Workaround problems with automake 1.13.
+	* Fix crash on bogus xls file.  [#702101]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2

@@ -1,3 +1,8 @@
+2013-06-12  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-merge.c (gnm_sheet_merge_add): Ensure range is sane.
+	Fixes #702101.
+
 2013-06-04  Morten Welinder  <terra@gnome.org>
 
 	* src/ssdiff.c (xml_style_changed): Teach this a bit about links.
