@@ -25,6 +25,9 @@ Darrell Tangman:
 	* Update documentation for comments and hyperlinks. [#700797]
 	* Consolidate comment, hyperlinks, names documentation.
 
+Dmitry Smirnov:
+       * Fixes to the gnumeric and ssconvert manual pages.
+
 Jean:
 	* Adjust labels vertical alignment in document properties
 	  dialog. [#700156]

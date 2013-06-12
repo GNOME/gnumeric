@@ -1,3 +1,9 @@
+2013-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Dmitry Smirnov <onlyjob@member.fsf.org>
+
+	* gnumeric.1: use the correct dashes
+	* ssconvert.1: ditto
+
 2013-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* appendix-keybindings.xml: add some keybindings info
