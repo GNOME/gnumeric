@@ -17,8 +17,7 @@ Andreas:
 	* Adjust cell comment display. [#698519]
 	* Make reference display in paste/define names dialog consistent with
 	  sheet preferences. [Debian #699054]
-	* Write/read pagesetup orientation to/from xlsx. [#701834]
-	* Write/read paper size to/from xlsx.
+	* Write/read pagesetup settings to/from xlsx. [#701834]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]
@@ -26,7 +25,7 @@ Darrell Tangman:
 	* Consolidate comment, hyperlinks, names documentation.
 
 Dmitry Smirnov:
-       * Fixes to the gnumeric and ssconvert manual pages.
+	* Fixes to the gnumeric and ssconvert manual pages.
 
 Jean:
 	* Adjust labels vertical alignment in document properties

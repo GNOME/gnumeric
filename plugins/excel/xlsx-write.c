@@ -1799,70 +1799,120 @@ xlsx_find_paper_code (GtkPaperSize *psize)
 {
 	XLSXPaperDefs *paper_defs;
 	XLSXPaperDefs paper[] =
-		{{ 38 , 92 , 3.625 , 6.5 , GTK_UNIT_INCH },
-		 { 19 , 98 , 3.875 , 8.875 , GTK_UNIT_INCH },
+		{{ 74 , 90 , 90 , 205 , GTK_UNIT_MM },
+		 { 38 , 92 , 3.625 , 6.5 , GTK_UNIT_INCH },
+		 { 94 , 97 , 97 , 151 , GTK_UNIT_MM },
+		 /* { 95 , 97 , 97 , 151 , GTK_UNIT_MM }, */
 		 { 37 , 98 , 3.875 , 7.5 , GTK_UNIT_INCH },
+		 { 19 , 98 , 3.875 , 8.875 , GTK_UNIT_INCH },
+		 { 96 , 102 , 102 , 165 , GTK_UNIT_MM },
+		 { 97 , 102 , 102 , 176 , GTK_UNIT_MM },
 		 { 20 , 104 , 4.125 , 9.5 , GTK_UNIT_INCH },
+		 { 70 , 105 , 105 , 148 , GTK_UNIT_MM },
+		 { 92 , 105 , 105 , 235 , GTK_UNIT_MM },
+		 { 99 , 110 , 110 , 208 , GTK_UNIT_MM },
 		 { 27 , 110 , 110 , 220 , GTK_UNIT_MM },
+		 /* { 100 , 110 , 110 , 220 , GTK_UNIT_MM }, */
 		 { 36 , 110 , 110 , 230 , GTK_UNIT_MM },
+		 { 21 , 114 , 4.5 , 10.375 , GTK_UNIT_INCH },
 		 { 31 , 114 , 114 , 162 , GTK_UNIT_MM },
 		 { 32 , 114 , 114 , 229 , GTK_UNIT_MM },
-		 { 21 , 114 , 4.5 , 10.375 , GTK_UNIT_INCH },
 		 { 22 , 120 , 4.75 , 11 , GTK_UNIT_INCH },
+		 { 101 , 120 , 120 , 230 , GTK_UNIT_MM },
+		 { 73 , 120 , 120 , 235 , GTK_UNIT_MM },
+		 { 103 , 120 , 120 , 309 , GTK_UNIT_MM },
+		 { 98 , 125 , 125 , 176 , GTK_UNIT_MM },
 		 { 23 , 127 , 5 , 11.5 , GTK_UNIT_INCH },
+		 { 88 , 128 , 128 , 182 , GTK_UNIT_MM },
 		 { 6 , 139 , 5.5 , 8.5 , GTK_UNIT_INCH },
+		 { 93 , 146 , 146 , 215 , GTK_UNIT_MM },
+		 { 81 , 148 , 148 , 100 , GTK_UNIT_MM },
+		 { 83 , 148 , 148 , 105 , GTK_UNIT_MM },
+		 { 82 , 148 , 148 , 200 , GTK_UNIT_MM },
 		 { 11 , 148 , 148 , 210 , GTK_UNIT_MM },
 		 /* { 61 , 148 , 148 , 210 , GTK_UNIT_MM }, */
+		 { 107 , 151 , 151 , 97 , GTK_UNIT_MM },
+		 /* { 108 , 151 , 151 , 97 , GTK_UNIT_MM }, */
+		 { 102 , 160 , 160 , 230 , GTK_UNIT_MM },
 		 { 28 , 162 , 162 , 229 , GTK_UNIT_MM },
+		 { 109 , 165 , 165 , 102 , GTK_UNIT_MM },
 		 { 64 , 174 , 174 , 235 , GTK_UNIT_MM },
+		 { 110 , 176 , 176 , 102 , GTK_UNIT_MM },
+		 { 35 , 176 , 176 , 125 , GTK_UNIT_MM },
+		 /* { 111 , 176 , 176 , 125 , GTK_UNIT_MM }, */
 		 { 13 , 176 , 176 , 250 , GTK_UNIT_MM },
 		 /* { 34 , 176 , 176 , 250 , GTK_UNIT_MM }, */
-		 { 35 , 176 , 176 , 125 , GTK_UNIT_MM },
+		 { 89 , 182 , 182 , 128 , GTK_UNIT_MM },
 		 { 62 , 182 , 182 , 257 , GTK_UNIT_MM },
 		 { 7 , 184 , 7.25 , 10.5 , GTK_UNIT_INCH },
 		 { 43 , 200 , 200 , 148 , GTK_UNIT_MM },
+		 /* { 69 , 200 , 200 , 148 , GTK_UNIT_MM }, */
 		 { 65 , 201 , 201 , 276 , GTK_UNIT_MM },
+		 { 87 , 205 , 205 , 90 , GTK_UNIT_MM },
+		 { 112 , 208 , 208 , 110 , GTK_UNIT_MM },
+		 { 54 , 210 , 8.275 , 11 , GTK_UNIT_INCH },
+		 { 78 , 210 , 210 , 148 , GTK_UNIT_MM },
 		 { 9 , 210 , 210 , 297 , GTK_UNIT_MM },
 		 /* { 10 , 210 , 210 , 297 , GTK_UNIT_MM }, */
 		 /* { 55 , 210 , 210 , 297 , GTK_UNIT_MM }, */
 		 { 60 , 210 , 210 , 330 , GTK_UNIT_MM },
-		 { 54 , 210 , 8.275 , 11 , GTK_UNIT_INCH },
-		 { 15 , 215 , 215 , 275 , GTK_UNIT_MM },
 		 { 1 , 215 , 8.5 , 11 , GTK_UNIT_INCH },
 		 /* { 2 , 215 , 8.5 , 11 , GTK_UNIT_INCH }, */
-		 { 5 , 215 , 8.5 , 14 , GTK_UNIT_INCH },
-		 { 14 , 215 , 8.5 , 13 , GTK_UNIT_INCH },
-		 { 18 , 215 , 8.5 , 11 , GTK_UNIT_INCH },
+		 /* { 18 , 215 , 8.5 , 11 , GTK_UNIT_INCH }, */
 		 { 40 , 215 , 8.5 , 12 , GTK_UNIT_INCH },
-		 /* { 41 , 215 , 8.5 , 13 , GTK_UNIT_INCH }, */
 		 { 59 , 215 , 8.5 , 12.69 , GTK_UNIT_INCH },
+		 { 14 , 215 , 8.5 , 13 , GTK_UNIT_INCH },
+		 /* { 41 , 215 , 8.5 , 13 , GTK_UNIT_INCH }, */
+		 { 5 , 215 , 8.5 , 14 , GTK_UNIT_INCH },
+		 { 106 , 215 , 215 , 146 , GTK_UNIT_MM },
+		 { 15 , 215 , 215 , 275 , GTK_UNIT_MM },
+		 { 72 , 216 , 216 , 277 , GTK_UNIT_MM },
+		 { 113 , 220 , 220 , 110 , GTK_UNIT_MM },
 		 { 47 , 220 , 220 , 220 , GTK_UNIT_MM },
 		 { 57 , 227 , 227 , 356 , GTK_UNIT_MM },
 		 { 44 , 228 , 9 , 11 , GTK_UNIT_INCH },
 		 { 30 , 229 , 229 , 324 , GTK_UNIT_MM },
+		 /* { 104 , 229 , 229 , 324 , GTK_UNIT_MM }, */
+		 { 114 , 230 , 230 , 120 , GTK_UNIT_MM },
+		 { 115 , 230 , 230 , 160 , GTK_UNIT_MM },
 		 { 50 , 235 , 9.275 , 12 , GTK_UNIT_INCH },
-		 { 51 , 235 , 9.275 , 15 , GTK_UNIT_INCH },
 		 /* { 56 , 235 , 9.275 , 12 , GTK_UNIT_INCH }, */
+		 { 51 , 235 , 9.275 , 15 , GTK_UNIT_INCH },
+		 { 91 , 235 , 235 , 105 , GTK_UNIT_MM },
+		 { 86 , 235 , 235 , 120 , GTK_UNIT_MM },
 		 { 53 , 236 , 236 , 322 , GTK_UNIT_MM },
+		 { 71 , 240 , 240 , 332 , GTK_UNIT_MM },
 		 { 12 , 250 , 250 , 353 , GTK_UNIT_MM },
 		 /* { 33 , 250 , 250 , 353 , GTK_UNIT_MM }, */
-		 /* { 42 , 250 , 250 , 353 , GTK_UNIT_MM }, */
-		 { 16 , 254 , 10 , 14 , GTK_UNIT_INCH },
+		 { 42 , 250 , 250 , 353 , GTK_UNIT_MM },
 		 { 45 , 254 , 10 , 11 , GTK_UNIT_INCH },
+		 { 16 , 254 , 10 , 14 , GTK_UNIT_INCH },
+		 { 80 , 257 , 257 , 182 , GTK_UNIT_MM },
+		 { 85 , 277 , 277 , 216 , GTK_UNIT_MM },
+		 { 75 , 279 , 11 , 8.5 , GTK_UNIT_INCH },
 		 { 3 , 279 , 11 , 17 , GTK_UNIT_INCH },
 		 /* { 17 , 279 , 11 , 17 , GTK_UNIT_INCH }, */
 		 { 52 , 296 , 11.69 , 18 , GTK_UNIT_INCH },
+		 { 77 , 297 , 297 , 210 , GTK_UNIT_MM },
 		 { 8 , 297 , 297 , 420 , GTK_UNIT_MM },
 		 /* { 67 , 297 , 297 , 420 , GTK_UNIT_MM }, */
+		 { 90 , 304 , 12 , 11 , GTK_UNIT_INCH },
 		 { 58 , 305 , 305 , 487 , GTK_UNIT_MM },
+		 { 116 , 309 , 309 , 120 , GTK_UNIT_MM },
 		 { 63 , 322 , 322 , 445 , GTK_UNIT_MM },
 		 /* { 68 , 322 , 322 , 445 , GTK_UNIT_MM }, */
+		 { 117 , 324 , 324 , 229 , GTK_UNIT_MM },
 		 { 29 , 324 , 324 , 458 , GTK_UNIT_MM },
+		 /* { 105 , 324 , 324 , 458 , GTK_UNIT_MM }, */
+		 { 84 , 332 , 332 , 240 , GTK_UNIT_MM },
+		 { 79 , 364 , 364 , 257 , GTK_UNIT_MM },
 		 { 39 , 377 , 14.875 , 11 , GTK_UNIT_INCH },
 		 { 46 , 381 , 15 , 11 , GTK_UNIT_INCH },
+		 { 76 , 420 , 420 , 297 , GTK_UNIT_MM },
 		 { 66 , 420 , 420 , 594 , GTK_UNIT_MM },
 		 { 4 , 431 , 17 , 11 , GTK_UNIT_INCH },
 		 { 24 , 431 , 17 , 22 , GTK_UNIT_INCH },
+		 { 118 , 458 , 458 , 324 , GTK_UNIT_MM },
 		 { 25 , 558 , 22 , 34 , GTK_UNIT_INCH },
 		 { 26 , 863 , 34 , 44 , GTK_UNIT_INCH },
 		 {0,0,0,0,0 }};
@@ -1927,10 +1977,51 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	gsf_xml_out_end_element (xml); /* </pageMargins> */
 
 	gsf_xml_out_start_element (xml, "pageSetup");
+
+	xlsx_add_bool (xml, "blackAndWhite", pi->print_black_and_white);
+	switch (pi->comment_placement) {
+	case GNM_PRINT_COMMENTS_IN_PLACE:
+		gsf_xml_out_add_cstr_unchecked (xml, "cellComments", "asDisplayed ");
+		break;
+	case GNM_PRINT_COMMENTS_AT_END:
+		gsf_xml_out_add_cstr_unchecked (xml, "cellComments", "atEnd");
+		break;
+	case GNM_PRINT_COMMENTS_NONE:
+	default:
+		gsf_xml_out_add_cstr_unchecked (xml, "cellComments", "none");
+		break;
+	}
+	if (pi->n_copies > 0)
+		gsf_xml_out_add_int (xml, "copies", pi->n_copies);
+	xlsx_add_bool (xml, "draft", pi->print_as_draft);
+	switch (pi->error_display) {
+	case GNM_PRINT_ERRORS_AS_BLANK:
+		gsf_xml_out_add_cstr_unchecked (xml, "errors", "blank");
+		break;
+	case GNM_PRINT_ERRORS_AS_DASHES:
+		gsf_xml_out_add_cstr_unchecked (xml, "errors", "dash");
+		break;
+	case GNM_PRINT_ERRORS_AS_NA:
+		gsf_xml_out_add_cstr_unchecked (xml, "errors", "NA");
+		break;
+	case GNM_PRINT_ERRORS_AS_DISPLAYED:
+	default:
+		gsf_xml_out_add_cstr_unchecked (xml, "errors", "displayed");
+		break;
+	}
+	if (pi->start_page >= 0)
+		gsf_xml_out_add_int (xml, "firstPageNumber", pi->start_page);
+	if (pi->scaling.type == PRINT_SCALE_FIT_PAGES) {
+		if (pi->scaling.dim.rows > 0)
+			gsf_xml_out_add_int (xml, "fitToHeight", pi->scaling.dim.rows);
+		if (pi->scaling.dim.cols > 0)
+			gsf_xml_out_add_int (xml, "fitToWidth", pi->scaling.dim.cols);
+	}
+	/* horizontalDpi skipped */
+	/* id skipped */
+
 	if (pi->page_setup) {
 		GtkPageOrientation orient;
-		GtkPaperSize *psize;
-		int paper_code;
 
 		orient = gtk_page_setup_get_orientation (pi->page_setup);
 		switch (orient) {
@@ -1946,6 +2037,16 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 			gsf_xml_out_add_cstr_unchecked (xml, "orientation", "default");
 			break;
 		}
+	} else
+		gsf_xml_out_add_cstr_unchecked (xml, "orientation", "default");
+
+	gsf_xml_out_add_cstr_unchecked 
+		(xml, "pageOrder", 
+		 pi->print_across_then_down ? "overThenDown" : "downThenOver");
+	
+	if (pi->page_setup) {
+		GtkPaperSize *psize;
+		int paper_code;
 
 		psize = gtk_page_setup_get_paper_size (pi->page_setup);
 		paper_code = xlsx_find_paper_code (psize);
@@ -1959,8 +2060,15 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 			xlsx_add_pt (xml, "paperHeight", height);
 			xlsx_add_pt (xml, "paperWidth", width);
 		}
-	} else
-		gsf_xml_out_add_cstr_unchecked (xml, "orientation", "default");
+	}
+
+	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) 
+		gsf_xml_out_add_int (xml, "scale", 
+				     (int)CLAMP (pi->scaling.percentage.x, 10, 400));
+	xlsx_add_bool (xml, "useFirstPageNumber", (pi->start_page >= 0));
+	/* usePrinterDefaults skipped */
+	/* verticalDpi skipped */
+
 	gsf_xml_out_end_element (xml); /* </pageSetup> */
 
 	if (NULL != pi->page_breaks.v)

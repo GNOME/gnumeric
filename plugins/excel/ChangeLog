@@ -1,3 +1,8 @@
+2013-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write.c (xlsx_find_paper_code): use te complete list
+	(xlsx_write_print_info): write all applicable attributes
+
 2013-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (lsx_parse_distance): new
