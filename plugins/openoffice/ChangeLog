@@ -1,4 +1,4 @@
-2013-06-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2013-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_draw_object): We do not parse tables
 	inside charts! So no need to worry about them!
