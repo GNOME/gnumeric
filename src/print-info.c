@@ -1364,10 +1364,7 @@ print_info_get_page_setup (PrintInformation *pi)
 	g_return_val_if_fail (pi != NULL, NULL);
 	print_info_load_defaults (pi);
 
-	if (pi->page_setup)
-		return pi->page_setup;
-	else
-		return NULL;
+	return pi->page_setup;
 }
 
 /**

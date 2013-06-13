@@ -56,6 +56,7 @@
 #include <parse-util.h>
 #include <rendered-value.h>
 #include <cellspan.h>
+#include <print-info.h>
 
 #include <locale.h>
 #include <gsf/gsf-output.h>
@@ -476,6 +477,13 @@ latex2e_write_font_encodings (GsfOutput *output, Sheet *sheet, GnmRange const *r
 static void
 latex2e_write_file_header(GsfOutput *output, Sheet *sheet, GnmRange const *range)
 {
+	gboolean is_landscape = FALSE, use_utf8;
+	GtkPageOrientation orient = print_info_get_paper_orientation (sheet->print_info);
+
+	is_landscape = (orient == GTK_PAGE_ORIENTATION_LANDSCAPE ||
+			orient == GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE);
+	use_utf8 = gnm_conf_get_plugin_latex_use_utf8 ();
+
 	gsf_output_puts (output,
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "%%                                                                  %%\n"
@@ -496,7 +504,7 @@ latex2e_write_file_header(GsfOutput *output, Sheet *sheet, GnmRange const *range
 "%%  rendered correctly:                                             %%\n"
 );
 
-	if (gnm_conf_get_plugin_latex_use_utf8 ())
+	if (use_utf8)
 		gsf_output_puts (output,
 "%%    \\usepackage{ucs}                                              %%\n"
 "%%    \\usepackage[utf8x]{inputenc}                                  %%\n"
@@ -540,15 +548,24 @@ latex2e_write_file_header(GsfOutput *output, Sheet *sheet, GnmRange const *range
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "%%                                                                  %%\n"
 "%%  This is the PREAMBLE. Change these values to get the right      %%\n"
-"%%  paper size and other niceties. Uncomment the landscape option   %%\n"
-"%%  to the documentclass defintion for standalone documents.        %%\n"
+"%%  paper size and other niceties.                                  %%\n"
 "%%                                                                  %%\n"
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "\n"
+		);
+	if (is_landscape)
+		gsf_output_puts (output,
+"	\\documentclass[12pt%\n"
+"			  ,landscape%\n"
+"                    ]{report}\n"
+				 );
+	else
+		gsf_output_puts (output,
 "	\\documentclass[12pt%\n"
 "			  %,landscape%\n"
 "                    ]{report}\n"
-		);
+				 );
+
 
 
 	if (gnm_conf_get_plugin_latex_use_utf8 ()) {
