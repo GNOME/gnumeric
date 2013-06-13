@@ -2011,12 +2011,10 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	}
 	if (pi->start_page >= 0)
 		gsf_xml_out_add_int (xml, "firstPageNumber", pi->start_page);
-	if (pi->scaling.type == PRINT_SCALE_FIT_PAGES) {
-		if (pi->scaling.dim.rows > 0)
-			gsf_xml_out_add_int (xml, "fitToHeight", pi->scaling.dim.rows);
-		if (pi->scaling.dim.cols > 0)
-			gsf_xml_out_add_int (xml, "fitToWidth", pi->scaling.dim.cols);
-	}
+	if (pi->scaling.dim.rows > 0)
+		gsf_xml_out_add_int (xml, "fitToHeight", pi->scaling.dim.rows);
+	if (pi->scaling.dim.cols > 0)
+		gsf_xml_out_add_int (xml, "fitToWidth", pi->scaling.dim.cols);
 	/* horizontalDpi skipped */
 	/* id skipped */
 
@@ -2062,7 +2060,7 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 		}
 	}
 
-	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) 
+	if (pi->scaling.percentage.x > 0) 
 		gsf_xml_out_add_int (xml, "scale", 
 				     (int)CLAMP (pi->scaling.percentage.x, 10, 400));
 	xlsx_add_bool (xml, "useFirstPageNumber", (pi->start_page >= 0));
@@ -2256,6 +2254,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	GSList   *charts;
 	char const *chart_drawing_rel_id = NULL;
 	GnmStyle **col_styles;
+	PrintInformation *pi = NULL;
 
 	state->sheet = workbook_sheet_by_index (state->base.wb, i);
 	col_styles = sheet_style_most_common (state->sheet, TRUE);
@@ -2284,18 +2283,23 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
 
-	/* for now we only use tabColor, move sheetPr outside when we add more
-	 * features */
-	if (NULL != state->sheet->tab_color) {
-/*   element sheetPr { CT_SheetPr }?,     */
-		gsf_xml_out_start_element (xml, "sheetPr");
+	/*   element sheetPr { CT_SheetPr }?,     */
+	gsf_xml_out_start_element (xml, "sheetPr");
+	
+	pi = state->sheet->print_info;
+	if (pi != NULL) {
+		gsf_xml_out_start_element (xml, "pageSetUpPr");
+		xlsx_add_bool (xml, "fitToPage", pi->scaling.type == PRINT_SCALE_FIT_PAGES);
+		gsf_xml_out_end_element (xml); /* </pageSetUpPr> */
+	}
 
+	if (NULL != state->sheet->tab_color) {
 		gsf_xml_out_start_element (xml, "tabColor");
 		xlsx_add_rgb (xml, "rgb", state->sheet->tab_color->go_color);
 		gsf_xml_out_end_element (xml); /* </tabColor> */
-
-		gsf_xml_out_end_element (xml); /* </sheetPr> */
 	}
+	gsf_xml_out_end_element (xml); /* </sheetPr> */
+	
 /*   element dimension { CT_SheetDimension }?,     */
 	gsf_xml_out_start_element (xml, "dimension");
 	xlsx_add_range (xml, "ref", &extent);

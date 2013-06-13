@@ -1,5 +1,10 @@
 2013-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_print_info): always write fitTo*
+	(xlsx_write_sheet): write pageSetUpPr
+
+2013-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-read.c (xlsx_set_paper_from_code): update paper list
 
 2013-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
