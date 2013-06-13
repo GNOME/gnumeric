@@ -4313,17 +4313,26 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	int i;
 	double scale, width;
-	guint16 const  firstcol	  = GSF_LE_GET_GUINT16 (q->data);
-	guint16        lastcol	  = GSF_LE_GET_GUINT16 (q->data + 2);
-	int            charwidths = GSF_LE_GET_GUINT16 (q->data + 4);
-	guint16 const  xf	  = GSF_LE_GET_GUINT16 (q->data + 6);
-	guint16 const  options	  = GSF_LE_GET_GUINT16 (q->data + 8);
-	gboolean       hidden	  = (options & 0x0001) != 0;
-	gboolean const customWidth= (options & 0x0002) != 0;	/* undocumented */
-	gboolean const bestFit    = (options & 0x0004) != 0;	/* undocumented */
-	gboolean const collapsed  = (options & 0x1000) != 0;
-	unsigned const outline_level = (unsigned)((options >> 8) & 0x7);
-	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
+	guint16 firstcol, lastcol;
+	int charwidths;
+	guint16 xf, options;
+	gboolean hidden, customWidth, bestFit, collapsed;
+	unsigned outline_level;
+	XL_font_width const *spec;
+
+	XL_CHECK_CONDITION (q->length >= 10);
+
+	firstcol = GSF_LE_GET_GUINT16 (q->data);
+	lastcol = GSF_LE_GET_GUINT16 (q->data + 2);
+	charwidths = GSF_LE_GET_GUINT16 (q->data + 4);
+	xf = GSF_LE_GET_GUINT16 (q->data + 6);
+	options = GSF_LE_GET_GUINT16 (q->data + 8);
+	hidden = (options & 0x0001) != 0;
+	customWidth = (options & 0x0002) != 0;	/* undocumented */
+	bestFit = (options & 0x0004) != 0;	/* undocumented */
+	collapsed  = (options & 0x1000) != 0;
+	outline_level = (unsigned)((options >> 8) & 0x7);
+	spec = xl_find_fontspec (esheet, &scale);
 
 	XL_CHECK_CONDITION (firstcol < gnm_sheet_get_max_cols (esheet->sheet));
 	g_return_if_fail (spec != NULL);

@@ -1,3 +1,7 @@
+2013-06-13  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_COLINFO): Fix crash.  [#702182]
+
 2013-06-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (end): don't crash when exchanging missing axes. [#702126]
