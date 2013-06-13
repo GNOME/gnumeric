@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-05-28 02:19+0000\n"
-"PO-Revision-Date: 2013-05-28 22:15+0100\n"
+"POT-Creation-Date: 2013-06-11 22:51+0000\n"
+"PO-Revision-Date: 2013-06-13 21:44+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -83,7 +83,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7041
-#: ../plugins/openoffice/openoffice-read.c:12002 ../src/xml-sax-read.c:3336
+#: ../plugins/openoffice/openoffice-read.c:12005 ../src/xml-sax-read.c:3336
 msgid "Reading file..."
 msgstr "Branje datoteke ..."
 
@@ -192,7 +192,7 @@ msgstr ""
 "Neveljavna vsebina predmeta ss:predmet podatka; vrnjena je vrednost '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:1093
-#: ../plugins/openoffice/openoffice-read.c:12109 ../src/xml-sax-read.c:3353
+#: ../plugins/openoffice/openoffice-read.c:12112 ../src/xml-sax-read.c:3353
 msgid "XML document not well formed!"
 msgstr "Dokument XML ni ustrezno oblikovan!"
 
@@ -310,11 +310,11 @@ msgstr ""
 "določena."
 
 # book : workbook = zvezek : delovni zvezek
-#: ../plugins/excel/ms-excel-write.c:6296
+#: ../plugins/excel/ms-excel-write.c:6292
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Ni mogoče odpreti pretoka 'zvezka' za pisanje\n"
 
-#: ../plugins/excel/ms-excel-write.c:6318
+#: ../plugins/excel/ms-excel-write.c:6314
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Ni mogoče odpreti pretoka 'delovnega zvezka' za pisanje\n"
 
@@ -423,158 +423,182 @@ msgstr "Zaznana sta oba argumenta \"refreshedDate\" in \"refreshedDateIso\"!"
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr "Neveljavno vrtilno polje za skupino polja '%s' bo izpuščeno: %s"
 
-#: ../plugins/excel/xlsx-read.c:339
+#: ../plugins/excel/xlsx-read.c:348
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "'%s' je pokvarjen!"
 
 # enum is a data type consisting of a set of named values called enumerators of the type
-#: ../plugins/excel/xlsx-read.c:432
+#: ../plugins/excel/xlsx-read.c:441
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Neznana vrednost enum '%s' za atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:475 ../plugins/excel/xlsx-read.c:504
+#: ../plugins/excel/xlsx-read.c:484 ../plugins/excel/xlsx-read.c:513
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "Celoštevilčna vrednost '%s' je izven obsega za atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:479 ../plugins/excel/xlsx-read.c:508
+#: ../plugins/excel/xlsx-read.c:488 ../plugins/excel/xlsx-read.c:517
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Neveljavno celo število '%s' za atribut '%s'"
 
-#: ../plugins/excel/xlsx-read.c:534
+#: ../plugins/excel/xlsx-read.c:543
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr "Neveljaven zapis barve v shemi RRGGBB '%s' za atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:565
+#: ../plugins/excel/xlsx-read.c:574
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Neveljavno število '%s' za atribut '%s'"
 
-#: ../plugins/excel/xlsx-read.c:590
+#: ../plugins/excel/xlsx-read.c:599
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Neveljaven položaj celice '%s' za atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:613
+#: ../plugins/excel/xlsx-read.c:622
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Neveljavna vrsta '%s' za atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:805
+#: ../plugins/excel/xlsx-read.c:696
+#: ../plugins/openoffice/openoffice-read.c:1097
+#: ../plugins/openoffice/openoffice-read.c:1173
+#, c-format
+msgid "Invalid attribute '%s', unknown unit '%s'"
+msgstr "Neveljaven atribut '%s'; neznana enota'%s'"
+
+#: ../plugins/excel/xlsx-read.c:701 ../plugins/excel/xlsx-read.c:708
+#: ../plugins/openoffice/openoffice-read.c:1102
+#, c-format
+msgid "Invalid attribute '%s', expected distance, received '%s'"
+msgstr ""
+"Neveljaven atribut '%s'; pričakovana je razdalja, prejeta pa je vrednost '%s'"
+
+#: ../plugins/excel/xlsx-read.c:880
 #, c-format
 msgid "Unknown theme color %d"
 msgstr "Neznana barva teme %d"
 
-#: ../plugins/excel/xlsx-read.c:951
+#: ../plugins/excel/xlsx-read.c:1026
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Nedoločen zapis ID števila '%s'"
 
-#: ../plugins/excel/xlsx-read.c:1132 ../plugins/excel/xlsx-read.c:3186
+#: ../plugins/excel/xlsx-read.c:1207 ../plugins/excel/xlsx-read.c:3412
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Neveljaven zapis barve '%s' za atribut rgb"
 
-#: ../plugins/excel/xlsx-read.c:1162 ../plugins/excel/xlsx-read.c:1171
+#: ../plugins/excel/xlsx-read.c:1237 ../plugins/excel/xlsx-read.c:1246
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Nedoločen zapis sloga '%d'"
 
-#: ../plugins/excel/xlsx-read.c:1180
+#: ../plugins/excel/xlsx-read.c:1255
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Nedoločeni delni slogovni zapis '%d'"
 
-#: ../plugins/excel/xlsx-read.c:1217
+#: ../plugins/excel/xlsx-read.c:1292
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Neveljaven sklic sst '%s'"
 
-#: ../plugins/excel/xlsx-read.c:1351
+#: ../plugins/excel/xlsx-read.c:1426
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Neveljavna celica %s"
 
-#: ../plugins/excel/xlsx-read.c:1468
+#: ../plugins/excel/xlsx-read.c:1543
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Podatki stolpca, ki ne določajo prvega ali zadnjega, bodo preztri."
 
-#: ../plugins/excel/xlsx-read.c:1781
-#: ../plugins/openoffice/openoffice-read.c:2638
+#: ../plugins/excel/xlsx-read.c:1670
+#, c-format
+msgid "Paper from XLSX file: %ipt⨉%ipt"
+msgstr "Stran datoteke XLSX: %i⨉%i točk"
+
+#: ../plugins/excel/xlsx-read.c:1674
+#, c-format
+msgid "Paper from XLSX file, #%i"
+msgstr "Stran datoteke XLSX, #%i"
+
+#: ../plugins/excel/xlsx-read.c:2007
+#: ../plugins/openoffice/openoffice-read.c:2641
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Določanje veljavnosti neveljavnih podatkov bo prezrto: %s"
 
-#: ../plugins/excel/xlsx-read.c:2195
+#: ../plugins/excel/xlsx-read.c:2421
 msgid "Undefined"
 msgstr "Nedoločeno"
 
-#: ../plugins/excel/xlsx-read.c:2243
+#: ../plugins/excel/xlsx-read.c:2469
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Neupravljan pogojni zapis za vrsto '%s' bo prezrt."
 
-#: ../plugins/excel/xlsx-read.c:2630
+#: ../plugins/excel/xlsx-read.c:2856
 msgid "Unknown type of hyperlink"
 msgstr "Neznana vrsta hiperpovezave"
 
-#: ../plugins/excel/xlsx-read.c:2675
+#: ../plugins/excel/xlsx-read.c:2901
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 "Zaznana je razširitev \"ext\", v imenskem prostoru \"%s\", ki je ni mogoče "
 "tolmačiti."
 
-#: ../plugins/excel/xlsx-read.c:2681
+#: ../plugins/excel/xlsx-read.c:2907
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 "Zaznana je razširitev \"ext\", v neznanem imenskem prostoru, ki je ni mogoče "
 "tolmačiti."
 
-#: ../plugins/excel/xlsx-read.c:2912
+#: ../plugins/excel/xlsx-read.c:3138
 msgid "Ignoring a sheet without a name"
 msgstr "Delovni list brez imena je prezrt"
 
-#: ../plugins/excel/xlsx-read.c:2982
+#: ../plugins/excel/xlsx-read.c:3208
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Določevanje imena je spodletelo: %s"
 
-#: ../plugins/excel/xlsx-read.c:3376
+#: ../plugins/excel/xlsx-read.c:3602
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Manjka id-dela za delovni list '%s'"
 
-#: ../plugins/excel/xlsx-read.c:3401
+#: ../plugins/excel/xlsx-read.c:3627
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Branje delovnega lista'%s' ..."
 
-#: ../plugins/excel/xlsx-read.c:3409
+#: ../plugins/excel/xlsx-read.c:3635
 msgid "Reading comments..."
 msgstr "Branje opomb ..."
 
-#: ../plugins/excel/xlsx-read.c:4426
+#: ../plugins/excel/xlsx-read.c:4652
 msgid "Reading shared strings..."
 msgstr "Branje nizov v souporabi ..."
 
-#: ../plugins/excel/xlsx-read.c:4434
+#: ../plugins/excel/xlsx-read.c:4660
 msgid "Reading theme..."
 msgstr "Branje teme ..."
 
-#: ../plugins/excel/xlsx-read.c:4442
+#: ../plugins/excel/xlsx-read.c:4668
 msgid "Reading styles..."
 msgstr "Branje slogov ..."
 
-#: ../plugins/excel/xlsx-read.c:4447
+#: ../plugins/excel/xlsx-read.c:4673
 msgid "Reading workbook..."
 msgstr "Branje delovnega zvezka ..."
 
-#: ../plugins/excel/xlsx-read.c:4457
+#: ../plugins/excel/xlsx-read.c:4683
 msgid "No workbook stream found."
 msgstr "Ni mogoče najti pretoka preglednice"
 
@@ -1398,7 +1422,7 @@ msgid "Unable to open '%s'."
 msgstr "Ni mogoče odpreti '%s'."
 
 #: ../plugins/openoffice/openoffice-read.c:1003
-#: ../plugins/openoffice/openoffice-read.c:7798
+#: ../plugins/openoffice/openoffice-read.c:7801
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Ni mogoče naložiti datoteke '%s'."
@@ -1406,18 +1430,6 @@ msgstr "Ni mogoče naložiti datoteke '%s'."
 #: ../plugins/openoffice/openoffice-read.c:1011
 msgid "Image fill without image name encountered!"
 msgstr "Zaznano je polnilo slike brez imena slike."
-
-#: ../plugins/openoffice/openoffice-read.c:1097
-#: ../plugins/openoffice/openoffice-read.c:1173
-#, c-format
-msgid "Invalid attribute '%s', unknown unit '%s'"
-msgstr "Neveljaven atribut '%s'; neznana enota'%s'"
-
-#: ../plugins/openoffice/openoffice-read.c:1102
-#, c-format
-msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr ""
-"Neveljaven atribut '%s'; pričakovana je razdalja, prejeta pa je vrednost '%s'"
 
 #: ../plugins/openoffice/openoffice-read.c:1179
 #, c-format
@@ -1435,41 +1447,41 @@ msgstr "Neveljaven atribut '%s'; neznana vrednost enum '%s'"
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Prezrt je sklic na neznani zunanji delovni zvezek '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1699
+#: ../plugins/openoffice/openoffice-read.c:1702
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Zaznan je neznan slog besedila \"%s\"!"
 
-#: ../plugins/openoffice/openoffice-read.c:2029
+#: ../plugins/openoffice/openoffice-read.c:2032
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Ni mogoče razčleniti '%s' ('%s')"
 
-#: ../plugins/openoffice/openoffice-read.c:2124
-#: ../plugins/openoffice/openoffice-read.c:3677
+#: ../plugins/openoffice/openoffice-read.c:2127
+#: ../plugins/openoffice/openoffice-read.c:3680
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Zaznana je nepodprta vrsta formule: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2130
-#: ../plugins/openoffice/openoffice-read.c:3684
+#: ../plugins/openoffice/openoffice-read.c:2133
+#: ../plugins/openoffice/openoffice-read.c:3687
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Izraz '%s' se ne začne s prepoznavnim znakom"
 
-#: ../plugins/openoffice/openoffice-read.c:2169
+#: ../plugins/openoffice/openoffice-read.c:2172
 #: ../plugins/openoffice/openoffice-write.c:4927
 #: ../plugins/openoffice/openoffice-write.c:4939 ../src/print-info.c:677
 #: ../src/ssgrep.c:352
 msgid "cell"
 msgstr "celica"
 
-#: ../plugins/openoffice/openoffice-read.c:2228
+#: ../plugins/openoffice/openoffice-read.c:2231
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_V_OKVARJENI_DATOTEKI"
 
-#: ../plugins/openoffice/openoffice-read.c:2233
+#: ../plugins/openoffice/openoffice-read.c:2236
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1478,29 +1490,29 @@ msgstr ""
 "Datoteka je pokvarjena, saj je imela podvojeno ime delovnega lista \"%s\", "
 "ki je preimenovano v \"%s\"."
 
-#: ../plugins/openoffice/openoffice-read.c:2246
+#: ../plugins/openoffice/openoffice-read.c:2249
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "DELOVNI_LIST_V_OKVARJENI_DATOTEKI"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:2254
+#: ../plugins/openoffice/openoffice-read.c:2257
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Datoteka je pokvarjena, saj ima neimenovano ime delovnega lista \"%s\"."
 
-#: ../plugins/openoffice/openoffice-read.c:2589
+#: ../plugins/openoffice/openoffice-read.c:2592
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr "Pogoj določanja veljavnosti '%s' ni podprt. Spremenjen je v  '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:2621
+#: ../plugins/openoffice/openoffice-read.c:2624
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Zaznan je nedoločen slog določanja veljavnosti: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2647
+#: ../plugins/openoffice/openoffice-read.c:2650
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
@@ -1509,41 +1521,41 @@ msgstr ""
 "Zaznan je nepodprt pogoj določanja veljavnosti: \"%s\" z osnovo naslova: \"%s"
 "\""
 
-#: ../plugins/openoffice/openoffice-read.c:3327
+#: ../plugins/openoffice/openoffice-read.c:3330
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Zaznan je neznan pogoj '%s', zato bo opravilo preklicano."
 
-#: ../plugins/openoffice/openoffice-read.c:3405
+#: ../plugins/openoffice/openoffice-read.c:3408
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Prezri podatke stolpcev za stolpcem %i."
 
-#: ../plugins/openoffice/openoffice-read.c:3528
-#: ../plugins/openoffice/openoffice-read.c:3893
+#: ../plugins/openoffice/openoffice-read.c:3531
+#: ../plugins/openoffice/openoffice-read.c:3896
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Podprta je vsebina za največjim določenim številom vrstic (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3669
-#: ../plugins/openoffice/openoffice-read.c:5939
+#: ../plugins/openoffice/openoffice-read.c:3672
+#: ../plugins/openoffice/openoffice-read.c:5942
 msgid "Missing expression"
 msgstr "Manjka izraz"
 
-#: ../plugins/openoffice/openoffice-read.c:3866
+#: ../plugins/openoffice/openoffice-read.c:3869
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Neveljaven izraz polja ne določa števila stolpcev."
 
-#: ../plugins/openoffice/openoffice-read.c:3869
+#: ../plugins/openoffice/openoffice-read.c:3872
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Neveljaven izraz polja ne določa števila vrstic."
 
-#: ../plugins/openoffice/openoffice-read.c:3885
+#: ../plugins/openoffice/openoffice-read.c:3888
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "Vsebina presega največje podprto število stolpcev (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:4077
+#: ../plugins/openoffice/openoffice-read.c:4080
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
@@ -1552,155 +1564,155 @@ msgstr ""
 "Levi enojni klik sledi povezavi.\n"
 "Srednji enojni klik izbere celico."
 
-#: ../plugins/openoffice/openoffice-read.c:4211
+#: ../plugins/openoffice/openoffice-read.c:4214
 msgid "Unnamed dash style encountered."
 msgstr "Zaznan je neimenovan slog pomišljaja."
 
-#: ../plugins/openoffice/openoffice-read.c:4229
+#: ../plugins/openoffice/openoffice-read.c:4232
 msgid "Unnamed image fill style encountered."
 msgstr "Zaznan je neimenovan slog polnila slike."
 
-#: ../plugins/openoffice/openoffice-read.c:4231
+#: ../plugins/openoffice/openoffice-read.c:4234
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "Slog polnila slike '%s' nima priložene slike."
 
-#: ../plugins/openoffice/openoffice-read.c:4268
-#: ../plugins/openoffice/openoffice-read.c:4274
+#: ../plugins/openoffice/openoffice-read.c:4271
+#: ../plugins/openoffice/openoffice-read.c:4277
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Ni mogoče razčleniti barve preliva: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4294
+#: ../plugins/openoffice/openoffice-read.c:4297
 msgid "Unnamed gradient style encountered."
 msgstr "Zaznan je neimenovan slog preliva."
 
-#: ../plugins/openoffice/openoffice-read.c:4315
+#: ../plugins/openoffice/openoffice-read.c:4318
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Ni mogoče razčleniti barve polnila šrafure: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4389
+#: ../plugins/openoffice/openoffice-read.c:4392
 msgid "Unnamed hatch encountered!"
 msgstr "Zaznano je polnilo šrafure brez imena!"
 
-#: ../plugins/openoffice/openoffice-read.c:4483
+#: ../plugins/openoffice/openoffice-read.c:4486
 msgid "Duplicate default column style encountered."
 msgstr "Zaznan je podvojen privzet slog stolpcev."
 
-#: ../plugins/openoffice/openoffice-read.c:4499
+#: ../plugins/openoffice/openoffice-read.c:4502
 msgid "Duplicate default row style encountered."
 msgstr "Zaznan je podvojen privzet slog vrstic."
 
-#: ../plugins/openoffice/openoffice-read.c:4534
+#: ../plugins/openoffice/openoffice-read.c:4537
 msgid "Duplicate default chart/graphics style encountered."
 msgstr ""
 "Zaznan je podvojen privzet slog diagramov ali drugih grafičnih predmetov."
 
-#: ../plugins/openoffice/openoffice-read.c:4916
+#: ../plugins/openoffice/openoffice-read.c:4919
 msgid "Unnamed date style ignored."
 msgstr "Neimenovan slog datuma je prezrt."
 
-#: ../plugins/openoffice/openoffice-read.c:5223
+#: ../plugins/openoffice/openoffice-read.c:5226
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Pokvarjena datoteka: neimenovan slog števila je prezrt."
 
-#: ../plugins/openoffice/openoffice-read.c:5259
-#: ../plugins/openoffice/openoffice-read.c:5286
-#: ../plugins/openoffice/openoffice-read.c:5314
-#: ../plugins/openoffice/openoffice-read.c:5355
-#: ../plugins/openoffice/openoffice-read.c:5381
-#: ../plugins/openoffice/openoffice-read.c:5409
+#: ../plugins/openoffice/openoffice-read.c:5262
+#: ../plugins/openoffice/openoffice-read.c:5289
+#: ../plugins/openoffice/openoffice-read.c:5317
+#: ../plugins/openoffice/openoffice-read.c:5358
+#: ../plugins/openoffice/openoffice-read.c:5384
+#: ../plugins/openoffice/openoffice-read.c:5412
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Datoteka je videti pokvarjena, saj manjkajo zahtevani oblike zapisa."
 
-#: ../plugins/openoffice/openoffice-read.c:5475
+#: ../plugins/openoffice/openoffice-read.c:5478
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Stran datoteke ODF: %i⨉%i točk"
 
-#: ../plugins/openoffice/openoffice-read.c:5661
+#: ../plugins/openoffice/openoffice-read.c:5664
 msgid "Missing page layout identifier"
 msgstr "Manjka določilo postavitve strani"
 
-#: ../plugins/openoffice/openoffice-read.c:5691
+#: ../plugins/openoffice/openoffice-read.c:5694
 msgid "Master page style without page layout encountered!"
 msgstr "Zaznan je glavni slog strani brez postavitve strani!"
 
-#: ../plugins/openoffice/openoffice-read.c:5702
+#: ../plugins/openoffice/openoffice-read.c:5705
 msgid "Master page style without name encountered!"
 msgstr "Zaznan je glavni slog strani brez ustreznega imena!"
 
-#: ../plugins/openoffice/openoffice-read.c:5825
+#: ../plugins/openoffice/openoffice-read.c:5828
 #: ../plugins/openoffice/openoffice-write.c:4920
 #: ../plugins/openoffice/openoffice-write.c:4932 ../src/print-info.c:670
 msgid "tab"
 msgstr "tab"
 
-#: ../plugins/openoffice/openoffice-read.c:5857
+#: ../plugins/openoffice/openoffice-read.c:5860
 #: ../plugins/openoffice/openoffice-write.c:4923
 #: ../plugins/openoffice/openoffice-write.c:4935 ../src/print-info.c:673
 msgid "date"
 msgstr "datum"
 
-#: ../plugins/openoffice/openoffice-read.c:5864
+#: ../plugins/openoffice/openoffice-read.c:5867
 #: ../plugins/openoffice/openoffice-write.c:4924
 #: ../plugins/openoffice/openoffice-write.c:4936 ../src/print-info.c:674
 msgid "time"
 msgstr "čas"
 
-#: ../plugins/openoffice/openoffice-read.c:5871
+#: ../plugins/openoffice/openoffice-read.c:5874
 #: ../plugins/openoffice/openoffice-write.c:4921
 #: ../plugins/openoffice/openoffice-write.c:4933 ../src/print-info.c:671
 msgid "page"
 msgstr "stran"
 
-#: ../plugins/openoffice/openoffice-read.c:5878
+#: ../plugins/openoffice/openoffice-read.c:5881
 #: ../plugins/openoffice/openoffice-write.c:4922
 #: ../plugins/openoffice/openoffice-write.c:4934 ../src/print-info.c:672
 msgid "pages"
 msgstr "strani"
 
-#: ../plugins/openoffice/openoffice-read.c:5903
-#: ../plugins/openoffice/openoffice-read.c:5908
+#: ../plugins/openoffice/openoffice-read.c:5906
+#: ../plugins/openoffice/openoffice-read.c:5911
 #: ../plugins/openoffice/openoffice-write.c:4926
 #: ../plugins/openoffice/openoffice-write.c:4938 ../src/print-info.c:676
 msgid "path"
 msgstr "pot"
 
-#: ../plugins/openoffice/openoffice-read.c:5905
-#: ../plugins/openoffice/openoffice-read.c:5912
+#: ../plugins/openoffice/openoffice-read.c:5908
+#: ../plugins/openoffice/openoffice-read.c:5915
 #: ../plugins/openoffice/openoffice-write.c:4925
 #: ../plugins/openoffice/openoffice-write.c:4937 ../src/print-info.c:675
-#: ../src/ssconvert.c:95 ../src/ssdiff.c:55
+#: ../src/ssconvert.c:95 ../src/ssdiff.c:56
 msgid "file"
 msgstr "datoteka"
 
-#: ../plugins/openoffice/openoffice-read.c:5956 ../src/print-info.c:678
+#: ../plugins/openoffice/openoffice-read.c:5959 ../src/print-info.c:678
 msgid "title"
 msgstr "naslov"
 
-#: ../plugins/openoffice/openoffice-read.c:5987
+#: ../plugins/openoffice/openoffice-read.c:5990
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Zaznan je neznan slog obrobe '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:6256
+#: ../plugins/openoffice/openoffice-read.c:6259
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Neznana vrsta prekinitve '%s' je spremenjena v BREZ"
 
-#: ../plugins/openoffice/openoffice-read.c:6333
+#: ../plugins/openoffice/openoffice-read.c:6336
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Ni mogoče razčleniti barve ozadja zavihka '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:6344
+#: ../plugins/openoffice/openoffice-read.c:6347
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Ni mogoče razčleniti barve posave zavihka '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:6751
+#: ../plugins/openoffice/openoffice-read.c:6754
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1709,27 +1721,27 @@ msgstr ""
 "Zaznana neznana vrsta interpolacije: '%s', namesto tega bo uporabljena "
 "Bezierova kubična polinomska krivulja."
 
-#: ../plugins/openoffice/openoffice-read.c:6760
+#: ../plugins/openoffice/openoffice-read.c:6763
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Zaznana neznana vrsta interpolacije: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7156
+#: ../plugins/openoffice/openoffice-read.c:7159
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "izraz '%s' @ '%s' ni sklic celice"
 
-#: ../plugins/openoffice/openoffice-read.c:7173
+#: ../plugins/openoffice/openoffice-read.c:7176
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Izraz '%s' nima znanega imenskega prostora"
 
-#: ../plugins/openoffice/openoffice-read.c:7225
+#: ../plugins/openoffice/openoffice-read.c:7228
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Neveljaven obseg podatkovne zbirke '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:7498
+#: ../plugins/openoffice/openoffice-read.c:7501
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1738,14 +1750,14 @@ msgstr ""
 "Črte predmeta delovnega lista v programu Gnumeric ne podpirajo pripetega "
 "besedila. Besedilo \"%s\" bo zavrženo."
 
-#: ../plugins/openoffice/openoffice-read.c:7532
-#: ../plugins/openoffice/openoffice-read.c:7571
+#: ../plugins/openoffice/openoffice-read.c:7535
+#: ../plugins/openoffice/openoffice-read.c:7574
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr ""
 "Neveljaven atribut 'oblika:vrednost'; pričakovano je število, prejeto pa '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:7537
+#: ../plugins/openoffice/openoffice-read.c:7540
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1754,16 +1766,16 @@ msgstr ""
 "Neveljavna vrsta vrednosti '%s' zapisana kot atribut 'oblika:vrednost' v "
 "predmetu 'oblika:vrsta-podatkov'."
 
-#: ../plugins/openoffice/openoffice-read.c:7977
+#: ../plugins/openoffice/openoffice-read.c:7980
 msgid "Unable to determine manual position for a chart component!"
 msgstr "Ročnega položaja za komponento grafikona ni mogoče določiti!"
 
-#: ../plugins/openoffice/openoffice-read.c:8161
+#: ../plugins/openoffice/openoffice-read.c:8164
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "V podani podatkovni vrsti (%s) ni dovolj podatkov za vse zahteve"
 
-#: ../plugins/openoffice/openoffice-read.c:8748
+#: ../plugins/openoffice/openoffice-read.c:8751
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1771,73 +1783,73 @@ msgstr ""
 "Program Gnumeric ne podpira izvajanja ne-samodejnih izračunov regresije. "
 "Uporabljena bo samodejno izvedljiva enačba."
 
-#: ../plugins/openoffice/openoffice-read.c:8891
+#: ../plugins/openoffice/openoffice-read.c:8894
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Zaznane so spustne črte v vrsti diagrama, ki te možnosti ne podpira."
 
-#: ../plugins/openoffice/openoffice-read.c:8977
+#: ../plugins/openoffice/openoffice-read.c:8980
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Zaznana je neznana vrsta diagrama, zato bo izrisan črtni diagram."
 
-#: ../plugins/openoffice/openoffice-read.c:9209
+#: ../plugins/openoffice/openoffice-read.c:9212
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr "Zaznana nepodprta oblika naslova  je pretvorjena v pravokotnik."
 
-#: ../plugins/openoffice/openoffice-read.c:9297
+#: ../plugins/openoffice/openoffice-read.c:9300
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr ""
 "Zaznano je izvajanje v neskončni zanki med razčlenjevanjem formule '%s' "
 "imena '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:9500
+#: ../plugins/openoffice/openoffice-read.c:9503
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Formule '%s' ('%s') imena '%s' ni mogoče opredeliti"
 
-#: ../plugins/openoffice/openoffice-read.c:9505
+#: ../plugins/openoffice/openoffice-read.c:9508
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Formule '%s' ('%s') imena '%s' ni mogoče razčleniti"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:9585
 #: ../plugins/openoffice/openoffice-read.c:9588
+#: ../plugins/openoffice/openoffice-read.c:9591
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
 "rectangle."
 msgstr "Zaznana nepodprta oblika po meri '%s'  je pretvorjena v pravokotnik."
 
-#: ../plugins/openoffice/openoffice-read.c:9591
+#: ../plugins/openoffice/openoffice-read.c:9594
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr "Zaznana nepodprta oblika po meri je pretvorjena v pravokotnik."
 
-#: ../plugins/openoffice/openoffice-read.c:9909
+#: ../plugins/openoffice/openoffice-read.c:9912
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Atribut '%s' ima nepodprto vrednost '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:11859
+#: ../plugins/openoffice/openoffice-read.c:11862
 msgid "Unknown mimetype for openoffice file."
 msgstr "Neznana vrsta mime za datoteko openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:11869
+#: ../plugins/openoffice/openoffice-read.c:11872
 msgid "No stream named content.xml found."
 msgstr "Pretoka z imenom content.xml ni mogoče najti."
 
-#: ../plugins/openoffice/openoffice-read.c:11877
+#: ../plugins/openoffice/openoffice-read.c:11880
 msgid "No stream named styles.xml found."
 msgstr "Pretoka z imenom styles.xml ni mogoče najti."
 
-#: ../plugins/openoffice/openoffice-read.c:12012
+#: ../plugins/openoffice/openoffice-read.c:12015
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Neveljavni metapodatki '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:12081
+#: ../plugins/openoffice/openoffice-read.c:12084
 msgid "settings.xml stream is malformed!"
 msgstr "datoteka pretoka settings.xml je napačno oblikovana!"
 
@@ -4821,36 +4833,36 @@ msgstr "Aaron Weber"
 msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
-#: ../src/dialogs/dialog-about.c:454
+#: ../src/dialogs/dialog-about.c:460
 msgid "Gnumeric is the result of"
 msgstr "Program Gnumeric ustvarja"
 
 #. Overlap.
-#: ../src/dialogs/dialog-about.c:460
+#: ../src/dialogs/dialog-about.c:466
 msgid "the efforts of many people."
 msgstr "veliko posameznikov."
 
 #. Overlap.
-#: ../src/dialogs/dialog-about.c:467
+#: ../src/dialogs/dialog-about.c:472
 msgid "Your help is much appreciated!"
 msgstr "Vsaka pomoč je vedno dobrodošla!"
 
-#: ../src/dialogs/dialog-about.c:517
+#: ../src/dialogs/dialog-about.c:520
 msgid "We apologize if anyone was left out."
 msgstr "Opravičujemo se, če smo koga pomotoma izpustili."
 
 #. Overlap.
-#: ../src/dialogs/dialog-about.c:525
+#: ../src/dialogs/dialog-about.c:527
 msgid "Please contact us to correct mistakes."
 msgstr "Pošljite sporočilo, da napako odpravimo."
 
 #. Overlap.
-#: ../src/dialogs/dialog-about.c:533
+#: ../src/dialogs/dialog-about.c:534
 msgid "Report problems at http://bugzilla.gnome.org"
 msgstr "Poročila in težave objavite preko spletišča http://bugzilla.gnome.org"
 
 #. Overlap.
-#: ../src/dialogs/dialog-about.c:538 ../src/dialogs/dialog-about.c:545
+#: ../src/dialogs/dialog-about.c:538 ../src/dialogs/dialog-about.c:544
 msgid "We aim to please!"
 msgstr "Z veseljem ustrežemo!"
 
@@ -5711,221 +5723,221 @@ msgid "(defined)"
 msgstr "(določeno)"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:235
-#: ../src/dialogs/dialog-cell-format-cond.c:1177
+#: ../src/dialogs/dialog-cell-format-cond.c:1179
 msgid "(undefined)"
 msgstr "(nedoločeno)"
 
 #. without any expression
-#: ../src/dialogs/dialog-cell-format-cond.c:566
+#: ../src/dialogs/dialog-cell-format-cond.c:568
 msgid "Cell contains an error value."
 msgstr "Celica vsebuje vrednost napake."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:567
+#: ../src/dialogs/dialog-cell-format-cond.c:569
 msgid "Cell does not contain an error value."
 msgstr "Celica ne vsebuje vrednosti napake."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:568
+#: ../src/dialogs/dialog-cell-format-cond.c:570
 msgid "Cell contains whitespace."
 msgstr "Celica vsebuje presledni znak."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:569
+#: ../src/dialogs/dialog-cell-format-cond.c:571
 msgid "Cell does not contain whitespace."
 msgstr "Celica ne vsebuje preslednega znaka."
 
 #. with one expression
-#: ../src/dialogs/dialog-cell-format-cond.c:571
+#: ../src/dialogs/dialog-cell-format-cond.c:573
 msgid "Cell value is = x."
 msgstr "Vrednost celice = x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:572
+#: ../src/dialogs/dialog-cell-format-cond.c:574
 msgid "Cell value is ≠ x."
 msgstr "Vrednost celice ≠ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:573
+#: ../src/dialogs/dialog-cell-format-cond.c:575
 msgid "Cell value is > x."
 msgstr "Vrednost celice > x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:574
+#: ../src/dialogs/dialog-cell-format-cond.c:576
 msgid "Cell value is < x."
 msgstr "Vrednost celice < x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:575
+#: ../src/dialogs/dialog-cell-format-cond.c:577
 msgid "Cell value is ≧ x."
 msgstr "Vrednost celice ≧ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:576
+#: ../src/dialogs/dialog-cell-format-cond.c:578
 msgid "Cell value is ≦ x."
 msgstr "Vrednost celice ≦ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:577
+#: ../src/dialogs/dialog-cell-format-cond.c:579
 msgid "Expression x evaluates to TRUE."
 msgstr "Izraz x se vrednoti v PRAV."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:578
+#: ../src/dialogs/dialog-cell-format-cond.c:580
 msgid "Cell contains the string x."
 msgstr "Celica vsebuje niz x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:579
+#: ../src/dialogs/dialog-cell-format-cond.c:581
 msgid "Cell does not contain the string x."
 msgstr "Celica ne vsebuje niza x"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:580
+#: ../src/dialogs/dialog-cell-format-cond.c:582
 msgid "Cell value begins with the string x."
 msgstr "Vrednost celice se začne z nizom x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:581
+#: ../src/dialogs/dialog-cell-format-cond.c:583
 msgid "Cell value does not begin with the string x."
 msgstr "Vrednost celice se ne začne z nizom x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:582
+#: ../src/dialogs/dialog-cell-format-cond.c:584
 msgid "Cell value ends with the string x."
 msgstr "Vrednost celice se konča z nizom x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:583
+#: ../src/dialogs/dialog-cell-format-cond.c:585
 msgid "Cell value does not end with the string x."
 msgstr "Vrednost celice se ne konča z nizom x."
 
 #. with two expressions
-#: ../src/dialogs/dialog-cell-format-cond.c:585
+#: ../src/dialogs/dialog-cell-format-cond.c:587
 msgid "Cell value is between x and y (incl.)."
 msgstr "Vrednost celice je med vključno x in vključno y."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:586
+#: ../src/dialogs/dialog-cell-format-cond.c:588
 msgid "Cell value is not between x and y (incl.)."
 msgstr "Vrednost celice ni med vključno x in vključno y."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:723
+#: ../src/dialogs/dialog-cell-format-cond.c:725
 msgid "Set conditional formatting"
 msgstr "Nastavi pogojno oblikovanje"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:739
+#: ../src/dialogs/dialog-cell-format-cond.c:741
 msgid "Clear conditional formatting"
 msgstr "Počisti pogojno oblikovanje"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:771
+#: ../src/dialogs/dialog-cell-format-cond.c:773
 msgid "Remove condition from conditional formatting"
 msgstr "Odstrani pogoj pogojnega oblikovanja"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:803
+#: ../src/dialogs/dialog-cell-format-cond.c:805
 msgid "Expand conditional formatting"
 msgstr "Razširi pogojno oblikovanje"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:852
+#: ../src/dialogs/dialog-cell-format-cond.c:854
 msgid ""
 "If the cell content is between these two values, a special style is used."
 msgstr ""
 "V kolikor je vsebina celice med tema dvema vrednostima, je uporabljen "
 "poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:860
+#: ../src/dialogs/dialog-cell-format-cond.c:862
 msgid ""
 "If the cell content is not between these two values, a special style is used."
 msgstr ""
 "V kolikor vsebina celice ni med tema dvema vrednostima, je uporabljen "
 "poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:868
+#: ../src/dialogs/dialog-cell-format-cond.c:870
 msgid "If the cell content is equal to this value, a special style is used."
 msgstr ""
 "V kolikor je vsebina celice enaka tej vrednosti, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:876
+#: ../src/dialogs/dialog-cell-format-cond.c:878
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr ""
 "V kolikor vsebina celice ni enaka tej vrednosti, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:884
+#: ../src/dialogs/dialog-cell-format-cond.c:886
 msgid "If the cell content is > this value, a special style is used."
 msgstr ""
 "V kolikor je vsebina celice > od te vrednosti, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:891
+#: ../src/dialogs/dialog-cell-format-cond.c:893
 msgid "If the cell content is < this value, a special style is used."
 msgstr ""
 "V kolikor je vsebina celice < od te vrednosti, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:899
+#: ../src/dialogs/dialog-cell-format-cond.c:901
 msgid "If the cell content is ≧ this value, a special style is used."
 msgstr ""
 "V kolikor je vsebina celice ≧ od te vrednosti, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:908
+#: ../src/dialogs/dialog-cell-format-cond.c:910
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
 "V kolikor je vsebina celice ≦ od te vrednosti, je uporabljen poseben slog."
 
 # evaluates = vrednotenje (prav/napak), preračun (vrednost)
-#: ../src/dialogs/dialog-cell-format-cond.c:917
+#: ../src/dialogs/dialog-cell-format-cond.c:919
 msgid "If this formula evaluates to TRUE, a special style is used."
 msgstr "V kolikor se formula vrednosti v PRAV, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:924
+#: ../src/dialogs/dialog-cell-format-cond.c:926
 msgid "If the cell content contains this string, a special style is used."
 msgstr "V kolikor vsebuje celica ta niz, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:932
+#: ../src/dialogs/dialog-cell-format-cond.c:934
 msgid ""
 "If the cell content does not contain this string, a special style is used."
 msgstr "V kolikor celica ne vsebuje tega niza, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:940
+#: ../src/dialogs/dialog-cell-format-cond.c:942
 msgid "If the cell content begins with this string, a special style is used."
 msgstr ""
 "V kolikor se vsebina celice začne s tem nizom, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:948
+#: ../src/dialogs/dialog-cell-format-cond.c:950
 msgid ""
 "If the cell content does not begin with this string, a special style is used."
 msgstr ""
 "V kolikor se vsebina celice ne začne s tem nizom, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:955
+#: ../src/dialogs/dialog-cell-format-cond.c:957
 msgid "If the cell content ends with this string, a special style is used."
 msgstr ""
 "V kolikor se vsebina celice konča s tem nizom, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:963
+#: ../src/dialogs/dialog-cell-format-cond.c:965
 msgid ""
 "If the cell content does not end  with this string, a special style is used."
 msgstr ""
 "V kolikor se vsebina celice ne konča s tem nizom, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:971
+#: ../src/dialogs/dialog-cell-format-cond.c:973
 msgid "If the cell contains an error value, a special style is used."
 msgstr "V kolikor vsebuje celica vrednost napake, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:977
+#: ../src/dialogs/dialog-cell-format-cond.c:979
 msgid "If the cell does not contain an error value, a special style is used."
 msgstr ""
 "V kolikor celica ne vsebuje vrednosti napake, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:984
+#: ../src/dialogs/dialog-cell-format-cond.c:986
 msgid "If the cell content contains blanks, a special style is used."
 msgstr "V kolikor vsebuje celica prazne vrednosti, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:991
+#: ../src/dialogs/dialog-cell-format-cond.c:993
 msgid "If the cell content does not contain blanks, a special style is used."
 msgstr ""
 "V kolikor celica ne vsebuje praznih vrednosti, je uporabljen poseben slog."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:998
+#: ../src/dialogs/dialog-cell-format-cond.c:1000
 msgid "This is an unknown condition type."
 msgstr "Vrsta pogoja ni znana"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1099
+#: ../src/dialogs/dialog-cell-format-cond.c:1101
 msgid "The selection is homogeneous with respect to conditions."
 msgstr "Izbor je homogen glede na pogoje"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1107
+#: ../src/dialogs/dialog-cell-format-cond.c:1109
 msgid "The selection is <b>not</b> homogeneous with respect to conditions!"
 msgstr "Izbor <b>ni</b> homogen glede na pogoje!"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1253
+#: ../src/dialogs/dialog-cell-format-cond.c:1255
 msgid "Editing conditional formatting: "
 msgstr "Urejanje pogojnega oblikovanja:"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1300
+#: ../src/dialogs/dialog-cell-format-cond.c:1302
 #: ../src/dialogs/cell-format-cond.ui.h:1
 msgid "Conditional Cell Formatting"
 msgstr "Pogojno oblikovanje celic"
@@ -5953,19 +5965,19 @@ msgstr "stolpca ni na voljo"
 msgid "no available row"
 msgstr "vrstice ni na voljo"
 
-#: ../src/dialogs/dialog-cell-sort.c:1012
+#: ../src/dialogs/dialog-cell-sort.c:1011
 msgid "Header"
 msgstr "Glava"
 
-#: ../src/dialogs/dialog-cell-sort.c:1017
+#: ../src/dialogs/dialog-cell-sort.c:1016
 msgid "Row/Column"
 msgstr "Vrstica/Stolpec"
 
-#: ../src/dialogs/dialog-cell-sort.c:1037
+#: ../src/dialogs/dialog-cell-sort.c:1036
 msgid "Case Sensitive"
 msgstr "Razlikovanje velikosti črk"
 
-#: ../src/dialogs/dialog-cell-sort.c:1057
+#: ../src/dialogs/dialog-cell-sort.c:1056
 msgid "By Value"
 msgstr "po vrednost"
 
@@ -12326,7 +12338,7 @@ msgstr "Končaj takoj po nalaganju izbranih knjig."
 msgid "[FILE ...]"
 msgstr "[DATOTEKA ...]"
 
-#: ../src/main-application.c:162 ../src/ssconvert.c:820 ../src/ssdiff.c:987
+#: ../src/main-application.c:162 ../src/ssconvert.c:820 ../src/ssdiff.c:1005
 #: ../src/ssgrep.c:434 ../src/ssindex.c:255
 #, c-format
 msgid ""
@@ -12353,7 +12365,7 @@ msgstr "napaka dodeljevanja Besselove _k funkcije"
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: ../src/mathfunc.c:7384
+#: ../src/mathfunc.c:7385
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -12937,7 +12949,7 @@ msgstr[2] "Spremeni velikost %d predmetov"
 msgstr[3] "Spremeni velikost %d predmetov"
 
 #. xgettext: this is a by-line for cell comments
-#: ../src/sheet-control-gui.c:3047
+#: ../src/sheet-control-gui.c:3056
 #, c-format
 msgid "By %s:"
 msgstr "%s:"
@@ -13177,7 +13189,7 @@ msgstr "Vstavi vrstice"
 msgid "Delete Rows"
 msgstr "Izbriši vrstice"
 
-#: ../src/ssconvert.c:62 ../src/ssdiff.c:47 ../src/ssgrep.c:158
+#: ../src/ssconvert.c:62 ../src/ssdiff.c:48 ../src/ssgrep.c:158
 #: ../src/ssindex.c:44
 msgid "Display program version"
 msgstr "Pokaži različico programa"
@@ -13346,82 +13358,82 @@ msgstr ""
 "podatkovna mapa := '%s'\n"
 "mapa knjižnic := '%s'\n"
 
-#: ../src/ssconvert.c:857 ../src/ssdiff.c:1044 ../src/ssindex.c:266
+#: ../src/ssconvert.c:857 ../src/ssdiff.c:1062 ../src/ssindex.c:266
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uporaba: %s [MOŽNOST ...] %s\n"
 
-#: ../src/ssdiff.c:54
+#: ../src/ssdiff.c:55
 msgid "Send output to file"
 msgstr "Odvod je shranjen v datoteko"
 
-#: ../src/ssdiff.c:61
+#: ../src/ssdiff.c:62
 msgid "Output copy highlighting differences"
 msgstr "Odvodni dokument s poudarjenimi razlikami"
 
-#: ../src/ssdiff.c:68
+#: ../src/ssdiff.c:69
 msgid "Output in xml format"
 msgstr "Odvod v zapisu XML"
 
-#: ../src/ssdiff.c:193
+#: ../src/ssdiff.c:194
 #, c-format
 msgid "%s: Failed to read %s: %s\n"
 msgstr "%s: branje iz datoteke %s je spodletelo: %s\n"
 
-#: ../src/ssdiff.c:240
+#: ../src/ssdiff.c:241
 #, c-format
 msgid "Differences for sheet %s:\n"
 msgstr "Razlike za delovni list %s:\n"
 
-#: ../src/ssdiff.c:242
+#: ../src/ssdiff.c:243
 #, c-format
 msgid "Sheet %s removed.\n"
 msgstr "Delovni list %s je odstranjen.\n"
 
-#: ../src/ssdiff.c:244
+#: ../src/ssdiff.c:245
 #, c-format
 msgid "Sheet %s added.\n"
 msgstr "Delovni list %s je dodan.\n"
 
-#: ../src/ssdiff.c:252
+#: ../src/ssdiff.c:253
 msgid "Sheet order changed.\n"
 msgstr "Vrstni red delovnih listov je spremenjen.\n"
 
-#: ../src/ssdiff.c:259
+#: ../src/ssdiff.c:260
 #, c-format
 msgid "Sheet attribute %s changed.\n"
 msgstr "Atribut %s delovnega lista je spremenjen.\n"
 
-#: ../src/ssdiff.c:267
+#: ../src/ssdiff.c:268
 #, c-format
 msgid "Cell %s changed.\n"
 msgstr "Celica %s je spremenjena.\n"
 
-#: ../src/ssdiff.c:269
+#: ../src/ssdiff.c:270
 #, c-format
 msgid "Cell %s removed.\n"
 msgstr "Celica %s je odstranjena.\n"
 
-#: ../src/ssdiff.c:271
+#: ../src/ssdiff.c:272
 #, c-format
 msgid "Cell %s added.\n"
 msgstr "Celica %s je dodana.\n"
 
-#: ../src/ssdiff.c:283
+#: ../src/ssdiff.c:284
 #, c-format
 msgid "Style of %s was changed.\n"
 msgstr "Slog %s je spremenjen.\n"
 
-#: ../src/ssdiff.c:634
+#: ../src/ssdiff.c:652
 #, c-format
 msgid "%s: Unable to guess exporter to use for %s.\n"
 msgstr "%s: ni mogoče določiti izvoznika za %s.\n"
 
-#: ../src/ssdiff.c:980 ../src/ssdiff.c:1046
+#: ../src/ssdiff.c:998 ../src/ssdiff.c:1064
 msgid "OLDFILE NEWFILE"
 msgstr "STARA_DATOTEKA NOVA_DATOTEKA"
 
-#: ../src/ssdiff.c:994
+#: ../src/ssdiff.c:1012
 #, c-format
 msgid ""
 "ssdiff version '%s'\n"
@@ -13432,12 +13444,12 @@ msgstr ""
 "podatkovna mapa := '%s'\n"
 "mapa knjižnic := '%s'\n"
 
-#: ../src/ssdiff.c:1000
+#: ../src/ssdiff.c:1018
 #, c-format
 msgid "%s: Only one output format may be specified.\n"
 msgstr "%s: navedena je lahko le ena možnost odvodnega zapisa.\n"
 
-#: ../src/ssdiff.c:1019
+#: ../src/ssdiff.c:1037
 #, c-format
 msgid "%s: Failed to create output file: %s\n"
 msgstr "%s: ni mogoče ustvariti odvodne datoteke %s.\n"
@@ -13584,7 +13596,7 @@ msgid "Text (configurable)"
 msgstr "Besedilo (nastavljivo)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1315
+#: ../src/stf-parse.c:1318
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -13593,7 +13605,7 @@ msgstr ""
 "bodo prezrte."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1337
+#: ../src/stf-parse.c:1340
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
