@@ -3014,18 +3014,21 @@ not_a_matrix:
 				GogAxis	*y = gog_plot_get_axis (s->plot, GOG_AXIS_Y);
 				GOStyle *x_style, *y_style;
 				int i;
-				for (i = 0 ; i < GOG_AXIS_ELEM_MAX_ENTRY ; i++)
-					xl_axis_swap_elem (x, y, i);
-				g_object_get (G_OBJECT (x), "style", &x_style, NULL);
-				g_object_get (G_OBJECT (y), "style", &y_style, NULL);
-				g_object_set (G_OBJECT (y), "style", x_style, NULL);
-				g_object_set (G_OBJECT (x), "style", y_style, NULL);
-				g_object_unref (x_style);
-				g_object_unref (y_style);
-				/* we must also exchange children */
-				object_swap_children (GOG_OBJECT (x), GOG_OBJECT (y), "Label");
-				object_swap_children (GOG_OBJECT (x), GOG_OBJECT (y), "MajorGrid");
-				object_swap_children (GOG_OBJECT (x), GOG_OBJECT (y), "MinorGrid");
+				if (x != NULL && y!= NULL) {
+					/* we only execute that code if both axes really exist, see #702126 */
+					for (i = 0 ; i < GOG_AXIS_ELEM_MAX_ENTRY ; i++)
+						xl_axis_swap_elem (x, y, i);
+					g_object_get (G_OBJECT (x), "style", &x_style, NULL);
+					g_object_get (G_OBJECT (y), "style", &y_style, NULL);
+					g_object_set (G_OBJECT (y), "style", x_style, NULL);
+					g_object_set (G_OBJECT (x), "style", y_style, NULL);
+					g_object_unref (x_style);
+					g_object_unref (y_style);
+					/* we must also exchange children */
+					object_swap_children (GOG_OBJECT (x), GOG_OBJECT (y), "Label");
+					object_swap_children (GOG_OBJECT (x), GOG_OBJECT (y), "MajorGrid");
+					object_swap_children (GOG_OBJECT (x), GOG_OBJECT (y), "MinorGrid");
+				}
 			}
 		}
 		if (g_slist_length (s->plot->series) == 0) {

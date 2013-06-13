@@ -1,3 +1,7 @@
+2013-06-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end): don't crash when exchanging missing axes. [#702126]
+
 2013-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_write_print_info): fix typo

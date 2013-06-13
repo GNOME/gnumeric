@@ -31,6 +31,7 @@ Dmitry Smirnov:
 Jean:
 	* Adjust labels vertical alignment in document properties
 	  dialog. [#700156]
+	* Don't crash when exchanging missing axes. [#702126]
 
 Morten:
 	* Improve xlsx import of style-only cells.
