@@ -1981,7 +1981,7 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	xlsx_add_bool (xml, "blackAndWhite", pi->print_black_and_white);
 	switch (pi->comment_placement) {
 	case GNM_PRINT_COMMENTS_IN_PLACE:
-		gsf_xml_out_add_cstr_unchecked (xml, "cellComments", "asDisplayed ");
+		gsf_xml_out_add_cstr_unchecked (xml, "cellComments", "asDisplayed");
 		break;
 	case GNM_PRINT_COMMENTS_AT_END:
 		gsf_xml_out_add_cstr_unchecked (xml, "cellComments", "atEnd");

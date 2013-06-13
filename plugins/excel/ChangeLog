@@ -1,5 +1,11 @@
 2013-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_print_info): fix typo
+	* xlsx-read.c (xlsx_sheet_page_setup): read more attributes
+	(xlsx_CT_PageSetup): read more attributes
+
+2013-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_print_info): always write fitTo*
 	(xlsx_write_sheet): write pageSetUpPr
 

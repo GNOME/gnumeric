@@ -1636,7 +1636,16 @@ xlsx_sheet_tabcolor (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_sheet_page_setup (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	/* XLSXReadState *state = (XLSXReadState *)xin->user_state; */
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	PrintInformation *pi = state->sheet->print_info;
+	gboolean tmp;
+
+	if (pi->page_setup == NULL)
+		print_info_load_defaults (pi);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_bool (xin, attrs, "fitToPage", &tmp))
+			pi->scaling.type = tmp ? PRINT_SCALE_FIT_PAGES : PRINT_SCALE_PERCENTAGE; 
 }
 
 static void
@@ -1830,13 +1839,31 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	PrintInformation *pi = state->sheet->print_info;
-	int orient, paper_code = 0;
-	gboolean orient_set = FALSE;
+	int orient, paper_code = 0, scale, tmp_int;
+	gboolean orient_set = FALSE, first_page_number = TRUE, tmp_bool;
 	gnm_float width = 0., height = 0.;
-	static EnumVal const types[] = {
+	static EnumVal const orientation_types[] = {
 		{ "default",	GTK_PAGE_ORIENTATION_PORTRAIT },
 		{ "portrait",	GTK_PAGE_ORIENTATION_PORTRAIT },
 		{ "landscape",	GTK_PAGE_ORIENTATION_LANDSCAPE },
+		{ NULL, 0 }
+	};
+	static EnumVal const comment_types[] = {
+		{ "asDisplayed", GNM_PRINT_COMMENTS_IN_PLACE },
+		{ "atEnd",	 GNM_PRINT_COMMENTS_AT_END },
+		{ "none",        GNM_PRINT_COMMENTS_NONE },
+		{ NULL, 0 }
+	};
+	static EnumVal const error_types[] = {
+		{ "blank",     GNM_PRINT_ERRORS_AS_BLANK },
+		{ "dash",      GNM_PRINT_ERRORS_AS_DASHES },
+		{ "NA",        GNM_PRINT_ERRORS_AS_NA },
+		{ "displayed", GNM_PRINT_ERRORS_AS_DISPLAYED },
+		{ NULL, 0 }
+	};
+	static EnumVal const page_order_types[] = {
+		{ "overThenDown", 1 },
+		{ "downThenOver", 0  },
 		{ NULL, 0 }
 	};
 	
@@ -1844,17 +1871,44 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 		print_info_load_defaults (pi);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, "orientation", types, &orient))
+		if (attr_enum (xin, attrs, "orientation", orientation_types, &orient))
 			orient_set = TRUE;
+		else if (attr_enum (xin, attrs, "cellComments", comment_types, &tmp_int))
+			pi->comment_placement = tmp_int;
+		else if (attr_enum (xin, attrs, "errors", error_types, &tmp_int))
+			pi->error_display = tmp_int;
+		else if (attr_enum (xin, attrs, "pageOrder", page_order_types, &tmp_int))
+			pi->print_across_then_down = (tmp_int != 0);
 		else if (attr_int (xin, attrs, "paperSize", &paper_code))
 			;
 		else if (attr_distance (xin, attrs, "paperWidth", &width))
 				 ;
 		else if (attr_distance (xin, attrs, "paperHeight", &height))
 			;
-	if (!xlsx_set_paper_from_code (pi, paper_code) && width > 0.0 && height > 0.0)
-		gtk_page_setup_set_paper_size (pi->page_setup, xlsx_paper_size (width, height, GTK_UNIT_POINTS, 0));
+		else if (attr_bool (xin, attrs, "blackAndWhite", &tmp_bool))
+			pi->print_black_and_white = tmp_bool;
+		else if (attr_int (xin, attrs, "copies", &(pi->n_copies)))
+			;
+		else if (attr_bool (xin, attrs, "draft", &tmp_bool))
+			pi->print_as_draft = tmp_bool;
+		else if (attr_int (xin, attrs, "firstPageNumber", &(pi->start_page)))
+			;
+		else if (attr_int (xin, attrs, "fitToHeight", &(pi->scaling.dim.rows)))
+			;
+		else if (attr_int (xin, attrs, "fitToWidth", &(pi->scaling.dim.cols)))
+			;
+		else if (attr_int (xin, attrs, "scale", &scale)) {
+			pi->scaling.percentage.x = scale;
+			pi->scaling.percentage.y = scale;
+		} else if (attr_bool (xin, attrs, "useFirstPageNumber", &first_page_number))
+			;
 
+	if (!first_page_number)
+		pi->start_page = -1;
+
+	if (!xlsx_set_paper_from_code (pi, paper_code) && width > 0.0 && height > 0.0)
+		gtk_page_setup_set_paper_size (pi->page_setup, 
+					       xlsx_paper_size (width, height, GTK_UNIT_POINTS, 0));
 	if (orient_set)
 		print_info_set_paper_orientation (pi, orient);
 }
