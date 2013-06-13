@@ -21,6 +21,7 @@ Andreas:
 	* Fix in-cell-combos attached to merged cells. [#702146]
 	* Use the pagesetup setting to determine the landscape option in LaTeX
 	  export [#702169]
+	* Fix ODF crash. [#702197]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]

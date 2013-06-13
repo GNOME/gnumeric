@@ -7636,7 +7636,6 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	gchar * name;
 	gint name_len;
 	GsfInput	*content = NULL;
-	gint old_sheet_count, sc;
 
 	if (state->chart.so != NULL) {
 		if (IS_SHEET_OBJECT_GRAPH (state->chart.so))
@@ -7709,12 +7708,6 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 
 	/* We should be saving/protecting some info to avoid it being overwritten. */
 
-	/* ODF objects can contain there own tables. During parsing of the object we will */
-	/* add these tables as new sheets to the workbook. After we are done with this    */
-	/* workbook we have to remove those sheets again.                                 */
-
-	old_sheet_count = workbook_sheet_count (state->pos.wb);
-
 	if (state->debug)
 		g_print ("START %s\n", name);
 
@@ -7756,9 +7749,6 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 		  &state->chart.fill_image_styles);
 	pop_hash (&state->chart.saved_gradient_styles,
 		  &state->chart.gradient_styles);
-
-	for (sc = workbook_sheet_count (state->pos.wb); sc > old_sheet_count; sc--)
-		workbook_sheet_delete (workbook_sheet_by_index (state->pos.wb, sc - 1));
 }
 
 static void
