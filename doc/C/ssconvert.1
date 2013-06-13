@@ -234,7 +234,10 @@ Mixed Integer Linear Programming (MILP) solver
 
 .TP
 .B sheet
-Name of the workbook sheet to operate on. This is ignored if the \fBobject\fR option is given.
+Name of the workbook sheet to operate on.
+You can specify several sheets by repeating this option. If this option is not given the active
+sheet (i. e. the sheet that was active when the file was saved) is used.
+This is ignored if the \fBobject\fR option is given.
 
 .TP
 .B object
@@ -257,6 +260,8 @@ size of the graph.
 .TP
 .B sheet
 Name of the workbook sheet to operate on.
+You can specify several sheets by repeating this option. If this option is not given the active
+sheet (i. e. the sheet that was active when the file was saved) is used.
 
 .TP
 .B eol

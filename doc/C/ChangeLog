@@ -1,3 +1,7 @@
+2013-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric.1: clarify the -O "sheet=..." option
+
 2013-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Dmitry Smirnov <onlyjob@member.fsf.org>
 
