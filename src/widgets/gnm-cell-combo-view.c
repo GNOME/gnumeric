@@ -28,7 +28,9 @@
 #include "wbc-gtk.h"
 #include "sheet.h"
 #include "sheet-control-gui.h"
+#include "sheet-merge.h"
 #include "gnm-pane-impl.h"
+#include "ranges.h"
 
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
@@ -149,7 +151,7 @@ ccombo_popup_destroy (GtkWidget *list)
 }
 
 static gint
-cb_ccombo_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
+cb_ccombo_key_press (G_GNUC_UNUSED GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
 {
 	switch (event->keyval) {
 	case GDK_KEY_Escape :
@@ -175,7 +177,7 @@ cb_ccombo_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
 }
 
 static gboolean
-cb_ccombo_popup_motion (GtkWidget *widget, GdkEventMotion *event,
+cb_ccombo_popup_motion (G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *event,
 			GtkTreeView *list)
 {
 	int base, dir = 0;
@@ -282,6 +284,7 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	GtkWindow *toplevel = wbcg_toplevel (scg_wbcg (scg));
 	GdkWindow *popup_window;
 	GdkDevice *device;
+	GnmRange const *merge;
 
 	popup = gtk_window_new (GTK_WINDOW_POPUP);
 
@@ -360,10 +363,13 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 		root_x += scg_colrow_distance_get (scg, TRUE,
 			pane->first.col,
 			so->anchor.cell_bound.start.col);
+	merge = gnm_sheet_merge_is_corner (sheet, &(so->anchor.cell_bound.start));
 	gtk_window_move (GTK_WINDOW (popup), root_x,
-		root_y + scg_colrow_distance_get (scg, FALSE,
-			pane->first.row,
-			so->anchor.cell_bound.start.row + 1));
+		root_y + scg_colrow_distance_get 
+			 (scg, FALSE,
+			  pane->first.row,
+			  so->anchor.cell_bound.start.row + 
+			  ((merge == NULL) ? 1 : range_height (merge))));
 
 	gtk_container_add (GTK_CONTAINER (popup), frame);
 

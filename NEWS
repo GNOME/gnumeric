@@ -18,6 +18,7 @@ Andreas:
 	* Make reference display in paste/define names dialog consistent with
 	  sheet preferences. [Debian #699054]
 	* Write/read pagesetup settings to/from xlsx. [#701834]
+	* Fix in-cell-combos attached to merged cells. [#702146]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]
