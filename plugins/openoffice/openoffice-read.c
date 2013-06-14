@@ -10086,12 +10086,6 @@ odf_selection_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 /******************************** settings.xml ******************************/
 
 static void
-unset_gvalue (gpointer data, G_GNUC_UNUSED gpointer user_data)
-{
-	g_value_unset (data);
-}
-
-static void
 destroy_gvalue (gpointer data)
 {
 	g_value_unset (data);
@@ -12096,10 +12090,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		if (state.settings.stack != NULL) {
 			go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 						     _("settings.xml stream is malformed!"));
-			g_slist_foreach (state.settings.stack,
-					 (GFunc)unset_gvalue,
-					 NULL);
-			g_slist_free_full (state.settings.stack, g_free);
+			g_slist_free_full (state.settings.stack, 
+					   (GDestroyNotify) g_hash_table_unref);
 			state.settings.stack = NULL;
 		}
 

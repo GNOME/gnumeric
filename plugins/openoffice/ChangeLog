@@ -1,5 +1,10 @@
 2013-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (unset_gvalue): deleted
+	(openoffice_file_open): use teh correct GDestroyNotify
+
+2013-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (openoffice_file_open): delete any tables that
 	were referred to but not included in the file.
 

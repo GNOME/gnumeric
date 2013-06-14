@@ -23,6 +23,7 @@ Andreas:
 	  export [#702169]
 	* Fix ODF crash. [#702197]
 	* In ODF import ignored mentioned but not included sheets. [#698388]
+	* Fix crash on bogus ODF file.  [#702205]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]
