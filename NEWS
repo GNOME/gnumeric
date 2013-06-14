@@ -22,6 +22,7 @@ Andreas:
 	* Use the pagesetup setting to determine the landscape option in LaTeX
 	  export [#702169]
 	* Fix ODF crash. [#702197]
+	* In ODF import ignored mentioned but not included sheets. [#698388]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]
