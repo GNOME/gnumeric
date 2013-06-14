@@ -2384,6 +2384,9 @@ lotus_read (LotusState *state)
 
 	if (!record_next (&r)) return FALSE;
 
+	if (r.len < 2)
+		return FALSE;
+
 	state->version = GSF_LE_GET_GUINT16 (r.data);
 
 	if (r.type == LOTUS_BOF) {
