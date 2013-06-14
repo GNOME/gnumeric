@@ -40,7 +40,7 @@
 	  <para>
 	    As explained in <xref
 	    linkend="sect-graphs-preselect" />, it is possible
-	    to pre-select the data and have gnumeric correctly assign
+	    to pre-select the data and have &gnum; correctly assign
 	    the cell contents into series names, category labels and
 	    data values. This process can only be understood once the
 	    rest of the graph creation process has been mastered so
@@ -164,7 +164,7 @@
       <title>The Components of Graphs</title>
 
   <figure id="fig-graph-components">
-    <title>The components of Gnumeric graphs</title>
+    <title>The components of &Gnum; graphs</title>
     <screenshot>
       <mediaobject>
         <imageobject>
@@ -173,7 +173,7 @@
         </imageobject>
         <textobject>
           <para>
-            This screenshot depicts a graph in Gnumeric and describes
+            This screenshot depicts a graph in &Gnum; and describes
 	    all of the components.
           </para>
         </textobject>
@@ -1654,7 +1654,7 @@
 
     <sect2 id="sect-graphs-overview-types-coloredxy" >
       <title>
-        Coloured XY Plots
+        Colored XY Plots
       </title>
         <para>Work in Progress</para>
     </sect2>
@@ -3363,7 +3363,7 @@
 
 
     <sect2 id="sect-graphs-elementProperties-backPanels">
-      <title>Background Panels: Graphs, Charts, Grids</title>
+      <title>Background Panels: Graphs &amp; Charts</title>
 
       <para>
         Several elements of the graph function as background panels
@@ -3849,7 +3849,7 @@
 
 
       <sect3 id="sect-graphs-elementProperties-axes-continuous">
-        <title>Continuous Axes: Linear and Radial</title>
+        <title>Continuous Axes: Linear, Radial &amp; Circular</title>
 
 	<para>
 	  Continuous axes are configured in much the same way as
@@ -3971,13 +3971,50 @@
 
       </sect3>
 
-      <sect3 id="sect-graphs-elementProperties-axes-circular">
-        <title>Circular Axes</title>
+      <sect3 id="sect-graphs-elementProperties-axes-grids">
+        <title>Grids</title>
 
 	<para>
-	  Circular Axes have not been fully implemented and do not yet
-	  have any properties which can be configured.
+	  Users can add both major and minor grids to an axis. Grids are lines that
+	  are perpendicular to the axis at fixed intervals. An example of major (in blue) and
+	  minor (in green) grids attached to a vertical axis are shown in <xref
+	  linkend="fig-graphics-plots-axes-grid"/>.
 	</para>
+
+        <figure id="fig-graphics-plots-axes-grid">
+          <title>Major and Minor Grids.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graph-axes-grid.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot shows a plot with major (in blue) and
+		  minor (in green) grids attached to the vertical axis. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  To add either a major or minor grid to an axis, the user selects the
+	  appropriate axis in the hierarchy tree of graph components, clicks
+	  the <guibutton>Add</guibutton> button below the hierachy, and selects
+	  either <guimenu>MajorGrid</guimenu> or <guimenu>MinorGrid</guimenu>.
+	</para>
+
+	<para>
+	  When a grid has been added to an axis, it can be selected in the hierarchy
+	  tree of graph components and customized in its configuration tab. One can
+	  specify the style, color, and thickness (size) of the grid lines as well as
+	  specify a fill to be applied to the space between every second pair of
+	  consecutive grid lines.
+	</para>
+
+
 
       </sect3>
 

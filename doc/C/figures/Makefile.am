@@ -249,6 +249,7 @@ EXTRA_DIST = \
      gnumeric-icon-24.png \
      gnumeric-labelled.png \
      gnumeric-power-example.png \
+     graph-axes-grid.png \
      graph-components.png \
      graph-hierarchy.png \
      graphguru-axes-category-bounds.png \

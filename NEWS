@@ -25,6 +25,7 @@ Andreas:
 	* In ODF import ignored mentioned but not included sheets. [#698388]
 	* Fix crash on bogus ODF file.  [#702205]
 	* Fix crash on bogus gnumeric file.  [#702219]
+	* Some documentation improvements. [Debian #621735]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]
