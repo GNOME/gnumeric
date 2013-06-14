@@ -23,8 +23,7 @@ Andreas:
 	  export [#702169]
 	* Fix ODF crash. [#702197]
 	* In ODF import ignored mentioned but not included sheets. [#698388]
-	* Fix crash on bogus ODF file.  [#702205]
-	* Fix crash on bogus gnumeric file.  [#702219]
+	* Fix crash on corrupted files.  [#702205] [#702219] [#702285]
 	* Some documentation improvements. [Debian #621735]
 
 Darrell Tangman:

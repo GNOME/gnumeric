@@ -1,3 +1,8 @@
+2013-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_custom_shape_end): consider the possibility
+	of missing path information.
+
 2013-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (unset_gvalue): deleted

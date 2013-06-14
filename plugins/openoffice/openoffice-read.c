@@ -9542,15 +9542,19 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 			g_list_free (keys);
 		}
 	}
-	paths = g_ptr_array_new_with_free_func ((GDestroyNotify) go_path_free);
-	strs = g_strsplit (state->chart.cs_enhanced_path, " N", 0);
-	for (cur = strs; *cur != NULL; cur++) {
-		path = go_path_new_from_odf_enhanced_path (*cur, vals);
-		if (path)
-			g_ptr_array_add (paths, path);
-	}
-	g_strfreev (strs);
 
+	paths = g_ptr_array_new_with_free_func ((GDestroyNotify) go_path_free);
+	
+	if (state->chart.cs_enhanced_path != NULL) {
+		strs = g_strsplit (state->chart.cs_enhanced_path, " N", 0);
+		for (cur = strs; *cur != NULL; cur++) {
+			path = go_path_new_from_odf_enhanced_path (*cur, vals);
+			if (path)
+				g_ptr_array_add (paths, path);
+		}
+		g_strfreev (strs);
+	}
+	
 	if (vals)
 		g_hash_table_unref (vals);
 
