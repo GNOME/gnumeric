@@ -1,3 +1,9 @@
+2013-06-14  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_sheet_delete): Debug.
+	(workbook_dispose): Also clear style here.  Styles can have
+	dependents now.  Fixes #702218.
+
 2013-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-view.c (sv_sheet_r1c1_changed): check for NULL selection

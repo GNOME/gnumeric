@@ -144,8 +144,11 @@ workbook_dispose (GObject *wb_object)
 	/* Remove all contents while all sheets still exist */
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
+		GnmRange r;
 
 		sheet_destroy_contents (sheet);
+		range_init_full_sheet (&r, sheet);
+		sheet_style_set_range (sheet, &r, sheet_style_default (sheet));
 	}
 
 	/* Now remove the sheets themselves */
@@ -1069,10 +1072,15 @@ workbook_sheet_delete (Sheet *sheet)
         g_return_if_fail (IS_SHEET (sheet));
         g_return_if_fail (IS_WORKBOOK (sheet->workbook));
 
-	gnm_app_clipboard_invalidate_sheet (sheet);
-
 	wb = sheet->workbook;
 	sheet_index = sheet->index_in_wb;
+
+	if (gnm_debug_flag ("sheets"))
+		g_printerr ("Removing sheet %s from %s\n",
+			    sheet->name_unquoted,
+			    go_doc_get_uri (GO_DOC (wb)));
+
+	gnm_app_clipboard_invalidate_sheet (sheet);
 
 	if (!wb->during_destruction) {
 		workbook_focus_other_sheet (wb, sheet);
