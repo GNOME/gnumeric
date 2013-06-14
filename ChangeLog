@@ -1,3 +1,7 @@
+2013-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-view.c (sv_sheet_r1c1_changed): check for NULL selection
+
 2013-06-12  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-merge.c (gnm_sheet_merge_add): Ensure range is sane.

@@ -91,7 +91,7 @@ sv_sheet_visibility_changed (Sheet *sheet,
 }
 
 static void
-sv_sheet_r1c1_changed (Sheet *sheet,
+sv_sheet_r1c1_changed (G_GNUC_UNUSED Sheet *sheet,
 		       G_GNUC_UNUSED GParamSpec *pspec,
 		       SheetView *sv)
 {
@@ -710,8 +710,8 @@ sv_selection_intersects_filter_rows (SheetView const *sv)
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 	r = selection_first_range (sv, NULL, NULL);
 
-	return gnm_sheet_filter_intersect_rows
-		(sv->sheet, r->start.row, r->end.row);
+	return r ? gnm_sheet_filter_intersect_rows
+	  (sv->sheet, r->start.row, r->end.row) : NULL;
 }
 
 /**
