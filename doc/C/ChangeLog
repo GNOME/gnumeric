@@ -1,12 +1,16 @@
 2013-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* ssgrep.1: clarify the output
+
+2013-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* figures/graph-axes-grid.png: new
 	* figures/Makefile.am: add the above
 	* graphics-plots.xml: explain grids
 
 2013-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gnumeric.1: clarify the -O "sheet=..." option
+	* ssconvert.1: clarify the -O "sheet=..." option
 
 2013-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Dmitry Smirnov <onlyjob@member.fsf.org>

@@ -13,7 +13,10 @@ ssgrep \- search spreadsheets for strings
 This manual page briefly documents the \fBssgrep\fR command.
 
 \fBssgrep\fR is a command line utility to search for strings in spreadsheets of
-any format supported by gnumeric.
+any format supported by gnumeric. Without any output modifying options,
+\fBssgrep\fR prints one line for each match. A match consists of the matching
+content of a cell or, if the \fB\-R\fR option is given, the matching expression
+result of a cell.
 
 .\".SH "RETURN VALUE"
 .\".SH "EXIT STATUS"
