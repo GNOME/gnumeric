@@ -5657,11 +5657,13 @@ odf_page_layout (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
 			name = CXML2C (attrs[1]);
 
-	if (name != NULL) {
-		state->print.cur_pi = print_information_new (TRUE);
-		g_hash_table_insert (state->styles.page_layouts, g_strdup (name), state->print.cur_pi);
-	} else
+	if (name == NULL) {
 		oo_warning (xin, _("Missing page layout identifier"));
+		name = "Missing page layout identifier";
+	}
+	state->print.cur_pi = print_information_new (TRUE);
+	g_hash_table_insert (state->styles.page_layouts, g_strdup (name), 
+			     state->print.cur_pi);
 }
 
 static void
@@ -5687,23 +5689,25 @@ odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 					     OO_NS_STYLE, "page-layout-name"))
 			pl_name = CXML2C (attrs[1]);
 
-	if (name != NULL) {
-		if (pl_name != NULL)
-			pi = g_hash_table_lookup (state->styles.page_layouts, pl_name);
-		if (pi == NULL) {
-			oo_warning (xin, _("Master page style without page layout encountered!"));
-			state->print.cur_pi = print_information_new (TRUE);
-		} else
-			state->print.cur_pi = print_info_dup (pi);
-		print_hf_free (state->print.cur_pi->header);
-		print_hf_free (state->print.cur_pi->footer);
-		state->print.cur_pi->header = print_hf_new (NULL, NULL, NULL);
-		state->print.cur_pi->footer = print_hf_new (NULL, NULL, NULL);
-
-		g_hash_table_insert (state->styles.master_pages, g_strdup (name), state->print.cur_pi);
+	if (pl_name != NULL)
+		pi = g_hash_table_lookup (state->styles.page_layouts, pl_name);
+	if (pi == NULL) {
+		oo_warning (xin, _("Master page style without page layout encountered!"));
+		state->print.cur_pi = print_information_new (TRUE);
 	} else
-		oo_warning (xin, _("Master page style without name encountered!"));
+		state->print.cur_pi = print_info_dup (pi);
 
+	if (name == NULL) {
+		oo_warning (xin, _("Master page style without name encountered!"));
+		name = "Master page style without name encountered!";
+	}
+
+	print_hf_free (state->print.cur_pi->header);
+	print_hf_free (state->print.cur_pi->footer);
+	state->print.cur_pi->header = print_hf_new (NULL, NULL, NULL);
+	state->print.cur_pi->footer = print_hf_new (NULL, NULL, NULL);
+	
+	g_hash_table_insert (state->styles.master_pages, g_strdup (name), state->print.cur_pi);
 }
 
 static void
