@@ -196,12 +196,12 @@ xlsx_body_pr (GsfXMLIn *xin, xmlChar const **attrs)
  *****************************************************************************/
 
 static void
-xlsx_rel_size_anchor_start (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
+xlsx_rel_size_anchor_start (G_GNUC_UNUSED  GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 {
 }
 
 static void
-xlsx_rel_size_anchor (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xlsx_rel_size_anchor (G_GNUC_UNUSED  GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 }
 
@@ -369,8 +369,8 @@ xlsx_chart_pie_sep (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 /* shared with pie of pie, and bar of pie */
-static void xlsx_chart_pie (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogPiePlot"); }
-static void xlsx_chart_ring (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogRingPlot"); }
+static void xlsx_chart_pie (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogPiePlot"); }
+static void xlsx_chart_ring (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogRingPlot"); }
 
 /***********************************************************************/
 
@@ -429,7 +429,7 @@ xlsx_chart_bar_gap (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_bar (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_bar (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	xlsx_chart_add_plot (xin, "GogBarColPlot");
 }
@@ -478,7 +478,7 @@ xlsx_plot_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_axis_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_axis_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	state->axis.obj	 = g_object_new (GOG_TYPE_AXIS, NULL);
@@ -611,7 +611,7 @@ xlsx_axis_crossax (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_gridlines (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_gridlines (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->axis.obj) {
@@ -703,11 +703,11 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->axis.info = NULL;
 }
 
-static void xlsx_chart_area (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogAreaPlot"); }
-static void xlsx_chart_line (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogLinePlot"); }
+static void xlsx_chart_area (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogAreaPlot"); }
+static void xlsx_chart_line (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogLinePlot"); }
 
 static void
-xlsx_chart_xy (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_xy (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	xlsx_chart_add_plot (xin, "GogXYPlot");
@@ -760,8 +760,14 @@ xlsx_scatter_style (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 }
 
-static void xlsx_chart_bubble (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogBubblePlot"); }
-static void xlsx_chart_radar (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogRadarPlot"); }
+static void 
+xlsx_chart_bubble (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{ xlsx_chart_add_plot (xin, "GogBubblePlot"); }
+
+static void 
+xlsx_chart_radar (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{ xlsx_chart_add_plot (xin, "GogRadarPlot"); }
+
 #if 0
 	char const *type = "GogRadarPlot";
 	gboolean with_markers = FALSE;
@@ -787,7 +793,7 @@ xlsx_plot_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_chart_ser_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_ser_start (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->plot) {
@@ -881,7 +887,7 @@ xlsx_ser_labels_pos (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_ser_labels_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_ser_labels_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->series) {
@@ -994,7 +1000,7 @@ xlsx_data_label_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_data_label_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_data_label_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	GogObject *data = gog_object_add_by_name (state->cur_obj, "Point", NULL);
@@ -1052,7 +1058,7 @@ xlsx_chart_ser_f (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_ser_type_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_ser_type_start (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	state->dim_type = xin->node->user_data.v_int;
@@ -1066,7 +1072,7 @@ xlsx_ser_type_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_chart_legend (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_legend (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	xlsx_chart_push_obj (state, gog_object_add_by_name (GOG_OBJECT (state->chart), "Legend", NULL));
@@ -1099,7 +1105,7 @@ xlsx_chart_legend_pos (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_pt_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_pt_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->series) {
@@ -1148,7 +1154,7 @@ xlsx_chart_pt_sep (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_style_line_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	state->sp_type |= GO_STYLE_LINE;
@@ -1165,7 +1171,7 @@ xlsx_style_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_chart_no_fill (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_no_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker)
@@ -1179,7 +1185,7 @@ xlsx_chart_no_fill (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_grad_fill (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_grad_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker) /* do xlsx support gradients in markers */
@@ -1226,7 +1232,7 @@ xlsx_chart_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_solid_fill (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_solid_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker) {
@@ -1379,7 +1385,7 @@ xlsx_draw_line_dash (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_marker_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_marker_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	state->marker = go_marker_new ();
@@ -1425,7 +1431,7 @@ xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_plot_area (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GogObject *backplane = gog_object_add_by_name (
@@ -2006,14 +2012,18 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				char *str = dat != NULL? go_data_get_scalar_string (dat): NULL;
 				/* if no title, use the first series label */
 				if (!str || !*str) {
-					GogPlot *plot = GOG_PLOT (gog_chart_get_plots (state->chart)->data);
-					GogDataset *ds = plot? GOG_DATASET (gog_plot_get_series  (plot)->data): NULL;
-					if (ds)
-						dat = gog_dataset_get_dim (ds, -1);
-					if (dat)
-						gog_dataset_set_dim (GOG_DATASET (title), 0, GO_DATA (g_object_ref (dat)), &err);
-					if (err)
-						g_error_free (err);
+					GSList *plots = gog_chart_get_plots (state->chart);
+					if (plots != NULL && plots->data != NULL) {
+						GogPlot *plot = GOG_PLOT (plots->data);
+						GogDataset *ds = plot? GOG_DATASET (gog_plot_get_series  (plot)->data): NULL;
+						if (ds)
+							dat = gog_dataset_get_dim (ds, -1);
+						if (dat)
+							gog_dataset_set_dim (GOG_DATASET (title), 0, 
+									     GO_DATA (g_object_ref (dat)), &err);
+						if (err)
+							g_error_free (err);
+					}
 				}
 				g_free (str);
 			}
@@ -2036,7 +2046,7 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 #define ROW	2
 
 static void
-xlsx_draw_anchor_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_draw_anchor_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 
@@ -2168,7 +2178,7 @@ xlsx_drawing_preset_geom (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_drawing_picture (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_drawing_picture (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	state->so = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);

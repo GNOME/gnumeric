@@ -1,3 +1,7 @@
+2013-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_read_chart): there may not be any plots in a chart.
+
 2013-06-13  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_COLINFO): Fix crash.  [#702182]
