@@ -1,5 +1,12 @@
 2013-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_destroy_object_offset): new
+	(oo_table_end): use odf_destroy_object_offset
+	(openoffice_file_open): clean up properly even if the content file was
+	malformed.
+
+2013-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_page_layout): always set state->print.cur_pi
 	(odf_master_page): ditto
 
