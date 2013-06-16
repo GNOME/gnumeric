@@ -1,3 +1,9 @@
+2013-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_read_external_book): also try an alternative url
+	(xlsx_read_external_sheetname): check whether we have a book before
+	adding sheets to it.
+
 2013-06-16  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_blip_start): Handle errors in getting

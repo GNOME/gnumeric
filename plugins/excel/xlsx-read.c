@@ -3355,12 +3355,20 @@ static void
 xlsx_read_external_book (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_type (
-		gsf_xml_in_get_input (xin),
-		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLinkPath");
+	GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_type
+		(gsf_xml_in_get_input (xin),
+		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/"
+		 "externalLink");
+	if (rel == NULL)
+		rel = gsf_open_pkg_lookup_rel_by_type 
+			(gsf_xml_in_get_input (xin),
+			 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/"
+			 "externalLinkPath");
 	if (NULL != rel && gsf_open_pkg_rel_is_extern (rel))
 		state->external_ref = xlsx_conventions_add_extern_ref (
 			state->convs, gsf_open_pkg_rel_get_target (rel));
+	else
+		xlsx_warning (xin, _("Unable to resolve external relationship"));
 }
 static void
 xlsx_read_external_book_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
@@ -3372,10 +3380,13 @@ static void
 xlsx_read_external_sheetname (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "val"))
-			workbook_sheet_attach (state->external_ref,
-				state->external_ref_sheet = sheet_new (state->external_ref, attrs[1], 256, 65536));
+	if (state->external_ref)
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+			if (0 == strcmp (attrs[0], "val"))
+				workbook_sheet_attach 
+					(state->external_ref,
+					 state->external_ref_sheet = 
+					 sheet_new (state->external_ref, attrs[1], 256, 65536));
 }
 static void
 xlsx_read_external_sheetname_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
