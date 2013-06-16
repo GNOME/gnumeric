@@ -1093,6 +1093,8 @@ xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 
 /***********************************************************************/
 
+static void xlsx_ext_begin (GsfXMLIn *xin, xmlChar const **attrs);
+
 #include "xlsx-read-drawing.c"
 
 /***********************************************************************/
