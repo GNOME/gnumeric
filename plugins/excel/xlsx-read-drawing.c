@@ -2195,8 +2195,12 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 				gsf_xml_in_get_input (xin), attrs[1]);
 			GsfInput *input = gsf_open_pkg_open_rel (
 			        gsf_xml_in_get_input (xin), rel, NULL);
-			size_t size = gsf_input_size (input);
-			guint8 *data = g_new (guint8, size);
+			size_t size;
+			guint8 *data;
+
+			g_return_if_fail (input != NULL);
+			size = gsf_input_size (input);
+			data = g_new (guint8, size);
 			gsf_input_read (input, size, data);
 			sheet_object_image_set_image (SHEET_OBJECT_IMAGE (state->so),
 				NULL, data, size, FALSE);
