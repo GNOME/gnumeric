@@ -1,3 +1,8 @@
+2013-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (openoffice_file_open): ensure we have no
+	sheet-object left in partial construction
+
 2013-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_parse_border): check for NULL color

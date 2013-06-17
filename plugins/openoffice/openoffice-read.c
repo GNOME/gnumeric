@@ -11942,6 +11942,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.validations = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) odf_validation_free);
+	state.chart.so = NULL;
 	state.chart.saved_graph_styles = NULL;
 	state.chart.saved_hatches = NULL;
 	state.chart.saved_dash_styles = NULL;
@@ -12176,6 +12177,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_free (state.chart.cs_modifiers);
 	g_free (state.chart.cs_viewbox);
 	g_free (state.chart.cs_type);
+	if (state.chart.so)
+		g_object_unref (state.chart.so);
 	if (state.chart_list)
 		g_slist_free_full (state.chart_list, odf_destroy_object_offset);
 	if (state.chart.cs_variables)
