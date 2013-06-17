@@ -1,3 +1,7 @@
+2013-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_validation_expr): check for null validation;
+
 2013-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read-drawing.c: connect "ext" handler

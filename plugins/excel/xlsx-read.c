@@ -2150,6 +2150,9 @@ xlsx_validation_expr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmParsePos pp;
 	GnmExprTop const *texpr;
 
+	if (state->validation == NULL)
+		return;
+
 	/*  Sneaky buggers, parse relative to the 1st sqRef */
 	parse_pos_init (&pp, NULL, state->sheet,
 		state->pos.col, state->pos.row);
@@ -3016,6 +3019,8 @@ xlsx_ext_begin (GsfXMLIn *xin, xmlChar const **attrs)
 static GsfXMLInNode const xlsx_sheet_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, &xlsx_CT_worksheet, 0),
+  GSF_XML_IN_NODE (SHEET, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (EXTLST, EXTITEM, XL_NS_SS, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, NULL),
   GSF_XML_IN_NODE (SHEET, PROPS, XL_NS_SS, "sheetPr", GSF_XML_NO_CONTENT, &xlsx_CT_SheetPr, NULL),
     GSF_XML_IN_NODE (PROPS, OUTLINE_PROPS, XL_NS_SS, "outlinePr", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PROPS, TAB_COLOR, XL_NS_SS, "tabColor", GSF_XML_NO_CONTENT, &xlsx_sheet_tabcolor, NULL),
@@ -3041,8 +3046,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 	GSF_XML_IN_NODE (CELL, VALUE, XL_NS_SS, "v", GSF_XML_CONTENT, NULL, &xlsx_cell_val_end),
 	GSF_XML_IN_NODE (CELL, FMLA, XL_NS_SS,  "f", GSF_XML_CONTENT, &xlsx_cell_expr_begin, &xlsx_cell_expr_end),
         GSF_XML_IN_NODE (CELL, TEXTINLINE, XL_NS_SS,  "is", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (CELL, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (EXTLST, EXTITEM, XL_NS_SS, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, NULL),
+GSF_XML_IN_NODE (CELL, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
 	  GSF_XML_IN_NODE (TEXTINLINE, TEXTRUN, XL_NS_SS,  "t", GSF_XML_CONTENT, NULL, &xlsx_cell_inline_text_end),
 
   GSF_XML_IN_NODE (SHEET, CALC_PR, XL_NS_SS, "sheetCalcPr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3773,6 +3777,8 @@ xlsx_webpub_begin (GsfXMLIn *xin, xmlChar const **attrs)
 static GsfXMLInNode const xlsx_workbook_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, &xlsx_wb_end, 0),
+  GSF_XML_IN_NODE (WORKBOOK, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (EXTLST, EXTITEM, XL_NS_SS, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, NULL),
   GSF_XML_IN_NODE (WORKBOOK, VERSION, XL_NS_SS,	   "fileVersion", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, PROPERTIES, XL_NS_SS, "workbookPr", GSF_XML_NO_CONTENT, &xlsx_CT_WorkbookPr, NULL),
   GSF_XML_IN_NODE (WORKBOOK, CALC_PROPS, XL_NS_SS, "calcPr", GSF_XML_NO_CONTENT, &xlsx_CT_CalcPr, NULL),
