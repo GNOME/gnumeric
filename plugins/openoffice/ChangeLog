@@ -1,5 +1,13 @@
 2013-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_legend): watch for missing chart style
+	(od_series_regression): ditto
+	(oo_series_droplines): ditto
+	(oo_chart_grid): ditto
+	(oo_chart_wall): ditto
+
+2013-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_annotation_end): check whether we have
 	indeed text
 

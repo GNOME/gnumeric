@@ -8812,54 +8812,56 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 			upper_bd = CXML2C (attrs[1]);
 
 	if (style_name != NULL) {
-		GSList *l;
 		OOChartStyle *chart_style = g_hash_table_lookup
 			(state->chart.graph_styles, style_name);
-		GOStyle *style = NULL;
-		GogObject *regression;
-		gchar const *type_name = "GogLinRegCurve";
 
-		for (l = chart_style->other_props; l != NULL; l = l->next) {
-			OOProp *prop = l->data;
-			if (0 == strcmp ("regression-type", prop->name)) {
-				char const *reg_type = g_value_get_string (&prop->value);
-				if (0 == strcmp (reg_type, "linear"))
-					type_name = "GogLinRegCurve";
-				else if (0 == strcmp (reg_type, "power"))
-					type_name = "GogPowerRegCurve";
-				else if (0 == strcmp (reg_type, "exponential"))
-					type_name = "GogExpRegCurve";
-				else if (0 == strcmp (reg_type, "logarithmic"))
-					type_name = "GogLogRegCurve";
-				else if (0 == strcmp
-					 (reg_type, "gnm:exponential-smoothed"))
-					type_name = "GogExpSmooth";
-				else if (0 == strcmp
-					 (reg_type, "gnm:logfit"))
-					type_name = "GogLogFitCurve";
-				else if (0 == strcmp
-					 (reg_type, "gnm:polynomial"))
-					type_name = "GogPolynomRegCurve";
-				else if (0 == strcmp
-					 (reg_type, "gnm:moving-average"))
-					type_name = "GogMovingAvg";
+		if (chart_style) {
+			GSList *l;
+			GOStyle *style = NULL;
+			GogObject *regression;
+			gchar const *type_name = "GogLinRegCurve";
+			for (l = chart_style->other_props; l != NULL; l = l->next) {
+				OOProp *prop = l->data;
+				if (0 == strcmp ("regression-type", prop->name)) {
+					char const *reg_type = g_value_get_string (&prop->value);
+					if (0 == strcmp (reg_type, "linear"))
+						type_name = "GogLinRegCurve";
+					else if (0 == strcmp (reg_type, "power"))
+						type_name = "GogPowerRegCurve";
+					else if (0 == strcmp (reg_type, "exponential"))
+						type_name = "GogExpRegCurve";
+					else if (0 == strcmp (reg_type, "logarithmic"))
+						type_name = "GogLogRegCurve";
+					else if (0 == strcmp
+						 (reg_type, "gnm:exponential-smoothed"))
+						type_name = "GogExpSmooth";
+					else if (0 == strcmp
+						 (reg_type, "gnm:logfit"))
+						type_name = "GogLogFitCurve";
+					else if (0 == strcmp
+						 (reg_type, "gnm:polynomial"))
+						type_name = "GogPolynomRegCurve";
+					else if (0 == strcmp
+						 (reg_type, "gnm:moving-average"))
+						type_name = "GogMovingAvg";
+				}
 			}
+
+			state->chart.regression = regression =
+				GOG_OBJECT (gog_trend_line_new_by_name (type_name));
+			regression = gog_object_add_by_name (GOG_OBJECT (state->chart.series),
+							     "Trend line", regression);
+			oo_prop_list_apply (chart_style->other_props, G_OBJECT (regression));
+
+			g_object_get (G_OBJECT (regression), "style", &style, NULL);
+			if (style != NULL) {
+				odf_apply_style_props (xin, chart_style->style_props, style);
+				g_object_unref (style);
+			}
+
+			odf_store_data (state, lower_bd, regression , 0);
+			odf_store_data (state, upper_bd, regression , 1);
 		}
-
-		state->chart.regression = regression =
-			GOG_OBJECT (gog_trend_line_new_by_name (type_name));
-		regression = gog_object_add_by_name (GOG_OBJECT (state->chart.series),
-						     "Trend line", regression);
-		oo_prop_list_apply (chart_style->other_props, G_OBJECT (regression));
-
-		g_object_get (G_OBJECT (regression), "style", &style, NULL);
-		if (style != NULL) {
-			odf_apply_style_props (xin, chart_style->style_props, style);
-			g_object_unref (style);
-		}
-
-		odf_store_data (state, lower_bd, regression , 0);
-		odf_store_data (state, upper_bd, regression , 1);
 	}
 }
 
@@ -8876,35 +8878,37 @@ oo_series_droplines (GsfXMLIn *xin, xmlChar const **attrs)
 	if (style_name != NULL) {
 		OOChartStyle *chart_style = g_hash_table_lookup
 			(state->chart.graph_styles, style_name);
-		GOStyle *style = NULL;
-		GSList *l;
-		char const *role_name = NULL;
-		GogObject const *lines;
+		if (chart_style) {
+			GOStyle *style = NULL;
+			GSList *l;
+			char const *role_name = NULL;
+			GogObject const *lines;
 
-		for (l = chart_style->plot_props; l != NULL; l = l->next) {
-			OOProp *prop = l->data;
-			if (0 == strcmp ("vertical", prop->name))
-				vertical = g_value_get_boolean (&prop->value);
-		}
+			for (l = chart_style->plot_props; l != NULL; l = l->next) {
+				OOProp *prop = l->data;
+				if (0 == strcmp ("vertical", prop->name))
+					vertical = g_value_get_boolean (&prop->value);
+			}
 
-		switch (state->chart.plot_type) {
-		case OO_PLOT_LINE:
-			role_name = "Drop lines";
-			break;
-		case OO_PLOT_SCATTER:
-			role_name = vertical ? "Vertical drop lines" : "Horizontal drop lines";
-			break;
-		default:
-			oo_warning (xin , _("Encountered drop lines in a plot not supporting them."));
-			return;
-		}
+			switch (state->chart.plot_type) {
+			case OO_PLOT_LINE:
+				role_name = "Drop lines";
+				break;
+			case OO_PLOT_SCATTER:
+				role_name = vertical ? "Vertical drop lines" : "Horizontal drop lines";
+				break;
+			default:
+				oo_warning (xin , _("Encountered drop lines in a plot not supporting them."));
+				return;
+			}
 
-		lines = gog_object_add_by_name (GOG_OBJECT (state->chart.series), role_name, NULL);
+			lines = gog_object_add_by_name (GOG_OBJECT (state->chart.series), role_name, NULL);
 
-		g_object_get (G_OBJECT (lines), "style", &style, NULL);
-		if (style != NULL) {
-			odf_apply_style_props (xin, chart_style->style_props, style);
-			g_object_unref (style);
+			g_object_get (G_OBJECT (lines), "style", &style, NULL);
+			if (style != NULL) {
+				odf_apply_style_props (xin, chart_style->style_props, style);
+				g_object_unref (style);
+			}
 		}
 	}
 }
@@ -9034,7 +9038,11 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 			if (style != NULL) {
 				OOChartStyle *chart_style = g_hash_table_lookup
 					(state->chart.graph_styles, style_name);
-				odf_apply_style_props (xin, chart_style->style_props, style);
+				if (chart_style)
+					odf_apply_style_props (xin, chart_style->style_props, style);
+				else
+					oo_warning (xin, _("Chart style with name '%s' is missing."), 
+						    style_name);
 				g_object_unref (style);
 			}
 		}
@@ -9072,7 +9080,11 @@ oo_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
 		if (style) {
 			OOChartStyle *chart_style = g_hash_table_lookup
 				(state->chart.graph_styles, style_name);
-			odf_apply_style_props (xin, chart_style->style_props, style);
+			if (chart_style)
+				odf_apply_style_props (xin, chart_style->style_props, style);
+			else
+				oo_warning (xin, _("Chart style with name '%s' is missing."), 
+					    style_name);
 			g_object_unref (style);
 		}
 	}
@@ -9098,7 +9110,11 @@ oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 		if (style != NULL) {
 			OOChartStyle *chart_style = g_hash_table_lookup
 				(state->chart.graph_styles, style_name);
-			odf_apply_style_props (xin, chart_style->style_props, style);
+			if (chart_style)
+				odf_apply_style_props (xin, chart_style->style_props, style);
+			else
+				oo_warning (xin, _("Chart style with name '%s' is missing."), 
+					    style_name);
 			g_object_unref (style);
 		}
 	}
