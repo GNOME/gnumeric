@@ -1,5 +1,10 @@
 2013-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_annotation_end): check whether we have
+	indeed text
+
+2013-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (openoffice_file_open): ensure we have no
 	sheet-object left in partial construction
 

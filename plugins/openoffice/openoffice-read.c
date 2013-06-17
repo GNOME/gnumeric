@@ -9164,7 +9164,7 @@ odf_annotation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data)))
 		g_object_set (G_OBJECT (state->cell_comment),
-			      "text", ptr->gstr->str,
+			      "text", ptr->gstr ? ptr->gstr->str : "",
 			      "markup", ptr->attrs, NULL);
 	state->cell_comment = NULL;
 	odf_pop_text_p (state);
