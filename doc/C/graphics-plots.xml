@@ -164,7 +164,7 @@
       <title>The Components of Graphs</title>
 
   <figure id="fig-graph-components">
-    <title>The components of &Gnum; graphs</title>
+    <title>The components of &gnum; graphs</title>
     <screenshot>
       <mediaobject>
         <imageobject>
@@ -173,7 +173,7 @@
         </imageobject>
         <textobject>
           <para>
-            This screenshot depicts a graph in &Gnum; and describes
+            This screenshot depicts a graph in &gnum; and describes
 	    all of the components.
           </para>
         </textobject>

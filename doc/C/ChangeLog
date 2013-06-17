@@ -1,5 +1,9 @@
 2013-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* graphics-plots.xml: fix entity usage
+
+2013-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* ssgrep.1: clarify the output
 
 2013-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
