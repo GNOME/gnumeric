@@ -299,6 +299,9 @@ EXTRA_DIST = \
      graphs-types-stock.png \
      graphs-types-surface.png \
      graphs-types-xyplot.png \
+     icon-locked.png \
+     icon-unlocked.png \
+     icon-visible.png \
      info-area.png \
      menubar.png \
      menu-context-col-row-header.png \
@@ -421,6 +424,7 @@ EXTRA_DIST = \
      worksheet-data-2.png \
      worksheet-data-3.png \
      worksheet-data-4.png \
+     worksheet-managing-dialog.png \
      worksheet-rows-1.png \
      worksheet-running-calc-1.png
 

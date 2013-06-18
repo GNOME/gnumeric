@@ -875,8 +875,6 @@
 			Search and replace operations.
 		</term>
 		<listitem>
-			<para>These menu entries relate to search and replace operations. Each
-			  entry is explained in detail below. </para>
 
 	 		<itemizedlist>
 
@@ -916,25 +914,18 @@
 			Other operations on worksheets.
 		</term>
 		<listitem>
-			<para>These menu entries do not group together logically. Each
-			  entry is explained in detail below. </para>
 
 	 		<itemizedlist>
       	    	<listitem>
      	      	<para>
-     	       	<guimenuitem>Sheet</guimenuitem> &mdash; The
-			       <guimenuitem>Sheet</guimenuitem> menu item opens up a
-				   submenu which allows users to perform operations on the
-				   worksheet. Note that this is the same set of choices as are
-				   available from the context menu which appears by clicking
-				   (usually with the right mouse button) on one of the
-				   worksheet tabs. The worksheet can be duplicated to create a
-				   second sheet with the same contents. A new worksheet can be
-				   inserted immediately following the current sheet. The
-				   current sheet can be renamed. The
-				   sheets can be re-ordered or the current sheet can be
-				   deleted.
-				 </para>
+                  <guimenuitem>Sheet</guimenuitem> &mdash; From the
+                  <guimenuitem>Sheet</guimenuitem> submenu you can perform operations
+                  on the worksheet as a whole. These functions are also available
+                  from the worksheet tab context menu. You can create, duplicate,
+                  rename, re-order, or delete worksheets. These functions are
+                  described in detail in
+                  <xref linkend="sect-worksheets-managing-process-contextmenu" />.
+		</para>
      	   		</listitem>
 
       	    	<listitem>
@@ -1153,7 +1144,7 @@
               <itemizedlist>
                 <listitem>
                   <para>
-                    If the selection is at least partially visible does 
+                    If the selection is at least partially visible and does
                     not include the cell
                     A1, &gnum; freezes the
 		            portion of the worksheet above or to the left of the 
@@ -1185,7 +1176,7 @@
                   </para>
                 </listitem>
               </itemizedlist>
-              <para>In all cases, the region of the worksheet above or to the right 
+              <para>In all cases, the region of the worksheet above or to the left
                 of the currently visible region will become inaccessible until the
                 view is unfrozen.
               </para>
@@ -1315,16 +1306,11 @@
       <varlistentry>
         <term>
           <emphasis role="bold">3</emphasis>
-          Zoom Menu Item
         </term>
         <listitem>
           <para>
-                <guimenuitem>Zoom...</guimenuitem> &mdash; The
-                <guimenuitem>Zoom</guimenuitem> menu item opens a
-                dialog which allows the user to set the magnification
-                of all worksheets in the current workbook. This item 
-                is separated from the previous ones since it always acts
-                on all views of a worksheet.
+            <guimenuitem>Zoom...</guimenuitem> opens a dialog where you can set
+            the magnification of one or more worksheets in the current workbook.
           </para>
         </listitem>
 	  </varlistentry>
@@ -1812,13 +1798,17 @@
 	
 
         <listitem>
-         <para>
-          <guimenuitem>Sheet</guimenuitem> &mdash; The <guimenuitem>Sheet</guimenuitem>
-			menu item opens a submenu with operations to change properties of the
-			worksheet. This submenu has three sections.
+<!-- Do NOT introduce any whitespace AROUND the <anchor>. -->
+        <para><anchor id="format-menu-sheet"
+          xreflabel="Format&nbsp;&#9654; Sheet"
+          /><guimenuitem>Sheet</guimenuitem> opens a submenu where you can change
+          properties of the current worksheet.
+          With the exception of <guimenuitem>Manage Sheets...</guimenuitem> and
+          <guimenuitem>Zoom...</guimenuitem>,
+          all operations on this submenu apply to just the current worksheet.
         </para>
     <figure id="menu-format-sheet.png">
-      <title>The <guimenu>Sheet</guimenu> Submenu.</title>
+      <title><guimenu>Sheet</guimenu> Submenu</title>
       <screenshot>
         <mediaobject>
             <imageobject>
@@ -1836,118 +1826,100 @@
       <varlistentry>
         <term>
 	  <emphasis role="bold">1</emphasis>
-	    Sheet Management Items
+          Sheet Management
 	</term>
 	<listitem>
         <para>
-            The first section contains menu items used to modify sheets indirectly.
-            Note that these items are also
-	    	available from the context menu which appears by clicking
+            These items are also on the worksheet tab context menu, accessed
+            by clicking
 	       (usually with the right mouse button) on one of the
 	       worksheet tabs.
         </para>
         <para>
-		<itemizedlist>
-              <listitem>
-                 <para>
-                <guimenuitem>Manage Sheets...</guimenuitem> &mdash;- This opens a
-				dialog with the names and properties of all the sheets. 
-                A user can click on
-				one of the names in the dialog and then click on the up and
-				down arrows, as appropriate, to move the selected sheet in
-				front or behind others. The tabs for the sheets will move at
-				the same time. This dialog also allows the user to delete
-				sheets, to rename sheets, and to change many other sheet 
-                properties.
-				</para>
-	      </listitem>
-           <listitem>
+          <guimenuitem>Manage Sheets...</guimenuitem> opens a dialog from
+          which the names and many properties of all the sheets can be
+          managed. Properties that can be managed from this dialog include
+          locking, worksheet visibility, column display order (left to right
+          or right to left), sheet name, sheet order, and sheet tab appearance.
+          From this dialog you can also add new worksheets and duplicate
+          or remove existing worksheets.
+          For more information, see <xref linkend="sect-worksheets-managing-process-dialog" />.
+        </para>
               <para>
-                <guimenuitem>Rename</guimenuitem> &mdash; After selecting this
-                item the sheet name in the sheet tab is selected and can now be
-                changed there.
+                <guimenuitem>Rename...</guimenuitem> opens the <guilabel>Rename
+                Sheet</guilabel> dialog. Edit the sheet name in the <guilabel>New
+                Name:</guilabel> field and press <keysym>Enter</keysym> or click
+                <guibutton>OK</guibutton> to change the worksheet name.
 	        </para>
-	      </listitem>
-		</itemizedlist>
-	    </para>
 	      </listitem>
         </varlistentry>
 
       <varlistentry>
         <term>
 	  <emphasis role="bold">2</emphasis>
-	    Toggle Items
+            Sheet Display Toggles
 	</term>
 	<listitem>
-        <para>The second section contains various toggle menu items 
-            used to switch sheet
-            properties directly.
+        <para>The second section contains various toggles that control how
+            a worksheet is displayed.
+            If a toggle is enabled, a small check mark is displayed to the left
+            of the menu item.
         </para>
         <para>
 		<itemizedlist>
               <listitem>
                 <para>
-                <guimenuitem>Display Formulas</guimenuitem> &mdash; This menu item
-						acts as a toggle. By default it is unset and formula results
-						are displayed. If this menu item is clicked, it will display a
-						little check mark on the left. The worksheet will show the
-						actual formulae for all cells with formulae instead of showing
-						the calculated result. This is useful for quickly assessing
-						which cells contain formulae and which contain data.
-	        			</para>
+                  <guimenuitem>Display Formulas</guimenuitem> &mdash; When this property
+                  is enabled, the worksheet will show the actual formulae for all cells
+                  with formulae, instead of showing the calculated result.
+                  You can use this property to quickly determine which cells contain data
+                  and which contain formulae.
+                </para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Use R1C1 Notation</guimenuitem> &mdash; This
-						menu item acts as a toggle. If this menu item is clicked,
-						&gnum; display a check mark on the left of the menu item.
-						&gnum; will also use R1C1 style notation to address cells
+                  <guimenuitem>Use R1C1 Notation</guimenuitem> &mdash; When this property
+                  is enabled, &gnum; uses R1C1-style notation to address cells,
                         rather than A1 notation.
 	        			</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide Zeros</guimenuitem> &mdash; This menu item acts as
-						a toggle. Click on this menu item will cause a check mark to
-						appear on the left. The sheet will then display all the cells
-						which display zeros as empty cells. This is useful in sheets
-						with many zero results, to quickly find cells with data.
+                  <guimenuitem>Hide Zeros</guimenuitem> &mdash; When this property
+                  is enabled, &gnum; displays all cells which would display a zero
+                  value as empty cells.
+                  This can be used to more easily find cells with non-zero data in
+                  sheets with many zero results.
 	        			</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide Gridlines</guimenuitem> &mdash; This menu item
-						acts as a toggle. If this menu item is clicked, &gnum; will
-						display a check mark to the left of the menu item. The lines
-						which separate all the cells will then be hidden and &gnum;
-						will appear to be a blank background. This is useful to make
-						certain data look pretty on screen.
+                  <guimenuitem>Hide Gridlines</guimenuitem> &mdash; When this property
+                  is enabled, &gnum; does not draw the grid lines that ordinarily separate
+                  cells.
 	        			</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide Column Headers</guimenuitem> &mdash; This
-						menu item acts as a toggle. If this menu item is clicked,
-						&gnum; display a check mark on the left of the menu item.
-						&gnum; will also hide the boxes with the alphabetical names
-						of the columns.
+                  <guimenuitem>Hide Column Headers</guimenuitem> &mdash; When this property
+                  is enabled, &gnum; does not display the column headers, which leaves room
+                  in the cell grid for roughly one more row of cells of default height.
 	        			</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide Row Header</guimenuitem> &mdash; This
-						menu item acts as a toggle. If this menu item is clicked,
-						&gnum; display a check mark on the left of the menu item.
-						&gnum; will also hide the boxes with the numeric names
-						of the rows.
+                <guimenuitem>Hide Row Header</guimenuitem> &mdash; When this property
+                is enabled, &gnum; does not display the row headers, which leaves
+                slightly more room to display the contents of cells.
 	        			</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Direction</guimenuitem> &mdash; This
-						menu item acts as a toggle. When selected
-						&gnum; will change from left-to-right sheets to 
-                        right-to-left sheets.
+                  <guimenuitem>Direction</guimenuitem> &mdash; When this menu item
+                  is selected, &gnum; switches between left-to-right sheets and
+                  right-to-left sheets. If row headers are displayed, they are moved
+                  to the right-hand side of the cell grid when the worksheet
+                  is displayed right to left.
 	        			</para>
 	      </listitem>
 		</itemizedlist>
@@ -1958,17 +1930,12 @@
       <varlistentry>
         <term>
           <emphasis role="bold">3</emphasis>
-          Zoom Menu Item
+          Zoom...
         </term>
         <listitem>
           <para>
-                <guimenuitem>Zoom...</guimenuitem> &mdash; The
-                <guimenuitem>Zoom</guimenuitem> menu item opens a
-                dialog which allows the user to set the magnification
-                of all worksheets in the current workbook. This item is
-                also included in the
-                <guimenuitem>View</guimenuitem> menu discussed in 
-                <xref linkend="View-Menu" />,
+            <guimenuitem>Zoom...</guimenuitem> opens a dialog where you can set
+            the magnification of one or more worksheets in the current workbook.
           </para>
         </listitem>
 	  </varlistentry>
@@ -2691,33 +2658,39 @@
 
 </sect2>
 
-<sect2 id="menu-context-tabs">
-	<title>The Context Menu for Worksheet Tabs</title>
-		<para>The Context Menu for Worksheet Tabs.</para>
-		<figure id="menu-context-tabs.png">
-		    <title>The Context Menu.</title>
-		    <screenshot>
-		      <mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/menu-context-tabs.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the context menu for worksheet tabs.</phrase>
-            </textobject>
-           </mediaobject>
-		    </screenshot>
-	    </figure>
-	<para>The context menu for tabs provides the same functions as are provided 
-	in the <guimenuitem>Sheet</guimenuitem> menu item in the
-	<guimenu>Edit</guimenu> menu. These options are explained at the bottom of 
-	<xref linkend="Edit-Menu" />. In addition, this context menu provides for two
-        submenus to select any of the existing sheets, whether their tab is currently
-        visible or not. The first submenu lists the sheets in their current order, 
-        the second submenu lists them alphabetically.
-	</para>
+  <sect2 id="menu-context-tabs">
+    <title>Context Menu for Worksheet Tabs</title>
 
+    <para>
+      The context menu for worksheet tabs provides access to functions
+      that manipulate worksheets as a whole, rather than their contents.
+    </para>
 
-</sect2>
+    <figure id="menu-context-tabs.png">
+      <title>The Context Menu for Worksheet Tabs</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/menu-context-sheet-tabs.png" />
+          </imageobject>
+          <textobject>
+            <phrase>An image of the context menu of the worksheet tabs.</phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>
+      The context menu for the worksheet tabs provides the same functions as the
+      <guimenuitem>Sheet</guimenuitem> submenu of the <guimenu>Edit</guimenu>
+      menu. These functions are explained in
+      <xref linkend="sect-worksheets-managing-process-contextmenu" />.
+      There are also two submenus where you can select one of the
+      existing sheets, whether its tab is currently visible or not.
+      The first submenu lists the sheets in their current order, 
+      the second submenu lists them alphabetically.
+    </para>
+
+  </sect2>
 
 
   <sect2 id="menu-context-object">
@@ -2869,41 +2842,6 @@
 	  menu. See <xref linkend="View-Menu"/>.
 	</para>
 
-</sect2>
-<sect2 id="menu-context-sheet-tabs">
-	<title>The Context Menu for Sheet Tabs</title>
-		<para>The Context Menu for Sheet Tabs</para>
-		<figure id="menu-context-sheet-tabs.png">
-		    <title>The Context Menu for Sheet Tabs.</title>
-		    <screenshot>
-		      <mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/menu-context-sheet-tabs.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the context menu of the sheet tabs.</phrase>
-            </textobject>
-           </mediaobject>
-		    </screenshot>
-	    </figure>
-
-	    <para>
-	      The sheet tab context menu merely provides an extra way to access &gnum;
-	      commands related to sheets and to select the desired sheet.
-	      The <guimenuitem>Manage Sheets...</guimenuitem>, <guimenuitem>Insert</guimenuitem>, 
-	      <guimenuitem>Append</guimenuitem>, <guimenuitem>Duplicate</guimenuitem>,
-	      <guimenuitem>Remove</guimenuitem>, <guimenuitem>Rename</guimenuitem>, and
-	      <guimenuitem>Resize...</guimenuitem>
-	      commands are taken from the <guimenu>Sheet</guimenu> submenu of the
-	      <guimenu>Edit</guimenu> menu and are explained in
-	      <xref linkend="Edit-Menu" />.
-	      The <guimenuitem>Select</guimenuitem> and <guimenuitem>Select (sorted)</guimenuitem>
-	      submenus provided for an easy way of selecting an existing sheet. The
-	      <guimenuitem>Select</guimenuitem> submenu lists the sheets in the order they appear
-	      in the workbook while the <guimenuitem>Select (sorted)</guimenuitem> submenu lists
-	      them in alphabetic order.
-	    </para>
-	    
 </sect2>
 
 </sect1>

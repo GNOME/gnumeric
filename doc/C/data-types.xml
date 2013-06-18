@@ -451,11 +451,15 @@ FUNCTIONNAME(ARGUMENTS)
 
     <para>
       Each cell in a spreadsheet is named by its column and row
-      labels. The column labels are letters and the row labels are
+      labels. By default, the column labels are letters and the row labels are
       numbers. The first cell, therefore, is called A1. One column
-      over and two rows down from cell A1 is the cell B3. The right
+      over and two rows down from cell A1 is the cell B3.
+      In a worksheet of the default size, the right
       most and bottom most cell is cell IV65536 which is the cell in
       column IV and in row 65536.
+      An alternative cell reference notation uses numbers for both row
+      and column identification.
+      See <xref linkend="sect-data-formulas-references-r1c1" /> below for details.
     </para>
 
     <para>
@@ -483,7 +487,7 @@ FUNCTIONNAME(ARGUMENTS)
         referencing), or by using absolute referencing. Absolute
         referencing means that when the cell is copied, the cell
         reference does not change. Normally, auto-filling a cell range
-        or moving cell will change its cell reference to so that it
+        or moving a cell will change its cell reference so that it
         maintains a relation to the original cell. Absolute
         referencing prevents these changes.
       </para>
@@ -518,13 +522,12 @@ FUNCTIONNAME(ARGUMENTS)
 
       <para>
         The format for absolute cell referencing is to use a '$' in
-        front of the cell coordinate that the you want to stay
-        constant. The column, row, sheet, or any combination of these
-        can be held constant.
+        front of the cell coordinate that you want to stay
+        constant. The column, the row, or both can be held constant.
       </para>
 
       <example id="cell-refer-absolute-reference">
-        <title>Absolute cell referencing examples</title>
+        <title>Cell referencing examples</title>
 
         <para>
           What happens when a given formula is entered into cell B2,
@@ -588,6 +591,28 @@ FUNCTIONNAME(ARGUMENTS)
       </example>
     </sect4>
 
+    <sect4 id="sect-data-formulas-references-r1c1">
+    <title>References using R1C1 Notation</title>
+      <para>
+        From the <guimenuitem>Format &#9654; Sheet</guimenuitem> submenu you can
+        select R1C1 notation for a worksheet.
+        This causes all cell references on the sheet to be shown as
+        &ldquo;R<emphasis role="italic">r</emphasis>C<emphasis role="italic">c</emphasis>&rdquo;,
+        where <emphasis role="italic">r</emphasis> is the row number and
+        <emphasis role="italic">c</emphasis> is the column number.
+        When R1C1 notation is selected, the column headers show numbers rather than letters.
+      </para>
+      <para>
+        When <emphasis role="italic">r</emphasis> and <emphasis role="italic">c</emphasis>
+        are positive integers, as in &ldquo;R1C1&rdquo;, the reference is absolute.
+        To produce a relative reference, enclose a number in square brackets; if the number
+        is zero, it can be omitted along with the brackets.
+        For example, &ldquo;RC[-2]&rdquo; refers to the cell two columns to the left
+        in the current row, while &ldquo;R[1]C1&rdquo; refers to the cell in the first
+        column of the next row down from the referencing cell.
+        The second example combines a relative row reference with an absolute column reference.
+      </para>
+    </sect4>
 
     <sect4 id="sect-data-formulas-references-multi">
       <title>Referencing multiple cells</title>
@@ -698,15 +723,23 @@ FUNCTIONNAME(ARGUMENTS)
         It is possible to reference cells which are not part of the
         current sheet.  This is done using the SHEETNAME!CELLLIST
         syntax, where SHEETNAME is an identifier (usually a sheet
-        name) and CELLLIST is a regular cell reference as described in
+        name) and CELLLIST is a reference to a cell or range of cells as described in
         the previous sections.
+        If SHEETNAME contains spaces or other special characters, you must
+        quote the whole name to allow &gnum; to recognize it as a single name.
+        See the examples below.
       </para>
 
       <para>
-        Note that if SHEETNAME contains spaces, you need to quote the
-        whole name to allow &gnum; to
-        group the separate words in SHEETNAME as single name.  For
-        example, you should use 'Name With Spaces'.
+        When the reference is to a range of cells, the worksheet name only
+        needs to be given with the first cell reference. The ending cell of
+        the range is assumed to be on the same worksheet if an explicit sheet
+        name is not specified. Note, however, that &ldquo;Sheet1!A1:Sheet3!C5&rdquo;
+        is a legitimate cell range description. It identifies a range three columns
+        wide and five rows deep on each of the worksheets from Sheet1 through Sheet3.
+        The preferred form of such a reference is &ldquo;Sheet1:Sheet3!A1:C5&rdquo;,
+        which is the form &gnum; will display if you subsequently edit the contents
+        of a cell containing such a reference.
       </para>
 
       <example id="simple-sheet-ref">
@@ -714,7 +747,7 @@ FUNCTIONNAME(ARGUMENTS)
         <programlisting>
 ='Sheet 0'!A1+'Sheet 3'!A5
 
-=SUM('Sheet 1'!A1:'Sheet 1'!A5)
+=SUM(Sheet1!A1:A5)
         </programlisting>
       </example>
 
@@ -726,9 +759,10 @@ FUNCTIONNAME(ARGUMENTS)
       <para>
         It is possible to reference cells in other files. The
         canonical form for these references is
-        =[filename]SHEETNAME!CELLLIST. Note that, even if the name of the file
-        contains spaces, you may not surround the filename with
-        quotes, since these quotes would be interpreted as part of the filename.
+        [<emphasis role="italic">filename</emphasis>]SHEETNAME!CELLLIST.
+        The square brackets serve to quote <emphasis role="italic">filename</emphasis>,
+        so you should use quotation marks only if they are actually part of the file name.
+        Note that the sheet name must be present in references of this form.
       </para>
 
       <example id="simple-file-ref">

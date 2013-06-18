@@ -32,6 +32,8 @@ Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]
 	* Update documentation for comments and hyperlinks. [#700797]
 	* Consolidate comment, hyperlinks, names documentation.
+	* Update documentation for Manage Sheets, R1C1 notation,
+	  sheet ranges. 1.12 updates, typo corrections, misc. cleanup.
 
 Dmitry Smirnov:
 	* Fixes to the gnumeric and ssconvert manual pages.

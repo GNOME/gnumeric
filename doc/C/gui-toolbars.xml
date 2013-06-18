@@ -47,9 +47,9 @@
     <title>General Toolbar Behavior</title>
     
     <para>
-      The toolbar context menu described in <xref linkend="menu-context-sheet-tabs" />
+      The toolbar context menu described in <xref linkend="menu-context-toolbars" />
       can be used to determine where each toolbar (above the sheets, to the left of the
-      sheets, or to the right of the sheets) is being displayed. The
+      sheets, or to the right of the sheets) is displayed. The
       <guimenuitem>Toolbars</guimenuitem> submenu of the <guimenu>View</guimenu>
       menu (see <xref linkend="View-Menu"/>) can be used to determine which toolbars are
       visible.

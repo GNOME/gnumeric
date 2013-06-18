@@ -1,13 +1,13 @@
 <sect1 id="sect-worksheets-overview">
-  <title>Overview</title>
+  <title>Worksheet Overview</title>
 
   <para>
     Worksheets contain the elements, such as the cell grid area, which
     provide the principal work entities for &gnum; users. The
     worksheet grid area allows users to enter data, develop analyses
     of these data, and display both data and results. Worksheets also
-    contain graphical elements such as graphs and widgets. The
-    worksheets are themselves grouped into a workbook which will be
+    contain graphical elements such as graphs and widgets.
+    Worksheets are grouped into a workbook which is
     stored in a &gnum; file. The manipulation of workbooks is
     explained in <xref linkend="sect-workbooks"/> while the material
     below explains the manipulation of worksheets.
@@ -119,13 +119,13 @@
     A worksheet is created with the number of rows and columns specified
     by the preference setting that can be adjusted on the <guilabel>Windows
   </guilabel> tab of the Preference Dialog (see  <xref
-    linkend="sect-configuration-preferences-windows"/>);
+    linkend="sect-configuration-preferences-windows"/>).
   </para>
   <note>
     <para>
-      The maximum number of supported rows in a sheet is 16,777,216 and the
-      maximum number of supported columns is 16384. The numbers of rows and
-      columns of a sheet must always be powers of 2.
+      The maximum number of rows in a sheet is 16,777,216 and the
+      maximum number of columns is 16384. The dimensions of a sheet
+      can only be set to powers of 2.
     </para>
   </note>
   <para>
@@ -139,117 +139,63 @@
 
 
   <sect2 id="sect-worksheets-display-appearance">
-    <title>Appearance</title>
+    <title>Worksheet Appearance</title>
 
     <para>
-      
+      A number of aspects of how a worksheet is displayed in the cell grid
+      can be modified. To adjust the display of formulas or results, A1 or R1C1
+      notation for cell references, how cells with a value of zero are displayed,
+      the presence or absence of grid lines or row or column headers, or whether
+      columns are ordered left to right or right to left, see the description
+      of the <xref linkend="format-menu-sheet" /> submenu.
     </para>
 
-    <sect3 id="sect-worksheets-display-appearance-cell">
-      <title>The cell content appearance</title>
+  </sect2>
+
+
+  <sect2 id="sect-worksheets-display-appearance-book">
+    <title>Workbook Appearance</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+
+    <sect3 id="sect-worksheets-display-appearance-book-zoom">
+      <title>Zoom: Changing the Scale of a Sheet</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+    </sect3>
+
+
+    <sect3 id="sect-worksheets-display-appearance-book-full">
+      <title>Full Screen Mode</title>
 
       <para>
         This section has not yet been written.
       </para>
 
-      <sect4 id="sect-worksheets-display-appearance-cell-formulas">
-        <title>Displaying Formulas or Results</title>
-
-        <para>
-          This section has not yet been written.
-        </para>
-
-      </sect4>
-
-      <sect4 id="sect-worksheets-display-appearance-zeros">
-        <title>Displaying Zeros or Blank cells</title>
-
-        <para>
-          This section has not yet been written.
-        </para>
-
-      </sect4>
-
     </sect3>
 
-
-
-    <sect3 id="sect-worksheets-display-appearance-grid">
-      <title>The grid area appearance</title>
+    <sect3 id="sect-worksheets-display-appearance-tabs">
+      <title>Displaying Workbook Tabs</title>
 
       <para>
         This section has not yet been written.
       </para>
 
-      <sect4 id="sect-worksheets-display-appearance-grid-lines">
-        <title>Displaying Gridlines</title>
-
-        <para>
-          This section has not yet been written.
-        </para>
-
-      </sect4>
-
-      <sect4 id="sect-worksheets-display-appearance-grid-headers">
-        <title>Displaying Row and Column Headers</title>
-
-        <para>
-          This section has not yet been written.
-        </para>
-
-      </sect4>
-
     </sect3>
 
-
-
-    <sect3 id="sect-worksheets-display-appearance-book">
-      <title>The workbook appearance</title>
+    <sect3 id="sect-worksheets-display-appearance-scroolbars">
+      <title>Displaying Grid Area Scrollbars</title>
 
       <para>
         This section has not yet been written.
       </para>
 
-
-      <sect4 id="sect-worksheets-display-appearance-book-zoom">
-        <title>Zoom: Changing the Scale of a View</title>
-
-        <para>
-          This section has not yet been written.
-        </para>
-      </sect4>
-
-
-      <sect4 id="sect-worksheets-display-appearance-book-full">
-        <title>Full Screen Mode</title>
-
-        <para>
-          This section has not yet been written.
-        </para>
-
-      </sect4>
-
-      <sect4 id="sect-worksheets-display-appearance-tabs">
-        <title>Displaying Workbook Tabs</title>
-
-        <para>
-          This section has not yet been written.
-        </para>
-
-      </sect4>
-
-      <sect4 id="sect-worksheets-display-appearance-scroolbars">
-        <title>Displaying Grid Area Scrollbars</title>
-
-        <para>
-          This section has not yet been written.
-        </para>
-
-      </sect4>
-
     </sect3>
-
-
 
   </sect2>
 
@@ -337,146 +283,385 @@
   <title>Managing Worksheets</title>
 
   <para>
-   
+    This section discusses functions that manipulate worksheets as a whole,
+    rather than their contents.
   </para>
 
-  <para>
-    This section has not yet been written.
-  </para>
 
-  <sect2 id="sect-worksheets-managing-process">
-    <title>Alternative Approaches</title>
+  <sect2 id="sect-worksheets-managing-process-menu">
+    <title>Worksheets and the Menubar</title>
 
     <para>
-      This section has not yet been written.
+      &gnum; provides a number of options for manipulating worksheets as a whole,
+      rather than the contents of the worksheets. These operations are documented
+      in the later section <xref linkend="sect-worksheets-managing-process-contextmenu" />.
+      In addition to the worksheet tab context menu and the <guimenuitem>Sheet</guimenuitem>
+      submenu of the <guimenu>Edit</guimenu> menu, some of these operations are also
+      available from other menus:
     </para>
 
+    <itemizedlist>
+      <listitem>
+        <para>
+          The <guilabel>Insert</guilabel> function is also available as
+          <guimenuitem>Sheet</guimenuitem> on the <guimenu>Insert</guimenu> menu.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          The <guilabel>Rename</guilabel> and <guilabel>Manage Sheets</guilabel>
+          dialogs are also available on the
+          <guimenuitem>Format&nbsp;&#9654; Sheet</guimenuitem> submenu.
+        </para>
+      </listitem>
+    </itemizedlist>
 
-
-    <sect3 id="sect-worksheets-managing-process-menu">
-      <title>Using the menu</title>
-
-      <para>
-        This section has not yet been written.
-      </para>
-
-    </sect3>
-
-
-
-
-    <sect3 id="sect-worksheets-managing-process-mouse">
-      <title>Using the mouse</title>
-
-      <para>
-        This section has not yet been written.
-      </para>
-
-    </sect3>
-
-
-
-
-    <sect3 id="sect-worksheets-managing-process-contextmenu">
-      <title>Using the context menu</title>
-
-      <para>
-        This section has not yet been written.
-      </para>
-
-    </sect3>
-
-
-
-
-    <sect3 id="sect-worksheets-managing-process-dialog">
-      <title>Using the sheet management dialog</title>
-
-      <para>
-        This section has not yet been written.
-      </para>
-
-    </sect3>
-
+    <para>
+      In addition to worksheet manipulation, &gnum; provides the ability to
+      control various aspects of how or whether a worksheet is displayed in
+      the cell grid. Several such controls are included in the
+      <xref linkend="sect-worksheets-managing-process-dialog" />, described
+      in a later section. Other worksheet display controls are located in
+      the <xref linkend="format-menu-sheet" /> submenu, which are described there.
+    </para>
 
   </sect2>
 
 
+  <sect2 id="sect-worksheets-managing-process-contextmenu">
+    <title>Worksheet Tab Context Menu</title>
+
+    <para>
+      Except for the addition of the two <guimenuitem>Select</guimenuitem>
+      submenus, which appear only on the context menu, this is the same as
+      the <guimenuitem>Edit&nbsp;&#9654; Sheet</guimenuitem> submenu.
+      The <guimenuitem>Manage sheets...</guimenuitem> dialog is discussed in
+      <xref linkend="sect-worksheets-managing-process-dialog" />, which
+      follows the description of the context menu.
+    </para>
+
+    <figure id="menu-context-sheet-tabs.png">
+      <title>The Context Menu for Worksheet Tabs</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/menu-context-sheet-tabs.png" />
+          </imageobject>
+          <textobject>
+            <phrase>An image of the context menu of the worksheet tabs.</phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            <guimenuitem>Insert</guimenuitem> &mdash; Select this menu
+            item to insert a new, empty worksheet ahead of the current worksheet.
+            The new worksheet is the same size as the current one.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guimenuitem>Append</guimenuitem> &mdash; Select this menu
+            item to add a new, empty worksheet at the end of the existing
+            worksheets.
+            The new worksheet has the default size, which can be set in the
+            <guilabel>Gnumeric Preferences</guilabel> dialog in the
+            &ldquo;Windows&rdquo; tab.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guimenuitem>Duplicate</guimenuitem> &mdash; Select this menu
+            item to add a copy of the selected worksheet immediately after the
+            selected worksheet.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guimenuitem>Remove</guimenuitem> &mdash; Select this menu
+            item to delete the selected worksheet.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guimenuitem>Rename</guimenuitem> &mdash; Select this menu
+            item to access the <guilabel>Rename Sheet</guilabel> dialog,
+            which lets you change the name of a single worksheet. To
+            rename more than one worksheet, the
+            <guilabel>Manage Sheets</guilabel> dialog may be more convenient.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guimenuitem>Resize...</guimenuitem> &mdash; Select this menu
+            item to access the <guilabel>Resize Sheet</guilabel> dialog.
+            Use the sliders to adjust the size of the sheet, then click
+            <guilabel>OK</guilabel>.
+            Worksheet dimensions are restricted to powers of two.
+            By default the
+            <guilabel>Resize Sheet</guilabel> dialog changes the sizes of
+            all worksheets in the current workbook. To change the size
+            of a single worksheet, clear the check mark next to <guilabel>Apply
+            change to all sheets</guilabel> before clicking <guilabel>OK</guilabel>.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guimenuitem>Select</guimenuitem> and
+            <guimenuitem>Select (sorted)</guimenuitem> &mdash; Select one of these
+            menu items to access a menu of worksheet names. Click on one of the
+            names to select that worksheet. The displayed tabs are adjusted
+            so that the selected worksheet's tab is visible, and the selected
+            worksheet is displayed in the cell grid.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+
+  </sect2>
 
 
+  <sect2 id="sect-worksheets-managing-process-dialog">
+    <title>Manage Sheets dialog</title>
 
+    <para>
+      The <guilabel>Manage Sheets</guilabel> dialog can be accessed
+      from the worksheet tab context menu, from the
+      <guimenuitem>Edit&nbsp;&#9654; Sheet</guimenuitem> submenu, or
+      from the <guimenuitem>Format&nbsp;&#9654; Sheet</guimenuitem> submenu.
+    </para>
+
+    <figure id="worksheet-managing-dialog.png">
+      <title><guimenu>Manage Sheets</guimenu> dialog</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/worksheet-managing-dialog.png" />
+          </imageobject>
+          <textobject>
+            <phrase>An image of the Tools menu.</phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <para>
+      The worksheets contained in the current workbook are listed in the
+      upper left portion of the dialog. When <guilabel>Show advanced sheet
+      properties</guilabel> is enabled, the <guilabel>Dir</guilabel>,
+      <guilabel>Rows</guilabel>, and <guilabel>Cols</guilabel> fields are included.
+      A worksheet can be selected by clicking anywhere in in its line, although
+      clicking one of the icons will toggle its associated property along with
+      selecting the worksheet.
+      Multiple selection, using the <keysym>Shift</keysym> and <keysym>Ctrl</keysym>
+      keys, can be used to operate on more than one worksheet at a time.
+      The current worksheet shown in the cell grid tracks the selected worksheet
+      in this dialog.
+      That is, selecting a single worksheet from the list also causes that
+      worksheet to be displayed in the cell grid.
+      When more than one worksheet is selected in the list, the first one in
+      the list is set as the current worksheet in the cell grid.
+      Some operations are not available when more than one worksheet is
+      selected.
+      The buttons for those operations are dimmed when they are unavailable.
+    </para>
+    <para>
+      The <guilabel>Lock</guilabel> column of the list shows an icon to indicate whether
+      the worksheet is locked,
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="figures/icon-locked.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <para>Locked icon</para>
+        </textobject>
+      </inlinemediaobject>
+      , or unlocked,
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="figures/icon-unlocked.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <para>Unlocked icon</para>
+        </textobject>
+      </inlinemediaobject>
+      . Click on the displayed icon to toggle the sheet's lock status.
+      Locking a worksheet prevents accidental modification of the data on
+      that worksheet.
+    </para>
+    <para>
+      The <guilabel>Viz</guilabel> column of the list shows an icon,
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="figures/icon-visible.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <para>Visible icon</para>
+        </textobject>
+      </inlinemediaobject>
+      , if the worksheet is currently visible. The <guilabel>Viz</guilabel> column
+      is blank if the worksheet is not visible.
+      Click in this column to toggle the worksheet's visibility.
+      When the visibility attribute is turned off, the worksheet does not get a
+      tab at the bottom of the &gnum; window.
+      Its data is preserved, and references to cells on the non-visible
+      sheet continue to access the expected values.
+      Note that a non-visible worksheet cannot be selected from the list, although
+      the active fields in the list continue to function.
+      To apply functions that require selecting the worksheet, such as
+      <guilabel>Insert</guilabel> or <guilabel>Remove</guilabel>, first click in
+      the <guilabel>Viz</guilabel> column to make it visible.
+    </para>
+    <para>
+      The <guilabel>Dir</guilabel> column of the list shows a right-pointing or
+      left-pointing arrow, depending on whether the sheet is currently set to
+      be displayed left-to-right or right-to-left.
+      Click on the arrow to toggle a worksheet's display direction.
+    </para>
+    <para>
+      The <guilabel>Rows</guilabel> and <guilabel>Cols</guilabel> columns show
+      the current size of each worksheet.
+      Worksheet size cannot be adjusted here.
+    </para>
+    <para>
+      To change the name of a worksheet, click in its <guilabel>New Name</guilabel>
+      field until the contents of the field, if any, are highlighted, then type the
+      desired new name and press <keysym>Enter</keysym>. If the new name duplicates
+      a name already in use, a warning is displayed. You can change the new name
+      or you can assign a new name to the other worksheet with that name.
+      Name changes are not applied immediately. Instead, &gnum; waits until you
+      click on the <guilabel>Apply Name Changes</guilabel> button and makes all
+      the name changes at once. When you apply the name changes, &gnum; automatically
+      updates all cell references that include worksheet names to use the new names.
+    </para>
+    <para>
+      The worksheets can be re-ordered in the workbook by pressing the left mouse
+      button in a worksheet's line and dragging it up or down in the list of
+      worksheets.
+      You can also select a single worksheet and then click on the <guilabel>Up</guilabel>
+      or <guilabel>Down</guilabel> button to move it up or down in the list.
+      Alternatively, you can sort the worksheets into ascending or descending
+      order by name by clicking on the <guilabel>Ascending</guilabel> or
+      <guilabel>Descending</guilabel> button.
+    </para>
+    <para>
+      You can add an empty worksheet by clicking on <guilabel>Insert</guilabel>, to
+      add the worksheet ahead of the selected worksheet, or on <guilabel>Append</guilabel>,
+      to add the worksheet after the last sheet in the list.
+      <guilabel>Insert</guilabel> creates a new worksheet the same size as the
+      currently selected worksheet, while <guilabel>Append</guilabel> creates a
+      new worksheet of the default size.
+    </para>
+    <para>
+      Click on <guilabel>Remove</guilabel> to delete the currently selected worksheet
+      or worksheets.
+    </para>
+    <para>
+      Click on <guilabel>Duplicate</guilabel> to add an exact copy of the selected
+      worksheet to the list immediately following the selected sheet.
+      The name of the new worksheet is the same as the name of the duplicated
+      worksheet, but with &ldquo;(<emphasis role="italic">n</emphasis>)&rdquo;
+      appended, where <emphasis role="italic">n</emphasis> is the smallest
+      integer greater than 1 that produces a unique worksheet name.
+      If the worksheet name already ends in
+      &ldquo;(<emphasis role="italic">n</emphasis>)&rdquo;, nothing is
+      appended. Instead, the value of <emphasis role="italic">n</emphasis>
+      is increased to the smallest value that produces a unique worksheet name.
+    </para>
+    <para>
+      To change the background color of the tabs for the selected worksheets,
+      click on the background color fill button,
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="figures/button-fill.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <para>Background color button</para>
+        </textobject>
+      </inlinemediaobject>
+      to set the background color to the color shown below the bucket icon, or
+      click on the downward-pointing arrow to access the color selection dialog.
+    </para>
+    <para>
+      Similarly, to change the color of the text in the tabs of the selected worksheets,
+      click on the text color button,
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="figures/button-text-colour.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <para>Text color button</para>
+        </textobject>
+      </inlinemediaobject>
+      to set the text color to the color shown below the character icon, or
+      click on the downward-pointing arrow to access the color selection dialog.
+    </para>
+
+  </sect2>
 
 
   <sect2 id="sect-worksheets-managing-adding">
     <title>Adding a Blank Worksheet</title>
 
     <para>
-      This section has not yet been written.
+      A new, empty worksheet can be added to a workbook by insertion ahead of the
+      worksheet currently displayed in the cell grid or by appending one after
+      the last worksheet.
     </para>
-
-  </sect2>
-
-
-
-  <sect2 id="sect-worksheets-managing-duplicating">
-    <title>Duplicating a Worksheet</title>
-
     <para>
-      This section has not yet been written.
+      A new worksheet can be inserted ahead of the current worksheet by selecting
+      <guimenuitem>Sheet</guimenuitem> from the <guimenuitem>Insert</guimenuitem>
+      menu or <guimenuitem>Insert</guimenuitem> from the worksheet tab context menu
+      or by using the <guilabel>Insert</guilabel>
+      function of the <guilabel>Manage Sheets</guilabel> dialog described above.
+      The new worksheet will be the same size as the one currently displayed.
+    </para>
+    <para>
+      A new worksheet can be added to the end of the list by selecting
+      <guimenuitem>Append</guimenuitem> from the worksheet tab context menu or
+      by using the <guilabel>Append</guilabel>
+      function of the <guilabel>Manage Sheets</guilabel> dialog described above.
+      The new worksheet will be the default size.
     </para>
 
   </sect2>
-
 
 
   <sect2 id="sect-worksheets-managing-copyPaste">
     <title>Copying or Pasting a Worksheet</title>
 
     <para>
-      This section has not yet been written.
+      &gnum; does not directly support copying and pasting of worksheets,
+      however copying blocks of cells provides a very similar function. For example,
+      to replace the contents of worksheet Sheet3 with the contents of Sheet1,
+      begin by selecting the worksheet tab for Sheet1. Select all the cells
+      in Sheet1 by clicking on the blank rectangle at the top of the row headers,
+      to the left of the column headers, or by selecting <guimenuitem>Select&nbsp;&#9654; All</guimenuitem>
+      from the <guilabel>Edit</guilabel> menu. Next use <guimenuitem>Edit&nbsp;&#9654; Copy</guimenuitem>
+      or <guimenuitem>Edit&nbsp;&#9654; Cut</guimenuitem> to copy the worksheet contents
+      to the clipboard, depending on whether you want to copy or move the information.
+      Select the worksheet tab for Sheet3 and select cell A1 or the entire worksheet,
+      then use <guimenuitem>Paste</guimenuitem> or <guimenuitem>Paste Special</guimenuitem>
+      from the <guilabel>Edit</guilabel> menu to copy the contents of Sheet1 into Sheet3.
     </para>
-
-  </sect2>
-
-
-
-  <sect2 id="sect-worksheets-managing-renaming">
-    <title>Renaming a Worksheet</title>
-
+    <warning><para>
+      Use of <guilabel>Paste Link</guilabel> in the <guilabel>Paste Special</guilabel>
+      dialog should be avoided when operating on whole worksheets, as it creates links
+      to every selected cell in the first worksheet, 16,777,216 cells in a worksheet of
+      the default size, and has no option to skip empty cells in the first worksheet.
+    </para></warning>
     <para>
-      This section has not yet been written.
+      A similar operation can be performed using the <guilabel>Manage Sheets</guilabel> dialog.
+      Duplicate the worksheet to be copied, then move the copy to precede or follow
+      the worksheet it is to replace. Delete the second worksheet and rename the copy.
+      This operation is similar to the copy and paste technique described above,
+      but this method also copies metadata, such as the display appearance controlled
+      by the <guimenuitem>Format&nbsp;&#9654; Sheet</guimenuitem> submenu.
     </para>
-
-  </sect2>
-
-
-  <sect2 id="sect-worksheets-managing-reorder">
-    <title>Reordering Worksheets in a Workbook</title>
-
-    <para>
-      This section has not yet been written.
-    </para>
-
-  </sect2>
-
-
-  <sect2 id="sect-worksheets-managing-tabAppearance">
-    <title>Changing the appearance of Worksheet Tabs</title>
-
-    <para>
-      This section has not yet been written.
-    </para>
-
-  </sect2>
-
-
-  <sect2 id="sect-worksheets-managing-removing">
-    <title>Deleting Worksheets</title>
-
-    <para>
-      This section has not yet been written.
-    </para>
-
 
   </sect2>
 

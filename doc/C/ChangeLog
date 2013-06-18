@@ -1,3 +1,18 @@
+2013-06-17   Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Darrell Tangman <dgtangman@acm.org>
+
+	* data-types.xml: Document R1C1 format cell references.
+	  Describe sheet range references. Other minor updates.
+	* gui-menus.xml: Updates for 1.12. Link to Manage Sheets dialog.
+	* gui-toolbars.xml: Fix misdirected xref link.
+	* quick-start.xml: Updates for 1.12. Other minor updates.
+	* worksheets.xml: Document the Manage Sheets dialog.
+	* figures/icon-locked.png: New
+	* figures/icon-unlocked.png: New
+	* figures/icon-visible.png: New
+	* figures/worksheet-managing-dialog.png: New
+	* figures/Makefile.am: Include the above.
+
 2013-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* graphics-plots.xml: fix entity usage
@@ -36,7 +51,7 @@
 	* figures/menu-edit-modify-names.png: Update
 	* figures/menu-insert-comment.png: New
 	* figures/menu-insert-hyperlink.png: New
-	* Makefile.am: Include the above.
+	* figures/Makefile.am: Include the above.
 
 2013-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Darrell Tangman <dgtangman@acm.org>
