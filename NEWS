@@ -26,7 +26,8 @@ Andreas:
 	* Fix crash on corrupted files.  [#702205] [#702219] [#702285]
 	  [#702288] [#702364] [#702409] [#702486] [#702485] [#702498] [#702322]
 	* Some documentation improvements. [Debian #621735] [Debian #530462]
-	* Fix crash on xlsx import due to external references. [#702407] 
+	* Fix crash on xlsx import due to external references. [#702407]
+	* Fix reading of conditional formats from xls files. [#702612]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]

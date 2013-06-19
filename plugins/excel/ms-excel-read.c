@@ -5142,11 +5142,11 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 }
 
 static void
-excel_read_CF_border (GnmStyleCond *cond, ExcelReadSheet *esheet,
+excel_read_CF_border (GnmStyle *style, ExcelReadSheet *esheet,
 		      GnmStyleBorderLocation type,
 		      unsigned xl_pat_index, unsigned xl_color_index)
 {
-	gnm_style_set_border (cond->overlay, GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (type),
+	gnm_style_set_border (style, GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (type),
 			      gnm_style_border_fetch (biff_xf_map_border (xl_pat_index),
 						      excel_palette_get (esheet->container.importer,
 									 xl_color_index),
@@ -5322,19 +5322,19 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		guint16 patterns = GSF_LE_GET_GUINT16 (q->data + offset);
 		guint32 colours  = GSF_LE_GET_GUINT32 (q->data + offset + 2);
 		if (0 == (flags & 0x0400))
-			excel_read_CF_border (cond, esheet, GNM_STYLE_BORDER_LEFT,
+			excel_read_CF_border (overlay, esheet, GNM_STYLE_BORDER_LEFT,
 					      (patterns >>  0) & 0xf,
 					      (colours  >>  0) & 0x7f);
 		if (0 == (flags & 0x0800))
-			excel_read_CF_border (cond, esheet, GNM_STYLE_BORDER_RIGHT,
+			excel_read_CF_border (overlay, esheet, GNM_STYLE_BORDER_RIGHT,
 					      (patterns >>  4) & 0xf,
 					      (colours  >>  7) & 0x7f);
 		if (0 == (flags & 0x1000))
-			excel_read_CF_border (cond, esheet, GNM_STYLE_BORDER_TOP,
+			excel_read_CF_border (overlay, esheet, GNM_STYLE_BORDER_TOP,
 					      (patterns >>  8) & 0xf,
 					      (colours  >> 16) & 0x7f);
 		if (0 == (flags & 0x2000))
-			excel_read_CF_border (cond, esheet, GNM_STYLE_BORDER_BOTTOM,
+			excel_read_CF_border (overlay, esheet, GNM_STYLE_BORDER_BOTTOM,
 					      (patterns >> 12) & 0xf,
 					      (colours  >> 23) & 0x7f);
 

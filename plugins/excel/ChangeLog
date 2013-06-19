@@ -1,3 +1,10 @@
+2013-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-read.c (excel_read_CF_border): change GnmStyleCond
+	argument to GnmStyle
+	(excel_read_CF): pass the overlay not the empty condition to
+	excel_read_CF_border
+
 2013-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (xlsx_workbook_dtd): avoid duplication
