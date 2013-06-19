@@ -1,3 +1,7 @@
+2013-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_workbook_dtd): avoid duplication
+
 2013-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (xlsx_validation_expr): check for null validation;
