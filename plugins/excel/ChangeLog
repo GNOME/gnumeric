@@ -1,3 +1,7 @@
+2013-06-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_pattern): set a default pattern
+
 2013-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-read.c (excel_read_CF_border): change GnmStyleCond

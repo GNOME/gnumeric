@@ -4135,6 +4135,18 @@ xlsx_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int val = 0; /* none */
 
+	/* we are setting a default pattern of solid, see bug #702615 */
+	/* Note that this conflicts with ECMA 376: "This element is used
+	   to specify cell fill information for pattern and solid color
+	   cell fills. For solid cell fills (no pattern), fgColor is used.
+	   For cell fills with patterns specified, then the cell fill color
+	   is specified by the bgColor element." */
+	/* As the above bug report shows Excel 2010 creates: */
+	/* <dxf><font><color rgb="FF9C0006"/></font><fill><patternFill>
+	   <bgColor rgb="FFFFC7CE"/></patternFill></fill></dxf> */
+
+	gnm_style_set_pattern (state->style_accum, 1);
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_enum (xin, attrs, "patternType", patterns, &val))
 			gnm_style_set_pattern (state->style_accum, val);
