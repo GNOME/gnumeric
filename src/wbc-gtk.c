@@ -2464,10 +2464,11 @@ show_gui (WBCGtk *wbcg)
 	int sx, sy;
 	gdouble fx, fy;
 	GdkRectangle rect;
+	GdkScreen *screen = wbcg_get_screen (wbcg);
 
 	/* In a Xinerama setup, we want the geometry of the actual display
 	 * unit, if available. See bug 59902.  */
-	gdk_screen_get_monitor_geometry (wbcg_get_screen (wbcg), 0, &rect);
+	gdk_screen_get_monitor_geometry (screen, 0, &rect);
 	sx = MAX (rect.width, 600);
 	sy = MAX (rect.height, 200);
 
@@ -2484,8 +2485,8 @@ show_gui (WBCGtk *wbcg)
 		   wbv != NULL &&
 		   (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
 		/* Set grid size to preferred width */
-		int pwidth = wbv->preferred_width;
-		int pheight = wbv->preferred_height;
+		int pwidth = MIN(wbv->preferred_width, gdk_screen_get_width (screen));
+		int pheight = MIN(wbv->preferred_height, gdk_screen_get_height (screen));
 		GtkRequisition requisition;
 
 		pwidth = pwidth > 0 ? pwidth : -1;

@@ -1,3 +1,8 @@
+2013-06-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk.c (show_gui): protect against excessively large
+	preferred widow sizes
+
 2013-06-14  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-graph.c (dim_start): Don't crash on NULL desc.
