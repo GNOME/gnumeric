@@ -1,3 +1,8 @@
+2013-06-20  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-read.c (xl2010_synonyms): Map new function names to
+	the ones we used.
+
 2013-06-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (xlsx_pattern): set a default pattern

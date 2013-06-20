@@ -470,6 +470,40 @@ ExcelFuncDesc const excel_func_desc [] = {
 int excel_func_desc_size = G_N_ELEMENTS (excel_func_desc);
 GHashTable *excel_func_by_name = NULL;
 
+static GnmFunc *
+xl2010_synonyms (const char *name)
+{
+	Workbook *wb = NULL;
+	static const struct {
+		const char *newname;
+		const char *oldname;
+	} names[] = {
+		{ "chisq.test", "chitest" },
+		{ "confidence.norm", "confidence" },
+		{ "covariance.p", "covar" },
+		{ "f.test", "ftest" },
+		{ "mode.sngl", "mode" },
+		{ "percentile.inc", "percentile" },
+		{ "percentrank.inc", "percentrank" },
+		{ "quartile.inc", "quartile" },
+		{ "rank.eq", "rank" },
+		{ "stdev.p", "stdevp" },
+		{ "stdev.s", "stdev" },
+		{ "t.test", "ttest" },
+		{ "var.p", "varp" },
+		{ "var.s", "var" },
+		{ "z.test", "ztest" }
+	};
+	unsigned ui;
+
+	for (ui = 0; ui < G_N_ELEMENTS (names); ui++)
+		if (g_ascii_strcasecmp (name, names[ui].newname) == 0)
+			return gnm_func_lookup (names[ui].oldname, wb);
+
+	return NULL;
+}
+
+
 static GnmExpr const *
 xl_expr_err (ExcelReadSheet const *esheet, int col, int row,
 	     char const *msg, char const *str)
@@ -658,10 +692,13 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 
 		name = NULL;
 
-		if (g_str_has_prefix (f_name, "_xlfn.") &&
-		    (name = gnm_func_lookup (f_name + 6, wb))) {
-			/* This happens for IFERROR, for example. */
-			f_name += 6;
+		if (g_str_has_prefix (f_name, "_xlfn.")) {
+			name = gnm_func_lookup (f_name + 6, wb);
+			if (name)
+				/* This happens for IFERROR, for example. */
+				f_name += 6;
+			else
+				name = xl2010_synonyms (f_name + 6);
 		} else if (g_str_has_prefix (f_name, "_xlfnodf.") &&
 			   (name = gnm_func_lookup (f_name + 9, wb))) {
 			/* This happens for GAMMA, for example. */
