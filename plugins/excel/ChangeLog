@@ -6,6 +6,14 @@
 2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-utils.c (XLSXExprConventions): add field
+	(xlsx_func_map_in): chcek and use handler
+	(xlsx_func_binominv_handler): new
+	(xlsx_conventions_new): initialize xlfn_handler_map
+	(xlsx_conventions_free): free the hash here
+
+2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-utils.c (XLSXExprConventions): add field
 	(xlsx_func_map_in): do not initialize xlfn_map here
 	(xlsx_conventions_new): but here
 	(xlsx_conventions_free): free the hash here.

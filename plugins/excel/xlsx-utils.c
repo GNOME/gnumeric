@@ -43,6 +43,7 @@ typedef struct {
 	GHashTable *extern_id_by_wb;
 	GHashTable *extern_wb_by_id;
 	GHashTable *xlfn_map;
+	GHashTable *xlfn_handler_map;
 } XLSXExprConventions;
 
 static void
@@ -129,6 +130,8 @@ xlsx_func_map_in (GnmConventions const *convs,
 		  char const *name, GnmExprList *args)
 {
 	XLSXExprConventions const *xconv = (XLSXExprConventions const *)convs;
+	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope, 
+				    GnmExprList *args);
 	GnmFunc  *f;
 	char const *new_name;
 	
@@ -138,6 +141,12 @@ xlsx_func_map_in (GnmConventions const *convs,
 			name = new_name;
 		else
 			name = name + 6;
+		handler = g_hash_table_lookup (xconv->xlfn_handler_map, name);
+		if (handler != NULL) {
+			GnmExpr const * res = handler (convs, scope, args);
+			if (res != NULL)
+				return res;
+		}
 	} else if (0 == g_ascii_strncasecmp (name, "_xlfnodf.", 9))
 		/* This should at most happen for ODF functions incorporated */
 		/* in an xlsx file, we should perform the appropriate translation! */
@@ -148,9 +157,31 @@ xlsx_func_map_in (GnmConventions const *convs,
 	return gnm_expr_new_funcall (f, args);	
 }
 
+static GnmExpr const *
+xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+/* BINOM.INV(a,b,c) --> R.QBINOM(c,a,b) */
+{
+	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("r.qbinom");
+	GSList *arg;
+	
+	arg = g_slist_nth (args, 2);
+	args = g_slist_remove_link (args, arg);
+	args = g_slist_concat (arg, args);
+
+	return gnm_expr_new_funcall (f, args);
+}
+
 GnmConventions *
 xlsx_conventions_new (void)
 {
+	static struct {
+		char const *gnm_name;
+		gpointer handler;
+	} const xlfn_func_handlers[] = {
+		{"BINOM.INV", xlsx_func_binominv_handler},
+		{NULL, NULL}
+	};
+	
 	static struct {
 		char const *xlsx_name;
 		char const *gnm_name;
@@ -208,6 +239,12 @@ xlsx_conventions_new (void)
 		g_hash_table_insert (xconv->xlfn_map,
 				     (gchar *) xlfn_func_renames[i].xlsx_name,
 				     (gchar *) xlfn_func_renames[i].gnm_name);
+	xconv->xlfn_handler_map = g_hash_table_new (go_ascii_strcase_hash,
+						    go_ascii_strcase_equal);
+	for (i = 0; xlfn_func_handlers[i].gnm_name; i++)
+		g_hash_table_insert (xconv->xlfn_handler_map,
+				     (gchar *) xlfn_func_handlers[i].gnm_name,
+				     xlfn_func_handlers[i].handler);
 	
 
 	return convs;
@@ -220,6 +257,7 @@ xlsx_conventions_free (GnmConventions *convs)
 	g_hash_table_destroy (xconv->extern_id_by_wb);
 	g_hash_table_destroy (xconv->extern_wb_by_id);
 	g_hash_table_destroy (xconv->xlfn_map);
+	g_hash_table_destroy (xconv->xlfn_handler_map);
 	gnm_conventions_unref (convs);
 }
 
