@@ -1,3 +1,8 @@
+2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-utils.c (xlsx_func_map_in): new
+	(xlsx_conventions_new): connect the above
+
 2013-06-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-formula-read.c (xl2010_synonyms): add more functions

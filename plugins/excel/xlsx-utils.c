@@ -36,6 +36,7 @@
 #include <goffice/goffice.h>
 #include <glib-object.h>
 #include <string.h>
+#include <expr.h>
 
 typedef struct {
 	GnmConventions base;
@@ -121,6 +122,73 @@ xlsx_conventions_add_extern_ref (GnmConventions *convs, char const *path)
 	return res;
 }
 
+static GnmExpr const *
+xlsx_func_map_in (G_GNUC_UNUSED GnmConventions const *convs, 
+		  G_GNUC_UNUSED Workbook *scope,
+		  char const *name, GnmExprList *args)
+{
+	static struct {
+		char const *xlsx_name;
+		char const *gnm_name;
+	} const xlfn_func_renames[] = {
+		{ "beta.inv", "betainv" },
+		{ "binom.dist", "binomdist" },
+		{ "chisq.dist.rt", "chidist" },
+		{ "chisq.inv.rt", "chiinv" },
+		{ "chisq.test", "chitest" },
+		{ "confidence.norm", "confidence" },
+		{ "covariance.p", "covar" },
+		{ "expon.dist", "expondist" },
+		{ "f.dist.rt", "fdist" },
+		{ "f.inv.rt", "finv" },
+		{ "f.test", "ftest" },
+		{ "gamma.dist", "gammadist" },
+		{ "gamma.inv", "gammainv" },
+		{ "mode.sngl", "mode" },
+		{ "percentile.inc", "percentile" },
+		{ "percentrank.inc", "percentrank" },
+		{ "quartile.inc", "quartile" },
+		{ "rank.eq", "rank" },
+		{ "stdev.p", "stdevp" },
+		{ "stdev.s", "stdev" },
+		{ "t.test", "ttest" },
+		{ "var.p", "varp" },
+		{ "var.s", "var" },
+		{ "z.test", "ztest" },
+		{ NULL, NULL }
+	};
+
+	static GHashTable *xlfn_map = NULL;
+
+	GnmFunc  *f;
+	char const *new_name;
+	int i;
+
+	if (NULL == xlfn_map) {
+		xlfn_map = g_hash_table_new (go_ascii_strcase_hash,
+					     go_ascii_strcase_equal);
+		for (i = 0; xlfn_func_renames[i].xlsx_name; i++)
+			g_hash_table_insert (xlfn_map,
+				(gchar *) xlfn_func_renames[i].xlsx_name,
+				(gchar *) xlfn_func_renames[i].gnm_name);
+	}
+	
+	if (0 == g_ascii_strncasecmp (name, "_xlfn.", 6)) {
+		if (NULL != xlfn_map &&
+		    NULL != (new_name = g_hash_table_lookup (xlfn_map, name + 6)))
+			name = new_name;
+		else
+			name = name + 6;
+	} else if (0 == g_ascii_strncasecmp (name, "_xlfnodf.", 9))
+		/* This should at most happen for ODF functions incorporated */
+		/* in an xlsx file, we should perform the appropriate translation! */
+		name = name + 9;
+
+	f = gnm_func_lookup_or_add_placeholder (name);
+
+	return gnm_expr_new_funcall (f, args);	
+}
+
 GnmConventions *
 xlsx_conventions_new (void)
 {
@@ -131,6 +199,7 @@ xlsx_conventions_new (void)
 	convs->decimal_sep_dot		= TRUE;
 	convs->input.range_ref		= rangeref_parse;
 	convs->input.external_wb	= xlsx_lookup_external_wb;
+	convs->input.func	        = xlsx_func_map_in;
 	convs->output.cell_ref		= xlsx_cellref_as_string;
 	convs->output.range_ref		= xlsx_rangeref_as_string;
 	convs->range_sep_colon		= TRUE;
