@@ -1,5 +1,12 @@
 2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-utils.c (XLSXExprConventions): add field
+	(xlsx_func_map_in): do not initialize xlfn_map here
+	(xlsx_conventions_new): but here
+	(xlsx_conventions_free): free the hash here.
+
+2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-utils.c (xlsx_func_map_in): new
 	(xlsx_conventions_new): connect the above
 

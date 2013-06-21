@@ -42,6 +42,7 @@ typedef struct {
 	GnmConventions base;
 	GHashTable *extern_id_by_wb;
 	GHashTable *extern_wb_by_id;
+	GHashTable *xlfn_map;
 } XLSXExprConventions;
 
 static void
@@ -75,7 +76,7 @@ xlsx_lookup_external_wb (GnmConventions const *convs,
 static void
 xlsx_cellref_as_string (GnmConventionsOut *out,
 			GnmCellRef const *cell_ref,
-			gboolean no_sheetname)
+			G_GNUC_UNUSED gboolean no_sheetname)
 {
 	Sheet const *sheet = cell_ref->sheet;
 
@@ -123,9 +124,32 @@ xlsx_conventions_add_extern_ref (GnmConventions *convs, char const *path)
 }
 
 static GnmExpr const *
-xlsx_func_map_in (G_GNUC_UNUSED GnmConventions const *convs, 
+xlsx_func_map_in (GnmConventions const *convs, 
 		  G_GNUC_UNUSED Workbook *scope,
 		  char const *name, GnmExprList *args)
+{
+	XLSXExprConventions const *xconv = (XLSXExprConventions const *)convs;
+	GnmFunc  *f;
+	char const *new_name;
+	
+	if (0 == g_ascii_strncasecmp (name, "_xlfn.", 6)) {
+		if (NULL != xconv->xlfn_map &&
+		    NULL != (new_name = g_hash_table_lookup (xconv->xlfn_map, name + 6)))
+			name = new_name;
+		else
+			name = name + 6;
+	} else if (0 == g_ascii_strncasecmp (name, "_xlfnodf.", 9))
+		/* This should at most happen for ODF functions incorporated */
+		/* in an xlsx file, we should perform the appropriate translation! */
+		name = name + 9;
+
+	f = gnm_func_lookup_or_add_placeholder (name);
+
+	return gnm_expr_new_funcall (f, args);	
+}
+
+GnmConventions *
+xlsx_conventions_new (void)
 {
 	static struct {
 		char const *xlsx_name;
@@ -156,45 +180,11 @@ xlsx_func_map_in (G_GNUC_UNUSED GnmConventions const *convs,
 		{ "var.s", "var" },
 		{ "z.test", "ztest" },
 		{ NULL, NULL }
-	};
-
-	static GHashTable *xlfn_map = NULL;
-
-	GnmFunc  *f;
-	char const *new_name;
-	int i;
-
-	if (NULL == xlfn_map) {
-		xlfn_map = g_hash_table_new (go_ascii_strcase_hash,
-					     go_ascii_strcase_equal);
-		for (i = 0; xlfn_func_renames[i].xlsx_name; i++)
-			g_hash_table_insert (xlfn_map,
-				(gchar *) xlfn_func_renames[i].xlsx_name,
-				(gchar *) xlfn_func_renames[i].gnm_name);
-	}
-	
-	if (0 == g_ascii_strncasecmp (name, "_xlfn.", 6)) {
-		if (NULL != xlfn_map &&
-		    NULL != (new_name = g_hash_table_lookup (xlfn_map, name + 6)))
-			name = new_name;
-		else
-			name = name + 6;
-	} else if (0 == g_ascii_strncasecmp (name, "_xlfnodf.", 9))
-		/* This should at most happen for ODF functions incorporated */
-		/* in an xlsx file, we should perform the appropriate translation! */
-		name = name + 9;
-
-	f = gnm_func_lookup_or_add_placeholder (name);
-
-	return gnm_expr_new_funcall (f, args);	
-}
-
-GnmConventions *
-xlsx_conventions_new (void)
-{
+	};	
 	GnmConventions *convs = gnm_conventions_new_full (
 		sizeof (XLSXExprConventions));
 	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;
+	int i;
 
 	convs->decimal_sep_dot		= TRUE;
 	convs->input.range_ref		= rangeref_parse;
@@ -212,6 +202,13 @@ xlsx_conventions_new (void)
 		(GDestroyNotify) g_object_unref, g_free);
 	xconv->extern_wb_by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
 		g_free, (GDestroyNotify) g_object_unref);
+	xconv->xlfn_map = g_hash_table_new (go_ascii_strcase_hash,
+					    go_ascii_strcase_equal);
+	for (i = 0; xlfn_func_renames[i].xlsx_name; i++)
+		g_hash_table_insert (xconv->xlfn_map,
+				     (gchar *) xlfn_func_renames[i].xlsx_name,
+				     (gchar *) xlfn_func_renames[i].gnm_name);
+	
 
 	return convs;
 }
@@ -222,6 +219,7 @@ xlsx_conventions_free (GnmConventions *convs)
 	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;
 	g_hash_table_destroy (xconv->extern_id_by_wb);
 	g_hash_table_destroy (xconv->extern_wb_by_id);
+	g_hash_table_destroy (xconv->xlfn_map);
 	gnm_conventions_unref (convs);
 }
 
