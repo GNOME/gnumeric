@@ -4762,7 +4762,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	state.num_fmts = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) go_format_unref);
 	state.date_fmt = xlsx_pivot_date_fmt ();
-	state.convs = xlsx_conventions_new ();
+	state.convs = xlsx_conventions_new (FALSE);
 	state.theme_colors_by_name = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, NULL);
 	/* fill in some default colors (when theme is absent */

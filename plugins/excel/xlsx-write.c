@@ -2472,7 +2472,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	xlsx_get_style_id (state, style);
 	gnm_style_unref (style);
 
-	state->convs	 = xlsx_conventions_new ();
+	state->convs	 = xlsx_conventions_new (TRUE);
 	state->chart.dir   = state->drawing.dir   = NULL;
 	state->chart.count = state->drawing.count = 0;
 

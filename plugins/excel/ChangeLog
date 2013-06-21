@@ -1,3 +1,16 @@
+2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-utils.h: remove duplicates
+	(xlsx_conventions_new): add argument
+	* xlsx-read.c (xlsx_file_open): add argument to
+	xlsx_conventions_new
+	* xlsx-write.c (xlsx_write_workbook): ditto
+	* xlsx-utils.c (xlsx_func_map_in): recognize our own functions
+	(xlsx_func_map_out): new
+	(xlsx_func_binominv_output_handler): new
+	(xlsx_conventions_new): add argument and initialize
+	output hashes and function translator
+
 2013-06-21  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-read.c (make_function): Eliminate typo.  Fixes

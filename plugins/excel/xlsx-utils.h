@@ -51,14 +51,11 @@ enum {
 #define XLSX_MaxCol	16384
 #define XLSX_MaxRow	1048576
 
-GnmConventions	*xlsx_conventions_new  (void);
+GnmConventions	*xlsx_conventions_new  (gboolean output);
 void		 xlsx_conventions_free (GnmConventions *conv);
 Workbook	*xlsx_conventions_add_extern_ref (GnmConventions *conv,
 						  char const *path);
-GnmConventions *xlsx_conventions_new  (void);
-void		xlsx_conventions_free (GnmConventions *conv);
-
-GOFormat       *xlsx_pivot_date_fmt   (void);
+GOFormat        *xlsx_pivot_date_fmt   (void);
 
 GOGradientDirection xlsx_get_gradient_direction (double ang);
 

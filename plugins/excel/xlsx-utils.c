@@ -32,6 +32,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "func.h"
+#include <expr-impl.h>
 #include "gnm-format.h"
 #include <goffice/goffice.h>
 #include <glib-object.h>
@@ -151,11 +152,48 @@ xlsx_func_map_in (GnmConventions const *convs,
 		/* This should at most happen for ODF functions incorporated */
 		/* in an xlsx file, we should perform the appropriate translation! */
 		name = name + 9;
+	else if (0 == g_ascii_strncasecmp (name, "_xlfngnumeric.", 9))
+		/* These are Gnumeric's own functions */
+		name = name + 14;
 
 	f = gnm_func_lookup_or_add_placeholder (name);
 
 	return gnm_expr_new_funcall (f, args);	
 }
+
+static void
+xlsx_func_map_out (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+	XLSXExprConventions const *xconv = (XLSXExprConventions const *)(out->convs);
+	char const *name = gnm_func_get_name (func->func, FALSE);
+	gboolean (*handler) (GnmConventionsOut *out, GnmExprFunction const *func);
+
+	handler = g_hash_table_lookup (xconv->xlfn_handler_map, name);
+
+	if (handler == NULL || !handler (out, func)) {
+		char const *new_name = g_hash_table_lookup (xconv->xlfn_map, name);
+		GString *target = out->accum;
+
+		if (new_name == NULL) {
+				char *new_u_name;
+				new_u_name = g_ascii_strup (name, -1);
+				if (func->func->impl_status == 
+				    GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC)
+					g_string_append (target, "_xlfngnumeric.");
+				/* LO & friends use _xlfnodf */
+				g_string_append (target, new_u_name);
+				g_free (new_u_name);
+		}
+		else {
+			g_string_append (target, "_xlfn.");
+			g_string_append (target, new_name);
+		}
+
+		gnm_expr_list_as_string (func->argc, func->argv, out);
+	}
+	return;
+}
+
 
 static GnmExpr const *
 xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
@@ -171,8 +209,27 @@ xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UN
 	return gnm_expr_new_funcall (f, args);
 }
 
+static gboolean
+xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+	if (func->argc == 3) {
+		GString *target = out->accum;
+		GnmExprConstPtr const *ptr = func->argv;
+		g_string_append (target, "_xlfn.BINOM.INV(");
+		gnm_expr_as_gstring (ptr[1], out);
+		g_string_append_c (out->accum, ',');
+		gnm_expr_as_gstring (ptr[2], out);
+		g_string_append_c (out->accum, ',');
+		gnm_expr_as_gstring (ptr[0], out);
+		g_string_append (out->accum, ")");
+		return TRUE;
+	}
+	return FALSE;
+}
+
+
 GnmConventions *
-xlsx_conventions_new (void)
+xlsx_conventions_new (gboolean output)
 {
 	static struct {
 		char const *gnm_name;
@@ -181,35 +238,43 @@ xlsx_conventions_new (void)
 		{"BINOM.INV", xlsx_func_binominv_handler},
 		{NULL, NULL}
 	};
+
+	static struct {
+		char const *gnm_name;
+		gpointer handler;
+	} const xlfn_func_output_handlers[] = {
+		{"R.QBINOM", xlsx_func_binominv_output_handler},
+		{NULL, NULL}
+	};
 	
 	static struct {
 		char const *xlsx_name;
 		char const *gnm_name;
 	} const xlfn_func_renames[] = {
-		{ "beta.inv", "betainv" },
-		{ "binom.dist", "binomdist" },
-		{ "chisq.dist.rt", "chidist" },
-		{ "chisq.inv.rt", "chiinv" },
-		{ "chisq.test", "chitest" },
-		{ "confidence.norm", "confidence" },
-		{ "covariance.p", "covar" },
-		{ "expon.dist", "expondist" },
-		{ "f.dist.rt", "fdist" },
-		{ "f.inv.rt", "finv" },
-		{ "f.test", "ftest" },
-		{ "gamma.dist", "gammadist" },
-		{ "gamma.inv", "gammainv" },
-		{ "mode.sngl", "mode" },
-		{ "percentile.inc", "percentile" },
-		{ "percentrank.inc", "percentrank" },
-		{ "quartile.inc", "quartile" },
-		{ "rank.eq", "rank" },
-		{ "stdev.p", "stdevp" },
-		{ "stdev.s", "stdev" },
-		{ "t.test", "ttest" },
-		{ "var.p", "varp" },
-		{ "var.s", "var" },
-		{ "z.test", "ztest" },
+		{ "BETA.INV", "BETAINV" },
+		{ "BINOM.DIST", "BINOMDIST" },
+		{ "CHISQ.DIST.RT", "CHIDIST" },
+		{ "CHISQ.INV.RT", "CHIINV" },
+		{ "CHISQ.TEST", "CHITEST" },
+		{ "CONFIDENCE.NORM", "CONFIDENCE" },
+		{ "COVARIANCE.P", "COVAR" },
+		{ "EXPON.DIST", "EXPONDIST" },
+		{ "F.DIST.RT", "FDIST" },
+		{ "F.INV.RT", "FINV" },
+		{ "F.TEST", "FTEST" },
+		{ "GAMMA.DIST", "GAMMADIST" },
+		{ "GAMMA.INV", "GAMMAINV" },
+		{ "MODE.SNGL", "MODE" },
+		{ "PERCENTILE.INC", "PERCENTILE" },
+		{ "PERCENTRANK.INC", "PERCENTRANK" },
+		{ "QUARTILE.INC", "QUARTILE" },
+		{ "RANK.EQ", "RANK" },
+		{ "STDEV.P", "STDEVP" },
+		{ "STDEV.S", "STDEV" },
+		{ "T.TEST", "TTEST" },
+		{ "VAR.P", "VARP" },
+		{ "VAR.S", "VAR" },
+		{ "Z.TEST", "ZTEST" },
 		{ NULL, NULL }
 	};	
 	GnmConventions *convs = gnm_conventions_new_full (
@@ -220,7 +285,6 @@ xlsx_conventions_new (void)
 	convs->decimal_sep_dot		= TRUE;
 	convs->input.range_ref		= rangeref_parse;
 	convs->input.external_wb	= xlsx_lookup_external_wb;
-	convs->input.func	        = xlsx_func_map_in;
 	convs->output.cell_ref		= xlsx_cellref_as_string;
 	convs->output.range_ref		= xlsx_rangeref_as_string;
 	convs->range_sep_colon		= TRUE;
@@ -228,24 +292,43 @@ xlsx_conventions_new (void)
 	convs->arg_sep			= ',';
 	convs->array_col_sep		= ',';
 	convs->array_row_sep		= ';';
-	convs->output.translated		= FALSE;
+	convs->output.translated	= FALSE;
 	xconv->extern_id_by_wb = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		(GDestroyNotify) g_object_unref, g_free);
 	xconv->extern_wb_by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
 		g_free, (GDestroyNotify) g_object_unref);
-	xconv->xlfn_map = g_hash_table_new (go_ascii_strcase_hash,
-					    go_ascii_strcase_equal);
-	for (i = 0; xlfn_func_renames[i].xlsx_name; i++)
-		g_hash_table_insert (xconv->xlfn_map,
-				     (gchar *) xlfn_func_renames[i].xlsx_name,
-				     (gchar *) xlfn_func_renames[i].gnm_name);
-	xconv->xlfn_handler_map = g_hash_table_new (go_ascii_strcase_hash,
+
+	if (output) {
+		convs->output.func      = xlsx_func_map_out;
+
+		xconv->xlfn_map = g_hash_table_new (go_ascii_strcase_hash,
 						    go_ascii_strcase_equal);
-	for (i = 0; xlfn_func_handlers[i].gnm_name; i++)
-		g_hash_table_insert (xconv->xlfn_handler_map,
-				     (gchar *) xlfn_func_handlers[i].gnm_name,
-				     xlfn_func_handlers[i].handler);
-	
+		for (i = 0; xlfn_func_renames[i].xlsx_name; i++)
+			g_hash_table_insert (xconv->xlfn_map,
+					     (gchar *) xlfn_func_renames[i].gnm_name,
+					     (gchar *) xlfn_func_renames[i].xlsx_name);
+		xconv->xlfn_handler_map = g_hash_table_new (go_ascii_strcase_hash,
+							    go_ascii_strcase_equal);
+		for (i = 0; xlfn_func_output_handlers[i].gnm_name; i++)
+			g_hash_table_insert (xconv->xlfn_handler_map,
+					     (gchar *) xlfn_func_output_handlers[i].gnm_name,
+					     xlfn_func_output_handlers[i].handler);
+	} else {
+		convs->input.func	= xlsx_func_map_in;
+
+		xconv->xlfn_map = g_hash_table_new (go_ascii_strcase_hash,
+						    go_ascii_strcase_equal);
+		for (i = 0; xlfn_func_renames[i].xlsx_name; i++)
+			g_hash_table_insert (xconv->xlfn_map,
+					     (gchar *) xlfn_func_renames[i].xlsx_name,
+					     (gchar *) xlfn_func_renames[i].gnm_name);
+		xconv->xlfn_handler_map = g_hash_table_new (go_ascii_strcase_hash,
+							    go_ascii_strcase_equal);
+		for (i = 0; xlfn_func_handlers[i].gnm_name; i++)
+			g_hash_table_insert (xconv->xlfn_handler_map,
+					     (gchar *) xlfn_func_handlers[i].gnm_name,
+					     xlfn_func_handlers[i].handler);
+	}
 
 	return convs;
 }
