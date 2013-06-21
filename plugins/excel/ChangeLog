@@ -1,3 +1,8 @@
+2013-06-21  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-read.c (make_function): Eliminate typo.  Fixes
+	#702789.
+
 2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-utils.c (XLSXExprConventions): add field

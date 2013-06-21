@@ -711,7 +711,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		} else if (g_str_has_prefix (f_name, "_xlfnodf.") &&
 			   (name = gnm_func_lookup (f_name + 9, wb))) {
 			/* This happens for GAMMA, for example. */
-			f_name += 69;
+			f_name += 9;
 		}
 
 		if (!name)
