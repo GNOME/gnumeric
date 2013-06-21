@@ -478,10 +478,19 @@ xl2010_synonyms (const char *name)
 		const char *newname;
 		const char *oldname;
 	} names[] = {
+		{ "beta.inv", "betainv" },
+		{ "binom.dist", "binomdist" },
+		{ "chisq.dist.rt", "chidist" },
+		{ "chisq.inv.rt", "chiinv" },
 		{ "chisq.test", "chitest" },
 		{ "confidence.norm", "confidence" },
 		{ "covariance.p", "covar" },
+		{ "expon.dist", "expondist" },
+		{ "f.dist.rt", "fdist" },
+		{ "f.inv.rt", "finv" },
 		{ "f.test", "ftest" },
+		{ "gamma.dist", "gammadist" },
+		{ "gamma.inv", "gammainv" },
 		{ "mode.sngl", "mode" },
 		{ "percentile.inc", "percentile" },
 		{ "percentrank.inc", "percentrank" },
