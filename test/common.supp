@@ -699,3 +699,34 @@
    fun:wcslen
 }
 
+{
+    ALSA/SND_PCM_OPEN1/MLK
+    Memcheck:Leak
+    fun:calloc
+    ...
+    fun:snd_pcm_open
+}
+
+{
+    ALSA/SND_PCM_OPEN2/MLK
+    Memcheck:Leak
+    fun:malloc
+    ...
+    fun:snd_pcm_open
+}
+
+{
+    ALSA/SND_CONFIG_HOOK_LOAD1/MLK
+    Memcheck:Leak
+    fun:calloc
+    ...
+    fun:snd_config_hook_load
+}
+
+{
+    ALSA/SND_CONFIG_HOOK_LOAD2/MLK
+    Memcheck:Leak
+    fun:malloc
+    ...
+    fun:snd_config_hook_load
+}
