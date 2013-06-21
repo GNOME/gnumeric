@@ -2662,6 +2662,7 @@ odf_validation_free (odf_validation_t *val)
 	g_free (val->title);
 	if (val->message)
 		g_string_free (val->message, TRUE);
+	g_free (val);
 }
 
 static odf_validation_t *

@@ -1,3 +1,9 @@
+2013-06-21  Morten Welinder  <terra@gnome.org>
+
+	* src/item-grid.c (item_grid_draw_region): Plug leak.
+
+	* src/item-bar.c (ib_reload_style): Plug leak.
+
 2013-06-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk.c (show_gui): protect against excessively large

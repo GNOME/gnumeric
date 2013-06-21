@@ -839,7 +839,8 @@ plain_draw : /* a quick hack to deal with 142267 */
 			ig_cairo_draw_bound (ig, cr, 1, start_y, 1, y);
 	}
 
-	gtk_widget_destroy (entry);
+	g_object_ref_sink (entry);
+	g_object_unref (entry);
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */

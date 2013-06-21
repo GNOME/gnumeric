@@ -69,6 +69,7 @@ Morten:
 	* Fix crashes on corrupted files.  [#702101] [#702182] [#702218]
 	  [#702267] [#702277] [#702379] [#702658]
 	* Improve xls import of new stat function names.
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.2

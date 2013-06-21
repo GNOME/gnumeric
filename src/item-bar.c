@@ -144,6 +144,7 @@ ib_reload_style (GnmItemBar *ib)
 		ib->selection_fonts[ui] =
 			pango_context_load_font (pcontext, desc);
 		pango_layout_set_font_description (layout, desc);
+		pango_font_description_free (desc);
 		pango_layout_get_extents (layout, &ink_rect, NULL);
 		ib->selection_font_ascents[ui] =
 			PANGO_PIXELS (ink_rect.height + ink_rect.y);
