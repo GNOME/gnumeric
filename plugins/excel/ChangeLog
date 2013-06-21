@@ -1,5 +1,13 @@
 2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* ms-formula-read.c (ms-formula-read.c): add
+	"chisq.inv" --> "r.qchisq"
+	* xlsx-utils.c (xlsx_func_chisqinv_output_handler): new
+	(xlsx_conventions_new): connect new handler and add
+	"chisq.inv" --> "r.qchisq" translation
+
+2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-utils.h: remove duplicates
 	(xlsx_conventions_new): add argument
 	* xlsx-read.c (xlsx_file_open): add argument to

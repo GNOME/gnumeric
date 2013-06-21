@@ -211,6 +211,7 @@ xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UN
 
 static gboolean
 xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,c) */
 {
 	if (func->argc == 3) {
 		GString *target = out->accum;
@@ -222,6 +223,19 @@ xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const
 		g_string_append_c (out->accum, ',');
 		gnm_expr_as_gstring (ptr[0], out);
 		g_string_append (out->accum, ")");
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static gboolean
+xlsx_func_chisqinv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+/* R.QCHISQ(a,b) --> CHISQ.INV(a,b) */
+{
+	if (func->argc == 3) {
+		GString *target = out->accum;
+		g_string_append (target, "_xlfn.CHISQ.INV");
+		gnm_expr_list_as_string (func->argc, func->argv, out);
 		return TRUE;
 	}
 	return FALSE;
@@ -244,6 +258,7 @@ xlsx_conventions_new (gboolean output)
 		gpointer handler;
 	} const xlfn_func_output_handlers[] = {
 		{"R.QBINOM", xlsx_func_binominv_output_handler},
+		{"R.QCHISQ", xlsx_func_chisqinv_output_handler},
 		{NULL, NULL}
 	};
 	
@@ -253,7 +268,9 @@ xlsx_conventions_new (gboolean output)
 	} const xlfn_func_renames[] = {
 		{ "BETA.INV", "BETAINV" },
 		{ "BINOM.DIST", "BINOMDIST" },
+		/* { "BINOM.INV", "R.QBINOM" }, see handlers */
 		{ "CHISQ.DIST.RT", "CHIDIST" },
+		{ "CHISQ.INV", "R.QCHISQ" }, /* see output handler */
 		{ "CHISQ.INV.RT", "CHIINV" },
 		{ "CHISQ.TEST", "CHITEST" },
 		{ "CONFIDENCE.NORM", "CONFIDENCE" },

@@ -481,6 +481,7 @@ xl2010_synonyms (const char *name)
 		{ "beta.inv", "betainv" },
 		{ "binom.dist", "binomdist" },
 		{ "chisq.dist.rt", "chidist" },
+		{ "chisq.inv", "r.qchisq" },
 		{ "chisq.inv.rt", "chiinv" },
 		{ "chisq.test", "chitest" },
 		{ "confidence.norm", "confidence" },
