@@ -1,3 +1,9 @@
+2013-06-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/mstyle.c (gnm_style_set_pattern): don't accept GNM_SHEET_PATTERNS as
+	a valid pattern. [#702833]
+	* src/pattern.c (gnumeric_background_set): ditto.
+
 2013-06-21  Morten Welinder  <terra@gnome.org>
 
 	* src/item-grid.c (item_grid_draw_region): Plug leak.

@@ -68,7 +68,7 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 	 * Draw a stipple too if the pattern is > 1
 	 */
 	pattern = gnm_style_get_pattern (mstyle);
-	if (pattern > 0) {
+	if (pattern > 0 && pattern < GNUMERIC_SHEET_PATTERNS) {
 		GOPattern gopat;
 		cairo_pattern_t *crpat;
 		gopat.pattern = patterns[pattern];
@@ -84,7 +84,8 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 			gopat.back = GO_COLOR_INTERPOLATE (light, gopat.back, .5);
 		}
 		crpat = go_pattern_create_cairo_pattern (&gopat, cr);
-		cairo_set_source (cr, crpat);
+		if (crpat)
+			cairo_set_source (cr, crpat);
 		cairo_pattern_destroy (crpat);
 		return TRUE;
 	} else if (is_selected) {

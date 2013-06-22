@@ -1308,7 +1308,7 @@ gnm_style_set_pattern (GnmStyle *style, int pattern)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (pattern >= 0);
-	g_return_if_fail (pattern <= GNUMERIC_SHEET_PATTERNS);
+	g_return_if_fail (pattern < GNUMERIC_SHEET_PATTERNS);
 
 	elem_changed (style, MSTYLE_PATTERN);
 	elem_set (style, MSTYLE_PATTERN);
