@@ -31,6 +31,7 @@ Andreas:
 	* Fix reading of conditional formats from xls files. [#702612]
 	* Fix reading of solid fill conditional formats from xlsx files. [#702615]
 	* Improve xlsx import of new stat function names.
+	* Fix export of FLOOR(x) to xlsx. [Debian #464732]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]

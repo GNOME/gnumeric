@@ -222,7 +222,7 @@ xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const
 		gnm_expr_as_gstring (ptr[2], out);
 		g_string_append_c (out->accum, ',');
 		gnm_expr_as_gstring (ptr[0], out);
-		g_string_append (out->accum, ")");
+		g_string_append_c (out->accum, ')');
 		return TRUE;
 	}
 	return FALSE;
@@ -254,6 +254,21 @@ xlsx_func_finv_output_handler (GnmConventionsOut *out, GnmExprFunction const *fu
 	return FALSE;
 }
 
+static gboolean
+xlsx_func_floor_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+/* FLOOR(a) --> ROUNDDOWN(a,0) */
+{
+	if (func->argc == 1) {
+		GString *target = out->accum;
+		GnmExprConstPtr const *ptr = func->argv;
+		g_string_append (target, "ROUNDDOWN(");
+		gnm_expr_as_gstring (ptr[0], out);
+		g_string_append (out->accum, ",0)");
+		return TRUE;
+	}
+	return FALSE;
+}
+
 
 GnmConventions *
 xlsx_conventions_new (gboolean output)
@@ -273,6 +288,7 @@ xlsx_conventions_new (gboolean output)
 		{"R.QBINOM", xlsx_func_binominv_output_handler},
 		{"R.QCHISQ", xlsx_func_chisqinv_output_handler},
 		{"R.QF", xlsx_func_finv_output_handler},
+		{"FLOOR", xlsx_func_floor_output_handler},
 		{NULL, NULL}
 	};
 	
