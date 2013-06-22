@@ -1,3 +1,9 @@
+2013-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (_OOParseState): add fields
+	(oo_func_map_in): do not use static variables for the hash
+	(openoffice_file_open): initialize and free new fields
+
 2013-06-21  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_validation_free): Plug leak.

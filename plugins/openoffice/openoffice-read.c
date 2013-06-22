@@ -448,6 +448,8 @@ struct  _OOParseState {
 	GnmFilter	*filter;
 
 	GnmConventions  *convs[NUM_FORMULAE_SUPPORTED];
+	GHashTable *openformula_namemap;
+	GHashTable *openformula_handlermap;
 
 	struct {
 		struct {
@@ -11743,23 +11745,27 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	};
 	static char const OOoAnalysisPrefix[] = "com.sun.star.sheet.addin.Analysis.get";
 	static char const GnumericPrefix[] = "ORG.GNUMERIC.";
-	static GHashTable *namemap = NULL;
-	static GHashTable *handlermap = NULL;
 
 	GnmFunc  *f;
 	char const *new_name;
 	int i;
 	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope, GnmExprList *args);
+	ODFConventions *oconv = (ODFConventions *)convs;
+	GHashTable *namemap;
+	GHashTable *handlermap;
 
-	if (NULL == namemap) {
+	if (NULL == oconv->state->openformula_namemap) {
 		namemap = g_hash_table_new (go_ascii_strcase_hash,
 					    go_ascii_strcase_equal);
 		for (i = 0; sc_func_renames[i].oo_name; i++)
 			g_hash_table_insert (namemap,
 				(gchar *) sc_func_renames[i].oo_name,
 				(gchar *) sc_func_renames[i].gnm_name);
-	}
-	if (NULL == handlermap) {
+		oconv->state->openformula_namemap = namemap;
+	} else
+		namemap = oconv->state->openformula_namemap;
+	
+	if (NULL == oconv->state->openformula_handlermap) {
 		guint i;
 		handlermap = g_hash_table_new (go_ascii_strcase_hash,
 					       go_ascii_strcase_equal);
@@ -11767,7 +11773,9 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 			g_hash_table_insert (handlermap,
 					     (gchar *) sc_func_handlers[i].gnm_name,
 					     sc_func_handlers[i].handler);
-	}
+		oconv->state->openformula_handlermap = handlermap;
+	} else
+		handlermap = oconv->state->openformula_handlermap;
 
 	handler = g_hash_table_lookup (handlermap, name);
 	if (handler != NULL) {
@@ -12009,6 +12017,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.sheet_order = NULL;
 	for (i = 0; i<NUM_FORMULAE_SUPPORTED; i++)
 		state.convs[i] = NULL;
+	state.openformula_namemap = NULL;
+	state.openformula_handlermap = NULL;
 	state.cur_format.accum = NULL;
 	state.cur_format.percentage = FALSE;
 	state.filter = NULL;
@@ -12188,6 +12198,10 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_hash_table_destroy (state.validations);
 	g_hash_table_destroy (state.strings);
 	g_hash_table_destroy (state.chart.arrow_markers);
+	if (state.openformula_namemap)
+		g_hash_table_destroy (state.openformula_namemap);
+	if (state.openformula_handlermap)
+		g_hash_table_destroy (state.openformula_handlermap);
 	g_object_unref (contents);
 	gnm_expr_sharer_destroy (state.sharer);
 	g_free (state.chart.cs_enhanced_path);
