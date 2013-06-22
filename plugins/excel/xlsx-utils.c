@@ -232,9 +232,22 @@ static gboolean
 xlsx_func_chisqinv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 /* R.QCHISQ(a,b) --> CHISQ.INV(a,b) */
 {
-	if (func->argc == 3) {
+	if (func->argc == 2) {
 		GString *target = out->accum;
 		g_string_append (target, "_xlfn.CHISQ.INV");
+		gnm_expr_list_as_string (func->argc, func->argv, out);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static gboolean
+xlsx_func_finv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+/* R.QF(a,b,c) --> F.INV(a,b,c) */
+{
+	if (func->argc == 3) {
+		GString *target = out->accum;
+		g_string_append (target, "_xlfn.F.INV");
 		gnm_expr_list_as_string (func->argc, func->argv, out);
 		return TRUE;
 	}
@@ -259,6 +272,7 @@ xlsx_conventions_new (gboolean output)
 	} const xlfn_func_output_handlers[] = {
 		{"R.QBINOM", xlsx_func_binominv_output_handler},
 		{"R.QCHISQ", xlsx_func_chisqinv_output_handler},
+		{"R.QF", xlsx_func_finv_output_handler},
 		{NULL, NULL}
 	};
 	
@@ -277,6 +291,7 @@ xlsx_conventions_new (gboolean output)
 		{ "COVARIANCE.P", "COVAR" },
 		{ "EXPON.DIST", "EXPONDIST" },
 		{ "F.DIST.RT", "FDIST" },
+		{ "F.INV", "R.QF" }, /* see output handler */
 		{ "F.INV.RT", "FINV" },
 		{ "F.TEST", "FTEST" },
 		{ "GAMMA.DIST", "GAMMADIST" },

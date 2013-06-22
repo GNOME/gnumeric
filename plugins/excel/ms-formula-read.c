@@ -488,6 +488,7 @@ xl2010_synonyms (const char *name)
 		{ "covariance.p", "covar" },
 		{ "expon.dist", "expondist" },
 		{ "f.dist.rt", "fdist" },
+		{ "f.inv", "r.qf" },
 		{ "f.inv.rt", "finv" },
 		{ "f.test", "ftest" },
 		{ "gamma.dist", "gammadist" },
