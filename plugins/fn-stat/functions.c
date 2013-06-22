@@ -1285,10 +1285,12 @@ gnumeric_tdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_tinv[] = {
-	{ GNM_FUNC_HELP_NAME, F_("TINV:inverse of the survival function of the Student t-distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("p:probability")},
+	{ GNM_FUNC_HELP_NAME, F_("TINV:two tailed inverse of the Student t-distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability in both tails")},
 	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This functions returns the non-negative value x such that the "
+					"area under the Student t density with @{dof} degrees of freedom "
+					"to the right of x is @{p}/2.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("The parameterization of this function is different from "

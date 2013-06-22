@@ -493,16 +493,23 @@ xl2010_synonyms (const char *name)
 		{ "f.test", "ftest" },
 		{ "gamma.dist", "gammadist" },
 		{ "gamma.inv", "gammainv" },
+		{ "lognorm.inv", "loginv" },
 		{ "mode.sngl", "mode" },
+		{ "norm.dist", "normdist" },
+		{ "norm.inv", "norminv" },
+		{ "norm.s.inv", "normsinv" },
 		{ "percentile.inc", "percentile" },
 		{ "percentrank.inc", "percentrank" },
+		{ "poisson.dist", "poisson" },
 		{ "quartile.inc", "quartile" },
 		{ "rank.eq", "rank" },
 		{ "stdev.p", "stdevp" },
 		{ "stdev.s", "stdev" },
+		{ "t.inv.2t", "tinv" },
 		{ "t.test", "ttest" },
 		{ "var.p", "varp" },
 		{ "var.s", "var" },
+		{ "weibull.dist", "weibull" },
 		{ "z.test", "ztest" }
 	};
 	unsigned ui;

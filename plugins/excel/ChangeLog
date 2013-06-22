@@ -1,5 +1,12 @@
 2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* ms-formula-read.c (ms-formula-read.c): add more
+	synonyms
+	* xlsx-utils.c (xlsx_conventions_new): add more
+	synonyms
+
+2013-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* ms-formula-read.c (ms-formula-read.c): add
 	"f.inv" --> "r.qf"
 	* xlsx-utils.c (xlsx_func_finv_output_handler): new
