@@ -71,7 +71,7 @@ Morten:
 	* Fix xls/biff5 link export.  [#701604]
 	* Workaround problems with automake 1.13.
 	* Fix crashes on corrupted files.  [#702101] [#702182] [#702218]
-	  [#702267] [#702277] [#702379] [#702658]
+	  [#702267] [#702277] [#702379] [#702658] [#703006]
 	* Improve xls import of new stat function names.
 	* Plug leaks.
 

@@ -2507,12 +2507,17 @@ xml_sax_solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xml_sax_solver_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
-	GnmSolverParameters *sp = sheet->solver_parameters;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	Sheet *sheet;
+	GnmSolverParameters *sp;
 	int col = -1, row = -1;
 	int ptype, mtype;
 	GnmParsePos pp;
 	gboolean old = FALSE;
+
+	xml_sax_must_have_sheet (state);
+	sheet = gnm_xml_in_cur_sheet (xin);
+	sp = sheet->solver_parameters;
 
 	parse_pos_init_sheet (&pp, sheet);
 
