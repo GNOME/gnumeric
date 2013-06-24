@@ -921,7 +921,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		/* We implicitly registered this when calling
 		 * gtk_clipboard_set_can_store. We're supposed to
 		 * ignore it. */
-	} else {
+	} else if (clipboard->origin_sheet) {
 		Workbook *wb = clipboard->origin_sheet->workbook;
 		GString *res = cellregion_to_string (clipboard,
 			TRUE, workbook_date_conv (wb));
@@ -937,7 +937,8 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 				g_message ("clipboard empty text");
 			gtk_selection_data_set_text (selection_data, "", 0);
 		}
-	}
+	} else
+		gtk_selection_data_set_text (selection_data, "", 0);
 
 	/*
 	 * If this was a CUT operation we need to clear the content that

@@ -29,9 +29,11 @@ Andreas:
 	* Some documentation improvements. [Debian #621735] [Debian #530462]
 	* Fix crash on xlsx import due to external references. [#702407]
 	* Fix reading of conditional formats from xls files. [#702612]
-	* Fix reading of solid fill conditional formats from xlsx files. [#702615]
+	* Fix reading of solid fill conditional formats from xlsx files. 
+	  [#702615]
 	* Improve xlsx import of new stat function names.
 	* Fix export of FLOOR(x) to xlsx. [Debian #464732]
+	* Fix clipboard related crash. [#702868]
 
 Darrell Tangman:
 	* Update documentation for Edit and Insert menus. [#700596]

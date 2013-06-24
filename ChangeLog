@@ -1,3 +1,8 @@
+2013-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-clipboard.c (x_clipboard_get_cb): take care of the case
+	without sheet
+
 2013-06-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/mstyle.c (gnm_style_set_pattern): don't accept GNM_SHEET_PATTERNS as
