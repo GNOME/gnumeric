@@ -209,24 +209,54 @@ xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UN
 	return gnm_expr_new_funcall (f, args);
 }
 
+
 static gboolean
 xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
-/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,c) */
 {
+#define OUTPUT_BINOM_INV(pre,post)		g_string_append (target, "_xlfn.BINOM.INV("); \
+		gnm_expr_as_gstring (ptr[1], out);\
+		g_string_append_c (target, ',');\
+		gnm_expr_as_gstring (ptr[2], out);\
+		g_string_append (target, pre);\
+		gnm_expr_as_gstring (ptr[0], out);\
+		g_string_append (target, post)
+
+	GnmExprConstPtr const *ptr = func->argv;
+	GString *target = out->accum;
+
 	if (func->argc == 3) {
-		GString *target = out->accum;
-		GnmExprConstPtr const *ptr = func->argv;
-		g_string_append (target, "_xlfn.BINOM.INV(");
-		gnm_expr_as_gstring (ptr[1], out);
-		g_string_append_c (out->accum, ',');
-		gnm_expr_as_gstring (ptr[2], out);
-		g_string_append_c (out->accum, ',');
-		gnm_expr_as_gstring (ptr[0], out);
-		g_string_append_c (out->accum, ')');
+		/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,c) */
+		OUTPUT_BINOM_INV (",",")");
+		return TRUE;
+	} else if (func->argc == 4) {
+		/* R.QBINOM(c,a,b,d) --> if(d,binom.inv(a,b,c), binom.inv(a,b,1-c)) */
+		g_string_append (target, "if(");
+		gnm_expr_as_gstring (ptr[3], out);
+		g_string_append (target, ",");
+		OUTPUT_BINOM_INV(",","),");
+		OUTPUT_BINOM_INV(",1-","))");
+		return TRUE;
+	} else if (func->argc == 5) {
+		/* R.QBINOM(c,a,b,d,e) -->
+                          if(d,if(e,binom.inv(a,b,exp(c)),binom.inv(a,b,c)),
+                               if(e,binom.inv(a,b,1-exp(c)),binom.inv(a,b,1-c)))*/
+		g_string_append (target, "if(");
+		gnm_expr_as_gstring (ptr[3], out);
+		g_string_append (target, ",if(");
+		gnm_expr_as_gstring (ptr[4], out);
+		g_string_append (target, ",");
+		OUTPUT_BINOM_INV(",exp(",")),");
+		OUTPUT_BINOM_INV(",",")),if(");
+		gnm_expr_as_gstring (ptr[4], out);
+		g_string_append (target, ",");
+		OUTPUT_BINOM_INV(",1-exp(",")),");
+		OUTPUT_BINOM_INV(",1-",")))");
 		return TRUE;
 	}
 	return FALSE;
+#undef OUTPUT_BINOM_INV
 }
+
 
 static gboolean
 xlsx_func_chisqinv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
