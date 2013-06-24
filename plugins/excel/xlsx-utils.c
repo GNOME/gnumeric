@@ -38,6 +38,7 @@
 #include <glib-object.h>
 #include <string.h>
 #include <expr.h>
+#include <value.h>
 
 typedef struct {
 	GnmConventions base;
@@ -224,11 +225,38 @@ xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const
 	GnmExprConstPtr const *ptr = func->argv;
 	GString *target = out->accum;
 
-	if (func->argc == 3) {
+	int use_lower_tail; /* 0: never; 1: always; 2: sometimes */
+	int use_log;        /* 0: never; 1: always; 2: sometimes */
+
+	if (func->argc < 3 || func->argc > 5)
+		return FALSE;
+
+	if (func->argc > 3) {
+		GnmValue const *constant = gnm_expr_get_constant (ptr[3]);
+		if (constant == NULL || !VALUE_IS_NUMBER (constant))
+			use_lower_tail = 2;
+		else
+			use_lower_tail = value_is_zero (constant) ? 0 : 1;
+	} else
+		use_lower_tail = 1;
+	if (func->argc > 4) {
+		GnmValue const *constant = gnm_expr_get_constant (ptr[4]);
+		if (constant == NULL || !VALUE_IS_NUMBER (constant))
+			use_log = 2;
+		else 
+			use_log = value_is_zero (constant) ? 0 : 1;
+	} else
+		use_log = 0;
+
+	if (use_lower_tail == 1 && use_log == 0) {
 		/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,c) */
 		OUTPUT_BINOM_INV (",",")");
 		return TRUE;
-	} else if (func->argc == 4) {
+	} else if (use_lower_tail == 0 && use_log == 0) {
+		/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,1-c) */
+		OUTPUT_BINOM_INV (",1-",")");
+		return TRUE;
+	} else if (/* use_lower_tail == 2 && */ use_log == 0) {
 		/* R.QBINOM(c,a,b,d) --> if(d,binom.inv(a,b,c), binom.inv(a,b,1-c)) */
 		g_string_append (target, "if(");
 		gnm_expr_as_gstring (ptr[3], out);
@@ -236,7 +264,41 @@ xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const
 		OUTPUT_BINOM_INV(",","),");
 		OUTPUT_BINOM_INV(",1-","))");
 		return TRUE;
-	} else if (func->argc == 5) {
+	} else if (use_lower_tail == 1 && use_log == 1) {
+		/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,exp(c)) */
+		OUTPUT_BINOM_INV (",exp(","))");
+		return TRUE;
+	} else if (use_lower_tail == 0 && use_log == 1) {
+		/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,1-exp(c)) */
+		OUTPUT_BINOM_INV (",1-exp(","))");
+		return TRUE;
+	} else if (/* use_lower_tail == 2 && */ use_log == 1) {
+		/* R.QBINOM(c,a,b,d) --> if(d,binom.inv(a,b,exp(c)), binom.inv(a,b,1-exp(c))) */
+		g_string_append (target, "if(");
+		gnm_expr_as_gstring (ptr[3], out);
+		g_string_append (target, ",");
+		OUTPUT_BINOM_INV(",exp(",")),");
+		OUTPUT_BINOM_INV(",1-exp(",")))");
+		return TRUE;
+	} else if (use_lower_tail == 0 /* && use_log == 2 */) {
+		/* R.QBINOM(c,a,b,d,e) -->
+                               if(e,binom.inv(a,b,1-exp(c)),binom.inv(a,b,1-c))*/
+		g_string_append (target, "if(");
+		gnm_expr_as_gstring (ptr[4], out);
+		g_string_append (target, ",");
+		OUTPUT_BINOM_INV(",1-exp(",")),");
+		OUTPUT_BINOM_INV(",1-","))");
+		return TRUE;
+	} else if (use_lower_tail == 1 /* && use_log == 2 */) {
+		/* R.QBINOM(c,a,b,d,e) -->
+                          if(e,binom.inv(a,b,exp(c)),binom.inv(a,b,c))*/
+		g_string_append (target, "if(");
+		gnm_expr_as_gstring (ptr[4], out);
+		g_string_append (target, ",");
+		OUTPUT_BINOM_INV(",exp(",")),");
+		OUTPUT_BINOM_INV(",","))");
+		return TRUE;
+	} else /*if (use_lower_tail == 2 && use_log == 2 */ {
 		/* R.QBINOM(c,a,b,d,e) -->
                           if(d,if(e,binom.inv(a,b,exp(c)),binom.inv(a,b,c)),
                                if(e,binom.inv(a,b,1-exp(c)),binom.inv(a,b,1-c)))*/
@@ -253,7 +315,6 @@ xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const
 		OUTPUT_BINOM_INV(",1-",")))");
 		return TRUE;
 	}
-	return FALSE;
 #undef OUTPUT_BINOM_INV
 }
 

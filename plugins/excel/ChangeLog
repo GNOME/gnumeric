@@ -1,6 +1,11 @@
 2013-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-utils.c (xlsx_func_binominv_output_handler):
+	simplify the expression if some of the flags are constant
+
+2013-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-utils.c (xlsx_func_binominv_output_handler):
 	translate the expression even for more than 3 arguments
 
 2013-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>

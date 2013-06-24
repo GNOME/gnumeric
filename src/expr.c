@@ -1861,6 +1861,22 @@ gnm_expr_is_err (GnmExpr const *expr, GnmStdError err)
 	return err == err2;
 }
 
+/**
+ * gnm_expr_get_constant:
+ * @expr:
+ *
+ * If this expression consists of just a constant, return it.
+ */
+GnmValue const *
+gnm_expr_get_constant (GnmExpr const *expr)
+{
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CONSTANT)
+		return NULL;
+
+	return expr->constant.value;
+}
+
+
 typedef struct {
 	GnmExprRelocateInfo const *details;
 	gboolean from_inside;
@@ -3208,11 +3224,8 @@ GnmValue const *
 gnm_expr_top_get_constant (GnmExprTop const *texpr)
 {
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
-
-	if (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CONSTANT)
-		return NULL;
-
-	return texpr->expr->constant.value;
+	
+	return gnm_expr_get_constant (texpr->expr);
 }
 
 GnmCellRef const *

@@ -92,6 +92,8 @@ gboolean  gnm_expr_is_data_table     (GnmExpr const *expr,
 				      GnmCellPos *c_in, GnmCellPos *r_in);
 gboolean  gnm_expr_is_empty          (GnmExpr const *expr);
 
+GnmValue const *gnm_expr_get_constant	(GnmExpr const *expr);
+
 void	  gnm_expr_as_gstring	     (GnmExpr const *expr,
 				      GnmConventionsOut *out);
 char	 *gnm_expr_as_string	     (GnmExpr const *expr, GnmParsePos const *pp,
