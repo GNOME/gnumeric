@@ -211,6 +211,137 @@ xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UN
 }
 
 
+static void
+xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, GnmExprConstPtr const *ptr, int n,
+		     gboolean use_lower_tail, gboolean use_log)
+{
+	/* R.Qx(a,a_1,...,a_n) --> name(mod(a),a_1,...,a_n) */
+	GString *target = out->accum;
+	int i;
+
+	g_string_append (target, name);
+	g_string_append_c (target, '(');
+	
+	if (!use_lower_tail)
+			g_string_append (target, "1-");
+	if (use_log) {
+		g_string_append (target, "exp(");
+		gnm_expr_as_gstring (ptr[0], out);
+		g_string_append_c (target, ')');
+	} else
+		gnm_expr_as_gstring (ptr[0], out);
+
+	g_string_append_c (target, ',');
+	for (i = 1; i<=n; i++) {
+		gnm_expr_as_gstring (ptr[i], out);
+		if (i < n)
+			g_string_append_c (target, ',');
+	}
+	g_string_append_c (target, ')');
+}
+
+static gboolean
+xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *func, int n, char const *name)
+{
+	GnmExprConstPtr const *ptr = func->argv;
+	GString *target = out->accum;
+	int use_lower_tail; /* 0: never; 1: always; 2: sometimes */
+	int use_log;        /* 0: never; 1: always; 2: sometimes */
+	
+	if (func->argc <= n || func->argc > (n+3))
+		return FALSE;
+
+	if (func->argc > n+1) {
+		GnmValue const *constant = gnm_expr_get_constant (ptr[n+1]);
+		if (constant == NULL || !VALUE_IS_NUMBER (constant))
+			use_lower_tail = 2;
+		else
+			use_lower_tail = value_is_zero (constant) ? 0 : 1;
+	} else
+		use_lower_tail = 1;
+	if (func->argc > n+2) {
+		GnmValue const *constant = gnm_expr_get_constant (ptr[n+2]);
+		if (constant == NULL || !VALUE_IS_NUMBER (constant))
+			use_log = 2;
+		else 
+			use_log = value_is_zero (constant) ? 0 : 1;
+	} else
+		use_log = 0;
+	
+	if (use_lower_tail < 2 && use_log == 0) {
+		/* R.Qx(a,b,c) --> name(a,b,c) */		
+		/* R.Qx(a,b,c) --> name(1-a,b,c) */
+		xlsx_write_r_q_func (out,name, ptr, 2, use_lower_tail, 0);
+		return TRUE;
+	} else if (use_lower_tail < 2 && use_log == 1) {
+		/* R.Qx(a,b,c) --> name(exp(a),b,c) */
+		/* R.Qx(a,b,c) --> name(1-exp(a),b,c) */
+		xlsx_write_r_q_func (out,name, ptr, 2, use_lower_tail, 1);
+		return TRUE;
+	} else if (/* use_lower_tail == 2 && */ use_log == 0) {
+		/* R.Qx(a,b,c,d) --> if(d,name(a,b,c), name(1-a,b,c)) */
+		g_string_append (target, "if(");
+		gnm_expr_as_gstring (ptr[n+1], out);
+		g_string_append_c (target, ',');
+		xlsx_write_r_q_func (out,name, ptr, 2, 1, 0);
+		g_string_append_c (target, ',');
+		xlsx_write_r_q_func (out,name, ptr, 2, 0, 0);
+		g_string_append_c (target, ')');
+		return TRUE;
+	} else if (use_lower_tail < 2 /* && use_log == 2 */) {
+		/* R.Qx(a,b,c,d,e) -->
+                               if(e,name(1-exp(a),b,c),name(1-a,b,c))*/
+		/* R.Qx(a,b,c,d,e) -->
+                          if(e,name(exp(a),b,c),name(a,b,c))*/
+		g_string_append (target, "if(");
+		gnm_expr_as_gstring (ptr[n+2], out);
+		g_string_append_c (target, ',');
+		xlsx_write_r_q_func (out,name, ptr, 2, use_lower_tail, 1);
+		g_string_append_c (target, ',');
+		xlsx_write_r_q_func (out,name, ptr, 2, use_lower_tail, 0);
+		g_string_append_c (target, ')');
+		return TRUE;
+	} else /*if (use_lower_tail == 2 && use_log == 2 */ {
+		/* R.Qx(a,b,c,d,e) -->
+                          if(d,if(e,name(exp(a),b,c),name(a,b,c)),
+                               if(e,name(1-exp(a),b,c),name(1-a,b,c)))*/
+		g_string_append (target, "if(");
+		gnm_expr_as_gstring (ptr[n+1], out);
+		g_string_append (target, ",if(");
+		gnm_expr_as_gstring (ptr[n+2], out);
+		g_string_append_c (target, ',');
+		xlsx_write_r_q_func (out,name, ptr, 2, 1, 1);
+		g_string_append_c (target, ',');
+		xlsx_write_r_q_func (out,name, ptr, 2, 1, 0);
+		g_string_append (target, "),if(");
+		gnm_expr_as_gstring (ptr[n+2], out);
+		g_string_append_c (target, ',');
+		xlsx_write_r_q_func (out,name, ptr, 2, 0, 1);
+		g_string_append_c (target, ',');
+		xlsx_write_r_q_func (out,name, ptr, 2, 0, 0);
+		g_string_append (target, "))");
+		return TRUE;
+	}
+}
+
+static gboolean
+xlsx_func_norminv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+	return xlsx_func_r_q_output_handler (out, func, 2, "_xlfn.NORM.INV");
+}
+
+static gboolean
+xlsx_func_chisqinv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+	return xlsx_func_r_q_output_handler (out, func, 1, "_xlfn.CHISQ.INV");
+}
+
+static gboolean
+xlsx_func_finv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+	return xlsx_func_r_q_output_handler (out, func, 2, "_xlfn.F.INV");
+}
+
 static gboolean
 xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
@@ -318,33 +449,6 @@ xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const
 #undef OUTPUT_BINOM_INV
 }
 
-
-static gboolean
-xlsx_func_chisqinv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
-/* R.QCHISQ(a,b) --> CHISQ.INV(a,b) */
-{
-	if (func->argc == 2) {
-		GString *target = out->accum;
-		g_string_append (target, "_xlfn.CHISQ.INV");
-		gnm_expr_list_as_string (func->argc, func->argv, out);
-		return TRUE;
-	}
-	return FALSE;
-}
-
-static gboolean
-xlsx_func_finv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
-/* R.QF(a,b,c) --> F.INV(a,b,c) */
-{
-	if (func->argc == 3) {
-		GString *target = out->accum;
-		g_string_append (target, "_xlfn.F.INV");
-		gnm_expr_list_as_string (func->argc, func->argv, out);
-		return TRUE;
-	}
-	return FALSE;
-}
-
 static gboolean
 xlsx_func_floor_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 /* FLOOR(a) --> ROUNDDOWN(a,0) */
@@ -378,6 +482,7 @@ xlsx_conventions_new (gboolean output)
 	} const xlfn_func_output_handlers[] = {
 		{"R.QBINOM", xlsx_func_binominv_output_handler},
 		{"R.QCHISQ", xlsx_func_chisqinv_output_handler},
+		{"R.QNORM", xlsx_func_norminv_output_handler},
 		{"R.QF", xlsx_func_finv_output_handler},
 		{"FLOOR", xlsx_func_floor_output_handler},
 		{NULL, NULL}
