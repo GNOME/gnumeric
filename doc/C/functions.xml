@@ -11886,6 +11886,34 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-MPSEUDOINVERSE">
+      <refmeta>
+        <refentrytitle>
+          <function>MPSEUDOINVERSE</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>MPSEUDOINVERSE</function>
+        </refname>
+        <refpurpose>
+        the pseudo-inverse matrix of <parameter>matrix</parameter>
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MPSEUDOINVERSE</function>(<parameter>matrix</parameter>,<parameter>threshold</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>matrix</parameter>: a matrix</para>
+        <para><parameter>threshold</parameter>: a relative size threshold for discarding eigenvalues</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-MINVERSE"><function>MINVERSE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-MROUND">
       <refmeta>
         <refentrytitle>
@@ -18442,6 +18470,42 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-R.PTUKEY">
+      <refmeta>
+        <refentrytitle>
+          <function>R.PTUKEY</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.PTUKEY</function>
+        </refname>
+        <refpurpose>
+        cumulative distribution function of the Studentized range distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.PTUKEY</function>(<parameter>x</parameter>,<parameter>nmeans</parameter>,<parameter>df</parameter>,<parameter>nranges</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>nmeans</parameter>: the number of means</para>
+        <para><parameter>df</parameter>: the number of degrees of freedom of the distribution</para>
+        <para><parameter>nranges</parameter>: the number of ranges; default is 1</para>
+        <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
+        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the cumulative distribution function of the Studentized range distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.QTUKEY"><function>R.QTUKEY</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-R.PWEIBULL">
       <refmeta>
         <refentrytitle>
@@ -19055,6 +19119,42 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-R.QTUKEY">
+      <refmeta>
+        <refentrytitle>
+          <function>R.QTUKEY</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.QTUKEY</function>
+        </refname>
+        <refpurpose>
+        probability quantile function of the Studentized range distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.QTUKEY</function>(<parameter>p</parameter>,<parameter>nmeans</parameter>,<parameter>df</parameter>,<parameter>nranges</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>p</parameter>: probability</para>
+        <para><parameter>nmeans</parameter>: the number of means</para>
+        <para><parameter>df</parameter>: the number of degrees of freedom of the distribution</para>
+        <para><parameter>nranges</parameter>: the number of ranges; default is 1</para>
+        <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
+        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Studentized range distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.PTUKEY"><function>R.PTUKEY</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-R.QWEIBULL">
       <refmeta>
         <refentrytitle>
@@ -19460,6 +19560,45 @@
         <link linkend="gnumeric-function-PERCENTRANK"><function>PERCENTRANK</function></link>,
         <link linkend="gnumeric-function-QUARTILE"><function>QUARTILE</function></link>,
         <link linkend="gnumeric-function-LARGE"><function>LARGE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-SNORM.DIST.RANGE">
+      <refmeta>
+        <refentrytitle>
+          <function>SNORM.DIST.RANGE</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>SNORM.DIST.RANGE</function>
+        </refname>
+        <refpurpose>
+        probability of the standard normal distribution over an interval
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SNORM.DIST.RANGE</function>(<parameter>x1</parameter>,<parameter>x2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x1</parameter>: start of the interval</para>
+        <para><parameter>x2</parameter>: end of the interval</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the cumulative probability over a range of the standard normal distribution; that is the integral over the probability density function from <parameter>x1</parameter> to <parameter>x2</parameter>.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>x1</parameter>&gt;<parameter>x2</parameter>, this function returns a negative value.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-NORMSDIST"><function>NORMSDIST</function></link>,
+        <link linkend="gnumeric-function-R.PNORM"><function>R.PNORM</function></link>,
+        <link linkend="gnumeric-function-R.QNORM"><function>R.QNORM</function></link>,
+        <link linkend="gnumeric-function-R.DNORM"><function>R.DNORM</function></link>.
       </para>
       </refsect1>
     </refentry>

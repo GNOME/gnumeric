@@ -1,3 +1,7 @@
+2013-06-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.3
+
 2013-06-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-sort.c (dialog_init): remove unused variable

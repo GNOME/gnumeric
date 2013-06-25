@@ -3511,6 +3511,14 @@ The depreciation coefficient used is:
 @SEEALSO=CEIL,CEILING,FLOOR,ABS,INT,ABS
 
 @CATEGORY=Mathematics
+@FUNCTION=MPSEUDOINVERSE
+@SHORTDESC=the pseudo-inverse matrix of @{matrix}
+@SYNTAX=MPSEUDOINVERSE(matrix,threshold)
+@ARGUMENTDESCRIPTION=@{matrix}: a matrix
+@{threshold}: a relative size threshold for discarding eigenvalues
+@SEEALSO=MINVERSE
+
+@CATEGORY=Mathematics
 @FUNCTION=MROUND
 @SHORTDESC=@{x} rounded to a multiple of @{m}
 @SYNTAX=MROUND(x,m)
@@ -5358,6 +5366,19 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SEEALSO=R.DT,R.QT
 
 @CATEGORY=Statistics
+@FUNCTION=R.PTUKEY
+@SHORTDESC=cumulative distribution function of the Studentized range distribution
+@SYNTAX=R.PTUKEY(x,nmeans,df,nranges,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{x}: observation
+@{nmeans}: the number of means
+@{df}: the number of degrees of freedom of the distribution
+@{nranges}: the number of ranges; default is 1
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered
+@{log_p}: if true, log of the probability is used
+@DESCRIPTION=This function returns the cumulative distribution function of the Studentized range distribution.
+@SEEALSO=R.QTUKEY
+
+@CATEGORY=Statistics
 @FUNCTION=R.PWEIBULL
 @SHORTDESC=cumulative distribution function of the Weibull distribution
 @SYNTAX=R.PWEIBULL(x,shape,scale,lower_tail,log_p)
@@ -5560,6 +5581,19 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SEEALSO=R.DT,R.PT
 
 @CATEGORY=Statistics
+@FUNCTION=R.QTUKEY
+@SHORTDESC=probability quantile function of the Studentized range distribution
+@SYNTAX=R.QTUKEY(p,nmeans,df,nranges,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{p}: probability
+@{nmeans}: the number of means
+@{df}: the number of degrees of freedom of the distribution
+@{nranges}: the number of ranges; default is 1
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered
+@{log_p}: if true, log of the probability is used
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Studentized range distribution.
+@SEEALSO=R.PTUKEY
+
+@CATEGORY=Statistics
 @FUNCTION=R.QWEIBULL
 @SHORTDESC=probability quantile function of the Weibull distribution
 @SYNTAX=R.QWEIBULL(p,shape,scale,lower_tail,log_p)
@@ -5669,6 +5703,16 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @NOTE=If data set is empty this function returns a #NUM! error. If @{k} <= 0 or @{k} is greater than the number of data items given this function returns a #NUM! error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE
+
+@CATEGORY=Statistics
+@FUNCTION=SNORM.DIST.RANGE
+@SHORTDESC=probability of the standard normal distribution over an interval
+@SYNTAX=SNORM.DIST.RANGE(x1,x2)
+@ARGUMENTDESCRIPTION=@{x1}: start of the interval
+@{x2}: end of the interval
+@DESCRIPTION=This function returns the cumulative probability over a range of the standard normal distribution; that is the integral over the probability density function from @{x1} to @{x2}.
+@NOTE=If @{x1}>@{x2}, this function returns a negative value.
+@SEEALSO=NORMSDIST,R.PNORM,R.QNORM,R.DNORM
 
 @CATEGORY=Statistics
 @FUNCTION=SSMEDIAN
