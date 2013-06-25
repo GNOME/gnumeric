@@ -1,5 +1,10 @@
 2013-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-utils.c (xlsx_func_r_q_output_handler): use variable
+	rather than hard code (wrong) constant
+
+2013-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-utils.c (xlsx_write_r_q_func): new
 	(xlsx_func_r_q_output_handler): new
 	(xlsx_func_norminv_output_handler): new

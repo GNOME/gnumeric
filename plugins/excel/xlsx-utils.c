@@ -271,21 +271,21 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 	if (use_lower_tail < 2 && use_log == 0) {
 		/* R.Qx(a,b,c) --> name(a,b,c) */		
 		/* R.Qx(a,b,c) --> name(1-a,b,c) */
-		xlsx_write_r_q_func (out,name, ptr, 2, use_lower_tail, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, use_lower_tail, 0);
 		return TRUE;
 	} else if (use_lower_tail < 2 && use_log == 1) {
 		/* R.Qx(a,b,c) --> name(exp(a),b,c) */
 		/* R.Qx(a,b,c) --> name(1-exp(a),b,c) */
-		xlsx_write_r_q_func (out,name, ptr, 2, use_lower_tail, 1);
+		xlsx_write_r_q_func (out,name, ptr, n, use_lower_tail, 1);
 		return TRUE;
 	} else if (/* use_lower_tail == 2 && */ use_log == 0) {
 		/* R.Qx(a,b,c,d) --> if(d,name(a,b,c), name(1-a,b,c)) */
 		g_string_append (target, "if(");
 		gnm_expr_as_gstring (ptr[n+1], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, 2, 1, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, 1, 0);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, 2, 0, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, 0, 0);
 		g_string_append_c (target, ')');
 		return TRUE;
 	} else if (use_lower_tail < 2 /* && use_log == 2 */) {
@@ -296,9 +296,9 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 		g_string_append (target, "if(");
 		gnm_expr_as_gstring (ptr[n+2], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, 2, use_lower_tail, 1);
+		xlsx_write_r_q_func (out,name, ptr, n, use_lower_tail, 1);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, 2, use_lower_tail, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, use_lower_tail, 0);
 		g_string_append_c (target, ')');
 		return TRUE;
 	} else /*if (use_lower_tail == 2 && use_log == 2 */ {
@@ -310,15 +310,15 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 		g_string_append (target, ",if(");
 		gnm_expr_as_gstring (ptr[n+2], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, 2, 1, 1);
+		xlsx_write_r_q_func (out,name, ptr, n, 1, 1);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, 2, 1, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, 1, 0);
 		g_string_append (target, "),if(");
 		gnm_expr_as_gstring (ptr[n+2], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, 2, 0, 1);
+		xlsx_write_r_q_func (out,name, ptr, n, 0, 1);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, 2, 0, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, 0, 0);
 		g_string_append (target, "))");
 		return TRUE;
 	}
