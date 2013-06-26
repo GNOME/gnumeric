@@ -1,6 +1,13 @@
 2013-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-utils.c (xlsx_write_r_q_func): add argument and change
+	all callers to use ....RT function if available
+	(xlsx_func_r_q_output_handler): add argument and change all
+	callers
+
+2013-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-utils.c (xlsx_write_r_q_func): add argument and change
 	all callers
 	(xlsx_func_r_q_output_handler): add argument and change all
 	callers

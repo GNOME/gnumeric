@@ -212,15 +212,20 @@ xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UN
 
 
 static void
-xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, GnmExprConstPtr const *ptr, 
-		     int n, int n_p,
+xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, char const *name_rt, 
+		     GnmExprConstPtr const *ptr, int n, int n_p,
 		     gboolean use_lower_tail, gboolean use_log)
 {
 	/* R.Qx(a_0,...,a_n_p,...,a_n) --> name(a_0,...,mod(a_n_p),...a_n) */
 	GString *target = out->accum;
 	int i;
 
-	g_string_append (target, name);
+	if (name_rt != NULL && !use_lower_tail) {
+		use_lower_tail = TRUE;
+		g_string_append (target, name_rt);
+	} else
+		g_string_append (target, name);
+		
 	g_string_append_c (target, '(');
 	
 	for (i = 1; i<=n_p; i++) {
@@ -261,7 +266,7 @@ xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, GnmExprConstPtr c
  */
 static gboolean
 xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *func, int n, int n_p, 
-			      char const *name)
+			      char const *name, char const *name_rt)
 {
 	GnmExprConstPtr const *ptr = func->argv;
 	GString *target = out->accum;
@@ -287,25 +292,25 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 			use_log = value_is_zero (constant) ? 0 : 1;
 	} else
 		use_log = 0;
-	
+
 	if (use_lower_tail < 2 && use_log == 0) {
 		/* R.Qx(a,b,c) --> name(a,b,c) */		
 		/* R.Qx(a,b,c) --> name(1-a,b,c) */
-		xlsx_write_r_q_func (out,name, ptr, n, n_p, use_lower_tail, 0);
+		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, use_lower_tail, 0);
 		return TRUE;
 	} else if (use_lower_tail < 2 && use_log == 1) {
 		/* R.Qx(a,b,c) --> name(exp(a),b,c) */
 		/* R.Qx(a,b,c) --> name(1-exp(a),b,c) */
-		xlsx_write_r_q_func (out,name, ptr, n, n_p, use_lower_tail, 1);
+		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, use_lower_tail, 1);
 		return TRUE;
 	} else if (/* use_lower_tail == 2 && */ use_log == 0) {
 		/* R.Qx(a,b,c,d) --> if(d,name(a,b,c), name(1-a,b,c)) */
 		g_string_append (target, "if(");
 		gnm_expr_as_gstring (ptr[n+1], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, n_p, 1, 0);
+		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, 1, 0);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, n_p, 0, 0);
+		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, 0, 0);
 		g_string_append_c (target, ')');
 		return TRUE;
 	} else if (use_lower_tail < 2 /* && use_log == 2 */) {
@@ -316,9 +321,9 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 		g_string_append (target, "if(");
 		gnm_expr_as_gstring (ptr[n+2], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, n_p, use_lower_tail, 1);
+		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, use_lower_tail, 1);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, n_p, use_lower_tail, 0);
+		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, use_lower_tail, 0);
 		g_string_append_c (target, ')');
 		return TRUE;
 	} else /*if (use_lower_tail == 2 && use_log == 2 */ {
@@ -330,15 +335,15 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 		g_string_append (target, ",if(");
 		gnm_expr_as_gstring (ptr[n+2], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, n_p, 1, 1);
+		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, 1, 1);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, n_p, 1, 0);
+		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, 1, 0);
 		g_string_append (target, "),if(");
 		gnm_expr_as_gstring (ptr[n+2], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, n_p, 0, 1);
+		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, 0, 1);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, n_p, 0, 0);
+		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, 0, 0);
 		g_string_append (target, "))");
 		return TRUE;
 	}
@@ -347,25 +352,25 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 static gboolean
 xlsx_func_norminv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-	return xlsx_func_r_q_output_handler (out, func, 2, 0, "_xlfn.NORM.INV");
+	return xlsx_func_r_q_output_handler (out, func, 2, 0, "_xlfn.NORM.INV", NULL);
 }
 
 static gboolean
 xlsx_func_chisqinv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-	return xlsx_func_r_q_output_handler (out, func, 1, 0, "_xlfn.CHISQ.INV");
+	return xlsx_func_r_q_output_handler (out, func, 1, 0, "_xlfn.CHISQ.INV", "_xlfn.CHISQ.INV.RT");
 }
 
 static gboolean
 xlsx_func_finv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-	return xlsx_func_r_q_output_handler (out, func, 2, 0, "_xlfn.F.INV");
+	return xlsx_func_r_q_output_handler (out, func, 2, 0, "_xlfn.F.INV", "_xlfn.F.INV.RT");
 }
 
 static gboolean
 xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-	return xlsx_func_r_q_output_handler (out, func, 2, 2, "_xlfn.binom.INV");
+	return xlsx_func_r_q_output_handler (out, func, 2, 2, "_xlfn.binom.INV", NULL);
 }
 
 static gboolean
