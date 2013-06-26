@@ -1,5 +1,8 @@
 Gnumeric 1.12.4
 
+Andreas:
+	* Improve xlsx export of Gnuemric functions.
+
 Morten:
 	* Improve accuracy for 2-argument ERF.
 

@@ -1,3 +1,11 @@
+2013-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-utils.c (xlsx_write_r_q_func): add argument and change
+	all callers
+	(xlsx_func_r_q_output_handler): add argument and change all
+	callers
+	(xlsx_func_binominv_output_handler): use xlsx_func_r_q_output_handler
+
 2013-06-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.3

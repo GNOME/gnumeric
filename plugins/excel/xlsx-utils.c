@@ -212,16 +212,22 @@ xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UN
 
 
 static void
-xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, GnmExprConstPtr const *ptr, int n,
+xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, GnmExprConstPtr const *ptr, 
+		     int n, int n_p,
 		     gboolean use_lower_tail, gboolean use_log)
 {
-	/* R.Qx(a,a_1,...,a_n) --> name(mod(a),a_1,...,a_n) */
+	/* R.Qx(a_0,...,a_n_p,...,a_n) --> name(a_0,...,mod(a_n_p),...a_n) */
 	GString *target = out->accum;
 	int i;
 
 	g_string_append (target, name);
 	g_string_append_c (target, '(');
 	
+	for (i = 1; i<=n_p; i++) {
+		gnm_expr_as_gstring (ptr[i], out);
+		g_string_append_c (target, ',');
+	}
+
 	if (!use_lower_tail)
 			g_string_append (target, "1-");
 	if (use_log) {
@@ -231,17 +237,31 @@ xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, GnmExprConstPtr c
 	} else
 		gnm_expr_as_gstring (ptr[0], out);
 
-	g_string_append_c (target, ',');
-	for (i = 1; i<=n; i++) {
-		gnm_expr_as_gstring (ptr[i], out);
-		if (i < n)
-			g_string_append_c (target, ',');
+	if (n > n_p) {
+		g_string_append_c (target, ',');
+		for (i = n_p+1; i<=n; i++) {
+			gnm_expr_as_gstring (ptr[i], out);
+			if (i < n)
+				g_string_append_c (target, ',');
+		}
 	}
 	g_string_append_c (target, ')');
 }
 
+/**
+ * xlsx_func_r_q_output_handler:
+ *
+ * @out: #GnmConventionsOut
+ * @func: #GnmExprFunction 
+ * @n: last index used for a parameter
+ * @n_p: index of the probability argument, usually 0 
+ * @name:
+ *
+ * Print the appropriate simple function call
+ */
 static gboolean
-xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *func, int n, char const *name)
+xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *func, int n, int n_p, 
+			      char const *name)
 {
 	GnmExprConstPtr const *ptr = func->argv;
 	GString *target = out->accum;
@@ -271,21 +291,21 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 	if (use_lower_tail < 2 && use_log == 0) {
 		/* R.Qx(a,b,c) --> name(a,b,c) */		
 		/* R.Qx(a,b,c) --> name(1-a,b,c) */
-		xlsx_write_r_q_func (out,name, ptr, n, use_lower_tail, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, n_p, use_lower_tail, 0);
 		return TRUE;
 	} else if (use_lower_tail < 2 && use_log == 1) {
 		/* R.Qx(a,b,c) --> name(exp(a),b,c) */
 		/* R.Qx(a,b,c) --> name(1-exp(a),b,c) */
-		xlsx_write_r_q_func (out,name, ptr, n, use_lower_tail, 1);
+		xlsx_write_r_q_func (out,name, ptr, n, n_p, use_lower_tail, 1);
 		return TRUE;
 	} else if (/* use_lower_tail == 2 && */ use_log == 0) {
 		/* R.Qx(a,b,c,d) --> if(d,name(a,b,c), name(1-a,b,c)) */
 		g_string_append (target, "if(");
 		gnm_expr_as_gstring (ptr[n+1], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, 1, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, n_p, 1, 0);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, 0, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, n_p, 0, 0);
 		g_string_append_c (target, ')');
 		return TRUE;
 	} else if (use_lower_tail < 2 /* && use_log == 2 */) {
@@ -296,9 +316,9 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 		g_string_append (target, "if(");
 		gnm_expr_as_gstring (ptr[n+2], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, use_lower_tail, 1);
+		xlsx_write_r_q_func (out,name, ptr, n, n_p, use_lower_tail, 1);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, use_lower_tail, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, n_p, use_lower_tail, 0);
 		g_string_append_c (target, ')');
 		return TRUE;
 	} else /*if (use_lower_tail == 2 && use_log == 2 */ {
@@ -310,15 +330,15 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 		g_string_append (target, ",if(");
 		gnm_expr_as_gstring (ptr[n+2], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, 1, 1);
+		xlsx_write_r_q_func (out,name, ptr, n, n_p, 1, 1);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, 1, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, n_p, 1, 0);
 		g_string_append (target, "),if(");
 		gnm_expr_as_gstring (ptr[n+2], out);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, 0, 1);
+		xlsx_write_r_q_func (out,name, ptr, n, n_p, 0, 1);
 		g_string_append_c (target, ',');
-		xlsx_write_r_q_func (out,name, ptr, n, 0, 0);
+		xlsx_write_r_q_func (out,name, ptr, n, n_p, 0, 0);
 		g_string_append (target, "))");
 		return TRUE;
 	}
@@ -327,126 +347,25 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 static gboolean
 xlsx_func_norminv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-	return xlsx_func_r_q_output_handler (out, func, 2, "_xlfn.NORM.INV");
+	return xlsx_func_r_q_output_handler (out, func, 2, 0, "_xlfn.NORM.INV");
 }
 
 static gboolean
 xlsx_func_chisqinv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-	return xlsx_func_r_q_output_handler (out, func, 1, "_xlfn.CHISQ.INV");
+	return xlsx_func_r_q_output_handler (out, func, 1, 0, "_xlfn.CHISQ.INV");
 }
 
 static gboolean
 xlsx_func_finv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-	return xlsx_func_r_q_output_handler (out, func, 2, "_xlfn.F.INV");
+	return xlsx_func_r_q_output_handler (out, func, 2, 0, "_xlfn.F.INV");
 }
 
 static gboolean
 xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-#define OUTPUT_BINOM_INV(pre,post)		g_string_append (target, "_xlfn.BINOM.INV("); \
-		gnm_expr_as_gstring (ptr[1], out);\
-		g_string_append_c (target, ',');\
-		gnm_expr_as_gstring (ptr[2], out);\
-		g_string_append (target, pre);\
-		gnm_expr_as_gstring (ptr[0], out);\
-		g_string_append (target, post)
-
-	GnmExprConstPtr const *ptr = func->argv;
-	GString *target = out->accum;
-
-	int use_lower_tail; /* 0: never; 1: always; 2: sometimes */
-	int use_log;        /* 0: never; 1: always; 2: sometimes */
-
-	if (func->argc < 3 || func->argc > 5)
-		return FALSE;
-
-	if (func->argc > 3) {
-		GnmValue const *constant = gnm_expr_get_constant (ptr[3]);
-		if (constant == NULL || !VALUE_IS_NUMBER (constant))
-			use_lower_tail = 2;
-		else
-			use_lower_tail = value_is_zero (constant) ? 0 : 1;
-	} else
-		use_lower_tail = 1;
-	if (func->argc > 4) {
-		GnmValue const *constant = gnm_expr_get_constant (ptr[4]);
-		if (constant == NULL || !VALUE_IS_NUMBER (constant))
-			use_log = 2;
-		else 
-			use_log = value_is_zero (constant) ? 0 : 1;
-	} else
-		use_log = 0;
-
-	if (use_lower_tail == 1 && use_log == 0) {
-		/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,c) */
-		OUTPUT_BINOM_INV (",",")");
-		return TRUE;
-	} else if (use_lower_tail == 0 && use_log == 0) {
-		/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,1-c) */
-		OUTPUT_BINOM_INV (",1-",")");
-		return TRUE;
-	} else if (/* use_lower_tail == 2 && */ use_log == 0) {
-		/* R.QBINOM(c,a,b,d) --> if(d,binom.inv(a,b,c), binom.inv(a,b,1-c)) */
-		g_string_append (target, "if(");
-		gnm_expr_as_gstring (ptr[3], out);
-		g_string_append (target, ",");
-		OUTPUT_BINOM_INV(",","),");
-		OUTPUT_BINOM_INV(",1-","))");
-		return TRUE;
-	} else if (use_lower_tail == 1 && use_log == 1) {
-		/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,exp(c)) */
-		OUTPUT_BINOM_INV (",exp(","))");
-		return TRUE;
-	} else if (use_lower_tail == 0 && use_log == 1) {
-		/* R.QBINOM(c,a,b) --> BINOM.INV(a,b,1-exp(c)) */
-		OUTPUT_BINOM_INV (",1-exp(","))");
-		return TRUE;
-	} else if (/* use_lower_tail == 2 && */ use_log == 1) {
-		/* R.QBINOM(c,a,b,d) --> if(d,binom.inv(a,b,exp(c)), binom.inv(a,b,1-exp(c))) */
-		g_string_append (target, "if(");
-		gnm_expr_as_gstring (ptr[3], out);
-		g_string_append (target, ",");
-		OUTPUT_BINOM_INV(",exp(",")),");
-		OUTPUT_BINOM_INV(",1-exp(",")))");
-		return TRUE;
-	} else if (use_lower_tail == 0 /* && use_log == 2 */) {
-		/* R.QBINOM(c,a,b,d,e) -->
-                               if(e,binom.inv(a,b,1-exp(c)),binom.inv(a,b,1-c))*/
-		g_string_append (target, "if(");
-		gnm_expr_as_gstring (ptr[4], out);
-		g_string_append (target, ",");
-		OUTPUT_BINOM_INV(",1-exp(",")),");
-		OUTPUT_BINOM_INV(",1-","))");
-		return TRUE;
-	} else if (use_lower_tail == 1 /* && use_log == 2 */) {
-		/* R.QBINOM(c,a,b,d,e) -->
-                          if(e,binom.inv(a,b,exp(c)),binom.inv(a,b,c))*/
-		g_string_append (target, "if(");
-		gnm_expr_as_gstring (ptr[4], out);
-		g_string_append (target, ",");
-		OUTPUT_BINOM_INV(",exp(",")),");
-		OUTPUT_BINOM_INV(",","))");
-		return TRUE;
-	} else /*if (use_lower_tail == 2 && use_log == 2 */ {
-		/* R.QBINOM(c,a,b,d,e) -->
-                          if(d,if(e,binom.inv(a,b,exp(c)),binom.inv(a,b,c)),
-                               if(e,binom.inv(a,b,1-exp(c)),binom.inv(a,b,1-c)))*/
-		g_string_append (target, "if(");
-		gnm_expr_as_gstring (ptr[3], out);
-		g_string_append (target, ",if(");
-		gnm_expr_as_gstring (ptr[4], out);
-		g_string_append (target, ",");
-		OUTPUT_BINOM_INV(",exp(",")),");
-		OUTPUT_BINOM_INV(",",")),if(");
-		gnm_expr_as_gstring (ptr[4], out);
-		g_string_append (target, ",");
-		OUTPUT_BINOM_INV(",1-exp(",")),");
-		OUTPUT_BINOM_INV(",1-",")))");
-		return TRUE;
-	}
-#undef OUTPUT_BINOM_INV
+	return xlsx_func_r_q_output_handler (out, func, 2, 2, "_xlfn.binom.INV");
 }
 
 static gboolean
