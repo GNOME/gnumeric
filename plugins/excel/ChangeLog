@@ -1,3 +1,11 @@
+2013-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-utils.c (xlsx_func_betainv_output_handler): new
+	(xlsx_func_gammainv_output_handler): new
+	(xlsx_func_lognorminv_output_handler): new
+	(xlsx_func_tinv_output_handler): new
+	(xlsx_conventions_new): connect the above
+
 2013-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-utils.c (xlsx_write_r_q_func): add argument and change
