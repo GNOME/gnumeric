@@ -370,7 +370,7 @@ xlsx_func_finv_output_handler (GnmConventionsOut *out, GnmExprFunction const *fu
 static gboolean
 xlsx_func_binominv_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-	return xlsx_func_r_q_output_handler (out, func, 2, 2, "_xlfn.binom.INV", NULL);
+	return xlsx_func_r_q_output_handler (out, func, 2, 2, "_xlfn.BINOM.INV", NULL);
 }
 
 static gboolean
