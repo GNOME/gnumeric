@@ -2,6 +2,7 @@ Gnumeric 1.12.4
 
 Andreas:
 	* Improve xlsx export of Gnumeric functions.
+	* Improve xlsx import of Excel 2010 functions.
 	* Fix documentation of r.q*.
 
 Jean:

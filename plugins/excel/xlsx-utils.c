@@ -461,6 +461,7 @@ xlsx_conventions_new (gboolean output)
 		{ "GAMMA.DIST", "GAMMADIST" },
 		{ "GAMMA.INV", "GAMMAINV" },
 		{ "LOGNORM.INV", "LOGINV" },
+		{ "MODE.SNGL", "MODE" },
 		{ "NORM.DIST", "NORMDIST" },
 		{ "NORM.INV", "NORMINV" },
 		{ "NORM.S.INV", "NORMSINV" },
