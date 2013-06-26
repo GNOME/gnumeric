@@ -241,13 +241,17 @@ static SheetObjectView *
 gnm_so_path_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmSOPath *sop = GNM_SO_PATH (so);
-	GnmSOPathView *item = (GnmSOPathView *) goc_item_new (
-	    gnm_pane_object_group (GNM_PANE (container)),
-		so_path_goc_view_get_type (),
-		NULL);
+	GnmSOPathView *item;
 	/* FIXME: this is unsafe if the paths change after the view is created,
 	 * but this can't occur for now */
 	unsigned i;
+
+	if (sop->path == NULL && sop->paths == NULL)
+		return NULL;
+	item = (GnmSOPathView *) goc_item_new (
+	                            gnm_pane_object_group (GNM_PANE (container)),
+	                            so_path_goc_view_get_type (),
+	                            NULL);
 	if (sop->path)
 		item->path = goc_item_new (GOC_GROUP (item),
 		                           GOC_TYPE_PATH,
@@ -441,9 +445,22 @@ gnm_so_path_copy (SheetObject *dst, SheetObject const *src)
 	new_sop->y_offset = sop->y_offset;
 	new_sop->width = sop->width;
 	new_sop->height = sop->height;
-	if (new_sop->path)
+	if (new_sop->path) {
 		go_path_free (new_sop->path);
-	new_sop->path = (sop->path)? go_path_ref (sop->path): NULL;
+		new_sop->path = NULL;
+	} else if (new_sop->paths) {
+		g_ptr_array_unref (new_sop->paths);
+		new_sop->paths = NULL;
+	}
+	if (sop->path)
+		new_sop->path = go_path_ref (sop->path);
+	else {
+		unsigned i;
+		new_sop->paths = g_ptr_array_new_full (sop->paths->len,
+		                                       (GDestroyNotify) go_path_free);
+		for (i = 0; i < sop->paths->len; i++)
+			g_ptr_array_add (new_sop->paths, go_path_ref (g_ptr_array_index (sop->paths, i)));
+	}
 	gnm_so_path_parent_class->copy (dst, src);
 }
 
