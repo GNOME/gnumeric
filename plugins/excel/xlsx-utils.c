@@ -412,6 +412,18 @@ xlsx_func_floor_output_handler (GnmConventionsOut *out, GnmExprFunction const *f
 	return FALSE;
 }
 
+static gboolean
+xlsx_func_erf_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+	/* func->argc == 1 is handled by the translation */
+	if (func->argc != 1) {
+		g_string_append (out->accum, "ERF");
+		gnm_expr_list_as_string (func->argc, func->argv, out);
+		return TRUE;
+	}
+	return FALSE;
+}
+
 
 GnmConventions *
 xlsx_conventions_new (gboolean output)
@@ -436,6 +448,7 @@ xlsx_conventions_new (gboolean output)
 		{"R.QLNORM", xlsx_func_lognorminv_output_handler},
 		{"R.QNORM", xlsx_func_norminv_output_handler},
 		{"R.QT", xlsx_func_tinv_output_handler},
+		{"ERF", xlsx_func_erf_output_handler},
 		{"FLOOR", xlsx_func_floor_output_handler},
 		{NULL, NULL}
 	};
@@ -453,6 +466,8 @@ xlsx_conventions_new (gboolean output)
 		{ "CHISQ.TEST", "CHITEST" },
 		{ "CONFIDENCE.NORM", "CONFIDENCE" },
 		{ "COVARIANCE.P", "COVAR" },
+		{ "ERF.PRECISE", "ERF" },
+		{ "ERFC.PRECISE", "ERFC" },
 		{ "EXPON.DIST", "EXPONDIST" },
 		{ "F.DIST.RT", "FDIST" },
 		{ "F.INV", "R.QF" }, /* see output handler */
