@@ -1,3 +1,8 @@
+2013-06-26  Morten Welinder  <terra@gnome.org>
+
+	* src/style-conditions.c (gnm_style_cond_is_valid): Check sanity
+	of ->op before using it.  Fixes #703143.
+
 2013-06-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-path.c (gnm_so_path_new_view): return NULL if there is no path.

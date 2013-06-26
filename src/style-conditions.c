@@ -101,7 +101,10 @@ gnm_style_cond_is_valid (GnmStyleCond const *cond)
 
 	g_return_val_if_fail (cond != NULL, FALSE);
 
-	if (cond->overlay == NULL) return FALSE;
+	if (cond->overlay == NULL)
+		return FALSE;
+	if ((unsigned)cond->op > (unsigned)GNM_STYLE_COND_NOT_CONTAINS_BLANKS)
+		return FALSE;
 
 	N = gnm_style_cond_op_operands (cond->op);
 	for (ui = 0; ui < G_N_ELEMENTS (cond->deps); ui++) {
