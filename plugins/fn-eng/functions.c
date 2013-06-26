@@ -1077,6 +1077,7 @@ static GnmFuncHelp const help_erf[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ERF returns 2/sqrt(\xcf\x80)* integral from @{lower} to @{upper} of exp(-t*t) dt") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if two arguments are supplied and neither is negative.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ERF(0.4)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ERF(6,10)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ERF(1.6448536269515/SQRT(2))" },
         { GNM_FUNC_HELP_SEEALSO, "ERFC" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Error_function") },
@@ -1086,16 +1087,14 @@ static GnmFuncHelp const help_erf[] = {
 static GnmValue *
 gnumeric_erf (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float ans, lower, upper;
-
-	lower = value_get_as_float (argv[0]);
-	ans = gnm_erf (lower);
+	gnm_float lower = value_get_as_float (argv[0]);
+	gnm_float ans;
 
 	if (argv[1]) {
-		/* FIXME: This is suboptimal.  */
-		upper = value_get_as_float (argv[1]);
-		ans = gnm_erf (upper) - ans;
-	}
+		gnm_float upper = value_get_as_float (argv[1]);
+		ans = 2 * pnorm2 (lower * M_SQRT2gnum, upper * M_SQRT2gnum);
+	} else
+		ans = gnm_erf (lower);
 
 	return value_new_float (ans);
 }

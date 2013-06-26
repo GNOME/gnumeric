@@ -1,3 +1,7 @@
+2013-06-25  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_erf): Fix accuracy for 2-argument version.
+
 2013-06-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.3
