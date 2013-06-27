@@ -1,5 +1,10 @@
 2013-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* ms-formula-read.c (ms-formula-read.c): add another
+	synonym
+
+2013-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-utils.c (xlsx_func_betadist_handler): delete again
 	(xlsx_func_dist_handler): remove density scaling argument,
 	change all callers

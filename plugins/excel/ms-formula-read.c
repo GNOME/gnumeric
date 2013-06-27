@@ -493,6 +493,7 @@ xl2010_synonyms (const char *name)
 		{ "f.test", "ftest" },
 		{ "gamma.dist", "gammadist" },
 		{ "gamma.inv", "gammainv" },
+		{ "hypgeom.dist", "hypgeomdist" },
 		{ "lognorm.inv", "loginv" },
 		{ "mode.sngl", "mode" },
 		{ "norm.dist", "normdist" },
