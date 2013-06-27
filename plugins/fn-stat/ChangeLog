@@ -1,3 +1,10 @@
+2013-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_beta_dist): new
+	(gnumeric_beta_dist): new
+	(stat_functions): add BETA.DIST
+	(plugin.xml.in): add BETA.DIST
+
 2013-06-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.3

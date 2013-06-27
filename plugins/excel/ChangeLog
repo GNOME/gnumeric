@@ -1,5 +1,12 @@
 2013-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-utils.c (xlsx_func_betadist_handler): delete again
+	(xlsx_func_dist_handler): remove density scaling argument,
+	change all callers
+	(xlsx_conventions_new): disconnect xlsx_func_betadist_handler
+
+2013-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-utils.c (xlsx_func_betadist_handler): new
 	(xlsx_func_dist_handler): add density scaling argument, change
 	all callers

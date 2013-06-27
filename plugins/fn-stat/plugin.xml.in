@@ -17,6 +17,7 @@
 				<function name="averagea"/>
 				<function name="bernoulli"/>
 				<function name="betadist"/>
+				<function name="beta.dist"/>
 				<function name="betainv"/>
 				<function name="binom.dist.range"/>
 				<function name="binomdist"/>

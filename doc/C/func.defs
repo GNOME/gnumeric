@@ -1402,6 +1402,14 @@ The depreciation coefficient used is:
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
+@FUNCTION=ATL_LAST
+@SHORTDESC=sample real-time data source
+@SYNTAX=ATL_LAST(tag)
+@ARGUMENTDESCRIPTION=@{tag}: tag to watch
+@DESCRIPTION=ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.
+@NOTE=This is not intended to be generally enabled and is OFF by default.
+
+@CATEGORY=Finance
 @FUNCTION=COUPDAYBS
 @SHORTDESC=number of days from coupon period to settlement
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency,basis,eom)
@@ -4266,7 +4274,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{b}: optional upper bound, defaults to 1
 @NOTE=If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error. If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error. If @{a} >= @{b} this function returns a #NUM! error.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=BETAINV
+@SEEALSO=BETAINV, BETA.DIST
 
 @CATEGORY=Statistics
 @FUNCTION=BETAINV
@@ -4279,7 +4287,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{b}: optional upper bound, defaults to 1
 @NOTE=If @{p} < 0 or @{p} > 1 this function returns a #NUM! error. If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error. If @{a} >= @{b} this function returns a #NUM! error.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=BETADIST
+@SEEALSO=BETADIST,BETA.DIST
 
 @CATEGORY=Statistics
 @FUNCTION=BINOM.DIST.RANGE
@@ -5394,11 +5402,11 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QBETA
 @SHORTDESC=probability quantile function of the beta distribution
 @SYNTAX=R.QBETA(p,a,b,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{a}: the first shape parameter of the distribution
 @{b}: the second scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the beta distribution.
 @SEEALSO=R.DBETA,R.PBETA
 
@@ -5406,11 +5414,11 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QBINOM
 @SHORTDESC=probability quantile function of the binomial distribution
 @SYNTAX=R.QBINOM(p,n,psuc,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{n}: the number of trials
 @{psuc}: the probability of success in each trial
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the binomial distribution.
 @SEEALSO=R.DBINOM,R.PBINOM
 
@@ -5418,11 +5426,11 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QCAUCHY
 @SHORTDESC=probability quantile function of the Cauchy distribution
 @SYNTAX=R.QCAUCHY(p,location,scale,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{location}: the center of the distribution
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Cauchy distribution.
 @SEEALSO=R.DCAUCHY,R.PCAUCHY
 
@@ -5430,10 +5438,10 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QCHISQ
 @SHORTDESC=probability quantile function of the chi-square distribution
 @SYNTAX=R.QCHISQ(p,df,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{df}: the number of degrees of freedom of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the chi-square distribution.
 @ODF=A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula as CHISQINV(@{p},@{df}).
 @SEEALSO=R.DCHISQ,R.PCHISQ
@@ -5442,10 +5450,10 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QEXP
 @SHORTDESC=probability quantile function of the exponential distribution
 @SYNTAX=R.QEXP(p,scale,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the exponential distribution.
 @SEEALSO=R.DEXP,R.PEXP
 
@@ -5453,11 +5461,11 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QF
 @SHORTDESC=probability quantile function of the F distribution
 @SYNTAX=R.QF(p,n1,n2,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{n1}: the first number of degrees of freedom of the distribution
 @{n2}: the second number of degrees of freedom of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the F distribution.
 @SEEALSO=R.DF,R.PF
 
@@ -5465,11 +5473,11 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QGAMMA
 @SHORTDESC=probability quantile function of the gamma distribution
 @SYNTAX=R.QGAMMA(p,shape,scale,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{shape}: the shape parameter of the distribution
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the gamma distribution.
 @SEEALSO=R.DGAMMA,R.PGAMMA
 
@@ -5477,10 +5485,10 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QGEOM
 @SHORTDESC=probability quantile function of the geometric distribution
 @SYNTAX=R.QGEOM(p,psuc,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{psuc}: the probability of success in each trial
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the geometric distribution.
 @SEEALSO=R.DGEOM,R.PGEOM
 
@@ -5488,12 +5496,12 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QHYPER
 @SHORTDESC=probability quantile function of the hypergeometric distribution
 @SYNTAX=R.QHYPER(p,r,b,n,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{r}: the number of red balls
 @{b}: the number of black balls
 @{n}: the number of balls drawn
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the hypergeometric distribution.
 @SEEALSO=R.DHYPER,R.PHYPER
 
@@ -5501,11 +5509,11 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QLNORM
 @SHORTDESC=probability quantile function of the log-normal distribution
 @SYNTAX=R.QLNORM(p,logmean,logsd,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{logmean}: mean of the underlying normal distribution
 @{logsd}: standard deviation of the underlying normal distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the log-normal distribution.
 @SEEALSO=R.DLNORM,R.PLNORM
 
@@ -5513,11 +5521,11 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QNBINOM
 @SHORTDESC=probability quantile function of the negative binomial distribution
 @SYNTAX=R.QNBINOM(p,n,psuc,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{n}: the number of trials
 @{psuc}: the probability of success in each trial
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the negative binomial distribution.
 @SEEALSO=R.DNBINOM,R.PNBINOM
 
@@ -5525,11 +5533,11 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QNORM
 @SHORTDESC=probability quantile function of the normal distribution
 @SYNTAX=R.QNORM(p,mu,sigma,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{mu}: mean of the distribution
 @{sigma}: standard deviation of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the normal distribution.
 @SEEALSO=R.DNORM,R.PNORM
 
@@ -5537,10 +5545,10 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QPOIS
 @SHORTDESC=probability quantile function of the Poisson distribution
 @SYNTAX=R.QPOIS(p,lambda,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{lambda}: the mean of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Poisson distribution.
 @SEEALSO=R.DPOIS,R.PPOIS
 
@@ -5548,12 +5556,12 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QSNORM
 @SHORTDESC=probability quantile function of the skew-normal distribution
 @SYNTAX=R.QSNORM(p,shape,location,scale,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{shape}: the shape parameter of the distribution
 @{location}: the location parameter of the distribution
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the skew-normal distribution.
 @SEEALSO=R.DSNORM,R.PSNORM
 
@@ -5561,11 +5569,11 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QST
 @SHORTDESC=probability quantile function of the skew-t distribution
 @SYNTAX=R.QST(p,n,shape,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{n}: the number of degrees of freedom of the distribution
 @{shape}: the shape parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the skew-t distribution.
 @SEEALSO=R.DST,R.PST
 
@@ -5573,10 +5581,10 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QT
 @SHORTDESC=probability quantile function of the Student t distribution
 @SYNTAX=R.QT(p,n,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{n}: the number of degrees of freedom of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Student t distribution.
 @SEEALSO=R.DT,R.PT
 
@@ -5584,12 +5592,12 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QTUKEY
 @SHORTDESC=probability quantile function of the Studentized range distribution
 @SYNTAX=R.QTUKEY(p,nmeans,df,nranges,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{nmeans}: the number of means
 @{df}: the number of degrees of freedom of the distribution
 @{nranges}: the number of ranges; default is 1
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Studentized range distribution.
 @SEEALSO=R.PTUKEY
 
@@ -5597,11 +5605,11 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=R.QWEIBULL
 @SHORTDESC=probability quantile function of the Weibull distribution
 @SYNTAX=R.QWEIBULL(p,shape,scale,lower_tail,log_p)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
 @{shape}: the shape parameter of the distribution
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
-@{log_p}: if true, log of the probability is used
+@{log_p}: if true, @{p} is the natural logarithm of the probability; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Weibull distribution.
 @SEEALSO=R.DWEIBULL,R.PWEIBULL
 
@@ -5830,11 +5838,11 @@ This function is Excel compatible for non-negative @{x}.
 
 @CATEGORY=Statistics
 @FUNCTION=TINV
-@SHORTDESC=inverse of the survival function of the Student t-distribution
+@SHORTDESC=two tailed inverse of the Student t-distribution
 @SYNTAX=TINV(p,dof)
-@ARGUMENTDESCRIPTION=@{p}: probability
+@ARGUMENTDESCRIPTION=@{p}: probability in both tails
 @{dof}: number of degrees of freedom
-@DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
+@DESCRIPTION=This functions returns the non-negative value x such that the area under the Student t density with @{dof} degrees of freedom to the right of x is @{p}/2.
 @NOTE=If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error. The parameterization of this function is different from what is used for, e.g., NORMSINV.  This is a common source of mistakes, but necessary for compatibility.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=TDIST,TTEST

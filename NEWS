@@ -4,6 +4,7 @@ Andreas:
 	* Improve xlsx export of Gnumeric functions.
 	* Improve xlsx import of Excel 2010 functions.
 	* Fix documentation of r.q*.
+	* Add Excel 2010's BETA.DIST.
 
 Jean:
 	* Don't attempt to add a path item when there is no path objecte. [#703052]

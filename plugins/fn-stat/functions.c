@@ -1172,7 +1172,7 @@ static GnmFuncHelp const help_betadist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=BETADIST(0.12,2,3)" },
-	{ GNM_FUNC_HELP_SEEALSO, "BETAINV"},
+	{ GNM_FUNC_HELP_SEEALSO, "BETAINV, BETA.DIST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1195,6 +1195,47 @@ gnumeric_betadist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_beta_dist[] = {
+	{ GNM_FUNC_HELP_NAME, F_("BETA.DIST:cumulative distribution function of the beta distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative "
+				"distribution function")},
+	{ GNM_FUNC_HELP_ARG, F_("a:optional lower bound, defaults to 0")},
+	{ GNM_FUNC_HELP_ARG, F_("b:optional upper bound, defaults to 1")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BETA.DIST(0.12,2,3,FALSE,2,4)" },
+	{ GNM_FUNC_HELP_SEEALSO, "BETAINV,BETADIST"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_beta_dist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x, alpha, beta, a, b;
+	gboolean cuml;
+
+	x = value_get_as_float (argv[0]);
+	alpha = value_get_as_float (argv[1]);
+	beta = value_get_as_float (argv[2]);
+	cuml = value_get_as_checked_bool (argv[3]);
+	a = argv[4] ? value_get_as_float (argv[4]) : 0;
+	b = argv[5] ? value_get_as_float (argv[5]) : 1;
+
+	if (x < a || x > b || a >= b || alpha <= 0 || beta <= 0)
+		return value_new_error_NUM (ei->pos);
+
+	if (cuml)
+		return value_new_float (pbeta ((x - a) / (b - a), alpha, beta, TRUE, FALSE));
+	else
+		return value_new_float (dbeta ((x - a) / (b - a), alpha, beta, FALSE) / (b - a));
+}
+/***************************************************************************/
+
 /* Note: Excel's this function returns a #NUM! for various values where it
    simply gives up computing the result.  */
 static GnmFuncHelp const help_betainv[] = {
@@ -1209,7 +1250,7 @@ static GnmFuncHelp const help_betainv[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=BETAINV(0.45,1.6,1)" },
-	{ GNM_FUNC_HELP_SEEALSO, "BETADIST"},
+	{ GNM_FUNC_HELP_SEEALSO, "BETADIST,BETA.DIST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5025,6 +5066,9 @@ GnmFuncDescriptor const stat_functions[] = {
 
 	{ "betadist",     "fff|ff",
 	  help_betadist, gnumeric_betadist, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "beta.dist",     "fffb|ff",
+	  help_beta_dist, gnumeric_beta_dist, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "betainv",      "fff|ff",
 	  help_betainv, gnumeric_betainv, NULL, NULL, NULL,
