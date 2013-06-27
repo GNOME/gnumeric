@@ -152,9 +152,11 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 				tc->sheet = NULL;
 				tc->row   = -1;
 				html_read_table (ptr, doc, tc->wb_view, tc);
-				g_string_append_printf (buf, _("[see sheet %s]"), tc->sheet->name_quoted);
-				xmlBufferAdd (a_buf, CC2XML (_("The original html file is\n"
-							       "using nested tables.")), -1);
+				if (tc->sheet) {
+					g_string_append_printf (buf, _("[see sheet %s]"), tc->sheet->name_quoted);
+					xmlBufferAdd (a_buf, CC2XML (_("The original html file is\n"
+								       "using nested tables.")), -1);
+				}
 				tc->sheet = last_sheet;
 				tc->row = last_row;
 			} else
