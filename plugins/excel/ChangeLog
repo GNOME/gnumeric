@@ -1,6 +1,12 @@
+2013-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-utils.c (xlsx_func_lognormdist_handler): new
+	(xlsx_func_negbinomdist_handler): new
+	(xlsx_conventions_new): connect the above two
+
 2013-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* xlsx-utils.c (lsx_func_binominv_handler): use GnmExprList
+	* xlsx-utils.c (xlsx_func_binominv_handler): use GnmExprList
 	rather than GSList
 	(xlsx_func_dist_handler): new
 	(xlsx_func_chisqdist_handler): new

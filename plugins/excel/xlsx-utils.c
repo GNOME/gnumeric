@@ -256,10 +256,26 @@ xlsx_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_U
 }
 
 static GnmExpr const *
-xlsx_func_fdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+xlsx_func_fdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
+			 GnmExprList *args)
 {
 	return xlsx_func_dist_handler (args, 4, "f.dist", "r.pf", "r.df");
 }
+
+static GnmExpr const *
+xlsx_func_lognormdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
+			       GnmExprList *args)
+{
+	return xlsx_func_dist_handler (args, 4, "lognorm.dist", "r.plnorm", "r.dlnorm");
+}
+
+static GnmExpr const *
+xlsx_func_negbinomdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
+				GnmExprList *args)
+{
+	return xlsx_func_dist_handler (args, 4, "negbinom.dist", "r.pnbinom", "r.dnbinom");
+}
+
 
 
 static void
@@ -486,6 +502,8 @@ xlsx_conventions_new (gboolean output)
 		{"BINOM.INV", xlsx_func_binominv_handler},
 		{"CHISQ.DIST", xlsx_func_chisqdist_handler},
 		{"F.DIST", xlsx_func_fdist_handler},
+		{"NEGBINOM.DIST", xlsx_func_negbinomdist_handler},
+		{"LOGNORM.DIST", xlsx_func_lognormdist_handler},
 		{NULL, NULL}
 	};
 
