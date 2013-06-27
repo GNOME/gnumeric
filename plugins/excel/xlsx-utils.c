@@ -211,7 +211,8 @@ xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UN
 }
 
 static GnmExpr const *
-xlsx_func_dist_handler (GnmExprList *args, guint n_args, char const *name, char const *name_p, char const *name_d)
+xlsx_func_dist_handler (GnmExprList *args, guint n_args, char const *name, char const *name_p, char const *name_d, 
+			GnmExpr const *d_scale)
 {
 	if (gnm_expr_list_length (args) != n_args) {
 		GnmFunc  *f = gnm_func_lookup_or_add_placeholder (name);
@@ -234,15 +235,29 @@ xlsx_func_dist_handler (GnmExprList *args, guint n_args, char const *name, char 
 		if (constant == NULL || !VALUE_IS_NUMBER (constant)) {
 			args_c = gnm_expr_list_copy (args);
 			
-			return gnm_expr_new_funcall3 
-				(f_if, cum,
-				 gnm_expr_new_funcall (f_p, args),
-				 gnm_expr_new_funcall (f_d, args_c));
+			if (d_scale == NULL)
+				return gnm_expr_new_funcall3 
+					(f_if, cum,
+					 gnm_expr_new_funcall (f_p, args),
+					 gnm_expr_new_funcall (f_d, args_c));
+			else
+				return gnm_expr_new_funcall3 
+					(f_if, cum,
+					 gnm_expr_new_funcall (f_p, args),
+					 gnm_expr_new_binary (gnm_expr_new_funcall (f_d, args_c), 
+							      GNM_EXPR_OP_DIV, d_scale));
+
 		} else if (value_is_zero (constant)) {
 			gnm_expr_free (cum);
-			return gnm_expr_new_funcall (f_d, args);
+			if (d_scale == NULL) 
+				return gnm_expr_new_funcall (f_d, args);
+			else
+				return gnm_expr_new_binary (gnm_expr_new_funcall (f_d, args), 
+							    GNM_EXPR_OP_DIV, d_scale);
 		} else {
 			gnm_expr_free (cum);
+			if (d_scale != NULL)
+				gnm_expr_free (d_scale);
 			return gnm_expr_new_funcall (f_p, args);
 		}
 	}
@@ -252,28 +267,77 @@ static GnmExpr const *
 xlsx_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
 			     GnmExprList *args)
 {
-	return xlsx_func_dist_handler (args, 3, "chisq.dist", "r.pchisq", "r.dchisq");
+	return xlsx_func_dist_handler (args, 3, "chisq.dist", "r.pchisq", "r.dchisq", NULL);
 }
 
 static GnmExpr const *
 xlsx_func_fdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
 			 GnmExprList *args)
 {
-	return xlsx_func_dist_handler (args, 4, "f.dist", "r.pf", "r.df");
+	return xlsx_func_dist_handler (args, 4, "f.dist", "r.pf", "r.df", NULL);
 }
 
 static GnmExpr const *
 xlsx_func_lognormdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
 			       GnmExprList *args)
 {
-	return xlsx_func_dist_handler (args, 4, "lognorm.dist", "r.plnorm", "r.dlnorm");
+	return xlsx_func_dist_handler (args, 4, "lognorm.dist", "r.plnorm", "r.dlnorm", NULL);
 }
 
 static GnmExpr const *
 xlsx_func_negbinomdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
 				GnmExprList *args)
 {
-	return xlsx_func_dist_handler (args, 4, "negbinom.dist", "r.pnbinom", "r.dnbinom");
+	return xlsx_func_dist_handler (args, 4, "negbinom.dist", "r.pnbinom", "r.dnbinom", NULL);
+}
+
+static GnmExpr const *
+xlsx_func_betadist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
+			    GnmExprList *args)
+{
+	int len = gnm_expr_list_length (args);
+	GnmExpr const *denom = NULL;
+
+	if (len == 6) {
+		GnmExprList *arg_upper = g_slist_nth (args, 5);
+		GnmValue const *constant = gnm_expr_get_constant (arg_upper->data);
+		if (constant != NULL && VALUE_IS_NUMBER (constant) 
+		    && 1.0 == value_get_as_float (constant)) {
+			args = g_slist_remove_link (args, arg_upper);
+			gnm_expr_list_free (arg_upper);
+			len--;
+		}
+	}
+	if (len == 5) {
+		GnmExprList *arg_lower = g_slist_nth (args, 4);
+		GnmValue const *constant = gnm_expr_get_constant (arg_lower->data);
+		if (constant != NULL && VALUE_IS_NUMBER (constant) 
+		    && value_is_zero (constant)) {
+			args = g_slist_remove_link (args, arg_lower);
+			gnm_expr_list_free (arg_lower);
+			len--;
+		}
+	}
+	if (len > 4 && len < 7) {
+		GnmExpr const *upper, *lower;
+		GnmExprList *arg_lower;
+		if (len == 6) {
+			GnmExprList *arg_upper = g_slist_nth (args, 5);
+			upper = arg_upper->data;
+			args = g_slist_delete_link (args, arg_upper);
+		} else 
+			upper = gnm_expr_new_constant (value_new_int (1));
+		arg_lower = g_slist_nth (args, 4);
+		lower = arg_lower->data;
+		args = g_slist_delete_link (args, arg_lower);
+
+		denom = gnm_expr_new_binary (upper, GNM_EXPR_OP_SUB, gnm_expr_copy (lower));
+
+		args->data = (GnmExpr *)gnm_expr_new_binary 
+			(gnm_expr_new_binary (args->data, GNM_EXPR_OP_SUB, lower),
+			 GNM_EXPR_OP_DIV, gnm_expr_copy (denom));
+	}
+	return xlsx_func_dist_handler (args, 4, "beta.dist", "r.pbeta", "r.dbeta", denom);
 }
 
 
@@ -499,6 +563,7 @@ xlsx_conventions_new (gboolean output)
 		char const *gnm_name;
 		gpointer handler;
 	} const xlfn_func_handlers[] = {
+		{"BETA.DIST", xlsx_func_betadist_handler},
 		{"BINOM.INV", xlsx_func_binominv_handler},
 		{"CHISQ.DIST", xlsx_func_chisqdist_handler},
 		{"F.DIST", xlsx_func_fdist_handler},
