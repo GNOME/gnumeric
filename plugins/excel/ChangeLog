@@ -1,5 +1,11 @@
 2013-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-read-drawing.c (xlsx_axis_crosses_at): check for null
+	axis->info
+	(xlsx_axis_crosses): check for null axis->info
+
+2013-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* ms-formula-read.c (ms-formula-read.c): add another
 	synonym
 

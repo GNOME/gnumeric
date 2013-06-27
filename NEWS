@@ -6,7 +6,7 @@ Andreas:
 	* Improve xls import of Excel 2010 functions.
 	* Fix documentation of r.q*.
 	* Add Excel 2010's BETA.DIST.
-	* Fix crash on corrupted files. [#703149]
+	* Fix crash on corrupted files. [#703149] [#703215]
 
 Jean:
 	* Don't attempt to add a path item when there is no path objecte. [#703052]

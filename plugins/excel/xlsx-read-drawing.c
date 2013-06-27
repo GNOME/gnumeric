@@ -499,6 +499,8 @@ xlsx_axis_crosses_at (GsfXMLIn *xin, xmlChar const **attrs)
 	*/
  	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
+	g_return_if_fail (state->axis.info != NULL);
+
 	simple_float (xin, attrs, &state->axis.info->cross_value);
 }
 
@@ -596,10 +598,12 @@ xlsx_axis_crosses (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int cross = GOG_AXIS_CROSS;
 
-	if (state->axis.info && simple_enum (xin, attrs, crosses, &cross))
-		state->axis.info->cross = cross;
-	if (cross == GOG_AXIS_CROSS)
-		state->axis.info->cross_value = 0.;
+	if (state->axis.info) {
+		if (simple_enum (xin, attrs, crosses, &cross))
+			state->axis.info->cross = cross;
+		if (cross == GOG_AXIS_CROSS)
+			state->axis.info->cross_value = 0.;
+	}
 }
 
 static void
