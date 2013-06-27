@@ -114,6 +114,7 @@ GnmExpr const *gnm_expr_simplify_if  (GnmExpr const *expr);
 #define gnm_expr_list_length(l)	   g_slist_length((GSList *)(l)) /* const cast */
 #define gnm_expr_list_free	   g_slist_free
 void	 gnm_expr_list_unref	  (GnmExprList *list);
+GnmExprList *gnm_expr_list_copy	  (GnmExprList *list);
 
 /*****************************************************************************/
 

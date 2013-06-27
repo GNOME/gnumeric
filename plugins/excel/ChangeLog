@@ -1,7 +1,16 @@
 2013-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-utils.c (lsx_func_binominv_handler): use GnmExprList
+	rather than GSList
+	(xlsx_func_dist_handler): new
+	(xlsx_func_chisqdist_handler): new
+	(xlsx_func_fdist_handler): new
+	(xlsx_conventions_new): connect the last two
+
+2013-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-utils.c (xlsx_func_erf_output_handler): new
-	(xlsx_conventions_new): connect the above and add erf.precise 
+	(xlsx_conventions_new): connect the above and add erf.precise
 	translation
 
 2013-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>

@@ -201,13 +201,64 @@ xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UN
 /* BINOM.INV(a,b,c) --> R.QBINOM(c,a,b) */
 {
 	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("r.qbinom");
-	GSList *arg;
+	GnmExprList *arg;
 	
 	arg = g_slist_nth (args, 2);
 	args = g_slist_remove_link (args, arg);
 	args = g_slist_concat (arg, args);
 
 	return gnm_expr_new_funcall (f, args);
+}
+
+static GnmExpr const *
+xlsx_func_dist_handler (GnmExprList *args, guint n_args, char const *name, char const *name_p, char const *name_d)
+{
+	if (gnm_expr_list_length (args) != n_args) {
+		GnmFunc  *f = gnm_func_lookup_or_add_placeholder (name);
+		return gnm_expr_new_funcall (f, args);
+	} else {
+		GnmFunc  *f_if = gnm_func_lookup_or_add_placeholder ("if");
+		GnmFunc  *f_p = gnm_func_lookup_or_add_placeholder (name_p);
+		GnmFunc  *f_d = gnm_func_lookup_or_add_placeholder (name_d);
+		GnmExprList *arg_cum, *args_c;
+		GnmExpr const *cum;
+		GnmValue const *constant;
+
+		arg_cum = g_slist_nth (args, n_args - 1);
+		args = g_slist_remove_link (args, arg_cum);
+		cum = arg_cum->data;
+		gnm_expr_list_free (arg_cum);
+
+		constant = gnm_expr_get_constant (cum);
+		
+		if (constant == NULL || !VALUE_IS_NUMBER (constant)) {
+			args_c = gnm_expr_list_copy (args);
+			
+			return gnm_expr_new_funcall3 
+				(f_if, cum,
+				 gnm_expr_new_funcall (f_p, args),
+				 gnm_expr_new_funcall (f_d, args_c));
+		} else if (value_is_zero (constant)) {
+			gnm_expr_free (cum);
+			return gnm_expr_new_funcall (f_d, args);
+		} else {
+			gnm_expr_free (cum);
+			return gnm_expr_new_funcall (f_p, args);
+		}
+	}
+}
+
+static GnmExpr const *
+xlsx_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
+			     GnmExprList *args)
+{
+	return xlsx_func_dist_handler (args, 3, "chisq.dist", "r.pchisq", "r.dchisq");
+}
+
+static GnmExpr const *
+xlsx_func_fdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+{
+	return xlsx_func_dist_handler (args, 4, "f.dist", "r.pf", "r.df");
 }
 
 
@@ -433,6 +484,8 @@ xlsx_conventions_new (gboolean output)
 		gpointer handler;
 	} const xlfn_func_handlers[] = {
 		{"BINOM.INV", xlsx_func_binominv_handler},
+		{"CHISQ.DIST", xlsx_func_chisqdist_handler},
+		{"F.DIST", xlsx_func_fdist_handler},
 		{NULL, NULL}
 	};
 

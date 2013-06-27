@@ -2770,6 +2770,19 @@ gnm_expr_list_unref (GnmExprList *list)
 	gnm_expr_list_free (list);
 }
 
+GnmExprList *
+gnm_expr_list_copy (GnmExprList *list)
+{
+	GnmExprList *res = g_slist_copy (list); /* shallow */
+	GnmExprList *l;
+
+	for (l = res; l; l = l->next)
+		l->data = (GnmExpr *) gnm_expr_copy (l->data);
+
+	return res;
+}
+
+
 void
 gnm_expr_list_as_string (int argc,
 			 GnmExprConstPtr const *argv,
