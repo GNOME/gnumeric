@@ -1,3 +1,8 @@
+2013-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* generate: move the previous documentation changes here
+	* functions.c: regenerate
+
 2013-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_r_*nbinom): correct description

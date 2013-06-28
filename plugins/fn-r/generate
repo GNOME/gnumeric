@@ -18,7 +18,7 @@ my %defaults;
 		  'lower_tail' =>
 		  "if true (the default), the lower tail of the distribution is considered",
 
-		  'log_p' => "if true, log of the probability is used",
+		  'log_p' => 'if true, the natural logarithm of the probability is given or returned; defaults to false',
 
 		  'x' => 'observation',
 		  'p' => 'probability or natural logarithm of the probability',
@@ -99,9 +99,9 @@ my %defaults;
 	[\&distribution,
 	 'negative binomial',
 	 ({ 'n' => 'required number of successes',
-	    'x' => 'observation (number of failures)',
 	    'psuc' => "the probability of success in each trial",
-	    @common })];
+	    @common,
+	    'x' => 'observation (number of failures)' })];
 
     $funcs{'dhyper'} = $funcs{'phyper'} = $funcs{'qhyper'} =
 	[\&distribution,
