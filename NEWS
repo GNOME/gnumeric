@@ -7,6 +7,7 @@ Andreas:
 	* Fix documentation of r.q* and r.*nbinom. [#703164]
 	* Add Excel 2010's BETA.DIST.
 	* Fix crash on corrupted files. [#703149] [#703215]
+	* Fix import of sxc files. [#703249]
 
 Jean:
 	* Don't attempt to add a path item when there is no path objecte. [#703052]
