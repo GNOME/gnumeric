@@ -21,7 +21,7 @@ my %defaults;
 		  'log_p' => "if true, log of the probability is used",
 
 		  'x' => 'observation',
-		  'p' => 'probability',
+		  'p' => 'probability or natural logarithm of the probability',
 
 		  'shape' => "the shape parameter $of",
 		  'scale' => "the scale parameter $of",
@@ -98,7 +98,8 @@ my %defaults;
     $funcs{'dnbinom'} = $funcs{'pnbinom'} = $funcs{'qnbinom'} =
 	[\&distribution,
 	 'negative binomial',
-	 ({ 'n' => 'the number of trials',
+	 ({ 'n' => 'required number of successes',
+	    'x' => 'observation (number of failures)',
 	    'psuc' => "the probability of success in each trial",
 	    @common })];
 
