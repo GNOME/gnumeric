@@ -12175,6 +12175,10 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	go_io_progress_unset (state.context);
 	g_free (state.last_error);
 
+	/* This should be empty! */
+	while (state.text_p_stack)
+		odf_pop_text_p (&state);
+
 	if (state.default_style.cells)
 		odf_oo_cell_style_unref (state.default_style.cells);
 	g_free (state.default_style.rows);
