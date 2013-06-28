@@ -831,8 +831,8 @@ gnumeric_r_qbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_r_dnbinom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DNBINOM:probability density function of the negative binomial distribution") },
-	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
-	{ GNM_FUNC_HELP_ARG, F_("n:the number of trials") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation (number of failures)") },
+	{ GNM_FUNC_HELP_ARG, F_("n:required number of successes") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the negative binomial distribution.") },
@@ -855,11 +855,11 @@ gnumeric_r_dnbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_r_pnbinom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PNBINOM:cumulative distribution function of the negative binomial distribution") },
-	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
-	{ GNM_FUNC_HELP_ARG, F_("n:the number of trials") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation (number of failures)") },
+	{ GNM_FUNC_HELP_ARG, F_("n:required number of successes") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
-	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used") },
+	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the negative binomial distribution.") },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DNBINOM,R.QNBINOM" },
 	{ GNM_FUNC_HELP_END }
@@ -882,7 +882,7 @@ gnumeric_r_pnbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 static GnmFuncHelp const help_r_qnbinom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.QNBINOM:probability quantile function of the negative binomial distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("p:probability or natural logarithm of the probability") },
-	{ GNM_FUNC_HELP_ARG, F_("n:the number of trials") },
+	{ GNM_FUNC_HELP_ARG, F_("n:required number of successes") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, @{p} is the natural logarithm of the probability; defaults to false") },
