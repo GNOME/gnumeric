@@ -1481,11 +1481,14 @@ excel_read_BOUNDSHEET (BiffQuery *q, GnmXLImporter *importer)
 {
 	BiffBoundsheetData *bs;
 	char const *default_name = "Unknown%d";
+	gboolean oldstyle = (importer->ver <= MS_BIFF_V4);
+
+	XL_CHECK_CONDITION (q->length >= (oldstyle ? 1 : 6));
 
 	bs = g_new0 (BiffBoundsheetData, 1);
 	bs->gnm_type = GNM_SHEET_DATA;
 
-	if (importer->ver <= MS_BIFF_V4) {
+	if (oldstyle) {
 		bs->streamStartPos = 0; /* Excel 4 doesn't tell us */
 		bs->type = MS_BIFF_TYPE_Worksheet;
 		default_name = _("Sheet%d");

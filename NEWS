@@ -10,11 +10,11 @@ Andreas:
 	* Fix import of sxc files. [#703249]
 
 Jean:
-	* Don't attempt to add a path item when there is no path objecte. [#703052]
+	* Don't attempt to add a path item when there is no path object. [#703052]
 
 Morten:
 	* Improve accuracy for 2-argument ERF.
-	* Fix crashes on corrupted files.  [#703143]
+	* Fix crashes on corrupted files.  [#703143] [#703307]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.3
