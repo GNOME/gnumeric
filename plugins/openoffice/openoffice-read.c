@@ -10711,7 +10711,10 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CON
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 	    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
 	    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
+	  GSF_XML_IN_NODE (TABLE_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, &odf_line, &odf_line_end),
+            GSF_XML_IN_NODE (DRAW_LINE, IGNORED_TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* ignore for now */
 	GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", GSF_XML_NO_CONTENT, &oo_covered_cell_start, &oo_covered_cell_end),
+          GSF_XML_IN_NODE (TABLE_COVERED_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, NULL, NULL), 	/* 2nd def */
       GSF_XML_IN_NODE (TABLE, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
@@ -11366,6 +11369,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "LEGACY.FINV","FINV" },
 		{ "LEGACY.NORMSDIST","NORMSDIST" },
 		{ "LEGACY.NORMSINV","NORMSINV" },
+		{ "LEGACY.TDIST","TDIST" },
 		{ "PDURATION","G_DURATION" },
 		{ "PHI","NORMDIST" },              /* see handler */
 		{ "SUMPRODUCT","ODF.SUMPRODUCT" },
@@ -11708,7 +11712,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "TBILLEQ","TBILLEQ" }, */
 /* { "TBILLPRICE","TBILLPRICE" }, */
 /* { "TBILLYIELD","TBILLYIELD" }, */
-/* { "TDIST","TDIST" }, */
 /* { "TEXT","TEXT" }, */
 /* { "TIME","TIME" }, */
 /* { "TIMEVALUE","TIMEVALUE" }, */

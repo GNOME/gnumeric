@@ -1,3 +1,10 @@
+2013-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (ooo1_content_dtd): add draw:line
+	(oo_func_map_in): add LEGACY.TDIST to TDIST translation
+	* openoffice-write.c (odf_expr_func_handler): add TDIST
+	to LEGACY TDIST translation
+
 2013-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (openoffice_file_open): make sure that the

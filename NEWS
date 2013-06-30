@@ -8,6 +8,7 @@ Andreas:
 	* Add Excel 2010's BETA.DIST.
 	* Fix crash on corrupted files. [#703149] [#703215]
 	* Fix import of sxc files. [#703249]
+	* Fix TDIST Import/Export from/to ODF.
 
 Jean:
 	* Don't attempt to add a path item when there is no path object. [#703052]
