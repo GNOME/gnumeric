@@ -7839,6 +7839,7 @@ od_draw_text_box (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 }
 
 /* oo_chart_title is used both for chart titles and legend titles */
+/* 0: title, 1: subtitle, 2:footer, 3: axis */
 static void
 oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -7933,7 +7934,7 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GogObject *obj;
 		gchar const *tag;
 
-		if (state->chart.axis != NULL) {
+		if (state->chart.axis != NULL && xin->node->user_data.v_int == 3) {
 			obj = (GogObject *)state->chart.axis;
 			tag = "Label";
 		} else if (state->chart.legend != NULL) {
@@ -7967,12 +7968,18 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 		if (use_markup)
 			g_object_set (label, "allow-markup", TRUE, NULL);
-		if (state->chart.title_anchor)
-			g_object_set (label, "anchor", state->chart.title_anchor, NULL);
-		g_object_set (label,
-			      "compass", state->chart.title_position,
-			      "is-position-manual", state->chart.title_manual_pos,
-			      NULL);
+		if (xin->node->user_data.v_int != 3) {
+			if (state->chart.title_anchor)
+				g_object_set (label, "anchor", state->chart.title_anchor, NULL);
+			g_object_set (label,
+				      "compass", state->chart.title_position,
+				      "is-position-manual", state->chart.title_manual_pos,
+				      NULL);
+		} else
+			g_object_set (label,
+				      "is-position-manual", state->chart.title_manual_pos,
+				      NULL);
+			
 		if (state->chart.title_manual_pos) {
 			if (go_finite (state->chart.width) && go_finite (state->chart.height)) {
 				GogViewAllocation alloc;
@@ -10901,7 +10908,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, &oo_chart_axis, &oo_chart_axis_end),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, &od_chart_axis_categories, NULL),
-		  GSF_XML_IN_NODE (CHART_AXIS, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+	          GSF_XML_IN_NODE_FULL (CHART_AXIS, CHART_AXIS_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 3),
+	            GSF_XML_IN_NODE (CHART_AXIS_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
 #ifdef HAVE_OO_NS_CHART_OOO
 	        GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_OOO_COORDINATE_REGION, OO_NS_CHART_OOO, "coordinate-region", GSF_XML_NO_CONTENT, NULL, NULL),
 #endif

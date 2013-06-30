@@ -1,5 +1,12 @@
 2013-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_chart_title_end): distinguisg axis
+	titles from chart titles
+	(oo_chart_title_end): avoid writing invalid properties for
+	axis titles
+
+2013-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (ooo1_content_dtd): add draw:line
 	(oo_func_map_in): add LEGACY.TDIST to TDIST translation
 	* openoffice-write.c (odf_expr_func_handler): add TDIST
