@@ -1,3 +1,9 @@
+2013-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_negbinomdist): fix typo
+	(help_tinv): fix typo
+	(help_leverage): fix typo
+
 2013-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_beta_dist): new

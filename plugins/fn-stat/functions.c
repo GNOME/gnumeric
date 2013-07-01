@@ -413,7 +413,7 @@ static GnmFuncHelp const help_negbinomdist[] = {
 	{ GNM_FUNC_HELP_ARG, F_("p:probability of a success")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{f} or @{t} is a non-integer it is truncated.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 these functions returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=NEGBINOMDIST(2,5,0.55)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"},
@@ -1329,7 +1329,7 @@ static GnmFuncHelp const help_tinv[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TINV:two tailed inverse of the Student t-distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("p:probability in both tails")},
 	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("These functions returns the non-negative value x such that the "
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the non-negative value x such that the "
 					"area under the Student t density with @{dof} degrees of freedom "
 					"to the right of x is @{p}/2.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error.")},
@@ -3209,7 +3209,7 @@ static GnmFuncHelp const help_leverage[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LEVERAGE:calculate regression leverage")},
 	{ GNM_FUNC_HELP_ARG, F_("A:a matrix")},
 	{ GNM_FUNC_HELP_DESCRIPTION,
-	  F_("Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}T as a column vector.") },
+	  F_("Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}^T as a column vector.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If the matrix is singular, #VALUE! is returned.") },
 	{ GNM_FUNC_HELP_END}
 };
