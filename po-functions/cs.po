@@ -1,5 +1,6 @@
 # Gnumeric Czech translation
 # Copyright (c) 1999, 2000, 2001, 2002 The Free Software Foundation
+#
 # Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013.
 #
 msgid ""
@@ -7,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-28 17:41+0000\n"
+"POT-Creation-Date: 2013-07-01 07:50+0000\n"
 "PO-Revision-Date: 2013-07-01 01:10+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -6477,7 +6478,6 @@ msgstr ""
 "buňky B1; B2; …; B5 čísla 13; 22; 31; 33 a 39."
 
 #: ../plugins/fn-math/functions.c:2428
-#| msgid "Then STEYX(A1:A5,B1:B5) equals 1.101509979."
 msgid "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."
 msgstr "Potom se SUMX2MY2(A1:A5;B1:B5) rovná -1299."
 
@@ -6504,7 +6504,6 @@ msgstr ""
 "Řetězce a prázdné buňky se prostě ignorují."
 
 #: ../plugins/fn-math/functions.c:2472
-#| msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
 msgid "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."
 msgstr "Potom se SUMX2PY2(A1:A5;B1:B5)) rovná 7149."
 
@@ -6531,7 +6530,6 @@ msgstr ""
 "Řetězce a prázdné buňky se prostě ignorují."
 
 #: ../plugins/fn-math/functions.c:2515
-#| msgid "Then STEYX(A1:A5,B1:B5) equals 1.101509979."
 msgid "Then SUMXMY2(A1:A5,B1:B5) yields 409."
 msgstr "Potom se SUMXMY2(A1:A5;B1:B5) rovná 409."
 
@@ -6556,9 +6554,6 @@ msgid "coeff:coefficients of the power series"
 msgstr "coeff:koeficienty mocninné řady"
 
 #: ../plugins/fn-math/functions.c:2557
-#| msgid ""
-#| "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, "
-#| "33, and 39."
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
 "2.98, 3.42, and 4.33."
@@ -6595,7 +6590,6 @@ msgid "MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}"
 msgstr "MPSEUDOINVERSE:pseudoinverzní matice k matici @{matrix}"
 
 #: ../plugins/fn-math/functions.c:2647
-#| msgid "mat1:a matrix"
 msgid "matrix:a matrix"
 msgstr "matrix:matice"
 
@@ -7053,7 +7047,6 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1145 ../plugins/fn-r/functions.c:1172
 #: ../plugins/fn-r/functions.c:1225 ../plugins/fn-r/functions.c:1253
 #: ../plugins/fn-r/functions.c:1304 ../plugins/fn-r/functions.c:1330
-#| msgid "log_p:if true, log of the probability is used"
 msgid ""
 "log_p:if true, the natural logarithm of the probability is given or "
 "returned; defaults to false"
@@ -7536,13 +7529,11 @@ msgstr ""
 "R.DNBINOM:funkce hustoty pravděpodobnosti negativního binomického rozdělení"
 
 #: ../plugins/fn-r/functions.c:834 ../plugins/fn-r/functions.c:858
-#| msgid "n:number of failures"
 msgid "x:observation (number of failures)"
 msgstr "n:pozorování (počet neúspěchů)"
 
 #: ../plugins/fn-r/functions.c:835 ../plugins/fn-r/functions.c:859
 #: ../plugins/fn-r/functions.c:885
-#| msgid "n:number of successes"
 msgid "n:required number of successes"
 msgstr "n:požadovaný počet úspěchů"
 
@@ -7697,7 +7688,6 @@ msgid ""
 msgstr "Tato funkce vrací hromadnou distribuční funkci Cauchyho rozdělení."
 
 #: ../plugins/fn-r/functions.c:1111
-#| msgid "R.PT:cumulative distribution function of the Student t distribution"
 msgid ""
 "R.PTUKEY:cumulative distribution function of the Studentized range "
 "distribution"
@@ -7709,14 +7699,10 @@ msgid "nmeans:the number of means"
 msgstr "nmeans:počet středních hodnot"
 
 #: ../plugins/fn-r/functions.c:1115 ../plugins/fn-r/functions.c:1143
-#| msgid "r:the number of red balls"
 msgid "nranges:the number of ranges; default is 1"
 msgstr "nranges:počet intervalů; výchozí je 1"
 
 #: ../plugins/fn-r/functions.c:1118
-#| msgid ""
-#| "This function returns the cumulative distribution function of the Student "
-#| "t distribution."
 msgid ""
 "This function returns the cumulative distribution function of the "
 "Studentized range distribution."
@@ -7725,17 +7711,12 @@ msgstr ""
 "rozdělení."
 
 #: ../plugins/fn-r/functions.c:1139
-#| msgid "R.QT:probability quantile function of the Student t distribution"
 msgid ""
 "R.QTUKEY:probability quantile function of the Studentized range distribution"
 msgstr ""
 "R.QTUKEY:inverzní distribuční funkce Studentova intervalového rozdělení"
 
 #: ../plugins/fn-r/functions.c:1146
-#| msgid ""
-#| "This function returns the probability quantile function, i.e., the "
-#| "inverse of the cumulative distribution function, of the Student t "
-#| "distribution."
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Studentized range "
@@ -8741,8 +8722,8 @@ msgid "If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error."
 msgstr "Pokud je (@{f} + @{t} -1) <= 0, tak tato funkce vrací chybu #ČÍSLO!."
 
 #: ../plugins/fn-stat/functions.c:416
-msgid "If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error."
-msgstr "Pokud je @{p} < 0 nebo @{p} > 1, tak tato funkce vrací chybu #ČÍSLO!."
+msgid "If @{p} < 0 or @{p} > 1 these functions returns a #NUM! error."
+msgstr "Pokud je @{p} < 0 nebo @{p} > 1, pak tyto funkce vrací chybu #ČÍSLO!."
 
 #: ../plugins/fn-stat/functions.c:439
 msgid ""
@@ -8772,12 +8753,10 @@ msgstr ""
 "intervalu"
 
 #: ../plugins/fn-stat/functions.c:462
-#| msgid "start:start of the interval"
 msgid "x1:start of the interval"
 msgstr "x1:začátek intervalu"
 
 #: ../plugins/fn-stat/functions.c:463
-#| msgid "start:start of the interval"
 msgid "x2:end of the interval"
 msgstr "x2:konec intervalu"
 
@@ -8792,7 +8771,6 @@ msgstr ""
 "@{x1} do @{x2}."
 
 #: ../plugins/fn-stat/functions.c:465
-#| msgid "If @{a} >= @{b} this function returns a #NUM! error."
 msgid "If @{x1}>@{x2}, this function returns a negative value."
 msgstr "Pokud je @{x1} > @{x2}, tak tato funkce vrací zápornou hodnotu."
 
@@ -9321,10 +9299,11 @@ msgstr "p:pravděpodobnost při obou výběrech"
 
 #: ../plugins/fn-stat/functions.c:1332
 msgid ""
-"This functions returns the non-negative value x such that the area under the "
-"Student t density with @{dof} degrees of freedom to the right of x is @{p}/2."
+"These functions returns the non-negative value x such that the area under "
+"the Student t density with @{dof} degrees of freedom to the right of x is @"
+"{p}/2."
 msgstr ""
-"Tato funkce vrací takovou nezápornou hodnotu x, že plocha pod Studentovou t-"
+"Tyto funkce vrací takovou nezápornou hodnotu x, že plocha pod Studentovou t-"
 "hustotou s @{dof} stupni volnosti doprava od x je @{p}/2."
 
 #: ../plugins/fn-stat/functions.c:1337
