@@ -6049,6 +6049,7 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 				(GOG_OBJECT (equation));
 			gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
 			odf_write_gog_position (state, equation);
+			odf_write_gog_position_pts (state, equation);
 			gsf_xml_out_end_element (state->xml); /* </chart:equation> */
 		}
 
@@ -7491,9 +7492,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		GSList *ltitles = gog_object_get_children
 			(legend, gog_object_find_role_by_name
 			 (legend, "Title"));
-
-		flags = gog_object_get_position_flags
-			(legend, GOG_POSITION_COMPASS);
+		gboolean is_position_manual = FALSE;
 
 		gsf_xml_out_start_element (state->xml, CHART "legend");
 		gsf_xml_out_add_cstr (state->xml,
@@ -7501,26 +7500,37 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 					      style_name);
 		g_free (style_name);
 
-		if (flags) {
-			GString *compass = g_string_new (NULL);
+		odf_write_gog_position (state, legend); /* gnumeric extensions */
 
-			if (flags & GOG_POSITION_N)
-				g_string_append (compass, "top");
-			if (flags & GOG_POSITION_S)
-				g_string_append (compass, "bottom");
-			if ((flags & (GOG_POSITION_S | GOG_POSITION_N)) &&
-			    (flags & (GOG_POSITION_E | GOG_POSITION_W)))
-				g_string_append (compass, "-");
-			if (flags & GOG_POSITION_E)
-				g_string_append (compass, "end");
-			if (flags & GOG_POSITION_W)
-				g_string_append (compass, "start");
-
-			gsf_xml_out_add_cstr (state->xml,
-					      CHART "legend-position",
-					      compass->str);
-
-			g_string_free (compass, TRUE);
+		g_object_get (G_OBJECT (legend),
+			      "is-position-manual", &is_position_manual,
+			      NULL);
+		if (is_position_manual) 
+			odf_write_gog_position_pts (state, legend);
+		else {
+			flags = gog_object_get_position_flags
+				(legend, GOG_POSITION_COMPASS);
+			if (flags) {
+				GString *compass = g_string_new (NULL);
+				
+				if (flags & GOG_POSITION_N)
+					g_string_append (compass, "top");
+				if (flags & GOG_POSITION_S)
+					g_string_append (compass, "bottom");
+				if ((flags & (GOG_POSITION_S | GOG_POSITION_N)) &&
+				    (flags & (GOG_POSITION_E | GOG_POSITION_W)))
+					g_string_append (compass, "-");
+				if (flags & GOG_POSITION_E)
+					g_string_append (compass, "end");
+				if (flags & GOG_POSITION_W)
+					g_string_append (compass, "start");
+				
+				gsf_xml_out_add_cstr (state->xml,
+						      CHART "legend-position",
+						      compass->str);
+				
+				g_string_free (compass, TRUE);
+			}
 		}
 
 		if (ltitles != NULL) {

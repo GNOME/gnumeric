@@ -9,6 +9,7 @@ Andreas:
 	* Fix crash on corrupted files. [#703149] [#703215]
 	* Fix import of sxc files. [#703249]
 	* Fix TDIST Import/Export from/to ODF.
+	* Write manual legend position to ODF. [#703362]
 
 Jean:
 	* Don't attempt to add a path item when there is no path object. [#703052]

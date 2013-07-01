@@ -1,3 +1,9 @@
+2013-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_regression_curve): write
+	location
+	(odf_write_plot): write manual legend position
+
 2013-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_chart_title_end): distinguisg axis
