@@ -16,6 +16,7 @@ Jean:
 Morten:
 	* Improve accuracy for 2-argument ERF.
 	* Fix crashes on corrupted files.  [#703143] [#703307]
+	* Fix --with-long-double tests.  [#703397]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.3

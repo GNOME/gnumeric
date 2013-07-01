@@ -1,3 +1,8 @@
+2013-07-01  Morten Welinder  <terra@gnome.org>
+
+	* configure.ac (long double): Crude use -lm for long double
+	function checks.  Fixes #703397.
+
 2013-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/expr.c (gnm_expr_list_copy): new
