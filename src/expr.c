@@ -2770,6 +2770,12 @@ gnm_expr_list_unref (GnmExprList *list)
 	gnm_expr_list_free (list);
 }
 
+/**
+ * gnm_expr_list_copy:
+ * @list: list of expressions
+ *
+ * Returns: (transfer full): a copy of the list.
+ */
 GnmExprList *
 gnm_expr_list_copy (GnmExprList *list)
 {
