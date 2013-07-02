@@ -10,6 +10,7 @@ Andreas:
 	* Fix import of sxc files. [#703249]
 	* Fix TDIST Import/Export from/to ODF.
 	* Write manual legend position to ODF. [#703362]
+	* Fix position handling in strict ODF export.
 
 Jean:
 	* Don't attempt to add a path item when there is no path object. [#703052]

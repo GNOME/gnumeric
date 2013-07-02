@@ -1,3 +1,11 @@
+2013-07-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_gog_position_pts): only write
+	location if manual is set
+	(odf_write_gog_position): include compass specification
+	(odf_write_title): remove position argument, change all callers
+	and let odf_write_gog_position handle compass
+
 2013-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_regression_curve): write
