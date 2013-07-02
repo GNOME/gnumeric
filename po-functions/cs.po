@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-07-01 07:50+0000\n"
+"POT-Creation-Date: 2013-07-01 17:43+0000\n"
 "PO-Revision-Date: 2013-07-01 01:10+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -8721,9 +8721,13 @@ msgstr "Pokud jsou hodnoty @{f} nebo @{t} neceločíselné, tak jsou oříznuty.
 msgid "If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error."
 msgstr "Pokud je (@{f} + @{t} -1) <= 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:416
-msgid "If @{p} < 0 or @{p} > 1 these functions returns a #NUM! error."
-msgstr "Pokud je @{p} < 0 nebo @{p} > 1, pak tyto funkce vrací chybu #ČÍSLO!."
+#: ../plugins/fn-stat/functions.c:416 ../plugins/fn-stat/functions.c:927
+#: ../plugins/fn-stat/functions.c:996 ../plugins/fn-stat/functions.c:1248
+#: ../plugins/fn-stat/functions.c:1537 ../plugins/fn-stat/functions.c:1570
+#: ../plugins/fn-stat/functions.c:1604 ../plugins/fn-stat/functions.c:1665
+#: ../plugins/fn-stat/functions.c:4440
+msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
+msgstr "Pokud je @{p} < 0 nebo @{p} > 1, tak tato funkce vrací chybu #ČÍSLO!."
 
 #: ../plugins/fn-stat/functions.c:439
 msgid ""
@@ -9108,13 +9112,6 @@ msgstr "k:celé číslo"
 msgid "If @{k} != 0 and @{k} != 1 this function returns a #NUM! error."
 msgstr "Pokud je @{k} != 0 a @{k} != 1, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:927 ../plugins/fn-stat/functions.c:996
-#: ../plugins/fn-stat/functions.c:1248 ../plugins/fn-stat/functions.c:1537
-#: ../plugins/fn-stat/functions.c:1570 ../plugins/fn-stat/functions.c:1604
-#: ../plugins/fn-stat/functions.c:1665 ../plugins/fn-stat/functions.c:4440
-msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
-msgstr "Pokud je @{p} < 0 nebo @{p} > 1, tak tato funkce vrací chybu #ČÍSLO!."
-
 #: ../plugins/fn-stat/functions.c:959
 msgid ""
 "GAMMADIST:probability density or cumulative distribution function of the "
@@ -9299,11 +9296,10 @@ msgstr "p:pravděpodobnost při obou výběrech"
 
 #: ../plugins/fn-stat/functions.c:1332
 msgid ""
-"These functions returns the non-negative value x such that the area under "
-"the Student t density with @{dof} degrees of freedom to the right of x is @"
-"{p}/2."
+"This function returns the non-negative value x such that the area under the "
+"Student t density with @{dof} degrees of freedom to the right of x is @{p}/2."
 msgstr ""
-"Tyto funkce vrací takovou nezápornou hodnotu x, že plocha pod Studentovou t-"
+"Tato funkce vrací takovou nezápornou hodnotu x, že plocha pod Studentovou t-"
 "hustotou s @{dof} stupni volnosti doprava od x je @{p}/2."
 
 #: ../plugins/fn-stat/functions.c:1337
@@ -10275,8 +10271,9 @@ msgid "LEVERAGE:calculate regression leverage"
 msgstr "LEVERAGE:vypočítá vliv regrese"
 
 #: ../plugins/fn-stat/functions.c:3212
-msgid "Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}T as a column vector."
-msgstr "Vrací diagonálu z @{A} (@{A}^T @{A})^-1 @{A}T jako sloupcový vektor."
+msgid ""
+"Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}^T as a column vector."
+msgstr "Vrací diagonálu z @{A} (@{A}^T @{A})^-1 @{A}^T jako sloupcový vektor."
 
 #: ../plugins/fn-stat/functions.c:3213
 msgid "If the matrix is singular, #VALUE! is returned."
