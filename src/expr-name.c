@@ -1005,11 +1005,7 @@ expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 void
 expr_name_set_is_placeholder (GnmNamedExpr *nexpr, gboolean is_placeholder)
 {
-	const char *name;
-
 	g_return_if_fail (nexpr != NULL);
-
-	name = expr_name_name (nexpr);
 
 	is_placeholder = !!is_placeholder;
 	if (nexpr->is_placeholder == is_placeholder)
@@ -1017,6 +1013,8 @@ expr_name_set_is_placeholder (GnmNamedExpr *nexpr, gboolean is_placeholder)
 	nexpr->is_placeholder = is_placeholder;
 
 	if (nexpr->scope) {
+		const char *name = expr_name_name (nexpr);
+
 		g_hash_table_steal (is_placeholder
 				    ? nexpr->scope->names
 				    : nexpr->scope->placeholders,

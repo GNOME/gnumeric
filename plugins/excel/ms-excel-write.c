@@ -3903,7 +3903,7 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 			if (NULL != sheet->filters->next) {
 				/* TODO Warn of lost autofilters */
 			}
-			expr_name_remove (nexpr);
+			expr_name_unref (nexpr);
 		}
 	}
 }

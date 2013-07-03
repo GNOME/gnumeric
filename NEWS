@@ -19,6 +19,7 @@ Morten:
 	* Improve accuracy for 2-argument ERF.
 	* Fix crashes on corrupted files.  [#703143] [#703307]
 	* Fix --with-long-double tests.  [#703397]
+	* Fix problems saving auto filters to xls.  [#703308]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.3

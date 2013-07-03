@@ -1,3 +1,9 @@
+2013-07-02  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_autofilter_names): Use
+	expr_name_unref, not expr_name_remove since the fake name is not
+	in any scope.  Fixes #703308.
+
 2013-06-30  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_BOUNDSHEET): Check record length.

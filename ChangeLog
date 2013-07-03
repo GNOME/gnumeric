@@ -1,3 +1,8 @@
+2013-07-02  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-name.c (expr_name_set_is_placeholder): Rearrange the
+	deck chairs.
+
 2013-07-01  Morten Welinder  <terra@gnome.org>
 
 	* configure.ac (long double): Crude use -lm for long double
