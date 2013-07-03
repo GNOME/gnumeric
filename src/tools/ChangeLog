@@ -1,3 +1,8 @@
+2013-07-03  Morten Welinder  <terra@gnome.org>
+
+	* dao.c (dao_set_format): Ignore invalid format, likely due to
+	translation errors.  Fixes #703355.
+
 2013-06-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.3

@@ -21,6 +21,7 @@ Morten:
 	* Fix --with-long-double tests.  [#703397]
 	* Fix problems saving auto filters to xls.  [#703308]
 	* Improve handling of large graph ranges.  [#703546]
+	* Fix analysis issue with translations.  [#703355]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.3

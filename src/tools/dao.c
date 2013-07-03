@@ -818,13 +818,19 @@ dao_set_format (data_analysis_output_t *dao, int col1, int row1,
 		int col2, int row2,
 		char const * format)
 {
-	GnmStyle *mstyle;
+	GOFormat *fmt;
 
-	mstyle = gnm_style_new ();
-	gnm_style_set_format_text (mstyle, format);
-	dao_set_style (dao, col1, row1,
-		       col2, row2, mstyle);
+	fmt = go_format_new_from_XL (format);
+	if (go_format_is_invalid (fmt)) {
+		g_warning ("Ignoring invalid format [%s]", format);
+	} else {
+		GnmStyle *mstyle = gnm_style_new ();
+		gnm_style_set_format (mstyle, fmt);
+		dao_set_style (dao, col1, row1, col2, row2, mstyle);
+	}
+	go_format_unref (fmt);
 }
+
 
 /**
  * dao_set_colors:
