@@ -20,6 +20,7 @@ Morten:
 	* Fix crashes on corrupted files.  [#703143] [#703307]
 	* Fix --with-long-double tests.  [#703397]
 	* Fix problems saving auto filters to xls.  [#703308]
+	* Improve handling of large graph ranges.  [#703546]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.3

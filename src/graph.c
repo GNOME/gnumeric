@@ -529,8 +529,8 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 	GnmEvalPos ep;
 	GnmRange r;
 	Sheet *start_sheet, *end_sheet;
-	unsigned h, w;
 	int old_len = dat->len;
+	gint64 new_len = 0;
 
 	eval_pos_init_dep (&ep, &vec->dep);
 	if (vec->val == NULL && vec->dep.texpr != NULL) {
@@ -571,36 +571,41 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 				r.end.row = start_sheet->rows.max_used + 1;
 
 			if (r.end.col >= r.start.col && r.end.row >= r.start.row) {
-				w = range_width (&r);
-				h = range_height (&r);
+				guint w = range_width (&r);
+				guint h = range_height (&r);
 				vec->as_col = h > w;
-				dat->len = h * w;
+				new_len = (guint64)h * w;
 			}
 			break;
 
 		case VALUE_ARRAY : {
 			GnmValue *v;
 			int i, j;
-			dat->len = 0;
+			new_len = 0;
 			for (j = 0; j < vec->val->v_array.y; j++)
 				for (i = 0; i < vec->val->v_array.x; i++) {
 					v = vec->val->v_array.vals[i][j];
 					if (v->type == VALUE_CELLRANGE) {
 						gnm_rangeref_normalize (&v->v_range.cell, &ep,
 							&start_sheet, &end_sheet, &r);
-						dat->len += range_width (&r) * range_height (&r);
+						new_len += (guint64)range_width (&r) * range_height (&r);
 					} else
-						dat->len++;
+						new_len++;
 				}
 			vec->as_col = (vec->val->v_array.y > vec->val->v_array.x);
 			break;
 		}
 		default :
-			dat->len = 1;
+			new_len = 1;
 			vec->as_col = TRUE;
 		}
 	} else
-		dat->len = 0;
+		new_len = 0;
+
+	/* Protect against overflow in ->len as well as when allocating ->values. */
+	new_len = MIN (new_len, (gint64)(G_MAXINT / sizeof (dat->values[0])));
+	dat->len = new_len;
+
 	if (dat->values != NULL && old_len != dat->len) {
 		g_free (dat->values);
 		dat->values = NULL;
@@ -612,6 +617,7 @@ struct assign_closure {
 	const GODateConventions *date_conv;
 	double minimum, maximum;
 	double *vals;
+	gssize vals_len;
 	unsigned last;
 	unsigned i;
 };
@@ -621,6 +627,9 @@ cb_assign_val (GnmCellIter const *iter, struct assign_closure *dat)
 {
 	GnmValue *v;
 	double res;
+
+	if (dat->i >= dat->vals_len)
+		return NULL;
 
 	if (iter->cell != NULL) {
 		gnm_cell_eval (iter->cell);
@@ -700,6 +709,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			closure.maximum = - G_MAXDOUBLE;
 			closure.minimum = G_MAXDOUBLE;
 			closure.vals = dat->values;
+			closure.vals_len = dat->len;
 			closure.last = -1;
 			closure.i = 0;
 			sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
@@ -743,6 +753,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 					closure.maximum = - G_MAXDOUBLE;
 					closure.minimum = G_MAXDOUBLE;
 					closure.vals = dat->values;
+					closure.vals_len = dat->len;
 					closure.last = last - 1;
 					closure.i = last;
 					sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
