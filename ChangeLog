@@ -1,5 +1,10 @@
 2013-07-02  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c (struct ISL): Use guint64 for areas of ranges.
+	(cb_style_list_add_node): Ditto.
+	(verify_hashes): Ditto.
+	(internal_style_list): Ditto.
+
 	* src/expr-name.c (expr_name_set_is_placeholder): Rearrange the
 	deck chairs.
 

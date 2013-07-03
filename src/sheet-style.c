@@ -2477,7 +2477,7 @@ debug_style_list (void)
 typedef struct {
 	GPtrArray *accum;
 	GHashTable *by_tl, *by_br;
-	size_t area;
+	guint64 area;
 	gboolean (*style_equal) (GnmStyle const *a, GnmStyle const *b);
 	gboolean (*style_filter) (GnmStyle const *style);
 	GnmSheetSize const *sheet_size;
@@ -2568,7 +2568,7 @@ cb_style_list_add_node (GnmStyle *style,
 		range.end.row -= apply_to->start.row;
 	}
 
-	data->area += range_width (&range) * range_height (&range);
+	data->area += (guint64)range_width (&range) * range_height (&range);
 
 	sr = gnm_style_region_new (&range, style);
 	g_ptr_array_add (data->accum, sr);
@@ -2583,7 +2583,7 @@ verify_hashes (ISL *data)
 	GHashTable *by_tl = data->by_tl;
 	GHashTable *by_br = data->by_br;
 	unsigned ui;
-	size_t area = 0;
+	guint64 area = 0;
 
 	g_return_if_fail (g_hash_table_size (by_tl) == data->accum->len);
 	g_return_if_fail (g_hash_table_size (by_br) == data->accum->len);
@@ -2593,7 +2593,7 @@ verify_hashes (ISL *data)
 		g_return_if_fail (g_hash_table_lookup (by_tl, &sr->range.start) == sr);
 		g_return_if_fail (g_hash_table_lookup (by_br, &sr->range.end) == sr);
 		area += range_height (&sr->range) *
-			(size_t)range_width (&sr->range);
+			(guint64)range_width (&sr->range);
 	}
 
 	g_return_if_fail (area == data->area);
@@ -2797,7 +2797,7 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 	GnmStyleList *res = NULL;
 	unsigned ui, prelen;
 	gboolean paranoid = FALSE;
-	size_t sheet_area;
+	guint64 sheet_area;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
@@ -2822,7 +2822,7 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 		      sheet->tile_top_level, 0, 0, r,
 		      cb_style_list_add_node, &data);
 
-	sheet_area = (size_t)range_height (r) * range_width (r);
+	sheet_area = (guint64)range_height (r) * range_width (r);
 	if (data.style_filter ? (data.area > sheet_area) : (data.area != sheet_area))
 		g_warning ("Strange size issue in internal_style_list");
 
