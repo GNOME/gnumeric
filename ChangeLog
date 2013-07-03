@@ -1,3 +1,9 @@
+2013-07-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/graph.c (gnm_go_data_vector_load_len): use consistent
+	signage
+	(cb_assign_val): quieten warning about signed/unsigned comparison
+
 2013-07-03  Morten Welinder  <terra@gnome.org>
 
 	* src/graph.c (gnm_go_data_vector_load_len): Improve handling of

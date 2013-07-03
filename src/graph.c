@@ -530,7 +530,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 	GnmRange r;
 	Sheet *start_sheet, *end_sheet;
 	int old_len = dat->len;
-	gint64 new_len = 0;
+	guint64 new_len = 0;
 
 	eval_pos_init_dep (&ep, &vec->dep);
 	if (vec->val == NULL && vec->dep.texpr != NULL) {
@@ -628,7 +628,7 @@ cb_assign_val (GnmCellIter const *iter, struct assign_closure *dat)
 	GnmValue *v;
 	double res;
 
-	if (dat->i >= dat->vals_len)
+	if ((gssize)dat->i >= dat->vals_len)
 		return NULL;
 
 	if (iter->cell != NULL) {
