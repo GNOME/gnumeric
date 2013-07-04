@@ -281,7 +281,8 @@ gnm_soi_get_target_list (SheetObject const *so)
 }
 
 static void
-gnm_soi_write_image (SheetObject const *so, char const *format, double resolution,
+gnm_soi_write_image (SheetObject const *so, char const *format, 
+		     G_GNUC_UNUSED double resolution,
 		     GsfOutput *output, GError **err)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
@@ -401,10 +402,11 @@ content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 
 static void
 gnm_soi_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
-			 xmlChar const **attrs, GnmConventions const *convs)
+			 xmlChar const **attrs,
+			 G_GNUC_UNUSED GnmConventions const *convs)
 {
 	static GsfXMLInNode const dtd[] = {
-	  GSF_XML_IN_NODE (CONTENT, CONTENT, -1, "Content",	GSF_XML_CONTENT, &content_start, &content_end),
+	  GSF_XML_IN_NODE (CONTENT, CONTENT, -1, "Content", GSF_XML_CONTENT, &content_start, &content_end),
 	  GSF_XML_IN_NODE_END
 	};
 	static GsfXMLInDoc *doc = NULL;
@@ -424,7 +426,7 @@ gnm_soi_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 
 static void
 gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
-		       GnmConventions const *convs)
+		       G_GNUC_UNUSED GnmConventions const *convs)
 {
 	SheetObjectImage *soi;
 
@@ -561,7 +563,8 @@ gnm_soi_assign_to_sheet (SheetObject *so, Sheet *sheet)
 	} else if (soi->name) {
 		GODoc *doc = GO_DOC (sheet->workbook);
 		GType type = go_image_type_for_format (soi->type);
-		soi->image = g_object_ref (go_doc_image_fetch (doc, soi->name, type));
+		if (type != 0)
+			soi->image = g_object_ref (go_doc_image_fetch (doc, soi->name, type));
 	} else {
 		/* There is nothing we can do */
 	}

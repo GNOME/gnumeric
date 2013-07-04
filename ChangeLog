@@ -1,3 +1,8 @@
+2013-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-image.c (gnm_soi_assign_to_sheet): do not try
+	to create an image of unknown type
+
 2013-07-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/graph.c (gnm_go_data_vector_load_len): use consistent
