@@ -5828,8 +5828,8 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	    next_opcode == BIFF_LINK_TIP) {
 		ms_biff_query_next (q);
 		/* according to OO the bytes 2..10 are the range for the tip */
-		if (q->data != NULL)
-			tip = read_utf16_str ((q->length - 10)/ 2, q->data + 10);
+		XL_CHECK_CONDITION (q->length > 10);
+		tip = read_utf16_str ((q->length - 10)/ 2, q->data + 10);
 	}
 
 	if (link != NULL) {
