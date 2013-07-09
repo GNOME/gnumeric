@@ -17,7 +17,7 @@ Jean:
 
 Morten:
 	* Improve accuracy for 2-argument ERF.
-	* Fix crashes on corrupted files.  [#703143] [#703307]
+	* Fix crashes on corrupted files.  [#703143] [#703307] [#703306]
 	* Fix --with-long-double tests.  [#703397]
 	* Fix problems saving auto filters to xls.  [#703308]
 	* Improve handling of large graph ranges.  [#703546]

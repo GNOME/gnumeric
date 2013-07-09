@@ -571,8 +571,10 @@ getRefV7 (GnmCellRef *cr,
 				cr->row = row;
 		} else
 			cr->row = row - currow;
-	} else
+	} else {
+		/* By construction this cannot exceed 0x3fff. */
 		cr->row = row;
+	}
 
 	cr->col_relative = (gbitrw & 0x4000) != 0;
 	if (cr->col_relative) {
@@ -580,18 +582,19 @@ getRefV7 (GnmCellRef *cr,
 			cr->col = (gint8)col;
 		else
 			cr->col = col - curcol;
-	} else
+	} else {
+		/* By construction this cannot exceed 0xff. */
 		cr->col = col;
+	}
 }
 
 /**
- *  A useful routine for extracting data from a common
- * storage structure.
+ * A useful routine for extracting data from a common storage structure.
  **/
 static void
 getRefV8 (GnmCellRef *cr,
 	  guint16 row, guint16 gbitcl, int curcol, int currow,
-	  gboolean const shared)
+	  gboolean const shared, GnmSheetSize const *ss)
 {
 	guint8 const col = (guint8)(gbitcl & 0xff);
 
@@ -606,8 +609,13 @@ getRefV8 (GnmCellRef *cr,
 			cr->row = (gint16)row;
 		else
 			cr->row = row - currow;
-	} else
+	} else {
 		cr->row = row;
+		if (row >= ss->max_rows) {
+			g_warning ("Row too big: %d", row);
+			cr->row = ss->max_rows - 1;
+		}
+	}
 
 	cr->col_relative = (gbitcl & 0x4000) != 0;
 	if (cr->col_relative) {
@@ -615,8 +623,10 @@ getRefV8 (GnmCellRef *cr,
 			cr->col = (gint8)col;
 		else
 			cr->col = col - curcol;
-	} else
+	} else {
+		/* By construction this cannot exceed 0xff. */
 		cr->col = col;
+	}
 }
 
 static void
@@ -961,6 +971,9 @@ excel_parse_formula1 (MSContainer const *container,
 		      gboolean *array_element)
 {
 	MsBiffVersion const ver = container->importer->ver;
+	GnmSheetSize const *ss = esheet
+		? gnm_sheet_get_size (esheet->sheet)
+		: workbook_get_sheet_size (container->importer->wb);
 
 	/* so that the offsets and lengths match the documentation */
 	guint8 const *cur = mem + 1;
@@ -1316,7 +1329,7 @@ excel_parse_formula1 (MSContainer const *container,
 				getRefV8 (&ref,
 					  GSF_LE_GET_GUINT16 (cur + 1),
 					  GSF_LE_GET_GUINT16 (cur + 3),
-					  fn_col, fn_row, shared);
+					  fn_col, fn_row, shared, ss);
 				if ((eptg % 2))	/* Column are odd */
 					ref.row = ref.row_relative ? 0 : fn_row;
 				else		/* Row */
@@ -1573,7 +1586,8 @@ excel_parse_formula1 (MSContainer const *container,
 				getRefV8 (&ref,
 					  GSF_LE_GET_GUINT16 (cur),
 					  GSF_LE_GET_GUINT16 (cur + 2),
-					  fn_col, fn_row, ptgbase == FORMULA_PTG_REFN);
+					  fn_col, fn_row, ptgbase == FORMULA_PTG_REFN,
+					  ss);
 			} else {
 				CHECK_FORMULA_LEN(3);
 				getRefV7 (&ref,
@@ -1592,11 +1606,13 @@ excel_parse_formula1 (MSContainer const *container,
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16 (cur+0),
 					  GSF_LE_GET_GUINT16 (cur+4),
-					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
+					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN,
+					  ss);
 				getRefV8 (&last,
 					  GSF_LE_GET_GUINT16 (cur+2),
 					  GSF_LE_GET_GUINT16 (cur+6),
-					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
+					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN,
+					  ss);
 			} else {
 				CHECK_FORMULA_LEN(6);
 				getRefV7 (&first,
@@ -1702,7 +1718,7 @@ excel_parse_formula1 (MSContainer const *container,
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16 (cur + 2),
 					  GSF_LE_GET_GUINT16 (cur + 4),
-					  fn_col, fn_row, 0);
+					  fn_col, fn_row, FALSE, ss);
 				last = first;
 			} else {
 				CHECK_FORMULA_LEN(17);
@@ -1731,11 +1747,11 @@ excel_parse_formula1 (MSContainer const *container,
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16 (cur+2),
 					  GSF_LE_GET_GUINT16 (cur+6),
-					  fn_col, fn_row, 0);
+					  fn_col, fn_row, FALSE, ss);
 				getRefV8 (&last,
 					  GSF_LE_GET_GUINT16 (cur+4),
 					  GSF_LE_GET_GUINT16 (cur+8),
-					  fn_col, fn_row, 0);
+					  fn_col, fn_row, FALSE, ss);
 			} else {
 				CHECK_FORMULA_LEN(20);
 				getRefV7 (&first,

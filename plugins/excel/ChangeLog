@@ -1,3 +1,8 @@
+2013-07-09  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-read.c (getRefV8): Take GnmSheetSize argument.
+	Verify row against that.  All callers changed.  Fixes #703306.
+
 2013-07-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (xlsx_sheet_dtd): attach protectedRange to the
