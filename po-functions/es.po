@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-07-04 19:30+0000\n"
-"PO-Revision-Date: 2013-07-08 13:25+0200\n"
+"POT-Creation-Date: 2013-07-08 11:30+0000\n"
+"PO-Revision-Date: 2013-07-09 10:16+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -8953,7 +8953,7 @@ msgstr "Si (@{f} + @{t} -1) <= 0 esta función devuelve un error #NUM!."
 #: ../plugins/fn-stat/functions.c:1604 ../plugins/fn-stat/functions.c:1665
 #: ../plugins/fn-stat/functions.c:4440
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
-msgstr "si @{p} < 0 o @{p} > 1 esta función devolverá un error #NUM!."
+msgstr "Si @{p} < 0 o @{p} > 1 esta función devolverá un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:439
 msgid ""
