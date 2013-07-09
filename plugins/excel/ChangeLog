@@ -1,3 +1,7 @@
+2013-07-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-read.c (excel_read_HLINK): check for NULL data
+
 2013-07-09  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-read.c (getRefV8): Take GnmSheetSize argument.
