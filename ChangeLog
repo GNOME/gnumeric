@@ -1,3 +1,8 @@
+2013-07-10  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (parse_criteria): Patterns should anchor at the end
+	(#703770) and be case insensitive (no bug#).
+
 2013-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-image.c (gnm_soi_assign_to_sheet): do not try
