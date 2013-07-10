@@ -224,7 +224,7 @@ gnm_xl_importer_set_codepage (GnmXLImporter *importer, int codepage)
 		str_iconv = gsf_msole_iconv_open_for_import (codepage);
 
 	if (str_iconv == (GIConv)(-1)) {
-		g_warning ("missing convertor for codepage %u\n"
+		g_warning ("missing converter for codepage %u\n"
 			   "falling back to 1252", codepage);
 		str_iconv = gsf_msole_iconv_open_for_import (1252);
 	}

@@ -1604,7 +1604,7 @@ function_def_get_arg_type_string (GnmFunc const *fn_def,
 		return _("Any");
 
 	default:
-		g_warning ("Unkown arg type");
+		g_warning ("Unknown arg type");
 		return "Broken";
 	}
 }
