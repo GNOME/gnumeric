@@ -1140,16 +1140,18 @@ odf_get_gnm_border_format (GnmBorder   *border)
 
 
 #define BORDERSTYLE(msbw, msbwstr, msbwstr_wth, msbwstr_gnm) if (gnm_style_is_element_set (style, msbw)) { \
-	                GnmBorder *border = gnm_style_get_border (style, msbw); \
+		GnmBorder *border = gnm_style_get_border (style, msbw); \
+		if (border != NULL) {					\
 			char *border_style = odf_get_border_format (border); \
 			char const *gnm_border_style = odf_get_gnm_border_format (border); \
 			gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr, border_style); \
-			g_free (border_style); \
-                        if (gnm_border_style != NULL && state->with_extension) \
+			g_free (border_style);				\
+			if (gnm_border_style != NULL && state->with_extension) \
 				gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr_gnm, gnm_border_style); \
-                        if (border->line_type == GNM_STYLE_BORDER_DOUBLE) \
-			        gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr_wth, "0.03cm 0.03cm 0.03cm "); \
-		}
+			if (border->line_type == GNM_STYLE_BORDER_DOUBLE) \
+				gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr_wth, "0.03cm 0.03cm 0.03cm "); \
+		}							\
+	}
 
 #define UNDERLINESPECS(type, style, width) gsf_xml_out_add_cstr (state->xml, \
 						      STYLE "text-underline-type", type); \

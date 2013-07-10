@@ -1,3 +1,7 @@
+2013-07-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (BORDERSTYLE): check for NULL border
+
 2013-07-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_gog_position_pts): only write
