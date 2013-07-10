@@ -4510,7 +4510,7 @@
 2006-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (od_write_cell): handle matrix functions and
-	  be careful with checking unkown strings. Remove some duplicated code.
+	  be careful with checking unnkown strings. Remove some duplicated code.
 	(oo_write_sheet): extent is 0 based
 	(oo_write_content): We are writing opendocument. We should be checking the
 	  standard rather than OOo limitations.
