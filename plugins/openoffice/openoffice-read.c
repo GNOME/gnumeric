@@ -10858,8 +10858,11 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
 		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, &oo_cell_content_link, NULL),
+	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		        GSF_XML_IN_NODE (TEXT_ADDR, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
  	    GSF_XML_IN_NODE (SPREADSHEET, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, ITERATION, OO_NS_TABLE, "iteration", GSF_XML_NO_CONTENT, oo_iteration, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, DATE_CONVENTION, OO_NS_TABLE, "null-date", GSF_XML_NO_CONTENT, oo_date_convention, NULL),
@@ -10971,7 +10974,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &oo_cell_content_start, &oo_cell_content_end),
 		    GSF_XML_IN_NODE (CELL_TEXT, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_S,   OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, &oo_cell_content_link, NULL),
+		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT,NULL, NULL ),/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */

@@ -1,5 +1,8 @@
 Gnumeric 1.12.5
 
+Andreas:
+	* Improve ODF import of cells with links. [#704022]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.4
 
