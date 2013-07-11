@@ -4861,36 +4861,6 @@
       </para>
       </refsect1>
     </refentry>
-    <refentry id="gnumeric-function-ATL_LAST">
-      <refmeta>
-        <refentrytitle>
-          <function>ATL_LAST</function>
-        </refentrytitle>
-      </refmeta>
-      <refnamediv>
-        <refname>
-          <function>ATL_LAST</function>
-        </refname>
-        <refpurpose>
-        sample real-time data source
-      </refpurpose>
-      </refnamediv>
-      <refsynopsisdiv>
-        <synopsis><function>ATL_LAST</function>(<parameter>tag</parameter>)</synopsis>
-      </refsynopsisdiv>
-      <refsect1>
-        <title>Arguments</title>
-        <para><parameter>tag</parameter>: tag to watch</para>
-      </refsect1>
-      <refsect1>
-        <title>Description</title>
-        <para><function>ATL_LAST</function> is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.</para>
-      </refsect1>
-      <refsect1>
-        <title>Note</title>
-        <para>This is not intended to be generally enabled and is OFF by default.</para>
-      </refsect1>
-    </refentry>
     <refentry id="gnumeric-function-COUPDAYBS">
       <refmeta>
         <refentrytitle>
@@ -14706,6 +14676,47 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-BETA.DIST">
+      <refmeta>
+        <refentrytitle>
+          <function>BETA.DIST</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>BETA.DIST</function>
+        </refname>
+        <refpurpose>
+        cumulative distribution function of the beta distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>BETA.DIST</function>(<parameter>x</parameter>,<parameter>alpha</parameter>,<parameter>beta</parameter>,<parameter>cumulative</parameter>,<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: number</para>
+        <para><parameter>alpha</parameter>: scale parameter</para>
+        <para><parameter>beta</parameter>: scale parameter</para>
+        <para><parameter>cumulative</parameter>: whether to evaluate the density function or the cumulative distribution function</para>
+        <para><parameter>a</parameter>: optional lower bound, defaults to 0</para>
+        <para><parameter>b</parameter>: optional upper bound, defaults to 1</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>x</parameter> &lt; <parameter>a</parameter> or <parameter>x</parameter> &gt; <parameter>b</parameter> this function returns a #NUM! error. If <parameter>alpha</parameter> &lt;= 0 or <parameter>beta</parameter> &lt;= 0, this function returns a #NUM! error. If <parameter>a</parameter> &gt;= <parameter>b</parameter> this function returns a #NUM! error.</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-BETAINV"><function>BETAINV</function></link>,
+        <link linkend="gnumeric-function-BETADIST"><function>BETADIST</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-BETADIST">
       <refmeta>
         <refentrytitle>
@@ -16232,7 +16243,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>Returns the diagonal of <parameter>A</parameter> (<parameter>A</parameter>^T <parameter>A</parameter>)^-1 <parameter>A</parameter>T as a column vector.</para>
+        <para>Returns the diagonal of <parameter>A</parameter> (<parameter>A</parameter>^T <parameter>A</parameter>)^-1 <parameter>A</parameter>^T as a column vector.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -16793,7 +16804,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>f</parameter> or <parameter>t</parameter> is a non-integer it is truncated. If (<parameter>f</parameter> + <parameter>t</parameter> -1) &lt;= 0 this function returns a #NUM! error. If <parameter>p</parameter> &lt; 0 or <parameter>p</parameter> &gt; 1 this functions returns a #NUM! error.</para>
+        <para>If <parameter>f</parameter> or <parameter>t</parameter> is a non-integer it is truncated. If (<parameter>f</parameter> + <parameter>t</parameter> -1) &lt;= 0 this function returns a #NUM! error. If <parameter>p</parameter> &lt; 0 or <parameter>p</parameter> &gt; 1 this function returns a #NUM! error.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -17700,8 +17711,8 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: observation</para>
-        <para><parameter>n</parameter>: the number of trials</para>
+        <para><parameter>x</parameter>: observation (number of failures)</para>
+        <para><parameter>n</parameter>: required number of successes</para>
         <para><parameter>psuc</parameter>: the probability of success in each trial</para>
         <para><parameter>give_log</parameter>: if true, log of the result will be returned instead</para>
       </refsect1>
@@ -17948,7 +17959,7 @@
         <para><parameter>a</parameter>: the first shape parameter of the distribution</para>
         <para><parameter>b</parameter>: the second scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -17984,7 +17995,7 @@
         <para><parameter>n</parameter>: the number of trials</para>
         <para><parameter>psuc</parameter>: the probability of success in each trial</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18020,7 +18031,7 @@
         <para><parameter>location</parameter>: the center of the distribution</para>
         <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18055,7 +18066,7 @@
         <para><parameter>x</parameter>: observation</para>
         <para><parameter>df</parameter>: the number of degrees of freedom of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18094,7 +18105,7 @@
         <para><parameter>x</parameter>: observation</para>
         <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18130,7 +18141,7 @@
         <para><parameter>n1</parameter>: the first number of degrees of freedom of the distribution</para>
         <para><parameter>n2</parameter>: the second number of degrees of freedom of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18166,7 +18177,7 @@
         <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
         <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18201,7 +18212,7 @@
         <para><parameter>x</parameter>: observation</para>
         <para><parameter>psuc</parameter>: the probability of success in each trial</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18238,7 +18249,7 @@
         <para><parameter>b</parameter>: the number of black balls</para>
         <para><parameter>n</parameter>: the number of balls drawn</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18274,7 +18285,7 @@
         <para><parameter>logmean</parameter>: mean of the underlying normal distribution</para>
         <para><parameter>logsd</parameter>: standard deviation of the underlying normal distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18306,11 +18317,11 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: observation</para>
-        <para><parameter>n</parameter>: the number of trials</para>
+        <para><parameter>x</parameter>: observation (number of failures)</para>
+        <para><parameter>n</parameter>: required number of successes</para>
         <para><parameter>psuc</parameter>: the probability of success in each trial</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18346,7 +18357,7 @@
         <para><parameter>mu</parameter>: mean of the distribution</para>
         <para><parameter>sigma</parameter>: standard deviation of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18381,7 +18392,7 @@
         <para><parameter>x</parameter>: observation</para>
         <para><parameter>lambda</parameter>: the mean of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18418,7 +18429,7 @@
         <para><parameter>location</parameter>: the location parameter of the distribution</para>
         <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18454,7 +18465,7 @@
         <para><parameter>n</parameter>: the number of degrees of freedom of the distribution</para>
         <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18489,7 +18500,7 @@
         <para><parameter>x</parameter>: observation</para>
         <para><parameter>n</parameter>: the number of degrees of freedom of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18526,7 +18537,7 @@
         <para><parameter>df</parameter>: the number of degrees of freedom of the distribution</para>
         <para><parameter>nranges</parameter>: the number of ranges; default is 1</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18561,7 +18572,7 @@
         <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
         <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18597,7 +18608,7 @@
         <para><parameter>a</parameter>: the first shape parameter of the distribution</para>
         <para><parameter>b</parameter>: the second scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18633,7 +18644,7 @@
         <para><parameter>n</parameter>: the number of trials</para>
         <para><parameter>psuc</parameter>: the probability of success in each trial</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18669,7 +18680,7 @@
         <para><parameter>location</parameter>: the center of the distribution</para>
         <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18704,7 +18715,7 @@
         <para><parameter>p</parameter>: probability or natural logarithm of the probability</para>
         <para><parameter>df</parameter>: the number of degrees of freedom of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18743,7 +18754,7 @@
         <para><parameter>p</parameter>: probability or natural logarithm of the probability</para>
         <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18779,7 +18790,7 @@
         <para><parameter>n1</parameter>: the first number of degrees of freedom of the distribution</para>
         <para><parameter>n2</parameter>: the second number of degrees of freedom of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18815,7 +18826,7 @@
         <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
         <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18850,7 +18861,7 @@
         <para><parameter>p</parameter>: probability or natural logarithm of the probability</para>
         <para><parameter>psuc</parameter>: the probability of success in each trial</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18887,7 +18898,7 @@
         <para><parameter>b</parameter>: the number of black balls</para>
         <para><parameter>n</parameter>: the number of balls drawn</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18923,7 +18934,7 @@
         <para><parameter>logmean</parameter>: mean of the underlying normal distribution</para>
         <para><parameter>logsd</parameter>: standard deviation of the underlying normal distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18956,10 +18967,10 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>p</parameter>: probability or natural logarithm of the probability</para>
-        <para><parameter>n</parameter>: the number of trials</para>
+        <para><parameter>n</parameter>: required number of successes</para>
         <para><parameter>psuc</parameter>: the probability of success in each trial</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18995,7 +19006,7 @@
         <para><parameter>mu</parameter>: mean of the distribution</para>
         <para><parameter>sigma</parameter>: standard deviation of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -19030,7 +19041,7 @@
         <para><parameter>p</parameter>: probability or natural logarithm of the probability</para>
         <para><parameter>lambda</parameter>: the mean of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -19067,7 +19078,7 @@
         <para><parameter>location</parameter>: the location parameter of the distribution</para>
         <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -19103,7 +19114,7 @@
         <para><parameter>n</parameter>: the number of degrees of freedom of the distribution</para>
         <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -19138,7 +19149,7 @@
         <para><parameter>p</parameter>: probability or natural logarithm of the probability</para>
         <para><parameter>n</parameter>: the number of degrees of freedom of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -19175,7 +19186,7 @@
         <para><parameter>df</parameter>: the number of degrees of freedom of the distribution</para>
         <para><parameter>nranges</parameter>: the number of ranges; default is 1</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -19210,7 +19221,7 @@
         <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
         <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
         <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
-        <para><parameter>log_p</parameter>: if true, <parameter>p</parameter> is the natural logarithm of the probability; defaults to false</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -20016,7 +20027,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>This functions returns the non-negative value x such that the area under the Student t density with <parameter>dof</parameter> degrees of freedom to the right of x is <parameter>p</parameter>/2.</para>
+        <para>This function returns the non-negative value x such that the area under the Student t density with <parameter>dof</parameter> degrees of freedom to the right of x is <parameter>p</parameter>/2.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>

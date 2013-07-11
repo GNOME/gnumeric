@@ -1,3 +1,7 @@
+2013-07-10  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.4
+
 2013-07-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-read.c (excel_read_HLINK): check for NULL data

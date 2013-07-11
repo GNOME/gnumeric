@@ -1,3 +1,7 @@
+2013-07-10  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.4
+
 2013-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_negbinomdist): fix typo
