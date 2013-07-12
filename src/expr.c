@@ -360,6 +360,7 @@ GnmExpr const *
 gnm_expr_new_range_ctor (GnmExpr const *l, GnmExpr const *r)
 {
 	GnmValue *v;
+	const GnmCellRef *lr, *rr;
 
 	g_return_val_if_fail (l != NULL, NULL);
 	g_return_val_if_fail (r != NULL, NULL);
@@ -369,7 +370,12 @@ gnm_expr_new_range_ctor (GnmExpr const *l, GnmExpr const *r)
 	if (GNM_EXPR_GET_OPER (r) != GNM_EXPR_OP_CELLREF)
 		goto fallback;
 
-	v = value_new_cellrange_unsafe (&l->cellref.ref, &r->cellref.ref);
+	lr = &l->cellref.ref;
+	rr = &r->cellref.ref;
+	if (lr->sheet != rr->sheet)
+		goto fallback;
+
+	v = value_new_cellrange_unsafe (lr, rr);
 	gnm_expr_free (l);
 	gnm_expr_free (r);
 	return gnm_expr_new_constant (v);
@@ -1183,6 +1189,8 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 		res_range = range_union (&a_range, &b_range);
+		/* b_range might be on a bigger sheet.  */
+		range_ensure_sanity (&res_range, a_start);
 		break;
 	case GNM_EXPR_OP_INTERSECT:
 		/* 3D references not allowed.  */

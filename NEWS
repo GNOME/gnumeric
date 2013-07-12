@@ -3,6 +3,9 @@ Gnumeric 1.12.5
 Andreas:
 	* Improve ODF import of cells with links. [#704022]
 
+Morten:
+	* Fix crazy parsing problem.  [#704109]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.4
 
