@@ -464,7 +464,9 @@ sc_parse_format_apply_precision (ScParseState *state, char *format, int col)
 static void
 sc_parse_format_set_type (ScParseState *state, int type, int col_from, int col_to)
 {
-	char const *o_format = g_ptr_array_index(state->formats, type);
+	char const *o_format = type >= 0 && (size_t)type < state->formats->len
+		? g_ptr_array_index(state->formats, type)
+		: NULL;
 	int col;
 
 	if (o_format == NULL) {

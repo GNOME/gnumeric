@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* Fix crazy parsing problem.  [#704109] [#704140]
+	* Fix crashes on corrupted files.  [#704102]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.4
