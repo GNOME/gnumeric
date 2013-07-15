@@ -1,3 +1,10 @@
+2013-07-15  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_new_range_ctor): Undo previous change.
+
+	* src/dependent.c (link_range_dep, unlink_range_dep): Protect
+	against oversize range.
+
 2013-07-12  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_range_op): When constructing a range, make

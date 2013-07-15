@@ -932,8 +932,14 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		DependencyRange const *r)
 {
 	int i = BUCKET_OF_ROW (r->range.start.row);
-	int const end = BUCKET_OF_ROW (r->range.end.row);
+	int end = BUCKET_OF_ROW (r->range.end.row);
 	DependencyRange r2 = *r;
+
+	/*
+	 * It is possible to see ranges bigger than the sheet when
+	 * operating with 3D ranges.  See bug #704109.
+	 */
+	end = MIN (end, deps->buckets - 1);
 
 	for ( ; i <= end; i++) {
 		DependencyRange *result;
@@ -968,11 +974,13 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		  DependencyRange const *r)
 {
 	int i = BUCKET_OF_ROW (r->range.start.row);
-	int const end = BUCKET_OF_ROW (r->range.end.row);
+	int end = BUCKET_OF_ROW (r->range.end.row);
 	DependencyRange r2 = *r;
 
 	if (!deps)
 		return;
+
+	end = MIN (end, deps->buckets - 1);
 
 	for ( ; i <= end; i++) {
 		DependencyRange *result;
