@@ -1,5 +1,8 @@
 2013-07-15  Morten Welinder  <terra@gnome.org>
 
+	* src/mstyle.c (gnm_style_cmp): Borders can be NULL; deal with
+	that.  Fixes #704004.
+
 	* src/expr.c (gnm_expr_new_range_ctor): Undo previous change.
 
 	* src/dependent.c (link_range_dep, unlink_range_dep): Protect

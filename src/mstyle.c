@@ -1030,6 +1030,9 @@ gnm_style_cmp (GnmStyle const *a, GnmStyle const *b)
 			continue;
 		ba = a->borders[e - MSTYLE_BORDER_TOP];
 		bb = b->borders[e - MSTYLE_BORDER_TOP];
+		if (ba == bb)
+			continue;  /* Handles both being NULL */
+		CMP_TRY_NUMBER_RAW(!!ba, !!bb);
 		CMP_TRY_NUMBER_RAW(ba->line_type, bb->line_type);
 		CMP_TRY_NUMBER_RAW(ba->color->go_color, bb->color->go_color);
 		CMP_TRY_NUMBER_RAW(ba->begin_margin, bb->begin_margin);
