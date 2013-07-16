@@ -3860,7 +3860,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	gboolean const ignore_empty = (flags & CELL_ITER_IGNORE_EMPTY) != 0;
 	gboolean ignore;
 	gboolean use_celllist;
-	size_t range_size;
+	guint64 range_size;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (callback != NULL, NULL);
@@ -3882,7 +3882,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	start_row = MAX (0, start_row);
 	end_row = MIN (end_row, gnm_sheet_get_last_row (sheet));
 
-	range_size = (end_row - start_row + 1) * (end_col - start_col + 1);
+	range_size = (guint64)(end_row - start_row + 1) * (end_col - start_col + 1);
 	use_celllist =
 		only_existing &&
 		range_size > g_hash_table_size (sheet->cell_hash) + 1000;
