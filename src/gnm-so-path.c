@@ -118,14 +118,16 @@ so_path_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 						y1 = My;
 				}
 			}
-			x1 += x0 + (sop->margin_pts.left - sop->margin_pts.right);
-			y1 += y0 + (sop->margin_pts.top - sop->margin_pts.bottom);
+			x1 -= x0 + sop->margin_pts.left + sop->margin_pts.right;
+			y1 -= y0 + sop->margin_pts.top + sop->margin_pts.bottom;
+			x0 += x1 / 2.;
+			y0 += y1 / 2.;
 			x1 = MAX (x1, DBL_MIN);
 			y1 = MAX (y1, DBL_MIN);
 
 			goc_item_set (GOC_ITEM (spv->text),
-			              "x", x1 / 2.,
-			              "y", y1 / 2.,
+			              "x", x0,
+			              "y", y0,
 				          "clip-height", y1,
 				          "clip-width",  x1,
 				          "wrap-width",  x1,
@@ -212,9 +214,29 @@ cb_gnm_so_path_changed (GnmSOPath const *sop,
 		GOStyle *style;
 		if (group->text == NULL) {
 			double x0, y0, x1, y1;
-			goc_item_get_bounds (group->path, &x0, &y0, &x1, &y1);
-			x1 += x0 + (sop->margin_pts.left - sop->margin_pts.right);
-			y1 += y0 + (sop->margin_pts.top - sop->margin_pts.bottom);
+			if (group->path)
+				goc_item_get_bounds (group->path, &x0, &y0, &x1, &y1);
+			else {
+				unsigned i;
+				double mx, my, Mx, My;
+				x0 = y0 = G_MAXDOUBLE;
+				x1 = y1 = -G_MAXDOUBLE;
+				for (i = 0; i < group->paths->len; i++) {
+					goc_item_get_bounds (GOC_ITEM (g_ptr_array_index (group->paths, i)), &mx, &my, &Mx, &My);
+					if (mx < x0)
+						x0 = mx;
+					if (my < y0)
+						y0 = my;
+					if (Mx > x1)
+						x1 = Mx;
+					if (My > y1)
+						y1 = My;
+				}
+			}
+			x1 -= x0 + sop->margin_pts.left + sop->margin_pts.right;
+			y1 -= y0 + sop->margin_pts.top + sop->margin_pts.bottom;
+			x0 += x1 / 2.;
+			y0 += y1 / 2.;
 			x1 = MAX (x1, DBL_MIN);
 			y1 = MAX (y1, DBL_MIN);
 			group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
@@ -222,6 +244,9 @@ cb_gnm_so_path_changed (GnmSOPath const *sop,
 				"clip",		TRUE,
 				"x",		x1 / 2.,
 				"y",		y1 / 2.,
+		        "clip-height", y1,
+		        "clip-width",  x1,
+		        "wrap-width",  x1,
 				"attributes",	sop->markup,
 				NULL);
 		}

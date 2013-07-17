@@ -91,7 +91,7 @@ so_filled_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 			NULL);
 
 
-		if (fiv->text != NULL && GOC_ITEM (fiv->text)) {
+		if (fiv->text != NULL && GOC_IS_ITEM (fiv->text)) {
 			w -= (sof->margin_pts.left + sof->margin_pts.right)
 				/ scale;
 			w = MAX (w, DBL_MIN);
@@ -196,18 +196,20 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 		/* set a font, a very bad solution, but will do until we move to GOString */
 		PangoFontDescription *desc = pango_font_description_from_string ("Sans 10");
 		GOStyle *style;
+		double w, h;
+		double scale = goc_canvas_get_pixels_per_unit (GOC_ITEM (group)->canvas);
+		g_object_get (group->bg, "width", &w, "height", &h, NULL);
+		w -= (sof->margin_pts.left + sof->margin_pts.right)
+			/ scale;
+		w = MAX (w, DBL_MIN);
+
+		h -= (sof->margin_pts.top + sof->margin_pts.bottom)
+			/ scale;
+		h = MAX (h, DBL_MIN);
+printf("w=%g h=%g\n",w,h);
 		if (group->text == NULL) {
 			if (sof->is_oval) {
-				double w, h;
-				double scale = goc_canvas_get_pixels_per_unit (GOC_ITEM (group)->canvas);
-				g_object_get (group->bg, "width", &w, "height", &h, NULL);
-				w -= (sof->margin_pts.left + sof->margin_pts.right)
-					/ scale;
-				w = MAX (w, DBL_MIN);
-
-				h -= (sof->margin_pts.top + sof->margin_pts.bottom)
-					/ scale;
-				h = MAX (h, DBL_MIN);
+puts("oval");
 				group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
 					"anchor",	GO_ANCHOR_CENTER,
 					"clip",		TRUE,
@@ -216,20 +218,24 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 					"attributes",	sof->markup,
 					NULL);
 			} else
+			{puts("rectangle");
 				group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
 					"anchor",	GO_ANCHOR_NW,
 					"clip",		TRUE,
 					"x",		sof->margin_pts.left,
 					"y",		sof->margin_pts.top,
 					"attributes",	sof->markup,
-					NULL);
+					NULL);}
 		}
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (group->text));
 		go_style_set_font_desc (style, desc);
 		goc_item_set (group->text,
-				     "text", sof->text,
-				     "attributes",	sof->markup,
-				     NULL);
+		              "text", sof->text,
+		              "attributes", sof->markup,
+		              "clip-height", h,
+		              "clip-width",  w,
+		              "wrap-width",  w,
+		              NULL);
 	} else if (group->text != NULL) {
 		g_object_unref (group->text);
 		group->text = NULL;

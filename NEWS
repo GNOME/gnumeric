@@ -4,6 +4,9 @@ Andreas:
 	* Improve ODF import of cells with links. [#704022]
 	* Fix import of multi-paragraph text from ODF. [#704391]
 
+Jean:
+	* Fix text wrap inside sheet objects. [#704417]
+
 Morten:
 	* Fix crazy parsing problem.  [#704109] [#704140]
 	* Fix crashes on corrupted files.  [#704102] [#704004] [#704325]

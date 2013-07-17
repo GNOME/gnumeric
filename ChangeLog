@@ -1,3 +1,10 @@
+2013-07-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-so-filled.c (so_filled_view_set_bounds),
+	(cb_gnm_so_filled_changed): fix text wrap. [#704417]
+	* src/gnm-so-path.c (so_path_view_set_bounds),
+	(cb_gnm_so_path_changed): fix text wrap in paths too.
+
 2013-07-16  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_foreach_cell_in_range): Avoid overflow when
