@@ -1651,6 +1651,7 @@ odf_text_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (strlen (xin->content->str) > ptr->offset)
 		odf_text_p_add_text
 			(state, xin->content->str + ptr->offset);
+	ptr->offset = 0;
 }
 
 static void
