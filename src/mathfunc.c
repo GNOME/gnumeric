@@ -5179,7 +5179,7 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
  */
 
     static const gboolean debug = FALSE;
-    const static gnm_float xleg[] = {
+    static const gnm_float xleg[] = {
 	GNM_const(0.981560634246719250690549090149),
 	GNM_const(0.904117256370474856678465866119),
 	GNM_const(0.769902674194304687036893833213),
@@ -5187,7 +5187,7 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	GNM_const(0.367831498998180193752691536644),
 	GNM_const(0.125233408511468915472441369464)
     };
-    const static gnm_float aleg[G_N_ELEMENTS (xleg)] = {
+    static const gnm_float aleg[G_N_ELEMENTS (xleg)] = {
 	GNM_const(0.047175336386511827194615961485),
 	GNM_const(0.106939325995318430960254718194),
 	GNM_const(0.160078328543346226334652529543),
@@ -5280,7 +5280,7 @@ ptukey_otsum (gnm_float u0, gnm_float u1, gnm_float f2, gnm_float f2lf,
 	      gnm_float q, gnm_float rr, gnm_float cc)
 {
 	gboolean debug = FALSE;
-	const static gnm_float xlegq[] = {
+	static const gnm_float xlegq[] = {
 		GNM_const(0.989400934991649932596154173450),
 		GNM_const(0.944575023073232576077988415535),
 		GNM_const(0.865631202387831743880467897712),
@@ -5290,7 +5290,7 @@ ptukey_otsum (gnm_float u0, gnm_float u1, gnm_float f2, gnm_float f2lf,
 		GNM_const(0.281603550779258913230460501460),
 		GNM_const(0.950125098376374401853193354250e-1)
 	};
-	const static gnm_float alegq[G_N_ELEMENTS (xlegq)] = {
+	static const gnm_float alegq[G_N_ELEMENTS (xlegq)] = {
 		GNM_const(0.271524594117540948517805724560e-1),
 		GNM_const(0.622535239386478928628438369944e-1),
 		GNM_const(0.951585116824927848099251076022e-1),
@@ -5397,14 +5397,14 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 	with range distribution.
  */
 
-    const static gnm_float dhaf  = 100.0;
-    const static gnm_float dquar = 800.0;
-    const static gnm_float deigh = 5000.0;
-    const static gnm_float dlarg = 25000.0;
-    const static gnm_float ulen1 = 1.0;
-    const static gnm_float ulen2 = 0.5;
-    const static gnm_float ulen3 = 0.25;
-    const static gnm_float ulen4 = 0.125;
+    static const gnm_float dhaf  = 100.0;
+    static const gnm_float dquar = 800.0;
+    static const gnm_float deigh = 5000.0;
+    static const gnm_float dlarg = 25000.0;
+    static const gnm_float ulen1 = 1.0;
+    static const gnm_float ulen2 = 0.5;
+    static const gnm_float ulen3 = 0.25;
+    static const gnm_float ulen4 = 0.125;
     gnm_float ans, f2, f2lf, ulen, u0, u1;
     int i;
     gboolean fail = FALSE;
