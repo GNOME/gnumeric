@@ -1,3 +1,8 @@
+2013-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_custom_shape): write teh correct
+	viewbox
+
 2013-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_sheet_object_styles): write object

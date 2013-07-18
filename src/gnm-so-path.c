@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gnm-so-path.c
  *
@@ -159,7 +160,8 @@ enum {
 	SOP_PROP_PATH,
 	SOP_PROP_TEXT,
 	SOP_PROP_MARKUP,
-	SOP_PROP_PATHS
+	SOP_PROP_PATHS,
+	SOP_PROP_VIEWBOX
 };
 
 
@@ -357,7 +359,7 @@ gnm_so_path_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 static void
 gnm_so_path_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
-			     GnmConventions const *convs)
+			   G_GNUC_UNUSED GnmConventions const *convs)
 {
 	GnmSOPath const *sop = GNM_SO_PATH (so);
 	char *svg;
@@ -424,7 +426,7 @@ sop_sax_style (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gnm_so_path_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			       xmlChar const **attrs,
-			       GnmConventions const *convs)
+			       G_GNUC_UNUSED GnmConventions const *convs)
 {
 	static GsfXMLInNode const dtd[] = {
 	  GSF_XML_IN_NODE (SOPATH, SOPATH, -1, "SheetObjectPath",	GSF_XML_NO_CONTENT, NULL, NULL),
@@ -573,6 +575,8 @@ gnm_so_path_set_property (GObject *obj, guint param_id,
 			pango_attr_list_ref (sop->markup);
 		break;
 
+	case SOP_PROP_VIEWBOX:
+		/* not settable */
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		return;
@@ -600,6 +604,12 @@ gnm_so_path_get_property (GObject *obj, guint param_id,
 	case SOP_PROP_MARKUP :
 		g_value_set_boxed (value, sop->markup);
 		break;
+	case SOP_PROP_VIEWBOX :
+		g_value_take_string 
+			(value, 
+			 g_strdup_printf ("%0.0f %0.0f %0.0f %0.0f", sop->x_offset, sop->y_offset, 
+					  sop->width + sop->x_offset, sop->height + sop->y_offset));
+		break;		
 	default :
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
@@ -666,6 +676,9 @@ gnm_so_path_class_init (GObjectClass *gobject_class)
     g_object_class_install_property (gobject_class, SOP_PROP_PATHS,
              g_param_spec_boxed ("paths", NULL, NULL, G_TYPE_PTR_ARRAY,
 		GSF_PARAM_STATIC | G_PARAM_READWRITE));
+    g_object_class_install_property (gobject_class, SOP_PROP_VIEWBOX,
+             g_param_spec_string ("viewbox", NULL, NULL, NULL,
+		GSF_PARAM_STATIC | G_PARAM_READABLE));
 }
 
 static void

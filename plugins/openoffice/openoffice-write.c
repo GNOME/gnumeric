@@ -3005,10 +3005,6 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
 }
 
-/*
-<draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="mso-spt202" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-*/
-
 static void
 custom_shape_path_collector (GOPath *path, GString *gstr)
 {
@@ -3029,8 +3025,10 @@ odf_write_custom_shape (GnmOOExport *state, SheetObject *so)
 	GOPath *path = NULL;
 	GPtrArray *paths;
 	char *path_string = NULL;
+	char *view_box = NULL;
 
-	g_object_get (G_OBJECT (so), "text", &text, "markup", &markup, "path", &path, "paths", &paths, NULL);
+	g_object_get (G_OBJECT (so), "text", &text, "markup", &markup, "path", &path, 
+		      "paths", &paths, "viewbox", &view_box, NULL);
 
 	gsf_xml_out_start_element (state->xml, DRAW "custom-shape");
 
@@ -3058,7 +3056,7 @@ odf_write_custom_shape (GnmOOExport *state, SheetObject *so)
 	}
 	if (path_string) {
 		gsf_xml_out_start_element (state->xml, DRAW "enhanced-geometry");
-		gsf_xml_out_add_cstr (state->xml, SVG "viewBox", "0 0 21600 21600");
+		gsf_xml_out_add_cstr (state->xml, SVG "viewBox", view_box);
 		gsf_xml_out_add_cstr (state->xml, DRAW "enhanced-path", path_string);
 		gsf_xml_out_end_element (state->xml); /*  DRAW "enhanced-geometry" */
 	}
@@ -3066,6 +3064,7 @@ odf_write_custom_shape (GnmOOExport *state, SheetObject *so)
 
 	g_free (text);
 	g_free (path_string);
+	g_free (view_box);
 	if (markup)
 		pango_attr_list_unref (markup);
 	if (paths)

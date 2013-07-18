@@ -1,3 +1,9 @@
+2013-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnm-so-path.c (gnm_so_path_class_init): add new property
+	(gnm_so_path_set_property): ditto
+	(gnm_so_path_get_property): ditto
+
 2013-07-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-path.c (so_path_view_set_bounds),
