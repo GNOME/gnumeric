@@ -91,7 +91,7 @@ os.environ['PY_INCLUDE_DIR'] = py_prefix+'/include'
 os.environ['PY_LIB_DIR']     = py_prefix+'/libs'
 
 #Populating autogenargs
-autogenargs =  ' --build='+os.environ['HOST']
+#autogenargs =  ' --build='+os.environ['HOST']
 autogenargs += ' --host='+os.environ['TARGET']
 autogenargs += ' --target='+os.environ['TARGET']
 autogenargs += ' --disable-docs'

@@ -42,9 +42,9 @@
     <autotools id="zlib"
 	makeargs="-f win32/Makefile.gcc"
 	makeinstallargs="-f win32/Makefile.gcc -e install">
-	<branch repo="zlib.net" module="zlib-1.2.5.tar.gz"
-		version="1.2.5"
-		md5sum="c735eab2d659a96e5a594c9e8541ad63">
+	<branch repo="zlib.net" module="zlib-1.2.8.tar.gz"
+		version="1.2.8"
+		md5sum="44d667c142d7cda120332623eab69f40">
 	    <patch file="&patch_dir;zlib.patch" strip="1"/>
 	</branch>
     </autotools>

@@ -1,14 +1,12 @@
-diff -ur zlib-1.2.5/win32/Makefile.gcc zlib-1.2.5-fixed//win32/Makefile.gcc
---- zlib-1.2.5/win32/Makefile.gcc	2010-04-18 21:35:55.000000000 -0400
-+++ zlib-1.2.5-fixed//win32/Makefile.gcc	2010-07-10 08:31:00.000000000 -0400
-@@ -24,20 +24,20 @@
+--- zlib-1.2.8/win32/Makefile.gcc.orig	2012-05-02 23:17:59.000000000 -0400
++++ zlib-1.2.8/win32/Makefile.gcc	2013-07-17 21:15:48.000000000 -0400
+@@ -30,20 +30,20 @@
  # the DLL name should be changed from "zlib1.dll".
  
  STATICLIB = libz.a
 -SHAREDLIB = zlib1.dll
--IMPLIB    = libzdll.a
 +SHAREDLIB = libz.dll
-+IMPLIB    = libz.dll.a
+ IMPLIB    = libz.dll.a
  
  #
  # Set to 1 if shared object needs to be installed
@@ -24,10 +22,10 @@ diff -ur zlib-1.2.5/win32/Makefile.gcc zlib-1.2.5-fixed//win32/Makefile.gcc
 -CFLAGS = $(LOC) -O3 -Wall
 +#CC = $(PREFIX)gcc
 +#CFLAGS = $(LOC) -O3 -Wall
- EXTRA_CFLAGS = -DNO_VIZ
  
  AS = $(CC)
-@@ -49,7 +49,7 @@
+ ASFLAGS = $(LOC) -Wall
+@@ -54,7 +54,7 @@
  AR = $(PREFIX)ar
  ARFLAGS = rcs
  
@@ -36,11 +34,11 @@ diff -ur zlib-1.2.5/win32/Makefile.gcc zlib-1.2.5-fixed//win32/Makefile.gcc
  RCFLAGS = --define GCC_WINDRES
  
  STRIP = $(PREFIX)strip
-@@ -59,14 +59,16 @@
+@@ -64,14 +64,16 @@
  INSTALL = $(CP)
  RM = rm -f
  
--prefix = /usr/local
+-prefix ?= /usr/local
 -exec_prefix = $(prefix)
 +exec_prefix = $(prefix)/bin
 +INCLUDE_PATH= $(prefix)/include
@@ -56,7 +54,7 @@ diff -ur zlib-1.2.5/win32/Makefile.gcc zlib-1.2.5-fixed//win32/Makefile.gcc
  
  test: example.exe minigzip.exe
  	./example
-@@ -87,10 +89,10 @@
+@@ -92,10 +94,10 @@
  
  $(IMPLIB): $(SHAREDLIB)
  
@@ -71,30 +69,30 @@ diff -ur zlib-1.2.5/win32/Makefile.gcc zlib-1.2.5-fixed//win32/Makefile.gcc
  
  example.exe: example.o $(STATICLIB)
  	$(LD) $(LDFLAGS) -o $@ example.o $(STATICLIB)
-@@ -116,7 +118,7 @@
+@@ -124,7 +126,7 @@
  
  .PHONY: install uninstall clean
  
 -install: zlib.h zconf.h $(STATICLIB) $(IMPLIB)
 +install: zlib.h zconf.h $(IMPLIB)
- 	-@mkdir -p $(INCLUDE_PATH)
- 	-@mkdir -p $(LIBRARY_PATH)
- 	-if [ "$(SHARED_MODE)" = "1" ]; then \
-@@ -126,7 +128,7 @@
+ 	@if test -z "$(DESTDIR)$(INCLUDE_PATH)" -o -z "$(DESTDIR)$(LIBRARY_PATH)" -o -z "$(DESTDIR)$(BINARY_PATH)"; then \
+ 		echo INCLUDE_PATH, LIBRARY_PATH, and BINARY_PATH must be specified; \
+ 		exit 1; \
+@@ -138,7 +140,7 @@
  	fi
- 	-$(INSTALL) zlib.h $(INCLUDE_PATH)
- 	-$(INSTALL) zconf.h $(INCLUDE_PATH)
--	-$(INSTALL) $(STATICLIB) $(LIBRARY_PATH)
-+#	-$(INSTALL) $(STATICLIB) $(LIBRARY_PATH)
- 
- uninstall:
- 	-if [ "$(SHARED_MODE)" = "1" ]; then \
-@@ -135,7 +137,7 @@
+ 	-$(INSTALL) zlib.h '$(DESTDIR)$(INCLUDE_PATH)'
+ 	-$(INSTALL) zconf.h '$(DESTDIR)$(INCLUDE_PATH)'
+-	-$(INSTALL) $(STATICLIB) '$(DESTDIR)$(LIBRARY_PATH)'
++#	-$(INSTALL) $(STATICLIB) '$(DESTDIR)$(LIBRARY_PATH)'
+ 	sed \
+ 		-e 's|@prefix@|${prefix}|g' \
+ 		-e 's|@exec_prefix@|${exec_prefix}|g' \
+@@ -155,7 +157,7 @@
  	fi
- 	-$(RM) $(INCLUDE_PATH)/zlib.h
- 	-$(RM) $(INCLUDE_PATH)/zconf.h
--	-$(RM) $(LIBRARY_PATH)/$(STATICLIB)
-+#	-$(RM) $(LIBRARY_PATH)/$(STATICLIB)
+ 	-$(RM) '$(DESTDIR)$(INCLUDE_PATH)'/zlib.h
+ 	-$(RM) '$(DESTDIR)$(INCLUDE_PATH)'/zconf.h
+-	-$(RM) '$(DESTDIR)$(LIBRARY_PATH)'/$(STATICLIB)
++#	-$(RM) '$(DESTDIR)$(LIBRARY_PATH)'/$(STATICLIB)
  
  clean:
  	-$(RM) $(STATICLIB)
