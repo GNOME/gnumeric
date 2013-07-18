@@ -1,6 +1,7 @@
 2013-07-17  Morten Welinder  <terra@gnome.org>
 
 	* moduleset.in: Update zlib to 1.2.8.  Update gettext to 0.18.
+	Update libbz2 to 1.0.6.
 
 	* patches/zlib.patch: Update for 1.2.8
 

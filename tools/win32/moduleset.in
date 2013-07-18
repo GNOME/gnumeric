@@ -48,8 +48,8 @@
 	    <patch file="&patch_dir;zlib.patch" strip="1"/>
 	</branch>
     </autotools>
-    <tarball id="libbz2" version="1.0.5">
-	<source href="http://www.bzip.org/1.0.5/bzip2-1.0.5.tar.gz"/>
+    <tarball id="libbz2" version="1.0.6">
+	<source href="http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz"/>
 	<patches>
 	    <patch file="&patch_dir;libbz2.patch" strip="1"/>
 	</patches>
