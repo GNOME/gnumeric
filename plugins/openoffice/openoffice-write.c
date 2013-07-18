@@ -953,6 +953,13 @@ odf_write_sheet_object_styles (GnmOOExport *state)
 			g_hash_table_replace (state->so_styles, so, name);
 		}
 		g_slist_free (objects);
+		objects = sheet_objects_get (sheet, NULL, GNM_SO_PATH_TYPE);
+		for (l = objects; l != NULL; l = l->next) {
+			SheetObject *so = SHEET_OBJECT (l->data);
+			char *name = odf_write_sheet_object_style (state, so);
+			g_hash_table_replace (state->so_styles, so, name);
+		}
+		g_slist_free (objects);
 	}
 }
 

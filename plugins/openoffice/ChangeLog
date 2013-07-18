@@ -1,5 +1,10 @@
 2013-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_sheet_object_styles): write object
+	style for GNM_SO_PATH_TYPE
+
+2013-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_custom_shape_end): move declaration to
 	clarify variable use
 	* openoffice-write.c (custom_shape_path_collector): new
