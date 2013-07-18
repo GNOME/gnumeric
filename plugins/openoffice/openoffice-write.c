@@ -68,6 +68,7 @@
 #include <sheet-object-widget.h>
 #include <gnm-so-filled.h>
 #include <gnm-so-line.h>
+#include <gnm-so-path.h>
 #include <sheet-filter-combo.h>
 #include <xml-sax.h>
 
@@ -2997,6 +2998,76 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
 }
 
+/*
+<draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="mso-spt202" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
+*/
+
+static void
+custom_shape_path_collector (GOPath *path, GString *gstr)
+{
+	char *path_string = NULL;
+	path_string = go_path_to_svg (path);
+	g_string_append (gstr, " N ");
+	g_string_append (gstr, path_string);
+	g_free (path_string);
+}
+
+static void
+odf_write_custom_shape (GnmOOExport *state, SheetObject *so)
+{
+	gchar const *style_name = g_hash_table_lookup (state->so_styles, so);
+	gchar *text = NULL;
+	PangoAttrList * markup = NULL;
+	gboolean pp = TRUE;
+	GOPath *path = NULL;
+	GPtrArray *paths;
+	char *path_string = NULL;
+
+	g_object_get (G_OBJECT (so), "text", &text, "markup", &markup, "path", &path, "paths", &paths, NULL);
+
+	gsf_xml_out_start_element (state->xml, DRAW "custom-shape");
+
+	if (style_name != NULL)
+		gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
+	odf_write_frame_size (state, so);
+
+	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+	g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+	gsf_xml_out_start_element (state->xml, TEXT "p");
+	odf_new_markup (state, markup, text);
+	gsf_xml_out_end_element (state->xml);   /* p */
+	g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
+
+	if (path) {
+		char *ps = go_path_to_svg (path);
+		path_string = g_strconcat (ps, " N", NULL);
+		g_free(ps);
+	}
+	if (paths) {
+		GString *gstr = g_string_new (path_string);
+		g_ptr_array_foreach (paths, (GFunc)custom_shape_path_collector, gstr);
+		g_string_append (gstr, " N");
+		path_string  = g_string_free (gstr, FALSE);
+	}
+	if (path_string) {
+		gsf_xml_out_start_element (state->xml, DRAW "enhanced-geometry");
+		gsf_xml_out_add_cstr (state->xml, SVG "viewBox", "0 0 21600 21600");
+		gsf_xml_out_add_cstr (state->xml, DRAW "enhanced-path", path_string);
+		gsf_xml_out_end_element (state->xml); /*  DRAW "enhanced-geometry" */
+	}
+	gsf_xml_out_end_element (state->xml); /*  DRAW "custom-shape" */
+
+	g_free (text);
+	g_free (path_string);
+	if (markup)
+		pango_attr_list_unref (markup);
+	if (paths)
+		g_ptr_array_unref (paths);
+	if (path)
+		go_path_free (path);
+}
+
+
 static void
 odf_write_control (GnmOOExport *state, SheetObject *so, char const *id)
 {
@@ -3128,6 +3199,8 @@ odf_write_objects (GnmOOExport *state, GSList *objects)
 			odf_write_so_filled (state, so);
 		else if (IS_GNM_SO_LINE (so))
 			odf_write_line (state, so);
+		else if (IS_GNM_SO_PATH (so))
+			odf_write_custom_shape (state, so);
 		else
 			odf_write_frame (state, so);
 
@@ -3618,7 +3691,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 
 		if (rf) {
 			int col;
-
+			
 			for (col = 0; col < row_length; col++) {
 				GnmCell *current_cell;
 				GnmRange const	*merge_range;
@@ -3626,7 +3699,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 				GnmStyle const *this_style = row_styles
 					? row_styles[col]
 					: col_styles[col];
-
+				
 				current_cell = g_ptr_array_index (all_cells, cno);
 				if (current_cell &&
 				    current_cell->pos.row == row &&
@@ -3675,9 +3748,10 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 				odf_write_cell (state, current_cell, merge_range, this_style, objects);
 
 				g_slist_free (objects);
-
+				
 			}
-		}
+		} else
+			++null_cell; /* We must write at least one cell per row */
 		odf_write_empty_cell (state, null_cell, null_style, NULL);
 		null_cell = 0;
 		if (covered_cell > 0)

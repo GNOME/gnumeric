@@ -9549,7 +9549,6 @@ static void
 odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	GOPath *path;
 	GHashTable *vals = NULL;
 	char **strs, **cur;
 	GPtrArray *paths;
@@ -9592,6 +9591,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 	if (state->chart.cs_enhanced_path != NULL) {
 		strs = g_strsplit (state->chart.cs_enhanced_path, " N", 0);
 		for (cur = strs; *cur != NULL; cur++) {
+			GOPath *path;
 			path = go_path_new_from_odf_enhanced_path (*cur, vals);
 			if (path)
 				g_ptr_array_add (paths, path);

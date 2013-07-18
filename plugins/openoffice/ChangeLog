@@ -1,5 +1,14 @@
 2013-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_custom_shape_end): move declaration to
+	clarify variable use
+	* openoffice-write.c (custom_shape_path_collector): new
+	(odf_write_custom_shape): new
+	(odf_write_objects): connect the above
+	(odf_write_content_rows): write at least one cell per row.
+
+2013-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_text_content_end): reset offset
 
 2013-07-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
