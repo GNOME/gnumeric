@@ -120,8 +120,8 @@ so_path_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 			}
 			x1 -= x0 + sop->margin_pts.left + sop->margin_pts.right;
 			y1 -= y0 + sop->margin_pts.top + sop->margin_pts.bottom;
-			x0 += x1 / 2.;
-			y0 += y1 / 2.;
+			x0 += x1 / 2. + sop->margin_pts.left;
+			y0 += y1 / 2. + sop->margin_pts.top;
 			x1 = MAX (x1, DBL_MIN);
 			y1 = MAX (y1, DBL_MIN);
 
@@ -235,15 +235,15 @@ cb_gnm_so_path_changed (GnmSOPath const *sop,
 			}
 			x1 -= x0 + sop->margin_pts.left + sop->margin_pts.right;
 			y1 -= y0 + sop->margin_pts.top + sop->margin_pts.bottom;
-			x0 += x1 / 2.;
-			y0 += y1 / 2.;
+			x0 += x1 / 2. + sop->margin_pts.left;
+			y0 += y1 / 2. + sop->margin_pts.top;
 			x1 = MAX (x1, DBL_MIN);
 			y1 = MAX (y1, DBL_MIN);
 			group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
 				"anchor",	GO_ANCHOR_CENTER,
 				"clip",		TRUE,
-				"x",		x1 / 2.,
-				"y",		y1 / 2.,
+				"x",		x0,
+				"y",		y0,
 		        "clip-height", y1,
 		        "clip-width",  x1,
 		        "wrap-width",  x1,
