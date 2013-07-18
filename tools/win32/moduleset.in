@@ -66,7 +66,7 @@
     </autotools>
 
     <autotools id="glib">
-	<branch repo="gnome.org" module="sources/glib/2.26/glib-2.26.0.tar.bz2" version="2.26.0">
+	<branch repo="gnome.org" module="sources/glib/2.37/glib-2.37.4.tar.xz" version="2.37.4">
 	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
 	    <patch file="&patch_dir;glib-goption-disable-localization.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-disable-python.patch" strip="1"/>
@@ -89,10 +89,10 @@
 	    <patch file="http://gnome.org/~aruiz/gtk+/patches/jpeg_mingwport.patch" strip="1"/>
 	</patches>
     </tarball>
-    <autotools id="png" autogen-sh="autogen.sh&amp;&amp;./configure"  skip-autogen="never">
-	<branch repo="simplesystems.org" module="libpng-1.2.44.tar.bz2"
-		version="1.2.44">
-	    <patch file="&patch_dir;png-symbols.patch"/>
+    <autotools id="png" autogen-sh="autoreconf">
+	<branch repo="simplesystems.org" module="libpng12/libpng-1.2.50.tar.xz"
+		version="1.2.50">
+	  <patch file="&patch_dir;png-symbols.patch"/>
 	</branch>
 	<dependencies>
 	    <dep package="zlib"/>
