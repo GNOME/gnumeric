@@ -24,11 +24,11 @@
     <repository type="tarball" name="simplesystems.org"
 		href="ftp://ftp.simplesystems.org/pub/libpng/png/src/"/>
 
-    <tarball id="gettext" version="0.17">
-	<source href="ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.17.tar.gz"
-	    md5sum="58a2bc6d39c0ba57823034d55d65d606"/>
+    <tarball id="gettext" version="0.18">
+	<source href="ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.tar.gz"
+	    md5sum="d52a3e061032a1ed13856d42fc86f0fd"/>
 	<patches>
-	    <patch file="http://www.gnome.org/~aruiz/gtk+/patches/gettext_0_17_crossbuild_override_tools_fix.patch"/>
+	    <patch file="&patch_dir;gettext.patch" strip="1"/>
 	</patches>
 	<dependencies>
 	</dependencies>

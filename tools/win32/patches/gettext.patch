@@ -1,0 +1,22 @@
+--- gettext-0.18/gettext-runtime/intl/Makefile.in.orig	2010-05-09 14:54:29.000000000 -0400
++++ gettext-0.18/gettext-runtime/intl/Makefile.in	2013-07-17 21:30:41.000000000 -0400
+@@ -193,7 +193,7 @@
+   version.$lo \
+   osdep.$lo \
+   intl-compat.$lo
+-OBJECTS_RES_yes = libintl.res.$lo
++OBJECTS_RES_yes =
+ OBJECTS_RES_no =
+ DISTFILES.common = Makefile.in \
+ config.charset locale.alias ref-add.sin ref-del.sin export.h libintl.rc \
+--- gettext-0.18/Makefile.in.orig	2010-05-09 14:59:19.000000000 -0400
++++ gettext-0.18/Makefile.in	2013-07-17 21:32:50.000000000 -0400
+@@ -211,7 +211,7 @@
+ top_srcdir = @top_srcdir@
+ AUTOMAKE_OPTIONS = 1.5 gnu no-dependencies
+ ACLOCAL_AMFLAGS = -I m4
+-SUBDIRS = gnulib-local gettext-runtime gettext-tools
++SUBDIRS = gnulib-local gettext-runtime
+ 
+ # DJGPP port.
+ 

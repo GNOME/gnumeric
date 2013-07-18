@@ -1,8 +1,10 @@
 2013-07-17  Morten Welinder  <terra@gnome.org>
 
-	* moduleset.in: Update zlib to 1.2.8
+	* moduleset.in: Update zlib to 1.2.8.  Update gettext to 0.18.
 
 	* patches/zlib.patch: Update for 1.2.8
+
+	* patches/gettext.patch: New file.
 
 	* jhbuildrc.py: Evidently we don't need and can't use --build
 	anymore.
