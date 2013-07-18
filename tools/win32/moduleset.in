@@ -85,9 +85,6 @@
 <!-- Image formats  -->
     <tarball id="jpeg" version="6b" checkoutdir="jpeg-6b">
 	<source href="http://www.ijg.org/files/jpegsrc.v7.tar.gz"/>
-	<patches>
-	    <patch file="http://gnome.org/~aruiz/gtk+/patches/jpeg_mingwport.patch" strip="1"/>
-	</patches>
     </tarball>
     <autotools id="png" autogen-sh="autoreconf">
 	<branch repo="simplesystems.org" module="libpng12/libpng-1.2.50.tar.xz"
