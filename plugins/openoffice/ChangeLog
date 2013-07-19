@@ -1,6 +1,11 @@
+2013-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_content_rows): write enough cells
+	in empty rows
+
 2013-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_custom_shape): write teh correct
+	* openoffice-write.c (odf_write_custom_shape): write the correct
 	viewbox
 
 2013-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>

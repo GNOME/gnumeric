@@ -5,6 +5,7 @@ Andreas:
 	* Fix import of multi-paragraph text from ODF. [#704391]
 	* Fix ODF export of empt rows. [#704438]
 	* Export custom shapes. [#704421]
+	* Fix export to ODF of empty cells with default column styles. [#704563]
 
 Jean:
 	* Fix text wrap inside sheet objects. [#704417]

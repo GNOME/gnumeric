@@ -3757,7 +3757,8 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 				
 			}
 		} else
-			++null_cell; /* We must write at least one cell per row */
+			null_cell = row_length;
+
 		odf_write_empty_cell (state, null_cell, null_style, NULL);
 		null_cell = 0;
 		if (covered_cell > 0)
