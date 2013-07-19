@@ -206,10 +206,8 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 		h -= (sof->margin_pts.top + sof->margin_pts.bottom)
 			/ scale;
 		h = MAX (h, DBL_MIN);
-printf("w=%g h=%g\n",w,h);
 		if (group->text == NULL) {
 			if (sof->is_oval) {
-puts("oval");
 				group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
 					"anchor",	GO_ANCHOR_CENTER,
 					"clip",		TRUE,
@@ -295,14 +293,16 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 	/* Draw the text. */
 	if (sof->text != NULL && *(sof->text) != '\0') {
 		PangoLayout *pl = pango_cairo_create_layout (cr);
-		double pl_height = (height - sof->margin_pts.top
-				    - sof->margin_pts.bottom) * PANGO_SCALE;
-		double pl_width = (width - sof->margin_pts.left
-				   - sof->margin_pts.right) * PANGO_SCALE;
-		/* set a font, a very bad solution, but will do until we move to GOString */
-		PangoFontDescription *desc = pango_font_description_from_string ("Sans 10");
 		double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
 		double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+		double pl_height = (height - sof->margin_pts.top
+				    - sof->margin_pts.bottom) * PANGO_SCALE
+				    / scale_v;
+		double pl_width = (width - sof->margin_pts.left
+				   - sof->margin_pts.right) * PANGO_SCALE
+				   / scale_h;
+		/* set a font, a very bad solution, but will do until we move to GOString */
+		PangoFontDescription *desc = pango_font_description_from_string ("Sans 10");
 		pango_layout_set_font_description (pl, desc);
 		pango_layout_set_text (pl, sof->text, -1);
 		pango_layout_set_attributes (pl, sof->markup);

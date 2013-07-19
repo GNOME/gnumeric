@@ -1,3 +1,9 @@
+2013-07-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): fix text wrap when
+	printing.
+	* src/gnm-so-path.c (gnm_so_path_draw_cairo): ditto.
+
 2013-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-so-path.c (gnm_so_path_class_init): add new property

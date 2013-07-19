@@ -329,14 +329,16 @@ gnm_so_path_draw_cairo (SheetObject const *so, cairo_t *cr,
 	/* Draw the text. */
 	if (sop->text != NULL && *(sop->text) != '\0') {
 		PangoLayout *pl = pango_cairo_create_layout (cr);
-		double pl_height = (height - sop->margin_pts.top
-				    - sop->margin_pts.bottom) * PANGO_SCALE;
-		double pl_width = (width - sop->margin_pts.left
-				   - sop->margin_pts.right) * PANGO_SCALE;
-		/* set a font, a very bad solution, but will do until we move to GOString */
-		PangoFontDescription *desc = pango_font_description_from_string ("Sans 10");
 		double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
 		double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+		double pl_height = (height - sop->margin_pts.top
+				    - sop->margin_pts.bottom) * PANGO_SCALE
+				    / scale_v;
+		double pl_width = (width - sop->margin_pts.left
+				   - sop->margin_pts.right) * PANGO_SCALE
+				   / scale_h;
+		/* set a font, a very bad solution, but will do until we move to GOString */
+		PangoFontDescription *desc = pango_font_description_from_string ("Sans 10");
 		PangoRectangle r;
 		pango_layout_set_font_description (pl, desc);
 		pango_layout_set_text (pl, sop->text, -1);
