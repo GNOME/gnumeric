@@ -103,7 +103,8 @@ gnm_style_cond_is_valid (GnmStyleCond const *cond)
 
 	if (cond->overlay == NULL)
 		return FALSE;
-	if ((unsigned)cond->op > (unsigned)GNM_STYLE_COND_NOT_CONTAINS_BLANKS)
+	if ((unsigned)cond->op > (unsigned)GNM_STYLE_COND_NOT_CONTAINS_BLANKS ||
+	    (cond->op > GNM_STYLE_COND_CUSTOM && cond->op < GNM_STYLE_COND_CONTAINS_STR))
 		return FALSE;
 
 	N = gnm_style_cond_op_operands (cond->op);

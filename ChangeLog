@@ -1,3 +1,8 @@
+2013-07-19  Morten Welinder  <terra@gnome.org>
+
+	* src/style-conditions.c (gnm_style_cond_is_valid): Even stricter
+	check: the enum has a hole in the middle.  Fixes #704562.
+
 2013-07-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): fix text wrap when
