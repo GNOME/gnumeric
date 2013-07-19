@@ -1,5 +1,13 @@
 2013-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (oo_table_end): just look at the data extent to
+	adjust styles
+	(oo_update_style_extent): delete and remove all calls
+	(oo_cell_end): the data extent includes empty cells specified by
+	table:table-cell
+
+2013-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_content_rows): write enough cells
 	in empty rows
 

@@ -382,7 +382,6 @@ struct  _OOParseState {
 	GSList          *chart_list; /* object_offset_t */
 	GnmParsePos	 pos;
 	GnmCellPos	 extent_data;
-	GnmCellPos	 extent_style;
 	GnmComment      *cell_comment;
 	GnmCell         *curr_cell;
 	GnmExprSharer   *sharer;
@@ -2205,8 +2204,8 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->pos.eval.col = 0;
 	state->pos.eval.row = 0;
-	state->extent_data.col = state->extent_style.col = 0;
-	state->extent_data.row = state->extent_style.row = 0;
+	state->extent_data.col = 0;
+	state->extent_data.row = 0;
 	state->print.rep_rows_from = -1;
 	state->print.rep_rows_to = -1;
 	state->print.rep_cols_from = -1;
@@ -2963,12 +2962,8 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	 * which is a performance nightmare.  Instead we apply the styles to
 	 * the entire column or row and clear the area beyond the extent here. */
 
-	rows = state->extent_style.row;
-	if (state->extent_data.row > rows)
-		rows = state->extent_data.row;
-	cols = state->extent_style.col;
-	if (state->extent_data.col > cols)
-		cols = state->extent_data.col;
+	rows = state->extent_data.row;
+	cols = state->extent_data.col;
 	cols++; rows++;
 	if (cols < max_cols) {
 		range_init (&r, cols, 0,
@@ -3083,14 +3078,6 @@ oo_update_data_extent (OOParseState *state, int cols, int rows)
 		state->extent_data.col = state->pos.eval.col + cols - 1;
 	if (state->extent_data.row < (state->pos.eval.row + rows - 1))
 		state->extent_data.row = state->pos.eval.row + rows - 1;
-}
-static void
-oo_update_style_extent (OOParseState *state, int cols, int rows)
-{
-	if (cols > 0 && state->extent_style.col < (state->pos.eval.col + cols - 1))
-		state->extent_style.col = state->pos.eval.col + cols - 1;
-	if (rows > 0 && state->extent_style.row < (state->pos.eval.row + rows - 1))
-		state->extent_style.row = state->pos.eval.row + rows - 1;
 }
 
 static int
@@ -3438,7 +3425,6 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.row = 0;
 		r.end.row  = gnm_sheet_get_last_row (state->pos.sheet);
 		sheet_style_apply_range (state->pos.sheet, &r, style);
-		oo_update_style_extent (state, repeat_count, -1);
 	}
 	if (col_info != NULL) {
 		if (state->default_style.columns == NULL && repeat_count > max_cols/2) {
@@ -3582,7 +3568,6 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.col = 0;
 		r.end.col  = gnm_sheet_get_last_col (state->pos.sheet);
 		sheet_style_apply_range (state->pos.sheet, &r, style);
-		oo_update_style_extent (state, -1, repeat_count);
 	}
 
 	if (row_info != NULL) {
@@ -3855,17 +3840,14 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			range_init_cellpos_size (&tmp, &state->pos.eval,
 				state->col_inc, state->row_inc);
 			sheet_style_apply_range (state->pos.sheet, &tmp, style);
-			oo_update_style_extent (state, state->col_inc, state->row_inc);
 		} else if (merge_cols > 1 || merge_rows > 1) {
 			range_init_cellpos_size (&tmp, &state->pos.eval,
 						 merge_cols, merge_rows);
 			sheet_style_apply_range (state->pos.sheet, &tmp, style);
-			oo_update_style_extent (state, merge_cols, merge_rows);
 		} else {
 			sheet_style_apply_pos (state->pos.sheet,
 					       state->pos.eval.col, state->pos.eval.row,
 					       style);
-			oo_update_style_extent (state, 1, 1);
 		}
 	}
 
@@ -3974,9 +3956,9 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 						else
 							gnm_cell_set_value (next, value_dup (cell->value));
 					}
-			oo_update_data_extent (state, state->col_inc, state->row_inc);
 		}
 	}
+	oo_update_data_extent (state, state->col_inc, state->row_inc);
 	state->pos.eval.col += state->col_inc;
 }
 
@@ -4125,7 +4107,6 @@ oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
 		sheet_style_apply_pos (state->pos.sheet,
 				       state->pos.eval.col, state->pos.eval.row,
 				       style);
-		oo_update_style_extent (state, 1, 1);
 	}
 }
 
