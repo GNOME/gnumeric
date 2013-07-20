@@ -495,6 +495,12 @@ typedef struct {
 	unsigned int dir;
 } gradient_info_t;
 
+typedef struct {
+	Sheet *sheet;
+	int cols;
+	int rows;
+} sheet_order_t;
+
 
 /* Some  prototypes */
 static GsfXMLInNode const * get_dtd (void);
@@ -2203,8 +2209,6 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->pos.eval.col = 0;
 	state->pos.eval.row = 0;
-	state->extent_data.col = 0;
-	state->extent_data.row = 0;
 	state->print.rep_rows_from = -1;
 	state->print.rep_rows_to = -1;
 	state->print.rep_cols_from = -1;
@@ -2220,8 +2224,8 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "print", &tmp_b))
 			do_not_print = !tmp_b;
 
-	state->pos.sheet = g_slist_nth_data (state->sheet_order, state->table_n);
 	++state->table_n;
+	state->pos.sheet = ((sheet_order_t *)g_slist_nth_data (state->sheet_order, state->table_n))->sheet;
 
 	if (style_name != NULL) {
 		OOSheetStyle const *style = g_hash_table_lookup (state->styles.sheet, style_name);
@@ -2870,8 +2874,6 @@ static void
 oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	GnmRange r;
-	int rows, cols;
 	int max_cols, max_rows;
 	GSList *l;
 	gint top_z = -1;
@@ -2907,26 +2909,6 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->pos.sheet->print_info->repeat_left
 			= g_strdup (cols_name (state->print.rep_cols_from,
 					       state->print.rep_cols_to));
-	}
-
-	/* default cell styles are applied only to cells that are specified
-	 * which is a performance nightmare.  Instead we apply the styles to
-	 * the entire column or row and clear the area beyond the extent here. */
-
-	rows = state->extent_data.row;
-	cols = state->extent_data.col;
-	cols++; rows++;
-	if (cols < max_cols) {
-		range_init (&r, cols, 0,
-			    max_cols - 1, max_rows - 1);
-		sheet_style_apply_range (state->pos.sheet, &r,
-				       sheet_style_default (state->pos.sheet));
-	}
-	if (rows < max_rows) {
-		range_init (&r, 0, rows,
-			    max_cols - 1, max_rows - 1);
-		sheet_style_apply_range (state->pos.sheet, &r,
-				       sheet_style_default (state->pos.sheet));
 	}
 
 	/* We need to fix the anchors of all offsets, ensure that each object has an "odf-z-index", */
@@ -3368,13 +3350,12 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		colrow_set_visibility (state->pos.sheet, TRUE, FALSE, state->pos.eval.col,
 			state->pos.eval.col + repeat_count - 1);
 
-	/* see oo_table_end for details */
 	if (NULL != style) {
 		GnmRange r;
 		r.start.col = state->pos.eval.col;
 		r.end.col   = state->pos.eval.col + repeat_count - 1;
 		r.start.row = 0;
-		r.end.row  = gnm_sheet_get_last_row (state->pos.sheet);
+		r.end.row  = ((sheet_order_t *)g_slist_nth_data (state->sheet_order, state->table_n))->rows - 1;
 		sheet_style_apply_range (state->pos.sheet, &r, style);
 	}
 	if (col_info != NULL) {
@@ -3511,13 +3492,12 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		colrow_set_visibility (state->pos.sheet, FALSE, FALSE, state->pos.eval.row,
 			state->pos.eval.row+repeat_count - 1);
 
-	/* see oo_table_end for details */
 	if (NULL != style) {
 		GnmRange r;
 		r.start.row = state->pos.eval.row;
 		r.end.row   = state->pos.eval.row + repeat_count - 1;
 		r.start.col = 0;
-		r.end.col  = gnm_sheet_get_last_col (state->pos.sheet);
+		r.end.col  = ((sheet_order_t *)g_slist_nth_data (state->sheet_order, state->table_n))->cols - 1;;
 		sheet_style_apply_range (state->pos.sheet, &r, style);
 	}
 
@@ -3851,10 +3831,6 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_expr_top_unref (texpr);
 			if (val != NULL)
 				gnm_cell_assign_value (cell, val);
-			oo_update_data_extent
-				(state,
-				 r.end.col - r.start.col + 1,
-				 r.end.row - r.start.row + 1);
 		} else {
 			if (val != NULL)
 				gnm_cell_set_expr_and_value (cell, texpr, val,
@@ -3862,7 +3838,6 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			else
 				gnm_cell_set_expr (cell, texpr);
 			gnm_expr_top_unref (texpr);
-			oo_update_data_extent (state, 1, 1);
 		}
 	} else if (val != NULL) {
 		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
@@ -3873,7 +3848,6 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_cell_assign_value (cell, val);
 		else
 			gnm_cell_set_value (cell, val);
-		oo_update_data_extent (state, 1, 1);
 	} else if (!state->content_is_error)
 		/* store the content as a string */
 		state->text_p_for_cell.content_is_simple = TRUE;
@@ -3909,7 +3883,6 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					}
 		}
 	}
-	oo_update_data_extent (state, state->col_inc, state->row_inc);
 	state->pos.eval.col += state->col_inc;
 }
 
@@ -3979,7 +3952,6 @@ oo_cell_content_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 				(go_string_new_nocopy
 				 (g_strconcat (state->curr_cell->value->v_str.val->str, "\n", NULL)));
 			gnm_cell_assign_value (state->curr_cell, v);
-			oo_update_data_extent (state, 1, 1);
 		}
        }
 
@@ -4013,8 +3985,6 @@ oo_cell_content_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 		if (state->text_p_for_cell.gstr)
 			oo_add_text_to_cell (state, state->text_p_for_cell.gstr->str, state->text_p_for_cell.attrs);
 	}
-	oo_update_data_extent (state, 1, 1);
-
 	odf_pop_text_p (state);
 }
 
@@ -10450,9 +10420,12 @@ odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int rows, cols;
 	char *table_name = state->object_name;
 	Sheet *sheet;
+	sheet_order_t *sot = g_new(sheet_order_t, 1);
 
 	cols = state->extent_data.col + 1;
 	rows = state->extent_data.row + 1;
+	sot->cols = cols;
+	sot->rows = rows;
 	odf_sheet_suggest_size (xin, &cols, &rows);
 
 	if (table_name != NULL) {
@@ -10495,8 +10468,9 @@ odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	/* Store sheets in correct order in case we implicitly
 	 * created one out of order */
+	sot->sheet = sheet;
 	state->sheet_order = g_slist_prepend
-		(state->sheet_order, sheet);
+		(state->sheet_order, sot);
 }
 
 
@@ -12235,6 +12209,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	OOParseState	 state;
 	GError		*err = NULL;
 	int i;
+	guint n;
 	gboolean         content_malformed = FALSE;
 
 	zip = gsf_infile_zip_new (input, &err);
@@ -12398,7 +12373,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.text_p_for_cell.gstr = NULL;
 	state.text_p_for_cell.attrs = NULL;
 
-	state.table_n = 0;
+	state.table_n = -1;
 
 	go_io_progress_message (state.context, _("Reading file..."));
 	go_io_value_progress_set (state.context, gsf_input_size (contents), 0);
@@ -12445,48 +12420,16 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		content_malformed = !gsf_xml_in_doc_parse (doc, contents, &state);
 	}
 
-	if (g_slist_length (state.sheet_order) < (guint) workbook_sheet_count (state.pos.wb)) {
+	n = g_slist_length (state.sheet_order);
+	while (n < (guint) workbook_sheet_count (state.pos.wb))
 		/* We have seen instances of ODF files generated by   */
 		/* Libreoffice referring internally to table included */
 		/* inside charts. Those tables defacto don't exist    */
 		/* but we have to assume their existence to resolve   */
 		/* the references. We need to delete them now. See    */
 		/* https://bugzilla.gnome.org/show_bug.cgi?id=698388  */
-		GSList *to_be_deleted = NULL;
-		GSList *l;
-
-		WORKBOOK_FOREACH_SHEET
-			(state.pos.wb, sheet,
-			 {
-				 if (NULL == g_slist_find (state.sheet_order, sheet))
-					 to_be_deleted = g_slist_prepend (to_be_deleted, sheet);	 
-			 });
-		l = to_be_deleted;
-		while (l) {
-			workbook_sheet_delete (l->data);
-			l = l->next;
-		}
-		g_slist_free (to_be_deleted);
-	}
-
-	if (state.debug) {
-		GSList *l, *sheets;
-		g_printerr ("Order we desire:\n");
-		for (l = state.sheet_order; l; l = l->next) {
-			Sheet *sheet = l->data;
-			g_printerr ("Sheet %s\n", sheet->name_unquoted);
-		}
-		g_printerr ("Order we have:\n");
-		sheets = workbook_sheets (state.pos.wb);
-		for (l = sheets; l; l = l->next) {
-			Sheet *sheet = l->data;
-			g_printerr ("Sheet %s\n", sheet->name_unquoted);
-		}
-		g_slist_free (sheets);
-	}
-
-	workbook_sheet_reorder (state.pos.wb, state.sheet_order);
-	g_slist_free (state.sheet_order);
+		workbook_sheet_delete (workbook_sheet_by_index (state.pos.wb, n));
+	g_slist_free_full (state.sheet_order, g_free);
 
 	odf_fix_expr_names (&state);
 
