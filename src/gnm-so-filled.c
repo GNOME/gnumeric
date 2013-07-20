@@ -216,14 +216,13 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 					"attributes",	sof->markup,
 					NULL);
 			} else
-			{puts("rectangle");
 				group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
 					"anchor",	GO_ANCHOR_NW,
 					"clip",		TRUE,
 					"x",		sof->margin_pts.left,
 					"y",		sof->margin_pts.top,
 					"attributes",	sof->markup,
-					NULL);}
+					NULL);
 		}
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (group->text));
 		go_style_set_font_desc (style, desc);
