@@ -1,5 +1,19 @@
 2013-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_table_start): depends on a preparse
+	(odf_preparse_table_start): new
+	(odf_sheet_suggest_size): new
+	(odf_preparse_table_end): new
+	(odf_preparse_row_start): new
+	(odf_preparse_row_end): new
+	(odf_preparse_cell_start): new
+	(odf_preparse_covered_cell_start): new
+	(opendoc_content_preparse_dtd): new
+	(openoffice_file_open): preparse content.xml to create sheets of the
+	proper size.
+
+2013-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (oo_table_end): just look at the data extent to
 	adjust styles
 	(oo_update_style_extent): delete and remove all calls

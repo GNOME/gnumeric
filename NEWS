@@ -7,6 +7,7 @@ Andreas:
 	* Export custom shapes. [#704421]
 	* Fix export to ODF of empty cells with default column styles. [#704563]
 	* Improve import to ODF of empty cells with default column styles. [#704563]
+	* Speed up loading of some ODF files. [#704422]
 
 Jean:
 	* Fix text wrap inside sheet objects. [#704417]
