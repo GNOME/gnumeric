@@ -122,7 +122,7 @@ module_autogenargs['glib']	=    autogenargs + """ --enable-explicit-deps=no \
                                                   --disable-gtk-doc"""
 module_autogenargs['freetype']  = autogenargs
 module_autogenargs['png']  = autogenargs + """ --without-libpng-compat"""
-module_autogenargs['fontconfig']= autogenargs + """ --with-arch=x86"""
+module_autogenargs['fontconfig']= autogenargs + """ --with-arch=x86 --enable-libxml2"""
 module_autogenargs['pango']	= autogenargs + """ --disable-gtk-doc \
                                                   --enable-explicit-deps=no \
                                                   --with-included-modules"""
@@ -137,6 +137,8 @@ module_autogenargs['cairo']	= autogenargs + """ --enable-explicit-deps=no \
                                                   --enable-xlib-xrender=no \
                                                   --enable-win32-font=yes \
 						  --enable-ft=yes \
+						  --enable-xcb=no \
+						  --enable-gobject=no \
 						  --disable-static \
 						  --enable-shared"""
 #						  --enable-ft=no
