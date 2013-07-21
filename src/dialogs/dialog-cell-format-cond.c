@@ -1160,6 +1160,7 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	gtk_widget_set_hexpand (state->editor.expr_x, TRUE);
 	gtk_widget_show(state->editor.expr_x);
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->editor.expr_x),
+				  GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_CONSTANT_ALLOWED,
 				  GNM_EE_MASK);
 
@@ -1168,6 +1169,7 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	gtk_widget_set_hexpand (state->editor.expr_y, TRUE);
 	gtk_widget_show(state->editor.expr_y);
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->editor.expr_y),
+				  GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_CONSTANT_ALLOWED,
 				  GNM_EE_MASK);
 
