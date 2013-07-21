@@ -1,3 +1,9 @@
+2013-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write-pivot.c (xlsx_write_pivot_val): check for NULL
+	value
+	(xlsx_write_pivot_cache_records): ditto
+
 2013-07-10  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.4

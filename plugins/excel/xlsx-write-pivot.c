@@ -36,6 +36,7 @@ static void
 xlsx_write_pivot_val (XLSXWriteState *state, GsfXMLOut *xml,
 		      GOVal const *v)
 {
+	g_return_if_fail (v != NULL);
 	switch (v->type) {
 	case VALUE_CELLRANGE:
 	case VALUE_ARRAY:
@@ -116,11 +117,12 @@ xlsx_write_pivot_cache_records (XLSXWriteState *state, GODataCache const *cache,
 				gsf_xml_out_end_element (xml);
 				break;
 
-			case GO_DATA_CACHE_FIELD_TYPE_INLINE :
-				xlsx_write_pivot_val (state, xml,
-					go_data_cache_field_get_val (field, j));
-			break;
-
+			case GO_DATA_CACHE_FIELD_TYPE_INLINE : {
+				GOVal const *v = go_data_cache_field_get_val (field, j);
+				if (v != NULL)
+					xlsx_write_pivot_val (state, xml, v);
+				break;
+			}
 			case GO_DATA_CACHE_FIELD_TYPE_NONE :
 				continue;
 			}
