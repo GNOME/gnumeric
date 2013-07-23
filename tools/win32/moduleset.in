@@ -38,6 +38,10 @@
 	<source href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.12.tar.bz2"/>
     </tarball> -->
 
+    <tarball id="libffi">
+      <source href="ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz"/>
+    </tarball>
+
 <!-- Compression -->
     <autotools id="zlib"
 	makeargs="-f win32/Makefile.gcc"
@@ -69,7 +73,6 @@
 	<branch repo="gnome.org" module="sources/glib/2.37/glib-2.37.4.tar.xz" version="2.37.4">
 	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
 	    <patch file="&patch_dir;glib-goption-disable-localization.patch" strip="1"/>
-	    <patch file="&patch_dir;glib-disable-python.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-gspawn-win32.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-appinfo.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-dns.patch" strip="1"/>
@@ -78,6 +81,7 @@
 	    <dep package="gettext"/>
 	    <dep package="iconv"/>
 	    <dep package="zlib"/>
+	    <dep package="libffi"/>
 	    <dep package="gtk-doc"/>
 	</dependencies>
     </autotools>
