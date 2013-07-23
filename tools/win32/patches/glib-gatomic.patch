@@ -1,0 +1,10 @@
+--- glib-2.37.4/glib/gatomic.c~	2013-06-10 22:14:02.000000000 -0400
++++ glib-2.37.4/glib/gatomic.c	2013-07-22 22:09:35.000000000 -0400
+@@ -467,6 +467,7 @@
+ #elif defined (G_PLATFORM_WIN32)
+ 
+ #include <windows.h>
++#define MemoryBarrier() asm("mfence;")
+ #if !defined(_M_AMD64) && !defined (_M_IA64) && !defined(_M_X64) && !(defined _MSC_VER && _MSC_VER <= 1200)
+ #define InterlockedAnd _InterlockedAnd
+ #define InterlockedOr _InterlockedOr

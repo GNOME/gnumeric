@@ -85,7 +85,7 @@ os.environ['WINEDEBUG']	 = '-all'
 #os.environ['MAKE']	 = 'colormake'
 
 py_prefix = prefix+'/Python26'
-os.environ['PYTHON']	 = py_prefix+'/python.exe'
+#os.environ['PYTHON']	 = py_prefix+'/python.exe'
 os.environ['PY_PREFIX']  = py_prefix
 os.environ['PY_INCLUDE_DIR'] = py_prefix+'/include'
 os.environ['PY_LIB_DIR']     = py_prefix+'/libs'
@@ -118,6 +118,7 @@ module_autogenargs['gettext'] = autogenargs + """ --without-emacs \
 #module_autogenargs['jpeg']   = ' --enable-shared' + ' --disable-static' + ' --prefix='+prefix 
 
 module_autogenargs['glib']	=    autogenargs + """ --enable-explicit-deps=no \
+						  --enable-compile-warnings=no \
                                                   --cache-file=win32.cache \
                                                   --disable-gtk-doc"""
 module_autogenargs['freetype']  = autogenargs

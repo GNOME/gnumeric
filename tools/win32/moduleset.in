@@ -75,6 +75,7 @@
 	    <patch file="&patch_dir;glib-goption-disable-localization.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-gspawn-win32.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-appinfo.patch" strip="1"/>
+	    <patch file="&patch_dir;glib-gatomic.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-dns.patch" strip="1"/>
 	</branch>
 	<dependencies>
