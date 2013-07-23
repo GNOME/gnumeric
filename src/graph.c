@@ -618,8 +618,8 @@ struct assign_closure {
 	double minimum, maximum;
 	double *vals;
 	gssize vals_len;
-	unsigned last;
-	unsigned i;
+	guint64 last;
+	guint64 i;
 };
 
 static GnmValue *
@@ -723,7 +723,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		break;
 
 	case VALUE_ARRAY : {
-		int last = 0;
+		guint64 last = 0, max = dat->len;
 		int len = vec->val->v_array.y * vec->val->v_array.x;
 		int x = 0, y = vec->val->v_array.y;
 		GnmValue *v;
@@ -753,7 +753,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 					closure.maximum = - G_MAXDOUBLE;
 					closure.minimum = G_MAXDOUBLE;
 					closure.vals = dat->values;
-					closure.vals_len = dat->len;
+					closure.vals_len = max;
 					closure.last = last - 1;
 					closure.i = last;
 					sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,

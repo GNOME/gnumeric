@@ -1,3 +1,8 @@
+2013-07-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_load_values): really load all values for
+	multiple ranges.
+
 2013-07-19  Morten Welinder  <terra@gnome.org>
 
 	* src/style-conditions.c (gnm_style_cond_is_valid): Even stricter
