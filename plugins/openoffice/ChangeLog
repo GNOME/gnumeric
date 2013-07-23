@@ -1,5 +1,10 @@
 2013-07-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_write_data_element_range): new
+	(odf_write_data_element): use odf_write_data_element_range
+
+2013-07-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_plot_assign_dim): accept a range list rather
 	than just a single range
 

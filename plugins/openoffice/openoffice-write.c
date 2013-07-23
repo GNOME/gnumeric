@@ -1532,7 +1532,7 @@ odf_strip_brackets (char *string)
 {
 	char *closing;
 	closing = strrchr(string, ']');
-	if (closing != NULL)
+	if (closing != NULL && *(closing+1) == '\0')
 		*closing = '\0';
 	return ((*string == '[') ? (string + 1) : string);
 }
@@ -6048,6 +6048,56 @@ odf_write_drop_line (GnmOOExport *state, GogObject const *series, char const *dr
 	}
 }
 
+static void
+odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop const *texpr,
+			      char const *attribute)
+{
+	char *str;
+
+	switch (GNM_EXPR_GET_OPER (texpr->expr)) {
+	case GNM_EXPR_OP_CONSTANT: 
+		if (texpr->expr->constant.value->type == VALUE_CELLRANGE) {
+			str = gnm_expr_top_as_string (texpr, pp, state->conv);
+			gsf_xml_out_add_cstr (state->xml, attribute,
+					      odf_strip_brackets (str));
+			g_free (str);
+			return;
+		}
+		break;
+	case GNM_EXPR_OP_SET: {
+		int i;
+		gboolean success = TRUE;
+		GnmExpr const *expr = texpr->expr;
+		GString *gstr = g_string_new (NULL);
+		for (i = 0; i < expr->set.argc; i++) {
+			GnmExpr const *expr_arg = expr->set.argv[i];
+			if (GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CONSTANT && 
+			    expr_arg->constant.value->type == VALUE_CELLRANGE) {
+				char *str = gnm_expr_as_string (expr_arg, pp, state->conv);
+				if (gstr->len > 0)
+					g_string_append_c (gstr, ' ');
+				g_string_append (gstr, odf_strip_brackets (str));
+				g_free (str);
+			} else
+				success = FALSE;
+		}
+		if (success) {
+			gsf_xml_out_add_cstr (state->xml, attribute, gstr->str);
+			g_string_free (gstr, TRUE);
+			return;
+		}
+		g_string_free (gstr, TRUE);
+		break;
+	}
+	default:
+		break;
+	}
+	
+	/* ODF does not support anything else but we write it anyways */
+	str = gnm_expr_top_as_string (texpr, pp, state->conv);
+	gsf_xml_out_add_cstr (state->xml, attribute, str);
+	g_free (str);
+}
 
 static gboolean
 odf_write_data_element (GnmOOExport *state, GOData const *data, GnmParsePos *pp,
@@ -6058,8 +6108,7 @@ odf_write_data_element (GnmOOExport *state, GOData const *data, GnmParsePos *pp,
 	if (NULL != texpr) {
 		char *str = gnm_expr_top_as_string (texpr, pp, state->conv);
 		gsf_xml_out_start_element (state->xml, element);
-		gsf_xml_out_add_cstr (state->xml, attribute,
-				      odf_strip_brackets (str));
+		odf_write_data_element_range (state, pp, texpr, attribute);
 		g_free (str);
 		return TRUE;
 	}
