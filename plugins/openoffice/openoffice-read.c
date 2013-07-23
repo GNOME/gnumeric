@@ -8049,7 +8049,6 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 
 	/* force relative to A1, not the containing cell */
 	GnmExprTop const *texpr;
-	GnmParsePos pp;
 	GnmValue *v;
 	int dim;
 	gboolean set_default_labels = FALSE;
@@ -8067,14 +8066,32 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 		return;
 
 	if (NULL != range) {
-		GnmRangeRef ref;
-		char const *ptr = oo_rangeref_parse
-			(&ref, CXML2C (range),
-			 parse_pos_init_sheet (&pp, state->pos.sheet),
-			 NULL);
-		if (ptr == CXML2C (range) || ref.a.sheet == invalid_sheet)
-			return;
-		v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
+		char const *range_list = CXML2C (range);
+		GnmParsePos pp;
+		GnmExprList *args = NULL;
+		GnmExpr const *expr;
+
+		parse_pos_init_sheet (&pp, state->pos.sheet);
+		while (*range_list != 0) {
+			GnmRangeRef ref;
+			char const *ptr = oo_rangeref_parse
+				(&ref, range_list, &pp, NULL);
+			if (ptr == range_list || ref.a.sheet == invalid_sheet) {
+				return;
+			}
+			v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
+			expr = gnm_expr_new_constant (v);
+			while (*range_list == ' ')
+				range_list++;
+			args = gnm_expr_list_append (args, expr);
+			range_list = ptr;
+		}
+		if (1 == gnm_expr_list_length (args)) {
+			expr = args->data;
+			gnm_expr_list_free (args);
+		} else
+			expr = gnm_expr_new_set (args);
+		texpr = gnm_expr_top_new (expr);
 		if (state->debug)
 			g_print ("%d = rangeref (%s)\n", dim, range);
 	} else if (NULL != gog_dataset_get_dim (GOG_DATASET (state->chart.series), dim))
@@ -8100,9 +8117,9 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 
 		set_default_labels = state->chart.src_abscissa_set;
 		set_default_series_name = state->chart.src_label_set;
+		texpr = gnm_expr_top_new_constant (v);
 	}
 
-	texpr = gnm_expr_top_new_constant (v);
 	if (NULL != texpr)
 		gog_series_set_dim (state->chart.series, dim,
 			(dim_type != GOG_MS_DIM_LABELS)

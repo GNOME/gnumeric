@@ -10,6 +10,7 @@ Andreas:
 	* Speed up loading of some ODF files. [#704422]
 	* Fix ODF style import. [#704563]
 	* Fix crash on corrupted files. [#704636]
+	* Fix ODF import of charts with series consisting of multiple ranges. [#704742]
 
 Jean:
 	* Fix text wrap inside sheet objects. [#704417]
