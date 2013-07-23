@@ -8081,10 +8081,10 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 			}
 			v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
 			expr = gnm_expr_new_constant (v);
-			while (*range_list == ' ')
-				range_list++;
 			args = gnm_expr_list_append (args, expr);
 			range_list = ptr;
+			while (*range_list == ' ')
+				range_list++;
 		}
 		if (1 == gnm_expr_list_length (args)) {
 			expr = args->data;
