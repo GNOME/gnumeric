@@ -1,5 +1,11 @@
 2013-07-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c: use odf_sheet_suggest_size instead of
+	gnm_sheet_suggest_size throughout (except in odf_sheet_suggest_size)
+	(odf_sheet_suggest_size): allow for NULL xin
+
+2013-07-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_cellref_parse): do not create new sheets
 	since we created them all during preparsing
 	(openoffice_file_open): since we never add additional sheets we need

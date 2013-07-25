@@ -509,6 +509,8 @@ static void oo_chart_style_free (OOChartStyle *pointer);
 static OOFormula odf_get_formula_type (GsfXMLIn *xin, char const **str);
 static char const *odf_strunescape (char const *string, GString *target,
 				    G_GNUC_UNUSED GnmConventions const *convs);
+static void odf_sheet_suggest_size (GsfXMLIn *xin, int *cols, int *rows);
+
 
 /* Implementations */
 
@@ -1367,7 +1369,7 @@ two_quotes :
 		GOUndo   * goundo;
 		gboolean err;
 
-		gnm_sheet_suggest_size (&new_cols, &new_rows);
+		odf_sheet_suggest_size (NULL, &new_cols, &new_rows);
 		goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL, &err);
 		if (goundo) g_object_unref (goundo);
 
@@ -3006,7 +3008,7 @@ oo_extent_sheet_cols (Sheet *sheet, int cols)
 
 	new_cols = cols;
 	new_rows = gnm_sheet_get_max_rows (sheet);
-	gnm_sheet_suggest_size (&new_cols, &new_rows);
+	odf_sheet_suggest_size (NULL, &new_cols, &new_rows);
 
 	goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL, &err);
 	if (goundo) g_object_unref (goundo);
@@ -3419,7 +3421,7 @@ oo_extent_sheet_rows (Sheet *sheet, int rows)
 
 	new_cols = gnm_sheet_get_max_cols (sheet);
 	new_rows = rows;
-	gnm_sheet_suggest_size (&new_cols, &new_rows);
+	odf_sheet_suggest_size (NULL, &new_cols, &new_rows);
 
 	goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL, &err);
 	if (goundo) g_object_unref (goundo);
@@ -10405,7 +10407,7 @@ odf_sheet_suggest_size (GsfXMLIn *xin, int *cols, int *rows)
 	while (!gnm_sheet_valid_size (c, r))
 		gnm_sheet_suggest_size (&c, &r);
 
-	if (*cols > c || *rows > r)
+	if (xin != NULL && (*cols > c || *rows > r))
 		oo_warning (xin, _("The sheet size of %i columns and %i rows used in this file "
 			      "exceeds Gnumeric's maximum supported sheet size"), *cols, *rows);
 
