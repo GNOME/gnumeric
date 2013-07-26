@@ -12420,9 +12420,12 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 					   : opendoc_content_dtd,
 					   gsf_odf_get_ns ());
 		content_malformed = !gsf_xml_in_doc_parse (doc, contents, &state);
+		gsf_xml_in_doc_free (doc);
+		odf_clear_conventions (&state);
+		
+		odf_fix_expr_names (&state);
 	}
 
-	odf_fix_expr_names (&state);
 
 	if (!content_malformed) {
 		GsfInput *settings;
@@ -12472,8 +12475,6 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		state.settings.settings = NULL;
 	}
 
-	gsf_xml_in_doc_free (doc);
-	odf_clear_conventions (&state);
 
 	go_io_progress_unset (state.context);
 	g_free (state.last_error);
