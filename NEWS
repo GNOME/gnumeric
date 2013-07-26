@@ -21,6 +21,7 @@ Morten:
 	* Fix crashes on corrupted files.  [#704102] [#704004] [#704325]
 	[#704562]
 	* Fix conditional format problem.  [#704445]
+	* Plug leak.  [#704820]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.4

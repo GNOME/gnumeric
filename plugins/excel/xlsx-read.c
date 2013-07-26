@@ -4844,6 +4844,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	xlsx_style_array_free (state.dxfs);
 	xlsx_style_array_free (state.table_styles);
 	g_hash_table_destroy (state.theme_colors_by_name);
+	value_release (state.val);
 
 	workbook_set_saveinfo (state.wb, GO_FILE_FL_AUTO,
 			       go_file_saver_for_id ((state.version == ECMA_376_2006) ?
