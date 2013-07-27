@@ -179,9 +179,12 @@
 	</dependencies>
     </autotools>
 
+    <tarball id="harfbuzz" version="0.9.19">
+      <source href="http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-0.9.19.tar.bz2"/>
+    </tarball>
+
     <autotools id="pango">
-	<branch repo="gnome.org" module="sources/pango/1.28/pango-1.28.0.tar.bz2" version="1.28.0">
-	  <patch file="&patch_dir;pango-no-introspection.patch"/>
+	<branch repo="gnome.org" module="sources/pango/1.35/pango-1.35.0.tar.xz" version="1.35.0">
 	</branch>
 	<dependencies>
 	    <dep package="freetype"/>
@@ -189,6 +192,7 @@
 	    <dep package="glib"/>
 	    <dep package="libthai"/>
 	    <dep package="gtk-doc"/>
+	    <dep package="harfbuzz"/>
 	</dependencies>
     </autotools>
 

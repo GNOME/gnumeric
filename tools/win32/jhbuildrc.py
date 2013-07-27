@@ -126,7 +126,9 @@ module_autogenargs['png']  = autogenargs + """ --without-libpng-compat"""
 module_autogenargs['fontconfig']= autogenargs + """ --with-arch=x86 --enable-libxml2"""
 module_autogenargs['pango']	= autogenargs + """ --disable-gtk-doc \
                                                   --enable-explicit-deps=no \
-                                                  --with-included-modules"""
+						  --disable-introspection \
+						  --with-xft=no \
+                                                  --with-included-modules=no"""
 #						  --disable-ft
 module_autogenargs['pixman']	= autogenargs + """ --enable-explicit-deps=no \
                                                   --enable-gtk=no \
