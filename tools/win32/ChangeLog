@@ -2,7 +2,7 @@
 
 	* moduleset.in: libdatrie to 0.2.6; libthai to 0.1.19; libxslt to
 	1.1.28; gtk-doc to 1.19; new harfbuzz module; pango to 1.35.0; atk
-	to 2.9.3; cairo grows glib dep.
+	to 2.9.3; new gdk-pixbuf module; cairo grows glib dep.
 
 2013-07-20  Morten Welinder  <terra@gnome.org>
 
