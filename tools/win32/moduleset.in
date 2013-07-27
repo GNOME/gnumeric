@@ -77,6 +77,7 @@
 	    <patch file="&patch_dir;glib-appinfo.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-gatomic.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-dns.patch" strip="1"/>
+	    <patch file="&patch_dir;glib-no-tests.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="gettext"/>

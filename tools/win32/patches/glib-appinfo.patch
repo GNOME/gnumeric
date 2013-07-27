@@ -50,7 +50,7 @@
    return strcmp (info1->executable, info2->executable) == 0;
  }
  
-@@ -248,35 +258,36 @@
+@@ -248,35 +258,35 @@
  }
  
  static gboolean
