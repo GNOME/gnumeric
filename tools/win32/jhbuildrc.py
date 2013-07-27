@@ -141,7 +141,6 @@ module_autogenargs['cairo']	= autogenargs + """ --enable-explicit-deps=no \
                                                   --enable-win32-font=yes \
 						  --enable-ft=yes \
 						  --enable-xcb=no \
-						  --enable-gobject=no \
 						  --disable-static \
 						  --enable-shared"""
 #						  --enable-ft=no
