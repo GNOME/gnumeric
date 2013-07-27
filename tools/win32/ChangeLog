@@ -1,4 +1,8 @@
-2013-07-20  Morten Welinder  <mwelinder@gmail.com>
+2013-07-27  Morten Welinder  <terra@gnome.org>
+
+	* moduleset.in: libdatrie to 0.2.6; cairo grows glib dep.
+
+2013-07-20  Morten Welinder  <terra@gnome.org>
 
 	* moduleset.in: Update pixman to 0.30.0, freetype to 2.5.0,
 	libxml2 to 2.9.1, fontconfig to 2.10.93, and cairo to 1.12.14.
