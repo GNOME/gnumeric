@@ -472,6 +472,7 @@ struct  _OOParseState {
 
 	gsf_off_t last_progress_update;
 	char *last_error;
+	gboolean  hd_ft_left_warned;
 	gboolean  debug;
 };
 
@@ -5578,6 +5579,17 @@ odf_page_layout_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+odf_header_footer_left (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	if (!state->hd_ft_left_warned) {
+		oo_warning (xin, _("Gnumeric does not support having a different "
+				   "style for left pages. This style is ignored."));
+		state->hd_ft_left_warned = TRUE;
+	}
+}
+
+static void
 odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -10655,8 +10667,13 @@ GSF_XML_IN_NODE (FOOTER_PROPERTIES, HF_BACK_IMAGE, OO_NS_STYLE, "background-imag
 
 GSF_XML_IN_NODE (OFFICE_DOC_STYLES, MASTER_STYLES, OO_NS_OFFICE, "master-styles", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (MASTER_STYLES, MASTER_PAGE, OO_NS_STYLE, "master-page", GSF_XML_NO_CONTENT, &odf_master_page, &odf_master_page_end),
-GSF_XML_IN_NODE (MASTER_PAGE, MASTER_PAGE_HEADER_LEFT, OO_NS_STYLE, "header-left", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (MASTER_PAGE, MASTER_PAGE_FOOTER_LEFT, OO_NS_STYLE, "footer-left", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (MASTER_PAGE, MASTER_PAGE_HEADER_LEFT, OO_NS_STYLE, "header-left", GSF_XML_NO_CONTENT, &odf_header_footer_left, NULL),
+    GSF_XML_IN_NODE (MASTER_PAGE_HEADER_LEFT, MASTER_PAGE_HEADER_FOOTER_LEFT_P,  OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (MASTER_PAGE_HEADER_FOOTER_LEFT_P, MASTER_PAGE_HEADER_FOOTER_LEFT_SPAN,  OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MASTER_PAGE_HEADER_FOOTER_LEFT_SPAN, MASTER_PAGE_HEADER_FOOTER_LEFT_PAGE_NUMBER,  OO_NS_TEXT, "page-number", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MASTER_PAGE_HEADER_FOOTER_LEFT_SPAN, MASTER_PAGE_HEADER_FOOTER_LEFT_SHEET_NAME,  OO_NS_TEXT, "sheet-name", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (MASTER_PAGE, MASTER_PAGE_FOOTER_LEFT, OO_NS_STYLE, "footer-left", GSF_XML_NO_CONTENT, &odf_header_footer_left, NULL),
+    GSF_XML_IN_NODE (MASTER_PAGE_FOOTER_LEFT, MASTER_PAGE_HEADER_FOOTER_LEFT_P,  OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd */
   GSF_XML_IN_NODE_FULL (MASTER_PAGE, MASTER_PAGE_HEADER, OO_NS_STYLE, "header", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_header_footer, &odf_header_footer_end, 0),
 GSF_XML_IN_NODE_FULL (MASTER_PAGE_HEADER, MASTER_PAGE_HF_R_LEFT, OO_NS_STYLE, "region-left", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_hf_region, &odf_hf_region_end, 0),
 GSF_XML_IN_NODE (MASTER_PAGE_HF_R_LEFT, MASTER_PAGE_HF_P, OO_NS_TEXT, "p", GSF_XML_CONTENT, &odf_text_content_start, &odf_text_content_end),
@@ -12256,6 +12273,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 
 	/* init */
 	state.debug = gnm_debug_flag ("opendocumentimport");
+	state.hd_ft_left_warned = FALSE;
 	state.context	= io_context;
 	state.wb_view	= wb_view;
 	state.pos.wb	= wb_view_get_workbook (wb_view);
