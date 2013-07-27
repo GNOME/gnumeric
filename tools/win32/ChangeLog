@@ -1,6 +1,7 @@
 2013-07-27  Morten Welinder  <terra@gnome.org>
 
-	* moduleset.in: libdatrie to 0.2.6; cairo grows glib dep.
+	* moduleset.in: libdatrie to 0.2.6; libthai to 0.1.19; cairo grows
+	glib dep.
 
 2013-07-20  Morten Welinder  <terra@gnome.org>
 
