@@ -4463,6 +4463,11 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			GnmParsePos pp;
 			char const *message_type = NULL;
 
+			if (val == NULL) {
+				g_warning ("NULL validation encountered!");
+				continue;
+			}
+
 			if (!element_written) {
 				gsf_xml_out_start_element
 					(state->xml, TABLE "content-validations");
