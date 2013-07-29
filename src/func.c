@@ -1123,10 +1123,12 @@ gnm_func_lookup_prefix (char const *prefix, Workbook *scope, gboolean trans)
 	g_hash_table_iter_init (&hiter, functions_by_name);
 	while (g_hash_table_iter_next (&hiter, NULL, &value)) {
 		GnmFunc *fd = value;
-		const char *name = gnm_func_get_name (fd, trans);
-		if (g_str_has_prefix (name, prefix)) {
-			gnm_func_ref (fd);
-			res = g_slist_prepend (res, fd);
+		if (!(fd->flags & GNM_FUNC_IS_PLACEHOLDER)) {
+			const char *name = gnm_func_get_name (fd, trans);
+			if (g_str_has_prefix (name, prefix)) {
+				gnm_func_ref (fd);
+				res = g_slist_prepend (res, fd);
+			}
 		}
 	}
 

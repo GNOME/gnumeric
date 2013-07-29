@@ -1,3 +1,7 @@
+2013-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func.c (gnm_func_lookup_prefix): do not include placeholders
+
 2013-07-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Dmitry Smirnov
 	* gnumeric.desktop.in: add ODS files
