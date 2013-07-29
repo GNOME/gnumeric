@@ -4460,11 +4460,12 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 		for (l = list; l != NULL; l = l->next) {
 			GnmStyleRegion const *sr  = l->data;
 			GnmValidation const *val = gnm_style_get_validation (sr->style);
+			GnmInputMsg const *msg = gnm_style_get_input_msg (sr->style);
 			GnmParsePos pp;
 			char const *message_type = NULL;
 
-			if (val == NULL) {
-				g_warning ("NULL validation encountered!");
+			if (val == NULL && msg == NULL) {
+				g_warning ("Encountered NULL validation with NULL message!");
 				continue;
 			}
 
@@ -4475,73 +4476,104 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			}
 			gsf_xml_out_start_element (state->xml,
 						   TABLE "content-validation");
-			odf_validation_general_attributes (state, val);
-			odf_validation_base_cell_address (state, sheet, sr, &pp);
-			switch (val->type) {
-			case GNM_VALIDATION_TYPE_ANY:
-				odf_validation_general (state, val, sheet, sr, "", &pp);
-				break;
-			case GNM_VALIDATION_TYPE_AS_INT:
-				odf_validation_general (state, val, sheet, sr,
-							"cell-content-is-whole-number() and ", &pp);
-				break;
-			case GNM_VALIDATION_TYPE_AS_NUMBER:
-				odf_validation_general (state, val, sheet, sr,
-							"cell-content-is-decimal-number() and ", &pp);
-				break;
-			case GNM_VALIDATION_TYPE_AS_DATE:
-				odf_validation_general (state, val, sheet, sr,
-							"cell-content-is-date() and ", &pp);
-				break;
-			case GNM_VALIDATION_TYPE_AS_TIME:
-				odf_validation_general (state, val, sheet, sr,
-							"cell-content-is-time() and ", &pp);
-				break;
-			case GNM_VALIDATION_TYPE_IN_LIST:
-				odf_validation_in_list (state, val, sheet, sr, &pp);
-				break;
-			case GNM_VALIDATION_TYPE_TEXT_LENGTH:
-				odf_validation_length (state, val, sheet, sr, &pp);
-				break;
-			case GNM_VALIDATION_TYPE_CUSTOM:
-				odf_validation_custom (state, val, sheet, sr, &pp);
-				break;
+			if (val) {
+				odf_validation_general_attributes (state, val);
+				odf_validation_base_cell_address (state, sheet, sr, &pp);
+				switch (val->type) {
+				case GNM_VALIDATION_TYPE_ANY:
+					odf_validation_general (state, val, sheet, sr, "", &pp);
+					break;
+				case GNM_VALIDATION_TYPE_AS_INT:
+					odf_validation_general (state, val, sheet, sr,
+								"cell-content-is-whole-number() and ", &pp);
+					break;
+				case GNM_VALIDATION_TYPE_AS_NUMBER:
+					odf_validation_general (state, val, sheet, sr,
+								"cell-content-is-decimal-number() and ", &pp);
+					break;
+				case GNM_VALIDATION_TYPE_AS_DATE:
+					odf_validation_general (state, val, sheet, sr,
+								"cell-content-is-date() and ", &pp);
+					break;
+				case GNM_VALIDATION_TYPE_AS_TIME:
+					odf_validation_general (state, val, sheet, sr,
+								"cell-content-is-time() and ", &pp);
+					break;
+				case GNM_VALIDATION_TYPE_IN_LIST:
+					odf_validation_in_list (state, val, sheet, sr, &pp);
+					break;
+				case GNM_VALIDATION_TYPE_TEXT_LENGTH:
+					odf_validation_length (state, val, sheet, sr, &pp);
+					break;
+				case GNM_VALIDATION_TYPE_CUSTOM:
+					odf_validation_custom (state, val, sheet, sr, &pp);
+					break;
+				}
+				
+				/* writing error message */
+				gsf_xml_out_start_element (state->xml,
+							   TABLE "error-message");
+				odf_add_bool (state->xml, TABLE "display", TRUE);
+				switch (val->style) {
+				case GNM_VALIDATION_STYLE_NONE:
+				case GNM_VALIDATION_STYLE_INFO:
+				case GNM_VALIDATION_STYLE_PARSE_ERROR:
+					message_type = "information";
+					break;
+				case GNM_VALIDATION_STYLE_STOP:
+					message_type = "stop";
+					break;
+				case GNM_VALIDATION_STYLE_WARNING:
+					message_type = "warning";
+					break;
+				}
+				gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "message-type", message_type);
+				if (val->title != NULL)
+					gsf_xml_out_add_cstr (state->xml, TABLE "title", val->title->str);
+				
+				if (val->msg != NULL && go_string_get_len (val->msg) > 0) {
+					gboolean white_written = TRUE;
+					gboolean pp = TRUE;
+					g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+					g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+					gsf_xml_out_start_element (state->xml, TEXT "p");
+					odf_add_chars (state, val->msg->str, go_string_get_len (val->msg), &white_written);
+					gsf_xml_out_end_element (state->xml);   /* p */
+					g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
+				}
+				
+				gsf_xml_out_end_element (state->xml);
+				/* error message written */
 			}
 
-			/* writing error message */
-			gsf_xml_out_start_element (state->xml,
-						   TABLE "error-message");
-			odf_add_bool (state->xml, TABLE "display", TRUE);
-			switch (val->style) {
-			case GNM_VALIDATION_STYLE_NONE:
-			case GNM_VALIDATION_STYLE_INFO:
-			case GNM_VALIDATION_STYLE_PARSE_ERROR:
-				message_type = "information";
-				break;
-			case GNM_VALIDATION_STYLE_STOP:
-				message_type = "stop";
-				break;
-			case GNM_VALIDATION_STYLE_WARNING:
-				message_type = "warning";
-				break;
-			}
-			gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "message-type", message_type);
-			if (val->title != NULL)
-				gsf_xml_out_add_cstr (state->xml, TABLE "title", val->title->str);
+			/* writing help message */
+			if (msg) {
+				char const  * msg_content = gnm_input_msg_get_msg (msg);
+				char const  * msg_title = gnm_input_msg_get_title (msg);
+				
+				if (msg_content != NULL || msg_title != NULL) {
+					gsf_xml_out_start_element (state->xml,
+								   TABLE "help-message");
+					odf_add_bool (state->xml, TABLE "display", TRUE);
+					if (msg_title != NULL)
+						gsf_xml_out_add_cstr (state->xml, TABLE "title", msg_title);
 
-			if (val->msg != NULL && go_string_get_len (val->msg) > 0) {
-				gboolean white_written = TRUE;
-				gboolean pp = TRUE;
-				g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
-				g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
-				gsf_xml_out_start_element (state->xml, TEXT "p");
-				odf_add_chars (state, val->msg->str, go_string_get_len (val->msg), &white_written);
-				gsf_xml_out_end_element (state->xml);   /* p */
-				g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
+					if (msg_content != NULL && strlen (msg_content) > 0) {
+						gboolean white_written = TRUE;
+						gboolean pp = TRUE;
+						g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+						g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+						gsf_xml_out_start_element (state->xml, TEXT "p");
+						odf_add_chars (state, msg_content, strlen (msg_content), 
+							       &white_written);
+						gsf_xml_out_end_element (state->xml);   /* p */
+						g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
+					}
+					
+					gsf_xml_out_end_element (state->xml);
+					/* help message written */
+				}
 			}
-
-			gsf_xml_out_end_element (state->xml);
-			/* error message written */
 
 			gsf_xml_out_end_element (state->xml);
 			/* </table:content-validation> */
@@ -7700,11 +7732,15 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 					    && texpr->expr->constant.value->type == VALUE_STRING) {
 						gboolean white_written = TRUE;
 						char const *str;
+						gboolean pp = TRUE;
+						g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+						g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 						gsf_xml_out_start_element (state->xml, TEXT "p");
 						str = value_peek_string (texpr->expr->constant.value);
 						odf_add_chars (state, str, strlen (str),
 							       &white_written);
 						gsf_xml_out_end_element (state->xml); /* </text:p> */
+						g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 					}
 				}
 

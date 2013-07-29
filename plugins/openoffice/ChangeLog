@@ -1,5 +1,12 @@
 2013-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_print_spreadsheet_content_validations): write
+	helpmessage (and warn on NULL validation only if the input message is
+	also NULL
+	(odf_write_plot): switch off pretty printing when writing text:p
+
+2013-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_print_spreadsheet_content_validations): warn
 	on NULL validation
 
