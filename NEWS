@@ -9,7 +9,7 @@ Andreas:
 	* Improve import to ODF of empty cells with default column styles. [#704563]
 	* Speed up loading of some ODF files. [#704422]
 	* Fix ODF style import. [#704563]
-	* Fix crash on corrupted files. [#704636] [#705032]
+	* Fix crash on corrupted files. [#704636] [#705032] [#705031]
 	* Fix ODF import of charts with series consisting of multiple ranges. [#704742]
 	* Fix ODF export of charts with series consisting of multiple ranges.
 

@@ -1,3 +1,7 @@
+2013-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write.c (xlsx_write_borders): check for NULL borders
+
 2013-07-26  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_file_open): Release state.val, just in case.
