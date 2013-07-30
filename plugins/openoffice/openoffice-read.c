@@ -7557,6 +7557,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	gchar * name;
 	gint name_len;
 	GsfInput	*content = NULL;
+	int i;
 
 	if (state->chart.so != NULL) {
 		if (IS_SHEET_OBJECT_GRAPH (state->chart.so))
@@ -7587,6 +7588,9 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.saved_gradient_styles
 		= g_slist_prepend (state->chart.saved_gradient_styles,
 				   state->chart.gradient_styles);
+
+	for (i = 0; i < OO_CHART_STYLE_INHERITANCE; i++)
+		state->chart.i_plot_styles[i] = NULL;
 
 	state->chart.graph_styles = g_hash_table_new_full
 		(g_str_hash, g_str_equal,
@@ -7637,7 +7641,6 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 		GsfXMLInDoc *doc =
 			gsf_xml_in_doc_new (get_styles_dtd (),
 					    gsf_odf_get_ns ());
-		odf_clear_conventions (state); /* contain references to xin */
 		gsf_xml_in_doc_parse (doc, content, state);
 		gsf_xml_in_doc_free (doc);
 		odf_clear_conventions (state); /* contain references to xin */
@@ -7648,7 +7651,6 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	if (content != NULL) {
 		GsfXMLInDoc *doc =
 			gsf_xml_in_doc_new (get_dtd (), gsf_odf_get_ns ());
-		odf_clear_conventions (state); /* contain references to xin */
 		gsf_xml_in_doc_parse (doc, content, state);
 		gsf_xml_in_doc_free (doc);
 		odf_clear_conventions (state); /* contain references to xin */
@@ -7662,6 +7664,9 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->cur_style.type == OO_STYLE_CHART)
 		state->cur_style.type = OO_STYLE_UNKNOWN;
 	state->chart.cur_graph_style = NULL;
+
+	for (i = 0; i < OO_CHART_STYLE_INHERITANCE; i++)
+		state->chart.i_plot_styles[i] = NULL;
 
 	pop_hash (&state->chart.saved_graph_styles, &state->chart.graph_styles);
 	pop_hash (&state->chart.saved_hatches, &state->chart.hatches);
@@ -12288,8 +12293,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.chart.cs_viewbox = NULL;
 	state.chart.cs_type = NULL;
 	state.chart.cs_variables = NULL;
-	state.chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] = NULL;
-	state.chart.i_plot_styles[OO_CHART_STYLE_SERIES] = NULL;
+	for (i = 0; i < OO_CHART_STYLE_INHERITANCE; i++)
+		state.chart.i_plot_styles[i] = NULL;
 	state.styles.sheet = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) oo_sheet_style_free);
