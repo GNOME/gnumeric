@@ -1,3 +1,8 @@
+2013-07-30  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_style_border): Make sure we have a
+	colour.  Fixes rest of #705031.
+
 2013-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func.c (gnm_func_lookup_prefix): do not include placeholders
@@ -8,8 +13,8 @@
 
 2013-07-23  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/graph.c (gnm_go_data_vector_load_values): really load all values for
-	multiple ranges.
+	* src/graph.c (gnm_go_data_vector_load_values): really load all
+	values for multiple ranges.
 
 2013-07-19  Morten Welinder  <terra@gnome.org>
 

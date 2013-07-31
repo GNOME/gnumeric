@@ -1836,9 +1836,18 @@ xml_sax_style_border (GsfXMLIn *xin, xmlChar const **attrs)
 		GnmStyleElement const type = xin->node->user_data.v_int;
 		GnmStyleBorderLocation const loc =
 			GNM_STYLE_BORDER_TOP + (int)(type - MSTYLE_BORDER_TOP);
-		GnmBorder *border =
-			gnm_style_border_fetch ((GnmStyleBorderType)pattern, colour,
-						gnm_style_border_get_orientation (loc));
+		GnmBorder *border;
+
+		/*
+		 * Make sure we have a colour to prevent trouble further
+		 * down the line.
+		 */
+		if (!colour)
+			colour = gnm_color_new_go (GO_COLOR_BLACK);
+
+		border = gnm_style_border_fetch
+			((GnmStyleBorderType)pattern, colour,
+			 gnm_style_border_get_orientation (loc));
 		gnm_style_set_border (state->style, type, border);
 	}
 }
