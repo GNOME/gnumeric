@@ -162,7 +162,7 @@ module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-java -
 module_autogenargs['pxlib']	= autogenargs + """ --with-gsf=""" + prefix
 module_autogenargs['libglade']	= autogenargs
 module_autogenargs['pygobject']	= autogenargs + """ --without-ffi --without-gio-unix"""
-module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
+module_autogenargs['libgsf']	= autogenargs + """ --disable-introspection"""
 module_autogenargs['goffice']	= autogenargs + """ --without-gconf --with-gmathml --without-long-double"""
 module_autogenargs['gnumeric']	= autogenargs + """ --disable-component --without-perl"""
 module_autogenargs['poppler']	= autogenargs + """ --disable-cms"""

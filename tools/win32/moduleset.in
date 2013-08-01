@@ -218,7 +218,7 @@
 		version="3.9.8">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch"/>
-	    <patch file="&patch_dir;gtk-gtkprintoperation-win32.patch" strip="1"/>
+	    <patch file="&patch_dir;gtk-warp-prototype.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
@@ -331,11 +331,11 @@
 
 <!-- Gnumeric stack -->
     <autotools id="libgsf">
-	<branch repo="gnome.org" module="sources/libgsf/1.14/libgsf-1.14.21.tar.gz" version="1.14.21">
+	<branch repo="gnome.org" module="sources/libgsf/1.14/libgsf-1.14.28.tar.xz" version="1.14.28">
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
-	    <dep package="gtk+"/> <!-- make sure gdkpixbuf does not pick up external gtk -->
+	    <dep package="gdk-pixbuf"/>
 	    <dep package="libxml2"/>
 	    <dep package="zlib"/>
 	    <dep package="libbz2"/>

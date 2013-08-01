@@ -1,3 +1,7 @@
+2013-08-01  Morten Welinder  <terra@gnome.org>
+
+	* moduleset.in: libgsf to 1.14.28.
+
 2013-07-27  Morten Welinder  <terra@gnome.org>
 
 	* moduleset.in: libdatrie to 0.2.6; libthai to 0.1.19; libxslt to
