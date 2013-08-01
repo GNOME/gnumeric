@@ -288,8 +288,10 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $uwoption $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
+		dnl Include a system header so we ignore Werror=... flags
+		dnl that cause trouble.
 		AC_COMPILE_IFELSE(
-			[AC_LANG_PROGRAM([], [])],
+			[AC_LANG_PROGRAM([[#include <stdio.h>]], [])],
 			[has_option=yes],
 			[has_option=no])
 		CFLAGS="$SAVE_CFLAGS"
