@@ -362,6 +362,9 @@
 	    <dep package="libgsf"/>
 	    <dep package="libxml2"/>
 	    <dep package="pango"/>
+	    <dep package="cairo"/>
+	    <dep package="gdk-pixbuf"/>
+	    <dep package="gtk+"/>
 	    <!-- <dep package="lasem"/> -->
 	</dependencies>
     </autotools>
