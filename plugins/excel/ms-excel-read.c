@@ -4739,8 +4739,9 @@ excel_read_MULRK (BiffQuery *q, ExcelReadSheet *esheet)
 	XL_CHECK_CONDITION (lastcol >= col);
 
 	if (q->length != 4 + 6 * (lastcol - col + 1) + 2) {
-		g_warning ("MULRK with strange size.");
-		lastcol = col + (q->length - (4 + 6 + 2)) / 6 - 1;
+		int guess = col + (q->length - (4 + 2)) / 6 - 1;
+		g_warning ("MULRK with strange size: %d vs %d", lastcol, guess);
+		lastcol = MIN (lastcol, (guint32)MAX (guess, 0));
 	}
 
 	for (; col <= lastcol ; col++) {
