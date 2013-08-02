@@ -1,3 +1,13 @@
+2013-08-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_validation_t): add fields
+	(odf_validation_get_input_message): new
+	(odf_validation_free): handle new fields
+	(odf_validation_help_message): new
+	(odf_validation_help_message_end): new
+	(oo_cell_start): handle input message
+	(opendoc_content_dtd): connect odf_validation_help_message*
+
 2013-07-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_set_gnm_border): check for old_border == NULL

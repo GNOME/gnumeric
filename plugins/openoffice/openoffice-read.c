@@ -47,6 +47,7 @@
 #include <sheet-style.h>
 #include <mstyle.h>
 #include <style-border.h>
+#include <input-msg.h>
 #include <gnm-format.h>
 #include <print-info.h>
 #include <command-context.h>
@@ -369,7 +370,9 @@ typedef struct {
 	OOFormula f_type;
 	ValidationStyle style;
 	gchar *title;
+	gchar *help_title;
 	GString *message;
+	GString *help_message;
 } odf_validation_t;
 
 struct  _OOParseState {
@@ -2559,6 +2562,21 @@ odf_validations_analyze (GsfXMLIn *xin, odf_validation_t *val, guint offset,
 	return NULL;
 }
 
+static GnmInputMsg *
+odf_validation_get_input_message (GsfXMLIn *xin, char const *name)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	odf_validation_t *val = g_hash_table_lookup (state->validations, name);
+	
+	if (val == NULL)
+		return NULL;
+
+	if ((val->help_message != NULL && val->help_message->len > 0) ||
+	     (val->help_title != NULL && strlen (val->help_title) > 0))
+		return gnm_input_msg_new (val->help_message ? val->help_message->str : NULL, val->help_title);
+	else
+		return NULL;
+}
 
 static GnmValidation *
 odf_validations_translate (GsfXMLIn *xin, char const *name)
@@ -2607,8 +2625,11 @@ odf_validation_free (odf_validation_t *val)
 	g_free (val->condition);
 	g_free (val->base_cell_address);
 	g_free (val->title);
+	g_free (val->help_title);
 	if (val->message)
 		g_string_free (val->message, TRUE);
+	if (val->help_message)
+		g_string_free (val->help_message, TRUE);
 	g_free (val);
 }
 
@@ -2711,6 +2732,40 @@ odf_validation_error_message_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	odf_pop_text_p (state);
 }
 
+static void
+odf_validation_help_message (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->cur_validation)
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
+			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+						OO_NS_TABLE, "title" )) {
+				g_free (state->cur_validation->help_title);
+				state->cur_validation->help_title = g_strdup (CXML2C (attrs[1]));
+			}
+			/* ignoring TABLE "display" */
+		}
+
+	odf_push_text_p (state, FALSE);
+}
+
+static void
+odf_validation_help_message_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	oo_text_p_t *ptr;
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	g_return_if_fail (state->text_p_stack != NULL);
+	ptr = state->text_p_stack->data;
+	g_return_if_fail (ptr != NULL);
+
+	if (state->cur_validation) {
+		state->cur_validation->help_message = ptr->gstr;
+		ptr->gstr = NULL;
+	}
+	odf_pop_text_p (state);
+}
 
 
 static void
@@ -3735,12 +3790,20 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			style = odf_style_from_oo_cell_style (xin, oostyle);
 	}
 
-	if ((validation_name != NULL) &&
-	    (NULL != (validation = odf_validations_translate (xin, validation_name)))) {
-		if (style == NULL)
-			style = gnm_style_new ();
-		/* 1 reference for style*/
-		gnm_style_set_validation (style, validation);
+	if (validation_name != NULL) {
+		GnmInputMsg *message;
+		if (NULL != (validation = odf_validations_translate (xin, validation_name))) {
+			if (style == NULL)
+				style = gnm_style_new ();
+			/* 1 reference for style*/
+			gnm_style_set_validation (style, validation);
+		}
+		if (NULL != (message = odf_validation_get_input_message (xin, validation_name))) {
+			if (style == NULL)
+				style = gnm_style_new ();
+			/* 1 reference for style*/
+			gnm_style_set_input_msg (style, message);
+		}
 	}
 
 	if (style == NULL && (merge_cols > 1 || merge_rows > 1)) {
@@ -10945,6 +11008,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		        GSF_XML_IN_NODE (TEXT_ADDR, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+ 	        GSF_XML_IN_NODE (CONTENT_VALIDATION, HELP_MESSAGE, OO_NS_TABLE, "help-message", GSF_XML_NO_CONTENT, &odf_validation_help_message , &odf_validation_help_message_end),
+	            GSF_XML_IN_NODE (HELP_MESSAGE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
  	    GSF_XML_IN_NODE (SPREADSHEET, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, ITERATION, OO_NS_TABLE, "iteration", GSF_XML_NO_CONTENT, oo_iteration, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, DATE_CONVENTION, OO_NS_TABLE, "null-date", GSF_XML_NO_CONTENT, oo_date_convention, NULL),
@@ -11210,6 +11275,8 @@ static GsfXMLInNode const opendoc_content_preparse_dtd [] =
 	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		        GSF_XML_IN_NODE (TEXT_ADDR, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+ 	        GSF_XML_IN_NODE (CONTENT_VALIDATION, HELP_MESSAGE, OO_NS_TABLE, "help-message", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (HELP_MESSAGE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
  	    GSF_XML_IN_NODE (SPREADSHEET, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, ITERATION, OO_NS_TABLE, "iteration", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, DATE_CONVENTION, OO_NS_TABLE, "null-date", GSF_XML_NO_CONTENT, NULL, NULL),
