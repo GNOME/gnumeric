@@ -1,3 +1,8 @@
+2013-08-02  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_init_input_msg_page): Turn this
+	on and repair bitrot.
+
 2013-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-format.c (dialog_cell_format): add pages argument

@@ -45,6 +45,7 @@
 #include <mstyle.h>
 #include <application.h>
 #include <validation.h>
+#include <input-msg.h>
 #include <workbook.h>
 #include <wbc-gtk.h>
 #include <commands.h>
@@ -1979,16 +1980,9 @@ cb_input_msg_flag_toggled (GtkToggleButton *button, FormatState *state)
 static void
 fmt_dialog_init_input_msg_page (FormatState *state)
 {
-	g_return_if_fail (state != NULL);
+	GnmInputMsg const *im = NULL;
 
-	/*
-	 * NOTE: This should be removed when the feature
-	 * is implemented.
-	 */
-#if 1L
-	gtk_notebook_remove_page (state->notebook, 7);
-	return;
-#endif
+	g_return_if_fail (state != NULL);
 
 	/* Setup widgets */
 	state->input_msg.flag        = GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "input_msg_flag"));
@@ -1997,12 +1991,19 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 	state->input_msg.title       = GTK_ENTRY         (go_gtk_builder_get_widget (state->gui, "input_msg_title"));
 	state->input_msg.msg         = GTK_TEXT_VIEW     (go_gtk_builder_get_widget (state->gui, "input_msg_msg"));
 
+	/* Initialize */
+	if (0 == (state->conflicts & (1 << MSTYLE_INPUT_MSG)))
+		im = gnm_style_get_input_msg (state->style);
+	if (im) {
+		gtk_entry_set_text (state->input_msg.title,
+				    gnm_input_msg_get_title (im));
+		gnumeric_textview_set_text (state->input_msg.msg,
+					    gnm_input_msg_get_msg (im));
+	}
+
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (state->input_msg.title));
-	gnumeric_editable_enters (
-		GTK_WINDOW (state->dialog),
-		GTK_WIDGET (state->input_msg.msg));
 
 	g_signal_connect (G_OBJECT (state->input_msg.flag),
 		"toggled",
