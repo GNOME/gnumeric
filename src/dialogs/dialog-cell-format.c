@@ -1937,7 +1937,6 @@ fmt_dialog_init_validation_page (FormatState *state)
 	if (0 == (state->conflicts & (1 << MSTYLE_VALIDATION)))
 		v = gnm_style_get_validation (state->style);
 	if (v != NULL) {
-		GnmValidation const *v = gnm_style_get_validation (state->style);
 		GnmParsePos pp;
 
 		gtk_combo_box_set_active (state->validation.error.action, v->style);
@@ -2000,6 +1999,7 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 		gnumeric_textview_set_text (state->input_msg.msg,
 					    gnm_input_msg_get_msg (im));
 	}
+	gtk_toggle_button_set_active (state->input_msg.flag, im != NULL);
 
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),

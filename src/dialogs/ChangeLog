@@ -1,3 +1,8 @@
+2013-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-format.c (fmt_dialog_init_input_msg_page): set toggle
+	(fmt_dialog_init_validation_page): remove unneeded code
+
 2013-08-02  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_init_input_msg_page): Turn this
