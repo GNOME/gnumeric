@@ -1,49 +1,4 @@
  gdk-pixbuf/Makefile.in	2010-03-22 23:32:58.000000000 -0400
-+++ gdk-pixbuf/Makefile.in	2010-04-06 18:18:13.000000000 -0400
-@@ -1458,8 +1458,7 @@
- @HAVE_INTROSPECTION_TRUE@dist_gir_DATA = $(INTROSPECTION_GIRS)
- @HAVE_INTROSPECTION_TRUE@typelibsdir = $(libdir)/girepository-1.0
- @HAVE_INTROSPECTION_TRUE@typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
--@CROSS_COMPILING_FALSE@RUN_QUERY_LOADER_TEST = test -z "$(DESTDIR)"
--@CROSS_COMPILING_TRUE@RUN_QUERY_LOADER_TEST = false
-+RUN_QUERY_LOADER_TEST = test -z "$(DESTDIR)"
- all: $(BUILT_SOURCES)
- 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
- 
-@@ -2158,7 +2157,7 @@
- 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS check-local
- check: $(BUILT_SOURCES)
- 	$(MAKE) $(AM_MAKEFLAGS) check-recursive
--@CROSS_COMPILING_TRUE@all-local:
-+all-local:
- all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(DATA) $(HEADERS) \
- 		all-local
- install-binPROGRAMS: install-libLTLIBRARIES
-@@ -2450,7 +2449,7 @@
- install-data-hook: install-ms-lib install-def-file
- 	@if $(RUN_QUERY_LOADER_TEST) ; then \
- 	  $(mkinstalldirs) $(DESTDIR)$(sysconfdir)/gtk-2.0 ; \
--	  $(top_builddir)/gdk-pixbuf/gdk-pixbuf-query-loaders > $(DESTDIR)$(sysconfdir)/gtk-2.0/gdk-pixbuf.loaders ; \
-+	  $(top_builddir)/gdk-pixbuf/gdk-pixbuf-query-loaders$(EXEEXT) > $(DESTDIR)$(sysconfdir)/gtk-2.0/gdk-pixbuf.loaders ; \
- 	else \
- 	  echo "***" ; \
- 	  echo "*** Warning: gdk-pixbuf.loaders not built" ; \
-@@ -2463,13 +2462,13 @@
- uninstall-local: uninstall-ms-lib uninstall-def-file
- 	rm -f $(DESTDIR)$(sysconfdir)/gtk-2.0/gdk-pixbuf.loaders
- 
--@CROSS_COMPILING_FALSE@all-local: gdk-pixbuf.loaders
-+all-local: gdk-pixbuf.loaders
- 
- @BUILD_DYNAMIC_MODULES_TRUE@gdk-pixbuf.loaders: $(loader_LTLIBRARIES) gdk-pixbuf-query-loaders$(EXEEXT)
- @BUILD_DYNAMIC_MODULES_TRUE@	LOADERS=`echo libpixbufloader-*.la` ; \
- @BUILD_DYNAMIC_MODULES_TRUE@	if test "x$$LOADERS" != 'xlibpixbufloader-*.la' ; then \
- @BUILD_DYNAMIC_MODULES_TRUE@          echo "Writing a gdk-pixbuf.loader file to use when running examples before installing gdk-pixbuf."; \
--@BUILD_DYNAMIC_MODULES_TRUE@	  $(top_builddir)/gdk-pixbuf/gdk-pixbuf-query-loaders $$LOADERS > ./gdk-pixbuf.loaders ;\
-+@BUILD_DYNAMIC_MODULES_TRUE@	  $(top_builddir)/gdk-pixbuf/gdk-pixbuf-query-loaders$(EXEEXT) $$LOADERS > ./gdk-pixbuf.loaders ;\
- @BUILD_DYNAMIC_MODULES_TRUE@	else \
- @BUILD_DYNAMIC_MODULES_TRUE@          echo "No dynamic modules found; will use only static modules for uninstalled example programs."; \
- @BUILD_DYNAMIC_MODULES_TRUE@	  touch gdk-pixbuf.loaders; \
 --- modules/input/Makefile.in	2010-03-22 23:33:00.000000000 -0400
 +++ modules/input/Makefile.in	2010-04-06 18:15:37.000000000 -0400
 @@ -718,8 +718,8 @@
@@ -66,26 +21,3 @@
  all-am: Makefile $(LTLIBRARIES) $(DATA) all-local
  installdirs:
  	for dir in "$(DESTDIR)$(moduledir)" "$(DESTDIR)$(imconffiledir)"; do \
-@@ -1253,8 +1253,8 @@
- 	@if $(RUN_QUERY_IMMODULES_TEST) ; then \
- 	  echo $(mkinstalldirs) $(DESTDIR)$(sysconfdir)/gtk-2.0 ; \
- 	  $(mkinstalldirs) $(DESTDIR)$(sysconfdir)/gtk-2.0 ; \
--	  echo "$(top_builddir)/gtk/gtk-query-immodules-2.0 > $(DESTDIR)$(sysconfdir)/gtk-2.0/gtk.immodules" ; \
--	  $(top_builddir)/gtk/gtk-query-immodules-2.0 > $(DESTDIR)$(sysconfdir)/gtk-2.0/gtk.immodules ; \
-+	  echo "$(top_builddir)/gtk/gtk-query-immodules-2.0$(EXEEXT) > $(DESTDIR)$(sysconfdir)/gtk-2.0/gtk.immodules" ; \
-+	  $(top_builddir)/gtk/gtk-query-immodules-2.0$(EXEEXT) > $(DESTDIR)$(sysconfdir)/gtk-2.0/gtk.immodules ; \
- 	else \
- 	  echo "***" ; \
- 	  echo "*** Warning: gtk.immodules not built" ; \
-@@ -1270,9 +1270,9 @@
- included-modules: $(noinst_LTLIBRARIES)
- 
- gtk.immodules: Makefile.am $(module_LTLIBRARIES)
--	$(top_builddir)/gtk/gtk-query-immodules-2.0 $(module_LTLIBRARIES) > gtk.immodules
-+	$(top_builddir)/gtk/gtk-query-immodules-2.0$(EXEEXT) $(module_LTLIBRARIES) > gtk.immodules
- 
--@CROSS_COMPILING_FALSE@all-local: gtk.immodules
-+all-local: gtk.immodules
- 
- -include $(top_srcdir)/git.mk
- 

@@ -1,6 +1,6 @@
 2013-08-01  Morten Welinder  <terra@gnome.org>
 
-	* moduleset.in: libgsf to 1.14.28.
+	* moduleset.in: libgsf to 1.14.28.  gtk+ to 3.9.10.
 
 2013-07-27  Morten Welinder  <terra@gnome.org>
 

@@ -44,7 +44,7 @@ else:
     sys.exit (1)
 
 mingw_tools = {'ADDR2LINE': 'addr2line',
-	'AS': 'as', 'CC': 'gcc', 'CPP': 'cpp',
+	'AS': 'as', 'CC': 'gcc', 'CC_FOR_BUILD': 'gcc', 'CPP': 'cpp',
 	'CPPFILT': 'c++filt', 'CXX': 'g++',
 	'DLLTOOL': 'dlltool', 'DLLWRAP': 'dllwrap',
 	'GCOV': 'gcov', 'LD': 'ld', 'NM': 'nm',

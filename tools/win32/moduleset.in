@@ -214,11 +214,11 @@
     </autotools>
 
     <autotools id="gtk+">
-	<branch repo="gnome.org" module="sources/gtk+/3.9/gtk+-3.9.8.tar.xz"
-		version="3.9.8">
+	<branch repo="gnome.org" module="sources/gtk+/3.9/gtk+-3.9.10.tar.xz"
+		version="3.9.10">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch"/>
-	    <patch file="&patch_dir;gtk-warp-prototype.patch" strip="1"/>
+	    <patch file="&patch_dir;gtk-release-flux.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
