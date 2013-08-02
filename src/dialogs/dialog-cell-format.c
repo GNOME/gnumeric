@@ -213,9 +213,6 @@ typedef struct _FormatState {
 		GtkWindow *w;
 		gpointer closure;
 	} style_selector;
-
-	void (*dialog_changed) (gpointer user_data);
-	gpointer	dialog_changed_user_data;
 } FormatState;
 
 enum {
@@ -236,19 +233,19 @@ enum {
 static void
 fmt_dialog_changed (FormatState *state)
 {
+	GOFormatSel *gfs;
+	GOFormat const *fmt;
+	gboolean ok;
+	
 	if (!state->enable_edit)
 		return;
-
-	if (state->dialog_changed)
-		state->dialog_changed (state->dialog_changed_user_data);
-	else {
-		GOFormatSel *gfs = GO_FORMAT_SEL (state->format_sel);
-		GOFormat const *fmt = go_format_sel_get_fmt (gfs);
-		gboolean ok = !go_format_is_invalid (fmt);
-
-		gtk_widget_set_sensitive (state->apply_button, ok);
-		gtk_widget_set_sensitive (state->ok_button, ok);
-	}
+	
+	gfs = GO_FORMAT_SEL (state->format_sel);
+	fmt = go_format_sel_get_fmt (gfs);
+	ok = !go_format_is_invalid (fmt);
+	
+	gtk_widget_set_sensitive (state->apply_button, ok);
+	gtk_widget_set_sensitive (state->ok_button, ok);
 }
 
 /* Default to the 'Format' page but remember which page we were on between
@@ -1786,7 +1783,8 @@ static void
 cb_validation_changed (G_GNUC_UNUSED GtkEntry *ignored,
 		       FormatState *state)
 {
-	state->validation.changed = TRUE;
+	if (state->enable_edit)
+		state->validation.changed = TRUE;
 }
 
 static void
@@ -1801,11 +1799,10 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (entry->entry));
+	gnm_expr_entry_set_flags (entry->entry, GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	g_signal_connect (G_OBJECT (entry->entry),
 		"changed",
 		G_CALLBACK (cb_validation_changed), state);
-	gnm_expr_entry_set_flags (entry->entry, GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
-
 }
 
 static void
@@ -2399,6 +2396,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 		GNUMERIC_HELP_LINK_CELL_FORMAT);
 
 	state->ok_button = go_gtk_builder_get_widget (state->gui, "okbutton");
+	gtk_widget_set_sensitive (state->ok_button, FALSE);
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_fmt_dialog_dialog_buttons), state);
@@ -2548,8 +2546,6 @@ dialog_cell_format_init (WBCGtk *wbcg)
 	state->style		= NULL;
 	state->result		= gnm_style_new ();
 	state->selection_mask	= 0;
-	state->dialog_changed	= NULL;
-	state->dialog_changed_user_data = NULL;
 
 	(void) sv_selection_foreach (state->sv,
 		fmt_dialog_selection_type, state);

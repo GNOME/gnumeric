@@ -1,5 +1,12 @@
 2013-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-cell-format.c: remove dialog_changed and dialog_changed_user_data
+	fields throughout
+	(cb_validation_changed): only set validation.changed during editing
+	(fmt_dialog_impl): set the ok button initially to be inactive
+
+2013-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-cell-format.c (fmt_dialog_init_input_msg_page): set toggle
 	(fmt_dialog_init_validation_page): remove unneeded code
 
