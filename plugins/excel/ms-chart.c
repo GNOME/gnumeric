@@ -641,7 +641,7 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 				NULL);
 			if (s->axislineflags == 8)
 				g_object_set (s->axis, "invisible", TRUE, NULL);
-			else {
+			else if (q->length >= 10) {
 				/* deleted axis sets flag here, rather than in TICK */
 				if (0 == (0x4 & GSF_LE_GET_GUINT16 (q->data+8)))
 					g_object_set (G_OBJECT (s->axis),
@@ -4259,6 +4259,8 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 					ref_type = 2;
 			} else if ((value = gnm_expr_top_get_constant (texpr)))
 				ref_type = 1;
+			else /* might be any expression */
+				ref_type = 2;
 		} else {
 			char *str = go_data_serialize (dim, (gpointer)gnm_conventions_default);
 			ref_type = 1;
@@ -5141,13 +5143,16 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 				check_marks = check_lines = TRUE;
 			} else {
 				gboolean show_neg = FALSE, in_3d = FALSE, as_area = TRUE;
+				double scale;
 				g_object_get (G_OBJECT (plot),
 					"show-negatives",	&show_neg,
 					"in-3d",		&in_3d,
 					"size-as-area",		&as_area,
+				        "bubble-scale",		&scale,
 					NULL);
+				scale *= 100.;
 				/* TODO : find accurate size */
-				GSF_LE_SET_GUINT16 (data + 0, 100);
+				GSF_LE_SET_GUINT16 (data + 0, (guint16) scale);
 				GSF_LE_SET_GUINT16 (data + 2, as_area ? 1 : 2);
 
 				flags = 1;
