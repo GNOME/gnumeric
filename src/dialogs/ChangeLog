@@ -1,3 +1,11 @@
+2013-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-format.c (dialog_cell_format): add pages argument
+	(fmt_dialog_impl): add pages argument, calculate default
+	value for the argument
+	(dialog_cell_format_select_style): move code from here to fmt_dialog_impl
+	* dialogs.h (dialog_cell_format): add argument
+
 2013-07-21  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format-cond.c (c_fmt_dialog_init_editor_page): Don't

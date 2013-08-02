@@ -22,7 +22,8 @@ void	 dialog_formula_guru	(WBCGtk *wbcg, GnmFunc *func);
 void	 dialog_plugin_manager	(WBCGtk *wbcg);
 void	 dialog_goto_cell	(WBCGtk *wbcg);
 void	 dialog_cell_format	(WBCGtk *wbcg,
-				 FormatDialogPosition_t pageno);
+				 FormatDialogPosition_t pageno,
+				 int pages);
 GtkDialog *dialog_cell_format_select_style (WBCGtk *wbcg,
 					    gint pages, GtkWindow *w,
 					    GnmStyle *style,

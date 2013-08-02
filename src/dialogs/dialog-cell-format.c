@@ -2178,7 +2178,7 @@ set_initial_focus (FormatState *s)
 }
 
 static void
-fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
+fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 {
 	static struct {
 		char const *const name;
@@ -2440,6 +2440,15 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	g_signal_connect (G_OBJECT (dialog), "destroy",
 			  G_CALLBACK (cb_dialog_destroy), NULL);
 
+	if (pages > 0)
+		for (i = 0; i <= FD_LAST; i++) {
+			GtkWidget *widget = gtk_notebook_get_nth_page
+				(state->notebook, i);
+			if (widget != NULL && !((1<<i) & pages))
+				gtk_widget_hide (widget);
+		}
+
+
 	gnumeric_restore_window_geometry (GTK_WINDOW (state->dialog),
 					  CELL_FORMAT_KEY);
 }
@@ -2549,7 +2558,7 @@ dialog_cell_format_init (WBCGtk *wbcg)
 }
 
 void
-dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno)
+dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno, gint pages)
 {
 	FormatState  *state;
 
@@ -2564,7 +2573,13 @@ dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno)
 	state->style_selector.w = NULL;
 	state->style_selector.closure = NULL;
 
-	fmt_dialog_impl (state, pageno);
+	if (pages == 0) {
+		int i;
+		for (i = FD_NUMBER; i <= FD_PROTECTION; i++)
+			pages |= (1 << i); 
+	}
+
+	fmt_dialog_impl (state, pageno, pages);
 
 	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
@@ -2589,7 +2604,6 @@ dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 				 GnmStyle *style, gpointer closure)
 {
 	FormatState  *state;
-	gint i;
 
 	g_return_val_if_fail (wbcg != NULL, NULL);
 	state = dialog_cell_format_init (wbcg);
@@ -2606,14 +2620,7 @@ dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 		state->conflicts = 0;
 	}
 
-	fmt_dialog_impl (state, FD_BACKGROUND);
-
-	for (i = 0; i <= FD_LAST; i++) {
-		GtkWidget *widget = gtk_notebook_get_nth_page
-			(state->notebook, i);
-		if (widget != NULL && !((1<<i) & pages))
-			gtk_widget_hide (widget);
-	}
+	fmt_dialog_impl (state, FD_BACKGROUND, pages);
 
 	gtk_widget_hide (state->apply_button);
 

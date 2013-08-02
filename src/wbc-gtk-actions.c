@@ -929,7 +929,7 @@ static GNM_ACTION_DEF (cb_sheet_name)
 
 static GNM_ACTION_DEF (cb_sheet_order)		{ dialog_sheet_order (wbcg); }
 static GNM_ACTION_DEF (cb_sheet_resize)		{ dialog_sheet_resize (wbcg); }
-static GNM_ACTION_DEF (cb_format_cells)		{ dialog_cell_format (wbcg, FD_CURRENT); }
+static GNM_ACTION_DEF (cb_format_cells)		{ dialog_cell_format (wbcg, FD_CURRENT, 0); }
 static GNM_ACTION_DEF (cb_format_cells_cond)    { dialog_cell_format_cond (wbcg); }
 static GNM_ACTION_DEF (cb_autoformat)		{ dialog_autoformat (wbcg); }
 static GNM_ACTION_DEF (cb_workbook_attr)	{ dialog_workbook_attr (wbcg); }
@@ -986,7 +986,8 @@ static GNM_ACTION_DEF (cb_data_import_other)	{ gui_file_open
 static GNM_ACTION_DEF (cb_auto_filter)          { cmd_autofilter_add_remove (WORKBOOK_CONTROL (wbcg)); }
 static GNM_ACTION_DEF (cb_show_all)		{ filter_show_all (WORKBOOK_CONTROL (wbcg)); }
 static GNM_ACTION_DEF (cb_data_filter)		{ dialog_advanced_filter (wbcg); }
-static GNM_ACTION_DEF (cb_data_validate)	{ dialog_cell_format (wbcg, FD_VALIDATION); }
+static GNM_ACTION_DEF (cb_data_validate)	{ dialog_cell_format (wbcg, FD_VALIDATION, 
+								      (1 << FD_VALIDATION) | (1 << FD_INPUT_MSG)); }
 static GNM_ACTION_DEF (cb_data_text_to_columns) { stf_text_to_columns (WORKBOOK_CONTROL (wbcg), GO_CMD_CONTEXT (wbcg)); }
 static GNM_ACTION_DEF (cb_data_consolidate)	{ dialog_consolidate (wbcg); }
 static GNM_ACTION_DEF (cb_data_table)		{ dialog_data_table (wbcg); }

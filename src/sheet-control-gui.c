@@ -1954,7 +1954,7 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		cmd_selection_clear (wbc, CLEAR_VALUES);
 		break;
 	case CONTEXT_FORMAT_CELL :
-		dialog_cell_format (wbcg, FD_CURRENT);
+		dialog_cell_format (wbcg, FD_CURRENT, 0);
 		break;
 	case CONTEXT_FORMAT_CELL_COND :
 		dialog_cell_format_cond (wbcg);
