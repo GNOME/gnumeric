@@ -1,3 +1,7 @@
+2013-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	*  ms-excel-read.c (excel_read_LABEL): check for NULL fd
+
 2013-08-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (axislineformat): fix crah on fuzzed xls reading [#705353],

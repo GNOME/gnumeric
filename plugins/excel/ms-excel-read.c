@@ -6259,7 +6259,7 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	fd = excel_font_get (esheet->container.importer, xf->font_idx);
 
 	txt = excel_get_text_fixme (esheet->container.importer, q->data + 8,
-				    in_len, &str_len, &fd->codepage);
+				    in_len, &str_len, fd ? &fd->codepage : NULL);
 
 	d (0, g_printerr ("%s in %s;\n",
 			  has_markup ? "formatted string" : "string",
