@@ -1,5 +1,10 @@
 2013-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_validations_translate): NULL validation
+	conditions are expected for input-message only situations
+
+2013-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_style_cell_properties): write
 	input messages as part of the validations
 	(odf_write_empty_cell): correctly write the name of an input-message

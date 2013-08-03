@@ -2611,11 +2611,11 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 			}
 		}
 	}
-
-	oo_warning (xin, _("Unsupported validation condition "
-			   "encountered: \"%s\" with base address: \"%s\""),
-		    val->condition, val->base_cell_address);
-
+	if (val->condition != NULL)
+		oo_warning (xin, _("Unsupported validation condition "
+				   "encountered: \"%s\" with base address: \"%s\""),
+			    val->condition, val->base_cell_address);
+	
 	return NULL;
 }
 
