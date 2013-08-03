@@ -57,30 +57,11 @@
      QUOTED_STRING = 259,
      CONSTANT = 260,
      RANGEREF = 261,
-     tok_GTE = 262,
-     tok_LTE = 263,
-     tok_NE = 264,
-     tok_AND = 265,
-     tok_OR = 266,
-     tok_NOT = 267,
      INTERSECT = 268,
      ARG_SEP = 269,
-     ARRAY_COL_SEP = 270,
-     ARRAY_ROW_SEP = 271,
-     SHEET_SEP = 272,
-     INVALID_TOKEN = 273,
-     tok_RIGHT_EXP = 274,
-     tok_LEFT_EXP = 275,
-     tok_PLUS = 276,
-     tok_NEG = 277,
-     RANGE_INTERSECT = 278,
-     RANGE_SEP = 279
+     INVALID_TOKEN = 273
    };
-#define  TOKEN_UNMATCHED_APOSTROPHY INVALID_TOKEN
-#define  TOKEN_PARENTHESIS_OPEN 40
-#define  TOKEN_PARENTHESIS_CLOSED 41
-#define  TOKEN_BRACE_OPEN 123
-#define  TOKEN_BRACE_CLOSED 125
+#define TOKEN_UNMATCHED_APOSTROPHE INVALID_TOKEN
 
 GType
 gnm_update_type_get_type (void)
@@ -1146,7 +1127,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 			gli->token = 0;
 			break;
 		}
-		if (gli->token != TOKEN_UNMATCHED_APOSTROPHY)
+		if (gli->token != TOKEN_UNMATCHED_APOSTROPHE)
 			continue;
 		if (gli->start == 0)
 			goto not_found;
@@ -1211,7 +1192,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 
 	while (gli->start > 1) {
 		switch (gli->token) {
-		case TOKEN_PARENTHESIS_OPEN:
+		case '(':
 			if ((gli - 1)->token == STRING) {
 				gint start_t = (gli - 1)->start;
 				gint end_t = (gli - 1)->end;
@@ -1231,19 +1212,19 @@ gee_check_tooltip (GnmExprEntry *gee)
 			stuff = TRUE;
 			args = 0;
 			break;
-		case TOKEN_BRACE_OPEN:
+		case '{':
 			stuff = (args == 0);
 			args = 0;
 			break;
-		case TOKEN_PARENTHESIS_CLOSED: {
+		case ')': {
 			gint para = 1;
 			gli--;
 			while (gli->start > 1 && para > 0) {
 				switch (gli->token) {
-				case TOKEN_PARENTHESIS_CLOSED:
+				case ')':
 					para++;
 					break;
-				case TOKEN_PARENTHESIS_OPEN:
+				case '(':
 					para--;
 					break;
 				default:
@@ -1255,15 +1236,15 @@ gee_check_tooltip (GnmExprEntry *gee)
 			stuff = (args == 0);
 			break;
 		}
-		case TOKEN_BRACE_CLOSED: {
+		case '}': {
 			gint para = 1;
 			gli--;
 			while (gli->start > 1 && para > 0) {
 				switch (gli->token) {
-				case TOKEN_BRACE_CLOSED:
+				case '}':
 					para++;
 					break;
-				case TOKEN_BRACE_OPEN:
+				case '{':
 					para--;
 					break;
 				default:
@@ -2035,12 +2016,12 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		return FALSE;
 
 	if (gli_before == gli_after) {
-		if ((gli_after + 1)->token == TOKEN_PARENTHESIS_OPEN ||
-		    (gli_after + 1)->token == TOKEN_BRACE_OPEN)
+		if ((gli_after + 1)->token == '(' ||
+		    (gli_after + 1)->token == '{')
 			return FALSE;
 		if (gli < gli_before &&
-		    ((gli_before - 1)->token == TOKEN_PARENTHESIS_CLOSED ||
-		     (gli_before - 1)->token == TOKEN_BRACE_CLOSED))
+		    ((gli_before - 1)->token == ')' ||
+		     (gli_before - 1)->token == '}'))
 			return FALSE;
 		rs->text_start = g_utf8_pointer_to_offset
 			(text, text + gli_before->start);
@@ -2053,8 +2034,8 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		case CONSTANT:
 		case RANGEREF:
 		case INVALID_TOKEN:
-			if (gli_after->token == TOKEN_PARENTHESIS_OPEN ||
-			    gli_after->token == TOKEN_BRACE_OPEN)
+			if (gli_after->token == '(' ||
+			    gli_after->token == '{')
 				return FALSE;
 			rs->text_start = g_utf8_pointer_to_offset
 				(text, text + gli_before->start);
@@ -2088,8 +2069,8 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		case CONSTANT:
 		case RANGEREF:
 		case INVALID_TOKEN:
-			if ((gli_after + 1)->token == TOKEN_PARENTHESIS_OPEN ||
-			    (gli_after + 1)->token == TOKEN_BRACE_OPEN)
+			if ((gli_after + 1)->token == '(' ||
+			    (gli_after + 1)->token == '{')
 				return FALSE;
 			rs->text_start = g_utf8_pointer_to_offset
 				(text, text + gli_after->start);
@@ -2109,16 +2090,16 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		case RANGEREF:
 		case INVALID_TOKEN:
 			if (gli < gli_before &&
-			    ((gli_before - 1)->token == TOKEN_PARENTHESIS_CLOSED ||
-			     (gli_before - 1)->token == TOKEN_BRACE_CLOSED))
+			    ((gli_before - 1)->token == ')' ||
+			     (gli_before - 1)->token == '}'))
 				return FALSE;
 			rs->text_start = g_utf8_pointer_to_offset
 				(text, text + gli_before->start);
 			rs->text_end   = g_utf8_pointer_to_offset
 				(text, text + gli_before->end);
 			break;
-		case TOKEN_PARENTHESIS_CLOSED:
-		case TOKEN_BRACE_CLOSED:
+		case ')':
+		case '}':
 			return FALSE;
 		default:
 			rs->text_end = rs->text_start =
