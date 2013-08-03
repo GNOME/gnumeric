@@ -814,16 +814,21 @@ xl_find_conditional_format (GnmOOExport *state, GOFormat const *format)
 
 	if (found == NULL) {
 		char *new_found;
-		new_found = g_strdup_printf ("NDC-%i",
-					     g_hash_table_size (state->xl_styles_conditional));
+		new_found = g_strdup_printf 
+			("NDC-%i", g_hash_table_size (state->xl_styles_conditional));
 		g_hash_table_insert (state->xl_styles_conditional, g_strdup (xl), new_found);
 		found = new_found;
 		xl_find_format (state, format, 0);
-		xl_find_format (state, format, 1);
-		condition = go_format_odf_style_map (format, 2);
+		/* We cannot be guaranteed to have a second part. See #705421 */
+		condition = go_format_odf_style_map (format, 1);
 		if (condition != NULL) {
-			xl_find_format (state, format, 2);
-		g_free (condition);
+			xl_find_format (state, format, 1);
+			g_free (condition);
+			condition = go_format_odf_style_map (format, 2);
+			if (condition != NULL) {
+				xl_find_format (state, format, 2);
+				g_free (condition);
+			}
 		}
 	}
 
