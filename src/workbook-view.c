@@ -258,6 +258,11 @@ wb_view_preferred_size (WorkbookView *wbv, int w, int h)
 {
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
+	if (w <= 0)
+		w = 768; /* use default */
+	if (h <= 0)
+		h = 768; /* use default */
+
 	g_object_set (G_OBJECT (wbv),
 		      "preferred-width", w,
 		      "preferred-height", h,
