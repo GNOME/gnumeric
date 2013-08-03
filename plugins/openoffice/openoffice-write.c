@@ -1287,17 +1287,6 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 	/* Only interpreted in a default style. */
 	gsf_xml_out_add_int (state->xml, STYLE "decimal-places", 13);
 
-/* Input Messages */
-	if (gnm_style_is_element_set (style, MSTYLE_INPUT_MSG) && state->with_extension) {
-		GnmInputMsg *msg = gnm_style_get_input_msg (style);
-		if (msg != NULL) {
-			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "input-title",
-					      gnm_input_msg_get_title (msg));
-
-			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "input-msg",
-					      gnm_input_msg_get_msg (msg));		}
-	}
-
 /* Horizontal Alignment */
 	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
 		GnmHAlign align = gnm_style_get_align_h (style);
@@ -3245,11 +3234,17 @@ odf_write_empty_cell (GnmOOExport *state, int num, GnmStyle const *style, GSList
 		if (style != NULL) {
 			char const * name = odf_find_style (state, style);
 			GnmValidation const *val = gnm_style_get_validation (style);
+			GnmInputMsg *im;
 			if (name != NULL)
 				gsf_xml_out_add_cstr (state->xml,
 						      TABLE "style-name", name);
 			if (val != NULL) {
 				char *vname = g_strdup_printf ("VAL-%p", val);
+				gsf_xml_out_add_cstr (state->xml,
+						      TABLE "content-validation-name", vname);
+				g_free (vname);
+			} else if (NULL != (im = gnm_style_get_input_msg (style))) {
+				char *vname = g_strdup_printf ("VAL-%p", im);
 				gsf_xml_out_add_cstr (state->xml,
 						      TABLE "content-validation-name", vname);
 				g_free (vname);
@@ -4256,10 +4251,6 @@ odf_write_autofilter (GnmOOExport *state, GnmFilter const *filter)
 static void
 odf_validation_general_attributes (GnmOOExport *state, GnmValidation const *val)
 {
-	char *name = g_strdup_printf ("VAL-%p", val);
-
-	gsf_xml_out_add_cstr (state->xml, TABLE "name", name);
-	g_free (name);
 	odf_add_bool (state->xml,  TABLE "allow-empty-cell", val->allow_blank);
 	gsf_xml_out_add_cstr (state->xml,  TABLE "display-list",
 			      val->use_dropdown ? "unsorted" : "none");
@@ -4463,6 +4454,7 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			GnmInputMsg const *msg = gnm_style_get_input_msg (sr->style);
 			GnmParsePos pp;
 			char const *message_type = NULL;
+			char *name;
 
 			if (val == NULL && msg == NULL) {
 				g_warning ("Encountered NULL validation with NULL message!");
@@ -4476,6 +4468,11 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			}
 			gsf_xml_out_start_element (state->xml,
 						   TABLE "content-validation");
+
+			name = g_strdup_printf ("VAL-%p", val ? (gpointer) val : (gpointer) msg);
+			gsf_xml_out_add_cstr (state->xml, TABLE "name", name);
+			g_free (name);
+
 			if (val) {
 				odf_validation_general_attributes (state, val);
 				odf_validation_base_cell_address (state, sheet, sr, &pp);
