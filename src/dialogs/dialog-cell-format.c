@@ -1963,6 +1963,26 @@ fmt_dialog_init_validation_page (FormatState *state)
 /*****************************************************************************/
 
 static void
+input_msg_rebuild_input_msg (FormatState *state)
+{
+	GnmInputMsg *im;
+	char *msg = gnumeric_textview_get_text (state->input_msg.msg);
+	char const *title = gtk_entry_get_text (state->input_msg.title);
+
+	im = gnm_input_msg_new	(msg, title);
+	g_free (msg);
+	gnm_style_set_input_msg (state->result, im);
+	fmt_dialog_changed (state);
+}
+
+static void
+cb_input_msg_rebuild (G_GNUC_UNUSED void *ignored,
+		      FormatState *state)
+{
+	input_msg_rebuild_input_msg (state);
+}
+
+static void
 cb_input_msg_flag_toggled (GtkToggleButton *button, FormatState *state)
 {
 	gboolean flag = gtk_toggle_button_get_active (button);
@@ -1971,6 +1991,14 @@ cb_input_msg_flag_toggled (GtkToggleButton *button, FormatState *state)
 	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg.msg_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg.title), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg.msg), flag);
+
+	if (state->enable_edit) {
+		if (flag)
+			input_msg_rebuild_input_msg (state);
+		else
+			gnm_style_set_input_msg (state->result, NULL);
+		fmt_dialog_changed (state);
+	}
 }
 
 static void
@@ -2005,6 +2033,12 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 	g_signal_connect (G_OBJECT (state->input_msg.flag),
 		"toggled",
 		G_CALLBACK (cb_input_msg_flag_toggled), state);
+	g_signal_connect (G_OBJECT (state->input_msg.title),
+		"changed",
+		G_CALLBACK (cb_input_msg_rebuild), state);
+	g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (state->input_msg.msg)),
+		"changed",
+		G_CALLBACK (cb_input_msg_rebuild), state);
 
 	/* Initialize */
 	cb_input_msg_flag_toggled (state->input_msg.flag, state);

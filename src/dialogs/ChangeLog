@@ -1,3 +1,10 @@
+2013-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-format.c (input_msg_rebuild_input_msg): new
+	(cb_input_msg_rebuild): new
+	(cb_input_msg_flag_toggled): rebuild input message
+	(fmt_dialog_init_input_msg_page): connect new callbacks
+
 2013-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-format.c: remove dialog_changed and dialog_changed_user_data
