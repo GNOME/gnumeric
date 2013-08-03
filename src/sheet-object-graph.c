@@ -1074,6 +1074,15 @@ gnm_sogg_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_AS_PERCENT, -1, "as_percentage", GSF_XML_CONTENT, NULL, percent_end),
 	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_SEPARATION, -1, "separation_percent_of_radius", GSF_XML_CONTENT, NULL, separation_end),
 	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_BUBBLE, -1, "auto_allocate_bubble_size", GSF_XML_CONTENT, NULL, bubble_end),
+	          GSF_XML_IN_NODE (GUPPI_PLOT, GUPPI_PLOT_GRAPH_TYPE, -1, "graph:Type", GSF_XML_NO_CONTENT, plot_type_start, NULL),
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_GRAPH_TYPE, GUPPI_MARKER, -1, "with_marker", GSF_XML_NO_CONTENT, NULL, NULL), /*2nd definition */
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_GRAPH_TYPE, GUPPI_MARKERS, -1, "with_markers", GSF_XML_NO_CONTENT, NULL, NULL), /*2nd definition */
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_GRAPH_TYPE, GUPPI_LINES, -1, "with_line", GSF_XML_NO_CONTENT, NULL, NULL), /*2nd definition */
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_GRAPH_TYPE, GUPPI_HORIZONTAL, -1, "horizontal", GSF_XML_NO_CONTENT, NULL, NULL), /*2nd definition */
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_GRAPH_TYPE, GUPPI_STACKED, -1, "stacked", GSF_XML_NO_CONTENT, NULL, NULL), /*2nd definition */
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_GRAPH_TYPE, GUPPI_AS_PERCENT, -1, "as_percentage", GSF_XML_NO_CONTENT, NULL, NULL), /*2nd definition */
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_GRAPH_TYPE, GUPPI_SEPARATION, -1, "separation_percent_of_radius", GSF_XML_NO_CONTENT, NULL, NULL), /*2nd definition */
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_GRAPH_TYPE, GUPPI_BUBBLE, -1, "auto_allocate_bubble_size", GSF_XML_NO_CONTENT, NULL, NULL), /*2nd definition */
 	          GSF_XML_IN_NODE (GUPPI_PLOT, GUPPI_DATA, -1, "graph:Data", GSF_XML_NO_CONTENT, NULL, NULL),
 	            GSF_XML_IN_NODE (GUPPI_DATA, GUPPI_SERIES, -1, "graph:Series", GSF_XML_NO_CONTENT, series_start, NULL),
 	            GSF_XML_IN_NODE (GUPPI_SERIES, GUPPI_SERIES_DIM, -1, "graph:Dimension", GSF_XML_NO_CONTENT, dim_start, NULL),

@@ -20,6 +20,7 @@ Jean:
 	* Fix text wrap inside sheet objects. [#704417]
 	* Fix export of scatter/bubble plots to xls. [#705311]
 	* Fix crash when importing fuzzed chart from xls. [#705353]
+	* Accept <graph:Type> nodes in guppi graphs. [Debian #718594]
 
 Morten:
 	* Fix crazy parsing problem.  [#704109] [#704140]

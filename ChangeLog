@@ -1,3 +1,8 @@
+2013-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-graph.c (gnm_sogg_prep_sax_parser): accept <graph:Type>
+	nodes in guppi graphs. [Debian #718594]
+
 2013-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/workbook-view.c (wb_view_preferred_size): interpret 0 as
