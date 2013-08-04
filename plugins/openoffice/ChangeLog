@@ -1,5 +1,10 @@
 2013-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_parse_range_address_or_expr): initialize
+	GnmRangeRef
+
+2013-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (xl_find_conditional_format): There might
 	only be a single conditional part!
 

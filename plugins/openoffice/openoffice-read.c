@@ -2049,10 +2049,13 @@ odf_parse_range_address_or_expr (GsfXMLIn *xin, char const *str)
 	GnmExprTop const *texpr = NULL;
 	OOFormula f_type = odf_get_formula_type (xin, &str);
 
-	if (f_type != FORMULA_NOT_SUPPORTED) {
+	if (str != NULL && strlen (str) > 0 && f_type != FORMULA_NOT_SUPPORTED) {
 		GnmParsePos pp;
 		GnmRangeRef ref;
-		char const *ptr = oo_rangeref_parse
+		char const *ptr;
+		gnm_cellref_init (&ref.a, invalid_sheet, 0, 0, TRUE);
+		gnm_cellref_init (&ref.b, invalid_sheet, 0, 0, TRUE);
+		ptr = oo_rangeref_parse
 			(&ref, str,
 			 parse_pos_init_sheet (&pp, state->pos.sheet),
 			 NULL);
