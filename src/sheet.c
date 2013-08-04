@@ -5580,7 +5580,7 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sheet), 1);
 
 	/* Do not use colrow_foreach, it ignores empties */
-	dflt =  sheet->cols.default_style.size_pts;
+	dflt =  sheet_col_get_default_size_pixels (sheet);
 	for (i = from ; i < to ; ++i) {
 		if (NULL == (ci = sheet_col_get (sheet, i)))
 			pixels += dflt;
@@ -5745,6 +5745,43 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	}
 
 	return pts*sign;
+}
+
+/**
+ * sheet_row_get_distance_pixels:
+ *
+ * Return the number of pixels between from_row to to_row
+ * measured from the upper left corner.
+ */
+int
+sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
+{
+	ColRowInfo const *ci;
+	int dflt, pixels = 0, sign = 1;
+	int i;
+
+	g_return_val_if_fail (IS_SHEET (sheet), 1.);
+
+	if (from > to) {
+		int const tmp = to;
+		to = from;
+		from = tmp;
+		sign = -1;
+	}
+
+	g_return_val_if_fail (from >= 0, 1);
+	g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sheet), 1);
+
+	/* Do not use colrow_foreach, it ignores empties */
+	dflt =  sheet_row_get_default_size_pixels (sheet);
+	for (i = from ; i < to ; ++i) {
+		if (NULL == (ci = sheet_row_get (sheet, i)))
+			pixels += dflt;
+		else if (ci->visible)
+			pixels += ci->size_pixels;
+	}
+
+	return pixels * sign;
 }
 
 /**

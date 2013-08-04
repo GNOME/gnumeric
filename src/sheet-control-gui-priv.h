@@ -55,6 +55,12 @@ struct _SheetControlGUI {
 		int          x, y;
 	} comment;
 
+	/* im */
+	struct {
+		GtkWidget   *item;
+		int	     timer;
+	} im;
+
 	struct {
 		int		timer, counter, n;
 		gboolean	jump, horiz;

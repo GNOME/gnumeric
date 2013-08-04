@@ -1,3 +1,23 @@
+2013-08-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-control-gui-priv.h (_SheetControlGUI): add fields
+	* src/sheet-control-gui.c (scg_init): init new fields
+	(scg_im_destroy): new
+	(scg_finalize): call scg_im_destroy
+	(cb_cell_im_timer): new
+	(scg_find_pane): new
+	(scg_show_im_tooltip): new
+	(scg_class_init): init new field
+	* src/sheet-control-priv.h: add field
+	* src/sheet-control.c: add virtual
+	* src/sheet-control.h: add virtual
+	* src/sheet-view.c (sheet_view_edit_pos_tool_tips): new
+	(sv_update): call sheet_view_edit_pos_tool_tips
+	* src/sheet.c (sheet_col_get_distance_pixels): the defaults need to be
+	in pixels
+	(sheet_row_get_distance_pixels): new
+	* src/sheet.h (sheet_row_get_distance_pixels): new
+
 2013-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-graph.c (gnm_sogg_prep_sax_parser): accept <graph:Type>

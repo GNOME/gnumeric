@@ -63,6 +63,7 @@
 #include "item-cursor.h"
 #include "widgets/gnumeric-expr-entry.h"
 #include "gnm-sheet-slicer.h"
+#include "input-msg.h"
 
 #include <go-data-slicer-field.h>
 #include <goffice/goffice.h>
@@ -717,6 +718,9 @@ scg_init (SheetControlGUI *scg)
 
 	scg->grab_stack = 0;
 	scg->selected_objects = NULL;
+
+	scg->im.item = NULL;
+	scg->im.timer = 0;
 }
 
 /*************************************************************************/
@@ -1740,6 +1744,18 @@ scg_comment_timer_clear (SheetControlGUI *scg)
 }
 
 static void
+scg_im_destroy (SheetControlGUI *scg) {
+	if (scg->im.timer != 0) {
+		g_source_remove (scg->im.timer);
+		scg->im.timer = 0;
+	}
+	if (scg->im.item) {
+		gtk_widget_destroy (scg->im.item);
+		scg->im.item = NULL;
+	}	
+}
+
+static void
 scg_finalize (GObject *object)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
@@ -1768,6 +1784,8 @@ scg_finalize (GObject *object)
 		scg->delayedMovement.timer = 0;
 	}
 	scg_comment_unselect (scg, scg->comment.selected);
+
+	scg_im_destroy (scg);
 
 	if (sc->view) {
 		Sheet *sheet = sv_sheet (sc->view);
@@ -3665,6 +3683,114 @@ scg_scale_changed (SheetControl *sc)
 		sheet_object_update_bounds (SHEET_OBJECT (ptr->data), NULL);
 }
 
+static gboolean
+cb_cell_im_timer (SheetControlGUI *scg)
+{
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
+	g_return_val_if_fail (scg->im.timer != 0, FALSE);
+
+	scg->im.timer = 0;
+	scg_im_destroy (scg);
+	return FALSE;
+}
+
+static GnmPane *
+scg_find_pane (SheetControlGUI *scg, GnmCellPos *pos)
+{
+	int i;
+
+	for (i = 0; i < scg->active_panes; i++) {
+		GnmPane *pane = scg->pane[i];
+
+		if (pane->first.col <= pos->col &&
+		    pane->first.row <= pos->row &&
+		    pane->last_visible.col >= pos->col &&
+		    pane->last_visible.row >= pos->row)
+			return pane;
+	}
+	return NULL;
+}
+
+static void
+scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
+{
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
+	GnmPane *pane;
+
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	scg_im_destroy (scg);
+
+	pane = scg_find_pane (scg, pos);
+
+	if (im && pane) {
+		GtkWidget *label, *box;
+		char const *text, *title;
+		int len_text, len_title;
+		int x, y, x_origin, y_origin;
+		GtkAllocation allocation;
+	
+		text = gnm_input_msg_get_msg   (im);
+		title = gnm_input_msg_get_title (im);
+		len_text = (text == NULL) ? 0 : strlen (text);
+		len_title = (title == NULL) ? 0 : strlen (title);
+
+		if ((len_text == 0) && (len_title == 0))
+			return;
+
+		box = gtk_box_new (GTK_ORIENTATION_VERTICAL, FALSE);
+
+		if (len_title > 0) {
+			PangoAttrList *attrs;
+			PangoAttribute *attr;
+
+			label = gtk_label_new (title);
+
+			attrs = pango_attr_list_new ();
+			attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
+			attr->start_index = 0;
+			attr->end_index = G_MAXINT;
+			pango_attr_list_insert (attrs, attr);
+			gtk_label_set_attributes (GTK_LABEL (label), attrs);
+			pango_attr_list_unref (attrs);
+
+			gtk_widget_set_halign (label, GTK_ALIGN_START);
+			gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
+		}
+		if (len_text > 0) {
+			label = gtk_label_new (text);
+
+			gtk_widget_set_halign (label, GTK_ALIGN_START);
+			gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
+			if (len_title > 0)
+				gtk_box_set_spacing (GTK_BOX (box), 10);
+		}		
+		gnumeric_convert_to_tooltip (GTK_WIDGET (scg->grid), box);
+		scg->im.item = gtk_widget_get_toplevel (box);
+
+		x = sheet_col_get_distance_pixels
+			(scg_sheet (scg), pane->first.col, pos->col + 1);
+		
+		y = sheet_row_get_distance_pixels
+			(scg_sheet (scg), pane->first.row, pos->row + 1);
+
+		gtk_widget_get_allocation (GTK_WIDGET (pane), &allocation);
+		x += allocation.x;
+		y += allocation.y;
+
+		gdk_window_get_position 
+			(gtk_widget_get_parent_window (GTK_WIDGET (pane)), 
+			 &x_origin, &y_origin);
+		x += x_origin;
+		y += y_origin;
+
+		gtk_window_move (GTK_WINDOW (scg->im.item), x + 10, y + 10);
+		gtk_widget_show_all (scg->im.item);
+		scg->im.timer = g_timeout_add (1500, (GSourceFunc)cb_cell_im_timer, scg);
+	}
+}
+
+
 
 static void
 scg_class_init (GObjectClass *object_class)
@@ -3691,6 +3817,7 @@ scg_class_init (GObjectClass *object_class)
 	sc_class->set_panes		   = scg_set_panes;
 	sc_class->object_create_view	   = scg_object_create_view;
 	sc_class->scale_changed		   = scg_scale_changed;
+	sc_class->show_im_tooltip	   = scg_show_im_tooltip;
 }
 
 GSF_CLASS (SheetControlGUI, sheet_control_gui,

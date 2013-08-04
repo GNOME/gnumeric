@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * sheet-view.c:
  *
@@ -42,6 +43,8 @@
 #include "expr-name.h"
 #include "command-context.h"
 #include "gnumeric-conf.h"
+#include "sheet-style.h"
+#include "mstyle.h"
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -636,6 +639,23 @@ sv_flag_selection_change (SheetView *sv)
 	sv->selection_content_changed = TRUE;
 }
 
+static void
+sheet_view_edit_pos_tool_tips (SheetView *sv)
+{
+	GnmStyle const *style;
+	GnmInputMsg	*im = NULL;
+
+	style = sheet_style_get (sv->sheet,
+				 sv->edit_pos.col,
+				 sv->edit_pos.row);
+	if (style != NULL && gnm_style_is_element_set (style, MSTYLE_INPUT_MSG))
+		im = gnm_style_get_input_msg (style);
+
+	/* We need to call these even with im == NULL to remove the old tooltip.*/
+	SHEET_VIEW_FOREACH_CONTROL (sv, control,
+				    sc_show_im_tooltip (control, im, &sv->edit_pos););
+}
+
 void
 sv_update (SheetView *sv)
 {
@@ -661,6 +681,7 @@ sv_update (SheetView *sv)
 				(sv, sc, wb_control_menu_state_update
 				 (sc_wbc (sc),
 				  MS_COMMENT_LINKS | MS_PAGE_BREAKS););
+			sheet_view_edit_pos_tool_tips (sv);
 		}
 	}
 

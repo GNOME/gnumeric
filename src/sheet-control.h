@@ -46,6 +46,9 @@ void sc_set_panes		(SheetControl *sc);
 void sc_object_create_view	(SheetControl *sc, SheetObject *so);
 void sc_scale_changed		(SheetControl *sc);
 
+void sc_show_im_tooltip         (SheetControl *sc, 
+				 GnmInputMsg *im, GnmCellPos *pos);
+
 G_END_DECLS
 
 #endif /* _GNM_SHEET_CONTROL_H_ */

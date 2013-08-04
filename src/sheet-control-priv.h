@@ -35,6 +35,8 @@ typedef struct {
 	void (*set_panes)		(SheetControl *sc);
 	void (*object_create_view)	(SheetControl *sc, SheetObject *so);
 	void (*scale_changed)		(SheetControl *sc);
+	void (*show_im_tooltip)         (SheetControl *sc, 
+					 GnmInputMsg *im, GnmCellPos *pos);
 } SheetControlClass;
 
 #define SHEET_CONTROL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_CONTROL_TYPE, SheetControlClass))

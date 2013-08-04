@@ -237,7 +237,7 @@ void    sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels);
 
 /* Row height */
 double  sheet_row_get_distance_pts	  (Sheet const *sheet, int from_row, int to_row);
-
+int     sheet_row_get_distance_pixels     (Sheet const *sheet, int from, int to);
 void    sheet_row_set_size_pts		  (Sheet *sheet, int row, double height_pts,
 					   gboolean set_by_user);
 void    sheet_row_set_size_pixels	  (Sheet *sheet, int row, int height_pixels,

@@ -136,3 +136,6 @@ SC_VIRTUAL (set_panes, (SheetControl *sc), (sc))
 SC_VIRTUAL (object_create_view,	(SheetControl *sc, SheetObject *so), (sc, so))
 SC_VIRTUAL (scale_changed,	(SheetControl *sc), (sc))
 
+SC_VIRTUAL (show_im_tooltip,	(SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos), (sc, im, pos))
+
+
