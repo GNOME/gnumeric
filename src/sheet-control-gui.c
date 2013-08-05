@@ -3729,6 +3729,8 @@ scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
 		int len_text, len_title;
 		int x, y, x_origin, y_origin;
 		GtkAllocation allocation;
+		Sheet *sheet = scg_sheet (scg);
+		gboolean rtl = sheet->text_is_rtl;
 	
 		text = gnm_input_msg_get_msg   (im);
 		title = gnm_input_msg_get_title (im);
@@ -3769,12 +3771,14 @@ scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
 		scg->im.item = gtk_widget_get_toplevel (box);
 
 		x = sheet_col_get_distance_pixels
-			(scg_sheet (scg), pane->first.col, pos->col + 1);
+			(sheet, pane->first.col, pos->col + (rtl ? 1 : 0));
 		
 		y = sheet_row_get_distance_pixels
-			(scg_sheet (scg), pane->first.row, pos->row + 1);
+			(sheet, pane->first.row, pos->row + 1);
 
 		gtk_widget_get_allocation (GTK_WIDGET (pane), &allocation);
+		if (rtl)
+			x = allocation.width - x;
 		x += allocation.x;
 		y += allocation.y;
 

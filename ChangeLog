@@ -1,5 +1,9 @@
 2013-08-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-control-gui.c (scg_show_im_tooltip): handle rtl sheets
+
+2013-08-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-control-gui-priv.h (_SheetControlGUI): add fields
 	* src/sheet-control-gui.c (scg_init): init new fields
 	(scg_im_destroy): new
