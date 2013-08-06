@@ -17,6 +17,7 @@ Andreas:
 	* Fix warnings. [Part of #705313]
 	* Show input messages. [#705310]
 	* Fix Excel XML import. [#705223]
+	* Fix documentation. [#705541]
 
 Jean:
 	* Fix text wrap inside sheet objects. [#704417]
