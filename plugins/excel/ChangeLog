@@ -1,3 +1,11 @@
+2013-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* excel-xml-read.c (xl_xml_cell_start): remember how many cols
+	to merge
+	(xl_xml_cell_end): correctly calc new cell position
+	(xl_xml_sheet_start): use maximum sheet size
+	(excel_xml_dtd): add some elements
+
 2013-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read-drawing.c (xlsx_chart_dtd): add more elements

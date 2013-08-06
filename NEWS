@@ -15,7 +15,8 @@ Andreas:
 	* Implement input message editing. [Part of #705310]
 	* Fix export of input-message only validations. [#705384]
 	* Fix warnings. [Part of #705313]
-	* Show input messages. [705310]
+	* Show input messages. [#705310]
+	* Fix Excel XML import. [#705223]
 
 Jean:
 	* Fix text wrap inside sheet objects. [#704417]

@@ -66,6 +66,7 @@ typedef struct {
 	Workbook	*wb;		/* The new workbook */
 	Sheet		*sheet;		/* The current sheet */
 	GnmCellPos	 pos;
+	int              merge_across;
 	GnmValueType	 val_type;
 	GnmExprTop const*texpr;
 	GnmRange	 array_range;
@@ -412,7 +413,7 @@ xl_xml_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			if (end != attrs[1] && *end == '\0')
 				range_init_rangeref (&state->array_range, &rr);
 		} else if (attr_int (xin, attrs, XL_NS_SS, "MergeAcross", &across))
-			;
+			   ;
 		else if (attr_int (xin, attrs, XL_NS_SS, "MergeDown", &down))
 			;
 		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "StyleID"))
@@ -434,11 +435,13 @@ xl_xml_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			sheet_style_set_pos (state->sheet,
 				state->pos.col, state->pos.row, style);
 	}
+	state->merge_across = across;
 }
 static void
 xl_xml_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	((ExcelXMLReadState *)xin->user_state)->pos.col++;
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	state->pos.col += (1 + state->merge_across);
 }
 static void
 xl_xml_data_start (GsfXMLIn *xin, xmlChar const **attrs)
@@ -842,7 +845,7 @@ xl_xml_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->sheet =  workbook_sheet_by_name (state->wb, name);
 		if (state->sheet == NULL) {
 		  state->sheet = sheet_new (state->wb, name,
-					    256, 65536);  /* FIXME */
+					    16384, 1048576);  /* FIXME */
 			workbook_sheet_attach (state->wb, state->sheet);
 		}
 
@@ -948,8 +951,10 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", GSF_XML_NO_CONTENT,
     GSF_XML_IN_NODE (DOC_PROP, PROP_LAST_SAVED,	 XL_NS_O, "LastSaved",  GSF_XML_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (DOC_PROP, PROP_COMPANY,	 XL_NS_O, "Company",    GSF_XML_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (DOC_PROP, PROP_VERSION,	 XL_NS_O, "Version",    GSF_XML_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_TITLE,      XL_NS_O, "Title",      GSF_XML_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (DOC_PROP, PROP_TITLE,       XL_NS_O, "Title",      GSF_XML_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (DOC_PROP, PROP_DESCRIPTION, XL_NS_O, "Description",GSF_XML_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (DOC_PROP, PROP_REVISION,    XL_NS_O, "Revision",      GSF_XML_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (DOC_PROP, PROP_TOTAL_TIME,  XL_NS_O, "TotalTime",GSF_XML_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (WORKBOOK, DOC_SETTINGS, XL_NS_O, "OfficeDocumentSettings", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (DOC_SETTINGS, DOC_COLORS, XL_NS_O, "Colors", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1008,10 +1013,12 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", GSF_XML_NO_CONTENT,
           GSF_XML_IN_NODE (PANE, PANE_ACTIVECOL, XL_NS_XL,  "ActiveCol", GSF_XML_CONTENT, NULL, &xl_xml_editpos_col),
           GSF_XML_IN_NODE (PANE, PANE_SELECTION, XL_NS_XL,  "RangeSelection", GSF_XML_CONTENT, NULL, &xl_xml_selection),
       GSF_XML_IN_NODE (OPTIONS, PAGE_SETUP, XL_NS_XL, "PageSetup", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_LAYOUT, XL_NS_XL, "Layout", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_HEADER, XL_NS_XL, "Header", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_FOOTER, XL_NS_XL, "Footer", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_MARGINS, XL_NS_XL, "PageMargins", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (OPTIONS, PRINT, XL_NS_XL, "Print", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (PRINT, PRINT_NUMBER_COPIES, XL_NS_XL, "NumberofCopies", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (PRINT, PRINT_VALID_INFO,  XL_NS_XL, "ValidPrinterInfo", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (PRINT, PRINT_PAPER_SIZE,  XL_NS_XL, "PaperSizeIndex", GSF_XML_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (PRINT, PRINT_HRES,	   XL_NS_XL, "HorizontalResolution", GSF_XML_CONTENT, NULL, NULL),
