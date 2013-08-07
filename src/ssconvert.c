@@ -812,7 +812,12 @@ main (int argc, char const **argv)
 
 	ocontext = g_option_context_new (_("INFILE [OUTFILE]"));
 	g_option_context_add_main_entries (ocontext, ssconvert_options, GETTEXT_PACKAGE);
-	g_option_context_add_group	  (ocontext, gnm_get_option_group ());
+	g_option_context_add_group (ocontext, gnm_get_option_group ());
+	/*
+	 * The printing code uses gtk+ stuff, so we need to init gtk+.  We
+	 * do that without opening any displays.
+	 */
+	g_option_context_add_group (ocontext, gtk_get_option_group (FALSE));
 	g_option_context_parse (ocontext, &argc, (char ***)&argv, &error);
 	g_option_context_free (ocontext);
 

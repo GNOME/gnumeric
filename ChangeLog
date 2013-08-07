@@ -1,3 +1,8 @@
+2013-08-07  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (main): Initialize gtk+ without opening any
+	display.
+
 2013-08-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (scg_show_im_tooltip): handle rtl sheets
