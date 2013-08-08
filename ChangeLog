@@ -1,5 +1,25 @@
 2013-08-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-object-widget.c (draw_cairo_text): add arguments and
+	change all callers
+	(sheet_widget_frame_draw_cairo): new
+	(sheet_widget_button_draw_cairo): new
+	(sheet_widget_scrollbar_horizontal_draw_cairo): new
+	(sheet_widget_scrollbar_vertical_draw_cairo): new
+	(sheet_widget_scrollbar_class_init): connect the above
+	(sheet_widget_spinbutton_draw_cairo): new
+	(sheet_widget_spinbutton_class_init): connect the above
+	(sheet_widget_slider_horizontal_draw_cairo): new
+	(sheet_widget_slider_vertical_draw_cairo): new
+	(sheet_widget_slider_draw_cairo): new
+	(sheet_widget_slider_class_init): connect the above
+	(sheet_widget_list_draw_cairo): new
+	(sheet_widget_list_class_init): connect the above
+	(sheet_widget_combo_draw_cairo): new
+	(sheet_widget_combo_class_init): connect the above
+
+2013-08-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-object-widget.c (SOW_MAKE_TYPE): add fn_draw_cairo,
 	change all uses of this macro
 	(draw_cairo_text): new
