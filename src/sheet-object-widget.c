@@ -226,6 +226,7 @@ static void
 sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height)
 {
+	/* This is the default for so widgets without their own method */
 	/* See bugs #705638 and #705640 */
 	if (NULL != gdk_screen_get_default ()) {
 		GtkWidget *win = gtk_offscreen_window_new ();
@@ -614,45 +615,40 @@ static void
 sheet_widget_frame_draw_cairo (SheetObject const *so, cairo_t *cr,
 			       double width, double height)
 {
-	/* See bugs #705638 and #705640 */
-	if (NULL != gdk_screen_get_default ()) {
-		sheet_widget_draw_cairo (so, cr, width, height);
-	} else {
-		SheetWidgetFrame *swf = GNM_SOW_FRAME (so);
+	SheetWidgetFrame *swf = GNM_SOW_FRAME (so);
 
-		int theight = 0, twidth = 0;
-		cairo_save (cr);
-		cairo_move_to (cr, 10, 0);
+	int theight = 0, twidth = 0;
+	cairo_save (cr);
+	cairo_move_to (cr, 10, 0);
 
-		cairo_save (cr);
-		draw_cairo_text (cr, swf->label, &twidth, &theight, FALSE);
-		cairo_restore (cr);
+	cairo_save (cr);
+	draw_cairo_text (cr, swf->label, &twidth, &theight, FALSE);
+	cairo_restore (cr);
 
-		cairo_set_line_width (cr, 1);
-		cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
-		cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
-		cairo_new_path (cr);
-		cairo_move_to (cr, 6, theight/2);
-		cairo_line_to (cr, 0, theight/2);
-		cairo_line_to (cr, 0, height);
-		cairo_line_to (cr, width, height);
-		cairo_line_to (cr, width, theight/2);
-		cairo_line_to (cr, 14 + twidth, theight/2);
-		cairo_stroke (cr);
+	cairo_set_line_width (cr, 1);
+	cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
+	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+	cairo_new_path (cr);
+	cairo_move_to (cr, 6, theight/2);
+	cairo_line_to (cr, 0, theight/2);
+	cairo_line_to (cr, 0, height);
+	cairo_line_to (cr, width, height);
+	cairo_line_to (cr, width, theight/2);
+	cairo_line_to (cr, 14 + twidth, theight/2);
+	cairo_stroke (cr);
 
-		cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
-		cairo_new_path (cr);
-		cairo_move_to (cr, 6, theight/2 + 1);
-		cairo_line_to (cr, 1, theight/2 + 1);
-		cairo_line_to (cr, 1, height - 1);
-		cairo_line_to (cr, width - 1, height - 1);
-		cairo_line_to (cr, width - 1, theight/2 + 1);
-		cairo_line_to (cr, 14 + twidth, theight/2 + 1);
-		cairo_stroke (cr);
+	cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+	cairo_new_path (cr);
+	cairo_move_to (cr, 6, theight/2 + 1);
+	cairo_line_to (cr, 1, theight/2 + 1);
+	cairo_line_to (cr, 1, height - 1);
+	cairo_line_to (cr, width - 1, height - 1);
+	cairo_line_to (cr, width - 1, theight/2 + 1);
+	cairo_line_to (cr, 14 + twidth, theight/2 + 1);
+	cairo_stroke (cr);
 
-		cairo_new_path (cr);
-		cairo_restore (cr);
-	}
+	cairo_new_path (cr);
+	cairo_restore (cr);
 }
 
 SOW_MAKE_TYPE (frame, Frame,
@@ -1132,58 +1128,53 @@ static void
 sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 				double width, double height)
 {
-	/* See bugs #705638 and #705640 */
-	if (NULL != gdk_screen_get_default ()) {
-		sheet_widget_draw_cairo (so, cr, width, height);
-	} else {
-		SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
-		PangoLayout *layout = pango_cairo_create_layout (cr);
-		GtkStyle *style = gtk_style_new ();
-		double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
-		double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
-		int twidth, theight;
-		int const half_line = 1.5;
-		int radius = 10;
+	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
+	PangoLayout *layout = pango_cairo_create_layout (cr);
+	GtkStyle *style = gtk_style_new ();
+	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
+	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+	int twidth, theight;
+	int const half_line = 1.5;
+	int radius = 10;
 
-		if (height < 3 * radius)
-			radius = height / 3.;
-		if (width < 3 * radius)
-			radius = width / 3.;
-		if (radius < 1)
-			radius = 1;
+	if (height < 3 * radius)
+		radius = height / 3.;
+	if (width < 3 * radius)
+		radius = width / 3.;
+	if (radius < 1)
+		radius = 1;
 
-		cairo_save (cr);
-		cairo_set_line_width (cr, 2 * half_line);
-		cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+	cairo_save (cr);
+	cairo_set_line_width (cr, 2 * half_line);
+	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
 
-		cairo_new_path (cr);
-		cairo_arc (cr, radius + half_line, radius + half_line, radius, M_PI, - M_PI/2);
-		cairo_arc (cr, width - (radius + half_line), radius + half_line,
-			   radius, - M_PI/2, 0);
-		cairo_arc (cr, width - (radius + half_line), height - (radius + half_line),
-			   radius, 0, M_PI/2);
-		cairo_arc (cr, (radius + half_line), height - (radius + half_line),
-			   radius, M_PI/2, M_PI);
-		cairo_close_path (cr);
-		cairo_stroke (cr);
+	cairo_new_path (cr);
+	cairo_arc (cr, radius + half_line, radius + half_line, radius, M_PI, - M_PI/2);
+	cairo_arc (cr, width - (radius + half_line), radius + half_line,
+		   radius, - M_PI/2, 0);
+	cairo_arc (cr, width - (radius + half_line), height - (radius + half_line),
+		   radius, 0, M_PI/2);
+	cairo_arc (cr, (radius + half_line), height - (radius + half_line),
+		   radius, M_PI/2, M_PI);
+	cairo_close_path (cr);
+	cairo_stroke (cr);
 
-		cairo_set_source_rgb(cr, 0, 0, 0);
-		pango_layout_set_font_description (layout, style->font_desc);
-		pango_layout_set_single_paragraph_mode (layout, TRUE);
-		pango_layout_set_text (layout, swb->label, -1);
-		pango_layout_set_attributes (layout, swb->markup);
-		pango_layout_get_pixel_size (layout, &twidth, &theight);
+	cairo_set_source_rgb(cr, 0, 0, 0);
+	pango_layout_set_font_description (layout, style->font_desc);
+	pango_layout_set_single_paragraph_mode (layout, TRUE);
+	pango_layout_set_text (layout, swb->label, -1);
+	pango_layout_set_attributes (layout, swb->markup);
+	pango_layout_get_pixel_size (layout, &twidth, &theight);
 
-		cairo_move_to (cr, width/2., height/2.);
-		cairo_scale (cr, scale_h, scale_v);
-		cairo_rel_move_to (cr, - twidth/2., - theight/2.);
-		pango_cairo_show_layout (cr, layout);
-		g_object_unref (layout);
-		g_object_unref (style);
+	cairo_move_to (cr, width/2., height/2.);
+	cairo_scale (cr, scale_h, scale_v);
+	cairo_rel_move_to (cr, - twidth/2., - theight/2.);
+	pango_cairo_show_layout (cr, layout);
+	g_object_unref (layout);
+	g_object_unref (style);
 
-		cairo_new_path (cr);
-		cairo_restore (cr);
-	}
+	cairo_new_path (cr);
+	cairo_restore (cr);
 }
 
 SOW_MAKE_TYPE (button, Button,
@@ -1878,18 +1869,13 @@ static void
 sheet_widget_scrollbar_draw_cairo (SheetObject const *so, cairo_t *cr,
 				   double width, double height)
 {
-	/* See bugs #705638 and #705640 */
-	if (NULL != gdk_screen_get_default ()) {
-		sheet_widget_draw_cairo (so, cr, width, height);
-	} else {
-		SheetWidgetAdjustment *swa = GNM_SOW_ADJUSTMENT (so);
-		if (swa->horizontal)
-			sheet_widget_scrollbar_horizontal_draw_cairo
-				(so, cr, width, height);
-		else
-			sheet_widget_scrollbar_vertical_draw_cairo
-				(so, cr, width, height);
-	}
+	SheetWidgetAdjustment *swa = GNM_SOW_ADJUSTMENT (so);
+	if (swa->horizontal)
+		sheet_widget_scrollbar_horizontal_draw_cairo
+			(so, cr, width, height);
+	else
+		sheet_widget_scrollbar_vertical_draw_cairo
+			(so, cr, width, height);
 }
 
 static void
@@ -1946,59 +1932,54 @@ static void
 sheet_widget_spinbutton_draw_cairo (SheetObject const *so, cairo_t *cr,
 				    double width, double height)
 {
-	/* See bugs #705638 and #705640 */
-	if (NULL != gdk_screen_get_default ()) {
-		sheet_widget_draw_cairo (so, cr, width, height);
-	} else {
-		SheetWidgetAdjustment *swa = GNM_SOW_ADJUSTMENT (so);
-		GtkAdjustment *adjustment = swa->adjustment;
-		double value = gtk_adjustment_get_value (adjustment);
-		int ivalue = (int) value;
-		double halfheight = height/2;
-		char *str;
+	SheetWidgetAdjustment *swa = GNM_SOW_ADJUSTMENT (so);
+	GtkAdjustment *adjustment = swa->adjustment;
+	double value = gtk_adjustment_get_value (adjustment);
+	int ivalue = (int) value;
+	double halfheight = height/2;
+	char *str;
 
-		cairo_save (cr);
-		cairo_set_line_width (cr, 0.5);
-		cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_save (cr);
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_source_rgb(cr, 0, 0, 0);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, 0, 0);
-		cairo_line_to (cr, width, 0);
-		cairo_line_to (cr, width, height);
-		cairo_line_to (cr, 0, height);
-		cairo_close_path (cr);
-		cairo_stroke (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, 0, 0);
+	cairo_line_to (cr, width, 0);
+	cairo_line_to (cr, width, height);
+	cairo_line_to (cr, 0, height);
+	cairo_close_path (cr);
+	cairo_stroke (cr);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, width - 10, 0);
-		cairo_rel_line_to (cr, 0, height);
-		cairo_stroke (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 10, 0);
+	cairo_rel_line_to (cr, 0, height);
+	cairo_stroke (cr);
 
-		cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, width - 5, 3);
-		cairo_rel_line_to (cr, 3, 3);
-		cairo_rel_line_to (cr, -6, 0);
-		cairo_close_path (cr);
-		cairo_fill (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 5, 3);
+	cairo_rel_line_to (cr, 3, 3);
+	cairo_rel_line_to (cr, -6, 0);
+	cairo_close_path (cr);
+	cairo_fill (cr);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, width - 5, height - 3);
-		cairo_rel_line_to (cr, 3, -3);
-		cairo_rel_line_to (cr, -6, 0);
-		cairo_close_path (cr);
-		cairo_fill (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 5, height - 3);
+	cairo_rel_line_to (cr, 3, -3);
+	cairo_rel_line_to (cr, -6, 0);
+	cairo_close_path (cr);
+	cairo_fill (cr);
 
-		str = g_strdup_printf ("%i", ivalue);
-		cairo_set_source_rgb(cr, 0, 0, 0);
-		cairo_move_to (cr, 4., halfheight);
-		draw_cairo_text (cr, str, NULL, NULL, TRUE);
-		g_free (str);
+	str = g_strdup_printf ("%i", ivalue);
+	cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_move_to (cr, 4., halfheight);
+	draw_cairo_text (cr, str, NULL, NULL, TRUE);
+	g_free (str);
 
-		cairo_new_path (cr);
-		cairo_restore (cr);
-	}
+	cairo_new_path (cr);
+	cairo_restore (cr);
 }
 
 static void
@@ -2102,16 +2083,11 @@ static void
 sheet_widget_slider_draw_cairo (SheetObject const *so, cairo_t *cr,
 				double width, double height)
 {
-	/* See bugs #705638 and #705640 */
-	if (NULL != gdk_screen_get_default ()) {
-		sheet_widget_draw_cairo (so, cr, width, height);
-	} else {
-		SheetWidgetAdjustment *swa = GNM_SOW_ADJUSTMENT (so);
-		if (swa->horizontal)
-			sheet_widget_slider_horizontal_draw_cairo (so, cr, width, height);
-		else
-			sheet_widget_slider_vertical_draw_cairo (so, cr, width, height);
-	}
+	SheetWidgetAdjustment *swa = GNM_SOW_ADJUSTMENT (so);
+	if (swa->horizontal)
+		sheet_widget_slider_horizontal_draw_cairo (so, cr, width, height);
+	else
+		sheet_widget_slider_vertical_draw_cairo (so, cr, width, height);
 }
 
 static void
@@ -2587,49 +2563,44 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 
 static void
 sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
-				  double width, double height)
+				  G_GNUC_UNUSED double width, double height)
 {
-	/* See bugs #705638 and #705640 */
-	if (NULL != gdk_screen_get_default ()) {
-		sheet_widget_draw_cairo (so, cr, width, height);
-	} else {
-		SheetWidgetCheckbox const *swc = GNM_SOW_CHECKBOX (so);
-		double halfheight = height/2;
+	SheetWidgetCheckbox const *swc = GNM_SOW_CHECKBOX (so);
+	double halfheight = height/2;
 
-		cairo_save (cr);
-		cairo_set_line_width (cr, 0.5);
-		cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+	cairo_save (cr);
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
 
+	cairo_new_path (cr);
+	cairo_move_to (cr, 4, halfheight - 4);
+	cairo_rel_line_to (cr, 0, 8);
+	cairo_rel_line_to (cr, 8., 0);
+	cairo_rel_line_to (cr, 0., -8.);
+	cairo_rel_line_to (cr, -8., 0.);
+	cairo_close_path (cr);
+	cairo_fill_preserve (cr);
+	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+	cairo_stroke (cr);
+
+	if (swc->value) {
 		cairo_new_path (cr);
 		cairo_move_to (cr, 4, halfheight - 4);
-		cairo_rel_line_to (cr, 0, 8);
-		cairo_rel_line_to (cr, 8., 0);
-		cairo_rel_line_to (cr, 0., -8.);
+		cairo_rel_line_to (cr, 8., 8.);
+		cairo_rel_line_to (cr, -8., 0.);
+		cairo_rel_line_to (cr, 8., -8.);
 		cairo_rel_line_to (cr, -8., 0.);
 		cairo_close_path (cr);
-		cairo_fill_preserve (cr);
-		cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+		cairo_set_line_join (cr, CAIRO_LINE_JOIN_BEVEL);
 		cairo_stroke (cr);
-
-		if (swc->value) {
-			cairo_new_path (cr);
-			cairo_move_to (cr, 4, halfheight - 4);
-			cairo_rel_line_to (cr, 8., 8.);
-			cairo_rel_line_to (cr, -8., 0.);
-			cairo_rel_line_to (cr, 8., -8.);
-			cairo_rel_line_to (cr, -8., 0.);
-			cairo_close_path (cr);
-			cairo_set_line_join (cr, CAIRO_LINE_JOIN_BEVEL);
-			cairo_stroke (cr);
-		}
-
-		cairo_move_to (cr, 4. + 8. + 4, halfheight);
-
-		draw_cairo_text (cr, swc->label, NULL, NULL, TRUE);
-
-		cairo_new_path (cr);
-		cairo_restore (cr);
 	}
+
+	cairo_move_to (cr, 4. + 8. + 4, halfheight);
+
+	draw_cairo_text (cr, swc->label, NULL, NULL, TRUE);
+
+	cairo_new_path (cr);
+	cairo_restore (cr);
 }
 
 
@@ -3234,42 +3205,37 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
 
 static void
 sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
-				      double width, double height)
+				      G_GNUC_UNUSED double width, double height)
 {
-	/* See bugs #705638 and #705640 */
-	if (NULL != gdk_screen_get_default ()) {
-		sheet_widget_draw_cairo (so, cr, width, height);
-	} else {
-		SheetWidgetRadioButton const *swr = GNM_SOW_RADIO_BUTTON (so);
-		double halfheight = height/2;
+	SheetWidgetRadioButton const *swr = GNM_SOW_RADIO_BUTTON (so);
+	double halfheight = height/2;
 
-		cairo_save (cr);
-		cairo_set_line_width (cr, 0.5);
-		cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+	cairo_save (cr);
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
 
+	cairo_new_path (cr);
+	cairo_move_to (cr, 4. + 8., halfheight);
+	cairo_arc (cr, 4. + 4., halfheight, 4., 0., 2*M_PI);
+	cairo_close_path (cr);
+	cairo_fill_preserve (cr);
+	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+	cairo_stroke (cr);
+
+	if (swr->active) {
 		cairo_new_path (cr);
-		cairo_move_to (cr, 4. + 8., halfheight);
-		cairo_arc (cr, 4. + 4., halfheight, 4., 0., 2*M_PI);
+		cairo_move_to (cr, 4. + 6.5, halfheight);
+		cairo_arc (cr, 4. + 4., halfheight, 2.5, 0., 2*M_PI);
 		cairo_close_path (cr);
-		cairo_fill_preserve (cr);
-		cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
-		cairo_stroke (cr);
-
-		if (swr->active) {
-			cairo_new_path (cr);
-			cairo_move_to (cr, 4. + 6.5, halfheight);
-			cairo_arc (cr, 4. + 4., halfheight, 2.5, 0., 2*M_PI);
-			cairo_close_path (cr);
-			cairo_fill (cr);
-		}
-
-		cairo_move_to (cr, 4. + 8. + 4, halfheight);
-
-		draw_cairo_text (cr, swr->label, NULL, NULL, TRUE);
-
-		cairo_new_path (cr);
-		cairo_restore (cr);
+		cairo_fill (cr);
 	}
+
+	cairo_move_to (cr, 4. + 8. + 4, halfheight);
+
+	draw_cairo_text (cr, swr->label, NULL, NULL, TRUE);
+
+	cairo_new_path (cr);
+	cairo_restore (cr);
 }
 
 SOW_MAKE_TYPE (radio_button, RadioButton,
@@ -3779,118 +3745,113 @@ static void
 sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 			      double width, double height)
 {
-	/* See bugs #705638 and #705640 */
-	if (NULL != gdk_screen_get_default ()) {
-		sheet_widget_draw_cairo (so, cr, width, height);
-	} else {
-		SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
+	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
 
-		cairo_save (cr);
-		cairo_set_line_width (cr, 0.5);
-		cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_save (cr);
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_source_rgb(cr, 0, 0, 0);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, 0, 0);
-		cairo_line_to (cr, width, 0);
-		cairo_line_to (cr, width, height);
-		cairo_line_to (cr, 0, height);
-		cairo_close_path (cr);
-		cairo_stroke (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, 0, 0);
+	cairo_line_to (cr, width, 0);
+	cairo_line_to (cr, width, height);
+	cairo_line_to (cr, 0, height);
+	cairo_close_path (cr);
+	cairo_stroke (cr);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, width - 10, 0);
-		cairo_rel_line_to (cr, 0, height);
-		cairo_stroke (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 10, 0);
+	cairo_rel_line_to (cr, 0, height);
+	cairo_stroke (cr);
 
-		cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, width - 5 -3, height - 12);
-		cairo_rel_line_to (cr, 6, 0);
-		cairo_rel_line_to (cr, -3, 8);
-		cairo_close_path (cr);
-		cairo_fill (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 5 -3, height - 12);
+	cairo_rel_line_to (cr, 6, 0);
+	cairo_rel_line_to (cr, -3, 8);
+	cairo_close_path (cr);
+	cairo_fill (cr);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, width - 5 -3, 12);
-		cairo_rel_line_to (cr, 6, 0);
-		cairo_rel_line_to (cr, -3, -8);
-		cairo_close_path (cr);
-		cairo_fill (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 5 -3, 12);
+	cairo_rel_line_to (cr, 6, 0);
+	cairo_rel_line_to (cr, -3, -8);
+	cairo_close_path (cr);
+	cairo_fill (cr);
 
-		if (swl->model != NULL) {
-			GtkTreeIter iter;
-			GString*str = g_string_new (NULL);
-			PangoLayout *layout = pango_cairo_create_layout (cr);
-			/* Using GtkStyle does not seem to work in ssconvert */
-			/* GtkStyle *style = gtk_style_new (); */
-			PangoFontDescription *desc;
-			double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
-			double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
-			int twidth = 0, theight = 0;
-			PangoLayoutIter *pliter;
-			int y0, y1, i;
-			double dy0 = 0, dy1 = 0;
-			gboolean got_line = TRUE;
+	if (swl->model != NULL) {
+		GtkTreeIter iter;
+		GString*str = g_string_new (NULL);
+		PangoLayout *layout = pango_cairo_create_layout (cr);
+		/* Using GtkStyle does not seem to work in ssconvert */
+		/* GtkStyle *style = gtk_style_new (); */
+		PangoFontDescription *desc;
+		double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
+		double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+		int twidth = 0, theight = 0;
+		PangoLayoutIter *pliter;
+		int y0, y1, i;
+		double dy0 = 0, dy1 = 0;
+		gboolean got_line = TRUE;
 
 			
-			cairo_new_path (cr);
-			cairo_rectangle (cr, 2, 1, width - 2 - 12, height - 2);
-			cairo_clip (cr);
-			if (gtk_tree_model_get_iter_first (swl->model, &iter))
-				do {
-					char *astr = NULL, *newline;
-					gtk_tree_model_get (swl->model, &iter, 0, &astr, -1);
-					while (NULL != (newline = strchr (astr, '\n')))
-						*newline = ' ';
-					g_string_append (str, astr);
-					g_string_append_c (str, '\n');
-					g_free (astr);
-				} while (gtk_tree_model_iter_next (swl->model, &iter));
-
-			/* pango_layout_set_font_description (layout, style->font_desc); */
-			desc = pango_font_description_from_string ("sans 10");
-			pango_context_set_font_description
-				(pango_layout_get_context (layout), desc);
-			pango_layout_set_single_paragraph_mode (layout, FALSE);
-			pango_layout_set_spacing (layout, 3 * PANGO_SCALE);
-			pango_layout_set_text (layout, str->str, -1);
-			pango_layout_get_pixel_size (layout, &twidth, &theight);
-
-			cairo_translate (cr, 4., 2.);
-			cairo_scale (cr, scale_h, scale_v);
-
-			pliter = pango_layout_get_iter (layout);
-			for (i = 1; i < swl->selection; i++)
-				got_line = pango_layout_iter_next_line (pliter);
-
-			if (got_line) {
-				pango_layout_iter_get_line_yrange (pliter, &y0, &y1);
-				dy0 = y0 / (double)PANGO_SCALE;
-				dy1 = y1 / (double)PANGO_SCALE;
-
-				if (dy1 > (height - 4)/scale_v)
-					cairo_translate (cr, 0, (height - 4)/scale_v - dy1);
-
-				cairo_new_path (cr);
-				cairo_rectangle (cr, -4/scale_h, dy0,
-						 width/scale_h, dy1 - dy0);
-				cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
-				cairo_fill (cr);
-			}
-			pango_layout_iter_free (pliter);
-			cairo_set_source_rgb(cr, 0, 0, 0);
-			pango_cairo_show_layout (cr, layout);
-			g_object_unref (layout);
-			/* g_object_unref (style); */
-			pango_font_description_free (desc);
-
-			g_string_free (str, TRUE);
-		}
-
 		cairo_new_path (cr);
-		cairo_restore (cr);
+		cairo_rectangle (cr, 2, 1, width - 2 - 12, height - 2);
+		cairo_clip (cr);
+		if (gtk_tree_model_get_iter_first (swl->model, &iter))
+			do {
+				char *astr = NULL, *newline;
+				gtk_tree_model_get (swl->model, &iter, 0, &astr, -1);
+				while (NULL != (newline = strchr (astr, '\n')))
+					*newline = ' ';
+				g_string_append (str, astr);
+				g_string_append_c (str, '\n');
+				g_free (astr);
+			} while (gtk_tree_model_iter_next (swl->model, &iter));
+
+		/* pango_layout_set_font_description (layout, style->font_desc); */
+		desc = pango_font_description_from_string ("sans 10");
+		pango_context_set_font_description
+			(pango_layout_get_context (layout), desc);
+		pango_layout_set_single_paragraph_mode (layout, FALSE);
+		pango_layout_set_spacing (layout, 3 * PANGO_SCALE);
+		pango_layout_set_text (layout, str->str, -1);
+		pango_layout_get_pixel_size (layout, &twidth, &theight);
+
+		cairo_translate (cr, 4., 2.);
+		cairo_scale (cr, scale_h, scale_v);
+
+		pliter = pango_layout_get_iter (layout);
+		for (i = 1; i < swl->selection; i++)
+			got_line = pango_layout_iter_next_line (pliter);
+
+		if (got_line) {
+			pango_layout_iter_get_line_yrange (pliter, &y0, &y1);
+			dy0 = y0 / (double)PANGO_SCALE;
+			dy1 = y1 / (double)PANGO_SCALE;
+
+			if (dy1 > (height - 4)/scale_v)
+				cairo_translate (cr, 0, (height - 4)/scale_v - dy1);
+
+			cairo_new_path (cr);
+			cairo_rectangle (cr, -4/scale_h, dy0,
+					 width/scale_h, dy1 - dy0);
+			cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+			cairo_fill (cr);
+		}
+		pango_layout_iter_free (pliter);
+		cairo_set_source_rgb(cr, 0, 0, 0);
+		pango_cairo_show_layout (cr, layout);
+		g_object_unref (layout);
+		/* g_object_unref (style); */
+		pango_font_description_free (desc);
+
+		g_string_free (str, TRUE);
 	}
+
+	cairo_new_path (cr);
+	cairo_restore (cr);
 }
 
 static void
@@ -3979,56 +3940,51 @@ static void
 sheet_widget_combo_draw_cairo (SheetObject const *so, cairo_t *cr,
 			       double width, double height)
 {
-	/* See bugs #705638 and #705640 */
-	if (NULL != gdk_screen_get_default ()) {
-		sheet_widget_draw_cairo (so, cr, width, height);
-	} else {
-		SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
-		double halfheight = height/2;
+	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
+	double halfheight = height/2;
 
-		cairo_save (cr);
-		cairo_set_line_width (cr, 0.5);
-		cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_save (cr);
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_source_rgb(cr, 0, 0, 0);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, 0, 0);
-		cairo_line_to (cr, width, 0);
-		cairo_line_to (cr, width, height);
-		cairo_line_to (cr, 0, height);
-		cairo_close_path (cr);
-		cairo_stroke (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, 0, 0);
+	cairo_line_to (cr, width, 0);
+	cairo_line_to (cr, width, height);
+	cairo_line_to (cr, 0, height);
+	cairo_close_path (cr);
+	cairo_stroke (cr);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, width - 10, 0);
-		cairo_rel_line_to (cr, 0, height);
-		cairo_stroke (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 10, 0);
+	cairo_rel_line_to (cr, 0, height);
+	cairo_stroke (cr);
 
-		cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, width - 5 -3, halfheight - 4);
-		cairo_rel_line_to (cr, 6, 0);
-		cairo_rel_line_to (cr, -3, 8);
-		cairo_close_path (cr);
-		cairo_fill (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 5 -3, halfheight - 4);
+	cairo_rel_line_to (cr, 6, 0);
+	cairo_rel_line_to (cr, -3, 8);
+	cairo_close_path (cr);
+	cairo_fill (cr);
 
-		cairo_set_source_rgb(cr, 0, 0, 0);
-		cairo_move_to (cr, 4., halfheight);
+	cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_move_to (cr, 4., halfheight);
 
-		if (swl->model != NULL) {
-			GtkTreeIter iter;
-			if (gtk_tree_model_iter_nth_child (swl->model, &iter, NULL,
-							   swl->selection - 1)) {
-				char *str = NULL;
-				gtk_tree_model_get (swl->model, &iter, 0, &str, -1);
-				draw_cairo_text (cr, str, NULL, NULL, TRUE);
-				g_free (str);
-			}
+	if (swl->model != NULL) {
+		GtkTreeIter iter;
+		if (gtk_tree_model_iter_nth_child (swl->model, &iter, NULL,
+						   swl->selection - 1)) {
+			char *str = NULL;
+			gtk_tree_model_get (swl->model, &iter, 0, &str, -1);
+			draw_cairo_text (cr, str, NULL, NULL, TRUE);
+			g_free (str);
 		}
-
-		cairo_new_path (cr);
-		cairo_restore (cr);
 	}
+
+	cairo_new_path (cr);
+	cairo_restore (cr);
 }
 
 static void
