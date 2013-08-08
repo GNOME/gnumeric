@@ -31,6 +31,7 @@ Morten:
 	* Fix crashes on corrupted files.  [#704102] [#704004] [#704325]
 	[#704562]
 	* Fix conditional format problem.  [#704445]
+	* Fix R1C1 parsing issue.  [#705637]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.4

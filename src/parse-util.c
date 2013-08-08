@@ -520,11 +520,15 @@ r1c1_get_index (char const *str, GnmSheetSize const *ss,
 		int *num, unsigned char *relative, gboolean is_col)
 {
 	char *end;
+	long l;
+	int max = is_col ? ss->max_cols : ss->max_rows;
+
 	if (str[0] == '\0')
 		return NULL;
 
 	str++;
-	if ((*relative = (*str == '[')))
+	*relative = (*str == '[');
+	if (*relative)
 		str++;
 	else if (*str == '-' || *str == '+') { /* handle RC-10 as RC followed by -10 */
 		*relative = TRUE;
@@ -533,9 +537,11 @@ r1c1_get_index (char const *str, GnmSheetSize const *ss,
 	}
 
 	errno = 0;
-	*num = strtol (str, &end, 10);
-	if (errno == ERANGE)
+	*num = l = strtol (str, &end, 10);
+	if (errno == ERANGE || l <= G_MININT || l > G_MAXINT) {
+		/* Note: this includes G_MININT to avoid negation overflow.  */
 		return NULL;
+	}
 	if (str == end) {
 		if (*relative)
 			return NULL;
@@ -544,9 +550,11 @@ r1c1_get_index (char const *str, GnmSheetSize const *ss,
 	} else if (*relative) {
 		if (*end != ']')
 			return NULL;
+		*num = (*num > 0
+			? *num % max
+			: -(-*num % max));
 		return end + 1;
 	} else {
-		int max = is_col ? ss->max_cols : ss->max_rows;
 		if (*num <= 0 || *num > max)
 			return NULL;
 		(*num)--;
