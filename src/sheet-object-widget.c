@@ -71,7 +71,7 @@ attr_eq (const xmlChar *a, const char *s)
 /****************************************************************************/
 
 static void
-cb_so_get_ref (GnmDependent *dep, SheetObject *so, gpointer user)
+cb_so_get_ref (GnmDependent *dep, G_GNUC_UNUSED SheetObject *so, gpointer user)
 {
 	GnmDependent **pdep = user;
 	*pdep = dep;
@@ -105,7 +105,7 @@ so_get_ref (SheetObject const *so, GnmCellRef *res, gboolean force_sheet)
 }
 
 static void
-cb_so_clear_sheet (GnmDependent *dep, SheetObject *so, gpointer user)
+cb_so_clear_sheet (GnmDependent *dep, G_GNUC_UNUSED SheetObject *so, G_GNUC_UNUSED gpointer user)
 {
 	if (dependent_is_linked (dep))
 		dependent_unlink (dep);
@@ -183,7 +183,7 @@ static GSF_CLASS (SOWidgetView, so_widget_view,
 #define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet, fn_foreach_dep, \
 		      fn_copy, fn_write_sax, fn_prep_sax_parser,	\
 		      fn_get_property, fn_set_property,                 \
-		      class_init_code)					\
+		      fn_draw_cairo, class_init_code)					\
 									\
 static void								\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
@@ -201,6 +201,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 	so_class->copy			= fn_copy;			\
 	so_class->write_xml_sax		= fn_write_sax;			\
 	so_class->prep_sax_parser	= fn_prep_sax_parser;		\
+	so_class->draw_cairo            = fn_draw_cairo;                            \
 	sow_class->create_widget	= &sheet_widget_ ## n1 ## _create_widget; \
         { class_init_code; }						\
 }									\
@@ -423,16 +424,16 @@ sheet_widget_frame_copy (SheetObject *dst, SheetObject const *src)
 
 static void
 sheet_widget_frame_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
-				  GnmConventions const *convs)
+				  G_GNUC_UNUSED GnmConventions const *convs)
 {
 	SheetWidgetFrame const *swf = GNM_SOW_FRAME (so);
 	gsf_xml_out_add_cstr (output, "Label", swf->label);
 }
 
 static void
-sheet_widget_frame_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
+sheet_widget_frame_prep_sax_parser (SheetObject *so, G_GNUC_UNUSED GsfXMLIn *xin,
 				    xmlChar const **attrs,
-				    GnmConventions const *convs)
+				    G_GNUC_UNUSED GnmConventions const *convs)
 {
 	SheetWidgetFrame *swf = GNM_SOW_FRAME (so);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -466,7 +467,7 @@ cb_frame_config_destroy (FrameConfigState *state)
 }
 
 static void
-cb_frame_config_ok_clicked (GtkWidget *button, FrameConfigState *state)
+cb_frame_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, FrameConfigState *state)
 {
 	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
 
@@ -500,7 +501,7 @@ sheet_widget_frame_set_label (SheetObject *so, char const* str)
 }
 
 static void
-cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
+cb_frame_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, FrameConfigState *state)
 {
 	sheet_widget_frame_set_label (SHEET_OBJECT (state->swf), state->old_label);
 
@@ -585,6 +586,7 @@ SOW_MAKE_TYPE (frame, Frame,
 	       sheet_widget_frame_prep_sax_parser,
 	       sheet_widget_frame_get_property,
 	       sheet_widget_frame_set_property,
+	       sheet_widget_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOF_PROP_TEXT,
@@ -797,7 +799,7 @@ typedef struct {
 } ButtonConfigState;
 
 static void
-cb_button_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+cb_button_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
 		     ButtonConfigState *state)
 {
 	/* Note:  half of the set-focus action is handle by the default
@@ -830,7 +832,7 @@ cb_button_config_destroy (ButtonConfigState *state)
 }
 
 static void
-cb_button_config_ok_clicked (GtkWidget *button, ButtonConfigState *state)
+cb_button_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, ButtonConfigState *state)
 {
 	SheetObject *so = SHEET_OBJECT (state->swb);
 	GnmParsePos  pp;
@@ -846,7 +848,7 @@ cb_button_config_ok_clicked (GtkWidget *button, ButtonConfigState *state)
 }
 
 static void
-cb_button_config_cancel_clicked (GtkWidget *button, ButtonConfigState *state)
+cb_button_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, ButtonConfigState *state)
 {
 	sheet_widget_button_set_label	(SHEET_OBJECT (state->swb),
 					 state->old_label);
@@ -1057,6 +1059,7 @@ SOW_MAKE_TYPE (button, Button,
 	       sheet_widget_button_prep_sax_parser,
 	       sheet_widget_button_get_property,
 	       sheet_widget_button_set_property,
+	       sheet_widget_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOB_PROP_TEXT,
@@ -1347,7 +1350,7 @@ typedef struct {
 } AdjustmentConfigState;
 
 static void
-cb_adjustment_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+cb_adjustment_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
 			 AdjustmentConfigState *state)
 {
 	GtkWidget *ofp;
@@ -1384,7 +1387,7 @@ cb_adjustment_config_destroy (AdjustmentConfigState *state)
 }
 
 static void
-cb_adjustment_config_ok_clicked (GtkWidget *button, AdjustmentConfigState *state)
+cb_adjustment_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, AdjustmentConfigState *state)
 {
 	SheetObject *so = SHEET_OBJECT (state->swa);
 	GnmParsePos pp;
@@ -1414,7 +1417,7 @@ cb_adjustment_config_ok_clicked (GtkWidget *button, AdjustmentConfigState *state
 }
 
 static void
-cb_adjustment_config_cancel_clicked (GtkWidget *button, AdjustmentConfigState *state)
+cb_adjustment_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, AdjustmentConfigState *state)
 {
 	gtk_widget_destroy (state->dialog);
 }
@@ -1635,7 +1638,7 @@ sheet_widget_adjustment_set_details (SheetObject *so, GnmExprTop const *tlink,
 }
 
 static GtkWidget *
-sheet_widget_adjustment_create_widget (SheetObjectWidget *sow)
+sheet_widget_adjustment_create_widget (G_GNUC_UNUSED SheetObjectWidget *sow)
 {
 	g_warning("ERROR: sheet_widget_adjustment_create_widget SHOULD NEVER BE CALLED (but it has been)!\n");
 	return gtk_frame_new ("invisiwidget(WARNING: I AM A BUG!)");
@@ -1651,6 +1654,7 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       sheet_widget_adjustment_prep_sax_parser,
 	       sheet_widget_adjustment_get_property,
 	       sheet_widget_adjustment_set_property,
+	       sheet_widget_draw_cairo,
 	       {
 		       ((SheetWidgetAdjustmentClass *) object_class)->has_orientation = TRUE;
 		       g_object_class_install_property
@@ -2023,7 +2027,7 @@ typedef struct {
 } CheckboxConfigState;
 
 static void
-cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+cb_checkbox_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
 		       CheckboxConfigState *state)
 {
 	GtkWidget *ofp;
@@ -2061,7 +2065,7 @@ cb_checkbox_config_destroy (CheckboxConfigState *state)
 }
 
 static void
-cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
+cb_checkbox_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, CheckboxConfigState *state)
 {
 	SheetObject *so = SHEET_OBJECT (state->swc);
 	GnmParsePos  pp;
@@ -2077,7 +2081,7 @@ cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 }
 
 static void
-cb_checkbox_config_cancel_clicked (GtkWidget *button, CheckboxConfigState *state)
+cb_checkbox_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, CheckboxConfigState *state)
 {
 	sheet_widget_checkbox_set_label	(SHEET_OBJECT (state->swc),
 					 state->old_label);
@@ -2258,6 +2262,81 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 	}
 }
 
+static void
+draw_cairo_text (cairo_t *cr, char const *text)
+{
+	PangoLayout *layout = pango_cairo_create_layout (cr);
+	PangoFontDescription *desc;
+	/* Using GtkStyle does not seem to work in ssconvert */
+	/* GtkStyle *style = gtk_style_new (); */
+	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
+	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+	int width, height;
+
+	/* pango_layout_set_font_description (layout, style->font_desc); */
+	desc = pango_font_description_from_string ("sans 10");
+	pango_context_set_font_description
+		(pango_layout_get_context (layout), desc);
+	pango_layout_set_single_paragraph_mode (layout, TRUE);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_get_pixel_size (layout, &width, &height);
+
+	cairo_scale (cr, scale_h, scale_v);
+	cairo_rel_move_to (cr, 0., 0.5 - ((double)height)/2.);
+	pango_cairo_show_layout (cr, layout);
+	pango_font_description_free (desc);
+	g_object_unref (layout);
+	/* g_object_unref (style); */
+}
+
+static void
+sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
+				  double width, double height)
+{
+	/* See bugs #705638 and #705640 */
+	if (NULL != gdk_screen_get_default ()) {
+		sheet_widget_draw_cairo (so, cr, width, height);
+	} else {
+		SheetWidgetCheckbox const *swc = (SheetWidgetCheckbox const *)so;
+		double halfheight = height/2;
+
+		cairo_save (cr);
+		cairo_set_line_width (cr, 0.5);
+		cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+
+		cairo_new_path (cr);
+		cairo_move_to (cr, 4, halfheight - 4);
+		cairo_rel_line_to (cr, 0, 8);
+		cairo_rel_line_to (cr, 8., 0);
+		cairo_rel_line_to (cr, 0., -8.);
+		cairo_rel_line_to (cr, -8., 0.);
+		cairo_close_path (cr);
+		cairo_fill_preserve (cr);
+		cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+		cairo_stroke (cr);
+
+		if (swc->value) {
+			cairo_new_path (cr);
+			cairo_move_to (cr, 4, halfheight - 4);
+			cairo_rel_line_to (cr, 8., 8.);
+			cairo_rel_line_to (cr, -8., 0.);
+			cairo_rel_line_to (cr, 8., -8.);
+			cairo_rel_line_to (cr, -8., 0.);
+			cairo_close_path (cr);
+			cairo_set_line_join (cr, CAIRO_LINE_JOIN_BEVEL);
+			cairo_stroke (cr);
+		}
+
+		cairo_move_to (cr, 4. + 8. + 4, halfheight);
+
+		draw_cairo_text (cr, swc->label);
+
+		cairo_new_path (cr);
+		cairo_restore (cr);
+	}
+}
+
+
 SOW_MAKE_TYPE (checkbox, Checkbox,
 	       sheet_widget_checkbox_user_config,
 	       sheet_widget_checkbox_set_sheet,
@@ -2268,6 +2347,7 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       sheet_widget_checkbox_prep_sax_parser,
 	       sheet_widget_checkbox_get_property,
 	       sheet_widget_checkbox_set_property,
+	       sheet_widget_checkbox_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOC_PROP_ACTIVE,
@@ -2674,7 +2754,7 @@ typedef struct {
 } RadioButtonConfigState;
 
 static void
-cb_radio_button_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+cb_radio_button_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
  			   RadioButtonConfigState *state)
 {
 	GtkWidget *ofp;
@@ -2717,7 +2797,7 @@ cb_radio_button_config_destroy (RadioButtonConfigState *state)
 }
 
 static void
-cb_radio_button_config_ok_clicked (GtkWidget *button, RadioButtonConfigState *state)
+cb_radio_button_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, RadioButtonConfigState *state)
 {
 	SheetObject *so = SHEET_OBJECT (state->swrb);
 	GnmParsePos  pp;
@@ -2738,7 +2818,7 @@ cb_radio_button_config_ok_clicked (GtkWidget *button, RadioButtonConfigState *st
 }
 
 static void
-cb_radio_button_config_cancel_clicked (GtkWidget *button, RadioButtonConfigState *state)
+cb_radio_button_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, RadioButtonConfigState *state)
 {
  	sheet_widget_radio_button_set_label (SHEET_OBJECT (state->swrb),
  					     state->old_label);
@@ -2856,6 +2936,46 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	gtk_widget_show (state->dialog);
 }
 
+static void
+sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
+				      double width, double height)
+{
+	/* See bugs #705638 and #705640 */
+	if (NULL != gdk_screen_get_default ()) {
+		sheet_widget_draw_cairo (so, cr, width, height);
+	} else {
+		SheetWidgetRadioButton const *swr = (SheetWidgetRadioButton const *)so;
+		double halfheight = height/2;
+
+		cairo_save (cr);
+		cairo_set_line_width (cr, 0.5);
+		cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+
+		cairo_new_path (cr);
+		cairo_move_to (cr, 4. + 8., halfheight);
+		cairo_arc (cr, 4. + 4., halfheight, 4., 0., 2*M_PI);
+		cairo_close_path (cr);
+		cairo_fill_preserve (cr);
+		cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+		cairo_stroke (cr);
+
+		if (swr->active) {
+			cairo_new_path (cr);
+			cairo_move_to (cr, 4. + 6.5, halfheight);
+			cairo_arc (cr, 4. + 4., halfheight, 2.5, 0., 2*M_PI);
+			cairo_close_path (cr);
+			cairo_fill (cr);
+		}
+
+		cairo_move_to (cr, 4. + 8. + 4, halfheight);
+
+		draw_cairo_text (cr, swr->label);
+
+		cairo_new_path (cr);
+		cairo_restore (cr);
+	}
+}
+
 SOW_MAKE_TYPE (radio_button, RadioButton,
  	       sheet_widget_radio_button_user_config,
   	       sheet_widget_radio_button_set_sheet,
@@ -2866,6 +2986,7 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
  	       sheet_widget_radio_button_prep_sax_parser,
   	       sheet_widget_radio_button_get_property,
   	       sheet_widget_radio_button_set_property,
+	       sheet_widget_radio_button_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOR_PROP_ACTIVE,
@@ -3154,7 +3275,7 @@ sheet_widget_list_base_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 }
 
 static GtkWidget *
-sheet_widget_list_base_create_widget (SheetObjectWidget *sow)
+sheet_widget_list_base_create_widget (G_GNUC_UNUSED SheetObjectWidget *sow)
 {
 	g_warning("ERROR: sheet_widget_list_base_create_widget SHOULD NEVER BE CALLED (but it has been)!\n");
 	return gtk_frame_new ("invisiwidget(WARNING: I AM A BUG!)");
@@ -3170,6 +3291,7 @@ SOW_MAKE_TYPE (list_base, ListBase,
 	       sheet_widget_list_base_prep_sax_parser,
 	       NULL,
 	       NULL,
+	       sheet_widget_draw_cairo,
 	       {
 	       list_base_signals[LIST_BASE_MODEL_CHANGED] = g_signal_new ("model-changed",
 			GNM_SOW_LIST_BASE_TYPE,
