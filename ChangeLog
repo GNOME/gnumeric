@@ -1,3 +1,9 @@
+2013-08-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-widget.c (sheet_widget_draw_cairo): avoid using
+	gtk_offscreen_window_new without a default screen (see bugs #705638
+	and #705640)
+
 2013-08-07  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (main): Initialize gtk+ without opening any

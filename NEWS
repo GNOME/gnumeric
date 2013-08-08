@@ -18,6 +18,7 @@ Andreas:
 	* Show input messages. [#705310]
 	* Fix Excel XML import. [#705223]
 	* Fix documentation. [#705541]
+	* Avoid crashing when printing sheet object widgets from ssconvert. [#705638]
 
 Jean:
 	* Fix text wrap inside sheet objects. [#704417]

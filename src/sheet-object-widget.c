@@ -225,14 +225,18 @@ static void
 sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height)
 {
-	GtkWidget *win = gtk_offscreen_window_new ();
-	GtkWidget *w = SOW_CLASS(so)->create_widget (GNM_SOW (so));
-
-	gtk_container_add (GTK_CONTAINER (win), w);
-	gtk_widget_set_size_request (w, width, height);
-	gtk_widget_show_all (win);
-	gtk_container_propagate_draw (GTK_CONTAINER (win), w, cr);
-	gtk_widget_destroy (win);
+	/* See bugs #705638 and #705640 */
+	if (NULL != gdk_screen_get_default ()) {
+		GtkWidget *win = gtk_offscreen_window_new ();
+		GtkWidget *w = SOW_CLASS(so)->create_widget (GNM_SOW (so));
+		
+		gtk_container_add (GTK_CONTAINER (win), w);
+		gtk_widget_set_size_request (w, width, height);
+		gtk_widget_show_all (win);
+		gtk_container_propagate_draw (GTK_CONTAINER (win), w, cr);
+		gtk_widget_destroy (win);
+	} else
+		g_warning (_("Because of GTK bug #705640, a sheet object widget is not being printed."));
 }
 
 static void
