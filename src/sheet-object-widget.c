@@ -579,7 +579,7 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 
 static void
 draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
-		 gboolean centered)
+		 gboolean centered, gboolean single, gint highlight_n)
 {
 	PangoLayout *layout = pango_cairo_create_layout (cr);
 	PangoFontDescription *desc;
@@ -593,13 +593,41 @@ draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
 	desc = pango_font_description_from_string ("sans 10");
 	pango_context_set_font_description
 		(pango_layout_get_context (layout), desc);
-	pango_layout_set_single_paragraph_mode (layout, TRUE);
+	pango_layout_set_spacing (layout, 3 * PANGO_SCALE);
+	pango_layout_set_single_paragraph_mode (layout, single);
 	pango_layout_set_text (layout, text, -1);
 	pango_layout_get_pixel_size (layout, &width, &height);
 
 	cairo_scale (cr, scale_h, scale_v);
 	if (centered)
 		cairo_rel_move_to (cr, 0., 0.5 - ((double)height)/2.);
+	if (highlight_n > 0 && pheight != NULL && pwidth != NULL) {
+		PangoLayoutIter *pliter;
+		gboolean got_line = TRUE;
+		int i;
+		pliter = pango_layout_get_iter (layout);
+		for (i = 1; i < highlight_n; i++)
+			got_line = pango_layout_iter_next_line (pliter);
+
+		if (got_line) {
+			int y0, y1;
+			double dy0 = 0, dy1 = 0;
+			pango_layout_iter_get_line_yrange (pliter, &y0, &y1);
+			dy0 = y0 / (double)PANGO_SCALE;
+			dy1 = y1 / (double)PANGO_SCALE;
+
+			if (dy1 > (*pheight - 4)/scale_v)
+				cairo_translate (cr, 0, (*pheight - 4)/scale_v - dy1);
+
+			cairo_new_path (cr);
+			cairo_rectangle (cr, -4/scale_h, dy0,
+					 *pwidth/scale_h, dy1 - dy0);
+			cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+			cairo_fill (cr);
+		}
+		pango_layout_iter_free (pliter);
+		cairo_set_source_rgb(cr, 0, 0, 0);		
+	}
 	pango_cairo_show_layout (cr, layout);
 	pango_font_description_free (desc);
 	g_object_unref (layout);
@@ -622,7 +650,7 @@ sheet_widget_frame_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_move_to (cr, 10, 0);
 
 	cairo_save (cr);
-	draw_cairo_text (cr, swf->label, &twidth, &theight, FALSE);
+	draw_cairo_text (cr, swf->label, &twidth, &theight, FALSE, TRUE, 0);
 	cairo_restore (cr);
 
 	cairo_set_line_width (cr, 1);
@@ -1975,7 +2003,7 @@ sheet_widget_spinbutton_draw_cairo (SheetObject const *so, cairo_t *cr,
 	str = g_strdup_printf ("%i", ivalue);
 	cairo_set_source_rgb(cr, 0, 0, 0);
 	cairo_move_to (cr, 4., halfheight);
-	draw_cairo_text (cr, str, NULL, NULL, TRUE);
+	draw_cairo_text (cr, str, NULL, NULL, TRUE, TRUE, 0);
 	g_free (str);
 
 	cairo_new_path (cr);
@@ -2597,7 +2625,7 @@ sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	cairo_move_to (cr, 4. + 8. + 4, halfheight);
 
-	draw_cairo_text (cr, swc->label, NULL, NULL, TRUE);
+	draw_cairo_text (cr, swc->label, NULL, NULL, TRUE, TRUE, 0);
 
 	cairo_new_path (cr);
 	cairo_restore (cr);
@@ -3232,7 +3260,7 @@ sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	cairo_move_to (cr, 4. + 8. + 4, halfheight);
 
-	draw_cairo_text (cr, swr->label, NULL, NULL, TRUE);
+	draw_cairo_text (cr, swr->label, NULL, NULL, TRUE, TRUE, 0);
 
 	cairo_new_path (cr);
 	cairo_restore (cr);
@@ -3783,17 +3811,7 @@ sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 	if (swl->model != NULL) {
 		GtkTreeIter iter;
 		GString*str = g_string_new (NULL);
-		PangoLayout *layout = pango_cairo_create_layout (cr);
-		/* Using GtkStyle does not seem to work in ssconvert */
-		/* GtkStyle *style = gtk_style_new (); */
-		PangoFontDescription *desc;
-		double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
-		double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
-		int twidth = 0, theight = 0;
-		PangoLayoutIter *pliter;
-		int y0, y1, i;
-		double dy0 = 0, dy1 = 0;
-		gboolean got_line = TRUE;
+		int twidth = width, theight = height;
 
 			
 		cairo_new_path (cr);
@@ -3810,42 +3828,9 @@ sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 				g_free (astr);
 			} while (gtk_tree_model_iter_next (swl->model, &iter));
 
-		/* pango_layout_set_font_description (layout, style->font_desc); */
-		desc = pango_font_description_from_string ("sans 10");
-		pango_context_set_font_description
-			(pango_layout_get_context (layout), desc);
-		pango_layout_set_single_paragraph_mode (layout, FALSE);
-		pango_layout_set_spacing (layout, 3 * PANGO_SCALE);
-		pango_layout_set_text (layout, str->str, -1);
-		pango_layout_get_pixel_size (layout, &twidth, &theight);
-
 		cairo_translate (cr, 4., 2.);
-		cairo_scale (cr, scale_h, scale_v);
 
-		pliter = pango_layout_get_iter (layout);
-		for (i = 1; i < swl->selection; i++)
-			got_line = pango_layout_iter_next_line (pliter);
-
-		if (got_line) {
-			pango_layout_iter_get_line_yrange (pliter, &y0, &y1);
-			dy0 = y0 / (double)PANGO_SCALE;
-			dy1 = y1 / (double)PANGO_SCALE;
-
-			if (dy1 > (height - 4)/scale_v)
-				cairo_translate (cr, 0, (height - 4)/scale_v - dy1);
-
-			cairo_new_path (cr);
-			cairo_rectangle (cr, -4/scale_h, dy0,
-					 width/scale_h, dy1 - dy0);
-			cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
-			cairo_fill (cr);
-		}
-		pango_layout_iter_free (pliter);
-		cairo_set_source_rgb(cr, 0, 0, 0);
-		pango_cairo_show_layout (cr, layout);
-		g_object_unref (layout);
-		/* g_object_unref (style); */
-		pango_font_description_free (desc);
+		draw_cairo_text (cr, str->str, &twidth, &theight, FALSE, FALSE, swl->selection);
 
 		g_string_free (str, TRUE);
 	}
@@ -3978,7 +3963,7 @@ sheet_widget_combo_draw_cairo (SheetObject const *so, cairo_t *cr,
 						   swl->selection - 1)) {
 			char *str = NULL;
 			gtk_tree_model_get (swl->model, &iter, 0, &str, -1);
-			draw_cairo_text (cr, str, NULL, NULL, TRUE);
+			draw_cairo_text (cr, str, NULL, NULL, TRUE, TRUE, 0);
 			g_free (str);
 		}
 	}
