@@ -583,14 +583,24 @@ draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
 {
 	PangoLayout *layout = pango_cairo_create_layout (cr);
 	PangoFontDescription *desc;
-	/* Using GtkStyle does not seem to work in ssconvert */
-	/* GtkStyle *style = gtk_style_new (); */
 	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
 	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
 	int width, height;
 
-	/* pango_layout_set_font_description (layout, style->font_desc); */
-	desc = pango_font_description_from_string ("sans 10");
+	if (NULL != gdk_screen_get_default ()) {
+		GtkStyleContext *style = gtk_style_context_new ();
+		GtkWidgetPath *path = gtk_widget_path_new ();
+		
+		gtk_style_context_set_path (style, path);
+		gtk_widget_path_unref (path);
+
+		gtk_style_context_get (style, GTK_STATE_FLAG_NORMAL,
+				       GTK_STYLE_PROPERTY_FONT, &desc, NULL);
+		g_object_unref (style);
+	} else {
+		/* The desription obtained by GtkStyleContext is not valid in ssconvert!! */
+		desc = pango_font_description_from_string ("sans 10");
+	}
 	pango_context_set_font_description
 		(pango_layout_get_context (layout), desc);
 	pango_layout_set_spacing (layout, 3 * PANGO_SCALE);
@@ -631,7 +641,6 @@ draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
 	pango_cairo_show_layout (cr, layout);
 	pango_font_description_free (desc);
 	g_object_unref (layout);
-	/* g_object_unref (style); */
 	
 	if (pwidth)
 		*pwidth = width * scale_h;

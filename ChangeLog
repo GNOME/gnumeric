@@ -1,5 +1,10 @@
 2013-08-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-object-widget.c (draw_cairo_text): use GtkStyleContext
+	if possible
+
+2013-08-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-object-widget.c (draw_cairo_text): add arguments to
 	allow multi-paragraph with a highlighted line. Change all callers
 	(sheet_widget_list_draw_cairo): use draw_cairo_text
