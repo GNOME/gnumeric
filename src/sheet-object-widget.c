@@ -581,6 +581,11 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 static PangoFontDescription *
 get_font (void)
 {
+	/* Note: Under gnumeric, we appear to get a proper font using */
+	/*       GtkStyleContext. Under ssconvert, some seem to get a */
+	/*       proper font using GtkStyleContext, some don't. Those */
+	/*       get one using the Gsettings. The 'sans 10' is just   */
+	/*       insurance */
 	PangoFontDescription *desc;
 
 	GtkStyleContext *style = gtk_style_context_new ();
