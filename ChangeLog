@@ -1,5 +1,9 @@
 2013-08-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-object-widget.c (get_font): add a fall-backs
+
+2013-08-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-object-widget.c (sheet_widget_button_draw_cairo): Use
 	draw_cairo_text.
 	(draw_cairo_text): add h-vcenter argument and change all callers

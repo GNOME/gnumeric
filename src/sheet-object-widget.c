@@ -583,25 +583,60 @@ get_font (void)
 {
 	PangoFontDescription *desc;
 
-	if (1|| NULL != gdk_screen_get_default ()) {
-		GtkStyleContext *style = gtk_style_context_new ();
-		GtkWidgetPath *path = gtk_widget_path_new ();
-		
-		gtk_style_context_set_path (style, path);
-		gtk_widget_path_unref (path);
+	GtkStyleContext *style = gtk_style_context_new ();
+	GtkWidgetPath *path = gtk_widget_path_new ();
+	PangoFontMask mask;
+	int size = 0;
 
-		gtk_style_context_get (style, GTK_STATE_FLAG_NORMAL,
-				       GTK_STYLE_PROPERTY_FONT, &desc, NULL);
-		g_object_unref (style);
-	} else {
-		/* The desription obtained by GtkStyleContext is not valid in ssconvert!! */
-		desc = pango_font_description_from_string ("sans 10");
-	}
+	gtk_style_context_set_path (style, path);
+	gtk_widget_path_unref (path);
+	
+	gtk_style_context_get (style, GTK_STATE_FLAG_NORMAL,
+			       GTK_STYLE_PROPERTY_FONT, &desc, NULL);
+	g_object_unref (style);
+
+	mask = pango_font_description_get_set_fields (desc);
+	if ((mask & PANGO_FONT_MASK_SIZE) != 0)
+		size = pango_font_description_get_size (desc);
 
 	if (gnm_debug_flag ("so-font")) {
 		char *s = pango_font_description_to_string (desc);
-		g_printerr ("font=%s\n", s);
+		g_printerr ("from GtkStyleContext font=\"%s\", family set = %i,"
+			    " size set = %i, size = %i\n",
+			    s, ((mask & PANGO_FONT_MASK_FAMILY) != 0),
+			    ((mask & PANGO_FONT_MASK_SIZE) != 0), size);
 		g_free (s);
+	}
+
+	if ((mask & PANGO_FONT_MASK_FAMILY) == 0 || size == 0) {
+		/* Trying gsettings */
+		GSettings *set = g_settings_new ("org.gnome.desktop.interface");
+		char *font_name = g_settings_get_string (set, "font-name");
+		if (font_name != NULL) {
+			pango_font_description_free (desc);
+			desc = pango_font_description_from_string (font_name);
+			g_free (font_name);
+			mask = pango_font_description_get_set_fields (desc);
+			if ((mask & PANGO_FONT_MASK_SIZE) != 0)
+				size = pango_font_description_get_size (desc);
+			else
+				size = 0;
+			if (gnm_debug_flag ("so-font")) {
+				char *s = pango_font_description_to_string (desc);
+				g_printerr ("from GSettings: font=\"%s\", family set = %i,"
+					    " size set = %i, size = %i\n",
+					    s, ((mask & PANGO_FONT_MASK_FAMILY) != 0),
+					    ((mask & PANGO_FONT_MASK_SIZE) != 0), size);
+				g_free (s);
+			}
+		}
+	}	
+
+	if ((mask & PANGO_FONT_MASK_FAMILY) == 0 || size == 0) {
+		pango_font_description_free (desc);
+		desc = pango_font_description_from_string ("sans 10");
+		if (gnm_debug_flag ("so-font"))
+			g_printerr ("Using \"sans 10\" instead.\n");
 	}
 
 	return desc;
