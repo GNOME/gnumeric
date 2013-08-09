@@ -29,6 +29,7 @@
 #include "gnm-pane.h"
 #include "gnumeric-simple-canvas.h"
 #include "gui-util.h"
+#include "gutils.h"
 #include "dependent.h"
 #include "sheet-control-gui.h"
 #include "sheet-object-impl.h"
@@ -577,17 +578,12 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	gtk_widget_show (state->dialog);
 }
 
-static void
-draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
-		 gboolean centered, gboolean single, gint highlight_n)
+static PangoFontDescription *
+get_font (void)
 {
-	PangoLayout *layout = pango_cairo_create_layout (cr);
 	PangoFontDescription *desc;
-	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
-	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
-	int width, height;
 
-	if (NULL != gdk_screen_get_default ()) {
+	if (1|| NULL != gdk_screen_get_default ()) {
 		GtkStyleContext *style = gtk_style_context_new ();
 		GtkWidgetPath *path = gtk_widget_path_new ();
 		
@@ -601,6 +597,26 @@ draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
 		/* The desription obtained by GtkStyleContext is not valid in ssconvert!! */
 		desc = pango_font_description_from_string ("sans 10");
 	}
+
+	if (gnm_debug_flag ("so-font")) {
+		char *s = pango_font_description_to_string (desc);
+		g_printerr ("font=%s\n", s);
+		g_free (s);
+	}
+
+	return desc;
+}
+
+static void
+draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
+		 gboolean centered, gboolean single, gint highlight_n)
+{
+	PangoLayout *layout = pango_cairo_create_layout (cr);
+	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
+	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+	PangoFontDescription *desc = get_font ();
+	int width, height;
+
 	pango_context_set_font_description
 		(pango_layout_get_context (layout), desc);
 	pango_layout_set_spacing (layout, 3 * PANGO_SCALE);
@@ -1167,12 +1183,12 @@ sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 {
 	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
 	PangoLayout *layout = pango_cairo_create_layout (cr);
-	GtkStyle *style = gtk_style_new ();
 	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
 	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
 	int twidth, theight;
 	int const half_line = 1.5;
 	int radius = 10;
+	PangoFontDescription *desc;
 
 	if (height < 3 * radius)
 		radius = height / 3.;
@@ -1197,7 +1213,9 @@ sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_stroke (cr);
 
 	cairo_set_source_rgb(cr, 0, 0, 0);
-	pango_layout_set_font_description (layout, style->font_desc);
+	desc = get_font ();
+	pango_layout_set_font_description (layout, desc);
+	pango_font_description_free (desc);
 	pango_layout_set_single_paragraph_mode (layout, TRUE);
 	pango_layout_set_text (layout, swb->label, -1);
 	pango_layout_set_attributes (layout, swb->markup);
@@ -1208,7 +1226,6 @@ sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_rel_move_to (cr, - twidth/2., - theight/2.);
 	pango_cairo_show_layout (cr, layout);
 	g_object_unref (layout);
-	g_object_unref (style);
 
 	cairo_new_path (cr);
 	cairo_restore (cr);

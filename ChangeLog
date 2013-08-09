@@ -1,3 +1,9 @@
+2013-08-09  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_button_draw_cairo): Use
+	get_font.
+	(get_font): New function extracted from draw_cairo_text.
+
 2013-08-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (draw_cairo_text): use GtkStyleContext
