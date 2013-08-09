@@ -4,7 +4,7 @@
 	(sheet_widget_scrollbar_create_widget),
 	(sheet_widget_spinbutton_create_widget),
 	(sheet_widget_slider_create_widget): avoid crashing after destroying a
-	SheetWidgetAdjustment associated widget. [see Gtk+ bug #705677]
+	SheetWidgetAdjustment associated widget. [see Gtk+ bug #705692]
 
 2013-08-09  Morten Welinder  <terra@gnome.org>
 

@@ -28,7 +28,7 @@ Jean:
 	* Fix crash when importing fuzzed chart from xls. [#705353]
 	* Accept <graph:Type> nodes in guppi graphs. [Debian #718594]
 	* Avoid crashing after destroying a SheetWidgetAdjustment associated widget.
-	[see Gtk+ bug #705677]
+	[see Gtk+ bug #705692]
 
 Morten:
 	* Fix crazy parsing problem.  [#704109] [#704140]
