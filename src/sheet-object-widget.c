@@ -1285,6 +1285,10 @@ enum {
 
 static GType sheet_widget_adjustment_get_type (void);
 
+#ifndef g_signal_handlers_disconnect_by_data
+#define g_signal_handlers_disconnect_by_data(instance, data) \
+  g_signal_handlers_disconnect_matched ((instance), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, (data))
+#endif
 static void
 cb_range_destroyed (GtkWidget *w, SheetWidgetAdjustment *swa)
 {
