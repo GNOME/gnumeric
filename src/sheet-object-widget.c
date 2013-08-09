@@ -609,7 +609,7 @@ get_font (void)
 
 static void
 draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
-		 gboolean centered, gboolean single, gint highlight_n)
+		 gboolean centered_v, gboolean centered_h, gboolean single, gint highlight_n)
 {
 	PangoLayout *layout = pango_cairo_create_layout (cr);
 	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
@@ -625,8 +625,10 @@ draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
 	pango_layout_get_pixel_size (layout, &width, &height);
 
 	cairo_scale (cr, scale_h, scale_v);
-	if (centered)
+	if (centered_v)
 		cairo_rel_move_to (cr, 0., 0.5 - ((double)height)/2.);
+	if (centered_h)
+		cairo_rel_move_to (cr, 0.5 - ((double)width)/2., 0.);
 	if (highlight_n > 0 && pheight != NULL && pwidth != NULL) {
 		PangoLayoutIter *pliter;
 		gboolean got_line = TRUE;
@@ -675,7 +677,7 @@ sheet_widget_frame_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_move_to (cr, 10, 0);
 
 	cairo_save (cr);
-	draw_cairo_text (cr, swf->label, &twidth, &theight, FALSE, TRUE, 0);
+	draw_cairo_text (cr, swf->label, &twidth, &theight, FALSE, FALSE, TRUE, 0);
 	cairo_restore (cr);
 
 	cairo_set_line_width (cr, 1);
@@ -1182,13 +1184,9 @@ sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 				double width, double height)
 {
 	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
-	PangoLayout *layout = pango_cairo_create_layout (cr);
-	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
-	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
 	int twidth, theight;
 	int const half_line = 1.5;
 	int radius = 10;
-	PangoFontDescription *desc;
 
 	if (height < 3 * radius)
 		radius = height / 3.;
@@ -1213,19 +1211,10 @@ sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_stroke (cr);
 
 	cairo_set_source_rgb(cr, 0, 0, 0);
-	desc = get_font ();
-	pango_layout_set_font_description (layout, desc);
-	pango_font_description_free (desc);
-	pango_layout_set_single_paragraph_mode (layout, TRUE);
-	pango_layout_set_text (layout, swb->label, -1);
-	pango_layout_set_attributes (layout, swb->markup);
-	pango_layout_get_pixel_size (layout, &twidth, &theight);
 
 	cairo_move_to (cr, width/2., height/2.);
-	cairo_scale (cr, scale_h, scale_v);
-	cairo_rel_move_to (cr, - twidth/2., - theight/2.);
-	pango_cairo_show_layout (cr, layout);
-	g_object_unref (layout);
+
+	draw_cairo_text (cr, swb->label, &twidth, &theight, TRUE, TRUE, TRUE, 0);
 
 	cairo_new_path (cr);
 	cairo_restore (cr);
@@ -2045,7 +2034,7 @@ sheet_widget_spinbutton_draw_cairo (SheetObject const *so, cairo_t *cr,
 	str = g_strdup_printf ("%i", ivalue);
 	cairo_set_source_rgb(cr, 0, 0, 0);
 	cairo_move_to (cr, 4., halfheight);
-	draw_cairo_text (cr, str, NULL, NULL, TRUE, TRUE, 0);
+	draw_cairo_text (cr, str, NULL, NULL, TRUE, FALSE, TRUE, 0);
 	g_free (str);
 
 	cairo_new_path (cr);
@@ -2669,7 +2658,7 @@ sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	cairo_move_to (cr, 4. + 8. + 4, halfheight);
 
-	draw_cairo_text (cr, swc->label, NULL, NULL, TRUE, TRUE, 0);
+	draw_cairo_text (cr, swc->label, NULL, NULL, TRUE, FALSE, TRUE, 0);
 
 	cairo_new_path (cr);
 	cairo_restore (cr);
@@ -3304,7 +3293,7 @@ sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	cairo_move_to (cr, 4. + 8. + 4, halfheight);
 
-	draw_cairo_text (cr, swr->label, NULL, NULL, TRUE, TRUE, 0);
+	draw_cairo_text (cr, swr->label, NULL, NULL, TRUE, FALSE, TRUE, 0);
 
 	cairo_new_path (cr);
 	cairo_restore (cr);
@@ -3874,7 +3863,7 @@ sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 		cairo_translate (cr, 4., 2.);
 
-		draw_cairo_text (cr, str->str, &twidth, &theight, FALSE, FALSE, swl->selection);
+		draw_cairo_text (cr, str->str, &twidth, &theight, FALSE, FALSE, FALSE, swl->selection);
 
 		g_string_free (str, TRUE);
 	}
@@ -4007,7 +3996,7 @@ sheet_widget_combo_draw_cairo (SheetObject const *so, cairo_t *cr,
 						   swl->selection - 1)) {
 			char *str = NULL;
 			gtk_tree_model_get (swl->model, &iter, 0, &str, -1);
-			draw_cairo_text (cr, str, NULL, NULL, TRUE, TRUE, 0);
+			draw_cairo_text (cr, str, NULL, NULL, TRUE, FALSE, TRUE, 0);
 			g_free (str);
 		}
 	}
