@@ -1286,6 +1286,14 @@ enum {
 static GType sheet_widget_adjustment_get_type (void);
 
 static void
+cb_range_destroyed (GtkWidget *w, SheetWidgetAdjustment *swa)
+{
+	GObject *accessible = G_OBJECT (gtk_widget_get_accessible (w));
+	if (accessible)
+		g_signal_handlers_disconnect_by_data (swa->adjustment, accessible);
+}
+
+static void
 sheet_widget_adjustment_set_value (SheetWidgetAdjustment *swa, double new_val)
 {
 	if (swa->being_updated)
@@ -1866,6 +1874,8 @@ sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow)
 	g_signal_connect (G_OBJECT (bar),
 		"value_changed",
 		G_CALLBACK (cb_adjustment_widget_value_changed), swa);
+	g_signal_connect (G_OBJECT (bar), "destroy",
+	                  G_CALLBACK (cb_range_destroyed), swa);
 	swa->being_updated = FALSE;
 
 	return bar;
@@ -1971,6 +1981,8 @@ sheet_widget_spinbutton_create_widget (SheetObjectWidget *sow)
 	g_signal_connect (G_OBJECT (spinbutton),
 		"value_changed",
 		G_CALLBACK (cb_adjustment_widget_value_changed), swa);
+	g_signal_connect (G_OBJECT (spinbutton), "destroy",
+	                  G_CALLBACK (cb_range_destroyed), swa);
 	swa->being_updated = FALSE;
 	return spinbutton;
 }
@@ -2075,6 +2087,8 @@ sheet_widget_slider_create_widget (SheetObjectWidget *sow)
 	g_signal_connect (G_OBJECT (slider),
 		"value_changed",
 		G_CALLBACK (cb_adjustment_widget_value_changed), swa);
+	g_signal_connect (G_OBJECT (slider), "destroy",
+	                  G_CALLBACK (cb_range_destroyed), swa);
 	swa->being_updated = FALSE;
 
 	return slider;

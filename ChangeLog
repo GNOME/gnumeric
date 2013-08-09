@@ -1,3 +1,11 @@
+2013-08-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-widget.c (cb_range_destroyed),
+	(sheet_widget_scrollbar_create_widget),
+	(sheet_widget_spinbutton_create_widget),
+	(sheet_widget_slider_create_widget): avoid crashing after destroying a
+	SheetWidgetAdjustment associated widget. [see Gtk+ bug #705677]
+
 2013-08-09  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_button_draw_cairo): Use
