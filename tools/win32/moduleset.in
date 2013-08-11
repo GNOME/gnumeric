@@ -219,6 +219,7 @@
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch"/>
 	    <patch file="&patch_dir;gtk-release-flux.patch" strip="1"/>
+	    <patch file="&patch_dir;gtk-b705068.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>

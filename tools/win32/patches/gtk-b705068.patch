@@ -1,0 +1,85 @@
+From fc460e2076a2b5c03d2134ba252b7a8791d1ef7f Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Wed, 31 Jul 2013 11:42:36 +0800
+Subject: [PATCH] GTK-Win32: Avoid Using Deprecated API
+
+Replace the deprecated API calls with the updated APIs, and fix the build
+of modules/input/gtkimcontextime.c, as we really needed
+gdk/gdkkeysyms-compat.h (gdk/gdkkeysyms.h was already included)
+
+https://bugzilla.gnome.org/show_bug.cgi?id=705068
+---
+ gtk/gtkstatusicon.c             |  2 +-
+ modules/input/gtkimcontextime.c | 15 ++++++++++-----
+ 2 files changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/gtk/gtkstatusicon.c b/gtk/gtkstatusicon.c
+index 5d39db1..3363bb3 100644
+--- a/gtk/gtkstatusicon.c
++++ b/gtk/gtkstatusicon.c
+@@ -2277,7 +2277,7 @@ gtk_status_icon_position_menu (GtkMenu  *menu,
+   status_icon = GTK_STATUS_ICON (user_data);
+   priv = status_icon->priv;
+ 
+-  gtk_widget_size_request (GTK_WIDGET (menu), &menu_req);
++  gtk_widget_get_preferred_size (GTK_WIDGET (menu), &menu_req, NULL);
+ 
+   *x = priv->last_click_x;
+   *y = priv->taskbar_top - menu_req.height;
+diff --git a/modules/input/gtkimcontextime.c b/modules/input/gtkimcontextime.c
+index 0de1b53..aac572e 100644
+--- a/modules/input/gtkimcontextime.c
++++ b/modules/input/gtkimcontextime.c
+@@ -31,7 +31,7 @@
+ 
+ #include "imm-extra.h"
+ 
+-#include <gdk/gdkkeysyms.h>
++#include "gdk/gdkkeysyms-compat.h"
+ #include "gdk/win32/gdkwin32.h"
+ #include "gdk/gdkkeysyms.h"
+ 
+@@ -890,6 +890,8 @@ gtk_im_context_ime_set_preedit_font (GtkIMContext *context)
+   PangoContext *pango_context;
+   PangoFont *font;
+   LOGFONT *logfont;
++  GtkStyleContext *style;
++  PangoFontDescription *font_desc;
+ 
+   g_return_if_fail (GTK_IS_IM_CONTEXT_IME (context));
+ 
+@@ -941,6 +943,9 @@ gtk_im_context_ime_set_preedit_font (GtkIMContext *context)
+     default:
+       lang = ""; break;
+     }
++
++  style = gtk_widget_get_style_context (widget);
++  gtk_style_context_get (style, GTK_STATE_FLAG_NORMAL, "font", &font_desc, NULL);
+   
+   if (lang[0])
+     {
+@@ -949,9 +954,9 @@ gtk_im_context_ime_set_preedit_font (GtkIMContext *context)
+        */
+       PangoLanguage *pango_lang = pango_language_from_string (lang);
+       PangoFontset *fontset =
+-	pango_context_load_fontset (pango_context,
+-				    gtk_widget_get_style (widget)->font_desc,
+-				    pango_lang);
++        pango_context_load_fontset (pango_context,
++				                            font_desc,
++				                            pango_lang);
+       gunichar *sample =
+ 	g_utf8_to_ucs4 (pango_language_get_sample_string (pango_lang),
+ 			-1, NULL, NULL, NULL);
+@@ -972,7 +977,7 @@ gtk_im_context_ime_set_preedit_font (GtkIMContext *context)
+       g_object_unref (fontset);
+     }
+   else
+-    font = pango_context_load_font (pango_context, gtk_widget_get_style (widget)->font_desc);
++    font = pango_context_load_font (pango_context, font_desc);
+ 
+   if (!font)
+     goto ERROR_OUT;
+-- 
+1.8.3.msysgit.0
+
