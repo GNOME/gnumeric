@@ -223,6 +223,15 @@ typedef struct {
 
 static GObjectClass *sheet_object_widget_class = NULL;
 
+static GtkWidget *
+sow_create_widget (SheetObjectWidget *sow)
+{
+	GtkWidget *w = SOW_CLASS(sow)->create_widget (sow);
+	GtkStyleContext *context = gtk_widget_get_style_context (w);
+	gtk_style_context_add_class (context, "sheet-object");
+	return w;
+}
+
 static void
 sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height)
@@ -231,7 +240,7 @@ sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 	/* See bugs #705638 and #705640 */
 	if (NULL != gdk_screen_get_default ()) {
 		GtkWidget *win = gtk_offscreen_window_new ();
-		GtkWidget *w = SOW_CLASS(so)->create_widget (GNM_SOW (so));
+		GtkWidget *w = sow_create_widget (GNM_SOW (so));
 		
 		gtk_container_add (GTK_CONTAINER (win), w);
 		gtk_widget_set_size_request (w, width, height);
@@ -285,8 +294,7 @@ sax_read_dep (xmlChar const * const *attrs, char const *name,
 static SheetObjectView *
 sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	GtkWidget *view_widget =
-		SOW_CLASS(so)->create_widget (GNM_SOW (so));
+	GtkWidget *view_widget = sow_create_widget (GNM_SOW (so));
 	GocItem *view_item = goc_item_new (
 		gnm_pane_object_group (GNM_PANE (container)),
 		so_widget_view_get_type (),
@@ -1458,8 +1466,7 @@ sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
 	for (ptr = swa->sow.so.realized_list; ptr != NULL; ptr = ptr->next) {
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
-		GtkWidget *neww =
-			SOW_CLASS (swa)->create_widget (GNM_SOW (swa));
+		GtkWidget *neww = sow_create_widget (GNM_SOW (swa));
 		gtk_widget_show (neww);
 		goc_item_set (GOC_ITEM (item), "widget", neww, NULL);
 	}

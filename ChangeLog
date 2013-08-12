@@ -1,3 +1,8 @@
+2013-08-12  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (sow_create_widget): New function.
+	Add sheet-object class to widgets.
+
 2013-08-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (sheet_widget_frame_draw_cairo): set
