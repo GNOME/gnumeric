@@ -1,3 +1,11 @@
+2013-08-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-widget.c (sheet_widget_frame_draw_cairo): set
+	initial colour
+	(sheet_widget_button_draw_cairo): also scale line thickness
+	(sheet_widget_checkbox_draw_cairo): scale button size
+	(sheet_widget_radio_button_draw_cairo): scale button size
+
 2013-08-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (draw_cairo_text): add 'scale'

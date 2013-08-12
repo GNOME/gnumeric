@@ -21,7 +21,7 @@ Andreas:
 	* Avoid crashing when printing sheet object widgets from ssconvert. [#705638]
 	* Fix printing of sheet object widgets. [#705650] [#705653]
 	* Use current GTK style when printing sheet object widgets from Gnumeric. [#705684]
-	* Scale tiny buttons when printing. [Part of #705689]
+	* Scale tiny buttonssheet objects when printing. [#705689]
 
 Jean:
 	* Fix text wrap inside sheet objects. [#704417]

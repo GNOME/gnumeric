@@ -727,6 +727,7 @@ sheet_widget_frame_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_move_to (cr, 10, 0);
 
 	cairo_save (cr);
+	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
 	draw_cairo_text (cr, swf->label, &twidth, &theight, FALSE, FALSE, TRUE, 0, FALSE);
 	cairo_restore (cr);
 
@@ -1235,8 +1236,8 @@ sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 {
 	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
 	int twidth, theight;
-	int const half_line = 1.5;
-	int radius = 10;
+	double half_line;
+	double radius = 10;
 
 	if (height < 3 * radius)
 		radius = height / 3.;
@@ -1244,6 +1245,7 @@ sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 		radius = width / 3.;
 	if (radius < 1)
 		radius = 1;
+	half_line = radius * 0.15; 
 
 	cairo_save (cr);
 	cairo_set_line_width (cr, 2 * half_line);
@@ -2676,21 +2678,28 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 
 static void
 sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
-				  G_GNUC_UNUSED double width, double height)
+				  double width, double height)
 {
 	SheetWidgetCheckbox const *swc = GNM_SOW_CHECKBOX (so);
 	double halfheight = height/2;
+	double dx = 8., dxh, pm;
+	int pw, ph;
+
+	pm = MIN (height - 2, width - 12);
+	if (dx > pm)
+		dx = MAX (pm, 3);
+	dxh = dx/2;
 
 	cairo_save (cr);
 	cairo_set_line_width (cr, 0.5);
 	cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
 
 	cairo_new_path (cr);
-	cairo_move_to (cr, 4, halfheight - 4);
-	cairo_rel_line_to (cr, 0, 8);
-	cairo_rel_line_to (cr, 8., 0);
-	cairo_rel_line_to (cr, 0., -8.);
-	cairo_rel_line_to (cr, -8., 0.);
+	cairo_move_to (cr, dxh, halfheight - dxh);
+	cairo_rel_line_to (cr, 0, dx);
+	cairo_rel_line_to (cr, dx, 0);
+	cairo_rel_line_to (cr, 0., -dx);
+	cairo_rel_line_to (cr, -dx, 0.);
 	cairo_close_path (cr);
 	cairo_fill_preserve (cr);
 	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
@@ -2698,19 +2707,22 @@ sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	if (swc->value) {
 		cairo_new_path (cr);
-		cairo_move_to (cr, 4, halfheight - 4);
-		cairo_rel_line_to (cr, 8., 8.);
-		cairo_rel_line_to (cr, -8., 0.);
-		cairo_rel_line_to (cr, 8., -8.);
-		cairo_rel_line_to (cr, -8., 0.);
+		cairo_move_to (cr, dxh, halfheight - dxh);
+		cairo_rel_line_to (cr, dx, dx);
+		cairo_rel_line_to (cr, -dx, 0.);
+		cairo_rel_line_to (cr, dx, -dx);
+		cairo_rel_line_to (cr, -dx, 0.);
 		cairo_close_path (cr);
 		cairo_set_line_join (cr, CAIRO_LINE_JOIN_BEVEL);
 		cairo_stroke (cr);
 	}
 
-	cairo_move_to (cr, 4. + 8. + 4, halfheight);
+	cairo_move_to (cr, 2 * dx, halfheight);
 
-	draw_cairo_text (cr, swc->label, NULL, NULL, TRUE, FALSE, TRUE, 0, FALSE);
+	pw = width - 2 * dx;
+	ph = height;
+
+	draw_cairo_text (cr, swc->label, &pw, &ph, TRUE, FALSE, TRUE, 0, TRUE);
 
 	cairo_new_path (cr);
 	cairo_restore (cr);
@@ -3322,14 +3334,21 @@ sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 {
 	SheetWidgetRadioButton const *swr = GNM_SOW_RADIO_BUTTON (so);
 	double halfheight = height/2;
+	double dx = 8., dxh, pm;
+	int pw, ph;
+
+	pm = MIN (height - 2, width - 12);
+	if (dx > pm)
+		dx = MAX (pm, 3);
+	dxh = dx/2;
 
 	cairo_save (cr);
 	cairo_set_line_width (cr, 0.5);
 	cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
 
 	cairo_new_path (cr);
-	cairo_move_to (cr, 4. + 8., halfheight);
-	cairo_arc (cr, 4. + 4., halfheight, 4., 0., 2*M_PI);
+	cairo_move_to (cr, dxh + dx, halfheight);
+	cairo_arc (cr, dx, halfheight, dxh, 0., 2*M_PI);
 	cairo_close_path (cr);
 	cairo_fill_preserve (cr);
 	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
@@ -3337,15 +3356,18 @@ sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	if (swr->active) {
 		cairo_new_path (cr);
-		cairo_move_to (cr, 4. + 6.5, halfheight);
-		cairo_arc (cr, 4. + 4., halfheight, 2.5, 0., 2*M_PI);
+		cairo_move_to (cr, dx + dxh/2 + 0.5, halfheight);
+		cairo_arc (cr, dx, halfheight, dxh/2 + 0.5, 0., 2*M_PI);
 		cairo_close_path (cr);
 		cairo_fill (cr);
 	}
 
-	cairo_move_to (cr, 4. + 8. + 4, halfheight);
+	cairo_move_to (cr, 2 * dx, halfheight);
 
-	draw_cairo_text (cr, swr->label, NULL, NULL, TRUE, FALSE, TRUE, 0, FALSE);
+	pw = width - 2 * dx;
+	ph = height;
+
+	draw_cairo_text (cr, swr->label, &pw, &ph, TRUE, FALSE, TRUE, 0, TRUE);
 
 	cairo_new_path (cr);
 	cairo_restore (cr);
