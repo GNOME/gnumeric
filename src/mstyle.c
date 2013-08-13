@@ -734,8 +734,11 @@ gnm_style_unref (GnmStyle const *style)
 		gnm_style_clear_pango (unconst);
 		gnm_style_clear_font (unconst);
 
-		if (style->deps)
-			g_warning ("Leftover style deps!");
+		if (style->deps) {
+			if (style->deps->len > 0)
+				g_warning ("Leftover style deps!");
+			g_ptr_array_free (style->deps, TRUE);
+		}
 
 		CHUNK_FREE (gnm_style_pool, unconst);
 	}
@@ -1866,13 +1869,11 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 {
 	GnmStyleConditions *sc;
 	Sheet *sheet;
-	GSList *deps;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (r != NULL);
 
 	sheet = style->linked_sheet;
-	deps = style->deps;
 
 	/*
 	 * Conditional formatting.
@@ -1898,10 +1899,10 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 					gnm_style_cond_get_expr (c, ei);
 				if (!texpr)
 					continue;
-				deps = g_slist_concat
-					(deps,
-					 gnm_dep_style_dependency
-					 (sheet, texpr, r));
+				if (!style->deps)
+					style->deps = g_ptr_array_new ();
+				gnm_dep_style_dependency
+					(sheet, texpr, r, style->deps);
 			}
 		}
 	}
@@ -1915,21 +1916,22 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 	 */
 
 	/* The style owns the deps.  */
-	style->deps = deps;
 }
 
 void
 gnm_style_unlink_dependents (GnmStyle *style, GnmRange const *r)
 {
-	GSList *keep = NULL, *l, *next;
+	unsigned ui, k;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (r != NULL);
 
-	for (l = style->deps; l; l = next) {
-		GnmDependent *dep = l->data;
+	if (!style->deps)
+		return;
+
+	for (ui = k = 0; ui < style->deps->len; ui++) {
+		GnmDependent *dep = g_ptr_array_index (style->deps, ui);
 		GnmCellPos const *pos = dependent_pos (dep);
-		next = l->next;
 
 		if (range_contains (r, pos->col, pos->row)) {
 			if (debug_style_deps ())
@@ -1937,14 +1939,13 @@ gnm_style_unlink_dependents (GnmStyle *style, GnmRange const *r)
 					    cellpos_as_string (pos), style);
 			dependent_set_expr (dep, NULL);
 			g_free (dep);
-			g_slist_free_1 (l);
 		} else {
-			l->next = keep;
-			keep = l;
+			g_ptr_array_index (style->deps, k) = dep;
+			k++;
 		}
 	}
 
-	style->deps = keep;
+	g_ptr_array_set_size (style->deps, k);
 }
 
 

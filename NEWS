@@ -37,6 +37,7 @@ Morten:
 	[#704562]
 	* Fix conditional format problem.  [#704445]
 	* Fix R1C1 parsing issue.  [#705637]
+	* Improve handling of large-area conditional styles.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.4

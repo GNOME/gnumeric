@@ -1183,16 +1183,15 @@ workbook_unlink_3d_dep (GnmDependent *dep)
  * @sheet:
  * @texpr:
  * @r:
- *
- * Returns: (element-type GnmDependent) (transfer full):
+ * @accum: (inout) (transfer full) (element-type GnmDependent):
  **/
-GSList *
+void
 gnm_dep_style_dependency (Sheet *sheet,
 			  GnmExprTop const *texpr,
-			  GnmRange const *r)
+			  GnmRange const *r,
+			  GPtrArray *accum)
 {
 	int row, col;
-	GSList *res = NULL;
 
 	/*
 	 * FIXME: Maybe do better for an expression that is just an
@@ -1212,11 +1211,9 @@ gnm_dep_style_dependency (Sheet *sheet,
 
 			dependent_set_expr (dep, texpr);
 			dependent_link (dep);
-			res = g_slist_prepend (res, dep);
+			g_ptr_array_add (accum, dep);
 		}
 	}
-
-	return res;
 }
 
 /*****************************************************************************/

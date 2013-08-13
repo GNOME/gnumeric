@@ -1,3 +1,7 @@
+2013-08-13  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-style-impl.h (_GnmStyle): Switch ->deps to a GPtrArray.
+
 2013-08-12  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c (sow_create_widget): New function.
