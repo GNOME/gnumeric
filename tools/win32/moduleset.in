@@ -206,6 +206,7 @@
     <autotools id="gdk-pixbuf">
 	<branch repo="gnome.org" module="sources/gdk-pixbuf/2.29/gdk-pixbuf-2.29.2.tar.xz"
 		version="2.29.2">
+	  <patch file="&patch_dir;gdk-pixbuf-destdir.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>

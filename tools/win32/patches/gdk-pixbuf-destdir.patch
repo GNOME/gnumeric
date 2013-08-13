@@ -1,0 +1,10 @@
+--- gdk-pixbuf-2.29.2/gdk-pixbuf/Makefile.in~	2013-08-12 20:20:49.000000000 -0400
++++ gdk-pixbuf-2.29.2/gdk-pixbuf/Makefile.in	2013-06-21 16:21:46.000000000 -0400
+@@ -1215,6 +1215,7 @@
+ 
+ INTROSPECTION_GIRS = $(am__append_1)
+ SUBDIRS = pixops
++DESTDIR =
+ @PLATFORM_WIN32_TRUE@no_undefined = -no-undefined
+ @OS_WIN32_TRUE@gdk_pixbuf_def = gdk_pixbuf.def
+ @OS_WIN32_TRUE@gdk_pixbuf_symbols = -export-symbols $(srcdir)/gdk_pixbuf.def
