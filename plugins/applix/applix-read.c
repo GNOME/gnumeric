@@ -783,7 +783,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				 * indicies to gnumeric.
 				 */
 				static int const map[] = { 0,
-					1,  6, 5,  4,  3, 2, 25,
+					1,  6, 5,  4,  3, 2, 24,
 					24, 14, 13, 17, 16, 15, 11,
 					19, 20, 21, 22, 23,
 				};

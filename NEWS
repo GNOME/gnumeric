@@ -38,6 +38,7 @@ Morten:
 	* Fix conditional format problem.  [#704445]
 	* Fix R1C1 parsing issue.  [#705637]
 	* Improve handling of large-area conditional styles.
+	* Fix (?) Applix pattern importer.  [#705946]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.4
