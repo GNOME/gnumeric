@@ -34,7 +34,7 @@ Jean:
 Morten:
 	* Fix crazy parsing problem.  [#704109] [#704140]
 	* Fix crashes on corrupted files.  [#704102] [#704004] [#704325]
-	[#704562]
+	[#704562] [#705866]
 	* Fix conditional format problem.  [#704445]
 	* Fix R1C1 parsing issue.  [#705637]
 	* Improve handling of large-area conditional styles.

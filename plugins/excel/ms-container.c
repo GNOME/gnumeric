@@ -273,6 +273,7 @@ ms_container_read_markup (MSContainer const *c,
 		guint16 o = GSF_LE_GET_GUINT16 (data + txo_len);
 		guint16 idx = GSF_LE_GET_GUINT16 (data + txo_len + 2);
 
+		XL_CHECK_CONDITION_VAL (o <= str_len, txo_run.accum);
 		txo_run.first = g_utf8_offset_to_pointer (str, o) - str;
 		XL_CHECK_CONDITION_VAL (txo_run.first < txo_run.last, txo_run.accum);
 

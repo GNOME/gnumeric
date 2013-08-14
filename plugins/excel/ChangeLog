@@ -1,3 +1,8 @@
+2013-08-14  Morten Welinder  <terra@gnome.org>
+
+	* ms-container.c (ms_container_read_markup): Add/reinstate bounds
+	check.  Fixes #705866.
+
 2013-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* excel-xml-read.c (xl_xml_cell_start): remember how many cols
