@@ -4533,6 +4533,7 @@ static void
 gnm_sheet_finalize (GObject *obj)
 {
 	Sheet *sheet = SHEET (obj);
+	gboolean debug_FMR = gnm_debug_flag ("sheet-fmr");
 
 	sheet_destroy (sheet);
 
@@ -4568,14 +4569,25 @@ gnm_sheet_finalize (GObject *obj)
 
 	(void) g_idle_remove_by_data (sheet);
 
+	if (debug_FMR) {
+		g_printerr ("Sheet %p is %s\n", sheet, sheet->name_quoted);
+	}
 	g_free (sheet->name_quoted);
 	g_free (sheet->name_unquoted);
 	g_free (sheet->name_unquoted_collate_key);
 	g_free (sheet->name_case_insensitive);
+	/* Poison */
+	sheet->name_quoted = (char *)0xdeadbeef;
+	sheet->name_unquoted = (char *)0xdeadbeef;
 	g_free (sheet->priv);
 	g_ptr_array_free (sheet->sheet_views, TRUE);
 
 	gnm_rvc_free (sheet->rendered_values);
+
+	if (debug_FMR) {
+		/* Keep object around. */
+		return;
+	}
 
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
