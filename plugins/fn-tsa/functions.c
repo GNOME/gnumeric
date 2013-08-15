@@ -306,7 +306,7 @@ staircase_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 	while (j <= jmax && targets[0] >= absc[j])
 		j++;
 	for (i = 1; i <= nb_targets; i++) {
-		if (targets[i] < absc[j] || j > jmax) {
+		if (j > jmax || targets[i] < absc[j]) {
 			res[i - 1] = ord[j - 1];
 			continue;
 		}
