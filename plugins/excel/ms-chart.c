@@ -2097,7 +2097,7 @@ BC_R(shtprops)(XLChartHandler const *handle,
 	       XLChartReadState *s, BiffQuery *q)
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
-	guint8 const tmp = GSF_LE_GET_GUINT16 (q->data+2);
+	guint8 tmp;
 	gboolean const manual_format		= (flags&0x01) ? TRUE : FALSE;
 	gboolean const only_plot_visible_cells	= (flags&0x02) ? TRUE : FALSE;
 	gboolean const dont_size_with_window	= (flags&0x04) ? TRUE : FALSE;
@@ -2105,6 +2105,8 @@ BC_R(shtprops)(XLChartHandler const *handle,
 	gboolean ignore_pos_record = FALSE;
 	MSChartBlank blanks;
 
+	XL_CHECK_CONDITION_VAL (q->length >= 4, TRUE);
+	tmp = GSF_LE_GET_GUINT16 (q->data+2);
 	g_return_val_if_fail (tmp < MS_CHART_BLANK_MAX, TRUE);
 	blanks = tmp;
 	d (2, g_printerr ("%s;", ms_chart_blank[blanks]););
@@ -2113,17 +2115,17 @@ BC_R(shtprops)(XLChartHandler const *handle,
 		ignore_pos_record = (flags&0x10) ? TRUE : FALSE;
 
 	d (1, {
-	g_printerr ("%sesize chart with window.\n",
-		dont_size_with_window ? "Don't r": "R");
-
-	if (has_pos_record && !ignore_pos_record)
-		g_printerr ("There should be a POS record around here soon\n");
-
-	if (manual_format)
-		g_printerr ("Manually formated\n");
-	if (only_plot_visible_cells)
-		g_printerr ("Only plot visible (to whom?) cells\n");
-	});
+			g_printerr ("%sesize chart with window.\n",
+				    dont_size_with_window ? "Don't r": "R");
+			
+			if (has_pos_record && !ignore_pos_record)
+				g_printerr ("There should be a POS record around here soon\n");
+			
+			if (manual_format)
+				g_printerr ("Manually formated\n");
+			if (only_plot_visible_cells)
+				g_printerr ("Only plot visible (to whom?) cells\n");
+		});
 	return FALSE;
 }
 
