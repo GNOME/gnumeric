@@ -4497,6 +4497,8 @@ sheet_destroy_contents (Sheet *sheet)
 	colrow_resize (&sheet->rows, 0);
 	g_ptr_array_free (sheet->rows.info, TRUE);
 	sheet->rows.info = NULL;
+
+	g_clear_object (&sheet->solver_parameters);
 }
 
 /**
@@ -4534,8 +4536,7 @@ gnm_sheet_finalize (GObject *obj)
 
 	sheet_destroy (sheet);
 
-	g_object_unref (sheet->solver_parameters);
-	sheet->solver_parameters = NULL;
+	g_clear_object (&sheet->solver_parameters);
 
 	g_list_free_full (sheet->scenarios, g_object_unref);
 	sheet->scenarios = NULL;

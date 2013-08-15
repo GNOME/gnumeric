@@ -39,6 +39,7 @@ Morten:
 	* Fix R1C1 parsing issue.  [#705637]
 	* Improve handling of large-area conditional styles.
 	* Fix (?) Applix pattern importer.  [#705946]
+	* Fix FMR.  [Part of #705913]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.4

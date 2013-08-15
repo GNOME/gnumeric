@@ -1,3 +1,8 @@
+2013-08-15  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_destroy_contents): Also get rid of solver
+	parameters.  See bug 705913, comment 6.
+
 2013-08-13  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-style-impl.h (_GnmStyle): Switch ->deps to a GPtrArray.
