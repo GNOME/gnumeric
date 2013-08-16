@@ -10,6 +10,7 @@ my $version2 = $version;
 $version2 =~ s/^(\d+\.\d+)\..*/$1/;
 
 my $bug_prefix = "https://bugzilla.gnome.org/show_bug.cgi?id=";
+my $debian_bug_prefix = "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=";
 
 my $state = 0;
 my $who = undef;
@@ -100,6 +101,7 @@ sub finish_item {
 sub add_to_item {
     my ($txt) = @_;
 
+    $txt =~ s{Debian\s+\#(\d\d\d\d\d+)}{Debian <a href=\"$debian_bug_prefix$1\"\>Bug $1</a>}g;
     $txt =~ s{\#(\d\d\d\d\d+)}{<a href=\"$bug_prefix$1\"\>Bug $1</a>}g;
 
     $item .= "\n\t$txt";

@@ -1,3 +1,7 @@
+2013-08-16  Morten Welinder  <terra@gnome.org>
+
+	* news-to-html (add_to_item): Teach this about Debian bug system.
+
 2013-07-10  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.4
