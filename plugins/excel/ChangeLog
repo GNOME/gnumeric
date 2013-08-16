@@ -1,3 +1,9 @@
+2013-08-15  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_autofilter_names): Fix last fix.
+	Sometimes we already have _FilterDatabase as a name.  If so,
+	brutally use it.  Fixes #705947.
+
 2013-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-chart.c (BC_R(shtprops)): check whether we have enough data

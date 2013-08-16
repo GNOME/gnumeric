@@ -3890,10 +3890,19 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 		if (sheet->filters != NULL) {
 			GnmFilter const *filter = sheet->filters->data;
 			GnmParsePos pp;
-			GnmNamedExpr *nexpr = expr_name_new ("_FilterDatabase");
+			GnmNamedExpr *nexpr;
+			const char *name = "_FilterDatabase";
+			gboolean is_new;
+
+			parse_pos_init_sheet (&pp, sheet);
+
+			nexpr = expr_name_lookup (&pp, name);
+			is_new = (nexpr == NULL);
+			if (is_new)
+				nexpr = expr_name_new (name);
+
 			nexpr->is_hidden = TRUE;
 			expr_name_set_is_placeholder (nexpr, FALSE);
-			parse_pos_init_sheet (&pp, sheet);
 			expr_name_set_pos (nexpr, &pp);
 			expr_name_set_expr (nexpr,
 					    gnm_expr_top_new_constant
@@ -3903,7 +3912,9 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 			if (NULL != sheet->filters->next) {
 				/* TODO Warn of lost autofilters */
 			}
-			expr_name_unref (nexpr);
+
+			if (is_new)
+				expr_name_remove (nexpr);
 		}
 	}
 }
