@@ -3,6 +3,7 @@
  * Copyright (C) 1998,1999 Michael Lausch
  * Copyright (C) 2000-2002 Rodrigo Moya
  * Copyright (C) 2006 Vivien Malerba
+ * Copyright (C) 2013 Dmitry Matveev
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -22,7 +23,8 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <libgda/libgda.h>
-#include <libgda/control-center/gdaui-login-dialog.h>
+#include <libgda-ui/libgda-ui.h>
+#include <libgda-ui/gdaui-login.h>
 #include <sql-parser/gda-sql-parser.h>
 #include <string.h>
 
@@ -161,11 +163,12 @@ display_recordset (GdaDataModel *recset, GnmFuncEvalInfo *ei)
 		for (col = 0; col < fieldcount; col++) {
 			const GValue *cv;
 			cv = gda_data_model_get_value_at (recset, col, row, NULL);
-			if (!cv)
+			if (!cv) {
+				value_release (array);
 				return value_new_error (ei->pos, _("Can't obtain data"));
+			}
 			value_array_set (array, col, row,
-					 gnm_value_new_from_gda (cv,
-								 date_conv));
+					 gnm_value_new_from_gda (cv, date_conv));
 		}
 	}
 
@@ -196,6 +199,14 @@ cnc_key_hash_func (CncKey *key)
 	return retval;
 }
 
+static void
+cnc_key_fill (CncKey *key, const gchar *dsn, const gchar *user, const gchar *pass)
+{
+	key->dsn  = g_strdup (dsn  ? dsn  : "");
+	key->user = g_strdup (user ? user : "");
+	key->pass = g_strdup (pass ? pass : "");
+}
+
 static gboolean
 cnc_key_equal_func (CncKey *key1, CncKey *key2)
 {
@@ -223,16 +234,82 @@ cnc_key_free (CncKey *key)
 	g_free (key);
 }
 
+static gchar *
+build_gdadsn_auth_info (const gchar *user, const gchar *pass)
+{
+	gchar *result = NULL;
+
+	if (user && strlen (user) > 0 && pass && strlen (pass) > 0) {
+		gchar *tmp1 = gda_rfc1738_encode (user);
+		gchar *tmp2 = gda_rfc1738_encode (pass);
+		result = g_strdup_printf ("USERNAME=%s;PASSWORD=%s", tmp1, tmp2);
+		g_free (tmp1);
+		g_free (tmp2);
+	}
+
+	return result;
+}
+
+static gboolean
+query_connection_info (const gchar *dsn, const gchar *user, const gchar *password,
+		       gchar **chosen_dsn, gchar **auth_string)
+{
+	GtkWidget  *dialog, *login, *box;
+	GdaDsnInfo *existing;
+	gboolean    retval = FALSE;
+
+	/* FIXME: pass a pointer to parent window */
+	dialog = gtk_dialog_new_with_buttons(_("Database Connection"),
+					     NULL,
+					     GTK_DIALOG_MODAL,
+					     GTK_STOCK_OK,
+					     GTK_RESPONSE_ACCEPT,
+					     GTK_STOCK_CANCEL,
+					     GTK_RESPONSE_REJECT,
+					     NULL);
+
+	login = gdaui_login_new (NULL);
+
+	box = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (GTK_BOX (box), login, TRUE, TRUE, 0);
+	gtk_widget_show (login);
+
+	existing = gda_config_get_dsn_info (dsn);
+	if (existing) {
+		GdaDsnInfo supplied = *existing;
+		gchar *auth = build_gdadsn_auth_info (user, password);
+
+		if (auth)
+			supplied.auth_string = auth;
+
+		gdaui_login_set_connection_information (GDAUI_LOGIN(login), &supplied);
+		g_free (auth);
+	}
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+		const GdaDsnInfo *info = gdaui_login_get_connection_information (GDAUI_LOGIN (login));
+		if (info) {
+			if (info->name)
+				*chosen_dsn = g_strdup (info->name);
+			if (info->auth_string)
+				*auth_string = g_strdup (info->auth_string);
+			retval = TRUE;
+		}
+	}
+
+	gtk_widget_destroy (dialog);
+	return retval;
+}
+
 static GdaConnection *
 open_connection (const gchar *dsn, const gchar *user, const gchar *password, GdaConnectionOptions options)
 {
 	GdaConnection *cnc = NULL;
-	gchar *real_dsn, *real_user, *real_password;
 	GError *error = NULL;
 
 	/* initialize connection pool if first time */
 	if (!libgda_init_done) {
-		gda_init ();
+		gdaui_init ();
 		libgda_init_done = TRUE;
 	}
 
@@ -243,60 +320,52 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 						  (GDestroyNotify) cnc_key_free,
 						  (GDestroyNotify) g_object_unref);
 	else {
-		CncKey key;
-
-		key.dsn = (gchar *) dsn;
-		key.user = (gchar *) user;
-		key.pass = (gchar *) password;
-
-		cnc = g_hash_table_lookup (cnc_hash, &key);
+		CncKey *key = g_new0 (CncKey, 1);
+		cnc_key_fill (key, dsn, user, password);
+		cnc = g_hash_table_lookup (cnc_hash, key);
+		cnc_key_free (key);
 	}
 
 	if (!cnc) {
-		CncKey *key;
-		gchar *auth, *tmp1, *tmp2;
+		gchar *chosen_dsn = NULL, *auth_string = NULL;
 
-		GtkWidget    *dialog = gdaui_login_dialog_new (_("Database Connection"), NULL); /* FIXME: pass a pointer to parent window */
-		GnomeDbLogin *login  = gdaui_login_dialog_get_login_widget (GDAUI_LOGIN_DIALOG (dialog));
-		gnome_db_login_set_dsn (login, dsn);
-		gnome_db_login_set_username (login, user);
-		gnome_db_login_set_password (login, password);
-		if (gdaui_login_dialog_run (GDAUI_LOGIN_DIALOG (dialog))) {
-			real_dsn = g_strdup (gdauilogin_get_dsn (login));
-			real_user = g_strdup (gdauilogin_get_username (login));
-			real_password = g_strdup (gdauilogin_get_password (login));
-			gtk_widget_destroy (dialog);
-		} else {
-			gtk_widget_destroy (dialog);
-			return NULL;
-		}
-		tmp1 = gda_rfc1738_encode (real_user);
-		tmp2 = gda_rfc1738_encode (real_password);
-		auth = g_strdup_printf ("USERNAME=%s;PASSWORD=%s", tmp1, tmp2);
-		g_free (tmp1);
-		g_free (tmp2);
-		cnc = gda_connection_open_from_dsn (real_dsn, auth, options, &error);
-		if (!cnc) {
-			g_warning ("Libgda error: %s\n", error->message);
-			g_error_free (error);
+		if (query_connection_info (dsn, user, password, &chosen_dsn, &auth_string) && chosen_dsn) {
+			cnc = gda_connection_open_from_dsn (chosen_dsn, auth_string, options, &error);
+			if (!cnc) {
+				g_warning ("Libgda error: %s\n", error->message);
+				g_error_free (error);
+			} else {
+				gchar  *real_user = NULL, *real_pass = NULL;
+				CncKey *key = g_new0 (CncKey, 1);
+
+				if (auth_string) {
+					GdaQuarkList *ql = gda_quark_list_new_from_string (auth_string);
+					real_user = g_strdup (gda_quark_list_find (ql, "USERNAME"));
+					real_pass = g_strdup (gda_quark_list_find (ql, "PASSWORD"));
+					gda_quark_list_free (ql);
+				}
+
+				cnc_key_fill (key, chosen_dsn, real_user, real_pass);
+				g_hash_table_insert (cnc_hash, key, cnc);
+				g_free (real_user);
+				g_free (real_pass);
+			}
 		}
 
-		g_free (real_dsn);
-		g_free (real_user);
-		g_free (real_password);
-		g_free (auth);
-
-		key = g_new0 (CncKey, 1);
-		if (dsn)
-			key->dsn = g_strdup (dsn);
-		if (user)
-			key->user = g_strdup (user);
-		if (password)
-			key->pass = g_strdup (password);
-		g_hash_table_insert (cnc_hash, key, cnc);
+		g_free (chosen_dsn);
+		g_free (auth_string);
 	}
 
 	return cnc;
+}
+
+static GnmValue *
+conn_error (GnmFuncEvalInfo *ei, const gchar *dsn_name)
+{
+	gchar    *tmp = g_strdup_printf (_("Error: could not open connection to %s"), dsn_name);
+	GnmValue *ret = value_new_error(ei->pos, tmp);
+	g_free (tmp);
+	return ret;
 }
 
 /*
@@ -340,9 +409,8 @@ gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
 		return value_new_error (ei->pos, _("Format: execSQL(dsn,user,password,sql)"));
 
 	cnc = open_connection (dsn_name, user_name, password, GDA_CONNECTION_OPTIONS_READ_ONLY);
-	if (!GDA_IS_CONNECTION (cnc)) {
-		return value_new_error(ei->pos, _("Error: could not open connection to %s"));
-	}
+	if (!GDA_IS_CONNECTION (cnc))
+		return conn_error (ei, dsn_name);
 
 	/* execute command */
 	parser = gda_connection_create_parser (cnc);
@@ -418,9 +486,8 @@ gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		return value_new_error (ei->pos, _("Format: readDBTable(dsn,user,password,table)"));
 
 	cnc = open_connection (dsn_name, user_name, password, GDA_CONNECTION_OPTIONS_READ_ONLY);
-	if (!GDA_IS_CONNECTION (cnc)) {
-		return value_new_error(ei->pos, _("Error: could not open connection to %s"));
-	}
+	if (!GDA_IS_CONNECTION (cnc))
+		return conn_error (ei, dsn_name);
 
 	/* execute command */
 	parser = gda_connection_create_parser (cnc);
@@ -466,12 +533,9 @@ view_data_sources (GnmAction const *action, WorkbookControl *wbc)
 	argv[0] = gda_get_application_exec_path ("gda-control-center");
 	argv[1] = NULL;
 	if (!g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL)) {
-		char *msg = g_strdup_printf (
-			_("Could not run GNOME database configuration tool ('%s')"),
-			argv[0]);
-		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)),
-			GTK_MESSAGE_INFO,  msg);
-		g_free (msg);
+		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_INFO,
+				      _("Could not run GNOME database configuration tool ('%s')"),
+				      argv[0]);
 	}
 	g_free (argv[0]);
 }
@@ -490,13 +554,7 @@ ModulePluginUIActions const gdaif_ui_actions[] = {
 };
 
 GnmFuncDescriptor gdaif_functions[] = {
-	{
-		"execSQL",	"ssss", "dsn,username,password,sql",
-		help_execSQL, &gnumeric_execSQL, NULL, NULL, NULL
-	},
-	{
-		"readDBTable", "ssss", "dsn,username,password,table",
-		help_readDBTable, &gnumeric_readDBTable, NULL, NULL, NULL
-	},
+	{ "execSQL",     "ssss", help_execSQL,     gnumeric_execSQL, 	 NULL },
+	{ "readDBTable", "ssss", help_readDBTable, gnumeric_readDBTable, NULL },
 	{NULL}
 };

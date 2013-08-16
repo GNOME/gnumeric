@@ -23,6 +23,9 @@ Andreas:
 	* Use current GTK style when printing sheet object widgets from Gnumeric. [#705684]
 	* Scale tiny buttonssheet objects when printing. [#705689]
 
+Dmitry Matveev:
+	* Bring back gda support.  [#604690]
+
 Jean:
 	* Fix text wrap inside sheet objects. [#704417]
 	* Fix export of scatter/bubble plots to xls. [#705311]
