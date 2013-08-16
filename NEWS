@@ -40,6 +40,7 @@ Morten:
 	* Improve handling of large-area conditional styles.
 	* Fix (?) Applix pattern importer.  [#705946]
 	* Fix FMR.  [Part of #705913]
+	* Fix sheet removal dep problem.  [#706095]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.4

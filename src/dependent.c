@@ -2394,6 +2394,7 @@ dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet)
 					 gnm_dep_set_expr_undo_new (dep));
 			dependent_set_expr (dep, newtree);
 			gnm_expr_top_unref (newtree);
+			dependent_link (dep);
 		}
 	}
 	g_slist_free (deplist);

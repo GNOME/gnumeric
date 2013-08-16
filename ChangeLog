@@ -1,5 +1,8 @@
 2013-08-15  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (dep_hash_destroy): Relink the changed dep.
+	Fixes #706095.
+
 	* src/sheet.c (sheet_destroy_contents): Also get rid of solver
 	parameters.  See bug 705913, comment 6.
 
