@@ -1,3 +1,8 @@
+2013-08-16  Morten Welinder  <terra@gnome.org>
+
+	* common.supp: A few more leak suppressions.  We actually pass
+	valgrind tests on my system now -- first time in years.
+
 2013-07-10  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.4

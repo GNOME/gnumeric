@@ -730,3 +730,35 @@
     ...
     fun:snd_config_hook_load
 }
+
+{
+   GLIBC/DL_INIT/MLK
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   ...
+   fun:call_init.part.0
+   fun:_dl_init
+}
+
+{
+   GLIB/G_OPTION_CONTEXT_PARSE/MLK
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:g_closure_new_simple
+   fun:g_cclosure_new
+   fun:g_signal_connect_data
+   ...
+   fun:g_option_context_parse
+}
+
+{
+   DBUS/G_DBUS_CONNECTION_CALL/MLK
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:g_variant_new_va
+   ...
+   fun:g_dbus_connection_call
+}
