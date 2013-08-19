@@ -1,3 +1,7 @@
+2013-08-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.5
+
 2013-08-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_autofilter_names): Fix last fix.

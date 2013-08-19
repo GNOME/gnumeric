@@ -1,3 +1,7 @@
+2013-08-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.5
+
 2013-08-15  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dep_hash_destroy): Relink the changed dep.

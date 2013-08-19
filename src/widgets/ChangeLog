@@ -1,3 +1,7 @@
+2013-08-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.5
+
 2013-08-03  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c: Move towards not guess token numbers.

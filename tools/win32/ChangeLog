@@ -1,3 +1,7 @@
+2013-08-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.5
+
 2013-08-12  Morten Welinder  <terra@gnome.org>
 
 	* moduleset.in: Fix gdk-pixbuf generation of loaders.cache
