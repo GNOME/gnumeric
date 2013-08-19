@@ -753,7 +753,7 @@
    fun:calloc
    fun:g_malloc0
    fun:g_closure_new_simple
-   fun:g_cclosure_new
+   fun:*
    fun:g_signal_connect_data
    ...
    fun:g_option_context_parse
@@ -767,4 +767,12 @@
    fun:g_variant_new_va
    ...
    fun:g_dbus_connection_call
+}
+
+{
+   GLIB/G_QUARK_FROM_STATIC_STRING/MLK
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_quark_from_static_string
 }
