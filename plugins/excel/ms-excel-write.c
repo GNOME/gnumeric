@@ -1508,12 +1508,12 @@ static void
 excel_write_prep_validations (ExcelWriteSheet *esheet)
 {
 	GnmStyleList *ptr = esheet->validations;
-	GnmStyleRegion const *sr;
-	GnmValidation  const *v;
 
 	for (; ptr != NULL ; ptr = ptr->next) {
-		sr = ptr->data;
-		v  = gnm_style_get_validation (sr->style);
+		GnmStyleRegion const *sr = ptr->data;
+		GnmValidation  const *v = gnm_style_get_validation (sr->style);
+		if (!v)
+			continue;
 		if (v->deps[0].texpr != NULL)
 			excel_write_prep_expr (esheet->ewb, v->deps[0].texpr);
 		if (v->deps[1].texpr != NULL)

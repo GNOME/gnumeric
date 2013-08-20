@@ -1,7 +1,7 @@
 Gnumeric 1.12.6
 
 Morten:
-	* Fix crash on corrupted files.  [#706413]
+	* Fix crash on corrupted files.  [#706413]  [#706417]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.5

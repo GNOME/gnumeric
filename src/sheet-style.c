@@ -816,7 +816,7 @@ sheet_style_shutdown (Sheet *sheet)
 
 /**
  * sheet_style_set_auto_pattern_color:
- * @sheet:         The sheet
+ * @sheet: The sheet
  * @grid_color: The color
  *
  * Set the color for rendering auto colored patterns in this sheet.
@@ -2954,11 +2954,11 @@ style_validation_filter (GnmStyle const *style)
 
 /**
  * sheet_style_collect_validations:
- * @sheet:
- * @r:
+ * @sheet: the to trawl
+ * @r: (allow-none): range to restrict to
  *
- * Returns: (transfer full): a list of areas with validation, Caller is
- * responsible for freeing.
+ * Returns: (transfer full): a list of areas with validation or input
+ * message.
  **/
 GnmStyleList *
 sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
