@@ -776,3 +776,12 @@
    fun:g_malloc
    fun:g_quark_from_static_string
 }
+
+{
+   ZLIB/INFLATERESET2/UMR
+   Memcheck:Cond
+   fun:inflateReset2
+   ...
+   fun:gdk_pixbuf_loader_write
+   fun:new_from_data
+}
