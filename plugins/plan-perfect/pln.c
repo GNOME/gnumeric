@@ -309,20 +309,26 @@ pln_get_addr (GnmParsePos const *pp, guint8 const *ch)
 }
 
 static char *
-pln_convert_expr (GnmParsePos const *pp, guint8 const *ch)
+pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 {
 	GString *expr = g_string_new (NULL);
 	guint8 *str;
 	guint8 const *end;
-	int i, len, code;
+	int len, code;
+	unsigned ui;
+
+	g_return_val_if_fail (datalen >= 2, g_string_free (expr, FALSE));
 
 	/* Expressions are stored INFIX so it is easier to just generate text */
-	i = GSF_LE_GET_GUINT16 (ch); ch += 2;
+	ui = GSF_LE_GET_GUINT16 (ch);
+	g_return_val_if_fail (ui <= datalen - 2, g_string_free (expr, FALSE));
+
+	ch += 2;
 #if DEBUG_EXPR
 	puts (cellpos_as_string (&pp->eval));
-	gsf_mem_dump (ch, i);
+	gsf_mem_dump (ch, ui);
 #endif
-	for (end = ch + i ; ch < end ; ) {
+	for (end = ch + ui ; ch < end ; ) {
 		code = *ch++;
 		switch (code) {
 		case  1: g_string_append_c (expr, '+');	break;
@@ -382,9 +388,11 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch)
 		case 23: g_string_append_c (expr, '(');	break;
 		case 24: g_string_append_c (expr, ')');	break;
 
-		case 25: for (i = *ch++; i-- > 0 ; ) /* Spaces */
-				g_string_append_c (expr, ' ');
+		case 25: {
+			unsigned sp = *ch++;
+			go_string_append_c_n (expr, ' ', sp);
 			break;
+		}
 
 		case 26:	/* Special formula error code */
 			g_string_append (expr, "??ERROR??");
@@ -622,7 +630,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 		if (length != 0) {
 			data = gsf_input_read (input, length, NULL);
 			if (cell != NULL && data != NULL) {
-				char *expr_txt = pln_convert_expr (&pp, data);
+				char *expr_txt = pln_convert_expr (&pp, data, length);
 
 				if (expr_txt != NULL) {
 					texpr = gnm_expr_parse_str (expr_txt, &pp,
