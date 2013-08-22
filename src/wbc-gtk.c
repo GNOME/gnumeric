@@ -5375,6 +5375,7 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	editor->data_type	= data_type;
 	editor->entry		= gnm_expr_entry_new (wbcg, TRUE);
 	editor->idle            = 0;
+	editor->changed		= FALSE;
 	g_object_weak_ref (G_OBJECT (editor->dataset),
 		(GWeakNotify) cb_dim_editor_weakref_notify, editor);
 
