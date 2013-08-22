@@ -113,9 +113,11 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (ptr->type == XML_TEXT_NODE) {
-			html_append_text (buf, ptr->content);
-		}
-		else if (ptr->type == XML_ELEMENT_NODE) {
+			if (g_utf8_validate (ptr->content, -1, NULL))
+				html_append_text (buf, ptr->content);
+			else
+				g_string_append (buf, _("[Warning: Invalid text string has been removed.]"));
+		} else if (ptr->type == XML_ELEMENT_NODE) {
 			if (first) {
 				if (xmlStrEqual (ptr->name, CC2XML ("i"))
 				    || xmlStrEqual (ptr->name, CC2XML ("em")))

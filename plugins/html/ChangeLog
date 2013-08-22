@@ -1,3 +1,7 @@
+2013-08-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* html_read.c (html_read_content): check for invalid UTF8
+
 2013-08-19  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.5
