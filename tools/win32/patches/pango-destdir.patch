@@ -1,0 +1,30 @@
+--- pango-1.35.0/modules/Makefile.am~	2012-08-18 13:36:47.000000000 -0400
++++ pango-1.35.0/modules/Makefile.am	2013-08-22 20:13:50.000000000 -0400
+@@ -22,13 +22,13 @@
+ endif
+ 
+ install-data-local: $(top_builddir)/pango/pango-querymodules$(EXEEXT)
+-	@if $(RUN_QUERY_MODULES_TEST) && test -z "$(DESTDIR)" ; then 	\
+-	  echo $(mkinstalldirs) $(DESTDIR)$(sysconfdir)/pango \&\& 	\
++	@if $(RUN_QUERY_MODULES_TEST) ; then 	\
++	  echo $(mkinstalldirs) $(sysconfdir)/pango \&\& 	\
+ 	  $(top_builddir)/pango/pango-querymodules$(EXEEXT) 		\
+-		\> $(DESTDIR)$(sysconfdir)/pango/pango.modules ;	\
+-	  $(mkinstalldirs) $(DESTDIR)$(sysconfdir)/pango && 		\
++		\> $(sysconfdir)/pango/pango.modules ;	\
++	  $(mkinstalldirs) $(sysconfdir)/pango && 		\
+ 	  $(top_builddir)/pango/pango-querymodules$(EXEEXT) 		\
+-		> $(DESTDIR)$(sysconfdir)/pango/pango.modules ;		\
++		> $(sysconfdir)/pango/pango.modules ;		\
+ 	else								\
+ 	  echo "***" ; 							\
+ 	  echo "*** Warning: $(sysconfdir)/pango/pango.modules" ; 	\
+@@ -39,7 +39,7 @@
+ 	fi
+ 
+ uninstall-local:
+-	$(RM) $(DESTDIR)$(sysconfdir)/pango/pango.modules
++	$(RM) $(sysconfdir)/pango/pango.modules
+ 
+ pango.modules:						\
+ 	$(SUBDIRS)					\

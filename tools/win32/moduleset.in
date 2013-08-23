@@ -185,6 +185,7 @@
 
     <autotools id="pango">
 	<branch repo="gnome.org" module="sources/pango/1.35/pango-1.35.0.tar.xz" version="1.35.0">
+	  <patch file="&patch_dir;pango-destdir.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="freetype"/>
