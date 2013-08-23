@@ -1,0 +1,223 @@
+From b89a9eeb086898ef0c4eeefacb548c933dfb43b6 Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Wed, 14 Aug 2013 18:46:15 +0800
+Subject: [PATCH 2/2] gdk/win32/gdkdevice-virtual.c: Various fixes
+
+...for the gdk_cursor_new_from_surface work (commit b2113b73) where the
+types of some parameters were changed, and also to silence a critical
+GDK_IS_DEVICE when a menu item is selected (courtesy of LE GARREC Vincent
+from bug 696756).
+---
+ gdk/win32/gdkdevice-virtual.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/gdk/win32/gdkdevice-virtual.c b/gdk/win32/gdkdevice-virtual.c
+index 42a73e2..1cf374a 100644
+--- a/gdk/win32/gdkdevice-virtual.c
++++ b/gdk/win32/gdkdevice-virtual.c
+@@ -41,8 +41,8 @@ static void gdk_device_virtual_set_window_cursor (GdkDevice *device,
+ 						  GdkCursor *cursor);
+ static void gdk_device_virtual_warp (GdkDevice *device,
+ 				     GdkScreen *screen,
+-				     gint       x,
+-				     gint       y);
++				     gdouble   x,
++				     gdouble   y);
+ static void gdk_device_virtual_query_state (GdkDevice        *device,
+ 					    GdkWindow        *window,
+ 					    GdkWindow       **root_window,
+@@ -234,8 +234,8 @@ gdk_device_virtual_set_window_cursor (GdkDevice *device,
+ static void
+ gdk_device_virtual_warp (GdkDevice *device,
+ 			 GdkScreen *screen,
+-			 gint       x,
+-			 gint       y)
++			 gdouble   x,
++			 gdouble   y)
+ {
+   SetCursorPos (x - _gdk_offset_x, y - _gdk_offset_y);
+ }
+@@ -330,7 +330,7 @@
+       ReleaseCapture ();
+     }
+ 
+-  _gdk_display_device_grab_update (display, device, NULL, 0);
++  _gdk_display_device_grab_update (display, device, device, 0);
+ }
+ 
+ static void
+-- 
+1.8.3.msysgit.0
+
+From d2f274c5915d91139a836e79a2170fccea8ed1a1 Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Wed, 21 Aug 2013 21:54:09 +0800
+Subject: [PATCH 1/2] GDK/GTK on Windows: Fix build
+
+Due to the work on gdk_cursor_new_from_surface (commit b2113b73),
+get_cursor_for_pixbuf() in GdkDisplayClass was converted to
+get_cursor_for_surface(), which means the GDK Win32 backend needs to be
+updated for the code to build and run on Windows, plus some function
+prototypes and declarations/calls need to be updated as well.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=705980
+---
+ gdk/win32/gdkcursor-win32.c  |   28 ++++++++++++++++++++++------
+ gdk/win32/gdkdevice-wintab.c |    8 ++++----
+ gdk/win32/gdkdisplay-win32.c |    2 +-
+ gdk/win32/gdkprivate-win32.h |    8 ++++----
+ gdk/win32/gdkwin32misc.h     |    4 +++-
+ gtk/gtkicontheme.c           |    2 +-
+ 6 files changed, 35 insertions(+), 17 deletions(-)
+
+diff --git a/gdk/win32/gdkcursor-win32.c b/gdk/win32/gdkcursor-win32.c
+index 1ce7cb1..a0cd1e5 100644
+--- a/gdk/win32/gdkcursor-win32.c
++++ b/gdk/win32/gdkcursor-win32.c
+@@ -250,7 +250,9 @@ _gdk_win32_display_get_cursor_for_name (GdkDisplay  *display,
+ }
+ 
+ GdkPixbuf *
+-gdk_win32_icon_to_pixbuf_libgtk_only (HICON hicon, gint *x_hot, gint *y_hot)
++gdk_win32_icon_to_pixbuf_libgtk_only (HICON hicon,
++                                      gdouble *x_hot,
++                                      gdouble *y_hot)
+ {
+   GdkPixbuf *pixbuf = NULL;
+   ICONINFO ii;
+@@ -430,7 +432,7 @@ _gdk_win32_cursor_get_surface (GdkCursor *cursor,
+ 			       gdouble *y_hot)
+ {
+   GdkPixbuf *pixbuf;
+-  cairo_surface_t *surface
++  cairo_surface_t *surface;
+ 
+   g_return_val_if_fail (cursor != NULL, NULL);
+ 
+@@ -446,19 +448,33 @@ _gdk_win32_cursor_get_surface (GdkCursor *cursor,
+ }
+ 
+ GdkCursor *
+-_gdk_win32_display_get_cursor_for_pixbuf (GdkDisplay *display, 
+-					  GdkPixbuf  *pixbuf,
+-					  gint        x,
+-					  gint        y)
++_gdk_win32_display_get_cursor_for_surface (GdkDisplay *display,
++					  cairo_surface_t  *surface,
++					  gdouble          x,
++					  gdouble          y)
+ {
+   HCURSOR hcursor;
++  GdkPixbuf *pixbuf;
++  gint width, height;
+ 
+   g_return_val_if_fail (display == _gdk_display, NULL);
++  g_return_val_if_fail (surface != NULL, NULL);
++
++  width = cairo_image_surface_get_width (surface);
++  height = cairo_image_surface_get_height (surface);
++  pixbuf = gdk_pixbuf_get_from_surface (surface,
++                                        0,
++                                        0,
++                                        width,
++                                        height);
++
+   g_return_val_if_fail (GDK_IS_PIXBUF (pixbuf), NULL);
+   g_return_val_if_fail (0 <= x && x < gdk_pixbuf_get_width (pixbuf), NULL);
+   g_return_val_if_fail (0 <= y && y < gdk_pixbuf_get_height (pixbuf), NULL);
+ 
+   hcursor = _gdk_win32_pixbuf_to_hcursor (pixbuf, x, y);
++
++  g_object_unref (pixbuf);
+   if (!hcursor)
+     return NULL;
+   return cursor_new_from_hcursor (hcursor, GDK_CURSOR_IS_PIXMAP);
+diff --git a/gdk/win32/gdkdevice-wintab.c b/gdk/win32/gdkdevice-wintab.c
+index 369821c..199e7aa 100644
+--- a/gdk/win32/gdkdevice-wintab.c
++++ b/gdk/win32/gdkdevice-wintab.c
+@@ -40,8 +40,8 @@ static void gdk_device_wintab_set_window_cursor (GdkDevice *device,
+                                                  GdkCursor *cursor);
+ static void gdk_device_wintab_warp (GdkDevice *device,
+                                     GdkScreen *screen,
+-                                    gint       x,
+-                                    gint       y);
++                                    gdouble   x,
++                                    gdouble   y);
+ static void gdk_device_wintab_query_state (GdkDevice        *device,
+                                            GdkWindow        *window,
+                                            GdkWindow       **root_window,
+@@ -170,8 +170,8 @@ gdk_device_wintab_set_window_cursor (GdkDevice *device,
+ static void
+ gdk_device_wintab_warp (GdkDevice *device,
+                         GdkScreen *screen,
+-                        gint       x,
+-                        gint       y)
++                        gdouble   x,
++                        gdouble   y)
+ {
+ }
+ 
+diff --git a/gdk/win32/gdkdisplay-win32.c b/gdk/win32/gdkdisplay-win32.c
+index d03e272..3f83a83 100644
+--- a/gdk/win32/gdkdisplay-win32.c
++++ b/gdk/win32/gdkdisplay-win32.c
+@@ -658,7 +658,7 @@ gdk_win32_display_class_init (GdkWin32DisplayClass *klass)
+   //? display_class->get_app_launch_context = _gdk_win32_display_get_app_launch_context;
+   display_class->get_cursor_for_type = _gdk_win32_display_get_cursor_for_type;
+   display_class->get_cursor_for_name = _gdk_win32_display_get_cursor_for_name;
+-  display_class->get_cursor_for_pixbuf = _gdk_win32_display_get_cursor_for_pixbuf;
++  display_class->get_cursor_for_surface = _gdk_win32_display_get_cursor_for_surface;
+   display_class->get_default_cursor_size = _gdk_win32_display_get_default_cursor_size;
+   display_class->get_maximal_cursor_size = _gdk_win32_display_get_maximal_cursor_size;
+   display_class->supports_cursor_alpha = _gdk_win32_display_supports_cursor_alpha;
+diff --git a/gdk/win32/gdkprivate-win32.h b/gdk/win32/gdkprivate-win32.h
+index 3c2fed9..acc3fca 100644
+--- a/gdk/win32/gdkprivate-win32.h
++++ b/gdk/win32/gdkprivate-win32.h
+@@ -373,10 +373,10 @@ GdkCursor *_gdk_win32_display_get_cursor_for_type (GdkDisplay   *display,
+ 						   GdkCursorType cursor_type);
+ GdkCursor *_gdk_win32_display_get_cursor_for_name (GdkDisplay  *display,
+ 						   const gchar *name);
+-GdkCursor *_gdk_win32_display_get_cursor_for_pixbuf (GdkDisplay *display, 
+-						     GdkPixbuf  *pixbuf,
+-						     gint        x,
+-						     gint        y);
++GdkCursor *_gdk_win32_display_get_cursor_for_surface (GdkDisplay *display,
++						     cairo_surface_t  *surface,
++						     gdouble          x,
++						     gdouble          y);
+ void     _gdk_win32_display_get_default_cursor_size (GdkDisplay  *display,
+ 						     guint       *width,
+ 						     guint       *height);
+diff --git a/gdk/win32/gdkwin32misc.h b/gdk/win32/gdkwin32misc.h
+index 36b5215..dadb4e2 100644
+--- a/gdk/win32/gdkwin32misc.h
++++ b/gdk/win32/gdkwin32misc.h
+@@ -98,7 +98,9 @@ GdkWindow *   gdk_win32_window_lookup_for_display (GdkDisplay *display,
+ 
+ /* For internal GTK use only */
+ GDK_AVAILABLE_IN_ALL
+-GdkPixbuf    *gdk_win32_icon_to_pixbuf_libgtk_only (HICON hicon);
++GdkPixbuf    *gdk_win32_icon_to_pixbuf_libgtk_only (HICON hicon,
++                                                    gdouble *x_hot,
++                                                    gdouble *y_hot);
+ GDK_AVAILABLE_IN_ALL
+ HICON         gdk_win32_pixbuf_to_hicon_libgtk_only (GdkPixbuf *pixbuf);
+ GDK_AVAILABLE_IN_ALL
+diff --git a/gtk/gtkicontheme.c b/gtk/gtkicontheme.c
+index b1e02a8..2ce68fd 100644
+--- a/gtk/gtkicontheme.c
++++ b/gtk/gtkicontheme.c
+@@ -1690,7 +1690,7 @@ choose_icon (GtkIconTheme       *icon_theme,
+       if (hIcon)
+ 	{
+ 	  icon_info = icon_info_new ();
+-	  icon_info->cache_pixbuf = gdk_win32_icon_to_pixbuf_libgtk_only (hIcon);
++	  icon_info->cache_pixbuf = gdk_win32_icon_to_pixbuf_libgtk_only (hIcon, NULL, NULL);
+ 	  DestroyIcon (hIcon);
+           icon_info->dir_type = ICON_THEME_DIR_UNTHEMED;
+           icon_info->dir_size = size;
+-- 
+1.7.7.1.msysgit.0
+

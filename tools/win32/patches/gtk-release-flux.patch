@@ -162,3 +162,13 @@ index 60fbc31..5da0b35 100644
 -- 
 1.8.0.3
 
+--- gtk+-3.9.12/gtk/Makefile.am~	2013-08-23 17:54:38.000000000 -0400
++++ gtk+-3.9.12/gtk/Makefile.am	2013-08-23 17:55:00.000000000 -0400
+@@ -1012,7 +1012,6 @@
+ # No wayland gtkdnd-wayland.c yet
+ gtk_clipboard_dnd_c_sources = 	\
+ 	gtkclipboard.c \
+-	gtkclipboard-wayland.c \
+ 	gtkdnd.c
+ endif
+ 

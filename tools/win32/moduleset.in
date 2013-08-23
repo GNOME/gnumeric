@@ -38,7 +38,7 @@
 	<source href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.12.tar.bz2"/>
     </tarball> -->
 
-    <tarball id="libffi">
+    <tarball id="libffi" version="3.0.13">
       <source href="ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz"/>
     </tarball>
 
@@ -216,12 +216,12 @@
     </autotools>
 
     <autotools id="gtk+">
-	<branch repo="gnome.org" module="sources/gtk+/3.9/gtk+-3.9.10.tar.xz"
-		version="3.9.10">
+	<branch repo="gnome.org" module="sources/gtk+/3.9/gtk+-3.9.12.tar.xz"
+		version="3.9.12">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch"/>
 	    <patch file="&patch_dir;gtk-release-flux.patch" strip="1"/>
-	    <patch file="&patch_dir;gtk-b705068.patch" strip="1"/>
+	    <patch file="&patch_dir;gtk-b705980.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
