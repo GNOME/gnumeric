@@ -1,6 +1,9 @@
 2013-08-26  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (cell_tile_dump): New function for debugging.
+	(internal_style_list): Add fast pre-optimization to bring down the
+	number of entries before we start messing with hashes.  Fixes
+	#699045.
 
 2013-08-22  Jean Brefort  <jean.brefort@normalesup.org>
 

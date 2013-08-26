@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* Fix crash on corrupted files.  [#706413]  [#706417]
+	* Fix save style performance issue.  [#699045]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.5

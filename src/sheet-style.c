@@ -2787,6 +2787,19 @@ merge_horizontal_stripes (ISL *data)
 	}
 }
 
+static int
+by_col_row (GnmStyleRegion **a, GnmStyleRegion **b)
+{
+	int d;
+
+	d = (*a)->range.start.col - (*b)->range.start.col;
+	if (d)
+		return d;
+
+	d = (*a)->range.start.row - (*b)->range.start.row;
+	return d;
+}
+
 static GnmStyleList *
 internal_style_list (Sheet const *sheet, GnmRange const *r,
 		     gboolean (*style_equal) (GnmStyle const *a, GnmStyle const *b),
@@ -2825,6 +2838,17 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 	sheet_area = (guint64)range_height (r) * range_width (r);
 	if (data.style_filter ? (data.area > sheet_area) : (data.area != sheet_area))
 		g_warning ("Strange size issue in internal_style_list");
+
+	/*
+	 * Simple, fast optimization first.  For the file underlying
+	 * bug 699045 this brings down 332688 entries to just 86.
+	 */
+	if (ui = data.accum->len >= 2) {
+		g_ptr_array_sort (data.accum, (GCompareFunc)by_col_row);
+		for (ui = data.accum->len - 1; ui > 0; ui--) {
+			try_merge_pair (&data, ui - 1, ui);
+		}
+	}
 
 	/* Populate hashes.  */
 	for (ui = 0; ui < data.accum->len; ui++) {
