@@ -3134,6 +3134,55 @@ sheet_style_range_foreach (Sheet const *sheet, GnmRange const *r,
 /* ------------------------------------------------------------------------- */
 
 static void
+cell_tile_dump (CellTile **tile, int level, CellTileOptimize *data,
+		int ccol, int crow)
+{
+	CellTileType type;
+	int const w = tile_widths[level];
+	int const h = tile_heights[level];
+	GnmRange rng;
+	const char *indent = "";
+
+	type = (*tile)->type;
+
+	range_init (&rng,
+		    ccol, crow,
+		    MIN (ccol + tile_widths[level + 1] - 1,
+			 data->ss->max_cols - 1),
+		    MIN (crow + tile_heights[level + 1] - 1,
+			 data->ss->max_rows - 1));
+
+	g_printerr ("%s%s: type %s\n",
+		    indent,
+		    range_as_string (&rng),
+		    tile_type_str[type]);
+
+	if (type == TILE_PTR_MATRIX) {
+		int i;
+
+		for (i = 0; i < TILE_SIZE_COL * TILE_SIZE_ROW; i++) {
+			CellTile **subtile = (*tile)->ptr_matrix.ptr + i;
+			int c = i % TILE_SIZE_COL;
+			int r = i / TILE_SIZE_COL;
+			cell_tile_dump (subtile, level - 1, data,
+					ccol + w * c,
+					crow + h * r);
+		}
+	} else {
+		int i;
+
+		for (i = 0; i < tile_size[type]; i++) {
+			g_printerr ("%s: %d %p\n",
+				    indent,
+				    i,
+				    (*tile)->style_any.style[i]);
+		}
+	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void
 cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 		    int ccol, int crow)
 {
@@ -3364,8 +3413,12 @@ sheet_style_optimize (Sheet *sheet)
 	data.ss = gnm_sheet_get_size (sheet);
 	data.recursion = TRUE;
 
-	if (debug_style_optimize)
+	if (debug_style_optimize) {
 		g_printerr ("Optimizing %s\n", sheet->name_unquoted);
+		cell_tile_dump (&sheet->style_data->styles,
+				sheet->tile_top_level, &data,
+				0, 0);
+	}
 
 	verify = gnm_debug_flag ("style-optimize-verify");
 	pre = verify ? sample_styles (sheet) : NULL;
