@@ -2843,7 +2843,7 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 	 * Simple, fast optimization first.  For the file underlying
 	 * bug 699045 this brings down 332688 entries to just 86.
 	 */
-	if (ui = data.accum->len >= 2) {
+	if (data.accum->len >= 2) {
 		g_ptr_array_sort (data.accum, (GCompareFunc)by_col_row);
 		for (ui = data.accum->len - 1; ui > 0; ui--) {
 			try_merge_pair (&data, ui - 1, ui);
