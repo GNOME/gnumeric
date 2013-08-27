@@ -930,20 +930,7 @@ static GnmFuncHelp const help_gamma[] = {
 static GnmValue *
 gnumeric_gamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x = value_get_as_float (argv[0]);
-	gboolean x_is_integer = (x == gnm_floor (x));
-
-	if (x < 0 && x_is_integer)
-		return value_new_error_NUM (ei->pos);
-
-	if (x_is_integer)
-		return value_new_float (fact (x - 1));
-	else {
-		gnm_float res = gnm_exp (gnm_lgamma (x));
-		if (x < 0 && gnm_fmod (gnm_floor (-x), 2.0) == 0.0)
-			res = 0 - res;
-		return value_new_float (res);
-	}
+	return value_new_float (gnm_gamma (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
