@@ -1,3 +1,7 @@
+2013-08-27  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.6
+
 2013-08-27  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_gamma): Use new gnm_gamma.

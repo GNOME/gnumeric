@@ -1,3 +1,7 @@
+2013-08-27  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.6
+
 2013-08-26  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (cell_tile_dump): New function for debugging.
