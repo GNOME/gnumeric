@@ -63,6 +63,14 @@
  */
 
 /**
+ * gamma:
+ * @x: a number
+ *
+ * Returns: gamma(@x) for for positive or non-integer @x.
+ */
+
+
+/**
  * beta:
  * @a: a number
  * @b: a number

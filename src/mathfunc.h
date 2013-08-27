@@ -37,6 +37,7 @@ gnm_float logspace_sub (gnm_float logx, gnm_float logy);
 gnm_float stirlerr(gnm_float n);
 gnm_float gnm_owent (gnm_float h, gnm_float a);
 gnm_float pochhammer (gnm_float x, gnm_float n, gboolean give_log);
+gnm_float gnm_gamma (gnm_float x);
 
 gnm_float gnm_cot (gnm_float x);
 gnm_float gnm_acot (gnm_float x);
@@ -47,7 +48,9 @@ gnm_float beta (gnm_float a, gnm_float b);
 gnm_float lbeta3 (gnm_float a, gnm_float b, int *sign);
 
 gnm_float bessel_i (gnm_float x, gnm_float alpha, gnm_float expo);
+gnm_float bessel_j (gnm_float x, gnm_float alpha);
 gnm_float bessel_k (gnm_float x, gnm_float alpha, gnm_float expo);
+gnm_float bessel_y (gnm_float x, gnm_float alpha);
 
 /* "d": density.  */
 /* "p": distribution function.  */
