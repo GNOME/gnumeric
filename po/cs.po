@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-22 06:07+0000\n"
-"PO-Revision-Date: 2013-08-22 20:38+0200\n"
+"POT-Creation-Date: 2013-08-27 20:43+0000\n"
+"PO-Revision-Date: 2013-08-28 10:52+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -12311,23 +12311,42 @@ msgstr ""
 "Spuštěním „%s --help“ si zobrazíte úplný seznam dostupných přepínačů "
 "příkazové řádky.\n"
 
-#: ../src/mathfunc.c:3894
+#: ../src/mathfunc.c:3918
 msgid "bessel_i allocation error"
-msgstr "chyba alokace bessel_i"
+msgstr "chyba alokace paměti pro funkci bessel_i"
 
-#: ../src/mathfunc.c:3902 ../src/mathfunc.c:3905
+#: ../src/mathfunc.c:3926 ../src/mathfunc.c:3929
 msgid "bessel_i(%"
 msgstr "bessel_i(%"
 
-#: ../src/mathfunc.c:4365
-msgid "bessel_k allocation error"
-msgstr "chyba alokace bessel_k"
+#: ../src/mathfunc.c:4395
+msgid "bessel_j allocation error"
+msgstr "chyba alokace paměti pro funkci bessel_j"
 
-#: ../src/mathfunc.c:4373 ../src/mathfunc.c:4376
+#: ../src/mathfunc.c:4403 ../src/mathfunc.c:4406 ../src/mathfunc.c:4446
+#: ../src/mathfunc.c:4449
+msgid "bessel_j(%"
+msgstr "bessel_j(%"
+
+#: ../src/mathfunc.c:4963
+msgid "bessel_k allocation error"
+msgstr "chyba alokace paměti pro funkci bessel_k"
+
+#: ../src/mathfunc.c:4971 ../src/mathfunc.c:4974
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: ../src/mathfunc.c:7385
+#: ../src/mathfunc.c:5495
+msgid "bessel_y allocation error"
+msgstr "chyba alokace paměti pro funkci bessel_y"
+
+#. ncalc >= 0
+#: ../src/mathfunc.c:5505 ../src/mathfunc.c:5508 ../src/mathfunc.c:5550
+#: ../src/mathfunc.c:5553
+msgid "bessel_y(%"
+msgstr "bessel_y(%"
+
+#: ../src/mathfunc.c:8488
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
