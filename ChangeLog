@@ -1,3 +1,8 @@
+2013-08-28  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_gamma): Improve precision for large
+	arguments.
+
 2013-08-27  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

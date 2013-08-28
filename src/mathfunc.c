@@ -126,30 +126,6 @@ gnm_acoth (gnm_float x)
 	return gnm_atanh (1 / x);
 }
 
-gnm_float
-gnm_gamma (gnm_float x)
-{
-	if (gnm_isnan (x))
-		return x;
-
-	if (x > 0) {
-		if (x >= G_MAXINT)
-			return gnm_pinf;
-
-		if (x == gnm_floor (x))
-			return fact ((int)x - 1);
-
-		/* We can probably do better than this. */
-		return gnm_exp (gnm_lgamma (x));
-	} else if (x == gnm_floor (x))
-		return gnm_nan;
-	else {
-		return M_PIgnum /
-			(gnm_sin (x * M_PIgnum) * gnm_gamma (1 - x));
-	}
-}
-
-
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R SOURCE MARKER --- */
 
@@ -8862,6 +8838,34 @@ pochhammer (gnm_float x, gnm_float n, gboolean give_log)
 	} else {
 		gnm_float lr = pochhammer (x, n, TRUE);
 		return gnm_exp (lr);
+	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+gnm_float
+gnm_gamma (gnm_float x)
+{
+	if (gnm_isnan (x))
+		return x;
+
+	if (x > 0) {
+		if (x == gnm_floor (x) && x <= 100)
+			return fact ((int)x - 1);
+
+		if (x > 10) {
+			return gnm_pow (x / M_Egnum, x) /
+				gnm_sqrt (x / M_2PIgnum)
+				* gnm_exp (lgammacor (x));
+		}
+
+		/* We can probably do better than this. */
+		return gnm_exp (gnm_lgamma (x));
+	} else if (x == gnm_floor (x))
+		return gnm_nan;
+	else {
+		return M_PIgnum /
+			(gnm_sin (x * M_PIgnum) * gnm_gamma (1 - x));
 	}
 }
 
