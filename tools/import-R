@@ -154,7 +154,7 @@ sub import_file {
 	    s~([-+]?\d+\.\d*)(\s*/\s*)([-+e0-9.]+)~GNM_const\($1\)$2$3~;
 
 	    # These are made static.
-	    s/^gnm_float\s+(pbeta_both|bd0|dpois_raw|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw|bessel_j_ex|bessel_y_ex)/static gnm_float $1/;
+	    s/^gnm_float\s+(pbeta_both|bd0|dpois_raw|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw|bessel_[ijky]|bessel_[jy]_ex)\b/static gnm_float $1/;
 	    s/^int\s+(chebyshev_init)/static int $1/;
 
 	    # Fix a bug...
