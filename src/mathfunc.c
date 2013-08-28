@@ -78,6 +78,8 @@ static inline int imax2 (int x, int y) { return MAX (x, y); }
 #define ML_ERR_return_NAN { return gnm_nan; }
 static void pnorm_both (gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboolean log_p);
 static gnm_float bessel_y_ex(gnm_float x, gnm_float alpha, gnm_float *by);
+static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo);
+static gnm_float bessel_y(gnm_float x, gnm_float alpha);
 
 /* MW ---------------------------------------------------------------------- */
 
@@ -3863,7 +3865,7 @@ And routine specific :
 static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		     long *ize, gnm_float *bi, long *ncalc);
 
-gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
+static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
 {
     long nb, ncalc, ize;
     gnm_float *bi;
@@ -4340,7 +4342,7 @@ L230:
 static void J_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		     gnm_float *b, long *ncalc);
 
-gnm_float bessel_j(gnm_float x, gnm_float alpha)
+static gnm_float bessel_j(gnm_float x, gnm_float alpha)
 {
     long nb, ncalc;
     gnm_float na, *bj;
@@ -4913,7 +4915,7 @@ L250:
 static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		     long *ize, gnm_float *bk, long *ncalc);
 
-gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
+static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
 {
     long nb, ncalc, ize;
     gnm_float *bk;
@@ -5440,7 +5442,7 @@ L420:
 static void Y_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		     gnm_float *by, long *ncalc);
 
-gnm_float bessel_y(gnm_float x, gnm_float alpha)
+static gnm_float bessel_y(gnm_float x, gnm_float alpha)
 {
     long nb, ncalc;
     gnm_float na, *by;
@@ -8867,6 +8869,48 @@ gnm_gamma (gnm_float x)
 		return M_PIgnum /
 			(gnm_sin (x * M_PIgnum) * gnm_gamma (1 - x));
 	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+gnm_float
+gnm_bessel_i (gnm_float x, gnm_float alpha)
+{
+	if (x < 0) {
+		if (alpha != gnm_floor (alpha))
+			return gnm_nan;
+
+		return gnm_fmod (alpha, 2) == 0
+			? bessel_i (-x, alpha, 1)  /* Even for even alpha */
+			: 0 - bessel_i (-x, alpha, 1);  /* Odd for odd alpha */
+	} else
+		return bessel_i (x, alpha, 1);
+}
+
+gnm_float
+gnm_bessel_j (gnm_float x, gnm_float alpha)
+{
+	if (x < 0) {
+		if (alpha != gnm_floor (alpha))
+			return gnm_nan;
+
+		return gnm_fmod (alpha, 2) == 0
+			? bessel_j (-x, alpha)  /* Even for even alpha */
+			: 0 - bessel_j (-x, alpha);  /* Odd for odd alpha */
+	} else
+		return bessel_j (x, alpha);
+}
+
+gnm_float
+gnm_bessel_k (gnm_float x, gnm_float alpha)
+{
+	return bessel_k (x, alpha, 1);
+}
+
+gnm_float
+gnm_bessel_y (gnm_float x, gnm_float alpha)
+{
+	return bessel_y (x, alpha);
 }
 
 /* ------------------------------------------------------------------------- */

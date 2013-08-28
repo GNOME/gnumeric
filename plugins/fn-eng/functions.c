@@ -555,25 +555,9 @@ static GnmFuncHelp const help_besseli[] = {
 static GnmValue *
 gnumeric_besseli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x = value_get_as_float (argv[0]);	/* value to evaluate I_n at. */
-	gnm_float order = value_get_as_float (argv[1]);	/* the order */
-	gnm_float r;
-
-	if (order < 0)
-		return value_new_error_NUM (ei->pos);
-
-	/* This, or something like it, ought to be moved into a proper bessel_i.  */
-	if (x < 0) {
-		if (order != gnm_floor (order))
-			return value_new_error_NUM (ei->pos);
-		else if (gnm_fmod (order, 2) == 0)
-			r = bessel_i (-x, order, 1);  /* Even for even order */
-		else
-			r = -bessel_i (-x, order, 1);  /* Odd for odd order */
-	} else
-		r = bessel_i (x, order, 1);
-
-	return value_new_float (r);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float order = value_get_as_float (argv[1]);
+	return value_new_float (gnm_bessel_i (x, order));
 }
 
 /***************************************************************************/
@@ -594,10 +578,9 @@ static GnmFuncHelp const help_besselk[] = {
 static GnmValue *
 gnumeric_besselk (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x = value_get_as_float (argv[0]);	/* value to evaluate K_n at. */
+	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float order = value_get_as_float (argv[1]);	/* the order */
-
-	return value_new_float (bessel_k (x, order, 1.0));
+	return value_new_float (gnm_bessel_k (x, order));
 }
 
 /***************************************************************************/
@@ -607,9 +590,8 @@ static GnmFuncHelp const help_besselj[] = {
         { GNM_FUNC_HELP_ARG, F_("X:number") },
         { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative integer)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. "
-				 "If @{\xce\xb1} < 0, #NUM! is returned. "
-				 "If @{\xce\xb1} is not an integer, it is truncated.") },
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+				 "If @{\xce\xb1} < 0, #NUM! is returned.") },
+ 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELJ(0.89,3)" },
         { GNM_FUNC_HELP_SEEALSO, "BESSELI,BESSELK,BESSELY" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Bessel_function") },
@@ -621,12 +603,7 @@ gnumeric_besselj (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float y = value_get_as_float (argv[1]);
-
-	if (y < 0 || y > INT_MAX)
-		return value_new_error_NUM (ei->pos);
-
-	/* FIXME: Why not gnm_jn?  */
-	return value_new_float (jn ((int)y, x));
+	return value_new_float (gnm_bessel_j (x, y));
 }
 
 /***************************************************************************/
@@ -636,11 +613,11 @@ static GnmFuncHelp const help_bessely[] = {
         { GNM_FUNC_HELP_ARG, F_("X:number") },
         { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative integer)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. "
-				 "If @{\xce\xb1} < 0, #NUM! is returned. "
-				 "If @{\xce\xb1} is not an integer, it is truncated.") },
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+				 "If @{\xce\xb1} < 0, #NUM! is returned.") },
+ 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELY(4,2)" },
         { GNM_FUNC_HELP_SEEALSO, "BESSELI,BESSELJ,BESSELK" },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Bessel_function") },
         { GNM_FUNC_HELP_END}
 };
 
@@ -649,11 +626,7 @@ gnumeric_bessely (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float y = value_get_as_float (argv[1]);
-
-	if (y < 0 || y > INT_MAX)
-		return value_new_error_NUM (ei->pos);
-
-	return value_new_float (gnm_yn ((int)y, x));
+	return value_new_float (gnm_bessel_y (x, y));
 }
 
 /***************************************************************************/

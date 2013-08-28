@@ -1,5 +1,8 @@
 Gnumeric 1.12.7
 
+Morten:
+	* Extend BESSELJ and BESSELY to handle fractional order.  [#706720]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.6
 

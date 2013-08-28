@@ -47,10 +47,10 @@ gnm_float gnm_acoth (gnm_float x);
 gnm_float beta (gnm_float a, gnm_float b);
 gnm_float lbeta3 (gnm_float a, gnm_float b, int *sign);
 
-gnm_float bessel_i (gnm_float x, gnm_float alpha, gnm_float expo);
-gnm_float bessel_j (gnm_float x, gnm_float alpha);
-gnm_float bessel_k (gnm_float x, gnm_float alpha, gnm_float expo);
-gnm_float bessel_y (gnm_float x, gnm_float alpha);
+gnm_float gnm_bessel_i (gnm_float x, gnm_float alpha);
+gnm_float gnm_bessel_j (gnm_float x, gnm_float alpha);
+gnm_float gnm_bessel_k (gnm_float x, gnm_float alpha);
+gnm_float gnm_bessel_y (gnm_float x, gnm_float alpha);
 
 /* "d": density.  */
 /* "p": distribution function.  */
