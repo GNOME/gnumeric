@@ -49,14 +49,6 @@ gnm_float gnm_erf (gnm_float x);
 gnm_float gnm_erfc (gnm_float x);
 #endif
 
-#ifdef HAVE_YNL
-#define gnm_yn ynl
-#else
-#define NEED_FAKE_YNGNUM
-/* Defined in mathfunc.c  */
-gnm_float gnm_yn (int n, gnm_float x);
-#endif
-
 #define gnm_abs fabsl
 #define gnm_acos acosl
 #define gnm_acosh acoshl
@@ -191,7 +183,6 @@ typedef double gnm_float;
 #define gnm_sub_epsilon go_sub_epsilon
 #define gnm_tan tan
 #define gnm_tanh tanh
-#define gnm_yn yn
 
 #define GNM_FORMAT_e	"e"
 #define GNM_FORMAT_E	"E"

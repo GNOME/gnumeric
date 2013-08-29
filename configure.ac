@@ -638,22 +638,6 @@ AC_ARG_WITH(long_double,
 				,
 				AC_MSG_ERROR([Long doubles require the $ldfunc function.]))
 
-		AC_MSG_CHECKING([checking for working ynl])
-		AC_RUN_IFELSE(
-			[AC_LANG_PROGRAM([[
-				#include <math.h>
-				#ifdef HAVE_SUNMATH_H
-				#include <sunmath.h>
-				#endif]],
-				[[
-					long double l = ynl (2, 4.0L);
-					return !(l >= 0.21 && l <= 0.22);
-				]])],
-			[AC_DEFINE(HAVE_YNL)
-			AC_MSG_RESULT(yes)],
-			AC_MSG_RESULT(no),
-			[AC_CHECK_FUNCS(ynl)])
-
 		AC_MSG_CHECKING([checking for working erfl and erfcl])
 		AC_RUN_IFELSE(
 			[AC_LANG_PROGRAM([[

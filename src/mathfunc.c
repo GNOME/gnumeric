@@ -3893,7 +3893,7 @@ static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
     alpha -= (nb-1);
 #ifdef MATHLIB_STANDALONE
     bi = (gnm_float *) calloc(nb, sizeof(gnm_float));
-    if (!bi) MATHLIB_ERROR("%s", _("bessel_i allocation error"));
+    if (!bi) MATHLIB_ERROR("%s", ("bessel_i allocation error"));
 #else
     vmax = vmaxget();
     bi = (gnm_float *) R_alloc(nb, sizeof(gnm_float));
@@ -3901,10 +3901,10 @@ static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
     I_bessel(&x, &alpha, &nb, &ize, bi, &ncalc);
     if(ncalc != nb) {/* error input */
 	if(ncalc < 0)
-	    MATHLIB_WARNING4(_("bessel_i(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
+	    MATHLIB_WARNING4(("bessel_i(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			     x, ncalc, nb, alpha);
 	else
-	    MATHLIB_WARNING2(_("bessel_i(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
+	    MATHLIB_WARNING2(("bessel_i(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
 			     x, alpha+nb-1);
     }
     x = bi[nb-1];
@@ -4370,7 +4370,7 @@ static gnm_float bessel_j(gnm_float x, gnm_float alpha)
     alpha -= (gnm_float)(nb-1);
 #ifdef MATHLIB_STANDALONE
     bj = (gnm_float *) calloc(nb, sizeof(gnm_float));
-    if (!bj) MATHLIB_ERROR("%s", _("bessel_j allocation error"));
+    if (!bj) MATHLIB_ERROR("%s", ("bessel_j allocation error"));
 #else
     vmax = vmaxget();
     bj = (gnm_float *) R_alloc((size_t) nb, sizeof(gnm_float));
@@ -4378,10 +4378,10 @@ static gnm_float bessel_j(gnm_float x, gnm_float alpha)
     J_bessel(&x, &alpha, &nb, bj, &ncalc);
     if(ncalc != nb) {/* error input */
       if(ncalc < 0)
-	MATHLIB_WARNING4(_("bessel_j(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
+	MATHLIB_WARNING4(("bessel_j(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			 x, ncalc, nb, alpha);
       else
-	MATHLIB_WARNING2(_("bessel_j(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
+	MATHLIB_WARNING2(("bessel_j(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
 			 x, alpha+(gnm_float)nb-1);
     }
     x = bj[nb-1];
@@ -4421,10 +4421,10 @@ static gnm_float bessel_j_ex(gnm_float x, gnm_float alpha, gnm_float *bj)
     J_bessel(&x, &alpha, &nb, bj, &ncalc);
     if(ncalc != nb) {/* error input */
       if(ncalc < 0)
-	MATHLIB_WARNING4(_("bessel_j(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
+	MATHLIB_WARNING4(("bessel_j(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			 x, ncalc, nb, alpha);
       else
-	MATHLIB_WARNING2(_("bessel_j(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
+	MATHLIB_WARNING2(("bessel_j(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
 			 x, alpha+(gnm_float)nb-1);
     }
     x = bj[nb-1];
@@ -4938,7 +4938,7 @@ static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
     alpha -= (nb-1);
 #ifdef MATHLIB_STANDALONE
     bk = (gnm_float *) calloc(nb, sizeof(gnm_float));
-    if (!bk) MATHLIB_ERROR("%s", _("bessel_k allocation error"));
+    if (!bk) MATHLIB_ERROR("%s", ("bessel_k allocation error"));
 #else
     vmax = vmaxget();
     bk = (gnm_float *) R_alloc(nb, sizeof(gnm_float));
@@ -4946,10 +4946,10 @@ static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
     K_bessel(&x, &alpha, &nb, &ize, bk, &ncalc);
     if(ncalc != nb) {/* error input */
       if(ncalc < 0)
-	MATHLIB_WARNING4(_("bessel_k(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
+	MATHLIB_WARNING4(("bessel_k(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			 x, ncalc, nb, alpha);
       else
-	MATHLIB_WARNING2(_("bessel_k(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
+	MATHLIB_WARNING2(("bessel_k(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
 			 x, alpha+nb-1);
     }
     x = bk[nb-1];
@@ -5470,7 +5470,7 @@ static gnm_float bessel_y(gnm_float x, gnm_float alpha)
     alpha -= (gnm_float)(nb-1);
 #ifdef MATHLIB_STANDALONE
     by = (gnm_float *) calloc(nb, sizeof(gnm_float));
-    if (!by) MATHLIB_ERROR("%s", _("bessel_y allocation error"));
+    if (!by) MATHLIB_ERROR("%s", ("bessel_y allocation error"));
 #else
     vmax = vmaxget();
     by = (gnm_float *) R_alloc((size_t) nb, sizeof(gnm_float));
@@ -5480,10 +5480,10 @@ static gnm_float bessel_y(gnm_float x, gnm_float alpha)
 	if(ncalc == -1)
 	    return gnm_pinf;
 	else if(ncalc < -1)
-	    MATHLIB_WARNING4(_("bessel_y(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
+	    MATHLIB_WARNING4(("bessel_y(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			     x, ncalc, nb, alpha);
 	else /* ncalc >= 0 */
-	    MATHLIB_WARNING2(_("bessel_y(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
+	    MATHLIB_WARNING2(("bessel_y(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
 			     x, alpha+(gnm_float)nb-1);
     }
     x = by[nb-1];
@@ -5525,10 +5525,10 @@ static gnm_float bessel_y_ex(gnm_float x, gnm_float alpha, gnm_float *by)
 	if(ncalc == -1)
 	    return gnm_pinf;
 	else if(ncalc < -1)
-	    MATHLIB_WARNING4(_("bessel_y(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
+	    MATHLIB_WARNING4(("bessel_y(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			     x, ncalc, nb, alpha);
 	else /* ncalc >= 0 */
-	    MATHLIB_WARNING2(_("bessel_y(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
+	    MATHLIB_WARNING2(("bessel_y(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
 			     x, alpha+(gnm_float)nb-1);
     }
     x = by[nb-1];
@@ -8451,22 +8451,6 @@ gnm_float
 gnm_erfc (gnm_float x)
 {
 	return 2 * pnorm (x * M_SQRT2gnum, 0, 1, FALSE, FALSE);
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-#ifdef NEED_FAKE_YNGNUM
-gnm_float
-gnm_yn (int n, gnm_float x)
-{
-	static gboolean warned = FALSE;
-	if (!warned) {
-		warned = TRUE;
-		g_warning (_("This version of Gnumeric has been compiled with inadequate precision in gnm_yn."));
-	}
-
-	return (gnm_float)yn (n, (double)x);
 }
 #endif
 
