@@ -1,3 +1,8 @@
+2013-08-29  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_find_pane): Check for NULL pane.
+	Fixes #707047.
+
 2013-08-28  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (gnm_gamma): Improve precision for large

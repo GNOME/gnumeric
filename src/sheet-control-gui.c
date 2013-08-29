@@ -3702,7 +3702,8 @@ scg_find_pane (SheetControlGUI *scg, GnmCellPos *pos)
 	for (i = 0; i < scg->active_panes; i++) {
 		GnmPane *pane = scg->pane[i];
 
-		if (pane->first.col <= pos->col &&
+		if (pane &&
+		    pane->first.col <= pos->col &&
 		    pane->first.row <= pos->row &&
 		    pane->last_visible.col >= pos->col &&
 		    pane->last_visible.row >= pos->row)
