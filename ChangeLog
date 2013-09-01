@@ -1,3 +1,7 @@
+2013-09-01  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.7
+
 2013-08-29  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (scg_find_pane): Check for NULL pane.

@@ -983,8 +983,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=BESSELJ(X,α)
 @ARGUMENTDESCRIPTION=@{X}: number
 @{α}: order (any non-negative integer)
-@NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned. If @{α} is not an integer, it is truncated.
-@EXCEL=This function is Excel compatible.
+@NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned.
+@EXCEL=This function is Excel compatible if only integer orders @{α} are used.
 @SEEALSO=BESSELI,BESSELK,BESSELY
 
 @CATEGORY=Engineering
@@ -1003,8 +1003,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=BESSELY(X,α)
 @ARGUMENTDESCRIPTION=@{X}: number
 @{α}: order (any non-negative integer)
-@NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned. If @{α} is not an integer, it is truncated.
-@EXCEL=This function is Excel compatible.
+@NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned.
+@EXCEL=This function is Excel compatible if only integer orders @{α} are used.
 @SEEALSO=BESSELI,BESSELJ,BESSELK
 
 @CATEGORY=Engineering

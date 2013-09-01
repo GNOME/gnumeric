@@ -3621,11 +3621,11 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>x</parameter> or <parameter>α</parameter> are not numeric, #VALUE! is returned. If <parameter>α</parameter> &lt; 0, #NUM! is returned. If <parameter>α</parameter> is not an integer, it is truncated.</para>
+        <para>If <parameter>x</parameter> or <parameter>α</parameter> are not numeric, #VALUE! is returned. If <parameter>α</parameter> &lt; 0, #NUM! is returned.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
-        <para>This function is Excel compatible.</para>
+        <para>This function is Excel compatible if only integer orders <parameter>α</parameter> are used.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -3697,11 +3697,11 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>x</parameter> or <parameter>α</parameter> are not numeric, #VALUE! is returned. If <parameter>α</parameter> &lt; 0, #NUM! is returned. If <parameter>α</parameter> is not an integer, it is truncated.</para>
+        <para>If <parameter>x</parameter> or <parameter>α</parameter> are not numeric, #VALUE! is returned. If <parameter>α</parameter> &lt; 0, #NUM! is returned.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
-        <para>This function is Excel compatible.</para>
+        <para>This function is Excel compatible if only integer orders <parameter>α</parameter> are used.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
