@@ -13,24 +13,24 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Nicolás Satragno <nsatragno@gnome.org>, 2012.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013.
 # Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012, 2013.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-12 20:25+0000\n"
-"PO-Revision-Date: 2013-08-12 11:37-0500\n"
-"Last-Translator: Milagros Alessandra Infante Montero <maim92@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2013-09-01 19:14+0000\n"
+"PO-Revision-Date: 2013-09-04 12:24+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Gtranslator 2.91.6\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:443
@@ -191,8 +191,8 @@ msgstr "Atributo inesperado %s::%s == «%s»."
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
 msgstr ""
-"Contenido no válido del elemento «ss:data», se esperaba un número, se "
-"recibió «%s»"
+"Contenido no válido del elemento «ss:data», se esperaba un número, se recibió "
+"«%s»"
 
 #: ../plugins/excel/excel-xml-read.c:513
 #, c-format
@@ -305,11 +305,11 @@ msgstr ""
 "Ya escribimos una longitud para una cadena que se ha truncado debido a "
 "problemas de codificación."
 
-#: ../plugins/excel/ms-excel-write.c:6292
+#: ../plugins/excel/ms-excel-write.c:6303
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No se pudo abrir el flujo «Libro» para escritura\n"
 
-#: ../plugins/excel/ms-excel-write.c:6314
+#: ../plugins/excel/ms-excel-write.c:6325
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No se puede abrir el flujo «Libro de trabajo» para escritura\n"
 
@@ -322,8 +322,8 @@ msgstr "Función rota"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d "
-"no %d"
+"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d no "
+"%d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
@@ -471,8 +471,7 @@ msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 #: ../plugins/openoffice/openoffice-read.c:1116
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr ""
-"Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
+msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
 #: ../plugins/excel/xlsx-read.c:880
 #, c-format
@@ -635,8 +634,8 @@ msgstr "Falló al encontrar la función «%s» en XLL/DLL/SO %s .\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file "
-"%s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
+"s."
 msgstr ""
 "Cargador del complemento para Excel / xlfRegister: se deben proporcionar al "
 "menos tres argumentos XLOPER (nombre DLL [ignorado],nombre exportado "
@@ -1021,36 +1020,37 @@ msgstr "Funciones de análisis de series de tiempo"
 msgid "Time Series Analysis"
 msgstr "Análisis de series de tiempo"
 
-#: ../plugins/gda/plugin-gda.c:156
+#: ../plugins/gda/plugin-gda.c:158
 msgid "Too much data returned"
 msgstr "Se devolvieron demasiados datos"
 
-#: ../plugins/gda/plugin-gda.c:165
+#: ../plugins/gda/plugin-gda.c:168
 msgid "Can't obtain data"
 msgstr "No se pudieron obtener los datos"
 
-#: ../plugins/gda/plugin-gda.c:259
+#. FIXME: pass a pointer to parent window
+#: ../plugins/gda/plugin-gda.c:262
 msgid "Database Connection"
 msgstr "Conexión a base de datos"
 
-#: ../plugins/gda/plugin-gda.c:340
-msgid "Format: execSQL(dsn,user,password,sql)"
-msgstr "Formato: execSQL(dsn,usuario,contraseña,sql)"
-
-#: ../plugins/gda/plugin-gda.c:344 ../plugins/gda/plugin-gda.c:422
+#: ../plugins/gda/plugin-gda.c:365
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Error: no es posible establecer conexión a %s"
 
-#: ../plugins/gda/plugin-gda.c:361 ../plugins/gda/plugin-gda.c:441
+#: ../plugins/gda/plugin-gda.c:409
+msgid "Format: execSQL(dsn,user,password,sql)"
+msgstr "Formato: execSQL(dsn,usuario,contraseña,sql)"
+
+#: ../plugins/gda/plugin-gda.c:429 ../plugins/gda/plugin-gda.c:508
 msgid "More than one statement in SQL string"
 msgstr "Más de una consulta en la cadena SQL"
 
-#: ../plugins/gda/plugin-gda.c:418
+#: ../plugins/gda/plugin-gda.c:486
 msgid "Format: readDBTable(dsn,user,password,table)"
 msgstr "Formato: readDBTable(dsn,usuario,contraseña,tabla)"
 
-#: ../plugins/gda/plugin-gda.c:470 ../plugins/gnome-db/plugin-gnomedb.c:20
+#: ../plugins/gda/plugin-gda.c:537 ../plugins/gnome-db/plugin-gnomedb.c:20
 #, c-format
 msgid "Could not run GNOME database configuration tool ('%s')"
 msgstr ""
@@ -1131,12 +1131,16 @@ msgstr "Da soporte para guardar el glosario GNOME en archivos .po."
 msgid "Gnome Glossary PO file format"
 msgstr "Formato de archivo PO del Glosario de GNOME"
 
-#: ../plugins/html/html_read.c:156
+#: ../plugins/html/html_read.c:119
+msgid "[Warning: Invalid text string has been removed.]"
+msgstr "[Advertencia: se ha quitado una cadena de texto no válida.]"
+
+#: ../plugins/html/html_read.c:158
 #, c-format
 msgid "[see sheet %s]"
 msgstr "[ver hoja %s]"
 
-#: ../plugins/html/html_read.c:157
+#: ../plugins/html/html_read.c:159
 msgid ""
 "The original html file is\n"
 "using nested tables."
@@ -1144,7 +1148,7 @@ msgstr ""
 "El archivo html original está\n"
 "usando tablas anidadas."
 
-#: ../plugins/html/html_read.c:571
+#: ../plugins/html/html_read.c:573
 msgid "Unable to parse the html."
 msgstr "No se pudo analizar el HTML."
 
@@ -1380,8 +1384,7 @@ msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s
 #: ../plugins/openoffice/openoffice-read.c:718
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
-msgstr ""
-"Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
+msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:740
 #, c-format
@@ -1738,8 +1741,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7564
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr ""
-"Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
+msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7530
 #, c-format
@@ -1848,8 +1850,8 @@ msgstr "%s_EN_ARCHIVO_CORRUPTO"
 #: ../plugins/openoffice/openoffice-read.c:10534
 #, c-format
 msgid ""
-"This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
-"\"%s\"."
+"This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
+"s\"."
 msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
@@ -2003,11 +2005,11 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
-"'%d' caracter."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
+"d' caracter."
 msgstr[1] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
-"'%d' caracteres."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
+"d' caracteres."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
@@ -2074,18 +2076,18 @@ msgstr "Cargador de complementos Perl"
 msgid "This plugin provides support for Perl plugins"
 msgstr "Este complemento proporciona soporte para los complementos de Perl"
 
-#: ../plugins/plan-perfect/pln.c:503
+#: ../plugins/plan-perfect/pln.c:511
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN: La hoja de cálculo tiene contraseña encriptada"
 
-#: ../plugins/plan-perfect/pln.c:572
+#: ../plugins/plan-perfect/pln.c:580
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
 "Ignorando datos que pretenden estar en la fila %u que es > que la fila "
 "máxima %u"
 
-#: ../plugins/plan-perfect/pln.c:576
+#: ../plugins/plan-perfect/pln.c:584
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
@@ -3929,7 +3931,7 @@ msgstr "Eliminando filas %s"
 msgid "Deleting row %s"
 msgstr "Eliminando fila %s"
 
-#: ../src/commands.c:1598 ../src/commands.c:1599 ../src/sheet.c:4644
+#: ../src/commands.c:1598 ../src/commands.c:1599 ../src/sheet.c:4657
 msgid "Clear"
 msgstr "Limpiar"
 
@@ -9078,8 +9080,8 @@ msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Cada columna en el texto está delimitada por un carácter de «separación», "
-"ej. punto y coma."
+"Cada columna en el texto está delimitada por un carácter de «separación», ej. "
+"punto y coma."
 
 #: ../src/dialogs/dialog-stf.ui.h:23
 msgid "Fi_xed width"
@@ -12407,30 +12409,6 @@ msgstr ""
 "EjecutE «%s --help» para ver una lista completa de opciones de la línea de "
 "comandos disponibles.\n"
 
-#: ../src/mathfunc.c:3894
-msgid "bessel_i allocation error"
-msgstr "error de asignación de bessel_i"
-
-#: ../src/mathfunc.c:3902 ../src/mathfunc.c:3905
-msgid "bessel_i(%"
-msgstr "bessel_i(%"
-
-#: ../src/mathfunc.c:4365
-msgid "bessel_k allocation error"
-msgstr "error de asignación de bessel_k"
-
-#: ../src/mathfunc.c:4373 ../src/mathfunc.c:4376
-msgid "bessel_k(%"
-msgstr "bessel_k(%"
-
-#: ../src/mathfunc.c:7385
-msgid ""
-"This version of Gnumeric has been compiled with inadequate precision in "
-"gnm_yn."
-msgstr ""
-"Esta versión de Gnumeric ha sido compilada con una precisión inadecuada en "
-"gnm_yn."
-
 #: ../src/parser.y:353
 #, c-format
 msgid "An array must have at least 1 element"
@@ -13199,19 +13177,19 @@ msgstr "no se puede operar sobre celdas combinadas"
 msgid "cannot operate on array formulæ"
 msgstr "no se puede operar sobre una formulæ de matriz"
 
-#: ../src/sheet.c:5031
+#: ../src/sheet.c:5044
 msgid "Insert Columns"
 msgstr "Insertar columnas"
 
-#: ../src/sheet.c:5122
+#: ../src/sheet.c:5135
 msgid "Delete Columns"
 msgstr "Eliminar columnas"
 
-#: ../src/sheet.c:5203
+#: ../src/sheet.c:5216
 msgid "Insert Rows"
 msgstr "Insertar filas"
 
-#: ../src/sheet.c:5294
+#: ../src/sheet.c:5307
 msgid "Delete Rows"
 msgstr "Eliminar filas"
 
@@ -18033,6 +18011,25 @@ msgstr "Plantilla de lista lila"
 msgid "A simple list template"
 msgstr "Una plantilla de lista simple"
 
+#~ msgid "bessel_i allocation error"
+#~ msgstr "error de asignación de bessel_i"
+
+#~ msgid "bessel_i(%"
+#~ msgstr "bessel_i(%"
+
+#~ msgid "bessel_k allocation error"
+#~ msgstr "error de asignación de bessel_k"
+
+#~ msgid "bessel_k(%"
+#~ msgstr "bessel_k(%"
+
+#~ msgid ""
+#~ "This version of Gnumeric has been compiled with inadequate precision in "
+#~ "gnm_yn."
+#~ msgstr ""
+#~ "Esta versión de Gnumeric ha sido compilada con una precisión inadecuada "
+#~ "en gnm_yn."
+
 #~ msgid "File History List"
 #~ msgstr "Lista del archivo histórico"
 
@@ -18696,9 +18693,8 @@ msgstr "Una plantilla de lista simple"
 #~ "value."
 #~ msgstr ""
 #~ ">Este valor determina el ajuste predeterminado en el diálogo "
-#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. "
-#~ "Por favor use el diálogo «Configuración de impresión» para editar este "
-#~ "valor."
+#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. Por "
+#~ "favor use el diálogo «Configuración de impresión» para editar este valor."
 
 #~ msgid ""
 #~ ">This value determines whether the default setting in the Print Setup "
