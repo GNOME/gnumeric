@@ -1,3 +1,7 @@
+2013-09-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* covariance.ui: fix radio buttons behavior. [#707595]
+
 2013-09-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.7

@@ -1,5 +1,8 @@
 Gnumeric 1.12.8
 
+Jean:
+	* Fix radio buttons behavior in covariance dialog. [#707595]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.7
 
