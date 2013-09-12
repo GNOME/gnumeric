@@ -7,7 +7,7 @@ change_logs = ChangeLog \
 	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
 	OChangeLog-2001-06-26
 
-CLEANFILES = gnumeric.desktop gnumeric.keys
+CLEANFILES = gnumeric.desktop gnumeric.keys gnumeric.appdata.xml
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA)
 
 DISTCHECK_CONFIGURE_FLAGS = --without-perl --without-python \
@@ -18,6 +18,7 @@ DISTCHECK_CONFIGURE_FLAGS = --without-perl --without-python \
 EXTRA_DIST = \
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
 	COPYING-gpl2 COPYING-gpl3 \
+	gnumeric.appdata.in	\
 	gnumeric.desktop.in	\
 	gnumeric.keys.in	\
 	gnumeric.mime		\
@@ -37,6 +38,11 @@ libspreadsheet-@GNUMERIC_API_VER@.pc: libspreadsheet.pc
 	cp $< $@
 
 @INTLTOOL_DESKTOP_RULE@
+
+appdatadir = $(datadir)/appdata
+appdata_DATA = gnumeric.appdata.xml
+gnumeric.appdata.xml: gnumeric.appdata.xml.in
+	cp $< $@
 
 Applicationsdir = $(datadir)/applications/
 Applications_in_files = gnumeric.desktop.in
