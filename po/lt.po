@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-08 01:54+0000\n"
-"PO-Revision-Date: 2013-08-12 23:00+0300\n"
+"POT-Creation-Date: 2013-08-29 00:26+0000\n"
+"PO-Revision-Date: 2013-09-13 22:52+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -300,11 +300,11 @@ msgstr ""
 "Tai šiek tiek apgadinta.\n"
 "Sistema jau įrašė simbolių sekos ilgį, kuris pakito dėl perkodavimo problemų."
 
-#: ../plugins/excel/ms-excel-write.c:6292
+#: ../plugins/excel/ms-excel-write.c:6303
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepavyko atverti „Book“ srauto rašymui\n"
 
-#: ../plugins/excel/ms-excel-write.c:6314
+#: ../plugins/excel/ms-excel-write.c:6325
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepavyko atverti „Workbook“ srauto rašymui\n"
 
@@ -509,13 +509,11 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:1681
 #, c-format
-#| msgid "Paper from ODF file: %ipt⨉%ipt"
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr "Popierius iš XLSX failo: %ipt⨉%ipt"
 
 #: ../plugins/excel/xlsx-read.c:1685
 #, c-format
-#| msgid "Paper from ODF file: %ipt⨉%ipt"
 msgid "Paper from XLSX file, #%i"
 msgstr "Popierius iš XLSX failo: #%i"
 
@@ -557,7 +555,6 @@ msgid "Failed to define name: %s"
 msgstr "Nepavyko apibrėžti vardo: %s"
 
 #: ../plugins/excel/xlsx-read.c:3377
-#| msgid "Unable to paste into selection"
 msgid "Unable to resolve external relationship"
 msgstr "Nepavyksta išspręsti išorinio ryšio"
 
@@ -1011,36 +1008,37 @@ msgstr "Laiko sekų analizės funkcijos"
 msgid "Time Series Analysis"
 msgstr "Laiko sekų analizė"
 
-#: ../plugins/gda/plugin-gda.c:156
+#: ../plugins/gda/plugin-gda.c:158
 msgid "Too much data returned"
 msgstr "Grąžinta per daug duomenų"
 
-#: ../plugins/gda/plugin-gda.c:165
+#: ../plugins/gda/plugin-gda.c:168
 msgid "Can't obtain data"
 msgstr "Nepavyko gauti duomenų"
 
-#: ../plugins/gda/plugin-gda.c:259
+#. FIXME: pass a pointer to parent window
+#: ../plugins/gda/plugin-gda.c:262
 msgid "Database Connection"
 msgstr "Duomenų bazės jungtis"
 
-#: ../plugins/gda/plugin-gda.c:340
-msgid "Format: execSQL(dsn,user,password,sql)"
-msgstr "Formatas: execSQL(dsn,naudotojas,slaptažodis,sql)"
-
-#: ../plugins/gda/plugin-gda.c:344 ../plugins/gda/plugin-gda.c:422
+#: ../plugins/gda/plugin-gda.c:365
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Klaida: nepavyko atverti jungties su %s"
 
-#: ../plugins/gda/plugin-gda.c:361 ../plugins/gda/plugin-gda.c:441
+#: ../plugins/gda/plugin-gda.c:409
+msgid "Format: execSQL(dsn,user,password,sql)"
+msgstr "Formatas: execSQL(dsn,naudotojas,slaptažodis,sql)"
+
+#: ../plugins/gda/plugin-gda.c:429 ../plugins/gda/plugin-gda.c:508
 msgid "More than one statement in SQL string"
 msgstr "Daugiau negu vienas sakinys SQL eilutėje"
 
-#: ../plugins/gda/plugin-gda.c:418
+#: ../plugins/gda/plugin-gda.c:486
 msgid "Format: readDBTable(dsn,user,password,table)"
 msgstr "Formatas: readDBTable(dsn,naudotojas,slaptažodis,lentelė)"
 
-#: ../plugins/gda/plugin-gda.c:470 ../plugins/gnome-db/plugin-gnomedb.c:20
+#: ../plugins/gda/plugin-gda.c:537 ../plugins/gnome-db/plugin-gnomedb.c:20
 #, c-format
 msgid "Could not run GNOME database configuration tool ('%s')"
 msgstr "Nepavyko paleisti GNOME duomenų bazių konfiguracijos įrankio („%s“)"
@@ -1117,12 +1115,16 @@ msgstr "Įgalina įrašyti Gnome glosarijų į .po failus."
 msgid "Gnome Glossary PO file format"
 msgstr "Gnome Glossary PO failų formatas"
 
-#: ../plugins/html/html_read.c:156
+#: ../plugins/html/html_read.c:119
+msgid "[Warning: Invalid text string has been removed.]"
+msgstr "[Įspėjimas: netinkamas tekstas buvo pašalintas.]"
+
+#: ../plugins/html/html_read.c:158
 #, c-format
 msgid "[see sheet %s]"
 msgstr "[žr. lakštą %s]"
 
-#: ../plugins/html/html_read.c:157
+#: ../plugins/html/html_read.c:159
 msgid ""
 "The original html file is\n"
 "using nested tables."
@@ -1130,7 +1132,7 @@ msgstr ""
 "Pradinis html failas naudoja\n"
 "keleto lygių lenteles."
 
-#: ../plugins/html/html_read.c:571
+#: ../plugins/html/html_read.c:573
 msgid "Unable to parse the html."
 msgstr "Nepavyko apdoroti šio html failo."
 
@@ -1804,8 +1806,6 @@ msgstr "Atributas „%s“ turi nepalaikomą vertę „%s“."
 
 #: ../plugins/openoffice/openoffice-read.c:10497
 #, c-format
-#| msgid ""
-#| "The cell in row %i and column %i is beyond Gnumeric's maximum sheet size."
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
 "Gnumeric's maximum supported sheet size"
@@ -2047,18 +2047,18 @@ msgstr "Perl papildinių įkėlimas"
 msgid "This plugin provides support for Perl plugins"
 msgstr "Šis papildinys įjungia Perl papildinių palaikymą"
 
-#: ../plugins/plan-perfect/pln.c:503
+#: ../plugins/plan-perfect/pln.c:511
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN: lakštas yra užšifruotas slaptažodžiu"
 
-#: ../plugins/plan-perfect/pln.c:572
+#: ../plugins/plan-perfect/pln.c:580
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
 "Ignoruojami duomenys, kurių nurodyta padėtis yra %u eilutėje, kai "
 "didžiausias eilučių dydis yra %u"
 
-#: ../plugins/plan-perfect/pln.c:576
+#: ../plugins/plan-perfect/pln.c:584
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
@@ -2963,7 +2963,6 @@ msgid "Text Export String Quoting Rule"
 msgstr "Teksto eksporto kabučių taisyklė"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:104
-#| msgid "Text Export Formating Rule"
 msgid "Text Export Formatting Rule"
 msgstr "Teksto eksporto formatavimo taisyklė"
 
@@ -3871,7 +3870,7 @@ msgstr "Trinamos eilutės %s"
 msgid "Deleting row %s"
 msgstr "Trinama eilutė %s"
 
-#: ../src/commands.c:1598 ../src/commands.c:1599 ../src/sheet.c:4644
+#: ../src/commands.c:1598 ../src/commands.c:1599 ../src/sheet.c:4657
 msgid "Clear"
 msgstr "Išvalyti"
 
@@ -4374,7 +4373,7 @@ msgstr "Konfigūruoti akutę"
 msgid "Configure Checkbox"
 msgstr "Konfigūruoti žymimąją akutę"
 
-#: ../src/commands.c:7906 ../src/sheet-object-widget.c:1533
+#: ../src/commands.c:7906 ../src/sheet-object-widget.c:1780
 msgid "Configure Adjustment"
 msgstr "Konfigūruoti koregavimą"
 
@@ -8737,7 +8736,6 @@ msgid "Unix (linefeed)"
 msgstr "Unix (linefeed)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:2
-#| msgid "Macintosh (carriage return)"
 msgid "Macintosh before OS X (carriage return)"
 msgstr "Macintosh prieš OS X (carriage return)"
 
@@ -11182,18 +11180,14 @@ msgid "_Show advanced sheet properties"
 msgstr "_Rodyti išsamesnes lakšto savybes"
 
 #: ../src/dialogs/sheet-rename.ui.h:1
-#| msgid "Renaming sheet"
-#| msgid_plural "Renaming %d sheets"
 msgid "Rename Sheet"
 msgstr "Pervadinti lakštą"
 
 #: ../src/dialogs/sheet-rename.ui.h:2
-#| msgid "Name:"
 msgid "Old Name:"
 msgstr "Senas pavadinimas:"
 
 #: ../src/dialogs/sheet-rename.ui.h:3
-#| msgid "New Name"
 msgid "New Name:"
 msgstr "Naujas pavadinimas:"
 
@@ -11252,7 +11246,6 @@ msgid "_Area"
 msgstr "_Laukas"
 
 #: ../src/dialogs/sign-test-two.ui.h:1
-#| msgid "Comparing 2 Medians (Paired Sample)"
 msgid "Claims About Two Medians (Paired Samples)"
 msgstr "Teiginiai apie dvi medianas (suporuotas pavyzdys)"
 
@@ -11534,7 +11527,7 @@ msgstr "Log"
 msgid "Radiobutton Properties"
 msgstr "Akutės savybės"
 
-#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1692
+#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1942
 msgid "Scrollbar Properties"
 msgstr "Slankjuostės savybės"
 
@@ -12102,7 +12095,6 @@ msgid "Export the current workbook or sheet to"
 msgstr "Eksportuoti dabartinę skaičiuoklės knygą į"
 
 #: ../src/gui-file.c:647 ../src/gui-file.c:664
-#| msgid "title"
 msgid "Untitled"
 msgstr "Nepavadintas"
 
@@ -12336,28 +12328,6 @@ msgstr ""
 "%s\n"
 "Paleiskite '%s --help' norėdami pamatyti visus galimus komandinės eilutės "
 "parametrus.\n"
-
-#: ../src/mathfunc.c:3894
-msgid "bessel_i allocation error"
-msgstr "bessel_i rezervavimo klaida"
-
-#: ../src/mathfunc.c:3902 ../src/mathfunc.c:3905
-msgid "bessel_i(%"
-msgstr "bessel_i(%"
-
-#: ../src/mathfunc.c:4365
-msgid "bessel_k allocation error"
-msgstr "bessel_k rezervavimo klaida"
-
-#: ../src/mathfunc.c:4373 ../src/mathfunc.c:4376
-msgid "bessel_k(%"
-msgstr "bessel_k(%"
-
-#: ../src/mathfunc.c:7385
-msgid ""
-"This version of Gnumeric has been compiled with inadequate precision in "
-"gnm_yn."
-msgstr "Ši Gnumeric versija buvo sukompiliuota su nepakankamu gnm_yn tikslumu."
 
 #: ../src/parser.y:353
 #, c-format
@@ -12696,7 +12666,6 @@ msgid "Clear Co_ntents"
 msgstr "Išvalyti _turinį"
 
 #: ../src/sheet-control-gui.c:2182
-#| msgid "Add _Comment"
 msgid "Add _Comment..."
 msgstr "Pridėti _komentarą..."
 
@@ -12709,12 +12678,10 @@ msgid "_Remove Comments"
 msgstr "Pa_šalinti komentarus"
 
 #: ../src/sheet-control-gui.c:2189
-#| msgid "Add _Hyperlink"
 msgid "Add _Hyperlink..."
 msgstr "Pridėti _hipersaitą..."
 
 #: ../src/sheet-control-gui.c:2192
-#| msgid "Edit _Hyperlink"
 msgid "Edit _Hyperlink..."
 msgstr "_Taisyti _hipersaitą..."
 
@@ -13024,77 +12991,77 @@ msgstr "Naudoti pirmą seką kaip bendrą abscisę"
 msgid "New graph sheet"
 msgstr "Naujas diagramos lakštas"
 
-#: ../src/sheet-object-widget.c:239
+#: ../src/sheet-object-widget.c:251
 msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
 msgstr "Dėl GTK klaidos #705640, lakšto objekto elementas nėra spausdinamas."
 
 #. Object Toolbar
-#: ../src/sheet-object-widget.c:393 ../src/wbc-gtk-actions.c:2715
+#: ../src/sheet-object-widget.c:404 ../src/wbc-gtk-actions.c:2715
 msgid "Frame"
 msgstr "Rėmelis"
 
-#: ../src/sheet-object-widget.c:705 ../src/wbc-gtk-actions.c:2748
+#: ../src/sheet-object-widget.c:896 ../src/wbc-gtk-actions.c:2748
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "Button"
 msgstr "Mygtukas"
 
-#: ../src/sheet-object-widget.c:735
+#: ../src/sheet-object-widget.c:926
 msgid "Pressed Button"
 msgstr "Paspaustas mygtukas"
 
-#: ../src/sheet-object-widget.c:750
+#: ../src/sheet-object-widget.c:941
 msgid "Released Button"
 msgstr "Atleistas mygtukas"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1197
+#: ../src/sheet-object-widget.c:1445
 msgid "Change widget"
 msgstr "Pakeisti valdymo elementą"
 
-#: ../src/sheet-object-widget.c:1534
+#: ../src/sheet-object-widget.c:1781
 msgid "Adjustment Properties"
 msgstr "Koregavimo ypatybės"
 
-#: ../src/sheet-object-widget.c:1691
+#: ../src/sheet-object-widget.c:1941
 msgid "Configure Scrollbar"
 msgstr "Konfigūruoti slankjuostę"
 
-#: ../src/sheet-object-widget.c:1739
+#: ../src/sheet-object-widget.c:2047
 msgid "Configure Spinbutton"
 msgstr "Konfigūruoti suktuką"
 
-#: ../src/sheet-object-widget.c:1740
+#: ../src/sheet-object-widget.c:2048
 msgid "Spinbutton Properties"
 msgstr "Suktuko ypatybės"
 
-#: ../src/sheet-object-widget.c:1788
+#: ../src/sheet-object-widget.c:2154
 msgid "Configure Slider"
 msgstr "Konfigūruoti šliaužiklį"
 
-#: ../src/sheet-object-widget.c:1789
+#: ../src/sheet-object-widget.c:2155
 msgid "Slider Properties"
 msgstr "Šliaužiklio savybės"
 
-#: ../src/sheet-object-widget.c:1931
+#: ../src/sheet-object-widget.c:2356
 #, c-format
 msgid "CheckBox %d"
 msgstr "ŽymimasisLangelis %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1976
+#: ../src/sheet-object-widget.c:2401
 msgid "Clicking checkbox"
 msgstr "Spustelėjus žymimąjį langelį"
 
-#: ../src/sheet-object-widget.c:2465 ../src/wbc-gtk-actions.c:2751
+#: ../src/sheet-object-widget.c:2944 ../src/wbc-gtk-actions.c:2751
 msgid "RadioButton"
 msgstr "ŽymimojiAkutė"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:2511
+#: ../src/sheet-object-widget.c:2990
 msgid "Clicking radiobutton"
 msgstr "Spustelėjus akutę"
 
-#: ../src/sheet-object-widget.c:2952
+#: ../src/sheet-object-widget.c:3477
 msgid "Clicking in list"
 msgstr "Spustelėjus sąraše"
 
@@ -13147,19 +13114,19 @@ msgstr "negalima vykdyti veiksmų su sujungtais laukais"
 msgid "cannot operate on array formulæ"
 msgstr "negalima vykdyti veiksmų su masyvo formule"
 
-#: ../src/sheet.c:5031
+#: ../src/sheet.c:5044
 msgid "Insert Columns"
 msgstr "Įterpti stulpelius"
 
-#: ../src/sheet.c:5122
+#: ../src/sheet.c:5135
 msgid "Delete Columns"
 msgstr "Šalinti stulpelius"
 
-#: ../src/sheet.c:5203
+#: ../src/sheet.c:5216
 msgid "Insert Rows"
 msgstr "Įterpti eilutes"
 
-#: ../src/sheet.c:5294
+#: ../src/sheet.c:5307
 msgid "Delete Rows"
 msgstr "Šalinti eilutes"
 
@@ -15196,12 +15163,10 @@ msgid "_Two Sample Tests"
 msgstr "_Dviejų pavyzdžių testai"
 
 #: ../src/wbc-gtk-actions.c:2018
-#| msgid "Two Me_dians"
 msgid "Claims About Two Me_dians"
 msgstr "Teiginiai apie dvi me_dianas"
 
 #: ../src/wbc-gtk-actions.c:2019
-#| msgid "Two _Means"
 msgid "Claims About Two _Means"
 msgstr "Teiginiai apie du _vidurkius"
 
@@ -15415,7 +15380,6 @@ msgid "Irrevocably remove an entire sheet"
 msgstr "Negrąžinamai pašalinti visą lakštą"
 
 #: ../src/wbc-gtk-actions.c:2128
-#| msgid "Re_name"
 msgid "Re_name..."
 msgstr "Per_vadinti..."
 
@@ -15670,7 +15634,6 @@ msgid "Go to the last data cell"
 msgstr "Eiti į paskutinį duomenų laukelį"
 
 #: ../src/wbc-gtk-actions.c:2265
-#| msgid "_Go to cell..."
 msgid "_Go to Cell..."
 msgstr "Eiti _į langelį..."
 
@@ -15688,7 +15651,6 @@ msgid "Repeat the previous action"
 msgstr "Pakartoti ankstesnį veiksmą"
 
 #: ../src/wbc-gtk-actions.c:2278
-#| msgid "P_aste special..."
 msgid "P_aste Special..."
 msgstr "Į_dėti kitaip..."
 
@@ -15814,7 +15776,6 @@ msgid "Insert a new Goffice component object"
 msgstr "Įterpti naują Goffice komponento objektą"
 
 #: ../src/wbc-gtk-actions.c:2346
-#| msgid "_From file..."
 msgid "_From File..."
 msgstr "Iš _failo..."
 
@@ -15856,7 +15817,6 @@ msgstr "Laužyti su RIKIAVIMU (didėjančiai)"
 
 #. Insert -> Special
 #: ../src/wbc-gtk-actions.c:2367
-#| msgid "Current _date"
 msgid "Current _Date"
 msgstr "Dabartinė _data"
 
@@ -15865,7 +15825,6 @@ msgid "Insert the current date into the selected cell(s)"
 msgstr "Įterpti esamą datą į pasirinktą langelį(ius)"
 
 #: ../src/wbc-gtk-actions.c:2371
-#| msgid "Current _time"
 msgid "Current _Time"
 msgstr "Dabartinis _laikas"
 
@@ -15874,7 +15833,6 @@ msgid "Insert the current time into the selected cell(s)"
 msgstr "Įterpti esamą laiką į pasirinktą langelį(ius)"
 
 #: ../src/wbc-gtk-actions.c:2375
-#| msgid "Current d_ate and time"
 msgid "Current D_ate and Time"
 msgstr "Dabartinė d_ata ir laikas"
 
@@ -15918,7 +15876,6 @@ msgid "Modify the formatting of the selected cells"
 msgstr "Pakeisti pasirinktų langelių savybes"
 
 #: ../src/wbc-gtk-actions.c:2396
-#| msgid "_Conditional Formating..."
 msgid "_Conditional Formatting..."
 msgstr "_Sąlyginis formatavimas..."
 
@@ -16200,24 +16157,18 @@ msgstr "Lyginamos dvi populiacijų dispersijos"
 
 #. Statistics -> TwoSamples -> Two Means
 #: ../src/wbc-gtk-actions.c:2550
-#| msgid "_Paired Samples: T-Test..."
 msgid "_Paired Samples..."
 msgstr "_Poruoti pavyzdžiai..."
 
 #: ../src/wbc-gtk-actions.c:2551
-#| msgid "Comparing two population means for two paired samples: t-test..."
 msgid "Comparing two population means for two paired samples"
 msgstr "Du populiacijos vidurkiai lyginami su dviem suporuotais pavyzdžiais"
 
 #: ../src/wbc-gtk-actions.c:2554
-#| msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgid "Unpaired Samples, _Equal Variances..."
 msgstr "N_esuporuoti pavyzdžiai, lygios dispersijos..."
 
 #: ../src/wbc-gtk-actions.c:2555
-#| msgid ""
-#| "Comparing two population means for two unpaired samples from populations "
-#| "with equal variances: t-test..."
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances"
@@ -16226,14 +16177,10 @@ msgstr ""
 "lygių dispersijų populiacijų"
 
 #: ../src/wbc-gtk-actions.c:2558
-#| msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgid "Unpaired Samples, _Unequal Variances..."
 msgstr "Nes_uporuoti pavyzdžiai, nelygios dispersijos..."
 
 #: ../src/wbc-gtk-actions.c:2559
-#| msgid ""
-#| "Comparing two population means for two unpaired samples from populations "
-#| "with unequal variances: t-test..."
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances"
@@ -16242,14 +16189,10 @@ msgstr ""
 "nelygių dispersijų populiacijų"
 
 #: ../src/wbc-gtk-actions.c:2562
-#| msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgid "Unpaired Samples, _Known Variances..."
 msgstr "Nes_uporuoti pavyzdžiai, nelygios dispersijos..."
 
 #: ../src/wbc-gtk-actions.c:2563
-#| msgid ""
-#| "Comparing two population means from populations with known variances: z-"
-#| "test..."
 msgid "Comparing two population means from populations with known variances"
 msgstr "Lyginami du populiacijų vidurkiai iš žinomų dispersijų populiacijų"
 
@@ -16352,7 +16295,6 @@ msgstr ""
 "parametrais"
 
 #: ../src/wbc-gtk-actions.c:2617
-#| msgid "E_xport into Other Format"
 msgid "E_xport into Other Format..."
 msgstr "_Eksportuoti kitu formatu..."
 
@@ -16361,7 +16303,6 @@ msgid "Export the current workbook or sheet"
 msgstr "Eksportuoti dabartinę skaičiuoklę arba lakštą"
 
 #: ../src/wbc-gtk-actions.c:2620
-#| msgid "Export as _Text File"
 msgid "Export as _Text File..."
 msgstr "Eksportuoti kaip _tekstinį failą..."
 
@@ -16370,7 +16311,6 @@ msgid "Export the current sheet as a text file"
 msgstr "Eksportuoti dabartinį lakštą kaip tekstinį failą"
 
 #: ../src/wbc-gtk-actions.c:2623
-#| msgid "Export as _CSV File"
 msgid "Export as _CSV File..."
 msgstr "Eksportuoti kaip _CSV failą..."
 
@@ -16440,7 +16380,6 @@ msgstr ""
 "Sugeneruoti koreliuotų normalių išsklaidytų atsitiktinių kintamųjų variatus"
 
 #: ../src/wbc-gtk-actions.c:2649
-#| msgid "Fill downwards"
 msgid "Fill Downwards"
 msgstr "Užpildyti žemyn"
 
@@ -16449,7 +16388,6 @@ msgid "Copy the content from the top row to the cells below"
 msgstr "Nukopijuoti viršutinio laukelio turinį į žemiau esančius laukus"
 
 #: ../src/wbc-gtk-actions.c:2651
-#| msgid "Fill to right"
 msgid "Fill to Right"
 msgstr "Užpildyti dešiniau"
 
@@ -16569,7 +16507,6 @@ msgid "Sum into the current cell"
 msgstr "Sumuoti aktyviame langelyje"
 
 #: ../src/wbc-gtk-actions.c:2703
-#| msgid "_Function"
 msgid "_Function..."
 msgstr "_Funkcija..."
 
@@ -16998,12 +16935,10 @@ msgid "Double Low Underline"
 msgstr "Dvigubas pabraukimas"
 
 #: ../src/wbc-gtk-actions.c:2933
-#| msgid "Stri_kethrough"
 msgid "_Strikethrough"
 msgstr "Perbrau_ktas"
 
 #: ../src/wbc-gtk-actions.c:2934
-#| msgid "Stri_kethrough"
 msgid "Strikethrough"
 msgstr "Perbrau_ktas"
 
@@ -17082,7 +17017,6 @@ msgid "Show this dialog next time."
 msgstr "Rodyti šį dialogą kitą kartą."
 
 #: ../src/wbc-gtk.c:504
-#| msgid "_Manage Sheets..."
 msgid "Manage Sheets..."
 msgstr "_Tvarkyti lakštus..."
 
