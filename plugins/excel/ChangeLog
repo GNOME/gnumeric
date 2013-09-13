@@ -1,3 +1,8 @@
+2013-09-13  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (ms_wb_parse_expr): Clear the whole thing,
+	notably the v7 part.  Fixes #707875.
+
 2013-09-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.7

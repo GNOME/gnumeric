@@ -3,6 +3,9 @@ Gnumeric 1.12.8
 Jean:
 	* Fix radio buttons behavior in covariance dialog. [#707595]
 
+Morten:
+	* Fix fuzzed file crash.  [#707875]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.7
 

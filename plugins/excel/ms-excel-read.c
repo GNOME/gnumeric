@@ -3214,12 +3214,8 @@ static GnmExprTop const *
 ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
 {
 	ExcelReadSheet dummy_sheet;
-
-	dummy_sheet.container.vtbl = NULL;
+	memset (&dummy_sheet, 0, sizeof (dummy_sheet));
 	dummy_sheet.container.importer = (GnmXLImporter *)container;
-	dummy_sheet.sheet = NULL;
-	dummy_sheet.shared_formulae = NULL;
-	dummy_sheet.tables = NULL;
 	return ms_sheet_parse_expr_internal (&dummy_sheet, data, length);
 }
 
