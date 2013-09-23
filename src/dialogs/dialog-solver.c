@@ -1027,7 +1027,7 @@ dialog_init (SolverState *state)
 		GNM_EE_FORCE_ABS_REF |
 		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_widget_set_hexpand (GTK_WIDGET (state->target_entry), TRUE);
-	gtk_grid_attach (grid, GTK_WIDGET (state->target_entry), 1, 0, 1, 1);
+	gtk_grid_attach (grid, GTK_WIDGET (state->target_entry), 1, 0, 2, 1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->target_entry));
 	gtk_widget_show (GTK_WIDGET (state->target_entry));
@@ -1043,7 +1043,7 @@ dialog_init (SolverState *state)
 		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_widget_set_hexpand (GTK_WIDGET (state->change_cell_entry), TRUE);
 	gtk_grid_attach (grid,
-	                 GTK_WIDGET (state->change_cell_entry), 1, 2, 1, 1);
+	                 GTK_WIDGET (state->change_cell_entry), 1, 2, 2, 1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->change_cell_entry));
 	gtk_widget_show (GTK_WIDGET (state->change_cell_entry));

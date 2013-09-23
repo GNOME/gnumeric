@@ -1,3 +1,9 @@
+2013-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* solver.ui: fix text alignment
+	* dialog-solver.c (dialog_init): use the whole width for
+	expression entries
+
 2013-09-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* cell-format.ui: add a border around font selector. [#708567]
