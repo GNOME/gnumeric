@@ -1,3 +1,7 @@
+2013-09-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* cell-format.ui: add a border around font selector. [#708567]
+
 2013-09-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* covariance.ui: fix radio buttons behavior. [#707595]
