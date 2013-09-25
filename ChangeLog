@@ -1,3 +1,7 @@
+2013-09-25  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric.css: Use lighter green for function marker.
+
 2013-09-01  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

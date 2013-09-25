@@ -9,6 +9,7 @@ Jean:
 
 Morten:
 	* Fix fuzzed file crash.  [#707875]
+	* Use lighter green for function markers.  [#708573]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.7

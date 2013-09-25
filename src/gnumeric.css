@@ -30,7 +30,7 @@ GtkBin.auto-expr {
 
 /* Function markers are enabled from View->View Properties->Cell Markers */
 GnmItemGrid function-marker {
-  color: green;
+  color: #80ff80;
   border-color: #555555;
   /* See also GnmPane */
 }
