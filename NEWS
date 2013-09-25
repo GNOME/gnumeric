@@ -1,5 +1,8 @@
 Gnumeric 1.12.8
 
+Andreas:
+	* Update documentation [#708679]
+
 Jean:
 	* Fix radio buttons behavior in covariance dialog. [#707595]
 	* Add a border around font selector in cell format dialog. [#708567]
