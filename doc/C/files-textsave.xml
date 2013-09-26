@@ -4,47 +4,28 @@
 <!-- TODO: Rewrite this sucker! Use the new screenshots. -->
 
   <para>
-    &gnum; can export worksheets to text files using some kind of data
-    structuring mechanism. Creating a text file requires, first, using
-    the <interface>Save As</interface> dialog to name the file,
-    select a folder in which to save it, and choose the file format
-    "Text export (configurable)", then, using the <interface>Text
-    Export</interface> druid to configure the characteristics of the
-    file structure. 
+    &gnum; can export worksheets to structured text files. To create
+    a text file one chooses the <guimenuitem>Export As Text File...</guimenuitem>
+    item in the <guimenu>Export Data</guimenu> submenu of the
+    <guimenu>Data</guimenu> menu. In the dialog, one specifies the file name, and
+    selects the folder in which to save it, retaining the file format
+    "Text export (configurable)". Upon clicking <interface>Save</interface> the
+    <interface>Text Export</interface> druid appears which permits the configuration
+    of file structure  characteristics. 
   </para>
-
-  <para>
-
-
-
-files or file fragments that consist entirely of
-    text. Text files provide a basic, common format enabling programs
-    to share data.
-  </para>
-
-  <para>
-    The <interface>Text Export</interface> Druid consists of two
-    panels. 
-
-    The first panel...
-
-    The second panel
-
-  </para>
-
 
   <tip>
-    <title>The steps involved in the text export druid.</title>
+    <title>The Text Export Druid.</title>
 
-    <para></para>
-<!-- TODO: render hack- remove this spacing hack  -->
+    <para>The steps involved in the text export druid are:</para>
 
     <orderedlist>
       <listitem>
         <para>
 	  Launch the  <interface>Text export</interface> druid using,
-	  in the <guimenu>File</guimenu>, the
-	  <guimenuitem>Save As</guimenuitem> and selecting the "Text export
+	  in the <guimenuitem>Export As Text File...</guimenuitem>
+	  item in the <guimenu>Export Data</guimenu> submenu of the
+	  <guimenu>Data</guimenu> retaining the "Text export
 	  (configurable)" file format type.
 	</para>
       </listitem>
@@ -138,7 +119,7 @@ files or file fragments that consist entirely of
 
       <figure id="fig-file-textExport-druid-panel1">
         <title>
-	  The first panel of the <interface>Text Import</interface>
+	  The first panel of the <interface>Text Export</interface>
 	  druid with the component areas labeled with callouts.
 	</title>
 	<screenshot>
@@ -247,7 +228,7 @@ files or file fragments that consist entirely of
 
       <figure id="fig-file-textExport-druid-panel2">
         <title>
-	  The second panel of the <interface>Text Import</interface>
+	  The second panel of the <interface>Text Export</interface>
 	  druid with the component areas labeled with callouts.
 	</title>
 	<screenshot>

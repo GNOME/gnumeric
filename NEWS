@@ -1,7 +1,7 @@
 Gnumeric 1.12.8
 
 Andreas:
-	* Update documentation [#708679]
+	* Update documentation [#708679][#707075]
 
 Jean:
 	* Fix radio buttons behavior in covariance dialog. [#707595]
