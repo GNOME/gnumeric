@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2013-08-17 17:08+0000\n"
-"PO-Revision-Date: 2013-08-17 20:52+0100\n"
+"PO-Revision-Date: 2013-09-28 21:01+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -7182,11 +7182,12 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1145 ../plugins/fn-r/functions.c:1172
 #: ../plugins/fn-r/functions.c:1225 ../plugins/fn-r/functions.c:1253
 #: ../plugins/fn-r/functions.c:1304 ../plugins/fn-r/functions.c:1330
-#, fuzzy
 msgid ""
 "log_p:if true, the natural logarithm of the probability is given or "
 "returned; defaults to false"
-msgstr "log_p: izbrana možnost določa uporabo logaritma verjetnosti"
+msgstr ""
+"log_p: izbrana možnost določa, da bo podan ali vrnjen naravni logaritem "
+"verjetnosti; privzeto možnost ni izbrana"
 
 #: ../plugins/fn-r/functions.c:48
 msgid ""
@@ -7654,9 +7655,8 @@ msgstr ""
 "R.DNBINOM: funkcija verjetnosti gostote negativne binomske porazdelitve"
 
 #: ../plugins/fn-r/functions.c:834 ../plugins/fn-r/functions.c:858
-#, fuzzy
 msgid "x:observation (number of failures)"
-msgstr "n: število neuspešnih poskusov"
+msgstr "x: število neuspešnih poskusov"
 
 #: ../plugins/fn-r/functions.c:835 ../plugins/fn-r/functions.c:859
 #: ../plugins/fn-r/functions.c:885
@@ -7810,11 +7810,10 @@ msgid ""
 msgstr "Funkcija vrne zbirno funkcijo porazdelitve za Cauchyjevo porazdelitev."
 
 #: ../plugins/fn-r/functions.c:1111
-#, fuzzy
 msgid ""
 "R.PTUKEY:cumulative distribution function of the Studentized range "
 "distribution"
-msgstr "R.PT: zbirna funkcija T porazdelitve"
+msgstr "R.PTUKEY: zbirna funkcija razmika T porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1113 ../plugins/fn-r/functions.c:1141
 msgid "nmeans:the number of means"
@@ -7825,27 +7824,24 @@ msgid "nranges:the number of ranges; default is 1"
 msgstr "no: število obsegov podatkov; privzeto je vrednost določena na 1"
 
 #: ../plugins/fn-r/functions.c:1118
-#, fuzzy
 msgid ""
 "This function returns the cumulative distribution function of the "
 "Studentized range distribution."
-msgstr "Funkcija vrne zbirno funkcijo porazdelitve za T porazdelitev"
+msgstr "Funkcija vrne zbirno funkcijo razmika porazdelitve za T porazdelitev"
 
 #: ../plugins/fn-r/functions.c:1139
-#, fuzzy
 msgid ""
 "R.QTUKEY:probability quantile function of the Studentized range distribution"
-msgstr "R.QT: kvantilna funkcija verjetnosti T porazdelitve"
+msgstr "R.QTUKEY: kvantilna funkcija verjetnosti razmika T porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1146
-#, fuzzy
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Studentized range "
 "distribution."
 msgstr ""
 "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo "
-"zbirne T porazdelitve."
+"razmika zbirne T porazdelitve."
 
 #: ../plugins/fn-r/functions.c:1167
 msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution"
@@ -9404,9 +9400,8 @@ msgid "If @{a} >= @{b} this function returns a #NUM! error."
 msgstr "Če je @{a} >= @{b}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1199
-#, fuzzy
 msgid "BETA.DIST:cumulative distribution function of the beta distribution"
-msgstr "BETADIST: zbirna funkcija porazdelitve beta"
+msgstr "BETA.DIST: zbirna funkcija porazdelitve za porazdelitev beta"
 
 #: ../plugins/fn-stat/functions.c:1242
 msgid ""
@@ -9443,21 +9438,21 @@ msgstr ""
 "vrednostih @{x}."
 
 #: ../plugins/fn-stat/functions.c:1329
-#, fuzzy
 msgid "TINV:two tailed inverse of the Student t-distribution"
-msgstr "TDIST: funkcija preživetja T porazdelitve"
+msgstr "TINV: dvorepa inverzna funkcija T porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1330
-#, fuzzy
 msgid "p:probability in both tails"
-msgstr "p: verjetnost uspeha"
+msgstr "p: verjetnost na obeh repih"
 
 #: ../plugins/fn-stat/functions.c:1332
-#, fuzzy
 msgid ""
 "This function returns the non-negative value x such that the area under the "
 "Student t density with @{dof} degrees of freedom to the right of x is @{p}/2."
-msgstr "Funkcija vrne ne-negativno vrednost x, kot je polje"
+msgstr ""
+"Funkcija vrne nenegativne vrednosti x, tako da je površina pod gostoto "
+"verjetnosti  t-porazdelitve z @{dof}  stopnjami prostosti desno od x enaka @"
+"{p}/2"
 
 #: ../plugins/fn-stat/functions.c:1337
 msgid ""
