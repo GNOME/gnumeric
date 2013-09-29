@@ -66,6 +66,7 @@
 #include "print.h"
 #include "print-info.h"
 #include "gnm-pane-impl.h"
+#include "gutils.h"
 
 #include <goffice/goffice.h>
 #include <goffice/component/goffice-component.h>

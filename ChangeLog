@@ -1,3 +1,9 @@
+2013-09-29  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c: Include <io.h> for win32.
+
+	* src/wbc-gtk-actions.c: Include gutils.h for win32.
+
 2013-09-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric.css: Use lighter green for function marker.
