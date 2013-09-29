@@ -83,9 +83,9 @@ gutils_init (void)
 	gnumeric_icon_dir = g_build_filename (dir, "share", "pixmaps",
 					      "gnumeric", NULL);
 	gnumeric_locale_dir = g_build_filename (dir, "share", "locale", NULL);
-	gnumeric_extern_plugin_dir = g_build_filename (dir, "lib",
-					     "gnumeric", GNM_API_VERSION, "plugins"
-					     NULL);
+	gnumeric_extern_plugin_dir = g_build_filename
+		(dir, "lib", "gnumeric", GNM_API_VERSION, "plugins",
+		 NULL);
 	g_free (dir);
 #else
 	if (running_in_tree ()) {
