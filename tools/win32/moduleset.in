@@ -119,8 +119,8 @@
     </autotools>
     <autotools id="cairo">
 	<branch repo="cairographics"
-		module="cairo-1.12.14.tar.xz"
-		version="1.12.14">
+		module="cairo-1.12.16.tar.xz"
+		version="1.12.16">
 	</branch>
 	<dependencies>
 	    <dep package="zlib"/>
