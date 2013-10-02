@@ -27,7 +27,7 @@ if WITH_WIN32
 fake_index_theme_target += install-fake-index-theme
 
 install-fake-index-theme: fake-index-theme
-	install -m 0644 fake-index-theme $(datadir)/icons/hicolor/index.theme
+	install -D -m 0644 fake-index-theme $(datadir)/icons/hicolor/index.theme
 endif
 
 install-data-hook: update-icon-cache $(fake_index_theme_target)
