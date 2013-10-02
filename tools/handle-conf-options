@@ -673,7 +673,8 @@ sub create_reg {
 	$type .= ":" . $schema->{'list_type'} if $type eq 'list';
 	my $default = $schema->{'default'};
 
-	next unless $key =~ s{^/apps/}{};
+	# Outdated; keys now start with /org/
+	# next unless $key =~ s{^/apps/}{};
 
 	my $wkey = $prefix;
 	my @items = split ('/', $key);
