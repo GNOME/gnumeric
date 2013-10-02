@@ -25,7 +25,7 @@ EXTRA_DIST += $(gschema_inin_files)
 
 if WITH_NATIVE_WIN32
 regdir = $(prefix)/etc/win32/reg
-reg_DATA = $(gschema_in_files:.xml.in=.reg) $(gschema_in_files:.xml.in=.hkcu.reg)
+reg_DATA = $(gschema_in_files:.gschema.xml.in=.reg) $(gschema_in_files:.gschema.xml.in=.hkcu.reg)
 CLEANFILES += $(reg_DATA)
 endif
 
