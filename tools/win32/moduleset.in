@@ -111,6 +111,30 @@
     </tarball>
     -->
 
+    <autotools id="libcroco">
+	<branch repo="gnome.org" module="sources/libcroco/0.6/libcroco-0.6.8.tar.xz" version="0.6.8">
+	</branch>
+	<dependencies>
+	    <dep package="glib"/>
+	    <dep package="libxml2"/>
+	</dependencies>
+    </autotools>
+
+    <autotools id="librsvg">
+	<branch repo="gnome.org" module="sources/librsvg/2.39/librsvg-2.39.0.tar.xz" version="2.39.0">
+	  <patch file="&patch_dir;librsvg-portability.patch" strip="1"/>
+	</branch>
+	<dependencies>
+	    <dep package="glib"/>
+	    <dep package="gtk+"/>
+	    <dep package="libxml2"/>
+	    <dep package="cairo"/>
+	    <dep package="pango"/>
+	    <dep package="gdk-pixbuf"/>
+	    <dep package="libcroco"/>
+	</dependencies>
+    </autotools>
+
 <!-- Gtk stack -->
     <autotools id="pixman">
 	<branch repo="cairographics"

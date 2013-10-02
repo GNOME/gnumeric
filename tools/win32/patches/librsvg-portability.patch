@@ -1,0 +1,127 @@
+--- librsvg-2.39.0/rsvg-base.c~	2013-05-11 05:19:07.000000000 -0400
++++ librsvg-2.39.0/rsvg-base.c	2013-10-01 21:07:28.000000000 -0400
+@@ -2145,6 +2145,124 @@
+     g_set_error (error, RSVG_ERROR, 0, _("%s: assertion `%s' failed"), pretty_function, expression);
+ }
+ 
++#ifdef G_OS_WIN32
++
++#include <glib/gstdio.h>
++
++typedef enum {
++	GO_DOTDOT_SYNTACTIC,    /* Assume no symlinks.  */
++	GO_DOTDOT_TEST,         /* Check.  */
++	GO_DOTDOT_LEAVE         /* Leave alone.  */
++} GODotDot;
++
++static char *
++go_filename_simplify (char const *filename, GODotDot dotdot,
++                      gboolean make_absolute)
++{
++	char *simp, *p, *q;
++
++	g_return_val_if_fail (filename != NULL, NULL);
++
++	if (make_absolute && !g_path_is_absolute (filename)) {
++		/*
++		 * FIXME: this probably does not work for "c:foo" on
++		 * Win32.
++		 */
++		char *current_dir = g_get_current_dir ();
++		simp = g_build_filename (current_dir, filename, NULL);
++		g_free (current_dir);
++	} else
++		simp = g_strdup (filename);
++
++	for (p = q = simp; *p;) {
++		if (p != simp &&
++		    G_IS_DIR_SEPARATOR (p[0]) &&
++		    G_IS_DIR_SEPARATOR (p[1])) {
++			/* "//" --> "/", except initially.  */
++			p++;
++			continue;
++		}
++
++		if (G_IS_DIR_SEPARATOR (p[0]) &&
++		    p[1] == '.' &&
++		    G_IS_DIR_SEPARATOR (p[2])) {
++			/* "/./" -> "/".  */
++			p += 2;
++			continue;
++		}
++
++		if (G_IS_DIR_SEPARATOR (p[0]) &&
++		    p[1] == '.' &&
++		    p[2] == '.' &&
++		    G_IS_DIR_SEPARATOR (p[3])) {
++			if (p == simp) {
++				/* "/../" --> "/" initially.  */
++				p += 3;
++				continue;
++			} else if (p == simp + 1) {
++				/* Nothing, leave "//../" initially alone.  */
++			} else {
++				/*
++				 * "prefix/dir/../" --> "prefix/" if
++				 * "dir" is an existing directory (not
++				 * a symlink).
++				 */
++				gboolean isdir;
++
++				switch (dotdot) {
++				case GO_DOTDOT_SYNTACTIC:
++					isdir = TRUE;
++					break;
++				case GO_DOTDOT_TEST: {
++					struct stat statbuf;
++					char savec = *q;
++					/*
++					 * Terminate the path so far so we can
++					 * it.  Restore because "p" loops over
++					 * the same.
++					 */
++					*q = 0;
++					isdir = (g_lstat (simp, &statbuf) == 0) &&
++						1;/*S_ISDIR (statbuf.st_mode);*/
++					*q = savec;
++					break;
++				}
++				default:
++					isdir = FALSE;
++					break;
++				}
++
++				if (isdir) {
++					do {
++						g_assert (q != simp);
++						q--;
++					} while (!G_IS_DIR_SEPARATOR (*q));
++					p += 3;
++					continue;
++				} else {
++					/*
++					 * Do nothing.
++					 *
++					 * Maybe the prefix does not
++					 * exist, or maybe it is not
++					 * a directory (for example
++					 * because it is a symlink).
++					 */
++				}
++			}
++		}
++
++		*q++ = *p++;
++	}
++	*q = 0;
++
++	return simp;
++}
++
++#define canonicalize_file_name(f_) (go_filename_simplify(f_, GO_DOTDOT_SYNTACTIC, TRUE))
++#endif
++
++
+ static gboolean
+ _rsvg_handle_allow_load (RsvgHandle *handle,
+                          const char *uri,

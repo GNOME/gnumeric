@@ -124,6 +124,7 @@ module_autogenargs['glib']	=    autogenargs + """ --enable-explicit-deps=no \
 module_autogenargs['freetype']  = autogenargs
 module_autogenargs['png']  = autogenargs + """ --without-libpng-compat"""
 module_autogenargs['fontconfig']= autogenargs + """ --with-arch=x86 --enable-libxml2"""
+module_autogenargs['librsvg']	= autogenargs + """ --disable-introspection"""
 module_autogenargs['pango']	= autogenargs + """ --disable-gtk-doc \
                                                   --enable-explicit-deps=no \
 						  --disable-introspection \
