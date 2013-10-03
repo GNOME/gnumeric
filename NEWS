@@ -10,6 +10,8 @@ Jean:
 Morten:
 	* Fix fuzzed file crash.  [#707875]
 	* Use lighter green for function markers.  [#708573]
+	* Fix item cursor problem.  [#709320]
+	* Fix win32 compilation.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.7

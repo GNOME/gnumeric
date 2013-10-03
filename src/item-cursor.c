@@ -238,7 +238,6 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	int premove = 0;
 	gboolean draw_center, draw_external, draw_internal, draw_xor;
 	double scale = item->canvas->pixels_per_unit;
-	GdkEventExpose *expose = (GdkEventExpose *) goc_canvas_get_cur_event (item->canvas);
 	GdkRGBA *fore = NULL, *back = NULL;
 
 #if 0
@@ -345,19 +344,6 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	}
 
 	ic->auto_fill_handle_at_top = (draw_handle >= 2);
-
-	if (expose)  {
-		cairo_rectangle (cr, expose->area.x, expose->area.y, expose->area.width, expose->area.height);
-		cairo_clip (cr);
-		/* Avoid guint16 overflow during line drawing.  We can change
-		 * the shape we draw, so long as no lines or parts of
-		 * rectangles are moved from outside to inside the clipping
-		 * region */
-		x0 = MAX (x0, expose->area.x - CLIP_SAFETY_MARGIN);
-		y0 = MAX (y0, expose->area.y - CLIP_SAFETY_MARGIN);
-		x1 = MIN (x1, expose->area.x + expose->area.width + CLIP_SAFETY_MARGIN);
-		y1 = MIN (y1, expose->area.y + expose->area.height + CLIP_SAFETY_MARGIN);
-	}
 
 	if (x0 >= x1 || y0 >= y1)
 		draw_handle = 0;
