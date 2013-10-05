@@ -1,3 +1,7 @@
+2013-10-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* appendix-keybindings.xml: fix ctrl-! description
+
 2013-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* files-textsave.xml: update

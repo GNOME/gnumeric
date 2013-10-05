@@ -117,7 +117,7 @@
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctrl-!</keycap> Formats the current selection as a number with 2 decimal places.
+	<keycap>Ctrl-!</keycap> Formats the current selection as an integer (a number with no decimal places).
       </para>
     </listitem>
     <listitem>
