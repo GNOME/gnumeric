@@ -6190,7 +6190,10 @@ gnm_float qgeom(gnm_float p, gnm_float prob, gboolean lower_tail, gboolean log_p
 }
 
 /* ------------------------------------------------------------------------ */
-/* Imported src/nmath/ptukey.c from R -- by hand for now.  */
+/*
+ * Based on code imported from R by hand.  Heavily modified to enhance
+ * accuracy.  See bug 700132.
+ */
 /*
  *  Mathlib : A C Library of Special Functions
  *  Copyright (C) 1998       Ross Ihaka
@@ -6499,7 +6502,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
     if (q <= 0)
 	return R_DT_0;
 
-    /* FIXME: Special case for cc==2&&cc=1: we have explicit formula  */
+    /* FIXME: Special case for cc==2&&rr=1: we have explicit formula  */
 
 
     /* df must be > 1 */
