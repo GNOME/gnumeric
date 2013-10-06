@@ -294,9 +294,17 @@ cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 {
 	GnmCellRegion  *content;
 	GnmRange const *src_range;
+	GnmRange dst;
 
 	g_return_if_fail (pt != NULL);
 	g_return_if_fail (IS_SHEET (pt->sheet));
+
+	dst = pt->range;
+
+	/* Check for locks */
+	if (cmd_cell_range_is_locked_effective (pt->sheet, &dst, wbc, 
+						_("Paste")))
+		return ;
 
 	src_range = gnm_app_clipboard_area_get ();
 	content = gnm_app_clipboard_contents_get ();
@@ -309,8 +317,6 @@ cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 		/* Validate the size & shape of the target here. */
 		int const cols = (src_range->end.col - src_range->start.col);
 		int const rows = (src_range->end.row - src_range->start.row);
-
-		GnmRange dst = pt->range;
 
 		if (range_is_singleton (&dst)) {
 			dst.end.col = dst.start.col + cols;

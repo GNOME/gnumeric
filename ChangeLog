@@ -1,3 +1,7 @@
+2013-10-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/cmd-edit.c (cmd_paste): chceck for locked cells
+
 2013-10-03  Morten Welinder  <terra@gnome.org>
 
 	* src/item-cursor.c (item_cursor_draw): Drop expose area
