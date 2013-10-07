@@ -106,7 +106,7 @@ for tool in ('AR', 'RANLIB', 'STRIP', 'AS',
 	autogenargs += ' '+tool+'="'+os.environ[tool]+'" '
 
 #Module specific configure arguments
-module_autogenargs['zlib']    = autogenargs
+module_autogenargs['zlib']    = ' --const --prefix='+prefix
 module_autogenargs['libbz2'] = ' --prefix='+prefix + ' --shared'
 module_autogenargs['pcre']    = autogenargs + ' --enable-utf8' + ' --enable-shared'
 module_autogenargs['gettext'] = autogenargs + """ --without-emacs \
@@ -150,7 +150,7 @@ module_autogenargs['psiconv']	= autogenargs + """ --disable-xhtml-docs \
 						    --disable-ascii-docs \
 						    --without-imagemagick"""
 
-module_autogenargs['libxml2']	= autogenargs + """ --disable-scrollkeeper --without-iconv"""
+module_autogenargs['libxml2']	= autogenargs + """ --disable-scrollkeeper --without-iconv --without-python"""
 module_autogenargs['libxslt']	= autogenargs + """ --without-crypto"""
 
 autogenargs += """ --disable-scrollkeeper --disable-gtk-doc"""
