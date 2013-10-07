@@ -1,3 +1,7 @@
+2013-10-07  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.8
+
 2013-10-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* appendix-keybindings.xml: fix ctrl-! description
