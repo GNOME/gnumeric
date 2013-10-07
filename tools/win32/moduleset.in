@@ -236,6 +236,7 @@
 	<dependencies>
 	    <dep package="glib"/>
 	    <dep package="jpeg"/>
+	    <dep package="png"/>
 	</dependencies>
     </autotools>
 
