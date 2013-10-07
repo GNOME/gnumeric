@@ -1,6 +1,6 @@
---- configure.ac	2009-12-18 10:05:54.000000000 +0100
-+++ configure.ac.new	2010-02-14 09:24:23.207538964 +0100
-@@ -51,7 +51,7 @@
+--- configure.ac.orig	2013-06-05 03:08:56.000000000 -0400
++++ configure.ac	2013-10-07 19:50:20.000000000 -0400
+@@ -50,7 +50,7 @@
  dnl
  dnl Check for Python.
  dnl
@@ -9,3 +9,23 @@
  AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" != :])
  
  dnl
+@@ -179,16 +179,9 @@
+ 	fi
+ fi
+ 
+-dnl if glib is available we can enable the tests
+-PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >= 2.6.0 gobject-2.0 >= 2.6.0],
+-	[	glib_prefix="`$PKG_CONFIG --variable=prefix glib-2.0`"
+-		gtk_doc_use_libtool="yes"
+-		build_tests="yes"
+-	],
+-	[	gtk_doc_use_libtool="no"
+-		build_tests="no"
+-	]
+-)
++gtk_doc_use_libtool="yes"
++build_tests="no"
++
+ AM_CONDITIONAL(GTK_DOC_USE_LIBTOOL, test -n "$LIBTOOL" -a x$gtk_doc_use_libtool = xyes )
+ dnl this enable the rule in test/Makefile.am
+ AM_CONDITIONAL(BUILD_TESTS, test x$build_tests = xyes)
