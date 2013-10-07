@@ -18,7 +18,7 @@ DISTCHECK_CONFIGURE_FLAGS = --without-perl --without-python \
 EXTRA_DIST = \
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
 	COPYING-gpl2 COPYING-gpl3 \
-	gnumeric.appdata.in	\
+	gnumeric.appdata.xml.in	\
 	gnumeric.desktop.in	\
 	gnumeric.keys.in	\
 	gnumeric.mime		\
