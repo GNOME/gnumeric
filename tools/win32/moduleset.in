@@ -396,6 +396,7 @@
 	    <dep package="cairo"/>
 	    <dep package="gdk-pixbuf"/>
 	    <dep package="gtk+"/>
+	    <dep package="librsvg"/>
 	    <!-- <dep package="lasem"/> -->
 	</dependencies>
     </autotools>
