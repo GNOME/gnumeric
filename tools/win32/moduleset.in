@@ -9,6 +9,8 @@
 		href="http://download.gnome.org"/>
     <repository type="tarball" name="zlib.net"
 		href="http://www.zlib.net"/>
+    <repository type="tarball" name="bzip.org"
+		href="http://www.bzip.org"/>
     <repository type="tarball" name="savannah"
 		href="http://savannah.nongnu.org/download/"/>
     <repository type="tarball" name="fontconfig"
@@ -52,12 +54,12 @@
 	    <patch file="&patch_dir;zlib.patch" strip="1"/>
 	</branch>
     </autotools>
-    <tarball id="libbz2" version="1.0.6">
-	<source href="http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz"/>
-	<patches>
-	    <patch file="&patch_dir;libbz2.patch" strip="1"/>
-	</patches>
-    </tarball>
+    <autotools id="libbz2" version="1.0.6" skip-autogen="true">
+	<branch repo="bzip.org" module="1.0.6/bzip2-1.0.6.tar.gz"
+		version="1.0.6">
+	  <patch file="&patch_dir;libbz2.patch" strip="1"/>
+	</branch>
+    </autotools>
 
     <autotools id="gtk-doc"
 	autogen-sh="autoreconf"  skip-autogen="never">
@@ -316,6 +318,7 @@
     </autotools>
 
 <!-- print preview -->
+<!--
   <tarball id="poppler" version="0.12.2">
     <source href="http://poppler.freedesktop.org/poppler-0.12.2.tar.gz"/>
     <dependencies>
@@ -333,6 +336,7 @@
     <patches>
     </patches>
   </tarball>
+-->
 <!-- Check license and fix make
   <tarball id="poppler-data" version="0.3.1">
     <source href="http://poppler.freedesktop.org/poppler-data-0.3.1.tar.gz"/>
@@ -343,19 +347,18 @@
   </tarball>
 -->
 
+<!--
     <autotools id="evince">
 	<branch repo="gnome.org" module="sources/evince/2.30/evince-2.30.1.tar.bz2" version="2.30.1">
-	    <!-- <patch file="&patch_dir;evince-no-mkdtemp.patch"/> -->
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
 	    <dep package="gtk+"/>
 	    <dep package="libxml2"/>
-	    <!-- <dep package="gnome-icon-theme"/>-->
 	    <dep package="poppler"/>
-	    <!-- <dep package="gnome-doc-utils"/>-->
 	</dependencies>
     </autotools>
+-->
 
 <!-- Gnumeric stack -->
     <autotools id="libgsf">

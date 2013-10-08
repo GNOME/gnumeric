@@ -9,7 +9,7 @@
 # Author: Jody Goldberg <jody@gnome.org>
 
 moduleset = os.getenv('JH_MODULE_SET')
-modules = ['gnumeric', 'evince']
+modules = ['gnumeric']
 
 # checkoutroot: path to download packages elsewhere
 # prefix:       target path to install the compiled binaries

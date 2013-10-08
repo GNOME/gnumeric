@@ -33,7 +33,7 @@ diff -crN bzip2-1.0.5/Makefile bzip2-1.0.5-patched/Makefile
   CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
   
   # Where you want it installed when you do 'make install'
-! PREFIX=$(prefix)
+! PREFIX=$(DESTDIR)/$(prefix)
   
 + RC =$(WINDRES)
 + RCFLAGS = --define GCC_WINDRES
