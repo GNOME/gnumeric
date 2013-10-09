@@ -85,7 +85,7 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 {
 	GtkRecentInfo *ri = NULL;
 	const char *uri;
-	char *markup, *shortname, *filename, *longname, *duri;
+	char *markup, *shortname, *filename, *longname;
 
 	gtk_tree_model_get (model, iter, RECENT_COL_INFO, &ri, -1);
 
@@ -97,10 +97,15 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 		shortname = g_filename_display_basename (uri);
 	}
 
-	duri = g_uri_unescape_string (uri, NULL);
-	longname = duri
-		? g_filename_display_name (duri)
-		: g_strdup (uri);
+	if (filename) {
+		longname = g_strdup (filename);
+	} else {
+		char *duri = g_uri_unescape_string (uri, NULL);
+		longname = duri
+			? g_filename_display_name (duri)
+			: g_strdup (uri);
+		g_free (duri);
+	}
 
 	markup = g_markup_printf_escaped (_("<b>%s</b>\n"
 					    "<small>Location: %s</small>"),
@@ -110,7 +115,6 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 	g_free (markup);
 	g_free (shortname);
 	g_free (longname);
-	g_free (duri);
 	g_free (filename);
 	gtk_recent_info_unref (ri);
 }

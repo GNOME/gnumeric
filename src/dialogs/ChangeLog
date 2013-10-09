@@ -1,3 +1,8 @@
+2013-10-09  Morten Welinder  <terra@gnome.org>
+
+	* dialog-recent.c (url_renderer_func): If we have a filename, use
+	that.  This hides the "file://" prefix.
+
 2013-10-07  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.8
