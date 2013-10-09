@@ -37,7 +37,7 @@ SetCompressor /SOLID lzma
 !define MUI_WELCOMEPAGE_TITLE_3LINES
 !define MUI_WELCOMEPAGE_TEXT "You can always get the newest version from:\r\n\r\nhttp://www.gnumeric.org/\r\n\r\nThis wizard will guide you through the installation of $(^NameDA).\r\n\r\nIt is recommended that you close all other applications before starting Setup. This will make it possible to update relevant system files without having to reboot your computer.\r\n\r\n$_CLICK"
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "COPYING"
+!insertmacro MUI_PAGE_LICENSE "COPYING-gpl2"
 
 Page custom CustomPageShortcut
 !insertmacro MUI_PAGE_COMPONENTS
@@ -89,6 +89,7 @@ Section "Gnumeric (required)" SEC01
     File "bin\gsf-vba-dump.exe"
     File "bin\gtk-update-icon-cache.exe"
     File "bin\gdk-pixbuf-query-loaders.exe"
+    File "bin\pango-querymodules.exe"
 
     # required for g_spawn_*
     File "bin\gspawn-win32-helper-console.exe"
@@ -96,7 +97,7 @@ Section "Gnumeric (required)" SEC01
 
     SetOutPath "${GNM_ROOT}"
     File /r etc
-    File /r /x "*.a" /x "*.la" /x "*.lib" /x "*.def" /x "pkgconfig" /x "include" /x "Python25" lib
+    File /r /x "*.a" /x "*.la" /x "*.lib" /x "*.def" /x "pkgconfig" /x "include" /x "Python2.7" lib
 
     SetOutPath "${GNM_ROOT}\share"
     File /r "share\themes"
@@ -126,7 +127,8 @@ Section "Gnumeric (required)" SEC01
 	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\org.gnome.gnumeric.hkcu.reg"
 	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\org.gnome.gnumeric.plugin.hkcu.reg"
 
-    ;ExecWait "${GNM_ROOT}\bin\gdk-pixbuf-query-loaders.exe >${GNM_ROOT}\etc\gtk-2.0\gdk-pixbuf.loaders"
+    ExecWait "${GNM_ROOT}\bin\gdk-pixbuf-query-loaders.exe --update-cache"
+    ExecWait "${GNM_ROOT}\bin\pango-querymodules.exe --update-cache"
     ;ExecWait "${GNM_ROOT}\gtk-update-icon-cache.exe ${GNM_ROOT}\share\icons\gnome"
     ;ExecWait "${GNM_ROOT}\gtk-update-icon-cache.exe ${GNM_ROOT}\share\icons\hicolor"
 
