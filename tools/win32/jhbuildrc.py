@@ -29,21 +29,21 @@ addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'lib64', 'pkgconfig'))
 addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'share', 'pkgconfig'))
 
 #Prefix for all the tools
-mingw_tool_prefix1 = '/usr/bin/i586-mingw32msvc-'
-mingw_tool_prefix2 = '/usr/bin/i686-pc-mingw32-'
-mingw_tool_prefix3 = '/opt/cross/bin/i386-mingw32msvc-'
+_mingw_tool_prefix1 = '/usr/bin/i586-mingw32msvc-'
+_mingw_tool_prefix2 = '/usr/bin/i686-pc-mingw32-'
+_mingw_tool_prefix3 = '/opt/cross/bin/i386-mingw32msvc-'
 
-if os.path.exists(mingw_tool_prefix1 + 'gcc'):
-    mingw_tool_prefix = mingw_tool_prefix1
-elif os.path.exists(mingw_tool_prefix2 + 'gcc'):
-    mingw_tool_prefix = mingw_tool_prefix2
-elif os.path.exists(mingw_tool_prefix3 + 'gcc'):
-    mingw_tool_prefix = mingw_tool_prefix3
+if os.path.exists(_mingw_tool_prefix1 + 'gcc'):
+    _mingw_tool_prefix = _mingw_tool_prefix1
+elif os.path.exists(_mingw_tool_prefix2 + 'gcc'):
+    _mingw_tool_prefix = _mingw_tool_prefix2
+elif os.path.exists(_mingw_tool_prefix3 + 'gcc'):
+    _mingw_tool_prefix = _mingw_tool_prefix3
 else:
     print "Unable to find mingw"
     sys.exit (1)
 
-mingw_tools = {'ADDR2LINE': 'addr2line',
+_mingw_tools = {'ADDR2LINE': 'addr2line',
 	'AS': 'as', 'CC': 'gcc', 'CC_FOR_BUILD': 'gcc', 'CPP': 'cpp',
 	'CPPFILT': 'c++filt', 'CXX': 'g++',
 	'DLLTOOL': 'dlltool', 'DLLWRAP': 'dllwrap',
@@ -54,15 +54,13 @@ mingw_tools = {'ADDR2LINE': 'addr2line',
 	'AR': 'ar', 'RANLIB': 'ranlib', 'STRIP': 'strip'}
 
 #Exporting all as enviroment variables with its prefix
-mingw_tools_args = str()
-for tool in mingw_tools.keys():
-	fullpath_tool = mingw_tool_prefix + mingw_tools[tool]
-	os.environ[tool] = fullpath_tool
+for _tool in _mingw_tools.keys():
+	os.environ[_tool] = _mingw_tool_prefix + _mingw_tools[_tool]
 
 if os.getenv('JH_BUILD') == "debug":
-    optim = ' -O0 -gstabs'
+    _optim = ' -O0 -gstabs'
 elif os.getenv('JH_BUILD') == "release":
-    optim = ' -O2'
+    _optim = ' -O2'
 else:
     print "Best to invoke this via build script from make"
     sys.exit (0)
@@ -74,9 +72,9 @@ os.environ['LDFLAGS']	 \
 	= ' -mno-cygwin' \
 	+ ' -L' + os.path.join(os.sep, prefix, 'lib') \
 	+ ' -L' + os.path.join(os.sep, prefix, 'lib64')
-os.environ['CFLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
-os.environ['CPPLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
-os.environ['CXXLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
+os.environ['CFLAGS']	 = _optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
+os.environ['CPPLAGS']	 = _optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
+os.environ['CXXLAGS']	 = _optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
 os.environ['ARFLAGS']	 = 'rcs'
 os.environ['INSTALL']	 = os.path.expanduser('~/bin/install-check')
 os.environ['ACLOCAL_AMFLAGS'] = ' -I m4 -I '+prefix+'/share/aclocal'	# for libgnomedb
@@ -84,11 +82,11 @@ os.environ['ACLOCAL_AMFLAGS'] = ' -I m4 -I '+prefix+'/share/aclocal'	# for libgn
 os.environ['WINEDEBUG']	 = '-all'
 #os.environ['MAKE']	 = 'colormake'
 
-py_prefix = prefix+'/Python26'
-#os.environ['PYTHON']	 = py_prefix+'/python.exe'
-os.environ['PY_PREFIX']  = py_prefix
-os.environ['PY_INCLUDE_DIR'] = py_prefix+'/include'
-os.environ['PY_LIB_DIR']     = py_prefix+'/libs'
+_py_prefix = prefix+'/Python26'
+#os.environ['PYTHON']	 = _py_prefix+'/python.exe'
+os.environ['_PY_PREFIX']  = _py_prefix
+os.environ['PY_INCLUDE_DIR'] = _py_prefix+'/include'
+os.environ['PY_LIB_DIR']     = _py_prefix+'/libs'
 
 #Populating autogenargs
 #autogenargs =  ' --build='+os.environ['HOST']
@@ -101,9 +99,9 @@ autogenargs += ' --enable-maintainer-mode'
 autogenargs += ' --enable-explicit-deps=no'
 autogenargs += ' --prefix='+prefix 
 
-for tool in ('AR', 'RANLIB', 'STRIP', 'AS',
-	     'DLLTOOL', 'OBJDUMP', 'NM', 'WINDRES'):
-	autogenargs += ' '+tool+'="'+os.environ[tool]+'" '
+for _tool in ('AR', 'RANLIB', 'STRIP', 'AS',
+              'DLLTOOL', 'OBJDUMP', 'NM', 'WINDRES'):
+	autogenargs += ' '+_tool+'="'+os.environ[_tool]+'" '
 
 #Module specific configure arguments
 module_autogenargs['zlib']    = ' --const --prefix='+prefix
