@@ -210,8 +210,11 @@
     </tarball>
 
     <autotools id="pango">
-	<branch repo="gnome.org" module="sources/pango/1.35/pango-1.35.0.tar.xz" version="1.35.0">
-	  <patch file="&patch_dir;pango-destdir.patch" strip="1"/>
+	<branch repo="gnome.org"
+		module="sources/pango/1.35/pango-1.35.0.tar.xz"
+		version="1.35.0"
+		skip-autogen="never">
+	  <!-- <patch file="&patch_dir;pango-destdir.patch" strip="1"/> -->
 	</branch>
 	<dependencies>
 	    <dep package="freetype"/>
@@ -231,8 +234,10 @@
     </autotools>
 
     <autotools id="gdk-pixbuf">
-	<branch repo="gnome.org" module="sources/gdk-pixbuf/2.29/gdk-pixbuf-2.29.2.tar.xz"
-		version="2.29.2">
+	<branch repo="gnome.org"
+		module="sources/gdk-pixbuf/2.29/gdk-pixbuf-2.29.2.tar.xz"
+		version="2.29.2"
+		skip-autogen="never">
 	  <patch file="&patch_dir;gdk-pixbuf-destdir.patch" strip="1"/>
 	</branch>
 	<dependencies>
@@ -369,7 +374,7 @@
 	    <dep package="gdk-pixbuf"/>
 	    <dep package="libxml2"/>
 	    <dep package="zlib"/>
-	    <dep package="libbz2"/>
+	    <!-- <dep package="libbz2"/> -->
 	</dependencies>
     </autotools>
 
