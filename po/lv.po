@@ -9,14 +9,14 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2013-05-03 14:04+0000\n"
-"PO-Revision-Date: 2013-05-08 22:34+0300\n"
+"PO-Revision-Date: 2013-10-17 10:36+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
@@ -745,7 +745,7 @@ msgstr "Finanšu funkcijas"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:2
 msgid "Interest rate calculations"
-msgstr "Procent likmes aprēķini"
+msgstr "Procentu likmes aprēķini"
 
 #. We are using the spellings as included in the
 #. Merriam-Webster dictionary
@@ -760,19 +760,16 @@ msgid "Heshwan"
 msgstr ""
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:113
-#, fuzzy
 msgid "Kislev"
-msgstr "Izlikt"
+msgstr ""
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:114
-#, fuzzy
 msgid "Tebet"
-msgstr "teksts"
+msgstr ""
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:114
-#, fuzzy
 msgid "Shebat"
-msgstr "Lapa"
+msgstr ""
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:114
 msgid "Adar"
@@ -787,9 +784,8 @@ msgid "Iyar"
 msgstr ""
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:115
-#, fuzzy
 msgid "Sivan"
-msgstr "Statuss"
+msgstr ""
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:115
 msgid "Tammuz"
@@ -1524,58 +1520,60 @@ msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
 msgstr ""
+"Spiediet peles kreiso klikšķi vienreiz, lai sekotu šai saitei.\n"
+"Spiediet peles vidējo klikšķi vienreiz, lai izvēlētos šo šūnu."
 
 #: ../plugins/openoffice/openoffice-read.c:4211
 msgid "Unnamed dash style encountered."
-msgstr ""
+msgstr "Gadījās nenosaukts domuzīmes stils."
 
 #: ../plugins/openoffice/openoffice-read.c:4229
 msgid "Unnamed image fill style encountered."
-msgstr ""
+msgstr "Gadījās nenosaukts attēla aizpildījuma stils."
 
 #: ../plugins/openoffice/openoffice-read.c:4231
 #, c-format
 msgid "Image fill style '%s' has no attached image."
-msgstr ""
+msgstr "Attēla aizpildījuma stilam “%s” nav piesaistīta bilde."
 
 #: ../plugins/openoffice/openoffice-read.c:4268
 #: ../plugins/openoffice/openoffice-read.c:4274
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse gradient color: %s"
-msgstr "Nevaru izveidot '%s' tipa objektu"
+msgstr "Neizdevās parsēt krāsu pārejas krāsu — %s"
 
 #: ../plugins/openoffice/openoffice-read.c:4294
 msgid "Unnamed gradient style encountered."
-msgstr ""
+msgstr "Gadījās nenosaukts krāsu pārejas stils."
 
 #: ../plugins/openoffice/openoffice-read.c:4315
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse hatch color: %s"
-msgstr "Nevaru izveidot '%s' tipa objektu"
+msgstr "Neizdevās parsēt svītrojuma krāsu — %s"
 
 #: ../plugins/openoffice/openoffice-read.c:4389
 msgid "Unnamed hatch encountered!"
-msgstr ""
+msgstr "Gadījās nenosaukts svītrojums!"
 
 #: ../plugins/openoffice/openoffice-read.c:4483
 msgid "Duplicate default column style encountered."
-msgstr ""
+msgstr "Gadījās dublēts noklusējuma kolonnas stils."
 
 #: ../plugins/openoffice/openoffice-read.c:4499
 msgid "Duplicate default row style encountered."
-msgstr ""
+msgstr "Gadījās dublēts noklusējuma rindas stils."
 
 #: ../plugins/openoffice/openoffice-read.c:4534
 msgid "Duplicate default chart/graphics style encountered."
-msgstr ""
+msgstr "Gadījās dublēts noklusējuma grafika/diagrammas stils."
 
 #: ../plugins/openoffice/openoffice-read.c:4916
 msgid "Unnamed date style ignored."
-msgstr ""
+msgstr "Ignorēts nenosaukts datuma stils."
 
 #: ../plugins/openoffice/openoffice-read.c:5223
 msgid "Corrupted file: unnamed number style ignored."
-msgstr ""
+msgstr "Bojāta datne — ignorēts nenosaukts skaitļu stils."
 
 #: ../plugins/openoffice/openoffice-read.c:5259
 #: ../plugins/openoffice/openoffice-read.c:5286
@@ -1584,124 +1582,122 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:5381
 #: ../plugins/openoffice/openoffice-read.c:5409
 msgid "This file appears corrupted, required formats are missing."
-msgstr ""
+msgstr "Izskatās, ka šī datne ir bojāta, trūkst vajadzīgo formātu."
 
 #: ../plugins/openoffice/openoffice-read.c:5475
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
-msgstr ""
+msgstr "Papīrs no ODF datnes: %ipt⨉%ipt"
 
 #: ../plugins/openoffice/openoffice-read.c:5661
 msgid "Missing page layout identifier"
-msgstr ""
+msgstr "Trūkst lappušu izkārtojuma identifikatora"
 
 #: ../plugins/openoffice/openoffice-read.c:5691
 msgid "Master page style without page layout encountered!"
-msgstr ""
+msgstr "Gadījās galvenais lappušu stils bez lappuses izkārtojuma!"
 
 #: ../plugins/openoffice/openoffice-read.c:5702
 msgid "Master page style without name encountered!"
-msgstr ""
+msgstr "Gadījās galvenais lappušu stils bez nosaukuma!"
 
 #: ../plugins/openoffice/openoffice-read.c:5825
 #: ../plugins/openoffice/openoffice-write.c:4920
 #: ../plugins/openoffice/openoffice-write.c:4932 ../src/print-info.c:670
 msgid "tab"
-msgstr ""
+msgstr "tabulācija"
 
 #: ../plugins/openoffice/openoffice-read.c:5857
 #: ../plugins/openoffice/openoffice-write.c:4923
 #: ../plugins/openoffice/openoffice-write.c:4935 ../src/print-info.c:673
 msgid "date"
-msgstr ""
+msgstr "datums"
 
 #: ../plugins/openoffice/openoffice-read.c:5864
 #: ../plugins/openoffice/openoffice-write.c:4924
 #: ../plugins/openoffice/openoffice-write.c:4936 ../src/print-info.c:674
 msgid "time"
-msgstr ""
+msgstr "laiks"
 
 #: ../plugins/openoffice/openoffice-read.c:5871
 #: ../plugins/openoffice/openoffice-write.c:4921
 #: ../plugins/openoffice/openoffice-write.c:4933 ../src/print-info.c:671
 msgid "page"
-msgstr ""
+msgstr "lappuse"
 
 #: ../plugins/openoffice/openoffice-read.c:5878
 #: ../plugins/openoffice/openoffice-write.c:4922
 #: ../plugins/openoffice/openoffice-write.c:4934 ../src/print-info.c:672
 msgid "pages"
-msgstr ""
+msgstr "lappuses"
 
 #: ../plugins/openoffice/openoffice-read.c:5903
 #: ../plugins/openoffice/openoffice-read.c:5908
 #: ../plugins/openoffice/openoffice-write.c:4926
 #: ../plugins/openoffice/openoffice-write.c:4938 ../src/print-info.c:676
 msgid "path"
-msgstr ""
+msgstr "ceļš"
 
 #: ../plugins/openoffice/openoffice-read.c:5905
 #: ../plugins/openoffice/openoffice-read.c:5912
 #: ../plugins/openoffice/openoffice-write.c:4925
 #: ../plugins/openoffice/openoffice-write.c:4937 ../src/print-info.c:675
 #: ../src/ssconvert.c:95 ../src/ssdiff.c:55
-#, fuzzy
 msgid "file"
-msgstr "Izlikt"
+msgstr "datne"
 
 #: ../plugins/openoffice/openoffice-read.c:5956 ../src/print-info.c:678
-#, fuzzy
 msgid "title"
-msgstr "Izlikt"
+msgstr "virsraksts"
 
 #: ../plugins/openoffice/openoffice-read.c:5987
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
-msgstr "Nezināma datu vērtība \"%s\" rindā %d. Ignorēju."
+msgstr "Gadījās nezināms Gnumeric malas stils “%s”."
 
 #: ../plugins/openoffice/openoffice-read.c:6256
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
-msgstr ""
+msgstr "Nezināmais pārtraukuma tips “%s” pāriet uz noklusējuma NONE"
 
 #: ../plugins/openoffice/openoffice-read.c:6333
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse tab color '%s'"
-msgstr "Nevaru izveidot '%s' tipa objektu"
+msgstr "Neizdevās parsēt tabulācijas krāsu “%s”"
 
 #: ../plugins/openoffice/openoffice-read.c:6344
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse tab text color '%s'"
-msgstr ""
-"%s!%s : nespēju noparsēt '%s'\n"
-"     %s"
+msgstr "Neizdevās parsēt teksta krāsu “%s”"
 
 #: ../plugins/openoffice/openoffice-read.c:6751
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
 "instead."
-msgstr "Nezināma datu vērtība \"%s\" rindā %d. Ignorēju."
+msgstr ""
+"Gadījās nezināms interpolēšanas tips “%s”. Tā vietā izmanto Bezjē kubisko "
+"splainu."
 
 #: ../plugins/openoffice/openoffice-read.c:6760
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown interpolation type encountered: %s"
-msgstr "Nezināma datu vērtība \"%s\" rindā %d. Ignorēju."
+msgstr "Gadījās nezināms interpolēšanas tips “%s”"
 
 #: ../plugins/openoffice/openoffice-read.c:7156
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
-msgstr ""
+msgstr "Izteiksme '%s' @ '%s' nav atsauce uz šūnu"
 
 #: ../plugins/openoffice/openoffice-read.c:7173
 #, c-format
 msgid "Expression '%s' has unknown namespace"
-msgstr ""
+msgstr "Izteiksmei “%s” ir nezināma vārdtelpa"
 
 #: ../plugins/openoffice/openoffice-read.c:7225
 #, c-format
 msgid "Invalid DB range '%s'"
-msgstr ""
+msgstr "Nederīgs DB apgabals “%s”"
 
 #: ../plugins/openoffice/openoffice-read.c:7498
 #, c-format
@@ -1709,12 +1705,14 @@ msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
 "has been dropped."
 msgstr ""
+"Gnumeric loksnes objektu līnijas neatbalsta piesaistīto tekstu. Teksts “%s” "
+"ir nomests."
 
 #: ../plugins/openoffice/openoffice-read.c:7532
 #: ../plugins/openoffice/openoffice-read.c:7571
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr ""
+msgstr "Nederīgs atribūts “forma:vērtība”, gaidīja skaitli, saņēma “%s”"
 
 #: ../plugins/openoffice/openoffice-read.c:7537
 #, c-format
@@ -1722,53 +1720,54 @@ msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
 "range' element."
 msgstr ""
+"Nederīgs vērtība-tips “%s” paziņoja “forma:vērtība” atribūtu elementā "
+"“forma:vērtību apgabals”"
 
 #: ../plugins/openoffice/openoffice-read.c:7977
 msgid "Unable to determine manual position for a chart component!"
-msgstr ""
+msgstr "Nevar noteikt diagrammas komponentes manuālo novietojumu!"
 
 #: ../plugins/openoffice/openoffice-read.c:8161
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
-msgstr ""
+msgstr "Nepietiek datu dotajā apgabalā (%s) visiem pieprasījumiem"
 
 #: ../plugins/openoffice/openoffice-read.c:8748
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
+"Gnumeric neatbalsta neautomātiskus regresiju vienādojumus. Tā vietā izmanto "
+"automātisku vienādojumu."
 
 #: ../plugins/openoffice/openoffice-read.c:8891
 msgid "Encountered drop lines in a plot not supporting them."
-msgstr ""
+msgstr "Gadījās krituma līnijas skicē, kura tās neatbalsta."
 
 #: ../plugins/openoffice/openoffice-read.c:8977
 msgid "Encountered an unknown chart type, trying to create a line plot."
-msgstr ""
+msgstr "Gadījās nezināms diagrammas tips, mēģinot izveidot līnijas skici."
 
 #: ../plugins/openoffice/openoffice-read.c:9209
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
+"Gadījās neatbalstīts paraksts, kas tika konvertēts uz teksta taisnstūri."
 
 #: ../plugins/openoffice/openoffice-read.c:9297
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
-msgstr ""
+msgstr "Gadījās bezgalīgs cikls, parsējot formulu “%s” ar nosaukumu “%s”"
 
 #: ../plugins/openoffice/openoffice-read.c:9500
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
-msgstr ""
-"%s!%s : nespēju noparsēt '%s'\n"
-"     %s"
+msgstr "Nevar novērtēt formulu “%s” (“%s”) ar nosaukumu “%s”"
 
 #: ../plugins/openoffice/openoffice-read.c:9505
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
-msgstr ""
-"%s!%s : nespēju noparsēt '%s'\n"
-"     %s"
+msgstr "Nevar parsēt formulu “%s” (“%s”) ar nosaukumu “%s”"
 
 #. We have already created the rectangle
 #: ../plugins/openoffice/openoffice-read.c:9585
@@ -1778,147 +1777,151 @@ msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
 "rectangle."
 msgstr ""
+"Gadījās neatbalstīta pielāgota forma ar tipu “%s”, kas tika konvertēta uz "
+"taisnstūri."
 
 #: ../plugins/openoffice/openoffice-read.c:9591
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
+"Gadījās neatbalstīta pielāgota forma, kas tika konvertēta uz taisnstūri."
 
 #: ../plugins/openoffice/openoffice-read.c:9909
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
-msgstr ""
+msgstr "Atribūtam “%s” ir neatbalstīta vērtība “%s”."
 
 #: ../plugins/openoffice/openoffice-read.c:11859
 msgid "Unknown mimetype for openoffice file."
-msgstr ""
+msgstr "Nezināms mime tips openoffice datnei."
 
 #: ../plugins/openoffice/openoffice-read.c:11869
 msgid "No stream named content.xml found."
-msgstr ""
+msgstr "Nav atrasta straume ar nosaukumu content.xml."
 
 #: ../plugins/openoffice/openoffice-read.c:11877
 msgid "No stream named styles.xml found."
-msgstr ""
+msgstr "Nav atrasta straume ar nosaukumu styles.xml."
 
 #: ../plugins/openoffice/openoffice-read.c:12012
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid metadata '%s'"
-msgstr "Nepareiza parole"
+msgstr "Nederīgi metadati “%s”"
 
 #: ../plugins/openoffice/openoffice-read.c:12081
 msgid "settings.xml stream is malformed!"
-msgstr ""
+msgstr "settings.xml straume ir slikti noformēti!"
 
 #: ../plugins/openoffice/openoffice-write.c:8104
-#, fuzzy
 msgid "Writing Sheets..."
-msgstr "Pārvaldīt lapas..."
+msgstr "Raksta loksnes..."
 
 #: ../plugins/openoffice/openoffice-write.c:8145
 msgid "Writing Sheet Objects..."
-msgstr ""
+msgstr "Raksta loksnes objektus..."
 
 #: ../plugins/openoffice/plugin.xml.in.h:1
-#, fuzzy
 msgid "Open Document Format"
-msgstr "Loģiskās Funkcijas"
+msgstr "Atvērtais dokumentu formāts (ODF)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:2
 msgid "Open Document Format as used by OpenOffice, Lotus Symphony, etc."
 msgstr ""
+"Atvērtais dokumentu formāts (ODF), kādu to izmanto OpenOffice, Lotus Symphony "
+"un citi."
 
 #: ../plugins/openoffice/plugin.xml.in.h:3
 msgid "Open Document Format (*.sxc, *.ods)"
-msgstr ""
+msgstr "Atvērtais dokumentu formāts (*.sxc, *.ods)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:4
 msgid "ODF 1.2 strict conformance (*.ods)"
-msgstr ""
+msgstr "ODF 1.2 strikta atbilstība (*.ods)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:5
 msgid "ODF 1.2 extended conformance (*.ods)"
-msgstr ""
+msgstr "ODF 1.2 paplašināta atbilstība (*.ods)"
 
 #: ../plugins/paradox/paradox.c:67 ../plugins/paradox/paradox.c:117
-#, fuzzy
 msgid "Error while opening Paradox file."
-msgstr "Kļūda parsējot psiconv failu."
+msgstr "Kļūda, atverot Paradox datni."
 
 #: ../plugins/paradox/paradox.c:115
 msgid "Could not allocate memory for record."
-msgstr ""
+msgstr "Neizdevās piešķirt atmiņu ierakstam."
 
 #: ../plugins/paradox/paradox.c:221
 #, c-format
 msgid "Field type %d is not supported."
-msgstr ""
+msgstr "Lauka tips %d nav atbalstīts."
 
 #. Read the field specification and build the field array for
 #. * PX_create_fp(). The memory is freed by PX_delete() including
 #. * the memory for the field name.
 #: ../plugins/paradox/paradox.c:326
 msgid "Allocate memory for field definitions."
-msgstr ""
+msgstr "Piešķirt atmiņu lauku definīcijām."
 
 #: ../plugins/paradox/paradox.c:327
 msgid "Cannot allocate memory for field definitions."
-msgstr ""
+msgstr "Nevar piešķirt atmiņu lauku definīcijām."
 
 #: ../plugins/paradox/paradox.c:335
 msgid "First line of sheet must contain database specification."
-msgstr ""
+msgstr "Pirmajai loksnes rindai jāsatur datubāzes specifikācija."
 
 #: ../plugins/paradox/paradox.c:350
 msgid ""
 "Field specification must be a comma separated value (Name,Type,Size,Prec)."
 msgstr ""
+"Lauka specifikācijai ir jābūt ar komatu atdalītām vērtībām "
+"(Nosaukums,Tips,Izmērs,Prec)."
 
 #: ../plugins/paradox/paradox.c:355
 msgid "Allocate memory for column name."
-msgstr ""
+msgstr "Piešķirt atmiņu kolonnas nosaukumam."
 
 #: ../plugins/paradox/paradox.c:356
 #, c-format
 msgid "Could not allocate memory for %d. field name."
-msgstr ""
+msgstr "Neizdevās piešķirt atmiņu %d. lauka nosaukumam."
 
 #: ../plugins/paradox/paradox.c:366
 #, c-format
 msgid "%d. field specification ended unexpectetly."
-msgstr ""
+msgstr "%d. lauka specifikācija negaidīti beidzās."
 
 #: ../plugins/paradox/paradox.c:371
 #, c-format
 msgid "%d. field specification misses type."
-msgstr ""
+msgstr "%d. lauka specifikācijai pietrūkst tips."
 
 #: ../plugins/paradox/paradox.c:439
 #, c-format
 msgid "%d. field type '%c' is unknown."
-msgstr ""
+msgstr "%d. lauka tips “%c” nav zināms."
 
 #: ../plugins/paradox/paradox.c:450 ../plugins/paradox/paradox.c:460
 msgid "Field specification misses the column size."
-msgstr ""
+msgstr "Lauka specifikācijai pietrūkst kolonnas izmērs."
 
 #: ../plugins/paradox/paradox.c:467
 #, c-format
 msgid ""
 "The remainder '%s' of the specification for field %d is being disregarded."
-msgstr ""
+msgstr "“%s” specifikācijas atlikums laukam %d netiek ņemts vērā."
 
 #: ../plugins/paradox/paradox.c:476
 msgid "Could not create output file."
-msgstr ""
+msgstr "Neizdevās izveidot izvades datni."
 
 #: ../plugins/paradox/paradox.c:485
 msgid "Allocate memory for record data."
-msgstr ""
+msgstr "Piešķirt atmiņu ieraksta datiem."
 
 #: ../plugins/paradox/paradox.c:486
 msgid "Could not allocate memory for record data."
-msgstr ""
+msgstr "Neizdevās piešķirt atmiņu ieraksta datiem."
 
 #: ../plugins/paradox/paradox.c:537
 #, c-format
@@ -1926,45 +1929,45 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
+"Iespējams, ka lauks %d rindā %d ir nogriezts. Datiem ir %d rakstzīme."
 msgstr[1] ""
+"Iespējams, ka lauks %d rindā %d ir nogriezts. Datiem ir %d rakstzīmes."
 msgstr[2] ""
+"Iespējams, ka lauks %d rindā %d ir nogriezts. Datiem ir %d rakstzīmju."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
 msgid "Field %d in row %d could not be written."
-msgstr ""
+msgstr "Nevarēja ierakstīt lauku %d rindā %d."
 
 #: ../plugins/paradox/paradox.c:587
 #, c-format
 msgid "Could not write record number %d."
-msgstr ""
+msgstr "Nevarēja ierakstīt ieraksta numuru %d."
 
 #: ../plugins/paradox/plugin.xml.in.h:1
 msgid "Paradox"
-msgstr ""
+msgstr "Paradox"
 
 #: ../plugins/paradox/plugin.xml.in.h:2
-#, fuzzy
 msgid "Imports Paradox files"
-msgstr "Importē SC/XSpread failus"
+msgstr "Importē Paradox datnes"
 
 #: ../plugins/paradox/plugin.xml.in.h:3
 msgid "Paradox database or primary index file (*.db, *.px)"
-msgstr ""
+msgstr "Paradox datubāze vai primārā indeksu datne (*.db, *.px)"
 
 #: ../plugins/paradox/plugin.xml.in.h:4
 msgid "Paradox database (*.db)"
-msgstr ""
+msgstr "Paradox datubāze (*db)"
 
 #: ../plugins/perl-func/plugin.xml.in.h:1
-#, fuzzy
 msgid "Perl functions"
-msgstr "Loģiskās Funkcijas"
+msgstr "Perl funkcijas"
 
 #: ../plugins/perl-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Sample Perl plugin providing some (useless) functions."
-msgstr "Parasts Python iespraudnis, kurš piedāvā dažas funkcijas."
+msgstr "Parauga Perl spraudnis, kurš piedāvā dažas (nevajadzīgas) funkcijas."
 
 #: ../plugins/perl-func/plugin.xml.in.h:3
 msgid "Perl"
@@ -1972,46 +1975,43 @@ msgstr "Perl"
 
 #: ../plugins/perl-loader/perl-loader.c:76
 msgid "Perl error: "
-msgstr ""
+msgstr "Perl kļūda: "
 
 #: ../plugins/perl-loader/perl-loader.c:221
 #: ../plugins/perl-loader/perl-loader.c:240
 #, c-format
 msgid "Perl error: %s\n"
-msgstr ""
+msgstr "Perl kļūda: %s\n"
 
 #: ../plugins/perl-loader/perl-loader.c:280
 msgid "Module name not given."
-msgstr ""
+msgstr "Nav dots moduļa nosaukums."
 
 #: ../plugins/perl-loader/perl-loader.c:308
-#, fuzzy
 msgid "perl_func.pl doesn't exist."
-msgstr "Modulis \"%s\" neeksistē."
+msgstr "perl_func.pl neeksistē."
 
 #: ../plugins/perl-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Perl plugin loader"
-msgstr "Python iespraudņa ielādētajs"
+msgstr "Perl spraudņu ielādētājs"
 
 #: ../plugins/perl-loader/plugin.xml.in.h:2
-#, fuzzy
 msgid "This plugin provides support for Perl plugins"
-msgstr "Šis iespraudnis atbalsta Python iespraudņus"
+msgstr "Šis spraudnis sniedz Perl spraudņu atbalstu."
 
 #: ../plugins/plan-perfect/pln.c:503
 msgid "PLN : Spreadsheet is password encrypted"
-msgstr ""
+msgstr "PLN — izklājlapa ir šifrēta ar paroli"
 
 #: ../plugins/plan-perfect/pln.c:572
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
-msgstr ""
+msgstr "Ignorē datus, kas ir rindā %u, kas ir vairāk kā lielākā rinda %u"
 
 #: ../plugins/plan-perfect/pln.c:576
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
-msgstr ""
+msgstr "Ignorē datus, kas ir kolonnā %u, kas ir vairāk kā lielākā kolonna %u"
 
 #: ../plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Plan Perfect"
@@ -2019,11 +2019,11 @@ msgstr "Plan Perfect"
 
 #: ../plugins/plan-perfect/plugin.xml.in.h:2
 msgid "Imports Plan Perfect Formatted Documents"
-msgstr "Importē Plan Perfect Formatētus Dokumentus"
+msgstr "Importē Plan Perfect formatētus dokumentus"
 
 #: ../plugins/plan-perfect/plugin.xml.in.h:3
 msgid "Plan Perfect Format (PLN) import"
-msgstr "Plan Perfect Formāta (PLN) imports"
+msgstr "Plan Perfect formāta (PLN) imports"
 
 #: ../plugins/psiconv/plugin.xml.in.h:1
 msgid "Psiconv"
@@ -2031,7 +2031,7 @@ msgstr "Psiconv"
 
 #: ../plugins/psiconv/plugin.xml.in.h:2
 msgid "Imports Psion 5 series Sheet files"
-msgstr "Importē Psion 5 sērijas Lapu failus"
+msgstr "Importē Psion 5 sērijas lokšņu datnes"
 
 #: ../plugins/psiconv/plugin.xml.in.h:3
 msgid "Psion (*.psisheet)"
@@ -2039,17 +2039,15 @@ msgstr "Psion (*.psisheet)"
 
 #: ../plugins/psiconv/psiconv-read.c:652
 msgid "Error while reading psiconv file."
-msgstr "Kļūda nolasot psiconv failu."
+msgstr "Kļūda, lasot psiconv datni."
 
 #: ../plugins/psiconv/psiconv-read.c:663
-#, fuzzy
 msgid "Error while parsing Psion file."
-msgstr "Kļūda parsējot psiconv failu."
+msgstr "Kļūda, parsējot Psion datni."
 
 #: ../plugins/psiconv/psiconv-read.c:671
-#, fuzzy
 msgid "This Psion file is not a Sheet file."
-msgstr "Importē Psion 5 sērijas Lapu failus"
+msgstr "Psion datne nav loksnes datne."
 
 #: ../plugins/py-func/plugin.xml.in.h:1
 msgid "Python functions"
@@ -2057,7 +2055,7 @@ msgstr "Python funkcijas"
 
 #: ../plugins/py-func/plugin.xml.in.h:2
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr "Parasts Python iespraudnis, kurš piedāvā dažas funkcijas."
+msgstr "Parauga Python spraudnis, kurš piedāvā dažas (nevajadzīgas) funkcijas."
 
 #: ../plugins/py-func/plugin.xml.in.h:3
 msgid "Python"
@@ -2065,47 +2063,45 @@ msgstr "Python"
 
 #: ../plugins/python-loader/gnm-py-interpreter.c:254
 msgid "Default interpreter"
-msgstr ""
+msgstr "Noklusējuma interpretators"
 
 #: ../plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
-msgstr "Python iespraudņa ielādētajs"
+msgstr "Python spraudņa ielādētājs"
 
 #: ../plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
-msgstr "Šis iespraudnis atbalsta Python iespraudņus"
+msgstr "Šis spraudnis sniedz Python spraudņu atbalstu."
 
 #: ../plugins/python-loader/plugin.xml.in.h:3
-#, fuzzy
 msgid "Python console"
-msgstr "Python funkcijas"
+msgstr "Python konsole"
 
 #: ../plugins/python-loader/py-console.c:91
 #, c-format
 msgid "*** Interpreter: %s\n"
-msgstr ""
+msgstr "*** Interpretators: %s\n"
 
 #: ../plugins/python-loader/py-console.c:160
-#, fuzzy
 msgid "Gnumeric Python console"
-msgstr "Gnumeric Darbarāmata"
+msgstr "Gnumeric Python konsole"
 
 #: ../plugins/python-loader/py-console.c:169
 msgid "E_xecute in:"
-msgstr ""
+msgstr "I_zpildīt iekš:"
 
 #: ../plugins/python-loader/py-console.c:214
 msgid "C_ommand:"
-msgstr ""
+msgstr "K_omanda:"
 
 #: ../plugins/python-loader/py-gnumeric.c:252
 msgid "Python list is not an array"
-msgstr ""
+msgstr "Python saraksts nav masīvs"
 
 #: ../plugins/python-loader/py-gnumeric.c:259
 #, c-format
 msgid "Unsupported Python type: %s"
-msgstr ""
+msgstr "Neatbalstīts Python tips: %s"
 
 #: ../plugins/python-loader/py-gnumeric.c:286
 msgid "Unknown error"
@@ -2114,44 +2110,44 @@ msgstr "Nezināma kļūda"
 #: ../plugins/python-loader/py-gnumeric.c:292
 #, c-format
 msgid "Python exception (%s: %s)"
-msgstr ""
+msgstr "Python izņēmums (%s: %s)"
 
 #: ../plugins/python-loader/py-gnumeric.c:296
 #, c-format
 msgid "Python exception (%s)"
-msgstr ""
+msgstr "Python izņēmums (%s)"
 
 #: ../plugins/python-loader/python-loader.c:71
 msgid "Python module name not given."
-msgstr ""
+msgstr "Nav dots Python moduļa nosaukums."
 
 #: ../plugins/python-loader/python-loader.c:89
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
-msgstr ""
+msgstr "Kļūda, atverot datni “%s” rakstīšanai."
 
 #: ../plugins/python-loader/python-loader.c:93
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
-msgstr ""
+msgstr "Kļūda, atverot datni “%s” lasīšanai."
 
 #: ../plugins/python-loader/python-loader.c:124
 msgid "Cannot create new Python interpreter."
-msgstr ""
+msgstr "Nevar izveidot jaunu Python interpretatoru."
 
 #: ../plugins/python-loader/python-loader.c:145
 #, c-format
 msgid "Module \"%s\" doesn't exist."
-msgstr "Modulis \"%s\" neeksistē."
+msgstr "Modulis “%s” neeksistē."
 
 #: ../plugins/python-loader/python-loader.c:163
 #, c-format
 msgid "Execution of module \"%s\" failed."
-msgstr ""
+msgstr "Neizdevās izpildīt moduli “%s”."
 
 #: ../plugins/python-loader/python-loader.c:273
 msgid "Some name"
-msgstr ""
+msgstr "Kāds nosaukums"
 
 #: ../plugins/python-loader/python-loader.c:338
 #: ../plugins/python-loader/python-loader.c:431
@@ -2159,78 +2155,77 @@ msgstr ""
 #: ../plugins/python-loader/python-loader.c:849
 #, c-format
 msgid "Python file \"%s\" has invalid format."
-msgstr ""
+msgstr "Python datnei “%s” ir nederīgs formāts."
 
 #: ../plugins/python-loader/python-loader.c:342
 #: ../plugins/python-loader/python-loader.c:436
 #, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr ""
+msgstr "Datne nesatur “%s” funkciju."
 
 #: ../plugins/python-loader/python-loader.c:742
 #: ../plugins/python-loader/python-loader.c:854
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr ""
+msgstr "Datne nesatur “%s” vārdnīcu."
 
 #: ../plugins/python-loader/python-loader.c:747
 #: ../plugins/python-loader/python-loader.c:859
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
-msgstr ""
+msgstr "Objekts “%s” nav vārdnīca."
 
 #: ../plugins/python-loader/python-loader.c:797 ../src/gnm-plugin.c:839
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown action: %s"
-msgstr "Nezināma versija"
+msgstr "Nezināma darbība — %s"
 
 #: ../plugins/python-loader/python-loader.c:802
 #, c-format
 msgid "Not a valid function for action: %s"
-msgstr ""
+msgstr "Nav derīga funkcija darbībai — %s"
 
 #: ../plugins/qpro/plugin.xml.in.h:1
-#, fuzzy
 msgid "Quattro Pro(tm)"
 msgstr "Quattro Pro(tm)"
 
 #: ../plugins/qpro/plugin.xml.in.h:2
 msgid "Imports Quattro Pro (tm) files"
-msgstr "Importē Quattro Pro (tm) filus"
+msgstr "Importē Quattro Pro (tm) datnes"
 
 #: ../plugins/qpro/plugin.xml.in.h:3
-#, fuzzy
 msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
-msgstr "Lotus 123 (*.wk1)"
+msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: ../plugins/qpro/qpro-read.c:119
 #, c-format
 msgid "File is most likely corrupted.\n"
-msgstr ""
+msgstr "Datne visticamāk ir bojāta.\n"
 
 #: ../plugins/qpro/qpro-read.c:871
 #, c-format
 msgid "Invalid zoom %hd %%"
-msgstr ""
+msgstr "Nederīgs tālummaiņas %hd %%"
 
 #: ../plugins/qpro/qpro-read.c:912
 #, c-format
 msgid "Invalid record %d of length %hd"
-msgstr ""
+msgstr "Nederīgs ieraksts %d ar garumu %hd"
 
 #: ../plugins/qpro/qpro-read.c:945
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
 msgstr ""
+"Nevar atrast straumi PerfectOffice_MAIN. Vai šī tiešām ir Quattro Pro datne?"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:1
 msgid "Sample DataSource"
-msgstr ""
+msgstr "Parauga datu avots"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:2
 msgid "A proof of concept external data source"
-msgstr ""
+msgstr "Piemēra ārējs datu avots"
 
 #: ../plugins/sc/plugin.xml.in.h:1
 msgid "SC/XSpread"
@@ -2238,7 +2233,7 @@ msgstr "SC/XSpread"
 
 #: ../plugins/sc/plugin.xml.in.h:2
 msgid "Imports SC/XSpread files"
-msgstr "Importē SC/XSpread failus"
+msgstr "Importē SC/XSpread datnes"
 
 #: ../plugins/sc/plugin.xml.in.h:3
 msgid "SC/xspread"
@@ -2247,39 +2242,42 @@ msgstr "SC/xspread"
 #: ../plugins/sc/sc.c:111
 #, c-format
 msgid "On worksheet %s:"
-msgstr ""
+msgstr "Izklājlapā %s:"
 
 #: ../plugins/sc/sc.c:113
 msgid "General SC import error"
-msgstr ""
+msgstr "Vispārīga SC importēšanas kļūda"
 
 #: ../plugins/sc/sc.c:164
 #, c-format
 msgid ""
 "The cell in row %i and column %i is beyond Gnumeric's maximum sheet size."
 msgstr ""
+"Šūna rindā %i un kolonnā %i ir ārpus Gnumeric maksimālā loksnes izmēra."
 
 #: ../plugins/sc/sc.c:387
 msgid "The sheet is wider than Gnumeric can handle."
-msgstr ""
+msgstr "Loksne ir platāka, nekā Gnumeric var apstrādāt."
 
 #: ../plugins/sc/sc.c:450
 msgid "Encountered precision dependent format without set precision."
 msgstr ""
+"Saskārās ar precizitāti, kas ir atkarīga no formāta, kurā nav iestatītas "
+"precizitātes."
 
 #: ../plugins/sc/sc.c:471
 #, c-format
 msgid "Column format %i is undefined."
-msgstr ""
+msgstr "Nav definēts kolonnas formāts %i."
 
 #: ../plugins/sc/sc.c:797
 #, c-format
 msgid "Unable to parse cmd='%s', str='%s', col=%d, row=%d."
-msgstr ""
+msgstr "Neizdevās parsēt cmd=“%s”, str=“%s”, col=%d, row=%d."
 
 #: ../plugins/sc/sc.c:932
 msgid "Error parsing line"
-msgstr "Kļūda parsējot līniju"
+msgstr "Kļūda parsējot rindu"
 
 #.
 #. * http://www.thule.no/haynie/cpumods/a2620/docs/commrc.sc.txt:
@@ -2295,38 +2293,37 @@ msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
 #: ../plugins/sylk/plugin.xml.in.h:2
-#, fuzzy
 msgid "Import/Export for MultiPlan (SYLK) files"
-msgstr "Importē MultiPlan (SYLK) filus"
+msgstr "Importē/eksportē MultiPlan (SYLK) datnes"
 
 #: ../plugins/sylk/sylk.c:244
 msgid "Multiple values in the same cell"
-msgstr ""
+msgstr "Vairākas vērtības tai pašā šūnā"
 
 #: ../plugins/sylk/sylk.c:253 ../plugins/sylk/sylk.c:262
 msgid "Multiple expressions in the same cell"
-msgstr ""
+msgstr "Vairākas izteiksmes tai pašā šūnā"
 
 #: ../plugins/sylk/sylk.c:798
 msgid "Missing closing 'E'"
-msgstr ""
+msgstr "Trūkst aizverošā “E”"
 
 #: ../plugins/uihello/plugin.xml.in.h:1
 msgid "UI Hello"
-msgstr ""
+msgstr "UI sveiciens"
 
 #: ../plugins/uihello/plugin.xml.in.h:2
 msgid "Hello World plugin using ui service"
-msgstr ""
+msgstr "“Sveika, pasaule!” spraudnis, izmantojot ui servisu"
 
 #: ../plugins/uihello/uihello.c:32
 #, c-format
 msgid "This is message from the \"%s\" plugin."
-msgstr ""
+msgstr "Šis ziņojums no “%s” spraudņa."
 
 #: ../plugins/xbase/boot.c:161
 msgid "Error while opening xbase file."
-msgstr ""
+msgstr "Kļūda, atverot xbase datni."
 
 #: ../plugins/xbase/plugin.xml.in.h:1
 msgid "XBase"
@@ -2334,136 +2331,146 @@ msgstr "XBase"
 
 #: ../plugins/xbase/plugin.xml.in.h:2
 msgid "Imports XBase files"
-msgstr "Importē XBase failus"
+msgstr "Importē XBase datnes"
 
 #: ../plugins/xbase/plugin.xml.in.h:3
 msgid "Xbase (*.dbf) file format"
-msgstr "Xbase (*.dbf) fila formāts"
+msgstr "Xbase (*.dbf) datnes formāts"
 
 #: ../plugins/xbase/xbase.c:189
 msgid "Failed to read DBF header."
-msgstr ""
+msgstr "Neizdevās lasīt DBF galveni."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:1
 msgid "List of recently used functions."
-msgstr ""
+msgstr "Saraksts ar nesen izmantotām funkcijām."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:2
 msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
 msgstr ""
+"Funkciju selektors satur sarakstu ar nesen izmantotām funkcijām. Šis ir tas "
+"saraksts."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:3
 #: ../src/dialogs/dialog-preferences.c:1087
 msgid "Maximum Length of Recently Used Functions List"
-msgstr ""
+msgstr "Maksimālais nesen izmantoto funkciju saraksta garums"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:4
 msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
 msgstr ""
+"Funkciju selektors satur sarakstu ar nesen izmantotām funkcijām. Šis ir tā "
+"saraksta maksimālais garums."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:5
 msgid "Autocorrect initial caps"
-msgstr ""
+msgstr "Automātiski koriģēt sākuma lielos burtus"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:6
 msgid "This variable determines whether to autocorrect initial caps"
-msgstr ""
+msgstr "Šis mainīgais nosaka, vai automātiski koriģēt sākuma lielos burtus"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:7
 msgid "List of initial caps exceptions"
-msgstr ""
+msgstr "Saraksts ar sākuma lielo burtu izņēmumiem"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:8
 msgid ""
 "The autocorrect engine does not correct the initial caps for words in this "
 "list."
 msgstr ""
+"Automātiskās koriģēšanas dzinis nelabos sākuma lielos burtus vārdiem, kas ir "
+"šajā sarakstā."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:9
 msgid "Autocorrect first letter"
-msgstr ""
+msgstr "Automātiski koriģēt pirmo burtu"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:10
 msgid "This variable determines whether to autocorrect first letters"
-msgstr ""
+msgstr "Šis mainīgais nosaka, vai automātiski koriģēt pirmos burtus"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:11
 msgid "List of First Letter Exception"
-msgstr ""
+msgstr "Saraksts ar pirmo burtu izņēmumiem"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:12
 msgid ""
 "The autocorrect engine does not capitalize the first letter of words "
 "following strings in this list."
 msgstr ""
+"Automātiskās koriģēšanas dzinis nemainīs pirmo burtu uz lielajiem tiem "
+"vārdiem, kas ir šajā sarakstā."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:13
 msgid "Autocorrect names of days"
-msgstr ""
+msgstr "Dienu nosaukumu automātiskā koriģēšana"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:14
 msgid "This variable determines whether to autocorrect names of days"
-msgstr ""
+msgstr "Šis mainīgais nosaka, vai automātiski koriģēt dienu nosaukumus"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:15
 msgid "Autocorrect replace"
-msgstr ""
+msgstr "Automātiskās koriģēšanas aizvietošana"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:16
 msgid "Activate New Plugins"
-msgstr ""
+msgstr "Aktivizēt jaunos spraudņus"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:17
 msgid ""
 "This variable determines whether to activate every new encountered plugin."
-msgstr ""
+msgstr "Šis mainīgais nosaka, vai aktivizēt katru sastapto jauno spraudni."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:18
 msgid "List of Active Plugins."
-msgstr ""
+msgstr "Aktīvo spraudņu saraksts."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:19
 msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
-msgstr ""
+msgstr "Saraksts ar visiem spraudņiem, kas tiek automātiski aktivizēti."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:20
 msgid "List of Known Plugins."
-msgstr ""
+msgstr "Zināmo spraudņu saraksts."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:21
 msgid "This list contains all known plugins."
-msgstr ""
+msgstr "Šis saraksts satur visus zināmos spraudņus."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:22
 msgid "List of Plugin File States."
-msgstr ""
+msgstr "Spraudņu datņu stāvokļu saraksts."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:23
 msgid "This list contains all plugin file states."
-msgstr ""
+msgstr "Šis saraksts satur visus spraudņu datņu stāvokļus."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:24
 msgid "List of Extra Plugin Directories."
-msgstr ""
+msgstr "Papildu spraudņu direktoriju saraksts."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:25
 msgid "This list contains all extra directories containing plugins."
-msgstr ""
+msgstr "Šis saraksts satur visas papildu direktorijas, kas satur spraudņus."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:26
 msgid "List of Extra Autoformat Directories."
-msgstr ""
+msgstr "Papildu automātiskās formatēšanas direktoriju saraksts."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:27
 msgid ""
 "This list contains all extra directories containing autoformat templates."
 msgstr ""
+"Šis saraksts satur visas papildu direktorijas, kas satur automātiskās "
+"formatēšanas veidnes."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:28
 msgid "System Directory for Autoformats"
