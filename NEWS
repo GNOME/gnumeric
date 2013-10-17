@@ -3,6 +3,9 @@ Gnumeric 1.12.9
 Morten:
 	* Minor improvement to history dialog.
 
+Xabier Rodríguez Calvar:
+	* Fix dialog button order. [#710378]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.8
 

@@ -1,3 +1,8 @@
+2013-10-17  Morten Welinder  <terra@gnome.org>
+
+	* sheet-rename.ui, sheet-resize.ui: Fix button order.  Patches
+	from Xabier Rodríguez Calvar, #710378.
+
 2013-10-09  Morten Welinder  <terra@gnome.org>
 
 	* dialog-recent.c (url_renderer_func): If we have a filename, use
