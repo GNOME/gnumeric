@@ -260,12 +260,7 @@ gnm_init (void)
 	print_init ();
 	gnm_autofill_init ();
 	sheet_objects_init ();
-
-	/* make sure that all hlink types are registered */
-	gnm_hlink_cur_wb_get_type ();
-	gnm_hlink_url_get_type ();
-	gnm_hlink_email_get_type ();
-	gnm_hlink_external_get_type ();
+	_gnm_hlink_init ();
 
 	/* The statically linked in file formats */
 	gnm_xml_sax_read_init ();

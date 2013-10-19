@@ -30,6 +30,9 @@ GType gnm_hlink_url_get_type (void);
 GType gnm_hlink_email_get_type (void);
 GType gnm_hlink_external_get_type (void);
 
+/* Protected. */
+void _gnm_hlink_init (void);
+
 G_END_DECLS
 
 #endif /* _GNM_HLINK_H_ */

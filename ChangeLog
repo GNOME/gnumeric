@@ -1,3 +1,8 @@
+2013-10-19  Morten Welinder  <terra@gnome.org>
+
+	* src/hlink.c (_gnm_hlink_init): New function.
+	* src/libgnumeric.c (gnm_init): Use _gnm_hlink_init.
+
 2013-10-07  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

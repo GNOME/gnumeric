@@ -312,3 +312,13 @@ gnm_hlink_external_class_init (GObjectClass *object_class)
 GSF_CLASS (GnmHLinkExternal, gnm_hlink_external,
 	   gnm_hlink_external_class_init, NULL,
 	   GNM_HLINK_TYPE)
+
+void
+_gnm_hlink_init (void)
+{
+	/* make sure that all hlink types are registered */
+	gnm_hlink_cur_wb_get_type ();
+	gnm_hlink_url_get_type ();
+	gnm_hlink_email_get_type ();
+	gnm_hlink_external_get_type ();
+}
