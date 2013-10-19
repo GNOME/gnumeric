@@ -141,7 +141,9 @@
     <autotools id="pixman">
 	<branch repo="cairographics"
 		module="pixman-0.30.0.tar.gz"
-		version="0.30.0"/>
+		version="0.30.0">
+	  <patch file="&patch_dir;pixman-crash.patch" strip="1"/>
+	</branch>
     </autotools>
     <autotools id="cairo">
 	<branch repo="cairographics"

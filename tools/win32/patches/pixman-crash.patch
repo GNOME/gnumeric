@@ -1,0 +1,45 @@
+commit 4978392c6d6d6e69bef3bb66ea53f41a58e8eafc
+Author: Søren Sandmann Pedersen <ssp@redhat.com>
+Date:   Fri Oct 11 00:49:44 2013 -0400
+
+    pixman-glyph.c: Add __force_align_arg_pointer to composite functions
+    
+    The functions pixman_composite_glyphs_no_mask() and
+    pixman_composite_glyphs() can call into code compiled with -msse2,
+    which requires the stack to be aligned to 16 bytes. Since the ABIs on
+    Windows and Linux for x86-32 don't provide this guarantee, we need to
+    use this attribute to make GCC generate a prologue that realigns the
+    stack.
+    
+    This fixes the crash introduced in the previous commit and also
+    
+       https://bugs.freedesktop.org/show_bug.cgi?id=70348
+    
+    and
+    
+       https://bugs.freedesktop.org/show_bug.cgi?id=68300
+
+diff --git a/pixman/pixman-glyph.c b/pixman/pixman-glyph.c
+index 5a271b6..96a349a 100644
+--- a/pixman/pixman-glyph.c
++++ b/pixman/pixman-glyph.c
+@@ -391,6 +391,9 @@ box32_intersect (pixman_box32_t *dest,
+     return dest->x2 > dest->x1 && dest->y2 > dest->y1;
+ }
+ 
++#if defined(__GNUC__) && !defined(__x86_64__) && !defined(__amd64__)
++__attribute__((__force_align_arg_pointer__))
++#endif
+ PIXMAN_EXPORT void
+ pixman_composite_glyphs_no_mask (pixman_op_t            op,
+ 				 pixman_image_t        *src,
+@@ -630,6 +633,9 @@ out:
+  *   - Trim the mask to the destination clip/image?
+  *   - Trim composite region based on sources, when the op ignores 0s.
+  */
++#if defined(__GNUC__) && !defined(__x86_64__) && !defined(__amd64__)
++__attribute__((__force_align_arg_pointer__))
++#endif
+ PIXMAN_EXPORT void
+ pixman_composite_glyphs (pixman_op_t            op,
+ 			 pixman_image_t        *src,
