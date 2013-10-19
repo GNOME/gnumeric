@@ -222,20 +222,6 @@ gnm_pre_parse_shutdown (void)
 	go_shell_argv_to_glib_encoding_free ();
 }
 
-#if 0
-static void
-gnumeric_check_for_components (void)
-{
-	OAF_ServerInfoList *result;
-
-	result = oaf_query ("repo_ids.has('IDL::1.0')", NULL, NULL);
-
-	g_return_if_fail (result != NULL);
-
-	CORBA_free (info_list);
-}
-#endif
-
 void
 gnm_init (void)
 {
