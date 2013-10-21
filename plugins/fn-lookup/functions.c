@@ -1909,7 +1909,7 @@ GnmFuncDescriptor const lookup_functions[] = {
 	{ "hlookup",   "EAf|bb",
 	  help_hlookup, gnumeric_hlookup, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "hyperlink", "s|s",
+	{ "hyperlink", "S|S",
 	  help_hyperlink, gnumeric_hyperlink, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUBSET, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "indirect",  "s|b",

@@ -1,3 +1,8 @@
+2013-10-21  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (hyperlink): scalar, not string type, arguments.
+	See bug 81718.
+
 2013-10-07  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.8
