@@ -1747,7 +1747,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 	int	 *iter_item = NULL;
 	int argc;
 	GnmExprConstPtr *argv;
-	GnmExprEvalFlags flags;
+	GnmExprEvalFlags flags, pass_flags;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
@@ -1779,6 +1779,9 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 	    iter_count == -1)
 		return gnumeric_if2 (ei, argc, argv, flags);
 
+	pass_flags = (flags &
+		      (GNM_EXPR_EVAL_ARRAY_CONTEXT));
+
 	for (i = 0; i < argc; i++) {
 		char arg_type = fn_def->fn.args.arg_types[i];
 		/* expr is always non-null, missing args are encoded as
@@ -1788,6 +1791,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 		if (arg_type == 'A' || arg_type == 'r') {
 			tmp = args[i] = gnm_expr_eval
 				(expr, ei->pos,
+				 pass_flags |
 				 GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
 				 GNM_EXPR_EVAL_WANT_REF);
 			if (VALUE_IS_ERROR (tmp)) {
@@ -1811,10 +1815,13 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 		}
 
 		/* force scalars whenever we are certain */
-		tmp = args[i] = gnm_expr_eval (expr, ei->pos,
-		       ((iter_count >= 0 || arg_type == '?')
-			       ? (GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR)
-			       : (GNM_EXPR_EVAL_PERMIT_EMPTY)));
+		tmp = args[i] = gnm_expr_eval
+			(expr, ei->pos,
+			 pass_flags |
+			 GNM_EXPR_EVAL_PERMIT_EMPTY |
+			 (iter_count >= 0 || arg_type == '?'
+			  ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR
+			  : 0));
 
 		if (arg_type == '?')	/* '?' arguments are unrestriced */
 			continue;
