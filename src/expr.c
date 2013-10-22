@@ -670,7 +670,8 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 
 		ei.pos = pos;
 		ei.func_call = &expr->func;
-		v = function_call_with_exprs (&ei, flags);
+		ei.flags = flags;
+		v = function_call_with_exprs (&ei);
 
 		if (v != NULL) {
 			if (v->type == VALUE_CELLRANGE) {
@@ -1448,7 +1449,8 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		GnmFuncEvalInfo ei;
 		ei.pos = pos;
 		ei.func_call = &expr->func;
-		res = function_call_with_exprs (&ei, flags);
+		ei.flags = flags;
+		res = function_call_with_exprs (&ei);
 		if (res == NULL)
 			return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 			    ? NULL : value_new_int (0);

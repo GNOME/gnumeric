@@ -1732,14 +1732,13 @@ free_values (GnmValue **values, int top)
 /**
  * function_call_with_exprs:
  * @ei: EvalInfo containing valid fn_def!
- * @flags:
  *
  * Do the guts of calling a function.
  *
  * Returns the result.
  **/
 GnmValue *
-function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
+function_call_with_exprs (GnmFuncEvalInfo *ei)
 {
 	GnmFunc const *fn_def;
 	int	  i, iter_count, iter_width = 0, iter_height = 0;
@@ -1748,9 +1747,12 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 	int	 *iter_item = NULL;
 	int argc;
 	GnmExprConstPtr *argv;
+	GnmExprEvalFlags flags;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
+
+	flags = ei->flags;
 
 	argc = ei->func_call->argc;
 	argv = ei->func_call->argv;
