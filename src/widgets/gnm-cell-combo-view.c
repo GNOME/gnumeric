@@ -261,6 +261,23 @@ static void cb_ccombo_button_pressed	(SheetObjectView *sov)	{ gnm_cell_combo_vie
 static void cb_ccombo_ok_button		(GtkTreeView *list)	{ ccombo_activate (list, TRUE); }
 static void cb_ccombo_cancel_button	(GtkWidget *list)	{ ccombo_popup_destroy (list); }
 
+static void
+cb_realize_treeview (GtkWidget *list, GtkWidget *sw)
+{
+	GtkRequisition req;
+	GdkRectangle rect;
+	GtkTreePath *clip = g_object_get_data (G_OBJECT (list), "clip");
+
+	gtk_widget_get_preferred_size (GTK_WIDGET (list), &req, NULL);
+
+	gtk_tree_view_get_background_area (GTK_TREE_VIEW (list),
+					   clip, NULL, &rect);
+
+	gtk_scrolled_window_set_min_content_width (GTK_SCROLLED_WINDOW (sw), req.width);
+
+	gtk_scrolled_window_set_min_content_height (GTK_SCROLLED_WINDOW (sw), rect.y);
+}
+
 /**
  * gnm_cell_combo_view_popdown:
  * @sov: #SheetObjectView
@@ -280,7 +297,6 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	int root_x, root_y;
 	gboolean 	make_buttons = FALSE;
 	GtkTreePath	  *clip = NULL, *select = NULL;
-	GtkRequisition	req;
 	GtkWindow *toplevel = wbcg_toplevel (scg_wbcg (scg));
 	GdkWindow *popup_window;
 	GdkDevice *device;
@@ -299,7 +315,6 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	list = ccombo_create_list (GNM_CCOMBO_VIEW (sov), so, &clip, &select, &make_buttons);
 
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (list), FALSE);
-	gtk_widget_get_preferred_size (GTK_WIDGET (list), &req, NULL);
 	g_object_set_data (G_OBJECT (list), SOV_ID, sov);
 
 	frame = gtk_frame_new (NULL);
@@ -310,20 +325,25 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	g_printerr (" : so = %p, view = %p\n", so, view);
 #endif
 	if (clip != NULL) {
-		GdkRectangle  rect;
 		GtkWidget *sw = gtk_scrolled_window_new (
 			gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (list)),
 			gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (list)));
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 						GTK_POLICY_AUTOMATIC,
 						GTK_POLICY_ALWAYS);
-		gtk_tree_view_get_background_area (GTK_TREE_VIEW (list),
-						   clip, NULL, &rect);
-		gtk_tree_path_free (clip);
+		g_object_set_data_full (G_OBJECT (list),
+					"clip", clip,
+					(GDestroyNotify)gtk_tree_path_free);
 
-		gtk_scrolled_window_set_min_content_width (GTK_SCROLLED_WINDOW (sw), req.width);
-		gtk_scrolled_window_set_min_content_height (GTK_SCROLLED_WINDOW (sw), rect.y);
 		gtk_container_add (GTK_CONTAINER (sw), list);
+
+		/*
+		 * Do the sizing in a realize handler as newer versions of
+		 * gtk+ give us zero sizes until then.
+		 */
+		g_signal_connect_after (list, "realize",
+					G_CALLBACK (cb_realize_treeview),
+					sw);
 		container = sw;
 	} else
 		container = list;

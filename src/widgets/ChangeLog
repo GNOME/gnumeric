@@ -1,3 +1,8 @@
+2013-10-25  Morten Welinder  <terra@gnome.org>
+
+	* gnm-cell-combo-view.c (gnm_cell_combo_view_popdown): Move sizing
+	to realize handler.  Fixes #710749.
+
 2013-10-07  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.8
