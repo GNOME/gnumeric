@@ -34,6 +34,10 @@ qcauchy (gnm_float p, gnm_float location, gnm_float scale,
 		else
 			p = gnm_exp (p);
 	}
+	if (p > 0.5) {
+		p = 1 - p;
+		lower_tail = !lower_tail;
+	}
 	if (lower_tail) scale = -scale;
 	return location + scale / gnm_tan(M_PIgnum * p);
 }
