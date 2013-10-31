@@ -7765,6 +7765,12 @@ qgamma (gnm_float p, gnm_float alpha, gnm_float scale,
 	R_Q_P01_check(p);
 	if (alpha <= 0) ML_ERR_return_NAN;
 
+	if (!log_p && p > 0.9) {
+		/* We're far into the tail.  Flip.  */
+		p = 1 - p;
+		lower_tail = !lower_tail;
+	}
+
 	/* Make an initial guess, x0, assuming scale==1.  */
 	v = 2 * alpha;
 	if (v < -1.24 * R_DT_log (p))

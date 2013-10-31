@@ -1,3 +1,10 @@
+2013-10-31  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (qgamma): Flip tail for high values of p.  This
+	avoids accuracy problems since any cdf is completely flat in terms
+	of floating point values when going sufficiently far into the
+	tail.
+
 2013-10-22  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (function_call_with_exprs): Move flags argument into

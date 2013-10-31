@@ -5,6 +5,7 @@ Morten:
 	* Fix drop-down sizing (gtk+ regression).  [#710749]
 	* Improve accuracy of R.QCAUCHY.
 	* Acquire more special function test cases.
+	* Improve accuracy of R.QGAMMA and thus R.QCHISQ.
 
 Xabier Rodríguez Calvar:
 	* Fix dialog button order. [#710378]
