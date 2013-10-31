@@ -4,6 +4,7 @@ Morten:
 	* Minor improvement to history dialog.
 	* Fix drop-down sizing (gtk+ regression).  [#710749]
 	* Improve accuracy of R.QCAUCHY.
+	* Acquire more special function test cases.
 
 Xabier Rodríguez Calvar:
 	* Fix dialog button order. [#710378]

@@ -1,3 +1,8 @@
+2013-10-30  Morten Welinder  <terra@gnome.org>
+
+	* process-amath.pl: First cut at new tool to import more test
+	cases.  No judgement on the quality of the test cases yet.
+
 2013-10-07  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.8
