@@ -179,6 +179,34 @@ sub reorder_handler {
 
 # -----------------------------------------------------------------------------
 
+sub simplify_val {
+    my ($val,$pvars) = @_;
+
+    $val =~ s/^\s+//;
+    $val =~ s/\s+$//;
+
+    # Avoid a perl bug that underflows 0.153e-305
+    while ($val =~ /^(.*)\b0\.(\d)(\d*)[eE]-(\d+)\b(.*)$/) {
+	$val = "$1$2.$3e-" . ($4 + 1) . $5;
+    }
+
+    $val =~ s/\bldexp\s*\(\s*([-+.eE0-9_]+)\s*[,;]\s*([-+]?\d+)\s*\)/($1*2^$2)/g;
+
+    if ($val =~ m{^[-+*/^() .eE0-9]+$}) {
+	print STDERR "ZZZ:$val\n" if $val =~ /^[-+]?[0-9.]+[eE][-+]?\d+$/ && $val == 0;
+	return 0 if $val =~ /^[-+]?[0-9.]+[eE][-+]?\d+$/ && $val == 0;
+
+	return $val;
+    } elsif (exists $pvars->{$val}) {
+	return $pvars->{$val};
+    } else {
+	print STDERR "XXX:[$val]\n";
+	return undef;
+    }
+}
+
+# -----------------------------------------------------------------------------
+
 foreach my $f (@test_files) {
     my $fn = "$dir/tests/$f";
 
@@ -213,23 +241,8 @@ foreach my $f (@test_files) {
 	    my $ok = 1;
 
 	    foreach (@args) {
-		s/^\s+//;
-		s/\s+$//;
-		if (m{^[-+*/() .eE0-9]+$}) {
-		    $_ = 0 if /^[-+]?[0-9.]+[eE][-+]?\d+$/ && $_ == 0;
-		    next;
-		} elsif (exists $vars{$_}) {
-		    $_ = $vars{$_};
-		    next;
-		} elsif (/^ldexp\(([-+.eE0-9_]+);([-+]?\d+)\)$/) {
-		    $_ = "2^$2";
-		    $_ = "$1*$_" unless $1 == 1;
-		} elsif (/^1\s*-\s*ldexp\(([-+.eE0-9_]+);([-+]?\d+)\)$/) {
-		    $_ = "2^$2";
-		    $_ = "$1*$_" unless $1 == 1;
-		    $_ = "1-$_";
-		} else {
-		    print STDERR "XXX:[$_]\n";
+		$_ = &simplify_val ($_, \%vars);
+		if (!defined $_) {
 		    $ok = 0;
 		    last;
 		}
@@ -243,7 +256,7 @@ foreach my $f (@test_files) {
 	while (s/^\s*([a-zA-Z0-9]+)\s*:=\s*([-+.eE0-9_]+)\s*;//) {
 	    my $var = $1;
 	    my $val = $2;
-	    $val = 0 if $val =~ /^[-+]?[0-9.]+[eE][-+]?\d+$/ && $val == 0;
+	    $val = &simplify_val ($val, \%vars);
 	    $vars{$var} = $val;
 	}
 
