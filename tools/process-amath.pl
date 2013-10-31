@@ -215,8 +215,8 @@ foreach my $f (@test_files) {
 	    foreach (@args) {
 		s/^\s+//;
 		s/\s+$//;
-		if (m{^([-+*/() .eE0-9]+)$}) {
-		    $_ = 0 if /^[-+]?[0-9.]+[eE][-+]?\d+/ && $_ == 0;
+		if (m{^[-+*/() .eE0-9]+$}) {
+		    $_ = 0 if /^[-+]?[0-9.]+[eE][-+]?\d+$/ && $_ == 0;
 		    next;
 		} elsif (exists $vars{$_}) {
 		    $_ = $vars{$_};
@@ -241,7 +241,10 @@ foreach my $f (@test_files) {
 	}
 
 	while (s/^\s*([a-zA-Z0-9]+)\s*:=\s*([-+.eE0-9_]+)\s*;//) {
-	    $vars{$1} = $2;
+	    my $var = $1;
+	    my $val = $2;
+	    $val = 0 if $val =~ /^[-+]?[0-9.]+[eE][-+]?\d+$/ && $val == 0;
+	    $vars{$var} = $val;
 	}
 
 	if (/^\s*test(rel|abs)\s*/ && exists $vars{'f'} && defined ($expr)) {
