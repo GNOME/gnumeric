@@ -3814,7 +3814,7 @@ And routine specific :
 #define enten_BESS	1e308
 
 #define exparg_BESS	709.
-#define xlrg_BESS_IJ	1e4
+#define xlrg_BESS_IJ	1e5
 #define xlrg_BESS_Y	1e8
 #define thresh_BESS_Y	16.
 
@@ -6644,6 +6644,12 @@ qtukey (gnm_float p, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean
 {
 	gnm_float x0, shape[3];
 
+	if (!log_p && p > 0.9) {
+		/* We're far into the tail.  Flip.  */
+		p = 1 - p;
+		lower_tail = !lower_tail;
+	}
+
 	/* This is accurate for nmeans==2 and nranges==1.   */
 	x0 = M_SQRT2gnum * qt ((1 + p) / 2, df, lower_tail, log_p);
 
@@ -7831,6 +7837,12 @@ qbeta (gnm_float p, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean 
 	R_Q_P01_check (p);
 
 	if (pin < 0. || qin < 0.) ML_ERR_return_NAN;
+
+	if (!log_p && p > 0.9) {
+		/* We're far into the tail.  Flip.  */
+		p = 1 - p;
+		lower_tail = !lower_tail;
+	}
 
 	if (pin >= 1 && qin >= 1)
 		x0 = abramowitz_stegun_26_5_22 (p, pin, qin, lower_tail, log_p);

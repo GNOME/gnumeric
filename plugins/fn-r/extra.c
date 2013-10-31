@@ -136,6 +136,12 @@ qsnorm (gnm_float p, gnm_float shape, gnm_float location, gnm_float scale,
 	if (shape == 0.)
 		return qnorm (p, location, scale, lower_tail, log_p);
 
+	if (!log_p && p > 0.9) {
+		/* We're far into the tail.  Flip.  */
+		p = 1 - p;
+		lower_tail = !lower_tail;
+	}
+
 	x0 = 0.0;
 	params[0] = shape;
 	params[1] = location;
@@ -292,6 +298,12 @@ qst (gnm_float p, gnm_float n, gnm_float shape,
 
 	if (shape == 0.)
 		return qt (p, n, lower_tail, log_p);
+
+	if (!log_p && p > 0.9) {
+		/* We're far into the tail.  Flip.  */
+		p = 1 - p;
+		lower_tail = !lower_tail;
+	}
 
 	x0 = 0.0;
 	params[0] = n;

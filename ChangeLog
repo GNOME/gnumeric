@@ -4,6 +4,9 @@
 	avoids accuracy problems since any cdf is completely flat in terms
 	of floating point values when going sufficiently far into the
 	tail.
+	(qtukey): Ditto.
+	(qbeta): Ditto.
+	(J_bessel): Extend xlrg_BESS_IJ to match current R.
 
 2013-10-22  Morten Welinder  <terra@gnome.org>
 

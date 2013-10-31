@@ -1,3 +1,8 @@
+2013-10-31  Morten Welinder  <terra@gnome.org>
+
+	* extra.c (qsnorm, qst): Flip tail if p>0.9.  Improves accuracy
+	when we get really close to 1.
+
 2013-10-30  Morten Welinder  <terra@gnome.org>
 
 	* extra.c (qcauchy): Flip tail if p>0.5.  Improves accuracy when
