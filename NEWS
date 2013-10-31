@@ -7,6 +7,7 @@ Morten:
 	* Acquire more special function test cases.
 	* Improve accuracy of R.QGAMMA and thus R.QCHISQ.
 	* Improve accuracy of R.QBETA, R.QF, R.QTUKEY, R.QSNORM, and R.QST.
+	* Improve accuracy of COMBIN, PERMUT, POCHHAMMER, FACT, GAMMA.
 
 Xabier Rodríguez Calvar:
 	* Fix dialog button order. [#710378]

@@ -7,6 +7,10 @@
 	(qtukey): Ditto.
 	(qbeta): Ditto.
 	(J_bessel): Extend xlrg_BESS_IJ to match current R.
+	(permut): Route this into pochhammer.
+	(qfact): New function.  Tabulate 0! through 50000! using quad
+	precision arithmetic.
+	(combin, fact, pochhammer): Improve accuracy using qfact.
 
 2013-10-22  Morten Welinder  <terra@gnome.org>
 

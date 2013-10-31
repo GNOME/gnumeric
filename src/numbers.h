@@ -121,6 +121,7 @@ gnm_float gnm_erfc (gnm_float x);
 #define gnm_quad_mul go_quad_mull
 #define gnm_quad_div go_quad_divl
 #define gnm_quad_mul12 go_quad_mul12l
+#define gnm_quad_zero go_quad_zerol
 #define GnmAccumulator GOAccumulatorl
 #define gnm_accumulator_start go_accumulator_startl
 #define gnm_accumulator_end go_accumulator_endl
@@ -208,6 +209,7 @@ typedef double gnm_float;
 #define gnm_quad_mul go_quad_mul
 #define gnm_quad_div go_quad_div
 #define gnm_quad_mul12 go_quad_mul12
+#define gnm_quad_zero go_quad_zero
 #define GnmAccumulator GOAccumulator
 #define gnm_accumulator_start go_accumulator_start
 #define gnm_accumulator_end go_accumulator_end
