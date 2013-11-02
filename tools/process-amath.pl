@@ -5,6 +5,8 @@
 
 use strict;
 
+my $debug_underflow = 0;
+my $debug_arguments = 1;
 my $dir = $ARGV[0];
 
 my @test_files =
@@ -92,7 +94,12 @@ sub def_expr_handler {
 }
 
 my %expr_handlers =
-    ('r.dcauchy' => sub { &reorder_handler ("3,1,2", @_); },
+    ('beta' => \&non_negative_handler,
+     'gammaln' => \&non_negative_handler,
+     'factdouble' => \&non_negative_handler,
+     'pochhammer' => \&positive_handler, # We shouldn't need this
+     'combin' => \&non_negative_handler,
+     'r.dcauchy' => sub { &reorder_handler ("3,1,2", @_); },
      'r.pcauchy' => sub { &reorder_handler ("3,1,2", @_); },
      'r.qcauchy' => sub { &reorder_handler ("3,1,2", @_); },
      'r.dchisq' => sub { &reorder_handler ("2,1", @_); },
@@ -166,6 +173,18 @@ sub output_test {
 
 # -----------------------------------------------------------------------------
 
+sub interpret_number {
+    my ($s) = @_;
+
+    if ($s =~ /^[-+]?(\d+\.?|\d*\.\d+)([eE][-+]?\d+)?$/) {
+	return $s;
+    } else {
+	return undef;
+    }
+}
+
+# -----------------------------------------------------------------------------
+
 sub reorder_handler {
     my ($order,$f,$pargs) = @_;
 
@@ -175,6 +194,29 @@ sub reorder_handler {
     }
 
     return &def_expr_handler ($f,\@res);
+}
+
+sub non_negative_handler {
+    my ($f,$pargs) = @_;
+
+    foreach (@$pargs) {
+	my $x = &interpret_number ($_);
+	print STDERR "$_ -> $x\n";
+	return undef unless defined ($x) && $x >= 0;
+    }    
+
+    return &def_expr_handler ($f,$pargs);
+}
+
+sub positive_handler {
+    my ($f,$pargs) = @_;
+
+    foreach (@$pargs) {
+	my $x = &interpret_number ($_);
+	return undef unless defined ($x) && $x > 0;
+    }    
+
+    return &def_expr_handler ($f,$pargs);
 }
 
 # -----------------------------------------------------------------------------
@@ -193,14 +235,16 @@ sub simplify_val {
     $val =~ s/\bldexp\s*\(\s*([-+.eE0-9_]+)\s*[,;]\s*([-+]?\d+)\s*\)/($1*2^$2)/g;
 
     if ($val =~ m{^[-+*/^() .eE0-9]+$}) {
-	print STDERR "ZZZ:$val\n" if $val =~ /^[-+]?[0-9.]+[eE][-+]?\d+$/ && $val == 0;
-	return 0 if $val =~ /^[-+]?[0-9.]+[eE][-+]?\d+$/ && $val == 0;
+	if ($val =~ /^[-+]?[0-9.]+[eE][-+]?\d+$/ && $val == 0) {
+	    print STDERR "DEBUG: $val --> 0\n" if $debug_underflow;
+	    return 0;
+	}
 
 	return $val;
     } elsif (exists $pvars->{$val}) {
 	return $pvars->{$val};
     } else {
-	print STDERR "XXX:[$val]\n";
+	print STDERR "DEBUG: Argument $val unresolved.\n" if $debug_arguments;
 	return undef;
     }
 }
