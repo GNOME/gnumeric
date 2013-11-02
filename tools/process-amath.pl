@@ -304,7 +304,7 @@ foreach my $f (@test_files) {
 	    $vars{$var} = $val;
 	}
 
-	if (/^\s*test(rel|abs)\s*/ && exists $vars{'f'} && defined ($expr)) {
+	if (/^\s*test(rel|rele|abs)\s*/ && exists $vars{'f'} && defined ($expr)) {
 	    &output_test ($gfunc, $expr, $vars{'f'});
 	    $expr = undef;
 	}
