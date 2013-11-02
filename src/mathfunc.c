@@ -1080,7 +1080,7 @@ static gnm_float dpois_raw(gnm_float x, gnm_float lambda, gboolean give_log)
     if (lambda == 0) return( (x == 0) ? R_D__1 : R_D__0 );
     if (!gnm_finite(lambda)) return R_D__0;
     if (x < 0) return( R_D__0 );
-    if (x < lambda * GNM_MIN) return(R_D_exp(-lambda) );
+    if (x <= lambda * GNM_MIN) return(R_D_exp(-lambda) );
     if (lambda < x * GNM_MIN) return(R_D_exp(-lambda + x*gnm_log(lambda) -lgamma1p (x)));
     return(R_D_fexp( M_2PIgnum*x, -stirlerr(x)-bd0(x,lambda) ));
 }

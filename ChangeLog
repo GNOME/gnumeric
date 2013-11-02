@@ -1,3 +1,7 @@
+2013-11-01  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (dpois_raw): Handler x=0 as in newer R.
+
 2013-10-31  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (qgamma): Flip tail for high values of p.  This
