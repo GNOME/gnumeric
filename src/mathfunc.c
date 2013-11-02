@@ -8874,6 +8874,10 @@ gnm_gamma (gnm_float x)
 			return fact ((int)x - 1);
 
 		if (x > 10) {
+			/* Overflow protection. */
+			if (x > 170)
+				return (x - 1) * gnm_gamma (x - 1);
+
 			return gnm_pow (x / M_Egnum, x) /
 				gnm_sqrt (x / M_2PIgnum)
 				* gnm_exp (lgammacor (x));
