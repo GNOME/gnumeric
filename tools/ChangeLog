@@ -1,3 +1,8 @@
+2013-11-01  Morten Welinder  <terra@gnome.org>
+
+	* process-amath.pl: When parsing a variable assignment fails,
+	remove previous values for that variable.
+
 2013-10-30  Morten Welinder  <terra@gnome.org>
 
 	* process-amath.pl: First cut at new tool to import more test

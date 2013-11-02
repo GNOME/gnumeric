@@ -201,7 +201,6 @@ sub non_negative_handler {
 
     foreach (@$pargs) {
 	my $x = &interpret_number ($_);
-	print STDERR "$_ -> $x\n";
 	return undef unless defined ($x) && $x >= 0;
     }    
 
@@ -297,11 +296,15 @@ foreach my $f (@test_files) {
 	    $expr = &$h ($gfunc,\@args);
 	}
 
-	while (s/^\s*([a-zA-Z0-9]+)\s*:=\s*([-+.eE0-9_]+)\s*;//) {
+	while (s/^\s*([a-zA-Z0-9]+)\s*:=\s*([^;]+)\s*;//) {
 	    my $var = $1;
 	    my $val = $2;
 	    $val = &simplify_val ($val, \%vars);
-	    $vars{$var} = $val;
+	    if (defined $val) {
+		$vars{$var} = $val;
+	    } else {
+		delete $vars{$var};
+	    }
 	}
 
 	if (/^\s*test(rel|rele|abs)\s*/ && exists $vars{'f'} && defined ($expr)) {
