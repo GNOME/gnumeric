@@ -6,6 +6,7 @@
 use strict;
 
 my $debug_underflow = 0;
+my $debug_overflow = 0;
 my $debug_arguments = 1;
 my $dir = $ARGV[0];
 
@@ -19,6 +20,7 @@ my @test_files =
      't_sfd4.pas',
      't_sfd6.pas',
      't_amath1.pas',
+     't_amathm.pas',
     );
 
 my %name_map =
@@ -86,11 +88,46 @@ my %name_map =
      'bessel_k0' => 'besselk0', # Really named besselk
      'bessel_k1' => 'besselk1', # Really named besselk
      'bessel_kv' => 'besselk',
+     'exp' => 'exp',
+     'expm1' => 'expm1',
+     'ln' => 'ln',
+     'ln1p' => 'ln1p',
+     'log10' => 'log10',
+     'log2' => 'log2',
+     'arccos' => 'acos',
+     'arccosh' => 'acosh',
+     'arcsin' => 'asin',
+     'arcsinh' => 'asinh',
+     'arccot' => 'acot',
+     'arccoth' => 'acoth',
+     'arctan' => 'atan',
+     'arctanh' => 'atanh',
+     'cos' => 'cos',
+     'cosh' => 'cosh',
+     'cot' => 'cot',
+     'coth' => 'coth',
+     'csc' => 'csc',
+     'csch' => 'csch',
+     'sec' => 'sec',
+     'sech' => 'sech',
+     'sin' => 'sin',
+     'sinh' => 'sinh',
+     'tan' => 'tan',
+     'tanh' => 'tanh',
+     'gd' => 'gd',
+    );
+
+my %invalid_tests =
+    (# Magically changed to something else
+     'cos(1.0)' => 1,
+     'cos(0.0)' => 1,
     );
 
 sub def_expr_handler {
     my ($f,$pa) = @_;
-    return "$f(" . join (",", @$pa) . ")";
+    my $expr = "$f(" . join (",", @$pa) . ")";
+    return undef if exists $invalid_tests{$expr};
+    return $expr;
 }
 
 my %expr_handlers =
@@ -153,6 +190,21 @@ my %expr_handlers =
      'besselk0' => sub { my ($f,$pa) = @_; &def_expr_handler ('besselk',[@$pa,0]); },
      'besselk1' => sub { my ($f,$pa) = @_; &def_expr_handler ('besselk',[@$pa,1]); },
      'besselk' => sub { &reorder_handler ("2,1", @_); },
+     'ln' => \&positive_handler,
+     'log10' => \&positive_handler,
+     'log2' => \&positive_handler,
+    );
+
+my %constants =
+    # Use lower case.
+    ('pi_1' => 3.1415926535897932385,
+     'pi_2' => 1.5707963267948966192,
+     'pi_3' => 1.0471975511965977462,
+     'pi_4' => 0.78539816339744830962,
+     'pi_6' => 0.52359877559829887308,
+     'sqrt2' => 1.4142135623730950488,
+     'sqrt3' => 1.7320508075688772935,
+     'sqrt_5' => 0.7071067811865475244,
     );
 
 # -----------------------------------------------------------------------------
@@ -234,14 +286,20 @@ sub simplify_val {
     $val =~ s/\bldexp\s*\(\s*([-+.eE0-9_]+)\s*[,;]\s*([-+]?\d+)\s*\)/($1*2^$2)/g;
 
     if ($val =~ m{^[-+*/^() .eE0-9]+$}) {
-	if ($val =~ /^[-+]?[0-9.]+[eE][-+]?\d+$/ && $val == 0) {
-	    print STDERR "DEBUG: $val --> 0\n" if $debug_underflow;
-	    return 0;
+	if ($val =~ /^[-+]?[0-9.]+[eE][-+]?\d+$/) {
+	    if ($val == 0) {
+		print STDERR "DEBUG: $val --> 0\n" if $debug_underflow;
+		return 0;
+	    }
+	    if (($val + 0) =~ /inf/ ) {
+		print STDERR "DEBUG: $val --> inf\n" if $debug_overflow;
+		return undef;
+	    }
 	}
 
 	return $val;
-    } elsif (exists $pvars->{$val}) {
-	return $pvars->{$val};
+    } elsif (exists $pvars->{lc $val}) {
+	return $pvars->{lc $val};
     } else {
 	print STDERR "DEBUG: Argument $val unresolved.\n" if $debug_arguments;
 	return undef;
@@ -269,7 +327,7 @@ foreach my $f (@test_files) {
 	    $afunc = $1;
 	    $gfunc = $name_map{$afunc};
 	    printf STDERR "Reading tests for $gfunc\n" if $gfunc;
-	    %vars = ();
+	    %vars = %constants;
 	    next;
 	}
 
@@ -297,7 +355,7 @@ foreach my $f (@test_files) {
 	}
 
 	while (s/^\s*([a-zA-Z0-9]+)\s*:=\s*([^;]+)\s*;//) {
-	    my $var = $1;
+	    my $var = lc $1;
 	    my $val = $2;
 	    $val = &simplify_val ($val, \%vars);
 	    if (defined $val) {
@@ -310,6 +368,20 @@ foreach my $f (@test_files) {
 	if (/^\s*test(rel|rele|abs)\s*/ && exists $vars{'f'} && defined ($expr)) {
 	    &output_test ($gfunc, $expr, $vars{'f'});
 	    $expr = undef;
+	}
+
+	if (/^\s*TData:\s*array/ ... /;\s*(\{.*\}\s*)*$/) {
+	    if (/^\s*\(\s*tx\s*:([^;]+);\s*ty\s*:([^\)]+)\)\s*,?\s*$/) {
+		my $tx = $1;
+		my $ty = $2;
+		my $x = &simplify_val ($tx, \%constants);
+		my $y = &simplify_val ($ty, \%constants);
+		my $h = $expr_handlers{$gfunc} || \&def_expr_handler;
+		my $expr = (defined $x) ? &$h ($gfunc,[$x]) : undef;
+		if (defined ($expr) && defined ($y)) {
+		    &output_test ($gfunc, $expr, $y);
+		}
+	    }
 	}
     }
 }
