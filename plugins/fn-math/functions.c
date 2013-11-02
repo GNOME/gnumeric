@@ -906,14 +906,7 @@ gnumeric_fact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (x < 0 && x_is_integer)
 		return value_new_error_NUM (ei->pos);
 
-	if (x_is_integer)
-		return value_new_float (fact (x));
-	else {
-		gnm_float res = gnm_exp (lgamma1p (x));
-		if (x < 0 && gnm_fmod (gnm_floor (-x), 2.0) != 0.0)
-			res = 0 - res;
-		return value_new_float (res);
-	}
+	return value_new_float (gnm_fact (x));
 }
 
 /***************************************************************************/
@@ -1793,7 +1786,7 @@ gnumeric_factdouble (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		/* Round as the result ought to be integer.  */
 		res = gnm_floor (0.5 + gnm_exp (lres) / gnm_sqrt (M_PIgnum));
 	} else
-		res = fact (n) * gnm_pow2 (n);
+		res = gnm_fact (n) * gnm_pow2 (n);
 
 	return value_new_float (res);
 }

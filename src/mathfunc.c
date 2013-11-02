@@ -81,6 +81,10 @@ static gnm_float bessel_y_ex(gnm_float x, gnm_float alpha, gnm_float *by);
 static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo);
 static gnm_float bessel_y(gnm_float x, gnm_float alpha);
 
+static void pochhammer_small_n (gnm_float x, gnm_float n, GnmQuad *r);
+
+static void gamma_error_factor (GnmQuad *res, const GnmQuad *x);
+
 /* MW ---------------------------------------------------------------------- */
 
 void
@@ -95,7 +99,6 @@ mathfunc_init (void)
  *
  * Returns: The co-tangent of the given angle.
  */
-
 gnm_float
 gnm_cot (gnm_float x)
 {
@@ -114,7 +117,6 @@ gnm_cot (gnm_float x)
  *
  * Returns: The inverse co-tangent of the given number.
  */
-
 gnm_float
 gnm_acot (gnm_float x)
 {
@@ -136,7 +138,6 @@ gnm_acot (gnm_float x)
  *
  * Returns: The hyperbolic co-tangent of the given number.
  */
-
 gnm_float
 gnm_coth (gnm_float x)
 {
@@ -4654,16 +4655,16 @@ static void J_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		t = (gnu - (xm - 3.)) * (gnu + (xm - 3.));
 		t1= (gnu - (xm + 1.)) * (gnu + (xm + 1.));
 		k = m + m;
-		capp = s * t / fact(k);
-		capq = s * t1/ fact(k + 1);
+		capp = s * t / gnm_fact(k);
+		capq = s * t1/ gnm_fact(k + 1);
 		xk = xm;
 		for (; k >= 4; k -= 2) {/* k + 2(j-2) == 2m */
 		    xk -= 4.;
 		    s = (xk - 1. - gnu) * (xk - 1. + gnu);
 		    t1 = t;
 		    t = (gnu - (xk - 3.)) * (gnu + (xk - 3.));
-		    capp = (capp + 1. / fact(k - 2)) * s * t  * xin;
-		    capq = (capq + 1. / fact(k - 1)) * s * t1 * xin;
+		    capp = (capp + 1. / gnm_fact(k - 2)) * s * t  * xin;
+		    capq = (capq + 1. / gnm_fact(k - 1)) * s * t1 * xin;
 
 		}
 		capp += 1.;
@@ -6309,7 +6310,7 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 	GNM_const(0.249147045813402785000562436043)
     };
     const int nleg = G_N_ELEMENTS (xleg) * 2;
-    gnm_float pr_w, binc, qsqz, blb; 
+    gnm_float pr_w, binc, qsqz, blb;
     int i, jj;
 
     qsqz = w * 0.5;
@@ -8016,9 +8017,9 @@ combin (gnm_float n, gnm_float k)
 		return n;
 
 	ok = (n < G_MAXINT &&
-	      !qfact ((int)n, &m1, &e1) &&
-	      !qfact ((int)k, &m2, &e2) &&
-	      !qfact ((int)(n - k), &m3, &e3));
+	      !qfactf (n, &m1, &e1) &&
+	      !qfactf (k, &m2, &e2) &&
+	      !qfactf (n - k, &m3, &e3));
 
 	if (ok) {
 		void *state = gnm_quad_start ();
@@ -8066,14 +8067,29 @@ permut (gnm_float n, gnm_float k)
 	return pochhammer (n - k + 1, k, FALSE);
 }
 
-gboolean
-qfact (int n, GnmQuad *mant, int *exp2)
+static void
+rescale_mant_exp (GnmQuad *mant, int *exp2)
 {
-	static GnmQuad mants[50000];
-	static int exp2s[G_N_ELEMENTS (mants)];
+	GnmQuad s;
+	int e;
+
+	(void)gnm_frexp (gnm_quad_value (mant), &e);
+	*exp2 += e;
+	gnm_quad_init (&s, gnm_ldexp (1.0, -e));
+	gnm_quad_mul (mant, mant, &s);
+}
+
+/* Tabulate up to, but not including, this number.  */
+#define QFACTI_LIMIT 10000
+
+static gboolean
+qfacti (int n, GnmQuad *mant, int *exp2)
+{
+	static GnmQuad mants[QFACTI_LIMIT];
+	static int exp2s[QFACTI_LIMIT];
 	static int init = 0;
 
-	if (n < 0 || n >= (int)G_N_ELEMENTS(mants)) {
+	if (n < 0 || n >= QFACTI_LIMIT) {
 		*mant = gnm_quad_zero;
 		*exp2 = 0;
 		return TRUE;
@@ -8089,15 +8105,12 @@ qfact (int n, GnmQuad *mant, int *exp2)
 		}
 
 		while (n >= init) {
-			GnmQuad m, s;
-			int e;
+			GnmQuad m;
 
 			gnm_quad_init (&m, init);
-			gnm_quad_mul (&m, &m, &mants[init - 1]);
-			(void)gnm_frexp (gnm_quad_value (&m), &e);
-			exp2s[init] = exp2s[init - 1] + e;
-			gnm_quad_init (&s, gnm_ldexp (1.0, -e));
-			gnm_quad_mul (&mants[init], &m, &s);
+			gnm_quad_mul (&mants[init], &m, &mants[init - 1]);
+			exp2s[init] = exp2s[init - 1];
+			rescale_mant_exp (&mants[init], &exp2s[init]);
 
 			init++;
 		}
@@ -8110,20 +8123,145 @@ qfact (int n, GnmQuad *mant, int *exp2)
 	return FALSE;
 }
 
+/* 0: ok, 1: overflow, 2: nan */
+int
+qfactf (gnm_float x, GnmQuad *mant, int *exp2)
+{
+	void *state;
+	gboolean res = 0;
 
+	if (gnm_isnan (x))
+		return 2;
+
+	if (x >= G_MAXINT / 2)
+		return 1;
+
+	if (x == gnm_floor (x)) {
+		/* Integer or infinite.  */
+		if (x < 0)
+			return 2;
+
+		if (!qfacti ((int)x, mant, exp2))
+			return 0;
+	}
+
+	state = gnm_quad_start ();
+
+	if (x < -1) {
+		if (qfactf (-x - 1, mant, exp2))
+			res = 1;
+		else {
+			GnmQuad a, b;
+			gnm_float xm2 = gnm_fmod (x, 2);
+
+			gnm_quad_init (&a, -M_PIgnum); /* FIXME: Do better */
+			gnm_quad_init (&b, gnm_sin (xm2 * M_PIgnum)); /* ? */
+			gnm_quad_mul (&b, &b, mant);
+			gnm_quad_div (mant, &a, &b);
+			*exp2 = -*exp2;
+		}
+	} else if (x >= QFACTI_LIMIT - 0.5) {
+		/*
+		 * Let y = x + 1 = m * 2^e; c = sqrt(2Pi).
+		 *
+		 * G(y) = c * y^(y-1/2) * exp(-y) * E(y)
+		 *      = c * (y/e)^y / sqrt(y) * E(y)
+		 */
+		GnmQuad y, f1, f2, f3, f4;
+		gnm_float ef2;
+		gboolean debug = FALSE;
+
+		if (debug) g_printerr ("x=%.20g\n", x);
+
+		gnm_quad_init (&y, x + 1);
+		*exp2 = 0;
+
+		/* sqrt(2Pi) */
+		gnm_quad_add (&f1, &gnm_quad_pi, &gnm_quad_pi);
+		gnm_quad_sqrt (&f1, &f1);
+		if (debug) g_printerr ("f1=%.20g\n", gnm_quad_value (&f1));
+
+		/* (y/e)^y */
+		gnm_quad_div (&f2, &y, &gnm_quad_e);
+		gnm_quad_pow (&f2, &ef2, &f2, &y);
+		if (ef2 > G_MAXINT || ef2 < G_MININT)
+			res = 1;
+		else
+			*exp2 += (int)ef2;
+		if (debug) g_printerr ("f2=%.20g\n", gnm_quad_value (&f2));
+
+		/* sqrt(y) */
+		gnm_quad_sqrt (&f3, &y);
+		if (debug) g_printerr ("f3=%.20g\n", gnm_quad_value (&f3));
+
+		/* E(x) */
+		gamma_error_factor (&f4, &y);
+		if (debug) g_printerr ("f4=%.20g\n", gnm_quad_value (&f4));
+
+		gnm_quad_mul (mant, &f1, &f2);
+		gnm_quad_div (mant, mant, &f3);
+		gnm_quad_mul (mant, mant, &f4);
+
+		if (debug) g_printerr ("G(x+1)=%.20g * 2^%d %s\n", gnm_quad_value (mant), *exp2, res ? "overflow" : "");
+	} else {
+		GnmQuad s, mFw;
+		gnm_float w, f;
+		int eFw;
+
+		/*
+		 * w integer, |f|<=0.5, x=w+f.
+		 *
+		 * Do this before we do the stepping below which would kill
+		 * up to 4 bits of accuracy of f.
+		 */
+		w = gnm_floor (x + 0.5);
+		f = x - w;
+
+		gnm_quad_init (&s, 1);
+		while (x < 20) {
+			GnmQuad a;
+			x++;
+			w++;
+			gnm_quad_init (&a, x);
+			gnm_quad_mul (&s, &s, &a);
+		}
+
+		if (qfacti ((int)w, &mFw, &eFw)) {
+			res = 1;
+		} else {
+			GnmQuad r;
+
+			pochhammer_small_n (w + 1, f, &r);
+			gnm_quad_mul (mant, &mFw, &r);
+			gnm_quad_div (mant, mant, &s);
+			*exp2 = eFw;
+		}
+	}
+
+	if (res == 0)
+		rescale_mant_exp (mant, exp2);
+
+	gnm_quad_end (state);
+	return res;
+}
+
+/**
+ * gnm_fact:
+ * @x: number
+ *
+ * Returns: the factorial of @x, which must not be a negative integer.
+ */
 gnm_float
-fact (int n)
+gnm_fact (gnm_float x)
 {
 	GnmQuad r;
 	int e;
 
-	if (n < 0)
-		return gnm_nan;
-
-	if (qfact (n, &r, &e))
-		return pochhammer (1, n, FALSE);
-
-	return ldexp (gnm_quad_value (&r), e);
+	switch (qfactf (x, &r, &e)) {
+	case 0: return ldexp (gnm_quad_value (&r), e);
+	case 1: return gnm_pinf;
+	default: return gnm_nan;
+	}
 }
 
 /**
@@ -8848,6 +8986,130 @@ gnm_owent (gnm_float h, gnm_float a)
 
 /* ------------------------------------------------------------------------- */
 
+static void
+gamma_error_factor (GnmQuad *res, const GnmQuad *x)
+{
+	gnm_float num[] = {
+		1.,
+		1.,
+		-139.,
+		-571.,
+		163879.,
+		5246819.,
+		-534703531.,
+		-4483131259.
+	};
+	gnm_float den[] = {
+		12.,
+		288.,
+		51840.,
+		2488320.,
+		209018880.,
+		75246796800.,
+		902961561600.,
+		86684309913600.
+	};
+	GnmQuad zn;
+	int i;
+
+	gnm_quad_init (&zn, 1);
+	*res = zn;
+
+	for (i = 0; i < (int)G_N_ELEMENTS (num); i++) {
+		GnmQuad t, c;
+		gnm_quad_mul (&zn, &zn, x);
+		gnm_quad_init (&c, den[i]);
+		gnm_quad_mul (&t, &zn, &c);
+		gnm_quad_init (&c, num[i]);
+		gnm_quad_div (&t, &c, &t);
+		gnm_quad_add (res, res, &t);
+	}
+}
+
+static void
+pochhammer_small_n (gnm_float x, gnm_float n, GnmQuad *res)
+{
+	GnmQuad qx, qn, qr, qs, qone, f1, f2, f3, f4, f5;
+	gnm_float r;
+	gboolean debug = FALSE;
+
+	g_return_if_fail (x >= 20);
+	g_return_if_fail (gnm_abs (n) <= 1);
+
+	/*
+	 * G(x)   = c * x^(x-1/2) * exp(-x) * E(x)
+	 * G(x+n) = c * (x+n)^(x+n-1/2) * exp(-(x+n)) * E(x+n)
+	 *        = c * (x+n)^(x-1/2) * (x+n)^n * exp(-x) * exp(-n) * E(x+n)
+	 *
+	 * G(x+n)/G(x)
+	 * = (1+n/x)^(x-1/2) * (x+n)^n * exp(-n) * E(x+n)/E(x)
+	 * = (1+n/x)^x / sqrt(1+n/x) * (x+n)^n * exp(-n) * E(x+n)/E(x)
+	 * = exp(x*log(1+n/x) - n) / sqrt(1+n/x) * (x+n)^n * E(x+n)/E(x)
+	 * = exp(x*log1p(n/x) - n) / sqrt(1+n/x) * (x+n)^n * E(x+n)/E(x)
+	 * = exp(x*(log1pmx(n/x)+n/x) - n) / sqrt(1+n/x) * (x+n)^n * E(x+n)/E(x)
+	 * = exp(x*log1pmx(n/x) + n - n) / sqrt(1+n/x) * (x+n)^n * E(x+n)/E(x)
+	 * = exp(x*log1pmx(n/x)) / sqrt(1+n/x) * (x+n)^n * E(x+n)/E(x)
+	 */
+
+	gnm_quad_init (&qx, x);
+	gnm_quad_init (&qn, n);
+
+	gnm_quad_div (&qr, &qn, &qx);
+	r = gnm_quad_value (&qr);
+
+	gnm_quad_add (&qs, &qx, &qn);
+
+	gnm_quad_init (&qone, 1);
+
+	/* exp(x*log1pmx(n/x)) */
+	gnm_quad_mul12 (&f1, log1pmx (r), x);  /* sub-opt */
+	gnm_quad_exp (&f1, NULL, &f1);
+	if (debug) g_printerr ("f1=%.20g\n", gnm_quad_value (&f1));
+
+	/* sqrt(1+n/x) */
+	gnm_quad_add (&f2, &qone, &qr);
+	gnm_quad_sqrt (&f2, &f2);
+	if (debug) g_printerr ("f2=%.20g\n", gnm_quad_value (&f2));
+
+	/* (x+n)^n */
+	gnm_quad_pow (&f3, NULL, &qs, &qn);
+	if (debug) g_printerr ("f3=%.20g\n", gnm_quad_value (&f3));
+
+	/* E(x+n) */
+	gamma_error_factor (&f4, &qs);
+	if (debug) g_printerr ("f4=%.20g\n", gnm_quad_value (&f4));
+
+	/* E(x) */
+	gamma_error_factor (&f5, &qx);
+	if (debug) g_printerr ("f5=%.20g\n", gnm_quad_value (&f5));
+
+	gnm_quad_div (res, &f1, &f2);
+	gnm_quad_mul (res, res, &f3);
+	gnm_quad_mul (res, res, &f4);
+	gnm_quad_div (res, res, &f5);
+}
+
+static gnm_float
+pochhammer_naive (gnm_float x, int n)
+{
+	void *state = gnm_quad_start ();
+	GnmQuad qp, qx, qone;
+	gnm_float r;
+
+	gnm_quad_init (&qone, 1);
+	qp = qone;
+	gnm_quad_init (&qx, x);
+	while (n-- > 0) {
+		gnm_quad_mul (&qp, &qp, &qx);
+		gnm_quad_add (&qx, &qx, &qone);
+	}
+	r = gnm_quad_value (&qp);
+	gnm_quad_end (state);
+	return r;
+}
+
+
+
 /*
  * Pochhammer's symbol: (x)_n = Gamma(x+n)/Gamma(x).
  *
@@ -8857,6 +9119,10 @@ gnm_owent (gnm_float h, gnm_float a)
 gnm_float
 pochhammer (gnm_float x, gnm_float n, gboolean give_log)
 {
+	gnm_float rn, rx, lr;
+	GnmQuad m1, m2;
+	int e1, e2;
+
 	if (gnm_isnan (x) || gnm_isnan (n))
 		return gnm_nan;
 
@@ -8864,62 +9130,80 @@ pochhammer (gnm_float x, gnm_float n, gboolean give_log)
 	if (x <= 0 || x + n <= 0)
 		return gnm_nan;
 
-	if (n == gnm_floor (n) && n >= 0) {
-		if (x == gnm_floor (x) && x + n < G_MAXINT) {
-			void *state = gnm_quad_start ();
-			GnmQuad m1, m2;
-			int e1, e2;
-			gboolean ok;
-			gnm_float r = 0;
+	if (n == 0)
+		return give_log ? 0 : 1;
 
-			ok = (!qfact ((int)(x + n - 1), &m1, &e1) &&
-			      !qfact ((int)(x - 1), &m2, &e2));
+	rx = gnm_floor (x + 0.5);
+	rn = gnm_floor (n + 0.5);
 
-			if (ok) {
-				int de = e1 - e2;
-
-				gnm_quad_div (&m1, &m1, &m2);
-				r = gnm_quad_value (&m1);
-
-				r = give_log
-					? gnm_log (r) + M_LN2gnum * de
-					: gnm_ldexp (r, de);
-				ok = gnm_finite (r);
-			}
-
-			gnm_quad_end (state);
-
-			if (ok)
-				return r;
-		}
-
-		if (n <= 40 && !give_log) {
-			gnm_float r;
-			for (r = 1; n-- > 0; x++)
-				r *= x;
-			return r;
-		}
+	/*
+	 * Use naive multiplication when n is a small integer.
+	 * We don't want to use this if x is also an integer
+	 * (but we might do so below if x is insanely large).
+	 */
+	if (n == rn && x != rx && n >= 0 && n < 40) {
+		gnm_float r = pochhammer_naive (x, (int)n);
+		return give_log ? gnm_log (r) : r;
 	}
 
-	if (give_log) {
-		gnm_float lf = 0, lr;
+	if (!qfactf (x + n - 1, &m1, &e1) &&
+	    !qfactf (x - 1, &m2, &e2)) {
+		void *state = gnm_quad_start ();
+		int de = e1 - e2;
+		GnmQuad qr;
+		gnm_float r;
 
-		while (x < 10 || x + n < 10) {
-			/* P(x,n) = (x/(x+n)) * P(x+1,n) */
-			lf -= gnm_log1p (n / x);
-			x++;
-		}
+		gnm_quad_div (&qr, &m1, &m2);
+		r = gnm_quad_value (&qr);
+		gnm_quad_end (state);
 
-		lr = ((x - 0.5) * gnm_log1p (n / x) +
-		      n * gnm_log (x + n) -
-		      n +
-		      (lgammacor (x + n) - lgammacor (x)));
-
-		return lr + lf;
-	} else {
-		gnm_float lr = pochhammer (x, n, TRUE);
-		return gnm_exp (lr);
+		return give_log
+			? gnm_log (r) + M_LN2gnum * de
+			: gnm_ldexp (r, de);
 	}
+
+	/*
+	 * We have left the common cases.  One of x+n and x is
+	 * insanely big, possibly both.
+	 */
+
+	if (gnm_abs (x) < 1) {
+		/* n is big. */
+		if (give_log)
+			goto via_log;
+		else
+			return gnm_pinf;
+	}
+
+	if (n < 0) {
+		gnm_float r = pochhammer (x + n, -n, give_log);
+		return give_log ? -r : 1 / r;
+	}
+
+	if (n == rn && n >= 0 && n < 100) {
+		gnm_float r = pochhammer_naive (x, (int)n);
+		return give_log ? gnm_log (r) : r;
+	}
+
+	if (gnm_abs (n) < 1) {
+		/* x is big.  */
+		void *state = gnm_quad_start ();
+		GnmQuad qr;
+		gnm_float r;
+		pochhammer_small_n (x, n, &qr);
+		r = gnm_quad_value (&qr);
+		gnm_quad_end (state);
+		return give_log ? gnm_log (r) : r;
+	}
+
+	/* Panic mode.  */
+	g_printerr ("x=%.20g  n=%.20g\n", x, n);
+via_log:
+	lr = ((x - 0.5) * gnm_log1p (n / x) +
+	      n * gnm_log (x + n) -
+	      n +
+	      (lgammacor (x + n) - lgammacor (x)));
+	return give_log ? lr : gnm_exp (lr);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -8928,36 +9212,17 @@ pochhammer (gnm_float x, gnm_float n, gboolean give_log)
  * gnm_gamma:
  * @x: a number
  *
- * Returns: gamma(@x) for for positive or non-integer @x.
+ * Returns: the Gamma function evaluated at @x for positive or
+ * non-integer @x.
  */
 gnm_float
 gnm_gamma (gnm_float x)
 {
-	if (gnm_isnan (x))
-		return x;
-
-	if (x > 0) {
-		if (x == gnm_floor (x) && x < G_MAXINT)
-			return fact ((int)x - 1);
-
-		if (x > 10) {
-			/* Overflow protection. */
-			if (x > 170)
-				return (x - 1) * gnm_gamma (x - 1);
-
-			return gnm_pow (x / M_Egnum, x) /
-				gnm_sqrt (x / M_2PIgnum)
-				* gnm_exp (lgammacor (x));
-		}
-
-		/* We can probably do better than this. */
-		return gnm_exp (gnm_lgamma (x));
-	} else if (x == gnm_floor (x))
-		return gnm_nan;
-	else {
-		return M_PIgnum /
-			(gnm_sin (x * M_PIgnum) * gnm_gamma (1 - x));
-	}
+	if (gnm_abs (x) < 0.5) {
+		gnm_float a = gnm_exp (gnm_lgamma (x));
+		return (x > 0) ? a : -a;
+	} else
+		return gnm_fact (x - 1);
 }
 
 /* ------------------------------------------------------------------------- */

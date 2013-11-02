@@ -705,7 +705,7 @@ opt_jump_diff1 (OptionSide side, gnm_float s, gnm_float x, gnm_float t, gnm_floa
 	sum = 0.0;
 	for (i = 0; i != 11; ++i) {
 		vi = gnm_sqrt ((Z * Z) + (delta * delta) * (i / t));
-		sum = sum + gnm_exp (-lambda * t) * gnm_pow (lambda * t, i) / fact(i) *
+		sum = sum + gnm_exp (-lambda * t) * gnm_pow (lambda * t, i) / gnm_fact(i) *
 			opt_bs1 (side, s, x, t, r, vi, r);
 	}
 	return sum;
