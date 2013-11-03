@@ -3887,7 +3887,7 @@ static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
 	 * this may not be quite optimal (CPU and accuracy wise) */
 	return(bessel_i(x, -alpha, expo) +
 	       bessel_k(x, -alpha, expo) * ((ize == 1)? 2. : 2.*gnm_exp(-x))/M_PIgnum
-	       * gnm_sin(-M_PIgnum * alpha));
+	       * gnm_sin(-M_PIgnum * gnm_fmod (alpha, 2)));
     }
     nb = 1+ (long)gnm_floor(alpha);/* nb-1 <= alpha < nb */
     alpha -= (nb-1);
@@ -4362,9 +4362,9 @@ static gnm_float bessel_j(gnm_float x, gnm_float alpha)
     if (alpha < 0) {
 	/* Using Abramowitz & Stegun  9.1.2
 	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_j(x, -alpha) * gnm_cos(M_PIgnum * alpha) +
+	return(bessel_j(x, -alpha) * gnm_cos(M_PIgnum * gnm_fmod (alpha, 2)) +
 	       ((alpha == na) ? 0 :
-	       bessel_y(x, -alpha) * gnm_sin(M_PIgnum * alpha)));
+	       bessel_y(x, -alpha) * gnm_sin(M_PIgnum * gnm_fmod (alpha, 2))));
     }
     nb = 1 + (long)na; /* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
@@ -4412,9 +4412,9 @@ static gnm_float bessel_j_ex(gnm_float x, gnm_float alpha, gnm_float *bj)
     if (alpha < 0) {
 	/* Using Abramowitz & Stegun  9.1.2
 	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_j_ex(x, -alpha, bj) * gnm_cos(M_PIgnum * alpha) +
+	return(bessel_j_ex(x, -alpha, bj) * gnm_cos(M_PIgnum * gnm_fmod (alpha, 2)) +
 	       ((alpha == na) ? 0 :
-		bessel_y_ex(x, -alpha, bj) * gnm_sin(M_PIgnum * alpha)));
+		bessel_y_ex(x, -alpha, bj) * gnm_sin(M_PIgnum * gnm_fmod (alpha, 2))));
     }
     nb = 1 + (long)na; /* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
@@ -5462,9 +5462,9 @@ static gnm_float bessel_y(gnm_float x, gnm_float alpha)
     if (alpha < 0) {
 	/* Using Abramowitz & Stegun  9.1.2
 	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_y(x, -alpha) * gnm_cos(M_PIgnum * alpha) -
+	return(bessel_y(x, -alpha) * gnm_cos(M_PIgnum * gnm_fmod (alpha, 2)) -
 	       ((alpha == na) ? 0 :
-		bessel_j(x, -alpha) * gnm_sin(M_PIgnum * alpha)));
+		bessel_j(x, -alpha) * gnm_sin(M_PIgnum * gnm_fmod (alpha, 2))));
     }
     nb = 1+ (long)na;/* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
@@ -5514,9 +5514,9 @@ static gnm_float bessel_y_ex(gnm_float x, gnm_float alpha, gnm_float *by)
     if (alpha < 0) {
 	/* Using Abramowitz & Stegun  9.1.2
 	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_y_ex(x, -alpha, by) * gnm_cos(M_PIgnum * alpha) -
+	return(bessel_y_ex(x, -alpha, by) * gnm_cos(M_PIgnum * gnm_fmod (alpha, 2)) -
 	       ((alpha == na) ? 0 :
-		bessel_j_ex(x, -alpha, by) * gnm_sin(M_PIgnum * alpha)));
+		bessel_j_ex(x, -alpha, by) * gnm_sin(M_PIgnum * gnm_fmod (alpha, 2))));
     }
     nb = 1+ (long)na;/* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
