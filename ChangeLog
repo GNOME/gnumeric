@@ -1,3 +1,8 @@
+2013-11-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/workbook-view.c: add more introspection related comments.
+	* src/workbook.c: ditto.
+
 2013-11-03  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (bessel_i, etc.): Do argument reduction for

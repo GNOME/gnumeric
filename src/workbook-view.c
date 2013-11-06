@@ -67,6 +67,10 @@
 #include <windows.h>
 #endif
 
+/**
+ * WorkbookView:
+ * @wb_controls: (element-type WorkbookControl):
+ **/
 enum {
 	PROP_0,
 	PROP_AUTO_EXPR_FUNC,

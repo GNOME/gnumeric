@@ -48,6 +48,11 @@
 #include <string.h>
 #include <errno.h>
 
+/**
+ * Workbook:
+ * @wb_views: (element-type WorkbookView):
+ **/
+
 enum {
 	PROP_0,
 	RECALC_MODE
