@@ -89,6 +89,13 @@ mathfunc_init (void)
 	/* Nothing, for the time being.  */
 }
 
+/**
+ * gnm_cot:
+ * @x: an angle in radians
+ *
+ * Returns: The co-tangent of the given angle.
+ */
+
 gnm_float
 gnm_cot (gnm_float x)
 {
@@ -100,6 +107,13 @@ gnm_cot (gnm_float x)
 	else
 		return c / s;
 }
+
+/**
+ * gnm_acot:
+ * @x: a number
+ *
+ * Returns: The inverse co-tangent of the given number.
+ */
 
 gnm_float
 gnm_acot (gnm_float x)
@@ -116,12 +130,25 @@ gnm_acot (gnm_float x)
 	}
 }
 
+/**
+ * gnm_coth:
+ * @x: a number.
+ *
+ * Returns: The hyperbolic co-tangent of the given number.
+ */
+
 gnm_float
 gnm_coth (gnm_float x)
 {
 	return 1 / gnm_tanh (x);
 }
 
+/**
+ * gnm_acoth:
+ * @x: a number
+ *
+ * Returns: The inverse hyperbolic co-tangent of the given number.
+ */
 gnm_float
 gnm_acoth (gnm_float x)
 {	
@@ -8099,6 +8126,13 @@ fact (int n)
 	return ldexp (gnm_quad_value (&r), e);
 }
 
+/**
+ * beta:
+ * @a: a number
+ * @b: a number
+ *
+ * Returns: the Beta function evaluated at @a and @b.
+ */
 gnm_float
 beta (gnm_float a, gnm_float b)
 {
@@ -8108,6 +8142,17 @@ beta (gnm_float a, gnm_float b)
 	return sign == -1 ? -absres : absres;
 }
 
+/**
+ * lbeta3:
+ * @a: a number
+ * @b: a number
+ * @sign: (out): the sign
+ *
+ * Returns: the logarithm of the absolute value of the Beta function
+ * evaluated at @a and @b.  The sign will be stored in @sign as -1 or
+ * +1.  This function is useful because the result of the beta
+ * function can be too large for doubles.
+ */
 gnm_float
 lbeta3 (gnm_float a, gnm_float b, int *sign)
 {
@@ -8138,7 +8183,14 @@ lbeta3 (gnm_float a, gnm_float b, int *sign)
 }
 
 
-/* Calculate (1+x)^y accurately.  */
+/**
+ * pow1p:
+ * @x: a number
+ * @y: a number
+ *
+ * Returns: The result of (1+@x)^@y with less rounding error than the
+ * naive formula.
+ */
 gnm_float
 pow1p (gnm_float x, gnm_float y)
 {
@@ -8148,7 +8200,14 @@ pow1p (gnm_float x, gnm_float y)
 		return gnm_exp (y * gnm_log1p (x));
 }
 
-/* Calculate ((1+x)^y)-1 accurately.  */
+/**
+ * pow1pm1:
+ * @x: a number
+ * @y: a number
+ *
+ * Returns: The result of (1+@x)^@y-1 with less rounding error than the
+ * naive formula.
+ */
 gnm_float
 pow1pm1 (gnm_float x, gnm_float y)
 {
@@ -8865,6 +8924,12 @@ pochhammer (gnm_float x, gnm_float n, gboolean give_log)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_gamma:
+ * @x: a number
+ *
+ * Returns: gamma(@x) for for positive or non-integer @x.
+ */
 gnm_float
 gnm_gamma (gnm_float x)
 {
