@@ -9,7 +9,7 @@ Morten:
 	* Improve accuracy of R.QBETA, R.QF, R.QTUKEY, R.QSNORM, and R.QST.
 	* Improve accuracy of COMBIN, PERMUT, POCHHAMMER, FACT, GAMMA.
 	* Improve accuracy of bessel functions with large non-integer alpha.
-	* Improve accuracy of acoth.
+	* Improve accuracy of ACOTH.
 
 Xabier Rodríguez Calvar:
 	* Fix dialog button order. [#710378]
