@@ -124,8 +124,10 @@ gnm_coth (gnm_float x)
 
 gnm_float
 gnm_acoth (gnm_float x)
-{
-	return gnm_atanh (1 / x);
+{	
+	return (gnm_abs (x) > 2)
+		? gnm_log1p (2 / (x - 1)) / 2
+		: gnm_log ((x - 1) / (x + 1)) / -2;
 }
 
 /* ------------------------------------------------------------------------- */

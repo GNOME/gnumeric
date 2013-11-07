@@ -1,3 +1,7 @@
+2013-11-06  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_acoth): Improve accuracy for |x| near 1.
+
 2013-11-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/workbook-view.c: add more introspection related comments.
