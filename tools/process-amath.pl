@@ -121,6 +121,10 @@ my %invalid_tests =
     (# Magically changed to something else
      'cos(1.0)' => 1,
      'cos(0.0)' => 1,
+     'cos(1e26)' => 1, # 1e26 not representable
+     'cot(1e26)' => 1, # 1e26 not representable
+     'sin(1e26)' => 1, # 1e26 not representable
+     'tan(1e26)' => 1, # 1e26 not representable
     );
 
 sub def_expr_handler {
