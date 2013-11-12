@@ -93,6 +93,18 @@ mathfunc_init (void)
 	/* Nothing, for the time being.  */
 }
 
+static gnm_float
+gnm_cot_helper (volatile gnm_float *x)
+{
+	gnm_float s = gnm_sin (*x);
+	gnm_float c = gnm_cos (*x);
+
+	if (s == 0)
+		return gnm_nan;
+	else
+		return c / s;
+}
+
 /**
  * gnm_cot:
  * @x: an angle in radians
@@ -102,13 +114,8 @@ mathfunc_init (void)
 gnm_float
 gnm_cot (gnm_float x)
 {
-	gnm_float s = gnm_sin (x);
-	gnm_float c = gnm_cos (x);
-
-	if (s == 0)
-		return gnm_nan;
-	else
-		return c / s;
+	/* See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59089 */
+	return gnm_cot_helper (&x);
 }
 
 /**

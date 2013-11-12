@@ -1,3 +1,7 @@
+2013-11-12  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_cot): Work around gcc/glibc bug.
+
 2013-11-06  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (gnm_acoth): Improve accuracy for |x| near 1.
