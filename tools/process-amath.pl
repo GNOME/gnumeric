@@ -89,6 +89,8 @@ my %name_map =
      'bessel_k1' => 'besselk1', # Really named besselk
      'bessel_kv' => 'besselk',
      'exp' => 'exp',
+     'exp2' => 'exp2',
+     'exp10' => 'exp10',
      'expm1' => 'expm1',
      'ln' => 'ln',
      'ln1p' => 'ln1p',
@@ -194,6 +196,8 @@ my %expr_handlers =
      'besselk0' => sub { my ($f,$pa) = @_; &def_expr_handler ('besselk',[@$pa,0]); },
      'besselk1' => sub { my ($f,$pa) = @_; &def_expr_handler ('besselk',[@$pa,1]); },
      'besselk' => sub { &reorder_handler ("2,1", @_); },
+     'exp2' => sub { my ($f,$pa) = @_; &def_expr_handler ('power',[2,@$pa]); },
+     'exp10' => sub { my ($f,$pa) = @_; &def_expr_handler ('power',[10,@$pa]); },
      'ln' => \&positive_handler,
      'log10' => \&positive_handler,
      'log2' => \&positive_handler,
@@ -207,7 +211,9 @@ my %constants =
      'pi_4' => 0.78539816339744830962,
      'pi_6' => 0.52359877559829887308,
      'sqrt2' => 1.4142135623730950488,
+     '-sqrt2' => -1.4142135623730950488,
      'sqrt3' => 1.7320508075688772935,
+     '-sqrt3' => 1.7320508075688772935,
      'sqrt_5' => 0.7071067811865475244,
     );
 
