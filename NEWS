@@ -10,6 +10,7 @@ Morten:
 	* Improve accuracy of COMBIN, PERMUT, POCHHAMMER, FACT, GAMMA.
 	* Improve accuracy of bessel functions with large non-integer alpha.
 	* Improve accuracy of ACOTH.
+	* Fix fuzzed file crash.  [#708091]
 
 Xabier Rodríguez Calvar:
 	* Fix dialog button order. [#710378]

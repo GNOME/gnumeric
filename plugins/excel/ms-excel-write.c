@@ -4212,6 +4212,7 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
 	int txo_len = 18;
 	int draw_len = 0;
 	int char_len;
+	size_t byte_len;
 	int markuplen;
 	BiffPut *bp = ewb->bp;
 	GArray *markup = g_hash_table_lookup (ewb->cell_markup, so);
@@ -4234,7 +4235,7 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
 		/* XL gets very unhappy with empty strings.  */
 		label = " ";
 	}
-	char_len = excel_strlen (label, NULL);
+	char_len = excel_strlen (label, &byte_len);
 	GSF_LE_SET_GUINT16 (buf + 10, char_len);
 	if (markup)
 		markuplen = 8 + markup->len * 4;
@@ -4255,8 +4256,11 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
 		int i;
 
 		for (i = 0; i < n ; i++) {
-			gint bpos = g_array_index (markup, gint, i*2);
-			gint cpos = g_utf8_pointer_to_offset (label, label + bpos);
+			gint bpos, cpos;
+
+			bpos = g_array_index (markup, gint, i*2);
+			bpos = CLAMP (bpos, 0, (int)byte_len - 1);
+			cpos = g_utf8_pointer_to_offset (label, label + bpos);
 			GSF_LE_SET_GUINT16 (buf, cpos);
 			GSF_LE_SET_GUINT16 (buf + 2,
 				g_array_index (markup, gint, i*2+1));
