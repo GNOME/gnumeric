@@ -178,7 +178,6 @@ gboolean gnm_matrix_eigen (GnmMatrix const *m, GnmMatrix *EIG, gnm_float *eigenv
 
 gnm_float combin (gnm_float n, gnm_float k);
 gnm_float permut (gnm_float n, gnm_float k);
-int       qfact  (const GnmQuad *x, GnmQuad *mant, int *exp2);
 int       qfactf (gnm_float x, GnmQuad *mant, int *exp2);
 gnm_float gnm_fact (gnm_float x);
 
