@@ -376,7 +376,10 @@ gnm_notebook_button_press (GtkWidget      *widget,
 		    event->y <  child_allocation.y + child_allocation.height) {
 			if (0)
 				g_printerr ("Button %d pressed\n", ui);
-			return gtk_widget_event (child, (GdkEvent*)event);
+			if (gtk_widget_event (child, (GdkEvent*)event))
+				return TRUE;
+			else
+				break;
 		}
 	}
 
@@ -410,6 +413,7 @@ gnm_notebook_init (GnmNotebook *notebook)
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_BOTTOM);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
+	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook), "Gnumeric");
 }
 
 GSF_CLASS (GnmNotebook, gnm_notebook,
@@ -489,6 +493,9 @@ gnm_notebook_insert_tab (GnmNotebook *nb, GtkWidget *label, int pos)
 				 0);
 
 	gtk_notebook_insert_page (GTK_NOTEBOOK (nb), dummy_page, label, pos);
+
+	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (nb), dummy_page,
+					  TRUE);
 }
 
 void

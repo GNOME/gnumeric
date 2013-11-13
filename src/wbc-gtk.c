@@ -591,7 +591,7 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	gnm_notebook_set_current_page (wbcg->bnotebook, page_number);
 
 	if (event->button == 1 || NULL != wbcg->rangesel)
-		return TRUE;
+		return FALSE;
 
 	if (event->button == 3) {
 		if ((scg_wbcg (scg))->edit_line.guru == NULL)
@@ -863,6 +863,8 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
 	if (wbcg->snotebook == NULL)
 		return;
 
+	if (0) g_printerr ("Notebook page switch\n");
+
 	/* While initializing adding the sheets will trigger page changes, but
 	 * we do not actually want to change the focus sheet for the view
 	 */
@@ -897,8 +899,9 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
 	gnm_expr_entry_set_scg (wbcg->edit_line.entry, new_scg);
 
 	/*
-	 * Make absolutely sure the expression doesn't get 'lost', if it's invalid
-	 * then prompt the user and don't switch the notebook page.
+	 * Make absolutely sure the expression doesn't get 'lost',
+	 * if it's invalid then prompt the user and don't switch
+	 * the notebook page.
 	 */
 	if (wbcg_is_editing (wbcg)) {
 		guint prev = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (wbcg->snotebook),
@@ -947,6 +950,23 @@ cb_bnotebook_button_press (GtkWidget *widget, GdkEventButton *event)
 }
 
 static void
+cb_bnotebook_page_reordered (GtkNotebook *notebook, GtkWidget *child,
+			     int page_num, WBCGtk *wbcg)
+{
+	GtkNotebook *snotebook = GTK_NOTEBOOK (wbcg->snotebook);
+	int old = gtk_notebook_get_current_page (snotebook);
+
+	if (0) g_printerr ("Reordered %d -> %d\n", old, page_num);
+
+	if (old != page_num) {
+		Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+		Sheet *sheet = workbook_sheet_by_index (wb, old);
+		workbook_sheet_move (sheet, page_num - old);
+	}
+}
+
+
+static void
 wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 {
 	GtkWidget *placeholder;
@@ -960,8 +980,13 @@ wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 		"switch_page",
 		G_CALLBACK (cb_notebook_switch_page), wbcg);
 	g_signal_connect (G_OBJECT (wbcg->bnotebook),
-			  "button-press-event", G_CALLBACK (cb_bnotebook_button_press),
+			  "button-press-event",
+			  G_CALLBACK (cb_bnotebook_button_press),
 			  NULL);
+	g_signal_connect (G_OBJECT (wbcg->bnotebook),
+			  "page-reordered",
+			  G_CALLBACK (cb_bnotebook_page_reordered),
+			  wbcg);
 	placeholder = gtk_paned_get_child1 (wbcg->tabs_paned);
 	if (placeholder)
 		gtk_widget_destroy (placeholder);

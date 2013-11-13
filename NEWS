@@ -11,6 +11,7 @@ Morten:
 	* Improve accuracy of bessel functions with large non-integer alpha.
 	* Improve accuracy of ACOTH.
 	* Fix fuzzed file crash.  [#708091]
+	* Restore sheet reordering by drag.
 
 Xabier Rodríguez Calvar:
 	* Fix dialog button order. [#710378]

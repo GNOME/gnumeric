@@ -1,5 +1,10 @@
 2013-11-12  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_sheet_label_button_press): Don't stop signal
+	emission.
+	(cb_bnotebook_page_reordered): New function.
+	(wbc_gtk_create_notebook_area): Attach a handler for reordering.
+
 	* src/mathfunc.c (gnm_cot): Work around gcc/glibc bug.
 
 2013-11-06  Morten Welinder  <terra@gnome.org>

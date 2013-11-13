@@ -1,3 +1,10 @@
+2013-11-12  Morten Welinder  <terra@gnome.org>
+
+	* gnm-notebook.c (gnm_notebook_button_press): Let the notebook see
+	the button press unless the button claimed to handle it.
+	(gnm_notebook_insert_tab): Mark tab reorderable.
+	(gnm_notebook_init): Set notebook's group name.
+
 2013-10-25  Morten Welinder  <terra@gnome.org>
 
 	* gnm-cell-combo-view.c (gnm_cell_combo_view_popdown): Move sizing
