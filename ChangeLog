@@ -1,3 +1,9 @@
+2013-11-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object.c (sheet_object_view_button2_pressed),
+	(sheet_object_view_class_init): implement double click for graph sheets.
+	[#712216]
+
 2013-11-12  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_sheet_label_button_press): Don't stop signal

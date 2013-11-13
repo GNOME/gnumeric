@@ -1451,6 +1451,19 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 	return TRUE;
 }
 
+static gboolean
+sheet_object_view_button2_pressed (GocItem *item, int button, double x, double y)
+{
+	if (button == 1 && !IS_GNM_PANE (item->canvas)) {
+		SheetControl *sc = SHEET_CONTROL (g_object_get_data (G_OBJECT (item->canvas), "sheet-control"));
+		SheetObject *so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
+
+		if (sc && sheet_object_can_edit (so))
+			sheet_object_get_editor (so, sc);
+	}
+	return TRUE;
+}
+
 static void
 sheet_object_view_finalize (GObject *obj)
 {
@@ -1470,6 +1483,7 @@ sheet_object_view_class_init (GocItemClass *item_klass)
 
 	item_klass->enter_notify = sheet_object_view_enter_notify;
 	item_klass->button_pressed = sheet_object_view_button_pressed;
+	item_klass->button2_pressed = sheet_object_view_button2_pressed;
 }
 
 GSF_CLASS (SheetObjectView, sheet_object_view,

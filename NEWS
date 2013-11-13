@@ -1,5 +1,8 @@
 Gnumeric 1.12.9
 
+Jean
+	* Implement double click for graph sheets. [#712216]
+
 Morten:
 	* Minor improvement to history dialog.
 	* Fix drop-down sizing (gtk+ regression).  [#710749]
