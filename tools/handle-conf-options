@@ -676,10 +676,13 @@ sub create_reg {
 	# Outdated; keys now start with /org/
 	# next unless $key =~ s{^/apps/}{};
 
+	next unless $key =~ s{^/org/gnome/}{};
+
 	my $wkey = $prefix;
 	my @items = split ('/', $key);
 	my $var = pop @items;
 	foreach my $item (@items) {
+	    next if $item eq '';
 	    $wkey .= "\\$item";
 	    if (!exists $dirs{$wkey}) {
 		print "\n[$wkey]\n";

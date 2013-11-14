@@ -1,3 +1,8 @@
+2013-11-13  Morten Welinder  <terra@gnome.org>
+
+	* handle-conf-options (create_reg): Avoid double backslashes.
+	Remove /org/gnome prefix.
+
 2013-11-01  Morten Welinder  <terra@gnome.org>
 
 	* process-amath.pl: When parsing a variable assignment fails,
