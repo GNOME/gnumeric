@@ -1,0 +1,11 @@
+--- gdk-pixbuf-2.29.2/gdk-pixbuf/queryloaders.c~	2013-01-19 13:53:25.000000000 -0500
++++ gdk-pixbuf-2.29.2/gdk-pixbuf/queryloaders.c	2013-11-13 22:09:32.000000000 -0500
+@@ -207,7 +207,7 @@
+                 else
+                         g_fprintf (stderr, "Cannot load loader %s\n", path);
+         }
+-        if (module)
++        if (FALSE && module)
+                 g_module_close (module);
+         g_free (path);
+ }

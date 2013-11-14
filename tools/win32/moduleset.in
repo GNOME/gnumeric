@@ -241,6 +241,7 @@
 		version="2.29.2"
 		skip-autogen="never">
 	  <patch file="&patch_dir;gdk-pixbuf-destdir.patch" strip="1"/>
+	  <patch file="&patch_dir;gdk-pixbuf-queryloaders.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
