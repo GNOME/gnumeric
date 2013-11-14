@@ -1,0 +1,136 @@
+#!/usr/bin/perl -w
+
+# This script processes the test cases from crlibm, see
+# http://lipforge.ens-lyon.fr/www/crlibm/download.html
+
+use strict;
+
+my $dir = $ARGV[0];
+
+my @funcs =
+    (#'acospi',
+     'acos',
+     #'asinpi',
+     'asin',
+     #'atanpi',
+     'atan',
+     'cosh',
+     #'cospi',
+     'cos',
+     'expm1',
+     'exp',
+     'log10',
+     ['log1p' => 'ln1p'],
+     'log2',
+     ['log' => 'ln'],
+     ['pow' => 'power'],
+     'sinh',
+     #'sinpi',
+     'sin',
+     #'tanpi',
+     'tan',
+    );
+
+# -----------------------------------------------------------------------------
+
+my $last_func = '';
+my $test_row = 1;
+
+sub output_test {
+    my ($gfunc,$expr,$res) = @_;
+
+    my $gfunc0 = ($gfunc eq $last_func) ? '' : $gfunc;
+
+    $expr = "=$expr";
+    $res = "=$res" if $res =~ /[*^]/;
+
+    my $N = $test_row++;
+    print "\"$gfunc0\",\"$expr\",\"$res\",\"=IF(B$N=C$N,\"\"\"\",IF(C$N=0,-LOG10(ABS(B$N)),-LOG10(ABS((B$N-C$N)/C$N))))\"\n";
+
+    $last_func = $gfunc;
+}
+
+# -----------------------------------------------------------------------------
+
+sub interpret_hex {
+    my ($h,$l) = @_;
+
+    # 'd' here is native double layout.  Sorry about that.
+    my $d = unpack ('d', pack ('VV', hex $l, hex $h));
+    my $ad = abs ($d);
+
+    my $s;
+
+    if ($ad == 0 || ($ad > 1e-5 && $ad < 1e10)) {
+	$s = sprintf ("%.99f", $d);
+    } elsif ($ad < 1e-300) {
+	my $l2 = int (log ($ad) / log (2));
+    	$s = sprintf ("%.99f*2^%d", $d * 2 ** -$l2, $l2);
+    } else {
+	$s =sprintf ("%.99e", $d);
+    }
+
+    $s =~ s/(\.\d*[1-9])0+($|\D)/$1$2/;
+    $s =~ s/(\d)\.0+($|\D)/$1$2/;
+
+    #print STDERR "[$h] [$l] [$s]\n";
+
+    $s = undef if $s =~/nan|inf/i;
+
+    return $s;
+}
+
+# -----------------------------------------------------------------------------
+
+foreach (@funcs) {
+    my ($func,$gfunc);
+
+    if (ref $_) {
+	($func,$gfunc) = @$_;
+    } else {
+	$func = $gfunc = $_;
+    }
+    print STDERR "Processing data for $gfunc...\n";
+
+    my $fn = "$dir/tests/$func.testdata";
+
+    my $src;
+    die "$0: cannot read $fn: $!\n" unless open $src, "<", $fn;
+
+    # Skip header than mentions function name
+    while (<$src>) {
+	last if /^\s*[a-z]/i;
+    }
+
+    while (<$src>) {
+	chomp;
+	s/\s*\#.*$//;
+	next if /^\s*$/;
+
+	my ($round, @d) = split (" ");
+
+	# Ignore everything except round-to-nearest
+	next unless $round eq 'N';
+
+	die "$0: Crazy line [$_]\n" unless @d >= 4 && (@d &1) == 0;
+
+	my @data = ();
+	my $bad = 0;
+	for (my $i = 0; $i < @d; $i += 2) {
+	    my $h = $d[$i];
+	    my $l = $d[$i + 1];
+	    my $x = &interpret_hex ($h, $l);
+	    $bad = 1 unless defined $x;
+	    push @data, $x;
+	}
+	next if $bad;
+
+	my $res = pop @data;
+
+	&output_test ($gfunc,
+		      "$gfunc(".join(',', @data).")",
+		      $res);
+    }
+}
+
+# -----------------------------------------------------------------------------
