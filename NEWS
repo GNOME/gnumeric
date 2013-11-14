@@ -15,6 +15,7 @@ Morten:
 	* Improve accuracy of ACOTH.
 	* Fix fuzzed file crash.  [#708091]
 	* Restore sheet reordering by drag.
+	* Fix BETA on win32.
 
 Xabier Rodríguez Calvar:
 	* Fix dialog button order. [#710378]

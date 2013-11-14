@@ -1,3 +1,7 @@
+2013-11-13  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (lgamma_r): Fix fallback.  Didn't work for x<10.
+
 2013-11-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object.c (sheet_object_view_button2_pressed),

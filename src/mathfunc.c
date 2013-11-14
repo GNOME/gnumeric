@@ -8681,9 +8681,31 @@ lgamma (double x)
 double
 lgamma_r (double x, int *signp)
 {
-	*signp = (x >= 0 || fmod (floor (-x), 2.0) != 0.0) ? +1 : -1;
+	*signp = +1;
 
-	return M_LN_SQRT_2PI + (x - 0.5) * log(x) - x + lgammacor(x);
+	if (gnm_isnan (x))
+		return gnm_nan;
+
+	if (x > 0) {
+		gnm_float f = 1;
+
+		while (x < 10) {
+			f *= x;
+			x++;
+		}
+
+		return (M_LN_SQRT_2PI + (x - 0.5) * gnm_log(x) -
+			x + lgammacor(x)) - gnm_log (f);
+	} else {
+		gnm_float axm2 = gnm_fmod (-x, 2.0);
+		gnm_float y = gnm_sin (M_PIgnum * axm2) / M_PIgnum;
+
+		*signp = axm2 > 1.0 ? +1 : -1;
+
+		return y == 0
+			? gnm_nan
+			: - gnm_log (gnm_abs (y)) - lgamma1p (-x);
+	}
 }
 #endif
 
