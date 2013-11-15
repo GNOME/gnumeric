@@ -44,6 +44,9 @@ gnm_float gnm_acot (gnm_float x);
 gnm_float gnm_coth (gnm_float x);
 gnm_float gnm_acoth (gnm_float x);
 
+gnm_float gnm_sinpi (gnm_float x);
+gnm_float gnm_cospi (gnm_float x);
+
 gnm_float beta (gnm_float a, gnm_float b);
 gnm_float lbeta3 (gnm_float a, gnm_float b, int *sign);
 

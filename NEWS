@@ -17,7 +17,9 @@ Morten:
 	* Restore sheet reordering by drag.
 	* Fix BETA on win32.
 	* Fix win32 registry initialization.
+	* Fix win32 gdk-pixbuf install heisen-crash.
 	* Incorporate new tests from crlibm.
+	* New functions SINPI and COSPI.
 
 Xabier Rodríguez Calvar:
 	* Fix dialog button order. [#710378]

@@ -3232,6 +3232,13 @@ The depreciation coefficient used is:
 @SEEALSO=SIN,TAN,SINH,COSH,TANH
 
 @CATEGORY=Mathematics
+@FUNCTION=COSPI
+@SHORTDESC=the cosine of Pi*@{x}
+@SYNTAX=COSPI(x)
+@ARGUMENTDESCRIPTION=@{x}: number of half turns
+@SEEALSO=COS
+
+@CATEGORY=Mathematics
 @FUNCTION=COT
 @SHORTDESC=the cotangent of @{x}
 @SYNTAX=COT(x)
@@ -3720,6 +3727,13 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
 @SEEALSO=SIN,COSH,ASINH
+
+@CATEGORY=Mathematics
+@FUNCTION=SINPI
+@SHORTDESC=the sine of Pi*@{x}
+@SYNTAX=SINPI(x)
+@ARGUMENTDESCRIPTION=@{x}: number of half turns
+@SEEALSO=SIN
 
 @CATEGORY=Mathematics
 @FUNCTION=SQRT

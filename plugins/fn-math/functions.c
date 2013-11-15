@@ -780,6 +780,23 @@ gnumeric_cos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_cospi[] = {
+	{ GNM_FUNC_HELP_NAME, F_("COSPI:the cosine of Pi*@{x}")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number of half turns")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=COSPI(0.5)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COSPI(1)" },
+	{ GNM_FUNC_HELP_SEEALSO, "COS" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_cospi (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (gnm_cospi (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_cosh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COSH:the hyperbolic cosine of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
@@ -1380,6 +1397,23 @@ static GnmValue *
 gnumeric_sin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_float (gnm_sin (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_sinpi[] = {
+	{ GNM_FUNC_HELP_NAME, F_("SINPI:the sine of Pi*@{x}")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number of half turns")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=SINPI(0.5)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SINPI(1)" },
+	{ GNM_FUNC_HELP_SEEALSO, "SIN" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_sinpi (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (gnm_sinpi (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -3215,6 +3249,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "cosh",    "f",     help_cosh,
 	  gnumeric_cosh, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	{ "cospi",   "f",     help_cospi,
+	  gnumeric_cospi, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{ "cot",     "f",     help_cot,
 	  gnumeric_cot, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
@@ -3374,6 +3411,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "sinh",    "f",     help_sinh,
 	  gnumeric_sinh, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	{ "sinpi",   "f",     help_sinpi,
+	  gnumeric_sinpi, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{ "sqrt",    "f",     help_sqrt,
 	  gnumeric_sqrt, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

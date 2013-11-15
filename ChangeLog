@@ -1,3 +1,8 @@
+2013-11-14  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_sinpi, gnm_cospi): New functions.
+	(bessel_i, etc, qfactf, lgamma_r): Use gnm_sinpi and gnm_cospi.
+
 2013-11-13  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (lgamma_r): Fix fallback.  Didn't work for x<10.

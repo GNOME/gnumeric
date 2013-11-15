@@ -165,6 +165,86 @@ gnm_acoth (gnm_float x)
 		: gnm_log ((x - 1) / (x + 1)) / -2;
 }
 
+/**
+ * gnm_sinpi:
+ * @x: a number
+ *
+ * Returns: the sine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+gnm_float
+gnm_sinpi (gnm_float x)
+{
+	int k;
+
+	if (gnm_isnan (x))
+		return x;
+
+	if (!gnm_finite (x))
+		return gnm_nan;
+
+	k = (x < 0) ? 2 : 0;
+	x = gnm_fmod (gnm_abs (x), 2);
+	if (x >= 1) {
+		x -= 1;
+		k ^= 2;
+	}
+	if (x >= 0.5) {
+		x -= 0.5;
+		k += 1;
+	}
+	if (x == 0) {
+		static const gnm_float ys[4] = { 0, 1, -0, -1 };
+		return ys[k];
+	} else {
+		switch (k) {
+		default:
+		case 0: return +gnm_sin (M_PIgnum * x);
+		case 1: return +gnm_cos (M_PIgnum * x);
+		case 2: return -gnm_sin (M_PIgnum * x);
+		case 3: return -gnm_cos (M_PIgnum * x);
+		}
+	}
+}
+
+/**
+ * gnm_cospi:
+ * @x: a number
+ *
+ * Returns: the cosine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+gnm_float
+gnm_cospi (gnm_float x)
+{
+	int k = 0;
+
+	if (!gnm_finite (x))
+		return gnm_nan;
+
+	x = gnm_fmod (gnm_abs (x), 2);
+	if (x >= 1) {
+		x -= 1;
+		k ^= 2;
+	}
+	if (x >= 0.5) {
+		x -= 0.5;
+		k += 1;
+	}
+	if (x == 0) {
+		static const gnm_float ys[4] = { 1, 0, -1, -0 };
+		return ys[k];
+	} else {
+		switch (k) {
+		default:
+		case 0: return +gnm_cos (M_PIgnum * x);
+		case 1: return -gnm_sin (M_PIgnum * x);
+		case 2: return -gnm_cos (M_PIgnum * x);
+		case 3: return +gnm_sin (M_PIgnum * x);
+		}
+	}
+}
+
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R SOURCE MARKER --- */
 
@@ -3924,7 +4004,7 @@ static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
 	 * this may not be quite optimal (CPU and accuracy wise) */
 	return(bessel_i(x, -alpha, expo) +
 	       bessel_k(x, -alpha, expo) * ((ize == 1)? 2. : 2.*gnm_exp(-x))/M_PIgnum
-	       * gnm_sin(-M_PIgnum * gnm_fmod (alpha, 2)));
+	       * gnm_sinpi(-alpha));
     }
     nb = 1+ (long)gnm_floor(alpha);/* nb-1 <= alpha < nb */
     alpha -= (nb-1);
@@ -4399,9 +4479,9 @@ static gnm_float bessel_j(gnm_float x, gnm_float alpha)
     if (alpha < 0) {
 	/* Using Abramowitz & Stegun  9.1.2
 	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_j(x, -alpha) * gnm_cos(M_PIgnum * gnm_fmod (alpha, 2)) +
+	return(bessel_j(x, -alpha) * gnm_cospi(alpha) +
 	       ((alpha == na) ? 0 :
-	       bessel_y(x, -alpha) * gnm_sin(M_PIgnum * gnm_fmod (alpha, 2))));
+	       bessel_y(x, -alpha) * gnm_sinpi(alpha)));
     }
     nb = 1 + (long)na; /* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
@@ -4449,9 +4529,9 @@ static gnm_float bessel_j_ex(gnm_float x, gnm_float alpha, gnm_float *bj)
     if (alpha < 0) {
 	/* Using Abramowitz & Stegun  9.1.2
 	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_j_ex(x, -alpha, bj) * gnm_cos(M_PIgnum * gnm_fmod (alpha, 2)) +
+	return(bessel_j_ex(x, -alpha, bj) * gnm_cospi(alpha) +
 	       ((alpha == na) ? 0 :
-		bessel_y_ex(x, -alpha, bj) * gnm_sin(M_PIgnum * gnm_fmod (alpha, 2))));
+		bessel_y_ex(x, -alpha, bj) * gnm_sinpi(alpha)));
     }
     nb = 1 + (long)na; /* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
@@ -5499,9 +5579,9 @@ static gnm_float bessel_y(gnm_float x, gnm_float alpha)
     if (alpha < 0) {
 	/* Using Abramowitz & Stegun  9.1.2
 	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_y(x, -alpha) * gnm_cos(M_PIgnum * gnm_fmod (alpha, 2)) -
+	return(bessel_y(x, -alpha) * gnm_cospi(alpha) -
 	       ((alpha == na) ? 0 :
-		bessel_j(x, -alpha) * gnm_sin(M_PIgnum * gnm_fmod (alpha, 2))));
+		bessel_j(x, -alpha) * gnm_sinpi(alpha)));
     }
     nb = 1+ (long)na;/* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
@@ -5551,9 +5631,9 @@ static gnm_float bessel_y_ex(gnm_float x, gnm_float alpha, gnm_float *by)
     if (alpha < 0) {
 	/* Using Abramowitz & Stegun  9.1.2
 	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_y_ex(x, -alpha, by) * gnm_cos(M_PIgnum * gnm_fmod (alpha, 2)) -
+	return(bessel_y_ex(x, -alpha, by) * gnm_cospi(alpha) -
 	       ((alpha == na) ? 0 :
-		bessel_j_ex(x, -alpha, by) * gnm_sin(M_PIgnum * gnm_fmod (alpha, 2))));
+		bessel_j_ex(x, -alpha, by) * gnm_sinpi(alpha)));
     }
     nb = 1+ (long)na;/* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
@@ -8158,13 +8238,11 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 		if (qfactf (-x - 1, mant, exp2))
 			res = 1;
 		else {
-			GnmQuad a, b;
-			gnm_float xm2 = gnm_fmod (x, 2);
+			GnmQuad b;
 
-			gnm_quad_init (&a, -M_PIgnum); /* FIXME: Do better */
-			gnm_quad_init (&b, gnm_sin (xm2 * M_PIgnum)); /* ? */
+			gnm_quad_init (&b, -gnm_sinpi (x)); /* ? */
 			gnm_quad_mul (&b, &b, mant);
-			gnm_quad_div (mant, &a, &b);
+			gnm_quad_div (mant, &gnm_quad_pi, &b);
 			*exp2 = -*exp2;
 		}
 	} else if (x >= QFACTI_LIMIT - 0.5) {
@@ -8698,7 +8776,7 @@ lgamma_r (double x, int *signp)
 			x + lgammacor(x)) - gnm_log (f);
 	} else {
 		gnm_float axm2 = gnm_fmod (-x, 2.0);
-		gnm_float y = gnm_sin (M_PIgnum * axm2) / M_PIgnum;
+		gnm_float y = gnm_sinpi (axm2) / M_PIgnum;
 
 		*signp = axm2 > 1.0 ? +1 : -1;
 

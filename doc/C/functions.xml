@@ -10784,6 +10784,33 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-COSPI">
+      <refmeta>
+        <refentrytitle>
+          <function>COSPI</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>COSPI</function>
+        </refname>
+        <refpurpose>
+        the cosine of Pi*<parameter>x</parameter>
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COSPI</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: number of half turns</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-COS"><function>COS</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-COT">
       <refmeta>
         <refentrytitle>
@@ -12665,6 +12692,33 @@
         <para><link linkend="gnumeric-function-SIN"><function>SIN</function></link>,
         <link linkend="gnumeric-function-COSH"><function>COSH</function></link>,
         <link linkend="gnumeric-function-ASINH"><function>ASINH</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-SINPI">
+      <refmeta>
+        <refentrytitle>
+          <function>SINPI</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>SINPI</function>
+        </refname>
+        <refpurpose>
+        the sine of Pi*<parameter>x</parameter>
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SINPI</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: number of half turns</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-SIN"><function>SIN</function></link>.
       </para>
       </refsect1>
     </refentry>

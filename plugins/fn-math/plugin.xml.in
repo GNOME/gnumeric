@@ -32,6 +32,7 @@
 				<function name="combina"/>
 				<function name="cos"/>
 				<function name="cosh"/>
+				<function name="cospi"/>
 				<function name="cot"/>
 				<function name="coth"/>
 				<function name="countif"/>
@@ -85,6 +86,7 @@
 				<function name="sign"/>
 				<function name="sin"/>
 				<function name="sinh"/>
+				<function name="sinpi"/>
 				<function name="sqrt"/>
 				<function name="sqrtpi"/>
 				<function name="suma"/>
