@@ -560,9 +560,6 @@ AC_CHECK_FUNCS(mkfifo)
 LIBS="$SAVE_LIBS"
 unset SAVE_LIBS
 
-dnl Either of these seem to signal IEEE754 math, see mathfunc.c
-AC_CHECK_HEADERS(ieeefp.h ieee754.h)
-
 AC_HEADER_SYS_WAIT
 
 dnl Check for some functions

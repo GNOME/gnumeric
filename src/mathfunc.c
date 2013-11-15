@@ -47,12 +47,9 @@
 #include <glib/gstdio.h>
 #include <value.h>
 
-#if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
-/* Make sure we have this symbol defined, since the existance of either
-   header file implies it.  */
+/* R code wants this, so provide it.  */
 #ifndef IEEE_754
 #define IEEE_754
-#endif
 #endif
 
 #define M_LN_SQRT_2PI   GNM_const(0.918938533204672741780329736406)  /* log(sqrt(2*pi)) */

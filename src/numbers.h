@@ -7,13 +7,10 @@
 
 G_BEGIN_DECLS
 
-/* WARNING : Any preprocessor conditionals in here must also be placed in libspreadsheet-config.h */
-#ifdef HAVE_IEEEFP_H
-#include <ieeefp.h>
-#endif
-#ifdef HAVE_IEEE754_H
-#include <ieee754.h>
-#endif
+/*
+ * WARNING: Any preprocessor conditionals in here must also be placed
+ * in gnumeric-features.h.in
+ */
 
 #ifndef HAVE_LGAMMA
 /* Defined in mathfunc.c  */
@@ -26,10 +23,6 @@ double lgamma_r (double x, int *signp);
 #endif
 
 #ifdef GNM_WITH_LONG_DOUBLE
-
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
 
 typedef long double gnm_float;
 

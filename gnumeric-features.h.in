@@ -20,15 +20,6 @@
 /* Define if the long double type is to be used */
 #undef GNM_WITH_LONG_DOUBLE
 
-/* Define to 1 if you have the <ieeefp.h> header file. */
-#undef HAVE_IEEEFP_H
-
-/* Define to 1 if you have the <ieee754.h> header file. */
-#undef HAVE_IEEE754_H
-
-/* Define to 1 if you have the <sunmath.h> header file. */
-#undef HAVE_SUNMATH_H
-
 /* Define to 1 if you have the `lgamma' function. */
 #undef HAVE_LGAMMA
 
