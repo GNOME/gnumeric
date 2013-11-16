@@ -373,15 +373,26 @@ reduce_pi_half_full (gnm_float x, int *km4)
 static gnm_float
 reduce_pi_half (gnm_float x, int *km4)
 {
+	void *state;
+	gnm_float xr;
+
 	if (gnm_isnan (x))
 		return x;
 
 	g_assert (x >= 0);
 
+	/*
+	 * We aren't actually using quads, but we rely somewhat on
+	 * proper ieee double semantics.
+	 */
+	state = gnm_quad_start ();
 	if (x < (1u << 26))
-		return reduce_pi_half_simple (x, km4);
+		xr = reduce_pi_half_simple (x, km4);
 	else
-		return reduce_pi_half_full (x, km4);
+		xr = reduce_pi_half_full (x, km4);
+	gnm_quad_end (state);
+
+	return xr;
 }
 
 gnm_float
