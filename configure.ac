@@ -627,6 +627,12 @@ if test $ac_cv_func_lgamma = no; then
 	)
 fi
 
+if test "x$with_win32" = "xyes"; then
+   AC_DEFINE(GNM_REDUCES_TRIG_RANGE, 1,
+	[Define if Gnumeric reduces the argument range of sin/cos/tan]
+	)
+fi
+
 float_msg=double
 AC_ARG_WITH(long_double,
 	AS_HELP_STRING([--with-long-double], [Use long double for floating point]),

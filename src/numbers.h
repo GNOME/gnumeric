@@ -43,7 +43,6 @@ typedef long double gnm_float;
 #define gnm_atan2 atan2l
 #define gnm_atanh atanhl
 #define gnm_ceil ceill
-#define gnm_cos cosl
 #define gnm_cosh coshl
 #define gnm_erf erfl
 #define gnm_erfc erfcl
@@ -75,13 +74,16 @@ typedef long double gnm_float;
 #define gnm_pow10 go_pow10l
 #define gnm_pow2 go_pow2l
 #define gnm_render_general go_render_generall
-#define gnm_sin sinl
 #define gnm_sinh sinhl
 #define gnm_sqrt sqrtl
 #define gnm_strto go_strtold
 #define gnm_sub_epsilon go_sub_epsilonl
-#define gnm_tan tanl
 #define gnm_tanh tanhl
+#ifndef GNM_REDUCES_TRIG_RANGE
+#define gnm_sin sinl
+#define gnm_cos cosl
+#define gnm_tan tanl
+#endif
 
 #define GNM_FORMAT_e	"Le"
 #define GNM_FORMAT_E	"LE"
@@ -140,7 +142,6 @@ typedef double gnm_float;
 #define gnm_atan2 atan2
 #define gnm_atanh atanh
 #define gnm_ceil ceil
-#define gnm_cos cos
 #define gnm_cosh cosh
 #define gnm_erf erf
 #define gnm_erfc erfc
@@ -172,13 +173,16 @@ typedef double gnm_float;
 #define gnm_pow10 go_pow10
 #define gnm_pow2 go_pow2
 #define gnm_render_general go_render_general
-#define gnm_sin sin
 #define gnm_sinh sinh
 #define gnm_sqrt sqrt
 #define gnm_strto go_strtod
 #define gnm_sub_epsilon go_sub_epsilon
-#define gnm_tan tan
 #define gnm_tanh tanh
+#ifndef GNM_REDUCES_TRIG_RANGE
+#define gnm_sin sin
+#define gnm_cos cos
+#define gnm_tan tan
+#endif
 
 #define GNM_FORMAT_e	"e"
 #define GNM_FORMAT_E	"E"
@@ -224,6 +228,13 @@ typedef double gnm_float;
 #define gnm_accumulator_value go_accumulator_value
 
 #endif
+
+#ifdef GNM_REDUCES_TRIG_RANGE
+gnm_float gnm_sin (gnm_float x);
+gnm_float gnm_cos (gnm_float x);
+gnm_float gnm_tan (gnm_float x);
+#endif
+
 
 G_END_DECLS
 

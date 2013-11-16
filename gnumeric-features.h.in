@@ -32,4 +32,7 @@
 /* Define to 1 if Gnumeric supplies the `erfcl' function. */
 #undef GNM_SUPPLIES_ERFCL
 
+/* Define to 1 if Gnumeric reduces the argument range of sin/cos/tan */
+#undef GNM_REDUCES_TRIG_RANGE
+
 #endif  /* _LIBSPREADSHEET_CONFIG_H_ */
