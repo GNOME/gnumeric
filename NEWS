@@ -20,6 +20,7 @@ Morten:
 	* Fix win32 gdk-pixbuf install heisen-crash.
 	* Incorporate new tests from crlibm.
 	* New functions SINPI and COSPI.
+	* Improve accuracy of SIN/COS/TAN on win32.
 
 Xabier Rodríguez Calvar:
 	* Fix dialog button order. [#710378]
