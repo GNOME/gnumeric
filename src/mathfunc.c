@@ -8707,18 +8707,18 @@ gnm_matrix_eigen (GnmMatrix const *m, GnmMatrix *EIG, gnm_float *eigenvalues)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef NEED_FAKE_ERFGNUM
-gnm_float
-gnm_erf (gnm_float x)
+#ifdef GNM_SUPPLIES_ERFL
+long double
+erfl (long double x)
 {
-	if (gnm_abs (x) < 0.1) {
+	if (fabsl (x) < 0.125) {
 		/* For small x the pnorm formula loses precision.  */
-		gnm_float sum = 0;
-		gnm_float term = x * 2 / gnm_sqrt (M_PIgnum);
-		gnm_float n;
-		gnm_float x2 = x * x;
+		long double sum = 0;
+		long double term = x * 2 / sqrtl (M_PIgnum);
+		long double n;
+		long double x2 = x * x;
 
-		for (n = 0; gnm_abs (term) >= gnm_abs (sum) * GNM_EPSILON ; n++) {
+		for (n = 0; fabsl (term) >= fabsl (sum) * LDBL_EPSILON ; n++) {
 			sum += term / (2 * n + 1);
 			term *= -x2 / (n + 1);
 		}
@@ -8731,9 +8731,9 @@ gnm_erf (gnm_float x)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef NEED_FAKE_ERFCGNUM
-gnm_float
-gnm_erfc (gnm_float x)
+#ifdef GNM_SUPPLIES_ERFCL
+long double
+erfcl (long double x)
 {
 	return 2 * pnorm (x * M_SQRT2gnum, 0, 1, FALSE, FALSE);
 }
@@ -8741,8 +8741,8 @@ gnm_erfc (gnm_float x)
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef HAVE_LGAMMA
-/* Avoid using this.  It may be missing in system libraries.  */
+#ifdef GNM_SUPPLIES_LGAMMA
+/* Avoid using signgam.  It may be missing in system libraries.  */
 int signgam;
 
 double
@@ -8752,7 +8752,7 @@ lgamma (double x)
 }
 #endif
 
-#ifndef HAVE_LGAMMA_R
+#ifdef GNM_SUPPLIES_LGAMMA_R
 double
 lgamma_r (double x, int *signp)
 {

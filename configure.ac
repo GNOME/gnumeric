@@ -603,15 +603,29 @@ CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 
 dnl We supply our own lgamma and lgamma_r when missing.
+supply_lgamma_r=yes
 AC_CHECK_FUNCS(lgamma_r)
 if test $ac_cv_func_lgamma_r = no; then
   AC_CHECK_LIB(m, lgamma_r,
         [AC_DEFINE(HAVE_LGAMMA_R, 1,
 		[Define if the lgamma_r function is available]
 	 )
+	 supply_lgamma_r=no
          LIBS="$LIBS -lm"])
+else
+  supply_lgamma_r=no
+fi
+if test $supply_lgamma_r = yes; then
+   AC_DEFINE(GNM_SUPPLIES_LGAMMA_R, 1,
+	[Define if Gnumeric supplies the lgamma_r function]
+	)
 fi
 AC_CHECK_FUNCS(lgamma)
+if test $ac_cv_func_lgamma = no; then
+   AC_DEFINE(GNM_SUPPLIES_LGAMMA, 1,
+	[Define if Gnumeric supplies the lgamma function]
+	)
+fi
 
 float_msg=double
 AC_ARG_WITH(long_double,
@@ -636,12 +650,15 @@ AC_ARG_WITH(long_double,
 				AC_MSG_ERROR([Long doubles require the $ldfunc function.]))
 
 		AC_MSG_CHECKING([checking for working erfl and erfcl])
+		have_erfl=no
+		have_erfcl=no
 		AC_RUN_IFELSE(
 			[AC_LANG_PROGRAM([[
 				#include <math.h>
 				#ifdef HAVE_SUNMATH_H
 				#include <sunmath.h>
-				#endif]],
+				#endif
+				]],
 				[[
 					long double l1 = erfl (1.2L);
 					long double l2 = erfcl (1.2L);
@@ -649,10 +666,26 @@ AC_ARG_WITH(long_double,
 						 l2 >= 0.08 && l2 <= 0.09);
 				]])],
 			[AC_DEFINE(HAVE_ERFL)
+			 have_erfl=yes
 			 AC_DEFINE(HAVE_ERFCL)
+			 have_erfcl=yes
 			AC_MSG_RESULT(yes)],
 			AC_MSG_RESULT(no),
-			[AC_CHECK_FUNCS(erfl erfcl)])
+			[AC_CHECK_FUNCS(erfl erfcl)
+			have_erfl=$ac_cv_func_erfl
+			have_erfcl=$ac_cv_func_erfcl
+			])
+
+		if $have_erfl = no; then
+			AC_DEFINE(GNM_SUPPLIES_ERFL, 1,
+				 [Define if Gnumeric supplies the erfl function]
+				 )
+		fi
+		if $have_erfcl = no; then
+			AC_DEFINE(GNM_SUPPLIES_ERFCL, 1,
+				 [Define if Gnumeric supplies the erfcl function]
+				 )
+		fi
 
 		CFLAGS="$SAVE_CFLAGS"
 		LIBS="$SAVE_LIBS"

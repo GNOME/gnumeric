@@ -12,35 +12,26 @@ G_BEGIN_DECLS
  * in gnumeric-features.h.in
  */
 
-#ifndef HAVE_LGAMMA
-/* Defined in mathfunc.c  */
+#ifdef GNM_SUPPLIES_LGAMMA
 GO_VAR_DECL int signgam;
 double lgamma (double x);
 #endif
-#ifndef HAVE_LGAMMA_R
-/* Defined in mathfunc.c  */
+
+#ifdef GNM_SUPPLIES_LGAMMA_R
 double lgamma_r (double x, int *signp);
 #endif
 
 #ifdef GNM_WITH_LONG_DOUBLE
 
+#ifdef GNM_SUPPLIES_ERFL
+long double erfl (long double x);
+#endif
+
+#ifdef GNM_SUPPLIES_ERFCL
+long double erfl (long double x);
+#endif
+
 typedef long double gnm_float;
-
-#ifdef HAVE_ERFL
-#define gnm_erf erfl
-#else
-#define NEED_FAKE_ERFGNUM
-/* Defined in mathfunc.c  */
-gnm_float gnm_erf (gnm_float x);
-#endif
-
-#ifdef HAVE_ERFCL
-#define gnm_erfc erfcl
-#else
-#define NEED_FAKE_ERFCGNUM
-/* Defined in mathfunc.c  */
-gnm_float gnm_erfc (gnm_float x);
-#endif
 
 #define gnm_abs fabsl
 #define gnm_acos acosl
@@ -54,6 +45,8 @@ gnm_float gnm_erfc (gnm_float x);
 #define gnm_ceil ceill
 #define gnm_cos cosl
 #define gnm_cosh coshl
+#define gnm_erf erfl
+#define gnm_erfc erfcl
 #define gnm_exp expl
 #define gnm_expm1 expm1l
 #define gnm_fake_ceil go_fake_ceill
