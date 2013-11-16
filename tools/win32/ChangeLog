@@ -1,3 +1,8 @@
+2013-11-16  Morten Welinder  <terra@gnome.org>
+
+	* build: Allow specifying extra arguments to jhbuild, notably
+	--no-network.
+
 2013-10-07  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.8

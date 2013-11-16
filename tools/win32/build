@@ -105,7 +105,7 @@ setup_html_help() {
 	( cd "${JH_PREFIX}/deploy" && \
 	  makensis gnumeric.nsi )
     elif [ "x${target}" = "xshell" ]; then
- 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" shell
+ 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" shell ${JHBUILD}
     elif [ "x${target}" = "xdoc" ]; then
 	echo make -C "${srcdir}/../../doc/C" chm
 	make -C "${srcdir}/../../doc/C" chm
@@ -114,11 +114,11 @@ setup_html_help() {
 	echo exiting
 	exit 0
     elif [ ! "x${start}" = "x" ]; then
- 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" build --start-at="${start}"
+ 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" build ${JHBUILD} --start-at="${start}"
     elif [ ! "x${module}" = "x" ]; then
- 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" buildone "${module}"
+ 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" buildone ${JHBUILD} "${module}"
     else
-	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py"
+	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" build ${JHBUILD}
 fi
 
 ################################################################
