@@ -2,6 +2,7 @@
 #include "gnumeric.h"
 #include <mathfunc.h>
 #include <sf-trig.h>
+#include <sf-gamma.h>
 #include "extra.h"
 
 #define ML_ERR_return_NAN { return gnm_nan; }

@@ -29,6 +29,7 @@
 #include <workbook.h>
 #include <mathfunc.h>
 #include <sf-trig.h>
+#include <sf-gamma.h>
 #include <rangefunc.h>
 #include <collect.h>
 #include <value.h>

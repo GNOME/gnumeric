@@ -23,25 +23,19 @@ G_BEGIN_DECLS
 #define M_LN10gnum  GNM_const(2.302585092994045684017991454684364207601101488628772976033327900967572609677352480235997205089598)
 #define M_SQRT2gnum GNM_const(1.414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327642)
 #define	M_Egnum         GNM_const(2.718281828459045235360287471352662497757247)
+#define M_LN_SQRT_2PI   GNM_const(0.918938533204672741780329736406)  /* log(sqrt(2*pi)) */
 
 /* ------------------------------------------------------------------------- */
 
 gnm_float log1pmx (gnm_float x);
 gnm_float swap_log_tail (gnm_float lp);
-gnm_float lgamma1p (gnm_float a);
 gnm_float pow1p (gnm_float x, gnm_float y);
 gnm_float pow1pm1 (gnm_float x, gnm_float y);
 gnm_float gnm_trunc (gnm_float x);
-gnm_float logfbit (gnm_float x);
 gnm_float logspace_add (gnm_float logx, gnm_float logy);
 gnm_float logspace_sub (gnm_float logx, gnm_float logy);
-gnm_float stirlerr(gnm_float n);
 gnm_float gnm_owent (gnm_float h, gnm_float a);
-gnm_float pochhammer (gnm_float x, gnm_float n, gboolean give_log);
-gnm_float gnm_gamma (gnm_float x);
-
-gnm_float beta (gnm_float a, gnm_float b);
-gnm_float lbeta3 (gnm_float a, gnm_float b, int *sign);
+gnm_float gnm_logcf (gnm_float x, gnm_float i, gnm_float d);
 
 gnm_float gnm_bessel_i (gnm_float x, gnm_float alpha);
 gnm_float gnm_bessel_j (gnm_float x, gnm_float alpha);
@@ -171,11 +165,6 @@ void gnm_matrix_multiply (GnmMatrix *C, const GnmMatrix *A, const GnmMatrix *B);
 
 gboolean gnm_matrix_eigen (GnmMatrix const *m, GnmMatrix *EIG, gnm_float *eigenvalues);
 /* ------------------------------------------------------------------------- */
-
-gnm_float combin (gnm_float n, gnm_float k);
-gnm_float permut (gnm_float n, gnm_float k);
-int       qfactf (gnm_float x, GnmQuad *mant, int *exp2);
-gnm_float gnm_fact (gnm_float x);
 
 gint gnm_float_equal (gnm_float const *a, const gnm_float *b);
 guint gnm_float_hash (gnm_float const *d);

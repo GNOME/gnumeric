@@ -25,6 +25,7 @@
 #include <gnumeric.h>
 #include <func.h>
 #include <mathfunc.h>
+#include <sf-gamma.h>
 #include <rangefunc.h>
 #include <regression.h>
 #include <sheet.h>

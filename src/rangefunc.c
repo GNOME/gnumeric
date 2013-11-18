@@ -12,6 +12,7 @@
 #include "rangefunc.h"
 
 #include "mathfunc.h"
+#include "sf-gamma.h"
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>

@@ -27,15 +27,14 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-
-#include "func.h"
-#include "mathfunc.h"
-#include "value.h"
-#include "gnm-i18n.h"
-
-#include "numbers.h"
+#include <gnm-i18n.h>
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
+
+#include <func.h>
+#include <mathfunc.h>
+#include <sf-gamma.h>
+#include <value.h>
 
 #include <math.h>
 #include <string.h>
