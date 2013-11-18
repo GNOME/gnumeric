@@ -44,6 +44,9 @@ void       gnm_insert_meta_date (GODoc *doc, char const *name);
 
 gboolean   gnm_object_get_bool (gpointer o, const char *name);
 
+gint gnm_float_equal (gnm_float const *a, const gnm_float *b);
+guint gnm_float_hash (gnm_float const *d);
+
 G_END_DECLS
 
 #endif /* _GNM_GUTILS_H_ */

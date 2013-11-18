@@ -647,3 +647,25 @@ gnm_object_get_bool (gpointer o, const char *name)
 	g_object_get (o, name, &b, NULL);
 	return b;
 }
+
+gint
+gnm_float_equal (gnm_float const *a, const gnm_float *b)
+{
+	return (*a == *b);
+}
+
+/* ------------------------------------------------------------------------- */
+
+guint
+gnm_float_hash (gnm_float const *d)
+{
+	int expt;
+	gnm_float mant = gnm_frexp (gnm_abs (*d), &expt);
+	guint h = ((guint)(0x80000000u * mant)) ^ expt;
+	if (*d >= 0)
+		h ^= 0x55555555;
+	return h;
+}
+
+/* ------------------------------------------------------------------------- */
+

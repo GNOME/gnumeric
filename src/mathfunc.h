@@ -166,9 +166,6 @@ void gnm_matrix_multiply (GnmMatrix *C, const GnmMatrix *A, const GnmMatrix *B);
 gboolean gnm_matrix_eigen (GnmMatrix const *m, GnmMatrix *EIG, gnm_float *eigenvalues);
 /* ------------------------------------------------------------------------- */
 
-gint gnm_float_equal (gnm_float const *a, const gnm_float *b);
-guint gnm_float_hash (gnm_float const *d);
-
 void mathfunc_init (void);
 
 /* ------------------------------------------------------------------------- */

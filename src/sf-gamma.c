@@ -491,23 +491,23 @@ gnm_fact (gnm_float x)
 /* ------------------------------------------------------------------------- */
 
 /**
- * beta:
+ * gnm_beta:
  * @a: a number
  * @b: a number
  *
  * Returns: the Beta function evaluated at @a and @b.
  */
 gnm_float
-beta (gnm_float a, gnm_float b)
+gnm_beta (gnm_float a, gnm_float b)
 {
 	int sign;
-	gnm_float absres = gnm_exp (lbeta3 (a, b, &sign));
+	gnm_float absres = gnm_exp (gnm_lbeta3 (a, b, &sign));
 
 	return sign == -1 ? -absres : absres;
 }
 
 /**
- * lbeta3:
+ * gnm_lbeta3:
  * @a: a number
  * @b: a number
  * @sign: (out): the sign
@@ -518,7 +518,7 @@ beta (gnm_float a, gnm_float b)
  * function can be too large for doubles.
  */
 gnm_float
-lbeta3 (gnm_float a, gnm_float b, int *sign)
+gnm_lbeta3 (gnm_float a, gnm_float b, int *sign)
 {
 	int sign_a, sign_b, sign_ab;
 	gnm_float ab = a + b;

@@ -13,10 +13,12 @@
 
 #include "mathfunc.h"
 #include "sf-gamma.h"
+#include "gutils.h"
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include "tools/analysis-tools.h"
+
 int
 gnm_range_count (G_GNUC_UNUSED gnm_float const *xs, int n, gnm_float *res)
 {

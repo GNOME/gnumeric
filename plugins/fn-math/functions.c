@@ -990,7 +990,7 @@ gnumeric_beta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
 
-	return value_new_float (beta (a, b));
+	return value_new_float (gnm_beta (a, b));
 }
 
 /***************************************************************************/
@@ -1015,7 +1015,7 @@ gnumeric_betaln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float b = value_get_as_float (argv[1]);
 	int sign;
 
-	return value_new_float (lbeta3 (a, b, &sign));
+	return value_new_float (gnm_lbeta3 (a, b, &sign));
 }
 
 /***************************************************************************/
