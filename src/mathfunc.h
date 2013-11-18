@@ -5,6 +5,7 @@
 #include "numbers.h"
 #include <math.h>
 #include <glib.h>
+#include "gnumeric.h"
 
 G_BEGIN_DECLS
 
@@ -38,14 +39,6 @@ gnm_float stirlerr(gnm_float n);
 gnm_float gnm_owent (gnm_float h, gnm_float a);
 gnm_float pochhammer (gnm_float x, gnm_float n, gboolean give_log);
 gnm_float gnm_gamma (gnm_float x);
-
-gnm_float gnm_cot (gnm_float x);
-gnm_float gnm_acot (gnm_float x);
-gnm_float gnm_coth (gnm_float x);
-gnm_float gnm_acoth (gnm_float x);
-
-gnm_float gnm_sinpi (gnm_float x);
-gnm_float gnm_cospi (gnm_float x);
 
 gnm_float beta (gnm_float a, gnm_float b);
 gnm_float lbeta3 (gnm_float a, gnm_float b, int *sign);

@@ -28,6 +28,7 @@
 #include <sheet.h>
 #include <workbook.h>
 #include <mathfunc.h>
+#include <sf-trig.h>
 #include <rangefunc.h>
 #include <collect.h>
 #include <value.h>

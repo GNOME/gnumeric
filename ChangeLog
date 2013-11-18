@@ -1,3 +1,7 @@
+2013-11-18  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-trig.c: Split out trigonometric functions from mathfunc.c
+
 2013-11-15  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (reduce_pi_half): New function.

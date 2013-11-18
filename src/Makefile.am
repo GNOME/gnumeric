@@ -153,6 +153,7 @@ libspreadsheet_la_SOURCES =			\
 	search.c				\
 	selection.c				\
 	session.c				\
+	sf-trig.c				\
 	sheet.c					\
 	sheet-view.c		  		\
 	sheet-control.c		  		\
@@ -279,6 +280,7 @@ libspreadsheet_include_HEADERS = 	\
 	search.h				\
 	selection.h				\
 	session.h				\
+	sf-trig.h				\
 	sheet.h					\
 	sheet-view.h    			\
 	sheet-control.h    			\
