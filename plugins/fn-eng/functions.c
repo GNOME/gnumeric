@@ -24,12 +24,13 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <func.h>
+#include <gnm-i18n.h>
 
 #include <parse-util.h>
 #include <value.h>
 #include <mathfunc.h>
+#include <sf-bessel.h>
 #include <collect.h>
-#include <gnm-i18n.h>
 #include <number-match.h>
 #include <workbook.h>
 #include <sheet.h>

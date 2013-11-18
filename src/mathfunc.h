@@ -37,11 +37,6 @@ gnm_float logspace_sub (gnm_float logx, gnm_float logy);
 gnm_float gnm_owent (gnm_float h, gnm_float a);
 gnm_float gnm_logcf (gnm_float x, gnm_float i, gnm_float d);
 
-gnm_float gnm_bessel_i (gnm_float x, gnm_float alpha);
-gnm_float gnm_bessel_j (gnm_float x, gnm_float alpha);
-gnm_float gnm_bessel_k (gnm_float x, gnm_float alpha);
-gnm_float gnm_bessel_y (gnm_float x, gnm_float alpha);
-
 /* "d": density.  */
 /* "p": distribution function.  */
 /* "q": inverse distribution function.  */
