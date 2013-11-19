@@ -1172,6 +1172,7 @@ xlsx_style_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	state->sp_type &= ~GO_STYLE_LINE;
+	state->gocolor = NULL;
 }
 
 static void

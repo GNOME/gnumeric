@@ -1,5 +1,8 @@
 2013-11-19  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_style_line_end): Clear the current
+	color.  Fixes #712700.
+
 	* ms-excel-read.c (excel_read_MERGECELLS): Fix FMR [#712685]
 
 2013-11-11  Morten Welinder  <terra@gnome.org>
