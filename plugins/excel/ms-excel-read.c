@@ -5175,6 +5175,8 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 	expr1_len = GSF_LE_GET_GUINT16 (q->data + 4);
 	flags = GSF_LE_GET_GUINT32 (q->data + 6);
 
+	XL_CHECK_CONDITION (q->length >= 10u + expr0_len + expr1_len);
+
 	d (1, {
 			gsf_mem_dump (q->data+6, 6);
 			g_printerr ("cond type = %d, op type = %d, flags = 0x%08x\n", (int)type, (int)op, flags);

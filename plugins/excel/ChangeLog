@@ -1,5 +1,8 @@
 2013-11-19  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_CF): Check record size.  Fixes
+	#712708.
+
 	* xlsx-read-drawing.c (xlsx_style_line_end): Clear the current
 	color.  Fixes #712700.
 
