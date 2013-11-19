@@ -1,3 +1,7 @@
+2013-11-19  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_MERGECELLS): Fix FMR [#712685]
+
 2013-11-11  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_ClientTextbox): Fix fuzzed file
