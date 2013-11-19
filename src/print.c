@@ -565,7 +565,9 @@ print_page (G_GNUC_UNUSED GtkPrintOperation *operation,
 	cairo_translate (cr, sheet->text_is_rtl ? width : 0, edge_to_below_header - header);
 
 	if (sheet->sheet_type == GNM_SHEET_OBJECT) {
-		SheetObject *so = (SheetObject *) sheet->sheet_objects->data;
+		SheetObject *so = sheet->sheet_objects
+			? sheet->sheet_objects->data
+			: NULL;
 		if (so) {
 			cairo_scale (cr, px, py);
 			sheet_object_draw_cairo_sized (so, cr, width, height);
