@@ -1,3 +1,8 @@
+2013-11-20  Morten Welinder  <terra@gnome.org>
+
+	* ms-escher.c (ms_escher_get_data): Fix fuzzed file crash.  Fixes
+	#712772.  Plug leak.
+
 2013-11-19  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_CF): Check record size.  Fixes

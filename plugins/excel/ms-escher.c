@@ -236,11 +236,14 @@ ms_escher_get_data (MSEscherState *state,
 		int len = q->length - (res - q->data);
 		int counter = 0;
 
-		d (1, g_printerr ("MERGE needed (%d) which is >= %d + %d;\n",
+		d (1, g_printerr ("MERGE needed (%d) which is >= -%d + %d;\n",
 			      num_bytes, offset, state->end_offset););
 
 		do {
+			int maxlen = (buffer + num_bytes) - tmp;
+			len = MIN (len, maxlen);
 			d (1, g_printerr ("record %d) add %d bytes;\n", ++counter, len););
+
 			/* copy necessary portion of current record */
 			memcpy (tmp, res, len);
 			tmp += len;
@@ -257,7 +260,8 @@ ms_escher_get_data (MSEscherState *state,
 			    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
 			    q->opcode != BIFF_CHART_gelframe &&
 			    q->opcode != BIFF_CONTINUE) {
-			  g_warning ("Unexpected record type 0x%x @ 0x%lx;", q->opcode, (long)q->streamPos);
+				g_warning ("Unexpected record type 0x%x @ 0x%lx;", q->opcode, (long)q->streamPos);
+				g_free (buffer);
 				return NULL;
 			}
 
