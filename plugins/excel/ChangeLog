@@ -1,3 +1,8 @@
+2013-11-21  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_file_open): A severely malformed document can
+	leave an expression in the state.  Free that.  Fixes #712788.
+
 2013-11-20  Morten Welinder  <terra@gnome.org>
 
 	* ms-escher.c (ms_escher_get_data): Fix fuzzed file crash.  Fixes

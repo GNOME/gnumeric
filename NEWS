@@ -14,7 +14,7 @@ Morten:
 	* Improve accuracy of bessel functions with large non-integer alpha.
 	* Improve accuracy of ACOTH.
 	* Fix fuzzed file crash.  [#708091] [#712662] [#712685] [#712700]
-	  [#712708] [#712772]
+	  [#712708] [#712772] [#712788]
 	* Restore sheet reordering by drag.
 	* Fix BETA on win32.
 	* Fix win32 registry initialization.
