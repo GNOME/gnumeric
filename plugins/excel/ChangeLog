@@ -1,5 +1,8 @@
 2013-11-21  Morten Welinder  <terra@gnome.org>
 
+	* ms-obj.c (read_pre_biff8_read_text): Fix fuzzed file problem
+	#712731.
+
 	* xlsx-read.c (xlsx_file_open): A severely malformed document can
 	leave an expression in the state.  Free that.  Fixes #712788.
 

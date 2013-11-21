@@ -565,6 +565,10 @@ read_pre_biff8_read_text (BiffQuery *q, MSContainer *c, MSObj *obj,
 			len -= q->length;
 		}
 		str = g_string_free (accum, FALSE);
+		if (len > q->length) {
+			g_free (str);
+			return TRUE;
+		}
 		first = q->data + len;
 	} else
 		first += len;
