@@ -3433,6 +3433,7 @@ excel_write_RSTRING (ExcelWriteState *ewb, GnmCell const *cell, unsigned xf)
 {
 	GArray *txo = g_hash_table_lookup (ewb->cell_markup, cell);
 	const char *txt = value_peek_string (cell->value);
+	size_t txtlen = strlen (txt);
 	guint8 buf [6];
 	unsigned i, n;
 
@@ -3450,22 +3451,22 @@ excel_write_RSTRING (ExcelWriteState *ewb, GnmCell const *cell, unsigned xf)
 		GSF_LE_SET_GUINT8 (buf, n);
 		ms_biff_put_var_write  (ewb->bp, buf, 1);
 		for (i = 0; i < n ; i++) {
-			gint bpos = g_array_index (txo, gint, i*2);
-			gint cpos = g_utf8_pointer_to_offset (txt, txt + bpos);
+			guint bpos = g_array_index (txo, guint, i*2);
+			gint cpos = g_utf8_pointer_to_offset (txt, txt + MIN (bpos, txtlen));
 			GSF_LE_SET_GUINT8 (buf, cpos);
 			GSF_LE_SET_GUINT8 (buf + 1,
-				g_array_index (txo, gint, i*2+1));
+				g_array_index (txo, guint, i*2+1));
 			ms_biff_put_var_write  (ewb->bp, buf, 2);
 		}
 	} else {
 		GSF_LE_SET_GUINT16 (buf, n);
 		ms_biff_put_var_write  (ewb->bp, buf, 2);
 		for (i = 0; i < n ; i++) {
-			gint bpos = g_array_index (txo, gint, i*2);
-			gint cpos = g_utf8_pointer_to_offset (txt, txt + bpos);
+			guint bpos = g_array_index (txo, guint, i*2);
+			gint cpos = g_utf8_pointer_to_offset (txt, txt + MIN (bpos, txtlen));
 			GSF_LE_SET_GUINT16 (buf, cpos);
 			GSF_LE_SET_GUINT16 (buf + 2,
-				g_array_index (txo, gint, i*2+1));
+				g_array_index (txo, guint, i*2+1));
 			ms_biff_put_var_write  (ewb->bp, buf, 4);
 		}
 	}
