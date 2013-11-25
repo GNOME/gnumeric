@@ -321,7 +321,7 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 
 		/* 2 in case we null terminate, and up to 4 for the length */
 		if ((out_bytes + 4 + 2) > bp->buf_len) {
-			bp->buf_len = ((char_len >> 2) + 1) << 2;
+			bp->buf_len = (((out_bytes + 6) >> 2) + 1) << 2;
 			bp->buf = g_realloc (bp->buf, bp->buf_len);
 		}
 
