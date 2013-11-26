@@ -1,3 +1,8 @@
+2013-11-25  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-gamma.c: Move lgamma_r and lgamma fallbacks to here from
+	mathfunc.c
+
 2013-11-19  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (print_page): Fix check for missing object.  Fixes

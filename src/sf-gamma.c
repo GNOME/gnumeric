@@ -1018,3 +1018,48 @@ permut (gnm_float n, gnm_float k)
 }
 
 /* ------------------------------------------------------------------------- */
+
+#ifdef GNM_SUPPLIES_LGAMMA
+/* Avoid using signgam.  It may be missing in system libraries.  */
+int signgam;
+
+double
+lgamma (double x)
+{
+	return lgamma_r (x, &signgam);
+}
+#endif
+
+#ifdef GNM_SUPPLIES_LGAMMA_R
+double
+lgamma_r (double x, int *signp)
+{
+	*signp = +1;
+
+	if (gnm_isnan (x))
+		return gnm_nan;
+
+	if (x > 0) {
+		gnm_float f = 1;
+
+		while (x < 10) {
+			f *= x;
+			x++;
+		}
+
+		return (M_LN_SQRT_2PI + (x - 0.5) * gnm_log(x) -
+			x + lgammacor(x)) - gnm_log (f);
+	} else {
+		gnm_float axm2 = gnm_fmod (-x, 2.0);
+		gnm_float y = gnm_sinpi (axm2) / M_PIgnum;
+
+		*signp = axm2 > 1.0 ? +1 : -1;
+
+		return y == 0
+			? gnm_nan
+			: - gnm_log (gnm_abs (y)) - lgamma1p (-x);
+	}
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
