@@ -300,7 +300,7 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		    guint8 const *txt)
 {
 	size_t byte_len, out_bytes, offset = 0;
-	unsigned int char_len, output_len;
+	unsigned int char_len, output_len, avail;
 	char *in_bytes = (char *)txt; /* bloody strict-aliasing is broken */
 
 	g_return_val_if_fail (txt != NULL, 0);
@@ -335,7 +335,6 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		out_bytes = bp->buf_len - 3;
 
 		tmp = (char *)(bp->buf + offset);
-
 		g_iconv (bp->convert, &in_bytes, &byte_len, &tmp, &out_bytes);
 		out_bytes = (guint8 *)tmp - bp->buf;
 
@@ -364,7 +363,26 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		case STR_FOUR_BYTE_LENGTH: GSF_LE_SET_GUINT32 (bp->buf, output_len); break;
 		}
 
-		ms_biff_put_var_write (bp, bp->buf, out_bytes);
+		output_len = out_bytes;
+		tmp = bp->buf;
+		do {
+			avail = ms_biff_max_record_len (bp);
+			if (offset == 0 && bp->version >= MS_BIFF_V8 && !(flags & STR_SUPPRESS_HEADER)) {
+				ms_biff_put_var_write (bp, "\1", 1);
+				avail -= 2;
+				out_bytes++;
+			}
+			avail = MIN (avail, output_len);
+			avail = (avail - offset) / 2 * 2 + offset; /* we need to export an even byte number */
+			ms_biff_put_var_write (bp, tmp, avail);
+			output_len -= avail;
+			tmp += avail;
+			offset = 0;
+			if (output_len > 0) {
+				ms_biff_put_commit (bp);
+				ms_biff_put_var_next (bp, BIFF_CONTINUE);
+			}
+		} while (output_len > 0);
 	} else {
 		guint8 *tmp;
 		/* char_len == byte_len here, so just use char_len */
@@ -384,11 +402,23 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 			tmp += 4;
 			break;
 		}
-		if (bp->version >= MS_BIFF_V8 && !(flags & STR_SUPPRESS_HEADER))
-			*tmp++ = 0;	/* flag as not unicode */
-		ms_biff_put_var_write (bp, bp->buf, tmp - bp->buf);
-		ms_biff_put_var_write (bp, txt, char_len);
-		out_bytes = char_len + tmp - bp->buf;
+		out_bytes =  tmp - bp->buf;
+		ms_biff_put_var_write (bp, bp->buf, out_bytes);
+		avail = ms_biff_max_record_len (bp) - out_bytes;
+		do {
+			if (bp->version >= MS_BIFF_V8 && !(flags & STR_SUPPRESS_HEADER)) {
+				*tmp++ = 0;	/* flag as not unicode */ /* Jean: MS docs say uncompressed */
+				avail--;
+				out_bytes++;
+				ms_biff_put_var_write (bp, "\0", 1);
+			}
+			avail = MIN (avail, char_len);
+			ms_biff_put_var_write (bp, txt, avail);
+			out_bytes += avail;
+			char_len -= avail;
+			txt += avail;
+			avail = ms_biff_max_record_len (bp);
+		} while (char_len > 0);
 	}
 
 	return out_bytes;
@@ -4252,7 +4282,7 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
 
 	ms_biff_put_var_next (bp, BIFF_CONTINUE);
 	memset (buf, 0, 8);
-	if (markup ) {
+	if (markup && markup->len > 0) {
 		int n = markup->len / 2;
 		int i;
 

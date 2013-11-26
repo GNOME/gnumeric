@@ -1,3 +1,8 @@
+2013-11-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-excel-write.c (excel_write_string): fix large strings export. [715110#]
+	(excel_write_ClientTextbox): fix test.
+
 2013-11-25  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_string): Fix buffer allocation.
