@@ -1,3 +1,8 @@
+2013-11-25  Morten Welinder  <terra@gnome.org>
+
+	* function-select.ui: Work around gtk+ ABI break.  Fixes Redhat
+	#1033827.
+
 2013-10-17  Morten Welinder  <terra@gnome.org>
 
 	* sheet-rename.ui, sheet-resize.ui: Fix button order.  Patches
