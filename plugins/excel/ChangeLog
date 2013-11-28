@@ -1,3 +1,7 @@
+2013-11-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.9
+
 2013-11-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-excel-write.c (excel_write_string): fix large strings export. [715110#]

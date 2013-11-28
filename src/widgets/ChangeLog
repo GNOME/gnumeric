@@ -1,3 +1,7 @@
+2013-11-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.9
+
 2013-11-12  Morten Welinder  <terra@gnome.org>
 
 	* gnm-notebook.c (gnm_notebook_button_press): Let the notebook see

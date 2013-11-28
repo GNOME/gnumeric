@@ -1,3 +1,7 @@
+2013-11-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.9
+
 2013-10-31  Morten Welinder  <terra@gnome.org>
 
 	* extra.c (qsnorm, qst): Flip tail if p>0.9.  Improves accuracy

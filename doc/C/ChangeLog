@@ -1,3 +1,7 @@
+2013-11-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.9
+
 2013-11-05  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric.1: Syntax fixes from Eric S. Raymond.
