@@ -1,3 +1,7 @@
+2013-11-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_dash): fix typo
+
 2013-11-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.9

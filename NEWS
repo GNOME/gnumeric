@@ -1,9 +1,12 @@
 Gnumeric 1.12.10
 
+Andreas:
+	* Fix handling of dashes on ODF import. [#719509]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.9
 
-Jean
+Jean:
 	* Implement double click for graph sheets. [#712216]
 
 Morten:

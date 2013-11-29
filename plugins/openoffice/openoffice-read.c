@@ -4159,7 +4159,7 @@ oo_dash (GsfXMLIn *xin, xmlChar const **attrs)
 			t = GO_LINE_LONG_DASH;
 	} else if (n_dots2 > 1 && n_dots1 > 1 )
 		t = GO_LINE_DASH_DOT_DOT_DOT; /* no matching dashing available */
-	else if ( n_dots2 == 1 && n_dots2 == 1) {
+	else if ( n_dots2 == 1 && n_dots1 == 1) {
 		gnm_float max = (len_dot1 < len_dot2) ? len_dot2 : len_dot1;
 		if (max > 7.5)
 			t = GO_LINE_DASH_DOT;
