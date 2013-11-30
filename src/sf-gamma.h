@@ -14,7 +14,7 @@ gnm_float gnm_lbeta (gnm_float a, gnm_float b);
 gnm_float gnm_beta (gnm_float a, gnm_float b);
 gnm_float gnm_lbeta3 (gnm_float a, gnm_float b, int *sign);
 
-gnm_float pochhammer (gnm_float x, gnm_float n, gboolean give_log);
+gnm_float pochhammer (gnm_float x, gnm_float n);
 gnm_float combin (gnm_float n, gnm_float k);
 gnm_float permut (gnm_float n, gnm_float k);
 

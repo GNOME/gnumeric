@@ -140,7 +140,6 @@ my %expr_handlers =
     ('beta' => \&non_negative_handler,
      'gammaln' => \&non_negative_handler,
      'factdouble' => \&non_negative_handler,
-     'pochhammer' => \&positive_handler, # We shouldn't need this
      'combin' => \&non_negative_handler,
      'r.dcauchy' => sub { &reorder_handler ("3,1,2", @_); },
      'r.pcauchy' => sub { &reorder_handler ("3,1,2", @_); },
@@ -226,6 +225,7 @@ sub output_test {
     my ($gfunc,$expr,$res) = @_;
 
     my $gfunc0 = ($gfunc eq $last_func) ? '' : $gfunc;
+    $res = "=$res" if $res =~ m{/};
 
     my $N = $test_row++;
     print "\"$gfunc0\",\"=$expr\",\"$res\",\"=IF(B$N=C$N,\"\"\"\",IF(C$N=0,-LOG10(ABS(B$N)),-LOG10(ABS((B$N-C$N)/C$N))))\"\n";

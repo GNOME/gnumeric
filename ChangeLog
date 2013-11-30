@@ -1,3 +1,8 @@
+2013-11-30  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-gamma.c (pochhammer): Drop give_log arguments.  Extend to
+	negative values.
+
 2013-11-28  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

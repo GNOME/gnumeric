@@ -3,6 +3,9 @@ Gnumeric 1.12.10
 Andreas:
 	* Fix handling of dashes on ODF import. [#719509]
 
+Morten:
+	* Extend POCHHAMMER to negative values.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.9
 

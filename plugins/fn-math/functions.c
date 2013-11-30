@@ -1257,7 +1257,6 @@ static GnmFuncHelp const help_pochhammer[] = {
         { GNM_FUNC_HELP_NAME, F_("POCHHAMMER:the value of GAMMA(@{x}+@{n})/GAMMA(@{x})")},
         { GNM_FUNC_HELP_ARG, F_("x:number")},
         { GNM_FUNC_HELP_ARG, F_("n:number")},
-	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
         { GNM_FUNC_HELP_EXAMPLES, "=POCHHAMMER(1,5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=POCHHAMMER(6,0.5)" },
         { GNM_FUNC_HELP_SEEALSO, "GAMMA"},
@@ -1269,9 +1268,8 @@ gnumeric_pochhammer (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float n = value_get_as_float (argv[1]);
-	gboolean give_log = argv[2] ? value_get_as_checked_bool (argv[2]) : FALSE;
 
-	return value_new_float (pochhammer (x, n, give_log));
+	return value_new_float (pochhammer (x, n));
 }
 
 /***************************************************************************/

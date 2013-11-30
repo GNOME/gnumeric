@@ -657,18 +657,18 @@ static gnm_float
 pochhammer_naive (gnm_float x, int n)
 {
 	void *state = gnm_quad_start ();
-	GnmQuad qp, qx, qone;
+	GnmQuad qp, qx;
 	gnm_float r;
 
-	gnm_quad_init (&qone, 1);
-	qp = qone;
+	qp = gnm_quad_one;
 	gnm_quad_init (&qx, x);
 	while (n-- > 0) {
 		gnm_quad_mul (&qp, &qp, &qx);
-		gnm_quad_add (&qx, &qx, &qone);
+		gnm_quad_add (&qx, &qx, &gnm_quad_one);
 	}
 	r = gnm_quad_value (&qp);
 	gnm_quad_end (state);
+
 	return r;
 }
 
@@ -681,7 +681,7 @@ pochhammer_naive (gnm_float x, int n)
  */
 
 gnm_float
-pochhammer (gnm_float x, gnm_float n, gboolean give_log)
+pochhammer (gnm_float x, gnm_float n)
 {
 	gnm_float rn, rx, lr;
 	GnmQuad m1, m2;
@@ -690,12 +690,8 @@ pochhammer (gnm_float x, gnm_float n, gboolean give_log)
 	if (gnm_isnan (x) || gnm_isnan (n))
 		return gnm_nan;
 
-	/* This isn't a fundamental restriction, but one we impose.  */
-	if (x <= 0 || x + n <= 0)
-		return gnm_nan;
-
 	if (n == 0)
-		return give_log ? 0 : 1;
+		return 1;
 
 	rx = gnm_floor (x + 0.5);
 	rn = gnm_floor (n + 0.5);
@@ -705,10 +701,8 @@ pochhammer (gnm_float x, gnm_float n, gboolean give_log)
 	 * We don't want to use this if x is also an integer
 	 * (but we might do so below if x is insanely large).
 	 */
-	if (n == rn && x != rx && n >= 0 && n < 40) {
-		gnm_float r = pochhammer_naive (x, (int)n);
-		return give_log ? gnm_log (r) : r;
-	}
+	if (n == rn && x != rx && n >= 0 && n < 40)
+		return pochhammer_naive (x, (int)n);
 
 	if (!qfactf (x + n - 1, &m1, &e1) &&
 	    !qfactf (x - 1, &m2, &e2)) {
@@ -721,9 +715,19 @@ pochhammer (gnm_float x, gnm_float n, gboolean give_log)
 		r = gnm_quad_value (&qr);
 		gnm_quad_end (state);
 
-		return give_log
-			? gnm_log (r) + M_LN2gnum * de
-			: gnm_ldexp (r, de);
+		return gnm_ldexp (r, de);
+	}
+
+	if (x == rx && x <= 0) {
+		if (n != rn)
+			return 0;
+		if (x == 0)
+			return (n > 0)
+				? 0
+				: ((gnm_fmod (-n, 2) == 0 ? +1 : -1) /
+				   gnm_fact (-n));
+		if (n > -x)
+			return gnm_nan;
 	}
 
 	/*
@@ -731,23 +735,14 @@ pochhammer (gnm_float x, gnm_float n, gboolean give_log)
 	 * insanely big, possibly both.
 	 */
 
-	if (gnm_abs (x) < 1) {
-		/* n is big. */
-		if (give_log)
-			goto via_log;
-		else
-			return gnm_pinf;
-	}
+	if (gnm_abs (x) < 1)
+		return gnm_pinf;
 
-	if (n < 0) {
-		gnm_float r = pochhammer (x + n, -n, give_log);
-		return give_log ? -r : 1 / r;
-	}
+	if (n < 0)
+		return 1 / pochhammer (x + n, -n);
 
-	if (n == rn && n >= 0 && n < 100) {
-		gnm_float r = pochhammer_naive (x, (int)n);
-		return give_log ? gnm_log (r) : r;
-	}
+	if (n == rn && n >= 0 && n < 100)
+		return pochhammer_naive (x, (int)n);
 
 	if (gnm_abs (n) < 1) {
 		/* x is big.  */
@@ -757,17 +752,16 @@ pochhammer (gnm_float x, gnm_float n, gboolean give_log)
 		pochhammer_small_n (x, n, &qr);
 		r = gnm_quad_value (&qr);
 		gnm_quad_end (state);
-		return give_log ? gnm_log (r) : r;
+		return r;
 	}
 
 	/* Panic mode.  */
 	g_printerr ("x=%.20g  n=%.20g\n", x, n);
-via_log:
 	lr = ((x - 0.5) * gnm_log1p (n / x) +
 	      n * gnm_log (x + n) -
 	      n +
 	      (lgammacor (x + n) - lgammacor (x)));
-	return give_log ? lr : gnm_exp (lr);
+	return gnm_exp (lr);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -981,7 +975,7 @@ combin (gnm_float n, gnm_float k)
 		return c;
 	}
 
-	if (k < 30) {
+	if (k < 100) {
 		void *state = gnm_quad_start ();
 		GnmQuad p, a, b;
 		gnm_float c;
@@ -1001,11 +995,7 @@ combin (gnm_float n, gnm_float k)
 		return c;
 	}
 
-	{
-		gnm_float lp = pochhammer (n - k + 1, k, TRUE) -
-			gnm_lgamma (k + 1);
-		return gnm_floor (0.5 + gnm_exp (lp));
-	}
+	return pochhammer (n - k + 1, k) / gnm_fact (k);
 }
 
 gnm_float
@@ -1014,7 +1004,7 @@ permut (gnm_float n, gnm_float k)
 	if (k < 0 || k > n || n != gnm_floor (n) || k != gnm_floor (k))
 		return gnm_nan;
 
-	return pochhammer (n - k + 1, k, FALSE);
+	return pochhammer (n - k + 1, k);
 }
 
 /* ------------------------------------------------------------------------- */
