@@ -1,3 +1,8 @@
+2013-12-01  welinder  <terra@gnome.org>
+
+	* src/sf-gamma.c (gnm_lbeta3): Improve accuracy.
+	(gnm_beta): Ditto.
+
 2013-11-30  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-gamma.c (pochhammer): Drop give_log arguments.  Extend to

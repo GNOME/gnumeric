@@ -7,6 +7,9 @@
 #define ML_UNDERFLOW (GNM_EPSILON * GNM_EPSILON)
 #define ML_ERROR(cause) do { } while(0)
 
+static int qgammaf (gnm_float x, GnmQuad *mant, int *exp2);
+
+
 /* Compute  gnm_log(gamma(a+1))  accurately also for small a (0 < a < 0.5). */
 gnm_float lgamma1p (gnm_float a)
 {
@@ -460,11 +463,14 @@ gnm_float gnm_lbeta(gnm_float a, gnm_float b)
 gnm_float
 gnm_gamma (gnm_float x)
 {
-	if (gnm_abs (x) < 0.5) {
-		gnm_float a = gnm_exp (gnm_lgamma (x));
-		return (x > 0) ? a : -a;
-	} else
-		return gnm_fact (x - 1);
+	GnmQuad r;
+	int e;
+
+	switch (qgammaf (x, &r, &e)) {
+	case 0: return ldexp (gnm_quad_value (&r), e);
+	case 1: return gnm_pinf;
+	default: return gnm_nan;
+	}
 }
 
 /* ------------------------------------------------------------------------- */
@@ -490,6 +496,33 @@ gnm_fact (gnm_float x)
 
 /* ------------------------------------------------------------------------- */
 
+/* 0: ok, 1: overflow, 2: nan */
+static int
+qbetaf (gnm_float a, gnm_float b, GnmQuad *mant, int *exp2)
+{
+	GnmQuad ma, mb, mab;
+	int ea, eb, eab;
+	gnm_float ab = a + b;
+
+	if (gnm_isnan (ab) ||
+	    (a <= 0 && a == gnm_floor (a)) ||
+	    (b <= 0 && b == gnm_floor (b)) ||
+	    (ab <= 0 && ab == gnm_floor (ab)))
+		return 2;
+
+	if (!qgammaf (a, &ma, &ea) &&
+	    !qgammaf (b, &mb, &eb) &&
+	    !qgammaf (ab, &mab, &eab)) {
+		void *state = gnm_quad_start ();
+		gnm_quad_mul (&ma, &ma, &mb);
+		gnm_quad_div (mant, &ma, &mab);
+		gnm_quad_end (state);
+		*exp2 = ea + eb - eab;
+		return 0;
+	} else
+		return 1;
+}
+
 /**
  * gnm_beta:
  * @a: a number
@@ -500,10 +533,14 @@ gnm_fact (gnm_float x)
 gnm_float
 gnm_beta (gnm_float a, gnm_float b)
 {
-	int sign;
-	gnm_float absres = gnm_exp (gnm_lbeta3 (a, b, &sign));
+	GnmQuad r;
+	int e;
 
-	return sign == -1 ? -absres : absres;
+	switch (qbetaf (a, b, &r, &e)) {
+	case 0: return ldexp (gnm_quad_value (&r), e);
+	case 1: return gnm_pinf;
+	default: return gnm_nan;
+	}
 }
 
 /**
@@ -523,21 +560,29 @@ gnm_lbeta3 (gnm_float a, gnm_float b, int *sign)
 	int sign_a, sign_b, sign_ab;
 	gnm_float ab = a + b;
 	gnm_float res_a, res_b, res_ab;
+	GnmQuad r;
+	int e;
 
-	*sign = 1;
-	if (a > 0 && b > 0)
-		return gnm_lbeta (a, b);
-
-#ifdef IEEE_754
-	if (gnm_isnan(ab))
-		return ab;
-#endif
-
-	if ((a <= 0 && a == gnm_floor (a)) ||
-	    (b <= 0 && b == gnm_floor (b)) ||
-	    (ab <= 0 && ab == gnm_floor (ab)))
+	switch (qbetaf (a, b, &r, &e)) {
+	case 0: {
+		gnm_float m = gnm_quad_value (&r);
+		*sign = (m >= 0 ? +1 : -1);
+		return gnm_log (gnm_abs (m)) + e * M_LN2gnum;
+	}
+	case 1:
+		/* Overflow */
+		break;
+	default:
+		*sign = 1;
 		return gnm_nan;
+	}
 
+	if (a > 0 && b > 0) {
+		*sign = 1;
+		return gnm_lbeta (a, b);
+	}
+
+	/* This is awful */
 	res_a = gnm_lgamma_r (a, &sign_a);
 	res_b = gnm_lgamma_r (b, &sign_b);
 	res_ab = gnm_lgamma_r (ab, &sign_ab);
@@ -940,6 +985,27 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 
 	gnm_quad_end (state);
 	return res;
+}
+
+/* 0: ok, 1: overflow, 2: nan */
+static int
+qgammaf (gnm_float x, GnmQuad *mant, int *exp2)
+{
+	if (gnm_abs (x) > 0.5)
+		return qfactf (x - 1, mant, exp2);
+	else if (gnm_isnan (x) || x == 0)
+		return 2;
+	else {
+		void *state = gnm_quad_start ();
+		GnmQuad qx;
+
+		qfactf (x, mant, exp2);
+		gnm_quad_init (&qx, x);
+		gnm_quad_div (mant, mant, &qx);
+		rescale_mant_exp (mant, exp2);
+		gnm_quad_end (state);
+		return 0;
+	}		
 }
 
 /* ------------------------------------------------------------------------- */
