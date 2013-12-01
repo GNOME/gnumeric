@@ -11,6 +11,8 @@
 #define MATHLIB_WARNING2 g_warning
 #define MATHLIB_WARNING4 g_warning
 
+static gnm_float bessel_j_series (gnm_float x, gnm_float alpha);
+
 static gnm_float bessel_y_ex(gnm_float x, gnm_float alpha, gnm_float *by);
 static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo);
 static gnm_float bessel_y(gnm_float x, gnm_float alpha);
@@ -683,6 +685,9 @@ static gnm_float bessel_j(gnm_float x, gnm_float alpha)
 	       ((alpha == na) ? 0 :
 	       bessel_y(x, -alpha) * gnm_sinpi(alpha)));
     }
+    if (x < 2 || x * x / 4 < alpha)
+	    return bessel_j_series (x, alpha);
+
     nb = 1 + (long)na; /* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
 #ifdef MATHLIB_STANDALONE
@@ -2227,6 +2232,27 @@ L450:
 
 /* Cleaning up done by tools/import-R:  */
 #undef min0
+
+/* ------------------------------------------------------------------------ */
+
+static gnm_float
+bessel_j_series (gnm_float x, gnm_float alpha)
+{
+	gnm_float s, t;
+	gnm_float xh = x / 2, xh2 = xh * xh;
+	int k;
+
+	t = gnm_pow (xh, alpha) / gnm_fact (alpha);
+	s = t;
+	for (k = 1; k < 1000; k++) {
+		t *= -xh2 / (k * (k + alpha));
+		s += t;
+		if (k > 5 && gnm_abs (t) < GNM_EPSILON * gnm_abs (s))
+			break;
+	}
+
+	return s;
+}
 
 /* ------------------------------------------------------------------------ */
 

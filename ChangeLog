@@ -1,5 +1,8 @@
 2013-12-01  welinder  <terra@gnome.org>
 
+	* src/sf-bessel.c (bessel_j): Use the taylor series in the
+	parameter range where that makes sense.
+
 	* src/sf-gamma.c (gnm_lbeta3): Improve accuracy.
 	(gnm_beta): Ditto.
 

@@ -6,6 +6,7 @@ Andreas:
 Morten:
 	* Extend POCHHAMMER to negative values.
 	* Improve accuracy of BETA and BETALN.
+	* Improve accuracy of BESSELJ.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9
