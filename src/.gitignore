@@ -9,6 +9,7 @@ Makefile
 .deps
 .libs
 gnumeric
+gnumeric.exe
 gnumeric-component
 parser.c
 gnm-marshalers.c
