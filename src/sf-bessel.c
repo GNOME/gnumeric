@@ -11,6 +11,7 @@
 #define MATHLIB_WARNING2 g_warning
 #define MATHLIB_WARNING4 g_warning
 
+static gboolean bessel_j_series_domain (gnm_float x, gnm_float v);
 static gnm_float bessel_j_series (gnm_float x, gnm_float alpha);
 
 static gnm_float bessel_y_ex(gnm_float x, gnm_float alpha, gnm_float *by);
@@ -685,7 +686,7 @@ static gnm_float bessel_j(gnm_float x, gnm_float alpha)
 	       ((alpha == na) ? 0 :
 	       bessel_y(x, -alpha) * gnm_sinpi(alpha)));
     }
-    if (x < 2 || x * x / 4 < alpha)
+    if (bessel_j_series_domain (x, alpha))
 	    return bessel_j_series (x, alpha);
 
     nb = 1 + (long)na; /* nb-1 <= alpha < nb */
@@ -1781,6 +1782,15 @@ static gnm_float bessel_y(gnm_float x, gnm_float alpha)
 	return gnm_nan;
     }
     na = gnm_floor(alpha);
+
+    if (alpha != na &&
+	bessel_j_series_domain (x, alpha) &&
+	bessel_j_series_domain (x, -alpha)) {
+	    gnm_float s = gnm_sinpi (alpha);
+	    gnm_float c = gnm_cospi (alpha);
+	    return ((c ? bessel_j_series (x, alpha) * c : 0) - bessel_j_series (x, -alpha)) / s;
+    }
+
     if (alpha < 0) {
 	/* Using Abramowitz & Stegun  9.1.2
 	 * this may not be quite optimal (CPU and accuracy wise) */
@@ -2235,21 +2245,112 @@ L450:
 
 /* ------------------------------------------------------------------------ */
 
-static gnm_float
-bessel_j_series (gnm_float x, gnm_float alpha)
+static gboolean
+bessel_j_series_domain (gnm_float x, gnm_float v)
 {
-	gnm_float s, t;
-	gnm_float xh = x / 2, xh2 = xh * xh;
-	int k;
+	/*
+	 * The series is valid for all possible values of x and v,
+	 * but it isn't efficient for all.
+	 */
 
-	t = gnm_pow (xh, alpha) / gnm_fact (alpha);
-	s = t;
-	for (k = 1; k < 1000; k++) {
-		t *= -xh2 / (k * (k + alpha));
-		s += t;
-		if (k > 5 && gnm_abs (t) < GNM_EPSILON * gnm_abs (s))
-			break;
+	if (v <= -0.999) {
+		/*
+		 * For negative v we must ensure that nothing crazy
+		 * happens when |v+k| reaches its minimum.
+		 */
+		gnm_float rv = gnm_floor (v + 0.5);
+		if (gnm_abs (v - rv) * v * v < 1)
+			return FALSE;
+
+		/*
+		 * The above condition ensure that at most one term
+		 * increases relative to the prior term and that the
+		 * next term undoes all of that increase.
+		 */
 	}
+
+	/* For small x, the factorials will dominate quickly.  */
+	if (gnm_abs (x) < 4)
+		return TRUE;
+
+	/*
+	 * The factorials also dominate immediately if x*x/4<|v|.
+	 * We must not go too far beyond that.
+	 */
+	if (x * x / 16 > gnm_abs (v))
+		return FALSE;
+
+	return TRUE;
+}
+
+
+static gnm_float
+bessel_j_series (gnm_float x, gnm_float v)
+{
+	GnmQuad qv, qxh, qfv, qs, qt;
+	int efv;
+	void *state = gnm_quad_start ();
+	gnm_float e, s;
+
+	gnm_quad_init (&qxh, x / 2);
+	gnm_quad_init (&qv, v);
+
+	gnm_quad_pow (&qt, &e, &qxh, &qv);
+
+	switch (qfactf (v, &qfv, &efv)) {
+	case 0:
+		gnm_quad_div (&qt, &qt, &qfv);
+		e -= efv;
+		break;
+	case 1:
+		qt = gnm_quad_zero;
+		e = 0;
+		break;
+	default:
+		gnm_quad_init (&qt, gnm_nan);
+		e = 0;
+		break;
+	}
+
+	qs = qt;
+	s = gnm_quad_value (&qs);
+	if (gnm_finite (s) && s != 0) {
+		int k;
+		GnmQuad qxh2;
+
+		gnm_quad_mul (&qxh2, &qxh, &qxh);
+
+		for (k = 1; k < 200; k++) {
+			GnmQuad qa, qb;
+			gnm_float t;
+
+			gnm_quad_mul (&qt, &qt, &qxh2);
+			gnm_quad_init (&qa, -k);
+			gnm_quad_sub (&qb, &qv, &qa);
+			gnm_quad_mul (&qa, &qa, &qb);
+			gnm_quad_div (&qt, &qt, &qa);
+			t = gnm_quad_value (&qt);
+#if 0
+			g_printerr ("%5d: %g\n", k, t);
+#endif
+			if (t == 0)
+				break;
+			gnm_quad_add (&qs, &qs, &qt);
+			s = gnm_quad_value (&qs);
+			if (k > 5 &&
+			    gnm_abs (t) <= GNM_EPSILON / 1024 * gnm_abs (s) &&
+			    gnm_abs (k + v) > 2)
+				break;
+		}
+	}
+
+	s = gnm_ldexp (s, (int)CLAMP (e, G_MININT, G_MAXINT));
+
+	gnm_quad_end (state);
+
+#if 0
+	g_printerr ("J_%g(%g) = %g\n", v, x, s);
+#endif
 
 	return s;
 }

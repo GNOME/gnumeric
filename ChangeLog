@@ -1,3 +1,7 @@
+2013-12-02  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-bessel.c (bessel_y): Use the J series when possible.
+
 2013-12-01  welinder  <terra@gnome.org>
 
 	* src/sf-bessel.c (bessel_j): Use the taylor series in the
