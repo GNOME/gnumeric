@@ -66,6 +66,9 @@ int complex_from_string (complex_t *dst, char const *src, char *imunit);
 
 int complex_invalid_p (complex_t const *src);
 
+void complex_gamma (complex_t *dst, complex_t const *src);
+void complex_fact (complex_t *dst, complex_t const *src);
+
 /* ------------------------------------------------------------------------- */
 
 G_END_DECLS

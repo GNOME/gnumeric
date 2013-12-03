@@ -1094,6 +1094,56 @@ gnumeric_imsqrt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_imfact[] = {
+        { GNM_FUNC_HELP_NAME, F_("IMFACT:the factorial of the complex number @{z}") },
+        { GNM_FUNC_HELP_ARG, F_("z:a complex number") },
+        { GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=IMFACT(\"1+j\")" },
+        { GNM_FUNC_HELP_SEEALSO, "IMGAMMA" },
+        { GNM_FUNC_HELP_END}
+};
+
+
+static GnmValue *
+gnumeric_imfact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	complex_t c, res;
+	char imunit;
+
+	if (value_get_as_complex (argv[0], &c, &imunit))
+		return value_new_error_NUM (ei->pos);
+
+	complex_fact (&res, &c);
+	return value_new_complex (&res, imunit);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_imgamma[] = {
+        { GNM_FUNC_HELP_NAME, F_("IMGAMMA:the gamma function of the complex number @{z}") },
+        { GNM_FUNC_HELP_ARG, F_("z:a complex number") },
+        { GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=IMGAMMA(\"1+j\")" },
+        { GNM_FUNC_HELP_SEEALSO, "IMGAMMA" },
+        { GNM_FUNC_HELP_END}
+};
+
+
+static GnmValue *
+gnumeric_imgamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	complex_t c, res;
+	char imunit;
+
+	if (value_get_as_complex (argv[0], &c, &imunit))
+		return value_new_error_NUM (ei->pos);
+
+	complex_gamma (&res, &c);
+	return value_new_complex (&res, imunit);
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_imsub[] = {
         { GNM_FUNC_HELP_NAME, F_("IMSUB:the difference of two complex numbers") },
         { GNM_FUNC_HELP_ARG, F_("z1:a complex number") },
@@ -1355,5 +1405,13 @@ GnmFuncDescriptor const complex_functions[] = {
         { "imarccoth",    "S",    help_imarccoth,
 	  gnumeric_imarccoth, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+        { "imfact",       "S",    help_imfact,
+	  gnumeric_imfact, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+        { "imgamma",      "S",    help_imgamma,
+	  gnumeric_imgamma, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+
         {NULL}
 };

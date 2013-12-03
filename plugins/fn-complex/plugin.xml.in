@@ -16,6 +16,8 @@
                                 <function name="imaginary"/>
                                 <function name="imargument"/>
                                 <function name="imconjugate"/>
+                                <function name="imfact"/>
+                                <function name="imgamma"/>
                                 <function name="iminv"/>
                                 <function name="imneg"/>
                                 <function name="imcos"/>
