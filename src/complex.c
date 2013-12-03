@@ -235,8 +235,8 @@ complex_fact (complex_t *dst, complex_t const *src)
 			GNM_const (0.36899182659531622704e-5)
 		};
 		const gnm_float g = GNM_const(607.0) / 128;
-		const gnm_const sqrt2pi =
-			gnm_const (2.506628274631000502415765284811045253006986740609938316629923);
+		const gnm_float sqrt2pi =
+			GNM_const (2.506628274631000502415765284811045253006986740609938316629923);
 		complex_t zph, zpgh, s, f;
 		int i;
 
