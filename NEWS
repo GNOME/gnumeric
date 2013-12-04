@@ -8,6 +8,7 @@ Morten:
 	* Improve accuracy of BETA and BETALN.
 	* Improve accuracy of BESSELJ and BESSELY.
 	* New functions: IMGAMMA, IMFACT.
+	* Avoid some overflows in IMGAMMA.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9

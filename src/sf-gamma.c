@@ -991,7 +991,7 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 static int
 qgammaf (gnm_float x, GnmQuad *mant, int *exp2)
 {
-	if (gnm_abs (x) > 0.5)
+	if (x < -1.5 || x > 0.5)
 		return qfactf (x - 1, mant, exp2);
 	else if (gnm_isnan (x) || x == 0)
 		return 2;
@@ -1005,7 +1005,7 @@ qgammaf (gnm_float x, GnmQuad *mant, int *exp2)
 		rescale_mant_exp (mant, exp2);
 		gnm_quad_end (state);
 		return 0;
-	}		
+	}
 }
 
 /* ------------------------------------------------------------------------- */

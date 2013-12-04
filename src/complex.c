@@ -199,7 +199,7 @@ complex_fact (complex_t *dst, complex_t const *src)
 {
 	if (complex_real_p (src)) {
 		complex_init (dst, gnm_fact (src->re), 0);
-	} else if (src->re < 0.5) {
+	} else if (src->re < 0) {
 		/* Fact(z) = -pi / (sin(pi*z) * Gamma(-z)) */
 		complex_t a, b, mz;
 
@@ -209,6 +209,7 @@ complex_fact (complex_t *dst, complex_t const *src)
 		complex_init (&b,
 			      M_PIgnum * gnm_fmod (src->re, 2),
 			      M_PIgnum * src->im);
+		/* Hmm... sin overflows when b.im is large.  */
 		complex_sin (&b, &b);
 
 		complex_mul (&a, &a, &b);
@@ -237,11 +238,13 @@ complex_fact (complex_t *dst, complex_t const *src)
 		const gnm_float g = GNM_const(607.0) / 128;
 		const gnm_float sqrt2pi =
 			GNM_const (2.506628274631000502415765284811045253006986740609938316629923);
-		complex_t zph, zpgh, s, f;
+		complex_t zph, zpghde, s, f;
 		int i;
 
 		complex_init (&zph, src->re + 0.5, src->im);
-		complex_init (&zpgh, src->re + g + 0.5, src->im);
+		complex_init (&zpghde,
+			      (src->re + g + 0.5) / M_Egnum,
+			      src->im / M_Egnum);
 		complex_init (&s, 0, 0);
 
 		for (i = G_N_ELEMENTS(c) - 1; i >= 1; i--) {
@@ -253,11 +256,9 @@ complex_fact (complex_t *dst, complex_t const *src)
 		}
 		s.re += c[0];
 
-		complex_init (&f, sqrt2pi, 0);
+		complex_init (&f, sqrt2pi * gnm_exp (-g), 0);
 		complex_mul (&s, &s, &f);
-		complex_exp (&f, &zpgh);
-		complex_div (&s, &s, &f);
-		complex_pow (&f, &zpgh, &zph);
+		complex_pow (&f, &zpghde, &zph);
 		complex_mul (&s, &s, &f);
 
 		*dst = s;

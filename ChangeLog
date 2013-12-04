@@ -1,3 +1,11 @@
+2013-12-03  welinder  <terra@gnome.org>
+
+	* src/sf-gamma.c (qgammaf): Avoid losing the least significant bit
+	of the argument for [-1.5;-0.5].
+
+	* src/complex.c (complex_fact): Avoid infinite recursion for 0 <
+	Re z < 1/2.  Avoid some overflow.
+
 2013-12-02  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-bessel.c (bessel_y): Use the J series when possible.
