@@ -1,3 +1,7 @@
+2013-12-04  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-gamma.c (gamma_error_factor): Add extra term.
+
 2013-12-03  welinder  <terra@gnome.org>
 
 	* src/sf-gamma.c (qgammaf): Avoid losing the least significant bit

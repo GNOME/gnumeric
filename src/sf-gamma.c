@@ -597,24 +597,26 @@ static void
 gamma_error_factor (GnmQuad *res, const GnmQuad *x)
 {
 	gnm_float num[] = {
-		1.,
-		1.,
-		-139.,
-		-571.,
-		163879.,
-		5246819.,
-		-534703531.,
-		-4483131259.
+		GNM_const(1.),
+		GNM_const(1.),
+		GNM_const(-139.),
+		GNM_const(-571.),
+		GNM_const(163879.),
+		GNM_const(5246819.),
+		GNM_const(-534703531.),
+		GNM_const(-4483131259.),
+		GNM_const(432261921612371.)
 	};
 	gnm_float den[] = {
-		12.,
-		288.,
-		51840.,
-		2488320.,
-		209018880.,
-		75246796800.,
-		902961561600.,
-		86684309913600.
+		GNM_const(12.),
+		GNM_const(288.),
+		GNM_const(51840.),
+		GNM_const(2488320.),
+		GNM_const(209018880.),
+		GNM_const(75246796800.),
+		GNM_const(902961561600.),
+		GNM_const(86684309913600.),
+		GNM_const(514904800886784000.)
 	};
 	GnmQuad zn;
 	int i;
@@ -638,7 +640,7 @@ gamma_error_factor (GnmQuad *res, const GnmQuad *x)
 static void
 pochhammer_small_n (gnm_float x, gnm_float n, GnmQuad *res)
 {
-	GnmQuad qx, qn, qr, qs, qone, f1, f2, f3, f4, f5;
+	GnmQuad qx, qn, qr, qs, f1, f2, f3, f4, f5;
 	gnm_float r;
 	gboolean debug = FALSE;
 
@@ -668,15 +670,13 @@ pochhammer_small_n (gnm_float x, gnm_float n, GnmQuad *res)
 
 	gnm_quad_add (&qs, &qx, &qn);
 
-	gnm_quad_init (&qone, 1);
-
 	/* exp(x*log1pmx(n/x)) */
 	gnm_quad_mul12 (&f1, log1pmx (r), x);  /* sub-opt */
 	gnm_quad_exp (&f1, NULL, &f1);
 	if (debug) g_printerr ("f1=%.20g\n", gnm_quad_value (&f1));
 
 	/* sqrt(1+n/x) */
-	gnm_quad_add (&f2, &qone, &qr);
+	gnm_quad_add (&f2, &gnm_quad_one, &qr);
 	gnm_quad_sqrt (&f2, &f2);
 	if (debug) g_printerr ("f2=%.20g\n", gnm_quad_value (&f2));
 
