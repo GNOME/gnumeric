@@ -1097,7 +1097,7 @@ icons/22x22/Makefile
 icons/24x24/Makefile
 icons/32x32/Makefile
 icons/48x48/Makefile
-icons/scalable/Makefile
+icons/256x256/Makefile
 src/Makefile
 src/dialogs/Makefile
 src/widgets/Makefile
