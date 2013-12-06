@@ -1119,3 +1119,126 @@ lgamma_r (double x, int *signp)
 #endif
 
 /* ------------------------------------------------------------------------- */
+
+
+static const gnm_float lanczos_g = GNM_const (808618867.0) / 134217728;
+
+/*
+ * This Mathematica sniplet computes the Lanczos gamma coefficients:
+ *
+ * Dr[k_]:=DiagonalMatrix[Join[{1},Array[-Binomial[2*#-1,#]*#&,k]]]
+ * c[k_]:= Array[If[#1+#2==2,1/2,If[#1>=#2,(-1)^(#1+#2)*4^(#2-1)*(#1-1)*(#1+#2-3)!/(#1-#2)!/(2*#2-2)!,0]]&,{k+1,k+1}]
+ * Dc[k_]:=DiagonalMatrix[Array[2*(2*#-3)!!&,k+1]]
+ * B[k_]:=Array[If[#1==1,1,If[#1<=#2,(-1)^(#2-#1)*Binomial[#1+#2-3,#1+#1-3],0]]&,{k+1,k+1}]
+ * M[k_]:=(Dr[k].B[k]).(c[k].Dc[k])
+ * f[g_,k_]:=Array[Sqrt[2]*(E/(2*(#-1+g)+1))^(#-1/2)&,k+1]
+ * a[g_,k_]:=M[k].f[g,k]*Exp[g]/Sqrt[2*Pi]
+ *
+ * The result of a[g,k] will contain both positive and negative constants.
+ * Most people using the Lanczos series do not understand that a naive
+ * implemetation will suffer significant cancellation errors.  The error
+ * estimates assume the series is computes without loss!
+ *
+ * Following Boost we multiply the entire partial fraction by Pochhammer[z+1,k]
+ * That gives us a polynomium with positive coefficient.  For kicks we toss
+ * the constant factor back in.
+ *
+ * b[g_,k_]:=Sum[a[g,k][[i+1]]/If[i==0,1,(z+i)],{i,0,k}]*Pochhammer[z+1,k]
+ * c13b:=Block[{$MaxExtraPrecision=500},FullSimplify[N[b[808618867/134217728,12]*Sqrt[2*Pi]/Exp[808618867/134217728],300]]]
+ *
+ * Finally we recast that in terms of gamma's argument:
+ *
+ * N[CoefficientList[c13b /. z->(zp-1),{zp}],50]
+ */
+static const gnm_float lanczos_num[] = {
+	GNM_const(56906521.913471563880907910335591226868592353221448),
+	GNM_const(103794043.11634454519062710536160702385539539810110),
+	GNM_const(86363131.288138591455469272889778684223419113014358),
+	GNM_const(43338889.324676138347737237405905333160850993321475),
+	GNM_const(14605578.087685068084141699827913592185707234229516),
+	GNM_const(3481712.1549806459088207101896477455646802362321652),
+	GNM_const(601859.61716810987866702265336993523025071425740828),
+	GNM_const(75999.293040145426498753034435989091370919973262979),
+	GNM_const(6955.9996025153761403563101155151989875259157712039),
+	GNM_const(449.94455690631681194468586076509884096232715968614),
+	GNM_const(19.519927882476174828478609662356521362076846583112),
+	GNM_const(0.50984166556566761881251786448046945099926051133936),
+	GNM_const(0.0060618423462489065257837539645559368832224636654970)
+};
+
+/* CoefficientList[Pochhammer[z,12],z] */
+static const guint32 lanczos_denom[G_N_ELEMENTS(lanczos_num)] = {
+	0, 39916800, 120543840, 150917976, 105258076, 45995730,
+	13339535, 2637558, 357423, 32670, 1925, 66, 1
+};
+
+void
+complex_gamma (complex_t *dst, complex_t const *src)
+{
+	if (complex_real_p (src)) {
+		complex_init (dst, gnm_gamma (src->re), 0);
+	} else if (src->re < 0) {
+		/* Gamma(z) = pi / (sin(pi*z) * Gamma(-z+1)) */
+		complex_t a, b, mz;
+
+		complex_init (&mz, -src->re, -src->im);
+		complex_fact (&a, &mz);
+
+		complex_init (&b,
+			      M_PIgnum * gnm_fmod (src->re, 2),
+			      M_PIgnum * src->im);
+		/* Hmm... sin overflows when b.im is large.  */
+		complex_sin (&b, &b);
+
+		complex_mul (&a, &a, &b);
+
+		complex_init (&b, M_PIgnum, 0);
+
+		complex_div (dst, &b, &a);
+	} else {
+		complex_t zmh, zmhd2, zmhpg, f, g, p, q, pq;
+		int i;
+
+		i = G_N_ELEMENTS(lanczos_num) - 1;
+		complex_init (&p, lanczos_num[i], 0);
+		complex_init (&q, lanczos_denom[i], 0);
+		while (--i >= 0) {
+			complex_mul (&p, &p, src);
+			p.re += lanczos_num[i];
+			complex_mul (&q, &q, src);
+			q.re += lanczos_denom[i];
+		}
+		complex_div (&pq, &p, &q);
+
+		complex_init (&zmh, src->re - 0.5, src->im);
+		complex_init (&zmhpg, zmh.re + lanczos_g, zmh.im);
+		complex_init (&zmhd2, zmh.re * 0.5, zmh.im * 0.5);
+		complex_pow (&f, &zmhpg, &zmhd2);
+
+		complex_exp (&g, &zmh);
+		complex_div (&g, &f, &g);
+		complex_mul (&g, &g, &f);
+
+		complex_mul (dst, &g, &pq);
+	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+void
+complex_fact (complex_t *dst, complex_t const *src)
+{
+	if (complex_real_p (src)) {
+		complex_init (dst, gnm_fact (src->re), 0);
+	} else {
+		/*
+		 * This formula is valid for all arguments except zero
+		 * which we conveniently handled above.
+		 */
+		complex_t gz;
+		complex_gamma (&gz, src);
+		complex_mul (dst, &gz, src);
+	}
+}
+
+/* ------------------------------------------------------------------------- */

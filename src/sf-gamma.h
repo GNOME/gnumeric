@@ -2,6 +2,7 @@
 #define GNM_SF_GAMMA_H_
 
 #include <numbers.h>
+#include <complex.h>
 
 gnm_float lgamma1p (gnm_float a);
 gnm_float stirlerr(gnm_float n);
@@ -9,6 +10,8 @@ gnm_float stirlerr(gnm_float n);
 gnm_float gnm_gamma (gnm_float x);
 gnm_float gnm_fact (gnm_float x);
 int       qfactf (gnm_float x, GnmQuad *mant, int *exp2);
+void complex_gamma (complex_t *dst, complex_t const *src);
+void complex_fact (complex_t *dst, complex_t const *src);
 
 gnm_float gnm_lbeta (gnm_float a, gnm_float b);
 gnm_float gnm_beta (gnm_float a, gnm_float b);
