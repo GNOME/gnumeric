@@ -56,8 +56,6 @@ G_BEGIN_DECLS
 #define complex_from_polar go_complex_from_polar
 #endif
 
-#define complex_invalid(c_) complex_init((c_),gnm_nan,gnm_nan)
-
 /* ------------------------------------------------------------------------- */
 
 char *complex_to_string (complex_t const *src, char imunit);
