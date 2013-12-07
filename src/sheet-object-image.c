@@ -418,9 +418,12 @@ gnm_soi_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_double (attrs, "crop-top", &soi->crop_top)) ;
-		else if (gnm_xml_attr_double (attrs, "crop-bottom", &soi->crop_bottom)) ;
-		else if (gnm_xml_attr_double (attrs, "crop-left", &soi->crop_left)) ;
-		else if (gnm_xml_attr_double (attrs, "crop-right", &soi->crop_right)) ;
+		else if (gnm_xml_attr_double (attrs, "crop-bottom", &soi->crop_bottom))
+			/* Nothing */ ;
+		else if (gnm_xml_attr_double (attrs, "crop-left", &soi->crop_left))
+			/* Nothing */ ;
+		else if (gnm_xml_attr_double (attrs, "crop-right", &soi->crop_right))
+			/* Nothing */ ;
 	}
 }
 

@@ -213,7 +213,8 @@ xlsx_CT_Field (GsfXMLIn *xin, xmlChar const **attrs)
 	int indx = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, "x", &indx)) ;
+		if (attr_int (xin, attrs, "x", &indx))
+			/* Nothing */ ;
 
 	if (indx >= 0)
 		go_data_slicer_field_set_field_type_pos (
@@ -249,7 +250,8 @@ xlsx_CT_DataField (GsfXMLIn *xin, xmlChar const **attrs)
 	/* Why "fld" in data vs "x" in col/row ? */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int (xin, attrs, "fld", &indx)) ;
-		else if (attr_enum (xin, attrs, "subtotal", aggregations, &aggregate_by)) ;
+		else if (attr_enum (xin, attrs, "subtotal", aggregations, &aggregate_by))
+			/* Nothing */ ;
 
 	if (indx >= 0) {
 		GODataSlicerField *dsf = go_data_slicer_get_field ((GODataSlicer *)state->pivot.slicer, indx);

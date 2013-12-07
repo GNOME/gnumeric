@@ -402,8 +402,8 @@ gnm_font_button_font_chooser_notify (GObject    *object,
                                      gpointer    user_data)
 {
   /* We do not forward the notification of the "font" property to the dialog! */
-  if (pspec->name == ("preview-text") ||
-      pspec->name == ("show-preview-entry"))
+    if (strcmp (pspec->name, ("preview-text")) == 0 ||
+	strcmp (pspec->name, ("show-preview-entry")) == 0)
     g_object_notify_by_pspec (user_data, pspec);
 }
 

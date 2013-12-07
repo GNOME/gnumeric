@@ -1142,7 +1142,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 		case 0x0200 : brightness = 1. - frac/512.; break;
 		}
 		go_style_set_fill_brightness (s->style, (1. - brightness) * 100.);
-		d (1, g_printerr ("%x : frac = %u, flag = 0x%hx ::: %f",
+		d (1, g_printerr ("%x : frac = %u, flag = 0x%x ::: %f",
 			       fill_back_color, frac, fill_back_color & 0xff00, brightness););
 	}
 
@@ -2139,7 +2139,7 @@ BC_R(siindex)(XLChartHandler const *handle,
 	/* UNDOCUMENTED : Docs says this is long
 	 * Biff record is only length 2 */
 	s->cur_role = GSF_LE_GET_GUINT16 (q->data);
-	d (1, g_printerr ("Series %d is %hd\n", s->series->len, s->cur_role););
+	d (1, g_printerr ("Series %d is %d\n", s->series->len, s->cur_role););
 	return FALSE;
 }
 /****************************************************************************/

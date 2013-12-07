@@ -422,7 +422,7 @@ parse_ms_headers (const char *data, size_t length, size_t *start, size_t *end)
 
 		if (strcmp (key, "StartHTML") == 0) {
 			long l = strtol (value, NULL, 10);
-			limit = MIN (limit, MAX (0, l));
+			limit = MIN (limit, (size_t)MAX (0, l));
 		}
 
 		g_hash_table_replace (headers, key, value);

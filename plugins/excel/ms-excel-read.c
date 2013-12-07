@@ -4360,7 +4360,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 
 	d (1, {
 			g_printerr ("Column Formatting %s!%s of width "
-				    "%hu/256 characters (%f pts)\n",
+				    "%u/256 characters (%f pts)\n",
 				    esheet->sheet->name_quoted,
 				    cols_name (firstcol, lastcol), charwidths, width);
 			g_printerr ("Options 0x%hx, default style %hu\n", options, xf);

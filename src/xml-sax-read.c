@@ -520,8 +520,10 @@ xml_sax_version (GsfXMLIn *xin, xmlChar const **attrs)
 	state->version = GNM_XML_V11;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_int (attrs, "Epoch", &major)) ;
-		else if (gnm_xml_attr_int (attrs, "Major", &major)) ;
-		else if (gnm_xml_attr_int (attrs, "Minor", &minor)) ;
+		else if (gnm_xml_attr_int (attrs, "Major", &major))
+			/* Nothing */ ;
+		else if (gnm_xml_attr_int (attrs, "Minor", &minor))
+			/* Nothing */ ;
 
 	version = (epoch * 100 + major) * 100 + minor;
 	if (major >= 7) {

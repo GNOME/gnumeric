@@ -163,7 +163,7 @@ ib_reload_style (GnmItemBar *ib)
 					  &ib->selection_logical_sizes[ui]);
 	}
 
-	gtk_style_context_get_padding (context, GTK_STATE_NORMAL,
+	gtk_style_context_get_padding (context, GTK_STATE_FLAG_NORMAL,
 				       &ib->padding);
 
 	gtk_style_context_restore (context);
