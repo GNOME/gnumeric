@@ -1,5 +1,8 @@
 2013-12-07  welinder  <terra@gnome.org>
 
+	* src/application.c (gnm_app_init): Don't allocate a
+	GtkRecentManager if we are not in gui mode.
+
 	* src/position.c (gnm_cellref_hash): Avoid undefined signed integer
 	behaviour.
 	* src/dependent.c (deprange_hash): Ditto.

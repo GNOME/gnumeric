@@ -595,11 +595,16 @@ gnm_app_history_get_list (int max_elements)
 {
 	GSList *res = NULL;
 	GList *items, *l;
-	GtkFileFilter *filter = gnm_app_create_opener_filter (NULL);
+	GtkFileFilter *filter;
 	int n_elements = 0;
+
+	if (app->recent == NULL)
+		return NULL;
 
 	items = gtk_recent_manager_get_items (app->recent);
 	items = g_list_sort (items, (GCompareFunc)compare_mru);
+
+	filter = gnm_app_create_opener_filter (NULL);
 
 	for (l = items; l && n_elements < max_elements; l = l->next) {
 		GtkRecentInfo *ri = l->data;
@@ -653,6 +658,9 @@ void
 gnm_app_history_add (char const *uri, const char *mimetype)
 {
 	GtkRecentData rd;
+
+	if (app->recent == NULL)
+		return;
 
 	memset (&rd, 0, sizeof (rd));
 
@@ -1402,10 +1410,18 @@ gnm_app_init (GObject *obj)
 
 	gnm_app->workbook_list = NULL;
 
-	gnm_app->recent = gtk_recent_manager_get_default ();
-	g_signal_connect_object (G_OBJECT (gnm_app->recent),
-				 "changed", G_CALLBACK (cb_recent_changed),
-				 gnm_app, 0);
+	if (gdk_display_get_default ()) {
+		/*
+		 * Only allocate a GtkRecentManager if we have a gui.
+		 * This is, in part, because it currently throws an error.
+		 * deep inside gtk+.
+		 */
+		gnm_app->recent = gtk_recent_manager_get_default ();
+		g_signal_connect_object (G_OBJECT (gnm_app->recent),
+					 "changed",
+					 G_CALLBACK (cb_recent_changed),
+					 gnm_app, 0);
+	}
 
 	app = gnm_app;
 }
