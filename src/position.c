@@ -396,7 +396,7 @@ gnm_cellref_hash (GnmCellRef const *cr)
 {
 	guint h = cr->row;
 	h = (h << 16) | (h >> 16);
-	h ^= (cr->col << 2);
+	h ^= ((guint)cr->col << 2);
 	if (cr->col_relative) h ^= 1;
 	if (cr->row_relative) h ^= 2;
 	return h;

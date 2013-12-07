@@ -837,8 +837,12 @@ typedef struct {
 static guint
 deprange_hash (DependencyRange const *r)
 {
-	return ((((r->range.start.row << 8) + r->range.end.row) << 8) +
-		(r->range.start.col << 8) + (r->range.end.col));
+	guint a = r->range.start.row;
+	guint b = r->range.end.row;
+	guint c = r->range.start.col;
+	guint d = r->range.end.col;
+
+	return (((((a << 8) + b) << 8) + c) << 8) + d;
 }
 
 static gint

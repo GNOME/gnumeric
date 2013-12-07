@@ -1,3 +1,9 @@
+2013-12-07  welinder  <terra@gnome.org>
+
+	* src/position.c (gnm_cellref_hash): Avoid undefined signed integer
+	behaviour.
+	* src/dependent.c (deprange_hash): Ditto.
+
 2013-12-04  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-gamma.c (gamma_error_factor): Add extra term.
