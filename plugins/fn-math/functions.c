@@ -3366,7 +3366,7 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "power",   "ff|f",       help_power,
 	  gnumeric_power, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUPERSET, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "pochhammer",   "ff|b",       help_pochhammer,
+	{ "pochhammer",   "ff",       help_pochhammer,
 	  gnumeric_pochhammer, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "g_product", NULL,     help_g_product,
