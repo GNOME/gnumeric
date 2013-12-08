@@ -21,6 +21,7 @@
 */
 /* NOTE: This code makes no attempt to be fast! */
 #include <glib.h>
+#include <gsf/gsf.h>
 #include <string.h>
 #include "crypt-md4.h"
 
@@ -141,8 +142,7 @@ copy64(guint32 * M, unsigned const char *in)
 	int i;
 
 	for (i = 0; i < 16; i++)
-		M[i] = (in[i * 4 + 3] << 24) | (in[i * 4 + 2] << 16) |
-		    (in[i * 4 + 1] << 8) | (in[i * 4 + 0] << 0);
+		M[i] = GSF_LE_GET_GUINT32 (in + i * 4);
 }
 
 static void

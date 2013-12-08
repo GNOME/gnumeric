@@ -2082,7 +2082,7 @@ excel_font_hash (gconstpointer f)
 	ExcelWriteFont *font = (ExcelWriteFont *) f;
 
 	if (f)
-		res = (int)(font->size_pts + g_str_hash (font->font_name))
+		res = (guint)(font->size_pts + g_str_hash (font->font_name))
 			^ font->color
 			^ font->is_auto
 			^ (font->underline << 1)
@@ -3193,21 +3193,22 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 	}
 	case VALUE_FLOAT: {
 		gnm_float val = value_get_as_float (v);
-		gboolean is_int = (val >= INT_MIN / 4 &&
-				   val <= INT_MAX / 4 &&
-				   val == (int)val);
+		gboolean is_int = (val >= G_MININT32 / 4 &&
+				   val <= G_MAXINT32 / 4 &&
+				   val == gnm_floor (val));
 
 		d (3, g_printerr ("Writing %g is (%g %g) is int ? %d\n",
-			      (double)val,
-			      (double)(1.0 * (int)val),
-			      (double)(1.0 * (val - (int)val)),
+				  (double)val,
+				  (double)(1.0 * gnm_floor (val)),
+				  (double)(1.0 * (val - gnm_floor (val))),
 			      is_int););
 
 		/* FIXME : Add test for double of form i/100.0
 		 * and represent it as a mode 3 RK (val*100) construct */
 		if (is_int) {
 			guint8 *data = ms_biff_put_len_next (ewb->bp, (0x200 | BIFF_RK), 10);
-			int ival = (int)val;
+			/* Double cast needed per C99 standard.  */
+			guint32 ival = (guint32)(gint32)val;
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
@@ -3789,11 +3790,13 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 
 	case VALUE_FLOAT: {
 		gnm_float f = value_get_as_float (v);
-		if (f < INT_MIN / 4 || f > INT_MAX / 4 || f != gnm_floor (f)) {
+		if (f < G_MININT32 / 4 ||
+		    f > G_MAXINT32 / 4 ||
+		    f != gnm_floor (f)) {
 			buf[0] = 4;
 			gsf_le_set_double (buf + 2, f);
 		} else {
-			int i = (int)f;
+			guint32 i = (guint32)f;
 			buf[0] = 2;
 			GSF_LE_SET_GUINT32 (buf + 2, (i << 2) | 2);
 			break;
