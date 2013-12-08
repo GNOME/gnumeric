@@ -1,4 +1,4 @@
-2013-12-07  welinder  <terra@gnome.org>
+2013-12-07  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_init): Don't allocate a
 	GtkRecentManager if we are not in gui mode.
@@ -11,7 +11,7 @@
 
 	* src/sf-gamma.c (gamma_error_factor): Add extra term.
 
-2013-12-03  welinder  <terra@gnome.org>
+2013-12-07  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-gamma.c (qgammaf): Avoid losing the least significant bit
 	of the argument for [-1.5;-0.5].
@@ -23,7 +23,7 @@
 
 	* src/sf-bessel.c (bessel_y): Use the J series when possible.
 
-2013-12-01  welinder  <terra@gnome.org>
+2013-12-07  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-bessel.c (bessel_j): Use the taylor series in the
 	parameter range where that makes sense.
