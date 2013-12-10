@@ -94,21 +94,33 @@ do_tabulation (WorkbookControl *wbc,
 	GOFormat const **formats = g_new (GOFormat const *, data->dims);
 	GnmValue **old_values = g_new (GnmValue *, data->dims);
 
+	/* No real reason to limit to this. */
+	int cols = gnm_sheet_get_max_cols (old_sheet);
+	int rows = gnm_sheet_get_max_rows (old_sheet);
+
 	{
 		int i;
 		for (i = 0; i < data->dims; i++) {
+			int max;
+			gnm_float full_count;
+
 			values[i] = data->minima[i];
 			index[i] = 0;
 			formats[i] = my_get_format (data->cells[i]);
 			old_values[i] = value_dup (data->cells[i]->value);
 
-			counts[i] = 1 + gnm_fake_floor ((data->maxima[i] - data->minima[i]) / data->steps[i]);
 			/* Silently truncate at the edges.  */
-			if (!data->with_coordinates && i == 0 && counts[i] > gnm_sheet_get_last_col (old_sheet)) {
-				counts[i] = gnm_sheet_get_last_col (old_sheet);
-			} else if (!data->with_coordinates && i == 1 && counts[i] > gnm_sheet_get_last_row (old_sheet)) {
-				counts[i] = gnm_sheet_get_last_row (old_sheet);
+			full_count = 1 + gnm_fake_floor ((data->maxima[i] - data->minima[i]) / data->steps[i]);
+			if (data->with_coordinates) {
+				max = rows;
+			} else {
+				switch (i) {
+				case 0: max = rows - 1; break;
+				case 1: max = cols - 1; break;
+				default: max = 64 * 1024; break;  /* Large number of sheets.  */
+				}
 			}
+			counts[i] = (int)CLAMP (full_count, 0, max);
 		}
 	}
 
@@ -130,10 +142,7 @@ do_tabulation (WorkbookControl *wbc,
 
 			g_free (base_name);
 			value_release (v);
-			sheet = sheets[i] =
-			  sheet_new (wb, unique_name,
-				     gnm_sheet_get_max_cols (old_sheet),
-				     gnm_sheet_get_max_rows (old_sheet));
+			sheet = sheets[i] = sheet_new (wb, unique_name, cols, rows);
 			g_free (unique_name);
 			workbook_sheet_attach (wb, sheet);
 			sheet_idx = g_slist_prepend (sheet_idx,
@@ -146,9 +155,7 @@ do_tabulation (WorkbookControl *wbc,
 			workbook_sheet_get_free_name (wb,
 						      _("Tabulation"),
 						      FALSE, FALSE);
-	        sheet = sheet_new (wb, unique_name,
-				   gnm_sheet_get_max_cols (old_sheet),
-				   gnm_sheet_get_max_rows (old_sheet));
+	        sheet = sheet_new (wb, unique_name, cols, rows);
 		g_free (unique_name);
 		workbook_sheet_attach (wb, sheet);
 		sheet_idx = g_slist_prepend (sheet_idx,

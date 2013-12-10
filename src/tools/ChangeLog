@@ -1,3 +1,9 @@
+2013-12-10  Morten Welinder  <terra@gnome.org>
+
+	* tabulate.c (do_tabulation): Fix cut-off when we go off sheet.
+	(Row-vs-column confusion combined with failing to take header into
+	account.)
+
 2013-11-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.9
