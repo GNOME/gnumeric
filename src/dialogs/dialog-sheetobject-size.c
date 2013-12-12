@@ -35,7 +35,6 @@
 #include <wbc-gtk.h>
 #include <sheet.h>
 #include <sheet-view.h>
-#include <sheet-control-gui-priv.h>
 #include <application.h>
 #include <workbook-cmd-format.h>
 #include <sheet-object-widget.h>
