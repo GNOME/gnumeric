@@ -1445,7 +1445,8 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 			g_object_set_data_full (G_OBJECT (menu), "actions", actions,
 				(GDestroyNotify) cb_ptr_array_free);
 			gtk_widget_show_all (menu);
-			gnumeric_popup_menu (GTK_MENU (menu), &goc_canvas_get_cur_event (item->canvas)->button);
+			gnumeric_popup_menu (GTK_MENU (menu),
+					     goc_canvas_get_cur_event (item->canvas));
 		}
 	}
 	return TRUE;

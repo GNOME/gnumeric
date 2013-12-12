@@ -33,7 +33,7 @@ int gnm_gtk_radio_group_get_selected (GSList *radio_group);
 int gnm_gui_group_value (gpointer gui, char const * const group[]);
 
 /* Use this on menus that are popped up */
-void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
+void gnumeric_popup_menu (GtkMenu *menu, GdkEvent *event);
 
 /*
  * Pseudo-tooltip support code.
@@ -66,7 +66,7 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 				 gpointer user_data,
 				 int display_filter,
 				 int sensitive_filter,
-				 GdkEventButton *event);
+				 GdkEvent *event);
 
 #define gnumeric_filter_modifiers(a) ((a) &(~(GDK_LOCK_MASK|GDK_MOD2_MASK|GDK_MOD5_MASK)))
 

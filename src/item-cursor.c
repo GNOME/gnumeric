@@ -608,7 +608,7 @@ item_cursor_selection_motion (GocItem *item, double x_, double y_)
 	int style, button;
 	gint64 x = x_ * canvas->pixels_per_unit, y = y_ * canvas->pixels_per_unit;
 	GnmItemCursor *special_cursor;
-	GdkEventMotion *event = (GdkEventMotion *) goc_canvas_get_cur_event (item->canvas);
+	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
 
 	if (ic->drag_button < 0) {
 		item_cursor_set_cursor (canvas, ic, x, y);
@@ -626,7 +626,7 @@ item_cursor_selection_motion (GocItem *item, double x_, double y_)
 
 	button = ic->drag_button;
 	ic->drag_button = -1;
-	gnm_simple_canvas_ungrab (item, event->time);
+	gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
 
 	scg_special_cursor_start (ic->scg, style, button);
 	special_cursor = pane->cursor.special;
@@ -673,7 +673,7 @@ item_cursor_selection_motion (GocItem *item, double x_, double y_)
 
 	gnm_simple_canvas_grab (GOC_ITEM (special_cursor),
 		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
-		NULL, event->time);
+		NULL, gdk_event_get_time (event));
 	gnm_pane_slide_init (pane);
 
 	goc_item_bounds_changed (GOC_ITEM (ic));
@@ -777,7 +777,7 @@ context_menu_hander (GnumericPopupMenuElement const *element,
 }
 
 static void
-item_cursor_popup_menu (GnmItemCursor *ic, GdkEventButton *event)
+item_cursor_popup_menu (GnmItemCursor *ic, GdkEvent *event)
 {
 	static GnumericPopupMenuElement const popup_elements[] = {
 		{ N_("_Move"),		NULL,
@@ -816,7 +816,7 @@ item_cursor_popup_menu (GnmItemCursor *ic, GdkEventButton *event)
 }
 
 static void
-item_cursor_do_drop (GnmItemCursor *ic, GdkEventButton *event)
+item_cursor_do_drop (GnmItemCursor *ic, GdkEvent *event)
 {
 	/* Only do the operation if something moved */
 	SheetView const *sv = scg_view (ic->scg);
@@ -828,10 +828,10 @@ item_cursor_do_drop (GnmItemCursor *ic, GdkEventButton *event)
 		return;
 	}
 
-	if (event->button == 3)
+	if (event->button.button == 3)
 		item_cursor_popup_menu (ic, event);
 	else
-		item_cursor_do_action (ic, (event->state & GDK_CONTROL_MASK)
+		item_cursor_do_action (ic, (event->button.state & GDK_CONTROL_MASK)
 				       ? ACTION_COPY_CELLS
 				       : ACTION_MOVE_CELLS);
 }
@@ -1033,7 +1033,8 @@ item_cursor_button_pressed (GocItem *item, int button, double x_, double y_)
 {
 	GnmItemCursor *ic = GNM_ITEM_CURSOR (item);
 	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
-	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
+	GdkEventButton *bevent = &event->button;
 	if (ic->style == GNM_ITEM_CURSOR_EXPR_RANGE)
 		return FALSE;
 
@@ -1077,10 +1078,10 @@ item_cursor_button_pressed (GocItem *item, int button, double x_, double y_)
 								     _("Drag to move"));
 
 			ic->drag_button = button;
-			ic->drag_button_state = event->state;
+			ic->drag_button_state = bevent->state;
 			gnm_simple_canvas_grab (item,
 				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
-				NULL, event->time);
+				NULL, gdk_event_get_time (event));
 		} else
 			scg_context_menu (ic->scg, event, FALSE, FALSE);
 		return TRUE;
@@ -1103,7 +1104,7 @@ static gboolean
 item_cursor_button2_pressed (GocItem *item, int button, double x_, double y_)
 {
 	GnmItemCursor *ic = GNM_ITEM_CURSOR (item);
-	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
 
 	switch (ic->style) {
 
@@ -1116,7 +1117,7 @@ item_cursor_button2_pressed (GocItem *item, int button, double x_, double y_)
 			return TRUE;
 
 		ic->drag_button = -1;
-		gnm_simple_canvas_ungrab (item, event->time);
+		gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
 
 		if (sheet_is_region_empty (sheet, &ic->pos))
 			return TRUE;
@@ -1134,7 +1135,7 @@ item_cursor_button2_pressed (GocItem *item, int button, double x_, double y_)
 		 * find the boundary of the region being filled.
 		 */
 
-		if (event->state & GDK_MOD1_MASK) {
+		if (event->button.state & GDK_MOD1_MASK) {
 			int template_col = ic->pos.end.col + 1;
 			int template_row = ic->pos.start.row - 1;
 			int boundary_col_for_target;
@@ -1309,7 +1310,7 @@ static gboolean
 item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	GnmItemCursor *ic = GNM_ITEM_CURSOR (item);
-	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
 	WBCGtk *wbcg = scg_wbcg (ic->scg);
 
 	if (ic->style == GNM_ITEM_CURSOR_EXPR_RANGE)
@@ -1331,7 +1332,7 @@ item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, 
 
 		/* Double clicks may have already released the drag prep */
 		if (ic->drag_button >= 0) {
-			gnm_simple_canvas_ungrab (item, event->time);
+			gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
 			ic->drag_button = -1;
 		}
 		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (wbcg),
@@ -1343,7 +1344,7 @@ item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, 
 			return TRUE;
 
 		gnm_pane_slide_stop (GNM_PANE (item->canvas));
-		gnm_simple_canvas_ungrab (item, event->time);
+		gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
 		item_cursor_do_drop (ic, event);
 
 		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (wbcg),
@@ -1359,7 +1360,7 @@ item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, 
 		SheetControlGUI *scg = ic->scg;
 
 		gnm_pane_slide_stop (GNM_PANE (item->canvas));
-		gnm_simple_canvas_ungrab (item, event->time);
+		gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
 
 		cmd_autofill (scg_wbc (scg), scg_sheet (scg), default_increment,
 			      ic->pos.start.col, ic->pos.start.row,

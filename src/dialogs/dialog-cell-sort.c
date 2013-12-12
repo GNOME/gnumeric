@@ -851,7 +851,7 @@ cb_treeview_button_press(G_GNUC_UNUSED GtkWidget *w, GdkEvent *event, SortFlowSt
 	if ((event->type == GDK_BUTTON_PRESS) &&
 	    (event->button.button == 3)) {
 		gnumeric_popup_menu (build_sort_field_base_menu(state),
-				     &(event->button));
+				     event);
 		return TRUE;
 	}
 

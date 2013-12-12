@@ -898,7 +898,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 	GnmCellPos	pos;
 	gboolean edit_showed_dialog;
 	gboolean already_selected;
-	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
 	gint64 x = x_ * canvas->pixels_per_unit, y = y_ * canvas->pixels_per_unit;
 
 	gnm_pane_slide_stop (pane);
@@ -928,14 +928,14 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 	 */
 	if (button == 1 && scg->rangesel.active) {
 		ig->selecting = GNM_ITEM_GRID_SELECTING_FORMULA_RANGE;
-		if (event->state & GDK_SHIFT_MASK)
+		if (event->button.state & GDK_SHIFT_MASK)
 			scg_rangesel_extend_to (scg, pos.col, pos.row);
 		else
 			scg_rangesel_bound (scg, pos.col, pos.row, pos.col, pos.row);
 		gnm_pane_slide_init (pane);
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-			NULL, event->time);
+			NULL, gdk_event_get_time (event));
 		return TRUE;
 	}
 
@@ -948,7 +948,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 		gnm_pane_slide_init (pane);
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-			NULL, event->time);
+			NULL, gdk_event_get_time (event));
 		return TRUE;
 	}
 
@@ -972,14 +972,14 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 	 * only effect things if the target is not already selected.  */
 	already_selected = sv_is_pos_selected (sv, pos.col, pos.row);
 	if (button == 1 || button == 2 || !already_selected) {
-		if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
+		if (!(event->button.state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 			sv_selection_reset (sv);
 
-		if ((event->button != 1 && event->button != 2) 
-		    || !(event->state & GDK_SHIFT_MASK) ||
+		if ((event->button.button != 1 && event->button.button != 2) 
+		    || !(event->button.state & GDK_SHIFT_MASK) ||
 		    sv->selections == NULL) {
 			sv_selection_add_pos (sv, pos.col, pos.row,
-					      (already_selected && (event->state & GDK_CONTROL_MASK)) ?
+					      (already_selected && (event->button.state & GDK_CONTROL_MASK)) ?
 					      GNM_SELECTION_MODE_REMOVE :
 					      GNM_SELECTION_MODE_ADD);
 			sv_make_cell_visible (sv, pos.col, pos.row, FALSE);
@@ -1004,18 +1004,18 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 				      "gtk-double-click-time", &double_click_time,
 				      NULL);
 
-			if ((ig->last_click_time + double_click_time) > event->time &&
+			if ((ig->last_click_time + double_click_time) > gdk_event_get_time (event) &&
 			    wbcg_edit_start (wbcg, FALSE, FALSE)) {
 				break;
 			}
 		}
 
-		ig->last_click_time = event->time;
+		ig->last_click_time = gdk_event_get_time (event);
 		ig->selecting = GNM_ITEM_GRID_SELECTING_CELL_RANGE;
 		gnm_pane_slide_init (pane);
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-			NULL, event->time);
+			NULL, gdk_event_get_time (event));
 		break;
 	}
 
@@ -1130,7 +1130,7 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 	SheetControlGUI *scg = ig->scg;
 	Sheet *sheet = scg_sheet (scg);
 	ItemGridSelectionType selecting = ig->selecting;
-	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
 
 	if (button != 1 && button != 2)
 		return FALSE;
@@ -1158,7 +1158,7 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 	}
 
 	ig->selecting = GNM_ITEM_GRID_NO_SELECTION;
-	gnm_simple_canvas_ungrab (item, event->time);
+	gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
 
 	if (selecting == GNM_ITEM_GRID_SELECTING_FORMULA_RANGE)
 		gnm_expr_entry_signal_update (

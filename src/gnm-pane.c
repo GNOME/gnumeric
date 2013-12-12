@@ -68,7 +68,7 @@ static GtkTargetEntry const drag_types_out[] = {
 };
 
 static gboolean
-gnm_pane_guru_key (WBCGtk const *wbcg, GdkEventKey *event)
+gnm_pane_guru_key (WBCGtk const *wbcg, GdkEvent *event)
 {
 	GtkWidget *entry, *guru = wbc_gtk_get_guru (wbcg);
 
@@ -76,7 +76,7 @@ gnm_pane_guru_key (WBCGtk const *wbcg, GdkEventKey *event)
 		return FALSE;
 
 	entry = wbcg_get_entry_underlying (wbcg);
-	gtk_widget_event ((entry != NULL) ? entry : guru, (GdkEvent *) event);
+	gtk_widget_event (entry ? entry : guru, event);
 	return TRUE;
 }
 
@@ -141,9 +141,10 @@ gnm_pane_object_key_press (GnmPane *pane, GdkEventKey *ev)
 }
 
 static gboolean
-gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
+gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 			 gboolean allow_rangesel)
 {
+	GdkEvent *event = (GdkEvent *)kevent;
 	SheetControlGUI *scg = pane->simple.scg;
 	SheetControl *sc = (SheetControl *) scg;
 	SheetView *sv = sc->view;
@@ -152,38 +153,42 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	WorkbookControl * wbc = scg_wbc(scg);
 	Workbook * wb = wb_control_get_workbook(wbc);
 	gboolean delayed_movement = FALSE;
-	gboolean jump_to_bounds = event->state & GDK_CONTROL_MASK;
+	gboolean jump_to_bounds;
 	gboolean is_enter = FALSE;
 	int first_tab_col;
-	int state = gnumeric_filter_modifiers (event->state);
+	int state;
 	void (*movefn) (SheetControlGUI *, int n, gboolean jump, gboolean horiz);
-
 	gboolean transition_keys = gnm_conf_get_core_gui_editing_transitionkeys ();
 	gboolean const end_mode = wbcg->last_key_was_end;
+	GdkModifierType event_state;
+
+	(void)gdk_event_get_state (event, &event_state);
+	state = gnumeric_filter_modifiers (event_state);
+	jump_to_bounds = (event_state & GDK_CONTROL_MASK) != 0;
 
 	/* Update end-mode for magic end key stuff. */
-	if (event->keyval != GDK_KEY_End && event->keyval != GDK_KEY_KP_End)
+	if (kevent->keyval != GDK_KEY_End && kevent->keyval != GDK_KEY_KP_End)
 		wbcg_set_end_mode (wbcg, FALSE);
 
 	if (allow_rangesel)
-		movefn = (event->state & GDK_SHIFT_MASK)
+		movefn = (event_state & GDK_SHIFT_MASK)
 			? scg_rangesel_extend
 			: scg_rangesel_move;
 	else
-		movefn = (event->state & GDK_SHIFT_MASK)
+		movefn = (event_state & GDK_SHIFT_MASK)
 			? scg_cursor_extend
 			: scg_cursor_move;
 
-	switch (event->keyval) {
+	switch (kevent->keyval) {
 	case GDK_KEY_a:
 		scg_select_all (scg);
 		break;
 	case GDK_KEY_KP_Left:
 	case GDK_KEY_Left:
-		if (event->state & GDK_MOD1_MASK)
+		if (event_state & GDK_MOD1_MASK)
 			return TRUE; /* Alt is used for accelerators */
 
-		if (event->state & SCROLL_LOCK_MASK)
+		if (event_state & SCROLL_LOCK_MASK)
 			scg_set_left_col (scg, pane->first.col - 1);
 		else if (transition_keys && jump_to_bounds) {
 			delayed_movement = TRUE;
@@ -197,10 +202,10 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 	case GDK_KEY_KP_Right:
 	case GDK_KEY_Right:
-		if (event->state & GDK_MOD1_MASK)
+		if (event_state & GDK_MOD1_MASK)
 			return TRUE; /* Alt is used for accelerators */
 
-		if (event->state & SCROLL_LOCK_MASK)
+		if (event_state & SCROLL_LOCK_MASK)
 			scg_set_left_col (scg, pane->first.col + 1);
 		else if (transition_keys && jump_to_bounds) {
 			delayed_movement = TRUE;
@@ -214,7 +219,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 	case GDK_KEY_KP_Up:
 	case GDK_KEY_Up:
-		if (event->state & SCROLL_LOCK_MASK)
+		if (event_state & SCROLL_LOCK_MASK)
 			scg_set_top_row (scg, pane->first.row - 1);
 		else if (transition_keys && jump_to_bounds) {
 			delayed_movement = TRUE;
@@ -227,7 +232,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 	case GDK_KEY_KP_Down:
 	case GDK_KEY_Down:
-		if (gnumeric_filter_modifiers (event->state) == GDK_MOD1_MASK) {
+		if (gnumeric_filter_modifiers (event_state) == GDK_MOD1_MASK) {
 			/* 1) Any in cell combos ? */
 			SheetObject *so = sv_wbv (sv)->in_cell_combo;
 
@@ -244,12 +249,14 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			if (NULL != so) {
 				SheetObjectView	*sov = sheet_object_get_view (so,
 					(SheetObjectViewContainer *)pane);
-				gnm_cell_combo_view_popdown (sov, event->time);
+				gnm_cell_combo_view_popdown
+					(sov,
+					 gdk_event_get_time (event));
 				break;
 			}
 		}
 
-		if (event->state & SCROLL_LOCK_MASK)
+		if (event_state & SCROLL_LOCK_MASK)
 			scg_set_top_row (scg, pane->first.row + 1);
 		else if (transition_keys && jump_to_bounds) {
 			delayed_movement = TRUE;
@@ -262,8 +269,8 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 	case GDK_KEY_KP_Page_Up:
 	case GDK_KEY_Page_Up:
-		if ((event->state & GDK_CONTROL_MASK) != 0){
-			if ((event->state & GDK_SHIFT_MASK) != 0){
+		if (event_state & GDK_CONTROL_MASK) {
+			if (event_state & GDK_SHIFT_MASK) {
 				WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
 				int old_pos = sheet->index_in_wb;
 
@@ -274,7 +281,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			} else {
 				gnm_notebook_prev_page (wbcg->bnotebook);
 			}
-		} else if ((event->state & GDK_MOD1_MASK) == 0) {
+		} else if ((event_state & GDK_MOD1_MASK) == 0) {
 			delayed_movement = TRUE;
 			scg_queue_movement (scg, movefn,
 					    -(pane->last_visible.row - pane->first.row),
@@ -290,8 +297,8 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	case GDK_KEY_KP_Page_Down:
 	case GDK_KEY_Page_Down:
 
-		if ((event->state & GDK_CONTROL_MASK) != 0){
-			if ((event->state & GDK_SHIFT_MASK) != 0){
+		if ((event_state & GDK_CONTROL_MASK) != 0){
+			if ((event_state & GDK_SHIFT_MASK) != 0){
 				WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
 				int num_sheets = workbook_sheet_count(wb);
 				gint old_pos = sheet->index_in_wb;
@@ -303,7 +310,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			} else {
 				gnm_notebook_next_page (wbcg->bnotebook);
 			}
-		} else if ((event->state & GDK_MOD1_MASK) == 0) {
+		} else if ((event_state & GDK_MOD1_MASK) == 0) {
 			delayed_movement = TRUE;
 			scg_queue_movement (scg, movefn,
 					    pane->last_visible.row - pane->first.row,
@@ -318,7 +325,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 	case GDK_KEY_KP_Home:
 	case GDK_KEY_Home:
-		if (event->state & SCROLL_LOCK_MASK) {
+		if (event_state & SCROLL_LOCK_MASK) {
 			scg_set_left_col (scg, sv->edit_pos.col);
 			scg_set_top_row (scg, sv->edit_pos.row);
 		} else if (end_mode) {
@@ -329,19 +336,19 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 		} else {
 			/* do the ctrl-home jump to A1 in 2 steps */
 			(*movefn)(scg, -gnm_sheet_get_max_cols (sheet), FALSE, TRUE);
-			if ((event->state & GDK_CONTROL_MASK) || transition_keys)
+			if ((event_state & GDK_CONTROL_MASK) || transition_keys)
 				(*movefn)(scg, -gnm_sheet_get_max_rows (sheet), FALSE, FALSE);
 		}
 		break;
 
 	case GDK_KEY_KP_End:
 	case GDK_KEY_End:
-		if (event->state & SCROLL_LOCK_MASK) {
+		if (event_state & SCROLL_LOCK_MASK) {
 			int new_col = sv->edit_pos.col - (pane->last_full.col - pane->first.col);
 			int new_row = sv->edit_pos.row - (pane->last_full.row - pane->first.row);
 			scg_set_left_col (scg, new_col);
 			scg_set_top_row (scg, new_row);
-		} else if ((event->state & GDK_CONTROL_MASK)) {
+		} else if ((event_state & GDK_CONTROL_MASK)) {
 			GnmRange r = sheet_get_extent (sheet, FALSE, TRUE);
 
 			/* do the ctrl-end jump to the extent in 2 steps */
@@ -364,7 +371,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	case GDK_KEY_BackSpace:
 		if (wbcg_is_editing (wbcg))
 			goto forward;
-		else if (!wbcg_is_editing (wbcg) && (event->state & GDK_CONTROL_MASK) != 0) {
+		else if (!wbcg_is_editing (wbcg) && (event_state & GDK_CONTROL_MASK) != 0) {
 			/* Re-center the view on the active cell */
 			scg_make_cell_visible (scg, sv->edit_pos.col,
 					       sv->edit_pos.row, FALSE, TRUE);
@@ -401,7 +408,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 		if (wbcg_is_editing (wbcg) &&
 		    (state == GDK_CONTROL_MASK ||
 		     state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
-		     gnumeric_filter_modifiers (event->state) == GDK_MOD1_MASK))
+		     gnumeric_filter_modifiers (event_state) == GDK_MOD1_MASK))
 			/* Forward the keystroke to the input line */
 			return gtk_widget_event (
 				wbcg_get_entry_underlying (wbcg), (GdkEvent *) event);
@@ -426,10 +433,10 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 			sv->first_tab_col = first_tab_col;
 
-			if ((event->state & GDK_MOD1_MASK) &&
-			    (event->state & GDK_CONTROL_MASK) &&
+			if ((event_state & GDK_MOD1_MASK) &&
+			    (event_state & GDK_CONTROL_MASK) &&
 			    !is_enter) {
-				if (event->state & GDK_SHIFT_MASK)
+				if (event_state & GDK_SHIFT_MASK)
 					workbook_cmd_dec_indent (sc->wbc);
 				else
 					workbook_cmd_inc_indent	(sc->wbc);
@@ -439,14 +446,14 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 				if (is_enter) {
 					horizontal = go_direction_is_horizontal (dir);
 					forward = go_direction_is_forward (dir);
-				} else if ((event->state & GDK_CONTROL_MASK) &&
+				} else if ((event_state & GDK_CONTROL_MASK) &&
 					   ((sc_sheet (sc))->sheet_objects != NULL)) {
 					scg_object_select_next
-						(scg, (event->state & GDK_SHIFT_MASK) != 0);
+						(scg, (event_state & GDK_SHIFT_MASK) != 0);
 					break;
 				}
 
-				if (event->state & GDK_SHIFT_MASK)
+				if (event_state & GDK_SHIFT_MASK)
 					forward = !forward;
 
 				sv_selection_walk_step (sv, forward, horizontal);
@@ -487,11 +494,11 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 	default:
 		if (!wbcg_is_editing (wbcg)) {
-			if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
+			if ((event_state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 				return FALSE;
 
 			/* If the character is not printable do not start editing */
-			if (event->length == 0)
+			if (kevent->length == 0)
 				return FALSE;
 
 			if (!wbcg_edit_start (wbcg, TRUE, TRUE))
@@ -2426,7 +2433,7 @@ gnm_pane_display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
 	g_object_set_data_full (G_OBJECT (menu), "actions", actions,
 		(GDestroyNotify)cb_ptr_array_free);
 	gtk_widget_show_all (menu);
-	gnumeric_popup_menu (GTK_MENU (menu), &event->button);
+	gnumeric_popup_menu (GTK_MENU (menu), event);
 }
 
 static void
@@ -2603,13 +2610,13 @@ gnm_pane_object_start_resize (GnmPane *pane, int button, guint64 x, gint64 y,
 			      SheetObject *so, int drag_type, gboolean is_creation)
 {
 	GocItem **ctrl_pts;
-	GdkEventButton *event;
+	GdkEvent *event;
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (0 <= drag_type);
 	g_return_if_fail (drag_type < 9);
 
-	event = (GdkEventButton *) goc_canvas_get_cur_event (GOC_CANVAS (pane));
+	event = goc_canvas_get_cur_event (GOC_CANVAS (pane));
 	ctrl_pts = g_hash_table_lookup (pane->drag.ctrl_pts, so);
 
 	g_return_if_fail (NULL != ctrl_pts);
@@ -2623,7 +2630,7 @@ gnm_pane_object_start_resize (GnmPane *pane, int button, guint64 x, gint64 y,
 		GDK_POINTER_MOTION_MASK |
 		GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK,
-		NULL, event->time);
+		NULL, gdk_event_get_time (event));
 	pane->drag.created_objects = is_creation;
 	pane->drag.button = button;
 	pane->drag.last_x = pane->drag.origin_x = x;
@@ -2676,7 +2683,7 @@ static gboolean
 control_point_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	GnmPane *pane = GNM_PANE (item->canvas);
-	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
 	SheetControlGUI *scg = pane->simple.scg;
 	SheetObject *so;
 	int idx;
@@ -2686,7 +2693,7 @@ control_point_button_released (GocItem *item, int button, G_GNUC_UNUSED double x
 	so  = g_object_get_data (G_OBJECT (item), "so");
 	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
 	pane->drag.button = 0;
-	gnm_simple_canvas_ungrab (item, event->time);
+	gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
 	gnm_pane_slide_stop (pane);
 	control_point_set_cursor (scg, item);
 	if (idx == 8)

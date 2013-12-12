@@ -262,7 +262,8 @@ fixed_context_menu (StfDialogData *pagedata, GdkEventButton *event,
 	select_column (pagedata, col);
 	gnumeric_create_popup_menu (popup_elements, &fixed_context_menu_handler,
 				    pagedata, 0,
-				    sensitivity_filter, event);
+				    sensitivity_filter,
+				    (GdkEvent*)event);
 }
 
 static gint

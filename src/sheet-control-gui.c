@@ -2074,7 +2074,7 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 }
 
 void
-scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
+scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 		  gboolean is_col, gboolean is_row)
 {
 	SheetView *sv	 = scg_view (scg);

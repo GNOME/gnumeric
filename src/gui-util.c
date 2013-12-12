@@ -455,13 +455,13 @@ kill_popup_menu (G_GNUC_UNUSED GtkWidget *widget, GtkMenu *menu)
 /**
  * gnumeric_popup_menu :
  * @menu: #GtkMenu
- * @event: #GdkEventButton optionally NULL
+ * @event: #GdkEvent optionally NULL
  *
  * Bring up a popup and if @event is non-NULL ensure that the popup is on the
  * right screen.
  **/
 void
-gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
+gnumeric_popup_menu (GtkMenu *menu, GdkEvent *event)
 {
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
@@ -469,8 +469,7 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	g_object_ref_sink (menu);
 
 	if (event)
-		gtk_menu_set_screen (menu,
-				     gdk_window_get_screen (event->window));
+		gtk_menu_set_screen (menu, gdk_event_get_screen (event));
 
 	g_signal_connect (G_OBJECT (menu),
 		"hide",
@@ -481,8 +480,9 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	 * the right button will disable clicking on the menu with the left.
 	 */
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0,
-			(event != NULL) ? event->time
-			: gtk_get_current_event_time());
+			(event
+			 ? gdk_event_get_time (event)
+			 : gtk_get_current_event_time()));
 }
 
 static void
@@ -620,7 +620,7 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 			    GnumericPopupMenuHandler handler,
 			    gpointer user_data,
 			    int display_filter, int sensitive_filter,
-			    GdkEventButton *event)
+			    GdkEvent *event)
 {
 	char const *trans;
 	GSList *menu_stack = NULL;

@@ -899,7 +899,8 @@ item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 	gboolean const is_cols = ib->is_col_header;
 	gint64 minor_pos, start;
 	int element;
-	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
+	GdkEventButton *bevent = &event->button;
 	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
 
 	if (button > 3)
@@ -923,7 +924,7 @@ item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 		 */
 		if (!sv_is_colrow_selected (sc_view (sc), element, is_cols))
 			scg_colrow_select (scg, is_cols,
-					   element, event->state);
+					   element, bevent->state);
 
 		scg_context_menu (scg, event, is_cols, !is_cols);
 		return TRUE;
@@ -963,15 +964,17 @@ item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 			return TRUE;
 
 		/* If we're editing it is possible for this to fail */
-		if (!scg_colrow_select (scg, is_cols, element, event->state))
+		if (!scg_colrow_select (scg, is_cols, element, bevent->state))
 			return TRUE;
 
 		ib->start_selection = element;
 		gnm_pane_slide_init (pane);
 	}
-	gnm_simple_canvas_grab (item,
-		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-		ib->change_cursor, event->time);
+	gnm_simple_canvas_grab
+		(item,
+		 GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+		 ib->change_cursor,
+		 gdk_event_get_time (event));
 	return TRUE;
 }
 

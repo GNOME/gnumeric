@@ -492,7 +492,7 @@ cb_by_scg_sheet_name (gconstpointer a_, gconstpointer b_)
 
 
 static void
-sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
+sheet_menu_label_run (SheetControlGUI *scg, GdkEvent *event)
 {
 	enum { CM_MULTIPLE = 1, CM_DATA_SHEET = 2 };
 	struct SheetTabMenu {
@@ -577,7 +577,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
  * This takes care of switching to the notebook that contains the label
  */
 static gboolean
-cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
+cb_sheet_label_button_press (GtkWidget *widget, GdkEvent *event,
 			     SheetControlGUI *scg)
 {
 	WBCGtk *wbcg = scg->wbcg;
@@ -590,10 +590,10 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 					     GTK_WIDGET (scg->grid));
 	gnm_notebook_set_current_page (wbcg->bnotebook, page_number);
 
-	if (event->button == 1 || NULL != wbcg->rangesel)
+	if (event->button.button == 1 || NULL != wbcg->rangesel)
 		return FALSE;
 
-	if (event->button == 3) {
+	if (event->button.button == 3) {
 		if ((scg_wbcg (scg))->edit_line.guru == NULL)
 			scg_object_unselect (scg, NULL);
 		if (g_object_get_data (G_OBJECT (widget), "editable")) {
@@ -2730,7 +2730,7 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 			gtk_widget_show (item);
 		}
 
-		gnumeric_popup_menu (GTK_MENU (menu), &event->button);
+		gnumeric_popup_menu (GTK_MENU (menu), event);
 	}
 }
 
@@ -4168,7 +4168,7 @@ cb_tcm_hide (GtkWidget *widget, GtkWidget *box)
 }
 
 static void
-toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEventButton *event_button)
+toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEvent *event)
 {
 	GtkWidget *box = gtk_widget_get_parent (GTK_WIDGET (tb));
 	GtkWidget *zone = gtk_widget_get_parent (GTK_WIDGET (box));
@@ -4234,13 +4234,14 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEventButton *event_button)
 			  box);
 
 	gtk_widget_show_all (menu);
-	gnumeric_popup_menu (GTK_MENU (menu), event_button);
+	gnumeric_popup_menu (GTK_MENU (menu), event);
 }
 
 static gboolean
-cb_toolbar_button_press (GtkToolbar *tb, GdkEventButton *event, WBCGtk *gtk)
+cb_toolbar_button_press (GtkToolbar *tb, GdkEvent *event, WBCGtk *gtk)
 {
-	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
+	if (event->type == GDK_BUTTON_PRESS &&
+	    event->button.button == 3) {
 		toolbar_context_menu (tb, gtk, event);
 		return TRUE;
 	}
@@ -4249,9 +4250,10 @@ cb_toolbar_button_press (GtkToolbar *tb, GdkEventButton *event, WBCGtk *gtk)
 }
 
 static gboolean
-cb_handlebox_button_press (GtkHandleBox *hdlbox, GdkEventButton *event, WBCGtk *gtk)
+cb_handlebox_button_press (GtkHandleBox *hdlbox, GdkEvent *event, WBCGtk *gtk)
 {
-	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
+	if (event->type == GDK_BUTTON_PRESS &&
+	    event->button.button == 3) {
 		GtkToolbar *tb = GTK_TOOLBAR (gtk_bin_get_child (GTK_BIN (hdlbox)));
 		toolbar_context_menu (tb, gtk, event);
 		return TRUE;
@@ -4640,7 +4642,7 @@ cb_auto_expr_insert_formula_to_side (G_GNUC_UNUSED GtkWidget *item, WBCGtk *wbcg
 
 
 static gboolean
-cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
+cb_select_auto_expr (GtkWidget *widget, GdkEvent *event, WBCGtk *wbcg)
 {
 	/*
 	 * WARNING * WARNING * WARNING
@@ -4676,7 +4678,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 	GnmCellPos const *pos;
 	GnmEvalPos ep;
 
-	if (event->button != 3)
+	if (event->button.button != 3)
 		return FALSE;
 
 	menu = gtk_menu_new ();

@@ -18,7 +18,7 @@ SheetControlGUI *sheet_control_gui_new	    (SheetView *sv, WBCGtk *wbcg);
 
 void scg_take_focus             (SheetControlGUI *scg);
 
-void scg_context_menu		(SheetControlGUI *scg, GdkEventButton *event,
+void scg_context_menu		(SheetControlGUI *scg, GdkEvent *event,
 				 gboolean is_col, gboolean is_row);
 
 void scg_object_anchor_to_coords (SheetControlGUI const *scg,

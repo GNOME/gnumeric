@@ -1,3 +1,10 @@
+2013-12-11  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnumeric_popup_menu): Use the screen from
+	gdk_event_get_screen, not from ->screen.  This might fix #720182.
+
+	* src/*.c: Use accessor function for GdkEvent when convenient.
+
 2013-12-07  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_init): Don't allocate a

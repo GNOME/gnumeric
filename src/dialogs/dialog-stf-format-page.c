@@ -369,7 +369,7 @@ cb_popup_menu_extend_format (GtkWidget *widget, gpointer data)
 
 static void
 format_context_menu (StfDialogData *pagedata,
-		     GdkEventButton *event_button,
+		     GdkEvent *event,
 		     int col)
 {
 	enum {
@@ -421,7 +421,7 @@ format_context_menu (StfDialogData *pagedata,
 				  pagedata);
 	}
 
-	gnumeric_popup_menu (GTK_MENU (menu), event_button);
+	gnumeric_popup_menu (GTK_MENU (menu), event);
 }
 
 
@@ -429,7 +429,7 @@ static gint
 cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
 {
 	if (event->type == GDK_BUTTON_PRESS) {
-		GdkEventButton *event_button = (GdkEventButton *) event;
+		GdkEventButton *event_button = &event->button;
 		StfDialogData *pagedata =
 			g_object_get_data (G_OBJECT (widget), "pagedata");
 		int col = GPOINTER_TO_INT (_col);
@@ -455,7 +455,7 @@ cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
 			if (event_button->x <= xmax)
 				gtk_button_clicked (GTK_BUTTON (check));
 		} else if (event_button->button == 3) {
-			format_context_menu (pagedata, event_button, col);
+			format_context_menu (pagedata, event, col);
 		}
 		return TRUE;
 	}
@@ -477,7 +477,7 @@ cb_treeview_button_press (GtkWidget *treeview,
 		int dx, col;
 		stf_preview_find_column (pagedata->format.renderdata, (int)event->x, &col, &dx);
 		activate_column (pagedata, col);
-		format_context_menu (pagedata, event, col);
+		format_context_menu (pagedata, (GdkEvent*)event, col);
 		return TRUE;
 	}
 
