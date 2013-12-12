@@ -913,6 +913,8 @@ find_matching_close (char const *str, char const **res)
 				*res = tmp;
 				return str;
 			}
+			if (*str == 0)
+				return str;
 		} else if (*str == ')')
 			return str;
 		else if (*str == '\'' || *str == '\"') {

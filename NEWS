@@ -10,6 +10,7 @@ Morten:
 	* New functions: IMGAMMA, IMFACT.
 	* Avoid some overflows in IMGAMMA.
 	* Fix tabulation truncation issue.
+	* Fix ABR.  [#720353]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9

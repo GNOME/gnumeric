@@ -1,3 +1,8 @@
+2013-12-12  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (array_row): Avoid overrunning string when multiple
+	missing closing parentheses are detected.  Fixes #720353.
+
 2013-12-11  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnumeric_popup_menu): Use the screen from
