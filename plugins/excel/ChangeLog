@@ -1,3 +1,8 @@
+2013-12-13  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_cell_end): Make sure state->texpr ends up
+	NULL.  Fixes #720425.
+
 2013-11-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.9

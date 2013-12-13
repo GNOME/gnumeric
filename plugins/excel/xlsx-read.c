@@ -1335,7 +1335,7 @@ xlsx_cell_expr_begin (GsfXMLIn *xin, xmlChar const **attrs)
 			has_range = TRUE;
 
 	state->shared_id = NULL;
-	if (is_shared &&  NULL != shared_id) {
+	if (is_shared && NULL != shared_id) {
 		if (!has_range)
 			state->texpr = g_hash_table_lookup (state->shared_exprs, shared_id);
 		if (NULL != state->texpr)
@@ -1446,9 +1446,10 @@ xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			gnm_cell_set_expr (cell, state->texpr);
 			gnm_expr_top_unref (state->texpr);
 		}
-		state->texpr = NULL;
 	} else if (NULL != state->val)
 		gnm_cell_assign_value (cell, state->val);
+
+	state->texpr = NULL;
 	state->val = NULL;
 }
 
