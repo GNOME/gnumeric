@@ -1,5 +1,8 @@
 2013-12-13  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_WINDOW2): Don't crash of truncated
+	record.  Fixes #720426.
+
 	* xlsx-read.c (xlsx_cell_end): Make sure state->texpr ends up
 	NULL.  Fixes #720425.
 

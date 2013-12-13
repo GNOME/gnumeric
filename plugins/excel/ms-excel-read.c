@@ -5069,10 +5069,11 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 	gboolean set_grid_color;
 
 	if (q->opcode == BIFF_WINDOW2_v2) {
-		guint16 const options    = GSF_LE_GET_GUINT16 (q->data + 0);
+		guint16 options;
 
 		XL_CHECK_CONDITION (q->length >= 10);
 
+		options = GSF_LE_GET_GUINT16 (q->data + 0);
 		esheet->sheet->display_formulas	= ((options & 0x0001) != 0);
 		esheet->sheet->hide_grid	= ((options & 0x0002) == 0);
 		esheet->sheet->hide_col_header  =
