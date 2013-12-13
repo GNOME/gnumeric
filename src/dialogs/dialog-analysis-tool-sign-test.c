@@ -261,7 +261,10 @@ dialog_sign_test_two_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 			      NULL,
 			      G_CALLBACK (sign_test_two_tool_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
+	{
+		g_free(state);
 		return 0;
+	}
 
 
 	state->alpha_entry = tool_setup_update
@@ -406,7 +409,10 @@ dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 			      NULL,
 			      G_CALLBACK (sign_test_tool_update_sensitivity_cb),
 			      0))
+	{
+		g_free(state);
 		return 0;
+	}
 
 
 	state->alpha_entry = tool_setup_update

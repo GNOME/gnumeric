@@ -629,7 +629,10 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (kaplan_meier_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (kaplan_meier_tool_update_sensitivity_cb),
 			      0))
+	{
+		g_free(state);
 		return 0;
+	}
 
 
 

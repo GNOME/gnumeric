@@ -1809,9 +1809,10 @@ static gnm_float bessel_y(gnm_float x, gnm_float alpha)
 #endif
     Y_bessel(&x, &alpha, &nb, by, &ncalc);
     if(ncalc != nb) {/* error input */
-	if(ncalc == -1)
+	if(ncalc == -1) {
+            free(by);
 	    return gnm_pinf;
-	else if(ncalc < -1)
+	} else if(ncalc < -1)
 	    MATHLIB_WARNING4(("bessel_y(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			     x, ncalc, nb, alpha);
 	else /* ncalc >= 0 */

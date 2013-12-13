@@ -1,3 +1,8 @@
+2013-12-12  Mario Rugiero  <mrugiero@gmail.com>
+
+	* */*.c: Fix some leaks and null dereferences pointed out by
+	cppcheck.
+
 2013-12-12  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (array_row): Avoid overrunning string when multiple

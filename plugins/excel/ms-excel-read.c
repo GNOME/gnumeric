@@ -1614,11 +1614,13 @@ static void
 excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 {
 	MsBiffVersion const ver = importer->ver;
-	ExcelFont *fd = g_new (ExcelFont, 1);
+	ExcelFont *fd;
 	guint16 data;
 	guint8 data1;
 
 	XL_CHECK_CONDITION (q->length >= 4);
+
+	fd = g_new (ExcelFont, 1);
 	fd->height = GSF_LE_GET_GUINT16 (q->data + 0);
 	data = GSF_LE_GET_GUINT16 (q->data + 2);
 	fd->italic = (data & 0x2) == 0x2;

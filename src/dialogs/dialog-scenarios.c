@@ -399,7 +399,10 @@ dialog_scenario_add (WBCGtk *wbcg)
 			      G_CALLBACK (scenario_add_ok_clicked_cb), NULL,
 			      G_CALLBACK (scenario_add_update_sensitivity_cb),
 			      GNM_EE_SHEET_OPTIONAL))
+	{
+		g_free (state);
 		return;
+	}
 
 	state->name_entry = go_gtk_builder_get_widget (state->base.gui, "name_entry");
 	if (state->name_entry == NULL)

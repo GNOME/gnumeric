@@ -1234,7 +1234,10 @@ dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (cb_desc_stat_tool_ok_clicked), NULL,
 			      G_CALLBACK (desc_stat_tool_update_sensitivity_cb),
 			      0))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->summary_stats_button  = go_gtk_builder_get_widget
 		(state->base.gui, "summary_stats_button");
@@ -1616,7 +1619,10 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 			      G_CALLBACK (ttest_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (ttest_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->paired_button  = go_gtk_builder_get_widget (state->base.gui, "paired-button");
 	state->unpaired_button  = go_gtk_builder_get_widget (state->base.gui, "unpaired-button");
@@ -1803,7 +1809,10 @@ dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (ftest_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (ftest_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->alpha_entry = go_gtk_builder_get_widget (state->base.gui, "one_alpha");
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
@@ -2058,7 +2067,10 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (sampling_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (sampling_tool_update_sensitivity_cb),
 			      0))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->periodic_button  = go_gtk_builder_get_widget (state->base.gui, "periodic-button");
 	state->random_button  = go_gtk_builder_get_widget (state->base.gui, "random-button");
@@ -2417,7 +2429,10 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (regression_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (regression_tool_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->confidence_entry = go_gtk_builder_get_widget (state->base.gui, "confidence-entry");
 	float_to_entry (GTK_ENTRY (state->confidence_entry), 0.95);
@@ -2727,7 +2742,10 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 			      NULL,
 			      G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb),
 			      0))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->damping_fact_entry = go_gtk_builder_get_widget (state->base.gui,
 							  "damping-fact-spin");
@@ -3097,7 +3115,10 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (average_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (average_tool_update_sensitivity_cb),
 			      0))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->interval_entry = go_gtk_builder_get_widget (state->base.gui, "interval-entry");
 	int_to_entry (GTK_ENTRY (state->interval_entry), 3);
@@ -3364,7 +3385,10 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (histogram_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (histogram_tool_update_sensitivity_cb),
 			      0))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->predetermined_button = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
@@ -3543,7 +3567,10 @@ dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 			      NULL,
 			      G_CALLBACK (anova_single_tool_update_sensitivity_cb),
 			      0))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->alpha_entry = go_gtk_builder_get_widget (state->base.gui,
 						   "alpha-entry");
@@ -3772,7 +3799,10 @@ dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 			      NULL,
 			      G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->alpha_entry = go_gtk_builder_get_widget (state->base.gui,
 						   "alpha-entry");

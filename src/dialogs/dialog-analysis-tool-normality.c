@@ -204,7 +204,10 @@ dialog_normality_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (normality_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (normality_tool_update_sensitivity_cb),
 			      0))
+	{
+		g_free(state);
 		return 0;
+	}
 
 
 	state->alpha_entry = tool_setup_update

@@ -110,8 +110,8 @@ static void destruct_xloper(XLOPER*x){
 		case xltypeInt:							break;
 		default:		unsupported_xloper_type(x);
 		}
+		x->xltype=xltypeNil;
 	}
-	x->xltype=xltypeNil;
 }
 
 static void copy_construct_xloper(XLOPER*x,const XLOPER*y){

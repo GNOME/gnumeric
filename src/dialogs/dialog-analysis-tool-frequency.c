@@ -261,7 +261,10 @@ dialog_frequency_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (frequency_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (frequency_tool_update_sensitivity_cb),
 			      0))
+	{
+		g_free(state);
 		return 0;
+	}
 
 	state->predetermined_button = tool_setup_update
 		(&state->base, "pre_determined_button",

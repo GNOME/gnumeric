@@ -3,6 +3,9 @@ Gnumeric 1.12.10
 Andreas:
 	* Fix handling of dashes on ODF import. [#719509]
 
+Mario Rugiero:
+	* Fix leaks.  [#720306]
+
 Morten:
 	* Extend POCHHAMMER to negative values.
 	* Improve accuracy of BETA and BETALN.
