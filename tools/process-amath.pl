@@ -127,6 +127,12 @@ my %invalid_tests =
      'cot(1e26)' => 1, # 1e26 not representable
      'sin(1e26)' => 1, # 1e26 not representable
      'tan(1e26)' => 1, # 1e26 not representable
+
+     # Just plain wrong (and would depend on representation anyway)
+     'besselj(11.791534439014281614,0)' => 1,
+     'besselj(13.323691936314223032,1)' => 1,
+     'bessely(13.36109747387276348,0)' => 1,
+     'bessely(14.89744212833672538,1)' => 1,
     );
 
 sub def_expr_handler {
@@ -219,7 +225,7 @@ my %constants =
 # -----------------------------------------------------------------------------
 
 my $last_func = '';
-my $test_row = 1;
+my $test_row = 3;
 
 sub output_test {
     my ($gfunc,$expr,$res) = @_;
@@ -317,6 +323,9 @@ sub simplify_val {
 }
 
 # -----------------------------------------------------------------------------
+
+print "WORST,\"\",\"\",=MIN(D3:D65525)\n";
+print "\n";
 
 foreach my $f (@test_files) {
     my $fn = "$dir/tests/$f";
