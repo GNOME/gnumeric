@@ -10,7 +10,7 @@ Morten:
 	* Extend POCHHAMMER to negative values.
 	* Improve accuracy of BETA and BETALN.
 	* Improve accuracy of BESSELJ and BESSELY.
-	* New functions: IMGAMMA, IMFACT.
+	* New functions: IMGAMMA, IMFACT, IMIGAMMA, IGAMMA.
 	* Avoid some overflows in IMGAMMA.
 	* Fix tabulation truncation issue.
 	* Fix ABR.  [#720353]

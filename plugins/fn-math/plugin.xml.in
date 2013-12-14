@@ -53,6 +53,7 @@
 				<function name="gcd"/>
 				<function name="gd"/>
 				<function name="hypot"/>
+				<function name="igamma"/>
 				<function name="int"/>
 				<function name="lcm"/>
 				<function name="linsolve"/>

@@ -1242,3 +1242,143 @@ complex_fact (complex_t *dst, complex_t const *src)
 }
 
 /* ------------------------------------------------------------------------- */
+
+static void
+igamma_cf (complex_t *dst, const complex_t *a, const complex_t *z)
+{
+	complex_t A0, A1, B0, B1;
+	int i;
+	const gboolean debug_cf = FALSE;
+
+	complex_init (&A0, 1, 0);
+	complex_init (&A1, 0, 0);
+	complex_init (&B0, 0, 0);
+	complex_init (&B1, 1, 0);
+
+	for (i = 1; i < 100; i++) {
+		complex_t ai, bi, t1, t2, c1, c2, A2, B2;
+		gnm_float m;
+		const gnm_float BIG = GNM_const(18446744073709551616.0);
+
+		if (i == 1)
+			complex_init (&ai, 1, 0);
+		else if (i & 1) {
+			gnm_float f = (i >> 1);
+			complex_init (&ai, z->re * f, z->im * f);
+		} else {
+			complex_t f;
+			complex_init (&f, -(a->re + ((i >> 1) - 1)), -a->im);
+			complex_mul (&ai, &f, z);
+		}
+		complex_init (&bi, a->re + (i - 1), a->im);
+
+		/* Update A. */
+		complex_mul (&t1, &bi, &A1);
+		complex_mul (&t2, &ai, &A0);
+		complex_add (&A2, &t1, &t2);
+		A0 = A1; A1 = A2;
+
+		/* Update B. */
+		complex_mul (&t1, &bi, &B1);
+		complex_mul (&t2, &ai, &B0);
+		complex_add (&B2, &t1, &t2);
+		B0 = B1; B1 = B2;
+
+		/* Rescale */
+		m = gnm_abs (B1.re) + gnm_abs (B1.im);
+		if (m >= BIG || m <= 1 / BIG) {
+			int e;
+			gnm_float s;
+			(void)frexp (m, &e);
+			s = ldexp (1, -e);
+			A0.re *= s; A0.im *= s;
+			A1.re *= s; A1.im *= s;
+			B0.re *= s; B0.im *= s;
+			B1.re *= s; B1.im *= s;
+		}
+
+		/* Check for convergence */
+		complex_mul (&t1, &A1, &B0);
+		complex_mul (&t2, &A0, &B1);
+		complex_sub (&c1, &t1, &t2);
+
+		complex_mul (&c2, &B0, &B1);
+
+		complex_div (&t1, &A1, &B1);
+		if (debug_cf)
+			g_printerr ("%3d : %.20g + %.20g I\n", i, t1.re, t1.im);
+
+		if (complex_mod (&c1) <= complex_mod (&c2) * (16 * GNM_EPSILON))
+			break;
+	}
+
+	if (i == 100) {
+		/* Make the failure obvious. */
+		dst->re = dst->im = gnm_nan;
+		g_printerr ("igamma_cf not converged\n");
+		return;
+	}
+
+	complex_div (dst, &A1, &B1);
+}
+
+
+void
+complex_igamma (complex_t *dst, const complex_t *a, const complex_t *z,
+		gboolean lower, gboolean regularized)
+{
+	complex_t res, f, mz;
+
+	if (complex_zero_p (a)) {
+		if (!lower && !regularized)
+			complex_gamma (dst, z);
+		else
+			complex_init (dst, lower ? 0 : 1, 0);
+		return;
+	}
+
+	if (complex_real_p (a) && a->re >= 0 &&
+	    complex_real_p (z) && z->re >= 0) {
+		complex_init (&res, pgamma (z->re, a->re, 1, lower, FALSE), 0);
+		if (!regularized) {
+			complex_t g;
+			complex_gamma (&g, a);
+			complex_mul (&res, &res, &g);
+		}
+		*dst = res;
+		return;
+	}
+
+	igamma_cf (&res, a, z);
+
+	/*
+	 * FIXME: The following three blocks should be handled without
+	 * creating big numbers.
+	 */
+
+       	mz.re = -z->re, mz.im = -z->im;
+	complex_exp (&f, &mz);
+	complex_mul (&res, &res, &f);
+	complex_pow (&f, z, a);
+	complex_mul (&res, &res, &f);
+
+	if (!regularized && lower) {
+		/* Nothing */
+	} else {
+		complex_t g;
+		complex_gamma (&g, a);
+
+		if (regularized) {
+			complex_div (&res, &res, &g);
+			if (!lower)
+				res.re = 1 - res.re;
+		} else {
+			/* !lower here */
+			complex_sub (&res, &g, &res);
+		}
+	}
+
+	*dst = res;
+}
+
+/* ------------------------------------------------------------------------- */

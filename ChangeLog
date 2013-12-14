@@ -1,3 +1,7 @@
+2013-12-14  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-gamma.c (complex_igamma): New function.
+
 2013-12-12  Mario Rugiero  <mrugiero@gmail.com>
 
 	* */*.c: Fix some leaks and null dereferences pointed out by
