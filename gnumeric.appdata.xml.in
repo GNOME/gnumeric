@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application>
 <id type="desktop">gnumeric.desktop</id>
-<licence><!--of the appdata-->CC0</licence>
+<!--of the appdata--><licence>CC0</licence>
 <description>
-<p>Gnumeric is a spreadsheet application for interactive manipulation of data</p>
+<p>Gnumeric is a spreadsheet application for interactive manipulation of data.</p>
 <p>Gnumeric aims to provide high-accuracy computations, expressive graphs,
 and a wide selection of statistical analysis tools.  Gnumeric can share
 files with Microsoft Excel and programs supporting the ODS standard.</p>
