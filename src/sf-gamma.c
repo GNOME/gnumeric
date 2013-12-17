@@ -1196,7 +1196,7 @@ complex_gamma (complex_t *dst, complex_t const *src)
 
 		complex_div (dst, &b, &a);
 	} else {
-		complex_t zmh, zmhd2, zmhpg, f, g, p, q, pq;
+		complex_t zmh, zmhd2, zmhpg, f, f2, p, q, pq;
 		int i;
 
 		i = G_N_ELEMENTS(lanczos_num) - 1;
@@ -1215,11 +1215,12 @@ complex_gamma (complex_t *dst, complex_t const *src)
 		complex_init (&zmhd2, zmh.re * 0.5, zmh.im * 0.5);
 		complex_pow (&f, &zmhpg, &zmhd2);
 
-		complex_exp (&g, &zmh);
-		complex_div (&g, &f, &g);
-		complex_mul (&g, &g, &f);
+		zmh.re = -zmh.re; zmh.im = -zmh.im;
+		complex_exp (&f2, &zmh);
+		complex_mul (&f2, &f, &f2);
+		complex_mul (&f2, &f2, &f);
 
-		complex_mul (dst, &g, &pq);
+		complex_mul (dst, &f2, &pq);
 	}
 }
 
