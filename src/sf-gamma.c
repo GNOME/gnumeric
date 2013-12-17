@@ -1295,6 +1295,8 @@ igamma_cf (complex_t *dst, const complex_t *a, const complex_t *z)
 			A1.re *= s; A1.im *= s;
 			B0.re *= s; B0.im *= s;
 			B1.re *= s; B1.im *= s;
+			if (debug_cf)
+				g_printerr ("rescale\n");
 		}
 
 		/* Check for convergence */
@@ -1305,8 +1307,13 @@ igamma_cf (complex_t *dst, const complex_t *a, const complex_t *z)
 		complex_mul (&c2, &B0, &B1);
 
 		complex_div (&t1, &A1, &B1);
-		if (debug_cf)
+		if (debug_cf) {
+			g_printerr ("  a : %.20g + %.20g I\n", ai.re, ai.im);
+			g_printerr ("  b : %.20g + %.20g I\n", bi.re, bi.im);
+			g_printerr ("  A : %.20g + %.20g I\n", A1.re, A1.im);
+			g_printerr ("  B : %.20g + %.20g I\n", B1.re, B1.im);
 			g_printerr ("%3d : %.20g + %.20g I\n", i, t1.re, t1.im);
+		}
 
 		if (complex_mod (&c1) <= complex_mod (&c2) * (16 * GNM_EPSILON))
 			break;
