@@ -920,8 +920,7 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 		*exp2 = 0;
 
 		/* sqrt(2Pi) */
-		gnm_quad_add (&f1, &gnm_quad_pi, &gnm_quad_pi);
-		gnm_quad_sqrt (&f1, &f1);
+		gnm_quad_sqrt (&f1, &gnm_quad_2pi);
 		if (debug) g_printerr ("f1=%.20g\n", gnm_quad_value (&f1));
 
 		/* (y/e)^y */

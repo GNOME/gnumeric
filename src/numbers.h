@@ -119,6 +119,7 @@ typedef long double gnm_float;
 #define gnm_quad_mul12 go_quad_mul12l
 #define gnm_quad_one go_quad_onel
 #define gnm_quad_pi go_quad_pil
+#define gnm_quad_2pi go_quad_2pil
 #define gnm_quad_pow go_quad_powl
 #define gnm_quad_sin go_quad_sinl
 #define gnm_quad_sinpi go_quad_sinpil
@@ -227,6 +228,7 @@ typedef double gnm_float;
 #define gnm_quad_mul12 go_quad_mul12
 #define gnm_quad_one go_quad_one
 #define gnm_quad_pi go_quad_pi
+#define gnm_quad_2pi go_quad_2pi
 #define gnm_quad_pow go_quad_pow
 #define gnm_quad_sin go_quad_sin
 #define gnm_quad_sinpi go_quad_sinpi

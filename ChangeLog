@@ -1,7 +1,7 @@
 2013-12-19  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-gamma.c (qfactf): Squeeze a few extra bits out of this,
-	especially when |x|<1.
+	especially when |x|<<1.  Ditto for x<-1.
 
 2013-12-17  Morten Welinder  <terra@gnome.org>
 
