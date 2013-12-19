@@ -897,7 +897,8 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 		else {
 			GnmQuad b;
 
-			gnm_quad_init (&b, -gnm_sinpi (x)); /* ? */
+			gnm_quad_init (&b, -x);
+			gnm_quad_sinpi (&b, &b);
 			gnm_quad_mul (&b, &b, mant);
 			gnm_quad_div (mant, &gnm_quad_pi, &b);
 			*exp2 = -*exp2;
@@ -946,7 +947,7 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 
 		if (debug) g_printerr ("G(x+1)=%.20g * 2^%d %s\n", gnm_quad_value (mant), *exp2, res ? "overflow" : "");
 	} else {
-		GnmQuad s, mFw;
+		GnmQuad s, qx, mFw;
 		gnm_float w, f;
 		int eFw;
 
@@ -958,14 +959,13 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 		 */
 		w = gnm_floor (x + 0.5);
 		f = x - w;
+		gnm_quad_init (&qx, x);
 
 		gnm_quad_init (&s, 1);
-		while (x < 20) {
-			GnmQuad a;
-			x++;
+		while (w < 20) {
+			gnm_quad_add (&qx, &qx, &gnm_quad_one);
 			w++;
-			gnm_quad_init (&a, x);
-			gnm_quad_mul (&s, &s, &a);
+			gnm_quad_mul (&s, &s, &qx);
 		}
 
 		if (qfacti ((int)w, &mFw, &eFw)) {

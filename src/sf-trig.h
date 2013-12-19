@@ -8,9 +8,6 @@ gnm_float gnm_acot (gnm_float x);
 gnm_float gnm_coth (gnm_float x);
 gnm_float gnm_acoth (gnm_float x);
 
-gnm_float gnm_sinpi (gnm_float x);
-gnm_float gnm_cospi (gnm_float x);
-
 #ifdef GNM_REDUCES_TRIG_RANGE
 /* gnm_sin, gnm_cos, gnm_tan prototyped in numbers.h */
 #endif
