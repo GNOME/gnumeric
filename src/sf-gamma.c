@@ -1136,7 +1136,7 @@ static const gnm_float lanczos_g = GNM_const (808618867.0) / 134217728;
  * The result of a[g,k] will contain both positive and negative constants.
  * Most people using the Lanczos series do not understand that a naive
  * implemetation will suffer significant cancellation errors.  The error
- * estimates assume the series is computes without loss!
+ * estimates assume the series is computed without loss!
  *
  * Following Boost we multiply the entire partial fraction by Pochhammer[z+1,k]
  * That gives us a polynomium with positive coefficient.  For kicks we toss
