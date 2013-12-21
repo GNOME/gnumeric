@@ -2533,7 +2533,10 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 	BiffXFData *xf;
 	guint32 data, subdata;
 
-	XL_CHECK_CONDITION (q->length >= 8);  /* Check this */
+	if (importer->ver >= MS_BIFF_V8)
+		XL_CHECK_CONDITION (q->length >= 20);
+	else
+		XL_CHECK_CONDITION (q->length >= 16);
 
 	xf = g_new (BiffXFData, 1);
 	xf->font_idx = GSF_LE_GET_GUINT16 (q->data);

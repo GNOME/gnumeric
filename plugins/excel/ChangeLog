@@ -1,7 +1,10 @@
 2013-12-21  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_XF): Fix length check.  Fixes
+	#715002.
+
 	* ms-obj.c (read_pre_biff8_read_name_and_fmla): Fix and improve
-	length check.  Fixes #720358.
+	length check.  Fixes #720358 and #719349.
 
 2013-12-13  Morten Welinder  <terra@gnome.org>
 

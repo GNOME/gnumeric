@@ -15,6 +15,7 @@ Morten:
 	* Fix tabulation truncation issue.
 	* Fix ABR.  [#720353]
 	* Fix fuzzed file crashes.  [#720425] [#720426] [#720358] [#719349]
+	[#715002]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9
