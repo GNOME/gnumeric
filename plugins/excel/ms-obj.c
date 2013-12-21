@@ -635,9 +635,10 @@ read_pre_biff8_read_name_and_fmla (BiffQuery *q, MSContainer *c, MSObj *obj,
 	guint8 const *data;
 	gboolean fmla_len;
 
-	XL_CHECK_CONDITION_VAL (q->length >= offset, NULL);
+	XL_CHECK_CONDITION_VAL (q->length >= offset + 2, NULL);
 	data = q->data + offset;
 	fmla_len = GSF_LE_GET_GUINT16 (q->data+26);
+	XL_CHECK_CONDITION_VAL (q->length >= offset + 2 + fmla_len, NULL);
 
 	if (has_name) {
 		guint8 const *last = q->data + q->length;
