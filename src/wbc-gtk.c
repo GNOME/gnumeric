@@ -2746,10 +2746,9 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	entry = wbcg_get_entry (wbcg);
 
 	/* Set a reasonable width for the selection box. */
-	len = go_pango_measure_string (
-		gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
-		gtk_style_context_get_font (gtk_widget_get_style_context (GTK_WIDGET (entry)), GTK_STATE_FLAG_NORMAL),
-		cell_coord_name (GNM_MAX_COLS - 1, GNM_MAX_ROWS - 1));
+	len = gnm_widget_measure_string
+		(GTK_WIDGET (wbcg_toplevel (wbcg)),
+		 cell_coord_name (GNM_MAX_COLS - 1, GNM_MAX_ROWS - 1));
 	/*
 	 * Add a little extra since font might be proportional and since
 	 * we also put user defined names there.
@@ -3473,12 +3472,8 @@ cb_font_button_screen_changed (GtkWidget *widget)
 	GdkScreen *screen = gtk_widget_get_screen (widget);
 
 	if (screen) {
-		PangoContext *context = gtk_widget_get_pango_context (widget);
-		const PangoFontDescription *desc = gtk_style_context_get_font
-			(gtk_widget_get_style_context (widget),
-			 GTK_STATE_FLAG_NORMAL);
-		int w = go_pango_measure_string (context, desc,
-						 "XXMonospace | 99XX");
+		int w = gnm_widget_measure_string (widget,
+						   "XXMonospace | 99XX");
 		gtk_widget_set_size_request (widget, w, -1);
 	}
 #endif
@@ -4774,17 +4769,17 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	g_object_ref (wbcg->auto_expr_label);
 	gtk_label_set_max_width_chars (GTK_LABEL (wbcg->auto_expr_label),
 				       strlen (AUTO_EXPR_SAMPLE));
-	gtk_widget_set_size_request (wbcg->auto_expr_label,
-		go_pango_measure_string (
-		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		gtk_style_context_get_font (gtk_widget_get_style_context (wbcg->auto_expr_label), GTK_STATE_FLAG_NORMAL),
-		AUTO_EXPR_SAMPLE), -1);
+	gtk_widget_set_size_request
+		(wbcg->auto_expr_label,
+		 gnm_widget_measure_string (GTK_WIDGET (wbcg->toplevel),
+					    AUTO_EXPR_SAMPLE),
+		 -1);
 
-	gtk_widget_set_size_request (wbcg->status_text,
-		go_pango_measure_string (
-		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		gtk_style_context_get_font (gtk_widget_get_style_context (wbcg->status_text), GTK_STATE_FLAG_NORMAL),
-	        "W") * 5, -1);
+	gtk_widget_set_size_request
+		(wbcg->status_text,
+		 gnm_widget_measure_string (GTK_WIDGET (wbcg->toplevel),
+					    "W") * 5,
+		 -1);
 	ebox = GET_GUI_ITEM ("auto_expr_event_box");
 	gtk_style_context_add_class (gtk_widget_get_style_context (ebox),
 				     "auto-expr");

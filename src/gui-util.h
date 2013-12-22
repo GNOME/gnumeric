@@ -107,6 +107,8 @@ void gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry);
 void gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct);
 void gnm_widget_set_cursor (GtkWidget *w, GdkCursor *ct);
 
+int gnm_widget_measure_string (GtkWidget *w, const char *s);
+
 GtkWidget * gnumeric_message_dialog_create (GtkWindow * parent,
                                             GtkDialogFlags flags,
                                             GtkMessageType type,

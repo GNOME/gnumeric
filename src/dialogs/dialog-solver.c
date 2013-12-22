@@ -654,7 +654,6 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	GtkWindow *top = GTK_WINDOW (gtk_widget_get_toplevel (state->dialog));
 	GnmSolverResult *res = NULL;
 	int y;
-	GtkStyleContext *ctxt;
 
 	sol = gnm_solver_factory_functional (param->options.algorithm,
 					     state->wbcg)
@@ -709,8 +708,6 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 			N_("Elapsed Time:")
 		};
 		GtkWidget *w;
-		PangoContext *context =
-			gtk_widget_get_pango_context (state->dialog);
 
 		w = gtk_label_new (_(ltxt[y]));
 		g_object_set (w,
@@ -719,13 +716,9 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 		              NULL);
 		gtk_grid_attach (GTK_GRID (grid), w, 0, y, 1, 1);
 		w = gtk_label_new ("");
-		ctxt = gtk_widget_get_style_context (w);
 		gtk_widget_set_size_request
 			(w,
-			 go_pango_measure_string
-			 (context,
-			  gtk_style_context_get_font (ctxt, GTK_STATE_FLAG_NORMAL),
-			  "0") * (5 + GNM_DIG),
+			 gnm_widget_measure_string (w, "0") * (5 + GNM_DIG),
 			 -1);
 		gtk_grid_attach (GTK_GRID (grid), w, 1, y, 1, 1);
 		switch (y) {

@@ -1318,3 +1318,23 @@ gnm_cell_renderer_text_copy_background_to_cairo (GtkCellRendererText *crt,
 	gdk_cairo_set_source_rgba (cr, c);
 	gdk_rgba_free (c);
 }
+
+int
+gnm_widget_measure_string (GtkWidget *w, const char *s)
+{
+	GtkStyleContext *ctxt;
+	int len;
+	PangoFontDescription *desc;
+	GtkStateFlags state = GTK_STATE_FLAG_NORMAL;
+
+	ctxt = gtk_widget_get_style_context (w);
+
+	gtk_style_context_get (ctxt, state, "font", &desc, NULL);
+
+	len = go_pango_measure_string
+		(gtk_widget_get_pango_context (w), desc, s);
+
+	pango_font_description_free (desc);
+
+	return len;
+}
