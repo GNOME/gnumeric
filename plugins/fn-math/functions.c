@@ -3320,7 +3320,7 @@ GnmFuncDescriptor const math_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "fact",    "f",     help_fact,
 	  gnumeric_fact, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUPERSET, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUPERSET, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 
 /* MS Excel puts this in the engineering functions */
 	{ "factdouble", "f",  help_factdouble,
@@ -3348,7 +3348,7 @@ GnmFuncDescriptor const math_functions[] = {
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "gamma",    "f",     help_gamma,
 	  gnumeric_gamma, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{ "gammaln",      "f",
 	  help_gammaln, gnumeric_gammaln, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
