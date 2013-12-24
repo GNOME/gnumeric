@@ -17,6 +17,7 @@ Morten:
 	* Fix fuzzed file crashes.  [#720425] [#720426] [#720358] [#719349]
 	[#715002]
 	* Resurrect list of functions on the new Gnumeric wiki.
+	* Resurrect support for non-ascii filenames on win32.  [#557815]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9
