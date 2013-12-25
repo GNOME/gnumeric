@@ -1,3 +1,8 @@
+2013-12-25  Morten Welinder  <terra@gnome.org>
+
+	* src/item-grid.c (cb_cursor_come_to_rest): Clear ->tip_timer when
+	we return FALSE so we don't try to remove the source later.
+
 2013-12-22  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnm_widget_measure_string): New function

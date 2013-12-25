@@ -1082,6 +1082,7 @@ cb_cursor_come_to_rest (GnmItemGrid *ig)
 		}
 	}
 
+	ig->tip_timer = 0;
 	return FALSE;
 }
 

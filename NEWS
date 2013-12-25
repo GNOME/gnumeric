@@ -18,6 +18,7 @@ Morten:
 	[#715002]
 	* Resurrect list of functions on the new Gnumeric wiki.
 	* Resurrect support for non-ascii filenames on win32.  [#557815]
+	* Fix timeout related critical in ItemGrid.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9
