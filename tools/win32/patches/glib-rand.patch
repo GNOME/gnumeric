@@ -1,0 +1,47 @@
+--- glib-2.39.2/glib/grand.c~	2013-11-23 09:58:07.000000000 -0500
++++ glib-2.39.2/glib/grand.c	2013-12-25 17:51:07.000000000 -0500
+@@ -57,6 +57,7 @@
+ #endif
+ 
+ #ifdef G_OS_WIN32
++#include <windows.h>
+ #include <stdlib.h>
+ #endif
+ 
+@@ -264,10 +265,33 @@
+       seed[3] = getppid ();
+     }
+ #else /* G_OS_WIN32 */
+-  gint i;
++  static BOOLEAN (* g_RtlGenRandom) (PVOID RandomBuffer, ULONG RandomBufferLength);
+ 
+-  for (i = 0; i < G_N_ELEMENTS (seed); i++)
+-    rand_s (&seed[i]);
++  if (g_once_init_enter (&g_RtlGenRandom))
++    {
++      /* See
++       * http://msdn.microsoft.com/en-us/library/windows/desktop/aa387694%28v=vs.85%29.aspx
++       *
++       * This is available on Windows XP and later, so we can
++       * hard-depend on it.
++       */
++      BOOLEAN (* func) (PVOID RandomBuffer, ULONG RandomBufferLength);
++      HMODULE h;
++
++      h = LoadLibrary ("advapi32.dll");
++
++      if (!h)
++	g_error ("Unable to load advapi32.dll, required for random number generation");
++
++      func = (gpointer) GetProcAddress (h, "SystemFunction036");
++
++      if (!func)
++	g_error ("Unable to load RtlGenRandom() from advapi32.dll");
++
++      g_once_init_leave (&g_RtlGenRandom, func);
++    }
++
++  (* g_RtlGenRandom) (seed, sizeof seed);
+ #endif
+ 
+   return g_rand_new_with_seed_array (seed, 4);

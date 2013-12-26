@@ -1,0 +1,35 @@
+--- glib-2.39.2/gio/gsubprocesslauncher.h~	2013-11-23 00:21:30.000000000 -0500
++++ glib-2.39.2/gio/gsubprocesslauncher.h	2013-12-25 18:52:51.000000000 -0500
+@@ -56,7 +56,7 @@
+ 
+ GLIB_AVAILABLE_IN_2_40
+ void                    g_subprocess_launcher_set_environ               (GSubprocessLauncher   *self,
+-                                                                         gchar                **environ);
++                                                                         gchar                **env);
+ 
+ GLIB_AVAILABLE_IN_2_40
+ void                    g_subprocess_launcher_setenv                    (GSubprocessLauncher   *self,
+--- glib-2.39.2/gio/gsubprocesslauncher.c~	2013-12-15 21:07:11.000000000 -0500
++++ glib-2.39.2/gio/gsubprocesslauncher.c	2013-12-25 18:53:29.000000000 -0500
+@@ -224,7 +224,7 @@
+ /**
+  * g_subprocess_launcher_set_environ:
+  * @self: a #GSubprocess
+- * @environ: the replacement environment
++ * @env: the replacement environment
+  *
+  * Replace the entire environment of processes launched from this
+  * launcher with the given 'environ' variable.
+@@ -244,10 +244,10 @@
+  **/
+ void
+ g_subprocess_launcher_set_environ (GSubprocessLauncher  *self,
+-                                   gchar               **environ)
++                                   gchar               **env)
+ {
+   g_strfreev (self->envp);
+-  self->envp = g_strdupv (environ);
++  self->envp = g_strdupv (env);
+ }
+ 
+ /**

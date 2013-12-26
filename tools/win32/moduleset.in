@@ -72,13 +72,15 @@
     </autotools>
 
     <autotools id="glib">
-	<branch repo="gnome.org" module="sources/glib/2.37/glib-2.37.4.tar.xz" version="2.37.4">
+	<branch repo="gnome.org" module="sources/glib/2.39/glib-2.39.2.tar.xz" version="2.39.2">
 	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
 	    <patch file="&patch_dir;glib-goption-disable-localization.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-gspawn-win32.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-appinfo.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-gatomic.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-dns.patch" strip="1"/>
+	    <patch file="&patch_dir;glib-rand.patch" strip="1"/>
+	    <patch file="&patch_dir;glib-gsubprocesslauncher.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-no-tests.patch" strip="1"/>
 	</branch>
 	<dependencies>
@@ -251,12 +253,12 @@
     </autotools>
 
     <autotools id="gtk+">
-	<branch repo="gnome.org" module="sources/gtk+/3.9/gtk+-3.9.12.tar.xz"
-		version="3.9.12">
+	<branch repo="gnome.org" module="sources/gtk+/3.10/gtk+-3.10.6.tar.xz"
+		version="3.10.6">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch"/>
 	    <patch file="&patch_dir;gtk-release-flux.patch" strip="1"/>
-	    <patch file="&patch_dir;gtk-b705980.patch" strip="1"/>
+<!--	    <patch file="&patch_dir;gtk-b705980.patch" strip="1"/> -->
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
