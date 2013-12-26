@@ -1470,6 +1470,9 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	GtkPrintSettings * settings;
 	guint n_sheets = workbook_visible_sheet_count (pi->wb);
 
+	if (gnm_debug_flag ("print"))
+		g_printerr ("Creating custom print widget\n");
+
 	grid = gtk_grid_new ();
 	g_object_set (grid,
 	              "column-spacing", 12,
@@ -1625,6 +1628,9 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	pi->spin_from = spin_from;
 	pi->spin_to = spin_to;
 	pi->button_ignore_page_breaks = button_ignore_page_breaks;
+
+	if (gnm_debug_flag ("print"))
+		g_printerr ("Done with creating custom print widget\n");
 
 	return G_OBJECT (grid);
 }
