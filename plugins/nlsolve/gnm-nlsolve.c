@@ -98,6 +98,18 @@ no_discrete:
 }
 
 static void
+print_vector (const char *name, const gnm_float *v, int n)
+{
+	int i;
+
+	if (name)
+		g_printerr ("%s:\n", name);
+	for (i = 0; i < n; i++)
+		g_printerr ("%15.8" GNM_FORMAT_f " ", v[i]);
+	g_printerr ("\n");
+}
+
+static void
 set_value (GnmNlsolve *nl, int i, gnm_float x)
 {
 	GnmCell *cell = g_ptr_array_index (nl->vars, i);
@@ -166,6 +178,10 @@ gnm_nlsolve_set_solution (GnmNlsolve *nl)
 
 	g_object_set (sol, "result", result, NULL);
 	g_object_unref (result);
+
+	if (!gnm_solver_check_constraints (sol)) {
+		g_printerr ("Infeasible solution set\n");
+	}
 }
 
 static gboolean
@@ -219,18 +235,6 @@ gnm_nlsolve_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 	}
 
 	return ok;
-}
-
-static void
-print_vector (const char *name, const gnm_float *v, int n)
-{
-	int i;
-
-	if (name)
-		g_printerr ("%s:\n", name);
-	for (i = 0; i < n; i++)
-		g_printerr ("%15.8" GNM_FORMAT_f " ", v[i]);
-	g_printerr ("\n");
 }
 
 static gnm_float *
@@ -551,8 +555,10 @@ rosenbrock_iter (GnmNlsolve *nl)
 
 		/* ---------------------------------------- */
 
-		if (!nl->tentative)
+		if (!nl->tentative) {
+			set_vector (nl, nl->xk);
 			gnm_nlsolve_set_solution (nl);
+		}
 
 		if (nl->tentative) {
 			if (nl->yk < nl->tentative_yk) {

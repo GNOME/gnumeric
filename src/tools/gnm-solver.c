@@ -593,6 +593,7 @@ gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 			     _("Invalid solver target"));
 		return FALSE;
 	}
+	gnm_cell_eval (target_cell);
 
 	if (!gnm_cell_has_expr (target_cell) ||
 	    target_cell->value == NULL ||
@@ -1109,7 +1110,10 @@ gnm_solver_check_constraints (GnmSolver *solver)
 
 		for (l = input_cells; l; l = l->next) {
 			GnmCell *cell = l->data;
-			gnm_float val = value_get_as_float (cell->value);
+			gnm_float val;
+
+			gnm_cell_eval (cell);
+			val = value_get_as_float (cell->value);
 			if (sp->options.assume_non_negative && val < 0)
 				break;
 			if (sp->options.assume_discrete &&
@@ -1133,10 +1137,14 @@ gnm_solver_check_constraints (GnmSolver *solver)
 						     &lhs, &cl,
 						     &rhs, &cr);
 		     i++) {
-			if (lhs)
+			if (lhs) {
+				gnm_cell_eval (lhs);
 				cl = value_get_as_float (lhs->value);
-			if (rhs)
+			}
+			if (rhs) {
+				gnm_cell_eval (rhs);
 				cr = value_get_as_float (rhs->value);
+			}
 
 			switch (c->type) {
 			case GNM_SOLVER_INTEGER:
@@ -1293,7 +1301,7 @@ cell_in_cr (GnmCell const *cell, GnmSheetRange *sr, gboolean follow,
 }
 
 static gboolean
-cell_is_constant (GnmCell const *cell, gnm_float *pc)
+cell_is_constant (GnmCell *cell, gnm_float *pc)
 {
 	if (!cell)
 		return TRUE;
@@ -1301,6 +1309,7 @@ cell_is_constant (GnmCell const *cell, gnm_float *pc)
 	if (cell->base.texpr)
 		return FALSE;
 
+	gnm_cell_eval (cell);
 	*pc = value_get_as_float (cell->value);
 	return TRUE;
 }

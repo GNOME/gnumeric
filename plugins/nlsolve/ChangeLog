@@ -1,3 +1,8 @@
+2013-12-29  Morten Welinder  <terra@gnome.org>
+
+	* gnm-nlsolve.c (rosenbrock_iter): Make sure to set the right
+	solution we found!
+
 2013-11-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.9
