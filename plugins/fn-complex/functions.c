@@ -1149,7 +1149,7 @@ static GnmFuncHelp const help_imigamma[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMIGAMMA:the incomplete Gamma function")},
 	{ GNM_FUNC_HELP_ARG, F_("a:a complex number")},
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number")},
-	{ GNM_FUNC_HELP_ARG, F_("lower:if true (the default), the lower incompelte gamma function, otherwise the upper incomplete gamma function")},
+	{ GNM_FUNC_HELP_ARG, F_("lower:if true (the default), the lower incomplete gamma function, otherwise the upper incomplete gamma function")},
 	{ GNM_FUNC_HELP_ARG, F_("regularize:if true (the default), the regularized version of the incomplete gamma function")},
 	{ GNM_FUNC_HELP_NOTE, F_("The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(@{a})") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMIGAMMA(2.5,-1.8,TRUE,TRUE)" },
