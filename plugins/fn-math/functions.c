@@ -975,7 +975,7 @@ static GnmFuncHelp const help_igamma[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IGAMMA:the incomplete Gamma function")},
 	{ GNM_FUNC_HELP_ARG, F_("a:number")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
-	{ GNM_FUNC_HELP_ARG, F_("lower:if true (the default), the lower incompelte gamma function, otherwise the upper incomplete gamma function")},
+	{ GNM_FUNC_HELP_ARG, F_("lower:if true (the default), the lower incomplete gamma function, otherwise the upper incomplete gamma function")},
 	{ GNM_FUNC_HELP_ARG, F_("regularize:if true (the default), the regularized version of the incomplete gamma function")},
 	{ GNM_FUNC_HELP_ARG, F_("real:if true (the default), the real part of the result, otherwise the imaginary part")},
 	{ GNM_FUNC_HELP_NOTE, F_("The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(@{a})") },
