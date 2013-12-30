@@ -236,23 +236,25 @@ gnm_float dnorm(gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
     x = (x - mu) / sigma;
     x = gnm_abs (x);
 
+    if (x >= 2 * gnm_sqrt (GNM_MAX))
+	    return R_D__0;
     if (give_log)
 	    return -(M_LN_SQRT_2PI + 0.5 * x * x + gnm_log(sigma));
     else if (x < 5)
 	    return M_1_SQRT_2PI * gnm_exp(-0.5 * x * x) / sigma;
-    else if (x >= 256)
-	    return 0;  /* Will underflow anyway. */
     else {
 	    /*
-	     * Split x into two parts, x=x1+x2, such that x2 is
-	     * small and x1 has less than 26 bits.  That ensures
-	     * that x1*x1 is error free.
+	     * Split x into two parts, x=x1+x2, such that |x2|<=2^-16.
+	     * Assuming that we are using IEEE doubles, that means that
+	     * x1*x1 is error free for x<1024 (above which we will underflow
+	     * anyway).  If we are not using IEEE doubles then this is
+	     * still an improvement over the naive formula.
 	     */
 	    gnm_float x1 = gnm_floor (x * 65536 + 0.5) / 65536;
 	    gnm_float x2 = x - x1;
 	    return M_1_SQRT_2PI / sigma *
 		    (gnm_exp(-0.5 * x1 * x1) *
-		     gnm_exp(-(0.5 * x2 + x1) * x2));
+		     gnm_exp((-0.5 * x2 - x1) * x2));
     }
 }
 
