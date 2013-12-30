@@ -234,12 +234,26 @@ gnm_float dnorm(gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
 	return (x == mu) ? gnm_pinf : R_D__0;
     }
     x = (x - mu) / sigma;
+    x = gnm_abs (x);
 
-    if(!gnm_finite(x)) return R_D__0;
-    return (give_log ?
-	    -(M_LN_SQRT_2PI  +	0.5 * x * x + gnm_log(sigma)) :
-	    M_1_SQRT_2PI * gnm_exp(-0.5 * x * x)  /	  sigma);
-    /* M_1_SQRT_2PI = 1 / gnm_sqrt(2 * pi) */
+    if (give_log)
+	    return -(M_LN_SQRT_2PI + 0.5 * x * x + gnm_log(sigma));
+    else if (x < 5)
+	    return M_1_SQRT_2PI * gnm_exp(-0.5 * x * x) / sigma;
+    else if (x >= 256)
+	    return 0;  /* Will underflow anyway. */
+    else {
+	    /*
+	     * Split x into two parts, x=x1+x2, such that x2 is
+	     * small and x1 has less than 26 bits.  That ensures
+	     * that x1*x1 is error free.
+	     */
+	    gnm_float x1 = gnm_floor (x * 65536 + 0.5) / 65536;
+	    gnm_float x2 = x - x1;
+	    return M_1_SQRT_2PI / sigma *
+		    (gnm_exp(-0.5 * x1 * x1) *
+		     gnm_exp(-(0.5 * x2 + x1) * x2));
+    }
 }
 
 /* ------------------------------------------------------------------------ */

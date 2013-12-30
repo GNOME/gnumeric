@@ -1,3 +1,7 @@
+2013-12-30  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (dnorm): Improve accuracy for x>5 (normalized).
+
 2013-12-25  Morten Welinder  <terra@gnome.org>
 
 	* src/item-grid.c (cb_cursor_come_to_rest): Clear ->tip_timer when

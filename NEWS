@@ -21,6 +21,7 @@ Morten:
 	* Fix timeout related critical in ItemGrid.
 	* Fix win32 print crash.  [#719997]
 	* Fix solver problem with constraints.
+	* Improve accuracy of r.PNORM for large arguments.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9
