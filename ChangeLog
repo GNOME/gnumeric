@@ -1,6 +1,8 @@
 2013-12-30  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (dnorm): Improve accuracy for x>5 (normalized).
+	(bd0): Reimplement.
+	(dpois_raw): Avoid going through logs, if possible.
 
 2013-12-25  Morten Welinder  <terra@gnome.org>
 
