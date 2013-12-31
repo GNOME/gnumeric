@@ -1,23 +1,10 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include <mathfunc.h>
+#include <sf-dpq.h>
 #include <sf-trig.h>
 #include <sf-gamma.h>
 #include "extra.h"
-
-#define ML_ERR_return_NAN { return gnm_nan; }
-
-/* ------------------------------------------------------------------------- */
-/* --- BEGIN MAGIC R SOURCE MARKER --- */
-
-#define R_Q_P01_check(p)			\
-    if ((log_p	&& p > 0) ||			\
-	(!log_p && (p < 0 || p > 1)) )		\
-	ML_ERR_return_NAN
-
-
-/* ------------------------------------------------------------------------ */
-/* --- END MAGIC R SOURCE MARKER --- */
 
 gnm_float
 qcauchy (gnm_float p, gnm_float location, gnm_float scale,
@@ -26,8 +13,10 @@ qcauchy (gnm_float p, gnm_float location, gnm_float scale,
 	if (gnm_isnan(p) || gnm_isnan(location) || gnm_isnan(scale))
 		return p + location + scale;
 
-	R_Q_P01_check(p);
-	if (scale < 0 || !gnm_finite(scale)) ML_ERR_return_NAN;
+	if (log_p ? (p > 0) : (p < 0 || p > 1))
+		return gnm_nan;
+
+	if (scale < 0 || !gnm_finite(scale)) return gnm_nan;
 
 	if (log_p) {
 		if (p > -1)

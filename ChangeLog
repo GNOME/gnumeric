@@ -1,3 +1,8 @@
+2013-12-31  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-dpq.c (pfuncinverter, discpfuncinverter): Extract from
+	mathfunc.c
+
 2013-12-30  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (dnorm): Improve accuracy for x>5 (normalized).

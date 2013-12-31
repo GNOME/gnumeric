@@ -154,6 +154,7 @@ libspreadsheet_la_SOURCES =			\
 	selection.c				\
 	session.c				\
 	sf-bessel.c				\
+	sf-dpq.c				\
 	sf-gamma.c				\
 	sf-trig.c				\
 	sheet.c					\
@@ -283,6 +284,7 @@ libspreadsheet_include_HEADERS = 	\
 	selection.h				\
 	session.h				\
 	sf-bessel.h				\
+	sf-dpq.h				\
 	sf-gamma.h				\
 	sf-trig.h				\
 	sheet.h					\
