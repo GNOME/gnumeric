@@ -33,6 +33,7 @@
 
 #include <func.h>
 #include <mathfunc.h>
+#include <sf-dpq.h>
 #include <sf-gamma.h>
 #include <value.h>
 

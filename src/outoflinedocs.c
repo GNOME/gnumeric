@@ -17,16 +17,6 @@
 /* ------------------------------------------------------------------------- */
 
 /**
- * dnorm:
- * @x: observation
- * @mu: mean of the distribution
- * @sigma: standard deviation of the distribution
- * @give_log: if %TRUE, log of the result will be returned instead
- *
- * Returns: density of the normal distribution.
- */
-
-/**
  * pnorm:
  * @x: observation
  * @mu: mean of the distribution

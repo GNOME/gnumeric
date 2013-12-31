@@ -30,6 +30,7 @@
 #include <value.h>
 #include <mathfunc.h>
 #include <sf-bessel.h>
+#include <sf-dpq.h>
 #include <collect.h>
 #include <number-match.h>
 #include <workbook.h>

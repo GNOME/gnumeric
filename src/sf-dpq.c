@@ -7,6 +7,7 @@
 #define R_D__1	(log_p ? 0.0 : 1.0)
 #define R_DT_0	(lower_tail ? R_D__0 : R_D__1)
 #define R_DT_1	(lower_tail ? R_D__1 : R_D__0)
+#define M_1_SQRT_2PI    GNM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
 
 /* ------------------------------------------------------------------------- */
 
@@ -293,6 +294,101 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 /* ------------------------------------------------------------------------ */
 
 /**
+ * dnorm:
+ * @x: observation
+ * @mu: mean of the distribution
+ * @sigma: standard deviation of the distribution
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the normal distribution.
+ */
+gnm_float
+dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
+{
+	if (gnm_isnan (x) || gnm_isnan (mu) || gnm_isnan (sigma))
+		return x + mu + sigma;
+	if (sigma < 0)
+		return gnm_nan;
+
+	x = gnm_abs ((x - mu) / sigma);
+
+	if (x >= 2 * gnm_sqrt (GNM_MAX))
+		return R_D__0;
+	if (give_log)
+		return -(M_LN_SQRT_2PI + 0.5 * x * x + gnm_log (sigma));
+	else if (x < 5)
+		return M_1_SQRT_2PI * gnm_exp (-0.5 * x * x) / sigma;
+	else {
+		/*
+		 * Split x into two parts, x=x1+x2, such that |x2|<=2^-16.
+		 * Assuming that we are using IEEE doubles, that means that
+		 * x1*x1 is error free for x<1024 (above which we will underflow
+		 * anyway).  If we are not using IEEE doubles then this is
+		 * still an improvement over the naive formula.
+		 */
+		gnm_float x1 = gnm_floor (x * 65536 + 0.5) / 65536;
+		gnm_float x2 = x - x1;
+		return M_1_SQRT_2PI / sigma *
+			(gnm_exp (-0.5 * x1 * x1) *
+			 gnm_exp ((-0.5 * x2 - x1) * x2));
+	}
+}
+
+gnm_float
+pnorm2 (gnm_float x1, gnm_float x2)
+{
+	if (gnm_isnan (x1) || gnm_isnan (x2))
+		return gnm_nan;
+
+	if (x1 > x2)
+		return 0 - pnorm2 (x2, x1);
+
+	/* A bunch of special cases:  */
+	if (x1 == x2)
+		return 0.0;
+	if (x1 == gnm_ninf)
+		return pnorm (x2, 0.0, 1.0, TRUE, FALSE);
+	if (x2 == gnm_pinf)
+		return pnorm (x1, 0.0, 1.0, FALSE, FALSE);
+	if (x1 == 0)
+		return gnm_erf (x2 / M_SQRT2gnum) / 2;
+	if (x2 == 0)
+		return gnm_erf (x1 / -M_SQRT2gnum) / 2;
+
+	if (x1 <= 0 && x2 >= 0) {
+		/* The interval spans 0.  */
+		gnm_float p1 = pnorm2 (0, MIN (-x1, x2));
+		gnm_float p2 = pnorm2 (MIN (-x1, x2), MAX (-x1, x2));
+		return 2 * p1 + p2;
+	} else if (x1 < 0) {
+		/* Both < 0 -- use symmetry */
+		return pnorm2 (-x2, -x1);
+	} else {
+		/* Both >= 0 */
+		gnm_float p1C = pnorm (x1, 0.0, 1.0, FALSE, FALSE);
+		gnm_float p2C = pnorm (x2, 0.0, 1.0, FALSE, FALSE);
+		gnm_float raw = p1C - p2C;
+		gnm_float dx, d1, d2, ub, lb;
+
+		if (gnm_abs (p1C - p2C) * 32 > gnm_abs (p1C + p2C))
+			return raw;
+
+		/* dnorm is strictly decreasing in this area.  */
+		dx = x2 - x1;
+		d1 = dnorm (x1, 0.0, 1.0, FALSE);
+		d2 = dnorm (x2, 0.0, 1.0, FALSE);
+		ub = dx * d1;  /* upper bound */
+		lb = dx * d2;  /* lower bound */
+
+		raw = MAX (raw, lb);
+		raw = MIN (raw, ub);
+		return raw;
+	}
+}
+
+/* ------------------------------------------------------------------------ */
+
+/**
  * dlnorm:
  * @x: observation
  * @logmean: mean of the underlying normal distribution
@@ -304,16 +400,15 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 gnm_float
 dlnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean give_log)
 {
-    if (gnm_isnan (x) || gnm_isnan (logmean) || gnm_isnan (logsd))
-	return x + logmean + logsd;
+	if (gnm_isnan (x) || gnm_isnan (logmean) || gnm_isnan (logsd))
+		return x + logmean + logsd;
 
-    if (logsd <= 0)
-	    return gnm_nan;
-
-    if(x <= 0)
-	    return R_D__0;
-
-    return dnorm (gnm_log (x), logmean, logsd, give_log);
+	if (logsd <= 0)
+		return gnm_nan;
+    
+	return (x > 0)
+		? dnorm (gnm_log (x), logmean, logsd, give_log)
+		: R_D__0;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -331,15 +426,15 @@ dlnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean give_log)
 gnm_float
 plnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p)
 {
-    if (gnm_isnan (x) || gnm_isnan (logmean) || gnm_isnan (logsd))
-	return x + logmean + logsd;
+	if (gnm_isnan (x) || gnm_isnan (logmean) || gnm_isnan (logsd))
+		return x + logmean + logsd;
 
-    if (logsd <= 0)
-	    return gnm_nan;
+	if (logsd <= 0)
+		return gnm_nan;
 
-    return (x > 0)
-	    ? pnorm (gnm_log (x), logmean, logsd, lower_tail, log_p)
-	    : R_D__0;
+	return (x > 0)
+		? pnorm (gnm_log (x), logmean, logsd, lower_tail, log_p)
+		: R_D__0;
 }
 
 /* ------------------------------------------------------------------------ */

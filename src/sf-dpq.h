@@ -21,6 +21,10 @@ gnm_float discpfuncinverter (gnm_float p, const gnm_float shape[],
 
 /* ------------------------------------------------------------------------- */
 
+/* The normal distribution.  */
+gnm_float dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log);
+gnm_float pnorm2 (gnm_float x1, gnm_float x2);
+
 /* The log-normal distribution.  */
 gnm_float dlnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean give_log);
 gnm_float plnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p);

@@ -42,9 +42,7 @@ gnm_float gnm_logcf (gnm_float x, gnm_float i, gnm_float d);
 /* "q": inverse distribution function.  */
 
 /* The normal distribution.  */
-gnm_float dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log);
 gnm_float pnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean lower_tail, gboolean log_p);
-gnm_float pnorm2 (gnm_float x1, gnm_float x2);
 gnm_float qnorm (gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail, gboolean log_p);
 
 /* The gamma distribution.  */

@@ -6,6 +6,7 @@
 #include "gnumeric.h"
 #include "gnm-random.h"
 #include "mathfunc.h"
+#include "sf-dpq.h"
 #include "sf-gamma.h"
 #include <glib/gstdio.h>
 #ifdef G_OS_WIN32
