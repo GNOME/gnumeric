@@ -52,41 +52,6 @@
 /* ------------------------------------------------------------------------- */
 
 /**
- * dlnorm:
- * @x: observation
- * @logmean: mean of the underlying normal distribution
- * @logsd: standard deviation of the underlying normal distribution
- * @give_log: if %TRUE, log of the result will be returned instead
- *
- * Returns: density of the normal distribution.
- */
-
-/**
- * plnorm:
- * @x: observation
- * @logmean: mean of the underlying normal distribution
- * @logsd: standard deviation of the underlying normal distribution
- * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
- * @log_p: if %TRUE, log of the result will be returned instead
- *
- * Returns: cumulative density of the normal distribution.
- */
-
-/**
- * qlnorm:
- * @p: probability
- * @logmean: mean of the underlying normal distribution
- * @logsd: standard deviation of the underlying normal distribution
- * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
- * @log_p: if %TRUE, @p is given as log probability
- *
- * Returns: the observation with cumulative probability @p for the
- * log normal distribution.
- */
-
-/* ------------------------------------------------------------------------- */
-
-/**
  * dgamma:
  * @x: observation
  * @shape: the shape parameter of the distribution

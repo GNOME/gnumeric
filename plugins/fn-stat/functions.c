@@ -26,6 +26,7 @@
 #include <func.h>
 #include <mathfunc.h>
 #include <sf-gamma.h>
+#include <sf-dpq.h>
 #include <rangefunc.h>
 #include <regression.h>
 #include <sheet.h>

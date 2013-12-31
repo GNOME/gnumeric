@@ -187,6 +187,7 @@ my $emitted = "";
        "#include <gnm-i18n.h>\n" .
        "#include <value.h>\n" .
        "#include <mathfunc.h>\n" .
+       "#include <sf-dpq.h>\n" .
        "#include \"extra.h\"\n\n" .
        "GNM_PLUGIN_MODULE_HEADER;\n\n");
 

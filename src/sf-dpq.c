@@ -1,6 +1,8 @@
 #include <gnumeric-config.h>
 #include <sf-dpq.h>
+#include <mathfunc.h>
 
+#define give_log log_p
 #define R_D__0	(log_p ? gnm_ninf : 0.0)
 #define R_D__1	(log_p ? 0.0 : 1.0)
 #define R_DT_0	(lower_tail ? R_D__0 : R_D__1)
@@ -289,3 +291,78 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 }
 
 /* ------------------------------------------------------------------------ */
+
+/**
+ * dlnorm:
+ * @x: observation
+ * @logmean: mean of the underlying normal distribution
+ * @logsd: standard deviation of the underlying normal distribution
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the log-normal distribution.
+ */
+gnm_float
+dlnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean give_log)
+{
+    if (gnm_isnan (x) || gnm_isnan (logmean) || gnm_isnan (logsd))
+	return x + logmean + logsd;
+
+    if (logsd <= 0)
+	    return gnm_nan;
+
+    if(x <= 0)
+	    return R_D__0;
+
+    return dnorm (gnm_log (x), logmean, logsd, give_log);
+}
+
+/* ------------------------------------------------------------------------ */
+
+/**
+ * plnorm:
+ * @x: observation
+ * @logmean: mean of the underlying normal distribution
+ * @logsd: standard deviation of the underlying normal distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the log-normal distribution.
+ */
+gnm_float
+plnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p)
+{
+    if (gnm_isnan (x) || gnm_isnan (logmean) || gnm_isnan (logsd))
+	return x + logmean + logsd;
+
+    if (logsd <= 0)
+	    return gnm_nan;
+
+    return (x > 0)
+	    ? pnorm (gnm_log (x), logmean, logsd, lower_tail, log_p)
+	    : R_D__0;
+}
+
+/* ------------------------------------------------------------------------ */
+
+/**
+ * qlnorm:
+ * @p: probability
+ * @logmean: mean of the underlying normal distribution
+ * @logsd: standard deviation of the underlying normal distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, @p is given as log probability
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * log-normal distribution.
+ */
+gnm_float
+qlnorm (gnm_float p, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p)
+{
+	if (gnm_isnan (p) || gnm_isnan (logmean) || gnm_isnan (logsd))
+		return p + logmean + logsd;
+
+	if (log_p ? (p > 0) : (p < 0 || p > 1))
+		return gnm_nan;
+
+	return gnm_exp (qnorm (p, logmean, logsd, lower_tail, log_p));
+}
