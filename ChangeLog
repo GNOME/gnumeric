@@ -1,3 +1,7 @@
+2014-01-01  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-dpq.c (dlnorm): Go crazy with accuracy.
+
 2013-12-31  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-dpq.c (pfuncinverter, discpfuncinverter): Extract from

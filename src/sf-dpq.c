@@ -400,15 +400,44 @@ pnorm2 (gnm_float x1, gnm_float x2)
 gnm_float
 dlnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean give_log)
 {
+	void *state;
+	GnmQuad qx, qlx, qs, qy, qt;
+	static GnmQuad qsqrt2pi;
+	gnm_float r;
+
 	if (gnm_isnan (x) || gnm_isnan (logmean) || gnm_isnan (logsd))
 		return x + logmean + logsd;
 
 	if (logsd <= 0)
 		return gnm_nan;
-    
-	return (x > 0)
-		? dnorm (gnm_log (x), logmean, logsd, give_log)
-		: R_D__0;
+
+	if (x <= 0)
+		return R_D__0;
+
+	state = gnm_quad_start ();
+	if (qsqrt2pi.h == 0)
+		gnm_quad_sqrt (&qsqrt2pi, &gnm_quad_2pi);
+	gnm_quad_init (&qx, x);
+	gnm_quad_log (&qlx, &qx);
+	gnm_quad_init (&qt, logmean);
+	gnm_quad_sub (&qy, &qlx, &qt);
+	gnm_quad_init (&qs, logsd);
+	gnm_quad_div (&qy, &qy, &qs);
+	gnm_quad_mul (&qy, &qy, &qy);
+	qy.h *= -0.5; qy.l *= -0.5;
+	gnm_quad_mul (&qt, &qs, &qx);
+	gnm_quad_mul (&qt, &qt, &qsqrt2pi);
+	if (give_log) {
+		gnm_quad_log (&qt, &qt);
+		gnm_quad_sub (&qy, &qy, &qt);
+	} else {
+		gnm_quad_exp (&qy, NULL, &qy);
+		gnm_quad_div (&qy, &qy, &qt);
+	}
+	r = gnm_quad_value (&qy);
+	gnm_quad_end (state);
+
+	return r;
 }
 
 /* ------------------------------------------------------------------------ */
