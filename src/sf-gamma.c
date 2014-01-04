@@ -592,7 +592,13 @@ gnm_lbeta3 (gnm_float a, gnm_float b, int *sign)
 }
 
 /* ------------------------------------------------------------------------- */
-
+/*
+ * This computes the E(x) such that
+ *
+ *   Gamma(x) = sqrt(2Pi) * x^(x-1/2) * exp(-x) * E(x)
+ *
+ * x should be >20 and the result is, roughly, 1+1/(12x).
+ */
 static void
 gamma_error_factor (GnmQuad *res, const GnmQuad *x)
 {
