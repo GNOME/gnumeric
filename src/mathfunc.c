@@ -743,14 +743,24 @@ static gnm_float dpois_raw(gnm_float x, gnm_float lambda, gboolean give_log)
 	    gnm_quad_mul (&qr, &mfx, &mel);
 	    gnm_quad_div (&qr, &mlx, &qr);
 	    r = gnm_quad_value (&qr);
-    	    gnm_quad_end (state);
-
-	    if (gnm_finite (r)) {
+	    if (gnm_finite (r) && r > 0) {
 		    gnm_float e = elx - eel - efx;
-		    return give_log
-			    ? gnm_log (r) + M_LN2gnum * e
-			    : gnm_ldexp (r, CLAMP (e, G_MININT, G_MAXINT));
-	    }
+		    if (give_log) {
+			    GnmQuad qt;
+			    gnm_quad_init (&qt, e);
+			    gnm_quad_mul (&qt, &qt, &gnm_quad_ln2);
+			    gnm_quad_log (&qr, &qr);
+			    gnm_quad_add (&qr, &qr, &qt);
+			    r = gnm_quad_value (&qr);
+		    } else {
+			    r = gnm_ldexp (r, CLAMP (e, G_MININT, G_MAXINT));
+		    }
+	    } else
+		    r = gnm_ninf;
+	    gnm_quad_end (state);
+
+	    if (gnm_finite (r))
+		    return r;
     }
 
     return(R_D_fexp( M_2PIgnum*x, -stirlerr(x)-bd0(x,lambda) ));

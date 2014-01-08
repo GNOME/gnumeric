@@ -1,5 +1,7 @@
 2014-01-08  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (dpois_raw): Detect underflow in direct formula.
+
 	* src/gui-file.h: Namespace improvements.  Also make gui_file_read
 	return the WorkbookView instead of a boolean.
 
