@@ -563,7 +563,7 @@ unset SAVE_LIBS
 AC_HEADER_SYS_WAIT
 
 dnl Check for some functions
-AC_CHECK_FUNCS(memmove mkdtemp uname times sysconf)
+AC_CHECK_FUNCS(uname)
 
 dnl FIXME: Does this really belong here?
 AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codeset)])

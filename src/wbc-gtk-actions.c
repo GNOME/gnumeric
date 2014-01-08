@@ -107,14 +107,6 @@ static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as
 		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
 		 GNM_FILE_SAVE_AS_STYLE_SAVE, NULL); }
 
-#ifndef HAVE_MKDTEMP
-#include "gnm-random.h"
-#ifdef G_OS_WIN32
-#include <process.h>
-#include <errno.h>
-#endif
-#endif
-
 static GNM_ACTION_DEF (cb_file_sendto) {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView *wbv = wb_control_view (wbc);
@@ -135,35 +127,9 @@ static GNM_ACTION_DEF (cb_file_sendto) {
 		char *template, *full_name, *uri;
 		char *basename = g_path_get_basename (go_doc_get_uri (GO_DOC (wb)));
 
-#define GNM_SEND_DIR	".gnm-sendto-"
-#ifdef HAVE_MKDTEMP
 		template = g_build_filename (g_get_tmp_dir (),
-			GNM_SEND_DIR "XXXXXX", NULL);
-		problem = (mkdtemp (template) == NULL);
-#else
-		while (1) {
-			char *dirname = g_strdup_printf
-				("%s%ld-%08d",
-				 GNM_SEND_DIR,
-				 (long)getpid (),
-				 (int)(1e8 * random_01 ()));
-			template = g_build_filename (g_get_tmp_dir (), dirname, NULL);
-			g_free (dirname);
-
-			if (g_mkdir (template, 0700) == 0) {
-				problem = FALSE;
-				break;
-			}
-
-			if (errno != EEXIST) {
-				go_cmd_context_error_export (gcc,
-					_("Failed to create temporary file for sending."));
-				go_io_error_display (io_context);
-				problem = TRUE;
-				break;
-			}
-		}
-#endif
+					     ".gnm-sendto-XXXXXX", NULL);
+		problem = (g_mkdtemp_full (template, 0600) == NULL);
 
 		if (problem) {
 			g_free (template);

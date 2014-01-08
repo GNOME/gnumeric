@@ -1,5 +1,8 @@
 2014-01-08  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk-actions.c (cb_file_sendto): Simplify using
+	g_mkdtemp_full.
+
 	* src/mathfunc.c (dpois_raw): Detect underflow in direct formula.
 
 	* src/gui-file.h: Namespace improvements.  Also make gui_file_read
