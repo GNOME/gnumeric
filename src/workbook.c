@@ -84,12 +84,12 @@ cb_exporter_finalize (Workbook *wb, GOFileSaver *saver)
 }
 
 void
-workbook_update_history (Workbook *wb, file_save_as_t type)
+workbook_update_history (Workbook *wb, GnmFileSaveAsStyle type)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
 
 	switch (type) {
-	case FILE_SAVE_AS_SAVE:
+	case GNM_FILE_SAVE_AS_STYLE_SAVE:
 		if (wb->doc.uri && wb->file_format_level >= GO_FILE_FL_MANUAL_REMEMBER) {
 			const char *mimetype = wb->file_saver
 				? go_file_saver_get_mime_type (wb->file_saver)
@@ -97,7 +97,7 @@ workbook_update_history (Workbook *wb, file_save_as_t type)
 			gnm_app_history_add (wb->doc.uri, mimetype);
 		}
 		break;
-	case FILE_SAVE_AS_EXPORT:
+	case GNM_FILE_SAVE_AS_STYLE_EXPORT:
 	default:
 		if (wb->last_export_uri &&
 		    wb->file_export_format_level >= GO_FILE_FL_MANUAL_REMEMBER) {

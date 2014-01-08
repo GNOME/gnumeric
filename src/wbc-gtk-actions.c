@@ -101,11 +101,11 @@ static GNM_ACTION_DEF (cb_file_new)
 	wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
 }
 
-static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, FILE_OPEN_OPEN, NULL); }
+static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, GNM_FILE_OPEN_STYLE_OPEN, NULL); }
 static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
 static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as
 		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
-		 FILE_SAVE_AS_SAVE, NULL); }
+		 GNM_FILE_SAVE_AS_STYLE_SAVE, NULL); }
 
 #ifndef HAVE_MKDTEMP
 #include "gnm-random.h"
@@ -980,9 +980,9 @@ static GNM_ACTION_DEF (cb_tools_random_generator_correlated) { dialog_random_cor
 static GNM_ACTION_DEF (cb_data_sort)		{ dialog_cell_sort (wbcg); }
 static GNM_ACTION_DEF (cb_data_shuffle)		{ dialog_shuffle (wbcg); }
 static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open
-		(wbcg, FILE_OPEN_IMPORT, "Gnumeric_stf:stf_assistant"); }
+		(wbcg, GNM_FILE_OPEN_STYLE_IMPORT, "Gnumeric_stf:stf_assistant"); }
 static GNM_ACTION_DEF (cb_data_import_other)	{ gui_file_open
-		(wbcg, FILE_OPEN_IMPORT, NULL); }
+		(wbcg, GNM_FILE_OPEN_STYLE_IMPORT, NULL); }
 
 static GNM_ACTION_DEF (cb_auto_filter)          { cmd_autofilter_add_remove (WORKBOOK_CONTROL (wbcg)); }
 static GNM_ACTION_DEF (cb_show_all)		{ filter_show_all (WORKBOOK_CONTROL (wbcg)); }
@@ -997,13 +997,13 @@ static GNM_ACTION_DEF (cb_data_slicer_refresh)	{ cmd_slicer_refresh (WORKBOOK_CO
 static GNM_ACTION_DEF (cb_data_slicer_edit)	{ dialog_data_slicer (wbcg, FALSE); }
 static GNM_ACTION_DEF (cb_data_export)	        { gui_file_save_as
 		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
-		 FILE_SAVE_AS_EXPORT, NULL); }
+		 GNM_FILE_SAVE_AS_STYLE_EXPORT, NULL); }
 static GNM_ACTION_DEF (cb_data_export_text)	        { gui_file_save_as
 		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
-		 FILE_SAVE_AS_EXPORT, "Gnumeric_stf:stf_assistant"); }
+		 GNM_FILE_SAVE_AS_STYLE_EXPORT, "Gnumeric_stf:stf_assistant"); }
 static GNM_ACTION_DEF (cb_data_export_csv)	        { gui_file_save_as
 		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
-		 FILE_SAVE_AS_EXPORT, "Gnumeric_stf:stf_csv"); }
+		 GNM_FILE_SAVE_AS_STYLE_EXPORT, "Gnumeric_stf:stf_csv"); }
 static GNM_ACTION_DEF (cb_data_export_repeat)	{ gui_file_export_repeat (wbcg); }
 
 static void

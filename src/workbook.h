@@ -48,7 +48,7 @@ void        workbook_optimize_style     (Workbook *wb);
 /* IO Routines */
 gboolean       workbook_set_saveinfo	(Workbook *wb, GOFileFormatLevel lev,
 					 GOFileSaver *saver);
-void           workbook_update_history  (Workbook *wb, file_save_as_t type);
+void           workbook_update_history  (Workbook *wb, GnmFileSaveAsStyle type);
 GOFileSaver *workbook_get_file_saver	(Workbook *wb);
 GOFileSaver *workbook_get_file_exporter	(Workbook *wb);
 gchar const *workbook_get_last_export_uri (Workbook *wb);

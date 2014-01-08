@@ -1,3 +1,8 @@
+2014-01-08  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.h: Namespace improvements.  Also make gui_file_read
+	return the WorkbookView instead of a boolean.
+
 2014-01-01  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-dpq.c (dlnorm): Go crazy with accuracy.
