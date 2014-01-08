@@ -103,7 +103,7 @@ gui_wb_view_show (WBCGtk *wbcg, WorkbookView *wbv)
 	sheet_update (wb_view_cur_sheet	(wbv));
 }
 
-gboolean
+WorkbookView *
 gui_file_read (WBCGtk *wbcg, char const *uri,
 	       GOFileOpener const *optional_format, gchar const *optional_encoding)
 {
@@ -113,7 +113,7 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), FALSE);
 	io_context = go_io_context_new (GO_CMD_CONTEXT (wbcg));
 	wbv = workbook_view_new_from_uri (uri, optional_format, io_context,
-				    optional_encoding);
+					  optional_encoding);
 
 	if (go_io_error_occurred (io_context) ||
 	    go_io_warning_occurred (io_context))
@@ -124,14 +124,13 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 
 	if (wbv != NULL) {
 		gui_wb_view_show (wbcg, wbv);
-		workbook_update_history (wb_view_get_workbook (wbv), FILE_SAVE_AS_SAVE);
-		return TRUE;
+		workbook_update_history (wb_view_get_workbook (wbv), GNM_FILE_SAVE_AS_STYLE_SAVE);
 	} else {
 		/* Somehow fixes #625687.  Don't know why.  */
 		wbcg_focus_cur_scg (wbcg);
 	}
 
-	return FALSE;
+	return wbv;
 }
 
 gboolean
@@ -216,7 +215,7 @@ cb_advanced_clicked (GtkButton *advanced, GtkFileChooser *fsel)
  * import filter for selected file.
  */
 void
-gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
+gui_file_open (WBCGtk *wbcg, GnmFileOpenStyle type, char const *default_format)
 {
 	GList *openers = NULL, *all_openers, *l;
 	GtkFileChooser *fsel;
@@ -253,7 +252,7 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 						fsavers = g_slist_prepend (fsavers, fs);
 				}
 				switch (type) {
-				case FILE_OPEN_OPEN:
+				case GNM_FILE_OPEN_STYLE_OPEN:
 					for (fl = fsavers; fl; fl = fl->next) {
 						GOFileSaver *fs = GO_FILE_SAVER (fl->data);
 						if ((go_file_saver_get_save_scope (fs)
@@ -266,7 +265,7 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 						}
 					}
 					break;
-				case FILE_OPEN_IMPORT:
+				case GNM_FILE_OPEN_STYLE_IMPORT:
 					{
 						gboolean is_open = FALSE;
 						for (fl = fsavers; fl; fl = fl->next) {
@@ -302,10 +301,10 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 			 (g_list_nth_data (openers, opener_default)));
 	if (title == NULL)
 		switch (type) {
-		case FILE_OPEN_OPEN:
+		case GNM_FILE_OPEN_STYLE_OPEN:
 			title = _("Open Spreadsheet File");
 			break;
-		case FILE_OPEN_IMPORT:
+		case GNM_FILE_OPEN_STYLE_IMPORT:
 			title = _("Import Data File");
 			break;
 		}
@@ -372,10 +371,10 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 		}
 		if (filter_name == NULL)
 			switch (type) {
-			case FILE_OPEN_OPEN:
+			case GNM_FILE_OPEN_STYLE_OPEN:
 				filter_name = _("Spreadsheets");
 				break;
-			case FILE_OPEN_IMPORT:
+			case GNM_FILE_OPEN_STYLE_IMPORT:
 				filter_name = _("Data Files");
 				break;
 			}
@@ -515,7 +514,7 @@ out:
 }
 
 gboolean
-gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
+gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, GnmFileSaveAsStyle type,
 		  char const *default_format)
 {
 	GList *savers = NULL, *l;
@@ -528,7 +527,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	char *uri;
 	Workbook *wb;
 	WBCGtk *wbcg2;
-	char const *title = (type == FILE_SAVE_AS_SAVE) ? _("Save the current workbook as")
+	char const *title = (type == GNM_FILE_SAVE_AS_STYLE_SAVE) ? _("Save the current workbook as")
 		: _("Export the current workbook or sheet to");
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
@@ -538,7 +537,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 
 	for (l = go_get_file_savers (); l; l = l->next)
 		switch (type) {
-		case FILE_SAVE_AS_SAVE:
+		case GNM_FILE_SAVE_AS_STYLE_SAVE:
 			if ((l->data == NULL) ||
 			    ((go_file_saver_get_save_scope (GO_FILE_SAVER (l->data))
 			      != GO_FILE_SAVE_RANGE) &&
@@ -546,7 +545,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 			      == GO_FILE_FL_AUTO)))
 				savers = g_list_prepend (savers, l->data);
 			break;
-		case FILE_SAVE_AS_EXPORT:
+		case GNM_FILE_SAVE_AS_STYLE_EXPORT:
 		default:
 			if ((l->data == NULL) ||
 			    ((go_file_saver_get_save_scope (GO_FILE_SAVER (l->data))
@@ -621,7 +620,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	}
 
 	/* Set default file saver */
-	if (type == FILE_SAVE_AS_SAVE) {
+	if (type == GNM_FILE_SAVE_AS_STYLE_SAVE) {
 		fs = workbook_get_file_saver (wb);
 		if (!fs || g_list_find (savers, fs) == NULL)
 			fs = go_file_saver_get_default ();
@@ -637,7 +636,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
 	/* Set default file name */
-	if (type == FILE_SAVE_AS_EXPORT) {
+	if (type == GNM_FILE_SAVE_AS_STYLE_EXPORT) {
 		char *basename, *dot, *newname;
 		char const *ext = go_file_saver_get_extension (fs);
 
@@ -754,7 +753,7 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 
 	if (wb->file_format_level < GO_FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view,
-					 FILE_SAVE_AS_SAVE, NULL);
+					 GNM_FILE_SAVE_AS_STYLE_SAVE, NULL);
 	else {
 		gboolean ok;
 
@@ -765,7 +764,7 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 
 		ok = wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
 		if (ok)
-			workbook_update_history (wb, FILE_SAVE_AS_SAVE);
+			workbook_update_history (wb, GNM_FILE_SAVE_AS_STYLE_SAVE);
 		g_object_unref (wb);
 		return ok;
 	}
@@ -806,7 +805,7 @@ gui_file_export_repeat (WBCGtk *wbcg)
 			/* We need to copy wb->last_export_uri since it will be reset during saving */
 			gchar *uri = g_strdup (last_uri);
 			if(wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg))) {
-				workbook_update_history (wb, FILE_SAVE_AS_EXPORT);
+				workbook_update_history (wb, GNM_FILE_SAVE_AS_STYLE_EXPORT);
 				g_free (uri);
 				return TRUE;
 			}

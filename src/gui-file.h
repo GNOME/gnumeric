@@ -7,24 +7,24 @@
 G_BEGIN_DECLS
 
 typedef enum {
-	FILE_SAVE_AS_SAVE,
-	FILE_SAVE_AS_EXPORT,
-	FILE_SAVE_AS_EXPORT_RANGE
-} file_save_as_t;
+	GNM_FILE_SAVE_AS_STYLE_SAVE,
+	GNM_FILE_SAVE_AS_STYLE_EXPORT,
+	GNM_FILE_SAVE_AS_STYLE_EXPORT_RANGE
+} GnmFileSaveAsStyle;
 typedef enum {
-	FILE_OPEN_OPEN,
-	FILE_OPEN_IMPORT,
-} file_open_t;
+	GNM_FILE_OPEN_STYLE_OPEN,
+	GNM_FILE_OPEN_STYLE_IMPORT,
+} GnmFileOpenStyle;
 
 gboolean gui_file_save_as   (WBCGtk *wbcg, WorkbookView *wbv,
-			     file_save_as_t type,
+			     GnmFileSaveAsStyle type,
 			     char const *default_format);
 gboolean gui_file_save      (WBCGtk *wbcg, WorkbookView *wbv);
 gboolean gui_file_export_repeat (WBCGtk *wbcg);
-void     gui_file_open      (WBCGtk *wbcg, file_open_t type,
+void     gui_file_open      (WBCGtk *wbcg, GnmFileOpenStyle type,
 			     char const *default_format);
 void     gui_wb_view_show   (WBCGtk *wbcg, WorkbookView *wbv);
-gboolean gui_file_read	    (WBCGtk *wbcg, char const *file_name,
+WorkbookView *gui_file_read (WBCGtk *wbcg, char const *file_name,
 			     GOFileOpener const *optional_format,
 			     gchar const *optional_encoding);
 gboolean gui_file_template  (WBCGtk *wbcg, char const *uri);
