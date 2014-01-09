@@ -103,6 +103,11 @@ gui_wb_view_show (WBCGtk *wbcg, WorkbookView *wbv)
 	sheet_update (wb_view_cur_sheet	(wbv));
 }
 
+/**
+ * gui_file_read:
+ *
+ * Returns: (transfer none): the new #WorkbookView for the file read.
+ **/
 WorkbookView *
 gui_file_read (WBCGtk *wbcg, char const *uri,
 	       GOFileOpener const *optional_format, gchar const *optional_encoding)
