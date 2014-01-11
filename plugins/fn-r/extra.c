@@ -30,7 +30,7 @@ qcauchy (gnm_float p, gnm_float location, gnm_float scale,
 		lower_tail = !lower_tail;
 	}
 	if (lower_tail) scale = -scale;
-	return location + scale / gnm_tan(M_PIgnum * p);
+	return location + scale / gnm_tanpi (p);
 }
 
 /* ------------------------------------------------------------------------- */
