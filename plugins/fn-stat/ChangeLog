@@ -1,3 +1,7 @@
+2014-01-12  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (random_rayleigh_pdf): Use expmx2h.
+
 2013-11-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.9

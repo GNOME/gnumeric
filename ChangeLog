@@ -1,3 +1,17 @@
+2014-01-12  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (expmx2h): Split out from dnorm.
+	(dhyper): Round the chosen "p" to float to improve accuracy of
+	"q".
+
+2014-01-11  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (pow1p): Improve accuracy.
+	(R_D_nonint): Fix rounding problem.
+	(ebd0): New extended version of bd0.
+	(dpois_raw, dbinom_raw): Use ebd0.
+	(dbinom_raw): Handle x==n and x==0 much better.
+
 2014-01-08  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c (cb_file_sendto): Simplify using

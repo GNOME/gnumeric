@@ -24,6 +24,8 @@ Morten:
 	* Fix solver problem with constraints.
 	* Improve accuracy of R.PNORM and R.PLNORM for large arguments.
 	* Improve accuracy of R.QCAUCHY.
+	* Improve accuracy of R.DHYPER, R.DBINOM, R.DNBINOM, R.DPOIS,
+	  RAYLEIGH.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9
