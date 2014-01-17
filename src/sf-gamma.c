@@ -1154,6 +1154,10 @@ static const gnm_float lanczos_g = GNM_const (808618867.0) / 134217728;
  * Finally we recast that in terms of gamma's argument:
  *
  * N[CoefficientList[c13b /. z->(zp-1),{zp}],50]
+ *
+ * Enter complex numbers, exit simplicity.  The error bounds for the
+ * Lanczos approximation are bounds for the absolute value of the result.
+ * The relative error on one of the coordinates can be much higher.
  */
 static const gnm_float lanczos_num[] = {
 	GNM_const(56906521.913471563880907910335591226868592353221448),
