@@ -574,7 +574,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 				guint w = range_width (&r);
 				guint h = range_height (&r);
 				vec->as_col = h > w;
-				new_len = (guint64)h * w;
+				new_len = (guint64)h * w * (end_sheet->index_in_wb - start_sheet->index_in_wb + 1);
 			}
 			break;
 
@@ -588,7 +588,8 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 					if (v->type == VALUE_CELLRANGE) {
 						gnm_rangeref_normalize (&v->v_range.cell, &ep,
 							&start_sheet, &end_sheet, &r);
-						new_len += (guint64)range_width (&r) * range_height (&r);
+						new_len += (guint64)range_width (&r) * range_height (&r)
+							* (end_sheet->index_in_wb - start_sheet->index_in_wb + 1);
 					} else
 						new_len++;
 				}
@@ -712,9 +713,15 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			closure.vals_len = dat->len;
 			closure.last = -1;
 			closure.i = 0;
-			sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
-				r.start.col, r.start.row, r.end.col, r.end.row,
-				(CellIterFunc)cb_assign_val, &closure);
+			if (start_sheet != end_sheet)
+				workbook_foreach_cell_in_range (&ep, vec->val,
+				                                CELL_ITER_IGNORE_FILTERED,
+				                                (CellIterFunc)cb_assign_val,
+				                                &closure);
+			else
+				sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
+					r.start.col, r.start.row, r.end.col, r.end.row,
+					(CellIterFunc)cb_assign_val, &closure);
 			dat->len = closure.last + 1; /* clip */
 			minimum = closure.minimum;
 			maximum = closure.maximum;
@@ -756,9 +763,15 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 					closure.vals_len = max;
 					closure.last = last - 1;
 					closure.i = last;
-					sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
-						r.start.col, r.start.row, r.end.col, r.end.row,
-						(CellIterFunc)cb_assign_val, &closure);
+					if (start_sheet != end_sheet)
+						workbook_foreach_cell_in_range (&ep, vec->val,
+								                CELL_ITER_IGNORE_FILTERED,
+								                (CellIterFunc)cb_assign_val,
+								                &closure);
+					else
+						sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
+							r.start.col, r.start.row, r.end.col, r.end.row,
+							(CellIterFunc)cb_assign_val, &closure);
 					last = dat->len = closure.last + 1; /* clip */
 					if (minimum > closure.minimum)
 					    minimum = closure.minimum;

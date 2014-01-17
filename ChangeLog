@@ -1,3 +1,9 @@
+2014-01-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_load_len),
+	(gnm_go_data_vector_load_values): accept 3D values for vector data.
+	[#722294]
+
 2014-01-16  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_adjust_foreground_attributes): Renamed from

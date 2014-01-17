@@ -4,6 +4,9 @@ Andreas:
 	* Fix handling of dashes on ODF import. [#719509]
 	* Suppress some warnings in xlsx import. [#719680]
 
+Jean:
+	* Accept 3D values for vector data. [#722294]
+
 Mario Rugiero:
 	* Fix leaks.  [#720306]
 
