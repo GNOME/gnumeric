@@ -26,6 +26,7 @@ Morten:
 	* Improve accuracy of R.QCAUCHY.
 	* Improve accuracy of R.DHYPER, R.DBINOM, R.DNBINOM, R.DPOIS,
 	  RAYLEIGH.
+	* Minor theming improvement.  [#722074]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9

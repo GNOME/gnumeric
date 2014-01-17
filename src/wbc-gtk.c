@@ -1328,18 +1328,49 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 	}
 }
 
-static gboolean
-cb_darken_foreground_attributes (PangoAttribute *attribute,
-				 G_GNUC_UNUSED gpointer data)
+static double
+color_diff (const GdkRGBA *a, const GdkRGBA *b)
 {
+	/* Ignoring alpha.  */
+	return ((a->red - b->red) * (a->red - b->red) +
+		(a->green - b->green) * (a->green - b->green) +
+		(a->blue - b->blue) * (a->blue - b->blue));
+}
+
+
+static gboolean
+cb_adjust_foreground_attributes (PangoAttribute *attribute,
+				 gpointer data)
+{
+	const GdkRGBA *back = data;
+
 	if (attribute->klass->type == PANGO_ATTR_FOREGROUND) {
-		PangoAttrColor *cat = (PangoAttrColor *) attribute;
-		guint total = (guint)cat->color.red + (guint)cat->color.green + (guint)cat->color.blue;
-		if (total > 98302) {
-			float adj = 98302.5/total;
-			cat->color.red = cat->color.red * adj;
-			cat->color.green = cat->color.green * adj;
-			cat->color.blue = cat->color.blue * adj;
+		PangoColor *pfore = &((PangoAttrColor *)attribute)->color;
+		GdkRGBA fore;
+		const double threshold = 0.01;
+
+		fore.red = pfore->red / 65535.0;
+		fore.green = pfore->green / 65535.0;
+		fore.blue = pfore->blue / 65535.0;
+
+		if (color_diff (&fore, back) < threshold) {
+			static const GdkRGBA black = { 0, 0, 0, 1 };
+			static const GdkRGBA white = { 1, 1, 1, 1 };
+			double back_norm = color_diff (back, &black);
+			double fore_norm = color_diff (back, &black);
+			double f = 0.2;
+			const GdkRGBA *ref =
+				back_norm > 0.75 ? &black : &white;
+
+#define DO_CHANNEL(channel)						\
+do {									\
+	double val = fore.channel * (1 - f) + ref->channel * f;		\
+	pfore->channel = CLAMP (val, 0, 1) * 65535;			\
+} while (0)			
+			DO_CHANNEL(red);
+			DO_CHANNEL(green);
+			DO_CHANNEL(blue);
+#undef DO_CHANNEL
 		}
 	}
 	return FALSE;
@@ -1349,13 +1380,22 @@ cb_darken_foreground_attributes (PangoAttribute *attribute,
    colors are to the themed background and push the colors that are
    too close away (along the light axis, presumably).  */
 static void
-darken_foreground_attributes (PangoAttrList *attrs)
+adjust_foreground_attributes (PangoAttrList *attrs, GtkWidget *w)
 {
+	GdkRGBA c;
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (w);
+
+	gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_NORMAL,
+						&c);
+
+	if (0)
+		g_printerr ("back=%s\n", gdk_rgba_to_string (&c));
+
 	pango_attr_list_unref
 		(pango_attr_list_filter
 		 (attrs,
-		  cb_darken_foreground_attributes,
-		  NULL));
+		  cb_adjust_foreground_attributes,
+		  &c));
 }
 
 
@@ -1397,9 +1437,10 @@ wbcg_auto_expr_value_changed (WorkbookView *wbv,
 						(attrs, atl, old_len,
 						 str->len - old_len);
 					pango_attr_list_unref (atl);
-					/* The field background is white so we need to ensure that no */
-					/* foreground colour is set to white (or close to white)      */
-					darken_foreground_attributes (attrs);
+					/* Adjust colours to make text visible. */
+					adjust_foreground_attributes
+						(attrs,
+						 gtk_widget_get_parent (GTK_WIDGET (lbl)));
 				}
 				break;
 			}

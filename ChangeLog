@@ -1,3 +1,9 @@
+2014-01-16  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_adjust_foreground_attributes): Renamed from
+	cb_darken_foreground_attributes and change to take non-white
+	background into account.
+
 2014-01-12  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (expmx2h): Split out from dnorm.
