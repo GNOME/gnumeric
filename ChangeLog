@@ -1,3 +1,10 @@
+2014-01-21  Morten Welinder  <terra@gnome.org>
+
+	* src/item-cursor.c (cb_item_cursor_animation): Drastically lower
+	the amount of work we do for ant-ing.  Fixes #381011, patch from
+	Jean.
+	(ic_reload_style): Ignore alpha component of ant colours.
+
 2014-01-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_vector_load_len),

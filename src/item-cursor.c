@@ -124,6 +124,11 @@ ic_reload_style (GnmItemCursor *ic)
 	gtk_style_context_get_background_color (context, state,
 						&ic->ant_background_color);
 	gtk_style_context_restore (context);
+	/*
+	 * Ensure we don't use transparency to avoid compositing issues
+	 * when redrawing the ants in the timer callback.
+	 */
+	ic->ant_color.alpha = ic->ant_background_color.alpha = 1.;
 
 	gtk_style_context_save (context);
 	gtk_style_context_add_class (context, "drag");
@@ -145,8 +150,18 @@ cb_item_cursor_animation (GnmItemCursor *ic)
 {
 	GocItem *item = GOC_ITEM (ic);
 
+#if GTK_CHECK_VERSION(3,8,0)
+	GdkWindow *w = gtk_widget_get_window (GTK_WIDGET (item->canvas));
+	cairo_t *cr = gdk_cairo_create (w);
+
+	ic->state = !ic->state;
+	goc_item_draw (item, cr);
+	cairo_destroy (cr);
+#else
+	/* Somehow the above doesn't work.  */
 	ic->state = !ic->state;
 	goc_item_invalidate (item);
+#endif
 	return TRUE;
 }
 
