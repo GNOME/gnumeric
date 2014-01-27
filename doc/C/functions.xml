@@ -1039,6 +1039,103 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-IMFACT">
+      <refmeta>
+        <refentrytitle>
+          <function>IMFACT</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>IMFACT</function>
+        </refname>
+        <refpurpose>
+        the factorial of the complex number <parameter>z</parameter>
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>IMFACT</function>(<parameter>z</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>z</parameter>: a complex number</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>z</parameter> is not a valid complex number, #VALUE! is returned.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-IMGAMMA"><function>IMGAMMA</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-IMGAMMA">
+      <refmeta>
+        <refentrytitle>
+          <function>IMGAMMA</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>IMGAMMA</function>
+        </refname>
+        <refpurpose>
+        the gamma function of the complex number <parameter>z</parameter>
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>IMGAMMA</function>(<parameter>z</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>z</parameter>: a complex number</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>z</parameter> is not a valid complex number, #VALUE! is returned.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-IMGAMMA"><function>IMGAMMA</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-IMIGAMMA">
+      <refmeta>
+        <refentrytitle>
+          <function>IMIGAMMA</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>IMIGAMMA</function>
+        </refname>
+        <refpurpose>
+        the incomplete Gamma function
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>IMIGAMMA</function>(<parameter>a</parameter>,<parameter>z</parameter>,<parameter>lower</parameter>,<parameter>regularize</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>a</parameter>: a complex number</para>
+        <para><parameter>z</parameter>: a complex number</para>
+        <para><parameter>lower</parameter>: if true (the default), the lower incomplete gamma function, otherwise the upper incomplete gamma function</para>
+        <para><parameter>regularize</parameter>: if true (the default), the regularized version of the incomplete gamma function</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(<parameter>a</parameter>)</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-GAMMA"><function>GAMMA</function></link>,
+        <link linkend="gnumeric-function-IMIGAMMA"><function>IMIGAMMA</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-IMINV">
       <refmeta>
         <refentrytitle>
@@ -11473,6 +11570,42 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-IGAMMA">
+      <refmeta>
+        <refentrytitle>
+          <function>IGAMMA</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>IGAMMA</function>
+        </refname>
+        <refpurpose>
+        the incomplete Gamma function
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>IGAMMA</function>(<parameter>a</parameter>,<parameter>x</parameter>,<parameter>lower</parameter>,<parameter>regularize</parameter>,<parameter>real</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>a</parameter>: number</para>
+        <para><parameter>x</parameter>: number</para>
+        <para><parameter>lower</parameter>: if true (the default), the lower incomplete gamma function, otherwise the upper incomplete gamma function</para>
+        <para><parameter>regularize</parameter>: if true (the default), the regularized version of the incomplete gamma function</para>
+        <para><parameter>real</parameter>: if true (the default), the real part of the result, otherwise the imaginary part</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(<parameter>a</parameter>) This is a real valued function as long as neither <parameter>a</parameter> nor <parameter>z</parameter> are negative.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-GAMMA"><function>GAMMA</function></link>,
+        <link linkend="gnumeric-function-IMIGAMMA"><function>IMIGAMMA</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-INT">
       <refmeta>
         <refentrytitle>
@@ -12159,13 +12292,12 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>POCHHAMMER</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>give_log</parameter>)</synopsis>
+        <synopsis><function>POCHHAMMER</function>(<parameter>x</parameter>,<parameter>n</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
         <para><parameter>x</parameter>: number</para>
         <para><parameter>n</parameter>: number</para>
-        <para><parameter>give_log</parameter>: if true, log of the result will be returned instead</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

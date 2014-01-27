@@ -264,6 +264,33 @@
 @SEEALSO=IMLN
 
 @CATEGORY=Complex
+@FUNCTION=IMFACT
+@SHORTDESC=the factorial of the complex number @{z}
+@SYNTAX=IMFACT(z)
+@ARGUMENTDESCRIPTION=@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
+@SEEALSO=IMGAMMA
+
+@CATEGORY=Complex
+@FUNCTION=IMGAMMA
+@SHORTDESC=the gamma function of the complex number @{z}
+@SYNTAX=IMGAMMA(z)
+@ARGUMENTDESCRIPTION=@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
+@SEEALSO=IMGAMMA
+
+@CATEGORY=Complex
+@FUNCTION=IMIGAMMA
+@SHORTDESC=the incomplete Gamma function
+@SYNTAX=IMIGAMMA(a,z,lower,regularize)
+@ARGUMENTDESCRIPTION=@{a}: a complex number
+@{z}: a complex number
+@{lower}: if true (the default), the lower incomplete gamma function, otherwise the upper incomplete gamma function
+@{regularize}: if true (the default), the regularized version of the incomplete gamma function
+@NOTE=The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(@{a})
+@SEEALSO=GAMMA,IMIGAMMA
+
+@CATEGORY=Complex
 @FUNCTION=IMINV
 @SHORTDESC=the reciprocal, or inverse, of the complex number @{z}
 @SYNTAX=IMINV(z)
@@ -3407,6 +3434,18 @@ The depreciation coefficient used is:
 @SEEALSO=MIN,MAX
 
 @CATEGORY=Mathematics
+@FUNCTION=IGAMMA
+@SHORTDESC=the incomplete Gamma function
+@SYNTAX=IGAMMA(a,x,lower,regularize,real)
+@ARGUMENTDESCRIPTION=@{a}: number
+@{x}: number
+@{lower}: if true (the default), the lower incomplete gamma function, otherwise the upper incomplete gamma function
+@{regularize}: if true (the default), the regularized version of the incomplete gamma function
+@{real}: if true (the default), the real part of the result, otherwise the imaginary part
+@NOTE=The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(@{a}) This is a real valued function as long as neither @{a} nor @{z} are negative.
+@SEEALSO=GAMMA,IMIGAMMA
+
+@CATEGORY=Mathematics
 @FUNCTION=INT
 @SHORTDESC=largest integer not larger than @{x}
 @SYNTAX=INT(x)
@@ -3581,10 +3620,9 @@ The depreciation coefficient used is:
 @CATEGORY=Mathematics
 @FUNCTION=POCHHAMMER
 @SHORTDESC=the value of GAMMA(@{x}+@{n})/GAMMA(@{x})
-@SYNTAX=POCHHAMMER(x,n,give_log)
+@SYNTAX=POCHHAMMER(x,n)
 @ARGUMENTDESCRIPTION=@{x}: number
 @{n}: number
-@{give_log}: if true, log of the result will be returned instead
 @SEEALSO=GAMMA
 
 @CATEGORY=Mathematics

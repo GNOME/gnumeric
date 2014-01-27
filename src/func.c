@@ -219,7 +219,7 @@ dump_externals (GPtrArray *defs, FILE *out)
  * A generic utility routine to operate on all funtion defs
  * in various ways.  @dump_type will change/extend as needed
  * Right now
- * 0 : wiki's function page
+ * 0 : www.gnumeric.org's function.shtml page
  * 1 :
  * 2 : generate_po
  * 3 : dump function usage count
@@ -229,6 +229,7 @@ void
 function_dump_defs (char const *filename, int dump_type)
 {
 	FILE *output_file;
+	char *up, *catname;
 	unsigned i;
 	GPtrArray *ordered;
 	GnmFuncGroup const *group = NULL;
@@ -282,9 +283,47 @@ function_dump_defs (char const *filename, int dump_type)
 		}
 
 		fprintf (output_file,
-			 "= Gnumeric Sheet Functions =\n\n"
-			 "Gnumeric currently has %d functions for use in spreadsheets.\n"
-			 "%d of these are unique to Gnumeric.\n\n",
+			 "<!--#set var=\"title\" value=\"Functions\" -->"
+			 "<!--#set var=\"rootdir\" value=\".\" -->"
+			 "<!--#include virtual=\"header-begin.shtml\" -->\n"
+			 "<style type=\"text/css\"><!--\n"
+			 "  div.functiongroup {\n"
+			 "    margin-top: 1em;\n"
+			 "    margin-bottom: 1em;\n"
+			 "  }\n"
+			 "  table.functiongroup {\n"
+			 "    border-style: solid;\n"
+			 "    border-width: 1px;\n"
+			 "    border-spacing: 0px;\n"
+			 "  }\n"
+			 "  tr.header td {\n"
+			 "    font-weight: bold;\n"
+			 "    font-size: 14pt;\n"
+			 "    border-style: solid;\n"
+			 "    border-width: 1px;\n"
+			 "    text-align: center;\n"
+			 "  }\n"
+			 "  tr.function td {\n"
+			 "    border: solid 1px;\n"
+			 "  }\n"
+			 "  td.testing-unknown    { background: #ffffff; }\n"
+			 "  td.testing-nosuite    { background: #ff7662; }\n"
+			 "  td.testing-basic      { background: #fff79d; }\n"
+			 "  td.testing-exhaustive { background: #aef8b5; }\n"
+			 "  td.testing-devel      { background: #ff6c00; }\n"
+			 "  td.imp-exists         { background: #ffffff; }\n"
+			 "  td.imp-no             { background: #ff7662; }\n"
+			 "  td.imp-subset         { background: #fff79d; }\n"
+			 "  td.imp-complete       { background: #aef8b5; }\n"
+			 "  td.imp-superset       { background: #16e49e; }\n"
+			 "  td.imp-subsetext      { background: #59fff2; }\n"
+			 "  td.imp-devel          { background: #ff6c00; }\n"
+			 "  td.imp-gnumeric       { background: #44be18; }\n"
+			 "--></style>\n"
+			 "<!--#include virtual=\"header-end.shtml\" -->"
+			 "<h1>Gnumeric Sheet Functions</h1>\n"
+			 "<p>Gnumeric currently has %d functions for use in spreadsheets.\n"
+			 "%d of these are unique to Gnumeric.</p>\n",
 			 ordered->len, unique);
 	}
 
@@ -409,48 +448,66 @@ function_dump_defs (char const *filename, int dump_type)
 		} else if (dump_type == 0) {
 			static struct {
 				char const *name;
-				char const *style;
+				char const *klass;
 			} const testing [] = {
-				{ "Unknown",		"<style=\"background-color: #ffffff;\">" },
-				{ "No Testsuite",	"<style=\"background-color: #ff7662;\">" },
-				{ "Basic",		"<style=\"background-color: #fff79d;\">" },
-				{ "Exhaustive",		"<style=\"background-color: #aef8b5;\">" },
-				{ "Under Development",	"<style=\"background-color: #ff6c00;\">" }
+				{ "Unknown",		"testing-unknown" },
+				{ "No Testsuite",	"testing-nosuite" },
+				{ "Basic",		"testing-basic" },
+				{ "Exhaustive",		"testing-exhaustive" },
+				{ "Under Development",	"testing-devel" }
 			};
 			static struct {
 				char const *name;
-				char const *style;
+				char const *klass;
 			} const implementation [] = {
-				{ "Exists",			"<style=\"background-color: #ff6c00;\">" },
-				{ "Unimplemented",		"<style=\"background-color: #ff7662;\">" },
-				{ "Subset",			"<style=\"background-color: #fff79d;\">" },
-				{ "Complete",			"<style=\"background-color: #aef8b5;\">" },
-				{ "Superset",			"<style=\"background-color: #16e49e;\">" },
-				{ "Subset with_extensions",	"<style=\"background-color: #59fff2;\">" },
-				{ "Under development",		"<style=\"background-color: #ff6c00;\">" },
-				{ "Unique to Gnumeric",		"<style=\"background-color: #44be18;\">" },
+				{ "Exists",			"imp-exists" },
+				{ "Unimplemented",		"imp-no" },
+				{ "Subset",			"imp-subset" },
+				{ "Complete",			"imp-complete" },
+				{ "Superset",			"imp-superset" },
+				{ "Subset with_extensions",	"imp-subsetext" },
+				{ "Under development",		"imp-devel" },
+				{ "Unique to Gnumeric",		"imp-gnumeric" },
 			};
 			if (group != fd->fn_group) {
-				if (group)
-					fprintf (output_file, "\n");
+				if (group) fprintf (output_file, "</table></div>\n");
 				group = fd->fn_group;
 				fprintf (output_file,
-					 "= %s =\n"
-					 "|| '''Function''' || '''Implementation''' || '''Testing''' ||\n",
+					 "<h2>%s</h2>\n"
+					 "<div class=\"functiongroup\"><table class=\"functiongroup\">\n"
+					 "<tr class=\"header\">"
+					 "<td>Function</td>"
+					 "<td>Implementation</td>"
+					 "<td>Testing</td>"
+					 "</tr>\n",
 					 group->display_name->str);
 			}
-			/* FIXME: Add link to docs */
+			up = g_ascii_strup (fd->name, -1);
+			catname = g_strdup (group->display_name->str);
+			while (strchr (catname, ' '))
+				*strchr (catname, ' ') = '_';
+			fprintf (output_file, "<tr class=\"function\">\n");
 			fprintf (output_file,
-				 "|| %s ||%s %s ||%s %s ||\n",
+				 "<td><a href =\"https://help.gnome.org/users/gnumeric/stable/CATEGORY_%s.html.en#gnumeric-function-%s\">%s</a></td>\n",
+				 catname, up, fd->name);
+			g_free (up);
+			g_free (catname);
+			fprintf (output_file,
+				 "<td class=\"%s\"><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s implementation\">%s</a></td>\n",
+				 implementation[fd->impl_status].klass,
 				 fd->name,
-				 implementation[fd->impl_status].style,
-				 implementation[fd->impl_status].name,
-				 testing[fd->test_status].style,
+				 implementation[fd->impl_status].name);
+			fprintf (output_file,
+				 "<td class=\"%s\"><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s testing\">%s</a></td>\n",
+				 testing[fd->test_status].klass,
+				 fd->name,
 				 testing[fd->test_status].name);
+			fprintf (output_file,"</tr>\n");
 		}
 	}
 	if (dump_type == 0) {
-		if (group) fprintf (output_file, "\n");
+		if (group) fprintf (output_file, "</table></div>\n");
+		fprintf (output_file, "<!--#include virtual=\"footer.shtml\"-->\n");
 	}
 
 	g_ptr_array_free (ordered, TRUE);
