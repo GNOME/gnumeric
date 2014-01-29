@@ -13,7 +13,7 @@ die "$0: you must supply the new versions as arguments.\n"
 my $newgnumeric2 = $newgnumeric;
 $newgnumeric2 =~ s/^(\d+\.\d+)\..*/$1/;
 
-my $wwwdir = "gnomeweb-wml/projects.gnome.org/gnumeric";
+my $wwwdir = "www.gnumeric.org";
 my $makenews = "gnumeric/tools/news-to-html";
 my $annfile = "announcements/$newgnumeric2/gnumeric-$newgnumeric.shtml";
 

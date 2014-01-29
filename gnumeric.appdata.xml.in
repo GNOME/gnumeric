@@ -8,9 +8,9 @@
 and a wide selection of statistical analysis tools.  Gnumeric can share
 files with Microsoft Excel and programs supporting the ODS standard.</p>
 </description>
-<url type="homepage">https://projects.gnome.org/gnumeric/</url>
+<url type="homepage">http://www.gnumeric.org/</url>
 <screenshots>
-<screenshot type="default">https://projects.gnome.org/gnumeric/screenshots/001.png</screenshot>
+<screenshot type="default">http://www.gnumeric.org/screenshots/gnumeric-sample.png</screenshot>
 </screenshots>
 <updatecontact>gnumeric-list@gnome.org</updatecontact>
 </application>

@@ -832,7 +832,7 @@ describe_new_style (GtkTextBuffer *description,
 			if (seen_extref)
 				break;
 
-			uri = g_strdup_printf ("http://projects.gnome.org/gnumeric/func-doc.shtml?%s", func->name);
+			uri = g_strdup_printf ("http://www.gnumeric.org/func-doc.shtml?%s", func->name);
 
 			tagname = g_strdup_printf ("EXTLINK-%s", func->name);
 			link = make_link

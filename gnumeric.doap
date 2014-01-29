@@ -6,7 +6,7 @@
 
   <name xml:lang="en">Gnumeric</name>
   <shortdesc xml:lang="en">The Gnome Office Spreadsheet - Free, Fast, Accurate: Pick any 3!</shortdesc>
-  <homepage rdf:resource="http://projects.gnome.org/gnumeric/" />
+  <homepage rdf:resource="http://www.gnumeric.org/" />
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/gnumeric-list" />
   <download-page rdf:resource="http://download.gnome.org/sources/gnumeric/" />
   <bug-database rdf:resource="http://bugzilla.gnome.org/browse.cgi?product=gnumeric" />
