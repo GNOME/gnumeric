@@ -1,3 +1,8 @@
+2014-01-29  Morten Welinder  <terra@gnome.org>
+
+	* src/item-cursor.c (cb_item_cursor_animation): Do a run-time
+	check for bad clipping somewhere in gtk+ or theme land.
+
 2014-01-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-component.c (gnm_soc_user_config): release the new

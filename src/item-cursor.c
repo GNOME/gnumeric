@@ -30,6 +30,7 @@
 #include "commands.h"
 #include "ranges.h"
 #include "parse-util.h"
+#include "gutils.h"
 #include "gui-util.h"
 #include "sheet-autofill.h"
 #include <gsf/gsf-impl-utils.h>
@@ -149,19 +150,36 @@ static int
 cb_item_cursor_animation (GnmItemCursor *ic)
 {
 	GocItem *item = GOC_ITEM (ic);
-
-#if GTK_CHECK_VERSION(3,8,0)
-	GdkWindow *w = gtk_widget_get_window (GTK_WIDGET (item->canvas));
-	cairo_t *cr = gdk_cairo_create (w);
+	static int use_fallback = -1;
 
 	ic->state = !ic->state;
-	goc_item_draw (item, cr);
-	cairo_destroy (cr);
-#else
-	/* Somehow the above doesn't work.  */
-	ic->state = !ic->state;
-	goc_item_invalidate (item);
-#endif
+
+	if (use_fallback != 1) {
+		GdkWindow *w = gtk_widget_get_window (GTK_WIDGET (item->canvas));
+		cairo_t *cr = gdk_cairo_create (w);
+
+		if (use_fallback == -1) {
+			/*
+			 * Under some themes we get a (0,0,0,0) clip and
+			 * our drawing does nothing.  Detect this and
+			 * fall back to full invalidation.
+			 */
+			double cx0, cy0, cx1, cy1;
+			cairo_clip_extents (cr, &cx0, &cy0, &cx1, &cy1);
+			use_fallback = (cx0 == 0 && cy0 == 0 && cx1 == 0 && cy1 == 0);
+			if (use_fallback == 1 && gnm_debug_flag ("ant"))
+				g_printerr ("Using ant-ing fallback\n");
+		}
+
+		if (use_fallback == 0)
+			goc_item_draw (item, cr);
+
+		cairo_destroy (cr);
+	}
+
+	if (use_fallback == 1)
+		goc_item_invalidate (item);
+
 	return TRUE;
 }
 
