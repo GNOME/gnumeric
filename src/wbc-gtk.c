@@ -4393,6 +4393,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), TRUE);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
+		gtk_toolbar_set_icon_size (GTK_TOOLBAR (w), GTK_ICON_SIZE_SMALL_TOOLBAR);
 
 		entry.name = toggle_name;
 		entry.stock_id = NULL;
@@ -5661,6 +5662,7 @@ wbc_gtk_init (GObject *obj)
 	char		*uifile;
 	unsigned	 i;
 	GEnumClass      *posclass;
+	GtkStyleContext *ctxt;
 
 	wbcg->gui = gnm_gtk_builder_load ("wbcg.ui", NULL, NULL);
 	wbcg->cancel_button = GET_GUI_ITEM ("cancel_button");
@@ -5712,6 +5714,8 @@ wbc_gtk_init (GObject *obj)
 	wbcg->idle_update_style_feedback = 0;
 
 	wbcg_set_toplevel (wbcg, GET_GUI_ITEM ("toplevel"));
+	ctxt = gtk_widget_get_style_context (GTK_WIDGET (wbcg_toplevel (wbcg)));
+	gtk_style_context_add_class (ctxt, "gnumeric");
 
 	g_signal_connect (wbcg_toplevel (wbcg), "window_state_event",
 			  G_CALLBACK (cb_wbcg_window_state_event),

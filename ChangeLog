@@ -1,5 +1,8 @@
 2014-01-30  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_add_menus_toolbars): Tentatively request small
+	toolbar icons.
+
 	* src/item-cursor.c (item_cursor_draw): Make the ant animation
 	smoother (when not using the fallback).  Avoid using hard light
 	for ant-ing -- that doesn't work for the same reason as alpha not
