@@ -81,7 +81,6 @@ struct _GnmItemCursor {
 	int drag_button;
 	guint drag_button_state;
 
-	gboolean visible;
 	gboolean use_color;
 	gboolean auto_fill_handle_at_top;
 	gboolean auto_fill_handle_at_left;
@@ -284,7 +283,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 		    ic->outline.x2,
 		    ic->outline.y2);
 #endif
-	if (!ic->visible || !ic->pos_initialized)
+	if (!goc_item_is_visible (&ic->canvas_item) || !ic->pos_initialized)
 		return;
 
 	/* we need to use canvas coordinates in goc_canvas_c2w, hence the divisions by scale. */
@@ -548,7 +547,8 @@ item_cursor_distance (GocItem *item, double x, double y,
 	 * 2) when animated
 	 * 3) while a guru is up
 	 */
-	if (!ic->visible || ic->style == GNM_ITEM_CURSOR_ANTED ||
+	if (!goc_item_is_visible (item) ||
+	    ic->style == GNM_ITEM_CURSOR_ANTED ||
 	    wbc_gtk_get_guru (scg_wbcg (ic->scg)) != NULL)
 		return DBL_MAX;
 
@@ -876,16 +876,7 @@ item_cursor_do_drop (GnmItemCursor *ic, GdkEvent *event)
 void
 gnm_item_cursor_set_visibility (GnmItemCursor *ic, gboolean visible)
 {
-	g_return_if_fail (GNM_IS_ITEM_CURSOR (ic));
-
-	if (ic->visible == visible)
-		return;
-
-	ic->visible = visible;
-	if (visible)
-		goc_item_show (GOC_ITEM (ic));
-	else
-		goc_item_hide (GOC_ITEM (ic));
+	goc_item_set_visible (GOC_ITEM (ic), visible);
 }
 
 static void
@@ -1537,7 +1528,6 @@ gnm_item_cursor_init (GnmItemCursor *ic)
 	ic->ant_state = 0;
 	ic->animation_timer = 0;
 
-	ic->visible = TRUE;
 	ic->auto_fill_handle_at_top = FALSE;
 	ic->auto_fill_handle_at_left = FALSE;
 	ic->drag_button = -1;

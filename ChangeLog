@@ -4,6 +4,8 @@
 	smoother (when not using the fallback).  Avoid using hard light
 	for ant-ing -- that doesn't work for the same reason as alpha not
 	working.  Always use phase=0 for non-ant stipples.
+	(GnmItemCursor): Use the canvas item's visibility flag instead of
+	rolling our own.
 
 2014-01-29  Morten Welinder  <terra@gnome.org>
 
