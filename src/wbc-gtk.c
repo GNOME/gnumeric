@@ -4350,7 +4350,6 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		int n = g_hash_table_size (wbcg->visibility_widgets);
 		GtkWidget *vw;
 		const struct ToolbarInfo *ti;
-
 		GtkWidget *box;
 		GtkPositionType pos = gnm_conf_get_toolbar_position (name);
 
@@ -5661,6 +5660,7 @@ wbc_gtk_init (GObject *obj)
 	GError		*error = NULL;
 	char		*uifile;
 	unsigned	 i;
+	GEnumClass      *posclass;
 
 	wbcg->gui = gnm_gtk_builder_load ("wbcg.ui", NULL, NULL);
 	wbcg->cancel_button = GET_GUI_ITEM ("cancel_button");
@@ -5680,6 +5680,18 @@ wbc_gtk_init (GObject *obj)
 	wbcg->toolbar_zones[GTK_POS_LEFT] = GET_GUI_ITEM ("toolbar_zone_left");
 	wbcg->toolbar_zones[GTK_POS_RIGHT] = GET_GUI_ITEM ("toolbar_zone_right");
 	wbcg->updating_ui = FALSE;
+
+	posclass = G_ENUM_CLASS (g_type_class_peek (gtk_position_type_get_type ()));
+	for (i = 0; i < posclass->n_values; i++) {
+		GEnumValue const *ev = posclass->values + i;
+		GtkWidget *zone = wbcg->toolbar_zones[ev->value];
+		GtkStyleContext *ctxt;
+		if (!zone)
+			continue;
+		ctxt = gtk_widget_get_style_context (zone);
+		gtk_style_context_add_class (ctxt, "toolbarzone");
+		gtk_style_context_add_class (ctxt, ev->value_nick);
+	}
 
 	wbcg->visibility_widgets = g_hash_table_new_full (g_str_hash,
 		g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_object_unref);

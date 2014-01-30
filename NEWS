@@ -31,6 +31,7 @@ Morten:
 	* Improve accuracy of R.DHYPER, R.DBINOM, R.DNBINOM, R.DPOIS,
 	  RAYLEIGH.
 	* Minor theming improvement.  [#722074]
+	* Save some vertical space between toolbars.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9

@@ -1,5 +1,7 @@
 2014-01-29  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_init): Add style classes for toolbar zones.
+
 	* src/item-cursor.c (cb_item_cursor_animation): Do a run-time
 	check for bad clipping somewhere in gtk+ or theme land.
 
