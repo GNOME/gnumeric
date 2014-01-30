@@ -59,7 +59,7 @@ struct _GnmItemCursor {
 	GnmCellPos last_tip_pos;
 
 	GnmItemCursorStyle style;
-	int      state;
+	guint    ant_state;
 	guint    animation_timer;
 
 	/*
@@ -152,7 +152,7 @@ cb_item_cursor_animation (GnmItemCursor *ic)
 	GocItem *item = GOC_ITEM (ic);
 	static int use_fallback = -1;
 
-	ic->state = !ic->state;
+	ic->ant_state++;
 
 	if (use_fallback != 1) {
 		GdkWindow *w = gtk_widget_get_window (GTK_WIDGET (item->canvas));
@@ -177,8 +177,10 @@ cb_item_cursor_animation (GnmItemCursor *ic)
 		cairo_destroy (cr);
 	}
 
-	if (use_fallback == 1)
-		goc_item_invalidate (item);
+	if (use_fallback == 1) {
+		if (ic->ant_state % 2 == 1)
+			goc_item_invalidate (item);
+	}
 
 	return TRUE;
 }
@@ -208,7 +210,7 @@ item_cursor_realize (GocItem *item)
 	if (ic->style == GNM_ITEM_CURSOR_ANTED) {
 		g_return_if_fail (ic->animation_timer == 0);
 		ic->animation_timer = g_timeout_add (
-			150, (GSourceFunc) cb_item_cursor_animation,
+			75, (GSourceFunc) cb_item_cursor_animation,
 			ic);
 	}
 }
@@ -272,6 +274,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	gboolean draw_center, draw_external, draw_internal, draw_xor;
 	double scale = item->canvas->pixels_per_unit;
 	GdkRGBA *fore = NULL, *back = NULL;
+	double phase0 = 0;
 
 #if 0
 	g_printerr ("draw[%d] %lx,%lx %lx,%lx\n",
@@ -362,13 +365,11 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	case GNM_ITEM_CURSOR_ANTED:
 		draw_center   = TRUE;
 		draw_thick    = 2;
+		draw_xor = FALSE;
 		fore = &ic->ant_color;
 		back = &ic->ant_background_color;
-		if (ic->state) {
-			GdkRGBA *swap = fore;
-			fore = back;
-			back = swap;
-		}
+		phase0 = (~ic->ant_state & 3) * 0.25;
+		break;
 	}
 
 	if (ic->use_color) {
@@ -479,18 +480,21 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 
 	if (draw_center) {
 		double dashes[2];
+		double phase1 = fmod (phase0 + 0.5, 1);
 
 		/* Stay in the boundary */
 		x0 += (draw_thick / 2.0);
 		y0 += (draw_thick / 2.0);
 
-		dashes[0] = dashes[1] = draw_stippled;
-		cairo_set_dash (cr, dashes, 2, 0.);
 		cairo_set_line_width (cr, draw_thick);
-		gdk_cairo_set_source_rgba (cr, back);
 		cairo_rectangle (cr, x0, y0, abs (x1 - x0), abs (y1 - y0));
+		dashes[0] = dashes[1] = draw_stippled;
+
+		cairo_set_dash (cr, dashes, 2, phase0 * 2 * draw_stippled);
+		gdk_cairo_set_source_rgba (cr, back);
 		cairo_stroke_preserve (cr);
-		cairo_set_dash (cr, dashes, 2, dashes[1]);
+
+		cairo_set_dash (cr, dashes, 2, phase1 * 2 * draw_stippled);
 		gdk_cairo_set_source_rgba (cr, fore);
 		cairo_stroke (cr);
 	}
@@ -1530,7 +1534,7 @@ gnm_item_cursor_init (GnmItemCursor *ic)
 	ic->last_y = 0;
 
 	ic->style = GNM_ITEM_CURSOR_SELECTION;
-	ic->state = 0;
+	ic->ant_state = 0;
 	ic->animation_timer = 0;
 
 	ic->visible = TRUE;

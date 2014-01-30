@@ -1,3 +1,10 @@
+2014-01-30  Morten Welinder  <terra@gnome.org>
+
+	* src/item-cursor.c (item_cursor_draw): Make the ant animation
+	smoother (when not using the fallback).  Avoid using hard light
+	for ant-ing -- that doesn't work for the same reason as alpha not
+	working.  Always use phase=0 for non-ant stipples.
+
 2014-01-29  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_init): Add style classes for toolbar zones.
