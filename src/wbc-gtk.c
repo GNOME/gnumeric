@@ -4204,6 +4204,27 @@ cb_tcm_hide (GtkWidget *widget, GtkWidget *box)
 }
 
 static void
+dump_size_tree (GtkWidget *w, gpointer indent_)
+{
+	int indent = GPOINTER_TO_INT (indent_);
+	int h1, h2;
+
+	g_printerr ("%*s", indent, "");
+	if (gtk_widget_get_name (w))
+		g_printerr ("\"%s\" ", gtk_widget_get_name (w));
+
+	gtk_widget_get_preferred_height (w, &h1, &h2);
+	g_printerr ("%s %p %d %d\n", g_type_name_from_instance ((GTypeInstance *)w), w, h1, h2);
+
+	if (GTK_IS_CONTAINER (w)) {
+		gtk_container_foreach (GTK_CONTAINER (w),
+				       dump_size_tree,
+				       GINT_TO_POINTER (indent + 2));
+	}
+}
+
+
+static void
 toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEvent *event)
 {
 	GtkWidget *box = gtk_widget_get_parent (GTK_WIDGET (tb));
@@ -4220,6 +4241,9 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEvent *event)
 		{ N_("Display to the left of sheets"), GTK_POS_LEFT },
 		{ N_("Display to the right of sheets"), GTK_POS_RIGHT }
 	};
+
+	if (gnm_debug_flag ("toolbar-size"))
+		dump_size_tree (GTK_WIDGET (tb), GINT_TO_POINTER (0));
 
 #ifdef HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW
 	detached = (GTK_IS_HANDLE_BOX (box) &&
