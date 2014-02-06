@@ -358,6 +358,7 @@ static void
 destroy_cb ( gnm_soc_user_config_t *data)
 {
 	wbcg_edit_finish (WBC_GTK (data->wbc), WBC_EDIT_REJECT, NULL);
+	go_component_set_command_context (data->component, NULL);
 	g_object_unref (data->component);
 	g_free (data);
 }
@@ -376,7 +377,6 @@ gnm_soc_user_config (SheetObject *so, SheetControl *sc)
 	go_component_set_command_context (new_comp, GO_CMD_CONTEXT (scg_wbcg (SHEET_CONTROL_GUI (sc))));
 	w = (GtkWidget *) go_component_edit (new_comp);
 	go_component_set_command_context (soc->component, NULL);
-	go_component_set_command_context (new_comp, NULL);
 	if (w) {
 		gnm_soc_user_config_t *data = g_new0 (gnm_soc_user_config_t, 1);
 		data->so = so;

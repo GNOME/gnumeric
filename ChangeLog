@@ -1,3 +1,8 @@
+2014-02-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-component.c (destroy_cb), (gnm_soc_user_config):
+	a better fix to previous issue.
+
 2014-01-30  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_add_menus_toolbars): Tentatively request small

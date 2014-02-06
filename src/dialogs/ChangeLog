@@ -1,3 +1,9 @@
+2014-02-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-so-styled.c (dialog_so_styled_free),
+	(cb_dialog_so_styled_response), (dialog_so_styled): really cancel changes
+	on cancelling. [#723745]
+
 2013-11-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.9

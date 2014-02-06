@@ -41,6 +41,7 @@ typedef struct {
 	GOStyle *orig_style;
 	char *orig_text;
 	PangoAttrList *orig_attributes;
+	so_styled_t extent;
 } DialogSOStyled;
 
 #define GNM_SO_STYLED_KEY "gnm-so-styled-key"
@@ -52,11 +53,9 @@ dialog_so_styled_free (DialogSOStyled *pref)
 		g_object_set (G_OBJECT (pref->so), "style", pref->orig_style, NULL);
 		g_object_unref (pref->orig_style);
 	}
-	if (pref->orig_text) {
+	if ((pref->extent & SO_STYLED_TEXT) != 0) {
 		g_object_set (G_OBJECT (pref->so), "text", pref->orig_text, NULL);
 		g_free (pref->orig_text);
-	}
-	if (pref->orig_attributes != NULL) {
 		g_object_set (G_OBJECT (pref->so), "markup", pref->orig_attributes, NULL);
 		pango_attr_list_unref (pref->orig_attributes);
 	}
@@ -79,6 +78,7 @@ cb_dialog_so_styled_response (GtkWidget *dialog,
 		pref->orig_text = NULL;
 		pango_attr_list_unref (pref->orig_attributes);
 		pref->orig_attributes = NULL;
+		pref->extent = 0;
 	}
 	gtk_widget_destroy (dialog);
 }
@@ -146,6 +146,7 @@ dialog_so_styled (WBCGtk *wbcg,
 		 wbcg_toplevel (state->wbcg),
 		 GTK_DIALOG_DESTROY_WITH_PARENT,
 		 NULL, NULL);
+	state->extent = extent;
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (dialog),
 					   state->wbcg,
