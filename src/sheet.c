@@ -3475,7 +3475,7 @@ sheet_range_splits_array (Sheet const *sheet,
  *
  * A utility to see whether moving the range @r will split any arrays
  * or merged regions.
- * Returns: whether any arrays or merged regions will be splitted.
+ * Returns: whether any arrays or merged regions will be split.
  */
 gboolean
 sheet_range_splits_region (Sheet const *sheet,

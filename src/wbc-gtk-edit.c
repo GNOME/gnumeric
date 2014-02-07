@@ -150,6 +150,11 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 		parse_pos_init_editpos (&pp, sv);
 
+		/* Array only works on single range.  */
+		if (result == WBC_EDIT_ACCEPT_ARRAY &&
+		    (selection == NULL || selection->next != NULL))
+			result = WBC_EDIT_ACCEPT_RANGE;
+
 		/******* Check whether we would split a range ********/
 
 		switch (result) {
@@ -162,6 +167,16 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 					*showed_dialog = TRUE;
 				return FALSE;
 			}
+
+			if (result == WBC_EDIT_ACCEPT_ARRAY &&
+			    sheet_range_contains_region (sheet, selection->data,
+							 GO_CMD_CONTEXT (wbc), _("Set Text"))) {
+				range_fragment_free (selection);
+				if (showed_dialog != NULL)
+					*showed_dialog = TRUE;
+				return FALSE;
+			}
+
 			break;
 		}
 		case (WBC_EDIT_ACCEPT_WO_AC):
@@ -239,7 +254,6 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			GnmExprTop const *texpr_test = NULL;
 			GnmParseError  perr;
 
-
 			parse_error_init (&perr);
 			texpr_test = gnm_expr_parse_str (expr_txt,
 							 &pp, GNM_EXPR_PARSE_DEFAULT, NULL, &perr);
@@ -301,27 +315,20 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				gnm_expr_top_unref (texpr_test);
 		}
 
-		/* We only enter an array formula if
-		 *   1) the text is a formula
-		 *   2) It's entered as an array formula
-		 *   3) There is only one 1 selection
-		 */
+		/* We only enter an array formula if the text is a formula */
+		if (result == WBC_EDIT_ACCEPT_ARRAY && !expr_txt)
+			result = WBC_EDIT_ACCEPT_RANGE;
 
 		if (result == WBC_EDIT_ACCEPT_ARRAY) {
-			if (expr_txt == NULL ||
-			    selection == NULL || selection->next != NULL)
+			GnmParsePos pp_array;
+			GnmRange *r = selection->data;
+
+			parse_pos_init (&pp_array, sheet->workbook, sheet, r->start.col, r->start.row);
+
+			if ((texpr = gnm_expr_parse_str
+			     (expr_txt, &pp_array, GNM_EXPR_PARSE_DEFAULT,
+			      sheet_get_conventions (sheet), NULL)) == NULL)
 				result = WBC_EDIT_ACCEPT_RANGE;
-			else {
-				GnmParsePos    pp_array;
-				GnmRange *r = selection->data;
-
-				parse_pos_init (&pp_array, sheet->workbook, sheet, r->start.col, r->start.row);
-
-				if ((texpr = gnm_expr_parse_str
-				     (expr_txt, &pp_array, GNM_EXPR_PARSE_DEFAULT,
-				      sheet_get_conventions (sheet), NULL)) == NULL)
-					result = WBC_EDIT_ACCEPT_RANGE;
-			}
 		}
 
 		/* We need to save the information that we will temporarily overwrite */

@@ -1,3 +1,8 @@
+2014-02-07  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-edit.c (wbcg_edit_finish): Disallow array formula
+	entry on top of merged cells.  Fixes #723600.
+
 2014-02-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-component.c (destroy_cb), (gnm_soc_user_config):
