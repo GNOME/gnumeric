@@ -273,33 +273,42 @@ prune_caches (void)
 
 /* -------------------------------------------------------------------------- */
 
+/*
+ * We use an extra level of pointers for "cache" here to avoid problems
+ * in the case where we later prune the caches.  The pointer to the
+ * GHashTable* will stay valid.
+ */
+typedef struct {
+	gboolean is_new;
+	GnmValue *key_copy;
+	GHashTable *h, **cache;
+} LinearLookupInfo;
+
 static GHashTable *
 get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 			 GnmValue const *data, GnmValueType datatype,
-			 gboolean vertical, gboolean *brand_new)
+			 gboolean vertical, LinearLookupInfo *pinfo)
 {
 	GnmValue const *key;
-	GnmValue *key_copy = NULL;
-	GHashTable *h, **cache;
 
-	*brand_new = FALSE;
+	pinfo->is_new = FALSE;
+	pinfo->key_copy = NULL;
 
 	create_caches ();
 
-	/* The "&" here is for the pruning case.  */
 	switch (datatype) {
 	case VALUE_STRING:
-		cache = vertical
+		pinfo->cache = vertical
 			? &linear_vlookup_string_cache
 			: &linear_hlookup_string_cache;
 		break;
 	case VALUE_FLOAT:
-		cache = vertical
+		pinfo->cache = vertical
 			? &linear_vlookup_float_cache
 			: &linear_hlookup_float_cache;
 		break;
 	case VALUE_BOOLEAN:
-		cache = vertical
+		pinfo->cache = vertical
 			? &linear_vlookup_bool_cache
 			: &linear_hlookup_bool_cache;
 		break;
@@ -318,7 +327,8 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 		if (sr.sheet != end_sheet)
 			return NULL; /* 3D */
 
-		key = key_copy = value_new_cellrange_r (sr.sheet, &sr.range);
+		key = pinfo->key_copy =
+			value_new_cellrange_r (sr.sheet, &sr.range);
 		break;
 	}
 	case VALUE_ARRAY:
@@ -328,21 +338,30 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 		return NULL;
 	}
 
-	h = g_hash_table_lookup (*cache, key);
-	if (h == NULL) {
+	pinfo->h = g_hash_table_lookup (*pinfo->cache, key);
+	if (pinfo->h == NULL) {
 		prune_caches ();
-		*brand_new = TRUE;
+		pinfo->is_new = TRUE;
 		if (datatype == VALUE_STRING)
-			h = g_hash_table_new (g_str_hash, g_str_equal);
+			pinfo->h = g_hash_table_new (g_str_hash, g_str_equal);
 		else
-			h = g_hash_table_new ((GHashFunc)gnm_float_hash,
-					      (GEqualFunc)gnm_float_equal);
-		if (!key_copy) key_copy = value_dup (key);
-		g_hash_table_insert (*cache, key_copy, h);
-	} else
-		value_release (key_copy);
+			pinfo->h = g_hash_table_new
+				((GHashFunc)gnm_float_hash,
+				 (GEqualFunc)gnm_float_equal);
+		if (!pinfo->key_copy)
+			pinfo->key_copy = value_dup (key);
+	} else {
+		value_release (pinfo->key_copy);
+		pinfo->key_copy = NULL;
+	}
 
-	return h;
+	return pinfo->h;
+}
+
+static void
+linear_lookup_cache_commit (LinearLookupInfo *pinfo)
+{
+	g_hash_table_replace (*pinfo->cache, pinfo->key_copy, pinfo->h);
 }
 
 static LookupBisectionCacheItem *
@@ -482,14 +501,15 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 	GHashTable *h;
 	gpointer pres;
 	char *sc;
-	gboolean found, brand_new;
+	gboolean found;
+	LinearLookupInfo info;
 
 	h = get_linear_lookup_cache (ei, data, VALUE_STRING, vertical,
-				     &brand_new);
+				     &info);
 	if (!h)
 		return LOOKUP_DATA_ERROR;
 
-	if (brand_new) {
+	if (info.is_new) {
 		int lp, length = calc_length (data, ei->pos, vertical);
 
 		for (lp = 0; lp < length; lp++) {
@@ -508,6 +528,8 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 
 			g_free (vc);
 		}
+
+		linear_lookup_cache_commit (&info);
 	}
 
 	sc = g_utf8_casefold (value_peek_string (find), -1);
@@ -525,15 +547,16 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 	GHashTable *h;
 	gpointer pres;
 	gnm_float f;
-	gboolean found, brand_new;
+	gboolean found;
+	LinearLookupInfo info;
 
 	/* This handles floats and bools, but with separate caches.  */
 	h = get_linear_lookup_cache (ei, data, find->type, vertical,
-				     &brand_new);
+				     &info);
 	if (!h)
 		return LOOKUP_DATA_ERROR;
 
-	if (brand_new) {
+	if (info.is_new) {
 		int lp, length = calc_length (data, ei->pos, vertical);
 
 		for (lp = 0; lp < length; lp++) {
@@ -552,6 +575,8 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 				total_cache_size++;
 			}
 		}
+
+		linear_lookup_cache_commit (&info);
 	}
 
 	f = value_get_as_float (find);

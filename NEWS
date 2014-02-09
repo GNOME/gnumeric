@@ -34,6 +34,7 @@ Morten:
 	* Minor theming improvement.  [#722074]
 	* Save some vertical space between toolbars.
 	* Fix array/merge interaction problem.  [#723600]
+	* Fix problems with large, circular farms of VLOOKUP etc. [#723894]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.9

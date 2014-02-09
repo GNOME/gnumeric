@@ -1,3 +1,13 @@
+2014-02-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (get_linear_lookup_cache): When creating a new
+	entry, don't actually insert it into the cache.  Doing so here
+	means that (a) it can be pruned before we're done constructing it,
+	and (b) it can be accessed before it is ready.
+	(linear_lookup_cache_commit): Insert here instead in this new
+	function.
+	These changes fix #723894.
+
 2013-11-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.9
