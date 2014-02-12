@@ -1,3 +1,7 @@
+2014-02-11  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.10
+
 2013-12-25  Morten Welinder <terra@gnome.org>
 
 	* moduleset.in: Update glib and gtk+ to latest.

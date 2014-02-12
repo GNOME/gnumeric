@@ -1,3 +1,7 @@
+2014-02-11  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.10
+
 2013-11-30  Morten Welinder  <terra@gnome.org>
 
 	* process-amath.pl (def_expr_handler): Allow negative arguments
