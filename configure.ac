@@ -1055,9 +1055,6 @@ AC_ARG_WITH([typelib-dir],
 )
 AC_SUBST(TYPELIBDIR)
 
-AC_SUBST([auto_find_tests], ['$(sort $(wildcard $(srcdir)/t[[0-9]][[0-9]][[0-9]][[0-9]]-*.pl))']) 
-
-
 dnl **************************************************
 dnl * Config defaults
 dnl **************************************************
