@@ -1,5 +1,8 @@
 Gnumeric 1.12.12
 
+Jean:
+	* Fix persistence of hyperlinks tips. [see #724108]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
 

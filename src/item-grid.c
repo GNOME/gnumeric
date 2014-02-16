@@ -211,6 +211,8 @@ item_grid_realize (GocItem *item)
 			gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "cursor_cross", 32, 0, NULL),
 			17, 17);
 	cb_cursor_motion (ig);
+	/* we need to destroy the hlink tip when the state flags change */
+	g_signal_connect_swapped (item->canvas, "state-flags-changed", G_CALLBACK (ig_clear_hlink_tip), item);
 }
 
 static void
