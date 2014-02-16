@@ -1,3 +1,7 @@
+2014-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.11
+
 2014-02-16  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (function_dump_defs): Update boilerplate.
