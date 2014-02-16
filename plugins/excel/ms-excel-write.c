@@ -373,7 +373,8 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 				out_bytes++;
 			}
 			avail = MIN (avail, output_len);
-			avail = (avail - offset) / 2 * 2 + offset; /* we need to export an even byte number */
+			if (avail != output_len)
+				avail = (avail - offset) / 2 * 2 + offset; /* we need to export an even byte number */
 			ms_biff_put_var_write (bp, tmp, avail);
 			output_len -= avail;
 			tmp += avail;

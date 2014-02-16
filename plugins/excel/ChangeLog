@@ -1,3 +1,7 @@
+2014-02-16  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_string): Fix hand.  #724399.
+
 2014-02-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.10
