@@ -71,6 +71,7 @@ TESTS =	t1000-statfuns.pl			\
 	t6102-objs-ods.pl			\
 	t6103-lookfuns-ods.pl			\
 	t6104-finfuns-ods.pl			\
+	t6500-strings.pl			\
 	t7000-goal-seek.pl			\
 	t7100-solver-blend.pl			\
 	t7101-solver-afiro.pl			\

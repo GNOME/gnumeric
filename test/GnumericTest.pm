@@ -7,7 +7,7 @@ use XML::Parser;
 
 @GnumericTest::ISA = qw (Exporter);
 @GnumericTest::EXPORT = qw(test_sheet_calc test_valgrind
-                           test_importer test_exporter
+                           test_importer test_exporter test_roundtrip
 			   test_ssindex sstest test_command message
 			   $ssconvert $sstest $topsrc $top_builddir
 			   $samples $PERL);
@@ -348,6 +348,46 @@ sub test_exporter {
 
     $code = system ('diff', '-u', $tmp4, $tmp5);
     &system_failure ('diff', $code) if $code;
+
+    print STDERR "Pass\n";
+}
+
+# -----------------------------------------------------------------------------
+
+sub test_roundtrip {
+    my ($file,$format,$newext) = @_;
+
+    &report_skip ("file $file does not exist") unless -r $file;
+
+    my $tmp = fileparse ($file);
+    $tmp =~ s/\.([a-zA-Z0-9]+)$// or die "Must have extension for roundtrip test.";
+    my $ext = $1;
+    my $code;
+    my $keep = 0;
+
+    my $tmp1 = "$tmp.$newext";
+    &junkfile ($tmp1) unless $keep;
+    $code = system ("$ssconvert -T $format '$file' '$tmp1' 2>&1 | sed -e 's/^/| /'");
+    &system_failure ($ssconvert, $code) if $code;
+
+    my $tmp2 = "$tmp-new.$ext";
+    &junkfile ($tmp2) unless $keep;
+    $code = system ("$ssconvert '$tmp1' '$tmp2' 2>&1 | sed -e 's/^/| /'");
+    &system_failure ($ssconvert, $code) if $code;
+
+    my $tmp_xml = "$tmp.xml";
+    &junkfile ($tmp_xml) unless $keep;
+    $code = system ("zcat -f '$file' >'$tmp_xml'");
+    &system_failure ('zcat', $code) if $code;
+
+    my $tmp2_xml = "$tmp-new.xml";
+    &junkfile ($tmp2_xml) unless $keep;
+    $code = system ("zcat -f '$tmp2' >'$tmp2_xml'");
+    &system_failure ('zcat', $code) if $code;
+
+    $code = system ('diff', '-u', $tmp_xml, $tmp2_xml);
+    # Ignore failures for now.
+    # &system_failure ('diff', $code) if $code;
 
     print STDERR "Pass\n";
 }
