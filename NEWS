@@ -3,6 +3,10 @@ Gnumeric 1.12.11
 Jean:
 	* Fix hang on xls/biff7 save.  [#724399]
 
+Morten:
+	* Release infrastructure improvements.
+	* Improve testing for xls/biff7.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.10
 

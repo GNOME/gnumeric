@@ -283,9 +283,15 @@ function_dump_defs (char const *filename, int dump_type)
 		}
 
 		fprintf (output_file,
-			 "<!--#set var=\"title\" value=\"Functions\" -->"
-			 "<!--#set var=\"rootdir\" value=\".\" -->"
-			 "<!--#include virtual=\"header-begin.shtml\" -->\n"
+			 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+			 "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+			 "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n"
+			 "<!-- DEFINE current=Home -->\n"
+			 "<!-- MARKER: start-header -->\n"
+			 "<head>\n"
+			 "<title>Gnumeric</title>\n"
+			 "<link rel=\"stylesheet\" href=\"style/style.css\" type=\"text/css\" />\n"
+			 "<link rel=\"icon\" type=\"image/png\" href=\"logo.png\" />\n"
 			 "<style type=\"text/css\"><!--\n"
 			 "  div.functiongroup {\n"
 			 "    margin-top: 1em;\n"
@@ -320,10 +326,30 @@ function_dump_defs (char const *filename, int dump_type)
 			 "  td.imp-devel          { background: #ff6c00; }\n"
 			 "  td.imp-gnumeric       { background: #44be18; }\n"
 			 "--></style>\n"
-			 "<!--#include virtual=\"header-end.shtml\" -->"
-			 "<h1>Gnumeric Sheet Functions</h1>\n"
-			 "<p>Gnumeric currently has %d functions for use in spreadsheets.\n"
-			 "%d of these are unique to Gnumeric.</p>\n",
+			 "</head>\n"
+			 "<body>\n"
+			 "<div id=\"wrap\">\n"
+			 "  <a href=\"/\"><div id=\"header\">\n"
+			 "    <h1 id=\"logo-text\"><span>Gnumeric</span></h1>\n"
+			 "    <p id=\"slogan\">Free, Fast, Accurate &mdash; Pick Any Three!</p>\n"
+			 "    <img id=\"logo\" src=\"gnumeric.png\" alt=\"logo\" class=\"float-right\"/>\n"
+			 "    </div></a>\n"
+			 "\n"
+			 "  <div id=\"nav\">\n"
+			 "    <ul>\n"
+			 "      <li id=\"current\"><a href=\"/\">Home</a></li>\n"
+			 "      <li><a href=\"development.html\">Development</a></li>\n"
+			 "      <li><a href=\"contact.html\">Contact</a></li>\n"
+			 "    </ul>\n"
+			 "  </div>\n"
+			 "\n"
+			 "  <div id=\"content-wrap\">\n"
+			 "    <!-- MARKER: start-main -->\n"
+			 "    <div id=\"main\">\n"
+			 "      <div class=\"generalitem\">\n"
+			 "	<h2><span class=\"gnumeric-bullet\"></span>Gnumeric Sheet Functions</h2>\n"
+			 "	<p>Gnumeric currently has %d functions for use in spreadsheets.\n"
+			 "      %d of these are unique to Gnumeric.</p>\n",
 			 ordered->len, unique);
 	}
 
@@ -507,7 +533,16 @@ function_dump_defs (char const *filename, int dump_type)
 	}
 	if (dump_type == 0) {
 		if (group) fprintf (output_file, "</table></div>\n");
-		fprintf (output_file, "<!--#include virtual=\"footer.shtml\"-->\n");
+		fprintf (output_file,
+			 "      </div>\n"
+			 "    </div>\n"
+			 "    <!-- MARKER: end-main -->\n"
+			 "    <!-- MARKER: start-sidebar -->\n"
+			 "    <!-- MARKER: end-sidebar -->\n"
+			 "  </div>\n"
+			 "</div>\n"
+			 "</body>\n"
+			 "</html>\n");
 	}
 
 	g_ptr_array_free (ordered, TRUE);
