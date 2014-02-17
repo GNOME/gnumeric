@@ -10322,6 +10322,7 @@ odf_apply_gnm_config (OOParseState *state)
 	if ((state->settings.settings != NULL) &&
 	    NULL != (val = g_hash_table_lookup (state->settings.settings, "gnm:settings")) &&
 	    G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE)) {
+		int width = 0, height = 0;
 		GHashTable *hash =  g_value_get_boxed (val);
 		val = g_hash_table_lookup (hash, "gnm:active-sheet");
 		if (val != NULL && G_VALUE_HOLDS(val, G_TYPE_STRING)) {
@@ -10330,6 +10331,16 @@ odf_apply_gnm_config (OOParseState *state)
 			if (sheet != NULL)
 				wb_view_sheet_focus (state->wb_view, sheet);
 		}
+		val = g_hash_table_lookup (hash, "gnm:geometry-width");
+		if (val != NULL && G_VALUE_HOLDS(val, G_TYPE_INT)) {
+				width = g_value_get_int (val);
+		}
+		val = g_hash_table_lookup (hash, "gnm:geometry-height");
+		if (val != NULL && G_VALUE_HOLDS(val, G_TYPE_INT)) {
+				height = g_value_get_int (val);
+		}
+		if (width > 0 && height > 0)
+			wb_view_preferred_size (state->wb_view, width, height);
 	}
 }
 

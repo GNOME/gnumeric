@@ -5838,6 +5838,20 @@ odf_write_gnm_settings (GnmOOExport *state)
 			      (wb_view_cur_sheet (state->wbv))->name_unquoted);
 	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 
+	gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", GNMSTYLE "geometry-width");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
+	gsf_xml_out_add_int (state->xml, NULL,
+			     state->wbv->preferred_width);
+	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+
+	gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", GNMSTYLE "geometry-height");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
+	gsf_xml_out_add_int (state->xml, NULL,
+			     state->wbv->preferred_height);
+	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-set> */
 }
 
