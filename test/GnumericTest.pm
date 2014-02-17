@@ -377,12 +377,12 @@ sub test_roundtrip {
 
     my $tmp_xml = "$tmp.xml";
     &junkfile ($tmp_xml) unless $keep;
-    $code = system ("zcat -f '$file' >'$tmp_xml'");
+    $code = system ("zcat -f '$file' | $PERL normalize-gnumeric >'$tmp_xml'");
     &system_failure ('zcat', $code) if $code;
 
     my $tmp2_xml = "$tmp-new.xml";
     &junkfile ($tmp2_xml) unless $keep;
-    $code = system ("zcat -f '$tmp2' >'$tmp2_xml'");
+    $code = system ("zcat -f '$tmp2' | $PERL normalize-gnumeric >'$tmp2_xml'");
     &system_failure ('zcat', $code) if $code;
 
     $code = system ('diff', '-u', $tmp_xml, $tmp2_xml);
