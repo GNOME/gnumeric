@@ -9,6 +9,7 @@ Jean:
 
 Morten:
 	* Fix BIFF7 import of long strings.  [#724399]
+	* Improve testing.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
