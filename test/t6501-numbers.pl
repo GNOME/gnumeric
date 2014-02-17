@@ -7,14 +7,17 @@ use GnumericTest;
 
 my $file = "$samples/number-tests.gnumeric";
 
-&message ("Check string ods roundtrip.");
+&message ("Check number gnumeric roundtrip.");
+&test_roundtrip ($file, 'Gnumeric_XmlIO:sax', "gnm");
+
+&message ("Check number ods roundtrip.");
 &test_roundtrip ($file, 'Gnumeric_OpenCalc:odf', "ods");
 
-&message ("Check string xls/BIFF7 roundtrip.");
+&message ("Check number xls/BIFF7 roundtrip.");
 &test_roundtrip ($file, 'Gnumeric_Excel:excel_biff7', "xls");
 
-&message ("Check string xls/BIFF8 roundtrip.");
+&message ("Check number xls/BIFF8 roundtrip.");
 &test_roundtrip ($file, 'Gnumeric_Excel:excel_biff8', "xls");
 
-&message ("Check string xlsx roundtrip.");
+&message ("Check number xlsx roundtrip.");
 &test_roundtrip ($file, 'Gnumeric_Excel:xlsx', "xlsx");

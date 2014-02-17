@@ -7,6 +7,9 @@ use GnumericTest;
 
 my $file = "$samples/string-tests.gnumeric";
 
+&message ("Check string gnumeric roundtrip.");
+&test_roundtrip ($file, 'Gnumeric_XmlIO:sax', "gnm");
+
 &message ("Check string ods roundtrip.");
 &test_roundtrip ($file, 'Gnumeric_OpenCalc:odf', "ods");
 
