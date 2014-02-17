@@ -46,6 +46,7 @@ static gboolean ssconvert_list_importers = FALSE;
 static gboolean ssconvert_one_file_per_sheet = FALSE;
 static gboolean ssconvert_recalc = FALSE;
 static gboolean ssconvert_solve = FALSE;
+static char *ssconvert_resize = NULL;
 static char *ssconvert_range = NULL;
 static char *ssconvert_import_encoding = NULL;
 static char *ssconvert_import_id = NULL;
@@ -127,6 +128,13 @@ static const GOptionEntry ssconvert_options [] = {
 		"recalc", 0,
 		0, G_OPTION_ARG_NONE, &ssconvert_recalc,
 		N_("Recalculate all cells before writing the result"),
+		NULL
+	},
+
+	{
+		"resize", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_resize,
+		N_("Resize to given ROWSxCOLS"),
 		NULL
 	},
 
@@ -743,6 +751,28 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		run_tool_test (ssconvert_tool_test[0],
 			       ssconvert_tool_test + 1,
 			       wbv);
+	}
+
+	if (ssconvert_resize) {
+		int rows, cols;
+		if (sscanf (ssconvert_resize, "%dx%d", &rows, &cols) == 2) {
+			int n;
+
+			g_printerr ("Resizing to %dx%d\n", rows, cols);
+			for (n = workbook_sheet_count (wb) - 1;
+			     n >= 0;
+			     n--) {
+				gboolean err;
+				Sheet *sheet = workbook_sheet_by_index (wb, n);
+				GOUndo *undo =
+					gnm_sheet_resize (sheet, cols, rows,
+							  NULL, &err);
+				if (err)
+					g_printerr ("Resizing of sheet %s failed\n",
+						    sheet->name_unquoted);
+				g_object_unref (undo);
+			}
+		}
 	}
 
 	if (ssconvert_recalc)
