@@ -1,11 +1,11 @@
 2014-02-17  Morten Welinder  <terra@gnome.org>
 
-	* src/ssconvert.c (convert): Add --resize options.
+	* src/ssconvert.c (convert): Add --resize option.
 
 2014-02-16  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/item-grid.c (item_grid_realize): fix persistence of hyperlink tips.
-	[see #724108]
+	* src/item-grid.c (item_grid_realize): fix persistence of
+	hyperlink tips.	[see #724108]
 
 2014-02-16  Morten Welinder <terra@gnome.org>
 
