@@ -14,10 +14,10 @@ my $file = "$samples/string-tests.gnumeric";
 &test_roundtrip ($file, 'Gnumeric_OpenCalc:odf', "ods");
 
 &message ("Check string xls/BIFF7 roundtrip.");
-&test_roundtrip ($file, 'Gnumeric_Excel:excel_biff7', "xls");
+&test_roundtrip ($file, 'Gnumeric_Excel:excel_biff7', "xls", '16384x256');
 
 &message ("Check string xls/BIFF8 roundtrip.");
 &test_roundtrip ($file, 'Gnumeric_Excel:excel_biff8', "xls");
 
 &message ("Check string xlsx roundtrip.");
-&test_roundtrip ($file, 'Gnumeric_Excel:xlsx', "xlsx");
+&test_roundtrip ($file, 'Gnumeric_Excel:xlsx', "xlsx", '1048576x16384');

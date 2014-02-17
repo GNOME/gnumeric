@@ -355,7 +355,7 @@ sub test_exporter {
 # -----------------------------------------------------------------------------
 
 sub test_roundtrip {
-    my ($file,$format,$newext) = @_;
+    my ($file,$format,$newext,$resize) = @_;
 
     &report_skip ("file $file does not exist") unless -r $file;
 
@@ -365,9 +365,17 @@ sub test_roundtrip {
     my $code;
     my $keep = 0;
 
+    my $file_resized = $file;
+    if ($resize) {
+	$file_resized =~ s/(\.gnumeric)$/-resize$1/;
+	$code = system ("$ssconvert --resize $resize '$file' '$file_resized' 2>&1 | sed -e 's/^/| /'");
+	&system_failure ($ssconvert, $code) if $code;
+	&junkfile ($file_resized) unless $keep;
+    }
+
     my $tmp1 = "$tmp.$newext";
     &junkfile ($tmp1) unless $keep;
-    $code = system ("$ssconvert -T $format '$file' '$tmp1' 2>&1 | sed -e 's/^/| /'");
+    $code = system ("$ssconvert -T $format '$file_resized' '$tmp1' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
     my $tmp2 = "$tmp-new.$ext";
@@ -377,7 +385,7 @@ sub test_roundtrip {
 
     my $tmp_xml = "$tmp.xml";
     &junkfile ($tmp_xml) unless $keep;
-    $code = system ("zcat -f '$file' | $PERL normalize-gnumeric >'$tmp_xml'");
+    $code = system ("zcat -f '$file_resized' | $PERL normalize-gnumeric >'$tmp_xml'");
     &system_failure ('zcat', $code) if $code;
 
     my $tmp2_xml = "$tmp-new.xml";
