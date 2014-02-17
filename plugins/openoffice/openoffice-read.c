@@ -5811,7 +5811,7 @@ static void
 odf_hf_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	odf_hf_item_start (xin);
-	odf_hf_item (xin, _("tab"));
+	odf_hf_item (xin, _("TAB"));
 }
 
 static void
@@ -5843,28 +5843,28 @@ static void
 odf_hf_date (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	odf_hf_item_start (xin);
-	odf_hf_item_w_data_style (xin, attrs, _("date"));
+	odf_hf_item_w_data_style (xin, attrs, _("DATE"));
 }
 
 static void
 odf_hf_time (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	odf_hf_item_start (xin);
-	odf_hf_item_w_data_style (xin, attrs, _("time"));
+	odf_hf_item_w_data_style (xin, attrs, _("TIME"));
 }
 
 static void
 odf_hf_page_number (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	odf_hf_item_start (xin);
-	odf_hf_item (xin, _("page"));
+	odf_hf_item (xin, _("PAGE"));
 }
 
 static void
 odf_hf_page_count (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	odf_hf_item_start (xin);
-	odf_hf_item (xin, _("pages"));
+	odf_hf_item (xin, _("PAGES"));
 }
 
 static void
@@ -5889,16 +5889,16 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 	odf_hf_item_start (xin);
 	switch (tmp) {
 	case 0:
-		odf_hf_item (xin, _("path"));
+		odf_hf_item (xin, _("PATH"));
 		odf_text_p_add_text (state, "/");
-		odf_hf_item (xin, _("file"));
+		odf_hf_item (xin, _("FILE"));
 		break;
 	case 1:
-		odf_hf_item (xin, _("path"));
+		odf_hf_item (xin, _("PATH"));
 		break;
 	default:
 	case 2:
-		odf_hf_item (xin, _("file"));
+		odf_hf_item (xin, _("FILE"));
 		break;
 	}
 }
@@ -5942,7 +5942,7 @@ static void
 odf_hf_title (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	        odf_hf_item_start (xin);
-	odf_hf_item (xin, _("title"));
+	odf_hf_item (xin, _("TITLE"));
 }
 
 /*****************************************************************************************************/

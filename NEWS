@@ -1,5 +1,8 @@
 Gnumeric 1.12.12
 
+Andreas:
+	* Fix ODF roundtrip of some header/footer markers. [part of #724487]
+
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]
 

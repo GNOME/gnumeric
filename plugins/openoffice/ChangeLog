@@ -1,3 +1,13 @@
+2014-02-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_hf_sheet_name): fix capitalization
+	(odf_hf_date): ditto
+	(odf_hf_time): ditto
+	(odf_hf_page_number): ditto
+	(odf_hf_page_count): ditto
+	(odf_hf_file): ditto
+	(odf_hf_title): ditto
+
 2014-02-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.11
