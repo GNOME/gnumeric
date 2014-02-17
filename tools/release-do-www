@@ -23,7 +23,7 @@ my $annfile = "announcements/$newgnumeric2/gnumeric-$newgnumeric.html";
 # -----------------------------------------------------------------------------
 
 system ("perl -pi -e '\$_ .= \"\t$annfile\t\\\\\\n\" if /gnumeric-(\\S+)\\.html/ && \$1 eq \"$oldgnumeric\";' $wwwdir/Makefile");
-system ("perl -pi -e 'next unless /id=.main./ .. 0; \$_ .= \"        <li><a href=\\\"gnumeric-$newgnumeric.html\\\">$newgnumeric</a></li>\n\" if /^\\s*<ul>/;' $wwwdir/announcements/$newgnumeric2/index.html");
+system ("perl -pi -e 'next unless /id=.fullmain./ .. 0; \$_ .= \"        <li><a href=\\\"gnumeric-$newgnumeric.html\\\">$newgnumeric</a></li>\n\" if /^\\s*<ul>/;' $wwwdir/announcements/$newgnumeric2/index.html");
 
 chdir "gnumeric";
 system ("perl ../$makenews $newgnumeric >../$wwwdir/$annfile");
