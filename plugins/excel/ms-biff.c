@@ -408,6 +408,7 @@ ms_biff_query_next (BiffQuery *q)
 {
 	guint8 const *data;
 	guint16 len;
+	gboolean auto_continue;
 
 	g_return_val_if_fail (q != NULL, FALSE);
 
@@ -498,6 +499,42 @@ ms_biff_query_next (BiffQuery *q)
 	g_printerr ("Biff read code 0x%x, length %d\n", q->opcode, q->length);
 	ms_biff_query_dump (q);
 #endif
+
+	/*
+	 * I am guessing that we should always handle BIFF_CONTINUE here,
+	 * except for the few record types exempt from encryption.  For
+	 * now, however, do the bare minimum.
+	 */	   
+	switch (q->opcode) {
+	case BIFF_LABEL_v0:
+	case BIFF_LABEL_v2:
+		auto_continue = TRUE;
+		break;
+	case BIFF_CONTINUE:
+	default:
+		auto_continue = FALSE;
+	}
+	if (auto_continue) {
+		guint16 opcode;
+
+		while (ms_biff_query_peek_next (q, &opcode) &&
+		       opcode == BIFF_CONTINUE) {
+			GString *data = g_string_new_len (q->data, q->length);
+			opcode = q->opcode;
+			if (!ms_biff_query_next (q)) {
+				g_string_free (data, TRUE);
+				return FALSE; /* Probably shouldn't happen */
+			}
+			q->opcode = opcode;
+			g_string_append_len (data, q->data, q->length);
+			if (q->data_malloced)
+				g_free (q->data);
+			q->length = data->len;
+			q->data = g_string_free (data, FALSE);
+			q->data_malloced = TRUE;
+		}
+	}
+
 	return TRUE;
 }
 

@@ -7,6 +7,9 @@ Andreas:
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]
 
+Morten:
+	* Fix BIFF7 import of long strings.  [#724399]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
 

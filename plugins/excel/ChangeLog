@@ -1,3 +1,8 @@
+2014-02-17  Morten Welinder  <terra@gnome.org>
+
+	* ms-biff.c (ms_biff_query_next): Handle continuation records
+	here for certain opcodes.  Fixes part of #724399.
+
 2014-02-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.11
