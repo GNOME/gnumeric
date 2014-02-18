@@ -1,5 +1,8 @@
 2014-02-17  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-utils.c (xlsx_conventions_new): use same
+	decimal_digits as in gnumeric export.
+
 	* ms-biff.c (ms_biff_query_next): Handle continuation records
 	here for certain opcodes.  Fixes part of #724399.
 

@@ -1,7 +1,7 @@
 2014-02-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_expr_conventions_new): use same
-	decimal_digits as in gnumeric export. 
+	decimal_digits as in gnumeric export.
 
 2014-02-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

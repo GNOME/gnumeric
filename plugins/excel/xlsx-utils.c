@@ -588,6 +588,11 @@ xlsx_conventions_new (gboolean output)
 		g_free, (GDestroyNotify) g_object_unref);
 
 	if (output) {
+		gnm_float l10 = gnm_log10 (FLT_RADIX);
+		convs->output.decimal_digits =
+			(int)gnm_ceil (GNM_MANT_DIG * l10) +
+			(l10 == (int)l10 ? 0 : 1);
+
 		convs->output.func      = xlsx_func_map_out;
 
 		xconv->xlfn_map = g_hash_table_new (go_ascii_strcase_hash,
