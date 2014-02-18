@@ -1,3 +1,8 @@
+2014-02-18  Morten Welinder  <terra@gnome.org>
+
+	* src/ssdiff.c (xml_style_changed): Report differences for
+	auto-color settings.
+
 2014-02-17  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (convert): Add --resize option.

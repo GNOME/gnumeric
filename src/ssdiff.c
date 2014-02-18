@@ -454,7 +454,6 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 	gsf_xml_out_add_uint (state->xml, "endCol", r->end.col);
 	gsf_xml_out_add_uint (state->xml, "endRow", r->end.row);
 
-	/* FIXME: Add how they differ.  */
 	os_copy = gnm_style_dup (os);
 	conflicts = gnm_style_find_conflicts (os_copy, ns, 0);
 	gnm_style_unref (os_copy);
@@ -462,12 +461,20 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 		if ((conflicts & (1u << e)) == 0)
 			continue;
 		switch (e) {
-		case MSTYLE_COLOR_BACK:
+		case MSTYLE_COLOR_BACK: {
+			GnmColor *oc = gnm_style_get_back_color (os);
+			GnmColor *nc = gnm_style_get_back_color (ns);
+
 			gsf_xml_out_start_element (state->xml, "BackColor");
-			gnm_xml_out_add_gocolor (state->xml, "Old", gnm_style_get_back_color (os)->go_color);
-			gnm_xml_out_add_gocolor (state->xml, "New", gnm_style_get_back_color (ns)->go_color);
+			gnm_xml_out_add_gocolor (state->xml, "Old", oc->go_color);
+			gnm_xml_out_add_gocolor (state->xml, "New", nc->go_color);
+			if (oc->is_auto != nc->is_auto) {
+				gsf_xml_out_add_int (state->xml, "OldAuto", oc->is_auto);
+				gsf_xml_out_add_int (state->xml, "NewAuto", nc->is_auto);
+			}
 			gsf_xml_out_end_element (state->xml);
 			break;
+		}
 
 		case MSTYLE_COLOR_PATTERN:
 			gsf_xml_out_start_element (state->xml, "PatternColor");

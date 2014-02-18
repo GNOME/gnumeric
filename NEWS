@@ -13,6 +13,7 @@ Morten:
 	* Fix BIFF7 import of long strings.  [#724399]
 	* Improve testing.
 	* Fix XLSX number roundtrip issue.
+	* Improve ssdiff's report of differences.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
