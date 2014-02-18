@@ -3397,10 +3397,13 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			if (NULL == cell->base.texpr) {
 				/* see https://bugzilla.gnome.org/show_bug.cgi?id=610175 */
 				/* this is the same that Excel does, OOo does not have   */
-				/* error literals. ODF 1.2 might be introducing a new    */
-				/* value-type to address this issue                      */
-				char *eq_formula = g_strdup_printf
-					("of:=%s", value_peek_string (cell->value));
+				/* error literals.                                       */
+				char const *cv = value_peek_string (cell->value);
+				char *eq_formula = g_strdup_printf ("of:=%s", cv);
+
+				if (state->with_extension)
+					gsf_xml_out_add_cstr (state->xml, GNMSTYLE "error-value", cv);
+
 				gsf_xml_out_add_cstr (state->xml,
 						      TABLE "formula",
 						      eq_formula);

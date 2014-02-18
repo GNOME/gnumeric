@@ -3632,6 +3632,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
 	int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
 	GnmValidation *validation = NULL;
+	gboolean possible_error_constant = FALSE;
 
 	maybe_update_progress (xin);
 
@@ -3641,6 +3642,11 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
 				       &state->col_inc, 0, INT_MAX))
 			;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "error-value"))
+			/* While the value of this attribute contains the true error value   */
+			/* it could have been retained by a consumer/producer who did change */
+			/* the cell value, so we just remember that we saw this attribute.   */
+			possible_error_constant = TRUE;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "formula")) {
 			OOFormula f_type;
 
@@ -3668,38 +3674,53 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				 * message in the content.
 				 */
 				state->content_is_error = TRUE;
-			else
+			else {
 				texpr = oo_expr_parse_str
 					(xin, expr_string,
 					 &state->pos, GNM_EXPR_PARSE_DEFAULT, f_type);
+				if (possible_error_constant && texpr != NULL && 
+				    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT) {
+					GnmValue const *eval = 	gnm_expr_get_constant (texpr->expr);
+					if (VALUE_IS_ERROR (eval)) {
+						if (val != NULL)
+							value_release (val);
+						val = value_dup (eval);
+						gnm_expr_top_unref (texpr);
+						texpr = NULL;
+					}
+				}
+			}
 		} else if (oo_attr_bool (xin, attrs,
 					 (state->ver == OOO_VER_OPENDOC) ?
 					 OO_NS_OFFICE : OO_NS_TABLE,
-					 "boolean-value", &bool_val))
-			val = value_new_bool (bool_val);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					 "boolean-value", &bool_val)) {
+			if (val == NULL)
+				val = value_new_bool (bool_val);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 			"date-value")) {
-			unsigned y, m, d, h, mi;
-			gnm_float s;
-			unsigned n = sscanf (CXML2C (attrs[1]), "%u-%u-%uT%u:%u:%" GNM_SCANF_g,
-					     &y, &m, &d, &h, &mi, &s);
+			if (val == NULL) {
+				unsigned y, m, d, h, mi;
+				gnm_float s;
+				unsigned n = sscanf (CXML2C (attrs[1]), "%u-%u-%uT%u:%u:%" GNM_SCANF_g,
+						     &y, &m, &d, &h, &mi, &s);
 
-			if (n >= 3) {
-				GDate date;
-				g_date_set_dmy (&date, d, m, y);
-				if (g_date_valid (&date)) {
-					unsigned d_serial = go_date_g_to_serial (&date,
-						workbook_date_conv (state->pos.wb));
-					if (n >= 6) {
-						double time_frac
-							= h + ((double)mi / 60.) +
-							((double)s / 3600.);
-						val = value_new_float (d_serial + time_frac / 24.);
-						has_datetime = TRUE;
-					} else {
-						val = value_new_int (d_serial);
-						has_date = TRUE;
+				if (n >= 3) {
+					GDate date;
+					g_date_set_dmy (&date, d, m, y);
+					if (g_date_valid (&date)) {
+						unsigned d_serial = go_date_g_to_serial (&date,
+											 workbook_date_conv (state->pos.wb));
+						if (n >= 6) {
+							double time_frac
+								= h + ((double)mi / 60.) +
+								((double)s / 3600.);
+							val = value_new_float (d_serial + time_frac / 24.);
+							has_datetime = TRUE;
+						} else {
+							val = value_new_int (d_serial);
+							has_date = TRUE;
+						}
 					}
 				}
 			}
@@ -3707,22 +3728,26 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					       (state->ver == OOO_VER_OPENDOC) ?
 					       OO_NS_OFFICE : OO_NS_TABLE,
 					       "time-value")) {
-			unsigned h, m, s;
-			if (3 == sscanf (CXML2C (attrs[1]), "PT%uH%uM%uS", &h, &m, &s)) {
-				unsigned secs = h * 3600 + m * 60 + s;
-				val = value_new_float (secs / (gnm_float)86400);
-				has_time = TRUE;
+			if (val == NULL) {
+				unsigned h, m, s;
+				if (3 == sscanf (CXML2C (attrs[1]), "PT%uH%uM%uS", &h, &m, &s)) {
+					unsigned secs = h * 3600 + m * 60 + s;
+					val = value_new_float (secs / (gnm_float)86400);
+					has_time = TRUE;
+				}
 			}
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       (state->ver == OOO_VER_OPENDOC) ?
 					       OO_NS_OFFICE : OO_NS_TABLE,
-					       "string-value"))
-			val = value_new_string (CXML2C (attrs[1]));
-		else if (oo_attr_float (xin, attrs,
-			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
-			"value", &float_val))
-			val = value_new_float (float_val);
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE,
+					       "string-value")) {
+			if (val == NULL)
+				val = value_new_string (CXML2C (attrs[1]));
+		} else if (oo_attr_float (xin, attrs,
+					  (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
+					  "value", &float_val)) {
+			if (val == NULL)
+				val = value_new_float (float_val);
+		}else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE,
 					    "number-matrix-columns-spanned",
 					    &array_cols, 0, INT_MAX))
 			;

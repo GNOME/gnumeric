@@ -4,6 +4,7 @@ Andreas:
 	* Fix ODF roundtrip of some header/footer markers. [part of #724487]
 	* Fix ODF roundtrip of preferred window size. [part of #724487]
 	* Fix ODF number roundtrip issue. [part of #724568]
+	* Fix ODF error constant roundtrip issue. [part of #724568]
 
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]
