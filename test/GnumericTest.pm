@@ -363,6 +363,9 @@ sub test_roundtrip {
     my $newext = $named_args{'ext'};
     my $resize = $named_args{'resize'};
 
+    my $filter1 = $named_args{'filter1'} || $named_args{'filter'} || 'cat';
+    my $filter2 = $named_args{'filter2'} || $named_args{'filter'} || 'cat';
+
     my $tmp = fileparse ($file);
     $tmp =~ s/\.([a-zA-Z0-9]+)$// or die "Must have extension for roundtrip test.";
     my $ext = $1;
@@ -389,12 +392,12 @@ sub test_roundtrip {
 
     my $tmp_xml = "$tmp.xml";
     &junkfile ($tmp_xml) unless $keep;
-    $code = system ("zcat -f '$file_resized' | $PERL normalize-gnumeric >'$tmp_xml'");
+    $code = system ("zcat -f '$file_resized' | $PERL normalize-gnumeric | $filter1 >'$tmp_xml'");
     &system_failure ('zcat', $code) if $code;
 
     my $tmp2_xml = "$tmp-new.xml";
     &junkfile ($tmp2_xml) unless $keep;
-    $code = system ("zcat -f '$tmp2' | $PERL normalize-gnumeric >'$tmp2_xml'");
+    $code = system ("zcat -f '$tmp2' | $PERL normalize-gnumeric | $filter2 >'$tmp2_xml'");
     &system_failure ('zcat', $code) if $code;
 
     $code = system ('diff', '-u', $tmp_xml, $tmp2_xml);

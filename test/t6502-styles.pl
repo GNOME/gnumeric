@@ -15,7 +15,8 @@ my $file = "$samples/style-tests.gnumeric";
 &message ("Check style ods roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_OpenCalc:odf',
-		 'ext' => "ods");
+		 'ext' => "ods",
+		 'filter2' => "perl -p -e '\$_ = \"\" if m{<meta:generator>}'");
 
 &message ("Check style xls/BIFF7 roundtrip.");
 &test_roundtrip ($file,
