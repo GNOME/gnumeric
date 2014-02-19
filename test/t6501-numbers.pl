@@ -7,6 +7,9 @@ use GnumericTest;
 
 my $file = "$samples/number-tests.gnumeric";
 
+&message ("Check that $file evaluates correctly.");
+&test_sheet_calc ($file, "F1", sub { /TRUE/ });
+
 &message ("Check number gnumeric roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_XmlIO:sax',

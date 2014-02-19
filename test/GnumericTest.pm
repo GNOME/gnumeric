@@ -21,7 +21,7 @@ $topsrc =~ s|/[^/]+$|/..|;
 $topsrc =~ s|/test/\.\.$||;
 
 $top_builddir = "..";
-$samples = "$topsrc/samples";
+$samples = "$topsrc/samples"; $samples =~ s{^\./}{};
 $ssconvert = "$top_builddir/src/ssconvert";
 $ssindex = "$top_builddir/src/ssindex";
 $sstest = "$top_builddir/src/sstest";
