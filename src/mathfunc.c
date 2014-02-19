@@ -311,6 +311,25 @@ bd0(gnm_float x, gnm_float M)
 	return yh + yl;
 }
 
+gnm_float
+gnm_log2 (gnm_float x)
+{
+	int e;
+
+	if (x == 0)
+		return gnm_ninf;
+
+	if (x < 0)
+		return gnm_nan;
+
+	if (!gnm_finite (x))
+		return x;
+
+	/* This split ensures accurate integer results for 2^x.  */
+	x = gnm_frexp (x, &e);
+
+	return e + gnm_log (x) / M_LN2gnum;
+}
 
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R SOURCE MARKER --- */

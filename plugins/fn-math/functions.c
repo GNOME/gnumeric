@@ -1325,7 +1325,7 @@ gnumeric_log2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnm_log (t) / M_LN2gnum);
+	return value_new_float (gnm_log2 (t));
 }
 
 /***************************************************************************/

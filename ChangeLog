@@ -1,3 +1,9 @@
+2014-02-19  Morten Welinder  <terra@gnome.org>
+
+	* plugins/fn-math/functions.c (gnumeric_log2): Use gnm_log2.
+
+	* src/mathfunc.c (gnm_log2): New function.
+
 2014-02-18  Morten Welinder  <terra@gnome.org>
 
 	* src/ssdiff.c (xml_style_changed): Report differences for
