@@ -19,9 +19,9 @@ my $file = "$samples/number-tests.gnumeric";
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_OpenCalc:odf',
 		 'ext' => "ods",
-		 'filter2' => "perl -p -e '\$_ = \"\" if m{<meta:generator>}'");
+		 'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'");
 
-my $xls_filter = "perl -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
+my $xls_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
 
 &message ("Check number xls/BIFF7 roundtrip.");
 &test_roundtrip ($file,
