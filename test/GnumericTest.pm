@@ -355,9 +355,13 @@ sub test_exporter {
 # -----------------------------------------------------------------------------
 
 sub test_roundtrip {
-    my ($file,$format,$newext,$resize) = @_;
+    my ($file,%named_args) = @_;
 
     &report_skip ("file $file does not exist") unless -r $file;
+
+    my $format = $named_args{'format'};
+    my $newext = $named_args{'ext'};
+    my $resize = $named_args{'resize'};
 
     my $tmp = fileparse ($file);
     $tmp =~ s/\.([a-zA-Z0-9]+)$// or die "Must have extension for roundtrip test.";
