@@ -12,7 +12,7 @@ Jean:
 Morten:
 	* Fix BIFF7 import of long strings.  [#724399]
 	* Improve testing.
-	* Fix XLSX number roundtrip issues.  [?] and [#724661]
+	* Fix XLSX number roundtrip issues.
 	* Improve ssdiff's report of differences.
 	* Improve LOG2's accuracy.
 

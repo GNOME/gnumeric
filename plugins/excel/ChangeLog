@@ -1,8 +1,3 @@
-2014-02-18  Morten Welinder  <terra@gnome.org>
-
-	* xlsx-read.c (xlsx_xf_begin): Make sure the background color we
-	set isn't "auto".  [#724661]
-
 2014-02-17  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-utils.c (xlsx_conventions_new): use same
