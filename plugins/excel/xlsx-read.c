@@ -4330,6 +4330,10 @@ xlsx_xf_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 	if (NULL == parent) {
 		result = gnm_style_new_default ();
+		/* We need to make the color explicit.  */
+		gnm_style_set_back_color
+			(result,
+			 gnm_color_new_go (gnm_style_get_back_color (result)->go_color));
 		gnm_style_merge (result, accum);
 	} else
 		result = gnm_style_new_merged (parent, accum);
