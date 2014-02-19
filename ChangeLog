@@ -1,6 +1,7 @@
 2014-02-19  Morten Welinder  <terra@gnome.org>
 
 	* plugins/fn-math/functions.c (gnumeric_log2): Use gnm_log2.
+	(gnumeric_log): Use gnm_log2 and gnm_log10 as appropriate.
 
 	* src/mathfunc.c (gnm_log2): New function.
 

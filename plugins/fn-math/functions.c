@@ -1186,6 +1186,7 @@ gnumeric_log (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float t = value_get_as_float (argv[0]);
 	gnm_float base = argv[1] ? value_get_as_float (argv[1]) : 10;
+	gnm_float res;
 
 	if (base == 1. || base <= 0.)
 		return value_new_error_NUM (ei->pos);
@@ -1193,7 +1194,16 @@ gnumeric_log (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnm_log (t) / gnm_log (base));
+	if (base == 2)
+		res = gnm_log2 (t);
+	else if (base == 0.5)
+		res = -gnm_log2 (t);
+	else if (base == 10)
+		res = gnm_log10 (t);
+	else
+		res = gnm_log (t) / gnm_log (base);
+
+	return value_new_float (res);
 }
 
 /***************************************************************************/
