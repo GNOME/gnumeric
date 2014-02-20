@@ -10400,36 +10400,51 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 		GHashTable *hash = g_value_get_boxed (val);
 		Sheet *sheet = workbook_sheet_by_name (state->pos.wb, key);
 		if (hash != NULL && sheet != NULL) {
-			GValue *item = g_hash_table_lookup (hash, "TabColor");
-			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
-				GOColor color = g_value_get_int (item);
-				color = color << 8;
-				sheet->tab_color = gnm_color_new_go (color);
-			}
-			item = g_hash_table_lookup (hash, "CursorPositionX");
-			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
-				GValue *itemy = g_hash_table_lookup (hash, "CursorPositionY");
-				if (itemy != NULL && G_VALUE_HOLDS(itemy, G_TYPE_INT)) {
-					GnmCellPos pos;
-					SheetView *sv
-						= sheet_get_view (sheet, state->wb_view);
-					GnmRange r;
-					pos.col = g_value_get_int (item);
-					pos.row = g_value_get_int (itemy);
-					r.start = pos;
-					r.end = pos;
+			GValue *item;
+			if (!odf_has_gnm_foreign (state)) {
+				item = g_hash_table_lookup (hash, "TabColor");
+				if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
+					GOColor color = g_value_get_int (item);
+					color = color << 8;
+					sheet->tab_color = gnm_color_new_go (color);
+				}
+				item = g_hash_table_lookup (hash, "CursorPositionX");
+				if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
+					GValue *itemy = g_hash_table_lookup (hash, "CursorPositionY");
+					if (itemy != NULL && G_VALUE_HOLDS(itemy, G_TYPE_INT)) {
+						GnmCellPos pos;
+						SheetView *sv
+							= sheet_get_view (sheet, state->wb_view);
+						GnmRange r;
+						pos.col = g_value_get_int (item);
+						pos.row = g_value_get_int (itemy);
+						r.start = pos;
+						r.end = pos;
 
-					sv_selection_reset (sv);
-					sv_selection_add_range (sv, &r);
-					sv_set_edit_pos
-						(sheet_get_view (sheet, state->wb_view),
-						 &pos);
+						sv_selection_reset (sv);
+						sv_selection_add_range (sv, &r);
+						sv_set_edit_pos
+							(sheet_get_view (sheet, state->wb_view),
+							 &pos);
+					}
 				}
 			}
+			item = g_hash_table_lookup (hash, "PositionLeft");
+			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
+				GValue *itemy = g_hash_table_lookup (hash, "PositionBottom");
+				if (itemy != NULL && G_VALUE_HOLDS(itemy, G_TYPE_INT)) {
+					SheetView *sv = sheet_get_view (sheet, state->wb_view);
+					GnmCellPos pos;
+					pos.col = g_value_get_int (item);
+					pos.row = g_value_get_int (itemy);
+					sv_set_initial_top_left
+						(sv, pos.col, pos.row);
+				}
+			}
+			
 		}
 	}
 }
-
 
 static void
 odf_apply_ooo_config (OOParseState *state)
@@ -12730,12 +12745,13 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 			g_hash_table_foreach (state.settings.settings,
 					      (GHFunc)dump_settings_hash, (char *)"");
 		if (!odf_has_gnm_foreign (&state)) {
-			odf_apply_ooo_config (&state);
 			filesaver = odf_created_by_gnumeric (&state) ?
 				"Gnumeric_OpenCalc:openoffice"
 				: "Gnumeric_OpenCalc:odf";
-		} else
+		} else {
 			filesaver = "Gnumeric_OpenCalc:odf";
+		}
+		odf_apply_ooo_config (&state);
 		odf_apply_gnm_config (&state);
 
 		workbook_set_saveinfo (state.pos.wb, GO_FILE_FL_AUTO,
