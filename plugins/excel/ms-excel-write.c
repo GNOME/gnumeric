@@ -2948,10 +2948,10 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 		diag = 0;
 		btype = xfd->border_type[STYLE_DIAGONAL];
 		if (btype != GNM_STYLE_BORDER_NONE)
-			diag |= 1;
+			diag |= 2;
 		btype = xfd->border_type[STYLE_REV_DIAGONAL];
 		if (btype != GNM_STYLE_BORDER_NONE)
-			diag |= 2;
+			diag |= 1;
 
 		tmp16 |= diag << 14;
 		GSF_LE_SET_GUINT16 (data+12, tmp16);
@@ -2965,7 +2965,7 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 		if (btype != GNM_STYLE_BORDER_NONE)
 			tmp32 |= (xfd->border_color[STYLE_BOTTOM] & 0x7f) << 7;
 
-		diag = (diag & 1) ? STYLE_DIAGONAL : ((diag & 2) ? STYLE_REV_DIAGONAL : 0);
+		diag = (diag & 2) ? STYLE_DIAGONAL : ((diag & 1) ? STYLE_REV_DIAGONAL : 0);
 		if (diag != 0) {
 			btype = xfd->border_type [diag];
 			if (btype != GNM_STYLE_BORDER_NONE) {

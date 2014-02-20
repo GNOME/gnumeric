@@ -1,3 +1,8 @@
+2014-02-20  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_XF): Fix reversed diagonal border
+	bits.
+
 2014-02-19  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (rotation_to_excel_v7): Fix rotation at 270

@@ -19,6 +19,7 @@ Morten:
 	* Fix BIFF7 export of page headers and footers.
 	* Fix BIFF7 export of font rotation.
 	* Fix xlsx export of underlines.
+	* Fix BIFF8 export of diagonal borders.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
