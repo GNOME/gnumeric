@@ -5915,6 +5915,27 @@ odf_write_ooo_settings (GnmOOExport *state)
 		gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "true");
 		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "PositionLeft");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
+		gsf_xml_out_add_int (state->xml, NULL, sv->initial_top_left.col);
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "PositionRight");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
+		gsf_xml_out_add_int (state->xml, NULL, 0);
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "PositionTop");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
+		gsf_xml_out_add_int (state->xml, NULL, 0);
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "PositionBottom");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
+		gsf_xml_out_add_int (state->xml, NULL, sv->initial_top_left.row);
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+
 		gsf_xml_out_end_element (state->xml); /* </config:config-item-map-entry> */
 	}
 	g_slist_free (sheets);
