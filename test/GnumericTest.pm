@@ -362,6 +362,7 @@ sub test_roundtrip {
     my $format = $named_args{'format'};
     my $newext = $named_args{'ext'};
     my $resize = $named_args{'resize'};
+    my $ignore_failure = $named_args{'ignore_failure'};
 
     my $filter1 = $named_args{'filter1'} || $named_args{'filter'} || 'cat';
     my $filter2 = $named_args{'filter2'} || $named_args{'filter'} || 'cat';
@@ -401,8 +402,7 @@ sub test_roundtrip {
     &system_failure ('zcat', $code) if $code;
 
     $code = system ('diff', '-u', $tmp_xml, $tmp2_xml);
-    # Ignore failures for now.
-    # &system_failure ('diff', $code) if $code;
+    &system_failure ('diff', $code) if $code && !$ignore_failure;
 
     print STDERR "Pass\n";
 }
