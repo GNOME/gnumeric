@@ -4897,7 +4897,11 @@ excel_write_HEADER_FOOTER (BiffPut *bp, PrintHF const *hf, int id)
 	}
 
 	ms_biff_put_var_next (bp, id);
-	excel_write_string (bp, STR_TWO_BYTE_LENGTH, res->str);
+	excel_write_string (bp,
+			    (bp->version >= MS_BIFF_V8
+			     ? STR_TWO_BYTE_LENGTH
+			     : STR_ONE_BYTE_LENGTH),
+			    res->str);
 	ms_biff_put_commit (bp);
 
 	g_string_free (res, TRUE);

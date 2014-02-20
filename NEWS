@@ -15,6 +15,7 @@ Morten:
 	* Fix XLSX number roundtrip issues.
 	* Improve ssdiff's report of differences.
 	* Improve LOG2's accuracy.
+	* Fix BIFF7 export of page headers and footers.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
