@@ -1,5 +1,7 @@
 2014-02-19  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_write_fonts): Handle underline.
+
 	* ms-excel-write.c (excel_write_HEADER_FOOTER): Use one-byte
 	strings for BIFF7 and earlier.  That matches the way we read
 	things.

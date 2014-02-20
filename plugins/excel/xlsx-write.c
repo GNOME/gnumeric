@@ -418,6 +418,8 @@ xlsx_find_font (GnmStyle const *style, GPtrArray  *styles)
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_BOLD) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_ITALIC) ||
+		    gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) !=
+		    gnm_style_is_element_set (old_style, MSTYLE_FONT_UNDERLINE) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_COLOR) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_COLOR) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_NAME) !=
@@ -429,6 +431,7 @@ xlsx_find_font (GnmStyle const *style, GPtrArray  *styles)
 			continue;
 		if (gnm_style_get_font_bold (style) != gnm_style_get_font_bold (old_style) ||
 		    gnm_style_get_font_italic (style) != gnm_style_get_font_italic (old_style) ||
+		    gnm_style_get_font_uline (style) != gnm_style_get_font_uline (old_style) ||
 		    gnm_style_get_font_color (style)->go_color !=
 		    gnm_style_get_font_color (old_style)->go_color ||
 		    gnm_style_get_font_size (style) != gnm_style_get_font_size (old_style) ||
@@ -452,6 +455,7 @@ xlsx_write_fonts (XLSXWriteState *state, GsfXMLOut *xml)
 		GnmStyle const *style = g_ptr_array_index (state->styles_array, i);
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC) ||
+		    gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_COLOR) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_NAME) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) ||
@@ -481,6 +485,20 @@ xlsx_write_fonts (XLSXWriteState *state, GsfXMLOut *xml)
 			if (gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC)) {
 				gsf_xml_out_start_element (xml, "i");
 				xlsx_add_bool (xml, "val", gnm_style_get_font_italic (style));
+				gsf_xml_out_end_element (xml);
+			}
+			if (gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE)) {
+				static const char * const types[] = {
+					"none",
+					"single",
+					"double",
+					"singleAccounting",
+					"doubleAccounting"
+				};
+
+				gsf_xml_out_start_element (xml, "u");
+				gsf_xml_out_add_cstr
+					(xml, "val", types[gnm_style_get_font_uline (style)]);
 				gsf_xml_out_end_element (xml);
 			}
 			if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
