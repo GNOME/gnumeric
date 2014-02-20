@@ -6082,6 +6082,23 @@ odf_style_set_align_h (GnmStyle *style, gboolean h_align_is_valid, gboolean repe
 static void
 oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	static OOEnum const underline_styles [] = {
+		{ "none",	   1 },
+		{ "dash",	   2 },
+		{ "dot-dash",      2 },
+		{ "dot-dot-dash",  2 },
+		{ "dotted",        2 },
+		{ "long-dash",     2 },
+		{ "solid",         3 },
+		{ "wave",          4 },
+		{ NULL,	0 },
+	};
+	static OOEnum const underline_types [] = {
+		{ "none",	  0 },
+		{ "single",	  1 },
+		{ "double",       2 },
+		{ NULL,	0 },
+	};
 	static OOEnum const text_line_through_styles [] = {
 		{ "none",	0 },
 		{ "dash",	1 },
@@ -6133,6 +6150,9 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	gnm_float tmp_f;
 	gboolean  v_alignment_is_fixed = FALSE;
 	int  strike_through_type = -1, strike_through_style = -1;
+	int underline_type = 0;
+	int underline_style = 0;
+	gboolean underline_bold = FALSE;
 
 	g_return_if_fail (style != NULL);
 
@@ -6226,14 +6246,13 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "rotation-angle", &tmp)) {
 			tmp = tmp % 360;
 			gnm_style_set_rotation	(style, tmp);
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline-type") ||
-			   gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline")) {
-			if (attr_eq (attrs[1], "none"))
-				gnm_style_set_font_uline (style, UNDERLINE_NONE);
-			else if (attr_eq (attrs[1], "single"))
-				gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
-			else if (attr_eq (attrs[1], "double"))
-				gnm_style_set_font_uline (style, UNDERLINE_DOUBLE);
+		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-underline-style",
+					 underline_styles, &underline_style)) {
+		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-underline-type",
+					 underline_types, &underline_type)) {
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_NS_STYLE, "text-underline-width")) {
+			underline_bold = attr_eq (attrs[1], "bold");
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-style"))
 			gnm_style_set_font_italic (style, attr_eq (attrs[1], "italic"));
 		else if (oo_attr_font_weight (xin, attrs, &tmp))
@@ -6243,20 +6262,25 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-line-through-type",
 				       text_line_through_types, &strike_through_type));
 
-#if 0
-		else if (!strcmp (attrs[0], OO_NS_FO, "font-weight")) {
-				gnm_style_set_font_bold (style, TRUE);
-				gnm_style_set_font_uline (style, TRUE);
-			="normal"
-		} else if (!strcmp (attrs[0], OO_NS_STYLE, "text-underline" )) {
-			="italic"
-				gnm_style_set_font_italic (style, TRUE);
-		}
-#endif
-
 	gnm_style_set_font_strike (style, strike_through_style > 0 ||
 				   (strike_through_type > 0 &&  strike_through_style == -1));
 
+
+	if (underline_style > 0) {
+		GnmUnderline underline;
+		if (underline_style == 1)
+			underline = UNDERLINE_NONE;
+		else if (underline_style == 4)
+			underline = UNDERLINE_SINGLE_LOW;
+		else if (underline_bold)
+			underline = UNDERLINE_DOUBLE_LOW;
+		else if (underline_type == 2)
+			underline = UNDERLINE_DOUBLE;
+		else
+			underline = UNDERLINE_SINGLE;
+
+		gnm_style_set_font_uline (style, underline);
+	}
 }
 
 static OOPageBreakType

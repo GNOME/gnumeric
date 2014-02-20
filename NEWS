@@ -5,6 +5,7 @@ Andreas:
 	* Fix ODF roundtrip of preferred window size. [part of #724487]
 	* Fix ODF number roundtrip issue. [part of #724568]
 	* Fix ODF error constant roundtrip issue. [part of #724568]
+	* Fix import of underlines from LO-generated ODF files. [part of #724763] 
 
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]
