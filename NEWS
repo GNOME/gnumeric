@@ -16,6 +16,7 @@ Morten:
 	* Improve ssdiff's report of differences.
 	* Improve LOG2's accuracy.
 	* Fix BIFF7 export of page headers and footers.
+	* Fix BIFF7 export of font rotation.
 	* Fix xlsx export of underlines.
 
 --------------------------------------------------------------------------

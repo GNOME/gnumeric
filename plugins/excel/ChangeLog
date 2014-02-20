@@ -1,5 +1,8 @@
 2014-02-19  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-write.c (rotation_to_excel_v7): Fix rotation at 270
+	degrees.
+
 	* xlsx-write.c (xlsx_write_fonts): Handle underline.
 
 	* ms-excel-write.c (excel_write_HEADER_FOOTER): Use one-byte

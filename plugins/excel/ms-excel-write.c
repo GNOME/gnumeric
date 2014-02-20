@@ -2714,7 +2714,7 @@ rotation_to_excel_v7 (int rotation)
 	if (rotation <= 225)
 		return 0;
 	if (rotation <= 315)
-		return 2;
+		return 3;
 	return 0;
 }
 static guint
