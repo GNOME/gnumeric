@@ -9,15 +9,15 @@
 # Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2005.
 # Lucas Lommer <llommer@svn.gnome.org>, 2008.
 # Petr Kovar <pknbe@volny.cz>, 2008, 2010.
-# Marek Černocký <marek@manet.cz>, 2011, 2012, 2013.
+# Marek Černocký <marek@manet.cz>, 2011, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-27 20:43+0000\n"
-"PO-Revision-Date: 2013-08-28 10:52+0200\n"
+"POT-Creation-Date: 2014-02-17 18:37+0000\n"
+"PO-Revision-Date: 2014-02-20 21:26+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -37,7 +37,7 @@ msgid "Spreadsheet"
 msgstr "Tabulkový kalkulátor"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:3 ../src/main-application.c:300
+#: ../gnumeric.desktop.in.h:3 ../src/main-application.c:301
 msgid "Gnumeric Spreadsheet"
 msgstr "Tabulkový kalkulátor Gnumeric"
 
@@ -84,8 +84,8 @@ msgstr "Import tabulek verzí 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7055
-#: ../plugins/openoffice/openoffice-read.c:12589 ../src/xml-sax-read.c:3353
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7062
+#: ../plugins/openoffice/openoffice-read.c:12600 ../src/xml-sax-read.c:3355
 msgid "Reading file..."
 msgstr "Načítá se soubor…"
 
@@ -193,7 +193,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Neplatný obsah prvku ss:data, obdrženo „%s“"
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:12749 ../src/xml-sax-read.c:3370
+#: ../plugins/openoffice/openoffice-read.c:12760 ../src/xml-sax-read.c:3372
 msgid "XML document not well formed!"
 msgstr "Dokument XML není syntakticky správný!"
 
@@ -222,17 +222,17 @@ msgstr "Graf%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: ../plugins/excel/ms-excel-read.c:3678
+#: ../plugins/excel/ms-excel-read.c:3679
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Selhání při zpracování názvu „%s“"
 
-#: ../plugins/excel/ms-excel-read.c:3823
+#: ../plugins/excel/ms-excel-read.c:3824
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Nesprávný výraz pro název „%s“: obsah bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3828
+#: ../plugins/excel/ms-excel-read.c:3829
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -241,7 +241,7 @@ msgstr ""
 "Odkazy DDE nejsou zatím podporovány.\n"
 "Název „%s“ bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3832
+#: ../plugins/excel/ms-excel-read.c:3833
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -250,11 +250,11 @@ msgstr ""
 "Odkazy OLE nejsou zatím podporovány.\n"
 "Název „%s“ bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6188
+#: ../plugins/excel/ms-excel-read.c:6195
 msgid "external references"
 msgstr "externí odkazy"
 
-#: ../plugins/excel/ms-excel-read.c:6227
+#: ../plugins/excel/ms-excel-read.c:6234
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
@@ -294,7 +294,7 @@ msgstr[2] ""
 "Při ukládání bude něco z obsahu ztraceno. Tento formát podporuje pouze %u "
 "řádků a tento sešit jich má %d"
 
-#: ../plugins/excel/ms-excel-write.c:359
+#: ../plugins/excel/ms-excel-write.c:358
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -304,11 +304,11 @@ msgstr ""
 "Byla už zapsána délka řetězce, který bude zkrácen kvůli problémům s "
 "kódováním."
 
-#: ../plugins/excel/ms-excel-write.c:6303
+#: ../plugins/excel/ms-excel-write.c:6342
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepodařilo se otevřít kanál „Book“ (kniha) pro zápis\n"
 
-#: ../plugins/excel/ms-excel-write.c:6325
+#: ../plugins/excel/ms-excel-write.c:6364
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepodařilo se otevřít kanál „Workbook“ (sešit) pro zápis\n"
 
@@ -389,27 +389,27 @@ msgstr "Načítají se uživatelské vlastnosti…"
 msgid "Invalid number '%s' for node %s"
 msgstr "Neplatné číslo „%s“ pro uzel %s"
 
-#: ../plugins/excel/xlsx-read-drawing.c:1297
+#: ../plugins/excel/xlsx-read-drawing.c:1298
 #, c-format
 msgid "Unknown color '%s'"
 msgstr "Neznámá barva „%s“"
 
-#: ../plugins/excel/xlsx-read-drawing.c:2091
+#: ../plugins/excel/xlsx-read-drawing.c:2092
 msgid "Dropping missing object"
 msgstr "Zahazuje se chybějící objekt"
 
-#: ../plugins/excel/xlsx-read-drawing.c:2123
+#: ../plugins/excel/xlsx-read-drawing.c:2124
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Zahazuje se objekt s neúplnou kotvou %2x"
 
-#: ../plugins/excel/xlsx-read-pivot.c:873
+#: ../plugins/excel/xlsx-read-pivot.c:875
 msgid ""
 "Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "Vyskytly se naráz oba atributy „refreshedDate“ a „refreshedDateIso“."
 
-#: ../plugins/excel/xlsx-read-pivot.c:1198
+#: ../plugins/excel/xlsx-read-pivot.c:1200
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
@@ -478,7 +478,7 @@ msgstr "Neznámá barva %d motivu"
 msgid "Undefined number format id '%s'"
 msgstr "Nedefinované ID formátu čísla „%s“"
 
-#: ../plugins/excel/xlsx-read.c:1209 ../plugins/excel/xlsx-read.c:3533
+#: ../plugins/excel/xlsx-read.c:1209 ../plugins/excel/xlsx-read.c:3534
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Neplatná barva „%s“ pro atribut rgb"
@@ -503,95 +503,95 @@ msgstr "Neplatný odkaz sst „%s“"
 msgid "Invalid cell %s"
 msgstr "Neplatná buňka %s"
 
-#: ../plugins/excel/xlsx-read.c:1545
+#: ../plugins/excel/xlsx-read.c:1546
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 "Ignoruje se informace o sloupci, která neurčuje ani první ani poslední."
 
-#: ../plugins/excel/xlsx-read.c:1681
+#: ../plugins/excel/xlsx-read.c:1682
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr "Papír ze souboru XLSX: %i pt × %i pt"
 
-#: ../plugins/excel/xlsx-read.c:1685
+#: ../plugins/excel/xlsx-read.c:1686
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr "Papír ze souboru XLSX, č. %i"
 
-#: ../plugins/excel/xlsx-read.c:2113
+#: ../plugins/excel/xlsx-read.c:2114
 #: ../plugins/openoffice/openoffice-read.c:2609
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignoruje se kontrola platnosti neplatných dat protože: %s"
 
-#: ../plugins/excel/xlsx-read.c:2530
+#: ../plugins/excel/xlsx-read.c:2531
 msgid "Undefined"
 msgstr "Nedefinováno"
 
-#: ../plugins/excel/xlsx-read.c:2578
+#: ../plugins/excel/xlsx-read.c:2579
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignoruje se neobsluhovaný podmíněný formát u typu „%s“"
 
-#: ../plugins/excel/xlsx-read.c:2965
+#: ../plugins/excel/xlsx-read.c:2966
 msgid "Unknown type of hyperlink"
 msgstr "Neznámý typ hypertextového odkazu"
 
-#: ../plugins/excel/xlsx-read.c:3010
+#: ../plugins/excel/xlsx-read.c:3011
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 "Vyskytlo se neintepretovatelné rozšíření „ext“ ve jmenném prostoru „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3016
+#: ../plugins/excel/xlsx-read.c:3017
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 "Vyskytlo se neintepretovatelné rozšíření „ext“ s chybějícím jmenným prostorem"
 
-#: ../plugins/excel/xlsx-read.c:3248
+#: ../plugins/excel/xlsx-read.c:3249
 msgid "Ignoring a sheet without a name"
 msgstr "Ignoruje se list bez názvu"
 
-#: ../plugins/excel/xlsx-read.c:3318
+#: ../plugins/excel/xlsx-read.c:3319
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Selhalo definování názvu: %s"
 
-#: ../plugins/excel/xlsx-read.c:3377
+#: ../plugins/excel/xlsx-read.c:3378
 msgid "Unable to resolve external relationship"
 msgstr "Nelze najít externí vztah"
 
-#: ../plugins/excel/xlsx-read.c:3723
+#: ../plugins/excel/xlsx-read.c:3724
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Schází part-id pro list „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3748
+#: ../plugins/excel/xlsx-read.c:3749
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Načítá se list „%s“…"
 
-#: ../plugins/excel/xlsx-read.c:3756
+#: ../plugins/excel/xlsx-read.c:3757
 msgid "Reading comments..."
 msgstr "Načítají se komentáře…"
 
-#: ../plugins/excel/xlsx-read.c:4786
+#: ../plugins/excel/xlsx-read.c:4824
 msgid "Reading shared strings..."
 msgstr "Načítají se sdílené texty…"
 
-#: ../plugins/excel/xlsx-read.c:4794
+#: ../plugins/excel/xlsx-read.c:4832
 msgid "Reading theme..."
 msgstr "Načítá se motiv…"
 
-#: ../plugins/excel/xlsx-read.c:4802
+#: ../plugins/excel/xlsx-read.c:4840
 msgid "Reading styles..."
 msgstr "Načítají se styly…"
 
-#: ../plugins/excel/xlsx-read.c:4807
+#: ../plugins/excel/xlsx-read.c:4845
 msgid "Reading workbook..."
 msgstr "Načítá se sešit…"
 
-#: ../plugins/excel/xlsx-read.c:4817
+#: ../plugins/excel/xlsx-read.c:4855
 msgid "No workbook stream found."
 msgstr "Nebyl nalezen žádný proud pro sešit."
 
@@ -873,7 +873,7 @@ msgstr "%s verze %s"
 
 #: ../plugins/fn-info/functions.c:1406 ../src/dialogs/dialog-cell-format.c:878
 #: ../src/dialogs/dialog-cell-format.c:2359
-#: ../src/dialogs/dialog-cell-format.c:2367 ../src/wbc-gtk.c:3325
+#: ../src/dialogs/dialog-cell-format.c:2367 ../src/wbc-gtk.c:3390
 msgid "Automatic"
 msgstr "Automaticky"
 
@@ -1001,7 +1001,7 @@ msgstr "Funkce pro práci s textem"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1863
-#: ../src/dialogs/dialog-search.c:151 ../src/func.c:1593
+#: ../src/dialogs/dialog-search.c:151 ../src/func.c:1632
 msgid "String"
 msgstr "Text"
 
@@ -1283,17 +1283,17 @@ msgstr "Omezení"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1446
-#: ../src/tools/gnm-solver.c:1494 ../src/tools/gnm-solver.c:1554
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1455
+#: ../src/tools/gnm-solver.c:1503 ../src/tools/gnm-solver.c:1563
 msgid "Value"
 msgstr "Hodnota"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:440 ../src/tools/gnm-solver.c:1447
+#: ../src/dialogs/dialog-search.c:440 ../src/tools/gnm-solver.c:1456
 msgid "Type"
 msgstr "Typ"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1555
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1564
 msgid "Limit"
 msgstr "Limit"
 
@@ -1326,7 +1326,7 @@ msgstr "Formát souboru pro lineární a celočíselné programy (*.mps)"
 msgid "This solver does not handle discrete variables."
 msgstr "Tento řešitel nezpracovává diskrétní proměnné."
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:186
+#: ../plugins/nlsolve/gnm-nlsolve.c:202
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Výchozí hodnoty nesplňují omezení."
@@ -1618,53 +1618,40 @@ msgid "Master page style without name encountered!"
 msgstr "Vyskytl se styl hlavní stránky bez názvu!"
 
 #: ../plugins/openoffice/openoffice-read.c:5814
-#: ../plugins/openoffice/openoffice-write.c:5081
-#: ../plugins/openoffice/openoffice-write.c:5093 ../src/print-info.c:670
-msgid "tab"
-msgstr "list"
+msgid "TAB"
+msgstr "KARTA"
 
 #: ../plugins/openoffice/openoffice-read.c:5846
-#: ../plugins/openoffice/openoffice-write.c:5084
-#: ../plugins/openoffice/openoffice-write.c:5096 ../src/print-info.c:673
-msgid "date"
-msgstr "datum"
+msgid "DATE"
+msgstr "DATUM"
 
 #: ../plugins/openoffice/openoffice-read.c:5853
-#: ../plugins/openoffice/openoffice-write.c:5085
-#: ../plugins/openoffice/openoffice-write.c:5097 ../src/print-info.c:674
-msgid "time"
-msgstr "čas"
+msgid "TIME"
+msgstr "ČAS"
 
 #: ../plugins/openoffice/openoffice-read.c:5860
-#: ../plugins/openoffice/openoffice-write.c:5082
-#: ../plugins/openoffice/openoffice-write.c:5094 ../src/print-info.c:671
-msgid "page"
-msgstr "strana"
+msgid "PAGE"
+msgstr "STRANA"
 
 #: ../plugins/openoffice/openoffice-read.c:5867
-#: ../plugins/openoffice/openoffice-write.c:5083
-#: ../plugins/openoffice/openoffice-write.c:5095 ../src/print-info.c:672
-msgid "pages"
-msgstr "stran"
+msgid "PAGES"
+msgstr "STRAN"
 
 #: ../plugins/openoffice/openoffice-read.c:5892
 #: ../plugins/openoffice/openoffice-read.c:5897
-#: ../plugins/openoffice/openoffice-write.c:5087
-#: ../plugins/openoffice/openoffice-write.c:5099 ../src/print-info.c:676
-msgid "path"
-msgstr "cesta"
+msgid "PATH"
+msgstr "CESTA"
 
 #: ../plugins/openoffice/openoffice-read.c:5894
-#: ../plugins/openoffice/openoffice-read.c:5901
-#: ../plugins/openoffice/openoffice-write.c:5086
-#: ../plugins/openoffice/openoffice-write.c:5098 ../src/print-info.c:675
-#: ../src/ssconvert.c:95 ../src/ssdiff.c:56
-msgid "file"
-msgstr "soubor"
+#: ../plugins/openoffice/openoffice-read.c:5901 ../src/main-application.c:79
+#: ../src/main-application.c:85 ../src/main-application.c:91
+#: ../src/ssgrep.c:75
+msgid "FILE"
+msgstr "SOUBOR"
 
-#: ../plugins/openoffice/openoffice-read.c:5945 ../src/print-info.c:678
-msgid "title"
-msgstr "název"
+#: ../plugins/openoffice/openoffice-read.c:5945
+msgid "TITLE"
+msgstr "NÁZEV"
 
 #: ../plugins/openoffice/openoffice-read.c:5976
 #, c-format
@@ -1811,7 +1798,7 @@ msgstr "Vyskytl se nepodporovaný vlastní tvar a byl převeden na obdélník."
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Atribut „%s“ má nepodporovanou hodnotu „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:10497
+#: ../plugins/openoffice/openoffice-read.c:10508
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
@@ -1820,12 +1807,12 @@ msgstr ""
 "Velikost sešitu o %i sloupcích a %i řádcích v tomto souboru přesahuje "
 "maximální velikost listu v Gnumericu."
 
-#: ../plugins/openoffice/openoffice-read.c:10529
+#: ../plugins/openoffice/openoffice-read.c:10540
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_V_POŠKOZENÉM_SOUBORU"
 
-#: ../plugins/openoffice/openoffice-read.c:10534
+#: ../plugins/openoffice/openoffice-read.c:10545
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1834,43 +1821,79 @@ msgstr ""
 "Tento soubor je poškozen s duplicitním názvem listu „%s“, nyní přejmenovaném "
 "na „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:10544
+#: ../plugins/openoffice/openoffice-read.c:10555
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "LIST_V_POŠKOZENÉM_SOUBORU"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:10550
+#: ../plugins/openoffice/openoffice-read.c:10561
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Tento soubor je poškozen s nepojmenovaným listem, nyní pojmenovaným „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:12439
+#: ../plugins/openoffice/openoffice-read.c:12450
 msgid "Unknown mimetype for openoffice file."
 msgstr "Neznámý typ MIME pro soubor OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:12449
+#: ../plugins/openoffice/openoffice-read.c:12460
 msgid "No stream named content.xml found."
 msgstr "Nebyl nalezen proud pojmenovaný content.xml"
 
-#: ../plugins/openoffice/openoffice-read.c:12457
+#: ../plugins/openoffice/openoffice-read.c:12468
 msgid "No stream named styles.xml found."
 msgstr "Nebyl nalezen proud pojmenovaný styles.xml"
 
-#: ../plugins/openoffice/openoffice-read.c:12599
+#: ../plugins/openoffice/openoffice-read.c:12610
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Neplatná metadata „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:12662
+#: ../plugins/openoffice/openoffice-read.c:12673
 msgid "settings.xml stream is malformed!"
 msgstr "Proud settings.xml je poškozen!"
 
-#: ../plugins/openoffice/openoffice-write.c:8320
+#: ../plugins/openoffice/openoffice-write.c:5081
+#: ../plugins/openoffice/openoffice-write.c:5093 ../src/print-info.c:670
+msgid "tab"
+msgstr "list"
+
+#: ../plugins/openoffice/openoffice-write.c:5082
+#: ../plugins/openoffice/openoffice-write.c:5094 ../src/print-info.c:671
+msgid "page"
+msgstr "strana"
+
+#: ../plugins/openoffice/openoffice-write.c:5083
+#: ../plugins/openoffice/openoffice-write.c:5095 ../src/print-info.c:672
+msgid "pages"
+msgstr "stran"
+
+#: ../plugins/openoffice/openoffice-write.c:5084
+#: ../plugins/openoffice/openoffice-write.c:5096 ../src/print-info.c:673
+msgid "date"
+msgstr "datum"
+
+#: ../plugins/openoffice/openoffice-write.c:5085
+#: ../plugins/openoffice/openoffice-write.c:5097 ../src/print-info.c:674
+msgid "time"
+msgstr "čas"
+
+#: ../plugins/openoffice/openoffice-write.c:5086
+#: ../plugins/openoffice/openoffice-write.c:5098 ../src/print-info.c:675
+#: ../src/ssconvert.c:96 ../src/ssdiff.c:56
+msgid "file"
+msgstr "soubor"
+
+#: ../plugins/openoffice/openoffice-write.c:5087
+#: ../plugins/openoffice/openoffice-write.c:5099 ../src/print-info.c:676
+msgid "path"
+msgstr "cesta"
+
+#: ../plugins/openoffice/openoffice-write.c:8334
 msgid "Writing Sheets..."
 msgstr "Zapisují se listy…"
 
-#: ../plugins/openoffice/openoffice-write.c:8361
+#: ../plugins/openoffice/openoffice-write.c:8375
 msgid "Writing Sheet Objects..."
 msgstr "Zapisují se objekty listů…"
 
@@ -3576,7 +3599,7 @@ msgstr ""
 "zaškrtávacího políčka pro zachování formátu v dialogovém okně řazení."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
-#: ../src/dialogs/dialog-preferences.c:821 ../src/wbc-gtk-actions.c:2707
+#: ../src/dialogs/dialog-preferences.c:821 ../src/wbc-gtk-actions.c:2674
 msgid "Sort Ascending"
 msgstr "Seřadit vzestupně"
 
@@ -3707,7 +3730,11 @@ msgstr ""
 msgid "result passes the sheet boundary"
 msgstr "výsledek přesahuje hranice listu"
 
-#: ../src/cmd-edit.c:322
+#: ../src/cmd-edit.c:306 ../src/cmd-edit.c:373
+msgid "Paste"
+msgstr "Vložit"
+
+#: ../src/cmd-edit.c:328
 #, c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
@@ -3718,15 +3745,11 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: ../src/cmd-edit.c:328
+#: ../src/cmd-edit.c:334
 msgid "Unable to paste into selection"
 msgstr "Není možné vložit do výběru"
 
-#: ../src/cmd-edit.c:367
-msgid "Paste"
-msgstr "Vložit"
-
-#: ../src/cmd-edit.c:414 ../src/cmd-edit.c:463
+#: ../src/cmd-edit.c:420 ../src/cmd-edit.c:469
 msgid ""
 "Inserting these cells would push data off the sheet. Please enlarge the "
 "sheet first."
@@ -3734,22 +3757,22 @@ msgstr ""
 "Vložení těchto buněk by vytlačilo data mimo list. Nejprve prosím list "
 "zvětšete."
 
-#: ../src/cmd-edit.c:422
+#: ../src/cmd-edit.c:428
 #, c-format
 msgid "Shift rows %s"
 msgstr "Posunout řádky %s"
 
-#: ../src/cmd-edit.c:423
+#: ../src/cmd-edit.c:429
 #, c-format
 msgid "Shift row %s"
 msgstr "Posunout řádek %s"
 
-#: ../src/cmd-edit.c:471
+#: ../src/cmd-edit.c:477
 #, c-format
 msgid "Shift columns %s"
 msgstr "Posunout sloupce %s"
 
-#: ../src/cmd-edit.c:472
+#: ../src/cmd-edit.c:478
 #, c-format
 msgid "Shift column %s"
 msgstr "Posunout sloupec %s"
@@ -3794,8 +3817,9 @@ msgstr "Upravit styl %s"
 msgid "Typing \"%s\" in %s"
 msgstr "Psát „%s“ v %s"
 
-#: ../src/commands.c:1130 ../src/wbc-gtk-edit.c:159 ../src/wbc-gtk-edit.c:173
-#: ../src/wbc-gtk-edit.c:194 ../src/wbc-gtk-edit.c:208
+#: ../src/commands.c:1130 ../src/wbc-gtk-edit.c:164 ../src/wbc-gtk-edit.c:173
+#: ../src/wbc-gtk-edit.c:188 ../src/wbc-gtk-edit.c:209
+#: ../src/wbc-gtk-edit.c:223
 msgid "Set Text"
 msgstr "Nastavit text"
 
@@ -4144,7 +4168,7 @@ msgstr "Opravdu chcete vložit kopie %s?"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3274 ../src/commands.c:3430 ../src/commands.c:3431
-#: ../src/item-cursor.c:1011 ../src/wbc-gtk-actions.c:613
+#: ../src/item-cursor.c:1025 ../src/wbc-gtk-actions.c:580
 msgid "Autofill"
 msgstr "Automaticky vyplnit"
 
@@ -4206,7 +4230,7 @@ msgstr "Formátovat objekt"
 #: ../src/dialogs/dialog-doc-metadata.c:1912
 #: ../src/dialogs/dialog-formula-guru.c:894
 #: ../src/dialogs/dialog-function-select.c:1253
-#: ../src/dialogs/dialog-scenarios.c:520
+#: ../src/dialogs/dialog-scenarios.c:523
 #: ../src/dialogs/dialog-simulation.c:216 ../src/dialogs/dialog-zoom.c:196
 #: ../src/format-template.c:218
 msgid "Name"
@@ -4392,7 +4416,7 @@ msgstr "Nastavit vyrovnání"
 msgid "Add Filter"
 msgstr "Přidat filtr"
 
-#: ../src/commands.c:7953 ../src/wbc-gtk.c:1545
+#: ../src/commands.c:7953 ../src/wbc-gtk.c:1611
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Automatický filtr blokovaný %s"
@@ -4429,23 +4453,23 @@ msgstr "Odstranit automatický filtru z %s"
 msgid "Change filter condition for %s"
 msgstr "Změnit podmínky filtru %s"
 
-#: ../src/commands.c:8131 ../src/wbc-gtk-actions.c:2172
+#: ../src/commands.c:8131 ../src/wbc-gtk-actions.c:2139
 msgid "Clear All Page Breaks"
 msgstr "Smazat všechna zalomení stránky"
 
-#: ../src/commands.c:8158 ../src/wbc-gtk.c:1480
+#: ../src/commands.c:8158 ../src/wbc-gtk.c:1546
 msgid "Remove Column Page Break"
 msgstr "Odstranit zalomení stránky ve sloupci"
 
-#: ../src/commands.c:8158 ../src/wbc-gtk.c:1490
+#: ../src/commands.c:8158 ../src/wbc-gtk.c:1556
 msgid "Remove Row Page Break"
 msgstr "Odstranit zalomení stránky v řádku"
 
-#: ../src/commands.c:8161 ../src/wbc-gtk.c:1483
+#: ../src/commands.c:8161 ../src/wbc-gtk.c:1549
 msgid "Add Column Page Break"
 msgstr "Přidat zalomení stránky ve sloupci"
 
-#: ../src/commands.c:8161 ../src/wbc-gtk.c:1493
+#: ../src/commands.c:8161 ../src/wbc-gtk.c:1559
 msgid "Add Row Page Break"
 msgstr "Přidat zalomení stránky v řádku"
 
@@ -4912,8 +4936,8 @@ msgstr "Nenalezeny žádné odpovídající záznamy."
 #: ../src/dialogs/dialog-advanced-filter.c:173
 #: ../src/dialogs/dialog-analysis-tools.c:670
 #: ../src/dialogs/dialog-analysis-tools.c:790
-#: ../src/dialogs/dialog-analysis-tools.c:2202
-#: ../src/dialogs/dialog-analysis-tools.c:3652 ../src/tools/filter.c:252
+#: ../src/dialogs/dialog-analysis-tools.c:2214
+#: ../src/dialogs/dialog-analysis-tools.c:3679 ../src/tools/filter.c:252
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Nastala neočekávaná chyba: %d."
@@ -4932,15 +4956,15 @@ msgstr "F_iltrovat na místě"
 #: ../src/dialogs/dialog-analysis-tool-one-mean.c:185
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:76
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:142
-#: ../src/dialogs/dialog-analysis-tool-sign-test.c:361
+#: ../src/dialogs/dialog-analysis-tool-sign-test.c:364
 #: ../src/dialogs/dialog-analysis-tools.c:591
 #: ../src/dialogs/dialog-analysis-tools.c:1138
-#: ../src/dialogs/dialog-analysis-tools.c:1851
-#: ../src/dialogs/dialog-analysis-tools.c:2548
-#: ../src/dialogs/dialog-analysis-tools.c:2906
-#: ../src/dialogs/dialog-analysis-tools.c:3198
-#: ../src/dialogs/dialog-analysis-tools.c:3479
-#: ../src/dialogs/dialog-analysis-tools.c:3692
+#: ../src/dialogs/dialog-analysis-tools.c:1860
+#: ../src/dialogs/dialog-analysis-tools.c:2563
+#: ../src/dialogs/dialog-analysis-tools.c:2924
+#: ../src/dialogs/dialog-analysis-tools.c:3219
+#: ../src/dialogs/dialog-analysis-tools.c:3503
+#: ../src/dialogs/dialog-analysis-tools.c:3719
 #: ../src/dialogs/dialog-shuffle.c:74
 msgid "The input range is invalid."
 msgstr "Vstupní oblast je neplatná."
@@ -4953,8 +4977,8 @@ msgstr "Vstupní oblast je příliš malá."
 #: ../src/dialogs/dialog-analysis-tool-normality.c:109
 #: ../src/dialogs/dialog-analysis-tool-one-mean.c:100
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:102
-#: ../src/dialogs/dialog-analysis-tools.c:3490
-#: ../src/dialogs/dialog-analysis-tools.c:3703
+#: ../src/dialogs/dialog-analysis-tools.c:3514
+#: ../src/dialogs/dialog-analysis-tools.c:3730
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "Hodnota alfa by měla být číslo v rozmezí 0 a 1."
 
@@ -4968,13 +4992,13 @@ msgstr "Hodnota alfa by měla být číslo v rozmezí 0 a 1."
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:100
 #: ../src/dialogs/dialog-analysis-tools.c:600
 #: ../src/dialogs/dialog-analysis-tools.c:1189
-#: ../src/dialogs/dialog-analysis-tools.c:1899
-#: ../src/dialogs/dialog-analysis-tools.c:2325
-#: ../src/dialogs/dialog-analysis-tools.c:2602
-#: ../src/dialogs/dialog-analysis-tools.c:2937
-#: ../src/dialogs/dialog-analysis-tools.c:3226
-#: ../src/dialogs/dialog-analysis-tools.c:3499
-#: ../src/dialogs/dialog-analysis-tools.c:3724
+#: ../src/dialogs/dialog-analysis-tools.c:1908
+#: ../src/dialogs/dialog-analysis-tools.c:2337
+#: ../src/dialogs/dialog-analysis-tools.c:2617
+#: ../src/dialogs/dialog-analysis-tools.c:2955
+#: ../src/dialogs/dialog-analysis-tools.c:3247
+#: ../src/dialogs/dialog-analysis-tools.c:3523
+#: ../src/dialogs/dialog-analysis-tools.c:3751
 #: ../src/dialogs/dialog-random-generator-cor.c:116
 msgid "The output specification is invalid."
 msgstr "Určení výstupu není platné."
@@ -5033,7 +5057,7 @@ msgid "Group %d"
 msgstr "Skupina %d"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:530
-#: ../src/wbc-gtk-actions.c:1061
+#: ../src/wbc-gtk-actions.c:1028
 msgid "Group"
 msgstr "Seskupit"
 
@@ -5059,7 +5083,7 @@ msgstr "Předpovídaná střední hodnota musí být číslo."
 
 #: ../src/dialogs/dialog-analysis-tool-one-mean.c:186
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:143
-#: ../src/dialogs/dialog-analysis-tool-sign-test.c:362
+#: ../src/dialogs/dialog-analysis-tool-sign-test.c:365
 msgid "The first input range is invalid."
 msgstr "První vstupní oblast je neplatná."
 
@@ -5090,7 +5114,7 @@ msgid "The input ranges do not have the same shape."
 msgstr "Vstupní oblast nemá stejný tvar."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:258
-#: ../src/dialogs/dialog-analysis-tool-sign-test.c:403
+#: ../src/dialogs/dialog-analysis-tool-sign-test.c:406
 msgid "Could not create the Sign Test Tool dialog."
 msgstr "Nelze vytvořit dialogové okno nástroje Znaménkový test."
 
@@ -5156,7 +5180,7 @@ msgstr "K musí být kladné celé číslo."
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Nelze vytvořit dialogové okno nástroje Popisná statistika."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1378
+#: ../src/dialogs/dialog-analysis-tools.c:1381
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -5164,7 +5188,7 @@ msgstr ""
 "Zadejte prosím platný\n"
 "rozptyl statistického souboru pro proměnnou 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1387
+#: ../src/dialogs/dialog-analysis-tools.c:1390
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -5172,154 +5196,154 @@ msgstr ""
 "Zadejte prosím platný\n"
 "rozptyl statistického souboru pro proměnnou 2."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1614
+#: ../src/dialogs/dialog-analysis-tools.c:1617
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Nelze vytvořit dialogové okno nástroje Test střední hodnoty."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1801
+#: ../src/dialogs/dialog-analysis-tools.c:1807
 msgid "Could not create the FTest Tool dialog."
 msgstr "Nelze vytvořit dialogové okno nástroje F-test."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1861
+#: ../src/dialogs/dialog-analysis-tools.c:1870
 msgid "The requested number of samples is invalid."
 msgstr "Požadovaný počet vzorků je neplatný."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1874
+#: ../src/dialogs/dialog-analysis-tools.c:1883
 msgid "The requested period is invalid."
 msgstr "Požadovaná perioda je neplatná."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1882
+#: ../src/dialogs/dialog-analysis-tools.c:1891
 msgid "The requested offset is invalid."
 msgstr "Požadovaný posun je neplatný."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1891
+#: ../src/dialogs/dialog-analysis-tools.c:1900
 msgid "The requested sample size is invalid."
 msgstr "Požadovaná velikost vzorku je neplatná."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2056
+#: ../src/dialogs/dialog-analysis-tools.c:2065
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Nelze vytvořit dialogové okno nástroje Vzorkování."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2246
-#: ../src/dialogs/dialog-analysis-tools.c:2259
+#: ../src/dialogs/dialog-analysis-tools.c:2258
+#: ../src/dialogs/dialog-analysis-tools.c:2271
 msgid "The x variable range is invalid."
 msgstr "Oblast proměnné x je neplatná."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2247
-#: ../src/dialogs/dialog-analysis-tools.c:2260
+#: ../src/dialogs/dialog-analysis-tools.c:2259
+#: ../src/dialogs/dialog-analysis-tools.c:2272
 msgid "The y variable range is invalid."
 msgstr "Oblast proměnné y je neplatná."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2267
+#: ../src/dialogs/dialog-analysis-tools.c:2279
 msgid "The x variable range must be a vector (n by 1 or 1 by n)."
 msgstr "Oblast proměnné x musí být vektor (n krát 1 nebo 1 krát n)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2268
+#: ../src/dialogs/dialog-analysis-tools.c:2280
 msgid "The y variable range must be a vector (n by 1 or 1 by n)."
 msgstr "Oblast proměnné y musí být vektor (n krát 1 nebo 1 krát n)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2275
+#: ../src/dialogs/dialog-analysis-tools.c:2287
 msgid "The x variable range is too small"
 msgstr "Oblast proměnné x je příliš malá."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2276
+#: ../src/dialogs/dialog-analysis-tools.c:2288
 msgid "The y variable range is too small"
 msgstr "Oblast proměnné y je příliš malá."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2286
-#: ../src/dialogs/dialog-analysis-tools.c:2299
+#: ../src/dialogs/dialog-analysis-tools.c:2298
+#: ../src/dialogs/dialog-analysis-tools.c:2311
 msgid "The y variables range is invalid."
 msgstr "Oblast proměnných y je neplatná."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2287
-#: ../src/dialogs/dialog-analysis-tools.c:2300
+#: ../src/dialogs/dialog-analysis-tools.c:2299
+#: ../src/dialogs/dialog-analysis-tools.c:2312
 msgid "The x variables range is invalid."
 msgstr "Oblast proměnných x je neplatná."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2308
+#: ../src/dialogs/dialog-analysis-tools.c:2320
 msgid "The sizes of the y variable and x variables ranges do not match."
 msgstr "Velikosti oblastí proměnné y a proměnných x nejsou stejné."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2309
+#: ../src/dialogs/dialog-analysis-tools.c:2321
 msgid "The sizes of the x variable and y variables ranges do not match."
 msgstr "Velikosti oblastí proměnné x a proměnných y nejsou stejné."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2318
+#: ../src/dialogs/dialog-analysis-tools.c:2330
 msgid "The confidence level is invalid."
 msgstr "Úroveň spolehlivosti je neplatná."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2370
+#: ../src/dialogs/dialog-analysis-tools.c:2382
 msgid "_Y variables:"
 msgstr "Proměnné _Y:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2372
+#: ../src/dialogs/dialog-analysis-tools.c:2384
 msgid "_X variable:"
 msgstr "Proměnná _X:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2375
+#: ../src/dialogs/dialog-analysis-tools.c:2387
 #: ../src/dialogs/regression.ui.h:5
 msgid "_X variables:"
 msgstr "Proměnné _X:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2377
+#: ../src/dialogs/dialog-analysis-tools.c:2389
 #: ../src/dialogs/regression.ui.h:6
 msgid "_Y variable:"
 msgstr "Proměnná _Y:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2415
+#: ../src/dialogs/dialog-analysis-tools.c:2427
 msgid "Could not create the Regression Tool dialog."
 msgstr "Nelze vytvořit dialogové okno nástroje Regrese."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2561
+#: ../src/dialogs/dialog-analysis-tools.c:2576
 msgid "The given seasonal damping factor is invalid."
 msgstr "Zadaný faktor sezónního útlumu je neplatný."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2570
+#: ../src/dialogs/dialog-analysis-tools.c:2585
 msgid "The given seasonal period is invalid."
 msgstr "Zadaná délka sezóny je neplatná."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2581
+#: ../src/dialogs/dialog-analysis-tools.c:2596
 msgid "The given growth damping factor is invalid."
 msgstr "Zadaný faktor tlumení růstu je neplatný."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2593
+#: ../src/dialogs/dialog-analysis-tools.c:2608
 msgid "The given damping factor is invalid."
 msgstr "Zadaný faktor útlumu je neplatný."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2723
+#: ../src/dialogs/dialog-analysis-tools.c:2738
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Nelze vytvořit dialogové okno nástroje Exponenciální vyhlazení."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2919
+#: ../src/dialogs/dialog-analysis-tools.c:2937
 msgid "The given interval is invalid."
 msgstr "Zadaný interval je neplatný."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2929
+#: ../src/dialogs/dialog-analysis-tools.c:2947
 msgid "The given offset is invalid."
 msgstr "Zadaný posun je neplatný."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3094
+#: ../src/dialogs/dialog-analysis-tools.c:3112
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Nelze vytvořit dialogové okno nástroje Klouzavý průměr."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3212
+#: ../src/dialogs/dialog-analysis-tools.c:3233
 msgid "The cutoff range is not valid."
 msgstr "Oblast s hranicemi je neplatná."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3219
+#: ../src/dialogs/dialog-analysis-tools.c:3240
 msgid "The number of to be calculated cutoffs is invalid."
 msgstr "Počet hranic, které se mají vypočítat, je neplatný."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3362
+#: ../src/dialogs/dialog-analysis-tools.c:3383
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Nelze vytvořit dialogové okno nástroje Histogram."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3539
+#: ../src/dialogs/dialog-analysis-tools.c:3563
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
 "Nelze vytvořit dialogové okno nástroje Analýza rozptylu (jeden faktor)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3618
+#: ../src/dialogs/dialog-analysis-tools.c:3645
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -5327,44 +5351,44 @@ msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce a dva řádky dat "
 "a popisků."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3621
+#: ../src/dialogs/dialog-analysis-tools.c:3648
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce a dva řádky dat."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3627
+#: ../src/dialogs/dialog-analysis-tools.c:3654
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce dat a popisků."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3630
+#: ../src/dialogs/dialog-analysis-tools.c:3657
 msgid "The given input range should contain at least two columns of data."
 msgstr "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce dat."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3636
+#: ../src/dialogs/dialog-analysis-tools.c:3663
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva řádky dat a popisků."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3639
+#: ../src/dialogs/dialog-analysis-tools.c:3666
 msgid "The given input range should contain at least two rows of data."
 msgstr "Zadaná vstupní oblast by měla obsahovat alespoň dva řádky dat."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3646
+#: ../src/dialogs/dialog-analysis-tools.c:3673
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "Počet datových řádků musí být násobkem počtu replikací."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3715
+#: ../src/dialogs/dialog-analysis-tools.c:3742
 msgid "The number of rows per sample should be a positive integer."
 msgstr "Počet řádků na vzorek by měl být kladné celé číslo."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3768
+#: ../src/dialogs/dialog-analysis-tools.c:3795
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Nelze vytvořit dialogové okno nástroje Analýzu rozptylu (dva faktory)."
 
@@ -5644,7 +5668,7 @@ msgid "Double Low"
 msgstr "Dvojité dolní"
 
 #: ../src/dialogs/dialog-cell-format.c:483 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1591 ../src/wbc-gtk-actions.c:2766
+#: ../src/func.c:1630 ../src/wbc-gtk-actions.c:2733
 msgid "Number"
 msgstr "Číslo"
 
@@ -5700,13 +5724,13 @@ msgstr "Formát buněk"
 msgid "Border"
 msgstr "Ohraničení"
 
-#: ../src/dialogs/dialog-cell-format.c:2363 ../src/wbc-gtk.c:3375
+#: ../src/dialogs/dialog-cell-format.c:2363 ../src/wbc-gtk.c:3440
 msgid "Clear Background"
 msgstr "Vymazat pozadí"
 
 #: ../src/dialogs/dialog-cell-format.c:2363
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:74
-#: ../src/wbc-gtk.c:3377 ../src/wbc-gtk.c:3378 ../src/wbc-gtk.c:3385
+#: ../src/wbc-gtk.c:3442 ../src/wbc-gtk.c:3443 ../src/wbc-gtk.c:3450
 msgid "Background"
 msgstr "Pozadí"
 
@@ -6046,7 +6070,7 @@ msgstr "Nahor_u"
 msgid "_Down"
 msgstr "_Dolů"
 
-#: ../src/dialogs/dialog-data-slicer.c:223 ../src/wbc-gtk-actions.c:2125
+#: ../src/dialogs/dialog-data-slicer.c:223 ../src/wbc-gtk-actions.c:2092
 msgid "_Remove"
 msgstr "_Odstranit"
 
@@ -6110,8 +6134,8 @@ msgid "Could not create the Name Guru."
 msgstr "Nelze vytvořit průvodce vytvořením názvu."
 
 #: ../src/dialogs/dialog-delete-cells.c:124
-#: ../src/dialogs/scenario-manager.ui.h:4 ../src/wbc-gtk-actions.c:367
-#: ../src/wbc-gtk-actions.c:381
+#: ../src/dialogs/scenario-manager.ui.h:4 ../src/wbc-gtk-actions.c:334
+#: ../src/wbc-gtk-actions.c:348
 msgid "Delete"
 msgstr "Odstranit"
 
@@ -6349,15 +6373,15 @@ msgstr "Úroveň sešitu"
 
 #: ../src/dialogs/dialog-goto-cell.c:384 ../src/dialogs/dialog-search.c:438
 #: ../src/dialogs/dialog-stf-export.c:597 ../src/dialogs/hf-config.ui.h:16
-#: ../src/dialogs/print.ui.h:53 ../src/print-info.c:573 ../src/workbook.c:1010
-#: ../src/workbook.c:1042
+#: ../src/dialogs/print.ui.h:53 ../src/print-info.c:573 ../src/workbook.c:1015
+#: ../src/workbook.c:1047
 msgid "Sheet"
 msgstr "List"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:439
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2231 ../src/tools/gnm-solver.c:1445
-#: ../src/tools/gnm-solver.c:1493
+#: ../src/sheet-control-gui.c:2231 ../src/tools/gnm-solver.c:1454
+#: ../src/tools/gnm-solver.c:1502
 msgid "Cell"
 msgstr "Buňka"
 
@@ -6528,8 +6552,8 @@ msgstr "Aktivní"
 msgid "Plugin name"
 msgstr "Název zásuvného modulu"
 
-#: ../src/dialogs/dialog-plugin-manager.c:724 ../src/ssconvert.c:79
-#: ../src/ssconvert.c:102
+#: ../src/dialogs/dialog-plugin-manager.c:724 ../src/ssconvert.c:80
+#: ../src/ssconvert.c:103
 msgid "ID"
 msgstr "ID"
 
@@ -6753,7 +6777,7 @@ msgstr "%.0f mm na šířku krát %.0f mm na výšku"
 msgid "%.1f wide by %.1f tall"
 msgstr "%.1f na šířku krát %.1f na výšku"
 
-#: ../src/dialogs/dialog-quit.c:83 ../src/dialogs/dialog-recent.c:105
+#: ../src/dialogs/dialog-quit.c:83 ../src/dialogs/dialog-recent.c:110
 #, c-format
 msgid ""
 "<b>%s</b>\n"
@@ -7043,7 +7067,7 @@ msgstr "Nelze vytvořit dialogové okno nástroje Generátor náhodných čísel
 #. * this.  The default will show things like "09:50"
 #. * and "21:50".
 #.
-#: ../src/dialogs/dialog-recent.c:148
+#: ../src/dialogs/dialog-recent.c:152
 msgid "%H:%M"
 msgstr "%H:%M"
 
@@ -7054,7 +7078,7 @@ msgstr "%H:%M"
 #. * to change this.  The default will show
 #. * things like " 9:50 am" and " 9:50 pm".
 #.
-#: ../src/dialogs/dialog-recent.c:157
+#: ../src/dialogs/dialog-recent.c:161
 msgid "%l:%M %P"
 msgstr "%l:%M %P"
 
@@ -7103,16 +7127,16 @@ msgstr "Neplatný název scénáře"
 msgid "Could not create the Scenario Add dialog."
 msgstr "Nelze vytvořit dialogové okno Přidání scénáře."
 
-#: ../src/dialogs/dialog-scenarios.c:412
+#: ../src/dialogs/dialog-scenarios.c:415
 #, c-format
 msgid "Created on "
 msgstr "Vytvořeno "
 
-#: ../src/dialogs/dialog-scenarios.c:713
+#: ../src/dialogs/dialog-scenarios.c:716
 msgid "Results entry did not contain valid cell names."
 msgstr "Položka výsledku neobsahovala platné názvy buněk."
 
-#: ../src/dialogs/dialog-scenarios.c:779
+#: ../src/dialogs/dialog-scenarios.c:782
 msgid "Could not create the Scenarios dialog."
 msgstr "Nelze vytvořit dialogové okno Správce scénářů."
 
@@ -7142,7 +7166,7 @@ msgstr "Výraz"
 msgid "Other value"
 msgstr "Jiná hodnota"
 
-#: ../src/dialogs/dialog-search.c:441 ../src/dialogs/dialog-so-styled.c:176
+#: ../src/dialogs/dialog-search.c:441 ../src/dialogs/dialog-so-styled.c:177
 msgid "Content"
 msgstr "Obsah"
 
@@ -7203,23 +7227,23 @@ msgstr "Jiné zobrazení již s listem pracuje"
 msgid "Default"
 msgstr "Výchozí"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:221
+#: ../src/dialogs/dialog-sheetobject-size.c:220
 msgid "Move Object"
 msgstr "Přesunout objekt"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:221
+#: ../src/dialogs/dialog-sheetobject-size.c:220
 msgid "Resize Object"
 msgstr "Změnit velikost objektu"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:244
+#: ../src/dialogs/dialog-sheetobject-size.c:243
 msgid "Set Object Name"
 msgstr "Nastavit název objektu"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:253
+#: ../src/dialogs/dialog-sheetobject-size.c:252
 msgid "Set Object Print Property"
 msgstr "Nastavit tiskové vlastnosti objektu"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:259
+#: ../src/dialogs/dialog-sheetobject-size.c:258
 msgid "Set Object Properties"
 msgstr "Nastavit vlastnosti objektu"
 
@@ -7260,16 +7284,16 @@ msgid "Run on"
 msgstr "Běžet na"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4639
+#: ../src/wbc-gtk.c:4726
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4641
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4728
 msgid "Average"
 msgstr "Průměr"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4640
+#: ../src/wbc-gtk.c:4727
 msgid "Max"
 msgstr "Max"
 
@@ -7331,11 +7355,11 @@ msgstr "Chyba"
 msgid "Cancelled"
 msgstr "Zrušeno"
 
-#: ../src/dialogs/dialog-solver.c:582 ../src/tools/gnm-solver.c:1472
+#: ../src/dialogs/dialog-solver.c:582 ../src/tools/gnm-solver.c:1481
 msgid "Feasible"
 msgstr "Přijatelné"
 
-#: ../src/dialogs/dialog-solver.c:586 ../src/tools/gnm-solver.c:1475
+#: ../src/dialogs/dialog-solver.c:586 ../src/tools/gnm-solver.c:1484
 msgid "Optimal"
 msgstr "Optimální"
 
@@ -7347,59 +7371,59 @@ msgstr "Neproveditelné"
 msgid "Unbounded"
 msgstr "Neomezené"
 
-#: ../src/dialogs/dialog-solver.c:665
+#: ../src/dialogs/dialog-solver.c:664
 msgid "The chosen solver is not functional."
 msgstr "Vybraný řešitel není funkční."
 
-#: ../src/dialogs/dialog-solver.c:677
+#: ../src/dialogs/dialog-solver.c:676
 msgid "Running Solver"
 msgstr "Řešitel běží"
 
-#: ../src/dialogs/dialog-solver.c:682
+#: ../src/dialogs/dialog-solver.c:681
 msgid "Stop"
 msgstr "Zastavit"
 
-#: ../src/dialogs/dialog-solver.c:687
+#: ../src/dialogs/dialog-solver.c:686
 msgid "Stop the running solver"
 msgstr "Zastavit běžícího řešitele"
 
-#: ../src/dialogs/dialog-solver.c:694
+#: ../src/dialogs/dialog-solver.c:693
 msgid "OK"
 msgstr "OK"
 
-#: ../src/dialogs/dialog-solver.c:706
+#: ../src/dialogs/dialog-solver.c:705
 msgid "Solver Status:"
 msgstr "Stav řešitele:"
 
-#: ../src/dialogs/dialog-solver.c:707
+#: ../src/dialogs/dialog-solver.c:706
 msgid "Problem Status:"
 msgstr "Stav problému:"
 
-#: ../src/dialogs/dialog-solver.c:708
+#: ../src/dialogs/dialog-solver.c:707
 msgid "Objective Value:"
 msgstr "Cílová hodnota:"
 
-#: ../src/dialogs/dialog-solver.c:709
+#: ../src/dialogs/dialog-solver.c:708
 msgid "Elapsed Time:"
 msgstr "Uplynulý čas:"
 
-#: ../src/dialogs/dialog-solver.c:847
+#: ../src/dialogs/dialog-solver.c:840
 msgid "Running solver"
 msgstr "Řešitel běží"
 
-#: ../src/dialogs/dialog-solver.c:884
+#: ../src/dialogs/dialog-solver.c:877
 msgid "Optimal solution created by solver.\n"
 msgstr "Řešitel nalezl optimální řešení.\n"
 
-#: ../src/dialogs/dialog-solver.c:888
+#: ../src/dialogs/dialog-solver.c:881
 msgid "Feasible solution created by solver.\n"
 msgstr "Řešitel nalezl přijatelné řešení.\n"
 
-#: ../src/dialogs/dialog-solver.c:1146
+#: ../src/dialogs/dialog-solver.c:1139
 msgid "Subject to the Constraints:"
 msgstr "Omezení použít pro:"
 
-#: ../src/dialogs/dialog-solver.c:1296
+#: ../src/dialogs/dialog-solver.c:1289
 msgid "Could not create the Solver dialog."
 msgstr "Nelze vytvořit dialogové okno Řešitel."
 
@@ -7529,7 +7553,7 @@ msgstr[2] "Bude se importovat %d z %d řádků"
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "Data nejsou v kódování %s platná; vyberte prosím jiné kódování."
 
-#: ../src/dialogs/dialog-stf-main-page.c:386 ../src/wbc-gtk-actions.c:2736
+#: ../src/dialogs/dialog-stf-main-page.c:386 ../src/wbc-gtk-actions.c:2703
 msgid "Line"
 msgstr "Čára"
 
@@ -7856,7 +7880,7 @@ msgid "Top"
 msgstr "Nahoře"
 
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:28
-#: ../src/wbc-gtk.c:3072
+#: ../src/wbc-gtk.c:3137
 msgid "Bottom"
 msgstr "Dole"
 
@@ -7864,7 +7888,7 @@ msgstr "Dole"
 msgid "Items"
 msgstr "Položky"
 
-#: ../src/dialogs/autofilter-top10.ui.h:6 ../src/wbc-gtk-actions.c:2775
+#: ../src/dialogs/autofilter-top10.ui.h:6 ../src/wbc-gtk-actions.c:2742
 msgid "Percentage"
 msgstr "Procenta"
 
@@ -8051,12 +8075,12 @@ msgstr "Uhlopřičně"
 
 #. start sub menu
 #: ../src/dialogs/cell-format.ui.h:26 ../src/sheet-control-gui.c:2211
-#: ../src/wbc-gtk.c:3064
+#: ../src/wbc-gtk.c:3129
 msgid "Left"
 msgstr "Vlevo"
 
 #: ../src/dialogs/cell-format.ui.h:27 ../src/sheet-control-gui.c:2214
-#: ../src/wbc-gtk.c:3066
+#: ../src/wbc-gtk.c:3131
 msgid "Right"
 msgstr "Vpravo"
 
@@ -8294,14 +8318,14 @@ msgid "In a list"
 msgstr "V seznamu"
 
 #: ../src/dialogs/cell-format.ui.h:96 ../src/dialogs/hf-config.ui.h:8
-#: ../src/wbc-gtk-actions.c:2781
+#: ../src/wbc-gtk-actions.c:2748
 msgid "Date"
 msgstr "Datum"
 
 #: ../src/dialogs/cell-format.ui.h:97 ../src/dialogs/hf-config.ui.h:10
 #: ../src/tools/analysis-exp-smoothing.c:728
 #: ../src/tools/analysis-exp-smoothing.c:1048
-#: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:2784
+#: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:2751
 msgid "Time"
 msgstr "Čas"
 
@@ -8582,7 +8606,7 @@ msgid "Correlation"
 msgstr "Korelace"
 
 #: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:751
-#: ../src/tools/analysis-tools.c:754 ../src/wbc-gtk-actions.c:2482
+#: ../src/tools/analysis-tools.c:754 ../src/wbc-gtk-actions.c:2449
 msgid "Covariance"
 msgstr "Kovariance"
 
@@ -8878,7 +8902,7 @@ msgstr "Uv_ozovky:"
 msgid "Quote _character:"
 msgstr "Znak u_vozovek:"
 
-#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:317
+#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:321
 msgid "Character _encoding:"
 msgstr "_Kódování znaků:"
 
@@ -9143,8 +9167,8 @@ msgid "Source Locale:"
 msgstr "Národní prostředí zdroje:"
 
 #. ----- vertical -----
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:3028
-#: ../src/wbc-gtk.c:3044
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:3093
+#: ../src/wbc-gtk.c:3109
 msgid "Zoom"
 msgstr "Přiblížit"
 
@@ -9447,12 +9471,12 @@ msgstr "Vyplnit řady"
 msgid "Series in:"
 msgstr "Řady v:"
 
-#: ../src/dialogs/fill-series.ui.h:3 ../src/wbc-gtk-actions.c:2006
-#: ../src/wbc-gtk-actions.c:2235
+#: ../src/dialogs/fill-series.ui.h:3 ../src/wbc-gtk-actions.c:1973
+#: ../src/wbc-gtk-actions.c:2202
 msgid "_Row"
 msgstr "Řá_dek"
 
-#: ../src/dialogs/fill-series.ui.h:4 ../src/wbc-gtk-actions.c:2232
+#: ../src/dialogs/fill-series.ui.h:4 ../src/wbc-gtk-actions.c:2199
 msgid "_Column"
 msgstr "Sloupe_c"
 
@@ -9520,7 +9544,7 @@ msgstr "Vložit jako funkci pole"
 msgid "Quote unknown names"
 msgstr "Neznámé názvy do uvozovek"
 
-#: ../src/dialogs/fourier-analysis.ui.h:1 ../src/wbc-gtk-actions.c:2503
+#: ../src/dialogs/fourier-analysis.ui.h:1 ../src/wbc-gtk-actions.c:2470
 msgid "Fourier Analysis"
 msgstr "Fourierova analýza"
 
@@ -9887,7 +9911,7 @@ msgstr "S_loupec cenzorování:"
 msgid "Censored record labels from:"
 msgstr "Popisky cenzorovaných záznamů z:"
 
-#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1528
+#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1533
 msgid "to:"
 msgstr "do:"
 
@@ -10114,8 +10138,8 @@ msgstr "<b>Typ vložení</b>"
 #. *		gnm-pane.c:gnm_pane_key_mode_sheet
 #. *	with the rest of the key movement and rangeselection.
 #. *	Otherwise input methods would steal them
-#: ../src/dialogs/paste-special.ui.h:4 ../src/wbc-gtk-actions.c:2177
-#: ../src/wbc-gtk-actions.c:2229
+#: ../src/dialogs/paste-special.ui.h:4 ../src/wbc-gtk-actions.c:2144
+#: ../src/wbc-gtk-actions.c:2196
 msgid "_All"
 msgstr "_Vše"
 
@@ -10131,7 +10155,7 @@ msgstr "Jako _hodnotu"
 msgid "_Formats"
 msgstr "_Formáty"
 
-#: ../src/dialogs/paste-special.ui.h:8 ../src/wbc-gtk-actions.c:2183
+#: ../src/dialogs/paste-special.ui.h:8 ../src/wbc-gtk-actions.c:2150
 msgid "Co_mments"
 msgstr "Ko_mentáře"
 
@@ -10241,7 +10265,7 @@ msgstr "Přepínače aplikace Gnumeric"
 #: ../src/dialogs/principal-components.ui.h:1
 #: ../src/tools/analysis-principal-components.c:223
 #: ../src/tools/analysis-principal-components.c:226
-#: ../src/wbc-gtk-actions.c:2507
+#: ../src/wbc-gtk-actions.c:2474
 msgid "Principal Components Analysis"
 msgstr "Analýza hlavních komponent"
 
@@ -11143,8 +11167,8 @@ msgstr "Posun ve směru _y v bodech:"
 msgid "Manage Sheets"
 msgstr "Správa listů…"
 
-#: ../src/dialogs/sheet-order.ui.h:2 ../src/wbc-gtk-actions.c:1996
-#: ../src/wbc-gtk-actions.c:2112
+#: ../src/dialogs/sheet-order.ui.h:2 ../src/wbc-gtk-actions.c:1963
+#: ../src/wbc-gtk-actions.c:2079
 msgid "_Insert"
 msgstr "Vlož_it"
 
@@ -11273,7 +11297,7 @@ msgstr "Vstupní proměnné:"
 msgid "Output variables:"
 msgstr "Výstupní proměnné:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1491
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1500
 msgid "Variables"
 msgstr "Proměnné"
 
@@ -11448,7 +11472,7 @@ msgid "Re_place"
 msgstr "Na_hradit"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:20 ../src/tools/gnm-solver.c:1550
+#: ../src/dialogs/solver.ui.h:20 ../src/tools/gnm-solver.c:1559
 msgid "Constraints"
 msgstr "Omezení"
 
@@ -11696,11 +11720,11 @@ msgstr "„%s“ je již v listě definován"
 msgid "'%s' is already defined in workbook"
 msgstr "„%s“ je již v sešitě definován"
 
-#: ../src/expr.c:875
+#: ../src/expr.c:876
 msgid "Internal type error"
 msgstr "Interní chyba typu"
 
-#: ../src/expr.c:1591
+#: ../src/expr.c:1593
 msgid "Unknown evaluation error"
 msgstr "Neznámá chyba při vyhodnocování"
 
@@ -11843,42 +11867,42 @@ msgstr ""
 msgid "Cannot create file %s\n"
 msgstr "Nelze vytvořit soubor %s\n"
 
-#: ../src/func.c:915
+#: ../src/func.c:954
 msgid "Function implementation not available."
 msgstr "Implementace funkce není k dispozici."
 
-#: ../src/func.c:1277
+#: ../src/func.c:1316
 msgid "Unknown Function"
 msgstr "Neznámá funkce"
 
 #. xgettext: This represents a made-up translated function name.
-#: ../src/func.c:1301
+#: ../src/func.c:1340
 #, c-format
 msgid "unknown%d"
 msgstr "neznámá%d"
 
-#: ../src/func.c:1595
+#: ../src/func.c:1634
 msgid "Boolean"
 msgstr "Pravdivostní hodnota"
 
-#: ../src/func.c:1597
+#: ../src/func.c:1636
 msgid "Cell Range"
 msgstr "Oblast buněk"
 
-#: ../src/func.c:1599
+#: ../src/func.c:1638
 msgid "Area"
 msgstr "Oblast"
 
-#: ../src/func.c:1601
+#: ../src/func.c:1640
 msgid "Scalar, Blank, or Error"
 msgstr "Skalár, prázdné nebo chyba"
 
-#: ../src/func.c:1603
+#: ../src/func.c:1642
 msgid "Scalar"
 msgstr "Skalár"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1606
+#: ../src/func.c:1645
 msgid "Any"
 msgstr "Cokoli"
 
@@ -11923,7 +11947,7 @@ msgstr "300%"
 msgid "500%"
 msgstr "500%"
 
-#: ../src/gnm-pane.c:2039
+#: ../src/gnm-pane.c:2046
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -12020,43 +12044,43 @@ msgstr "Automaticky rozpoznat"
 
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
-#: ../src/gui-file.c:206 ../src/gui-file.c:336
+#: ../src/gui-file.c:210 ../src/gui-file.c:340
 msgid "Advanc_ed"
 msgstr "Pokr_očilé"
 
-#: ../src/gui-file.c:209
+#: ../src/gui-file.c:213
 msgid "Simpl_e"
 msgstr "J_ednoduché"
 
-#: ../src/gui-file.c:306
+#: ../src/gui-file.c:310
 msgid "Open Spreadsheet File"
 msgstr "Otevření tabulkového souboru"
 
-#: ../src/gui-file.c:309
+#: ../src/gui-file.c:313
 msgid "Import Data File"
 msgstr "Import datového souboru"
 
-#: ../src/gui-file.c:363 ../src/gui-file.c:580
+#: ../src/gui-file.c:367 ../src/gui-file.c:584
 msgid "All Files"
 msgstr "Všechny soubory"
 
-#: ../src/gui-file.c:371
+#: ../src/gui-file.c:375
 msgid "Text Files"
 msgstr "Textové soubory"
 
-#: ../src/gui-file.c:376 ../src/gui-file.c:585
+#: ../src/gui-file.c:380 ../src/gui-file.c:589
 msgid "Spreadsheets"
 msgstr "Tabulkové kalkulátory"
 
-#: ../src/gui-file.c:379
+#: ../src/gui-file.c:383
 msgid "Data Files"
 msgstr "Datové soubory"
 
-#: ../src/gui-file.c:400 ../src/gui-file.c:609
+#: ../src/gui-file.c:404 ../src/gui-file.c:613
 msgid "File _type:"
 msgstr "_Typ souboru:"
 
-#: ../src/gui-file.c:458
+#: ../src/gui-file.c:462
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -12068,19 +12092,19 @@ msgstr ""
 "použijte jiný formát souboru.\n"
 "Chcete uložit pouze aktuální list?"
 
-#: ../src/gui-file.c:531
+#: ../src/gui-file.c:535
 msgid "Save the current workbook as"
 msgstr "Uložení aktuálního sešitu jako"
 
-#: ../src/gui-file.c:532
+#: ../src/gui-file.c:536
 msgid "Export the current workbook or sheet to"
 msgstr "Export aktuálního sešitu nebo listu do"
 
-#: ../src/gui-file.c:647 ../src/gui-file.c:664
+#: ../src/gui-file.c:651 ../src/gui-file.c:668
 msgid "Untitled"
 msgstr "Nepojmenovaný"
 
-#: ../src/gui-file.c:696
+#: ../src/gui-file.c:700
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -12088,7 +12112,7 @@ msgstr ""
 "Zadaná přípona souboru neodpovídá vybranému typu souboru. Chcete přesto "
 "použít tento název souboru?"
 
-#: ../src/gui-file.c:787
+#: ../src/gui-file.c:791
 #, c-format
 msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
@@ -12097,7 +12121,7 @@ msgstr ""
 "Chcete exportovat <b>aktuální list</b> tohoto sešitu do umístění „<b>%s</b>“ "
 "pomocí nástroje pro export „<b>%s</b>“?"
 
-#: ../src/gui-file.c:791
+#: ../src/gui-file.c:795
 #, c-format
 msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
@@ -12106,7 +12130,7 @@ msgstr ""
 "Chcete exportovat tento sešit do umístění „<b>%s</b>“ pomocí nástroje pro "
 "export „<b>%s</b>“?"
 
-#: ../src/gui-file.c:818
+#: ../src/gui-file.c:822
 msgid ""
 "Unable to repeat export since no previous export information has been saved "
 "in this session."
@@ -12180,47 +12204,47 @@ msgstr "%d,00 pt"
 msgid "%.2f pts"
 msgstr "%.2f pt"
 
-#: ../src/item-cursor.c:797
+#: ../src/item-cursor.c:820
 msgid "_Move"
 msgstr "_Přesunout"
 
-#: ../src/item-cursor.c:800 ../src/sheet-control-gui.c:2145
+#: ../src/item-cursor.c:823 ../src/sheet-control-gui.c:2145
 msgid "_Copy"
 msgstr "_Kopírovat"
 
-#: ../src/item-cursor.c:803
+#: ../src/item-cursor.c:826
 msgid "Copy _Formats"
 msgstr "Kopírovat _formát"
 
-#: ../src/item-cursor.c:805
+#: ../src/item-cursor.c:828
 msgid "Copy _Values"
 msgstr "Kopírovat _hodnoty"
 
-#: ../src/item-cursor.c:810
+#: ../src/item-cursor.c:833
 msgid "Shift _Down and Copy"
 msgstr "Posunout buňky _dolů a kopírovat"
 
-#: ../src/item-cursor.c:812
+#: ../src/item-cursor.c:835
 msgid "Shift _Right and Copy"
 msgstr "Posunout buňky dop_rava a kopírovat"
 
-#: ../src/item-cursor.c:814
+#: ../src/item-cursor.c:837
 msgid "Shift Dow_n and Move"
 msgstr "Posunout buňky dolů a přesu_nout"
 
-#: ../src/item-cursor.c:816
+#: ../src/item-cursor.c:839
 msgid "Shift Righ_t and Move"
 msgstr "Posunout buňky doprava a přesunou_t"
 
-#: ../src/item-cursor.c:821
+#: ../src/item-cursor.c:844
 msgid "C_ancel"
 msgstr "_Zrušit"
 
-#: ../src/item-cursor.c:1088
+#: ../src/item-cursor.c:1103
 msgid "Drag to autofill"
 msgstr "Táhnout pro automatické vyplnění"
 
-#: ../src/item-cursor.c:1091
+#: ../src/item-cursor.c:1106
 msgid "Drag to move"
 msgstr "Táhnout pro přesunutí"
 
@@ -12259,48 +12283,43 @@ msgstr "Volby aplikace Gnumeric"
 msgid "Show Gnumeric Options"
 msgstr "Zobrazit volby aplikace Gnumeric"
 
-#: ../src/main-application.c:62
+#: ../src/main-application.c:63
 msgid "Specify the size and location of the initial window"
 msgstr "Určit velikost a umístění počátečního okna"
 
-#: ../src/main-application.c:63
+#: ../src/main-application.c:64
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ŠÍŘKAxVÝŠKA+X+Y"
 
-#: ../src/main-application.c:66
+#: ../src/main-application.c:67
 msgid "Don't show splash screen"
 msgstr "Nezobrazovat uvítací obrazovku"
 
-#: ../src/main-application.c:68
+#: ../src/main-application.c:69
 msgid "Don't display warning dialogs when importing"
 msgstr "Nezobrazovat varovná dialogová okna při importu"
 
-#: ../src/main-application.c:77 ../src/main-application.c:83
+#: ../src/main-application.c:78 ../src/main-application.c:84
 msgid "Dumps the function definitions"
 msgstr "Vypsat definice funkcí"
 
-#: ../src/main-application.c:78 ../src/main-application.c:84
-#: ../src/main-application.c:90 ../src/ssgrep.c:75
-msgid "FILE"
-msgstr "SOUBOR"
-
-#: ../src/main-application.c:89
+#: ../src/main-application.c:90
 msgid "Dumps web page for function help"
 msgstr "Vypíše webovou stránku pro nápovědu funkce"
 
-#: ../src/main-application.c:95
+#: ../src/main-application.c:96
 msgid "Generate new help and po files"
 msgstr "Vygenerovat nové soubory po a nápovědu"
 
-#: ../src/main-application.c:101
+#: ../src/main-application.c:102
 msgid "Exit immediately after loading the selected books"
 msgstr "Skončit hned po načtení vybraných sešitů"
 
-#: ../src/main-application.c:144
+#: ../src/main-application.c:145
 msgid "[FILE ...]"
 msgstr "[SOUBOR…]"
 
-#: ../src/main-application.c:162 ../src/ssconvert.c:825 ../src/ssdiff.c:1005
+#: ../src/main-application.c:163 ../src/ssconvert.c:855 ../src/ssdiff.c:1005
 #: ../src/ssgrep.c:434 ../src/ssindex.c:255
 #, c-format
 msgid ""
@@ -12310,49 +12329,6 @@ msgstr ""
 "%s\n"
 "Spuštěním „%s --help“ si zobrazíte úplný seznam dostupných přepínačů "
 "příkazové řádky.\n"
-
-#: ../src/mathfunc.c:3918
-msgid "bessel_i allocation error"
-msgstr "chyba alokace paměti pro funkci bessel_i"
-
-#: ../src/mathfunc.c:3926 ../src/mathfunc.c:3929
-msgid "bessel_i(%"
-msgstr "bessel_i(%"
-
-#: ../src/mathfunc.c:4395
-msgid "bessel_j allocation error"
-msgstr "chyba alokace paměti pro funkci bessel_j"
-
-#: ../src/mathfunc.c:4403 ../src/mathfunc.c:4406 ../src/mathfunc.c:4446
-#: ../src/mathfunc.c:4449
-msgid "bessel_j(%"
-msgstr "bessel_j(%"
-
-#: ../src/mathfunc.c:4963
-msgid "bessel_k allocation error"
-msgstr "chyba alokace paměti pro funkci bessel_k"
-
-#: ../src/mathfunc.c:4971 ../src/mathfunc.c:4974
-msgid "bessel_k(%"
-msgstr "bessel_k(%"
-
-#: ../src/mathfunc.c:5495
-msgid "bessel_y allocation error"
-msgstr "chyba alokace paměti pro funkci bessel_y"
-
-#. ncalc >= 0
-#: ../src/mathfunc.c:5505 ../src/mathfunc.c:5508 ../src/mathfunc.c:5550
-#: ../src/mathfunc.c:5553
-msgid "bessel_y(%"
-msgstr "bessel_y(%"
-
-#: ../src/mathfunc.c:8488
-msgid ""
-"This version of Gnumeric has been compiled with inadequate precision in "
-"gnm_yn."
-msgstr ""
-"Tato verze aplikace Gnumeric byla přeložena s nedostatečnou přesností v "
-"gnm_yn."
 
 #: ../src/parser.y:353
 #, c-format
@@ -12414,47 +12390,47 @@ msgstr "Neznámý sešit „%s“"
 msgid "Unknown workbook"
 msgstr "Neznámý sešit"
 
-#: ../src/parser.y:1086 ../src/parser.y:1362
+#: ../src/parser.y:1088 ../src/parser.y:1364
 #, c-format
 msgid "Could not find matching closing quote"
 msgstr "Nelze najít odpovídající uzavírací uvozovky"
 
-#: ../src/parser.y:1224
+#: ../src/parser.y:1226
 #, c-format
 msgid "Sheet name is required"
 msgstr "Je požadován název listu"
 
-#: ../src/parser.y:1277 ../src/parser.y:1286 ../src/parser.y:1310
+#: ../src/parser.y:1279 ../src/parser.y:1288 ../src/parser.y:1312
 #, c-format
 msgid "The number is out of range"
 msgstr "Číslo je mimo rozsah"
 
-#: ../src/parser.y:1344
+#: ../src/parser.y:1346
 #, c-format
 msgid "Improperly formatted error token"
 msgstr "Nesprávně formátovaný chybový prvek"
 
-#: ../src/parser.y:1600
+#: ../src/parser.y:1602
 #, c-format
 msgid "Multiple expressions are not supported in this context"
 msgstr "V tomto kontextu nejsou podporovány vícenásobné výrazy"
 
-#: ../src/parser.y:1623
+#: ../src/parser.y:1625
 #, c-format
 msgid "Could not find matching opening parenthesis"
 msgstr "Nelze najít odpovídající otevírací závorku"
 
-#: ../src/parser.y:1627
+#: ../src/parser.y:1629
 #, c-format
 msgid "Could not find matching closing parenthesis"
 msgstr "Nelze najít odpovídající uzavírací závorku"
 
-#: ../src/parser.y:1631
+#: ../src/parser.y:1633
 #, c-format
 msgid "Invalid expression"
 msgstr "Neplatný výraz"
 
-#: ../src/parser.y:1635
+#: ../src/parser.y:1637
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Neočekávaný prvek %c"
@@ -12489,6 +12465,10 @@ msgstr "Cesta "
 msgid "Title"
 msgstr "Záhlaví"
 
+#: ../src/print-info.c:678
+msgid "title"
+msgstr "název"
+
 #: ../src/print-info.c:891 ../src/stf-export.c:706
 #, c-format
 msgid "There is no such sheet"
@@ -12513,15 +12493,15 @@ msgstr "Neznámá volba pro export PDF"
 msgid "PDF export"
 msgstr "Export PDF"
 
-#: ../src/print.c:683
+#: ../src/print.c:685
 msgid "Even one cell is too large for this page."
 msgstr "I jediná buňka je příliš velká pro tuto stránku."
 
-#: ../src/print.c:976
+#: ../src/print.c:978
 msgid "Print Selection"
 msgstr "Tisk výběru"
 
-#: ../src/print.c:1230
+#: ../src/print.c:1232
 msgid ""
 "You have chosen more than 1000 pages to preview. This may take a long time. "
 "Do you really want to proceed?"
@@ -12529,25 +12509,25 @@ msgstr ""
 "Máte zvoleno více jak 1000 stránek pro náhled. To může zabrat hodně času. "
 "Chcete opravdu pokračovat?"
 
-#: ../src/print.c:1317
+#: ../src/print.c:1319
 msgid "Preparing to preview"
 msgstr "Příprava k náhledu"
 
-#: ../src/print.c:1318
+#: ../src/print.c:1320
 msgid "Preparing to print"
 msgstr "Příprava k tisku"
 
-#: ../src/print.c:1408
+#: ../src/print.c:1410
 #, c-format
 msgid "Creating preview of page %3d"
 msgstr "Vytváří se náhled stránky %3d"
 
-#: ../src/print.c:1409
+#: ../src/print.c:1411
 #, c-format
 msgid "Printing page %3d"
 msgstr "Tiskne se stránka %3d"
 
-#: ../src/print.c:1413
+#: ../src/print.c:1415
 #, c-format
 msgid "Creating preview of page %3d of %3d page"
 msgid_plural "Creating preview of page %3d of %3d pages"
@@ -12555,7 +12535,7 @@ msgstr[0] "Vytváří se náhled stránky %3d z celkem %3d stránky"
 msgstr[1] "Vytváří se náhled stránky %3d z celkem %3d stránek"
 msgstr[2] "Vytváří se náhled stránky %3d z celkem %3d stránek"
 
-#: ../src/print.c:1416
+#: ../src/print.c:1418
 #, c-format
 msgid "Printing page %3d of %3d page"
 msgid_plural "Printing page %3d of %3d pages"
@@ -12563,48 +12543,48 @@ msgstr[0] "Tiskne se stránka %3d z celkem %3d stránky"
 msgstr[1] "Tiskne se stránka %3d z celkem %3d stránek"
 msgstr[2] "Tiskne se stránka %3d z celkem %3d stránek"
 
-#: ../src/print.c:1479
+#: ../src/print.c:1484
 msgid "_All workbook sheets"
 msgstr "_Všechny listy sešitu"
 
-#: ../src/print.c:1484
+#: ../src/print.c:1489
 msgid "Also print _hidden sheets"
 msgstr "Tisknout i _skryté listy"
 
-#: ../src/print.c:1492
+#: ../src/print.c:1497
 msgid "A_ctive workbook sheet"
 msgstr "_Aktivní list sešitu"
 
-#: ../src/print.c:1497
+#: ../src/print.c:1502
 msgid "_Workbook sheets:"
 msgstr "Listy s_ešitu:"
 
-#: ../src/print.c:1502
+#: ../src/print.c:1507
 msgid "Current _selection only"
 msgstr "Pouze aktuální _výběr"
 
-#: ../src/print.c:1510
+#: ../src/print.c:1515
 msgid "_Ignore defined print area"
 msgstr "_Ignorovat definovanou tiskovou oblast"
 
-#: ../src/print.c:1517
+#: ../src/print.c:1522
 msgid "from:"
 msgstr "od:"
 
-#: ../src/print.c:1541
+#: ../src/print.c:1546
 msgid "Ignore all _manual page breaks"
 msgstr "Ignorovat všechna ruční zalo_mení"
 
-#: ../src/print.c:1838
+#: ../src/print.c:1846
 #, c-format
 msgid "Failed to create temporary file for printing: %s"
 msgstr "Selhalo vytvoření dočasného souboru pro tisk: %s"
 
-#: ../src/print.c:1856
+#: ../src/print.c:1864
 msgid "Gnumeric Print Range"
 msgstr "Rozsah tisku Gnumeric"
 
-#: ../src/print.c:1872
+#: ../src/print.c:1880
 msgid "Print to File"
 msgstr "Tisk do souboru"
 
@@ -12624,7 +12604,7 @@ msgstr "Musíte zadat oblast hledávání."
 msgid "The search range is invalid."
 msgstr "Oblast hledání není platná."
 
-#: ../src/selection.c:415 ../src/wbc-gtk-actions.c:1275
+#: ../src/selection.c:415 ../src/wbc-gtk-actions.c:1242
 #, c-format
 msgid "%s does not support multiple ranges"
 msgstr "%s nepodporuje více oblastí"
@@ -12642,7 +12622,7 @@ msgstr "%dQ"
 msgid "(empty)"
 msgstr "(prázdná)"
 
-#: ../src/sheet-control-gui.c:2056 ../src/wbc-gtk-actions.c:411
+#: ../src/sheet-control-gui.c:2056 ../src/wbc-gtk-actions.c:378
 #, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
@@ -12747,31 +12727,31 @@ msgstr "P_odmíněný formát…"
 msgid "_Unmerge"
 msgstr "_Rozdělit"
 
-#: ../src/sheet-control-gui.c:2236 ../src/wbc-gtk-actions.c:2402
+#: ../src/sheet-control-gui.c:2236 ../src/wbc-gtk-actions.c:2369
 msgid "Auto Fit _Width"
 msgstr "Automaticky přizpůsobit šíř_ku"
 
-#: ../src/sheet-control-gui.c:2237 ../src/wbc-gtk-actions.c:2399
+#: ../src/sheet-control-gui.c:2237 ../src/wbc-gtk-actions.c:2366
 msgid "Auto Fit _Height"
 msgstr "Automaticky přizpůsobit _výšku"
 
 #. start sub menu
 #. Format -> Col
-#: ../src/sheet-control-gui.c:2243 ../src/wbc-gtk-actions.c:2408
+#: ../src/sheet-control-gui.c:2243 ../src/wbc-gtk-actions.c:2375
 msgid "_Width..."
 msgstr "Šíř_ka…"
 
-#: ../src/sheet-control-gui.c:2244 ../src/wbc-gtk-actions.c:2411
+#: ../src/sheet-control-gui.c:2244 ../src/wbc-gtk-actions.c:2378
 msgid "_Auto Fit Width"
 msgstr "_Automaticky přizpůsobit šířku"
 
 #: ../src/sheet-control-gui.c:2245 ../src/sheet-control-gui.c:2253
-#: ../src/wbc-gtk-actions.c:2414 ../src/wbc-gtk-actions.c:2431
+#: ../src/wbc-gtk-actions.c:2381 ../src/wbc-gtk-actions.c:2398
 msgid "_Hide"
 msgstr "_Skrýt"
 
 #: ../src/sheet-control-gui.c:2246 ../src/sheet-control-gui.c:2254
-#: ../src/wbc-gtk-actions.c:2417 ../src/wbc-gtk-actions.c:2434
+#: ../src/wbc-gtk-actions.c:2384 ../src/wbc-gtk-actions.c:2401
 msgid "_Unhide"
 msgstr "_Zviditelnit"
 
@@ -12780,7 +12760,7 @@ msgstr "_Zviditelnit"
 msgid "Hei_ght..."
 msgstr "_Výška…"
 
-#: ../src/sheet-control-gui.c:2252 ../src/wbc-gtk-actions.c:2428
+#: ../src/sheet-control-gui.c:2252 ../src/wbc-gtk-actions.c:2395
 msgid "_Auto Fit Height"
 msgstr "_Automaticky přizpůsobit výšku"
 
@@ -12917,7 +12897,7 @@ msgid "By %s:"
 msgstr "Od %s:"
 
 #. Format toolbar
-#: ../src/sheet-merge.c:80 ../src/wbc-gtk-actions.c:2756
+#: ../src/sheet-merge.c:80 ../src/wbc-gtk-actions.c:2723
 msgid "Merge"
 msgstr "Sloučit"
 
@@ -13021,11 +13001,11 @@ msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
 msgstr "Z důvodu chyby #705640 v GTK se netiskne widget s objektem listu."
 
 #. Object Toolbar
-#: ../src/sheet-object-widget.c:404 ../src/wbc-gtk-actions.c:2715
+#: ../src/sheet-object-widget.c:404 ../src/wbc-gtk-actions.c:2682
 msgid "Frame"
 msgstr "Rámec"
 
-#: ../src/sheet-object-widget.c:896 ../src/wbc-gtk-actions.c:2748
+#: ../src/sheet-object-widget.c:896 ../src/wbc-gtk-actions.c:2715
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "Button"
 msgstr "Tlačítko"
@@ -13077,7 +13057,7 @@ msgstr "Zaškrtávací políčko %d"
 msgid "Clicking checkbox"
 msgstr "Klikatelné zaškrtávací políčko"
 
-#: ../src/sheet-object-widget.c:2944 ../src/wbc-gtk-actions.c:2751
+#: ../src/sheet-object-widget.c:2944 ../src/wbc-gtk-actions.c:2718
 msgid "RadioButton"
 msgstr "Skupinový přepínač"
 
@@ -13155,108 +13135,112 @@ msgstr "Vložit řádky"
 msgid "Delete Rows"
 msgstr "Odstranit řádky"
 
-#: ../src/ssconvert.c:62 ../src/ssdiff.c:48 ../src/ssgrep.c:158
+#: ../src/ssconvert.c:63 ../src/ssdiff.c:48 ../src/ssgrep.c:158
 #: ../src/ssindex.c:44
 msgid "Display program version"
 msgstr "Zobrazit verzi aplikace"
 
-#: ../src/ssconvert.c:71 ../src/ssindex.c:65
+#: ../src/ssconvert.c:72 ../src/ssindex.c:65
 msgid "Optionally specify an encoding for imported content"
 msgstr "Nepovinné určení kódování importovaného obsahu"
 
-#: ../src/ssconvert.c:72 ../src/ssindex.c:66
+#: ../src/ssconvert.c:73 ../src/ssindex.c:66
 msgid "ENCODING"
 msgstr "KÓDOVÁNÍ"
 
-#: ../src/ssconvert.c:78
+#: ../src/ssconvert.c:79
 msgid "Optionally specify which importer to use"
 msgstr "Nepovinné určení, jaký import použít"
 
-#: ../src/ssconvert.c:85
+#: ../src/ssconvert.c:86
 msgid "List the available importers"
 msgstr "Vypsat dostupné typy importu"
 
-#: ../src/ssconvert.c:94
+#: ../src/ssconvert.c:95
 msgid "Merge listed files (all same format) to make this file"
 msgstr ""
 "Sloučit vypsané soubory (všechny ve stejném formátu), aby vytvořily tento "
 "soubor"
 
-#: ../src/ssconvert.c:101
+#: ../src/ssconvert.c:102
 msgid "Optionally specify which exporter to use"
 msgstr "Nepovinné určení, který export použít"
 
-#: ../src/ssconvert.c:108
+#: ../src/ssconvert.c:109
 msgid "Detailed instructions for the chosen exporter"
 msgstr "Podrobné instrukce pro vybraný export"
 
-#: ../src/ssconvert.c:109
+#: ../src/ssconvert.c:110
 msgid "string"
 msgstr "text"
 
-#: ../src/ssconvert.c:115
+#: ../src/ssconvert.c:116
 msgid "List the available exporters"
 msgstr "Vypsat dostupné typy exportu"
 
-#: ../src/ssconvert.c:122
+#: ../src/ssconvert.c:123
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
 msgstr ""
 "Exportovat soubor pro každý list, pokud typ exportu podporuje jen jeden list."
 
-#: ../src/ssconvert.c:129
+#: ../src/ssconvert.c:130
 msgid "Recalculate all cells before writing the result"
 msgstr "Před zápisem výsledků přepočítat všechny buňky"
 
-#: ../src/ssconvert.c:140
+#: ../src/ssconvert.c:137
+msgid "Resize to given ROWSxCOLS"
+msgstr "Změnit velikost na zadaných ŘÁDKŮ×SLOUPCŮ"
+
+#: ../src/ssconvert.c:148
 msgid "The range to export"
 msgstr "Oblast pro export"
 
-#: ../src/ssconvert.c:147
+#: ../src/ssconvert.c:155
 msgid "Goal seek areas"
 msgstr "Oblasti hledání cíle"
 
-#: ../src/ssconvert.c:154
+#: ../src/ssconvert.c:162
 msgid "Run the solver"
 msgstr "Spustit řešitele"
 
-#: ../src/ssconvert.c:161
+#: ../src/ssconvert.c:169
 msgid "Tool test specs"
 msgstr "Specifikace testovacího nástroje"
 
-#: ../src/ssconvert.c:214
+#: ../src/ssconvert.c:222
 msgid "Cannot parse export options."
 msgstr "Nelze zpracovat volby exportu."
 
-#: ../src/ssconvert.c:220
+#: ../src/ssconvert.c:228
 #, c-format
 msgid "The file saver does not take options\n"
 msgstr "Program pro ukládání nemá takovouto volbu\n"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:375
+#: ../src/ssconvert.c:383
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 "Konflikt názvů při slučování: „%s“ se v rámci sešitu objevuje dvakrát.\n"
 
-#: ../src/ssconvert.c:524
+#: ../src/ssconvert.c:532
 #, c-format
 msgid "Failed to create solver"
 msgstr "Nelze vytvořit řešitele"
 
-#: ../src/ssconvert.c:537
+#: ../src/ssconvert.c:545
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Řešitel běžel, ale selhal"
 
-#: ../src/ssconvert.c:547
+#: ../src/ssconvert.c:555
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Řešitel: %s\n"
 
-#: ../src/ssconvert.c:643
+#: ../src/ssconvert.c:651
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13265,7 +13249,7 @@ msgstr ""
 "Neznámý export „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:663
+#: ../src/ssconvert.c:671
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13274,7 +13258,7 @@ msgstr ""
 "Není možné odhadnout export, který se má použít pro „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:674
+#: ../src/ssconvert.c:682
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13283,7 +13267,7 @@ msgstr ""
 "Je vyžadován název výstupního souboru nebo explicitní typ exportu.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:684
+#: ../src/ssconvert.c:692
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13292,12 +13276,12 @@ msgstr ""
 "Neznámý import „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-importers.\n"
 
-#: ../src/ssconvert.c:708
+#: ../src/ssconvert.c:716
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Načtení %s selhalo\n"
 
-#: ../src/ssconvert.c:784
+#: ../src/ssconvert.c:814
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13307,11 +13291,11 @@ msgstr ""
 "Zvolený export (%s) nepodporuje ukládání více listů do jednoho souboru.\n"
 "Bude uložen jen aktuální list. Pro obejití tohoto omezení použijte -S.\n"
 
-#: ../src/ssconvert.c:813 ../src/ssconvert.c:864
+#: ../src/ssconvert.c:843 ../src/ssconvert.c:894
 msgid "INFILE [OUTFILE]"
 msgstr "VSTUPNÍ_SOUBOR [VÝSTUPNÍ_SOUBOR]"
 
-#: ../src/ssconvert.c:832
+#: ../src/ssconvert.c:862
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13322,7 +13306,7 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/ssconvert.c:862 ../src/ssdiff.c:1062 ../src/ssindex.c:266
+#: ../src/ssconvert.c:892 ../src/ssdiff.c:1062 ../src/ssindex.c:266
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Použití: %s [PŘEPÍNAČ…] %s\n"
@@ -14528,90 +14512,90 @@ msgstr "Pokročilý filtr (%s)"
 msgid "Invalid solver target"
 msgstr "Neplatná cílová oblast řešitele"
 
-#: ../src/tools/gnm-solver.c:604
+#: ../src/tools/gnm-solver.c:605
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "Cílová buňka, %s, musí obsahovat vzorec, jehož výsledkem je číslo"
 
-#: ../src/tools/gnm-solver.c:614
+#: ../src/tools/gnm-solver.c:615
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Neplatná vstupní oblast řešitele"
 
-#: ../src/tools/gnm-solver.c:625
+#: ../src/tools/gnm-solver.c:626
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Vstupní buňka %s obsahuje vzorec"
 
-#: ../src/tools/gnm-solver.c:640
+#: ../src/tools/gnm-solver.c:641
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Omezení č. %d v řešiteli je neplatné"
 
-#: ../src/tools/gnm-solver.c:976
+#: ../src/tools/gnm-solver.c:977
 msgid "Timeout"
 msgstr "Časový limit"
 
-#: ../src/tools/gnm-solver.c:1226
+#: ../src/tools/gnm-solver.c:1234
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Selhalo vytvoření souboru pro lineární program"
 
-#: ../src/tools/gnm-solver.c:1235
+#: ../src/tools/gnm-solver.c:1243
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Selhalo vytvoření souboru lineárního programu"
 
-#: ../src/tools/gnm-solver.c:1255
+#: ../src/tools/gnm-solver.c:1263
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Selhalo uložení lineárního programu"
 
-#: ../src/tools/gnm-solver.c:1444
+#: ../src/tools/gnm-solver.c:1453
 msgid "Target"
 msgstr "Cíl"
 
-#: ../src/tools/gnm-solver.c:1448
+#: ../src/tools/gnm-solver.c:1457
 msgid "Status"
 msgstr "Stav"
 
-#: ../src/tools/gnm-solver.c:1461
+#: ../src/tools/gnm-solver.c:1470
 msgid "Minimize"
 msgstr "Minimalizace"
 
-#: ../src/tools/gnm-solver.c:1464
+#: ../src/tools/gnm-solver.c:1473
 msgid "Maximize"
 msgstr "Maximalizace"
 
-#: ../src/tools/gnm-solver.c:1495
+#: ../src/tools/gnm-solver.c:1504
 msgid "Lower"
 msgstr "Dolní"
 
-#: ../src/tools/gnm-solver.c:1496
+#: ../src/tools/gnm-solver.c:1505
 msgid "Upper"
 msgstr "Horní"
 
-#: ../src/tools/gnm-solver.c:1497 ../src/tools/gnm-solver.c:1556
+#: ../src/tools/gnm-solver.c:1506 ../src/tools/gnm-solver.c:1565
 msgid "Slack"
 msgstr "Volné"
 
-#: ../src/tools/gnm-solver.c:1531
+#: ../src/tools/gnm-solver.c:1540
 msgid "At limit"
 msgstr "V limitu"
 
-#: ../src/tools/gnm-solver.c:1535
+#: ../src/tools/gnm-solver.c:1544
 msgid "Outside bounds"
 msgstr "Mimo omezení"
 
-#: ../src/tools/gnm-solver.c:1553
+#: ../src/tools/gnm-solver.c:1562
 msgid "Condition"
 msgstr "Podmínka"
 
-#: ../src/tools/gnm-solver.c:1558
+#: ../src/tools/gnm-solver.c:1567
 msgid "No constraints"
 msgstr "Bez omezení"
 
-#: ../src/tools/gnm-solver.c:2012
+#: ../src/tools/gnm-solver.c:2021
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14624,12 +14608,12 @@ msgstr ""
 "\n"
 "Přejete si jej najít sami?"
 
-#: ../src/tools/gnm-solver.c:2016
+#: ../src/tools/gnm-solver.c:2025
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Nelze najít „%s“"
 
-#: ../src/tools/gnm-solver.c:2032
+#: ../src/tools/gnm-solver.c:2041
 #, c-format
 msgid "Locate the %s program"
 msgstr "Vyhledání programu %s"
@@ -14738,7 +14722,7 @@ msgstr "Strmost"
 msgid "Range"
 msgstr "Interval"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4642
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4729
 msgid "Count"
 msgstr "Počet"
 
@@ -14770,7 +14754,7 @@ msgstr "(Vstup)"
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr "Překročen maximální čas. Simulace nebyla dokončena. "
 
-#: ../src/tools/tabulate.c:147
+#: ../src/tools/tabulate.c:156
 msgid "Tabulation"
 msgstr "Sestavení tabulky"
 
@@ -14833,10 +14817,12 @@ msgid "Less than or Equal"
 msgstr "Menší nebo rovno"
 
 #: ../src/validation.c:439
+#, c-format
 msgid "Missing formula for validation"
 msgstr "Schází vzorec pro ověření"
 
 #: ../src/validation.c:442
+#, c-format
 msgid "Extra formula for validation"
 msgstr "Dodatečný vzorec pro ověření"
 
@@ -14912,29 +14898,25 @@ msgstr "#ČÍSLO!"
 msgid "#N/A"
 msgstr "#N/A"
 
-#: ../src/wbc-gtk-actions.c:159
-msgid "Failed to create temporary file for sending."
-msgstr "Selhalo vytvoření dočasného souboru pro odeslání."
-
-#: ../src/wbc-gtk-actions.c:216 ../src/workbook-view.c:1184
+#: ../src/wbc-gtk-actions.c:183 ../src/workbook-view.c:1188
 msgid "Default file saver is not available."
 msgstr "Výchozí ukládání souboru není k dispozici."
 
 #. File->PrintArea
-#: ../src/wbc-gtk-actions.c:241 ../src/wbc-gtk-actions.c:2157
+#: ../src/wbc-gtk-actions.c:208 ../src/wbc-gtk-actions.c:2124
 msgid "Set Print Area"
 msgstr "Nastavit tiskovou oblast"
 
-#: ../src/wbc-gtk-actions.c:245
+#: ../src/wbc-gtk-actions.c:212
 #, c-format
 msgid "Set Print Area to %s"
 msgstr "Nastavit tiskovou oblast na %s"
 
-#: ../src/wbc-gtk-actions.c:264 ../src/wbc-gtk-actions.c:2160
+#: ../src/wbc-gtk-actions.c:231 ../src/wbc-gtk-actions.c:2127
 msgid "Clear Print Area"
 msgstr "Vymazat tiskovou oblast"
 
-#: ../src/wbc-gtk-actions.c:532
+#: ../src/wbc-gtk-actions.c:499
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -14953,7 +14935,7 @@ msgstr ""
 "\n"
 "Nahrazování bylo přerušeno a nic nebylo změněno."
 
-#: ../src/wbc-gtk-actions.c:571
+#: ../src/wbc-gtk-actions.c:538
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "Komentář v buňce %s!%s"
@@ -14962,31 +14944,31 @@ msgstr "Komentář v buňce %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: ../src/wbc-gtk-actions.c:889
+#: ../src/wbc-gtk-actions.c:856
 msgid "Insert rows"
 msgstr "Vložit řádky"
 
-#: ../src/wbc-gtk-actions.c:906
+#: ../src/wbc-gtk-actions.c:873
 msgid "Insert columns"
 msgstr "Vložit sloupce"
 
-#: ../src/wbc-gtk-actions.c:1013 ../src/wbc-gtk-actions.c:1033
+#: ../src/wbc-gtk-actions.c:980 ../src/wbc-gtk-actions.c:1000
 msgid "Show Detail"
 msgstr "Zobrazit podrobnosti"
 
-#: ../src/wbc-gtk-actions.c:1013 ../src/wbc-gtk-actions.c:1033
+#: ../src/wbc-gtk-actions.c:980 ../src/wbc-gtk-actions.c:1000
 msgid "Hide Detail"
 msgstr "Skrýt podrobnosti"
 
-#: ../src/wbc-gtk-actions.c:1020
+#: ../src/wbc-gtk-actions.c:987
 msgid "can only be performed on an existing group"
 msgstr "lze použít pouze na existující skupinu"
 
-#: ../src/wbc-gtk-actions.c:1061
+#: ../src/wbc-gtk-actions.c:1028
 msgid "Ungroup"
 msgstr "Zrušit seskupení"
 
-#: ../src/wbc-gtk-actions.c:1115
+#: ../src/wbc-gtk-actions.c:1082
 #, c-format
 msgid ""
 "Unable to start the help browser (%s).\n"
@@ -14999,1027 +14981,1027 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/wbc-gtk-actions.c:1276
+#: ../src/wbc-gtk-actions.c:1243
 msgid "Sort"
 msgstr "Seřadit"
 
-#: ../src/wbc-gtk-actions.c:1427
+#: ../src/wbc-gtk-actions.c:1394
 msgid "Choose object file"
 msgstr "Výběr souboru s objektem"
 
-#: ../src/wbc-gtk-actions.c:1508
+#: ../src/wbc-gtk-actions.c:1475
 msgid "Set Horizontal Alignment"
 msgstr "Nastavit vodorovné zarovnání"
 
-#: ../src/wbc-gtk-actions.c:1542
+#: ../src/wbc-gtk-actions.c:1509
 msgid "Set Vertical Alignment"
 msgstr "Nastavit svislé zarovnání"
 
-#: ../src/wbc-gtk-actions.c:1687
+#: ../src/wbc-gtk-actions.c:1654
 msgid "Format as General"
 msgstr "Formátovat jako obecné"
 
-#: ../src/wbc-gtk-actions.c:1693
+#: ../src/wbc-gtk-actions.c:1660
 msgid "Format as Number"
 msgstr "Formátovat jako číslo"
 
-#: ../src/wbc-gtk-actions.c:1710
+#: ../src/wbc-gtk-actions.c:1677
 msgid "Format as Currency"
 msgstr "Formátovat jako měnu"
 
-#: ../src/wbc-gtk-actions.c:1718
+#: ../src/wbc-gtk-actions.c:1685
 msgid "Format as Accounting"
 msgstr "Formátovat jako účetní"
 
-#: ../src/wbc-gtk-actions.c:1724 ../src/wbc-gtk-actions.c:1731
+#: ../src/wbc-gtk-actions.c:1691 ../src/wbc-gtk-actions.c:1698
 msgid "Format as Percentage"
 msgstr "Formátovat jako procenta"
 
-#: ../src/wbc-gtk-actions.c:1739
+#: ../src/wbc-gtk-actions.c:1706
 msgid "Format as Time"
 msgstr "Formátovat jako čas"
 
-#: ../src/wbc-gtk-actions.c:1746
+#: ../src/wbc-gtk-actions.c:1713
 msgid "Format as Date"
 msgstr "Formátovat jako datum"
 
-#: ../src/wbc-gtk-actions.c:1770
+#: ../src/wbc-gtk-actions.c:1737
 msgid "Add Borders"
 msgstr "Přidat ohraničení"
 
-#: ../src/wbc-gtk-actions.c:1770
+#: ../src/wbc-gtk-actions.c:1737
 msgid "Remove borders"
 msgstr "Odstranit ohraničení"
 
-#: ../src/wbc-gtk-actions.c:1886
+#: ../src/wbc-gtk-actions.c:1853
 msgid "Increase precision"
 msgstr "Zvýšit přesnost"
 
-#: ../src/wbc-gtk-actions.c:1889
+#: ../src/wbc-gtk-actions.c:1856
 msgid "Decrease precision"
 msgstr "Snížit přesnost"
 
-#: ../src/wbc-gtk-actions.c:1891
+#: ../src/wbc-gtk-actions.c:1858
 msgid "Toggle thousands separator"
 msgstr "Přepnout oddělovač tisíců"
 
-#: ../src/wbc-gtk-actions.c:1899
+#: ../src/wbc-gtk-actions.c:1866
 msgid "Copy down"
 msgstr "Kopírovat dolů"
 
 #. xgettext: copy from the cell to the left into current cell --
 #. this has nothing whatsoever to do with copyright.
-#: ../src/wbc-gtk-actions.c:1907
+#: ../src/wbc-gtk-actions.c:1874
 msgid "Copy right"
 msgstr "Kopírovat doprava"
 
-#: ../src/wbc-gtk-actions.c:1984
+#: ../src/wbc-gtk-actions.c:1951
 msgid "_File"
 msgstr "_Soubor"
 
-#: ../src/wbc-gtk-actions.c:1986
+#: ../src/wbc-gtk-actions.c:1953
 msgid "New From Template"
 msgstr "Nový ze šablony"
 
-#: ../src/wbc-gtk-actions.c:1987
+#: ../src/wbc-gtk-actions.c:1954
 msgid "_Edit"
 msgstr "U_pravit"
 
-#: ../src/wbc-gtk-actions.c:1988
+#: ../src/wbc-gtk-actions.c:1955
 msgid "C_lear"
 msgstr "_Vymazat"
 
-#: ../src/wbc-gtk-actions.c:1989
+#: ../src/wbc-gtk-actions.c:1956
 msgid "_Delete"
 msgstr "O_dstranit"
 
-#: ../src/wbc-gtk-actions.c:1990
+#: ../src/wbc-gtk-actions.c:1957
 msgid "_Modify"
 msgstr "Z_měnit"
 
-#: ../src/wbc-gtk-actions.c:1991
+#: ../src/wbc-gtk-actions.c:1958
 msgid "S_heet"
 msgstr "_List"
 
-#: ../src/wbc-gtk-actions.c:1992
+#: ../src/wbc-gtk-actions.c:1959
 msgid "_Select"
 msgstr "_Vybrat"
 
-#: ../src/wbc-gtk-actions.c:1993
+#: ../src/wbc-gtk-actions.c:1960
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: ../src/wbc-gtk-actions.c:1994
+#: ../src/wbc-gtk-actions.c:1961
 msgid "_Windows"
 msgstr "_Okna"
 
-#: ../src/wbc-gtk-actions.c:1995
+#: ../src/wbc-gtk-actions.c:1962
 msgid "_Toolbars"
 msgstr "_Lišty nástrojů"
 
-#: ../src/wbc-gtk-actions.c:1997
+#: ../src/wbc-gtk-actions.c:1964
 msgid "_Object"
 msgstr "_Objekt"
 
-#: ../src/wbc-gtk-actions.c:1998
+#: ../src/wbc-gtk-actions.c:1965
 msgid "S_pecial"
 msgstr "S_peciální"
 
-#: ../src/wbc-gtk-actions.c:2000
+#: ../src/wbc-gtk-actions.c:1967
 msgid "Func_tion Wrapper"
 msgstr "Zaobali_t funkcí"
 
-#: ../src/wbc-gtk-actions.c:2001
+#: ../src/wbc-gtk-actions.c:1968
 msgid "F_ormat"
 msgstr "_Formát"
 
-#: ../src/wbc-gtk-actions.c:2002
+#: ../src/wbc-gtk-actions.c:1969
 msgid "_Cells"
 msgstr "_Buňky"
 
-#: ../src/wbc-gtk-actions.c:2003
+#: ../src/wbc-gtk-actions.c:1970
 msgid "_Text"
 msgstr "_Text"
 
-#: ../src/wbc-gtk-actions.c:2004 ../src/wbc-gtk-actions.c:2921
+#: ../src/wbc-gtk-actions.c:1971 ../src/wbc-gtk-actions.c:2888
 msgid "_Underline"
 msgstr "_Podtržení"
 
-#: ../src/wbc-gtk-actions.c:2005
+#: ../src/wbc-gtk-actions.c:1972
 msgid "C_olumn"
 msgstr "Sl_oupec"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: ../src/wbc-gtk-actions.c:2007 ../src/wbc-gtk-actions.c:2116
+#: ../src/wbc-gtk-actions.c:1974 ../src/wbc-gtk-actions.c:2083
 msgid "_Sheet"
 msgstr "Li_st"
 
-#: ../src/wbc-gtk-actions.c:2008
+#: ../src/wbc-gtk-actions.c:1975
 msgid "_Tools"
 msgstr "Nás_troje"
 
-#: ../src/wbc-gtk-actions.c:2009
+#: ../src/wbc-gtk-actions.c:1976
 msgid "Sce_narios"
 msgstr "Scé_náře"
 
-#: ../src/wbc-gtk-actions.c:2010
+#: ../src/wbc-gtk-actions.c:1977
 msgid "_Statistics"
 msgstr "_Statistika"
 
-#: ../src/wbc-gtk-actions.c:2011
+#: ../src/wbc-gtk-actions.c:1978
 msgid "_Descriptive Statistics"
 msgstr "_Popisné statistiky"
 
-#: ../src/wbc-gtk-actions.c:2012
+#: ../src/wbc-gtk-actions.c:1979
 msgid "Fre_quency Tables"
 msgstr "Fre_kvenční tabulky"
 
-#: ../src/wbc-gtk-actions.c:2013
+#: ../src/wbc-gtk-actions.c:1980
 msgid "De_pendent Observations"
 msgstr "Závislá _pozorování"
 
-#: ../src/wbc-gtk-actions.c:2014
+#: ../src/wbc-gtk-actions.c:1981
 msgid "F_orecast"
 msgstr "Předp_ovídání"
 
-#: ../src/wbc-gtk-actions.c:2015
+#: ../src/wbc-gtk-actions.c:1982
 msgid "_One Sample Tests"
 msgstr "_Jednovzorkové testy"
 
-#: ../src/wbc-gtk-actions.c:2016
+#: ../src/wbc-gtk-actions.c:1983
 msgid "Claims About a Me_dian"
 msgstr "Požadavky na me_dián"
 
-#: ../src/wbc-gtk-actions.c:2017
+#: ../src/wbc-gtk-actions.c:1984
 msgid "_Two Sample Tests"
 msgstr "Dvouvzorkové _testy"
 
-#: ../src/wbc-gtk-actions.c:2018
+#: ../src/wbc-gtk-actions.c:1985
 msgid "Claims About Two Me_dians"
 msgstr "Požadavky na dva me_diány"
 
-#: ../src/wbc-gtk-actions.c:2019
+#: ../src/wbc-gtk-actions.c:1986
 msgid "Claims About Two _Means"
 msgstr "Požadavky na dvě střed_ní hodnoty"
 
-#: ../src/wbc-gtk-actions.c:2020
+#: ../src/wbc-gtk-actions.c:1987
 msgid "_Multiple Sample Tests"
 msgstr "Více_násobné testy vzorků"
 
-#: ../src/wbc-gtk-actions.c:2021
+#: ../src/wbc-gtk-actions.c:1988
 msgid "_ANOVA"
 msgstr "_Analýza rozptylu"
 
-#: ../src/wbc-gtk-actions.c:2022
+#: ../src/wbc-gtk-actions.c:1989
 msgid "Contin_gency Table"
 msgstr "Kontin_genční tabulka"
 
-#: ../src/wbc-gtk-actions.c:2023
+#: ../src/wbc-gtk-actions.c:1990
 msgid "_Data"
 msgstr "_Data"
 
-#: ../src/wbc-gtk-actions.c:2024
+#: ../src/wbc-gtk-actions.c:1991
 msgid "_Filter"
 msgstr "_Filtr"
 
-#: ../src/wbc-gtk-actions.c:2025
+#: ../src/wbc-gtk-actions.c:1992
 msgid "F_ill"
 msgstr "Vypln_it"
 
-#: ../src/wbc-gtk-actions.c:2026
+#: ../src/wbc-gtk-actions.c:1993
 msgid "_Random Generators"
 msgstr "_Generátory náhodných čísel"
 
-#: ../src/wbc-gtk-actions.c:2027
+#: ../src/wbc-gtk-actions.c:1994
 msgid "_Group and Outline"
 msgstr "_Skupiny a osnovy"
 
-#: ../src/wbc-gtk-actions.c:2028
+#: ../src/wbc-gtk-actions.c:1995
 msgid "Import _Data"
 msgstr "Importovat _data"
 
-#: ../src/wbc-gtk-actions.c:2029
+#: ../src/wbc-gtk-actions.c:1996
 msgid "E_xport Data"
 msgstr "E_xportovat data"
 
-#: ../src/wbc-gtk-actions.c:2030
+#: ../src/wbc-gtk-actions.c:1997
 msgid "Data S_licer"
 msgstr "Datový průř_ez"
 
-#: ../src/wbc-gtk-actions.c:2031
+#: ../src/wbc-gtk-actions.c:1998
 msgid "_Help"
 msgstr "Nápo_věda"
 
-#: ../src/wbc-gtk-actions.c:2034
+#: ../src/wbc-gtk-actions.c:2001
 msgid "Create a new workbook"
 msgstr "Vytvořit nový sešit"
 
-#: ../src/wbc-gtk-actions.c:2037
+#: ../src/wbc-gtk-actions.c:2004
 msgid "Open a file"
 msgstr "Otevřít soubor"
 
-#: ../src/wbc-gtk-actions.c:2040
+#: ../src/wbc-gtk-actions.c:2007
 msgid "Save the current workbook"
 msgstr "Uložit aktuální sešit"
 
-#: ../src/wbc-gtk-actions.c:2043
+#: ../src/wbc-gtk-actions.c:2010
 msgid "Save the current workbook with a different name"
 msgstr "Uložit aktuální sešit pod jiným názvem"
 
-#: ../src/wbc-gtk-actions.c:2045
+#: ../src/wbc-gtk-actions.c:2012
 msgid "Sen_d To..."
 msgstr "O_deslat na…"
 
-#: ../src/wbc-gtk-actions.c:2046
+#: ../src/wbc-gtk-actions.c:2013
 msgid "Send the current file via email"
 msgstr "Odeslat aktuální soubor elektronickou poštou"
 
-#: ../src/wbc-gtk-actions.c:2048
+#: ../src/wbc-gtk-actions.c:2015
 msgid "Print Area & Breaks"
 msgstr "Tisková oblast a zalomení"
 
-#: ../src/wbc-gtk-actions.c:2049
+#: ../src/wbc-gtk-actions.c:2016
 msgid "Page Set_up..."
 msgstr "Nastavení s_tránky…"
 
-#: ../src/wbc-gtk-actions.c:2050
+#: ../src/wbc-gtk-actions.c:2017
 msgid "Setup the page settings for your current printer"
 msgstr "Nastavit stránku pro vaši aktuální tiskárnu"
 
-#: ../src/wbc-gtk-actions.c:2053
+#: ../src/wbc-gtk-actions.c:2020
 msgid "Print preview"
 msgstr "Náhled před tiskem"
 
-#: ../src/wbc-gtk-actions.c:2056
+#: ../src/wbc-gtk-actions.c:2023
 msgid "Print the current file"
 msgstr "Tisk aktuálního souboru"
 
-#: ../src/wbc-gtk-actions.c:2059
+#: ../src/wbc-gtk-actions.c:2026
 msgid "Full _History..."
 msgstr "Úplná _historie…"
 
-#: ../src/wbc-gtk-actions.c:2060
+#: ../src/wbc-gtk-actions.c:2027
 msgid "Access previously used file"
 msgstr "Přístup k dříve použitým souborům"
 
-#: ../src/wbc-gtk-actions.c:2063
+#: ../src/wbc-gtk-actions.c:2030
 msgid "Close the current file"
 msgstr "Zavřít aktuální soubor"
 
-#: ../src/wbc-gtk-actions.c:2066
+#: ../src/wbc-gtk-actions.c:2033
 msgid "Quit the application"
 msgstr "Ukončit aplikaci"
 
-#: ../src/wbc-gtk-actions.c:2070
+#: ../src/wbc-gtk-actions.c:2037
 msgid "Copy the selection"
 msgstr "Kopírovat výběr"
 
-#: ../src/wbc-gtk-actions.c:2073
+#: ../src/wbc-gtk-actions.c:2040
 msgid "_Name..."
 msgstr "_Název…"
 
-#: ../src/wbc-gtk-actions.c:2074
+#: ../src/wbc-gtk-actions.c:2041
 msgid "Insert a defined name"
 msgstr "Vložit definovaný název"
 
-#: ../src/wbc-gtk-actions.c:2077 ../src/wbc-gtk-actions.c:2186
+#: ../src/wbc-gtk-actions.c:2044 ../src/wbc-gtk-actions.c:2153
 msgid "_Contents"
 msgstr "_Obsah"
 
-#: ../src/wbc-gtk-actions.c:2078
+#: ../src/wbc-gtk-actions.c:2045
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "Otevřít prohlížeč dokumentace aplikace Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2080
+#: ../src/wbc-gtk-actions.c:2047
 msgid "_Functions"
 msgstr "_Funkce"
 
-#: ../src/wbc-gtk-actions.c:2081
+#: ../src/wbc-gtk-actions.c:2048
 msgid "Functions help"
 msgstr "Nápověda k funkcím"
 
-#: ../src/wbc-gtk-actions.c:2083
+#: ../src/wbc-gtk-actions.c:2050
 msgid "Gnumeric on the _Web"
 msgstr "Gnumeric na _webu"
 
-#: ../src/wbc-gtk-actions.c:2084
+#: ../src/wbc-gtk-actions.c:2051
 msgid "Browse to Gnumeric's website"
 msgstr "Procházet webové stránky aplikace Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2086
+#: ../src/wbc-gtk-actions.c:2053
 msgid "_Live Assistance"
 msgstr "Ž_ivá pomoc"
 
-#: ../src/wbc-gtk-actions.c:2087
+#: ../src/wbc-gtk-actions.c:2054
 msgid "See if anyone is available to answer questions"
 msgstr "Podívat se, jestli je někdo k dispozici, aby odpověděl na dotazy"
 
-#: ../src/wbc-gtk-actions.c:2089
+#: ../src/wbc-gtk-actions.c:2056
 msgid "Report a _Problem"
 msgstr "Ohlásit _problém"
 
-#: ../src/wbc-gtk-actions.c:2090
+#: ../src/wbc-gtk-actions.c:2057
 msgid "Report problem"
 msgstr "Ohlásit problém"
 
-#: ../src/wbc-gtk-actions.c:2092
+#: ../src/wbc-gtk-actions.c:2059
 msgid "_About"
 msgstr "O _aplikaci"
 
-#: ../src/wbc-gtk-actions.c:2093
+#: ../src/wbc-gtk-actions.c:2060
 msgid "About this application"
 msgstr "O této aplikaci"
 
-#: ../src/wbc-gtk-actions.c:2100
+#: ../src/wbc-gtk-actions.c:2067
 msgid "Cut the selection"
 msgstr "Vyjmout výběr"
 
-#: ../src/wbc-gtk-actions.c:2103
+#: ../src/wbc-gtk-actions.c:2070
 msgid "Paste the clipboard"
 msgstr "Vložit obsah schránky"
 
 #. Edit -> Sheet
-#: ../src/wbc-gtk-actions.c:2109
+#: ../src/wbc-gtk-actions.c:2076
 msgid "_Manage Sheets..."
 msgstr "_Správa listů…"
 
-#: ../src/wbc-gtk-actions.c:2110
+#: ../src/wbc-gtk-actions.c:2077
 msgid "Manage the sheets in this workbook"
 msgstr "Správa listů v tomto sešitě"
 
-#: ../src/wbc-gtk-actions.c:2113 ../src/wbc-gtk-actions.c:2117
+#: ../src/wbc-gtk-actions.c:2080 ../src/wbc-gtk-actions.c:2084
 msgid "Insert a new sheet"
 msgstr "Vložit nový list"
 
-#: ../src/wbc-gtk-actions.c:2119
+#: ../src/wbc-gtk-actions.c:2086
 msgid "_Append"
 msgstr "_Připojit"
 
-#: ../src/wbc-gtk-actions.c:2120
+#: ../src/wbc-gtk-actions.c:2087
 msgid "Append a new sheet"
 msgstr "Připojit nový list"
 
-#: ../src/wbc-gtk-actions.c:2122
+#: ../src/wbc-gtk-actions.c:2089
 msgid "_Duplicate"
 msgstr "_Duplikovat"
 
-#: ../src/wbc-gtk-actions.c:2123
+#: ../src/wbc-gtk-actions.c:2090
 msgid "Make a copy of the current sheet"
 msgstr "Vytvořit kopii aktuálního listu"
 
-#: ../src/wbc-gtk-actions.c:2126
+#: ../src/wbc-gtk-actions.c:2093
 msgid "Irrevocably remove an entire sheet"
 msgstr "Nenávratně odstranit celý list"
 
-#: ../src/wbc-gtk-actions.c:2128
+#: ../src/wbc-gtk-actions.c:2095
 msgid "Re_name..."
 msgstr "Přejme_novat…"
 
-#: ../src/wbc-gtk-actions.c:2129
+#: ../src/wbc-gtk-actions.c:2096
 msgid "Rename the current sheet"
 msgstr "Přejmenovat aktuální list"
 
-#: ../src/wbc-gtk-actions.c:2131 ../src/wbc-gtk.c:511
+#: ../src/wbc-gtk-actions.c:2098 ../src/wbc-gtk.c:511
 msgid "Resize..."
 msgstr "Změnit velikost…"
 
-#: ../src/wbc-gtk-actions.c:2132
+#: ../src/wbc-gtk-actions.c:2099
 msgid "Change the size of the current sheet"
 msgstr "Změnit velikost aktuálního listu"
 
 #. View
-#: ../src/wbc-gtk-actions.c:2136
+#: ../src/wbc-gtk-actions.c:2103
 msgid "_New View..."
 msgstr "_Nový pohled…"
 
-#: ../src/wbc-gtk-actions.c:2137
+#: ../src/wbc-gtk-actions.c:2104
 msgid "Create a new view of the workbook"
 msgstr "Vytvořit nový pohled na sešit"
 
 #. Format
-#: ../src/wbc-gtk-actions.c:2141
+#: ../src/wbc-gtk-actions.c:2108
 msgid "View _Properties..."
 msgstr "_Vlastnosti zobrazení…"
 
-#: ../src/wbc-gtk-actions.c:2142
+#: ../src/wbc-gtk-actions.c:2109
 msgid "Modify the view properties"
 msgstr "Změnit vlastnosti zobrazení"
 
 #. File
-#: ../src/wbc-gtk-actions.c:2152
+#: ../src/wbc-gtk-actions.c:2119
 msgid "Document Proper_ties..."
 msgstr "Vlas_tnosti dokumentu…"
 
-#: ../src/wbc-gtk-actions.c:2153
+#: ../src/wbc-gtk-actions.c:2120
 msgid "Edit document properties"
 msgstr "Upravit vlastnosti dokumentu"
 
-#: ../src/wbc-gtk-actions.c:2158
+#: ../src/wbc-gtk-actions.c:2125
 msgid "Use the current selection as print area"
 msgstr "Použít současný výběr jako tiskovou oblast"
 
-#: ../src/wbc-gtk-actions.c:2161
+#: ../src/wbc-gtk-actions.c:2128
 msgid "Undefine the print area"
 msgstr "Zrušit definici tiskové oblasti"
 
-#: ../src/wbc-gtk-actions.c:2163
+#: ../src/wbc-gtk-actions.c:2130
 msgid "Show Print Area"
 msgstr "Zobrazit tiskovou oblast"
 
-#: ../src/wbc-gtk-actions.c:2164
+#: ../src/wbc-gtk-actions.c:2131
 msgid "Select the print area"
 msgstr "Vybrat tiskovou oblast"
 
-#: ../src/wbc-gtk-actions.c:2166
+#: ../src/wbc-gtk-actions.c:2133
 msgid "Set Column Page Break"
 msgstr "Nastavit zalomení stránky ve sloupci"
 
-#: ../src/wbc-gtk-actions.c:2167
+#: ../src/wbc-gtk-actions.c:2134
 msgid "Split the page to the left of this column"
 msgstr "Nalevo od tohoto sloupce rozdělit stránku"
 
-#: ../src/wbc-gtk-actions.c:2169
+#: ../src/wbc-gtk-actions.c:2136
 msgid "Set Row Page Break"
 msgstr "Nastavit zalomení stránky v řádku"
 
-#: ../src/wbc-gtk-actions.c:2170
+#: ../src/wbc-gtk-actions.c:2137
 msgid "Split the page above this row"
 msgstr "Pod tímto řádkem rozdělit stránku"
 
-#: ../src/wbc-gtk-actions.c:2173
+#: ../src/wbc-gtk-actions.c:2140
 msgid "Remove all manual pagebreaks from this sheet"
 msgstr "Odstranit z tohoto sešitu všechna ruční zalomení"
 
-#: ../src/wbc-gtk-actions.c:2178
+#: ../src/wbc-gtk-actions.c:2145
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Vymazat formáty, komentáře a obsah vybraných buněk"
 
-#: ../src/wbc-gtk-actions.c:2180
+#: ../src/wbc-gtk-actions.c:2147
 msgid "_Formats & Hyperlinks"
 msgstr "_Formáty a hypertextové odkazy"
 
-#: ../src/wbc-gtk-actions.c:2181
+#: ../src/wbc-gtk-actions.c:2148
 msgid "Clear the selected cells' formats and hyperlinks"
 msgstr "Vymazat formátování a hypertextové odkazy vybraných buněk"
 
-#: ../src/wbc-gtk-actions.c:2184
+#: ../src/wbc-gtk-actions.c:2151
 msgid "Delete the selected cells' comments"
 msgstr "Odstranit komentáře vybraných buněk"
 
-#: ../src/wbc-gtk-actions.c:2187
+#: ../src/wbc-gtk-actions.c:2154
 msgid "Clear the selected cells' contents"
 msgstr "Vymazat obsah vybraných buněk"
 
-#: ../src/wbc-gtk-actions.c:2189
+#: ../src/wbc-gtk-actions.c:2156
 msgid "A_ll Filtered Rows"
 msgstr "Všechny fi_ltrované řádky"
 
-#: ../src/wbc-gtk-actions.c:2190
+#: ../src/wbc-gtk-actions.c:2157
 msgid ""
 "Clear the selected cells' formats, comments, and contents in the filtered "
 "rows"
 msgstr ""
 "Vymazat formáty, komentáře a obsah vybraných buněk ve filtrovaných řádcích"
 
-#: ../src/wbc-gtk-actions.c:2192
+#: ../src/wbc-gtk-actions.c:2159
 msgid "F_ormats & Hyperlinks in Filtered Rows"
 msgstr "F_ormáty a hypertextové odkazy ve filtrovaných řádcích"
 
-#: ../src/wbc-gtk-actions.c:2193
+#: ../src/wbc-gtk-actions.c:2160
 msgid "Clear the selected cells' formats and hyperlinks in the filtered rows"
 msgstr ""
 "Vymazat formáty a hypertextové odkazy vybraných buněk ve filtrovaných řádcích"
 
-#: ../src/wbc-gtk-actions.c:2195
+#: ../src/wbc-gtk-actions.c:2162
 msgid "Comme_nts in Filtered Rows"
 msgstr "Kome_ntáře ve filtrovaných řádcích"
 
-#: ../src/wbc-gtk-actions.c:2196
+#: ../src/wbc-gtk-actions.c:2163
 msgid "Delete the selected cells' comments in the filtered rows"
 msgstr "Odstranit komentáře vybraných buněk ve filtrovaných řádcích"
 
-#: ../src/wbc-gtk-actions.c:2198
+#: ../src/wbc-gtk-actions.c:2165
 msgid "Content_s of Filtered Rows"
 msgstr "Ob_sah filtrovaných řádků"
 
-#: ../src/wbc-gtk-actions.c:2199
+#: ../src/wbc-gtk-actions.c:2166
 msgid "Clear the selected cells' contents in the filtered rows"
 msgstr "Vymazat obsah vybraných buněk ve filtrovaných řádcích"
 
 #. Edit -> Delete
 #. Translators: Delete "Rows"
 #. Translators: Insert "Rows"
-#: ../src/wbc-gtk-actions.c:2204 ../src/wbc-gtk-actions.c:2336
+#: ../src/wbc-gtk-actions.c:2171 ../src/wbc-gtk-actions.c:2303
 msgid "_Rows"
 msgstr "Řá_dky"
 
-#: ../src/wbc-gtk-actions.c:2205
+#: ../src/wbc-gtk-actions.c:2172
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Odstranit řádky obsahující vybrané buňky"
 
 #. Translators: Delete "Columns"
 #. Translators: Insert "Columns"
-#: ../src/wbc-gtk-actions.c:2208 ../src/wbc-gtk-actions.c:2332
+#: ../src/wbc-gtk-actions.c:2175 ../src/wbc-gtk-actions.c:2299
 msgid "_Columns"
 msgstr "Sloup_ce"
 
-#: ../src/wbc-gtk-actions.c:2209
+#: ../src/wbc-gtk-actions.c:2176
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Odstranit sloupce obsahující vybrané buňky"
 
 #. A duplicate that should not go into the menus, used only for the accelerator
 #. Insert
 #. A duplicate that should not go into the menus, used only for the accelerator
-#: ../src/wbc-gtk-actions.c:2211 ../src/wbc-gtk-actions.c:2218
-#: ../src/wbc-gtk-actions.c:2324 ../src/wbc-gtk-actions.c:2328
+#: ../src/wbc-gtk-actions.c:2178 ../src/wbc-gtk-actions.c:2185
+#: ../src/wbc-gtk-actions.c:2291 ../src/wbc-gtk-actions.c:2295
 msgid "C_ells..."
 msgstr "_Buňky…"
 
-#: ../src/wbc-gtk-actions.c:2212 ../src/wbc-gtk-actions.c:2219
+#: ../src/wbc-gtk-actions.c:2179 ../src/wbc-gtk-actions.c:2186
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Odstranit vybrané buňky, ostatní posunout na jejich místo"
 
-#: ../src/wbc-gtk-actions.c:2214
+#: ../src/wbc-gtk-actions.c:2181
 msgid "_Hyperlinks"
 msgstr "_Hypertextové odkazy"
 
-#: ../src/wbc-gtk-actions.c:2215
+#: ../src/wbc-gtk-actions.c:2182
 msgid "Delete the selected cells' hyperlinks"
 msgstr "Odstranit hypertextové odkazy vybraných buněk"
 
-#: ../src/wbc-gtk-actions.c:2230
+#: ../src/wbc-gtk-actions.c:2197
 msgid "Select all cells in the spreadsheet"
 msgstr "Vybrat všechny buňky v sešitě"
 
-#: ../src/wbc-gtk-actions.c:2233
+#: ../src/wbc-gtk-actions.c:2200
 msgid "Select an entire column"
 msgstr "Vybrat celý sloupec"
 
-#: ../src/wbc-gtk-actions.c:2236
+#: ../src/wbc-gtk-actions.c:2203
 msgid "Select an entire row"
 msgstr "Vybrat celý řádek"
 
-#: ../src/wbc-gtk-actions.c:2239
+#: ../src/wbc-gtk-actions.c:2206
 msgid "Arra_y"
 msgstr "_Pole"
 
-#: ../src/wbc-gtk-actions.c:2240
+#: ../src/wbc-gtk-actions.c:2207
 msgid "Select an array of cells"
 msgstr "Vybrat pole buněk"
 
-#: ../src/wbc-gtk-actions.c:2242
+#: ../src/wbc-gtk-actions.c:2209
 msgid "_Depends"
 msgstr "_Závislosti"
 
-#: ../src/wbc-gtk-actions.c:2243
+#: ../src/wbc-gtk-actions.c:2210
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Vybrat všechny buňky, které závisí na aktuálně upravované buňce"
 
-#: ../src/wbc-gtk-actions.c:2245
+#: ../src/wbc-gtk-actions.c:2212
 msgid "_Inputs"
 msgstr "Vstup_y"
 
-#: ../src/wbc-gtk-actions.c:2246
+#: ../src/wbc-gtk-actions.c:2213
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Vybrat všechny buňky, které jsou používány aktuálně upravovanou buňkou"
 
-#: ../src/wbc-gtk-actions.c:2249
+#: ../src/wbc-gtk-actions.c:2216
 msgid "Next _Object"
 msgstr "Následující _objekt"
 
-#: ../src/wbc-gtk-actions.c:2250
+#: ../src/wbc-gtk-actions.c:2217
 msgid "Select the next sheet object"
 msgstr "Vybrat následující objekt v listu"
 
-#: ../src/wbc-gtk-actions.c:2253 ../src/wbc-gtk.c:2672
+#: ../src/wbc-gtk-actions.c:2220 ../src/wbc-gtk.c:2738
 msgid "Go to Top"
 msgstr "Přejít nahoru"
 
-#: ../src/wbc-gtk-actions.c:2254
+#: ../src/wbc-gtk-actions.c:2221
 msgid "Go to the top of the data"
 msgstr "Přejít na data nejvíce nahoře"
 
-#: ../src/wbc-gtk-actions.c:2256 ../src/wbc-gtk.c:2673
+#: ../src/wbc-gtk-actions.c:2223 ../src/wbc-gtk.c:2739
 msgid "Go to Bottom"
 msgstr "Přejít dolů"
 
-#: ../src/wbc-gtk-actions.c:2257
+#: ../src/wbc-gtk-actions.c:2224
 msgid "Go to the bottom of the data"
 msgstr "Přejít na data nejvíce dole"
 
-#: ../src/wbc-gtk-actions.c:2259 ../src/wbc-gtk.c:2674
+#: ../src/wbc-gtk-actions.c:2226 ../src/wbc-gtk.c:2740
 msgid "Go to First"
 msgstr "Přejít na první"
 
-#: ../src/wbc-gtk-actions.c:2260
+#: ../src/wbc-gtk-actions.c:2227
 msgid "Go to the first data cell"
 msgstr "Přejít na první buňku s daty"
 
-#: ../src/wbc-gtk-actions.c:2262 ../src/wbc-gtk.c:2675
+#: ../src/wbc-gtk-actions.c:2229 ../src/wbc-gtk.c:2741
 msgid "Go to Last"
 msgstr "Přejít na poslední"
 
-#: ../src/wbc-gtk-actions.c:2263
+#: ../src/wbc-gtk-actions.c:2230
 msgid "Go to the last data cell"
 msgstr "Přejít na poslední buňku s daty"
 
-#: ../src/wbc-gtk-actions.c:2265
+#: ../src/wbc-gtk-actions.c:2232
 msgid "_Go to Cell..."
 msgstr "Pře_jít na buňku…"
 
-#: ../src/wbc-gtk-actions.c:2266
+#: ../src/wbc-gtk-actions.c:2233
 msgid "Jump to a specified cell"
 msgstr "Přejít na zadanou buňku"
 
 #. Edit
-#: ../src/wbc-gtk-actions.c:2275
+#: ../src/wbc-gtk-actions.c:2242
 msgid "Repeat"
 msgstr "Opakovat"
 
-#: ../src/wbc-gtk-actions.c:2276
+#: ../src/wbc-gtk-actions.c:2243
 msgid "Repeat the previous action"
 msgstr "Opakovat předchozí operaci"
 
-#: ../src/wbc-gtk-actions.c:2278
+#: ../src/wbc-gtk-actions.c:2245
 msgid "P_aste Special..."
 msgstr "Vložit jin_ak…"
 
-#: ../src/wbc-gtk-actions.c:2279
+#: ../src/wbc-gtk-actions.c:2246
 msgid "Paste with optional filters and transformations"
 msgstr "Vložit s volitelnými filtry a úpravami"
 
-#: ../src/wbc-gtk-actions.c:2282 ../src/wbc-gtk-actions.c:2353
+#: ../src/wbc-gtk-actions.c:2249 ../src/wbc-gtk-actions.c:2320
 msgid "Co_mment..."
 msgstr "Ko_mentář…"
 
-#: ../src/wbc-gtk-actions.c:2283
+#: ../src/wbc-gtk-actions.c:2250
 msgid "Edit the selected cell's comment"
 msgstr "Upravit komentář vybrané buňky"
 
-#: ../src/wbc-gtk-actions.c:2285 ../src/wbc-gtk-actions.c:2356
+#: ../src/wbc-gtk-actions.c:2252 ../src/wbc-gtk-actions.c:2323
 msgid "Hyper_link..."
 msgstr "_Hypertextový odkaz…"
 
-#: ../src/wbc-gtk-actions.c:2286
+#: ../src/wbc-gtk-actions.c:2253
 msgid "Edit the selected cell's hyperlink"
 msgstr "Upravit hypertextový odkaz vybrané buňky"
 
-#: ../src/wbc-gtk-actions.c:2289
+#: ../src/wbc-gtk-actions.c:2256
 msgid "_Auto generate names..."
 msgstr "_Automaticky generovat názvy…"
 
-#: ../src/wbc-gtk-actions.c:2290
+#: ../src/wbc-gtk-actions.c:2257
 msgid "Use the current selection to create names"
 msgstr "Použít aktuální výběr pro vytvoření názvů"
 
-#: ../src/wbc-gtk-actions.c:2294
+#: ../src/wbc-gtk-actions.c:2261
 msgid "S_earch..."
 msgstr "Hl_edat…"
 
-#: ../src/wbc-gtk-actions.c:2295
+#: ../src/wbc-gtk-actions.c:2262
 msgid "Search for something"
 msgstr "Něco hledat"
 
-#: ../src/wbc-gtk-actions.c:2297
+#: ../src/wbc-gtk-actions.c:2264
 msgid "Search _& Replace..."
 msgstr "Hledat _a nahradit…"
 
-#: ../src/wbc-gtk-actions.c:2298
+#: ../src/wbc-gtk-actions.c:2265
 msgid "Search for something and replace it with something else"
 msgstr "Něco hledat a nahradit to něčím jiným"
 
-#: ../src/wbc-gtk-actions.c:2301
+#: ../src/wbc-gtk-actions.c:2268
 msgid "Recalculate"
 msgstr "Přepočítat"
 
-#: ../src/wbc-gtk-actions.c:2302
+#: ../src/wbc-gtk-actions.c:2269
 msgid "Recalculate the spreadsheet"
 msgstr "Přepočítat sešit"
 
-#: ../src/wbc-gtk-actions.c:2305
+#: ../src/wbc-gtk-actions.c:2272
 msgid "Preferences..."
 msgstr "Předvolby…"
 
-#: ../src/wbc-gtk-actions.c:2306
+#: ../src/wbc-gtk-actions.c:2273
 msgid "Change Gnumeric Preferences"
 msgstr "Změnit předvolby aplikace Gnumeric"
 
 #. View
-#: ../src/wbc-gtk-actions.c:2310 ../src/wbc-gtk.c:1515
+#: ../src/wbc-gtk-actions.c:2277 ../src/wbc-gtk.c:1581
 msgid "_Freeze Panes"
 msgstr "_Ukotvit rozdělení okna"
 
-#: ../src/wbc-gtk-actions.c:2311 ../src/wbc-gtk.c:1518
+#: ../src/wbc-gtk-actions.c:2278 ../src/wbc-gtk.c:1584
 msgid "Freeze the top left of the sheet"
 msgstr "Ukotvit levý horní roh listu"
 
-#: ../src/wbc-gtk-actions.c:2313
+#: ../src/wbc-gtk-actions.c:2280
 msgid "_Zoom..."
 msgstr "Při_blížení…"
 
-#: ../src/wbc-gtk-actions.c:2314
+#: ../src/wbc-gtk-actions.c:2281
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zvětšit nebo zmenšit zobrazení tabulky"
 
-#: ../src/wbc-gtk-actions.c:2316
+#: ../src/wbc-gtk-actions.c:2283
 msgid "Zoom _In"
 msgstr "Př_iblížit"
 
-#: ../src/wbc-gtk-actions.c:2317
+#: ../src/wbc-gtk-actions.c:2284
 msgid "Increase the zoom to make things larger"
 msgstr "Zvýšit zvětšení, aby věci byly větší"
 
-#: ../src/wbc-gtk-actions.c:2319
+#: ../src/wbc-gtk-actions.c:2286
 msgid "Zoom _Out"
 msgstr "_Oddálit"
 
-#: ../src/wbc-gtk-actions.c:2320
+#: ../src/wbc-gtk-actions.c:2287
 msgid "Decrease the zoom to make things smaller"
 msgstr "Snížit zvětšení, aby věci byly menší"
 
-#: ../src/wbc-gtk-actions.c:2325 ../src/wbc-gtk-actions.c:2329
+#: ../src/wbc-gtk-actions.c:2292 ../src/wbc-gtk-actions.c:2296
 msgid "Insert new cells"
 msgstr "Vložit nové buňky"
 
-#: ../src/wbc-gtk-actions.c:2333
+#: ../src/wbc-gtk-actions.c:2300
 msgid "Insert new columns"
 msgstr "Vložit nové sloupce"
 
-#: ../src/wbc-gtk-actions.c:2337
+#: ../src/wbc-gtk-actions.c:2304
 msgid "Insert new rows"
 msgstr "Vložit nové řádky"
 
-#: ../src/wbc-gtk-actions.c:2340
+#: ../src/wbc-gtk-actions.c:2307
 msgid "C_hart..."
 msgstr "_Graf…"
 
-#: ../src/wbc-gtk-actions.c:2341
+#: ../src/wbc-gtk-actions.c:2308
 msgid "Insert a Chart"
 msgstr "Vložit graf"
 
-#: ../src/wbc-gtk-actions.c:2343
+#: ../src/wbc-gtk-actions.c:2310
 msgid "_New..."
 msgstr "_Nový…"
 
-#: ../src/wbc-gtk-actions.c:2344
+#: ../src/wbc-gtk-actions.c:2311
 msgid "Insert a new Goffice component object"
 msgstr "Vložit nový objekt s komponentou Goffice"
 
-#: ../src/wbc-gtk-actions.c:2346
+#: ../src/wbc-gtk-actions.c:2313
 msgid "_From File..."
 msgstr "_Ze souboru…"
 
-#: ../src/wbc-gtk-actions.c:2347
+#: ../src/wbc-gtk-actions.c:2314
 msgid "Insert a new Goffice component object from a file"
 msgstr "Vložit ze souboru nový objekt s komponentou Goffice"
 
-#: ../src/wbc-gtk-actions.c:2349
+#: ../src/wbc-gtk-actions.c:2316
 msgid "_Image..."
 msgstr "_Obrázek…"
 
-#: ../src/wbc-gtk-actions.c:2350
+#: ../src/wbc-gtk-actions.c:2317
 msgid "Insert an image"
 msgstr "Vložit obrázek"
 
-#: ../src/wbc-gtk-actions.c:2354
+#: ../src/wbc-gtk-actions.c:2321
 msgid "Insert a comment"
 msgstr "Vložit komentář"
 
-#: ../src/wbc-gtk-actions.c:2357
+#: ../src/wbc-gtk-actions.c:2324
 msgid "Insert a Hyperlink"
 msgstr "Vložit hypertextový odkaz"
 
-#: ../src/wbc-gtk-actions.c:2359
+#: ../src/wbc-gtk-actions.c:2326
 msgid "Sort (_Descending)"
 msgstr "Řa_dit (sestupně)"
 
-#: ../src/wbc-gtk-actions.c:2360
+#: ../src/wbc-gtk-actions.c:2327
 msgid "Wrap with SORT (descending)"
 msgstr "Zaobalit funkcí SORT (sestupně)"
 
-#: ../src/wbc-gtk-actions.c:2362
+#: ../src/wbc-gtk-actions.c:2329
 msgid "Sort (_Ascending)"
 msgstr "Ř_adit (vzestupně)"
 
-#: ../src/wbc-gtk-actions.c:2363
+#: ../src/wbc-gtk-actions.c:2330
 msgid "Wrap with SORT (ascending)"
 msgstr "Zaobalit funkcí SORT (vzestupně)"
 
 #. Insert -> Special
-#: ../src/wbc-gtk-actions.c:2367
+#: ../src/wbc-gtk-actions.c:2334
 msgid "Current _Date"
 msgstr "Aktuální _datum"
 
-#: ../src/wbc-gtk-actions.c:2368
+#: ../src/wbc-gtk-actions.c:2335
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Vložit aktuální datum do vybraných buněk"
 
-#: ../src/wbc-gtk-actions.c:2371
+#: ../src/wbc-gtk-actions.c:2338
 msgid "Current _Time"
 msgstr "Ak_tuální čas"
 
-#: ../src/wbc-gtk-actions.c:2372
+#: ../src/wbc-gtk-actions.c:2339
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Vložit aktuální čas do vybraných buněk"
 
-#: ../src/wbc-gtk-actions.c:2375
+#: ../src/wbc-gtk-actions.c:2342
 msgid "Current D_ate and Time"
 msgstr "Aktuální d_atum a čas"
 
-#: ../src/wbc-gtk-actions.c:2376
+#: ../src/wbc-gtk-actions.c:2343
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Vložit aktuální datum a čas do vybraných buněk"
 
 #. Insert -> Name
-#: ../src/wbc-gtk-actions.c:2380
+#: ../src/wbc-gtk-actions.c:2347
 msgid "_Names..."
 msgstr "_Názvy…"
 
-#: ../src/wbc-gtk-actions.c:2381
+#: ../src/wbc-gtk-actions.c:2348
 msgid "Edit defined names for expressions"
 msgstr "Upravit definované názvy pro výrazy"
 
 #. Format
-#: ../src/wbc-gtk-actions.c:2385
+#: ../src/wbc-gtk-actions.c:2352
 msgid "_Autoformat..."
 msgstr "_Automatický formát…"
 
-#: ../src/wbc-gtk-actions.c:2386
+#: ../src/wbc-gtk-actions.c:2353
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formátovat oblast buněk podle předdefinované šablony"
 
-#: ../src/wbc-gtk-actions.c:2388
+#: ../src/wbc-gtk-actions.c:2355
 msgid "Direction"
 msgstr "Směr"
 
-#: ../src/wbc-gtk-actions.c:2389
+#: ../src/wbc-gtk-actions.c:2356
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
 msgstr "Přepnout směr listu, zleva doprava nebo zprava doleva"
 
 #. Format -> Cells
-#: ../src/wbc-gtk-actions.c:2393
+#: ../src/wbc-gtk-actions.c:2360
 msgid "_Format..."
 msgstr "_Formát…"
 
-#: ../src/wbc-gtk-actions.c:2394
+#: ../src/wbc-gtk-actions.c:2361
 msgid "Modify the formatting of the selected cells"
 msgstr "Upravit formát vybraných buněk"
 
-#: ../src/wbc-gtk-actions.c:2396
+#: ../src/wbc-gtk-actions.c:2363
 msgid "_Conditional Formatting..."
 msgstr "Po_dmíněný formát…"
 
-#: ../src/wbc-gtk-actions.c:2397
+#: ../src/wbc-gtk-actions.c:2364
 msgid "Modify the conditional formatting of the selected cells"
 msgstr "Upravit podmíněný formát vybraných buněk"
 
-#: ../src/wbc-gtk-actions.c:2400
+#: ../src/wbc-gtk-actions.c:2367
 msgid "Ensure rows are just tall enough to display content of selection"
 msgstr "Zajistí, že řádky jsou dost vysoké pro zobrazení vybraného obsahu"
 
-#: ../src/wbc-gtk-actions.c:2403
+#: ../src/wbc-gtk-actions.c:2370
 msgid "Ensure columns are just wide enough to display content of selection"
 msgstr "Zajistí, že sloupce jsou dost široké pro zobrazení vybraného obsahu"
 
-#: ../src/wbc-gtk-actions.c:2409
+#: ../src/wbc-gtk-actions.c:2376
 msgid "Change width of the selected columns"
 msgstr "Změnit šířku vybraných sloupců"
 
-#: ../src/wbc-gtk-actions.c:2412
+#: ../src/wbc-gtk-actions.c:2379
 msgid "Ensure columns are just wide enough to display their content"
 msgstr "Zajistit, aby sloupce byly dost široké pro zobrazení svého obsahu"
 
-#: ../src/wbc-gtk-actions.c:2415
+#: ../src/wbc-gtk-actions.c:2382
 msgid "Hide the selected columns"
 msgstr "Skrýt vybrané sloupce"
 
-#: ../src/wbc-gtk-actions.c:2418
+#: ../src/wbc-gtk-actions.c:2385
 msgid "Make any hidden columns in the selection visible"
 msgstr "Zviditelnit všechny skryté sloupce ve výběru"
 
-#: ../src/wbc-gtk-actions.c:2420
+#: ../src/wbc-gtk-actions.c:2387
 msgid "_Standard Width"
 msgstr "_Standardní šířka"
 
-#: ../src/wbc-gtk-actions.c:2421
+#: ../src/wbc-gtk-actions.c:2388
 msgid "Change the default column width"
 msgstr "Změnit výchozí šířku sloupce"
 
 #. Format -> Row
-#: ../src/wbc-gtk-actions.c:2425
+#: ../src/wbc-gtk-actions.c:2392
 msgid "H_eight..."
 msgstr "_Výška…"
 
-#: ../src/wbc-gtk-actions.c:2426
+#: ../src/wbc-gtk-actions.c:2393
 msgid "Change height of the selected rows"
 msgstr "Změnit výšku vybraných řádků"
 
-#: ../src/wbc-gtk-actions.c:2429
+#: ../src/wbc-gtk-actions.c:2396
 msgid "Ensure rows are just tall enough to display their content"
 msgstr "Zajistit, aby řádky byly dost vysoké pro zobrazení svého obsahu"
 
-#: ../src/wbc-gtk-actions.c:2432
+#: ../src/wbc-gtk-actions.c:2399
 msgid "Hide the selected rows"
 msgstr "Skrýt vybrané řádky"
 
-#: ../src/wbc-gtk-actions.c:2435
+#: ../src/wbc-gtk-actions.c:2402
 msgid "Make any hidden rows in the selection visible"
 msgstr "Zviditelnit všechny skryté řádky ve výběru"
 
-#: ../src/wbc-gtk-actions.c:2437
+#: ../src/wbc-gtk-actions.c:2404
 msgid "_Standard Height"
 msgstr "_Standardní výška"
 
-#: ../src/wbc-gtk-actions.c:2438
+#: ../src/wbc-gtk-actions.c:2405
 msgid "Change the default row height"
 msgstr "Změnit výchozí výšku řádku"
 
 #. Tools
-#: ../src/wbc-gtk-actions.c:2442
+#: ../src/wbc-gtk-actions.c:2409
 msgid "_Plug-ins..."
 msgstr "_Zásuvné moduly…"
 
-#: ../src/wbc-gtk-actions.c:2443
+#: ../src/wbc-gtk-actions.c:2410
 msgid "Manage available plugin modules"
 msgstr "Správa dostupných zásuvných modulů"
 
-#: ../src/wbc-gtk-actions.c:2445
+#: ../src/wbc-gtk-actions.c:2412
 msgid "Auto _Correct..."
 msgstr "Automati_cky opravovat…"
 
-#: ../src/wbc-gtk-actions.c:2446
+#: ../src/wbc-gtk-actions.c:2413
 msgid "Automatically perform simple spell checking"
 msgstr "Automaticky vykonávat jednoduchou kontrolu pravopisu"
 
-#: ../src/wbc-gtk-actions.c:2448
+#: ../src/wbc-gtk-actions.c:2415
 msgid "_Auto Save..."
 msgstr "_Automaticky ukládat…"
 
-#: ../src/wbc-gtk-actions.c:2449
+#: ../src/wbc-gtk-actions.c:2416
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automaticky ukládat aktuální dokument v pravidelných intervalech"
 
-#: ../src/wbc-gtk-actions.c:2451
+#: ../src/wbc-gtk-actions.c:2418
 msgid "_Goal Seek..."
 msgstr "_Hledat cíl…"
 
-#: ../src/wbc-gtk-actions.c:2452
+#: ../src/wbc-gtk-actions.c:2419
 msgid "Iteratively recalculate to find a target value"
 msgstr "Opakovaně přepočítat pro nalezení cílové hodnoty"
 
-#: ../src/wbc-gtk-actions.c:2454
+#: ../src/wbc-gtk-actions.c:2421
 msgid "_Solver..."
 msgstr "Řešite_l…"
 
-#: ../src/wbc-gtk-actions.c:2455
+#: ../src/wbc-gtk-actions.c:2422
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Opakovaně přepočítávat s omezeními, dokud nedosáhne cílové hodnoty"
 
-#: ../src/wbc-gtk-actions.c:2457
+#: ../src/wbc-gtk-actions.c:2424
 msgid "Si_mulation..."
 msgstr "Si_mulace…"
 
-#: ../src/wbc-gtk-actions.c:2458
+#: ../src/wbc-gtk-actions.c:2425
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -16028,173 +16010,173 @@ msgstr ""
 "pravděpodobných výstupů a rizik s nimi spojených"
 
 #. Tools -> Scenarios
-#: ../src/wbc-gtk-actions.c:2463
+#: ../src/wbc-gtk-actions.c:2430
 msgid "_View..."
 msgstr "_Zobrazit…"
 
-#: ../src/wbc-gtk-actions.c:2464
+#: ../src/wbc-gtk-actions.c:2431
 msgid "View, delete and report different scenarios"
 msgstr "Zobrazit, odstranit a informovat o různých scénářích"
 
-#: ../src/wbc-gtk-actions.c:2466
+#: ../src/wbc-gtk-actions.c:2433
 msgid "_Add..."
 msgstr "Přid_at…"
 
-#: ../src/wbc-gtk-actions.c:2467
+#: ../src/wbc-gtk-actions.c:2434
 msgid "Add a new scenario"
 msgstr "Přidat nový scénář"
 
 #. Statistics
-#: ../src/wbc-gtk-actions.c:2472
+#: ../src/wbc-gtk-actions.c:2439
 msgid "_Sampling..."
 msgstr "_Vzorkování…"
 
-#: ../src/wbc-gtk-actions.c:2473
+#: ../src/wbc-gtk-actions.c:2440
 msgid "Periodic and random samples"
 msgstr "Periodické a náhodné vzorky"
 
 #. Statistics -> Descriptive
-#: ../src/wbc-gtk-actions.c:2478
+#: ../src/wbc-gtk-actions.c:2445
 msgid "_Correlation..."
 msgstr "Korela_ce…"
 
-#: ../src/wbc-gtk-actions.c:2479
+#: ../src/wbc-gtk-actions.c:2446
 msgid "Pearson Correlation"
 msgstr "Pearsonova korelace"
 
-#: ../src/wbc-gtk-actions.c:2481
+#: ../src/wbc-gtk-actions.c:2448
 msgid "Co_variance..."
 msgstr "Ko_variance…"
 
-#: ../src/wbc-gtk-actions.c:2484
+#: ../src/wbc-gtk-actions.c:2451
 msgid "_Descriptive Statistics..."
 msgstr "_Popisná statistika…"
 
-#: ../src/wbc-gtk-actions.c:2485
+#: ../src/wbc-gtk-actions.c:2452
 msgid "Various summary statistics"
 msgstr "Různé souhrnné statistiky"
 
 #. Statistics -> Descriptive -> Frequencies
-#: ../src/wbc-gtk-actions.c:2490
+#: ../src/wbc-gtk-actions.c:2457
 msgid "Fre_quency Tables..."
 msgstr "Fre_kvenční tabulky…"
 
-#: ../src/wbc-gtk-actions.c:2491
+#: ../src/wbc-gtk-actions.c:2458
 msgid "Frequency tables for non-numeric data"
 msgstr "Frekvenční tabulky pro nečíselná data"
 
-#: ../src/wbc-gtk-actions.c:2493
+#: ../src/wbc-gtk-actions.c:2460
 msgid "_Histogram..."
 msgstr "_Histogram…"
 
-#: ../src/wbc-gtk-actions.c:2494
+#: ../src/wbc-gtk-actions.c:2461
 msgid "Various frequency tables for numeric data"
 msgstr "Různé frekvenční tabulky pro číselná data"
 
-#: ../src/wbc-gtk-actions.c:2496
+#: ../src/wbc-gtk-actions.c:2463
 msgid "Ranks And _Percentiles..."
 msgstr "Rozložení a _percentily…"
 
-#: ../src/wbc-gtk-actions.c:2497
+#: ../src/wbc-gtk-actions.c:2464
 msgid "Ranks, placements and percentiles"
 msgstr "Rozložení, umístění a percentily"
 
 #. Statistics -> DependentObservations
-#: ../src/wbc-gtk-actions.c:2502
+#: ../src/wbc-gtk-actions.c:2469
 msgid "_Fourier Analysis..."
 msgstr "_Fourierova analýza…"
 
-#: ../src/wbc-gtk-actions.c:2506
+#: ../src/wbc-gtk-actions.c:2473
 msgid "Principal Components Analysis..."
 msgstr "Analýza hlavních komponent…"
 
 #. Statistics -> DependentObservations -> Forecast
-#: ../src/wbc-gtk-actions.c:2511
+#: ../src/wbc-gtk-actions.c:2478
 msgid "_Exponential Smoothing..."
 msgstr "_Exponenciální vyhlazení…"
 
-#: ../src/wbc-gtk-actions.c:2512
+#: ../src/wbc-gtk-actions.c:2479
 msgid "Exponential smoothing..."
 msgstr "Exponenciální vyhlazení…"
 
-#: ../src/wbc-gtk-actions.c:2514
+#: ../src/wbc-gtk-actions.c:2481
 msgid "_Moving Average..."
 msgstr "Klouzavý prů_měr…"
 
-#: ../src/wbc-gtk-actions.c:2515
+#: ../src/wbc-gtk-actions.c:2482
 msgid "Moving average..."
 msgstr "Klouzavý průměr…"
 
-#: ../src/wbc-gtk-actions.c:2517
+#: ../src/wbc-gtk-actions.c:2484
 msgid "_Regression..."
 msgstr "_Regrese…"
 
-#: ../src/wbc-gtk-actions.c:2518
+#: ../src/wbc-gtk-actions.c:2485
 msgid "Regression Analysis"
 msgstr "Regresní analýza"
 
-#: ../src/wbc-gtk-actions.c:2520
+#: ../src/wbc-gtk-actions.c:2487
 msgid "_Kaplan-Meier Estimates..."
 msgstr "_Kaplanovy-Meierovy odhady…"
 
-#: ../src/wbc-gtk-actions.c:2521
+#: ../src/wbc-gtk-actions.c:2488
 msgid "Creation of Kaplan-Meier Survival Curves"
 msgstr "Vytvoření Kaplanových-Meierových křivek přežití"
 
 #. Statistics -> OneSample
-#: ../src/wbc-gtk-actions.c:2526
+#: ../src/wbc-gtk-actions.c:2493
 msgid "_Normality Tests..."
 msgstr "Test _normality…"
 
-#: ../src/wbc-gtk-actions.c:2527
+#: ../src/wbc-gtk-actions.c:2494
 msgid "Testing a sample for normality"
 msgstr "Test vzorku na normalitu"
 
-#: ../src/wbc-gtk-actions.c:2529
+#: ../src/wbc-gtk-actions.c:2496
 msgid "Claims About a _Mean..."
 msgstr "Požadavky na střed_ní hodnotu…"
 
-#: ../src/wbc-gtk-actions.c:2530
+#: ../src/wbc-gtk-actions.c:2497
 msgid "Testing the value of a mean"
 msgstr "Test hodnoty střední hodnoty"
 
 #. Statistics -> OneSample -> OneMedian
 #. Statistics -> TwoSamples -> Two Medians
-#: ../src/wbc-gtk-actions.c:2535 ../src/wbc-gtk-actions.c:2568
+#: ../src/wbc-gtk-actions.c:2502 ../src/wbc-gtk-actions.c:2535
 msgid "_Sign Test..."
 msgstr "Znaménkový te_st…"
 
-#: ../src/wbc-gtk-actions.c:2536 ../src/wbc-gtk-actions.c:2539
+#: ../src/wbc-gtk-actions.c:2503 ../src/wbc-gtk-actions.c:2506
 msgid "Testing the value of a median"
 msgstr "Test hodnoty mediánu"
 
-#: ../src/wbc-gtk-actions.c:2538 ../src/wbc-gtk-actions.c:2571
+#: ../src/wbc-gtk-actions.c:2505 ../src/wbc-gtk-actions.c:2538
 msgid "_Wilcoxon Signed Rank Test..."
 msgstr "_Wilcoxonův jednovýběrový test…"
 
 #. Statistics -> TwoSamples
-#: ../src/wbc-gtk-actions.c:2544
+#: ../src/wbc-gtk-actions.c:2511
 msgid "Claims About Two _Variances"
 msgstr "Požadavky na dva rozpt_yly"
 
-#: ../src/wbc-gtk-actions.c:2545
+#: ../src/wbc-gtk-actions.c:2512
 msgid "Comparing two population variances"
 msgstr "Porovnání rozptylu dvou statistických souborů"
 
 #. Statistics -> TwoSamples -> Two Means
-#: ../src/wbc-gtk-actions.c:2550
+#: ../src/wbc-gtk-actions.c:2517
 msgid "_Paired Samples..."
 msgstr "_Párové výběry…"
 
-#: ../src/wbc-gtk-actions.c:2551
+#: ../src/wbc-gtk-actions.c:2518
 msgid "Comparing two population means for two paired samples"
 msgstr "Porovnání dvou statistických souborů pro dva párové výběry"
 
-#: ../src/wbc-gtk-actions.c:2554
+#: ../src/wbc-gtk-actions.c:2521
 msgid "Unpaired Samples, _Equal Variances..."
 msgstr "Nepárové výběry, st_ejné rozptyly…"
 
-#: ../src/wbc-gtk-actions.c:2555
+#: ../src/wbc-gtk-actions.c:2522
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances"
@@ -16202,11 +16184,11 @@ msgstr ""
 "Porovnání středních hodnot dvou statistických souborů pro dva nepárové "
 "výběry ze statistického souboru se stejným rozptylem"
 
-#: ../src/wbc-gtk-actions.c:2558
+#: ../src/wbc-gtk-actions.c:2525
 msgid "Unpaired Samples, _Unequal Variances..."
 msgstr "Nepárové výběry, rů_zné rozptyly…"
 
-#: ../src/wbc-gtk-actions.c:2559
+#: ../src/wbc-gtk-actions.c:2526
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances"
@@ -16214,817 +16196,817 @@ msgstr ""
 "Porovnání středních hodnot dvou statistických souborů pro dva nepárové "
 "výběry ze statistického souboru s různým rozptylem"
 
-#: ../src/wbc-gtk-actions.c:2562
+#: ../src/wbc-gtk-actions.c:2529
 msgid "Unpaired Samples, _Known Variances..."
 msgstr "Nepárové výběry, zná_mé rozptyly…"
 
-#: ../src/wbc-gtk-actions.c:2563
+#: ../src/wbc-gtk-actions.c:2530
 msgid "Comparing two population means from populations with known variances"
 msgstr ""
 "Porovnání středních hodnot dvou statistických souborů se známými rozptyly"
 
-#: ../src/wbc-gtk-actions.c:2569 ../src/wbc-gtk-actions.c:2572
+#: ../src/wbc-gtk-actions.c:2536 ../src/wbc-gtk-actions.c:2539
 msgid "Comparing the values of two medians of paired observations"
 msgstr "Porovnání hodnot dvou mediánů párových pozorovaných hodnot"
 
-#: ../src/wbc-gtk-actions.c:2574
+#: ../src/wbc-gtk-actions.c:2541
 msgid "Wilcoxon-_Mann-Whitney Test..."
 msgstr "_Wilcoxonův-Mannův-Whitheyův test…"
 
-#: ../src/wbc-gtk-actions.c:2575
+#: ../src/wbc-gtk-actions.c:2542
 msgid "Comparing the values of two medians of unpaired observations"
 msgstr "Porovnání hodnot dvou mediánů nepárových pozorovaných hodnot"
 
 #. Statistics -> MultipleSamples
 #. Statistics -> MultipleSamples -> ANOVA
-#: ../src/wbc-gtk-actions.c:2582
+#: ../src/wbc-gtk-actions.c:2549
 msgid "_One Factor..."
 msgstr "Jeden fakt_or…"
 
-#: ../src/wbc-gtk-actions.c:2583
+#: ../src/wbc-gtk-actions.c:2550
 msgid "One Factor Analysis of Variance..."
 msgstr "Jednofaktorová analýza rozptylu…"
 
-#: ../src/wbc-gtk-actions.c:2585
+#: ../src/wbc-gtk-actions.c:2552
 msgid "_Two Factor..."
 msgstr "Dva fak_tory…"
 
-#: ../src/wbc-gtk-actions.c:2586
+#: ../src/wbc-gtk-actions.c:2553
 msgid "Two Factor Analysis of Variance..."
 msgstr "Dvoufaktorová analýza rozptylu…"
 
 #. Statistics -> MultipleSamples -> ContingencyTable
-#: ../src/wbc-gtk-actions.c:2591
+#: ../src/wbc-gtk-actions.c:2558
 msgid "Test of _Homogeneity..."
 msgstr "Test _homogenity…"
 
-#: ../src/wbc-gtk-actions.c:2592
+#: ../src/wbc-gtk-actions.c:2559
 msgid "Chi Squared Test of Homogeneity..."
 msgstr "Test chí kvadrát homogenity…"
 
-#: ../src/wbc-gtk-actions.c:2594
+#: ../src/wbc-gtk-actions.c:2561
 msgid "Test of _Independence..."
 msgstr "Test nezáv_islosti"
 
-#: ../src/wbc-gtk-actions.c:2595
+#: ../src/wbc-gtk-actions.c:2562
 msgid "Chi Squared Test of Independence..."
 msgstr "Test chí kvadrát nezávislosti…"
 
 #. Data
-#: ../src/wbc-gtk-actions.c:2599
+#: ../src/wbc-gtk-actions.c:2566
 msgid "_Sort..."
 msgstr "_Seřadit…"
 
-#: ../src/wbc-gtk-actions.c:2600
+#: ../src/wbc-gtk-actions.c:2567
 msgid "Sort the selected region"
 msgstr "Seřadit vybranou oblast"
 
-#: ../src/wbc-gtk-actions.c:2602
+#: ../src/wbc-gtk-actions.c:2569
 msgid "Sh_uffle..."
 msgstr "Za_míchat…"
 
-#: ../src/wbc-gtk-actions.c:2603
+#: ../src/wbc-gtk-actions.c:2570
 msgid "Shuffle cells, rows or columns"
 msgstr "Zamíchat buňky, sloupce nebo řádky"
 
-#: ../src/wbc-gtk-actions.c:2605
+#: ../src/wbc-gtk-actions.c:2572
 msgid "_Validate..."
 msgstr "O_věřit…"
 
-#: ../src/wbc-gtk-actions.c:2606
+#: ../src/wbc-gtk-actions.c:2573
 msgid "Validate input with preset criteria"
 msgstr "Ověřit vstup podle přednastavených kritérií"
 
-#: ../src/wbc-gtk-actions.c:2608
+#: ../src/wbc-gtk-actions.c:2575
 msgid "T_ext to Columns..."
 msgstr "T_ext do sloupců…"
 
-#: ../src/wbc-gtk-actions.c:2609
+#: ../src/wbc-gtk-actions.c:2576
 msgid "Parse the text in the selection into data"
 msgstr "Zpracovat text z výběru do dat"
 
-#: ../src/wbc-gtk-actions.c:2611
+#: ../src/wbc-gtk-actions.c:2578
 msgid "_Consolidate..."
 msgstr "S_jednotit…"
 
-#: ../src/wbc-gtk-actions.c:2612
+#: ../src/wbc-gtk-actions.c:2579
 msgid "Consolidate regions using a function"
 msgstr "Sjednotit oblasti pomocí funkce"
 
-#: ../src/wbc-gtk-actions.c:2614
+#: ../src/wbc-gtk-actions.c:2581
 msgid "_Table..."
 msgstr "_Tabulka…"
 
-#: ../src/wbc-gtk-actions.c:2615
+#: ../src/wbc-gtk-actions.c:2582
 msgid "Create a Data Table to evaluate a function with multiple inputs"
 msgstr "Vytvořit datovou tabulku k vyhodnocení funkce s více vstupy"
 
-#: ../src/wbc-gtk-actions.c:2617
+#: ../src/wbc-gtk-actions.c:2584
 msgid "E_xport into Other Format..."
 msgstr "E_xportovat do jiného formátu…"
 
-#: ../src/wbc-gtk-actions.c:2618
+#: ../src/wbc-gtk-actions.c:2585
 msgid "Export the current workbook or sheet"
 msgstr "Exportovat aktuální sešit nebo list"
 
-#: ../src/wbc-gtk-actions.c:2620
+#: ../src/wbc-gtk-actions.c:2587
 msgid "Export as _Text File..."
 msgstr "Exportovat jako _textový soubor…"
 
-#: ../src/wbc-gtk-actions.c:2621
+#: ../src/wbc-gtk-actions.c:2588
 msgid "Export the current sheet as a text file"
 msgstr "Exportovat aktuální list jako textový soubor"
 
-#: ../src/wbc-gtk-actions.c:2623
+#: ../src/wbc-gtk-actions.c:2590
 msgid "Export as _CSV File..."
 msgstr "Exportovat jako soubor _CSV…"
 
-#: ../src/wbc-gtk-actions.c:2624
+#: ../src/wbc-gtk-actions.c:2591
 msgid "Export the current sheet as a csv file"
 msgstr "Exportovat aktuální list jako soubor csv"
 
-#: ../src/wbc-gtk-actions.c:2626 ../src/wbc-gtk.c:1636
+#: ../src/wbc-gtk-actions.c:2593 ../src/wbc-gtk.c:1702
 msgid "Repeat Export"
 msgstr "Opakovat export"
 
-#: ../src/wbc-gtk-actions.c:2627 ../src/wbc-gtk.c:1632 ../src/wbc-gtk.c:1636
+#: ../src/wbc-gtk-actions.c:2594 ../src/wbc-gtk.c:1698 ../src/wbc-gtk.c:1702
 msgid "Repeat the last data export"
 msgstr "Zopakovat poslední export dat"
 
 #. Data -> Fill
-#: ../src/wbc-gtk-actions.c:2631
+#: ../src/wbc-gtk-actions.c:2598
 msgid "Auto_fill"
 msgstr "Automaticky _vyplnit"
 
-#: ../src/wbc-gtk-actions.c:2632
+#: ../src/wbc-gtk-actions.c:2599
 msgid "Automatically fill the current selection"
 msgstr "Automaticky vyplnit aktuální výběr"
 
-#: ../src/wbc-gtk-actions.c:2634
+#: ../src/wbc-gtk-actions.c:2601
 msgid "_Merge..."
 msgstr "_Sloučit…"
 
-#: ../src/wbc-gtk-actions.c:2635
+#: ../src/wbc-gtk-actions.c:2602
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Sloučit sloupcová data do listu vytvořením duplicitních listů pro každý řádek"
 
-#: ../src/wbc-gtk-actions.c:2637
+#: ../src/wbc-gtk-actions.c:2604
 msgid "_Tabulate Dependency..."
 msgstr "_Tabulka závislosti…"
 
-#: ../src/wbc-gtk-actions.c:2638
+#: ../src/wbc-gtk-actions.c:2605
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Vytvoří tabulku hodnot buněk jako funkci ostatních buněk"
 
-#: ../src/wbc-gtk-actions.c:2640
+#: ../src/wbc-gtk-actions.c:2607
 msgid "_Series..."
 msgstr "Řad_y…"
 
-#: ../src/wbc-gtk-actions.c:2641
+#: ../src/wbc-gtk-actions.c:2608
 msgid "Fill according to a linear or exponential series"
 msgstr "Vyplnit podle lineární nebo exponenciální posloupnosti"
 
-#: ../src/wbc-gtk-actions.c:2643
+#: ../src/wbc-gtk-actions.c:2610
 msgid "_Uncorrelated..."
 msgstr "Nek_orelované…"
 
-#: ../src/wbc-gtk-actions.c:2644
+#: ../src/wbc-gtk-actions.c:2611
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Generovat náhodné počty výběrů rozdělení"
 
-#: ../src/wbc-gtk-actions.c:2646
+#: ../src/wbc-gtk-actions.c:2613
 msgid "_Correlated..."
 msgstr "_Korelované…"
 
-#: ../src/wbc-gtk-actions.c:2647
+#: ../src/wbc-gtk-actions.c:2614
 msgid "Generate variates for correlated normal distributed random variables"
 msgstr ""
 "Generovat náhodné proměnné pro korelované normální rozdělení náhodných "
 "proměnných"
 
-#: ../src/wbc-gtk-actions.c:2649
+#: ../src/wbc-gtk-actions.c:2616
 msgid "Fill Downwards"
 msgstr "Vyplnit dolů"
 
-#: ../src/wbc-gtk-actions.c:2650
+#: ../src/wbc-gtk-actions.c:2617
 msgid "Copy the content from the top row to the cells below"
 msgstr "Kopírovat obsah z horního řádku do buněk pod ním"
 
-#: ../src/wbc-gtk-actions.c:2651
+#: ../src/wbc-gtk-actions.c:2618
 msgid "Fill to Right"
 msgstr "Vyplnit doprava"
 
-#: ../src/wbc-gtk-actions.c:2652
+#: ../src/wbc-gtk-actions.c:2619
 msgid "Copy the content from the left column to the cells on the right"
 msgstr "Kopírovat obsah z levého sloupce do buněk vpravo od něj"
 
 #. Data -> Outline
-#: ../src/wbc-gtk-actions.c:2656
+#: ../src/wbc-gtk-actions.c:2623
 msgid "_Hide Detail"
 msgstr "_Skrýt podrobnosti"
 
-#: ../src/wbc-gtk-actions.c:2657
+#: ../src/wbc-gtk-actions.c:2624
 msgid "Collapse an outline group"
 msgstr "Sbalit skupinu osnovy"
 
-#: ../src/wbc-gtk-actions.c:2659
+#: ../src/wbc-gtk-actions.c:2626
 msgid "_Show Detail"
 msgstr "Zobrazit podrobno_sti"
 
-#: ../src/wbc-gtk-actions.c:2660
+#: ../src/wbc-gtk-actions.c:2627
 msgid "Uncollapse an outline group"
 msgstr "Rozbalit skupinu osnovy"
 
-#: ../src/wbc-gtk-actions.c:2662
+#: ../src/wbc-gtk-actions.c:2629
 msgid "_Group..."
 msgstr "_Seskupit…"
 
-#: ../src/wbc-gtk-actions.c:2663
+#: ../src/wbc-gtk-actions.c:2630
 msgid "Add an outline group"
 msgstr "Přidat skupinu osnovy"
 
-#: ../src/wbc-gtk-actions.c:2665
+#: ../src/wbc-gtk-actions.c:2632
 msgid "_Ungroup..."
 msgstr "Zrušit sesk_upení…"
 
-#: ../src/wbc-gtk-actions.c:2666
+#: ../src/wbc-gtk-actions.c:2633
 msgid "Remove an outline group"
 msgstr "Odstranit skupinu osnovy"
 
 #. Data -> Filter
-#: ../src/wbc-gtk-actions.c:2670 ../src/wbc-gtk.c:1557
+#: ../src/wbc-gtk-actions.c:2637 ../src/wbc-gtk.c:1623
 msgid "Add _Auto Filter"
 msgstr "Přidat _automatický filtr"
 
-#: ../src/wbc-gtk-actions.c:2671
+#: ../src/wbc-gtk-actions.c:2638
 msgid "Add or remove a filter"
 msgstr "Přidat nebo odebrat filtr"
 
-#: ../src/wbc-gtk-actions.c:2673
+#: ../src/wbc-gtk-actions.c:2640
 msgid "_Clear Advanced Filter"
 msgstr "_Vymazat pokročilý filtr"
 
-#: ../src/wbc-gtk-actions.c:2674
+#: ../src/wbc-gtk-actions.c:2641
 msgid "Show all rows hidden by an advanced filter"
 msgstr "Zobrazit všechny řádky skryté pokročilým filtrem"
 
-#: ../src/wbc-gtk-actions.c:2676
+#: ../src/wbc-gtk-actions.c:2643
 msgid "Advanced _Filter..."
 msgstr "Pokročilý _filtr…"
 
-#: ../src/wbc-gtk-actions.c:2677
+#: ../src/wbc-gtk-actions.c:2644
 msgid "Filter data with given criteria"
 msgstr "Filtrovat data podle zadaných kritérií"
 
 #. Data -> External
-#: ../src/wbc-gtk-actions.c:2680
+#: ../src/wbc-gtk-actions.c:2647
 msgid "Import _Text File..."
 msgstr "Importovat _textový soubor…"
 
-#: ../src/wbc-gtk-actions.c:2681
+#: ../src/wbc-gtk-actions.c:2648
 msgid "Import data from a text file"
 msgstr "Importovat data z textového souboru"
 
-#: ../src/wbc-gtk-actions.c:2683
+#: ../src/wbc-gtk-actions.c:2650
 msgid "Import _Other File..."
 msgstr "Importovat jiný s_oubor…"
 
-#: ../src/wbc-gtk-actions.c:2684
+#: ../src/wbc-gtk-actions.c:2651
 msgid "Import data from a file"
 msgstr "Importovat data ze souboru"
 
 #. Data -> Data Slicer
 #. label and tip are context dependent, see wbcg_menu_state_update
-#: ../src/wbc-gtk-actions.c:2689
+#: ../src/wbc-gtk-actions.c:2656
 msgid "Add _Data Slicer"
 msgstr "Přidat _datový průřez"
 
-#: ../src/wbc-gtk-actions.c:2690
+#: ../src/wbc-gtk-actions.c:2657
 msgid "Create a data slicer"
 msgstr "Vytvořit datový průřez"
 
-#: ../src/wbc-gtk-actions.c:2692
+#: ../src/wbc-gtk-actions.c:2659
 msgid "_Refresh"
 msgstr "Obče_rstvit"
 
-#: ../src/wbc-gtk-actions.c:2693
+#: ../src/wbc-gtk-actions.c:2660
 msgid "Regenerate a data slicer from the source data"
 msgstr "Přegenerovat datový průřez ze zdrojových dat"
 
-#: ../src/wbc-gtk-actions.c:2695
+#: ../src/wbc-gtk-actions.c:2662
 msgid "_Edit Data Slicer..."
 msgstr "_Upravit datový průřez…"
 
-#: ../src/wbc-gtk-actions.c:2696
+#: ../src/wbc-gtk-actions.c:2663
 msgid "Adjust a data slicer"
 msgstr "Přizpůsobit datový průřez"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2700 ../src/wbc-gtk.c:4638
-#: ../src/workbook-view.c:1029
+#: ../src/wbc-gtk-actions.c:2667 ../src/wbc-gtk.c:4725
+#: ../src/workbook-view.c:1033
 msgid "Sum"
 msgstr "Součet"
 
-#: ../src/wbc-gtk-actions.c:2701
+#: ../src/wbc-gtk-actions.c:2668
 msgid "Sum into the current cell"
 msgstr "Součet do aktuální buňky"
 
-#: ../src/wbc-gtk-actions.c:2703
+#: ../src/wbc-gtk-actions.c:2670
 msgid "_Function..."
 msgstr "_Funkce…"
 
-#: ../src/wbc-gtk-actions.c:2704
+#: ../src/wbc-gtk-actions.c:2671
 msgid "Edit a function in the current cell"
 msgstr "Upravit funkci v aktuální buňce"
 
-#: ../src/wbc-gtk-actions.c:2708
+#: ../src/wbc-gtk-actions.c:2675
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 "Seřadit vybranou oblast ve vzestupném pořadí podle prvního vybraného sloupce"
 
-#: ../src/wbc-gtk-actions.c:2710
+#: ../src/wbc-gtk-actions.c:2677
 msgid "Sort Descending"
 msgstr "Seřadit sestupně"
 
-#: ../src/wbc-gtk-actions.c:2711
+#: ../src/wbc-gtk-actions.c:2678
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
 "Seřadit vybranou oblast v sestupném pořadí podle prvního vybraného sloupce"
 
-#: ../src/wbc-gtk-actions.c:2716
+#: ../src/wbc-gtk-actions.c:2683
 msgid "Create a frame"
 msgstr "Vytvořit rámec"
 
-#: ../src/wbc-gtk-actions.c:2718
+#: ../src/wbc-gtk-actions.c:2685
 msgid "Checkbox"
 msgstr "Zaškrtávací políčko"
 
-#: ../src/wbc-gtk-actions.c:2719
+#: ../src/wbc-gtk-actions.c:2686
 msgid "Create a checkbox"
 msgstr "Vytvořit zaškrtávací políčko"
 
-#: ../src/wbc-gtk-actions.c:2721
+#: ../src/wbc-gtk-actions.c:2688
 msgid "Scrollbar"
 msgstr "Posuvník"
 
-#: ../src/wbc-gtk-actions.c:2722
+#: ../src/wbc-gtk-actions.c:2689
 msgid "Create a scrollbar"
 msgstr "Vytvořit posuvník"
 
-#: ../src/wbc-gtk-actions.c:2724
+#: ../src/wbc-gtk-actions.c:2691
 msgid "Slider"
 msgstr "Táhlo"
 
-#: ../src/wbc-gtk-actions.c:2725
+#: ../src/wbc-gtk-actions.c:2692
 msgid "Create a slider"
 msgstr "Vytvořit táhlo"
 
-#: ../src/wbc-gtk-actions.c:2727
+#: ../src/wbc-gtk-actions.c:2694
 msgid "SpinButton"
 msgstr "Tlačítko číselníku"
 
-#: ../src/wbc-gtk-actions.c:2728
+#: ../src/wbc-gtk-actions.c:2695
 msgid "Create a spin button"
 msgstr "Vytvořit tlačítko číselníku"
 
-#: ../src/wbc-gtk-actions.c:2730
+#: ../src/wbc-gtk-actions.c:2697
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:1
 msgid "List"
 msgstr "Seznam"
 
-#: ../src/wbc-gtk-actions.c:2731
+#: ../src/wbc-gtk-actions.c:2698
 msgid "Create a list"
 msgstr "Vytvořit seznam"
 
-#: ../src/wbc-gtk-actions.c:2733
+#: ../src/wbc-gtk-actions.c:2700
 msgid "Combo Box"
 msgstr "Rozbalovací seznam"
 
-#: ../src/wbc-gtk-actions.c:2734
+#: ../src/wbc-gtk-actions.c:2701
 msgid "Create a combo box"
 msgstr "Vytvořit rozbalovací seznam"
 
-#: ../src/wbc-gtk-actions.c:2737
+#: ../src/wbc-gtk-actions.c:2704
 msgid "Create a line object"
 msgstr "Vytvořit objekt čára"
 
-#: ../src/wbc-gtk-actions.c:2739
+#: ../src/wbc-gtk-actions.c:2706
 msgid "Arrow"
 msgstr "Šipka"
 
-#: ../src/wbc-gtk-actions.c:2740
+#: ../src/wbc-gtk-actions.c:2707
 msgid "Create an arrow object"
 msgstr "Vytvořit objekt šipka"
 
-#: ../src/wbc-gtk-actions.c:2742
+#: ../src/wbc-gtk-actions.c:2709
 msgid "Rectangle"
 msgstr "Obdélník"
 
-#: ../src/wbc-gtk-actions.c:2743
+#: ../src/wbc-gtk-actions.c:2710
 msgid "Create a rectangle object"
 msgstr "Vytvořit objekt obdélník"
 
-#: ../src/wbc-gtk-actions.c:2745
+#: ../src/wbc-gtk-actions.c:2712
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: ../src/wbc-gtk-actions.c:2746
+#: ../src/wbc-gtk-actions.c:2713
 msgid "Create an ellipse object"
 msgstr "Vytvořit objekt elipsa"
 
-#: ../src/wbc-gtk-actions.c:2749
+#: ../src/wbc-gtk-actions.c:2716
 msgid "Create a button"
 msgstr "Vytvořit tlačítko"
 
-#: ../src/wbc-gtk-actions.c:2752
+#: ../src/wbc-gtk-actions.c:2719
 msgid "Create a radio button"
 msgstr "Vytvořit skupinový přepínač"
 
-#: ../src/wbc-gtk-actions.c:2757
+#: ../src/wbc-gtk-actions.c:2724
 msgid "Merge a range of cells"
 msgstr "Sloučit oblast buněk"
 
-#: ../src/wbc-gtk-actions.c:2759
+#: ../src/wbc-gtk-actions.c:2726
 msgid "Unmerge"
 msgstr "Rozdělit"
 
-#: ../src/wbc-gtk-actions.c:2760
+#: ../src/wbc-gtk-actions.c:2727
 msgid "Split merged ranges of cells"
 msgstr "Rozdělit spojené oblasti buněk"
 
-#: ../src/wbc-gtk-actions.c:2763
+#: ../src/wbc-gtk-actions.c:2730
 msgid "General"
 msgstr "Všeobecné"
 
-#: ../src/wbc-gtk-actions.c:2764
+#: ../src/wbc-gtk-actions.c:2731
 msgid "Format the selection as General"
 msgstr "Formátovat výběr jako obecný"
 
-#: ../src/wbc-gtk-actions.c:2767
+#: ../src/wbc-gtk-actions.c:2734
 msgid "Format the selection as numbers"
 msgstr "Formátovat výběr jako čísla"
 
-#: ../src/wbc-gtk-actions.c:2769
+#: ../src/wbc-gtk-actions.c:2736
 msgid "Currency"
 msgstr "Měna"
 
-#: ../src/wbc-gtk-actions.c:2770
+#: ../src/wbc-gtk-actions.c:2737
 msgid "Format the selection as currency"
 msgstr "Formátovat výběr jako měnu"
 
-#: ../src/wbc-gtk-actions.c:2772
+#: ../src/wbc-gtk-actions.c:2739
 msgid "Accounting"
 msgstr "Účetnictví"
 
-#: ../src/wbc-gtk-actions.c:2773
+#: ../src/wbc-gtk-actions.c:2740
 msgid "Format the selection as accounting"
 msgstr "Formátovat výběr jako účetní"
 
-#: ../src/wbc-gtk-actions.c:2776
+#: ../src/wbc-gtk-actions.c:2743
 msgid "Format the selection as percentage"
 msgstr "Formátovat výběr jako procenta"
 
-#: ../src/wbc-gtk-actions.c:2778
+#: ../src/wbc-gtk-actions.c:2745
 msgid "Scientific"
 msgstr "Vědecké"
 
-#: ../src/wbc-gtk-actions.c:2779
+#: ../src/wbc-gtk-actions.c:2746
 msgid "Format the selection as scientific"
 msgstr "Formátovat výběr jako vědecký"
 
-#: ../src/wbc-gtk-actions.c:2782
+#: ../src/wbc-gtk-actions.c:2749
 msgid "Format the selection as date"
 msgstr "Formátovat výběr jako datum"
 
-#: ../src/wbc-gtk-actions.c:2785
+#: ../src/wbc-gtk-actions.c:2752
 msgid "Format the selection as time"
 msgstr "Formátovat výběr jako čas"
 
-#: ../src/wbc-gtk-actions.c:2787
+#: ../src/wbc-gtk-actions.c:2754
 msgid "AddBorders"
 msgstr "Přidat ohraničení"
 
 # FIXME: s/the/around/ ?
-#: ../src/wbc-gtk-actions.c:2788
+#: ../src/wbc-gtk-actions.c:2755
 msgid "Add a border around the selection"
 msgstr "Přidat ohraničení okolo výběru"
 
-#: ../src/wbc-gtk-actions.c:2790
+#: ../src/wbc-gtk-actions.c:2757
 msgid "ClearBorders"
 msgstr "Vymazat ohraničení"
 
-#: ../src/wbc-gtk-actions.c:2791
+#: ../src/wbc-gtk-actions.c:2758
 msgid "Clear the border around the selection"
 msgstr "Vymazat ohraničení okolo výběru"
 
-#: ../src/wbc-gtk-actions.c:2794
+#: ../src/wbc-gtk-actions.c:2761
 msgid "Thousands Separator"
 msgstr "Oddělovač tisíců"
 
-#: ../src/wbc-gtk-actions.c:2795
+#: ../src/wbc-gtk-actions.c:2762
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Nastavit formát vybraných buněk tak, aby obsahovaly oddělovač tisíců"
 
-#: ../src/wbc-gtk-actions.c:2797
+#: ../src/wbc-gtk-actions.c:2764
 msgid "Increase Precision"
 msgstr "Zvýšit přesnost"
 
-#: ../src/wbc-gtk-actions.c:2798
+#: ../src/wbc-gtk-actions.c:2765
 msgid "Increase the number of decimals displayed"
 msgstr "Zvýšit počet zobrazovaných desetinných míst"
 
-#: ../src/wbc-gtk-actions.c:2800
+#: ../src/wbc-gtk-actions.c:2767
 msgid "Decrease Precision"
 msgstr "Snížit přesnost"
 
-#: ../src/wbc-gtk-actions.c:2801
+#: ../src/wbc-gtk-actions.c:2768
 msgid "Decrease the number of decimals displayed"
 msgstr "Snížit počet zobrazovaných desetinných míst"
 
-#: ../src/wbc-gtk-actions.c:2807
+#: ../src/wbc-gtk-actions.c:2774
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Snížit odsazení a zarovnat obsah doleva"
 
-#: ../src/wbc-gtk-actions.c:2810
+#: ../src/wbc-gtk-actions.c:2777
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Zvýšit odsazení a zarovnat obsah doleva"
 
-#: ../src/wbc-gtk-actions.c:2837
+#: ../src/wbc-gtk-actions.c:2804
 msgid "Display _Outlines"
 msgstr "Zobrazovat _osnovy"
 
-#: ../src/wbc-gtk-actions.c:2838
+#: ../src/wbc-gtk-actions.c:2805
 msgid "Toggle whether or not to display outline groups"
 msgstr "Přepíná, zda zobrazovat nebo nezobrazovat skupiny osnovy"
 
-#: ../src/wbc-gtk-actions.c:2840
+#: ../src/wbc-gtk-actions.c:2807
 msgid "Outlines _Below"
 msgstr "Osnova _dole"
 
-#: ../src/wbc-gtk-actions.c:2841
+#: ../src/wbc-gtk-actions.c:2808
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Přepnout zobrazení osnovy řádků nahoře nebo dole"
 
-#: ../src/wbc-gtk-actions.c:2843
+#: ../src/wbc-gtk-actions.c:2810
 msgid "Outlines _Right"
 msgstr "Osnova vp_ravo"
 
-#: ../src/wbc-gtk-actions.c:2844
+#: ../src/wbc-gtk-actions.c:2811
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Přepnout zobrazení osnovy sloupců vlevo nebo vpravo"
 
-#: ../src/wbc-gtk-actions.c:2847
+#: ../src/wbc-gtk-actions.c:2814
 msgid "Display _Formulæ"
 msgstr "Zobrazovat _vzorce"
 
-#: ../src/wbc-gtk-actions.c:2849
+#: ../src/wbc-gtk-actions.c:2816
 msgid "Display the value of a formula or the formula itself"
 msgstr "Zobrazovat hodnotu vzorce nebo vzorec samotný"
 
-#: ../src/wbc-gtk-actions.c:2851
+#: ../src/wbc-gtk-actions.c:2818
 msgid "_Hide Zeros"
 msgstr "Skrývat _nuly"
 
-#: ../src/wbc-gtk-actions.c:2852
+#: ../src/wbc-gtk-actions.c:2819
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Přepnout zobrazování nuly jako prázdného místa"
 
-#: ../src/wbc-gtk-actions.c:2854
+#: ../src/wbc-gtk-actions.c:2821
 msgid "Hide _Gridlines"
 msgstr "Skrýt _mřížku"
 
-#: ../src/wbc-gtk-actions.c:2855
+#: ../src/wbc-gtk-actions.c:2822
 msgid "Toggle whether or not to display gridlines"
 msgstr "Přepnout zobrazování mřížky"
 
-#: ../src/wbc-gtk-actions.c:2857
+#: ../src/wbc-gtk-actions.c:2824
 msgid "Hide _Column Headers"
 msgstr "Skrýt hlavičky sloup_ců"
 
-#: ../src/wbc-gtk-actions.c:2858
+#: ../src/wbc-gtk-actions.c:2825
 msgid "Toggle whether or not to display column headers"
 msgstr "Přepnout zobrazování hlaviček sloupců"
 
-#: ../src/wbc-gtk-actions.c:2860
+#: ../src/wbc-gtk-actions.c:2827
 msgid "Hide _Row Headers"
 msgstr "Sk_rýt hlavičky řádků"
 
-#: ../src/wbc-gtk-actions.c:2861
+#: ../src/wbc-gtk-actions.c:2828
 msgid "Toggle whether or not to display row headers"
 msgstr "Přepnout zobrazení hlaviček řádků"
 
 #. TODO : Make this a sub menu when we have more convention types
-#: ../src/wbc-gtk-actions.c:2865
+#: ../src/wbc-gtk-actions.c:2832
 msgid "Use R1C1 N_otation "
 msgstr "Používat _značení Ř1S1 "
 
-#: ../src/wbc-gtk-actions.c:2866
+#: ../src/wbc-gtk-actions.c:2833
 msgid "Display addresses as R1C1 or A1"
 msgstr "Zobrazovat adresy jako Ř1S1 nebo A1"
 
-#: ../src/wbc-gtk-actions.c:2870
+#: ../src/wbc-gtk-actions.c:2837
 msgid "_Left Align"
 msgstr "Zarovnat do_leva"
 
-#: ../src/wbc-gtk-actions.c:2871 ../src/wbc-gtk-actions.c:2946
+#: ../src/wbc-gtk-actions.c:2838 ../src/wbc-gtk-actions.c:2913
 msgid "Align left"
 msgstr "Zarovnat doleva"
 
-#: ../src/wbc-gtk-actions.c:2873
+#: ../src/wbc-gtk-actions.c:2840
 msgid "_Center"
 msgstr "Na _střed"
 
-#: ../src/wbc-gtk-actions.c:2874 ../src/wbc-gtk-actions.c:2947
+#: ../src/wbc-gtk-actions.c:2841 ../src/wbc-gtk-actions.c:2914
 msgid "Center horizontally"
 msgstr "Na střed v_odorovně"
 
-#: ../src/wbc-gtk-actions.c:2876
+#: ../src/wbc-gtk-actions.c:2843
 msgid "_Right Align"
 msgstr "Zarovnat dop_rava"
 
-#: ../src/wbc-gtk-actions.c:2877 ../src/wbc-gtk-actions.c:2948
+#: ../src/wbc-gtk-actions.c:2844 ../src/wbc-gtk-actions.c:2915
 msgid "Align right"
 msgstr "Zarovnat doprava"
 
-#: ../src/wbc-gtk-actions.c:2879
+#: ../src/wbc-gtk-actions.c:2846
 msgid "_Center Across Selection"
 msgstr "Vys_tředit přes výběr"
 
-#: ../src/wbc-gtk-actions.c:2880 ../src/wbc-gtk-actions.c:2951
+#: ../src/wbc-gtk-actions.c:2847 ../src/wbc-gtk-actions.c:2918
 msgid "Center horizontally across the selection"
 msgstr "Vystředit vodorovně přes výběr"
 
-#: ../src/wbc-gtk-actions.c:2883
+#: ../src/wbc-gtk-actions.c:2850
 msgid "_Merge and Center"
 msgstr "_Sloučit a vystředit"
 
-#: ../src/wbc-gtk-actions.c:2884
+#: ../src/wbc-gtk-actions.c:2851
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Sloučit výběr do jedné buňky a vodorovně vystředit."
 
-#: ../src/wbc-gtk-actions.c:2891
+#: ../src/wbc-gtk-actions.c:2858
 msgid "Align _Top"
 msgstr "Zarovnat na_horu"
 
-#: ../src/wbc-gtk-actions.c:2892 ../src/wbc-gtk-actions.c:2958
+#: ../src/wbc-gtk-actions.c:2859 ../src/wbc-gtk-actions.c:2925
 msgid "Align Top"
 msgstr "Zarovnat nahoru"
 
-#: ../src/wbc-gtk-actions.c:2894
+#: ../src/wbc-gtk-actions.c:2861
 msgid "_Vertically Center"
 msgstr "Na střed s_visle"
 
-#: ../src/wbc-gtk-actions.c:2895
+#: ../src/wbc-gtk-actions.c:2862
 msgid "Vertically Center"
 msgstr "Na střed svisle"
 
-#: ../src/wbc-gtk-actions.c:2897
+#: ../src/wbc-gtk-actions.c:2864
 msgid "Align _Bottom"
 msgstr "Zarovnat _dolů"
 
-#: ../src/wbc-gtk-actions.c:2898 ../src/wbc-gtk-actions.c:2960
+#: ../src/wbc-gtk-actions.c:2865 ../src/wbc-gtk-actions.c:2927
 msgid "Align Bottom"
 msgstr "Zarovnat dolů"
 
-#: ../src/wbc-gtk-actions.c:2903
+#: ../src/wbc-gtk-actions.c:2870
 msgid "View _Statusbar"
 msgstr "Zobrazovat _stavovou lištu"
 
-#: ../src/wbc-gtk-actions.c:2904
+#: ../src/wbc-gtk-actions.c:2871
 msgid "Toggle visibility of statusbar"
 msgstr "Přepnout viditelnost stavové lišty"
 
-#: ../src/wbc-gtk-actions.c:2908
+#: ../src/wbc-gtk-actions.c:2875
 msgid "F_ull Screen"
 msgstr "_Celá obrazovka"
 
-#: ../src/wbc-gtk-actions.c:2909
+#: ../src/wbc-gtk-actions.c:2876
 msgid "Switch to or from full screen mode"
 msgstr "Přepnout do nebo z režimu celé obrazovky"
 
-#: ../src/wbc-gtk-actions.c:2915
+#: ../src/wbc-gtk-actions.c:2882
 msgid "_Bold"
 msgstr "_Tučné"
 
 #. ALSO "<control>2"
-#: ../src/wbc-gtk-actions.c:2916 ../src/widgets/gnumeric-text-view.c:325
+#: ../src/wbc-gtk-actions.c:2883 ../src/widgets/gnumeric-text-view.c:325
 msgid "Bold"
 msgstr "Tučné"
 
-#: ../src/wbc-gtk-actions.c:2918
+#: ../src/wbc-gtk-actions.c:2885
 msgid "_Italic"
 msgstr "_Kurzíva"
 
 #. ALSO "<control>3"
-#: ../src/wbc-gtk-actions.c:2919
+#: ../src/wbc-gtk-actions.c:2886
 msgid "Italic"
 msgstr "Kurzíva"
 
 #. ALSO "<control>4"
-#: ../src/wbc-gtk-actions.c:2922
+#: ../src/wbc-gtk-actions.c:2889
 msgid "Underline"
 msgstr "Podtržení"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2924
+#: ../src/wbc-gtk-actions.c:2891
 msgid "_Double Underline"
 msgstr "_Dvojité podtržení"
 
-#: ../src/wbc-gtk-actions.c:2925
+#: ../src/wbc-gtk-actions.c:2892
 msgid "Double Underline"
 msgstr "Dvojité podtržení"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2927
+#: ../src/wbc-gtk-actions.c:2894
 msgid "_Single Low Underline"
 msgstr "_Jednoduché dolní podtržení"
 
-#: ../src/wbc-gtk-actions.c:2928
+#: ../src/wbc-gtk-actions.c:2895
 msgid "Single Low Underline"
 msgstr "Jednoduché dolní podtržení"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2930
+#: ../src/wbc-gtk-actions.c:2897
 msgid "Double _Low Underline"
 msgstr "Dvojité dolní podtržení"
 
-#: ../src/wbc-gtk-actions.c:2931
+#: ../src/wbc-gtk-actions.c:2898
 msgid "Double Low Underline"
 msgstr "Dvojité dolní podtržení"
 
-#: ../src/wbc-gtk-actions.c:2933
+#: ../src/wbc-gtk-actions.c:2900
 msgid "_Strikethrough"
 msgstr "Přeš_krtnuté"
 
-#: ../src/wbc-gtk-actions.c:2934
+#: ../src/wbc-gtk-actions.c:2901
 msgid "Strikethrough"
 msgstr "Přeškrtnuté"
 
-#: ../src/wbc-gtk-actions.c:2936
+#: ../src/wbc-gtk-actions.c:2903
 msgid "Su_perscript"
 msgstr "_Horní index"
 
-#: ../src/wbc-gtk-actions.c:2937
+#: ../src/wbc-gtk-actions.c:2904
 msgid "Superscript"
 msgstr "Horní index"
 
-#: ../src/wbc-gtk-actions.c:2939
+#: ../src/wbc-gtk-actions.c:2906
 msgid "Subscrip_t"
 msgstr "_Dolní index"
 
-#: ../src/wbc-gtk-actions.c:2940
+#: ../src/wbc-gtk-actions.c:2907
 msgid "Subscript"
 msgstr "Dolní index"
 
-#: ../src/wbc-gtk-actions.c:2949
+#: ../src/wbc-gtk-actions.c:2916
 msgid "Fill Horizontally"
 msgstr "Vyplnit vodorovně"
 
-#: ../src/wbc-gtk-actions.c:2950
+#: ../src/wbc-gtk-actions.c:2917
 msgid "Justify Horizontally"
 msgstr "Zarovnat vodorovně"
 
-#: ../src/wbc-gtk-actions.c:2953
+#: ../src/wbc-gtk-actions.c:2920
 msgid "Align numbers right, and text left"
 msgstr "Čísla zarovnávat doprava a text doleva"
 
-#: ../src/wbc-gtk-actions.c:2959
+#: ../src/wbc-gtk-actions.c:2926
 msgid "Center Vertically"
 msgstr "Na střed svisle"
 
-#: ../src/wbc-gtk-actions.c:2983 ../src/wbc-gtk-actions.c:2984
-#: ../src/wbc-gtk-actions.c:2987 ../src/wbc-gtk-actions.c:3002
+#: ../src/wbc-gtk-actions.c:2950 ../src/wbc-gtk-actions.c:2951
+#: ../src/wbc-gtk-actions.c:2954 ../src/wbc-gtk-actions.c:2969
 msgid "Horizontal Alignment"
 msgstr "Vodorovné zarovnání"
 
-#: ../src/wbc-gtk-actions.c:2998 ../src/wbc-gtk-actions.c:2999
+#: ../src/wbc-gtk-actions.c:2965 ../src/wbc-gtk-actions.c:2966
 msgid "Vertical Alignment"
 msgstr "Svislé zarovnání"
 
-#: ../src/wbc-gtk-edit.c:861
+#: ../src/wbc-gtk-edit.c:868
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s je zamknutý"
 
-#: ../src/wbc-gtk-edit.c:865
+#: ../src/wbc-gtk-edit.c:872
 msgid "Unprotect the workbook to enable editing."
 msgstr "Zrušit ochranu sešitu kvůli umožnění změn."
 
-#: ../src/wbc-gtk-edit.c:866
+#: ../src/wbc-gtk-edit.c:873
 msgid "Unprotect the sheet to enable editing."
 msgstr "Zrušit ochranu listu kvůli umožnění změn."
 
-#: ../src/wbc-gtk-edit.c:885
+#: ../src/wbc-gtk-edit.c:892
 msgid "You are about to edit a cell with \"text\" format."
 msgstr "Chystáte se upravit buňku s formátem „text“."
 
-#: ../src/wbc-gtk-edit.c:886
+#: ../src/wbc-gtk-edit.c:893
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
@@ -17032,11 +17014,11 @@ msgstr ""
 "Buňka v současnosti neobsahuje text, když však přesto budete pokračovat v "
 "úpravách, bude obsah přepnut na text."
 
-#: ../src/wbc-gtk-edit.c:891
+#: ../src/wbc-gtk-edit.c:898
 msgid "Remove format"
 msgstr "Odstranit formát"
 
-#: ../src/wbc-gtk-edit.c:896
+#: ../src/wbc-gtk-edit.c:903
 msgid "Show this dialog next time."
 msgstr "Příště toto dialogové okno zobrazit."
 
@@ -17068,244 +17050,244 @@ msgstr "Vybrat"
 msgid "Select (sorted)"
 msgstr "Vybrat (seřazené)"
 
-#: ../src/wbc-gtk.c:1261
+#: ../src/wbc-gtk.c:1286
 msgid " - Gnumeric"
 msgstr " – Gnumeric"
 
-#: ../src/wbc-gtk.c:1383
+#: ../src/wbc-gtk.c:1449
 msgid "Invalid format"
 msgstr "Neplatný formát"
 
-#: ../src/wbc-gtk.c:1481
+#: ../src/wbc-gtk.c:1547
 msgid "Remove the page break to the left of the current column"
 msgstr "Odstranit zalomení stránky nalevo od aktuálního sloupce"
 
-#: ../src/wbc-gtk.c:1484
+#: ../src/wbc-gtk.c:1550
 msgid "Add a page break to the left of the current column"
 msgstr "Přidat zalomení stránky nalevo od aktuálního sloupce"
 
-#: ../src/wbc-gtk.c:1491
+#: ../src/wbc-gtk.c:1557
 msgid "Remove the page break above the current row"
 msgstr "Odstranit zalomení stránky nad aktuálním řádkem"
 
-#: ../src/wbc-gtk.c:1494
+#: ../src/wbc-gtk.c:1560
 msgid "Add a page break above current row"
 msgstr "Přidat zalomení stránky nad aktuální řádek"
 
-#: ../src/wbc-gtk.c:1514
+#: ../src/wbc-gtk.c:1580
 msgid "Un_freeze Panes"
 msgstr "Zrušit _ukotvení rozdělení okna"
 
-#: ../src/wbc-gtk.c:1517
+#: ../src/wbc-gtk.c:1583
 msgid "Unfreeze the top left of the sheet"
 msgstr "Zrušit ukotvení levého horního rohu listu"
 
-#: ../src/wbc-gtk.c:1535
+#: ../src/wbc-gtk.c:1601
 #, c-format
 msgid "Extend _Auto Filter to %s"
 msgstr "Rozšířit _automatický filtr na %s"
 
-#: ../src/wbc-gtk.c:1537
+#: ../src/wbc-gtk.c:1603
 msgid "Extend the existing filter."
 msgstr "Rozšířit stávající filtr."
 
-#: ../src/wbc-gtk.c:1547
+#: ../src/wbc-gtk.c:1613
 msgid "The selection intersects an existing auto filter."
 msgstr "Výběr se kříží s existujícím automatickým filtrem."
 
-#: ../src/wbc-gtk.c:1556
+#: ../src/wbc-gtk.c:1622
 msgid "Remove _Auto Filter"
 msgstr "Odstranit _automatický filtr"
 
-#: ../src/wbc-gtk.c:1559
+#: ../src/wbc-gtk.c:1625
 msgid "Remove a filter"
 msgstr "Odstranit filtr"
 
-#: ../src/wbc-gtk.c:1560
+#: ../src/wbc-gtk.c:1626
 msgid "Add a filter"
 msgstr "Přidat filtr"
 
-#: ../src/wbc-gtk.c:1628
+#: ../src/wbc-gtk.c:1694
 #, c-format
 msgid "Repeat Export to %s"
 msgstr "Opakovat export do %s"
 
-#: ../src/wbc-gtk.c:1641
+#: ../src/wbc-gtk.c:1707
 msgid "Remove _Data Slicer"
 msgstr "Odstranit _datový průřez"
 
-#: ../src/wbc-gtk.c:1642
+#: ../src/wbc-gtk.c:1708
 msgid "Create _Data Slicer"
 msgstr "Vytvořit _datový průřez"
 
-#: ../src/wbc-gtk.c:1644
+#: ../src/wbc-gtk.c:1710
 msgid "Remove a Data Slicer"
 msgstr "Odstranit datový průřez"
 
-#: ../src/wbc-gtk.c:1645
+#: ../src/wbc-gtk.c:1711
 msgid "Create a Data Slicer"
 msgstr "Vytvořit datový průřez"
 
-#: ../src/wbc-gtk.c:1658
+#: ../src/wbc-gtk.c:1724
 msgid "_Redo"
 msgstr "Zn_ovu"
 
-#: ../src/wbc-gtk.c:1659
+#: ../src/wbc-gtk.c:1725
 msgid "_Undo"
 msgstr "_Zpět"
 
-#: ../src/wbc-gtk.c:1690
+#: ../src/wbc-gtk.c:1756
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Uložit před zavřením změny v sešitu „%s“?"
 
-#: ../src/wbc-gtk.c:1695
+#: ../src/wbc-gtk.c:1761
 msgid "Save changes to workbook before closing?"
 msgstr "Uložit před zavřením změny v sešitu?"
 
-#: ../src/wbc-gtk.c:1702
+#: ../src/wbc-gtk.c:1768
 msgid "If you close without saving, changes will be discarded."
 msgstr "Pokud zavřete bez uložení, budou změny zahozeny."
 
-#: ../src/wbc-gtk.c:1708
+#: ../src/wbc-gtk.c:1774
 msgid "Discard all"
 msgstr "Zahodit vše"
 
-#: ../src/wbc-gtk.c:1710 ../src/wbc-gtk.c:1717 ../src/wbc-gtk.c:1723
+#: ../src/wbc-gtk.c:1776 ../src/wbc-gtk.c:1783 ../src/wbc-gtk.c:1789
 msgid "Discard"
 msgstr "Zahodit"
 
-#: ../src/wbc-gtk.c:1712
+#: ../src/wbc-gtk.c:1778
 msgid "Save all"
 msgstr "Uložit vše"
 
-#: ../src/wbc-gtk.c:1714 ../src/wbc-gtk.c:1719
+#: ../src/wbc-gtk.c:1780 ../src/wbc-gtk.c:1785
 msgid "Don't quit"
 msgstr "Nekončit"
 
-#: ../src/wbc-gtk.c:1725
+#: ../src/wbc-gtk.c:1791
 msgid "Don't close"
 msgstr "Nezavírat"
 
-#: ../src/wbc-gtk.c:2027
+#: ../src/wbc-gtk.c:2093
 msgid "Enter in current cell"
 msgstr "Vložit do aktuální buňky"
 
-#: ../src/wbc-gtk.c:2029
+#: ../src/wbc-gtk.c:2095
 msgid "Enter in current cell without autocorrection"
 msgstr "Vložit do aktuální buňky bez automatické opravy"
 
-#: ../src/wbc-gtk.c:2036
+#: ../src/wbc-gtk.c:2102
 msgid "Enter in current range merged"
 msgstr "Vložit sloučené do aktuální oblasti"
 
-#: ../src/wbc-gtk.c:2039
+#: ../src/wbc-gtk.c:2105
 msgid "Enter in selected ranges"
 msgstr "Vložit do vybraných oblastí"
 
-#: ../src/wbc-gtk.c:2041
+#: ../src/wbc-gtk.c:2107
 msgid "Enter in selected ranges as array"
 msgstr "Vložit do vybraných oblastí jako pole"
 
-#: ../src/wbc-gtk.c:2407
+#: ../src/wbc-gtk.c:2473
 msgid "END"
 msgstr "KONEC"
 
-#: ../src/wbc-gtk.c:2677
+#: ../src/wbc-gtk.c:2743
 msgid "Go to Cell ..."
 msgstr "Přejít na buňku…"
 
-#: ../src/wbc-gtk.c:2746
+#: ../src/wbc-gtk.c:2811
 msgid "Accept change in multiple cells"
 msgstr "Přijmout změny ve více buňkách"
 
-#: ../src/wbc-gtk.c:2815 ../src/wbc-gtk.c:2830
+#: ../src/wbc-gtk.c:2880 ../src/wbc-gtk.c:2895
 msgid "_Re-Edit"
 msgstr "Znovu up_ravit"
 
-#: ../src/wbc-gtk.c:2816 ../src/wbc-gtk.c:2821
+#: ../src/wbc-gtk.c:2881 ../src/wbc-gtk.c:2886
 msgid "_Discard"
 msgstr "Zaho_dit"
 
-#: ../src/wbc-gtk.c:2820 ../src/wbc-gtk.c:2831
+#: ../src/wbc-gtk.c:2885 ../src/wbc-gtk.c:2896
 msgid "_Accept"
 msgstr "_Přijmout"
 
-#: ../src/wbc-gtk.c:3026
+#: ../src/wbc-gtk.c:3091
 msgid "_Zoom"
 msgstr "_Přiblížit"
 
-#: ../src/wbc-gtk.c:3065
+#: ../src/wbc-gtk.c:3130
 msgid "Clear Borders"
 msgstr "Vymazat ohraničení"
 
-#: ../src/wbc-gtk.c:3068
+#: ../src/wbc-gtk.c:3133
 msgid "All Borders"
 msgstr "Všechno ohraničení"
 
-#: ../src/wbc-gtk.c:3069
+#: ../src/wbc-gtk.c:3134
 msgid "Outside Borders"
 msgstr "Vnější ohraničení"
 
-#: ../src/wbc-gtk.c:3070
+#: ../src/wbc-gtk.c:3135
 msgid "Thick Outside Borders"
 msgstr "Tučné vnější ohraničení"
 
-#: ../src/wbc-gtk.c:3073
+#: ../src/wbc-gtk.c:3138
 msgid "Double Bottom"
 msgstr "Dvojité dole"
 
-#: ../src/wbc-gtk.c:3074
+#: ../src/wbc-gtk.c:3139
 msgid "Thick Bottom"
 msgstr "Tučné dole"
 
-#: ../src/wbc-gtk.c:3076
+#: ../src/wbc-gtk.c:3141
 msgid "Top and Bottom"
 msgstr "Nahoře a dole"
 
-#: ../src/wbc-gtk.c:3077
+#: ../src/wbc-gtk.c:3142
 msgid "Top and Double Bottom"
 msgstr "Nahoře a dvojité dole"
 
-#: ../src/wbc-gtk.c:3078
+#: ../src/wbc-gtk.c:3143
 msgid "Top and Thick Bottom"
 msgstr "Nahoře a tučné dole"
 
-#: ../src/wbc-gtk.c:3163
+#: ../src/wbc-gtk.c:3228
 msgid "Set Borders"
 msgstr "Nastavit ohraničení"
 
-#: ../src/wbc-gtk.c:3171 ../src/wbc-gtk.c:3172
+#: ../src/wbc-gtk.c:3236 ../src/wbc-gtk.c:3237
 msgid "Borders"
 msgstr "Ohraničení"
 
-#: ../src/wbc-gtk.c:3275
+#: ../src/wbc-gtk.c:3340
 msgid "Redo the undone action"
 msgstr "Znovu vykonat vrácenou akci"
 
-#: ../src/wbc-gtk.c:3280
+#: ../src/wbc-gtk.c:3345
 msgid "Undo the last action"
 msgstr "Vrátit zpět poslední akci"
 
-#: ../src/wbc-gtk.c:3314
+#: ../src/wbc-gtk.c:3379
 msgid "Set Foreground Color"
 msgstr "Nastavit barvu popředí"
 
-#: ../src/wbc-gtk.c:3328 ../src/wbc-gtk.c:3329 ../src/wbc-gtk.c:3338
+#: ../src/wbc-gtk.c:3393 ../src/wbc-gtk.c:3394 ../src/wbc-gtk.c:3403
 msgid "Foreground"
 msgstr "Popředí"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:3368
+#: ../src/wbc-gtk.c:3433
 msgid "Set Background Color"
 msgstr "Nastavit barvu pozadí"
 
-#: ../src/wbc-gtk.c:3560
+#: ../src/wbc-gtk.c:3621
 #, c-format
 msgid "Setting Font %s"
 msgstr "Nastavení písma %s"
 
-#: ../src/wbc-gtk.c:3638
+#: ../src/wbc-gtk.c:3699
 msgid "Change font"
 msgstr "Změnit písmo"
 
@@ -17315,66 +17297,66 @@ msgstr "Změnit písmo"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3840
+#: ../src/wbc-gtk.c:3901
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "V nabídce „%s“ se klávesa „%s“ používá pro „%s“ i „%s“."
 
-#: ../src/wbc-gtk.c:4158
+#: ../src/wbc-gtk.c:4240
 msgid "Display above sheets"
 msgstr "Zobrazit nad listy"
 
-#: ../src/wbc-gtk.c:4159
+#: ../src/wbc-gtk.c:4241
 msgid "Display to the left of sheets"
 msgstr "Zobrazit nalevo od listů"
 
-#: ../src/wbc-gtk.c:4160
+#: ../src/wbc-gtk.c:4242
 msgid "Display to the right of sheets"
 msgstr "Zobrazit napravo od listů"
 
-#: ../src/wbc-gtk.c:4171
+#: ../src/wbc-gtk.c:4256
 msgid "Reattach to main window"
 msgstr "Znovu připojit k hlavnímu oknu"
 
-#: ../src/wbc-gtk.c:4205
+#: ../src/wbc-gtk.c:4290
 msgid "Hide"
 msgstr "Skrýt"
 
-#: ../src/wbc-gtk.c:4269
+#: ../src/wbc-gtk.c:4356
 msgid "Standard Toolbar"
 msgstr "Lišta nástrojů Standardní"
 
-#: ../src/wbc-gtk.c:4270
+#: ../src/wbc-gtk.c:4357
 msgid "Format Toolbar"
 msgstr "Lišta nástrojů Formát"
 
-#: ../src/wbc-gtk.c:4271
+#: ../src/wbc-gtk.c:4358
 msgid "Object Toolbar"
 msgstr "Lišta nástrojů Objekt"
 
-#: ../src/wbc-gtk.c:4285
+#: ../src/wbc-gtk.c:4372
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Zobrazit/skrýt lištu nástrojů %s"
 
-#: ../src/wbc-gtk.c:4699
+#: ../src/wbc-gtk.c:4786
 #, c-format
 msgid "Content of %s"
 msgstr "Obsah buňky %s"
 
-#: ../src/wbc-gtk.c:4714
+#: ../src/wbc-gtk.c:4801
 msgid "Use Maximum Precision"
 msgstr "Používat maximální přesnost"
 
-#: ../src/wbc-gtk.c:4726
+#: ../src/wbc-gtk.c:4813
 msgid "Insert Formula Below"
 msgstr "Vložit vzorec pod."
 
-#: ../src/wbc-gtk.c:4732
+#: ../src/wbc-gtk.c:4819
 msgid "Insert Formula to Side"
 msgstr "Vložit vzorec vedle."
 
-#: ../src/wbc-gtk.c:4815
+#: ../src/wbc-gtk.c:4902
 #, c-format
 msgid "Open %s"
 msgstr "Otevřít %s"
@@ -17610,56 +17592,56 @@ msgid "Address"
 msgstr "Adresa"
 
 #. Translators: "%dC" is a very short format to indicate the number of full columns
-#: ../src/workbook-view.c:401
+#: ../src/workbook-view.c:405
 #, c-format
 msgid "%dC"
 msgstr "%dS"
 
 #. Translators: "%dR" is a very short format to indicate the number of full rows
-#: ../src/workbook-view.c:404
+#: ../src/workbook-view.c:408
 #, c-format
 msgid "%dR"
 msgstr "%dŘ"
 
 #. Translators: "%dR x %dC" is a very short format to indicate the number of rows and columns
-#: ../src/workbook-view.c:407
+#: ../src/workbook-view.c:411
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dŘ × %dS"
 
-#: ../src/workbook-view.c:1064
+#: ../src/workbook-view.c:1068
 msgid "An unexplained error happened while saving."
 msgstr "Nastala nevysvětlená chyba při ukládání."
 
-#: ../src/workbook-view.c:1080
+#: ../src/workbook-view.c:1084
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Nelze otevřít „%s“ pro zápis: %s"
 
-#: ../src/workbook-view.c:1084
+#: ../src/workbook-view.c:1088
 #, c-format
 msgid "Can't open '%s' for writing"
 msgstr "Nelze otevřít „%s“ pro zápis"
 
-#: ../src/workbook-view.c:1300
+#: ../src/workbook-view.c:1304
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát souboru."
 
-#: ../src/workbook-view.c:1351
+#: ../src/workbook-view.c:1355
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
 
-#: ../src/workbook.c:330
+#: ../src/workbook.c:335
 #, c-format
 msgid "Book%d.%s"
 msgstr "Sešit%d.%s"
 
-#: ../src/workbook.c:1042
+#: ../src/workbook.c:1047
 msgid "Graph"
 msgstr "Graf"
 
-#: ../src/workbook.c:1565
+#: ../src/workbook.c:1570
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
@@ -17667,7 +17649,7 @@ msgstr[0] "Přejmenovat list"
 msgstr[1] "Přejmenovat %d listy"
 msgstr[2] "Přejmenovat %d listů"
 
-#: ../src/workbook.c:1567
+#: ../src/workbook.c:1572
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -17679,7 +17661,7 @@ msgstr[2] "Přidat %d listů"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1573
+#: ../src/workbook.c:1578
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
@@ -17687,11 +17669,11 @@ msgstr[0] "Vložit list"
 msgstr[1] "Vložit %d listy"
 msgstr[2] "Vložit %d listů"
 
-#: ../src/workbook.c:1575
+#: ../src/workbook.c:1580
 msgid "Changing sheet tab colors"
 msgstr "Změnit barvu karet listů"
 
-#: ../src/workbook.c:1577
+#: ../src/workbook.c:1582
 msgid "Changing sheet properties"
 msgstr "Změnit vlastnosti listu"
 
@@ -17699,7 +17681,7 @@ msgstr "Změnit vlastnosti listu"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1584
+#: ../src/workbook.c:1589
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
@@ -17707,11 +17689,11 @@ msgstr[0] "Odstranit list"
 msgstr[1] "Odstranit %d listy"
 msgstr[2] "Odstranit %d listů"
 
-#: ../src/workbook.c:1586
+#: ../src/workbook.c:1591
 msgid "Changing sheet order"
 msgstr "Změnit pořadí listů"
 
-#: ../src/workbook.c:1588
+#: ../src/workbook.c:1593
 msgid "Reorganizing Sheets"
 msgstr "Reorganizovat listy"
 
@@ -17720,38 +17702,38 @@ msgstr "Reorganizovat listy"
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Vícenásobná specifikace verzí. Předpokládá se %d"
 
-#: ../src/xml-sax-read.c:652
+#: ../src/xml-sax-read.c:654
 msgid "workbook view attribute is incomplete"
 msgstr "atribut zobrazení sešitu je neúplný"
 
-#: ../src/xml-sax-read.c:801
+#: ../src/xml-sax-read.c:803
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Soubor má nekonzistentní element SheetNameIndex."
 
-#: ../src/xml-sax-read.c:2209
+#: ../src/xml-sax-read.c:2211
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Neznámý operátor filtru „%s“"
 
-#: ../src/xml-sax-read.c:2249
+#: ../src/xml-sax-read.c:2251
 msgid "Missing filter type"
 msgstr "Schází typ filtru"
 
-#: ../src/xml-sax-read.c:2271
+#: ../src/xml-sax-read.c:2273
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Neznámý typ filtru „%s“"
 
-#: ../src/xml-sax-read.c:2292
+#: ../src/xml-sax-read.c:2294
 msgid "Invalid filter, missing Area"
 msgstr "Neplatný filtr, schází oblast"
 
-#: ../src/xml-sax-read.c:2356
+#: ../src/xml-sax-read.c:2358
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nepodporovaný typ objektu „%s“"
 
-#: ../src/xml-sax-read.c:3637 ../src/xml-sax-write.c:1632
+#: ../src/xml-sax-read.c:3639 ../src/xml-sax-write.c:1632
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
