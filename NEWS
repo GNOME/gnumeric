@@ -24,6 +24,7 @@ Morten:
 	* Fix BIFF8 export of diagonal borders.
 	* Export headers and footers to xlsx.  [Part of #724516]
 	* Fix xls export of long strings in formulas.
+	* Fix xls import of cells with long string results.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11

@@ -1,7 +1,11 @@
 2014-02-21  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_FORMULA): Try to handle missing
+	expression length.
+
 	* ms-biff.c (ms_biff_query_next): Handle CONTINUE record for
-	BIFF_FORMULA_v0 too.
+	BIFF_FORMULA_v0, BIFF_FORMULA_v2, BIFF_STRING_v0, adn
+	BIFF_STRING_v2 too.
 
 	* ms-excel-write.c (excel_write_string): Improve handling of
 	string overflow.

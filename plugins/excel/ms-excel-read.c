@@ -2923,6 +2923,11 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		XL_CHECK_CONDITION (q->length >= 22);
 		expr_length = GSF_LE_GET_GUINT16 (q->data + 20);
 		offset = 22;
+		if (expr_length == 0) {
+			/* Now what?  This happens when we have a continuation
+			   record for a formula.  */
+			expr_length = q->length - offset;
+		}
 	} else if (esheet_ver (esheet) >= MS_BIFF_V3) {
 		XL_CHECK_CONDITION (q->length >= 18);
 		expr_length = GSF_LE_GET_GUINT16 (q->data + 16);

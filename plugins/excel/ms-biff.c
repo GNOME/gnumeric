@@ -509,6 +509,9 @@ ms_biff_query_next (BiffQuery *q)
 	case BIFF_LABEL_v0:
 	case BIFF_LABEL_v2:
 	case BIFF_FORMULA_v0:
+	case BIFF_FORMULA_v2:
+	case BIFF_STRING_v0:
+	case BIFF_STRING_v2:
 		auto_continue = TRUE;
 		break;
 	case BIFF_CONTINUE:
