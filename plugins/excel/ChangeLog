@@ -1,3 +1,14 @@
+2014-02-21  Morten Welinder  <terra@gnome.org>
+
+	* ms-biff.c (ms_biff_query_next): Handle CONTINUE record for
+	BIFF_FORMULA_v0 too.
+
+	* ms-excel-write.c (excel_write_string): Improve handling of
+	string overflow.
+
+	* ms-formula-write.c (write_string): Split long strings into 255
+	character chunks: ("s1"&"s2"&...)
+
 2014-02-20  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_print_info): First stab at exporting

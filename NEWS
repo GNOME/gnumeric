@@ -23,6 +23,7 @@ Morten:
 	* Fix xlsx export of underlines.
 	* Fix BIFF8 export of diagonal borders.
 	* Export headers and footers to xlsx.  [Part of #724516]
+	* Fix xls export of long strings in formulas.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11

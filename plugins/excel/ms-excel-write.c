@@ -313,10 +313,6 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 	if (char_len != byte_len || (flags & STR_SUPPRESS_HEADER)) {
 		char *tmp;
 
-		/* TODO : think about what to do with LEN_IN_BYTES */
-		if ((flags & STR_LENGTH_MASK) == STR_ONE_BYTE_LENGTH &&
-		    char_len > 0xff)
-			char_len = 0xff;
 		out_bytes = char_len * 2;
 
 		/* 2 in case we null terminate, and up to 4 for the length */
@@ -358,9 +354,27 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 				g_warning (_("This is somewhat corrupt.\n"
 					     "We already wrote a length for a string that is being truncated due to encoding problems."));
 			break;
-		case STR_ONE_BYTE_LENGTH:  GSF_LE_SET_GUINT8  (bp->buf, output_len); break;
-		case STR_TWO_BYTE_LENGTH:  GSF_LE_SET_GUINT16 (bp->buf, output_len); break;
-		case STR_FOUR_BYTE_LENGTH: GSF_LE_SET_GUINT32 (bp->buf, output_len); break;
+		case STR_ONE_BYTE_LENGTH:
+			if (output_len > 255) {
+				g_printerr ("Truncating string of %u %s\n",
+					    output_len,
+					    (flags & STR_LEN_IN_BYTES) ? "bytes" : "characters");
+				output_len = 255;
+			}
+			GSF_LE_SET_GUINT8 (bp->buf, output_len);
+			break;
+		case STR_TWO_BYTE_LENGTH:
+			if (output_len > 65535) {
+				g_printerr ("Truncating string of %u %s\n",
+					    output_len,
+					    (flags & STR_LEN_IN_BYTES) ? "bytes" : "characters");
+				output_len = 65535;
+			}
+			GSF_LE_SET_GUINT16 (bp->buf, output_len);
+			break;
+		case STR_FOUR_BYTE_LENGTH:
+			GSF_LE_SET_GUINT32 (bp->buf, output_len);
+			break;
 		}
 
 		output_len = out_bytes;

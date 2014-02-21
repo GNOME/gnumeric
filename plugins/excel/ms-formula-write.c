@@ -357,10 +357,41 @@ write_cellref_v8 (PolishData *pd, GnmCellRef const *ref,
 }
 
 static void
-write_string (PolishData *pd, gchar const *txt)
+write_string1 (PolishData *pd, gchar const *txt)
 {
 	push_guint8 (pd, FORMULA_PTG_STR);
 	excel_write_string (pd->ewb->bp, STR_ONE_BYTE_LENGTH, txt);
+}
+
+static void
+write_string (PolishData *pd, gchar const *txt)
+{
+	size_t i, n = 0, len = g_utf8_strlen (txt, -1);
+	const char *p = txt;
+
+	for (i = 0; n == 0 || i < len; ) {
+		if (len - i <= 255) {
+			write_string1 (pd, p);
+			i = len;
+		} else {
+			const char *endcut = g_utf8_offset_to_pointer (p, 255);
+			size_t cutlen = endcut - p;
+			char *cut = g_memdup (p, cutlen + 1);
+			cut[cutlen] = 0;
+			write_string1 (pd, cut);
+			g_free (cut);
+
+			p = endcut;
+			i += 255;
+		}
+
+		if (n > 0)
+			push_guint8 (pd, FORMULA_PTG_CONCAT);
+		n++;
+	}
+
+	if (n > 1)
+		push_guint8 (pd, FORMULA_PTG_PAREN);
 }
 
 static void

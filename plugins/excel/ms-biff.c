@@ -508,6 +508,7 @@ ms_biff_query_next (BiffQuery *q)
 	switch (q->opcode) {
 	case BIFF_LABEL_v0:
 	case BIFF_LABEL_v2:
+	case BIFF_FORMULA_v0:
 		auto_continue = TRUE;
 		break;
 	case BIFF_CONTINUE:
