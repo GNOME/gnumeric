@@ -1,5 +1,8 @@
 2014-02-20  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_write_print_info): First stab at exporting
+	headers and footers.
+
 	* ms-excel-write.c (excel_write_XF): Fix reversed diagonal border
 	bits.
 

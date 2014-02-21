@@ -1970,6 +1970,70 @@ xlsx_find_paper_code (GtkPaperSize *psize)
 }
 
 static void
+xlsx_write_print_info_hf1 (GString *res, const char *s, const char *section)
+{
+	static const struct {
+		const char *name;
+		const char *xlsx_code;
+	} codes[] = {
+		{ N_("tab"),   "&A"},
+		{ N_("page"),  "&P"},
+		{ N_("pages"), "&N"},
+		{ N_("date"),  "&D"},
+		{ N_("time"),  "&T"},
+		{ N_("file"),  "&F"},
+		{ N_("path"),  "&Z"},
+#if 0
+		{ N_("cell"),  "" /* ??? */},
+		{ N_("title"), "" /* ??? */}
+#endif
+	};
+
+	if (!s)
+		return;
+
+	g_string_append (res, section);
+	while (*s) {
+		const char *end;
+
+		if (*s == '&' && s[1] == '[' && (end = strchr (s + 2, ']'))) {
+			size_t l = end - (s + 2);
+			unsigned ui;
+
+			for (ui = 0; ui < G_N_ELEMENTS (codes); ui++) {
+				const char *tname = _(codes[ui].name);
+				if (l == strlen (tname) &&
+				    g_ascii_strncasecmp (tname, s + 2, l) == 0) {
+					g_string_append (res, codes[ui].xlsx_code);
+					break;
+				}
+			}			
+			s = end + 1;
+			continue;
+		}
+
+		g_string_append_c (res, *s++);
+	}
+}
+
+static void
+xlsx_write_print_info_hf (XLSXWriteState *state, GsfXMLOut *xml,
+			  const PrintHF *hf, const char *hftext)
+{
+	GString *res = g_string_new (NULL);
+
+	xlsx_write_print_info_hf1 (res, hf->left_format, "&L");
+	xlsx_write_print_info_hf1 (res, hf->middle_format, "&C");
+	xlsx_write_print_info_hf1 (res, hf->right_format, "&R");
+
+	gsf_xml_out_start_element (xml, hftext);
+	gsf_xml_out_add_cstr (xml, NULL, res->str);
+	gsf_xml_out_end_element (xml); /* hftext */
+
+	g_string_free (res, TRUE);
+}
+
+static void
 xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 {
 	PrintInformation *pi = state->sheet->print_info;
@@ -2092,11 +2156,10 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	if (NULL != pi->page_breaks.h)
 		xlsx_write_breaks (state, xml, pi->page_breaks.h);
 
-#if 0
 	gsf_xml_out_start_element (xml, "headerFooter");
+	xlsx_write_print_info_hf (state, xml, pi->header, "oddHeader");
+	xlsx_write_print_info_hf (state, xml, pi->footer, "oddFooter");
 	gsf_xml_out_end_element (xml); /* </headerFooter> */
-#endif
-
 }
 
 /**********************************************************************/
