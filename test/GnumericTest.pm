@@ -398,6 +398,7 @@ sub test_roundtrip {
 
     my $tmp2_xml = "$tmp-new.xml";
     &junkfile ($tmp2_xml) unless $keep;
+    # print STDERR "zcat -f '$tmp2' | $PERL normalize-gnumeric | $filter2 >'$tmp2_xml'\n";
     $code = system ("zcat -f '$tmp2' | $PERL normalize-gnumeric | $filter2 >'$tmp2_xml'");
     &system_failure ('zcat', $code) if $code;
 
