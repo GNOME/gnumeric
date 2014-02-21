@@ -4985,11 +4985,10 @@ odf_render_pages (GnmOOExport *state, G_GNUC_UNUSED char const *args)
 static void
 odf_render_date (GnmOOExport *state, char const *args)
 {
-	const char *style_name;
+	const char *style_name = NULL;
 
-	if (args == NULL)
-		args = "dd-mmm-yyyy";
-	style_name = xl_find_format_xl (state, args, 0);
+	if (args != NULL) 
+		style_name = xl_find_format_xl (state, args, 0);
 
 	gsf_xml_out_start_element (state->xml, TEXT "date");
 	if (style_name)
@@ -5001,19 +5000,17 @@ odf_render_date (GnmOOExport *state, char const *args)
 static void
 odf_render_date_to_xl (GnmOOExport *state, char const *args)
 {
-	if (args == NULL)
-		args = "dd-mmm-yyyy";
-	(void)xl_find_format_xl (state, args, 0);
+	if (args != NULL)
+		xl_find_format_xl (state, args, 0);
 }
 
 static void
 odf_render_time (GnmOOExport *state, char const *args)
 {
-	const char *style_name;
+	const char *style_name = NULL;
 
-	if (args == NULL)
-		args = "hh:mm";
-	style_name = xl_find_format_xl (state, args, 0);
+	if (args != NULL)
+		style_name = xl_find_format_xl (state, args, 0);
 
 	gsf_xml_out_start_element (state->xml, TEXT "time");
 	if (style_name)
@@ -5024,9 +5021,8 @@ odf_render_time (GnmOOExport *state, char const *args)
 static void
 odf_render_time_to_xl (GnmOOExport *state, char const *args)
 {
-	if (args == NULL)
-		args = "hh:mm";
-	(void)xl_find_format_xl (state, args, 0);
+	if (args != NULL)
+		xl_find_format_xl (state, args, 0);
 }
 
 static void

@@ -1,5 +1,10 @@
 2014-02-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_render_date*): don't create an unnecessary
+	format string
+	(odf_render_time*): ditto
+2014-02-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_apply_ooo_table_config): set viewport
 	(openoffice_file_open): use some ooo configs even if we have
 	foreign elements
