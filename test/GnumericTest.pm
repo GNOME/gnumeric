@@ -562,6 +562,7 @@ delete $ENV{'G_SLICE'};
 $ENV{'G_DEBUG'} = 'fatal_criticals';
 
 delete $ENV{'LANG'};
+delete $ENV{'LANGUAGE'};
 foreach (keys %ENV) { delete $ENV{$_} if /^LC_/; }
 $ENV{'LC_ALL'} = 'C';
 
