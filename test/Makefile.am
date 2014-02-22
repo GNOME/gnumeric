@@ -73,7 +73,7 @@ TESTS =	t1000-statfuns.pl			\
 	t6104-finfuns-ods.pl			\
 	t6500-strings.pl			\
 	t6501-numbers.pl			\
-	t6502-style.pl				\
+	t6502-styles.pl				\
 	t6503-page-setup.pl			\
 	t6504-formula.pl			\
 	t7000-goal-seek.pl			\
