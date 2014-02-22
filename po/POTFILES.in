@@ -19,6 +19,7 @@ plugins/excel/xlsx-read-docprops.c
 plugins/excel/xlsx-read-drawing.c
 plugins/excel/xlsx-read-pivot.c
 plugins/excel/xlsx-read.c
+plugins/excel/xlsx-write.c
 plugins/excelplugins/excelplugins.c
 plugins/excelplugins/plugin.xml.in
 plugins/fn-christian-date/functions.c
