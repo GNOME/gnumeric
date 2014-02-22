@@ -389,11 +389,7 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 
 	char_len = excel_strlen (txt, &byte_len);
 	if (char_len != byte_len || (flags & STR_SUPPRESS_HEADER)) {
-		convdata = (gpointer)g_convert_with_iconv
-			(txt, -1,
-			 bp->convert,
-			 NULL, &conv_bytes,
-			 NULL);
+		convdata = excel_convert_string (bp, txt, &conv_bytes);
 		isunistr = 1;
 
 		/* g_convert_with_iconv terminates with 4 NULs.  */

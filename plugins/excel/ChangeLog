@@ -3,6 +3,7 @@
 	* ms-excel-write.c (excel_convert_string): New function.
 	(excel_write_comments_biff7): Avoid infinite loop when a comment
 	contains characters that cannot be represented in the codepage.
+	(excel_write_string): Use excel_convert_string.
 
 2014-02-21  Morten Welinder  <terra@gnome.org>
 
