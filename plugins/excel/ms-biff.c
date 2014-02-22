@@ -506,16 +506,35 @@ ms_biff_query_next (BiffQuery *q)
 	 * now, however, do the bare minimum.
 	 */	   
 	switch (q->opcode) {
-	case BIFF_LABEL_v0:
-	case BIFF_LABEL_v2:
+	case BIFF_BG_PIC:
+	case BIFF_BOUNDSHEET:
+	case BIFF_CF:
+	case BIFF_CODENAME:
+	case BIFF_CONDFMT:
+	case BIFF_DV:
+	case BIFF_DVAL:
+	case BIFF_EXTERNNAME_v0:
+	case BIFF_EXTERNNAME_v2:
+	case BIFF_EXTERNSHEET:
+	case BIFF_FONT_v0:
+	case BIFF_FONT_v2:
+	case BIFF_FOOTER:
+	case BIFF_FORMAT_v0:
+	case BIFF_FORMAT_v4:
 	case BIFF_FORMULA_v0:
 	case BIFF_FORMULA_v2:
+	case BIFF_FORMULA_v4:
+	case BIFF_HEADER:
+	case BIFF_HLINK:
+	case BIFF_IMDATA:
+	case BIFF_LABEL_v0:
+	case BIFF_LABEL_v2:
+	case BIFF_NAME_v0:
+	case BIFF_NAME_v2:
+	case BIFF_NOTE:
 	case BIFF_STRING_v0:
 	case BIFF_STRING_v2:
-	case BIFF_HEADER:
-	case BIFF_FOOTER:
-	case BIFF_BG_PIC:
-	case BIFF_IMDATA:
+	case BIFF_SUPBOOK:
 		auto_continue = TRUE;
 		break;
 	case BIFF_CONTINUE:

@@ -1,10 +1,10 @@
 2014-02-22  Morten Welinder  <terra@gnome.org>
 
+ 	* ms-biff.c (ms_biff_query_next): Handle BIFF_CONTINUE for a whole
+	bunch of record types containing strings or formulae.
+
 	* ms-excel-read.c (excel_read_IMDATA): No need to handle
 	BIFF_CONTINUE here.
-
-	* ms-biff.c (ms_biff_query_next): Handle BIFF_CONTINUE for images,
-	headers, and footers.
 
 	* ms-formula-read.c (undo_save_hacks): Undo the
 	long-string-constant hack in write_string.
