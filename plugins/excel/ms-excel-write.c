@@ -284,6 +284,69 @@ excel_strlen (guint8 const *str, size_t *bytes)
 	return i;
 }
 
+static gpointer
+excel_convert_string (BiffPut *bp, const char *txt, size_t *out_bytes)
+{
+	GError *err = NULL;
+	size_t bytes_read;
+	GString *accum;
+	gpointer res;
+
+	res = g_convert_with_iconv
+		(txt, -1,
+		 bp->convert,
+		 &bytes_read, out_bytes,
+		 &err);
+	if (res)
+		return res;
+
+	if (!g_error_matches (err, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE)) {
+		g_error_free (err);
+		g_printerr ("Unexpected conversion error for string\n");
+		*out_bytes = 0;
+		return g_strdup ("");
+	}
+
+	/*
+	 * Invalid character.  Be crude: convert the sequence before,
+	 * add a fallback character, and finally convert the sequence
+	 * after.
+	 */
+	accum = g_string_new (NULL);
+
+	res = g_convert_with_iconv
+		(txt, bytes_read,
+		 bp->convert,
+		 NULL, out_bytes,
+		 NULL);
+	if (res) {
+		g_string_append_len (accum, res, *out_bytes);
+		g_free (res);
+	}
+
+	res = g_convert_with_iconv
+		("?", -1,
+		 bp->convert,
+		 NULL, out_bytes,
+		 NULL);
+	if (res) {
+		g_string_append_len (accum, res, *out_bytes);
+		g_free (res);
+	}
+
+	res = excel_convert_string (bp,
+				    g_utf8_next_char (txt + bytes_read),
+				    out_bytes);
+	if (res) {
+		g_string_append_len (accum, res, *out_bytes);
+		g_free (res);
+	}
+
+	*out_bytes = accum->len;
+	return g_string_free (accum, FALSE);
+}
+
+
 static guint32
 string_maxlen[4] = {
 	/* STR_ONE_BYTE_LENGTH */  G_MAXUINT8,
@@ -3391,40 +3454,32 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	for (l = esheet->comments; l; l = l->next) {
 		GnmComment const *cc = l->data;
-		guint8 data[6];
 		GnmRange const *pos = sheet_object_get_range (SHEET_OBJECT (cc));
-		char const  *in = cell_comment_text_get (cc);
-		size_t in_bytes, out_bytes;
-		unsigned len = excel_strlen (in, &in_bytes);
-		char *buf;
+		char const *in = cell_comment_text_get (cc);
+		size_t out_bytes, o;
+		gpointer convstr;
 
 		g_return_if_fail (in != NULL);
 		g_return_if_fail (pos != NULL);
 
-		ms_biff_put_var_next (bp, BIFF_NOTE);
-		GSF_LE_SET_GUINT16 (data + 0, pos->start.row);
-		GSF_LE_SET_GUINT16 (data + 2, pos->start.col);
-		GSF_LE_SET_GUINT16 (data + 4, len);
-		ms_biff_put_var_write (bp, data, 6);
+		gsf_mem_dump (in, strlen (in));
+		convstr = excel_convert_string (bp, in, &out_bytes);
+		gsf_mem_dump (convstr, out_bytes);
 
-repeat:
-		buf = bp->buf;
-		out_bytes = MAX_BIFF_NOTE_CHUNK; /* bp::buf is always at least this big */
-		g_iconv (bp->convert, (char **)&in, &in_bytes, &buf, &out_bytes);
-		if (in_bytes > 0) {
-			ms_biff_put_var_write (bp, bp->buf, MAX_BIFF_NOTE_CHUNK);
-			ms_biff_put_commit (bp);
+		for (o = 0; o < out_bytes; o += MAX_BIFF_NOTE_CHUNK) {
+			guint8 data[6];
+			size_t this_len = MIN (MAX_BIFF_NOTE_CHUNK, out_bytes - o);
 
 			ms_biff_put_var_next (bp, BIFF_NOTE);
-			GSF_LE_SET_GUINT16 (data + 0, 0xffff);
-			GSF_LE_SET_GUINT16 (data + 2, 0);
-			GSF_LE_SET_GUINT16 (data + 4, MIN (MAX_BIFF_NOTE_CHUNK, in_bytes));
+			GSF_LE_SET_GUINT16 (data + 0, o ? 0xffff : pos->start.row);
+			GSF_LE_SET_GUINT16 (data + 2, o ? 0      : pos->start.col);
+			GSF_LE_SET_GUINT16 (data + 4, o ? this_len : out_bytes);
 			ms_biff_put_var_write (bp, data, 6);
-			goto repeat;
-		} else {
-			ms_biff_put_var_write (bp, bp->buf, MAX_BIFF_NOTE_CHUNK);
+
+			ms_biff_put_var_write (bp, (char *)convstr + o, this_len);
 			ms_biff_put_commit (bp);
 		}
+		g_free (convstr);
 	}
 }
 
