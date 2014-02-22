@@ -5,6 +5,8 @@ use File::Basename qw(fileparse);
 use Config;
 use XML::Parser;
 
+$| = 1;
+
 @GnumericTest::ISA = qw (Exporter);
 @GnumericTest::EXPORT = qw(test_sheet_calc test_valgrind
                            test_importer test_exporter test_roundtrip
@@ -562,6 +564,9 @@ $ENV{'G_DEBUG'} = 'fatal_criticals';
 delete $ENV{'LANG'};
 foreach (keys %ENV) { delete $ENV{$_} if /^LC_/; }
 $ENV{'LC_ALL'} = 'C';
+
+# libgsf listens for this
+delete $ENV{'WINDOWS_LANGUAGE'};
 
 if (@ARGV && $ARGV[0] eq '--verbose') {
     $verbose = 1;
