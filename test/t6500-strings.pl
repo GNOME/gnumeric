@@ -18,20 +18,22 @@ my $file = "$samples/string-tests.gnumeric";
 		 'ext' => "ods",
 		 'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'");
 
-my $xls_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
+my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
+my $xls_greek_filter = "$PERL -p -C7 -e '1 while (s{\\b(ValueType=\"60\">Greek[ ?]+)[^ ?<]}{\$1?})'";
 
 &message ("Check string xls/BIFF7 roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff7',
 		 'ext' => "xls",
 		 'resize' => '16384x256',
-		 'filter2' => $xls_filter);
+		 'filter1' => $xls_greek_filter,
+		 'filter2' => $xls_codepage_filter);
 
 &message ("Check string xls/BIFF8 roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff8',
 		 'ext' => "xls",
-		 'filter2' => $xls_filter);
+		 'filter2' => $xls_codepage_filter);
 
 &message ("Check string xlsx roundtrip.");
 &test_roundtrip ($file,
