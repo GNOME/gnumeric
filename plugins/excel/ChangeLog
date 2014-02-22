@@ -1,5 +1,8 @@
 2014-02-22  Morten Welinder  <terra@gnome.org>
 
+	* ms-formula-read.c (undo_save_hacks): Undo the
+	long-string-constant hack in write_string.
+
 	* ms-excel-write.c (excel_convert_string): New function.
 	(excel_write_comments_biff7): Avoid infinite loop when a comment
 	contains characters that cannot be represented in the codepage.

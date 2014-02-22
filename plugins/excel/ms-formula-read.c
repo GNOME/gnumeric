@@ -795,6 +795,48 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 	return FALSE;
 }
 
+static int
+is_string_concats (GnmExpr const *e, GString *accum)
+{
+	GnmValue const *v = gnm_expr_get_constant (e);
+	if (v && VALUE_IS_STRING (v)) {
+		if (accum)
+			g_string_append (accum, value_peek_string (v));
+		return 1;
+	}
+
+	if (GNM_EXPR_GET_OPER(e) == GNM_EXPR_OP_CAT) {
+		int l, r;
+
+		l = is_string_concats (e->binary.value_a, accum);
+		if (!l)
+			return 0;
+
+		r = is_string_concats (e->binary.value_b, accum);
+		if (!r)
+			return 0;
+
+		return l + r;
+	}
+
+	return 0;
+}
+
+static GnmExpr const *
+undo_save_hacks (GnmExpr const *e)
+{
+	if (GNM_EXPR_GET_OPER(e) == GNM_EXPR_OP_PAREN &&
+	    is_string_concats (e->unary.value, NULL) >= 2) {
+		GString *accum = g_string_new (NULL);
+		(void)is_string_concats (e->unary.value, accum);
+		gnm_expr_free (e);
+		return gnm_expr_new_constant (value_new_string_nocopy (g_string_free (accum, FALSE)));
+	}
+
+	return e;
+}
+
+
 /**
  * ms_excel_dump_cellname : internal utility to dump the current location safely.
  */
@@ -1059,7 +1101,7 @@ excel_parse_formula1 (MSContainer const *container,
 			break;
 		}
 
-		case FORMULA_PTG_TBL : {
+		case FORMULA_PTG_TBL: {
 			XLDataTable *dt;
 			GnmCellPos top_left;
 
@@ -1088,15 +1130,19 @@ excel_parse_formula1 (MSContainer const *container,
 			return NULL;
 		}
 
-		case FORMULA_PTG_ADD :  case FORMULA_PTG_SUB :
-		case FORMULA_PTG_MULT : case FORMULA_PTG_DIV :
-		case FORMULA_PTG_EXP :
-		case FORMULA_PTG_CONCAT :
-		case FORMULA_PTG_LT : case FORMULA_PTG_LTE :
-		case FORMULA_PTG_EQUAL :
-		case FORMULA_PTG_GTE : case FORMULA_PTG_GT :
-		case FORMULA_PTG_NOT_EQUAL :
-		case FORMULA_PTG_INTERSECT : {
+		case FORMULA_PTG_ADD:
+		case FORMULA_PTG_SUB:
+		case FORMULA_PTG_MULT:
+		case FORMULA_PTG_DIV:
+		case FORMULA_PTG_EXP:
+		case FORMULA_PTG_CONCAT:
+		case FORMULA_PTG_LT:
+		case FORMULA_PTG_LTE:
+		case FORMULA_PTG_EQUAL:
+		case FORMULA_PTG_GTE:
+		case FORMULA_PTG_GT:
+		case FORMULA_PTG_NOT_EQUAL:
+		case FORMULA_PTG_INTERSECT: {
 			GnmExpr const *r = parse_list_pop (&stack);
 			GnmExpr const *l = parse_list_pop (&stack);
 			parse_list_push (&stack, gnm_expr_new_binary (
@@ -1106,7 +1152,7 @@ excel_parse_formula1 (MSContainer const *container,
 			break;
 		}
 
-		case FORMULA_PTG_RANGE : {
+		case FORMULA_PTG_RANGE: {
 			GnmExpr const *r = parse_list_pop (&stack);
 			GnmExpr const *l = parse_list_pop (&stack);
 			parse_list_push (&stack,
@@ -1114,7 +1160,7 @@ excel_parse_formula1 (MSContainer const *container,
 			break;
 		}
 
-		case FORMULA_PTG_UNION : {
+		case FORMULA_PTG_UNION: {
 			GnmExpr const *r = parse_list_pop (&stack);
 			GnmExpr const *l = parse_list_pop (&stack);
 
@@ -1138,21 +1184,25 @@ excel_parse_formula1 (MSContainer const *container,
 			break;
 		}
 
-		case FORMULA_PTG_U_PLUS :
-		case FORMULA_PTG_U_MINUS :
-		case FORMULA_PTG_PERCENT :
-		case FORMULA_PTG_PAREN:
-			parse_list_push (&stack, gnm_expr_new_unary (
-				unary_ops [ptgbase - FORMULA_PTG_U_PLUS],
-				parse_list_pop (&stack)));
+		case FORMULA_PTG_U_PLUS:
+		case FORMULA_PTG_U_MINUS:
+		case FORMULA_PTG_PERCENT:
+		case FORMULA_PTG_PAREN: {
+			GnmExpr const *e = gnm_expr_new_unary
+				(unary_ops [ptgbase - FORMULA_PTG_U_PLUS],
+				 parse_list_pop (&stack));
+			e = undo_save_hacks (e);
+			parse_list_push (&stack, e);
 			break;
+		}
 
 		case FORMULA_PTG_MISSARG:
 			parse_list_push_raw (&stack, value_new_empty ());
 			ptg_length = 0;
 			break;
 
-		case FORMULA_PTG_ATTR : { /* FIXME: not fully implemented */
+		case FORMULA_PTG_ATTR: {
+			/* FIXME: not fully implemented */
 			guint8 grbit;
 			guint16 w;
 			if (ver >= MS_BIFF_V3) {
@@ -1269,7 +1319,7 @@ excel_parse_formula1 (MSContainer const *container,
 			break;
 		}
 
-		case FORMULA_PTG_EXTENDED : { /* Extended Ptgs for Biff8 */
+		case FORMULA_PTG_EXTENDED: { /* Extended Ptgs for Biff8 */
 			CHECK_FORMULA_LEN(1);
 			switch ((eptg = GSF_LE_GET_GUINT8 (cur))) {
 			default :
@@ -1370,7 +1420,7 @@ excel_parse_formula1 (MSContainer const *container,
 		}
 		break;
 
-		case FORMULA_PTG_ARRAY : {
+		case FORMULA_PTG_ARRAY: {
 			unsigned cols, rows;
 			unsigned lpx, lpy;
 			GnmValue *v = NULL;
@@ -1640,7 +1690,7 @@ excel_parse_formula1 (MSContainer const *container,
 			CHECK_FORMULA_LEN(2);
 			break;
 
-		case FORMULA_PTG_NAME_X : {
+		case FORMULA_PTG_NAME_X: {
 			guint16 name_idx; /* 1 based */
 			GPtrArray    *names = NULL;
 			GnmExpr const*name;
@@ -1711,7 +1761,7 @@ excel_parse_formula1 (MSContainer const *container,
 		}
 		break;
 
-		case FORMULA_PTG_REF_3D : { /* see S59E2B.HTM */
+		case FORMULA_PTG_REF_3D: { /* see S59E2B.HTM */
 			GnmCellRef first, last;
 			if (ver >= MS_BIFF_V8) {
 				CHECK_FORMULA_LEN(6);
@@ -1738,7 +1788,7 @@ excel_parse_formula1 (MSContainer const *container,
 			break;
 		}
 
-		case FORMULA_PTG_AREA_3D : { /* see S59E2B.HTM */
+		case FORMULA_PTG_AREA_3D: { /* see S59E2B.HTM */
 			/* See comments in FORMULA_PTG_REF_3D for correct handling of external references */
 			GnmCellRef first, last;
 
