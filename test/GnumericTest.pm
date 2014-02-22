@@ -375,7 +375,9 @@ sub test_roundtrip {
 
     my $file_resized = $file;
     if ($resize) {
+	$file_resized =~ s{^.*/}{};
 	$file_resized =~ s/(\.gnumeric)$/-resize$1/;
+	print STDERR "$ssconvert --resize $resize '$file' '$file_resized' 2>&1 | sed -e 's/^/| /'\n" if $verbose;
 	$code = system ("$ssconvert --resize $resize '$file' '$file_resized' 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
 	&junkfile ($file_resized) unless $keep;
@@ -383,6 +385,7 @@ sub test_roundtrip {
 
     my $tmp1 = "$tmp.$newext";
     &junkfile ($tmp1) unless $keep;
+    print "$ssconvert -T $format '$file_resized' '$tmp1' 2>&1 | sed -e 's/^/| /'\n" if $verbose;
     $code = system ("$ssconvert -T $format '$file_resized' '$tmp1' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
