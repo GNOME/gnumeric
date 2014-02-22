@@ -3462,9 +3462,9 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 		g_return_if_fail (in != NULL);
 		g_return_if_fail (pos != NULL);
 
-		gsf_mem_dump (in, strlen (in));
+		/* gsf_mem_dump (in, strlen (in)); */
 		convstr = excel_convert_string (bp, in, &out_bytes);
-		gsf_mem_dump (convstr, out_bytes);
+		/* gsf_mem_dump (convstr, out_bytes); */
 
 		for (o = 0; o < out_bytes; o += MAX_BIFF_NOTE_CHUNK) {
 			guint8 data[6];
