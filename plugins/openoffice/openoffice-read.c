@@ -3682,8 +3682,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT) {
 					GnmValue const *eval = 	gnm_expr_get_constant (texpr->expr);
 					if (VALUE_IS_ERROR (eval)) {
-						if (val != NULL)
-							value_release (val);
+						value_release (val);
 						val = value_dup (eval);
 						gnm_expr_top_unref (texpr);
 						texpr = NULL;
