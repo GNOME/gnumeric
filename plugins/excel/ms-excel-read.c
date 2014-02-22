@@ -4395,7 +4395,6 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 static GdkPixbuf *
 excel_read_os2bmp (BiffQuery *q, guint32 image_len)
 {
-	guint16 op;
 	GError *err = NULL;
 	GdkPixbufLoader *loader = NULL;
 	GdkPixbuf	*pixbuf = NULL;
@@ -4410,14 +4409,6 @@ excel_read_os2bmp (BiffQuery *q, guint32 image_len)
 	if (ret)
 		ret = gdk_pixbuf_loader_write (loader, q->data+8,
 					       q->length-8, &err);
-	image_len += 8;
-	while (ret &&  image_len > q->length &&
-	       ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
-		image_len -= q->length;
-		ms_biff_query_next (q);
-		ret = gdk_pixbuf_loader_write (loader, q->data, q->length,
-					       &err);
-	}
 	gdk_pixbuf_loader_close (loader, ret ? &err : NULL);
 	if (ret) {
 		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
@@ -4459,10 +4450,6 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 
 	/* Dump formats which weren't handled above to file */
 	if (format != 0x9) {
-		guint16 op;
-		static int count = 0;
-		FILE *f = NULL;
-		char *file_name;
 		char const *from_name;
 		char const *format_name;
 		guint16 const format   = GSF_LE_GET_GUINT16 (q->data);
@@ -4482,27 +4469,16 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 		default: format_name = "Unknown format?"; break;
 		}
 
-		d (1, {	/* WARNING KEEP THIS DEBUG THE SAME AS BELOW */
+		d (1, {
+				FILE *f;
+				static int count = 0;
+				char *file_name = g_strdup_printf ("imdata%d", count++);
 				g_printerr ("Picture from %s in %s format\n",
 					    from_name, format_name);
 
-				file_name = g_strdup_printf ("imdata%d", count++);
 				f = g_fopen (file_name, "w");
 				fwrite (q->data+8, 1, q->length-8, f);
 				g_free (file_name);
-			});
-
-		image_len += 8;
-		while (image_len > q->length &&
-		       ms_biff_query_peek_next (q, &op) &&
-		       op == BIFF_CONTINUE) {
-			image_len -= q->length;
-			ms_biff_query_next (q);
-			d (1, {	/* WARNING KEEP THIS DEBUG THE SAME AS ABOVE */
-					fwrite (q->data, 1, q->length, f);
-				});
-		}
-		d (1, {	/* WARNING KEEP THIS DEBUG THE SAME AS ABOVE */
 				fclose (f);
 			});
 	}
@@ -6675,8 +6651,8 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			GdkPixbuf *pixbuf = excel_read_IMDATA (q, FALSE);
 			if (pixbuf)
 				g_object_unref (pixbuf);
-		}
 			break;
+		}
 		case BIFF_GUTS:		excel_read_GUTS (q, esheet);		break;
 		case BIFF_WSBOOL:	excel_read_WSBOOL (q, esheet);		break;
 		case BIFF_GRIDSET:		break;
