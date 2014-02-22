@@ -29,9 +29,9 @@ typedef enum {
 	MS_BIFF_V8 = 8  /* Excel 97, 2000, XP, 2003 */
 } MsBiffVersion;
 
-/*******************************************************************************/
-/*                                 Read Side                                   */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                Read Side                                  */
+/*****************************************************************************/
 
 /**
  * Returns query data, it is imperative that copies of
@@ -69,20 +69,23 @@ void        ms_biff_query_dump	      (BiffQuery *);
 guint32     ms_biff_query_bound_check (BiffQuery *q,
 				       guint32 offset, unsigned len);
 
-/*******************************************************************************/
-/*                                 Write Side                                  */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                Write Side                                 */
+/*****************************************************************************/
 
 typedef struct _BiffPut {
 	guint16		 opcode;
-	guint32		 length; /* NB. can be extended by a continue opcode */
-	guint8		*data;
 	gsf_off_t	 streamPos;
 	unsigned	 curpos; /* Curpos is offset from beginning of header */
-	gboolean	 data_malloced;
 	int		 len_fixed;
 	GsfOutput	*output;
 	MsBiffVersion	 version;
+
+	/*
+	 * Records are stored here until committed at which time they may
+	 * by split using BIFF_CONTINUE records.
+	 */
+	GString         *record;
 
 	/* a buffer for generating unicode */
 	guint8 *buf;

@@ -25,6 +25,7 @@ Morten:
 	* Export headers and footers to xlsx.  [Part of #724516]
 	* Fix xls export of long strings in formulas.
 	* Fix xls import of cells with long string results.
+	* Fix xls export of long strings in various places.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11

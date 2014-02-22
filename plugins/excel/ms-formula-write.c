@@ -1023,9 +1023,9 @@ excel_write_array_formula (ExcelWriteState *ewb,
 	pd.use_name_variant = FALSE;
 	pd.allow_sheetless_ref = TRUE;
 
-	start = ewb->bp->length;
+	start = ewb->bp->curpos;
 	write_node (&pd, array->expr, 0, XL_ROOT);
-	len = ewb->bp->length - start;
+	len = ewb->bp->curpos - start;
 
 	write_arrays (&pd);
 

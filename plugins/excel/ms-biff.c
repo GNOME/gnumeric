@@ -79,9 +79,9 @@ ms_biff_query_bound_check (BiffQuery *q, guint32 offset, unsigned len)
 	return offset;
 }
 
-/*******************************************************************************/
-/*                                 Read Side                                   */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                Read Side                                  */
+/*****************************************************************************/
 
 /**
  *  ms_biff_password_hash and ms_biff_crypt_seq
@@ -564,21 +564,20 @@ ms_biff_query_destroy (BiffQuery *q)
 	}
 }
 
-/*******************************************************************************/
-/*                                 Write Side                                  */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                Write Side                                 */
+/*****************************************************************************/
 
 #define MAX_BIFF7_RECORD_SIZE 0x820
 #define MAX_BIFF8_RECORD_SIZE 0x2020
 
 /**
  * ms_biff_put_new :
- * @output: the output storage
- * @version:
- * @codepage: Ignored if negative
+ * @output: (transfer full): the output storage
+ * @version: file format version
+ * @codepage: Codepage to use for strings.  Only used pre-BIff8 and ignored
+ *   unless positive and for
  *
- * Take responsibility for @output
- * and prepare to generate biff records.
  **/
 BiffPut *
 ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
@@ -590,14 +589,12 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
 	bp = g_new (BiffPut, 1);
 
 	bp->opcode        = 0;
-	bp->length        = 0;
-	bp->length        = 0;
 	bp->streamPos     = gsf_output_tell (output);
-	bp->data_malloced = FALSE;
-	bp->data          = NULL;
 	bp->len_fixed     = -1;
 	bp->output        = output;
 	bp->version       = version;
+
+	bp->record = g_string_new (NULL);
 
 	bp->buf_len = 2048;	/* maximum size for a biff7 record */
 	bp->buf = g_malloc (bp->buf_len);
@@ -607,7 +604,8 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
 		bp->codepage = 1200;
 	} else {
 		bp->codepage = (codepage > 0)
-			? codepage : gsf_msole_iconv_win_codepage ();
+			? codepage
+			: gsf_msole_iconv_win_codepage ();
 		bp->convert = gsf_msole_iconv_open_codepage_for_export (bp->codepage);
 	}
 
@@ -623,14 +621,11 @@ ms_biff_put_destroy (BiffPut *bp)
 	if (bp->output != NULL) {
 		gsf_output_close (bp->output);
 		g_object_unref (bp->output);
-		bp->output = NULL;
 	}
-	g_free (bp->buf);
-	bp->buf = NULL;
-	bp->buf_len = 0;
 
+	g_string_free (bp->record, TRUE);
+	g_free (bp->buf);
 	gsf_iconv_close (bp->convert);
-	bp->convert = NULL;
 
 	g_free (bp);
 }
@@ -640,13 +635,7 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 {
 	g_return_val_if_fail (bp, NULL);
 	g_return_val_if_fail (bp->output, NULL);
-	g_return_val_if_fail (bp->data == NULL, NULL);
 	g_return_val_if_fail (bp->len_fixed == -1, NULL);
-
-	if (bp->version >= MS_BIFF_V8)
-		XL_CHECK_CONDITION_VAL (len < MAX_BIFF8_RECORD_SIZE, NULL);
-	else
-		XL_CHECK_CONDITION_VAL (len < MAX_BIFF7_RECORD_SIZE, NULL);
 
 #if BIFF_DEBUG > 0
 	g_printerr ("Biff put len 0x%x\n", opcode);
@@ -654,20 +643,16 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 
 	bp->len_fixed  = +1;
 	bp->opcode     = opcode;
-	bp->length     = len;
 	bp->streamPos  = gsf_output_tell (bp->output);
-	if (len > 0) {
-		bp->data = g_new (guint8, len);
-		bp->data_malloced = TRUE;
-	}
 
-	return bp->data;
+	g_string_set_size (bp->record, len);
+
+	return bp->record->str;
 }
 
 void
 ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 {
-	guint8 data[4];
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (bp->output != NULL);
 	g_return_if_fail (bp->len_fixed == -1);
@@ -679,13 +664,9 @@ ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 	bp->len_fixed  = 0;
 	bp->opcode     = opcode;
 	bp->curpos     = 0;
-	bp->length     = 0;
-	bp->data       = NULL;
 	bp->streamPos  = gsf_output_tell (bp->output);
 
-	GSF_LE_SET_GUINT16 (data,    opcode);
-	GSF_LE_SET_GUINT16 (data + 2,0xfaff); /* To be corrected later */
-	gsf_output_write (bp->output, 4, data);
+	g_string_set_size (bp->record, 0);
 }
 
 inline unsigned
@@ -700,25 +681,18 @@ ms_biff_put_var_write (BiffPut *bp, guint8 const *data, guint32 len)
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (bp->output != NULL);
+	g_return_if_fail ((gint32)len >= 0);
 
-	g_return_if_fail (!bp->data);
 	g_return_if_fail (bp->len_fixed == 0);
 
-	/* Temporary */
-	XL_CHECK_CONDITION (bp->length + len < 0xf000);
+	/* Make room */
+	if (bp->curpos + len > bp->record->len)
+		g_string_set_size (bp->record, bp->curpos + len);
 
-	if ((bp->curpos + len) > ms_biff_max_record_len (bp)) {
+	/* Copy data */
+	memcpy (bp->record->str + bp->curpos, data, len);
 
-		g_return_if_fail (bp->curpos == bp->length);
-
-		ms_biff_put_commit (bp);
-		ms_biff_put_var_next (bp, BIFF_CONTINUE);
-	}
-
-	gsf_output_write (bp->output, len, data);
 	bp->curpos += len;
-	if (bp->curpos > bp->length)
-		bp->length = bp->curpos;
 }
 
 void
@@ -726,80 +700,43 @@ ms_biff_put_var_seekto (BiffPut *bp, int pos)
 {
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (bp->output != NULL);
-
 	g_return_if_fail (bp->len_fixed == 0);
-	g_return_if_fail (!bp->data);
+	g_return_if_fail (pos >= 0);
 
 	bp->curpos = pos;
-	gsf_output_seek (bp->output, bp->streamPos + bp->curpos + 4, G_SEEK_SET);
-}
-
-static void
-ms_biff_put_var_commit (BiffPut *bp)
-{
-	guint8 tmp [4];
-	int endpos;
-
-	g_return_if_fail (bp != NULL);
-	g_return_if_fail (bp->output != NULL);
-
-	g_return_if_fail (bp->len_fixed == 0);
-	g_return_if_fail (!bp->data);
-
-	endpos = bp->streamPos + bp->length + 4;
-	gsf_output_seek (bp->output, bp->streamPos, G_SEEK_SET);
-
-	GSF_LE_SET_GUINT16 (tmp, bp->opcode);
-	GSF_LE_SET_GUINT16 (tmp+2, bp->length);
-	gsf_output_write (bp->output, 4, tmp);
-
-	gsf_output_seek (bp->output, endpos, G_SEEK_SET);
-	bp->streamPos  = endpos;
-	bp->curpos     = 0;
-}
-
-static void
-ms_biff_put_len_commit (BiffPut *bp)
-{
-	guint8 tmp[4];
-
-	g_return_if_fail (bp != NULL);
-	g_return_if_fail (bp->output != NULL);
-	g_return_if_fail (bp->len_fixed == 1);
-	g_return_if_fail (bp->length == 0 || bp->data);
-	if (bp->version >= MS_BIFF_V8)
-		XL_CHECK_CONDITION (bp->length < MAX_BIFF8_RECORD_SIZE);
-	else
-		XL_CHECK_CONDITION (bp->length < MAX_BIFF7_RECORD_SIZE);
-
-/*	if (!bp->data_malloced) Unimplemented optimisation
-		bp->output->lseek (bp->output, bp->length, G_SEEK_CUR);
-		else */
-	GSF_LE_SET_GUINT16 (tmp, bp->opcode);
-	GSF_LE_SET_GUINT16 (tmp + 2, bp->length);
-	gsf_output_write (bp->output, 4, tmp);
-	gsf_output_write (bp->output, bp->length, bp->data);
-
-	g_free (bp->data);
-	bp->data      = NULL;
-	bp->data_malloced = FALSE;
-	bp->streamPos = gsf_output_tell (bp->output);
-	bp->curpos    = 0;
 }
 
 void
 ms_biff_put_commit (BiffPut *bp)
 {
-	switch (bp->len_fixed) {
-	case 0:
-		ms_biff_put_var_commit (bp);
-		break;
-	case 1:
-		ms_biff_put_len_commit (bp);
-		break;
-	default:
-		g_warning ("Spurious commit");
-	}
+	guint16 opcode;
+	size_t len, maxlen;
+	const char *data;
+
+	g_return_if_fail (bp != NULL);
+	g_return_if_fail (bp->output != NULL);
+
+	maxlen = ms_biff_max_record_len (bp);
+
+	opcode = bp->opcode;
+	len = bp->record->len;
+	data = bp->record->str;
+	do {
+		guint8 tmp[4];
+		size_t thislen = MIN (len, maxlen);
+
+		GSF_LE_SET_GUINT16 (tmp, opcode);
+		GSF_LE_SET_GUINT16 (tmp + 2, thislen);
+		gsf_output_write (bp->output, 4, tmp);
+		gsf_output_write (bp->output, thislen, data);
+
+		opcode = BIFF_CONTINUE;
+		data += thislen;
+		len -= thislen;
+	} while (len > 0);
+
+	bp->streamPos = gsf_output_tell (bp->output);
+	bp->curpos    = 0;
 	bp->len_fixed = -1;
 
 	if (0) {

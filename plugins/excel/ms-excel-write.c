@@ -284,6 +284,14 @@ excel_strlen (guint8 const *str, size_t *bytes)
 	return i;
 }
 
+static guint32
+string_maxlen[4] = {
+	/* STR_ONE_BYTE_LENGTH */  G_MAXUINT8,
+	/* STR_TWO_BYTE_LENGTH */  G_MAXUINT16,
+	/* STR_FOUR_BYTE_LENGTH */ G_MAXUINT32,
+	/* STR_NO_LENGTH */        G_MAXUINT32
+};
+
 /**
  * excel_write_string :
  * @bp:
@@ -299,9 +307,11 @@ unsigned
 excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		    guint8 const *txt)
 {
-	size_t byte_len, out_bytes, offset = 0;
-	unsigned int char_len, output_len, avail;
-	char *in_bytes = (char *)txt; /* bloody strict-aliasing is broken */
+	size_t char_len, byte_len, out_bytes, len_len, max_len, items, conv_bytes;
+	gboolean need_uni_marker =
+		(bp->version >= MS_BIFF_V8 && !(flags & STR_SUPPRESS_HEADER));
+	guint8 *convdata = NULL;
+	guchar isunistr, tmp[4];
 
 	g_return_val_if_fail (txt != NULL, 0);
 
@@ -309,132 +319,76 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 	if (bp->version < MS_BIFF_V8)
 		flags |= STR_LEN_IN_BYTES;
 
+	len_len = ((flags & STR_LENGTH_MASK) == STR_NO_LENGTH)
+		? 0
+		: 1 << (flags & STR_LENGTH_MASK);
+	max_len = string_maxlen[flags & STR_LENGTH_MASK];
+
 	char_len = excel_strlen (txt, &byte_len);
 	if (char_len != byte_len || (flags & STR_SUPPRESS_HEADER)) {
-		char *tmp;
+		convdata = (gpointer)g_convert_with_iconv
+			(txt, -1,
+			 bp->convert,
+			 NULL, &conv_bytes,
+			 NULL);
+		isunistr = 1;
 
-		out_bytes = char_len * 2;
+		/* g_convert_with_iconv terminates with 4 NULs.  */
+		if (flags & STR_TRAILING_NULL)
+			conv_bytes += 2;
 
-		/* 2 in case we null terminate, and up to 4 for the length */
-		if ((out_bytes + 4 + 2) > bp->buf_len) {
-			bp->buf_len = (((out_bytes + 6) >> 2) + 1) << 2;
-			bp->buf = g_realloc (bp->buf, bp->buf_len);
+		items = (flags & STR_LEN_IN_BYTES)
+			? conv_bytes
+			: conv_bytes / 2;
+		if (items > max_len) {
+			g_printerr ("Truncating string of %u %s\n",
+				    (guint)items,
+				    (flags & STR_LEN_IN_BYTES) ? "bytes" : "characters");
+			items = max_len;
+			conv_bytes = (flags & STR_LEN_IN_BYTES)
+				? items
+				: items * 2;
 		}
-
-		if ((flags & STR_LENGTH_MASK) != STR_NO_LENGTH)
-			offset = 1 << (flags & STR_LENGTH_MASK);
-
-		if (bp->version >= MS_BIFF_V8 && !(flags & STR_SUPPRESS_HEADER))
-			bp->buf [offset++] = '\1';	/* flag as unicode */
-
-		/* who cares about the extra couple of bytes */
-		out_bytes = bp->buf_len - 3;
-
-		tmp = (char *)(bp->buf + offset);
-		g_iconv (bp->convert, &in_bytes, &byte_len, &tmp, &out_bytes);
-		out_bytes = (guint8 *)tmp - bp->buf;
-
-		if (flags & STR_TRAILING_NULL) {
-			GSF_LE_SET_GUINT16 (bp->buf + out_bytes, 0);
-			out_bytes += 2;
-		}
-		if (flags & STR_LEN_IN_BYTES)
-			output_len = out_bytes - offset;
-		else {
-			if (byte_len > 0)
-				output_len = g_utf8_pointer_to_offset (txt, in_bytes);
-			else
-				output_len = char_len;
-		}
-
-		switch (flags & STR_LENGTH_MASK) {
-		default:
-		case STR_NO_LENGTH:
-			if (byte_len != 0)
-				g_warning (_("This is somewhat corrupt.\n"
-					     "We already wrote a length for a string that is being truncated due to encoding problems."));
-			break;
-		case STR_ONE_BYTE_LENGTH:
-			if (output_len > 255) {
-				g_printerr ("Truncating string of %u %s\n",
-					    output_len,
-					    (flags & STR_LEN_IN_BYTES) ? "bytes" : "characters");
-				output_len = 255;
-			}
-			GSF_LE_SET_GUINT8 (bp->buf, output_len);
-			break;
-		case STR_TWO_BYTE_LENGTH:
-			if (output_len > 65535) {
-				g_printerr ("Truncating string of %u %s\n",
-					    output_len,
-					    (flags & STR_LEN_IN_BYTES) ? "bytes" : "characters");
-				output_len = 65535;
-			}
-			GSF_LE_SET_GUINT16 (bp->buf, output_len);
-			break;
-		case STR_FOUR_BYTE_LENGTH:
-			GSF_LE_SET_GUINT32 (bp->buf, output_len);
-			break;
-		}
-
-		output_len = out_bytes;
-		tmp = bp->buf;
-		do {
-			avail = ms_biff_max_record_len (bp);
-			if (offset == 0 && bp->version >= MS_BIFF_V8 && !(flags & STR_SUPPRESS_HEADER)) {
-				ms_biff_put_var_write (bp, "\1", 1);
-				avail -= 2;
-				out_bytes++;
-			}
-			avail = MIN (avail, output_len);
-			if (avail != output_len)
-				avail = (avail - offset) / 2 * 2 + offset; /* we need to export an even byte number */
-			ms_biff_put_var_write (bp, tmp, avail);
-			output_len -= avail;
-			tmp += avail;
-			offset = 0;
-			if (output_len > 0) {
-				ms_biff_put_commit (bp);
-				ms_biff_put_var_next (bp, BIFF_CONTINUE);
-			}
-		} while (output_len > 0);
 	} else {
-		guint8 *tmp;
 		/* char_len == byte_len here, so just use char_len */
-		tmp = bp->buf;
-		switch (flags & STR_LENGTH_MASK) {
-		default:
-		case STR_NO_LENGTH:		break;
-		case STR_ONE_BYTE_LENGTH:
-			*tmp++ = (char_len > 255) ? 255 : char_len;
-			break;
-		case STR_TWO_BYTE_LENGTH:
-			GSF_LE_SET_GUINT16 (tmp, char_len);
-			tmp += 2;
-			break;
-		case STR_FOUR_BYTE_LENGTH:
-			GSF_LE_SET_GUINT32 (tmp, char_len);
-			tmp += 4;
-			break;
+
+		isunistr = 0;
+
+		if (char_len > max_len) {
+			g_printerr ("Truncating string of %u %s\n",
+				    (guint)char_len,
+				    (flags & STR_LEN_IN_BYTES) ? "bytes" : "characters");
+			char_len = max_len;
 		}
-		out_bytes =  tmp - bp->buf;
-		ms_biff_put_var_write (bp, bp->buf, out_bytes);
-		avail = ms_biff_max_record_len (bp) - out_bytes;
-		do {
-			if (bp->version >= MS_BIFF_V8 && !(flags & STR_SUPPRESS_HEADER)) {
-				*tmp++ = 0;	/* flag as not unicode */ /* Jean: MS docs say uncompressed */
-				avail--;
-				out_bytes++;
-				ms_biff_put_var_write (bp, "\0", 1);
-			}
-			avail = MIN (avail, char_len);
-			ms_biff_put_var_write (bp, txt, avail);
-			out_bytes += avail;
-			char_len -= avail;
-			txt += avail;
-			avail = ms_biff_max_record_len (bp);
-		} while (char_len > 0);
+
+		conv_bytes = items = char_len;
 	}
+
+	switch (flags & STR_LENGTH_MASK) {
+	default:
+	case STR_NO_LENGTH:
+		break;
+	case STR_ONE_BYTE_LENGTH:
+		GSF_LE_SET_GUINT8 (tmp, items);
+		break;
+	case STR_TWO_BYTE_LENGTH:
+		GSF_LE_SET_GUINT16 (tmp, items);
+		break;
+	case STR_FOUR_BYTE_LENGTH:
+		GSF_LE_SET_GUINT32 (tmp, items);
+		break;
+	}
+	ms_biff_put_var_write (bp, tmp, len_len);
+	out_bytes = len_len;
+
+	if (need_uni_marker) {
+		ms_biff_put_var_write (bp, &isunistr, 1);
+		out_bytes++;
+	}
+	ms_biff_put_var_write (bp, convdata ? convdata : txt, conv_bytes);
+	out_bytes += conv_bytes;
+
+	g_free (convdata);
 
 	return out_bytes;
 }
@@ -4519,7 +4473,7 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 
 	ms_escher_spcontainer_end (escher, spmark);
 
-	sppos = bp->streamPos + bp->length + 4;
+	sppos = bp->streamPos + bp->curpos + 4;
 	splen = GSF_LE_GET_GUINT32 (escher->str + spmark + 4);
 
 	draw_len += escher->len;
@@ -5940,16 +5894,7 @@ static void
 excel_write_image_bytes (BiffPut *bp, GByteArray *bytes)
 
 {
-	int chunk    = ms_biff_max_record_len (bp) - bp->curpos;
-	guint8 *data = bytes->data;
-	gint32 len   = bytes->len;
-
-	while (len > 0) {
-		ms_biff_put_var_write (bp, data, MIN (chunk, len));
-		data += chunk;
-		len  -= chunk;
-		chunk =  ms_biff_max_record_len (bp);
-	}
+	ms_biff_put_var_write (bp, bytes->data, bytes->len);
 }
 
 /*
