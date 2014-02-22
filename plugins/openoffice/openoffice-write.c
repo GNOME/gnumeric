@@ -1180,11 +1180,20 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 
 	gsf_xml_out_start_element (state->xml, STYLE "table-cell-properties");
 /* Background Color */
-	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
+	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK)) {
+		gboolean pattern_set = gnm_style_is_element_set (style, MSTYLE_PATTERN);
+		int pattern = pattern_set ? gnm_style_get_pattern (style) : 1;
+
 		gnm_xml_out_add_hex_color (state->xml, FOSTYLE "background-color",
-					   gnm_style_get_back_color (style),
-					   gnm_style_is_element_set (style, MSTYLE_PATTERN) ?
-					   gnm_style_get_pattern (style) : 1);
+					   gnm_style_get_back_color (style), pattern);
+		if (state->with_extension && pattern_set && pattern != 0) {
+			gnm_xml_out_add_hex_color (state->xml, GNMSTYLE "background-colour",
+						   gnm_style_get_back_color (style), 1);
+			gnm_xml_out_add_hex_color (state->xml, GNMSTYLE "pattern-colour",
+						   gnm_style_get_pattern_color (style), 1);
+			gsf_xml_out_add_int (state->xml, GNMSTYLE "pattern", pattern);
+		}
+	}
 /* Borders */
 	BORDERSTYLE(MSTYLE_BORDER_TOP,FOSTYLE "border-top", STYLE "border-line-width-top", GNMSTYLE "border-line-style-top");
 	BORDERSTYLE(MSTYLE_BORDER_BOTTOM,FOSTYLE "border-bottom", STYLE "border-line-width-bottom", GNMSTYLE "border-line-style-bottom");

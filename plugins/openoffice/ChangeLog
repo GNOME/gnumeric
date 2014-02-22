@@ -1,3 +1,9 @@
+2014-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_style_prop_cell): read new foreign elements
+	* openoffice-write.c (odf_write_style_cell_properties): write
+	foreign elements to describe pattern cell background fills
+
 2014-02-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_render_date*): don't create an unnecessary

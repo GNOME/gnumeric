@@ -6142,7 +6142,8 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
-	GnmColor *color;
+	GnmColor *color, *gnm_b_color = NULL, *gnm_p_color = NULL;
+	int gnm_pattern = 0;
 	GnmStyle *style = state->cur_style.cells->style;
 	gboolean  btmp;
 	int	  tmp;
@@ -6162,6 +6163,11 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				gnm_style_set_pattern (style, 0);
 			else
 				gnm_style_set_pattern (style, 1);
+		} else if ((color = oo_attr_color (xin, attrs, OO_GNUM_NS_EXT, "background-colour"))) {
+			gnm_b_color = color;
+		} else if ((color = oo_attr_color (xin, attrs, OO_GNUM_NS_EXT, "pattern-colour"))) {
+			gnm_p_color = color;
+		} else if (oo_attr_int (xin, attrs, OO_GNUM_NS_EXT, "pattern", &gnm_pattern)) {
 		} else if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "color")))
 			gnm_style_set_font_color (style, color);
 		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "cell-protect", protections, &tmp)) {
@@ -6279,6 +6285,12 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			underline = UNDERLINE_SINGLE;
 
 		gnm_style_set_font_uline (style, underline);
+	}
+	
+	if (gnm_pattern > 0) {
+		gnm_style_set_pattern (style, gnm_pattern);
+		gnm_style_set_back_color (style, gnm_b_color);
+		gnm_style_set_pattern_color (style, gnm_p_color);
 	}
 }
 

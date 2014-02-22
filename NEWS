@@ -8,6 +8,7 @@ Andreas:
 	* Fix import of underlines from LO-generated ODF files. [part of #724763]
 	* Fix ODF viewport roundtrip issue. [#724761]
 	* Fix ODF pagesetup roundtrip issue. [#724516]
+	* Fix ODF pattern roundtrip issue. [#724898]
 
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]
