@@ -667,15 +667,15 @@ static struct {
 	void (*render)(GString *target, HFRenderInfo *info, char const *args);
 	char *name_trans;
 } render_ops [] = {
-	{ N_("tab"),   render_tab   , NULL},
-	{ N_("page"),  render_page  , NULL},
-	{ N_("pages"), render_pages , NULL},
-	{ N_("date"),  render_date  , NULL},
-	{ N_("time"),  render_time  , NULL},
-	{ N_("file"),  render_file  , NULL},
-	{ N_("path"),  render_path  , NULL},
-	{ N_("cell"),  render_cell  , NULL},
-	{ N_("title"), render_title  , NULL},
+	{ N_("TAB"),   render_tab   , NULL},
+	{ N_("PAGE"),  render_page  , NULL},
+	{ N_("PAGES"), render_pages , NULL},
+	{ N_("DATE"),  render_date  , NULL},
+	{ N_("TIME"),  render_time  , NULL},
+	{ N_("FILE"),  render_file  , NULL},
+	{ N_("PATH"),  render_path  , NULL},
+	{ N_("CELL"),  render_cell  , NULL},
+	{ N_("TITLE"), render_title  , NULL},
 	{ NULL , NULL, NULL},
 };
 /*

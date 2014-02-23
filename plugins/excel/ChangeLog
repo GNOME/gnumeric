@@ -1,5 +1,7 @@
 2014-02-23  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read.c (xlsx_CT_header_footer): Read headerfooter info.
+
 	* xlsx-write.c (xlsx_write_print_info): headerFooter before page
 	breaks.  Evidently Excel cares.
 

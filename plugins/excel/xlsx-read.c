@@ -1938,6 +1938,95 @@ xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 			print_info_set_margin_footer (pi, GO_IN_TO_PT (margin));
 }
 
+
+static void
+xlsx_CT_header_footer (XLSXReadState *state, PrintHF *hf, const char *txt)
+{
+	char section = 'L';
+	GString *accum = g_string_new (NULL);
+
+	g_free (hf->left_format); hf->left_format = g_strdup ("");
+	g_free (hf->middle_format); hf->middle_format = g_strdup ("");
+	g_free (hf->right_format); hf->right_format = g_strdup ("");
+
+	while (1) {
+		if (txt[0] == 0 ||
+		    (txt[0] == '&' && strchr ("LCR", txt[1]))) {
+			char **sp;
+			switch (section) {
+			case 'L': sp = &hf->left_format; break;
+			case 'C': sp = &hf->middle_format; break;
+			case 'R': sp = &hf->right_format; break;
+			default: g_assert_not_reached ();
+			}
+			g_free (*sp);
+			*sp = g_string_free (accum, FALSE);
+
+			if (txt[0] == 0)
+				break;
+
+			accum = g_string_new (NULL);
+			section = txt[1];
+			txt += 2;
+			continue;
+		}
+
+		if (txt[0] != '&') {
+			g_string_append_c (accum, *txt++);
+			continue;
+		}
+
+		txt++;
+		switch (txt[0]) {
+		case 0:
+			continue;
+		case '&':
+			g_string_append_c (accum, *txt);
+			break;
+		case 'A':
+			g_string_append (accum, "&[TAB]");
+			break;
+		case 'P':
+			g_string_append (accum, "&[PAGE]");
+			break;
+		case 'N':
+			g_string_append (accum, "&[PAGES]");
+			break;
+		case 'D':
+			g_string_append (accum, "&[DATE]");
+			break;
+		case 'T':
+			g_string_append (accum, "&[TIME]");
+			break;
+		case 'F':
+			g_string_append (accum, "&[FILE]");
+			break;
+		case 'Z':
+			g_string_append (accum, "&[PATH]");
+			break;
+		default:
+			break;
+		}
+		txt++;
+	}
+}
+
+static void
+xlsx_CT_oddheader_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	PrintInformation *pi = state->sheet->print_info;
+	xlsx_CT_header_footer (state, pi->header, xin->content->str);
+}
+
+static void
+xlsx_CT_oddfooter_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	PrintInformation *pi = state->sheet->print_info;
+	xlsx_CT_header_footer (state, pi->footer, xin->content->str);
+}
+
 static void
 xlsx_CT_PageBreak (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -3108,8 +3197,8 @@ GSF_XML_IN_NODE (CELL, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NUL
   GSF_XML_IN_NODE (SHEET, PRINT_MARGINS, XL_NS_SS, "pageMargins", GSF_XML_NO_CONTENT, &xlsx_CT_PageMargins, NULL),
   GSF_XML_IN_NODE (SHEET, PRINT_SETUP, XL_NS_SS, "pageSetup", GSF_XML_NO_CONTENT, &xlsx_CT_PageSetup, NULL),
   GSF_XML_IN_NODE (SHEET, PRINT_HEADER_FOOTER, XL_NS_SS, "headerFooter", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (PRINT_HEADER_FOOTER, ODD_HEADER, XL_NS_SS, "oddHeader", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (PRINT_HEADER_FOOTER, ODD_FOOTER, XL_NS_SS, "oddFooter", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (PRINT_HEADER_FOOTER, ODD_HEADER, XL_NS_SS, "oddHeader", GSF_XML_CONTENT, NULL, &xlsx_CT_oddheader_end),
+    GSF_XML_IN_NODE (PRINT_HEADER_FOOTER, ODD_FOOTER, XL_NS_SS, "oddFooter", GSF_XML_CONTENT, NULL, &xlsx_CT_oddfooter_end),
 
   GSF_XML_IN_NODE_FULL (SHEET, ROW_BREAKS, XL_NS_SS, "rowBreaks", GSF_XML_NO_CONTENT,
 			FALSE, FALSE, &xlsx_CT_PageBreaks_begin, &xlsx_CT_PageBreaks_end, 1),

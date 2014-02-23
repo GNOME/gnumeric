@@ -1976,16 +1976,16 @@ xlsx_write_print_info_hf1 (GString *res, const char *s, const char *section)
 		const char *name;
 		const char *xlsx_code;
 	} codes[] = {
-		{ N_("tab"),   "&A"},
-		{ N_("page"),  "&P"},
-		{ N_("pages"), "&N"},
-		{ N_("date"),  "&D"},
-		{ N_("time"),  "&T"},
-		{ N_("file"),  "&F"},
-		{ N_("path"),  "&Z"},
+		{ N_("TAB"),   "&A"},
+		{ N_("PAGE"),  "&P"},
+		{ N_("PAGES"), "&N"},
+		{ N_("DATE"),  "&D"},
+		{ N_("TIME"),  "&T"},
+		{ N_("FILE"),  "&F"},
+		{ N_("PATH"),  "&Z"},
 #if 0
-		{ N_("cell"),  "" /* ??? */},
-		{ N_("title"), "" /* ??? */}
+		{ N_("CELL"),  "" /* ??? */},
+		{ N_("TITLE"), "" /* ??? */}
 #endif
 	};
 
