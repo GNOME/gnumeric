@@ -1989,7 +1989,7 @@ xlsx_write_print_info_hf1 (GString *res, const char *s, const char *section)
 #endif
 	};
 
-	if (!s)
+	if (!s || *s == 0)
 		return;
 
 	g_string_append (res, section);
@@ -2151,15 +2151,15 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 
 	gsf_xml_out_end_element (xml); /* </pageSetup> */
 
-	if (NULL != pi->page_breaks.v)
-		xlsx_write_breaks (state, xml, pi->page_breaks.v);
-	if (NULL != pi->page_breaks.h)
-		xlsx_write_breaks (state, xml, pi->page_breaks.h);
-
 	gsf_xml_out_start_element (xml, "headerFooter");
 	xlsx_write_print_info_hf (state, xml, pi->header, "oddHeader");
 	xlsx_write_print_info_hf (state, xml, pi->footer, "oddFooter");
 	gsf_xml_out_end_element (xml); /* </headerFooter> */
+
+	if (NULL != pi->page_breaks.v)
+		xlsx_write_breaks (state, xml, pi->page_breaks.v);
+	if (NULL != pi->page_breaks.h)
+		xlsx_write_breaks (state, xml, pi->page_breaks.h);
 }
 
 /**********************************************************************/

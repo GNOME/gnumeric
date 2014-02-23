@@ -1,3 +1,8 @@
+2014-02-23  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_print_info): headerFooter before page
+	breaks.  Evidently Excel cares.
+
 2014-02-22  Morten Welinder  <terra@gnome.org>
 
  	* ms-biff.c (ms_biff_query_next): Handle BIFF_CONTINUE for a whole
