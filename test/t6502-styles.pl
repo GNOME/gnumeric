@@ -41,8 +41,7 @@ my $xls_pattern_filter = "$PERL -p -e 'use English; my \%m=(19,14,20,7,21,4,22,4
 		 'format' => 'Gnumeric_Excel:excel_biff8',
 		 'ext' => "xls",
 		 'filter1' => $xls_pattern_filter,
-		 'filter2' => $xls_codepage_filter,
-		 'ignore_failure' => 1);
+		 'filter2' => $xls_codepage_filter);
 
 &message ("Check style xlsx roundtrip.");
 &test_roundtrip ($file,
