@@ -1522,7 +1522,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int first = -1, last = -1, xf_index;
-	gnm_float width = -1.;
+	double width = -1.;
 	gboolean cust_width = FALSE, best_fit = FALSE, collapsed = FALSE;
 	int i, hidden = -1;
 	int outline = -1;
@@ -1556,9 +1556,9 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 		last--;
 	}
 
+	first = CLAMP (first, 0, gnm_sheet_get_last_col (state->sheet));
+	last = CLAMP (last, 0, gnm_sheet_get_last_col (state->sheet));
 
-	if (last >= gnm_sheet_get_max_cols (state->sheet))
-		last = gnm_sheet_get_max_cols (state->sheet) - 1;
 	for (i = first; i <= last; i++) {
 		if (width > 4)
 			sheet_col_set_size_pts (state->sheet, i, width,
@@ -1569,10 +1569,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 	if (NULL != style) {
 		GnmRange r;
-		r.start.col = first;
-		r.end.col   = last;
-		r.start.row = 0;
-		r.end.row  = gnm_sheet_get_max_rows (state->sheet) - 1;
+		range_init_cols (&r, state->sheet, first, last);
 
 		/*
 		 * Sometimes we see a lot of columns with the same style.

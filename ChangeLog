@@ -1,3 +1,8 @@
+2014-02-24  Morten Welinder  <terra@gnome.org>
+
+	* src/colrow.c (colrow_equal): Don't use floating-point equality
+	here.  Allow a difference of 1e-5 pt for size.
+
 2014-02-23  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (gnm_sheet_resize_main): When expanding a sheet,

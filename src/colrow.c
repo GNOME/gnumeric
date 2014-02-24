@@ -139,7 +139,7 @@ colrow_equal (ColRowInfo const *a, ColRowInfo const *b)
 	if (b == NULL)
 		return FALSE;
 
-	return  a->size_pts	 == b->size_pts &&
+	return  fabs (a->size_pts - b->size_pts) < 1e-5 &&
 		a->outline_level == b->outline_level &&
 		a->is_collapsed	 == b->is_collapsed &&
 		a->hard_size	 == b->hard_size &&
