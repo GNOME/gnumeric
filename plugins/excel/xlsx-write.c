@@ -185,7 +185,7 @@ xlsx_add_pt (GsfXMLOut *xml, char const *id, double l)
 
 #define N_PREDEFINED_FILLS (G_N_ELEMENTS (pre_def_fills) - 1)
 
-static char const *pats[] = {
+static char const * const pats[] = {
 	"solid",            /* 1 */
 	"darkGray",         /* 2 */
 	"mediumGray",       /* 3 */
@@ -204,9 +204,16 @@ static char const *pats[] = {
 	"lightUp",          /* 16 */
 	"lightGrid",        /* 17 */
 	"lightTrellis",     /* 18 */
+	/* Not in Excel */
+	"lightVertical",    /* 19 */ 
+	"darkHorizontal",   /* 20 */
+	"lightGray",        /* 21 */
+	"lightGray",        /* 22 */
+	"darkGray",         /* 23 */
+	"solid",            /* 24 */
 };
 
-static char const *pre_def_fills[] = {
+static char const * const pre_def_fills[] = {
 	"none",
 	"gray125",
 	NULL
@@ -215,7 +222,7 @@ static char const *pre_def_fills[] = {
 static void
 xlsx_write_predefined_fills (GsfXMLOut *xml)
 {
-	char const **f = pre_def_fills;
+	char const * const *f = pre_def_fills;
 
 	while (*f != NULL) {
 		gsf_xml_out_start_element (xml, "fill");
@@ -534,7 +541,7 @@ xlsx_write_fonts (XLSXWriteState *state, GsfXMLOut *xml)
 }
 
 static gint
-xlsx_find_fill (GnmStyle const *style, GPtrArray  *styles)
+xlsx_find_fill (GnmStyle const *style, GPtrArray *styles)
 {
 	unsigned i;
 	int j;
