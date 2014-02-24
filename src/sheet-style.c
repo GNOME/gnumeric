@@ -2367,6 +2367,15 @@ cb_most_common (GnmStyle *style,
 			counts[corner_row + i] += width;
 }
 
+/**
+ * sheet_style_most_common:
+ *
+ * @sheet: sheet to inspect
+ * @is_col: if %TRUE, look for common styles in columns; if FALSE, look in rows.
+ *
+ * Returns: an array of styles describing the most common styles, one per column
+ * or row.
+ */
 GnmStyle **
 sheet_style_most_common (Sheet const *sheet, gboolean is_col)
 {

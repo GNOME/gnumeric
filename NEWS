@@ -29,6 +29,7 @@ Morten:
 	* Fix xls import of cells with long string results.
 	* Fix xls export of long strings in various places.
 	* Fix BIFF7 export of comments.
+	* Improve style handling when expanding sheets. 
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11

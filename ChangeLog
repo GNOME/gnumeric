@@ -1,3 +1,9 @@
+2014-02-23  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (gnm_sheet_resize_main): When expanding a sheet,
+	fill in the new areas with most common styles for the rows to the
+	left of the new columns or the columns above the new area.
+
 2014-02-19  Morten Welinder  <terra@gnome.org>
 
 	* plugins/fn-math/functions.c (gnumeric_log2): Use gnm_log2.
