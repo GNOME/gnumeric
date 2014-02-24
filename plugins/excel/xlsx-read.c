@@ -3237,6 +3237,29 @@ xlsx_CT_CalcPr (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_CT_workbookView (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int active_tab = -1;
+	int width = -1, height = -1;
+	const int scale = 10;  /* Guess */
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_int (xin, attrs, "activeTab", &active_tab))
+			;
+		else if (attr_int (xin, attrs, "windowHeight", &height))
+			;
+		else if (attr_int (xin, attrs, "windowWidth", &width))
+			;
+	}
+
+	if (width > scale / 2 && height > scale / 2)
+		wb_view_preferred_size (state->wb_view,
+					(width + scale / 2) / scale,
+					(height + scale / 2) / scale);
+}
+
+static void
 xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const visibilities[] = {
@@ -3801,7 +3824,7 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT,
   GSF_XML_IN_NODE (WORKBOOK, CALC_PROPS, XL_NS_SS, "calcPr", GSF_XML_NO_CONTENT, &xlsx_CT_CalcPr, NULL),
 
   GSF_XML_IN_NODE (WORKBOOK, VIEWS,	 XL_NS_SS, "bookViews",	GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (VIEWS,  VIEW,	 XL_NS_SS, "workbookView",  GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (VIEWS,  VIEW,	 XL_NS_SS, "workbookView",  GSF_XML_NO_CONTENT, &xlsx_CT_workbookView, NULL),
   GSF_XML_IN_NODE (WORKBOOK, CUSTOMWVIEWS, XL_NS_SS, "customWorkbookViews", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CUSTOMWVIEWS, CUSTOMWVIEW , XL_NS_SS, "customWorkbookView", GSF_XML_NO_CONTENT, NULL, NULL),
 GSF_XML_IN_NODE (CUSTOMWVIEW, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd  */

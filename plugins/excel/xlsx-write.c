@@ -2545,9 +2545,14 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 
 	gsf_xml_out_start_element (xml, "bookViews");
 	WORKBOOK_FOREACH_VIEW (state->base.wb, view, {
+		int scale = 10;  /* Guess */
 		gsf_xml_out_start_element (xml, "workbookView");
 		gsf_xml_out_add_int (xml, "activeTab",
 			view->current_sheet->index_in_wb);
+		if (view->preferred_width > 0)
+			gsf_xml_out_add_int (xml, "windowWidth", view->preferred_width * scale);
+		if (view->preferred_height > 0)
+			gsf_xml_out_add_int (xml, "windowHeight", view->preferred_height * scale);
 		gsf_xml_out_end_element (xml);
 	});
 	gsf_xml_out_end_element (xml);
