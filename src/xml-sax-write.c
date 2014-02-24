@@ -254,10 +254,13 @@ xml_write_named_expressions (GnmOutputXML *state, GnmNamedExprCollection *scope)
 static void
 xml_write_geometry (GnmOutputXML *state)
 {
-	gsf_xml_out_start_element (state->output, GNM "Geometry");
-	gsf_xml_out_add_int (state->output, "Width", state->wb_view->preferred_width);
-	gsf_xml_out_add_int (state->output, "Height", state->wb_view->preferred_height);
-	gsf_xml_out_end_element (state->output); /* </gnm:Geometry> */
+	if (state->wb_view->preferred_width > 0 ||
+	    state->wb_view->preferred_height > 0) {
+		gsf_xml_out_start_element (state->output, GNM "Geometry");
+		gsf_xml_out_add_int (state->output, "Width", state->wb_view->preferred_width);
+		gsf_xml_out_add_int (state->output, "Height", state->wb_view->preferred_height);
+		gsf_xml_out_end_element (state->output); /* </gnm:Geometry> */
+	}
 }
 
 static void

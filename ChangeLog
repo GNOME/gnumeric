@@ -1,5 +1,7 @@
 2014-02-24  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-write.c (xml_write_geometry): Don't output a 0x0 size.
+
 	* src/colrow.c (colrow_equal): Don't use floating-point equality
 	here.  Allow a difference of 1e-5 pt for size.
 
