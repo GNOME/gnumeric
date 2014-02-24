@@ -4900,30 +4900,17 @@ excel_write_PAGE_BREAK (BiffPut *bp, GnmPageBreaks const *breaks)
 static void
 excel_write_HEADER_FOOTER (BiffPut *bp, PrintHF const *hf, int id)
 {
-	GString *res = g_string_new (NULL);
-
-	if (hf->left_format != NULL) {
-		g_string_append (res, "&L");
-		g_string_append (res, hf->left_format);
-	}
-	if (hf->middle_format != NULL) {
-		g_string_append (res, "&C");
-		g_string_append (res, hf->middle_format);
-	}
-	if (hf->right_format != NULL) {
-		g_string_append (res, "&R");
-		g_string_append (res, hf->right_format);
-	}
+	char *s = xls_header_footer_export (hf);
 
 	ms_biff_put_var_next (bp, id);
 	excel_write_string (bp,
 			    (bp->version >= MS_BIFF_V8
 			     ? STR_TWO_BYTE_LENGTH
 			     : STR_ONE_BYTE_LENGTH),
-			    res->str);
+			    s);
 	ms_biff_put_commit (bp);
 
-	g_string_free (res, TRUE);
+	g_free (s);
 }
 
 static void

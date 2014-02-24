@@ -16,6 +16,7 @@
 #include "style.h"
 #include "ms-excel-util.h"
 #include <goffice/goffice.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 
@@ -682,4 +683,65 @@ xls_paper_size (GtkPaperSize *ps, gboolean rotated)
 	}
 
 	return 0;
+}
+
+
+static void
+xls_header_footer_export1 (GString *res, const char *s, const char *section)
+{
+	static const struct {
+		const char *name;
+		const char *xls_code;
+	} codes[] = {
+		{ N_("TAB"),   "&A"},
+		{ N_("PAGE"),  "&P"},
+		{ N_("PAGES"), "&N"},
+		{ N_("DATE"),  "&D"},
+		{ N_("TIME"),  "&T"},
+		{ N_("FILE"),  "&F"},
+		{ N_("PATH"),  "&Z"},
+#if 0
+		{ N_("CELL"),  "" /* ??? */},
+		{ N_("TITLE"), "" /* ??? */}
+#endif
+	};
+
+	if (!s || *s == 0)
+		return;
+
+	g_string_append (res, section);
+	while (*s) {
+		const char *end;
+
+		if (*s == '&' && s[1] == '[' && (end = strchr (s + 2, ']'))) {
+			size_t l = end - (s + 2);
+			unsigned ui;
+
+			for (ui = 0; ui < G_N_ELEMENTS (codes); ui++) {
+				const char *tname = _(codes[ui].name);
+				if (l == strlen (tname) &&
+				    g_ascii_strncasecmp (tname, s + 2, l) == 0) {
+					g_string_append (res, codes[ui].xls_code);
+					break;
+				}
+			}
+			s = end + 1;
+			continue;
+		}
+
+		g_string_append_c (res, *s++);
+	}
+}
+
+
+char *
+xls_header_footer_export (const PrintHF *hf)
+{
+	GString *res = g_string_new (NULL);
+
+	xls_header_footer_export1 (res, hf->left_format, "&L");
+	xls_header_footer_export1 (res, hf->middle_format, "&C");
+	xls_header_footer_export1 (res, hf->right_format, "&R");
+
+	return g_string_free (res, FALSE);
 }

@@ -1,5 +1,12 @@
 2014-02-23  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-util.c (xls_header_footer_export): New function
+	extracted from...
+	* xlsx-write.c (xlsx_write_print_info_hf): ...here
+
+	* ms-excel-write.c (excel_write_HEADER_FOOTER): Properly translate
+	magic codes.
+
 	* xlsx-read.c (xlsx_CT_header_footer): Read headerfooter info.
 
 	* xlsx-write.c (xlsx_write_print_info): headerFooter before page

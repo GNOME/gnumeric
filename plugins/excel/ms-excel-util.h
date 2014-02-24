@@ -12,6 +12,7 @@
 
 #include <glib.h>
 #include <stdlib.h>
+#include <print-info.h>
 
 /*
  * Check a condition relating to whether the file being read is ok.
@@ -98,6 +99,10 @@ void		     destroy_xl_font_widths (void);
 
 const char *xls_paper_name (unsigned idx, gboolean *rotated);
 unsigned xls_paper_size (GtkPaperSize *ps, gboolean rotated);
+
+/*****************************************************************************/
+
+char *xls_header_footer_export (const PrintHF *hf);
 
 /*****************************************************************************/
 

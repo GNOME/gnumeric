@@ -30,6 +30,7 @@ Morten:
 	* Fix xls export of long strings in various places.
 	* Fix BIFF7 export of comments.
 	* Improve style handling when expanding sheets. 
+	* Fix xls export of headers and footers.  [Part of #724516]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
