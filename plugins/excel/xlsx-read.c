@@ -21,6 +21,7 @@
  */
 #include <gnumeric-config.h>
 #include "xlsx-utils.h"
+#include "ms-excel-write.h"
 
 #include "sheet-view.h"
 #include "sheet-style.h"
@@ -772,7 +773,7 @@ simple_enum (GsfXMLIn *xin, xmlChar const **attrs, EnumVal const *enums, int *re
  */
 static struct {
 	guint8 r, g, b;
-} excel_default_palette_v8 [] = {
+} xlsx_default_palette_v8 [] = {
 	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0},
 	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255},
 
@@ -840,17 +841,18 @@ indexed_color (G_GNUC_UNUSED XLSXReadState *state, gint idx)
 	}
 
 	idx -= 8;
-	if (idx < 0 || (int) G_N_ELEMENTS (excel_default_palette_v8) <= idx) {
+	if (idx < 0 || (int) G_N_ELEMENTS (xlsx_default_palette_v8) <= idx) {
 		g_warning ("EXCEL: color index (%d) is out of range (8..%d). Defaulting to black",
-			   idx + 8, (int)G_N_ELEMENTS (excel_default_palette_v8) + 8);
+			   idx + 8, (int)G_N_ELEMENTS (xlsx_default_palette_v8) + 8);
 		return GO_COLOR_BLACK;
 	}
 
 	/* TODO cache and ref */
-	return GO_COLOR_FROM_RGB (excel_default_palette_v8[idx].r,
-			     excel_default_palette_v8[idx].g,
-			     excel_default_palette_v8[idx].b);
+	return GO_COLOR_FROM_RGB (xlsx_default_palette_v8[idx].r,
+				  xlsx_default_palette_v8[idx].g,
+				  xlsx_default_palette_v8[idx].b);
 }
+
 static GOColor
 themed_color (GsfXMLIn *xin, gint idx)
 {
@@ -1940,83 +1942,11 @@ xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 
 
 static void
-xlsx_CT_header_footer (XLSXReadState *state, PrintHF *hf, const char *txt)
-{
-	char section = 'L';
-	GString *accum = g_string_new (NULL);
-
-	g_free (hf->left_format); hf->left_format = g_strdup ("");
-	g_free (hf->middle_format); hf->middle_format = g_strdup ("");
-	g_free (hf->right_format); hf->right_format = g_strdup ("");
-
-	while (1) {
-		if (txt[0] == 0 ||
-		    (txt[0] == '&' && strchr ("LCR", txt[1]))) {
-			char **sp;
-			switch (section) {
-			case 'L': sp = &hf->left_format; break;
-			case 'C': sp = &hf->middle_format; break;
-			case 'R': sp = &hf->right_format; break;
-			default: g_assert_not_reached ();
-			}
-			g_free (*sp);
-			*sp = g_string_free (accum, FALSE);
-
-			if (txt[0] == 0)
-				break;
-
-			accum = g_string_new (NULL);
-			section = txt[1];
-			txt += 2;
-			continue;
-		}
-
-		if (txt[0] != '&') {
-			g_string_append_c (accum, *txt++);
-			continue;
-		}
-
-		txt++;
-		switch (txt[0]) {
-		case 0:
-			continue;
-		case '&':
-			g_string_append_c (accum, *txt);
-			break;
-		case 'A':
-			g_string_append (accum, "&[TAB]");
-			break;
-		case 'P':
-			g_string_append (accum, "&[PAGE]");
-			break;
-		case 'N':
-			g_string_append (accum, "&[PAGES]");
-			break;
-		case 'D':
-			g_string_append (accum, "&[DATE]");
-			break;
-		case 'T':
-			g_string_append (accum, "&[TIME]");
-			break;
-		case 'F':
-			g_string_append (accum, "&[FILE]");
-			break;
-		case 'Z':
-			g_string_append (accum, "&[PATH]");
-			break;
-		default:
-			break;
-		}
-		txt++;
-	}
-}
-
-static void
 xlsx_CT_oddheader_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	PrintInformation *pi = state->sheet->print_info;
-	xlsx_CT_header_footer (state, pi->header, xin->content->str);
+	xls_header_footer_import (pi->header, xin->content->str);
 }
 
 static void
@@ -2024,7 +1954,7 @@ xlsx_CT_oddfooter_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	PrintInformation *pi = state->sheet->print_info;
-	xlsx_CT_header_footer (state, pi->footer, xin->content->str);
+	xls_header_footer_import (pi->footer, xin->content->str);
 }
 
 static void

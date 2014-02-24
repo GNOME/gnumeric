@@ -6280,29 +6280,6 @@ excel_read_BOOLERR (BiffQuery *q, ExcelReadSheet *esheet)
 	excel_sheet_insert_val (esheet, q, v);
 }
 
-/* hands the peculiar ampersand escaping, and returns the string _after_
- * &<target> to the end of the buffer.  It also stores \0 in place
- * of &<target>.  If not found return NULL and do nothing */
-static char *
-xl_hf_strstr (char *buf, char target)
-{
-	if (buf == NULL)
-		return NULL;
-
-	for (; *buf ; buf++)
-		if (*buf == '&') {
-			if (0 == buf[1])
-				return NULL;
-			if (target == buf[1]) {
-				buf[0] = buf[1] = '\0';
-				return buf + 2;
-			}
-			if ('&' == buf[1])
-				buf++;
-		}
-	return NULL;
-}
-
 static void
 excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
 			  BiffQuery *q, ExcelReadSheet *esheet,
@@ -6311,7 +6288,7 @@ excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
 	PrintInformation *pi = esheet->sheet->print_info;
 
 	if (q->length) {
-		char *l, *c, *r, *str;
+		char *str;
 
 		if (importer->ver >= MS_BIFF_V8)
 			str = excel_biff_text_2 (importer, q, 0);
@@ -6320,18 +6297,8 @@ excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
 
 		d (2, g_printerr ("%s == '%s'\n", is_header ? "header" : "footer", str););
 
-		r = xl_hf_strstr (str, 'R'); /* order is important */
-		c = xl_hf_strstr (str, 'C');
-		l = xl_hf_strstr (str, 'L');
-		if (is_header) {
-			if (pi->header != NULL)
-				print_hf_free (pi->header);
-			pi->header = print_hf_new (l, c, r);
-		} else {
-			if (pi->footer != NULL)
-				print_hf_free (pi->footer);
-			pi->footer = print_hf_new (l, c, r);
-		}
+		xls_header_footer_import (is_header ? pi->header : pi->footer,
+					  str);
 
 		g_free (str);
 	}

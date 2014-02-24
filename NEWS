@@ -31,6 +31,7 @@ Morten:
 	* Fix BIFF7 export of comments.
 	* Improve style handling when expanding sheets. 
 	* Fix xls export of headers and footers.  [Part of #724516]
+	* Fix xls import of headers and footers.  [Part of #724516]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11

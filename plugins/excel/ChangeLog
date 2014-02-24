@@ -2,7 +2,11 @@
 
 	* ms-excel-util.c (xls_header_footer_export): New function
 	extracted from...
-	* xlsx-write.c (xlsx_write_print_info_hf): ...here
+	* xlsx-write.c (xlsx_write_print_info_hf): ...here.
+
+	* ms-excel-util.c (xls_header_footer_import): New function
+	extracted from...
+	* xlsx-read.c (xlsx_CT_header_footer): ...here.
 
 	* ms-excel-write.c (excel_write_HEADER_FOOTER): Properly translate
 	magic codes.

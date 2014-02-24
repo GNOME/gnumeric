@@ -745,3 +745,75 @@ xls_header_footer_export (const PrintHF *hf)
 
 	return g_string_free (res, FALSE);
 }
+
+void
+xls_header_footer_import (PrintHF *hf, const char *txt)
+{
+	char section = 'L';
+	GString *accum = g_string_new (NULL);
+
+	g_free (hf->left_format); hf->left_format = g_strdup ("");
+	g_free (hf->middle_format); hf->middle_format = g_strdup ("");
+	g_free (hf->right_format); hf->right_format = g_strdup ("");
+
+	while (1) {
+		if (txt[0] == 0 ||
+		    (txt[0] == '&' && strchr ("LCR", txt[1]))) {
+			char **sp;
+			switch (section) {
+			case 'L': sp = &hf->left_format; break;
+			case 'C': sp = &hf->middle_format; break;
+			case 'R': sp = &hf->right_format; break;
+			default: g_assert_not_reached ();
+			}
+			g_free (*sp);
+			*sp = g_string_free (accum, FALSE);
+
+			if (txt[0] == 0)
+				break;
+
+			accum = g_string_new (NULL);
+			section = txt[1];
+			txt += 2;
+			continue;
+		}
+
+		if (txt[0] != '&') {
+			g_string_append_c (accum, *txt++);
+			continue;
+		}
+
+		txt++;
+		switch (txt[0]) {
+		case 0:
+			continue;
+		case '&':
+			g_string_append_c (accum, *txt);
+			break;
+		case 'A':
+			g_string_append (accum, "&[TAB]");
+			break;
+		case 'P':
+			g_string_append (accum, "&[PAGE]");
+			break;
+		case 'N':
+			g_string_append (accum, "&[PAGES]");
+			break;
+		case 'D':
+			g_string_append (accum, "&[DATE]");
+			break;
+		case 'T':
+			g_string_append (accum, "&[TIME]");
+			break;
+		case 'F':
+			g_string_append (accum, "&[FILE]");
+			break;
+		case 'Z':
+			g_string_append (accum, "&[PATH]");
+			break;
+		default:
+			break;
+		}
+		txt++;
+	}
+}
