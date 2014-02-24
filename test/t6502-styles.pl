@@ -24,6 +24,9 @@ my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:
 # Biff7 only handles a few fixed rotations.
 my $xls_rotation_filter = "$PERL -p -e 's{\\b(Rotation)=\"315\"}{\$1=\"270\"}; s{\\b(Rotation)=\"45\"}{\$1=\"0\"};'";
 
+# Biff7 has no diagonals patterns.
+my $xls_diagonal_filter = "$PERL -p -e 'if (m{<gnm:StyleBorder>} .. m{</gnm:StyleBorder>}) { if (m{gnm:(Rev-)?Diagonal}) { \$_=\"\"; } else { \$any++; } \$save .= \$_; if (m{</gnm:StyleBorder>}) { print \$save if \$any>2; \$any = 0; \$save = \"\"; } \$_=\"\"; }'";
+
 # Our patterns 19-24 do not exists in xls
 my $xls_pattern_filter = "$PERL -p -e 'use English; my \%m=(19,14,20,7,21,4,22,4,23,2,24,1); if (m{\\bShade=\"(\\d+)\"} && (\$n = \$m{\$1})) { \$_ = \"\${PREMATCH}Shade=\\\"\$n\\\"\${POSTMATCH}\"; }'";
 
@@ -32,9 +35,8 @@ my $xls_pattern_filter = "$PERL -p -e 'use English; my \%m=(19,14,20,7,21,4,22,4
 		 'format' => 'Gnumeric_Excel:excel_biff7',
 		 'ext' => "xls",
 		 'resize' => '16384x256',
-		 'filter1' => "$xls_rotation_filter | $xls_pattern_filter",
-		 'filter2' => $xls_codepage_filter ,
-		 'ignore_failure' => 1);
+		 'filter1' => "$xls_rotation_filter | $xls_pattern_filter | $xls_diagonal_filter",
+		 'filter2' => $xls_codepage_filter);
 
 &message ("Check style xls/BIFF8 roundtrip.");
 &test_roundtrip ($file,
