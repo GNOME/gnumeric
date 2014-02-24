@@ -945,7 +945,12 @@ xlsx_write_style_write_alignment (G_GNUC_UNUSED XLSXWriteState *state, GsfXMLOut
 		gsf_xml_out_add_bool (xml, "shrinkToFit", gnm_style_get_shrink_to_fit (style));
 	}
 	if (gnm_style_is_element_set (style, MSTYLE_ROTATION)) {
-		gsf_xml_out_add_int (xml, "textRotation", gnm_style_get_rotation (style));
+		int r = gnm_style_get_rotation (style);
+		if (r == -1)
+			r = 0xff;
+		else if (r >= 270)
+			r = (360 - r) + 90;
+		gsf_xml_out_add_int (xml, "textRotation", r);
 	}
 	if (gnm_style_is_element_set (style, MSTYLE_INDENT)) {
 		gsf_xml_out_add_int (xml, "indent", gnm_style_get_indent (style));

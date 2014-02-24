@@ -2,6 +2,8 @@
 
 	* xlsx-write.c (xlsx_write_cells): Export row height when it is
 	not default, even if it is not user-set.
+	(xlsx_write_style_write_alignment): Fix rotation export for
+	downward angles.
 
 2014-02-23  Morten Welinder  <terra@gnome.org>
 
