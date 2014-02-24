@@ -32,6 +32,7 @@ Morten:
 	* Improve style handling when expanding sheets. 
 	* Fix xls export of headers and footers.  [Part of #724516]
 	* Fix xls import of headers and footers.  [Part of #724516]
+	* Fix xlsx export of row heights.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11

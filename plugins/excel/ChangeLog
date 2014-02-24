@@ -1,3 +1,8 @@
+2014-02-24  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_cells): Export row height when it is
+	not default, even if it is not user-set.
+
 2014-02-23  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-util.c (xls_header_footer_export): New function

@@ -1204,6 +1204,7 @@ row_boring (Sheet *sheet, int r)
 		return TRUE;
 
 	return (!ri->hard_size &&
+		ri->size_pts == sheet->rows.default_style.size_pts &&
 		!ri->is_collapsed &&
 		ri->visible &&
 		ri->outline_level == 0);
@@ -1251,8 +1252,11 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 
 			if (ri->hard_size) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
-				gsf_xml_out_add_float (xml, "ht", ri->size_pts, 4);
 				gsf_xml_out_add_cstr_unchecked (xml, "customHeight", "1");
+			}
+			if (ri->hard_size || ri->size_pts != sheet->cols.default_style.size_pts) {
+				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
+				gsf_xml_out_add_float (xml, "ht", ri->size_pts, 4);
 			}
 			if (ri->is_collapsed) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
