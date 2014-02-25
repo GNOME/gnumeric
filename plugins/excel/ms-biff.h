@@ -87,10 +87,6 @@ typedef struct _BiffPut {
 	 */
 	GString         *record;
 
-	/* a buffer for generating unicode */
-	guint8 *buf;
-	unsigned buf_len;
-
 	int	 codepage;
 	GIConv   convert;
 } BiffPut;
