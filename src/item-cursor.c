@@ -803,14 +803,12 @@ item_cursor_do_action (GnmItemCursor *ic, ActionType action)
 	scg_special_cursor_stop	(ic->scg);
 }
 
-static gboolean
+static void
 context_menu_hander (GnumericPopupMenuElement const *element,
 		     gpointer ic)
 {
-	g_return_val_if_fail (element != NULL, TRUE);
-
+	g_return_if_fail (element != NULL);
 	item_cursor_do_action (ic, element->index);
-	return TRUE;
 }
 
 static void

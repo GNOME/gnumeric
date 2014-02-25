@@ -58,8 +58,8 @@ typedef struct {
 	char *allocated_name;
 } GnumericPopupMenuElement;
 
-typedef gboolean (*GnumericPopupMenuHandler) (GnumericPopupMenuElement const *e,
-					      gpointer user_data);
+typedef void (*GnumericPopupMenuHandler) (GnumericPopupMenuElement const *e,
+					  gpointer user_data);
 
 void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 				 GnumericPopupMenuHandler handler,

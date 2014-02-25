@@ -1,5 +1,8 @@
 2014-02-25  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (kill_popup_menu): Avoid criticals inside gtk+.
+	(gnumeric_create_popup_menu): Drop return value from handler.
+
 	* src/xml-sax-write.c (xml_write_objects): Sort sheet objects that
 	are cell comments by position.
 

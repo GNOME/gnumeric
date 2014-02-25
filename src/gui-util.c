@@ -443,13 +443,19 @@ gnm_gui_group_value (gpointer gui, char const * const group[])
 	return -1;
 }
 
-static void
-kill_popup_menu (G_GNUC_UNUSED GtkWidget *widget, GtkMenu *menu)
+static gboolean
+cb_delayed_destroy (gpointer w)
 {
-	g_return_if_fail (menu != NULL);
-	g_return_if_fail (GTK_IS_MENU (menu));
+	gtk_widget_destroy (w);
+	return FALSE;
+}
 
-	g_object_unref (menu);
+static void
+kill_popup_menu (GtkWidget *widget, G_GNUC_UNUSED GtkMenu *menu)
+{
+	/* gtk+ currently gets unhappy if we destroy here, see bug 725142 */
+	g_idle_add (cb_delayed_destroy,
+		    gtk_widget_get_toplevel (widget));
 }
 
 /**
@@ -465,8 +471,6 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEvent *event)
 {
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
-
-	g_object_ref_sink (menu);
 
 	if (event)
 		gtk_menu_set_screen (menu, gdk_event_get_screen (event));
@@ -590,7 +594,6 @@ gnm_gtk_builder_load (char const *uifile, char const *domain, GOCmdContext *cc)
 	return gui;
 }
 
-
 static void
 popup_item_activate (GtkWidget *item, gpointer *user_data)
 {
@@ -602,8 +605,7 @@ popup_item_activate (GtkWidget *item, gpointer *user_data)
 	g_return_if_fail (elem != NULL);
 	g_return_if_fail (handler != NULL);
 
-	if (handler (elem, user_data))
-		gtk_widget_destroy (gtk_widget_get_toplevel (item));
+	handler (elem, user_data);
 }
 
 /**

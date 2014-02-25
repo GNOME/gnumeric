@@ -210,7 +210,7 @@ select_column (StfDialogData *pagedata, int col)
 	gtk_widget_grab_focus (gtk_tree_view_column_get_button (column));
 }
 
-static gboolean
+static void
 fixed_context_menu_handler (GnumericPopupMenuElement const *element,
 			    gpointer user_data)
 {
@@ -236,7 +236,6 @@ fixed_context_menu_handler (GnumericPopupMenuElement const *element,
 	default:
 		; /* Nothing */
 	}
-	return TRUE;
 }
 
 static void

@@ -1935,7 +1935,7 @@ enum {
 	CONTEXT_DATA_SLICER_REFRESH,	/* refresh and redraw */
 	CONTEXT_DATA_SLICER_EDIT	/* prop dialog */
 };
-static gboolean
+static void
 context_menu_handler (GnumericPopupMenuElement const *element,
 		      gpointer user_data)
 {
@@ -1946,8 +1946,8 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	WBCGtk		*wbcg = scg->wbcg;
 	WorkbookControl *wbc = sc->wbc;
 
-	g_return_val_if_fail (element != NULL, TRUE);
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_if_fail (element != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	switch (element->index) {
 	case CONTEXT_CUT :
@@ -2070,7 +2070,6 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	default :
 		break;
 	}
-	return TRUE;
 }
 
 void
