@@ -1,3 +1,8 @@
+2014-02-25  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_objects): Sort sheet objects that
+	are cell comments by position.
+
 2014-02-24  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_geometry): Don't output a 0x0 size.

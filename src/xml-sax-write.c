@@ -51,6 +51,7 @@
 #include <tools/gnm-solver.h>
 #include <sheet-filter.h>
 #include <sheet-object-impl.h>
+#include <sheet-object-cell-comment.h>
 #include <print-info.h>
 #include <gutils.h>
 #include <clipboard.h>
@@ -1192,25 +1193,58 @@ xml_write_scenarios (GnmOutputXML *state)
 	gsf_xml_out_end_element (state->output); /* </gnm:Scenarios> */
 }
 
+static int
+so_by_pos (SheetObject *a, SheetObject *b)
+{
+	GnmRange const *ra = &a->anchor.cell_bound;
+	GnmRange const *rb = &b->anchor.cell_bound;
+	int i;
+	i = ra->start.col - rb->start.col;
+	if (!i) i = ra->start.row - rb->start.row;
+	if (!i) i = ra->end.col - rb->end.col;
+	if (!i) i = ra->end.row - rb->end.row;
+	return i;
+}
+
 static void
 xml_write_objects (GnmOutputXML *state, GSList *objects)
 {
 	gboolean needs_container = TRUE;
-	SheetObject	 *so;
-	SheetObjectClass *klass;
 	char buffer[4*(DBL_DIG+10)];
 	char const *type_name;
 	char *tmp;
 	GSList *ptr;
+	GSList *with_zorder = NULL;
+	GSList *without_zorder = NULL;
 
-	/* reverse the list to maintain order when we prepend the objects in
-	 * sheet_object_set_sheet on import */
-	objects = g_slist_reverse ( g_slist_copy (objects));
+	/*
+	 * Most objects are selectable and the order therefore matters.
+	 * We write those in reverse order because sheet_object_set_sheet
+	 * will reverse them on input.
+	 *
+	 * Cell comments are separated out and sorted.  This helps
+	 * consistency.
+	 *
+	 * Yet other objects have no export method and we drop those on
+	 * the floor.
+	 */
 	for (ptr = objects ;ptr != NULL ; ptr = ptr->next) {
-		so = ptr->data;
-		klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
+		SheetObject *so = ptr->data;
+		SheetObjectClass *klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
 		if (klass == NULL || klass->write_xml_sax == NULL)
 			continue;
+
+		if (IS_CELL_COMMENT (so))
+			without_zorder = g_slist_prepend (without_zorder, so);
+		else
+			with_zorder = g_slist_prepend (with_zorder, so);
+	}
+	without_zorder = g_slist_sort (without_zorder, (GCompareFunc)so_by_pos);
+	objects = g_slist_concat (without_zorder, with_zorder);
+
+	for (ptr = objects ;ptr != NULL ; ptr = ptr->next) {
+		SheetObject *so = ptr->data;
+		SheetObjectClass *klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
 
 		if (needs_container) {
 			needs_container = FALSE;
@@ -1236,8 +1270,7 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 			so->anchor.base.direction);
 		gsf_xml_out_add_int
 		  (state->output, "Print",
-		   ((so->flags & SHEET_OBJECT_PRINT) != 0 )
-		   ? 1 : 0);
+		   (so->flags & SHEET_OBJECT_PRINT) ? 1 : 0);
 
 		(*klass->write_xml_sax) (so, state->output, state->convs);
 
