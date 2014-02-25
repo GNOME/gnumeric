@@ -1,5 +1,8 @@
 2014-02-25  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read.c (xlsx_comment_start): Use cell_comment_set_pos to
+	the anchor gets set up in a standard way.
+
 	* ms-biff.c (ms_biff_put_new): No need for bp->buf anymore.
 
 2014-02-24  Morten Welinder  <terra@gnome.org>

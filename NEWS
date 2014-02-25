@@ -36,6 +36,7 @@ Morten:
 	* Fix xlsx export of row heights.
 	* Fix xlsx export of rotated styles.
 	* Make window geometry round-trip through xlsx.
+	* Fix xlsx import of comments.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11

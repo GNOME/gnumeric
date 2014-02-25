@@ -3619,7 +3619,6 @@ xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	SheetObject *so;
 	GnmRange anchor_r;
-	SheetObjectAnchor	anchor;
 
 	state->comment = g_object_new (cell_comment_get_type (), NULL);
 	so = SHEET_OBJECT (state->comment);
@@ -3638,8 +3637,7 @@ xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		}
 
-	sheet_object_anchor_init (&anchor, &anchor_r, NULL, GOD_ANCHOR_DIR_UNKNOWN);
-	sheet_object_set_anchor (so, &anchor);
+	cell_comment_set_pos (CELL_COMMENT (so), &anchor_r.start);
 	state->r_text = g_string_new ("");
 }
 
