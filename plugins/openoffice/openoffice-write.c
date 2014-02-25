@@ -1761,7 +1761,7 @@ odf_write_row_style (GnmOOExport *state, ColRowInfo const *ci)
 	odf_add_pt (state->xml, STYLE "row-height", ci->size_pts);
 	odf_add_bool (state->xml, STYLE "use-optimal-row-height",
 		      !ci->hard_size);
-	gsf_xml_out_end_element (state->xml); /* </style:table-column-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:table-row-properties> */
 }
 
 static const char*
@@ -3506,6 +3506,9 @@ write_col_style (GnmOOExport *state, GnmStyle *col_style, ColRowInfo const *ci,
 				   FALSE);
 	if (name != NULL)
 		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", name);
+
+	if (ci != NULL && !ci->visible)
+		gsf_xml_out_add_cstr (state->xml, TABLE "visibility", ci->in_filter ? "filter" : "collapse");	
 }
 
 static void
@@ -3559,6 +3562,9 @@ write_row_style (GnmOOExport *state, ColRowInfo const *ci,
 				   FALSE);
 	if (name != NULL)
 		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", name);
+
+	if (ci != NULL && !ci->visible)
+		gsf_xml_out_add_cstr (state->xml, TABLE "visibility", ci->in_filter ? "filter" : "collapse");
 }
 
 static gboolean

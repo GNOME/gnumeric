@@ -1,3 +1,8 @@
+2014-02-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (write_row_style): write visibility
+	(write_col_style): write visibility
+
 2014-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_style_prop_cell): read new foreign elements
