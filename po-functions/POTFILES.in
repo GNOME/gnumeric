@@ -5,6 +5,7 @@ plugins/dif/dif.c
 plugins/excel/boot.c
 plugins/excel/excel-xml-read.c
 plugins/excel/ms-excel-read.c
+plugins/excel/ms-excel-util.c
 plugins/excel/ms-excel-write.c
 plugins/excel/ms-formula-read.c
 plugins/excel/ms-formula-write.c
