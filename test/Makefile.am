@@ -76,6 +76,7 @@ TESTS =	t1000-statfuns.pl			\
 	t6502-styles.pl				\
 	t6503-page-setup.pl			\
 	t6504-formula.pl			\
+	t6505-colrow.pl				\
 	t7000-goal-seek.pl			\
 	t7100-solver-blend.pl			\
 	t7101-solver-afiro.pl			\
