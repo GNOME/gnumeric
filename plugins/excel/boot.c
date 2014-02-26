@@ -202,9 +202,12 @@ excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *conte
 	/* See if there are any macros to keep around */
 	stream = gsf_infile_child_by_name (ole, "\01CompObj");
 	if (stream != NULL) {
-		GsfInput *macros = gsf_infile_child_by_vname (ole, "_VBA_PROJECT_CUR", "VBA", NULL);
+		GsfInput *macros = gsf_infile_child_by_name (ole, "_VBA_PROJECT_CUR");
 		if (macros != NULL) {
-			GsfInfile *vba = gsf_infile_msvba_new (GSF_INFILE (macros), NULL);
+			GsfInput *vba_child = gsf_infile_child_by_name (GSF_INFILE (macros), "VBA");
+			GsfInfile *vba = vba_child
+				? gsf_infile_msvba_new (GSF_INFILE (vba_child), NULL)
+				: NULL;
 			if (NULL != vba) {
 				GHashTable *modules =
 					gsf_infile_msvba_steal_modules (GSF_INFILE_MSVBA (vba));
@@ -218,8 +221,9 @@ excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *conte
 				}
 				g_object_unref (vba);
 			}
+			if (vba_child)
+				g_object_unref (vba_child);
 
-			/* LOOKS BROKEN */
 			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_COMPOBJ_STREAM",
 				gsf_structured_blob_read (stream), g_object_unref);
 
@@ -315,14 +319,8 @@ excel_save (GOIOContext *context, WorkbookView const *wbv, GsfOutput *output,
 		gsf_structured_blob_write (blob, outfile);
 
 	blob = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_MACROS");
-	if (blob != NULL) {
-		GsfOutput *vba = gsf_outfile_new_child (outfile, "_VBA_PROJECT_CUR", TRUE);
-		if (vba) {
-			gsf_structured_blob_write (blob, GSF_OUTFILE (vba));
-			gsf_output_close (vba);
-			g_object_unref (vba);
-		}
-	}
+	if (blob)
+		gsf_structured_blob_write (blob, outfile);
 
 	gsf_output_close (GSF_OUTPUT (outfile));
 	g_object_unref (outfile);
