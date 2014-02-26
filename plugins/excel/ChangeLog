@@ -1,5 +1,9 @@
 2014-02-26  Morten Welinder  <terra@gnome.org>
 
+	* ms-biff.c (ms_biff_query_next): Do auto-continue for
+	BIFF_MERGECELLS.  We don't generate that ourselves, but it's
+	valid.
+
 	* boot.c (excel_save): Make sure to save macros in the
 	_VBA_PROJECT_CUR directory that we loaded them from.
 	(excel_save): Restore \001Ole member too.

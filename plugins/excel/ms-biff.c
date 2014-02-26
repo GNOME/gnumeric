@@ -533,6 +533,7 @@ ms_biff_query_next (BiffQuery *q)
 	case BIFF_IMDATA:
 	case BIFF_LABEL_v0:
 	case BIFF_LABEL_v2:
+	case BIFF_MERGECELLS:
 	case BIFF_NAME_v0:
 	case BIFF_NAME_v2:
 	case BIFF_NOTE:
