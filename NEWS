@@ -39,6 +39,7 @@ Morten:
 	* Fix xlsx import of comments.
 	* Work around gtk+ criticals.  [#725142]
 	* Fix xls/biff8 export of long comments.  [#725168]
+	* Fix xls/biff8 import of comment's text attributes.  [#725168]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11

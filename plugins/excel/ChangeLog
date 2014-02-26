@@ -1,5 +1,8 @@
 2014-02-25  Morten Welinder  <terra@gnome.org>
 
+	* ms-container.c (ms_container_read_markup): Return NULL when no
+	attributes are present.  idx==0 is the normal font.
+
 	* ms-excel-write.c (excel_write_string_in_chunks): BIFF_TXO uses
 	BIFF_CONTINUE records in a non-standard way.
 
