@@ -1,5 +1,8 @@
 2014-02-25  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-write.c (excel_write_string_in_chunks): BIFF_TXO uses
+	BIFF_CONTINUE records in a non-standard way.
+
 	* ms-biff.c (ms_biff_query_dump, ms_biff_put_len_next)
 	(ms_biff_put_var_write): Write symbolic opcode name too.
 

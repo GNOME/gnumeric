@@ -4258,6 +4258,53 @@ blipinf_free (BlipInf *blip)
 	}
 }
 
+static void
+excel_write_string_in_chunks (BiffPut *bp, const char *label)
+{
+	size_t maxlen_ascii = ms_biff_max_record_len (bp) - 1;
+	size_t maxlen_nonascii = maxlen_ascii / 2;
+
+	do {
+		const char *s = label;
+		size_t thislen = 0;
+		gboolean ascii = TRUE;
+		const char *cut = NULL;
+		char *copy = NULL;
+
+		while (*s) {
+			thislen++;
+			if ((guchar)*s < 0x80) {
+				s++;
+			} else {
+				ascii = FALSE;
+				s = g_utf8_next_char (s);
+			}
+
+			if (thislen == maxlen_nonascii)
+				cut = s;
+
+			if (thislen >= (ascii ? maxlen_ascii : maxlen_nonascii))
+				break;
+		}
+
+		if (ascii || !cut)
+			cut = s;
+
+		if (*cut) {
+			copy = g_malloc (cut - label + 1);
+			memcpy (copy, label, cut - label);
+			copy[cut - label] = 0;
+		}
+
+		ms_biff_put_var_next (bp, BIFF_CONTINUE);
+		excel_write_string (bp, STR_NO_LENGTH, copy ? copy : label);
+		ms_biff_put_commit (bp);
+
+		g_free (copy);
+		label = cut;
+	} while (*label);
+}
+
 static gsize
 excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
 			   const char *label)
@@ -4299,9 +4346,7 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
 	ms_biff_put_var_write (bp, buf, txo_len);
 	ms_biff_put_commit (bp);
 
-	ms_biff_put_var_next (bp, BIFF_CONTINUE);
-	excel_write_string(bp, STR_NO_LENGTH, label);
-	ms_biff_put_commit (bp);
+	excel_write_string_in_chunks (bp, label);
 
 	ms_biff_put_var_next (bp, BIFF_CONTINUE);
 	memset (buf, 0, 8);
