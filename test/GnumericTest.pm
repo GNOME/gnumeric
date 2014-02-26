@@ -379,22 +379,30 @@ sub test_roundtrip {
     if ($resize) {
 	$file_resized =~ s{^.*/}{};
 	$file_resized =~ s/(\.gnumeric)$/-resize$1/;
-	print STDERR "$ssconvert --resize $resize '$file' '$file_resized' 2>&1 | sed -e 's/^/| /'\n" if $verbose;
-	$code = system ("$ssconvert --resize $resize '$file' '$file_resized' 2>&1 | sed -e 's/^/| /'");
+	my $cmd = "$ssconvert --resize $resize '$file' '$file_resized'";
+	print STDERR "# $cmd\n" if $verbose;
+	$code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
 	&junkfile ($file_resized) unless $keep;
     }
-
+    
     my $tmp1 = "$tmp.$newext";
     &junkfile ($tmp1) unless $keep;
-    print "$ssconvert -T $format '$file_resized' '$tmp1' 2>&1 | sed -e 's/^/| /'\n" if $verbose;
-    $code = system ("$ssconvert -T $format '$file_resized' '$tmp1' 2>&1 | sed -e 's/^/| /'");
-    &system_failure ($ssconvert, $code) if $code;
+    {
+	my $cmd = "$ssconvert -T $format '$file_resized' '$tmp1'";
+	print "# $cmd\n" if $verbose;
+	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
+	&system_failure ($ssconvert, $code) if $code;
+    }
 
     my $tmp2 = "$tmp-new.$ext";
     &junkfile ($tmp2) unless $keep;
-    $code = system ("$ssconvert '$tmp1' '$tmp2' 2>&1 | sed -e 's/^/| /'");
-    &system_failure ($ssconvert, $code) if $code;
+    {
+	my $cmd = "$ssconvert '$tmp1' '$tmp2'";
+	print "# $cmd\n" if $verbose;
+	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
+	&system_failure ($ssconvert, $code) if $code;
+    }
 
     my $tmp_xml = "$tmp.xml";
     &junkfile ($tmp_xml) unless $keep;
