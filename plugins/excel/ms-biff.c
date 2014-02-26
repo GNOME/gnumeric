@@ -52,7 +52,12 @@ destroy_sensitive (void *p, size_t len)
 void
 ms_biff_query_dump (BiffQuery *q)
 {
-	g_print ("Opcode 0x%x length %d malloced? %d\nData:\n", q->opcode, q->length, q->data_malloced);
+	const char *opname = biff_opcode_name (q->opcode);
+	g_print ("Opcode 0x%x (%s) length %d malloced? %d\nData:\n",
+		 q->opcode,
+		 opname ? opname : "?",
+		 q->length,
+		 q->data_malloced);
 	if (q->length > 0)
 		gsf_mem_dump (q->data, q->length);
 /*	dump_stream (q->output); */
@@ -496,7 +501,6 @@ ms_biff_query_next (BiffQuery *q)
 		q->non_decrypted_data = q->data;
 
 #if BIFF_DEBUG > 2
-	g_printerr ("Biff read code 0x%x, length %d\n", q->opcode, q->length);
 	ms_biff_query_dump (q);
 #endif
 
@@ -538,6 +542,12 @@ ms_biff_query_next (BiffQuery *q)
 		auto_continue = TRUE;
 		break;
 	case BIFF_CONTINUE:
+
+	case BIFF_TXO:
+		/*
+		 * The continuation of the string part seems to repeat the
+		 * unicode marker so we clearly cannot just concatenate.
+		 */
 	default:
 		auto_continue = FALSE;
 	}
@@ -657,7 +667,11 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 	g_return_val_if_fail (bp->len_fixed == -1, NULL);
 
 #if BIFF_DEBUG > 0
-	g_printerr ("Biff put len 0x%x\n", opcode);
+	{
+		const char *opname = biff_opcode_name (opcode);
+		g_printerr ("Biff put len 0x%x (%s)\n",
+			    opcode, opname ? opname : "?");
+	}
 #endif
 
 	bp->len_fixed  = +1;
@@ -677,7 +691,11 @@ ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 	g_return_if_fail (bp->len_fixed == -1);
 
 #if BIFF_DEBUG > 0
-	g_printerr ("Biff put var 0x%x\n", opcode);
+	{
+		const char *opname = biff_opcode_name (opcode);
+		g_printerr ("Biff put var 0x%x (%s)\n",
+			    opcode, opname ? opname : "?");
+	}
 #endif
 
 	bp->len_fixed  = 0;
