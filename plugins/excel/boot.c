@@ -301,9 +301,16 @@ excel_save (GOIOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	blob = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_COMPOBJ");
 	if (blob != NULL)
 		gsf_structured_blob_write (blob, outfile);
+
 	blob = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_MACROS");
-	if (blob != NULL)
-		gsf_structured_blob_write (blob, outfile);
+	if (blob != NULL) {
+		GsfOutput *vba = gsf_outfile_new_child (outfile, "_VBA_PROJECT_CUR", TRUE);
+		if (vba) {
+			gsf_structured_blob_write (blob, GSF_OUTFILE (vba));
+			gsf_output_close (vba);
+			g_object_unref (vba);
+		}
+	}
 
 	gsf_output_close (GSF_OUTPUT (outfile));
 	g_object_unref (outfile);
@@ -311,7 +318,7 @@ excel_save (GOIOContext *context, WorkbookView const *wbv, GsfOutput *output,
 
 void
 excel_dsf_file_save (GOFileSaver const *fs, GOIOContext *context,
-		       WorkbookView const *wbv, GsfOutput *output)
+		     WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, TRUE, TRUE);
 }
