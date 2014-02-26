@@ -220,12 +220,20 @@ excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *conte
 			}
 
 			/* LOOKS BROKEN */
-			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_COMPOBJ",
+			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_COMPOBJ_STREAM",
 				gsf_structured_blob_read (stream), g_object_unref);
+
 			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_MACROS",
 				gsf_structured_blob_read (macros), g_object_unref);
 			g_object_unref (macros);
 		}
+		g_object_unref (stream);
+	}
+
+	stream = gsf_infile_child_by_name (ole, "\01Ole");
+	if (stream) {
+		g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_OLE_STREAM",
+					gsf_structured_blob_read (stream), g_object_unref);
 		g_object_unref (stream);
 	}
 
@@ -298,7 +306,11 @@ excel_save (GOIOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	}
 
 	/* restore the macros we loaded */
-	blob = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_COMPOBJ");
+	blob = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_COMPOBJ_STREAM");
+	if (blob != NULL)
+		gsf_structured_blob_write (blob, outfile);
+
+	blob = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_OLE_STREAM");
 	if (blob != NULL)
 		gsf_structured_blob_write (blob, outfile);
 

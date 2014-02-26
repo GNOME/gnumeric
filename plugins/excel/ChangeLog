@@ -2,6 +2,7 @@
 
 	* boot.c (excel_save): Make sure to save macros in the
 	_VBA_PROJECT_CUR directory that we loaded them from.
+	(excel_save): Restore \001Ole member too.
 
 2014-02-25  Morten Welinder  <terra@gnome.org>
 
