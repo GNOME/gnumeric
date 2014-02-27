@@ -1,3 +1,8 @@
+2014-02-27  Morten Welinder  <terra@gnome.org>
+
+	* GnumericTest.pm: Make it possible to run tests without being in
+	the test directory.
+
 2014-02-19  Morten Welinder  <terra@gnome.org>
 
 	* GnumericTest.pm (test_roundtrip): Switch to named arguments

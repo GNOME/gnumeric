@@ -17,6 +17,10 @@ $| = 1;
 
 use vars qw($topsrc $top_builddir $samples $PERL $verbose);
 use vars qw($ssconvert $ssindex $sstest);
+use vars qw($normalize_gnumeric);
+
+$PERL = $Config{'perlpath'};
+$PERL .= $Config{'_exe'} if $^O ne 'VMS' && $PERL !~ m/$Config{'_exe'}$/i;
 
 $topsrc = $0;
 $topsrc =~ s|/[^/]+$|/..|;
@@ -27,9 +31,8 @@ $samples = "$topsrc/samples"; $samples =~ s{^\./}{};
 $ssconvert = "$top_builddir/src/ssconvert";
 $ssindex = "$top_builddir/src/ssindex";
 $sstest = "$top_builddir/src/sstest";
+$normalize_gnumeric = "$PERL $topsrc/test/normalize-gnumeric";
 $verbose = 0;
-$PERL = $Config{'perlpath'};
-$PERL .= $Config{'_exe'} if $^O ne 'VMS' && $PERL !~ m/$Config{'_exe'}$/i;
 
 # -----------------------------------------------------------------------------
 
@@ -262,7 +265,7 @@ sub test_importer {
     my $code = system ("$ssconvert '$file' '$tmp' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
-    my $htxt = `zcat -f '$tmp' | $PERL normalize-gnumeric | sha1sum`;
+    my $htxt = `zcat -f '$tmp' | $normalize_gnumeric | sha1sum`;
     my $newsha1 = lc substr ($htxt, 0, 40);
     die "SHA-1 failure\n" unless $newsha1 =~ /^[0-9a-f]{40}$/;
 
@@ -406,13 +409,13 @@ sub test_roundtrip {
 
     my $tmp_xml = "$tmp.xml";
     &junkfile ($tmp_xml) unless $keep;
-    $code = system ("zcat -f '$file_resized' | $PERL normalize-gnumeric | $filter1 >'$tmp_xml'");
+    $code = system ("zcat -f '$file_resized' | $normalize_gnumeric | $filter1 >'$tmp_xml'");
     &system_failure ('zcat', $code) if $code;
 
     my $tmp2_xml = "$tmp-new.xml";
     &junkfile ($tmp2_xml) unless $keep;
-    # print STDERR "zcat -f '$tmp2' | $PERL normalize-gnumeric | $filter2 >'$tmp2_xml'\n";
-    $code = system ("zcat -f '$tmp2' | $PERL normalize-gnumeric | $filter2 >'$tmp2_xml'");
+    # print STDERR "zcat -f '$tmp2' | $normalize_gnumeric | $filter2 >'$tmp2_xml'\n";
+    $code = system ("zcat -f '$tmp2' | $normalize_gnumeric | $filter2 >'$tmp2_xml'");
     &system_failure ('zcat', $code) if $code;
 
     $code = system ('diff', '-u', $tmp_xml, $tmp2_xml);
