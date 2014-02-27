@@ -1,3 +1,8 @@
+2014-02-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_ooo_settings): write frozen panes
+	info
+
 2014-02-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (write_row_style): write visibility
