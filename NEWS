@@ -10,7 +10,7 @@ Andreas:
 	* Fix ODF pagesetup roundtrip issue. [#724516]
 	* Fix ODF pattern roundtrip issue. [#724898]
 	* Export row and column visibility to ODF. [#725115]
-	* Export frozen panes info to ODF.
+	* Export frozen panes info to and import from ODF. [#725228]
 
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]

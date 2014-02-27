@@ -10264,7 +10264,7 @@ odf_config_item (GsfXMLIn *xin, xmlChar const **attrs)
 		{"double", G_TYPE_INVALID},
 		{"int", G_TYPE_INT},
 		{"long", G_TYPE_LONG},
-		{"short", G_TYPE_INVALID},
+		{"short", G_TYPE_INT},
 		{"string", G_TYPE_STRING},
 		{ NULL,	0},
 	};
@@ -10410,8 +10410,14 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 	if (G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE)) {
 		GHashTable *hash = g_value_get_boxed (val);
 		Sheet *sheet = workbook_sheet_by_name (state->pos.wb, key);
+
 		if (hash != NULL && sheet != NULL) {
+			SheetView *sv = sheet_get_view (sheet, state->wb_view);
+			GnmCellPos pos;
 			GValue *item;
+			int pos_left = 0, pos_bottom = 0;
+			int vsm = 0, hsm = 0, vsp = -1, hsp = -1;
+
 			if (!odf_has_gnm_foreign (state)) {
 				item = g_hash_table_lookup (hash, "TabColor");
 				if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
@@ -10423,9 +10429,6 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 				if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
 					GValue *itemy = g_hash_table_lookup (hash, "CursorPositionY");
 					if (itemy != NULL && G_VALUE_HOLDS(itemy, G_TYPE_INT)) {
-						GnmCellPos pos;
-						SheetView *sv
-							= sheet_get_view (sheet, state->wb_view);
 						GnmRange r;
 						pos.col = g_value_get_int (item);
 						pos.row = g_value_get_int (itemy);
@@ -10440,19 +10443,40 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 					}
 				}
 			}
-			item = g_hash_table_lookup (hash, "PositionLeft");
-			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
-				GValue *itemy = g_hash_table_lookup (hash, "PositionBottom");
-				if (itemy != NULL && G_VALUE_HOLDS(itemy, G_TYPE_INT)) {
-					SheetView *sv = sheet_get_view (sheet, state->wb_view);
-					GnmCellPos pos;
-					pos.col = g_value_get_int (item);
-					pos.row = g_value_get_int (itemy);
-					sv_set_initial_top_left
-						(sv, pos.col, pos.row);
+
+			item = g_hash_table_lookup (hash, "HorizontalSplitMode");
+			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
+				vsm = g_value_get_int (item);
+			item = g_hash_table_lookup (hash, "VerticalSplitMode");
+			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
+				hsm = g_value_get_int (item);
+
+			if (vsm > 0 || hsm > 0)  {
+				item = g_hash_table_lookup (hash, "VerticalSplitPosition");
+				if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
+					vsp = g_value_get_int (item);
+				item = g_hash_table_lookup (hash, "HorizontalSplitPosition");
+				if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
+					hsp = g_value_get_int (item);
+				if (vsp > 0 || hsp > 0) {
+					GnmCellPos fpos = {0, 0};
+					pos.col = hsp;
+					pos.row = vsp;
+					sv_freeze_panes (sv, &fpos, &pos);
 				}
+					
+				item = g_hash_table_lookup (hash, "PositionRight");
+			} else {
+				item = g_hash_table_lookup (hash, "PositionLeft");
 			}
-			
+			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
+				pos_left = g_value_get_int (item);
+
+			item = g_hash_table_lookup (hash, "PositionBottom");
+			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
+				pos_bottom = g_value_get_int (item);
+
+			sv_set_initial_top_left (sv, pos_left, pos_bottom);		
 		}
 	}
 }

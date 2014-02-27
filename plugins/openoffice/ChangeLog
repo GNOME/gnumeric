@@ -1,3 +1,8 @@
+2014-02-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_config_item): read shorts
+	(odf_apply_ooo_table_config): handle frozen panes info
+
 2014-02-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_ooo_settings): write frozen panes
