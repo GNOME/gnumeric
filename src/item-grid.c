@@ -516,11 +516,18 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 
 	/* Fill entire region with default background (even past far edge) */
 	cairo_save (cr);
-	gtk_render_background (goc_item_get_style_context (item),
-			       cr,
-			       x0 - canvas->scroll_x1 * scale,
-			       y0 - canvas->scroll_y1 * scale,
-			       width, height);
+	if (canvas->direction == GOC_DIRECTION_LTR)
+		gtk_render_background (goc_item_get_style_context (item),
+				       cr,
+				       x0 - canvas->scroll_x1 * scale,
+				       y0 - canvas->scroll_y1 * scale,
+				       width, height);
+	else
+		gtk_render_background (goc_item_get_style_context (item),
+				       cr,
+				       canvas->width - x0 + canvas->scroll_x1 * scale - width,
+				       y0 - canvas->scroll_y1 * scale,
+				       width, height);
 	cairo_restore (cr);
 
 	/* Get ordered list of merged regions */

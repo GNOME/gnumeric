@@ -1,3 +1,8 @@
+2014-02-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-grid.c (item_grid_draw_region): fix background filling for
+	rtl sheets. [#725276]
+
 2014-02-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (kill_popup_menu): Avoid criticals inside gtk+.

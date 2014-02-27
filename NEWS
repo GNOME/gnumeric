@@ -14,6 +14,7 @@ Andreas:
 
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]
+	* Fix background filling for rtl sheets. [#725276]
 
 Morten:
 	* Fix BIFF7 import of long strings.  [#724399]
