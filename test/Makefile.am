@@ -80,6 +80,7 @@ TESTS =	t1000-statfuns.pl			\
 	t6506-cell-comments.pl			\
 	t6507-split-panes.pl			\
 	t6508-sheet-formatting.pl		\
+	t6509-validation.pl			\
 	t7000-goal-seek.pl			\
 	t7100-solver-blend.pl			\
 	t7101-solver-afiro.pl			\
