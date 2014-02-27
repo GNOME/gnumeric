@@ -66,6 +66,7 @@ TESTS =	t1000-statfuns.pl			\
 	t6002-objs.pl				\
 	t6003-lookfuns.pl			\
 	t6004-finfuns.pl			\
+	t6050-vba-roundtrip.pl			\
 	t6100-statfuns-ods.pl			\
 	t6101-mathfuns-ods.pl			\
 	t6102-objs-ods.pl			\
