@@ -41,5 +41,4 @@ my $xls_greek_filter = "$PERL -p -C7 -e '1 while (s{\\b((Title|Message)=\".*Gree
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:xlsx',
 		 'ext' => "xlsx",
-		 'resize' => '1048576x16384',
-		 'ignore_failure' => 1);
+		 'resize' => '1048576x16384');
