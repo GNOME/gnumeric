@@ -1,5 +1,8 @@
 2014-02-28  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-control-gui.c (resize_pane_pos): If row/column canvas
+	is not visible, ignore them.
+
 	* src/ssdiff.c (diff_sheets_attrs): Detect more sheet attribute
 	changes.
 

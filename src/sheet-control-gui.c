@@ -1247,17 +1247,19 @@ resize_pane_pos (SheetControlGUI *scg, GtkPaned *p,
 		 int *colrow_result, gint64 *guide_pos)
 {
 	ColRowInfo const *cri;
-	GnmPane const  *pane = scg_pane (scg, 0);
-	gboolean const    vert = (p == scg->hpane);
+	GnmPane const *pane = scg_pane (scg, 0);
+	gboolean const vert = (p == scg->hpane);
 	int colrow, handle;
 	gint64 pos = gtk_paned_get_position (p);
 
 	gtk_widget_style_get (GTK_WIDGET (p), "handle-size", &handle, NULL);
 	pos += handle / 2;
 	if (vert) {
-		GtkAllocation ca;
-		gtk_widget_get_allocation (GTK_WIDGET (scg->pane[0]->row.canvas), &ca);
-		pos -= ca.width;
+		if (gtk_widget_get_visible (GTK_WIDGET (pane->row.canvas))) {
+			GtkAllocation ca;
+			gtk_widget_get_allocation (GTK_WIDGET (pane->row.canvas), &ca);
+			pos -= ca.width;
+		}
 		if (scg->pane[1]) {
 			GtkAllocation pa;
 			gtk_widget_get_allocation (GTK_WIDGET (scg->pane[1]),
@@ -1271,10 +1273,11 @@ resize_pane_pos (SheetControlGUI *scg, GtkPaned *p,
 		pos += pane->first_offset.x;
 		colrow = gnm_pane_find_col (pane, pos, guide_pos);
 	} else {
-		GtkAllocation ca;
-		gtk_widget_get_allocation (GTK_WIDGET (scg->pane[0]->col.canvas), &ca);
-
-		pos -= ca.height;
+		if (gtk_widget_get_visible (GTK_WIDGET (pane->col.canvas))) {
+			GtkAllocation ca;
+			gtk_widget_get_allocation (GTK_WIDGET (pane->col.canvas), &ca);
+			pos -= ca.height;
+		}
 		if (scg->pane[3]) {
 			GtkAllocation pa;
 			gtk_widget_get_allocation (GTK_WIDGET (scg->pane[3]),
