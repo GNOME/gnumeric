@@ -45,6 +45,7 @@ Morten:
 	* Fix xls/biff8 import of comment's text attributes.  [#725168]
 	* Improve the xls macro-roundtrip situation.  [#725220]
 	* Improve ssdiff for sheet attributes.
+	* Fix split pane problem.  [#725375]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11

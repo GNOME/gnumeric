@@ -2,6 +2,8 @@
 
 	* src/sheet-control-gui.c (resize_pane_pos, set_resize_pane_pos):
 	If row/column canvas is not visible, ignore them.
+	(scg_gtk_paned_set_position): Don't allow negative position.
+	Fixes #725375.
 
 	* src/ssdiff.c (diff_sheets_attrs): Detect more sheet attribute
 	changes.

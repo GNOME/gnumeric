@@ -1306,6 +1306,9 @@ resize_pane_pos (SheetControlGUI *scg, GtkPaned *p,
 static void
 scg_gtk_paned_set_position (SheetControlGUI *scg, GtkPaned *p, int pane_pos)
 {
+	/* A negative position is special to GtkPaned.  */
+	pane_pos = MAX (pane_pos, 0);
+
 	if (p == scg->vpane)
 		scg->vpos = pane_pos;
 	else
