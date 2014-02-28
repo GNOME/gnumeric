@@ -713,18 +713,23 @@ odf_write_table_style (GnmOOExport *state, Sheet const *sheet)
 		sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "writing-mode",
 		sheet->text_is_rtl ? "rl-tb" : "lr-tb");
-	if (state->with_extension && state->odf_version < 103) {
-		if (sheet->tab_color && !sheet->tab_color->is_auto) {
-			gnm_xml_out_add_hex_color (state->xml, GNMSTYLE "tab-color",
-						   sheet->tab_color, 1);
-			gnm_xml_out_add_hex_color (state->xml, TABLEOOO "tab-color",
-						   sheet->tab_color, 1);
+	if (state->with_extension) {
+		if (state->odf_version < 103) {
+			if (sheet->tab_color && !sheet->tab_color->is_auto) {
+				gnm_xml_out_add_hex_color (state->xml, GNMSTYLE "tab-color",
+							   sheet->tab_color, 1);
+				gnm_xml_out_add_hex_color (state->xml, TABLEOOO "tab-color",
+							   sheet->tab_color, 1);
+			}
+			if (sheet->tab_text_color && !sheet->tab_text_color->is_auto) {
+				gnm_xml_out_add_hex_color (state->xml,
+							   GNMSTYLE "tab-text-color",
+							   sheet->tab_text_color, 1);
+			}
 		}
-		if (sheet->tab_text_color && !sheet->tab_text_color->is_auto) {
-			gnm_xml_out_add_hex_color (state->xml,
-						   GNMSTYLE "tab-text-color",
-						   sheet->tab_text_color, 1);
-		}
+		odf_add_bool (state->xml, GNMSTYLE "display-formulas", sheet->display_formulas);
+		odf_add_bool (state->xml, GNMSTYLE "display-col-header", !sheet->hide_col_header);
+		odf_add_bool (state->xml, GNMSTYLE "display-row-header", !sheet->hide_row_header);
 	}
 	if (state->odf_version >= 103)
 		gnm_xml_out_add_hex_color (state->xml, TABLE "tab-color",
@@ -5923,7 +5928,20 @@ odf_write_ooo_settings (GnmOOExport *state)
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ShowGrid");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "boolean");
-		gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "true");
+		odf_add_bool (state->xml, NULL, !sheet->hide_grid);
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "HasColumnRowHeaders");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "boolean");
+		odf_add_bool (state->xml, NULL, 
+			      (!sheet->hide_col_header) || !sheet->hide_row_header);
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ShowZeroValues");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "boolean");
+		odf_add_bool (state->xml, NULL, !sheet->hide_zero);
 		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 
 		if (sv_is_frozen (sv)) {

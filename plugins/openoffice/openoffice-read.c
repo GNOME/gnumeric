@@ -322,6 +322,9 @@ typedef struct {
 	GOColor tab_color;
 	gboolean tab_text_color_set;
 	GOColor tab_text_color;
+	gboolean display_formulas;
+	gboolean hide_col_header;
+	gboolean hide_row_header;
 	char *master_page_name;
 } OOSheetStyle;
 
@@ -2235,6 +2238,9 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 			g_object_set (state->pos.sheet,
 				      "visibility", style->visibility,
 				      "text-is-rtl", style->is_rtl,
+				      "display-formulas", style->display_formulas,
+				      "display-column-header", !style->hide_col_header,
+				      "display-row-header", !style->hide_row_header,
 				      NULL);
 			if (style->tab_color_set) {
 				GnmColor *color
@@ -6352,8 +6358,8 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
 	OOSheetStyle *style = state->cur_style.sheets;
-	gboolean tmp_i;
-	int tmp_b;
+	int tmp_i;
+	gboolean tmp_b;
 
 	g_return_if_fail (style != NULL);
 
@@ -6364,6 +6370,14 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 		if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "display", &tmp_b)) {
 			if (!tmp_b)
 				style->visibility = GNM_SHEET_VISIBILITY_HIDDEN;
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-formulas", 
+					 &style->display_formulas)) {
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-col-header", 
+					 &tmp_b)) {
+			style->hide_col_header = !tmp_b;
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-row-header", 
+					 &tmp_b)) {
+			style->hide_row_header = !tmp_b;
 		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "writing-mode", modes, &tmp_i))
 			style->is_rtl = tmp_i;
 		else if ((!style->tab_color_set &&
@@ -10442,7 +10456,21 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 							 &pos);
 					}
 				}
+				item = g_hash_table_lookup (hash, "HasColumnRowHeaders");
+				if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_BOOLEAN)) {
+					gboolean val = g_value_get_boolean (item);
+					g_object_set (sheet, "display-row-header", val, NULL);
+					g_object_set (sheet, "display-column-header", val, NULL);
+				}
 			}
+
+			item = g_hash_table_lookup (hash, "ShowGrid");
+			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_BOOLEAN))
+				g_object_set (sheet, "display-grid", g_value_get_boolean (item), NULL);
+
+			item = g_hash_table_lookup (hash, "ShowZeroValues");
+			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_BOOLEAN))
+				g_object_set (sheet, "display-zeros", g_value_get_boolean (item), NULL);
 
 			item = g_hash_table_lookup (hash, "HorizontalSplitMode");
 			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
