@@ -818,6 +818,13 @@ diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 	g_ptr_array_free (new_cells, TRUE);
 }
 
+#define DO_INT(field,attr)						\
+	do {								\
+		if (old_sheet->field != new_sheet->field)		\
+			state->actions->sheet_attr_int_changed		\
+				(state, attr, old_sheet->field, new_sheet->field); \
+} while (0)
+
 static void
 diff_sheets_attrs (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 {
@@ -830,7 +837,20 @@ diff_sheets_attrs (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 	if (os->max_rows != ns->max_rows)
 		state->actions->sheet_attr_int_changed
 			(state, "Rows", os->max_rows, ns->max_rows);
+
+	DO_INT (display_formulas, "DisplayFormulas");
+	DO_INT (hide_zero, "HideZero");
+	DO_INT (hide_grid, "HideGrid");
+	DO_INT (hide_col_header, "HideColHeader");
+	DO_INT (hide_row_header, "HideRowHeader");
+	DO_INT (display_outlines, "DisplayOutlines");
+	DO_INT (outline_symbols_below, "OutlineSymbolsBelow");
+	DO_INT (outline_symbols_right, "OutlineSymbolsRight");
+	DO_INT (text_is_rtl, "RTL_Layout");
+	DO_INT (is_protected, "Protected");
+	DO_INT (visibility, "Visibility");
 }
+#undef DO_INT
 
 struct cb_diff_sheets_styles {
 	GnmDiffState *state;

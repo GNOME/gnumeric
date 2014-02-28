@@ -1,3 +1,8 @@
+2014-02-28  Morten Welinder  <terra@gnome.org>
+
+	* src/ssdiff.c (diff_sheets_attrs): Detect more sheet attribute
+	changes.
+
 2014-02-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-grid.c (item_grid_draw_region): fix background filling for

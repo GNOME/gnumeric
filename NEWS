@@ -44,6 +44,7 @@ Morten:
 	* Fix xls/biff8 export of long comments.  [#725168]
 	* Fix xls/biff8 import of comment's text attributes.  [#725168]
 	* Improve the xls macro-roundtrip situation.  [#725220]
+	* Improve ssdiff for sheet attributes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
