@@ -212,12 +212,6 @@ scg_redraw_range (SheetControl *sc, GnmRange const *r)
 	gnm_app_recalc_finish ();
 }
 
-/* A rough guess of the trade off point between of redrawing all
- * and calculating the redraw size
- */
-#define COL_HEURISTIC	20
-#define ROW_HEURISTIC	50
-
 static void
 scg_redraw_headers (SheetControl *sc,
 		    gboolean const col, gboolean const row,
@@ -227,6 +221,13 @@ scg_redraw_headers (SheetControl *sc,
 	GnmPane *pane;
 	int i;
 	double scale;
+
+	/*
+	 * A rough guess of the trade off point between of redrawing all
+	 * and calculating the redraw size
+	 */
+	const int COL_HEURISTIC = 20;
+	const int ROW_HEURISTIC = 50;
 
 	for (i = scg->active_panes; i-- > 0 ; ) {
 		if (NULL == (pane = scg->pane[i]))
@@ -357,82 +358,83 @@ scg_resize (SheetControlGUI *scg, G_GNUC_UNUSED gboolean force_scroll)
 	GnmPane *pane = scg_pane (scg, 0);
 	int h, w, btn_h, btn_w, tmp;
 
-	if (pane) {
-		/* Recalibrate the starting offsets */
-		pane->first_offset.x = scg_colrow_distance_get (scg,
-			TRUE, 0, pane->first.col);
-		pane->first_offset.y = scg_colrow_distance_get (scg,
-			FALSE, 0, pane->first.row);
+	if (!pane)
+		return;
 
-		/* resize Pane[0] headers */
-		h = gnm_item_bar_calc_size (scg->pane[0]->col.item);
-		btn_h = h - gnm_item_bar_indent (scg->pane[0]->col.item);
-		w = gnm_item_bar_calc_size (scg->pane[0]->row.item);
-		btn_w = w - gnm_item_bar_indent (scg->pane[0]->row.item);
-		gtk_widget_set_size_request (scg->select_all_btn, btn_w, btn_h);
-		gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0]->col.canvas), -1, h);
-		gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0]->row.canvas), w, -1);
+	/* Recalibrate the starting offsets */
+	pane->first_offset.x = scg_colrow_distance_get (scg,
+		TRUE, 0, pane->first.col);
+	pane->first_offset.y = scg_colrow_distance_get (scg,
+		FALSE, 0, pane->first.row);
 
-		tmp = gnm_item_bar_group_size (scg->pane[0]->col.item,
-			sheet->cols.max_outline_level);
-		scg_setup_group_buttons (scg, sheet->cols.max_outline_level,
-			scg->pane[0]->col.item, TRUE,
-			tmp, tmp, scg->col_group.buttons, scg->col_group.button_box);
-		scg_setup_group_buttons (scg, sheet->rows.max_outline_level,
-			scg->pane[0]->row.item, FALSE,
-			-1, btn_h, scg->row_group.buttons, scg->row_group.button_box);
+	/* resize Pane[0] headers */
+	h = gnm_item_bar_calc_size (scg->pane[0]->col.item);
+	btn_h = h - gnm_item_bar_indent (scg->pane[0]->col.item);
+	w = gnm_item_bar_calc_size (scg->pane[0]->row.item);
+	btn_w = w - gnm_item_bar_indent (scg->pane[0]->row.item);
+	gtk_widget_set_size_request (scg->select_all_btn, btn_w, btn_h);
+	gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0]->col.canvas), -1, h);
+	gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0]->row.canvas), w, -1);
 
-		if (scg->active_panes != 1 && sv_is_frozen (scg_view (scg))) {
-			GnmCellPos const *tl = &scg_view (scg)->frozen_top_left;
-			GnmCellPos const *br = &scg_view (scg)->unfrozen_top_left;
-			int const l = scg_colrow_distance_get (scg, TRUE,
-				0, tl->col);
-			int const r = scg_colrow_distance_get (scg, TRUE,
-				tl->col, br->col) + l;
-			int const t = scg_colrow_distance_get (scg, FALSE,
-				0, tl->row);
-			int const b = scg_colrow_distance_get (scg, FALSE,
-				tl->row, br->row) + t;
-			int i;
+	tmp = gnm_item_bar_group_size (scg->pane[0]->col.item,
+				       sheet->cols.max_outline_level);
+	scg_setup_group_buttons (scg, sheet->cols.max_outline_level,
+				 scg->pane[0]->col.item, TRUE,
+				 tmp, tmp, scg->col_group.buttons, scg->col_group.button_box);
+	scg_setup_group_buttons (scg, sheet->rows.max_outline_level,
+				 scg->pane[0]->row.item, FALSE,
+				 -1, btn_h, scg->row_group.buttons, scg->row_group.button_box);
 
-			/* pane 0 has already been done */
-			for (i = scg->active_panes; i-- > 1 ; ) {
-				GnmPane *pane = scg->pane[i];
-				if (NULL != pane) {
-					pane->first_offset.x = scg_colrow_distance_get (
-						scg, TRUE, 0, pane->first.col);
-					pane->first_offset.y = scg_colrow_distance_get (
-						scg, FALSE, 0, pane->first.row);
-				}
+	if (scg->active_panes != 1 && sv_is_frozen (scg_view (scg))) {
+		GnmCellPos const *tl = &scg_view (scg)->frozen_top_left;
+		GnmCellPos const *br = &scg_view (scg)->unfrozen_top_left;
+		int const l = scg_colrow_distance_get (scg, TRUE,
+						       0, tl->col);
+		int const r = scg_colrow_distance_get (scg, TRUE,
+						       tl->col, br->col) + l;
+		int const t = scg_colrow_distance_get (scg, FALSE,
+						       0, tl->row);
+		int const b = scg_colrow_distance_get (scg, FALSE,
+						       tl->row, br->row) + t;
+		int i;
+
+		/* pane 0 has already been done */
+		for (i = scg->active_panes; i-- > 1 ; ) {
+			GnmPane *pane = scg->pane[i];
+			if (NULL != pane) {
+				pane->first_offset.x = scg_colrow_distance_get (
+					scg, TRUE, 0, pane->first.col);
+				pane->first_offset.y = scg_colrow_distance_get (
+					scg, FALSE, 0, pane->first.row);
 			}
-
-			if (scg->pane[1]) {
-				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]), r - l, -1);
-				/* The item_bar_calcs should be equal */
-				/* FIXME : The canvas gets confused when the initial scroll
-				 * region is set too early in its life cycle.
-				 * It likes it to be at the origin, we can live with that for now.
-				 * However, we really should track the bug eventually.
-				 */
-				h = gnm_item_bar_calc_size (scg->pane[1]->col.item);
-				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]->col.canvas), r - l, h);
-			}
-
-			if (scg->pane[3]) {
-				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]), -1,    b - t);
-				/* The item_bar_calcs should be equal */
-				w = gnm_item_bar_calc_size (scg->pane[3]->row.item);
-				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]->row.canvas), w, b - t);
-			}
-
-			if (scg->pane[2])
-				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[2]), r - l, b - t);
 		}
 
-		SCG_FOREACH_PANE (scg, pane, {
-			gnm_pane_reposition_cursors (pane);
-		});
+		if (scg->pane[1]) {
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]), r - l, -1);
+			/* The item_bar_calcs should be equal */
+			/* FIXME : The canvas gets confused when the initial scroll
+			 * region is set too early in its life cycle.
+			 * It likes it to be at the origin, we can live with that for now.
+			 * However, we really should track the bug eventually.
+			 */
+			h = gnm_item_bar_calc_size (scg->pane[1]->col.item);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]->col.canvas), r - l, h);
+		}
+
+		if (scg->pane[3]) {
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]), -1,    b - t);
+			/* The item_bar_calcs should be equal */
+			w = gnm_item_bar_calc_size (scg->pane[3]->row.item);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]->row.canvas), w, b - t);
+		}
+
+		if (scg->pane[2])
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[2]), r - l, b - t);
 	}
+
+	SCG_FOREACH_PANE (scg, pane, {
+			gnm_pane_reposition_cursors (pane);
+	});
 }
 
 static void
@@ -1316,22 +1318,30 @@ static void
 set_resize_pane_pos (SheetControlGUI *scg, GtkPaned *p)
 {
 	int handle_size, pane_pos, size;
-	GtkAllocation alloc;
+	GnmPane *pane0 = scg->pane[0];
 
-	if (!scg->pane[0])
+	if (!pane0)
 		return;
 
 	if (p == scg->vpane) {
-		gtk_widget_get_allocation (GTK_WIDGET (scg->pane[0]->col.canvas), &alloc);
-		pane_pos = alloc.height;
+		if (gtk_widget_get_visible (GTK_WIDGET (pane0->col.canvas))) {
+			GtkAllocation alloc;
+			gtk_widget_get_allocation (GTK_WIDGET (pane0->col.canvas), &alloc);
+			pane_pos = alloc.height;
+		} else
+			pane_pos = 0;
 		if (scg->pane[3]) {
 			gtk_widget_get_size_request (
 				GTK_WIDGET (scg->pane[3]), NULL, &size);
 			pane_pos += size;
 		}
 	} else {
-		gtk_widget_get_allocation (GTK_WIDGET (scg->pane[0]->row.canvas), &alloc);
-		pane_pos = alloc.width;
+		if (gtk_widget_get_visible (GTK_WIDGET (pane0->row.canvas))) {
+			GtkAllocation alloc;
+			gtk_widget_get_allocation (GTK_WIDGET (pane0->row.canvas), &alloc);
+			pane_pos = alloc.width;
+		} else
+			pane_pos = 0;
 		if (scg->pane[1]) {
 			gtk_widget_get_size_request (
 				GTK_WIDGET (scg->pane[1]), &size, NULL);
