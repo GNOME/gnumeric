@@ -1,3 +1,9 @@
+2014-03-01  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_sheet_insert_val): Don't set value
+	format.  We already the the full style for the cell in
+	excel_set_xf.  Fixes #725453.
+
 2014-02-28  Morten Welinder  <terra@gnome.org>
 
 	* crypt-md4.c: Add missing include.  (From Gentoo.)

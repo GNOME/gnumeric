@@ -3083,19 +3083,12 @@ excel_sheet_data_table (ExcelReadSheet const *esheet,
 }
 
 static void
-excel_sheet_insert_val (ExcelReadSheet *esheet, BiffQuery *q,
-			GnmValue *v)
+excel_sheet_insert_val (ExcelReadSheet *esheet, BiffQuery *q, GnmValue *v)
 {
 	GnmCell *cell = excel_cell_fetch (q, esheet);
 
 	if (cell) {
-		BiffXFData const *xf = excel_set_xf (esheet, q);
-
-		if (xf != NULL && xf->is_simple_format &&
-		    VALUE_FMT (v) == NULL &&
-		    !VALUE_IS_EMPTY (v) &&  /* We cannot set formats for */
-		    !VALUE_IS_BOOLEAN (v)) /* singetons. */
-			value_set_fmt (v, xf->style_format);
+		(void)excel_set_xf (esheet, q);
 		gnm_cell_set_value (cell, v);
 	} else
 		value_release (v);
@@ -6451,6 +6444,7 @@ excel_read_LABELSST (BiffQuery *q, ExcelReadSheet *esheet)
 		if (NULL != str) {
 			go_string_ref (str);
 			v = value_new_string_str (str);
+			d (2, g_printerr ("str=%s\n", str->str););
 		} else
 			v = value_new_string ("");
 		if (esheet->container.importer->sst[i].markup != NULL)
@@ -6504,17 +6498,29 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_DIMENSIONS_v2: excel_read_DIMENSIONS (q, esheet); break;
 
 		case BIFF_BLANK_v0:
-		case BIFF_BLANK_v2: excel_set_xf (esheet, q); break;
+		case BIFF_BLANK_v2:
+			(void)excel_set_xf (esheet, q);
+			break;
 
-		case BIFF_INTEGER: excel_read_INTEGER (q, esheet); break;
-		case BIFF_NUMBER_v0: excel_read_NUMBER (q, esheet, 7); break;
-		case BIFF_NUMBER_v2: excel_read_NUMBER (q, esheet, 6); break;
+		case BIFF_INTEGER:
+			excel_read_INTEGER (q, esheet);
+			break;
+		case BIFF_NUMBER_v0:
+			excel_read_NUMBER (q, esheet, 7);
+			break;
+		case BIFF_NUMBER_v2:
+			excel_read_NUMBER (q, esheet, 6);
+			break;
 
 		case BIFF_LABEL_v0:
-		case BIFF_LABEL_v2: excel_read_LABEL (q, esheet, FALSE); break;
+		case BIFF_LABEL_v2:
+			excel_read_LABEL (q, esheet, FALSE);
+			break;
 
 		case BIFF_BOOLERR_v0:
-		case BIFF_BOOLERR_v2: excel_read_BOOLERR (q, esheet); break;
+		case BIFF_BOOLERR_v2:
+			excel_read_BOOLERR (q, esheet);
+			break;
 
 		case BIFF_FORMULA_v0:
 		case BIFF_FORMULA_v2:

@@ -47,6 +47,7 @@ Morten:
 	* Improve the xls macro-roundtrip situation.  [#725220]
 	* Improve ssdiff for sheet attributes.
 	* Fix split pane problem.  [#725375]
+	* Don't generate value format during xls read.  [#725453]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
