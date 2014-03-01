@@ -22,6 +22,7 @@
 /* NOTE: This code makes no attempt to be fast! */
 #include <glib.h>
 #include <gsf/gsf.h>
+#include <gsf/gsf-utils.h>
 #include <string.h>
 #include "crypt-md4.h"
 

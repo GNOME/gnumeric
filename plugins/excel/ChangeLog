@@ -1,3 +1,7 @@
+2014-02-28  Morten Welinder  <terra@gnome.org>
+
+	* crypt-md4.c: Add missing include.  (From Gentoo.)
+
 2014-02-26  Morten Welinder  <terra@gnome.org>
 
 	* ms-biff.c (ms_biff_query_next): Do auto-continue for
