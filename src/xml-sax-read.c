@@ -2716,7 +2716,12 @@ xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			state->name.position = NULL;
 			state->delayed_names = g_list_prepend (state->delayed_names, nexpr);
 		} else {
-			g_warning ("Strangeness with defined name");
+			g_warning ("Strangeness with defined name: %s",
+				   state->name.name);
+			g_free (state->name.value);
+			state->name.value = NULL;
+			g_free (state->name.position);
+			state->name.position = NULL;
 		}
 	}
 

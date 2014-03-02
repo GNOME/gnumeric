@@ -49,6 +49,7 @@ Morten:
 	* Improve ssdiff for sheet attributes.
 	* Fix split pane problem.  [#725375]
 	* Don't generate value format during xls read.  [#725453]
+	* Fix name criticals.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
