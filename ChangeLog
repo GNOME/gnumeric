@@ -1,5 +1,8 @@
 2014-03-02  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_dup): Don't flip display-outlines for the new
+	sheet.
+
 	* src/xml-sax-read.c (xml_sax_named_expr_end): Avoid criticals
 	when encountering strangeness.
 

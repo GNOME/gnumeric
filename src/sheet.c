@@ -6201,7 +6201,7 @@ sheet_dup (Sheet const *src)
 		"display-grid",		   !src->hide_grid,
 		"display-column-header",   !src->hide_col_header,
 		"display-row-header",	   !src->hide_row_header,
-		"display-outlines",	   !src->display_outlines,
+		"display-outlines",	    src->display_outlines,
 		"display-outlines-below",   src->outline_symbols_below,
 		"display-outlines-right",   src->outline_symbols_right,
 		"conventions",		    src->convs,
