@@ -4273,8 +4273,13 @@ odf_write_autofilter (GnmOOExport *state, GnmFilter const *filter)
 
 	if (filter->is_active) {
 		gsf_xml_out_start_element (state->xml, TABLE "filter");
-		for (i = 0 ; i < filter->fields->len ; i++)
-			odf_write_filter_cond (state, filter, i);
+		if (filter->fields->len > 1) {
+			gsf_xml_out_start_element (state->xml, TABLE "filter-and");
+			for (i = 0 ; i < filter->fields->len ; i++)
+				odf_write_filter_cond (state, filter, i);
+			gsf_xml_out_end_element (state->xml); /* </table:filter-and> */
+		} else if (filter->fields->len == 1)
+			odf_write_filter_cond (state, filter, 0);
 		gsf_xml_out_end_element (state->xml); /* </table:filter> */
 	}
 
