@@ -1,5 +1,13 @@
 2014-03-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_filter_or): new, warn when we encounter
+	this element
+	(opendoc_content_dtd): handle table:filter-or and table:filter-and
+	elements
+	(opendoc_content_preparse_dtd): ditto
+
+2014-03-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_autofilter): write table:filter-and
 	in the case of multiple conditions
 

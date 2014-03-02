@@ -7328,6 +7328,12 @@ oo_db_range_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+odf_filter_or (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	oo_warning (xin, _("Gnumeric does not support 'or'-ed autofilter conditions."));
+}
+
+static void
 oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static OOEnum const datatypes [] = {
@@ -11326,6 +11332,12 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	    GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", GSF_XML_NO_CONTENT, &oo_db_range_start, &oo_db_range_end),
 	      GSF_XML_IN_NODE (DB_RANGE, FILTER, OO_NS_TABLE, "filter", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (FILTER, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, &oo_filter_cond, NULL),
+		GSF_XML_IN_NODE (FILTER, FILTER_AND, OO_NS_TABLE, "filter-and", GSF_XML_NO_CONTENT, NULL, NULL),
+		   GSF_XML_IN_NODE (FILTER_AND, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, &odf_filter_or, NULL),
+                       GSF_XML_IN_NODE (FILTER_OR, FILTER_COND_IGNORE, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, NULL, NULL),
+	               GSF_XML_IN_NODE (FILTER_OR, FILTER_AND_IGNORE, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, NULL, NULL),
+	           GSF_XML_IN_NODE (FILTER_AND, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+                GSF_XML_IN_NODE (FILTER, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 	    GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE_SORT, SORT_BY, OO_NS_TABLE, "sort-by", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -11593,6 +11605,12 @@ static GsfXMLInNode const opendoc_content_preparse_dtd [] =
 	    GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (DB_RANGE, FILTER, OO_NS_TABLE, "filter", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (FILTER, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (FILTER, FILTER_AND, OO_NS_TABLE, "filter-and", GSF_XML_NO_CONTENT, NULL, NULL),
+		   GSF_XML_IN_NODE (FILTER_AND, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, NULL, NULL),
+                       GSF_XML_IN_NODE (FILTER_OR, FILTER_COND_IGNORE, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, NULL, NULL),
+	               GSF_XML_IN_NODE (FILTER_OR, FILTER_AND_IGNORE, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, NULL, NULL),
+	           GSF_XML_IN_NODE (FILTER_AND, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+                GSF_XML_IN_NODE (FILTER, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 	    GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE_SORT, SORT_BY, OO_NS_TABLE, "sort-by", GSF_XML_NO_CONTENT, NULL, NULL),
 
