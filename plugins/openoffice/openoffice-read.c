@@ -2372,12 +2372,14 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmExprTop const *texpr = NULL;
 	GnmParsePos pp;
+	GnmExprParseFlags flag;
 
 	odf_init_pp (&pp, xin, val->base_cell_address);
+	flag = (pp.sheet == NULL || state->pos.sheet == pp.sheet)
+		? GNM_EXPR_PARSE_DEFAULT 
+		: GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
-	texpr = oo_expr_parse_str (xin, start, &pp,
-				   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
-				   val->f_type);
+	texpr = oo_expr_parse_str (xin, start, &pp, flag, val->f_type);
 
 	if (texpr != NULL)
 		return gnm_validation_new (val->style,
@@ -2402,6 +2404,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmParsePos pp;
+	GnmExprParseFlags flag;
 	GnmExprTop const *texpr_a = NULL, *texpr_b = NULL;
 	char *pair = NULL;
 	guint len = strlen (start);
@@ -2413,6 +2416,9 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 	pair = g_strndup (start, len);
 
 	odf_init_pp (&pp, xin, val->base_cell_address);
+	flag = (pp.sheet == NULL || state->pos.sheet == pp.sheet)
+		? GNM_EXPR_PARSE_DEFAULT 
+		: GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
 	while (1) {
 		gchar * try = g_strrstr_len (pair, len, ",");
@@ -2421,10 +2427,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 		if (try == NULL || try == pair)
 			goto pair_error;
 
-		texpr = oo_expr_parse_str
-			(xin, try + 1, &pp,
-			 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
-			 val->f_type);
+		texpr = oo_expr_parse_str (xin, try + 1, &pp, flag, val->f_type);
 		if (texpr != NULL) {
 			texpr_b = texpr;
 			*try = '\0';
@@ -2432,10 +2435,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 		}
 		len = try - pair - 1;
 	}
-	texpr_a = oo_expr_parse_str
-		(xin, pair, &pp,
-		 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
-		 val->f_type);
+	texpr_a = oo_expr_parse_str (xin, pair, &pp, flag, val->f_type);
 
 	if (texpr_b != NULL)
 		return gnm_validation_new (val->style,
@@ -2545,16 +2545,21 @@ odf_validations_analyze (GsfXMLIn *xin, odf_validation_t *val, guint offset,
 		return odf_validations_analyze
 			(xin, val, str - val->condition + strlen ("cell-content-is-time() and"),
 			 GNM_VALIDATION_TYPE_AS_TIME, f_type);
-	else if (g_str_has_prefix (str, "is-true-formula")) {
+	else if (g_str_has_prefix (str, "is-true-formula(") && g_str_has_suffix (str, ")")) {
+		GString *gstr = g_string_new (str + strlen ("is-true-formula("));
+		GnmValidation *validation;
+		g_string_truncate (gstr, gstr->len - 1);
 		if (vtype != GNM_VALIDATION_TYPE_ANY) {
 			oo_warning
 			(xin, _("Validation condition '%s' is not supported. "
 				"It has been changed to '%s'."),
 			 val->condition, str);
 		}
-		return odf_validation_new_single_expr
-			(xin, val, str + strlen ("is-true-formula"), GNM_VALIDATION_TYPE_CUSTOM,
+		validation = odf_validation_new_single_expr
+			(xin, val, gstr->str, GNM_VALIDATION_TYPE_CUSTOM,
 			 GNM_VALIDATION_OP_NONE);
+		g_string_free (gstr, TRUE);
+		return validation;
 	} else if (g_str_has_prefix (str, "cell-content()"))
 		return odf_validation_new_op
 			(xin, val, str - val->condition + strlen ("cell-content()"),

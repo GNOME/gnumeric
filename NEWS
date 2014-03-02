@@ -12,6 +12,7 @@ Andreas:
 	* Export row and column visibility to ODF. [#725115]
 	* Export frozen panes info to and import from ODF. [#725228]
 	* Export and import more sheet properties to/from ODF. [#725258]
+	* Fix validation import from ODF. [#725321]
 
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]
