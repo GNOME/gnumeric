@@ -1,3 +1,7 @@
+2014-03-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk.c (cb_bnotebook_page_reordered): provide undo
+
 2014-03-02  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_workbook_debug_info): New debug flag

@@ -967,9 +967,12 @@ cb_bnotebook_page_reordered (GtkNotebook *notebook, GtkWidget *child,
 		g_printerr ("Reordered %d -> %d\n", old, page_num);
 
 	if (old != page_num) {
-		Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+		WorkbookControl * wbc = WORKBOOK_CONTROL (wbcg);
+		Workbook *wb = wb_control_get_workbook (wbc);
 		Sheet *sheet = workbook_sheet_by_index (wb, old);
+		WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
 		workbook_sheet_move (sheet, page_num - old);
+		cmd_reorganize_sheets (wbc, old_state, sheet);
 	}
 }
 

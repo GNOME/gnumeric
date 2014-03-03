@@ -14,6 +14,7 @@ Andreas:
 	* Export and import more sheet properties to/from ODF. [#725258]
 	* Fix validation import from ODF. [#725321]
 	* Fix autofilter condition export to ODF. [#725458]
+	* Provide Undo for sheet reordering via tab dragging. [#725540]
 
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]
