@@ -94,6 +94,8 @@ enum {
 	TARGET_SHEET
 };
 
+
+static gboolean debug_tab_order;
 static char const *uifilename = NULL;
 static GtkActionEntry const *extra_actions = NULL;
 static int extra_actions_nb;
@@ -864,7 +866,8 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
 	if (wbcg->snotebook == NULL)
 		return;
 
-	if (0) g_printerr ("Notebook page switch\n");
+	if (debug_tab_order)
+		g_printerr ("Notebook page switch\n");
 
 	/* While initializing adding the sheets will trigger page changes, but
 	 * we do not actually want to change the focus sheet for the view
@@ -957,7 +960,11 @@ cb_bnotebook_page_reordered (GtkNotebook *notebook, GtkWidget *child,
 	GtkNotebook *snotebook = GTK_NOTEBOOK (wbcg->snotebook);
 	int old = gtk_notebook_get_current_page (snotebook);
 
-	if (0) g_printerr ("Reordered %d -> %d\n", old, page_num);
+	if (wbcg->updating_ui)
+		return;
+
+	if (debug_tab_order)
+		g_printerr ("Reordered %d -> %d\n", old, page_num);
 
 	if (old != page_num) {
 		Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
@@ -1257,23 +1264,26 @@ by_sheet_index (gconstpointer a, gconstpointer b)
 static void
 wbcg_sheet_order_changed (WBCGtk *wbcg)
 {
-	GSList *l, *scgs = get_all_scgs (wbcg);
-	int i;
+	if (wbcg_ui_update_begin (wbcg)) {
+		GSList *l, *scgs;
+		int i;
 
-	/* Reorder all tabs so they end up in index_in_wb order. */
-	scgs = g_slist_sort (scgs, by_sheet_index);
+		/* Reorder all tabs so they end up in index_in_wb order. */
+		scgs = g_slist_sort (get_all_scgs (wbcg), by_sheet_index);
 
-	for (i = 0, l = scgs; l; l = l->next, i++) {
-		SheetControlGUI *scg = l->data;
-		gtk_notebook_reorder_child (wbcg->snotebook,
-					    GTK_WIDGET (scg->grid),
-					    i);
-		gnm_notebook_move_tab (wbcg->bnotebook,
-				       GTK_WIDGET (scg->label),
-				       i);
+		for (i = 0, l = scgs; l; l = l->next, i++) {
+			SheetControlGUI *scg = l->data;
+			gtk_notebook_reorder_child (wbcg->snotebook,
+						    GTK_WIDGET (scg->grid),
+						    i);
+			gnm_notebook_move_tab (wbcg->bnotebook,
+					       GTK_WIDGET (scg->label),
+					       i);
+		}
+		g_slist_free (scgs);
+
+		wbcg_ui_update_end (wbcg);
 	}
-
-	g_slist_free (scgs);
 }
 
 static void
@@ -5589,6 +5599,8 @@ wbc_gtk_class_init (GObjectClass *gobject_class)
 		WORKBOOK_CONTROL_CLASS (gobject_class);
 
 	g_return_if_fail (wbc_class != NULL);
+
+	debug_tab_order = gnm_debug_flag ("tab-order");
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 	gobject_class->get_property	= wbc_gtk_get_property;

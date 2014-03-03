@@ -52,6 +52,7 @@ Morten:
 	* Fix name criticals.
 	* Fix sheet duplication issue.  [#725504]
 	* Fix named expressions crasher.  [Part of #725459]
+	* Fix GUI sheet re-ordering mess.  [Part of #725459]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11

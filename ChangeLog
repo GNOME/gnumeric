@@ -2,6 +2,8 @@
 
 	* src/wbc-gtk.c (cb_workbook_debug_info): New debug flag
 	name-collections.
+	(wbcg_sheet_order_changed): Mark ui as being updated.
+	(cb_bnotebook_page_reordered): Ignore during UI update.
 
 	* src/expr-name.c (gnm_named_expr_collection_dump)
 	(gnm_named_expr_collection_sanity_check): New function.
