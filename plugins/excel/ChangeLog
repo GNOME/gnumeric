@@ -1,5 +1,8 @@
 2014-03-01  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_write_autofilters): First stab at writing
+	most auto-filter selections.
+
 	* ms-excel-read.c (excel_sheet_insert_val): Don't set value
 	format.  We already the the full style for the cell in
 	excel_set_xf.  Fixes #725453.

@@ -1683,42 +1683,79 @@ static void
 xlsx_write_autofilters (XLSXWriteState *state, GsfXMLOut *xml)
 {
 	GnmFilter const *filter;
-	GnmFilterCondition const *cond;
 	unsigned i;
 
 	if (NULL == state->sheet->filters)
 		return;
 
+	/* We write only the first filter per sheet.  */
 	filter = state->sheet->filters->data;
+
 	gsf_xml_out_start_element (xml, "autoFilter");
 	xlsx_add_range (xml, "ref", &filter->r);
 
 	for (i = 0; i < filter->fields->len ; i++) {
+		GnmFilterCondition const *cond =
+			gnm_filter_get_condition (filter, i);
+
 		/* filter unused or bucket filters in excel5 */
-		if (NULL == (cond = gnm_filter_get_condition (filter, i)) ||
-		    cond->op[0] == GNM_FILTER_UNUSED)
+		if (!cond || cond->op[0] == GNM_FILTER_UNUSED)
 			continue;
 
 		gsf_xml_out_start_element (xml, "filterColumn");
 		gsf_xml_out_add_int (xml, "colId", i);
 
 		switch (cond->op[0]) {
-		case GNM_FILTER_OP_EQUAL :
-		case GNM_FILTER_OP_GT :
-		case GNM_FILTER_OP_LT :
-		case GNM_FILTER_OP_GTE :
-		case GNM_FILTER_OP_LTE :
-		case GNM_FILTER_OP_NOT_EQUAL :
+		case GNM_FILTER_OP_EQUAL:
+		case GNM_FILTER_OP_GT:
+		case GNM_FILTER_OP_LT:
+		case GNM_FILTER_OP_GTE:
+		case GNM_FILTER_OP_LTE:
+		case GNM_FILTER_OP_NOT_EQUAL: {
+			static const char *const opname[6] = {
+				"equal", "greaterThan", "lessThan",
+				"greaterThanOrEqual", "lessThanOrEqual",
+				"notEqual"
+			};
+			unsigned oi, N;
+
+			for (oi = N = 1; oi < G_N_ELEMENTS (cond->op); oi++) {
+				if (cond->op[oi] == GNM_FILTER_UNUSED)
+					continue;
+				N++;
+			}
+
+			gsf_xml_out_start_element (xml, "customFilters");
+			if (N > 1)
+				gsf_xml_out_add_cstr_unchecked (xml, "and", "true");
+			for (oi = 0; oi < G_N_ELEMENTS (cond->op); oi++) {
+				GnmFilterOp op = cond->op[oi];
+				GString *str;
+
+				if (op == GNM_FILTER_UNUSED)
+					continue;
+				gsf_xml_out_start_element (xml, "customFilter");
+				if (op >= GNM_FILTER_OP_EQUAL && op <= GNM_FILTER_OP_NOT_EQUAL)
+					gsf_xml_out_add_cstr_unchecked (xml, "operator", opname[op]);
+
+				str = g_string_new (NULL);
+				value_get_as_gstring (cond->value[oi], str, state->convs);
+				gsf_xml_out_add_cstr (xml, "val", str->str);
+				g_string_free (str, TRUE);
+				gsf_xml_out_end_element (xml); /* </customFilter> */
+			}
+			gsf_xml_out_end_element (xml); /* </customFilters> */
+			break;
+		}
+
+		case GNM_FILTER_OP_BLANKS:
+		case GNM_FILTER_OP_NON_BLANKS:
 			break;
 
-		case GNM_FILTER_OP_BLANKS :
-		case GNM_FILTER_OP_NON_BLANKS :
-			break;
-
-		case GNM_FILTER_OP_TOP_N :
-		case GNM_FILTER_OP_BOTTOM_N :
-		case GNM_FILTER_OP_TOP_N_PERCENT :
-		case GNM_FILTER_OP_BOTTOM_N_PERCENT :
+		case GNM_FILTER_OP_TOP_N:
+		case GNM_FILTER_OP_BOTTOM_N:
+		case GNM_FILTER_OP_TOP_N_PERCENT:
+		case GNM_FILTER_OP_BOTTOM_N_PERCENT:
 			gsf_xml_out_start_element (xml, "top10");
 			gsf_xml_out_add_float (xml, "val", cond->count, -1);
 			if (cond->op[0] & GNM_FILTER_OP_BOTTOM_MASK)
@@ -1728,7 +1765,7 @@ xlsx_write_autofilters (XLSXWriteState *state, GsfXMLOut *xml)
 			gsf_xml_out_end_element (xml); /* </top10> */
 			break;
 
-		default :
+		default:
 			continue;
 		}
 
