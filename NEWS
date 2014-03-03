@@ -13,7 +13,7 @@ Andreas:
 	* Export frozen panes info to and import from ODF. [#725228]
 	* Export and import more sheet properties to/from ODF. [#725258]
 	* Fix validation import from ODF. [#725321]
-	* Fix autofilter condition export to ODF. [part of #725458]
+	* Fix autofilter condition export to ODF. [#725458]
 
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]

@@ -14,7 +14,7 @@
 2014-03-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_validation_new_single_expr): only force
-	explicit sheet namees if the base address is on a different sheet
+	explicit sheet names if the base address is on a different sheet
 	(odf_validation_new_pair_expr): ditto
 	(odf_validations_analyze): also strip parentheses
 

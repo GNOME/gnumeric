@@ -1,3 +1,7 @@
+2014-03-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write.c (xlsx_write_autofilters): write blank filter info
+
 2014-03-01  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_autofilters): First stab at writing
