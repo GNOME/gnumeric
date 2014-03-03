@@ -1824,16 +1824,18 @@ odf_fix_en_validate (char const *name, odf_fix_expr_names_t *fen)
 }
 
 static void
-odf_fix_en_collect (gchar const *key, G_GNUC_UNUSED GnmNamedExpr *nexpr, odf_fix_expr_names_t *fen)
+odf_fix_en_collect (G_GNUC_UNUSED gconstpointer key_,
+		    GnmNamedExpr *nexpr, odf_fix_expr_names_t *fen)
 {
 	GString *str;
 	gchar *here;
+	const char *name = expr_name_name (nexpr);
 
-	if (expr_name_validate (key))
+	if (expr_name_validate (name))
 		return;
-	if (NULL != g_hash_table_lookup (fen->orig2fixed, key))
+	if (NULL != g_hash_table_lookup (fen->orig2fixed, name))
 		return;
-	str = g_string_new (key);
+	str = g_string_new (name);
 
 	for (here = str->str; *here; here = g_utf8_next_char (here)) {
 		if (!g_unichar_isalnum (g_utf8_get_char (here)) &&
@@ -1845,13 +1847,14 @@ odf_fix_en_collect (gchar const *key, G_GNUC_UNUSED GnmNamedExpr *nexpr, odf_fix
 	}
 	while (!odf_fix_en_validate (str->str, fen))
 		g_string_append_c (str, '_');
-	odf_fix_expr_names_t_add (fen, key, g_string_free (str, FALSE));
+	odf_fix_expr_names_t_add (fen, name, g_string_free (str, FALSE));
 }
 
 static void
-odf_fix_en_find (gchar const *key, GnmNamedExpr *nexpr, odf_fix_expr_names_t *fen)
+odf_fix_en_find (G_GNUC_UNUSED gconstpointer key,
+		 GnmNamedExpr *nexpr, odf_fix_expr_names_t *fen)
 {
-	if (strcmp (key, fen->nexpr_name) == 0)
+	if (strcmp (expr_name_name (nexpr), fen->nexpr_name) == 0)
 		fen->nexpr = nexpr;
 }
 

@@ -20,6 +20,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "cell.h"
+#include "expr-name.h"
 #include "value.h"
 #include "mstyle.h"
 #include "sheet-style.h"
@@ -150,9 +151,11 @@ ssindex_chart (IndexerState *state, GogObject *obj)
 }
 
 static void
-cb_index_name (const char *name, GnmExprName const *nexpr, IndexerState *state)
+cb_index_name (G_GNUC_UNUSED gconstpointer key,
+	       GnmNamedExpr const *nexpr, IndexerState *state)
 {
-	gsf_xml_out_simple_element (state->output, "data", name);
+	gsf_xml_out_simple_element (state->output,
+				    "data", expr_name_name (nexpr));
 }
 
 

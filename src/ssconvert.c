@@ -335,7 +335,9 @@ suggest_size (GSList *wbs, int *csuggest, int *rsuggest)
 }
 
 static void
-cb_fixup_name_wb (const char *name, GnmNamedExpr *nexpr, Workbook *wb)
+cb_fixup_name_wb (G_GNUC_UNUSED gconstpointer key,
+		  GnmNamedExpr *nexpr,
+		  Workbook *wb)
 {
 	GnmParsePos newpos = nexpr->pos;
 

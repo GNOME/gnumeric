@@ -174,6 +174,33 @@ expr_name_relink_deps (GnmNamedExpr *nexpr)
 	g_slist_free (deps);
 }
 
+static guint
+fake_go_string_hash (gconstpointer s_)
+{
+	const GOString *s = s_;
+	return g_str_hash (s->str);
+}
+
+static gboolean
+fake_go_string_equal (gconstpointer a_, gconstpointer b_)
+{
+	const GOString *a = a_;
+	const GOString *b = b_;
+	return g_str_equal (a->str, b->str);
+}
+
+
+struct _GnmNamedExprCollection {
+	/* all the defined names */
+	GHashTable *names;
+
+	/* placeholders for references to undefined names */
+	GHashTable *placeholders;
+
+	/* <private> */
+	unsigned ref_count;     /* boxed type */
+};
+
 /**
  * gnm_named_expr_collection_new:
  *
@@ -184,9 +211,11 @@ gnm_named_expr_collection_new (void)
 {
 	GnmNamedExprCollection *res = g_new (GnmNamedExprCollection, 1);
 
-	res->names = g_hash_table_new_full (g_str_hash, g_str_equal,
-		NULL, (GDestroyNotify) cb_nexpr_remove);
-	res->placeholders = g_hash_table_new_full (g_str_hash, g_str_equal,
+	res->names = g_hash_table_new_full
+		(fake_go_string_hash, fake_go_string_equal,
+		 NULL, (GDestroyNotify) cb_nexpr_remove);
+	res->placeholders = g_hash_table_new_full
+		(fake_go_string_hash, fake_go_string_equal,
 		NULL, (GDestroyNotify) cb_nexpr_remove);
 	res->ref_count = 1;
 
@@ -219,6 +248,76 @@ gnm_named_expr_collection_ref (GnmNamedExprCollection *names)
 {
 	names->ref_count++;
 	return names;
+}
+
+void
+gnm_named_expr_collection_dump (GnmNamedExprCollection *names, const char *id)
+{
+	g_printerr ("Named collection %s\n", id);
+	if (!names) {
+		g_printerr ("  Empty\n");
+		return;
+	}
+
+	if (names->names && g_hash_table_size (names->names)) {
+		GHashTableIter hiter;
+		gpointer key, value;
+
+		g_printerr ("  Defined names:\n");
+		g_hash_table_iter_init (&hiter, names->names);
+		while (g_hash_table_iter_next (&hiter, &key, &value)) {
+			const GOString *name = key;
+			GnmNamedExpr const *nexpr = value;
+			g_printerr ("    [%s] =>\n", name->str);
+			if (name != nexpr->name)
+				g_printerr ("      Weird keys: %p vs %p\n",
+					    name, nexpr->name);
+		}
+	}
+
+	if (names->placeholders && g_hash_table_size (names->placeholders)) {
+		GHashTableIter hiter;
+		gpointer key, value;
+
+		g_printerr ("  Defined placeholders:\n");
+		g_hash_table_iter_init (&hiter, names->placeholders);
+		while (g_hash_table_iter_next (&hiter, &key, &value)) {
+			const GOString *name = key;
+			GnmNamedExpr const *nexpr = value;
+			g_printerr ("    [%s] =>\n", name->str);
+			if (name != nexpr->name)
+				g_printerr ("      Weird keys: %p vs %p\n",
+					    name, nexpr->name);
+		}
+	}
+}
+
+gboolean
+gnm_named_expr_collection_sanity_check (GnmNamedExprCollection *names,
+					const char *id)
+{
+	gboolean err = FALSE;
+	g_printerr ("Checking sanity for container %s\n", id);
+	if (names->names) {
+		GHashTableIter hiter;
+		gpointer key, value;
+
+		g_hash_table_iter_init (&hiter, names->names);
+		while (g_hash_table_iter_next (&hiter, &key, &value)) {
+			const GOString *name = key;
+			GnmNamedExpr const *nexpr = value;
+			if (name != nexpr->name) {
+				err = TRUE;
+				g_printerr ("Container %s has strange defined name\n",
+					    id);
+				g_printerr ("  key is %p [%s]\n",
+					    name, name->str);
+				g_printerr ("  target's name is %p [%s]\n",
+					    nexpr->name, nexpr->name->str);
+			}
+		}
+	}
+	return err;
 }
 
 GType
@@ -280,9 +379,14 @@ gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 				  char const *name)
 {
 	if (scope != NULL) {
-		GnmNamedExpr *nexpr = g_hash_table_lookup (scope->names, name);
+		GOString fake_name;
+		GnmNamedExpr *nexpr;
+
+		fake_name.str = name;
+		nexpr = g_hash_table_lookup (scope->names, &fake_name);
 		if (nexpr == NULL)
-			nexpr = g_hash_table_lookup (scope->placeholders, name);
+			nexpr = g_hash_table_lookup (scope->placeholders,
+						     &fake_name);
 		return nexpr;
 	} else
 		return NULL;
@@ -333,8 +437,9 @@ gnm_named_expr_collection_insert (GnmNamedExprCollection *scope,
 	/* name can be active at this point, eg we are converting a
 	 * placeholder, or changing a scope */
 	nexpr->scope = scope;
-	g_hash_table_replace (nexpr->is_placeholder
-	      ? scope->placeholders : scope->names, (gpointer)nexpr->name->str, nexpr);
+	g_hash_table_replace
+		(nexpr->is_placeholder ? scope->placeholders : scope->names,
+		 (gpointer)nexpr->name, nexpr);
 }
 
 typedef struct {
@@ -620,11 +725,14 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 {
 	GnmNamedExpr *nexpr = NULL;
 	GnmNamedExprCollection *scope = NULL;
+	GOString fake_name;
 
 	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (pp->sheet != NULL || pp->wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (stub == NULL || stub->is_placeholder, NULL);
+
+	fake_name.str = name;
 
 	if (texpr != NULL && expr_name_check_for_loop (name, texpr)) {
 		gnm_expr_top_unref (texpr);
@@ -635,7 +743,7 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 
 	scope = (pp->sheet != NULL) ? pp->sheet->names : pp->wb->names;
 	/* see if there was a place holder */
-	nexpr = g_hash_table_lookup (scope->placeholders, name);
+	nexpr = g_hash_table_lookup (scope->placeholders, &fake_name);
 	if (nexpr != NULL) {
 		if (texpr == NULL) {
 			/* there was already a placeholder for this */
@@ -644,10 +752,10 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 		}
 
 		/* convert the placeholder into a real name */
-		g_hash_table_steal (scope->placeholders, name);
+		g_hash_table_steal (scope->placeholders, &fake_name);
 		nexpr->is_placeholder = FALSE;
 	} else {
-		nexpr = g_hash_table_lookup (scope->names, name);
+		nexpr = g_hash_table_lookup (scope->names, &fake_name);
 		/* If this is a permanent name, we may be adding it */
 		/* on opening of a file, although */
 		/* the name is already in place. */
@@ -767,7 +875,7 @@ expr_name_remove (GnmNamedExpr *nexpr)
 
 	g_hash_table_remove (
 		nexpr->is_placeholder ? nexpr->scope->placeholders : nexpr->scope->names,
-		nexpr->name->str);
+		nexpr->name);
 }
 
 const char *
@@ -790,6 +898,7 @@ expr_name_set_name (GnmNamedExpr *nexpr,
 {
 	const char *old_name;
 	GHashTable *h;
+	GOString fake_new_name;
 
 	g_return_val_if_fail (nexpr != NULL, TRUE);
 	g_return_val_if_fail (nexpr->scope == NULL || new_name, TRUE);
@@ -798,6 +907,7 @@ expr_name_set_name (GnmNamedExpr *nexpr,
 	if (go_str_compare (new_name, old_name) == 0)
 		return FALSE;
 
+	fake_new_name.str = new_name;
 #if 0
 	g_printerr ("Renaming %s to %s\n", old_name, new_name);
 #endif
@@ -808,21 +918,23 @@ expr_name_set_name (GnmNamedExpr *nexpr,
 		: NULL;
 	if (h) {
 		if (new_name &&
-		    (g_hash_table_lookup (nexpr->scope->placeholders, new_name) ||
-		     g_hash_table_lookup (nexpr->scope->names, new_name))) {
+		    (g_hash_table_lookup (nexpr->scope->placeholders,
+					  &fake_new_name) ||
+		     g_hash_table_lookup (nexpr->scope->names,
+					  &fake_new_name))) {
 			/* The only error not to be blamed on the programmer is
 			   already-in-use.  */
 			return TRUE;
 		}
 
-		g_hash_table_steal (h, old_name);
+		g_hash_table_steal (h, nexpr->name);
 	}
 
 	go_string_unref (nexpr->name);
 	nexpr->name = go_string_new (new_name);
 
 	if (h)
-		g_hash_table_insert (h, (gpointer)nexpr->name->str, nexpr);
+		g_hash_table_insert (h, (gpointer)nexpr->name, nexpr);
 
 	return FALSE;
 }
@@ -889,7 +1001,6 @@ char *
 expr_name_set_pos (GnmNamedExpr *nexpr, GnmParsePos const *pp)
 {
 	GnmNamedExprCollection *old_scope, *new_scope;
-	const char *name;
 
 	g_return_val_if_fail (nexpr != NULL, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
@@ -897,20 +1008,19 @@ expr_name_set_pos (GnmNamedExpr *nexpr, GnmParsePos const *pp)
 	old_scope = nexpr->scope;
 	new_scope = pp->sheet ? pp->sheet->names : pp->wb->names;
 
-	name = nexpr->name->str;
 	if (old_scope != new_scope &&
-	    (g_hash_table_lookup (new_scope->placeholders, name) ||
-	     g_hash_table_lookup (new_scope->names, name))) {
+	    (g_hash_table_lookup (new_scope->placeholders, nexpr->name) ||
+	     g_hash_table_lookup (new_scope->names, nexpr->name))) {
 		const char *fmt = pp->sheet
 			? _("'%s' is already defined in sheet")
 			: _("'%s' is already defined in workbook");
-		return g_strdup_printf (fmt, name);
+		return g_strdup_printf (fmt, nexpr->name);
 	}
 
 	if (old_scope)
 		g_hash_table_steal
 			(nexpr->is_placeholder ? old_scope->placeholders : old_scope->names,
-			 name);
+			 nexpr->name);
 
 	nexpr->pos = *pp;
 	gnm_named_expr_collection_insert (new_scope, nexpr);
@@ -1013,12 +1123,10 @@ expr_name_set_is_placeholder (GnmNamedExpr *nexpr, gboolean is_placeholder)
 	nexpr->is_placeholder = is_placeholder;
 
 	if (nexpr->scope) {
-		const char *name = expr_name_name (nexpr);
-
 		g_hash_table_steal (is_placeholder
 				    ? nexpr->scope->names
 				    : nexpr->scope->placeholders,
-				    name);
+				    nexpr->name);
 		gnm_named_expr_collection_insert (nexpr->scope, nexpr);
 	}
 }
@@ -1036,7 +1144,7 @@ struct cb_expr_name_in_use {
 };
 
 static void
-cb_expr_name_in_use (G_GNUC_UNUSED const char *name,
+cb_expr_name_in_use (G_GNUC_UNUSED gconstpointer key,
 		     GnmNamedExpr *nexpr,
 		     struct cb_expr_name_in_use *pdata)
 {

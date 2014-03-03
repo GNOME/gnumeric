@@ -1,5 +1,20 @@
 2014-03-02  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_workbook_debug_info): New debug flag
+	name-collections.
+
+	* src/expr-name.c (gnm_named_expr_collection_dump)
+	(gnm_named_expr_collection_sanity_check): New function.
+
+	* src/application.c (gnm_app_sanity_check): New function.
+
+	* src/expr-name.c (gnm_named_expr_collection_new): Don't use the
+	string inside the GOString as a hash key.  It can change.
+	(gnm_named_expr_collection_foreach): As a consequence of the
+	above, the first argument to the handler for
+	gnm_named_expr_collection_foreach changes to something
+	unspecified.  All callers changed.
+
 	* src/sheet.c (sheet_dup): Don't flip display-outlines for the new
 	sheet.
 

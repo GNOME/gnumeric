@@ -65,17 +65,6 @@ GOUndo *expr_name_set_expr_undo_new (GnmNamedExpr *nexpr);
 
 /******************************************************************************/
 
-struct _GnmNamedExprCollection {
-	/* all the defined names */
-	GHashTable *names;
-
-	/* placeholders for references to undefined names */
-	GHashTable *placeholders;
-
-	/* <private> */
-	unsigned ref_count;     /* boxed type */
-};
-
 GType gnm_named_expr_collection_get_type (void);
 GnmNamedExprCollection *gnm_named_expr_collection_new (void);
 void gnm_named_expr_collection_free (GnmNamedExprCollection *names);
@@ -88,6 +77,11 @@ GSList  *gnm_named_expr_collection_list (GnmNamedExprCollection const *scope);
 
 GnmNamedExpr *gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 						char const *name);
+void gnm_named_expr_collection_dump (GnmNamedExprCollection *names,
+				     const char *id);
+gboolean gnm_named_expr_collection_sanity_check (GnmNamedExprCollection *names,
+						 const char *id);
+
 G_END_DECLS
 
 #endif /* _GNM_EXPR_NAME_H_ */

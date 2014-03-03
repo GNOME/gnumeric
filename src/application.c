@@ -25,6 +25,8 @@
 #include "sheet-object.h"
 #include "commands.h"
 #include "gui-clipboard.h"
+#include "expr-name.h"
+#include "workbook-priv.h"
 
 #include <gnumeric-conf.h>
 #include <goffice/goffice.h>
@@ -153,6 +155,22 @@ gnm_app_workbook_list (void)
 
 	return app->workbook_list;
 }
+
+void
+gnm_app_sanity_check (void)
+{
+	GList *l;
+	gboolean err = FALSE;
+	for (l = gnm_app_workbook_list (); l; l = l->next) {
+		Workbook *wb = l->data;
+		if (gnm_named_expr_collection_sanity_check (wb->names, "workbook"))
+			err = TRUE;
+	}
+	if (err)
+		g_error ("Sanity check failed\n");
+}
+	
+
 
 /**
  * gnm_app_clipboard_clear:

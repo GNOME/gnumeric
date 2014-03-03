@@ -2114,7 +2114,7 @@ struct cb_remote_names {
 };
 
 static void
-cb_remote_names1 (G_GNUC_UNUSED const char *name,
+cb_remote_names1 (G_GNUC_UNUSED gconstpointer key,
 		  GnmNamedExpr *nexpr,
 		  struct cb_remote_names *data)
 {

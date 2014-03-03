@@ -60,6 +60,7 @@
 #include "tools/analysis-auto-expression.h"
 #include "sheet-object-cell-comment.h"
 #include "print-info.h"
+#include "expr-name.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
@@ -2202,6 +2203,7 @@ cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
 }
 
 /******************************************************************************/
+
 static void
 cb_workbook_debug_info (WBCGtk *wbcg)
 {
@@ -2222,6 +2224,14 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 
 	if (gnm_debug_flag ("style-optimize")) {
 		workbook_optimize_style (wb);
+	}
+
+	if (gnm_debug_flag ("name-collections")) {
+		gnm_named_expr_collection_dump (wb->names, "workbook");
+		WORKBOOK_FOREACH_SHEET(wb, sheet, {
+			gnm_named_expr_collection_dump (sheet->names,
+							sheet->name_unquoted);
+		});
 	}
 }
 
@@ -2821,7 +2831,8 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	debug_button = GET_GUI_ITEM ("debug_button");
 	if (gnm_debug_flag ("deps") ||
 	    gnm_debug_flag ("expr-sharer") ||
-	    gnm_debug_flag ("style-optimize")) {
+	    gnm_debug_flag ("style-optimize") ||
+	    gnm_debug_flag ("name-collections")) {
 		g_signal_connect_swapped (debug_button,
 					  "clicked", G_CALLBACK (cb_workbook_debug_info),
 					  wbcg);
