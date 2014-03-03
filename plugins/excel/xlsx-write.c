@@ -1749,10 +1749,17 @@ xlsx_write_autofilters (XLSXWriteState *state, GsfXMLOut *xml)
 		}
 
 		case GNM_FILTER_OP_BLANKS :
-		case GNM_FILTER_OP_NON_BLANKS :
 			gsf_xml_out_start_element (xml, "filters");
-			xlsx_add_bool (xml, "blanks", cond->op[0] == GNM_FILTER_OP_BLANKS);
+			xlsx_add_bool (xml, "blank", TRUE);
 			gsf_xml_out_end_element (xml); /* </filters> */
+			break;
+		case GNM_FILTER_OP_NON_BLANKS :
+			gsf_xml_out_start_element (xml, "customFilters");
+			gsf_xml_out_start_element (xml, "customFilter");
+			gsf_xml_out_add_cstr_unchecked (xml, "operator", "notEqual");
+			gsf_xml_out_add_cstr (xml, "val", " ");
+			gsf_xml_out_end_element (xml); /* </customFilter> */
+			gsf_xml_out_end_element (xml); /* </customFilters> */
 			break;
 
 		case GNM_FILTER_OP_TOP_N:
