@@ -40,7 +40,6 @@ TESTS =	t1000-statfuns.pl			\
 	t1011-yalta2008.pl			\
 	t1012-burkhardt.pl			\
 	t1013-crlibm.pl				\
-	t1014-amath.pl				\
 	t1100-chitest.pl			\
 	t1101-ftest.pl				\
 	t1102-ttest.pl				\
