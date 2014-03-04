@@ -1,3 +1,7 @@
+2014-03-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.12
+
 2014-02-27  Morten Welinder  <terra@gnome.org>
 
 	* GnumericTest.pm: Make it possible to run tests without being in

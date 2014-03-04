@@ -1,3 +1,7 @@
+2014-03-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.12
+
 2014-03-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_filter_or): new, warn when we encounter
