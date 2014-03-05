@@ -107,6 +107,19 @@ GnmValue *gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 GnmExpr const *gnm_expr_simplify_if  (GnmExpr const *expr);
 
+typedef struct GnmExprWalk_ {
+	/* User data */
+	gpointer user;
+
+	/* Flags the walker callback can use to signal the engine.  */
+	gboolean stop;
+
+	/* Internal flags.  */
+	guint flags;
+} GnmExprWalk;
+typedef GnmExpr const * (*GnmExprWalkerFunc) (GnmExpr const *expr, GnmExprWalk *data);
+GnmExpr const *gnm_expr_walk (GnmExpr const *expr, GnmExprWalkerFunc walker, gpointer user);
+
 /*****************************************************************************/
 
 #define gnm_expr_list_append(l,e)  g_slist_append ((l), (gpointer)(e))

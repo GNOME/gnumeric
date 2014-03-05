@@ -1,3 +1,17 @@
+2014-03-05  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_range_set_expr_cb, sheet_range_set_text):
+	Don't set the initial range here.
+
+	* src/expr.c (gnm_expr_top_first_funcall)
+	(gnm_expr_contains_subtotal, gnm_expr_top_get_ranges)
+	(gnm_expr_top_referenced_sheets): Rewrite in terms of
+	gnm_expr_walk.
+	(gnm_expr_top_get_boundingbox): Set initial range here.
+
+	* src/expr-name.c (expr_name_check_for_loop, cb_expr_name_in_use):
+	Ditto.
+
 2014-03-03  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

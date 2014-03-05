@@ -72,43 +72,15 @@ excel_write_prep_sheet (ExcelWriteState *ewb, Sheet const *sheet)
 		sheet_pair_add_if_unknown (ewb->sheet_pairs, &pair);
 }
 
-/**
- * excel_write_prep_expr :
- * @ewb:
- * @texpr:
- *
- *  Searches for interesting functions, names, or sheets.
- * and builds a database of things to write out later.
- **/
-static void
-do_excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
+static GnmExpr const *
+cb_excel_write_prep_expr (GnmExpr const *expr, GnmExprWalk *data)
 {
+	ExcelWriteState *ewb = data->user;
+
 	switch (GNM_EXPR_GET_OPER (expr)) {
-
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY:
-		do_excel_write_prep_expr (ewb, expr->binary.value_a);
-		do_excel_write_prep_expr (ewb, expr->binary.value_b);
-		break;
-
-	case GNM_EXPR_OP_ANY_UNARY:
-		do_excel_write_prep_expr (ewb, expr->unary.value);
-		break;
-
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmFunc *func = expr->func.func;
-		ExcelFunc *ef;
-		int i;
-
-		for (i = 0; i < expr->func.argc; i++)
-			do_excel_write_prep_expr (ewb, expr->func.argv[i]);
-
-		/*
-		 * Lookup here.  The loop above might have defined the
-		 * name alreasy.
-		 */
-		ef = g_hash_table_lookup (ewb->function_map, func);
+		ExcelFunc *ef = g_hash_table_lookup (ewb->function_map, func);
 		if (ef != NULL)
 			break;
 
@@ -139,19 +111,6 @@ do_excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		g_hash_table_insert (ewb->function_map, func, ef);
 		break;
 	}
-	case GNM_EXPR_OP_ARRAY_CORNER:
-		do_excel_write_prep_expr (ewb, expr->array_corner.expr);
-		break;
-	case GNM_EXPR_OP_ARRAY_ELEM:
-		break;
-
-	case GNM_EXPR_OP_SET: {
-		int i;
-
-		for (i = 0; i < expr->set.argc; i++)
-			do_excel_write_prep_expr (ewb, expr->set.argv[i]);
-		break;
-	}
 
 	case GNM_EXPR_OP_CELLREF:
 		excel_write_prep_sheet (ewb, expr->cellref.ref.sheet);
@@ -175,12 +134,22 @@ do_excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 	default:
 		break;
 	}
+
+	return NULL;
 }
 
+/**
+ * excel_write_prep_expr :
+ * @ewb:
+ * @texpr:
+ *
+ * Searches for interesting functions, names, or sheets.
+ * and builds a database of things to write out later.
+ **/
 void
 excel_write_prep_expr (ExcelWriteState *ewb, GnmExprTop const *texpr)
 {
-	do_excel_write_prep_expr (ewb, texpr->expr);
+	gnm_expr_walk (texpr->expr, cb_excel_write_prep_expr, ewb);
 }
 
 /**

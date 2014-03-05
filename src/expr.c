@@ -2106,85 +2106,14 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v,
 }
 
 static GnmExpr const *
-gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
+gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo);
+
+static GnmExpr const *
+cb_relocate (GnmExpr const *expr, GnmExprWalk *data)
 {
-	g_return_val_if_fail (expr != NULL, NULL);
+	RelocInfoInternal const *rinfo = data->user;
 
 	switch (GNM_EXPR_GET_OPER (expr)) {
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY: {
-		GnmExpr const *a = gnm_expr_relocate (expr->binary.value_a, rinfo);
-		GnmExpr const *b = gnm_expr_relocate (expr->binary.value_b, rinfo);
-
-		if (a == NULL && b == NULL)
-			return NULL;
-
-		if (a == NULL)
-			a = gnm_expr_copy (expr->binary.value_a);
-		else if (b == NULL)
-			b = gnm_expr_copy (expr->binary.value_b);
-
-		return gnm_expr_new_binary (a, GNM_EXPR_GET_OPER (expr), b);
-	}
-
-	case GNM_EXPR_OP_ANY_UNARY: {
-		GnmExpr const *a = gnm_expr_relocate (expr->unary.value, rinfo);
-		if (a == NULL)
-			return NULL;
-		return gnm_expr_new_unary (GNM_EXPR_GET_OPER (expr), a);
-	}
-
-	case GNM_EXPR_OP_FUNCALL: {
-		gboolean rewrite = FALSE;
-		int i;
-		int argc = expr->func.argc;
-		GnmExprConstPtr *argv =
-			argc ? g_new (GnmExprConstPtr, argc) : NULL;
-
-		for (i = 0; i < argc; i++) {
-			argv[i] = gnm_expr_relocate (expr->func.argv[i], rinfo);
-			if (argv[i])
-				rewrite = TRUE;
-		}
-
-		if (rewrite) {
-			for (i = 0; i < argc; i++)
-				if (!argv[i])
-					argv[i] = gnm_expr_copy (expr->func.argv[i]);
-
-			return gnm_expr_new_funcallv
-				(expr->func.func,
-				 argc,
-				 argv);
-		}
-		g_free (argv);
-		return NULL;
-	}
-	case GNM_EXPR_OP_SET: {
-		gboolean rewrite = FALSE;
-		int i;
-		int argc = expr->set.argc;
-		GnmExprConstPtr *argv =
-			argc ? g_new (GnmExprConstPtr, argc) : NULL;
-
-		for (i = 0; i < argc; i++) {
-			argv[i] = gnm_expr_relocate (expr->set.argv[i], rinfo);
-			if (argv[i])
-				rewrite = TRUE;
-		}
-
-		if (rewrite) {
-			for (i = 0; i < argc; i++)
-				if (!argv[i])
-					argv[i] = gnm_expr_copy (expr->set.argv[i]);
-
-			return gnm_expr_new_setv (argc, argv);
-		}
-		g_free (argv);
-		return NULL;
-	}
-
 	case GNM_EXPR_OP_NAME: {
 		GnmNamedExpr *nexpr = expr->name.name;
 
@@ -2310,21 +2239,16 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 		}
 		return NULL;
 
-	case GNM_EXPR_OP_ARRAY_ELEM:
-		return NULL;
-
-	case GNM_EXPR_OP_ARRAY_CORNER: {
-		GnmExpr const *e = gnm_expr_relocate (expr->array_corner.expr, rinfo);
-		if (e)
-			return gnm_expr_new_array_corner (
-				expr->array_corner.cols,
-				expr->array_corner.rows, e);
+	default:
 		return NULL;
 	}
-	}
+}
 
-	g_assert_not_reached ();
-	return NULL;
+static GnmExpr const *
+gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
+{
+	g_return_val_if_fail (expr != NULL, NULL);
+	return gnm_expr_walk (expr, cb_relocate, (gpointer)rinfo);
 }
 
 GnmFunc *
@@ -2336,42 +2260,6 @@ gnm_expr_get_func_def (GnmExpr const *expr)
 	return expr->func.func;
 }
 
-
-static GnmExpr const *
-gnm_expr_first_funcall (GnmExpr const *expr)
-{
-	switch (GNM_EXPR_GET_OPER (expr)) {
-	default :
-	case GNM_EXPR_OP_NAME:
-	case GNM_EXPR_OP_CELLREF:
-	case GNM_EXPR_OP_CONSTANT:
-	case GNM_EXPR_OP_ARRAY_ELEM:
-		return NULL;
-
-	case GNM_EXPR_OP_FUNCALL:
-		return expr;
-
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY: {
-		GnmExpr const *res =
-			gnm_expr_first_funcall (expr->binary.value_a);
-		if (res)
-			return res;
-		else
-			return gnm_expr_first_funcall (expr->binary.value_b);
-	}
-
-	case GNM_EXPR_OP_ANY_UNARY:
-		return gnm_expr_first_funcall (expr->unary.value);
-
-	case GNM_EXPR_OP_ARRAY_CORNER:
-		return gnm_expr_first_funcall (expr->array_corner.expr);
-	}
-
-	g_assert_not_reached ();
-	return NULL;
-}
 
 static void
 cellref_boundingbox (GnmCellRef const *cr, Sheet const *sheet, GnmRange *bound)
@@ -2406,67 +2294,16 @@ cellref_boundingbox (GnmCellRef const *cr, Sheet const *sheet, GnmRange *bound)
 	}
 }
 
-static GSList *
-gnm_insert_unique (GSList *list, gpointer data)
+static GnmExpr const *
+cb_contains_subtotal (GnmExpr const *expr, GnmExprWalk *data)
 {
-	if (g_slist_find (list, data) == NULL)
-		return g_slist_prepend (list, data);
-	return list;
-}
-
-static GSList *
-do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
-{
-	switch (GNM_EXPR_GET_OPER (expr)) {
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY:
-		sheets = do_referenced_sheets (expr->binary.value_a, sheets);
-		return do_referenced_sheets (expr->binary.value_b, sheets);
-
-	case GNM_EXPR_OP_ANY_UNARY:
-		return do_referenced_sheets (expr->unary.value, sheets);
-
-	case GNM_EXPR_OP_FUNCALL: {
-		int i;
-		for (i = 0; i < expr->func.argc; i++)
-			sheets = do_referenced_sheets (expr->func.argv[i],
-						       sheets);
-		return sheets;
+	gboolean *res = data->user;
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL &&
+	    strcmp (expr->func.func->name, "subtotal") == 0) {
+		*res = TRUE;
+		data->stop = TRUE;
 	}
-	case GNM_EXPR_OP_SET: {
-		int i;
-		for (i = 0; i < expr->set.argc; i++)
-			sheets = do_referenced_sheets (expr->set.argv[i],
-						       sheets);
-		return sheets;
-	}
-
-	case GNM_EXPR_OP_NAME:
-		return sheets;
-
-	case GNM_EXPR_OP_CELLREF:
-		return gnm_insert_unique (sheets, expr->cellref.ref.sheet);
-
-	case GNM_EXPR_OP_CONSTANT: {
-		GnmValue const *v = expr->constant.value;
-		if (v->type != VALUE_CELLRANGE)
-			return sheets;
-		sheets = gnm_insert_unique (sheets, v->v_range.cell.a.sheet);
-		/* A NULL b sheet means a's sheet.  Do not insert that.  */
-		if (v->v_range.cell.b.sheet)
-			sheets = gnm_insert_unique (sheets, v->v_range.cell.b.sheet);
-		return sheets;
-	}
-
-	case GNM_EXPR_OP_ARRAY_CORNER:
-		return do_referenced_sheets (expr->array_corner.expr, sheets);
-
-	case GNM_EXPR_OP_ARRAY_ELEM:
-		break;
-	}
-
-	return sheets;
+	return NULL;
 }
 
 /**
@@ -2478,105 +2315,9 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 gboolean
 gnm_expr_contains_subtotal (GnmExpr const *expr)
 {
-	switch (GNM_EXPR_GET_OPER (expr)) {
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY:
-		return gnm_expr_contains_subtotal (expr->binary.value_a) ||
-		       gnm_expr_contains_subtotal (expr->binary.value_b);
-	case GNM_EXPR_OP_ANY_UNARY:
-		return gnm_expr_contains_subtotal (expr->unary.value);
-
-	case GNM_EXPR_OP_FUNCALL: {
-		int i;
-		if (!strcmp (expr->func.func->name, "subtotal"))
-			return TRUE;
-		for (i = 0; i < expr->func.argc; i++)
-			if (gnm_expr_contains_subtotal (expr->func.argv[i]))
-				return TRUE;
-		return FALSE;
-	}
-	case GNM_EXPR_OP_SET: {
-		int i;
-		for (i = 0; i < expr->set.argc; i++)
-			if (gnm_expr_contains_subtotal (expr->set.argv[i]))
-				return TRUE;
-		return FALSE;
-	}
-
-	case GNM_EXPR_OP_NAME:
-		if (expr_name_is_active (expr->name.name))
-			return gnm_expr_contains_subtotal (expr->name.name->texpr->expr);
-
-	case GNM_EXPR_OP_ARRAY_CORNER:
-		return gnm_expr_contains_subtotal (expr->array_corner.expr);
-
-	case GNM_EXPR_OP_CELLREF:
-	case GNM_EXPR_OP_CONSTANT:
-	case GNM_EXPR_OP_ARRAY_ELEM:
-		;
-	}
-	return FALSE;
-}
-
-static void
-gnm_expr_get_boundingbox (GnmExpr const *expr, Sheet const *sheet,
-			  GnmRange *bound)
-{
-	g_return_if_fail (expr != NULL);
-
-	switch (GNM_EXPR_GET_OPER (expr)) {
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY:
-		gnm_expr_get_boundingbox (expr->binary.value_a, sheet, bound);
-		gnm_expr_get_boundingbox (expr->binary.value_b, sheet, bound);
-		break;
-
-	case GNM_EXPR_OP_ANY_UNARY:
-		gnm_expr_get_boundingbox (expr->unary.value, sheet, bound);
-		break;
-
-	case GNM_EXPR_OP_FUNCALL: {
-		int i;
-		for (i = 0; i < expr->func.argc; i++)
-			gnm_expr_get_boundingbox (expr->func.argv[i], sheet, bound);
-		break;
-	}
-	case GNM_EXPR_OP_SET: {
-		int i;
-		for (i = 0; i < expr->set.argc; i++)
-			gnm_expr_get_boundingbox (expr->set.argv[i], sheet, bound);
-		break;
-	}
-
-	case GNM_EXPR_OP_NAME:
-		/* Do NOT validate the name. */
-		/* TODO : is that correct ? */
-		break;
-
-	case GNM_EXPR_OP_CELLREF:
-		cellref_boundingbox (&expr->cellref.ref, sheet, bound);
-		break;
-
-	case GNM_EXPR_OP_CONSTANT: {
-		GnmValue const *v = expr->constant.value;
-
-		if (v->type == VALUE_CELLRANGE) {
-			cellref_boundingbox (&v->v_range.cell.a, sheet, bound);
-			cellref_boundingbox (&v->v_range.cell.b, sheet, bound);
-		}
-		break;
-	}
-
-	case GNM_EXPR_OP_ARRAY_CORNER:
-		gnm_expr_get_boundingbox (expr->array_corner.expr, sheet, bound);
-		break;
-
-	case GNM_EXPR_OP_ARRAY_ELEM:
-		/* Think about this */
-		break;
-	}
+	gboolean res = FALSE;
+	gnm_expr_walk (expr, cb_contains_subtotal, &res);
+	return res;
 }
 
 /**
@@ -2632,48 +2373,6 @@ gnm_insert_unique_value (GSList *list, GnmValue *data)
 	value_release (data);
 	return list;
 }
-
-static GSList *
-do_gnm_expr_get_ranges (GnmExpr const *expr, GSList *ranges)
-{
-	switch (GNM_EXPR_GET_OPER (expr)) {
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY:
-		return do_gnm_expr_get_ranges (
-			expr->binary.value_a,
-			do_gnm_expr_get_ranges (
-				expr->binary.value_b,
-				ranges));
-	case GNM_EXPR_OP_ANY_UNARY:
-		return do_gnm_expr_get_ranges (expr->unary.value, ranges);
-	case GNM_EXPR_OP_FUNCALL: {
-		int i;
-		for (i = 0; i < expr->func.argc; i++)
-			ranges = do_gnm_expr_get_ranges (expr->func.argv[i],
-							 ranges);
-		return ranges;
-	}
-	case GNM_EXPR_OP_SET: {
-		int i;
-		for (i = 0; i < expr->set.argc; i++)
-			ranges = do_gnm_expr_get_ranges (expr->set.argv[i],
-							 ranges);
-		return ranges;
-	}
-
-	case GNM_EXPR_OP_NAME:
-		/* What?  */
-
-	default: {
-		GnmValue *v = gnm_expr_get_range (expr);
-		if (v)
-			return gnm_insert_unique_value (ranges, v);
-		return ranges;
-	}
-	}
-}
-
 
 /**
  * gnm_expr_is_rangeref :
@@ -2751,6 +2450,162 @@ gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
 
 	/* Do we need anything else here ? */
 	return FALSE;
+}
+
+
+static GnmExpr const *
+do_expr_walk (GnmExpr const *expr, GnmExprWalkerFunc walker, GnmExprWalk *data)
+{
+	GnmExpr const *res;
+
+	res = walker (expr, data);
+	if (data->stop) {
+		if (res) gnm_expr_free (res);
+		return NULL;
+	}
+	if (res)
+		return res;
+
+	switch (GNM_EXPR_GET_OPER (expr)) {
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
+	case GNM_EXPR_OP_ANY_BINARY: {
+		GnmExpr const *a, *b;
+
+		a = do_expr_walk (expr->binary.value_a, walker, data);
+		if (data->stop)
+			return NULL;
+
+		b = do_expr_walk (expr->binary.value_b, walker, data);
+		if (data->stop) {
+			if (a) gnm_expr_free (a);
+			return NULL;
+		}
+
+		if (!a && !b)
+			return NULL;
+
+		if (!a)
+			a = gnm_expr_copy (expr->binary.value_a);
+		else if (!b)
+			b = gnm_expr_copy (expr->binary.value_b);
+
+		return gnm_expr_new_binary (a, GNM_EXPR_GET_OPER (expr), b);
+	}
+
+	case GNM_EXPR_OP_ANY_UNARY: {
+		GnmExpr const *a = do_expr_walk (expr->unary.value, walker, data);
+		return a
+			? gnm_expr_new_unary (GNM_EXPR_GET_OPER (expr), a)
+			: NULL;
+	}
+
+	case GNM_EXPR_OP_FUNCALL: {
+		gboolean any = FALSE;
+		int i;
+		int argc = expr->func.argc;
+		GnmExprConstPtr *argv =
+			argc ? g_new (GnmExprConstPtr, argc) : NULL;
+
+		for (i = 0; i < argc; i++) {
+			argv[i] = do_expr_walk (expr->func.argv[i], walker, data);
+			if (data->stop) {
+				while (--i >= 0)
+					if (argv[i])
+						gnm_expr_free (argv[i]);
+				any = FALSE;
+				break;
+			}
+			if (argv[i])
+				any = TRUE;
+		}
+
+		if (any) {
+			int i;
+			for (i = 0; i < argc; i++)
+				if (!argv[i])
+					argv[i] = gnm_expr_copy (expr->func.argv[i]);
+			return gnm_expr_new_funcallv (expr->func.func,
+						      argc, argv);
+		} else {
+			g_free (argv);
+			return NULL;
+		}
+	}
+	case GNM_EXPR_OP_SET: {
+		gboolean any = FALSE;
+		int i;
+		int argc = expr->set.argc;
+		GnmExprConstPtr *argv =
+			argc ? g_new (GnmExprConstPtr, argc) : NULL;
+
+		for (i = 0; i < argc; i++) {
+			argv[i] = do_expr_walk (expr->set.argv[i], walker, data);
+			if (data->stop) {
+				while (--i >= 0)
+					if (argv[i])
+						gnm_expr_free (argv[i]);
+				any = FALSE;
+				break;
+			}
+			if (argv[i])
+				any = TRUE;
+		}
+
+		if (any) {
+			int i;
+			for (i = 0; i < argc; i++)
+				if (!argv[i])
+					argv[i] = gnm_expr_copy (expr->set.argv[i]);
+			return gnm_expr_new_setv (argc, argv);
+		} else {
+			g_free (argv);
+			return NULL;
+		}
+	}
+
+	case GNM_EXPR_OP_ARRAY_CORNER: {
+		GnmExpr const *e = do_expr_walk (expr->array_corner.expr, walker, data);
+		return e
+			? gnm_expr_new_array_corner (
+				expr->array_corner.cols,
+				expr->array_corner.rows, e)
+			: NULL;
+	}
+
+	default:
+		return NULL;
+	}
+}
+
+/**
+ * gnm_expr_walk:
+ * @expr: expression to walk
+ * @walker: (scope call): callback for each sub-expression
+ * @user: user data pointer
+ *
+ * Returns: (transfer full) (allow-none): transformed expression.
+ *
+ * This function walks the expression and calls the walker function for
+ * each subexpression.  If the walker returns a non-NULL expression,
+ * a new expression is built.
+ *
+ * The walker will be called for an expression before its subexpressions.
+ * It will receive the expression as its first argument and a GnmExprWalk
+ * pointer as its second.  It may set the stop flag to terminate the walk
+ * in which case gnm_expr_walk will return NULL.
+ **/
+GnmExpr const *
+gnm_expr_walk (GnmExpr const *expr, GnmExprWalkerFunc walker, gpointer user)
+{
+	GnmExprWalk data;
+
+	g_return_val_if_fail (expr != NULL, NULL);
+
+	data.user = user;
+	data.stop = FALSE;
+	data.flags = 0;
+	return do_expr_walk (expr, walker, &data);
 }
 
 gboolean
@@ -3030,6 +2885,22 @@ gnm_expr_top_new_array_elem  (int x, int y)
 	return gnm_expr_top_new (gnm_expr_new_array_elem (x, y));
 }
 
+static GnmExpr const *
+cb_get_ranges (GnmExpr const *expr, GnmExprWalk *data)
+{
+	GSList **pranges = data->user;
+
+	/* There's no real reason to exclude ranges here, except that
+	   we used to do so.  */
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_NAME) {
+		GnmValue *v = gnm_expr_get_range (expr);
+		if (v)
+			*pranges = gnm_insert_unique_value (*pranges, v);
+	}
+
+	return NULL;
+}
+
 /**
  * gnm_expr_top_get_ranges:
  * @texpr:
@@ -3041,9 +2912,11 @@ gnm_expr_top_new_array_elem  (int x, int y)
 GSList *
 gnm_expr_top_get_ranges (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	GSList *res = NULL;
 
-	return do_gnm_expr_get_ranges (texpr->expr, NULL);
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	gnm_expr_walk (texpr->expr, cb_get_ranges, &res);
+	return res;
 }
 
 GnmValue *
@@ -3213,6 +3086,42 @@ gnm_expr_top_eval (GnmExprTop const *texpr,
 	return res;
 }
 
+static GSList *
+gnm_insert_unique (GSList *list, gpointer data)
+{
+	if (g_slist_find (list, data) == NULL)
+		return g_slist_prepend (list, data);
+	return list;
+}
+
+static GnmExpr const *
+cb_referenced_sheets (GnmExpr const *expr, GnmExprWalk *data)
+{
+	GSList **psheets = data->user;
+
+	switch (GNM_EXPR_GET_OPER (expr)) {
+	case GNM_EXPR_OP_CELLREF:
+		*psheets = gnm_insert_unique (*psheets, expr->cellref.ref.sheet);
+		break;
+
+	case GNM_EXPR_OP_CONSTANT: {
+		GnmValue const *v = expr->constant.value;
+		if (v->type != VALUE_CELLRANGE)
+			break;
+		*psheets = gnm_insert_unique (*psheets, v->v_range.cell.a.sheet);
+		/* A NULL b sheet means a's sheet.  Do not insert that.  */
+		if (v->v_range.cell.b.sheet)
+			*psheets = gnm_insert_unique (*psheets, v->v_range.cell.b.sheet);
+		break;
+	}
+
+	default:
+		break;
+	}
+
+	return NULL;
+}
+
 /**
  * gnm_expr_top_referenced_sheets:
  * @texpr:
@@ -3225,9 +3134,11 @@ gnm_expr_top_eval (GnmExprTop const *texpr,
 GSList *
 gnm_expr_top_referenced_sheets (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	GSList *res = NULL;
 
-	return do_referenced_sheets (texpr->expr, NULL);
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	gnm_expr_walk (texpr->expr, cb_referenced_sheets, &res);
+	return res;
 }
 
 gboolean
@@ -3262,6 +3173,17 @@ gnm_expr_top_get_cellref (GnmExprTop const *texpr)
 	return &texpr->expr->cellref.ref;
 }
 
+static GnmExpr const *
+cb_first_funcall (GnmExpr const *expr, GnmExprWalk *data)
+{
+	GnmExprConstPtr *user = data->user;
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL) {
+		*user = expr;
+		data->stop = TRUE;
+	}
+	return NULL;
+}
+
 /**
  * gnm_expr_top_first_funcall :
  * @texpr:
@@ -3270,9 +3192,43 @@ gnm_expr_top_get_cellref (GnmExprTop const *texpr)
 GnmExpr const *
 gnm_expr_top_first_funcall (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	GnmExpr const *res = NULL;
 
-	return gnm_expr_first_funcall (texpr->expr);
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	gnm_expr_walk (texpr->expr, cb_first_funcall, &res);
+	return res;
+}
+
+struct cb_get_boundingbox {
+	Sheet const *sheet;
+	GnmRange *bound;
+};
+
+static GnmExpr const *
+cb_get_boundingbox (GnmExpr const *expr, GnmExprWalk *data)
+{
+	struct cb_get_boundingbox *args = data->user;
+
+	switch (GNM_EXPR_GET_OPER (expr)) {
+	case GNM_EXPR_OP_CELLREF:
+		cellref_boundingbox (&expr->cellref.ref, args->sheet, args->bound);
+		break;
+
+	case GNM_EXPR_OP_CONSTANT: {
+		GnmValue const *v = expr->constant.value;
+
+		if (v->type == VALUE_CELLRANGE) {
+			cellref_boundingbox (&v->v_range.cell.a, args->sheet, args->bound);
+			cellref_boundingbox (&v->v_range.cell.b, args->sheet, args->bound);
+		}
+		break;
+	}
+
+	default:
+		break;
+	}
+
+	return NULL;
 }
 
 /**
@@ -3285,9 +3241,15 @@ void
 gnm_expr_top_get_boundingbox (GnmExprTop const *texpr, Sheet const *sheet,
 			      GnmRange *bound)
 {
+	struct cb_get_boundingbox args;
+
 	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
 
-	gnm_expr_get_boundingbox (texpr->expr, sheet, bound);
+	range_init_full_sheet (bound, sheet);
+
+	args.sheet = sheet;
+	args.bound = bound;
+	gnm_expr_walk (texpr->expr, cb_get_boundingbox, &args);
 }
 
 gboolean

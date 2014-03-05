@@ -618,75 +618,52 @@ expr_name_new (char const *name)
 	return nexpr;
 }
 
+struct cb_name_loop_check {
+	/* One of these */
+	char const *name;
+	GnmNamedExpr *nexpr;
+
+	gboolean stop_at_name;
+	gboolean res;
+};
+
+static GnmExpr const *
+cb_name_loop_check (GnmExpr const *expr, GnmExprWalk *data)
+{
+	struct cb_name_loop_check *args = data->user;
+
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_NAME) {
+		GnmNamedExpr const *nexpr2 = expr->name.name;
+		if ((args->name && !strcmp (nexpr2->name->str, args->name)) ||
+		    args->nexpr == nexpr2 ||
+		    (!args->stop_at_name && nexpr2->texpr &&
+		     /* Is the following right?  It drops args->nexpr */
+		     expr_name_check_for_loop (args->name, nexpr2->texpr))) {
+			args->res = TRUE;
+			data->stop = TRUE;
+		}
+	}
+
+	return NULL;
+}
+
 /*
  * NB. if we already have a circular reference in addition
  * to this one we are checking we will come to serious grief.
  */
-
-/* Note: for a loopcheck stop_at_name must be FALSE. */
-/*       stop_at_name = TRUE is used when we check all names anyways. */
-static gboolean
-do_expr_name_loop_check (char const *name, GnmNamedExpr *nexpr,  /* One of these */
-			 GnmExpr const *expr,
-			 gboolean stop_at_name)
-{
-	switch (GNM_EXPR_GET_OPER (expr)) {
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY:
-		return (do_expr_name_loop_check (name, nexpr,
-						 expr->binary.value_a,
-						 stop_at_name) ||
-			do_expr_name_loop_check (name, nexpr,
-						 expr->binary.value_b,
-						 stop_at_name));
-	case GNM_EXPR_OP_ANY_UNARY:
-		return do_expr_name_loop_check (name, nexpr,
-						expr->unary.value,
-						stop_at_name);
-	case GNM_EXPR_OP_NAME: {
-		GnmNamedExpr const *nexpr2 = expr->name.name;
-		if (name && !strcmp (nexpr2->name->str, name))
-			return TRUE;
-		if (nexpr == nexpr2)
-			return TRUE;
-		if (!stop_at_name && nexpr2->texpr != NULL) /* look inside this name tree too */
-			return expr_name_check_for_loop (name, nexpr2->texpr);
-		return FALSE;
-	}
-	case GNM_EXPR_OP_FUNCALL: {
-		int i;
-		for (i = 0; i < expr->func.argc; i++)
-			if (do_expr_name_loop_check (name, nexpr,
-						     expr->func.argv[i],
-						     stop_at_name))
-				return TRUE;
-		break;
-	}
-	case GNM_EXPR_OP_CONSTANT:
-	case GNM_EXPR_OP_CELLREF:
-	case GNM_EXPR_OP_ARRAY_CORNER:
-	case GNM_EXPR_OP_ARRAY_ELEM:
-		break;
-	case GNM_EXPR_OP_SET: {
-		int i;
-		for (i = 0; i < expr->set.argc; i++)
-			if (do_expr_name_loop_check (name, nexpr,
-						     expr->set.argv[i],
-						     stop_at_name))
-				return TRUE;
-		break;
-	}
-	}
-	return FALSE;
-}
-
 gboolean
 expr_name_check_for_loop (char const *name, GnmExprTop const *texpr)
 {
+	struct cb_name_loop_check args;
+
 	g_return_val_if_fail (texpr != NULL, TRUE);
 
-	return do_expr_name_loop_check (name, NULL, texpr->expr, FALSE);
+	args.name = name;
+	args.nexpr = NULL;
+	args.stop_at_name = FALSE;
+	args.res = FALSE;
+	gnm_expr_walk (texpr->expr, cb_name_loop_check, &args);
+	return args.res;
 }
 
 static void
@@ -1148,12 +1125,16 @@ cb_expr_name_in_use (G_GNUC_UNUSED gconstpointer key,
 		     GnmNamedExpr *nexpr,
 		     struct cb_expr_name_in_use *pdata)
 {
-	if (pdata->in_use)
-		return;
+	if (!pdata->in_use) {
+		struct cb_name_loop_check args;
 
-	pdata->in_use =
-		do_expr_name_loop_check (NULL, pdata->nexpr,
-					 nexpr->texpr->expr, TRUE);
+		args.name = NULL;
+		args.nexpr = pdata->nexpr;
+		args.stop_at_name = TRUE;
+		args.res = FALSE;
+		gnm_expr_walk (nexpr->texpr->expr, cb_name_loop_check, &args);
+		pdata->in_use = args.res;
+	}
 }
 
 /**

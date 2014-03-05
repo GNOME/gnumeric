@@ -2728,8 +2728,6 @@ sheet_range_set_expr_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
 	g_return_if_fail (texpr != NULL);
 
 	closure.texpr = texpr;
-
-	range_init_full_sheet (&closure.expr_bound, sr->sheet);
 	gnm_expr_top_get_boundingbox (closure.texpr,
 				      sr->sheet,
 				      &closure.expr_bound);
@@ -2805,12 +2803,10 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 	parse_text_value_or_expr (pos, str,
 				  &closure.val, &closure.texpr);
 
-	if (closure.texpr) {
-		range_init_full_sheet (&closure.expr_bound, sheet);
+	if (closure.texpr)
 		gnm_expr_top_get_boundingbox (closure.texpr,
 					      sheet,
 					      &closure.expr_bound);
-	}
 
 	/* Store the parsed result creating any cells necessary */
 	sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL,
