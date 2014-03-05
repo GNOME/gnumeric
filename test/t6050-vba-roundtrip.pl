@@ -10,9 +10,7 @@ use GnumericTest;
 my $src = "$samples/vba-725220.xls";
 &GnumericTest::report_skip ("file $src does not exist") unless -r $src;
 
-my $gsfhelp = `gsf help 2>&1`;
-&GnumericTest::report_skip ("gsf is not available")
-    unless ($gsfhelp || '') =~ /\bcat\b/;
+my $gsf = &GnumericTest::find_program ("gsf");
 
 my $dir1 = &gsf_list ($src);
 
@@ -34,8 +32,8 @@ foreach my $f (sort keys %$dir1) {
     } elsif ($dir1->{$f} ne $dir2->{$f}) {
 	die "$0: member $fprint changed length during conversion.\n";
     } else {
-	my $d1 = `gsf cat '$src' '$f'`;
-	my $d2 = `gsf cat '$tmp' '$f'`;
+	my $d1 = `$gsf cat '$src' '$f'`;
+	my $d2 = `$gsf cat '$tmp' '$f'`;
 	if (length ($d1) ne $dir1->{$f}) {
 	    print "Member $fprint is strange\n";
 	} elsif ($d1 eq $d2) {
@@ -51,7 +49,7 @@ sub gsf_list {
 
     my $dir = {};
     local (*FIL);
-    open (FIL, "gsf list '$fn' | ") or die "Cannot parse $fn: $!\n";
+    open (FIL, "$gsf list '$fn' | ") or die "Cannot parse $fn: $!\n";
     while (<FIL>) {
 	next unless /^f\s.*\s(\d+)\s+(.*)$/;
 	$dir->{$2} = $1;
