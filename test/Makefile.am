@@ -71,6 +71,7 @@ TESTS =	t1000-statfuns.pl			\
 	t6102-objs-ods.pl			\
 	t6103-lookfuns-ods.pl			\
 	t6104-finfuns-ods.pl			\
+	t6150-ods-syntax.pl			\
 	t6500-strings.pl			\
 	t6501-numbers.pl			\
 	t6502-styles.pl				\

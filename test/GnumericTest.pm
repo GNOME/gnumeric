@@ -113,6 +113,23 @@ sub dump_indented {
     print STDERR $txt;
 }
 
+sub find_program {
+    my ($p) = @_;
+
+    if ($p =~ m{/}) {
+	return $p if -x $p;
+    } else {
+	my $PATH = exists $ENV{'PATH'} ? $ENV{'PATH'} : '';
+	foreach my $dir (split (':', $PATH)) {
+	    $dir = '.' if $dir eq '';
+	    my $tentative = "$dir/$p";
+	    return $tentative if -x $tentative;
+	}
+    }
+
+    &report_skip ("$p is missing");
+}
+
 # -----------------------------------------------------------------------------
 
 sub message {
