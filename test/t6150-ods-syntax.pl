@@ -34,6 +34,14 @@ my @sources =
      "$samples/excel/statfuns.xls",
      "$samples/excel/textfuns.xls",
      "$samples/excel/yalta2008.xls",
+     # xmllint hangs on these files.  (Well, amath finishes but takes too
+     # long.)
+     # "$samples/crlibm.gnumeric",
+     # "$samples/amath.gnumeric",
+     # "$samples/gamma.gnumeric",
+     "$samples/numbermatch.gnumeric",
+     "$samples/solver/afiro.mps",
+     "$samples/solver/blend.mps",
      "$samples/auto-filter-tests.gnumeric",
      "$samples/cell-comment-tests.gnumeric",
      "$samples/colrow-tests.gnumeric",
