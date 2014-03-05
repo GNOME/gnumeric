@@ -78,6 +78,8 @@ foreach my $src (@sources) {
 	    $ngood++;
 	}
     }
+
+    &GnumericTest::removejunk ($tmp);
 }
 
 &GnumericTest::report_skip ("No source files present") if $nbad + $ngood == 0;
