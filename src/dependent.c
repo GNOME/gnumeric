@@ -2814,6 +2814,16 @@ workbook_queue_all_recalc (Workbook *wb)
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, dependent_flag_recalc (dep););
 }
 
+void
+workbook_queue_volatile_recalc (Workbook *wb)
+{
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep, {
+		if (dependent_is_volatile (dep))	
+			dependent_flag_recalc (dep);
+	});
+}
+
+
 /**
  * workbook_recalc :
  * @wb:
@@ -2903,6 +2913,14 @@ dynamic_dep_free (DynamicDep *dyn)
 	if (dyn->base.flags & DEPENDENT_HAS_3D)
 		workbook_unlink_3d_dep (&dyn->base);
 	g_free (dyn);
+}
+
+
+gboolean
+dependent_is_volatile (GnmDependent *dep)
+{
+	/* This might need to be a virtual call. */
+	return dep->texpr && gnm_expr_top_is_volatile (dep->texpr);
 }
 
 /**

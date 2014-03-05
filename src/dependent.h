@@ -96,6 +96,8 @@ void	 dependent_unlink	   (GnmDependent *dep);
 void	 dependent_queue_recalc	   (GnmDependent *dep);
 void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr);
 
+gboolean dependent_is_volatile     (GnmDependent *dep);
+
 GnmCellPos const *dependent_pos (GnmDependent const *dep);
 
 GOUndo  *dependents_relocate	    (GnmExprRelocateInfo const *info);
@@ -110,6 +112,7 @@ void dependents_invalidate_sheet  (Sheet *sheet, gboolean destroy);
 void dependents_workbook_destroy  (Workbook *wb);
 void dependents_revive_sheet      (Sheet *sheet);
 void workbook_queue_all_recalc	  (Workbook *wb);
+void workbook_queue_volatile_recalc (Workbook *wb);
 
 void gnm_dep_style_dependency (Sheet *sheet,
 			       GnmExprTop const *texpr,

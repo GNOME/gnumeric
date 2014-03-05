@@ -1,5 +1,13 @@
 2014-03-05  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (gnm_expr_top_is_volatile): New function.
+
+	* src/workbook-view.c (workbook_view_new_from_input): Queue all
+	volatile expressions.
+
+	* src/dependent.c (workbook_queue_volatile_recalc): New function.
+	(dependent_is_volatile): New function.
+
 	* src/sheet.c (sheet_range_set_expr_cb, sheet_range_set_text):
 	Don't set the initial range here.
 

@@ -3059,6 +3059,35 @@ gnm_expr_top_contains_subtotal (GnmExprTop const *texpr)
 	return gnm_expr_contains_subtotal (texpr->expr);
 }
 
+static GnmExpr const *
+cb_is_volatile (GnmExpr const *expr, GnmExprWalk *data)
+{
+	gboolean *res = data->user;
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL &&
+	    (expr->func.func->flags & GNM_FUNC_VOLATILE)) {
+		*res = TRUE;
+		data->stop = TRUE;
+	}
+	return NULL;
+}
+
+gboolean
+gnm_expr_top_is_volatile (GnmExprTop const *texpr)
+{
+	gboolean res = FALSE;
+
+	/*
+	 * An expression is volatile if it contains a call to a volatile
+	 * function, even in cases like IF(TRUE,12,RAND()) where the
+	 * volatile function won't even be reached.
+	 */
+
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	gnm_expr_walk (texpr->expr, cb_is_volatile, &res);
+	return res;
+}
+
+
 GnmValue *
 gnm_expr_top_eval (GnmExprTop const *texpr,
 		   GnmEvalPos const *pos,

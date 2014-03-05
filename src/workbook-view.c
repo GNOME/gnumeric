@@ -1293,6 +1293,7 @@ workbook_view_new_from_input (GsfInput *input,
 		} else {
 			workbook_share_expressions (new_wb, TRUE);
 			workbook_optimize_style (new_wb);
+			workbook_queue_volatile_recalc (new_wb);
 			workbook_recalc (new_wb);
 			go_doc_set_dirty (GO_DOC (new_wb), FALSE);
 			if (optional_uri && workbook_get_file_exporter (new_wb))
