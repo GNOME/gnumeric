@@ -4014,7 +4014,7 @@ odf_write_sheet_control_frame (GnmOOExport *state, SheetObject *so)
 
 static void
 odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so,
-			      char const *element)
+			      char const *element, gboolean is_listbox)
 {
 	GnmExprTop const *texpr = sheet_widget_list_base_get_result_link (so);
 	gboolean as_index = sheet_widget_list_base_result_type_is_index (so);
@@ -4026,17 +4026,17 @@ odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so,
 	texpr = sheet_widget_list_base_get_content_link (so);
 	odf_write_sheet_control_content (state, texpr);
 
-	if (state->odf_version > 101)
+	if (state->odf_version > 101 && is_listbox)
 		gsf_xml_out_add_cstr_unchecked
 			(state->xml, FORM "list-linkage-type",
-			 as_index ? "selection-indexes" : "selection");
+			 as_index ? "selection-indices" : "selection");
 	else if (state->with_extension)
 		gsf_xml_out_add_cstr_unchecked
 			(state->xml, GNMSTYLE "list-linkage-type",
 			 as_index ? "selection-indices" : "selection");
-
-	gsf_xml_out_add_int (state->xml, FORM "bound-column", 1);
-	gsf_xml_out_end_element (state->xml); /* form:checkbox */
+	if (is_listbox)
+		gsf_xml_out_add_int (state->xml, FORM "bound-column", 1);
+	gsf_xml_out_end_element (state->xml); 
 }
 
 static void
@@ -4182,10 +4182,10 @@ odf_write_sheet_controls (GnmOOExport *state)
 			odf_write_sheet_control_radio_button (state, so);
 		else if (GNM_IS_SOW_LIST (so))
 			odf_write_sheet_control_list (state, so,
-						      FORM "listbox");
+						      FORM "listbox", TRUE);
 		else if (GNM_IS_SOW_COMBO (so))
 			odf_write_sheet_control_list (state, so,
-						      FORM "combobox");
+						      FORM "combobox", FALSE);
 		else if (GNM_IS_SOW_BUTTON (so))
 			odf_write_sheet_control_button (state, so);
 		else if (GNM_IS_SOW_FRAME (so))

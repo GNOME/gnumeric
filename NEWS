@@ -1,5 +1,8 @@
 Gnumeric 1.12.13
 
+Andreas:
+	* Fix export of comboboxes to ODF.
+
 Morten:
 	* Support volatile functions.  [#305798]
 
