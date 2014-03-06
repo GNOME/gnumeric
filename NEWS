@@ -6,6 +6,7 @@ Andreas:
 
 Morten:
 	* Support volatile functions.  [#305798]
+	* Improve testing.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.12
