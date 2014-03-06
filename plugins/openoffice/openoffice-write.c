@@ -4544,7 +4544,38 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 					odf_validation_custom (state, val, sheet, sr, &pp);
 					break;
 				}
+			}
+
+			/* writing help message */
+			if (msg) {
+				char const  * msg_content = gnm_input_msg_get_msg (msg);
+				char const  * msg_title = gnm_input_msg_get_title (msg);
 				
+				if (msg_content != NULL || msg_title != NULL) {
+					gsf_xml_out_start_element (state->xml,
+								   TABLE "help-message");
+					odf_add_bool (state->xml, TABLE "display", TRUE);
+					if (msg_title != NULL)
+						gsf_xml_out_add_cstr (state->xml, TABLE "title", msg_title);
+
+					if (msg_content != NULL && strlen (msg_content) > 0) {
+						gboolean white_written = TRUE;
+						gboolean pp = TRUE;
+						g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+						g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+						gsf_xml_out_start_element (state->xml, TEXT "p");
+						odf_add_chars (state, msg_content, strlen (msg_content), 
+							       &white_written);
+						gsf_xml_out_end_element (state->xml);   /* p */
+						g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
+					}
+					
+					gsf_xml_out_end_element (state->xml);
+					/* help message written */
+				}
+			}
+
+			if (val) {	
 				/* writing error message */
 				gsf_xml_out_start_element (state->xml,
 							   TABLE "error-message");
@@ -4579,35 +4610,6 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 				
 				gsf_xml_out_end_element (state->xml);
 				/* error message written */
-			}
-
-			/* writing help message */
-			if (msg) {
-				char const  * msg_content = gnm_input_msg_get_msg (msg);
-				char const  * msg_title = gnm_input_msg_get_title (msg);
-				
-				if (msg_content != NULL || msg_title != NULL) {
-					gsf_xml_out_start_element (state->xml,
-								   TABLE "help-message");
-					odf_add_bool (state->xml, TABLE "display", TRUE);
-					if (msg_title != NULL)
-						gsf_xml_out_add_cstr (state->xml, TABLE "title", msg_title);
-
-					if (msg_content != NULL && strlen (msg_content) > 0) {
-						gboolean white_written = TRUE;
-						gboolean pp = TRUE;
-						g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
-						g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
-						gsf_xml_out_start_element (state->xml, TEXT "p");
-						odf_add_chars (state, msg_content, strlen (msg_content), 
-							       &white_written);
-						gsf_xml_out_end_element (state->xml);   /* p */
-						g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
-					}
-					
-					gsf_xml_out_end_element (state->xml);
-					/* help message written */
-				}
 			}
 
 			gsf_xml_out_end_element (state->xml);

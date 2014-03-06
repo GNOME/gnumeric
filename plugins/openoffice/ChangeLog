@@ -1,5 +1,10 @@
 2014-03-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_print_spreadsheet_content_validations):
+	fix order of elements
+
+2014-03-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_sheet_control_list): add argument
 	to diffferentiate list-boxes and change all callers.
 
