@@ -3,6 +3,8 @@ Gnumeric 1.12.13
 Andreas:
 	* Fix export of comboboxes to ODF.
 	* Fix export of help messages to ODF.
+	* Import invisible alignment characters in number formats from ODF.
+	  [part of #725852]
 
 Morten:
 	* Support volatile functions.  [#305798]
