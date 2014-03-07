@@ -1,3 +1,9 @@
+2014-03-07  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-cell-renderer-text.c
+	(gnumeric_cell_renderer_text_render): Don't use a deprecated
+	function to compute a value we don't use.
+
 2014-03-03  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.12
