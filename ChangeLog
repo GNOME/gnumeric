@@ -1,3 +1,7 @@
+2014-03-07  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_adjust_foreground_attributes): Fix warning.
+
 2014-03-05  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_top_is_volatile): New function.

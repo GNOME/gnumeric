@@ -1371,7 +1371,6 @@ cb_adjust_foreground_attributes (PangoAttribute *attribute,
 			static const GdkRGBA black = { 0, 0, 0, 1 };
 			static const GdkRGBA white = { 1, 1, 1, 1 };
 			double back_norm = color_diff (back, &black);
-			double fore_norm = color_diff (back, &black);
 			double f = 0.2;
 			const GdkRGBA *ref =
 				back_norm > 0.75 ? &black : &white;
