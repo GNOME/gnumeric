@@ -1389,9 +1389,6 @@ do {									\
 	return FALSE;
 }
 
-/* FIXME: This needs theming support.  It needs to know how close
-   colors are to the themed background and push the colors that are
-   too close away (along the light axis, presumably).  */
 static void
 adjust_foreground_attributes (PangoAttrList *attrs, GtkWidget *w)
 {
