@@ -535,9 +535,9 @@
 			<xs:element name="Expression0"	type="xs:string"   minOccurs="0"	maxOccurs="1"/>
 			<xs:element name="Expression1"	type="xs:string"   minOccurs="0"	maxOccurs="1"/>
                     </xs:sequence>
-		    <xs:attribute name="Style"		type="xs:integer"  use="required"/>
-		    <xs:attribute name="Type"		type="xs:integer"  use="required"/>
-		    <xs:attribute name="Operator"	type="xs:integer"  use="optional"/>
+		    <xs:attribute name="Style"		type="gnm:ValidationStyle"  use="required"/>
+		    <xs:attribute name="Type"		type="gnm:ValidationType"  use="required"/>
+		    <xs:attribute name="Operator"	type="gnm:ValidationOperator"  use="optional"/>
 		    <xs:attribute name="AllowBlank"	type="xs:boolean"  use="optional"/>
 		    <xs:attribute name="UseDropdown"	type="xs:boolean"  use="optional"/>
 		    <xs:attribute name="Title"		type="xs:string"   use="optional"/>
@@ -611,6 +611,43 @@
             -->
             <xs:minInclusive value="0"/>
             <xs:maxInclusive value="13"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ValidationStyle">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="GNM_VALIDATION_STYLE_NONE"/>
+            <xs:enumeration value="GNM_VALIDATION_STYLE_STOP"/>
+            <xs:enumeration value="GNM_VALIDATION_STYLE_WARNING"/>
+            <xs:enumeration value="GNM_VALIDATION_STYLE_INFO"/>
+            <xs:enumeration value="GNM_VALIDATION_STYLE_PARSE_ERROR"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ValidationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="GNM_VALIDATION_TYPE_ANY"/>
+            <xs:enumeration value="GNM_VALIDATION_TYPE_AS_INT"/>
+            <xs:enumeration value="GNM_VALIDATION_TYPE_AS_NUMBER"/>
+            <xs:enumeration value="GNM_VALIDATION_TYPE_IN_LIST"/>
+            <xs:enumeration value="GNM_VALIDATION_TYPE_AS_DATE"/>
+            <xs:enumeration value="GNM_VALIDATION_TYPE_AS_TIME"/>
+            <xs:enumeration value="GNM_VALIDATION_TYPE_TEXT_LENGTH"/>
+            <xs:enumeration value="GNM_VALIDATION_TYPE_CUSTOM"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ValidationOperator">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="GNM_VALIDATION_OP_NONE"/>
+            <xs:enumeration value="GNM_VALIDATION_OP_BETWEEN"/>
+            <xs:enumeration value="GNM_VALIDATION_OP_NOT_BETWEEN"/>
+            <xs:enumeration value="GNM_VALIDATION_OP_EQUAL"/>
+            <xs:enumeration value="GNM_VALIDATION_OP_NOT_EQUAL"/>
+            <xs:enumeration value="GNM_VALIDATION_OP_GT"/>
+            <xs:enumeration value="GNM_VALIDATION_OP_LT"/>
+            <xs:enumeration value="GNM_VALIDATION_OP_GTE"/>
+            <xs:enumeration value="GNM_VALIDATION_OP_LTE"/>
         </xs:restriction>
     </xs:simpleType>
 
