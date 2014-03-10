@@ -1,3 +1,11 @@
+2014-03-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_date_text_end_append): delete
+	(odf_date_text_start): new
+	(oo_date_text_append): new
+	(oo_date_text_end): use oo_date_text_append
+	(odf_number_invisible_text): remove corresponding blank
+
 2014-03-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_number_invisible_text): new

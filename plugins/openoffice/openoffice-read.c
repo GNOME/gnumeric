@@ -440,6 +440,8 @@ struct  _OOParseState {
 	int		 richtext_len;
 	struct {
 		GString	*accum;
+		guint    offset;
+		gboolean string_opened;
 		char	*name;
 		int      magic;
 		gboolean truncate_hour_on_overflow;
@@ -4815,10 +4817,52 @@ oo_date_am_pm (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 }
 
 static void
-oo_date_text_end_append (GString *accum, char const *text, int n) {
-	g_string_append_c (accum, '"');
-	g_string_append_len (accum, text, n);
-	g_string_append_c (accum, '"');
+odf_date_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	state->cur_format.offset = 0;
+	state->cur_format.string_opened = FALSE;
+}
+
+
+
+static void
+oo_date_text_append (OOParseState *state, char const *cnt, int cnt_len)
+{
+	if (cnt_len == 1) {
+		if (NULL != strchr (" /-(),",*cnt)) {
+			g_string_append_c (state->cur_format.accum, *cnt);
+			return;
+		}
+		if (state->cur_format.percentage && *cnt == '%') {
+			g_string_append_c (state->cur_format.accum, '%');
+			state->cur_format.percent_sign_seen = TRUE;
+			return;
+		}
+	}
+	if (cnt_len > 0) {
+		if (state->cur_format.percentage) {
+			int len = cnt_len;
+			char const *text = cnt;
+			char const *percent_sign;
+			while ((percent_sign = strchr (text, '%')) != NULL) {
+				if (percent_sign > text) {
+					g_string_append_len
+						(state->cur_format.accum, text,
+						 percent_sign - text);
+					len -= (percent_sign - text);
+				}
+				text = percent_sign + 1;
+				len--;
+				g_string_append_c (state->cur_format.accum, '%');
+				state->cur_format.percent_sign_seen = TRUE;
+			}
+			if (len > 0)
+				g_string_append_len	(state->cur_format.accum, text, len);
+		} else
+			g_string_append_len	(state->cur_format.accum,
+						 cnt, cnt_len);
+	}
 }
 
 /* date_text_end is also used for non-date formats */
@@ -4830,40 +4874,17 @@ oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->cur_format.accum == NULL)
 		return;
 
-	if (xin->content->len == 1) {
-		if (NULL != strchr (" /-(),",*xin->content->str)) {
-			g_string_append_c (state->cur_format.accum, *xin->content->str);
-			return;
-		}
-		if (state->cur_format.percentage && *xin->content->str == '%') {
-			g_string_append_c (state->cur_format.accum, '%');
-			state->cur_format.percent_sign_seen = TRUE;
-			return;
-		}
+	if (xin->content->len > state->cur_format.offset) {
+		if (!state->cur_format.string_opened)
+			g_string_append_c (state->cur_format.accum, '"');
+		
+		oo_date_text_append (state, xin->content->str + state->cur_format.offset,
+				     xin->content->len - state->cur_format.offset);
+	
+		g_string_append_c (state->cur_format.accum, '"');
 	}
-	if (xin->content->len > 0) {
-		if (state->cur_format.percentage) {
-			int len = xin->content->len;
-			char const *text = xin->content->str;
-			char const *percent_sign;
-			while ((percent_sign = strchr (text, '%')) != NULL) {
-				if (percent_sign > text) {
-					oo_date_text_end_append
-						(state->cur_format.accum, text,
-						 percent_sign - text);
-					len -= (percent_sign - text);
-				}
-				text = percent_sign + 1;
-				len--;
-				g_string_append_c (state->cur_format.accum, '%');
-				state->cur_format.percent_sign_seen = TRUE;
-			}
-			if (len > 0)
-				oo_date_text_end_append	(state->cur_format.accum, text, len);
-		} else
-			oo_date_text_end_append	(state->cur_format.accum,
-						 xin->content->str, xin->content->len);
-	}
+	state->cur_format.string_opened = FALSE;
+	state->cur_format.offset = 0;
 }
 
 static void
@@ -5158,11 +5179,32 @@ attr_eq_ncase (xmlChar const *a, char const *s, int n)
 	return !g_ascii_strncasecmp (CXML2C (a), s, n);
 }
 
+
+
 static void
 odf_number_invisible_text (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	/* This can only be called inside a fixed text string */
 	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *cnt = xin->content->str + state->cur_format.offset;
+	int cnt_len = xin->content->len - state->cur_format.offset;
 	char const *text = NULL;
+
+	if (cnt_len == 1) {
+		state->cur_format.offset += 1;
+		
+	} else if (cnt_len > 1) {
+		if (!state->cur_format.string_opened)
+			g_string_append_c (state->cur_format.accum, '"');
+		state->cur_format.string_opened = TRUE;
+		oo_date_text_append (state, cnt, cnt_len - 1);
+		state->cur_format.offset += cnt_len;
+	}
+	if (state->cur_format.string_opened) {
+		g_string_append_c (state->cur_format.accum, '"');
+		state->cur_format.string_opened = FALSE;
+	}
+	
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "char"))
@@ -10832,13 +10874,14 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_X
   GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
        GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
+       GSF_XML_IN_NODE (NUMBER_STYLE_TEXT, NUMBER_TEXT_INVISBLE, OO_GNUM_NS_EXT, "invisible", GSF_XML_NO_CONTENT, &odf_number_invisible_text, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT, &odf_fraction, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", GSF_XML_NO_CONTENT, &odf_scientific, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, OO_NS_STYLE,	"properties", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
-    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_TEXT_INVISBLE, OO_GNUM_NS_EXT, "invisible", GSF_XML_NO_CONTENT, &odf_number_invisible_text, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_TEXT_INVISBLE, OO_GNUM_NS_EXT, "invisible", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
 
   GSF_XML_IN_NODE (OFFICE_STYLES, DATE_STYLE, OO_NS_NUMBER, "date-style", GSF_XML_NO_CONTENT, &oo_date_style, &oo_date_style_end),
     GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY, OO_NS_NUMBER,		"day", GSF_XML_NO_CONTENT,	&oo_date_day, NULL),
@@ -10852,7 +10895,7 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_X
     GSF_XML_IN_NODE (DATE_STYLE, DATE_MINUTES, OO_NS_NUMBER,		"minutes", GSF_XML_NO_CONTENT, &oo_date_minutes, NULL),
     GSF_XML_IN_NODE (DATE_STYLE, DATE_SECONDS, OO_NS_NUMBER,		"seconds", GSF_XML_NO_CONTENT, &oo_date_seconds, NULL),
     GSF_XML_IN_NODE (DATE_STYLE, DATE_AM_PM, OO_NS_NUMBER,		"am-pm", GSF_XML_NO_CONTENT,	&oo_date_am_pm, NULL),
-    GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
     GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
     GSF_XML_IN_NODE (DATE_STYLE, DATE_MAP, OO_NS_STYLE,			"map", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -10861,7 +10904,7 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_X
     GSF_XML_IN_NODE (TIME_STYLE, TIME_MINUTES, OO_NS_NUMBER,		"minutes", GSF_XML_NO_CONTENT, &oo_date_minutes, NULL),
     GSF_XML_IN_NODE (TIME_STYLE, TIME_SECONDS, OO_NS_NUMBER,		"seconds", GSF_XML_NO_CONTENT, &oo_date_seconds, NULL),
     GSF_XML_IN_NODE (TIME_STYLE, TIME_AM_PM, OO_NS_NUMBER,		"am-pm", GSF_XML_NO_CONTENT,	&oo_date_am_pm, NULL),
-    GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
+    GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT,  &odf_date_text_start, &oo_date_text_end),
     GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
     GSF_XML_IN_NODE (TIME_STYLE, TIME_MAP, OO_NS_STYLE,			"map", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -10873,18 +10916,18 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_X
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_STYLE_PROP, OO_NS_STYLE,	"properties", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_SYMBOL, OO_NS_NUMBER,	"currency-symbol", GSF_XML_CONTENT, NULL, &odf_currency_symbol_end),
-    GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
+    GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, &odf_number_percentage_style, &odf_number_style_end),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
-    GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
+    GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_TEXT, OO_NS_NUMBER, "text-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
     GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_CONTENT, OO_NS_NUMBER,	"text-content", GSF_XML_NO_CONTENT,  &odf_text_content, NULL),
-    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
+    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
     GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
     GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 
@@ -10994,7 +11037,7 @@ GSF_XML_IN_NODE (OFFICE_STYLES, PAGE_MASTER, OO_NS_STYLE, "page-master", GSF_XML
       GSF_XML_IN_NODE (DATE_STYLE, DATE_MINUTES, OO_NS_NUMBER,		"minutes", GSF_XML_NO_CONTENT, &oo_date_minutes, NULL),
       GSF_XML_IN_NODE (DATE_STYLE, DATE_SECONDS, OO_NS_NUMBER,		"seconds", GSF_XML_NO_CONTENT, &oo_date_seconds, NULL),
       GSF_XML_IN_NODE (DATE_STYLE, DATE_AM_PM, OO_NS_NUMBER,		"am-pm", GSF_XML_NO_CONTENT,	&oo_date_am_pm, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
       GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (DATE_STYLE, DATE_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -11003,7 +11046,7 @@ GSF_XML_IN_NODE (OFFICE_STYLES, PAGE_MASTER, OO_NS_STYLE, "page-master", GSF_XML
       GSF_XML_IN_NODE (TIME_STYLE, TIME_MINUTES, OO_NS_NUMBER,		"minutes", GSF_XML_NO_CONTENT, &oo_date_minutes, NULL),
       GSF_XML_IN_NODE (TIME_STYLE, TIME_SECONDS, OO_NS_NUMBER,		"seconds", GSF_XML_NO_CONTENT, &oo_date_seconds, NULL),
       GSF_XML_IN_NODE (TIME_STYLE, TIME_AM_PM, OO_NS_NUMBER,		"am-pm", GSF_XML_NO_CONTENT,	&oo_date_am_pm, NULL),
-      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
+      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
       GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (TIME_STYLE, TIME_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -11111,7 +11154,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	    GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", GSF_XML_NO_CONTENT, &odf_number, NULL),
                  GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT,  &odf_fraction, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", GSF_XML_NO_CONTENT, &odf_scientific, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_MAP, OO_NS_STYLE,		  "map", GSF_XML_NO_CONTENT, &odf_map, NULL),
@@ -11128,7 +11171,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (DATE_STYLE, DATE_MINUTES, OO_NS_NUMBER,		"minutes", GSF_XML_NO_CONTENT, &oo_date_minutes, NULL),
 	      GSF_XML_IN_NODE (DATE_STYLE, DATE_SECONDS, OO_NS_NUMBER,		"seconds", GSF_XML_NO_CONTENT, &oo_date_seconds, NULL),
 	      GSF_XML_IN_NODE (DATE_STYLE, DATE_AM_PM, OO_NS_NUMBER,		"am-pm", GSF_XML_NO_CONTENT,	&oo_date_am_pm, NULL),
-	      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT,  &odf_date_text_start, &oo_date_text_end),
 	      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 	      GSF_XML_IN_NODE (DATE_STYLE, DATE_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, TIME_STYLE, OO_NS_NUMBER,	"time-style", GSF_XML_NO_CONTENT, &oo_date_style, &oo_date_style_end),
@@ -11136,7 +11179,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_MINUTES, OO_NS_NUMBER,	"minutes", GSF_XML_NO_CONTENT, &oo_date_minutes, NULL),
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_SECONDS, OO_NS_NUMBER,	"seconds", GSF_XML_NO_CONTENT, &oo_date_seconds, NULL),
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_AM_PM, OO_NS_NUMBER,	"am-pm", GSF_XML_NO_CONTENT,	&oo_date_am_pm, NULL),
-	      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
+	      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_MAP, OO_NS_STYLE,	"map", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_BOOL, OO_NS_NUMBER,	"boolean-style", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -11146,11 +11189,11 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_STYLE_PROP, OO_NS_STYLE,"properties", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_MAP, OO_NS_STYLE,	"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_SYMBOL, OO_NS_NUMBER,	"currency-symbol", GSF_XML_CONTENT, NULL, &odf_currency_symbol_end),
-	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
+	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, &odf_number_percentage_style, &odf_number_style_end),
 	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
-	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
+	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
 	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
 	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_TEXT, OO_NS_NUMBER,		"text-style", GSF_XML_NO_CONTENT, NULL, NULL),
