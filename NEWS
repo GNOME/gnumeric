@@ -9,7 +9,7 @@ Andreas:
 Morten:
 	* Support volatile functions.  [#305798]
 	* Improve testing.
-	* Export super/subscript fonts to xlsx.  [Part of #726035]
+	* Import/Export super/subscript fonts to xlsx.  [Part of #726035]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.12

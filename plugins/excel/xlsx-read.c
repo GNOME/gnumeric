@@ -4109,6 +4109,23 @@ xlsx_CT_FontSize (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_font_size	(state->style_accum, val);
 }
 static void
+xlsx_CT_vertAlign (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	static EnumVal const types[] = {
+		{ "subscript", GO_FONT_SCRIPT_SUB },
+		{ "superscript", GO_FONT_SCRIPT_SUPER },
+		{ NULL, 0 }
+	};
+	int val = GO_FONT_SCRIPT_STANDARD;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_enum (xin, attrs, "val", types, &val))
+			; /* Nothing */
+
+	gnm_style_set_font_script (state->style_accum, val);
+}
+static void
 xlsx_font_uline (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const types[] = {
@@ -4515,6 +4532,7 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
       GSF_XML_IN_NODE (FONT, FONT_EXTEND,    XL_NS_SS, "extend",    GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FONT, FONT_COLOR,     XL_NS_SS, "color",     GSF_XML_NO_CONTENT, &xlsx_font_color, NULL),
       GSF_XML_IN_NODE (FONT, FONT_SZ,	     XL_NS_SS, "sz",	    GSF_XML_NO_CONTENT,	&xlsx_CT_FontSize, NULL),
+      GSF_XML_IN_NODE (FONT, FONT_SCRIPT,    XL_NS_SS, "vertAlign", GSF_XML_NO_CONTENT,	&xlsx_CT_vertAlign, NULL),
       GSF_XML_IN_NODE (FONT, FONT_ULINE,     XL_NS_SS, "u",	    GSF_XML_NO_CONTENT,	&xlsx_font_uline, NULL),
       GSF_XML_IN_NODE (FONT, FONT_VERTALIGN, XL_NS_SS, "vertAlign", GSF_XML_NO_CONTENT, &xlsx_font_valign, NULL),
       GSF_XML_IN_NODE (FONT, FONT_SCHEME,    XL_NS_SS, "scheme",    GSF_XML_NO_CONTENT, NULL, NULL),

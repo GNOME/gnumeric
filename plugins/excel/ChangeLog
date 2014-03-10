@@ -1,5 +1,7 @@
 2014-03-10  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read.c (xlsx_CT_vertAlign): Read super/subscript.
+
 	* xlsx-write.c (xlsx_write_fonts): Save super/sub attribute.
 
 2014-03-05  Morten Welinder  <terra@gnome.org>
