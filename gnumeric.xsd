@@ -19,6 +19,7 @@
 	    updated for 1.7.11 in Jun 2007	jody@gnome.org
 	    updated for 1.7.91 in Nov 2007	jody@gnome.org
 	    partially updated for 1.10.17 in July 2011	aguelzow@pyrshep.ca
+	    partially updated for 1.12.13 in March 2014	terra@gnome.org
         </xs:documentation>
     </xs:annotation>
     
@@ -609,33 +610,25 @@
     </xs:simpleType>
 
     <xs:simpleType name="horizontal_alignment">
-        <xs:restriction base="xs:integer">
-            <!-- this is a bit map as follows:
-                  1 = GENERAL
-                  2 = LEFT
-                  4 = RIGHT
-                  8 = CENTER
-                 16 = FILL
-                 32 = JUSTIFY
-                 64 = CENTER ACROSS SELECTION
-		128 = DISTRIBUTED
-            -->
-            <xs:minInclusive value="1"/>
-            <xs:maxInclusive value="128"/>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="GNM_HALIGN_GENERAL"/>
+            <xs:enumeration value="GNM_HALIGN_LEFT"/>
+            <xs:enumeration value="GNM_HALIGN_RIGHT"/>
+            <xs:enumeration value="GNM_HALIGN_CENTER"/>
+            <xs:enumeration value="GNM_HALIGN_FILL"/>
+            <xs:enumeration value="GNM_HALIGN_JUSTIFY"/>
+            <xs:enumeration value="GNM_HALIGN_CENTER_ACROSS_SELECTION"/>
+            <xs:enumeration value="GNM_HALIGN_DISTRIBUTED"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="vertical_alignment">
-        <xs:restriction base="xs:integer">
-            <!-- this is a bit map as follows:
-                 1 = TOP
-                 2 = BOTTOM
-                 4 = CENTER
-                 8 = JUSTIFY
-                16 = DISTRIBUTED
-            -->
-            <xs:minInclusive value="1"/>
-            <xs:maxInclusive value="16"/>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="GNM_VALIGN_TOP"/>
+            <xs:enumeration value="GNM_VALIGN_BOTTOM"/>
+            <xs:enumeration value="GNM_VALIGN_CENTER"/>
+            <xs:enumeration value="GNM_VALIGN_JUSTIFY"/>
+            <xs:enumeration value="GNM_VALIGN_DISTRIBUTED"/>
         </xs:restriction>
     </xs:simpleType>
 

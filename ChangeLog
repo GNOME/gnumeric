@@ -1,5 +1,7 @@
 2014-03-10  Morten Welinder  <terra@gnome.org>
 
+	* gnumeric.xsd: Update valign/halign attributes.
+
 	* src/sheet-filter.c (gnm_filter_condition_new_single)
 	(gnm_filter_condition_new_double): Add preconditions.
 
