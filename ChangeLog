@@ -1,3 +1,8 @@
+2014-03-10  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-filter.c (gnm_filter_condition_new_single)
+	(gnm_filter_condition_new_double): Add preconditions.
+
 2014-03-07  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_adjust_foreground_attributes): Fix warning.

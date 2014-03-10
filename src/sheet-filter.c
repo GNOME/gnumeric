@@ -55,7 +55,11 @@
 GnmFilterCondition *
 gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
 {
-	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
+	GnmFilterCondition *res;
+
+	g_return_val_if_fail (v != NULL, NULL);
+
+	res = g_new0 (GnmFilterCondition, 1);
 	res->op[0] = op;	res->op[1] = GNM_FILTER_UNUSED;
 	res->value[0] = v;
 	return res;
@@ -77,7 +81,12 @@ gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
 				 gboolean join_with_and,
 				 GnmFilterOp op1, GnmValue *v1)
 {
-	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
+	GnmFilterCondition *res;
+
+	g_return_val_if_fail (v0 != NULL, NULL);
+	g_return_val_if_fail (v1 != NULL, NULL);
+
+	res = g_new0 (GnmFilterCondition, 1);
 	res->op[0] = op0;	res->op[1] = op1;
 	res->is_and = join_with_and;
 	res->value[0] = v0;	res->value[1] = v1;
