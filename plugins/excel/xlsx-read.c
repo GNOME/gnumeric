@@ -55,6 +55,7 @@
 #include "gnm-so-filled.h"
 #include "gnm-so-line.h"
 #include "sheet-object-image.h"
+#include "number-match.h"
 #include "dead-kittens.h"
 
 #include <goffice/goffice.h>
@@ -2268,25 +2269,37 @@ xlsx_CT_CustomFilters_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_CT_CustomFilter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-#if 0
 	static EnumVal const ops[] = {
-		{ "lessThan",		GNM_STYLE_COND_LT },
-		{ "lessThanOrEqual",	GNM_STYLE_COND_LTE },
-		{ "equal",		GNM_STYLE_COND_EQUAL },
-		{ "notEqual",		GNM_STYLE_COND_NOT_EQUAL },
-		{ "greaterThanOrEqual",	GNM_STYLE_COND_GTE },
-		{ "greaterThan",	GNM_STYLE_COND_GT },
+		{ "lessThan",		GNM_FILTER_OP_LT },
+		{ "lessThanOrEqual",	GNM_FILTER_OP_LTE },
+		{ "equal",		GNM_FILTER_OP_EQUAL },
+		{ "notEqual",		GNM_FILTER_OP_NOT_EQUAL },
+		{ "greaterThanOrEqual",	GNM_FILTER_OP_GTE },
+		{ "greaterThan",	GNM_FILTER_OP_GT },
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int tmp;
 	GnmFilterOp op = GNM_STYLE_COND_EQUAL;
+	GnmValue *v = NULL;
+	GnmFilterCondition *cond;
+	GODateConventions const *date_conv = workbook_date_conv (state->wb);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "val")) {
-		} else if (attr_enum (xin, attrs, "operator", ops, &tmp))
+			const char *txt = CXML2C (attrs[1]);
+			value_release (v);
+			v = format_match (txt, NULL, date_conv);
+			if (!v)
+				v = value_new_string (txt);
+		} else if (attr_enum (xin, attrs, "operator", ops, &tmp)) {
 			op = tmp;
-#endif
+		}
+
+	cond = gnm_filter_condition_new_single (op, v);
+	if (cond)
+		gnm_filter_set_condition (state->filter, state->filter_cur_field,
+					  cond, FALSE);
 }
 
 static void

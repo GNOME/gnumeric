@@ -10,6 +10,7 @@ Morten:
 	* Support volatile functions.  [#305798]
 	* Improve testing.
 	* Import/Export super/subscript fonts to xlsx.  [Part of #726035]
+	* Import xlsx auto-filters.  [#725460]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.12
