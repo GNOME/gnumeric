@@ -4114,6 +4114,7 @@ xlsx_CT_vertAlign (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	static EnumVal const types[] = {
 		{ "subscript", GO_FONT_SCRIPT_SUB },
+		{ "baseline", GO_FONT_SCRIPT_STANDARD },
 		{ "superscript", GO_FONT_SCRIPT_SUPER },
 		{ NULL, 0 }
 	};
