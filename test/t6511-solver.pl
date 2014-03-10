@@ -12,12 +12,16 @@ my $file = "$samples/solver-tests.gnumeric";
 		 'format' => 'Gnumeric_XmlIO:sax',
 		 'ext' => "gnm");
 
-&message ("Check solver ods roundtrip.");
-&test_roundtrip ($file,
-		 'format' => 'Gnumeric_OpenCalc:odf',
-		 'ext' => "ods",
-		 'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'",
-		 'ignore_failure' => 1);
+if (1) {
+    &message ("Not checking solver ods roundtrip -- format is deficient");
+} else {
+    &message ("Check solver ods roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_OpenCalc:odf',
+		     'ext' => "ods",
+		     'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'",
+		     'ignore_failure' => 1);
+}
 
 my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
 
