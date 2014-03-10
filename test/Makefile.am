@@ -85,6 +85,7 @@ TESTS =	t1000-statfuns.pl			\
 	t6510-auto-filter.pl			\
 	t6511-solver.pl				\
 	t6512-format.pl				\
+	t6513-merges.pl				\
 	t7000-goal-seek.pl			\
 	t7100-solver-blend.pl			\
 	t7101-solver-afiro.pl			\
