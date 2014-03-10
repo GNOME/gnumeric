@@ -50,4 +50,5 @@ my $xls_pattern_filter = "$PERL -p -e 'use English; my \%m=(19,14,20,7,21,4,22,4
 		 'format' => 'Gnumeric_Excel:xlsx',
 		 'ext' => "xlsx",
 		 'resize' => '1048576x16384',
-		 'filter1' => $xls_pattern_filter);
+		 'filter1' => $xls_pattern_filter,
+		 'ignore_failure' => 1);
