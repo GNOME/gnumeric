@@ -350,6 +350,8 @@
             <xs:element name="Footer"	    type="gnm:HeaderFooter"/>
             <!-- typical values are A4, US-Letter -->
             <xs:element name="paper"       type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="comments"    type="gnm:PrintComments"/>
+            <xs:element name="errors"      type="gnm:PrintErrors"/>
 	    <!-- do not print this sheet when "all" is selected in the job -->
 	    <xs:element name="do_not_print"	minOccurs="0" maxOccurs="1">
 	        <xs:complexType>
@@ -363,15 +365,15 @@
 	        <xs:complexType>
 	            <xs:attribute name="value" use="required">
 		      <xs:simpleType>
-			<xs:restriction base="xs:integer">
-			  <xs:enumeration value="-1"/> <!-- PRINT_SAVED_INFO -->
-			  <xs:enumeration value="0"/> <!-- PRINT_ACTIVE_SHEET -->
-			  <xs:enumeration value="1"/> <!-- PRINT_ALL_SHEETS -->
-			  <xs:enumeration value="2"/> <!-- PRINT_ALL_SHEETS_INCLUDING_HIDDEN -->
-			  <xs:enumeration value="3"/> <!-- PRINT_SHEET_RANGE -->
-			  <xs:enumeration value="4"/> <!-- PRINT_SHEET_SELECTION -->
-			  <xs:enumeration value="5"/> <!-- PRINT_IGNORE_PRINTAREA -->
-			  <xs:enumeration value="6"/> <!-- PRINT_SHEET_SELECTION_IGNORE_PRINTAREA -->
+			<xs:restriction base="xs:string">
+			  <xs:enumeration value="GNM_PRINT_SAVED_INFO"/>
+			  <xs:enumeration value="GNM_PRINT_ACTIVE_SHEET"/>
+			  <xs:enumeration value="GNM_PRINT_ALL_SHEETS"/>
+			  <xs:enumeration value="GNM_PRINT_ALL_SHEETS_INCLUDING_HIDDEN"/>
+			  <xs:enumeration value="GNM_PRINT_SHEET_RANGE"/>
+			  <xs:enumeration value="GNM_PRINT_SHEET_SELECTION"/>
+			  <xs:enumeration value="GNM_PRINT_IGNORE_PRINTAREA"/>
+			  <xs:enumeration value="GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA"/>
 			</xs:restriction>
 		      </xs:simpleType>
 		    </xs:attribute>
@@ -387,6 +389,31 @@
 	<xs:attribute name="Right"  type="xs:string" use="optional"/>
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
+
+    <xs:complexType name="PrintComments">
+	<xs:attribute name="placement" type="gnm:PrintCommentsPlacement"/>
+    </xs:complexType>
+
+    <xs:simpleType name="PrintCommentsPlacement">
+	<xs:restriction base="xs:string">
+	  <xs:enumeration value="GNM_PRINT_COMMENTS_NONE"/>
+	  <xs:enumeration value="GNM_PRINT_COMMENTS_IN_PLACE"/>
+	  <xs:enumeration value="GNM_PRINT_COMMENTS_AT_END"/>
+	</xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="PrintErrors">
+	<xs:attribute name="PrintErrorsAs" type="gnm:PrintErrorsAs"/>
+    </xs:complexType>
+
+    <xs:simpleType name="PrintErrorsAs">
+	<xs:restriction base="xs:string">
+	  <xs:enumeration value="GNM_PRINT_ERRORS_AS_DISPLAYED"/>
+	  <xs:enumeration value="GNM_PRINT_ERRORS_AS_BLANK"/>
+	  <xs:enumeration value="GNM_PRINT_ERRORS_AS_DASHES"/>
+	  <xs:enumeration value="GNM_PRINT_ERRORS_AS_NA"/>
+	</xs:restriction>
+    </xs:simpleType>
 
     <xs:complexType name="PageBreaks">
 	<xs:sequence>

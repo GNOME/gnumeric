@@ -11,6 +11,7 @@ Morten:
 	* Improve testing.
 	* Import/Export super/subscript fonts to xlsx.  [Part of #726035]
 	* Import xlsx auto-filters.  [#725460]
+	* Update Gnumeric schema.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.12
