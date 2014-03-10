@@ -56,7 +56,7 @@
 	<xs:element name="DateConvention"	type="xs:int" minOccurs="0" maxOccurs="1"/>
 	
 	<!-- preferred height and width -->
-	<xs:element name="Geometry">
+	<xs:element name="Geometry" minOccurs="0" maxOccurs="1">
 	  <xs:complexType>
 	    <xs:attribute name="Width"  type="xs:nonNegativeInteger" use="optional"/>
 	    <xs:attribute name="Height" type="xs:nonNegativeInteger" use="optional"/>
@@ -112,7 +112,7 @@
 
     <xs:simpleType name="CellRef">
         <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Z]+\d+"/>
+            <xs:pattern value="$?[A-Z]+$?\d+"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -516,6 +516,17 @@
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
+            <xs:element name="Condition" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+		    <xs:sequence>
+			<xs:element name="Expression0"	type="xs:string"  minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Expression1"	type="xs:string"  minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Style"	type="gnm:Style"  minOccurs="1" maxOccurs="1"/>
+		    </xs:sequence>
+		    <xs:attribute name="Operator"	type="gnm:CondOp" use="required"/>
+		    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                </xs:complexType>
+            </xs:element>
             <xs:element name="StyleBorder" minOccurs="0" maxOccurs="1">
                 <xs:complexType>
                     <xs:choice minOccurs="0"	maxOccurs="6"> <!-- The order of the last two elements appears to be 
@@ -550,17 +561,6 @@
                 <xs:complexType>
 		    <xs:attribute name="Title"          type="xs:string"  use="optional"/>
 		    <xs:attribute name="Message"        type="xs:string"  use="optional"/>
-		    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="Condition" minOccurs="0" maxOccurs="unbounded">
-                <xs:complexType>
-		    <xs:sequence>
-			<xs:element name="Expression0"	type="xs:string"  minOccurs="0" maxOccurs="1"/>
-			<xs:element name="Expression1"	type="xs:string"  minOccurs="0" maxOccurs="1"/>
-			<xs:element name="Style"	type="gnm:Style"  minOccurs="1" maxOccurs="1"/>
-		    </xs:sequence>
-		    <xs:attribute name="Operator"	type="gnm:CondOp" use="required"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
@@ -861,13 +861,15 @@
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="SheetWidgetToggleButton"		minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SheetWidgetRadioButton">
                 <xs:complexType>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
 		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
                     <xs:attribute name="Label"            type="xs:string"  use="required"/>
-                    <xs:attribute name="Value"            type="xs:integer" use="required"/>
-                    <xs:attribute name="Input"            type="xs:string"  use="required"/>
+                    <xs:attribute name="Value"            type="xs:string" use="required"/>
+                    <xs:attribute name="ValueType"        type="gnm:ValueType" use="required"/>
+                    <xs:attribute name="Active"           type="xs:boolean"  use="required"/>
+                    <xs:attribute name="Input"            type="xs:string"  use="optional"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
@@ -948,6 +950,7 @@
 		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
 		    <xs:attribute name="Content"	type="xs:string"  use="required"/>
 		    <xs:attribute name="Output"	        type="xs:string"  use="required"/>
+		    <xs:attribute name="OutputAsIndex"	type="xs:boolean"  use="required"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
@@ -957,6 +960,24 @@
 		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
 		    <xs:attribute name="Content"	type="xs:string"  use="required"/>
 		    <xs:attribute name="Output"	        type="xs:string"  use="required"/>
+		    <xs:attribute name="OutputAsIndex"	type="xs:boolean"  use="required"/>
+		    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="SheetObjectGraphic">
+                <xs:complexType>
+		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
+		    <xs:attribute name="Type"	type="xs:integer"  use="required"/>
+		    <xs:attribute name="StartArrowType"	type="xs:string"  use="optional"/>
+		    <xs:attribute name="StartArrowShapeA" type="xs:double"  use="optional"/>
+		    <xs:attribute name="StartArrowShapeB" type="xs:double"  use="optional"/>
+		    <xs:attribute name="StartArrowShapeC" type="xs:double"  use="optional"/>
+		    <xs:attribute name="EndArrowType"	type="xs:string"  use="optional"/>
+		    <xs:attribute name="EndArrowShapeA" type="xs:double"  use="optional"/>
+		    <xs:attribute name="EndArrowShapeB" type="xs:double"  use="optional"/>
+		    <xs:attribute name="EndArrowShapeC" type="xs:double"  use="optional"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
@@ -1195,19 +1216,13 @@
         <xs:sequence>
 	    <xs:element name="Constr" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
-                    <xs:attribute name="Lcol" type="xs:nonNegativeInteger" use="required"/>
-                    <xs:attribute name="Lrow" type="xs:nonNegativeInteger" use="required"/>
-                    <xs:attribute name="Rcol" type="xs:nonNegativeInteger" use="required"/>
-                    <xs:attribute name="Rrow" type="xs:nonNegativeInteger" use="required"/>
-                    <xs:attribute name="Cols" type="xs:nonNegativeInteger" use="required"/>
-                    <xs:attribute name="Rows" type="xs:nonNegativeInteger" use="required"/>
+                    <xs:attribute name="lhs" type="gnm:SolverSide" use="required"/>
+                    <xs:attribute name="rhs" type="gnm:SolverSide" use="required"/>
                     <xs:attribute name="Type" type="gnm:solver_constraint_t"    use="required"/>
-		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="TargetCol"   type="xs:integer"		use="optional"/>
-        <xs:attribute name="TargetRow"   type="xs:integer"		use="optional"/>
+        <xs:attribute name="Target"      type="gnm:CellRef"		use="optional"/>
         <xs:attribute name="ProblemType" type="gnm:solver_problem_t"	use="required"/>
         <xs:attribute name="ModelType"   type="gnm:model_type_t"/>
         <xs:attribute name="Inputs"      type="xs:string"/>
@@ -1236,6 +1251,12 @@
         </xs:restriction>
     </xs:simpleType>
     
+    <xs:simpleType name="SolverSide">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="$?[A-Z]+$?\d+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="solver_problem_t">
         <xs:restriction base="xs:integer">
             <xs:enumeration value="0" /> <!-- SolverMinimize -->
