@@ -433,6 +433,8 @@ xlsx_find_font (GnmStyle const *style, GPtrArray  *styles)
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_NAME) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_SIZE) ||
+		    gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT) !=
+		    gnm_style_is_element_set (old_style, MSTYLE_FONT_SCRIPT) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_STRIKETHROUGH))
 			continue;
@@ -442,6 +444,7 @@ xlsx_find_font (GnmStyle const *style, GPtrArray  *styles)
 		    gnm_style_get_font_color (style)->go_color !=
 		    gnm_style_get_font_color (old_style)->go_color ||
 		    gnm_style_get_font_size (style) != gnm_style_get_font_size (old_style) ||
+		    gnm_style_get_font_script (style) != gnm_style_get_font_script (old_style) ||
 		    gnm_style_get_font_strike (style) != gnm_style_get_font_strike (old_style))
 			continue;
 		if (0 == strcmp (gnm_style_get_font_name (style),
@@ -465,6 +468,7 @@ xlsx_write_fonts (XLSXWriteState *state, GsfXMLOut *xml)
 		    gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_COLOR) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_NAME) ||
+		    gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) ||
 		    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
 			gint font_n = xlsx_find_font (style, styles_w_fonts);
@@ -517,6 +521,21 @@ xlsx_write_fonts (XLSXWriteState *state, GsfXMLOut *xml)
 				gsf_xml_out_add_cstr
 					(xml, "val", gnm_style_get_font_name (style));
 				gsf_xml_out_end_element (xml);
+			}
+			if (gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT)) {
+				GOFontScript scr = gnm_style_get_font_script (style);
+				const char *val;
+
+				switch (scr) {
+				case GO_FONT_SCRIPT_SUB: val = "subscript"; break;
+				case GO_FONT_SCRIPT_SUPER: val = "superscript"; break;
+				default: val = NULL;
+				}
+				if (val) {
+					gsf_xml_out_start_element (xml, "vertAlign");
+					gsf_xml_out_add_cstr (xml, "val", val);
+					gsf_xml_out_end_element (xml);
+				}
 			}
 			if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE)) {
 				gsf_xml_out_start_element (xml, "sz");
