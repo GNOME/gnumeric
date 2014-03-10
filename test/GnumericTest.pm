@@ -399,6 +399,7 @@ sub test_roundtrip {
     if ($resize) {
 	$file_resized =~ s{^.*/}{};
 	$file_resized =~ s/(\.gnumeric)$/-resize$1/;
+	unlink $file_resized;
 	my $cmd = "$ssconvert --resize $resize '$file' '$file_resized'";
 	print STDERR "# $cmd\n" if $verbose;
 	$code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
@@ -407,6 +408,7 @@ sub test_roundtrip {
     }
     
     my $tmp1 = "$tmp.$newext";
+    unlink $tmp1;
     &junkfile ($tmp1) unless $keep;
     {
 	my $cmd = "$ssconvert -T $format '$file_resized' '$tmp1'";
@@ -416,6 +418,7 @@ sub test_roundtrip {
     }
 
     my $tmp2 = "$tmp-new.$ext";
+    unlink $tmp2;
     &junkfile ($tmp2) unless $keep;
     {
 	my $cmd = "$ssconvert '$tmp1' '$tmp2'";
@@ -425,11 +428,13 @@ sub test_roundtrip {
     }
 
     my $tmp_xml = "$tmp.xml";
+    unlink $tmp_xml;
     &junkfile ($tmp_xml) unless $keep;
     $code = system ("zcat -f '$file_resized' | $normalize_gnumeric | $filter1 >'$tmp_xml'");
     &system_failure ('zcat', $code) if $code;
 
     my $tmp2_xml = "$tmp-new.xml";
+    unlink $tmp2_xml;
     &junkfile ($tmp2_xml) unless $keep;
     # print STDERR "zcat -f '$tmp2' | $normalize_gnumeric | $filter2 >'$tmp2_xml'\n";
     $code = system ("zcat -f '$tmp2' | $normalize_gnumeric | $filter2 >'$tmp2_xml'");
