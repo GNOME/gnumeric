@@ -4824,22 +4824,39 @@ odf_date_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	state->cur_format.string_opened = FALSE;
 }
 
+static void
+oo_date_text_append_quoted (OOParseState *state, char const *cnt, int cnt_len)
+{
+	if (!state->cur_format.string_opened)
+		g_string_append_c (state->cur_format.accum, '"');
+	state->cur_format.string_opened = TRUE;
+	g_string_append_len (state->cur_format.accum, cnt, cnt_len);
+}
 
+static void
+oo_date_text_append_unquoted (OOParseState *state, char cnt)
+{
+	if (state->cur_format.string_opened)
+		g_string_append_c (state->cur_format.accum, '"');
+	state->cur_format.string_opened = FALSE;
+	g_string_append_c (state->cur_format.accum, cnt);
+}
 
 static void
 oo_date_text_append (OOParseState *state, char const *cnt, int cnt_len)
 {
 	if (cnt_len == 1) {
 		if (NULL != strchr (" /-(),",*cnt)) {
-			g_string_append_c (state->cur_format.accum, *cnt);
+			oo_date_text_append_unquoted (state, *cnt);
 			return;
 		}
 		if (state->cur_format.percentage && *cnt == '%') {
-			g_string_append_c (state->cur_format.accum, '%');
+			oo_date_text_append_unquoted  (state, '%');
 			state->cur_format.percent_sign_seen = TRUE;
 			return;
 		}
 	}
+
 	if (cnt_len > 0) {
 		if (state->cur_format.percentage) {
 			int len = cnt_len;
@@ -4847,21 +4864,20 @@ oo_date_text_append (OOParseState *state, char const *cnt, int cnt_len)
 			char const *percent_sign;
 			while ((percent_sign = strchr (text, '%')) != NULL) {
 				if (percent_sign > text) {
-					g_string_append_len
-						(state->cur_format.accum, text,
+					oo_date_text_append_quoted 
+						(state, text,
 						 percent_sign - text);
 					len -= (percent_sign - text);
 				}
 				text = percent_sign + 1;
 				len--;
-				g_string_append_c (state->cur_format.accum, '%');
+				oo_date_text_append_unquoted (state, '%');
 				state->cur_format.percent_sign_seen = TRUE;
 			}
 			if (len > 0)
-				g_string_append_len	(state->cur_format.accum, text, len);
+				oo_date_text_append_quoted (state, text, len);
 		} else
-			g_string_append_len	(state->cur_format.accum,
-						 cnt, cnt_len);
+			oo_date_text_append_quoted (state, cnt, cnt_len);
 	}
 }
 
@@ -4874,16 +4890,14 @@ oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->cur_format.accum == NULL)
 		return;
 
-	if (xin->content->len > state->cur_format.offset) {
-		if (!state->cur_format.string_opened)
-			g_string_append_c (state->cur_format.accum, '"');
-		
+	if (xin->content->len > state->cur_format.offset)
 		oo_date_text_append (state, xin->content->str + state->cur_format.offset,
 				     xin->content->len - state->cur_format.offset);
 	
+	if (state->cur_format.string_opened) {
 		g_string_append_c (state->cur_format.accum, '"');
+		state->cur_format.string_opened = FALSE;
 	}
-	state->cur_format.string_opened = FALSE;
 	state->cur_format.offset = 0;
 }
 
@@ -5194,24 +5208,22 @@ odf_number_invisible_text (GsfXMLIn *xin, xmlChar const **attrs)
 		state->cur_format.offset += 1;
 		
 	} else if (cnt_len > 1) {
-		if (!state->cur_format.string_opened)
-			g_string_append_c (state->cur_format.accum, '"');
-		state->cur_format.string_opened = TRUE;
 		oo_date_text_append (state, cnt, cnt_len - 1);
 		state->cur_format.offset += cnt_len;
 	}
-	if (state->cur_format.string_opened) {
-		g_string_append_c (state->cur_format.accum, '"');
-		state->cur_format.string_opened = FALSE;
-	}
 	
-
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "char"))
 			text = CXML2C (attrs[1]);
-
-	g_string_append_c (state->cur_format.accum, '_');
-	g_string_append (state->cur_format.accum, text);
+	
+	if (text != NULL) {
+		if (state->cur_format.string_opened) {
+			g_string_append_c (state->cur_format.accum, '"');
+			state->cur_format.string_opened = FALSE;
+		}
+		g_string_append_c (state->cur_format.accum, '_');
+		g_string_append (state->cur_format.accum, text);
+	}
 }
 
 static void
