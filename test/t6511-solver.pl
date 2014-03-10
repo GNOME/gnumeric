@@ -21,24 +21,36 @@ my $file = "$samples/solver-tests.gnumeric";
 
 my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
 
-&message ("Check solver xls/BIFF7 roundtrip.");
-&test_roundtrip ($file,
-		 'format' => 'Gnumeric_Excel:excel_biff7',
-		 'ext' => "xls",
-		 'resize' => '16384x256',
-		 'filter2' => $xls_codepage_filter,
-		 'ignore_failure' => 1);
+if (1) {
+    &message ("Not checking solver xls/BIFF7 roundtrip -- format is deficient");
+} else {
+    &message ("Check solver xls/BIFF7 roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_Excel:excel_biff7',
+		     'ext' => "xls",
+		     'resize' => '16384x256',
+		     'filter2' => $xls_codepage_filter,
+		     'ignore_failure' => 1);
+}
 
-&message ("Check solver xls/BIFF8 roundtrip.");
-&test_roundtrip ($file,
-		 'format' => 'Gnumeric_Excel:excel_biff8',
-		 'ext' => "xls",
-		 'filter2' => $xls_codepage_filter,
-		 'ignore_failure' => 1);
+if (1) {
+    &message ("Not checking solver xls/BIFF8 roundtrip -- format is deficient");
+} else {
+    &message ("Check solver xls/BIFF8 roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_Excel:excel_biff8',
+		     'ext' => "xls",
+		     'filter2' => $xls_codepage_filter,
+		     'ignore_failure' => 1);
+}
 
-&message ("Check solver xlsx roundtrip.");
-&test_roundtrip ($file,
-		 'format' => 'Gnumeric_Excel:xlsx',
-		 'ext' => "xlsx",
-		 'resize' => '1048576x16384',
-		 'ignore_failure' => 1);
+if (1) {
+    &message ("Not checking solver xlsx roundtrip -- format is deficient");
+} else {
+    &message ("Check solver xlsx roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_Excel:xlsx',
+		     'ext' => "xlsx",
+		     'resize' => '1048576x16384',
+		     'ignore_failure' => 1);
+}
