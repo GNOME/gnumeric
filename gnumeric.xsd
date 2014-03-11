@@ -71,6 +71,8 @@
 	    <xs:anyAttribute namespace="##other" processContents="lax"/>
 	  </xs:complexType>
 	</xs:element>
+	<xs:element name="GODoc" form="unqualified" minOccurs="0">
+	</xs:element>
       </xs:sequence>
     </xs:group>
     
@@ -879,6 +881,7 @@
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
 		    <xs:attributeGroup ref="gnm:ObjectAdjustmentProps"/>
 		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
+                    <xs:attribute name="Horizontal" type="xs:boolean"  use="optional"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
@@ -905,6 +908,7 @@
 			<xs:element name="Content" form="unqualified">
 			    <xs:complexType mixed="true">
 				<xs:attribute name="image-type" type="xs:string"	use="required"/>
+				<xs:attribute name="name" type="xs:string"	use="optional"/>
 				<xs:attribute name="size-bytes" type="xs:int"		use="optional"/>
 				<xs:anyAttribute namespace="##other" processContents="lax"/>
 			    </xs:complexType>
@@ -967,6 +971,9 @@
 
             <xs:element name="SheetObjectGraphic">
                 <xs:complexType>
+		    <xs:sequence>
+		      <xs:element name="Style" type="gnm:GOStyle" form="unqualified"/>
+		    </xs:sequence>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
 		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
 		    <xs:attribute name="Type"	type="xs:integer"  use="required"/>
@@ -989,6 +996,18 @@
                 </xs:complexType>
             </xs:element>
         </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="GOStyle">
+      <xs:sequence>
+	<xs:element name="line" type="gnm:GOLine" form="unqualified"/>
+      </xs:sequence>
+      <xs:attribute name="type"	type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="GOLine">
+      <!-- Lazy: -->
+      <xs:anyAttribute processContents="skip"/>
     </xs:complexType>
 
     <xs:complexType name="GogObject">
