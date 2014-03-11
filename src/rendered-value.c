@@ -63,6 +63,16 @@ static int rv_allocations;
 #define CHUNK_FREE(p,v) (rv_allocations--, g_slice_free1 (sizeof(*v),(v)))
 #endif
 
+static gboolean
+debug_rv (void)
+{
+	static int res = -1;
+	if (res == -1) {
+		res = gnm_debug_flag ("rendered-value");
+	}
+	return res > 0;
+}
+
 
 static guint16
 calc_indent (PangoContext *context, const GnmStyle *mstyle)
@@ -220,11 +230,15 @@ gnm_rendered_value_new (GnmCell const *cell,
 	GnmStyle const *mstyle;
 	PangoDirection dir;
 	char const *text;
+	gboolean debug = debug_rv ();
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	/* sheet->workbook can be NULL when called from preview-grid.c  */
 	sheet = cell->base.sheet;
+
+	if (debug)
+		g_printerr ("Rendering %s\n", cell_name (cell));
 
 	displayed_formula =
 		gnm_cell_has_expr (cell) && sheet->display_formulas;
@@ -313,6 +327,9 @@ gnm_rendered_value_new (GnmCell const *cell,
 			PangoFontDescription *desc = pango_font_description_new ();
 			double font_size, scale = 1., tscale;
 			int rise = 0;
+
+			if (debug)
+				g_printerr ("  Markup on value: %s\n", go_format_as_XL (fmt));
 
 			attrs = pango_attr_list_copy (attrs);
 
