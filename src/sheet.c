@@ -2879,10 +2879,14 @@ cb_set_markup (GnmCellIter const *iter, PangoAttrList *markup)
 
 	if (VALUE_IS_STRING (cell->value)) {
 		GOFormat *fmt;
+		GnmValue *val = value_dup (cell->value);
 
 		fmt = go_format_new_markup (markup, TRUE);
-		value_set_fmt (cell->value, fmt);
+		value_set_fmt (val, fmt);
 		go_format_unref (fmt);
+
+		gnm_cell_cleanout (cell);
+		gnm_cell_assign_value (cell, val);
 	}
 	return NULL;
 }
@@ -2985,8 +2989,7 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 	} else {
 		g_return_if_fail (val != NULL);
 
-		gnm_cell_set_value (cell, val);
-		if (markup != NULL && VALUE_IS_STRING (cell->value)) {
+		if (markup != NULL && VALUE_IS_STRING (val)) {
 			gboolean quoted = (text[0] == '\'');
 			PangoAttrList *adj_markup;
 			GOFormat *fmt;
@@ -2999,11 +3002,13 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 				adj_markup = markup;
 
 			fmt = go_format_new_markup (adj_markup, TRUE);
-			value_set_fmt (cell->value, fmt);
+			value_set_fmt (val, fmt);
 			go_format_unref (fmt);
 			if (quoted)
 				pango_attr_list_unref (adj_markup);
 		}
+
+		gnm_cell_set_value (cell, val);
 
 		/* Queue recalc before spanning, see above.  */
 		cell_queue_recalc (cell);

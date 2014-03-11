@@ -381,7 +381,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			cell = sheet_cell_fetch (sheet,
 						 sv->edit_pos.col,
 						 sv->edit_pos.row);
-			sheet_cell_set_text (cell, txt, NULL);
+			sheet_cell_set_text (cell, txt, wbcg->edit_line.markup);
 			valid = gnm_validation_eval (wbc, mstyle, sheet, &sv->edit_pos, showed_dialog);
 			break;
 		}
