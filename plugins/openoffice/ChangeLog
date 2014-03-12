@@ -1,5 +1,12 @@
 2014-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_style_cell_properties):
+	GNM_HALIGN_CENTER_ACROSS_SELECTION should be source="fix"
+	(odf_write_style_paragraph_properties): use "center" for
+	GNM_HALIGN_CENTER_ACROSS_SELECTION
+
+2014-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_style_prop_cell): read script info
 
 2014-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>

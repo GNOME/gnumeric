@@ -7,6 +7,7 @@ Andreas:
 	  [part of #725852]
 	* Fix fill-alignment export/import to and from ODF. [part of #726035]
 	* Fix distributed-alignment export to ODF. [part of #726035]
+	* Fix ODF roundtrip of "center accross selection". [#726010]
 
 Morten:
 	* Support volatile functions.  [#305798]

@@ -1318,12 +1318,12 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 		case GNM_HALIGN_RIGHT:
 		case GNM_HALIGN_CENTER:
 		case GNM_HALIGN_JUSTIFY:
+		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 		        source = "fix";
 			break;
 		case GNM_HALIGN_FILL:
 			rep_content = TRUE;
 		case GNM_HALIGN_GENERAL:
-		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 		default:
 			/* Note that since source is value-type, alignment should be ignored */
                         /*(but isn't by OOo) */
@@ -1373,9 +1373,13 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 			gnum_specs = TRUE;
 			break;
 		case GNM_HALIGN_FILL:
+			/* handled by repeat-content */
+			break;
+		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
+			alignment = "center";
+			gnum_specs = TRUE;
 			break;
 		case GNM_HALIGN_GENERAL:
-		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 		default:
 			/* Note that since source is value-type, alignment should be ignored */
                         /*(but isn't by OOo) */
