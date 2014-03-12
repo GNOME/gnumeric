@@ -16,8 +16,7 @@ my $file = "$samples/auto-filter-tests.gnumeric";
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_OpenCalc:odf',
 		 'ext' => "ods",
-		 'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'",
-		 'ignore_failure' => 1);
+		 'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'");
 
 my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
 
@@ -41,5 +40,4 @@ my $xls_greek_filter = "$PERL -p -C7 -e '1 while (s{\\b((Title|Message)=\".*Gree
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:xlsx',
 		 'ext' => "xlsx",
-		 'resize' => '1048576x16384',
-		 'ignore_failure' => 1);
+		 'resize' => '1048576x16384');

@@ -37,8 +37,7 @@ my $xls_greek_filter = "$PERL -p -C7 -e '1 while (s{\\b(Text=\"Greek[ ?]+)[^ ?\"
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff8',
 		 'ext' => "xls",
-		 'filter2' => $xls_codepage_filter,
-		 'ignore_failure' => 1);
+		 'filter2' => $xls_codepage_filter);
 
 &message ("Check cell-comment xlsx roundtrip.");
 &test_roundtrip ($file,
