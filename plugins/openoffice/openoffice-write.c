@@ -3432,8 +3432,9 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		case VALUE_STRING:
 			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "string");
-			/*If this is a non-formula cell we show the real formatted content */
-			if (NULL != cell->base.texpr)
+			/* If this is a non-formula cell we show only the real formatted content */
+			/* If the alignmnet type is 'FILL' we do need to give the string value!  */
+			if (NULL != cell->base.texpr || gnm_style_get_align_h (style) == GNM_HALIGN_FILL)
 				gsf_xml_out_add_cstr (state->xml,
 						      OFFICE "string-value",
 						      value_peek_string (cell->value));

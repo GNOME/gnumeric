@@ -4556,6 +4556,9 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
+static void odf_style_set_align_h (GnmStyle *style, gboolean h_align_is_valid, gboolean repeat_content,
+				   int text_align, int gnm_halign);
+
 static void
 oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -4564,6 +4567,10 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	switch (state->cur_style.type) {
 	case OO_STYLE_CELL :
 		if (state->cur_style.cells != NULL) {
+			odf_style_set_align_h (state->cur_style.cells->style, 
+					       state->h_align_is_valid, 
+					       state->repeat_content,
+					       state->text_align, state->gnm_halign);
 			odf_oo_cell_style_unref (state->cur_style.cells);
 			state->cur_style.cells = NULL;
 		}
@@ -6152,10 +6159,12 @@ odf_style_set_align_h (GnmStyle *style, gboolean h_align_is_valid, gboolean repe
 		       int text_align, int gnm_halign)
 {
 	int alignment = GNM_HALIGN_GENERAL;
-	if (h_align_is_valid)
-		alignment = repeat_content ? GNM_HALIGN_FILL
-			: ((text_align < 0) ? ((gnm_halign > -1) ? gnm_halign : GNM_HALIGN_LEFT)
-			   : text_align);
+
+	if (repeat_content)
+		alignment = GNM_HALIGN_FILL;
+	else if (h_align_is_valid)
+		alignment = ((text_align < 0) ? ((gnm_halign > -1) ? gnm_halign : GNM_HALIGN_LEFT)
+			     : text_align);
 
 	gnm_style_set_align_h (style, alignment);
 }
@@ -6257,23 +6266,15 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_contents_hidden (style, (tmp & 1) != 0);
 		} else if (oo_attr_enum (xin, attrs,
 				       (state->ver >= OOO_VER_OPENDOC) ? OO_NS_FO : OO_NS_STYLE,
-					 "text-align", h_alignments, &(state->text_align)))
+					 "text-align", h_alignments, &(state->text_align))) {
 			/* Note that style:text-align-source, style:text_align, style:repeat-content  */
 			/* and gnm:GnmHAlign interact but can appear in any order and arrive from different */
 			/* elements, so we can't use local variables                                  */
-			odf_style_set_align_h (style, state->h_align_is_valid, state->repeat_content,
-					       state->text_align, state->gnm_halign);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-align-source")) {
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-align-source")) {
 			state->h_align_is_valid = attr_eq (attrs[1], "fix");
-			odf_style_set_align_h (style, state->h_align_is_valid, state->repeat_content,
-					       state->text_align, state->gnm_halign);
-		} else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "repeat-content", &(state->repeat_content)))
-			odf_style_set_align_h (style, state->h_align_is_valid, state->repeat_content,
-					       state->text_align, state->gnm_halign);
-		else if (oo_attr_int (xin,attrs, OO_GNUM_NS_EXT, "GnmHAlign", &(state->gnm_halign)))
-			odf_style_set_align_h (style, state->h_align_is_valid, state->repeat_content,
-					       state->text_align, state->gnm_halign);
-		else if (oo_attr_enum (xin, attrs,
+		} else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "repeat-content", &(state->repeat_content))) {
+		} else if (oo_attr_int (xin,attrs, OO_GNUM_NS_EXT, "GnmHAlign", &(state->gnm_halign))) {
+		}else if (oo_attr_enum (xin, attrs,
 				       (state->ver >= OOO_VER_OPENDOC) ? OO_NS_STYLE : OO_NS_FO,
 				       "vertical-align", v_alignments, &tmp)) {
 			if (tmp != -1) {

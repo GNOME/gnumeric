@@ -1,3 +1,12 @@
+2014-03-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_style_end): set alignment once
+	(odf_style_set_align_h): use repeat_content even if the
+	source is not set to 'fix'
+	(oo_style_prop_cell): don't set teh alignment here
+	* openoffice-write.c (odf_write_cell): write a string-value
+	if repeat-content will be set to true
+
 2014-03-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_date_text_append_quoted): new

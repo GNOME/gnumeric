@@ -5,6 +5,7 @@ Andreas:
 	* Fix export of help messages to ODF.
 	* Import invisible alignment characters in number formats from ODF.
 	  [part of #725852]
+	* Fix fill-alignment export/import to and from ODF. [part of #726035]
 
 Morten:
 	* Support volatile functions.  [#305798]
