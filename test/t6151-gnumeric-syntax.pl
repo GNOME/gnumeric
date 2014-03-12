@@ -33,11 +33,9 @@ my @sources =
      "$samples/excel/textfuns.xls",
      "$samples/excel/yalta2008.xls",
      "$samples/excel12/cellstyle.xlsx",
-     # xmllint hangs on these files.  (Well, amath finishes but takes too
-     # long.)
-     # "$samples/crlibm.gnumeric",
-     # "$samples/amath.gnumeric",
-     # "$samples/gamma.gnumeric",
+     "$samples/crlibm.gnumeric",
+     "$samples/amath.gnumeric",
+     "$samples/gamma.gnumeric",
      "$samples/linest.xls",
      "$samples/vba-725220.xls",
      "$samples/sumif.xls",
