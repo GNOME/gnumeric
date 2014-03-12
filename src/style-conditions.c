@@ -269,6 +269,21 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 			 gnm_expr_new_cellref (&self));
 		break;
 
+	case GNM_STYLE_COND_CONTAINS_STR:
+		negate = TRUE; /* ...and fall through */
+	case GNM_STYLE_COND_NOT_CONTAINS_STR: {
+		GnmExprTop const *sexpr = gnm_style_cond_get_expr (cond, 0);
+		if (!sexpr)
+			return NULL;
+		expr = gnm_expr_new_funcall1
+			(gnm_func_lookup_or_add_placeholder ("ISERROR"),
+			 gnm_expr_new_funcall2
+			 (gnm_func_lookup_or_add_placeholder ("FIND"),
+			  gnm_expr_copy (sexpr->expr),
+			  gnm_expr_new_cellref (&self)));
+		break;
+	}
+
 	case GNM_STYLE_COND_CONTAINS_BLANKS:
 		negate = TRUE; /* ...and fall through */
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
@@ -279,6 +294,12 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 			  gnm_expr_new_constant (value_new_string (" ")),
 			  gnm_expr_new_cellref (&self)));
 		break;
+
+	case GNM_STYLE_COND_BEGINS_WITH_STR:
+	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
+	case GNM_STYLE_COND_ENDS_WITH_STR:
+	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
+		/* we ought to do the above */
 
 	default:
 		return NULL;
@@ -305,15 +326,6 @@ isself (GnmExpr const *expr)
 		cr->col_relative && cr->row_relative);
 }
 
-static gboolean
-issinglespace (GnmExpr const *expr)
-{
-	GnmValue const *v = gnm_expr_get_constant (expr);
-	return (v &&
-		VALUE_IS_STRING (v) &&
-		strcmp (value_peek_string (v), " ") == 0);
-}
-
 /**
  * gnm_style_cond_canonicalize:
  * @cond: condition
@@ -327,6 +339,7 @@ gnm_style_cond_canonicalize (GnmStyleCond *cond)
 {
 	GnmExpr const *expr, *expr2;
 	GnmExprTop const *texpr;
+	GnmValue const *v;
 	gboolean negate = FALSE;
 	GnmFunc const *iserror;
 	GnmFunc const *find;
@@ -341,6 +354,7 @@ gnm_style_cond_canonicalize (GnmStyleCond *cond)
 	if (!texpr)
 		return;
 	expr = texpr->expr;
+	texpr = NULL;
 
 	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL &&
 	    expr->func.argc == 1 &&
@@ -363,15 +377,25 @@ gnm_style_cond_canonicalize (GnmStyleCond *cond)
 		   (expr2 = expr->func.argv[0]) &&
 		   GNM_EXPR_GET_OPER (expr2) == GNM_EXPR_OP_FUNCALL &&
 		   expr2->func.argc == 2 && expr2->func.func == find &&
-		   issinglespace (expr2->func.argv[0]) &&
+		   (v = gnm_expr_get_constant (expr2->func.argv[0])) &&
+		   VALUE_IS_STRING (v) &&
 		   isself (expr2->func.argv[1])) {
-		newop = negate
-			? GNM_STYLE_COND_CONTAINS_BLANKS
-			: GNM_STYLE_COND_NOT_CONTAINS_BLANKS;
+		if (strcmp (value_peek_string (v), " ") == 0)
+			newop = negate
+				? GNM_STYLE_COND_CONTAINS_BLANKS
+				: GNM_STYLE_COND_NOT_CONTAINS_BLANKS;
+		else {
+			texpr = gnm_expr_top_new_constant (value_dup (v));
+			newop = negate
+				? GNM_STYLE_COND_CONTAINS_STR
+				: GNM_STYLE_COND_NOT_CONTAINS_STR;
+		}
 	}
 
 	if (newop != GNM_STYLE_COND_CUSTOM) {
-		gnm_style_cond_set_expr (cond, NULL, 0);
+		gnm_style_cond_set_expr (cond, texpr, 0);
+		if (texpr)
+			gnm_expr_top_unref (texpr);
 		cond->op = newop;
 	}
 }
