@@ -26,6 +26,7 @@
 #include "mstyle.h"
 #include "gnm-style-impl.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "cell.h"
 #include "value.h"
 #include "sheet.h"
@@ -289,6 +290,92 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 
 	return gnm_expr_top_new (expr);
 }
+
+static gboolean
+isself (GnmExpr const *expr)
+{
+	GnmCellRef const *cr;
+
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CELLREF)
+		return FALSE;
+	cr = &expr->cellref.ref;
+
+	return (cr->sheet == NULL &&
+		cr->col == 0 && cr->row == 0 &&
+		cr->col_relative && cr->row_relative);
+}
+
+static gboolean
+issinglespace (GnmExpr const *expr)
+{
+	GnmValue const *v = gnm_expr_get_constant (expr);
+	return (v &&
+		VALUE_IS_STRING (v) &&
+		strcmp (value_peek_string (v), " ") == 0);
+}
+
+/**
+ * gnm_style_cond_canonicalize:
+ * @cond: condition
+ *
+ * Turns a custom condition into a more specific one, i.e., reverses the
+ * effect of using gnm_style_cond_get_alternate_expr.  Leaves the condition
+ * alone if it is not recognized.
+ **/
+void
+gnm_style_cond_canonicalize (GnmStyleCond *cond)
+{
+	GnmExpr const *expr, *expr2;
+	GnmExprTop const *texpr;
+	gboolean negate = FALSE;
+	GnmFunc const *iserror;
+	GnmFunc const *find;
+	GnmStyleCondOp newop = GNM_STYLE_COND_CUSTOM;
+
+	g_return_if_fail (cond != NULL);
+
+	if (cond->op != GNM_STYLE_COND_CUSTOM)
+		return;
+
+	texpr = gnm_style_cond_get_expr (cond, 0);
+	if (!texpr)
+		return;
+	expr = texpr->expr;
+
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL &&
+	    expr->func.argc == 1 &&
+	    expr->func.func == gnm_func_lookup_or_add_placeholder ("NOT")) {
+		negate = TRUE;
+		expr = expr->func.argv[0];
+	}
+
+	iserror = gnm_func_lookup_or_add_placeholder ("ISERROR");
+	find = gnm_func_lookup_or_add_placeholder ("FIND");
+
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL &&
+	    expr->func.argc == 1 && expr->func.func == iserror &&
+	    isself (expr->func.argv[0])) {
+		newop = negate
+			? GNM_STYLE_COND_NOT_CONTAINS_ERR
+			: GNM_STYLE_COND_CONTAINS_ERR;
+	} else if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL &&
+		   expr->func.argc == 1 && expr->func.func == iserror &&
+		   (expr2 = expr->func.argv[0]) &&
+		   GNM_EXPR_GET_OPER (expr2) == GNM_EXPR_OP_FUNCALL &&
+		   expr2->func.argc == 2 && expr2->func.func == find &&
+		   issinglespace (expr2->func.argv[0]) &&
+		   isself (expr2->func.argv[1])) {
+		newop = negate
+			? GNM_STYLE_COND_CONTAINS_BLANKS
+			: GNM_STYLE_COND_NOT_CONTAINS_BLANKS;
+	}
+
+	if (newop != GNM_STYLE_COND_CUSTOM) {
+		gnm_style_cond_set_expr (cond, NULL, 0);
+		cond->op = newop;
+	}
+}
+
 
 static void
 gnm_style_conditions_finalize (GObject *obj)

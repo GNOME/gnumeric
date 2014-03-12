@@ -57,7 +57,9 @@ GnmExprTop const *gnm_style_cond_get_expr (GnmStyleCond const *cond,
 void          gnm_style_cond_set_expr (GnmStyleCond *cond,
 				       GnmExprTop const *texpr,
 				       unsigned idx);
+
 GnmExprTop const *gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond);
+void gnm_style_cond_canonicalize (GnmStyleCond *cond);
 
 Sheet      *gnm_style_cond_get_sheet (GnmStyleCond const *cond);
 void        gnm_style_cond_set_sheet (GnmStyleCond *cond, Sheet *sheet);

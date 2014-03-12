@@ -5204,6 +5204,9 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		gnm_expr_top_unref (texpr);
 	}
 
+	/* Reverse the alternate-expression treatment on save.  */
+	gnm_style_cond_canonicalize (cond);
+
 	/* UNDOCUMENTED : the format of the conditional format
 	 * is unspecified.
 	 *

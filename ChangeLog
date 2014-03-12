@@ -2,6 +2,7 @@
 
 	* src/style-conditions.c (gnm_style_cond_get_alternate_expr): New
 	function.
+	(gnm_style_cond_canonicalize): New function.
 
 	* src/ssconvert.c (convert): only print "Using exporter ..." if
 	--verbose is given, and print it to stderr.

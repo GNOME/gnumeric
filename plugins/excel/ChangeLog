@@ -4,6 +4,9 @@
 	gnm_style_cond_get_alternate_expr for conditions not available in
 	xls.
 
+	* ms-excel-read.c (excel_read_CF): Undo the alternate expression
+	stuff.
+
 2014-03-10  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_CT_vertAlign): Read super/subscript.
