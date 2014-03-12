@@ -16,6 +16,7 @@ Morten:
 	* Import xlsx auto-filters.  [#725460]
 	* Update Gnumeric schema.
 	* Fix rich text problem.  [#726086]
+	* Improve xls export of conditional formats.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.12

@@ -1014,6 +1014,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 	for (i = 0 ; i < det_len ; i++) {
 		GnmStyleCond const *cond = g_ptr_array_index (details, i);
 		GnmStyle const *s = cond->overlay;
+		GnmExprTop const *alt_texpr;
 
 		ms_biff_put_var_next (bp, BIFF_CF);
 		header_pos = bp->curpos;
@@ -1143,18 +1144,37 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		} else
 			flags |= 0x70000;
 
-		expr0_len = (gnm_style_cond_get_expr (cond, 0) == NULL)
-			? 0
-			: excel_write_formula (esheet->ewb,
-					       gnm_style_cond_get_expr (cond, 0),
+		switch (cond->op) {
+		case GNM_STYLE_COND_CONTAINS_STR:
+		case GNM_STYLE_COND_NOT_CONTAINS_STR:
+		case GNM_STYLE_COND_BEGINS_WITH_STR:
+		case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
+		case GNM_STYLE_COND_ENDS_WITH_STR:
+		case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
+		case GNM_STYLE_COND_CONTAINS_ERR:
+		case GNM_STYLE_COND_NOT_CONTAINS_ERR:
+		case GNM_STYLE_COND_CONTAINS_BLANKS:
+		case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
+			alt_texpr = gnm_style_cond_get_alternate_expr (cond);
+			break;
+		default:
+			alt_texpr = NULL;
+		}
+
+		expr0_len = (alt_texpr || gnm_style_cond_get_expr (cond, 0))
+			? excel_write_formula (esheet->ewb,
+					       alt_texpr
+					       ? alt_texpr
+					       : gnm_style_cond_get_expr (cond, 0),
 					       esheet->gnum_sheet, 0, 0,
-					       EXCEL_CALLED_FROM_CONDITION);
-		expr1_len = (gnm_style_cond_get_expr (cond, 1) == NULL)
-			? 0
-			: excel_write_formula (esheet->ewb,
+					       EXCEL_CALLED_FROM_CONDITION)
+			: 0;
+		expr1_len = gnm_style_cond_get_expr (cond, 1)
+			? excel_write_formula (esheet->ewb,
 					       gnm_style_cond_get_expr (cond, 1),
 					       esheet->gnum_sheet, 0, 0,
-					       EXCEL_CALLED_FROM_CONDITION);
+					       EXCEL_CALLED_FROM_CONDITION)
+			: 0;
 
 		type = 1;
 		switch (cond->op) {
@@ -1167,9 +1187,13 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		case GNM_STYLE_COND_GTE:	op = 0x07; break;
 		case GNM_STYLE_COND_LTE:	op = 0x08; break;
 
-		default :
-			g_warning ("unknown condition %d", cond->op);
-		case GNM_STYLE_COND_CUSTOM:	op = 0; type = 2; break;
+		default:
+			if (alt_texpr)
+				gnm_expr_top_unref (alt_texpr);
+			else
+				g_warning ("unknown condition %d", cond->op);
+		case GNM_STYLE_COND_CUSTOM:
+			op = 0; type = 2; break;
 		}
 
 		ms_biff_put_var_seekto (bp, header_pos);
@@ -1553,6 +1577,30 @@ excel_write_prep_conditions (ExcelWriteSheet *esheet)
 			gnm_style_get_conditions (sr->style));
 		for (i = 0 ; i < (conds ? conds->len : 0) ; i++) {
 			GnmStyleCond const *cond = g_ptr_array_index (conds, i);
+
+			switch (cond->op) {
+			case GNM_STYLE_COND_CONTAINS_STR:
+			case GNM_STYLE_COND_NOT_CONTAINS_STR:
+			case GNM_STYLE_COND_BEGINS_WITH_STR:
+			case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
+			case GNM_STYLE_COND_ENDS_WITH_STR:
+			case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
+			case GNM_STYLE_COND_CONTAINS_ERR:
+			case GNM_STYLE_COND_NOT_CONTAINS_ERR:
+			case GNM_STYLE_COND_CONTAINS_BLANKS:
+			case GNM_STYLE_COND_NOT_CONTAINS_BLANKS: {
+				GnmExprTop const *alt_texpr =
+					gnm_style_cond_get_alternate_expr (cond);
+				if (alt_texpr) {
+					excel_write_prep_expr (esheet->ewb, alt_texpr);
+					gnm_expr_top_unref (alt_texpr);
+				}
+				break;
+			}
+			default:
+				; /* Nothing */
+			}
+
 			if (gnm_style_cond_get_expr (cond, 0) != NULL)
 				excel_write_prep_expr (esheet->ewb, gnm_style_cond_get_expr (cond, 0));
 			if (gnm_style_cond_get_expr (cond, 1) != NULL)

@@ -1,5 +1,8 @@
 2014-03-12  Morten Welinder  <terra@gnome.org>
 
+	* src/style-conditions.c (gnm_style_cond_get_alternate_expr): New
+	function.
+
 	* src/ssconvert.c (convert): only print "Using exporter ..." if
 	--verbose is given, and print it to stderr.
 

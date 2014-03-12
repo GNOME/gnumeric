@@ -32,8 +32,8 @@
 #include <parse-util.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
-#include <parse-util.h>
-#include "gutils.h"
+#include <func.h>
+#include <gutils.h>
 
 #define BLANKS_STRING_FOR_MATCHING " \t\n\r"
 
@@ -241,6 +241,54 @@ gnm_style_cond_set_overlay (GnmStyleCond *cond, GnmStyle *overlay)
 	cond->overlay = overlay;
 }
 
+/**
+ * gnm_style_cond_get_alternate_expr:
+ * @cond: condition
+ *
+ * Returns: (transfer full) (allow-none): An custom expression that can be
+ * used in place of @cond.
+ **/
+GnmExprTop const *
+gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
+{
+	GnmCellRef self;
+	GnmExpr const *expr;
+	gboolean negate = FALSE;
+
+	g_return_val_if_fail (cond != NULL, NULL);
+
+	gnm_cellref_init (&self, NULL, 0, 0, TRUE);
+
+	switch (cond->op) {
+	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
+		negate = TRUE; /* ...and fall through */
+	case GNM_STYLE_COND_CONTAINS_ERR:
+		expr = gnm_expr_new_funcall1
+			(gnm_func_lookup_or_add_placeholder ("ISERROR"),
+			 gnm_expr_new_cellref (&self));
+		break;
+
+	case GNM_STYLE_COND_CONTAINS_BLANKS:
+		negate = TRUE; /* ...and fall through */
+	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
+		expr = gnm_expr_new_funcall1
+			(gnm_func_lookup_or_add_placeholder ("ISERROR"),
+			 gnm_expr_new_funcall2
+			 (gnm_func_lookup_or_add_placeholder ("FIND"),
+			  gnm_expr_new_constant (value_new_string (" ")),
+			  gnm_expr_new_cellref (&self)));
+		break;
+
+	default:
+		return NULL;
+	}
+
+	if (negate)
+		expr = gnm_expr_new_funcall1
+			(gnm_func_lookup_or_add_placeholder ("NOT"), expr);
+
+	return gnm_expr_top_new (expr);
+}
 
 static void
 gnm_style_conditions_finalize (GObject *obj)
