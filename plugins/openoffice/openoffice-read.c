@@ -6352,6 +6352,14 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				       text_line_through_styles, &strike_through_style));
 		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-line-through-type",
 				       text_line_through_types, &strike_through_type));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_STYLE, "text-position")) {
+			if (g_str_has_prefix (attrs[1],"super"))
+				gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUPER);
+			else if (g_str_has_prefix (attrs[1], "sub"))
+				gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUB);
+		}
+	
 
 	gnm_style_set_font_strike (style, strike_through_style > 0 ||
 				   (strike_through_type > 0 &&  strike_through_style == -1));
