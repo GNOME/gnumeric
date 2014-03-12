@@ -1,0 +1,93 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+my $verbose = 1;
+my $seen_leak_check = 0;
+my $seen_num_callers = 0;
+my $program = undef;
+my @cmd = ();
+
+my $topsrc = &find_topsrc ();
+
+for (my $i = 0; $i < @ARGV;) {
+    my $a = $ARGV[$i++];
+
+    $seen_leak_check = 1 if $a =~ /^--leak-check\b/;
+    $seen_num_callers = 1 if $a =~ /^--num-callers\b/;
+
+    if ($a !~ /^-/) {
+	if (!-x $a) {
+	    die "$0: failed to understand command line.\n";
+	}
+	if (-s _ < 50000) {
+	    push @cmd, "$topsrc/libtool", "--mode=execute";
+	}
+	$program = $a;
+	last;
+    }
+}
+die "$0: usage $0 [valgrind options] gnumeric [gnumeric-options]\n"
+    unless $program;
+
+&add_debug_flag ('G_SLICE', 'always-malloc');
+if ($seen_leak_check) {
+    &add_debug_flag ('G_DEBUG', 'resident-modules');
+    &add_debug_flag ('GNM_DEBUG', 'close-displays');
+}
+
+push @cmd, 'valgrind';
+push @cmd, '--num-callers=40' unless $seen_num_callers;
+push @cmd, "--suppressions=$topsrc/test/common.supp";
+push @cmd, @ARGV;
+
+print STDERR "Executing ", join (' ', map { &quotearg ($_) } @cmd), "\n" if $verbose;
+exec { $cmd[0] } @cmd
+    or die "$0: failed to execute valgrind.\n";
+
+
+sub add_debug_flag {
+    my ($var,$flag) = @_;
+
+    if (exists $ENV{$var}) {
+	print STDERR "Adding $flag to existing $var\n" if $verbose;
+	$ENV{$var} .= ":$flag";
+    } else {
+	print STDERR "Setting $var=$flag\n" if $verbose;
+	$ENV{$var} = $flag;
+    }
+}
+
+sub find_topsrc {
+    my $dir = '.';
+
+    for (1 ... 5) {
+	if (-r "$dir/configure" && -r "$dir/gnumeric.xsd") {
+	    return $dir;
+	}
+
+	$dir = "$dir/..";
+	$dir =~ s{^\./}{};
+    }
+
+    die "$0: Cannot find top-level directory.\n";
+}
+
+sub quotearg {
+    my ($arg) = @_;
+
+    return $arg if $arg =~ m{^[-a-zA-Z0-9_/=.,]+$};
+    return "'$arg'" if $arg =~ m{^[-a-zA-Z0-9_/=., *?<>%&^!@#]*$};
+
+    my $res = '';
+    while ($arg ne '') {
+	if ($arg =~ m{^([-a-zA-Z0-9_/=.,]+)}) {
+	    $res .= $1;
+	    $arg = substr ($arg, length $1);
+	} else {
+	    $res .= "\\" . substr ($arg, 0, 1);
+	    $arg = substr ($arg, 1);
+	}
+    }
+    return $res;
+}
