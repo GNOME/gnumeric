@@ -103,6 +103,7 @@
 #define OOO      "ooo:"
 #define TABLEOOO "tableooo:"
 #define XML      "xml:"
+#define CSS      "css3t:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
 typedef struct {
@@ -199,6 +200,7 @@ static struct {
 	{ "xmlns:xsd",		"http://www.w3.org/2001/XMLSchema" },
 	{ "xmlns:xsi",		"http://www.w3.org/2001/XMLSchema-instance" },
 	{ "xmlns:gnm",		"http://www.gnumeric.org/odf-extension/1.0"},
+	{ "xmlns:css3t",        "http://www.w3.org/TR/css3-text/"},
 };
 
 /*****************************************************************************/
@@ -1311,6 +1313,7 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 		GnmHAlign align = gnm_style_get_align_h (style);
 		char const *source = NULL;
 		switch (align) {
+		case GNM_HALIGN_DISTRIBUTED:
 		case GNM_HALIGN_LEFT:
 		case GNM_HALIGN_RIGHT:
 		case GNM_HALIGN_CENTER:
@@ -1321,7 +1324,6 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 			rep_content = TRUE;
 		case GNM_HALIGN_GENERAL:
 		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
-		case GNM_HALIGN_DISTRIBUTED:
 		default:
 			/* Note that since source is value-type, alignment should be ignored */
                         /*(but isn't by OOo) */
@@ -1366,11 +1368,14 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 		case GNM_HALIGN_JUSTIFY:
 			alignment = "justify";
 			break;
+		case GNM_HALIGN_DISTRIBUTED:
+			alignment = "justify";
+			gnum_specs = TRUE;
+			break;
 		case GNM_HALIGN_FILL:
 			break;
 		case GNM_HALIGN_GENERAL:
 		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
-		case GNM_HALIGN_DISTRIBUTED:
 		default:
 			/* Note that since source is value-type, alignment should be ignored */
                         /*(but isn't by OOo) */
@@ -1382,6 +1387,8 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
 		if (gnum_specs && state->with_extension)
 			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
+		if (align == GNM_HALIGN_DISTRIBUTED)
+			gsf_xml_out_add_cstr (state->xml, CSS "text-justify", "distribute");
 	}
 
 /* Text Indent */

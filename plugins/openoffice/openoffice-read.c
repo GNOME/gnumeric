@@ -6162,9 +6162,12 @@ odf_style_set_align_h (GnmStyle *style, gboolean h_align_is_valid, gboolean repe
 
 	if (repeat_content)
 		alignment = GNM_HALIGN_FILL;
-	else if (h_align_is_valid)
-		alignment = ((text_align < 0) ? ((gnm_halign > -1) ? gnm_halign : GNM_HALIGN_LEFT)
-			     : text_align);
+	else if (h_align_is_valid) {
+		if (gnm_halign > -1)
+			alignment = gnm_halign;
+		else
+			alignment = ((text_align < 0) ? GNM_HALIGN_LEFT : text_align);
+	}
 
 	gnm_style_set_align_h (style, alignment);
 }
