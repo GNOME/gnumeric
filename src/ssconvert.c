@@ -41,6 +41,7 @@
 #endif
 
 static gboolean ssconvert_show_version = FALSE;
+static gboolean ssconvert_verbose = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
 static gboolean ssconvert_one_file_per_sheet = FALSE;
@@ -58,9 +59,16 @@ static char **ssconvert_tool_test = NULL;
 
 static const GOptionEntry ssconvert_options [] = {
 	{
-		"version", 'v',
+		"version", 0,
 		0, G_OPTION_ARG_NONE, &ssconvert_show_version,
 		N_("Display program version"),
+		NULL
+	},
+
+	{
+		"verbose", 'v',
+		0, G_OPTION_ARG_NONE, &ssconvert_verbose,
+		N_("Be somewhat more verbose during conversion"),
 		NULL
 	},
 
@@ -675,8 +683,9 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 					    outfile);
 				goto out;
 			}
-			g_print ("Using exporter %s\n",
-				 go_file_saver_get_id (fs));
+			if (ssconvert_verbose)
+				g_printerr ("Using exporter %s\n",
+					    go_file_saver_get_id (fs));
 		}
 	}
 

@@ -1,3 +1,8 @@
+2014-03-12  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (convert): only print "Using exporter ..." if
+	--verbose is given, and print it to stderr.
+
 2014-03-11  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (cb_set_markup): Don't mess directly with
