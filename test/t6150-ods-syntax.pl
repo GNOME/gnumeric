@@ -83,14 +83,18 @@ foreach my $src (@sources) {
     $tmp =~ s|^.*/||;
     $tmp =~ s|\..*|.ods|;
     &GnumericTest::junkfile ($tmp);
-    system ("$ssconvert -T $format $src $tmp");
+    my $cmd = "$ssconvert -T $format $src $tmp";
+    print STDERR "# $cmd\n" if $GnumericTest::verbose;
+    system ($cmd);
     if (!-r $tmp) {
 	print STDERR "ssconvert failed to produce $tmp\n";
 	die "Fail\n";
     }
 
     for my $member ('content.xml', 'styles.xml') {
-	my $out = `$unzip -p $tmp $member | $xmllint --noout --relaxng $schema - 2>&1`;
+	my $cmd = "$unzip -p $tmp $member | $xmllint --noout --relaxng $schema -";
+	print STDERR "# $cmd\n" if $GnumericTest::verbose;
+	my $out = `$cmd 2>&1`;
 	if ($out !~ /^- validates$/) {
 	    print STDERR "While checking $member from $tmp:\n";
 	    &GnumericTest::dump_indented ($out);
