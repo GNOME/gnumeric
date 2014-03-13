@@ -242,6 +242,37 @@ gnm_style_cond_set_overlay (GnmStyleCond *cond, GnmStyle *overlay)
 	cond->overlay = overlay;
 }
 
+static GnmExpr const *
+generate_end_match (const char *endfunc, gboolean force,
+		    GnmExprTop const *sexpr, GnmCellRef *cr)
+{
+	GnmValue const *v = gnm_expr_get_constant (sexpr->expr);
+	GnmExpr const *len_expr;
+
+	if (v && VALUE_IS_STRING (v)) {
+		int len = g_utf8_strlen (value_peek_string (v), -1);
+		len_expr = gnm_expr_new_constant (value_new_int (len));
+	} else if (force) {
+		/*
+		 * This is imperfect because the expression gets
+		 * evaluated twice.
+		 */
+		len_expr = gnm_expr_new_funcall1
+			(gnm_func_lookup_or_add_placeholder ("LEN"),
+			 gnm_expr_copy (sexpr->expr));
+	} else
+		return NULL;
+
+	return gnm_expr_new_funcall2
+		(gnm_func_lookup_or_add_placeholder ("EXACT"),
+		 gnm_expr_new_funcall2
+		 (gnm_func_lookup_or_add_placeholder (endfunc),
+		  gnm_expr_new_cellref (cr),
+		  len_expr),
+		 gnm_expr_copy (sexpr->expr));
+}
+
+
 /**
  * gnm_style_cond_get_alternate_expr:
  * @cond: condition
@@ -255,10 +286,17 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 	GnmCellRef self;
 	GnmExpr const *expr;
 	gboolean negate = FALSE;
+	GnmExprTop const *sexpr = NULL;
 
 	g_return_val_if_fail (cond != NULL, NULL);
 
 	gnm_cellref_init (&self, NULL, 0, 0, TRUE);
+
+	if (gnm_style_cond_op_operands (cond->op) > 0) {
+		sexpr = gnm_style_cond_get_expr (cond, 0);
+		if (!sexpr)
+			return NULL;
+	}
 
 	switch (cond->op) {
 	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
@@ -271,10 +309,7 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 
 	case GNM_STYLE_COND_CONTAINS_STR:
 		negate = TRUE; /* ...and fall through */
-	case GNM_STYLE_COND_NOT_CONTAINS_STR: {
-		GnmExprTop const *sexpr = gnm_style_cond_get_expr (cond, 0);
-		if (!sexpr)
-			return NULL;
+	case GNM_STYLE_COND_NOT_CONTAINS_STR:
 		expr = gnm_expr_new_funcall1
 			(gnm_func_lookup_or_add_placeholder ("ISERROR"),
 			 gnm_expr_new_funcall2
@@ -282,7 +317,6 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 			  gnm_expr_copy (sexpr->expr),
 			  gnm_expr_new_cellref (&self)));
 		break;
-	}
 
 	case GNM_STYLE_COND_CONTAINS_BLANKS:
 		negate = TRUE; /* ...and fall through */
@@ -297,17 +331,17 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
 		negate = TRUE; /* ...and fall through */
-	case GNM_STYLE_COND_BEGINS_WITH_STR: {
-		GnmExprTop const *sexpr = gnm_style_cond_get_expr (cond, 0);
-		if (!sexpr)
-			return NULL;
+	case GNM_STYLE_COND_BEGINS_WITH_STR:
+		expr = generate_end_match ("LEFT", FALSE, sexpr, &self);
+		if (expr)
+			break;
 
 		/*
-		 * We can do much better if sexpr is a constant.  We are
+		 * We get here if sexpr is not a constant.  We are
 		 * constrained by using only Excel functions and not
-		 * evaluating the needle more than once.  The expression
-		 * used here works, but FIND is more expensive that it
-		 * ought to be.
+		 * evaluating the needle more than once.  The
+		 * expression used here works, but FIND is more
+		 * expensive that it ought to be.
 		 */
 		expr = gnm_expr_new_binary
 			(gnm_expr_new_funcall2
@@ -320,11 +354,17 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 			 GNM_EXPR_OP_EQUAL,
 			 gnm_expr_new_constant (value_new_int (1)));
 		break;
-	}
 
-	case GNM_STYLE_COND_ENDS_WITH_STR:
 	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
-		/* we ought to do the above */
+		negate = TRUE; /* ...and fall through */
+	case GNM_STYLE_COND_ENDS_WITH_STR:
+		/*
+		 * We are constrained by using only Excel functions and not
+		 * evaluating the needle more than once.  We cannot fulfill
+		 * that and end up computing the needle twice.
+		 */
+		expr = generate_end_match ("RIGHT", TRUE, sexpr, &self);
+		break;
 
 	default:
 		return NULL;
@@ -349,6 +389,41 @@ isself (GnmExpr const *expr)
 	return (cr->sheet == NULL &&
 		cr->col == 0 && cr->row == 0 &&
 		cr->col_relative && cr->row_relative);
+}
+
+static GnmExprTop const *
+decode_end_match (const char *endfunc, GnmExpr const *expr)
+{
+	GnmExpr const *needle;
+	GnmExpr const *expr2;
+
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL &&
+	    expr->func.argc == 2 &&
+	    expr->func.func == gnm_func_lookup_or_add_placeholder ("EXACT") &&
+	    (needle = expr->func.argv[1]) &&
+	    (expr2 = expr->func.argv[0]) &&
+	    GNM_EXPR_GET_OPER (expr2) == GNM_EXPR_OP_FUNCALL &&
+	    expr2->func.argc == 2 &&
+	    expr2->func.func == gnm_func_lookup_or_add_placeholder (endfunc) &&
+	    isself (expr2->func.argv[0])) {
+		GnmExpr const *len_expr = expr2->func.argv[1];
+		GnmValue const *v, *vl;
+
+		if (GNM_EXPR_GET_OPER (len_expr) == GNM_EXPR_OP_FUNCALL &&
+		    len_expr->func.argc == 1 &&
+		    len_expr->func.func == gnm_func_lookup_or_add_placeholder ("LEN") &&
+		    gnm_expr_equal (len_expr->func.argv[0], needle))
+			return gnm_expr_top_new (gnm_expr_copy (needle));
+
+		if ((v = gnm_expr_get_constant (needle)) &&
+		    VALUE_IS_STRING (v) &&
+		    (vl = gnm_expr_get_constant (len_expr)) &&
+		    VALUE_IS_NUMBER (vl) &&
+		    value_get_as_float (vl) == g_utf8_strlen (value_peek_string (v), -1))
+			return gnm_expr_top_new (gnm_expr_copy (needle));
+	}
+
+	return NULL;
 }
 
 /**
@@ -435,6 +510,14 @@ gnm_style_cond_canonicalize (GnmStyleCond *cond)
 		newop = negate
 			? GNM_STYLE_COND_NOT_BEGINS_WITH_STR
 			: GNM_STYLE_COND_BEGINS_WITH_STR;
+	} else if ((texpr = decode_end_match ("LEFT", expr))) {
+		newop = negate
+			? GNM_STYLE_COND_NOT_BEGINS_WITH_STR
+			: GNM_STYLE_COND_BEGINS_WITH_STR;
+	} else if ((texpr = decode_end_match ("RIGHT", expr))) {
+		newop = negate
+			? GNM_STYLE_COND_NOT_ENDS_WITH_STR
+			: GNM_STYLE_COND_ENDS_WITH_STR;
 	}
 
 	if (newop != GNM_STYLE_COND_CUSTOM) {

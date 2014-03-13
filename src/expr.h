@@ -87,6 +87,7 @@ GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
 
 void	  gnm_expr_free              (GnmExpr const *expr);
 GnmExpr const *gnm_expr_copy         (GnmExpr const *expr);
+gboolean  gnm_expr_equal (GnmExpr const *a, GnmExpr const *b);
 gboolean  gnm_expr_is_rangeref	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_data_table     (GnmExpr const *expr,
 				      GnmCellPos *c_in, GnmCellPos *r_in);

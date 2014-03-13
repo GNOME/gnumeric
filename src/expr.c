@@ -566,7 +566,7 @@ gnm_expr_array_corner_get_type (void)
  *   Named expressions must refer the same name, having equivalent names is
  *   insufficeient.
  */
-static gboolean
+gboolean
 gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 {
 	if (a == b)
