@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-02 08:24+0000\n"
-"PO-Revision-Date: 2014-03-02 16:46+0100\n"
+"POT-Creation-Date: 2014-03-12 18:53+0000\n"
+"PO-Revision-Date: 2014-03-13 11:32+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -85,7 +85,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7011
-#: ../plugins/openoffice/openoffice-read.c:12750 ../src/xml-sax-read.c:3355
+#: ../plugins/openoffice/openoffice-read.c:12835 ../src/xml-sax-read.c:3360
 msgid "Reading file..."
 msgstr "Načítá se soubor…"
 
@@ -193,7 +193,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Neplatný obsah prvku ss:data, obdrženo „%s“"
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:12911 ../src/xml-sax-read.c:3372
+#: ../plugins/openoffice/openoffice-read.c:12996 ../src/xml-sax-read.c:3377
 msgid "XML document not well formed!"
 msgstr "Dokument XML není syntakticky správný!"
 
@@ -259,41 +259,41 @@ msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
 #: ../plugins/excel/ms-excel-util.c:696
-#: ../plugins/openoffice/openoffice-read.c:5849 ../src/print-info.c:670
+#: ../plugins/openoffice/openoffice-read.c:5927 ../src/print-info.c:670
 msgid "TAB"
 msgstr "KARTA"
 
 #: ../plugins/excel/ms-excel-util.c:697
-#: ../plugins/openoffice/openoffice-read.c:5895 ../src/print-info.c:671
+#: ../plugins/openoffice/openoffice-read.c:5973 ../src/print-info.c:671
 msgid "PAGE"
 msgstr "STRANA"
 
 #: ../plugins/excel/ms-excel-util.c:698
-#: ../plugins/openoffice/openoffice-read.c:5902 ../src/print-info.c:672
+#: ../plugins/openoffice/openoffice-read.c:5980 ../src/print-info.c:672
 msgid "PAGES"
 msgstr "STRAN"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:5881 ../src/print-info.c:673
+#: ../plugins/openoffice/openoffice-read.c:5959 ../src/print-info.c:673
 msgid "DATE"
 msgstr "DATUM"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:5888 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:5966 ../src/print-info.c:674
 msgid "TIME"
 msgstr "ČAS"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:5929
-#: ../plugins/openoffice/openoffice-read.c:5936 ../src/main-application.c:79
+#: ../plugins/openoffice/openoffice-read.c:6007
+#: ../plugins/openoffice/openoffice-read.c:6014 ../src/main-application.c:79
 #: ../src/main-application.c:85 ../src/main-application.c:91
 #: ../src/print-info.c:675 ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "SOUBOR"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:5927
-#: ../plugins/openoffice/openoffice-read.c:5932 ../src/print-info.c:676
+#: ../plugins/openoffice/openoffice-read.c:6005
+#: ../plugins/openoffice/openoffice-read.c:6010 ../src/print-info.c:676
 msgid "PATH"
 msgstr "CESTA"
 
@@ -303,7 +303,7 @@ msgstr "BUŇKA"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:705
-#: ../plugins/openoffice/openoffice-read.c:5980 ../src/print-info.c:678
+#: ../plugins/openoffice/openoffice-read.c:6058 ../src/print-info.c:678
 msgid "TITLE"
 msgstr "NÁZEV"
 
@@ -355,7 +355,7 @@ msgstr "Nepodařilo se otevřít kanál „Workbook“ (sešit) pro zápis\n"
 msgid "Broken function"
 msgstr "Poškozená funkce"
 
-#: ../plugins/excel/ms-formula-write.c:626
+#: ../plugins/excel/ms-formula-write.c:595
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -454,183 +454,183 @@ msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 "Přeskakuje se neplatná kontingenční skupina polí pro pole „%s“, protože: %s"
 
-#: ../plugins/excel/xlsx-read.c:349
+#: ../plugins/excel/xlsx-read.c:350
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "„%s“ je poškozený!"
 
-#: ../plugins/excel/xlsx-read.c:442
+#: ../plugins/excel/xlsx-read.c:443
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Neznámá výčtová hodnota „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:485 ../plugins/excel/xlsx-read.c:514
+#: ../plugins/excel/xlsx-read.c:486 ../plugins/excel/xlsx-read.c:515
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "Celé číslo „%s“ je mimo rozsah, pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:489 ../plugins/excel/xlsx-read.c:518
+#: ../plugins/excel/xlsx-read.c:490 ../plugins/excel/xlsx-read.c:519
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Neplatné celé číslo „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:544
+#: ../plugins/excel/xlsx-read.c:545
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr "Neplatné barva RRGGBB „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:575
+#: ../plugins/excel/xlsx-read.c:576
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Neplatné číslo „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:600
+#: ../plugins/excel/xlsx-read.c:601
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Neplatná poloha buňky „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:623
+#: ../plugins/excel/xlsx-read.c:624
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Neplatný rozsah „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:697
-#: ../plugins/openoffice/openoffice-read.c:1114
-#: ../plugins/openoffice/openoffice-read.c:1190
+#: ../plugins/excel/xlsx-read.c:698
+#: ../plugins/openoffice/openoffice-read.c:1116
+#: ../plugins/openoffice/openoffice-read.c:1192
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Neplatný atribut „%s“, neznámá jednotka „%s“"
 
-#: ../plugins/excel/xlsx-read.c:702 ../plugins/excel/xlsx-read.c:709
-#: ../plugins/openoffice/openoffice-read.c:1119
+#: ../plugins/excel/xlsx-read.c:703 ../plugins/excel/xlsx-read.c:710
+#: ../plugins/openoffice/openoffice-read.c:1121
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Neplatný atribut „%s“, očekávána vzdálenost, obdrženo „%s“"
 
-#: ../plugins/excel/xlsx-read.c:882
+#: ../plugins/excel/xlsx-read.c:883
 #, c-format
 msgid "Unknown theme color %d"
 msgstr "Neznámá barva %d motivu"
 
-#: ../plugins/excel/xlsx-read.c:1028
+#: ../plugins/excel/xlsx-read.c:1029
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Nedefinované ID formátu čísla „%s“"
 
-#: ../plugins/excel/xlsx-read.c:1211 ../plugins/excel/xlsx-read.c:3573
+#: ../plugins/excel/xlsx-read.c:1212 ../plugins/excel/xlsx-read.c:3586
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Neplatná barva „%s“ pro atribut rgb"
 
-#: ../plugins/excel/xlsx-read.c:1241 ../plugins/excel/xlsx-read.c:1250
+#: ../plugins/excel/xlsx-read.c:1242 ../plugins/excel/xlsx-read.c:1251
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Nedefinovaný záznam stylu „%d“"
 
-#: ../plugins/excel/xlsx-read.c:1259
+#: ../plugins/excel/xlsx-read.c:1260
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Nedefinovaný částečný záznam stylu „%d“"
 
-#: ../plugins/excel/xlsx-read.c:1296
+#: ../plugins/excel/xlsx-read.c:1297
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Neplatný odkaz sst „%s“"
 
-#: ../plugins/excel/xlsx-read.c:1430
+#: ../plugins/excel/xlsx-read.c:1431
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Neplatná buňka %s"
 
-#: ../plugins/excel/xlsx-read.c:1548
+#: ../plugins/excel/xlsx-read.c:1549
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 "Ignoruje se informace o sloupci, která neurčuje ani první ani poslední."
 
-#: ../plugins/excel/xlsx-read.c:1681
+#: ../plugins/excel/xlsx-read.c:1682
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr "Papír ze souboru XLSX: %i pt × %i pt"
 
-#: ../plugins/excel/xlsx-read.c:1685
+#: ../plugins/excel/xlsx-read.c:1686
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr "Papír ze souboru XLSX, č. %i"
 
-#: ../plugins/excel/xlsx-read.c:2130
-#: ../plugins/openoffice/openoffice-read.c:2620
+#: ../plugins/excel/xlsx-read.c:2131
+#: ../plugins/openoffice/openoffice-read.c:2625
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignoruje se kontrola platnosti neplatných dat protože: %s"
 
-#: ../plugins/excel/xlsx-read.c:2547
+#: ../plugins/excel/xlsx-read.c:2560
 msgid "Undefined"
 msgstr "Nedefinováno"
 
-#: ../plugins/excel/xlsx-read.c:2595
+#: ../plugins/excel/xlsx-read.c:2608
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignoruje se neobsluhovaný podmíněný formát u typu „%s“"
 
-#: ../plugins/excel/xlsx-read.c:2982
+#: ../plugins/excel/xlsx-read.c:2995
 msgid "Unknown type of hyperlink"
 msgstr "Neznámý typ hypertextového odkazu"
 
-#: ../plugins/excel/xlsx-read.c:3027
+#: ../plugins/excel/xlsx-read.c:3040
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 "Vyskytlo se neintepretovatelné rozšíření „ext“ ve jmenném prostoru „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3033
+#: ../plugins/excel/xlsx-read.c:3046
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 "Vyskytlo se neintepretovatelné rozšíření „ext“ s chybějícím jmenným prostorem"
 
-#: ../plugins/excel/xlsx-read.c:3288
+#: ../plugins/excel/xlsx-read.c:3301
 msgid "Ignoring a sheet without a name"
 msgstr "Ignoruje se list bez názvu"
 
-#: ../plugins/excel/xlsx-read.c:3358
+#: ../plugins/excel/xlsx-read.c:3371
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Selhalo definování názvu: %s"
 
-#: ../plugins/excel/xlsx-read.c:3417
+#: ../plugins/excel/xlsx-read.c:3430
 msgid "Unable to resolve external relationship"
 msgstr "Nelze najít externí vztah"
 
-#: ../plugins/excel/xlsx-read.c:3761
+#: ../plugins/excel/xlsx-read.c:3774
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Schází part-id pro list „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3786
+#: ../plugins/excel/xlsx-read.c:3799
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Načítá se list „%s“…"
 
-#: ../plugins/excel/xlsx-read.c:3794
+#: ../plugins/excel/xlsx-read.c:3807
 msgid "Reading comments..."
 msgstr "Načítají se komentáře…"
 
-#: ../plugins/excel/xlsx-read.c:4861
+#: ../plugins/excel/xlsx-read.c:4893
 msgid "Reading shared strings..."
 msgstr "Načítají se sdílené texty…"
 
-#: ../plugins/excel/xlsx-read.c:4869
+#: ../plugins/excel/xlsx-read.c:4901
 msgid "Reading theme..."
 msgstr "Načítá se motiv…"
 
-#: ../plugins/excel/xlsx-read.c:4877
+#: ../plugins/excel/xlsx-read.c:4909
 msgid "Reading styles..."
 msgstr "Načítají se styly…"
 
-#: ../plugins/excel/xlsx-read.c:4882
+#: ../plugins/excel/xlsx-read.c:4914
 msgid "Reading workbook..."
 msgstr "Načítá se sešit…"
 
-#: ../plugins/excel/xlsx-read.c:4892
+#: ../plugins/excel/xlsx-read.c:4924
 msgid "No workbook stream found."
 msgstr "Nebyl nalezen žádný proud pro sešit."
 
@@ -912,7 +912,7 @@ msgstr "%s verze %s"
 
 #: ../plugins/fn-info/functions.c:1406 ../src/dialogs/dialog-cell-format.c:878
 #: ../src/dialogs/dialog-cell-format.c:2359
-#: ../src/dialogs/dialog-cell-format.c:2367 ../src/wbc-gtk.c:3390
+#: ../src/dialogs/dialog-cell-format.c:2367 ../src/wbc-gtk.c:3410
 msgid "Automatic"
 msgstr "Automaticky"
 
@@ -1390,134 +1390,134 @@ msgstr "Importuje dokumenty GNU Oleo"
 msgid "GNU Oleo (*.oleo)"
 msgstr "GNU Oleo (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:585
+#: ../plugins/openoffice/openoffice-read.c:587
 msgid "General ODF error"
 msgstr "Obecná chyba ODF"
 
-#: ../plugins/openoffice/openoffice-read.c:639
+#: ../plugins/openoffice/openoffice-read.c:641
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Neplatné celé číslo „%s“, pro „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:654
+#: ../plugins/openoffice/openoffice-read.c:656
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Možná poškozené celé číslo „%s“, pro „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:698
+#: ../plugins/openoffice/openoffice-read.c:700
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Neplatný atribut „%s“, očekáváno číslo, obdrženo „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:721
+#: ../plugins/openoffice/openoffice-read.c:723
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Neplatný atribut „%s“, očekávána procenta, obdrženo „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:743
+#: ../plugins/openoffice/openoffice-read.c:745
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Neplatný atribut „%s“, očekávána barva, obdrženo „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:932
+#: ../plugins/openoffice/openoffice-read.c:934
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Vyskytl se neznámý název šrafování „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:940
+#: ../plugins/openoffice/openoffice-read.c:942
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Vyskytla se výplň šrafováním bez názvu šrafování!"
 
-#: ../plugins/openoffice/openoffice-read.c:948
+#: ../plugins/openoffice/openoffice-read.c:950
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Vyskytl se neznámý název přechodu „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:961
+#: ../plugins/openoffice/openoffice-read.c:963
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Vyskytla se výplň přechodem bez názvu přechodu!"
 
-#: ../plugins/openoffice/openoffice-read.c:969
+#: ../plugins/openoffice/openoffice-read.c:971
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Vyskytl se neznámý název souboru s obrázkem „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:979
+#: ../plugins/openoffice/openoffice-read.c:981
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Vyskytlo se neplatné absolutní zadání souboru „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:992
+#: ../plugins/openoffice/openoffice-read.c:994
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "Nelze otevřít „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1020
-#: ../plugins/openoffice/openoffice-read.c:7871
+#: ../plugins/openoffice/openoffice-read.c:1022
+#: ../plugins/openoffice/openoffice-read.c:7954
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Nelze načíst soubor „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1028
+#: ../plugins/openoffice/openoffice-read.c:1030
 msgid "Image fill without image name encountered!"
 msgstr "Vyskytla se výplň obrázkem bez názvu obrázku!"
 
-#: ../plugins/openoffice/openoffice-read.c:1196
+#: ../plugins/openoffice/openoffice-read.c:1198
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Neplatný atribut „%s“, očekáván úhel, obdrženo „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1263
+#: ../plugins/openoffice/openoffice-read.c:1265
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Neplatný atribut „%s“, neznámá výčtová hodnota „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1447
+#: ../plugins/openoffice/openoffice-read.c:1449
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Ignoruje se odkaz na neznámý externí sešit „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1707
+#: ../plugins/openoffice/openoffice-read.c:1709
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Vyskytl se neznámý textový styl s názvem „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:2037
+#: ../plugins/openoffice/openoffice-read.c:2042
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Nelze zpracovat „%s“ („%s“)"
 
-#: ../plugins/openoffice/openoffice-read.c:2135
-#: ../plugins/openoffice/openoffice-read.c:3673
+#: ../plugins/openoffice/openoffice-read.c:2140
+#: ../plugins/openoffice/openoffice-read.c:3678
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Vyskytl se nepodporovaný typ vzorce: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2141
-#: ../plugins/openoffice/openoffice-read.c:3680
+#: ../plugins/openoffice/openoffice-read.c:2146
+#: ../plugins/openoffice/openoffice-read.c:3685
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Výraz „%s“ nezačíná správným znakem"
 
-#: ../plugins/openoffice/openoffice-read.c:2180
-#: ../plugins/openoffice/openoffice-write.c:5117
-#: ../plugins/openoffice/openoffice-write.c:5129 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-read.c:2185
+#: ../plugins/openoffice/openoffice-write.c:5131
+#: ../plugins/openoffice/openoffice-write.c:5143 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "buňka"
 
-#: ../plugins/openoffice/openoffice-read.c:2554
+#: ../plugins/openoffice/openoffice-read.c:2559
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr ""
 "Podmínka ověření platnosti „%s“ není podporována. Byla změněna na „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:2603
+#: ../plugins/openoffice/openoffice-read.c:2608
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Vyskytl se neznámý typ ověření: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2629
+#: ../plugins/openoffice/openoffice-read.c:2634
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
@@ -1525,41 +1525,41 @@ msgid ""
 msgstr ""
 "Vyskytla se nepodporovaná podmínka ověření: „%s“ s bázovou adresou: „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:3321
+#: ../plugins/openoffice/openoffice-read.c:3326
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Vyskytla se neznámá podmínka „%s“, ignoruje se."
 
-#: ../plugins/openoffice/openoffice-read.c:3399
+#: ../plugins/openoffice/openoffice-read.c:3404
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Ignoruje se informace o sloupci za sloupcem %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3520
-#: ../plugins/openoffice/openoffice-read.c:3912
+#: ../plugins/openoffice/openoffice-read.c:3525
+#: ../plugins/openoffice/openoffice-read.c:3917
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Obsah překročil maximální podporovaný počet řádků (%i)"
 
-#: ../plugins/openoffice/openoffice-read.c:3665
-#: ../plugins/openoffice/openoffice-read.c:5963
+#: ../plugins/openoffice/openoffice-read.c:3670
+#: ../plugins/openoffice/openoffice-read.c:6041
 msgid "Missing expression"
 msgstr "Schází výraz"
 
-#: ../plugins/openoffice/openoffice-read.c:3885
+#: ../plugins/openoffice/openoffice-read.c:3890
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Neplatný výraz pole, neudává počet sloupců."
 
-#: ../plugins/openoffice/openoffice-read.c:3888
+#: ../plugins/openoffice/openoffice-read.c:3893
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Neplatný výraz pole, neudává počet řádků."
 
-#: ../plugins/openoffice/openoffice-read.c:3904
+#: ../plugins/openoffice/openoffice-read.c:3909
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "Obsah překročil maximální podporovaný počet sloupců (%i)"
 
-#: ../plugins/openoffice/openoffice-read.c:4086
+#: ../plugins/openoffice/openoffice-read.c:4091
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
@@ -1568,77 +1568,77 @@ msgstr ""
 "Kliknutím levým tlačítkem přejdete na odkaz.\n"
 "Kliknutím prostředním tlačítkem vyberete tuto buňku."
 
-#: ../plugins/openoffice/openoffice-read.c:4219
+#: ../plugins/openoffice/openoffice-read.c:4224
 msgid "Unnamed dash style encountered."
 msgstr "Vyskytl se nepojmenovaný styl čáry."
 
-#: ../plugins/openoffice/openoffice-read.c:4237
+#: ../plugins/openoffice/openoffice-read.c:4242
 msgid "Unnamed image fill style encountered."
 msgstr "Vyskytl se nepojmenovaný styl výplně obrázkem."
 
-#: ../plugins/openoffice/openoffice-read.c:4239
+#: ../plugins/openoffice/openoffice-read.c:4244
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "Styl výplně obrázkem „%s“ nemá připojený obrázek."
 
-#: ../plugins/openoffice/openoffice-read.c:4276
-#: ../plugins/openoffice/openoffice-read.c:4282
+#: ../plugins/openoffice/openoffice-read.c:4281
+#: ../plugins/openoffice/openoffice-read.c:4287
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Nelze zpracovat barvu přechodu: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4302
+#: ../plugins/openoffice/openoffice-read.c:4307
 msgid "Unnamed gradient style encountered."
 msgstr "Vyskytl se nepojmenovaný styl přechodu."
 
-#: ../plugins/openoffice/openoffice-read.c:4323
+#: ../plugins/openoffice/openoffice-read.c:4328
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Nelze zpracovat barvu šrafování: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4397
+#: ../plugins/openoffice/openoffice-read.c:4402
 msgid "Unnamed hatch encountered!"
 msgstr "Vyskytlo se nepojmenované šrafování."
 
-#: ../plugins/openoffice/openoffice-read.c:4491
+#: ../plugins/openoffice/openoffice-read.c:4496
 msgid "Duplicate default column style encountered."
 msgstr "Vyskytl se duplicitní výchozí styl sloupce."
 
-#: ../plugins/openoffice/openoffice-read.c:4507
+#: ../plugins/openoffice/openoffice-read.c:4512
 msgid "Duplicate default row style encountered."
 msgstr "Vyskytl se duplicitní výchozí styl řádku."
 
-#: ../plugins/openoffice/openoffice-read.c:4542
+#: ../plugins/openoffice/openoffice-read.c:4547
 msgid "Duplicate default chart/graphics style encountered."
 msgstr "Vyskytl se duplicitní výchozí styl grafu/grafiky."
 
-#: ../plugins/openoffice/openoffice-read.c:4924
+#: ../plugins/openoffice/openoffice-read.c:4969
 msgid "Unnamed date style ignored."
 msgstr "Ignorován nepojmenovaný datový styl."
 
-#: ../plugins/openoffice/openoffice-read.c:5231
+#: ../plugins/openoffice/openoffice-read.c:5309
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Poškozený soubor: ignorován nepojmenovaný styl čísla."
 
-#: ../plugins/openoffice/openoffice-read.c:5267
-#: ../plugins/openoffice/openoffice-read.c:5294
-#: ../plugins/openoffice/openoffice-read.c:5322
-#: ../plugins/openoffice/openoffice-read.c:5363
-#: ../plugins/openoffice/openoffice-read.c:5389
-#: ../plugins/openoffice/openoffice-read.c:5417
+#: ../plugins/openoffice/openoffice-read.c:5345
+#: ../plugins/openoffice/openoffice-read.c:5372
+#: ../plugins/openoffice/openoffice-read.c:5400
+#: ../plugins/openoffice/openoffice-read.c:5441
+#: ../plugins/openoffice/openoffice-read.c:5467
+#: ../plugins/openoffice/openoffice-read.c:5495
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Soubor se zdá poškozen, schází požadovaný formát."
 
-#: ../plugins/openoffice/openoffice-read.c:5483
+#: ../plugins/openoffice/openoffice-read.c:5561
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Papír ze souboru ODF: %i pt × %i pt"
 
-#: ../plugins/openoffice/openoffice-read.c:5666
+#: ../plugins/openoffice/openoffice-read.c:5744
 msgid "Missing page layout identifier"
 msgstr "Schází identifikátor rozvržení stránky"
 
-#: ../plugins/openoffice/openoffice-read.c:5687
+#: ../plugins/openoffice/openoffice-read.c:5765
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
@@ -1647,35 +1647,35 @@ msgstr ""
 "stránek je ingorován."
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:5712
+#: ../plugins/openoffice/openoffice-read.c:5790
 msgid "Master page style without page layout encountered!"
 msgstr "Vyskytl se styl hlavní stránky bez rozvržení stránky!"
 
-#: ../plugins/openoffice/openoffice-read.c:5718
+#: ../plugins/openoffice/openoffice-read.c:5796
 msgid "Master page style without name encountered!"
 msgstr "Vyskytl se styl hlavní stránky bez názvu!"
 
-#: ../plugins/openoffice/openoffice-read.c:6011
+#: ../plugins/openoffice/openoffice-read.c:6089
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Vyskytl se neznámý styl ohraničení Gnumeric „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:6320
+#: ../plugins/openoffice/openoffice-read.c:6403
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Neznámý typ zalomení „%s“, použije se výchozí ŽÁDNÝ"
 
-#: ../plugins/openoffice/openoffice-read.c:6405
+#: ../plugins/openoffice/openoffice-read.c:6488
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Nelze zpracovat barvu karty „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:6416
+#: ../plugins/openoffice/openoffice-read.c:6499
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Nelze zpracovat barvu textu karty „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:6823
+#: ../plugins/openoffice/openoffice-read.c:6906
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1684,32 +1684,32 @@ msgstr ""
 "Vyskytl se neznámý typ interpolace: „%s“, místo něj se použije Beziérova "
 "kubická splajna."
 
-#: ../plugins/openoffice/openoffice-read.c:6832
+#: ../plugins/openoffice/openoffice-read.c:6915
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Vyskytl se neznámý typ interpolace: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7228
+#: ../plugins/openoffice/openoffice-read.c:7311
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "výraz „%s“ v „%s“ není odkaz na buňku"
 
-#: ../plugins/openoffice/openoffice-read.c:7245
+#: ../plugins/openoffice/openoffice-read.c:7328
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Výraz „%s“ má neznámý jmenný prostor"
 
-#: ../plugins/openoffice/openoffice-read.c:7297
+#: ../plugins/openoffice/openoffice-read.c:7380
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Neplatný databázový rozsah „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:7333
+#: ../plugins/openoffice/openoffice-read.c:7416
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr ""
 "Gnumeric nepodporuje automatické filtrační podmínky spojené pomocí „or“."
 
-#: ../plugins/openoffice/openoffice-read.c:7576
+#: ../plugins/openoffice/openoffice-read.c:7659
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1718,13 +1718,13 @@ msgstr ""
 "Řádky v objektu list Gnumeric nepodporují přiložený text. Text „%s“ byl "
 "zahozen."
 
-#: ../plugins/openoffice/openoffice-read.c:7610
-#: ../plugins/openoffice/openoffice-read.c:7649
+#: ../plugins/openoffice/openoffice-read.c:7693
+#: ../plugins/openoffice/openoffice-read.c:7732
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Neplatný atribut „form:value“, očekáváno číslo, obdrženo „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:7615
+#: ../plugins/openoffice/openoffice-read.c:7698
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1733,16 +1733,16 @@ msgstr ""
 "Pro atribut „form:value“ v prvku „form:value-range“ publikován neplatný typ "
 "hodnoty „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:8057
+#: ../plugins/openoffice/openoffice-read.c:8140
 msgid "Unable to determine manual position for a chart component!"
 msgstr "Nelze ručně určit polohu pro komponentu grafu!"
 
-#: ../plugins/openoffice/openoffice-read.c:8258
+#: ../plugins/openoffice/openoffice-read.c:8341
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "Nedostatek dat v dodaném rozsahu (%s) pro všechny požadavky"
 
-#: ../plugins/openoffice/openoffice-read.c:8845
+#: ../plugins/openoffice/openoffice-read.c:8928
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1750,44 +1750,44 @@ msgstr ""
 "Gnumeric nepodporuje neautomatické regresní rovnice. Místo toho se použije "
 "automatická rovnice."
 
-#: ../plugins/openoffice/openoffice-read.c:8991
+#: ../plugins/openoffice/openoffice-read.c:9074
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Vyskytly se přívodní čáry v diagramu, který je nepodporuje."
 
-#: ../plugins/openoffice/openoffice-read.c:9078
+#: ../plugins/openoffice/openoffice-read.c:9161
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Vyskytl se neznámý typ grafu, zkouší se vytvořit čárový diagram."
 
-#: ../plugins/openoffice/openoffice-read.c:9134
-#: ../plugins/openoffice/openoffice-read.c:9176
-#: ../plugins/openoffice/openoffice-read.c:9206
+#: ../plugins/openoffice/openoffice-read.c:9217
+#: ../plugins/openoffice/openoffice-read.c:9259
+#: ../plugins/openoffice/openoffice-read.c:9289
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr "Styl grafu s názvem „%s“ schází."
 
-#: ../plugins/openoffice/openoffice-read.c:9322
+#: ../plugins/openoffice/openoffice-read.c:9405
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr "Vyskytl se nepodporovaný nadpis a byl převeden na textový rámec."
 
-#: ../plugins/openoffice/openoffice-read.c:9410
+#: ../plugins/openoffice/openoffice-read.c:9493
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr "Při zpracování vzrce „%s“ s názvem „%s“ se vyskytla nekonečná smyčka"
 
-#: ../plugins/openoffice/openoffice-read.c:9613
+#: ../plugins/openoffice/openoffice-read.c:9696
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Nelze vyhodnotit vzorec „%s“ („%s“) s názvem „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:9618
+#: ../plugins/openoffice/openoffice-read.c:9701
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Nelze zpracovat vzorec „%s“ („%s“) s názvem „%s“"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:9702
-#: ../plugins/openoffice/openoffice-read.c:9705
+#: ../plugins/openoffice/openoffice-read.c:9785
+#: ../plugins/openoffice/openoffice-read.c:9788
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
@@ -1795,17 +1795,17 @@ msgid ""
 msgstr ""
 "Vyskytl se nepodporovaný vlastní tvar typu „%s“ a byl převeden na obdélník."
 
-#: ../plugins/openoffice/openoffice-read.c:9708
+#: ../plugins/openoffice/openoffice-read.c:9791
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr "Vyskytl se nepodporovaný vlastní tvar a byl převeden na obdélník."
 
-#: ../plugins/openoffice/openoffice-read.c:10026
+#: ../plugins/openoffice/openoffice-read.c:10109
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Atribut „%s“ má nepodporovanou hodnotu „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:10646
+#: ../plugins/openoffice/openoffice-read.c:10729
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
@@ -1814,12 +1814,12 @@ msgstr ""
 "Velikost sešitu o %i sloupcích a %i řádcích v tomto souboru přesahuje "
 "maximální velikost listu v Gnumericu."
 
-#: ../plugins/openoffice/openoffice-read.c:10678
+#: ../plugins/openoffice/openoffice-read.c:10761
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_V_POŠKOZENÉM_SOUBORU"
 
-#: ../plugins/openoffice/openoffice-read.c:10683
+#: ../plugins/openoffice/openoffice-read.c:10766
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1828,79 +1828,79 @@ msgstr ""
 "Tento soubor je poškozen s duplicitním názvem listu „%s“, nyní přejmenovaném "
 "na „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:10693
+#: ../plugins/openoffice/openoffice-read.c:10776
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "LIST_V_POŠKOZENÉM_SOUBORU"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:10699
+#: ../plugins/openoffice/openoffice-read.c:10782
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Tento soubor je poškozen s nepojmenovaným listem, nyní pojmenovaným „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:12600
+#: ../plugins/openoffice/openoffice-read.c:12685
 msgid "Unknown mimetype for openoffice file."
 msgstr "Neznámý typ MIME pro soubor OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:12610
+#: ../plugins/openoffice/openoffice-read.c:12695
 msgid "No stream named content.xml found."
 msgstr "Nebyl nalezen proud pojmenovaný content.xml"
 
-#: ../plugins/openoffice/openoffice-read.c:12618
+#: ../plugins/openoffice/openoffice-read.c:12703
 msgid "No stream named styles.xml found."
 msgstr "Nebyl nalezen proud pojmenovaný styles.xml"
 
-#: ../plugins/openoffice/openoffice-read.c:12760
+#: ../plugins/openoffice/openoffice-read.c:12845
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Neplatná metadata „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:12823
+#: ../plugins/openoffice/openoffice-read.c:12908
 msgid "settings.xml stream is malformed!"
 msgstr "Proud settings.xml je poškozen!"
 
-#: ../plugins/openoffice/openoffice-write.c:5110
-#: ../plugins/openoffice/openoffice-write.c:5122
+#: ../plugins/openoffice/openoffice-write.c:5124
+#: ../plugins/openoffice/openoffice-write.c:5136
 msgid "tab"
 msgstr "list"
 
-#: ../plugins/openoffice/openoffice-write.c:5111
-#: ../plugins/openoffice/openoffice-write.c:5123
+#: ../plugins/openoffice/openoffice-write.c:5125
+#: ../plugins/openoffice/openoffice-write.c:5137
 msgid "page"
 msgstr "strana"
 
-#: ../plugins/openoffice/openoffice-write.c:5112
-#: ../plugins/openoffice/openoffice-write.c:5124
+#: ../plugins/openoffice/openoffice-write.c:5126
+#: ../plugins/openoffice/openoffice-write.c:5138
 msgid "pages"
 msgstr "stran"
 
-#: ../plugins/openoffice/openoffice-write.c:5113
-#: ../plugins/openoffice/openoffice-write.c:5125
+#: ../plugins/openoffice/openoffice-write.c:5127
+#: ../plugins/openoffice/openoffice-write.c:5139
 msgid "date"
 msgstr "datum"
 
-#: ../plugins/openoffice/openoffice-write.c:5114
-#: ../plugins/openoffice/openoffice-write.c:5126
+#: ../plugins/openoffice/openoffice-write.c:5128
+#: ../plugins/openoffice/openoffice-write.c:5140
 msgid "time"
 msgstr "čas"
 
-#: ../plugins/openoffice/openoffice-write.c:5115
-#: ../plugins/openoffice/openoffice-write.c:5127 ../src/ssconvert.c:96
+#: ../plugins/openoffice/openoffice-write.c:5129
+#: ../plugins/openoffice/openoffice-write.c:5141 ../src/ssconvert.c:104
 #: ../src/ssdiff.c:56
 msgid "file"
 msgstr "soubor"
 
-#: ../plugins/openoffice/openoffice-write.c:5116
-#: ../plugins/openoffice/openoffice-write.c:5128
+#: ../plugins/openoffice/openoffice-write.c:5130
+#: ../plugins/openoffice/openoffice-write.c:5142
 msgid "path"
 msgstr "cesta"
 
-#: ../plugins/openoffice/openoffice-write.c:8430
+#: ../plugins/openoffice/openoffice-write.c:8444
 msgid "Writing Sheets..."
 msgstr "Zapisují se listy…"
 
-#: ../plugins/openoffice/openoffice-write.c:8471
+#: ../plugins/openoffice/openoffice-write.c:8485
 msgid "Writing Sheet Objects..."
 msgstr "Zapisují se objekty listů…"
 
@@ -3698,7 +3698,7 @@ msgstr "Lišta nástrojů Formát"
 msgid "ObjectToolbar"
 msgstr "Lišta nástrojů Objekt"
 
-#: ../src/application.c:282
+#: ../src/application.c:300
 msgid "Cut Object"
 msgstr "Vyjmout objekt"
 
@@ -3916,7 +3916,7 @@ msgstr "Odstranit řádky %s"
 msgid "Deleting row %s"
 msgstr "Odstranit řádek %s"
 
-#: ../src/commands.c:1598 ../src/commands.c:1599 ../src/sheet.c:4736
+#: ../src/commands.c:1598 ../src/commands.c:1599 ../src/sheet.c:4737
 msgid "Clear"
 msgstr "Vymazat"
 
@@ -4423,7 +4423,7 @@ msgstr "Nastavit vyrovnání"
 msgid "Add Filter"
 msgstr "Přidat filtr"
 
-#: ../src/commands.c:7953 ../src/wbc-gtk.c:1611
+#: ../src/commands.c:7953 ../src/wbc-gtk.c:1621
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Automatický filtr blokovaný %s"
@@ -4464,19 +4464,19 @@ msgstr "Změnit podmínky filtru %s"
 msgid "Clear All Page Breaks"
 msgstr "Smazat všechna zalomení stránky"
 
-#: ../src/commands.c:8158 ../src/wbc-gtk.c:1546
+#: ../src/commands.c:8158 ../src/wbc-gtk.c:1556
 msgid "Remove Column Page Break"
 msgstr "Odstranit zalomení stránky ve sloupci"
 
-#: ../src/commands.c:8158 ../src/wbc-gtk.c:1556
+#: ../src/commands.c:8158 ../src/wbc-gtk.c:1566
 msgid "Remove Row Page Break"
 msgstr "Odstranit zalomení stránky v řádku"
 
-#: ../src/commands.c:8161 ../src/wbc-gtk.c:1549
+#: ../src/commands.c:8161 ../src/wbc-gtk.c:1559
 msgid "Add Column Page Break"
 msgstr "Přidat zalomení stránky ve sloupci"
 
-#: ../src/commands.c:8161 ../src/wbc-gtk.c:1559
+#: ../src/commands.c:8161 ../src/wbc-gtk.c:1569
 msgid "Add Row Page Break"
 msgstr "Přidat zalomení stránky v řádku"
 
@@ -5731,13 +5731,13 @@ msgstr "Formát buněk"
 msgid "Border"
 msgstr "Ohraničení"
 
-#: ../src/dialogs/dialog-cell-format.c:2363 ../src/wbc-gtk.c:3440
+#: ../src/dialogs/dialog-cell-format.c:2363 ../src/wbc-gtk.c:3460
 msgid "Clear Background"
 msgstr "Vymazat pozadí"
 
 #: ../src/dialogs/dialog-cell-format.c:2363
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:74
-#: ../src/wbc-gtk.c:3442 ../src/wbc-gtk.c:3443 ../src/wbc-gtk.c:3450
+#: ../src/wbc-gtk.c:3462 ../src/wbc-gtk.c:3463 ../src/wbc-gtk.c:3470
 msgid "Background"
 msgstr "Pozadí"
 
@@ -6448,7 +6448,7 @@ msgstr "Odstranit hypertextový odkaz"
 msgid "Could not create the hyperlink dialog."
 msgstr "Nelze vytvořit dialogové okno Hypertextový odkaz."
 
-#: ../src/dialogs/dialog-insert-cells.c:125 ../src/wbc-gtk.c:506
+#: ../src/dialogs/dialog-insert-cells.c:125 ../src/wbc-gtk.c:509
 msgid "Insert"
 msgstr "Vložit"
 
@@ -6559,8 +6559,8 @@ msgstr "Aktivní"
 msgid "Plugin name"
 msgstr "Název zásuvného modulu"
 
-#: ../src/dialogs/dialog-plugin-manager.c:724 ../src/ssconvert.c:80
-#: ../src/ssconvert.c:103
+#: ../src/dialogs/dialog-plugin-manager.c:724 ../src/ssconvert.c:88
+#: ../src/ssconvert.c:111
 msgid "ID"
 msgstr "ID"
 
@@ -7291,16 +7291,16 @@ msgid "Run on"
 msgstr "Běžet na"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4726
+#: ../src/wbc-gtk.c:4746
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4728
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4748
 msgid "Average"
 msgstr "Průměr"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4727
+#: ../src/wbc-gtk.c:4747
 msgid "Max"
 msgstr "Max"
 
@@ -7887,7 +7887,7 @@ msgid "Top"
 msgstr "Nahoře"
 
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:28
-#: ../src/wbc-gtk.c:3137
+#: ../src/wbc-gtk.c:3157
 msgid "Bottom"
 msgstr "Dole"
 
@@ -8082,12 +8082,12 @@ msgstr "Uhlopřičně"
 
 #. start sub menu
 #: ../src/dialogs/cell-format.ui.h:26 ../src/sheet-control-gui.c:2226
-#: ../src/wbc-gtk.c:3129
+#: ../src/wbc-gtk.c:3149
 msgid "Left"
 msgstr "Vlevo"
 
 #: ../src/dialogs/cell-format.ui.h:27 ../src/sheet-control-gui.c:2229
-#: ../src/wbc-gtk.c:3131
+#: ../src/wbc-gtk.c:3151
 msgid "Right"
 msgstr "Vpravo"
 
@@ -9174,8 +9174,8 @@ msgid "Source Locale:"
 msgstr "Národní prostředí zdroje:"
 
 #. ----- vertical -----
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:3093
-#: ../src/wbc-gtk.c:3109
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:3113
+#: ../src/wbc-gtk.c:3129
 msgid "Zoom"
 msgstr "Přiblížit"
 
@@ -11712,17 +11712,17 @@ msgstr ""
 "Toto zaškrtávací políčko určuje, zda je oříznutý obsah signalizován malou "
 "červenou šipkou v příslušném směru."
 
-#: ../src/expr-name.c:632
+#: ../src/expr-name.c:717
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "„%s“ obsahuje cyklický odkaz"
 
-#: ../src/expr-name.c:660 ../src/expr-name.c:905
+#: ../src/expr-name.c:745 ../src/expr-name.c:992
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "„%s“ je již v listě definován"
 
-#: ../src/expr-name.c:661 ../src/expr-name.c:906
+#: ../src/expr-name.c:746 ../src/expr-name.c:993
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "„%s“ je již v sešitě definován"
@@ -12326,8 +12326,8 @@ msgstr "Skončit hned po načtení vybraných sešitů"
 msgid "[FILE ...]"
 msgstr "[SOUBOR…]"
 
-#: ../src/main-application.c:163 ../src/ssconvert.c:855 ../src/ssdiff.c:1032
-#: ../src/ssgrep.c:434 ../src/ssindex.c:255
+#: ../src/main-application.c:163 ../src/ssconvert.c:866 ../src/ssdiff.c:1032
+#: ../src/ssgrep.c:434 ../src/ssindex.c:258
 #, c-format
 msgid ""
 "%s\n"
@@ -13110,140 +13110,144 @@ msgstr "Zobrazovat mřížku"
 msgid "Control whether the grid is shown."
 msgstr "Řídí, zda se zobrazuje mřížka."
 
-#: ../src/sheet.c:3587
+#: ../src/sheet.c:3588
 msgid "Target region contains merged cells"
 msgstr "Cílová oblast obsahuje sloučené buňky"
 
-#: ../src/sheet.c:3650
+#: ../src/sheet.c:3651
 msgid "cannot operate on merged cells"
 msgstr "nelze vykonat na sloučených buňkách"
 
-#: ../src/sheet.c:3660
+#: ../src/sheet.c:3661
 msgid "cannot operate on array formulæ"
 msgstr "nelze vykonat na poli vzorců"
 
-#: ../src/sheet.c:5123
+#: ../src/sheet.c:5124
 msgid "Insert Columns"
 msgstr "Vložit sloupce"
 
-#: ../src/sheet.c:5214
+#: ../src/sheet.c:5215
 msgid "Delete Columns"
 msgstr "Odstranit sloupce"
 
-#: ../src/sheet.c:5295
+#: ../src/sheet.c:5296
 msgid "Insert Rows"
 msgstr "Vložit řádky"
 
-#: ../src/sheet.c:5386
+#: ../src/sheet.c:5387
 msgid "Delete Rows"
 msgstr "Odstranit řádky"
 
-#: ../src/ssconvert.c:63 ../src/ssdiff.c:48 ../src/ssgrep.c:158
-#: ../src/ssindex.c:44
+#: ../src/ssconvert.c:64 ../src/ssdiff.c:48 ../src/ssgrep.c:158
+#: ../src/ssindex.c:45
 msgid "Display program version"
 msgstr "Zobrazit verzi aplikace"
 
-#: ../src/ssconvert.c:72 ../src/ssindex.c:65
+#: ../src/ssconvert.c:71
+msgid "Be somewhat more verbose during conversion"
+msgstr "Během převodu informovat o něco víc podrobněji"
+
+#: ../src/ssconvert.c:80 ../src/ssindex.c:66
 msgid "Optionally specify an encoding for imported content"
 msgstr "Nepovinné určení kódování importovaného obsahu"
 
-#: ../src/ssconvert.c:73 ../src/ssindex.c:66
+#: ../src/ssconvert.c:81 ../src/ssindex.c:67
 msgid "ENCODING"
 msgstr "KÓDOVÁNÍ"
 
-#: ../src/ssconvert.c:79
+#: ../src/ssconvert.c:87
 msgid "Optionally specify which importer to use"
 msgstr "Nepovinné určení, jaký import použít"
 
-#: ../src/ssconvert.c:86
+#: ../src/ssconvert.c:94
 msgid "List the available importers"
 msgstr "Vypsat dostupné typy importu"
 
-#: ../src/ssconvert.c:95
+#: ../src/ssconvert.c:103
 msgid "Merge listed files (all same format) to make this file"
 msgstr ""
 "Sloučit vypsané soubory (všechny ve stejném formátu), aby vytvořily tento "
 "soubor"
 
-#: ../src/ssconvert.c:102
+#: ../src/ssconvert.c:110
 msgid "Optionally specify which exporter to use"
 msgstr "Nepovinné určení, který export použít"
 
-#: ../src/ssconvert.c:109
+#: ../src/ssconvert.c:117
 msgid "Detailed instructions for the chosen exporter"
 msgstr "Podrobné instrukce pro vybraný export"
 
-#: ../src/ssconvert.c:110
+#: ../src/ssconvert.c:118
 msgid "string"
 msgstr "text"
 
-#: ../src/ssconvert.c:116
+#: ../src/ssconvert.c:124
 msgid "List the available exporters"
 msgstr "Vypsat dostupné typy exportu"
 
-#: ../src/ssconvert.c:123
+#: ../src/ssconvert.c:131
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
 msgstr ""
 "Exportovat soubor pro každý list, pokud typ exportu podporuje jen jeden list."
 
-#: ../src/ssconvert.c:130
+#: ../src/ssconvert.c:138
 msgid "Recalculate all cells before writing the result"
 msgstr "Před zápisem výsledků přepočítat všechny buňky"
 
-#: ../src/ssconvert.c:137
+#: ../src/ssconvert.c:145
 msgid "Resize to given ROWSxCOLS"
 msgstr "Změnit velikost na zadaných ŘÁDKŮ×SLOUPCŮ"
 
-#: ../src/ssconvert.c:148
+#: ../src/ssconvert.c:156
 msgid "The range to export"
 msgstr "Oblast pro export"
 
-#: ../src/ssconvert.c:155
+#: ../src/ssconvert.c:163
 msgid "Goal seek areas"
 msgstr "Oblasti hledání cíle"
 
-#: ../src/ssconvert.c:162
+#: ../src/ssconvert.c:170
 msgid "Run the solver"
 msgstr "Spustit řešitele"
 
-#: ../src/ssconvert.c:169
+#: ../src/ssconvert.c:177
 msgid "Tool test specs"
 msgstr "Specifikace testovacího nástroje"
 
-#: ../src/ssconvert.c:222
+#: ../src/ssconvert.c:230
 msgid "Cannot parse export options."
 msgstr "Nelze zpracovat volby exportu."
 
-#: ../src/ssconvert.c:228
+#: ../src/ssconvert.c:236
 #, c-format
 msgid "The file saver does not take options\n"
 msgstr "Program pro ukládání nemá takovouto volbu\n"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:383
+#: ../src/ssconvert.c:393
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 "Konflikt názvů při slučování: „%s“ se v rámci sešitu objevuje dvakrát.\n"
 
-#: ../src/ssconvert.c:532
+#: ../src/ssconvert.c:542
 #, c-format
 msgid "Failed to create solver"
 msgstr "Nelze vytvořit řešitele"
 
-#: ../src/ssconvert.c:545
+#: ../src/ssconvert.c:555
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Řešitel běžel, ale selhal"
 
-#: ../src/ssconvert.c:555
+#: ../src/ssconvert.c:565
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Řešitel: %s\n"
 
-#: ../src/ssconvert.c:651
+#: ../src/ssconvert.c:661
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13252,7 +13256,7 @@ msgstr ""
 "Neznámý export „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:671
+#: ../src/ssconvert.c:681
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13261,7 +13265,7 @@ msgstr ""
 "Není možné odhadnout export, který se má použít pro „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:682
+#: ../src/ssconvert.c:693
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13270,7 +13274,7 @@ msgstr ""
 "Je vyžadován název výstupního souboru nebo explicitní typ exportu.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:692
+#: ../src/ssconvert.c:703
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13279,12 +13283,12 @@ msgstr ""
 "Neznámý import „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-importers.\n"
 
-#: ../src/ssconvert.c:716
+#: ../src/ssconvert.c:727
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Načtení %s selhalo\n"
 
-#: ../src/ssconvert.c:814
+#: ../src/ssconvert.c:825
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13294,11 +13298,11 @@ msgstr ""
 "Zvolený export (%s) nepodporuje ukládání více listů do jednoho souboru.\n"
 "Bude uložen jen aktuální list. Pro obejití tohoto omezení použijte -S.\n"
 
-#: ../src/ssconvert.c:843 ../src/ssconvert.c:894
+#: ../src/ssconvert.c:854 ../src/ssconvert.c:905
 msgid "INFILE [OUTFILE]"
 msgstr "VSTUPNÍ_SOUBOR [VÝSTUPNÍ_SOUBOR]"
 
-#: ../src/ssconvert.c:862
+#: ../src/ssconvert.c:873
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13309,7 +13313,7 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/ssconvert.c:892 ../src/ssdiff.c:1089 ../src/ssindex.c:266
+#: ../src/ssconvert.c:903 ../src/ssdiff.c:1089 ../src/ssindex.c:269
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Použití: %s [PŘEPÍNAČ…] %s\n"
@@ -13502,19 +13506,19 @@ msgstr "%s: Nelze číst %s: %s\n"
 msgid "%s: Missing pattern\n"
 msgstr "%s: Schází vzor\n"
 
-#: ../src/ssindex.c:51
+#: ../src/ssindex.c:52
 msgid "List MIME types which ssindex is able to read"
 msgstr "Vypsat typy MIME, které ssindex umí číst"
 
-#: ../src/ssindex.c:58
+#: ../src/ssindex.c:59
 msgid "Index the given files"
 msgstr "Indexovat zadané soubory"
 
-#: ../src/ssindex.c:248 ../src/ssindex.c:268
+#: ../src/ssindex.c:251 ../src/ssindex.c:271
 msgid "INFILE..."
 msgstr "VSTUPNÍ_SOUBOR…"
 
-#: ../src/ssindex.c:262
+#: ../src/ssindex.c:265
 #, c-format
 msgid ""
 "ssindex version '%s'\n"
@@ -14725,7 +14729,7 @@ msgstr "Strmost"
 msgid "Range"
 msgstr "Interval"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4729
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4749
 msgid "Count"
 msgstr "Počet"
 
@@ -15404,7 +15408,7 @@ msgstr "Přejme_novat…"
 msgid "Rename the current sheet"
 msgstr "Přejmenovat aktuální list"
 
-#: ../src/wbc-gtk-actions.c:2098 ../src/wbc-gtk.c:511
+#: ../src/wbc-gtk-actions.c:2098 ../src/wbc-gtk.c:514
 msgid "Resize..."
 msgstr "Změnit velikost…"
 
@@ -15616,7 +15620,7 @@ msgstr "Následující _objekt"
 msgid "Select the next sheet object"
 msgstr "Vybrat následující objekt v listu"
 
-#: ../src/wbc-gtk-actions.c:2220 ../src/wbc-gtk.c:2738
+#: ../src/wbc-gtk-actions.c:2220 ../src/wbc-gtk.c:2757
 msgid "Go to Top"
 msgstr "Přejít nahoru"
 
@@ -15624,7 +15628,7 @@ msgstr "Přejít nahoru"
 msgid "Go to the top of the data"
 msgstr "Přejít na data nejvíce nahoře"
 
-#: ../src/wbc-gtk-actions.c:2223 ../src/wbc-gtk.c:2739
+#: ../src/wbc-gtk-actions.c:2223 ../src/wbc-gtk.c:2758
 msgid "Go to Bottom"
 msgstr "Přejít dolů"
 
@@ -15632,7 +15636,7 @@ msgstr "Přejít dolů"
 msgid "Go to the bottom of the data"
 msgstr "Přejít na data nejvíce dole"
 
-#: ../src/wbc-gtk-actions.c:2226 ../src/wbc-gtk.c:2740
+#: ../src/wbc-gtk-actions.c:2226 ../src/wbc-gtk.c:2759
 msgid "Go to First"
 msgstr "Přejít na první"
 
@@ -15640,7 +15644,7 @@ msgstr "Přejít na první"
 msgid "Go to the first data cell"
 msgstr "Přejít na první buňku s daty"
 
-#: ../src/wbc-gtk-actions.c:2229 ../src/wbc-gtk.c:2741
+#: ../src/wbc-gtk-actions.c:2229 ../src/wbc-gtk.c:2760
 msgid "Go to Last"
 msgstr "Přejít na poslední"
 
@@ -15730,11 +15734,11 @@ msgid "Change Gnumeric Preferences"
 msgstr "Změnit předvolby aplikace Gnumeric"
 
 #. View
-#: ../src/wbc-gtk-actions.c:2277 ../src/wbc-gtk.c:1581
+#: ../src/wbc-gtk-actions.c:2277 ../src/wbc-gtk.c:1591
 msgid "_Freeze Panes"
 msgstr "_Ukotvit rozdělení okna"
 
-#: ../src/wbc-gtk-actions.c:2278 ../src/wbc-gtk.c:1584
+#: ../src/wbc-gtk-actions.c:2278 ../src/wbc-gtk.c:1594
 msgid "Freeze the top left of the sheet"
 msgstr "Ukotvit levý horní roh listu"
 
@@ -16328,11 +16332,11 @@ msgstr "Exportovat jako soubor _CSV…"
 msgid "Export the current sheet as a csv file"
 msgstr "Exportovat aktuální list jako soubor csv"
 
-#: ../src/wbc-gtk-actions.c:2593 ../src/wbc-gtk.c:1702
+#: ../src/wbc-gtk-actions.c:2593 ../src/wbc-gtk.c:1712
 msgid "Repeat Export"
 msgstr "Opakovat export"
 
-#: ../src/wbc-gtk-actions.c:2594 ../src/wbc-gtk.c:1698 ../src/wbc-gtk.c:1702
+#: ../src/wbc-gtk-actions.c:2594 ../src/wbc-gtk.c:1708 ../src/wbc-gtk.c:1712
 msgid "Repeat the last data export"
 msgstr "Zopakovat poslední export dat"
 
@@ -16439,7 +16443,7 @@ msgid "Remove an outline group"
 msgstr "Odstranit skupinu osnovy"
 
 #. Data -> Filter
-#: ../src/wbc-gtk-actions.c:2637 ../src/wbc-gtk.c:1623
+#: ../src/wbc-gtk-actions.c:2637 ../src/wbc-gtk.c:1633
 msgid "Add _Auto Filter"
 msgstr "Přidat _automatický filtr"
 
@@ -16507,7 +16511,7 @@ msgid "Adjust a data slicer"
 msgstr "Přizpůsobit datový průřez"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2667 ../src/wbc-gtk.c:4725
+#: ../src/wbc-gtk-actions.c:2667 ../src/wbc-gtk.c:4745
 #: ../src/workbook-view.c:1033
 msgid "Sum"
 msgstr "Součet"
@@ -17025,272 +17029,272 @@ msgstr "Odstranit formát"
 msgid "Show this dialog next time."
 msgstr "Příště toto dialogové okno zobrazit."
 
-#: ../src/wbc-gtk.c:504
+#: ../src/wbc-gtk.c:507
 msgid "Manage Sheets..."
 msgstr "Správa listů…"
 
-#: ../src/wbc-gtk.c:507
+#: ../src/wbc-gtk.c:510
 msgid "Append"
 msgstr "Připojit"
 
-#: ../src/wbc-gtk.c:508
+#: ../src/wbc-gtk.c:511
 msgid "Duplicate"
 msgstr "Duplikovat"
 
-#: ../src/wbc-gtk.c:509
+#: ../src/wbc-gtk.c:512
 msgid "Remove"
 msgstr "Odstranit"
 
-#: ../src/wbc-gtk.c:510
+#: ../src/wbc-gtk.c:513
 msgid "Rename"
 msgstr "Přejmenovat"
 
-#: ../src/wbc-gtk.c:512
+#: ../src/wbc-gtk.c:515
 msgid "Select"
 msgstr "Vybrat"
 
-#: ../src/wbc-gtk.c:513
+#: ../src/wbc-gtk.c:516
 msgid "Select (sorted)"
 msgstr "Vybrat (seřazené)"
 
-#: ../src/wbc-gtk.c:1286
+#: ../src/wbc-gtk.c:1300
 msgid " - Gnumeric"
 msgstr " – Gnumeric"
 
-#: ../src/wbc-gtk.c:1449
+#: ../src/wbc-gtk.c:1459
 msgid "Invalid format"
 msgstr "Neplatný formát"
 
-#: ../src/wbc-gtk.c:1547
+#: ../src/wbc-gtk.c:1557
 msgid "Remove the page break to the left of the current column"
 msgstr "Odstranit zalomení stránky nalevo od aktuálního sloupce"
 
-#: ../src/wbc-gtk.c:1550
+#: ../src/wbc-gtk.c:1560
 msgid "Add a page break to the left of the current column"
 msgstr "Přidat zalomení stránky nalevo od aktuálního sloupce"
 
-#: ../src/wbc-gtk.c:1557
+#: ../src/wbc-gtk.c:1567
 msgid "Remove the page break above the current row"
 msgstr "Odstranit zalomení stránky nad aktuálním řádkem"
 
-#: ../src/wbc-gtk.c:1560
+#: ../src/wbc-gtk.c:1570
 msgid "Add a page break above current row"
 msgstr "Přidat zalomení stránky nad aktuální řádek"
 
-#: ../src/wbc-gtk.c:1580
+#: ../src/wbc-gtk.c:1590
 msgid "Un_freeze Panes"
 msgstr "Zrušit _ukotvení rozdělení okna"
 
-#: ../src/wbc-gtk.c:1583
+#: ../src/wbc-gtk.c:1593
 msgid "Unfreeze the top left of the sheet"
 msgstr "Zrušit ukotvení levého horního rohu listu"
 
-#: ../src/wbc-gtk.c:1601
+#: ../src/wbc-gtk.c:1611
 #, c-format
 msgid "Extend _Auto Filter to %s"
 msgstr "Rozšířit _automatický filtr na %s"
 
-#: ../src/wbc-gtk.c:1603
+#: ../src/wbc-gtk.c:1613
 msgid "Extend the existing filter."
 msgstr "Rozšířit stávající filtr."
 
-#: ../src/wbc-gtk.c:1613
+#: ../src/wbc-gtk.c:1623
 msgid "The selection intersects an existing auto filter."
 msgstr "Výběr se kříží s existujícím automatickým filtrem."
 
-#: ../src/wbc-gtk.c:1622
+#: ../src/wbc-gtk.c:1632
 msgid "Remove _Auto Filter"
 msgstr "Odstranit _automatický filtr"
 
-#: ../src/wbc-gtk.c:1625
+#: ../src/wbc-gtk.c:1635
 msgid "Remove a filter"
 msgstr "Odstranit filtr"
 
-#: ../src/wbc-gtk.c:1626
+#: ../src/wbc-gtk.c:1636
 msgid "Add a filter"
 msgstr "Přidat filtr"
 
-#: ../src/wbc-gtk.c:1694
+#: ../src/wbc-gtk.c:1704
 #, c-format
 msgid "Repeat Export to %s"
 msgstr "Opakovat export do %s"
 
-#: ../src/wbc-gtk.c:1707
+#: ../src/wbc-gtk.c:1717
 msgid "Remove _Data Slicer"
 msgstr "Odstranit _datový průřez"
 
-#: ../src/wbc-gtk.c:1708
+#: ../src/wbc-gtk.c:1718
 msgid "Create _Data Slicer"
 msgstr "Vytvořit _datový průřez"
 
-#: ../src/wbc-gtk.c:1710
+#: ../src/wbc-gtk.c:1720
 msgid "Remove a Data Slicer"
 msgstr "Odstranit datový průřez"
 
-#: ../src/wbc-gtk.c:1711
+#: ../src/wbc-gtk.c:1721
 msgid "Create a Data Slicer"
 msgstr "Vytvořit datový průřez"
 
-#: ../src/wbc-gtk.c:1724
+#: ../src/wbc-gtk.c:1734
 msgid "_Redo"
 msgstr "Zn_ovu"
 
-#: ../src/wbc-gtk.c:1725
+#: ../src/wbc-gtk.c:1735
 msgid "_Undo"
 msgstr "_Zpět"
 
-#: ../src/wbc-gtk.c:1756
+#: ../src/wbc-gtk.c:1766
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Uložit před zavřením změny v sešitu „%s“?"
 
-#: ../src/wbc-gtk.c:1761
+#: ../src/wbc-gtk.c:1771
 msgid "Save changes to workbook before closing?"
 msgstr "Uložit před zavřením změny v sešitu?"
 
-#: ../src/wbc-gtk.c:1768
+#: ../src/wbc-gtk.c:1778
 msgid "If you close without saving, changes will be discarded."
 msgstr "Pokud zavřete bez uložení, budou změny zahozeny."
 
-#: ../src/wbc-gtk.c:1774
+#: ../src/wbc-gtk.c:1784
 msgid "Discard all"
 msgstr "Zahodit vše"
 
-#: ../src/wbc-gtk.c:1776 ../src/wbc-gtk.c:1783 ../src/wbc-gtk.c:1789
+#: ../src/wbc-gtk.c:1786 ../src/wbc-gtk.c:1793 ../src/wbc-gtk.c:1799
 msgid "Discard"
 msgstr "Zahodit"
 
-#: ../src/wbc-gtk.c:1778
+#: ../src/wbc-gtk.c:1788
 msgid "Save all"
 msgstr "Uložit vše"
 
-#: ../src/wbc-gtk.c:1780 ../src/wbc-gtk.c:1785
+#: ../src/wbc-gtk.c:1790 ../src/wbc-gtk.c:1795
 msgid "Don't quit"
 msgstr "Nekončit"
 
-#: ../src/wbc-gtk.c:1791
+#: ../src/wbc-gtk.c:1801
 msgid "Don't close"
 msgstr "Nezavírat"
 
-#: ../src/wbc-gtk.c:2093
+#: ../src/wbc-gtk.c:2103
 msgid "Enter in current cell"
 msgstr "Vložit do aktuální buňky"
 
-#: ../src/wbc-gtk.c:2095
+#: ../src/wbc-gtk.c:2105
 msgid "Enter in current cell without autocorrection"
 msgstr "Vložit do aktuální buňky bez automatické opravy"
 
-#: ../src/wbc-gtk.c:2102
+#: ../src/wbc-gtk.c:2112
 msgid "Enter in current range merged"
 msgstr "Vložit sloučené do aktuální oblasti"
 
-#: ../src/wbc-gtk.c:2105
+#: ../src/wbc-gtk.c:2115
 msgid "Enter in selected ranges"
 msgstr "Vložit do vybraných oblastí"
 
-#: ../src/wbc-gtk.c:2107
+#: ../src/wbc-gtk.c:2117
 msgid "Enter in selected ranges as array"
 msgstr "Vložit do vybraných oblastí jako pole"
 
-#: ../src/wbc-gtk.c:2473
+#: ../src/wbc-gtk.c:2492
 msgid "END"
 msgstr "KONEC"
 
-#: ../src/wbc-gtk.c:2743
+#: ../src/wbc-gtk.c:2762
 msgid "Go to Cell ..."
 msgstr "Přejít na buňku…"
 
-#: ../src/wbc-gtk.c:2811
+#: ../src/wbc-gtk.c:2830
 msgid "Accept change in multiple cells"
 msgstr "Přijmout změny ve více buňkách"
 
-#: ../src/wbc-gtk.c:2880 ../src/wbc-gtk.c:2895
+#: ../src/wbc-gtk.c:2900 ../src/wbc-gtk.c:2915
 msgid "_Re-Edit"
 msgstr "Znovu up_ravit"
 
-#: ../src/wbc-gtk.c:2881 ../src/wbc-gtk.c:2886
+#: ../src/wbc-gtk.c:2901 ../src/wbc-gtk.c:2906
 msgid "_Discard"
 msgstr "Zaho_dit"
 
-#: ../src/wbc-gtk.c:2885 ../src/wbc-gtk.c:2896
+#: ../src/wbc-gtk.c:2905 ../src/wbc-gtk.c:2916
 msgid "_Accept"
 msgstr "_Přijmout"
 
-#: ../src/wbc-gtk.c:3091
+#: ../src/wbc-gtk.c:3111
 msgid "_Zoom"
 msgstr "_Přiblížit"
 
-#: ../src/wbc-gtk.c:3130
+#: ../src/wbc-gtk.c:3150
 msgid "Clear Borders"
 msgstr "Vymazat ohraničení"
 
-#: ../src/wbc-gtk.c:3133
+#: ../src/wbc-gtk.c:3153
 msgid "All Borders"
 msgstr "Všechno ohraničení"
 
-#: ../src/wbc-gtk.c:3134
+#: ../src/wbc-gtk.c:3154
 msgid "Outside Borders"
 msgstr "Vnější ohraničení"
 
-#: ../src/wbc-gtk.c:3135
+#: ../src/wbc-gtk.c:3155
 msgid "Thick Outside Borders"
 msgstr "Tučné vnější ohraničení"
 
-#: ../src/wbc-gtk.c:3138
+#: ../src/wbc-gtk.c:3158
 msgid "Double Bottom"
 msgstr "Dvojité dole"
 
-#: ../src/wbc-gtk.c:3139
+#: ../src/wbc-gtk.c:3159
 msgid "Thick Bottom"
 msgstr "Tučné dole"
 
-#: ../src/wbc-gtk.c:3141
+#: ../src/wbc-gtk.c:3161
 msgid "Top and Bottom"
 msgstr "Nahoře a dole"
 
-#: ../src/wbc-gtk.c:3142
+#: ../src/wbc-gtk.c:3162
 msgid "Top and Double Bottom"
 msgstr "Nahoře a dvojité dole"
 
-#: ../src/wbc-gtk.c:3143
+#: ../src/wbc-gtk.c:3163
 msgid "Top and Thick Bottom"
 msgstr "Nahoře a tučné dole"
 
-#: ../src/wbc-gtk.c:3228
+#: ../src/wbc-gtk.c:3248
 msgid "Set Borders"
 msgstr "Nastavit ohraničení"
 
-#: ../src/wbc-gtk.c:3236 ../src/wbc-gtk.c:3237
+#: ../src/wbc-gtk.c:3256 ../src/wbc-gtk.c:3257
 msgid "Borders"
 msgstr "Ohraničení"
 
-#: ../src/wbc-gtk.c:3340
+#: ../src/wbc-gtk.c:3360
 msgid "Redo the undone action"
 msgstr "Znovu vykonat vrácenou akci"
 
-#: ../src/wbc-gtk.c:3345
+#: ../src/wbc-gtk.c:3365
 msgid "Undo the last action"
 msgstr "Vrátit zpět poslední akci"
 
-#: ../src/wbc-gtk.c:3379
+#: ../src/wbc-gtk.c:3399
 msgid "Set Foreground Color"
 msgstr "Nastavit barvu popředí"
 
-#: ../src/wbc-gtk.c:3393 ../src/wbc-gtk.c:3394 ../src/wbc-gtk.c:3403
+#: ../src/wbc-gtk.c:3413 ../src/wbc-gtk.c:3414 ../src/wbc-gtk.c:3423
 msgid "Foreground"
 msgstr "Popředí"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:3433
+#: ../src/wbc-gtk.c:3453
 msgid "Set Background Color"
 msgstr "Nastavit barvu pozadí"
 
-#: ../src/wbc-gtk.c:3621
+#: ../src/wbc-gtk.c:3641
 #, c-format
 msgid "Setting Font %s"
 msgstr "Nastavení písma %s"
 
-#: ../src/wbc-gtk.c:3699
+#: ../src/wbc-gtk.c:3719
 msgid "Change font"
 msgstr "Změnit písmo"
 
@@ -17300,66 +17304,66 @@ msgstr "Změnit písmo"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3901
+#: ../src/wbc-gtk.c:3921
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "V nabídce „%s“ se klávesa „%s“ používá pro „%s“ i „%s“."
 
-#: ../src/wbc-gtk.c:4240
+#: ../src/wbc-gtk.c:4260
 msgid "Display above sheets"
 msgstr "Zobrazit nad listy"
 
-#: ../src/wbc-gtk.c:4241
+#: ../src/wbc-gtk.c:4261
 msgid "Display to the left of sheets"
 msgstr "Zobrazit nalevo od listů"
 
-#: ../src/wbc-gtk.c:4242
+#: ../src/wbc-gtk.c:4262
 msgid "Display to the right of sheets"
 msgstr "Zobrazit napravo od listů"
 
-#: ../src/wbc-gtk.c:4256
+#: ../src/wbc-gtk.c:4276
 msgid "Reattach to main window"
 msgstr "Znovu připojit k hlavnímu oknu"
 
-#: ../src/wbc-gtk.c:4290
+#: ../src/wbc-gtk.c:4310
 msgid "Hide"
 msgstr "Skrýt"
 
-#: ../src/wbc-gtk.c:4356
+#: ../src/wbc-gtk.c:4376
 msgid "Standard Toolbar"
 msgstr "Lišta nástrojů Standardní"
 
-#: ../src/wbc-gtk.c:4357
+#: ../src/wbc-gtk.c:4377
 msgid "Format Toolbar"
 msgstr "Lišta nástrojů Formát"
 
-#: ../src/wbc-gtk.c:4358
+#: ../src/wbc-gtk.c:4378
 msgid "Object Toolbar"
 msgstr "Lišta nástrojů Objekt"
 
-#: ../src/wbc-gtk.c:4372
+#: ../src/wbc-gtk.c:4392
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Zobrazit/skrýt lištu nástrojů %s"
 
-#: ../src/wbc-gtk.c:4786
+#: ../src/wbc-gtk.c:4806
 #, c-format
 msgid "Content of %s"
 msgstr "Obsah buňky %s"
 
-#: ../src/wbc-gtk.c:4801
+#: ../src/wbc-gtk.c:4821
 msgid "Use Maximum Precision"
 msgstr "Používat maximální přesnost"
 
-#: ../src/wbc-gtk.c:4813
+#: ../src/wbc-gtk.c:4833
 msgid "Insert Formula Below"
 msgstr "Vložit vzorec pod."
 
-#: ../src/wbc-gtk.c:4819
+#: ../src/wbc-gtk.c:4839
 msgid "Insert Formula to Side"
 msgstr "Vložit vzorec vedle."
 
-#: ../src/wbc-gtk.c:4902
+#: ../src/wbc-gtk.c:4922
 #, c-format
 msgid "Open %s"
 msgstr "Otevřít %s"
@@ -17626,11 +17630,11 @@ msgstr "Nelze otevřít „%s“ pro zápis: %s"
 msgid "Can't open '%s' for writing"
 msgstr "Nelze otevřít „%s“ pro zápis"
 
-#: ../src/workbook-view.c:1304
+#: ../src/workbook-view.c:1305
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát souboru."
 
-#: ../src/workbook-view.c:1355
+#: ../src/workbook-view.c:1356
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
@@ -17736,7 +17740,7 @@ msgstr "Neplatný filtr, schází oblast"
 msgid "Unsupported object type '%s'"
 msgstr "Nepodporovaný typ objektu „%s“"
 
-#: ../src/xml-sax-read.c:3639 ../src/xml-sax-write.c:1668
+#: ../src/xml-sax-read.c:3644 ../src/xml-sax-write.c:1668
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
