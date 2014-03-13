@@ -1183,7 +1183,7 @@ odf_get_gnm_border_format (GnmBorder   *border)
 static void
 odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 {
-	gboolean test1, test2, rep_content = FALSE;
+	gboolean test1, test2;
 
 	gsf_xml_out_start_element (state->xml, STYLE "table-cell-properties");
 /* Background Color */
@@ -1312,6 +1312,8 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
 		GnmHAlign align = gnm_style_get_align_h (style);
 		char const *source = NULL;
+		gboolean rep_content = FALSE;
+
 		switch (align) {
 		case GNM_HALIGN_DISTRIBUTED:
 		case GNM_HALIGN_LEFT:
@@ -1331,10 +1333,9 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 			break;
 		}
 		gsf_xml_out_add_cstr (state->xml, STYLE "text-align-source", source);
+		/* Repeat Content */
+		odf_add_bool (state->xml,  STYLE "repeat-content", rep_content);
 	}
-
-/* Repeat Content */
-	odf_add_bool (state->xml,  STYLE "repeat-content", rep_content);
 
 	gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
 }

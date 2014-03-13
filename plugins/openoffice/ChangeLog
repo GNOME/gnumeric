@@ -1,5 +1,12 @@
 2014-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_style_cell_properties): write
+	repeat-content only when it is defined
+	* openoffice-read.c (odf_style_set_align_h): don't set the slignment
+	if it isn't defined
+
+2014-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_style_cell_properties):
 	GNM_HALIGN_CENTER_ACROSS_SELECTION should be source="fix"
 	(odf_write_style_paragraph_properties): use "center" for

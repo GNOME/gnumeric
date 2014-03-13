@@ -6158,18 +6158,14 @@ static void
 odf_style_set_align_h (GnmStyle *style, gboolean h_align_is_valid, gboolean repeat_content,
 		       int text_align, int gnm_halign)
 {
-	int alignment = GNM_HALIGN_GENERAL;
-
 	if (repeat_content)
-		alignment = GNM_HALIGN_FILL;
+		gnm_style_set_align_h (style, GNM_HALIGN_FILL);
 	else if (h_align_is_valid) {
 		if (gnm_halign > -1)
-			alignment = gnm_halign;
+			gnm_style_set_align_h (style, gnm_halign);
 		else
-			alignment = ((text_align < 0) ? GNM_HALIGN_LEFT : text_align);
+			gnm_style_set_align_h (style, (text_align < 0) ? GNM_HALIGN_LEFT : text_align);
 	}
-
-	gnm_style_set_align_h (style, alignment);
 }
 
 static void
