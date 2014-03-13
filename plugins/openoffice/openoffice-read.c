@@ -6356,9 +6356,9 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUB);
 		}
 	
-
-	gnm_style_set_font_strike (style, strike_through_style > 0 ||
-				   (strike_through_type > 0 &&  strike_through_style == -1));
+	if (strike_through_style != -1 || strike_through_type != -1)
+		gnm_style_set_font_strike (style, strike_through_style > 0 ||
+					   (strike_through_type > 0 &&  strike_through_style == -1));
 
 
 	if (underline_style > 0) {
