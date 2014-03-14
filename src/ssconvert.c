@@ -769,7 +769,9 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		if (sscanf (ssconvert_resize, "%dx%d", &rows, &cols) == 2) {
 			int n;
 
-			g_printerr ("Resizing to %dx%d\n", rows, cols);
+			if (ssconvert_verbose)
+				g_printerr ("Resizing to %dx%d\n", rows, cols);
+
 			for (n = workbook_sheet_count (wb) - 1;
 			     n >= 0;
 			     n--) {
