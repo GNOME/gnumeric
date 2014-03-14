@@ -1,3 +1,8 @@
+2014-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_style_add_condition): use
+	gnm_style_cond_canonicalize
+
 2014-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_save_style_map): use

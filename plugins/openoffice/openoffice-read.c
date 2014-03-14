@@ -3328,6 +3328,7 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 		return;
 	}
 
+	gnm_style_cond_canonicalize (cond);
 	gnm_style_cond_set_overlay (cond, cstyle);
 
 	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
