@@ -1577,12 +1577,31 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond, GnmRange *r)
 	GnmExprTop const *texpr = NULL;
 	GnmCellRef ref;
 	GnmParsePos pp;
+	GnmStyleCondOp op = cond->op;
 
 	g_return_if_fail (name != NULL);
 
 	str = g_string_new (NULL);
 
-	switch (cond->op) {
+	switch (op) {
+	case GNM_STYLE_COND_CONTAINS_STR:
+	case GNM_STYLE_COND_NOT_CONTAINS_STR:
+	case GNM_STYLE_COND_BEGINS_WITH_STR:
+	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
+	case GNM_STYLE_COND_ENDS_WITH_STR:
+	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
+	case GNM_STYLE_COND_CONTAINS_ERR:
+	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
+	case GNM_STYLE_COND_CONTAINS_BLANKS:
+	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
+		texpr = gnm_style_cond_get_alternate_expr (cond);
+		op = GNM_STYLE_COND_CUSTOM;
+		break;
+	default:
+		break;
+	}
+	
+	switch (op) {
 	case GNM_STYLE_COND_BETWEEN:
 		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:cell-content-is-between");
@@ -1623,77 +1642,21 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond, GnmRange *r)
 		g_string_append (str, "of:cell-content()<=");
 		odf_save_style_map_single_f (state, str, gnm_style_cond_get_expr (cond, 0), &pp);
 		break;
-	case GNM_STYLE_COND_CONTAINS_ERR:
-		parse_pos_init (&pp, (Workbook *) state->wb, state->sheet, 0, 0);
-		g_string_append (str, "of:is-true-formula(ISERROR([.A1]))");
-		break;
-	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
-		parse_pos_init (&pp, (Workbook *) state->wb, state->sheet, 0, 0);
-		g_string_append (str, "of:is-true-formula(NOT(ISERROR([.A1])))");
-		break;
-	case GNM_STYLE_COND_CONTAINS_STR:
-		odf_determine_base (state, r, &pp);
-		g_string_append (str, "of:is-true-formula(NOT(ISERROR(FIND(");
-		odf_save_style_map_single_f (state, str, gnm_style_cond_get_expr (cond, 0), &pp);
-		g_string_append_printf (str, ";[.%s%s]))))",
-					col_name (pp.eval.col), row_name (pp.eval.row));
-		break;
-	case GNM_STYLE_COND_NOT_CONTAINS_STR:
-		odf_determine_base (state, r, &pp);
-		g_string_append (str, "of:is-true-formula(ISERROR(FIND(");
-		odf_save_style_map_single_f (state, str, gnm_style_cond_get_expr (cond, 0), &pp);
-		g_string_append_printf (str, ";[.%s%s])))",
-					col_name (pp.eval.col), row_name (pp.eval.row));
-		break;
-	case GNM_STYLE_COND_BEGINS_WITH_STR:
-		odf_determine_base (state, r, &pp);
-		g_string_append (str, "of:is-true-formula(IFERROR(FIND(");
-		odf_save_style_map_single_f (state, str, gnm_style_cond_get_expr (cond, 0), &pp);
-		g_string_append_printf (str, ";[.%s%s]);2)=1)",
-					col_name (pp.eval.col), row_name (pp.eval.row));
-		break;
-	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
-		odf_determine_base (state, r, &pp);
-		g_string_append (str, "of:is-true-formula(NOT(IFERROR(FIND(");
-		odf_save_style_map_single_f (state, str, gnm_style_cond_get_expr (cond, 0), &pp);
-		g_string_append_printf (str, ";[.%s%s]);2)=1))",
-					col_name (pp.eval.col), row_name (pp.eval.row));
-		break;
-	case GNM_STYLE_COND_ENDS_WITH_STR:
-		odf_determine_base (state, r, &pp);
-		g_string_append (str, "of:is-true-formula(EXACT(");
-		odf_save_style_map_single_f (state, str, gnm_style_cond_get_expr (cond, 0), &pp);
-		g_string_append_printf (str, ";RIGHT([.%s%s];LEN(",
-					col_name (pp.eval.col), row_name (pp.eval.row));
-		odf_save_style_map_single_f (state, str, gnm_style_cond_get_expr (cond, 0), &pp);
-		g_string_append (str, ")))");
-		break;
-	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
-		odf_determine_base (state, r, &pp);
-		g_string_append (str, "of:is-true-formula(NOT(EXACT(");
-		odf_save_style_map_single_f (state, str, gnm_style_cond_get_expr (cond, 0), &pp);
-		g_string_append_printf (str, ";RIGHT([.%s%s];LEN(",
-					col_name (pp.eval.col), row_name (pp.eval.row));
-		odf_save_style_map_single_f (state, str, gnm_style_cond_get_expr (cond, 0), &pp);
-		g_string_append (str, "))))");
-		break;
-	case GNM_STYLE_COND_CONTAINS_BLANKS:
-		parse_pos_init (&pp, (Workbook *) state->wb, state->sheet, 0, 0);
-		g_string_append (str, "of:is-true-formula(NOT(ISERROR(FIND(\" \";[.A1]))))");
-		break;
-	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
-		parse_pos_init (&pp, (Workbook *) state->wb, state->sheet, 0, 0);
-		g_string_append (str, "of:is-true-formula(ISERROR(FIND(\" \";[.A1])))");
-		break;
 	case GNM_STYLE_COND_CUSTOM:
 		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:is-true-formula(");
-		odf_save_style_map_single_f (state, str, gnm_style_cond_get_expr (cond, 0), &pp);
+		odf_save_style_map_single_f (state, str, texpr ? texpr : gnm_style_cond_get_expr (cond, 0), &pp);
 		g_string_append (str, ")");
 		break;
 	default:
 		g_string_free (str, TRUE);
+		g_warning ("Unknown style condition %d", op);
 		return;
+	}
+
+	if (texpr) {
+		gnm_expr_top_unref (texpr);
+		texpr = NULL;
 	}
 
 	gsf_xml_out_start_element (state->xml, STYLE "map");
@@ -1715,7 +1678,6 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond, GnmRange *r)
 	gsf_xml_out_end_element (state->xml); /* </style:map> */
 
 	g_string_free (str, TRUE);
-
 }
 
 static void
