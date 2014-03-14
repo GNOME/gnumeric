@@ -1250,15 +1250,19 @@ gnm_canvas_get_position (GocCanvas *canvas, int *x, int *y, gint64 px, gint64 py
 	GtkWidget *cw = GTK_WIDGET (canvas);
 	GdkWindow *cbw = gtk_layout_get_bin_window (GTK_LAYOUT (cw));
 	int wx, wy;
-	int ox = 0, oy = 0;
 
 	gdk_window_get_origin (cbw, &wx, &wy);
 
-	px = (px - canvas->scroll_x1) / canvas->pixels_per_unit;
-	py = (py - canvas->scroll_y1) / canvas->pixels_per_unit;
+	/* we don't need to multiply px and py by the canvas pixels_per_unit
+	 * field since all the callers already do that */
+	px -= canvas->scroll_x1 * canvas->pixels_per_unit;
+	py -= canvas->scroll_y1 * canvas->pixels_per_unit;
+	/* let's take care of RTL sheets */
+	if (canvas->direction == GOC_DIRECTION_RTL)
+		px = goc_canvas_get_width (canvas) - px;
 
-	*x = px + wx - ox;
-	*y = py + wy - oy;
+	*x = px + wx;
+	*y = py + wy;
 }
 
 /*

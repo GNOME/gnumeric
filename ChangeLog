@@ -1,3 +1,7 @@
+2014-03-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gui-util.c (gnm_canvas_get_position): fix tooltip position. [#725941]
+
 2014-03-13  Morten Welinder  <terra@gnome.org>
 
 	* src/style-conditions.c (gnm_style_cond_eval): New function

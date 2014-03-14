@@ -1,26 +1,8 @@
 Gnumeric 1.12.13
 
-Andreas:
-	* Fix export of comboboxes to ODF.
-	* Fix export of help messages to ODF.
-	* Import invisible alignment characters in number formats from ODF.
-	  [part of #725852]
-	* Fix fill-alignment export/import to and from ODF. [part of #726035]
-	* Fix distributed-alignment export to ODF. [part of #726035]
-	* Fix ODF roundtrip of "center accross selection". [#726010]
-	* Fix ODF roundtrip of conditional formats. [#726201]
+Jean:
+	* Fix tooltip position for scale or RTL sheets. [#725941]
 
-Morten:
-	* Support volatile functions.  [#305798]
-	* Improve testing.
-	* Import/Export super/subscript fonts to xlsx.  [Part of #726035]
-	* Import xlsx auto-filters.  [#725460]
-	* Update Gnumeric schema.
-	* Fix rich text problem.  [#726086]
-	* Improve xls export of conditional formats.
-	* Fix case sensitivity for conditional formats.  [#726246]
-
---------------------------------------------------------------------------
 Gnumeric 1.12.12
 
 Andreas:
@@ -35,9 +17,6 @@ Andreas:
 	* Export row and column visibility to ODF. [#725115]
 	* Export frozen panes info to and import from ODF. [#725228]
 	* Export and import more sheet properties to/from ODF. [#725258]
-	* Fix validation import from ODF. [#725321]
-	* Fix autofilter condition export to ODF. [#725458]
-	* Provide Undo for sheet reordering via tab dragging. [#725540]
 
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]
@@ -72,11 +51,6 @@ Morten:
 	* Improve the xls macro-roundtrip situation.  [#725220]
 	* Improve ssdiff for sheet attributes.
 	* Fix split pane problem.  [#725375]
-	* Don't generate value format during xls read.  [#725453]
-	* Fix name criticals.
-	* Fix sheet duplication issue.  [#725504]
-	* Fix named expressions crasher.  [Part of #725459]
-	* Fix GUI sheet re-ordering mess.  [Part of #725459]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
