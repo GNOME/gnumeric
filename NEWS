@@ -74,7 +74,7 @@ Morten:
 	* Improve the xls macro-roundtrip situation.  [#725220]
 	* Improve ssdiff for sheet attributes.
 	* Fix split pane problem.  [#725375]
-    * Don't generate value format during xls read.  [#725453]
+	* Don't generate value format during xls read.  [#725453]
 	* Fix name criticals.
 	* Fix sheet duplication issue.  [#725504]
 	* Fix named expressions crasher.  [Part of #725459]
