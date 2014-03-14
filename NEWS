@@ -18,6 +18,7 @@ Morten:
 	* Update Gnumeric schema.
 	* Fix rich text problem.  [#726086]
 	* Improve xls export of conditional formats.
+	* Fix case sensitivity for conditional formats.  [#726246]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.12

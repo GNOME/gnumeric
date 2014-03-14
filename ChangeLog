@@ -1,3 +1,9 @@
+2014-03-13  Morten Welinder  <terra@gnome.org>
+
+	* src/style-conditions.c (gnm_style_cond_eval): New function
+	extracted from gnm_style_conditions_eval.  Make "equal" case
+	insensitive.  Fixes #726246.
+
 2014-03-12  Morten Welinder  <terra@gnome.org>
 
 	* src/style-conditions.c (gnm_style_cond_get_alternate_expr): New

@@ -529,6 +529,98 @@ gnm_style_cond_canonicalize (GnmStyleCond *cond)
 }
 
 
+static gboolean
+gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
+		     GnmEvalPos const *ep)
+{
+	gboolean negate = FALSE;
+	gboolean res;
+	GnmValue *val0 = NULL;
+	GnmValue *val1 = NULL;
+
+	if (gnm_style_cond_op_operands (cond->op) > 0)
+		val0 = gnm_expr_top_eval (cond->deps[0].texpr, ep,
+					  GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+
+	switch (cond->op) {
+	case GNM_STYLE_COND_NOT_EQUAL:
+		negate = TRUE;  /* ...and fall through */
+	case GNM_STYLE_COND_EQUAL:
+		res = value_compare (cv, val0, FALSE) == IS_EQUAL;
+		break;
+
+	case GNM_STYLE_COND_LTE:
+		negate = TRUE;  /* ...and fall through */
+	case GNM_STYLE_COND_GT:
+		res = value_compare (cv, val0, FALSE) == IS_GREATER;
+		break;
+		
+	case GNM_STYLE_COND_GTE:
+		negate = TRUE;  /* ...and fall through */
+	case GNM_STYLE_COND_LT:
+		res = value_compare (cv, val0, FALSE) == IS_LESS;
+		break;
+
+	case GNM_STYLE_COND_NOT_BETWEEN:
+		negate = TRUE;  /* ...and fall through */
+	case GNM_STYLE_COND_BETWEEN:
+		val1 = gnm_expr_top_eval (cond->deps[1].texpr, ep,
+					  GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		res = !(value_compare (cv, val0, FALSE) == IS_LESS ||
+			value_compare (cv, val1, FALSE) == IS_GREATER);
+		break;
+
+	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
+		negate = TRUE;  /* ...and fall through */
+	case GNM_STYLE_COND_CONTAINS_ERR:
+		res = cv && VALUE_IS_ERROR (cv);
+		break;
+
+	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
+		negate = TRUE;  /* ...and fall through */
+	case GNM_STYLE_COND_CONTAINS_BLANKS:
+		res = (cv &&
+		       strpbrk (value_peek_string (cv), BLANKS_STRING_FOR_MATCHING) != NULL);
+		break;
+
+	case GNM_STYLE_COND_NOT_CONTAINS_STR:
+		negate = TRUE;  /* ...and fall through */
+	case GNM_STYLE_COND_CONTAINS_STR:
+		res = (cv &&
+		       strstr (value_peek_string (cv),
+			       value_peek_string (val0)) != NULL);
+		break;
+
+	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
+		negate = TRUE;  /* ...and fall through */
+	case GNM_STYLE_COND_BEGINS_WITH_STR:
+		res = (cv &&
+		       g_str_has_prefix (value_peek_string (cv),
+					 value_peek_string (val0)));
+		break;
+
+	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
+		negate = TRUE;  /* ...and fall through */
+	case GNM_STYLE_COND_ENDS_WITH_STR:
+		res = (cv &&
+		       g_str_has_suffix (value_peek_string (cv),
+					 value_peek_string (val0)));
+		break;
+
+	case GNM_STYLE_COND_CUSTOM:
+		res = value_get_as_bool (val0, NULL);
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	value_release (val0);
+	value_release (val1);
+
+	return negate ? !res : res;
+}
+
 static void
 gnm_style_conditions_finalize (GObject *obj)
 {
@@ -780,8 +872,6 @@ int
 gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 {
 	unsigned i;
-	gboolean use_this = FALSE;
-	GnmValue *val = NULL;
 	GPtrArray const *conds;
 	GnmParsePos pp;
 	GnmCell const *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
@@ -802,94 +892,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 
 	for (i = 0 ; i < conds->len ; i++) {
 		GnmStyleCond const *cond = g_ptr_array_index (conds, i);
-
-		if (cond->op == GNM_STYLE_COND_CONTAINS_ERR)
-			use_this = (cv != NULL) && VALUE_IS_ERROR (cv);
-		else if (cond->op == GNM_STYLE_COND_NOT_CONTAINS_ERR)
-			use_this = (cv == NULL) || !VALUE_IS_ERROR (cv);
-		else if (cond->op == GNM_STYLE_COND_CONTAINS_BLANKS ||
-			 cond->op == GNM_STYLE_COND_NOT_CONTAINS_BLANKS) {
-			if (cv && VALUE_IS_STRING (cv)) {
-				char const *cvstring = value_peek_string (cv);
-				switch (cond->op) {
-				case GNM_STYLE_COND_CONTAINS_BLANKS :
-					use_this = NULL != strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING);
-					break;
-				case GNM_STYLE_COND_NOT_CONTAINS_BLANKS :
-					use_this = NULL == strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING);
-					break;
-				default:
-					break;
-				}
-			}
-		} else {
-			val = gnm_expr_top_eval (cond->deps[0].texpr, ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-			if (cond->op == GNM_STYLE_COND_CUSTOM) {
-				use_this = value_get_as_bool (val, NULL);
-#if 0
-				char *str = gnm_expr_as_string (cond->expr[0],
-								&pp, NULL);
-				g_print ("'%s' = %s\n", str, use_this ? "true" : "false");
-				g_free (str);
-#endif
-			} else if (cond->op < GNM_STYLE_COND_CONTAINS_STR) {
-				GnmValDiff diff = value_compare (cv, val, TRUE);
-
-				switch (cond->op) {
-				default:
-				case GNM_STYLE_COND_EQUAL:	use_this = (diff == IS_EQUAL); break;
-				case GNM_STYLE_COND_NOT_EQUAL:	use_this = (diff != IS_EQUAL); break;
-				case GNM_STYLE_COND_NOT_BETWEEN:
-					if (diff == IS_LESS) {
-						use_this = TRUE;
-						break;
-					}
-					value_release (val);
-					val = gnm_expr_top_eval (cond->deps[1].texpr, ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-					diff = value_compare (cv, val, TRUE);
-					/* fall through */
-
-				case GNM_STYLE_COND_GT:		use_this = (diff == IS_GREATER); break;
-				case GNM_STYLE_COND_LT:		use_this = (diff == IS_LESS); break;
-				case GNM_STYLE_COND_GTE:	use_this = (diff == IS_GREATER || diff == IS_EQUAL); break;
-				case GNM_STYLE_COND_BETWEEN:
-					if (diff == IS_LESS)
-						break;
-					value_release (val);
-					val = gnm_expr_top_eval (cond->deps[1].texpr, ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-					diff = value_compare (cv, val, TRUE);
-					/* fall through */
-				case GNM_STYLE_COND_LTE:	use_this = (diff == IS_LESS || diff == IS_EQUAL); break;
-				}
-			} else if (cv && VALUE_IS_STRING (cv)) {
-				char const *valstring = value_peek_string (val);
-				char const *cvstring = value_peek_string (cv);
-
-				switch (cond->op) {
-				default : g_warning ("Unknown condition operator %d", cond->op);
-					break;
-				case GNM_STYLE_COND_CONTAINS_STR :
-					use_this = (NULL != strstr (cvstring, valstring));
-					break;
-				case GNM_STYLE_COND_NOT_CONTAINS_STR :
-					use_this = (NULL == strstr (cvstring, valstring));
-					break;
-				case GNM_STYLE_COND_BEGINS_WITH_STR :
-					use_this = g_str_has_prefix (cvstring, valstring);
-					break;
-				case GNM_STYLE_COND_NOT_BEGINS_WITH_STR :
-					use_this = !g_str_has_prefix (cvstring, valstring);
-					break;
-				case GNM_STYLE_COND_ENDS_WITH_STR :
-					use_this = g_str_has_suffix (cvstring, valstring);
-					break;
-				case GNM_STYLE_COND_NOT_ENDS_WITH_STR :
-					use_this = !g_str_has_suffix (cvstring, valstring);
-					break;
-				}
-			}
-			value_release (val);
-		}
+		gboolean use_this = gnm_style_cond_eval (cond, cv, ep);
 
 		if (use_this) {
 			if (debug_style_conds ())
@@ -900,5 +903,6 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 
 	if (debug_style_conds ())
 		g_printerr ("  No matching clauses\n");
+
 	return -1;
 }
