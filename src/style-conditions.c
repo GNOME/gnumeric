@@ -321,6 +321,7 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 	case GNM_STYLE_COND_CONTAINS_BLANKS:
 		negate = TRUE; /* ...and fall through */
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
+		/* This is imperfect.  Here we only look for space.  */
 		expr = gnm_expr_new_funcall1
 			(gnm_func_lookup_or_add_placeholder ("ISERROR"),
 			 gnm_expr_new_funcall2
