@@ -54,6 +54,7 @@ my @sources =
      "$samples/auto-filter-tests.gnumeric",
      "$samples/cell-comment-tests.gnumeric",
      "$samples/colrow-tests.gnumeric",
+     "$samples/cond-format-tests.gnumeric",
      "$samples/formula-tests.gnumeric",
      "$samples/merge-tests.gnumeric",
      "$samples/number-tests.gnumeric",

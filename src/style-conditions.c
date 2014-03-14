@@ -883,7 +883,6 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 {
 	unsigned i;
 	GPtrArray const *conds;
-	GnmParsePos pp;
 	GnmCell const *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
 	GnmValue const *cv = cell ? cell->value : NULL;
 
@@ -891,9 +890,11 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	g_return_val_if_fail (sc->conditions != NULL, -1);
 
 	conds = sc->conditions;
-	parse_pos_init_evalpos (&pp, ep);
 
 	if (debug_style_conds ()) {
+		GnmParsePos pp;
+		parse_pos_init_evalpos (&pp, ep);
+
 		g_printerr ("Evaluating conditions %p at %s with %d clauses\n",
 			    sc,
 			    parsepos_as_string (&pp),
