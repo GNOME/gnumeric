@@ -5384,6 +5384,10 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		offset += 4;
 	}
 
+	if (flags & 0x40000000) { /* protection */
+		offset += 2;
+	}
+
 	XL_CHECK_CONDITION (q->length == offset + expr0_len + expr1_len);
 
 	d (1, gnm_style_dump (overlay););

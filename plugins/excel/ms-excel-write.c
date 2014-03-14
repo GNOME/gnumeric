@@ -1219,6 +1219,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 
 			if (gnm_style_is_element_set (s, MSTYLE_INDENT)) {
 				d2 |= ((gnm_style_get_indent (s) & 0xf) << 0);
+				d3 = 0xffff;
 			} else
 				flags |= 0x20;
 
