@@ -1,7 +1,27 @@
 Gnumeric 1.12.13
 
+Andreas:
+	* Fix export of comboboxes to ODF.
+	* Fix export of help messages to ODF.
+	* Import invisible alignment characters in number formats from ODF.
+	[part of #725852]
+	* Fix fill-alignment export/import to and from ODF. [part of #726035]
+	* Fix distributed-alignment export to ODF. [part of #726035]
+	* Fix ODF roundtrip of "center accross selection". [#726010]
+	* Fix ODF roundtrip of conditional formats. [#726201]
+
 Jean:
 	* Fix tooltip position for scale or RTL sheets. [#725941]
+
+Morten:
+	* Support volatile functions. [#305798]
+	* Improve testing.
+	* Import/Export super/subscript fonts to xlsx. [Part of #726035]
+	* Import xlsx auto-filters. [#725460]
+	* Update Gnumeric schema.
+	* Fix rich text problem. [#726086]
+	* Improve xls export of conditional formats.
+	* Fix case sensitivity for conditional formats. [#726246]Jean:
 
 Gnumeric 1.12.12
 
