@@ -1119,6 +1119,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		    gnm_style_is_element_set (s, MSTYLE_FONT_ITALIC) ||
 		    gnm_style_is_element_set (s, MSTYLE_FONT_UNDERLINE ) ||
 		    gnm_style_is_element_set (s, MSTYLE_FONT_STRIKETHROUGH) ||
+		    gnm_style_is_element_set (s, MSTYLE_FONT_SCRIPT) ||
 		    gnm_style_is_element_set (s, MSTYLE_FONT_SIZE)) {
 			guint8 fbuf[118];
 			guint32 tmp, font_flags = 0x18;
@@ -1166,7 +1167,9 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 			} else
 				GSF_LE_SET_GUINT32 (fbuf+92, 1); /* flag as unused */
 
-			GSF_LE_SET_GUINT16 (fbuf+116, 1); /* dunno ? */
+			GSF_LE_SET_GUINT32 (fbuf+100, 1); /*always 1 */
+			GSF_LE_SET_GUINT32 (fbuf+104, 1); /*always 1 */
+			GSF_LE_SET_GUINT16 (fbuf+116, 1); /*always 1 */
 
 			if (gnm_style_is_element_set (s, MSTYLE_FONT_COLOR))
 				tmp = map_color_to_palette (&esheet->ewb->base,
@@ -1456,7 +1459,7 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 		}
 		if (vip->v->allow_blank)
 			options |= 0x100;
-		/* XL suppesses the dropdown rather than vice versa */
+		/* XL suppresses the dropdown rather than vice versa */
 		if (!vip->v->use_dropdown)
 			options |= 0x200;
 		if (vip->v->style != GNM_VALIDATION_STYLE_NONE)

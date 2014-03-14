@@ -2624,7 +2624,7 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 	xf->valign = valign_from_excel ((data & 0x0070) >> 4);
 	xf->rotation = (importer->ver >= MS_BIFF_V8)
 		? rotation_from_excel_v8 (data >> 8)
-		: rotation_from_excel_v7 (data >> 8);
+		: rotation_from_excel_v7 ((data >> 8) & 3);
 
 	if (importer->ver >= MS_BIFF_V8) {
 		guint16 const data = GSF_LE_GET_GUINT16 (q->data + 8);
