@@ -2396,6 +2396,63 @@ excel_map_pattern_index_from_excel (int const i)
 	return map_from_excel[i];
 }
 
+static GnmHAlign
+halign_from_excel (guint e)
+{
+	switch (e) {
+	case 0: return GNM_HALIGN_GENERAL;
+	case 1: return GNM_HALIGN_LEFT;
+	case 2: return GNM_HALIGN_CENTER;
+	case 3: return GNM_HALIGN_RIGHT;
+	case 4: return GNM_HALIGN_FILL;
+	case 5: return GNM_HALIGN_JUSTIFY;
+	case 6: return GNM_HALIGN_CENTER_ACROSS_SELECTION;
+	case 7: return GNM_HALIGN_DISTRIBUTED;
+
+	default:
+		g_printerr ("Unknown halign %d\n", e);
+		return GNM_HALIGN_GENERAL;
+	}
+}
+
+static GnmVAlign
+valign_from_excel (guint e)
+{
+	switch (e) {
+	case 0: return GNM_VALIGN_TOP;
+	case 1: return GNM_VALIGN_CENTER;
+	case 2: return GNM_VALIGN_BOTTOM;
+	case 3: return GNM_VALIGN_JUSTIFY;
+	case 4: return GNM_VALIGN_DISTRIBUTED;
+	default:
+		g_printerr ("Unknown valign %d\n", e);
+		return GNM_VALIGN_TOP;
+	}
+}
+
+static int
+rotation_from_excel_v8 (guint e)
+{
+	if (e == 0xff)
+		return -1;
+	else if (e > 90)
+		return 360 + 90 - e;
+	else
+		return e;
+}
+
+static int
+rotation_from_excel_v7 (guint e)
+{
+	switch (e) {
+	default:
+	case 0: return 0;
+	case 1: return -1;
+	case 2: return 90;
+	case 3: return 270;
+	}
+}
+
 static void
 excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 {
@@ -2562,61 +2619,12 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 	}
 
 	data = GSF_LE_GET_GUINT16 (q->data + 6);
-	subdata = data & 0x0007;
-	switch (subdata) {
-	case 0: xf->halign = GNM_HALIGN_GENERAL; break;
-	case 1: xf->halign = GNM_HALIGN_LEFT; break;
-	case 2: xf->halign = GNM_HALIGN_CENTER; break;
-	case 3: xf->halign = GNM_HALIGN_RIGHT; break;
-	case 4: xf->halign = GNM_HALIGN_FILL; break;
-	case 5: xf->halign = GNM_HALIGN_JUSTIFY; break;
-	case 6:
-		/*
-		 * All adjacent blank cells with this type of alignment
-		 * are merged into a single span.  cursor still behaves
-		 * normally and the span is adjusted if contents are changed.
-		 * Use center for now.
-		 */
-		xf->halign = GNM_HALIGN_CENTER_ACROSS_SELECTION;
-		break;
-
-		/* no idea what this does */
-	case 7 : xf->halign = GNM_HALIGN_DISTRIBUTED; break;
-
-	default:
-		xf->halign = GNM_HALIGN_JUSTIFY;
-		g_printerr ("Unknown halign %d\n", subdata);
-		break;
-	}
+	xf->halign = halign_from_excel (data & 0x0007);
 	xf->wrap_text = (data & 0x0008) != 0;
-	subdata = (data & 0x0070) >> 4;
-	switch (subdata) {
-	case 0: xf->valign = GNM_VALIGN_TOP; break;
-	case 1: xf->valign = GNM_VALIGN_CENTER; break;
-	case 2: xf->valign = GNM_VALIGN_BOTTOM; break;
-	case 3: xf->valign = GNM_VALIGN_JUSTIFY; break;
-		/* What does this do ?? */
-	case 4: xf->valign = GNM_VALIGN_DISTRIBUTED; break;
-	default:
-		g_printerr ("Unknown valign %d\n", subdata);
-		break;
-	}
-
-	if (importer->ver >= MS_BIFF_V8) {
-		xf->rotation = (data >> 8);
-		if (xf->rotation == 0xff)
-			xf->rotation = -1;
-		else if (xf->rotation > 90)
-			xf->rotation = 360 + 90 - xf->rotation;
-	} else {
-		subdata = (data & 0x0300) >> 8;
-		switch (subdata) {
-		case 0: xf->rotation =  0;	break;
-		case 1: xf->rotation = -1;	break;
-		case 2: xf->rotation = 90;	break;
-		case 3: xf->rotation = 270;	break;
-		}
-	}
+	xf->valign = valign_from_excel ((data & 0x0070) >> 4);
+	xf->rotation = (importer->ver >= MS_BIFF_V8)
+		? rotation_from_excel_v8 (data >> 8)
+		: rotation_from_excel_v7 (data >> 8);
 
 	if (importer->ver >= MS_BIFF_V8) {
 		guint16 const data = GSF_LE_GET_GUINT16 (q->data + 8);
@@ -5299,6 +5307,37 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 			});
 
 		offset += 118;
+	}
+
+	if (flags & 0x08000000) { /* alignment block */
+		guint16 d1 = GSF_LE_GET_GUINT16 (q->data + offset);
+		guint16 d2 = GSF_LE_GET_GUINT16 (q->data + offset + 2);
+
+		if (0 == (flags & 0x1))
+			gnm_style_set_align_h (overlay,
+					       halign_from_excel ((d1 >> 0) & 7));
+
+		if (0 == (flags & 0x2))
+			gnm_style_set_align_v (overlay,
+					       valign_from_excel ((d1 >> 4) & 7));
+
+		if (0 == (flags & 0x4))
+			gnm_style_set_wrap_text (overlay, ((d1 >> 3) & 1));
+
+		if (0 == (flags & 0x8)) {
+			int r = (esheet_ver (esheet) >= MS_BIFF_V8
+				 ? rotation_from_excel_v8 (d1 >> 8)
+				 : rotation_from_excel_v7 (d1 >> 8));
+			gnm_style_set_rotation (overlay, r);
+		}
+
+		if (0 == (flags & 0x20))
+			gnm_style_set_indent (overlay, ((d2 >> 0) & 0xf));
+
+		if (0 == (flags & 0x40))
+			gnm_style_set_shrink_to_fit (overlay, ((d2 >> 4) & 1));
+
+		offset += 8;
 	}
 
 	if (flags & 0x10000000) { /* borders */

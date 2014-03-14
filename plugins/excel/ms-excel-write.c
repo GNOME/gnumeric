@@ -982,6 +982,99 @@ map_script_to_xl (GnmStyle const *style)
 	}
 }
 
+static guint
+halign_to_excel (GnmHAlign halign)
+{
+	guint ialign;
+
+	switch (halign) {
+	case GNM_HALIGN_GENERAL:
+		ialign = MS_BIFF_H_A_GENERAL;
+		break;
+	case GNM_HALIGN_LEFT:
+		ialign = MS_BIFF_H_A_LEFT;
+		break;
+	case GNM_HALIGN_RIGHT:
+		ialign = MS_BIFF_H_A_RIGHT;
+		break;
+	case GNM_HALIGN_CENTER:
+		ialign = MS_BIFF_H_A_CENTER;
+		break;
+	case GNM_HALIGN_FILL:
+		ialign = MS_BIFF_H_A_FILL;
+		break;
+	case GNM_HALIGN_JUSTIFY:
+		ialign = MS_BIFF_H_A_JUSTIFTY;
+		break;
+	case GNM_HALIGN_CENTER_ACROSS_SELECTION:
+		ialign = MS_BIFF_H_A_CENTER_ACROSS_SELECTION;
+		break;
+	case GNM_HALIGN_DISTRIBUTED:
+		ialign = MS_BIFF_H_A_DISTRIBUTED;
+		break;
+	default:
+		ialign = MS_BIFF_H_A_GENERAL;
+	}
+
+	return ialign;
+}
+
+static guint
+valign_to_excel (GnmVAlign valign)
+{
+	guint ialign;
+
+	switch (valign) {
+	case GNM_VALIGN_TOP:
+		ialign = MS_BIFF_V_A_TOP;
+		break;
+	case GNM_VALIGN_BOTTOM:
+		ialign = MS_BIFF_V_A_BOTTOM;
+		break;
+	case GNM_VALIGN_CENTER:
+		ialign = MS_BIFF_V_A_CENTER;
+		break;
+	case GNM_VALIGN_JUSTIFY:
+		ialign = MS_BIFF_V_A_JUSTIFY;
+		break;
+	case GNM_VALIGN_DISTRIBUTED:
+		ialign = MS_BIFF_V_A_DISTRIBUTED;
+		break;
+	default:
+		ialign = MS_BIFF_V_A_TOP;
+	}
+
+	return ialign;
+}
+
+static guint
+rotation_to_excel_v7 (int rotation)
+{
+	if (rotation < 0)
+		return 1;
+	if (rotation == 0)
+		return 0;
+	if (rotation <= 45)
+		return 0;
+	if (rotation <= 135)
+		return 2;
+	if (rotation <= 225)
+		return 0;
+	if (rotation <= 315)
+		return 3;
+	return 0;
+}
+static guint
+rotation_to_excel_v8 (int rotation)
+{
+	if (rotation < 0)
+		return 0xff;
+	rotation = rotation % 360;
+	if (rotation > 90)
+		return 360 + 90 - rotation;
+	return rotation;
+}
+
 static void
 cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		    ExcelWriteSheet *esheet)
@@ -990,7 +1083,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 	BiffPut *bp = esheet->ewb->bp;
 	guint16 range_count;
 	guint8 buf[14], type, op;
-	guint32 flags = 0x38C3FF;	/* these are always true */
+	guint32 flags = 0x0038C380;	/* these are always true */
 	unsigned i, expr0_len, expr1_len, header_pos;
 	GPtrArray const *details = gnm_style_conditions_details (sc);
 	unsigned det_len = details ? details->len : 0;
@@ -1088,12 +1181,77 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 			flags |= 0x04000000;
 		}
 
+		if (gnm_style_is_element_set (s, MSTYLE_ALIGN_H) ||
+		    gnm_style_is_element_set (s, MSTYLE_ALIGN_V) ||
+		    gnm_style_is_element_set (s, MSTYLE_WRAP_TEXT) ||
+		    gnm_style_is_element_set (s, MSTYLE_ROTATION) ||
+		    /* what is just-last? */
+		    gnm_style_is_element_set (s, MSTYLE_INDENT) ||
+		    gnm_style_is_element_set (s, MSTYLE_SHRINK_TO_FIT) ||
+		    gnm_style_is_element_set (s, MSTYLE_TEXT_DIR)) {
+			guint16 d1 = 0;
+			guint16 d2 = 0;
+			guint16 d3 = 0;
+
+			if (gnm_style_is_element_set (s, MSTYLE_ALIGN_H))
+				d1 |= (halign_to_excel (gnm_style_get_align_h (s)) << 0);
+			else
+				flags |= 1;
+
+			if (gnm_style_is_element_set (s, MSTYLE_ALIGN_V))
+				d1 |= (valign_to_excel (gnm_style_get_align_v (s)) << 4);
+			else
+				flags |= 2;
+
+			if (gnm_style_is_element_set (s, MSTYLE_WRAP_TEXT))
+				d1 |= ((gnm_style_get_wrap_text (s) ? 1 : 0) << 3);
+			else
+				flags |= 4;
+
+			if (gnm_style_is_element_set (s, MSTYLE_ROTATION))
+			    d1 |= (bp->version >= MS_BIFF_V8
+				   ? rotation_to_excel_v8 (gnm_style_get_rotation (s))
+				   : rotation_to_excel_v7 (gnm_style_get_rotation (s))) << 8;
+			else
+				flags |= 8;
+
+			flags |= 0x10; /* just-last? */
+
+			if (gnm_style_is_element_set (s, MSTYLE_INDENT)) {
+				d2 |= ((gnm_style_get_indent (s) & 0xf) << 0);
+			} else
+				flags |= 0x20;
+
+			if (gnm_style_is_element_set (s, MSTYLE_SHRINK_TO_FIT))
+				d2 |= ((gnm_style_get_shrink_to_fit (s) ? 1 : 0) << 4);
+			else
+				flags |= 0x40;
+
+			if (gnm_style_is_element_set (s, MSTYLE_TEXT_DIR)) {
+				switch (gnm_style_get_text_dir (s)) {
+				case GNM_TEXT_DIR_RTL: d2 |= (2 << 6); break;
+				case GNM_TEXT_DIR_LTR: d2 |= (1 << 6); break;
+				case GNM_TEXT_DIR_CONTEXT: d2 |= (0 << 6); break;
+				default: break;
+				}
+			} else
+				flags |= 0x80000000;
+
+			flags |= 0x08000000;
+
+			GSF_LE_SET_GUINT16 (buf+0, d1);
+			GSF_LE_SET_GUINT16 (buf+2, d2);
+			GSF_LE_SET_GUINT16 (buf+6, d3);
+			GSF_LE_SET_GUINT16 (buf+6, 0);
+			ms_biff_put_var_write (bp, buf, 8);
+		}
+
 		if (gnm_style_is_element_set (s, MSTYLE_BORDER_LEFT) ||
 		    gnm_style_is_element_set (s, MSTYLE_BORDER_RIGHT) ||
 		    gnm_style_is_element_set (s, MSTYLE_BORDER_TOP) ||
 		    gnm_style_is_element_set (s, MSTYLE_BORDER_BOTTOM)) {
 			guint16 p = 0;
-			guint32 c  = 0;
+			guint32 c = 0;
 			if (write_border (esheet, s, MSTYLE_BORDER_LEFT,   &p, &c,  0,  0))
 				flags |= 0x0400;
 			if (write_border (esheet, s, MSTYLE_BORDER_RIGHT,  &p, &c,  4,  7))
@@ -2708,99 +2866,6 @@ gather_styles (ExcelWriteState *ewb)
 				(ewb->base.xf.two_way_table, &esv);
 		}
 	}
-}
-
-static guint
-halign_to_excel (GnmHAlign halign)
-{
-	guint ialign;
-
-	switch (halign) {
-	case GNM_HALIGN_GENERAL:
-		ialign = MS_BIFF_H_A_GENERAL;
-		break;
-	case GNM_HALIGN_LEFT:
-		ialign = MS_BIFF_H_A_LEFT;
-		break;
-	case GNM_HALIGN_RIGHT:
-		ialign = MS_BIFF_H_A_RIGHT;
-		break;
-	case GNM_HALIGN_CENTER:
-		ialign = MS_BIFF_H_A_CENTER;
-		break;
-	case GNM_HALIGN_FILL:
-		ialign = MS_BIFF_H_A_FILL;
-		break;
-	case GNM_HALIGN_JUSTIFY:
-		ialign = MS_BIFF_H_A_JUSTIFTY;
-		break;
-	case GNM_HALIGN_CENTER_ACROSS_SELECTION:
-		ialign = MS_BIFF_H_A_CENTER_ACROSS_SELECTION;
-		break;
-	case GNM_HALIGN_DISTRIBUTED:
-		ialign = MS_BIFF_H_A_DISTRIBUTED;
-		break;
-	default:
-		ialign = MS_BIFF_H_A_GENERAL;
-	}
-
-	return ialign;
-}
-
-static guint
-valign_to_excel (GnmVAlign valign)
-{
-	guint ialign;
-
-	switch (valign) {
-	case GNM_VALIGN_TOP:
-		ialign = MS_BIFF_V_A_TOP;
-		break;
-	case GNM_VALIGN_BOTTOM:
-		ialign = MS_BIFF_V_A_BOTTOM;
-		break;
-	case GNM_VALIGN_CENTER:
-		ialign = MS_BIFF_V_A_CENTER;
-		break;
-	case GNM_VALIGN_JUSTIFY:
-		ialign = MS_BIFF_V_A_JUSTIFY;
-		break;
-	case GNM_VALIGN_DISTRIBUTED:
-		ialign = MS_BIFF_V_A_DISTRIBUTED;
-		break;
-	default:
-		ialign = MS_BIFF_V_A_TOP;
-	}
-
-	return ialign;
-}
-
-static guint
-rotation_to_excel_v7 (int rotation)
-{
-	if (rotation < 0)
-		return 1;
-	if (rotation == 0)
-		return 0;
-	if (rotation <= 45)
-		return 0;
-	if (rotation <= 135)
-		return 2;
-	if (rotation <= 225)
-		return 0;
-	if (rotation <= 315)
-		return 3;
-	return 0;
-}
-static guint
-rotation_to_excel_v8 (int rotation)
-{
-	if (rotation < 0)
-		return 0xff;
-	rotation = rotation % 360;
-	if (rotation > 90)
-		return 360 + 90 - rotation;
-	return rotation;
 }
 
 /**
