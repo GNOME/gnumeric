@@ -37,6 +37,9 @@ Andreas:
 	* Export row and column visibility to ODF. [#725115]
 	* Export frozen panes info to and import from ODF. [#725228]
 	* Export and import more sheet properties to/from ODF. [#725258]
+	* Fix validation import from ODF. [#725321]
+	* Fix autofilter condition export to ODF. [#725458]
+	* Provide Undo for sheet reordering via tab dragging. [#725540]
 
 Jean:
 	* Fix persistence of hyperlinks tips. [see #724108]
@@ -71,6 +74,11 @@ Morten:
 	* Improve the xls macro-roundtrip situation.  [#725220]
 	* Improve ssdiff for sheet attributes.
 	* Fix split pane problem.  [#725375]
+    * Don't generate value format during xls read.  [#725453]
+	* Fix name criticals.
+	* Fix sheet duplication issue.  [#725504]
+	* Fix named expressions crasher.  [Part of #725459]
+	* Fix GUI sheet re-ordering mess.  [Part of #725459]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.11
