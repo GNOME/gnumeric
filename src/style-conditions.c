@@ -539,9 +539,20 @@ gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
 	GnmValue *val0 = NULL;
 	GnmValue *val1 = NULL;
 
-	if (gnm_style_cond_op_operands (cond->op) > 0)
+	switch (gnm_style_cond_op_operands (cond->op)) {
+	case 2:
+		val1 = gnm_expr_top_eval (cond->deps[1].texpr, ep,
+					  GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		/* Fall through */
+	case 1:
 		val0 = gnm_expr_top_eval (cond->deps[0].texpr, ep,
 					  GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		/* Fall through */
+	case 0:
+		break;
+	default:
+		g_assert_not_reached ();
+	}
 
 	switch (cond->op) {
 	case GNM_STYLE_COND_NOT_EQUAL:
@@ -565,8 +576,6 @@ gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
 	case GNM_STYLE_COND_NOT_BETWEEN:
 		negate = TRUE;  /* ...and fall through */
 	case GNM_STYLE_COND_BETWEEN:
-		val1 = gnm_expr_top_eval (cond->deps[1].texpr, ep,
-					  GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		res = !(value_compare (cv, val0, FALSE) == IS_LESS ||
 			value_compare (cv, val1, FALSE) == IS_GREATER);
 		break;
