@@ -1291,7 +1291,6 @@ gnm_style_set_border (GnmStyle *style, GnmStyleElement elem,
 		g_warning ("Not a border element");
 		break;
 	}
-
 }
 
 GnmBorder *

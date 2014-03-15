@@ -1,7 +1,9 @@
 2014-03-15  Morten Welinder  <terra@gnome.org>
 
 	* src/style-border.c (gnm_border_shutdown): New function to help
-	debug leaks.
+	debug leaks.  Shutdown border_none here.
+
+	* src/style-color.c (gnm_color_shutdown): Not here.
 
 2014-03-15  Jean Brefort  <jean.brefort@normalesup.org>
 

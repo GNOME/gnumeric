@@ -105,6 +105,7 @@ struct {
 };
 
 static GHashTable *border_hash = NULL;
+static GnmBorder *border_none = NULL;
 
 static gint
 style_border_equal (gconstpointer v1, gconstpointer v2)
@@ -138,18 +139,18 @@ style_border_hash (gconstpointer v)
 GnmBorder *
 gnm_style_border_none (void)
 {
-	static GnmBorder * none = NULL;
-	if (none == NULL) {
-		none = g_new0 (GnmBorder, 1);
-		none->line_type = GNM_STYLE_BORDER_NONE;
-		none->color = style_color_grid ();
-		none->begin_margin = none->end_margin = none->width = 0;
-		none->ref_count = 1;
+	if (border_none == NULL) {
+		border_none = g_new0 (GnmBorder, 1);
+		border_none->line_type = GNM_STYLE_BORDER_NONE;
+		border_none->color = style_color_grid ();
+		border_none->begin_margin = border_none->end_margin = border_none->width = 0;
+		border_none->ref_count = 1;
+		/* Note: not in the hash.  */
 	}
 
-	g_return_val_if_fail (none != NULL, NULL);
+	g_return_val_if_fail (border_none != NULL, NULL);
 
-	return none;
+	return border_none;
 }
 
 /**
@@ -283,8 +284,10 @@ GnmBorder *
 gnm_style_border_ref (GnmBorder *border)
 {
 	/* NULL is ok */
-	if (border != NULL)
+	if (border != NULL) {
 		++border->ref_count;
+		if (0) g_printerr ("style border ref: %p\n", border);
+	}
 	return border;
 }
 
@@ -296,15 +299,17 @@ gnm_style_border_unref (GnmBorder *border)
 
 	g_return_if_fail (border->ref_count > 0);
 
+	if (0) g_printerr ("style border unref: %p\n", border);
+
 	border->ref_count--;
 	if (border->ref_count != 0)
 		return;
 
-	/* Just to be on the safe side.
-	 * We are allowed to deref the border_none,
-	 * but not to free it.
+	/*
+	 * We are allowed to deref  border_none, but not to free it.
+	 * It is not in the hash.
 	 */
-	g_return_if_fail (border != gnm_style_border_none ());
+	g_return_if_fail (border != border_none);
 
 	/* Remove here, before we mess with the hashed fields.  */
 	g_hash_table_remove (border_hash, border);
@@ -331,6 +336,12 @@ cb_border_leak (gpointer key, gpointer value, gpointer user_data)
 void
 gnm_border_shutdown (void)
 {
+	if (border_none) {
+		style_color_unref (border_none->color);
+		g_free (border_none);
+		border_none = NULL;
+	}
+
 	if (border_hash) {
 		g_hash_table_foreach (border_hash, cb_border_leak, NULL);
 		g_hash_table_destroy (border_hash);
