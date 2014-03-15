@@ -39,6 +39,7 @@ if ($seen_leak_check) {
 push @cmd, 'valgrind';
 push @cmd, '--num-callers=40' unless $seen_num_callers;
 push @cmd, "--suppressions=$topsrc/test/common.supp";
+push @cmd, "--suppressions=$topsrc/test/gui.supp";
 push @cmd, @ARGV;
 
 print STDERR "Executing ", join (' ', map { &quotearg ($_) } @cmd), "\n" if $verbose;
