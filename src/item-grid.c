@@ -211,8 +211,6 @@ item_grid_realize (GocItem *item)
 			gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "cursor_cross", 32, 0, NULL),
 			17, 17);
 	cb_cursor_motion (ig);
-	/* we need to destroy the hlink tip when the state flags change */
-	g_signal_connect_swapped (item->canvas, "state-flags-changed", G_CALLBACK (ig_clear_hlink_tip), item);
 }
 
 static void
@@ -1086,7 +1084,11 @@ cb_cursor_come_to_rest (GnmItemGrid *ig)
 						 ig->last_x, ig->last_y);
 			ig->tip = gnumeric_create_tooltip (cw);
 			gtk_label_set_text (GTK_LABEL (ig->tip), tiptext);
-			gnumeric_position_tooltip (ig->tip, wx, wy, TRUE);
+			/* moving the tip window some pixels from wx,wy in order to
+			 * avoid a leave_notify event that would destroy the tip.
+			 * see #706659 */
+			gtk_window_move (GTK_WINDOW (gtk_widget_get_toplevel (ig->tip)),
+					 wx + 10, wy + 10);
 			gtk_widget_show_all (gtk_widget_get_toplevel (ig->tip));
 		}
 	}

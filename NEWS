@@ -12,6 +12,7 @@ Andreas:
 
 Jean:
 	* Fix tooltip position for scale or RTL sheets. [#725941]
+	* Really fix the hyperlink tips persistence. [see #706659]
 
 Morten:
 	* Support volatile functions. [#305798]
