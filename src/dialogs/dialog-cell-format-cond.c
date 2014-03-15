@@ -1056,17 +1056,20 @@ c_fmt_dialog_condition_collector (G_GNUC_UNUSED SheetView *sv, GnmRange const *r
 
 static gboolean
 c_fmt_dialog_selection_type (SheetView *sv,
-			   GnmRange const *range,
-			   gpointer user_data)
+			     GnmRange const *range,
+			     gpointer user_data)
 {
 	GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX] = {NULL};
 	CFormatState *state = user_data;
+	int i;
 	GSList *merged = gnm_sheet_merge_get_overlap (sv->sheet, range);
 	GnmRange r = *range;
 	gboolean allow_multi =
 		merged == NULL ||
 		merged->next != NULL ||
 		!range_equal ((GnmRange *)merged->data, range);
+
+
 	g_slist_free (merged);
 
 	/* allow_multi == FALSE && !is_singleton (range) means that we are in
@@ -1080,6 +1083,10 @@ c_fmt_dialog_selection_type (SheetView *sv,
 
 	state->conflicts = sheet_style_find_conflicts (state->sheet, &r,
 		&(state->style), borders);
+
+	for (i = GNM_STYLE_BORDER_TOP ; i < GNM_STYLE_BORDER_EDGE_MAX ; i++) {
+		gnm_style_border_unref (borders[i]);
+	}
 
 	return TRUE;
 }

@@ -24,6 +24,7 @@ Morten:
 	* Improve xls import/export of conditional formats.  [#726202]
 	* Fix case sensitivity for conditional formats. [#726246]
 	* Fix minor conditional format GUI issues.
+	* Plug leak.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.12

@@ -3,6 +3,7 @@
 	* dialog-cell-format-cond.c
 	(cb_c_fmt_dialog_chooser_entry_changed): We need to return FALSE
 	in a focus-out handler.
+	(c_fmt_dialog_selection_type): Plug leaks.
 
 2014-03-03  Morten Welinder <terra@gnome.org>
 

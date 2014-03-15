@@ -286,7 +286,7 @@ gnm_style_border_ref (GnmBorder *border)
 	/* NULL is ok */
 	if (border != NULL) {
 		++border->ref_count;
-		if (0) g_printerr ("style border ref: %p\n", border);
+		if (0) g_printerr ("style border ref: %p  [color=%p]\n", border, border->color);
 	}
 	return border;
 }
@@ -327,10 +327,11 @@ cb_border_leak (gpointer key, gpointer value, gpointer user_data)
 {
 	GnmBorder *border = value;
 
-	g_printerr ("Leaking style-border at %p [color=%p  line=%d].\n",
+	g_printerr ("Leaking style-border at %p [color=%p  line=%d] refs=%d.\n",
 		    (void *)border,
 		    border->color,
-		    border->line_type);
+		    border->line_type,
+		    border->ref_count);
 }
 
 void
