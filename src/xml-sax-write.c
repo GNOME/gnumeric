@@ -527,8 +527,6 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 	    gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
 	    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
 	    gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT)) {
-		char const *fontname;
-
 		gsf_xml_out_start_element (state->output, GNM "Font");
 
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE))
@@ -544,12 +542,11 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT))
 			gsf_xml_out_add_int (state->output, "Script", (int)gnm_style_get_font_script (style));
 
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
-			fontname = gnm_style_get_font_name (style);
-		else /* backwards compatibility */
-			fontname = "Helvetica";
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME)) {
+			const char *fontname = gnm_style_get_font_name (style);
+			gsf_xml_out_add_cstr (state->output, NULL, fontname);
+		}
 
-		gsf_xml_out_add_cstr (state->output, NULL, fontname);
 		gsf_xml_out_end_element (state->output);
 	}
 
