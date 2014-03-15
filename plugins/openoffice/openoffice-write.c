@@ -1390,10 +1390,12 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 		}
 		if (align != GNM_HALIGN_GENERAL && align != GNM_HALIGN_FILL)
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
-		if (gnum_specs && state->with_extension)
-			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
-		if (align == GNM_HALIGN_DISTRIBUTED)
-			gsf_xml_out_add_cstr (state->xml, CSS "text-justify", "distribute");
+		if (state->with_extension) {
+			if (gnum_specs)
+				gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
+			if (align == GNM_HALIGN_DISTRIBUTED)
+				gsf_xml_out_add_cstr (state->xml, CSS "text-justify", "distribute");
+		}
 	}
 
 /* Text Indent */
