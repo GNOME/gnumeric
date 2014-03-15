@@ -64,6 +64,7 @@ struct _GnmBorder {
 	gint	        ref_count;
 };
 
+void        gnm_border_shutdown (void);
 GType       gnm_border_get_type    (void);
 void	    gnm_style_border_unref (GnmBorder *border);
 GnmBorder  *gnm_style_border_ref   (GnmBorder *border);

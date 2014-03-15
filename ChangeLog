@@ -1,3 +1,8 @@
+2014-03-15  Morten Welinder  <terra@gnome.org>
+
+	* src/style-border.c (gnm_border_shutdown): New function to help
+	debug leaks.
+
 2014-03-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-grid.c (item_grid_realize), (cb_cursor_come_to_rest): move

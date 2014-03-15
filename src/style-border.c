@@ -29,6 +29,7 @@
 #include "sheet-style.h"
 #include "sheet.h"
 #include <gdk/gdk.h>
+#include <string.h>
 
 struct LineDotPattern {
 	const gint elements;
@@ -211,6 +212,7 @@ gnm_style_border_fetch (GnmStyleBorderType		 line_type,
 	}
 
 	g_return_val_if_fail (color != NULL, NULL);
+	memset (&key, 0, sizeof (key));
 	key.line_type = line_type;
 	key.color = color;
 
@@ -225,9 +227,7 @@ gnm_style_border_fetch (GnmStyleBorderType		 line_type,
 		border_hash = g_hash_table_new (style_border_hash,
 						style_border_equal);
 
-	border = g_new0 (GnmBorder, 1);
-	*border = key;
-	g_hash_table_insert (border_hash, border, border);
+	border = g_memdup (&key, sizeof (key));
 	border->ref_count = 1;
 	border->width = gnm_style_border_get_width (line_type);
 	if (border->line_type == GNM_STYLE_BORDER_DOUBLE) {
@@ -237,6 +237,7 @@ gnm_style_border_fetch (GnmStyleBorderType		 line_type,
 		border->begin_margin = (border->width) > 1 ? 1 : 0;
 		border->end_margin = (border->width) > 2 ? 1 : 0;
 	}
+	g_hash_table_insert (border_hash, border, border);
 
 	return border;
 }
@@ -314,6 +315,27 @@ gnm_style_border_unref (GnmBorder *border)
 	}
 
 	g_free (border);
+}
+
+static void
+cb_border_leak (gpointer key, gpointer value, gpointer user_data)
+{
+	GnmBorder *border = value;
+
+	g_printerr ("Leaking style-border at %p [color=%p  line=%d].\n",
+		    (void *)border,
+		    border->color,
+		    border->line_type);
+}
+
+void
+gnm_border_shutdown (void)
+{
+	if (border_hash) {
+		g_hash_table_foreach (border_hash, cb_border_leak, NULL);
+		g_hash_table_destroy (border_hash);
+		border_hash = NULL;
+	}
 }
 
 GType

@@ -40,6 +40,7 @@
 #include "print-info.h"
 #include "style-font.h"
 #include "mstyle.h"
+#include "style-border.h"
 #include "style-color.h"
 #include "print.h"
 #include "dependent.h"
@@ -320,6 +321,7 @@ gnm_shutdown (void)
 	value_shutdown ();
 
 	gnm_font_shutdown ();
+	gnm_border_shutdown ();
 	gnm_color_shutdown ();
 	gnm_conf_shutdown ();
 	gnm_style_shutdown ();
