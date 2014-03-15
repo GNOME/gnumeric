@@ -216,11 +216,12 @@ cb_c_fmt_dialog_chooser_type_changed (G_GNUC_UNUSED GtkComboBox *widget, CFormat
 	c_fmt_dialog_set_sensitive (state);
 }
 
-static void
+static gboolean
 cb_c_fmt_dialog_chooser_entry_changed (G_GNUC_UNUSED GnmExprEntry *widget, G_GNUC_UNUSED GdkEvent *event,
 				       CFormatState *state)
 {
 	c_fmt_dialog_set_sensitive (state);
+	return FALSE;
 }
 
 void
