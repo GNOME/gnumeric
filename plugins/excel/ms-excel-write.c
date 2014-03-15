@@ -1163,7 +1163,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 
 			if (gnm_style_is_element_set (s, MSTYLE_FONT_SCRIPT)) {
 				guint16 script = map_script_to_xl (s);
-				GSF_LE_SET_GUINT16 (fbuf+72, script);
+				GSF_LE_SET_GUINT16 (fbuf+74, script);
 			} else
 				GSF_LE_SET_GUINT32 (fbuf+92, 1); /* flag as unused */
 
