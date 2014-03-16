@@ -151,6 +151,8 @@ typedef struct _FormatState {
 	} align;
 	struct {
 		GOFontSel	*selector;
+		GtkWidget       *underline_picker;
+		GnmUnderline     underline;
 	} font;
 	struct {
 		GocCanvas	*canvas;
@@ -756,8 +758,8 @@ cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
 
 	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_UNDERLINE);
 	if (attr) {
-		int i = ((PangoAttrInt*)attr)->value;
-		GnmUnderline u = gnm_translate_underline_from_pango (i);
+		/* Underline is special: we go beyond what pango has */
+		GnmUnderline u = state->font.underline;
 		if (!gnm_style_is_element_set (res, MSTYLE_FONT_UNDERLINE) ||
 		    u != gnm_style_get_font_uline (res)) {
 			changed = TRUE;
@@ -827,10 +829,27 @@ change_font_attr (FormatState *state, PangoAttribute *attr)
 }
 
 static void
-set_font_underline (FormatState *state, GnmUnderline u)
+set_font_underline (FormatState *state, GnmUnderline uline)
 {
-	PangoUnderline pu = gnm_translate_underline_to_pango (u);
-	change_font_attr (state, pango_attr_underline_new (pu));
+	PangoUnderline pu = gnm_translate_underline_to_pango (uline);
+	GOOptionMenu *om = GO_OPTION_MENU (state->font.underline_picker);
+	GtkMenuShell *ms = GTK_MENU_SHELL (go_option_menu_get_menu (om));
+	GList *children, *l;
+
+	if (uline != state->font.underline) {
+		state->font.underline = uline;
+		change_font_attr (state, pango_attr_underline_new (pu));
+	}
+
+	children = gtk_container_get_children (GTK_CONTAINER (ms));
+	for (l = children; l; l = l->next) {
+		GtkMenuItem *item = GTK_MENU_ITEM (l->data);
+		GnmUnderline u = GPOINTER_TO_INT
+			(g_object_get_data (G_OBJECT (item), "value"));
+		if (u == uline)
+			go_option_menu_select_item (om, item);
+	}
+	g_list_free (children);
 }
 
 static void
@@ -861,7 +880,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	GnmColor *def_sc;
 	GtkWidget *up;
 
-	up = go_option_menu_build
+	up = state->font.underline_picker = go_option_menu_build
 		(C_("underline", "None"), UNDERLINE_NONE,
 		 C_("underline", "Single"), UNDERLINE_SINGLE,
 		 C_("underline", "Double"), UNDERLINE_DOUBLE,

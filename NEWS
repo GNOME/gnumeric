@@ -25,6 +25,7 @@ Morten:
 	* Fix case sensitivity for conditional formats. [#726246]
 	* Fix minor conditional format GUI issues.
 	* Plug leak.
+	* Fix font dialog problem with underline.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.12

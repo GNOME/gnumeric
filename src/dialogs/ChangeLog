@@ -1,3 +1,8 @@
+2014-03-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (set_font_underline): Adjust underline
+	picker's selection.
+
 2014-03-15  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format-cond.c
