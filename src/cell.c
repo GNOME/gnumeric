@@ -209,19 +209,18 @@ gnm_cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr, GnmValue *v
 static void
 cell_set_expr_internal (GnmCell *cell, GnmExprTop const *texpr)
 {
+	GnmValue *save_value;
+
 	gnm_expr_top_ref (texpr);
 
+	/* Don't touch the value.  */
+	save_value = cell->value ? cell->value : value_new_empty ();
+	cell->value = NULL;
 	gnm_cell_cleanout (cell);
 
 	cell->base.flags |= GNM_CELL_HAS_NEW_EXPR;
 	cell->base.texpr = texpr;
-
-	/* Until the value is recomputed, we put in this value.
-	 *
-	 * We should consider using 0 instead and take out the
-	 * gnm_cell_needs_recalc call in sheet_foreach_cell_in_range.
-	 */
-	cell->value = value_new_empty ();
+	cell->value = save_value;
 }
 
 /*

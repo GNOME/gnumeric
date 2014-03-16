@@ -238,7 +238,9 @@ gnm_rendered_value_new (GnmCell const *cell,
 	sheet = cell->base.sheet;
 
 	if (debug)
-		g_printerr ("Rendering %s\n", cell_name (cell));
+		g_printerr ("Rendering %s value [%s]\n",
+			    cell_name (cell),
+			    value_peek_string (cell->value));
 
 	displayed_formula =
 		gnm_cell_has_expr (cell) && sheet->display_formulas;

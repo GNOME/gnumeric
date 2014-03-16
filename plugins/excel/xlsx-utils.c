@@ -118,11 +118,15 @@ xlsx_conventions_add_extern_ref (GnmConventions *convs, char const *path)
 {
 	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;
 	Workbook *res = g_object_new (WORKBOOK_TYPE, NULL);
+	char *id;
+
 	(void) go_doc_set_uri (GO_DOC (res), path);
-	g_hash_table_insert (xconv->extern_wb_by_id,
-		g_strdup_printf ("%d", g_hash_table_size (xconv->extern_wb_by_id) + 1),
-		res);
-	if (0) g_printerr ("add %d = '%s'\n", g_hash_table_size (xconv->extern_wb_by_id), path);
+
+	id = g_strdup_printf ("%d", g_hash_table_size (xconv->extern_wb_by_id) + 1);
+	if (0) g_printerr ("add %s = '%s'\n", id, path);
+
+	g_hash_table_insert (xconv->extern_wb_by_id, id, res);
+
 	return res;
 }
 
