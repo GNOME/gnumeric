@@ -1,5 +1,9 @@
 2014-03-16  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (gnm_expr_eval): Survive dynamic deps in conditional
+	formats.  I'm not positive we do things right, but this avoids
+	criticals, at least.
+
 	* src/cell.c (cell_set_expr_internal): Don't change an existing
 	value.
 

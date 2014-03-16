@@ -1455,7 +1455,14 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 			    ? NULL : value_new_int (0);
 		if (res->type == VALUE_CELLRANGE) {
-			dependent_add_dynamic_dep (pos->dep, &res->v_range.cell);
+			/*
+			 * pos->dep really shouldn't be NULL here, but it
+			 * will be if someone puts "indirect" into an
+			 * expression used for conditional formats.
+			 */
+			if (pos->dep)
+				dependent_add_dynamic_dep (pos->dep,
+							   &res->v_range.cell);
 			if (!(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
 				res = value_intersection (res, pos);
 				return (res != NULL)

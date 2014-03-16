@@ -1518,7 +1518,7 @@ sheet_style_get (Sheet const *sheet, int col, int row)
 
 #define border_null(b)	((b) == none || (b) == NULL)
 
-static inline void
+static void
 style_row (GnmStyle *style, int start_col, int end_col, GnmStyleRow *sr, gboolean accept_conditions)
 {
 	GnmBorder const *top, *bottom, *none = gnm_style_border_none ();

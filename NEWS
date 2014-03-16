@@ -28,6 +28,7 @@ Morten:
 	* Fix font dialog problem with underline.
 	* Fix crash reading strange xls file.  [Redhat #1076912]
 	* Fix problem clearing existing values in some xlsx cells.  [#726297]
+	* Fix criticals for dynamic deps in conditional formats.  [#726163]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.12
