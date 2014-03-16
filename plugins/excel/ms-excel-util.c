@@ -750,12 +750,16 @@ void
 xls_header_footer_import (PrintHF *hf, const char *txt)
 {
 	char section = 'L';
-	GString *accum = g_string_new (NULL);
+	GString *accum;
 
 	g_free (hf->left_format); hf->left_format = g_strdup ("");
 	g_free (hf->middle_format); hf->middle_format = g_strdup ("");
 	g_free (hf->right_format); hf->right_format = g_strdup ("");
 
+	if (!txt)
+		return;
+
+	accum = g_string_new (NULL);
 	while (1) {
 		if (txt[0] == 0 ||
 		    (txt[0] == '&' && strchr ("LCR", txt[1]))) {
