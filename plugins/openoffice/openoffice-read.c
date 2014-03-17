@@ -6227,6 +6227,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	int underline_type = 0;
 	int underline_style = 0;
 	gboolean underline_bold = FALSE;
+	gboolean underline_low = FALSE;
 
 	g_return_if_fail (style != NULL);
 
@@ -6324,6 +6325,9 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_NS_STYLE, "text-underline-width")) {
 			underline_bold = attr_eq (attrs[1], "bold");
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_GNUM_NS_EXT, "text-underline-placement")) {
+			underline_low = attr_eq (attrs[1], "low");
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-style"))
 			gnm_style_set_font_italic (style, attr_eq (attrs[1], "italic"));
 		else if (oo_attr_font_weight (xin, attrs, &tmp))
@@ -6352,18 +6356,29 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 
 
 	if (underline_style > 0) {
-		GnmUnderline underline;
-		if (underline_style == 1)
-			underline = UNDERLINE_NONE;
-		else if (underline_style == 4)
-			underline = UNDERLINE_SINGLE_LOW;
-		else if (underline_bold)
-			underline = UNDERLINE_DOUBLE_LOW;
-		else if (underline_type == 2)
-			underline = UNDERLINE_DOUBLE;
-		else
-			underline = UNDERLINE_SINGLE;
-
+		GnmUnderline underline = UNDERLINE_NONE;
+		if (underline_style > 1) {
+			switch (underline_type) {
+			case 0:
+				underline = UNDERLINE_NONE;
+				break;
+			case 2:
+				if (underline_low) {
+					underline = UNDERLINE_DOUBLE_LOW;
+				} else {
+					underline = UNDERLINE_DOUBLE;
+				}				
+				break;
+			case 1:
+			default:
+				if (underline_low) {
+					underline = underline_bold ? UNDERLINE_DOUBLE_LOW : UNDERLINE_SINGLE_LOW;
+				} else {
+					underline = underline_bold ? UNDERLINE_DOUBLE : UNDERLINE_SINGLE;
+				}
+				break;
+			}
+		}
 		gnm_style_set_font_uline (style, underline);
 	}
 	

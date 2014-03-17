@@ -1173,12 +1173,19 @@ odf_get_gnm_border_format (GnmBorder   *border)
 		}							\
 	}
 
-#define UNDERLINESPECS(type, style, width) gsf_xml_out_add_cstr (state->xml, \
+#define UNDERLINESPECS(type, style, width, low) gsf_xml_out_add_cstr (state->xml, \
 						      STYLE "text-underline-type", type); \
 				gsf_xml_out_add_cstr (state->xml, \
 						      STYLE "text-underline-style", style); \
 				gsf_xml_out_add_cstr (state->xml, \
-						      STYLE "text-underline-width", width)
+						      STYLE "text-underline-width", width); \
+                                gsf_xml_out_add_cstr_unchecked (state->xml, \
+								STYLE "text-underline-color", "font-color"); \
+                                gsf_xml_out_add_cstr_unchecked (state->xml, \
+								STYLE "text-underline-mode", "continuous"); \
+				if (low && state->with_extension) \
+					gsf_xml_out_add_cstr_unchecked (state->xml, \
+									GNMSTYLE "text-underline-placement", "low"); \
 
 static void
 odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
@@ -1445,19 +1452,19 @@ odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE))
 		switch (gnm_style_get_font_uline (style)) {
 		case UNDERLINE_NONE:
-			UNDERLINESPECS("none", "none", "auto");
+			UNDERLINESPECS("none", "none", "auto", FALSE);
 			break;
 		case UNDERLINE_SINGLE:
-			UNDERLINESPECS("single", "solid", "auto");
+			UNDERLINESPECS("single", "solid", "auto", FALSE);
 			break;
 		case UNDERLINE_DOUBLE:
-			UNDERLINESPECS("double", "solid", "auto");
+			UNDERLINESPECS("double", "solid", "auto", FALSE);
 			break;
 		case UNDERLINE_SINGLE_LOW:
-			UNDERLINESPECS("single", "solid", "auto");
+			UNDERLINESPECS("single", "dash", "auto", TRUE);
 			break;
 		case UNDERLINE_DOUBLE_LOW:
-			UNDERLINESPECS("double", "solid", "auto");
+			UNDERLINESPECS("double", "dash", "auto", TRUE);
 			break;
 		}
 /* Superscript/Subscript */

@@ -1,5 +1,12 @@
 2014-03-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_style_cell_properties): use
+	extension to determine high or low underlines
+	* openoffice-read.c (oo_style_prop_cell): read new gnm: attribute
+	and make sure we reverse the mapping we use when we write
+
+2014-03-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (openoffice-read.c): also set the script to
 	standard when appropriate
 
