@@ -944,6 +944,7 @@ fmt_dialog_init_font_page (FormatState *state)
 				      pts * PANGO_SCALE);
 	}
 
+	state->font.underline = UNDERLINE_NONE;
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_UNDERLINE))) {
 		GnmUnderline ut = gnm_style_get_font_uline (state->style);
 		set_font_underline (state, ut);
