@@ -9,6 +9,7 @@ Andreas:
 	* Fix distributed-alignment export to ODF. [part of #726035]
 	* Fix ODF roundtrip of "center accross selection". [#726010]
 	* Fix ODF roundtrip of conditional formats. [#726201]
+	* Fix import & export of cell indent from/to ODF.
 
 Jean:
 	* Fix tooltip position for scale or RTL sheets. [#725941]

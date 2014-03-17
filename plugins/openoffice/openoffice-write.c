@@ -1400,7 +1400,7 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 
 /* Text Indent */
 	if (gnm_style_is_element_set (style, MSTYLE_INDENT))
-		odf_add_pt (state->xml, FOSTYLE "text-indent", gnm_style_get_indent (style));
+		odf_add_pt (state->xml, FOSTYLE "margin-left", gnm_style_get_indent (style));
 
 	gsf_xml_out_end_element (state->xml); /* </style:paragraph-properties */
 }
