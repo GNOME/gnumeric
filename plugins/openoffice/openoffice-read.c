@@ -6338,6 +6338,8 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUPER);
 			else if (g_str_has_prefix (attrs[1], "sub"))
 				gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUB);
+			else 
+				gnm_style_set_font_script (style, GO_FONT_SCRIPT_STANDARD);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "margin-left")) {
 			tmp_f = 0.;
 			oo_parse_distance (xin, attrs[1], "margin-left", &tmp_f);
