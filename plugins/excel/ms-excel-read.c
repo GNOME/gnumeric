@@ -5247,12 +5247,43 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 
 	offset =  6  /* CF record header */ + 6; /* format header */
 
+	if (FALSE && (flags & 0x02000000)) { /* number format */
+		XL_CHECK_CONDITION (q->length >= offset + 2);
+
+		/*
+		 * This is documented in MS-XLS, but Excel does not read it.
+		 * (Setting both a number format and Bold does not result in
+		 * bold, so Excel does not account for the size of this field.)
+		 */
+
+		if (flags2 & 1) {
+			/* Format as string */
+			guint bytes = GSF_LE_GET_GUINT16 (q->data + offset);
+			char *xlfmt = excel_biff_text_2 (importer, q, offset + 2);
+			GOFormat *fmt =	go_format_new_from_XL (xlfmt);
+			gnm_style_set_format (overlay, fmt);
+			go_format_unref (fmt);
+			g_free (xlfmt);
+			offset += bytes;
+		} else {
+			/* Format as index */
+			offset += 2;
+		}
+	}
+
 	if (flags & 0x04000000) { /* font */
 		guint32 size, colour;
 		guint8  tmp8, font_flags;
 		guint8 const *data = q->data + offset;
 
 		XL_CHECK_CONDITION (q->length >= offset + 64 + 54);
+
+		if (data[0]) {
+			char *font = excel_biff_text_1
+				(importer, q, offset);
+			gnm_style_set_font_name (overlay, font);
+			g_free (font);
+		}
 
 		data += 64;
 		

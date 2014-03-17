@@ -22,7 +22,8 @@ my $file = "$samples/cond-format-tests.gnumeric";
 my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
 
 # xls/biff cannot handle format in conditional formats.
-my $xls_cond_format_filter = "$PERL -p -e 's{\\s+Format=\"[^\"\"]*\"}{} if m{<gnm:Style .*/>};'";
+my $xls_cond_format_filter = "$PERL -p -e 'if (m{<gnm:Condition\\b} ... m{</gnm:Condition\\b}) { s{\\s+Format=\"[^\"\"]*\"}{}; }'";
+print STDERR "$xls_cond_format_filter\n";
 
 &message ("Check conditional format xls/BIFF7 roundtrip.");
 &test_roundtrip ($file,

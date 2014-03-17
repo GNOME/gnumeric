@@ -1083,7 +1083,6 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 	BiffPut *bp = esheet->ewb->bp;
 	guint16 range_count;
 	guint8 buf[14], type, op;
-	guint32 flags = 0x0038C380;	/* these are always true */
 	unsigned i, expr0_len, expr1_len, header_pos;
 	GPtrArray const *details = gnm_style_conditions_details (sc);
 	unsigned det_len = details ? details->len : 0;
@@ -1108,13 +1107,41 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		GnmStyleCond const *cond = g_ptr_array_index (details, i);
 		GnmStyle const *s = cond->overlay;
 		GnmExprTop const *alt_texpr;
+		guint32 flags = 0x0038C380; /* these are always true */
+		guint16 flags2 = 0x02; /* these are always true */
 
 		ms_biff_put_var_next (bp, BIFF_CF);
 		header_pos = bp->curpos;
 		ms_biff_put_var_seekto (bp, header_pos+12);
 
-		if (gnm_style_is_element_set (s, MSTYLE_FONT_COLOR ) ||
-		    gnm_style_is_element_set (s, MSTYLE_FONT_NAME ) ||
+		/*
+		 * This is documented in MS-XLS, but Excel does not read it.
+		 * (Setting both a number format and Bold does not result in
+		 * bold, so Excel does not account for the size of this field.)
+		 */
+		if (FALSE && gnm_style_is_element_set (s, MSTYLE_FORMAT)) {
+			GOFormat const *fmt = gnm_style_get_format (s);
+			const char *xlfmt = go_format_as_XL (fmt);
+			guint16 bytes;
+			unsigned afterpos, lenpos = bp->curpos;
+
+			/* Write as DXFNumUsr structure. */
+			ms_biff_put_var_seekto (bp, lenpos + 2);
+			bytes = excel_write_string
+				(bp, STR_TWO_BYTE_LENGTH, xlfmt);
+
+			afterpos = bp->curpos;
+			ms_biff_put_var_seekto (bp, lenpos);
+			GSF_LE_SET_GUINT16 (buf, bytes + 2);
+			ms_biff_put_var_write (bp, buf, 2);
+			ms_biff_put_var_seekto (bp, afterpos);
+
+			flags |= 0x02000000;
+			flags2 |= 0x1;
+		}
+
+		if (gnm_style_is_element_set (s, MSTYLE_FONT_COLOR) ||
+		    gnm_style_is_element_set (s, MSTYLE_FONT_NAME) ||
 		    gnm_style_is_element_set (s, MSTYLE_FONT_BOLD) ||
 		    gnm_style_is_element_set (s, MSTYLE_FONT_ITALIC) ||
 		    gnm_style_is_element_set (s, MSTYLE_FONT_UNDERLINE ) ||
@@ -1123,8 +1150,23 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		    gnm_style_is_element_set (s, MSTYLE_FONT_SIZE)) {
 			guint8 fbuf[118];
 			guint32 tmp, font_flags = 0x18;
+			guint32 written = 0;
 
 			memset (fbuf, 0, sizeof (fbuf));
+
+			if (gnm_style_is_element_set (s, MSTYLE_FONT_NAME)) {
+				char *font = g_strdup (gnm_style_get_font_name (s));
+				size_t bytes;
+				guint charlen = excel_strlen (font, &bytes);
+				guint maxlen = (bytes == charlen) ? 62 : 30;
+
+				if (charlen > maxlen)
+					g_utf8_offset_to_pointer (font, maxlen)[0] = 0;
+
+				written = excel_write_string
+					(bp, STR_ONE_BYTE_LENGTH, font);
+				g_free (font);
+			}
 
 			if (gnm_style_is_element_set (s, MSTYLE_FONT_SIZE))
 				tmp = (int) (gnm_style_get_font_size (s) * 20. + .5);
@@ -1180,7 +1222,9 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 
 			GSF_LE_SET_GUINT8 (fbuf + 88, font_flags);
 
-			ms_biff_put_var_write (bp, fbuf, sizeof (fbuf));
+			ms_biff_put_var_write (bp,
+					       fbuf + written,
+					       sizeof (fbuf) - written);
 			flags |= 0x04000000;
 		}
 
@@ -1364,7 +1408,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		GSF_LE_SET_GUINT16 (buf+2, expr0_len);
 		GSF_LE_SET_GUINT16 (buf+4, expr1_len);
 		GSF_LE_SET_GUINT32 (buf+6, flags);
-		GSF_LE_SET_GUINT16 (buf+10, 2);  /* We have seen 2 and 0x802 */
+		GSF_LE_SET_GUINT16 (buf+10, flags2);
 		ms_biff_put_var_write (bp, buf, 12);
 
 		ms_biff_put_commit (bp);
