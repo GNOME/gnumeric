@@ -1,3 +1,7 @@
+2014-03-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_styles_dtd): add stubs
+
 2014-03-16  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-util.c (xls_header_footer_import): Treat a NULL string
