@@ -327,6 +327,8 @@ gnm_log2 (gnm_float x)
 
 	/* This split ensures accurate integer results for 2^x.  */
 	x = gnm_frexp (x, &e);
+	if (x == 0.5)
+		x = 1.0, e--;
 
 	return e + gnm_log (x) / M_LN2gnum;
 }
