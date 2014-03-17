@@ -930,22 +930,23 @@ typedef struct {
 static gboolean
 write_border (ExcelWriteSheet const *esheet,
 	      GnmStyle const *s, GnmStyleElement elem,
-	      guint16 *patterns, guint32 *colours,
+	      guint32 d[2],
 	      unsigned pat_offset, unsigned colour_offset)
 {
-	unsigned   c;
+	unsigned c;
 	GnmBorder *b;
 
 	if (!gnm_style_is_element_set (s, elem) ||
 	    NULL == (b = gnm_style_get_border(s, elem)))
 		return TRUE;
 
-	*patterns |= (map_border_to_xl (b->line_type, esheet->ewb->bp->version)
-		     << pat_offset);
+	d[pat_offset / 32] |=
+		(map_border_to_xl (b->line_type, esheet->ewb->bp->version)
+		 << (pat_offset & 31));
 
 	c = map_color_to_palette (&esheet->ewb->base,
-		b->color, PALETTE_AUTO_PATTERN);
-	*colours |= (c << colour_offset);
+				  b->color, PALETTE_AUTO_PATTERN);
+	d[colour_offset / 32] |= (c << (colour_offset & 31));
 
 	return FALSE;
 }
@@ -1107,7 +1108,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		GnmStyleCond const *cond = g_ptr_array_index (details, i);
 		GnmStyle const *s = cond->overlay;
 		GnmExprTop const *alt_texpr;
-		guint32 flags = 0x0030C380; /* these are always true */
+		guint32 flags = 0x00300380; /* these are always true */
 		guint16 flags2 = 0x02; /* these are always true */
 
 		ms_biff_put_var_next (bp, BIFF_CF);
@@ -1291,25 +1292,38 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		if (gnm_style_is_element_set (s, MSTYLE_BORDER_LEFT) ||
 		    gnm_style_is_element_set (s, MSTYLE_BORDER_RIGHT) ||
 		    gnm_style_is_element_set (s, MSTYLE_BORDER_TOP) ||
-		    gnm_style_is_element_set (s, MSTYLE_BORDER_BOTTOM)) {
-			guint16 p = 0;
-			guint32 c = 0;
-			if (write_border (esheet, s, MSTYLE_BORDER_LEFT,   &p, &c,  0,  0))
+		    gnm_style_is_element_set (s, MSTYLE_BORDER_BOTTOM) ||
+		    gnm_style_is_element_set (s, MSTYLE_BORDER_DIAGONAL) ||
+		    gnm_style_is_element_set (s, MSTYLE_BORDER_REV_DIAGONAL)) {
+			guint32 d[2] = { 0, 0 };
+			if (write_border (esheet, s, MSTYLE_BORDER_LEFT,         d,  0, 16))
 				flags |= 0x0400;
-			if (write_border (esheet, s, MSTYLE_BORDER_RIGHT,  &p, &c,  4,  7))
+			if (write_border (esheet, s, MSTYLE_BORDER_RIGHT,        d,  4, 23))
 				flags |= 0x0800;
-			if (write_border (esheet, s, MSTYLE_BORDER_TOP,    &p, &c,  8, 16))
+			if (write_border (esheet, s, MSTYLE_BORDER_TOP,          d,  8, 32))
 				flags |= 0x1000;
-			if (write_border (esheet, s, MSTYLE_BORDER_BOTTOM, &p, &c, 12, 23))
+			if (write_border (esheet, s, MSTYLE_BORDER_BOTTOM,       d, 12, 39))
 				flags |= 0x2000;
 
-			GSF_LE_SET_GUINT16 (buf+0, p);
-			GSF_LE_SET_GUINT32 (buf+2, c);
-			GSF_LE_SET_GUINT16 (buf+6, 0);
+			/*
+			 * MS-XLS defines fields for diagonals, but Excel does not seem to
+			 * read them, not does the GUI allows creating them.
+			 */
+			if (write_border (esheet, s, MSTYLE_BORDER_DIAGONAL,     d, 53, 46))
+				flags |= 0x4000;
+			else
+				d[0] |= 0x80000000;
+			if (write_border (esheet, s, MSTYLE_BORDER_REV_DIAGONAL, d, 53, 46))
+				flags |= 0x8000;
+			else
+				d[0] |= 0x40000000;
+
+			GSF_LE_SET_GUINT32 (buf+0, d[0]);
+			GSF_LE_SET_GUINT32 (buf+4, d[1]);
 			ms_biff_put_var_write (bp, buf, 8);
 			flags |= 0x10000000;
 		} else
-			flags |= 0x3C00;
+			flags |= 0xFC00;
 
 		if (gnm_style_is_element_set (s, MSTYLE_PATTERN) ||
 		    gnm_style_is_element_set (s, MSTYLE_COLOR_BACK) ||
@@ -2098,7 +2112,7 @@ put_colors (ExcelStyleVariant const *esv, gpointer dummy, XLExportBase *ewb)
 
 	/* Borders */
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
-		b = gnm_style_get_border (st, MSTYLE_BORDER_TOP + i);
+		GnmBorder const *b = gnm_style_get_border (st, MSTYLE_BORDER_TOP + i);
 		if (b && b->color)
 			put_color_gnm (ewb, b->color);
 	}

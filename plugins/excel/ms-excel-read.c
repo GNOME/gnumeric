@@ -5132,7 +5132,8 @@ excel_read_CF_border (GnmStyle *style, ExcelReadSheet *esheet,
 		      GnmStyleBorderLocation type,
 		      unsigned xl_pat_index, unsigned xl_color_index)
 {
-	gnm_style_set_border (style, GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (type),
+	GnmStyleElement elem = GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (type);
+	gnm_style_set_border (style, elem,
 			      gnm_style_border_fetch (biff_xf_map_border (xl_pat_index),
 						      excel_palette_get (esheet->container.importer,
 									 xl_color_index),
@@ -5248,9 +5249,9 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 	offset =  6  /* CF record header */ + 6; /* format header */
 
 	if (flags & 0x02000000) { /* number format */
-		XL_CHECK_CONDITION (q->length >= offset + 2);
-
 		gboolean ignore = (flags & 0x00080000) != 0;
+
+		XL_CHECK_CONDITION (q->length >= offset + 2);
 
 		if (flags2 & 1) {
 			/* Format as string */
@@ -5382,31 +5383,38 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 	}
 
 	if (flags & 0x10000000) { /* borders */
-		guint16 patterns;
-		guint32 colours;
+		guint32 d0, d1;
 
 		XL_CHECK_CONDITION (q->length >= offset + 8);
-		patterns = GSF_LE_GET_GUINT16 (q->data + offset);
-		colours  = GSF_LE_GET_GUINT32 (q->data + offset + 2);
+		d0 = GSF_LE_GET_GUINT32 (q->data + offset);
+		d1 = GSF_LE_GET_GUINT32 (q->data + offset + 4);
 
 		if (0 == (flags & 0x0400))
 			excel_read_CF_border (overlay, esheet, GNM_STYLE_BORDER_LEFT,
-					      (patterns >>  0) & 0xf,
-					      (colours  >>  0) & 0x7f);
+					      (d0 >>  0) & 0xf,
+					      (d0 >> 16) & 0x7f);
 		if (0 == (flags & 0x0800))
 			excel_read_CF_border (overlay, esheet, GNM_STYLE_BORDER_RIGHT,
-					      (patterns >>  4) & 0xf,
-					      (colours  >>  7) & 0x7f);
+					      (d0 >>  4) & 0xf,
+					      (d0 >> 23) & 0x7f);
 		if (0 == (flags & 0x1000))
 			excel_read_CF_border (overlay, esheet, GNM_STYLE_BORDER_TOP,
-					      (patterns >>  8) & 0xf,
-					      (colours  >> 16) & 0x7f);
+					      (d0 >>  8) & 0xf,
+					      (d1 >>  0) & 0x7f);
 		if (0 == (flags & 0x2000))
 			excel_read_CF_border (overlay, esheet, GNM_STYLE_BORDER_BOTTOM,
-					      (patterns >> 12) & 0xf,
-					      (colours  >> 23) & 0x7f);
+					      (d0 >> 12) & 0xf,
+					      (d1 >>  7) & 0x7f);
+		if (0 == (flags & 0x4000) && (d0 & 0x80000000)) {
+			excel_read_CF_border (overlay, esheet, GNM_STYLE_BORDER_DIAG,
+					      (d1 >> 21) & 0xf,
+					      (d1 >> 14) & 0x7f);
+		}
+		if (0 == (flags & 0x8000) && (d0 & 0x40000000))
+			excel_read_CF_border (overlay, esheet, GNM_STYLE_BORDER_REV_DIAG,
+					      (d1 >> 21) & 0xf,
+					      (d1 >> 14) & 0x7f);
 
-		/* I wonder what the last two bytes are.  future growth ? */
 		offset += 8;
 	}
 
