@@ -6365,11 +6365,12 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		gnm_style_set_font_uline (style, underline);
 	}
 	
-	if (gnm_pattern > 0) {
+	if (gnm_pattern > 0)
 		gnm_style_set_pattern (style, gnm_pattern);
+	if (gnm_b_color)
 		gnm_style_set_back_color (style, gnm_b_color);
+	if (gnm_p_color)
 		gnm_style_set_pattern_color (style, gnm_p_color);
-	}
 }
 
 static OOPageBreakType

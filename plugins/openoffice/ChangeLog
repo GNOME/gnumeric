@@ -1,5 +1,12 @@
 2014-03-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_style_cell_properties): even write
+	pattern and background colour for pattern 0
+	* openoffice-read.c (oo_style_prop_cell): set pattern and background
+	colour even for pattern 0
+
+2014-03-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_style_paragraph_properties): our indent
 	is fo:margin-left, not fo:indent
 	* openoffice-read.c (oo_style_prop_cell): read fo:margin-left

@@ -1193,7 +1193,8 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 
 		gnm_xml_out_add_hex_color (state->xml, FOSTYLE "background-color",
 					   gnm_style_get_back_color (style), pattern);
-		if (state->with_extension && pattern_set && pattern != 0) {
+		if (state->with_extension) {
+			/* We save this to retain as much state as possible. */
 			gnm_xml_out_add_hex_color (state->xml, GNMSTYLE "background-colour",
 						   gnm_style_get_back_color (style), 1);
 			gnm_xml_out_add_hex_color (state->xml, GNMSTYLE "pattern-colour",
