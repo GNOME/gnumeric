@@ -1107,18 +1107,13 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		GnmStyleCond const *cond = g_ptr_array_index (details, i);
 		GnmStyle const *s = cond->overlay;
 		GnmExprTop const *alt_texpr;
-		guint32 flags = 0x0038C380; /* these are always true */
+		guint32 flags = 0x0030C380; /* these are always true */
 		guint16 flags2 = 0x02; /* these are always true */
 
 		ms_biff_put_var_next (bp, BIFF_CF);
 		header_pos = bp->curpos;
 		ms_biff_put_var_seekto (bp, header_pos+12);
 
-		/*
-		 * This is documented in MS-XLS and Excel does read it, i.e.,
-		 * it accounts for the size of the field when reading.  Excel
-		 * does not appear to act on it, though.
-		 */
 		if (gnm_style_is_element_set (s, MSTYLE_FORMAT)) {
 			GOFormat const *fmt = gnm_style_get_format (s);
 			const char *xlfmt = go_format_as_XL (fmt);
@@ -1136,9 +1131,10 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 			ms_biff_put_var_write (bp, buf, 2);
 			ms_biff_put_var_seekto (bp, afterpos);
 
-			flags |= 0x02000000;
+			flags |= 0x02000000; /* has dxfnum record */
 			flags2 |= 0x1;
-		}
+		} else
+			flags |= 0x00080000; /* ignore number format */
 
 		if (gnm_style_is_element_set (s, MSTYLE_FONT_COLOR) ||
 		    gnm_style_is_element_set (s, MSTYLE_FONT_NAME) ||

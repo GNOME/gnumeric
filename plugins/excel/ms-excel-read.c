@@ -5250,20 +5250,18 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 	if (flags & 0x02000000) { /* number format */
 		XL_CHECK_CONDITION (q->length >= offset + 2);
 
-		/*
-		 * This is documented in MS-XLS and Excel does read it, i.e.,
-		 * it accounts for the size of the field when reading.  Excel
-		 * does not appear to act on it, though.
-		 */
+		gboolean ignore = (flags & 0x00080000) != 0;
 
 		if (flags2 & 1) {
 			/* Format as string */
 			guint bytes = GSF_LE_GET_GUINT16 (q->data + offset);
-			char *xlfmt = excel_biff_text_2 (importer, q, offset + 2);
-			GOFormat *fmt =	go_format_new_from_XL (xlfmt);
-			gnm_style_set_format (overlay, fmt);
-			go_format_unref (fmt);
-			g_free (xlfmt);
+			if (!ignore) {
+				char *xlfmt = excel_biff_text_2 (importer, q, offset + 2);
+				GOFormat *fmt =	go_format_new_from_XL (xlfmt);
+				gnm_style_set_format (overlay, fmt);
+				go_format_unref (fmt);
+				g_free (xlfmt);
+			}
 			offset += bytes;
 		} else {
 			/* Format as index */
