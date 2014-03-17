@@ -5247,13 +5247,13 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 
 	offset =  6  /* CF record header */ + 6; /* format header */
 
-	if (FALSE && (flags & 0x02000000)) { /* number format */
+	if (flags & 0x02000000) { /* number format */
 		XL_CHECK_CONDITION (q->length >= offset + 2);
 
 		/*
-		 * This is documented in MS-XLS, but Excel does not read it.
-		 * (Setting both a number format and Bold does not result in
-		 * bold, so Excel does not account for the size of this field.)
+		 * This is documented in MS-XLS and Excel does read it, i.e.,
+		 * it accounts for the size of the field when reading.  Excel
+		 * does not appear to act on it, though.
 		 */
 
 		if (flags2 & 1) {
@@ -5278,7 +5278,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 
 		XL_CHECK_CONDITION (q->length >= offset + 64 + 54);
 
-		if (data[0]) {
+		if (data[0] && GSF_LE_GET_GUINT16 (data + 116) > 0) {
 			char *font = excel_biff_text_1
 				(importer, q, offset);
 			gnm_style_set_font_name (overlay, font);
@@ -5294,17 +5294,20 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 						  excel_palette_get (esheet->container.importer,
 								     colour));
 
-		tmp8  = GSF_LE_GET_GUINT8  (data + 4);
-		font_flags = GSF_LE_GET_GUINT8  (data + 24);
-		if (0 == (font_flags & 2)) {
-			gnm_style_set_font_italic (overlay, 0 != (tmp8 & 2));
-			gnm_style_set_font_bold   (overlay,
-						   GSF_LE_GET_GUINT16 (data + 8) >= 0x2bc);
+		if (0 == GSF_LE_GET_GUINT8  (data + 36)) {
+			gnm_style_set_font_bold (overlay,
+						 GSF_LE_GET_GUINT16 (data + 8) >= 0x2bc);
 		}
+
+		tmp8 = GSF_LE_GET_GUINT8  (data + 4);
+		font_flags = GSF_LE_GET_GUINT8  (data + 24);
+		if (0 == (font_flags & 2))
+			gnm_style_set_font_italic (overlay, 0 != (tmp8 & 2));
+
 		if (0 == (font_flags & 0x80))
 			gnm_style_set_font_strike (overlay, 0 != (tmp8 & 0x80));
 
-		if (0 == GSF_LE_GET_GUINT8  (data + 28)) {
+		if (0 == GSF_LE_GET_GUINT8 (data + 28)) {
 			switch (GSF_LE_GET_GUINT8  (data + 10)) {
 			default : g_printerr ("Unknown script %d\n", GSF_LE_GET_GUINT8 (data));
 				/* fall through */

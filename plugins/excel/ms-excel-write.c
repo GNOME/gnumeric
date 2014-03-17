@@ -1115,11 +1115,11 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		ms_biff_put_var_seekto (bp, header_pos+12);
 
 		/*
-		 * This is documented in MS-XLS, but Excel does not read it.
-		 * (Setting both a number format and Bold does not result in
-		 * bold, so Excel does not account for the size of this field.)
+		 * This is documented in MS-XLS and Excel does read it, i.e.,
+		 * it accounts for the size of the field when reading.  Excel
+		 * does not appear to act on it, though.
 		 */
-		if (FALSE && gnm_style_is_element_set (s, MSTYLE_FORMAT)) {
+		if (gnm_style_is_element_set (s, MSTYLE_FORMAT)) {
 			GOFormat const *fmt = gnm_style_get_format (s);
 			const char *xlfmt = go_format_as_XL (fmt);
 			guint16 bytes;
@@ -1166,6 +1166,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 				written = excel_write_string
 					(bp, STR_ONE_BYTE_LENGTH, font);
 				g_free (font);
+				GSF_LE_SET_GUINT16 (fbuf+116, 1);
 			}
 
 			if (gnm_style_is_element_set (s, MSTYLE_FONT_SIZE))
@@ -1174,16 +1175,15 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 				tmp = 0xFFFFFFFF;
 			GSF_LE_SET_GUINT32 (fbuf+64, tmp);
 
+			if (gnm_style_is_element_set (s, MSTYLE_FONT_BOLD)) {
+				guint16 weight = gnm_style_get_font_bold (s) ? 0x2bc : 0x190;
+				GSF_LE_SET_GUINT16 (fbuf+72, weight);
+			} else
+				GSF_LE_SET_GUINT32 (fbuf+100, 1);
+
 			tmp = 0;
-			if (gnm_style_is_element_set (s, MSTYLE_FONT_BOLD) ||
-			    gnm_style_is_element_set (s, MSTYLE_FONT_ITALIC)) {
-				if (gnm_style_is_element_set (s, MSTYLE_FONT_BOLD) &&
-				    gnm_style_get_font_bold (s))
-					GSF_LE_SET_GUINT16 (fbuf+72, 0x2bc);
-				else
-					GSF_LE_SET_GUINT16 (fbuf+72, 0x190);
-				if (gnm_style_is_element_set (s, MSTYLE_FONT_ITALIC) &&
-				    gnm_style_get_font_italic (s))
+			if (gnm_style_is_element_set (s, MSTYLE_FONT_ITALIC)) {
+				if (gnm_style_get_font_italic (s))
 					tmp |= 2;
 				else
 					tmp |= 0;
@@ -1209,9 +1209,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 			} else
 				GSF_LE_SET_GUINT32 (fbuf+92, 1); /* flag as unused */
 
-			GSF_LE_SET_GUINT32 (fbuf+100, 1); /*always 1 */
 			GSF_LE_SET_GUINT32 (fbuf+104, 1); /*always 1 */
-			GSF_LE_SET_GUINT16 (fbuf+116, 1); /*always 1 */
 
 			if (gnm_style_is_element_set (s, MSTYLE_FONT_COLOR))
 				tmp = map_color_to_palette (&esheet->ewb->base,

@@ -23,14 +23,13 @@ my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:
 
 # xls/biff cannot handle format in conditional formats.
 my $xls_cond_format_filter = "$PERL -p -e 'if (m{<gnm:Condition\\b} ... m{</gnm:Condition\\b}) { s{\\s+Format=\"[^\"\"]*\"}{}; }'";
-print STDERR "$xls_cond_format_filter\n";
 
 &message ("Check conditional format xls/BIFF7 roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff7',
 		 'ext' => "xls",
 		 'resize' => '16384x256',
-		 'filter1' => $xls_cond_format_filter,
+		 # 'filter1' => $xls_cond_format_filter,
 		 'filter2' => $xls_codepage_filter,
 		 'ignore_failure' => 1);
 
@@ -38,7 +37,7 @@ print STDERR "$xls_cond_format_filter\n";
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff8',
 		 'ext' => "xls",
-		 'filter1' => $xls_cond_format_filter,
+		 '# filter1' => $xls_cond_format_filter,
 		 'filter2' => $xls_codepage_filter,
 		 'ignore_failure' => 1);
 
