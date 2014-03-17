@@ -1090,8 +1090,7 @@ static struct
 	double const			points[4];
 	int const			states;
 	GnmStyleBorderLocation	const	location;
-} const line_info[] =
-{
+} const line_info[] = {
 	/*
 	  state 1 = single cell;
 	  state 2 = multi vert, single horiz (A1:A2);
@@ -1215,13 +1214,8 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 {
 	double x = event->x;
 	double y = event->y;
-	BorderPicker		*edge;
-
-	/* Crap!  This variable is always initialized.
-	 * However, the compiler is confused and thinks it is not
-	 * so we are forced to pick a random irrelevant value.
-	 */
-	GnmStyleBorderLocation	 which = GNM_STYLE_BORDER_LEFT;
+	BorderPicker *edge;
+	GnmStyleBorderLocation which;
 
 	if (event->button != 1)
 		return FALSE;
@@ -1292,6 +1286,7 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 			break;
 
 		default:
+			which = GNM_STYLE_BORDER_LEFT;
 			g_assert_not_reached ();
 		}
 
@@ -1405,14 +1400,14 @@ draw_border_preview (FormatState *state)
 	}
 
 	for (i = 0; i < GNM_STYLE_BORDER_EDGE_MAX; ++i) {
-		BorderPicker *border = &state->border.edge[i];
-		void (*func)(GocItem *item) = border->is_selected
-			? &goc_item_show : &goc_item_hide;
+		BorderPicker const *border = &state->border.edge[i];
+		int j;
 
 		for (j = 0; line_info[j].states != 0 ; ++j) {
 			if ((int)line_info[j].location == i &&
 			    state->border.lines[j] != NULL)
-				(*func) (state->border.lines[j]);
+				goc_item_set_visible (state->border.lines[j],
+						      border->is_selected);
 		}
 	}
 
