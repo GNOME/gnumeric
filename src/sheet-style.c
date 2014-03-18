@@ -3202,6 +3202,7 @@ cell_tile_dump (CellTile **tile, int level, CellTileOptimize *data,
 					crow + h * r);
 		}
 	} else {
+#if 0
 		int i;
 
 		for (i = 0; i < tile_size[type]; i++) {
@@ -3210,6 +3211,7 @@ cell_tile_dump (CellTile **tile, int level, CellTileOptimize *data,
 				    i,
 				    (*tile)->style_any.style[i]);
 		}
+#endif
 	}
 }
 
