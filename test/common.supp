@@ -785,3 +785,10 @@
    fun:gdk_pixbuf_loader_write
    fun:new_from_data
 }
+
+{
+   GLIB/G_SETTING_BACKEND
+   Memcheck:Leak
+   ...
+   fun:g_settings_backend_get_default
+}
