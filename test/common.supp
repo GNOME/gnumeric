@@ -808,3 +808,14 @@
    fun:g_malloc
    fun:g_intern_string
 }
+
+{
+   DBUS/G_DBUS_CONNECTION_CALL/MLK
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_source_set_callback
+   fun:g_dbus_connection_send_message_with_reply
+   fun:g_dbus_connection_call_internal
+   fun:g_dbus_connection_call
+}
