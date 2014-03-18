@@ -2387,17 +2387,37 @@ cb_css_parse_error (GtkCssProvider *css, GtkCssSection *section, GError *err)
 	g_warning ("Theme parsing error: %s", err->message);
 }
 
+struct css_provider_data {
+	GtkCssProvider *css;
+	GSList *screens;
+};
+
+static void
+cb_unload_providers (gpointer data_)
+{
+	struct css_provider_data *data = data_;
+	GSList *l;
+
+	for (l = data->screens; l; l = l->next) {
+		GdkScreen *screen = l->data;
+		gtk_style_context_remove_provider_for_screen
+			(screen, GTK_STYLE_PROVIDER (data->css));
+	}
+	g_slist_free (data->screens);
+	g_object_unref (data->css);
+	g_free (data);
+}
+
 static void
 cb_screen_changed (GtkWidget *widget)
 {
 	GdkScreen *screen = gtk_widget_get_screen (widget);
-	const char *key = "wbcg-screen-css";
 	GObject *app = gnm_app_get_app ();
 	const char *app_key = "css-provider";
-	GtkCssProvider *css;
+	struct css_provider_data *data;
 
-	css = g_object_get_data (app, app_key); 
-	if (!css) {
+	data = g_object_get_data (app, app_key); 
+	if (!data) {
 		const char *resource = "gnm:gnumeric.css";
 		const char *csstext = go_rsm_lookup (resource, NULL);
 		gboolean debug = gnm_debug_flag ("css");
@@ -2412,28 +2432,30 @@ cb_screen_changed (GtkWidget *widget)
 		}
 #endif
 
-		css = gtk_css_provider_new ();
+		data = g_new (struct css_provider_data, 1);
+		data->css = gtk_css_provider_new ();
+		data->screens = NULL;
 
 		if (debug)
 			g_printerr ("Loading style from %s\n", resource);
 		else
-			g_signal_connect (css, "parsing-error",
+			g_signal_connect (data->css, "parsing-error",
 					  G_CALLBACK (cb_css_parse_error),
 					  NULL);
 
-		gtk_css_provider_load_from_data	(css, csstext, -1, NULL);
-		g_object_set_data_full (app, app_key, css, g_object_unref);
+		gtk_css_provider_load_from_data	(data->css, csstext, -1, NULL);
+		g_object_set_data_full (app, app_key, data, cb_unload_providers);
 #if !GTK_CHECK_VERSION(3,4,0)
 		g_free (csstext_copy);
 #endif
 	}
 
-	if (screen && !g_object_get_data (G_OBJECT (screen), key)) {
+	if (screen && !g_slist_find (data->screens, screen)) {
 		gtk_style_context_add_provider_for_screen
 			(screen,
-			 GTK_STYLE_PROVIDER (css),
+			 GTK_STYLE_PROVIDER (data->css),
 			 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-		g_object_set_data (G_OBJECT (screen), key, css);
+		data->screens = g_slist_prepend (data->screens, screen);
 	}
 }
 

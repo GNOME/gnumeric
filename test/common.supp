@@ -792,3 +792,11 @@
    ...
    fun:g_settings_backend_get_default
 }
+
+{
+   GLIB/G_QUARK_FROM_STRING
+   Memcheck:Leak
+   malloc
+   g_malloc
+   g_quark_from_string
+}

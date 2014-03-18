@@ -1,5 +1,8 @@
 2014-03-18  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_screen_changed): Plug leak by unloading css
+	providers from screens on exit.
+
 	* src/sheet-style.c (cell_tile_dump): Less debug chatter.
 
 2014-03-17  Morten Welinder  <terra@gnome.org>
