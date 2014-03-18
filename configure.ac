@@ -648,7 +648,7 @@ AC_ARG_WITH(long_double,
 			       ,
 			       AC_MSG_ERROR([libgoffice needs to be compiled with long double support.]))
 
-		AC_CHECK_FUNCS(fabsl sqrtl expl expm1l logl log10l log1pl ceill floorl powl hypotl \
+		AC_CHECK_FUNCS(fabsl sqrtl expl expm1l logl log2l log10l log1pl ceill floorl powl hypotl \
 				sinl cosl tanl asinl acosl atanl atan2l fmodl lgammal lgammal_r \
 				sinhl coshl tanhl asinhl acoshl atanhl \
 				isnanl finitel,

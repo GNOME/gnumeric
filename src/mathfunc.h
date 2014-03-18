@@ -27,7 +27,6 @@ G_BEGIN_DECLS
 
 /* ------------------------------------------------------------------------- */
 
-gnm_float gnm_log2 (gnm_float x);
 gnm_float log1pmx (gnm_float x);
 gnm_float swap_log_tail (gnm_float lp);
 gnm_float pow1p (gnm_float x, gnm_float y);

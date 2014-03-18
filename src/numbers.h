@@ -67,6 +67,7 @@ typedef long double gnm_float;
 #define gnm_log logl
 #define gnm_log10 log10l
 #define gnm_log1p log1pl
+#define gnm_log2 log2l
 #define gnm_modf modfl
 #define gnm_nan go_nanl
 #define gnm_ninf go_ninfl
@@ -178,6 +179,7 @@ typedef double gnm_float;
 #define gnm_log log
 #define gnm_log10 log10
 #define gnm_log1p log1p
+#define gnm_log2 log2
 #define gnm_modf modf
 #define gnm_nan go_nan
 #define gnm_ninf go_ninf

@@ -1,6 +1,6 @@
 2014-03-17  Morten Welinder  <terra@gnome.org>
 
-	* src/mathfunc.c (gnm_log2): Normalize to ]0.5;1], not [0.5;1[.
+	* src/mathfunc.c (gnm_log2): Remove.  Use libm's log2.
 
 2014-03-16  Morten Welinder  <terra@gnome.org>
 
