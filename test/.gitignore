@@ -9,3 +9,9 @@ zzuf.log
 *.pl.log
 *.pl.trs
 test-suite.log
+
+# We don't want to ignore spreadsheet files here.
+!*.gnumeric
+!*.ods
+!*.xls
+!*.xlsx
