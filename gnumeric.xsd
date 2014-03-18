@@ -658,9 +658,11 @@
             <!-- 0 = NONE
                  1 = SINGLE
                  2 = DOUBLE
+                 3 = SINGLE LOW
+                 4 = DOUBLE LOW
             -->
             <xs:minInclusive value="0"/>
-            <xs:maxInclusive value="2"/>
+            <xs:maxInclusive value="4"/>
         </xs:restriction>
     </xs:simpleType>
 
