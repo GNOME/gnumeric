@@ -73,6 +73,20 @@ debug_rv (void)
 	return res > 0;
 }
 
+/*
+ * Some valgrind versions have a hard time with signed bitfields,
+ * such as GnmRenderedValue::rotation.
+ */
+static gboolean
+valgrind_bitfield_workarounds (void)
+{
+	static int res = -1;
+	if (res == -1) {
+		res = gnm_debug_flag ("valgrind-bitfield-workarounds");
+	}
+	return res > 0;
+}
+
 
 static guint16
 calc_indent (PangoContext *context, const GnmStyle *mstyle)
@@ -274,6 +288,11 @@ gnm_rendered_value_new (GnmCell const *cell,
 
 		rrv = CHUNK_ALLOC (GnmRenderedRotatedValue, rendered_rotated_value_pool);
 		res = &rrv->rv;
+		if (valgrind_bitfield_workarounds ()) {
+			memset (&res->go_fore_color + 1,
+				0,
+				(char *)(res + 1) - (char *)(&res->go_fore_color + 1));
+		}
 
 		rrv->linecount = 0;
 		rrv->lines = NULL;

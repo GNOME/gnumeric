@@ -800,3 +800,11 @@
    fun:g_malloc
    fun:g_quark_from_string
 }
+
+{
+   GLIB/G_INTERN_STRING
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_intern_string
+}

@@ -31,6 +31,7 @@ die "$0: usage $0 [valgrind options] gnumeric [gnumeric-options]\n"
     unless $program;
 
 &add_debug_flag ('G_SLICE', 'always-malloc');
+&add_debug_flag ('GNM_DEBUG', 'valgrind-bitfield-workarounds');
 if ($seen_leak_check) {
     &add_debug_flag ('G_DEBUG', 'resident-modules');
     &add_debug_flag ('GNM_DEBUG', 'close-displays');
@@ -51,12 +52,14 @@ sub add_debug_flag {
     my ($var,$flag) = @_;
 
     if (exists $ENV{$var}) {
-	print STDERR "Adding $flag to existing $var\n" if $verbose;
+	foreach my $f2 (split (':', $ENV{$var})) {
+	    return if $f2 eq $flag;
+	}
 	$ENV{$var} .= ":$flag";
     } else {
-	print STDERR "Setting $var=$flag\n" if $verbose;
 	$ENV{$var} = $flag;
     }
+    print STDERR "Setting $var=", $ENV{$var}, "\n" if $verbose;
 }
 
 sub find_topsrc {
