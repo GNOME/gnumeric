@@ -6,6 +6,7 @@
 use strict;
 
 my $dir = $ARGV[0];
+die "$0: missing crlibm directory\n" unless (defined $dir) && -d $dir;
 
 my @funcs =
     (#'acospi',
@@ -23,7 +24,7 @@ my @funcs =
      ['log1p' => 'ln1p'],
      'log2',
      ['log' => 'ln'],
-     ['pow' => 'power'],
+     ['pow' => 'power', sub { $_[0] == 0 && $_[1] == 0; }],
      'sinh',
      'sinpi',
      'sin',
@@ -34,7 +35,7 @@ my @funcs =
 # -----------------------------------------------------------------------------
 
 my $last_func = '';
-my $test_row = 1;
+my @test_lines = ();
 
 sub output_test {
     my ($gfunc,$expr,$res) = @_;
@@ -44,8 +45,8 @@ sub output_test {
     $expr = "=$expr";
     $res = "=$res" if $res =~ /[*^]/;
 
-    my $N = $test_row++;
-    print "\"$gfunc0\",\"$expr\",\"$res\",\"=IF(B$N=C$N,\"\"\"\",IF(C$N=0,-LOG10(ABS(B$N)),-LOG10(ABS((B$N-C$N)/C$N))))\"\n";
+    my $N = 1 + @test_lines;
+    push @test_lines, "\"$gfunc0\",\"$expr\",\"$res\",\"=IF(B$N=C$N,\"\"\"\",IF(C$N=0,-LOG10(ABS(B$N)),-LOG10(ABS((B$N-C$N)/C$N))))\"";
 
     $last_func = $gfunc;
 }
@@ -82,15 +83,21 @@ sub interpret_hex {
 
 # -----------------------------------------------------------------------------
 
+push @test_lines, ("") x (10 + @funcs);
+
+my $func_no = 0;
 foreach (@funcs) {
-    my ($func,$gfunc);
+    my ($func,$gfunc,$filter);
 
     if (ref $_) {
-	($func,$gfunc) = @$_;
+	($func,$gfunc,$filter) = @$_;
     } else {
 	$func = $gfunc = $_;
+	$filter = undef;
     }
     print STDERR "Processing data for $gfunc...\n";
+
+    my $first_row = 1 + @test_lines;
 
     my $fn = "$dir/tests/$func.testdata";
 
@@ -127,10 +134,30 @@ foreach (@funcs) {
 
 	my $res = pop @data;
 
+	next if $filter && &$filter (@data);
+
 	&output_test ($gfunc,
 		      "$gfunc(".join(',', @data).")",
 		      $res);
     }
+
+    my $last_row = @test_lines;
+    if ($last_row >= $first_row) {
+	my $count = $last_row - $first_row + 1;
+	$test_lines[$func_no + 2] =
+	    "$gfunc,$count,\"=min(D${first_row}:D${last_row},99)\"";
+	$func_no++;
+    }
+}
+{
+    my $r0 = 3;
+    my $r1 = $func_no + 2;
+    $test_lines[0] = "\"Function\",\"Number of Tests\",\"Accuracy\",\"=min(C${r0}:C${r1})\"";
+}
+
+
+foreach (@test_lines) {
+    print "$_\n";
 }
 
 # -----------------------------------------------------------------------------
