@@ -1,3 +1,7 @@
+2014-03-18  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.13
+
 2014-03-05  Morten Welinder <terra@gnome.org>
 
 	* t6050-vba-roundtrip.pl: Use new GnumericTest::find_program

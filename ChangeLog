@@ -1,3 +1,7 @@
+2014-03-18  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.13
+
 2014-03-18  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_screen_changed): Plug leak by unloading css
