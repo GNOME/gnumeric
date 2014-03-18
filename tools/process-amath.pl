@@ -9,6 +9,7 @@ my $debug_underflow = 0;
 my $debug_overflow = 0;
 my $debug_arguments = 1;
 my $dir = $ARGV[0];
+die "$0: missing amath directory\n" unless (defined $dir) && -d $dir;
 
 my @test_files =
     ('t_sfd1a.pas',
@@ -225,7 +226,7 @@ my %constants =
 # -----------------------------------------------------------------------------
 
 my $last_func = '';
-my $test_row = 3;
+my @test_lines = ();
 
 sub output_test {
     my ($gfunc,$expr,$res) = @_;
@@ -233,8 +234,8 @@ sub output_test {
     my $gfunc0 = ($gfunc eq $last_func) ? '' : $gfunc;
     $res = "=$res" if $res =~ m{/};
 
-    my $N = $test_row++;
-    print "\"$gfunc0\",\"=$expr\",\"$res\",\"=IF(B$N=C$N,\"\"\"\",IF(C$N=0,-LOG10(ABS(B$N)),-LOG10(ABS((B$N-C$N)/C$N))))\"\n";
+    my $N = 1 + @test_lines;
+    push @test_lines, "\"$gfunc0\",\"=$expr\",\"$res\",\"=IF(B$N=C$N,\"\"\"\",IF(C$N=0,-LOG10(ABS(B$N)),-LOG10(ABS((B$N-C$N)/C$N))))\"";
 
     $last_func = $gfunc;
 }
@@ -324,9 +325,9 @@ sub simplify_val {
 
 # -----------------------------------------------------------------------------
 
-print "WORST,\"\",\"\",=MIN(D3:D65525)\n";
-print "\n";
+push @test_lines, ("") x 100;
 
+my $func_no = 0;
 foreach my $f (@test_files) {
     my $fn = "$dir/tests/$f";
 
@@ -334,6 +335,8 @@ foreach my $f (@test_files) {
 
     my %vars;
     my $expr;
+
+    my $first_row = 1 + @test_lines;
 
     open (my $src, "<", $fn) or die "$0: Cannot read $fn: $!\n";
     while (<$src>) {
@@ -351,6 +354,17 @@ foreach my $f (@test_files) {
 	}
 
 	next unless defined $gfunc;
+
+	if (/^end;/i) {
+	    my $last_row = @test_lines;
+	    if ($last_row >= $first_row) {
+		my $count = $last_row - $first_row + 1;
+		$test_lines[$func_no + 2] =
+		    "$gfunc,$count,\"=min(D${first_row}:D${last_row},99)\"";
+		$func_no++;
+		$first_row = $last_row + 1;
+	    }
+	}
 
 	if (s/^\s*y\s*:=\s*([a-zA-Z0-9_]+)\s*\(([^;{}]+)\)\s*;// &&
 	    $1 eq $afunc) {
@@ -403,6 +417,15 @@ foreach my $f (@test_files) {
 	    }
 	}
     }
+}
+{
+    my $r0 = 3;
+    my $r1 = $func_no + 2;
+    $test_lines[0] = "\"Function\",\"Number of Tests\",\"Accuracy\",\"=min(C${r0}:C${r1})\"";
+}
+
+foreach (@test_lines) {
+    print "$_\n";
 }
 
 # -----------------------------------------------------------------------------
