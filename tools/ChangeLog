@@ -1,3 +1,8 @@
+2014-03-17  Morten Welinder  <terra@gnome.org>
+
+	* news-to-html: Update boilerplate stuff.  Handle links to Redhat
+	bugzilla.
+
 2014-03-03  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.12
