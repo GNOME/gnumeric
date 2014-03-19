@@ -198,7 +198,8 @@ static void
 item_grid_realize (GocItem *item)
 {
 	GdkDisplay *display;
-	GnmItemGrid   *ig;
+	GnmItemGrid *ig;
+	GdkPixbuf *cursor_cross_pixbuf;
 
 	parent_class->realize (item);
 
@@ -207,9 +208,14 @@ item_grid_realize (GocItem *item)
 
 	display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
 	ig->cursor_link  = gdk_cursor_new_for_display (display, GDK_HAND2);
-	ig->cursor_cross = gdk_cursor_new_from_pixbuf (display,
-			gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "cursor_cross", 32, 0, NULL),
-			17, 17);
+	cursor_cross_pixbuf =
+		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
+					  "cursor_cross", 32, 0, NULL);
+	ig->cursor_cross =
+		gdk_cursor_new_from_pixbuf (display,
+					    cursor_cross_pixbuf,
+					    17, 17);
+	g_object_unref (cursor_cross_pixbuf);
 	cb_cursor_motion (ig);
 }
 

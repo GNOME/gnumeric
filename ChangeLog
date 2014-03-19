@@ -1,3 +1,10 @@
+2014-03-18  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (kill_popup_menu): One more try at really killing
+	the context menu after we're done with it.
+
+	* src/item-grid.c (item_grid_realize): Plug leak.
+
 2014-03-18  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

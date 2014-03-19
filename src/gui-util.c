@@ -446,16 +446,17 @@ gnm_gui_group_value (gpointer gui, char const * const group[])
 static gboolean
 cb_delayed_destroy (gpointer w)
 {
+	gtk_widget_destroy (gtk_widget_get_toplevel (w));
 	gtk_widget_destroy (w);
+	g_object_unref (w);
 	return FALSE;
 }
 
 static void
-kill_popup_menu (GtkWidget *widget, G_GNUC_UNUSED GtkMenu *menu)
+kill_popup_menu (GtkWidget *widget, G_GNUC_UNUSED gpointer user)
 {
 	/* gtk+ currently gets unhappy if we destroy here, see bug 725142 */
-	g_idle_add (cb_delayed_destroy,
-		    gtk_widget_get_toplevel (widget));
+	g_idle_add (cb_delayed_destroy, widget);
 }
 
 /**
@@ -475,9 +476,10 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEvent *event)
 	if (event)
 		gtk_menu_set_screen (menu, gdk_event_get_screen (event));
 
+	g_object_ref_sink (menu);
 	g_signal_connect (G_OBJECT (menu),
-		"hide",
-		G_CALLBACK (kill_popup_menu), menu);
+			  "hide",
+			  G_CALLBACK (kill_popup_menu), NULL);
 
 	/* Do NOT pass the button used to create the menu.
 	 * instead pass 0.  Otherwise bringing up a menu with
