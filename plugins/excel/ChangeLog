@@ -3,6 +3,9 @@
 	* xlsx-read.c (xlsx_CT_CustomFilter): Avoid mixing enums.
 	(xlsx_cond_fmt_formula_end): Parse expressions in the right parse
 	position.
+	(xlsx_cond_fmt_rule_begin): Don't complain over type "expression".
+	(xlsx_dxf_numfmt): New function to read conditional number
+	formats.
 
 2014-03-18  Morten Welinder <terra@gnome.org>
 

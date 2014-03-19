@@ -2557,7 +2557,7 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	/* use custom invalid flag, it is not in MS enum */
 	GnmStyleCondOp	op = GNM_STYLE_COND_CUSTOM;
 	XlsxCFTypes	type = XLSX_CF_TYPE_UNDEFINED;
-	char const	*type_str = _("Undefined");
+	char const	*type_str = "-";
 	GnmStyle        *overlay = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -2602,6 +2602,10 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	case XLSX_CF_TYPE_NOT_CONTAINS_ERRORS :
 		/* GnmStyleCondOp and XlsxCFTypes share these. */
 		op = (GnmStyleCondOp)type;
+		break;
+
+	case XLSX_CF_TYPE_EXPRESSION:
+		op = GNM_STYLE_COND_CUSTOM;
 		break;
 
 	default :
@@ -3944,7 +3948,7 @@ GSF_XML_IN_NODE_END
 /****************************************************************************/
 
 static void
-xlsx_style_numfmt (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_numfmt_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean apply)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	xmlChar const *fmt = NULL;
@@ -3956,9 +3960,18 @@ xlsx_style_numfmt (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (0 == strcmp (attrs[0], "formatCode"))
 			fmt = attrs[1];
 
-	if (NULL != id && NULL != fmt)
-		g_hash_table_replace (state->num_fmts, g_strdup (id),
-			go_format_new_from_XL (fmt));
+	if (NULL != id && NULL != fmt) {
+		GOFormat *gfmt = go_format_new_from_XL (fmt);
+		if (apply)
+			gnm_style_set_format (state->style_accum, gfmt);
+		g_hash_table_replace (state->num_fmts, g_strdup (id), gfmt);
+	}
+}
+
+static void
+xlsx_style_numfmt (GsfXMLIn *xin, xmlChar const **attrs)	
+{
+	xlsx_numfmt_common (xin, attrs, FALSE);
 }
 
 enum {
@@ -4525,6 +4538,13 @@ xlsx_dxf_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 	xlsx_col_elem_end (xin, blob);
 }
 
+static void
+xlsx_dxf_numfmt (GsfXMLIn *xin, xmlChar const **attrs)	
+{
+	xlsx_numfmt_common (xin, attrs, TRUE);
+}
+
+
 static GsfXMLInNode const xlsx_styles_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -4614,12 +4634,12 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
   GSF_XML_IN_NODE_FULL (STYLE_INFO, PARTIAL_XFS, XL_NS_SS, "dxfs", GSF_XML_NO_CONTENT,
 			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_DXFS),
     GSF_XML_IN_NODE (PARTIAL_XFS, PARTIAL_XF, XL_NS_SS, "dxf", GSF_XML_NO_CONTENT, &xlsx_dxf_begin, &xlsx_dxf_end),
-      GSF_XML_IN_NODE (PARTIAL_XF, NUM_FMT, XL_NS_SS, "numFmt", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+      GSF_XML_IN_NODE (PARTIAL_XF, DXF_NUM_FMT, XL_NS_SS, "numFmt", GSF_XML_NO_CONTENT, &xlsx_dxf_numfmt, NULL),
       GSF_XML_IN_NODE (PARTIAL_XF, FONT,    XL_NS_SS, "font", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
       GSF_XML_IN_NODE (PARTIAL_XF, FILL,    XL_NS_SS, "fill", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
       GSF_XML_IN_NODE (PARTIAL_XF, BORDER,  XL_NS_SS, "border", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-      GSF_XML_IN_NODE (PARTIAL_XF, DXF_ALIGNMENT, XL_NS_SS, "alignment", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (PARTIAL_XF, DXF_PROTECTION, XL_NS_SS, "protection", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (PARTIAL_XF, DXF_ALIGNMENT, XL_NS_SS, "alignment", GSF_XML_NO_CONTENT, &xlsx_xf_align, NULL),
+      GSF_XML_IN_NODE (PARTIAL_XF, DXF_PROTECTION, XL_NS_SS, "protection", GSF_XML_NO_CONTENT, &xlsx_xf_protect, NULL),
       GSF_XML_IN_NODE (PARTIAL_XF, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),                 /* 2nd Def */
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, TABLE_STYLES, XL_NS_SS, "tableStyles", GSF_XML_NO_CONTENT,
