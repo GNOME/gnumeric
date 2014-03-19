@@ -1,3 +1,7 @@
+2014-03-19  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_CT_CustomFilter): Avoid mixing enums.
+
 2014-03-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.13

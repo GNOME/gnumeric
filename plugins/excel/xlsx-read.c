@@ -2280,7 +2280,7 @@ xlsx_CT_CustomFilter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const *
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int tmp;
-	GnmFilterOp op = GNM_STYLE_COND_EQUAL;
+	GnmFilterOp op = GNM_FILTER_OP_EQUAL;
 	GnmValue *v = NULL;
 	GnmFilterCondition *cond;
 	GODateConventions const *date_conv = workbook_date_conv (state->wb);
