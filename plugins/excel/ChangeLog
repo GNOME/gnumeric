@@ -1,6 +1,8 @@
 2014-03-19  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_CT_CustomFilter): Avoid mixing enums.
+	(xlsx_cond_fmt_formula_end): Parse expressions in the right parse
+	position.
 
 2014-03-18  Morten Welinder <terra@gnome.org>
 
