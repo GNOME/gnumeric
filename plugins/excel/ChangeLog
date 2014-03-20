@@ -1,5 +1,7 @@
 2014-03-19  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_write_dxfs): New function.
+
 	* xlsx-read.c (xlsx_CT_CustomFilter): Avoid mixing enums.
 	(xlsx_cond_fmt_formula_end): Parse expressions in the right parse
 	position.
