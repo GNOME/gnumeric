@@ -812,6 +812,81 @@ xlsx_write_border (XLSXWriteState *state, GsfXMLOut *xml, GnmBorder *border, Gnm
 	gsf_xml_out_end_element (xml);
 }
 
+static gboolean
+xlsx_has_border_style (GnmStyle const *style)
+{
+	return (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP) ||
+		gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM) ||
+		gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT) ||
+		gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT) ||
+		gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL) ||
+		gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL));
+}
+
+static void
+xlsx_write_full_border (XLSXWriteState *state, GsfXMLOut *xml,
+			GnmStyle const *style)
+{
+	gboolean diagonal_border_written = FALSE;
+	gsf_xml_out_start_element (xml, "border");
+	if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
+		GnmBorder *border = gnm_style_get_border
+			(style, MSTYLE_BORDER_DIAGONAL);
+		gsf_xml_out_add_bool
+			(xml, "diagonalUp",
+			 (border && border->line_type != GNM_STYLE_BORDER_NONE));
+	}
+	if (gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL)) {
+		GnmBorder *border = gnm_style_get_border
+			(style, MSTYLE_BORDER_REV_DIAGONAL);
+		gsf_xml_out_add_bool
+			(xml, "diagonalDown",
+			 (border && border->line_type != GNM_STYLE_BORDER_NONE));
+	}
+	if (gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT))
+		xlsx_write_border (state, xml,
+				   gnm_style_get_border
+				   (style, MSTYLE_BORDER_LEFT),
+				   MSTYLE_BORDER_LEFT);
+	if (gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT))
+		xlsx_write_border (state, xml,
+				   gnm_style_get_border
+				   (style, MSTYLE_BORDER_RIGHT),
+				   MSTYLE_BORDER_RIGHT);
+	if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP))
+		xlsx_write_border (state, xml,
+				   gnm_style_get_border
+				   (style, MSTYLE_BORDER_TOP),
+				   MSTYLE_BORDER_TOP);
+	if (gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM))
+		xlsx_write_border (state, xml,
+				   gnm_style_get_border
+				   (style, MSTYLE_BORDER_BOTTOM),
+				   MSTYLE_BORDER_BOTTOM);
+	if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
+		GnmBorder *border = gnm_style_get_border
+			(style, MSTYLE_BORDER_DIAGONAL);
+		if (border && border->line_type != GNM_STYLE_BORDER_NONE) {
+			diagonal_border_written = TRUE;
+			xlsx_write_border (state, xml,
+					   border,
+					   MSTYLE_BORDER_DIAGONAL);
+		}
+	}
+	if (!diagonal_border_written &&
+	    gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL)) {
+		GnmBorder *border = gnm_style_get_border
+			(style, MSTYLE_BORDER_REV_DIAGONAL);
+		if (border && border->line_type != GNM_STYLE_BORDER_NONE) {
+			xlsx_write_border (state, xml,
+					   border,
+					   MSTYLE_BORDER_REV_DIAGONAL);
+		}
+	}
+	gsf_xml_out_end_element (xml); /* border */
+}
+
+
 static GHashTable *
 xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 {
@@ -821,12 +896,7 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 
 	for (i = 0 ; i < state->styles_array->len ; i++) {
 		GnmStyle const *style = g_ptr_array_index (state->styles_array, i);
-		if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
+		if (xlsx_has_border_style (style)) {
 			gint border_n = xlsx_find_border (style, styles_w_border);
 			if (border_n < 0) {
 				g_ptr_array_add (styles_w_border, (gpointer)style);
@@ -841,65 +911,9 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 	if (styles_w_border->len > 0) {
 		gsf_xml_out_start_element (xml, "borders");
 		gsf_xml_out_add_int (xml, "count", styles_w_border->len);
-		for (i = 0 ; i < styles_w_border->len ; i++) {
+		for (i = 0; i < styles_w_border->len; i++) {
 			GnmStyle const *style = g_ptr_array_index (styles_w_border, i);
-			gboolean diagonal_border_written = FALSE;
-			gsf_xml_out_start_element (xml, "border");
-			if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
-				GnmBorder *border = gnm_style_get_border
-					(style, MSTYLE_BORDER_DIAGONAL);
-				gsf_xml_out_add_bool
-					(xml, "diagonalUp",
-					 (border && border->line_type != GNM_STYLE_BORDER_NONE));
-			}
-			if (gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL)) {
-				GnmBorder *border = gnm_style_get_border
-					(style, MSTYLE_BORDER_REV_DIAGONAL);
-				gsf_xml_out_add_bool
-					(xml, "diagonalDown",
-					 (border && border->line_type != GNM_STYLE_BORDER_NONE));
-			}
-			if (gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT))
-				xlsx_write_border (state, xml,
-						   gnm_style_get_border
-						   (style, MSTYLE_BORDER_LEFT),
-						   MSTYLE_BORDER_LEFT);
-			if (gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT))
-				xlsx_write_border (state, xml,
-						   gnm_style_get_border
-						   (style, MSTYLE_BORDER_RIGHT),
-						   MSTYLE_BORDER_RIGHT);
-			if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP))
-				xlsx_write_border (state, xml,
-						   gnm_style_get_border
-						   (style, MSTYLE_BORDER_TOP),
-						   MSTYLE_BORDER_TOP);
-			if (gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM))
-				xlsx_write_border (state, xml,
-						   gnm_style_get_border
-						   (style, MSTYLE_BORDER_BOTTOM),
-						   MSTYLE_BORDER_BOTTOM);
-			if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
-				GnmBorder *border = gnm_style_get_border
-					(style, MSTYLE_BORDER_DIAGONAL);
-				if (border && border->line_type != GNM_STYLE_BORDER_NONE) {
-					diagonal_border_written = TRUE;
-					xlsx_write_border (state, xml,
-						   border,
-						   MSTYLE_BORDER_DIAGONAL);
-				}
-			}
-			if (!diagonal_border_written &&
-			    gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL)) {
-				GnmBorder *border = gnm_style_get_border
-					(style, MSTYLE_BORDER_REV_DIAGONAL);
-				if (border && border->line_type != GNM_STYLE_BORDER_NONE) {
-					xlsx_write_border (state, xml,
-						   border,
-						   MSTYLE_BORDER_REV_DIAGONAL);
-				}
-			}
-			gsf_xml_out_end_element (xml); /* border */
+			xlsx_write_full_border (state, xml, style);
 		}
 		gsf_xml_out_end_element (xml);
 	}
@@ -1111,6 +1125,8 @@ xlsx_write_dxfs (XLSXWriteState *state, GsfXMLOut *xml,
 			GOFormat const *format = gnm_style_get_format (style);
 			xlsx_write_num_format (state, xml, format, id++);
 		}
+		if (xlsx_has_border_style (style))
+			xlsx_write_full_border (state, xml, style);
 
 		gsf_xml_out_end_element (xml);
 	}
