@@ -10,8 +10,11 @@ use GnumericTest;
 my $format = "Gnumeric_Excel:xlsx";
 # FIXME: until get figure out how to check xlsx files against a schema,
 # this is a very limited test.
-#my $schema = ..;
-#&GnumericTest::report_skip ("Cannot find schema") unless -r $schema;
+my $schema = "$topsrc/test/ooxml-schema/sml.xsd";
+if (!-r $schema) {
+    &message ("Schema $schema not found");
+    $schema = undef;
+}
 
 my $xmllint = &GnumericTest::find_program ("xmllint");
 my $unzip = &GnumericTest::find_program ("unzip");
@@ -74,6 +77,9 @@ my $nskipped = 0;
 my $ngood = 0;
 my $nbad = 0;
 
+my $checker = "$xmllint --noout";
+$checker .= " --schema $schema" if defined $schema;
+
 foreach my $src (@sources) {
     if (!-r $src) {
 	$nskipped++;
@@ -111,8 +117,8 @@ foreach my $src (@sources) {
     }
 
     for my $member (@check_members) {
-	my $out = `$unzip -p $tmp $member | $xmllint --noout - 2>&1`;
-	if ($out ne '') {
+	my $out = `$unzip -p $tmp $member | $checker - 2>&1`;
+	if ($out ne '' && $out !~ /validates$/) {
 	    print STDERR "While checking $member from $tmp:\n";
 	    &GnumericTest::dump_indented ($out);
 	    $nbad++;
