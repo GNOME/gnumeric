@@ -2534,13 +2534,16 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "uniqueValues",	XLSX_CF_TYPE_UNIQUE_VALUES },
 		{ "duplicateValues",	XLSX_CF_TYPE_DUPLICATE_VALUES },
 		{ "containsText",	XLSX_CF_TYPE_CONTAINS_STR },
-		{ "doesNotContainText",	XLSX_CF_TYPE_NOT_CONTAINS_STR },
+		{ "doesNotContainText",	XLSX_CF_TYPE_NOT_CONTAINS_STR },  /* ??? */
+		{ "notContainsText",	XLSX_CF_TYPE_NOT_CONTAINS_STR },
 		{ "beginsWith",		XLSX_CF_TYPE_BEGINS_WITH },
 		{ "endsWith",		XLSX_CF_TYPE_ENDS_WITH },
 		{ "containsBlanks",	XLSX_CF_TYPE_CONTAINS_BLANKS },
-		{ "containsNoBlanks",	XLSX_CF_TYPE_NOT_CONTAINS_BLANKS },
+		{ "containsNoBlanks",	XLSX_CF_TYPE_NOT_CONTAINS_BLANKS },  /* ??? */
+		{ "notContainsBlanks",	XLSX_CF_TYPE_NOT_CONTAINS_BLANKS },
 		{ "containsErrors",	XLSX_CF_TYPE_CONTAINS_ERRORS },
-		{ "containsNoErrors",	XLSX_CF_TYPE_NOT_CONTAINS_ERRORS },
+		{ "containsNoErrors",	XLSX_CF_TYPE_NOT_CONTAINS_ERRORS },  /* ??? */
+		{ "notContainsErrors",	XLSX_CF_TYPE_NOT_CONTAINS_ERRORS },
 		{ "compareColumns",	XLSX_CF_TYPE_COMPARE_COLUMNS },
 		{ "timePeriod",		XLSX_CF_TYPE_TIME_PERIOD },
 		{ "aboveAverage",	XLSX_CF_TYPE_ABOVE_AVERAGE },

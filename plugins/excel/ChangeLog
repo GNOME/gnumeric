@@ -1,3 +1,9 @@
+2014-03-20  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_background): Be careful about fields
+	ordering.  Excel cares.
+	(xlsx_write_cond_rule): Fix misunderstanding about type names.
+
 2014-03-19  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_find_predefined_fill): Take care not to drop

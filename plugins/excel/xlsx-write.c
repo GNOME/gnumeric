@@ -637,6 +637,8 @@ xlsx_write_background (XLSXWriteState *state, GsfXMLOut *xml,
 	 * for dxfs with solid fills for no apparent reason.
 	 */
 	gboolean invert = FALSE;
+	GnmColor *fg;
+	GnmColor *bg;
 
 	gsf_xml_out_start_element (xml, "fill");
 	gsf_xml_out_start_element (xml, "patternFill");
@@ -652,17 +654,22 @@ xlsx_write_background (XLSXWriteState *state, GsfXMLOut *xml,
 		gsf_xml_out_add_cstr_unchecked (xml, "patternType", type);
 	}
 
-	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
-		xlsx_write_color_element
-			(xml,
-			 invert ? "bgColor" : "fgColor",
-			 gnm_style_get_back_color (style)->go_color);
+	fg = gnm_style_is_element_set (style, MSTYLE_COLOR_BACK)
+		? gnm_style_get_back_color (style)
+		: NULL;
+	bg = gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN)
+		? gnm_style_get_pattern_color (style)
+		: NULL;
+	if (invert) {
+		GnmColor *tmp = fg;
+		fg = bg;
+		bg = tmp;
+	}
 
-	if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
-		xlsx_write_color_element
-			(xml,
-			 invert ? "fgColor" : "bgColor",
-			 gnm_style_get_pattern_color (style)->go_color);
+	if (fg)
+		xlsx_write_color_element (xml, "fgColor", fg->go_color);
+	if (bg)
+		xlsx_write_color_element (xml, "bgColor", bg->go_color);
 
 	gsf_xml_out_end_element (xml);
 	gsf_xml_out_end_element (xml);
@@ -1587,13 +1594,13 @@ xlsx_write_cond_rule (XLSXWriteState *state, GsfXMLOut *xml,
 		n = 0; type = "containsBlanks";
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
-		n = 0; type = "containsNoBlanks";
+		n = 0; type = "notContainsBlanks";
 		break;
 	case GNM_STYLE_COND_CONTAINS_ERR:
 		n = 0; type = "containsErrors";
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
-		n = 0; type = "containsNoErrors";
+		n = 0; type = "notContainsErrors";
 		break;
 	case GNM_STYLE_COND_CUSTOM:
 		n = 1; type = "expression";
@@ -1602,7 +1609,7 @@ xlsx_write_cond_rule (XLSXWriteState *state, GsfXMLOut *xml,
 		n = 1; type = "containsText";
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_STR:
-		n = 1; type = "doesNotContainText";
+		n = 1; type = "notContainsText";
 		break;
 	case GNM_STYLE_COND_BEGINS_WITH_STR:
 		n = 1; type = "beginsWith";
