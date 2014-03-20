@@ -42,5 +42,4 @@ my $xls_cond_format_filter = "$PERL -p -e 'if (m{<gnm:Condition\\b} ... m{</gnm:
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:xlsx',
 		 'ext' => "xlsx",
-		 'resize' => '1048576x16384',
-		 'ignore_failure' => 1);
+		 'resize' => '1048576x16384');

@@ -239,15 +239,23 @@ xlsx_write_predefined_fills (GsfXMLOut *xml)
 static gint
 xlsx_find_predefined_fill (GnmStyle const *style)
 {
+	gboolean pattern_is_std =
+		(!gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN) ||
+		 gnm_style_get_pattern_color (style)->go_color == GO_COLOR_BLACK);
+	gboolean back_is_std =
+		(!gnm_style_is_element_set (style, MSTYLE_COLOR_BACK) ||
+		 gnm_style_get_back_color (style)->go_color == GO_COLOR_WHITE);
+
 	if (gnm_style_is_element_set (style, MSTYLE_PATTERN) &&
-	    gnm_style_get_pattern (style) == 0 )
+	    gnm_style_get_pattern (style) == 0 &&
+	    pattern_is_std &&
+	    back_is_std)
 		return 0;
 	if (gnm_style_is_element_set (style, MSTYLE_PATTERN) &&
 	    gnm_style_get_pattern (style) == 5 &&
-	    (!gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN) ||
-	     gnm_style_get_pattern_color (style)->go_color == GO_COLOR_BLACK) &&
-	    (!gnm_style_is_element_set (style, MSTYLE_COLOR_BACK) ||
-	     gnm_style_get_back_color (style)->go_color == GO_COLOR_WHITE))
+	    pattern_is_std &&
+	    back_is_std
+	    )
 		return 1;
 
 	return -1;
@@ -623,33 +631,39 @@ static void
 xlsx_write_background (XLSXWriteState *state, GsfXMLOut *xml,
 		       GnmStyle const *style, gboolean invert_solid)
 {
-	/* MAGIC :
-	 * Looks like pattern background and forground colours are inverted for
-	 * dxfs with solid fills for no apparent reason. */
+	/*
+	 * MAGIC:
+	 * Looks like pattern background and forground colours are inverted
+	 * for dxfs with solid fills for no apparent reason.
+	 */
+	gboolean invert = FALSE;
 
 	gsf_xml_out_start_element (xml, "fill");
 	gsf_xml_out_start_element (xml, "patternFill");
 	if (gnm_style_is_element_set (style, MSTYLE_PATTERN)) {
 		gint pattern = gnm_style_get_pattern (style);
+		const char *type;
 		if (pattern <= 0 || pattern > (gint)G_N_ELEMENTS (pats)) {
-			gsf_xml_out_add_cstr_unchecked (xml, "patternType",
-							"none");
+			type = "none";
 		} else {
-			gboolean invert = (pattern == 1 && invert_solid);
-			gsf_xml_out_add_cstr_unchecked (xml, "patternType",
-							pats[pattern - 1]);
-			if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
-				xlsx_write_color_element
-					(xml,
-					 invert ? "bgColor" : "fgColor",
-					 gnm_style_get_back_color (style)->go_color);
-			if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
-				xlsx_write_color_element
-					(xml,
-					 invert ? "fgColor" : "bgColor",
-					 gnm_style_get_pattern_color (style)->go_color);
+			invert = (pattern == 1 && invert_solid);
+			type = pats[pattern - 1];
 		}
+		gsf_xml_out_add_cstr_unchecked (xml, "patternType", type);
 	}
+
+	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
+		xlsx_write_color_element
+			(xml,
+			 invert ? "bgColor" : "fgColor",
+			 gnm_style_get_back_color (style)->go_color);
+
+	if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
+		xlsx_write_color_element
+			(xml,
+			 invert ? "fgColor" : "bgColor",
+			 gnm_style_get_pattern_color (style)->go_color);
+
 	gsf_xml_out_end_element (xml);
 	gsf_xml_out_end_element (xml);
 }

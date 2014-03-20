@@ -1,5 +1,8 @@
 2014-03-19  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_find_predefined_fill): Take care not to drop
+	a background colour even if we have a "none" fill.
+
 	* xlsx-read.c (xlsx_cond_fmt_rule_end): Reverse the
 	alternate-expression uses for certain conditions.
 
