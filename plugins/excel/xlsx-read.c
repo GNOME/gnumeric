@@ -2626,6 +2626,9 @@ xlsx_cond_fmt_rule_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (gnm_style_cond_is_valid (state->cond)) {
 			if (NULL == state->conditions)
 				state->conditions = gnm_style_conditions_new (state->sheet);
+			/* Reverse the alternate-expression treatment.  */
+			gnm_style_cond_canonicalize (state->cond);
+
 			gnm_style_conditions_insert (state->conditions,
 						     state->cond, -1);
 		}

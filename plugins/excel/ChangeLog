@@ -1,5 +1,8 @@
 2014-03-19  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read.c (xlsx_cond_fmt_rule_end): Reverse the
+	alternate-expression uses for certain conditions.
+
 	* xlsx-write.c (xlsx_write_dxfs): New function.
 
 	* xlsx-read.c (xlsx_CT_CustomFilter): Avoid mixing enums.
