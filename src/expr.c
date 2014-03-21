@@ -1841,8 +1841,6 @@ gnm_expr_as_string (GnmExpr const *expr, GnmParsePos const *pp,
 	/*
 	 * Defaults for debugging only!
 	 */
-	if (!convs)
-		convs = gnm_conventions_default;
 	if (!pp) {
 		/* UGH: Just get the first sheet in the first workbook! */
 		Workbook *wb = gnm_app_workbook_get_by_index (0);
@@ -1850,6 +1848,10 @@ gnm_expr_as_string (GnmExpr const *expr, GnmParsePos const *pp,
 		parse_pos_init (&pp0, NULL, sheet, 0, 0);
 		pp = &pp0;
 	}
+	if (!convs)
+		convs = pp->sheet
+			? sheet_get_conventions (pp->sheet)
+			: gnm_conventions_default;
 
 	out.accum = g_string_new (NULL);
 	out.pp    = pp;
