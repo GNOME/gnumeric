@@ -7,7 +7,7 @@ value2perl(const GnmValue *v)
 
 	switch (v->type) {
 	case VALUE_BOOLEAN:
-		sv = newSViv(v->v_bool.val);
+		sv = newSViv(value_get_as_int (v));
 		break;
 
 	case VALUE_FLOAT:

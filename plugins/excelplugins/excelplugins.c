@@ -283,7 +283,7 @@ copy_construct_xloper_from_gnm_value (XLOPER*out, const GnmValue*in,
 			break;
 		case VALUE_BOOLEAN:
 			out->xltype = xltypeBool;
-			out->val.boolean = (WORD)in->v_bool.val;
+			out->val.boolean = (WORD)value_get_as_checked_bool (in);
 			break;
 		case VALUE_FLOAT:
 			out->xltype = xltypeNum;
@@ -295,7 +295,7 @@ copy_construct_xloper_from_gnm_value (XLOPER*out, const GnmValue*in,
 			break;
 		case VALUE_STRING:
 			out->xltype = xltypeStr;
-			out->val.str = pascal_string_from_c_string (in->v_str.val->str);
+			out->val.str = pascal_string_from_c_string (value_peek_string (in));
 			break;
 		case VALUE_CELLRANGE: {
 			GnmSheetRange sr;

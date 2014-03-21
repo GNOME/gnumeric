@@ -117,7 +117,7 @@ xls_write_pivot_cache_value (ExcelWriteState *ewb, GOVal const *v)
 			break;
 
 		case VALUE_BOOLEAN:
-			ms_biff_put_2byte (ewb->bp, BIFF_SXBOOL, v->v_bool.val);
+			ms_biff_put_2byte (ewb->bp, BIFF_SXBOOL, value_get_as_int (v));
 			break;
 
 		case VALUE_FLOAT: {
@@ -126,7 +126,8 @@ xls_write_pivot_cache_value (ExcelWriteState *ewb, GOVal const *v)
 				xls_write_pivot_cache_date_value (ewb, v);
 			else {
 				guint8 *data = ms_biff_put_len_next (ewb->bp, BIFF_SXNUM, 8);
-				GSF_LE_SET_DOUBLE (data, v->v_float.val);
+				double d = value_get_as_float (v);
+				GSF_LE_SET_DOUBLE (data, d);
 				ms_biff_put_commit (ewb->bp);
 			}
 			break;

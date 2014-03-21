@@ -3382,7 +3382,7 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 			GSF_LE_SET_GUINT8 (data + 6, excel_write_map_errcode (v));
 			GSF_LE_SET_GUINT8 (data + 7, 1); /* Mark as a err */
 		} else {
-			GSF_LE_SET_GUINT8 (data + 6, v->v_bool.val ? 1 : 0);
+			GSF_LE_SET_GUINT8 (data + 6, value_get_as_int (v));
 			GSF_LE_SET_GUINT8 (data + 7, 0); /* Mark as a bool */
 		}
 		ms_biff_put_commit (ewb->bp);
@@ -3507,7 +3507,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 
 	case VALUE_BOOLEAN:
 		GSF_LE_SET_GUINT32 (data +  6,
-				    v->v_bool.val ? 0x10001 : 0x1);
+				    value_get_as_checked_bool (v) ? 0x10001 : 0x1);
 		GSF_LE_SET_GUINT32 (data + 10, 0xffff0000);
 		break;
 

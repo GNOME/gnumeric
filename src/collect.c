@@ -335,7 +335,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 		if (cl->flags & COLLECT_IGNORE_BOOLS)
 			ignore = TRUE;
 		else if (cl->flags & COLLECT_ZEROONE_BOOLS)
-			x = (value->v_bool.val) ? 1. : 0.;
+			x = value_get_as_float (value);
 		else
 			return value_new_error_VALUE (ep);
 		break;

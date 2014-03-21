@@ -774,7 +774,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		case VALUE_BOOLEAN : {
 			guint8 data[2];
 			GSF_LE_SET_GUINT8 (data, FORMULA_PTG_BOOL);
-			GSF_LE_SET_GUINT8 (data+1, v->v_bool.val ? 1 : 0);
+			GSF_LE_SET_GUINT8 (data+1, value_get_as_int (v));
 			ms_biff_put_var_write (pd->ewb->bp, data, 2);
 			break;
 		}
@@ -955,7 +955,7 @@ write_arrays (PolishData *pd)
 					push_guint32 (pd, 0);
 				} else if (VALUE_IS_BOOLEAN (v)) {
 					push_guint8 (pd, 4);
-					push_guint32 (pd, v->v_bool.val ? 1 : 0);
+					push_guint32 (pd, value_get_as_int (v));
 					push_guint32 (pd, 0);
 				} else if (VALUE_IS_ERROR (v)) {
 					push_guint8 (pd, 16);

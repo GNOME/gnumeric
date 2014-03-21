@@ -1458,11 +1458,19 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 
 				switch (val->type) {
 				default :
-				case VALUE_EMPTY :	type = NULL; break; /* FIXME : what to do ? */
-				case VALUE_BOOLEAN :	type = "b"; break;
-				case VALUE_FLOAT :	type = ""; break; /* "n" is the default */
-				case VALUE_ERROR :	type = "e"; break;
-				case VALUE_STRING :
+				case VALUE_EMPTY:
+					type = NULL; /* FIXME : what to do ? */
+					break;
+				case VALUE_BOOLEAN:
+					type = "b";
+					break;
+				case VALUE_FLOAT:
+					type = ""; /* "n" is the default */
+					break;
+				case VALUE_ERROR:
+					type = "e";
+					break;
+				case VALUE_STRING:
 					/* A reasonable approximation of * 'is_shared'.  It can get spoofed by
 					 * rich text references to a base * string */
 					if (go_string_get_ref_count (val->v_str.val) > 1) {
@@ -1476,8 +1484,10 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 					} else
 						type = "str";
 					break;
-				case VALUE_CELLRANGE :
-				case VALUE_ARRAY :	type = NULL; break;	/* FIXME */
+				case VALUE_CELLRANGE:
+				case VALUE_ARRAY:
+					type = NULL; /* FIXME */
+					break;
 				}
 
 				if (NULL != type && *type)
@@ -1509,13 +1519,14 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 					if (str_id >= 0) {
 						gsf_xml_out_add_int (xml, NULL, str_id);
 						str_id = -1;
-					} else if (val->type != VALUE_BOOLEAN) {
+					} else if (VALUE_IS_BOOLEAN (val)) {
+						xlsx_add_bool (xml, NULL, value_get_as_int (val));
+					} else {
 						GString *str = g_string_new (NULL);
 						value_get_as_gstring (cell->value, str, state->convs);
 						gsf_xml_out_add_cstr (xml, NULL, str->str);
 						g_string_free (str, TRUE);
-					} else
-						xlsx_add_bool (xml, NULL, val->v_bool.val);
+					}
 					gsf_xml_out_end_element (xml); /* </v> */
 				}
 

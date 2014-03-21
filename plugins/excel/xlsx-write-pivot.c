@@ -49,7 +49,7 @@ xlsx_write_pivot_val (XLSXWriteState *state, GsfXMLOut *xml,
 
 	case VALUE_BOOLEAN:
 		gsf_xml_out_start_element (xml, "b");
-		xlsx_add_bool (xml, "v", v->v_bool.val);
+		xlsx_add_bool (xml, "v", value_get_as_int (v));
 		gsf_xml_out_end_element (xml);
 		break;
 
