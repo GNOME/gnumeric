@@ -609,8 +609,9 @@ gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
 		negate = TRUE;  /* ...and fall through */
 	case GNM_STYLE_COND_CONTAINS_STR:
 		res = (cv &&
-		       strstr (value_peek_string (cv),
-			       value_peek_string (val0)) != NULL);
+		       gnm_excel_search_impl (value_peek_string (val0),
+					      value_peek_string (cv),
+					      0) >= 0);
 		break;
 
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
