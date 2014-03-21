@@ -375,6 +375,55 @@ gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags,
 	return retval;
 }
 
+/**
+ * gnm_excel_search_impl:
+ *
+ * @needle: the pattern to search for, see gnm_regcomp_XL.
+ * @haystack: the string to search in.
+ * @skip: zero-based search start point in characters.
+ *
+ * Returns: -1 for a non-match, or zero-based location in
+ * characters.
+ *
+ * The is the implementation of Excel's SEARCH function.
+ * However, note that @skip and return value are zero-based.
+ */
+int
+gnm_excel_search_impl (const char *needle, const char *haystack,
+		       size_t skip)
+{
+	const char *hay2;
+	size_t i;
+	GORegexp r;
+
+	for (i = skip, hay2 = haystack; i > 0; i--) {
+		if (*hay2 == 0)
+			return -1;
+		hay2 = g_utf8_next_char (hay2);
+	}
+
+	if (gnm_regcomp_XL (&r, needle, GO_REG_ICASE, FALSE, FALSE) == GO_REG_OK) {
+		GORegmatch rm;
+
+		switch (go_regexec (&r, hay2, 1, &rm, 0)) {
+		case GO_REG_NOMATCH:
+			break;
+		case GO_REG_OK:
+			go_regfree (&r);
+			return skip +
+				g_utf8_pointer_to_offset (hay2, hay2 + rm.rm_so);
+		default:
+			g_warning ("Unexpected go_regexec result");
+		}
+		go_regfree (&r);
+	} else {
+		g_warning ("Unexpected regcomp result");
+	}
+
+	return -1;
+}
+
+
 #if 0
 static char const *
 color_to_string (PangoColor color)

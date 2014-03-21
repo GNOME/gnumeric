@@ -1,5 +1,8 @@
 2014-03-21  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (gnm_excel_search_impl): New function, extracted
+	from fn-string.
+
 	* src/style-conditions.c (generate_end_match): Use case
 	insensitive comparison.  Pull negation into the operator.
 	(gnm_style_cond_eval): "Start with..." and "Ends with..." are case

@@ -1,3 +1,7 @@
+2014-03-21  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_search): Use gnm_excel_search_impl.
+
 2014-03-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.13

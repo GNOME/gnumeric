@@ -26,6 +26,8 @@ long gnm_utf8_strtol (const char *s, char **end);
 
 int gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags,
 		    gboolean anchor_start, gboolean anchor_end);
+int gnm_excel_search_impl (const char *needle, const char *haystack,
+			   size_t skip);
 
 gboolean gnm_pango_attr_list_equal (PangoAttrList const *l1, PangoAttrList const *l2);
 
