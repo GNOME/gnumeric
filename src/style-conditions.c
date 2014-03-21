@@ -318,16 +318,20 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 			  gnm_expr_new_cellref (&self)));
 		break;
 
-	case GNM_STYLE_COND_CONTAINS_BLANKS:
-		negate = TRUE; /* ...and fall through */
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
-		/* This is imperfect.  Here we only look for space.  */
-		expr = gnm_expr_new_funcall1
-			(gnm_func_lookup_or_add_placeholder ("ISERROR"),
-			 gnm_expr_new_funcall2
-			 (gnm_func_lookup_or_add_placeholder ("FIND"),
-			  gnm_expr_new_constant (value_new_string (" ")),
-			  gnm_expr_new_cellref (&self)));
+		negate = TRUE; /* ...and fall through */
+	case GNM_STYLE_COND_CONTAINS_BLANKS:
+		/* This means blanks-only */
+
+		expr = gnm_expr_new_binary
+			(gnm_expr_new_funcall1
+			 (gnm_func_lookup_or_add_placeholder ("LEN"),
+			  gnm_expr_new_funcall1
+			  (gnm_func_lookup_or_add_placeholder ("TRIM"),
+			   gnm_expr_new_cellref (&self))),
+			 negate ? GNM_EXPR_OP_GT : GNM_EXPR_OP_EQUAL,
+			 gnm_expr_new_constant (value_new_int (0)));
+		negate = FALSE;
 		break;
 
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
@@ -470,20 +474,29 @@ gnm_style_cond_canonicalize (GnmStyleCond *cond)
 		   GNM_EXPR_GET_OPER (expr2) == GNM_EXPR_OP_FUNCALL &&
 		   expr2->func.argc == 2 && expr2->func.func == find &&
 		   isself (expr2->func.argv[1])) {
-		GnmValue const *v =
-			gnm_expr_get_constant (expr2->func.argv[0]);
+		texpr = gnm_expr_top_new (gnm_expr_copy (expr2->func.argv[0]));
+		newop = negate
+			? GNM_STYLE_COND_CONTAINS_STR
+			: GNM_STYLE_COND_NOT_CONTAINS_STR;
+	} else if ((GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_EQUAL ||
+		    GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_GT) &&
+		   (v = gnm_expr_get_constant (expr->binary.value_b)) &&
+		   VALUE_IS_FLOAT (v) && value_get_as_float (v) == 0 &&
+		   (expr2 = expr->binary.value_a) &&
+		   GNM_EXPR_GET_OPER (expr2) == GNM_EXPR_OP_FUNCALL &&
+		   expr2->func.argc == 1 &&
+		   expr2->func.func == gnm_func_lookup_or_add_placeholder ("LEN") &&
+		   (expr2 = expr2->func.argv[0]) &&
+		   GNM_EXPR_GET_OPER (expr2) == GNM_EXPR_OP_FUNCALL &&
+		   expr2->func.argc == 1 &&
+		   expr2->func.func == gnm_func_lookup_or_add_placeholder ("TRIM") &&
+		   isself (expr2->func.argv[0])) {
+		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_GT)
+			negate = !negate;
 
-		if (v && VALUE_IS_STRING (v) &&
-		    strcmp (value_peek_string (v), " ") == 0)
-			newop = negate
-				? GNM_STYLE_COND_CONTAINS_BLANKS
-				: GNM_STYLE_COND_NOT_CONTAINS_BLANKS;
-		else {
-			texpr = gnm_expr_top_new (gnm_expr_copy (expr2->func.argv[0]));
-			newop = negate
-				? GNM_STYLE_COND_CONTAINS_STR
-				: GNM_STYLE_COND_NOT_CONTAINS_STR;
-		}
+		newop = negate
+			? GNM_STYLE_COND_NOT_CONTAINS_BLANKS
+			: GNM_STYLE_COND_CONTAINS_BLANKS;
 	} else if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_EQUAL &&
 		   (v = gnm_expr_get_constant (expr->binary.value_b)) &&
 		   VALUE_IS_FLOAT (v) && value_get_as_float (v) == 1 &&
@@ -600,10 +613,17 @@ gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
 
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
 		negate = TRUE;  /* ...and fall through */
-	case GNM_STYLE_COND_CONTAINS_BLANKS:
-		res = (cv &&
-		       strpbrk (value_peek_string (cv), BLANKS_STRING_FOR_MATCHING) != NULL);
+	case GNM_STYLE_COND_CONTAINS_BLANKS: {
+		const char *s = cv ? value_peek_string (cv) : "";
+		while (*s) {
+			gunichar uc = g_utf8_get_char (s);
+			if (!g_unichar_isspace (uc))
+				break;
+			s = g_utf8_next_char (s);
+		}
+		res = (*s == 0);
 		break;
+	}
 
 	case GNM_STYLE_COND_NOT_CONTAINS_STR:
 		negate = TRUE;  /* ...and fall through */
