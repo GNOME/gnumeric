@@ -1,5 +1,11 @@
 2014-03-21  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read.c (xlsx_cond_fmt_rule_begin): Match
+	xlsx_write_cond_rule changes.
+
+	* xlsx-write.c (xlsx_write_cond_rule): Write alternate formulas
+	even for "Starts with" and friends.
+
 	* xlsx-read.c (xlsx_cond_fmt_formula_end): Don't throw critical if
 	we fail to parse the expression.
 

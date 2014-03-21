@@ -1562,7 +1562,8 @@ xlsx_write_cond_rule (XLSXWriteState *state, GsfXMLOut *xml,
 	int i, n;
 	const char *type = NULL;
 	const char *operator = NULL;
-	GnmExprTop const *alt_texpr = NULL;
+	GnmExprTop const *alt_texpr;
+	gboolean needs_alt_texpr = FALSE;
 
 	gsf_xml_out_start_element (xml, "cfRule");
 	switch (cond->op) {
@@ -1591,42 +1592,55 @@ xlsx_write_cond_rule (XLSXWriteState *state, GsfXMLOut *xml,
 		n = 1; operator = "lessThanOrEqual";
 		break;
 	case GNM_STYLE_COND_CONTAINS_BLANKS:
-		n = 0; type = "containsBlanks";
+		needs_alt_texpr = TRUE;
+		n = 1; type = "containsBlanks";
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
-		n = 0; type = "notContainsBlanks";
+		needs_alt_texpr = TRUE;
+		n = 1; type = "notContainsBlanks";
 		break;
 	case GNM_STYLE_COND_CONTAINS_ERR:
-		n = 0; type = "containsErrors";
+		needs_alt_texpr = TRUE;
+		n = 1; type = "containsErrors";
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
-		n = 0; type = "notContainsErrors";
+		needs_alt_texpr = TRUE;
+		n = 1; type = "notContainsErrors";
 		break;
 	case GNM_STYLE_COND_CUSTOM:
 		n = 1; type = "expression";
 		break;
 	case GNM_STYLE_COND_CONTAINS_STR:
+		needs_alt_texpr = TRUE;
 		n = 1; type = "containsText";
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_STR:
+		needs_alt_texpr = TRUE;
 		n = 1; type = "notContainsText";
 		break;
 	case GNM_STYLE_COND_BEGINS_WITH_STR:
+		needs_alt_texpr = TRUE;
 		n = 1; type = "beginsWith";
 		break;
 	case GNM_STYLE_COND_ENDS_WITH_STR:
+		needs_alt_texpr = TRUE;
 		n = 1; type = "endsWith";
 		break;
 
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
 	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
-		alt_texpr = gnm_style_cond_get_alternate_expr (cond);
+		needs_alt_texpr = TRUE;
 		n = 1; type = "expression";
 		break;
 
 	default:
 		g_assert_not_reached ();
 	}
+
+	alt_texpr = needs_alt_texpr
+		? gnm_style_cond_get_alternate_expr (cond)
+		: NULL;
+
 	gsf_xml_out_add_cstr_unchecked (xml, "type", type ? type : "cellIs");
 	gsf_xml_out_add_int (xml, "dxfId",
 			     xlsx_get_cond_style_id (state, cond->overlay));
