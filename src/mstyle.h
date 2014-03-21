@@ -81,6 +81,7 @@ gboolean    gnm_style_equal         (GnmStyle const *a, GnmStyle const *b);
 gboolean    gnm_style_equal_XL	    (GnmStyle const *a, GnmStyle const *b);
 gboolean    gnm_style_equal_header  (GnmStyle const *a, GnmStyle const *b,
 				     gboolean top);
+gboolean    gnm_style_equal_elem    (GnmStyle const *a, GnmStyle const *b, GnmStyleElement e);
 
 guint       gnm_style_hash          (gconstpointer style);
 guint       gnm_style_hash_XL	    (gconstpointer style);

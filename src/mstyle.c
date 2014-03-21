@@ -986,6 +986,27 @@ gnm_style_equal_XL (GnmStyle const *a, GnmStyle const *b)
 	return TRUE;
 }
 
+/**
+ * gnm_style_equal_elem:
+ * @a: first style
+ * @b: second style
+ * @e: style element
+ *
+ * Returns: %TRUE, if the the two styles have the same contents for the
+ * given element, either because neither have it set, or because both
+ * have it set and to the same value.
+ */
+gboolean
+gnm_style_equal_elem (GnmStyle const *a, GnmStyle const *b, GnmStyleElement e)
+{
+	if (elem_is_set (a, e))
+		return elem_is_set (b, e) && elem_is_eq (a, b, e);
+	else
+		return !elem_is_set (b, e);
+}
+
+
+
 #define CMP_TRY_NUMBER_RAW(a_,b_)		\
   do {						\
     if ((a_) < (b_)) return -1;			\

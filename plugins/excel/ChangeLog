@@ -1,5 +1,9 @@
 2014-03-21  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_find_font): Use new gnm_style_equal_elem.
+	(xlsx_find_border): Ditto.
+	(xlsx_find_fill): Ditto.
+
 	* xlsx-utils.c (xlsx_output_string, xlsx_string_parser): New
 	function.  Fixes #726824.
 

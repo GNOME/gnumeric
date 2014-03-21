@@ -436,36 +436,15 @@ xlsx_find_font (GnmStyle const *style, GPtrArray  *styles)
 	unsigned i;
 	for (i = 0 ; i < styles->len ; i++) {
 		GnmStyle const *old_style = g_ptr_array_index (styles, i);
-		if (style == old_style)
-			return (gint) i;
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_FONT_BOLD) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_FONT_ITALIC) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_FONT_UNDERLINE) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_COLOR) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_FONT_COLOR) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_NAME) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_FONT_NAME) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_FONT_SIZE) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_FONT_SCRIPT) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_FONT_STRIKETHROUGH))
-			continue;
-		if (gnm_style_get_font_bold (style) != gnm_style_get_font_bold (old_style) ||
-		    gnm_style_get_font_italic (style) != gnm_style_get_font_italic (old_style) ||
-		    gnm_style_get_font_uline (style) != gnm_style_get_font_uline (old_style) ||
-		    gnm_style_get_font_color (style)->go_color !=
-		    gnm_style_get_font_color (old_style)->go_color ||
-		    gnm_style_get_font_size (style) != gnm_style_get_font_size (old_style) ||
-		    gnm_style_get_font_script (style) != gnm_style_get_font_script (old_style) ||
-		    gnm_style_get_font_strike (style) != gnm_style_get_font_strike (old_style))
-			continue;
-		if (0 == strcmp (gnm_style_get_font_name (style),
-				 gnm_style_get_font_name (old_style)))
+		if (style == old_style ||
+		    (gnm_style_equal_elem (style, old_style, MSTYLE_FONT_BOLD) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_FONT_ITALIC) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_FONT_UNDERLINE) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_FONT_COLOR) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_FONT_SIZE) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_FONT_SCRIPT) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_FONT_STRIKETHROUGH) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_FONT_NAME)))
 			return (gint) i;
 	}
 	return -1;
@@ -598,22 +577,10 @@ xlsx_find_fill (GnmStyle const *style, GPtrArray *styles)
 		return j;
 	for (i = 0 ; i < styles->len ; i++) {
 		GnmStyle const *old_style = g_ptr_array_index (styles, i);
-		if (style == old_style)
-			return (gint) i;
-		if (!(gnm_style_is_element_set (style, MSTYLE_COLOR_BACK) !=
-		      gnm_style_is_element_set (old_style, MSTYLE_COLOR_BACK)
-		      || gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN) !=
-		      gnm_style_is_element_set (old_style, MSTYLE_COLOR_PATTERN)
-		      || gnm_style_is_element_set (style, MSTYLE_PATTERN) !=
-		      gnm_style_is_element_set (style, MSTYLE_PATTERN)
-		      || (gnm_style_is_element_set (style, MSTYLE_PATTERN) &&
-			  gnm_style_get_pattern (style) != gnm_style_get_pattern (old_style))
-		      || (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK) &&
-			  gnm_style_get_back_color (style)->go_color !=
-			  gnm_style_get_back_color (old_style)->go_color)
-		      || (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN) &&
-			  gnm_style_get_pattern_color (style)->go_color !=
-			  gnm_style_get_pattern_color (old_style)->go_color)))
+		if (style == old_style ||
+		    (gnm_style_equal_elem (style, old_style, MSTYLE_COLOR_BACK) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_COLOR_PATTERN) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_PATTERN)))
 			return (gint) i + N_PREDEFINED_FILLS;
 	}
 	return -1;
@@ -722,35 +689,14 @@ xlsx_find_border (GnmStyle const *style, GPtrArray  *styles)
 	unsigned i;
 	for (i = 0 ; i < styles->len ; i++) {
 		GnmStyle const *old_style = g_ptr_array_index (styles, i);
-		if (style == old_style)
+		if (style == old_style ||
+		    (gnm_style_equal_elem (style, old_style, MSTYLE_BORDER_TOP) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_BORDER_BOTTOM) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_BORDER_LEFT) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_BORDER_RIGHT) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_BORDER_DIAGONAL) &&
+		     gnm_style_equal_elem (style, old_style, MSTYLE_BORDER_REV_DIAGONAL)))
 			return (gint) i;
-		if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_TOP) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_BOTTOM) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_LEFT) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_RIGHT) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_REV_DIAGONAL) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL) !=
-		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_DIAGONAL))
-			continue;
-		if (gnm_style_get_border (style, MSTYLE_BORDER_TOP)
-		    != gnm_style_get_border (old_style, MSTYLE_BORDER_TOP) ||
-		    gnm_style_get_border (style, MSTYLE_BORDER_BOTTOM)
-		    != gnm_style_get_border (old_style, MSTYLE_BORDER_BOTTOM) ||
-		    gnm_style_get_border (style, MSTYLE_BORDER_LEFT)
-		    != gnm_style_get_border (old_style, MSTYLE_BORDER_LEFT) ||
-		    gnm_style_get_border (style, MSTYLE_BORDER_RIGHT)
-		    != gnm_style_get_border (old_style, MSTYLE_BORDER_RIGHT) ||
-		    gnm_style_get_border (style, MSTYLE_BORDER_REV_DIAGONAL)
-		    != gnm_style_get_border (old_style, MSTYLE_BORDER_REV_DIAGONAL) ||
-		    gnm_style_get_border (style, MSTYLE_BORDER_DIAGONAL)
-		    != gnm_style_get_border (old_style, MSTYLE_BORDER_DIAGONAL))
-			continue;
-		return (gint) i;
 	}
 	return -1;
 }
