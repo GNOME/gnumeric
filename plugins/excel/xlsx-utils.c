@@ -494,6 +494,45 @@ xlsx_func_erf_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 	return FALSE;
 }
 
+static char const *
+xlsx_string_parser (char const *in, GString *target,
+		   G_GNUC_UNUSED GnmConventions const *convs)
+{
+	char quote = *in;
+	size_t oldlen = target->len;
+
+	if (quote != '"')
+		goto error;
+	in++;
+	while (*in) {
+		if (*in == quote) {
+			if (in[1] == quote) {
+				g_string_append_c (target, quote);
+				in += 2;
+			} else
+				return in + 1;			
+		} else
+			g_string_append_c (target, *in++);
+	}
+
+ error:
+	g_string_truncate (target, oldlen);
+	return NULL;
+}
+
+static void
+xlsx_output_string (GnmConventionsOut *out, GOString const *str)
+{
+	const char *s = str->str;
+	g_string_append_c (out->accum, '"');
+	for (; *s; s++) {
+		if (*s == '"')
+			g_string_append (out->accum, "\"\"");
+		else
+			g_string_append_c (out->accum, *s);
+	}
+	g_string_append_c (out->accum, '"');
+}
 
 GnmConventions *
 xlsx_conventions_new (gboolean output)
@@ -578,8 +617,10 @@ xlsx_conventions_new (gboolean output)
 	convs->decimal_sep_dot		= TRUE;
 	convs->input.range_ref		= rangeref_parse;
 	convs->input.external_wb	= xlsx_lookup_external_wb;
+	convs->input.string		= xlsx_string_parser;
 	convs->output.cell_ref		= xlsx_cellref_as_string;
 	convs->output.range_ref		= xlsx_rangeref_as_string;
+	convs->output.string		= xlsx_output_string;
 	convs->range_sep_colon		= TRUE;
 	convs->sheet_name_sep		= '!';
 	convs->arg_sep			= ',';

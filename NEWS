@@ -4,6 +4,7 @@ Morten:
 	* Plug leaks.
 	* xlsx conditional format fixes.  [#726202]
 	* Fix semantics of conditional format operators.  [#726806]
+	* Fix xlsx quotes in formula strings.  [#726824]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.13

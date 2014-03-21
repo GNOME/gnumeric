@@ -1,5 +1,8 @@
 2014-03-21  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-utils.c (xlsx_output_string, xlsx_string_parser): New
+	function.  Fixes #726824.
+
 	* xlsx-read.c (xlsx_cond_fmt_rule_begin): Match
 	xlsx_write_cond_rule changes.
 
