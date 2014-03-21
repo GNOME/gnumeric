@@ -1,3 +1,10 @@
+2014-03-21  Morten Welinder  <terra@gnome.org>
+
+	* src/style-conditions.c (generate_end_match): Use case
+	insensitive comparison.  Pull negation into the operator.
+	(gnm_style_cond_eval): "Start with..." and "Ends with..." are case
+	insensitive.
+
 2014-03-18  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (kill_popup_menu): One more try at really killing

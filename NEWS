@@ -3,6 +3,7 @@ Gnumeric 1.12.14
 Morten:
 	* Plug leaks.
 	* xlsx conditional format fixes.  [#726202]
+	* Fix semantics of conditional format operators.  [#726806]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.13

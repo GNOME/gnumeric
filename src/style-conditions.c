@@ -243,7 +243,7 @@ gnm_style_cond_set_overlay (GnmStyleCond *cond, GnmStyle *overlay)
 }
 
 static GnmExpr const *
-generate_end_match (const char *endfunc, gboolean force,
+generate_end_match (const char *endfunc, gboolean force, gboolean negate,
 		    GnmExprTop const *sexpr, GnmCellRef *cr)
 {
 	GnmValue const *v = gnm_expr_get_constant (sexpr->expr);
@@ -263,12 +263,12 @@ generate_end_match (const char *endfunc, gboolean force,
 	} else
 		return NULL;
 
-	return gnm_expr_new_funcall2
-		(gnm_func_lookup_or_add_placeholder ("EXACT"),
-		 gnm_expr_new_funcall2
+	return gnm_expr_new_binary
+		(gnm_expr_new_funcall2
 		 (gnm_func_lookup_or_add_placeholder (endfunc),
 		  gnm_expr_new_cellref (cr),
 		  len_expr),
+		 negate ? GNM_EXPR_OP_NOT_EQUAL : GNM_EXPR_OP_EQUAL,
 		 gnm_expr_copy (sexpr->expr));
 }
 
@@ -333,27 +333,13 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
 		negate = TRUE; /* ...and fall through */
 	case GNM_STYLE_COND_BEGINS_WITH_STR:
-		expr = generate_end_match ("LEFT", FALSE, sexpr, &self);
-		if (expr)
-			break;
-
 		/*
-		 * We get here if sexpr is not a constant.  We are
-		 * constrained by using only Excel functions and not
-		 * evaluating the needle more than once.  The
-		 * expression used here works, but FIND is more
-		 * expensive that it ought to be.
+		 * We are constrained by using only Excel functions and not
+		 * evaluating the needle more than once.  We cannot fulfill
+		 * that and end up computing the needle twice.
 		 */
-		expr = gnm_expr_new_binary
-			(gnm_expr_new_funcall2
-			 (gnm_func_lookup_or_add_placeholder ("IFERROR"),
-			  gnm_expr_new_funcall2
-			  (gnm_func_lookup_or_add_placeholder ("FIND"),
-			   gnm_expr_copy (sexpr->expr),
-			   gnm_expr_new_cellref (&self)),
-			  gnm_expr_new_constant (value_new_int (2))),
-			 GNM_EXPR_OP_EQUAL,
-			 gnm_expr_new_constant (value_new_int (1)));
+		expr = generate_end_match ("LEFT", TRUE, negate, sexpr, &self);
+		negate = FALSE;
 		break;
 
 	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
@@ -364,7 +350,8 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 		 * evaluating the needle more than once.  We cannot fulfill
 		 * that and end up computing the needle twice.
 		 */
-		expr = generate_end_match ("RIGHT", TRUE, sexpr, &self);
+		expr = generate_end_match ("RIGHT", TRUE, negate, sexpr, &self);
+		negate = FALSE;
 		break;
 
 	default:
@@ -393,16 +380,17 @@ isself (GnmExpr const *expr)
 }
 
 static GnmExprTop const *
-decode_end_match (const char *endfunc, GnmExpr const *expr)
+decode_end_match (const char *endfunc, GnmExpr const *expr, gboolean *negated)
 {
 	GnmExpr const *needle;
 	GnmExpr const *expr2;
 
-	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL &&
-	    expr->func.argc == 2 &&
-	    expr->func.func == gnm_func_lookup_or_add_placeholder ("EXACT") &&
-	    (needle = expr->func.argv[1]) &&
-	    (expr2 = expr->func.argv[0]) &&
+	*negated = (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_NOT_EQUAL);
+
+	if ((GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_EQUAL ||
+	     GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_NOT_EQUAL) &&
+	    (needle = expr->binary.value_b) &&
+	    (expr2 = expr->binary.value_a) &&
 	    GNM_EXPR_GET_OPER (expr2) == GNM_EXPR_OP_FUNCALL &&
 	    expr2->func.argc == 2 &&
 	    expr2->func.func == gnm_func_lookup_or_add_placeholder (endfunc) &&
@@ -442,6 +430,7 @@ gnm_style_cond_canonicalize (GnmStyleCond *cond)
 	GnmExprTop const *texpr;
 	GnmValue const *v;
 	gboolean negate = FALSE;
+	gboolean match_negated;
 	GnmFunc const *iserror;
 	GnmFunc const *iferror;
 	GnmFunc const *find;
@@ -511,12 +500,12 @@ gnm_style_cond_canonicalize (GnmStyleCond *cond)
 		newop = negate
 			? GNM_STYLE_COND_NOT_BEGINS_WITH_STR
 			: GNM_STYLE_COND_BEGINS_WITH_STR;
-	} else if ((texpr = decode_end_match ("LEFT", expr))) {
-		newop = negate
+	} else if ((texpr = decode_end_match ("LEFT", expr, &match_negated))) {
+		newop = (negate ^ match_negated)
 			? GNM_STYLE_COND_NOT_BEGINS_WITH_STR
 			: GNM_STYLE_COND_BEGINS_WITH_STR;
-	} else if ((texpr = decode_end_match ("RIGHT", expr))) {
-		newop = negate
+	} else if ((texpr = decode_end_match ("RIGHT", expr, &match_negated))) {
+		newop = (negate ^ match_negated)
 			? GNM_STYLE_COND_NOT_ENDS_WITH_STR
 			: GNM_STYLE_COND_ENDS_WITH_STR;
 	}
@@ -527,6 +516,29 @@ gnm_style_cond_canonicalize (GnmStyleCond *cond)
 			gnm_expr_top_unref (texpr);
 		cond->op = newop;
 	}
+}
+
+static gboolean
+case_insensitive_has_fix (GnmValue const *vs, GnmValue const *vp,
+			  gboolean is_prefix)
+{
+	size_t plen = g_utf8_strlen (value_peek_string (vp), -1);
+	const char *s = value_peek_string (vs);
+	size_t slen = g_utf8_strlen (s, -1);
+	GnmValue *vs2;
+	gboolean res;
+
+	if (plen > slen)
+		return FALSE;
+
+	vs2 = value_new_string_nocopy
+		(is_prefix
+		 ? g_strndup (s, g_utf8_offset_to_pointer (s, plen) - s)
+		 : g_strdup (g_utf8_offset_to_pointer (s, slen - plen)));
+	res = (value_compare (vs2, vp, FALSE) == IS_EQUAL);
+	value_release (vs2);
+
+	return res;
 }
 
 
@@ -604,17 +616,13 @@ gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
 		negate = TRUE;  /* ...and fall through */
 	case GNM_STYLE_COND_BEGINS_WITH_STR:
-		res = (cv &&
-		       g_str_has_prefix (value_peek_string (cv),
-					 value_peek_string (val0)));
+		res = (cv && case_insensitive_has_fix (cv, val0, TRUE));
 		break;
 
 	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
 		negate = TRUE;  /* ...and fall through */
 	case GNM_STYLE_COND_ENDS_WITH_STR:
-		res = (cv &&
-		       g_str_has_suffix (value_peek_string (cv),
-					 value_peek_string (val0)));
+		res = (cv && case_insensitive_has_fix (cv, val0, FALSE));
 		break;
 
 	case GNM_STYLE_COND_CUSTOM:
