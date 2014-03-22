@@ -23,11 +23,15 @@ my $file = "$samples/rich-text-tests.gnumeric";
 
 my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
 
+# xls cannot have superscript and subscript at the same time
+my $xls_supersub_filter = "$PERL -p -e 's{\\[superscript=1:3:5\\]\\[subscript=1:4:5\\]}{[superscript=1:3:4][subscript=1:4:5]};'";
+
 &message ("Check rich text xls/BIFF7 roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff7',
 		 'ext' => "xls",
 		 'resize' => '16384x256',
+		 'filter1' => $xls_supersub_filter,
 		 'filter2' => $xls_codepage_filter,
 		 'ignore_failure' => 1);
 
@@ -35,6 +39,7 @@ my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff8',
 		 'ext' => "xls",
+		 'filter1' => $xls_supersub_filter,
 		 'filter2' => $xls_codepage_filter,
 		 'ignore_failure' => 1);
 
