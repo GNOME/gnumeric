@@ -6,6 +6,7 @@ Morten:
 	* Fix semantics of conditional format operators.  [#726806]
 	* Fix xlsx quotes in formula strings.  [#726824]
 	* Fix xls export of rich text.
+	* Fix problems with large, circular farms of VLOOKUP etc. [#723894]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.13

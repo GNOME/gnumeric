@@ -1,3 +1,8 @@
+2014-03-22  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (get_bisection_lookup_cache): Same thing as for
+	get_linear_lookup_cache.
+
 2014-03-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.13

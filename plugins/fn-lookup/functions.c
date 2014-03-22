@@ -364,34 +364,44 @@ linear_lookup_cache_commit (LinearLookupInfo *pinfo)
 	g_hash_table_replace (*pinfo->cache, pinfo->key_copy, pinfo->h);
 }
 
+/*
+ * We use an extra level of pointers for "cache" here to avoid problems
+ * in the case where we later prune the caches.  The pointer to the
+ * GHashTable* will stay valid.
+ */
+typedef struct {
+	gboolean is_new;
+	GnmValue *key_copy;
+	GHashTable **cache;
+	LookupBisectionCacheItem *item;
+} BisectionLookupInfo;
+
 static LookupBisectionCacheItem *
 get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
 			    GnmValue const *data, GnmValueType datatype,
-			    gboolean vertical, gboolean *brand_new)
+			    gboolean vertical, BisectionLookupInfo *pinfo)
 {
 	GnmValue const *key;
-	GnmValue *key_copy = NULL;
-	GHashTable **cache;
-	LookupBisectionCacheItem *h;
 
-	*brand_new = FALSE;
+	pinfo->is_new = FALSE;
+	pinfo->key_copy = NULL;
 
 	create_caches ();
 
 	/* The "&" here is for the pruning case.  */
 	switch (datatype) {
 	case VALUE_STRING:
-		cache = vertical
+		pinfo->cache = vertical
 			? &bisection_vlookup_string_cache
 			: &bisection_hlookup_string_cache;
 		break;
 	case VALUE_FLOAT:
-		cache = vertical
+		pinfo->cache = vertical
 			? &bisection_vlookup_float_cache
 			: &bisection_hlookup_float_cache;
 		break;
 	case VALUE_BOOLEAN:
-		cache = vertical
+		pinfo->cache = vertical
 			? &bisection_vlookup_bool_cache
 			: &bisection_hlookup_bool_cache;
 		break;
@@ -410,7 +420,7 @@ get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
 		if (sr.sheet != end_sheet)
 			return NULL; /* 3D */
 
-		key = key_copy = value_new_cellrange_r (sr.sheet, &sr.range);
+		key = pinfo->key_copy = value_new_cellrange_r (sr.sheet, &sr.range);
 		break;
 	}
 	case VALUE_ARRAY:
@@ -420,18 +430,27 @@ get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
 		return NULL;
 	}
 
-	h = g_hash_table_lookup (*cache, key);
-	if (h == NULL) {
+	pinfo->item = g_hash_table_lookup (*pinfo->cache, key);
+	if (pinfo->item == NULL) {
 		prune_caches ();
-		*brand_new = TRUE;
-		h = g_new0 (LookupBisectionCacheItem, 1);
-		if (!key_copy) key_copy = value_dup (key);
-		g_hash_table_insert (*cache, key_copy, h);
-	} else
-		value_release (key_copy);
+		pinfo->is_new = TRUE;
+		pinfo->item = g_new0 (LookupBisectionCacheItem, 1);
+		if (!pinfo->key_copy)
+			pinfo->key_copy = value_dup (key);
+	} else {
+		value_release (pinfo->key_copy);
+		pinfo->key_copy = NULL;
+	}
 
-	return h;
+	return pinfo->item;
 }
+
+static void
+bisection_lookup_cache_commit (BisectionLookupInfo *pinfo)
+{
+	g_hash_table_replace (*pinfo->cache, pinfo->key_copy, pinfo->item);
+}
+
 
 /* -------------------------------------------------------------------------- */
 
@@ -635,21 +654,21 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 		      gint type, gboolean vertical)
 {
 	int high, low, lastlow, res;
-	gboolean brand_new;
 	LookupBisectionCacheItem *bc;
 	gboolean stringp;
 	int (*comparer) (const void *,const void *);
 	LookupBisectionCacheItemElem key;
+	BisectionLookupInfo info;
 
 	bc = get_bisection_lookup_cache (ei, data, find->type, vertical,
-					 &brand_new);
+					 &info);
 	if (!bc)
 		return LOOKUP_DATA_ERROR;
 
 	stringp = (find->type == VALUE_STRING);
 	comparer = stringp ? bisection_compare_string : bisection_compare_float;
 
-	if (brand_new) {
+	if (info.is_new) {
 		int lp, length = calc_length (data, ei->pos, vertical);
 
 		bc->data = g_new (LookupBisectionCacheItemElem, length + 1);
@@ -674,6 +693,8 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 				    bc->data,
 				    bc->n);
 		total_cache_size += bc->n;
+
+		bisection_lookup_cache_commit (&info);
 	}
 
 #ifdef DEBUG_BISECTION
