@@ -1,9 +1,8 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * style-conditions.c:
  *
  * Copyright (C) 2005-2007 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2013-2014 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -35,8 +34,6 @@
 #include <string.h>
 #include <func.h>
 #include <gutils.h>
-
-#define BLANKS_STRING_FOR_MATCHING " \t\n\r"
 
 typedef GObjectClass GnmStyleConditionsClass;
 struct _GnmStyleConditions {
