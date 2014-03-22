@@ -1,5 +1,12 @@
 2014-03-21  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-write.c (txomarkup_new): Take also string argument.
+	Don't delete last run without attributes unless it is beyond the
+	string.
+
+	* ms-excel-read.c (ms_wb_get_font_markup): Defined a font's pango
+	attributes in terms of how it differs from font 0.
+
 	* xlsx-write.c (xlsx_find_font): Use new gnm_style_equal_elem.
 	(xlsx_find_border): Ditto.
 	(xlsx_find_fill): Ditto.

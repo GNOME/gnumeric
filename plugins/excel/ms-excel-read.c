@@ -8,6 +8,7 @@
  *
  * (C) 1998-2001 Michael Meeks
  * (C) 2002-2008 Jody Goldberg
+ * (C) 2013-2013 Morten Welinder
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -1194,7 +1195,7 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 			ms_biff_query_dump (q);
 		});
 
-	txo_run.last = G_MAXINT;
+	txo_run.last = strlen (str);
 
 	if (esheet_ver (esheet) >= MS_BIFF_V8) {
 		XL_CHECK_CONDITION_VAL (ptr+2 <= end , NULL);
@@ -3244,26 +3245,30 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 {
 	GnmXLImporter *importer = (GnmXLImporter *)c;
 	ExcelFont const *fd = excel_font_get (importer, indx);
-	GnmColor *color;
 
-	if (fd == NULL) { /* random fallback */
-		fd = excel_font_get (importer, 0);
-		if (NULL == fd)
-			return NULL;
-	}
+	if (fd == NULL || indx == 0)
+		return pango_attr_list_new ();
 
 	if (fd->attrs == NULL) {
+		ExcelFont const *fd0 = excel_font_get (importer, 0);
 		PangoAttrList *attrs;
-		PangoUnderline underline = gnm_translate_underline_to_pango
-			(xls_uline_to_gnm_underline (fd->underline));
 
 		attrs = pango_attr_list_new ();
-		add_attr (attrs, pango_attr_family_new (fd->fontname));
-		add_attr (attrs, pango_attr_size_new (fd->height * PANGO_SCALE / 20));
-		add_attr (attrs, pango_attr_weight_new (fd->boldness));
-		add_attr (attrs, pango_attr_style_new (fd->italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
-		add_attr (attrs, pango_attr_strikethrough_new (fd->struck_out));
-		add_attr (attrs, pango_attr_underline_new (underline));
+		if (strcmp (fd->fontname, fd0->fontname) != 0)
+			add_attr (attrs, pango_attr_family_new (fd->fontname));
+		if (fd->height != fd0->height)
+			add_attr (attrs, pango_attr_size_new (fd->height * PANGO_SCALE / 20));
+		if (fd->boldness != fd0->boldness)
+			add_attr (attrs, pango_attr_weight_new (fd->boldness));
+		if (fd->italic != fd0->italic)
+			add_attr (attrs, pango_attr_style_new (fd->italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
+		if (fd->struck_out != fd0->struck_out)
+			add_attr (attrs, pango_attr_strikethrough_new (fd->struck_out));
+		if (fd->underline != fd0->underline) {
+			PangoUnderline underline = gnm_translate_underline_to_pango
+				(xls_uline_to_gnm_underline (fd->underline));
+			add_attr (attrs, pango_attr_underline_new (underline));
+		}
 
 		switch (fd->script) {
 		case GO_FONT_SCRIPT_SUB:
@@ -3271,18 +3276,20 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 			break;
 		default:
 		case GO_FONT_SCRIPT_STANDARD:
-			add_attr (attrs, go_pango_attr_subscript_new (FALSE));
-			add_attr (attrs, go_pango_attr_superscript_new (FALSE));
+			/* Just assume fd0 is standard.  */
 			break;
 		case GO_FONT_SCRIPT_SUPER:
 			add_attr (attrs, go_pango_attr_superscript_new (TRUE));
 			break;
 		}
 
-		color = (fd->color_idx == 127) ? style_color_black ()
-			: excel_palette_get (importer, fd->color_idx);
-		add_attr (attrs, go_color_to_pango (color->go_color, TRUE));
-		style_color_unref (color);
+		if (fd->color_idx != fd0->color_idx) {
+			GnmColor *color = (fd->color_idx == 127)
+				? style_color_black ()
+				: excel_palette_get (importer, fd->color_idx);
+			add_attr (attrs, go_color_to_pango (color->go_color, TRUE));
+			style_color_unref (color);
+		}
 
 		((ExcelFont *)fd)->attrs = attrs;
 	}

@@ -8,7 +8,7 @@
  *    Jody Goldberg  (jody@gnome.org)
  *    Morten Welinder (terra@gnome.org)
  *
- * (C) 1998-2013 Michael Meeks, Jon K Hellan, Jody Goldberg, Morten Welinder
+ * (C) 1998-2014 Michael Meeks, Jon K Hellan, Jody Goldberg, Morten Welinder
  **/
 
 /*
@@ -2762,6 +2762,7 @@ xf_get_mstyle (XLExportBase *xle, gint idx)
 
 static GArray *
 txomarkup_new (ExcelWriteState *ewb,
+	       const char *str,
 	       const PangoAttrList *markup,
 	       GnmStyle const *style)
 {
@@ -2769,6 +2770,7 @@ txomarkup_new (ExcelWriteState *ewb,
 		pango_attr_list_get_iterator ((PangoAttrList*)markup);
 	GArray *txo = g_array_sized_new (FALSE, FALSE, sizeof (int), 8);
 	gboolean noattrs = TRUE;
+	gint slen = strlen (str);
 
 	do {
 		gint start, end;
@@ -2780,6 +2782,8 @@ txomarkup_new (ExcelWriteState *ewb,
 			/* Carry previous noattrs over.  */
 			break;
 		}
+		if (start >= slen)
+			break;
 
 		attrs = pango_attr_iterator_get_attrs (iter);
 		noattrs = (attrs == NULL);
@@ -2797,7 +2801,8 @@ txomarkup_new (ExcelWriteState *ewb,
 		}
 	} while (pango_attr_iterator_next (iter));
 	/* trim end */
-	if (txo->len > 2 && noattrs)
+	if (txo->len > 2 && noattrs &&
+	    g_array_index (txo, gint, txo->len - 2) >= slen)
 		g_array_set_size (txo, txo->len - 2);
 	pango_attr_iterator_destroy (iter);
 
@@ -2823,9 +2828,11 @@ cb_cell_pre_pass (GnmCell const *cell, ExcelWriteState *ewb)
 		/* Collect unique fonts in rich text */
 		if (VALUE_IS_STRING (cell->value) &&
 		    go_format_is_markup (fmt)) {
-			GArray *txo = txomarkup_new (ewb,
-				go_format_get_markup (fmt),
-				style);
+			GArray *txo = txomarkup_new
+				(ewb,
+				 value_peek_string (cell->value),
+				 go_format_get_markup (fmt),
+				 style);
 
 			g_hash_table_insert (ewb->cell_markup, (gpointer)cell, txo);
 			/* we use RSTRING, no need to add to SST */
@@ -6646,12 +6653,15 @@ extract_txomarkup (ExcelWriteState *ewb, SheetObject *so)
 {
 	PangoAttrList *markup;
 	GArray *txo;
+	char *text;
 
 	g_object_get (G_OBJECT (so), "markup", &markup, NULL);
 	if (!markup)
 		return;
 
-	txo = txomarkup_new (ewb, markup, ewb->base.xf.default_style);
+	g_object_get (G_OBJECT (so), "text", &text, NULL);
+	txo = txomarkup_new (ewb, text, markup, ewb->base.xf.default_style);
+	g_free (text);
 
 	/* It isn't a cell, but that doesn't matter here */
 	g_hash_table_insert (ewb->cell_markup, (gpointer)so, txo);
