@@ -361,6 +361,13 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 static void
 linear_lookup_cache_commit (LinearLookupInfo *pinfo)
 {
+	/*
+	 * It is possible to have an entry for the key already in the
+	 * cache.  In that case we fail to deduct from total_cache_size
+	 * but it really doesn't matter.
+	 */
+	total_cache_size += g_hash_table_size (pinfo->h);
+
 	g_hash_table_replace (*pinfo->cache, pinfo->key_copy, pinfo->h);
 }
 
@@ -448,6 +455,13 @@ get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
 static void
 bisection_lookup_cache_commit (BisectionLookupInfo *pinfo)
 {
+	/*
+	 * It is possible to have an entry for the key already in the
+	 * cache.  In that case we fail to deduct from total_cache_size
+	 * but it really doesn't matter.
+	 */
+	total_cache_size += pinfo->item->n;
+
 	g_hash_table_replace (*pinfo->cache, pinfo->key_copy, pinfo->item);
 }
 
@@ -542,7 +556,6 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 			if (!g_hash_table_lookup_extended (h, vc, NULL, NULL)) {
 				char *sc = g_string_chunk_insert (lookup_string_pool, vc);
 				g_hash_table_insert (h, sc, GINT_TO_POINTER (lp));
-				total_cache_size++;
 			}
 
 			g_free (vc);
@@ -591,7 +604,6 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 				gnm_float *fp = go_mem_chunk_alloc (lookup_float_pool);
 				*fp = f2;
 				g_hash_table_insert (h, fp, GINT_TO_POINTER (lp));
-				total_cache_size++;
 			}
 		}
 
@@ -692,8 +704,6 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 		bc->data = g_renew (LookupBisectionCacheItemElem,
 				    bc->data,
 				    bc->n);
-		total_cache_size += bc->n;
-
 		bisection_lookup_cache_commit (&info);
 	}
 
