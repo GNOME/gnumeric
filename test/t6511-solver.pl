@@ -52,5 +52,5 @@ if (1) {
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_Excel:xlsx',
 		     'ext' => "xlsx",
-		     'resize' => '1048576x16384';
+		     'resize' => '1048576x16384');
 }
