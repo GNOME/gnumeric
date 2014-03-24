@@ -1,3 +1,8 @@
+2014-03-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (clear_caches): Protect the pools from pruning while
+	we are building one.
+
 2014-03-22  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (get_bisection_lookup_cache): Same thing as for

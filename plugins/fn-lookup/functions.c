@@ -117,11 +117,13 @@ static GHashTable *bisection_vlookup_string_cache;
 static GHashTable *bisection_vlookup_float_cache;
 static GHashTable *bisection_vlookup_bool_cache;
 static size_t total_cache_size;
+static size_t protect_string_pool;
+static size_t protect_float_pool;
 
 static void
 clear_caches (void)
 {
-	if (!lookup_string_pool)
+	if (!linear_hlookup_string_cache)
 		return;
 
 	if (debug_lookup_caches)
@@ -175,27 +177,33 @@ clear_caches (void)
 
 	/* ---------- */
 
-	g_string_chunk_free (lookup_string_pool);
-	lookup_string_pool = NULL;
+	if (!protect_string_pool) {
+		g_string_chunk_free (lookup_string_pool);
+		lookup_string_pool = NULL;
+	}
 
-	go_mem_chunk_destroy (lookup_float_pool, TRUE);
-	lookup_float_pool = NULL;
+	if (!protect_float_pool) {
+		go_mem_chunk_destroy (lookup_float_pool, TRUE);
+		lookup_float_pool = NULL;
+	}
 }
 
 static void
 create_caches (void)
 {
-	if (lookup_string_pool)
+	if (linear_hlookup_string_cache)
 		return;
 
 	total_cache_size = 0;
 
-	lookup_string_pool = g_string_chunk_new (100 * 1024);
+	if (!lookup_string_pool)
+		lookup_string_pool = g_string_chunk_new (100 * 1024);
 
-	lookup_float_pool =
-		go_mem_chunk_new ("lookup float pool",
-				  sizeof (gnm_float),
-				  sizeof (gnm_float) * 1000);
+	if (!lookup_float_pool)
+		lookup_float_pool =
+			go_mem_chunk_new ("lookup float pool",
+					  sizeof (gnm_float),
+					  sizeof (gnm_float) * 1000);
 
 	linear_hlookup_string_cache = g_hash_table_new_full
 		((GHashFunc)value_hash,
@@ -545,6 +553,8 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 	if (info.is_new) {
 		int lp, length = calc_length (data, ei->pos, vertical);
 
+		protect_string_pool++;
+
 		for (lp = 0; lp < length; lp++) {
 			GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
 			char *vc;
@@ -562,6 +572,8 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 		}
 
 		linear_lookup_cache_commit (&info);
+
+		protect_string_pool--;
 	}
 
 	sc = g_utf8_casefold (value_peek_string (find), -1);
@@ -591,6 +603,8 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 	if (info.is_new) {
 		int lp, length = calc_length (data, ei->pos, vertical);
 
+		protect_float_pool++;
+
 		for (lp = 0; lp < length; lp++) {
 			GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
 			gnm_float f2;
@@ -608,6 +622,8 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 		}
 
 		linear_lookup_cache_commit (&info);
+
+		protect_float_pool--;
 	}
 
 	f = value_get_as_float (find);
@@ -685,6 +701,9 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 
 		bc->data = g_new (LookupBisectionCacheItemElem, length + 1);
 
+		if (stringp)
+			protect_string_pool++;
+
 		for (lp = 0; lp < length; lp++) {
 			GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
 			if (!find_compare_type_valid (find, v))
@@ -705,6 +724,9 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 				    bc->data,
 				    bc->n);
 		bisection_lookup_cache_commit (&info);
+
+		if (stringp)
+			protect_string_pool--;
 	}
 
 #ifdef DEBUG_BISECTION
@@ -2025,7 +2047,17 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
-	clear_caches ();
 	g_signal_handlers_disconnect_by_func (gnm_app_get_app (),
 					      G_CALLBACK (clear_caches), NULL);
+
+	if (protect_string_pool) {
+		g_printerr ("Imbalance in string pool: %d\n", (int)protect_string_pool);
+		protect_string_pool = 0;
+	}
+	if (protect_float_pool) {
+		g_printerr ("Imbalance in float pool: %d\n", (int)protect_float_pool);
+		protect_float_pool = 0;
+	}
+
+	clear_caches ();
 }
