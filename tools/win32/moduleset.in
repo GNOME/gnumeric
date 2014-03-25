@@ -36,10 +36,6 @@
 	</dependencies>
     </tarball>
 
-<!--    <tarball id="pcre" version="8.12">
-	<source href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.12.tar.bz2"/>
-    </tarball> -->
-
     <tarball id="libffi" version="3.0.13">
       <source href="ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz"/>
     </tarball>
