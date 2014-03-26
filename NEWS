@@ -7,6 +7,7 @@ Morten:
 	* Fix xlsx quotes in formula strings.  [#726824]
 	* Fix xls export of rich text.
 	* Fix problems with large, circular farms of VLOOKUP etc. [#723894]
+	* Let goffice handle conditional number formats.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.13
