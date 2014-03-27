@@ -268,7 +268,7 @@ main (int argc, char const **argv)
 		/*
 		 * Attempt to disable Ubuntu's funky, non-working scroll
 		 * bars.  This needs to be done before gtk starts loading
-		 * modules.  Note: the following call will now replace
+		 * modules.  Note: the following call will not replace
 		 * an existing setting, so you can run with =1 if you like.
 		 */
 		g_setenv ("LIBOVERLAY_SCROLLBAR", "0", FALSE);
