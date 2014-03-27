@@ -265,6 +265,14 @@ main (int argc, char const **argv)
 	with_gui = !func_def_file && !func_state_file && !split_funcdocs;
 
 	if (with_gui) {
+		/*
+		 * Attempt to disable Ubuntu's funky, non-working scroll
+		 * bars.  This needs to be done before gtk starts loading
+		 * modules.  Note: the following call will now replace
+		 * an existing setting, so you can run with =1 if you like.
+		 */
+		g_setenv ("LIBOVERLAY_SCROLLBAR", "0", FALSE);
+
 		gnm_session_init (argv[0]);
 	}
 

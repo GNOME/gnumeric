@@ -1,3 +1,8 @@
+2014-03-27  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): Attempt to banish ubuntu's
+	overlay scrollbar which don't work.
+
 2014-03-21  Morten Welinder  <terra@gnome.org>
 
 	* src/style-conditions.c (gnm_style_cond_eval): Make "Contains..."
