@@ -1,3 +1,8 @@
+2014-03-27  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_style_cell_properties): Don't
+	assume pattern colour is set.  Fixes #727152.
+
 2014-03-25  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c: Don't handle conditional number formats (of
