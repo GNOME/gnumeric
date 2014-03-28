@@ -742,11 +742,12 @@ else
 	    AC_MSG_RESULT(yes)
 
 	    dnl Use ExtUtils::Embed to figure out the other options.
-	    PERL_CCCDLFLAGS=`$PERL -MConfig -e 'print $Config{cccdlflags},"\n";'`
-	    PERL_LDDLFLAGS=`$PERL -MConfig -e 'print $Config{lddlflags},"\n";'`
-	    PERL_CC=`$PERL -MConfig -e 'print $Config{cc},"\n";'`
-	    PERL_LD=`$PERL -MConfig -e 'print $Config{ld},"\n";'`
-	    PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts`
+	    PERL_CCCDLFLAGS=`$PERL -MConfig -e 'print $Config{cccdlflags};'`
+	    PERL_LDDLFLAGS=`$PERL -MConfig -e 'print $Config{lddlflags};'`
+	    PERL_CC=`$PERL -MConfig -e 'print $Config{cc};'`
+	    PERL_LD=`$PERL -MConfig -e 'print $Config{ld};'`
+	    perlinc=`$PERL -MConfig -e 'print "$Config{archlib}/CORE";'`
+	    PERL_CCOPTS="`$PERL -MExtUtils::Embed -e ccopts` -I$perlinc"
 	    PERL_LDOPTS=`$PERL -MExtUtils::Embed -e ldopts`
 
 	    AC_MSG_CHECKING([Checking for perl compiler, linker, libraries and headers])
@@ -758,7 +759,7 @@ else
 int main () { (void)&perl_construct; return 0; }
 EOF
 	    $PERL_CC $PERL_CCOPTS -c testperl.c >testperl.err 2>&1 &&
-	    $PERL_LD -o testperl testperl.o $PERL_LDOPTS >testperl.err 2>&1 &&
+	    $PERL_LD -o testperl testperl.$ac_objext $PERL_LDOPTS >testperl.err 2>&1 &&
 	    test -x testperl &&
 	    have_perl=yes
 	    AC_MSG_RESULT($have_perl)
