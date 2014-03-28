@@ -1,3 +1,7 @@
+2014-03-28  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): Move Ubuntu hack earlier.
+
 2014-03-27  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Attempt to banish ubuntu's
