@@ -377,7 +377,6 @@ gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags,
 
 /**
  * gnm_excel_search_impl:
- *
  * @needle: the pattern to search for, see gnm_regcomp_XL.
  * @haystack: the string to search in.
  * @skip: zero-based search start point in characters.

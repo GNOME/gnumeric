@@ -2369,7 +2369,6 @@ cb_most_common (GnmStyle *style,
 
 /**
  * sheet_style_most_common:
- *
  * @sheet: sheet to inspect
  * @is_col: if %TRUE, look for common styles in columns; if FALSE, look in rows.
  *
