@@ -5279,6 +5279,61 @@ odf_number_percentage_style (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+odf_cond_to_xl (GsfXMLIn *xin, GString *dst, const char *cond, int part, int parts)
+{
+	double val;
+	const char *oper; /* xl-syntax */
+	char *end;
+
+	while (g_ascii_isspace (*cond))
+		cond++;
+
+	if (cond[0] == '>' && cond[1] == '=')
+		oper = ">=", cond += 2;
+	else if (cond[0] == '>')
+		oper = ">", cond++;
+	else if (cond[0] == '<' && cond[1] == '=')
+		oper = "<=", cond += 2;
+	else if (cond[0] == '<')
+		oper = "<", cond++;
+	else if (cond[0] == '!' && cond[1] == '=')
+		oper = "<>", cond += 2; /* surprise! */
+	else if (cond[0] == '=')
+		oper = "=", cond++;
+	else
+		goto bad;
+
+	while (g_ascii_isspace (*cond))
+		cond++;
+	val = go_strtod (cond, &end);
+	if (*end != 0 || !go_finite (val))
+		goto bad;
+
+	/*
+	 * Don't add the default condition.  Note, that on save we cannot store
+	 * whether the condition was implicit or not, so just assume it was.
+	 */
+	if (part <= 2 && val == 0.0) {
+		static const char *defaults[3] = { ">", "<", "=" };
+		const char *def = (parts == 2 && part == 0)
+			? ">="
+			: defaults[part];
+		if (g_str_equal (oper, def))
+			return;
+	}
+
+	g_string_append_c (dst, '[');
+	g_string_append (dst, oper);
+	g_string_append (dst, cond);  /* Copy value in string form */
+	g_string_append_c (dst, ']');
+	return;
+
+bad:
+	oo_warning (xin, _("Corrupted file: invalid number format condition."));
+}
+
+
+static void
 odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -5298,202 +5353,41 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (state->conditions != NULL) {
 		/* We have conditional formats */
+		int part = 0, parts = g_slist_length (state->conditions) + 1;
 		GSList *lc, *lf;
-		char *accum;
-		int parts = 0;
-		gboolean default_condition = FALSE;
+		GString *accum = g_string_new (NULL);
 
-		accum = g_string_free (state->cur_format.accum, FALSE);
-		if (strlen (accum) == 0) {
-			g_free (accum);
-			accum = NULL;
-		}
-		state->cur_format.accum = g_string_new (NULL);
+		/* We added things in opposite order, so reverse now.  */
+		lc = state->conditions = g_slist_reverse (state->conditions);
+		lf = state->cond_formats = g_slist_reverse (state->cond_formats);
 
-		lc = state->conditions;
-		lf = state->cond_formats;
 		while (lc && lf) {
-			char *cond = lc->data;
-			if (cond != NULL && *cond == '>') {
-				GOFormat const *fmt;
-				char *val = cond + strcspn (cond, "0123456789.");
-				if ((*(cond+1) != '=') || (strtod (val, NULL) != 0.))
-					g_string_append_printf
-						(state->cur_format.accum,
-						 (*(cond+1) == '=') ? "[>=%s]" : "[>%s]", val);
-				else
-					default_condition = TRUE;
-				fmt = g_hash_table_lookup (state->formats, lf->data);
-				if (fmt != NULL)
-					g_string_append (state->cur_format.accum, go_format_as_XL (fmt));
-				else {
-					g_string_append (state->cur_format.accum, "\"\"");
-					oo_warning (xin, _("This file appears corrupted, required "
-							   "formats are missing."));
-				}
-				parts++;
-				g_free (lc->data);
-				lc->data = NULL;
-				break;
+			const char *cond = lc->data;
+			const char *fmtname = lf->data;
+			GOFormat const *fmt = g_hash_table_lookup (state->formats, fmtname);
+
+			odf_cond_to_xl (xin, accum, cond, part, parts);
+
+			if (!fmt) {
+				oo_warning (xin, _("This file appears corrupted, required "
+						   "formats are missing."));
+				fmt = go_format_general ();
 			}
+
+			g_string_append (accum, go_format_as_XL (fmt));
+			g_string_append_c (accum, ';');
+			part++;
 			lc = lc->next;
 			lf = lf->next;
 		}
 
-		if (parts == 0) {
-			lc = state->conditions;
-			lf = state->cond_formats;
-			while (lc && lf) {
-				char *cond = lc->data;
-				if (cond != NULL && *cond == '=') {
-					GOFormat const *fmt;
-					char *val = cond + strcspn (cond, "0123456789.");
-					g_string_append_printf (state->cur_format.accum, "[=%s]", val);
-					fmt = g_hash_table_lookup (state->formats, lf->data);
-					if (fmt != NULL)
-						g_string_append (state->cur_format.accum,
-								 go_format_as_XL (fmt));
-					else {
-						g_string_append (state->cur_format.accum, "\"\"");
-						oo_warning (xin, _("This file appears corrupted, required "
-								   "formats are missing."));
-					}
-					parts++;
-					g_free (lc->data);
-					lc->data = NULL;
-					break;
-				}
-				lc = lc->next;
-				lf = lf->next;
-			}
-		}
+		if (state->cur_format.accum->len == 0)
+			g_string_append (accum, "General");
+		else
+			g_string_append (accum, state->cur_format.accum->str);
 
-		if (parts == 0) {
-			lc = state->conditions;
-			lf = state->cond_formats;
-			while (lc && lf) {
-				char *cond = lc->data;
-				if (cond != NULL && *cond == '<' && *(cond + 1) == '>') {
-					GOFormat const *fmt;
-					char *val = cond + strcspn (cond, "0123456789.");
-					g_string_append_printf (state->cur_format.accum, "[<>%s]", val);
-					fmt = g_hash_table_lookup (state->formats, lf->data);
-					if (fmt != NULL)
-						g_string_append (state->cur_format.accum,
-								 go_format_as_XL (fmt));
-					else {
-						g_string_append (state->cur_format.accum, "\"\"");
-						oo_warning (xin, _("This file appears corrupted, required "
-								   "formats are missing."));
-					}
-					parts++;
-					g_free (lc->data);
-					lc->data = NULL;
-					break;
-				}
-				lc = lc->next;
-				lf = lf->next;
-			}
-		}
-
-		if ((parts == 0) && (accum != NULL)) {
-			g_string_append (state->cur_format.accum, accum);
-			parts++;
-		}
-
-		lc = state->conditions;
-		lf = state->cond_formats;
-		while (lc && lf) {
-			char *cond = lc->data;
-			if (cond != NULL && *cond == '<' && *(cond + 1) != '>') {
-				GOFormat const *fmt;
-				char *val = cond + strcspn (cond, "0123456789.");
-				float val_d = strtod (val, NULL);
-				if (parts > 0)
-					g_string_append_c (state->cur_format.accum, ';');
-				if ((*(cond+1) != '=') || (val_d != 0.)) {
-					if (!(parts == 1 && default_condition && (*(cond+1) != '=')) &&
-					    val_d == 0.)
-						g_string_append_printf
-							(state->cur_format.accum,
-							 (*(cond+1) == '=') ? "[<=%s]" : "[<%s]", val);
-				}
-				fmt = g_hash_table_lookup (state->formats, lf->data);
-				if (fmt != NULL)
-					g_string_append (state->cur_format.accum,
-							 go_format_as_XL (fmt));
-				else {
-					g_string_append (state->cur_format.accum, "\"\"");
-					oo_warning (xin, _("This file appears corrupted, required "
-							   "formats are missing."));
-				}
-				parts++;
-			}
-			lc = lc->next;
-			lf = lf->next;
-		}
-
-		if (parts < 2) {
-			lc = state->conditions;
-			lf = state->cond_formats;
-			while (lc && lf) {
-				char *cond = lc->data;
-				if (cond != NULL && *cond == '=') {
-					GOFormat const *fmt;
-					char *val = cond + strcspn (cond, "0123456789.");
-					if (parts > 0)
-						g_string_append_c (state->cur_format.accum, ';');
-					g_string_append_printf (state->cur_format.accum, "[=%s]", val);
-					fmt = g_hash_table_lookup (state->formats, lf->data);
-					if (fmt != NULL)
-						g_string_append (state->cur_format.accum,
-								 go_format_as_XL (fmt));
-					else {
-						g_string_append (state->cur_format.accum, "\"\"");
-						oo_warning (xin, _("This file appears corrupted, required "
-								   "formats are missing."));
-					}
-					parts++;
-					break;
-				}
-				lc = lc->next;
-				lf = lf->next;
-			}
-		}
-
-		if (parts < 2) {
-			lc = state->conditions;
-			lf = state->cond_formats;
-			while (lc && lf) {
-				GOFormat const *fmt;
-				char *cond = lc->data;
-				if (cond != NULL && *cond == '<' && *(cond + 1) == '>') {
-					char *val = cond + strcspn (cond, "0123456789.");
-					if (parts > 0)
-						g_string_append_c (state->cur_format.accum, ';');
-					g_string_append_printf (state->cur_format.accum, "[<>%s]", val);
-					fmt = g_hash_table_lookup (state->formats, lf->data);
-					if (fmt != NULL)
-						g_string_append (state->cur_format.accum,
-								 go_format_as_XL (fmt));
-					else {
-						g_string_append (state->cur_format.accum, "\"\"");
-						oo_warning (xin, _("This file appears corrupted, required "
-								   "formats are missing."));
-					}
-					parts++;
-					break;
-				}
-				lc = lc->next;
-				lf = lf->next;
-			}
-		}
-		if (accum != NULL) {
-			if (parts > 0)
-				g_string_append_c (state->cur_format.accum, ';');
-			g_string_append (state->cur_format.accum, accum);
-			g_free (accum);
-		}
+		g_string_free (state->cur_format.accum, TRUE);
+		state->cur_format.accum = accum;
 	}
 
 	g_hash_table_insert (state->formats, state->cur_format.name,

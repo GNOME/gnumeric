@@ -1,5 +1,8 @@
 2014-03-27  Morten Welinder  <terra@gnome.org>
 
+	* openoffice-read.c (odf_number_style_end): Simplify building a
+	conditional xl-style format.
+
 	* openoffice-write.c (odf_write_style_cell_properties): Don't
 	assume pattern colour is set.  Fixes #727152.
 
