@@ -1,6 +1,7 @@
 2014-03-28  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_map): Fix condition !=.
+	(odf_number_color): Handle also numbered colours.
 
 2014-03-27  Morten Welinder  <terra@gnome.org>
 

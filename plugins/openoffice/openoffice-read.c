@@ -403,6 +403,7 @@ struct  _OOParseState {
 	GHashTable	*controls;
 	GHashTable	*validations;
 	GHashTable	*strings;
+	GHashTable	*format_colors;
 
 	odf_validation_t *cur_validation;
 
@@ -5216,33 +5217,84 @@ odf_number_invisible_text (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
+static GHashTable *
+setup_format_colors (void)
+{
+	GHashTable *h = g_hash_table_new_full
+		(g_direct_hash, g_direct_equal,
+		NULL, (GDestroyNotify)g_strdup);
+	int i;
+	GString *accum = g_string_new (NULL);
+
+	g_hash_table_insert (h,
+			     GUINT_TO_POINTER (GO_COLOR_BLACK),
+			     g_strdup ("[Black]"));
+	g_hash_table_insert (h,
+			     GUINT_TO_POINTER (GO_COLOR_WHITE),
+			     g_strdup ("[White]"));
+	g_hash_table_insert (h,
+			     GUINT_TO_POINTER (GO_COLOR_RED),
+			     g_strdup ("[Red]"));
+	g_hash_table_insert (h,
+			     GUINT_TO_POINTER (GO_COLOR_GREEN),
+			     g_strdup ("[Green]"));
+	g_hash_table_insert (h,
+			     GUINT_TO_POINTER (GO_COLOR_BLUE),
+			     g_strdup ("[Blue]"));
+	g_hash_table_insert (h,
+			     GUINT_TO_POINTER (GO_COLOR_YELLOW),
+			     g_strdup ("[Yellow]"));
+	g_hash_table_insert (h,
+			     GUINT_TO_POINTER (GO_COLOR_VIOLET),
+			     g_strdup ("[Magenta]"));
+	g_hash_table_insert (h,
+			     GUINT_TO_POINTER (GO_COLOR_CYAN),
+			     g_strdup ("[Cyan]"));
+
+	for (i = 9; i <= 56; i++) {
+		char *str = g_strdup_printf ("[Color%d]0", i);
+		GOFormat *fmt = go_format_new_from_XL (str);
+		GOColor color;
+
+		go_format_value_gstring
+			(NULL, accum,
+			 go_format_measure_zero,
+			 go_font_metrics_unit,
+			 fmt,
+			 0.0, 'F', NULL,
+			 &color, -1, NULL, FALSE);
+		go_format_unref (fmt);
+		g_free (str);
+
+		if (!g_hash_table_lookup (h, GUINT_TO_POINTER (color)))
+			g_hash_table_insert (h,
+					     GUINT_TO_POINTER (color),
+					     g_strdup_printf ("[Color%d]", i));
+	}
+	g_string_free (accum, TRUE);
+
+	return h;
+}
+
+
 static void
 odf_number_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "color")){
-			char const *color = NULL;
-			if (attr_eq_ncase (attrs[1], "#ff0000", 7))
-				color = "[Red]";
-			else if (attr_eq_ncase (attrs[1], "#000000", 7))
-				color = "[Black]";
-			else if (attr_eq_ncase (attrs[1], "#0000ff", 7))
-				color = "[Blue]";
-			else if (attr_eq_ncase (attrs[1], "#00ffff", 7))
-				color = "[Cyan]";
-			else if (attr_eq_ncase (attrs[1], "#00ff00", 7))
-				color = "[Green]";
-			else if (attr_eq_ncase (attrs[1], "#ff00ff", 7))
-				color = "[Magenta]";
-			else if (attr_eq_ncase (attrs[1], "#ffffff", 7))
-				color = "[White]";
-			else if (attr_eq_ncase (attrs[1], "#ffff00", 7))
-				color = "[Yellow]";
-			if (color != NULL)
-				g_string_append (state->cur_format.accum, color);
+			int r, b, g;
+			if (3 == sscanf (CXML2C (attrs[1]), "#%2x%2x%2x", &r, &g, &b)) {
+				GOColor col = GO_COLOR_FROM_RGB (r, g, b);
+				char const *color =
+					g_hash_table_lookup (state->format_colors,
+							     GUINT_TO_POINTER (col));
+				if (color != NULL)
+					g_string_append (state->cur_format.accum, color);
+			}
 		}
+	}
 }
 
 static void
@@ -12666,6 +12718,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.validations = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) odf_validation_free);
+	state.format_colors = setup_format_colors ();
 	state.chart.so = NULL;
 	state.chart.saved_graph_styles = NULL;
 	state.chart.saved_hatches = NULL;
@@ -12870,6 +12923,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_hash_table_destroy (state.controls);
 	g_hash_table_destroy (state.validations);
 	g_hash_table_destroy (state.strings);
+	g_hash_table_destroy (state.format_colors);
 	g_hash_table_destroy (state.chart.arrow_markers);
 	if (state.openformula_namemap)
 		g_hash_table_destroy (state.openformula_namemap);
