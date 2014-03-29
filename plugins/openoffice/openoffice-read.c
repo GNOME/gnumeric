@@ -1424,6 +1424,7 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
 		   GnmConventions const *convs)
 {
 	char const *ptr;
+	char const *ptr2;
 	char *external = NULL;
 	char *external_sheet_1 = NULL;
 	char *external_sheet_2 = NULL;
@@ -1431,15 +1432,25 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
 
 	ptr = odf_parse_external (start, &external, convs);
 
-	ptr = oo_cellref_parse (&ref->a, ptr, pp,
-				external == NULL ? NULL : &external_sheet_1);
-	if (*ptr == ':')
-		ptr = oo_cellref_parse (&ref->b, ptr+1, pp,
-				external == NULL ? NULL : &external_sheet_2);
-	else
+	ptr2 = oo_cellref_parse (&ref->a, ptr, pp,
+				 external ? &external_sheet_1 : NULL);
+	if (ptr == ptr2)
+		return start;
+	ptr = ptr2;
+
+	if (*ptr == ':') {
+		ptr2 = oo_cellref_parse (&ref->b, ptr+1, pp,
+					 external ? &external_sheet_2 : NULL);
+		if (ptr2 == ptr + 1)
+			ref->b = ref->a;
+		else
+			ptr = ptr2;
+	} else
 		ref->b = ref->a;
+
 	if (ref->b.sheet == invalid_sheet)
 		ref->a.sheet = invalid_sheet;
+
 	if (external != NULL) {
 		Workbook *wb = pp->wb, *ext_wb;
 		Workbook *ref_wb = wb ? wb : pp->sheet->workbook;
@@ -1477,7 +1488,7 @@ oo_expr_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *
 			GnmConventions const *convs)
 {
 	char const *ptr;
-	if (*start == '[') {
+	if (start[0] == '[' && start[1] != ']') {
 		if (strncmp (start, "[#REF!]", 7) == 0) {
 			ref->a.sheet = invalid_sheet;
 			return start + 7;
@@ -5333,6 +5344,7 @@ odf_cond_to_xl (GsfXMLIn *xin, GString *dst, const char *cond, int part, int par
 	double val;
 	const char *oper; /* xl-syntax */
 	char *end;
+	const char *cond0 = cond;
 
 	while (g_ascii_isspace (*cond))
 		cond++;
@@ -5380,7 +5392,7 @@ odf_cond_to_xl (GsfXMLIn *xin, GString *dst, const char *cond, int part, int par
 	return;
 
 bad:
-	oo_warning (xin, _("Corrupted file: invalid number format condition."));
+	oo_warning (xin, _("Corrupted file: invalid number format condition [%s]."), cond0);
 }
 
 

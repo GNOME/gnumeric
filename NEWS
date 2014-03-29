@@ -9,6 +9,7 @@ Morten:
 	* Fix problems with large, circular farms of VLOOKUP etc. [#723894]
 	* Let goffice handle conditional number formats.
 	* Attempt a workaround for Ubuntu scroll bars.
+	* Fix odf parse problems.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.13

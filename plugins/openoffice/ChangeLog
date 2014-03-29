@@ -1,3 +1,9 @@
+2014-03-29  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_rangeref_parse): Handle parse failures (of
+	[]) without reading undefined memory.
+	(oo_expr_rangeref_parse): Handle [] better.
+
 2014-03-28  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_map): Fix condition !=.
