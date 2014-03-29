@@ -5171,12 +5171,9 @@ odf_map (GsfXMLIn *xin, xmlChar const **attrs)
 	if (condition != NULL && style_name != NULL && g_str_has_prefix (condition, "value()")) {
 		condition += 7;
 		while (*condition == ' ') condition++;
-		if (*condition == '>' || *condition == '<' || *condition == '=') {
-			state->conditions = g_slist_prepend (state->conditions, g_strdup (condition));
-			state->cond_formats = g_slist_prepend (state->cond_formats,
-							       g_strdup (style_name));
-			return;
-		}
+		state->conditions = g_slist_prepend (state->conditions, g_strdup (condition));
+		state->cond_formats = g_slist_prepend (state->cond_formats,
+						       g_strdup (style_name));
 	}
 }
 

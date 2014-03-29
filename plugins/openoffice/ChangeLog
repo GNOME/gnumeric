@@ -1,3 +1,7 @@
+2014-03-28  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_map): Fix condition !=.
+
 2014-03-27  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_number_style_end): Simplify building a
