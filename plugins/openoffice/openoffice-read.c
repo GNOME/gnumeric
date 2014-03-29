@@ -5343,6 +5343,8 @@ odf_cond_to_xl (GsfXMLIn *xin, GString *dst, const char *cond, int part, int par
 		oper = ">", cond++;
 	else if (cond[0] == '<' && cond[1] == '=')
 		oper = "<=", cond += 2;
+	else if (cond[0] == '<' && cond[1] == '>')
+		oper = "<>", cond += 2; /* Not standard, see bug 727297 */
 	else if (cond[0] == '<')
 		oper = "<", cond++;
 	else if (cond[0] == '!' && cond[1] == '=')
