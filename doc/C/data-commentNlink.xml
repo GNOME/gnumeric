@@ -129,7 +129,7 @@
     Instead, if any cells in the selection have existing hyperlinks, those
     hyperlinks are removed.
     The distinctive format applied to links is not removed.
-    For that reason it might be preferrable to choose
+    For that reason it might be preferable to choose
     <xref linkend="edit-menu-clear-links" />
     from the <xref linkend="Edit-Menu" /> to remove existing hyperlinks.
   </para>
