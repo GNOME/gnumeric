@@ -925,7 +925,7 @@ static GnmFuncHelp const help_hpfilter[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This array function returns the trend and cyclical components obtained by applying the Hodrick Prescott Filter with parameter @{\316\273} to the given data sequence.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists of two columns of numbers, the first containing the trend component, the second the cyclical component.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE!") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{Sequence} contians less than 6 numerical values, this function returns #VALUE!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{Sequence} contains less than 6 numerical values, this function returns #VALUE!") },
 	{ GNM_FUNC_HELP_END, NULL }
 };
 
