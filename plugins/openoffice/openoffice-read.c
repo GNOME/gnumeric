@@ -5237,7 +5237,7 @@ odf_number_color (GsfXMLIn *xin, xmlChar const **attrs)
 			int r, b, g;
 			if (3 == sscanf (CXML2C (attrs[1]), "#%2x%2x%2x", &r, &g, &b)) {
 				GOColor col = GO_COLOR_FROM_RGB (r, g, b);
-				int i = go_format_palette_index_from_color (col, NULL);
+				int i = go_format_palette_index_from_color (col);
 				char *color = go_format_palette_name_of_index (i);
 				g_string_append_c (state->cur_format.accum, '[');
 				g_string_append (state->cur_format.accum, color);
