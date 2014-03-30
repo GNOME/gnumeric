@@ -958,7 +958,7 @@ FUNCTIONNAME(ARGUMENTS)
 </row>
 <row>
   <entry><code>#REF!</code></entry>
-  <entry>An invalid cell adress or reference was encountered.</entry> 
+  <entry>An invalid cell address or reference was encountered.</entry> 
 </row>
 <row>
   <entry><code>#UNKNOWN!</code></entry>
