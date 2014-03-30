@@ -12875,6 +12875,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_hash_table_destroy (state.validations);
 	g_hash_table_destroy (state.strings);
 	g_hash_table_destroy (state.chart.arrow_markers);
+	g_slist_free_full (state.sheet_order, (GDestroyNotify)g_free);
 	if (state.openformula_namemap)
 		g_hash_table_destroy (state.openformula_namemap);
 	if (state.openformula_handlermap)
