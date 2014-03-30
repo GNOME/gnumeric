@@ -7241,9 +7241,12 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			if (*expr_str == '=')
 				expr_str++;
 
-			texpr = oo_expr_parse_str (xin, expr_str,
-						   &pp, GNM_EXPR_PARSE_DEFAULT,
-						   f_type);
+			if (*expr_str == 0)
+				texpr = gnm_expr_top_new_constant (value_new_error_REF (NULL));
+			else
+				texpr = oo_expr_parse_str (xin, expr_str,
+							   &pp, GNM_EXPR_PARSE_DEFAULT,
+							   f_type);
 			if (texpr != NULL) {
 				pp.sheet = state->pos.sheet;
 				if (pp.sheet == NULL && scope != NULL)
