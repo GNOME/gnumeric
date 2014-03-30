@@ -4002,7 +4002,7 @@
 	<para>
 	  To add either a major or minor grid to an axis, the user selects the
 	  appropriate axis in the hierarchy tree of graph components, clicks
-	  the <guibutton>Add</guibutton> button below the hierachy, and selects
+	  the <guibutton>Add</guibutton> button below the hierarchy, and selects
 	  either <guimenu>MajorGrid</guimenu> or <guimenu>MinorGrid</guimenu>.
 	</para>
 
