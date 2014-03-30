@@ -1,3 +1,8 @@
+2014-03-30  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_number_color): Use new go_format_palette_
+	functions.  This also handles approximate matches.
+
 2014-03-29  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_rangeref_parse): Handle parse failures (of
