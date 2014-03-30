@@ -1553,12 +1553,17 @@ gnm_app_add_extra_ui (char const *group_name,
 	extra_ui->layout = g_strdup (layout);
 	extra_ui->user_data = user_data;
 	g_signal_emit (G_OBJECT (app), signals[CUSTOM_UI_ADDED], 0, extra_ui);
+	if (gnm_debug_flag ("extra-ui"))
+		g_printerr ("Adding extra ui [%s] %p\n", group_name, extra_ui);
 	return extra_ui;
 }
 
 void
 gnm_app_remove_extra_ui (GnmAppExtraUI *extra_ui)
 {
+	if (gnm_debug_flag ("extra-ui"))
+		g_printerr ("Removing extra ui %p\n", extra_ui);
+	extra_uis = g_slist_remove (extra_uis, extra_ui);
 	g_signal_emit (G_OBJECT (app), signals[CUSTOM_UI_REMOVED], 0, extra_ui);
 	g_free (extra_ui->group_name);
 	g_free (extra_ui->layout);

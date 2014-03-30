@@ -1,3 +1,8 @@
+2014-03-30  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_remove_extra_ui): Remove from global
+	list of extra uis.
+
 2014-03-28  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Move Ubuntu hack earlier.
