@@ -7274,8 +7274,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			g_free (tmp);
 
 			if (texpr == NULL ||
-			    GNM_EXPR_GET_OPER (texpr->expr)
-			    != GNM_EXPR_OP_CELLREF) {
+			    !gnm_expr_top_get_cellref (texpr)) {
 				oo_warning (xin, _("expression '%s' @ '%s' "
 						   "is not a cellref"),
 					    name, base_str);
@@ -7287,7 +7286,6 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 			if (texpr != NULL)
 				gnm_expr_top_unref (texpr);
-
 		}
 
 		f_type = odf_get_formula_type (xin, &expr_str);
