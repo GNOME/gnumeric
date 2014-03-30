@@ -2472,7 +2472,7 @@ static GnmFuncHelp const help_ztest[] = {
 	{ GNM_FUNC_HELP_ARG, F_("ref:data set (sample)")},
 	{ GNM_FUNC_HELP_ARG, F_("x:population mean")},
 	{ GNM_FUNC_HELP_ARG, F_("stddev:population standard deviation, defaults to the sample standard deviation")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("ZTEST calulates the probability of observing a sample mean as large as "
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ZTEST calculates the probability of observing a sample mean as large as "
 				 "or larger than the mean of the given sample for samples drawn "
 				 "from a normal distribution with mean @{x} and standard deviation @{stddev}.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{ref} contains less than two data items ZTEST "
