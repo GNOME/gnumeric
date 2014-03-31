@@ -1,3 +1,8 @@
+2014-03-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_embedded_text_end): remove print statement
+	(oo_date_text_append): cover '"'
+
 2014-03-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_embedded_text_start): new

@@ -4859,8 +4859,6 @@ odf_embedded_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	odf_insert_in_integer (state, xin->content->str);
 
 	state->cur_format.offset = 0;
-
-	g_print ("odf_embedded_text_end: >>%s<<\n", state->cur_format.accum->str);
 }
 
 static void
@@ -4892,39 +4890,25 @@ oo_date_text_append_unquoted (OOParseState *state, char cnt)
 static void
 oo_date_text_append (OOParseState *state, char const *cnt, int cnt_len)
 {
-	if (cnt_len == 1) {
+	if (cnt_len > 0) {
 		if (NULL != strchr (" /-(),",*cnt)) {
 			oo_date_text_append_unquoted (state, *cnt);
+			oo_date_text_append (state, cnt + 1, cnt_len - 1);
 			return;
-		}
-		if (state->cur_format.percentage && *cnt == '%') {
+		} else if (state->cur_format.percentage && *cnt == '%') {
 			oo_date_text_append_unquoted  (state, '%');
 			state->cur_format.percent_sign_seen = TRUE;
+			oo_date_text_append (state, cnt + 1, cnt_len - 1);
 			return;
+		} else if (*cnt == '"') {
+			oo_date_text_append_unquoted  (state, '\\');
+			oo_date_text_append_unquoted  (state, '"');
+			oo_date_text_append (state, cnt + 1, cnt_len - 1);
+			return;
+		} else {
+			oo_date_text_append_quoted (state, cnt, 1);
+			oo_date_text_append (state, cnt + 1, cnt_len - 1);
 		}
-	}
-
-	if (cnt_len > 0) {
-		if (state->cur_format.percentage) {
-			int len = cnt_len;
-			char const *text = cnt;
-			char const *percent_sign;
-			while ((percent_sign = strchr (text, '%')) != NULL) {
-				if (percent_sign > text) {
-					oo_date_text_append_quoted 
-						(state, text,
-						 percent_sign - text);
-					len -= (percent_sign - text);
-				}
-				text = percent_sign + 1;
-				len--;
-				oo_date_text_append_unquoted (state, '%');
-				state->cur_format.percent_sign_seen = TRUE;
-			}
-			if (len > 0)
-				oo_date_text_append_quoted (state, text, len);
-		} else
-			oo_date_text_append_quoted (state, cnt, cnt_len);
 	}
 }
 
