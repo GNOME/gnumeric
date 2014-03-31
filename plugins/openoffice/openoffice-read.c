@@ -5108,7 +5108,7 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean grouping = FALSE;
 	int decimal_places = 0;
-	gboolean vals_specified = FALSE;
+	gboolean decimals_specified = FALSE;
 /* 	gnm_float display_factor = 1.; */
 	int min_i_digits = 1;
 
@@ -5119,17 +5119,17 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &grouping))
-			vals_specified = TRUE;
+			;
 		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER, "decimal-places", &decimal_places, 0, 30)) {
-			vals_specified = TRUE;
+			decimals_specified = TRUE;
 		} /* else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					       "display-factor")) */
 /* 			display_factor = gnm_strto (CXML2C (attrs[1]), NULL); */
 		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER,
 					      "min-integer-digits", &min_i_digits, 0, 30))
-			vals_specified = TRUE;
+			;
 
-	if (vals_specified)
+	if (decimals_specified || (min_i_digits != 1) || grouping)
 		go_format_generate_number_str (state->cur_format.accum,  min_i_digits, decimal_places,
 					       grouping, FALSE, FALSE, NULL, NULL);
 	else
