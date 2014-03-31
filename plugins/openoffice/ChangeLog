@@ -1,5 +1,11 @@
 2014-03-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_embedded_text_start): new
+	(odf_embedded_text_end): new
+	(odf_insert_in_integer): simple minded insertion of embedded text
+
+2014-03-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c: expect number:fill-character
 
 2014-03-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>

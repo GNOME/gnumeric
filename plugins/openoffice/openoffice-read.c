@@ -4821,6 +4821,49 @@ oo_date_am_pm (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 }
 
 static void
+odf_embedded_text_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	state->cur_format.offset = 0;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_int (xin, attrs, OO_NS_NUMBER,
+				 "position", &(state->cur_format.offset)))
+			;
+}
+
+static void
+odf_insert_in_integer (OOParseState *state, char *str)
+{
+	/* We want to insert str in front of the state->cur_format.offset's integer digit */
+	/* For the moment we assume that we have just an integer and str does not contain */
+	/* any quotation marks */
+
+	g_string_insert (state->cur_format.accum,
+			 state->cur_format.accum->len - state->cur_format.offset,
+			 "\"\"");
+	g_string_insert (state->cur_format.accum,
+			 state->cur_format.accum->len - state->cur_format.offset - 1,
+			 str);
+}
+
+static void
+odf_embedded_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->cur_format.accum == NULL)
+		return;
+
+	odf_insert_in_integer (state, xin->content->str);
+
+	state->cur_format.offset = 0;
+
+	g_print ("odf_embedded_text_end: >>%s<<\n", state->cur_format.accum->str);
+}
+
+static void
 odf_date_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -5081,7 +5124,7 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean grouping = FALSE;
 	int decimal_places = 0;
-	gboolean decimal_places_specified = FALSE;
+	gboolean vals_specified = FALSE;
 /* 	gnm_float display_factor = 1.; */
 	int min_i_digits = 1;
 
@@ -5091,17 +5134,18 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 	/* We are ignoring number:decimal-replacement */
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &grouping)) {}
+		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &grouping))
+			vals_specified = TRUE;
 		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER, "decimal-places", &decimal_places, 0, 30)) {
-			decimal_places_specified = TRUE;
+			vals_specified = TRUE;
 		} /* else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					       "display-factor")) */
 /* 			display_factor = gnm_strto (CXML2C (attrs[1]), NULL); */
 		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER,
 					      "min-integer-digits", &min_i_digits, 0, 30))
-			;
+			vals_specified = TRUE;
 
-	if (decimal_places_specified)
+	if (vals_specified)
 		go_format_generate_number_str (state->cur_format.accum,  min_i_digits, decimal_places,
 					       grouping, FALSE, FALSE, NULL, NULL);
 	else
@@ -10812,7 +10856,7 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_X
 
   GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
-       GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_CONTENT, &odf_embedded_text_start, &odf_embedded_text_end),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
        GSF_XML_IN_NODE (NUMBER_STYLE_TEXT, NUMBER_TEXT_INVISBLE, OO_GNUM_NS_EXT, "invisible", GSF_XML_NO_CONTENT, &odf_number_invisible_text, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT, &odf_fraction, NULL),

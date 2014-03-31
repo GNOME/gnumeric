@@ -1,5 +1,8 @@
 Gnumeric 1.12.14
 
+Andreas:
+	* Improve format import from ODF files.
+
 Morten:
 	* Plug leaks.
 	* xlsx conditional format fixes.  [#726202]
