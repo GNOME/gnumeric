@@ -1,3 +1,8 @@
+2014-03-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_header_footer_left): only warn if the
+	provided left header/footer style is intended to be displayed
+
 2014-03-30  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_number_color): Use new go_format_palette_

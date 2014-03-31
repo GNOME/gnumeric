@@ -5644,7 +5644,13 @@ static void
 odf_header_footer_left (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	if (!state->hd_ft_left_warned) {
+	gboolean display = TRUE;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "display",
+				  &display)) ;
+
+	if (display && !state->hd_ft_left_warned) {
 		oo_warning (xin, _("Gnumeric does not support having a different "
 				   "style for left pages. This style is ignored."));
 		state->hd_ft_left_warned = TRUE;
