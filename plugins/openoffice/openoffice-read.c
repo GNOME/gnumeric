@@ -4834,18 +4834,40 @@ odf_embedded_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-odf_insert_in_integer (OOParseState *state, char *str)
+odf_insert_in_integer (OOParseState *state, const char *str)
 {
-	/* We want to insert str in front of the state->cur_format.offset's integer digit */
-	/* For the moment we assume that we have just an integer and str does not contain */
-	/* any quotation marks */
+	gboolean needs_quoting = FALSE;
+	const char *p;
+	GString *accum = state->cur_format.accum;
+	int pos = state->cur_format.offset;
 
-	g_string_insert (state->cur_format.accum,
-			 state->cur_format.accum->len - state->cur_format.offset,
-			 "\"\"");
-	g_string_insert (state->cur_format.accum,
-			 state->cur_format.accum->len - state->cur_format.offset - 1,
-			 str);
+	g_return_if_fail (pos >= 0 && pos < (int)accum->len);
+
+	/*
+	 * We want to insert str in front of the state->cur_format.offset's
+	 * integer digit.  For the moment we assume that we have just an
+	 * integer and str does not contain any quotation marks
+	 */
+
+	for (p = str; *p; p++) {
+		switch (*p) {
+		case '-':
+		case ' ':
+		case '(':
+		case ')':
+			break;
+		default:
+			needs_quoting = TRUE;
+			break;
+		}
+	}
+
+	if (needs_quoting) {
+		g_string_insert (accum, accum->len - pos, "\"\"");
+		g_string_insert (accum, accum->len - pos - 1, str);
+	} else {
+		g_string_insert (accum, accum->len - pos, str);
+	}
 }
 
 static void

@@ -1,3 +1,7 @@
+2014-03-31  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_insert_in_integer): Be a bit smarter.
+
 2014-03-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_number): try to recognize LO's GENERAL
