@@ -123,7 +123,7 @@ get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
         gint       n;
 	gnm_float fAmorCoeff, fNRate, fRest, fUsePer;
 
-#define Round(x,y) (gnm_floor ((x) + 0.5))
+#define Round(x,y) (go_rint (x))
 
         fUsePer = 1.0 / fRate;
 

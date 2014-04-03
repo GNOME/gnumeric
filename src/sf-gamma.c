@@ -744,8 +744,8 @@ pochhammer (gnm_float x, gnm_float n)
 	if (n == 0)
 		return 1;
 
-	rx = gnm_floor (x + 0.5);
-	rn = gnm_floor (n + 0.5);
+	rx = gnm_floor (x);
+	rn = gnm_floor (n);
 
 	/*
 	 * Use naive multiplication when n is a small integer.
