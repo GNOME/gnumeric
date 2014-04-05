@@ -3625,11 +3625,13 @@ cb_cell_is_array (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 }
 
 /**
- * sheet_range_contains_region:
+ * sheet_range_contains_merges_or_arrays:
  * @sheet: The sheet
  * @r: the range to check.
  * @cc: an optional place to report errors.
  * @cmd:
+ * @merges: if %TRUE, check for merges.
+ * @arrays: if %TRUE, check for arrays.
  *
  * Check to see if the target region @sheet!@r contains any merged regions or
  * arrays.  Report an error to the @cc if it is supplied.
@@ -3637,29 +3639,35 @@ cb_cell_is_array (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
  * arrays.
  **/
 gboolean
-sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
-			     GOCmdContext *cc, char const *cmd)
+sheet_range_contains_merges_or_arrays (Sheet const *sheet, GnmRange const *r,
+				       GOCmdContext *cc, char const *cmd,
+				       gboolean merges, gboolean arrays)
 {
-	GSList *merged;
-
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	merged = gnm_sheet_merge_get_overlap (sheet, r);
-	if (merged != NULL) {
-		if (cc != NULL)
-			go_cmd_context_error_invalid (cc, cmd,
-				_("cannot operate on merged cells"));
-		g_slist_free (merged);
-		return TRUE;
+	if (merges) {
+		GSList *merged = gnm_sheet_merge_get_overlap (sheet, r);
+		if (merged != NULL) {
+			if (cc != NULL)
+				go_cmd_context_error_invalid
+					(cc, cmd,
+					 _("cannot operate on merged cells"));
+			g_slist_free (merged);
+			return TRUE;
+		}
 	}
 
-	if (sheet_foreach_cell_in_range ((Sheet *)sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		r->start.col, r->start.row, r->end.col, r->end.row,
-		cb_cell_is_array, NULL)) {
-		if (cc != NULL)
-			go_cmd_context_error_invalid (cc, cmd,
-				_("cannot operate on array formul\303\246"));
-		return TRUE;
+	if (arrays) {
+		if (sheet_foreach_cell_in_range (
+			    (Sheet *)sheet, CELL_ITER_IGNORE_NONEXISTENT,
+			    r->start.col, r->start.row, r->end.col, r->end.row,
+			    cb_cell_is_array, NULL)) {
+			if (cc != NULL)
+				go_cmd_context_error_invalid
+					(cc, cmd,
+					 _("cannot operate on array formul\303\246"));
+			return TRUE;
+		}
 	}
 
 	return FALSE;

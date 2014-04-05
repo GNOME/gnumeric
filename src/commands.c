@@ -2191,7 +2191,7 @@ cmd_sort (WorkbookControl *wbc, GnmSortData *data)
 	g_return_val_if_fail (data != NULL, TRUE);
 
 	desc = g_strdup_printf (_("Sorting %s"), range_as_string (data->range));
-	if (sheet_range_contains_region (data->sheet, data->range, GO_CMD_CONTEXT (wbc), desc)) {
+	if (sheet_range_contains_merges_or_arrays (data->sheet, data->range, GO_CMD_CONTEXT (wbc), desc, TRUE, TRUE)) {
 		gnm_sort_data_destroy (data);
 		g_free (desc);
 		return TRUE;

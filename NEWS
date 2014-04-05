@@ -13,6 +13,7 @@ Morten:
 	* Let goffice handle conditional number formats.
 	* Attempt a workaround for Ubuntu scroll bars.
 	* Fix odf parse problems.
+	* Fix array editing.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.13

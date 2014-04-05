@@ -169,8 +169,10 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			}
 
 			if (result == WBC_EDIT_ACCEPT_ARRAY &&
-			    sheet_range_contains_region (sheet, selection->data,
-							 GO_CMD_CONTEXT (wbc), _("Set Text"))) {
+			    sheet_range_contains_merges_or_arrays
+			    	(sheet, selection->data,
+				 GO_CMD_CONTEXT (wbc), _("Set Text"),
+				 TRUE, FALSE)) {
 				range_fragment_free (selection);
 				if (showed_dialog != NULL)
 					*showed_dialog = TRUE;

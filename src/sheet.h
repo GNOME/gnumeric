@@ -270,8 +270,12 @@ gboolean sheet_range_splits_region   (Sheet const *sheet,
 				      GOCmdContext *cc, char const *cmd);
 gboolean sheet_ranges_split_region   (Sheet const *sheet, GSList const *ranges,
 				      GOCmdContext *cc, char const *cmd);
-gboolean sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
-				      GOCmdContext *cc, char const *cmd);
+gboolean sheet_range_contains_merges_or_arrays (Sheet const *sheet,
+						GnmRange const *r,
+						GOCmdContext *cc,
+						char const *cmd,
+						gboolean merges,
+						gboolean arrays);
 void	 sheet_range_bounding_box    (Sheet const *sheet, GnmRange *r);
 gboolean sheet_range_trim	     (Sheet const *sheet, GnmRange *r,
 				      gboolean cols, gboolean rows);
