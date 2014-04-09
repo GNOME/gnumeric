@@ -797,6 +797,7 @@ format_match_datetime (char const *text,
 		}
 	}
 
+	g_free (date_format);
 	return NULL;
 
  got_date:

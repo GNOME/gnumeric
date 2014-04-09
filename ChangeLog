@@ -1,3 +1,8 @@
+2014-04-09  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (format_match_datetime): Plug leak on certain
+	failure cases.
+
 2014-04-02  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-gamma.c (pochhammer): Plain floor is good enough for
