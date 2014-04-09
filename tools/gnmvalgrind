@@ -74,6 +74,19 @@ sub find_topsrc {
 	$dir =~ s{^\./}{};
     }
 
+    $dir = $0;
+    $dir =~ s{/[^/]*$}{};
+    for (1 ... 5) {
+	if (-r "$dir/configure" && -r "$dir/gnumeric.xsd") {
+	    return $dir;
+	}
+
+	$dir = "$dir/..";
+	$dir =~ s{^\./}{};
+    }
+
+
+
     die "$0: Cannot find top-level directory.\n";
 }
 
