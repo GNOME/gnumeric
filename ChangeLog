@@ -1,3 +1,10 @@
+2014-04-11  Morten Welinder  <terra@gnome.org>
+
+	* src/item-bar.c: Get colours when we draw; only get sizing
+	relevant information at odd times, in particular when parent
+	widgets may be insensitive, such as during a load-onto-pristine.
+	Fixes #728007.
+
 2014-04-10  Morten Welinder  <terra@gnome.org>
 
 	* src/item-bar.c (ib_reload_style): Add debug code.

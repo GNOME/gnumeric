@@ -60,6 +60,9 @@ struct _GnmItemBar {
 	PangoFont *selection_fonts[3];
 	int selection_font_ascents[3];      
 	PangoRectangle selection_logical_sizes[3];
+
+	GdkRGBA grouping_color;
+
 	GtkBorder padding;
 };
 
@@ -104,7 +107,25 @@ static const GtkStateFlags selection_type_flags[3] = {
 
 
 static void
-ib_reload_style (GnmItemBar *ib)
+ib_reload_color_style (GnmItemBar *ib)
+{
+	GocItem *item = GOC_ITEM (ib);
+	GtkStyleContext *context = goc_item_get_style_context (item);
+	unsigned ui;
+
+	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+				     &ib->grouping_color);
+	ib->grouping_color.red = 1;
+
+	for (ui = 0; ui < G_N_ELEMENTS (selection_type_flags); ui++) {
+		GtkStateFlags state = selection_type_flags[ui];
+		gtk_style_context_get_color
+			(context, state, &ib->selection_colors[ui]);
+	}
+}
+
+static void
+ib_reload_sizing_style (GnmItemBar *ib)
 {
 	GocItem *item = GOC_ITEM (ib);
 	SheetControlGUI	* const scg = ib->pane->simple.scg;
@@ -128,9 +149,6 @@ ib_reload_style (GnmItemBar *ib)
 		const char *long_name;
 
 		gtk_style_context_set_state (context, state);
-
-		gtk_style_context_get_color
-			(context, state, &ib->selection_colors[ui]);
 
 		gtk_style_context_get (context, state, "font", &desc, NULL);
 		pango_font_description_set_size (desc,
@@ -162,16 +180,6 @@ ib_reload_style (GnmItemBar *ib)
 			 strlen (long_name));
 		pango_layout_get_extents (layout, NULL,
 					  &ib->selection_logical_sizes[ui]);
-	}
-
-	if (sheet->index_in_wb == 0 && gnm_debug_flag ("item-bar-style")) {
-		if (ib->selection_colors[0].red == 1 &&
-		    ib->selection_colors[0].green == 1 &&
-		    ib->selection_colors[0].blue == 1) {
-			g_printerr ("White item bar text\n");
-		} else {
-			g_printerr ("Non-white item bar text\n");
-		}
 	}
 
 	gtk_style_context_get_padding (context, GTK_STATE_FLAG_NORMAL,
@@ -210,7 +218,7 @@ gnm_item_bar_calc_size (GnmItemBar *ib)
 	unsigned ui;
 
 	ib_dispose_fonts (ib);
-	ib_reload_style (ib);
+	ib_reload_sizing_style (ib);
 
 	ib->cell_height = 0;
 	ib->cell_width = 0;
@@ -336,7 +344,14 @@ ib_draw_cell (GnmItemBar const * const ib, cairo_t *cr,
 				 rect->width - 2, rect->height - 2);
 		cairo_clip (cr);
 
-		gdk_cairo_set_source_rgba (cr, &ib->selection_colors[type]);
+		if (1) {
+			GdkRGBA c;
+
+			gtk_style_context_get_color (ctxt, selection_type_flags[type], &c);
+			gdk_cairo_set_source_rgba (cr, &c);
+		} else {
+			gdk_cairo_set_source_rgba (cr, &ib->selection_colors[type]);
+		}
 
 		cairo_translate (cr,
 				 rect->x + ib->padding.left +
@@ -363,7 +378,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr,
 {
 	double scale = item->canvas->pixels_per_unit;
 	int x0, x1, y0, y1;
-	GnmItemBar const         *ib = GNM_ITEM_BAR (item);
+	GnmItemBar *ib = GNM_ITEM_BAR (item);
 	GnmPane	 const	      *pane = ib->pane;
 	SheetControlGUI const *scg    = pane->simple.scg;
 	Sheet const           *sheet  = scg_sheet (scg);
@@ -380,13 +395,13 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr,
 	gboolean const rtl = sheet->text_is_rtl != FALSE;
 	int shadow;
 	int first_line_offset = 1;
-	GdkRGBA color;
 	GtkStyleContext *ctxt = goc_item_get_style_context (item);
 
 	gtk_style_context_save (ctxt);
-	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &color);
 	goc_canvas_c2w (item->canvas, x_0, y_0, &x0, &y0);
 	goc_canvas_c2w (item->canvas, x_1, y_1, &x1, &y1);
+
+	ib_reload_color_style (ib);
 
 	if (ib->is_col_header) {
 		int const inc = gnm_item_bar_group_size (ib, sheet->cols.max_outline_level);
@@ -453,7 +468,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr,
 					cairo_set_line_width (cr, 2.0);
 					cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 					cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-					gdk_cairo_set_source_rgba (cr, &color);
+					gdk_cairo_set_source_rgba (cr, &ib->grouping_color);
 					if (!draw_right) {
 						next = sheet_col_get_info (sheet, col + 1);
 						prev_level = next->outline_level;
@@ -612,7 +627,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr,
 					cairo_set_line_width (cr, 2.0);
 					cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 					cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-					gdk_cairo_set_source_rgba (cr, &color);
+					gdk_cairo_set_source_rgba (cr, &ib->grouping_color);
 					if (!draw_below) {
 						next = sheet_row_get_info (sheet, row + 1);
 						points[0].y = top;

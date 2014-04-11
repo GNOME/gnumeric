@@ -14,6 +14,7 @@ Morten:
 	* Attempt a workaround for Ubuntu scroll bars.
 	* Fix odf parse problems.
 	* Fix array editing.
+	* Fix column/row header colouring problem.  [#728007]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.13
