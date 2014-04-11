@@ -115,7 +115,6 @@ ib_reload_color_style (GnmItemBar *ib)
 
 	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
 				     &ib->grouping_color);
-	ib->grouping_color.red = 1;
 
 	for (ui = 0; ui < G_N_ELEMENTS (selection_type_flags); ui++) {
 		GtkStateFlags state = selection_type_flags[ui];
