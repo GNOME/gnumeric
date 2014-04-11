@@ -23,6 +23,7 @@
 #include "gui-util.h"
 #include "parse-util.h"
 #include "commands.h"
+#include "gutils.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
@@ -161,6 +162,16 @@ ib_reload_style (GnmItemBar *ib)
 			 strlen (long_name));
 		pango_layout_get_extents (layout, NULL,
 					  &ib->selection_logical_sizes[ui]);
+	}
+
+	if (sheet->index_in_wb == 0 && gnm_debug_flag ("item-bar-style")) {
+		if (ib->selection_colors[0].red == 1 &&
+		    ib->selection_colors[0].green == 1 &&
+		    ib->selection_colors[0].blue == 1) {
+			g_printerr ("White item bar text\n");
+		} else {
+			g_printerr ("Non-white item bar text\n");
+		}
 	}
 
 	gtk_style_context_get_padding (context, GTK_STATE_FLAG_NORMAL,
