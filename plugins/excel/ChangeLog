@@ -1,3 +1,7 @@
+2014-04-12  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c: Add more xml grammer.
+
 2014-03-21  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (txomarkup_new): Take also string argument.
