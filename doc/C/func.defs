@@ -6002,7 +6002,7 @@ Numbers, text and logical values are included in the calculation too. If the cel
 @ARGUMENTDESCRIPTION=@{ref}: data set (sample)
 @{x}: population mean
 @{stddev}: population standard deviation, defaults to the sample standard deviation
-@DESCRIPTION=ZTEST calulates the probability of observing a sample mean as large as or larger than the mean of the given sample for samples drawn from a normal distribution with mean @{x} and standard deviation @{stddev}.
+@DESCRIPTION=ZTEST calculates the probability of observing a sample mean as large as or larger than the mean of the given sample for samples drawn from a normal distribution with mean @{x} and standard deviation @{stddev}.
 @NOTE=If @{ref} contains less than two data items ZTEST returns #DIV/0! error.
 @EXCEL=This function is Excel compatible.
 @ODF=This function is OpenFormula compatible.
@@ -6379,7 +6379,7 @@ If @{Separate} is true the first output column contains the real parts and the s
 @{λ}: filter parameter λ, defaults to 1600
 @DESCRIPTION=This array function returns the trend and cyclical components obtained by applying the Hodrick Prescott Filter with parameter @{λ} to the given data sequence.
 The output consists of two columns of numbers, the first containing the trend component, the second the cyclical component.
-@NOTE=If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE! If @{Sequence} contians less than 6 numerical values, this function returns #VALUE!
+@NOTE=If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE! If @{Sequence} contains less than 6 numerical values, this function returns #VALUE!
 
 @CATEGORY=Time Series Analysis
 @FUNCTION=INTERPOLATION

@@ -20569,7 +20569,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>ZTEST</function> calulates the probability of observing a sample mean as large as or larger than the mean of the given sample for samples drawn from a normal distribution with mean <parameter>x</parameter> and standard deviation <parameter>stddev</parameter>.</para>
+        <para><function>ZTEST</function> calculates the probability of observing a sample mean as large as or larger than the mean of the given sample for samples drawn from a normal distribution with mean <parameter>x</parameter> and standard deviation <parameter>stddev</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -21977,7 +21977,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>Sequence</parameter> is neither an n by 1 nor 1 by n array, this function returns #VALUE! If <parameter>Sequence</parameter> contians less than 6 numerical values, this function returns #VALUE!</para>
+        <para>If <parameter>Sequence</parameter> is neither an n by 1 nor 1 by n array, this function returns #VALUE! If <parameter>Sequence</parameter> contains less than 6 numerical values, this function returns #VALUE!</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-function-INTERPOLATION">

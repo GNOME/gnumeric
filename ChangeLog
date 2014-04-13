@@ -1,3 +1,7 @@
+2014-04-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.14
+
 2014-04-11  Morten Welinder  <terra@gnome.org>
 
 	* src/item-bar.c: Get colours when we draw; only get sizing
