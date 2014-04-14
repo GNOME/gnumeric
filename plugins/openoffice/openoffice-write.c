@@ -7123,9 +7123,11 @@ odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style)
 	if (style != NULL) {
 		PangoFontDescription const *desc = style->font.font->desc;
 		PangoFontMask mask = pango_font_description_get_set_fields (desc);
-		int val = style->text_layout.angle;
 
-		odf_add_angle (state->xml, STYLE "text-rotation-angle", val);
+		if (!style->text_layout.auto_angle) {
+			int val = style->text_layout.angle;
+			odf_add_angle (state->xml, STYLE "text-rotation-angle", val);
+		}
 
 		if (mask & PANGO_FONT_MASK_SIZE)
 			odf_add_pt (state->xml, FOSTYLE "font-size",
