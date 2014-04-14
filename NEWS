@@ -1,5 +1,8 @@
 Gnumeric 1.12.15
 
+Morten:
+	* For xlsx, don't complain over "ext" elements.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.14
 

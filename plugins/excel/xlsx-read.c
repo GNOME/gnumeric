@@ -3051,9 +3051,11 @@ xlsx_ext_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean warned = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "uri")) {
+#if 0
 			xlsx_warning (xin,
 				      _("Encountered uninterpretable \"ext\" extension in namespace \"%s\""),
 				      attrs[1]);
+#endif
 			warned = TRUE;
 		}
 	if (!warned)

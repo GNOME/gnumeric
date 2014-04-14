@@ -1,3 +1,7 @@
+2014-04-14  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_ext_begin): Don't complain over "ext".
+
 2014-04-13  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.14
