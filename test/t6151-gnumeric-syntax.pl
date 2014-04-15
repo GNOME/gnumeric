@@ -52,6 +52,7 @@ my @sources =
      "$samples/colrow-tests.gnumeric",
      "$samples/cond-format-tests.gnumeric",
      "$samples/formula-tests.gnumeric",
+     "$samples/graph-tests.gnumeric",
      "$samples/merge-tests.gnumeric",
      "$samples/number-tests.gnumeric",
      "$samples/page-setup-tests.gnumeric",
