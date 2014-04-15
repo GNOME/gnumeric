@@ -1,3 +1,9 @@
+2014-04-15  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_attr_float): Use gnm_float, not double.
+	(oo_attr_percent): Ditto, and fix syntax check.
+	(oo_parse_angle): Ditto, avoid overflows, and handle negatives.
+
 2014-04-14  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_write_gog_style_text): Don't write

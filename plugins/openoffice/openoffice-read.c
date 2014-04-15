@@ -687,7 +687,7 @@ oo_attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
 	       int ns_id, char const *name, gnm_float *res)
 {
 	char *end;
-	double tmp;
+	gnm_float tmp;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -709,7 +709,8 @@ oo_attr_percent (GsfXMLIn *xin, xmlChar const * const *attrs,
 	       int ns_id, char const *name, gnm_float *res)
 {
 	char *end;
-	double tmp;
+	gnm_float tmp;
+	const char *val = CXML2C (attrs[1]);
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -718,13 +719,13 @@ oo_attr_percent (GsfXMLIn *xin, xmlChar const * const *attrs,
 	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
 
-	tmp = gnm_strto (CXML2C (attrs[1]), &end);
-	if (*end != '%' || *(end + 1))
+	tmp = gnm_strto (val, &end);
+	if (end == val || *end != '%' || *(end + 1))
 		return oo_warning (xin,
 				   _("Invalid attribute '%s', expected percentage,"
 				     " received '%s'"),
-				   name, attrs[1]);
-	*res = tmp/100.;
+				   name, val);
+	*res = tmp / 100;
 	return TRUE;
 }
 
@@ -1164,36 +1165,39 @@ oo_attr_percent_or_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
 		*found_percent = FALSE;
 		return (NULL != oo_parse_distance (xin, attrs[1], name, res));
 	}
-	*res = tmp/100.;
+	*res = tmp / 100;
 	*found_percent = TRUE;
 	return TRUE;
 }
 
 static char const *
 oo_parse_angle (GsfXMLIn *xin, xmlChar const *str,
-		  char const *name, int *angle)
+		char const *name, int *angle)
 {
-	double num;
+	gnm_float num;
 	char *end = NULL;
 
 	g_return_val_if_fail (str != NULL, NULL);
 
-	num = go_strtod (CXML2C (str), &end);
+	num = gnm_strto (CXML2C (str), &end);
 	if (CXML2C (str) != end) {
-		if (*end != '\0') {
-			if (0 == strncmp (end, "deg", 3)) {
-				end += 3;
-			} else if (0 == strncmp (end, "grad", 4)) {
-				num = num / 9. * 10.;
-				end += 4;
-			} else if (0 == strncmp (end, "rad", 3)) {
-				num = num * 180. / M_PIgnum;
-				end += 3;
-			} else {
-				oo_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),
-					    name, str);
-				return NULL;
-			}
+		if (*end == '\0') {
+			num = gnm_fmod (num, 360);
+		} else if (0 == strncmp (end, "deg", 3)) {
+			num = gnm_fmod (num, 360);
+			end += 3;
+		} else if (0 == strncmp (end, "grad", 4)) {
+			num = gnm_fmod (num, 400);
+			num = num * 10. / 9.;
+			end += 4;
+		} else if (0 == strncmp (end, "rad", 3)) {
+			num = gnm_fmod (num, 2 * M_PIgnum);
+			num = num * 180. / M_PIgnum;
+			end += 3;
+		} else {
+			oo_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),
+				    name, str);
+			return NULL;
 		}
 	} else {
 		oo_warning (xin, _("Invalid attribute '%s', expected angle, received '%s'"),
@@ -1201,14 +1205,19 @@ oo_parse_angle (GsfXMLIn *xin, xmlChar const *str,
 		return NULL;
 	}
 
-	*angle = ((int) num) % 360;
+	num = gnm_fake_round (num);
+	if (gnm_abs (num) >= 360)
+		num = 0;
+
+	*angle = (int)num;
+
 	return end;
 }
 
 /* returns degree */
 static char const *
 oo_attr_angle (GsfXMLIn *xin, xmlChar const * const *attrs,
-		  int ns_id, char const *name, int *deg)
+	       int ns_id, char const *name, int *deg)
 {
 	g_return_val_if_fail (attrs != NULL, NULL);
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
@@ -3723,10 +3732,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 						unsigned d_serial = go_date_g_to_serial (&date,
 											 workbook_date_conv (state->pos.wb));
 						if (n >= 6) {
-							double time_frac
-								= h + ((double)mi / 60.) +
-								((double)s / 3600.);
-							val = value_new_float (d_serial + time_frac / 24.);
+							gnm_float time_frac
+								= h + ((gnm_float)mi / 60) +
+								((gnm_float)s / 3600);
+							val = value_new_float (d_serial + time_frac / 24);
 							has_datetime = TRUE;
 						} else {
 							val = value_new_int (d_serial);
@@ -9503,7 +9512,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 			   function_reference::= "?" name
 			   name::= [^#x20#x9]+
 			   --------------------------
-			   so we should graball non-space, non-tab characters
+			   so we should grab all non-space, non-tab characters
 			   as a function_reference name.
 
 			   The problem is that LO creates files in which these
@@ -9650,7 +9659,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		GnmEvalPos ep;
 		GnmValue *val;
 		eval_pos_init_sheet (&ep, state->pos.sheet);
-		val  = gnm_expr_top_eval
+		val = gnm_expr_top_eval
 			(texpr, &ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		if (VALUE_IS_NUMBER (val)) {
 			x_ret = value_get_as_float (val);
