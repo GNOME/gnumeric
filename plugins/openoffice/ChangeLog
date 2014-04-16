@@ -1,3 +1,8 @@
+2014-04-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_parse_float): delete
+	(odf_custom_shape_end): use gnm_strto
+
 2014-04-15  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_attr_float): Use gnm_float, not double.

@@ -1149,7 +1149,7 @@ oo_attr_percent_or_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
 			     gboolean *found_percent)
 {
 	char *end;
-	double tmp;
+	gnm_float tmp;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -9427,21 +9427,6 @@ odf_custom_shape_replace_object (OOParseState *state, SheetObject *so)
 	state->chart.so = so;
 }
 
-static gnm_float
-odf_parse_float (char *text, char **end)
-{
-	gnm_float x = gnm_strto (text, end);
-
-	if (text == *end)
-		x = 1.;
-
-	if (**end == 'E' || **end == 'e') {
-		gnm_float exp = gnm_strto (*end + 1, end);
-		x *= gnm_pow10 (exp);
-	}
-	return x;
-}
-
 static double
 odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint level)
 {
@@ -9696,7 +9681,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 
 			while (*next != 0) {
 				char *end  = next;
-				gnm_float x = odf_parse_float (next, &end);
+				gnm_float x = gnm_strto (next, &end);
 				if (end > next) {
 					double *xp = g_new (double, 1);
 					char *name = g_strdup_printf ("$%i", i);
