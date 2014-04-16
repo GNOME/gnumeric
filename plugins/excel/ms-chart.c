@@ -2415,7 +2415,7 @@ BC_R(valuerange)(XLChartHandler const *handle,
 	} else {
 		if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_X)
 			s->axis_cross_value = cross;
-		else if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_Y && s->xaxis) {
+		else if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_Y && s->xaxis && !(flags & 0x10)) {
 			GnmValue *value = value_new_float (cross);
 			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
 			g_object_set (s->xaxis,
