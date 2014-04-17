@@ -618,9 +618,12 @@ static void
 xlsx_chart_gridlines (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean ismajor = xin->node->user_data.v_int;
 	if (NULL != state->axis.obj) {
-		GogObject *grid = gog_object_add_by_name (
-			GOG_OBJECT (state->axis.obj), "MajorGrid", NULL);
+		GogObject *grid = gog_object_add_by_name
+			(GOG_OBJECT (state->axis.obj),
+			 ismajor ? "MajorGrid" : "MinorGrid",
+			 NULL);
 		xlsx_chart_push_obj (state, grid);
 	}
 }
@@ -1600,10 +1603,11 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 				&xlsx_axis_bound, NULL, GOG_AXIS_ELEM_MAX),
           GSF_XML_IN_NODE (AXIS_SCALING, AX_LOG, XL_NS_CHART, "logBase", GSF_XML_NO_CONTENT, &xlsx_chart_logbase, NULL),
           GSF_XML_IN_NODE (AXIS_SCALING, AX_ORIENTATION, XL_NS_CHART, "orientation", GSF_XML_NO_CONTENT, &xlsx_axis_orientation, NULL),
-        GSF_XML_IN_NODE (CAT_AXIS, MAJOR_GRID, XL_NS_CHART, "majorGridlines", GSF_XML_NO_CONTENT,
-			 &xlsx_chart_gridlines, &xlsx_chart_pop),
+        GSF_XML_IN_NODE_FULL (CAT_AXIS, MAJOR_GRID, XL_NS_CHART, "majorGridlines", GSF_XML_NO_CONTENT,
+			      FALSE, FALSE, &xlsx_chart_gridlines, &xlsx_chart_pop, 1),
           GSF_XML_IN_NODE (MAJOR_GRID, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-        GSF_XML_IN_NODE (CAT_AXIS, MINOR_GRID, XL_NS_CHART, "minorGridlines", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE_FULL (CAT_AXIS, MINOR_GRID, XL_NS_CHART, "minorGridlines", GSF_XML_NO_CONTENT,
+			      FALSE, FALSE, &xlsx_chart_gridlines, &xlsx_chart_pop, 0),
           GSF_XML_IN_NODE (MINOR_GRID, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_POS, XL_NS_CHART, "axPos", GSF_XML_NO_CONTENT, &xlsx_axis_pos, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_TICKLBLPOS, XL_NS_CHART, "tickLblPos", GSF_XML_NO_CONTENT, &xslx_chart_tick_label_pos, NULL),

@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* For xlsx, don't complain over "ext" elements.
+	* xlsx graph import improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.14

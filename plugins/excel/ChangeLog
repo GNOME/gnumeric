@@ -1,3 +1,8 @@
+2014-04-17  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_chart_gridlines): Handle minorgrid
+	too.
+
 2014-04-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (valuerange): ignore the cross value when auto crossing.
