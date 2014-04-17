@@ -8567,12 +8567,9 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
 		"Plot", GOG_OBJECT (state->chart.plot));
 
-	oo_prop_list_apply (prop_list, G_OBJECT (state->chart.chart));
-	oo_prop_list_free (prop_list);
-
 	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL)
 		oo_prop_list_apply (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA]->
-				    plot_props, G_OBJECT (state->chart.plot));
+				    plot_props, G_OBJECT (state->chart.plot));	
 
 	if (go_finite (x) && go_finite (y) &&
 	    go_finite (width) && go_finite (height) &&
@@ -8586,6 +8583,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 			gog_object_set_position_flags (GOG_OBJECT (state->chart.chart),
 						       GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
 			gog_object_set_manual_position (GOG_OBJECT (state->chart.chart), &alloc);
+			g_object_set (G_OBJECT (state->chart.chart), "manual-size", "size", NULL);
 
 			state->chart.plot_area_x = x;
 			state->chart.plot_area_y = y;
@@ -8595,6 +8593,9 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 			/* Since the plot area has changed we need to fix the legend position */
 			oo_legend_set_position (state);
 		}
+
+	oo_prop_list_apply (prop_list, G_OBJECT (state->chart.chart));
+	oo_prop_list_free (prop_list);
 
 	if (state->chart.plot_type == OO_PLOT_GANTT) {
 		GogObject *yaxis = gog_object_get_child_by_name (GOG_OBJECT (state->chart.chart),

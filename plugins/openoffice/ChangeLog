@@ -1,3 +1,8 @@
+2014-04-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_plot_area): default to manual size
+	if a manual size is given
+
 2014-04-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_parse_float): delete
