@@ -13,11 +13,13 @@ my $file = "$samples/graph-tests.gnumeric";
 		 'ext' => "gnm",
 		 'ignore_failure' => 1);
 
+my $ods_auto_filter = "$PERL -p -e 's{auto-dash=\"0\" dash=\"solid\"}{auto-dash=\"1\"}'";
+
 &message ("Check graph ods roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_OpenCalc:odf',
 		 'ext' => "ods",
-		 'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'",
+		 'filter2' => "$ods_auto_filter | $PERL -p -e '\$_ = \"\" if m{<meta:generator>}'",
 		 'ignore_failure' => 1);
 
 my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
