@@ -1080,23 +1080,14 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	}
 }
 
-
 /* returns pts */
 static char const *
-oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
-		  char const *name, gnm_float *pts)
+oo_parse_spec_distance (char const *str, gnm_float *pts)
 {
 	double num;
 	char *end = NULL;
 
-	g_return_val_if_fail (str != NULL, NULL);
-
-	if (0 == strncmp (CXML2C (str), "none", 4)) {
-		*pts = 0;
-		return CXML2C (str) + 4;
-	}
-
-	num = go_strtod (CXML2C (str), &end);
+	num = go_strtod (str, &end);
 	if (CXML2C (str) != end) {
 		if (0 == strncmp (end, "mm", 2)) {
 			num = GO_CM_TO_PT (num/10.);
@@ -1127,18 +1118,41 @@ oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 		} else if (0 == strncmp (end, "in", 2)) {
 			num = GO_IN_TO_PT (num);
 			end += 2;
-		} else {
-			oo_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),
-				    name, str);
-			return NULL;
-		}
-	} else {
+		} else 
+			return GINT_TO_POINTER(1);
+	} else return NULL;
+
+	*pts = num;
+	return end;
+	
+}
+
+/* returns pts */
+static char const *
+oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
+		  char const *name, gnm_float *pts)
+{
+	char const *end = NULL;
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	if (0 == strncmp (CXML2C (str), "none", 4)) {
+		*pts = 0;
+		return CXML2C (str) + 4;
+	}
+
+	end = oo_parse_spec_distance (CXML2C (str), pts);
+
+	if (end == GINT_TO_POINTER(1)) {
+		oo_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),
+			    name, str);
+		return NULL;
+	}
+	if (end == NULL) {
 		oo_warning (xin, _("Invalid attribute '%s', expected distance, received '%s'"),
 			    name, str);
 		return NULL;
 	}
-
-	*pts = num;
 	return end;
 }
 
@@ -7103,6 +7117,13 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->other_props,
 				 oo_prop_new_string
 				 ("marker-end", CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_FO,
+					     "border"))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_string
+				 ("border", CXML2C(attrs[1])));
 	}
 
 	if ((stacked_set && !overlap_set) ||
@@ -9161,8 +9182,43 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.axis = NULL;
 	state->chart.legend = NULL;
 	state->chart.cat_expr = NULL;
-	if (NULL != style)
+	if (NULL != style) {
+		GSList *ptr;
 		state->chart.src_in_rows = style->src_in_rows;
+		for (ptr = style->other_props; ptr; ptr = ptr->next) {
+			OOProp *prop = ptr->data;
+			if (0 == strcmp (prop->name, "border")) {
+				gnm_float pts = 0.;
+				const char *border = g_value_get_string (&prop->value);
+				const char *end;
+
+				while (*border == ' ')
+					border++;
+				end = oo_parse_spec_distance (border, &pts);
+
+				if (end == GINT_TO_POINTER(1) || end == NULL) {
+					if (0 == strncmp (border, "thin", 4)) {
+						pts = 0.;
+						end = border + 4;
+					} else if (0 == strncmp (border, "medium", 6)) {
+						pts = 1.5;
+						end = border + 6;
+					} else if (0 == strncmp (border, "thick", 5)) {
+						pts = 3.;
+						end = border + 5;
+					}
+				}
+
+				if (end != GINT_TO_POINTER(1) && end != NULL && end > border) {
+					/* pts should be valid */
+					GOStyle *go_style = go_styled_object_get_style (GO_STYLED_OBJECT (state->chart.chart));
+					go_style->line.width = pts;
+					go_style->line.dash_type = GO_LINE_SOLID;
+					go_styled_object_style_changed (GO_STYLED_OBJECT (state->chart.chart));
+				}  
+			}
+		}
+	}
 
 	if (type == OO_PLOT_UNKNOWN)
 		oo_warning (xin , _("Encountered an unknown chart type, "

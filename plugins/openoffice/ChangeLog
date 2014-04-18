@@ -1,5 +1,16 @@
 2014-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_parse_spec_distance): new
+	(oo_parse_distance): use oo_parse_spec_distance
+	(od_style_prop_chart): read fo:border
+	(oo_chart): use fo:border
+	* openoffice-write.c (odf_write_gog_style_graphic): add argument
+	and change all callers
+	(odf_get_border_info): new (partial implementation)
+	(odf_write_plot): write graphic properties for the chart style
+
+2014-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_style_prop_chart): read auto-type
 	* openoffice-write.c (odf_write_gog_style_graphic): write auto-type
 

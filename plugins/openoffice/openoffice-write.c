@@ -208,7 +208,7 @@ static void odf_write_hatch_info (GOPattern *pattern, char const *name, GnmOOExp
 static void odf_write_dash_info (char const *name, gpointer data, GnmOOExport *state);
 static void odf_write_arrow_marker_info (GOArrow const *arrow, char const *name, GnmOOExport *state);
 
-static void odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style);
+static void odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean write_border);
 static void odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style);
 
 
@@ -838,7 +838,7 @@ odf_write_sheet_object_style (GnmOOExport *state, SheetObject *so)
 
 	odf_start_style (state->xml, name, "graphic");
 	gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
-	odf_write_gog_style_graphic (state, style);
+	odf_write_gog_style_graphic (state, style, FALSE);
 	gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
 	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
 	odf_write_gog_style_text (state, style);
@@ -879,7 +879,7 @@ odf_write_sheet_object_line_style (GnmOOExport *state, SheetObject *so)
 		gsf_xml_out_add_cstr (state->xml, DRAW "marker-start", start_arrow_name);
 	if (end_arrow_name != NULL)
 		gsf_xml_out_add_cstr (state->xml, DRAW "marker-end", end_arrow_name);
-	odf_write_gog_style_graphic (state, style);
+	odf_write_gog_style_graphic (state, style, FALSE);
 	gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
@@ -7028,11 +7028,24 @@ odf_get_pattern_name (GnmOOExport *state, GOStyle const* style)
 	return new_name;
 }
 
+static char *
+odf_get_border_info (G_GNUC_UNUSED GnmOOExport *state, GOStyle const *style)
+{
+	if (style->line.width <= 0)
+		return g_strdup ("thin");
+	if (style->line.width == 1.5)
+		return g_strdup ("medium");
+	if (style->line.width == 3)
+		return g_strdup ("thick");
+	return g_strdup_printf ("%.6fpt", style->line.width);
+}
+
 static void
-odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
+odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean with_border)
 {
 	char const *image_types[] =
 		{"stretch", "repeat", "no-repeat"};
+	
 	if (style != NULL) {
 		char *color = NULL;
 
@@ -7132,6 +7145,13 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 			}
 		} else {
 			gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
+		}
+
+		if (with_border && go_style_is_outline_visible (style)) {
+			char *border = odf_get_border_info (state, style);
+			if (strlen (border) > 0)
+				gsf_xml_out_add_cstr (state->xml, FOSTYLE "border", border);
+			g_free (border);
 		}
 	}
 }
@@ -7290,7 +7310,7 @@ odf_write_gog_style (GnmOOExport *state, GOStyle const *style,
 		gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
 
 		gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
-		odf_write_gog_style_graphic (state, style);
+		odf_write_gog_style_graphic (state, style, FALSE);
 		gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
 
 		gsf_xml_out_start_element (state->xml, STYLE "paragraph-properties");
@@ -7440,6 +7460,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 	gchar *x_style = NULL;
 	gchar *y_style = NULL;
 	gchar *z_style = NULL;
+	GOStyle *style = NULL;
 
 	static struct {
 		char const * type;
@@ -7609,6 +7630,13 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 	gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
 	odf_add_bool (state->xml, CHART "auto-size", TRUE);
 	gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
+	g_object_get (G_OBJECT (chart), "style", &style, NULL);
+	if (style) {
+		gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
+		odf_write_gog_style_graphic (state, style, TRUE);
+		gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
+		g_object_unref (style);
+	}
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
 	odf_write_gog_styles (chart, state);
