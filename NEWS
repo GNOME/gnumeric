@@ -1,7 +1,8 @@
 Gnumeric 1.12.15
 
 Andreas:
-	* Fix chart size in ODF import. [#728197]
+	* Fix chart size in ODF import. [#728278]
+	* Improve chart roundtrip through ODF. [#728197]
 
 Morten:
 	* For xlsx, don't complain over "ext" elements.

@@ -7879,6 +7879,11 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	for (i = 0; i < OO_CHART_STYLE_INHERITANCE; i++)
 		state->chart.i_plot_styles[i] = NULL;
 
+	if (state->chart.width != go_nan)
+		g_object_set (state->chart.graph, "width-pts", state->chart.width, NULL);
+	if (state->chart.height != go_nan)
+		g_object_set (state->chart.graph, "height-pts", state->chart.height, NULL);	
+
 	pop_hash (&state->chart.saved_graph_styles, &state->chart.graph_styles);
 	pop_hash (&state->chart.saved_hatches, &state->chart.hatches);
 	pop_hash (&state->chart.saved_dash_styles, &state->chart.dash_styles);
