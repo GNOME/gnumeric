@@ -936,6 +936,9 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		style->line.dash_type = GO_LINE_NONE;
 	} else if (stroke_width > 0)
 		style->line.width = stroke_width;
+	else
+		style->line.width = 0;
+		
 
 	switch (fill_type) {
 	case OO_FILL_TYPE_HATCH:
@@ -6903,7 +6906,11 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					(style->plot_props,
 					 oo_prop_new_string
 					 ("interpolation", interpolation));
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "interpolation-skip-invalid", &btmp))
+			style->plot_props = g_slist_prepend
+				(style->plot_props,
+				 oo_prop_new_bool ("interpolation-skip-invalid", btmp));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_NS_DRAW, "stroke")) {
 			draw_stroke = !attr_eq (attrs[1], "none");
 			draw_stroke_set = TRUE;

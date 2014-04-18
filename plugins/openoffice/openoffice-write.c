@@ -6469,9 +6469,11 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 				   GogObject const *series)
 {
 	gchar *interpolation = NULL;
+	gboolean skip_invalid = TRUE;
 
-	g_object_get (G_OBJECT (series), "interpolation",
-		      &interpolation, NULL);
+	g_object_get (G_OBJECT (series),
+		      "interpolation", &interpolation, 
+		      NULL);
 
 	if (interpolation != NULL) {
 		if (0 == strcmp (interpolation, "linear"))
@@ -6494,6 +6496,17 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 		} else
 			gsf_xml_out_add_cstr
 				(state->xml, CHART "interpolation", "none");
+	}
+
+	if (state->with_extension) {
+		GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (series));
+		if (NULL != g_object_class_find_property (klass, "interpolation-skip-invalid")) {
+			g_object_get (G_OBJECT (series),
+				      "interpolation-skip-invalid", &skip_invalid,
+				      NULL);
+			if (!skip_invalid)
+				odf_add_bool (state->xml, GNMSTYLE "interpolation-skip-invalid", FALSE);
+		}
 	}
 
 	g_free (interpolation);
@@ -7206,7 +7219,6 @@ odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject c
 		GOFormat *fmt = gog_axis_get_format (GOG_AXIS (obj));
 		odf_add_bool (state->xml, CHART "link-data-style-to-source", fmt == NULL);
 	}
-
 
 	func = g_hash_table_lookup (state->chart_props_hash, type);
 	if (func != NULL)
@@ -8025,6 +8037,7 @@ odf_fill_chart_props_hash (GnmOOExport *state)
 		{"GogExpSmooth", odf_write_exp_smooth_reg},
 		{"GogPieSeriesElement", odf_write_pie_point},
 		{"GogXYSeries", odf_write_interpolation_attribute},
+		{"GogLineSeries", odf_write_interpolation_attribute},
 	};
 
 	for (i = 0 ; i < (int)G_N_ELEMENTS (props) ; i++)
