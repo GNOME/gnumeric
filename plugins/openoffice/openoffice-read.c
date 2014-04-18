@@ -799,6 +799,14 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	gboolean line_is_not_dash = FALSE;
 	unsigned int fill_type = OO_FILL_TYPE_UNKNOWN;
 	gboolean stroke_colour_set = FALSE;
+	gboolean lines_value_set = FALSE;
+	gboolean lines_value = FALSE;
+	gboolean gnm_auto_color_value_set = FALSE;
+	gboolean gnm_auto_color_value = FALSE;
+	gboolean gnm_auto_dash_set = FALSE;
+	char const *stroke_dash = NULL;
+
+	style->line.auto_dash = TRUE;
 
 	desc = pango_font_description_copy (style->font.font->desc);
 	for (l = props; l != NULL; l = l->next) {
@@ -849,8 +857,15 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				style->line.pattern = GO_PATTERN_SOLID;
 				stroke_colour_set = TRUE;
 			}
-		} else if (0 == strcmp (prop->name, "lines") && !stroke_colour_set) {
-			style->line.auto_color = g_value_get_boolean (&prop->value);
+		} else if (0 == strcmp (prop->name, "lines")) {
+			lines_value_set = TRUE;
+			lines_value = g_value_get_boolean (&prop->value);
+		} else if (0 == strcmp (prop->name, "gnm-auto-color")) {
+			gnm_auto_color_value_set = TRUE;
+			gnm_auto_color_value = g_value_get_boolean (&prop->value);
+		} else if (0 == strcmp (prop->name, "gnm-auto-dash")) {
+			gnm_auto_dash_set = TRUE;
+			style->line.auto_dash = g_value_get_boolean (&prop->value);
  		} else if (0 == strcmp (prop->name, "fill-gradient-name"))
 			gradient_name = g_value_get_string (&prop->value);
 		else if (0 == strcmp (prop->name, "fill-hatch-name"))
@@ -896,20 +911,22 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		} else if (0 == strcmp (prop->name, "stroke")) {
 			if (0 == strcmp (g_value_get_string (&prop->value), "solid")) {
 				style->line.dash_type = GO_LINE_SOLID;
-				style->line.auto_dash = FALSE;
+				if (!gnm_auto_dash_set)
+					style->line.auto_dash = FALSE;
 				line_is_not_dash = TRUE;
 			} else if (0 == strcmp (g_value_get_string (&prop->value), "dash")) {
-				style->line.auto_dash = FALSE;
+				if (!gnm_auto_dash_set)
+					style->line.auto_dash = FALSE;
 				line_is_not_dash = FALSE;
 			} else {
 				style->line.dash_type = GO_LINE_NONE;
-				style->line.auto_dash = FALSE;
+				if (!gnm_auto_dash_set)
+					style->line.auto_dash = FALSE;
 				line_is_not_dash = TRUE;
 			}
-		} else if (0 == strcmp (prop->name, "stroke-dash") && !line_is_not_dash) {
-			style->line.dash_type = odf_match_dash_type
-				(state, g_value_get_string (&prop->value));
-		} else if (0 == strcmp (prop->name, "symbol-type"))
+		} else if (0 == strcmp (prop->name, "stroke-dash"))
+			stroke_dash = g_value_get_string (&prop->value);
+		else if (0 == strcmp (prop->name, "symbol-type"))
 			symbol_type = g_value_get_int (&prop->value);
 		else if (0 == strcmp (prop->name, "symbol-name"))
 			symbol_name = g_value_get_int (&prop->value);
@@ -929,6 +946,11 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	else
 		pango_font_description_free (desc);
 
+	if (gnm_auto_color_value_set)
+		style->line.auto_color = gnm_auto_color_value;
+	else if (lines_value_set && !stroke_colour_set)
+		style->line.auto_color = lines_value;
+
 	if (gnm_stroke_width >= 0)
 		style->line.width = gnm_stroke_width;
 	else if (stroke_width == 0.) {
@@ -938,7 +960,9 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		style->line.width = stroke_width;
 	else
 		style->line.width = 0;
-		
+
+	if (stroke_dash != NULL && !line_is_not_dash)
+		style->line.dash_type = odf_match_dash_type (state, stroke_dash);
 
 	switch (fill_type) {
 	case OO_FILL_TYPE_HATCH:
@@ -7124,6 +7148,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->other_props,
 				 oo_prop_new_string
 				 ("border", CXML2C(attrs[1])));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-color", &btmp))
+			style->style_props = g_slist_prepend (style->style_props,
+				oo_prop_new_bool ("gnm-auto-color", btmp));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-dash", &btmp))
+			style->style_props = g_slist_prepend (style->style_props,
+				oo_prop_new_bool ("gnm-auto-dash", btmp));
 	}
 
 	if ((stacked_set && !overlap_set) ||

@@ -1,5 +1,12 @@
 2014-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_apply_style_props): handle auto-dash and
+	auto-color extensions; do not depend on order of attributes
+	* openoffice-write.c (odf_write_gog_style_graphic): writeauto-dash
+	and auto-color extensions
+
+2014-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_parse_spec_distance): new
 	(oo_parse_distance): use oo_parse_spec_distance
 	(od_style_prop_chart): read fo:border

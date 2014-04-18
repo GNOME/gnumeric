@@ -7130,6 +7130,8 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 				g_hash_table_insert (state->graph_dashes, g_strdup (dash),
 						     GINT_TO_POINTER (dash_type));
 			}
+			if (style->line.auto_dash && state->with_extension)
+				odf_add_bool (state->xml, GNMSTYLE "auto-dash", TRUE);
 			if (style->line.width == 0.0) {
 				odf_add_pt (state->xml, SVG "stroke-width", 1.);
 				if (state->with_extension)
@@ -7141,8 +7143,8 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 				color = odf_go_color_to_string (style->line.color);
 				gsf_xml_out_add_cstr (state->xml, SVG "stroke-color",
 						      color);
-
-			}
+			} else if (state->with_extension)
+			      	odf_add_bool (state->xml, GNMSTYLE "auto-color", TRUE);		
 		} else {
 			gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 		}
