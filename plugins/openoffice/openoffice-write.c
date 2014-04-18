@@ -7036,67 +7036,71 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 	if (style != NULL) {
 		char *color = NULL;
 
-		switch (style->fill.type) {
-		case GO_STYLE_FILL_NONE:
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
-			break;
-		case GO_STYLE_FILL_PATTERN:
-			if (style->fill.pattern.pattern == GO_PATTERN_SOLID) {
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
-				if (!style->fill.auto_back) {
-					color = odf_go_color_to_string (style->fill.pattern.back);
-					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
-					odf_add_percent (state->xml, DRAW "opacity",
-							 odf_go_color_opacity (style->fill.pattern.back));
+		if (state->with_extension && style->fill.auto_type) {
+			odf_add_bool (state->xml, GNMSTYLE "auto-type", TRUE);
+		} else
+			switch (style->fill.type) {
+			case GO_STYLE_FILL_NONE:
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
+				break;
+			case GO_STYLE_FILL_PATTERN:
+				if (style->fill.pattern.pattern == GO_PATTERN_SOLID) {
+					gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
+					if (!style->fill.auto_back) {
+						color = odf_go_color_to_string (style->fill.pattern.back);
+						gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+						odf_add_percent (state->xml, DRAW "opacity",
+								 odf_go_color_opacity (style->fill.pattern.back));
+					}
+				} else if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID) {
+					gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
+					if (!style->fill.auto_fore) {
+						color = odf_go_color_to_string (style->fill.pattern.fore);
+						gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+						odf_add_percent (state->xml, DRAW "opacity",
+								 odf_go_color_opacity (style->fill.pattern.fore));
+					}
+				} else {
+					gchar *hatch = odf_get_pattern_name (state, style);
+					gsf_xml_out_add_cstr (state->xml, DRAW "fill", "hatch");
+					gsf_xml_out_add_cstr (state->xml, DRAW "fill-hatch-name",
+							      hatch);
+					if (!style->fill.auto_back) {
+						color = odf_go_color_to_string (style->fill.pattern.back);
+						gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+						odf_add_percent (state->xml, DRAW "opacity",
+								 odf_go_color_opacity (style->fill.pattern.back));
+					}
+					g_free (hatch);
+					odf_add_bool (state->xml, DRAW "fill-hatch-solid", TRUE);
+					if (state->with_extension)
+						gsf_xml_out_add_int
+							(state->xml,
+							 GNMSTYLE "pattern",
+							 style->fill.pattern.pattern);
 				}
-			} else if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID) {
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
-				if (!style->fill.auto_fore) {
-					color = odf_go_color_to_string (style->fill.pattern.fore);
-					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
-					odf_add_percent (state->xml, DRAW "opacity",
-							 odf_go_color_opacity (style->fill.pattern.fore));
-				}
-			} else {
-				gchar *hatch = odf_get_pattern_name (state, style);
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "hatch");
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill-hatch-name",
-						      hatch);
-				if (!style->fill.auto_back) {
-					color = odf_go_color_to_string (style->fill.pattern.back);
-					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
-					odf_add_percent (state->xml, DRAW "opacity",
-							 odf_go_color_opacity (style->fill.pattern.back));
-				}
-				g_free (hatch);
-				odf_add_bool (state->xml, DRAW "fill-hatch-solid", TRUE);
-				if (state->with_extension)
-					gsf_xml_out_add_int
-						(state->xml,
-						 GNMSTYLE "pattern",
-						 style->fill.pattern.pattern);
+				g_free (color);
+				break;
+			case GO_STYLE_FILL_GRADIENT: {
+				gchar *grad = odf_get_gradient_name (state, style);
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "gradient");
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill-gradient-name", grad);
+				g_free (grad);
+				break;
 			}
-			g_free (color);
-			break;
-		case GO_STYLE_FILL_GRADIENT: {
-			gchar *grad = odf_get_gradient_name (state, style);
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "gradient");
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill-gradient-name", grad);
-			g_free (grad);
-			break;
-		}
-		case GO_STYLE_FILL_IMAGE: {
-			gchar *image = odf_get_image_name (state, style);
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap");
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill-image-name", image);
-			g_free (image);
-			if (style->fill.image.type < G_N_ELEMENTS (image_types))
-				gsf_xml_out_add_cstr (state->xml, STYLE "repeat",
-						      image_types [style->fill.image.type]);
-			else g_warning ("Unexpected GOImageType value");
-			break;
-		}
-		}
+			case GO_STYLE_FILL_IMAGE: {
+				gchar *image = odf_get_image_name (state, style);
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap");
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill-image-name", image);
+				g_free (image);
+				if (style->fill.image.type < G_N_ELEMENTS (image_types))
+					gsf_xml_out_add_cstr (state->xml, STYLE "repeat",
+							      image_types [style->fill.image.type]);
+				else g_warning ("Unexpected GOImageType value");
+				break;
+			}
+			}
+
 		if (go_style_is_line_visible (style)) {
 			GOLineDashType dash_type = style->line.dash_type;
 
