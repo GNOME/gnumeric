@@ -793,7 +793,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	char const *fill_image_name = NULL;
 	unsigned int gnm_hatch = 0;
 	int symbol_type = -1, symbol_name = GO_MARKER_DIAMOND;
-	double symbol_height = -1., symbol_width = -1.;
+	double symbol_height = -1., symbol_width = -1.,
+		stroke_width = -1., gnm_stroke_width = -1.;
 	GOMarker *m;
 	gboolean line_is_not_dash = FALSE;
 	unsigned int fill_type = OO_FILL_TYPE_UNKNOWN;
@@ -917,7 +918,9 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		else if (0 == strcmp (prop->name, "symbol-width"))
 			symbol_width = g_value_get_double (&prop->value);
 		else if (0 == strcmp (prop->name, "stroke-width"))
-		        style->line.width = g_value_get_double (&prop->value);
+		        stroke_width = g_value_get_double (&prop->value);
+		else if (0 == strcmp (prop->name, "gnm-stroke-width"))
+		        gnm_stroke_width = g_value_get_double (&prop->value);
 		else if (0 == strcmp (prop->name, "repeat"))
 			style->fill.image.type = g_value_get_int (&prop->value);
 	}
@@ -926,6 +929,13 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	else
 		pango_font_description_free (desc);
 
+	if (gnm_stroke_width >= 0)
+		style->line.width = gnm_stroke_width;
+	else if (stroke_width == 0.) {
+		style->line.width = 0.;
+		style->line.dash_type = GO_LINE_NONE;
+	} else if (stroke_width > 0)
+		style->line.width = stroke_width;
 
 	switch (fill_type) {
 	case OO_FILL_TYPE_HATCH:
@@ -6918,6 +6928,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_double ("stroke-width",
+						    ftmp));
+		else if (NULL != oo_attr_distance (xin, attrs, OO_GNUM_NS_EXT,
+						     "stroke-width", &ftmp))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_double ("gnm-stroke-width",
 						    ftmp));
 		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "lines", &btmp)) {
 			style->style_props = g_slist_prepend

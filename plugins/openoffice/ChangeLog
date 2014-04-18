@@ -1,5 +1,12 @@
 2014-04-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_apply_style_props): read both
+	svg:stroke-width and gnm:stroke-width
+	* openoffice-write.c (od_style_prop_chart): write gnm:stroke-width
+	to remember line-widhts of 0.
+
+2014-04-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_object): set width-pts and height-pts
 	* openoffice-write.c (odf_add_pt): write 6 decimals
 

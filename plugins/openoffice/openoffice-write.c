@@ -7100,9 +7100,11 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 				g_hash_table_insert (state->graph_dashes, g_strdup (dash),
 						     GINT_TO_POINTER (dash_type));
 			}
-			if (style->line.width == 0.0)
+			if (style->line.width == 0.0) {
 				odf_add_pt (state->xml, SVG "stroke-width", 1.);
-			else if (style->line.width > 0.0)
+				if (state->with_extension)
+					odf_add_pt (state->xml, GNMSTYLE "stroke-width", 0.);
+			} else if (style->line.width > 0.0)
 				odf_add_pt (state->xml, SVG "stroke-width",
 					    style->line.width);
 			if (!style->line.auto_color) {
