@@ -461,14 +461,24 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 	g_object_unref (xml);
 }
 
-static void
-xlsx_write_object_anchor (GsfXMLOut *xml, GnmCellPos const *pos, char const *element)
+static int
+xlsx_pts_to_emu (double pts)
 {
+	return (double) gnm_floor (12700. * pts);
+}
+
+static void
+xlsx_write_object_anchor (GsfXMLOut *xml, GnmCellPos const *pos, char const *element, double col_off_pts, double row_off_pts)
+{
+	/* For some reason we are using this additional scaling factor when we read!? */
+	/* FIXME: scaling horizontally just like in xlsx_CT_Col */
 	gsf_xml_out_start_element (xml, element);
 	gsf_xml_out_simple_int_element (xml, "xdr:col", pos->col);
-	gsf_xml_out_simple_int_element (xml, "xdr:colOff", 0);
+	gsf_xml_out_simple_int_element (xml, "xdr:colOff", 
+					xlsx_pts_to_emu (col_off_pts * 1.16191275167785));
 	gsf_xml_out_simple_int_element (xml, "xdr:row", pos->row);
-	gsf_xml_out_simple_int_element (xml, "xdr:rowOff", 0);
+	gsf_xml_out_simple_int_element (xml, "xdr:rowOff",
+					xlsx_pts_to_emu (row_off_pts));
 	gsf_xml_out_end_element (xml);
 }
 
@@ -482,6 +492,7 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 	GsfOutput *drawing_part, *chart_part;
 	GsfXMLOut *xml;
 	SheetObjectAnchor const *anchor;
+	double res_pts[4] = {0.,0.,0.,0.};
 
 	if (NULL == state->drawing.dir)
 		state->drawing.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "drawings", TRUE);
@@ -522,10 +533,13 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 	chart_id = g_slist_reverse (chart_ids);
 	for (obj = objects; obj != NULL ; obj = obj->next, chart_id = chart_id->next) {
 		anchor = sheet_object_get_anchor (obj->data);
+		sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 
 		gsf_xml_out_start_element (xml, "xdr:twoCellAnchor");
-		xlsx_write_object_anchor (xml, &anchor->cell_bound.start, "xdr:from");
-		xlsx_write_object_anchor (xml, &anchor->cell_bound.end, "xdr:to");
+		xlsx_write_object_anchor (xml, &anchor->cell_bound.start, "xdr:from",
+					  res_pts[0], res_pts[1]);
+		xlsx_write_object_anchor (xml, &anchor->cell_bound.end, "xdr:to",
+					  res_pts[2], res_pts[3]);
 
 		gsf_xml_out_start_element (xml, "xdr:graphicFrame");
 		gsf_xml_out_add_cstr_unchecked (xml, "macro", "");

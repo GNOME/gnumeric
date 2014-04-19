@@ -1,3 +1,9 @@
+2014-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write-drawing.c (xlsx_pts_to_emu): new
+	(xlsx_write_object_anchor): add offset arguments
+	(xlsx_write_objects): pass offsets to xlsx_write_object_anchor
+
 2014-04-17  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_gridlines): Handle minorgrid
