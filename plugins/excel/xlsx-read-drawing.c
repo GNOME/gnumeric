@@ -443,6 +443,7 @@ xlsx_axis_info_free (XLSXAxisInfo *info)
 	g_free (info->cross_id);
 	if (NULL != info->axis)
 		g_object_unref (info->axis);
+	g_slist_free (info->plots);
 	g_free (info);
 }
 

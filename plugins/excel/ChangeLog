@@ -8,6 +8,7 @@
 
 	* xlsx-read-drawing.c (xlsx_chart_gridlines): Handle minorgrid
 	too.
+	(xlsx_axis_info_free): Plug leak.
 
 2014-04-16  Jean Brefort  <jean.brefort@normalesup.org>
 
