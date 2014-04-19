@@ -2118,7 +2118,7 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 			for (i = 0; i < 8; i+=2) {
 				ColRowInfo const *cri;
-				if (i & 1) {
+				if (i & 2) {
 					cri = sheet_row_get (state->sheet, state->drawing_pos[i]);
 					size = cri? cri->size_pts: sheet_row_get_default_size_pts (state->sheet);
 				} else {

@@ -1,3 +1,8 @@
+2014-04-19  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_drawing_twoCellAnchor_end): Fix
+	reading object positions.
+
 2014-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write-drawing.c (xlsx_pts_to_emu): new
