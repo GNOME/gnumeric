@@ -70,6 +70,7 @@ xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	if (!GOG_IS_LABEL (state->cur_obj) && IS_SHEET_OBJECT_GRAPH (state->so) && NULL == state->series) { /* Hmm, why? */
 		GogObject *label = gog_object_add_by_name (state->cur_obj,
 			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
+		state->sp_type |= GO_STYLE_FONT;
 		g_object_set (G_OBJECT (label), "allow-wrap", TRUE, "justification", "center", NULL);
 		xlsx_chart_push_obj (state, label);
 	}
@@ -120,6 +121,7 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 	g_free (state->chart_tx);
 	state->chart_tx = NULL;
+	state->sp_type &= ~GO_STYLE_FONT;
 }
 
 static void
@@ -1257,16 +1259,19 @@ xlsx_chart_solid_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 			state->color_data = state->marker;
 		}
 	} else if ((NULL != state->cur_style) && (state->gocolor == NULL)) {
-		if (!(state->sp_type & GO_STYLE_LINE)) {
+		if (state->sp_type & GO_STYLE_LINE) {
+			state->cur_style->line.dash_type = GO_LINE_SOLID;
+			state->gocolor = &state->cur_style->line.color;
+			state->auto_color = &state->cur_style->line.auto_color;
+		} else if (state->sp_type & GO_STYLE_FONT) {
+			state->gocolor = &state->cur_style->font.color;
+			state->auto_color = &state->cur_style->font.auto_color;
+		} else {
 			state->cur_style->fill.type = GO_STYLE_FILL_PATTERN;
 			state->cur_style->fill.auto_type = FALSE;
 			state->cur_style->fill.pattern.pattern = GO_PATTERN_FOREGROUND_SOLID;
 			state->gocolor = &state->cur_style->fill.pattern.fore;
 			state->auto_color = &state->cur_style->fill.auto_fore;
-		} else {
-			state->cur_style->line.dash_type = GO_LINE_SOLID;
-			state->gocolor = &state->cur_style->line.color;
-			state->auto_color = &state->cur_style->line.auto_color;
 		}
 	}
 }
