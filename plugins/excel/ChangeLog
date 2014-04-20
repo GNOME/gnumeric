@@ -1,5 +1,10 @@
 2014-04-19  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c: Constify simple_enum tables and make sure
+	to check the return value.
+
+2014-04-19  Morten Welinder  <terra@gnome.org>
+
 	* xlsx-read-drawing.c (xlsx_drawing_twoCellAnchor_end): Fix
 	reading object positions.
 

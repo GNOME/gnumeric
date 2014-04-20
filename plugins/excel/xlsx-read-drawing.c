@@ -377,7 +377,7 @@ static void xlsx_chart_ring (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_chart_bar_dir (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal const dirs[] = {
+	static const EnumVal const dirs[] = {
 		{ "bar",	 TRUE },
 		{ "col",	 FALSE },
 		{ NULL, 0 }
@@ -537,7 +537,7 @@ xlsx_axis_delete (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_axis_orientation (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal const orients[] = {
+	static const EnumVal const orients[] = {
 		{ "minMax",	 FALSE },
 		{ "maxMin",	 TRUE },
 		{ NULL, 0 }
@@ -560,7 +560,7 @@ xlsx_chart_logbase (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_axis_pos (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal const positions[] = {
+	static const EnumVal const positions[] = {
 		{ "t",	 GOG_POSITION_N },
 		{ "b",	 GOG_POSITION_S },
 		{ "l",	 GOG_POSITION_W },
@@ -590,7 +590,7 @@ xlsx_axis_bound (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_axis_crosses (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal const crosses[] = {
+	static const EnumVal const crosses[] = {
 		{ "autoZero",	GOG_AXIS_CROSS },
 		{ "max",	GOG_AXIS_AT_HIGH },
 		{ "min",	GOG_AXIS_AT_LOW },
@@ -633,18 +633,22 @@ static void
 xlsx_axis_mark (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	static EnumVal marks[] = {
+	gboolean ismajor = xin->node->user_data.v_int;
+	static const EnumVal marks[] = {
 		{"none",	0},
 		{"in",		1},
 		{"out",		2},
 		{"cross",	3},
 	};
 	int res;
-	simple_enum (xin, attrs, marks, &res);
-	if (xin->node->user_data.v_int == 0)
-		g_object_set (G_OBJECT (state->axis.obj), "major-tick-in", res & 1, "major-tick-out", (res & 2) != 0, NULL);
-	else
-		g_object_set (G_OBJECT (state->axis.obj), "minor-tick-in", res & 1, "minor-tick-out", (res & 2) != 0, NULL);
+
+	if (!simple_enum (xin, attrs, marks, &res))
+		return;
+
+	g_object_set (G_OBJECT (state->axis.obj),
+		      (ismajor ? "major-tick-in" : "minor-tick-in"), (res & 1) != 0,
+		      (ismajor ? "major-tick-out" : "minor-tick-=out"), (res & 2) != 0,
+		      NULL);
 }
 
 static void
@@ -725,7 +729,7 @@ xlsx_chart_xy (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_scatter_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal styles[] = {
+	static const EnumVal styles[] = {
 		{"line",	0},
 		{"lineMarker",  1},
 		{"marker",      2},
@@ -876,7 +880,7 @@ xlsx_ser_labels_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_ser_labels_pos (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal pos[] = {
+	static const EnumVal pos[] = {
 		{"b", GOG_SERIES_LABELS_BOTTOM},
 		{"bestFit", GOG_SERIES_LABELS_DEFAULT_POS},
 		{"ctr", GOG_SERIES_LABELS_CENTERED},
@@ -926,7 +930,7 @@ xlsx_ser_labels_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_data_label_pos (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal pos[] = {
+	static const EnumVal pos[] = {
 		{"b", GOG_SERIES_LABELS_BOTTOM},
 		{"bestFit", GOG_SERIES_LABELS_DEFAULT_POS},
 		{"ctr", GOG_SERIES_LABELS_CENTERED},
@@ -1089,7 +1093,7 @@ xlsx_chart_legend (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_chart_legend_pos (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal const positions[] = {
+	static const EnumVal const positions[] = {
 		{ "t",	 GOG_POSITION_N },
 		{ "b",	 GOG_POSITION_S },
 		{ "l",	 GOG_POSITION_W },
@@ -1361,7 +1365,7 @@ xlsx_draw_color_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_draw_line_dash (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal const dashes[] = {
+	static const EnumVal const dashes[] = {
 		{ "solid",		GO_LINE_SOLID },
 		{ "dot",		GO_LINE_DOT },
 		{ "dash",		GO_LINE_DASH },
@@ -1404,7 +1408,7 @@ xlsx_chart_marker_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_chart_marker_symbol (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal const symbols[] = {
+	static const EnumVal const symbols[] = {
 		{ "circle",	GO_MARKER_CIRCLE },
 		{ "dash",	GO_MARKER_BAR },		/* FIXME */
 		{ "diamond",	GO_MARKER_DIAMOND },
@@ -1588,8 +1592,8 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (CAT_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_NUMFMT, XL_NS_CHART, "numFmt", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MAJORTICKMARK, XL_NS_CHART, "majorTickMark", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_axis_mark, NULL, 0),
-        GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MINORTICKMARK, XL_NS_CHART, "minorTickMark", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_axis_mark, NULL, 1),
+        GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MAJORTICKMARK, XL_NS_CHART, "majorTickMark", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_axis_mark, NULL, 1),
+        GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MINORTICKMARK, XL_NS_CHART, "minorTickMark", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_axis_mark, NULL, 0),
         GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MAJORTICK_UNIT, XL_NS_CHART, "majorUnit", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			      &xlsx_axis_bound, NULL, GOG_AXIS_ELEM_MAJOR_TICK),
         GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MINORTICK_UNIT, XL_NS_CHART, "minorUnit", GSF_XML_NO_CONTENT, FALSE, TRUE,
