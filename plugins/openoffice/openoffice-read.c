@@ -3705,6 +3705,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
 	GnmValidation *validation = NULL;
 	gboolean possible_error_constant = FALSE;
+	gboolean columns_spanned_fake = FALSE;
 
 	maybe_update_progress (xin);
 
@@ -3818,7 +3819,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					  "value", &float_val)) {
 			if (val == NULL)
 				val = value_new_float (float_val);
-		}else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE,
+		} else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE,
 					    "number-matrix-columns-spanned",
 					    &array_cols, 0, INT_MAX))
 			;
@@ -3829,6 +3830,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE,
 					    "number-columns-spanned", &merge_cols, 0, INT_MAX))
 			;
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
+				       "columns-spanned-fake",
+				       &columns_spanned_fake))
+			;
 		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE,
 					    "number-rows-spanned", &merge_rows, 0, INT_MAX))
 			;
@@ -3838,6 +3843,9 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					     "content-validation-name"))
 			validation_name = attrs[1];
 	}
+	
+	if (columns_spanned_fake)
+		merge_cols = 1;
 
 	if (state->pos.eval.col >= max_cols ||
 	    state->pos.eval.row >= max_rows) {

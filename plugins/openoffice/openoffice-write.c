@@ -36,6 +36,7 @@
 #include <workbook.h>
 #include <workbook-priv.h> /* Workbook::names */
 #include <cell.h>
+#include <cellspan.h>
 #include <sheet.h>
 #include <print-info.h>
 #include <sheet-view.h>
@@ -3221,23 +3222,75 @@ odf_write_covered_cell (GnmOOExport *state, int *num)
 	}
 }
 
+static  gboolean
+odf_cellspan_is_empty (int col, GnmCell const *ok_span_cell)
+{
+	Sheet *sheet = ok_span_cell->base.sheet;
+	int row = ok_span_cell->pos.row;
+	ColRowInfo *ri = sheet_row_get (sheet, row);
+	CellSpanInfo const *span = row_span_get (ri, col);
+	GnmCell const *tmp;
+	GnmCellPos pos;
+
+	if (span != NULL && span->cell != ok_span_cell)
+		return FALSE;
+
+	pos.row = row;
+	pos.col = col;
+	if (gnm_sheet_merge_contains_pos (sheet, &pos) != NULL)
+		return FALSE;
+
+	tmp = sheet_cell_get (sheet, col, row);
+
+	return (tmp == NULL || tmp->value == NULL ||
+		(VALUE_IS_EMPTY (tmp->value) && !gnm_cell_has_expr(tmp)));
+}
+
 static void
 odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		GnmStyle const *style, GSList *objects)
 {
 	int rows_spanned = 0, cols_spanned = 0;
 	GnmHLink *link = NULL;
+	gboolean col_spanned_fake = FALSE;
 
 	if (merge_range != NULL) {
 		rows_spanned = merge_range->end.row - merge_range->start.row + 1;
 		cols_spanned = merge_range->end.col - merge_range->start.col + 1;
 	}
 
+	if (style && cols_spanned <= 1 && gnm_style_get_align_h (style) == GNM_HALIGN_CENTER_ACROSS_SELECTION) {
+		/* We have to simulate GNM_HALIGN_CENTER_ACROSS_SELECTION by a merge */
+		int cell_col = cell->pos.col;
+		int cell_row = cell->pos.row;
+		int max_col_spanned = gnm_sheet_get_max_cols (state->sheet) - cell_col;
+		cols_spanned = 1;
+		while (cols_spanned < max_col_spanned) {
+			ColRowInfo const *ci;
+			cell_col++;
+			ci = sheet_col_get_info (state->sheet, cell_col);
+			if (ci->visible) {
+				if (odf_cellspan_is_empty (cell_col, cell)) {
+					GnmStyle const * const cstyle =
+						sheet_style_get (state->sheet, cell_col, cell_row);
+					if (gnm_style_get_align_h (cstyle) != GNM_HALIGN_CENTER_ACROSS_SELECTION)
+						break;
+				} else
+					break;
+			}
+			cols_spanned++;
+		}
+		col_spanned_fake = (cols_spanned > 1);
+	}
+
 	gsf_xml_out_start_element (state->xml, TABLE "table-cell");
 
-	if (cols_spanned > 1)
+	if (cols_spanned > 1) {
 		gsf_xml_out_add_int (state->xml,
 				     TABLE "number-columns-spanned", cols_spanned);
+		if (col_spanned_fake && state->with_extension)
+			odf_add_bool (state->xml, GNMSTYLE "columns-spanned-fake", TRUE);
+	}
 	if (rows_spanned > 1)
 		gsf_xml_out_add_int (state->xml,
 				     TABLE "number-rows-spanned", rows_spanned);
