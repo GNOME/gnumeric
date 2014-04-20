@@ -647,7 +647,7 @@ xlsx_axis_mark (GsfXMLIn *xin, xmlChar const **attrs)
 
 	g_object_set (G_OBJECT (state->axis.obj),
 		      (ismajor ? "major-tick-in" : "minor-tick-in"), (res & 1) != 0,
-		      (ismajor ? "major-tick-out" : "minor-tick-=out"), (res & 2) != 0,
+		      (ismajor ? "major-tick-out" : "minor-tick-out"), (res & 2) != 0,
 		      NULL);
 }
 
