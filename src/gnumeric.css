@@ -132,12 +132,9 @@ GtkDrawingArea.button.all {
 
 /* GnmNotebook is a fake notebook holding just the sheet tabs area */
 
-GnmNotebook tab {
-  /* background-color: #ff0000; */ /* Debug */
-}
-
 GnmNotebook {
-  padding: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 /* ------------------------------------------------------------------------- */

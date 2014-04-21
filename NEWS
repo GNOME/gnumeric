@@ -8,6 +8,7 @@ Andreas:
 Morten:
 	* For xlsx, don't complain over "ext" elements.
 	* xlsx graph import improvements.
+	* Attempt a fix for tabs appearance with gtk+ 3.12.  [#728465]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.14

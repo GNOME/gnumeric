@@ -1,3 +1,8 @@
+2014-04-21  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric.css (GnmNotebook): Set padding for top and bottom
+	only in the hop of fixing #728465.
+
 2014-04-13  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
