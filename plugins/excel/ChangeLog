@@ -4,6 +4,7 @@
 	GO_STYLE_FONT marker, solidFill refers to font colour.
 	(xlsx_chart_text_start): Set sp_type flag GO_STYLE_FONT.
 	(xlsx_chart_text): Clear flag.
+	(xlsx_style_line_start): Handle line width.
 
 2014-04-19  Morten Welinder  <terra@gnome.org>
 

@@ -1168,12 +1168,20 @@ xlsx_chart_pt_sep (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_style_line_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	int w = 0;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_int (xin, attrs, "w", &w))
+			; /* Nothing */
+	}
+
 	state->sp_type |= GO_STYLE_LINE;
 	if (!state->cur_style)
 		state->cur_style = (GOStyle *) gog_style_new ();
+	state->cur_style->line.width = w / 12700.;
 	state->gocolor = &state->cur_style->line.color;
 }
 
