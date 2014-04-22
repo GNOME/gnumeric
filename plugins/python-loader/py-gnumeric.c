@@ -545,11 +545,13 @@ static struct PyMethodDef py_CellPos_object_methods[] = {
 	{NULL, NULL}
 };
 
+#if 0
 static GnmCellPos *
 py_CellPos_as_CellPos (py_CellPos_object *self)
 {
 	return &self->cell_pos;
 }
+#endif
 
 static PyObject *
 py_CellPos_get_tuple_method (py_CellPos_object *self, PyObject *args)
@@ -654,11 +656,13 @@ static struct PyMethodDef py_Range_object_methods[] = {
 	{NULL, NULL}
 };
 
+#if 0
 static GnmRange *
 py_Range_as_Range (py_Range_object *self)
 {
 	return &self->range;
 }
+#endif
 
 static PyObject *
 py_Range_get_tuple_method (py_Range_object *self, PyObject *args)
@@ -759,11 +763,13 @@ static struct PyMethodDef py_CellRef_object_methods[] = {
 	{NULL, NULL}
 };
 
+#if 0
 static GnmCellRef *
 py_CellRef_as_CellRef (py_CellRef_object *self)
 {
 	return &self->cell_ref;
 }
+#endif
 
 static PyObject *
 py_CellRef_object_getattr (py_CellRef_object *self, gchar *name)
@@ -1251,11 +1257,13 @@ static struct PyMethodDef py_Cell_object_methods[] = {
 	{NULL, NULL}
 };
 
+#if 0
 static GnmCell *
 py_Cell_as_Cell (py_Cell_object *self)
 {
 	return self->cell;
 }
+#endif
 
 static PyObject *
 py_Cell_set_text_method (py_Cell_object *self, PyObject *args)
@@ -1443,11 +1451,13 @@ static struct PyMethodDef py_Sheet_object_methods[] = {
 	{NULL, NULL}
 };
 
+#if 0
 static Sheet *
 py_sheet_as_Sheet (py_Sheet_object *self)
 {
 	return self->sheet;
 }
+#endif
 
 static PyObject *
 py_sheet_cell_fetch_method (py_Sheet_object *self, PyObject *args)
@@ -1671,11 +1681,13 @@ struct _py_Workbook_object {
 	Workbook *wb;
 };
 
+#if 0
 static Workbook *
 py_Workbook_as_Workbook (py_Workbook_object *self)
 {
 	return self->wb;
 }
+#endif
 
 static PyObject *
 py_Workbook_sheets (py_Workbook_object *self, PyObject *args)
@@ -2131,11 +2143,13 @@ py_GnmPlugin_get_description_method (py_GnmPlugin_object *self, PyObject *args)
 	return PyString_FromString (go_plugin_get_description (self->pinfo));
 }
 
+#if 0
 static GOPlugin *
 py_GnmPlugin_as_GnmPlugin (py_GnmPlugin_object *self)
 {
 	return self->pinfo;
 }
+#endif
 
 static PyObject *
 py_GnmPlugin_object_getattr (py_GnmPlugin_object *self, gchar *name)

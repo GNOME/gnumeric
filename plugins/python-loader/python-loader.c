@@ -537,7 +537,10 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 	help_attr_name = g_strdup_printf ("_CGnumericHelp_%s", fn_name);
 	cobject_help_value = PyDict_GetItemString (python_fn_info_dict, help_attr_name);
 	if (cobject_help_value == NULL) {
-		PyObject *python_fn_help = ((PyFunctionObject *) python_fn)->func_doc;
+		PyObject *python_fn_help =
+			PyFunction_Check (python_fn)
+			? ((PyFunctionObject *) python_fn)->func_doc
+			: NULL;
 		if (python_fn_help != NULL && PyString_Check (python_fn_help)) {
 			guint n = 0;
 			GnmFuncHelp *new_help = NULL;
@@ -669,7 +672,7 @@ gplp_func_desc_load (GOPluginService *service,
 		    (python_args = PyTuple_GetItem (fn_info_obj, 0)) != NULL &&
 			PyString_Check (python_args) &&
 		    (python_fn = PyTuple_GetItem (fn_info_obj, 2)) != NULL &&
-		    PyFunction_Check (python_fn)) {
+		    PyCallable_Check (python_fn)) {
 			res->arg_spec	= PyString_AsString (python_args);
 			res->help	= python_function_get_gnumeric_help (
 				loader_data->python_fn_info_dict, python_fn, name);
@@ -685,7 +688,7 @@ gplp_func_desc_load (GOPluginService *service,
 		return FALSE;
 	}
 
-	if (PyFunction_Check (fn_info_obj)) {
+	if (PyCallable_Check (fn_info_obj)) {
 		res->arg_spec	= "";
 		res->help	= python_function_get_gnumeric_help (
 			loader_data->python_fn_info_dict, fn_info_obj, name);
@@ -797,7 +800,7 @@ gplp_func_exec_action (GOPluginService *service,
 		*ret_error = go_error_info_new_printf (_("Unknown action: %s"),
 						    action->id);
 		return;
-	} else if (!PyFunction_Check (fn)) {
+	} else if (!PyCallable_Check (fn)) {
 		*ret_error = go_error_info_new_printf (
 			_("Not a valid function for action: %s"), action->id);
 		return;

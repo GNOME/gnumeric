@@ -9,6 +9,7 @@ Morten:
 	* For xlsx, don't complain over "ext" elements.
 	* xlsx graph import improvements.
 	* Attempt a fix for tabs appearance with gtk+ 3.12.  [#728465]
+	* Make it possible to have all callables as python functions. [#728611]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.14
