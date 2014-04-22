@@ -20,7 +20,6 @@ struct _GnmColor {
 
 GType     gnm_color_get_type    (void);
 GnmColor *gnm_color_new_go    (GOColor c);
-GnmColor *gnm_color_new_name  (char const *name);
 GnmColor *gnm_color_new_rgba16(guint16 red, guint16 green, guint16 blue, guint16 alpha);
 GnmColor *gnm_color_new_rgb8  (guint8 red, guint8 green, guint8 blue);
 GnmColor *gnm_color_new_rgba8 (guint8 red, guint8 green, guint8 blue, guint8 alpha);

@@ -245,10 +245,10 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 						NULL);
 				gnm_hlink_set_target (link, url);
 				gnm_style_set_hlink (mstyle, link);
-				gnm_style_set_font_uline (
-					mstyle, UNDERLINE_SINGLE);
+				gnm_style_set_font_uline (mstyle,
+							  UNDERLINE_SINGLE);
 				gnm_style_set_font_color (mstyle,
-					gnm_color_new_name ("blue"));
+							  gnm_color_new_go (GO_COLOR_BLUE));
 				g_free (url);
 				xmlBufferFree (h_buf);
 			}

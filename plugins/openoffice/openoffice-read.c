@@ -4181,7 +4181,7 @@ oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
 		style = gnm_style_new ();
 		gnm_style_set_hlink (style, hlink);
 		gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
-		gnm_style_set_font_color (style, gnm_color_new_name ("blue"));
+		gnm_style_set_font_color (style, gnm_color_new_go (GO_COLOR_BLUE));
 		sheet_style_apply_pos (state->pos.sheet,
 				       state->pos.eval.col, state->pos.eval.row,
 				       style);

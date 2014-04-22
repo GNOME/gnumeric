@@ -1,5 +1,8 @@
 2014-04-22  Morten Welinder  <terra@gnome.org>
 
+	* src/style-color.c (gnm_color_new_name): Remove.  All calls
+	replaced with calls to gnm_color_new_go.
+
 	* src/sheet-style.c (sheet_style_init_size): Plug leak.
 
 	* src/style-color.c (gnm_color_shutdown): Free the auto colours.

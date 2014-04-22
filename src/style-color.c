@@ -20,14 +20,6 @@ static GnmColor *sc_auto_back;
 static GnmColor *sc_auto_font;
 static GnmColor *sc_auto_pattern;
 
-GnmColor *
-gnm_color_new_name (char const *name)
-{
-	GdkRGBA c;
-	gdk_rgba_parse (&c, name);
-	return gnm_color_new_gdk (&c);
-}
-
 static GnmColor *
 gnm_color_new_uninterned (GOColor c, gboolean is_auto)
 {
