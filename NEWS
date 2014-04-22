@@ -11,6 +11,7 @@ Morten:
 	* Attempt a fix for tabs appearance with gtk+ 3.12.  [#728465]
 	* Make it possible to have all callables as python functions. [#728611]
 	* Improve format roundtrip through ODF.
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.14

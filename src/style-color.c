@@ -16,6 +16,9 @@ static GHashTable *style_color_hash;
 static GnmColor *sc_black;
 static GnmColor *sc_white;
 static GnmColor *sc_grid;
+static GnmColor *sc_auto_back;
+static GnmColor *sc_auto_font;
+static GnmColor *sc_auto_pattern;
 
 GnmColor *
 gnm_color_new_name (char const *name)
@@ -134,11 +137,9 @@ style_color_grid (void)
 GnmColor *
 style_color_auto_font (void)
 {
-	static GnmColor *color = NULL;
-
-	if (!color)
-		color = gnm_color_new_uninterned (GO_COLOR_BLACK, TRUE);
-	return style_color_ref (color);
+	if (!sc_auto_font)
+		sc_auto_font = gnm_color_new_uninterned (GO_COLOR_BLACK, TRUE);
+	return style_color_ref (sc_auto_font);
 }
 
 /**
@@ -149,11 +150,9 @@ style_color_auto_font (void)
 GnmColor *
 style_color_auto_back (void)
 {
-	static GnmColor *color = NULL;
-
-	if (!color)
-		color = gnm_color_new_uninterned (GO_COLOR_WHITE, TRUE);
-	return style_color_ref (color);
+	if (!sc_auto_back)
+		sc_auto_back = gnm_color_new_uninterned (GO_COLOR_WHITE, TRUE);
+	return style_color_ref (sc_auto_back);
 }
 
 /**
@@ -164,11 +163,9 @@ style_color_auto_back (void)
 GnmColor *
 style_color_auto_pattern (void)
 {
-	static GnmColor *color = NULL;
-
-	if (!color)
-		color = gnm_color_new_uninterned (GO_COLOR_BLACK, TRUE);
-	return style_color_ref (color);
+	if (!sc_auto_pattern)
+		sc_auto_pattern = gnm_color_new_uninterned (GO_COLOR_BLACK, TRUE);
+	return style_color_ref (sc_auto_pattern);
 }
 
 GnmColor *
@@ -255,6 +252,21 @@ gnm_color_shutdown (void)
 	if (sc_grid) {
 		style_color_unref (sc_grid);
 		sc_grid = NULL;
+	}
+
+	if (sc_auto_back) {
+		style_color_unref (sc_auto_back);
+		sc_auto_back = NULL;
+	}
+
+	if (sc_auto_font) {
+		style_color_unref (sc_auto_font);
+		sc_auto_font = NULL;
+	}
+
+	if (sc_auto_pattern) {
+		style_color_unref (sc_auto_pattern);
+		sc_auto_pattern = NULL;
 	}
 
 	g_hash_table_foreach (style_color_hash, cb_color_leak, NULL);

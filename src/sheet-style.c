@@ -669,10 +669,15 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 
 	sheet->style_data = g_new (GnmSheetStyleData, 1);
 	sheet->style_data->style_hash = sh_create ();
+
+	{
+		GnmColor *ap = style_color_auto_pattern ();
 #warning "FIXME: Allocating a GnmColor here is dubious."
-	sheet->style_data->auto_pattern_color = g_new (GnmColor, 1);
-	*sheet->style_data->auto_pattern_color =  *style_color_auto_pattern ();
-	sheet->style_data->auto_pattern_color->ref_count = 1;
+		sheet->style_data->auto_pattern_color = g_new (GnmColor, 1);
+		*sheet->style_data->auto_pattern_color = *ap;
+		sheet->style_data->auto_pattern_color->ref_count = 1;
+		style_color_unref (ap);
+	}
 
 	default_style =  gnm_style_new_default ();
 #if 0
