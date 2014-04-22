@@ -6704,7 +6704,6 @@ static void
 odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		      GogObject const *axis)
 {
-	char const *type = NULL;
 	double tmp;
 	GObjectClass *klass = G_OBJECT_GET_CLASS (axis);
 	GParamSpec *spec;
@@ -6717,9 +6716,11 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 	if (NULL != (spec = g_object_class_find_property (klass, "map-name"))
 	    && spec->value_type == G_TYPE_STRING
 	    && (G_PARAM_READABLE & spec->flags)) {
+		char *type;
 		g_object_get (G_OBJECT (axis), "map-name", &type, NULL);
 		odf_add_bool (state->xml, CHART "logarithmic",
 			      0 != strcmp (type, "Linear"));
+		g_free (type);
 	}
 
 	tmp = gog_axis_get_entry
@@ -7100,8 +7101,6 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 		{"stretch", "repeat", "no-repeat"};
 	
 	if (style != NULL) {
-		char *color = NULL;
-
 		if (state->with_extension && style->fill.auto_type) {
 			odf_add_bool (state->xml, GNMSTYLE "auto-type", TRUE);
 		} else
@@ -7113,18 +7112,20 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 				if (style->fill.pattern.pattern == GO_PATTERN_SOLID) {
 					gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
 					if (!style->fill.auto_back) {
-						color = odf_go_color_to_string (style->fill.pattern.back);
+						char *color = odf_go_color_to_string (style->fill.pattern.back);
 						gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
 						odf_add_percent (state->xml, DRAW "opacity",
 								 odf_go_color_opacity (style->fill.pattern.back));
+						g_free (color);
 					}
 				} else if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID) {
 					gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
 					if (!style->fill.auto_fore) {
-						color = odf_go_color_to_string (style->fill.pattern.fore);
+						char *color = odf_go_color_to_string (style->fill.pattern.fore);
 						gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
 						odf_add_percent (state->xml, DRAW "opacity",
 								 odf_go_color_opacity (style->fill.pattern.fore));
+						g_free (color);
 					}
 				} else {
 					gchar *hatch = odf_get_pattern_name (state, style);
@@ -7132,10 +7133,11 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 					gsf_xml_out_add_cstr (state->xml, DRAW "fill-hatch-name",
 							      hatch);
 					if (!style->fill.auto_back) {
-						color = odf_go_color_to_string (style->fill.pattern.back);
+						char *color = odf_go_color_to_string (style->fill.pattern.back);
 						gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
 						odf_add_percent (state->xml, DRAW "opacity",
 								 odf_go_color_opacity (style->fill.pattern.back));
+						g_free (color);
 					}
 					g_free (hatch);
 					odf_add_bool (state->xml, DRAW "fill-hatch-solid", TRUE);
@@ -7145,7 +7147,6 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 							 GNMSTYLE "pattern",
 							 style->fill.pattern.pattern);
 				}
-				g_free (color);
 				break;
 			case GO_STYLE_FILL_GRADIENT: {
 				gchar *grad = odf_get_gradient_name (state, style);
@@ -7193,9 +7194,10 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 				odf_add_pt (state->xml, SVG "stroke-width",
 					    style->line.width);
 			if (!style->line.auto_color) {
-				color = odf_go_color_to_string (style->line.color);
+				char *color = odf_go_color_to_string (style->line.color);
 				gsf_xml_out_add_cstr (state->xml, SVG "stroke-color",
 						      color);
+				g_free (color);
 			} else if (state->with_extension)
 			      	odf_add_bool (state->xml, GNMSTYLE "auto-color", TRUE);		
 		} else {
@@ -7722,17 +7724,18 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 	}
 	if (subtitles != NULL) {
 		GogObject const *title = subtitles->data;
-		char *position = NULL;
+		char *position;
 		gboolean is_footer = FALSE;
 
 		g_object_get (G_OBJECT (title),
-		      "compass", &position,
-		      NULL);
+			      "compass", &position,
+			      NULL);
 		is_footer = NULL != g_strstr_len (position, -1, "bottom");
 		odf_write_title (state, title,
 				 is_footer ? CHART "footer" : CHART "subtitle",
 				 TRUE);
 		g_slist_free (subtitles);
+		g_free (position);
 	}
 
 

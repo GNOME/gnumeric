@@ -1,5 +1,9 @@
 2014-04-22  Morten Welinder  <terra@gnome.org>
 
+	* openoffice-write.c (odf_write_axis_style): Plug leak.
+	(odf_write_gog_style_graphic): Plug leak.
+	(odf_write_plot): Plug leak.
+
 	* openoffice-read.c (odf_format_repeated_text_end): Imported "*x"
 	type format.
 
