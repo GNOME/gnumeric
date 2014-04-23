@@ -5401,6 +5401,7 @@ static gboolean
 cb_update_idle (GraphDimEditor *editor)
 {
 	cb_graph_dim_editor_update (editor->entry, FALSE, editor);
+	editor->idle = 0;
 	return FALSE;
 }
 
