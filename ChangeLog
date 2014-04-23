@@ -1,5 +1,7 @@
 2014-04-23  Morten Welinder  <terra@gnome.org>
 
+	* src/complete.c (complete_idle): Avoid abort().
+
 	* src/wbc-gtk.c (cb_update_idle): Clear ->idle when we cancel the
 	source.
 

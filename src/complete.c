@@ -68,9 +68,7 @@ complete_idle (gpointer data)
 {
 	Complete *complete = data;
 
-	if (complete->idle_tag == 0){
-		abort ();
-	}
+	g_return_val_if_fail (complete->idle_tag != 0, FALSE);
 
 	if (ACC(complete)->search_iteration (complete))
 		return TRUE;
