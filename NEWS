@@ -4,6 +4,7 @@ Andreas:
 	* Fix chart size in ODF import. [#728278]
 	* Improve chart roundtrip through ODF. [#728197]
 	* Export centre-across-selection in a way LO can understand. [#726010]
+	* Improve format roundtrip through ODF.
 
 Morten:
 	* For xlsx, don't complain over "ext" elements.

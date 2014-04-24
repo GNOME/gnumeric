@@ -1,3 +1,8 @@
+2014-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_number): read gnm:min-integer-chars
+	and create an appropriate number format
+
 2014-04-22  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_write_axis_style): Plug leak.

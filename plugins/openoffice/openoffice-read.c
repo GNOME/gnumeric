@@ -5201,6 +5201,7 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean decimals_specified = FALSE;
 /* 	gnm_float display_factor = 1.; */
 	int min_i_digits = 1;
+	int min_i_chars = 1;
 
 	if (state->cur_format.accum == NULL)
 		return;
@@ -5218,11 +5219,27 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER,
 					      "min-integer-digits", &min_i_digits, 0, 30))
 			;
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT,
+					      "min-integer-chars", &min_i_chars, 0, 30))
+			;
 
-	if (decimals_specified || (min_i_digits != 1) || grouping)
-		go_format_generate_number_str (state->cur_format.accum,  min_i_digits, decimal_places,
-					       grouping, FALSE, FALSE, NULL, NULL);
-	else
+	if (decimals_specified || (min_i_digits != 1) || grouping || (min_i_chars > min_i_digits)) {
+		if (min_i_chars > min_i_digits) {
+			go_format_generate_number_str (state->cur_format.accum, min_i_chars, decimal_places,
+						       grouping, FALSE, FALSE, NULL, NULL);
+			while (min_i_chars > min_i_digits) {
+				/* substitute the left most 0 by ? */
+				char *zero = strchr (state->cur_format.accum->str, '0');
+				if (zero)
+					*zero = '?';
+				min_i_chars--;
+			}
+			g_print ("format: %s\n", state->cur_format.accum->str);
+		} else 
+			go_format_generate_number_str (state->cur_format.accum, min_i_digits, decimal_places,
+						       grouping, FALSE, FALSE, NULL, NULL);
+		
+	} else
 		g_string_append (state->cur_format.accum, go_format_as_XL (go_format_general ()));
 }
 
