@@ -1,3 +1,10 @@
+2014-04-24  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_chart_title_end): Fix manual
+	positioning of chart titles.
+	(xlsx_chart_layout_mode): Read as enum, not bool.  (We still
+	ignore.)
+
 2014-04-20  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_solid_fill): When we see a

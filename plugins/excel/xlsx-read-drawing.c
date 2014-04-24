@@ -46,7 +46,7 @@ xlsx_chart_pop_obj (XLSXReadState *state)
 	g_return_if_fail (obj_stack != NULL);
 
 #if 0
-	g_print ("push %s\n", G_OBJECT_TYPE_NAME (state->cur_obj));
+	g_print ("pop %s\n", G_OBJECT_TYPE_NAME (state->cur_obj));
 #endif
 
 	if (state->cur_style) {
@@ -64,15 +64,33 @@ xlsx_chart_pop_obj (XLSXReadState *state)
 }
 
 static void
+xlsx_reset_chart_pos (XLSXReadState *state)
+{
+	int i;
+	for (i = 0; i < 4; i++) {
+		state->chart_pos[i] = go_nan;
+		state->chart_pos_mode[i] = FALSE;
+	}
+	state->chart_pos_target = FALSE;
+}
+
+
+static void
+xlsx_push_text_object (XLSXReadState *state, const char *name)
+{
+	GogObject *label = gog_object_add_by_name (state->cur_obj, name, NULL);
+	state->sp_type |= GO_STYLE_FONT;
+	g_object_set (G_OBJECT (label), "allow-wrap", TRUE, "justification", "center", NULL);
+	xlsx_chart_push_obj (state, label);
+}
+
+
+static void
 xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (!GOG_IS_LABEL (state->cur_obj) && IS_SHEET_OBJECT_GRAPH (state->so) && NULL == state->series) { /* Hmm, why? */
-		GogObject *label = gog_object_add_by_name (state->cur_obj,
-			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
-		state->sp_type |= GO_STYLE_FONT;
-		g_object_set (G_OBJECT (label), "allow-wrap", TRUE, "justification", "center", NULL);
-		xlsx_chart_push_obj (state, label);
+		xlsx_push_text_object (state, "Label");
 	}
 }
 
@@ -112,17 +130,40 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				alloc.w = state->chart_pos[1] - alloc.x;
 				alloc.y = state->chart_pos[2];
 				alloc.h = state->chart_pos[3] - alloc.y;
-				state->chart_pos[0] = go_nan;
+				xlsx_reset_chart_pos (state);
 				gog_object_set_position_flags (state->cur_obj, GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
 				gog_object_set_manual_position (state->cur_obj, &alloc);
 			}
-			xlsx_chart_pop_obj (state);
+			if (!state->inhibit_text_pop)
+				xlsx_chart_pop_obj (state);
 		}
 	}
 	g_free (state->chart_tx);
 	state->chart_tx = NULL;
 	state->sp_type &= ~GO_STYLE_FONT;
 }
+
+static void
+xlsx_chart_title_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	if (state->cur_obj == (GogObject *)state->chart) {
+		xlsx_push_text_object (state, "Title");
+		state->inhibit_text_pop = TRUE;
+	} else {
+		xlsx_chart_text_start (xin, attrs);
+	}
+}
+
+static void
+xlsx_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->inhibit_text_pop = FALSE;
+	xlsx_chart_text (xin, blob);
+}
+
 
 static void
 xlsx_chart_p_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
@@ -1488,14 +1529,26 @@ static void
 xlsx_chart_layout_manual (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	/* FIXME: we don't take xMode and yMode into account for now */
 	GogViewAllocation alloc;
+
+	/* FIXME: we don't take xMode and yMode into account for now */
+
 	alloc.x = state->chart_pos[0];
 	alloc.w = state->chart_pos[1];
 	alloc.y = state->chart_pos[2];
 	alloc.h = state->chart_pos[3];
-	state->chart_pos[0] = go_nan;
+
 	if (GOG_IS_GRID (state->cur_obj)) {
+
+		if (0 && state->chart_pos_mode[0]) {
+			alloc.x = 0;
+			alloc.w = 1;
+		}
+		if (0 && state->chart_pos_mode[2]) {
+			alloc.y = 0;
+			alloc.h = 1;
+		}
+
 		if (state->chart_pos_target) {/* inner mode */
 			gog_chart_set_plot_area (state->chart, &alloc);
 		}
@@ -1505,6 +1558,8 @@ xlsx_chart_layout_manual (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		gog_object_set_position_flags (state->cur_obj, GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
 		gog_object_set_manual_position (state->cur_obj, &alloc);
 	}
+
+	xlsx_reset_chart_pos (state);
 }
 
 static void
@@ -1525,7 +1580,15 @@ static void
 xlsx_chart_layout_mode (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	simple_bool (xin, attrs, state->chart_pos_mode + xin->node->user_data.v_int);
+	static const EnumVal const choices[] = {
+		{ "factor",	FALSE },
+		{ "edge",	TRUE },
+		{ NULL, 0 }
+	};
+	int choice = FALSE;
+
+	if (simple_enum (xin, attrs, choices, &choice))
+		state->chart_pos_mode[xin->node->user_data.v_int] = choice;
 }
 
 static GsfXMLInNode const xlsx_chart_dtd[] =
@@ -1637,7 +1700,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_LBLALGN, XL_NS_CHART, "lblAlgn", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_LBLOFFSET, XL_NS_CHART, "lblOffset", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-        GSF_XML_IN_NODE (CAT_AXIS, TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, xlsx_chart_text),		/* ID is used */
+        GSF_XML_IN_NODE (CAT_AXIS, TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, &xlsx_chart_title_start, xlsx_chart_title_end),		/* ID is used */
 	  GSF_XML_IN_NODE (TITLE, OVERLAY, XL_NS_CHART, "overlay", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (TITLE, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (LAYOUT, LAST_LAYOUT,	    XL_NS_CHART, "lastLayout", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1653,11 +1716,13 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 	    GSF_XML_IN_NODE (LAYOUT, MAN_LAYOUT, XL_NS_CHART, "manualLayout", GSF_XML_NO_CONTENT, NULL, &xlsx_chart_layout_manual),
 	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_TARGET, XL_NS_CHART, "layoutTarget", GSF_XML_NO_CONTENT, &xlsx_chart_layout_target, NULL),
               GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_H, XL_NS_CHART, "h", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_dim, NULL, 3),
+              GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_HMODE, XL_NS_CHART, "hMode", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_mode, NULL, 3),
               GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_W, XL_NS_CHART, "w", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_dim, NULL, 1),
+              GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_WMODE, XL_NS_CHART, "wMode", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_mode, NULL, 1),
               GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_dim, NULL, 0),
               GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_XMODE, XL_NS_CHART, "xMode", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_mode, NULL, 0),
               GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_Y, XL_NS_CHART, "y", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_dim, NULL, 2),
-              GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_YMODE, XL_NS_CHART, "yMode", GSF_XML_NO_CONTENT, FALSE, TRUE,  &xlsx_chart_layout_mode, NULL, 1),
+              GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_YMODE, XL_NS_CHART, "yMode", GSF_XML_NO_CONTENT, FALSE, TRUE,  &xlsx_chart_layout_mode, NULL, 2),
               GSF_XML_IN_NODE (TITLE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
               GSF_XML_IN_NODE (TITLE, TEXT, XL_NS_CHART, "tx", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, &xlsx_chart_text),
             GSF_XML_IN_NODE (TEXT, TX_RICH, XL_NS_CHART, "rich", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2083,7 +2148,7 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				g_free (str);
 			}
 		}
-		state->chart_pos[0] = go_nan;
+		xlsx_reset_chart_pos (state);
 		state->gocolor = NULL;
 		state->color_setter = NULL;
 		state->cur_obj   = NULL;

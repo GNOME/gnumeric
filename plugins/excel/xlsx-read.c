@@ -217,8 +217,9 @@ typedef struct {
 	GSList		 *style_stack;
 	unsigned int	  sp_type;
 	char		 *chart_tx;
-	gnm_float	  chart_pos[4];
-	gboolean	  chart_pos_mode[2];
+	gboolean          inhibit_text_pop;
+	gnm_float	  chart_pos[4];  /* x, w, y, h */
+	gboolean	  chart_pos_mode[4]; /* false: "factor", true: "edge" */
 	gboolean	  chart_pos_target; /* true if "inner" */
 
 	struct {
@@ -4795,6 +4796,10 @@ GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FAL
   GSF_XML_IN_NODE (THEME, OBJ_DEFAULTS, XL_NS_DRAW, "objectDefaults", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (OBJ_DEFAULTS, SP_DEF, XL_NS_DRAW, "spDef", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SP_DEF, SHAPE_PR,  XL_NS_DRAW, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHAPE_PR, XFRM,  XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHAPE_PR, CUST_GEOM, XL_NS_DRAW, "custGeom", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHAPE_PR, EXTLST,  XL_NS_DRAW, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHAPE_PR, SOLID_FILL, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SP_DEF, BODY_PR,   XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SP_DEF, LST_STYLE, XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SP_DEF, STYLE, XL_NS_DRAW, "style", GSF_XML_NO_CONTENT, NULL, NULL),
