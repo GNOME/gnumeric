@@ -1,3 +1,9 @@
+2014-04-26  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search.c (dialog_search): Undo guru changes from last
+	commit unrelated to stated goal of getting rid of GtkTable.
+	Fixes #728817.
+
 2014-04-13  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.14

@@ -49,6 +49,8 @@
 
 #define SEARCH_KEY "search-dialog"
 
+#undef USE_GURU
+
 enum {
 	COL_SHEET = 0,
 	COL_CELL,
@@ -482,9 +484,11 @@ dialog_search (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
+#ifdef USE_GURU
 	/* Only one guru per workbook. */
 	if (wbc_gtk_get_guru (wbcg))
 		return;
+#endif
 
 	gui = gnm_gtk_builder_load ("search.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
@@ -506,7 +510,14 @@ dialog_search (WBCGtk *wbcg)
 		gtk_notebook_page_num (dd->notebook,
 				       go_gtk_builder_get_widget (gui, "matches_tab"));
 
-	dd->rangetext = gnm_expr_entry_new (wbcg, TRUE);
+	dd->rangetext = gnm_expr_entry_new
+		(wbcg,
+#ifdef USE_GURU
+		 TRUE
+#else
+		 FALSE
+#endif
+			);
 	gnm_expr_entry_set_flags (dd->rangetext, 0, GNM_EE_MASK);
 	grid = GTK_GRID (gtk_builder_get_object (gui, "normal-grid"));
 	gtk_widget_set_hexpand (GTK_WIDGET (dd->rangetext), TRUE);
@@ -589,7 +600,9 @@ dialog_search (WBCGtk *wbcg)
 	go_gtk_builder_signal_connect (gui, "scope_range", "toggled",
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
+#ifdef USE_GURU
 	wbc_gtk_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
+#endif
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", dd, (GDestroyNotify) free_state);
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,

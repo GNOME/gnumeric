@@ -13,6 +13,7 @@ Morten:
 	* Make it possible to have all callables as python functions. [#728611]
 	* Improve format roundtrip through ODF.
 	* Plug leaks.
+	* Make search dialog non-modal again.  [#728817]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.14
