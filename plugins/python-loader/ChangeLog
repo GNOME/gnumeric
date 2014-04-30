@@ -1,3 +1,7 @@
+2014-04-30  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.15
+
 2014-04-21  Morten Welinder  <terra@gnome.org>
 
 	* python-loader.c (gplp_func_desc_load): Accept any callable, not
