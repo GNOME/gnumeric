@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 Morten Welinder <terra@gnome.org> -->
 <application>
 <id type="desktop">gnumeric.desktop</id>
-<!--of the appdata--><licence>CC0</licence>
+<metadata_license>CC0-1.0</metadata_license>
+<project_license>GPL-2.0 and GPL-3.0</project_license>
 <description>
 <p>Gnumeric is a spreadsheet application for interactive manipulation of data.</p>
 <p>Gnumeric aims to provide high-accuracy computations, expressive graphs,
