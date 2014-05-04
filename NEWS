@@ -1,5 +1,8 @@
 Gnumeric 1.12.16
 
+Morten:
+	* Start moving off GtkUIManager.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.15
 

@@ -485,58 +485,6 @@ cb_gridlines_item_toggled (G_GNUC_UNUSED GtkCheckMenuItem *item,
  * MAIN
  ********************************************************************************/
 
-/*      Menus   */
-static GtkActionEntry entries[] = {
-	{ "settings", NULL, N_("_Settings"), NULL, NULL, NULL },
-		{ "edges", NULL, N_("_Edges"), NULL, NULL, NULL }
-};
-
-/* Toggle items */
-static GtkToggleActionEntry toggle_entries[] = {
-	{ "number", NULL, N_("Apply _Number Formats"), NULL,
-		NULL, G_CALLBACK (cb_check_item_toggled), TRUE},
-	{ "border", NULL, N_("Apply _Borders"), NULL,
-		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
-	{ "font", NULL, N_("Apply _Fonts"), NULL,
-		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
-	{ "patterns", NULL, N_("Apply _Patterns"), NULL,
-		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
-	{ "alignment", NULL, N_("Apply _Alignment"), NULL,
-		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
-	{ "left", NULL, N_("_Left"), NULL,
-		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
-	{ "right", NULL, N_("_Right"), NULL,
-		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
-	{ "top", NULL, N_("_Top"), NULL,
-		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
-	{ "bottom", NULL, N_("_Bottom"), NULL,
-		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
-	{ "gridlines", NULL, N_("_Show Gridlines"), NULL,
-		NULL, G_CALLBACK (cb_gridlines_item_toggled), FALSE }
-};
-
-static const char *ui_description =
-"<ui>"
-"  <menubar name='bar'>"
-"    <menu action='settings'>"
-"      <menuitem action='number'/>"
-"      <menuitem action='border'/>"
-"      <menuitem action='font'/>"
-"      <menuitem action='patterns'/>"
-"      <menuitem action='alignment'/>"
-"      <separator name='settings-sep1'/>"
-"      <menu action='edges'>"
-"        <menuitem action='left'/>"
-"        <menuitem action='right'/>"
-"        <menuitem action='top'/>"
-"        <menuitem action='bottom'/>"
-"      </menu>"
-"      <separator name='settings-sep2'/>"
-"      <menuitem action='gridlines'/>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
 static gboolean
 cb_canvas_focus (GtkWidget *canvas,
 		 G_GNUC_UNUSED GtkDirectionType direction,
@@ -564,8 +512,6 @@ dialog_autoformat (WBCGtk *wbcg)
 	GtkBuilder *gui;
 	AutoFormatState *state;
 	int i;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
 
 	gui = gnm_gtk_builder_load ("autoformat.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
@@ -600,32 +546,25 @@ dialog_autoformat (WBCGtk *wbcg)
 	state->ok     = GTK_BUTTON (go_gtk_builder_get_widget (gui, "format_ok"));
 	state->cancel = GTK_BUTTON (go_gtk_builder_get_widget (gui, "format_cancel"));
 
-	action_group = gtk_action_group_new ("settings-actions");
-	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), state);
-	gtk_action_group_add_toggle_actions (action_group, toggle_entries, G_N_ELEMENTS (toggle_entries), state);
+#define CHECK_ITEM(v_, w_,h_) do {				\
+	GtkWidget *w = go_gtk_builder_get_widget (gui, (w_));	\
+	state->v_ = GTK_CHECK_MENU_ITEM (w);			\
+	g_signal_connect (w, "activate", G_CALLBACK (h_), state);	\
+} while (0)
 
-	ui_manager = gtk_ui_manager_new ();
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui_description, -1, NULL);
-	state->number      = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/number"));
-	state->border      = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/border"));
-	state->font        = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/font"));
-	state->patterns    = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/patterns"));
-	state->alignment   = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/alignment"));
+	CHECK_ITEM (number, "number_menuitem", cb_check_item_toggled);
+	CHECK_ITEM (border, "border_menuitem", cb_check_item_toggled);
+	CHECK_ITEM (font, "font_menuitem", cb_check_item_toggled);
+	CHECK_ITEM (patterns, "pattern_menuitem", cb_check_item_toggled);
+	CHECK_ITEM (alignment, "alignment_menuitem", cb_check_item_toggled);
+	CHECK_ITEM (edges.left, "left_menuitem", cb_check_item_toggled);
+	CHECK_ITEM (edges.right, "right_menuitem", cb_check_item_toggled);
+	CHECK_ITEM (edges.top, "top_menuitem", cb_check_item_toggled);
+	CHECK_ITEM (edges.bottom, "bottom_menuitem", cb_check_item_toggled);
+	CHECK_ITEM (gridlines, "gridlines_menuitem", cb_gridlines_item_toggled);
 
-	state->edges.left   = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/edges/left"));
-	state->edges.right  = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/edges/right"));
-	state->edges.top    = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/edges/top"));
-	state->edges.bottom = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/edges/bottom"));
+#undef CHECK_ITEM
 
-	state->gridlines  = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/gridlines"));
-
-	gtk_grid_attach (GTK_GRID (go_gtk_builder_get_widget (gui, "preview-grid")),
-	                    gtk_ui_manager_get_widget (ui_manager, "/bar"),
-	                    2, 0, 1, 1);
-	g_object_set (gtk_ui_manager_get_widget (ui_manager, "/bar"), "hexpand", TRUE, NULL);
 	for (i = 0; i < NUM_PREVIEWS; i++) {
 		char *name;
 
@@ -719,5 +658,4 @@ dialog_autoformat (WBCGtk *wbcg)
 	/* not show all or the scrollbars will appear */
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 	g_object_unref (gui);
-	g_object_unref (ui_manager);
 }
