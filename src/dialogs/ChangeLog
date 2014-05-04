@@ -3,6 +3,8 @@
 	* dialog-autoformat.c (dialog_autoformat): Do the full dialog in
 	GtkBuilder instead of doing half in GtkUIManager.
 
+	* dialog-data-slicer.c (dialog_data_slicer): Ditto.
+
 2014-04-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.15

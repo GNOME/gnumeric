@@ -153,7 +153,7 @@ cb_dialog_data_slicer_create_model (DialogDataSlicer *state)
 				    G_TYPE_POINTER,	/* field */
 				    G_TYPE_INT,		/* field-type */
 				    G_TYPE_STRING,	/* field-name */
-				    G_TYPE_INT);		/* field-header-index */
+				    G_TYPE_INT);	/* field-header-index */
 	smodel = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (model));
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (smodel),
 		FIELD_HEADER_INDEX, cb_sort_by_header_index, NULL, NULL);
@@ -212,32 +212,6 @@ cb_source_expr_changed (DialogDataSlicer *state)
 	value_release (range);
 }
 
-/*      Menus   */
-static const GtkActionEntry entries[] = {
-	{ "format", NULL, N_("_Format"), NULL, NULL, NULL },
-		{ "style", NULL, N_("_Style"), NULL, NULL, NULL },
-		{ "aggregation", NULL, N_("_Aggregation"), NULL, NULL, NULL },
-	{ "layout", NULL, N_("_Layout"), NULL, NULL, NULL },
-		{ "up", GTK_STOCK_GO_UP, N_("_Up"), NULL, NULL, NULL },
-		{ "down", GTK_STOCK_GO_DOWN, N_("_Down"), NULL, NULL, NULL },
-		{ "remove", GTK_STOCK_REMOVE, N_("_Remove"), NULL, NULL, NULL }
-};
-
-static const char *ui_description =
-"<ui>"
-"  <menubar name='bar'>"
-"    <menu action='format'>"
-"      <menuitem action='style'/>"
-"      <menuitem action='aggregation'/>"
-"    </menu>"
-"    <menu action='layout'>"
-"      <menuitem action='up'/>"
-"      <menuitem action='down'/>"
-"      <menuitem action='remove'/>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
 void
 dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 {
@@ -247,8 +221,6 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	DialogDataSlicer *state;
 	GtkBuilder *gui;
 	GtkWidget *w;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -314,18 +286,6 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->notebook), create ? 0 : 1);
 
-	/* menus */
-	action_group = gtk_action_group_new ("settings-actions");
-	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), state);
-	ui_manager = gtk_ui_manager_new ();
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui_description, -1, NULL);
-	gtk_box_pack_start (GTK_BOX (go_gtk_builder_get_widget (gui, "format-box")),
-	                    gtk_ui_manager_get_widget (ui_manager, "/bar"),
-	                    FALSE, TRUE, 0);
-
 	/* a candidate for merging into attach guru */
 	gnumeric_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_DATA_SLICER);
@@ -335,6 +295,5 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 	g_object_unref (gui);
-	g_object_unref (ui_manager);
 }
 
