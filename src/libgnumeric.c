@@ -187,13 +187,6 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 		g_mem_set_vtable (glib_mem_profiler_table);
 	}
 
-#if !GLIB_CHECK_VERSION(2,32,0)
-	g_thread_init (NULL);
-#endif
-#if !GLIB_CHECK_VERSION(2,36,0)
-	g_type_init ();
-#endif
-
 	/* On win32 argv contains 'ansi' encoded args.  We need to manually
 	 * pull in the real versions and convert them to utf-8 */
 	argv = go_shell_argv_to_glib_encoding (argc, argv);

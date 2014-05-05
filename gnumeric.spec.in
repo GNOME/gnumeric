@@ -16,7 +16,7 @@ BuildRoot:        %{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
 BuildRequires:    goffice-devel >= 0.10.9
 BuildRequires:    libgsf-devel >= 1.14.24
 BuildRequires:    libxml-2.0-devel >= 2.4.12
-BuildRequires:    glib-2.0-devel >= 2.28.0
+BuildRequires:    glib-2.0-devel >= 2.38.0
 BuildRequires:    pango-devel >= 1.24.0
 BuildRequires:    scrollkeeper
 Requires:         scrollkeeper hicolor-icon-theme
