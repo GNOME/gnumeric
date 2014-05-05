@@ -3441,9 +3441,6 @@ wbc_gtk_init_color_fore (WBCGtk *gtk)
 	g_signal_connect (G_OBJECT (gtk->fore_color),
 		"display-custom-dialog",
 		G_CALLBACK (cb_custom_color_created), gtk);
-#if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
-#endif
 	gtk_action_group_add_action (gtk->font_actions,
 		GTK_ACTION (gtk->fore_color));
 }
@@ -3488,9 +3485,6 @@ wbc_gtk_init_color_back (WBCGtk *gtk)
 		"signal::combo-activate", G_CALLBACK (cb_back_color_changed), gtk,
 		"signal::display-custom-dialog", G_CALLBACK (cb_custom_color_created), gtk,
 		NULL);
-#if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (back_combo), _("Background"));
-#endif
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->back_color));
 }
 /****************************************************************************/

@@ -97,10 +97,6 @@ complete_sheet_search_iteration (Complete *complete)
 		if (!search_strategy_next (cs))
 			return FALSE;
 
-#if 0
-		g_print ("Checking %s...\n", cell_coord_name (cs->current.col, cs->current.row));
-#endif
-
 		if (text_matches (cs))
 			return FALSE;
 	}

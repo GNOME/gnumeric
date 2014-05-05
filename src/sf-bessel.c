@@ -2331,9 +2331,6 @@ bessel_j_series (gnm_float x, gnm_float v)
 			gnm_quad_mul (&qa, &qa, &qb);
 			gnm_quad_div (&qt, &qt, &qa);
 			t = gnm_quad_value (&qt);
-#if 0
-			g_printerr ("%5d: %g\n", k, t);
-#endif
 			if (t == 0)
 				break;
 			gnm_quad_add (&qs, &qs, &qt);
@@ -2348,10 +2345,6 @@ bessel_j_series (gnm_float x, gnm_float v)
 	s = gnm_ldexp (s, (int)CLAMP (e, G_MININT, G_MAXINT));
 
 	gnm_quad_end (state);
-
-#if 0
-	g_printerr ("J_%g(%g) = %g\n", v, x, s);
-#endif
 
 	return s;
 }

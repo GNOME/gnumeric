@@ -1383,11 +1383,6 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 	int col, row, width, height;
 	GtkAllocation ca;
 
-#if 0
-	g_warning ("compute_vis(W)[%d] = %d", pane->index,
-		   GTK_WIDGET (pane)->allocation.width);
-#endif
-
 	gtk_widget_get_allocation (GTK_WIDGET (canvas), &ca);
 
 	/* When col/row sizes change we need to do a full recompute */
@@ -1522,11 +1517,6 @@ gnm_pane_redraw_range (GnmPane *pane, GnmRange const *r)
 							tmp.start.row, tmp.end.row+1)
 		: G_MAXINT64;
 
-#if 0
-	g_printerr ("%s%s:", col_name (min_col), row_name (first_row));
-	g_printerr ("%s%s\n", col_name (max_col), row_name (last_row));
-#endif
-
 	goc_canvas_invalidate (&pane->simple.canvas, (x1-2) / scale, (y1-2) / scale, x2 / scale, y2 / scale);
 }
 
@@ -1580,10 +1570,6 @@ cb_pane_sliding (GnmPane *pane)
 	Sheet *sheet = scg_sheet (pane->simple.scg);
 	GnmPaneSlideInfo info;
 	GtkAllocation pa;
-
-#if 0
-	g_warning ("slide: %d, %d", pane->sliding_dx, pane->sliding_dy);
-#endif
 
 	gtk_widget_get_allocation (GTK_WIDGET (pane), &pa);
 
@@ -1905,10 +1891,6 @@ cb_obj_autoscroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 	scg_make_cell_visible (scg, info->col, info->row, FALSE, TRUE);
 	dx = pane->first_offset.x - dx;
 	dy = pane->first_offset.y - dy;
-
-#if 0
-	g_warning ("dx = %g, dy = %g", dx, dy);
-#endif
 
 	pane->drag.had_motion = TRUE;
 	gdk_window_get_device_position (window,

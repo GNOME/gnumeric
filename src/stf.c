@@ -75,11 +75,6 @@ stf_warning (GOIOContext *context, char const *msg)
 			 "%s", msg);
 	else
 		g_warning ("%s", msg);
-#if 0
-	go_cmd_context_error_import
-		(GO_CMD_CONTEXT (context),
-		 msg);
-#endif
 }
 
 

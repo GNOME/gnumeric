@@ -201,12 +201,6 @@ static gboolean
 preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 			  double x0, double y0, double x1, double y1)
 {
-#if 0
-	gint draw_x = expose->area.x;
-	gint draw_y = expose->area.y;
-	gint width  = expose->area.width;
-	gint height = expose->area.height;
-#endif
 	GnmPreviewGrid *pg = GNM_PREVIEW_GRID (item);
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2

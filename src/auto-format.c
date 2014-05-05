@@ -90,15 +90,6 @@ is_date (GnmFuncFlags typ, GOFormat const *explicit)
 static GnmFuncFlags
 do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat const **explicit)
 {
-#if 0
-	{
-		GnmParsePos pp;
-		parse_pos_init_evalpos (&pp, epos);
-		g_printerr ("Suggesting format for [%s]\n",
-			    gnm_expr_as_string (expr, &pp, NULL));
-	}
-#endif
-
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_EQUAL:
 	case GNM_EXPR_OP_GT:

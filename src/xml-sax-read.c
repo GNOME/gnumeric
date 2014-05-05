@@ -1961,13 +1961,9 @@ xml_not_used_old_array_spec (XMLSaxParseState *state,
 			     char const *content)
 {
 	long rows, cols, row, col;
-
-#if 0
-	/* This is the syntax we are trying to parse */
-	g_string_append_printf (str, "{%s}(%d,%d)[%d][%d]", expr_text,
-		array.rows, array.cols, array.y, array.x);
-#endif
 	char *end, *expr_end, *ptr;
+
+	/* This is the syntax we are trying to parse: "{%s}(%d,%d)[%d][%d]" */
 
 	if (content[0] != '=' || content[1] != '{')
 		return TRUE;
@@ -2392,12 +2388,6 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 			gboolean b = (tmp_int != 0);
 			sheet_object_set_print_flag (so, &b);
 		}
-#if 0
-		/* Deprecated in 1.7.7 */
-		else if (attr_eq (attrs[i], "ObjectAnchorType")) {
-		}
-		/* There may be extra attributes that are handled by the objects */
-#endif
 	}
 
 	/* Patch problems introduced in some 1.7.x versions that stored

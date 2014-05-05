@@ -1090,9 +1090,6 @@ wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
 		g_free (msg);
 	} else {
-#if 0
-		g_printerr ("Writing %s\n", uri);
-#endif
 		wbv_save_to_output (wbv, fs, output, io_context);
 		g_object_unref (output);
 	}
@@ -1336,9 +1333,6 @@ workbook_view_new_from_uri (char const *uri,
 	if (input != NULL) {
 		WorkbookView *res;
 
-#if 0
-		g_printerr ("Reading %s\n", uri);
-#endif
 		res = workbook_view_new_from_input (input, uri,
 					      optional_fmt, io_context,
 					      optional_enc);
