@@ -11440,9 +11440,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, &od_chart_axis_categories, NULL),
 	          GSF_XML_IN_NODE_FULL (CHART_AXIS, CHART_AXIS_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 3),
 	            GSF_XML_IN_NODE (CHART_AXIS_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
-#ifdef HAVE_OO_NS_CHART_OOO
 	        GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_OOO_COORDINATE_REGION, OO_NS_CHART_OOO, "coordinate-region", GSF_XML_NO_CONTENT, NULL, NULL),
-#endif
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
 	      GSF_XML_IN_NODE (TABLE, SHEET_SELECTIONS, OO_GNUM_NS_EXT, "selections", GSF_XML_NO_CONTENT, &odf_selection, &odf_selection_end),
 	        GSF_XML_IN_NODE (SHEET_SELECTIONS, SELECTION, OO_GNUM_NS_EXT, "selection", GSF_XML_NO_CONTENT, &odf_selection_range, NULL),
@@ -11713,9 +11711,7 @@ static GsfXMLInNode const opendoc_content_preparse_dtd [] =
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE_FULL (CHART_AXIS, CHART_AXIS_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, NULL, NULL, .v_int = 3),
 	            GSF_XML_IN_NODE (CHART_AXIS_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
-#ifdef HAVE_OO_NS_CHART_OOO
 	        GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_OOO_COORDINATE_REGION, OO_NS_CHART_OOO, "coordinate-region", GSF_XML_NO_CONTENT, NULL, NULL),
-#endif
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &odf_preparse_table_start, &odf_preparse_table_end),
 	      GSF_XML_IN_NODE (TABLE, SHEET_SELECTIONS, OO_GNUM_NS_EXT, "selections", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (SHEET_SELECTIONS, SELECTION, OO_GNUM_NS_EXT, "selection", GSF_XML_NO_CONTENT, NULL, NULL),

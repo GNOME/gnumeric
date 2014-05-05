@@ -4730,14 +4730,10 @@ odf_write_named_expression (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 static GsfXMLOut *
 create_new_xml_child (G_GNUC_UNUSED GnmOOExport *state, GsfOutput *child)
 {
-#ifdef HAVE_GSF_ODF_OUT_GET_VERSION
 	return g_object_new (GSF_ODF_OUT_TYPE,
 			     "sink", child,
 			     "odf-version", state->odf_version,
 			     NULL);
-#else
-	return gsf_xml_out_new (child);
-#endif
 }
 
 static void

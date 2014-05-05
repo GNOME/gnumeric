@@ -3022,7 +3022,6 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 	sheet_style_apply_range	(state->sheet, &r, style);
 }
 
-#ifdef HAVE_GSF_OPEN_PKG_FOREACH_REL
 static void
 cb_find_pivots (GsfInput *opkg, GsfOpenPkgRel const *rel, gpointer    user_data)
 {
@@ -3035,15 +3034,12 @@ cb_find_pivots (GsfInput *opkg, GsfOpenPkgRel const *rel, gpointer    user_data)
 	    NULL != (part_stream = gsf_open_pkg_open_rel (opkg, rel, NULL)))
 		xlsx_parse_stream (state, part_stream, xlsx_pivot_table_dtd);
 }
-#endif
 
 static void
 xlsx_CT_worksheet (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-#ifdef HAVE_GSF_OPEN_PKG_FOREACH_REL
 	gsf_open_pkg_foreach_rel (gsf_xml_in_get_input (xin),
 		&cb_find_pivots, (XLSXReadState *)xin->user_state);
-#endif
 }
 
 static void

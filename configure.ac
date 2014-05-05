@@ -581,7 +581,6 @@ LIBS="$GNUMERIC_LIBS $LIBS"
 
 AC_CHECK_FUNCS(gtk_cell_renderer_text_get_background_set gtk_cell_renderer_text_get_foreground_set gtk_cell_renderer_text_get_editable)
 AC_CHECK_FUNCS(gtk_entry_set_editing_cancelled)
-AC_CHECK_FUNCS(gsf_infile_msvba_steal_modules gsf_open_pkg_foreach_rel gsf_odf_out_get_version)
 
 AC_MSG_CHECKING([for PANGO_WEIGHT_THIN etc.])
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pango/pango.h>]],
@@ -589,13 +588,6 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pango/pango.h>]],
 				(void)(PANGO_WEIGHT_MEDIUM == 42);
 				(void)(PANGO_WEIGHT_ULTRAHEAVY == 42);]])],
                [AC_DEFINE(HAVE_PANGO_WEIGHT_THIN_ETC, 1, [Define if PANGO_WEIGHT_THIN etc are available])
-		AC_MSG_RESULT(yes)],
-	       [AC_MSG_RESULT(no)])
-
-AC_MSG_CHECKING([for OO_NS_CHART_OOO])
-AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gsf/gsf-opendoc-utils.h>]],
-				[[(void)((int)OO_NS_CHART_OOO == 42);]])],
-               [AC_DEFINE(HAVE_OO_NS_CHART_OOO, 1, [Define if OO_NS_CHART_OOO is available])
 		AC_MSG_RESULT(yes)],
 	       [AC_MSG_RESULT(no)])
 
