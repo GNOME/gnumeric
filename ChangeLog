@@ -1,3 +1,9 @@
+2014-05-05  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (toolbar_context_menu): Remove
+	HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW.  That has been unconditionally
+	false for years and is unsupported in gtk+.
+
 2014-04-30  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

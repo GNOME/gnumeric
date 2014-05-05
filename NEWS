@@ -2,6 +2,7 @@ Gnumeric 1.12.16
 
 Morten:
 	* Start moving off GtkUIManager.
+	* Clean out old #ifdef.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.15

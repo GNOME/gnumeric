@@ -4201,26 +4201,9 @@ cb_set_toolbar_position (GtkMenuItem *item, WBCGtk *gtk)
 		set_toolbar_position (tb, side, gtk);
 }
 
-#ifdef HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW
-static void
-cb_tcm_reattach (GtkWidget *widget, GtkHandleBox *hdlbox)
-{
-	GdkEvent *event = gdk_event_new (GDK_DELETE);
-	event->any.type = GDK_DELETE;
-	event->any.window = g_object_ref (hdlbox->float_window);
-	event->any.send_event = TRUE;
-	gtk_main_do_event (event);
-	gdk_event_free (event);
-}
-#endif
-
 static void
 cb_tcm_hide (GtkWidget *widget, GtkWidget *box)
 {
-#ifdef HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW
-	if (GTK_IS_HANDLE_BOX (box) && GTK_HANDLE_BOX (box)->child_detached)
-		cb_tcm_reattach (widget, GTK_HANDLE_BOX (box));
-#endif
 	gtk_widget_hide (box);
 }
 
@@ -4252,9 +4235,10 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEvent *event)
 	GtkWidget *zone = gtk_widget_get_parent (GTK_WIDGET (box));
 	GtkWidget *menu = gtk_menu_new ();
 	GtkWidget *item;
-	gboolean detached;
+	GSList *group = NULL;
+	size_t ui;
 
-	static struct {
+	static const struct {
 		char const *text;
 		GtkPositionType pos;
 	} const pos_items[] = {
@@ -4266,42 +4250,23 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEvent *event)
 	if (gnm_debug_flag ("toolbar-size"))
 		dump_size_tree (GTK_WIDGET (tb), GINT_TO_POINTER (0));
 
-#ifdef HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW
-	detached = (GTK_IS_HANDLE_BOX (box) &&
-		    GTK_HANDLE_BOX (box)->child_detached);
-#else
-	detached = FALSE;
-#endif
-	if (detached) {
-#ifdef HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW
-		item = gtk_menu_item_new_with_label (_("Reattach to main window"));
+	for (ui = 0; ui < G_N_ELEMENTS (pos_items); ui++) {
+		char const *text = _(pos_items[ui].text);
+		GtkPositionType pos = pos_items[ui].pos;
+
+		item = gtk_radio_menu_item_new_with_label (group, text);
+		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
+
+		gtk_check_menu_item_set_active
+			(GTK_CHECK_MENU_ITEM (item),
+			 (zone == gtk->toolbar_zones[pos]));
+
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		g_object_set_data (G_OBJECT (item), "toolbar", tb);
+		g_object_set_data (G_OBJECT (item), "side", GINT_TO_POINTER (pos));
 		g_signal_connect (G_OBJECT (item), "activate",
-				  G_CALLBACK (cb_tcm_reattach),
-				  box);
-#endif
-	} else {
-		size_t ui;
-		GSList *group = NULL;
-
-		for (ui = 0; ui < G_N_ELEMENTS (pos_items); ui++) {
-			char const *text = _(pos_items[ui].text);
-			GtkPositionType pos = pos_items[ui].pos;
-
-			item = gtk_radio_menu_item_new_with_label (group, text);
-			group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
-
-			gtk_check_menu_item_set_active
-				(GTK_CHECK_MENU_ITEM (item),
-				 (zone == gtk->toolbar_zones[pos]));
-
-			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-			g_object_set_data (G_OBJECT (item), "toolbar", tb);
-			g_object_set_data (G_OBJECT (item), "side", GINT_TO_POINTER (pos));
-			g_signal_connect (G_OBJECT (item), "activate",
-					  G_CALLBACK (cb_set_toolbar_position),
-					  gtk);
-		}
+				  G_CALLBACK (cb_set_toolbar_position),
+				  gtk);
 	}
 
 	item = gtk_menu_item_new ();
