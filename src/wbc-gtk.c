@@ -2300,11 +2300,9 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 	gboolean go_back = (event->direction == GDK_SCROLL_UP ||
 			    event->direction == GDK_SCROLL_LEFT);
 
-	if (!pane || !gtk_widget_get_realized (w)
-#if GTK_CHECK_VERSION(3,4,0)
-	    || event->direction == GDK_SCROLL_SMOOTH
-#endif
-	    )
+	if (!pane ||
+	    !gtk_widget_get_realized (w) ||
+	    event->direction == GDK_SCROLL_SMOOTH)
 		return FALSE;
 
 	if ((event->state & GDK_MOD1_MASK))
@@ -2421,16 +2419,6 @@ cb_screen_changed (GtkWidget *widget)
 		const char *resource = "gnm:gnumeric.css";
 		const char *csstext = go_rsm_lookup (resource, NULL);
 		gboolean debug = gnm_debug_flag ("css");
-#if !GTK_CHECK_VERSION(3,4,0)
-		char *csstext_copy = g_strdup (csstext);
-		csstext = csstext_copy;
-		while (1) {
-			char *magic = strstr (csstext_copy, "/*MAGIC*/");
-			if (!magic)
-				break;
-			memset (magic, ' ', strchr (magic, '\n') - magic);
-		}
-#endif
 
 		data = g_new (struct css_provider_data, 1);
 		data->css = gtk_css_provider_new ();
@@ -2445,9 +2433,6 @@ cb_screen_changed (GtkWidget *widget)
 
 		gtk_css_provider_load_from_data	(data->css, csstext, -1, NULL);
 		g_object_set_data_full (app, app_key, data, cb_unload_providers);
-#if !GTK_CHECK_VERSION(3,4,0)
-		g_free (csstext_copy);
-#endif
 	}
 
 	if (screen && !g_slist_find (data->screens, screen)) {

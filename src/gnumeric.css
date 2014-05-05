@@ -89,10 +89,10 @@ GnmItemEdit {
 /* These are also styled with class button */
 
 GnmItemBar {
-  padding-left: 5/*px*/;     /* From gtk3.4 always use "px" */
-  padding-right: 5/*px*/;
-  padding-top: 2/*px*/;
-  padding-bottom: 2/*px*/;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 /* The whole column/row selected. */
@@ -150,7 +150,7 @@ GtkHandleBox {
 GtkWindow>GtkFrame.pseudo-tooltip {
   border-style: none;
   border-width: 0;
-  padding: 5/*px*/;
+  padding: 5px;
 }
 
 GtkWindow>GtkFrame>GtkLabel.pseudo-tooltip {
@@ -165,8 +165,7 @@ GtkWindow *.pseudo-tooltip {
 }
 
 GtkTextView.pseudo-tooltip {
-  /* Code in wbc-gtk.c:cb_screen_changed will kill the following line pre-GTK 3.4 */
-/*MAGIC*/  color: inherit;
+  color: inherit;
 }
 
 /* ------------------------------------------------------------------------- */

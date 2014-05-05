@@ -792,17 +792,6 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	gtk_style_context_add_class (gtk_widget_get_style_context (label),
 				     "function-help");
 
-#if !GTK_CHECK_VERSION(3,4,0)
-	/* Workaround for theme bugs and missing "inherit" in pre GTK 3.4. */
-	{
-		GtkStyleContext *context = gtk_widget_get_style_context (tip);
-		GtkStateFlags state = GTK_STATE_FLAG_NORMAL;
-		GdkRGBA c;
-		gtk_style_context_get_color (context, state, &c);
-		gtk_widget_override_color (label, state, &c);
-	}
-#endif
-
 	if (str)
 		markup = gnm_func_convert_markup_to_pango (str, label);
 	string = g_string_new (markup);
