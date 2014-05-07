@@ -1,3 +1,9 @@
+2014-05-07  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_number): Remove escaped debug code.
+	(oo_canonical_format): New function.
+	(odf_number_style_end): Udr oo_canonical_format.
+
 2014-04-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.15

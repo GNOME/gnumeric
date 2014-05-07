@@ -4668,6 +4668,22 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->cur_style.requires_disposal = FALSE;
 }
 
+static GOFormat *
+oo_canonical_format (const char *s)
+{
+	/*
+	 * Quoting certain characters is options and has no functions effect
+	 * for the meaning of the format.  However, some formats are recognized
+	 * as built-in and others are not.  We therefore apply a simple mapping
+	 * to whatever form we prefer.
+	 */
+	if (g_str_equal (s, "_(* -??_)"))
+		s = "_(* \"-\"??_)";
+
+	return go_format_new_from_XL (s);
+}
+
+
 static void
 oo_date_day (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -5107,7 +5123,7 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			}
 
 			g_hash_table_insert (state->formats, state->cur_format.name,
-					     go_format_new_from_XL (state->cur_format.accum->str));
+					     oo_canonical_format (state->cur_format.accum->str));
 			g_string_free (state->cur_format.accum, TRUE);
 		}
 	}
@@ -5234,7 +5250,6 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 					*zero = '?';
 				min_i_chars--;
 			}
-			g_print ("format: %s\n", state->cur_format.accum->str);
 		} else 
 			go_format_generate_number_str (state->cur_format.accum, min_i_digits, decimal_places,
 						       grouping, FALSE, FALSE, NULL, NULL);
@@ -5539,7 +5554,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 
 	g_hash_table_insert (state->formats, state->cur_format.name,
-			     go_format_new_from_XL (state->cur_format.accum->str));
+			     oo_canonical_format (state->cur_format.accum->str));
 	g_string_free (state->cur_format.accum, TRUE);
 	state->cur_format.accum = NULL;
 	state->cur_format.name = NULL;
