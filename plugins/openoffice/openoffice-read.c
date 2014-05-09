@@ -863,6 +863,11 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		} else if (0 == strcmp (prop->name, "gnm-auto-color")) {
 			gnm_auto_color_value_set = TRUE;
 			gnm_auto_color_value = g_value_get_boolean (&prop->value);
+		} else if (0 == strcmp (prop->name, "color")) {
+			GdkRGBA rgba;
+			gchar const *color = g_value_get_string (&prop->value);
+			if (gdk_rgba_parse (&rgba, color))
+				go_color_from_gdk_rgba (&rgba, &style->font.color);
 		} else if (0 == strcmp (prop->name, "gnm-auto-dash")) {
 			gnm_auto_dash_set = TRUE;
 			style->line.auto_dash = g_value_get_boolean (&prop->value);
@@ -7135,6 +7140,11 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("font-gravity-pango", tmp));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "color"))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("color",
+						     CXML2C(attrs[1])));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART,
 					     "regression-type"))
 			style->other_props = g_slist_prepend

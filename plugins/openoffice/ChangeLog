@@ -1,5 +1,7 @@
 2014-05-09  Morten Welinder  <terra@gnome.org>
 
+	* openoffice-read.c (od_style_prop_chart): Read text colour.
+
 	* openoffice-write.c (odf_write_gog_style_text): Write text colour
 	as appropriate.
 
