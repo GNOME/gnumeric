@@ -866,8 +866,10 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		} else if (0 == strcmp (prop->name, "color")) {
 			GdkRGBA rgba;
 			gchar const *color = g_value_get_string (&prop->value);
-			if (gdk_rgba_parse (&rgba, color))
+			if (gdk_rgba_parse (&rgba, color)) {
 				go_color_from_gdk_rgba (&rgba, &style->font.color);
+				style->font.auto_color = FALSE;
+			}
 		} else if (0 == strcmp (prop->name, "gnm-auto-dash")) {
 			gnm_auto_dash_set = TRUE;
 			style->line.auto_dash = g_value_get_boolean (&prop->value);
