@@ -1473,7 +1473,7 @@ odf_find_style (GnmOOExport *state, GnmStyle const *style)
 	}
 
 	if (found == NULL) {
-		g_print ("Could not find style %p\n", style);
+		g_printerr ("Could not find style %p\n", style);
 		return NULL;
 	}
 
@@ -6904,6 +6904,7 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 				char *formula;
 				char *name;
 				gboolean pp = TRUE;
+				GnmValue const *v;
 
 				g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 
@@ -6916,7 +6917,7 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 
 				if (name != NULL) {
 					gsf_xml_out_add_cstr (state->xml, CHART "style-name",
-								      name);
+							      name);
 					g_free (name);
 				}
 
@@ -6929,16 +6930,15 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 							      TABLE "cell-address", f);
 					gsf_xml_out_add_cstr (state->xml,
 							      TABLE "cell-range", f);
-				} else if (GNM_EXPR_GET_OPER (texpr->expr)
-					   == GNM_EXPR_OP_CONSTANT
-					   && texpr->expr->constant.value->type == VALUE_STRING
-					   && allow_content) {
+				} else if (allow_content &&
+					   (v = gnm_expr_top_get_constant (texpr)) &&
+					   VALUE_IS_STRING (v)) {
 					gboolean white_written = TRUE;
 					char const *str;
 					GogText *text;
 					g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 					gsf_xml_out_start_element (state->xml, TEXT "p");
-					str = value_peek_string (texpr->expr->constant.value);
+					str = value_peek_string (v);
 					if (GOG_IS_TEXT (title) &&
 					    (text = GOG_TEXT (title))->allow_markup) {
 						PangoAttrList *attr_list = NULL;
@@ -7096,116 +7096,118 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 	char const *image_types[] =
 		{"stretch", "repeat", "no-repeat"};
 	
-	if (style != NULL) {
-		if (state->with_extension && style->fill.auto_type) {
-			odf_add_bool (state->xml, GNMSTYLE "auto-type", TRUE);
-		} else
-			switch (style->fill.type) {
-			case GO_STYLE_FILL_NONE:
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
-				break;
-			case GO_STYLE_FILL_PATTERN:
-				if (style->fill.pattern.pattern == GO_PATTERN_SOLID) {
-					gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
-					if (!style->fill.auto_back) {
-						char *color = odf_go_color_to_string (style->fill.pattern.back);
-						gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
-						odf_add_percent (state->xml, DRAW "opacity",
-								 odf_go_color_opacity (style->fill.pattern.back));
-						g_free (color);
-					}
-				} else if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID) {
-					gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
-					if (!style->fill.auto_fore) {
-						char *color = odf_go_color_to_string (style->fill.pattern.fore);
-						gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
-						odf_add_percent (state->xml, DRAW "opacity",
-								 odf_go_color_opacity (style->fill.pattern.fore));
-						g_free (color);
-					}
-				} else {
-					gchar *hatch = odf_get_pattern_name (state, style);
-					gsf_xml_out_add_cstr (state->xml, DRAW "fill", "hatch");
-					gsf_xml_out_add_cstr (state->xml, DRAW "fill-hatch-name",
-							      hatch);
-					if (!style->fill.auto_back) {
-						char *color = odf_go_color_to_string (style->fill.pattern.back);
-						gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
-						odf_add_percent (state->xml, DRAW "opacity",
-								 odf_go_color_opacity (style->fill.pattern.back));
-						g_free (color);
-					}
-					g_free (hatch);
-					odf_add_bool (state->xml, DRAW "fill-hatch-solid", TRUE);
-					if (state->with_extension)
-						gsf_xml_out_add_int
-							(state->xml,
-							 GNMSTYLE "pattern",
-							 style->fill.pattern.pattern);
+	if (!style)
+		return;
+
+	if (state->with_extension && style->fill.auto_type) {
+		odf_add_bool (state->xml, GNMSTYLE "auto-type", TRUE);
+	} else {
+		switch (style->fill.type) {
+		case GO_STYLE_FILL_NONE:
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
+			break;
+		case GO_STYLE_FILL_PATTERN:
+			if (style->fill.pattern.pattern == GO_PATTERN_SOLID) {
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
+				if (!style->fill.auto_back) {
+					char *color = odf_go_color_to_string (style->fill.pattern.back);
+					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+					odf_add_percent (state->xml, DRAW "opacity",
+							 odf_go_color_opacity (style->fill.pattern.back));
+					g_free (color);
 				}
-				break;
-			case GO_STYLE_FILL_GRADIENT: {
-				gchar *grad = odf_get_gradient_name (state, style);
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "gradient");
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill-gradient-name", grad);
-				g_free (grad);
-				break;
-			}
-			case GO_STYLE_FILL_IMAGE: {
-				gchar *image = odf_get_image_name (state, style);
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap");
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill-image-name", image);
-				g_free (image);
-				if (style->fill.image.type < G_N_ELEMENTS (image_types))
-					gsf_xml_out_add_cstr (state->xml, STYLE "repeat",
-							      image_types [style->fill.image.type]);
-				else g_warning ("Unexpected GOImageType value");
-				break;
-			}
-			}
-
-		if (go_style_is_line_visible (style)) {
-			GOLineDashType dash_type = style->line.dash_type;
-
-			if (dash_type == GO_LINE_SOLID)
-				gsf_xml_out_add_cstr (state->xml,
-						      DRAW "stroke", "solid");
-			else {
-				char const *dash = go_line_dash_as_str (dash_type);
-				gsf_xml_out_add_cstr (state->xml,
-						      DRAW "stroke", "dash");
-				gsf_xml_out_add_cstr
-					(state->xml,
-					 DRAW "stroke-dash", dash);
-				g_hash_table_insert (state->graph_dashes, g_strdup (dash),
-						     GINT_TO_POINTER (dash_type));
-			}
-			if (style->line.auto_dash && state->with_extension)
-				odf_add_bool (state->xml, GNMSTYLE "auto-dash", TRUE);
-			if (style->line.width == 0.0) {
-				odf_add_pt (state->xml, SVG "stroke-width", 1.);
+			} else if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID) {
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
+				if (!style->fill.auto_fore) {
+					char *color = odf_go_color_to_string (style->fill.pattern.fore);
+					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+					odf_add_percent (state->xml, DRAW "opacity",
+							 odf_go_color_opacity (style->fill.pattern.fore));
+					g_free (color);
+				}
+			} else {
+				gchar *hatch = odf_get_pattern_name (state, style);
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "hatch");
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill-hatch-name",
+						      hatch);
+				if (!style->fill.auto_back) {
+					char *color = odf_go_color_to_string (style->fill.pattern.back);
+					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+					odf_add_percent (state->xml, DRAW "opacity",
+							 odf_go_color_opacity (style->fill.pattern.back));
+					g_free (color);
+				}
+				g_free (hatch);
+				odf_add_bool (state->xml, DRAW "fill-hatch-solid", TRUE);
 				if (state->with_extension)
-					odf_add_pt (state->xml, GNMSTYLE "stroke-width", 0.);
-			} else if (style->line.width > 0.0)
-				odf_add_pt (state->xml, SVG "stroke-width",
-					    style->line.width);
-			if (!style->line.auto_color) {
-				char *color = odf_go_color_to_string (style->line.color);
-				gsf_xml_out_add_cstr (state->xml, SVG "stroke-color",
-						      color);
-				g_free (color);
-			} else if (state->with_extension)
-			      	odf_add_bool (state->xml, GNMSTYLE "auto-color", TRUE);		
-		} else {
-			gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
+					gsf_xml_out_add_int
+						(state->xml,
+						 GNMSTYLE "pattern",
+						 style->fill.pattern.pattern);
+			}
+			break;
+		case GO_STYLE_FILL_GRADIENT: {
+			gchar *grad = odf_get_gradient_name (state, style);
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "gradient");
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill-gradient-name", grad);
+			g_free (grad);
+			break;
 		}
+		case GO_STYLE_FILL_IMAGE: {
+			gchar *image = odf_get_image_name (state, style);
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap");
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill-image-name", image);
+			g_free (image);
+			if (style->fill.image.type < G_N_ELEMENTS (image_types))
+				gsf_xml_out_add_cstr (state->xml, STYLE "repeat",
+						      image_types [style->fill.image.type]);
+			else g_warning ("Unexpected GOImageType value");
+			break;
+		}
+		}
+	}
 
-		if (with_border && go_style_is_outline_visible (style)) {
-			char *border = odf_get_border_info (state, style);
-			if (strlen (border) > 0)
-				gsf_xml_out_add_cstr (state->xml, FOSTYLE "border", border);
-			g_free (border);
+	if (go_style_is_line_visible (style)) {
+		GOLineDashType dash_type = style->line.dash_type;
+
+		if (dash_type == GO_LINE_SOLID)
+			gsf_xml_out_add_cstr (state->xml,
+					      DRAW "stroke", "solid");
+		else {
+			char const *dash = go_line_dash_as_str (dash_type);
+			gsf_xml_out_add_cstr (state->xml,
+					      DRAW "stroke", "dash");
+			gsf_xml_out_add_cstr
+				(state->xml,
+				 DRAW "stroke-dash", dash);
+			g_hash_table_insert (state->graph_dashes, g_strdup (dash),
+					     GINT_TO_POINTER (dash_type));
 		}
+		if (style->line.auto_dash && state->with_extension)
+			odf_add_bool (state->xml, GNMSTYLE "auto-dash", TRUE);
+		if (style->line.width == 0.0) {
+			odf_add_pt (state->xml, SVG "stroke-width", 1.);
+			if (state->with_extension)
+				odf_add_pt (state->xml, GNMSTYLE "stroke-width", 0.);
+		} else if (style->line.width > 0.0)
+			odf_add_pt (state->xml, SVG "stroke-width",
+				    style->line.width);
+		if (!style->line.auto_color) {
+			char *color = odf_go_color_to_string (style->line.color);
+			gsf_xml_out_add_cstr (state->xml, SVG "stroke-color",
+					      color);
+			g_free (color);
+		} else if (state->with_extension)
+			odf_add_bool (state->xml, GNMSTYLE "auto-color", TRUE);		
+	} else {
+		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
+	}
+
+	if (with_border && go_style_is_outline_visible (style)) {
+		char *border = odf_get_border_info (state, style);
+		if (strlen (border) > 0)
+			gsf_xml_out_add_cstr (state->xml, FOSTYLE "border", border);
+		g_free (border);
 	}
 }
 
@@ -7219,6 +7221,12 @@ odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style)
 		if (!style->text_layout.auto_angle) {
 			int val = style->text_layout.angle;
 			odf_add_angle (state->xml, STYLE "text-rotation-angle", val);
+		}
+
+		if (!style->font.auto_color) {
+			char *color = odf_go_color_to_string (style->font.color);
+			gsf_xml_out_add_cstr (state->xml, FOSTYLE "color", color);
+			g_free (color);
 		}
 
 		if (mask & PANGO_FONT_MASK_SIZE)
