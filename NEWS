@@ -3,6 +3,7 @@ Gnumeric 1.12.16
 Morten:
 	* Start moving off GtkUIManager.
 	* Clean out old #ifdef.
+	* Fix ods series marker import/export.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.15

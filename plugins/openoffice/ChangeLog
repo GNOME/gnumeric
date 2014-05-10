@@ -1,3 +1,13 @@
+2014-05-10  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_gog_style_chart): Write marker
+	size also for automatic shape.  Resolve confusion about whether
+	plot type has markers by default.  Only write marker information
+	for styles that have such information.
+
+	* openoffice-read.c (odf_apply_style_props): Even automatic
+	symbols can have a size attached.
+
 2014-05-09  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (od_style_prop_chart): Read text colour.

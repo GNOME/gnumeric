@@ -7293,9 +7293,7 @@ static void
 odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
 {
 	gchar const *type = G_OBJECT_TYPE_NAME (G_OBJECT (obj));
-	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
 	void (*func) (GnmOOExport *state, GOStyle const *style, GogObject const *obj);
-	GParamSpec *spec;
 
 	if (GOG_IS_PLOT (obj))
 		odf_write_plot_style (state, obj);
@@ -7309,44 +7307,55 @@ odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject c
 	if (func != NULL)
 		func (state, style, obj);
 
-	if (style != NULL) {
-		if (go_style_is_line_visible (style)) {
-			odf_add_bool (state->xml, CHART "lines", TRUE);
-		} else {
-			odf_add_bool (state->xml, CHART "lines", FALSE);
-		}
+	if (!style)
+		return;
+
+	if (style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) {
+		odf_add_bool (state->xml,
+			      CHART "lines",
+			      go_style_is_line_visible (style));
+	}
+
+	if (style->interesting_fields & GO_STYLE_MARKER) {
+		GOMarker const *marker = go_style_get_marker (style);
+		const char *symbol_type = NULL;
 
 		if (style->marker.auto_shape) {
-			if (NULL != (spec = g_object_class_find_property (klass, "type"))
-			    && spec->value_type == G_TYPE_BOOLEAN
-			    && (G_PARAM_READABLE & spec->flags)) {
-				gboolean has_marker = TRUE;
-				g_object_get (G_OBJECT (obj), "default-style-has-markers",
+			GogPlot *plot =	GOG_IS_SERIES (obj)
+				? gog_series_get_plot (GOG_SERIES (obj))
+				: NULL;
+			GObjectClass *plot_klass = plot ? G_OBJECT_GET_CLASS (G_OBJECT (plot)) : NULL;
+			GParamSpec *spec = plot_klass
+				? g_object_class_find_property (plot_klass, "default-style-has-markers")
+				: NULL;
+			gboolean has_marker;
+			if (spec &&
+			    spec->value_type == G_TYPE_BOOLEAN &&
+			    (G_PARAM_READABLE & spec->flags)) {
+				g_object_get (G_OBJECT (plot), "default-style-has-markers",
 					      &has_marker, NULL);
 				if (has_marker)
-					gsf_xml_out_add_cstr (state->xml, CHART "symbol-type",
-						      "automatic");
-				else
-					gsf_xml_out_add_cstr (state->xml, CHART "symbol-type",
-							      "none");
+					symbol_type = "automatic";
 			}
 		} else {
-			GOMarker const *marker = go_style_get_marker ((GOStyle *)style);
 			GOMarkerShape m = go_marker_get_shape (marker);
 
-			if (m == GO_MARKER_NONE)
-				gsf_xml_out_add_cstr (state->xml, CHART "symbol-type",
-						      "none");
-			else {
-				int size = go_marker_get_size (marker);
-				gsf_xml_out_add_cstr (state->xml, CHART "symbol-type",
-						      "named-symbol");
+			if (m != GO_MARKER_NONE) {
+				symbol_type = "named-symbol";
+
 				gsf_xml_out_add_cstr
 					(state->xml, CHART "symbol-name", odf_get_marker (m));
-				odf_add_pt (state->xml, CHART "symbol-width", size);
-				odf_add_pt (state->xml, CHART "symbol-height", size);
 			}
 		}
+
+		if (symbol_type) {
+			int size = go_marker_get_size (marker);
+			odf_add_pt (state->xml, CHART "symbol-width", size);
+			odf_add_pt (state->xml, CHART "symbol-height", size);
+		} else
+			symbol_type = "none";
+
+		gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", symbol_type);
 	}
 }
 

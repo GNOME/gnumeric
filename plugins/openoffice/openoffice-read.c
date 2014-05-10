@@ -1082,32 +1082,37 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 
 	switch (symbol_type) {
 	case OO_SYMBOL_TYPE_AUTO:
+		m = go_marker_new ();
 		style->marker.auto_shape = TRUE;
 		break;
 	case OO_SYMBOL_TYPE_NONE:
 		style->marker.auto_shape = FALSE;
 		m = go_marker_new ();
 		go_marker_set_shape (m, GO_MARKER_NONE);
-		go_style_set_marker (style, m);
 		break;
 	case OO_SYMBOL_TYPE_NAMED:
 		style->marker.auto_shape = FALSE;
 		m = go_marker_new ();
 		go_marker_set_shape (m, symbol_name);
-		if (symbol_height >= 0. || symbol_width >= 0.) {
-			int size;
-			if (symbol_height >= 0. && symbol_width >= 0.)
-				size = (symbol_height+symbol_width+1.)/2;
-			else if (symbol_height >= 0.)
-				size = symbol_height + 0.5;
-			else
-				size = symbol_width+ 0.5;
-			go_marker_set_size (m, size);
-		}
-		go_style_set_marker (style, m);
 		break;
 	default:
+		m = NULL;
 		break;
+	}
+	if (m) {
+		if (symbol_height >= 0. || symbol_width >= 0.) {
+			double size;
+			/* If we have only one dimension, use that for the other */
+			if (symbol_width < 0) symbol_width = symbol_height;
+			if (symbol_height < 0) symbol_height = symbol_width;
+
+			size = (symbol_height + symbol_width + 1) / 2;
+			size = MIN (size, G_MAXINT);
+
+			go_marker_set_size (m, (int)size);
+		}
+
+		go_style_set_marker (style, m);
 	}
 }
 
