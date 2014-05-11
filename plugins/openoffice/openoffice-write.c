@@ -564,8 +564,8 @@ static void
 odf_add_pt (GsfXMLOut *xml, char const *id, double l)
 {
 	GString *str = g_string_new (NULL);
-
-	g_string_append_printf (str, "%.6fpt", l);
+	go_dtoa (str, "!g", l);
+	g_string_append (str, "pt");
 	gsf_xml_out_add_cstr_unchecked (xml, id, str->str);
 	g_string_free (str, TRUE);
 }
