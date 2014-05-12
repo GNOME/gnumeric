@@ -7167,10 +7167,13 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 		}
 	}
 
-	if (go_style_is_line_visible (style)) {
+	if (style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) {
 		GOLineDashType dash_type = style->line.dash_type;
 
-		if (dash_type == GO_LINE_SOLID)
+		if (!go_style_is_line_visible (style))
+			gsf_xml_out_add_cstr (state->xml,
+					      DRAW "stroke", "none");
+		else if (dash_type == GO_LINE_SOLID)
 			gsf_xml_out_add_cstr (state->xml,
 					      DRAW "stroke", "solid");
 		else {
@@ -7185,7 +7188,10 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 		}
 		if (style->line.auto_dash && state->with_extension)
 			odf_add_bool (state->xml, GNMSTYLE "auto-dash", TRUE);
-		if (style->line.width == 0.0) {
+
+		if (style->line.auto_width && state->with_extension)
+			odf_add_bool (state->xml, GNMSTYLE "auto-width", TRUE);
+		else if (style->line.width == 0.0) {
 			odf_add_pt (state->xml, SVG "stroke-width", 1.);
 			if (state->with_extension)
 				odf_add_pt (state->xml, GNMSTYLE "stroke-width", 0.);

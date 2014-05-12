@@ -804,6 +804,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	gboolean gnm_auto_color_value_set = FALSE;
 	gboolean gnm_auto_color_value = FALSE;
 	gboolean gnm_auto_dash_set = FALSE;
+	gboolean gnm_auto_width_set = FALSE;
 	char const *stroke_dash = NULL;
 
 	style->line.auto_dash = TRUE;
@@ -945,7 +946,10 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		        stroke_width = g_value_get_double (&prop->value);
 		else if (0 == strcmp (prop->name, "gnm-stroke-width"))
 		        gnm_stroke_width = g_value_get_double (&prop->value);
-		else if (0 == strcmp (prop->name, "repeat"))
+		else if (0 == strcmp (prop->name, "gnm-auto-width")) {
+			gnm_auto_width_set = TRUE;
+		        style->line.auto_width = g_value_get_boolean (&prop->value);
+		} else if (0 == strcmp (prop->name, "repeat"))
 			style->fill.image.type = g_value_get_int (&prop->value);
 	}
 	if (desc_changed)
@@ -967,6 +971,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		style->line.width = stroke_width;
 	else
 		style->line.width = 0;
+	if (!gnm_auto_width_set)
+		style->line.auto_width = FALSE;
 
 	if (stroke_dash != NULL && !line_is_not_dash)
 		style->line.dash_type = odf_match_dash_type (state, stroke_dash);
@@ -7221,6 +7227,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-dash", &btmp))
 			style->style_props = g_slist_prepend (style->style_props,
 				oo_prop_new_bool ("gnm-auto-dash", btmp));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-width", &btmp))
+			style->style_props = g_slist_prepend (style->style_props,
+				oo_prop_new_bool ("gnm-auto-width", btmp));
 	}
 
 	if ((stacked_set && !overlap_set) ||

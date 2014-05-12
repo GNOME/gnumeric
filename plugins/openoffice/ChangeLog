@@ -1,3 +1,9 @@
+2014-05-12  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_gog_style_graphic): Improve
+	gostyle::auto-width roundtrip.
+	* openoffice-read.c (odf_apply_style_props): Ditto.
+
 2014-05-11  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_add_pt): Use sufficient precision to
