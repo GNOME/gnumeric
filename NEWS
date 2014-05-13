@@ -4,6 +4,7 @@ Morten:
 	* Start moving off GtkUIManager.
 	* Clean out old #ifdef.
 	* Fix ods series marker import/export.
+	* Fix plan-perfect issue.  [Debian #748054]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.15

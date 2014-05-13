@@ -154,7 +154,7 @@ static guint8 const signature[] =
     { 0xff, 'W','P','C', 0x10, 0, 0, 0, 0x9, 0xa };
 
 /* in charset.c. */
-guint8 *pln_get_str (guint8 const *ch, int len);
+guint8 *pln_get_str (guint8 const *ch, unsigned len);
 
 static char const *
 pln_get_func_table1 (unsigned i)
