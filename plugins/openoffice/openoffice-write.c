@@ -7169,8 +7169,11 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 
 	if (style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) {
 		GOLineDashType dash_type = style->line.dash_type;
+		gboolean has_line = go_style_is_line_visible (style);
+		gboolean is_auto;
+		GOColor color;
 
-		if (!go_style_is_line_visible (style))
+		if (!has_line)
 			gsf_xml_out_add_cstr (state->xml,
 					      DRAW "stroke", "none");
 		else if (dash_type == GO_LINE_SOLID)
@@ -7198,11 +7201,22 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 		} else if (style->line.width > 0.0)
 			odf_add_pt (state->xml, SVG "stroke-width",
 				    style->line.width);
-		if (!style->line.auto_color) {
-			char *color = odf_go_color_to_string (style->line.color);
-			gsf_xml_out_add_cstr (state->xml, SVG "stroke-color",
-					      color);
-			g_free (color);
+
+		/*
+		 * ods doesn't have seperate colours for the marker, so use
+		 * the marker colour if we don't have a line.
+		 */
+		is_auto = style->line.auto_color;
+		color = style->line.color;
+		if (!has_line && (style->interesting_fields & GO_STYLE_MARKER)) {
+			is_auto = style->marker.auto_fill_color;
+			color = go_marker_get_fill_color (style->marker.mark);
+		}
+
+		if (!is_auto) {
+			char *s = odf_go_color_to_string (color);
+			gsf_xml_out_add_cstr (state->xml, SVG "stroke-color", s);
+			g_free (s);
 		} else if (state->with_extension)
 			odf_add_bool (state->xml, GNMSTYLE "auto-color", TRUE);		
 	} else {

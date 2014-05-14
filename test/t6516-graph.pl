@@ -13,14 +13,14 @@ my $file = "$samples/graph-tests.gnumeric";
 		 'ext' => "gnm",
 		 'ignore_failure' => 1);
 
-# my $ods_auto_filter = "$PERL -p -e 's{auto-dash=\"1\"}{auto-dash=\"0\" dash=\"solid\"}'";
+# ods doesn't have outline colour, so copy the fill colour.
+my $ods_outline_filter = "$PERL -p -e 'if (/\\bmarker\\b.*fill-color=\"([A-Z0-9:]+)\"/) { my \$col = \$1; s{\\b(outline-color)=\"[A-Z0-9:]+\"}{\$1=\"\$col\"}; }'";
 
 &message ("Check graph ods roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_OpenCalc:odf',
 		 'ext' => "ods",
-#		 'filter1' => $ods_auto_filter,
-#		 'filter2' => "$ods_auto_filter | $PERL -p -e '\$_ = \"\" if m{<meta:generator>}'",
+		 'filter1' => $ods_outline_filter,
 		 'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'",
 		 'ignore_failure' => 1);
 

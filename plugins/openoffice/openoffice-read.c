@@ -957,10 +957,14 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	else
 		pango_font_description_free (desc);
 
-	if (gnm_auto_color_value_set)
-		style->line.auto_color = gnm_auto_color_value;
-	else if (lines_value_set && !stroke_colour_set)
-		style->line.auto_color = lines_value;
+	/*
+	 * Stroke colour is tricky: if we have lines, that is what it
+	 * refers to.  Otherwise it refers to markers.
+	 */
+	if (!gnm_auto_color_value_set)
+		gnm_auto_color_value = !stroke_colour_set;
+
+	style->line.auto_color = (lines_value ? gnm_auto_color_value : TRUE);
 
 	if (gnm_stroke_width >= 0)
 		style->line.width = gnm_stroke_width;
@@ -1106,6 +1110,14 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		break;
 	}
 	if (m) {
+		if (symbol_type != OO_SYMBOL_TYPE_NONE) {
+			/* Inherit line colour.  */
+			go_marker_set_fill_color (m, style->line.color);
+			style->marker.auto_fill_color = gnm_auto_color_value;
+			go_marker_set_outline_color (m, style->line.color);
+			style->marker.auto_outline_color = gnm_auto_color_value;
+		}
+
 		if (symbol_height >= 0. || symbol_width >= 0.) {
 			double size;
 			/* If we have only one dimension, use that for the other */
