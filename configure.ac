@@ -885,6 +885,9 @@ AC_SUBST(GNM_PY_CFLAGS)
 AC_SUBST(GNM_PY_LDFLAGS)
 AC_SUBST(GNM_PY_LIBADD)
 
+AC_CHECK_PROG(SCROLLKEEPER_PREINSTALL,scrollkeeper-preinstall,yes,no)
+AM_CONDITIONAL(WITH_SCROLLKEEPER, test "x$SCROLLKEEPER_PREINSTALL" = xyes)
+
 # Support for PDF docs
 AC_ARG_ENABLE(pdfdocs,
   AS_HELP_STRING([--enable-pdfdocs],[Generate documentation in Portable Document Format]),

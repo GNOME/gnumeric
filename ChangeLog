@@ -1,3 +1,7 @@
+2014-05-14  Morten Welinder  <terra@gnome.org>
+
+	* configure.ac (scrollkeeper): Test if we have it.
+
 2014-05-05  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (toolbar_context_menu): Remove

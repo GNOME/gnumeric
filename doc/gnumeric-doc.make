@@ -6,7 +6,7 @@
 # Requires that the calling makefile define 'lang'
 
 docname = gnumeric
-if !WITH_WIN32
+if WITH_SCROLLKEEPER
   omffile = gnumeric-$(lang).omf
 endif
 gnumeric_docdir  = $(top_srcdir)/doc

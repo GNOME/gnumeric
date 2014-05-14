@@ -5,6 +5,7 @@ Morten:
 	* Clean out old #ifdef.
 	* Fix ods series marker import/export.
 	* Fix plan-perfect issue.  [Debian #748054]
+	* Make installtion work without scrollkeeper.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.15
