@@ -169,7 +169,6 @@ static int
 ssindex (char const *file, GOIOContext *ioc)
 {
 	int i, res = 0;
-	GParamSpec *pspec;
 	GSList	   *objs, *ptr;
 	char	   *str = go_shell_arg_to_uri (file);
 	IndexerState state;
@@ -204,17 +203,17 @@ ssindex (char const *file, GOIOContext *ioc)
 		/* now the objects */
 		objs = sheet_objects_get (state.sheet, NULL, G_TYPE_NONE);
 		for (ptr = objs ; ptr != NULL ; ptr = ptr->next) {
-			pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (ptr->data), "text");
-			if (pspec != NULL) {
-				g_object_get (G_OBJECT (ptr->data), "text", &str, NULL);
-				if (str != NULL) {
-					gsf_xml_out_simple_element (state.output,
-						"data", str);
-					g_free (str);
-				}
-			} else if (IS_SHEET_OBJECT_GRAPH (ptr->data))
+			GObject *obj = ptr->data;
+			char *str = NULL;
+			if (gnm_object_has_readable_prop (obj, "text",
+							  G_TYPE_STRING, &str) &&
+			    str) {
+				gsf_xml_out_simple_element (state.output,
+							    "data", str);
+				g_free (str);
+			} else if (IS_SHEET_OBJECT_GRAPH (obj))
 				ssindex_chart (&state,
-					(GogObject *)sheet_object_graph_get_gog (ptr->data));
+					       (GogObject *)sheet_object_graph_get_gog (SHEET_OBJECT (obj)));
 		}
 		g_slist_free (objs);
 
