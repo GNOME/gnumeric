@@ -7504,39 +7504,45 @@ static void
 oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	gboolean buttons = TRUE;
-	GnmRangeRef ref;
-	GnmRange r;
+	gboolean buttons = FALSE;
 	char const *name = NULL;
 	GnmExpr const *expr = NULL;
-	GnmParsePos   pp;
+	gchar const *target = NULL;
 
 	g_return_if_fail (state->filter == NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "target-range-address")) {
-			char const *ptr = oo_cellref_parse
-				(&ref.a, CXML2C (attrs[1]), &state->pos, NULL);
-			if (ref.a.sheet != invalid_sheet &&
-			    ':' == *ptr &&
-			    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos, NULL) &&
-			    ref.b.sheet != invalid_sheet) {
-				state->filter = gnm_filter_new
-					(ref.a.sheet, range_init_rangeref (&r, &ref));
-				expr = gnm_expr_new_constant
-					(value_new_cellrange_r (ref.a.sheet, &r));
-			} else
-				oo_warning (xin, _("Invalid DB range '%s'"), attrs[1]);
-		} else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "display-filter-buttons", &buttons))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "target-range-address"))
+			target = CXML2C (attrs[1]);	
+		else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "display-filter-buttons", &buttons))
 			/* ignore this */;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
 			name = CXML2C (attrs[1]);
+
+	if (target) {
+		GnmRangeRef ref;
+		GnmRange r;
+		char const *ptr = oo_cellref_parse
+			(&ref.a, target, &state->pos, NULL);
+		if (ref.a.sheet != invalid_sheet &&
+		    ':' == *ptr &&
+		    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos, NULL) &&
+		    ref.b.sheet != invalid_sheet) {
+			if (buttons)
+				state->filter = gnm_filter_new
+					(ref.a.sheet, range_init_rangeref (&r, &ref));
+			expr = gnm_expr_new_constant
+				(value_new_cellrange_r (ref.a.sheet, &r));
+		} else
+			oo_warning (xin, _("Invalid DB range '%s'"), attrs[1]);
+	}
 
 	/* It appears that OOo likes to use the names it assigned to filters as named-ranges */
 	/* This really violates ODF/OpenFormula. So we make sure that there isn't already a named */
 	/* expression or range with that name. */
 	if (expr != NULL) {
 		GnmNamedExpr *nexpr = NULL;
+		GnmParsePos   pp;
 		if (name != NULL &&
 		    (NULL == (nexpr = expr_name_lookup
 			      (parse_pos_init (&pp, state->pos.wb, NULL, 0, 0), name)) ||
