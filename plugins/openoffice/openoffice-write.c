@@ -602,93 +602,57 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c, int 
 
 static void
 odf_write_plot_style_int (GsfXMLOut *xml, GogObject const *plot,
-			  GObjectClass *klass, char const *property,
-			  char const *id)
+			  char const *property, char const *id)
 {
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property))
-	    && spec->value_type == G_TYPE_INT
-	    && (G_PARAM_READABLE & spec->flags)) {
-		int i;
-		g_object_get (G_OBJECT (plot), property, &i, NULL);
+	int i;
+	if (gnm_object_has_readable_prop (plot, property, G_TYPE_INT, &i))
 		gsf_xml_out_add_int (xml, id, i);
-	}
 }
 
 static void
 odf_write_plot_style_uint (GsfXMLOut *xml, GogObject const *plot,
-			  GObjectClass *klass, char const *property,
-			  char const *id)
+			  char const *property, char const *id)
 {
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property))
-	    && spec->value_type == G_TYPE_UINT
-	    && (G_PARAM_READABLE & spec->flags)) {
-		unsigned int i;
-		g_object_get (G_OBJECT (plot), property, &i, NULL);
-		gsf_xml_out_add_uint (xml, id, i);
-	}
+	unsigned int ui;
+	if (gnm_object_has_readable_prop (plot, property, G_TYPE_UINT, &ui))
+		gsf_xml_out_add_uint (xml, id, ui);
 }
 
 static void
 odf_write_plot_style_double (GsfXMLOut *xml, GogObject const *plot,
-			     GObjectClass *klass, char const *property,
-			     char const *id)
+			     char const *property, char const *id)
 {
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property))
-	    && spec->value_type == G_TYPE_DOUBLE
-	    && (G_PARAM_READABLE & spec->flags)) {
-		double d;
-		g_object_get (G_OBJECT (plot), property, &d, NULL);
+	double d;
+	if (gnm_object_has_readable_prop (plot, property, G_TYPE_DOUBLE, &d))
 		gsf_xml_out_add_float (xml, id, d, -1);
-	}
 }
 
 static void
 odf_write_plot_style_double_percent (GsfXMLOut *xml, GogObject const *plot,
-				     GObjectClass *klass, char const *property,
-				     char const *id)
+				     char const *property, char const *id)
 {
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property))
-	    && spec->value_type == G_TYPE_DOUBLE
-	    && (G_PARAM_READABLE & spec->flags)) {
-		double d;
-		g_object_get (G_OBJECT (plot), property, &d, NULL);
+	double d;
+	if (gnm_object_has_readable_prop (plot, property, G_TYPE_DOUBLE, &d))
 		odf_add_percent (xml, id, d);
-	}
 }
 
 static void
 odf_write_plot_style_bool (GsfXMLOut *xml, GogObject const *plot,
-			  GObjectClass *klass, char const *property,
-			  char const *id)
+			   char const *property, char const *id)
 {
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property))
-	    && spec->value_type == G_TYPE_BOOLEAN
-	    && (G_PARAM_READABLE & spec->flags)) {
-		gboolean b;
-		g_object_get (G_OBJECT (plot), property, &b, NULL);
+	gboolean b;
+	if (gnm_object_has_readable_prop (plot, property, G_TYPE_BOOLEAN, &b))
 		odf_add_bool (xml, id, b);
-	}
 }
 
 static void
 odf_write_plot_style_from_bool (GsfXMLOut *xml, GogObject const *plot,
-				GObjectClass *klass, char const *property,
-				char const *id,
+				char const *property, char const *id,
 				char const *t_val, char const *f_val)
 {
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property))
-	    && spec->value_type == G_TYPE_BOOLEAN
-	    && (G_PARAM_READABLE & spec->flags)) {
-		gboolean b;
-		g_object_get (G_OBJECT (plot), property, &b, NULL);
+	gboolean b;
+	if (gnm_object_has_readable_prop (plot, property, G_TYPE_BOOLEAN, &b))
 		gsf_xml_out_add_cstr (xml, id, b ? t_val : f_val);
-	}
 }
 
 static void
@@ -754,18 +718,14 @@ odf_get_gog_style_name (GOStyle const *style, GogObject const *obj)
 static gchar*
 odf_get_gog_style_name_from_obj (GogObject const *obj)
 {
-	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
+	GOStyle *style = NULL;
 
-	if (NULL != g_object_class_find_property (klass, "style")) {
-		GOStyle *style = NULL;
-		gchar *name;
-		g_object_get (G_OBJECT (obj), "style", &style, NULL);
-		name = odf_get_gog_style_name (style, obj);
+	if (gnm_object_has_readable_prop (obj, "style", G_TYPE_NONE, &style)) {
+		char *name = odf_get_gog_style_name (style, obj);
 		g_object_unref (style);
 		return name;
 	} else
 		return odf_get_gog_style_name (NULL, obj);
-	return NULL;
 }
 
 static const char*
@@ -833,9 +793,8 @@ odf_write_sheet_object_style (GnmOOExport *state, SheetObject *so)
 {
 	char *name = g_strdup_printf ("so-g-%p", so);
 	GOStyle *style = NULL;
-	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (so));
-	if (NULL != g_object_class_find_property (klass, "style"))
-		g_object_get (G_OBJECT (so), "style", &style, NULL);
+
+	(void)gnm_object_has_readable_prop (so, "style", G_TYPE_NONE, &style);
 
 	odf_start_style (state->xml, name, "graphic");
 	gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
@@ -941,27 +900,17 @@ odf_write_gog_position (GnmOOExport *state, GogObject const *obj)
 {
 	gboolean is_position_manual = TRUE;
 	gchar *position = NULL, *anchor = NULL, *compass = NULL;
-	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
-	gboolean has_compass;
 
 	if (!state->with_extension)
 		return;
 	
-	has_compass = (NULL != g_object_class_find_property (klass, "compass"));
-
-	if (has_compass)
-		g_object_get (G_OBJECT (obj),
-			      "is-position-manual", &is_position_manual,
-			      "position", &position,
-			      "compass", &compass,
-			      "anchor", &anchor,
-			      NULL);
-	else
-		g_object_get (G_OBJECT (obj),
-			      "is-position-manual", &is_position_manual,
-			      "position", &position,
-			      "anchor", &anchor,
-			      NULL);
+	(void)gnm_object_has_readable_prop (obj, "compass",
+					    G_TYPE_NONE, &compass);
+	g_object_get (G_OBJECT (obj),
+		      "is-position-manual", &is_position_manual,
+		      "position", &position,
+		      "anchor", &anchor,
+		      NULL);
 	odf_add_bool (state->xml, GNMSTYLE "is-position-manual", is_position_manual);
 	if (is_position_manual) {
 		if (position)
@@ -6239,7 +6188,6 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 					(state, bd, pp, GNMSTYLE "upper-bound");
 		}
 		if (equation != NULL) {
-			GObjectClass *klass = G_OBJECT_GET_CLASS (equation);
 			char const *eq_element, *eq_automatic, *eq_display, *eq_r;
 			if (state->odf_version > 101) {
 				eq_element = CHART "equation";
@@ -6255,9 +6203,9 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 			gsf_xml_out_start_element
 				(state->xml, eq_element);
 			odf_add_bool (state->xml, eq_automatic, TRUE);
-			odf_write_plot_style_bool (state->xml, equation, klass,
+			odf_write_plot_style_bool (state->xml, equation,
 						   "show-eq", eq_display);
-			odf_write_plot_style_bool (state->xml, equation, klass,
+			odf_write_plot_style_bool (state->xml, equation,
 						   "show-r2", eq_r);
 			str = odf_get_gog_style_name_from_obj
 				(GOG_OBJECT (equation));
@@ -6518,7 +6466,6 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 				   GogObject const *series)
 {
 	gchar *interpolation = NULL;
-	gboolean skip_invalid = TRUE;
 
 	g_object_get (G_OBJECT (series),
 		      "interpolation", &interpolation, 
@@ -6548,14 +6495,16 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 	}
 
 	if (state->with_extension) {
-		GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (series));
-		if (NULL != g_object_class_find_property (klass, "interpolation-skip-invalid")) {
-			g_object_get (G_OBJECT (series),
-				      "interpolation-skip-invalid", &skip_invalid,
-				      NULL);
-			if (!skip_invalid)
-				odf_add_bool (state->xml, GNMSTYLE "interpolation-skip-invalid", FALSE);
-		}
+		gboolean skip_invalid = TRUE;
+
+		if (gnm_object_has_readable_prop (series,
+						  "interpolation-skip-invalid",
+						  G_TYPE_BOOLEAN,
+						  &skip_invalid) &&
+		    !skip_invalid)
+			odf_add_bool (state->xml,
+				      GNMSTYLE "interpolation-skip-invalid",
+				      FALSE);
 	}
 
 	g_free (interpolation);
@@ -6564,33 +6513,25 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 static void
 odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 {
-	GObjectClass *klass = G_OBJECT_GET_CLASS (plot);
 	gchar const *plot_type = G_OBJECT_TYPE_NAME (plot);
-	GParamSpec *spec;
+	gchar *type_str = NULL;
+	double default_separation = 0.;
 
 	odf_add_bool (state->xml, CHART "auto-size", TRUE);
 
-	if (NULL != (spec = g_object_class_find_property (klass, "type"))
-	    && spec->value_type == G_TYPE_STRING
-	    && (G_PARAM_READABLE & spec->flags)) {
-		gchar *type = NULL;
-		g_object_get (G_OBJECT (plot), "type", &type, NULL);
-		if (type != NULL) {
+	if (gnm_object_has_readable_prop (plot, "type",
+					  G_TYPE_STRING, &type_str)) {
+		if (type_str != NULL) {
 			odf_add_bool (state->xml, CHART "stacked",
-				      (0== strcmp (type, "stacked")));
+				      (0== strcmp (type_str, "stacked")));
 			odf_add_bool (state->xml, CHART "percentage",
-				      (0== strcmp (type, "as_percentage")));
-			g_free (type);
+				      (0== strcmp (type_str, "as_percentage")));
+			g_free (type_str);
 		}
 	}
 
-	if (NULL != (spec = g_object_class_find_property (klass, "default-separation"))
-	    && spec->value_type == G_TYPE_DOUBLE
-	    && (G_PARAM_READABLE & spec->flags)) {
-		double default_separation = 0.;
-		g_object_get (G_OBJECT (plot),
-			      "default-separation", &default_separation,
-			      NULL);
+	if (gnm_object_has_readable_prop (plot, "default-separation",
+					  G_TYPE_DOUBLE, &default_separation)) {
 		if (0 == strcmp ("GogRingPlot", plot_type)) {
 			if (state->with_extension)
 				odf_add_percent (state->xml,
@@ -6602,32 +6543,30 @@ odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 					     (default_separation * 100. + 0.5));
 	}
 
-
 	/* Note: horizontal refers to the bars and vertical to  the x-axis */
-	odf_write_plot_style_bool (state->xml, plot, klass,
+	odf_write_plot_style_bool (state->xml, plot,
 				   "horizontal", CHART "vertical");
 
-	odf_write_plot_style_bool (state->xml, plot, klass,
+	odf_write_plot_style_bool (state->xml, plot,
 				   "vertical", CHART "vertical");
 
 	odf_write_plot_style_from_bool
-		(state->xml, plot, klass,
+		(state->xml, plot,
 		 "default-style-has-markers", CHART "symbol-type",
 		 "automatic", "none");
 
-	odf_write_plot_style_int (state->xml, plot, klass,
+	odf_write_plot_style_int (state->xml, plot,
 				  "gap-percentage", CHART "gap-width");
 
-	odf_write_plot_style_int (state->xml, plot, klass,
+	odf_write_plot_style_int (state->xml, plot,
 				  "overlap-percentage", CHART "overlap");
 
-	odf_write_plot_style_double_percent (state->xml, plot, klass,
+	odf_write_plot_style_double_percent (state->xml, plot,
 					     "center-size",
 					     CHART "hole-size");
 
-	if (NULL != (spec = g_object_class_find_property (klass, "interpolation"))
-	    && spec->value_type == G_TYPE_STRING
-	    && (G_PARAM_READABLE & spec->flags))
+	if (gnm_object_has_readable_prop (plot, "interpolation",
+					  G_TYPE_NONE, NULL))
 		odf_write_interpolation_attribute (state, NULL, plot);
 
 	if (0 == strcmp ( "GogXYZSurfacePlot", plot_type) ||
@@ -6643,18 +6582,18 @@ odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 		if (0 == strcmp ( "XLSurfacePlot", plot_type))
 			odf_add_bool (state->xml, GNMSTYLE "multi-series",
 				      TRUE);
-		odf_write_plot_style_bool (state->xml, plot, klass,
+		odf_write_plot_style_bool (state->xml, plot,
 					   "outliers", GNMSTYLE "outliers");
 
-		odf_write_plot_style_double (state->xml, plot, klass,
+		odf_write_plot_style_double (state->xml, plot,
 					     "radius-ratio", GNMSTYLE
 					     "radius-ratio");
 
-		odf_write_plot_style_bool (state->xml, plot, klass,
+		odf_write_plot_style_bool (state->xml, plot,
 					   "vary-style-by-element",
 					   GNMSTYLE "vary-style-by-element");
 
-		odf_write_plot_style_bool (state->xml, plot, klass,
+		odf_write_plot_style_bool (state->xml, plot,
 				   "show-negatives",
 					   GNMSTYLE "show-negatives");
 	}
@@ -6701,22 +6640,18 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		      GogObject const *axis)
 {
 	double tmp;
-	GObjectClass *klass = G_OBJECT_GET_CLASS (axis);
-	GParamSpec *spec;
 	GOData const *interval;
 	gboolean user_defined;
+	char *map_name_str = NULL;
 
 	gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
 	odf_add_bool (state->xml, CHART "display-label", TRUE);
 
-	if (NULL != (spec = g_object_class_find_property (klass, "map-name"))
-	    && spec->value_type == G_TYPE_STRING
-	    && (G_PARAM_READABLE & spec->flags)) {
-		char *type;
-		g_object_get (G_OBJECT (axis), "map-name", &type, NULL);
+	if (gnm_object_has_readable_prop (axis, "map-name",
+					  G_TYPE_STRING, &map_name_str)) {
 		odf_add_bool (state->xml, CHART "logarithmic",
-			      0 != strcmp (type, "Linear"));
-		g_free (type);
+			      0 != strcmp (map_name_str, "Linear"));
+		g_free (map_name_str);
 	}
 
 	tmp = gog_axis_get_entry
@@ -6758,11 +6693,11 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 	}
 	if (state->odf_version > 101)
 		odf_write_plot_style_bool
-			(state->xml, axis, klass,
+			(state->xml, axis,
 			 "invert-axis", CHART "reverse-direction");
 	else if (state->with_extension)
 		odf_write_plot_style_bool
-			(state->xml, axis, klass,
+			(state->xml, axis,
 			 "invert-axis", GNMSTYLE "reverse-direction");
 }
 
@@ -7344,19 +7279,13 @@ odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject c
 			GogPlot *plot =	GOG_IS_SERIES (obj)
 				? gog_series_get_plot (GOG_SERIES (obj))
 				: NULL;
-			GObjectClass *plot_klass = plot ? G_OBJECT_GET_CLASS (G_OBJECT (plot)) : NULL;
-			GParamSpec *spec = plot_klass
-				? g_object_class_find_property (plot_klass, "default-style-has-markers")
-				: NULL;
 			gboolean has_marker;
-			if (spec &&
-			    spec->value_type == G_TYPE_BOOLEAN &&
-			    (G_PARAM_READABLE & spec->flags)) {
-				g_object_get (G_OBJECT (plot), "default-style-has-markers",
-					      &has_marker, NULL);
-				if (has_marker)
-					symbol_type = "automatic";
-			}
+
+			if (gnm_object_has_readable_prop
+			    (plot, "default-style-has-markers",
+			     G_TYPE_BOOLEAN, &has_marker) &&
+			    has_marker)
+				symbol_type = "automatic";
 		} else {
 			GOMarkerShape m = go_marker_get_shape (marker);
 
@@ -7419,16 +7348,13 @@ odf_write_gog_style (GnmOOExport *state, GOStyle const *style,
 static void
 odf_write_gog_styles (GogObject const *obj, GnmOOExport *state)
 {
-	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
 	GSList *children;
+	GOStyle *style = NULL;
 
-	if (NULL != g_object_class_find_property (klass, "style")) {
-		GOStyle *style = NULL;
-		g_object_get (G_OBJECT (obj), "style", &style, NULL);
+	if (gnm_object_has_readable_prop (obj, "style", G_TYPE_NONE, &style)) {
 		odf_write_gog_style (state, style, obj);
-		if (style != NULL) {
+		if (style != NULL)
 			g_object_unref (style);
-		}
 	} else
 		odf_write_gog_style (state, NULL, obj);
 
@@ -7682,18 +7608,14 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 	};
 
 	if (0 == strcmp ("GogBarColPlot", plot_type)) {
-		GParamSpec *spec;
-		GObjectClass *klass = G_OBJECT_GET_CLASS (plot);
+		gboolean b;
 
-		plot_type = "GogColPlot";
-		if (NULL != (spec = g_object_class_find_property (klass, "horizontal"))
-		    && spec->value_type == G_TYPE_BOOLEAN
-		    && (G_PARAM_READABLE & spec->flags)) {
-			gboolean b;
-			g_object_get (G_OBJECT (plot), "horizontal", &b, NULL);
-			if (b)
-				plot_type = "GogBarPlot";
-		}
+		if (gnm_object_has_readable_prop (plot, "horizontal",
+						  G_TYPE_BOOLEAN, &b) &&
+		    b)
+			plot_type = "GogBarPlot";
+		else
+			plot_type = "GogColPlot";
 	}
 
 	for (this_plot = &plots[0]; this_plot->type != NULL; this_plot++)
@@ -7701,7 +7623,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 			break;
 
 	if (this_plot->type == NULL) {
-		g_print ("Encountered unknown chart type %s\n", plot_type);
+		g_printerr ("Encountered unknown chart type %s\n", plot_type);
 		this_plot = &plots[0];
 	}
 
@@ -8046,10 +7968,9 @@ odf_write_lin_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "linear");
 	if (state->with_extension) {
-		GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
-		odf_write_plot_style_bool (state->xml, obj, klass,
+		odf_write_plot_style_bool (state->xml, obj,
 					  "affine", GNMSTYLE "regression-affine");
-		odf_write_plot_style_uint (state->xml, obj, klass,
+		odf_write_plot_style_uint (state->xml, obj,
 					  "dims", GNMSTYLE "regression-polynomial-dims");
 	}
 }
@@ -8059,13 +7980,11 @@ odf_write_polynom_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		       GogObject const *obj)
 {
 	if (state->with_extension) {
-		GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
-
 		gsf_xml_out_add_cstr (state->xml, CHART "regression-type",
 				      GNMSTYLE "polynomial");
-		odf_write_plot_style_uint (state->xml, obj, klass,
+		odf_write_plot_style_uint (state->xml, obj,
 					  "dims", GNMSTYLE "regression-polynomial-dims");
-		odf_write_plot_style_bool (state->xml, obj, klass,
+		odf_write_plot_style_bool (state->xml, obj,
 					  "affine", GNMSTYLE "regression-affine");
 	}
 }
@@ -8122,16 +8041,10 @@ static void
 odf_write_pie_point (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		     GogObject const *obj)
 {
-	GObjectClass *klass = G_OBJECT_GET_CLASS (obj);
-	GParamSpec *spec;
+	double separation = 0.;
 
-	if (NULL != (spec = g_object_class_find_property (klass, "separation"))
-	    && spec->value_type == G_TYPE_DOUBLE
-	    && (G_PARAM_READABLE & spec->flags)) {
-		double separation = 0.;
-		g_object_get (G_OBJECT (obj),
-			      "separation", &separation,
-			      NULL);
+	if (gnm_object_has_readable_prop (obj, "separation",
+					  G_TYPE_DOUBLE, &separation)) {
 		gsf_xml_out_add_int (state->xml,
 				     CHART "pie-offset",
 				     (separation * 100. + 0.5));

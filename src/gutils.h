@@ -45,6 +45,9 @@ void       gnm_string_add_number (GString *buf, gnm_float d);
 void       gnm_insert_meta_date (GODoc *doc, char const *name);
 
 gboolean   gnm_object_get_bool (gpointer o, const char *name);
+gboolean   gnm_object_has_readable_prop (gconstpointer obj,
+					 const char *property,
+					 GType typ, gpointer pres);
 
 gint gnm_float_equal (gnm_float const *a, const gnm_float *b);
 guint gnm_float_hash (gnm_float const *d);

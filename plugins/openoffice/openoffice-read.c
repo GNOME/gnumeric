@@ -799,7 +799,6 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	gboolean line_is_not_dash = FALSE;
 	unsigned int fill_type = OO_FILL_TYPE_UNKNOWN;
 	gboolean stroke_colour_set = FALSE;
-	gboolean lines_value_set = FALSE;
 	gboolean lines_value = FALSE;
 	gboolean gnm_auto_color_value_set = FALSE;
 	gboolean gnm_auto_color_value = FALSE;
@@ -859,7 +858,6 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				stroke_colour_set = TRUE;
 			}
 		} else if (0 == strcmp (prop->name, "lines")) {
-			lines_value_set = TRUE;
 			lines_value = g_value_get_boolean (&prop->value);
 		} else if (0 == strcmp (prop->name, "gnm-auto-color")) {
 			gnm_auto_color_value_set = TRUE;
@@ -1110,6 +1108,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		break;
 	}
 	if (m) {
+		gboolean dshm;
+
 		if (symbol_type != OO_SYMBOL_TYPE_NONE) {
 			/* Inherit line colour.  */
 			go_marker_set_fill_color (m, style->line.color);
@@ -1128,6 +1128,15 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			size = MIN (size, G_MAXINT);
 
 			go_marker_set_size (m, (int)size);
+		}
+
+		if (gnm_object_has_readable_prop (state->chart.plot,
+						  "default-style-has-markers",
+						  G_TYPE_BOOLEAN,
+						  &dshm) &&
+		    !dshm) {
+			style->marker.auto_shape = TRUE;
+			go_marker_set_shape (m, GO_MARKER_NONE);
 		}
 
 		go_style_set_marker (style, m);

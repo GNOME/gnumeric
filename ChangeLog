@@ -1,5 +1,7 @@
 2014-05-14  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (gnm_object_has_readable_prop): New function.
+
 	* configure.ac (scrollkeeper): Test if we have it.
 
 2014-05-05  Morten Welinder  <terra@gnome.org>

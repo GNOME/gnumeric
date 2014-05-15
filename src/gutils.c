@@ -696,6 +696,31 @@ gnm_object_get_bool (gpointer o, const char *name)
 	return b;
 }
 
+gboolean
+gnm_object_has_readable_prop (gconstpointer obj, const char *property,
+			      GType typ, gpointer pres)
+{
+	GObjectClass *klass;
+	GParamSpec *spec;
+
+	if (!obj)
+		return FALSE;
+
+	klass =  G_OBJECT_GET_CLASS (G_OBJECT (obj));
+	spec = g_object_class_find_property (klass, property);
+	if (!spec ||
+	    !(G_PARAM_READABLE & spec->flags) ||
+	    (typ != G_TYPE_NONE && spec->value_type != typ))
+		return FALSE;
+
+	if (pres)
+		g_object_get (G_OBJECT (obj), property, pres, NULL);
+	return TRUE;
+}
+
+
+
+
 gint
 gnm_float_equal (gnm_float const *a, const gnm_float *b)
 {

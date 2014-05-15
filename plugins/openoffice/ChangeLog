@@ -1,5 +1,7 @@
 2014-05-14  Morten Welinder  <terra@gnome.org>
 
+	* openoffice-write.c: Use gnm_object_has_readable_prop all over.
+
 	* openoffice-read.c (odf_apply_style_props): Set marker's colours
 	too.
 
