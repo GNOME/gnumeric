@@ -6497,10 +6497,10 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 	if (state->with_extension) {
 		gboolean skip_invalid = TRUE;
 
-		if (gnm_object_has_readable_prop (series,
+		if (!gnm_object_has_readable_prop (series,
 						  "interpolation-skip-invalid",
 						  G_TYPE_BOOLEAN,
-						  &skip_invalid) &&
+						  &skip_invalid) ||
 		    !skip_invalid)
 			odf_add_bool (state->xml,
 				      GNMSTYLE "interpolation-skip-invalid",
