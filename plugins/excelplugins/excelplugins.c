@@ -989,7 +989,7 @@ scan_for_XLLs_and_register_functions (const gchar *dir_name)
 								xlAutoOpenFunc ();
 								currently_called_xll = NULL;
 								if (0 == xll->number_of_functions) {
-									g_warning (_("No loadable worksheet functions found in XLL/DLL/SO file %s ."),full_entry_name);
+									g_warning (_("No loadable worksheet functions found in XLL/DLL/SO file %s."),full_entry_name);
 								} else {
 									GO_SLIST_PREPEND (XLLs,xll);
 									/* xgettext : %lu gives the number of functions. This is input to ngettext. */

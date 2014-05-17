@@ -73,7 +73,7 @@ dialog_autosave_prompt (WBCGtk *wbcg)
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO,
-					 _("Do you want to save the workbook %s ?"),
+					 _("Do you want to save the workbook %s?"),
 					 uri);
 	gint result = gtk_dialog_run (GTK_DIALOG (dialog));
 
