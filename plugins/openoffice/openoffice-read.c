@@ -1134,9 +1134,9 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 						  "default-style-has-markers",
 						  G_TYPE_BOOLEAN,
 						  &dshm) &&
-		    !dshm) {
+		    !dshm &&
+		    go_marker_get_shape (m) == GO_MARKER_NONE) {
 			style->marker.auto_shape = TRUE;
-			go_marker_set_shape (m, GO_MARKER_NONE);
 		}
 
 		go_style_set_marker (style, m);

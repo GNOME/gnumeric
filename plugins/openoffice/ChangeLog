@@ -1,3 +1,8 @@
+2014-05-18  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_apply_style_props): For markers, map only
+	"none" to "auto" when the plot doesn't have markers by default.
+
 2014-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_interpolation_attribute): correctly write
