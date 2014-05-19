@@ -1,5 +1,9 @@
 2014-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_axis_full): fix element order
+
+2014-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_title): do not write table:cell-address
 
 2014-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>

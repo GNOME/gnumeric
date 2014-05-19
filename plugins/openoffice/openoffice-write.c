@@ -7406,9 +7406,9 @@ odf_write_axis_full (GnmOOExport *state,
 		gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
 		odf_write_label (state, axis);
-		odf_write_axis_grid (state, axis);
 		if (include_cats)
 			odf_write_axis_categories (state, series);
+		odf_write_axis_grid (state, axis);
 		gsf_xml_out_end_element (state->xml); /* </chart:axis> */
 	}
 
