@@ -93,7 +93,24 @@ foreach my $src (@sources) {
 	die "Fail\n";
     }
 
-    for my $member ('content.xml', 'styles.xml') {
+    my %members;
+    foreach (`$unzip -v $tmp`) {
+	next unless /^----/ ... /^----/;
+	next unless m{\s(\S+)$};
+	my $member = $1;
+	if (exists $members{$member}) {
+	    print STDERR "Duplicate member $member\n";
+	    die "Fail\n";
+	}
+	$members{$member} = 1;
+    }
+
+    my @check_members = ('content.xml', 'styles.xml');
+    foreach my $member (sort keys %members) {
+	push @check_members, $member if $member =~ m{^Graph\d+/content.xml$};
+    }
+
+    for my $member (@check_members) {
 	my $cmd = "$unzip -p $tmp $member | $xmllint --noout --relaxng $schema -";
 	print STDERR "# $cmd\n" if $GnumericTest::verbose;
 	my $out = `$cmd 2>&1`;

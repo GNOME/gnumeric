@@ -10,6 +10,7 @@ Morten:
 	* Fix ods series marker import/export.
 	* Fix plan-perfect issue.  [Debian #748054]
 	* Make installtion work without scrollkeeper.
+	* Improve import/export testing.  [#730397]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.15
