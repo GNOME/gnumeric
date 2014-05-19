@@ -1,5 +1,9 @@
 2014-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_title): do not write table:cell-address
+
+2014-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (od_style_prop_chart): use gnm:interpolation rather
 	than using an invalid attirbute value with chart:interpolation
 	* openoffice-read.c (od_style_prop_chart): handle gnm:interpolation

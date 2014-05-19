@@ -4,6 +4,7 @@ Andreas:
 	* Fix database-range import from ODF. [#730197]
 	* Improve chart roundtrip through ODF. [#728197]
 	* Fix export of non-ODF interpolation types to ODF.
+	* Fix export of titles and subtitles to ODF. [part of #730397]
 
 Morten:
 	* Start moving off GtkUIManager.

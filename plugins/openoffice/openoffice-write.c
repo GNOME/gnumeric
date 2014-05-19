@@ -6862,8 +6862,6 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 				if (gnm_expr_top_is_rangeref (texpr)) {
 					char *f = odf_strip_brackets (formula);
 					gsf_xml_out_add_cstr (state->xml,
-							      TABLE "cell-address", f);
-					gsf_xml_out_add_cstr (state->xml,
 							      TABLE "cell-range", f);
 				} else if (allow_content &&
 					   (v = gnm_expr_top_get_constant (texpr)) &&
