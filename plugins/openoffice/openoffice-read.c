@@ -6865,6 +6865,8 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean stacked_unset = FALSE;
 	gboolean overlap_set = FALSE;
 	gboolean percentage_set = FALSE;
+	char const *interpolation = NULL;
+
 
 	g_return_if_fail (style != NULL ||
 			  state->default_style.cells != NULL);
@@ -7007,10 +7009,11 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_double ("symbol-height", ftmp));
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
-					       OO_NS_CHART, "interpolation")) {
-			char const *interpolation = NULL;
-
+		} else if ((interpolation == NULL) &&
+			   (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_NS_CHART, "interpolation") ||
+			   gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_GNUM_NS_EXT, "interpolation"))) {
 			if (attr_eq (attrs[1], "none"))
 				interpolation = "linear";
 			else if (attr_eq (attrs[1], "b-spline")) {

@@ -6487,7 +6487,7 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 		else if (state->with_extension) {
 			char *tag = g_strdup_printf ("gnm:%s", interpolation);
 			gsf_xml_out_add_cstr
-				(state->xml, CHART "interpolation", tag);
+				(state->xml, GNMSTYLE "interpolation", tag);
 			g_free (tag);
 		} else
 			gsf_xml_out_add_cstr

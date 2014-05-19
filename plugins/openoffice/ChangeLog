@@ -1,3 +1,9 @@
+2014-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (od_style_prop_chart): use gnm:interpolation rather
+	than using an invalid attirbute value with chart:interpolation
+	* openoffice-read.c (od_style_prop_chart): handle gnm:interpolation
+
 2014-05-18  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_apply_style_props): For markers, map only
