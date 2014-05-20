@@ -331,16 +331,19 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 			     GnmConventions const *convs)
 {
 	GnmSOFilled const *sof = GNM_SO_FILLED (so);
+	GOStyle const *style = sof->style;
 	gsf_xml_out_add_int	(output, "Type", sof->is_oval ? 102 : 101);
 
 	/* Old 1.0 and 1.2 */
-	gsf_xml_out_add_float   (output, "Width", sof->style->line.width, 2);
-	gnm_xml_out_add_gocolor (output, "OutlineColor", sof->style->line.color);
-	gnm_xml_out_add_gocolor (output, "FillColor",	 sof->style->fill.pattern.back);
+	gsf_xml_out_add_float   (output, "Width", style->line.width, 2);
+	if (!style->line.auto_color)
+		gnm_xml_out_add_gocolor (output, "OutlineColor", style->line.color);
+	if (!style->fill.auto_back)
+		gnm_xml_out_add_gocolor (output, "FillColor", style->fill.pattern.back);
 	if (sof->text != NULL && *(sof->text) != '\0') {
 		gsf_xml_out_add_cstr (output, "Label", sof->text);
 		if (sof->markup != NULL) {
-			GOFormat *fmt = go_format_new_markup	(sof->markup, TRUE);
+			GOFormat *fmt = go_format_new_markup (sof->markup, TRUE);
 			gsf_xml_out_add_cstr (output, "LabelFormat",
 					      go_format_as_XL (fmt));
 			go_format_unref (fmt);
@@ -348,7 +351,7 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	}
 
 	gsf_xml_out_start_element (output, "Style");
-	go_persist_sax_save (GO_PERSIST (sof->style), output);
+	go_persist_sax_save (GO_PERSIST (style), output);
 	gsf_xml_out_end_element (output); /* </Style> */
 }
 

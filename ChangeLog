@@ -1,5 +1,8 @@
 2014-05-20  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-so-filled.c (gnm_so_filled_write_xml_sax): Don't write
+	outline and fill colours that are auto, even for the 1.0 format.
+
 	* src/mstyle.c (gnm_style_link_dependents): Speed up certain large
 	conditional format ranges.
 
