@@ -742,3 +742,56 @@ gnm_float_hash (gnm_float const *d)
 
 /* ------------------------------------------------------------------------- */
 
+struct cb_compare {
+	GnmHashTableOrder order;
+	gpointer user;
+};
+
+static gint
+cb_compare (gconstpointer a_, gconstpointer b_, gpointer user_data)
+{
+	struct cb_compare *user = user_data;
+	gpointer *a = (gpointer )a_;
+	gpointer *b = (gpointer )b_;
+
+	return user->order (a[0], a[1], b[0], b[1], user->user);
+}
+
+
+void
+gnm_hash_table_foreach_ordered (GHashTable *h,
+				GHFunc callback,
+				GnmHashTableOrder order,
+				gpointer user)
+{
+	unsigned ui;
+	GPtrArray *data;
+	struct cb_compare u;
+	GHashTableIter hiter;
+	gpointer key, value;
+
+	/* Gather all key-value pairs */
+	data = g_ptr_array_new ();
+	g_hash_table_iter_init (&hiter, h);
+	while (g_hash_table_iter_next (&hiter, &key, &value)) {
+		g_ptr_array_add (data, key);
+		g_ptr_array_add (data, value);
+	}
+
+	/* Sort according to given ordering */
+	u.order = order;
+	u.user = user;
+	g_qsort_with_data (data->pdata,
+			   data->len / 2, 2 * sizeof (gpointer),
+			   cb_compare,
+			   &u);
+
+	/* Call user callback with all pairs */
+	for (ui = 0; ui < data->len; ui += 2)
+		callback (g_ptr_array_index (data, ui),
+			  g_ptr_array_index (data, ui + 1),
+			  user);
+
+	/* Clean up */
+	g_ptr_array_free (data, TRUE);
+}

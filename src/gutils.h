@@ -52,6 +52,15 @@ gboolean   gnm_object_has_readable_prop (gconstpointer obj,
 gint gnm_float_equal (gnm_float const *a, const gnm_float *b);
 guint gnm_float_hash (gnm_float const *d);
 
+typedef int (*GnmHashTableOrder) (gpointer key_a, gpointer val_a,
+				  gpointer key_b, gpointer val_b,
+				  gpointer user);
+
+void gnm_hash_table_foreach_ordered (GHashTable *h,
+				     GHFunc callback,
+				     GnmHashTableOrder order,
+				     gpointer user);
+
 G_END_DECLS
 
 #endif /* _GNM_GUTILS_H_ */

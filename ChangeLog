@@ -1,5 +1,7 @@
 2014-05-20  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (gnm_hash_table_foreach_ordered): New function.
+
 	* src/gnm-so-filled.c (gnm_so_filled_write_xml_sax): Don't write
 	outline and fill colours that are auto, even for the 1.0 format.
 
@@ -1355,7 +1357,7 @@
 2013-04-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_vector_load_len): correctly evaluate array
-	fucntions used as vectors. [697281]
+	functions used as vectors. [697281]
 
 2013-04-04  Jean Brefort  <jean.brefort@normalesup.org>
 
