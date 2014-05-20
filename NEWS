@@ -14,6 +14,7 @@ Morten:
 	* Fix plan-perfect issue.  [Debian #748054]
 	* Make installtion work without scrollkeeper.
 	* Improve import/export testing.  [#730397]
+	* Speed up certain large ranges of conditional formatting.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.15

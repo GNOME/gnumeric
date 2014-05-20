@@ -18,6 +18,7 @@
 #include "application.h"
 #include "parse-util.h"
 #include "expr.h"
+#include "value.h"
 #include "gutils.h"
 #include "ranges.h"
 #include "gnumeric-conf.h"
@@ -1884,6 +1885,26 @@ debug_style_deps (void)
 	return debug;
 }
 
+/*
+ * Just a simple version for now.  We can also ignore most function
+ * calls[1] and self-references[2].
+ *
+ * [1] Excluding volatile (TODAY, ...) and those that can create references
+ * outside the arguments (INDIRECT).
+ *
+ * [2] References that print like A1 when used in A1.
+ */
+static gboolean
+cond_expr_harmless (GnmExpr const *expr)
+{
+	GnmValue const *v = gnm_expr_get_constant (expr);
+	if (v && v->type != VALUE_CELLRANGE)
+		return TRUE;
+
+	return FALSE;
+}
+
+
 void
 gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 {
@@ -1917,7 +1938,8 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 			for (ei = 0; ei < 2; ei++) {
 				GnmExprTop const *texpr =
 					gnm_style_cond_get_expr (c, ei);
-				if (!texpr)
+				if (!texpr ||
+				    cond_expr_harmless (texpr->expr))
 					continue;
 				if (!style->deps)
 					style->deps = g_ptr_array_new ();
