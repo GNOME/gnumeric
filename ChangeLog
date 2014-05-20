@@ -1,5 +1,11 @@
 2014-05-20  Morten Welinder  <terra@gnome.org>
 
+	* plugins/openoffice/openoffice-write.c
+	(openoffice_file_save_real): Write graphs and images in order of
+	name, not random hash order.
+	(oo_item_name): New function for naming various styles and objects
+	consistently.
+
 	* src/gutils.c (gnm_hash_table_foreach_ordered): New function.
 
 	* src/gnm-so-filled.c (gnm_so_filled_write_xml_sax): Don't write

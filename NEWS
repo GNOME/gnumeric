@@ -15,6 +15,7 @@ Morten:
 	* Make installtion work without scrollkeeper.
 	* Improve import/export testing.  [#730397]
 	* Speed up certain large ranges of conditional formatting.
+	* Work towards making ods export deterministic.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.15
