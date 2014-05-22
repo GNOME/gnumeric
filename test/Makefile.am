@@ -74,6 +74,7 @@ TESTS =	t1000-statfuns.pl			\
 	t6150-ods-syntax.pl			\
 	t6151-gnumeric-syntax.pl		\
 	t6152-xlsx-syntax.pl			\
+	t6160-ods-deterministic.pl		\
 	t6500-strings.pl			\
 	t6501-numbers.pl			\
 	t6502-styles.pl				\
