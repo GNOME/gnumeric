@@ -94,7 +94,7 @@ foreach my $src (@sources) {
 
 	foreach (`$unzip -v $tmp`) {
 	    next unless /^----/ ... /^----/;
-	    next unless m{\s(\S+)$};
+	    next unless m{^\s*\d.*\s(\S+)$};
 	    my $member = $1;
 	    if (($members{$member} || 0) & $i) {
 		print STDERR "Duplicate member $member\n";
@@ -104,7 +104,6 @@ foreach my $src (@sources) {
 	}
 
 	push @tmp, $tmp;
-	&GnumericTest::removejunk ($tmp);
     }
 
     my $tmp1 = $tmp[0];
@@ -133,6 +132,9 @@ foreach my $src (@sources) {
 
 	$ngood++;
     }
+
+    &GnumericTest::removejunk ($tmp1);
+    &GnumericTest::removejunk ($tmp2);
 }
 
 &GnumericTest::report_skip ("No source files present") if $nbad + $ngood == 0;

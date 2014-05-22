@@ -96,7 +96,7 @@ foreach my $src (@sources) {
     my %members;
     foreach (`$unzip -v $tmp`) {
 	next unless /^----/ ... /^----/;
-	next unless m{\s(\S+)$};
+	next unless m{^\s*\d.*\s(\S+)$};
 	my $member = $1;
 	if (exists $members{$member}) {
 	    print STDERR "Duplicate member $member\n";
