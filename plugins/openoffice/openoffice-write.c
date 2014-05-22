@@ -5237,6 +5237,22 @@ odf_store_data_style_for_style_with_name (GnmStyleRegion *sr, G_GNUC_UNUSED char
 	}
 }
 
+static int
+by_key_str (gpointer key_a, G_GNUC_UNUSED gpointer val_a,
+	    gpointer key_b, G_GNUC_UNUSED gpointer val_b,
+	    G_GNUC_UNUSED gpointer user)
+{
+	return strcmp (key_a, key_b);
+}
+
+static int
+by_value_str (G_GNUC_UNUSED gpointer key_a, gpointer val_a,
+	      G_GNUC_UNUSED gpointer key_b, gpointer val_b,
+	      G_GNUC_UNUSED gpointer user)
+{
+	return strcmp (val_a, val_b);
+}
+
 static void
 odf_write_office_styles (GnmOOExport *state)
 {
@@ -5245,9 +5261,17 @@ odf_write_office_styles (GnmOOExport *state)
 	/* We need to make sure all the data styles for the named styles are included */
 	g_hash_table_foreach (state->named_cell_style_regions, (GHFunc) odf_store_data_style_for_style_with_name, state);
 
-	g_hash_table_foreach (state->xl_styles, (GHFunc) odf_write_xl_style, state);
+	gnm_hash_table_foreach_ordered
+		(state->xl_styles,
+		 (GHFunc) odf_write_xl_style,
+		 by_value_str,
+		 state);
 
-	g_hash_table_foreach (state->named_cell_style_regions, (GHFunc) odf_save_this_style_with_name, state);
+	gnm_hash_table_foreach_ordered
+		(state->named_cell_style_regions,
+		 (GHFunc) odf_save_this_style_with_name,
+		 by_value_str,
+		 state);
 
 	g_hash_table_foreach (state->text_colours, (GHFunc) odf_write_text_colours, state);
 
@@ -5271,11 +5295,35 @@ odf_write_office_styles (GnmOOExport *state)
 		gsf_xml_out_end_element (state->xml); /* </style:default-style */
 	}
 
-	g_hash_table_foreach (state->graph_dashes, (GHFunc) odf_write_dash_info, state);
-	g_hash_table_foreach (state->graph_hatches, (GHFunc) odf_write_hatch_info, state);
-	g_hash_table_foreach (state->graph_gradients, (GHFunc) odf_write_gradient_info, state);
-	g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images_info, state);
-	g_hash_table_foreach (state->arrow_markers, (GHFunc) odf_write_arrow_marker_info, state);
+	gnm_hash_table_foreach_ordered
+		(state->graph_dashes,
+		 (GHFunc) odf_write_dash_info,
+		 by_key_str,
+		 state);
+
+	gnm_hash_table_foreach_ordered
+		(state->graph_hatches,
+		 (GHFunc) odf_write_hatch_info,
+		 by_value_str,
+		 state);
+
+	gnm_hash_table_foreach_ordered
+		(state->graph_gradients,
+		 (GHFunc) odf_write_gradient_info,
+		 by_value_str,
+		 state);
+
+	gnm_hash_table_foreach_ordered
+		(state->graph_fill_images,
+		 (GHFunc) odf_write_fill_images_info,
+		 by_value_str,
+		 state);
+
+	gnm_hash_table_foreach_ordered
+		(state->arrow_markers,
+		 (GHFunc) odf_write_arrow_marker_info,
+		 by_value_str,
+		 state);
 
 	g_hash_table_remove_all (state->graph_dashes);
 	g_hash_table_remove_all (state->graph_hatches);
@@ -5747,12 +5795,35 @@ odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
 					state->odf_version_string);
 	gsf_xml_out_start_element (state->xml, OFFICE "styles");
 
-	g_hash_table_foreach (state->graph_dashes, (GHFunc) odf_write_dash_info, state);
-	g_hash_table_foreach (state->graph_hatches, (GHFunc) odf_write_hatch_info, state);
-	g_hash_table_foreach (state->graph_gradients, (GHFunc) odf_write_gradient_info, state);
-	g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images_info, state);
+	gnm_hash_table_foreach_ordered
+		(state->graph_dashes,
+		 (GHFunc) odf_write_dash_info,
+		 by_key_str,
+		 state);
 
-	g_hash_table_foreach (state->xl_styles, (GHFunc) odf_write_xl_style, state);
+	gnm_hash_table_foreach_ordered
+		(state->graph_hatches,
+		 (GHFunc) odf_write_hatch_info,
+		 by_value_str,
+		 state);
+
+	gnm_hash_table_foreach_ordered
+		(state->graph_gradients,
+		 (GHFunc) odf_write_gradient_info,
+		 by_value_str,
+		 state);
+
+	gnm_hash_table_foreach_ordered
+		(state->graph_fill_images,
+		 (GHFunc) odf_write_fill_images_info,
+		 by_value_str,
+		 state);
+
+	gnm_hash_table_foreach_ordered
+		(state->xl_styles,
+		 (GHFunc) odf_write_xl_style,
+		 by_value_str,
+		 state);
 
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
@@ -6008,14 +6079,6 @@ odf_write_image_manifest (SheetObject *image, char const *name, GnmOOExport *sta
 	g_free(fullname);
 	g_free (image_type);
 
-}
-
-static int
-by_value_str (G_GNUC_UNUSED gpointer key_a, gpointer val_a,
-	      G_GNUC_UNUSED gpointer key_b, gpointer val_b,
-	      G_GNUC_UNUSED gpointer user)
-{
-	return strcmp (val_a, val_b);
 }
 
 static void

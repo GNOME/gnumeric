@@ -14,7 +14,7 @@ my @sources =
     ("$samples/excel/address.xls",
      "$samples/excel/bitwise.xls",
      "$samples/excel/chart-tests-excel.xls",
-     "$samples/excel/datefuns.xls",
+     # "$samples/excel/datefuns.xls", # uses NOW()
      "$samples/excel/dbfuns.xls",
      "$samples/excel/engfuns.xls",
      "$samples/excel/finfuns.xls",
@@ -31,11 +31,9 @@ my @sources =
      "$samples/excel/textfuns.xls",
      "$samples/excel/yalta2008.xls",
      "$samples/excel12/cellstyle.xlsx",
-     # xmllint hangs on these files.  (Well, amath finishes but takes too
-     # long.)
-     # "$samples/crlibm.gnumeric",
-     # "$samples/amath.gnumeric",
-     # "$samples/gamma.gnumeric",
+     "$samples/crlibm.gnumeric",
+     "$samples/amath.gnumeric",
+     "$samples/gamma.gnumeric",
      "$samples/linest.xls",
      "$samples/vba-725220.xls",
      "$samples/sumif.xls",
@@ -115,6 +113,9 @@ foreach my $src (@sources) {
 	    $nbad++;
 	    next;
 	}
+
+	# May contain time stamp.
+	next if $member eq 'meta.xml';
 
 	my $cmd1 = "$unzip -p $tmp1 $member";
 	print STDERR "# $cmd1\n" if $GnumericTest::verbose;
