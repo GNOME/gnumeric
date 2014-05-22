@@ -31,9 +31,11 @@ my @sources =
      "$samples/excel/textfuns.xls",
      "$samples/excel/yalta2008.xls",
      "$samples/excel12/cellstyle.xlsx",
-     "$samples/crlibm.gnumeric",
+     # Takes too long
+     # "$samples/crlibm.gnumeric",
      "$samples/amath.gnumeric",
-     "$samples/gamma.gnumeric",
+     # Takes too long
+     # "$samples/gamma.gnumeric",
      "$samples/linest.xls",
      "$samples/vba-725220.xls",
      "$samples/sumif.xls",
