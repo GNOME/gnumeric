@@ -1,3 +1,8 @@
+2014-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_item_name): provide a sufficient number
+	of prefixes
+
 2014-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_axis_full): fix element order

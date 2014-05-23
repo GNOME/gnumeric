@@ -252,7 +252,7 @@ oo_item_name (GnmOOExport *state, OONamedItemType typ, gconstpointer ptr)
 	static const char * const
 		prefixes[G_N_ELEMENTS (state->style_names)] = {
 		"ta",
-		"ta-mp"
+		"ta-mp",
 		"pl",
 		"GOG-",
 		"GOG",
