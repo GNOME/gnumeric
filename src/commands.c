@@ -7188,17 +7188,12 @@ cmd_so_set_value (WorkbookControl *wbc,
 #define CMD_HYPERLINK(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_HYPERLINK_TYPE, CmdHyperlink))
 
 typedef struct {
-	GnmCellPos pos;
-	GnmStyleList *styles;
-} CmdHyperlinkOldStyle;
-
-typedef struct {
 	GnmCommand cmd;
 	GSList	   *selection;
-	GSList	   *old_styles;
 	GnmStyle   *new_style;
 	char       *opt_content;
-	GSList     *cells;
+	GOUndo     *undo;
+	gboolean   update_size;
 } CmdHyperlink;
 
 static void
@@ -7209,56 +7204,51 @@ cmd_hyperlink_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	if (orig->new_style)
 		gnm_style_ref (orig->new_style);
 
-	cmd_selection_hyperlink (wbc, orig->new_style, NULL, g_strdup (orig->opt_content));
+	cmd_selection_hyperlink (wbc, orig->new_style, NULL,
+				 g_strdup (orig->opt_content));
 }
 MAKE_GNM_COMMAND (CmdHyperlink, cmd_hyperlink, cmd_hyperlink_repeat)
 
 static gboolean
-cmd_hyperlink_undo (GnmCommand *cmd,
-		 G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_hyperlink_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdHyperlink *me = CMD_HYPERLINK (cmd);
-	GSList *l;
 	Workbook *wb = wb_control_get_workbook (wbc);
 
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	if (me->opt_content != NULL)
-		for (l = me->cells; l; l = l->next) {
-			GnmParsePos *pp = l->data;
-			GnmCell *cell = sheet_cell_fetch (pp->sheet,
-					 pp->eval.col,
-					 pp->eval.row);
-			sheet_cell_set_value (cell, value_new_empty ());
-		}
-
-	if (me->old_styles) {
-		GSList *rstyles = g_slist_reverse (g_slist_copy (me->old_styles));
-		GSList *rsel = g_slist_reverse (g_slist_copy (me->selection));
-		GSList *l1, *l2;
-
-		for (l1 = rstyles, l2 = rsel; l1; l1 = l1->next, l2 = l2->next) {
-			CmdHyperlinkOldStyle *os = l1->data;
-			GnmRange const *r = l2->data;
-			GnmSpanCalcFlags flags = sheet_style_set_list
-				(me->cmd.sheet,
-				 &os->pos, os->styles, NULL, NULL);
-
-			sheet_range_calc_spans (me->cmd.sheet, r, flags);
-			sheet_flag_style_update_range (me->cmd.sheet, r);
-		}
-
-		sheet_redraw_all (me->cmd.sheet, FALSE);
-		g_slist_free (rstyles);
-		g_slist_free (rsel);
+	if (me->undo) {
+		go_undo_undo (me->undo);
+		g_clear_object (&me->undo);
 	}
 
 	select_selection (me->cmd.sheet, me->selection, wbc);
 
-	WORKBOOK_FOREACH_CONTROL (wb, view, ctl,
-			wb_control_menu_state_update (ctl, MS_COMMENT_LINKS););
+	WORKBOOK_FOREACH_CONTROL (wb, view, ctl, {
+			wb_control_menu_state_update (ctl, MS_COMMENT_LINKS);
+		});
 
 	return FALSE;
+}
+
+static GnmValue *
+cb_hyperlink_set_text (GnmCellIter const *iter, gpointer user)
+{
+	CmdHyperlink *me = user;
+	GnmCell *cell = iter->cell;
+
+	if (cell == NULL)
+		cell = sheet_cell_fetch (iter->pp.sheet,
+					 iter->pp.eval.col,
+					 iter->pp.eval.row);
+
+	/* We skip non-empty cells.  */
+	if (gnm_cell_is_empty (cell) &&
+	    !gnm_cell_is_nonsingleton_array (cell)) {
+		sheet_cell_set_value (cell, value_new_string (me->opt_content));
+		if (me->update_size)
+			me->cmd.size++;
+	}
+
+	return NULL;
 }
 
 static gboolean
@@ -7267,40 +7257,42 @@ cmd_hyperlink_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdHyperlink *me = CMD_HYPERLINK (cmd);
 	GSList *l;
 	Workbook *wb = wb_control_get_workbook (wbc);
+	Sheet *sheet;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
+	sheet = me->cmd.sheet;
+
 	/* Check for locked cells */
-	if (cmd_selection_is_locked_effective (me->cmd.sheet, me->selection,
+	if (cmd_selection_is_locked_effective (sheet, me->selection,
 					       wbc, _("Changing Hyperlink")))
 		return TRUE;
+
+	me->undo = clipboard_copy_ranges_undo (sheet, me->selection);
 
 	for (l = me->selection; l; l = l->next) {
 		GnmRange const *r = l->data;
 
 		if (me->new_style) {
 			gnm_style_ref (me->new_style);
-			sheet_apply_style (me->cmd.sheet, r, me->new_style);
+			sheet_apply_style (sheet, r, me->new_style);
+			sheet_flag_style_update_range (sheet, r);
 		}
 
-		sheet_flag_style_update_range (me->cmd.sheet, r);
+		if (me->opt_content) {
+			sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL,
+						     r->start.col, r->start.row,
+						     r->end.col, r->end.row,
+						     cb_hyperlink_set_text,
+						     me);
+		}
 	}
+	me->update_size = FALSE;
 
-	if (me->opt_content != NULL)
-		for (l = me->cells; l; l = l->next) {
-			GnmParsePos *pp = l->data;
-			GnmCell *cell = sheet_cell_fetch (pp->sheet,
-					 pp->eval.col,
-					 pp->eval.row);
-			sheet_cell_set_value (cell, value_new_string (me->opt_content));
-		}
+	sheet_redraw_all (sheet, FALSE);
+	sheet_mark_dirty (sheet);
 
-
-
-	sheet_redraw_all (me->cmd.sheet, FALSE);
-	sheet_mark_dirty (me->cmd.sheet);
-
-	select_selection (me->cmd.sheet, me->selection, wbc);
+	select_selection (sheet, me->selection, wbc);
 
 	WORKBOOK_FOREACH_CONTROL (wb, view, ctl,
 			wb_control_menu_state_update (ctl, MS_COMMENT_LINKS););
@@ -7313,53 +7305,19 @@ cmd_hyperlink_finalize (GObject *cmd)
 {
 	CmdHyperlink *me = CMD_HYPERLINK (cmd);
 
+	g_clear_object (&me->undo);
+
 	if (me->new_style)
 		gnm_style_unref (me->new_style);
 	me->new_style = NULL;
-
-	if (me->old_styles != NULL) {
-		GSList *l;
-
-		for (l = me->old_styles ; l != NULL ; l = g_slist_remove (l, l->data)) {
-			CmdHyperlinkOldStyle *os = l->data;
-
-			style_list_free (os->styles);
-			g_free (os);
-		}
-		me->old_styles = NULL;
-	}
 
 	range_fragment_free (me->selection);
 	me->selection = NULL;
 
 	g_free (me->opt_content);
 
-	g_slist_free_full (me->cells, g_free);
-	me->cells = NULL;
-
 	gnm_command_finalize (cmd);
 }
-
-static GnmValue *
-cb_cmd_hyperlink_find_cells (GnmCellIter const *iter, gpointer user)
-{
-	GSList **list = user;
-	GnmCell *cell = iter->cell;
-
-	if (cell == NULL)
-		cell = sheet_cell_fetch (iter->pp.sheet,
-					 iter->pp.eval.col,
-					 iter->pp.eval.row);
-
-	if (gnm_cell_is_empty (cell) &&
-	    !gnm_cell_is_nonsingleton_array (cell)) {
-		GnmParsePos *pp = g_new (GnmParsePos, 1);
-		parse_pos_init_cell (pp, cell);
-		*list = g_slist_prepend (*list, pp);
-	}
-	return NULL;
-}
-
 
 /**
  * cmd_selection_hyperlink:
@@ -7382,7 +7340,6 @@ cmd_selection_hyperlink (WorkbookControl *wbc,
 			 char *opt_content)
 {
 	CmdHyperlink *me;
-	GSList    *l;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 
 	me = g_object_new (CMD_HYPERLINK_TYPE, NULL);
@@ -7391,32 +7348,10 @@ cmd_selection_hyperlink (WorkbookControl *wbc,
 	me->new_style  = style;
 
 	me->cmd.sheet = sv_sheet (sv);
-	me->cmd.size = 1;  /* Updated below.  */
+	me->cmd.size = 1;  /* Updated later.  */
+	me->update_size = TRUE;
 
-	me->old_styles = NULL;
-	me->cells = NULL;
 	me->opt_content = opt_content;
-	for (l = me->selection; l; l = l->next) {
-		GnmRange const *sel_r = l->data;
-		GnmRange r = *sel_r;
-		CmdHyperlinkOldStyle *os;
-
-		os = g_new (CmdHyperlinkOldStyle, 1);
-
-		os->styles = sheet_style_get_range (me->cmd.sheet, &r);
-		os->pos = r.start;
-
-		me->cmd.size += g_slist_length (os->styles);
-		me->old_styles = g_slist_append (me->old_styles, os);
-
-		if (opt_content != NULL)
-			sheet_foreach_cell_in_range (me->cmd.sheet, CELL_ITER_ALL,
-						     r.start.col, r.start.row,
-						     r.end.col, r.end.row,
-						     cb_cmd_hyperlink_find_cells,
-						     &me->cells);
-		me->cmd.size += g_slist_length (me->cells)/2;
-	}
 
 	if (opt_translated_name == NULL) {
 		char *names = undo_range_list_name (me->cmd.sheet, me->selection);
