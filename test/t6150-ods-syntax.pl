@@ -58,6 +58,7 @@ my @sources =
      "$samples/formula-tests.gnumeric",
      "$samples/graph-tests.gnumeric",
      "$samples/merge-tests.gnumeric",
+     "$samples/names-tests.gnumeric",
      "$samples/number-tests.gnumeric",
      "$samples/page-setup-tests.gnumeric",
      "$samples/rich-text-tests.gnumeric",
