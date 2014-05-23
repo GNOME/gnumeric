@@ -85,6 +85,7 @@ GType gnm_paste_target_get_type (void);
 
 GnmCellRegion  *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
 GOUndo         *clipboard_copy_range_undo (Sheet *sheet, GnmRange const *r);
+GOUndo         *clipboard_copy_ranges_undo (Sheet *sheet, GSList *ranges);
 GnmCellRegion  *clipboard_copy_obj     (Sheet *sheet, GSList *objects);
 gboolean        clipboard_paste_region (GnmCellRegion const *cr,
 					GnmPasteTarget const *pt,

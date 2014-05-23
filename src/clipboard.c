@@ -755,6 +755,29 @@ clipboard_copy_range_undo (Sheet *sheet, GnmRange const *r)
 				   (GFreeFunc)g_free);
 }
 
+/**
+ * clipboard_copy_ranges_undo:
+ * @sheet: #Sheet
+ * @ranges: (element-type GnmRange) (transfer none): list of ranges
+ *
+ * Returns: (transfer full): A #GOUndo object that will restore the contents
+ * of the given range.
+ **/
+GOUndo *
+clipboard_copy_ranges_undo (Sheet *sheet, GSList *ranges)
+{
+	GSList *l;
+	GOUndo *undo = NULL;
+
+	for (l = ranges; l != NULL; l = l->next) {
+		GnmRange *r = l->data;
+		GOUndo *undo1 = clipboard_copy_range_undo (sheet, r);
+		undo = go_undo_combine (undo, undo1);
+	}
+
+	return undo;
+}
+
 
 /**
  * clipboard_copy_obj:

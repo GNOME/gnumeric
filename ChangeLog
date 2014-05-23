@@ -1,3 +1,8 @@
+2014-05-23  Morten Welinder  <terra@gnome.org>
+
+	* src/clipboard.c (clipboard_copy_ranges_undo): New function.  We
+	need better building blocks for commands; this is one such.
+
 2014-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_hyperlink_undo): use posiitons rather than cells
