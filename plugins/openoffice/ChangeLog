@@ -3,6 +3,19 @@
 	* openoffice-write.c (oo_item_name): provide a sufficient number
 	of prefixes
 
+2014-05-21  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_office_styles)
+	(odf_write_graph_styles): Make this much more deterministic.
+
+2014-05-20  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c
+	(openoffice_file_save_real): Write graphs and images in order of
+	name, not random hash order.
+	(oo_item_name): New function for naming various styles and objects
+	consistently.
+
 2014-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_axis_full): fix element order

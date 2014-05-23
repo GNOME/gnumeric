@@ -7225,7 +7225,10 @@ cmd_hyperlink_undo (GnmCommand *cmd,
 
 	if (me->opt_content != NULL)
 		for (l = me->cells; l; l = l->next) {
-			GnmCell *cell = l->data;
+			GnmParsePos *pp = l->data;
+			GnmCell *cell = sheet_cell_fetch (pp->sheet,
+					 pp->eval.col,
+					 pp->eval.row);
 			sheet_cell_set_value (cell, value_new_empty ());
 		}
 
@@ -7285,7 +7288,10 @@ cmd_hyperlink_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	if (me->opt_content != NULL)
 		for (l = me->cells; l; l = l->next) {
-			GnmCell *cell = l->data;
+			GnmParsePos *pp = l->data;
+			GnmCell *cell = sheet_cell_fetch (pp->sheet,
+					 pp->eval.col,
+					 pp->eval.row);
 			sheet_cell_set_value (cell, value_new_string (me->opt_content));
 		}
 
@@ -7328,7 +7334,7 @@ cmd_hyperlink_finalize (GObject *cmd)
 
 	g_free (me->opt_content);
 
-	g_slist_free (me->cells);
+	g_slist_free_full (me->cells, g_free);
 	me->cells = NULL;
 
 	gnm_command_finalize (cmd);
@@ -7346,8 +7352,11 @@ cb_cmd_hyperlink_find_cells (GnmCellIter const *iter, gpointer user)
 					 iter->pp.eval.row);
 
 	if (gnm_cell_is_empty (cell) &&
-	    !gnm_cell_is_nonsingleton_array (cell))
-		*list = g_slist_prepend (*list, cell);
+	    !gnm_cell_is_nonsingleton_array (cell)) {
+		GnmParsePos *pp = g_new (GnmParsePos, 1);
+		parse_pos_init_cell (pp, cell);
+		*list = g_slist_prepend (*list, pp);
+	}
 	return NULL;
 }
 
