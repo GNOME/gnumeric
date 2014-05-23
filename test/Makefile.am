@@ -92,6 +92,7 @@ TESTS =	t1000-statfuns.pl			\
 	t6514-rich-text.pl			\
 	t6515-cond-format.pl			\
 	t6516-graph.pl				\
+	t6517-names.pl				\
 	t7000-goal-seek.pl			\
 	t7100-solver-blend.pl			\
 	t7101-solver-afiro.pl			\
