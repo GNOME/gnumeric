@@ -145,7 +145,7 @@ sub prolog {
       <div class="generalitem">
 PROLOG
 ;
-    print "        <h2><span class=\"gnumeric-bullet\">$module $version aka &quot;TBD&quot; is now available.</h2>\n";
+    print "        <h2><span class=\"gnumeric-bullet\"></span>$module $version aka &quot;TBD&quot; is now available.</h2>\n";
     print "        <p>The Gnumeric Team is pleased to announce the availability of\n";
     print "        $module version $version.</p>\n";
     print "        <p>Noteworthy news in this release:</p>\n";
