@@ -1,3 +1,7 @@
+2014-05-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.16
+
 2014-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (oo_item_name): provide a sufficient number

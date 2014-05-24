@@ -1,3 +1,7 @@
+2014-05-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.16
+
 2014-05-13  Morten Welinder  <terra@gnome.org>
 
 	* pln.c (pln_get_str): Fix prototype.  Fixes Debian #748054.
