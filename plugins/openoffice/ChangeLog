@@ -1,3 +1,8 @@
+2014-05-25  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_db_range_start): Fix uninitialized memory
+	usage.  [#730727]
+
 2014-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.16

@@ -7531,13 +7531,13 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 		    ':' == *ptr &&
 		    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos, NULL) &&
 		    ref.b.sheet != invalid_sheet) {
+			range_init_rangeref (&r, &ref);
 			if (buttons)
-				state->filter = gnm_filter_new
-					(ref.a.sheet, range_init_rangeref (&r, &ref));
+				state->filter = gnm_filter_new (ref.a.sheet, &r);
 			expr = gnm_expr_new_constant
 				(value_new_cellrange_r (ref.a.sheet, &r));
 		} else
-			oo_warning (xin, _("Invalid DB range '%s'"), attrs[1]);
+			oo_warning (xin, _("Invalid DB range '%s'"), target);
 	}
 
 	/* It appears that OOo likes to use the names it assigned to filters as named-ranges */
