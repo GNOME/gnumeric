@@ -36,14 +36,6 @@
 
 #include <gtk/gtk.h>
 
-char const * const output_group[] = {
-	"newsheet-button",
-	"newworkbook-button",
-	"outputrange-button",
-	"inplace-button",          /* used only in advanced filter  */
-	NULL
-};
-
 /**
  * dialog__tool_preset_to_range:
  * @state:
