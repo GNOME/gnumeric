@@ -851,11 +851,13 @@ gnm_pane_dispose (GObject *obj)
 
 	if (pane->col.canvas != NULL) {
 		gtk_widget_destroy (GTK_WIDGET (pane->col.canvas));
+		g_object_unref (pane->col.canvas);
 		pane->col.canvas = NULL;
 	}
 
 	if (pane->row.canvas != NULL) {
 		gtk_widget_destroy (GTK_WIDGET (pane->row.canvas));
+		g_object_unref (pane->row.canvas);
 		pane->row.canvas = NULL;
 	}
 
@@ -1044,6 +1046,9 @@ gnm_pane_class_init (GnmPaneClass *klass)
 GSF_CLASS (GnmPane, gnm_pane,
 	   gnm_pane_class_init, gnm_pane_init,
 	   GNM_SIMPLE_CANVAS_TYPE)
+#if 0
+;
+#endif
 
 static void
 gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
@@ -1063,10 +1068,10 @@ gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 	if (is_col_header) {
 		if (sheet && sheet->text_is_rtl)
 			goc_canvas_set_direction (canvas, GOC_DIRECTION_RTL);
-		pane->col.canvas = canvas;
+		pane->col.canvas = g_object_ref_sink (canvas);
 		pane->col.item = GNM_ITEM_BAR (item);
 	} else {
-		pane->row.canvas = canvas;
+		pane->row.canvas = g_object_ref_sink (canvas);
 		pane->row.item = GNM_ITEM_BAR (item);
 	}
 

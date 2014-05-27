@@ -1,3 +1,9 @@
+2014-05-27  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-pane.c (gnm_pane_header_init): Hold references to
+	col/row canvas.  Fixes #730857.
+	(gnm_pane_dispose): Release references.
+
 2014-05-23  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
