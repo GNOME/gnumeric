@@ -1,5 +1,10 @@
 2014-05-28  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-control-gui.c (resize_pane_pos): Improve the situation
+	when we drag the handle into the col/row canvas.
+
+	* src/sheet-view.c (sv_freeze_panes): Add debug code.
+
 	* src/sheet-control-gui.c (scg_finalize): Get rid of the drag
 	handler.  Fixes #730884.
 

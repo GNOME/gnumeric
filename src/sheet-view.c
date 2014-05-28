@@ -45,6 +45,7 @@
 #include "gnumeric-conf.h"
 #include "sheet-style.h"
 #include "mstyle.h"
+#include "gutils.h"
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -785,6 +786,13 @@ sv_freeze_panes (SheetView *sv,
 		 GnmCellPos const *unfrozen)
 {
 	g_return_if_fail (IS_SHEET_VIEW (sv));
+
+	if (gnm_debug_flag ("frozen-panes")) {
+		g_printerr ("Frozen: %-10s",
+			    frozen ? cellpos_as_string (frozen) : "-");
+		g_printerr ("Unfrozen: %s\n",
+			    unfrozen ? cellpos_as_string (unfrozen) : "-");
+	}
 
 	if (frozen != NULL) {
 		g_return_if_fail (unfrozen != NULL);

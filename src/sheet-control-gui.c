@@ -1272,6 +1272,7 @@ resize_pane_pos (SheetControlGUI *scg, GtkPaned *p,
 			else
 				pos -= pa.width;
 		}
+		pos = MAX (pos, 0);
 		pos += pane->first_offset.x;
 		colrow = gnm_pane_find_col (pane, pos, guide_pos);
 	} else {
@@ -1289,6 +1290,7 @@ resize_pane_pos (SheetControlGUI *scg, GtkPaned *p,
 			else
 				pos -= pa.height;
 		}
+		pos = MAX (pos, 0);
 		pos += pane->first_offset.y;
 		colrow = gnm_pane_find_row (pane, pos, guide_pos);
 	}
