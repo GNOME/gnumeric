@@ -1,3 +1,8 @@
+2014-05-28  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_finalize): Get rid of the drag
+	handler.  Fixes #730884.
+
 2014-05-27  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-pane.c (gnm_pane_header_init): Hold references to

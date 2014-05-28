@@ -1793,6 +1793,11 @@ scg_finalize (GObject *object)
 		g_ptr_array_free (scg->row_group.buttons, TRUE);
 	}
 
+	if (scg->pane_drag_handler) {
+		g_source_remove (scg->pane_drag_handler);
+		scg->pane_drag_handler = 0;
+	}
+
 	scg_comment_timer_clear (scg);
 
 	if (scg->delayedMovement.timer != 0) {
