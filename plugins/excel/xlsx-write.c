@@ -1261,6 +1261,7 @@ xlsx_get_style_id (XLSXWriteState *state, GnmStyle const *style)
 	if (NULL == (tmp = g_hash_table_lookup (state->styles_hash, style))) {
 		g_ptr_array_add (state->styles_array, (gpointer) style);
 		tmp = GINT_TO_POINTER (state->styles_array->len);
+		gnm_style_ref (style);
 		g_hash_table_insert (state->styles_hash, (gpointer) style, tmp);
 	}
 	return GPOINTER_TO_INT (tmp) - 1;
@@ -1306,7 +1307,6 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 	GnmParsePos pp;
 	GnmExprTop const *texpr;
 	GnmExprArrayCorner const *array;
-	GnmValue const *val;
 	gpointer tmp;
 	char *cheesy_span = g_strdup_printf ("%d:%d", extent->start.col+1, extent->end.col+1);
 	Sheet *sheet = (Sheet *)state->sheet;
@@ -1378,24 +1378,40 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 
 		for (c = extent->start.col ; c <= extent->end.col ; c++) {
 			GnmCell *cell;
+			GnmValue const *val;
 			GnmStyle const *style;
+			GnmStyle *style1 = NULL;
 			gint style_id;
+			GOFormat const *fmt;
 
 			cell = g_ptr_array_index (all_cells, cno);
-			if (cell && cell->pos.row == r && cell->pos.col == c)
+			if (cell && cell->pos.row == r && cell->pos.col == c) {
 				cno++;
-			else
+				val = cell->value;
+			} else {
 				cell = NULL;
+				val = NULL;
+			}
 
 			/* FIXME: Use sheet_style_get_row once per row */
 			style = sheet_style_get (sheet, c, r);
+			fmt = gnm_style_get_format (style);
+			if (go_format_is_general (fmt) &&
+			    val &&
+			    VALUE_FMT (val) &&
+			    !go_format_is_markup (VALUE_FMT (val))) {
+				fmt = VALUE_FMT (val);
+				style = style1 = gnm_style_dup (style);
+				gnm_style_set_format (style1, fmt);
+			}
 			style_id = style && style != col_styles[c]
 				? xlsx_get_style_id (state, style)
 				: -1;
+			if (style1)
+				gnm_style_unref (style1);
 
 			if (cell) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
-				val = cell->value;
 				gsf_xml_out_start_element (xml, "c");
 				gsf_xml_out_add_cstr_unchecked (xml, "r",
 					cell_coord_name (c, r));
@@ -2785,7 +2801,9 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	state->xl_dir = xl_dir;
 	state->shared_string_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->shared_string_array = g_ptr_array_new ();
-	state->styles_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	state->styles_hash = g_hash_table_new_full
+		(g_direct_hash, g_direct_equal,
+		 (GDestroyNotify)gnm_style_unref, NULL);
 	state->styles_array = g_ptr_array_new ();
 	state->dxfs_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->dxfs_array = g_ptr_array_new ();

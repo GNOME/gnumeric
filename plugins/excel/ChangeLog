@@ -1,3 +1,8 @@
+2014-05-31  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_cells): Support value formats.  Fixes
+	#724517.
+
 2014-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.16
