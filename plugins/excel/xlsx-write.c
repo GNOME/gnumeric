@@ -1382,7 +1382,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 			GnmStyle const *style;
 			GnmStyle *style1 = NULL;
 			gint style_id;
-			GOFormat const *fmt;
+			GOFormat const *fmt1, *fmt2;
 
 			cell = g_ptr_array_index (all_cells, cno);
 			if (cell && cell->pos.row == r && cell->pos.col == c) {
@@ -1395,14 +1395,11 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 
 			/* FIXME: Use sheet_style_get_row once per row */
 			style = sheet_style_get (sheet, c, r);
-			fmt = gnm_style_get_format (style);
-			if (go_format_is_general (fmt) &&
-			    val &&
-			    VALUE_FMT (val) &&
-			    !go_format_is_markup (VALUE_FMT (val))) {
-				fmt = VALUE_FMT (val);
+			fmt1 = gnm_style_get_format (style);
+			fmt2 = cell ? gnm_cell_get_format_given_style (cell, style) : fmt1;
+			if (fmt1 != fmt2) {
 				style = style1 = gnm_style_dup (style);
-				gnm_style_set_format (style1, fmt);
+				gnm_style_set_format (style1, fmt2);
 			}
 			style_id = style && style != col_styles[c]
 				? xlsx_get_style_id (state, style)
