@@ -2799,7 +2799,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	state->shared_string_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->shared_string_array = g_ptr_array_new ();
 	state->styles_hash = g_hash_table_new_full
-		(g_direct_hash, g_direct_equal,
+		(gnm_style_hash, (GEqualFunc)gnm_style_equal,
 		 (GDestroyNotify)gnm_style_unref, NULL);
 	state->styles_array = g_ptr_array_new ();
 	state->dxfs_hash = g_hash_table_new (g_direct_hash, g_direct_equal);

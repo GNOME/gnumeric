@@ -2,6 +2,8 @@
 
 	* xlsx-write.c (xlsx_write_cells): Support value formats.  Fixes
 	#724517.
+	(xlsx_write_workbook): Make styles hash use proper hash and
+	equality functions.
 
 2014-05-23  Morten Welinder <terra@gnome.org>
 
