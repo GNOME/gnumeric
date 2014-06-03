@@ -355,6 +355,32 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 	pango_attr_iterator_destroy (iter);
 }
 
+static int
+xlsx_shared_string (XLSXWriteState *state, GnmValue const *v)
+{
+	gpointer tmp;
+	int i;
+
+	g_return_val_if_fail (VALUE_IS_STRING (v), -1);
+
+	if (g_hash_table_lookup_extended (state->shared_string_hash,
+					  v, NULL, &tmp))
+		i = GPOINTER_TO_INT (tmp);
+	else {
+		GnmValue *v2 = value_dup (v);
+
+		if (VALUE_FMT (v2) && !go_format_is_markup (VALUE_FMT (v2)))
+			value_set_fmt (v2, NULL);
+
+		i = state->shared_string_array->len;
+		g_ptr_array_add (state->shared_string_array, v2);
+		g_hash_table_insert (state->shared_string_hash,
+				     v2, GINT_TO_POINTER (i));
+	}
+
+	return i;
+}
+
 static void
 xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *wb_part)
 {
@@ -380,12 +406,15 @@ xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *wb_part)
 	gsf_xml_out_add_int (xml, "count", N);
 
 	for (i = 0; i < N; i++) {
-		GOString const *str =
+		GnmValue const *val =
 			g_ptr_array_index (state->shared_string_array, i);
+		PangoAttrList *attrs = VALUE_FMT (val)
+			? (PangoAttrList *)go_format_get_markup (VALUE_FMT (val))
+			: NULL;
 		gsf_xml_out_start_element (xml, "si");
-		gsf_xml_out_start_element (xml, "t");
-		gsf_xml_out_add_cstr (xml, NULL, str->str);
-		gsf_xml_out_end_element (xml); /* </t> */
+		xlsx_write_rich_text (xml,
+				      value_peek_string (val),
+				      attrs);
 		gsf_xml_out_end_element (xml); /* </si> */
 	}
 
@@ -1405,7 +1434,6 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 	GnmParsePos pp;
 	GnmExprTop const *texpr;
 	GnmExprArrayCorner const *array;
-	gpointer tmp;
 	char *cheesy_span = g_strdup_printf ("%d:%d", extent->start.col+1, extent->end.col+1);
 	Sheet *sheet = (Sheet *)state->sheet;
 	GPtrArray *all_cells = sheet_cells (sheet, extent);
@@ -1531,12 +1559,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 					/* A reasonable approximation of * 'is_shared'.  It can get spoofed by
 					 * rich text references to a base * string */
 					if (go_string_get_ref_count (val->v_str.val) > 1) {
-						if (NULL == (tmp = g_hash_table_lookup (state->shared_string_hash, val->v_str.val))) {
-							tmp = GINT_TO_POINTER (state->shared_string_array->len);
-							g_ptr_array_add (state->shared_string_array, val->v_str.val);
-							g_hash_table_insert (state->shared_string_hash, val->v_str.val, tmp);
-						}
-						str_id = GPOINTER_TO_INT (tmp);
+						str_id = xlsx_shared_string (state, val);
 						type = "s";
 					} else
 						type = "str";
@@ -2791,6 +2814,19 @@ xlsx_write_calcPR (XLSXWriteState *state, GsfXMLOut *xml)
 
 #include "xlsx-write-docprops.c"
 
+static gboolean
+rich_value_equal (GnmValue const *a, GnmValue const *b)
+{
+	return value_equal (a, b) &&
+		go_format_eq (VALUE_FMT (a), VALUE_FMT (b));
+}
+
+static guint
+rich_value_hash (GnmValue const *v)
+{
+	return value_hash (v) ^ GPOINTER_TO_UINT (VALUE_FMT (v));
+}
+
 static void
 xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 {
@@ -2807,7 +2843,9 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	GnmStyle *style = gnm_style_new_default ();
 
 	state->xl_dir = xl_dir;
-	state->shared_string_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	state->shared_string_hash = g_hash_table_new_full
+		((GHashFunc)rich_value_hash, (GEqualFunc)rich_value_equal,
+		 (GDestroyNotify)value_release, NULL);
 	state->shared_string_array = g_ptr_array_new ();
 	state->styles_hash = g_hash_table_new_full
 		(gnm_style_hash, (GEqualFunc)gnm_style_equal,
