@@ -280,6 +280,7 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 	iter = pango_attr_list_get_iterator (attrs);
 	do {
 		PangoAttribute *attr;
+		GOFontScript fs = GO_FONT_SCRIPT_STANDARD;
 
 		gsf_xml_out_start_element (xml, "r");
 		gsf_xml_out_start_element (xml, "rPr");
@@ -352,6 +353,21 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 				break;
 			}
 			gsf_xml_out_end_element (xml); /* </u> */
+		}
+
+		attr = pango_attr_iterator_get (iter, go_pango_attr_subscript_get_attr_type ());
+		if (attr && ((PangoAttrInt *) attr)->value)
+			fs = GO_FONT_SCRIPT_SUB;
+		attr = pango_attr_iterator_get (iter, go_pango_attr_superscript_get_attr_type ());
+		if (attr && ((PangoAttrInt *) attr)->value)
+			fs = GO_FONT_SCRIPT_SUPER;
+		if (fs != GO_FONT_SCRIPT_STANDARD) {
+			const char *va = (fs == GO_FONT_SCRIPT_SUB)
+				? "subscript"
+				: "superscript";
+			gsf_xml_out_start_element (xml, "vertAlign");
+			gsf_xml_out_add_cstr_unchecked (xml, "val", va);
+			gsf_xml_out_end_element (xml); /* </vertAlign> */
 		}
 
 		gsf_xml_out_end_element (xml); /* </rPr> */
@@ -1539,7 +1555,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 			style = sheet_style_get (sheet, c, r);
 			fmt1 = gnm_style_get_format (style);
 			fmt2 = cell ? gnm_cell_get_format_given_style (cell, style) : fmt1;
-			if (fmt1 != fmt2) {
+			if (fmt1 != fmt2 && !go_format_is_markup (fmt2)) {
 				style = style1 = gnm_style_dup (style);
 				gnm_style_set_format (style1, fmt2);
 			}

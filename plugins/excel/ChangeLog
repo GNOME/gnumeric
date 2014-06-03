@@ -1,8 +1,10 @@
 2014-06-03  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_rich_text): Add two missing "break;".
-	Write only attributes that are present.
+	Write only attributes that are present.  Handle superscript/subscript.
 	(xlsx_write_shared_strings): Handle rich text.
+	(xlsx_write_cells): Don't actually store a markup format as a cell
+	format.
 
 	* xlsx-read.c (xlsx_run_color): Handle indexed colours.
 	(xlsx_run_weight): Fix handling of bold.
