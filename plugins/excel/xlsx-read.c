@@ -1051,7 +1051,9 @@ xlsx_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 		GNM_EXPR_PARSE_DEFAULT, state->convs,
 		parse_error_init (&err));
 	if (NULL == texpr)
-		xlsx_warning (xin, "'%s' %s", expr_str, err.err->message);
+		xlsx_warning (xin, "At %s: '%s' %s",
+			      parsepos_as_string (pp),
+			      expr_str, err.err->message);
 	parse_error_free (&err);
 
 	return texpr;
@@ -3404,7 +3406,10 @@ handle_delayed_names (GsfXMLIn *xin)
 		GnmParsePos pp;
 
 		parse_pos_init (&pp, state->wb, sheet, 0, 0);
-		texpr = xlsx_parse_expr (xin, expr_str, &pp);
+		if (*expr_str == 0)
+			texpr = gnm_expr_top_new_constant (value_new_error_REF (NULL));
+		else
+			texpr = xlsx_parse_expr (xin, expr_str, &pp);
 		if (texpr) {
 			expr_name_set_expr (nexpr, texpr);
 		}

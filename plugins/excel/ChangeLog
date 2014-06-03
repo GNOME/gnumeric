@@ -1,3 +1,8 @@
+2014-06-02  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (handle_delayed_names): Handle empty string for
+	expression as #REF for the benefit of LO.
+
 2014-05-31  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_cells): Support value formats.  Fixes
