@@ -1,6 +1,11 @@
 2014-06-03  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_run_color): Handle indexed colours.
+	(xlsx_run_weight): Fix handling of bold.
+	(xlsx_run_underline): Fix handling of underline.
+	(xlsx_run_vertalign): New function for superscript/subscript.
+	(add_attr): New function to ensure start_index and end_index get
+	initialized.
 
 2014-06-02  Morten Welinder  <terra@gnome.org>
 

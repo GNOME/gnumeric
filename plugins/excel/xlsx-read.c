@@ -3499,33 +3499,45 @@ xlsx_wb_external_ref (GsfXMLIn *xin, xmlChar const **attrs)
 /**************************************************************************************************/
 
 static void
+add_attr (XLSXReadState *state, PangoAttribute *attr)
+{
+	attr->start_index = 0;
+	attr->end_index = -1;
+
+	if (state->run_attrs == NULL)
+		state->run_attrs = pango_attr_list_new ();
+
+	pango_attr_list_insert (state->run_attrs, attr);
+}
+
+static void
 xlsx_run_weight (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
-			PangoAttribute *attr = pango_attr_weight_new (strcmp (attrs[1], "true")? PANGO_WEIGHT_NORMAL: PANGO_WEIGHT_BOLD);
-			if (state->run_attrs == NULL)
-				state->run_attrs = pango_attr_list_new ();
-			pango_attr_list_insert (state->run_attrs, attr);
+	PangoWeight wt = PANGO_WEIGHT_BOLD;  /* Default */
 
-		}
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		int i;
+		if (attr_bool (xin, attrs, "val", &i))
+			wt = i ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL;
+	}
+
+	add_attr (state, pango_attr_weight_new (wt));
 }
 
 static void
 xlsx_run_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	PangoAttribute *attr;
-	gboolean val = TRUE; /* If omitted, the default value is true. */
+	PangoStyle st = PANGO_STYLE_ITALIC;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (simple_bool (xin, attrs, &val));
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		int i;
+		if (attr_bool (xin, attrs, "val", &i))
+			st = i ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL;
+	}
 
-	attr = pango_attr_style_new (val ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
-	if (state->run_attrs == NULL)
-		state->run_attrs = pango_attr_list_new ();
-	pango_attr_list_insert (state->run_attrs, attr);
+	add_attr (state, pango_attr_style_new (st));
 }
 
 static void
@@ -3535,10 +3547,7 @@ xlsx_run_family (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
 			PangoAttribute *attr = pango_attr_family_new (attrs[1]);
-			if (state->run_attrs == NULL)
-				state->run_attrs = pango_attr_list_new ();
-			pango_attr_list_insert (state->run_attrs, attr);
-
+			add_attr (state, attr);
 		}
 }
 
@@ -3549,9 +3558,7 @@ xlsx_run_size (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
 			PangoAttribute *attr = pango_attr_size_new (atoi (attrs[1]) * PANGO_SCALE);
-			if (state->run_attrs == NULL)
-				state->run_attrs = pango_attr_list_new ();
-			pango_attr_list_insert (state->run_attrs, attr);
+			add_attr (state, attr);
 
 		}
 }
@@ -3563,9 +3570,7 @@ xlsx_run_strikethrough (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
 			PangoAttribute *attr = pango_attr_strikethrough_new (!strcmp (attrs[1], "true"));
-			if (state->run_attrs == NULL)
-				state->run_attrs = pango_attr_list_new ();
-			pango_attr_list_insert (state->run_attrs, attr);
+			add_attr (state, attr);
 
 		}
 }
@@ -3573,24 +3578,54 @@ xlsx_run_strikethrough (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_run_underline (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	static EnumVal const types[] = {
+		{ "single", PANGO_UNDERLINE_SINGLE },
+		{ "double", PANGO_UNDERLINE_DOUBLE },
+		{ "singleAccounting", PANGO_UNDERLINE_LOW },
+		{ "doubleAccounting", PANGO_UNDERLINE_LOW },  /* fixme? */
+		{ "none", PANGO_UNDERLINE_NONE },
+		{ NULL, 0 }
+	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
-			PangoAttribute *attr;
-			if (!strcmp (attrs[1], "single"))
-			    attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
-			else if (!strcmp (attrs[1], "singleAccounting"))
-			    attr = pango_attr_underline_new (PANGO_UNDERLINE_LOW);
-			else if (!strcmp (attrs[1], "double") || !strcmp (attrs[1], "doubleAccounting"))
-			    attr = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
-			else
-			    attr = pango_attr_underline_new (PANGO_UNDERLINE_NONE);
-			if (state->run_attrs == NULL)
-				state->run_attrs = pango_attr_list_new ();
-			pango_attr_list_insert (state->run_attrs, attr);
+	int u = PANGO_UNDERLINE_SINGLE;
 
-		}
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_enum (xin, attrs, "val", types, &u))
+			;
+	}
+
+	add_attr (state, pango_attr_underline_new (u));
 }
+
+static void
+xlsx_run_vertalign (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	static EnumVal const types[] = {
+		{ "subscript", GO_FONT_SCRIPT_SUB },
+		{ "baseline", GO_FONT_SCRIPT_STANDARD },
+		{ "superscript", GO_FONT_SCRIPT_SUPER },
+		{ NULL, 0 }
+	};
+	int v = GO_FONT_SCRIPT_STANDARD;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_enum (xin, attrs, "val", types, &v))
+			;
+	}
+
+	switch (v) {
+	case GO_FONT_SCRIPT_SUB:
+		add_attr (state, go_pango_attr_subscript_new (TRUE));
+		break;
+	case GO_FONT_SCRIPT_SUPER:
+		add_attr (state, go_pango_attr_superscript_new (TRUE));
+		break;
+	default:
+		break;
+	}
+}
+
 
 static void
 xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
@@ -3615,9 +3650,7 @@ xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 
-	if (state->run_attrs == NULL)
-		state->run_attrs = pango_attr_list_new ();
-	pango_attr_list_insert (state->run_attrs, go_color_to_pango (c, TRUE));
+	add_attr (state, go_color_to_pango (c, TRUE));
 }
 
 static void
@@ -3764,7 +3797,7 @@ GSF_XML_IN_NODE_FULL (START, COMMENTS, XL_NS_SS, "comments", GSF_XML_NO_CONTENT,
 	    GSF_XML_IN_NODE (RICH_PROPS, RICH_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, xlsx_run_color, NULL),
 	    GSF_XML_IN_NODE (RICH_PROPS, RICH_SZ, XL_NS_SS, "sz", GSF_XML_NO_CONTENT, xlsx_run_size, NULL),
 	    GSF_XML_IN_NODE (RICH_PROPS, RICH_ULINE, XL_NS_SS, "u", GSF_XML_NO_CONTENT, xlsx_run_underline, NULL),
-	    GSF_XML_IN_NODE (RICH_PROPS, RICH_VALIGN, XL_NS_SS, "vertAlign", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_VALIGN, XL_NS_SS, "vertAlign", GSF_XML_NO_CONTENT, xlsx_run_vertalign, NULL),
 	    GSF_XML_IN_NODE (RICH_PROPS, RICH_SCHEME, XL_NS_SS, "scheme", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (RICH, RICH_PROPS, XL_NS_SS, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TEXTITEM, ITEM_PHONETIC_RUN, XL_NS_SS, "rPh", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3954,7 +3987,7 @@ GSF_XML_IN_NODE_FULL (START, SST, XL_NS_SS, "sst", GSF_XML_NO_CONTENT, FALSE, TR
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, xlsx_run_color, NULL),
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_SZ, XL_NS_SS, "sz", GSF_XML_NO_CONTENT, xlsx_run_size, NULL),
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_ULINE, XL_NS_SS, "u", GSF_XML_NO_CONTENT, xlsx_run_underline, NULL),
-	GSF_XML_IN_NODE (RICH_PROPS, RICH_VALIGN, XL_NS_SS, "vertAlign", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (RICH_PROPS, RICH_VALIGN, XL_NS_SS, "vertAlign", GSF_XML_NO_CONTENT, xlsx_run_vertalign, NULL),
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_SCHEME, XL_NS_SS, "scheme", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (RICH, RICH_PROPS, XL_NS_SS, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (ITEM, ITEM_PHONETIC_RUN, XL_NS_SS, "rPh", GSF_XML_NO_CONTENT, NULL, NULL),
