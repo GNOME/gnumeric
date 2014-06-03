@@ -4,6 +4,7 @@ Morten:
 	* Fix UMR.  [#730727]
 	* Fix crashes on exit.  [#730857]  [#730884]
 	* Handle value formats for xlsx export.  [#724517]
+	* Improve xlsx import of rich text.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.16

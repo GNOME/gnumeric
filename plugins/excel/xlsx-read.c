@@ -3596,22 +3596,28 @@ static void
 xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	GOColor c = GO_COLOR_BLACK;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "rgb")) {
-			PangoAttribute *attr;
-			unsigned a, r = 0, g = 0, b = 0;
+			unsigned r, g, b, a;
 			if (4 != sscanf (attrs[1], "%02x%02x%02x%02x", &a, &r, &g, &b)) {
 				xlsx_warning (xin,
-					_("Invalid color '%s' for attribute rgb"),
-					attrs[1]);
+					      _("Invalid color '%s' for attribute rgb"),
+					      attrs[1]);
+				continue;
 			}
-			attr = pango_attr_foreground_new (CLAMP ((int)r * 257, 0, 65535),
-							  CLAMP ((int)g * 257, 0, 65535),
-							  CLAMP ((int)b * 257, 0, 65535));
-			if (state->run_attrs == NULL)
-				state->run_attrs = pango_attr_list_new ();
-			pango_attr_list_insert (state->run_attrs, attr);
+
+			c = GO_COLOR_FROM_RGBA (r, g, b, a);
+		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "indexed")) {
+			int idx = atoi (CXML2C (attrs[1]));
+			c = indexed_color (state, idx);
 		}
+	}
+
+	if (state->run_attrs == NULL)
+		state->run_attrs = pango_attr_list_new ();
+	pango_attr_list_insert (state->run_attrs, go_color_to_pango (c, TRUE));
 }
 
 static void

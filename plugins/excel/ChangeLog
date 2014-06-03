@@ -1,3 +1,7 @@
+2014-06-03  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_run_color): Handle indexed colours.
+
 2014-06-02  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (handle_delayed_names): Handle empty string for
