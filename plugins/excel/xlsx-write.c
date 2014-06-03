@@ -267,9 +267,7 @@ static void
 xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 {
 	PangoAttrIterator *iter;
-	PangoAttribute *attr;
 	int start, end, max;
-	char *buf;
 
 	if (attrs == NULL) {
 		gsf_xml_out_start_element (xml, "t");
@@ -281,42 +279,60 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 	max = strlen (text);
 	iter = pango_attr_list_get_iterator (attrs);
 	do {
+		PangoAttribute *attr;
+
 		gsf_xml_out_start_element (xml, "r");
 		gsf_xml_out_start_element (xml, "rPr");
-		gsf_xml_out_start_element (xml, "rFont");
+
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_FAMILY);
-		gsf_xml_out_add_cstr_unchecked (xml, "val", (attr)? ((PangoAttrString *) attr)->value: "Calibri");
-		gsf_xml_out_end_element (xml); /* </rFont> */
-		gsf_xml_out_start_element (xml, "b");
+		if (attr) {
+			gsf_xml_out_start_element (xml, "rFont");
+			gsf_xml_out_add_cstr_unchecked (xml, "val", ((PangoAttrString *) attr)->value);
+			gsf_xml_out_end_element (xml); /* </rFont> */
+		}
+
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_WEIGHT);
-		gsf_xml_out_add_cstr_unchecked (xml, "val", (attr && ((PangoAttrInt *) attr)->value > PANGO_WEIGHT_NORMAL)? "true": "false");
-		gsf_xml_out_end_element (xml); /* </b> */
-		gsf_xml_out_start_element (xml, "i");
+		if (attr) {
+			gsf_xml_out_start_element (xml, "b");
+			gsf_xml_out_add_cstr_unchecked (xml, "val", ((PangoAttrInt *) attr)->value > PANGO_WEIGHT_NORMAL ? "true": "false");
+			gsf_xml_out_end_element (xml); /* </b> */
+		}
+
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_STYLE);
-		gsf_xml_out_add_cstr_unchecked (xml, "val", (attr && ((PangoAttrInt *) attr)->value != PANGO_STYLE_NORMAL)? "true": "false");
-		gsf_xml_out_end_element (xml); /* </i> */
-		gsf_xml_out_start_element (xml, "strike");
+		if (attr) {
+			gsf_xml_out_start_element (xml, "i");
+			gsf_xml_out_add_cstr_unchecked (xml, "val", ((PangoAttrInt *) attr)->value != PANGO_STYLE_NORMAL ? "true": "false");
+			gsf_xml_out_end_element (xml); /* </i> */
+		}
+
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_STRIKETHROUGH);
-		gsf_xml_out_add_cstr_unchecked (xml, "val", (attr && ((PangoAttrInt *) attr)->value)? "true": "false");
-		gsf_xml_out_end_element (xml); /* </strike> */
-		gsf_xml_out_start_element (xml, "color");
+		if (attr) {
+			gsf_xml_out_start_element (xml, "strike");
+			gsf_xml_out_add_cstr_unchecked (xml, "val", ((PangoAttrInt *) attr)->value ? "true": "false");
+			gsf_xml_out_end_element (xml); /* </strike> */
+		}
+
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_FOREGROUND);
 		if (attr) {
 			PangoColor *color = &((PangoAttrColor *) attr)->color;
-			buf = g_strdup_printf("FF%2x%2x%2x", color->red >> 8, color->green >> 8, color->blue >> 8);
+			char *buf = g_strdup_printf("FF%2x%2x%2x", color->red >> 8, color->green >> 8, color->blue >> 8);
+			gsf_xml_out_start_element (xml, "color");
 			gsf_xml_out_add_cstr_unchecked (xml, "rgb", buf);
+			gsf_xml_out_end_element (xml); /* </color> */
 			g_free (buf);
-		} else
-			gsf_xml_out_add_cstr_unchecked (xml, "rgb", "FF000000");
-		gsf_xml_out_end_element (xml); /* </color> */
-		gsf_xml_out_start_element (xml, "sz");
+		}
+
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_SIZE);
-		gsf_xml_out_add_uint (xml, "val", (attr)? ((PangoAttrInt *) attr)->value / PANGO_SCALE: 8);
-		gsf_xml_out_end_element (xml); /* </sz> */
-		gsf_xml_out_start_element (xml, "u");
+		if (attr) {
+			gsf_xml_out_start_element (xml, "sz");
+			gsf_xml_out_add_uint (xml, "val", ((PangoAttrInt *) attr)->value / PANGO_SCALE);
+			gsf_xml_out_end_element (xml); /* </sz> */
+		}
+
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_UNDERLINE);
 		if (attr) {
 			PangoUnderline u = ((PangoAttrInt *) attr)->value;
+			gsf_xml_out_start_element (xml, "u");
 			switch (u) {
 			case PANGO_UNDERLINE_NONE:
 			default:
@@ -335,20 +351,20 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 				gsf_xml_out_add_cstr_unchecked (xml, "val", "singleAccounting");
 				break;
 			}
-		} else
-			gsf_xml_out_add_cstr_unchecked (xml, "val", "none");
-		gsf_xml_out_end_element (xml); /* </u> */
+			gsf_xml_out_end_element (xml); /* </u> */
+		}
+
 		gsf_xml_out_end_element (xml); /* </rPr> */
 		gsf_xml_out_start_element (xml, "t");
 		gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
 		pango_attr_iterator_range (iter, &start, &end);
 		if (end > max)
 		    end = max;
-		if (start > end)
-			start = end;
-		buf = g_strndup (text + start, end - start);
-		gsf_xml_out_add_cstr (xml, NULL, buf);
-		g_free (buf);
+		if (start < end) {
+			char *buf = g_strndup (text + start, end - start);
+			gsf_xml_out_add_cstr (xml, NULL, buf);
+			g_free (buf);
+		}
 		gsf_xml_out_end_element (xml); /* </t> */
 		gsf_xml_out_end_element (xml); /* </r> */
 	} while (pango_attr_iterator_next (iter));
