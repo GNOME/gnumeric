@@ -322,13 +322,18 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 			default:
 				gsf_xml_out_add_cstr_unchecked (xml, "val", "none");
 				break;
-			case PANGO_UNDERLINE_ERROR: /* not supported by OpenXML */
+			case PANGO_UNDERLINE_ERROR:
+				/* not supported by OpenXML */
+				/* Fall through. */
 			case PANGO_UNDERLINE_SINGLE:
 				gsf_xml_out_add_cstr_unchecked (xml, "val", "single");
+				break;
 			case PANGO_UNDERLINE_DOUBLE:
 				gsf_xml_out_add_cstr_unchecked (xml, "val", "double");
+				break;
 			case PANGO_UNDERLINE_LOW:
 				gsf_xml_out_add_cstr_unchecked (xml, "val", "singleAccounting");
+				break;
 			}
 		} else
 			gsf_xml_out_add_cstr_unchecked (xml, "val", "none");

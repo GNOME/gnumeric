@@ -1,5 +1,7 @@
 2014-06-03  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_write_rich_text): Add two missing "break;"
+
 	* xlsx-read.c (xlsx_run_color): Handle indexed colours.
 	(xlsx_run_weight): Fix handling of bold.
 	(xlsx_run_underline): Fix handling of underline.
