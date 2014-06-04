@@ -32,20 +32,18 @@ my $xls_supersub_filter = "$PERL -p -e 's{\\[superscript=1:3:5\\]\\[subscript=1:
 		 'ext' => "xls",
 		 'resize' => '16384x256',
 		 'filter1' => $xls_supersub_filter,
-		 'filter2' => $xls_codepage_filter,
-		 'ignore_failure' => 1);
+		 'filter2' => $xls_codepage_filter);
 
 &message ("Check rich text xls/BIFF8 roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff8',
 		 'ext' => "xls",
 		 'filter1' => $xls_supersub_filter,
-		 'filter2' => $xls_codepage_filter,
-		 'ignore_failure' => 1);
+		 'filter2' => $xls_codepage_filter);
 
 &message ("Check rich text xlsx roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:xlsx',
 		 'ext' => "xlsx",
 		 'resize' => '1048576x16384',
-		 'ignore_failure' => 1);
+		 'filter1' => $xls_supersub_filter);

@@ -355,12 +355,12 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 			gsf_xml_out_end_element (xml); /* </u> */
 		}
 
-		attr = pango_attr_iterator_get (iter, go_pango_attr_subscript_get_attr_type ());
-		if (attr && ((PangoAttrInt *) attr)->value)
-			fs = GO_FONT_SCRIPT_SUB;
 		attr = pango_attr_iterator_get (iter, go_pango_attr_superscript_get_attr_type ());
 		if (attr && ((PangoAttrInt *) attr)->value)
 			fs = GO_FONT_SCRIPT_SUPER;
+		attr = pango_attr_iterator_get (iter, go_pango_attr_subscript_get_attr_type ());
+		if (attr && ((PangoAttrInt *) attr)->value)
+			fs = GO_FONT_SCRIPT_SUB;
 		if (fs != GO_FONT_SCRIPT_STANDARD) {
 			const char *va = (fs == GO_FONT_SCRIPT_SUB)
 				? "subscript"
