@@ -1914,7 +1914,7 @@ static void Y_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	values are set to 0.0.
   1 < NCALC < NB: Not all requested function values could
 	be calculated accurately.  BY(I) contains correct function
-	values for I <= NCALC, and and the remaining NB-NCALC
+	values for I <= NCALC, and the remaining NB-NCALC
 	array elements contain 0.0.
 
 

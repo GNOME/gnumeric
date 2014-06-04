@@ -950,7 +950,7 @@
 
 	* src/cell.c (cell_relocate) : Just relink, no need to queue a recalc.
 	(cell_set_array_formula) : Remove the ability to queue the recalc at
-	  this level.  Just link the formulas in.  Reorder the the arguments
+	  this level.  Just link the formulas in.  Reorder the arguments
 	  to match the standard approach.
 
 	* src/eval.c (workbook_recalc_all) : Used here.

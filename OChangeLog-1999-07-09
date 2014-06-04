@@ -4767,7 +4767,7 @@ Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 1998-10-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet.c (sheet_set_zoom_factor): Zoom factor should be
-	applied to to the default styles.
+	applied to the default styles.
 
 1998-10-27  Daniel Veillard <Daniel.Veillard@w3.org>
 
@@ -6495,7 +6495,7 @@ Thu Aug 13 00:02:23 EDT 1998  Daniel Veillard <Daniel.Veillard@w3.org>
 
 1998-08-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* src/expr.c (eval_funcall): No need for the the extra argc
+	* src/expr.c (eval_funcall): No need for the extra argc
 	parameter on the functions with strong prototypes.
 
 	* src/func.c (gnumeric_cosh): More functions.

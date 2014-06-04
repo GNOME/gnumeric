@@ -15,7 +15,7 @@
     <para>
       Data which already exist in an external file can be imported
       into a workbook first by opening the file into a separate
-      instance of &gnum; and and then by
+      instance of &gnum; and then by
       copying the relevant data into the desired worksheet.
     </para>
 

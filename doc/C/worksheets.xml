@@ -454,7 +454,7 @@
       upper left portion of the dialog. When <guilabel>Show advanced sheet
       properties</guilabel> is enabled, the <guilabel>Dir</guilabel>,
       <guilabel>Rows</guilabel>, and <guilabel>Cols</guilabel> fields are included.
-      A worksheet can be selected by clicking anywhere in in its line, although
+      A worksheet can be selected by clicking anywhere in its line, although
       clicking one of the icons will toggle its associated property along with
       selecting the worksheet.
       Multiple selection, using the <keysym>Shift</keysym> and <keysym>Ctrl</keysym>

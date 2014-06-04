@@ -3,7 +3,7 @@
 **  Version 5.0
 **
 **  File:           INCLUDE\XLCALL.H
-**  Description:    Header file for for Microsoft Excel callbacks
+**  Description:    Header file for Microsoft Excel callbacks
 **  Platform:       Microsoft Windows
 **
 **  This file defines the constants and

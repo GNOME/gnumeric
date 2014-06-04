@@ -2278,7 +2278,7 @@
 
 2001-10-18  Morten Welinder  <terra@diku.dk>
 
-	* src/pixmaps/16_search.xpm: new file (derived from from Evolution).
+	* src/pixmaps/16_search.xpm: new file (derived from Evolution).
 	* src/application.c (application_init): Add search pixmap.
 	* src/workbook-control-gui.c (workbook_menu_edit): Ditto.
 	* src/GNOME_Gnumeric.xml: Ditto.
@@ -3128,7 +3128,7 @@
 	* src/xml-io.c (xml_probe) : accept .xml & .xml.gz
 
 	* src/sheet-object.c (sheet_object_anchor_init) : Actually store the
-	  the direction.
+	  direction.
 
 	* src/gnumeric-graph.c (gnm_graph_add_vector) : improve handling of
 	  failures.
@@ -3650,7 +3650,7 @@
 	(scg_colrow_distance_get_virtual) : new routine.
 	(scg_class_init) : register it here.
 
-	* src/sheet-control.c (sc_colrow_distance_get) : a new new virtual.
+	* src/sheet-control.c (sc_colrow_distance_get) : a new virtual.
 
 	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : delete newly
 	  created objects too.
@@ -4913,7 +4913,7 @@
 2001-07-08  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/GNOME_Gnumeric.xml: Wrap file related menus into a placeholder
-	named FileOperations. Wrap print related menus into a a placeholder
+	named FileOperations. Wrap print related menus into a placeholder
 	named PrintOperations. This will help components like EOG to put
 	menu entries into the right place when activated.
 

@@ -882,7 +882,7 @@ FUNCTIONNAME(ARGUMENTS)
    </para>
  </example>
      <note><para>
-     In this case we can not use use <code>if(OR(A1:A20="AA",C1:C20="BB"),...)</code> since the
+     In this case we cannot use <code>if(OR(A1:A20="AA",C1:C20="BB"),...)</code> since the
      OR function would be applied to all 40 equality tests rather than each of the 20 pairs of equality tests.
    </para></note>
 

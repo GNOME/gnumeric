@@ -10368,7 +10368,7 @@
 	  a first col for tabs.  Going backwards can adjust the bounds.
 
 	* src/gnm-pane.c (gnm_pane_key_mode_sheet) : invalidate the
-	  'first_tab_col' so that that when Enter is switched from moving to
+	  'first_tab_col' so that when Enter is switched from moving to
 	  the right, to going up and down we do not jump back to the left as
 	  if the previous movement had been a tab.
 
@@ -11974,7 +11974,7 @@
 	(xml_sax_filter_condition) : The DOM filter has been swapping Value
 	  and ValueType.  The SAX exported copied the code.  The importer
 	  needs to use the incorrect layout to handle existing files.
-	* src/xml-sax-write.c (xml_write_filter_expr) : warn about the the
+	* src/xml-sax-write.c (xml_write_filter_expr) : warn about the
 	  swapping of Value and ValueType.
 	* gnumeric.xsd : comment on the swapping.
 
@@ -13254,7 +13254,7 @@
 
 	* src/sheet.c
 	(sheet_col_size_fit_pixels) : use the constant margins
-	(sheet_row_size_fit_pixels) : ditto and and add +1 for
+	(sheet_row_size_fit_pixels) : ditto and add +1 for
 	  the grid line (why was this different from col_size_fit_pixels).
 	* src/dialogs/dialog-row-height.c (dialog_row_height) : row margin is
 	  constant now.

@@ -2509,7 +2509,7 @@
 	and then in the other direction.
 	(find_index_linear): Do a linear search on a range or array.
 	(find_index_bisection): Do a bisection search on a range or array
-	that also follows excel rules for for handling type mismatches
+	that also follows excel rules for handling type mismatches
 	during the search and finding the first and last item matching
 	the search.
 	(gnumeric_vlookup): Use new functions and implement undocumented
@@ -3017,7 +3017,7 @@
 	(sort_permute): Use copy and paste to move rows/cols around
 	(sort_permute_next): Find next row/col the hasn't been set based
 	on the permutation array
-	(sort_permute_is_set): Find if a a bit in a bit array is set
+	(sort_permute_is_set): Find if a bit in a bit array is set
 	(sort_permute_set): Set a bit in a bit array
 	(sort_permute_find): Find a given number in a permutation array
 	(sort_qsort): Produce a permutation index for sorting rows or cols
@@ -5446,7 +5446,7 @@
 2000-04-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/file.c (workbook_read) : Do NOT recalc on load for now even
-	  though there are are queued cells that desire it.  This will
+	  though there are queued cells that desire it.  This will
 	  prematurely mark the sheet as dirty.  This will need to be
 	  revisited.
 
@@ -6735,7 +6735,7 @@
 
 	* src/workbook-view.c (workbook_view_history_update,
 	workbook_view_history_shrink): ): We introduce numbers in front of
-	the the history file names for the following reasons:
+	the history file names for the following reasons:
 	1. Bonobo won't let you make 2 entries with the same label in the
 	   same menu. But that's what happens if you e.g. access
 	   worksheets with the same name from 2 different directories.

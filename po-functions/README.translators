@@ -10,7 +10,7 @@ surrounding white space and must remain in the translation.
 
 If the text preceding the colon is in all upper case (as in the first 
 example) then that string is the function name and, at this time, must remain 
-exactly as it is given in the original string. (At some later date we we 
+exactly as it is given in the original string. (At some later date we 
 support translated function names but currently the name needs to remain as it 
 is. The same all-uppercase names may appear elsewhere in strings in this file 
 and they must, at this time, also remain eactly as given.)

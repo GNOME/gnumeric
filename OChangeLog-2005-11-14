@@ -2935,7 +2935,7 @@
 	  position is set, or if it is set to something invalid
 
 	* src/item-bar.c (item_bar_draw) : major rework to handle RTL mode.
-	  - swap the the direction for the cells and the outlines
+	  - swap the direction for the cells and the outlines
 	(is_pointer_on_division) : handle rtl and clarify which coordinate
 	  system the various inputs and results use.
 	(ib_set_cursor) : simplify

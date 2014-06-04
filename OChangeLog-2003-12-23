@@ -703,7 +703,7 @@
 	  data.
 
 	* src/workbook-control-gui.c (cb_graph_dim_entry_unmap) : only fire if
-	  the widget is sensitive.  We have have data displayed that the user
+	  the widget is sensitive.  We have data displayed that the user
 	  did not enter.
 
 2003-09-13  Jon K Hellan  <hellan@acm.org>
@@ -910,7 +910,7 @@
 2003-08-25  Jody Goldberg <jody@gnome.org>
 
 	* schemas/gnumeric-general.schemas.in : Use 'Sans Regular' as the
-	  default default font, jsut Sans confuses gnome-print
+	  default font, just Sans confuses gnome-print
 
 2003-08-26  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
@@ -6347,7 +6347,7 @@
 	  special case routine and removing those.
 
 	* src/expr.c (gnm_expr_eval) : handle dynamic depends and intersection
-	  for the the results.
+	  for the results.
 	NOTE WARNING WARNING WARNING : change of semantics
 	  In the permit_non_scalar case we do _not_ ensure that the content of
 	  the range has been evaluated.  The user is required to.  We only
@@ -7535,7 +7535,7 @@
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
 	* src/style-border.c (style_border_none_set_color) : Morten found the
-	  colour leak.  While we're here lets fix the the GC warnings.
+	  colour leak.  While we're here lets fix the GC warnings.
 
 	* src/sheet-style.c (sheet_style_update_grid_color) : fix the leak
 	  here too.
@@ -8384,7 +8384,7 @@
 	* src/sheet-view.c : move frozen panes here.
 	* src/sheet.c : from here.
 
-	* src/sheet-control-gui.c (scg_resize) : freezing in in view now.
+	* src/sheet-control-gui.c (scg_resize) : freezing in view now.
 	(scg_scrollbar_config) : ditto.
 	(gnm_canvas_update_inital_top_left) : ditto.
 	(scg_set_left_col) : ditto.

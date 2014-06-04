@@ -126,7 +126,7 @@
   <para>
     This tab allows you to select the format for the cell's
     contents. You can select one of the many preset formatting styles
-    which should be be more than adequate for the vast majority of cases. If none
+    which should be more than adequate for the vast majority of cases. If none
     of these meet the needs of the user, it is possible to create your own
     formats. </para>
   
@@ -1030,7 +1030,7 @@
 	  <term><guilabel>Information</guilabel></term>
 	  <listitem><para>
 	      Accept invalid values but show the user a warning
-	      dialog. You need to specify the the message to use in
+	      dialog. You need to specify the message to use in
 	      the warning dialog (see below).  
 	    </para></listitem>
         </varlistentry>

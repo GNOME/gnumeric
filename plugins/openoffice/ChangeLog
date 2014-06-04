@@ -900,7 +900,7 @@
 	* openoffice-read.c (odf_fix_expr_names_t): new fields
 	(odf_fix_expr_names_t_new): initialize new fields
 	(odf_fix_en_find): new
-	(odf_fix_en_apply): invoked per per translated name
+	(odf_fix_en_apply): invoked per translated name
 	(odf_fix_expr_names): do not cause hashes to be modified while we
 	traverse them.
 

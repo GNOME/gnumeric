@@ -7235,7 +7235,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/print.c (sheet_print_selection) : Ditto.
 
 	* src/selection.c (sheet_selection_first_range) : Simplify and move
-	  closer to to sheet_verify_selection_simple.
+	  closer to sheet_verify_selection_simple.
 
 	* src/workbook.c (insert_cols_cmd, insert_cols_cmd) : Handle
 	  sheet_verify_selection_simple rename to selection_is_simple.

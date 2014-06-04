@@ -642,7 +642,7 @@ gunzip Book1.text.gz
             recently been disabled due to lack of developer
             interest. Instead of directly saving a file in the
             <application>Applix</application> format, files can be
-            exported to to <application>Applixware</application> can
+            exported to <application>Applixware</application> can
             be performed using the <link
             linkend="file-format-excel-binary-new">Excel</link>&nbsp;file format.
 	  </para>

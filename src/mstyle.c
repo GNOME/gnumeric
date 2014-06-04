@@ -993,7 +993,7 @@ gnm_style_equal_XL (GnmStyle const *a, GnmStyle const *b)
  * @b: second style
  * @e: style element
  *
- * Returns: %TRUE, if the the two styles have the same contents for the
+ * Returns: %TRUE, if the two styles have the same contents for the
  * given element, either because neither have it set, or because both
  * have it set and to the same value.
  */

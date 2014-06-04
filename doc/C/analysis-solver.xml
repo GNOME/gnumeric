@@ -142,7 +142,7 @@
 
       <para>The model to be optimized is a linear model.  Thus, we
       should check that the check button `Linear (LP/MILP)' is pressed
-      on on the page `Model'.  Also make sure that the
+      on the page `Model'.  Also make sure that the
       assume non-negative button is on, otherwise, the input variables
       can also take negative values.  There is also a check button
       `Assume Integer (Discrete)' which adds an integer constraint for

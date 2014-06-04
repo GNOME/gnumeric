@@ -538,7 +538,7 @@
 	  replaces the frequency counts with percentages.
 	</para>
 	<note><para>If the categories range contains repeated values, then the percentages may
-	    add up to more than 100%. If the the categories range does not contain all values that 
+	    add up to more than 100%. If the categories range does not contain all values that 
 	    occur in the input range, the percentages may sum to less than 100%.
 	</para></note>
 	<para>The <quote><guilabel>Use exact comparisons</guilabel></quote> checkbox determines how 
@@ -2133,7 +2133,7 @@
         were censored, the <guilabel>Permit censorship</guilabel> checkbox is
         checked and the Censor column contained the censorship marks. Censorship
         marks are typically 0s or 1s. The range of censor marks or labels can be 
-        set using the the 
+        set using the 
         remaining two spinboxes.</para>
 
  <figure id="kaplan-meier-tool-dialog">

@@ -54,7 +54,7 @@
         The cell indicator will show the address for the cell at the
         top left of the selected region. This address is listed in the
         standard column:row notation. The alphabetic part indicates
-        the the column of this top leftmost cell and the numeric part
+        the column of this top leftmost cell and the numeric part
         indicates the row of this top left cell. For instance, the
         cell which is over three columns and down two rows is
         designated:</para> <blockquote><para>C2</para></blockquote>
@@ -187,7 +187,7 @@
       </screenshot>
     </figure>
  
- 	<para><xref linkend="cell-grid.png" /> shows the the cell grid
+ 	<para><xref linkend="cell-grid.png" /> shows the cell grid
  	area, the column and row headers on the top and left, the
  	scrollbars on the right and bottom and the tab list at the
  	very bottom.
