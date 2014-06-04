@@ -5879,7 +5879,7 @@
 	  GtkCLists
 
 	* dialog-about.c : rewrite.  Not so pretty, but getting better.  It's
-	  a decent test case for the an api to create a plot.
+	  a decent test case for an api to create a plot.
 
 2004-02-17  Morten Welinder  <terra@gnome.org>
 

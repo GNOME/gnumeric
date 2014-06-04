@@ -7229,7 +7229,7 @@
 	Yes/No dialog - set initial keyboard focus to "No". It went
 	nowhere.
 	(dialog_stf_set_initial_keyboard_focus): New function: Set
-	keyboard focus to the an appropriate widget on the page.
+	keyboard focus to an appropriate widget on the page.
 	(dialog_stf_druid_page_next, dialog_stf_druid_page_previous): Set
 	initial keyboard focus.
 	(dialog_stf_druid_page_next): Make "Finish" button default on the the
