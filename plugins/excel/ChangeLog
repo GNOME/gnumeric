@@ -1,3 +1,8 @@
+2014-06-05  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_rich_text): Fix color attribute.  Only
+	write xml:space attribute when text has spaces.
+
 2014-06-03  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_rich_text): Add two missing "break;".

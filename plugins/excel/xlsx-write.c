@@ -316,7 +316,7 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_FOREGROUND);
 		if (attr) {
 			PangoColor *color = &((PangoAttrColor *) attr)->color;
-			char *buf = g_strdup_printf("FF%2x%2x%2x", color->red >> 8, color->green >> 8, color->blue >> 8);
+			char *buf = g_strdup_printf("FF%02x%02x%02x", color->red >> 8, color->green >> 8, color->blue >> 8);
 			gsf_xml_out_start_element (xml, "color");
 			gsf_xml_out_add_cstr_unchecked (xml, "rgb", buf);
 			gsf_xml_out_end_element (xml); /* </color> */
@@ -372,12 +372,22 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 
 		gsf_xml_out_end_element (xml); /* </rPr> */
 		gsf_xml_out_start_element (xml, "t");
-		gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
 		pango_attr_iterator_range (iter, &start, &end);
 		if (end > max)
 		    end = max;
 		if (start < end) {
 			char *buf = g_strndup (text + start, end - start);
+			const char *p;
+			gboolean has_space = FALSE;
+			for (p = buf; *p; p = g_utf8_next_char (p)) {
+				if (g_unichar_isspace (g_utf8_get_char (p))) {
+					has_space = TRUE;
+					break;
+				}
+			}
+			if (has_space)
+				gsf_xml_out_add_cstr_unchecked
+					(xml, "xml:space", "preserve");
 			gsf_xml_out_add_cstr (xml, NULL, buf);
 			g_free (buf);
 		}
