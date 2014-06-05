@@ -10,8 +10,7 @@ my $file = "$samples/graph-tests.gnumeric";
 &message ("Check graph gnumeric roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_XmlIO:sax',
-		 'ext' => "gnm",
-		 'ignore_failure' => 1);
+		 'ext' => "gnm");
 
 # ods doesn't have outline colour, so copy the fill colour.
 my $ods_outline_filter = "$PERL -p -e 'if (/\\bmarker\\b.*fill-color=\"([A-Z0-9:]+)\"/) { my \$col = \$1; s{\\b(outline-color)=\"[A-Z0-9:]+\"}{\$1=\"\$col\"}; }'";
