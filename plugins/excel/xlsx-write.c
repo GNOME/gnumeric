@@ -264,7 +264,8 @@ xlsx_find_predefined_fill (GnmStyle const *style)
 /****************************************************************************/
 
 static void
-xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
+xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs,
+		      gboolean allow_xml_space)
 {
 	PangoAttrIterator *iter;
 	int start, end, max;
@@ -377,17 +378,19 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 		    end = max;
 		if (start < end) {
 			char *buf = g_strndup (text + start, end - start);
-			const char *p;
-			gboolean has_space = FALSE;
-			for (p = buf; *p; p = g_utf8_next_char (p)) {
-				if (g_unichar_isspace (g_utf8_get_char (p))) {
-					has_space = TRUE;
-					break;
+			if (allow_xml_space) {
+				const char *p;
+				gboolean has_space = FALSE;
+				for (p = buf; *p; p = g_utf8_next_char (p)) {
+					if (g_unichar_isspace (g_utf8_get_char (p))) {
+						has_space = TRUE;
+						break;
+					}
 				}
+				if (has_space)
+					gsf_xml_out_add_cstr_unchecked
+						(xml, "xml:space", "preserve");
 			}
-			if (has_space)
-				gsf_xml_out_add_cstr_unchecked
-					(xml, "xml:space", "preserve");
 			gsf_xml_out_add_cstr (xml, NULL, buf);
 			g_free (buf);
 		}
@@ -443,7 +446,6 @@ xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *wb_part)
 
 	gsf_xml_out_start_element (xml, "sst");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
-	/* Note the schema does not allow the attribute xml:space */
 	gsf_xml_out_add_int (xml, "uniqueCount", N);
 	gsf_xml_out_add_int (xml, "count", N);
 
@@ -456,7 +458,8 @@ xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *wb_part)
 		gsf_xml_out_start_element (xml, "si");
 		xlsx_write_rich_text (xml,
 				      value_peek_string (val),
-				      attrs);
+				      attrs,
+				      FALSE);
 		gsf_xml_out_end_element (xml); /* </si> */
 	}
 
@@ -2630,7 +2633,7 @@ xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objec
 		/* Save text as rich text */
 		g_object_get (ptr->data, "text", &name, "markup", &attrs, NULL);
 		if (name && *name)
-			xlsx_write_rich_text (xml, name, attrs);
+			xlsx_write_rich_text (xml, name, attrs, TRUE);
 		g_free (name);
 		pango_attr_list_unref (attrs);
 		gsf_xml_out_end_element (xml); /* </text> */
