@@ -706,6 +706,9 @@ gnm_nlsolve_idle (gpointer data)
 		rosenbrock_shutdown (nl);
 	}
 
+	if (!call_again)
+		nl->idle_tag = 0;
+
 	return call_again;
 }
 

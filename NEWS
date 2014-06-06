@@ -5,6 +5,7 @@ Morten:
 	* Fix crashes on exit.  [#730857]  [#730884]
 	* Handle value formats for xlsx export.  [#724517]
 	* Improve xlsx import/export of rich text.  [#726189]
+	* Fix solver critical.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.16
