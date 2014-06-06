@@ -1,3 +1,8 @@
+2014-06-05  Morten Welinder  <terra@gnome.org>
+
+	* GnumericTest.pm (test_valgrind): Be more liberal about valgrind
+	version numbers.
+
 2014-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.16

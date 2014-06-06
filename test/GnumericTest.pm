@@ -467,7 +467,7 @@ sub test_valgrind {
 
     my $valvers = `valgrind --version`;
     die "Problem running valgrind.\n"
-	unless $valvers =~ /^valgrind-(\d+)\.(\d+)\.(\d+)$/;
+	unless $valvers =~ /^valgrind-(\d+)\.(\d+)\.(\d+)/;
     $valvers = $1 * 10000 + $2 * 100 + $3;
     &report_skip ("Valgrind is too old") unless $valvers >= 30500;
 
