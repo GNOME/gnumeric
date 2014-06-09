@@ -1,3 +1,7 @@
+2014-06-09  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.17
+
 2014-05-28  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (resize_pane_pos): Improve the situation

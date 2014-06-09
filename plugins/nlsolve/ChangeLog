@@ -1,3 +1,7 @@
+2014-06-09  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.17
+
 2014-06-05  Morten Welinder  <terra@gnome.org>
 
 	* gnm-nlsolve.c (gnm_nlsolve_idle): if we're cancelling the

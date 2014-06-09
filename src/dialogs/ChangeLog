@@ -1,3 +1,7 @@
+2014-06-09  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.17
+
 2014-05-26  Morten Welinder  <terra@gnome.org>
 
 	* dao-gui-utils.c (output_group): Remove unused variable.
