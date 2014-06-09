@@ -819,3 +819,11 @@
    fun:g_dbus_connection_call_internal
    fun:g_dbus_connection_call
 }
+
+{
+   GLIB/G_FILE_READ_LINK
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_file_read_link
+}
