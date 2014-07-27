@@ -10,6 +10,16 @@
     modified as they are pasted which can be extremely important.
   </para>
 
+  <note>
+    <title>NOTE</title>
+    <para>	
+      Currently &gnum; only supports copying, cutting and pasting
+      of simple selections or continuous selections as described
+      in <xref linkend="sect-data-selections" />. You cannot copy,
+      cut or paste discontinuous selections.
+    </para>
+  </note>
+
   <tip>
     <para>
       It is frequently necessary to copy the results of complex
