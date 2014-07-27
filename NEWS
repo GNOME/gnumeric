@@ -3,6 +3,9 @@ Gnumeric 1.12.18
 Andreas:
 	* Improve documentation. [#733466]
 
+Morten:
+	* Fix xls export problem.  [#733771]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.17
 

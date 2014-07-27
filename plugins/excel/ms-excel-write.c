@@ -5042,16 +5042,16 @@ excel_write_DIMENSION (BiffPut *bp, ExcelWriteSheet *esheet)
 	if (bp->version >= MS_BIFF_V8) {
 		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS_v2, 14);
 		GSF_LE_SET_GUINT32 (data +  0, 0);
-		GSF_LE_SET_GUINT32 (data +  4, esheet->max_row-1);
+		GSF_LE_SET_GUINT32 (data +  4, esheet->max_row);
 		GSF_LE_SET_GUINT16 (data +  8, 0);
-		GSF_LE_SET_GUINT16 (data + 10, esheet->max_col-1);
+		GSF_LE_SET_GUINT16 (data + 10, esheet->max_col);
 		GSF_LE_SET_GUINT16 (data + 12, 0x0000);
 	} else {
 		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS_v2, 10);
 		GSF_LE_SET_GUINT16 (data +  0, 0);
-		GSF_LE_SET_GUINT16 (data +  2, esheet->max_row-1);
+		GSF_LE_SET_GUINT16 (data +  2, esheet->max_row);
 		GSF_LE_SET_GUINT16 (data +  4, 0);
-		GSF_LE_SET_GUINT16 (data +  6, esheet->max_col-1);
+		GSF_LE_SET_GUINT16 (data +  6, esheet->max_col);
 		GSF_LE_SET_GUINT16 (data +  8, 0x0000);
 	}
 	ms_biff_put_commit (bp);

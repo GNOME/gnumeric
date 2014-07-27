@@ -1,3 +1,8 @@
+2014-07-27  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_DIMENSION): Fix off-by-one, see
+	#733771.
+
 2014-06-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.17
