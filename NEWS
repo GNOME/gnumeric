@@ -2,6 +2,7 @@ Gnumeric 1.12.18
 
 Andreas:
 	* Improve documentation. [#733466]
+	* Add warning dialog. [#733352]
 
 Morten:
 	* Fix xls export problem.  [#733771]

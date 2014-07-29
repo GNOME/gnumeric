@@ -115,6 +115,12 @@ static void c_fmt_dialog_apply_add_choice (CFormatState *state, GnmStyleCond *co
 static void
 cb_c_fmt_dialog_dialog_buttons (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 {
+	/* users may accidentally click on 'close' before adding the formatting style see #733352 */
+	if (!gtk_widget_get_sensitive (GTK_WIDGET (state->editor.add_button)) ||
+	    gtk_widget_get_sensitive (GTK_WIDGET (state->clear)) ||
+	    go_gtk_query_yes_no (GTK_WINDOW (state->dialog), FALSE, 
+				 _("You did not add the defined conditional format."
+				   " Do you really want to close the conditional formatting dialog?")))
 		gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
