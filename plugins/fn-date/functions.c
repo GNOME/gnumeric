@@ -652,6 +652,13 @@ static GnmFuncHelp const help_weekday[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 1, then Sunday is 1, Monday is 2, etc.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 2, then Monday is 1, Tuesday is 2, etc.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 3, then Monday is 0, Tuesday is 1, etc.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 11, then Monday is 1, Tuesday is 2, etc.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 12, then Tuesday is 1, Wednesday is 2, etc.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 13, then Wednesday is 1, Thursday is 2, etc.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 14, then Thursday is 1, Friday is 2, etc.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 15, then Friday is 1, Saturday is 2, etc.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 16, then Saturday is 1, Sunday is 2, etc.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 17, then Sunday is 1, Monday is 2, etc.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=WEEKDAY(DATE(1940,4,9))" },
         { GNM_FUNC_HELP_SEEALSO, "DATE,ISOWEEKNUM"},
@@ -665,16 +672,39 @@ gnumeric_weekday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int res;
 	gnm_float method = argv[1] ? value_get_as_float (argv[1]) : 1;
 
-	if (method < 1 || method >= 4)
+	if (method < 1 || method >= G_MAXINT)
 		return value_new_error_NUM (ei->pos);
 
 	if (!datetime_value_to_g (&date, argv[0], DATE_CONV (ei->pos)))
 		return value_new_error_NUM (ei->pos);
 
 	switch ((int)method) {
-	case 1: res = (g_date_get_weekday (&date) % 7) + 1; break;
-	case 2: res = (g_date_get_weekday (&date) + 6) % 7 + 1; break;
-	case 3: res = (g_date_get_weekday (&date) + 6) % 7; break;
+	case 1:
+	case 17:
+		res = (g_date_get_weekday (&date) % 7) + 1;
+		break;
+	case 2:
+	case 11:
+		res = (g_date_get_weekday (&date) + 6) % 7 + 1;
+		break;
+	case 3:
+		res = (g_date_get_weekday (&date) + 6) % 7;
+		break;
+	case 12:
+		res = (g_date_get_weekday (&date) + 5) % 7 + 1;
+		break;
+	case 13:
+		res = (g_date_get_weekday (&date) + 4) % 7 + 1;
+		break;
+	case 14:
+		res = (g_date_get_weekday (&date) + 3) % 7 + 1;
+		break;
+	case 15:
+		res = (g_date_get_weekday (&date) + 2) % 7 + 1;
+		break;
+	case 16:
+		res = (g_date_get_weekday (&date) + 1) % 7 + 1;
+		break;
 	default:
 		return value_new_error_NUM (ei->pos);
 	}

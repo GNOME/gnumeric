@@ -6,6 +6,7 @@ Andreas:
 
 Morten:
 	* Fix xls export problem.  [#733771]
+	* Update WEEKDAY function.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.17
