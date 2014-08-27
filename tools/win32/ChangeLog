@@ -1,3 +1,7 @@
+2014-08-26  Morten Welinder  <terra@gnome.org>
+
+	* moduleset.in: Bump glib to 2.41.3.
+
 2014-06-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.17
