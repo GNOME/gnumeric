@@ -72,9 +72,9 @@ os.environ['LDFLAGS']	 \
 	= ' -mno-cygwin' \
 	+ ' -L' + os.path.join(os.sep, prefix, 'lib') \
 	+ ' -L' + os.path.join(os.sep, prefix, 'lib64')
-os.environ['CFLAGS']	 = _optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
-os.environ['CPPLAGS']	 = _optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
-os.environ['CXXLAGS']	 = _optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
+os.environ['CFLAGS']	 = _optim + ' -DWINVER=0x501 -D_WIN32_IE=0x501 -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
+os.environ['CPPLAGS']	 = _optim + ' -DWINVER=0x501 -D_WIN32_IE=0x501 -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
+os.environ['CXXLAGS']	 = _optim + ' -DWINVER=0x501 -D_WIN32_IE=0x501 -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
 os.environ['ARFLAGS']	 = 'rcs'
 os.environ['INSTALL']	 = os.path.expanduser('~/bin/install-check')
 os.environ['ACLOCAL_AMFLAGS'] = ' -I m4 -I '+prefix+'/share/aclocal'	# for libgnomedb
