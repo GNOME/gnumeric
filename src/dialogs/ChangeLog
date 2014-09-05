@@ -8785,7 +8785,7 @@
 	* Makefile.am : added dialog-row-height.c and dialog-col-width.c
 	* dialog-row-height.c : new
 	* dialog-col-width.c : new
-	* dialog-row-heigth.glade : added checkbox and spin button
+	* dialog-row-height.glade : added checkbox and spin button
 	* dialog-col-width.glade : ditto
 	* dialogs.h : added dialog_row_height and dialog_col_width
 	* dialog-zoom.glade : fix button formating
@@ -11891,7 +11891,7 @@
 
 2001-02-11  Jody Goldberg <jgoldberg@home.com>
 
-	* cell-format.glade : Remove the merge cell button untill gtk2.0
+	* cell-format.glade : Remove the merge cell button until gtk2.0
 
 2001-02-10  Jon K Hellan  <hellan@acm.org>
 

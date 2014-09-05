@@ -166,7 +166,7 @@
 	* openoffice-read.c (odf_apply_style_props): read both
 	svg:stroke-width and gnm:stroke-width
 	* openoffice-write.c (od_style_prop_chart): write gnm:stroke-width
-	to remember line-widhts of 0.
+	to remember line-widths of 0.
 
 2014-04-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
@@ -5030,7 +5030,7 @@
 2007-06-27  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (oo_table_start) : keep track of the extent of
-	  col/row styling and the extent of cell content seperately.
+	  col/row styling and the extent of cell content separately.
 	(cb_find_default_colrow_style) : new.
 	(oo_colrow_reset_defaults) : pick a default style and recompress the
 	  available cols/rows by using it.

@@ -4786,7 +4786,7 @@
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_init) : init the sliding members.
 	  The sliding used to be managed by the scg, but it is now handled
-	  with the gsheet (could just as easily be gpane) becuase scrolling
+	  with the gsheet (could just as easily be gpane) because scrolling
 	  panes needs to know _which_ pane is scrolling.
 	(gsheet_compute_visible_region) : remove the debug spewage.
 	(gnumeric_sheet_stop_sliding) : moved from scg_stop_sliding.

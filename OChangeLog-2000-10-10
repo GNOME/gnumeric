@@ -2454,7 +2454,7 @@
 
 	* src/cell.c (cell_relocate) : Take the relocation info as an
 	  argument.  Non NULL indicates a request to check bounds.  We cannot
-	  do this at the cell level. becuase we may be moving a block rather
+	  do this at the cell level. because we may be moving a block rather
 	  than just a single cell, and references into the block should NOT be
 	  rewritten.
 	(cell_set_text_and_value) : Take a StyleFormat.
@@ -7180,7 +7180,7 @@
 	* src/functions/fn-eng.c (val_to_base): Catch Div0 && invalid log()
 	domain.
 
-	* src/functions/fn-financial (gnumeric_accrint, gnumeric_recieved),
+	* src/functions/fn-financial (gnumeric_accrint, gnumeric_received),
 	(gnumeric_pricemat): Same
 
 	* src/functions/fn-stat.c (gnumeric_ttest): Ditto

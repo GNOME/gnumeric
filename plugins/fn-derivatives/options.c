@@ -638,17 +638,17 @@ static GnmFuncHelp const help_opt_garman_kohlhagen[] = {
 
 /* French (1984) adjusted Black and scholes model for trading day volatility */
 static gnm_float
-opt_french1 (OptionSide side, gnm_float s, gnm_float x, gnm_float tradingt, gnm_float calendert,
+opt_french1 (OptionSide side, gnm_float s, gnm_float x, gnm_float tradingt, gnm_float calendart,
 	     gnm_float r, gnm_float v, gnm_float  b)
 {
-	gnm_float d1 = (gnm_log (s / x) + b * calendert + ((v * v) / 2.0) * tradingt) / (v * gnm_sqrt (tradingt));
+	gnm_float d1 = (gnm_log (s / x) + b * calendart + ((v * v) / 2.0) * tradingt) / (v * gnm_sqrt (tradingt));
 	gnm_float d2 = d1 - v * gnm_sqrt (tradingt);
 
 	switch (side) {
 	case OS_Call:
-		return s * gnm_exp ((b - r) * calendert) * ncdf (d1) - x * gnm_exp (-r * calendert) * ncdf (d2);
+		return s * gnm_exp ((b - r) * calendart) * ncdf (d1) - x * gnm_exp (-r * calendart) * ncdf (d2);
 	case OS_Put:
-		return x * gnm_exp (-r * calendert) * ncdf (-d2) - s * gnm_exp ((b - r) * calendert) * ncdf (-d1);
+		return x * gnm_exp (-r * calendart) * ncdf (-d2) - s * gnm_exp ((b - r) * calendart) * ncdf (-d1);
 	default:
 		return gnm_nan;
 	}

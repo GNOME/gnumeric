@@ -7270,7 +7270,7 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 				    style->line.width);
 
 		/*
-		 * ods doesn't have seperate colours for the marker, so use
+		 * ods doesn't have separate colours for the marker, so use
 		 * the marker colour if we don't have a line.
 		 */
 		is_auto = style->line.auto_color;

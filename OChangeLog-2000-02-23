@@ -6113,7 +6113,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/dialog-cell-format.c : Ditto, and use sheet_foreach_colrow.
 	* src/sheet-view.c : Ditto.  Use sheet_{row,col}_fetch and document
 	  why they are called.
-	(sheet_view_scrollbar_display) : ifdef out untill some one wants it.
+	(sheet_view_scrollbar_display) : ifdef out until some one wants it.
 
 	src/dialogs/dialog-solver.c : Add include "tools.h"
 
@@ -6532,7 +6532,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/dialog-cell-format.c : Ditto, and use sheet_foreach_colrow.
 	* src/sheet-view.c : Ditto.  Use sheet_{row,col}_fetch and document
 	  why they are called.
-	(sheet_view_scrollbar_display) : ifdef out untill some one wants it.
+	(sheet_view_scrollbar_display) : ifdef out until some one wants it.
 
 	src/dialogs/dialog-solver.c : Add include "tools.h"
 
