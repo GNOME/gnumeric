@@ -404,6 +404,7 @@ sub test_roundtrip {
 	print STDERR "# $cmd\n" if $verbose;
 	$code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
+	die "Failed to produce $file_resized\n" unless -r $file_resized;
 	&junkfile ($file_resized) unless $keep;
     }
     
@@ -415,6 +416,7 @@ sub test_roundtrip {
 	print "# $cmd\n" if $verbose;
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
+	die "Failed to produce $tmp1\n" unless -r $tmp1;
     }
 
     my $tmp2 = "$tmp-new.$ext";
@@ -425,6 +427,7 @@ sub test_roundtrip {
 	print "# $cmd\n" if $verbose;
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
+	die "Failed to produce $tmp2\n" unless -r $tmp2;
     }
 
     my $tmp_xml = "$tmp.xml";

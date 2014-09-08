@@ -8,6 +8,7 @@ Morten:
 	* Fix xls export problem.  [#733771]
 	* Update WEEKDAY function.
 	* Fix xlsx export problem for strings.  [#736202]
+	* Text suite improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.17
