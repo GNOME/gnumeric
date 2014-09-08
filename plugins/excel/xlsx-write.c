@@ -1473,9 +1473,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 		  GnmRange const *extent, GnmStyle **col_styles)
 {
 	int r, c;
-	char const *type;
 	char *content;
-	int str_id = -1;
 	GnmParsePos pp;
 	GnmExprTop const *texpr;
 	GnmExprArrayCorner const *array;
@@ -1579,6 +1577,10 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 				gnm_style_unref (style1);
 
 			if (cell) {
+				char const *type;
+				gboolean inlineStr = FALSE;
+				int str_id = -1;
+
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				gsf_xml_out_start_element (xml, "c");
 				gsf_xml_out_add_cstr_unchecked (xml, "r",
@@ -1606,8 +1608,12 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 					if (go_string_get_ref_count (val->v_str.val) > 1) {
 						str_id = xlsx_shared_string (state, val);
 						type = "s";
-					} else
+					} else if (gnm_cell_has_expr (cell))
 						type = "str";
+					else {
+						type = "inlineStr";
+						inlineStr = TRUE;
+					}
 					break;
 				case VALUE_CELLRANGE:
 				case VALUE_ARRAY:
@@ -1639,14 +1645,25 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 						gsf_xml_out_end_element (xml); /* </f> */
 					}
 				}
-				if (NULL != type) {
+
+				if (inlineStr) {
+					PangoAttrList *attrs = VALUE_FMT (val)
+						? (PangoAttrList *)go_format_get_markup (VALUE_FMT (val))
+						: NULL;
+
+					gsf_xml_out_start_element (xml, "is");
+					xlsx_write_rich_text (xml,
+							      value_peek_string (val),
+							      attrs,
+							      FALSE);
+					gsf_xml_out_end_element (xml); /* </is> */
+				} else if (type) {
 					gsf_xml_out_start_element (xml, "v");
-					if (str_id >= 0) {
+					if (str_id >= 0)
 						gsf_xml_out_add_int (xml, NULL, str_id);
-						str_id = -1;
-					} else if (VALUE_IS_BOOLEAN (val)) {
+					else if (VALUE_IS_BOOLEAN (val))
 						xlsx_add_bool (xml, NULL, value_get_as_int (val));
-					} else {
+					else {
 						GString *str = g_string_new (NULL);
 						value_get_as_gstring (cell->value, str, state->convs);
 						gsf_xml_out_add_cstr (xml, NULL, str->str);

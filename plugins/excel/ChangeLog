@@ -1,3 +1,11 @@
+2014-09-08  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_cells): Write string values that are
+	not formula results and not shared using the proper "inlineStr"
+	type.  Neither Excel nor LO really cares, but someone else does,
+	see bug 736202.  As a side effect, this will improve the rich-text
+	situation.
+
 2014-07-27  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_DIMENSION): Fix off-by-one, see
