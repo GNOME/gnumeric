@@ -1,5 +1,8 @@
 2014-09-08  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read.c (xlsx_cell_inline_begin, xlsx_cell_inline_end): New
+	functions to deal with non-shared rich text strings.
+
 	* xlsx-write.c (xlsx_write_cells): Write string values that are
 	not formula results and not shared using the proper "inlineStr"
 	type.  Neither Excel nor LO really cares, but someone else does,
