@@ -42,11 +42,13 @@ sub find_files {
 	('stamp.h' => 1,
 	 'gnumeric-config.h' => 1,
 	 'src/parser.c' => 1,
+	 'src/embedded-imgs.c' => 1,
+	 'src/dialogs/embedded-ui.c' => 1,
 	 );
 
     local (*FIL);
     open (*FIL, "find . '(' -name '*.[chy]' -type f -print ')' -o " .
-	  "'(' -type d '(' -name CVS -o -name intl -o -name macros ')' -prune ')' |") or
+	  "'(' -type d '(' -type d '(' -name intl -o -name macros -o -name .git -o -name win32 ')' -prune ')' |") or
 	die "$0: Cannot run find command.\n";
     while (<FIL>) {
 	chomp;

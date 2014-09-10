@@ -41,7 +41,7 @@ my %guard_to_file = ();
 
 {
     local (*FIND);
-    open (*FIND, "find . '(' -type f -name '*.[hH]' -print ')' -o '(' -type d '(' -name CVS -o -name intl -o -name macros ')' -prune ')' |")
+    open (*FIND, "find . '(' -type f -name '*.[hH]' -print ')' -o '(' -type d '(' -name intl -o -name macros -o -name .git -o -name win32 ')' -prune ')' |")
 	or die "$0: cannot execute find: $!\n";
   FILE:
     foreach my $filename (<FIND>) {
