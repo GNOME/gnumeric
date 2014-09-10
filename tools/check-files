@@ -2,7 +2,7 @@
 #
 #  Gnumeric
 #
-#  Copyright (C) 2001 Morten Welinder.
+#  Copyright (C) 2001,2014 Morten Welinder.
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License as
@@ -34,15 +34,17 @@ my %exceptions =
      );
 
 
-my $pofilename = "po/POTFILES.in";
 my @pot_files;
 my %pot_files;
-{
+foreach my $pofilename ("po/POTFILES.in", "po-functions/POTFILES.in") {
     local (*POT);
     open (*POT, "<$pofilename") or die "Cannot read $pofilename: $!\n";
     while (<POT>) {
 	next if /^\s*\#/ || /^\s*$/;
 	next if /^\s*\[encoding/;
+
+	s{^\s*\[type: gettext/glade\]}{};
+
 	chomp;
 	if(/^\s+/) {
 		print STDERR "WARNING: leading whitespace detected in line ($_)\n";
@@ -60,39 +62,45 @@ my %pot_files;
 foreach my $filename (@pot_files) {
     next if -r $filename && -f $filename;
 
-    print STDERR "$0: File `$filename' listed in $pofilename isn't there.\n";
+    print STDERR "$0: File `$filename' listed for translation isn't there.\n";
     $exitcode = 1;
 }
 
 {
     my $first_unknown = 1;
 
-    local (*CVS);
-    open (*CVS, "cvs -nq update 2>&1 |")
-	or die "$0: cannot execute cvs: $!\n";
-    while (<CVS>) {
+    local (*GIT);
+    open (*GIT, "git status --porcelain 2>&1 |")
+	or die "$0: cannot execute git: $!\n";
+    while (<GIT>) {
 	chomp;
 
-	if (/\? (.*)$/) {
+	if (/^\?+\s+(.*)$/) {
 	    print STDERR "$0: File `$1' is not known.\n";
 	    if ($first_unknown) {
 		$first_unknown = 0;
-		print STDERR "$0:   Suggest delete, cvs add, or .cvsignore solution.\n";
+		print STDERR "$0:   Suggest delete, git add, or .gitignore solution.\n";
 	    }
 	    $exitcode = 1;
 	    next;
 	}
 
-	if (/A (.*)$/) {
+	if (/^\s*A\s*(.*)$/) {
 	    print STDERR "$0: New file `$1' has not been committed.\n";
 	    $exitcode = 1;
 	    next;
 	}
 
-	if (/D (.*)$/) {
+	if (/^\s*M\s*(.*)$/) {
+	    print STDERR "$0: Modified file `$1' has not been committed.\n";
+	    $exitcode = 1;
+	    next;
+	}
+
+	if (/^\s*D\s*(.*)$/) {
 	    print STDERR "$0: Deletion of file `$1' has not been committed.\n";
 	    if ($pot_files{$1}) {
-		print STDERR "$0: FYI, that file is in $pofilename.\n";
+		print STDERR "$0: FYI, that file is listed for translation.\n";
 	    }
 	    $exitcode = 1;
 	    next;
