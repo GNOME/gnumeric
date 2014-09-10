@@ -1,3 +1,4 @@
+#include <gnumeric-config.h>
 #include "perl-gnumeric.h"
 
 SV *

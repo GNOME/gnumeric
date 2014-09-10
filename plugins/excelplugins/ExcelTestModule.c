@@ -20,6 +20,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <gnumeric-config.h>
 #include <gmodule.h>
 
 #if defined( WIN32 ) || defined( WIN64 )

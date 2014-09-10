@@ -27,6 +27,7 @@
  *     i586-mingw32msvc-gcc -shared -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include xlcall32_emulation.c -Wl,-soname -Wl,xlcall32.dll -o .libs/xlcall32.dll
  */
 
+#include <gnumeric-config.h>
 #include <gmodule.h>
 
 #if defined( WIN32 ) || defined( WIN64 )

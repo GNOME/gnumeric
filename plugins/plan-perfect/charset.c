@@ -1,6 +1,7 @@
 /*
    This file is from koffice converted from C++ -> C
    and a utility to map from unicode -> UTF-8.
+   And a config file inclusion -- MW.
    No other modifications where made.
    Jody Goldberg 2002 Aug 16
  */
@@ -23,6 +24,7 @@
    Boston, MA  02110-1301  USA.
 */
 
+#include <gnumeric-config.h>
 #include <glib.h>
 #include <string.h>
 
