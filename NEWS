@@ -4541,7 +4541,7 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=125496
 	* Update all displayed auto values for axis bounds
 	http://bugzilla.gnome.org/show_bug.cgi?id=125886
-	* Have an inverse pull to 0 in case the eps pulls to far
+	* Have an inverse pull to 0 in case the eps pulls too far
 	* Actually install the man pages
 	http://bugzilla.gnome.org/show_bug.cgi?id=126389
 	* Formatting marks a sheet as dirty

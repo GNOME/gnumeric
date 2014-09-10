@@ -6060,7 +6060,7 @@
 2000-12-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/dialogs/dialog-stf-preview.c: Fixed bug. Allocated array was
-	to small.
+	too small.
 
 2000-12-21  Jody Goldberg <jgoldberg@home.com>
 

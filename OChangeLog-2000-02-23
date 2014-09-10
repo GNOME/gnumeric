@@ -2212,7 +2212,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/functions/fn-financial.c (help_disc): Fix typo
 
         * src/plugin.c (plugin_load): Include context when calling
-	init_plugin. "data" was freed to early
+	init_plugin. "data" was freed too early
 
 2000-01-14  Morten Welinder  <terra@diku.dk>
 

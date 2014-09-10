@@ -176,7 +176,7 @@ oleo_parse_cell (OleoReader *state, guint8 *str, GnmStyle *style)
 		gnm_expr_top_unref (texpr);
 }
 
-/* NOTE : We don't care to much about formatting as such, but we need to
+/* NOTE : We don't care too much about formatting as such, but we need to
  * parse the command as it may update current row/column */
 static void
 oleo_parse_style (OleoReader *state, guint8 *str, GnmStyle **res)

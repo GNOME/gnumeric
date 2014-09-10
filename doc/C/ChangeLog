@@ -999,7 +999,7 @@
 
 	* texmf.cnf: New.
 	* graphics-plots.xml: Removed "width" settings from <imagedata> as they
-	caused the images to be much to large when rendering the manual to PDF.
+	caused the images to be much too large when rendering the manual to PDF.
 
 2007-07-24  Jody Goldberg <jody@gnome.org>
 

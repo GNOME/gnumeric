@@ -5272,7 +5272,7 @@
 	(od_write_covered_cell): new
 	(od_write_cell): new
 	(oo_write_sheet): use the above and drop the check for whether the
-	  extent is to large for openoffice. OpenDocument has no limit
+	  extent is too large for openoffice. OpenDocument has no limit
 	(openoffice_file_save): use new ur[ln]s
 
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
