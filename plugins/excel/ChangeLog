@@ -1,3 +1,8 @@
+2014-09-10  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c: Factor out rich text nodes into a macro.  This
+	replaces having three copies, more or less up to date.
+
 2014-09-08  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_cell_inline_begin, xlsx_cell_inline_end): New
