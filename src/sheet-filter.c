@@ -921,9 +921,12 @@ gnm_sheet_filter_at_pos (Sheet const *sheet, GnmCellPos const *pos)
 }
 
 /**
- * gnm_sheet_filter_intersect_rows :
+ * gnm_sheet_filter_intersect_rows:
+ * @sheet:
+ * @from: starting row number
+ * @to: ending row number
  *
- * Returns: the filter (if any) that intersect the rows from to to
+ * Returns: the filter, if any, that intersect the rows @from to @to
  **/
 GnmFilter *
 gnm_sheet_filter_intersect_rows (Sheet const *sheet, int from, int to)

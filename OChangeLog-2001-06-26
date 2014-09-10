@@ -4983,7 +4983,7 @@
 
 	* src/sheet-style.h : decl for StyleRow.
 
-	* src/xml-io.c : Use the Child and Root aliases to ease ease
+	* src/xml-io.c : Use the Child and Root aliases to ease
 	  transition from xml1 -> xml2.
 	(xml_sheet_create) : default name for sheets that fail to specify one.
 
@@ -6646,7 +6646,7 @@
 2000-12-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c (wb_view_sheet_focus) : Init the selection
-	  descriptor and format format.
+	  descriptor and format.
 	(wb_view_selection_desc) : new function.
 	(workbook_view_init) : Init the expression and format before setting
 	  the current sheet.  Setting the sheet will update the content.

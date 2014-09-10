@@ -2170,7 +2170,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(Sheet_clear_region_comments) : Ditto.
 	(Sheet_clear_region_formats) : Ditto.
 
-	* src/commands.c (cmd_ins_del_row_col_{undo,redo}) : Reload the the
+	* src/commands.c (cmd_ins_del_row_col_{undo,redo}) : Reload the
 	  edit bar just in case.
 	(cmd_set_date_time_{undo,redo}) : Ditto.
 	(cmd_clear{,_undo,_redo,_destroy}) : Implement.

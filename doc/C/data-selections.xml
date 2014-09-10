@@ -31,7 +31,7 @@
 
     <para>
       The selected cell is indicated by a dark double line with a small
-      square in the bottom right corner. The selected cell is the the
+      square in the bottom right corner. The selected cell is the
       one that is currently in focus and will take any input for the
       keyboard.
     </para>

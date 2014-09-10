@@ -3247,7 +3247,7 @@
 	* src/eval.c (cb_dependent_queue_recalc): Allocate single list
  	element on stack, not heap.
 	(dependent_queue_recalc_list): Don't essentailly copy all lists.
-	(UNLINK_DEP): Take only dep arguement and find the container from
+	(UNLINK_DEP): Take only dep argument and find the container from
  	that.
 
 2001-08-29  Morten Welinder  <terra@diku.dk>

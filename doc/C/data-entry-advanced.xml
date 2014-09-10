@@ -42,7 +42,7 @@
 
         <step>
           <para>
-            Enter data by typing the data and the the
+            Enter data by typing the data and the
             <keysym>Enter</keysym> key. If this is done repeatedly,
             the fifth time the <keysym>Enter</keysym> key is pressed,
             the selection will not move to cell C9 but will jump up to

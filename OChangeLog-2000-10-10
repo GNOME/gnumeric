@@ -2663,7 +2663,7 @@
 
 	* src/number-match.c (format_create_regexp) : Build the regexp
 	  ourselves.  The poor translators had no idea what the hell that was
-	  supposed to do.  The regexp is still way way to general.
+	  supposed to do.  The regexp is still way too general.
 	(compute_value) : Use the locale.
 
 	* src/expr.c (expr_tree_as_string) : Renamed from expr_decode_tree.
@@ -7232,7 +7232,7 @@
 	keyboard focus to an appropriate widget on the page.
 	(dialog_stf_druid_page_next, dialog_stf_druid_page_previous): Set
 	initial keyboard focus.
-	(dialog_stf_druid_page_next): Make "Finish" button default on the the
+	(dialog_stf_druid_page_next): Make "Finish" button default on the
 	final page. This doesn't change behaviour, but cues the user
 	visually.
 	(dialog_stf_druid_page_previous): Restore "Next" button as default

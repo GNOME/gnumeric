@@ -403,7 +403,7 @@
 	    that if the file has been moved since
 	    &gnum; last saved it,
 	    &gnum; will not find the
-	    file. To access any recent file not listed, one can use the the
+	    file. To access any recent file not listed, one can use the
 	    <guimenuitem>Full History...</guimenuitem> menu item below.
 	  </para>
 	</listitem>

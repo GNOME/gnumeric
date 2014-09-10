@@ -5039,7 +5039,7 @@
 	(odf_append_page_break) : new.
 	(odf_col_row_style_apply_breaks) : new.
 	(oo_col_start) : keep a counter of style use to find the default.
-	  Handle manual vs auto (kludged, no default is specified in the the
+	  Handle manual vs auto (kludged, no default is specified in the
 	  std).
 	(oo_row_start) : ditto.
 	(oo_cell_content_end) : simple mechanism to track extent of cells
