@@ -24,6 +24,7 @@ use strict;
 use XML::Parser;
 
 my $exitcode = 0;
+my $verbose = 0;
 
 die "$0: must be run from top-level directory.\n"
     unless -r "configure.ac" && -r 'ChangeLog';
@@ -33,7 +34,7 @@ my %exceptions = ();
 my @files;
 {
     local (*FIND);
-    open (*FIND, "find . '(' -name \*.glade -type f -print ')' -o '(' -type d '(' -name .git -o -name intl -o -name macros ')' -prune ')' |")
+    open (*FIND, "find . '(' -name \*.ui -type f -print ')' -o '(' -type d '(' -name .git -o -name win32 -o -name intl -o -name macros ')' -prune ')' |")
 	or die "$0: cannot execute find: $!\n";
     foreach my $filename (<FIND>) {
 	chomp $filename;
@@ -49,6 +50,7 @@ my @files;
     my $parser = new XML::Parser ('Style' => 'Tree');
   FILE:
     foreach my $filename (@files) {
+	print STDERR "Parsing $filename\n" if $verbose;
 	eval {
 	    my $tree = $parser->parsefile ($filename);
 	};
