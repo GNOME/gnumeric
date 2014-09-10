@@ -1,3 +1,49 @@
+2014-09-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* advanced-filter.ui: set the type_hint property to "dialog". [#736395]
+	* anova-one.ui: ditto.
+	* anova-two.ui: ditto.
+	* autofilter-expression.ui: ditto.
+	* autofilter-top10.ui: ditto.
+	* autoformat.ui: ditto.
+	* autosave.ui: ditto.
+	* chi-squared.ui: ditto.
+	* consolidate.ui: ditto.
+	* correlation.ui: ditto.
+	* covariance.ui: ditto.
+	* delete-cells.ui: ditto.
+	* descriptive-stats.ui: ditto.
+	* dialog-zoom.ui: ditto.
+	* fill-series.ui: ditto.
+	* formula-guru.ui: ditto.
+	* fourier-analysis.ui: ditto.
+	* goalseek.ui: ditto.
+	* goto.ui: ditto.
+	* insert-cells.ui: ditto.
+	* mean-tests.ui: ditto.
+	* merge.ui: ditto.
+	* normality-tests.ui: ditto.
+	* one-mean-test.ui: ditto.
+	* principal-components.ui: ditto.
+	* random-generation.ui: ditto.
+	* rank.ui: ditto.
+	* scenario-add.ui: ditto.
+	* scenario-manager.ui: ditto.
+	* search.ui: ditto.
+	* shuffle.ui: ditto.
+	* sign-test-two.ui: ditto.
+	* sign-test.ui: ditto.
+	* simulation.ui: ditto.
+	* so-button.ui: ditto.
+	* so-checkbox.ui: ditto.
+	* so-frame.ui: ditto.
+	* so-scrollbar.ui: ditto.
+	* tabulate.ui: ditto.
+	* variance-tests.ui: ditto.
+	* view.ui: ditto.
+	* wilcoxon-mann-whitney.ui: ditto.
+	* workbook-attr.ui: ditto.
+
 2014-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-format-cond.c (cb_c_fmt_dialog_dialog_buttons):

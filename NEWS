@@ -4,6 +4,9 @@ Andreas:
 	* Improve documentation. [#733466]
 	* Add warning dialog. [#733352]
 
+Jean:
+	* Fix dialogs behavior in full screen mode. [#736395]
+
 Morten:
 	* Fix xls export problem.  [#733771]
 	* Update WEEKDAY function.

@@ -5,7 +5,7 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Descriptive Statistics</property>
     <property name="destroy_with_parent">True</property>
-    <property name="type_hint">normal</property>
+    <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="vbox1">
         <property name="visible">True</property>
