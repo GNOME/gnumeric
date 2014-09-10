@@ -56,20 +56,20 @@ FILE:
 	    chomp;
 	    last if m|^/dev/null:|;
 	    if (!/:0$/) {
-		print STDERR "File `$filename' sets the visible property to True.\n";
+		print STDERR "File `$filename' sets the visible property to \"True\".\n";
 		$exitcode = 1;
 		next FILE;
 	    }
 	}
 	close (*GREP);
 
-	open (*GREP, "grep -c '^ *<property name=\"type_hint\">GDK_WINDOW_TYPE_HINT_NORMAL</property>' '$filename' /dev/null 2>/dev/null |")
+	open (*GREP, "grep -c '^ *<property name=\"type_hint\">normal</property>' '$filename' /dev/null 2>/dev/null |")
 	    or die "$0: cannot execute grep: $!\n";
 	while (<GREP>) {
 	    chomp;
 	    last if m|^/dev/null:|;
 	    if (!/:0$/) {
-		print STDERR "File `$filename' sets the type_hint property to GDK_WINDOW_TYPE_HINT_NORMAL.\n";
+		print STDERR "File `$filename' sets the type_hint property to \"normal\".\n";
 		$exitcode = 1;
 		next FILE;
 	    }
