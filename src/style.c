@@ -644,7 +644,7 @@ GnmUnderline
 gnm_translate_underline_from_pango (PangoUnderline pul)
 {
 	g_return_val_if_fail (pul >= PANGO_UNDERLINE_NONE, UNDERLINE_NONE);
-	g_return_val_if_fail (pul <= PANGO_UNDERLINE_LOW, UNDERLINE_NONE);
+	g_return_val_if_fail (pul <= PANGO_UNDERLINE_ERROR, UNDERLINE_NONE);
 
 	switch (pul) {
 	case PANGO_UNDERLINE_SINGLE:
@@ -653,6 +653,8 @@ gnm_translate_underline_from_pango (PangoUnderline pul)
 		return UNDERLINE_DOUBLE;
 	case PANGO_UNDERLINE_LOW:
 		return UNDERLINE_SINGLE_LOW;
+	case PANGO_UNDERLINE_ERROR:
+		/* What?  */
 	case PANGO_UNDERLINE_NONE:
 	default:
 		return UNDERLINE_NONE;

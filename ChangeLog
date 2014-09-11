@@ -1,3 +1,8 @@
+2014-09-11  Morten Welinder  <terra@gnome.org>
+
+	* src/style.c (gnm_translate_underline_from_pango): Survive
+	PANGO_UNDERLINE_ERROR.
+
 2014-06-09  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
