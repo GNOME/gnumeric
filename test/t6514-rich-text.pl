@@ -26,12 +26,18 @@ my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:
 # xls cannot have superscript and subscript at the same time
 my $xls_supersub_filter = "$PERL -p -e 's{\\[superscript=1:3:5\\]\\[subscript=1:4:5\\]}{[superscript=1:3:4][subscript=1:4:5]};'";
 
+# BIFF7 cannot store comment author
+my $xls_no_author_filter = "$PERL -p -e 's{ Author=\"[^\"]*\"}{};'";
+
+# BIFF7 cannot store rich text comments
+my $xls_no_rich_comment = "$PERL -p -e 'if (/gnm:CellComment/) { s{ TextFormat=\"[^\"]*\"}{}; }'";
+
 &message ("Check rich text xls/BIFF7 roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff7',
 		 'ext' => "xls",
 		 'resize' => '16384x256',
-		 'filter1' => $xls_supersub_filter,
+		 'filter1' => "$xls_supersub_filter | $xls_no_author_filter | $xls_no_rich_comment",
 		 'filter2' => $xls_codepage_filter);
 
 &message ("Check rich text xls/BIFF8 roundtrip.");
