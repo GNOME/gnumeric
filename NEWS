@@ -13,6 +13,7 @@ Morten:
 	* Fix xlsx export problem for strings.  [#736202]
 	* Improve xlsx import of rich text.
 	* Text suite improvements.
+	* Fix minor ods rich text import problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.17

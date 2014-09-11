@@ -678,7 +678,7 @@ oo_attr_font_weight (GsfXMLIn *xin, xmlChar const * const *attrs,
 		return TRUE;
 	}
 	return oo_attr_int_range (xin, attrs, OO_NS_FO, "font-weight",
-				    res, 0, 1000);
+				  res, 0, 1000);
 }
 
 
@@ -1660,7 +1660,7 @@ odf_text_p_apply_pango_attribute (PangoAttribute *attribute, gpointer ptr)
 	attr->start_index = data->start;
 	attr->end_index = data->end;
 
-	pango_attr_list_insert_before (data->attrs, attr);
+	pango_attr_list_change (data->attrs, attr);
 
 	return FALSE;
 }

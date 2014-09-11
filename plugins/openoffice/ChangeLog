@@ -1,3 +1,9 @@
+2014-09-11  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_text_p_apply_pango_attribute): Use
+	pango_attr_list_change, not pango_attr_list_insert_before.  The
+	latter does not merge ranges.
+
 2014-06-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.17
