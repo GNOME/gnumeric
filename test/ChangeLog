@@ -1,3 +1,8 @@
+2014-09-11  Morten Welinder  <terra@gnome.org>
+
+	* t6514-rich-text.pl: Hide comment author and rich text formatting
+	for biff7.
+
 2014-09-08  Morten Welinder  <terra@gnome.org>
 
 	* GnumericTest.pm (test_roundtrip): Catch when ssconvert fails to
