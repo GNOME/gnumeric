@@ -2638,6 +2638,23 @@ put_format (ExcelStyleVariant const *esv, gpointer dummy, XLExportBase *xle)
 }
 
 static void
+set_ifmt (G_GNUC_UNUSED GOFormat *format, G_GNUC_UNUSED gboolean was_added,
+          gint index, int *tmpl)
+{
+		*tmpl = index;
+}
+
+int
+excel_write_add_object_format (ExcelWriteState *ewb, GOFormat *format)
+{
+	int ifmt;
+	two_way_table_put (ewb->base.formats.two_way_table,
+	                   /* cast the int* to char* until the API accepts void* there */
+	                   format, TRUE, (AfterPutFunc) set_ifmt, (char*) &ifmt);
+	return ifmt;
+}
+
+static void
 excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 {
 	guint8 data[64];

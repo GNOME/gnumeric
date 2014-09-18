@@ -178,4 +178,6 @@ int excel_font_from_go_font (XLExportBase *ewb, GOFont const *font);
 void xls_write_pivot_caches (ExcelWriteState *ewb, GsfOutfile *outfile,
 			     MsBiffVersion version, int codepage);
 
+int excel_write_add_object_format (ExcelWriteState *ewb, GOFormat *format);
+
 #endif /* GNM_MS_EXCEL_WRITE_H */

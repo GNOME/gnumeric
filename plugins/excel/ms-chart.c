@@ -4947,6 +4947,13 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 	if (axis != NULL) {
 		GOStyle *style = GOG_STYLED_OBJECT (axis)->style;
 		int font;
+		GOFormat *fmt = gog_axis_get_format (axis);
+		if (fmt) {
+			int ifmt = excel_write_add_object_format (s->ewb, fmt);
+			data = ms_biff_put_len_next (s->bp, BIFF_CHART_ifmt, 2);
+			GSF_LE_SET_GUINT16 (data, ifmt);
+			ms_biff_put_commit (s->bp);
+		}
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_tick,
 			(s->bp->version >= MS_BIFF_V8) ? 30 : 26);
 		g_object_get (G_OBJECT (axis),

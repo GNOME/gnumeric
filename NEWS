@@ -6,6 +6,7 @@ Andreas:
 
 Jean:
 	* Fix dialogs behavior in full screen mode. [#736395]
+	* Save axis format to xls. [#736656]
 
 Morten:
 	* Fix xls export problem.  [#733771]
