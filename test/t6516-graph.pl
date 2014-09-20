@@ -20,10 +20,8 @@ my $ods_outline_filter = "$PERL -p -e 'if (/\\bmarker\\b.*fill-color=\"([A-Z0-9:
 		 'format' => 'Gnumeric_OpenCalc:odf',
 		 'ext' => "ods",
 		 'filter1' => $ods_outline_filter,
-		 'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'",
+		 'filter2' => 'std:drop_generator',
 		 'ignore_failure' => 1);
-
-my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
 
 if (0) {
     # We don't save graphs, so don't test.
@@ -32,14 +30,14 @@ if (0) {
 		     'format' => 'Gnumeric_Excel:excel_biff7',
 		     'ext' => "xls",
 		     'resize' => '16384x256',
-		     'filter2' => $xls_codepage_filter);
+		     'filter2' => 'std:drop_codepage');
 }
 
 &message ("Check graph xls/BIFF8 roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff8',
 		 'ext' => "xls",
-		 'filter2' => $xls_codepage_filter,
+		 'filter2' => 'std:drop_codepage',
 		 'ignore_failure' => 1);
 
 &message ("Check graph xlsx roundtrip.");

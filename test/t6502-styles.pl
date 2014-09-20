@@ -16,9 +16,7 @@ my $file = "$samples/style-tests.gnumeric";
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_OpenCalc:odf',
 		 'ext' => "ods",
-		 'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'");
-
-my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
+		 'filter2' => 'std:drop_generator');
 
 # Biff7 only handles a few fixed rotations.
 my $xls_rotation_filter = "$PERL -p -e 's{\\b(Rotation)=\"315\"}{\$1=\"270\"}; s{\\b(Rotation)=\"45\"}{\$1=\"0\"};'";
@@ -38,14 +36,14 @@ my $xls_pattern_filter = "$PERL -p -e 'use English; my \%m=(19,14,20,7,21,4,22,4
 		 'ext' => "xls",
 		 'resize' => '16384x256',
 		 'filter1' => "$xls_rotation_filter | $xls_pattern_filter | $xls_diagonal_filter | $xls_indent_filter",
-		 'filter2' => $xls_codepage_filter);
+		 'filter2' => 'std:drop_codepage');
 
 &message ("Check style xls/BIFF8 roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff8',
 		 'ext' => "xls",
 		 'filter1' => $xls_pattern_filter,
-		 'filter2' => $xls_codepage_filter);
+		 'filter2' => 'std:drop_codepage');
 
 &message ("Check style xlsx roundtrip.");
 &test_roundtrip ($file,

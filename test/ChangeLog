@@ -1,3 +1,8 @@
+2014-09-20  Morten Welinder  <terra@gnome.org>
+
+	* GnumericTest.pm (normalize_filter): Maintain a catalog of
+	standard filters.
+
 2014-09-11  Morten Welinder  <terra@gnome.org>
 
 	* t6514-rich-text.pl: Hide comment author and rich text formatting

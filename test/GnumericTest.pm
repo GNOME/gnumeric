@@ -376,6 +376,38 @@ sub test_exporter {
 
 # -----------------------------------------------------------------------------
 
+# The BIFF formats leave us with a msole:codepage property
+my $drop_codepage_filter =
+    "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
+
+my $drop_generator_filter =
+    "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'";
+
+# BIFF7 doesn't store cell comment author
+my $no_author_filter = "$PERL -p -e 's{ Author=\"[^\"]*\"}{};'";
+
+# BIFF7 cannot store rich text comments
+my $no_rich_comment_filter = "$PERL -p -e 'if (/gnm:CellComment/) { s{ TextFormat=\"[^\"]*\"}{}; }'";
+
+# Excel cannot have superscript and subscript at the same time
+my $supersub_filter = "$PERL -p -e 's{\\[superscript=1:(\\d+):(\\d+)\\]\\[subscript=1:(\\d+):\\2\\]}{[superscript=1:\$1:\$3][subscript=1:\$3:\$2]};'";
+
+
+sub normalize_filter {
+    my ($f) = @_;
+    return 'cat' unless defined $f;
+
+    $f =~ s/std:drop_codepage/$drop_codepage_filter/;
+    $f =~ s/std:drop_generator/$drop_generator_filter/;
+    $f =~ s/std:no_author/$no_author_filter/;
+    $f =~ s/std:no_rich_comment/$no_rich_comment_filter/;
+    $f =~ s/std:supersub/$supersub_filter/;
+
+    return $f;
+}
+
+# -----------------------------------------------------------------------------
+
 sub test_roundtrip {
     my ($file,%named_args) = @_;
 
@@ -386,8 +418,10 @@ sub test_roundtrip {
     my $resize = $named_args{'resize'};
     my $ignore_failure = $named_args{'ignore_failure'};
 
-    my $filter1 = $named_args{'filter1'} || $named_args{'filter'} || 'cat';
-    my $filter2 = $named_args{'filter2'} || $named_args{'filter'} || 'cat';
+    my $filter1 = &normalize_filter ($named_args{'filter1'} ||
+				     $named_args{'filter'});
+    my $filter2 = &normalize_filter ($named_args{'filter2'} ||
+				     $named_args{'filter'});
 
     my $tmp = fileparse ($file);
     $tmp =~ s/\.([a-zA-Z0-9]+)$// or die "Must have extension for roundtrip test.";

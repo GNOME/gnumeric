@@ -19,10 +19,8 @@ if (1) {
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_OpenCalc:odf',
 		     'ext' => "ods",
-		     'filter2' => "$PERL -p -e '\$_ = \"\" if m{<meta:generator>}'");
+		     'filter2' => 'std:drop_generator');
 }
-
-my $xls_codepage_filter = "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
 
 if (1) {
     &message ("Not checking solver xls/BIFF7 roundtrip -- format is deficient");
@@ -32,7 +30,7 @@ if (1) {
 		     'format' => 'Gnumeric_Excel:excel_biff7',
 		     'ext' => "xls",
 		     'resize' => '16384x256',
-		     'filter2' => $xls_codepage_filter);
+		     'filter2' => 'std:drop_codepage');
 }
 
 if (1) {
@@ -42,7 +40,7 @@ if (1) {
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_Excel:excel_biff8',
 		     'ext' => "xls",
-		     'filter2' => $xls_codepage_filter);
+		     'filter2' => 'std:drop_codepage');
 }
 
 if (1) {
