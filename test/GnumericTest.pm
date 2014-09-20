@@ -345,18 +345,30 @@ sub test_exporter {
 
     my $tmp1 = "$tmp.gnumeric";
     &junkfile ($tmp1) unless $keep;
-    $code = system ("$ssconvert '$file' '$tmp1' 2>&1 | sed -e 's/^/| /'");
-    &system_failure ($ssconvert, $code) if $code;
+    {
+	my $cmd = "$ssconvert '$file' '$tmp1'";
+	print STDERR "# $cmd\n" if $verbose;
+	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
+	&system_failure ($ssconvert, $code) if $code;
+    }
 
     my $tmp2 = "$tmp-new.$ext";
     &junkfile ($tmp2) unless $keep;
-    $code = system ("$ssconvert '$file' '$tmp2' 2>&1 | sed -e 's/^/| /'");
-    &system_failure ($ssconvert, $code) if $code;
+    {
+	my $cmd = "$ssconvert '$file' '$tmp2'";
+	print STDERR "# $cmd\n" if $verbose;
+	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
+	&system_failure ($ssconvert, $code) if $code;
+    }
 
     my $tmp3 = "$tmp-new.gnumeric";
     &junkfile ($tmp3) unless $keep;
-    $code = system ("$ssconvert '$tmp2' '$tmp3' 2>&1 | sed -e 's/^/| /'");
-    &system_failure ($ssconvert, $code) if $code;
+    {
+	my $cmd = "$ssconvert '$tmp2' '$tmp3'";
+	print STDERR "# $cmd\n" if $verbose;
+	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
+	&system_failure ($ssconvert, $code) if $code;
+    }
 
     my $tmp4 = "$tmp.xml";
     &junkfile ($tmp4) unless $keep;

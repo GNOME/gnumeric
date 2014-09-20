@@ -2,6 +2,7 @@
 
 	* GnumericTest.pm (normalize_filter): Maintain a catalog of
 	standard filters.
+	(test_exporter): Honour --verbose, at least in part.
 
 2014-09-11  Morten Welinder  <terra@gnome.org>
 
