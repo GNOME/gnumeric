@@ -1655,7 +1655,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 					xlsx_write_rich_text (xml,
 							      value_peek_string (val),
 							      attrs,
-							      TRUE);
+							      FALSE);
 					gsf_xml_out_end_element (xml); /* </is> */
 				} else if (type) {
 					gsf_xml_out_start_element (xml, "v");

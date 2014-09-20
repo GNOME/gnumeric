@@ -1,3 +1,8 @@
+2014-09-20  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_cells): xml:space evidently isn't
+	allowed in here.
+
 2014-09-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (chart_write_axis): save axis format. [#736656]
