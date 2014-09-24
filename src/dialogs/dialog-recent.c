@@ -89,8 +89,6 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 
 	gtk_tree_model_get (model, iter, RECENT_COL_INFO, &ri, -1);
 
-	if (ri == NULL)
-		return;
 	uri = gtk_recent_info_get_uri (ri);
 	filename = go_filename_from_uri (uri);
 	if (filename) {
@@ -244,20 +242,6 @@ dialog_recent_used (WBCGtk *wbcg)
 
 	dialog = GTK_DIALOG (go_gtk_builder_get_widget (gui, "recent_dialog"));
 
-	gtk_tree_view_column_set_cell_data_func
-		(GTK_TREE_VIEW_COLUMN (gtk_builder_get_object (gui, "url_column")),
-		 GTK_CELL_RENDERER (gtk_builder_get_object (gui, "url_renderer")),
-		 url_renderer_func,
-		 NULL,
-		 NULL);
-
-	gtk_tree_view_column_set_cell_data_func
-		(GTK_TREE_VIEW_COLUMN (gtk_builder_get_object (gui, "age_column")),
-		 GTK_CELL_RENDERER (gtk_builder_get_object (gui, "age_renderer")),
-		 age_renderer_func,
-		 g_date_time_new_now_local (),
-		 (GDestroyNotify)g_date_time_unref);
-
 	g_signal_connect (G_OBJECT (dialog), "response",
 			  G_CALLBACK (cb_response), wbcg);
 
@@ -285,6 +269,20 @@ dialog_recent_used (WBCGtk *wbcg)
 				  "toggled", G_CALLBACK (populate_recent_model), gui);
 
 	populate_recent_model (gui);
+
+	gtk_tree_view_column_set_cell_data_func
+		(GTK_TREE_VIEW_COLUMN (gtk_builder_get_object (gui, "url_column")),
+		 GTK_CELL_RENDERER (gtk_builder_get_object (gui, "url_renderer")),
+		 url_renderer_func,
+		 NULL,
+		 NULL);
+
+	gtk_tree_view_column_set_cell_data_func
+		(GTK_TREE_VIEW_COLUMN (gtk_builder_get_object (gui, "age_column")),
+		 GTK_CELL_RENDERER (gtk_builder_get_object (gui, "age_renderer")),
+		 age_renderer_func,
+		 g_date_time_new_now_local (),
+		 (GDestroyNotify)g_date_time_unref);
 
 	/* ---------------------------------------- */
 
