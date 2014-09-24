@@ -89,6 +89,8 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 
 	gtk_tree_model_get (model, iter, RECENT_COL_INFO, &ri, -1);
 
+	if (ri == NULL)
+		return;
 	uri = gtk_recent_info_get_uri (ri);
 	filename = go_filename_from_uri (uri);
 	if (filename) {

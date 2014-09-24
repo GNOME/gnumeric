@@ -1,3 +1,7 @@
+2014-09-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-recent.c (url_renderer_func): fix crash with gtk+-3.14.0.
+
 2014-09-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* advanced-filter.ui: set the type_hint property to "dialog". [#736395]
