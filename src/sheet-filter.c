@@ -44,6 +44,24 @@
 #include <stdlib.h>
 #include <string.h>
 
+static gboolean
+gnm_filter_op_needs_value (GnmFilterOp op)
+{
+	switch (op & GNM_FILTER_OP_TYPE_MASK) {
+	case GNM_FILTER_OP_TYPE_OP:
+	case GNM_FILTER_OP_TYPE_BUCKETS:
+	case GNM_FILTER_OP_TYPE_MATCH:
+		return TRUE;
+	default:
+		g_assert_not_reached ();
+	case GNM_FILTER_OP_TYPE_BLANKS:
+	case GNM_FILTER_OP_TYPE_AVERAGE:
+	case GNM_FILTER_OP_TYPE_STDDEV:
+		return FALSE;
+	}
+}
+
+
 /**
  * gnm_filter_condition_new_single :
  * @op: #GnmFilterOp
@@ -57,7 +75,7 @@ gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
 {
 	GnmFilterCondition *res;
 
-	g_return_val_if_fail (v != NULL, NULL);
+	g_return_val_if_fail ((v != NULL) == gnm_filter_op_needs_value (op), NULL);
 
 	res = g_new0 (GnmFilterCondition, 1);
 	res->op[0] = op;	res->op[1] = GNM_FILTER_UNUSED;
@@ -83,8 +101,8 @@ gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
 {
 	GnmFilterCondition *res;
 
-	g_return_val_if_fail (v0 != NULL, NULL);
-	g_return_val_if_fail (v1 != NULL, NULL);
+	g_return_val_if_fail ((v0 != NULL) == gnm_filter_op_needs_value (op0), NULL);
+	g_return_val_if_fail ((v1 != NULL) == gnm_filter_op_needs_value (op1), NULL);
 
 	res = g_new0 (GnmFilterCondition, 1);
 	res->op[0] = op0;	res->op[1] = op1;

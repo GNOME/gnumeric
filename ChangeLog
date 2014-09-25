@@ -1,3 +1,9 @@
+2014-09-25  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-filter.c (gnm_filter_condition_new_single)
+	(gnm_filter_condition_new_double): Fix preconditions.  See
+	#735249.
+
 2014-09-23  Morten Welinder  <terra@gnome.org>
 
 	* src/libgnumeric.c (gnm_pre_parse_init): Mess with gobject so it
