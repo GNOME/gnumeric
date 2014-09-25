@@ -356,6 +356,7 @@ typedef struct {
 	gboolean         p_seen;
 	guint            offset;
 	GSList          *span_style_stack;
+	GSList          *span_style_list;
 	gboolean	 content_is_simple;
 	GString         *gstr;
 	PangoAttrList   *attrs;
@@ -489,6 +490,7 @@ struct  _OOParseState {
 
 typedef struct {
 	int start;
+	int end;
 	char *style_name;
 } span_style_info_t;
 
@@ -1710,6 +1712,7 @@ odf_push_text_p (OOParseState *state, gboolean permanent)
 	ptr->p_seen = FALSE;
 	ptr->offset = 0;
 	ptr->span_style_stack = NULL;
+	ptr->span_style_list = NULL;
 	state->text_p_stack = g_slist_prepend (state->text_p_stack, ptr);
 }
 
@@ -1722,8 +1725,11 @@ odf_pop_text_p (OOParseState *state)
 	g_return_if_fail (state->text_p_stack != NULL);
 
 	ptr = link->data;
-	g_slist_free_full (ptr->span_style_stack, g_free);
+	g_slist_free (ptr->span_style_stack);
+	/* ptr->span_style_list should be NULL. If it isn't something went wrong and we are leaking here! */
+	g_slist_free_full (ptr->span_style_list, g_free);
 	ptr->span_style_stack = NULL;
+	ptr->span_style_list = NULL;
 	if (!ptr->permanent) {
 		if (ptr->gstr)
 			g_string_free (ptr->gstr, TRUE);
@@ -1753,6 +1759,7 @@ odf_text_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	oo_text_p_t *ptr;
+	GSList *list = NULL, *l;
 
 	g_return_if_fail ( state->text_p_stack != NULL);
 	ptr = state->text_p_stack->data;
@@ -1764,6 +1771,27 @@ odf_text_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		odf_text_p_add_text
 			(state, xin->content->str + ptr->offset);
 	ptr->offset = 0;
+	l = list = g_slist_reverse(ptr->span_style_list);
+	while (l != NULL) {
+		span_style_info_t *ssi = l->data;
+		if (ssi != NULL) {
+			int start = ssi->start;
+			int end = ssi->end;
+			char *style_name = ssi->style_name;
+			if (style_name != NULL && end > 0 && end > start) {
+				PangoAttrList *attrs = g_hash_table_lookup (state->styles.text, style_name);
+				if (attrs == NULL)
+					oo_warning (xin, _("Unknown text style with name \"%s\" encountered!"), style_name);
+				else
+					odf_text_p_apply_style (state, attrs, start, end);
+			}
+			g_free (style_name);
+			g_free (ssi);
+		}
+		l = l->next;
+	}
+	g_slist_free (list);
+	ptr->span_style_list = NULL;
 }
 
 static void
@@ -1787,6 +1815,7 @@ odf_text_span_start (GsfXMLIn *xin, xmlChar const **attrs)
 				ssi->style_name = g_strdup (attrs[1]);
 
 		ptr->span_style_stack = g_slist_prepend (ptr->span_style_stack, ssi);
+		ptr->span_style_list = g_slist_prepend (ptr->span_style_list, ssi);
 	}
 }
 
@@ -1812,18 +1841,8 @@ odf_text_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		ssi = ptr->span_style_stack->data;
 		ptr->span_style_stack = g_slist_delete_link (ptr->span_style_stack,
 							     ptr->span_style_stack);
-
-		if (ssi != NULL) {
-			if (ssi->style_name != NULL && end > 0 && end > ssi->start) {
-				PangoAttrList *attrs = g_hash_table_lookup (state->styles.text, ssi->style_name);
-				if (attrs == NULL)
-					oo_warning (xin, _("Unknown text style with name \"%s\" encountered!"), ssi->style_name);
-				else
-					odf_text_p_apply_style (state, attrs, ssi->start, end);
-			}
-			g_free (ssi->style_name);
-			g_free (ssi);
-		}
+		if (ssi != NULL)
+			ssi->end = end;
 	}
 }
 
@@ -13026,6 +13045,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.text_p_stack = NULL;
 	state.text_p_for_cell.permanent = TRUE;
 	state.text_p_for_cell.span_style_stack = NULL;
+	state.text_p_for_cell.span_style_list = NULL;
 	state.text_p_for_cell.gstr = NULL;
 	state.text_p_for_cell.attrs = NULL;
 
@@ -13184,7 +13204,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		g_slist_free_full (state.chart_list, odf_destroy_object_offset);
 	if (state.chart.cs_variables)
 		g_hash_table_destroy (state.chart.cs_variables);
-	g_slist_free_full (state.text_p_for_cell.span_style_stack, g_free);
+	g_slist_free (state.text_p_for_cell.span_style_stack);
+	g_slist_free_full (state.text_p_for_cell.span_style_list, g_free);
 	if (state.text_p_for_cell.gstr)
 		g_string_free (state.text_p_for_cell.gstr, TRUE);
 	if (state.text_p_for_cell.attrs)

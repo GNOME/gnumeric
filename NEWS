@@ -3,6 +3,7 @@ Gnumeric 1.12.18
 Andreas:
 	* Improve documentation. [#733466]
 	* Add warning dialog. [#733352]
+	* Fix rich text roundtrip through ODF. [#737039]
 
 Jean:
 	* Fix dialogs behavior in full screen mode. [#736395]

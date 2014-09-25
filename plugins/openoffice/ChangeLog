@@ -1,3 +1,13 @@
+2014-09-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_push_text_p): initialize new field
+	span_style_list
+	(odf_pop_text_p): free span_style_list
+	(odf_text_content_end): apply text styles here
+	(odf_text_span_end): rather than here
+	(odf_text_span_start): save the ssi also in span_style_list
+	(openoffice_file_open): handle span_style_list
+
 2014-09-11  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_text_p_apply_pango_attribute): Use
