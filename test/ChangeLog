@@ -1,3 +1,7 @@
+2014-09-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.18
+
 2014-09-20  Morten Welinder  <terra@gnome.org>
 
 	* GnumericTest.pm (normalize_filter): Maintain a catalog of
