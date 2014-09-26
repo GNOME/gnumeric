@@ -1,3 +1,7 @@
+2014-09-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.18
+
 2014-09-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-recent.c (url_renderer_func): fix crash with gtk+-3.14.0.
