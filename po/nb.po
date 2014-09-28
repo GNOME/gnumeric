@@ -16444,10 +16444,9 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Slå av/på visning av kolonne-disposisjon til venstre eller høyre"
 
 #: ../src/wbc-gtk-actions.c:2814
-#, fuzzy
 #| msgid "Display _Formulے"
 msgid "Display _Formulæ"
-msgstr "Vis _formlelے"
+msgstr "Vis _formler"
 
 #: ../src/wbc-gtk-actions.c:2816
 msgid "Display the value of a formula or the formula itself"
