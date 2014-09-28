@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-14 20:18+0000\n"
-"PO-Revision-Date: 2014-09-24 08:44+0700\n"
+"POT-Creation-Date: 2014-09-24 16:36+0000\n"
+"PO-Revision-Date: 2014-09-27 16:07+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: GNOME Indonesian Translation Team <gnome@i15n.org>\n"
 "Language: id\n"
@@ -23,12 +23,16 @@ msgid ""
 "EASTERSUNDAY:Easter Sunday in the Gregorian calendar according to the Roman "
 "rite of the Christian Church"
 msgstr ""
+"EASTERSUNDAY:Minggu Paskah dalam kalender Masehi menurut ritus Romawi dari "
+"Gereja Kristen"
 
 #: ../plugins/fn-christian-date/functions.c:142
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Easter "
 "Sunday"
 msgstr ""
+"year:tahun antara 1582 dan 9956, nilai baku adalah tahun Minggu Paskah "
+"berikutnya"
 
 #: ../plugins/fn-christian-date/functions.c:143
 #: ../plugins/fn-christian-date/functions.c:166
@@ -39,81 +43,100 @@ msgid ""
 "Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may "
 "also be prohibited."
 msgstr ""
+"Tahun dua dijit disetel seperti di tempat lain dalam Gnumeric. Tanggal "
+"sebelum 1904 mungkin juga dilarang."
 
 #: ../plugins/fn-christian-date/functions.c:146
 msgid ""
 "The 1-argument version of EASTERSUNDAY is compatible with OpenOffice for "
 "years after 1904. This function is not specified in ODF/OpenFormula."
 msgstr ""
+"Versi 1 argumen dari EASTERSUNDAY kompatibel dengan OpenOffice untuk tahun-"
+"tahun setelah 1904. Fungsi ini tak dispesifikasikan dalam ODF/OpenFormula."
 
 #: ../plugins/fn-christian-date/functions.c:163
 msgid ""
 "ASHWEDNESDAY:Ash Wednesday in the Gregorian calendar according to the Roman "
 "rite of the Christian Church"
 msgstr ""
+"ASHWEDNESDAY:Rabu Abu dalam kalender Masehi menurut ritus Romawi Gereja "
+"Kristen"
 
 #: ../plugins/fn-christian-date/functions.c:165
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Ash "
 "Wednesday"
 msgstr ""
+"year:tahun antara 1582 dan 9956, nilai baku adalah tahun Rabu Abu berikutnya"
 
 #: ../plugins/fn-christian-date/functions.c:183
 msgid ""
 "PENTECOSTSUNDAY:Pentecost Sunday in the Gregorian calendar according to the "
 "Roman rite of the Christian Church"
 msgstr ""
+"PENTECOSTSUNDAY:Minggu Pantekosta dalam kalender Masehi menurut ritus Romawi "
+"dari Gereja Kristen"
 
 #: ../plugins/fn-christian-date/functions.c:185
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Pentecost "
 "Sunday"
 msgstr ""
+"year:tahun antara 1582 dan 9956, nilai baku adalah tahun Minggu Pantekosta "
+"berikutnya"
 
 #: ../plugins/fn-christian-date/functions.c:202
 msgid ""
 "GOODFRIDAY:Good Friday in the Gregorian calendar according to the Roman rite "
 "of the Christian Church"
 msgstr ""
+"GOODFRIDAY:Jumat Agung dalam kalender Masehi menurut ritus Romawi dari "
+"Gereja Kristen"
 
 #: ../plugins/fn-christian-date/functions.c:204
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Good Friday"
 msgstr ""
+"year:tahun antara 1582 dan 9956, nilai baku adalah tahun Jumat Agung "
+"berikutnya"
 
 #: ../plugins/fn-christian-date/functions.c:221
 msgid ""
 "ASCENSIONTHURSDAY:Ascension Thursday in the Gregorian calendar according to "
 "the Roman rite of the Christian Church"
 msgstr ""
+"ASCENSIONTHURSDAY:Kamis Kenaikan dalam kalender Masehi menurut ritus Romawi "
+"dari Gereja Kristen"
 
 #: ../plugins/fn-christian-date/functions.c:223
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Ascension "
 "Thursday"
 msgstr ""
+"year:tahun antara 1582 dan 9956, nilai baku adalah tahun Kamis Kenaikan "
+"berikutnya"
 
 #: ../plugins/fn-complex/functions.c:79
 msgid "COMPLEX:a complex number of the form @{x} + @{y}@{i}"
-msgstr ""
+msgstr "COMPLEX:sebuah bilangan kompleks dalam bentuk @{x} + @{y}@{i}"
 
 #: ../plugins/fn-complex/functions.c:80
-#, fuzzy
 msgid "x:real part"
-msgstr "Bagian ini bukanlah tandatangan PGP sebenarnya."
+msgstr "x:bagian riil"
 
 #: ../plugins/fn-complex/functions.c:81
 msgid "y:imaginary part"
-msgstr "y:komponen imajiner"
+msgstr "y:bagian imajiner"
 
 #: ../plugins/fn-complex/functions.c:82
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
+"i:akhiran bagi bilangan kompleks, bisa \"i\" atau \"j\"; nilai baku \"i\""
 
 #: ../plugins/fn-complex/functions.c:83
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
-msgstr ""
+msgstr "Bila @{i} bukan \"i\" atau \"j\", COMPLEX mengembalikan #VALUE!"
 
 #: ../plugins/fn-complex/functions.c:84 ../plugins/fn-complex/functions.c:112
 #: ../plugins/fn-complex/functions.c:139 ../plugins/fn-complex/functions.c:163
@@ -231,13 +254,12 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:1019 ../plugins/fn-string/functions.c:1066
 #: ../plugins/fn-string/functions.c:1162 ../plugins/fn-string/functions.c:1233
 #: ../plugins/fn-string/functions.c:1316
-#, fuzzy
 msgid "This function is Excel compatible."
-msgstr "Tema mirip MS Excel"
+msgstr "Fungsi ini kompatibel dengan Excel."
 
 #: ../plugins/fn-complex/functions.c:109
 msgid "IMAGINARY:the imaginary part of the complex number @{z}"
-msgstr ""
+msgstr "IMAGINARY:bagian imajiner dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:110 ../plugins/fn-complex/functions.c:137
 #: ../plugins/fn-complex/functions.c:161 ../plugins/fn-complex/functions.c:188
@@ -288,77 +310,79 @@ msgstr "z:sebuah bilangan kompleks"
 #: ../plugins/fn-complex/functions.c:1101
 #: ../plugins/fn-complex/functions.c:1126
 msgid "If @{z} is not a valid complex number, #VALUE! is returned."
-msgstr ""
+msgstr "Bila @{z} bukan bilangan kompleks yang valid, #VALUE! dikembalikan."
 
 #: ../plugins/fn-complex/functions.c:136
 msgid "IMABS:the absolute value of the complex number @{z}"
-msgstr ""
+msgstr "IMABS:nilai absolut dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:160
 msgid "IMREAL:the real part of the complex number @{z}"
-msgstr ""
+msgstr "IMREAL:bagian riil dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:187
 msgid "IMCONJUGATE:the complex conjugate of the complex number @{z}"
-msgstr ""
+msgstr "IMCONJUGATE:nilai konjugasi dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:212
 msgid "IMINV:the reciprocal, or inverse, of the complex number @{z}"
-msgstr ""
+msgstr "IMINV:IMABS:resiprok atau invers dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:235
 msgid "IMNEG:the negative of the complex number @{z}"
-msgstr ""
+msgstr "IMNEG:negatif dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:258
 msgid "IMCOS:the cosine of the complex number @{z}"
-msgstr ""
+msgstr "IMCOS:kosinus dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:284
 msgid "IMTAN:the tangent of the complex number @{z}"
-msgstr ""
+msgstr "IMTAN:tangen dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:310
 msgid "IMSEC:the secant of the complex number @{z}"
-msgstr ""
+msgstr "IMSEC:sekan dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:312
 msgid "IMSEC(@{z}) = 1/IMCOS(@{z})."
-msgstr ""
+msgstr "IMSEC(@{z}) = 1/IMCOS(@{z})."
 
 #: ../plugins/fn-complex/functions.c:337
 msgid "IMCSC:the cosecant of the complex number @{z}"
-msgstr ""
+msgstr "IMCSC:kosekan dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:339
 msgid "IMCSC(@{z}) = 1/IMSIN(@{z})."
-msgstr ""
+msgstr "IMCSC(@{z}) = 1/IMSIN(@{z})."
 
 #: ../plugins/fn-complex/functions.c:363
 msgid "IMCOT:the cotangent of the complex number @{z}"
-msgstr ""
+msgstr "IMCOT:kotangen dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:365
 msgid "IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z})."
-msgstr ""
+msgstr "IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z})."
 
 #: ../plugins/fn-complex/functions.c:390
 msgid "IMEXP:the exponential of the complex number @{z}"
-msgstr ""
+msgstr "IMEXP:eksponensial dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:417
 msgid "IMARGUMENT:the argument theta of the complex number @{z} "
-msgstr ""
+msgstr "IMARGUMENT:argumen theta dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:419
 msgid ""
 "The argument theta of a complex number is its angle in radians from the real "
 "axis."
 msgstr ""
+"Argumen theta dari sebuah bilangan kompleks adalah sudutnya dalam radian "
+"dari sumbu riil."
 
 #: ../plugins/fn-complex/functions.c:441
 msgid "IMLN:the natural logarithm of the complex number @{z}"
-msgstr ""
+msgstr "IMLN:logaritma alami dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:443
 msgid ""
@@ -366,18 +390,22 @@ msgid ""
 "The natural logarithm is not uniquely defined on complex numbers. You may "
 "need to add or subtract an even multiple of π to the imaginary part."
 msgstr ""
+"Hasil akan memiliki suatu bagian imajiner antara -π dan +π.\n"
+"Logaritma alami tak didefinisikan secara unik pada bilangan kompleks. Anda "
+"mungkin perlu menambahkan atau mengurangkan kelipatan genap π ke bagian "
+"imajiner."
 
 #: ../plugins/fn-complex/functions.c:469
 msgid "IMLOG2:the base-2 logarithm of the complex number @{z}"
-msgstr ""
+msgstr "IMLOG2:logaritma basis-2 dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:496
 msgid "IMLOG10:the base-10 logarithm of the complex number @{z}"
-msgstr ""
+msgstr "IMLOG10:logaritma basis-10 dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:522
 msgid "IMPOWER:the complex number @{z1} raised to the @{z2}th power"
-msgstr ""
+msgstr "IMPOWER:bilangan kompleks @{z1} dipangkatkan @{z2}"
 
 #: ../plugins/fn-complex/functions.c:523 ../plugins/fn-complex/functions.c:558
 #: ../plugins/fn-complex/functions.c:1183
@@ -397,100 +425,112 @@ msgstr "z2:sebuah bilangan kompleks"
 #: ../plugins/fn-complex/functions.c:1185
 msgid "If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned."
 msgstr ""
+"Bila @{z1} atau @{z2} bukan bilangan kompleks yang valid, #VALUE! "
+"dikembalikan."
 
 #: ../plugins/fn-complex/functions.c:557
 msgid "IMDIV:the quotient of two complex numbers @{z1}/@{z2}"
-msgstr ""
+msgstr "IMDIV:kuosien dari dua bilangan kompleks @{z1}/@{z2}"
 
 #: ../plugins/fn-complex/functions.c:590
 msgid "IMSIN:the sine of the complex number @{z}"
-msgstr ""
+msgstr "IMSIN:sinus dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:615
 msgid "IMSINH:the hyperbolic sine of the complex number @{z}"
-msgstr ""
+msgstr "IMSINH:sinus hiperbolik dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:639
 msgid "IMCOSH:the hyperbolic cosine of the complex number @{z}"
-msgstr ""
+msgstr "IMCOSH:kosinus hiperbolik dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:664
 msgid "IMTANH:the hyperbolic tangent of the complex number @{z}"
-msgstr ""
+msgstr "IMTANH:tangen hiperbolik dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:689
 msgid "IMSECH:the hyperbolic secant of the complex number @{z}"
-msgstr ""
+msgstr "IMSECH:sekan hiperbolik dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:713
 msgid "IMCSCH:the hyperbolic cosecant of the complex number @{z}"
-msgstr ""
+msgstr "IMCSCH:kosekan hiperbolik dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:738
 msgid "IMCOTH:the hyperbolic cotangent of the complex number @{z}"
-msgstr ""
+msgstr "IMCOTH:kotangen hiperbolik dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:762
 msgid "IMARCSIN:the complex arcsine of the complex number @{z}"
-msgstr ""
+msgstr "IMARCSIN:arksinus kompleks dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:764
 msgid ""
 "IMARCSIN returns the complex arcsine of the complex number @{z}. The branch "
 "cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
+"IMARCSIN mengembalikan arksinus kompleks dari bilangan kompleks @{z}. "
+"Pemotongan cabang pada sumbu rill, kurang dari -1 dan lebih dari 1."
 
 #: ../plugins/fn-complex/functions.c:789
 msgid "IMARCCOS:the complex arccosine of the complex number "
-msgstr ""
+msgstr "IMARCCOS:arkkosinus kompleks dari bilangan kompleks"
 
 #: ../plugins/fn-complex/functions.c:791
 msgid ""
 "IMARCCOS returns the complex arccosine of the complex number @{z}. The "
 "branch cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
+"IMARCCOS mengembalikan arkkosinus kompleks dari bilangan kompleks @{z}. "
+"Pemotongan cabang pada sumbu riil, kurang dari -1 dan lebih dari 1."
 
 #: ../plugins/fn-complex/functions.c:816
 msgid "IMARCTAN:the complex arctangent of the complex number "
-msgstr ""
+msgstr "IMARCTAN: arktangen kompleks dari bilangan kompleks"
 
 #: ../plugins/fn-complex/functions.c:818
 msgid ""
 "IMARCTAN returns the complex arctangent of the complex number @{z}. The "
 "branch cuts are on the imaginary axis, below -i and above i."
 msgstr ""
+"IMARCTAN mengembalikan arktangen kompleks dari bilangan kompleks @{z}. "
+"Pemotongan cabang pada sumbu imajiner, di bawah -i dan di atas i."
 
 #: ../plugins/fn-complex/functions.c:843
 msgid "IMARCSEC:the complex arcsecant of the complex number @{z}"
-msgstr ""
+msgstr "IARCSEC:arksekan kompleks dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:867
 msgid "IMARCCSC:the complex arccosecant of the complex number @{z}"
-msgstr ""
+msgstr "IMARCCSC:arkkosekan kompleks dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:892
 msgid "IMARCCOT:the complex arccotangent of the complex number @{z}"
-msgstr ""
+msgstr "IMARCCOT:arkkotangen kompleks dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:916
 msgid "IMARCSINH:the complex hyperbolic arcsine of the complex number @{z}"
-msgstr ""
+msgstr "IMARCSINH:arksinus hiperbolik kompleks dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:918
 msgid ""
 "IMARCSINH returns the complex hyperbolic arcsine of the complex number "
 "@{z}.  The branch cuts are on the imaginary axis, below -i and above i."
 msgstr ""
+"IMARCSINH mengembalikan arksinus hiperbolik kompleks dari bilangan kompleks "
+"@{z}. Pemotongan cabang pada sumbu imajiner, di bawah -i dan di atas i."
 
 #: ../plugins/fn-complex/functions.c:943
 msgid "IMARCCOSH:the complex hyperbolic arccosine of the complex number @{z}"
-msgstr ""
+msgstr "IMARCCOSH:arkkosinus hiperbolik kompleks dari bilangan kompleks @{z}"
 
 #: ../plugins/fn-complex/functions.c:945
 msgid ""
 "IMARCCOSH returns the complex hyperbolic arccosine of the complex number "
 "@{z}. The branch cut is on the real axis, less than 1."
 msgstr ""
+"IMARCCOSH mengembalikan arkkosinus hiperbolik kompleks dari bilangan "
+"kompleks @{z}. Pemotongan cabang pada sumbu riil, kurang dari 1."
 
 #: ../plugins/fn-complex/functions.c:971
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
@@ -520,8 +560,9 @@ msgid "IMSQRT:the square root of the complex number @{z}"
 msgstr ""
 
 #: ../plugins/fn-complex/functions.c:1099
+#, fuzzy
 msgid "IMFACT:the factorial of the complex number @{z}"
-msgstr ""
+msgstr "z:sebuah bilangan kompleks"
 
 #: ../plugins/fn-complex/functions.c:1124
 msgid "IMGAMMA:the gamma function of the complex number @{z}"
@@ -584,8 +625,9 @@ msgid "field:a string or integer specifying which field is to be used"
 msgstr ""
 
 #: ../plugins/fn-database/functions.c:50
+#, fuzzy
 msgid "criteria:a range containing conditions"
-msgstr ""
+msgstr "_Kisaran kriteria :"
 
 #: ../plugins/fn-database/functions.c:52
 msgid ""
@@ -854,7 +896,7 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:74
 #, fuzzy
 msgid "DATE:create a date serial value"
-msgstr "Date Value tidak sah"
+msgstr "YEAR:bagian tahun dari sebuah nilai seri tanggal"
 
 #: ../plugins/fn-date/functions.c:75
 msgid "year:year of date"
@@ -922,12 +964,14 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-date/functions.c:193
+#, fuzzy
 msgid "DATEVALUE:the date part of a date and time serial value"
-msgstr ""
+msgstr "YEAR:bagian tahun dari sebuah nilai seri tanggal"
 
 #: ../plugins/fn-date/functions.c:194 ../plugins/fn-date/functions.c:489
+#, fuzzy
 msgid "serial:date and time serial value"
-msgstr ""
+msgstr "YEAR:bagian tahun dari sebuah nilai seri tanggal"
 
 #: ../plugins/fn-date/functions.c:195
 msgid ""
@@ -941,14 +985,16 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:212 ../plugins/fn-date/functions.c:719
 #: ../plugins/fn-date/functions.c:1024 ../plugins/fn-date/functions.c:1290
 #: ../plugins/fn-date/functions.c:1320
+#, fuzzy
 msgid "start_date:starting date serial value"
-msgstr ""
+msgstr "YEAR:bagian tahun dari sebuah nilai seri tanggal"
 
 #: ../plugins/fn-date/functions.c:213 ../plugins/fn-date/functions.c:720
 #: ../plugins/fn-date/functions.c:1025 ../plugins/fn-date/functions.c:1291
 #: ../plugins/fn-date/functions.c:1319
+#, fuzzy
 msgid "end_date:ending date serial value"
-msgstr ""
+msgstr "YEAR:bagian tahun dari sebuah nilai seri tanggal"
 
 #: ../plugins/fn-date/functions.c:214
 #, fuzzy
@@ -990,7 +1036,7 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:1215 ../plugins/fn-date/functions.c:1251
 #, fuzzy
 msgid "date:date serial value"
-msgstr "Date Value tidak sah"
+msgstr "YEAR:bagian tahun dari sebuah nilai seri tanggal"
 
 #: ../plugins/fn-date/functions.c:352 ../plugins/fn-date/functions.c:762
 msgid "months:signed number of months"
@@ -1106,7 +1152,7 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:1419 ../plugins/fn-string/functions.c:1549
 #, fuzzy
 msgid "This function is OpenFormula compatible."
-msgstr "Fungsi:"
+msgstr "Fungsi ini kompatibel dengan OpenFormula."
 
 #: ../plugins/fn-date/functions.c:488
 msgid "TIMEVALUE:the time part of a date and time serial value"
@@ -1159,7 +1205,7 @@ msgstr "YEAR:bagian tahun dari sebuah nilai seri tanggal"
 #: ../plugins/fn-date/functions.c:578
 #, fuzzy
 msgid "The YEAR function returns the year part of @{date}."
-msgstr "Bagian tahun dari batas bawah tanggal"
+msgstr "YEAR:bagian tahun dari sebuah nilai seri tanggal"
 
 #: ../plugins/fn-date/functions.c:600
 #, fuzzy
@@ -1169,7 +1215,7 @@ msgstr "Bagian bulan dari batas bawah tanggal"
 #: ../plugins/fn-date/functions.c:602
 #, fuzzy
 msgid "The MONTH function returns the month part of @{date}."
-msgstr "Bagian bulan dari batas bawah tanggal"
+msgstr "Bagian bulan dari batas atas tanggal"
 
 #: ../plugins/fn-date/functions.c:624
 #, fuzzy
@@ -1323,7 +1369,7 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:1023
 #, fuzzy
 msgid "NETWORKDAYS:number of workdays in range"
-msgstr "'%s' bukan bilangan yang valid (atau di luar rentang)"
+msgstr "Angka di luar kisaran"
 
 #: ../plugins/fn-date/functions.c:1029
 msgid ""
@@ -1517,8 +1563,9 @@ msgid "a:limit for first random variable"
 msgstr "a:batas bagi variabel acak pertama"
 
 #: ../plugins/fn-derivatives/options.c:194
+#, fuzzy
 msgid "b:limit for second random variable"
-msgstr ""
+msgstr "a:batas bagi variabel acak pertama"
 
 #: ../plugins/fn-derivatives/options.c:195
 msgid "rho:correlation of the two random variables"
@@ -1709,7 +1756,7 @@ msgstr ""
 #: ../plugins/fn-derivatives/options.c:736
 #, fuzzy
 msgid "rate:the annualized rate of interest"
-msgstr "Suku Bunga Berkala"
+msgstr "Suku Bunga Be_rkala:"
 
 #: ../plugins/fn-derivatives/options.c:738
 msgid "lambda:expected number of 'jumps' per year"
@@ -1822,9 +1869,11 @@ msgid "OPT_FORWARD_START:theoretical price of forward start options"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1245
+#, fuzzy
 msgid ""
 "alpha:fraction setting the strike price at the future date @{time_start}"
 msgstr ""
+"alpha:fraction setting the strike price at the future date @{time_start}"
 
 #: ../plugins/fn-derivatives/options.c:1246
 msgid "time_start:time until the option starts in days"
@@ -2169,10 +2218,13 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1957
+#, fuzzy
 msgid ""
 "amer_euro_flag:'a' for an American style option or 'e' for a European style "
 "option"
 msgstr ""
+"amer_euro_flag:'a' for an American style option or 'e' for a European style "
+"option"
 
 #: ../plugins/fn-derivatives/options.c:1959
 msgid "num_time_steps:number of time steps used in the valuation"
@@ -2190,13 +2242,14 @@ msgstr ""
 #: ../plugins/fn-eng/functions.c:207
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr ""
+"BASE:string dijit yang merepresentasikan bilangan @{n} dalam basis @{b}"
 
 #: ../plugins/fn-eng/functions.c:208 ../plugins/fn-math/functions.c:1368
 #: ../plugins/fn-numtheory/numtheory.c:612
 #: ../plugins/fn-numtheory/numtheory.c:642
 #, fuzzy
 msgid "n:integer"
-msgstr "Komponen Integer"
+msgstr "Integer"
 
 #: ../plugins/fn-eng/functions.c:209
 msgid "b:base (2 ≤ @{b} ≤ 36)"
@@ -2205,7 +2258,7 @@ msgstr "b:basis (2 ≤ @{b} ≤ 36)"
 #: ../plugins/fn-eng/functions.c:210
 #, fuzzy
 msgid "length:minimum length of the resulting string"
-msgstr "Panjang Kunci Minimal"
+msgstr "Panjang minimum dari teks yang cocok: "
 
 #: ../plugins/fn-eng/functions.c:211
 msgid ""
@@ -2258,8 +2311,9 @@ msgid "DEC2BIN:binary representation of the decimal number @{x}"
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:308
+#, fuzzy
 msgid "x:integer (− 513 < @{x} < 512)"
-msgstr ""
+msgstr "x:bilangan bulat non negatif"
 
 #: ../plugins/fn-eng/functions.c:310
 msgid ""
@@ -2284,7 +2338,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1367
 #, fuzzy
 msgid "x:integer"
-msgstr "Komponen Integer"
+msgstr "x:bilangan bulat non negatif"
 
 #: ../plugins/fn-eng/functions.c:340
 msgid ""
@@ -2307,12 +2361,13 @@ msgid "DECIMAL:decimal representation of @{x}"
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:384
+#, fuzzy
 msgid "x:number in base @{base}"
-msgstr ""
+msgstr "base:basis @{x}, (2 ≤ @{base} ≤ 36)"
 
 #: ../plugins/fn-eng/functions.c:385
 msgid "base:base of @{x}, (2 ≤ @{base} ≤ 36)"
-msgstr ""
+msgstr "base:basis @{x}, (2 ≤ @{base} ≤ 36)"
 
 #: ../plugins/fn-eng/functions.c:407
 msgid "OCT2DEC:decimal representation of the octal number @{x}"
@@ -2378,6 +2433,8 @@ msgstr ""
 msgid ""
 "BESSELI:Modified Bessel function of the first kind of order @{α} at @{x}"
 msgstr ""
+"BESSELI:Fungsi Bessel yang dimodifikasi jenis pertama dengan order @{α} pada "
+"@{x}"
 
 #: ../plugins/fn-eng/functions.c:547 ../plugins/fn-eng/functions.c:569
 #: ../plugins/fn-eng/functions.c:592 ../plugins/fn-eng/functions.c:615
@@ -2409,10 +2466,12 @@ msgstr "wiki:en:Bessel_function"
 msgid ""
 "BESSELK:Modified Bessel function of the second kind of order @{α} at @{x}"
 msgstr ""
+"BESSELI:Fungsi Bessel yang dimodifikasi jenis kedua dengan order @{α} pada "
+"@{x}"
 
 #: ../plugins/fn-eng/functions.c:591
 msgid "BESSELJ:Bessel function of the first kind of order @{α} at @{x}"
-msgstr ""
+msgstr "BESSELJ:Fungsi Bessel jenis pertama dengan order @{α} pada @{x}"
 
 #: ../plugins/fn-eng/functions.c:593 ../plugins/fn-eng/functions.c:616
 msgid "α:order (any non-negative integer)"
@@ -2420,7 +2479,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:614
 msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
-msgstr ""
+msgstr "BESSELJ:Fungsi Bessel jenis kedua dengan order @{α} pada @{x}"
 
 #: ../plugins/fn-eng/functions.c:637
 #, fuzzy
@@ -2673,13 +2732,14 @@ msgstr ""
 "\t'y'  \tyocto \t\t1E-24"
 
 #: ../plugins/fn-eng/functions.c:726
+#, fuzzy
 msgid "This function is Excel compatible (except \"picapt\")."
-msgstr ""
+msgstr "Fungsi ini kompatibel dengan Excel."
 
 #: ../plugins/fn-eng/functions.c:1049
 #, fuzzy
 msgid "ERF:Gauss error function"
-msgstr "error mengimpor definisi fungsi untuk `%s'"
+msgstr "wiki:en:Error_function"
 
 #: ../plugins/fn-eng/functions.c:1050
 msgid "lower:lower limit of the integral, defaults to 0"
@@ -2804,7 +2864,7 @@ msgstr ""
 #: ../plugins/fn-erlang/functions.c:110 ../plugins/fn-erlang/functions.c:134
 #, fuzzy
 msgid "@{traffic} cannot exceed @{circuits}."
-msgstr "@{traffic} cannot exceed @{circuits}."
+msgstr "Cabang sambungan tak boleh melebihi 63 byte"
 
 #: ../plugins/fn-erlang/functions.c:130
 msgid "OFFTRAF:predicted number of offered calls"
@@ -3032,7 +3092,7 @@ msgstr "ACCRINTM calculates the accrued interest from @{issue} to @{maturity}."
 #: ../plugins/fn-financial/functions.c:456
 #, fuzzy
 msgid "@{par} defaults to $1000."
-msgstr "@{par} defaults to $1000."
+msgstr "PAR"
 
 #: ../plugins/fn-financial/functions.c:487
 #, fuzzy
@@ -3054,16 +3114,18 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2654
 #: ../plugins/fn-financial/functions.c:2749
 #: ../plugins/fn-financial/functions.c:2827
+#, fuzzy
 msgid "redemption:amount received at maturity"
-msgstr ""
+msgstr "a:banyaknya yang diterima setiap selang waktu"
 
 #: ../plugins/fn-financial/functions.c:493
 msgid "INTRATE calculates the interest of a fully vested security."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:525
+#, fuzzy
 msgid "RECEIVED:amount to be received at maturity"
-msgstr ""
+msgstr "a:banyaknya yang diterima setiap selang waktu"
 
 #: ../plugins/fn-financial/functions.c:531
 msgid "RECEIVED calculates the amount to be received when a security matures."
@@ -3352,7 +3414,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1030
 #, fuzzy
 msgid "reinvest_rate:interest rate for reinvestments"
-msgstr "Suku Bunga Be_rkala:"
+msgstr "Suku Bunga Berkala"
 
 #: ../plugins/fn-financial/functions.c:1031
 msgid ""
@@ -3626,7 +3688,7 @@ msgstr "_Nilai Mendatang"
 #: ../plugins/fn-financial/functions.c:1970
 #, fuzzy
 msgid "principal:initial value"
-msgstr "Nilai Awal"
+msgstr "_Pokok:"
 
 #: ../plugins/fn-financial/functions.c:1971
 msgid "schedule:range of interest rates"
@@ -3823,8 +3885,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2899
+#, fuzzy
 msgid "AMORDEGRC:depreciation of an asset using French accounting conventions"
-msgstr ""
+msgstr "AMORDEGRC:depreciation of an asset using French accounting conventions"
 
 #: ../plugins/fn-financial/functions.c:2901
 #: ../plugins/fn-financial/functions.c:2957
@@ -3844,6 +3907,7 @@ msgid "rate:depreciation rate"
 msgstr "Suku Bunga"
 
 #: ../plugins/fn-financial/functions.c:2908
+#, fuzzy
 msgid ""
 "AMORDEGRC calculates the depreciation of an asset using French accounting "
 "conventions. Assets purchased in the middle of a period take prorated "
@@ -3851,6 +3915,11 @@ msgid ""
 "depreciation coefficient is applied in the calculation depending on the life "
 "of the assets."
 msgstr ""
+"AMORDEGRC calculates the depreciation of an asset using French accounting "
+"conventions. Assets purchased in the middle of a period take prorated "
+"depreciation into account. This is similar to AMORLINC, except that a "
+"depreciation coefficient is applied in the calculation depending on the life "
+"of the assets."
 
 #: ../plugins/fn-financial/functions.c:2912
 msgid ""
@@ -3873,15 +3942,20 @@ msgid "Named for AMORtissement DEGRessif Comptabilite."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2955
+#, fuzzy
 msgid "AMORLINC:depreciation of an asset using French accounting conventions"
-msgstr ""
+msgstr "AMORLINC:depreciation of an asset using French accounting conventions"
 
 #: ../plugins/fn-financial/functions.c:2964
+#, fuzzy
 msgid ""
 "AMORLINC calculates the depreciation of an asset using French accounting "
 "conventions. Assets purchased in the middle of a period take prorated "
 "depreciation into account. "
 msgstr ""
+"AMORLINC calculates the depreciation of an asset using French accounting "
+"conventions. Assets purchased in the middle of a period take prorated "
+"depreciation into account. "
 
 #: ../plugins/fn-financial/functions.c:2966
 msgid "Named for AMORtissement LINeaire Comptabilite."
@@ -4024,7 +4098,7 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:92
 #, fuzzy
 msgid "HDATE:Hebrew date"
-msgstr "ibrani"
+msgstr "Fungsi-fungsi Tanggal Ibrani"
 
 #: ../plugins/fn-hebrew-date/functions.c:93
 #: ../plugins/fn-hebrew-date/functions.c:162
@@ -4056,18 +4130,19 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:127
 #, fuzzy
 msgid "DATE2HDATE:Hebrew date"
-msgstr "ibrani"
+msgstr "Fungsi-fungsi Tanggal Ibrani"
 
 #: ../plugins/fn-hebrew-date/functions.c:128
 #: ../plugins/fn-hebrew-date/functions.c:203
 #: ../plugins/fn-hebrew-date/functions.c:342
 #, fuzzy
 msgid "date:Gregorian date, defaults to today"
-msgstr "Lihatlah tanggal hari ini!"
+msgstr "year:tahun Masehi tanggal, nilai baku adalah tahun saat ini"
 
 #: ../plugins/fn-hebrew-date/functions.c:161
+#, fuzzy
 msgid "HDATE_HEB:Hebrew date in Hebrew"
-msgstr ""
+msgstr "Fungsi-fungsi Tanggal Ibrani"
 
 #: ../plugins/fn-hebrew-date/functions.c:202
 msgid "DATE2HDATE_HEB:Hebrew date in Hebrew"
@@ -4082,8 +4157,9 @@ msgid "HDATE_DAY:Hebrew day of Gregorian date"
 msgstr ""
 
 #: ../plugins/fn-hebrew-date/functions.c:288
+#, fuzzy
 msgid "HDATE_YEAR:Hebrew year of Gregorian date"
-msgstr ""
+msgstr "year:tahun Masehi tanggal, nilai baku adalah tahun saat ini"
 
 #: ../plugins/fn-hebrew-date/functions.c:315
 msgid "HDATE_JULIAN:Julian day number for given Gregorian date"
@@ -4188,8 +4264,9 @@ msgid "cell:the referenced cell"
 msgstr "_Sel..."
 
 #: ../plugins/fn-info/functions.c:1212
+#, fuzzy
 msgid "GET.FORMULA is the OpenFormula function FORMULA."
-msgstr ""
+msgstr "Fungsi ini kompatibel dengan OpenFormula."
 
 #: ../plugins/fn-info/functions.c:1213
 msgid ""
@@ -4205,7 +4282,7 @@ msgstr ""
 #: ../plugins/fn-info/functions.c:1254
 #, fuzzy
 msgid "ISFORMULA is OpenFormula compatible."
-msgstr "Paket-paket tak kompatibel"
+msgstr "Fungsi ini kompatibel dengan OpenFormula."
 
 #: ../plugins/fn-info/functions.c:1283
 msgid "COUNTBLANK:the number of blank cells in @{range}"
@@ -4214,7 +4291,7 @@ msgstr ""
 #: ../plugins/fn-info/functions.c:1284
 #, fuzzy
 msgid "range:a cell range"
-msgstr "Cakupan"
+msgstr "Kisaran Sel"
 
 #: ../plugins/fn-info/functions.c:1286
 msgid "COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20."
@@ -4319,13 +4396,12 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1303
 #, fuzzy
 msgid "n:number"
-msgstr "Nomor Layar: %d\n"
+msgstr "... sampai Anda telah mengetikkan nomor-n halaman."
 
 #: ../plugins/fn-info/functions.c:1606
 #, fuzzy
 msgid "ISLOGICAL:TRUE if @{value} is a logical value"
-msgstr ""
-"nilai boolean mesti dinyatakan sebagai 'true' (benar) atau 'false' (salah)."
+msgstr "b0:nilai lojik"
 
 #: ../plugins/fn-info/functions.c:1608
 msgid "This function checks if a value is either TRUE or FALSE."
@@ -4358,8 +4434,9 @@ msgstr ""
 "nilai boolean mesti dinyatakan sebagai 'true' (benar) atau 'false' (salah)."
 
 #: ../plugins/fn-info/functions.c:1682
+#, fuzzy
 msgid "This function checks if a value is a cell reference."
-msgstr ""
+msgstr "Buat tabel dari nilai sel sebagai fungsi dari sel lainnya"
 
 #: ../plugins/fn-info/functions.c:1701
 #, fuzzy
@@ -4387,7 +4464,7 @@ msgstr ""
 #: ../plugins/fn-info/functions.c:1724
 #, fuzzy
 msgid "=N(\"eleven\")"
-msgstr "=N(\"eleven\")"
+msgstr "%N"
 
 #: ../plugins/fn-info/functions.c:1751
 #, fuzzy
@@ -4435,23 +4512,23 @@ msgstr ""
 #: ../plugins/fn-logical/functions.c:44
 #, fuzzy
 msgid "AND:logical conjunction"
-msgstr "AND:logical conjunction"
+msgstr "wiki:en:Logical_conjunction"
 
 #: ../plugins/fn-logical/functions.c:45 ../plugins/fn-logical/functions.c:124
 #: ../plugins/fn-logical/functions.c:178
-#, fuzzy
 msgid "b0:logical value"
-msgstr "B0"
+msgstr "b0:nilai lojik"
 
 #: ../plugins/fn-logical/functions.c:46 ../plugins/fn-logical/functions.c:125
 #: ../plugins/fn-logical/functions.c:179
-#, fuzzy
 msgid "b1:logical value"
-msgstr "B1"
+msgstr "b1:nilai lojik"
 
 #: ../plugins/fn-logical/functions.c:47
+#, fuzzy
 msgid "AND calculates the logical conjunction of its arguments @{b0},@{b1},..."
 msgstr ""
+"AND calculates the logical conjunction of its arguments @{b0},@{b1},..."
 
 #: ../plugins/fn-logical/functions.c:48 ../plugins/fn-logical/functions.c:127
 #: ../plugins/fn-logical/functions.c:181
@@ -4507,7 +4584,7 @@ msgstr "wiki:en:Negation"
 #: ../plugins/fn-logical/functions.c:123
 #, fuzzy
 msgid "OR:logical disjunction"
-msgstr "tanda not lojik"
+msgstr "wiki:en:Logical_disjunction"
 
 #: ../plugins/fn-logical/functions.c:126
 msgid "OR calculates the logical disjunction of its arguments @{b0},@{b1},..."
@@ -4520,7 +4597,7 @@ msgstr "wiki:en:Logical_disjunction"
 #: ../plugins/fn-logical/functions.c:177
 #, fuzzy
 msgid "XOR:logical exclusive disjunction"
-msgstr "Eksklusif (XOR) Berbasis Data"
+msgstr "wiki:en:Exclusive_disjunction"
 
 #: ../plugins/fn-logical/functions.c:180
 msgid ""
@@ -4538,8 +4615,9 @@ msgid "IFERROR:test for error"
 msgstr "Galat ketika membatalkan uji-sendiri SMART"
 
 #: ../plugins/fn-logical/functions.c:231
+#, fuzzy
 msgid "x:value to test for error"
-msgstr ""
+msgstr "x:nilai"
 
 #: ../plugins/fn-logical/functions.c:232 ../plugins/fn-logical/functions.c:250
 #, fuzzy
@@ -4590,8 +4668,9 @@ msgid "FALSE returns the value FALSE."
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:808
+#, fuzzy
 msgid "ADDRESS:cell address as text"
-msgstr ""
+msgstr "ADDRESS:cell address as text"
 
 #: ../plugins/fn-lookup/functions.c:809
 #, fuzzy
@@ -4695,14 +4774,19 @@ msgid "column:1-based column offset indicating the return values"
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1025 ../plugins/fn-lookup/functions.c:1093
+#, fuzzy
 msgid ""
 "approximate:if false, an exact match of @{value} must be found; defaults to "
 "TRUE"
 msgstr ""
+"approximate:if false, an exact match of @{value} must be found; defaults to "
+"TRUE"
 
 #: ../plugins/fn-lookup/functions.c:1027
+#, fuzzy
 msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
 msgstr ""
+"as_index:if true, the 0-based row offset is returned; defaults to FALSE"
 
 #: ../plugins/fn-lookup/functions.c:1029
 msgid ""
@@ -4732,9 +4816,11 @@ msgid "row:1-based row offset indicating the return values "
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1095
+#, fuzzy
 msgid ""
 "as_index:if true, the 0-based column offset is returned; defaults to FALSE"
 msgstr ""
+"as_index:if true, the 0-based column offset is returned; defaults to FALSE"
 
 #: ../plugins/fn-lookup/functions.c:1097
 msgid ""
@@ -4761,8 +4847,9 @@ msgid "value:value to look up"
 msgstr "Cari:"
 
 #: ../plugins/fn-lookup/functions.c:1160
+#, fuzzy
 msgid "vector1:range to search:"
-msgstr ""
+msgstr "Cari dalam kisaran yang disebutkan saja"
 
 #: ../plugins/fn-lookup/functions.c:1161
 #, fuzzy
@@ -4784,7 +4871,9 @@ msgstr ""
 #: ../plugins/fn-lookup/functions.c:1168
 #, fuzzy
 msgid "The data must be sorted."
-msgstr "Tak terurut"
+msgstr ""
+" Untuk @{type} = -1 data mesti terurut turun; untuk @{type} = +1 data mesti "
+"terurut naik."
 
 #: ../plugins/fn-lookup/functions.c:1169
 msgid "If @{value} is smaller than the first value it returns #N/A."
@@ -4861,11 +4950,12 @@ msgstr ""
 #: ../plugins/fn-lookup/functions.c:1350
 #, fuzzy
 msgid "array:cell or inline array"
-msgstr "array:cell or inline array"
+msgstr "Array penyimpanan"
 
 #: ../plugins/fn-lookup/functions.c:1351
+#, fuzzy
 msgid "row:desired row, defaults to 1"
-msgstr ""
+msgstr "Perlu lebih dari 1 baris"
 
 #: ../plugins/fn-lookup/functions.c:1352
 msgid "col:desired column, defaults to 1"
@@ -4932,7 +5022,7 @@ msgstr ""
 #: ../plugins/fn-lookup/functions.c:1526
 #, fuzzy
 msgid "COLUMNS:number of columns in @{reference}"
-msgstr "Jumlah kolom"
+msgstr "Cacah kolom"
 
 #: ../plugins/fn-lookup/functions.c:1527
 msgid "reference:array or area"
@@ -5079,7 +5169,7 @@ msgstr ""
 #: ../plugins/fn-lookup/functions.c:1861
 #, fuzzy
 msgid "ARRAY:vertical array of the arguments"
-msgstr "ARRAY:vertical array of the arguments"
+msgstr "Array penyimpanan"
 
 #: ../plugins/fn-lookup/functions.c:1862
 #, fuzzy
@@ -5094,7 +5184,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:217
 #, fuzzy
 msgid "ref:list of numbers"
-msgstr "Acuan Direktori"
+msgstr "#REF!"
 
 #: ../plugins/fn-lookup/functions.c:1920
 msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
@@ -5152,7 +5242,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:180
 #, fuzzy
 msgid "GD:Gudermannian function"
-msgstr "Fungsi:"
+msgstr "wiki:en:Gudermannian_function"
 
 #: ../plugins/fn-math/functions.c:181 ../plugins/fn-math/functions.c:292
 #: ../plugins/fn-stat/functions.c:1784
@@ -5197,7 +5287,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:246
 #, fuzzy
 msgid "ACOS:the arc cosine of @{x}"
-msgstr "ACOS:the arc cosine of @{x}"
+msgstr "Koordinat x dari pusat lengkungan"
 
 #: ../plugins/fn-math/functions.c:268
 #, fuzzy
@@ -5238,23 +5328,29 @@ msgid "ASIN:the arc sine of @{x}"
 msgstr "Koordinat x dari pusat lengkungan"
 
 #: ../plugins/fn-math/functions.c:329
+#, fuzzy
 msgid ""
 "ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}."
 msgstr ""
+"ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}."
 
 #: ../plugins/fn-math/functions.c:331
 msgid "If @{x} falls outside the range -1 to 1, ASIN returns #NUM!"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:353
+#, fuzzy
 msgid "ASINH:the inverse hyperbolic sine of @{x}"
-msgstr ""
+msgstr "ASINH:the inverse hyperbolic sine of @{x}"
 
 #: ../plugins/fn-math/functions.c:355
+#, fuzzy
 msgid ""
 "ASINH calculates the inverse hyperbolic sine of @{x}; that is the value "
 "whose hyperbolic sine is @{x}."
 msgstr ""
+"ASINH calculates the inverse hyperbolic sine of @{x}; that is the value "
+"whose hyperbolic sine is @{x}."
 
 #: ../plugins/fn-math/functions.c:372
 #, fuzzy
@@ -5262,32 +5358,40 @@ msgid "ATAN:the arc tangent of @{x}"
 msgstr "Koordinat x dari pusat lengkungan"
 
 #: ../plugins/fn-math/functions.c:374
+#, fuzzy
 msgid ""
 "ATAN calculates the arc tangent of @{x}; that is the value whose tangent is "
 "@{x}."
 msgstr ""
+"ATAN calculates the arc tangent of @{x}; that is the value whose tangent is "
+"@{x}."
 
 #: ../plugins/fn-math/functions.c:377
 msgid "The result will be between −π/2 and +π/2."
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:396
+#, fuzzy
 msgid "ATANH:the inverse hyperbolic tangent of @{x}"
-msgstr ""
+msgstr "ATANH:the inverse hyperbolic tangent of @{x}"
 
 #: ../plugins/fn-math/functions.c:398
+#, fuzzy
 msgid ""
 "ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value "
 "whose hyperbolic tangent is @{x}."
 msgstr ""
+"ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value "
+"whose hyperbolic tangent is @{x}."
 
 #: ../plugins/fn-math/functions.c:400
 msgid "If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:421
+#, fuzzy
 msgid "ATAN2:the arc tangent of the ratio @{y}/@{x}"
-msgstr ""
+msgstr "ATAN2:the arc tangent of the ratio @{y}/@{x}"
 
 #: ../plugins/fn-math/functions.c:423
 msgid "x:x-coordinate"
@@ -5298,10 +5402,13 @@ msgid "y:y-coordinate"
 msgstr "y:koordinat y"
 
 #: ../plugins/fn-math/functions.c:425
+#, fuzzy
 msgid ""
 "ATAN2 calculates the direction from the origin to the point (@{x},@{y}) as "
 "an angle from the x-axis in radians."
 msgstr ""
+"ATAN2 calculates the direction from the origin to the point (@{x},@{y}) as "
+"an angle from the x-axis in radians."
 
 #: ../plugins/fn-math/functions.c:429
 msgid "The result will be between −π and +π."
@@ -5320,8 +5427,9 @@ msgid "CEIL(@{x}) is the smallest integer that is at least as large as @{x}."
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:460
+#, fuzzy
 msgid "This function is the OpenFormula function CEILING(@{x})."
-msgstr ""
+msgstr "Fungsi ini kompatibel dengan OpenFormula."
 
 #: ../plugins/fn-math/functions.c:477
 msgid "COUNTIF:count of the cells meeting the given @{criteria}"
@@ -5331,7 +5439,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:668
 #, fuzzy
 msgid "range:cell area"
-msgstr "Area Sel"
+msgstr "Kisaran Sel"
 
 #: ../plugins/fn-math/functions.c:479
 msgid "criteria:condition for a cell to be counted"
@@ -5348,8 +5456,9 @@ msgid "criteria:condition for a cell to be summed"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:553 ../plugins/fn-math/functions.c:670
+#, fuzzy
 msgid "actual_range:cell area, defaults to @{range}"
-msgstr ""
+msgstr "actual_range:cell area, defaults to @{range}"
 
 #: ../plugins/fn-math/functions.c:554
 msgid ""
@@ -5359,10 +5468,13 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:667
+#, fuzzy
 msgid ""
 "AVERAGEIF:average of the cells in @{actual range} for which the "
 "corresponding cells in the range meet the given @{criteria}"
 msgstr ""
+"AVERAGEIF:average of the cells in @{actual range} for which the "
+"corresponding cells in the range meet the given @{criteria}"
 
 #: ../plugins/fn-math/functions.c:669
 msgid "criteria:condition for a cell to be included"
@@ -5425,7 +5537,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:787 ../plugins/fn-math/functions.c:1450
 #, fuzzy
 msgid "x:number of half turns"
-msgstr "%x: cacah cakram"
+msgstr "X:bilangan"
 
 #: ../plugins/fn-math/functions.c:803
 #, fuzzy
@@ -5515,7 +5627,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1009
 msgid "BETA:Euler beta function"
-msgstr ""
+msgstr "BETA:Fungsi beta Euler"
 
 #: ../plugins/fn-math/functions.c:1011 ../plugins/fn-math/functions.c:1035
 #: ../plugins/fn-math/functions.c:1261
@@ -5527,6 +5639,8 @@ msgid ""
 "BETA function returns the value of the Euler beta function extended to all "
 "real numbers except 0 and negative integers."
 msgstr ""
+"Fungsi BETA mengembalikan nilai fungsi beta Euler yang diperluas ke semua "
+"bilangan riil kecuali 0 dan bilangan bulat negatif."
 
 #: ../plugins/fn-math/functions.c:1013
 msgid ""
@@ -5558,17 +5672,18 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1058
 #, fuzzy
 msgid "COMBIN:binomial coefficient"
-msgstr "Tampilkan koefisien"
+msgstr "wiki:en:Binomial_coefficient"
 
 #: ../plugins/fn-math/functions.c:1059 ../plugins/fn-math/functions.c:1091
 #: ../plugins/fn-math/functions.c:2230
 #, fuzzy
 msgid "n:non-negative integer"
-msgstr "Indeks daftar tidak boleh negatif\n"
+msgstr "x:bilangan bulat non negatif"
 
 #: ../plugins/fn-math/functions.c:1060 ../plugins/fn-math/functions.c:1092
+#, fuzzy
 msgid "k:non-negative integer"
-msgstr ""
+msgstr "x:bilangan bulat non negatif"
 
 #: ../plugins/fn-math/functions.c:1061
 msgid ""
@@ -5617,8 +5732,9 @@ msgid "INT:largest integer not larger than @{x}"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1172
+#, fuzzy
 msgid "LOG:logarithm of @{x} with base @{base}"
-msgstr ""
+msgstr "base:basis logaritma, nilai baku 10"
 
 #: ../plugins/fn-math/functions.c:1173 ../plugins/fn-math/functions.c:1213
 #: ../plugins/fn-math/functions.c:1236 ../plugins/fn-math/functions.c:1323
@@ -5629,7 +5745,7 @@ msgstr "Galat: cacah perioda mesti positif"
 
 #: ../plugins/fn-math/functions.c:1174
 msgid "base:base of the logarithm, defaults to 10"
-msgstr ""
+msgstr "base:basis logaritma, nilai baku 10"
 
 #: ../plugins/fn-math/functions.c:1175
 msgid "@{base} must be positive and not equal to 1."
@@ -5688,7 +5804,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1266
 #, fuzzy
 msgid "@{z} defaults to 1"
-msgstr "@{z} defaults to 1"
+msgstr "Z"
 
 #: ../plugins/fn-math/functions.c:1267
 msgid "If @{z} is not a positive integer, POWER returns #NUM!"
@@ -5761,7 +5877,7 @@ msgstr "Fungsi kosekan"
 #: ../plugins/fn-math/functions.c:1508 ../plugins/fn-math/functions.c:1528
 #, fuzzy
 msgid "This function is not Excel compatible."
-msgstr "Tema mirip MS Excel"
+msgstr "Fungsi ini kompatibel dengan Excel."
 
 #: ../plugins/fn-math/functions.c:1472
 msgid "wolfram:Cosecant.html"
@@ -5825,12 +5941,12 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1585 ../plugins/fn-math/functions.c:1609
 #, fuzzy
 msgid "area0:first cell area"
-msgstr "area0:first cell area"
+msgstr "A1 (sel pertama dari area halaman)"
 
 #: ../plugins/fn-math/functions.c:1586 ../plugins/fn-math/functions.c:1610
 #, fuzzy
 msgid "area1:second cell area"
-msgstr "area1:second cell area"
+msgstr "Area Sel"
 
 #: ../plugins/fn-math/functions.c:1608
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
@@ -5968,7 +6084,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1917
 #, fuzzy
 msgid "numerator:integer"
-msgstr "Komponen Integer"
+msgstr "Integer"
 
 #: ../plugins/fn-math/functions.c:1918
 #, fuzzy
@@ -6005,7 +6121,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:2060
 #, fuzzy
 msgid "d:integer, defaults to 0"
-msgstr "%s: argumen nomor %d bukan bilangan bulat"
+msgstr "x1:bilangan, nilai baku 0"
 
 #: ../plugins/fn-math/functions.c:1996
 msgid ""
@@ -6066,11 +6182,15 @@ msgid "roman:Roman numeral"
 msgstr "Daftar Bernomor _Romawi"
 
 #: ../plugins/fn-math/functions.c:2153
+#, fuzzy
 msgid ""
 "Any Roman symbol to the left of a larger symbol (directly or indirectly) "
 "reduces the final value by the symbol amount, otherwise, it increases the "
 "final amount by the symbol's amount."
 msgstr ""
+"Any Roman symbol to the left of a larger symbol (directly or indirectly) "
+"reduces the final value by the symbol amount, otherwise, it increases the "
+"final amount by the symbol's amount."
 
 #: ../plugins/fn-math/functions.c:2229
 #, fuzzy
@@ -6097,13 +6217,13 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:2565
 #, fuzzy
 msgid "array0:first cell area"
-msgstr "array0:first cell area"
+msgstr "A1 (sel pertama dari area halaman)"
 
 #: ../plugins/fn-math/functions.c:2481 ../plugins/fn-math/functions.c:2523
 #: ../plugins/fn-math/functions.c:2566
 #, fuzzy
 msgid "array1:second cell area"
-msgstr "array1:second cell area"
+msgstr "Area Sel"
 
 #: ../plugins/fn-math/functions.c:2482
 msgid ""
@@ -6384,8 +6504,9 @@ msgid "Returns the number of distinct prime factors without multiplicity."
 msgstr ""
 
 #: ../plugins/fn-numtheory/numtheory.c:252
+#, fuzzy
 msgid "NT_PHI:Euler's totient function"
-msgstr ""
+msgstr "wiki:en:Euler's_totient_function"
 
 #: ../plugins/fn-numtheory/numtheory.c:254
 msgid ""
@@ -6492,7 +6613,7 @@ msgstr "wolfram:PrimeCountingFunction.html"
 #: ../plugins/fn-numtheory/numtheory.c:537
 #, fuzzy
 msgid "BITOR:bitwise or"
-msgstr "Tidak ada nilai yang wajar untuk mengeser bit"
+msgstr "Operasi Bitwise"
 
 #: ../plugins/fn-numtheory/numtheory.c:538
 #: ../plugins/fn-numtheory/numtheory.c:562
@@ -6527,7 +6648,7 @@ msgstr ""
 #: ../plugins/fn-numtheory/numtheory.c:585
 #, fuzzy
 msgid "BITAND:bitwise and"
-msgstr "Tidak ada nilai yang wajar untuk mengeser bit"
+msgstr "Operasi Bitwise"
 
 #: ../plugins/fn-numtheory/numtheory.c:588
 msgid ""
@@ -6598,12 +6719,13 @@ msgstr "Waktu pengamatan tidak diketahui"
 #: ../plugins/fn-r/functions.c:71
 #, fuzzy
 msgid "mu:mean of the distribution"
-msgstr "mu"
+msgstr "μ:rata-rata dari distribusi"
 
 #: ../plugins/fn-r/functions.c:22 ../plugins/fn-r/functions.c:46
 #: ../plugins/fn-r/functions.c:72
+#, fuzzy
 msgid "sigma:standard deviation of the distribution"
-msgstr ""
+msgstr "Deviasi _Standar:"
 
 #: ../plugins/fn-r/functions.c:23 ../plugins/fn-r/functions.c:99
 #: ../plugins/fn-r/functions.c:175 ../plugins/fn-r/functions.c:251
@@ -6763,8 +6885,9 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1089 ../plugins/fn-r/functions.c:1171
 #: ../plugins/fn-r/functions.c:1198 ../plugins/fn-r/functions.c:1224
 #: ../plugins/fn-r/functions.c:1252
+#, fuzzy
 msgid "scale:the scale parameter of the distribution"
-msgstr ""
+msgstr "a:parameter skala dari distribusi"
 
 #: ../plugins/fn-r/functions.c:176
 msgid ""
@@ -6800,12 +6923,12 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:299
 #, fuzzy
 msgid "a:the first shape parameter of the distribution"
-msgstr "a:the first shape parameter of the distribution"
+msgstr "a:parameter skala dari distribusi"
 
 #: ../plugins/fn-r/functions.c:250 ../plugins/fn-r/functions.c:274
 #: ../plugins/fn-r/functions.c:300
 msgid "b:the second scale parameter of the distribution"
-msgstr ""
+msgstr "b:parameter skala kedua dari distribusi"
 
 #: ../plugins/fn-r/functions.c:252
 msgid ""
@@ -7010,7 +7133,7 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:666
 #, fuzzy
 msgid "lambda:the mean of the distribution"
-msgstr "Rata-rata:"
+msgstr "μ:rata-rata dari distribusi"
 
 #: ../plugins/fn-r/functions.c:622
 msgid ""
@@ -7076,7 +7199,7 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:810
 #, fuzzy
 msgid "n:the number of trials"
-msgstr "Jumlah percobaan untuk setiap giliran untuk komputer"
+msgstr "J_umlah Percobaan:"
 
 #: ../plugins/fn-r/functions.c:761 ../plugins/fn-r/functions.c:785
 #: ../plugins/fn-r/functions.c:811 ../plugins/fn-r/functions.c:837
@@ -7165,19 +7288,20 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:912 ../plugins/fn-r/functions.c:938
 #: ../plugins/fn-r/functions.c:966
+#, fuzzy
 msgid "r:the number of red balls"
-msgstr ""
+msgstr "b:banyaknya bola hitam"
 
 #: ../plugins/fn-r/functions.c:913 ../plugins/fn-r/functions.c:939
 #: ../plugins/fn-r/functions.c:967
 msgid "b:the number of black balls"
-msgstr ""
+msgstr "b:banyaknya bola hitam"
 
 #: ../plugins/fn-r/functions.c:914 ../plugins/fn-r/functions.c:940
 #: ../plugins/fn-r/functions.c:968
 #, fuzzy
 msgid "n:the number of balls drawn"
-msgstr "Nomor Layar: %d\n"
+msgstr "b:banyaknya bola hitam"
 
 #: ../plugins/fn-r/functions.c:916
 msgid ""
@@ -7388,7 +7512,7 @@ msgstr "a:batas bawah distribusi seragam"
 
 #: ../plugins/fn-random/functions.c:66
 msgid "b:upper limit of the uniform distribution"
-msgstr ""
+msgstr "b:batas atas dari distribusi seragam"
 
 #: ../plugins/fn-random/functions.c:67
 #, fuzzy
@@ -7437,16 +7561,18 @@ msgid "RANDEXP:random variate from an exponential distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:176
+#, fuzzy
 msgid "b:parameter of the exponential distribution"
-msgstr ""
+msgstr "a:parameter skala dari distribusi pangkat eksponensial"
 
 #: ../plugins/fn-random/functions.c:194
 msgid "RANDPOISSON:random variate from a Poisson distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:195
+#, fuzzy
 msgid "λ:parameter of the Poisson distribution"
-msgstr ""
+msgstr "a:parameter skala dari distribusi"
 
 #: ../plugins/fn-random/functions.c:196
 msgid "If @{λ} < 0 RANDPOISSON returns #NUM!"
@@ -7464,7 +7590,7 @@ msgstr ""
 #: ../plugins/fn-random/functions.c:220
 #, fuzzy
 msgid "n:number of trials"
-msgstr "Jumlah percobaan untuk setiap giliran untuk komputer"
+msgstr "J_umlah Percobaan:"
 
 #: ../plugins/fn-random/functions.c:221
 msgid "If @{p} < 0 or @{p} > 1 RANDBINOM returns #NUM!"
@@ -7483,7 +7609,7 @@ msgstr ""
 #: ../plugins/fn-random/functions.c:246
 #, fuzzy
 msgid "bottom:lower limit"
-msgstr "Batas bawah tahun"
+msgstr "a:batas bawah"
 
 #: ../plugins/fn-random/functions.c:247
 #, fuzzy
@@ -7518,7 +7644,7 @@ msgstr ""
 #: ../plugins/fn-random/functions.c:301 ../plugins/fn-stat/functions.c:927
 #, fuzzy
 msgid "p:probability of success"
-msgstr "Plot probabilitas."
+msgstr "BERHASIL"
 
 #: ../plugins/fn-random/functions.c:302
 msgid "If @{p} < 0 or @{p} > 1 RANDBERNOULLI returns #NUM!"
@@ -7533,8 +7659,9 @@ msgid "μ:mean of the distribution"
 msgstr "μ:rata-rata dari distribusi"
 
 #: ../plugins/fn-random/functions.c:326 ../plugins/fn-random/functions.c:374
+#, fuzzy
 msgid "σ:standard deviation of the distribution"
-msgstr ""
+msgstr "Deviasi _Standar:"
 
 #: ../plugins/fn-random/functions.c:327
 msgid "If @{σ} < 0, RANDNORM returns #NUM!"
@@ -7557,8 +7684,9 @@ msgid "RANDLOGNORM:random variate from a lognormal distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:373
+#, fuzzy
 msgid "ζ:parameter of the lognormal distribution"
-msgstr ""
+msgstr "a:parameter skala dari distribusi"
 
 #: ../plugins/fn-random/functions.c:375
 msgid "If @{σ} < 0, RANDLOGNORM returns #NUM!"
@@ -7573,8 +7701,9 @@ msgid "a:parameter of the Weibull distribution"
 msgstr "a:parameter dari distribusi Weibull"
 
 #: ../plugins/fn-random/functions.c:396
+#, fuzzy
 msgid "b:parameter of the Weibull distribution"
-msgstr ""
+msgstr "a:parameter dari distribusi Weibull"
 
 #: ../plugins/fn-random/functions.c:415
 msgid "RANDLAPLACE:random variate from a Laplace distribution"
@@ -7589,8 +7718,9 @@ msgid "RANDRAYLEIGH:random variate from a Rayleigh distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:435 ../plugins/fn-random/functions.c:455
+#, fuzzy
 msgid "σ:scale parameter of the Rayleigh distribution"
-msgstr ""
+msgstr "a:parameter skala dari distribusi"
 
 #: ../plugins/fn-random/functions.c:453
 msgid ""
@@ -7610,8 +7740,9 @@ msgid "a:parameter of the Gamma distribution"
 msgstr "a:parameter dari distribusi Gamma"
 
 #: ../plugins/fn-random/functions.c:476
+#, fuzzy
 msgid "b:parameter of the Gamma distribution"
-msgstr ""
+msgstr "a:parameter dari distribusi Gamma"
 
 #: ../plugins/fn-random/functions.c:477
 msgid "If @{a} ≤ 0, RANDGAMMA returns #NUM!"
@@ -7626,8 +7757,9 @@ msgid "a:parameter of the Pareto distribution"
 msgstr "a:parameter dari distribusi Pareto"
 
 #: ../plugins/fn-random/functions.c:501
+#, fuzzy
 msgid "b:parameter of the Pareto distribution"
-msgstr ""
+msgstr "a:parameter dari distribusi Pareto"
 
 #: ../plugins/fn-random/functions.c:520
 msgid "RANDFDIST:random variate from an F distribution"
@@ -7650,8 +7782,9 @@ msgid "a:parameter of the Beta distribution"
 msgstr "a:parameter dari distribusi Beta"
 
 #: ../plugins/fn-random/functions.c:543
+#, fuzzy
 msgid "b:parameter of the Beta distribution"
-msgstr ""
+msgstr "a:parameter dari distribusi Beta"
 
 #: ../plugins/fn-random/functions.c:562
 msgid "RANDLOGISTIC:random variate from a logistic distribution"
@@ -7682,8 +7815,9 @@ msgid "n2:number of objects of type 2"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:607
+#, fuzzy
 msgid "t:total number of objects selected"
-msgstr ""
+msgstr "y:banyaknya objek yang dipilih"
 
 #: ../plugins/fn-random/functions.c:629
 msgid "RANDLOG:random variate from a logarithmic distribution"
@@ -7724,8 +7858,9 @@ msgid "a:parameter of the Gumbel distribution"
 msgstr "a:parameter dari distribusi Gumbel"
 
 #: ../plugins/fn-random/functions.c:692
+#, fuzzy
 msgid "b:parameter of the Gumbel distribution"
-msgstr ""
+msgstr "a:parameter dari distribusi Gumbel"
 
 #: ../plugins/fn-random/functions.c:693
 msgid "type:type of the Gumbel distribution, defaults to 1"
@@ -7740,12 +7875,14 @@ msgid "RANDLEVY:random variate from a Lévy distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:720
+#, fuzzy
 msgid "c:parameter of the Lévy distribution"
-msgstr ""
+msgstr "a:parameter skala dari distribusi"
 
 #: ../plugins/fn-random/functions.c:721
+#, fuzzy
 msgid "α:parameter of the Lévy distribution"
-msgstr ""
+msgstr "a:parameter skala dari distribusi"
 
 #: ../plugins/fn-random/functions.c:722
 msgid "β:parameter of the Lévy distribution, defaults to 0"
@@ -7780,8 +7917,9 @@ msgid "a:scale parameter of the exponential power distribution"
 msgstr "a:parameter skala dari distribusi pangkat eksponensial"
 
 #: ../plugins/fn-random/functions.c:753
+#, fuzzy
 msgid "b:exponent of the exponential power distribution"
-msgstr ""
+msgstr "a:parameter skala dari distribusi pangkat eksponensial"
 
 #: ../plugins/fn-random/functions.c:754
 msgid ""
@@ -7929,8 +8067,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:52
+#, fuzzy
 msgid "VARP:variance of an entire population"
-msgstr ""
+msgstr "Varian populasi variabel _1:"
 
 #: ../plugins/fn-stat/functions.c:53 ../plugins/fn-stat/functions.c:79
 #: ../plugins/fn-stat/functions.c:109 ../plugins/fn-stat/functions.c:137
@@ -7938,7 +8077,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2674 ../plugins/fn-stat/functions.c:2703
 #, fuzzy
 msgid "area1:first cell area"
-msgstr "area1:first cell area"
+msgstr "A1 (sel pertama dari area halaman)"
 
 #: ../plugins/fn-stat/functions.c:54 ../plugins/fn-stat/functions.c:80
 #: ../plugins/fn-stat/functions.c:110 ../plugins/fn-stat/functions.c:138
@@ -7946,7 +8085,7 @@ msgstr "area1:first cell area"
 #: ../plugins/fn-stat/functions.c:2675 ../plugins/fn-stat/functions.c:2704
 #, fuzzy
 msgid "area2:second cell area"
-msgstr "area2:second cell area"
+msgstr "Area Sel"
 
 #: ../plugins/fn-stat/functions.c:55
 msgid "VARP is also known as the N-variance."
@@ -8088,8 +8227,9 @@ msgid "In case of a tie, RANK returns the average rank."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:220
+#, fuzzy
 msgid "This function is Excel 2010 compatible."
-msgstr ""
+msgstr "Fungsi ini kompatibel dengan Excel."
 
 #: ../plugins/fn-stat/functions.c:221
 msgid ""
@@ -8142,7 +8282,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:383
 #, fuzzy
 msgid "array1:first data set"
-msgstr "array1:first data set"
+msgstr "Ke sel data pertama"
 
 #: ../plugins/fn-stat/functions.c:324 ../plugins/fn-stat/functions.c:354
 #, fuzzy
@@ -8222,7 +8362,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:415
 #, fuzzy
 msgid "p:probability of a success"
-msgstr "Plot probabilitas."
+msgstr "BERHASIL"
 
 #: ../plugins/fn-stat/functions.c:416
 msgid "If @{f} or @{t} is a non-integer it is truncated."
@@ -8247,8 +8387,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:444
+#, fuzzy
 msgid "NORMSDIST is the OpenFormula function LEGACY.NORMSDIST."
-msgstr ""
+msgstr "Fungsi ini kompatibel dengan OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:447 ../plugins/fn-stat/functions.c:491
 msgid "wiki:en:Normal_distribution"
@@ -8299,8 +8440,9 @@ msgid "If @{p} < 0 or @{p} > 1 this function returns #NUM! error."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:488
+#, fuzzy
 msgid "NORMSINV is the OpenFormula function LEGACY.NORMSINV."
-msgstr ""
+msgstr "Fungsi ini kompatibel dengan OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:511
 msgid "OWENT:Owen's T function"
@@ -8324,7 +8466,7 @@ msgstr "Rata-rata:"
 #: ../plugins/fn-stat/functions.c:534 ../plugins/fn-stat/functions.c:564
 #, fuzzy
 msgid "stddev:standard deviation"
-msgstr "Standar"
+msgstr "Deviasi _Standar:"
 
 #: ../plugins/fn-stat/functions.c:535
 msgid "If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error."
@@ -8421,7 +8563,7 @@ msgstr "wolfram:Mode.html"
 #: ../plugins/fn-stat/functions.c:638
 #, fuzzy
 msgid "HARMEAN:harmonic mean"
-msgstr "Rata-rata:"
+msgstr "wiki:en:Harmonic_mean"
 
 #: ../plugins/fn-stat/functions.c:641
 msgid ""
@@ -8445,7 +8587,7 @@ msgstr "wolfram:HarmonicMean.html"
 #: ../plugins/fn-stat/functions.c:665
 #, fuzzy
 msgid "GEOMEAN:geometric mean"
-msgstr "Rata-rata:"
+msgstr "wiki:en:Geometric_mean"
 
 #: ../plugins/fn-stat/functions.c:668
 msgid ""
@@ -8490,8 +8632,9 @@ msgid "Then COUNTA(A1:A5) equals 5."
 msgstr "Then COUNTA(A1:A5) equals 5."
 
 #: ../plugins/fn-stat/functions.c:742
+#, fuzzy
 msgid "AVERAGE:average of all the numeric values and cells"
-msgstr ""
+msgstr "AVERAGE:average of all the numeric values and cells"
 
 #: ../plugins/fn-stat/functions.c:747
 #, fuzzy
@@ -8591,12 +8734,12 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:925
 msgid "BERNOULLI:probability mass function of a Bernoulli distribution"
-msgstr ""
+msgstr "BERNOULLI:fungsi massa probabilitas dari sebuah distribusi Bernoulli"
 
 #: ../plugins/fn-stat/functions.c:926
 #, fuzzy
 msgid "k:integer"
-msgstr "K"
+msgstr "K harus berupa integer positif."
 
 #: ../plugins/fn-stat/functions.c:928
 msgid "If @{k} != 0 and @{k} != 1 this function returns a #NUM! error."
@@ -8613,14 +8756,13 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1246 ../plugins/fn-stat/functions.c:1812
 #, fuzzy
 msgid "alpha:scale parameter"
-msgstr "alpha:scale parameter"
+msgstr "a:parameter skala"
 
 #: ../plugins/fn-stat/functions.c:964 ../plugins/fn-stat/functions.c:997
 #: ../plugins/fn-stat/functions.c:1169 ../plugins/fn-stat/functions.c:1204
 #: ../plugins/fn-stat/functions.c:1247 ../plugins/fn-stat/functions.c:1813
-#, fuzzy
 msgid "beta:scale parameter"
-msgstr "Parameter: "
+msgstr "beta:parameter skala "
 
 #: ../plugins/fn-stat/functions.c:966 ../plugins/fn-stat/functions.c:1373
 #: ../plugins/fn-stat/functions.c:1818 ../plugins/fn-stat/functions.c:2042
@@ -8656,8 +8798,9 @@ msgid "The survival function is 1 minus the cumulative distribution function."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1028
+#, fuzzy
 msgid "If @{dof} is non-integer it is truncated."
-msgstr ""
+msgstr "x:bilangan bulat non negatif"
 
 #: ../plugins/fn-stat/functions.c:1029 ../plugins/fn-stat/functions.c:1284
 msgid "If @{dof} < 1 this function returns a #NUM! error."
@@ -8687,12 +8830,14 @@ msgid "CHITEST:p value of the Goodness of Fit Test"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1080
+#, fuzzy
 msgid "actual_range:observed data"
-msgstr ""
+msgstr "actual_range:observed data"
 
 #: ../plugins/fn-stat/functions.c:1081
+#, fuzzy
 msgid "theoretical_range:expected values"
-msgstr ""
+msgstr "Kueri rentang nilai yang valid bagi KUNCI"
 
 #: ../plugins/fn-stat/functions.c:1082
 msgid ""
@@ -8703,8 +8848,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1088
+#, fuzzy
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
-msgstr ""
+msgstr "Fungsi ini kompatibel dengan OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1166
 msgid "BETADIST:cumulative distribution function of the beta distribution"
@@ -8718,8 +8864,9 @@ msgstr "a:optional lower bound, defaults to 0"
 
 #: ../plugins/fn-stat/functions.c:1171 ../plugins/fn-stat/functions.c:1208
 #: ../plugins/fn-stat/functions.c:1249
+#, fuzzy
 msgid "b:optional upper bound, defaults to 1"
-msgstr ""
+msgstr "b:optional upper bound, defaults to 1"
 
 #: ../plugins/fn-stat/functions.c:1172 ../plugins/fn-stat/functions.c:1209
 msgid "If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error."
@@ -8805,8 +8952,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1376
+#, fuzzy
 msgid "FDIST is the OpenFormula function LEGACY.FDIST."
-msgstr ""
+msgstr "Fungsi ini kompatibel dengan OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1398
 msgid ""
@@ -8824,8 +8972,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1542
+#, fuzzy
 msgid "FINV is the OpenFormula function LEGACY.FINV."
-msgstr ""
+msgstr "Fungsi ini kompatibel dengan OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1564
 msgid ""
@@ -8876,12 +9025,12 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1602
 #, fuzzy
 msgid "start:start of the interval"
-msgstr "Mulai: "
+msgstr "x1:awal interval"
 
 #: ../plugins/fn-stat/functions.c:1603
 #, fuzzy
 msgid "end:end of the interval, defaults to @{start}"
-msgstr "Waktu akhir pengulangan sebelum acara dimulai"
+msgstr "x2:akhir interval"
 
 #: ../plugins/fn-stat/functions.c:1604
 msgid "If @{start}, @{end} or @{trials} are non-integer they are truncated."
@@ -8921,12 +9070,14 @@ msgid "CRITBINOM:right-tailed critical value of the binomial distribution"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1664
+#, fuzzy
 msgid "alpha:significance level (area of the tail)"
-msgstr ""
+msgstr "alpha:significance level (area of the tail)"
 
 #: ../plugins/fn-stat/functions.c:1665
+#, fuzzy
 msgid "If @{trials} is a non-integer it is truncated."
-msgstr ""
+msgstr "x:bilangan bulat non negatif"
 
 #: ../plugins/fn-stat/functions.c:1668
 msgid "If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error."
@@ -8962,7 +9113,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1718
 #, fuzzy
 msgid "x:number of successes"
-msgstr "%x: cacah cakram"
+msgstr "X:bilangan"
 
 #: ../plugins/fn-stat/functions.c:1719
 #, fuzzy
@@ -8976,7 +9127,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1721
 #, fuzzy
 msgid "N:population size"
-msgstr "Akt_ifkan untuk pemenuhan data awal"
+msgstr "Varian populasi adalah:"
 
 #: ../plugins/fn-stat/functions.c:1723
 msgid "If @{x},@{n},@{M} or @{N} is a non-integer it is truncated."
@@ -8998,11 +9149,12 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1754
 #, fuzzy
 msgid "alpha:significance level"
-msgstr "alpha:significance level"
+msgstr "Alfa"
 
 #: ../plugins/fn-stat/functions.c:1755
+#, fuzzy
 msgid "stddev:population standard deviation"
-msgstr ""
+msgstr "Deviasi _Standar:"
 
 #: ../plugins/fn-stat/functions.c:1756
 #, fuzzy
@@ -9015,8 +9167,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1758
+#, fuzzy
 msgid "If @{size} is non-integer it is truncated."
-msgstr ""
+msgstr "x:bilangan bulat non negatif"
 
 #: ../plugins/fn-stat/functions.c:1759
 msgid "If @{size} < 0 this function returns a #NUM! error."
@@ -9031,8 +9184,9 @@ msgid "STANDARDIZE:z-score of a value"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1785
+#, fuzzy
 msgid "mean:mean of the original distribution"
-msgstr ""
+msgstr "μ:rata-rata dari distribusi"
 
 #: ../plugins/fn-stat/functions.c:1786
 msgid "stddev:standard deviation of the original distribution"
@@ -9065,11 +9219,12 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2039
 #, fuzzy
 msgid "mean:mean of the distribution"
-msgstr "Rata-rata:"
+msgstr "μ:rata-rata dari distribusi"
 
 #: ../plugins/fn-stat/functions.c:1849 ../plugins/fn-stat/functions.c:1882
+#, fuzzy
 msgid "stddev:standard deviation of the distribution"
-msgstr ""
+msgstr "Deviasi _Standar:"
 
 #: ../plugins/fn-stat/functions.c:1879
 msgid ""
@@ -9121,8 +9276,9 @@ msgid "Then KURTP(A1:A5) equals -0.691363424."
 msgstr "Then KURTP(A1:A5) equals -0.691363424."
 
 #: ../plugins/fn-stat/functions.c:1964
+#, fuzzy
 msgid "AVEDEV:average of the absolute deviations of a data set"
-msgstr ""
+msgstr "AVEDEV:average of the absolute deviations of a data set"
 
 #: ../plugins/fn-stat/functions.c:1969
 #, fuzzy
@@ -9163,8 +9319,9 @@ msgid "x:number of events"
 msgstr "Cacah peristiwa dinyalakan"
 
 #: ../plugins/fn-stat/functions.c:2041
+#, fuzzy
 msgid "If @{x} is a non-integer it is truncated."
-msgstr ""
+msgstr "x:bilangan bulat non negatif"
 
 #: ../plugins/fn-stat/functions.c:2043
 msgid "If @{mean} <= 0 POISSON returns the #NUM! error."
@@ -9177,12 +9334,12 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2070 ../plugins/fn-stat/functions.c:2089
 #, fuzzy
 msgid "array1:first component values"
-msgstr "array1:first component values"
+msgstr "Nilai-nilai pertama"
 
 #: ../plugins/fn-stat/functions.c:2071 ../plugins/fn-stat/functions.c:2090
 #, fuzzy
 msgid "array2:second component values"
-msgstr "array2:second component values"
+msgstr "Nilai kedua"
 
 #: ../plugins/fn-stat/functions.c:2088
 msgid ""
@@ -9399,8 +9556,9 @@ msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
 msgstr "Then ZTEST(A1:A5,20) equals 0.254717826."
 
 #: ../plugins/fn-stat/functions.c:2535
+#, fuzzy
 msgid "AVERAGEA:average of all the values and cells"
-msgstr ""
+msgstr "AVERAGEA:average of all the values and cells"
 
 #: ../plugins/fn-stat/functions.c:2540 ../plugins/fn-stat/functions.c:2565
 #: ../plugins/fn-stat/functions.c:2592 ../plugins/fn-stat/functions.c:2624
@@ -9456,8 +9614,9 @@ msgid "Then VARA(A1:A5) equals 228.613."
 msgstr "Then VARA(A1:A5) equals 228.613."
 
 #: ../plugins/fn-stat/functions.c:2645
+#, fuzzy
 msgid "VARPA:variance of an entire population"
-msgstr ""
+msgstr "Varian populasi variabel _1:"
 
 #: ../plugins/fn-stat/functions.c:2648
 msgid "VARPA is also known as the N-variance."
@@ -9671,7 +9830,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:3146
 #, fuzzy
 msgid "The results are given as an array."
-msgstr "Hasil"
+msgstr "Tak ada yang cocok."
 
 #: ../plugins/fn-stat/functions.c:3147
 msgid ""
@@ -9710,8 +9869,9 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:3422 ../plugins/fn-stat/functions.c:3528
 #: ../plugins/fn-stat/functions.c:3740 ../plugins/fn-stat/functions.c:3886
 #: ../plugins/fn-stat/functions.c:3985
+#, fuzzy
 msgid "affine:if true, the model contains a constant term, defaults to true"
-msgstr ""
+msgstr "affine:if true, the model contains a constant term, defaults to true"
 
 #: ../plugins/fn-stat/functions.c:3423
 msgid ""
@@ -9772,6 +9932,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3538
+#, fuzzy
 msgid ""
 "Any extra statistical information is written below m and b in the result "
 "array.  This extra statistical information consists of four rows of data:  "
@@ -9781,6 +9942,13 @@ msgid ""
 "of freedom.  The last row contains the regression sum of squares and the "
 "residual sum of squares.The default of @{stat} is FALSE."
 msgstr ""
+"Any extra statistical information is written below m and b in the result "
+"array.  This extra statistical information consists of four rows of data:  "
+"In the first row the standard error values for the coefficients m, b are "
+"given.  The second row contains the square of R and the standard error for "
+"the y estimate. The third row contains the F-observed value and the degrees "
+"of freedom.  The last row contains the regression sum of squares and the "
+"residual sum of squares.The default of @{stat} is FALSE."
 
 #: ../plugins/fn-stat/functions.c:3547 ../plugins/fn-stat/functions.c:3902
 #: ../plugins/fn-stat/functions.c:3993
@@ -9809,11 +9977,15 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3655
+#, fuzzy
 msgid ""
 "An error is returned when there are less than 3 different x's or y's, or "
 "when the shape of the point cloud is too different from a ``logarithmic'' "
 "one."
 msgstr ""
+"An error is returned when there are less than 3 different x's or y's, or "
+"when the shape of the point cloud is too different from a ``logarithmic'' "
+"one."
 
 #: ../plugins/fn-stat/functions.c:3658
 msgid ""
@@ -10017,7 +10189,7 @@ msgstr "Alfa"
 #: ../plugins/fn-stat/functions.c:4325
 #, fuzzy
 msgid "ref1:first data set"
-msgstr "Perbaiki dulu data"
+msgstr "Ke sel data pertama"
 
 #: ../plugins/fn-stat/functions.c:4326
 #, fuzzy
@@ -10056,9 +10228,8 @@ msgid "a:exponent"
 msgstr "a:eksponen"
 
 #: ../plugins/fn-stat/functions.c:4502 ../plugins/fn-stat/functions.c:4609
-#, fuzzy
 msgid "b:scale parameter"
-msgstr "Parameter: "
+msgstr "b:parameter skala"
 
 #: ../plugins/fn-stat/functions.c:4533
 msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
@@ -10067,7 +10238,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:4535 ../plugins/fn-stat/functions.c:4570
 #, fuzzy
 msgid "sigma:scale parameter"
-msgstr "Karakteristik relay (sigma)"
+msgstr "a:parameter skala"
 
 #: ../plugins/fn-stat/functions.c:4567
 msgid ""
@@ -10109,7 +10280,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:4663
 #, fuzzy
 msgid "x:total number of objects"
-msgstr "Banyaknya siklus pemuatan"
+msgstr "X:bilangan"
 
 #: ../plugins/fn-stat/functions.c:4664
 msgid "y:number of selected objects"
@@ -10129,8 +10300,9 @@ msgid "If @{x} or @{y} are not integers, they are truncated"
 msgstr "%A, %e %B %Y %X"
 
 #: ../plugins/fn-stat/functions.c:4695
+#, fuzzy
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
-msgstr ""
+msgstr "Uji Lilliefors (Kolmogorov-Smirnov)"
 
 #: ../plugins/fn-stat/functions.c:4696 ../plugins/fn-stat/functions.c:4813
 #: ../plugins/fn-stat/functions.c:4897 ../plugins/fn-stat/functions.c:4982
@@ -10190,8 +10362,9 @@ msgid "wiki:en:Cramér–von-Mises_criterion"
 msgstr "wiki:en:Cramér–von-Mises_criterion"
 
 #: ../plugins/fn-stat/functions.c:4981
+#, fuzzy
 msgid "ADTEST:Anderson-Darling Test of Normality"
-msgstr ""
+msgstr "Uji Anderson-Darling"
 
 #: ../plugins/fn-stat/functions.c:4983
 msgid ""
@@ -10372,8 +10545,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:365
+#, fuzzy
 msgid "LOWER:a lower-case version of the string @{text}"
-msgstr ""
+msgstr "Jadikan huruf kecil teks yang dipilih"
 
 #: ../plugins/fn-string/functions.c:383
 msgid ""
@@ -10423,7 +10597,9 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:471 ../plugins/fn-string/functions.c:699
 #, fuzzy
 msgid "This search is case-sensitive."
-msgstr "Jungkitkan modus pencarian peka kapitalisasi"
+msgstr ""
+"Pilih <gui>Cocok Huruf Besar/Kecil</gui> untuk membuat pencarian membedakan "
+"huruf besar/kecil."
 
 #: ../plugins/fn-string/functions.c:510
 msgid "RIGHT:the last @{num_chars} characters of the string @{s}"
@@ -10442,8 +10618,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:581
+#, fuzzy
 msgid "UPPER:an upper-case version of the string @{text}"
-msgstr ""
+msgstr "Jadikan huruf besar teks yang dipilih"
 
 #: ../plugins/fn-string/functions.c:600
 msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
@@ -10464,8 +10641,9 @@ msgid "REPT:@{num} repetitions of string @{text}"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:624
+#, fuzzy
 msgid "num:non-negative integer"
-msgstr ""
+msgstr "x:bilangan bulat non negatif"
 
 #: ../plugins/fn-string/functions.c:666
 msgid "CLEAN:@{text} with any non-printable characters removed"
@@ -10662,7 +10840,9 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:1312 ../plugins/fn-string/functions.c:1355
 #, fuzzy
 msgid "This search is not case sensitive."
-msgstr "Jungkitkan modus pencarian peka kapitalisasi"
+msgstr ""
+"Pilih <gui>Cocok Huruf Besar/Kecil</gui> untuk membuat pencarian membedakan "
+"huruf besar/kecil."
 
 #: ../plugins/fn-string/functions.c:1313
 #, fuzzy
@@ -10692,16 +10872,22 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:1413
+#, fuzzy
 msgid ""
 "ASC:text with full-width katakana and ASCII characters converted to half-"
 "width"
 msgstr ""
+"ASC:text with full-width katakana and ASCII characters converted to half-"
+"width"
 
 #: ../plugins/fn-string/functions.c:1415
+#, fuzzy
 msgid ""
 "ASC converts full-width katakana and ASCII characters to half-width "
 "equivalent characters, copying all others. "
 msgstr ""
+"ASC converts full-width katakana and ASCII characters to half-width "
+"equivalent characters, copying all others. "
 
 #: ../plugins/fn-string/functions.c:1416 ../plugins/fn-string/functions.c:1544
 msgid ""
@@ -10805,12 +10991,14 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:567
+#, fuzzy
 msgid "PERIODOGRAM:periodogram of the given data"
-msgstr ""
+msgstr "Saring data dengan kriteria yang diberikan"
 
 #: ../plugins/fn-tsa/functions.c:568
+#, fuzzy
 msgid "ordinates:ordinates of the given data"
-msgstr ""
+msgstr "Saring data dengan kriteria yang diberikan"
 
 #: ../plugins/fn-tsa/functions.c:569
 msgid "filter:windowing function to  be used, defaults to no filter"
@@ -10944,18 +11132,21 @@ msgstr "SQL"
 #: ../plugins/gda/plugin-gda.c:381 ../plugins/gda/plugin-gda.c:457
 msgid "Before using EXECSQL, you need to set up a libgda data source."
 msgstr ""
+"Sebelum memakai EXECSQL, Anda perlu menyiapkan sebuah sumber data libgda."
 
 #: ../plugins/gda/plugin-gda.c:452
+#, fuzzy
 msgid "READDBTABLE:all rows of the table @{table} in @{dsn}"
-msgstr ""
+msgstr "Format: readDBTable(dsn,pengguna,kata-sandi,tabel)"
 
 #: ../plugins/gda/plugin-gda.c:456
 msgid "table:SQL table to retrieve"
 msgstr ""
 
 #: ../plugins/sample_datasource/sample_datasource.c:274
+#, fuzzy
 msgid "ATL_LAST:sample real-time data source"
-msgstr ""
+msgstr "ATL_LAST:sample real-time data source"
 
 #: ../plugins/sample_datasource/sample_datasource.c:275
 #, fuzzy
@@ -10963,11 +11154,15 @@ msgid "tag:tag to watch"
 msgstr "TAG"
 
 #: ../plugins/sample_datasource/sample_datasource.c:276
+#, fuzzy
 msgid ""
 "ATL_LAST is a sample implementation of a real time data source.  It takes a "
 "string tag and monitors the named pipe ~/atl for changes to the value of "
 "that tag."
 msgstr ""
+"ATL_LAST is a sample implementation of a real time data source.  It takes a "
+"string tag and monitors the named pipe ~/atl for changes to the value of "
+"that tag."
 
 #: ../plugins/sample_datasource/sample_datasource.c:277
 msgid "This is not intended to be generally enabled and is OFF by default."
