@@ -5,9 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.12.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-25 14:56+0200\n"
-"PO-Revision-Date: 2014-07-25 15:33+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gnumeric&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-07-29 16:34+0000\n"
+"PO-Revision-Date: 2014-09-28 11:10+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norwegian bokmål\n"
@@ -3880,7 +3881,7 @@ msgstr "Sorterer %s"
 #, fuzzy
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
-"them with the 'Format,olumn→Unhide' menu item."
+"them with the 'Format→Column→Unhide' menu item."
 msgstr ""
 "Er du sikker på at du vil skjule alle kolonner? Hvis du gjør dette kan du ta "
 "dem frem igjen med menyoppføringen «Format→Kolonne→Ta frem»."
@@ -5531,209 +5532,215 @@ msgstr "Bakgrunn"
 msgid "Pattern"
 msgstr "Mønster"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:236
+#: ../src/dialogs/dialog-cell-format-cond.c:122
+msgid ""
+"You did not add the defined conditional format. Do you really want to close "
+"the conditional formatting dialog?"
+msgstr ""
+
+#: ../src/dialogs/dialog-cell-format-cond.c:242
 msgid "(defined)"
 msgstr "(definert)"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:236
-#: ../src/dialogs/dialog-cell-format-cond.c:1189
+#: ../src/dialogs/dialog-cell-format-cond.c:242
+#: ../src/dialogs/dialog-cell-format-cond.c:1195
 msgid "(undefined)"
 msgstr "(udefinert)"
 
 #. without any expression
-#: ../src/dialogs/dialog-cell-format-cond.c:569
+#: ../src/dialogs/dialog-cell-format-cond.c:575
 msgid "Cell contains an error value."
 msgstr "Cellen inneholder en feilverdi."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:570
+#: ../src/dialogs/dialog-cell-format-cond.c:576
 msgid "Cell does not contain an error value."
 msgstr "Cellen inneholder ikke den en feilverdi."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:571
+#: ../src/dialogs/dialog-cell-format-cond.c:577
 msgid "Cell contains whitespace."
 msgstr "Cellen inneholder mellomrom."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:572
+#: ../src/dialogs/dialog-cell-format-cond.c:578
 msgid "Cell does not contain whitespace."
 msgstr "Cellen inneholder ikke mellomrom."
 
 #. with one expression
-#: ../src/dialogs/dialog-cell-format-cond.c:574
+#: ../src/dialogs/dialog-cell-format-cond.c:580
 msgid "Cell value is = x."
 msgstr "Celleverdien er = X."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:575
+#: ../src/dialogs/dialog-cell-format-cond.c:581
 msgid "Cell value is ≠ x."
 msgstr "Celleverdien er ≠ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:576
+#: ../src/dialogs/dialog-cell-format-cond.c:582
 msgid "Cell value is > x."
 msgstr "Celleverdien er > x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:577
+#: ../src/dialogs/dialog-cell-format-cond.c:583
 msgid "Cell value is < x."
 msgstr "Celleverdien er < x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:578
+#: ../src/dialogs/dialog-cell-format-cond.c:584
 msgid "Cell value is ≧ x."
 msgstr "Celleverdien er ≧ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:579
+#: ../src/dialogs/dialog-cell-format-cond.c:585
 msgid "Cell value is ≦ x."
 msgstr "Celleverdien er ≦ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:580
+#: ../src/dialogs/dialog-cell-format-cond.c:586
 msgid "Expression x evaluates to TRUE."
 msgstr "Uttrykk x evaluerer til TRUE."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:581
+#: ../src/dialogs/dialog-cell-format-cond.c:587
 msgid "Cell contains the string x."
 msgstr "Cellen inneholder strengen x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:582
+#: ../src/dialogs/dialog-cell-format-cond.c:588
 msgid "Cell does not contain the string x."
 msgstr "Cellen inneholder ikke strengen x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:583
+#: ../src/dialogs/dialog-cell-format-cond.c:589
 msgid "Cell value begins with the string x."
 msgstr "Celleverdien starter med strengen x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:584
+#: ../src/dialogs/dialog-cell-format-cond.c:590
 msgid "Cell value does not begin with the string x."
 msgstr "Celleverdien starter ikke med strengen x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:585
+#: ../src/dialogs/dialog-cell-format-cond.c:591
 msgid "Cell value ends with the string x."
 msgstr "Celleverdien slutter med strengen x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:586
+#: ../src/dialogs/dialog-cell-format-cond.c:592
 msgid "Cell value does not end with the string x."
 msgstr "Celleverdien slutter ikke med strengen x."
 
 #. with two expressions
-#: ../src/dialogs/dialog-cell-format-cond.c:588
+#: ../src/dialogs/dialog-cell-format-cond.c:594
 msgid "Cell value is between x and y (incl.)."
 msgstr "Celleverdien er mellom x og y (inkl.)."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:589
+#: ../src/dialogs/dialog-cell-format-cond.c:595
 msgid "Cell value is not between x and y (incl.)."
 msgstr "Celleverdien er ikke mellom x og y (inkl.)."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:726
+#: ../src/dialogs/dialog-cell-format-cond.c:732
 msgid "Set conditional formatting"
 msgstr "Sett betinget formattering"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:742
+#: ../src/dialogs/dialog-cell-format-cond.c:748
 msgid "Clear conditional formatting"
 msgstr "Tøm betinget formattering"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:774
+#: ../src/dialogs/dialog-cell-format-cond.c:780
 msgid "Remove condition from conditional formatting"
 msgstr "Fjern betingelse fra betinget formattering"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:806
+#: ../src/dialogs/dialog-cell-format-cond.c:812
 msgid "Expand conditional formatting"
 msgstr "Utvid betinget formattering"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:855
+#: ../src/dialogs/dialog-cell-format-cond.c:861
 msgid ""
 "If the cell content is between these two values, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:863
+#: ../src/dialogs/dialog-cell-format-cond.c:869
 msgid ""
 "If the cell content is not between these two values, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:871
+#: ../src/dialogs/dialog-cell-format-cond.c:877
 msgid "If the cell content is equal to this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:879
+#: ../src/dialogs/dialog-cell-format-cond.c:885
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:887
+#: ../src/dialogs/dialog-cell-format-cond.c:893
 msgid "If the cell content is > this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:894
+#: ../src/dialogs/dialog-cell-format-cond.c:900
 msgid "If the cell content is < this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:902
+#: ../src/dialogs/dialog-cell-format-cond.c:908
 msgid "If the cell content is ≧ this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:911
+#: ../src/dialogs/dialog-cell-format-cond.c:917
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:920
+#: ../src/dialogs/dialog-cell-format-cond.c:926
 msgid "If this formula evaluates to TRUE, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:927
+#: ../src/dialogs/dialog-cell-format-cond.c:933
 msgid "If the cell content contains this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:935
+#: ../src/dialogs/dialog-cell-format-cond.c:941
 msgid ""
 "If the cell content does not contain this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:943
+#: ../src/dialogs/dialog-cell-format-cond.c:949
 msgid "If the cell content begins with this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:951
+#: ../src/dialogs/dialog-cell-format-cond.c:957
 msgid ""
 "If the cell content does not begin with this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:958
+#: ../src/dialogs/dialog-cell-format-cond.c:964
 msgid "If the cell content ends with this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:966
+#: ../src/dialogs/dialog-cell-format-cond.c:972
 msgid ""
 "If the cell content does not end  with this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:974
+#: ../src/dialogs/dialog-cell-format-cond.c:980
 msgid "If the cell contains an error value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:980
+#: ../src/dialogs/dialog-cell-format-cond.c:986
 msgid "If the cell does not contain an error value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:987
+#: ../src/dialogs/dialog-cell-format-cond.c:993
 msgid "If the cell content contains blanks, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:994
+#: ../src/dialogs/dialog-cell-format-cond.c:1000
 msgid "If the cell content does not contain blanks, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1001
+#: ../src/dialogs/dialog-cell-format-cond.c:1007
 msgid "This is an unknown condition type."
 msgstr "Dette er en ukjent type betingelse."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1109
+#: ../src/dialogs/dialog-cell-format-cond.c:1115
 msgid "The selection is homogeneous with respect to conditions."
 msgstr "Utvalget er homogent i forhold til betingelsene."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1117
+#: ../src/dialogs/dialog-cell-format-cond.c:1123
 msgid "The selection is <b>not</b> homogeneous with respect to conditions!"
 msgstr "Utvalget er <b>ikke</b> homogent i forhold til betingelsene!"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1265
+#: ../src/dialogs/dialog-cell-format-cond.c:1271
 msgid "Editing conditional formatting: "
 msgstr "Redigerer betinget formatering: "
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1312
+#: ../src/dialogs/dialog-cell-format-cond.c:1318
 #: ../src/dialogs/cell-format-cond.ui.h:1
 msgid "Conditional Cell Formatting"
 msgstr "Betinget celleformatering"
@@ -12880,7 +12887,7 @@ msgstr "kan ikke operere på flettede celler"
 
 #: ../src/sheet.c:3668
 #, fuzzy
-msgid "cannot operate on array formulے"
+msgid "cannot operate on array formulæ"
 msgstr "kan ikke operere på matriseformularer"
 
 #: ../src/sheet.c:5132
@@ -16437,7 +16444,9 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Slå av/på visning av kolonne-disposisjon til venstre eller høyre"
 
 #: ../src/wbc-gtk-actions.c:2814
-msgid "Display _Formulے"
+#, fuzzy
+#| msgid "Display _Formulے"
+msgid "Display _Formulæ"
 msgstr "Vis _formlelے"
 
 #: ../src/wbc-gtk-actions.c:2816
@@ -17146,9 +17155,10 @@ msgstr "\t%s \t%s\n"
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
 #: ../src/widgets/gnumeric-expr-entry.c:957
-#, c-format
-msgid "ے\t%s \t%s\n"
-msgstr "ے\t%s \t%s\n"
+#, fuzzy, c-format
+#| msgid "\t%s \t%s\n"
+msgid "✓\t%s \t%s\n"
+msgstr "\t%s \t%s\n"
 
 #. xgettext: short form for: "type F4-key to complete the name"
 #: ../src/widgets/gnumeric-expr-entry.c:970
@@ -17161,10 +17171,16 @@ msgstr ""
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnumeric-expr-entry.c:973
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "\t<i> to select</i>"
 msgid ""
 "\n"
-"\t<i> to select</i>"
-msgstr "\n\t<i> for å velge</i>"
+"\t<i>⇧F4 to select</i>"
+msgstr ""
+"\n"
+"\t<i> for å velge</i>"
 
 #: ../src/widgets/gnumeric-expr-entry.c:2645
 #, c-format
@@ -17239,7 +17255,7 @@ msgstr "Ett enkelt utvalg kreves."
 
 #: ../src/workbook-cmd-format.c:180
 #, fuzzy
-msgid "An n or 1⨯n selection is required."
+msgid "An n⨯1 or 1⨯n selection is required."
 msgstr "Ett enkelt utvalg kreves."
 
 #: ../src/workbook-cmd-format.c:187
