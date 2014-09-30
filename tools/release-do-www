@@ -3,7 +3,7 @@
 use strict;
 
 die "$0: must be run from top-level directory.\n"
-    unless -d "gnumeric" && -d "goffice" && -d "gnomeweb-wml";
+    unless -d "gnumeric" && -d "goffice" && -d "www-gnumeric-org";
 
 my $newgnumeric = $ARGV[0];
 my $newgoffice = $ARGV[1];
