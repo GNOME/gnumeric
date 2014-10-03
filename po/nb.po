@@ -5,9 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.12.0\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-29 16:34+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-03 17:48+0200\n"
 "PO-Revision-Date: 2014-09-28 11:10+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -75,7 +74,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7124
-#: ../plugins/openoffice/openoffice-read.c:13034 ../src/xml-sax-read.c:3350
+#: ../plugins/openoffice/openoffice-read.c:13054 ../src/xml-sax-read.c:3350
 msgid "Reading file..."
 msgstr "Leser fil …"
 
@@ -181,7 +180,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Ugyldig innhold i ss:data-element, fikk «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:13196 ../src/xml-sax-read.c:3367
+#: ../plugins/openoffice/openoffice-read.c:13217 ../src/xml-sax-read.c:3367
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet er ikke riktig utformet!"
 
@@ -247,41 +246,41 @@ msgid "No password supplied"
 msgstr "Ingen passord oppgitt"
 
 #: ../plugins/excel/ms-excel-util.c:696
-#: ../plugins/openoffice/openoffice-read.c:6015 ../src/print-info.c:670
+#: ../plugins/openoffice/openoffice-read.c:6034 ../src/print-info.c:670
 msgid "TAB"
 msgstr "FANE"
 
 #: ../plugins/excel/ms-excel-util.c:697
-#: ../plugins/openoffice/openoffice-read.c:6061 ../src/print-info.c:671
+#: ../plugins/openoffice/openoffice-read.c:6080 ../src/print-info.c:671
 msgid "PAGE"
 msgstr "SIDE"
 
 #: ../plugins/excel/ms-excel-util.c:698
-#: ../plugins/openoffice/openoffice-read.c:6068 ../src/print-info.c:672
+#: ../plugins/openoffice/openoffice-read.c:6087 ../src/print-info.c:672
 msgid "PAGES"
 msgstr "SIDER"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6047 ../src/print-info.c:673
+#: ../plugins/openoffice/openoffice-read.c:6066 ../src/print-info.c:673
 msgid "DATE"
 msgstr "DATO"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6054 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:6073 ../src/print-info.c:674
 msgid "TIME"
 msgstr "TID"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6095
-#: ../plugins/openoffice/openoffice-read.c:6102 ../src/main-application.c:79
+#: ../plugins/openoffice/openoffice-read.c:6114
+#: ../plugins/openoffice/openoffice-read.c:6121 ../src/main-application.c:79
 #: ../src/main-application.c:85 ../src/main-application.c:91
 #: ../src/print-info.c:675 ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "FIL"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6093
-#: ../plugins/openoffice/openoffice-read.c:6098 ../src/print-info.c:676
+#: ../plugins/openoffice/openoffice-read.c:6112
+#: ../plugins/openoffice/openoffice-read.c:6117 ../src/print-info.c:676
 msgid "PATH"
 msgstr "STI"
 
@@ -291,7 +290,7 @@ msgstr "CELLE"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:705
-#: ../plugins/openoffice/openoffice-read.c:6146 ../src/print-info.c:678
+#: ../plugins/openoffice/openoffice-read.c:6165 ../src/print-info.c:678
 msgid "TITLE"
 msgstr "TITTEL"
 
@@ -325,11 +324,11 @@ msgstr[1] ""
 "Noe innhold vil gå tapt ved lagring. Dette formatet støtter kun %u rader, og "
 "arbeidsboken har %d"
 
-#: ../plugins/excel/ms-excel-write.c:6564
+#: ../plugins/excel/ms-excel-write.c:6581
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kan ikke åpne strøm «Bok» for skriving\n"
 
-#: ../plugins/excel/ms-excel-write.c:6586
+#: ../plugins/excel/ms-excel-write.c:6603
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kan ikke åpne strøm «Arbeidsbok» for skriving\n"
 
@@ -477,14 +476,14 @@ msgid "Invalid range '%s' for attribute %s"
 msgstr "Ugyldig område «%s» for attributt %s"
 
 #: ../plugins/excel/xlsx-read.c:699
-#: ../plugins/openoffice/openoffice-read.c:1210
-#: ../plugins/openoffice/openoffice-read.c:1288
+#: ../plugins/openoffice/openoffice-read.c:1212
+#: ../plugins/openoffice/openoffice-read.c:1290
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Ugyldig attributt «%s». Ukjent enhet «%s»"
 
 #: ../plugins/excel/xlsx-read.c:704 ../plugins/excel/xlsx-read.c:711
-#: ../plugins/openoffice/openoffice-read.c:1215
+#: ../plugins/openoffice/openoffice-read.c:1217
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Ugyldig attributt «%s», forventet avstand, fikk «%s»"
@@ -499,7 +498,7 @@ msgstr "Ukjent farge i tema %d"
 msgid "Undefined number format id '%s'"
 msgstr "Udefinert tallformat-ID «%s»"
 
-#: ../plugins/excel/xlsx-read.c:1215 ../plugins/excel/xlsx-read.c:3644
+#: ../plugins/excel/xlsx-read.c:1215 ../plugins/excel/xlsx-read.c:3234
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Ugyldig farge «%s» for attributt rgb"
@@ -514,98 +513,98 @@ msgstr "Udefinert stiloppføring «%d»"
 msgid "Undefined partial style record '%d'"
 msgstr "Udefinert og ufullstendig stiloppføring «%d»"
 
-#: ../plugins/excel/xlsx-read.c:1300
+#: ../plugins/excel/xlsx-read.c:1292
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Ugyldig sst-referanse %s"
 
-#: ../plugins/excel/xlsx-read.c:1434
+#: ../plugins/excel/xlsx-read.c:1460
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Ugyldig celle %s"
 
-#: ../plugins/excel/xlsx-read.c:1552
+#: ../plugins/excel/xlsx-read.c:1578
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Ignorerer kolonneinformasjon som ikke spesifiserer føst eller sist."
 
-#: ../plugins/excel/xlsx-read.c:1685
+#: ../plugins/excel/xlsx-read.c:1711
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr "Papir fra XSLX-fil: %ipt⨉%ipt"
 
-#: ../plugins/excel/xlsx-read.c:1689
+#: ../plugins/excel/xlsx-read.c:1715
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr "Papir fra XLSX-fil: #%i"
 
-#: ../plugins/excel/xlsx-read.c:2134
-#: ../plugins/openoffice/openoffice-read.c:2736
+#: ../plugins/excel/xlsx-read.c:2160
+#: ../plugins/openoffice/openoffice-read.c:2755
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorerer ugyldig datavalidering pga: %s"
 
-#: ../plugins/excel/xlsx-read.c:2619
+#: ../plugins/excel/xlsx-read.c:2645
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorerer ikke-håndtert betingelseformat av type «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3013
+#: ../plugins/excel/xlsx-read.c:3039
 msgid "Unknown type of hyperlink"
 msgstr "Ukjent type hyperlenke"
 
-#: ../plugins/excel/xlsx-read.c:3055
+#: ../plugins/excel/xlsx-read.c:3081
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3062
+#: ../plugins/excel/xlsx-read.c:3088
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3317
+#: ../plugins/excel/xlsx-read.c:3560
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorerer et ark uten navn"
 
-#: ../plugins/excel/xlsx-read.c:3387
+#: ../plugins/excel/xlsx-read.c:3630
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Klarte ikke å definere navn: %s"
 
-#: ../plugins/excel/xlsx-read.c:3449
+#: ../plugins/excel/xlsx-read.c:3692
 msgid "Unable to resolve external relationship"
 msgstr "Kunne ikke slå opp ekstern relasjon"
 
-#: ../plugins/excel/xlsx-read.c:3835
+#: ../plugins/excel/xlsx-read.c:3869
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Mangler del-ID for ark «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3860
+#: ../plugins/excel/xlsx-read.c:3894
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Leser ark «%s» …"
 
-#: ../plugins/excel/xlsx-read.c:3868
+#: ../plugins/excel/xlsx-read.c:3902
 msgid "Reading comments..."
 msgstr "Leser kommentarer …"
 
-#: ../plugins/excel/xlsx-read.c:4977
+#: ../plugins/excel/xlsx-read.c:4989
 msgid "Reading shared strings..."
 msgstr "Leser delte strenger …"
 
-#: ../plugins/excel/xlsx-read.c:4985
+#: ../plugins/excel/xlsx-read.c:4997
 msgid "Reading theme..."
 msgstr "Leser tema …"
 
-#: ../plugins/excel/xlsx-read.c:4993
+#: ../plugins/excel/xlsx-read.c:5005
 msgid "Reading styles..."
 msgstr "Leser stiler …"
 
-#: ../plugins/excel/xlsx-read.c:4998
+#: ../plugins/excel/xlsx-read.c:5010
 msgid "Reading workbook..."
 msgstr "Leser arbeidsbok …"
 
-#: ../plugins/excel/xlsx-read.c:5008
+#: ../plugins/excel/xlsx-read.c:5020
 msgid "No workbook stream found."
 msgstr "Ingen arbeidsbok funnet."
 
@@ -1354,319 +1353,319 @@ msgstr "Importerer GNU Oleo dokumenter"
 msgid "GNU Oleo (*.oleo)"
 msgstr "GNU Oleo (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:588
+#: ../plugins/openoffice/openoffice-read.c:590
 msgid "General ODF error"
 msgstr "Generell ODF-feil"
 
-#: ../plugins/openoffice/openoffice-read.c:642
+#: ../plugins/openoffice/openoffice-read.c:644
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Ugyldig heltall «%s» for «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:657
+#: ../plugins/openoffice/openoffice-read.c:659
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Mulig korrupt heltall «%s» for «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:701
+#: ../plugins/openoffice/openoffice-read.c:703
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Ugyldig attributt «%s», forventet tall, fikk «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:725
+#: ../plugins/openoffice/openoffice-read.c:727
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Ugyldig attributt «%s», forventet prosent, fikk «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:747
+#: ../plugins/openoffice/openoffice-read.c:749
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Ugyldig attributt «%s», forventet farge, fikk «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:988
+#: ../plugins/openoffice/openoffice-read.c:990
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Ukjent navn på «hatch» «%s» funnet!"
 
-#: ../plugins/openoffice/openoffice-read.c:996
+#: ../plugins/openoffice/openoffice-read.c:998
 msgid "Hatch fill without hatch name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1004
+#: ../plugins/openoffice/openoffice-read.c:1006
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Ukjent navn på gradient «%s» funnet!"
 
-#: ../plugins/openoffice/openoffice-read.c:1017
+#: ../plugins/openoffice/openoffice-read.c:1019
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Gradientfyll uten gradientnavn funnet!"
 
-#: ../plugins/openoffice/openoffice-read.c:1025
+#: ../plugins/openoffice/openoffice-read.c:1027
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Ukjent bildefyllnavn «%s» funnet!"
 
-#: ../plugins/openoffice/openoffice-read.c:1035
+#: ../plugins/openoffice/openoffice-read.c:1037
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Ugyldig absolutt filspesifikasjon «%s» funnet."
 
-#: ../plugins/openoffice/openoffice-read.c:1048
+#: ../plugins/openoffice/openoffice-read.c:1050
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "Kan ikke åpne «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:1076
-#: ../plugins/openoffice/openoffice-read.c:8117
+#: ../plugins/openoffice/openoffice-read.c:1078
+#: ../plugins/openoffice/openoffice-read.c:8136
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Kan ikke laste filen '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:1084
+#: ../plugins/openoffice/openoffice-read.c:1086
 msgid "Image fill without image name encountered!"
 msgstr "Bildefyll uten bildenavn funnet!"
 
-#: ../plugins/openoffice/openoffice-read.c:1293
+#: ../plugins/openoffice/openoffice-read.c:1295
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Ugyldig attributt «%s», forventet vinkel, fikk «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1365
+#: ../plugins/openoffice/openoffice-read.c:1367
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Ugyldig attributt «%s», ukjent enum-verdi «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1560
+#: ../plugins/openoffice/openoffice-read.c:1562
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Ignorerer referanse til ukjent ekstern arbeidsbok «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1820
+#: ../plugins/openoffice/openoffice-read.c:1784
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Ukjent tekststil med navn «%s» funnet!"
 
-#: ../plugins/openoffice/openoffice-read.c:2153
+#: ../plugins/openoffice/openoffice-read.c:2172
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Kan ikke lese «%s» («%s»)"
 
-#: ../plugins/openoffice/openoffice-read.c:2251
-#: ../plugins/openoffice/openoffice-read.c:3774
+#: ../plugins/openoffice/openoffice-read.c:2270
+#: ../plugins/openoffice/openoffice-read.c:3793
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Ikke støttet formeltype funnet: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2257
-#: ../plugins/openoffice/openoffice-read.c:3781
+#: ../plugins/openoffice/openoffice-read.c:2276
+#: ../plugins/openoffice/openoffice-read.c:3800
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Uttrykket «%s» starter ikke med et gjenkjent tegn"
 
-#: ../plugins/openoffice/openoffice-read.c:2296
+#: ../plugins/openoffice/openoffice-read.c:2315
 #: ../plugins/openoffice/openoffice-write.c:5040
 #: ../plugins/openoffice/openoffice-write.c:5052 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "celle"
 
-#: ../plugins/openoffice/openoffice-read.c:2670
+#: ../plugins/openoffice/openoffice-read.c:2689
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr ""
 "Valideringsbetingelse «%s» er ikke støttet. Den har blitt endret til «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:2719
+#: ../plugins/openoffice/openoffice-read.c:2738
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Udefinert valideringsstil funnet: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2745
+#: ../plugins/openoffice/openoffice-read.c:2764
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
 "\""
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3420
+#: ../plugins/openoffice/openoffice-read.c:3439
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Ukjent betingelse «%s» funnet. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:3499
+#: ../plugins/openoffice/openoffice-read.c:3518
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Ignorerer kolonneinformasjon utover kolonne %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3620
-#: ../plugins/openoffice/openoffice-read.c:4020
+#: ../plugins/openoffice/openoffice-read.c:3639
+#: ../plugins/openoffice/openoffice-read.c:4039
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Innhold utover maksimalt antall rader (%i) støttes."
 
-#: ../plugins/openoffice/openoffice-read.c:3766
-#: ../plugins/openoffice/openoffice-read.c:6129
+#: ../plugins/openoffice/openoffice-read.c:3785
+#: ../plugins/openoffice/openoffice-read.c:6148
 msgid "Missing expression"
 msgstr "Manglende uttrykk"
 
-#: ../plugins/openoffice/openoffice-read.c:3993
+#: ../plugins/openoffice/openoffice-read.c:4012
 msgid "Invalid array expression does not specify number of columns."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3996
+#: ../plugins/openoffice/openoffice-read.c:4015
 msgid "Invalid array expression does not specify number of rows."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4012
+#: ../plugins/openoffice/openoffice-read.c:4031
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4194
+#: ../plugins/openoffice/openoffice-read.c:4213
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4327
+#: ../plugins/openoffice/openoffice-read.c:4346
 msgid "Unnamed dash style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4345
+#: ../plugins/openoffice/openoffice-read.c:4364
 msgid "Unnamed image fill style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4347
+#: ../plugins/openoffice/openoffice-read.c:4366
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "Fyllstil «%s» for bilde har ingen bilder lagt ved."
 
-#: ../plugins/openoffice/openoffice-read.c:4384
-#: ../plugins/openoffice/openoffice-read.c:4390
+#: ../plugins/openoffice/openoffice-read.c:4403
+#: ../plugins/openoffice/openoffice-read.c:4409
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Kan ikke lese gradientfarge: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4410
+#: ../plugins/openoffice/openoffice-read.c:4429
 msgid "Unnamed gradient style encountered."
 msgstr "Gradientstil uten navn funnet."
 
-#: ../plugins/openoffice/openoffice-read.c:4431
+#: ../plugins/openoffice/openoffice-read.c:4450
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Kan ikke lese farge for luke: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4505
+#: ../plugins/openoffice/openoffice-read.c:4524
 msgid "Unnamed hatch encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4600
+#: ../plugins/openoffice/openoffice-read.c:4619
 msgid "Duplicate default column style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4616
+#: ../plugins/openoffice/openoffice-read.c:4635
 msgid "Duplicate default row style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4651
+#: ../plugins/openoffice/openoffice-read.c:4670
 msgid "Duplicate default chart/graphics style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5138
+#: ../plugins/openoffice/openoffice-read.c:5157
 msgid "Unnamed date style ignored."
 msgstr "Datostil uten navn ignorert."
 
-#: ../plugins/openoffice/openoffice-read.c:5534
+#: ../plugins/openoffice/openoffice-read.c:5553
 #, c-format
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr "Korrupt fil: ugyldig betingelse for tallformat [%s]."
 
-#: ../plugins/openoffice/openoffice-read.c:5552
+#: ../plugins/openoffice/openoffice-read.c:5571
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Korrupt fil: tallstil uten navn ignorert."
 
-#: ../plugins/openoffice/openoffice-read.c:5574
+#: ../plugins/openoffice/openoffice-read.c:5593
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Filen ser ut til å være korrupt. Nødvendige formater mangler."
 
-#: ../plugins/openoffice/openoffice-read.c:5643
+#: ../plugins/openoffice/openoffice-read.c:5662
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Papir fra ODF-fil: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:5826
+#: ../plugins/openoffice/openoffice-read.c:5845
 msgid "Missing page layout identifier"
 msgstr "Mangler identifikator for sideoppsett"
 
-#: ../plugins/openoffice/openoffice-read.c:5853
+#: ../plugins/openoffice/openoffice-read.c:5872
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
 msgstr ""
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:5878
+#: ../plugins/openoffice/openoffice-read.c:5897
 msgid "Master page style without page layout encountered!"
 msgstr "Hovedsidestil uten sideoppsett funnet!"
 
-#: ../plugins/openoffice/openoffice-read.c:5884
+#: ../plugins/openoffice/openoffice-read.c:5903
 #, fuzzy
 msgid "Master page style without name encountered!"
 msgstr "Bildefyll uten bildenavn funnet!"
 
-#: ../plugins/openoffice/openoffice-read.c:6177
+#: ../plugins/openoffice/openoffice-read.c:6196
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Ukjent Gnumeric-kantstil «%s» funnet."
 
-#: ../plugins/openoffice/openoffice-read.c:6516
+#: ../plugins/openoffice/openoffice-read.c:6535
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6601
+#: ../plugins/openoffice/openoffice-read.c:6620
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Kan ikke lese farge for fane '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:6612
+#: ../plugins/openoffice/openoffice-read.c:6631
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Kan ikke lese tekstfarge for fane «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:7022
+#: ../plugins/openoffice/openoffice-read.c:7041
 #, fuzzy, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
 "instead."
 msgstr "Ukjent betingelse «%s» funnet. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:7031
+#: ../plugins/openoffice/openoffice-read.c:7050
 #, fuzzy, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Ukjent betingelse «%s» funnet. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:7461
+#: ../plugins/openoffice/openoffice-read.c:7480
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "uttrykk «%s» @ «%s» er ikke enn cellereferanse"
 
-#: ../plugins/openoffice/openoffice-read.c:7477
+#: ../plugins/openoffice/openoffice-read.c:7496
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Uttrykk «%s» har ukjent navneområde"
 
-#: ../plugins/openoffice/openoffice-read.c:7540
+#: ../plugins/openoffice/openoffice-read.c:7559
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Ugyldig DB-område «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:7574
+#: ../plugins/openoffice/openoffice-read.c:7593
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:7817
+#: ../plugins/openoffice/openoffice-read.c:7836
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1675,89 +1674,89 @@ msgstr ""
 "Gnumeric støtter ikke vedlagt tekst i objektlinjer for ark. Teksten «%s» ble "
 "ikke tatt med."
 
-#: ../plugins/openoffice/openoffice-read.c:7851
-#: ../plugins/openoffice/openoffice-read.c:7890
+#: ../plugins/openoffice/openoffice-read.c:7870
+#: ../plugins/openoffice/openoffice-read.c:7909
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Ugyldig attributt «skjema:verdi», forventet tall, fikk «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:7856
+#: ../plugins/openoffice/openoffice-read.c:7875
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
 "range' element."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8303
+#: ../plugins/openoffice/openoffice-read.c:8322
 msgid "Unable to determine manual position for a chart component!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8504
+#: ../plugins/openoffice/openoffice-read.c:8523
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9092
+#: ../plugins/openoffice/openoffice-read.c:9111
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9238
+#: ../plugins/openoffice/openoffice-read.c:9257
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9360
+#: ../plugins/openoffice/openoffice-read.c:9379
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9416
-#: ../plugins/openoffice/openoffice-read.c:9458
-#: ../plugins/openoffice/openoffice-read.c:9488
+#: ../plugins/openoffice/openoffice-read.c:9435
+#: ../plugins/openoffice/openoffice-read.c:9477
+#: ../plugins/openoffice/openoffice-read.c:9507
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9604
+#: ../plugins/openoffice/openoffice-read.c:9623
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9677
+#: ../plugins/openoffice/openoffice-read.c:9696
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9880
+#: ../plugins/openoffice/openoffice-read.c:9899
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Kan ikke evaluere formel «%s» («%s») av navn «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:9885
+#: ../plugins/openoffice/openoffice-read.c:9904
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Kan ikke lese formel «%s» («%s») av navn «%s»"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:9969
-#: ../plugins/openoffice/openoffice-read.c:9972
+#: ../plugins/openoffice/openoffice-read.c:9988
+#: ../plugins/openoffice/openoffice-read.c:9991
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
 "rectangle."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9975
+#: ../plugins/openoffice/openoffice-read.c:9994
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10293
+#: ../plugins/openoffice/openoffice-read.c:10312
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Attributt «%s» har verdi «%s» som ikke er støttet."
 
-#: ../plugins/openoffice/openoffice-read.c:10913
+#: ../plugins/openoffice/openoffice-read.c:10932
 #, fuzzy, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
@@ -1765,12 +1764,12 @@ msgid ""
 msgstr ""
 "Cellen i rad %i og kolonne %i er større enn Gnumeric's største arkstørrelse."
 
-#: ../plugins/openoffice/openoffice-read.c:10945
+#: ../plugins/openoffice/openoffice-read.c:10964
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_IN_CORRUPTED_FILE"
 
-#: ../plugins/openoffice/openoffice-read.c:10950
+#: ../plugins/openoffice/openoffice-read.c:10969
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1779,34 +1778,34 @@ msgstr ""
 "Denne filen er korrupt med et duplisert arknavn «%s», som nå har fått nytt "
 "navn «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:10960
+#: ../plugins/openoffice/openoffice-read.c:10979
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "ARK_I_KORRUPT_FIL"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:10966
+#: ../plugins/openoffice/openoffice-read.c:10985
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Denne filen er korrupt med et ark uten navn som nå heter «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:12884
+#: ../plugins/openoffice/openoffice-read.c:12903
 msgid "Unknown mimetype for openoffice file."
 msgstr "Ukjent MIME-type for OpenOffice-fil."
 
-#: ../plugins/openoffice/openoffice-read.c:12894
+#: ../plugins/openoffice/openoffice-read.c:12913
 msgid "No stream named content.xml found."
 msgstr "Ingen strøm med navn content.xml funnet."
 
-#: ../plugins/openoffice/openoffice-read.c:12902
+#: ../plugins/openoffice/openoffice-read.c:12921
 msgid "No stream named styles.xml found."
 msgstr "Ingen strøm med navn styles.xml funnet."
 
-#: ../plugins/openoffice/openoffice-read.c:13044
+#: ../plugins/openoffice/openoffice-read.c:13064
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Ugyldig metadatafil «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:13107
+#: ../plugins/openoffice/openoffice-read.c:13127
 msgid "settings.xml stream is malformed!"
 msgstr "settings.xml strøm er feilutformet!"
 
@@ -3881,7 +3880,7 @@ msgstr "Sorterer %s"
 #, fuzzy
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
-"them with the 'Format→Column→Unhide' menu item."
+"them with the 'Format,olumn→Unhide' menu item."
 msgstr ""
 "Er du sikker på at du vil skjule alle kolonner? Hvis du gjør dette kan du ta "
 "dem frem igjen med menyoppføringen «Format→Kolonne→Ta frem»."
@@ -16444,7 +16443,6 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Slå av/på visning av kolonne-disposisjon til venstre eller høyre"
 
 #: ../src/wbc-gtk-actions.c:2814
-#| msgid "Display _Formulے"
 msgid "Display _Formulæ"
 msgstr "Vis _formler"
 
@@ -17155,7 +17153,6 @@ msgstr "\t%s \t%s\n"
 #. the second %s the function description
 #: ../src/widgets/gnumeric-expr-entry.c:957
 #, fuzzy, c-format
-#| msgid "\t%s \t%s\n"
 msgid "✓\t%s \t%s\n"
 msgstr "\t%s \t%s\n"
 
@@ -17171,12 +17168,9 @@ msgstr ""
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnumeric-expr-entry.c:973
 #, fuzzy
-#| msgid ""
-#| "\n"
-#| "\t<i> to select</i>"
 msgid ""
 "\n"
-"\t<i>⇧F4 to select</i>"
+"\t<i> to select</i>"
 msgstr ""
 "\n"
 "\t<i> for å velge</i>"
@@ -17254,7 +17248,7 @@ msgstr "Ett enkelt utvalg kreves."
 
 #: ../src/workbook-cmd-format.c:180
 #, fuzzy
-msgid "An n⨯1 or 1⨯n selection is required."
+msgid "An n or 1⨯n selection is required."
 msgstr "Ett enkelt utvalg kreves."
 
 #: ../src/workbook-cmd-format.c:187
