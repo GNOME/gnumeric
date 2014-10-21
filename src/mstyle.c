@@ -2209,10 +2209,12 @@ static void
 gnm_style_dump_color (GnmColor *color, GnmStyleElement elem)
 {
 	if (color)
-		g_printerr ("\t%s: %x:%x:%x\n", gnm_style_element_name [elem],
+		g_printerr ("\t%s: %x:%x:%x%s\n",
+			    gnm_style_element_name [elem],
 			    GO_COLOR_UINT_R (color->go_color),
 			    GO_COLOR_UINT_G (color->go_color),
-			    GO_COLOR_UINT_B (color->go_color));
+			    GO_COLOR_UINT_B (color->go_color),
+			    color->is_auto ? " auto" : "");
 	else
 		g_printerr ("\t%s: (NULL)\n", gnm_style_element_name [elem]);
 }

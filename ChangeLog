@@ -1,3 +1,7 @@
+2014-10-21  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (gnm_style_dump_color): Also dump auto flag.
+
 2014-09-25  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
