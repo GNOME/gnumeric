@@ -2028,13 +2028,16 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 		GogAxis *visible = NULL;
 
 		for (cur = l; cur; cur = cur->next) {
+			GogAxis *axis = GOG_AXIS (cur->data);
 			gboolean invisible;
-			g_object_get (cur->data, "invisible", &invisible, NULL);
+			g_object_get (axis, "invisible", &invisible, NULL);
 			if (!invisible) {
-				visible = GOG_AXIS (cur->data);
+				visible = axis;
 				break;
 			}
 		}
+		g_slist_free (l);
+
 		if (visible) {
 			GSList *l1, *cur1;
 

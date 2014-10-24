@@ -1321,7 +1321,7 @@ xlsx_cell_inline_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_cell_inline_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	state->r_text = g_string_new ("");
 }
@@ -1330,7 +1330,6 @@ static void
 xlsx_cell_inline_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	XLSXStr *entry;
 
 	state->val = value_new_string_nocopy (g_string_free (state->r_text, FALSE));
 	state->r_text = NULL;
@@ -5049,6 +5048,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	g_hash_table_destroy (state.theme_colors_by_name);
 	value_release (state.val);
 	if (state.texpr) gnm_expr_top_unref (state.texpr);
+	if (state.comment) g_object_unref (state.comment);
 
 	workbook_set_saveinfo (state.wb, GO_FILE_FL_AUTO,
 			       go_file_saver_for_id ((state.version == ECMA_376_2006) ?

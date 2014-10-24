@@ -1,3 +1,9 @@
+2014-10-24  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_file_open): Plug leak.
+
+	* xlsx-read-drawing.c (cb_axis_set_position): Plus leak.
+
 2014-09-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.18
