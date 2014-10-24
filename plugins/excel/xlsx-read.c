@@ -5049,6 +5049,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	value_release (state.val);
 	if (state.texpr) gnm_expr_top_unref (state.texpr);
 	if (state.comment) g_object_unref (state.comment);
+	if (state.cur_style) g_object_unref (state.cur_style);
 
 	workbook_set_saveinfo (state.wb, GO_FILE_FL_AUTO,
 			       go_file_saver_for_id ((state.version == ECMA_376_2006) ?
