@@ -1040,6 +1040,8 @@ excel_get_chars (GnmXLImporter const *importer,
 			str_iconv = gsf_msole_iconv_open_for_import (*codepage);
 		g_iconv (str_iconv,
 			 &ptr2, &length, &outbuf, &outbytes);
+		if (codepage)
+			g_iconv_close (str_iconv);
 
 		i = outbuf - ans;
 		ans[i] = 0;

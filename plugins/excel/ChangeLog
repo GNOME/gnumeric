@@ -1,5 +1,7 @@
 2014-10-24  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_get_chars): Plug leak.
+
 	* xlsx-read.c (xlsx_file_open): Plug leak.
 
 	* xlsx-read-drawing.c (cb_axis_set_position): Plus leak.

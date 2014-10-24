@@ -208,6 +208,8 @@ excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *conte
 			GsfInfile *vba = vba_child
 				? gsf_infile_msvba_new (GSF_INFILE (vba_child), NULL)
 				: NULL;
+			GsfStructuredBlob *blob;
+
 			if (NULL != vba) {
 				GHashTable *modules =
 					gsf_infile_msvba_steal_modules (GSF_INFILE_MSVBA (vba));
@@ -224,11 +226,18 @@ excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *conte
 			if (vba_child)
 				g_object_unref (vba_child);
 
-			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_COMPOBJ_STREAM",
-				gsf_structured_blob_read (stream), g_object_unref);
+			blob = gsf_structured_blob_read (stream);
+			if (blob)
+				g_object_set_data_full (G_OBJECT (wb),
+							"MS_EXCEL_COMPOBJ_STREAM",
+							blob, g_object_unref);
 
-			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_MACROS",
-				gsf_structured_blob_read (macros), g_object_unref);
+			blob = gsf_structured_blob_read (macros);
+			if (blob)
+				g_object_set_data_full (G_OBJECT (wb),
+							"MS_EXCEL_MACROS",
+							blob, g_object_unref);
+
 			g_object_unref (macros);
 		}
 		g_object_unref (stream);
@@ -236,8 +245,10 @@ excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *conte
 
 	stream = gsf_infile_child_by_name (ole, "\01Ole");
 	if (stream) {
-		g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_OLE_STREAM",
-					gsf_structured_blob_read (stream), g_object_unref);
+		GsfStructuredBlob *blob = gsf_structured_blob_read (stream);
+		if (blob)
+			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_OLE_STREAM",
+						blob, g_object_unref);
 		g_object_unref (stream);
 	}
 
