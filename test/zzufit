@@ -26,11 +26,6 @@ my $valgrind = 0;
 die &usage (1) unless @ARGV;
 @corpus = @ARGV;
 
-if ($valgrind) {
-    $ENV{'G_SLICE'} = 'always-malloc';
-    $ENV{'G_DEBUG'} = 'resident-modules';
-}
-
 if (!-d $DIR) {
     mkdir ($DIR, 0777) or die "$0: Cannot create $DIR: $!\n";
 }
@@ -77,15 +72,10 @@ while (1) {
     }
 
     my $outfile = "$DIR/${filebase}-${n}.gnumeric";
-    my $cmd = "../src/ssconvert '$zzuffile' '$outfile' >>'$LOG' 2>&1";
+    my $logfile = "$DIR/${filebase}-${n}.log";
+    my $cmd = "../src/ssconvert '$zzuffile' '$outfile' 2>&1 | tee $logfile >>'$LOG'";
     if ($valgrind) {
-	$cmd = "../libtool --mode=execute " .
-	    "valgrind " .
-	    "--track-origins=yes " .
-	    "--suppressions=common.supp ".
-	    "--num-callers=20 " .
-	    "--leak-check=full " .
-	    $cmd;
+	$cmd = "../tools/gnmvalgrind --leak-check=full $cmd";
     }
     system ($cmd);
     my $code = $?;
@@ -106,6 +96,31 @@ while (1) {
 	    unlink $zzuffile, $outfile;
 	}
     }
+
+    local (*LOG);
+    open (LOG, "< $logfile") or die "$0: cannot read $logfile: $!\n";
+    while (<LOG>) {
+	if (/^==\d+==\s+definitely lost: (\d+) bytes in \d+ blocks/ && $1 > 0) {
+	    print;
+	    next;
+	}
+	if (/^==\d+==\s+Conditional jump or move depends on uninitialised/ ||
+	    /^==\d+==\d+Use of uninitialised value of size/) {
+	    print;
+	    next;
+	}
+	if (/^==\d+==\s+Invalid (write|read) of size/) {
+	    print;
+	    next;
+	}
+
+	if (/CRITICAL/) {
+	    print;
+	    next;
+	}
+    }
+    close (*LOG);
+    unlink $logfile;
 }
 
 sub append_log {
