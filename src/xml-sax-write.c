@@ -812,9 +812,8 @@ xml_write_selection_info (GnmOutputXML *state)
 	gsf_xml_out_add_int (state->output, "CursorRow", sv->edit_pos_real.row);
 
 	/* Insert the selections in REVERSE order */
-	copy = g_slist_copy (sv->selections);
-	ptr = g_slist_reverse (copy);
-	for (; ptr != NULL ; ptr = ptr->next) {
+	copy = g_slist_reverse (g_slist_copy (sv->selections));
+	for (ptr = copy; ptr; ptr = ptr->next) {
 		GnmRange const *r = ptr->data;
 		gsf_xml_out_start_element (state->output, GNM "Selection");
 		xml_out_add_range (state->output, r);
