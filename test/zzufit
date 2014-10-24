@@ -60,8 +60,10 @@ while (1) {
 	$fuzzcmd = "gzip -dc '$file' | ./fuzzxml -s$n -r$rate - '$zzuffile'";
     } elsif ($type eq 'raw') {
 	$fuzzcmd = "zzuf -s$n -r$rate <'$file' >'$zzuffile'";
-    } elsif ($type eq 'zip') {
+    } elsif ($type eq 'ods') {
 	$fuzzcmd = "./fuzzzip --subfuzzer='./fuzzxml -s$n -r$rate %i %o' --subfile content.xml --subfile styles.xml '$file' '$zzuffile'";
+    } elsif ($type eq 'xlsx') {
+	$fuzzcmd = "./fuzzzip --subfuzzer='./fuzzxml -s$n -r$rate %i %o' --subfile xl/styles.xml --subfile xl/worksheets/sheet1.xml '$file' '$zzuffile'";
     } else {
 	die "$0: Internal error.\n";
     }
@@ -138,7 +140,11 @@ sub determine_file_type {
     }
 
     if ($file =~ /\.ods$/) {
-	return $file_type{$file} = 'zip';
+	return $file_type{$file} = 'ods';
+    }
+
+    if ($file =~ /\.xlsx$/) {
+	return $file_type{$file} = 'xlsx';
     }
 
     if ($file =~ /\.xml$/) {
