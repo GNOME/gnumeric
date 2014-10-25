@@ -63,7 +63,6 @@ struct _GnmExprSet {
 };
 
 union _GnmExpr {
-	guint8                  oper;
 	GnmExprConstant		constant;
 	GnmExprFunction		func;
 	GnmExprUnary		unary;
@@ -75,7 +74,7 @@ union _GnmExpr {
 	GnmExprSet		set;
 };
 
-#define GNM_EXPR_GET_OPER(e) ((GnmExprOp)((e)->oper))
+#define GNM_EXPR_GET_OPER(e_) (0 ? (e_) == (GnmExpr const *)0 : (GnmExprOp)*(guint8*)(e_))
 
 #define gnm_expr_constant_init(expr, val)	\
 do {						\

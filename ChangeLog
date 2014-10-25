@@ -1,3 +1,9 @@
+2014-10-25  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-impl.h (GNM_EXPR_GET_OPER): Redefine in a way that
+	ought to survive both gcc's aliasing analysis and valgrind's
+	bitfield problems.
+
 2014-10-24  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_selection_info): Plug leak.
