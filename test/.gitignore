@@ -4,8 +4,8 @@ Makefile
 .libs
 import-db
 *~
-zzuftmp
-zzuf.log
+zzufit.tmp
+zzufit.log
 *.pl.log
 *.pl.trs
 test-suite.log

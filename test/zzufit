@@ -13,8 +13,8 @@ my %file_type;
 
 my $n = 0;
 my $rate = 0.0001;
-my $LOG = "zzuf.log";
-my $DIR = "zzuftmp";
+my $LOG = "zzufit.log";
+my $DIR = "zzufit.tmp";
 my $valgrind = 0;
 
 &GetOptions ("rate=f" => \$rate,
@@ -73,6 +73,7 @@ while (1) {
 
     my $outfile = "$DIR/${filebase}-${n}.gnumeric";
     my $logfile = "$DIR/${filebase}-${n}.log";
+    my $keepfiles = 0;
     my $cmd = "../src/ssconvert '$zzuffile' '$outfile' 2>&1 | tee $logfile >>'$LOG'";
     if ($valgrind) {
 	$cmd = "../tools/gnmvalgrind --leak-check=full $cmd";
@@ -86,41 +87,45 @@ while (1) {
 	    print STDERR "CORE\n";
 	}
 	last if $sig == 2;
+	$keepfiles = 1;
     } else {
 	$code >>= 8;
 	my $txt = "Exit code $code\n";
 	&append_log ($txt);
 	if ($code >= 2) {
 	    print STDERR $txt;
-	} else {
-	    unlink $zzuffile, $outfile;
+	    $keepfiles = 1;
 	}
     }
 
     local (*LOG);
     open (LOG, "< $logfile") or die "$0: cannot read $logfile: $!\n";
+    my $prev = '';
     while (<LOG>) {
+	my $prevline = $prev;
+	$prev = $_;
+
 	if (/^==\d+==\s+definitely lost: (\d+) bytes in \d+ blocks/ && $1 > 0) {
 	    print;
+	    $keepfiles = 1;
 	    next;
 	}
-	if (/^==\d+==\s+Conditional jump or move depends on uninitialised/ ||
-	    /^==\d+==\d+Use of uninitialised value of size/) {
-	    print;
-	    next;
-	}
-	if (/^==\d+==\s+Invalid (write|read) of size/) {
-	    print;
+	if (/\bat 0x/) {
+	    print $prevline;
+	    $keepfiles = 1;
 	    next;
 	}
 
 	if (/CRITICAL/) {
 	    print;
+	    $keepfiles = 1;
 	    next;
 	}
     }
     close (*LOG);
-    unlink $logfile;
+    if (!$keepfiles) {
+	unlink $logfile, $zzuffile, $outfile;
+    }
 }
 
 sub append_log {
