@@ -148,7 +148,7 @@ static const char *
 gnm_value_type_name (const GnmValue*g)
 {
 	if (NULL != g) {
-		switch (g->type) {
+		switch (g->v_any.type) {
 		CASE(VALUE_EMPTY);
 		CASE(VALUE_BOOLEAN);
 		CASE(VALUE_FLOAT);
@@ -277,7 +277,7 @@ copy_construct_xloper_from_gnm_value (XLOPER*out, const GnmValue*in,
 	out->val.num = 0;
 
 	if (NULL != in) {
-		switch (in->type) {
+		switch (in->v_any.type) {
 		case VALUE_EMPTY:
 			out->xltype = xltypeNil;
 			break;
@@ -347,7 +347,7 @@ copy_construct_xloper_from_gnm_value (XLOPER*out, const GnmValue*in,
 			break;
 		}
 		default:;
-			g_warning (_("Unsupported GnmValue type (%d)"),in->type);
+			g_warning (_("Unsupported GnmValue type (%d)"),in->v_any.type);
 		}
 	}
 }

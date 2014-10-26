@@ -3343,7 +3343,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			g_free (eq_formula);
 		}
 
-		switch (cell->value->type) {
+		switch (cell->value->v_any.type) {
 		case VALUE_EMPTY:
 			break;
 		case VALUE_BOOLEAN:
@@ -4035,7 +4035,7 @@ odf_write_sheet_control_radio_button (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
 
 	if (val != NULL) {
-		switch (val->type) {
+		switch (val->v_any.type) {
 		case VALUE_EMPTY:
 			break;
 		case VALUE_BOOLEAN:
@@ -6199,7 +6199,7 @@ odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop c
 
 	switch (GNM_EXPR_GET_OPER (texpr->expr)) {
 	case GNM_EXPR_OP_CONSTANT: 
-		if (texpr->expr->constant.value->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (texpr->expr->constant.value)) {
 			str = gnm_expr_top_as_string (texpr, pp, state->conv);
 			gsf_xml_out_add_cstr (state->xml, attribute,
 					      odf_strip_brackets (str));
@@ -6215,7 +6215,7 @@ odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop c
 		for (i = 0; i < expr->set.argc; i++) {
 			GnmExpr const *expr_arg = expr->set.argv[i];
 			if (GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CONSTANT && 
-			    expr_arg->constant.value->type == VALUE_CELLRANGE) {
+			    VALUE_IS_CELLRANGE (expr_arg->constant.value)) {
 				char *str = gnm_expr_as_string (expr_arg, pp, state->conv);
 				if (gstr->len > 0)
 					g_string_append_c (gstr, ' ');
@@ -7891,7 +7891,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 						= gnm_go_data_get_expr (dat);
 					if (texpr != NULL &&
 					    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT
-					    && texpr->expr->constant.value->type == VALUE_STRING) {
+					    && VALUE_IS_STRING (texpr->expr->constant.value)) {
 						gboolean white_written = TRUE;
 						char const *str;
 						gboolean pp = TRUE;

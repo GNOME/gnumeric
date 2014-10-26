@@ -112,7 +112,7 @@ advanced_filter (WorkbookControl        *wbc,
 	Sheet *sheet = criteria->v_range.cell.a.sheet;
 
 	/* I don't like this -- minimal fix for now.  509427.  */
-	if (criteria->type != VALUE_CELLRANGE)
+	if (!VALUE_IS_CELLRANGE (criteria))
 		return analysis_tools_invalid_field;
 
 	crit = parse_database_criteria (

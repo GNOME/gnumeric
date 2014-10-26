@@ -593,7 +593,7 @@ gnm_style_default_halign (GnmStyle const *style, GnmCell const *c)
 		return GNM_HALIGN_LEFT;
 
 	for (v = c->value; v != NULL ; )
-		switch (v->type) {
+		switch (v->v_any.type) {
 		case VALUE_BOOLEAN:
 		case VALUE_ERROR:
 			return GNM_HALIGN_CENTER;

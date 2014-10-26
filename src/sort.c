@@ -66,8 +66,8 @@ sort_compare_cells (GnmCell const *ca, GnmCell const *cb,
 	else
 		b = cb->value;
 
-	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->type;
-	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->type;
+	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->v_any.type;
+	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->v_any.type;
 
 	if (ta == VALUE_EMPTY && tb != VALUE_EMPTY) {
 		comp = clause->asc ? IS_LESS : IS_GREATER;

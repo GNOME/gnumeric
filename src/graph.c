@@ -91,7 +91,7 @@ render_val (GnmValue const *v, int i, int j,
 		    fmt ? go_format_as_XL (fmt) : "-");
 #endif
 
-	if (v->type == VALUE_CELLRANGE) {
+	if (VALUE_IS_CELLRANGE (v)) {
 		Sheet *start_sheet, *end_sheet;
 		GnmCell *cell;
 		GnmRange r;
@@ -108,7 +108,7 @@ render_val (GnmValue const *v, int i, int j,
 
 		if (fmt == NULL)
 			fmt = gnm_cell_get_format (cell);
-	} else if (v->type == VALUE_ARRAY)
+	} else if (VALUE_IS_ARRAY (v))
 		v = value_area_get_x_y (v, i, j, ep);
 
 	return format_value (fmt, v, -1, date_conv);
@@ -558,7 +558,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 	}
 
 	if (vec->val != NULL) {
-		switch (vec->val->type) {
+		switch (vec->val->v_any.type) {
 		case VALUE_CELLRANGE:
 			gnm_rangeref_normalize (&vec->val->v_range.cell, &ep,
 				&start_sheet, &end_sheet, &r);
@@ -585,7 +585,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 			for (j = 0; j < vec->val->v_array.y; j++)
 				for (i = 0; i < vec->val->v_array.x; i++) {
 					v = vec->val->v_array.vals[i][j];
-					if (v->type == VALUE_CELLRANGE) {
+					if (VALUE_IS_CELLRANGE (v)) {
 						gnm_rangeref_normalize (&v->v_range.cell, &ep,
 							&start_sheet, &end_sheet, &r);
 						new_len += (guint64)range_width (&r) * range_height (&r)
@@ -690,7 +690,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 	if (dat->values == NULL)
 		dat->values = g_new (double, dat->len);
 	vals = dat->values;
-	switch (vec->val->type) {
+	switch (vec->val->v_any.type) {
 	case VALUE_CELLRANGE:
 		gnm_rangeref_normalize (&vec->val->v_range.cell,
 			eval_pos_init_dep (&ep, &vec->dep),
@@ -744,7 +744,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			x--;
 			v = vec->val->v_array.vals [x][y];
 
-			if (v->type == VALUE_CELLRANGE) {
+			if (VALUE_IS_CELLRANGE (v)) {
 				gnm_rangeref_normalize (&v->v_range.cell,
 					eval_pos_init_dep (&ep, &vec->dep),
 					&start_sheet, &end_sheet, &r);
@@ -839,7 +839,7 @@ gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 	if (vec->val == NULL)
 		gnm_go_data_vector_load_len (dat);
 
-	if (vec->val->type == VALUE_ARRAY) {
+	if (VALUE_IS_ARRAY (vec->val)) {
 		if ((dat->base.flags & GO_DATA_CACHE_IS_VALID) == 0)
 			gnm_go_data_vector_load_values (dat);
 		return dat->values[i];
@@ -892,7 +892,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	g_return_val_if_fail (vec->val != NULL, NULL);
 
 	eval_pos_init_dep (&ep, &vec->dep);
-	if (vec->val->type == VALUE_ARRAY) {
+	if (VALUE_IS_ARRAY (vec->val)) {
 		/* we need to cache the strings if needed */
 		int len = vec->val->v_array.y * vec->val->v_array.x;
 		int x = 0, y = vec->val->v_array.y;
@@ -904,7 +904,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 			x--;
 			v = vec->val->v_array.vals [x][y];
 
-			if (v->type == VALUE_CELLRANGE) {
+			if (VALUE_IS_CELLRANGE (v)) {
 				/* actually we only need to cache in that case */
 				Sheet *start_sheet, *end_sheet;
 				GnmRange r;
@@ -978,7 +978,7 @@ gnm_go_data_vector_get_markup (GODataVector *dat, unsigned i)
 			return NULL;
 		vec->markup = g_ptr_array_new_with_free_func
 			((GDestroyNotify)cond_pango_attr_list_unref);
-		switch (vec->val->type) {
+		switch (vec->val->v_any.type) {
 		case VALUE_CELLRANGE:
 			gnm_rangeref_normalize (&vec->val->v_range.cell,
 				eval_pos_init_dep (&ep, &vec->dep),
@@ -1006,7 +1006,7 @@ gnm_go_data_vector_get_markup (GODataVector *dat, unsigned i)
 					? vec->val->v_array.vals [0][len]
 					: vec->val->v_array.vals [len][0];
 
-				if (v->type == VALUE_CELLRANGE) {
+				if (VALUE_IS_CELLRANGE (v)) {
 					gnm_rangeref_normalize (&v->v_range.cell,
 						eval_pos_init_dep (&ep, &vec->dep),
 						&start_sheet, &end_sheet, &r);
@@ -1139,7 +1139,7 @@ gnm_go_data_matrix_load_size (GODataMatrix *dat)
 	}
 
 	if (mat->val != NULL) {
-		switch (mat->val->type) {
+		switch (mat->val->v_any.type) {
 		case VALUE_CELLRANGE:
 			gnm_rangeref_normalize (&mat->val->v_range.cell, &ep,
 				&start_sheet, &end_sheet, &r);
@@ -1273,7 +1273,7 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 	if (dat->values == NULL)
 		dat->values = g_new (double, size.rows * size.columns);
 	vals = dat->values;
-	switch (mat->val->type) {
+	switch (mat->val->v_any.type) {
 	case VALUE_CELLRANGE:
 		gnm_rangeref_normalize (&mat->val->v_range.cell,
 			eval_pos_init_dep (&ep, &mat->dep),

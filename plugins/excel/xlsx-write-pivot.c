@@ -37,7 +37,7 @@ xlsx_write_pivot_val (XLSXWriteState *state, GsfXMLOut *xml,
 		      GOVal const *v)
 {
 	g_return_if_fail (v != NULL);
-	switch (v->type) {
+	switch (v->v_any.type) {
 	case VALUE_CELLRANGE:
 	case VALUE_ARRAY:
 		g_warning ("REMOVE THIS CODE WHEN WE MOVE TO GOFFICE");

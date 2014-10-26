@@ -518,7 +518,7 @@ gnm_validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 	}
 
 	val = cell->value;
-	switch (val->type) {
+	switch (val->v_any.type) {
 	case VALUE_ERROR:
 		if (typeinfo[v->type].errors_not_allowed)
 			BARF (g_strdup_printf (_("Cell %s is not permitted to contain error values"),

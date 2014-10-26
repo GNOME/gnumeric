@@ -157,7 +157,7 @@ do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat const **exp
 	case GNM_EXPR_OP_CONSTANT: {
 		GnmValue const *v = expr->constant.value;
 
-		switch (v->type) {
+		switch (v->v_any.type) {
 		case VALUE_STRING:
 		case VALUE_ERROR:
 			return GNM_FUNC_AUTO_UNKNOWN;

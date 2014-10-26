@@ -1898,7 +1898,7 @@ static gboolean
 cond_expr_harmless (GnmExpr const *expr)
 {
 	GnmValue const *v = gnm_expr_get_constant (expr);
-	if (v && v->type != VALUE_CELLRANGE)
+	if (v && !VALUE_IS_CELLRANGE (v))
 		return TRUE;
 
 	return FALSE;

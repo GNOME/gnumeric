@@ -69,7 +69,6 @@ struct _GnmValueArray {
 };
 
 union _GnmValue {
-	GnmValueType const type;
 	GnmValueAny	v_any;
 	GnmValueBool	v_bool;
 	GnmValueFloat	v_float;
@@ -80,14 +79,16 @@ union _GnmValue {
 };
 
 #define	VALUE_FMT(v)			((v)->v_any.fmt)
-#define VALUE_IS_EMPTY(v)		(((v) == NULL) || ((v)->type == VALUE_EMPTY))
-#define VALUE_IS_EMPTY_OR_ERROR(v)	(VALUE_IS_EMPTY(v) || (v)->type == VALUE_ERROR)
-#define VALUE_IS_STRING(v)		((v)->type == VALUE_STRING)
-#define VALUE_IS_BOOLEAN(v)		((v)->type == VALUE_BOOLEAN)
-#define VALUE_IS_ERROR(v)		((v)->type == VALUE_ERROR)
-#define VALUE_IS_NUMBER(v)		(((v)->type == VALUE_FLOAT) || \
-					 ((v)->type == VALUE_BOOLEAN))
-#define VALUE_IS_FLOAT(v)		((v)->type == VALUE_FLOAT)
+#define VALUE_IS_EMPTY(v)		(((v) == NULL) || ((v)->v_any.type == VALUE_EMPTY))
+#define VALUE_IS_EMPTY_OR_ERROR(v)	(VALUE_IS_EMPTY(v) || (v)->v_any.type == VALUE_ERROR)
+#define VALUE_IS_STRING(v)		((v)->v_any.type == VALUE_STRING)
+#define VALUE_IS_BOOLEAN(v)		((v)->v_any.type == VALUE_BOOLEAN)
+#define VALUE_IS_ERROR(v)		((v)->v_any.type == VALUE_ERROR)
+#define VALUE_IS_NUMBER(v)		(((v)->v_any.type == VALUE_FLOAT) || \
+					 ((v)->v_any.type == VALUE_BOOLEAN))
+#define VALUE_IS_FLOAT(v)		((v)->v_any.type == VALUE_FLOAT)
+#define VALUE_IS_ARRAY(v)		((v)->v_any.type == VALUE_ARRAY)
+#define VALUE_IS_CELLRANGE(v)		((v)->v_any.type == VALUE_CELLRANGE)
 
 typedef enum {
 	IS_EQUAL,

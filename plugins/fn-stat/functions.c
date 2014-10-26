@@ -3685,7 +3685,7 @@ gnumeric_logfit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int                nx, ny, i;
 	gnm_float         *logfit_res = NULL;
 
-	if (argv[0] == NULL || argv[0]->type != VALUE_CELLRANGE)
+	if (argv[0] == NULL || !VALUE_IS_CELLRANGE (argv[0]))
 		goto out;
 	ys = collect_floats_value (argv[0], ei->pos,
 				   COLLECT_IGNORE_BLANKS | /* zeroing blanks
@@ -3697,7 +3697,7 @@ numbers */
 				   &ny, &result);
 	if (result)
 		goto out;
-	if (argv[1] == NULL || argv[1]->type != VALUE_CELLRANGE)
+	if (argv[1] == NULL || !VALUE_IS_CELLRANGE (argv[1]))
 		goto out;
 	xs = collect_floats_value (argv[1], ei->pos,
 				   COLLECT_IGNORE_BLANKS |
@@ -4355,12 +4355,11 @@ function_marshal_arg (GnmFuncEvalInfo *ei,
 	else
 		v = gnm_expr_eval (t, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 
-	if (v->type != VALUE_ARRAY &&
-	    v->type != VALUE_CELLRANGE) {
+	if (!VALUE_IS_ARRAY (v) && !VALUE_IS_CELLRANGE (v)) {
 		*type_mismatch = value_new_error_VALUE (ei->pos);
 	}
 
-	if (v->type == VALUE_CELLRANGE) {
+	if (VALUE_IS_CELLRANGE (v)) {
 		gnm_cellref_make_abs (&v->v_range.cell.a, &v->v_range.cell.a,
 			ei->pos);
 		gnm_cellref_make_abs (&v->v_range.cell.b, &v->v_range.cell.b,

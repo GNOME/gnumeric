@@ -1181,7 +1181,7 @@ static GnmValue *
 gnumeric_expression (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue const * const v = argv[0];
-	if (v->type == VALUE_CELLRANGE) {
+	if (VALUE_IS_CELLRANGE (v)) {
 		GnmCell *cell;
 		GnmCellRef const * a = &v->v_range.cell.a;
 		GnmCellRef const * b = &v->v_range.cell.b;
@@ -1221,7 +1221,7 @@ static GnmValue *
 gnumeric_get_formula (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue const * const v = argv[0];
-	if (v->type == VALUE_CELLRANGE) {
+	if (VALUE_IS_CELLRANGE (v)) {
 		GnmCell *cell;
 		GnmCellRef const * a = &v->v_range.cell.a;
 		GnmCellRef const * b = &v->v_range.cell.b;
@@ -1260,7 +1260,7 @@ static GnmValue *
 gnumeric_isformula (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue const * const v = argv[0];
-	if (v->type == VALUE_CELLRANGE) {
+	if (VALUE_IS_CELLRANGE (v)) {
 		GnmCell *cell;
 		GnmCellRef const * a = &v->v_range.cell.a;
 		GnmCellRef const * b = &v->v_range.cell.b;
@@ -1312,7 +1312,7 @@ gnumeric_countblank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		value_area_get_height (v, ei->pos);
 	int nsheets = 1;
 
-	if (v->type == VALUE_CELLRANGE) {
+	if (VALUE_IS_CELLRANGE (v)) {
 		GnmRange r;
 		Sheet *start_sheet, *end_sheet;
 
@@ -1766,7 +1766,7 @@ static GnmValue *
 gnumeric_type (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue const *v = argv[0];
-	switch (v ? v->type : VALUE_EMPTY) {
+	switch (v ? v->v_any.type : VALUE_EMPTY) {
 	case VALUE_BOOLEAN:
 		return value_new_int (4);
 	case VALUE_EMPTY:
@@ -1826,7 +1826,7 @@ gnumeric_get_link (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue const * const v = argv[0];
 
-	if (v->type == VALUE_CELLRANGE) {
+	if (VALUE_IS_CELLRANGE (v)) {
 		GnmCellRef const * a = &v->v_range.cell.a;
 		GnmCellRef const * b = &v->v_range.cell.b;
 		Sheet *sheet;

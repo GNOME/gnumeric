@@ -674,7 +674,7 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 		v = function_call_with_exprs (&ei);
 
 		if (v != NULL) {
-			if (v->type == VALUE_CELLRANGE) {
+			if (VALUE_IS_CELLRANGE (v)) {
 				*res = v->v_range.cell;
 				failed = FALSE;
 			}
@@ -690,7 +690,7 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 
 	case GNM_EXPR_OP_CONSTANT: {
 		GnmValue const *v = expr->constant.value;
-		if (v->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (v)) {
 			*res = v->v_range.cell;
 			return FALSE;
 		}
@@ -750,7 +750,7 @@ value_intersection (GnmValue *v, GnmEvalPos const *pos)
 	Sheet *start_sheet, *end_sheet;
 	gboolean found = FALSE;
 
-	if (v->type == VALUE_ARRAY) {
+	if (VALUE_IS_ARRAY (v)) {
 		res = (v->v_array.x == 0 || v->v_array.y == 0)
 			? value_new_error_VALUE (NULL)
 			: value_dup (v->v_array.vals[0][0]);
@@ -1025,7 +1025,7 @@ bin_array_iter_a (GnmEvalPos const *ep,
 	 * If both items have non-singular sizes for
 	 * the same dimension use the min size (see samples/array.xls) */
 	if (b != NULL &&
-	    (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)) {
+	    (VALUE_IS_CELLRANGE (b) || VALUE_IS_ARRAY (b))) {
 		int sa, sb, w = 1, h = 1;
 
 		sa = value_area_get_width  (a, ep);
@@ -1248,7 +1248,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		if (a != NULL) {
 			if (VALUE_IS_ERROR (a))
 				return a;
-			if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)
+			if (VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a))
 				return bin_array_iter_a (pos, a,
 					gnm_expr_eval (expr->binary.value_b, pos, flags),
 					(BinOpImplicitIteratorFunc) cb_bin_cmp,
@@ -1261,7 +1261,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 				value_release (a);
 				return b;
 			}
-			if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
+			if (VALUE_IS_CELLRANGE (b) || VALUE_IS_ARRAY (b))
 				return bin_array_iter_b (pos, a, b,
 					(BinOpImplicitIteratorFunc) cb_bin_cmp,
 					expr);
@@ -1304,7 +1304,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			if (tmp == NULL)
 				return value_new_error_VALUE (pos);
 			a = tmp;
-		} else if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY) {
+		} else if (VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a)) {
 			b = gnm_expr_eval (expr->binary.value_b, pos, flags);
 			if (VALUE_IS_STRING (b)) {
 				res = format_match_number (value_peek_string (b), NULL,
@@ -1338,7 +1338,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 				return value_new_error_VALUE (pos);
 			}
 			b = tmp;
-		} else if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
+		} else if (VALUE_IS_CELLRANGE (b) || VALUE_IS_ARRAY (b))
 			return bin_array_iter_b (pos, a, b,
 				(BinOpImplicitIteratorFunc) cb_bin_arith,
 				expr);
@@ -1380,7 +1380,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			if (tmp == NULL)
 				return value_new_error_VALUE (pos);
 			a = tmp;
-		} else if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY) {
+		} else if (VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a)) {
 			res = value_new_array_empty (
 				value_area_get_width  (a, pos),
 				value_area_get_height (a, pos));
@@ -1409,7 +1409,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		if (a != NULL) {
 			if (VALUE_IS_ERROR (a))
 				return a;
-			if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)
+			if (VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a))
 				return bin_array_iter_a (pos, a,
 					gnm_expr_eval (expr->binary.value_b, pos, flags),
 					(BinOpImplicitIteratorFunc) cb_bin_cat,
@@ -1421,7 +1421,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 				value_release (a);
 				return b;
 			}
-			if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
+			if (VALUE_IS_CELLRANGE (b) || VALUE_IS_ARRAY (b))
 				return bin_array_iter_b (pos, a, b,
 					(BinOpImplicitIteratorFunc) cb_bin_cat,
 					expr);
@@ -1454,7 +1454,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		if (res == NULL)
 			return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 			    ? NULL : value_new_int (0);
-		if (res->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (res)) {
 			/*
 			 * pos->dep really shouldn't be NULL here, but it
 			 * will be if someone puts "indirect" into an
@@ -1471,7 +1471,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			}
 			return res;
 		}
-		if (res->type == VALUE_ARRAY &&
+		if (VALUE_IS_ARRAY (res) &&
 		    !(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
 			a = value_dup (res->v_array.vals[0][0]);
 			value_release (res);
@@ -1506,7 +1506,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 	case GNM_EXPR_OP_CONSTANT:
 		res = value_dup (expr->constant.value);
-		if (res->type == VALUE_CELLRANGE || res->type == VALUE_ARRAY) {
+		if (VALUE_IS_CELLRANGE (res) || VALUE_IS_ARRAY (res)) {
 			if (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)
 				return res;
 			res = value_intersection (res, pos);
@@ -1529,7 +1529,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		((GnmExpr*)expr)->array_corner.value = a;
 
 		if (a != NULL &&
-		    (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)) {
+		    (VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a))) {
 			if (value_area_get_width (a, pos) <= 0 ||
 			    value_area_get_height (a, pos) <= 0)
 				return value_new_error_NA (pos);
@@ -1553,7 +1553,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		if (a == NULL)
 			return handle_empty (NULL, flags);
 
-		if ((a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)) {
+		if ((VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a))) {
 			int const num_x = value_area_get_width (a, pos);
 			int const num_y = value_area_get_height (a, pos);
 			int x = expr->array_elem.x;
@@ -1764,12 +1764,12 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 			return;
 		}
 
-		if (v->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (v)) {
 			out->convs->output.range_ref (out, &v->v_range.cell);
 			return;
 		}
 
-		if (v->type == VALUE_BOOLEAN &&
+		if (VALUE_IS_BOOLEAN (v) &&
 		    out->convs->output.boolean != NULL) {
 			out->convs->output.boolean (out, v->v_bool.val);
 			return;
@@ -2232,7 +2232,7 @@ cb_relocate (GnmExpr const *expr, GnmExprWalk *data)
 	}
 
 	case GNM_EXPR_OP_CONSTANT:
-		if (expr->constant.value->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (expr->constant.value)) {
 			GnmValueRange const *vr = &expr->constant.value->v_range;
 			switch (rinfo->details->reloc_type) {
 			case GNM_EXPR_RELOCATE_INVALIDATE_SHEET:
@@ -2347,7 +2347,7 @@ gnm_expr_get_range (GnmExpr const *expr)
 			&expr->cellref.ref, &expr->cellref.ref);
 
 	case GNM_EXPR_OP_CONSTANT:
-		if (expr->constant.value->type == VALUE_CELLRANGE)
+		if (VALUE_IS_CELLRANGE (expr->constant.value))
 			return value_dup (expr->constant.value);
 		return NULL;
 
@@ -2409,7 +2409,7 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 		return TRUE;
 
 	case GNM_EXPR_OP_CONSTANT:
-		if (expr->constant.value->type == VALUE_CELLRANGE)
+		if (VALUE_IS_CELLRANGE (expr->constant.value))
 			return TRUE;
 		return FALSE;
 
@@ -3144,7 +3144,7 @@ cb_referenced_sheets (GnmExpr const *expr, GnmExprWalk *data)
 
 	case GNM_EXPR_OP_CONSTANT: {
 		GnmValue const *v = expr->constant.value;
-		if (v->type != VALUE_CELLRANGE)
+		if (!VALUE_IS_CELLRANGE (v))
 			break;
 		*psheets = gnm_insert_unique (*psheets, v->v_range.cell.a.sheet);
 		/* A NULL b sheet means a's sheet.  Do not insert that.  */
@@ -3255,7 +3255,7 @@ cb_get_boundingbox (GnmExpr const *expr, GnmExprWalk *data)
 	case GNM_EXPR_OP_CONSTANT: {
 		GnmValue const *v = expr->constant.value;
 
-		if (v->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (v)) {
 			cellref_boundingbox (&v->v_range.cell.a, args->sheet, args->bound);
 			cellref_boundingbox (&v->v_range.cell.b, args->sheet, args->bound);
 		}

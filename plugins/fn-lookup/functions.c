@@ -325,7 +325,7 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 		return NULL;
 	}
 
-	switch (data->type) {
+	switch (data->v_any.type) {
 	case VALUE_CELLRANGE: {
 		GnmSheetRange sr;
 		GnmRangeRef const *rr = value_get_rangeref (data);
@@ -425,7 +425,7 @@ get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
 		return NULL;
 	}
 
-	switch (data->type) {
+	switch (data->v_any.type) {
 	case VALUE_CELLRANGE: {
 		GnmSheetRange sr;
 		GnmRangeRef const *rr = value_get_rangeref (data);
@@ -491,7 +491,7 @@ find_compare_type_valid (GnmValue const *find, GnmValue const *val)
 	if (!val)
 		return FALSE;
 
-	if (find->type == val->type)
+	if (find->v_any.type == val->v_any.type)
 		return TRUE;
 
 	/* Note: floats do not match bools.  */
@@ -595,7 +595,7 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 	LinearLookupInfo info;
 
 	/* This handles floats and bools, but with separate caches.  */
-	h = get_linear_lookup_cache (ei, data, find->type, vertical,
+	h = get_linear_lookup_cache (ei, data, find->v_any.type, vertical,
 				     &info);
 	if (!h)
 		return LOOKUP_DATA_ERROR;
@@ -688,12 +688,12 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 	LookupBisectionCacheItemElem key;
 	BisectionLookupInfo info;
 
-	bc = get_bisection_lookup_cache (ei, data, find->type, vertical,
+	bc = get_bisection_lookup_cache (ei, data, find->v_any.type, vertical,
 					 &info);
 	if (!bc)
 		return LOOKUP_DATA_ERROR;
 
-	stringp = (find->type == VALUE_STRING);
+	stringp = VALUE_IS_STRING (find);
 	comparer = stringp ? bisection_compare_string : bisection_compare_float;
 
 	if (info.is_new) {
@@ -926,7 +926,7 @@ gnumeric_areas (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	case GNM_EXPR_OP_CONSTANT:
 		if (VALUE_IS_ERROR (expr->constant.value))
 			return value_dup (expr->constant.value);
-		if (expr->constant.value->type != VALUE_CELLRANGE)
+		if (!VALUE_IS_CELLRANGE (expr->constant.value))
 			break;
 
 	case GNM_EXPR_OP_CELLREF:
@@ -938,7 +938,7 @@ gnumeric_areas (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmValue *v = gnm_expr_eval (expr, ei->pos,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
-		if (v->type == VALUE_CELLRANGE)
+		if (VALUE_IS_CELLRANGE (v))
 			res = 1;
 		value_release (v);
 		break;
@@ -1198,7 +1198,7 @@ gnumeric_lookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		}
 
 		vertical_lookup = (width < height);
-		is_cellrange = (lookup->type == VALUE_CELLRANGE);
+		is_cellrange = VALUE_IS_CELLRANGE (lookup);
 #if 0
 		if (is_cellrange) {
 			GnmRange r;
@@ -1422,7 +1422,7 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	}
 
 #warning Work out a way to fall back to returning value when a reference is unneeded
-	if (VALUE_CELLRANGE == v->type) {
+	if (VALUE_IS_CELLRANGE (v)) {
 		GnmRangeRef const *src = &v->v_range.cell;
 		GnmCellRef a = src->a, b = src->b;
 		Sheet *start_sheet, *end_sheet;
@@ -1436,7 +1436,7 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		a.col = r.start.col; if (a.col_relative) a.col -= ei->pos->eval.col;
 		b.col = r.start.col; if (b.col_relative) b.col -= ei->pos->eval.col;
 		res = value_new_cellrange_unsafe (&a, &b);
-	} else if (VALUE_ARRAY == v->type)
+	} else if (VALUE_IS_ARRAY (v))
 		res = value_dup (value_area_fetch_x_y (v, elem[1], elem[0], ei->pos));
 	else
 		res = value_new_error_REF (ei->pos);
@@ -1474,7 +1474,7 @@ gnumeric_column (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 			width = ei->pos->array->cols;
 		else
 			return value_new_int (col);
-	} else if (ref->type == VALUE_CELLRANGE) {
+	} else if (VALUE_IS_CELLRANGE (ref)) {
 		Sheet    *tmp;
 		GnmRange  r;
 
@@ -1625,7 +1625,7 @@ gnumeric_row (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 			n = ei->pos->array->rows;
 		else
 			return value_new_int (row);
-	} else if (ref->type == VALUE_CELLRANGE) {
+	} else if (VALUE_IS_CELLRANGE (ref)) {
 		Sheet    *tmp;
 		GnmRange  r;
 
@@ -1681,7 +1681,7 @@ gnumeric_sheets (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	GnmValue const *v = args[0];
 
 	if(v) {
-		if (v->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (v)) {
 			GnmRangeRef const *r = &v->v_range.cell;
 			int ans_min, ans_max, a, b;
 
@@ -1722,7 +1722,7 @@ gnumeric_sheet (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	int n;
 
 	if(v) {
-		if (v->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (v)) {
 			GnmRangeRef const *r = &v->v_range.cell;
 			int a, b;
 
@@ -1735,7 +1735,7 @@ gnumeric_sheet (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 				n = MAX (a,b);
 			else
 				return value_new_error_NUM (ei->pos);
-		} else if (v->type == VALUE_STRING) {
+		} else if (VALUE_IS_STRING (v)) {
 			Sheet *sheet = workbook_sheet_by_name
 				(wb, value_peek_string (v));
 			if (!sheet)

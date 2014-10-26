@@ -1588,7 +1588,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 				if (style_id > -1)
 					gsf_xml_out_add_int (xml, "s", style_id);
 
-				switch (val->type) {
+				switch (val->v_any.type) {
 				default :
 				case VALUE_EMPTY:
 					type = NULL; /* FIXME : what to do ? */

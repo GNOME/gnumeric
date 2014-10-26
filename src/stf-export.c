@@ -152,7 +152,7 @@ try_auto_float (GnmValue *value, const GOFormat *format,
 	gboolean is_date;
 	int is_time;
 
-	if (value->type != VALUE_FLOAT)
+	if (!VALUE_IS_FLOAT (value))
 		return NULL;
 
 	format = gnm_format_specialize (format, value);

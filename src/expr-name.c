@@ -459,7 +459,7 @@ cb_check_name (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 
 	v = gnm_expr_top_get_range (nexpr->texpr);
 	if (v != NULL) {
-		if (v->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (v)) {
 			GnmRangeRef const *ref = &v->v_range.cell;
 			if (!ref->a.col_relative &&
 			    !ref->b.col_relative &&

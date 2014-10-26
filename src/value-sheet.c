@@ -23,7 +23,7 @@
 void
 value_dump (GnmValue const *value)
 {
-	switch (value->type){
+	switch (value->v_any.type){
 	case VALUE_EMPTY:
 		g_print ("EMPTY\n");
 		break;
@@ -90,7 +90,7 @@ value_area_get_width (GnmValue const *v, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (v, 0);
 
-	if (v->type == VALUE_CELLRANGE) {
+	if (VALUE_IS_CELLRANGE (v)) {
 		GnmRangeRef const *r = &v->v_range.cell;
 		int ans = r->b.col - r->a.col;
 
@@ -102,7 +102,7 @@ value_area_get_width (GnmValue const *v, GnmEvalPos const *ep)
 		if (ans < 0)
 			ans = -ans;
 		return ans + 1;
-	} else if (v->type == VALUE_ARRAY)
+	} else if (VALUE_IS_ARRAY (v))
 		return v->v_array.x;
 	return 1;
 }
@@ -112,7 +112,7 @@ value_area_get_height (GnmValue const *v, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (v, 0);
 
-	if (v->type == VALUE_CELLRANGE) {
+	if (VALUE_IS_CELLRANGE (v)) {
 		GnmRangeRef const *r = &v->v_range.cell;
 		int ans = r->b.row - r->a.row;
 
@@ -125,7 +125,7 @@ value_area_get_height (GnmValue const *v, GnmEvalPos const *ep)
 		if (ans < 0)
 			ans = -ans;
 		return ans + 1;
-	} else if (v->type == VALUE_ARRAY)
+	} else if (VALUE_IS_ARRAY (v))
 		return v->v_array.y;
 	return 1;
 }
@@ -169,12 +169,12 @@ value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (v, NULL);
 
-	if (v->type == VALUE_ARRAY){
+	if (VALUE_IS_ARRAY (v)){
 		g_return_val_if_fail (x < v->v_array.x &&
 				      y < v->v_array.y,
 				      NULL);
 		return v->v_array.vals [x][y];
-	} else if (v->type == VALUE_CELLRANGE) {
+	} else if (VALUE_IS_CELLRANGE (v)) {
 		GnmCellRef const * const a = &v->v_range.cell.a;
 		GnmCellRef const * const b = &v->v_range.cell.b;
 		int a_col = a->col;
@@ -286,7 +286,7 @@ value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 
 	g_return_val_if_fail (func != NULL, NULL);
 
-        if (v->type == VALUE_CELLRANGE) {
+        if (VALUE_IS_CELLRANGE (v)) {
 		WrapperClosure wrap;
 		GnmRange  r;
 		Sheet *start_sheet, *end_sheet;
@@ -308,7 +308,7 @@ value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 	v_iter.cell_iter = NULL;
 
 	/* If not an array, apply func to singleton */
-        if (v->type != VALUE_ARRAY) {
+        if (!VALUE_IS_ARRAY (v)) {
 		v_iter.x = v_iter.y = 0;
 		v_iter.v = v;
 		return (*func) (&v_iter, user_data);

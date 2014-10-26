@@ -86,7 +86,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 	if (aplaces && VALUE_IS_BOOLEAN (aplaces))
 		return value_new_error_VALUE (ei->pos);
 
-	switch (value->type) {
+	switch (value->v_any.type) {
 	default:
 		return value_new_error_NUM (ei->pos);
 

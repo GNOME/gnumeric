@@ -321,7 +321,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 	collect_floats_t *cl = closure;
 	gboolean ignore = FALSE;
 
-	switch (value ? value->type : VALUE_EMPTY) {
+	switch (value ? value->v_any.type : VALUE_EMPTY) {
 	case VALUE_EMPTY:
 		if (cl->flags & COLLECT_IGNORE_BLANKS)
 			ignore = TRUE;
@@ -381,7 +381,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 
 	default:
 		g_warning ("Trouble in callback_function_collect. (%d)",
-			   value->type);
+			   value->v_any.type);
 		ignore = TRUE;
 	}
 
@@ -783,9 +783,9 @@ collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
 	PairsFloatsCacheEntry *ce = NULL;
 	gboolean use_cache, free_keys = TRUE;
 
-	if (vx->type == VALUE_CELLRANGE)
+	if (VALUE_IS_CELLRANGE (vx))
 		key_x = get_single_cache_key_from_value (vx, ep);
-	if (vy->type == VALUE_CELLRANGE)
+	if (VALUE_IS_CELLRANGE (vy))
 		key_y = get_single_cache_key_from_value (vy, ep);
 
 	if ((use_cache = (key_x && key_y)))

@@ -5491,7 +5491,7 @@ chart_write_siindex (XLChartWriteState *s, guint msdim)
 	msdim--;
 	for (i = 0; i < s->values[msdim]->len; i++) {
 		XLValue *xlval = s->values[msdim]->pdata[i];
-		if (xlval->value->type != VALUE_ARRAY)
+		if (!VALUE_IS_ARRAY (xlval->value))
 			continue;
 		as_col = xlval->value->v_array.y > xlval->value->v_array.x;
 		jmax = as_col
@@ -5501,7 +5501,7 @@ chart_write_siindex (XLChartWriteState *s, guint msdim)
 			GnmValue const* value = as_col
 				? xlval->value->v_array.vals[0][j]
 				: xlval->value->v_array.vals[j][0];
-			switch (value->type) {
+			switch (value->v_any.type) {
 			case VALUE_FLOAT:
 				data = ms_biff_put_len_next (s->bp, BIFF_NUMBER_v2, 14);
 				GSF_LE_SET_DOUBLE (data + 6, value_get_as_float (value));

@@ -100,8 +100,8 @@ prepare_ranges (simulation_t *sim)
 {
 	int i, n, base_col, base_row;
 
-	if (sim->inputs->type != VALUE_CELLRANGE ||
-	    sim->outputs->type != VALUE_CELLRANGE)
+	if (!VALUE_IS_CELLRANGE (sim->inputs) ||
+	    !VALUE_IS_CELLRANGE (sim->outputs))
 		return TRUE;
 
 	sim->ref_inputs  = gnm_rangeref_dup (value_get_rangeref (sim->inputs));

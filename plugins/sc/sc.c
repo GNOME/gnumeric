@@ -261,7 +261,7 @@ sc_parse_coord_real (ScParseState *state, char const *strdata, GnmCellPos *pos,
 	parse_pos_init (&pp, NULL, state->sheet, 0, 0);
 	nexpr = expr_name_lookup (&pp, tmpstr);
 	if (nexpr && (v = gnm_expr_top_get_range (nexpr->texpr))) {
-		if (v->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (v)) {
 			GnmEvalPos ep;
 			const GnmCellRef *cr = &v->v_range.cell.a;
 

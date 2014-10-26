@@ -2772,7 +2772,7 @@ gnm_expr_entry_is_cell_ref (GnmExprEntry *gee, Sheet *sheet,
         if (val == NULL)
 		return FALSE;
 
-	res = ((val->type == VALUE_CELLRANGE) &&
+	res = ((VALUE_IS_CELLRANGE (val)) &&
 	       (allow_multiple_cell ||
 		((val->v_range.cell.a.col == val->v_range.cell.b.col) &&
 		 (val->v_range.cell.a.row == val->v_range.cell.b.row))));
@@ -2814,7 +2814,7 @@ gnm_expr_entry_global_range_name (GnmExprEntry *gee, Sheet *sheet)
 
 	val = gnm_expr_entry_parse_as_value (gee, sheet);
 	if (val != NULL) {
-		if (val->type == VALUE_CELLRANGE)
+		if (VALUE_IS_CELLRANGE (val))
 			text = value_get_as_string (val);
 		value_release (val);
 	}

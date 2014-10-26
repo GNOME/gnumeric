@@ -1076,7 +1076,7 @@ link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, gboolean qlink)
 		/* TODO: pass in eval flags so that we can use implicit
 		 * intersection
 		 */
-		if (VALUE_CELLRANGE == tree->constant.value->type)
+		if (VALUE_IS_CELLRANGE (tree->constant.value))
 			return link_unlink_cellrange_dep
 				(ep->dep, dependent_pos (ep->dep),
 				 &tree->constant.value->v_range.cell.a,

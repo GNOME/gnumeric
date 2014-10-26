@@ -40,7 +40,7 @@ GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Wor
 	GnmFunc *fd_array;
 	GnmExpr const *expr;
 
-	if (val_1->type == VALUE_CELLRANGE && val_2->type == VALUE_CELLRANGE &&
+	if (VALUE_IS_CELLRANGE (val_1) && VALUE_IS_CELLRANGE (val_2) &&
 	    val_1->v_range.cell.a.sheet == val_2->v_range.cell.a.sheet) {
 		GnmRange r_1, r_2;
 		gboolean combined = FALSE;

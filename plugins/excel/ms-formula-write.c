@@ -118,7 +118,7 @@ cb_excel_write_prep_expr (GnmExpr const *expr, GnmExprWalk *data)
 
 	case GNM_EXPR_OP_CONSTANT: {
 		GnmValue const *v = expr->constant.value;
-		if (v->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (v)) {
 			ExcelSheetPair pair;
 			pair.a = v->v_range.cell.a.sheet;
 			pair.b = v->v_range.cell.b.sheet;
@@ -753,7 +753,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 
         case GNM_EXPR_OP_CONSTANT : {
 		GnmValue const *v = expr->constant.value;
-		switch (v->type) {
+		switch (v->v_any.type) {
 
 		case VALUE_FLOAT: {
 			guint8 data[10];
@@ -826,10 +826,8 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		}
 
 		default : {
-			gchar *err = g_strdup_printf ("Unknown value %d\n", v->type);
-			write_string (pd, err);
-			g_free (err);
-			g_warning ("Unhandled value type %d", v->type);
+			write_string (pd, "(Unknown value)");
+			g_warning ("Unhandled value type %d", v->v_any.type);
 			break;
 		}
 		}

@@ -3386,7 +3386,7 @@ excel_write_map_errcode (GnmValue const *v)
 static void
 excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, guint16 xf)
 {
-	switch (v->type) {
+	switch (v->v_any.type) {
 
 	case VALUE_EMPTY: {
 		guint8 *data = ms_biff_put_len_next (ewb->bp, BIFF_BLANK_v2, 6);
@@ -3486,7 +3486,7 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 		break;
 
 	default:
-		g_printerr ("Unhandled value type %d\n", v->type);
+		g_printerr ("Unhandled value type %d\n", v->v_any.type);
 		break;
 	}
 }
@@ -3518,7 +3518,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	EX_SETROW (data, row);
 	EX_SETCOL (data, col);
 	EX_SETXF  (data, xf);
-	switch (v->type) {
+	switch (v->v_any.type) {
 	case VALUE_FLOAT:
 		gsf_le_set_double (data + 6, value_get_as_float (v));
 		break;
@@ -3547,7 +3547,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 		break;
 
 	default:
-		g_warning ("Unhandled value->type (%d) in excel_write_FORMULA.", v->type);
+		g_warning ("Unhandled value->type (%d) in excel_write_FORMULA.", v->v_any.type);
 	}
 
 	GSF_LE_SET_GUINT16 (data + 14, /* alwaysCalc & calcOnLoad */
@@ -3994,7 +3994,7 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 
 	if (cond->op[i] == GNM_FILTER_UNUSED)
 		return NULL;
-	switch (v->type) {
+	switch (v->v_any.type) {
 	case VALUE_BOOLEAN:
 		buf[0] = 8;
 		buf[2] = 0;

@@ -6,7 +6,7 @@ value2perl(const GnmValue *v)
 {
 	SV *sv;
 
-	switch (v->type) {
+	switch (v->v_any.type) {
 	case VALUE_BOOLEAN:
 		sv = newSViv(value_get_as_int (v));
 		break;

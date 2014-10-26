@@ -136,7 +136,7 @@ sign_test_two_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         input_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
-	if (input_range == NULL || input_range->type != VALUE_CELLRANGE) {
+	if (input_range == NULL || !VALUE_IS_CELLRANGE (input_range)) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    (state->base.input_entry_2 == NULL)
 				    ? _("The input range is invalid.")
@@ -157,7 +157,7 @@ sign_test_two_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		input_range = gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->base.input_entry_2),
 			 state->base.sheet);
-		if (input_range == NULL || input_range->type != VALUE_CELLRANGE) {
+		if (input_range == NULL || !VALUE_IS_CELLRANGE (input_range)) {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
 					    _("The second input range is invalid."));
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);

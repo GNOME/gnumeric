@@ -39,7 +39,7 @@
 static char const *
 format_nonnumber (GnmValue const *value)
 {
-	switch (value->type) {
+	switch (value->v_any.type) {
 	case VALUE_EMPTY:
 		return "";
 
@@ -112,7 +112,7 @@ format_value_common (PangoLayout *layout, GString *str,
 
 	/* Use top left corner of an array result.  This will not work for
 	 * ranges because we dont't have a location */
-	if (value->type == VALUE_ARRAY)
+	if (value->v_any.type == VALUE_ARRAY)
 		value = value_area_fetch_x_y (value, 0, 0, NULL);
 
 	if (VALUE_IS_FLOAT (value)) {

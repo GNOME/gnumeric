@@ -111,7 +111,7 @@ gnm_scenario_item_valid (const GnmScenarioItem *sci, GnmSheetRange *sr)
 		return FALSE;
 
 	vr = gnm_expr_top_get_constant (texpr);
-	if (!vr || vr->type != VALUE_CELLRANGE)
+	if (!vr || !VALUE_IS_CELLRANGE (vr))
 		return FALSE;
 
 	if (sr)

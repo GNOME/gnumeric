@@ -123,8 +123,7 @@ dao_load_from_value (data_analysis_output_t *dao,
 		     GnmValue *output_range)
 {
 	g_return_val_if_fail (output_range != NULL, dao);
-	g_return_val_if_fail
-		(output_range->type == VALUE_CELLRANGE, dao);
+	g_return_val_if_fail (VALUE_IS_CELLRANGE (output_range), dao);
 
 	dao->start_col = output_range->v_range.cell.a.col;
 	dao->start_row = output_range->v_range.cell.a.row;

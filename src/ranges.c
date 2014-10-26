@@ -90,8 +90,8 @@ range_init_rangeref (GnmRange *range, GnmRangeRef const *rr)
 GnmRange *
 range_init_value (GnmRange *range, GnmValue const *v)
 {
-	g_return_val_if_fail (range != NULL && v != NULL &&
-			      v->type == VALUE_CELLRANGE, NULL);
+	g_return_val_if_fail (range != NULL, NULL);
+	g_return_val_if_fail (v != NULL && VALUE_IS_CELLRANGE (v), NULL);
 
 	return range_init_rangeref (range, &v->v_range.cell);
 }
@@ -816,7 +816,7 @@ gnm_sheet_range_dup (GnmSheetRange const *sr)
 gboolean
 gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v)
 {
-	g_return_val_if_fail (v->type == VALUE_CELLRANGE, FALSE);
+	g_return_val_if_fail (VALUE_IS_CELLRANGE (v), FALSE);
 
 	r->sheet = v->v_range.cell.a.sheet;
 	range_init_value (&r->range, v);
@@ -1110,7 +1110,7 @@ global_range_contained (Sheet const *sheet, GnmValue const *a, GnmValue const *b
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
 
-	if ((a->type != VALUE_CELLRANGE) || (b->type != VALUE_CELLRANGE))
+	if (!VALUE_IS_CELLRANGE (a) || !VALUE_IS_CELLRANGE (b))
 		return FALSE;
 
 	target = eval_sheet (a->v_range.cell.a.sheet, sheet);

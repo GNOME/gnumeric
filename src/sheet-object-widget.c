@@ -3056,7 +3056,7 @@ sheet_widget_radio_button_write_xml_sax (SheetObject const *so,
 
 	gsf_xml_out_add_cstr (output, "Label", swrb->label);
 	gsf_xml_out_add_cstr (output, "Value", valstr->str);
-	gsf_xml_out_add_int (output, "ValueType", swrb->value->type);
+	gsf_xml_out_add_int (output, "ValueType", swrb->value->v_any.type);
 	gsf_xml_out_add_int (output, "Active", swrb->active);
 	sax_write_dep (output, &swrb->dep, "Input", convs);
 

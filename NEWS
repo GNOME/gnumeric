@@ -2,6 +2,7 @@ Gnumeric 1.12.19
 
 Morten:
 	* Plug leaks.
+	* Pay more attention to union access rules.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.18

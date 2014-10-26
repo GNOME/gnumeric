@@ -106,7 +106,7 @@ static void
 xls_write_pivot_cache_value (ExcelWriteState *ewb, GOVal const *v)
 {
 	if (NULL != v) {
-		switch (v->type) {
+		switch (v->v_any.type) {
 		case VALUE_CELLRANGE:
 		case VALUE_ARRAY:
 			g_warning ("REMOVE THIS CODE WHEN WE MOVE TO GOFFICE");

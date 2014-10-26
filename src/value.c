@@ -200,7 +200,7 @@ GnmValue *
 value_error_set_pos (GnmValueErr *err, G_GNUC_UNUSED GnmEvalPos const *pos)
 {
     g_return_val_if_fail (err != NULL, NULL);
-    g_return_val_if_fail (VALUE_IS_ERROR (err), NULL);
+    g_return_val_if_fail (VALUE_IS_ERROR ((GnmValue *)err), NULL);
 
     /* err->src = *pos; */
     return (GnmValue *)err;
@@ -540,7 +540,7 @@ value_release (GnmValue *value)
 	if (VALUE_FMT (value) != NULL)
 		go_format_unref (VALUE_FMT (value));
 
-	switch (value->type) {
+	switch (value->v_any.type) {
 	case VALUE_EMPTY:
 	case VALUE_BOOLEAN:
 		/* We did not allocate anything, there is nothing to free */
@@ -610,7 +610,7 @@ value_dup (GnmValue const *src)
 	if (src == NULL)
 		return NULL;
 
-	switch (src->type){
+	switch (src->v_any.type){
 	case VALUE_EMPTY:
 		res = value_new_empty ();
 		break;
@@ -685,7 +685,7 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 	default :
 		break;
 	}
-	return a->type - b->type;
+	return a->v_any.type - b->v_any.type;
 }
 
 int
@@ -697,10 +697,10 @@ value_cmp_reverse (void const *ptr_a, void const *ptr_b)
 gboolean
 value_equal (GnmValue const *a, GnmValue const *b)
 {
-	if (a->type != b->type)
+	if (a->v_any.type != b->v_any.type)
 		return FALSE;
 
-	switch (a->type) {
+	switch (a->v_any.type) {
 	case VALUE_BOOLEAN:
 		return a->v_bool.val == b->v_bool.val;
 
@@ -744,7 +744,7 @@ value_equal (GnmValue const *a, GnmValue const *b)
 guint
 value_hash (GnmValue const *v)
 {
-	switch (v->type) {
+	switch (v->v_any.type) {
 	case VALUE_BOOLEAN:
 		return v->v_bool.val ? 0x555aaaa : 0xaaa5555;
 
@@ -802,7 +802,7 @@ value_get_as_bool (GnmValue const *v, gboolean *err)
 	if (v == NULL)
 		return FALSE;
 
-	switch (v->type) {
+	switch (v->v_any.type) {
 	case VALUE_EMPTY:
 		return FALSE;
 
@@ -866,7 +866,7 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 	if (v == NULL)
 		return;
 
-	switch (v->type){
+	switch (v->v_any.type){
 	case VALUE_EMPTY:
 		return;
 
@@ -1009,7 +1009,7 @@ value_get_as_int (GnmValue const *v)
 {
 	if (v == NULL)
 		return 0;
-	switch (v->type) {
+	switch (v->v_any.type) {
 	case VALUE_EMPTY:
 		return 0;
 
@@ -1033,7 +1033,7 @@ value_get_as_int (GnmValue const *v)
 		return 0;
 
 	default:
-		g_warning ("value_get_as_int unknown type 0x%x (%d).", v->type, v->type);
+		g_warning ("value_get_as_int unknown type 0x%x (%d).", v->v_any.type, v->v_any.type);
 		return 0;
 	}
 	return 0;
@@ -1048,7 +1048,7 @@ value_get_as_float (GnmValue const *v)
 	if (v == NULL)
 		return 0.;
 
-	switch (v->type) {
+	switch (v->v_any.type) {
 	case VALUE_EMPTY:
 		return 0.;
 
@@ -1087,7 +1087,7 @@ value_is_zero (GnmValue const *v)
 GnmRangeRef const *
 value_get_rangeref (GnmValue const *v)
 {
-	g_return_val_if_fail (v->type == VALUE_CELLRANGE, NULL);
+	g_return_val_if_fail (VALUE_IS_CELLRANGE (v), NULL);
 	return &v->v_range.cell;
 }
 
@@ -1129,7 +1129,7 @@ void
 value_array_set (GnmValue *array, int col, int row, GnmValue *v)
 {
 	g_return_if_fail (v);
-	g_return_if_fail (array->type == VALUE_ARRAY);
+	g_return_if_fail (VALUE_IS_ARRAY (array));
 	g_return_if_fail (col>=0);
 	g_return_if_fail (row>=0);
 	g_return_if_fail (array->v_array.y > row);
@@ -1181,8 +1181,8 @@ value_diff (GnmValue const *a, GnmValue const *b)
 	if (a == b)
 		return 0.;
 
-	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->type;
-	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->type;
+	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->v_any.type;
+	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->v_any.type;
 
 	/* string > empty */
 	if (ta == VALUE_STRING) {
@@ -1291,8 +1291,8 @@ value_compare_real (GnmValue const *a, GnmValue const *b,
 	if (a == b)
 		return IS_EQUAL;
 
-	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->type;
-	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->type;
+	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->v_any.type;
+	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->v_any.type;
 
 	/* string > empty */
 	if (ta == VALUE_STRING) {
@@ -1390,7 +1390,7 @@ value_set_fmt (GnmValue *v, GOFormat const *fmt)
 {
 	if (fmt == VALUE_FMT (v))
 		return;
-	g_return_if_fail (v->type != VALUE_EMPTY && v->type != VALUE_BOOLEAN);
+	g_return_if_fail (!VALUE_IS_EMPTY (v) && !VALUE_IS_BOOLEAN (v));
 	if (fmt != NULL)
 		go_format_ref (fmt);
 	if (VALUE_FMT (v) != NULL)
@@ -1412,7 +1412,7 @@ criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
 	if (x == NULL || y == NULL)
 		return CRIT_NULL;
 
-	switch (y->type) {
+	switch (y->v_any.type) {
 	case VALUE_BOOLEAN:
 		/* If we're searching for a bool -- even one that is
 		   from a string search value -- we match only bools.  */
@@ -1818,7 +1818,7 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
 	int   b_col, b_row, e_col, e_row;
 	int   *field_ind;
 
-	g_return_val_if_fail (criteria->type == VALUE_CELLRANGE, NULL);
+	g_return_val_if_fail (VALUE_IS_CELLRANGE (criteria), NULL);
 
 	sheet = eval_sheet (criteria->v_range.cell.a.sheet, ep->sheet);
 	b_col = criteria->v_range.cell.a.col;

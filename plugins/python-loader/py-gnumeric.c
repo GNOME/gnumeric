@@ -325,7 +325,7 @@ gnm_value_to_py_obj (const GnmEvalPos *eval_pos, const GnmValue *val)
 	g_return_val_if_fail (eval_pos != NULL, NULL);
 	g_return_val_if_fail (val != NULL, NULL);
 
-    switch (val->type) {
+    switch (val->v_any.type) {
 	case VALUE_BOOLEAN:
 		py_val = py_new_Boolean_object (value_get_as_checked_bool (val));
 		break;

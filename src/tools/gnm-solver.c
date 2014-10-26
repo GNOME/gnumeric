@@ -193,14 +193,14 @@ gnm_solver_constraint_valid (GnmSolverConstraint const *c,
 	g_return_val_if_fail (c != NULL, FALSE);
 
 	lhs = gnm_solver_constraint_get_lhs (c);
-	if (lhs == NULL || lhs->type != VALUE_CELLRANGE)
+	if (lhs == NULL || !VALUE_IS_CELLRANGE (lhs))
 		return FALSE;
 
 	if (gnm_solver_constraint_has_rhs (c)) {
 		GnmValue const *rhs = gnm_solver_constraint_get_rhs (c);
 		if (rhs == NULL)
 			return FALSE;
-		if (rhs->type == VALUE_CELLRANGE) {
+		if (VALUE_IS_CELLRANGE (rhs)) {
 			GnmSheetRange srl, srr;
 
 			gnm_sheet_range_from_value (&srl, lhs);

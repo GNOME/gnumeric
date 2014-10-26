@@ -524,7 +524,7 @@ gnumeric_countif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * not need to.
 	 * 1) @range must be a range, arrays are not supported
 	 * 2) @range can not be 3d */
-	if (r->type != VALUE_CELLRANGE ||
+	if (!VALUE_IS_CELLRANGE (argv[0]) ||
 	    ((sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) != r->cell.b.sheet &&
 	     r->cell.b.sheet != NULL) ||
 	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])))
@@ -622,9 +622,9 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * not need to.
 	 * 1) @range must be a range, arrays are not supported
 	 * 2) @range can not be 3d */
-	if (argv[0]->type != VALUE_CELLRANGE ||
+	if (!VALUE_IS_CELLRANGE (argv[0]) ||
 	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])) ||
-	    (argv[2] != NULL && argv[2]->type != VALUE_CELLRANGE))
+	    (argv[2] != NULL && !VALUE_IS_CELLRANGE (argv[2])))
 	        return value_new_error_VALUE (ei->pos);
 
 	gnm_rangeref_normalize (&argv[0]->v_range.cell, ei->pos,
@@ -687,9 +687,9 @@ gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * not need to.
 	 * 1) @range must be a range, arrays are not supported
 	 * 2) @range can not be 3d */
-	if (argv[0]->type != VALUE_CELLRANGE ||
+	if (!VALUE_IS_CELLRANGE (argv[0]) ||
 	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])) ||
-	    (argv[2] != NULL && argv[2]->type != VALUE_CELLRANGE))
+	    (argv[2] != NULL && !VALUE_IS_CELLRANGE (argv[2])))
 	        return value_new_error_VALUE (ei->pos);
 
 	gnm_rangeref_normalize (&argv[0]->v_range.cell, ei->pos,
@@ -3064,7 +3064,7 @@ gnumeric_sumproduct_common (gboolean ignore_bools, GnmFuncEvalInfo *ei,
 			for (x = 0; x < thissizex; x++) {
 				/* FIXME: efficiency worries?  */
 				GnmValue const *v = value_area_fetch_x_y (val, x, y, ei->pos);
-				switch (v->type) {
+				switch (v->v_any.type) {
 				case VALUE_ERROR:
 					/*
 					 * We carefully tranverse the argument

@@ -114,7 +114,7 @@ cb_adjust_areas (gpointer data, G_GNUC_UNUSED gpointer user_data)
 {
 	GnmValue *range = (GnmValue *)data;
 
-	if (range == NULL || (range->type != VALUE_CELLRANGE)) {
+	if (range == NULL || !VALUE_IS_CELLRANGE (range)) {
 		return;
 	}
 
@@ -293,7 +293,7 @@ cb_cut_into_cols (gpointer data, gpointer user_data)
 	if (range == NULL) {
 		return;
 	}
-	if ((range->type != VALUE_CELLRANGE) ||
+	if (!VALUE_IS_CELLRANGE (range) ||
 	    (range->v_range.cell.b.sheet != NULL &&
 	     range->v_range.cell.b.sheet != range->v_range.cell.a.sheet)) {
 		value_release (range);
@@ -334,7 +334,7 @@ cb_cut_into_rows (gpointer data, gpointer user_data)
 	if (range == NULL) {
 		return;
 	}
-	if ((range->type != VALUE_CELLRANGE) ||
+	if (!VALUE_IS_CELLRANGE (range) ||
 	    (range->v_range.cell.b.sheet != NULL &&
 	     range->v_range.cell.b.sheet != range->v_range.cell.a.sheet)) {
 		value_release (range);
@@ -408,7 +408,7 @@ cb_check_hom (gpointer data, gpointer user_data)
 	homogeneity_check_t *state = (homogeneity_check_t *) user_data;
 	gint this_size;
 
-	if (range->type != VALUE_CELLRANGE) {
+	if (!VALUE_IS_CELLRANGE (range)) {
 		state->hom = FALSE;
 		return;
 	}

@@ -6454,7 +6454,7 @@ sheet_range_has_heading (Sheet const *sheet, GnmRange const *src,
 			if (!VALUE_IS_NUMBER (b->value))
 				return TRUE;
 			/* check for style differences */
-		} else if (a->value->type != b->value->type)
+		} else if (a->value->v_any.type != b->value->v_any.type)
 			return TRUE;
 
 		/* Look for style differences */

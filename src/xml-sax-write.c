@@ -868,7 +868,7 @@ xml_write_cell_and_position (GnmOutputXML *state,
 
 		if (!texpr) {
 			if (val != NULL) {
-				gsf_xml_out_add_int (state->output, "ValueType", val->type);
+				gsf_xml_out_add_int (state->output, "ValueType", val->v_any.type);
 				if (VALUE_FMT (val) != NULL) {
 					const char *fmt = go_format_as_XL (VALUE_FMT (val));
 					gsf_xml_out_add_cstr (state->output, "ValueFormat", fmt);
@@ -965,7 +965,7 @@ xml_write_filter_expr (GnmOutputXML *state,
 	gsf_xml_out_add_cstr_unchecked (state->output,
 		filter_expr_attrs[i].op, filter_cond_name [cond->op[i]]);
 	gsf_xml_out_add_int (state->output,
-		filter_expr_attrs[i].valtype, cond->value[i]->type);
+		filter_expr_attrs[i].valtype, cond->value[i]->v_any.type);
 	gsf_xml_out_add_cstr (state->output,
 		filter_expr_attrs[i].val, text->str);
 	g_string_free (text, TRUE);
@@ -1153,7 +1153,7 @@ xml_write_scenario (GnmOutputXML *state, GnmScenario const *sc)
 		if (val) {
 			gsf_xml_out_add_int (state->output,
 					     "ValueType",
-					     val->type);
+					     val->v_any.type);
 			if (VALUE_FMT (val) != NULL) {
 				const char *fmt = go_format_as_XL (VALUE_FMT (val));
 				gsf_xml_out_add_cstr (state->output, "ValueFormat", fmt);

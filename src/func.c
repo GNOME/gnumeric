@@ -1838,7 +1838,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 				return tmp;
 			}
 
-			if (tmp->type == VALUE_CELLRANGE) {
+			if (VALUE_IS_CELLRANGE (tmp)) {
 				gnm_cellref_make_abs (&tmp->v_range.cell.a,
 						      &tmp->v_range.cell.a,
 						      ei->pos);
@@ -1846,7 +1846,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 						      &tmp->v_range.cell.b,
 						      ei->pos);
 				/* Array args accept scalars */
-			} else if (arg_type != 'A' && tmp->type != VALUE_ARRAY) {
+			} else if (arg_type != 'A' && !VALUE_IS_ARRAY (tmp)) {
 				free_values (args, i + 1);
 				return value_new_error_VALUE (ei->pos);
 			}
@@ -1880,7 +1880,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 			tmp = args[i] = value_new_empty ();
 
 		/* Handle implicit intersection or iteration depending on flags */
-		if (tmp->type == VALUE_CELLRANGE || tmp->type == VALUE_ARRAY) {
+		if (VALUE_IS_CELLRANGE (tmp) || VALUE_IS_ARRAY (tmp)) {
 			if (iter_count > 0) {
 				if (iter_width != value_area_get_width (tmp, ei->pos) ||
 				    iter_height != value_area_get_height (tmp, ei->pos)) {
@@ -2148,7 +2148,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 {
 	GnmValue *res = NULL;
 
-	switch (value->type){
+	switch (value->v_any.type){
 	case VALUE_ERROR:
 		if (strict) {
 			res = value_dup (value);

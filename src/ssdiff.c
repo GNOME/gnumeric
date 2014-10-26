@@ -391,7 +391,7 @@ output_cell (GnmDiffState *state, GnmCell const *cell,
 	} else {
 		GnmValue const *v = cell->value;
 		value_get_as_gstring (v, str, state->convs);
-		gsf_xml_out_add_int (state->xml, valtag, v->type);
+		gsf_xml_out_add_int (state->xml, valtag, v->v_any.type);
 		if (VALUE_FMT (v))
 			gsf_xml_out_add_cstr (state->xml, fmttag, go_format_as_XL (VALUE_FMT (v)));
 	}

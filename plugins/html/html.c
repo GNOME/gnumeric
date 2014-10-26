@@ -332,7 +332,7 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 					gsf_output_printf (output, "<font color=\"#%02X%02X%02X\">", r, g, b);
 			}
 
-			if ((cell->value->type == VALUE_STRING)
+			if (VALUE_IS_STRING (cell->value)
 			    && (VALUE_FMT (cell->value) != NULL)
 			    && go_format_is_markup (VALUE_FMT (cell->value)))
 				markup = go_format_get_markup (VALUE_FMT (cell->value));
