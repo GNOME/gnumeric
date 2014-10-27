@@ -6214,13 +6214,8 @@ odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop c
 		GString *gstr = g_string_new (NULL);
 		for (i = 0; i < expr->set.argc; i++) {
 			GnmExpr const *expr_arg = expr->set.argv[i];
-<<<<<<< HEAD
-			if (GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CONSTANT && 
-			    VALUE_IS_CELLRANGE (expr_arg->constant.value)) {
-=======
 			if (GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CONSTANT &&
-			    expr_arg->constant.value->type == VALUE_CELLRANGE) {
->>>>>>> Use goc_canvas_invalidate_region() for ants walking.
+			    VALUE_IS_CELLRANGE (expr_arg->constant.value)) {
 				char *str = gnm_expr_as_string (expr_arg, pp, state->conv);
 				if (gstr->len > 0)
 					g_string_append_c (gstr, ' ');
