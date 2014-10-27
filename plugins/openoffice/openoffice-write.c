@@ -939,7 +939,7 @@ odf_write_gog_position_pts (GnmOOExport *state, GogObject const *title)
 	g_object_get (G_OBJECT (title),
 		      "is-position-manual", &is_position_manual,
 		      NULL);
-	
+
 	if (is_position_manual) {
 		GogView *view = gog_view_find_child_view  (state->root_view, title);
 		odf_add_pt (state->xml, SVG "x", view->allocation.x);
@@ -955,7 +955,7 @@ odf_write_gog_position (GnmOOExport *state, GogObject const *obj)
 
 	if (!state->with_extension)
 		return;
-	
+
 	(void)gnm_object_has_readable_prop (obj, "compass",
 					    G_TYPE_NONE, &compass);
 	g_object_get (G_OBJECT (obj),
@@ -1555,7 +1555,7 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond, GnmRange *r)
 	default:
 		break;
 	}
-	
+
 	switch (op) {
 	case GNM_STYLE_COND_BETWEEN:
 		odf_determine_base (state, r, &pp);
@@ -2642,7 +2642,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		oconv->state->openformula_namemap = namemap;
 	} else
 		namemap = oconv->state->openformula_namemap;
-	
+
 	if (NULL == oconv->state->openformula_handlermap) {
 		guint i;
 		handlermap = g_hash_table_new (go_ascii_strcase_hash,
@@ -2969,7 +2969,7 @@ odf_write_custom_shape (GnmOOExport *state, SheetObject *so)
 	char *path_string = NULL;
 	char *view_box = NULL;
 
-	g_object_get (G_OBJECT (so), "text", &text, "markup", &markup, "path", &path, 
+	g_object_get (G_OBJECT (so), "text", &text, "markup", &markup, "path", &path,
 		      "paths", &paths, "viewbox", &view_box, NULL);
 
 	gsf_xml_out_start_element (state->xml, DRAW "custom-shape");
@@ -3495,7 +3495,7 @@ write_col_style (GnmOOExport *state, GnmStyle *col_style, ColRowInfo const *ci,
 		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", name);
 
 	if (ci != NULL && !ci->visible)
-		gsf_xml_out_add_cstr (state->xml, TABLE "visibility", ci->in_filter ? "filter" : "collapse");	
+		gsf_xml_out_add_cstr (state->xml, TABLE "visibility", ci->in_filter ? "filter" : "collapse");
 }
 
 static void
@@ -3707,7 +3707,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 
 		if (rf) {
 			int col;
-			
+
 			for (col = 0; col < row_length; col++) {
 				GnmCell *current_cell;
 				GnmRange const	*merge_range;
@@ -3715,7 +3715,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 				GnmStyle const *this_style = row_styles
 					? row_styles[col]
 					: col_styles[col];
-				
+
 				current_cell = g_ptr_array_index (all_cells, cno);
 				if (current_cell &&
 				    current_cell->pos.row == row &&
@@ -3764,7 +3764,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 				odf_write_cell (state, current_cell, merge_range, this_style, objects);
 
 				g_slist_free (objects);
-				
+
 			}
 		} else
 			null_cell = row_length;
@@ -4018,7 +4018,7 @@ odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so,
 			 as_index ? "selection-indices" : "selection");
 	if (is_listbox)
 		gsf_xml_out_add_int (state->xml, FORM "bound-column", 1);
-	gsf_xml_out_end_element (state->xml); 
+	gsf_xml_out_end_element (state->xml);
 }
 
 static void
@@ -4534,7 +4534,7 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			if (msg) {
 				char const  * msg_content = gnm_input_msg_get_msg (msg);
 				char const  * msg_title = gnm_input_msg_get_title (msg);
-				
+
 				if (msg_content != NULL || msg_title != NULL) {
 					gsf_xml_out_start_element (state->xml,
 								   TABLE "help-message");
@@ -4548,18 +4548,18 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 						g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 						g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 						gsf_xml_out_start_element (state->xml, TEXT "p");
-						odf_add_chars (state, msg_content, strlen (msg_content), 
+						odf_add_chars (state, msg_content, strlen (msg_content),
 							       &white_written);
 						gsf_xml_out_end_element (state->xml);   /* p */
 						g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 					}
-					
+
 					gsf_xml_out_end_element (state->xml);
 					/* help message written */
 				}
 			}
 
-			if (val) {	
+			if (val) {
 				/* writing error message */
 				gsf_xml_out_start_element (state->xml,
 							   TABLE "error-message");
@@ -4580,7 +4580,7 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 				gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "message-type", message_type);
 				if (val->title != NULL)
 					gsf_xml_out_add_cstr (state->xml, TABLE "title", val->title->str);
-				
+
 				if (val->msg != NULL && go_string_get_len (val->msg) > 0) {
 					gboolean white_written = TRUE;
 					gboolean pp = TRUE;
@@ -4591,7 +4591,7 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 					gsf_xml_out_end_element (state->xml);   /* p */
 					g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 				}
-				
+
 				gsf_xml_out_end_element (state->xml);
 				/* error message written */
 			}
@@ -4935,7 +4935,7 @@ odf_render_date (GnmOOExport *state, char const *args)
 {
 	const char *style_name = NULL;
 
-	if (args != NULL) 
+	if (args != NULL)
 		style_name = xl_find_format_xl (state, args);
 
 	gsf_xml_out_start_element (state->xml, TEXT "date");
@@ -5924,7 +5924,7 @@ odf_write_ooo_settings (GnmOOExport *state)
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "HasColumnRowHeaders");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "boolean");
-		odf_add_bool (state->xml, NULL, 
+		odf_add_bool (state->xml, NULL,
 			      (!sheet->hide_col_header) || !sheet->hide_row_header);
 		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 
@@ -5954,7 +5954,7 @@ odf_write_ooo_settings (GnmOOExport *state)
 			gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "VerticalSplitPosition");
 			gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
 			gsf_xml_out_add_int (state->xml, NULL, sv->unfrozen_top_left.row);
-			gsf_xml_out_end_element (state->xml); /* </config:config-item> */			
+			gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 			gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 			gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "PositionLeft");
 			gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
@@ -5986,7 +5986,7 @@ odf_write_ooo_settings (GnmOOExport *state)
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "PositionBottom");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
 		gsf_xml_out_add_int (state->xml, NULL, sv->initial_top_left.row);
-		gsf_xml_out_end_element (state->xml); /* </config:config-item> */		
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 
 		gsf_xml_out_end_element (state->xml); /* </config:config-item-map-entry> */
 	}
@@ -6198,7 +6198,7 @@ odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop c
 	char *str;
 
 	switch (GNM_EXPR_GET_OPER (texpr->expr)) {
-	case GNM_EXPR_OP_CONSTANT: 
+	case GNM_EXPR_OP_CONSTANT:
 		if (VALUE_IS_CELLRANGE (texpr->expr->constant.value)) {
 			str = gnm_expr_top_as_string (texpr, pp, state->conv);
 			gsf_xml_out_add_cstr (state->xml, attribute,
@@ -6214,8 +6214,13 @@ odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop c
 		GString *gstr = g_string_new (NULL);
 		for (i = 0; i < expr->set.argc; i++) {
 			GnmExpr const *expr_arg = expr->set.argv[i];
+<<<<<<< HEAD
 			if (GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CONSTANT && 
 			    VALUE_IS_CELLRANGE (expr_arg->constant.value)) {
+=======
+			if (GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CONSTANT &&
+			    expr_arg->constant.value->type == VALUE_CELLRANGE) {
+>>>>>>> Use goc_canvas_invalidate_region() for ants walking.
 				char *str = gnm_expr_as_string (expr_arg, pp, state->conv);
 				if (gstr->len > 0)
 					g_string_append_c (gstr, ' ');
@@ -6235,7 +6240,7 @@ odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop c
 	default:
 		break;
 	}
-	
+
 	/* ODF does not support anything else but we write it anyways */
 	str = gnm_expr_top_as_string (texpr, pp, state->conv);
 	gsf_xml_out_add_cstr (state->xml, attribute, str);
@@ -6602,7 +6607,7 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 	gchar *interpolation = NULL;
 
 	g_object_get (G_OBJECT (series),
-		      "interpolation", &interpolation, 
+		      "interpolation", &interpolation,
 		      NULL);
 
 	if (interpolation != NULL) {
@@ -7162,7 +7167,7 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 {
 	char const *image_types[] =
 		{"stretch", "repeat", "no-repeat"};
-	
+
 	if (!style)
 		return;
 
@@ -7285,7 +7290,7 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 			gsf_xml_out_add_cstr (state->xml, SVG "stroke-color", s);
 			g_free (s);
 		} else if (state->with_extension)
-			odf_add_bool (state->xml, GNMSTYLE "auto-color", TRUE);		
+			odf_add_bool (state->xml, GNMSTYLE "auto-color", TRUE);
 	} else {
 		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 	}
@@ -7848,14 +7853,14 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		g_object_get (G_OBJECT (legend),
 			      "is-position-manual", &is_position_manual,
 			      NULL);
-		if (is_position_manual) 
+		if (is_position_manual)
 			odf_write_gog_position_pts (state, legend);
 		else {
 			flags = gog_object_get_position_flags
 				(legend, GOG_POSITION_COMPASS);
 			if (flags) {
 				GString *compass = g_string_new (NULL);
-				
+
 				if (flags & GOG_POSITION_N)
 					g_string_append (compass, "top");
 				if (flags & GOG_POSITION_S)
@@ -7867,11 +7872,11 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 					g_string_append (compass, "end");
 				if (flags & GOG_POSITION_W)
 					g_string_append (compass, "start");
-				
+
 				gsf_xml_out_add_cstr (state->xml,
 						      CHART "legend-position",
 						      compass->str);
-				
+
 				g_string_free (compass, TRUE);
 			}
 		}
@@ -8542,7 +8547,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	if (state.openformula_namemap)
 		g_hash_table_destroy (state.openformula_namemap);
 	if (state.openformula_handlermap)
-		g_hash_table_destroy (state.openformula_handlermap);	
+		g_hash_table_destroy (state.openformula_handlermap);
 
 	go_io_value_progress_update (state.ioc, PROGRESS_STEPS);
 	go_io_progress_unset (state.ioc);

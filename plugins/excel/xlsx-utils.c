@@ -131,16 +131,16 @@ xlsx_conventions_add_extern_ref (GnmConventions *convs, char const *path)
 }
 
 static GnmExpr const *
-xlsx_func_map_in (GnmConventions const *convs, 
+xlsx_func_map_in (GnmConventions const *convs,
 		  G_GNUC_UNUSED Workbook *scope,
 		  char const *name, GnmExprList *args)
 {
 	XLSXExprConventions const *xconv = (XLSXExprConventions const *)convs;
-	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope, 
+	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope,
 				    GnmExprList *args);
 	GnmFunc  *f;
 	char const *new_name;
-	
+
 	if (0 == g_ascii_strncasecmp (name, "_xlfn.", 6)) {
 		if (NULL != xconv->xlfn_map &&
 		    NULL != (new_name = g_hash_table_lookup (xconv->xlfn_map, name + 6)))
@@ -163,7 +163,7 @@ xlsx_func_map_in (GnmConventions const *convs,
 
 	f = gnm_func_lookup_or_add_placeholder (name);
 
-	return gnm_expr_new_funcall (f, args);	
+	return gnm_expr_new_funcall (f, args);
 }
 
 static void
@@ -182,7 +182,7 @@ xlsx_func_map_out (GnmConventionsOut *out, GnmExprFunction const *func)
 		if (new_name == NULL) {
 				char *new_u_name;
 				new_u_name = g_ascii_strup (name, -1);
-				if (func->func->impl_status == 
+				if (func->func->impl_status ==
 				    GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC)
 					g_string_append (target, "_xlfngnumeric.");
 				/* LO & friends use _xlfnodf */
@@ -206,7 +206,7 @@ xlsx_func_binominv_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UN
 {
 	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("r.qbinom");
 	GnmExprList *arg;
-	
+
 	arg = g_slist_nth (args, 2);
 	args = g_slist_remove_link (args, arg);
 	args = g_slist_concat (arg, args);
@@ -234,15 +234,15 @@ xlsx_func_dist_handler (GnmExprList *args, guint n_args, char const *name, char 
 		gnm_expr_list_free (arg_cum);
 
 		constant = gnm_expr_get_constant (cum);
-		
+
 		if (constant == NULL || !VALUE_IS_NUMBER (constant)) {
 			args_c = gnm_expr_list_copy (args);
-			
-			return gnm_expr_new_funcall3 
+
+			return gnm_expr_new_funcall3
 				(f_if, cum,
 				 gnm_expr_new_funcall (f_p, args),
 				 gnm_expr_new_funcall (f_d, args_c));
-			
+
 		} else if (value_is_zero (constant)) {
 			gnm_expr_free (cum);
 			return gnm_expr_new_funcall (f_d, args);
@@ -254,35 +254,35 @@ xlsx_func_dist_handler (GnmExprList *args, guint n_args, char const *name, char 
 }
 
 static GnmExpr const *
-xlsx_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
+xlsx_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope,
 			     GnmExprList *args)
 {
 	return xlsx_func_dist_handler (args, 3, "chisq.dist", "r.pchisq", "r.dchisq");
 }
 
 static GnmExpr const *
-xlsx_func_fdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
+xlsx_func_fdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope,
 			 GnmExprList *args)
 {
 	return xlsx_func_dist_handler (args, 4, "f.dist", "r.pf", "r.df");
 }
 
 static GnmExpr const *
-xlsx_func_lognormdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
+xlsx_func_lognormdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope,
 			       GnmExprList *args)
 {
 	return xlsx_func_dist_handler (args, 4, "lognorm.dist", "r.plnorm", "r.dlnorm");
 }
 
 static GnmExpr const *
-xlsx_func_negbinomdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, 
+xlsx_func_negbinomdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope,
 				GnmExprList *args)
 {
 	return xlsx_func_dist_handler (args, 4, "negbinom.dist", "r.pnbinom", "r.dnbinom");
 }
 
 static void
-xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, char const *name_rt, 
+xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, char const *name_rt,
 		     GnmExprConstPtr const *ptr, int n, int n_p,
 		     gboolean use_lower_tail, gboolean use_log)
 {
@@ -295,9 +295,9 @@ xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, char const *name_
 		g_string_append (target, name_rt);
 	} else
 		g_string_append (target, name);
-		
+
 	g_string_append_c (target, '(');
-	
+
 	for (i = 1; i<=n_p; i++) {
 		gnm_expr_as_gstring (ptr[i], out);
 		g_string_append_c (target, ',');
@@ -327,22 +327,22 @@ xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, char const *name_
  * xlsx_func_r_q_output_handler:
  *
  * @out: #GnmConventionsOut
- * @func: #GnmExprFunction 
+ * @func: #GnmExprFunction
  * @n: last index used for a parameter
- * @n_p: index of the probability argument, usually 0 
+ * @n_p: index of the probability argument, usually 0
  * @name:
  *
  * Print the appropriate simple function call
  */
 static gboolean
-xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *func, int n, int n_p, 
+xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *func, int n, int n_p,
 			      char const *name, char const *name_rt)
 {
 	GnmExprConstPtr const *ptr = func->argv;
 	GString *target = out->accum;
 	int use_lower_tail; /* 0: never; 1: always; 2: sometimes */
 	int use_log;        /* 0: never; 1: always; 2: sometimes */
-	
+
 	if (func->argc <= n || func->argc > (n+3))
 		return FALSE;
 
@@ -358,13 +358,13 @@ xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 		GnmValue const *constant = gnm_expr_get_constant (ptr[n+2]);
 		if (constant == NULL || !VALUE_IS_NUMBER (constant))
 			use_log = 2;
-		else 
+		else
 			use_log = value_is_zero (constant) ? 0 : 1;
 	} else
 		use_log = 0;
 
 	if (use_lower_tail < 2 && use_log == 0) {
-		/* R.Qx(a,b,c) --> name(a,b,c) */		
+		/* R.Qx(a,b,c) --> name(a,b,c) */
 		/* R.Qx(a,b,c) --> name(1-a,b,c) */
 		xlsx_write_r_q_func (out, name, name_rt, ptr, n, n_p, use_lower_tail, 0);
 		return TRUE;
@@ -510,7 +510,7 @@ xlsx_string_parser (char const *in, GString *target,
 				g_string_append_c (target, quote);
 				in += 2;
 			} else
-				return in + 1;			
+				return in + 1;
 		} else
 			g_string_append_c (target, *in++);
 	}
@@ -565,7 +565,7 @@ xlsx_conventions_new (gboolean output)
 		{"FLOOR", xlsx_func_floor_output_handler},
 		{NULL, NULL}
 	};
-	
+
 	static struct {
 		char const *xlsx_name;
 		char const *gnm_name;
@@ -608,7 +608,7 @@ xlsx_conventions_new (gboolean output)
 		{ "WEIBULL.DIST", "WEIBULL" },
 		{ "Z.TEST", "ZTEST" },
 		{ NULL, NULL }
-	};	
+	};
 	GnmConventions *convs = gnm_conventions_new_full (
 		sizeof (XLSXExprConventions));
 	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;

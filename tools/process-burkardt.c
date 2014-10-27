@@ -359,7 +359,7 @@ main (int argc, char **argv)
 	// van_der_corput_values ( int *n_data, int *base, int *seed, double *value )
 	// viscosity_values ( int *n_data, double *tc, double *p, double *eta )
 	// von_mises_cdf_values ( int *n_data, double *a, double *b, double *x,
-	
+
 	// Differences in year interpretation.
 	if (0) test_func ("weekday", weekday_values, GT_III_I, "date(%1,%2,%3)");
 

@@ -149,38 +149,34 @@ static int
 cb_item_cursor_animation (GnmItemCursor *ic)
 {
 	GocItem *item = GOC_ITEM (ic);
-	static int use_fallback = -1;
+	cairo_region_t *region;
+	cairo_rectangle_int_t rect;
+	int x0, x1, y0, y1;
+	double scale = item->canvas->pixels_per_unit;
 
+	/* we need to use canvas coordinates in goc_canvas_c2w, hence the divisions by scale. */
+	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
+		goc_canvas_c2w (item->canvas, ic->outline.x2 / scale, ic->outline.y2 / scale, &x0, &y1);
+		goc_canvas_c2w (item->canvas, ic->outline.x1 / scale, ic->outline.y1 / scale, &x1, &y0);
+		x0--; /* because of the +.5, things are not symetric */
+		x1--;
+	} else {
+		goc_canvas_c2w (item->canvas, ic->outline.x1 / scale, ic->outline.y1 / scale, &x0, &y0);
+		goc_canvas_c2w (item->canvas, ic->outline.x2 / scale, ic->outline.y2 / scale, &x1, &y1);
+	}
 	ic->ant_state++;
-
-	if (use_fallback != 1) {
-		GdkWindow *w = gtk_widget_get_window (GTK_WIDGET (item->canvas));
-		cairo_t *cr = gdk_cairo_create (w);
-
-		if (use_fallback == -1) {
-			/*
-			 * Under some themes we get a (0,0,0,0) clip and
-			 * our drawing does nothing.  Detect this and
-			 * fall back to full invalidation.
-			 */
-			double cx0, cy0, cx1, cy1;
-			cairo_clip_extents (cr, &cx0, &cy0, &cx1, &cy1);
-			use_fallback = (cx0 == 0 && cy0 == 0 && cx1 == 0 && cy1 == 0);
-			if (use_fallback == 1 && gnm_debug_flag ("ant"))
-				g_printerr ("Using ant-ing fallback\n");
-		}
-
-		if (use_fallback == 0)
-			goc_item_draw (item, cr);
-
-		cairo_destroy (cr);
-	}
-
-	if (use_fallback == 1) {
-		if (ic->ant_state % 2 == 1)
-			goc_item_invalidate (item);
-	}
-
+	rect.x = x0 - 1;
+	rect.y = y0 - 1;
+	rect.width = x1 - x0 + 3;
+	rect.height = y1 - y0 + 3;
+	region = cairo_region_create_rectangle (&rect);
+	rect.x += 3;
+	rect.y += 3;
+	rect.width -= 6;
+	rect.height -= 6;
+	cairo_region_xor_rectangle (region, &rect);
+	goc_canvas_invalidate_region (item->canvas, item, region);
+	cairo_region_destroy (region);
 	return TRUE;
 }
 
@@ -1486,7 +1482,7 @@ gnm_item_cursor_class_init (GObjectClass *gobject_klass)
 		g_param_spec_uint ("color",
 				   P_("Color"),
 				   P_("Name of the cursor's color"),
-				   0, 0xffffffff, 
+				   0, 0xffffffff,
 				   GO_COLOR_BLACK,
 				   GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 

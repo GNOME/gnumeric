@@ -508,7 +508,7 @@ ms_biff_query_next (BiffQuery *q)
 	 * I am guessing that we should always handle BIFF_CONTINUE here,
 	 * except for the few record types exempt from encryption.  For
 	 * now, however, do the bare minimum.
-	 */	   
+	 */
 	switch (q->opcode) {
 	case BIFF_BG_PIC:
 	case BIFF_BOUNDSHEET:

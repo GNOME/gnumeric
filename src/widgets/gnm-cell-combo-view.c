@@ -385,10 +385,10 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 			so->anchor.cell_bound.start.col);
 	merge = gnm_sheet_merge_is_corner (sheet, &(so->anchor.cell_bound.start));
 	gtk_window_move (GTK_WINDOW (popup), root_x,
-		root_y + scg_colrow_distance_get 
+		root_y + scg_colrow_distance_get
 			 (scg, FALSE,
 			  pane->first.row,
-			  so->anchor.cell_bound.start.row + 
+			  so->anchor.cell_bound.start.row +
 			  ((merge == NULL) ? 1 : range_height (merge))));
 
 	gtk_container_add (GTK_CONTAINER (popup), frame);

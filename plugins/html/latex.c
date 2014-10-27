@@ -758,7 +758,7 @@ latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border
 
 	if (result == GNM_STYLE_BORDER_NONE)
 		return GNM_STYLE_BORDER_NONE;
-	
+
 	pos.col = col;
 	pos.row = row;
 	range = gnm_sheet_merge_contains_pos (sheet, &pos);
@@ -768,7 +768,7 @@ latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border
 		    || (which_border == MSTYLE_BORDER_RIGHT&& col == range->end.col))
 			return result;
 		else
-			return GNM_STYLE_BORDER_NONE;	
+			return GNM_STYLE_BORDER_NONE;
 	}
 	return result;
 }
@@ -1194,7 +1194,7 @@ latex2e_find_hhlines (GnmStyleBorderType *clines, G_GNUC_UNUSED int length, int 
 			return FALSE;
 		}
 	}
-	
+
 	return TRUE;
 }
 

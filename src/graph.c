@@ -739,7 +739,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		while (len-- > 0) {
 			if (x == 0) {
 				x = vec->val->v_array.x;
-				y--; 
+				y--;
 			}
 			x--;
 			v = vec->val->v_array.vals [x][y];
@@ -899,7 +899,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 		while (len-- > 0) {
 			if (x == 0) {
 				x = vec->val->v_array.x;
-				y--; 
+				y--;
 			}
 			x--;
 			v = vec->val->v_array.vals [x][y];

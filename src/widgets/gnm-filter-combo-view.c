@@ -304,7 +304,7 @@ fcombo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
 		GTK_SHADOW_IN);
 	if (fcombo->cond)
 		gtk_widget_set_state_flags (arrow, GTK_STATE_FLAG_ACTIVE, FALSE);
-	else 
+	else
 		gtk_widget_unset_state_flags (arrow, GTK_STATE_FLAG_ACTIVE);
 }
 

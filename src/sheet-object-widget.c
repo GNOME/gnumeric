@@ -241,7 +241,7 @@ sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 	if (NULL != gdk_screen_get_default ()) {
 		GtkWidget *win = gtk_offscreen_window_new ();
 		GtkWidget *w = sow_create_widget (GNM_SOW (so));
-		
+
 		gtk_container_add (GTK_CONTAINER (win), w);
 		gtk_widget_set_size_request (w, width, height);
 		gtk_widget_show_all (win);
@@ -603,7 +603,7 @@ get_font (void)
 
 	gtk_style_context_set_path (style, path);
 	gtk_widget_path_unref (path);
-	
+
 	gtk_style_context_get (style, GTK_STATE_FLAG_NORMAL,
 			       GTK_STYLE_PROPERTY_FONT, &desc, NULL);
 	g_object_unref (style);
@@ -643,7 +643,7 @@ get_font (void)
 				g_free (s);
 			}
 		}
-	}	
+	}
 
 	if ((mask & PANGO_FONT_MASK_FAMILY) == 0 || size == 0) {
 		pango_font_description_free (desc);
@@ -712,12 +712,12 @@ draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
 			cairo_fill (cr);
 		}
 		pango_layout_iter_free (pliter);
-		cairo_set_source_rgb(cr, 0, 0, 0);		
+		cairo_set_source_rgb(cr, 0, 0, 0);
 	}
 	pango_cairo_show_layout (cr, layout);
 	pango_font_description_free (desc);
 	g_object_unref (layout);
-	
+
 	if (pwidth)
 		*pwidth = width * scale_h;
 	if (pheight)
@@ -1253,7 +1253,7 @@ sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 		radius = width / 3.;
 	if (radius < 1)
 		radius = 1;
-	half_line = radius * 0.15; 
+	half_line = radius * 0.15;
 
 	cairo_save (cr);
 	cairo_set_line_width (cr, 2 * half_line);
@@ -3927,7 +3927,7 @@ sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 		GString*str = g_string_new (NULL);
 		int twidth = width, theight = height;
 
-			
+
 		cairo_new_path (cr);
 		cairo_rectangle (cr, 2, 1, width - 2 - 12, height - 2);
 		cairo_clip (cr);

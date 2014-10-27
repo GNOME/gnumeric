@@ -452,7 +452,7 @@ gtv_init (GnmTextView *gtv)
 static void
 gtv_grab_focus (GtkWidget *widget)
 {
-	GnmTextView *gtv = GNM_TEXT_VIEW (widget);	
+	GnmTextView *gtv = GNM_TEXT_VIEW (widget);
 	gtk_widget_grab_focus (GTK_WIDGET (gtv->view));
 }
 

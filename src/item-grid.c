@@ -980,7 +980,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 	/* Button == 1 is used to trigger hyperlinks (and possibly similar */
 	/* special cases. Otherwise button == 2 should behave exactly like */
 	/* button == 1. See bug #700792                                    */
-	
+
 	/* buttons 1 and 2 will always change the selection,  the other buttons will
 	 * only effect things if the target is not already selected.  */
 	already_selected = sv_is_pos_selected (sv, pos.col, pos.row);
@@ -988,7 +988,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 		if (!(event->button.state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 			sv_selection_reset (sv);
 
-		if ((event->button.button != 1 && event->button.button != 2) 
+		if ((event->button.button != 1 && event->button.button != 2)
 		    || !(event->button.state & GDK_SHIFT_MASK) ||
 		    sv->selections == NULL) {
 			sv_selection_add_pos (sv, pos.col, pos.row,

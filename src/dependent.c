@@ -2818,7 +2818,7 @@ void
 workbook_queue_volatile_recalc (Workbook *wb)
 {
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, {
-		if (dependent_is_volatile (dep))	
+		if (dependent_is_volatile (dep))
 			dependent_flag_recalc (dep);
 	});
 }

@@ -588,7 +588,7 @@ gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
 	case GNM_STYLE_COND_GT:
 		res = value_compare (cv, val0, FALSE) == IS_GREATER;
 		break;
-		
+
 	case GNM_STYLE_COND_GTE:
 		negate = TRUE;  /* ...and fall through */
 	case GNM_STYLE_COND_LT:

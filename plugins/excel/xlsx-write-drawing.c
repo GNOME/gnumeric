@@ -341,6 +341,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 				GogAxis *crossed = gog_axis_base_get_crossed_axis (GOG_AXIS_BASE (ptr->data));
 				GogAxisPosition pos;
 				GogGridLine *grid;
+				GOFormat *format;
 				if (gog_axis_is_discrete (ptr->data))
 					gsf_xml_out_start_element (xml, "c:catAx");
 				else
@@ -386,6 +387,12 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 					xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (grid)));
 					gsf_xml_out_end_element (xml);
 				}
+				gsf_xml_out_start_element (xml, "c:numFmt");
+				format = gog_axis_get_format (GOG_AXIS (ptr->data));
+				gsf_xml_out_add_bool (xml, "sourceLinked", format == NULL || go_format_is_general (format));
+				format = gog_axis_get_effective_format (GOG_AXIS (ptr->data));
+				gsf_xml_out_add_cstr (xml, "formatCode", (format)? go_format_as_XL (format): "General");
+				gsf_xml_out_end_element (xml);
 
 				/* finished with axis */
 				gsf_xml_out_end_element (xml);
@@ -474,7 +481,7 @@ xlsx_write_object_anchor (GsfXMLOut *xml, GnmCellPos const *pos, char const *ele
 	/* FIXME: scaling horizontally just like in xlsx_CT_Col */
 	gsf_xml_out_start_element (xml, element);
 	gsf_xml_out_simple_int_element (xml, "xdr:col", pos->col);
-	gsf_xml_out_simple_int_element (xml, "xdr:colOff", 
+	gsf_xml_out_simple_int_element (xml, "xdr:colOff",
 					xlsx_pts_to_emu (col_off_pts * 1.16191275167785));
 	gsf_xml_out_simple_int_element (xml, "xdr:row", pos->row);
 	gsf_xml_out_simple_int_element (xml, "xdr:rowOff",

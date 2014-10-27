@@ -1676,7 +1676,7 @@ xlsx_sheet_page_setup (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const 
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_bool (xin, attrs, "fitToPage", &tmp))
-			pi->scaling.type = tmp ? PRINT_SCALE_FIT_PAGES : PRINT_SCALE_PERCENTAGE; 
+			pi->scaling.type = tmp ? PRINT_SCALE_FIT_PAGES : PRINT_SCALE_PERCENTAGE;
 }
 
 static void
@@ -1707,7 +1707,7 @@ xlsx_paper_size (gdouble width, gdouble height, GtkUnit unit, int code)
 
 	if (code == 0) {
 		name = g_strdup_printf ("xlsx_%ix%i", (int)width, (int)height);
-		display_name = g_strdup_printf (_("Paper from XLSX file: %ipt\xE2\xA8\x89%ipt"), 
+		display_name = g_strdup_printf (_("Paper from XLSX file: %ipt\xE2\xA8\x89%ipt"),
 						(int)width, (int)height);
 	} else {
 		name = g_strdup_printf ("xlsx_%i", code);
@@ -1859,7 +1859,7 @@ xlsx_set_paper_from_code (PrintInformation *pi, int code)
 		if (ps != NULL) {
 			gtk_page_setup_set_paper_size (pi->page_setup, ps);
 			return TRUE;
-		}		
+		}
 	}
 
 	return FALSE;
@@ -1897,7 +1897,7 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "downThenOver", 0  },
 		{ NULL, 0 }
 	};
-	
+
 	if (pi->page_setup == NULL)
 		print_info_load_defaults (pi);
 
@@ -1938,7 +1938,7 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 		pi->start_page = -1;
 
 	if (!xlsx_set_paper_from_code (pi, paper_code) && width > 0.0 && height > 0.0)
-		gtk_page_setup_set_paper_size (pi->page_setup, 
+		gtk_page_setup_set_paper_size (pi->page_setup,
 					       xlsx_paper_size (width, height, GTK_UNIT_POINTS, 0));
 	if (orient_set)
 		print_info_set_paper_orientation (pi, orient);
@@ -3680,7 +3680,7 @@ xlsx_read_external_book (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/"
 		 "externalLink");
 	if (rel == NULL)
-		rel = gsf_open_pkg_lookup_rel_by_type 
+		rel = gsf_open_pkg_lookup_rel_by_type
 			(gsf_xml_in_get_input (xin),
 			 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/"
 			 "externalLinkPath");
@@ -3703,9 +3703,9 @@ xlsx_read_external_sheetname (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->external_ref)
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 			if (0 == strcmp (attrs[0], "val"))
-				workbook_sheet_attach 
+				workbook_sheet_attach
 					(state->external_ref,
-					 state->external_ref_sheet = 
+					 state->external_ref_sheet =
 					 sheet_new (state->external_ref, attrs[1], 256, 65536));
 }
 static void
@@ -4035,7 +4035,7 @@ xlsx_numfmt_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean apply)
 }
 
 static void
-xlsx_style_numfmt (GsfXMLIn *xin, xmlChar const **attrs)	
+xlsx_style_numfmt (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	xlsx_numfmt_common (xin, attrs, FALSE);
 }
@@ -4605,7 +4605,7 @@ xlsx_dxf_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 }
 
 static void
-xlsx_dxf_numfmt (GsfXMLIn *xin, xmlChar const **attrs)	
+xlsx_dxf_numfmt (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	xlsx_numfmt_common (xin, attrs, TRUE);
 }

@@ -129,7 +129,7 @@ gnm_notebook_button_ensure_layout (GnmNotebookButton *nbb)
 			attr->start_index = 0;
 			attr->end_index = -1;
 			pango_attr_list_insert (attrs, attr);
-		}			
+		}
 		attrs_active = pango_attr_list_copy (attrs);
 
 		/* Normal */
@@ -194,9 +194,9 @@ gnm_notebook_button_draw (GtkWidget *widget, cairo_t *cr)
 	return FALSE;
 }
 
-static GtkSizeRequestMode 
+static GtkSizeRequestMode
 gnm_notebook_button_get_request_mode (GtkWidget *widget)
-{ 
+{
 	return GTK_SIZE_REQUEST_CONSTANT_SIZE;
 }
 

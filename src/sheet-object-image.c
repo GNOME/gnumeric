@@ -281,7 +281,7 @@ gnm_soi_get_target_list (SheetObject const *so)
 }
 
 static void
-gnm_soi_write_image (SheetObject const *so, char const *format, 
+gnm_soi_write_image (SheetObject const *so, char const *format,
 		     G_GNUC_UNUSED double resolution,
 		     GsfOutput *output, GError **err)
 {

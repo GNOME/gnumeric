@@ -591,6 +591,22 @@ xlsx_axis_orientation (GsfXMLIn *xin, xmlChar const **attrs)
 		g_object_set (G_OBJECT (state->axis.obj),
 			"invert-axis", orient, NULL);
 }
+
+static void
+xlsx_axis_format (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean shared = TRUE;
+	char const *fmt = NULL;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "sourceLinked"))
+			attr_bool (xin, attrs, "sourceLinked", &shared);
+		else if (0 == strcmp (attrs[0], "formatCode"))
+			fmt = attrs[1];
+	if (fmt && !shared)
+		g_object_set (G_OBJECT (state->axis.obj),
+			"assigned-format-string-XL", fmt, NULL);
+}
 static void
 xlsx_chart_logbase (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -815,11 +831,11 @@ xlsx_scatter_style (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 }
 
-static void 
+static void
 xlsx_chart_bubble (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 { xlsx_chart_add_plot (xin, "GogBubblePlot"); }
 
-static void 
+static void
 xlsx_chart_radar (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 { xlsx_chart_add_plot (xin, "GogRadarPlot"); }
 
@@ -1666,7 +1682,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, &xlsx_axis_id, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, &xlsx_axis_delete, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-        GSF_XML_IN_NODE (CAT_AXIS, AXIS_NUMFMT, XL_NS_CHART, "numFmt", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_NUMFMT, XL_NS_CHART, "numFmt", GSF_XML_NO_CONTENT, &xlsx_axis_format, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MAJORTICKMARK, XL_NS_CHART, "majorTickMark", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_axis_mark, NULL, 1),
         GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MINORTICKMARK, XL_NS_CHART, "minorTickMark", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_axis_mark, NULL, 0),
@@ -2142,7 +2158,7 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 						if (ds)
 							dat = gog_dataset_get_dim (ds, -1);
 						if (dat)
-							gog_dataset_set_dim (GOG_DATASET (title), 0, 
+							gog_dataset_set_dim (GOG_DATASET (title), 0,
 									     GO_DATA (g_object_ref (dat)), &err);
 						if (err)
 							g_error_free (err);

@@ -1770,7 +1770,7 @@ scg_im_destroy (SheetControlGUI *scg) {
 	if (scg->im.item) {
 		gtk_widget_destroy (scg->im.item);
 		scg->im.item = NULL;
-	}	
+	}
 }
 
 static void
@@ -3113,7 +3113,7 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 		label = gtk_label_new (comment_text);
 		if (comment_markup) {
 			gboolean font_colour_set = FALSE;
-			pango_attr_list_filter 
+			pango_attr_list_filter
 				(comment_markup,
 				 (PangoAttrFilterFunc) scg_comment_display_filter_cb,
 				 &font_colour_set);
@@ -3754,7 +3754,7 @@ scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
 		GtkAllocation allocation;
 		Sheet *sheet = scg_sheet (scg);
 		gboolean rtl = sheet->text_is_rtl;
-	
+
 		text = gnm_input_msg_get_msg   (im);
 		title = gnm_input_msg_get_title (im);
 		len_text = (text == NULL) ? 0 : strlen (text);
@@ -3789,13 +3789,13 @@ scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
 			gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
 			if (len_title > 0)
 				gtk_box_set_spacing (GTK_BOX (box), 10);
-		}		
+		}
 		gnumeric_convert_to_tooltip (GTK_WIDGET (scg->grid), box);
 		scg->im.item = gtk_widget_get_toplevel (box);
 
 		x = sheet_col_get_distance_pixels
 			(sheet, pane->first.col, pos->col + (rtl ? 1 : 0));
-		
+
 		y = sheet_row_get_distance_pixels
 			(sheet, pane->first.row, pos->row + 1);
 
@@ -3805,8 +3805,8 @@ scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
 		x += allocation.x;
 		y += allocation.y;
 
-		gdk_window_get_position 
-			(gtk_widget_get_parent_window (GTK_WIDGET (pane)), 
+		gdk_window_get_position
+			(gtk_widget_get_parent_window (GTK_WIDGET (pane)),
 			 &x_origin, &y_origin);
 		x += x_origin;
 		y += y_origin;

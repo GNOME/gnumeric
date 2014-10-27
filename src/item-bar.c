@@ -58,7 +58,7 @@ struct _GnmItemBar {
 	/* [ColRowSelectionType] */
 	GdkRGBA selection_colors[3];
 	PangoFont *selection_fonts[3];
-	int selection_font_ascents[3];      
+	int selection_font_ascents[3];
 	PangoRectangle selection_logical_sizes[3];
 
 	GdkRGBA grouping_color;
@@ -285,7 +285,7 @@ item_bar_realize (GocItem *item)
 	ib->normal_cursor =
 		gdk_cursor_new_for_display (display, GDK_LEFT_PTR);
 	ib->change_cursor =
-		gdk_cursor_new_for_display (display, 
+		gdk_cursor_new_for_display (display,
 					    ib->is_col_header
 					    ? GDK_SB_H_DOUBLE_ARROW
 					    : GDK_SB_V_DOUBLE_ARROW);

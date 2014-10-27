@@ -1379,7 +1379,7 @@ cb_adjust_foreground_attributes (PangoAttribute *attribute,
 do {									\
 	double val = fore.channel * (1 - f) + ref->channel * f;		\
 	pfore->channel = CLAMP (val, 0, 1) * 65535;			\
-} while (0)			
+} while (0)
 			DO_CHANNEL(red);
 			DO_CHANNEL(green);
 			DO_CHANNEL(blue);
@@ -2379,7 +2379,7 @@ cb_css_parse_error (GtkCssProvider *css, GtkCssSection *section, GError *err)
 {
 	if (g_error_matches (err, GTK_CSS_PROVIDER_ERROR,
 			     GTK_CSS_PROVIDER_ERROR_DEPRECATED) &&
-	    !gnm_debug_flag ("css")) 
+	    !gnm_debug_flag ("css"))
 		return;
 
 	g_warning ("Theme parsing error: %s", err->message);
@@ -2414,7 +2414,7 @@ cb_screen_changed (GtkWidget *widget)
 	const char *app_key = "css-provider";
 	struct css_provider_data *data;
 
-	data = g_object_get_data (app, app_key); 
+	data = g_object_get_data (app, app_key);
 	if (!data) {
 		const char *resource = "gnm:gnumeric.css";
 		const char *csstext = go_rsm_lookup (resource, NULL);

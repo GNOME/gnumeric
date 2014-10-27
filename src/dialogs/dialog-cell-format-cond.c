@@ -118,7 +118,7 @@ cb_c_fmt_dialog_dialog_buttons (G_GNUC_UNUSED GtkWidget *btn, CFormatState *stat
 	/* users may accidentally click on 'close' before adding the formatting style see #733352 */
 	if (!gtk_widget_get_sensitive (GTK_WIDGET (state->editor.add_button)) ||
 	    gtk_widget_get_sensitive (GTK_WIDGET (state->clear)) ||
-	    go_gtk_query_yes_no (GTK_WINDOW (state->dialog), FALSE, 
+	    go_gtk_query_yes_no (GTK_WINDOW (state->dialog), FALSE,
 				 _("You did not add the defined conditional format."
 				   " Do you really want to close the conditional formatting dialog?")))
 		gtk_widget_destroy (GTK_WIDGET (state->dialog));
@@ -279,13 +279,13 @@ c_fmt_dialog_select_style (CFormatState *state, int pages)
 {
 	if (state->editor.dialog)
 		gtk_widget_destroy (GTK_WIDGET (state->editor.dialog));
-	state->editor.dialog = dialog_cell_format_select_style 
+	state->editor.dialog = dialog_cell_format_select_style
 		(state->wbcg, pages,
 		 GTK_WINDOW (state->dialog),
 		 state->editor.style, state);
 	if (state->editor.dialog)
-		g_signal_connect 
-			(G_OBJECT (state->editor.dialog), 
+		g_signal_connect
+			(G_OBJECT (state->editor.dialog),
 			 "destroy", G_CALLBACK (editor_destroy_cb), state);
 }
 

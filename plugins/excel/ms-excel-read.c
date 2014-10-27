@@ -5294,7 +5294,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 		}
 
 		data += 64;
-		
+
 		if (0xFFFFFFFF != (size = GSF_LE_GET_GUINT32 (data)))
 			gnm_style_set_font_size	(overlay, size / 20.);
 		if (0xFFFFFFFF != (colour = GSF_LE_GET_GUINT32 (data + 16)))

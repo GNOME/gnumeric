@@ -208,7 +208,7 @@ static char const * const pats[] = {
 	"lightGrid",        /* 17 */
 	"lightTrellis",     /* 18 */
 	/* Not in Excel */
-	"lightVertical",    /* 19 */ 
+	"lightVertical",    /* 19 */
 	"darkHorizontal",   /* 20 */
 	"lightGray",        /* 21 */
 	"lightGray",        /* 22 */
@@ -2438,14 +2438,14 @@ xlsx_find_paper_code (GtkPaperSize *psize)
 		return 5;
 
 	width_mm = (int) gtk_paper_size_get_width (psize, GTK_UNIT_MM);
-	
+
 	for (paper_defs = paper; paper_defs->code > 0; paper_defs++) {
 		if (width_mm < paper_defs->width_mm)
 			return 0;
 		if (width_mm == paper_defs->width_mm) {
 			gdouble width = gtk_paper_size_get_width (psize,  paper_defs->unit);
 			gdouble height = gtk_paper_size_get_height (psize,  paper_defs->unit);
-			
+
 			if (width == paper_defs->width && height == paper_defs->height)
 				return paper_defs->code;
 		}
@@ -2553,10 +2553,10 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	} else
 		gsf_xml_out_add_cstr_unchecked (xml, "orientation", "default");
 
-	gsf_xml_out_add_cstr_unchecked 
-		(xml, "pageOrder", 
+	gsf_xml_out_add_cstr_unchecked
+		(xml, "pageOrder",
 		 pi->print_across_then_down ? "overThenDown" : "downThenOver");
-	
+
 	if (pi->page_setup) {
 		GtkPaperSize *psize;
 		int paper_code;
@@ -2569,14 +2569,14 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 		else {
 			gdouble width = gtk_paper_size_get_width (psize, GTK_UNIT_POINTS);
 			gdouble height = gtk_paper_size_get_height (psize, GTK_UNIT_POINTS);
-			
+
 			xlsx_add_pt (xml, "paperHeight", height);
 			xlsx_add_pt (xml, "paperWidth", width);
 		}
 	}
 
-	if (pi->scaling.percentage.x > 0) 
-		gsf_xml_out_add_int (xml, "scale", 
+	if (pi->scaling.percentage.x > 0)
+		gsf_xml_out_add_int (xml, "scale",
 				     (int)CLAMP (pi->scaling.percentage.x, 10, 400));
 	xlsx_add_bool (xml, "useFirstPageNumber", (pi->start_page >= 0));
 	/* usePrinterDefaults skipped */
@@ -2712,7 +2712,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 
 	/*   element sheetPr { CT_SheetPr }?,     */
 	gsf_xml_out_start_element (xml, "sheetPr");
-	
+
 	pi = state->sheet->print_info;
 	if (pi != NULL) {
 		gsf_xml_out_start_element (xml, "pageSetUpPr");
@@ -2726,7 +2726,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		gsf_xml_out_end_element (xml); /* </tabColor> */
 	}
 	gsf_xml_out_end_element (xml); /* </sheetPr> */
-	
+
 /*   element dimension { CT_SheetDimension }?,     */
 	gsf_xml_out_start_element (xml, "dimension");
 	xlsx_add_range (xml, "ref", &extent);

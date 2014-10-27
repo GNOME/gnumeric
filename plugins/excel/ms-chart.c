@@ -2117,10 +2117,10 @@ BC_R(shtprops)(XLChartHandler const *handle,
 	d (1, {
 			g_printerr ("%sesize chart with window.\n",
 				    dont_size_with_window ? "Don't r": "R");
-			
+
 			if (has_pos_record && !ignore_pos_record)
 				g_printerr ("There should be a POS record around here soon\n");
-			
+
 			if (manual_format)
 				g_printerr ("Manually formated\n");
 			if (only_plot_visible_cells)

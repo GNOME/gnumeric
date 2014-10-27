@@ -607,11 +607,11 @@ gnm_so_path_get_property (GObject *obj, guint param_id,
 		g_value_set_boxed (value, sop->markup);
 		break;
 	case SOP_PROP_VIEWBOX :
-		g_value_take_string 
-			(value, 
-			 g_strdup_printf ("%0.0f %0.0f %0.0f %0.0f", sop->x_offset, sop->y_offset, 
+		g_value_take_string
+			(value,
+			 g_strdup_printf ("%0.0f %0.0f %0.0f %0.0f", sop->x_offset, sop->y_offset,
 					  sop->width + sop->x_offset, sop->height + sop->y_offset));
-		break;		
+		break;
 	default :
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;

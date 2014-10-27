@@ -169,7 +169,7 @@ gnm_app_sanity_check (void)
 	if (err)
 		g_error ("Sanity check failed\n");
 }
-	
+
 
 
 /**

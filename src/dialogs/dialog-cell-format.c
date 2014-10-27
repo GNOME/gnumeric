@@ -238,14 +238,14 @@ fmt_dialog_changed (FormatState *state)
 	GOFormatSel *gfs;
 	GOFormat const *fmt;
 	gboolean ok;
-	
+
 	if (!state->enable_edit)
 		return;
-	
+
 	gfs = GO_FORMAT_SEL (state->format_sel);
 	fmt = go_format_sel_get_fmt (gfs);
 	ok = !go_format_is_invalid (fmt);
-	
+
 	gtk_widget_set_sensitive (state->apply_button, ok);
 	gtk_widget_set_sensitive (state->ok_button, ok);
 }
@@ -2622,7 +2622,7 @@ dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno, gint pages)
 	if (pages == 0) {
 		int i;
 		for (i = FD_NUMBER; i <= FD_PROTECTION; i++)
-			pages |= (1 << i); 
+			pages |= (1 << i);
 	}
 
 	fmt_dialog_impl (state, pageno, pages);

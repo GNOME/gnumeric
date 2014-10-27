@@ -286,13 +286,13 @@ typedef struct {
 	gint                     z_index;
 
 	/* Plot Area */
-	gnm_float                plot_area_x;   
+	gnm_float                plot_area_x;
 	gnm_float                plot_area_y;
-	gnm_float                plot_area_width;   
+	gnm_float                plot_area_width;
 	gnm_float                plot_area_height;
 
 	/* Legend */
-	gnm_float                legend_x;   
+	gnm_float                legend_x;
 	gnm_float                legend_y;
 	GogObjectPosition        legend_flag;
 
@@ -1183,13 +1183,13 @@ oo_parse_spec_distance (char const *str, gnm_float *pts)
 		} else if (0 == strncmp (end, "in", 2)) {
 			num = GO_IN_TO_PT (num);
 			end += 2;
-		} else 
+		} else
 			return GINT_TO_POINTER(1);
 	} else return NULL;
 
 	*pts = num;
 	return end;
-	
+
 }
 
 /* returns pts */
@@ -2511,7 +2511,7 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 
 	odf_init_pp (&pp, xin, val->base_cell_address);
 	flag = (pp.sheet == NULL || state->pos.sheet == pp.sheet)
-		? GNM_EXPR_PARSE_DEFAULT 
+		? GNM_EXPR_PARSE_DEFAULT
 		: GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
 	texpr = oo_expr_parse_str (xin, start, &pp, flag, val->f_type);
@@ -2552,7 +2552,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 
 	odf_init_pp (&pp, xin, val->base_cell_address);
 	flag = (pp.sheet == NULL || state->pos.sheet == pp.sheet)
-		? GNM_EXPR_PARSE_DEFAULT 
+		? GNM_EXPR_PARSE_DEFAULT
 		: GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
 	while (1) {
@@ -2716,7 +2716,7 @@ odf_validation_get_input_message (GsfXMLIn *xin, char const *name)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	odf_validation_t *val = g_hash_table_lookup (state->validations, name);
-	
+
 	if (val == NULL)
 		return NULL;
 
@@ -2764,7 +2764,7 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 		oo_warning (xin, _("Unsupported validation condition "
 				   "encountered: \"%s\" with base address: \"%s\""),
 			    val->condition, val->base_cell_address);
-	
+
 	return NULL;
 }
 
@@ -3809,7 +3809,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				texpr = oo_expr_parse_str
 					(xin, expr_string,
 					 &state->pos, GNM_EXPR_PARSE_DEFAULT, f_type);
-				if (possible_error_constant && texpr != NULL && 
+				if (possible_error_constant && texpr != NULL &&
 				    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT) {
 					GnmValue const *eval = 	gnm_expr_get_constant (texpr->expr);
 					if (VALUE_IS_ERROR (eval)) {
@@ -3901,7 +3901,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					     "content-validation-name"))
 			validation_name = attrs[1];
 	}
-	
+
 	if (columns_spanned_fake)
 		merge_cols = 1;
 
@@ -4690,8 +4690,8 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	switch (state->cur_style.type) {
 	case OO_STYLE_CELL :
 		if (state->cur_style.cells != NULL) {
-			odf_style_set_align_h (state->cur_style.cells->style, 
-					       state->h_align_is_valid, 
+			odf_style_set_align_h (state->cur_style.cells->style,
+					       state->h_align_is_valid,
 					       state->repeat_content,
 					       state->text_align, state->gnm_halign);
 			odf_oo_cell_style_unref (state->cur_style.cells);
@@ -5088,7 +5088,7 @@ oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (xin->content->len > state->cur_format.offset)
 		oo_date_text_append (state, xin->content->str + state->cur_format.offset,
 				     xin->content->len - state->cur_format.offset);
-	
+
 	if (state->cur_format.string_opened) {
 		g_string_append_c (state->cur_format.accum, '"');
 		state->cur_format.string_opened = FALSE;
@@ -5308,10 +5308,10 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 					*zero = '?';
 				min_i_chars--;
 			}
-		} else 
+		} else
 			go_format_generate_number_str (state->cur_format.accum, min_i_digits, decimal_places,
 						       grouping, FALSE, FALSE, NULL, NULL);
-		
+
 	} else
 		g_string_append (state->cur_format.accum, go_format_as_XL (go_format_general ()));
 }
@@ -5415,16 +5415,16 @@ odf_format_invisible_text (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (cnt_len == 1) {
 		state->cur_format.offset += 1;
-		
+
 	} else if (cnt_len > 1) {
 		oo_date_text_append (state, cnt, cnt_len - 1);
 		state->cur_format.offset += cnt_len;
 	}
-	
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "char"))
 			text = CXML2C (attrs[1]);
-	
+
 	if (text != NULL) {
 		if (state->cur_format.string_opened) {
 			g_string_append_c (state->cur_format.accum, '"');
@@ -5846,7 +5846,7 @@ odf_page_layout (GsfXMLIn *xin, xmlChar const **attrs)
 		name = "Missing page layout identifier";
 	}
 	state->print.cur_pi = print_information_new (TRUE);
-	g_hash_table_insert (state->styles.page_layouts, g_strdup (name), 
+	g_hash_table_insert (state->styles.page_layouts, g_strdup (name),
 			     state->print.cur_pi);
 }
 
@@ -5908,7 +5908,7 @@ odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 	print_hf_free (state->print.cur_pi->footer);
 	state->print.cur_pi->header = print_hf_new (NULL, NULL, NULL);
 	state->print.cur_pi->footer = print_hf_new (NULL, NULL, NULL);
-	
+
 	g_hash_table_insert (state->styles.master_pages, g_strdup (name), state->print.cur_pi);
 }
 
@@ -6014,7 +6014,7 @@ odf_hf_item_start (GsfXMLIn *xin)
 	       oo_text_p_t *ptr = state->text_p_stack->data;
 	       odf_text_p_add_text (state, xin->content->str + ptr->offset);
 	       ptr->offset = strlen (xin->content->str);
-       }	
+       }
 }
 
 static void
@@ -6200,8 +6200,8 @@ oo_set_gnm_border  (G_GNUC_UNUSED GsfXMLIn *xin, GnmStyle *style,
 
 	old_border = gnm_style_get_border (style, location);
 	new_border = gnm_style_border_fetch (border_style,
-					     old_border ? 
-					     style_color_ref(old_border->color) 
+					     old_border ?
+					     style_color_ref(old_border->color)
 					     : style_color_black (),
 					     gnm_style_border_get_orientation (loc));
 	gnm_style_set_border (style, location, new_border);
@@ -6251,7 +6251,7 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 				border_style = GNM_STYLE_BORDER_DOTTED;
 			else
 				border_style = GNM_STYLE_BORDER_DOUBLE;
-			
+
 			border = gnm_style_border_fetch (border_style, color,
 							 gnm_style_border_get_orientation (loc));
 			border->width = pts;
@@ -6472,14 +6472,14 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUPER);
 			else if (g_str_has_prefix (attrs[1], "sub"))
 				gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUB);
-			else 
+			else
 				gnm_style_set_font_script (style, GO_FONT_SCRIPT_STANDARD);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "margin-left")) {
 			tmp_f = 0.;
 			oo_parse_distance (xin, attrs[1], "margin-left", &tmp_f);
 			gnm_style_set_indent (style, tmp_f);
 		}
-	
+
 	if (strike_through_style != -1 || strike_through_type != -1)
 		gnm_style_set_font_strike (style, strike_through_style > 0 ||
 					   (strike_through_type > 0 &&  strike_through_style == -1));
@@ -6497,7 +6497,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 					underline = UNDERLINE_DOUBLE_LOW;
 				} else {
 					underline = UNDERLINE_DOUBLE;
-				}				
+				}
 				break;
 			case 1:
 			default:
@@ -6511,7 +6511,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 		gnm_style_set_font_uline (style, underline);
 	}
-	
+
 	if (gnm_pattern > 0)
 		gnm_style_set_pattern (style, gnm_pattern);
 	if (gnm_b_color)
@@ -6590,12 +6590,12 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 		if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "display", &tmp_b)) {
 			if (!tmp_b)
 				style->visibility = GNM_SHEET_VISIBILITY_HIDDEN;
-		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-formulas", 
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-formulas",
 					 &style->display_formulas)) {
-		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-col-header", 
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-col-header",
 					 &tmp_b)) {
 			style->hide_col_header = !tmp_b;
-		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-row-header", 
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-row-header",
 					 &tmp_b)) {
 			style->hide_row_header = !tmp_b;
 		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "writing-mode", modes, &tmp_i))
@@ -7535,7 +7535,7 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "target-range-address"))
-			target = CXML2C (attrs[1]);	
+			target = CXML2C (attrs[1]);
 		else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "display-filter-buttons", &buttons))
 			/* ignore this */;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
@@ -8085,7 +8085,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->chart.width != go_nan)
 		g_object_set (state->chart.graph, "width-pts", state->chart.width, NULL);
 	if (state->chart.height != go_nan)
-		g_object_set (state->chart.graph, "height-pts", state->chart.height, NULL);	
+		g_object_set (state->chart.graph, "height-pts", state->chart.height, NULL);
 
 	pop_hash (&state->chart.saved_graph_styles, &state->chart.graph_styles);
 	pop_hash (&state->chart.saved_hatches, &state->chart.hatches);
@@ -8304,7 +8304,7 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			g_object_set (label,
 				      "is-position-manual", state->chart.title_manual_pos,
 				      NULL);
-			
+
 		if (state->chart.title_manual_pos) {
 			if (go_finite (state->chart.width) && go_finite (state->chart.height)) {
 				GogViewAllocation alloc;
@@ -8613,17 +8613,17 @@ oo_legend_set_position (OOParseState *state)
 
 	if (legend == NULL)
 		return;
-	
-	if (go_finite (state->chart.legend_x) && go_finite (state->chart.legend_y) && 
+
+	if (go_finite (state->chart.legend_x) && go_finite (state->chart.legend_y) &&
 	    go_finite (state->chart.width) && go_finite (state->chart.height)) {
 		GogViewAllocation alloc;
 		alloc.x = (state->chart.legend_x - state->chart.plot_area_x) / state->chart.plot_area_width;
 		alloc.w = 0;
 		alloc.y = (state->chart.legend_y - state->chart.plot_area_y) / state->chart.plot_area_height;
 		alloc.h = 0;
-		
+
 		gog_object_set_position_flags (legend, GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
-		gog_object_set_manual_position (legend, &alloc);			
+		gog_object_set_manual_position (legend, &alloc);
 	} else
 		gog_object_set_position_flags (legend, state->chart.legend_flag,
 					       GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
@@ -8777,7 +8777,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL)
 		oo_prop_list_apply (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA]->
-				    plot_props, G_OBJECT (state->chart.plot));	
+				    plot_props, G_OBJECT (state->chart.plot));
 
 	if (go_finite (x) && go_finite (y) &&
 	    go_finite (width) && go_finite (height) &&
@@ -8787,7 +8787,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 			alloc.w = width / state->chart.width;
 			alloc.y = y / state->chart.height;
 			alloc.h = height / state->chart.height;
-			
+
 			gog_object_set_position_flags (GOG_OBJECT (state->chart.chart),
 						       GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
 			gog_object_set_manual_position (GOG_OBJECT (state->chart.chart), &alloc);
@@ -9370,7 +9370,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					go_style->line.width = pts;
 					go_style->line.dash_type = GO_LINE_SOLID;
 					go_styled_object_style_changed (GO_STYLED_OBJECT (state->chart.chart));
-				}  
+				}
 			}
 		}
 	}
@@ -9432,7 +9432,7 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 				if (chart_style)
 					odf_apply_style_props (xin, chart_style->style_props, style);
 				else
-					oo_warning (xin, _("Chart style with name '%s' is missing."), 
+					oo_warning (xin, _("Chart style with name '%s' is missing."),
 						    style_name);
 				g_object_unref (style);
 			}
@@ -9474,7 +9474,7 @@ oo_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
 			if (chart_style)
 				odf_apply_style_props (xin, chart_style->style_props, style);
 			else
-				oo_warning (xin, _("Chart style with name '%s' is missing."), 
+				oo_warning (xin, _("Chart style with name '%s' is missing."),
 					    style_name);
 			g_object_unref (style);
 		}
@@ -9504,7 +9504,7 @@ oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 			if (chart_style)
 				odf_apply_style_props (xin, chart_style->style_props, style);
 			else
-				oo_warning (xin, _("Chart style with name '%s' is missing."), 
+				oo_warning (xin, _("Chart style with name '%s' is missing."),
 					    style_name);
 			g_object_unref (style);
 		}
@@ -9949,7 +9949,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 	}
 
 	paths = g_ptr_array_new_with_free_func ((GDestroyNotify) go_path_free);
-	
+
 	if (state->chart.cs_enhanced_path != NULL) {
 		strs = g_strsplit (state->chart.cs_enhanced_path, " N", 0);
 		for (cur = strs; *cur != NULL; cur++) {
@@ -9960,7 +9960,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 		}
 		g_strfreev (strs);
 	}
-	
+
 	if (vals)
 		g_hash_table_unref (vals);
 
@@ -10789,7 +10789,7 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 					pos.row = vsp;
 					sv_freeze_panes (sv, &fpos, &pos);
 				}
-					
+
 				item = g_hash_table_lookup (hash, "PositionRight");
 			} else {
 				item = g_hash_table_lookup (hash, "PositionLeft");
@@ -10801,7 +10801,7 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
 				pos_bottom = g_value_get_int (item);
 
-			sv_set_initial_top_left (sv, pos_left, pos_bottom);		
+			sv_set_initial_top_left (sv, pos_left, pos_bottom);
 		}
 	}
 }
@@ -11024,7 +11024,7 @@ odf_preparse_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->col_inc = 1;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) 
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
 				       &state->col_inc, 0, INT_MAX));
 
@@ -11041,7 +11041,7 @@ odf_preparse_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
 				       &state->col_inc, 0, INT_MAX));
-	state->pos.eval.col += state->col_inc;	
+	state->pos.eval.col += state->col_inc;
 }
 
 
@@ -11111,7 +11111,7 @@ GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embed
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, FORMAT_TEXT_INVISIBLE, OO_GNUM_NS_EXT, "invisible", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_FILL_CHARACTER, OO_NS_NUMBER,	"fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
- 
+
   GSF_XML_IN_NODE (OFFICE_STYLES, DATE_STYLE, OO_NS_NUMBER, "date-style", GSF_XML_NO_CONTENT, &oo_date_style, &oo_date_style_end),
     GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY, OO_NS_NUMBER,		"day", GSF_XML_NO_CONTENT,	&oo_date_day, NULL),
     GSF_XML_IN_NODE (DATE_STYLE, DATE_MONTH, OO_NS_NUMBER,		"month", GSF_XML_NO_CONTENT,	&oo_date_month, NULL),
@@ -12777,7 +12777,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		oconv->state->openformula_namemap = namemap;
 	} else
 		namemap = oconv->state->openformula_namemap;
-	
+
 	if (NULL == oconv->state->openformula_handlermap) {
 		guint i;
 		handlermap = g_hash_table_new (go_ascii_strcase_hash,
@@ -13098,7 +13098,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		content_malformed = !gsf_xml_in_doc_parse (doc, contents, &state);
 		gsf_xml_in_doc_free (doc);
 		odf_clear_conventions (&state);
-		
+
 		odf_fix_expr_names (&state);
 	}
 
@@ -13125,7 +13125,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		if (state.settings.stack != NULL) {
 			go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 						     _("settings.xml stream is malformed!"));
-			g_slist_free_full (state.settings.stack, 
+			g_slist_free_full (state.settings.stack,
 					   (GDestroyNotify) g_hash_table_unref);
 			state.settings.stack = NULL;
 		}
@@ -13213,8 +13213,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 
 	g_object_unref (zip);
 
-	if (content_malformed) 
-		go_io_error_string (io_context, _("XML document not well formed!"));	
+	if (content_malformed)
+		go_io_error_string (io_context, _("XML document not well formed!"));
 
 	i = workbook_sheet_count (state.pos.wb);
 	while (i-- > 0)

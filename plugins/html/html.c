@@ -476,7 +476,7 @@ html_write_border_style_40 (GsfOutput *output, GnmStyle const *style)
 }
 
 static void
-html_write_border_style_40_for_merged_cell (GsfOutput *output, GnmStyle const *style, 
+html_write_border_style_40_for_merged_cell (GsfOutput *output, GnmStyle const *style,
 					    Sheet *sheet, gint row, gint col)
 {
 	GnmBorder *border;

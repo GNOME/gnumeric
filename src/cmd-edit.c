@@ -302,7 +302,7 @@ cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 	dst = pt->range;
 
 	/* Check for locks */
-	if (cmd_cell_range_is_locked_effective (pt->sheet, &dst, wbc, 
+	if (cmd_cell_range_is_locked_effective (pt->sheet, &dst, wbc,
 						_("Paste")))
 		return ;
 
