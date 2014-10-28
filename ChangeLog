@@ -1,8 +1,13 @@
+2014-10-27  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_destroy_contents): Plug leak from fuzzed
+	code.
+
 2014-10-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-cursor.c (cb_item_cursor_animation): use
-	goc_canvas_invalidate_region() for ants walking. Avoid drawing outside of a
-	draw event.
+	goc_canvas_invalidate_region() for ants walking.  Avoid drawing
+	outside of a draw event.
 
 2014-10-26  Morten Welinder  <terra@gnome.org>
 

@@ -4516,9 +4516,6 @@ cb_remove_allcells (G_GNUC_UNUSED gpointer ignore0, GnmCell *cell, G_GNUC_UNUSED
 void
 sheet_destroy_contents (Sheet *sheet)
 {
-	/* Save these because they are going to get zeroed. */
-	int const max_col = sheet->cols.max_used;
-	int const max_row = sheet->rows.max_used;
 	GSList *filters;
 	int i;
 
@@ -4571,10 +4568,10 @@ sheet_destroy_contents (Sheet *sheet)
 	g_hash_table_destroy (sheet->cell_hash);
 
 	/* Delete in ascending order to avoid decrementing max_used each time */
-	for (i = 0; i <= max_col; ++i)
+	for (i = 0; i <= sheet->cols.max_used; ++i)
 		sheet_col_destroy (sheet, i, FALSE);
 
-	for (i = 0; i <= max_row; ++i)
+	for (i = 0; i <= sheet->rows.max_used; ++i)
 		sheet_row_destroy (sheet, i, FALSE);
 
 	/* Free segments too */
