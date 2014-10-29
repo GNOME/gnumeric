@@ -3773,10 +3773,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	ms_container_finalize (&state.container);
 
 	if (state.error) {
-		if (state.graph) {
-			g_object_unref (state.graph);
-			state.graph = NULL;
-		}
+		state.graph = NULL;
 		state.chart = NULL;
 	}
 
