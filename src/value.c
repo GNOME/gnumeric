@@ -224,7 +224,12 @@ value_error_classify (GnmValue const *v)
 }
 
 
-/* NOTE : absorbs the reference */
+/**
+ * value_new_string:
+ * @str: (transfer full): string to use for value
+ *
+ * Returns: (transfer full): a new value object.
+ */
 GnmValue *
 value_new_string_str (GOString *str)
 {
@@ -239,12 +244,24 @@ value_new_string_str (GOString *str)
 	return (GnmValue *)v;
 }
 
+/**
+ * value_new_string:
+ * @str: string to use for value
+ *
+ * Returns: (transfer full): a new value object.
+ */
 GnmValue *
 value_new_string (char const *str)
 {
 	return value_new_string_str (go_string_new (str));
 }
 
+/**
+ * value_new_string_nocopy:
+ * @str: (transfer full): string to use for value
+ *
+ * Returns: (transfer full): a new value object.
+ */
 GnmValue *
 value_new_string_nocopy (char *str)
 {
@@ -531,6 +548,12 @@ value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 	return res;
 }
 
+/**
+ * value_release:
+ * @value: (transfer full) (allow-none):
+ *
+ * Free the value.
+ */
 void
 value_release (GnmValue *value)
 {
@@ -671,7 +694,7 @@ value_compare_real (GnmValue const *a, GnmValue const *b,
  * @ptr_a:
  * @ptr_b:
  *
- * qsort style comparison function.
+ * qsort style comparison function for ascending order
  **/
 int
 value_cmp (void const *ptr_a, void const *ptr_b)
@@ -688,6 +711,13 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 	return a->v_any.type - b->v_any.type;
 }
 
+/**
+ * value_cmp_reverse:
+ * @ptr_a:
+ * @ptr_b:
+ *
+ * qsort style comparison function for descending order.
+ **/
 int
 value_cmp_reverse (void const *ptr_a, void const *ptr_b)
 {
