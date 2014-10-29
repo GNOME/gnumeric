@@ -1,3 +1,7 @@
+2014-10-28  Morten Welinder  <terra@gnome.org>
+
+	* src/style.c (find_font): Accept NULL font name.
+
 2014-10-27  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_destroy_contents): Plug leak from fuzzed

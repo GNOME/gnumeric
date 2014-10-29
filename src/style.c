@@ -80,6 +80,10 @@ static struct FontInfo *
 find_font (const char *font_name)
 {
 	unsigned ui;
+
+	if (!font_name)
+		return NULL;
+
 	for (ui = 0; ui < G_N_ELEMENTS (font_info); ui++) {
 		if (!g_ascii_strcasecmp (font_info[ui].font_name, font_name))
 			return font_info + ui;
