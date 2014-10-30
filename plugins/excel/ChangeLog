@@ -1,3 +1,11 @@
+2014-10-30  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_font_get): In case of error, fall back to
+	font 0 if we have that.
+	(ms_wb_get_font_markup): Plug leak.
+
+	* ms-obj.c (ms_obj_map_forms_obj): Plug leak.
+
 2014-10-28  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c (ms_excel_chart_read): Fix double free.

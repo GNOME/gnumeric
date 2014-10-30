@@ -196,6 +196,8 @@ char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 	/* 0x31 */	"@"
 };
 
+static PangoAttrList *empty_attr_list;
+
 static MsBiffVersion
 esheet_ver (ExcelReadSheet const *esheet)
 {
@@ -1968,11 +1970,15 @@ excel_read_PALETTE (BiffQuery *q, GnmXLImporter *importer)
 ExcelFont const *
 excel_font_get (GnmXLImporter const *importer, unsigned font_idx)
 {
-	ExcelFont const *fd = g_hash_table_lookup (
-						   importer->font_data, GINT_TO_POINTER (font_idx));
-
-	g_return_val_if_fail (fd != NULL, NULL); /* flag the problem */
-	g_return_val_if_fail (fd->index != 4, NULL); /* should not exist */
+	ExcelFont const *fd =
+		g_hash_table_lookup (importer->font_data,
+				     GINT_TO_POINTER (font_idx));
+	if (!fd) {
+		g_warning ("Invalid font index %d\n", font_idx);
+		/* Try fallback.  */
+		fd = g_hash_table_lookup (importer->font_data,
+					  GINT_TO_POINTER (0));
+	}
 
 	return fd;
 }
@@ -3249,7 +3255,7 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 	ExcelFont const *fd = excel_font_get (importer, indx);
 
 	if (fd == NULL || indx == 0)
-		return pango_attr_list_new ();
+		return empty_attr_list;
 
 	if (fd->attrs == NULL) {
 		ExcelFont const *fd0 = excel_font_get (importer, 0);
@@ -7400,6 +7406,8 @@ excel_read_init (void)
 				     (gpointer)gnm_name,
 				     (gpointer)efd);
 	}
+
+	empty_attr_list = pango_attr_list_new ();
 }
 
 void
@@ -7410,4 +7418,7 @@ excel_read_cleanup (void)
 
 	g_slist_free_full (formats, (GDestroyNotify)go_format_unref);
 	formats = NULL;
+
+	pango_attr_list_unref (empty_attr_list);
+	empty_attr_list = NULL;
 }

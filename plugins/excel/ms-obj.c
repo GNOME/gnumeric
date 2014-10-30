@@ -938,6 +938,9 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c,
 		if (map_forms [i].excel_type > 0 &&
 		    !strcmp (type+6, map_forms[i].key))
 			break;
+
+	g_free (type);
+
 	if (i < 0)
 		return;
 	obj->excel_type = map_forms [i].excel_type;
