@@ -74,7 +74,7 @@ while (1) {
     my $outfile = "$DIR/${filebase}-${n}.gnumeric";
     my $logfile = "$DIR/${filebase}-${n}.log";
     my $keepfiles = 0;
-    my $cmd = "../src/ssconvert '$zzuffile' '$outfile' 2>&1 | tee $logfile >>'$LOG'";
+    my $cmd = "../src/ssconvert '$zzuffile' '$outfile' 2>&1 | tee '$logfile' >>'$LOG'";
     if ($valgrind) {
 	$cmd = "../tools/gnmvalgrind --leak-check=full $cmd";
     }
@@ -98,10 +98,10 @@ while (1) {
 	}
     }
 
-    local (*LOG);
-    open (LOG, "< $logfile") or die "$0: cannot read $logfile: $!\n";
+    my $log_fh = new IO::File ($logfile, "r")
+	or die "$0: cannot read $logfile: $!\n";
     my $prev = '';
-    while (<LOG>) {
+    while (<$log_fh>) {
 	my $prevline = $prev;
 	$prev = $_;
 
@@ -122,7 +122,7 @@ while (1) {
 	    next;
 	}
     }
-    close (*LOG);
+    undef $log_fh;
     if (!$keepfiles) {
 	unlink $logfile, $zzuffile, $outfile;
     }
