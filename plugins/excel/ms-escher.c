@@ -251,6 +251,7 @@ ms_escher_get_data (MSEscherState *state,
 			/* Get next record */
 			if (!ms_biff_query_next (q)) {
 				g_warning ("unexpected end of stream;");
+				g_free (buffer);
 				return NULL;
 			}
 

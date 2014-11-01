@@ -1,5 +1,7 @@
 2014-11-01  Morten Welinder  <terra@gnome.org>
 
+	* ms-escher.c (ms_escher_get_data): Plug leak.
+
 	* ms-excel-read.c (excel_read_MULRK): Catch crazy column numbers
 	early.
 
