@@ -4730,6 +4730,7 @@ excel_read_MULRK (BiffQuery *q, ExcelReadSheet *esheet)
 	lastcol = GSF_LE_GET_GUINT16 (q->data + q->length - 2);
 
 	XL_CHECK_CONDITION (lastcol >= col);
+	XL_CHECK_CONDITION (lastcol < gnm_sheet_get_max_cols (esheet->sheet));
 
 	if (q->length != 4 + 6 * (lastcol - col + 1) + 2) {
 		int guess = col + (q->length - (4 + 2)) / 6 - 1;
