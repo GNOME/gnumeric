@@ -1,5 +1,8 @@
 Gnumeric 1.12.19
 
+Andreas:
+	* Add latex fragment exporter of visible rows only. [#739512]
+
 Jean:
 	* Fix ants problems.
 

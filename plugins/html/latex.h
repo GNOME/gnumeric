@@ -31,4 +31,9 @@ void latex_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 void latex_table_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		            WorkbookView const *wb_view, GsfOutput *output);
 
+void latex_table_visible_file_save (GOFileSaver const *fs,
+				    GOIOContext *io_context,
+				    WorkbookView const *wb_view,
+				    GsfOutput *output);
+
 #endif

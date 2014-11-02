@@ -8,8 +8,8 @@
  * Copyright (C) 2001 Adrian Custer, Berkeley
  * email: acuster@nature.berkeley.edu
  *
- * Copyright (C) 2001-2006 Andreas J. Guelzow, Edmonton
- * email: aguelzow@taliesin.ca
+ * Copyright (C) 2001-2014 Andreas J. Guelzow, Edmonton
+ * email: aguelzow@pyrshep.ca
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,8 +31,10 @@
  * This file contains the LaTeX2e plugin functions.
  *
  *
- * The LaTeX2e function is named:
+ * The LaTeX2e functions are named:
  *		latex_file_save()
+ *              latex_table_visible_file_save()
+ *              latex_table_file_save
  *
  */
 
@@ -1554,18 +1556,15 @@ latex2e_table_write_file_header(GsfOutput *output)
 /**
  * latex_table_file_save :  The LaTeX2e exporter plugin function.
  *
- * @FileSaver:        New structure for file plugins. I don't understand.
- * @IOcontext:        currently not used but reserved for the future.
  * @WorkbookView:     this provides the way to access the sheet being exported.
- * @filename:         where we'll write.
+ * @outpu:            where we'll write.
+ * @all:              Whether to write all rows or just the visible ones.
  *
  * This writes the top sheet of a Gnumeric workbook as the content of a latex table environment.
  * We try to avoid all formatting.
  */
-void
-latex_table_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
-		       G_GNUC_UNUSED GOIOContext *io_context,
-		       WorkbookView const *wb_view, GsfOutput *output)
+static void
+latex_table_file_save_impl (WorkbookView const *wb_view, GsfOutput *output, gboolean all)
 {
 	GnmCell *cell;
 	Sheet *current_sheet;
@@ -1583,22 +1582,62 @@ latex_table_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
 	for (row = total_range.start.row; row <= total_range.end.row; row++) {
 		ColRowInfo const * ri;
 		ri = sheet_row_get_info (current_sheet, row);
-		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *) ri, row, current_sheet);
-
-		for (col = total_range.start.col; col <= total_range.end.col; col++) {
-			/* Get the cell. */
-			cell = sheet_cell_get (current_sheet, col, row);
-
-			/* Check if we are not the first cell in the row.*/
-			if (col != total_range.start.col)
-				gsf_output_printf (output, "\t&");
-
-			if (gnm_cell_is_empty (cell))
-				continue;
-
-			latex2e_table_write_cell(output, cell);
+		if (all || ri->visible) {
+			if (ri->needs_respan)
+				row_calc_spans ((ColRowInfo *) ri, row, current_sheet);
+			
+			for (col = total_range.start.col; col <= total_range.end.col; col++) {
+				/* Get the cell. */
+				cell = sheet_cell_get (current_sheet, col, row);
+				
+				/* Check if we are not the first cell in the row.*/
+				if (col != total_range.start.col)
+					gsf_output_printf (output, "\t&");
+				
+				if (gnm_cell_is_empty (cell))
+					continue;
+				
+				latex2e_table_write_cell(output, cell);
+			}
+			gsf_output_printf (output, "\\\\\n");
 		}
-		gsf_output_printf (output, "\\\\\n");
 	}
+}
+
+/**
+ * latex_table_file_save :  The LaTeX2e exporter plugin function.
+ *
+ * @FileSaver:        New structure for file plugins. I don't understand.
+ * @IOcontext:        currently not used but reserved for the future.
+ * @WorkbookView:     this provides the way to access the sheet being exported.
+ * @output:           where we'll write.
+ *
+ * This writes the top sheet of a Gnumeric workbook as the content of a latex table environment.
+ * We try to avoid all formatting.
+ */
+void
+latex_table_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
+		       G_GNUC_UNUSED GOIOContext *io_context,
+		       WorkbookView const *wb_view, GsfOutput *output)
+{
+	latex_table_file_save_impl (wb_view, output, TRUE);
+}
+
+/**
+ * latex_table_visible_file_save :  The LaTeX2e exporter plugin function.
+ *
+ * @FileSaver:        New structure for file plugins. I don't understand.
+ * @IOcontext:        currently not used but reserved for the future.
+ * @WorkbookView:     this provides the way to access the sheet being exported.
+ * @output:           where we'll write.
+ *
+ * This writes the top sheet of a Gnumeric workbook as the content of a latex table environment.
+ * We try to avoid all formatting.
+ */
+void
+latex_table_visible_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
+		       G_GNUC_UNUSED GOIOContext *io_context,
+		       WorkbookView const *wb_view, GsfOutput *output)
+{
+	latex_table_file_save_impl (wb_view, output, FALSE);
 }
