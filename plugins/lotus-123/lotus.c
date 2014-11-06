@@ -905,6 +905,23 @@ lotus_smallnum (signed int d)
 		return value_new_int (d >> 1);
 }
 
+GnmValue *
+lotus_extfloat (guint64 mant, guint16 signexp)
+{
+	int exp = (signexp & 0x7fff) - 16383;
+	int sign = (signexp & 0x8000) ? -1 : 1;
+	/* FIXME: Special values may indicate NaN, +/- inf */
+	/*
+	 * NOTE: if gnm_float is "double", then passing the first argument
+	 * to gnm_ldexp will perform rounding from 64-bit integer to
+	 * 53-bit mantissa in a double.
+	 *
+	 * NOTE: the gnm_ldexp may under- or overflow.  That ought to do
+	 * the right thing.
+	 */
+	return lotus_value (sign * gnm_ldexp (mant, exp - 63));
+}
+
 static GnmValue *
 lotus_treal (const record_t *r, int ofs)
 {
@@ -1957,6 +1974,16 @@ lotus_read_new (LotusState *state, record_t *r)
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
 			GnmValue *v = lotus_smallnum (GSF_LE_GET_GINT16 (r->data + 4));
+			(void)insert_value (state, sheet, col, row, v);
+			break;
+		}
+
+		case LOTUS_EXTENDED_FLOAT: CHECK_RECORD_SIZE (>= 14) {
+			int row = GSF_LE_GET_GUINT16 (r->data);
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
+			int col = r->data[3];
+			GnmValue *v = lotus_extfloat (GSF_LE_GET_GUINT64 (r->data + 4),
+						      GSF_LE_GET_GUINT16 (r->data + 12));
 			(void)insert_value (state, sheet, col, row, v);
 			break;
 		}

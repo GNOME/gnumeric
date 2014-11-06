@@ -47,6 +47,7 @@
 #define LOTUS_ERRCELL                0x14
 #define LOTUS_NACELL                 0x15
 #define LOTUS_LABEL2                 0x16
+#define LOTUS_EXTENDED_FLOAT         0x17    /* wk4...  */
 #define LOTUS_SMALLNUM               0x18    /* wk3,wk4 */
 #define LOTUS_FORMULA3               0x19    /* wk3,wk4 */
 #define LOTUS_STYLE                  0x1b

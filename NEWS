@@ -10,6 +10,9 @@ Morten:
 	* Plug leaks.
 	* Pay more attention to union access rules.
 
+Thomas Kluyver:
+	* Fix import of extended floats from wk4 files.  [#739697]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.18
 
