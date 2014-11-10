@@ -9,6 +9,7 @@ Jean:
 Morten:
 	* Plug leaks.
 	* Pay more attention to union access rules.
+	* Attempt a fix for clipboard crash.  [Redhat #1160975]
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739697]

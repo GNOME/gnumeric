@@ -131,6 +131,17 @@ text_to_cell_region (WBCGtk *wbcg,
 	gboolean oneline;
 	char *data_converted = NULL;
 
+	if (!data) {
+		/*
+		 * See Redhat #1160975.
+		 * 
+		 * I'm unsure why someone get NULL here, but this is better
+		 * than a crash.
+		 */
+		data = "";
+		data_len = 0;
+	}
+
 	oneline = text_is_single_cell (data, data_len);
 
 	if (oneline && (opt_encoding == NULL || strcmp (opt_encoding, "UTF-8") != 0)) {
