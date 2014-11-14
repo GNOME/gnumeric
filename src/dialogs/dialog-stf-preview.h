@@ -20,7 +20,8 @@
 #include <stf.h>
 #include <gtk/gtk.h>
 
-#define LINE_DISPLAY_LIMIT 500
+#define STF_LINE_LENGTH_LIMIT 1000
+#define STF_LINE_DISPLAY_LIMIT 500
 #define COLUMN_CAPTION N_("Column %d")
 
 typedef struct {

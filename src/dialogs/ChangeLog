@@ -1,3 +1,7 @@
+2014-11-14  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-preview.c (render_get_value): Truncate long items.
+
 2014-09-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.18

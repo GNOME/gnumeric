@@ -65,6 +65,19 @@ render_get_value (gint row, gint column, gpointer _rd, GValue *value)
 			} while (tab);
 			text = copy;
 		}
+
+		/*
+		 * Throwing really long strings at Gtk+ is known to cause
+		 * trouble, so cut long strings and hope no-one notices.
+		 */
+		if (g_utf8_strlen (text, -1) > STF_LINE_LENGTH_LIMIT) {
+			char *cut = g_strdup (text);
+			strcpy (g_utf8_offset_to_pointer (cut, STF_LINE_LENGTH_LIMIT - 3),
+				"...");
+			g_free (copy);
+			text = copy = cut;
+		}
+
 		g_value_set_string (value, text);
 		g_free (copy);
 	}
@@ -231,7 +244,7 @@ stf_preview_set_lines (RenderData_t *renderdata,
 	}
 
 	ll = gnumeric_lazy_list_new (render_get_value, renderdata,
-				     MIN (lines->len, LINE_DISPLAY_LIMIT),
+				     MIN (lines->len, STF_LINE_DISPLAY_LIMIT),
 				     0);
 	gnumeric_lazy_list_add_column (ll, colcount, G_TYPE_STRING);
 	gtk_tree_view_set_model (renderdata->tree_view, GTK_TREE_MODEL (ll));
