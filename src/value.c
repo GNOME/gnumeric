@@ -225,7 +225,7 @@ value_error_classify (GnmValue const *v)
 
 
 /**
- * value_new_string:
+ * value_new_string_str:
  * @str: (transfer full): string to use for value
  *
  * Returns: (transfer full): a new value object.
@@ -550,7 +550,7 @@ value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 
 /**
  * value_release:
- * @value: (transfer full) (allow-none):
+ * @v: (transfer full) (allow-none): value to dispose of
  *
  * Free the value.
  */
