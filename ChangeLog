@@ -1,3 +1,8 @@
+2014-11-15  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_object_unselect): Avoid crashing if
+	the wbc is already gone.
+
 2014-11-09  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (text_to_cell_region): Guard against NULL

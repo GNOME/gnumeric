@@ -2613,6 +2613,8 @@ cb_scg_object_unselect (SheetObject *so, G_GNUC_UNUSED double *coords, SheetCont
 void
 scg_object_unselect (SheetControlGUI *scg, SheetObject *so)
 {
+	WorkbookControl *wbc = scg_wbc (scg);
+
 	/* cheesy cycle avoidance */
 	if (scg->selected_objects == NULL)
 		return;
@@ -2631,7 +2633,8 @@ scg_object_unselect (SheetControlGUI *scg, SheetObject *so)
 	g_hash_table_destroy (scg->selected_objects);
 	scg->selected_objects = NULL;
 	scg_mode_edit (scg);
-	wb_control_update_action_sensitivity (scg_wbc (scg));
+	if (wbc)
+		wb_control_update_action_sensitivity (wbc);
 }
 
 void
