@@ -155,7 +155,7 @@ sub determine_file_type {
 
     return undef unless -r $file && -f _;
 
-    if ($file =~ /\.xls$/) {
+    if ($file =~ /\.(xls|wb[23])$/) {
 	return $file_type{$file} = 'raw';
     }
 
