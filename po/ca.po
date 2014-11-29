@@ -10796,7 +10796,7 @@ msgstr "Considera _iguals majúscules i minúscules"
 
 #: ../src/dialogs/search-replace.ui.h:54
 msgid "_Keep strings as strings"
-msgstr "_Manté les cadenes com a cadenes"
+msgstr "_Mantén les cadenes com a cadenes"
 
 #: ../src/dialogs/search-replace.ui.h:55 ../src/dialogs/search.ui.h:37
 msgid "_Other values"
