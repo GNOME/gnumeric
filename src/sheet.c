@@ -5133,7 +5133,6 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 	for (i = sheet->cols.max_used; i >= gnm_sheet_get_max_cols (sheet) - count ; --i)
 		sheet_col_destroy (sheet, i, TRUE);
 
-	/* 2. Fix references to and from the cells which are moving */
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
 	reloc_info.sticky_end = TRUE;
 	reloc_info.origin.start.col = col;
@@ -5145,6 +5144,10 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 	reloc_info.row_offset = 0;
 	parse_pos_init_sheet (&reloc_info.pos, sheet);
 
+	/* 1.5 Get rid of style dependents, see #741197.  */
+	sheet_style_clear_style_dependents (sheet, &reloc_info.origin);
+
+	/* 2. Fix references to and from the cells which are moving */
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 3. Move the columns to their new location (from right to left) */
@@ -5152,6 +5155,7 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 		colrow_move (sheet, i, 0, i, gnm_sheet_get_last_row (sheet),
 			     &sheet->cols, i, i + count);
 
+	/* 4. Move formatting.  */
 	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count, pundo);
 
 	add_undo_op (pundo, TRUE, sheet_delete_cols,
@@ -5305,7 +5309,6 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 	for (i = sheet->rows.max_used; i >= gnm_sheet_get_max_rows (sheet) - count ; --i)
 		sheet_row_destroy (sheet, i, TRUE);
 
-	/* 2. Fix references to and from the cells which are moving */
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.sticky_end = TRUE;
 	reloc_info.origin.start.col = 0;
@@ -5317,6 +5320,10 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 	reloc_info.row_offset = count;
 	parse_pos_init_sheet (&reloc_info.pos, sheet);
 
+	/* 1.5 Get rid of style dependents, see #741197.  */
+	sheet_style_clear_style_dependents (sheet, &reloc_info.origin);
+
+	/* 2. Fix references to and from the cells which are moving */
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 3. Move the rows to their new location (from last to first) */
@@ -5324,6 +5331,7 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 		colrow_move (sheet, 0, i, gnm_sheet_get_last_col (sheet), i,
 			     &sheet->rows, i, i + count);
 
+	/* 4. Move formatting.  */
 	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count, pundo);
 
 	add_undo_op (pundo, FALSE, sheet_delete_rows,

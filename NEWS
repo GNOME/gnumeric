@@ -12,6 +12,7 @@ Morten:
 	* Attempt a fix for clipboard crash.  [Redhat #1160975]
 	* Truncate long strings for display in stf import.
 	* Fix crash on closing a graph sheet.
+	* Fix undo crash with conditional formatting and insert row.  [#741197]
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739697]

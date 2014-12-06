@@ -1,5 +1,12 @@
 2014-12-06  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_insert_rows, sheet_insert_cols): Clear style
+	dependents.  A later step clears and re-applies style completely
+	for the moved area.  Fixes #741197.
+
+	* src/sheet-style.c (sheet_style_clear_style_dependents): New
+	function.
+
 	* src/sheet.c (sheet_insert_rows, sheet_insert_cols)
 	(sheet_delete_cols, sheet_delete_rows): Plug leaks.
 
