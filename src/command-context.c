@@ -58,6 +58,7 @@ gnm_cmd_context_error_splits_array (GOCmdContext *context,
 		err = g_error_new (gnm_error_array(), 0,
 			_("Would split an array"));
 	go_cmd_context_error (context, err);
+	g_error_free (err);
 }
 
 void
@@ -69,6 +70,7 @@ gnm_cmd_context_error_splits_merge (GOCmdContext *context,
 			     _("Would split merge %s"),
 			     range_as_string (merge));
 	go_cmd_context_error (context, err);
+	g_error_free (err);
 }
 
 GQuark

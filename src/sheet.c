@@ -5110,14 +5110,6 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 	if (pundo) *pundo = NULL;
 	schedule_reapply_filters (sheet, pundo);
 
-	if (pundo) {
-		int last = first + (count - 1);
-		GnmRange r;
-		range_init_cols (&r, sheet, first, last);
-		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
-		states = colrow_get_states (sheet, TRUE, first, last);
-	}
-
 	/* 0. Check displaced/deleted region and ensure arrays aren't divided. */
 	/* We need to check at "col" and at "first".  If they coincide, just
 	   use the end.  */
@@ -5127,9 +5119,16 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 			  : gnm_sheet_get_last_col (sheet)));
 	if (sheet_range_splits_array (sheet, &region, NULL,
 				      cc, _("Insert Columns")))
-			return TRUE;
+		return TRUE;
 
 	/* 1. Delete all columns (and their cells) that will fall off the end */
+	if (pundo) {
+		int last = first + (count - 1);
+		GnmRange r;
+		range_init_cols (&r, sheet, first, last);
+		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
+		states = colrow_get_states (sheet, TRUE, first, last);
+	}
 	for (i = sheet->cols.max_used; i >= gnm_sheet_get_max_cols (sheet) - count ; --i)
 		sheet_col_destroy (sheet, i, TRUE);
 
@@ -5282,14 +5281,6 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 	if (pundo) *pundo = NULL;
 	schedule_reapply_filters (sheet, pundo);
 
-	if (pundo) {
-		int last = first + (count - 1);
-		GnmRange r;
-		range_init_rows (&r, sheet, first, last);
-		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
-		states = colrow_get_states (sheet, FALSE, first, last);
-	}
-
 	/* 0. Check displaced/deleted region and ensure arrays aren't divided. */
 	/* We need to check at "row" and at "first".  If they coincide, just
 	   use the end.  */
@@ -5302,6 +5293,13 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 		return TRUE;
 
 	/* 1. Delete all rows (and their cells) that will fall off the end */
+	if (pundo) {
+		int last = first + (count - 1);
+		GnmRange r;
+		range_init_rows (&r, sheet, first, last);
+		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
+		states = colrow_get_states (sheet, FALSE, first, last);
+	}
 	for (i = sheet->rows.max_used; i >= gnm_sheet_get_max_rows (sheet) - count ; --i)
 		sheet_row_destroy (sheet, i, TRUE);
 

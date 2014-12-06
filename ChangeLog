@@ -1,3 +1,11 @@
+2014-12-06  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_insert_rows, sheet_insert_cols): Plug leak.
+
+	* src/command-context.c (gnm_cmd_context_error_splits_array): Plug
+	leak.
+	(gnm_cmd_context_error_splits_merge): Plug leak.
+
 2014-11-15  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (scg_object_unselect): Avoid crashing if

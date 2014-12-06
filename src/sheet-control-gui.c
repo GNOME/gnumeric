@@ -1653,7 +1653,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 
 		g_object_ref (scg->grid);
 		scg->vpane = g_object_new (GTK_TYPE_PANED, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
-			gtk_paned_add1 (scg->vpane, gtk_label_new (NULL)); /* use a spacer */
+		gtk_paned_add1 (scg->vpane, gtk_label_new (NULL)); /* use a spacer */
 		gtk_paned_add2 (scg->vpane, scg->vs);
 		scg_gtk_paned_set_position (scg, scg->vpane, 0);
 		gtk_widget_set_vexpand (GTK_WIDGET (scg->vpane), TRUE);

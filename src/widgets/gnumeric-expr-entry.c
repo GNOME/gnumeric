@@ -675,7 +675,6 @@ gee_scan_for_range (GnmExprEntry *gee)
 						this_colour = colour++;
 						g_hash_table_insert (hash, rrr, GINT_TO_POINTER (this_colour));
 						insert_cursor = TRUE;
-						rtext = NULL;
 					} else {
 						this_colour = GPOINTER_TO_INT (val);
 						insert_cursor = FALSE;

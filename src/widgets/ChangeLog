@@ -1,3 +1,7 @@
+2014-12-06  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_scan_for_range): Plug leak.
+
 2014-09-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.18
