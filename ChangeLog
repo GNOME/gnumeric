@@ -1,6 +1,7 @@
 2014-12-06  Morten Welinder  <terra@gnome.org>
 
-	* src/sheet.c (sheet_insert_rows, sheet_insert_cols): Plug leak.
+	* src/sheet.c (sheet_insert_rows, sheet_insert_cols)
+	(sheet_delete_cols, sheet_delete_rows): Plug leaks.
 
 	* src/command-context.c (gnm_cmd_context_error_splits_array): Plug
 	leak.

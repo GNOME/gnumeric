@@ -5108,7 +5108,6 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 	g_return_val_if_fail (count > 0, TRUE);
 
 	if (pundo) *pundo = NULL;
-	schedule_reapply_filters (sheet, pundo);
 
 	/* 0. Check displaced/deleted region and ensure arrays aren't divided. */
 	/* We need to check at "col" and at "first".  If they coincide, just
@@ -5120,6 +5119,8 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 	if (sheet_range_splits_array (sheet, &region, NULL,
 				      cc, _("Insert Columns")))
 		return TRUE;
+
+	schedule_reapply_filters (sheet, pundo);
 
 	/* 1. Delete all columns (and their cells) that will fall off the end */
 	if (pundo) {
@@ -5193,15 +5194,6 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 	}
 
 	if (pundo) *pundo = NULL;
-	schedule_reapply_filters (sheet, pundo);
-
-	if (pundo) {
-		int last = col + (count - 1);
-		GnmRange r;
-		range_init_cols (&r, sheet, col, last);
-		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
-		states = colrow_get_states (sheet, TRUE, col, last);
-	}
 
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
 	reloc_info.sticky_end = !beyond_end;
@@ -5219,7 +5211,16 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 				      cc, _("Delete Columns")))
 		return TRUE;
 
+	schedule_reapply_filters (sheet, pundo);
+
 	/* 1. Delete the columns (and their cells) */
+	if (pundo) {
+		int last = col + (count - 1);
+		GnmRange r;
+		range_init_cols (&r, sheet, col, last);
+		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
+		states = colrow_get_states (sheet, TRUE, col, last);
+	}
 	for (i = col + count ; --i >= col; )
 		sheet_col_destroy (sheet, i, TRUE);
 
@@ -5279,7 +5280,6 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 	g_return_val_if_fail (count > 0, TRUE);
 
 	if (pundo) *pundo = NULL;
-	schedule_reapply_filters (sheet, pundo);
 
 	/* 0. Check displaced/deleted region and ensure arrays aren't divided. */
 	/* We need to check at "row" and at "first".  If they coincide, just
@@ -5291,6 +5291,8 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 	if (sheet_range_splits_array (sheet, &region, NULL,
 				      cc, _("Insert Rows")))
 		return TRUE;
+
+	schedule_reapply_filters (sheet, pundo);
 
 	/* 1. Delete all rows (and their cells) that will fall off the end */
 	if (pundo) {
@@ -5364,15 +5366,6 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 	}
 
 	if (pundo) *pundo = NULL;
-	schedule_reapply_filters (sheet, pundo);
-
-	if (pundo) {
-		int last = row + (count - 1);
-		GnmRange r;
-		range_init_rows (&r, sheet, row, last);
-		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
-		states = colrow_get_states (sheet, FALSE, row, last);
-	}
 
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.sticky_end = !beyond_end;
@@ -5390,7 +5383,16 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 				      cc, _("Delete Rows")))
 		return TRUE;
 
+	schedule_reapply_filters (sheet, pundo);
+
 	/* 1. Delete the rows (and their content) */
+	if (pundo) {
+		int last = row + (count - 1);
+		GnmRange r;
+		range_init_rows (&r, sheet, row, last);
+		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
+		states = colrow_get_states (sheet, FALSE, row, last);
+	}
 	for (i = row + count ; --i >= row; )
 		sheet_row_destroy (sheet, i, TRUE);
 
