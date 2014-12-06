@@ -1,5 +1,9 @@
 2014-12-06  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-control-gui.c (scg_unant): Destroy item cursors.  We
+	want them visually gone and g_object_unref does not guarantee
+	that.
+
 	* src/sheet.c (sheet_insert_rows, sheet_insert_cols): Clear style
 	dependents.  A later step clears and re-applies style completely
 	for the moved area.  Fixes #741197.

@@ -1850,8 +1850,10 @@ scg_unant (SheetControl *sc)
 	SCG_FOREACH_PANE (scg, pane, {
 		GSList *l;
 
-		for (l = pane->cursor.animated; l; l = l->next)
-			g_object_unref (l->data);
+		for (l = pane->cursor.animated; l; l = l->next) {
+			GocItem *item = l->data;
+			goc_item_destroy (l->data);
+		}
 
 		g_slist_free (pane->cursor.animated);
 		pane->cursor.animated = NULL;
