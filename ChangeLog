@@ -1,5 +1,7 @@
 2014-12-11  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (style_dep_debug_name): Include position too.
+
 	* src/sheet.c (sheet_colrow_add): Merge from sheet_col_add and
 	sheet_row_add.
 	(colrow_move): Change parameterization slightly.

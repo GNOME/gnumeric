@@ -1401,7 +1401,9 @@ style_dep_pos (GnmDependent const *dep)
 static void
 style_dep_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "StyleDep%p", (void *)dep);
+	g_string_append_printf (target, "StyleDep@%s[%p]",
+				cellpos_as_string (style_dep_pos (dep)),
+				dep);
 }
 
 /*****************************************************************************/
@@ -3186,7 +3188,10 @@ dependents_dump (Workbook *wb)
 	WORKBOOK_FOREACH_SHEET
 		(wb, sheet,
 		 {
-			 g_printerr ("Dependencies for %s:\n", sheet->name_unquoted);
+			 int count = 0;
+			 SHEET_FOREACH_DEPENDENT (sheet, dep, count++;);
+			 g_printerr ("Dependencies for %s (count=%d):\n",
+				     sheet->name_unquoted, count);
 			 gnm_dep_container_dump (sheet->deps, sheet);
 		 });
 }
