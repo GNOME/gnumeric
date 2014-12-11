@@ -1801,41 +1801,22 @@ sheet_col_new (Sheet *sheet)
 }
 
 static void
-sheet_col_add (Sheet *sheet, ColRowInfo *cp, int col)
+sheet_colrow_add (Sheet *sheet, ColRowInfo *cp, gboolean is_cols, int n)
 {
-	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->cols), col);
+	ColRowCollection *info = is_cols ? &sheet->cols : &sheet->rows;
+	ColRowSegment **psegment = (ColRowSegment **)&COLROW_GET_SEGMENT (info, n);
 
-	g_return_if_fail (col >= 0);
-	g_return_if_fail (col < gnm_sheet_get_max_cols (sheet));
+	g_return_if_fail (n >= 0);
+	g_return_if_fail (n < colrow_max (is_cols, sheet));
 
-	if (*segment == NULL)
-		*segment = g_new0 (ColRowSegment, 1);
-	(*segment)->info[COLROW_SUB_INDEX (col)] = cp;
+	if (*psegment == NULL)
+		*psegment = g_new0 (ColRowSegment, 1);
+	(*psegment)->info[COLROW_SUB_INDEX (n)] = cp;
 
-	if (cp->outline_level > sheet->cols.max_outline_level)
-		sheet->cols.max_outline_level = cp->outline_level;
-	if (col > sheet->cols.max_used) {
-		sheet->cols.max_used = col;
-		sheet->priv->resize_scrollbar = TRUE;
-	}
-}
-
-static void
-sheet_row_add (Sheet *sheet, ColRowInfo *rp, int row)
-{
-	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->rows), row);
-
-	g_return_if_fail (row >= 0);
-	g_return_if_fail (row < gnm_sheet_get_max_rows (sheet));
-
-	if (*segment == NULL)
-		*segment = g_new0 (ColRowSegment, 1);
-	(*segment)->info[COLROW_SUB_INDEX (row)] = rp;
-
-	if (rp->outline_level > sheet->rows.max_outline_level)
-		sheet->rows.max_outline_level = rp->outline_level;
-	if (row > sheet->rows.max_used) {
-		sheet->rows.max_used = row;
+	if (cp->outline_level > info->max_outline_level)
+		info->max_outline_level = cp->outline_level;
+	if (n > info->max_used) {
+		info->max_used = n;
 		sheet->priv->resize_scrollbar = TRUE;
 	}
 }
@@ -3763,7 +3744,7 @@ sheet_col_get (Sheet const *sheet, int pos)
 
 	segment = COLROW_GET_SEGMENT (&(sheet->cols), pos);
 	if (segment != NULL)
-		return segment->info [COLROW_SUB_INDEX (pos)];
+		return segment->info[COLROW_SUB_INDEX (pos)];
 	return NULL;
 }
 
@@ -3783,7 +3764,7 @@ sheet_row_get (Sheet const *sheet, int pos)
 
 	segment = COLROW_GET_SEGMENT (&(sheet->rows), pos);
 	if (segment != NULL)
-		return segment->info [COLROW_SUB_INDEX (pos)];
+		return segment->info[COLROW_SUB_INDEX (pos)];
 	return NULL;
 }
 
@@ -3805,7 +3786,7 @@ sheet_col_fetch (Sheet *sheet, int pos)
 {
 	ColRowInfo *cri = sheet_col_get (sheet, pos);
 	if (NULL == cri && NULL != (cri = sheet_col_new (sheet)))
-		sheet_col_add (sheet, cri, pos);
+		sheet_colrow_add (sheet, cri, TRUE, pos);
 	return cri;
 }
 
@@ -3819,7 +3800,7 @@ sheet_row_fetch (Sheet *sheet, int pos)
 {
 	ColRowInfo *cri = sheet_row_get (sheet, pos);
 	if (NULL == cri && NULL != (cri = sheet_row_new (sheet)))
-		sheet_row_add (sheet, cri, pos);
+		sheet_colrow_add (sheet, cri, FALSE, pos);
 	return cri;
 }
 
@@ -4856,19 +4837,16 @@ cb_collect_cell (GnmCellIter const *iter, gpointer user)
  * 3) replaces the cells in their new location
  */
 static void
-colrow_move (Sheet *sheet,
-	     int start_col, int start_row,
-	     int end_col, int end_row,
-	     ColRowCollection *info_collection,
+colrow_move (Sheet *sheet, gboolean is_cols,
 	     int const old_pos, int const new_pos)
 {
-	gboolean const is_cols = (info_collection == &sheet->cols);
-	ColRowSegment *segment = COLROW_GET_SEGMENT (info_collection, old_pos);
-	ColRowInfo *info = (segment != NULL) ?
-		segment->info [COLROW_SUB_INDEX (old_pos)] : NULL;
-
+	ColRowSegment *segment = COLROW_GET_SEGMENT (is_cols ? &sheet->cols : &sheet->rows, old_pos);
+	ColRowInfo *info = segment
+		? segment->info[COLROW_SUB_INDEX (old_pos)]
+		: NULL;
 	GList *cells = NULL;
-	GnmCell  *cell;
+	GnmCell *cell;
+	GnmRange r;
 
 	g_return_if_fail (old_pos >= 0);
 	g_return_if_fail (new_pos >= 0);
@@ -4877,9 +4855,12 @@ colrow_move (Sheet *sheet,
 		return;
 
 	/* Collect the cells and unlinks them if necessary */
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		start_col, start_row, end_col, end_row,
-		&cb_collect_cell, &cells);
+	(is_cols ? range_init_cols : range_init_rows) (&r, sheet, old_pos, old_pos);
+	sheet_foreach_cell_in_range
+		(sheet, CELL_ITER_IGNORE_NONEXISTENT,
+		 r.start.col, r.start.row,
+		 r.end.col, r.end.row,
+		 &cb_collect_cell, &cells);
 
 	/* Reverse the list so that we start at the top left
 	 * which makes things easier for arrays.
@@ -4887,12 +4868,8 @@ colrow_move (Sheet *sheet,
 	cells = g_list_reverse (cells);
 
 	/* Update the position */
-	segment->info [COLROW_SUB_INDEX (old_pos)] = NULL;
-	/* TODO : Figure out a way to merge these functions */
-	if (is_cols)
-		sheet_col_add (sheet, info, new_pos);
-	else
-		sheet_row_add (sheet, info, new_pos);
+	segment->info[COLROW_SUB_INDEX (old_pos)] = NULL;
+	sheet_colrow_add (sheet, info, is_cols, new_pos);
 
 	/* Insert the cells back */
 	for (; cells != NULL ; cells = g_list_remove (cells, cell)) {
@@ -5135,10 +5112,7 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
 	reloc_info.sticky_end = TRUE;
-	reloc_info.origin.start.col = col;
-	reloc_info.origin.start.row = 0;
-	reloc_info.origin.end.col = gnm_sheet_get_last_col (sheet);
-	reloc_info.origin.end.row = gnm_sheet_get_last_row (sheet);
+	range_init_cols (&reloc_info.origin, sheet, col, gnm_sheet_get_last_col (sheet));
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = count;
 	reloc_info.row_offset = 0;
@@ -5152,8 +5126,7 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 
 	/* 3. Move the columns to their new location (from right to left) */
 	for (i = sheet->cols.max_used; i >= col ; --i)
-		colrow_move (sheet, i, 0, i, gnm_sheet_get_last_row (sheet),
-			     &sheet->cols, i, i + count);
+		colrow_move (sheet, TRUE, i, i + count);
 
 	/* 4. Move formatting.  */
 	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count, pundo);
@@ -5201,10 +5174,7 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
 	reloc_info.sticky_end = !beyond_end;
-	reloc_info.origin.start.col = col;
-	reloc_info.origin.start.row = 0;
-	reloc_info.origin.end.col = col + count - 1;
-	reloc_info.origin.end.row = gnm_sheet_get_last_row (sheet);
+	range_init_cols (&reloc_info.origin, sheet, col, col + count - 1);
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = gnm_sheet_get_max_cols (sheet); /* force invalidation */
 	reloc_info.row_offset = 0;
@@ -5242,16 +5212,14 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 3. Fix references to and from the cells which are moving */
-	reloc_info.origin.start.col = col + count;
-	reloc_info.origin.end.col = gnm_sheet_get_last_col (sheet);
+	range_init_cols (&reloc_info.origin, sheet, col + count, gnm_sheet_get_last_col (sheet));
 	reloc_info.col_offset = -count;
 	reloc_info.row_offset = 0;
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 4. Move the columns to their new location (from left to right) */
 	for (i = col + count ; i <= sheet->cols.max_used; ++i)
-		colrow_move (sheet, i, 0, i, gnm_sheet_get_last_row (sheet),
-			     &sheet->cols, i, i - count);
+		colrow_move (sheet, TRUE, i, i - count);
 
 	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count, pundo);
 
@@ -5311,10 +5279,7 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.sticky_end = TRUE;
-	reloc_info.origin.start.col = 0;
-	reloc_info.origin.start.row = row;
-	reloc_info.origin.end.col = gnm_sheet_get_last_col (sheet);
-	reloc_info.origin.end.row = gnm_sheet_get_last_row (sheet);
+	range_init_rows (&reloc_info.origin, sheet, row, gnm_sheet_get_last_row (sheet));
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = count;
@@ -5328,8 +5293,7 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 
 	/* 3. Move the rows to their new location (from last to first) */
 	for (i = sheet->rows.max_used; i >= row ; --i)
-		colrow_move (sheet, 0, i, gnm_sheet_get_last_col (sheet), i,
-			     &sheet->rows, i, i + count);
+		colrow_move (sheet, FALSE, i, i + count);
 
 	/* 4. Move formatting.  */
 	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count, pundo);
@@ -5377,10 +5341,7 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.sticky_end = !beyond_end;
-	reloc_info.origin.start.col = 0;
-	reloc_info.origin.start.row = row;
-	reloc_info.origin.end.col = gnm_sheet_get_last_col (sheet);
-	reloc_info.origin.end.row = row + count - 1;
+	range_init_rows (&reloc_info.origin, sheet, row, row + count - 1);
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = gnm_sheet_get_max_rows (sheet); /* force invalidation */
@@ -5418,16 +5379,14 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 3. Fix references to and from the cells which are moving */
-	reloc_info.origin.start.row = row + count;
-	reloc_info.origin.end.row = gnm_sheet_get_last_row (sheet);
+	range_init_rows (&reloc_info.origin, sheet, row + count, gnm_sheet_get_last_row (sheet));
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = -count;
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 4. Move the rows to their new location (from first to last) */
 	for (i = row + count ; i <= sheet->rows.max_used; ++i)
-		colrow_move (sheet, 0, i, gnm_sheet_get_last_col (sheet), i,
-			     &sheet->rows, i, i - count);
+		colrow_move (sheet, FALSE, i, i - count);
 
 	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count, pundo);
 

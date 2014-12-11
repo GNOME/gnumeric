@@ -1,3 +1,9 @@
+2014-12-11  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_colrow_add): Merge from sheet_col_add and
+	sheet_row_add.
+	(colrow_move): Change parameterization slightly.
+
 2014-12-06  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (scg_unant): Destroy item cursors.  We
