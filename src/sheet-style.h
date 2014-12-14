@@ -41,7 +41,7 @@ void	 sheet_style_set_pos		(Sheet  *sheet, int col, int row,
 void	 sheet_style_apply_pos		(Sheet  *sheet, int col, int row,
 					 GnmStyle *style);
 
-void	 sheet_style_insert_colrow	(GnmExprRelocateInfo const *rinfo);
+void	 sheet_style_insdel_colrow	(GnmExprRelocateInfo const *rinfo);
 void	 sheet_style_relocate		(GnmExprRelocateInfo const *rinfo);
 unsigned int sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 					 GnmStyle **style, GnmBorder **borders);

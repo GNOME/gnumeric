@@ -20,7 +20,7 @@ typedef struct {
 	void (*eval)	   (GnmDependent *dep);
 	void (*set_expr)   (GnmDependent *dep, GnmExprTop const *new_texpr);
 	GSList* (*changed) (GnmDependent *dep);
-	GnmCellPos const* (*pos) (GnmDependent const *dep);
+	GnmCellPos* (*pos) (GnmDependent const *dep);
 	void (*debug_name) (GnmDependent const *dep, GString *target);
 } GnmDependentClass;
 
@@ -98,7 +98,9 @@ void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr);
 
 gboolean dependent_is_volatile     (GnmDependent *dep);
 
+gboolean dependent_has_pos (GnmDependent const *dep);
 GnmCellPos const *dependent_pos (GnmDependent const *dep);
+void dependent_move (GnmDependent *dep, int dx, int dy);
 
 GOUndo  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void	 dependents_link	    (GSList *deps);

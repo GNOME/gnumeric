@@ -1,3 +1,15 @@
+2014-12-15  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (sheet_style_insdel_colrow): Rename from
+	sheet_style_insert_colrow and handled deletion too.
+
+	* src/sheet.c (sheet_insdel_colrow): Merge from sheet_insert_rows,
+	sheet_insert_cols, sheet_delete_rows, sheet_delete_cols.  Simplify
+	and clean up.
+
+	* src/dependent.c (dependent_has_pos, dependent_move): New
+	functions.
+
 2014-12-14  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_colrow_add): Make sure the slot we use is

@@ -2124,56 +2124,63 @@ sheet_style_relocate (GnmExprRelocateInfo const *rinfo)
 }
 
 /**
- * sheet_style_insert_colrow:
+ * sheet_style_insdel_colrow:
  * @rinfo:
  *
- * A utility routine to give the effect of stretching the styles when a col/row
- * is inserted.  This is done by applying the styles from the left/top col/row
- * to the new region.
+ * Insert of delete style columns/rows.
+ *
+ * For the insert case, we stretch the preceding column/row into there space
+ * we open.
  */
 void
-sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
+sheet_style_insdel_colrow (GnmExprRelocateInfo const *rinfo)
 {
+	GnmStyleList *styles = NULL;
+	Sheet *sheet;
 	GnmCellPos corner;
-	GnmStyleList *ptr, *styles = NULL;
-	GnmRange r;
+	gboolean is_insert;
 
 	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (rinfo->origin_sheet == rinfo->target_sheet);
+	g_return_if_fail ((rinfo->col_offset == 0) != (rinfo->row_offset == 0));
 
-	/* 1) copy col/row to the top/left of the region, and extend it */
-	corner = rinfo->origin.start;
-	if (rinfo->col_offset != 0) {
-		int const o = rinfo->col_offset - 1;
-		int col = corner.col - 1;
+	is_insert = (rinfo->col_offset + rinfo->row_offset > 0);
+	sheet = rinfo->origin_sheet;
 
-		if (col < 0)
-			col = 0;
-		corner.row = 0;
-		styles = sheet_style_get_range (rinfo->origin_sheet,
-			       range_init (&r, col, 0, col, gnm_sheet_get_last_row (rinfo->origin_sheet)));
-		if (o > 0)
-			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
-				((GnmStyleRegion *)ptr->data)->range.end.col = o;
+	if (is_insert) {
+		/* 1) copy col/row to the top/left of the region, and extend it */
+		corner = rinfo->origin.start;
+		if (rinfo->col_offset) {
+			int col = MAX (corner.col - 1, 0);
+			GnmStyleList *ptr;
+			GnmRange r;
 
-	} else if (rinfo->row_offset != 0) {
-		int const o = rinfo->row_offset - 1;
-		int row = corner.row - 1;
-		if (row < 0)
-			row = 0;
-		corner.col = 0;
-		range_init_rows (&r, rinfo->origin_sheet, row, row);
-		styles = sheet_style_get_range (rinfo->origin_sheet, &r);
-		if (o > 0)
-			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
-				((GnmStyleRegion *)ptr->data)->range.end.row = o;
+			corner.row = 0;
+			range_init_cols (&r, sheet, col, col);
+			styles = sheet_style_get_range (sheet, &r);
+			for (ptr = styles ; ptr != NULL ; ptr = ptr->next) {
+				GnmStyleRegion *sr = ptr->data;
+				sr->range.end.col = rinfo->col_offset - 1;
+			}
+		} else {
+			int row = MAX (corner.row - 1, 0);
+			GnmStyleList *ptr;
+			GnmRange r;
+
+			corner.col = 0;
+			range_init_rows (&r, sheet, row, row);
+			styles = sheet_style_get_range (sheet, &r);
+			for (ptr = styles ; ptr != NULL ; ptr = ptr->next) {
+				GnmStyleRegion *sr = ptr->data;
+				sr->range.end.row = rinfo->row_offset - 1;
+			}
+		}
 	}
 
 	sheet_style_relocate (rinfo);
 
-	if (styles != NULL) {
-		sheet_style_set_list (rinfo->target_sheet, &corner, styles,
-				      NULL, NULL);
+	if (styles) {
+		sheet_style_set_list (sheet, &corner, styles, NULL, NULL);
 		style_list_free	(styles);
 	}
 }

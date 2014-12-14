@@ -239,7 +239,7 @@ dummy_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
 static void cell_dep_eval (GnmDependent *dep);
 static void cell_dep_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr);
 static GSList *cell_dep_changed (GnmDependent *dep);
-static GnmCellPos const *cell_dep_pos (GnmDependent const *dep);
+static GnmCellPos *cell_dep_pos (GnmDependent const *dep);
 static void cell_dep_debug_name (GnmDependent const *dep, GString *target);
 static const GnmDependentClass cell_dep_class = {
 	cell_dep_eval,
@@ -285,7 +285,7 @@ static const GnmDependentClass managed_dep_class = {
 
 static void style_dep_eval (GnmDependent *dep);
 static GSList *style_dep_changed (GnmDependent *dep);
-static GnmCellPos const *style_dep_pos (GnmDependent const *dep);
+static GnmCellPos *style_dep_pos (GnmDependent const *dep);
 static void style_dep_debug_name (GnmDependent const *dep, GString *target);
 static const GnmDependentClass style_dep_class = {
 	style_dep_eval,
@@ -426,6 +426,14 @@ dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 	}
 }
 
+gboolean
+dependent_has_pos (GnmDependent const *dep)
+{
+	int const t = dependent_type (dep);
+	GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
+	return klass->pos != NULL;
+}
+
 GnmCellPos const *
 dependent_pos (GnmDependent const *dep)
 {
@@ -434,6 +442,20 @@ dependent_pos (GnmDependent const *dep)
 	GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 	return klass->pos ? klass->pos (dep) : &dummy;
+}
+
+void
+dependent_move (GnmDependent *dep, int dx, int dy)
+{
+	int const t = dependent_type (dep);
+	GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
+	GnmCellPos *pos;
+
+	g_return_if_fail (klass->pos != NULL);
+	pos = klass->pos (dep);
+	/* Need a virtual for this? */
+	pos->col += dx;
+	pos->row += dy;
 }
 
 
@@ -1264,7 +1286,7 @@ cell_dep_changed (GnmDependent *dep)
 	return work;
 }
 
-static GnmCellPos const *
+static GnmCellPos *
 cell_dep_pos (GnmDependent const *dep)
 {
 	return &GNM_DEP_TO_CELL (dep)->pos;
@@ -1392,7 +1414,7 @@ style_dep_changed (GnmDependent *dep)
 	return NULL;
 }
 
-static GnmCellPos const *
+static GnmCellPos *
 style_dep_pos (GnmDependent const *dep)
 {
 	return &((GnmStyleDependent*)dep)->pos;
