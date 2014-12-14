@@ -1811,6 +1811,7 @@ sheet_colrow_add (Sheet *sheet, ColRowInfo *cp, gboolean is_cols, int n)
 
 	if (*psegment == NULL)
 		*psegment = g_new0 (ColRowSegment, 1);
+	colrow_free ((*psegment)->info[COLROW_SUB_INDEX (n)]);
 	(*psegment)->info[COLROW_SUB_INDEX (n)] = cp;
 
 	if (cp->outline_level > info->max_outline_level)
