@@ -61,6 +61,44 @@ cb_collect_names (G_GNUC_UNUSED const char *name, GnmNamedExpr *nexpr, GSList **
 	*names = g_slist_prepend (*names, nexpr);
 }
 
+static GnmCell *
+fetch_cell (Sheet *sheet, const char *where)
+{
+	GnmCellPos cp;
+	gboolean ok = cellpos_parse (where,
+				     gnm_sheet_get_size (sheet),
+				     &cp, TRUE) != NULL;
+	g_return_val_if_fail (ok, NULL);
+	return sheet_cell_fetch (sheet, cp.col, cp.row);
+}
+
+static void
+set_cell (Sheet *sheet, const char *where, const char *what)
+{
+	GnmCell *cell = fetch_cell (sheet, where);
+	if (cell)
+		gnm_cell_set_text (cell, what);
+}
+
+static void
+dump_sheet (Sheet *sheet, const char *header)
+{
+	GPtrArray *cells = sheet_cells (sheet, NULL);
+	unsigned ui;
+
+	if (header)
+		g_printerr ("# %s\n", header);
+	for (ui = 0; ui < cells->len; ui++) {
+		GnmCell *cell = g_ptr_array_index (cells, ui);
+		char *txt = gnm_cell_get_entered_text (cell);
+		g_printerr ("%s: %s\n",
+			    cellpos_as_string (&cell->pos), txt);
+		g_free (txt);
+	}
+	g_ptr_array_free (cells, TRUE);
+}
+
+
 static void
 dump_names (Workbook *wb)
 {
@@ -195,6 +233,76 @@ test_insdel_rowcol_names (void)
 
 	mark_test_end (test_name);
 }
+
+/*-------------------------------------------------------------------------- */
+
+static void
+test_insert_delete (void)
+{
+	const char *test_name = "test_insert_delete";
+	Workbook *wb;
+	Sheet *sheet1;
+	int i;
+	GOUndo *u = NULL, *u1;
+
+	mark_test_start (test_name);
+
+	wb = workbook_new ();
+	sheet1 = workbook_sheet_add (wb, -1,
+				     GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
+	set_cell (sheet1, "B2", "=D4+1");
+	set_cell (sheet1, "D2", "=if(TRUE,B2,2)");
+
+	dump_sheet (sheet1, "Init");
+
+	for (i = 5; i >= 0; i--) {
+		g_printerr ("# About to insert column before %s\n",
+			    col_name (i));
+		sheet_insert_cols (sheet1, i, 1, &u1, NULL);
+		u = go_undo_combine (u, u1);
+		dump_sheet (sheet1, NULL);
+	}
+
+	for (i = 5; i >= 0; i--) {
+		g_printerr ("# About to insert row before %s\n",
+			    row_name (i));
+		sheet_insert_rows (sheet1, i, 1, &u1, NULL);
+		u = go_undo_combine (u, u1);
+		dump_sheet (sheet1, NULL);
+	}
+
+	go_undo_undo (u);
+	g_object_unref (u);
+	u = NULL;
+	dump_sheet (sheet1, "Undo the lot");
+
+	for (i = 5; i >= 0; i--) {
+		g_printerr ("# About to delete column %s\n",
+			    col_name (i));
+		sheet_delete_cols (sheet1, i, 1, &u1, NULL);
+		u = go_undo_combine (u, u1);
+		dump_sheet (sheet1, NULL);
+	}
+
+	for (i = 5; i >= 0; i--) {
+		g_printerr ("# About to delete row %s\n",
+			    row_name (i));
+		sheet_delete_rows (sheet1, i, 1, &u1, NULL);
+		u = go_undo_combine (u, u1);
+		dump_sheet (sheet1, NULL);
+	}
+
+	go_undo_undo (u);
+	g_object_unref (u);
+	u = NULL;
+	dump_sheet (sheet1, "Undo the lot");
+
+	g_object_unref (wb);
+
+	mark_test_end (test_name);
+}
+
+/*-------------------------------------------------------------------------- */
 
 static void
 test_func_help (void)
@@ -838,6 +946,7 @@ main (int argc, char const **argv)
 	/* ---------------------------------------- */
 
 	MAYBE_DO ("test_insdel_rowcol_names") test_insdel_rowcol_names ();
+	MAYBE_DO ("test_insert_delete") test_insert_delete ();
 	MAYBE_DO ("test_func_help") test_func_help ();
 	MAYBE_DO ("test_nonascii_numbers") test_nonascii_numbers ();
 	MAYBE_DO ("test_random") test_random ();

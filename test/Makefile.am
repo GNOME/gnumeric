@@ -54,6 +54,7 @@ TESTS =	t1000-statfuns.pl			\
 	t2001-func-help.pl			\
 	t2002-nonascii-numbers.pl		\
 	t2003-random-generators.pl		\
+	t2004-insdel-colrow.pl			\
 	t2800-style-optimizer.pl		\
 	t5900-sc.pl				\
 	t5901-qpro.pl				\
