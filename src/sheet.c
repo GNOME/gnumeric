@@ -5138,7 +5138,7 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 }
 
 /**
- * sheet_delete_cols
+ * sheet_delete_cols:
  * @sheet: The sheet
  * @col:     At which position we want to start deleting columns
  * @count:   The number of columns to be deleted
@@ -5174,7 +5174,7 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 }
 
 /**
- * sheet_delete_rows
+ * sheet_delete_rows:
  * @sheet: The sheet
  * @row: At which position we want to start deleting rows
  * @count: The number of rows to be deleted
