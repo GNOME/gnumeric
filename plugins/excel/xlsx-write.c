@@ -119,6 +119,8 @@ typedef struct {
 	} chart, drawing, pivotCache, pivotTable;
 	unsigned comment;
 	GOFormat *date_fmt;
+
+	int custom_prop_id;
 } XLSXWriteState;
 
 typedef struct {
@@ -3040,6 +3042,8 @@ xlsx_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *io_context,
 	state.io_context	= io_context;
 	state.base.wb		= wb_view_get_workbook (wb_view);
 	state.comment		= 0;
+	state.custom_prop_id    = 29;
+
 	root_part = gsf_outfile_open_pkg_new (
 		gsf_outfile_zip_new (output, NULL));
 
@@ -3066,6 +3070,8 @@ xlsx2_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *io_context,
 	state.io_context	= io_context;
 	state.base.wb		= wb_view_get_workbook (wb_view);
 	state.comment		= 0;
+	state.custom_prop_id    = 29;
+
 	root_part = gsf_outfile_open_pkg_new (
 		gsf_outfile_zip_new (output, NULL));
 

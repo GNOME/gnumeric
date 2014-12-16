@@ -443,35 +443,46 @@ xlsx_meta_write_props_custom_type (char const *prop_name, GValue const *val, Gsf
 	}
 	gsf_xml_out_add_cstr (xml, "name", prop_name);
 	gsf_xml_out_start_element (xml, type);
-	if (NULL != val)
-		gsf_xml_out_add_gvalue (xml, NULL, val);
+	if (NULL != val) {
+		switch (G_VALUE_TYPE (val)) {
+		case G_TYPE_BOOLEAN:
+			gsf_xml_out_add_cstr (xml, NULL,
+					      g_value_get_boolean (val) ? "true" : "false");
+			break;
+		default:
+			gsf_xml_out_add_gvalue (xml, NULL, val);
+			break;
+		}
+	}
 	gsf_xml_out_end_element (xml);
 	gsf_xml_out_end_element (xml); /* </property> */
 }
 
 static void
-xlsx_meta_write_props_custom (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
+xlsx_meta_write_props_custom (char const *prop_name, GsfDocProp *prop, XLSXClosure *info)
 {
-	int custom_pid = 29;
+	GsfXMLOut *output = info->xml;
+	XLSXWriteState *state = info->state;
+
 	if ((0 != strcmp (GSF_META_NAME_GENERATOR, prop_name)) && (NULL == xlsx_map_prop_name (prop_name))
 	    &&  (NULL == xlsx_map_prop_name_extended (prop_name))) {
 		GValue const *val = gsf_doc_prop_get_val (prop);
 		if (VAL_IS_GSF_TIMESTAMP(val))
-			xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:date", &custom_pid);
+			xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:date", &state->custom_prop_id);
 		else switch (G_VALUE_TYPE(val)) {
 			case G_TYPE_BOOLEAN:
-				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:bool", &custom_pid);
+				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:bool", &state->custom_prop_id);
 				break;
 			case G_TYPE_INT:
 			case G_TYPE_LONG:
-				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:i4", &custom_pid);
+				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:i4", &state->custom_prop_id);
 				break;
 			case G_TYPE_FLOAT:
 			case G_TYPE_DOUBLE:
-				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:decimal", &custom_pid);
+				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:decimal", &state->custom_prop_id);
 			break;
 			case G_TYPE_STRING:
-				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:lpwstr", &custom_pid);
+				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:lpwstr", &state->custom_prop_id);
 				break;
 			default:
 				break;
@@ -489,12 +500,13 @@ xlsx_write_docprops_custom (XLSXWriteState *state, GsfOutfile *root_part, GsfOut
 		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties");
 	GsfXMLOut *xml = gsf_xml_out_new (part);
 	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb));
+	XLSXClosure info = { state, xml };
 
 	gsf_xml_out_start_element (xml, "Properties");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_docprops_custom);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:vt", ns_docprops_extended_vt);
 
-	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_custom, xml);
+	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_custom, &info);
 
 	gsf_xml_out_end_element (xml); /* </Properties> */
 

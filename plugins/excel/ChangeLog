@@ -1,5 +1,11 @@
 2014-12-16  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write-docprops.c (xlsx_meta_write_props_custom_type):
+	Booleans should be saved as "true" or "false", not "t" and "f".
+	Excel refuses to understand the latter.
+	(xlsx_meta_write_props_custom): Don't reuse prop ids.  Excel does
+	not like that.
+
 	* xlsx-utils.c (xlsx_func_hypgeomdist_output_handler): New handler
 	for HYPGEOMDIST.
 
