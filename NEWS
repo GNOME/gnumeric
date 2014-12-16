@@ -13,6 +13,7 @@ Morten:
 	* Truncate long strings for display in stf import.
 	* Fix crash on closing a graph sheet.
 	* Fix undo crash with conditional formatting and insert row.  [#741197]
+	* Fix xlsx export of HYPGEOMDIST.
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739697]

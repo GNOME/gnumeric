@@ -494,6 +494,20 @@ xlsx_func_erf_output_handler (GnmConventionsOut *out, GnmExprFunction const *fun
 	return FALSE;
 }
 
+static gboolean
+xlsx_func_hypgeomdist_output_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+	/* The cumulative flag is not optional.  */
+	if (func->argc != 5) {
+		g_string_append (out->accum, "_xlfn.HYPGEOM.DIST");
+		gnm_expr_list_as_string (func->argc, func->argv, out);
+		g_string_insert (out->accum, out->accum->len - 1, ",FALSE");
+		return TRUE;
+	}
+	return FALSE;
+}
+
+
 static char const *
 xlsx_string_parser (char const *in, GString *target,
 		   G_GNUC_UNUSED GnmConventions const *convs)
@@ -563,6 +577,7 @@ xlsx_conventions_new (gboolean output)
 		{"R.QT", xlsx_func_tinv_output_handler},
 		{"ERF", xlsx_func_erf_output_handler},
 		{"FLOOR", xlsx_func_floor_output_handler},
+		{"HYPGEOMDIST", xlsx_func_hypgeomdist_output_handler},
 		{NULL, NULL}
 	};
 
@@ -588,7 +603,7 @@ xlsx_conventions_new (gboolean output)
 		{ "F.TEST", "FTEST" },
 		{ "GAMMA.DIST", "GAMMADIST" },
 		{ "GAMMA.INV", "GAMMAINV" },
-		{ "HYPGEOM.DIST", "HYPGEOMDIST" },
+		{ "HYPGEOM.DIST", "HYPGEOMDIST" },  /* see output handler */
 		{ "LOGNORM.INV", "LOGINV" },
 		{ "MODE.SNGL", "MODE" },
 		{ "NORM.DIST", "NORMDIST" },
