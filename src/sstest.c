@@ -197,8 +197,8 @@ test_insdel_rowcol_names (void)
 	dump_names (wb);
 
 	for (i = 3; i >= 0; i--) {
-		g_printerr ("About to insert before column %d on %s\n",
-			    i, sheet1->name_unquoted);
+		g_printerr ("About to insert before column %s on %s\n",
+			    col_name (i), sheet1->name_unquoted);
 		sheet_insert_cols (sheet1, i, 12, &undo, NULL);
 		dump_names (wb);
 		g_printerr ("Undoing.\n");
@@ -208,8 +208,8 @@ test_insdel_rowcol_names (void)
 	}
 
 	for (i = 3; i >= 0; i--) {
-		g_printerr ("About to insert before column %d on %s\n",
-			    i, sheet2->name_unquoted);
+		g_printerr ("About to insert before column %s on %s\n",
+			    col_name (i), sheet2->name_unquoted);
 		sheet_insert_cols (sheet2, i, 12, &undo, NULL);
 		dump_names (wb);
 		g_printerr ("Undoing.\n");
@@ -219,8 +219,8 @@ test_insdel_rowcol_names (void)
 	}
 
 	for (i = 3; i >= 0; i--) {
-		g_printerr ("About to delete column %d on %s\n",
-			    i, sheet1->name_unquoted);
+		g_printerr ("About to delete column %s on %s\n",
+			    col_name (i), sheet1->name_unquoted);
 		sheet_delete_cols (sheet1, i, 1, &undo, NULL);
 		dump_names (wb);
 		g_printerr ("Undoing.\n");

@@ -1,3 +1,7 @@
+2014-12-16  Morten Welinder  <terra@gnome.org>
+
+	* t2000-names-insdel.pl: Match sstest changes.
+
 2014-09-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.18

@@ -28,7 +28,7 @@ Scope=Sheet2 Name="Sheet_Title" Expr="Sheet2"
 Scope=Global Name="NAMEG2" Expr=$A$14+Sheet1!$A$14+Sheet2!$A$14
 Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
-About to insert before column 3 on Sheet1
+About to insert before column D on Sheet1
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$A$1
@@ -43,7 +43,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to insert before column 2 on Sheet1
+About to insert before column C on Sheet1
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$A$1
@@ -58,7 +58,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to insert before column 1 on Sheet1
+About to insert before column B on Sheet1
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$A$1
@@ -73,7 +73,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to insert before column 0 on Sheet1
+About to insert before column A on Sheet1
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$M$1
@@ -88,7 +88,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to insert before column 3 on Sheet2
+About to insert before column D on Sheet2
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$A$1
@@ -103,7 +103,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to insert before column 2 on Sheet2
+About to insert before column C on Sheet2
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$A$1
@@ -118,7 +118,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to insert before column 1 on Sheet2
+About to insert before column B on Sheet2
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$A$1
@@ -133,7 +133,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to insert before column 0 on Sheet2
+About to insert before column A on Sheet2
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$A$1
@@ -148,7 +148,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to delete column 3 on Sheet1
+About to delete column D on Sheet1
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$A$1
@@ -163,7 +163,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to delete column 2 on Sheet1
+About to delete column C on Sheet1
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$A$1
@@ -178,7 +178,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to delete column 1 on Sheet1
+About to delete column B on Sheet1
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=$A$1
@@ -193,7 +193,7 @@ Scope=Global Name="NAMEGA1" Expr=A1
 Dumping names... Done
 Undoing.
 Done.
-About to delete column 0 on Sheet1
+About to delete column A on Sheet1
 Dumping names...
 Scope=Sheet1 Name="NAMEA1" Expr=A1
 Scope=Sheet1 Name="NAMEA1ABS" Expr=#REF!

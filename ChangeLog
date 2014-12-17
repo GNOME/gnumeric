@@ -1,5 +1,8 @@
 2014-12-16  Morten Welinder  <terra@gnome.org>
 
+	* src/sstest.c (test_insdel_rowcol_names): Use column name, not
+	number.
+
 	* src/sheet.c (sheet_insdel_colrow): Fix "sticky-end" setting for
 	the delete case.
 
