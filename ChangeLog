@@ -1,3 +1,8 @@
+2014-12-16  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_insdel_colrow): Fix "sticky-end" setting for
+	the delete case.
+
 2014-12-15  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (sheet_style_insdel_colrow): Rename from

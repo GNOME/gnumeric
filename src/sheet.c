@@ -5022,7 +5022,7 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 	sheet_objects_clear (sheet, &kill_zone, G_TYPE_NONE, pundo);
 
 	reloc_info.reloc_type = is_cols ? GNM_EXPR_RELOCATE_COLS : GNM_EXPR_RELOCATE_ROWS;
-	reloc_info.sticky_end = is_insert || kill_end > last_pos;
+	reloc_info.sticky_end = is_insert || !(kill_end > last_pos);
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	parse_pos_init_sheet (&reloc_info.pos, sheet);
 
@@ -5030,21 +5030,26 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 	sheet_style_clear_style_dependents (sheet, &change_zone);
 
 	/* 3. Invalidate references to kill zone.  */
-	reloc_info.origin = kill_zone;
-	reloc_info.col_offset = is_cols ? last_pos + 1 : 0;  /* Force invalidation */
-	reloc_info.row_offset = is_cols ? 0 : last_pos + 1;
-	combine_undo (pundo, dependents_relocate (&reloc_info));
+	if (is_insert) {
+		/* Done in the next step. */
+	} else {
+		reloc_info.origin = kill_zone;
+		/* Force invalidation: */
+		reloc_info.col_offset = is_cols ? last_pos + 1 : 0;
+		reloc_info.row_offset = is_cols ? 0 : last_pos + 1;
+		combine_undo (pundo, dependents_relocate (&reloc_info));
+	}
 
-	/* 3. Fix references to the cells which are moving */
-	reloc_info.origin = move_zone;
+	/* 4. Fix references to the cells which are moving */
+	reloc_info.origin = is_insert ? change_zone : move_zone;
 	reloc_info.col_offset = is_cols ? scount : 0;
 	reloc_info.row_offset = is_cols ? 0 : scount;
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
-	/* 4. Move the cells */
+	/* 5. Move the cells */
 	sheet_cells_deps_move (&reloc_info);
 
-	/* 5. Move the columns/rows to their new location.  */
+	/* 6. Move the columns/rows to their new location.  */
 	if (is_insert) {
 		/* From right to left */
 		for (i = max_used_pos; i >= pos ; --i)
@@ -5058,16 +5063,16 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 	sheet_colrow_set_collapse (sheet, is_cols,
 				   is_insert ? pos + count : last_pos - (count - 1));
 
-	/* 6. Move formatting.  */
+	/* 7. Move formatting.  */
 	sheet_style_insdel_colrow (&reloc_info);
 
-	/* 7. Move objects.  */
+	/* 8. Move objects.  */
 	sheet_objects_relocate (&reloc_info, FALSE, pundo);
 
-	/* 8. Move merges.  */
+	/* 9. Move merges.  */
 	gnm_sheet_merge_relocate (&reloc_info);
 
-	/* 9. Move filters.  */
+	/* 10. Move filters.  */
 	gnm_sheet_filter_insdel_colrow (sheet, is_cols, is_insert, pos, count, pundo);
 
 	/* Notify sheet of pending updates */
