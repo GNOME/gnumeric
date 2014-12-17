@@ -363,7 +363,7 @@ paradox_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 			/* Get the field Type */
 			fieldstr = tmp+1;
 			if (*fieldstr == '\0') {
-				g_warning (_("%d. field specification ended unexpectetly."), i);
+				g_warning (_("%d. field specification ended unexpectedly."), i);
 				PX_delete (pxdoc);
 				return;
 			}

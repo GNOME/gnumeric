@@ -190,8 +190,8 @@
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="has_tooltip">True</property>
-                        <property name="tooltip_markup" translatable="yes">Unimplementented</property>
-                        <property name="tooltip_text" translatable="yes">Unimplementented</property>
+                        <property name="tooltip_markup" translatable="yes">Unimplemented</property>
+                        <property name="tooltip_text" translatable="yes">Unimplemented</property>
                         <property name="hexpand">True</property>
                         <property name="visibility">False</property>
                         <property name="invisible_char">•</property>

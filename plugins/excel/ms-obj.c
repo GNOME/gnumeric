@@ -398,12 +398,12 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 		"Top to Bottom on Side"
 	};
 	static char const * const haligns [] = {
-		"At left", "Horizontaly centered",
-		"At right", "Horizontaly justified"
+		"At left", "Horizontally centered",
+		"At right", "Horizontally justified"
 	};
 	static char const * const valigns [] = {
-		"At top", "Verticaly centered",
-		"At bottom", "Verticaly justified"
+		"At top", "Vertically centered",
+		"At bottom", "Vertically justified"
 	};
 
 	guint16 options, orient, text_len;

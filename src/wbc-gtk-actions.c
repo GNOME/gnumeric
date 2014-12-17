@@ -2848,7 +2848,7 @@ static GtkToggleActionEntry const toggle_actions[] = {
 		G_CALLBACK (cb_center_across_selection), FALSE },
 	{ "MergeAndCenter", NULL,
 		N_("_Merge and Center"), NULL,
-		N_("Merge the selection into 1 cell, and center horizontaly."),
+		N_("Merge the selection into 1 cell, and center horizontally."),
 		G_CALLBACK (cb_merge_and_center), FALSE },
 #warning "Add justify"
 #warning "h/v distributed?"
