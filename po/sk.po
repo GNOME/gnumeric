@@ -17002,7 +17002,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2711
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "_Prejsť na bunku..."
 
 #: ../src/wbc-gtk.c:2782

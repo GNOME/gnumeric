@@ -17409,7 +17409,7 @@ msgid "END"
 msgstr "Akhir: 0"
 
 #: ../src/wbc-gtk.c:2769
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Ke Sel ..."
 
 #: ../src/wbc-gtk.c:2837

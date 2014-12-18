@@ -16694,7 +16694,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2711
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "ནང་ཐིག་ལུ་འགྱོ་...(_G)"
 
 #: ../src/wbc-gtk.c:2782

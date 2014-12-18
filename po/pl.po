@@ -17216,7 +17216,7 @@ msgid "END"
 msgstr "KONIEC"
 
 #: ../src/wbc-gtk.c:2677
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Przejdź do Komórki ..."
 
 #: ../src/wbc-gtk.c:2746

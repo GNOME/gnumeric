@@ -17220,7 +17220,7 @@ msgid "END"
 msgstr "PABAIGA"
 
 #: ../src/wbc-gtk.c:2784
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Eiti į langelį…"
 
 #: ../src/wbc-gtk.c:2852

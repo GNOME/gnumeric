@@ -16235,7 +16235,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2711
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "C_ealla..."
 
 #: ../src/wbc-gtk.c:2782

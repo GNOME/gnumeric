@@ -2766,7 +2766,7 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 			{ N_("Go to First"),    GTK_STOCK_GOTO_FIRST,  &cb_cs_go_left    },
 			{ N_("Go to Last"),     GTK_STOCK_GOTO_LAST,   &cb_cs_go_right   },
 			{ NULL, NULL, NULL},
-			{ N_("Go to Cell ..."), GTK_STOCK_JUMP_TO,     &cb_cs_go_to_cell }
+			{ N_("Go to Cell..."),  GTK_STOCK_JUMP_TO,     &cb_cs_go_to_cell }
 		};
 		unsigned int ui;
 		GtkWidget *item, *menu = gtk_menu_new ();

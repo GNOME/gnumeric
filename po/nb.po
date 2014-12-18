@@ -16873,7 +16873,7 @@ msgid "END"
 msgstr "SLUTT"
 
 #: ../src/wbc-gtk.c:2769
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Gå til celle …"
 
 #: ../src/wbc-gtk.c:2837

@@ -16663,7 +16663,7 @@ msgid "END"
 msgstr "FIN"
 
 #: ../src/wbc-gtk.c:2677
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Ir á cela..."
 
 #: ../src/wbc-gtk.c:2746

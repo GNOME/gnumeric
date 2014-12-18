@@ -16674,7 +16674,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2711
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "_Vorminda lahtrid..."
 
 #: ../src/wbc-gtk.c:2782

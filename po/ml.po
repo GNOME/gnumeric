@@ -16713,7 +16713,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2711
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "കള്ളിയിലേക്ക് പോകുക..."
 
 #: ../src/wbc-gtk.c:2782

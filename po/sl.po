@@ -17295,7 +17295,7 @@ msgid "END"
 msgstr "KONEC"
 
 #: ../src/wbc-gtk.c:2769
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Pojdi na _celico"
 
 #: ../src/wbc-gtk.c:2837

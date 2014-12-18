@@ -16133,7 +16133,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2711
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "అరలను_రూపలావణ్యపరచు..."
 
 #: ../src/wbc-gtk.c:2782

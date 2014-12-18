@@ -17201,7 +17201,7 @@ msgid "END"
 msgstr "KONEC"
 
 #: ../src/wbc-gtk.c:2769
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Přejít na buňku…"
 
 #: ../src/wbc-gtk.c:2837

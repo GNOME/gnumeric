@@ -17631,7 +17631,7 @@ msgid "END"
 msgstr "END"
 
 #: ../src/wbc-gtk.c:2702
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Μετάβαση στο κελί..."
 
 #: ../src/wbc-gtk.c:2770

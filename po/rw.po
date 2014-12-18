@@ -19521,7 +19521,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2711
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Akazu"
 
 #: ../src/wbc-gtk.c:2782

@@ -15818,7 +15818,7 @@ msgid "Go to Last"
 msgstr ""
 
 #: ../src/wbc-gtk.c:2711
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr ""
 
 #: ../src/wbc-gtk.c:2782

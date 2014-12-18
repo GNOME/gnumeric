@@ -17271,7 +17271,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2677
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "セルの書式設定(_F)..."
 
 #: ../src/wbc-gtk.c:2746

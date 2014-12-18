@@ -17703,7 +17703,7 @@ msgstr "END"
 
 #: ../src/wbc-gtk.c:2769
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "S_iirry soluun..."
 
 #: ../src/wbc-gtk.c:2837

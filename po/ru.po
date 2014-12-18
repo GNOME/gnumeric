@@ -17553,7 +17553,7 @@ msgid "Go to Last"
 msgstr "Перейти к последней"
 
 #: ../src/wbc-gtk.c:2622
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Перейти к ячейке..."
 
 #: ../src/wbc-gtk.c:2693

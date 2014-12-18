@@ -18266,7 +18266,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2769
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "_Gözeye git..."
 
 #: ../src/wbc-gtk.c:2837

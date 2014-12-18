@@ -16660,7 +16660,7 @@ msgid "Go to Last"
 msgstr "到最后一个"
 
 #: ../src/wbc-gtk.c:2600
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "转到单元格..."
 
 #: ../src/wbc-gtk.c:2669

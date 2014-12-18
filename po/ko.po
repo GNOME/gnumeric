@@ -16818,7 +16818,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2711
 #, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "셀 찾아가기(_G)..."
 
 #: ../src/wbc-gtk.c:2782

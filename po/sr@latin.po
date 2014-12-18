@@ -17246,7 +17246,7 @@ msgid "END"
 msgstr "KRAJ"
 
 #: ../src/wbc-gtk.c:2769
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Idi na polje ..."
 
 #: ../src/wbc-gtk.c:2837

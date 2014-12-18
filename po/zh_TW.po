@@ -17153,7 +17153,7 @@ msgid "Go to Last"
 msgstr "前往最後一個"
 
 #: ../src/wbc-gtk.c:2624
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "移至儲存格 ..."
 
 #: ../src/wbc-gtk.c:2693
