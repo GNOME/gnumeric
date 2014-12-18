@@ -11525,35 +11525,29 @@ msgid "_Show advanced sheet properties"
 msgstr "_Vis avancerede arkegenskaber"
 
 #: ../src/dialogs/sheet-rename.ui.h:1
-#, fuzzy
 msgid "Rename Sheet"
-msgstr "Omdøbning af ark"
+msgstr "Omdøb af ark"
 
 #: ../src/dialogs/sheet-rename.ui.h:2
-#, fuzzy
 msgid "Old Name:"
-msgstr "Navn:"
+msgstr "Nuværende navn:"
 
 #: ../src/dialogs/sheet-rename.ui.h:3
-#, fuzzy
 msgid "New Name:"
-msgstr "Nyt navn"
+msgstr "Nyt navn:"
 
 #: ../src/dialogs/sheet-resize.ui.h:1
-#, fuzzy
 msgid "Resize Sheet"
-msgstr "Ændring af størrelse på objekt"
+msgstr "Ændring af størrelse på ark"
 
 #. Number of 'Columns' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:3
-#, fuzzy
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Kolonner"
 
 #. Number of 'Rows' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:5
-#, fuzzy
 msgctxt "sheetsize"
 msgid "Rows"
 msgstr "Rækker"
@@ -15539,7 +15533,7 @@ msgstr "Hyppighedtabeller"
 
 #: ../src/wbc-gtk-actions.c:2013
 msgid "De_pendent Observations"
-msgstr ""
+msgstr "Afhængige observationer"
 
 #: ../src/wbc-gtk-actions.c:2014
 msgid "F_orecast"
@@ -16214,9 +16208,8 @@ msgid "Insert an image"
 msgstr "Indsæt et billede"
 
 #: ../src/wbc-gtk-actions.c:2354
-#, fuzzy
 msgid "Insert a comment"
-msgstr "Indsæt kolonner"
+msgstr "Indsæt end kommentar"
 
 #: ../src/wbc-gtk-actions.c:2357
 #, fuzzy
@@ -16224,18 +16217,16 @@ msgid "Insert a Hyperlink"
 msgstr "Redigér udtryk"
 
 #: ../src/wbc-gtk-actions.c:2359
-#, fuzzy
 msgid "Sort (_Descending)"
-msgstr "Sortér faldende"
+msgstr "Sortér _faldende"
 
 #: ../src/wbc-gtk-actions.c:2360
 msgid "Wrap with SORT (descending)"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2362
-#, fuzzy
 msgid "Sort (_Ascending)"
-msgstr "Sortér stigende"
+msgstr "Sortér _stigende"
 
 #: ../src/wbc-gtk-actions.c:2363
 msgid "Wrap with SORT (ascending)"
@@ -16243,7 +16234,6 @@ msgstr ""
 
 #. Insert -> Special
 #: ../src/wbc-gtk-actions.c:2367
-#, fuzzy
 msgid "Current _Date"
 msgstr "Dags _dato"
 
@@ -16253,7 +16243,6 @@ msgid "Insert the current date into the selected cell(s)"
 msgstr "Indsæt dags dato i de markerede celler"
 
 #: ../src/wbc-gtk-actions.c:2371
-#, fuzzy
 msgid "Current _Time"
 msgstr "_Tidspunkt"
 
@@ -16262,7 +16251,6 @@ msgid "Insert the current time into the selected cell(s)"
 msgstr "Indsæt det nuværende tidspunkt i de markerede celler"
 
 #: ../src/wbc-gtk-actions.c:2375
-#, fuzzy
 msgid "Current D_ate and Time"
 msgstr "Dags dato og tidspunkt"
 
@@ -16985,9 +16973,8 @@ msgid "Sum into the current cell"
 msgstr "Summér til den aktuelle celle."
 
 #: ../src/wbc-gtk-actions.c:2703
-#, fuzzy
 msgid "_Function..."
-msgstr "_Funktion:"
+msgstr "_Funktion..."
 
 #: ../src/wbc-gtk-actions.c:2704
 msgid "Edit a function in the current cell"
@@ -17024,14 +17011,12 @@ msgid "Create a checkbox"
 msgstr "Opret afkrydsningsfelt"
 
 #: ../src/wbc-gtk-actions.c:2721
-#, fuzzy
 msgid "Scrollbar"
 msgstr "Rullebjælke"
 
 #: ../src/wbc-gtk-actions.c:2722
-#, fuzzy
 msgid "Create a scrollbar"
-msgstr "Opret ramme"
+msgstr "Opret rullebjælke"
 
 #: ../src/wbc-gtk-actions.c:2724
 #, fuzzy
@@ -17071,7 +17056,6 @@ msgid "Create a combo box"
 msgstr "Opret menuvalg"
 
 #: ../src/wbc-gtk-actions.c:2737
-#, fuzzy
 msgid "Create a line object"
 msgstr "Opret et linjeobjekt"
 
@@ -17080,16 +17064,14 @@ msgid "Arrow"
 msgstr "Pil"
 
 #: ../src/wbc-gtk-actions.c:2740
-#, fuzzy
 msgid "Create an arrow object"
-msgstr "Opret nyt pileobjekt"
+msgstr "Opret et pileobjekt"
 
 #: ../src/wbc-gtk-actions.c:2742
 msgid "Rectangle"
 msgstr "Firkant"
 
 #: ../src/wbc-gtk-actions.c:2743
-#, fuzzy
 msgid "Create a rectangle object"
 msgstr "Opret et firkantsobjekt"
 
@@ -17098,9 +17080,8 @@ msgid "Ellipse"
 msgstr "Ellipse"
 
 #: ../src/wbc-gtk-actions.c:2746
-#, fuzzy
 msgid "Create an ellipse object"
-msgstr "Opretter et ellipseobjekt"
+msgstr "Opret et ellipseobjekt"
 
 #: ../src/wbc-gtk-actions.c:2749
 msgid "Create a button"
@@ -17115,9 +17096,8 @@ msgid "Merge a range of cells"
 msgstr "Flet celleinterval"
 
 #: ../src/wbc-gtk-actions.c:2759
-#, fuzzy
 msgid "Unmerge"
-msgstr "Flet"
+msgstr "Opsplit"
 
 #: ../src/wbc-gtk-actions.c:2760
 msgid "Split merged ranges of cells"
@@ -17125,7 +17105,7 @@ msgstr "Opsplit et celleinterval"
 
 #: ../src/wbc-gtk-actions.c:2763
 msgid "General"
-msgstr "Generelt"
+msgstr "Standard"
 
 #: ../src/wbc-gtk-actions.c:2764
 msgid "Format the selection as General"
@@ -17257,7 +17237,6 @@ msgid "Display the value of a formula or the formula itself"
 msgstr "Vis værdien af en formel eller formlen selv"
 
 #: ../src/wbc-gtk-actions.c:2851
-#, fuzzy
 msgid "_Hide Zeros"
 msgstr "Skjul _nuller"
 
@@ -17417,35 +17396,28 @@ msgstr "Dobbelt understregning"
 
 #. from icon theme
 #: ../src/wbc-gtk-actions.c:2927
-#, fuzzy
 msgid "_Single Low Underline"
-msgstr "_Dobbelt understregning"
+msgstr "_Enkel sænket understregning"
 
 #: ../src/wbc-gtk-actions.c:2928
-#, fuzzy
 msgid "Single Low Underline"
-msgstr "Dobbelt understregning"
+msgstr "Enkel sænket understregning"
 
-#. from icon theme
 #: ../src/wbc-gtk-actions.c:2930
-#, fuzzy
 msgid "Double _Low Underline"
-msgstr "Dobbelt understregning"
+msgstr "Dobbelt sænket understregning"
 
 #: ../src/wbc-gtk-actions.c:2931
-#, fuzzy
 msgid "Double Low Underline"
-msgstr "Dobbelt understregning"
+msgstr "Dobbelt sænket understregning"
 
 #: ../src/wbc-gtk-actions.c:2933
-#, fuzzy
 msgid "_Strikethrough"
 msgstr "_Gennemstreget"
 
 #: ../src/wbc-gtk-actions.c:2934
-#, fuzzy
 msgid "Strikethrough"
-msgstr "_Gennemstreget"
+msgstr "Gennemstreget"
 
 #: ../src/wbc-gtk-actions.c:2936
 msgid "Su_perscript"
@@ -17527,14 +17499,12 @@ msgid "Show this dialog next time."
 msgstr ""
 
 #: ../src/wbc-gtk.c:504
-#, fuzzy
 msgid "Manage Sheets..."
 msgstr "Omrokér _ark..."
 
 #: ../src/wbc-gtk.c:507
-#, fuzzy
 msgid "Append"
-msgstr "Send"
+msgstr "Tilføj"
 
 #: ../src/wbc-gtk.c:508
 #, fuzzy
@@ -17546,24 +17516,20 @@ msgid "Remove"
 msgstr "Fjern"
 
 #: ../src/wbc-gtk.c:510
-#, fuzzy
 msgid "Rename"
-msgstr "_Omdøb..."
+msgstr "Omdøb"
 
 #: ../src/wbc-gtk.c:512
-#, fuzzy
 msgid "Select"
-msgstr "_Markér"
+msgstr "Markér"
 
 #: ../src/wbc-gtk.c:513
-#, fuzzy
 msgid "Select (sorted)"
-msgstr "Pareto (_sorteret)"
+msgstr "Markér (sorteret)"
 
 #: ../src/wbc-gtk.c:1261
-#, fuzzy
 msgid " - Gnumeric"
-msgstr ": Gnumeric"
+msgstr "- Gnumeric"
 
 #: ../src/wbc-gtk.c:1383
 #, fuzzy
