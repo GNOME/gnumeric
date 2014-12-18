@@ -1,15 +1,15 @@
-# Serbian translation of gnumeric
+# Serbian translation of gnumeric.
 # Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003—2014.
 # This file is distributed under the same license as the gnumeric package.
-# Maintainer: Slobodan Sredojević <ssl@uns.ns.ac.yu>
+# Slobodan Sredojević <ssl@uns.ns.ac.yu>
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2012—2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.2\n"
+"Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeri"
 "c&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-29 16:34+0000\n"
-"PO-Revision-Date: 2014-10-30 18:51+0200\n"
+"POT-Creation-Date: 2014-11-02 17:50+0000\n"
+"PO-Revision-Date: 2014-12-18 10:37+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:443
 msgid "Gnumeric"
-msgstr "Гномов бројевник"
+msgstr "Гнуов бројевник"
 
 #: ../gnumeric.desktop.in.h:2
 msgid "Spreadsheet"
@@ -32,7 +32,7 @@ msgstr "Табеларни прорачун"
 #. Keep in sync with .desktop file
 #: ../gnumeric.desktop.in.h:3 ../src/main-application.c:309
 msgid "Gnumeric Spreadsheet"
-msgstr "Табеларни прорачун Гномов бројевник"
+msgstr "Табеларни прорачун Гнуов бројевник"
 
 #: ../gnumeric.desktop.in.h:4
 msgid "Calculation, Analysis, and Visualization of Information"
@@ -77,8 +77,8 @@ msgstr "Увози табеле издања 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Апликс (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7124
-#: ../plugins/openoffice/openoffice-read.c:13034 ../src/xml-sax-read.c:3350
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7133
+#: ../plugins/openoffice/openoffice-read.c:13054 ../src/xml-sax-read.c:3350
 msgid "Reading file..."
 msgstr "Читам датотеку..."
 
@@ -160,11 +160,11 @@ msgstr "Запис размене података (*.dif)"
 msgid "No Workbook or Book streams found."
 msgstr "Није пронађен ток за радну свеску или табелу."
 
-#: ../plugins/excel/boot.c:276
+#: ../plugins/excel/boot.c:287
 msgid "Preparing to save..."
 msgstr "Припремам за чување..."
 
-#: ../plugins/excel/boot.c:288
+#: ../plugins/excel/boot.c:299
 msgid "Saving file..."
 msgstr "Чувам датотеку..."
 
@@ -184,46 +184,46 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Неисправан садржај елемента „сс:подаци“, примих „%s“"
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:13196 ../src/xml-sax-read.c:3367
+#: ../plugins/openoffice/openoffice-read.c:13217 ../src/xml-sax-read.c:3367
 msgid "XML document not well formed!"
 msgstr "ИксМЛ документ није добро обликован!"
 
-#: ../plugins/excel/ms-excel-read.c:1395 ../src/value.c:67
+#: ../plugins/excel/ms-excel-read.c:1399 ../src/value.c:67
 msgid "#UNKNOWN!"
 msgstr "#НЕПОЗНАТО!"
 
-#: ../plugins/excel/ms-excel-read.c:1495 ../plugins/excel/ms-excel-read.c:1506
+#: ../plugins/excel/ms-excel-read.c:1499 ../plugins/excel/ms-excel-read.c:1510
 #: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:544
 #, c-format
 msgid "Sheet%d"
 msgstr "Табела%d"
 
-#: ../plugins/excel/ms-excel-read.c:1510
+#: ../plugins/excel/ms-excel-read.c:1514
 #, c-format
 msgid "Macro%d"
 msgstr "Макро%d"
 
-#: ../plugins/excel/ms-excel-read.c:1514
+#: ../plugins/excel/ms-excel-read.c:1518
 #, c-format
 msgid "Chart%d"
 msgstr "Графикон%d"
 
-#: ../plugins/excel/ms-excel-read.c:1517
+#: ../plugins/excel/ms-excel-read.c:1521
 #, c-format
 msgid "Module%d"
 msgstr "Модул%d"
 
-#: ../plugins/excel/ms-excel-read.c:3687
+#: ../plugins/excel/ms-excel-read.c:3695
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Неуспех обраде назива „%s“"
 
-#: ../plugins/excel/ms-excel-read.c:3832
+#: ../plugins/excel/ms-excel-read.c:3840
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Нетачан израз за назив „%s“: садржај ће бити изгубљен.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3837
+#: ../plugins/excel/ms-excel-read.c:3845
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -232,7 +232,7 @@ msgstr ""
 "ДДЕ везе још увек нису подржане.\n"
 "Назив „%s“ ће бити изгубљен.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3841
+#: ../plugins/excel/ms-excel-read.c:3849
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -241,50 +241,50 @@ msgstr ""
 "ОЛЕ везе још увек нису подржане.\n"
 "Назив „%s“ ће бити изгубљен.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6275
+#: ../plugins/excel/ms-excel-read.c:6284
 msgid "external references"
 msgstr "спољна упућивања"
 
-#: ../plugins/excel/ms-excel-read.c:6314
+#: ../plugins/excel/ms-excel-read.c:6323
 msgid "No password supplied"
 msgstr "Лозинка није унета"
 
 #: ../plugins/excel/ms-excel-util.c:696
-#: ../plugins/openoffice/openoffice-read.c:6015 ../src/print-info.c:670
+#: ../plugins/openoffice/openoffice-read.c:6034 ../src/print-info.c:670
 msgid "TAB"
 msgstr "ЈЕЗИЧАК"
 
 #: ../plugins/excel/ms-excel-util.c:697
-#: ../plugins/openoffice/openoffice-read.c:6061 ../src/print-info.c:671
+#: ../plugins/openoffice/openoffice-read.c:6080 ../src/print-info.c:671
 msgid "PAGE"
 msgstr "СТРАНИЦА"
 
 #: ../plugins/excel/ms-excel-util.c:698
-#: ../plugins/openoffice/openoffice-read.c:6068 ../src/print-info.c:672
+#: ../plugins/openoffice/openoffice-read.c:6087 ../src/print-info.c:672
 msgid "PAGES"
 msgstr "СТРАНИЦЕ"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6047 ../src/print-info.c:673
+#: ../plugins/openoffice/openoffice-read.c:6066 ../src/print-info.c:673
 msgid "DATE"
 msgstr "ДАТУМ"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6054 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:6073 ../src/print-info.c:674
 msgid "TIME"
 msgstr "ВРЕМЕ"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6095
-#: ../plugins/openoffice/openoffice-read.c:6102 ../src/main-application.c:79
+#: ../plugins/openoffice/openoffice-read.c:6114
+#: ../plugins/openoffice/openoffice-read.c:6121 ../src/main-application.c:79
 #: ../src/main-application.c:85 ../src/main-application.c:91
 #: ../src/print-info.c:675 ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "ДАТОТЕКА"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6093
-#: ../plugins/openoffice/openoffice-read.c:6098 ../src/print-info.c:676
+#: ../plugins/openoffice/openoffice-read.c:6112
+#: ../plugins/openoffice/openoffice-read.c:6117 ../src/print-info.c:676
 msgid "PATH"
 msgstr "ПУТАЊА"
 
@@ -294,7 +294,7 @@ msgstr "ПОЉЕ"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:705
-#: ../plugins/openoffice/openoffice-read.c:6146 ../src/print-info.c:678
+#: ../plugins/openoffice/openoffice-read.c:6165 ../src/print-info.c:678
 msgid "TITLE"
 msgstr "НАСЛОВ"
 
@@ -342,11 +342,11 @@ msgstr[3] ""
 "Неки садржај ће бити изгубљен приликом чувања.  Овај запис подржава само %u "
 "ред, а ова радна свеска има %d"
 
-#: ../plugins/excel/ms-excel-write.c:6564
+#: ../plugins/excel/ms-excel-write.c:6581
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Не могу да отворим ток „Књига“ за уписивање\n"
 
-#: ../plugins/excel/ms-excel-write.c:6586
+#: ../plugins/excel/ms-excel-write.c:6603
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Не могу да отворим ток „Радна свеска“ за уписивање\n"
 
@@ -431,16 +431,16 @@ msgstr "Читам произвољна својства..."
 msgid "Invalid number '%s' for node %s"
 msgstr "Неисправан број „%s“ за чвор %s"
 
-#: ../plugins/excel/xlsx-read-drawing.c:1360
+#: ../plugins/excel/xlsx-read-drawing.c:1376
 #, c-format
 msgid "Unknown color '%s'"
 msgstr "Непозната боја „%s“"
 
-#: ../plugins/excel/xlsx-read-drawing.c:2186
+#: ../plugins/excel/xlsx-read-drawing.c:2205
 msgid "Dropping missing object"
 msgstr "Одбацујем недостајући објекат"
 
-#: ../plugins/excel/xlsx-read-drawing.c:2218
+#: ../plugins/excel/xlsx-read-drawing.c:2237
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Одбацујем објекат са непотпуним сидром %2x"
@@ -497,14 +497,14 @@ msgid "Invalid range '%s' for attribute %s"
 msgstr "Неисправан опсег „%s“ за особину %s"
 
 #: ../plugins/excel/xlsx-read.c:699
-#: ../plugins/openoffice/openoffice-read.c:1210
-#: ../plugins/openoffice/openoffice-read.c:1288
+#: ../plugins/openoffice/openoffice-read.c:1212
+#: ../plugins/openoffice/openoffice-read.c:1290
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Неисправан атрибут „%s“, непозната јединица „%s“"
 
 #: ../plugins/excel/xlsx-read.c:704 ../plugins/excel/xlsx-read.c:711
-#: ../plugins/openoffice/openoffice-read.c:1215
+#: ../plugins/openoffice/openoffice-read.c:1217
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Неисправан атрибут „%s“, очекивах растојање, примих „%s“"
@@ -519,7 +519,7 @@ msgstr "Непозната боја теме %d"
 msgid "Undefined number format id '%s'"
 msgstr "Неодређен иб облика броја „%s“"
 
-#: ../plugins/excel/xlsx-read.c:1215 ../plugins/excel/xlsx-read.c:3644
+#: ../plugins/excel/xlsx-read.c:1215 ../plugins/excel/xlsx-read.c:3233
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Неисправна боја „%s“ за особину ргб"
@@ -534,99 +534,99 @@ msgstr "Неодређен запис стила „%d“"
 msgid "Undefined partial style record '%d'"
 msgstr "Неодређен делимичан запис стила „%d“"
 
-#: ../plugins/excel/xlsx-read.c:1300
+#: ../plugins/excel/xlsx-read.c:1292
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Неисправно сст реф „%s“"
 
-#: ../plugins/excel/xlsx-read.c:1434
+#: ../plugins/excel/xlsx-read.c:1459
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Неисправна ћелија %s"
 
-#: ../plugins/excel/xlsx-read.c:1552
+#: ../plugins/excel/xlsx-read.c:1577
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Занемарујем податак колоне који не наводи прво или последње."
 
-#: ../plugins/excel/xlsx-read.c:1685
+#: ../plugins/excel/xlsx-read.c:1710
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr "Папир из ИксЛСИкс датотеке: %i⨉%i тачака"
 
-#: ../plugins/excel/xlsx-read.c:1689
+#: ../plugins/excel/xlsx-read.c:1714
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr "Папир из ИксЛСИкс датотеке, бр. %i"
 
-#: ../plugins/excel/xlsx-read.c:2134
-#: ../plugins/openoffice/openoffice-read.c:2736
+#: ../plugins/excel/xlsx-read.c:2159
+#: ../plugins/openoffice/openoffice-read.c:2755
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Занемарујем проверу неисправних података зато што : %s"
 
-#: ../plugins/excel/xlsx-read.c:2619
+#: ../plugins/excel/xlsx-read.c:2644
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Занемарујем необрађени условни запис врсте „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3013
+#: ../plugins/excel/xlsx-read.c:3038
 msgid "Unknown type of hyperlink"
 msgstr "Непозната врста хипервезе"
 
-#: ../plugins/excel/xlsx-read.c:3055
+#: ../plugins/excel/xlsx-read.c:3080
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr "Наишао сам на неразумљиво проширење „ext“ у простору назива „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3062
+#: ../plugins/excel/xlsx-read.c:3087
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 "Наишао сам на неразумљиво проширење „ext“ којој недостаје простор назива"
 
-#: ../plugins/excel/xlsx-read.c:3317
+#: ../plugins/excel/xlsx-read.c:3559
 msgid "Ignoring a sheet without a name"
 msgstr "Занемарујем лист без назива"
 
-#: ../plugins/excel/xlsx-read.c:3387
+#: ../plugins/excel/xlsx-read.c:3629
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Нисам успео да одредим назив: %s"
 
-#: ../plugins/excel/xlsx-read.c:3449
+#: ../plugins/excel/xlsx-read.c:3691
 msgid "Unable to resolve external relationship"
 msgstr "Не могу да решим спољни међуоднос"
 
-#: ../plugins/excel/xlsx-read.c:3835
+#: ../plugins/excel/xlsx-read.c:3868
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Недостаје иб дела за лист „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3860
+#: ../plugins/excel/xlsx-read.c:3893
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Читам лист „%s“..."
 
-#: ../plugins/excel/xlsx-read.c:3868
+#: ../plugins/excel/xlsx-read.c:3901
 msgid "Reading comments..."
 msgstr "Читам напомене..."
 
-#: ../plugins/excel/xlsx-read.c:4977
+#: ../plugins/excel/xlsx-read.c:4988
 msgid "Reading shared strings..."
 msgstr "Читам дељене ниске..."
 
-#: ../plugins/excel/xlsx-read.c:4985
+#: ../plugins/excel/xlsx-read.c:4996
 msgid "Reading theme..."
 msgstr "Читам тему..."
 
-#: ../plugins/excel/xlsx-read.c:4993
+#: ../plugins/excel/xlsx-read.c:5004
 msgid "Reading styles..."
 msgstr "Читам стилове..."
 
-#: ../plugins/excel/xlsx-read.c:4998
+#: ../plugins/excel/xlsx-read.c:5009
 msgid "Reading workbook..."
 msgstr "Читам радну свеску..."
 
-#: ../plugins/excel/xlsx-read.c:5008
+#: ../plugins/excel/xlsx-read.c:5019
 msgid "No workbook stream found."
 msgstr "Није пронађен ток радне свеске."
 
@@ -698,7 +698,6 @@ msgstr "Модул „%s“ не садржи („register_actual_excel4v“ с�
 
 #: ../plugins/excelplugins/excelplugins.c:992
 #, c-format
-#| msgid "No loadable worksheet functions found in XLL/DLL/SO file %s ."
 msgid "No loadable worksheet functions found in XLL/DLL/SO file %s."
 msgstr ""
 "Није пронађена функција радног листа за учитавање у Икс/ДЛЛ/СО датотеци %s."
@@ -1085,7 +1084,7 @@ msgstr "Запис: читај табелу базе података(дсн,к�
 #: ../plugins/gda/plugin-gda.c:537 ../plugins/gnome-db/plugin-gnomedb.c:20
 #, c-format
 msgid "Could not run GNOME database configuration tool ('%s')"
-msgstr "Не могу да покренем Гномов алат за подешавање база података („%s“)"
+msgstr "Не могу да покренем Гнуов алат за подешавање база података („%s“)"
 
 #: ../plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for retrieval of data from a database."
@@ -1141,7 +1140,7 @@ msgstr "ГЛПК"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:1
 msgid "GNOME-DB"
-msgstr "Гномова БП"
+msgstr "Гнуова БП"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:2
 msgid "Database UI services plugin"
@@ -1221,6 +1220,11 @@ msgid "LaTeX 2e (*.tex) table fragment"
 msgstr "ЛаТеКс 2e (*.tex) део табеле"
 
 #: ../plugins/html/plugin.xml.in.h:11
+#| msgid "LaTeX 2e (*.tex) table fragment"
+msgid "LaTeX 2e (*.tex) table fragment of visible rows"
+msgstr "ЛаТеКс 2e (*.tex) део табеле видљивих редова"
+
+#: ../plugins/html/plugin.xml.in.h:12
 msgid "TROFF (*.me)"
 msgstr "ТРОФФ (*.me)"
 
@@ -1390,174 +1394,174 @@ msgstr "Увози ГНУ Олео документе"
 msgid "GNU Oleo (*.oleo)"
 msgstr "ГНУ Олео (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:588
+#: ../plugins/openoffice/openoffice-read.c:590
 msgid "General ODF error"
 msgstr "Општа ОДФ грешка"
 
-#: ../plugins/openoffice/openoffice-read.c:642
+#: ../plugins/openoffice/openoffice-read.c:644
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Неисправан цео број „%s“, за „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:657
+#: ../plugins/openoffice/openoffice-read.c:659
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Могућ оштећен цео број „%s“ за „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:701
+#: ../plugins/openoffice/openoffice-read.c:703
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Неисправан атрибут „%s“, очекивах број, примих „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:725
+#: ../plugins/openoffice/openoffice-read.c:727
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Неисправан атрибут „%s“, очекивах проценат, примих „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:747
+#: ../plugins/openoffice/openoffice-read.c:749
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Неисправан атрибут „%s“, очекивах боју, примих „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:988
+#: ../plugins/openoffice/openoffice-read.c:990
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Наиђох на непознат назив решетке „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:996
+#: ../plugins/openoffice/openoffice-read.c:998
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Наиђох на попуну решетке без назива решетке!"
 
-#: ../plugins/openoffice/openoffice-read.c:1004
+#: ../plugins/openoffice/openoffice-read.c:1006
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Наиђох на непознат назив прелива „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:1017
+#: ../plugins/openoffice/openoffice-read.c:1019
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Наиђох на попуну прелива без назива прелива!"
 
-#: ../plugins/openoffice/openoffice-read.c:1025
+#: ../plugins/openoffice/openoffice-read.c:1027
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Наиђох на непознат назив испуне слике „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:1035
+#: ../plugins/openoffice/openoffice-read.c:1037
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Наиђох на неисправну апсолутну особеност датотеке „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:1048
+#: ../plugins/openoffice/openoffice-read.c:1050
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "Не могу да отворим „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:1076
-#: ../plugins/openoffice/openoffice-read.c:8117
+#: ../plugins/openoffice/openoffice-read.c:1078
+#: ../plugins/openoffice/openoffice-read.c:8136
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Не могу учитам датотеку „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:1084
+#: ../plugins/openoffice/openoffice-read.c:1086
 msgid "Image fill without image name encountered!"
 msgstr "Наиђох на попуну слике без назива слике!"
 
-#: ../plugins/openoffice/openoffice-read.c:1293
+#: ../plugins/openoffice/openoffice-read.c:1295
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Неисправан атрибут „%s“, очекивах угао, примих „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1365
+#: ../plugins/openoffice/openoffice-read.c:1367
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Неисправан атрибут „%s“, непозната вредност процене „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1560
+#: ../plugins/openoffice/openoffice-read.c:1562
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Занемарујем упуте на непознату спољну радну свеску „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1820
+#: ../plugins/openoffice/openoffice-read.c:1784
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Наиђох на непознат стил текста под називом „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:2153
+#: ../plugins/openoffice/openoffice-read.c:2172
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Не могу да обрадим „%s“ („%s“)"
 
-#: ../plugins/openoffice/openoffice-read.c:2251
-#: ../plugins/openoffice/openoffice-read.c:3774
+#: ../plugins/openoffice/openoffice-read.c:2270
+#: ../plugins/openoffice/openoffice-read.c:3793
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Наиђох на неподржану врсту формуле: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2257
-#: ../plugins/openoffice/openoffice-read.c:3781
+#: ../plugins/openoffice/openoffice-read.c:2276
+#: ../plugins/openoffice/openoffice-read.c:3800
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Израз „%s“ не почиње познатим знаком"
 
-#: ../plugins/openoffice/openoffice-read.c:2296
+#: ../plugins/openoffice/openoffice-read.c:2315
 #: ../plugins/openoffice/openoffice-write.c:5040
 #: ../plugins/openoffice/openoffice-write.c:5052 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "поље"
 
-#: ../plugins/openoffice/openoffice-read.c:2670
+#: ../plugins/openoffice/openoffice-read.c:2689
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr "Услов потврђивања „%s“ није подржан. Измењен је у „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:2719
+#: ../plugins/openoffice/openoffice-read.c:2738
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Наиђох на неодређени стил потврђивања: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2745
+#: ../plugins/openoffice/openoffice-read.c:2764
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
 "\""
 msgstr "Наиђох на неподржани услов потврђивања: „%s“ са адресом основе: „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:3420
+#: ../plugins/openoffice/openoffice-read.c:3439
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Наиђох на непознат услов „%s“, занемарујем."
 
-#: ../plugins/openoffice/openoffice-read.c:3499
+#: ../plugins/openoffice/openoffice-read.c:3518
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Занемарујем податке о колони испод колоне %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3620
-#: ../plugins/openoffice/openoffice-read.c:4020
+#: ../plugins/openoffice/openoffice-read.c:3639
+#: ../plugins/openoffice/openoffice-read.c:4039
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Садржај је премашио највећи број подржаних редова (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3766
-#: ../plugins/openoffice/openoffice-read.c:6129
+#: ../plugins/openoffice/openoffice-read.c:3785
+#: ../plugins/openoffice/openoffice-read.c:6148
 msgid "Missing expression"
 msgstr "Недостаје израз"
 
-#: ../plugins/openoffice/openoffice-read.c:3993
+#: ../plugins/openoffice/openoffice-read.c:4012
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Неисправан израз низа не наводи број колона."
 
-#: ../plugins/openoffice/openoffice-read.c:3996
+#: ../plugins/openoffice/openoffice-read.c:4015
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Неисправан израз низа не наводи број редова."
 
-#: ../plugins/openoffice/openoffice-read.c:4012
+#: ../plugins/openoffice/openoffice-read.c:4031
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "Садржај је премашио највећи број подржаних колона (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:4194
+#: ../plugins/openoffice/openoffice-read.c:4213
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
@@ -1566,115 +1570,114 @@ msgstr ""
 "Један клик левим тастером да пратите ову везу.\n"
 "Један клик средњим тастером да изаберете ово поље"
 
-#: ../plugins/openoffice/openoffice-read.c:4327
+#: ../plugins/openoffice/openoffice-read.c:4346
 msgid "Unnamed dash style encountered."
 msgstr "Наиђох на неименовани стил цртице."
 
-#: ../plugins/openoffice/openoffice-read.c:4345
+#: ../plugins/openoffice/openoffice-read.c:4364
 msgid "Unnamed image fill style encountered."
 msgstr "Наиђох на неименовани стил испуне слике."
 
-#: ../plugins/openoffice/openoffice-read.c:4347
+#: ../plugins/openoffice/openoffice-read.c:4366
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "Стил попуне слике „%s“ нема приложену слику."
 
-#: ../plugins/openoffice/openoffice-read.c:4384
-#: ../plugins/openoffice/openoffice-read.c:4390
+#: ../plugins/openoffice/openoffice-read.c:4403
+#: ../plugins/openoffice/openoffice-read.c:4409
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Не могу да обрадим боју прелива: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4410
+#: ../plugins/openoffice/openoffice-read.c:4429
 msgid "Unnamed gradient style encountered."
 msgstr "Наиђох на неименовани стил прелива."
 
-#: ../plugins/openoffice/openoffice-read.c:4431
+#: ../plugins/openoffice/openoffice-read.c:4450
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Не могу да обрадим боју извода: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4505
+#: ../plugins/openoffice/openoffice-read.c:4524
 msgid "Unnamed hatch encountered!"
 msgstr "Наиђох на неименовани извод!"
 
-#: ../plugins/openoffice/openoffice-read.c:4600
+#: ../plugins/openoffice/openoffice-read.c:4619
 msgid "Duplicate default column style encountered."
 msgstr "Наиђох на удвостручени стил основне колоне."
 
-#: ../plugins/openoffice/openoffice-read.c:4616
+#: ../plugins/openoffice/openoffice-read.c:4635
 msgid "Duplicate default row style encountered."
 msgstr "Наиђох на удвостручени стил основног реда."
 
-#: ../plugins/openoffice/openoffice-read.c:4651
+#: ../plugins/openoffice/openoffice-read.c:4670
 msgid "Duplicate default chart/graphics style encountered."
 msgstr "Наиђох на удвостручени стил основног графика/графикона."
 
-#: ../plugins/openoffice/openoffice-read.c:5138
+#: ../plugins/openoffice/openoffice-read.c:5157
 msgid "Unnamed date style ignored."
 msgstr "Занемарих неименовани стил датума."
 
-#: ../plugins/openoffice/openoffice-read.c:5534
+#: ../plugins/openoffice/openoffice-read.c:5553
 #, c-format
-#| msgid "Corrupted file: unnamed number style ignored."
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr "Оштећена датотека: неисправан услов записа броја [%s]."
 
-#: ../plugins/openoffice/openoffice-read.c:5552
+#: ../plugins/openoffice/openoffice-read.c:5571
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Оштећена датотека: занемарих неименовани стил броја."
 
-#: ../plugins/openoffice/openoffice-read.c:5574
+#: ../plugins/openoffice/openoffice-read.c:5593
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Ова датотека изгледа да је оштећена, недостају потребни записи."
 
-#: ../plugins/openoffice/openoffice-read.c:5643
+#: ../plugins/openoffice/openoffice-read.c:5662
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Папир из ОДФ датотеке: %i⨉%i тачака"
 
-#: ../plugins/openoffice/openoffice-read.c:5826
+#: ../plugins/openoffice/openoffice-read.c:5845
 msgid "Missing page layout identifier"
 msgstr "Недостаје откривач распореда странице"
 
-#: ../plugins/openoffice/openoffice-read.c:5853
+#: ../plugins/openoffice/openoffice-read.c:5872
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
 msgstr ""
-"Гномов бројевник не подржава другачији изглед за леве странице. Овај изглед "
+"Гнуов бројевник не подржава другачији изглед за леве странице. Овај изглед "
 "се занемарује."
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:5878
+#: ../plugins/openoffice/openoffice-read.c:5897
 msgid "Master page style without page layout encountered!"
 msgstr "Наиђох на главни стил странице без распореда странице!"
 
-#: ../plugins/openoffice/openoffice-read.c:5884
+#: ../plugins/openoffice/openoffice-read.c:5903
 msgid "Master page style without name encountered!"
 msgstr "Наиђох на главни стил странице без назива!"
 
-#: ../plugins/openoffice/openoffice-read.c:6177
+#: ../plugins/openoffice/openoffice-read.c:6196
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
-msgstr "Наиђох на непознат стил ивице Гномовог бројевника „%s“."
+msgstr "Наиђох на непознат стил ивице Гнуовог бројевника „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:6516
+#: ../plugins/openoffice/openoffice-read.c:6535
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Непозната врста прекида „%s“ прелази на НИШТА"
 
-#: ../plugins/openoffice/openoffice-read.c:6601
+#: ../plugins/openoffice/openoffice-read.c:6620
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Не могу да обрадим боју табулатора: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:6612
+#: ../plugins/openoffice/openoffice-read.c:6631
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Не могу да обрадим боју текста табулатора: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7022
+#: ../plugins/openoffice/openoffice-read.c:7041
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1683,46 +1686,46 @@ msgstr ""
 "Наиђох на непознату врсту уметања: „%s“, уместо тога користим Безјерову "
 "криву коцке."
 
-#: ../plugins/openoffice/openoffice-read.c:7031
+#: ../plugins/openoffice/openoffice-read.c:7050
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Наиђох на непознату врсту уметања: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7461
+#: ../plugins/openoffice/openoffice-read.c:7480
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "израз „%s“ @ „%s“ није упута поља"
 
-#: ../plugins/openoffice/openoffice-read.c:7477
+#: ../plugins/openoffice/openoffice-read.c:7496
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Израз „%s“ садржи непознат размак назива"
 
-#: ../plugins/openoffice/openoffice-read.c:7540
+#: ../plugins/openoffice/openoffice-read.c:7559
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Неисправан опсег БП „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:7574
+#: ../plugins/openoffice/openoffice-read.c:7593
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
-msgstr "Гномов бројевник не подржава услове „'or'-ed“ самопропусника."
+msgstr "Гнуов бројевник не подржава услове „'or'-ed“ самопропусника."
 
-#: ../plugins/openoffice/openoffice-read.c:7817
+#: ../plugins/openoffice/openoffice-read.c:7836
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
 "has been dropped."
 msgstr ""
-"Линије објекта листа Гномовог бројевника не подржавају приложени текст. "
-"Текст „%s“ је одбачен."
+"Линије објекта листа Гнуовог бројевника не подржавају приложени текст. Текст "
+"„%s“ је одбачен."
 
-#: ../plugins/openoffice/openoffice-read.c:7851
-#: ../plugins/openoffice/openoffice-read.c:7890
+#: ../plugins/openoffice/openoffice-read.c:7870
+#: ../plugins/openoffice/openoffice-read.c:7909
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Неисправан атрибут „form:value“, очекивах број, примих „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:7856
+#: ../plugins/openoffice/openoffice-read.c:7875
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1731,63 +1734,63 @@ msgstr ""
 "Примећена је неисправна вредност-врста „%s“ за атрибут „form:value“ у "
 "елементу „form:value-range“."
 
-#: ../plugins/openoffice/openoffice-read.c:8303
+#: ../plugins/openoffice/openoffice-read.c:8322
 msgid "Unable to determine manual position for a chart component!"
 msgstr "Не могу да одредим ручни положај за састојак графика!"
 
-#: ../plugins/openoffice/openoffice-read.c:8504
+#: ../plugins/openoffice/openoffice-read.c:8523
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "Нема довољно података у достављеном опсегу (%s) за све захтеве"
 
-#: ../plugins/openoffice/openoffice-read.c:9092
+#: ../plugins/openoffice/openoffice-read.c:9111
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
-"Гномов бројевник не подржава несамосталне једначине одступања. Уместо тога "
+"Гнуов бројевник не подржава несамосталне једначине одступања. Уместо тога "
 "користим самосталну једначину."
 
-#: ../plugins/openoffice/openoffice-read.c:9238
+#: ../plugins/openoffice/openoffice-read.c:9257
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Наиђох на убачене линије у нацрту који их не подржава."
 
-#: ../plugins/openoffice/openoffice-read.c:9360
+#: ../plugins/openoffice/openoffice-read.c:9379
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Наиђох на непознату врсту графика, покушавам да створим нацрт линије."
 
-#: ../plugins/openoffice/openoffice-read.c:9416
-#: ../plugins/openoffice/openoffice-read.c:9458
-#: ../plugins/openoffice/openoffice-read.c:9488
+#: ../plugins/openoffice/openoffice-read.c:9435
+#: ../plugins/openoffice/openoffice-read.c:9477
+#: ../plugins/openoffice/openoffice-read.c:9507
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr "Недостаје изглед знака са називом „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:9604
+#: ../plugins/openoffice/openoffice-read.c:9623
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 "Наиђох на неподржани натпис који сам претворио у текстуални правоугаоник."
 
-#: ../plugins/openoffice/openoffice-read.c:9677
+#: ../plugins/openoffice/openoffice-read.c:9696
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr ""
 "Наиђох на бесконачно понављање приликом обраде формуле „%s“ назива „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:9880
+#: ../plugins/openoffice/openoffice-read.c:9899
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Не могу да проценим формулу „%s“ („%s“) назива „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:9885
+#: ../plugins/openoffice/openoffice-read.c:9904
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Не могу да обрадим формулу „%s“ („%s“) назива „%s“"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:9969
-#: ../plugins/openoffice/openoffice-read.c:9972
+#: ../plugins/openoffice/openoffice-read.c:9988
+#: ../plugins/openoffice/openoffice-read.c:9991
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
@@ -1796,32 +1799,32 @@ msgstr ""
 "Наиђох на неподржани произвољни облик врсте „%s“ који сам претворио у "
 "правоугаоник."
 
-#: ../plugins/openoffice/openoffice-read.c:9975
+#: ../plugins/openoffice/openoffice-read.c:9994
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 "Наиђох на неподржани произвољни облик који сам претворио у правоугаоник."
 
-#: ../plugins/openoffice/openoffice-read.c:10293
+#: ../plugins/openoffice/openoffice-read.c:10312
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Атрибут „%s“ садржи неподржану вредност „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:10913
+#: ../plugins/openoffice/openoffice-read.c:10932
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
 "Gnumeric's maximum supported sheet size"
 msgstr ""
 "Величина листа од %i ступца и %i реда коришћена у овој датотеци премашује "
-"највећу подржану величину листа Гномовог бројевника."
+"највећу подржану величину листа Гнуовог бројевника."
 
-#: ../plugins/openoffice/openoffice-read.c:10945
+#: ../plugins/openoffice/openoffice-read.c:10964
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_У_ОШТЕЋЕНОЈ_ДАТОТЕЦИ"
 
-#: ../plugins/openoffice/openoffice-read.c:10950
+#: ../plugins/openoffice/openoffice-read.c:10969
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1830,34 +1833,34 @@ msgstr ""
 "Ова датотека је оштећена удвострученим називом листа „%s“, сада преименована "
 "у „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:10960
+#: ../plugins/openoffice/openoffice-read.c:10979
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "ЛИСТ_У_ОШТЕЋЕНОЈ_ДАТОТЕЦИ"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:10966
+#: ../plugins/openoffice/openoffice-read.c:10985
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Ова датотека је оштећена безименим листом сада названим „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:12884
+#: ../plugins/openoffice/openoffice-read.c:12903
 msgid "Unknown mimetype for openoffice file."
 msgstr "Непозната миме врста за датотеку опенофиса."
 
-#: ../plugins/openoffice/openoffice-read.c:12894
+#: ../plugins/openoffice/openoffice-read.c:12913
 msgid "No stream named content.xml found."
 msgstr "Није пронађен ток под називом „content.xml“."
 
-#: ../plugins/openoffice/openoffice-read.c:12902
+#: ../plugins/openoffice/openoffice-read.c:12921
 msgid "No stream named styles.xml found."
 msgstr "Није пронађен ток под називом „styles.xml“."
 
-#: ../plugins/openoffice/openoffice-read.c:13044
+#: ../plugins/openoffice/openoffice-read.c:13064
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Неисправни метаподаци „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:13107
+#: ../plugins/openoffice/openoffice-read.c:13127
 msgid "settings.xml stream is malformed!"
 msgstr "Ток „settings.xml“ је лоше обликован!"
 
@@ -2169,7 +2172,7 @@ msgstr "*** Тумач: %s\n"
 
 #: ../plugins/python-loader/py-console.c:160
 msgid "Gnumeric Python console"
-msgstr "Питонова конзола Гномовог бројевника"
+msgstr "Питонова конзола Гнуовог бројевника"
 
 #: ../plugins/python-loader/py-console.c:169
 msgid "E_xecute in:"
@@ -2339,12 +2342,12 @@ msgstr "Општа грешка увоза СЦ-а"
 msgid ""
 "The cell in row %i and column %i is beyond Gnumeric's maximum sheet size."
 msgstr ""
-"Поље у %i. реду и %i. колони је изван највеће величине листа Гномовог "
+"Поље у %i. реду и %i. колони је изван највеће величине листа Гнуовог "
 "бројевника."
 
 #: ../plugins/sc/sc.c:387
 msgid "The sheet is wider than Gnumeric can handle."
-msgstr "Лист је преширок за Гномовог бројевника."
+msgstr "Лист је преширок за Гнуовог бројевника."
 
 #: ../plugins/sc/sc.c:450
 msgid "Encountered precision dependent format without set precision."
@@ -3501,7 +3504,7 @@ msgstr "Почетни фактор увећања за нове радне св
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:67
 #: ../src/dialogs/dialog-preferences.c:969
 msgid "Default Compression Level For Gnumeric Files"
-msgstr "Основни ниво сажимања за датотеке Гномовог бројевника"
+msgstr "Основни ниво сажимања за датотеке Гнуовог бројевника"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:68
 msgid ""
@@ -3509,7 +3512,7 @@ msgid ""
 "by Gnumeric when saving files in the default file format. 0 is minimal "
 "compression while 9 is maximal compression."
 msgstr ""
-"Овај цео број (између 0 и 9) наводи величину сажимања коју примењује Гномов "
+"Овај цео број (између 0 и 9) наводи величину сажимања коју примењује Гнуов "
 "бројевник када чува датотеке у основном облику. 0 значи да се не примењује "
 "сажимање, док 9 представља највећи степен сажимања."
 
@@ -3539,7 +3542,7 @@ msgid ""
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
-"Пре него што се буде писало преко постојеће датотеке, Гномов бројевник ће "
+"Пре него што се буде писало преко постојеће датотеке, Гнуов бројевник ће "
 "приказати прозорче упозорења. Постављање ове опције ће учинити да дугме "
 "преписивања буде основно дугме у том прозорчету."
 
@@ -3621,7 +3624,7 @@ msgid ""
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
 "applications, like Xterm or Emacs, which set only the PRIMARY selection."
 msgstr ""
-"Када је изабрано, Гномов бројевник ће дати предност савременом избору ОСТАВЕ "
+"Када је изабрано, Гнуов бројевник ће дати предност савременом избору ОСТАВЕ "
 "над старим ПРИМАРНИМ изборима. Поништите избор ако радите у старијим "
 "програмима, као што су Икстерм и Емакс, који подешавају само ПРИМАРНИ избор."
 
@@ -3901,7 +3904,7 @@ msgstr "Бришем редове %s"
 msgid "Deleting row %s"
 msgstr "Бришем ред %s"
 
-#: ../src/commands.c:1598 ../src/commands.c:1599 ../src/sheet.c:4745
+#: ../src/commands.c:1598 ../src/commands.c:1599 ../src/sheet.c:4742
 msgid "Clear"
 msgstr "Очисти"
 
@@ -4164,7 +4167,7 @@ msgstr "Да ли стварно желите да убаците %s умнош�
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3274 ../src/commands.c:3430 ../src/commands.c:3431
-#: ../src/item-cursor.c:1023 ../src/wbc-gtk-actions.c:580
+#: ../src/item-cursor.c:1019 ../src/wbc-gtk-actions.c:580
 msgid "Autofill"
 msgstr "Самоиспуњавање"
 
@@ -4861,7 +4864,7 @@ msgstr "Александер Кирилов"
 
 #: ../src/dialogs/dialog-about.c:460
 msgid "Gnumeric is the result of"
-msgstr "Гномов бројевник је резултат"
+msgstr "Гнуов бројевник је резултат"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:466
@@ -4894,11 +4897,11 @@ msgstr "Наш циљ је ваше задовољство!"
 
 #: ../src/dialogs/dialog-about.c:567
 msgid "About Gnumeric"
-msgstr "О Гномов бројевнику"
+msgstr "О Гнуовом бројевнику"
 
 #: ../src/dialogs/dialog-about.c:570
 msgid "Visit the Gnumeric website"
-msgstr "Посетите веб сајт Гномовог бројевника"
+msgstr "Посетите веб сајт Гнуовог бројевника"
 
 #: ../src/dialogs/dialog-about.c:572
 msgid "Copyright © 1998-2014"
@@ -5569,7 +5572,6 @@ msgstr "Дошло је до грешке приликом читања спис
 
 #: ../src/dialogs/dialog-autosave.c:76
 #, c-format
-#| msgid "Do you want to save the workbook %s ?"
 msgid "Do you want to save the workbook %s?"
 msgstr "Да ли желите да сачувате радну свеску „%s“?"
 
@@ -6269,7 +6271,7 @@ msgstr "ОДФ (Опен формула): "
 
 #: ../src/dialogs/dialog-function-select.c:1372
 msgid "Gnumeric Function Help Browser"
-msgstr "Прегледник помоћи функција Гномовог бројевника"
+msgstr "Прегледник помоћи функција Гнуовог бројевника"
 
 #: ../src/dialogs/dialog-function-select.c:1376
 msgid "Paste Function Name dialog"
@@ -7266,7 +7268,7 @@ msgid ""
 "solver for Gnumeric?"
 msgstr ""
 "Тражите тему за ваше истраживање? Можда бисте желели да напишете решавач за "
-"Гномовог бројевника?"
+"Гнуовог бројевника?"
 
 #: ../src/dialogs/dialog-solver.c:448
 msgid "Changing solver parameters"
@@ -7462,7 +7464,7 @@ msgstr "Само уклапање"
 #, c-format
 msgid "If this checkbox is selected, column %i will be imported into Gnumeric."
 msgstr ""
-"Уколико је ова кућица означена, колона %i ће бити увезена у Гномов бројевник."
+"Уколико је ова кућица означена, колона %i ће бити увезена у Гнуов бројевник."
 
 #: ../src/dialogs/dialog-stf-format-page.c:633
 msgid ""
@@ -7758,7 +7760,7 @@ msgstr "_Алфа: "
 #: ../src/dialogs/autofilter-expression.ui.h:1
 #: ../src/dialogs/autofilter-top10.ui.h:1
 msgid "Gnumeric : AutoFilter"
-msgstr "Гномов бројевник : Самостални пропусник"
+msgstr "Гнуов бројевник : Самостални пропусник"
 
 #: ../src/dialogs/autofilter-expression.ui.h:2
 msgid "Show rows where:"
@@ -8659,7 +8661,7 @@ msgstr "_Унеси у поља:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
 msgid "DataSlicer Guru : Gnumeric"
-msgstr "Зналац делиоца података : Гномов бројевник"
+msgstr "Зналац делиоца података : Гнуов бројевник"
 
 #: ../src/dialogs/data-slicer.ui.h:3
 msgid "_Format"
@@ -10254,7 +10256,7 @@ msgstr "Директоријум прикључака:"
 
 #: ../src/dialogs/plugin-manager.ui.h:6
 msgid "Do _not activate this plugin next time I start Gnumeric"
-msgstr "Не покрећи _овај прикључак када следећи пут покренем Гномов бројевник"
+msgstr "Не покрећи _овај прикључак када следећи пут покренем Гнуовог бројевника"
 
 #: ../src/dialogs/plugin-manager.ui.h:7
 msgid ""
@@ -10276,7 +10278,7 @@ msgstr "Директоријуми"
 
 #: ../src/dialogs/preferences.ui.h:1
 msgid "Gnumeric Preferences"
-msgstr "Поставке Гномовог бројевника"
+msgstr "Поставке Гнуовог бројевника"
 
 #: ../src/dialogs/principal-components.ui.h:1
 #: ../src/tools/analysis-principal-components.c:223
@@ -10620,7 +10622,7 @@ msgstr "Само постојеће"
 
 #: ../src/dialogs/recent.ui.h:3
 msgid "Gnumeric files only"
-msgstr "Само датотеке Гномовог бројевника"
+msgstr "Само датотеке Гнуовог бројевника"
 
 #: ../src/dialogs/recent.ui.h:7
 msgid "Last Used"
@@ -11846,7 +11848,7 @@ msgstr "Ако су сва поља празна, резултат ће бити
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:107
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
-msgstr "ИЗДАЊЕ_ГНУМЕРИКА:текуће издање Гномовог бројевника"
+msgstr "ИЗДАЊЕ_ГНУМЕРИКА:текуће издање Гнуовог бројевника"
 
 #: ../src/func-builtin.c:108
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
@@ -12227,53 +12229,53 @@ msgstr "%d.00 тчка"
 msgid "%.2f pts"
 msgstr "%.2f тчка"
 
-#: ../src/item-cursor.c:818
+#: ../src/item-cursor.c:814
 msgid "_Move"
 msgstr "_Премести"
 
-#: ../src/item-cursor.c:821 ../src/sheet-control-gui.c:2167
+#: ../src/item-cursor.c:817 ../src/sheet-control-gui.c:2167
 msgid "_Copy"
 msgstr "_Умножи"
 
-#: ../src/item-cursor.c:824
+#: ../src/item-cursor.c:820
 msgid "Copy _Formats"
 msgstr "Умножи _записе"
 
-#: ../src/item-cursor.c:826
+#: ../src/item-cursor.c:822
 msgid "Copy _Values"
 msgstr "Умножи _вредности"
 
-#: ../src/item-cursor.c:831
+#: ../src/item-cursor.c:827
 msgid "Shift _Down and Copy"
 msgstr "Помери до_ле и умножи"
 
-#: ../src/item-cursor.c:833
+#: ../src/item-cursor.c:829
 msgid "Shift _Right and Copy"
 msgstr "Помери де_сно и умножи"
 
-#: ../src/item-cursor.c:835
+#: ../src/item-cursor.c:831
 msgid "Shift Dow_n and Move"
 msgstr "Помери до_ле и премести"
 
-#: ../src/item-cursor.c:837
+#: ../src/item-cursor.c:833
 msgid "Shift Righ_t and Move"
 msgstr "Помери десно и _премести"
 
-#: ../src/item-cursor.c:842
+#: ../src/item-cursor.c:838
 msgid "C_ancel"
 msgstr "Пон_ишти"
 
-#: ../src/item-cursor.c:1101
+#: ../src/item-cursor.c:1097
 msgid "Drag to autofill"
 msgstr "Превуци да сам испуниш"
 
-#: ../src/item-cursor.c:1104
+#: ../src/item-cursor.c:1100
 msgid "Drag to move"
 msgstr "Превуци да преместиш"
 
 #: ../src/libgnumeric.c:82
 msgid "Display Gnumeric's version"
-msgstr "Приказује издање Гномовог бројевника"
+msgstr "Приказује издање Гнуовог бројевника"
 
 #: ../src/libgnumeric.c:91
 msgid "Set the root library directory"
@@ -12300,11 +12302,11 @@ msgstr ""
 
 #: ../src/libgnumeric.c:138
 msgid "Gnumeric Options"
-msgstr "Опције Гномовог бројевника"
+msgstr "Опције Гнуовог бројевника"
 
 #: ../src/libgnumeric.c:138
 msgid "Show Gnumeric Options"
-msgstr "Приказује опције Гномовог бројевника"
+msgstr "Приказује опције Гнуовог бројевника"
 
 #: ../src/main-application.c:63
 msgid "Specify the size and location of the initial window"
@@ -12603,7 +12605,7 @@ msgstr "Нисам успео да направим привремену дат�
 
 #: ../src/print.c:1864
 msgid "Gnumeric Print Range"
-msgstr "Опсег штампања Гномовог бројевника"
+msgstr "Опсег штампања Гнуовог бројевника"
 
 #: ../src/print.c:1880
 msgid "Print to File"
@@ -13123,7 +13125,7 @@ msgid ""
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 msgstr ""
-"Ово је посебно издање Гномовог бројевника.  Преведено је са\n"
+"Ово је посебно издање Гнуовог бројевника.  Преведено је са\n"
 "подршком за веома велики број колона.  Приступ колони\n"
 "под називом „ТАЧНО“ може довести до сукоба са константом истог\n"
 "назива.  Очекујте чудне ствари."
@@ -13156,19 +13158,19 @@ msgstr "Не могу да радим над спојеним пољима"
 msgid "cannot operate on array formulæ"
 msgstr "Не могу да радим над формулом низа"
 
-#: ../src/sheet.c:5132
+#: ../src/sheet.c:5129
 msgid "Insert Columns"
 msgstr "Уметни колоне"
 
-#: ../src/sheet.c:5223
+#: ../src/sheet.c:5220
 msgid "Delete Columns"
 msgstr "Обриши колоне"
 
-#: ../src/sheet.c:5304
+#: ../src/sheet.c:5301
 msgid "Insert Rows"
 msgstr "Уметни врсте"
 
-#: ../src/sheet.c:5395
+#: ../src/sheet.c:5392
 msgid "Delete Rows"
 msgstr "Обриши врсте"
 
@@ -14504,23 +14506,23 @@ msgstr ""
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
 msgstr "Вилкоксон-Ман-Витнијева проба (%s)"
 
-#: ../src/tools/dao.c:183
+#: ../src/tools/dao.c:182
 msgid "New Sheet"
 msgstr "Нови лист"
 
-#: ../src/tools/dao.c:186
+#: ../src/tools/dao.c:185
 msgid "New Workbook"
 msgstr "Нова радна свеска"
 
-#: ../src/tools/dao.c:1006
+#: ../src/tools/dao.c:1005
 msgid "Gnumeric "
-msgstr "Гномов бројевник "
+msgstr "Гнуов бројевник "
 
-#: ../src/tools/dao.c:1012
+#: ../src/tools/dao.c:1011
 msgid "Worksheet:"
 msgstr "Радна свеска:"
 
-#: ../src/tools/dao.c:1019
+#: ../src/tools/dao.c:1018
 msgid "Report Created: "
 msgstr "Створени извештај: "
 
@@ -14644,7 +14646,7 @@ msgid ""
 "\n"
 "Would you like to locate it yourself?"
 msgstr ""
-"Гномов бројевник не може да пронађе програм <i>%s</i> потребан <i>%s</i> "
+"Гнуов бројевник не може да пронађе програм <i>%s</i> потребан <i>%s</i> "
 "решавачу.  За више података погледајте %s.\n"
 "\n"
 "Да ли желите сами да га пронађете?"
@@ -14870,7 +14872,7 @@ msgstr "Посебна формула за потврђивање"
 
 #: ../src/validation.c:453
 msgid "Gnumeric: Validation"
-msgstr "Гномов бројевник: Провера исправности"
+msgstr "Гнуов бројевник: Провера исправности"
 
 #: ../src/validation.c:516
 #, c-format
@@ -15354,7 +15356,7 @@ msgstr "_Садржај"
 
 #: ../src/wbc-gtk-actions.c:2045
 msgid "Open a viewer for Gnumeric's documentation"
-msgstr "Отвори прегледач за документацију Гномовог бројевника"
+msgstr "Отвори прегледач за документацију Гнуовог бројевника"
 
 #: ../src/wbc-gtk-actions.c:2047
 msgid "_Functions"
@@ -15366,7 +15368,7 @@ msgstr "Помоћ функција"
 
 #: ../src/wbc-gtk-actions.c:2050
 msgid "Gnumeric on the _Web"
-msgstr "_Веб страница Гномовог бројевника"
+msgstr "_Веб страница Гнуовог бројевника"
 
 #: ../src/wbc-gtk-actions.c:2051
 msgid "Browse to Gnumeric's website"
@@ -15775,7 +15777,7 @@ msgstr "Поставке..."
 
 #: ../src/wbc-gtk-actions.c:2273
 msgid "Change Gnumeric Preferences"
-msgstr "Измените поставке Гномовог бројевника"
+msgstr "Измените поставке Гнуовог бројевника"
 
 #. View
 #: ../src/wbc-gtk-actions.c:2277 ../src/wbc-gtk.c:1591
@@ -17102,7 +17104,7 @@ msgstr "Изабери (поређано)"
 
 #: ../src/wbc-gtk.c:1300
 msgid " - Gnumeric"
-msgstr " — Гномов бројевник"
+msgstr " — Гнуов бројевник"
 
 #: ../src/wbc-gtk.c:1459
 msgid "Invalid format"
@@ -17785,13 +17787,13 @@ msgstr "Неисправан пропусник, недостаје област
 msgid "Unsupported object type '%s'"
 msgstr "Неподржана врста објекта „%s“"
 
-#: ../src/xml-sax-read.c:3634 ../src/xml-sax-write.c:1665
+#: ../src/xml-sax-read.c:3634 ../src/xml-sax-write.c:1664
 msgid "Gnumeric XML (*.gnumeric)"
-msgstr "ИксМЛ Гномовог бројевника (*.gnumeric)"
+msgstr "ИксМЛ Гнуовог бројевника (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1677
+#: ../src/xml-sax-write.c:1676
 msgid "Gnumeric XML uncompressed (*.xml)"
-msgstr "Нераспакован ИксМЛ Гномовог бројевника (*.xml)"
+msgstr "Нераспакован ИксМЛ Гнуовог бројевника (*.xml)"
 
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "A button like template"
@@ -17821,7 +17823,7 @@ msgstr "Шаблон налик дугмету"
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:3
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
 msgid "Gnumeric Team"
-msgstr "Екипа Гномовог бројевника"
+msgstr "Екипа Гнуовог бројевника"
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:2
 msgid "A 3D list template"
