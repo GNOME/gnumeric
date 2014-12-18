@@ -385,43 +385,37 @@ msgid "Imports/Exports MS Excel (tm) files"
 msgstr "Importerer/eksporterer MS Excel(tm)-filer"
 
 #: ../plugins/excel/plugin.xml.in.h:3
-#, fuzzy
 msgid "MS Excel&#8482; (*.xls)"
-msgstr "MS Excel (tm) (*.xls)"
+msgstr "MS Excel&#8482; (*.xls)"
 
 #: ../plugins/excel/plugin.xml.in.h:4
-#, fuzzy
 msgid "MS Excel&#8482; 97/2000/XP"
-msgstr "MS Excel (tm) 97/2000/XP"
+msgstr "MS Excel&#8482; 97/2000/XP"
 
 #: ../plugins/excel/plugin.xml.in.h:5
-#, fuzzy
 msgid "MS Excel&#8482; 5.0/95"
-msgstr "MS Excel (tm) 5.0/95"
+msgstr "MS Excel&#8482; 5.0/95"
 
 #: ../plugins/excel/plugin.xml.in.h:6
-#, fuzzy
 msgid "MS Excel&#8482; 97/2000/XP &amp; 5.0/95"
-msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
+msgstr "MS Excel&#8482; 97/2000/XP &amp; 5.0/95"
 
 #: ../plugins/excel/plugin.xml.in.h:7
-#, fuzzy
 msgid "MS Excel&#8482; 2003 SpreadsheetML"
-msgstr "MS Excel (tm) 2003 SpreadsheetML"
+msgstr "MS Excel&#8482; 2003 SpreadsheetML"
 
 #: ../plugins/excel/plugin.xml.in.h:8
-#, fuzzy
 msgid "ECMA 376 / Office Open XML [MS Excel&#8482; 2007/2010] (*.xlsx)"
-msgstr "MS Excel (tm) (*.xls)"
+msgstr "ECMA 376 / Office Open XML [MS Excel&#8482; 2007/2010] (*.xlsx)"
 
 #: ../plugins/excel/plugin.xml.in.h:9
 msgid "ECMA 376 1st edition (2006); [MS Excel&#8482; 2007]"
-msgstr ""
+msgstr "ECMA 376 1st edition (2006); [MS Excel&#8482; 2007]"
 
 #: ../plugins/excel/plugin.xml.in.h:10
 msgid ""
 "ISO/IEC 29500:2008 &amp; ECMA 376 2nd edition (2008); [MS Excel&#8482; 2010]"
-msgstr ""
+msgstr "ISO/IEC 29500:2008 &amp; ECMA 376 2. udgave (2008); [MS Excel&#8482; 2010]"
 
 #: ../plugins/excel/plugin.xml.in.h:11
 msgid "MS Excel&#8482; (*.xls) requiring encoding specification"
@@ -612,9 +606,9 @@ msgid "Ignoring a sheet without a name"
 msgstr "Ignorerer et ark uden et navn"
 
 #: ../plugins/excel/xlsx-read.c:3318
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to define name: %s"
-msgstr "Fejl ved fortolkning af navn '%s'"
+msgstr "Fejl ved definering af: '%s'"
 
 #: ../plugins/excel/xlsx-read.c:3377
 #, fuzzy
@@ -627,32 +621,27 @@ msgid "Missing part-id for sheet '%s'"
 msgstr "Mangler del-id for ark '%s'"
 
 #: ../plugins/excel/xlsx-read.c:3748
-#, fuzzy, c-format
+#, c-format
 msgid "Reading sheet '%s'..."
-msgstr "Omrokér ark..."
+msgstr "Læser ark '%s'..."
 
 #: ../plugins/excel/xlsx-read.c:3756
-#, fuzzy
 msgid "Reading comments..."
-msgstr "Læser fil..."
+msgstr "Læser kommentarer..."
 
 #: ../plugins/excel/xlsx-read.c:4786
-#, fuzzy
 msgid "Reading shared strings..."
-msgstr "Læser fil..."
+msgstr "Læser fælles strenge..."
 
 #: ../plugins/excel/xlsx-read.c:4794
-#, fuzzy
 msgid "Reading theme..."
-msgstr "Læser fil..."
+msgstr "Læser tema..."
 
 #: ../plugins/excel/xlsx-read.c:4802
-#, fuzzy
 msgid "Reading styles..."
-msgstr "Læser fil..."
+msgstr "Læser stilformer..."
 
 #: ../plugins/excel/xlsx-read.c:4807
-#, fuzzy
 msgid "Reading workbook..."
 msgstr "Læser fil..."
 
@@ -804,13 +793,12 @@ msgid "Finance"
 msgstr "Finans"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:1
-#, fuzzy
 msgid "Engineering Functions"
-msgstr "Teknisk"
+msgstr "Tekniske funktioner"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:2
 msgid "Functions for complex numbers, base conversions, and more"
-msgstr ""
+msgstr "Funktioner vedrørende komplexe tal, konvertering or mere"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:3
 msgid "Engineering"
@@ -1122,9 +1110,9 @@ msgid "The GLPK exporter is not available."
 msgstr "GLPK-eksportøren er ikke tilgængelig."
 
 #: ../plugins/glpk/gnm-glpk.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create file for solution"
-msgstr "Kan ikke oprette midlertidig fil."
+msgstr "Kan ikke oprette midlertidig fil til løsning"
 
 #: ../plugins/glpk/gnm-glpk.c:292 ../plugins/lpsolve/gnm-lpsolve.c:286
 #, c-format
@@ -4373,23 +4361,23 @@ msgstr ""
 
 #: ../src/commands.c:8131 ../src/wbc-gtk-actions.c:2172
 msgid "Clear All Page Breaks"
-msgstr ""
+msgstr "Fjern all sidebrud"
 
 #: ../src/commands.c:8158 ../src/wbc-gtk.c:1480
 msgid "Remove Column Page Break"
-msgstr ""
+msgstr "Fjern kolonnesidebrud"
 
 #: ../src/commands.c:8158 ../src/wbc-gtk.c:1490
 msgid "Remove Row Page Break"
-msgstr ""
+msgstr "Fjern rækkesidebrud"
 
 #: ../src/commands.c:8161 ../src/wbc-gtk.c:1483
 msgid "Add Column Page Break"
-msgstr ""
+msgstr "Indsæt kolonnesidebrud"
 
 #: ../src/commands.c:8161 ../src/wbc-gtk.c:1493
 msgid "Add Row Page Break"
-msgstr ""
+msgstr "Indsæt rækkesidebrud"
 
 #: ../src/consolidate.c:786
 #, c-format
@@ -10715,9 +10703,8 @@ msgid "_Columns to repeat on the left side:"
 msgstr "_Kolonner som skal gentages i venstre side:"
 
 #: ../src/dialogs/print.ui.h:41
-#, fuzzy
 msgid "Print Area"
-msgstr "Sæt udskriftsområde:"
+msgstr "Udskriftsområde"
 
 #: ../src/dialogs/print.ui.h:42
 #, fuzzy
@@ -15296,12 +15283,12 @@ msgstr "Standardfilgemning er ikke tilgængelig."
 #. File->PrintArea
 #: ../src/wbc-gtk-actions.c:241 ../src/wbc-gtk-actions.c:2157
 msgid "Set Print Area"
-msgstr "Sæt udskriftsområde:"
+msgstr "Sæt udskriftsområde"
 
 #: ../src/wbc-gtk-actions.c:245
 #, c-format
 msgid "Set Print Area to %s"
-msgstr "Angiv udskriftsområde til %s"
+msgstr "Sæt udskriftsområde til %s"
 
 #: ../src/wbc-gtk-actions.c:264 ../src/wbc-gtk-actions.c:2160
 msgid "Clear Print Area"
@@ -15469,7 +15456,7 @@ msgstr "_Slet"
 
 #: ../src/wbc-gtk-actions.c:1990
 msgid "_Modify"
-msgstr ""
+msgstr "_Ret"
 
 #: ../src/wbc-gtk-actions.c:1991
 msgid "S_heet"
@@ -15658,9 +15645,8 @@ msgid "Send the current file via email"
 msgstr "Send den aktuelle fil med et ebrev"
 
 #: ../src/wbc-gtk-actions.c:2048
-#, fuzzy
 msgid "Print Area & Breaks"
-msgstr "Udskriftsområde"
+msgstr "Udskriftsområde og sidebrud"
 
 #: ../src/wbc-gtk-actions.c:2049
 msgid "Page Set_up..."
@@ -15833,14 +15819,12 @@ msgstr "Ændr arbejdsbogens egenskaber"
 
 #. File
 #: ../src/wbc-gtk-actions.c:2152
-#, fuzzy
 msgid "Document Proper_ties..."
-msgstr "_Egenskaber..."
+msgstr "Dokument_egenskaber..."
 
 #: ../src/wbc-gtk-actions.c:2153
-#, fuzzy
 msgid "Edit document properties"
-msgstr "_Egenskaber..."
+msgstr "Ret dokumentegenskaber"
 
 #: ../src/wbc-gtk-actions.c:2158
 msgid "Use the current selection as print area"
@@ -15848,7 +15832,7 @@ msgstr "Brug den nuværende markering som udskriftsområde"
 
 #: ../src/wbc-gtk-actions.c:2161
 msgid "Undefine the print area"
-msgstr ""
+msgstr "Slet udskriftsområde"
 
 #: ../src/wbc-gtk-actions.c:2163
 msgid "Show Print Area"
@@ -16006,9 +15990,8 @@ msgid "Select an array of cells"
 msgstr "Markér en matrix af celler"
 
 #: ../src/wbc-gtk-actions.c:2242
-#, fuzzy
 msgid "_Depends"
-msgstr "Markér af_hængige"
+msgstr "_Afhængige"
 
 # edit er overflødigt
 #: ../src/wbc-gtk-actions.c:2243
@@ -16019,10 +16002,9 @@ msgstr "Markér alle cellerne som afhænger af den aktive celle"
 msgid "_Inputs"
 msgstr "_Inddata"
 
-# edit er overflødigt
 #: ../src/wbc-gtk-actions.c:2246
 msgid "Select all the cells are used by the current edit cell"
-msgstr "Markér alle celler, som afhænger af den aktive celle"
+msgstr "Markér alle celler som den aktive celle bruger"
 
 #: ../src/wbc-gtk-actions.c:2249
 msgid "Next _Object"
@@ -16083,9 +16065,8 @@ msgid "Repeat the previous action"
 msgstr "Gentag den sidste handling"
 
 #: ../src/wbc-gtk-actions.c:2278
-#, fuzzy
 msgid "P_aste Special..."
-msgstr "A_vanceret indsætning..."
+msgstr "Indsæt med ændringer..."
 
 #: ../src/wbc-gtk-actions.c:2279
 msgid "Paste with optional filters and transformations"
@@ -16291,13 +16272,12 @@ msgstr "Indsæt dags dato og det nuværende tidspunkt i de markerede celler"
 
 #. Insert -> Name
 #: ../src/wbc-gtk-actions.c:2380
-#, fuzzy
 msgid "_Names..."
-msgstr "_Navne"
+msgstr "_Navne..."
 
 #: ../src/wbc-gtk-actions.c:2381
 msgid "Edit defined names for expressions"
-msgstr ""
+msgstr "Ret definerede navne for udtryk"
 
 #. Format
 #: ../src/wbc-gtk-actions.c:2385
@@ -17168,12 +17148,10 @@ msgid "Accounting"
 msgstr "Bogføring"
 
 #: ../src/wbc-gtk-actions.c:2773
-#, fuzzy
 msgid "Format the selection as accounting"
-msgstr "Formatér de valgte celler som valuta"
+msgstr "Formatér de valgte celler som bogføringstal"
 
 #: ../src/wbc-gtk-actions.c:2776
-#, fuzzy
 msgid "Format the selection as percentage"
 msgstr "Formatér de valgte celler som procentdele"
 
@@ -17738,8 +17716,7 @@ msgid "END"
 msgstr ""
 
 #: ../src/wbc-gtk.c:2677
-#, fuzzy
-msgid "Go to Cell ..."
+msgid "Go to Cell..."
 msgstr "Gå _til celle..."
 
 #: ../src/wbc-gtk.c:2746
@@ -17828,14 +17805,12 @@ msgid "Set Background Color"
 msgstr "Angiv baggrundsfarve"
 
 #: ../src/wbc-gtk.c:3560
-#, fuzzy, c-format
 msgid "Setting Font %s"
-msgstr "Indsætning af dags dato i %s"
+msgstr "Vælg skrifttype %s"
 
 #: ../src/wbc-gtk.c:3638
-#, fuzzy
 msgid "Change font"
-msgstr "Ændr kontrol"
+msgstr "Vælg ny skrifttype"
 
 #. xgettext: Translators: if this warning shows up when
 #. * running Gnumeric in your locale, the underlines need
