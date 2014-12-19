@@ -81,7 +81,7 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-19 13:56-0500\n"
-"PO-Revision-Date: 2014-12-19 13:54-0500\n"
+"PO-Revision-Date: 2014-12-19 14:05-0500\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -13540,7 +13540,7 @@ msgstr "Vis programversion"
 
 #: ../src/ssconvert.c:71
 msgid "Be somewhat more verbose during conversion"
-msgstr ""
+msgstr "Vær mere snakkesaglig under konverteringen"
 
 #: ../src/ssconvert.c:80 ../src/ssindex.c:66
 msgid "Optionally specify an encoding for imported content"
@@ -17869,7 +17869,7 @@ msgstr ""
 
 #: ../src/widgets/gnm-fontbutton.c:372 ../src/widgets/gnm-fontbutton.c:482
 msgid "Sans 12"
-msgstr ""
+msgstr "Sans 12"
 
 #: ../src/widgets/gnm-fontbutton.c:447
 msgid "Dialog Type"
@@ -17886,12 +17886,11 @@ msgstr ""
 
 #: ../src/widgets/gnm-fontbutton.c:466 ../src/widgets/gnm-fontbutton.c:593
 msgid "Pick a Font"
-msgstr ""
+msgstr "Vælg en skrifttype"
 
 #: ../src/widgets/gnm-fontbutton.c:480
-#, fuzzy
 msgid "Font name"
-msgstr "Skriftnavn %s"
+msgstr "Skrifttype"
 
 #: ../src/widgets/gnm-fontbutton.c:481
 #, fuzzy
@@ -18037,11 +18036,11 @@ msgstr "Middel"
 #: ../src/widgets/gnumeric-text-view.c:324
 #, fuzzy
 msgid "Semibold"
-msgstr "S_ymbol:"
+msgstr "Halvfed"
 
 #: ../src/widgets/gnumeric-text-view.c:326
 msgid "Ultrabold"
-msgstr ""
+msgstr "Meget fed"
 
 #: ../src/widgets/gnumeric-text-view.c:327
 msgid "Heavy"
@@ -18148,29 +18147,29 @@ msgid "Graph"
 msgstr "Gruppér"
 
 #: ../src/workbook.c:1570
-#, fuzzy, c-format
+#, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
-msgstr[0] "Omdøbning af ark"
-msgstr[1] "Omdøbning af ark"
+msgstr[0] "Omdøbning af %d ark"
+msgstr[1] "Omdøbning af %d ark"
 
 #: ../src/workbook.c:1572
-#, fuzzy, c-format
+#, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
-msgstr[0] "Tilføjelse af ark"
-msgstr[1] "Tilføjelse af ark"
+msgstr[0] "Tilføjelse af %d ark"
+msgstr[1] "Tilføjelse af %d ark"
 
 #.
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
 #: ../src/workbook.c:1578
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
-msgstr[0] "Indsættelse af et nyt ark"
-msgstr[1] "Indsættelse af et nyt ark"
+msgstr[0] "Indsættelse af %d nyt ark"
+msgstr[1] "Indsættelse af %d nye ark"
 
 #: ../src/workbook.c:1580
 msgid "Changing sheet tab colors"
@@ -18185,11 +18184,11 @@ msgstr "Ændring af arkegenskaber"
 #. * might be a compound operation.  Lie.
 #.
 #: ../src/workbook.c:1589
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
-msgstr[0] "Sletning af ark"
-msgstr[1] "Sletning af ark"
+msgstr[0] "Sletning af %d ark"
+msgstr[1] "Sletning af %d ark"
 
 #: ../src/workbook.c:1591
 msgid "Changing sheet order"
@@ -18215,7 +18214,7 @@ msgstr ""
 #: ../src/xml-sax-read.c:2207
 #, c-format
 msgid "Unknown filter operator \"%s\""
-msgstr "Ukendt filteroperatør \"%s\""
+msgstr "Ukendt filteroperator \"%s\""
 
 #: ../src/xml-sax-read.c:2247
 msgid "Missing filter type"
