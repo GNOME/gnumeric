@@ -81,7 +81,7 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-05 12:45+0200\n"
-"PO-Revision-Date: 2013-03-29 12:42+0000\n"
+"PO-Revision-Date: 2014-12-19 13:54-0500\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -3909,22 +3909,22 @@ msgstr[0] "Sætning af højden af rækkerne %s til %d punkter"
 msgstr[1] "Sætning af højden af rækkerne %s til %d punkter"
 
 #: ../src/commands.c:2067
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of columns %s to default"
-msgstr "Sætning af bredden af kolonnerne %s til %d punkter"
+msgstr "Sætning af bredden af kolonnerne %s til standard"
 
 #: ../src/commands.c:2069
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of rows %s to default"
-msgstr "Sætning af højden af rækkerne %s til %d punkter"
+msgstr "Sætning af højden af rækkerne %s til standard"
 
 #: ../src/commands.c:2096
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting width of %s"
 msgstr "Automatisk tilpasning af række %s"
 
 #: ../src/commands.c:2096
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting height of %s"
 msgstr "Automatisk tilpasning af række %s"
 
@@ -10464,24 +10464,20 @@ msgid "Plugin Manager"
 msgstr "Modulhåndtering"
 
 #: ../src/dialogs/plugin-manager.ui.h:2
-#, fuzzy
 msgid "Activate _new plugins by default"
-msgstr "Aktivér automatisk nye udvidelsesmoduler"
+msgstr "Aktivér nye moduler automatisk"
 
 #: ../src/dialogs/plugin-manager.ui.h:3
-#, fuzzy
 msgid "_Activate All"
-msgstr "Aktivér alle udvidelsesmoduler"
+msgstr "Aktivér alle moduler"
 
 #: ../src/dialogs/plugin-manager.ui.h:4
-#, fuzzy
 msgid "Plugin List"
-msgstr "Modulliste"
+msgstr "Moduler"
 
 #: ../src/dialogs/plugin-manager.ui.h:5
-#, fuzzy
 msgid "Plugin directory:"
-msgstr "Moduldetaljer"
+msgstr "Modulkatalog:"
 
 #: ../src/dialogs/plugin-manager.ui.h:6
 msgid "Do _not activate this plugin next time I start Gnumeric"
@@ -10499,12 +10495,10 @@ msgstr ""
 "Gnumeric?"
 
 #: ../src/dialogs/plugin-manager.ui.h:8
-#, fuzzy
 msgid "Plugin Details"
-msgstr "Moduldetaljer"
+msgstr "Detaljer"
 
 #: ../src/dialogs/plugin-manager.ui.h:9
-#, fuzzy
 msgid "Directories"
 msgstr "Katalog"
 
@@ -12668,7 +12662,7 @@ msgstr "BREDDExHØJDE+X+Y"
 
 #: ../src/main-application.c:66
 msgid "Don't show splash screen"
-msgstr ""
+msgstr "Vis ikke startskærmen"
 
 #: ../src/main-application.c:68
 msgid "Don't display warning dialogs when importing"
@@ -12864,9 +12858,8 @@ msgid "Path "
 msgstr "Sti "
 
 #: ../src/print-info.c:662 ../src/widgets/gnm-fontbutton.c:464
-#, fuzzy
 msgid "Title"
-msgstr "Titel:"
+msgstr "Titel"
 
 #: ../src/print-info.c:891 ../src/stf-export.c:706
 #, c-format
@@ -12971,9 +12964,8 @@ msgid "_Ignore defined print area"
 msgstr "_Ignorer defineret udskriftsområde"
 
 #: ../src/print.c:1517
-#, fuzzy
 msgid "from:"
-msgstr "Fjern mellemrum:"
+msgstr "fra:"
 
 #: ../src/print.c:1541
 msgid "Ignore all _manual page breaks"
@@ -13027,7 +13019,7 @@ msgstr ""
 
 #: ../src/sheet-autofill.c:914
 msgid "(empty)"
-msgstr ""
+msgstr "(blank)"
 
 #: ../src/sheet-control-gui.c:2056 ../src/wbc-gtk-actions.c:411
 #, fuzzy, c-format
@@ -13050,14 +13042,12 @@ msgid "Paste _Special"
 msgstr "_Avanceret indsætning"
 
 #: ../src/sheet-control-gui.c:2154
-#, fuzzy
 msgid "_Insert Cells..."
-msgstr "Indsæt celler"
+msgstr "Indsæt celler..."
 
 #: ../src/sheet-control-gui.c:2157
-#, fuzzy
 msgid "_Delete Cells..."
-msgstr "Slet celler"
+msgstr "Slet celler..."
 
 #: ../src/sheet-control-gui.c:2160
 msgid "_Insert Column(s)"
@@ -13080,19 +13070,16 @@ msgid "Clear Co_ntents"
 msgstr "Ryd i_ndhold"
 
 #: ../src/sheet-control-gui.c:2182
-#, fuzzy
 msgid "Add _Comment..."
-msgstr "_Kommentarer"
+msgstr "Tilføj kommentar..."
 
 #: ../src/sheet-control-gui.c:2184
-#, fuzzy
 msgid "Edit Co_mment..."
-msgstr "_Kommentarer"
+msgstr "Ret kommentar..."
 
 #: ../src/sheet-control-gui.c:2186
-#, fuzzy
 msgid "_Remove Comments"
-msgstr "_Kommentarer"
+msgstr "Fjern mommentar"
 
 #: ../src/sheet-control-gui.c:2189
 #, fuzzy
@@ -13140,24 +13127,20 @@ msgid "_Format All Cells..."
 msgstr "_Formatér celler..."
 
 #: ../src/sheet-control-gui.c:2229
-#, fuzzy
 msgid "C_onditional Formatting..."
-msgstr "Eksponentiel udjævning"
+msgstr "Betinget formatering..."
 
 #: ../src/sheet-control-gui.c:2234
-#, fuzzy
 msgid "_Unmerge"
-msgstr "Flet"
+msgstr "Opsplit"
 
 #: ../src/sheet-control-gui.c:2236 ../src/wbc-gtk-actions.c:2402
-#, fuzzy
 msgid "Auto Fit _Width"
-msgstr "Tilpas bredde"
+msgstr "Tilpas bredde automatisk"
 
 #: ../src/sheet-control-gui.c:2237 ../src/wbc-gtk-actions.c:2399
-#, fuzzy
 msgid "Auto Fit _Height"
-msgstr "Tilpas højde"
+msgstr "Tilpas højde automatisk"
 
 #. start sub menu
 #. Format -> Col
@@ -13166,9 +13149,8 @@ msgid "_Width..."
 msgstr "_Bredde..."
 
 #: ../src/sheet-control-gui.c:2244 ../src/wbc-gtk-actions.c:2411
-#, fuzzy
 msgid "_Auto Fit Width"
-msgstr "Tilpas bredde"
+msgstr "Tilpas bredde automatisk"
 
 #: ../src/sheet-control-gui.c:2245 ../src/sheet-control-gui.c:2253
 #: ../src/wbc-gtk-actions.c:2414 ../src/wbc-gtk-actions.c:2431
@@ -13694,7 +13676,7 @@ msgstr ""
 
 #: ../src/ssconvert.c:813 ../src/ssconvert.c:859
 msgid "INFILE [OUTFILE]"
-msgstr ""
+msgstr "INDDATA [UDDATA]"
 
 #: ../src/ssconvert.c:827
 #, fuzzy, c-format
