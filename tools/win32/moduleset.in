@@ -68,11 +68,11 @@
     </autotools>
 
     <autotools id="glib">
-	<branch repo="gnome.org" module="sources/glib/2.41/glib-2.41.3.tar.xz" version="2.41.3">
+	<branch repo="gnome.org" module="sources/glib/2.43/glib-2.43.2.tar.xz" version="2.43.2">
 	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
 	    <patch file="&patch_dir;glib-goption-disable-localization.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-gspawn-win32.patch" strip="1"/>
-	    <patch file="&patch_dir;glib-appinfo.patch" strip="1"/>
+	    <!-- <patch file="&patch_dir;glib-appinfo.patch" strip="1"/> -->
 	    <patch file="&patch_dir;glib-gatomic.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-dns.patch" strip="1"/>
 	    <patch file="&patch_dir;glib-rand.patch" strip="1"/>
