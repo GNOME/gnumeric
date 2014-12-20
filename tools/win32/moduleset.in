@@ -92,8 +92,8 @@
 	<source href="http://www.ijg.org/files/jpegsrc.v7.tar.gz"/>
     </tarball>
     <autotools id="png" autogen-sh="autoreconf">
-	<branch repo="simplesystems.org" module="libpng12/libpng-1.2.50.tar.xz"
-		version="1.2.50">
+	<branch repo="simplesystems.org" module="libpng12/libpng-1.2.52.tar.xz"
+		version="1.2.52">
 	  <patch file="&patch_dir;png-symbols.patch"/>
 	</branch>
 	<dependencies>
@@ -165,16 +165,16 @@
     </tarball>
     <autotools id="libdatrie">
 	<branch repo="debian"
-		module="libd/libdatrie/libdatrie_0.2.6.orig.tar.xz"
-		version="0.2.6" checkoutdir="libdatrie-0.2.6"/>
+		module="libd/libdatrie/libdatrie_0.2.8.orig.tar.xz"
+		version="0.2.8" checkoutdir="libdatrie-0.2.8"/>
 	<dependencies>
 	    <dep package="iconv"/>
 	</dependencies>
     </autotools>
     <autotools id="libthai">
 	<branch repo="debian"
-		module="libt/libthai/libthai_0.1.19.orig.tar.xz"
-		version="0.1.19" checkoutdir="libthai-0.1.19">
+		module="libt/libthai/libthai_0.1.21.orig.tar.xz"
+		version="0.1.21" checkoutdir="libthai-0.1.21">
 	    <patch file="&patch_dir;libthai.patch"/>
 	</branch>
 	<dependencies>
