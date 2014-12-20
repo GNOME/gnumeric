@@ -88,9 +88,9 @@ setup_html_help() {
 
 # Download HTML Help
     if [ ! -f "${archive_dir}/htmlhelp.exe" ]; then
-	( download 'http://go.microsoft.com/fwlink/?LinkId=14188' )
+	( download 'http://download.microsoft.com/download/0/A/9/0A939EF6-E31C-430F-A3DF-DFAE7960D564/htmlhelp.exe' )
     fi
-    if [ ! -d "${WINEDIR}/Program Files/HTML Help Workshop" ]; then
+    if [ ! '(' -d "${WINEDIR}/Program Files/HTML Help Workshop" -o -d "${WINEDIR}/Program Files (x86)/HTML Help Workshop" ')' ]; then
 	( setup_html_help )
     fi
 

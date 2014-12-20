@@ -1,3 +1,8 @@
+2014-12-20  Morten Welinder <terra@gnome.org>
+
+	* build (archive_dir): Wine seems to have changed a bit.  Make up
+	for that.
+
 2014-09-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.18
