@@ -4961,6 +4961,7 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 	ColRowStateList *states = NULL;
 	GnmExprRelocateInfo reloc_info;
 	GSList *l;
+	gboolean sticky_end = TRUE;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count > 0, TRUE);
@@ -4981,6 +4982,11 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 		move_start = pos;
 		move_end = kill_start - 1;
 	} else {
+		int max_count = last_pos + 1 - pos;
+		if (count > max_count) {
+			sticky_end = FALSE;
+			count = max_count;
+		}
 		kill_start = pos;
 		kill_end = pos + (count - 1);
 		move_start = kill_end + 1;
@@ -5022,7 +5028,7 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 	sheet_objects_clear (sheet, &kill_zone, G_TYPE_NONE, pundo);
 
 	reloc_info.reloc_type = is_cols ? GNM_EXPR_RELOCATE_COLS : GNM_EXPR_RELOCATE_ROWS;
-	reloc_info.sticky_end = is_insert || !(kill_end > last_pos);
+	reloc_info.sticky_end = sticky_end;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	parse_pos_init_sheet (&reloc_info.pos, sheet);
 

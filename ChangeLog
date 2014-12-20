@@ -1,3 +1,8 @@
+2014-12-20  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_insdel_colrow): Fix handling of too-big
+	count in delete, such as used from sheet resize.
+
 2014-12-19  Morten Welinder  <terra@gnome.org>
 
 	* src/libgnumeric.c (gnm_pre_parse_init): Use putenv for win32
