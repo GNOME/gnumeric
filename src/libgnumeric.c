@@ -182,8 +182,13 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 #endif
 
 	/* Default value is bogus, see 732184.  */
-	if (!getenv ("G_ENABLE_DIAGNOSTIC"))
+	if (!getenv ("G_ENABLE_DIAGNOSTIC")) {
+#ifdef WIN32
+		putenv ("G_ENABLE_DIAGNOSTIC=0");
+#else
 		setenv ("G_ENABLE_DIAGNOSTIC", "0", FALSE);
+#endif
+	}
 
 	/* We cannot use gnm_debug_flag yet.  See 627840.  */
 	gnm_debug = getenv ("GNM_DEBUG");
