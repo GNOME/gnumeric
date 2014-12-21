@@ -1,3 +1,8 @@
+2014-12-21  Morten Welinder  <terra@gnome.org>
+
+	* src/item-bar.c (ib_reload_sizing_style): Add fallback for font
+	handling.
+
 2014-12-20  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_insdel_colrow): Fix handling of too-big

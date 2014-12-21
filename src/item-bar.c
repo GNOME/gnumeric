@@ -152,6 +152,15 @@ ib_reload_sizing_style (GnmItemBar *ib)
 		gtk_style_context_get (context, state, "font", &desc, NULL);
 		pango_font_description_set_size (desc,
 						 zoom_factor * pango_font_description_get_size (desc));
+		ib->selection_fonts[ui] =
+			pango_context_load_font (pcontext, desc);
+		if (!ib->selection_fonts[ui]) {
+			/* Fallback. */
+			pango_font_description_set_family (desc, "Sans");
+			ib->selection_fonts[ui] =
+				pango_context_load_font (pcontext, desc);
+		}
+
 		/*
 		 * Figure out how tall the label can be.
 		 * (Note that we avoid J/Q/Y which may go below the line.)
@@ -159,8 +168,6 @@ ib_reload_sizing_style (GnmItemBar *ib)
 		pango_layout_set_text (layout,
 				       char_label ? "AHW" : "0123456789",
 				       -1);
-		ib->selection_fonts[ui] =
-			pango_context_load_font (pcontext, desc);
 		pango_layout_set_font_description (layout, desc);
 		pango_font_description_free (desc);
 		pango_layout_get_extents (layout, &ink_rect, NULL);
