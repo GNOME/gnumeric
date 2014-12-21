@@ -234,6 +234,13 @@
 	</dependencies>
     </autotools>
 
+    <autotools id="adwaita">
+	<branch repo="gnome.org" module="sources/adwaita-icon-theme/3.15/adwaita-icon-theme-3.15.1.tar.xz" version="3.15.1"/>
+	<dependencies>
+	    <dep package="gtk+"/>
+	</dependencies>
+    </autotools>
+
     <autotools id="gdk-pixbuf">
 	<branch repo="gnome.org"
 		module="sources/gdk-pixbuf/2.31/gdk-pixbuf-2.31.0.tar.xz"
@@ -409,6 +416,7 @@
 	    <dep package="cairo"/>
 	    <dep package="gdk-pixbuf"/>
 	    <dep package="gtk+"/>
+	    <dep package="adwaita"/>
 	    <dep package="librsvg"/>
 	    <!-- <dep package="lasem"/> -->
 	</dependencies>
