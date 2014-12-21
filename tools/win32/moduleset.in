@@ -25,6 +25,8 @@
 		href="http://downloads.sourceforge.net/project/"/>
     <repository type="tarball" name="simplesystems.org"
 		href="ftp://ftp.simplesystems.org/pub/libpng/png/src/"/>
+    <repository type="tarball" name="epoxy"
+		href="https://github.com/anholt/libepoxy/archive/"/>
 
     <tarball id="gettext" version="0.18">
 	<source href="ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.tar.gz"
@@ -144,8 +146,8 @@
     </autotools>
     <autotools id="cairo">
 	<branch repo="cairographics"
-		module="cairo-1.12.16.tar.xz"
-		version="1.12.16">
+		module="cairo-1.14.0.tar.xz"
+		version="1.14.0">
 	</branch>
 	<dependencies>
 	    <dep package="zlib"/>
@@ -210,8 +212,8 @@
 
     <autotools id="pango">
 	<branch repo="gnome.org"
-		module="sources/pango/1.36/pango-1.36.6.tar.xz"
-		version="1.36.6"
+		module="sources/pango/1.36/pango-1.36.8.tar.xz"
+		version="1.36.8"
 		skip-autogen="never">
 	  <!-- <patch file="&patch_dir;pango-destdir.patch" strip="1"/> -->
 	</branch>
@@ -226,7 +228,7 @@
     </autotools>
 
     <autotools id="atk">
-	<branch repo="gnome.org" module="sources/atk/2.13/atk-2.13.3.tar.xz" version="2.13.3"/>
+	<branch repo="gnome.org" module="sources/atk/2.15/atk-2.15.3.tar.xz" version="2.15.3"/>
 	<dependencies>
 	    <dep package="glib"/>
 	</dependencies>
@@ -247,9 +249,15 @@
 	</dependencies>
     </autotools>
 
+    <autotools id="epoxy">
+	<branch repo="epoxy" module="v1.2.tar.gz"
+		version="1.2" checkoutdir="libepoxy-1.2">
+	</branch>
+    </autotools>
+
     <autotools id="gtk+">
-	<branch repo="gnome.org" module="sources/gtk+/3.13/gtk+-3.13.7.tar.xz"
-		version="3.13.7">
+	<branch repo="gnome.org" module="sources/gtk+/3.15/gtk+-3.15.3.tar.xz"
+		version="3.15.3">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch"/>
 <!--	    <patch file="&patch_dir;gtk-release-flux.patch" strip="1"/> -->
@@ -259,6 +267,7 @@
 	    <dep package="cairo"/>
 	    <dep package="atk"/>
 	    <dep package="pango"/>
+	    <dep package="epoxy"/>
 	</dependencies>
     </autotools>
 
