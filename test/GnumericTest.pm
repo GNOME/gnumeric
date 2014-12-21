@@ -11,12 +11,12 @@ $| = 1;
 @GnumericTest::EXPORT = qw(test_sheet_calc test_valgrind
                            test_importer test_exporter test_roundtrip
 			   test_ssindex sstest test_command message
-			   $ssconvert $sstest $topsrc $top_builddir
+			   $ssconvert $sstest $ssdiff $topsrc $top_builddir
 			   $samples $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
 use vars qw($topsrc $top_builddir $samples $PERL $verbose);
-use vars qw($ssconvert $ssindex $sstest);
+use vars qw($ssconvert $ssindex $sstest $ssdiff);
 use vars qw($normalize_gnumeric);
 
 $PERL = $Config{'perlpath'};
@@ -31,6 +31,7 @@ $samples = "$topsrc/samples"; $samples =~ s{^\./}{};
 $ssconvert = "$top_builddir/src/ssconvert";
 $ssindex = "$top_builddir/src/ssindex";
 $sstest = "$top_builddir/src/sstest";
+$ssdiff = "$top_builddir/src/ssdiff";
 $normalize_gnumeric = "$PERL $topsrc/test/normalize-gnumeric";
 $verbose = 0;
 

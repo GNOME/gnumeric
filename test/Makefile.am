@@ -140,6 +140,7 @@ TESTS =	t1000-statfuns.pl			\
 	t8201-gslice2.pl			\
 	t8202-gslice3.pl			\
 	t9000-ssindex.pl			\
+	t9001-ssconvert-resize.pl		\
 	t9100-number-match.pl			\
 	t9999-epilogue.pl
 
