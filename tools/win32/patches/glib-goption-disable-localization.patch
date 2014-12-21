@@ -85,3 +85,19 @@
                data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
              else
                data = g_strdup (value);
+diff -c /home/welinder/gnome/gnumeric/tools/win32/release/src/glib-2.43.2/glib/goption.h\~ /home/welinder/gnome/gnumeric/tools/win32/release/src/glib-2.43.2/glib/goption.h
+--- glib-2.43.2/glib/goption.h.orig	2014-12-14 17:46:52.000000000 -0500
++++ glib-2.43.2/glib/goption.h	2014-12-20 16:55:23.957576969 -0500
+@@ -310,6 +310,12 @@
+ GLIB_AVAILABLE_IN_ALL
+ gboolean        g_option_context_get_ignore_unknown_options (GOptionContext *context);
+ 
++GLIB_AVAILABLE_IN_ALL
++void            g_option_context_set_delocalize (GOptionContext *context,
++						 gboolean        ignore_unknown);
++GLIB_AVAILABLE_IN_ALL
++gboolean        g_option_context_get_delocalize (GOptionContext *context);
++
+ GLIB_AVAILABLE_IN_2_44
+ void            g_option_context_set_strict_posix           (GOptionContext *context,
+                                                              gboolean        strict_posix);
