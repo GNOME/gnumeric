@@ -183,10 +183,12 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 
 	/* Default value is bogus, see 732184.  */
 	if (!getenv ("G_ENABLE_DIAGNOSTIC")) {
-#ifdef WIN32
+#ifdef HAVE_SETENV
+		setenv ("G_ENABLE_DIAGNOSTIC", "0", FALSE);
+#elif defined(HAVE_PUTENV)
 		putenv ("G_ENABLE_DIAGNOSTIC=0");
 #else
-		setenv ("G_ENABLE_DIAGNOSTIC", "0", FALSE);
+		/* No big deal.  */
 #endif
 	}
 
