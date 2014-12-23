@@ -1,3 +1,8 @@
+2014-12-22  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c (dialog_about): Don't use an empty layout for
+	measurement.
+
 2014-11-14  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-preview.c (render_get_value): Truncate long items.

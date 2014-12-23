@@ -588,7 +588,7 @@ dialog_about (WBCGtk *wbcg)
 		PangoLayout *layout;
 
 		state->anim_area = gtk_drawing_area_new ();
-		layout = gtk_widget_create_pango_layout (state->anim_area, NULL);
+		layout = gtk_widget_create_pango_layout (state->anim_area, "x");
 		pango_layout_get_pixel_size (layout, NULL, &height);
 		gtk_widget_set_size_request (state->anim_area, -1, 4 * height);
 		g_object_unref (layout);
