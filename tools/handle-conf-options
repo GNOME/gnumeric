@@ -698,27 +698,30 @@ sub create_reg {
 	} elsif ($type eq 'float') {
 	    printf "\"%s\"", $default;
 	} elsif ($type eq 'string') {
-	    printf "\"%s\"", $default;
+	    print &quote_c_string ($default);
 	} elsif ($type eq 'list:string') {
-	    print "\"";
+	    print "hex(1):";
 	    $default = "" unless defined $default;
 	    if ($default =~ s{^\[(.*)\]$}{$1}) {
+		my $l = 7 + length ($var);
 		while ($default ne '') {
+		    if ($l > 40) {
+			print "\\\n";
+			$l = 0;
+		    }
 		    if ($default =~ m{^,}) {
-			print "\n";
+			print "0a,00,";
+			$l += 6;
 			$default = substr ($default, 1);
-		    } elsif ($default =~ m{^\\.}) {
-			print "\\" if $default =~ m{^\\[\\""]};
-			print substr ($default, 1, 1);
-			$default = substr ($default, 2);
 		    } else {
-			print substr ($default, 0, 1);
+			my $c = ord (substr ($default, 0, 1));
+			printf("%02x,00,", $c);
+			$l += 6;
 			$default = substr ($default, 1);
 		    }
 		}
-		print "\n";
+		print "00,00";
 	    }
-	    print "\"";
 	} else {
 	    die "$0: Unhandled type $type\n";
 	}
