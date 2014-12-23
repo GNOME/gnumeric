@@ -350,7 +350,6 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 	atk_object_set_role (gtk_widget_get_accessible (GTK_WIDGET (dialog)),
 			     ATK_ROLE_ALERT);
 
-	gtk_widget_show_all (GTK_WIDGET (dialog));
 	res = go_gtk_dialog_run (dialog, wbcg_toplevel (wbcg));
 	switch (res) {
 	case GTK_RESPONSE_CANCEL:
