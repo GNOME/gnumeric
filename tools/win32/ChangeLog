@@ -1,3 +1,8 @@
+2014-12-23  Morten Welinder  <terra@gnome.org>
+
+	* build (archive_dir): Set WINEARCH=win32.  The help compiler is
+	otherwise unhappy.
+
 2014-12-20  Morten Welinder <terra@gnome.org>
 
 	* build (archive_dir): Wine seems to have changed a bit.  Make up

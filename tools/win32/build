@@ -15,6 +15,7 @@ if [ -z "${builddir}" -o -z "${srcdir}" -o -z "${build}" ]; then
 fi
 
 export WINEPREFIX="${builddir}/wine"
+export WINEARCH=win32
 WINEDIR="${WINEPREFIX}/drive_c"
 archive_dir="${builddir}/archive"
 export JH_PREFIX="${builddir}/${build}"
