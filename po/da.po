@@ -8243,32 +8243,32 @@ msgstr "<b>Mønster</b>"
 
 #: ../src/dialogs/cell-format.ui.h:45
 msgid "Solid"
-msgstr "Fast"
+msgstr "Ensfarvet"
 
 #: ../src/dialogs/cell-format.ui.h:47
 #, no-c-format
 msgid "75% Grey"
-msgstr "75 % grå"
+msgstr "75% grå"
 
 #: ../src/dialogs/cell-format.ui.h:49
 #, no-c-format
 msgid "50% Grey"
-msgstr "50 % grå"
+msgstr "50% grå"
 
 #: ../src/dialogs/cell-format.ui.h:51
 #, no-c-format
 msgid "25% Grey"
-msgstr "25 % grå"
+msgstr "25% grå"
 
 #: ../src/dialogs/cell-format.ui.h:53
 #, no-c-format
 msgid "12.5% Grey"
-msgstr "12,5 % grå"
+msgstr "12,5% grå"
 
 #: ../src/dialogs/cell-format.ui.h:55
 #, no-c-format
 msgid "6.25% Grey"
-msgstr "6,25 % grå"
+msgstr "6,25% grå"
 
 #: ../src/dialogs/cell-format.ui.h:56
 msgid "Horizontal Stripe"
