@@ -1055,87 +1055,79 @@ gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 
 GtkWidget *
 gnumeric_message_dialog_create (GtkWindow * parent,
-			     GtkDialogFlags flags,
-			     GtkMessageType type,
-			     gchar const * primary_message,
-			     gchar const * secondary_message)
+				GtkDialogFlags flags,
+				GtkMessageType type,
+				gchar const * primary_message,
+				gchar const * secondary_message)
 {
 	GtkWidget * dialog;
 	GtkWidget * label;
-	GtkWidget * image;
 	GtkWidget * hbox;
-	gchar * message;
-	const gchar *stock_id = NULL;
-	GtkStockItem item;
+	gchar *message;
+	const gchar *stock_id;
+	GtkWidget *image;
+	const char *title;
 
 	dialog = gtk_dialog_new_with_buttons ("", parent, flags, NULL, NULL);
 
-	if (dialog) {
-		image = gtk_image_new ();
+	switch (type) {
+	default:
+		g_warning ("Unknown GtkMessageType %d", type);
+	case GTK_MESSAGE_INFO:
+		stock_id = GTK_STOCK_DIALOG_INFO;
+		title = _("Information");
+		break;
 
-		switch (type) {
-		case GTK_MESSAGE_INFO:
-			stock_id = GTK_STOCK_DIALOG_INFO;
-			break;
+	case GTK_MESSAGE_QUESTION:
+		stock_id = GTK_STOCK_DIALOG_QUESTION;
+		title = _("Question");
+		break;
 
-		case GTK_MESSAGE_QUESTION:
-			stock_id = GTK_STOCK_DIALOG_QUESTION;
-			break;
+	case GTK_MESSAGE_WARNING:
+		stock_id = GTK_STOCK_DIALOG_WARNING;
+		title = _("Warning");
+		break;
 
-		case GTK_MESSAGE_WARNING:
-			stock_id = GTK_STOCK_DIALOG_WARNING;
-			break;
-
-		case GTK_MESSAGE_ERROR:
-			stock_id = GTK_STOCK_DIALOG_ERROR;
-			break;
-
-		default:
-			g_warning ("Unknown GtkMessageType %d", type);
-			break;
-		}
-
-		if (stock_id == NULL)
-			stock_id = GTK_STOCK_DIALOG_INFO;
-
-		if (gtk_stock_lookup (stock_id, &item)) {
-			gtk_image_set_from_stock (GTK_IMAGE (image), stock_id,
-						  GTK_ICON_SIZE_DIALOG);
-
-			gtk_window_set_title (GTK_WINDOW (dialog), item.label);
-		} else
-			g_warning ("Stock dialog ID doesn't exist?");
-
-		if (primary_message) {
-			if (secondary_message) {
-				message = g_strdup_printf ("<b>%s</b>\n\n%s",
-							   primary_message,
-							   secondary_message);
-			} else {
-				message = g_strdup_printf ("<b>%s</b>",
-							   primary_message);
-			}
-		} else {
-			message = g_strdup_printf ("%s", secondary_message);
-		}
-		label = gtk_label_new (message);
-		g_free (message);
-
-		hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-		gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hbox, TRUE, TRUE, 0);
-
-		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-		gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-		gtk_misc_set_alignment (GTK_MISC (label), 0.0 , 0.0);
-		gtk_box_set_spacing (GTK_BOX (hbox), 12);
-		gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
-		gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), 12);
-		gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
-		gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
-		gtk_widget_show_all (GTK_WIDGET (gtk_dialog_get_content_area (GTK_DIALOG (dialog))));
+	case GTK_MESSAGE_ERROR:
+		stock_id = GTK_STOCK_DIALOG_ERROR;
+		title = _("Error");
+		break;
 	}
+
+	image = gtk_image_new ();
+	gtk_image_set_from_stock (GTK_IMAGE (image), stock_id,
+				  GTK_ICON_SIZE_DIALOG);
+	gtk_window_set_title (GTK_WINDOW (dialog), title);
+
+	if (primary_message) {
+		if (secondary_message) {
+			message = g_strdup_printf ("<b>%s</b>\n\n%s",
+						   primary_message,
+						   secondary_message);
+		} else {
+			message = g_strdup_printf ("<b>%s</b>",
+						   primary_message);
+		}
+	} else {
+		message = g_strdup_printf ("%s", secondary_message);
+	}
+	label = gtk_label_new (message);
+	g_free (message);
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hbox, TRUE, TRUE, 0);
+
+	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0 , 0.0);
+	gtk_box_set_spacing (GTK_BOX (hbox), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
+	gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
+	gtk_widget_show_all (GTK_WIDGET (gtk_dialog_get_content_area (GTK_DIALOG (dialog))));
 
 	return dialog;
 }

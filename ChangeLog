@@ -1,3 +1,8 @@
+2014-12-24  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnumeric_message_dialog_create): Slightly less
+	GtkStock usage.  (Maybe kill whole function?  Only two users.)
+
 2014-12-22  Morten Welinder  <terra@gnome.org>
 
 	* icons/fake-index-theme: we need actions directories too.
