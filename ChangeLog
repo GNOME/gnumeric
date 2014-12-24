@@ -1,5 +1,8 @@
 2014-12-24  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbcg_show_save_dialog)
+	(wbcg_close_if_user_permits): Constant propagation.
+
 	* src/gui-util.c (gnumeric_message_dialog_create): Slightly less
 	GtkStock usage.  (Maybe kill whole function?  Only two users.)
 

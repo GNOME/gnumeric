@@ -1751,8 +1751,7 @@ wbcg_claim_selection (WorkbookControl *wbc)
 }
 
 static int
-wbcg_show_save_dialog (WBCGtk *wbcg,
-		       Workbook *wb, gboolean exiting)
+wbcg_show_save_dialog (WBCGtk *wbcg, Workbook *wb)
 {
 	GtkWidget *d;
 	char *msg;
@@ -1778,29 +1777,10 @@ wbcg_show_save_dialog (WBCGtk *wbcg,
 					 _("If you close without saving, changes will be discarded."));
 	atk_object_set_role (gtk_widget_get_accessible (d), ATK_ROLE_ALERT);
 
-	if (exiting) {
-		int n_of_wb = g_list_length (gnm_app_workbook_list ());
-		if (n_of_wb > 1) {
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard all"),
-				GTK_STOCK_DELETE, GNM_RESPONSE_DISCARD_ALL);
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
-				GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Save all"),
-				GTK_STOCK_SAVE, GNM_RESPONSE_SAVE_ALL);
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-		} else {
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
-				GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-		}
-	} else {
-		go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
-					    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-		go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't close"),
-					    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-	}
+	go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
+				  GTK_STOCK_DELETE, GTK_RESPONSE_NO);
+	go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't close"),
+				  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
 	gtk_dialog_add_button (GTK_DIALOG(d), GTK_STOCK_SAVE, GTK_RESPONSE_YES);
 	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
@@ -1817,14 +1797,13 @@ wbcg_show_save_dialog (WBCGtk *wbcg,
  * Returns :
  * 0) canceled
  * 1) closed
- * 2) pristine can close
+ * 2) -
  * 3) save any future dirty
  * 4) do not save any future dirty
  */
 static int
 wbcg_close_if_user_permits (WBCGtk *wbcg,
-			    WorkbookView *wb_view, gboolean close_clean,
-			    gboolean exiting, gboolean ask_user)
+			    WorkbookView *wb_view)
 {
 	gboolean   can_close = TRUE;
 	gboolean   done      = FALSE;
@@ -1835,24 +1814,13 @@ wbcg_close_if_user_permits (WBCGtk *wbcg,
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
 
-	if (!close_clean && !go_doc_is_dirty (GO_DOC (wb)))
-		return 2;
-
 	if (in_can_close)
 		return 0;
 	in_can_close = TRUE;
 
-	if (!ask_user) {
-		done = gui_file_save (wbcg, wb_view);
-		if (done) {
-			gnm_x_store_clipboard_if_needed (wb);
-			g_object_unref (wb);
-			return 3;
-		}
-	}
 	while (go_doc_is_dirty (GO_DOC (wb)) && !done) {
 		iteration++;
-		button = wbcg_show_save_dialog(wbcg, wb, exiting);
+		button = wbcg_show_save_dialog(wbcg, wb);
 
 		switch (button) {
 		case GTK_RESPONSE_YES:
@@ -1931,7 +1899,7 @@ wbc_gtk_close (WBCGtk *wbcg)
 
 		/* This is the last view */
 		if (wb->wb_views->len <= 1) {
-			if (wbcg_close_if_user_permits (wbcg, wb_view, TRUE, FALSE, TRUE) == 0)
+			if (wbcg_close_if_user_permits (wbcg, wb_view) == 0)
 				return TRUE;
 			return FALSE;
 		}
