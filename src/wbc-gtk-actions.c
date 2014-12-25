@@ -1949,10 +1949,10 @@ static GNM_ACTION_DEF (cb_insert_menu)
 /* Actions that are always sensitive */
 static GtkActionEntry const permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File"), NULL, NULL, G_CALLBACK (cb_file_menu) },
-		{ "MenuFileNewFromTemplate", GTK_STOCK_NEW,
+	{ "MenuFileNewFromTemplate", "document-new",
 		  N_("New From Template"), "" },
 	{ "MenuEdit",		NULL, N_("_Edit") },
-		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },
+		{ "MenuEditClear",	"edit-clear", N_("C_lear") },
 		{ "MenuEditDelete",	GTK_STOCK_DELETE, N_("_Delete") },
 		{ "MenuEditItems",	GTK_STOCK_EDIT, N_("_Modify") },
 		{ "MenuEditSheet",	NULL, N_("S_heet") },
@@ -1997,40 +1997,40 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuSlicer",		NULL,	N_("Data S_licer") },
 	{ "MenuHelp",	NULL,	N_("_Help") },
 
-	{ "FileNew", GTK_STOCK_NEW, NULL,
-		NULL, N_("Create a new workbook"),
+	{ "FileNew", "document-new", N_("_New"),
+		"<control>n", N_("Create a new workbook"),
 		G_CALLBACK (cb_file_new) },
-	{ "FileOpen", GTK_STOCK_OPEN, NULL,
-		NULL, N_("Open a file"),
+	{ "FileOpen", "document-open", N_("_Open"),
+		"<control>o", N_("Open a file"),
 		G_CALLBACK (cb_file_open) },
-	{ "FileSave", GTK_STOCK_SAVE, NULL,
-		NULL, N_("Save the current workbook"),
+	{ "FileSave", "document-save", N_("_Save"),
+		"<control>s", N_("Save the current workbook"),
 		G_CALLBACK (cb_file_save) },
-	{ "FileSaveAs", GTK_STOCK_SAVE_AS, NULL,
+	{ "FileSaveAs", "document-save-as", N_("Save _As"),
 		"<control><shift>s", N_("Save the current workbook with a different name"),
 		G_CALLBACK (cb_file_save_as) },
 	{ "FileSend", "Gnumeric_Link_EMail", N_("Sen_d To..."),
 		NULL, N_("Send the current file via email"),
 		G_CALLBACK (cb_file_sendto) },
 	{ "FilePrintArea",      NULL, N_("Print Area & Breaks")},
-	{ "FilePageSetup", GTK_STOCK_PAGE_SETUP, N_("Page Set_up..."),
+	{ "FilePageSetup", "document-page-setup", N_("Page Set_up..."),
 		NULL, N_("Setup the page settings for your current printer"),
 		G_CALLBACK (cb_file_page_setup) },
 	{ "FilePrintPreview", GTK_STOCK_PRINT_PREVIEW, NULL,
 		NULL, N_("Print preview"),
 		G_CALLBACK (cb_file_print_preview) },
-	{ "FilePrint", GTK_STOCK_PRINT, NULL,
+	{ "FilePrint", "document-print", N_("Print"),
 		"<control>p", N_("Print the current file"),
 		G_CALLBACK (cb_file_print) },
 
 	{ "FileHistoryFull", NULL, N_("Full _History..."),
 		NULL, N_("Access previously used file"),
 		G_CALLBACK (cb_file_history_full) },
-	{ "FileClose", GTK_STOCK_CLOSE, NULL,
-		NULL, N_("Close the current file"),
+	{ "FileClose", "window-close", N_("_Close"),
+		"<control>w", N_("Close the current file"),
 		G_CALLBACK (cb_file_close) },
-	{ "FileQuit", GTK_STOCK_QUIT, NULL,
-		NULL, N_("Quit the application"),
+	{ "FileQuit", "application-exit", N_("_Quit"),
+		"<control>q", N_("Quit the application"),
 		G_CALLBACK (cb_file_quit) },
 
 	{ "EditCopy", GTK_STOCK_COPY, NULL,
@@ -2041,7 +2041,7 @@ static GtkActionEntry const permanent_actions[] = {
 	        "F3", N_("Insert a defined name"),
 	        G_CALLBACK (cb_paste_names) },
 
-	{ "HelpDocs", GTK_STOCK_HELP, N_("_Contents"),
+	{ "HelpDocs", "help-browser", N_("_Contents"),
 		"F1", N_("Open a viewer for Gnumeric's documentation"),
 		G_CALLBACK (cb_help_docs) },
 	{ "HelpFunctions", "Gnumeric_FormulaGuru", N_("_Functions"),
@@ -2056,7 +2056,7 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "HelpBug", NULL, N_("Report a _Problem"),
 		NULL, N_("Report problem"),
 		G_CALLBACK (cb_help_bug) },
-	{ "HelpAbout", GTK_STOCK_ABOUT, N_("_About"),
+	{ "HelpAbout", "help-about", N_("_About"),
 		NULL, N_("About this application"),
 		G_CALLBACK (cb_help_about) },
 };
@@ -2100,12 +2100,12 @@ static GtkActionEntry const semi_permanent_actions[] = {
 		G_CALLBACK (cb_sheet_resize) },
 
 /* View */
-	{ "ViewNew", GTK_STOCK_NEW, N_("_New View..."),
+	{ "ViewNew", "document-new", N_("_New View..."),
 		NULL, N_("Create a new view of the workbook"),
 		G_CALLBACK (cb_view_new) },
 
 /* Format */
-	{ "FormatWorkbook", GTK_STOCK_PROPERTIES, N_("View _Properties..."),
+	{ "FormatWorkbook", "document-properties", N_("View _Properties..."),
 		NULL, N_("Modify the view properties"),
 		G_CALLBACK (cb_workbook_attr) },
 };
@@ -2116,7 +2116,7 @@ static GtkActionEntry const semi_permanent_actions[] = {
 
 static GtkActionEntry const actions[] = {
 /* File */
-	{ "FileMetaData", GTK_STOCK_PROPERTIES, N_("Document Proper_ties..."),
+	{ "FileMetaData", "document-properties", N_("Document Proper_ties..."),
 		NULL, N_("Edit document properties"),
 		G_CALLBACK (cb_doc_meta_data) },
 
@@ -2141,7 +2141,7 @@ static GtkActionEntry const actions[] = {
                 G_CALLBACK (cb_file_print_area_clear_pagebreaks)},
 
 /* Edit -> Clear */
-	{ "EditClearAll", GTK_STOCK_CLEAR, N_("_All"),
+	{ "EditClearAll", "edit-clear", N_("_All"),
 		NULL, N_("Clear the selected cells' formats, comments, and contents"),
 		G_CALLBACK (cb_edit_clear_all) },
 	{ "EditClearFormats", NULL, N_("_Formats & Hyperlinks"),
@@ -2150,10 +2150,10 @@ static GtkActionEntry const actions[] = {
 	{ "EditClearComments", "Gnumeric_CommentDelete", N_("Co_mments"),
 		NULL, N_("Delete the selected cells' comments"),
 		G_CALLBACK (cb_edit_clear_comments) },
-	{ "EditClearContent", GTK_STOCK_CLEAR, N_("_Contents"),
+	{ "EditClearContent", "edit-clear", N_("_Contents"),
 		NULL, N_("Clear the selected cells' contents"),
 		G_CALLBACK (cb_edit_clear_content) },
-	{ "EditClearAllFiltered", GTK_STOCK_CLEAR, N_("A_ll Filtered Rows"),
+	{ "EditClearAllFiltered", "edit-clear", N_("A_ll Filtered Rows"),
 		NULL, N_("Clear the selected cells' formats, comments, and contents in the filtered rows"),
 		G_CALLBACK (cb_edit_clear_all_filtered) },
 	{ "EditClearFormatsFiltered", NULL, N_("F_ormats & Hyperlinks in Filtered Rows"),
@@ -2162,7 +2162,7 @@ static GtkActionEntry const actions[] = {
 	{ "EditClearCommentsFiltered", "Gnumeric_CommentDelete", N_("Comme_nts in Filtered Rows"),
 		NULL, N_("Delete the selected cells' comments in the filtered rows"),
 		G_CALLBACK (cb_edit_clear_comments_filtered) },
-	{ "EditClearContentFiltered", GTK_STOCK_CLEAR, N_("Content_s of Filtered Rows"),
+	{ "EditClearContentFiltered", "edit-clear", N_("Content_s of Filtered Rows"),
 		NULL, N_("Clear the selected cells' contents in the filtered rows"),
 		G_CALLBACK (cb_edit_clear_content_filtered) },
 
@@ -2217,19 +2217,19 @@ static GtkActionEntry const actions[] = {
 	  "<control>Tab", N_("Select the next sheet object"),
 		G_CALLBACK (cb_edit_select_object) },
 
-	{ "EditGotoTop", GTK_STOCK_GOTO_TOP, N_("Go to Top"),
+	{ "EditGotoTop", "go-top", N_("Go to Top"),
 		NULL, N_("Go to the top of the data"),
 		G_CALLBACK (cb_edit_goto_top) },
-	{ "EditGotoBottom", GTK_STOCK_GOTO_BOTTOM, N_("Go to Bottom"),
+	{ "EditGotoBottom", "go-bottom", N_("Go to Bottom"),
 		NULL, N_("Go to the bottom of the data"),
 		G_CALLBACK (cb_edit_goto_bottom) },
-	{ "EditGotoFirst", GTK_STOCK_GOTO_FIRST, N_("Go to First"),
+	{ "EditGotoFirst", "go-first", N_("Go to First"),
 		NULL, N_("Go to the first data cell"),
 		G_CALLBACK (cb_edit_goto_first) },
-	{ "EditGotoLast", GTK_STOCK_GOTO_LAST, N_("Go to Last"),
+	{ "EditGotoLast", "go-last", N_("Go to Last"),
 		NULL, N_("Go to the last data cell"),
 		G_CALLBACK (cb_edit_goto_last) },
-	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Go to Cell..."),
+	{ "EditGoto", "go-jump", N_("_Go to Cell..."),
 		"<control>G", N_("Jump to a specified cell"),
 		G_CALLBACK (cb_edit_goto) },
 	/* Tis is a navigational aid that is not supposed to appear */
@@ -2258,18 +2258,18 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_auto_generate__named_expr) },
 #endif
 
-	{ "EditFind", GTK_STOCK_FIND, N_("S_earch..."),
-		"<control>F", N_("Search for something"),
+	{ "EditFind", "edit-find", N_("S_earch..."),
+		"<control>f", N_("Search for something"),
 		G_CALLBACK (cb_edit_search) },
-	{ "EditReplace", GTK_STOCK_FIND_AND_REPLACE, N_("Search _& Replace..."),
-		"<control>H", N_("Search for something and replace it with something else"),
+	{ "EditReplace", "edit-find-replace", N_("Search _& Replace..."),
+		"<control>h", N_("Search for something and replace it with something else"),
 		G_CALLBACK (cb_edit_search_replace) },
 
 	{ "EditRecalc", NULL, N_("Recalculate"),
 		"F9", N_("Recalculate the spreadsheet"),
 		G_CALLBACK (cb_edit_recalc) },
 
-	{ "EditPreferences", GTK_STOCK_PREFERENCES, N_("Preferences..."),
+	{ "EditPreferences", "preferences-system", N_("Preferences..."),
 		NULL, N_("Change Gnumeric Preferences"),
 		G_CALLBACK (cb_file_preferences) },
 
@@ -2277,13 +2277,13 @@ static GtkActionEntry const actions[] = {
 	{ "ViewFreezeThawPanes", NULL, N_("_Freeze Panes"),
 		NULL, N_("Freeze the top left of the sheet"),
 		G_CALLBACK (cb_view_freeze_panes) },
-	{ "ViewZoom", GTK_STOCK_ZOOM_FIT, N_("_Zoom..."),
+	{ "ViewZoom", "zoom-fit-best" /* dubious */, N_("_Zoom..."),
 		NULL, N_("Zoom the spreadsheet in or out"),
 		G_CALLBACK (cb_view_zoom) },
-	{ "ViewZoomIn", GTK_STOCK_ZOOM_IN, N_("Zoom _In"),
+	{ "ViewZoomIn", "zoom-in", N_("Zoom _In"),
 		ZOOM_IN_ACCEL, N_("Increase the zoom to make things larger"),
 		G_CALLBACK (cb_view_zoom_in) },
-	{ "ViewZoomOut", GTK_STOCK_ZOOM_OUT, N_("Zoom _Out"),
+	{ "ViewZoomOut", "zoom-out", N_("Zoom _Out"),
 		ZOOM_OUT_ACCEL, N_("Decrease the zoom to make things smaller"),
 		G_CALLBACK (cb_view_zoom_out) },
 
@@ -2323,10 +2323,10 @@ static GtkActionEntry const actions[] = {
 	{ "InsertHyperlink", "Gnumeric_Link_Add", N_("Hyper_link..."),
 		"<control>K", N_("Insert a Hyperlink"),
 		G_CALLBACK (cb_insert_hyperlink) },
-	{ "InsertSortDecreasing", GTK_STOCK_SORT_DESCENDING, N_("Sort (_Descending)"),
+	{ "InsertSortDecreasing", "view-sort-descending", N_("Sort (_Descending)"),
 		NULL, N_("Wrap with SORT (descending)"),
 		G_CALLBACK (cb_insert_sort_descending) },
-	{ "InsertSortIncreasing", GTK_STOCK_SORT_ASCENDING, N_("Sort (_Ascending)"),
+	{ "InsertSortIncreasing", "view-sort-ascending", N_("Sort (_Ascending)"),
 		NULL, N_("Wrap with SORT (ascending)"),
 		G_CALLBACK (cb_insert_sort_ascending) },
 
@@ -2352,7 +2352,7 @@ static GtkActionEntry const actions[] = {
 	{ "FormatAuto", NULL, N_("_Autoformat..."),
 		NULL, N_("Format a region of cells according to a pre-defined template"),
 		G_CALLBACK (cb_autoformat) },
-	{ "SheetDirection", GTK_STOCK_GO_FORWARD, N_("Direction"),
+	{ "SheetDirection", "go-next", N_("Direction"),
 		NULL, N_("Toggle sheet direction, left-to-right vs right-to-left"),
 		G_CALLBACK (cb_direction) },
 
@@ -2563,7 +2563,7 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_tools_chi_square_independence) },
 
 /* Data */
-	{ "DataSort", GTK_STOCK_SORT_ASCENDING, N_("_Sort..."),
+	{ "DataSort", "view-sort-ascending", N_("_Sort..."),
 		NULL, N_("Sort the selected region"),
 		G_CALLBACK (cb_data_sort) },
 	{ "DataShuffle", NULL, N_("Sh_uffle..."),
@@ -2644,10 +2644,10 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Filter data with given criteria"),
 		G_CALLBACK (cb_data_filter) },
 /* Data -> External */
-	{ "DataImportText", GTK_STOCK_DND, N_("Import _Text File..."),
+	{ "DataImportText", NULL, N_("Import _Text File..."),
 		NULL, N_("Import data from a text file"),
 		G_CALLBACK (cb_data_import_text) },
-	{ "DataImportOther", GTK_STOCK_DND, N_("Import _Other File..."),
+	{ "DataImportOther", NULL, N_("Import _Other File..."),
 		NULL, N_("Import data from a file"),
 		G_CALLBACK (cb_data_import_other) },
 
@@ -2671,10 +2671,10 @@ static GtkActionEntry const actions[] = {
 		N_("Edit a function in the current cell"),
 		G_CALLBACK (cb_formula_guru) },
 
-	{ "SortAscending", GTK_STOCK_SORT_ASCENDING, N_("Sort Ascending"), NULL,
+	{ "SortAscending", "view-sort-ascending", N_("Sort Ascending"), NULL,
 		N_("Sort the selected region in ascending order based on the first column selected"),
 		G_CALLBACK (cb_sort_ascending) },
-	{ "SortDescending", GTK_STOCK_SORT_DESCENDING, N_("Sort Descending"), NULL,
+	{ "SortDescending", "view-sort-descending", N_("Sort Descending"), NULL,
 		N_("Sort the selected region in descending order based on the first column selected"),
 		G_CALLBACK (cb_sort_descending) },
 
@@ -2770,10 +2770,10 @@ static GtkActionEntry const actions[] = {
 
 	/* Gtk marks these accelerators as invalid because they use Tab
 	 * enable them manually in gnm-pane.c */
-	{ "FormatDecreaseIndent", GTK_STOCK_UNINDENT, NULL,
+	{ "FormatDecreaseIndent", "format-indent-less", NULL,
 		"<control><alt><shift>Tab", N_("Decrease the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_dec_indent) },
-	{ "FormatIncreaseIndent", GTK_STOCK_INDENT, NULL,
+	{ "FormatIncreaseIndent", "format-indent-more", NULL,
 		"<control><alt>Tab", N_("Increase the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_inc_indent) },
 };
@@ -2833,13 +2833,13 @@ static GtkToggleActionEntry const toggle_actions[] = {
 		NULL, N_("Display addresses as R1C1 or A1"),
 		G_CALLBACK (cb_sheet_pref_use_r1c1) },
 
-	{ "AlignLeft", GTK_STOCK_JUSTIFY_LEFT,
+	{ "AlignLeft", "format-justify-left",
 		N_("_Left Align"), NULL,
 		N_("Align left"), G_CALLBACK (cb_align_left), FALSE },
-	{ "AlignCenter", GTK_STOCK_JUSTIFY_CENTER,
+	{ "AlignCenter", "format-justify-center",
 		N_("_Center"), NULL,
 		N_("Center horizontally"), G_CALLBACK (cb_align_center), FALSE },
-	{ "AlignRight", GTK_STOCK_JUSTIFY_RIGHT,
+	{ "AlignRight", "format-justify-right",
 		N_("_Right Align"), NULL,
 		N_("Align right"), G_CALLBACK (cb_align_right), FALSE },
 	{ "CenterAcrossSelection", "Gnumeric_CenterAcrossSelection",
@@ -2871,20 +2871,20 @@ static GtkToggleActionEntry const semi_permanent_toggle_actions[] = {
 		N_("Toggle visibility of statusbar"),
 		G_CALLBACK (cb_view_statusbar), TRUE },
 
-	{ "ViewFullScreen", GTK_STOCK_FULLSCREEN,
+	{ "ViewFullScreen", "view-fullscreen",
 		N_("F_ull Screen"), FULLSCREEN_ACCEL,
 		N_("Switch to or from full screen mode"),
 		G_CALLBACK (cb_view_fullscreen), FALSE }
 };
 
 static GtkToggleActionEntry const font_toggle_actions[] = {
-	{ "FontBold", GTK_STOCK_BOLD,
+	{ "FontBold", "format-text-bold",
 		N_("_Bold"), "<control>b",	/* ALSO "<control>2" */
 		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },
-	{ "FontItalic", GTK_STOCK_ITALIC,
+	{ "FontItalic", "format-text-italic",
 		N_("_Italic"), "<control>i",	/* ALSO "<control>3" */
 		N_("Italic"), G_CALLBACK (cb_font_italic), FALSE },
-	{ "FontUnderline", GTK_STOCK_UNDERLINE,
+	{ "FontUnderline", "format-text-underline",
 		N_("_Underline"), "<control>u",	/* ALSO "<control>4" */
 		N_("Underline"), G_CALLBACK (cb_font_underline), FALSE },
 	{ "FontDoubleUnderline", "stock_text_underlined-double",	/* from icon theme */
@@ -2896,7 +2896,7 @@ static GtkToggleActionEntry const font_toggle_actions[] = {
 	{ "FontDoubleLowUnderline", NULL,	/* from icon theme */
 		N_("Double _Low Underline"), NULL,
 		N_("Double Low Underline"), G_CALLBACK (cb_font_double_underline_low), FALSE },
-	{ "FontStrikeThrough", GTK_STOCK_STRIKETHROUGH,
+	{ "FontStrikeThrough", "format-text-strikethrough",
 		N_("_Strikethrough"), "<control>5",
 		N_("Strikethrough"), G_CALLBACK (cb_font_strikethrough), FALSE },
 	{ "FontSuperscript", "Gnumeric_Superscript",

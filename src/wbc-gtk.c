@@ -1802,8 +1802,7 @@ wbcg_show_save_dialog (WBCGtk *wbcg, Workbook *wb)
  * 4) do not save any future dirty
  */
 static int
-wbcg_close_if_user_permits (WBCGtk *wbcg,
-			    WorkbookView *wb_view)
+wbcg_close_if_user_permits (WBCGtk *wbcg, WorkbookView *wb_view)
 {
 	gboolean   can_close = TRUE;
 	gboolean   done      = FALSE;
