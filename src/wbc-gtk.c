@@ -1018,6 +1018,18 @@ wbcg_menu_state_sheet_count (WBCGtk *wbcg)
 }
 
 static void
+cb_sheet_direction_change (Sheet *sheet,
+			   G_GNUC_UNUSED GParamSpec *pspec,
+			   GtkAction *a)
+{
+	g_object_set (a,
+		      "icon-name", (sheet->text_is_rtl
+				    ? "format-text-direction-rtl"
+				    : "format-text-direction-ltr"),
+		      NULL);
+}
+
+static void
 cb_sheet_tab_change (Sheet *sheet,
 		     G_GNUC_UNUSED GParamSpec *pspec,
 		     GtkWidget *widget)
@@ -1103,6 +1115,7 @@ disconnect_sheet_signals (SheetControlGUI *scg)
 	g_printerr ("Disconnecting all for %s with scg=%p\n", sheet->name_unquoted, scg);
 #endif
 
+	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_direction_change, gtk_action_group_get_action (wbcg->actions, "SheetDirection"));
 	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
 	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_visibility_change, scg);
 }
@@ -1166,6 +1179,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 			  "signal::notify::name", cb_sheet_tab_change, scg->label,
 			  "signal::notify::tab-foreground", cb_sheet_tab_change, scg->label,
 			  "signal::notify::tab-background", cb_sheet_tab_change, scg->label,
+			  "signal::notify::text-is-rtl", cb_sheet_direction_change, gtk_action_group_get_action (wbcg->actions, "SheetDirection"),
 			  NULL);
 
 	if (wbcg_ui_update_begin (wbcg)) {

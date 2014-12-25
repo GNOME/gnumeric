@@ -1,5 +1,10 @@
 2014-12-25  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk-actions.c (SheetDirection): use proper icon.
+
+	* src/wbc-gtk.c (cb_sheet_direction_change): New function to fix
+	icon on sheet direction changes.
+
 	* src/wbc-gtk-actions.c: Eliminate many uses of GTK_STOCK_...
 
 2014-12-24  Morten Welinder  <terra@gnome.org>

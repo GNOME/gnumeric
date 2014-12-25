@@ -667,8 +667,8 @@ static GNM_ACTION_DEF (cb_repeat)	{ command_repeat (WORKBOOK_CONTROL (wbcg)); }
 
 static GNM_ACTION_DEF (cb_direction)
 {
-	cmd_toggle_rtl (WORKBOOK_CONTROL (wbcg),
-		wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	cmd_toggle_rtl (WORKBOOK_CONTROL (wbcg), sheet);
 }
 
 static GNM_ACTION_DEF (cb_view_zoom_in)
@@ -2352,7 +2352,7 @@ static GtkActionEntry const actions[] = {
 	{ "FormatAuto", NULL, N_("_Autoformat..."),
 		NULL, N_("Format a region of cells according to a pre-defined template"),
 		G_CALLBACK (cb_autoformat) },
-	{ "SheetDirection", "go-next", N_("Direction"),
+	{ "SheetDirection", "format-text-direction-ltr", N_("Direction"),
 		NULL, N_("Toggle sheet direction, left-to-right vs right-to-left"),
 		G_CALLBACK (cb_direction) },
 
