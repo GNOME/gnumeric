@@ -15,6 +15,7 @@ Morten:
 	* Fix undo crash with conditional formatting and insert row.  [#741197]
 	* Fix xlsx export of HYPGEOMDIST.
 	* Fix xlsx export of document properties.
+	* Fix multihead issue with graph windows.
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739697]

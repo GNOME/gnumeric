@@ -351,6 +351,7 @@ sog_cb_open_in_new_window (SheetObject *so, SheetControl *sc)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
+	WBCGtk *wbcg = scg_wbcg (scg);
 	GtkWidget *window;
 	double coords[4];
 
@@ -360,6 +361,8 @@ sog_cb_open_in_new_window (SheetObject *so, SheetControl *sc)
 	window = gnm_graph_window_new (sog->graph,
 				       floor (fabs (coords[2] - coords[0]) + 0.5),
 				       floor (fabs (coords[3] - coords[1]) + 0.5));
+	gtk_window_set_screen (GTK_WINDOW (window),
+			       gtk_window_get_screen (wbcg_toplevel (wbcg)));
 	gtk_window_present (GTK_WINDOW (window));
 	g_signal_connect (window, "delete-event",
 			  G_CALLBACK (gtk_widget_destroy),

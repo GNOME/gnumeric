@@ -70,7 +70,7 @@ update_graph_sizing_mode (GnmGraphWindow *window)
 	GOGraphWidgetSizeMode size_mode;
 	ChartSize size;
 
-	g_assert (GO_IS_GRAPH_WIDGET (window->graph));
+	g_return_if_fail (GO_IS_GRAPH_WIDGET (window->graph));
 
 	obey_ratio = FALSE;
 
