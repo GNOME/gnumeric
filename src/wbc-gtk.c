@@ -2725,15 +2725,14 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 
 		struct CellSelectorMenu {
 			gchar const *text;
-			gchar const *stock_id;
 			void (*function) (WBCGtk *wbcg);
 		} const cell_selector_actions [] = {
-			{ N_("Go to Top"),      GTK_STOCK_GOTO_TOP,    &cb_cs_go_up      },
-			{ N_("Go to Bottom"),   GTK_STOCK_GOTO_BOTTOM, &cb_cs_go_down    },
-			{ N_("Go to First"),    GTK_STOCK_GOTO_FIRST,  &cb_cs_go_left    },
-			{ N_("Go to Last"),     GTK_STOCK_GOTO_LAST,   &cb_cs_go_right   },
+			{ N_("Go to Top"),      &cb_cs_go_up      },
+			{ N_("Go to Bottom"),   &cb_cs_go_down    },
+			{ N_("Go to First"),    &cb_cs_go_left    },
+			{ N_("Go to Last"),     &cb_cs_go_right   },
 			{ NULL, NULL, NULL},
-			{ N_("Go to Cell..."),  GTK_STOCK_JUMP_TO,     &cb_cs_go_to_cell }
+			{ N_("Go to Cell..."),  &cb_cs_go_to_cell }
 		};
 		unsigned int ui;
 		GtkWidget *item, *menu = gtk_menu_new ();
@@ -2743,16 +2742,10 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 		for (ui = 0; ui < G_N_ELEMENTS (cell_selector_actions); ui++) {
 			const struct CellSelectorMenu *it =
 				cell_selector_actions + ui;
-			if (it->text) {
-				if (it->stock_id) {
-					item = gtk_image_menu_item_new_from_stock
-						(it->stock_id, NULL);
-					gtk_menu_item_set_label
-						(GTK_MENU_ITEM (item), _(it->text));
-				} else
-					item = gtk_image_menu_item_new_with_label
-						(_(it->text));
-			} else
+			if (it->text)
+				item = gtk_image_menu_item_new_with_label
+					(_(it->text));
+			else
 				item = gtk_separator_menu_item_new ();
 
 			if (it->function)
@@ -2841,9 +2834,9 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 		"focus-out-event",
 		G_CALLBACK (cb_statusbox_focus), wbcg);
 
-	gtk_entry_set_icon_from_stock
+	gtk_entry_set_icon_from_icon_name
 		(GTK_ENTRY (wbcg->selection_descriptor),
-		 GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_JUMP_TO);
+		 GTK_ENTRY_ICON_SECONDARY, "go-jump");
 	gtk_entry_set_icon_sensitive
 		(GTK_ENTRY (wbcg->selection_descriptor),
 		 GTK_ENTRY_ICON_SECONDARY, TRUE);
@@ -2871,23 +2864,30 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 
 	switch (v) {
 	case GNM_VALIDATION_STYLE_STOP :
-		res0 = GNM_VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("_Re-Edit");
-		res1 = GNM_VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("_Discard");
+		res0 = GNM_VALIDATION_STATUS_INVALID_EDIT;
+		btn0 = _("_Re-Edit");
+		res1 = GNM_VALIDATION_STATUS_INVALID_DISCARD;
+		btn1 = _("_Discard");
 		type = GTK_MESSAGE_ERROR;
 		break;
 	case GNM_VALIDATION_STYLE_WARNING :
-		res0 = GNM_VALIDATION_STATUS_VALID;			btn0 = _("_Accept");
-		res1 = GNM_VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("_Discard");
+		res0 = GNM_VALIDATION_STATUS_VALID;
+		btn0 = _("_Accept");
+		res1 = GNM_VALIDATION_STATUS_INVALID_DISCARD;
+		btn1 = _("_Discard");
 		type = GTK_MESSAGE_WARNING;
 		break;
 	case GNM_VALIDATION_STYLE_INFO :
-		res0 = GNM_VALIDATION_STATUS_VALID;			btn0 = GTK_STOCK_OK;
+		res0 = GNM_VALIDATION_STATUS_VALID;
+		btn0 = GTK_STOCK_OK;
 		btn1 = NULL;
 		type = GTK_MESSAGE_INFO;
 		break;
 	case GNM_VALIDATION_STYLE_PARSE_ERROR:
-		res0 = GNM_VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("_Re-Edit");
-		res1 = GNM_VALIDATION_STATUS_VALID;			btn1 = _("_Accept");
+		res0 = GNM_VALIDATION_STATUS_INVALID_EDIT;
+		btn0 = _("_Re-Edit");
+		res1 = GNM_VALIDATION_STATUS_VALID;
+		btn1 = _("_Accept");
 		type = GTK_MESSAGE_ERROR;
 		break;
 
@@ -3085,7 +3085,7 @@ wbc_gtk_init_zoom (WBCGtk *wbcg)
 			      "label", _("_Zoom"),
 			      "visible-vertical", FALSE,
 			      "tooltip", _("Zoom"),
-			      "stock-id", GTK_STOCK_ZOOM_IN,
+			      "stock-id", "zoom-in",
 			      NULL);
 	go_action_combo_text_set_width (wbcg->zoom_haction, "10000%");
 	for (i = 0; preset_zoom[i] != NULL ; ++i)
@@ -3100,11 +3100,13 @@ wbc_gtk_init_zoom (WBCGtk *wbcg)
 
 	/* ----- vertical ----- */
 
-	wbcg->zoom_vaction = gtk_action_new ("VZoom", NULL, _("Zoom"),
-					     GTK_STOCK_ZOOM_IN);
-	g_object_set (G_OBJECT (wbcg->zoom_vaction),
-		      "visible-horizontal", FALSE,
-		      NULL);
+	wbcg->zoom_vaction =
+		g_object_new (GTK_TYPE_ACTION,
+			      "name", "VZoom",
+			      "tooltip", _("Zoom"),
+			      "icon-name", "zoom-in",
+			      "visible-horizontal", FALSE,
+			      NULL);
 	g_signal_connect (G_OBJECT (wbcg->zoom_vaction),
 			  "activate",
 			  G_CALLBACK (cb_vzoom_activated), wbcg);
@@ -3274,14 +3276,14 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		  GCallback vcb,
 		  WBCGtk *gtk,
 		  char const *tooltip,
-		  char const *stock_id,
+		  char const *icon_name,
 		  char const *accel, const char *alt_accel)
 {
 	*haction = g_object_new
 		(go_action_combo_stack_get_type (),
 		 "name", hname,
 		 "tooltip", tooltip,
-		 "stock-id", stock_id,
+		 "icon-name", icon_name,
 		 "sensitive", FALSE,
 		 "visible-vertical", FALSE,
 		 NULL);
@@ -3291,11 +3293,14 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		 accel);
 	g_signal_connect (G_OBJECT (*haction), "activate", hcb, gtk);
 
-	*vaction = gtk_action_new (vname, NULL, tooltip, stock_id);
-	g_object_set (G_OBJECT (*vaction),
-		      "sensitive", FALSE,
-		      "visible-horizontal", FALSE,
-		      NULL);
+	*vaction = g_object_new
+		(GTK_TYPE_ACTION,
+		 "name", vname,
+		 "tooltip", tooltip,
+		 "icon-name", icon_name,
+		 "sensitive", FALSE,
+		 "visible-horizontal", FALSE,
+		 NULL);
 	gtk_action_group_add_action_with_accel
 		(gtk->semi_permanent_actions,
 		 GTK_ACTION (*vaction),
@@ -3332,12 +3337,12 @@ wbc_gtk_init_undo_redo (WBCGtk *gtk)
 		&gtk->redo_haction, "Redo", G_CALLBACK (cb_redo_activated),
 		&gtk->redo_vaction, "VRedo", G_CALLBACK (command_redo),
 		gtk, _("Redo the undone action"),
-		GTK_STOCK_REDO, "<control>y", "<control><shift>z");
+		"edit-redo", "<control>y", "<control><shift>z");
 	create_undo_redo (
 		&gtk->undo_haction, "Undo", G_CALLBACK (cb_undo_activated),
 		&gtk->undo_vaction, "VUndo", G_CALLBACK (command_undo),
 		gtk, _("Undo the last action"),
-		GTK_STOCK_UNDO, "<control>z", NULL);
+		"edit-undo", "<control>z", NULL);
 }
 
 /****************************************************************************/
