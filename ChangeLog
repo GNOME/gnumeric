@@ -1,5 +1,7 @@
 2014-12-25  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-graph-window.c: Avoid GTK_STOCK_xxx completely.
+
 	* src/wbc-gtk-actions.c (SheetDirection): use proper icon.
 
 	* src/wbc-gtk.c (cb_sheet_direction_change): New function to fix

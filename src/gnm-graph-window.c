@@ -9,20 +9,6 @@
 
 #include <goffice/goffice.h>
 
-#define ZOOM_IN(x) *x = CLAMP(*x+1, ZOOM_LEVEL_25, ZOOM_LEVEL_200)
-#define ZOOM_OUT(x) *x = CLAMP(*x-1, ZOOM_LEVEL_25, ZOOM_LEVEL_200)
-#define ZOOM_100(x) *x = ZOOM_LEVEL_100
-#define ZOOM_FIT(x) *x = ZOOM_LEVEL_FIT
-
-/* GTK_STOCK_FULLSCREEN appeared sometime after GTK+ 2.6.  */
-#ifndef GTK_STOCK_FULLSCREEN
-#define GTK_STOCK_FULLSCREEN GTK_STOCK_ZOOM_FIT
-#endif
-#ifndef GTK_STOCK_LEAVE_FULLSCREEN
-#define GTK_STOCK_LEAVE_FULLSCREEN GTK_STOCK_ZOOM_FIT
-#endif
-
-
 struct _GnmGraphWindow {
 	GtkWindow parent;
 
@@ -67,10 +53,10 @@ fullscreen_button_clicked (GtkToolButton  *button,
 {
 	if (!window->is_fullscreen) {
 		gtk_window_fullscreen (GTK_WINDOW (window));
-		gtk_tool_button_set_stock_id (button, GTK_STOCK_LEAVE_FULLSCREEN);
+		gtk_tool_button_set_icon_name (button, "view-restore");
 	} else {
 		gtk_window_unfullscreen (GTK_WINDOW (window));
-		gtk_tool_button_set_stock_id (button, GTK_STOCK_FULLSCREEN);
+		gtk_tool_button_set_icon_name (button, "view-fullscreen");
 	}
 
 	window->is_fullscreen = !window->is_fullscreen;
@@ -221,7 +207,9 @@ gnm_graph_window_init (GnmGraphWindow *window)
 	g_signal_connect_swapped (window->size_combo, "changed",
 				  G_CALLBACK (update_graph_sizing_mode), window);
 
-	item = gtk_tool_button_new_from_stock (GTK_STOCK_FULLSCREEN);
+	item = g_object_new (GTK_TYPE_TOOL_BUTTON,
+			     "icon-name", "view-fullscreen",
+			     NULL);
 	gtk_widget_show (GTK_WIDGET (item));
 
 	gtk_toolbar_insert (GTK_TOOLBAR (window->toolbar), item, -1);
