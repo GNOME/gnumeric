@@ -273,8 +273,8 @@ cb_pm_button_directory_add_clicked (PluginManagerGUI *pm_gui)
 			       "local-only", TRUE,
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_ADD, GTK_RESPONSE_OK,
+				_("Cancel"), GTK_RESPONSE_CANCEL,
+				_("Add"), GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
@@ -646,7 +646,6 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	GtkWidget *scrolled_directories;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *rend;
-	GtkWidget *image = NULL;
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (IS_WBC_GTK (wbcg));
@@ -668,12 +667,6 @@ dialog_plugin_manager (WBCGtk *wbcg)
 
 	pm_gui->button_activate_all =
 		GTK_BUTTON (go_gtk_builder_get_widget (gui, "button_activate_all"));
-	/* If we add the following image in.ui it does */
-        /* not obey gtk-button-images = 0 */
-	image = g_object_ref (gtk_image_new_from_stock (GTK_STOCK_EXECUTE,
-							GTK_ICON_SIZE_BUTTON));
-	gtk_button_set_image (pm_gui->button_activate_all, image);
-
 	pm_gui->button_rescan_directories = GTK_BUTTON (go_gtk_builder_get_widget
 						    (gui, "button_rescan_directories"));
 	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (go_gtk_builder_get_widget
