@@ -267,8 +267,8 @@ static void
 gnm_soc_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const soc_actions[] = {
-		{ GTK_STOCK_SAVE_AS, N_("_Save as"), NULL, 0, soc_cb_save_as },
-		{ GTK_STOCK_SAVE_AS, N_("_Save as image"), NULL, 0, soc_cb_save_as_image }
+		{ GTK_STOCK_SAVE_AS, N_("_Save As"), NULL, 0, soc_cb_save_as },
+		{ GTK_STOCK_SAVE_AS, N_("_Save As Image"), NULL, 0, soc_cb_save_as_image }
 	};
 
 	unsigned int i;

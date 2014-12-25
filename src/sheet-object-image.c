@@ -361,7 +361,7 @@ static void
 gnm_soi_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const soi_action =
-		{ GTK_STOCK_SAVE_AS, N_("_Save as image"), NULL, 0, soi_cb_save_as };
+		{ GTK_STOCK_SAVE_AS, N_("_Save As Image"), NULL, 0, soi_cb_save_as };
 	gnm_soi_parent_class->populate_menu (so, actions);
 	go_ptr_array_insert (actions, (gpointer) &soi_action, 1);
 }

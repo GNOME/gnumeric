@@ -393,7 +393,7 @@ static void
 gnm_sog_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const sog_actions[] = {
-		{ GTK_STOCK_SAVE_AS, N_("_Save as Image"),           NULL, 0, sog_cb_save_as,            NULL },
+		{ GTK_STOCK_SAVE_AS, N_("_Save As Image"),           NULL, 0, sog_cb_save_as,            NULL },
 		{ NULL,              N_("Open in _New Window"),      NULL, 0, sog_cb_open_in_new_window, NULL },
 		{ NULL,              N_("Copy to New Graph S_heet"), NULL, 0, sog_cb_copy_to_new_sheet,  NULL }
 	};
