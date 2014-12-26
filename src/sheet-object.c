@@ -91,9 +91,9 @@ void
 sheet_object_set_print_flag (SheetObject *so, gboolean *print)
 {
 	if (*print)
-		so->flags = (so->flags | SHEET_OBJECT_PRINT);
+		so->flags |= SHEET_OBJECT_PRINT;
 	else
-		so->flags = (so->flags & ~SHEET_OBJECT_PRINT);
+		so->flags &= ~SHEET_OBJECT_PRINT;
 }
 
 
@@ -1216,18 +1216,10 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 gint
 sheet_object_get_stacking (SheetObject *so)
 {
-	GSList *ptr;
-	int	pos = 0;
-
 	g_return_val_if_fail (so != NULL, 0);
 	g_return_val_if_fail (so->sheet != NULL, 0);
 
-	for (ptr = so->sheet->sheet_objects ;  ptr ; ptr = ptr->next, pos++)
-		if (ptr->data == so)
-			return pos;
-
-	g_warning ("Object not found??");
-	return 0;
+	return g_slist_index (so->sheet->sheet_objects, so);
 }
 
 gint
