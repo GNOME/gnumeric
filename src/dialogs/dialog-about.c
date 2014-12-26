@@ -194,35 +194,6 @@ struct AboutState_ {
 
 /* ---------------------------------------- */
 
-static GdkRGBA
-blend_colors (const GdkRGBA *start, const GdkRGBA *end, double f)
-{
-	GdkRGBA res;
-	res.red   = start->red   * (1 - f) + end->red   * f;
-	res.green = start->green * (1 - f) + end->green * f;
-	res.blue  = start->blue  * (1 - f) + end->blue  * f;
-	res.alpha = start->alpha * (1 - f) + end->alpha * f;
-	return res;
-}
-
-
-static void
-set_fade (AboutRenderer *r, AboutState *state, double f)
-{
-	GtkStyleContext *ctxt = gtk_widget_get_style_context (state->anim_area);
-	PangoAttrList *attrlist = pango_layout_get_attributes (r->layout);
-	GdkRGBA col, bg, fg;
-	PangoAttribute *attr;
-
-	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &fg);
-	gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_NORMAL, &bg);
-	col = blend_colors (&bg, &fg, f);
-	attr = pango_attr_foreground_new
-		(col.red * 65535., col.green * 65535., col.blue * 65535.);
-	pango_attr_list_change (attrlist, attr);
-	pango_layout_set_attributes (r->layout, attrlist);
-}
-
 static void
 free_renderer (AboutRenderer *r)
 {
@@ -244,14 +215,15 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	cairo_t *cr;
 	GtkAllocation wa;
 	GdkRGBA color;
+	double alpha = 1;
 
 	if (age >= r->duration)
 		return FALSE;
 
 	if (r->fade_in && age < fade)
-		set_fade (r, state, age / (double)fade);
+		alpha = age / (double)fade;
 	else if (r->fade_out && r->duration - age < fade)
-		set_fade (r, state, (r->duration - age) / (double)fade);
+		alpha = (r->duration - age) / (double)fade;
 
 	ctxt = gtk_widget_get_style_context (widget);
 
@@ -294,6 +266,7 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 
 	cr = r->cr;
 	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &color);
+	color.alpha = alpha;
 	gdk_cairo_set_source_rgba (cr, &color);
 	cairo_move_to (cr, x / (double)PANGO_SCALE, y / (double)PANGO_SCALE);
 	pango_cairo_show_layout (cr, layout);
