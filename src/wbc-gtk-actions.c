@@ -1953,8 +1953,8 @@ static GtkActionEntry const permanent_actions[] = {
 		  N_("New From Template"), "" },
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	"edit-clear", N_("C_lear") },
-		{ "MenuEditDelete",	GTK_STOCK_DELETE, N_("_Delete") },
-		{ "MenuEditItems",	GTK_STOCK_EDIT, N_("_Modify") },
+		{ "MenuEditDelete",	"edit-delete", N_("_Delete") },
+		{ "MenuEditItems",	NULL, N_("_Modify") },
 		{ "MenuEditSheet",	NULL, N_("S_heet") },
 		{ "MenuEditSelect",	NULL, N_("_Select") },
 	{ "MenuView",		NULL, N_("_View") },
@@ -2033,11 +2033,11 @@ static GtkActionEntry const permanent_actions[] = {
 		"<control>q", N_("Quit the application"),
 		G_CALLBACK (cb_file_quit) },
 
-	{ "EditCopy", GTK_STOCK_COPY, NULL,
-		NULL, N_("Copy the selection"),
+	{ "EditCopy", "edit-copy", N_("_Copy"),
+		"<control>c", N_("Copy the selection"),
 		G_CALLBACK (cb_edit_copy) },
 
-	{ "InsertNames", GTK_STOCK_PASTE, N_("_Name..."),
+	{ "InsertNames", NULL, N_("_Name..."),
 	        "F3", N_("Insert a defined name"),
 	        G_CALLBACK (cb_paste_names) },
 
@@ -2063,11 +2063,11 @@ static GtkActionEntry const permanent_actions[] = {
 
 /* actions that are sensitive only in data sheets */
 static GtkActionEntry const data_only_actions[] = {
-	{ "EditCut", GTK_STOCK_CUT, NULL,
-		NULL, N_("Cut the selection"),
+	{ "EditCut", "edit-cut", N_("Cu_t"),
+		"<control>x", N_("Cut the selection"),
 		G_CALLBACK (cb_edit_cut) },
-	{ "EditPaste", GTK_STOCK_PASTE, NULL,
-		NULL, N_("Paste the clipboard"),
+	{ "EditPaste", "edit-paste", N_("_Paste"),
+		"<control>v", N_("Paste the clipboard"),
 		G_CALLBACK (cb_edit_paste) },
 };
 
@@ -2242,8 +2242,8 @@ static GtkActionEntry const actions[] = {
 	{ "Repeat", NULL, N_("Repeat"),
 		"F4", N_("Repeat the previous action"),
 		G_CALLBACK (cb_repeat) },
-	{ "EditPasteSpecial", NULL, N_("P_aste Special..."),
-		"<shift><control>V", N_("Paste with optional filters and transformations"),
+	{ "EditPasteSpecial", "edit-paste", N_("P_aste Special..."),
+		"<shift><control>v", N_("Paste with optional filters and transformations"),
 		G_CALLBACK (cb_edit_paste_special) },
 
 	{ "EditComment", "Gnumeric_CommentEdit", N_("Co_mment..."),
