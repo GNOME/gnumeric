@@ -754,31 +754,6 @@ install_icons (GnmApp *app)
 		//"font.xpm",
 		"sheet_move_marker.xpm",
 
-		/* Patterns */
-		"gp_125grey.xpm",
-		"gp_25grey.xpm",
-		"gp_50grey.xpm",
-		"gp_625grey.xpm",
-		"gp_75grey.xpm",
-		"gp_bricks.xpm",
-		"gp_diag.xpm",
-		"gp_diag_cross.xpm",
-		"gp_foreground_solid.xpm",
-		"gp_horiz.xpm",
-		"gp_large_circles.xpm",
-		"gp_rev_diag.xpm",
-		"gp_semi_circle.xpm",
-		"gp_small_circle.xpm",
-		"gp_solid.xpm",
-		"gp_thatch.xpm",
-		"gp_thick_diag_cross.xpm",
-		"gp_thin_diag.xpm",
-		"gp_thin_diag_cross.xpm",
-		"gp_thin_horiz.xpm",
-		"gp_thin_horiz_cross.xpm",
-		"gp_thin_rev_diag.xpm",
-		"gp_thin_vert.xpm",
-		"gp_vert.xpm",
 		"line_pattern_dash_dot.xpm",
 		"line_pattern_dash_dot_dot.xpm",
 		"line_pattern_dashed.xpm",
@@ -792,19 +767,6 @@ install_icons (GnmApp *app)
 		"line_pattern_slant.xpm",
 		"line_pattern_thick.xpm",
 		"line_pattern_thin.xpm",
-
-		/* Borders */
-		"bottom_border.xpm",
-		"diag_border.xpm",
-		"inside_border.xpm",
-		"inside_horiz_border.xpm",
-		"inside_vert_border.xpm",
-		"left_border.xpm",
-		"no_border.xpm",
-		"outline_border.xpm",
-		"rev_diag_border.xpm",
-		"right_border.xpm",
-		"top_border.xpm"
 	};
 
 	GtkIconFactory *factory = gtk_icon_factory_new ();

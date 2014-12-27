@@ -2188,7 +2188,7 @@ set_initial_focus (FormatState *s)
 	else if (strcmp (name, "font_box") == 0)
 	      focus_widget = GTK_WIDGET (s->font.selector);
 	else if (strcmp (name, "border_box") == 0)
-	      focus_widget = go_gtk_builder_get_widget (s->gui, "outline_border");
+	      focus_widget = go_gtk_builder_get_widget (s->gui, "gnumeric-format-border-outline");
 	else if (strcmp (name, "background_box") == 0)
 	      focus_widget = go_gtk_builder_get_widget (s->gui, "back_color_auto");
 	else if (strcmp (name, "protection_box") == 0)
@@ -2233,45 +2233,45 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 		{ NULL, 0}
 	};
 	static char const *const pattern_buttons[] = {
-		"gp_solid", "gp_75grey", "gp_50grey",
-		"gp_25grey", "gp_125grey", "gp_625grey",
+		"gnumeric-pattern-solid", "gnumeric-pattern-75grey", "gnumeric-pattern-50grey",
+		"gnumeric-pattern-25grey", "gnumeric-pattern-125grey", "gnumeric-pattern-625grey",
 
-		"gp_horiz",
-		"gp_vert",
-		"gp_diag",
-		"gp_rev_diag",
-		"gp_diag_cross",
-		"gp_thick_diag_cross",
+		"gnumeric-pattern-horiz",
+		"gnumeric-pattern-vert",
+		"gnumeric-pattern-diag",
+		"gnumeric-pattern-rev-diag",
+		"gnumeric-pattern-diag-cross",
+		"gnumeric-pattern-thick-diag-cross",
 
-		"gp_thin_horiz",
-		"gp_thin_vert",
-		"gp_thin_rev_diag",
-		"gp_thin_diag",
-		"gp_thin_horiz_cross",
-		"gp_thin_diag_cross",
+		"gnumeric-pattern-thin-horiz",
+		"gnumeric-pattern-thin-vert",
+		"gnumeric-pattern-thin-rev-diag",
+		"gnumeric-pattern-thin-diag",
+		"gnumeric-pattern-thin-horiz-cross",
+		"gnumeric-pattern-thin-diag-cross",
 
-		"gp_small_circle",
-		"gp_semi_circle",
-		"gp_thatch",
-		"gp_large_circles",
-		"gp_bricks",
-		"gp_foreground_solid",
+		"gnumeric-pattern-small-circle",
+		"gnumeric-pattern-semi-circle",
+		"gnumeric-pattern-thatch",
+		"gnumeric-pattern-large-circles",
+		"gnumeric-pattern-bricks",
+		"gnumeric-pattern-foreground-solid",
 
 		NULL
 	};
 
 	/* The order corresponds to the BorderLocation enum */
 	static char const *const border_buttons[] = {
-		"top_border",	"bottom_border",
-		"left_border",	"right_border",
-		"rev_diag_border",	"diag_border",
-		"inside_horiz_border", "inside_vert_border",
+		"gnumeric-format-border-top",	"gnumeric-format-border-bottom",
+		"gnumeric-format-border-left",	"gnumeric-format-border-right",
+		"gnumeric-format-border-rev-diag",	"gnumeric-format-border-diag",
+		"gnumeric-format-border-inside-horiz", "gnumeric-format-border-inside-vert",
 		NULL
 	};
 
 	/* The order corresponds to BorderPresets */
 	static char const *const border_preset_buttons[] = {
-		"no_border", "outline_border", "inside_border",
+		"gnumeric-format-border-no", "gnumeric-format-border-outline", "gnumeric-format-border-inside",
 		NULL
 	};
 

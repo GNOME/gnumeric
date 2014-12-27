@@ -10,57 +10,57 @@
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">top_border</property>
+    <property name="icon_name">gnumeric-format-border-top</property>
   </object>
   <object class="GtkImage" id="image10">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">outline_border</property>
+    <property name="icon_name">gnumeric-format-border-outline</property>
   </object>
   <object class="GtkImage" id="image11">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">no_border</property>
+    <property name="icon_name">gnumeric-format-border-no</property>
   </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">rev_diag_border</property>
+    <property name="icon_name">gnumeric-format-border-rev-diag</property>
   </object>
   <object class="GtkImage" id="image3">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">diag_border</property>
+    <property name="icon_name">gnumeric-format-border-diag</property>
   </object>
   <object class="GtkImage" id="image4">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">left_border</property>
+    <property name="icon_name">gnumeric-format-border-left</property>
   </object>
   <object class="GtkImage" id="image5">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">right_border</property>
+    <property name="icon_name">gnumeric-format-border-right</property>
   </object>
   <object class="GtkImage" id="image6">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">bottom_border</property>
+    <property name="icon_name">gnumeric-format-border-bottom</property>
   </object>
   <object class="GtkImage" id="image7">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">inside_vert_border</property>
+    <property name="icon_name">gnumeric-format-border-inside_vert</property>
   </object>
   <object class="GtkImage" id="image8">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">inside_horiz_border</property>
+    <property name="icon_name">gnumeric-format-border-inside_horiz</property>
   </object>
   <object class="GtkImage" id="image9">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">inside_border</property>
+    <property name="icon_name">gnumeric-format-border-inside</property>
   </object>
   <object class="GtkListStore" id="model1">
     <columns>
@@ -680,7 +680,7 @@
                     <property name="column_spacing">6</property>
                     <property name="column_homogeneous">True</property>
                     <child>
-                      <object class="GtkToggleButton" id="rev_diag_border">
+                      <object class="GtkToggleButton" id="gnumeric-format-border-rev-diag">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -700,7 +700,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkToggleButton" id="top_border">
+                      <object class="GtkToggleButton" id="gnumeric-format-border-top">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -720,7 +720,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkToggleButton" id="diag_border">
+                      <object class="GtkToggleButton" id="gnumeric-format-border-diag">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -740,7 +740,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkToggleButton" id="left_border">
+                      <object class="GtkToggleButton" id="gnumeric-format-border-left">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -760,7 +760,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkToggleButton" id="right_border">
+                      <object class="GtkToggleButton" id="gnumeric-format-border-right">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -780,7 +780,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkToggleButton" id="bottom_border">
+                      <object class="GtkToggleButton" id="gnumeric-format-border-bottom">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -800,7 +800,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="no_border">
+                      <object class="GtkButton" id="gnumeric-format-border-no">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -821,7 +821,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="outline_border">
+                      <object class="GtkButton" id="gnumeric-format-border-outline">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -842,7 +842,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkToggleButton" id="inside_vert_border">
+                      <object class="GtkToggleButton" id="gnumeric-format-border-inside-vert">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -863,7 +863,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="inside_border">
+                      <object class="GtkButton" id="gnumeric-format-border-inside">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -884,7 +884,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkToggleButton" id="inside_horiz_border">
+                      <object class="GtkToggleButton" id="gnumeric-format-border-inside-horiz">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1373,7 +1373,7 @@
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">6</property>
                         <child>
-                          <object class="GtkToggleButton" id="gp_solid">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-solid">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1390,7 +1390,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_75grey">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-75grey">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1407,7 +1407,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_50grey">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-50grey">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1424,7 +1424,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_25grey">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-25grey">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1441,7 +1441,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_125grey">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-125grey">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1458,7 +1458,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_625grey">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-625grey">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1475,7 +1475,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_horiz">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-horiz">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1492,7 +1492,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_vert">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-vert">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1509,7 +1509,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_rev_diag">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-rev-diag">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1526,7 +1526,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_diag">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-diag">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1543,7 +1543,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_diag_cross">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-diag-cross">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1560,7 +1560,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_thick_diag_cross">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-thick-diag-cross">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1577,7 +1577,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_thin_horiz">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-thin-horiz">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1594,7 +1594,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_thin_vert">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-thin-vert">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1611,7 +1611,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_thin_rev_diag">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-thin-rev-diag">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1628,7 +1628,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_thin_diag">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-thin-diag">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1645,7 +1645,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_thin_horiz_cross">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-thin-horiz-cross">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1662,7 +1662,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_thin_diag_cross">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-thin-diag-cross">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1679,7 +1679,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_foreground_solid">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-foreground-solid">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1696,7 +1696,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_small_circle">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-small-circle">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1713,7 +1713,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_semi_circle">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-semi-circle">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1730,7 +1730,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_thatch">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-thatch">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1747,7 +1747,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_large_circles">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-large-circles">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1764,7 +1764,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="gp_bricks">
+                          <object class="GtkToggleButton" id="gnumeric-pattern-bricks">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
