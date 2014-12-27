@@ -1473,13 +1473,13 @@ dialog_sheet_order (WBCGtk *wbcg)
 	state->advanced_check  = go_gtk_builder_get_widget (gui, "advanced-check");
 	state->initial_colors_set = FALSE;
 	state->image_padlock =  gtk_widget_render_icon_pixbuf (state->dialog,
-                                             "Gnumeric_Protection_Yes",
+                                             "gnumeric-protection-yes",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR);
 	state->image_padlock_no =  gtk_widget_render_icon_pixbuf (state->dialog,
-                                             "Gnumeric_Protection_No",
+                                             "gnumeric-protection-no",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR);
 	state->image_visible = gtk_widget_render_icon_pixbuf (state->dialog,
-                                             "Gnumeric_Visible",
+                                             "gnumeric-visible",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR);
 	state->image_ltr =  gtk_widget_render_icon_pixbuf (state->dialog,
                                              "gtk-go-forward",
@@ -1502,7 +1502,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	cg = go_color_group_fetch ("back_color_group",
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	state->ccombo_back = go_combo_color_new (
-		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "bucket", 24, 0, NULL),
+		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "gnumeric-bucket", 24, 0, NULL),
 		_("Default"), 0, cg);
 	g_object_unref (cg);
 	go_combo_color_set_instant_apply (

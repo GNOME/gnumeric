@@ -507,7 +507,7 @@ dialog_consolidate_tool_init (ConsolidateState *state)
 	setup_widgets (state, state->base.gui);
 	state->pixmap =  gtk_widget_render_icon_pixbuf
 		(GTK_WIDGET(state->base.dialog),
-		 "Gnumeric_ExprEntry",
+		 "gnumeric-exprentry",
 		 GTK_ICON_SIZE_LARGE_TOOLBAR);
 
 	/* Dynamic initialization */

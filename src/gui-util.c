@@ -656,8 +656,8 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 			    (elements->sensitive_filter & sensitive_filter))
 				gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);
 			if (pix_name != NULL) {
-				GtkWidget *image = gtk_image_new_from_stock (pix_name,
-                                        GTK_ICON_SIZE_MENU);
+				GtkWidget *image = gtk_image_new_from_icon_name (pix_name,
+										 GTK_ICON_SIZE_MENU);
 				gtk_widget_show (image);
 				gtk_image_menu_item_set_image (
 					GTK_IMAGE_MENU_ITEM (item),

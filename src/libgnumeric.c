@@ -57,6 +57,7 @@
 #include "mathfunc.h"
 #include "hlink.h"
 #include "wbc-gtk-impl.h"
+#include "gnmresources.h"
 #include "embedded-imgs.h"
 #include "dialogs/embedded-ui.h"
 #include <goffice/goffice.h>
@@ -65,6 +66,66 @@
 #include <sys/resource.h>
 #endif
 #include <locale.h>
+
+#ifndef HAVE_GTK_ICON_THEME_ADD_RESOURCE_PATH
+#define gtk_icon_theme_add_resource_path fake_gtk_icon_theme_add_resource_path
+
+
+static void
+walk_resource_path (const char *path, int level, int size)
+{
+	char **children = g_resources_enumerate_children (path, 0, NULL);
+	int i;
+
+	if (!children)
+		return;
+
+	for (i = 0; children[i]; i++) {
+		const char *child = children[i];
+		char *subpath;
+		GBytes *data;
+
+		if (level == 0) {
+			size = atol (child);
+			if (size <= 0)
+				continue;
+		}
+
+		subpath = g_build_path ("/", path, child, NULL);
+
+		data = g_resources_lookup_data (subpath, 0, NULL);
+		if (data) {
+			GdkPixbuf *pixbuf = gdk_pixbuf_new_from_resource (subpath, NULL);
+			if (pixbuf && size > 0 && strchr (child, '.')) {
+				char *iconname = g_strdup (child);
+				strchr(iconname, '.')[0] = 0;
+				if (gnm_debug_flag ("icons"))
+					g_printerr ("Defining icon %s at size %d\n", iconname, size);
+				gtk_icon_theme_add_builtin_icon (iconname,
+								 size,
+								 pixbuf);
+
+				g_object_unref (pixbuf);
+				g_free (iconname);
+			}
+
+			g_bytes_unref (data);
+		} else
+			walk_resource_path (subpath, level + 1, size);
+		g_free (subpath);
+	}
+
+	g_strfreev (children);
+}
+
+static void
+fake_gtk_icon_theme_add_resource_path (GtkIconTheme G_GNUC_UNUSED *theme,
+				       const char *path)
+{
+	walk_resource_path (path, 0, -1);
+}		       
+
+#endif
 
 /* TODO : get rid of this monstrosity */
 gboolean initial_workbook_open_complete = FALSE;
@@ -236,6 +297,9 @@ gnm_init (void)
 	inited = TRUE;
 
 	libgoffice_init ();
+	_gnm_register_resource ();
+	gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
+					  "/org/gnumeric/gnumeric/icons");
 	gnm_register_ui_files ();
 	gnm_register_imgs_files ();
 	go_plugin_service_define ("function_group",
@@ -330,6 +394,7 @@ gnm_shutdown (void)
 	gnm_conf_shutdown ();
 	gnm_style_shutdown ();
 
+	_gnm_unregister_resource ();
 	libgoffice_shutdown ();
 	go_plugin_services_shutdown ();
 	g_object_unref (gnm_app_get_app ());

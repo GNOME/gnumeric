@@ -1218,7 +1218,7 @@ static page_info_t const page_info[] = {
 	{N_("Files"),         GTK_STOCK_FLOPPY,		 NULL, &pref_file_page_initializer     },
 	{N_("Tools"),       GTK_STOCK_EXECUTE,           NULL, &pref_tool_page_initializer     },
 	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer     },
-	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer   },
+	{N_("Windows"),       "gnumeric-object-combo",	 NULL, &pref_window_page_initializer   },
 	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "1",  &pref_font_hf_initializer       },
 #ifndef G_OS_WIN32
 	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 "3", &pref_copypaste_page_initializer},

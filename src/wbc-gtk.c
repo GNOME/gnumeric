@@ -3446,7 +3446,7 @@ cb_back_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
 static void
 wbc_gtk_init_color_back (WBCGtk *gtk)
 {
-	gtk->back_color = go_action_combo_color_new ("ColorBack", "bucket",
+	gtk->back_color = go_action_combo_color_new ("ColorBack", "gnumeric-bucket",
 		_("Clear Background"), 0, NULL);
 	g_object_set (G_OBJECT (gtk->back_color),
 		      "label", _("Background"),

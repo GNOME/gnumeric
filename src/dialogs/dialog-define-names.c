@@ -1202,7 +1202,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 			 GTK_ICON_SIZE_SMALL_TOOLBAR);
 		state->image_lock =  gtk_widget_render_icon_pixbuf
 			(state->dialog,
-			 "Gnumeric_Protection_Yes",
+			 "gnumeric-protection-yes",
 			 GTK_ICON_SIZE_SMALL_TOOLBAR);
 		state->image_up =  gtk_widget_render_icon_pixbuf
 			(state->dialog,

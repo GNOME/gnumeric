@@ -249,6 +249,8 @@ dnl ****************************
 
 AC_ARG_VAR(GLIB_GENMARSHAL, [The glib-genmarshal executable.])
 AC_CHECK_PROG(GLIB_GENMARSHAL, glib-genmarshal$ac_exeext, glib-genmarshal$ac_exeext)
+GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable=glib_compile_resources gio-2.0`
+AC_SUBST(GLIB_COMPILE_RESOURCES)
 
 AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
 AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource$ac_exeext, gdk-pixbuf-csource$ac_exeext)
@@ -580,7 +582,7 @@ CFLAGS="$CFLAGS $GNUMERIC_CFLAGS"
 LIBS="$GNUMERIC_LIBS $LIBS"
 
 AC_CHECK_FUNCS(gtk_cell_renderer_text_get_background_set gtk_cell_renderer_text_get_foreground_set gtk_cell_renderer_text_get_editable)
-AC_CHECK_FUNCS(gtk_entry_set_editing_cancelled)
+AC_CHECK_FUNCS(gtk_entry_set_editing_cancelled gtk_icon_theme_add_resource_path)
 
 AC_MSG_CHECKING([for PANGO_WEIGHT_THIN etc.])
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pango/pango.h>]],
@@ -1086,11 +1088,20 @@ Makefile
 libspreadsheet.pc
 icons/Makefile
 icons/16x16/Makefile
+icons/16x16/actions/Makefile
+icons/16x16/apps/Makefile
 icons/22x22/Makefile
+icons/22x22/actions/Makefile
+icons/22x22/apps/Makefile
 icons/24x24/Makefile
+icons/24x24/actions/Makefile
+icons/24x24/apps/Makefile
 icons/32x32/Makefile
+icons/32x32/apps/Makefile
 icons/48x48/Makefile
+icons/48x48/apps/Makefile
 icons/256x256/Makefile
+icons/256x256/apps/Makefile
 src/Makefile
 src/dialogs/Makefile
 src/widgets/Makefile

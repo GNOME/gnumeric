@@ -1852,7 +1852,7 @@ scg_unant (SheetControl *sc)
 
 		for (l = pane->cursor.animated; l; l = l->next) {
 			GocItem *item = l->data;
-			goc_item_destroy (l->data);
+			goc_item_destroy (item);
 		}
 
 		g_slist_free (pane->cursor.animated);
@@ -2181,19 +2181,19 @@ scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 		{ N_("_Delete Cells..."),	GTK_STOCK_DELETE,
 		    CONTEXT_DISPLAY_FOR_CELLS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION, CONTEXT_DELETE, NULL },
-		{ N_("_Insert Column(s)"), "Gnumeric_ColumnAdd",
+		{ N_("_Insert Column(s)"), "gnumeric-column-add",
 		    CONTEXT_DISPLAY_FOR_COLS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
 		  CONTEXT_INSERT, NULL },
-		{ N_("_Delete Column(s)"), "Gnumeric_ColumnDelete",
+		{ N_("_Delete Column(s)"), "gnumeric-column-delete",
 		    CONTEXT_DISPLAY_FOR_COLS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
 		  CONTEXT_DELETE, NULL },
-		{ N_("_Insert Row(s)"), "Gnumeric_RowAdd",
+		{ N_("_Insert Row(s)"), "gnumeric-row-add",
 		    CONTEXT_DISPLAY_FOR_ROWS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
 		  CONTEXT_INSERT, NULL },
-		{ N_("_Delete Row(s)"), "Gnumeric_RowDelete",
+		{ N_("_Delete Row(s)"), "gnumeric-row-delete",
 		    CONTEXT_DISPLAY_FOR_ROWS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
 		  CONTEXT_DELETE, NULL },
@@ -2203,20 +2203,20 @@ scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 
 		{ "", NULL, CONTEXT_DISPLAY_FOR_CELLS, 0, 0, NULL },
 
-		{ N_("Add _Comment..."),	  "Gnumeric_CommentAdd",
+		{ N_("Add _Comment..."),	  "gnumeric-comment-add",
 		    CONTEXT_DISPLAY_WITHOUT_COMMENT, 0, CONTEXT_COMMENT_ADD, NULL },
-		{ N_("Edit Co_mment..."),"Gnumeric_CommentEdit",
+		{ N_("Edit Co_mment..."),"gnumeric-comment-edit",
 		    CONTEXT_DISPLAY_WITH_COMMENT, 0, CONTEXT_COMMENT_EDIT, NULL },
-		{ N_("_Remove Comments"),	  "Gnumeric_CommentDelete",
+		{ N_("_Remove Comments"),	  "gnumeric-comment-delete",
 		    CONTEXT_DISPLAY_WITH_COMMENT_IN_RANGE, 0, CONTEXT_COMMENT_REMOVE, NULL },
 
-		{ N_("Add _Hyperlink..."),	  "Gnumeric_Link_Add",
+		{ N_("Add _Hyperlink..."),	  "gnumeric-link-add",
 		    CONTEXT_DISPLAY_WITHOUT_HYPERLINK, 0,
 		    CONTEXT_HYPERLINK_ADD, NULL },
-		{ N_("Edit _Hyperlink..."),	  "Gnumeric_Link_Edit",
+		{ N_("Edit _Hyperlink..."),	  "gnumeric-link-edit",
 		    CONTEXT_DISPLAY_WITH_HYPERLINK, 0,
 		    CONTEXT_HYPERLINK_EDIT, NULL },
-		{ N_("_Remove Hyperlink"),	  "Gnumeric_Link_Delete",
+		{ N_("_Remove Hyperlink"),	  "gnumeric-link-delete",
 		    CONTEXT_DISPLAY_WITH_HYPERLINK_IN_RANGE, 0,
 		    CONTEXT_HYPERLINK_REMOVE, NULL },
 
@@ -2253,29 +2253,29 @@ scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 		{ N_("C_onditional Formatting..."), GTK_STOCK_PROPERTIES,
 		    0, 0, CONTEXT_FORMAT_CELL_COND, NULL },
 		{ N_("Cell"), NULL, 0, 0, -1, NULL},/* start sub menu */
-		{ N_("_Merge"), "Gnumeric_MergeCells",   0,
+		{ N_("_Merge"), "gnumeric-cells-merge",   0,
 		  CONTEXT_DISABLE_FOR_ONLYMERGES, CONTEXT_CELL_MERGE, NULL },
-		{ N_("_Unmerge"), "Gnumeric_SplitCells",   0,
+		{ N_("_Unmerge"), "gnumeric-cells-split",   0,
 		  CONTEXT_DISABLE_FOR_NOMERGES, CONTEXT_CELL_UNMERGE, NULL },
-		{ N_("Auto Fit _Width"), "Gnumeric_ColumnSize",   0, 0, CONTEXT_CELL_AUTOFIT_WIDTH, NULL },
-		{ N_("Auto Fit _Height"), "Gnumeric_RowSize",   0, 0, CONTEXT_CELL_AUTOFIT_HEIGHT, NULL },
+		{ N_("Auto Fit _Width"), "gnumeric-column-size",   0, 0, CONTEXT_CELL_AUTOFIT_WIDTH, NULL },
+		{ N_("Auto Fit _Height"), "gnumeric-row-size",   0, 0, CONTEXT_CELL_AUTOFIT_HEIGHT, NULL },
 		{ "", NULL, 0, 0, -1, NULL},/* end sub menu */
 
 
 		/* Column specific (Note some labels duplicate row labels) */
 		{ N_("Column"), NULL, 0, 0, -1, NULL},/* start sub menu */
-		{ N_("_Width..."), "Gnumeric_ColumnSize",   0, 0, CONTEXT_COL_WIDTH, NULL },
-		{ N_("_Auto Fit Width"), "Gnumeric_ColumnSize",   0, 0, CONTEXT_COL_AUTOFIT, NULL },
-		{ N_("_Hide"),	   "Gnumeric_ColumnHide",   0, CONTEXT_DISABLE_FOR_ALL_COLS, CONTEXT_COL_HIDE, NULL },
-		{ N_("_Unhide"),   "Gnumeric_ColumnUnhide", 0, 0, CONTEXT_COL_UNHIDE, NULL },
+		{ N_("_Width..."), "gnumeric-column-size",   0, 0, CONTEXT_COL_WIDTH, NULL },
+		{ N_("_Auto Fit Width"), "gnumeric-column-size",   0, 0, CONTEXT_COL_AUTOFIT, NULL },
+		{ N_("_Hide"),	   "gnumeric-column-hide",   0, CONTEXT_DISABLE_FOR_ALL_COLS, CONTEXT_COL_HIDE, NULL },
+		{ N_("_Unhide"),   "gnumeric-column-unhide", 0, 0, CONTEXT_COL_UNHIDE, NULL },
 		{ "", NULL, 0, 0, -1, NULL},/* end sub menu */
 
 		/* Row specific (Note some labels duplicate col labels) */
 		{ N_("Row"), NULL, 0, 0, -1, NULL},/* start sub menu */
-		{ N_("Hei_ght..."), "Gnumeric_RowSize",   0, 0, CONTEXT_ROW_HEIGHT, NULL },
-		{ N_("_Auto Fit Height"), "Gnumeric_RowSize",   0, 0, CONTEXT_ROW_AUTOFIT, NULL },
-		{ N_("_Hide"),	    "Gnumeric_RowHide",   0, CONTEXT_DISABLE_FOR_ALL_ROWS, CONTEXT_ROW_HIDE, NULL },
-		{ N_("_Unhide"),    "Gnumeric_RowUnhide", 0, 0, CONTEXT_ROW_UNHIDE, NULL },
+		{ N_("Hei_ght..."), "gnumeric-row-size",   0, 0, CONTEXT_ROW_HEIGHT, NULL },
+		{ N_("_Auto Fit Height"), "gnumeric-row-size",   0, 0, CONTEXT_ROW_AUTOFIT, NULL },
+		{ N_("_Hide"),	    "gnumeric-row-hide",   0, CONTEXT_DISABLE_FOR_ALL_ROWS, CONTEXT_ROW_HIDE, NULL },
+		{ N_("_Unhide"),    "gnumeric-row-unhide", 0, 0, CONTEXT_ROW_UNHIDE, NULL },
 		{ "", NULL, 0, 0, -1, NULL},/* end sub menu */
 
 		{ NULL, NULL, 0, 0, 0, NULL },

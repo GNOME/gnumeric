@@ -195,7 +195,7 @@ typedef struct {
 } page_info_t;
 
 static page_info_t const page_info[] = {
-	{N_("Widgets"),         "Gnumeric_ObjectScrollbar",      NULL, 0, &attr_dialog_init_widget_page          },
+	{N_("Widgets"),         "gnumeric-object-scrollbar",      NULL, 0, &attr_dialog_init_widget_page          },
 	{N_("Protection"),      GTK_STOCK_DIALOG_AUTHENTICATION, NULL, 1 ,&attr_dialog_init_protection_page      },
 	{N_("Auto Completion"), NULL,                            NULL, 2 ,&attr_dialog_init_autocompletion_page  },
 	{N_("Cell Markers"), NULL,                               NULL, 3 ,&attr_dialog_init_cell_marker_page  },

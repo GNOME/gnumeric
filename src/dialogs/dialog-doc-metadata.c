@@ -2238,7 +2238,7 @@ typedef struct {
 static page_info_t const page_info[] = {
 	/* IMPORTANT: OBEY THE ORDER 0 - 3 - 2 - 1 */
 	{N_("File"),        GTK_STOCK_FILE,   	  NULL, 0, &dialog_doc_metadata_init_file_page          },
-	{N_("Statistics"),  "Gnumeric_GraphGuru", NULL, 3 ,&dialog_doc_metadata_init_statistics_page    },
+	{N_("Statistics"),  "gnumeric-graphguru", NULL, 3 ,&dialog_doc_metadata_init_statistics_page    },
 	{N_("Properties"),  GTK_STOCK_PROPERTIES, NULL, 2, &dialog_doc_metadata_init_properties_page    },
 	{N_("Description"), GTK_STOCK_ABOUT,	  NULL, 1, &dialog_doc_metadata_init_description_page   },
 	{N_("Keywords"),    GTK_STOCK_INDEX,	  NULL, 5, &dialog_doc_metadata_init_keywords_page   },
