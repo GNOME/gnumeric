@@ -1,10 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.1 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.8"/>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">20</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
+  </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">top_border</property>
+  </object>
+  <object class="GtkImage" id="image10">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">outline_border</property>
+  </object>
+  <object class="GtkImage" id="image11">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">no_border</property>
+  </object>
+  <object class="GtkImage" id="image2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">rev_diag_border</property>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">diag_border</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">left_border</property>
+  </object>
+  <object class="GtkImage" id="image5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">right_border</property>
+  </object>
+  <object class="GtkImage" id="image6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">bottom_border</property>
+  </object>
+  <object class="GtkImage" id="image7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">inside_vert_border</property>
+  </object>
+  <object class="GtkImage" id="image8">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">inside_horiz_border</property>
+  </object>
+  <object class="GtkImage" id="image9">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">inside_border</property>
+  </object>
+  <object class="GtkListStore" id="model1">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Any Value     (no validation)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Whole numbers</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Numbers</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">In a list</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Date</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Time</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Text length</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Custom</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model2">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">min &lt;= val &lt;= max         (between)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">val &lt;= min || max &lt;= val (not between)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">val == bound                  (equal to)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">val &lt;&gt; bound                  (not equal to)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">val  &gt;  bound                  (greater than)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">val  &lt;  bound                  (less than)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">val &gt;= bound                  (greater than or equal)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">val &lt;= bound                  (less than or equal)</col>
+      </row>
+    </data>
   </object>
   <object class="GtkDialog" id="CellFormat">
     <property name="can_focus">False</property>
@@ -305,7 +425,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">•</property>
-                    <property name="invisible_char_set">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
                     <property name="adjustment">adjustment1</property>
@@ -570,6 +689,8 @@
                         <property name="tooltip_text" translatable="yes">Reverse Diagonal</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
+                        <property name="image">image2</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -588,6 +709,8 @@
                         <property name="tooltip_text" translatable="yes">Top</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
+                        <property name="image">image1</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -606,6 +729,8 @@
                         <property name="tooltip_text" translatable="yes">Diagonal</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
+                        <property name="image">image3</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -624,6 +749,8 @@
                         <property name="tooltip_text" translatable="yes">Left</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
+                        <property name="image">image4</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -642,6 +769,8 @@
                         <property name="tooltip_text" translatable="yes">Right</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
+                        <property name="image">image5</property>
+                        <property name="use_underline">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -660,6 +789,8 @@
                         <property name="tooltip_text" translatable="yes">Bottom</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
+                        <property name="image">image6</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -679,6 +810,8 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="border_width">6</property>
+                        <property name="image">image11</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -698,6 +831,8 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="border_width">6</property>
+                        <property name="image">image10</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -717,6 +852,8 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="border_width">6</property>
+                        <property name="image">image7</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -736,6 +873,8 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="border_width">6</property>
+                        <property name="image">image9</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">3</property>
@@ -755,6 +894,8 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="border_width">6</property>
+                        <property name="image">image8</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -2015,7 +2156,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">•</property>
-                    <property name="invisible_char_set">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
                   </object>
@@ -2211,7 +2351,6 @@
                     <property name="can_focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="invisible_char">•</property>
-                    <property name="invisible_char_set">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
                   </object>
@@ -2253,69 +2392,5 @@
       <action-widget response="0">cancelbutton</action-widget>
       <action-widget response="0">okbutton</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkListStore" id="model1">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Any Value     (no validation)</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Whole numbers</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Numbers</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">In a list</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Date</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Time</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Text length</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Custom</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model2">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">min &lt;= val &lt;= max         (between)</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">val &lt;= min || max &lt;= val (not between)</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">val == bound                  (equal to)</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">val &lt;&gt; bound                  (not equal to)</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">val  &gt;  bound                  (greater than)</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">val  &lt;  bound                  (less than)</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">val &gt;= bound                  (greater than or equal)</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">val &lt;= bound                  (less than or equal)</col>
-      </row>
-    </data>
   </object>
 </interface>

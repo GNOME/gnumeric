@@ -424,28 +424,6 @@ setup_color_pickers (FormatState *state,
 	}
 }
 
-/*
- * Utility routine to load an image and insert it into a
- * button of the same name.
- */
-static GtkWidget *
-init_button_image (GtkBuilder *gui, char const *name)
-{
-	GtkWidget *tmp = go_gtk_builder_get_widget (gui, name);
-	if (tmp != NULL) {
-		GdkScreen *screen = gtk_widget_get_screen (tmp);
-		GdkPixbuf *pixbuf = gtk_icon_theme_load_icon (
-			gtk_icon_theme_get_for_screen (screen),
-			name, 16, 0, NULL);
-		GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
-		g_object_unref (pixbuf);
-		gtk_widget_show (image);
-		gtk_container_add (GTK_CONTAINER (tmp), image);
-	}
-
-	return tmp;
-}
-
 /*****************************************************************************/
 
 static void
@@ -2384,7 +2362,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
-		tmp = init_button_image (state->gui, name);
+		GtkWidget *tmp = go_gtk_builder_get_widget (state->gui, name);
 		if (tmp != NULL) {
 			init_border_button (state, i, tmp,
 					    state->borders[i]);
@@ -2427,7 +2405,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 
 	/* Setup the images in the border presets */
 	for (i = 0; (name = border_preset_buttons[i]) != NULL; ++i) {
-		tmp = init_button_image (state->gui, name);
+		GtkWidget *tmp = go_gtk_builder_get_widget (state->gui, name);
 		if (tmp != NULL) {
 			state->border.preset[i] = GTK_BUTTON (tmp);
 			g_signal_connect (G_OBJECT (tmp),
