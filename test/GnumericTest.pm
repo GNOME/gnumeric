@@ -167,7 +167,7 @@ sub sstest {
     my $test = shift @_;
     my $expected = shift @_;
 
-    my $cmd = "$sstest $test";
+    my $cmd = &quotearg ($sstest, $test);
     my $actual = `$cmd 2>&1`;
     my $err = $?;
     die "Failed command: $cmd\n" if $err;
@@ -229,9 +229,7 @@ sub test_sheet_calc {
     $tmp =~ s/\.[a-zA-Z0-9]+$/.csv/;
     &junkfile ($tmp);
 
-    my $cmd = "$ssconvert " .
-	join (" ", @$pargs) .
-	" --recalc --export-range='$range' '$file' '$tmp'";
+    my $cmd = "$ssconvert " . &quotearg (@$pargs, '--recalc', "--export-range=$range", $file, $tmp);
     print STDERR "# $cmd\n" if $verbose;
     my $code = system ("$cmd 2>&1 | sed -e 's/^/| /' ");
     &system_failure ($ssconvert, $code) if $code;
@@ -349,7 +347,7 @@ sub test_exporter {
     my $tmp1 = "$tmp.gnumeric";
     &junkfile ($tmp1) unless $keep;
     {
-	my $cmd = "$ssconvert '$file' '$tmp1'";
+	my $cmd = &quotearg ($ssconvert, $file, $tmp1);
 	print STDERR "# $cmd\n" if $verbose;
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
@@ -358,7 +356,7 @@ sub test_exporter {
     my $tmp2 = "$tmp-new.$ext";
     &junkfile ($tmp2) unless $keep;
     {
-	my $cmd = "$ssconvert '$file' '$tmp2'";
+	my $cmd = &quotearg ($ssconvert, $file, $tmp2);
 	print STDERR "# $cmd\n" if $verbose;
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
@@ -367,7 +365,7 @@ sub test_exporter {
     my $tmp3 = "$tmp-new.gnumeric";
     &junkfile ($tmp3) unless $keep;
     {
-	my $cmd = "$ssconvert '$tmp2' '$tmp3'";
+	my $cmd = &quotearg ($ssconvert, $tmp2, $tmp3);
 	print STDERR "# $cmd\n" if $verbose;
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
@@ -375,12 +373,12 @@ sub test_exporter {
 
     my $tmp4 = "$tmp.xml";
     &junkfile ($tmp4) unless $keep;
-    $code = system ("zcat -f '$tmp1' >'$tmp4'");
+    $code = system (&quotearg ("zcat", "-f", $tmp1) . " >" . &quotearg ($tmp4));
     &system_failure ('zcat', $code) if $code;
 
     my $tmp5 = "$tmp-new.xml";
     &junkfile ($tmp5) unless $keep;
-    $code = system ("zcat -f '$tmp3' >'$tmp5'");
+    $code = system (&quotearg ("zcat" , "-f", $tmp3) . " >" . &quotearg ($tmp5));
     &system_failure ('zcat', $code) if $code;
 
     $code = system ('diff', '-u', $tmp4, $tmp5);
@@ -449,7 +447,7 @@ sub test_roundtrip {
 	$file_resized =~ s{^.*/}{};
 	$file_resized =~ s/(\.gnumeric)$/-resize$1/;
 	unlink $file_resized;
-	my $cmd = "$ssconvert --resize $resize '$file' '$file_resized'";
+	my $cmd = &quotearg ($ssconvert, "--resize", $resize, $file, $file_resized);
 	print STDERR "# $cmd\n" if $verbose;
 	$code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
@@ -461,7 +459,7 @@ sub test_roundtrip {
     unlink $tmp1;
     &junkfile ($tmp1) unless $keep;
     {
-	my $cmd = "$ssconvert -T $format '$file_resized' '$tmp1'";
+	my $cmd = &quotearg ($ssconvert, "-T", $format, $file_resized, $tmp1);
 	print "# $cmd\n" if $verbose;
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
@@ -472,7 +470,7 @@ sub test_roundtrip {
     unlink $tmp2;
     &junkfile ($tmp2) unless $keep;
     {
-	my $cmd = "$ssconvert '$tmp1' '$tmp2'";
+	my $cmd = &quotearg ($ssconvert, $tmp1, $tmp2);
 	print "# $cmd\n" if $verbose;
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
@@ -582,7 +580,7 @@ sub test_ssindex {
     &junkfile ($xmlfile);
 
     {
-	my $cmd = "$ssindex --index '$file'";
+	my $cmd = &quotearg ($ssindex, "--index", $file);
 	my $output = `$cmd 2>&1 >'$xmlfile'`;
 	my $err = $?;
 	&dump_indented ($output);
@@ -626,6 +624,29 @@ sub test_ssindex {
     } else {
 	die "Fail\n";
     }
+}
+
+# -----------------------------------------------------------------------------
+
+sub quotearg {
+    return join (' ', map { &quotearg1 ($_) } @_);
+}
+
+sub quotearg1 {
+    my ($arg) = @_;
+
+    return "''" if $arg eq '';
+    my $res = '';
+    while ($arg ne '') {
+	if ($arg =~ m!^([-=/._a-zA-Z0-9]+)!) {
+	    $res .= $1;
+	    $arg = substr ($arg, length $1);
+	} else {
+	    $res .= "\\" . substr ($arg, 0, 1);
+	    $arg = substr ($arg, 1);
+	}
+    }
+    return $res;
 }
 
 # -----------------------------------------------------------------------------
