@@ -523,6 +523,7 @@ uninstall-hook:
 # what the build
 EXTRA_DIST =						\
 	$(embedded_imgs)				\
+	gnm.gresource.xml				\
 	pixmaps/line_pattern_dash_dot.xpm		\
 	pixmaps/line_pattern_dash_dot_dot.xpm		\
 	pixmaps/line_pattern_dashed.xpm			\
