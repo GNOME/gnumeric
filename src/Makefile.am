@@ -439,19 +439,6 @@ embedded_imgs =						\
 	gnumeric.css					\
 	pixmaps/down-right.png				\
 	pixmaps/gnumeric_splash_1.4.png			\
-	pixmaps/line_pattern_dash_dot.xpm		\
-	pixmaps/line_pattern_dash_dot_dot.xpm		\
-	pixmaps/line_pattern_dashed.xpm			\
-	pixmaps/line_pattern_dotted.xpm			\
-	pixmaps/line_pattern_double.xpm			\
-	pixmaps/line_pattern_hair.xpm			\
-	pixmaps/line_pattern_medium.xpm			\
-	pixmaps/line_pattern_medium_dash.xpm		\
-	pixmaps/line_pattern_medium_dash_dot.xpm	\
-	pixmaps/line_pattern_medium_dash_dot_dot.xpm	\
-	pixmaps/line_pattern_slant.xpm			\
-	pixmaps/line_pattern_thick.xpm			\
-	pixmaps/line_pattern_thin.xpm			\
 	pixmaps/right-down.png				\
 	pixmaps/sheet_move_marker.xpm			\
 	pixmaps/unknown_image.png
@@ -534,11 +521,24 @@ uninstall-hook:
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build
-EXTRA_DIST = \
-	$(embedded_imgs)			\
-	gnm-marshalers.list			\
-	README.gnm_float			\
-	gnumeric.rc				\
+EXTRA_DIST =						\
+	$(embedded_imgs)				\
+	pixmaps/line_pattern_dash_dot.xpm		\
+	pixmaps/line_pattern_dash_dot_dot.xpm		\
+	pixmaps/line_pattern_dashed.xpm			\
+	pixmaps/line_pattern_dotted.xpm			\
+	pixmaps/line_pattern_double.xpm			\
+	pixmaps/line_pattern_hair.xpm			\
+	pixmaps/line_pattern_medium.xpm			\
+	pixmaps/line_pattern_medium_dash.xpm		\
+	pixmaps/line_pattern_medium_dash_dot.xpm	\
+	pixmaps/line_pattern_medium_dash_dot_dot.xpm	\
+	pixmaps/line_pattern_slant.xpm			\
+	pixmaps/line_pattern_thick.xpm			\
+	pixmaps/line_pattern_thin.xpm			\
+	gnm-marshalers.list				\
+	README.gnm_float				\
+	gnumeric.rc					\
 	GNOME_Gnumeric-gtk.xml.in
 
 gtkactiondir=$(gnumeric_datadir)
