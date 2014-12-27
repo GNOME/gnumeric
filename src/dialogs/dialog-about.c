@@ -76,7 +76,7 @@ static struct {
 		N_("Functions and X-Base importing.") },
 	{ N_("Michel Berkelaar"),		GNM_ANALYTICS,
 		N_("Simplex algorithm for Solver (LP Solve).") },
-	{ N_("Jean Brefort"),		GNM_CORE | GNM_FEATURE_HACKER,
+	{ N_("Jean Br\xc3\xa9""fort"),		GNM_CORE | GNM_FEATURE_HACKER,
 		N_("Core charting engine.") },
 	{ N_("Grandma Chema Celorio"),	GNM_FEATURE_HACKER|GNM_USABILITY|GNM_QA,
 		N_("Quality Assurance and sheet copy.") },
@@ -96,12 +96,14 @@ static struct {
 	        N_("LP-solve") },
 	{ N_("Gergo Erdi"),			GNM_GUI,
 		N_("Custom UI tools") },
+	{ N_("Jody Goldberg"), GNM_CORE, NULL },
 	{ N_("John Gotts"),			GNM_PACKAGING,
 		N_("RPM packaging") },
 	{ N_("Andreas J. G\xc3\xbclzow"),	GNM_CORE|GNM_FEATURE_HACKER|GNM_ANALYTICS|GNM_IMPORT_EXPORT|GNM_GUI|GNM_USABILITY|GNM_DOCUMENTATION|GNM_TRANSLATION|GNM_QA,
 		N_("Statistics and GUI master") },
 	{ N_("Jon K\xc3\xa5re Hellan"),	GNM_CORE|GNM_FEATURE_HACKER|GNM_ANALYTICS|GNM_IMPORT_EXPORT|GNM_SCRIPTING|GNM_GUI|GNM_USABILITY|GNM_DOCUMENTATION|GNM_TRANSLATION|GNM_QA,
 		N_("UI polish and all round bug fixer") },
+	{ N_("Miguel de Icaza"), GNM_CORE, NULL },
 	{ N_("Ross Ihaka"),			GNM_ANALYTICS,
 		N_("Special functions") },
 	{ N_("Jukka-Pekka Iivonen"),	GNM_ANALYTICS|GNM_GUI|GNM_FEATURE_HACKER,
@@ -563,7 +565,7 @@ dialog_about (WBCGtk *wbcg)
 		state->anim_area = gtk_drawing_area_new ();
 		layout = gtk_widget_create_pango_layout (state->anim_area, "x");
 		pango_layout_get_pixel_size (layout, NULL, &height);
-		gtk_widget_set_size_request (state->anim_area, -1, 4 * height);
+		gtk_widget_set_size_request (state->anim_area, -1, 8 * height);
 		g_object_unref (layout);
 
 		g_signal_connect (state->anim_area, "draw",
