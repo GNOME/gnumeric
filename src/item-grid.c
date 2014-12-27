@@ -210,7 +210,7 @@ item_grid_realize (GocItem *item)
 	ig->cursor_link  = gdk_cursor_new_for_display (display, GDK_HAND2);
 	cursor_cross_pixbuf =
 		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
-					  "cursor_cross", 32, 0, NULL);
+					  "cursor-cross", 32, 0, NULL);
 	ig->cursor_cross =
 		gdk_cursor_new_from_pixbuf (display,
 					    cursor_cross_pixbuf,

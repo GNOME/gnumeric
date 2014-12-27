@@ -745,64 +745,6 @@ gnumeric_application_get_property (GObject *obj, guint param_id,
 }
 
 static void
-install_icons (GnmApp *app)
-{
-	static const char *icons[] = {
-		/* Cursors */
-		"cursor_cross.xpm",
-		//"bucket.xpm",
-		//"font.xpm",
-		"sheet_move_marker.xpm",
-
-		"line_pattern_dash_dot.xpm",
-		"line_pattern_dash_dot_dot.xpm",
-		"line_pattern_dashed.xpm",
-		"line_pattern_dotted.xpm",
-		"line_pattern_double.xpm",
-		"line_pattern_hair.xpm",
-		"line_pattern_medium.xpm",
-		"line_pattern_medium_dash.xpm",
-		"line_pattern_medium_dash_dot.xpm",
-		"line_pattern_medium_dash_dot_dot.xpm",
-		"line_pattern_slant.xpm",
-		"line_pattern_thick.xpm",
-		"line_pattern_thin.xpm",
-	};
-
-	GtkIconFactory *factory = gtk_icon_factory_new ();
-	unsigned int ui;
-
-	for (ui = 0; ui < G_N_ELEMENTS (icons); ui++) {
-		const char *filename = icons[ui];
-		char *res = g_strconcat ("res:gnm:pixmaps/", filename, NULL);
-		char *iconname;
-		GdkPixbuf *pixbuf = go_gdk_pixbuf_load_from_file (res);
-
-		if (!pixbuf) {
-			g_warning ("Misssing icon %s\n", filename);
-			continue;
-		}
-
-		iconname = g_strdup (filename);
-		strchr(iconname, '.')[0] = 0;
-		gtk_icon_theme_add_builtin_icon (iconname,
-						 gdk_pixbuf_get_width (pixbuf),
-						 pixbuf);
-
-		g_object_unref (pixbuf);
-		g_free (iconname);
-		g_free (res);
-	}
-
-	gtk_icon_factory_add_default (factory);
-	g_object_set_data_full (G_OBJECT (app),
-				"icon-factory", factory,
-				(GDestroyNotify)gtk_icon_factory_remove_default);
-	g_object_unref (factory);
-}
-
-
-static void
 gnm_app_class_init (GObjectClass *gobject_klass)
 {
 	parent_klass = g_type_class_peek_parent (gobject_klass);
@@ -878,12 +820,6 @@ static void
 gnm_app_init (GObject *obj)
 {
 	GnmApp *gnm_app = GNM_APP (obj);
-	static gboolean icons_installed = FALSE;
-
-	if (!icons_installed) {
-		icons_installed = TRUE;
-		install_icons (gnm_app);
-	}
 
 	gnm_app->clipboard_copied_contents = NULL;
 	gnm_app->clipboard_sheet_view = NULL;

@@ -304,7 +304,7 @@ setup_pattern_button (GdkScreen *screen,
 		      GtkBuilder  *gui,
 		      char const *const name,
 		      PatternPicker *picker,
-		      gboolean const flag,
+		      gboolean const do_icon,
 		      int const index,
 		      int const select_index,
 		      unsigned size)
@@ -312,12 +312,10 @@ setup_pattern_button (GdkScreen *screen,
 	GtkWidget *tmp = go_gtk_builder_get_widget (gui, name);
 	if (tmp != NULL) {
 		GtkButton *button = GTK_BUTTON (tmp);
-		if (flag) {
-			GdkPixbuf *pixbuf = gtk_icon_theme_load_icon (
-				gtk_icon_theme_get_for_screen (screen),
-				name, size, 0, NULL);
-			GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
-			g_object_unref (pixbuf);
+		if (do_icon) {
+			char *res = g_strconcat ("/org/gnumeric/gnumeric/images/", name, ".xpm", NULL);
+			GtkWidget *image = gtk_image_new_from_resource (res);
+			g_free (res);
 			gtk_widget_show (image);
 			gtk_container_add (GTK_CONTAINER (tmp), image);
 		}

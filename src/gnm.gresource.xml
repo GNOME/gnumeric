@@ -152,6 +152,20 @@
     <file>icons/24x24/actions/gnumeric-subscript.png</file>
     <file>icons/24x24/actions/gnumeric-superscript.png</file>
     <file>icons/24x24/actions/gnumeric-ungroup.xpm</file>
+    <file>icons/32x32/actions/cursor-cross.xpm</file>
     <file>icons/48x48/actions/gnumeric-protection-yes-dialog.png</file>
+    <file alias="images/line_pattern_dash_dot.xpm">src/pixmaps/line_pattern_dash_dot.xpm</file>
+    <file alias="images/line_pattern_dash_dot_dot.xpm">src/pixmaps/line_pattern_dash_dot_dot.xpm</file>
+    <file alias="images/line_pattern_dashed.xpm">src/pixmaps/line_pattern_dashed.xpm</file>
+    <file alias="images/line_pattern_dotted.xpm">src/pixmaps/line_pattern_dotted.xpm</file>
+    <file alias="images/line_pattern_double.xpm">src/pixmaps/line_pattern_double.xpm</file>
+    <file alias="images/line_pattern_hair.xpm">src/pixmaps/line_pattern_hair.xpm</file>
+    <file alias="images/line_pattern_medium.xpm">src/pixmaps/line_pattern_medium.xpm</file>
+    <file alias="images/line_pattern_medium_dash.xpm">src/pixmaps/line_pattern_medium_dash.xpm</file>
+    <file alias="images/line_pattern_medium_dash_dot.xpm">src/pixmaps/line_pattern_medium_dash_dot.xpm</file>
+    <file alias="images/line_pattern_medium_dash_dot_dot.xpm">src/pixmaps/line_pattern_medium_dash_dot_dot.xpm</file>
+    <file alias="images/line_pattern_slant.xpm">src/pixmaps/line_pattern_slant.xpm</file>
+    <file alias="images/line_pattern_thick.xpm">src/pixmaps/line_pattern_thick.xpm</file>
+    <file alias="images/line_pattern_thin.xpm">src/pixmaps/line_pattern_thin.xpm</file>
   </gresource>
 </gresources>

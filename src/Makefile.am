@@ -437,7 +437,6 @@ gnumeric_app_libs =				\
 
 embedded_imgs =						\
 	gnumeric.css					\
-	pixmaps/cursor_cross.xpm                        \
 	pixmaps/down-right.png				\
 	pixmaps/gnumeric_splash_1.4.png			\
 	pixmaps/line_pattern_dash_dot.xpm		\
