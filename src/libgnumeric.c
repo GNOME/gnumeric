@@ -298,8 +298,11 @@ gnm_init (void)
 
 	libgoffice_init ();
 	_gnm_register_resource ();
-	gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
-					  "/org/gnumeric/gnumeric/icons");
+	if (gdk_screen_get_default ()) {
+		/* Only when we have a gui.  */
+		gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
+						  "/org/gnumeric/gnumeric/icons");
+	}
 	gnm_register_ui_files ();
 	gnm_register_imgs_files ();
 	go_plugin_service_define ("function_group",
