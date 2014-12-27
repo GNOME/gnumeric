@@ -304,7 +304,8 @@ setup_pattern_button (GdkScreen *screen,
 		      GtkBuilder  *gui,
 		      char const *const name,
 		      PatternPicker *picker,
-		      gboolean const do_icon,
+		      gboolean do_image,
+		      gboolean from_icon,
 		      int const index,
 		      int const select_index,
 		      unsigned size)
@@ -312,9 +313,11 @@ setup_pattern_button (GdkScreen *screen,
 	GtkWidget *tmp = go_gtk_builder_get_widget (gui, name);
 	if (tmp != NULL) {
 		GtkButton *button = GTK_BUTTON (tmp);
-		if (do_icon) {
+		if (do_image) {
 			char *res = g_strconcat ("/org/gnumeric/gnumeric/images/", name, ".xpm", NULL);
-			GtkWidget *image = gtk_image_new_from_resource (res);
+			GtkWidget *image = from_icon
+				? gtk_image_new_from_icon_name (name, GTK_ICON_SIZE_DIALOG)
+				: gtk_image_new_from_resource (res);
 			g_free (res);
 			gtk_widget_show (image);
 			gtk_container_add (GTK_CONTAINER (tmp), image);
@@ -2342,6 +2345,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 		setup_pattern_button (gtk_widget_get_screen (GTK_WIDGET (state->dialog)),
 				      state->gui, name, &state->border.pattern,
 				      i != 0, /* No image for None */
+				      FALSE,
 				      line_pattern_buttons[i].pattern,
 				      default_border_style, 54);
 
@@ -2391,7 +2395,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 	for (i = 0; (name = pattern_buttons[i]) != NULL; ++i)
 		setup_pattern_button (gtk_widget_get_screen (GTK_WIDGET (state->dialog)),
 				      state->gui, name,
-				      &state->back.pattern, TRUE,
+				      &state->back.pattern, TRUE, TRUE,
 				      i+1, /* Pattern #s start at 1 */
 				      selected, 16);
 

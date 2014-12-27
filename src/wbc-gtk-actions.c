@@ -2230,12 +2230,12 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Go to the last data cell"),
 		G_CALLBACK (cb_edit_goto_last) },
 	{ "EditGoto", "go-jump", N_("_Go to Cell..."),
-		"<control>G", N_("Jump to a specified cell"),
+		"<control>g", N_("Jump to a specified cell"),
 		G_CALLBACK (cb_edit_goto) },
-	/* Tis is a navigational aid that is not supposed to appear */
+	/* This is a navigational aid that is not supposed to appear */
 	/* in the menu */
 	{ "EditGotoCellIndicator", NULL, "Go to Current Cell Indicator",
-		"<shift><control>G", "Go to Current Cell Indicator",
+		"<shift><control>g", "Go to Current Cell Indicator",
 		G_CALLBACK (cb_edit_goto_cell_indicator) },
 
 /* Edit */
