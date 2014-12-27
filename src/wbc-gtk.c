@@ -3399,7 +3399,7 @@ wbc_gtk_init_color_fore (WBCGtk *gtk)
 	GOColor default_color = sc_auto_font->go_color;
 	style_color_unref (sc_auto_font);
 
-	gtk->fore_color = go_action_combo_color_new ("ColorFore", "font",
+	gtk->fore_color = go_action_combo_color_new ("ColorFore", "gnumeric-font",
 		_("Automatic"),	default_color, NULL); /* set group to view */
 	go_action_combo_color_set_allow_alpha (gtk->fore_color, TRUE);
 	g_object_set (G_OBJECT (gtk->fore_color),
