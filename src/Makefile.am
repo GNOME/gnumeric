@@ -437,19 +437,7 @@ gnumeric_app_libs =				\
 
 embedded_imgs =						\
 	gnumeric.css					\
-	pixmaps/border_all.xpm				\
-	pixmaps/border_bottom.xpm			\
-	pixmaps/border_double_bottom.xpm		\
-	pixmaps/border_left.xpm				\
-	pixmaps/border_none.xpm				\
-	pixmaps/border_outside.xpm			\
-	pixmaps/border_right.xpm			\
-	pixmaps/border_thick_bottom.xpm			\
-	pixmaps/border_thick_outside.xpm		\
-	pixmaps/border_top_n_bottom.xpm			\
-	pixmaps/border_top_n_double_bottom.xpm		\
-	pixmaps/border_top_n_thick_bottom.xpm		\
-	pixmaps/bottom_border.xpm			\
+	pixmaps/bottom_border.xpm                       \
 	pixmaps/cursor_cross.xpm                        \
 	pixmaps/diag_border.xpm				\
 	pixmaps/down-right.png				\
@@ -478,12 +466,6 @@ embedded_imgs =						\
 	pixmaps/gp_thin_rev_diag.xpm			\
 	pixmaps/gp_thin_vert.xpm			\
 	pixmaps/gp_vert.xpm				\
-	pixmaps/hf_cell.png				\
-	pixmaps/hf_date.png				\
-	pixmaps/hf_page.png				\
-	pixmaps/hf_pages.png				\
-	pixmaps/hf_sheet.png				\
-	pixmaps/hf_time.png				\
 	pixmaps/inside_border.xpm			\
 	pixmaps/inside_horiz_border.xpm			\
 	pixmaps/inside_vert_border.xpm			\
@@ -503,7 +485,6 @@ embedded_imgs =						\
 	pixmaps/line_pattern_thin.xpm			\
 	pixmaps/no_border.xpm				\
 	pixmaps/outline_border.xpm			\
-	pixmaps/protection_yes_48.png			\
 	pixmaps/rev_diag_border.xpm			\
 	pixmaps/right-down.png				\
 	pixmaps/right_border.xpm			\

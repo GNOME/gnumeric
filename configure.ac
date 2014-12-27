@@ -1099,6 +1099,7 @@ icons/24x24/apps/Makefile
 icons/32x32/Makefile
 icons/32x32/apps/Makefile
 icons/48x48/Makefile
+icons/48x48/actions/Makefile
 icons/48x48/apps/Makefile
 icons/256x256/Makefile
 icons/256x256/apps/Makefile

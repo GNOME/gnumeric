@@ -3136,21 +3136,21 @@ wbc_gtk_init_zoom (WBCGtk *wbcg)
 /****************************************************************************/
 
 static GOActionComboPixmapsElement const border_combo_info[] = {
-	{ N_("Left"),			"Gnumeric_BorderLeft",			11 },
-	{ N_("Clear Borders"),		"Gnumeric_BorderNone",			12 },
-	{ N_("Right"),			"Gnumeric_BorderRight",			13 },
+	{ N_("Left"),			"gnumeric-format-border-left",			11 },
+	{ N_("Clear Borders"),		"gnumeric-format-border-none",			12 },
+	{ N_("Right"),			"gnumeric-format-border-right",			13 },
 
-	{ N_("All Borders"),		"Gnumeric_BorderAll",			21 },
-	{ N_("Outside Borders"),	"Gnumeric_BorderOutside",		22 },
-	{ N_("Thick Outside Borders"),	"Gnumeric_BorderThickOutside",		23 },
+	{ N_("All Borders"),		"gnumeric-format-border-all",			21 },
+	{ N_("Outside Borders"),	"gnumeric-format-border-outside",		22 },
+	{ N_("Thick Outside Borders"),	"gnumeric-format-border-thick-outside",		23 },
 
-	{ N_("Bottom"),			"Gnumeric_BorderBottom",		31 },
-	{ N_("Double Bottom"),		"Gnumeric_BorderDoubleBottom",		32 },
-	{ N_("Thick Bottom"),		"Gnumeric_BorderThickBottom",		33 },
+	{ N_("Bottom"),			"gnumeric-format-border-bottom",		31 },
+	{ N_("Double Bottom"),		"gnumeric-format-border-double-bottom",		32 },
+	{ N_("Thick Bottom"),		"gnumeric-format-border-thick-bottom",		33 },
 
-	{ N_("Top and Bottom"),		"Gnumeric_BorderTop_n_Bottom",		41 },
-	{ N_("Top and Double Bottom"),	"Gnumeric_BorderTop_n_DoubleBottom",	42 },
-	{ N_("Top and Thick Bottom"),	"Gnumeric_BorderTop_n_ThickBottom",	43 },
+	{ N_("Top and Bottom"),		"gnumeric-format-border-top-n-bottom",		41 },
+	{ N_("Top and Double Bottom"),	"gnumeric-format-border-top-n-double-bottom",	42 },
+	{ N_("Top and Thick Bottom"),	"gnumeric-format-border-top-n-thick-bottom",	43 },
 
 	{ NULL, NULL}
 };

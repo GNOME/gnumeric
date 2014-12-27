@@ -745,54 +745,6 @@ gnumeric_application_get_property (GObject *obj, guint param_id,
 }
 
 static void
-add_icon (GtkIconFactory *factory,
-	  const char *scalable_filename,
-	  const char *sized_filename,
-	  const char *stock_id)
-{
-	GtkIconSet *set = gtk_icon_set_new ();
-	GtkIconSource *src = gtk_icon_source_new ();
-
-	if (scalable_filename) {
-		char *res = g_strconcat ("res:gnm:pixmaps/",
-					 scalable_filename,
-					 NULL);
-		GdkPixbuf *pix = go_gdk_pixbuf_load_from_file (res);
-		if (pix) {
-			gtk_icon_source_set_size_wildcarded (src, TRUE);
-			gtk_icon_source_set_pixbuf (src, pix);
-			gtk_icon_set_add_source (set, src);
-			g_object_unref (pix);
-		} else {
-			g_warning ("Missing resource %s\n", res);
-		}
-		g_free (res);
-	}
-
-	/*
-	 * For now, don't register a fixed-sized icon as doing so without
-	 * catching style changes kills things like bug 302902.
-	 */
-	if (sized_filename && !scalable_filename) {
-		char *res = g_strconcat ("res:gnm:pixmaps/",
-					 sized_filename,
-					 NULL);
-		GdkPixbuf *pix = go_gdk_pixbuf_load_from_file (res);
-		gtk_icon_source_set_size (src, GTK_ICON_SIZE_MENU);
-		gtk_icon_source_set_size_wildcarded (src, FALSE);
-		gtk_icon_source_set_pixbuf (src, pix);
-		gtk_icon_set_add_source (set, src);
-		g_object_unref (pix);
-		g_free (res);
-	}
-
-	gtk_icon_factory_add (factory, stock_id, set);
-	gtk_icon_set_unref (set);
-	gtk_icon_source_free (src);
-}
-
-
-static void
 install_icons (GnmApp *app)
 {
 	static const char *icons[] = {
@@ -854,108 +806,6 @@ install_icons (GnmApp *app)
 		"right_border.xpm",
 		"top_border.xpm"
 	};
-	static struct {
-		const char *scalable_filename;
-		const char *sized_filename;
-		const char *stock_id;
-	} const icons2[] = {
-		{
-			"protection_yes_48.png",
-			NULL,
-			"Gnumeric_Protection_Yes_Dialog"
-		},
-		{
-			"border_left.xpm",
-			NULL,
-			"Gnumeric_BorderLeft"
-		},
-		{
-			"border_none.xpm",
-			NULL,
-			"Gnumeric_BorderNone"
-		},
-		{
-			"border_right.xpm",
-			NULL,
-			"Gnumeric_BorderRight"
-		},
-		{
-			"border_all.xpm",
-			NULL,
-			"Gnumeric_BorderAll"
-		},
-		{
-			"border_outside.xpm",
-			NULL,
-			"Gnumeric_BorderOutside"
-		},
-		{
-			"border_thick_outside.xpm",
-			NULL,
-			"Gnumeric_BorderThickOutside"
-		},
-		{
-			"border_bottom.xpm",
-			NULL,
-			"Gnumeric_BorderBottom"
-		},
-		{
-			"border_double_bottom.xpm",
-			NULL,
-			"Gnumeric_BorderDoubleBottom"
-		},
-		{
-			"border_thick_bottom.xpm",
-			NULL,
-			"Gnumeric_BorderThickBottom"
-		},
-		{
-			"border_top_n_bottom.xpm",
-			NULL,
-			"Gnumeric_BorderTop_n_Bottom"
-		},
-		{
-			"border_top_n_double_bottom.xpm",
-			NULL,
-			"Gnumeric_BorderTop_n_DoubleBottom"
-		},
-		{
-			"border_top_n_thick_bottom.xpm",
-			NULL,
-			"Gnumeric_BorderTop_n_ThickBottom"
-		},
-
-		{
-			"hf_page.png",
-			NULL,
-			"Gnumeric_Pagesetup_HF_Page"
-		},
-		{
-			"hf_pages.png",
-			NULL,
-			"Gnumeric_Pagesetup_HF_Pages"
-		},
-		{
-			"hf_time.png",
-			NULL,
-			"Gnumeric_Pagesetup_HF_Time"
-		},
-		{
-			"hf_date.png",
-			NULL,
-			"Gnumeric_Pagesetup_HF_Date"
-		},
-		{
-			"hf_sheet.png",
-			NULL,
-			"Gnumeric_Pagesetup_HF_Sheet"
-		},
-		{
-			"hf_cell.png",
-			NULL,
-			"Gnumeric_Pagesetup_HF_Cell"
-		},
-	};
 
 	GtkIconFactory *factory = gtk_icon_factory_new ();
 	unsigned int ui;
@@ -982,11 +832,6 @@ install_icons (GnmApp *app)
 		g_free (res);
 	}
 
-	for (ui = 0; ui < G_N_ELEMENTS (icons2) ; ui++)
-		add_icon (factory,
-			  icons2[ui].scalable_filename,
-			  icons2[ui].sized_filename,
-			  icons2[ui].stock_id);
 	gtk_icon_factory_add_default (factory);
 	g_object_set_data_full (G_OBJECT (app),
 				"icon-factory", factory,

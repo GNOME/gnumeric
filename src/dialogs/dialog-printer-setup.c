@@ -1112,22 +1112,22 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer,
 		stock_id = GTK_STOCK_DIRECTORY;
 		break;
 	case HF_FIELD_PAGE:
-		stock_id = "Gnumeric_Pagesetup_HF_Page";
+		stock_id = "gnumeric-pagesetup-hf-page";
 		break;
 	case HF_FIELD_PAGES:
-		stock_id = "Gnumeric_Pagesetup_HF_Pages";
+		stock_id = "gnumeric-pagesetup-hf-pages";
 		break;
 	case HF_FIELD_DATE:
-		stock_id = "Gnumeric_Pagesetup_HF_Date";
+		stock_id = "gnumeric-pagesetup-hf-date";
 		break;
 	case HF_FIELD_TIME:
-		stock_id = "Gnumeric_Pagesetup_HF_Time";
+		stock_id = "gnumeric-pagesetup-hf-time";
 		break;
 	case HF_FIELD_SHEET:
-		stock_id = "Gnumeric_Pagesetup_HF_Sheet";
+		stock_id = "gnumeric-pagesetup-hf-sheet";
 		break;
 	case HF_FIELD_CELL:
-		stock_id = "Gnumeric_Pagesetup_HF_Cell";
+		stock_id = "gnumeric-pagesetup-hf-cell";
 		break;
 	default:
 		return;
@@ -1796,29 +1796,29 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		 "clicked", G_CALLBACK (hf_delete_tag_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-date-button"));
-	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Date");
+	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-date");
 	hf_attach_insert_date_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-page-button"));
-	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Page");
+	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-page");
 	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_page_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-pages-button"));
-	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Pages");
+	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-pages");
 	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_pages_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-sheet-button"));
-	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Sheet");
+	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-sheet");
 	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_sheet_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-time-button"));
-	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Time");
+	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-time");
 	hf_attach_insert_time_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 
 	g_signal_connect_swapped
@@ -1830,7 +1830,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		 "clicked", G_CALLBACK (hf_insert_path_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-cell-button"));
-	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Cell");
+	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-cell");
 	hf_attach_insert_cell_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 
 

@@ -44,7 +44,7 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 	hb = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), hb,
 			    TRUE, TRUE, 8);
-	image = gtk_image_new_from_stock ("Gnumeric_Protection_Yes_Dialog",
+	image = gtk_image_new_from_stock ("gnumeric-protection-yes-dialog",
 					  GTK_ICON_SIZE_DIALOG);
 	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.0);
 	gtk_box_pack_start (GTK_BOX (hb), image, FALSE, FALSE, 0);
