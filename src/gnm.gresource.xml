@@ -17,6 +17,7 @@
     <file>icons/16x16/actions/gnumeric-comment-edit.xpm</file>
     <file>icons/16x16/actions/gnumeric-component-insert-shaped.xpm</file>
     <file>icons/16x16/actions/gnumeric-component-insert.xpm</file>
+    <file>icons/16x16/actions/gnumeric-data-slicer.png</file>
     <file>icons/16x16/actions/gnumeric-detail-hide.xpm</file>
     <file>icons/16x16/actions/gnumeric-detail-show.xpm</file>
     <file>icons/16x16/actions/gnumeric-exprentry.png</file>
@@ -89,6 +90,7 @@
     <file>icons/24x24/actions/gnumeric-column-unhide.xpm</file>
     <file>icons/24x24/actions/gnumeric-component-insert-shaped.xpm</file>
     <file>icons/24x24/actions/gnumeric-component-insert.xpm</file>
+    <file>icons/24x24/actions/gnumeric-data-slicer.png</file>
     <file>icons/24x24/actions/gnumeric-detail-hide.xpm</file>
     <file>icons/24x24/actions/gnumeric-detail-show.xpm</file>
     <file>icons/24x24/actions/gnumeric-equal.xpm</file>
