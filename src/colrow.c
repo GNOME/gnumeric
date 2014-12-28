@@ -1216,8 +1216,11 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 	}
 
 	if (changed && 0 <= i && i < colrow_max (is_cols, sheet)) {
-		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_cols);
-		if (prev_outline > cri->outline_level)
+		ColRowInfo *cri = sheet_colrow_get (sheet, i, is_cols);
+		if (!cri && !visible && prev_outline > 0)
+			cri = sheet_colrow_fetch (sheet, i, is_cols);
+
+		if (cri && prev_outline > cri->outline_level)
 			cri->is_collapsed = !visible;
 	}
 }

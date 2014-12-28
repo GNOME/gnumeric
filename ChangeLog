@@ -1,3 +1,8 @@
+2014-12-27  Morten Welinder  <terra@gnome.org>
+
+	* src/colrow.c (colrow_set_visibility): Don't create columns/rows
+	unless we really have to.
+
 2014-12-25  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-graph.c (sog_cb_open_in_new_window): Fix
