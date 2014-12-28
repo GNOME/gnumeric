@@ -1394,8 +1394,8 @@ static GNM_ACTION_DEF (cb_launch_go_component_from_file)
 	GtkWidget *dlg = gtk_file_chooser_dialog_new (_("Choose object file"),
 	                                              GTK_WINDOW (wbcg_toplevel (wbcg)),
 	                                              GTK_FILE_CHOOSER_ACTION_OPEN,
-	                                              GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-	                                              GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+	                                              GNM_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	                                              GNM_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 	                                              NULL);
 	go_components_add_filter (GTK_FILE_CHOOSER (dlg));
 	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_ACCEPT) {
@@ -2000,13 +2000,13 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "FileNew", "document-new", N_("_New"),
 		"<control>n", N_("Create a new workbook"),
 		G_CALLBACK (cb_file_new) },
-	{ "FileOpen", "document-open", N_("_Open"),
+	{ "FileOpen", "document-open", GNM_N_STOCK_OPEN,
 		"<control>o", N_("Open a file"),
 		G_CALLBACK (cb_file_open) },
-	{ "FileSave", "document-save", N_("_Save"),
+	{ "FileSave", "document-save", GNM_N_STOCK_SAVE,
 		"<control>s", N_("Save the current workbook"),
 		G_CALLBACK (cb_file_save) },
-	{ "FileSaveAs", "document-save-as", N_("Save _As"),
+	{ "FileSaveAs", "document-save-as", GNM_N_STOCK_SAVE_AS,
 		"<control><shift>s", N_("Save the current workbook with a different name"),
 		G_CALLBACK (cb_file_save_as) },
 	{ "FileSend", "gnumeric-link-email", N_("Sen_d To..."),

@@ -194,8 +194,8 @@ soc_cb_save_as (SheetObject *so, SheetControl *sc)
 	GtkWidget *dlg = gtk_file_chooser_dialog_new (_("Save as"),
 	                                              GTK_WINDOW (wbcg_toplevel (wbcg)),
 	                                              GTK_FILE_CHOOSER_ACTION_SAVE,
-	                                              GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
-	                                              GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+	                                              GNM_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+	                                              GNM_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 	                                              NULL);
 	GtkFileFilter *filter = gtk_file_filter_new ();
 	gtk_file_filter_add_mime_type (filter, go_component_get_mime_type (soc->component));
@@ -267,8 +267,8 @@ static void
 gnm_soc_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const soc_actions[] = {
-		{ GTK_STOCK_SAVE_AS, N_("_Save As"), NULL, 0, soc_cb_save_as },
-		{ GTK_STOCK_SAVE_AS, N_("_Save As Image"), NULL, 0, soc_cb_save_as_image }
+		{ "document-save",    GNM_N_STOCK_SAVE, NULL, 0, soc_cb_save_as },
+		{ "document-save-as", N_("_Save As Image"), NULL, 0, soc_cb_save_as_image }
 	};
 
 	unsigned int i;

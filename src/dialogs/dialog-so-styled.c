@@ -157,8 +157,8 @@ dialog_so_styled (WBCGtk *wbcg,
 	gnumeric_init_help_button (help, "sect-graphics-drawings");
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-		GTK_STOCK_CANCEL,	GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK,		GTK_RESPONSE_OK,
+		GNM_STOCK_CANCEL,	GTK_RESPONSE_CANCEL,
+		GNM_STOCK_OK,		GTK_RESPONSE_OK,
 		NULL);
 
 	editor = go_style_get_editor (orig, default_style,

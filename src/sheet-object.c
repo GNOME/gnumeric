@@ -232,7 +232,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 		static SheetObjectAction const so_actions [] = {
 			{ "gtk-properties",	NULL,		NULL,  0, sheet_object_get_editor, sheet_object_can_prop},
 			{ NULL,	NULL, NULL, 0, NULL, NULL },
-			{ "gtk-copy",		NULL,		NULL,  0, cb_so_copy, NULL },
+			{ "edit-copy",		N_("_Copy"),		NULL,  0, cb_so_copy, NULL },
 		};
 		for (i = 0 ; i < G_N_ELEMENTS (so_actions); i++)
 				g_ptr_array_add (actions, (gpointer) (so_actions + i));
@@ -240,6 +240,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 		static SheetObjectAction const so_actions [] = {
 			{ GTK_STOCK_PROPERTIES,	        NULL, NULL,  0, sheet_object_get_editor, sheet_object_can_prop},
 			{ NULL,	NULL, NULL, 0, NULL, NULL },
+#warning "Two high dubious icon names here"
 			{ GTK_STOCK_LEAVE_FULLSCREEN,   N_("Size _& Position"),	NULL,  0, cb_so_size_position, NULL },
 			{ GTK_STOCK_FULLSCREEN,	        N_("_Snap to Grid"),	NULL,  0, cb_so_snap_to_grid, NULL },
 			{ NULL,			        N_("_Order"),	        NULL,  1, NULL, NULL },
@@ -249,11 +250,11 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 				{ NULL,			N_("Pus_h to Back"),	NULL,  0, cb_so_push_to_back, NULL },
 				{ NULL,			NULL,			NULL, -1, NULL, NULL },
 			{ NULL,	NULL, NULL, 0, NULL, NULL },
-			{ GTK_STOCK_CUT,		NULL,		NULL,  0, cb_so_cut, NULL },
-			{ GTK_STOCK_COPY,		NULL,		NULL,  0, cb_so_copy, NULL },
-			{ GTK_STOCK_DELETE,		NULL,		NULL,  0, cb_so_delete, NULL },
+			{ "edit-cut",			N_("Cu_t"),		NULL,  0, cb_so_cut, NULL },
+			{ "edit-copy",			N_("_Copy"),		NULL,  0, cb_so_copy, NULL },
+			{ "edit-delete",		N_("_Delete"),		NULL,  0, cb_so_delete, NULL },
 			{ NULL,	NULL, NULL, 0, NULL, NULL },
-			{ GTK_STOCK_PRINT,		NULL,		NULL,  0, cb_so_print, sheet_object_can_print},
+			{ "document-print",		N_("Print"),		NULL,  0, cb_so_print, sheet_object_can_print},
 		};
 		for (i =  0; i < G_N_ELEMENTS (so_actions); i++)
 				g_ptr_array_add (actions, (gpointer) (so_actions + i));
@@ -1356,7 +1357,7 @@ sheet_object_build_menu (SheetObjectView *view,
 			if (a->label != NULL) {
 				item = gtk_image_menu_item_new_with_mnemonic (_(a->label));
 				gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-					gtk_image_new_from_stock (a->icon, GTK_ICON_SIZE_MENU));
+					gtk_image_new_from_icon_name (a->icon, GTK_ICON_SIZE_MENU));
 			} else
 				item = gtk_image_menu_item_new_from_stock (a->icon, NULL);
 		} else if (a->label != NULL)

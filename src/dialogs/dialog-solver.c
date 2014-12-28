@@ -690,7 +690,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 
 	state->run.ok_button =
 		go_gtk_dialog_add_button (dialog,
-					  _("OK"),
+					  GNM_STOCK_OK,
 					  GTK_STOCK_OK,
 					  GTK_RESPONSE_YES);
 

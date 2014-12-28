@@ -2,6 +2,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include "dialogs.h"
+#include "gui-util.h"
 
 static void
 cb_accept_password (G_GNUC_UNUSED GtkWidget *IGNORED, GtkDialog *d)
@@ -37,8 +38,8 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 
 	d = gtk_dialog_new_with_buttons ("", parent,
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
-					 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					 GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+					 GNM_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					 GNM_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 					 NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 	hb = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);

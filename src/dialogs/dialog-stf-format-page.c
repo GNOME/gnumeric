@@ -205,8 +205,8 @@ cb_format_clicked (GtkButton *widget, gpointer _i)
 		(_("Format Selector"),
 		 GTK_WINDOW (pagedata->dialog),
 		 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-		 GTK_STOCK_OK,      GTK_RESPONSE_ACCEPT,
-		 GTK_STOCK_CANCEL,  GTK_RESPONSE_REJECT,
+		 GNM_STOCK_OK,      GTK_RESPONSE_ACCEPT,
+		 GNM_STOCK_CANCEL,  GTK_RESPONSE_REJECT,
 		 NULL);
 	GOFormatSel *format_selector
 		= GO_FORMAT_SEL (go_format_sel_new_full (TRUE));

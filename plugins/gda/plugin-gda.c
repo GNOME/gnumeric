@@ -262,10 +262,8 @@ query_connection_info (const gchar *dsn, const gchar *user, const gchar *passwor
 	dialog = gtk_dialog_new_with_buttons(_("Database Connection"),
 					     NULL,
 					     GTK_DIALOG_MODAL,
-					     GTK_STOCK_OK,
-					     GTK_RESPONSE_ACCEPT,
-					     GTK_STOCK_CANCEL,
-					     GTK_RESPONSE_REJECT,
+					     GNM_STOCK_OK, GTK_RESPONSE_ACCEPT,
+					     GNM_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 					     NULL);
 
 	login = gdaui_login_new (NULL);

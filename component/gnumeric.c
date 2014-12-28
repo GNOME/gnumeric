@@ -29,6 +29,7 @@
 #include <gnm-plugin.h>
 #include <gnumeric-conf.h>
 #include <gui-file.h>
+#include <gui-util.h>
 #include <gutils.h>
 #include <print-cell.h>
 #include <print.h>
@@ -197,7 +198,7 @@ cb_gognm_save (G_GNUC_UNUSED GtkAction *a, WBCGtk *wbcg)
 
 static GtkActionEntry const actions[] = {
 /* File */
-	{ "FileSaveEmbed", GTK_STOCK_SAVE, NULL,
+	{ "FileSaveEmbed", GNM_N_STOCK_SAVE, NULL,
 		NULL, N_("Save the embedded workbook"),
 		G_CALLBACK (cb_gognm_save) }
 };

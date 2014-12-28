@@ -12,6 +12,7 @@
 #include "workbook-control.h"
 #include "gnm-marshalers.h"
 #include "dao.h"
+#include "gui-util.h"
 #include "gnm-i18n.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
@@ -2047,7 +2048,7 @@ gnm_sub_solver_locate_binary (const char *binary, const char *solver,
 			       NULL));
 	g_free (title);
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GNM_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_EXECUTE, GTK_RESPONSE_OK,
 				NULL);
 	g_object_ref (fsel);

@@ -342,8 +342,8 @@ gui_file_open (WBCGtk *wbcg, GnmFileOpenStyle type, char const *default_format)
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (fsel))),
 			    advanced_button, FALSE, TRUE, 6);
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+				GNM_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GNM_STOCK_OPEN, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
@@ -569,8 +569,8 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, GnmFileSaveAsStyle type,
 			       "title", title,
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+				GNM_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GNM_STOCK_SAVE, GTK_RESPONSE_OK,
 				NULL);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);

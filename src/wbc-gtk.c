@@ -1794,9 +1794,9 @@ wbcg_show_save_dialog (WBCGtk *wbcg, Workbook *wb)
 	go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
 				  GTK_STOCK_DELETE, GTK_RESPONSE_NO);
 	go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't close"),
-				  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+				  GNM_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
-	gtk_dialog_add_button (GTK_DIALOG(d), GTK_STOCK_SAVE, GTK_RESPONSE_YES);
+	gtk_dialog_add_button (GTK_DIALOG(d), GNM_STOCK_SAVE, GTK_RESPONSE_YES);
 	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
 	ret = go_gtk_dialog_run (GTK_DIALOG (d), wbcg_toplevel (wbcg));
 	g_free (msg);
@@ -2893,7 +2893,7 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 		break;
 	case GNM_VALIDATION_STYLE_INFO :
 		res0 = GNM_VALIDATION_STATUS_VALID;
-		btn0 = GTK_STOCK_OK;
+		btn0 = GNM_STOCK_OK;
 		btn1 = NULL;
 		type = GTK_MESSAGE_INFO;
 		break;

@@ -144,6 +144,28 @@ void
 gnm_cell_renderer_text_copy_background_to_cairo (GtkCellRendererText *crt,
 						 cairo_t *cr);
 
+
+/*
+ * These macros exist to replace the old gtk+ stock items.  Note, that these only
+ * cover strings with mnemonics.  I.e., you must handle icons and accelerators
+ * in some other way.  (So why do we have them in the first place?  To ensure
+ * the user interface is as consistent as possible.)
+ */
+#define GNM_STOCK_OPEN g_dpgettext2(GETTEXT_PACKAGE, "Stock label", GNM_N_STOCK_OPEN)
+#define GNM_N_STOCK_OPEN NC_("Stock label", "_Open")
+
+#define GNM_STOCK_SAVE g_dpgettext2(GETTEXT_PACKAGE, "Stock label", GNM_N_STOCK_SAVE)
+#define GNM_N_STOCK_SAVE NC_("Stock label", "_Save")
+
+#define GNM_STOCK_SAVE_AS g_dpgettext2(GETTEXT_PACKAGE, "Stock label", GNM_N_STOCK_SAVE_AS)
+#define GNM_N_STOCK_SAVE_AS NC_("Stock label", "Save _As")
+
+#define GNM_STOCK_CANCEL g_dpgettext2(GETTEXT_PACKAGE, "Stock label", GNM_N_STOCK_CANCEL)
+#define GNM_N_STOCK_CANCEL NC_("Stock label", "_Cancel")
+
+#define GNM_STOCK_OK g_dpgettext2(GETTEXT_PACKAGE, "Stock label", GNM_N_STOCK_OK)
+#define GNM_N_STOCK_OK NC_("Stock label", "_OK")
+
 G_END_DECLS
 
 #endif /* _GNM_GUI_UTIL_H_ */

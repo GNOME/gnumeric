@@ -899,7 +899,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		go_gtk_dialog_add_button
 			(GTK_DIALOG (d), _("Remove format"), GTK_STOCK_REMOVE,
 			 GNM_RESPONSE_REMOVE);
-		gtk_dialog_add_button (GTK_DIALOG (d), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		gtk_dialog_add_button (GTK_DIALOG (d), GNM_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 		gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_CANCEL);
 
 		check = gtk_check_button_new_with_label (_("Show this dialog next time."));

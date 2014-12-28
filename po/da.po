@@ -80,7 +80,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-26 11:42-0500\n"
+"POT-Creation-Date: 2014-12-27 20:12-0500\n"
 "PO-Revision-Date: 2014-12-19 14:05-0500\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -955,9 +955,9 @@ msgstr "Ukendt version"
 msgid "%s version %s"
 msgstr "%s version %s"
 
-#: ../plugins/fn-info/functions.c:1406 ../src/dialogs/dialog-cell-format.c:897
-#: ../src/dialogs/dialog-cell-format.c:2374
-#: ../src/dialogs/dialog-cell-format.c:2382 ../src/wbc-gtk.c:3403
+#: ../plugins/fn-info/functions.c:1406 ../src/dialogs/dialog-cell-format.c:876
+#: ../src/dialogs/dialog-cell-format.c:2354
+#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk.c:3403
 msgid "Automatic"
 msgstr "Automatisk"
 
@@ -1110,24 +1110,24 @@ msgstr ""
 msgid "Database Connection"
 msgstr "Databaseforbindelse"
 
-#: ../plugins/gda/plugin-gda.c:365
+#: ../plugins/gda/plugin-gda.c:363
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Fejl: kunne ikke åbne forbindelse til %s"
 
-#: ../plugins/gda/plugin-gda.c:409
+#: ../plugins/gda/plugin-gda.c:407
 msgid "Format: execSQL(dsn,user,password,sql)"
 msgstr "Format: execSQL(dsn,bruger,adgangskode,sql)"
 
-#: ../plugins/gda/plugin-gda.c:429 ../plugins/gda/plugin-gda.c:508
+#: ../plugins/gda/plugin-gda.c:427 ../plugins/gda/plugin-gda.c:506
 msgid "More than one statement in SQL string"
 msgstr "Mere end et udtryk i SQL-streng"
 
-#: ../plugins/gda/plugin-gda.c:486
+#: ../plugins/gda/plugin-gda.c:484
 msgid "Format: readDBTable(dsn,user,password,table)"
 msgstr "Format: readDBTable(dsn,bruger,adgangskode,tabel)"
 
-#: ../plugins/gda/plugin-gda.c:537 ../plugins/gnome-db/plugin-gnomedb.c:20
+#: ../plugins/gda/plugin-gda.c:535 ../plugins/gnome-db/plugin-gnomedb.c:20
 #, c-format
 msgid "Could not run GNOME database configuration tool ('%s')"
 msgstr "Kunne ikke køre GNOME's databasekonfigurationsværktøj ('%s')"
@@ -1374,17 +1374,17 @@ msgstr "Begrænsning"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1455
-#: ../src/tools/gnm-solver.c:1503 ../src/tools/gnm-solver.c:1563
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1456
+#: ../src/tools/gnm-solver.c:1504 ../src/tools/gnm-solver.c:1564
 msgid "Value"
 msgstr "Værdi"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1456
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1457
 msgid "Type"
 msgstr "Type"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1564
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1565
 msgid "Limit"
 msgstr "Grænse"
 
@@ -4513,7 +4513,7 @@ msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:79
-msgid "Jean Brefort"
+msgid "Jean Bréfort"
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:80
@@ -4582,7 +4582,7 @@ msgstr "Oprindelig værdi"
 msgid "Kjell Eikland"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:96 ../src/dialogs/dialog-about.c:122
+#: ../src/dialogs/dialog-about.c:96 ../src/dialogs/dialog-about.c:124
 #, fuzzy
 msgid "LP-solve"
 msgstr "Løs"
@@ -4597,298 +4597,306 @@ msgid "Custom UI tools"
 msgstr "Tilpas sidefod"
 
 #: ../src/dialogs/dialog-about.c:99
-msgid "John Gotts"
+msgid "Jody Goldberg"
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:100
+msgid "John Gotts"
+msgstr ""
+
+#: ../src/dialogs/dialog-about.c:101
 #, fuzzy
 msgid "RPM packaging"
 msgstr "Erstatter"
 
-#: ../src/dialogs/dialog-about.c:101
+#: ../src/dialogs/dialog-about.c:102
 #, fuzzy
 msgid "Andreas J. Gülzow"
 msgstr "Jon K. Hellan, Gnumeric-hacker."
 
-#: ../src/dialogs/dialog-about.c:102
+#: ../src/dialogs/dialog-about.c:103
 msgid "Statistics and GUI master"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:103
+#: ../src/dialogs/dialog-about.c:104
 #, fuzzy
 msgid "Jon Kåre Hellan"
 msgstr "Jon K. Hellan, Gnumeric-hacker."
 
-#: ../src/dialogs/dialog-about.c:104
+#: ../src/dialogs/dialog-about.c:105
 msgid "UI polish and all round bug fixer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:105
+#: ../src/dialogs/dialog-about.c:106
+msgid "Miguel de Icaza"
+msgstr ""
+
+#: ../src/dialogs/dialog-about.c:107
 msgid "Ross Ihaka"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:106
+#: ../src/dialogs/dialog-about.c:108
 #, fuzzy
 msgid "Special functions"
 msgstr "Finansielle afledede"
 
-#: ../src/dialogs/dialog-about.c:107
+#: ../src/dialogs/dialog-about.c:109
 msgid "Jukka-Pekka Iivonen"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:108
+#: ../src/dialogs/dialog-about.c:110
 msgid "Solver, lots of worksheet functions, and general trailblazer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:109
+#: ../src/dialogs/dialog-about.c:111
 msgid "Jakub Jelínek"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:110
+#: ../src/dialogs/dialog-about.c:112
 msgid "One of the original core contributors"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:111
-msgid "Chris Lahey"
-msgstr ""
-
-#: ../src/dialogs/dialog-about.c:112
-#, fuzzy
-msgid "The original value format engine and libgoffice work"
-msgstr "Chris Lahey, talformatsmotor."
-
 #: ../src/dialogs/dialog-about.c:113
-msgid "Takashi Matsuda"
+msgid "Chris Lahey"
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:114
 #, fuzzy
-msgid "The original text plugin"
-msgstr "Takashi Matsuda, oprindeligt tekstmodul."
+msgid "The original value format engine and libgoffice work"
+msgstr "Chris Lahey, talformatsmotor."
 
 #: ../src/dialogs/dialog-about.c:115
-msgid "Michael Meeks"
+msgid "Takashi Matsuda"
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:116
-msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
-msgstr ""
+#, fuzzy
+msgid "The original text plugin"
+msgstr "Takashi Matsuda, oprindeligt tekstmodul."
 
 #: ../src/dialogs/dialog-about.c:117
-msgid "Lutz Muller"
+msgid "Michael Meeks"
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:118
+msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
+msgstr ""
+
+#: ../src/dialogs/dialog-about.c:119
+msgid "Lutz Muller"
+msgstr ""
+
+#: ../src/dialogs/dialog-about.c:120
 #, fuzzy
 msgid "SheetObject improvement"
 msgstr "Lutz Muller, SheetObject-forbedringer"
 
-#: ../src/dialogs/dialog-about.c:119
+#: ../src/dialogs/dialog-about.c:121
 msgid "Yukihiro Nakai"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:120
+#: ../src/dialogs/dialog-about.c:122
 msgid "Support for non-Latin languages"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:121
+#: ../src/dialogs/dialog-about.c:123
 msgid "Peter Notebaert"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:123
+#: ../src/dialogs/dialog-about.c:125
 msgid "Emmanuel Pacaud"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:124
+#: ../src/dialogs/dialog-about.c:126
 msgid "Many plot types for charting engine."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:125
+#: ../src/dialogs/dialog-about.c:127
 msgid "Federico M. Quintero"
 msgstr "Federico M. Quintero"
 
-#: ../src/dialogs/dialog-about.c:126
+#: ../src/dialogs/dialog-about.c:128
 #, fuzzy
 msgid "canvas support"
 msgstr "Kontraktsupport"
 
-#: ../src/dialogs/dialog-about.c:127
+#: ../src/dialogs/dialog-about.c:129
 msgid "Mark Probst"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:128 ../src/dialogs/dialog-about.c:134
+#: ../src/dialogs/dialog-about.c:130 ../src/dialogs/dialog-about.c:136
 #, fuzzy
 msgid "Guile support"
 msgstr "Ariel Rios, Guile-understøttelse."
 
-#: ../src/dialogs/dialog-about.c:129
+#: ../src/dialogs/dialog-about.c:131
 #, fuzzy
 msgid "Rasca"
 msgstr "Omfang"
 
-#: ../src/dialogs/dialog-about.c:130
+#: ../src/dialogs/dialog-about.c:132
 #, fuzzy
 msgid "HTML, troff, LaTeX exporters"
 msgstr "Rasca-, HTML-, troff- og LaTeX-eksportering."
 
-#: ../src/dialogs/dialog-about.c:131
+#: ../src/dialogs/dialog-about.c:133
 msgid "Vincent Renardias"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:132
+#: ../src/dialogs/dialog-about.c:134
 #, fuzzy
 msgid "original CSV support, French localization"
 msgstr "Vincent Renardias, oprindelig CSV-understøttelse, fransk lokalisering."
 
-#: ../src/dialogs/dialog-about.c:133
+#: ../src/dialogs/dialog-about.c:135
 msgid "Ariel Rios"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:135
+#: ../src/dialogs/dialog-about.c:137
 msgid "Jakub Steiner"
 msgstr "Jakub Steiner"
 
-#: ../src/dialogs/dialog-about.c:136
+#: ../src/dialogs/dialog-about.c:138
 msgid "Icons and Images"
 msgstr "Ikoner og billeder"
 
-#: ../src/dialogs/dialog-about.c:137
+#: ../src/dialogs/dialog-about.c:139
 msgid "Uwe Steinmann"
 msgstr "Uwe Steinmann"
 
-#: ../src/dialogs/dialog-about.c:138
+#: ../src/dialogs/dialog-about.c:140
 #, fuzzy
 msgid "Paradox Importer"
 msgstr "Parametre"
 
-#: ../src/dialogs/dialog-about.c:139
+#: ../src/dialogs/dialog-about.c:141
 msgid "Arturo Tena"
 msgstr "Arturo Tena"
 
-#: ../src/dialogs/dialog-about.c:140
+#: ../src/dialogs/dialog-about.c:142
 msgid "Initial work on OLE2 for libgsf"
 msgstr "Oprindeligt arbejde på OLE2 til libgsf"
 
-#: ../src/dialogs/dialog-about.c:141
+#: ../src/dialogs/dialog-about.c:143
 msgid "Almer S. Tigelaar"
 msgstr "Almer S. Tigelaar"
 
-#: ../src/dialogs/dialog-about.c:142
+#: ../src/dialogs/dialog-about.c:144
 msgid "Consolidation and Structured Text importer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:143
+#: ../src/dialogs/dialog-about.c:145
 msgid "Bruno Unna"
 msgstr "Bruno Unna"
 
-#: ../src/dialogs/dialog-about.c:144
+#: ../src/dialogs/dialog-about.c:146
 #, fuzzy
 msgid "Pieces of MS Excel import"
 msgstr "Linjer at importere"
 
-#: ../src/dialogs/dialog-about.c:145
+#: ../src/dialogs/dialog-about.c:147
 msgid "Arief Mulya Utama"
 msgstr "Arief Mulya Utama"
 
-#: ../src/dialogs/dialog-about.c:146
+#: ../src/dialogs/dialog-about.c:148
 msgid "Telecommunications functions"
 msgstr "Funktioner til telekommunikation"
 
-#: ../src/dialogs/dialog-about.c:147
+#: ../src/dialogs/dialog-about.c:149
 msgid "Daniel Veillard"
 msgstr "Daniel Veillard"
 
-#: ../src/dialogs/dialog-about.c:148
+#: ../src/dialogs/dialog-about.c:150
 msgid "Initial XML support"
 msgstr "Oprindelig XML-understøttelse"
 
-#: ../src/dialogs/dialog-about.c:149
+#: ../src/dialogs/dialog-about.c:151
 msgid "Vladimir Vuksan"
 msgstr "Vladimir Vuksan"
 
-#: ../src/dialogs/dialog-about.c:150
+#: ../src/dialogs/dialog-about.c:152
 msgid "Some financial functions"
 msgstr "Nogle finansielle funktioner"
 
-#: ../src/dialogs/dialog-about.c:151
+#: ../src/dialogs/dialog-about.c:153
 msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
-#: ../src/dialogs/dialog-about.c:152
+#: ../src/dialogs/dialog-about.c:154
 msgid "All round powerhouse"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:153
+#: ../src/dialogs/dialog-about.c:155
 msgid "Kevin Breit"
 msgstr "Kevin Breit"
 
-#: ../src/dialogs/dialog-about.c:154
+#: ../src/dialogs/dialog-about.c:156
 msgid "Thomas Canty"
 msgstr "Thomas Canty"
 
-#: ../src/dialogs/dialog-about.c:155
+#: ../src/dialogs/dialog-about.c:157
 msgid "Adrian Custer"
 msgstr "Adrian Custer"
 
-#: ../src/dialogs/dialog-about.c:156
+#: ../src/dialogs/dialog-about.c:158
 msgid "Adrian Likins"
 msgstr "Adrian Likins"
 
-#: ../src/dialogs/dialog-about.c:157
+#: ../src/dialogs/dialog-about.c:159
 msgid "Aaron Weber"
 msgstr "Aaron Weber"
 
-#: ../src/dialogs/dialog-about.c:158
+#: ../src/dialogs/dialog-about.c:160
 msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
-#: ../src/dialogs/dialog-about.c:433
+#: ../src/dialogs/dialog-about.c:435
 msgid "Gnumeric is the result of"
 msgstr "Gnumeric er et resultat af"
 
 #. Overlap.
-#: ../src/dialogs/dialog-about.c:439
+#: ../src/dialogs/dialog-about.c:441
 msgid "the efforts of many people."
 msgstr "indsatsen fra mange mennesker."
 
 #. Overlap.
-#: ../src/dialogs/dialog-about.c:445
+#: ../src/dialogs/dialog-about.c:447
 msgid "Your help is much appreciated!"
 msgstr "Din hjælp er værdsat!"
 
-#: ../src/dialogs/dialog-about.c:493
+#: ../src/dialogs/dialog-about.c:495
 msgid "We apologize if anyone was left out."
 msgstr "Vi undskylder hvis vi har glemt nogen."
 
 #. Overlap.
-#: ../src/dialogs/dialog-about.c:500
+#: ../src/dialogs/dialog-about.c:502
 msgid "Please contact us to correct mistakes."
 msgstr "Kontakt os for at rette fejl."
 
 #. Overlap.
-#: ../src/dialogs/dialog-about.c:507
+#: ../src/dialogs/dialog-about.c:509
 msgid "Report problems at http://bugzilla.gnome.org"
 msgstr "Indrapporter fejl på http://bugzilla.gnome.org"
 
 #. Overlap.
-#: ../src/dialogs/dialog-about.c:511 ../src/dialogs/dialog-about.c:517
+#: ../src/dialogs/dialog-about.c:513 ../src/dialogs/dialog-about.c:519
 msgid "We aim to please!"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:540
+#: ../src/dialogs/dialog-about.c:542
 msgid "About Gnumeric"
 msgstr "Om Gnumeric"
 
-#: ../src/dialogs/dialog-about.c:543
+#: ../src/dialogs/dialog-about.c:545
 msgid "Visit the Gnumeric website"
 msgstr "Gå til Gnumeric's hjemmeside"
 
-#: ../src/dialogs/dialog-about.c:545
+#: ../src/dialogs/dialog-about.c:547
 #, fuzzy
 msgid "Copyright © 1998-2014"
 msgstr "Ophavsret 1998-2010"
 
-#: ../src/dialogs/dialog-about.c:546
+#: ../src/dialogs/dialog-about.c:548
 msgid "Free, Fast, Accurate - Pick Any Three!"
 msgstr "Fri, hurtig, præcis - vælg alle tre!"
 
@@ -5624,21 +5632,21 @@ msgstr "Ny cellekommentar (%s)"
 
 #. xgettext: This refers to a "none underline"
 #: ../src/dialogs/dialog-cell-format.c:73
-#: ../src/dialogs/dialog-cell-format.c:884
+#: ../src/dialogs/dialog-cell-format.c:863
 #, fuzzy
 msgctxt "underline"
 msgid "None"
 msgstr "Ingen"
 
 #: ../src/dialogs/dialog-cell-format.c:74
-#: ../src/dialogs/dialog-cell-format.c:885
+#: ../src/dialogs/dialog-cell-format.c:864
 #, fuzzy
 msgctxt "underline"
 msgid "Single"
 msgstr "Enkelt"
 
 #: ../src/dialogs/dialog-cell-format.c:75
-#: ../src/dialogs/dialog-cell-format.c:886
+#: ../src/dialogs/dialog-cell-format.c:865
 #, fuzzy
 msgctxt "underline"
 msgid "Double"
@@ -5646,7 +5654,7 @@ msgstr "Dobbelt"
 
 #. xgettext: This refers to a "single low underline"
 #: ../src/dialogs/dialog-cell-format.c:77
-#: ../src/dialogs/dialog-cell-format.c:887
+#: ../src/dialogs/dialog-cell-format.c:866
 #, fuzzy
 msgctxt "underline"
 msgid "Single Low"
@@ -5654,80 +5662,80 @@ msgstr "Enkelt"
 
 #. xgettext: This refers to a "double low underline"
 #: ../src/dialogs/dialog-cell-format.c:79
-#: ../src/dialogs/dialog-cell-format.c:888
+#: ../src/dialogs/dialog-cell-format.c:867
 #, fuzzy
 msgctxt "underline"
 msgid "Double Low"
 msgstr "Dobbelt"
 
-#: ../src/dialogs/dialog-cell-format.c:485 ../src/dialogs/dialog-search.c:155
+#: ../src/dialogs/dialog-cell-format.c:464 ../src/dialogs/dialog-search.c:155
 #: ../src/func.c:1630 ../src/wbc-gtk-actions.c:2733
 msgid "Number"
 msgstr "Tal"
 
-#: ../src/dialogs/dialog-cell-format.c:1732 ../src/dialogs/data-slicer.ui.h:2
+#: ../src/dialogs/dialog-cell-format.c:1711 ../src/dialogs/data-slicer.ui.h:2
 msgid "Source"
 msgstr "Kilde"
 
-#: ../src/dialogs/dialog-cell-format.c:1733
+#: ../src/dialogs/dialog-cell-format.c:1712
 msgid "Criteria"
 msgstr "Kriterium"
 
-#: ../src/dialogs/dialog-cell-format.c:1748
-#: ../src/dialogs/dialog-cell-format.c:1757 ../src/dialogs/so-scrollbar.ui.h:4
+#: ../src/dialogs/dialog-cell-format.c:1727
+#: ../src/dialogs/dialog-cell-format.c:1736 ../src/dialogs/so-scrollbar.ui.h:4
 msgid "Min:"
 msgstr "Min:"
 
-#: ../src/dialogs/dialog-cell-format.c:1749
-#: ../src/dialogs/dialog-cell-format.c:1761 ../src/dialogs/so-scrollbar.ui.h:5
+#: ../src/dialogs/dialog-cell-format.c:1728
+#: ../src/dialogs/dialog-cell-format.c:1740 ../src/dialogs/so-scrollbar.ui.h:5
 msgid "Max:"
 msgstr "Maks:"
 
-#: ../src/dialogs/dialog-cell-format.c:1753
+#: ../src/dialogs/dialog-cell-format.c:1732
 #: ../src/dialogs/doc-meta-data.ui.h:34 ../src/dialogs/so-radiobutton.ui.h:4
 msgid "Value:"
 msgstr "Værdi:"
 
-#: ../src/dialogs/dialog-cell-format.c:1843
+#: ../src/dialogs/dialog-cell-format.c:1822
 msgid "None          (silently accept invalid input)"
 msgstr "Ingen         (acceptér stiltiende ugyldige inddata)"
 
-#: ../src/dialogs/dialog-cell-format.c:1851
+#: ../src/dialogs/dialog-cell-format.c:1830
 msgid "Stop            (never allow invalid input)"
 msgstr "Stop            (tillad aldrig ugyldige inddata)"
 
-#: ../src/dialogs/dialog-cell-format.c:1860
+#: ../src/dialogs/dialog-cell-format.c:1839
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Advarsel    (accepter/fjern ugyldige inddata)"
 
-#: ../src/dialogs/dialog-cell-format.c:1869
+#: ../src/dialogs/dialog-cell-format.c:1848
 msgid "Information (allow invalid input)"
 msgstr "Information (tillad ugyldige inddata)"
 
-#: ../src/dialogs/dialog-cell-format.c:2106
+#: ../src/dialogs/dialog-cell-format.c:2085
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2312 ../src/dialogs/cell-format.ui.h:1
+#: ../src/dialogs/dialog-cell-format.c:2291 ../src/dialogs/cell-format.ui.h:17
 msgid "Format Cells"
 msgstr "Formatér celler"
 
-#: ../src/dialogs/dialog-cell-format.c:2374
-#: ../src/dialogs/cell-format-cond.ui.h:8 ../src/dialogs/cell-format.ui.h:41
+#: ../src/dialogs/dialog-cell-format.c:2354
+#: ../src/dialogs/cell-format-cond.ui.h:8 ../src/dialogs/cell-format.ui.h:57
 msgid "Border"
 msgstr "Kanter"
 
-#: ../src/dialogs/dialog-cell-format.c:2378 ../src/wbc-gtk.c:3450
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk.c:3450
 msgid "Clear Background"
 msgstr "Ryd baggrund"
 
-#: ../src/dialogs/dialog-cell-format.c:2378
-#: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:74
+#: ../src/dialogs/dialog-cell-format.c:2358
+#: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
 #: ../src/wbc-gtk.c:3452 ../src/wbc-gtk.c:3453
 msgid "Background"
 msgstr "Baggrund"
 
-#: ../src/dialogs/dialog-cell-format.c:2382
+#: ../src/dialogs/dialog-cell-format.c:2362
 msgid "Pattern"
 msgstr "Mønster"
 
@@ -6391,8 +6399,8 @@ msgstr "Ark"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2255 ../src/tools/gnm-solver.c:1454
-#: ../src/tools/gnm-solver.c:1502
+#: ../src/sheet-control-gui.c:2255 ../src/tools/gnm-solver.c:1455
+#: ../src/tools/gnm-solver.c:1503
 msgid "Cell"
 msgstr "Celle"
 
@@ -6492,12 +6500,12 @@ msgstr "Inddata data"
 msgid "Merge Field"
 msgstr "Flet felt"
 
-#: ../src/dialogs/dialog-password.c:26
+#: ../src/dialogs/dialog-password.c:27
 #, c-format
 msgid "%s is encrypted"
 msgstr "%s er krypteret"
 
-#: ../src/dialogs/dialog-password.c:28
+#: ../src/dialogs/dialog-password.c:29
 msgid ""
 "Encrypted files require a password\n"
 "before they can be opened."
@@ -6505,7 +6513,7 @@ msgstr ""
 "Krypterede filer kræver en adgangskode\n"
 "før de kan åbnes."
 
-#: ../src/dialogs/dialog-password.c:59
+#: ../src/dialogs/dialog-password.c:60
 msgid "Password :"
 msgstr "Adgangskode :"
 
@@ -6653,7 +6661,7 @@ msgid "Auto Correct"
 msgstr "Automatiske rettelser"
 
 #: ../src/dialogs/dialog-preferences.c:1217
-#: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:22
+#: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
 #: ../src/widgets/gnm-fontbutton.c:1158
 msgid "Font"
 msgstr "Skrifttype"
@@ -7413,12 +7421,12 @@ msgstr "Fejl"
 msgid "Cancelled"
 msgstr "Afbrudt"
 
-#: ../src/dialogs/dialog-solver.c:582 ../src/tools/gnm-solver.c:1481
+#: ../src/dialogs/dialog-solver.c:582 ../src/tools/gnm-solver.c:1482
 #, fuzzy
 msgid "Feasible"
 msgstr "Mulig"
 
-#: ../src/dialogs/dialog-solver.c:586 ../src/tools/gnm-solver.c:1484
+#: ../src/dialogs/dialog-solver.c:586 ../src/tools/gnm-solver.c:1485
 msgid "Optimal"
 msgstr ""
 
@@ -7447,10 +7455,6 @@ msgstr "Stop"
 #: ../src/dialogs/dialog-solver.c:686
 msgid "Stop the running solver"
 msgstr "Stop den kørende løsningsalgoritme"
-
-#: ../src/dialogs/dialog-solver.c:693
-msgid "OK"
-msgstr "O.k."
 
 #: ../src/dialogs/dialog-solver.c:705
 msgid "Solver Status:"
@@ -7693,7 +7697,7 @@ msgid "Widgets"
 msgstr "Kontroller"
 
 #: ../src/dialogs/dialog-workbook-attr.c:199
-#: ../src/dialogs/cell-format-cond.ui.h:10 ../src/dialogs/cell-format.ui.h:79
+#: ../src/dialogs/cell-format-cond.ui.h:10 ../src/dialogs/cell-format.ui.h:95
 msgid "Protection"
 msgstr "Beskyttelse"
 
@@ -7940,11 +7944,11 @@ msgstr "indeholder ikke"
 msgid "Count or percentage:"
 msgstr "Antal eller procent:"
 
-#: ../src/dialogs/autofilter-top10.ui.h:3 ../src/dialogs/cell-format.ui.h:24
+#: ../src/dialogs/autofilter-top10.ui.h:3 ../src/dialogs/cell-format.ui.h:40
 msgid "Top"
 msgstr "Top"
 
-#: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:28
+#: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:44
 #: ../src/wbc-gtk.c:3147
 msgid "Bottom"
 msgstr "Bund"
@@ -7993,19 +7997,19 @@ msgstr "Anvend _justering"
 msgid "_Edges"
 msgstr "_Hjørner"
 
-#: ../src/dialogs/autoformat.ui.h:10 ../src/dialogs/cell-format.ui.h:3
+#: ../src/dialogs/autoformat.ui.h:10 ../src/dialogs/cell-format.ui.h:19
 msgid "_Left"
 msgstr "_Venstre"
 
-#: ../src/dialogs/autoformat.ui.h:11 ../src/dialogs/cell-format.ui.h:9
+#: ../src/dialogs/autoformat.ui.h:11 ../src/dialogs/cell-format.ui.h:25
 msgid "_Right"
 msgstr "_Højre"
 
-#: ../src/dialogs/autoformat.ui.h:12 ../src/dialogs/cell-format.ui.h:13
+#: ../src/dialogs/autoformat.ui.h:12 ../src/dialogs/cell-format.ui.h:29
 msgid "_Top"
 msgstr "_Top"
 
-#: ../src/dialogs/autoformat.ui.h:13 ../src/dialogs/cell-format.ui.h:15
+#: ../src/dialogs/autoformat.ui.h:13 ../src/dialogs/cell-format.ui.h:31
 msgid "_Bottom"
 msgstr "_Bund"
 
@@ -8103,11 +8107,11 @@ msgstr ""
 msgid "Number Format"
 msgstr "Talformat"
 
-#: ../src/dialogs/cell-format-cond.ui.h:6 ../src/dialogs/cell-format.ui.h:21
+#: ../src/dialogs/cell-format-cond.ui.h:6 ../src/dialogs/cell-format.ui.h:37
 msgid "Alignment"
 msgstr "Justering"
 
-#: ../src/dialogs/cell-format-cond.ui.h:11 ../src/dialogs/cell-format.ui.h:89
+#: ../src/dialogs/cell-format-cond.ui.h:11 ../src/dialogs/cell-format.ui.h:105
 msgid "Validation"
 msgstr "Datagyldighedskontrol"
 
@@ -8120,378 +8124,378 @@ msgstr "Stil:"
 msgid "_Edit Style"
 msgstr "_Rediger stil"
 
-#: ../src/dialogs/cell-format.ui.h:2
-msgid "<b>Horizontal alignment</b>"
-msgstr "<b>Vandret justering</b>"
-
-#: ../src/dialogs/cell-format.ui.h:4
-msgid "_General"
-msgstr "_Generelt"
-
-#: ../src/dialogs/cell-format.ui.h:5
-msgid "Center across _selection"
-msgstr "Centrer hen over _markering"
-
-#: ../src/dialogs/cell-format.ui.h:6
-msgid "_Indent:"
-msgstr "_Indryk"
-
-#: ../src/dialogs/cell-format.ui.h:7
-msgid "<b>Vertical alignment</b>"
-msgstr "<b>Lodret justering</b>"
-
-#: ../src/dialogs/cell-format.ui.h:8
-msgid "Ce_nter"
-msgstr "Centrér"
-
-#: ../src/dialogs/cell-format.ui.h:10
-msgid "_Fill"
-msgstr "_Udfyld"
-
-#: ../src/dialogs/cell-format.ui.h:11
-msgid "_Justify"
-msgstr "_Justér"
-
-#: ../src/dialogs/cell-format.ui.h:12
-msgid "D_istributed"
-msgstr "_Fordelt"
-
-#: ../src/dialogs/cell-format.ui.h:14
-msgid "C_enter"
-msgstr "_Centrér"
-
-#: ../src/dialogs/cell-format.ui.h:16
-msgid "J_ustify"
-msgstr "J_ustér"
-
-#: ../src/dialogs/cell-format.ui.h:17
-msgid "_Distributed"
-msgstr "F_ordelt"
-
-#: ../src/dialogs/cell-format.ui.h:18
-msgid "<b>Control</b>"
-msgstr "<b>Kontrol</b>"
-
-#: ../src/dialogs/cell-format.ui.h:19
-msgid "_Wrap text"
-msgstr "_Ombryd tekst"
-
-#: ../src/dialogs/cell-format.ui.h:20
-msgid "Shrin_k to fit"
-msgstr "Forminds_k for at passe"
-
-#: ../src/dialogs/cell-format.ui.h:23
-msgid "Reverse Diagonal"
-msgstr "Omvendt diagonal"
-
-#: ../src/dialogs/cell-format.ui.h:25
-msgid "Diagonal"
-msgstr "Diagonal"
-
-#. start sub menu
-#: ../src/dialogs/cell-format.ui.h:26 ../src/sheet-control-gui.c:2235
-#: ../src/wbc-gtk.c:3139
-msgid "Left"
-msgstr "Venstre"
-
-#: ../src/dialogs/cell-format.ui.h:27 ../src/sheet-control-gui.c:2238
-#: ../src/wbc-gtk.c:3141
-msgid "Right"
-msgstr "Højre"
-
-#: ../src/dialogs/cell-format.ui.h:29 ../src/widgets/gnumeric-text-view.c:282
-msgid "None"
-msgstr "Ingen"
-
-#. Cell border
-#: ../src/dialogs/cell-format.ui.h:31
-msgctxt "border"
-msgid "None"
-msgstr "Ingen"
-
-#: ../src/dialogs/cell-format.ui.h:32
-msgid "Outline"
-msgstr "Omrids"
-
-#: ../src/dialogs/cell-format.ui.h:33
-msgid "Inside Vertical"
-msgstr "Indvendig lodret"
-
-#: ../src/dialogs/cell-format.ui.h:34
-msgid "Inside"
-msgstr "Indvendig"
-
-#: ../src/dialogs/cell-format.ui.h:35
-msgid "Inside Horizontal"
-msgstr "Indvendig vandret"
-
-#: ../src/dialogs/cell-format.ui.h:36
-msgid "<b>Line</b>"
-msgstr "<b>Linje</b>"
-
-#: ../src/dialogs/cell-format.ui.h:37
-msgid "Style:"
-msgstr "Stil:"
-
-#. Cell border line
-#: ../src/dialogs/cell-format.ui.h:39
-msgctxt "line"
-msgid "None"
-msgstr "Ingen"
-
-#: ../src/dialogs/cell-format.ui.h:40
-msgid "C_olor:"
-msgstr "_Farve:"
-
-#: ../src/dialogs/cell-format.ui.h:42
-msgid "<b>Background</b>"
-msgstr "<b>Baggrund</b>"
-
-# stikprøve kolliderer med at det bruges i betydningen "et eksempel"
-#: ../src/dialogs/cell-format.ui.h:43
-msgid "<b>Sample</b>"
-msgstr "<b>Prøve</b>"
-
-#: ../src/dialogs/cell-format.ui.h:44
-msgid "<b>Pattern</b>"
-msgstr "<b>Mønster</b>"
-
-#: ../src/dialogs/cell-format.ui.h:45
-msgid "Solid"
-msgstr "Ensfarvet"
-
-#: ../src/dialogs/cell-format.ui.h:47
-#, no-c-format
-msgid "75% Grey"
-msgstr "75% grå"
-
-#: ../src/dialogs/cell-format.ui.h:49
-#, no-c-format
-msgid "50% Grey"
-msgstr "50% grå"
-
-#: ../src/dialogs/cell-format.ui.h:51
-#, no-c-format
-msgid "25% Grey"
-msgstr "25% grå"
-
-#: ../src/dialogs/cell-format.ui.h:53
-#, no-c-format
-msgid "12.5% Grey"
-msgstr "12,5% grå"
-
-#: ../src/dialogs/cell-format.ui.h:55
-#, no-c-format
-msgid "6.25% Grey"
-msgstr "6,25% grå"
-
-#: ../src/dialogs/cell-format.ui.h:56
-msgid "Horizontal Stripe"
-msgstr "Vandret stribe"
-
-#: ../src/dialogs/cell-format.ui.h:57
-msgid "Vertical Stripe"
-msgstr "Lodret stribe"
-
-#: ../src/dialogs/cell-format.ui.h:58
-msgid "Reverse Diagonal Stripe"
-msgstr "Omvendt diagonal stribe"
-
-#: ../src/dialogs/cell-format.ui.h:59
-msgid "Diagonal Stripe"
-msgstr "Diagonal stribe"
-
-#: ../src/dialogs/cell-format.ui.h:60
-msgid "Diagonal Crosshatch"
-msgstr "Diagonal krydsskravering"
-
-#: ../src/dialogs/cell-format.ui.h:61
-msgid "Thick Diagonal Crosshatch"
-msgstr "Tyk diagonal krydsskravering"
-
-#: ../src/dialogs/cell-format.ui.h:62
-msgid "Thin Horizontal Stripe"
-msgstr "Tynd vandret stribe"
-
-#: ../src/dialogs/cell-format.ui.h:63
-msgid "Thin Vertical Stripe"
-msgstr "Tynd lodret stribe"
-
-#: ../src/dialogs/cell-format.ui.h:64
-msgid "Thin Reverse Diagonal Stripe"
-msgstr "Tynd omvendt diagonal stribe"
-
-#: ../src/dialogs/cell-format.ui.h:65
-msgid "Thin Diagonal Stripe"
-msgstr "Tynd diagonal stribe"
-
-#: ../src/dialogs/cell-format.ui.h:66
-msgid "Thin Horizontal Crosshatch"
-msgstr "Tynd vandret krydsskravering"
-
-#: ../src/dialogs/cell-format.ui.h:67
-msgid "Thin Diagonal Crosshatch"
-msgstr "Tynd diagonal krydsskravering"
-
-#: ../src/dialogs/cell-format.ui.h:68
-msgid "Foreground Solid"
-msgstr "Ensfarvet forgrund"
-
-#: ../src/dialogs/cell-format.ui.h:69
-msgid "Small Circles"
-msgstr "Små cirkler"
-
-#: ../src/dialogs/cell-format.ui.h:70
-msgid "Semi Circles"
-msgstr "Halvcirkler"
-
-#: ../src/dialogs/cell-format.ui.h:71
-msgid "Thatch"
-msgstr "Stråtag"
-
-#: ../src/dialogs/cell-format.ui.h:72
-msgid "Large Circles"
-msgstr "Store cirkler"
-
-#: ../src/dialogs/cell-format.ui.h:73
-msgid "Bricks"
-msgstr "Mursten"
-
-#: ../src/dialogs/cell-format.ui.h:75
-msgid "_Lock"
-msgstr "_Låst"
-
-#: ../src/dialogs/cell-format.ui.h:76
-msgid "Hi_de"
-msgstr "Skjul"
-
-#: ../src/dialogs/cell-format.ui.h:77
-msgid "Locking cells or hiding formulæ only affects protected worksheets."
-msgstr ""
-"Låsning af celler eller skjulning af formler påvirker kun beskyttede "
-"arbejdsark."
-
-#: ../src/dialogs/cell-format.ui.h:78
-msgid "_Protect worksheet"
-msgstr "_Beskyt arbejdsark"
-
-#: ../src/dialogs/cell-format.ui.h:80
-msgid "<span weight=\"bold\">Criteria</span>"
-msgstr "<span weight=\"bold\">Kriterium</span>"
-
-#: ../src/dialogs/cell-format.ui.h:81
-msgid "Allo_w:"
-msgstr "_Tillad:"
-
-#: ../src/dialogs/cell-format.ui.h:82
-msgid "Con_dition:"
-msgstr "Betingelse:"
-
-#: ../src/dialogs/cell-format.ui.h:83
-msgid "Ignore _blank cells"
-msgstr "Ignorér tomme celler"
-
-#: ../src/dialogs/cell-format.ui.h:84
-#, fuzzy
-msgid "I_n-cell dropdown"
-msgstr "Menuvalg i celle"
-
-#: ../src/dialogs/cell-format.ui.h:85
-#, fuzzy
-msgid "<b>Error alerts</b>"
-msgstr "Fejlbesked"
-
-#: ../src/dialogs/cell-format.ui.h:86
-msgid "Ac_tion:"
-msgstr "_Handling:"
-
-#: ../src/dialogs/cell-format.ui.h:87
-msgid "Titl_e:"
-msgstr "Titel:"
-
-#: ../src/dialogs/cell-format.ui.h:88
-msgid "_Message:"
-msgstr "Meddelelse:"
-
-#: ../src/dialogs/cell-format.ui.h:90
-msgid "_Show input message when cell is selected"
-msgstr "Vis indtastningsmeddelelse når cellen vælges"
-
-#: ../src/dialogs/cell-format.ui.h:91
-msgid "Input Message"
-msgstr "Indtastningsmeddelelse"
-
-#: ../src/dialogs/cell-format.ui.h:92
+#: ../src/dialogs/cell-format.ui.h:1
 msgid "Any Value     (no validation)"
 msgstr ""
 
-#: ../src/dialogs/cell-format.ui.h:93
+#: ../src/dialogs/cell-format.ui.h:2
 msgid "Whole numbers"
 msgstr ""
 
-#: ../src/dialogs/cell-format.ui.h:94
+#: ../src/dialogs/cell-format.ui.h:3
 #, fuzzy
 msgid "Numbers"
 msgstr "Tal"
 
-#: ../src/dialogs/cell-format.ui.h:95
+#: ../src/dialogs/cell-format.ui.h:4
 #, fuzzy
 msgid "In a list"
 msgstr "En simpel liste"
 
-#: ../src/dialogs/cell-format.ui.h:96 ../src/dialogs/hf-config.ui.h:8
+#: ../src/dialogs/cell-format.ui.h:5 ../src/dialogs/hf-config.ui.h:8
 #: ../src/wbc-gtk-actions.c:2748
 msgid "Date"
 msgstr "Dato"
 
-#: ../src/dialogs/cell-format.ui.h:97 ../src/dialogs/hf-config.ui.h:10
+#: ../src/dialogs/cell-format.ui.h:6 ../src/dialogs/hf-config.ui.h:10
 #: ../src/tools/analysis-exp-smoothing.c:728
 #: ../src/tools/analysis-exp-smoothing.c:1048
 #: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:2751
 msgid "Time"
 msgstr "Tid"
 
-#: ../src/dialogs/cell-format.ui.h:98
+#: ../src/dialogs/cell-format.ui.h:7
 msgid "Text length"
 msgstr ""
 
 # skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret virker som overkill)
-#: ../src/dialogs/cell-format.ui.h:99 ../src/dialogs/dialog-stf-export.ui.h:16
+#: ../src/dialogs/cell-format.ui.h:8 ../src/dialogs/dialog-stf-export.ui.h:16
 #, fuzzy
 msgid "Custom"
 msgstr "_Selvvalgt"
 
-#: ../src/dialogs/cell-format.ui.h:100
+#: ../src/dialogs/cell-format.ui.h:9
 msgid "min <= val <= max         (between)"
 msgstr ""
 
-#: ../src/dialogs/cell-format.ui.h:101
+#: ../src/dialogs/cell-format.ui.h:10
 msgid "val <= min || max <= val (not between)"
 msgstr ""
 
-#: ../src/dialogs/cell-format.ui.h:102
+#: ../src/dialogs/cell-format.ui.h:11
 msgid "val == bound                  (equal to)"
 msgstr ""
 
-#: ../src/dialogs/cell-format.ui.h:103
+#: ../src/dialogs/cell-format.ui.h:12
 msgid "val <> bound                  (not equal to)"
 msgstr ""
 
-#: ../src/dialogs/cell-format.ui.h:104
+#: ../src/dialogs/cell-format.ui.h:13
 msgid "val  >  bound                  (greater than)"
 msgstr ""
 
-#: ../src/dialogs/cell-format.ui.h:105
+#: ../src/dialogs/cell-format.ui.h:14
 msgid "val  <  bound                  (less than)"
 msgstr ""
 
-#: ../src/dialogs/cell-format.ui.h:106
+#: ../src/dialogs/cell-format.ui.h:15
 msgid "val >= bound                  (greater than or equal)"
 msgstr ""
 
-#: ../src/dialogs/cell-format.ui.h:107
+#: ../src/dialogs/cell-format.ui.h:16
 msgid "val <= bound                  (less than or equal)"
 msgstr ""
+
+#: ../src/dialogs/cell-format.ui.h:18
+msgid "<b>Horizontal alignment</b>"
+msgstr "<b>Vandret justering</b>"
+
+#: ../src/dialogs/cell-format.ui.h:20
+msgid "_General"
+msgstr "_Generelt"
+
+#: ../src/dialogs/cell-format.ui.h:21
+msgid "Center across _selection"
+msgstr "Centrer hen over _markering"
+
+#: ../src/dialogs/cell-format.ui.h:22
+msgid "_Indent:"
+msgstr "_Indryk"
+
+#: ../src/dialogs/cell-format.ui.h:23
+msgid "<b>Vertical alignment</b>"
+msgstr "<b>Lodret justering</b>"
+
+#: ../src/dialogs/cell-format.ui.h:24
+msgid "Ce_nter"
+msgstr "Centrér"
+
+#: ../src/dialogs/cell-format.ui.h:26
+msgid "_Fill"
+msgstr "_Udfyld"
+
+#: ../src/dialogs/cell-format.ui.h:27
+msgid "_Justify"
+msgstr "_Justér"
+
+#: ../src/dialogs/cell-format.ui.h:28
+msgid "D_istributed"
+msgstr "_Fordelt"
+
+#: ../src/dialogs/cell-format.ui.h:30
+msgid "C_enter"
+msgstr "_Centrér"
+
+#: ../src/dialogs/cell-format.ui.h:32
+msgid "J_ustify"
+msgstr "J_ustér"
+
+#: ../src/dialogs/cell-format.ui.h:33
+msgid "_Distributed"
+msgstr "F_ordelt"
+
+#: ../src/dialogs/cell-format.ui.h:34
+msgid "<b>Control</b>"
+msgstr "<b>Kontrol</b>"
+
+#: ../src/dialogs/cell-format.ui.h:35
+msgid "_Wrap text"
+msgstr "_Ombryd tekst"
+
+#: ../src/dialogs/cell-format.ui.h:36
+msgid "Shrin_k to fit"
+msgstr "Forminds_k for at passe"
+
+#: ../src/dialogs/cell-format.ui.h:39
+msgid "Reverse Diagonal"
+msgstr "Omvendt diagonal"
+
+#: ../src/dialogs/cell-format.ui.h:41
+msgid "Diagonal"
+msgstr "Diagonal"
+
+#. start sub menu
+#: ../src/dialogs/cell-format.ui.h:42 ../src/sheet-control-gui.c:2235
+#: ../src/wbc-gtk.c:3139
+msgid "Left"
+msgstr "Venstre"
+
+#: ../src/dialogs/cell-format.ui.h:43 ../src/sheet-control-gui.c:2238
+#: ../src/wbc-gtk.c:3141
+msgid "Right"
+msgstr "Højre"
+
+#: ../src/dialogs/cell-format.ui.h:45 ../src/widgets/gnumeric-text-view.c:282
+msgid "None"
+msgstr "Ingen"
+
+#. Cell border
+#: ../src/dialogs/cell-format.ui.h:47
+msgctxt "border"
+msgid "None"
+msgstr "Ingen"
+
+#: ../src/dialogs/cell-format.ui.h:48
+msgid "Outline"
+msgstr "Omrids"
+
+#: ../src/dialogs/cell-format.ui.h:49
+msgid "Inside Vertical"
+msgstr "Indvendig lodret"
+
+#: ../src/dialogs/cell-format.ui.h:50
+msgid "Inside"
+msgstr "Indvendig"
+
+#: ../src/dialogs/cell-format.ui.h:51
+msgid "Inside Horizontal"
+msgstr "Indvendig vandret"
+
+#: ../src/dialogs/cell-format.ui.h:52
+msgid "<b>Line</b>"
+msgstr "<b>Linje</b>"
+
+#: ../src/dialogs/cell-format.ui.h:53
+msgid "Style:"
+msgstr "Stil:"
+
+#. Cell border line
+#: ../src/dialogs/cell-format.ui.h:55
+msgctxt "line"
+msgid "None"
+msgstr "Ingen"
+
+#: ../src/dialogs/cell-format.ui.h:56
+msgid "C_olor:"
+msgstr "_Farve:"
+
+#: ../src/dialogs/cell-format.ui.h:58
+msgid "<b>Background</b>"
+msgstr "<b>Baggrund</b>"
+
+# stikprøve kolliderer med at det bruges i betydningen "et eksempel"
+#: ../src/dialogs/cell-format.ui.h:59
+msgid "<b>Sample</b>"
+msgstr "<b>Prøve</b>"
+
+#: ../src/dialogs/cell-format.ui.h:60
+msgid "<b>Pattern</b>"
+msgstr "<b>Mønster</b>"
+
+#: ../src/dialogs/cell-format.ui.h:61
+msgid "Solid"
+msgstr "Ensfarvet"
+
+#: ../src/dialogs/cell-format.ui.h:63
+#, no-c-format
+msgid "75% Grey"
+msgstr "75% grå"
+
+#: ../src/dialogs/cell-format.ui.h:65
+#, no-c-format
+msgid "50% Grey"
+msgstr "50% grå"
+
+#: ../src/dialogs/cell-format.ui.h:67
+#, no-c-format
+msgid "25% Grey"
+msgstr "25% grå"
+
+#: ../src/dialogs/cell-format.ui.h:69
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "12,5% grå"
+
+#: ../src/dialogs/cell-format.ui.h:71
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "6,25% grå"
+
+#: ../src/dialogs/cell-format.ui.h:72
+msgid "Horizontal Stripe"
+msgstr "Vandret stribe"
+
+#: ../src/dialogs/cell-format.ui.h:73
+msgid "Vertical Stripe"
+msgstr "Lodret stribe"
+
+#: ../src/dialogs/cell-format.ui.h:74
+msgid "Reverse Diagonal Stripe"
+msgstr "Omvendt diagonal stribe"
+
+#: ../src/dialogs/cell-format.ui.h:75
+msgid "Diagonal Stripe"
+msgstr "Diagonal stribe"
+
+#: ../src/dialogs/cell-format.ui.h:76
+msgid "Diagonal Crosshatch"
+msgstr "Diagonal krydsskravering"
+
+#: ../src/dialogs/cell-format.ui.h:77
+msgid "Thick Diagonal Crosshatch"
+msgstr "Tyk diagonal krydsskravering"
+
+#: ../src/dialogs/cell-format.ui.h:78
+msgid "Thin Horizontal Stripe"
+msgstr "Tynd vandret stribe"
+
+#: ../src/dialogs/cell-format.ui.h:79
+msgid "Thin Vertical Stripe"
+msgstr "Tynd lodret stribe"
+
+#: ../src/dialogs/cell-format.ui.h:80
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Tynd omvendt diagonal stribe"
+
+#: ../src/dialogs/cell-format.ui.h:81
+msgid "Thin Diagonal Stripe"
+msgstr "Tynd diagonal stribe"
+
+#: ../src/dialogs/cell-format.ui.h:82
+msgid "Thin Horizontal Crosshatch"
+msgstr "Tynd vandret krydsskravering"
+
+#: ../src/dialogs/cell-format.ui.h:83
+msgid "Thin Diagonal Crosshatch"
+msgstr "Tynd diagonal krydsskravering"
+
+#: ../src/dialogs/cell-format.ui.h:84
+msgid "Foreground Solid"
+msgstr "Ensfarvet forgrund"
+
+#: ../src/dialogs/cell-format.ui.h:85
+msgid "Small Circles"
+msgstr "Små cirkler"
+
+#: ../src/dialogs/cell-format.ui.h:86
+msgid "Semi Circles"
+msgstr "Halvcirkler"
+
+#: ../src/dialogs/cell-format.ui.h:87
+msgid "Thatch"
+msgstr "Stråtag"
+
+#: ../src/dialogs/cell-format.ui.h:88
+msgid "Large Circles"
+msgstr "Store cirkler"
+
+#: ../src/dialogs/cell-format.ui.h:89
+msgid "Bricks"
+msgstr "Mursten"
+
+#: ../src/dialogs/cell-format.ui.h:91
+msgid "_Lock"
+msgstr "_Låst"
+
+#: ../src/dialogs/cell-format.ui.h:92
+msgid "Hi_de"
+msgstr "Skjul"
+
+#: ../src/dialogs/cell-format.ui.h:93
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
+msgstr ""
+"Låsning af celler eller skjulning af formler påvirker kun beskyttede "
+"arbejdsark."
+
+#: ../src/dialogs/cell-format.ui.h:94
+msgid "_Protect worksheet"
+msgstr "_Beskyt arbejdsark"
+
+#: ../src/dialogs/cell-format.ui.h:96
+msgid "<span weight=\"bold\">Criteria</span>"
+msgstr "<span weight=\"bold\">Kriterium</span>"
+
+#: ../src/dialogs/cell-format.ui.h:97
+msgid "Allo_w:"
+msgstr "_Tillad:"
+
+#: ../src/dialogs/cell-format.ui.h:98
+msgid "Con_dition:"
+msgstr "Betingelse:"
+
+#: ../src/dialogs/cell-format.ui.h:99
+msgid "Ignore _blank cells"
+msgstr "Ignorér tomme celler"
+
+#: ../src/dialogs/cell-format.ui.h:100
+#, fuzzy
+msgid "I_n-cell dropdown"
+msgstr "Menuvalg i celle"
+
+#: ../src/dialogs/cell-format.ui.h:101
+#, fuzzy
+msgid "<b>Error alerts</b>"
+msgstr "Fejlbesked"
+
+#: ../src/dialogs/cell-format.ui.h:102
+msgid "Ac_tion:"
+msgstr "_Handling:"
+
+#: ../src/dialogs/cell-format.ui.h:103
+msgid "Titl_e:"
+msgstr "Titel:"
+
+#: ../src/dialogs/cell-format.ui.h:104
+msgid "_Message:"
+msgstr "Meddelelse:"
+
+#: ../src/dialogs/cell-format.ui.h:106
+msgid "_Show input message when cell is selected"
+msgstr "Vis indtastningsmeddelelse når cellen vælges"
+
+#: ../src/dialogs/cell-format.ui.h:107
+msgid "Input Message"
+msgstr "Indtastningsmeddelelse"
 
 #: ../src/dialogs/cell-sort.ui.h:1
 msgid "Sort..."
@@ -11678,7 +11682,7 @@ msgstr "Inddatavariabler:"
 msgid "Output variables:"
 msgstr "Inddata-_mærkater"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1500
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1501
 msgid "Variables"
 msgstr "Variabler"
 
@@ -11861,7 +11865,7 @@ msgid "Re_place"
 msgstr "_Erstat"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:20 ../src/tools/gnm-solver.c:1559
+#: ../src/dialogs/solver.ui.h:20 ../src/tools/gnm-solver.c:1560
 msgid "Constraints"
 msgstr "Begrænsninger"
 
@@ -11914,12 +11918,12 @@ msgstr ""
 msgid "="
 msgstr ""
 
-#: ../src/dialogs/solver.ui.h:34 ../src/tools/gnm-solver.c:383
+#: ../src/dialogs/solver.ui.h:34 ../src/tools/gnm-solver.c:384
 #, fuzzy
 msgid "Int"
 msgstr "Inddata"
 
-#: ../src/dialogs/solver.ui.h:35 ../src/tools/gnm-solver.c:384
+#: ../src/dialogs/solver.ui.h:35 ../src/tools/gnm-solver.c:385
 #, fuzzy
 msgid "Bool"
 msgstr "Fed"
@@ -12564,6 +12568,31 @@ msgstr ""
 msgid "The %s plugin is required but is not loaded."
 msgstr ""
 
+#: ../src/gui-util.h:155
+msgctxt "Stock label"
+msgid "_Open"
+msgstr "_Åbn"
+
+#: ../src/gui-util.h:158
+msgctxt "Stock label"
+msgid "_Save"
+msgstr "_Gem"
+
+#: ../src/gui-util.h:161
+msgctxt "Stock label"
+msgid "Save _As"
+msgstr "Gem _som"
+
+#: ../src/gui-util.h:164
+msgctxt "Stock label"
+msgid "_Cancel"
+msgstr "_Annullér"
+
+#: ../src/gui-util.h:167
+msgctxt "Stock label"
+msgid "_OK"
+msgstr "O.k."
+
 #: ../src/hlink.c:171 ../src/hlink.c:187
 #, fuzzy
 msgid "Link target"
@@ -12664,23 +12693,23 @@ msgstr ""
 msgid "Drag to move"
 msgstr ""
 
-#: ../src/libgnumeric.c:82
+#: ../src/libgnumeric.c:143
 msgid "Display Gnumeric's version"
 msgstr "Vis Gnumerics versionsnummer"
 
-#: ../src/libgnumeric.c:91
+#: ../src/libgnumeric.c:152
 msgid "Set the root library directory"
 msgstr "Sæt rodkataloget for biblioteker"
 
-#: ../src/libgnumeric.c:92 ../src/libgnumeric.c:98
+#: ../src/libgnumeric.c:153 ../src/libgnumeric.c:159
 msgid "DIR"
 msgstr ""
 
-#: ../src/libgnumeric.c:97
+#: ../src/libgnumeric.c:158
 msgid "Adjust the root data directory"
 msgstr "Ændr rodkataloget for data"
 
-#: ../src/libgnumeric.c:114
+#: ../src/libgnumeric.c:175
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12691,12 +12720,12 @@ msgstr ""
 "datakatalog := %s\n"
 "bibkatalog := %s\n"
 
-#: ../src/libgnumeric.c:138
+#: ../src/libgnumeric.c:199
 #, fuzzy
 msgid "Gnumeric Options"
 msgstr "Gnumeric: Datagyldighedskontrol"
 
-#: ../src/libgnumeric.c:138
+#: ../src/libgnumeric.c:199
 #, fuzzy
 msgid "Show Gnumeric Options"
 msgstr "Gnumeric: Datagyldighedskontrol"
@@ -13367,11 +13396,6 @@ msgstr "Ukendt fejl ved gemning af billede"
 #: ../src/sheet-object-component.c:194
 msgid "Save as"
 msgstr "Gem som"
-
-#: ../src/sheet-object-component.c:270
-#, fuzzy
-msgid "_Save As"
-msgstr "_Gem som"
 
 #: ../src/sheet-object-component.c:271 ../src/sheet-object-graph.c:399
 #: ../src/sheet-object-image.c:364
@@ -14885,105 +14909,105 @@ msgstr ""
 msgid "Advanced Filter (%s)"
 msgstr "Avanceret filter (%s)"
 
-#: ../src/tools/gnm-solver.c:593
+#: ../src/tools/gnm-solver.c:594
 #, fuzzy, c-format
 msgid "Invalid solver target"
 msgstr "Ugyldigt antal parametre"
 
-#: ../src/tools/gnm-solver.c:605
+#: ../src/tools/gnm-solver.c:606
 #, fuzzy, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "Målcellen bør indholde et udtryk"
 
-#: ../src/tools/gnm-solver.c:615
+#: ../src/tools/gnm-solver.c:616
 #, fuzzy, c-format
 msgid "Invalid solver input range"
 msgstr "Ugyldigt scenarienavn"
 
-#: ../src/tools/gnm-solver.c:626
+#: ../src/tools/gnm-solver.c:627
 #, fuzzy, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Målcellen bør indholde et udtryk"
 
-#: ../src/tools/gnm-solver.c:641
+#: ../src/tools/gnm-solver.c:642
 #, fuzzy, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Søgeintervallet er ugyldigt."
 
-#: ../src/tools/gnm-solver.c:977
+#: ../src/tools/gnm-solver.c:978
 msgid "Timeout"
 msgstr "Tidsudløb"
 
-#: ../src/tools/gnm-solver.c:1234
+#: ../src/tools/gnm-solver.c:1235
 #, fuzzy, c-format
 msgid "Failed to create file for linear program"
 msgstr "Kan ikke oprette midlertidig fil."
 
-#: ../src/tools/gnm-solver.c:1243
+#: ../src/tools/gnm-solver.c:1244
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Kunne ikke oprette lineær programfil"
 
-#: ../src/tools/gnm-solver.c:1263
+#: ../src/tools/gnm-solver.c:1264
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Kunne ikke gemme lineært program"
 
-#: ../src/tools/gnm-solver.c:1453
+#: ../src/tools/gnm-solver.c:1454
 #, fuzzy
 msgid "Target"
 msgstr "_Listeinterval:"
 
-#: ../src/tools/gnm-solver.c:1457
+#: ../src/tools/gnm-solver.c:1458
 #, fuzzy
 msgid "Status"
 msgstr "status"
 
-#: ../src/tools/gnm-solver.c:1470
+#: ../src/tools/gnm-solver.c:1471
 #, fuzzy
 msgid "Minimize"
 msgstr "Minimum"
 
-#: ../src/tools/gnm-solver.c:1473
+#: ../src/tools/gnm-solver.c:1474
 #, fuzzy
 msgid "Maximize"
 msgstr "Maksimum"
 
-#: ../src/tools/gnm-solver.c:1504
+#: ../src/tools/gnm-solver.c:1505
 #, fuzzy
 msgid "Lower"
 msgstr "Indlæser"
 
-#: ../src/tools/gnm-solver.c:1505
+#: ../src/tools/gnm-solver.c:1506
 msgid "Upper"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1506 ../src/tools/gnm-solver.c:1565
+#: ../src/tools/gnm-solver.c:1507 ../src/tools/gnm-solver.c:1566
 #, fuzzy
 msgid "Slack"
 msgstr "Sort"
 
-#: ../src/tools/gnm-solver.c:1540
+#: ../src/tools/gnm-solver.c:1541
 #, fuzzy
 msgid "At limit"
 msgstr "Grænse"
 
-#: ../src/tools/gnm-solver.c:1544
+#: ../src/tools/gnm-solver.c:1545
 #, fuzzy
 msgid "Outside bounds"
 msgstr "Kanter udenom"
 
-#: ../src/tools/gnm-solver.c:1562
+#: ../src/tools/gnm-solver.c:1563
 #, fuzzy
 msgid "Condition"
 msgstr "Betingelse:"
 
-#: ../src/tools/gnm-solver.c:1567
+#: ../src/tools/gnm-solver.c:1568
 #, fuzzy
 msgid "No constraints"
 msgstr "Begrænsninger"
 
-#: ../src/tools/gnm-solver.c:2021
+#: ../src/tools/gnm-solver.c:2022
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14992,12 +15016,12 @@ msgid ""
 "Would you like to locate it yourself?"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:2025
+#: ../src/tools/gnm-solver.c:2026
 #, fuzzy, c-format
 msgid "Unable to locate %s"
 msgstr "kan ikke åbne filen '%s'"
 
-#: ../src/tools/gnm-solver.c:2041
+#: ../src/tools/gnm-solver.c:2042
 #, c-format
 msgid "Locate the %s program"
 msgstr ""
@@ -15633,25 +15657,13 @@ msgstr "_Ny"
 msgid "Create a new workbook"
 msgstr "Opret ny arbejdsbog"
 
-#: ../src/wbc-gtk-actions.c:2003
-msgid "_Open"
-msgstr "_Åbn"
-
 #: ../src/wbc-gtk-actions.c:2004
 msgid "Open a file"
 msgstr "Importerer en fil"
 
-#: ../src/wbc-gtk-actions.c:2006
-msgid "_Save"
-msgstr "_Gem"
-
 #: ../src/wbc-gtk-actions.c:2007
 msgid "Save the current workbook"
 msgstr "Gem den aktuelle arbejdsbog"
-
-#: ../src/wbc-gtk-actions.c:2009
-msgid "Save _As"
-msgstr "Gem _som"
 
 #: ../src/wbc-gtk-actions.c:2010
 msgid "Save the current workbook with a different name"
@@ -18474,3 +18486,10 @@ msgstr "Navn på skabelon"
 #, fuzzy
 msgid "A simple list template"
 msgstr "Navn på skabelon"
+
+#~ msgid "OK"
+#~ msgstr "O.k."
+
+#, fuzzy
+#~ msgid "_Save As"
+#~ msgstr "_Gem som"
