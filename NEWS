@@ -16,6 +16,8 @@ Morten:
 	* Fix xlsx export of HYPGEOMDIST.
 	* Fix xlsx export of document properties.
 	* Fix multihead issue with graph windows.
+	* Improve test suite.
+	* Reorganize icon handling.
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739697]
