@@ -3704,7 +3704,7 @@ wbc_gtk_init_font_name (WBCGtk *gtk, gboolean horiz)
 		 "visible-horizontal", horiz,
 		 "name", (horiz ? "FontName" : "VFontName"),
 		 "tooltip", _("Change font"),
-		 "stock-id", GTK_STOCK_SELECT_FONT,
+		 "icon-name", "gnumeric-font",
 		 NULL);
 
 	g_object_set_data (G_OBJECT (act), "wbcg", gtk);

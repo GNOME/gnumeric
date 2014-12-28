@@ -2910,11 +2910,11 @@ static GtkToggleActionEntry const font_toggle_actions[] = {
 /****************************************************************************/
 
 static GOActionComboPixmapsElement const halignment_combo_info[] = {
-	{ N_("Align left"),		GTK_STOCK_JUSTIFY_LEFT,		GNM_HALIGN_LEFT },
-	{ N_("Center horizontally"),	GTK_STOCK_JUSTIFY_CENTER,	GNM_HALIGN_CENTER },
-	{ N_("Align right"),		GTK_STOCK_JUSTIFY_RIGHT,	GNM_HALIGN_RIGHT },
-	{ N_("Fill Horizontally"),	"gnumeric-format-halign-fill",		GNM_HALIGN_FILL },
-	{ N_("Justify Horizontally"),	GTK_STOCK_JUSTIFY_FILL,		GNM_HALIGN_JUSTIFY },
+	{ N_("Align left"),		"format-justify-left",		GNM_HALIGN_LEFT },
+	{ N_("Center horizontally"),	"format-justify-center",	GNM_HALIGN_CENTER },
+	{ N_("Align right"),		"format-justify-right",		GNM_HALIGN_RIGHT },
+	{ N_("Fill Horizontally"),	"gnumeric-format-halign-fill",	GNM_HALIGN_FILL },
+	{ N_("Justify Horizontally"),	"format-justify-fill",		GNM_HALIGN_JUSTIFY },
 	{ N_("Center horizontally across the selection"),
 					"gnumeric-center-across-selection", GNM_HALIGN_CENTER_ACROSS_SELECTION },
 	{ N_("Align numbers right, and text left"),

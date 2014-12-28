@@ -6049,17 +6049,15 @@ msgstr "_Filtrér"
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2274
 #: ../src/tools/analysis-tools.c:224 ../src/tools/analysis-tools.c:2886
-#, fuzzy
 msgid "Row"
-msgstr "_Række"
+msgstr "Række"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2266
 #: ../src/tools/analysis-tools.c:224 ../src/tools/analysis-tools.c:2887
-#, fuzzy
 msgid "Column"
-msgstr "_Kolonne"
+msgstr "Kolonne"
 
 #: ../src/dialogs/dialog-data-slicer.c:143 ../src/dialogs/dialog-stf.ui.h:31
 #, fuzzy
