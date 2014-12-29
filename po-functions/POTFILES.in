@@ -247,6 +247,7 @@ src/gnm-so-polygon.c
 src/gui-clipboard.c
 src/gui-file.c
 src/gui-util.c
+src/gui-util.h
 src/gutils.c
 src/history.c
 src/hlink.c
