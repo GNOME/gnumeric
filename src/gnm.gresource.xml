@@ -155,6 +155,11 @@
     <file>icons/24x24/actions/gnumeric-superscript.png</file>
     <file>icons/24x24/actions/gnumeric-ungroup.xpm</file>
     <file>icons/32x32/actions/cursor-cross.xpm</file>
+    <file>icons/32x32/actions/gnumeric-format-valign-bottom.png</file>
+    <file>icons/32x32/actions/gnumeric-format-valign-center.png</file>
+    <file>icons/32x32/actions/gnumeric-format-valign-distributed.png</file>
+    <file>icons/32x32/actions/gnumeric-format-valign-justify.png</file>
+    <file>icons/32x32/actions/gnumeric-format-valign-top.png</file>
     <file>icons/48x48/actions/gnumeric-protection-yes-dialog.png</file>
     <file alias="images/line_pattern_dash_dot.xpm">src/pixmaps/line_pattern_dash_dot.xpm</file>
     <file alias="images/line_pattern_dash_dot_dot.xpm">src/pixmaps/line_pattern_dash_dot_dot.xpm</file>

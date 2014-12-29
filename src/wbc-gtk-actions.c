@@ -2913,8 +2913,8 @@ static GOActionComboPixmapsElement const halignment_combo_info[] = {
 	{ N_("Align left"),		"format-justify-left",		GNM_HALIGN_LEFT },
 	{ N_("Center horizontally"),	"format-justify-center",	GNM_HALIGN_CENTER },
 	{ N_("Align right"),		"format-justify-right",		GNM_HALIGN_RIGHT },
-	{ N_("Fill Horizontally"),	"gnumeric-format-halign-fill",	GNM_HALIGN_FILL },
-	{ N_("Justify Horizontally"),	"format-justify-fill",		GNM_HALIGN_JUSTIFY },
+	{ N_("Fill horizontally"),	"gnumeric-format-halign-fill",	GNM_HALIGN_FILL },
+	{ N_("Justify horizontally"),	"format-justify-fill",		GNM_HALIGN_JUSTIFY },
 	{ N_("Center horizontally across the selection"),
 					"gnumeric-center-across-selection", GNM_HALIGN_CENTER_ACROSS_SELECTION },
 	{ N_("Align numbers right, and text left"),
@@ -2922,9 +2922,11 @@ static GOActionComboPixmapsElement const halignment_combo_info[] = {
 	{ NULL, NULL }
 };
 static GOActionComboPixmapsElement const valignment_combo_info[] = {
-	{ N_("Align Top"),		"stock_alignment-top",			GNM_VALIGN_TOP },
-	{ N_("Center Vertically"),	"stock_alignment-centered-vertically",	GNM_VALIGN_CENTER },
-	{ N_("Align Bottom"),		"stock_alignment-bottom",		GNM_VALIGN_BOTTOM },
+	{ N_("Align top"),		"gnumeric-format-valign-top",			GNM_VALIGN_TOP },
+	{ N_("Center vertically"),	"gnumeric-format-valign-center",	GNM_VALIGN_CENTER },
+	{ N_("Align bottom"),		"gnumeric-format-valign-bottom",		GNM_VALIGN_BOTTOM },
+	{ N_("Justify"),		"gnumeric-format-valign-justify",		GNM_VALIGN_JUSTIFY },
+	{ N_("Align distributed"),	"gnumeric-format-valign-distributed",		GNM_VALIGN_DISTRIBUTED },
 	{ NULL, NULL}
 };
 
