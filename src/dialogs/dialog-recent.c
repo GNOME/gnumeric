@@ -76,6 +76,41 @@ cb_response (GtkWidget *dialog,
 	}
 }
 
+static gboolean
+cb_key_press (GtkWidget *widget, GdkEventKey *event)
+{
+  GtkTreeView *tree_view = (GtkTreeView *) widget;
+
+  switch (event->keyval) {
+  case GDK_KEY_KP_Delete:
+  case GDK_KEY_Delete: {
+	GtkTreeSelection *tsel = gtk_tree_view_get_selection (tree_view);
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected (tsel, &model, &iter)) {
+		GtkRecentInfo *info;
+		const char *uri;
+		GtkRecentManager *manager = gtk_recent_manager_get_default ();
+
+		gtk_tree_model_get (model, &iter, RECENT_COL_INFO, &info, -1);
+		uri = gtk_recent_info_get_uri (info);
+
+		gtk_recent_manager_remove_item (manager, uri, NULL);
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+		gtk_recent_info_unref (info);
+	}
+	return TRUE;
+  }
+
+  default:
+	  break;
+  }
+
+  return FALSE;
+}
+
+
 static void
 url_renderer_func (GtkTreeViewColumn *tree_column,
 		   GtkCellRenderer   *cell,
@@ -247,14 +282,18 @@ dialog_recent_used (WBCGtk *wbcg)
 
 
 	{
-		GtkWidget *w = GTK_WIDGET (wbcg_toplevel (wbcg));
+		GtkWidget *w;
 		int width, height, vsep;
-		PangoLayout *layout =
-			gtk_widget_create_pango_layout (w, "Mg19");
+		PangoLayout *layout;
 
-		gtk_widget_style_get (go_gtk_builder_get_widget (gui, "docs_treeview"),
-				      "vertical_separator", &vsep,
-				      NULL);
+		w = GTK_WIDGET (wbcg_toplevel (wbcg));
+		layout = gtk_widget_create_pango_layout (w, "Mg19");
+
+		w = go_gtk_builder_get_widget (gui, "docs_treeview");
+		gtk_widget_style_get (w, "vertical_separator", &vsep, NULL);
+		g_signal_connect (w, "key-press-event",
+				  G_CALLBACK (cb_key_press),
+				  NULL);
 
 		pango_layout_get_pixel_size (layout, &width, &height);
 		gtk_widget_set_size_request (go_gtk_builder_get_widget (gui, "docs_scrolledwindow"),

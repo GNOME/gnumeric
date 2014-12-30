@@ -18,6 +18,7 @@ Morten:
 	* Fix multihead issue with graph windows.
 	* Improve test suite.
 	* Reorganize icon handling.
+	* Allow removing a specific item from the history.  [#735305]
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739697]
