@@ -1,3 +1,8 @@
+2014-12-30  Morten Welinder  <terra@gnome.org>
+
+	* src/rendered-value.c (gnm_rendered_value_new):
+	GNM_HALIGN_DISTRIBUTED is justify+center.  Fixes #726155.
+
 2014-12-27  Morten Welinder  <terra@gnome.org>
 
 	* src/colrow.c (colrow_set_visibility): Don't create columns/rows

@@ -2915,6 +2915,7 @@ static GOActionComboPixmapsElement const halignment_combo_info[] = {
 	{ N_("Align right"),		"format-justify-right",		GNM_HALIGN_RIGHT },
 	{ N_("Fill horizontally"),	"gnumeric-format-halign-fill",	GNM_HALIGN_FILL },
 	{ N_("Justify horizontally"),	"format-justify-fill",		GNM_HALIGN_JUSTIFY },
+	{ N_("Distributed"),		"gnumeric-format-halign-distributed",	GNM_HALIGN_DISTRIBUTED },
 	{ N_("Center horizontally across the selection"),
 					"gnumeric-center-across-selection", GNM_HALIGN_CENTER_ACROSS_SELECTION },
 	{ N_("Align numbers right, and text left"),

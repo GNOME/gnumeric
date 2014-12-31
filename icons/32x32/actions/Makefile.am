@@ -1,4 +1,5 @@
 internalicons = \
+	gnumeric-format-halign-distributed.png \
 	gnumeric-format-valign-bottom.png \
 	gnumeric-format-valign-center.png \
 	gnumeric-format-valign-distributed.png \

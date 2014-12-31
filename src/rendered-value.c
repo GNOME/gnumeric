@@ -535,6 +535,10 @@ gnm_rendered_value_new (GnmCell const *cell,
 		break;
 
 	case GNM_HALIGN_DISTRIBUTED:
+		pango_layout_set_justify (layout, TRUE);
+		pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+		break;
+
 	case GNM_HALIGN_CENTER:
 	case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 		pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
