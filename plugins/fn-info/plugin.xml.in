@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="info">
 			<_category>Information</_category>
-			<functions textdomain="gnumeric-functions">
+			<functions textdomain="gnumeric-VERSION-functions">
 				<function name="cell"/>
 				<function name="countblank"/>
 				<function name="error"/>

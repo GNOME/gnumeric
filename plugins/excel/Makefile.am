@@ -86,4 +86,4 @@ EXTRA_DIST = $(xml_in_files)	\
 	xlsx-read-drawing.c	\
 	xlsx-write-drawing.c
 
-DISTCLEANFILES = $(xml_DATA)
+CLEANFILES = $(xml_DATA)

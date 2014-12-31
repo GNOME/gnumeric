@@ -11,7 +11,7 @@
 	<services>
 		<service type="function_group" id="TimeSeriesAnalysis">
 			<_category>Time Series Analysis</_category>
-			<functions textdomain="gnumeric-functions">
+			<functions textdomain="gnumeric-VERSION-functions">
             			<function name="interpolation"/>
             			<function name="periodogram"/>
             			<function name="fourier"/>

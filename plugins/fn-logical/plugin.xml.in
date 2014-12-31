@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="logical">
 			<_category>Logic</_category>
-			<functions textdomain="gnumeric-functions">
+			<functions textdomain="gnumeric-VERSION-functions">
 				<function name="and"/>
 				<function name="or"/>
 				<function name="xor"/>

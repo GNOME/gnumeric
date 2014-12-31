@@ -22,4 +22,4 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
 EXTRA_DIST = README ChangeLog $(xml_in_files)
-DISTCLEANFILES = $(xml_DATA)
+CLEANFILES = $(xml_DATA)

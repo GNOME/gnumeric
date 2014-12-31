@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="complex">
 			<_category>Complex</_category>
-			<functions textdomain="gnumeric-functions">
+			<functions textdomain="gnumeric-VERSION-functions">
                                 <function name="complex"/>
                                 <function name="imabs"/>
                                 <function name="imaginary"/>

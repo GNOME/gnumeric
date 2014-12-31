@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="string">
 			<_category>String</_category>
-			<functions textdomain="gnumeric-functions">
+			<functions textdomain="gnumeric-VERSION-functions">
 				<function name="asc"/>
 				<function name="char"/>
 				<function name="clean"/>

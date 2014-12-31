@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="datetime">
 			<_category>Date/Time</_category>
-			<functions textdomain="gnumeric-functions">
+			<functions textdomain="gnumeric-VERSION-functions">
 				<function name="hdate"/>
 				<function name="hdate_heb"/>
 				<function name="hdate_month"/>

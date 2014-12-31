@@ -20,6 +20,7 @@ Morten:
 	* Reorganize icon handling.
 	* Allow removing a specific item from the history.  [#735305]
 	* Fix GNM_HALIGN_DISTRIBUTED rendering.  [#726155]
+	* Restore translations of function help texts.
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739697]

@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="lookup">
 			<_category>Lookup</_category>
-			<functions textdomain="gnumeric-functions">
+			<functions textdomain="gnumeric-VERSION-functions">
 				<function name="address"/>
 				<function name="areas"/>
 				<function name="array"/>
