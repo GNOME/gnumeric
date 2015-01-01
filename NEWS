@@ -23,7 +23,7 @@ Morten:
 	* Restore translations of function help texts.
 
 Thomas Kluyver:
-	* Fix import of extended floats from wk4 files.  [#739697]
+	* Fix import of extended floats from wk4 files.  [#739679]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.18
