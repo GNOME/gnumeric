@@ -925,7 +925,7 @@ lotus_smallnum (signed int d)
 		return value_new_int (d >> 1);
 }
 
-GnmValue *
+static GnmValue *
 lotus_extfloat (guint64 mant, guint16 signexp)
 {
 	int exp = (signexp & 0x7fff) - 16383;
@@ -942,13 +942,19 @@ lotus_extfloat (guint64 mant, guint16 signexp)
 	return lotus_value (sign * gnm_ldexp (mant, exp - 63));
 }
 
+GnmValue *
+lotus_load_treal (gconstpointer p)
+{
+	return lotus_extfloat (GSF_LE_GET_GUINT64 (p),
+			       GSF_LE_GET_GUINT16 ((const char *)p + 8));
+}
+
 static GnmValue *
 lotus_treal (const record_t *r, int ofs)
 {
 	g_return_val_if_fail (ofs + 10 <= r->len, NULL);
 
-	return lotus_extfloat (GSF_LE_GET_GUINT64 (r->data + ofs),
-			       GSF_LE_GET_GUINT16 (r->data + ofs + 8));
+	return lotus_load_treal (r->data + ofs);
 }
 
 /* ------------------------------------------------------------------------- */

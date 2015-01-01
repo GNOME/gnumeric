@@ -715,8 +715,8 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 		switch (data[i]) {
 		case LOTUS_FORMULA_CONSTANT:
 			parse_list_push_value (&stack,
-				value_new_float (gsf_le_get_double (data + i + 1)));
-			i += 9;
+				lotus_load_treal (data + i + 1));
+			i += 11;
 			break;
 
 		case LOTUS_FORMULA_VARIABLE: {

@@ -1,3 +1,8 @@
+2015-01-01  Morten Welinder  <terra@gnome.org>
+
+	* lotus-formula.c (lotus_parse_formula_new): New formulas use
+	treal, not double.
+
 2014-12-31  Morten Welinder  <terra@gnome.org>
 
 	* lotus.c (lotus_treal): Base this on lotus_extfloat thus giving

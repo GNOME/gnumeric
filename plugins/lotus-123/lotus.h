@@ -38,7 +38,7 @@ GnmValue *lotus_new_string (gchar const *data, int def_group);
 gboolean  lotus_read	   (LotusState *state);
 GnmValue *lotus_unpack_number (guint32 u);
 GnmValue *lotus_smallnum (signed int d);
-GnmValue *lotus_extfloat (guint64 mant, guint16 signexp);
+GnmValue *lotus_load_treal (gconstpointer p);
 
 void lmbcs_init (void);
 void lmbcs_shutdown (void);
