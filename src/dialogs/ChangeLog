@@ -1,3 +1,7 @@
+2015-01-01  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c (dialog_about): Update copyright.
+
 2014-12-29  Morten Welinder  <terra@gnome.org>
 
 	* dialog-recent.c (cb_key_press): New function.  On [Delete],
