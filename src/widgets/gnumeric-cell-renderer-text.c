@@ -91,8 +91,8 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 		GdkRGBA rgba;
 		gtk_style_context_get_background_color (ctxt, frame_state, &rgba);
 		gdk_cairo_set_source_rgba (cr, &rgba);
-		gdk_cairo_rectangle (cr, background_area);
 		cairo_save (cr);
+		gdk_cairo_rectangle (cr, background_area);
 		cairo_clip (cr);
 		gdk_cairo_rectangle (cr, background_area);
 		cairo_stroke (cr);

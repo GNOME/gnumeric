@@ -1,3 +1,8 @@
+2015-01-01  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-cell-renderer-text.c
+	(gnumeric_cell_renderer_text_render): Fix cairo stack.
+
 2014-12-06  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_scan_for_range): Plug leak.
