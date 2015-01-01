@@ -30,7 +30,7 @@
 #include <gsf/gsf-msole-utils.h>
 #include <string.h>
 
-#define LOTUS_DEBUG 0
+#define LOTUS_DEBUG 1
 #undef DEBUG_RLDB
 #undef DEBUG_STYLE
 #undef DEBUG_FORMAT
@@ -925,15 +925,10 @@ lotus_extfloat (guint64 mant, guint16 signexp)
 static GnmValue *
 lotus_treal (const record_t *r, int ofs)
 {
-	const guint8 *p;
-	gnm_float v;
 	g_return_val_if_fail (ofs + 10 <= r->len, NULL);
 
-	p = r->data + ofs;
-
-	/* This this ignores two bytes of mantissa.  */
-	v = GSF_LE_GET_DOUBLE (p + 2);
-	return lotus_value (v);
+	return lotus_extfloat (GSF_LE_GET_GUINT64 (r->data + ofs),
+			       GSF_LE_GET_GUINT16 (r->data + ofs + 8));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1982,8 +1977,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
-			GnmValue *v = lotus_extfloat (GSF_LE_GET_GUINT64 (r->data + 4),
-						      GSF_LE_GET_GUINT16 (r->data + 12));
+			GnmValue *v = lotus_treal (r, 4);
 			(void)insert_value (state, sheet, col, row, v);
 			break;
 		}
