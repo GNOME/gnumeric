@@ -742,13 +742,18 @@ lotus_format_string (guint fmt)
 }
 
 static void
-cellpos_set_format_from_lotus_format (Sheet *sheet, int col, int row, guint fmt)
+range_set_format_from_lotus_format (Sheet *sheet,
+				    int scol, int srow,
+				    int ecol, int erow,
+				    guint fmt)
 {
 	char *fmt_string = lotus_format_string (fmt);
 	if (fmt_string[0]) {
+		GnmRange r;
 		GnmStyle *mstyle = gnm_style_new ();
 		gnm_style_set_format_text (mstyle, fmt_string);
-		sheet_style_apply_pos (sheet, col, row, mstyle);
+		range_init (&r, scol, srow, ecol, erow);
+		sheet_style_apply_range (sheet, &r, mstyle);
 	}
 #ifdef DEBUG_FORMAT
 	g_printerr ("Format: %s\n", fmt_string);
@@ -759,10 +764,11 @@ cellpos_set_format_from_lotus_format (Sheet *sheet, int col, int row, guint fmt)
 static void
 cell_set_format_from_lotus_format (GnmCell *cell, guint frmt)
 {
-	cellpos_set_format_from_lotus_format (cell->base.sheet,
-					      cell->pos.col,
-					      cell->pos.row,
-					      frmt);
+	range_set_format_from_lotus_format
+		(cell->base.sheet,
+		 cell->pos.col, cell->pos.row,
+		 cell->pos.col, cell->pos.row,
+		 frmt);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1946,10 +1952,16 @@ lotus_read_new (LotusState *state, record_t *r)
 			switch (subtype) {
 			case 0: CHECK_RECORD_SIZE (>= 4) { // FORMAT
 				int row = GSF_LE_GET_GUINT16 (r->data + 2);
-				int i, n = (r->len - 4) / 4;
-				for (i = 0; i < n; i++) {
-					guint32 frmt = GSF_LE_GET_GUINT32 (r->data + 4 + 4 * i);
-					cellpos_set_format_from_lotus_format (sheet, i, row, frmt);
+				int col = 0, o;
+				for (o = 4; o + 4 <= r->len; o += 4) {
+					guint32 frmt = GSF_LE_GET_GUINT32 (r->data + o);
+					gboolean rep = (frmt & 0x80000000u) && (o + 4 < r->len);
+					int n = rep ? 1 + r->data[o++ + 4] : 1;
+					range_set_format_from_lotus_format (sheet,
+									    col, row,
+									    col + (n - 1), row,
+									    frmt);
+					col += n;
 				}
 				break;
 			}
