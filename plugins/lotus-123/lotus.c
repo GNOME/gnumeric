@@ -19,10 +19,12 @@
 #include <expr.h>
 #include <value.h>
 #include <gutils.h>
+#include <ranges.h>
 #include <mstyle.h>
 #include <style-color.h>
 #include <style-font.h>
 #include <parse-util.h>
+#include <sheet-style.h>
 #include <sheet-object-cell-comment.h>
 
 #include <gsf/gsf-input.h>
@@ -30,7 +32,7 @@
 #include <gsf/gsf-msole-utils.h>
 #include <string.h>
 
-#define LOTUS_DEBUG 1
+#define LOTUS_DEBUG 0
 #undef DEBUG_RLDB
 #undef DEBUG_STYLE
 #undef DEBUG_FORMAT
@@ -740,15 +742,27 @@ lotus_format_string (guint fmt)
 }
 
 static void
-cell_set_format_from_lotus_format (GnmCell *cell, guint fmt)
+cellpos_set_format_from_lotus_format (Sheet *sheet, int col, int row, guint fmt)
 {
 	char *fmt_string = lotus_format_string (fmt);
-	if (fmt_string[0])
-		gnm_cell_set_format (cell, fmt_string);
+	if (fmt_string[0]) {
+		GnmStyle *mstyle = gnm_style_new ();
+		gnm_style_set_format_text (mstyle, fmt_string);
+		sheet_style_apply_pos (sheet, col, row, mstyle);
+	}
 #ifdef DEBUG_FORMAT
 	g_printerr ("Format: %s\n", fmt_string);
 #endif
 	g_free (fmt_string);
+}
+
+static void
+cell_set_format_from_lotus_format (GnmCell *cell, guint frmt)
+{
+	cellpos_set_format_from_lotus_format (cell->base.sheet,
+					      cell->pos.col,
+					      cell->pos.row,
+					      frmt);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1925,6 +1939,52 @@ lotus_read_new (LotusState *state, record_t *r)
 
 		case LOTUS_EOF:
 			goto done;
+
+		case LOTUS_FORMAT: CHECK_RECORD_SIZE (>= 2) {
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[0]);
+			guint8 subtype = GSF_LE_GET_GUINT8 (r->data + 1);
+			switch (subtype) {
+			case 0: CHECK_RECORD_SIZE (>= 4) { // FORMAT
+				int row = GSF_LE_GET_GUINT16 (r->data + 2);
+				int i, n = (r->len - 4) / 4;
+				for (i = 0; i < n; i++) {
+					guint32 frmt = GSF_LE_GET_GUINT32 (r->data + 4 + 4 * i);
+					cellpos_set_format_from_lotus_format (sheet, i, row, frmt);
+				}
+				break;
+			}
+			case 2: CHECK_RECORD_SIZE (>= 8) { // DUPFMT
+				int row = GSF_LE_GET_GUINT16 (r->data + 2);
+				Sheet *src_sheet = lotus_get_sheet (state->wb, GSF_LE_GET_GUINT16 (r->data + 4));
+				int src_row = GSF_LE_GET_GUINT16 (r->data + 6);
+				GnmRange r;
+				GnmStyleList *styles;
+				GnmCellPos cp;
+
+				range_init_rows (&r, src_sheet, src_row, src_row);
+				styles = sheet_style_get_range (src_sheet, &r);
+
+				cp.col = 0;
+				cp.row = row;
+				sheet_style_set_list  (sheet, &cp, styles, NULL, NULL);
+				style_list_free (styles);
+
+#if 0
+				g_printerr ("%s's row %d copies style from %s's row %d\n",
+					    sheet->name_unquoted, row + 1,
+					    src_sheet->name_unquoted, src_row + 1);
+#endif
+
+				break;
+			}
+
+			case 1: // GBLFMT
+			default:
+				g_printerr ("Unknown format record 0x%x/%02x of length %d.\n",
+					 r->type, subtype, r->len);
+			}
+			break;
+		}
 
 		case LOTUS_ERRCELL: CHECK_RECORD_SIZE (>= 4) {
 			int row = GSF_LE_GET_GUINT16 (r->data);

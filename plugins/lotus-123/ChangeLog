@@ -2,6 +2,7 @@
 
 	* lotus.c (lotus_treal): Base this on lotus_extfloat thus giving
 	it a chance of working.
+	(lotus_read_new): Read more formatting.
 
 2014-11-06  Morten Welinder  <terra@gnome.org>
 

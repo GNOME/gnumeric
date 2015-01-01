@@ -44,6 +44,7 @@
 #define LOTUS_SYSTEMRANGE            0xa
 #define LOTUS_ZEROFORCE              0xb
 #define LOTUS_SORTKEY_DIR            0xc
+#define LOTUS_FORMAT                 0x13
 #define LOTUS_ERRCELL                0x14
 #define LOTUS_NACELL                 0x15
 #define LOTUS_LABEL2                 0x16

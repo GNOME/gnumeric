@@ -525,8 +525,7 @@ make_function (LotusState *state, GnmExprList **stack, guint8 const *data, const
 static gint16
 sign_extend (guint16 num)
 {
-	gint16 i = (num << 3);
-	return (i / 8);
+	return (gint16)(num << 3) / 8;
 }
 
 /* FIXME: dodgy stuff, hacked for now */
@@ -538,22 +537,12 @@ get_cellref (GnmCellRef *ref, guint8 const *dataa, guint8 const *datab,
 
 	ref->sheet = NULL;
 	i = GSF_LE_GET_GUINT16 (dataa);
-	if (i & 0x8000) {
-		ref->col_relative = TRUE;
-		ref->col = sign_extend (i & 0x3fff);
-	} else {
-		ref->col_relative = FALSE;
-		ref->col = i & 0x3fff;
-	}
+	ref->col = sign_extend (i & 0x1fff);
+	ref->col_relative = (i & 0x8000) != 0;
 
 	i = GSF_LE_GET_GUINT16 (datab);
-	if (i & 0x8000) {
-		ref->row_relative = TRUE;
-		ref->row = sign_extend (i & 0x3fff);
-	} else {
-		ref->row_relative = FALSE;
-		ref->row = i & 0x3fff;
-	}
+	ref->row = sign_extend (i & 0x1fff);
+	ref->row_relative = (i & 0x8000) != 0;
 
 #if FORMULA_DEBUG > 0
 	g_printerr ("0x%x 0x%x -> (%d, %d)\n",
