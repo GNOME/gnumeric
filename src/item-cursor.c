@@ -5,6 +5,7 @@
  * Author:
  *     Miguel de Icaza (miguel@kernel.org)
  *     Jody Goldberg   (jody@gnome.org)
+ *     Copyright 2015 by Morten Welinder (terra@gnome.org).
  */
 
 #include <gnumeric-config.h>
@@ -112,37 +113,46 @@ ic_reload_style (GnmItemCursor *ic)
 	GocItem *item = GOC_ITEM (ic);
 	GtkStyleContext *context = goc_item_get_style_context (item);
 	GtkStateFlags state = GTK_STATE_FLAG_NORMAL;
+	struct {
+		const char *class;
+		int fore_offset, back_offset;
+	} substyles[] = {
+		{ "normal",
+		  G_STRUCT_OFFSET (GnmItemCursor, normal_color),
+		  -1 },
+		{ "ant",
+		  G_STRUCT_OFFSET (GnmItemCursor, ant_color),
+		  G_STRUCT_OFFSET (GnmItemCursor, ant_background_color) },
+		{ "drag",
+		  G_STRUCT_OFFSET (GnmItemCursor, drag_color),
+		  G_STRUCT_OFFSET (GnmItemCursor, drag_background_color) },
+		{ "autofill",
+		  G_STRUCT_OFFSET (GnmItemCursor, autofill_color),
+		  G_STRUCT_OFFSET (GnmItemCursor, autofill_background_color) }
+	};
+	unsigned ui;
 
-	gtk_style_context_save (context);
-	gtk_style_context_add_class (context, "normal");
-	gtk_style_context_get_color (context, state, &ic->normal_color);
-	gtk_style_context_restore (context);
+	for (ui = 0; ui < G_N_ELEMENTS (substyles); ui++) {
+		GdkRGBA *fore, *back;
+		gtk_style_context_save (context);
+		gtk_style_context_add_class (context, substyles[ui].class);
+		gtk_style_context_get (context, state,
+				       "color", &fore,
+				       "background-color", &back,
+				       NULL);
+		*(GdkRGBA *)((char *)ic + substyles[ui].fore_offset) = *fore;
+		if (substyles[ui].back_offset >= 0)
+			*(GdkRGBA *)((char *)ic + substyles[ui].back_offset) = *back;
+		gdk_rgba_free (fore);
+		gdk_rgba_free (back);
+		gtk_style_context_restore (context);
+	}
 
-	gtk_style_context_save (context);
-	gtk_style_context_add_class (context, "ant");
-	gtk_style_context_get_color (context, state, &ic->ant_color);
-	gtk_style_context_get_background_color (context, state,
-						&ic->ant_background_color);
-	gtk_style_context_restore (context);
 	/*
 	 * Ensure we don't use transparency to avoid compositing issues
 	 * when redrawing the ants in the timer callback.
 	 */
 	ic->ant_color.alpha = ic->ant_background_color.alpha = 1.;
-
-	gtk_style_context_save (context);
-	gtk_style_context_add_class (context, "drag");
-	gtk_style_context_get_color (context, state, &ic->drag_color);
-	gtk_style_context_get_background_color (context, state,
-						&ic->drag_background_color);
-	gtk_style_context_restore (context);
-
-	gtk_style_context_save (context);
-	gtk_style_context_add_class (context, "autofill");
-	gtk_style_context_get_color (context, state, &ic->autofill_color);
-	gtk_style_context_get_background_color (context, state,
-						&ic->autofill_background_color);
-	gtk_style_context_restore (context);
 }
 
 static int

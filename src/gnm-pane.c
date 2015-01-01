@@ -2757,12 +2757,16 @@ update_control_point_colors (GocItem *item, GtkStateFlags flags)
 {
 	GtkStyleContext *context = goc_item_get_style_context (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	GdkRGBA rgba;
+	GdkRGBA *fore, *back;
 
-	gtk_style_context_get_color (context, flags, &rgba);
-	go_color_from_gdk_rgba (&rgba, &style->line.color);
-	gtk_style_context_get_background_color (context, flags, &rgba);
-	go_color_from_gdk_rgba (&rgba, &style->fill.pattern.back);
+	gtk_style_context_get (context, flags,
+			       "color", &fore,
+			       "background-color", &back,
+			       NULL);
+	go_color_from_gdk_rgba (fore, &style->line.color);
+	go_color_from_gdk_rgba (back, &style->fill.pattern.back);
+	gdk_rgba_free (fore);
+	gdk_rgba_free (back);
 	goc_item_invalidate (item);
 }
 

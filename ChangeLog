@@ -1,3 +1,9 @@
+2015-01-01  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-pane.c (update_control_point_colors): Avoid
+	gtk_style_context_get_background_color.
+	* src/item-cursor.c (ic_reload_style): Ditto.
+
 2014-12-30  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (gnm_rendered_value_new):
