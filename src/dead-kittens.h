@@ -30,9 +30,4 @@
   g_object_set ((_e_), "editing-canceled", (gboolean)(_b_), NULL)
 #endif
 
-/* A macro new in glib 2.30 */
-#ifndef G_VALUE_INIT
-#define G_VALUE_INIT { 0, { { 0 } } }
-#endif
-
 #endif
