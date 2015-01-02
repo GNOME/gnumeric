@@ -1,6 +1,7 @@
 2015-01-01  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (build_validation_error_combo): Plug leak.
+	(cb_validation_error_action_changed): Fix deprecations.
 
 	* dialog-sheet-order.c (dialog_sheet_order): Fix icon handling.
 

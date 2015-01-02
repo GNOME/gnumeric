@@ -1662,6 +1662,28 @@ validation_rebuild_validation (FormatState *state)
 	fmt_dialog_changed (state);
 }
 
+static struct {
+	const char *text;
+	const char *icon_name;
+} validation_error_actions[] = {
+	{
+		N_("None          (silently accept invalid input)"),
+		NULL,
+	},
+	{
+		N_("Stop            (never allow invalid input)"),
+		GTK_STOCK_STOP
+	},
+	{
+		N_("Warning     (accept/discard invalid input)"),
+		GTK_STOCK_DIALOG_WARNING
+	},
+	{
+		N_("Information (allow invalid input)"),
+		GTK_STOCK_DIALOG_INFO
+	}
+};
+
 static void
 cb_validation_error_action_changed (G_GNUC_UNUSED GtkMenuShell *ignored,
 				    FormatState *state)
@@ -1676,20 +1698,9 @@ cb_validation_error_action_changed (G_GNUC_UNUSED GtkMenuShell *ignored,
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg), flag);
 
 	if (flag) {
-		char const *s = NULL;
-
-		switch (index) {
-		case 1: s = GTK_STOCK_DIALOG_ERROR;	break;
-		case 2: s = GTK_STOCK_DIALOG_WARNING;	break;
-		case 3: s = GTK_STOCK_DIALOG_INFO;	break;
-		default:
-			g_warning ("Unknown validation style");
-			return;
-		}
-
-		if (s != NULL)
-			gtk_image_set_from_stock (state->validation.error.image,
-						  s, GTK_ICON_SIZE_MENU);
+		char const *icon_name = validation_error_actions[index].icon_name;
+		gtk_image_set_from_icon_name (state->validation.error.image,
+					      icon_name, GTK_ICON_SIZE_DIALOG);
 		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
 	} else
 		gtk_widget_hide (GTK_WIDGET (state->validation.error.image));
@@ -1807,45 +1818,31 @@ cb_validation_rebuild (G_GNUC_UNUSED void *ignored,
 }
 
 static void
-build_validation_error_combo (GtkComboBox *box)
+build_validation_error_combo (FormatState *state, GtkComboBox *box)
 {
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
-	struct {
-		const char *text;
-		const char *icon_name;
-	} items[] = {
-		{
-			N_("None          (silently accept invalid input)"),
-			GTK_STOCK_STOP
-		},
-		{
-			N_("Warning     (accept/discard invalid input)"),
-			GTK_STOCK_DIALOG_WARNING
-		},
-		{
-			N_("Information (allow invalid input)"),
-			GTK_STOCK_DIALOG_INFO
-		}
-	};
+	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (state->wbcg)));
+	GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
 	unsigned ui;
 
 	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
 	gtk_combo_box_set_model (box, GTK_TREE_MODEL (store));
 
-	for (ui = 0; ui < G_N_ELEMENTS (items); ui++) {
-		GdkPixbuf *pixbuf =
-			gtk_widget_render_icon_pixbuf (GTK_WIDGET (box),
-						       items[ui].icon_name,
-						       GTK_ICON_SIZE_BUTTON);
+	for (ui = 0; ui < G_N_ELEMENTS (validation_error_actions); ui++) {
+		const char *icon_name = validation_error_actions[ui].icon_name;
+		GdkPixbuf *pixbuf = icon_name
+			? gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL)
+			: NULL;
 		GtkTreeIter iter;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
 				    0, pixbuf,
-				    1, _(items[ui].text),
+				    1, _(validation_error_actions[ui].text),
 				    -1);
-		g_object_unref (pixbuf);
+		if (pixbuf)
+			g_object_unref (pixbuf);
 	}
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
@@ -1888,7 +1885,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 	state->validation.error.title_label  = GTK_LABEL       (go_gtk_builder_get_widget (state->gui, "validation_error_title_label"));
 	state->validation.error.msg_label    = GTK_LABEL       (go_gtk_builder_get_widget (state->gui, "validation_error_msg_label"));
 	state->validation.error.action       = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "validation_error_action"));
-	build_validation_error_combo (state->validation.error.action);
+	build_validation_error_combo (state, state->validation.error.action);
 	gtk_combo_box_set_active (state->validation.error.action, 0);
 	state->validation.error.title        = GTK_ENTRY       (go_gtk_builder_get_widget (state->gui, "validation_error_title"));
 	state->validation.error.msg          = GTK_TEXT_VIEW   (go_gtk_builder_get_widget (state->gui, "validation_error_msg"));
