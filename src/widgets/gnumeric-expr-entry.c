@@ -462,8 +462,8 @@ gee_set_with_icon (GnmExprEntry *gee, gboolean with_icon)
 	if (with_icon) {
 		gee->icon = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (gee->icon),
-				   gtk_image_new_from_stock ("gnumeric-exprentry",
-							     GTK_ICON_SIZE_MENU));
+				   gtk_image_new_from_icon_name ("gnumeric-exprentry",
+								 GTK_ICON_SIZE_MENU));
 		gtk_box_pack_end (GTK_BOX (gee), gee->icon, FALSE, FALSE, 0);
 		gtk_widget_show_all (gee->icon);
 		g_signal_connect (gee->icon, "clicked",
