@@ -1668,19 +1668,19 @@ static struct {
 } validation_error_actions[] = {
 	{
 		N_("None          (silently accept invalid input)"),
-		NULL,
+		NULL
 	},
 	{
 		N_("Stop            (never allow invalid input)"),
-		GTK_STOCK_STOP
+		"dialog-error"
 	},
 	{
 		N_("Warning     (accept/discard invalid input)"),
-		GTK_STOCK_DIALOG_WARNING
+		"dialog-warning"
 	},
 	{
 		N_("Information (allow invalid input)"),
-		GTK_STOCK_DIALOG_INFO
+		"dialog-information"
 	}
 };
 
