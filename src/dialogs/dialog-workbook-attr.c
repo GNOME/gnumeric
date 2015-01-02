@@ -162,17 +162,19 @@ attr_dialog_init_protection_page (AttrState *state)
 
 static void
 attr_dialog_add_item (AttrState *state, char const *page_name,
-			       char const *icon_name,
-			       int page, char const* parent_path)
+		      char const *icon_name,
+		      int page, char const* parent_path)
 {
 	GtkTreeIter iter, parent;
-	GdkPixbuf * icon = NULL;
+	GdkPixbuf *icon = NULL;
 
-	if (icon_name != NULL)
-		icon = gtk_widget_render_icon_pixbuf (state->dialog, icon_name,
-					       GTK_ICON_SIZE_MENU);
-	if ((parent_path != NULL) && gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->store),
-									  &parent, parent_path))
+	if (icon_name != NULL) {
+		GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (state->wbcg)));
+		GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
+		icon = gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL);
+	}
+	if (parent_path && gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->store),
+								&parent, parent_path))
 		gtk_tree_store_append (state->store, &iter, &parent);
 	else
 		gtk_tree_store_append (state->store, &iter, NULL);
@@ -195,10 +197,10 @@ typedef struct {
 } page_info_t;
 
 static page_info_t const page_info[] = {
-	{N_("Widgets"),         "gnumeric-object-scrollbar",      NULL, 0, &attr_dialog_init_widget_page          },
+	{N_("Widgets"),         "gnumeric-object-scrollbar",     NULL, 0, &attr_dialog_init_widget_page          },
 	{N_("Protection"),      GTK_STOCK_DIALOG_AUTHENTICATION, NULL, 1 ,&attr_dialog_init_protection_page      },
 	{N_("Auto Completion"), NULL,                            NULL, 2 ,&attr_dialog_init_autocompletion_page  },
-	{N_("Cell Markers"), NULL,                               NULL, 3 ,&attr_dialog_init_cell_marker_page  },
+	{N_("Cell Markers"), NULL,                               NULL, 3 ,&attr_dialog_init_cell_marker_page     },
 	{NULL, NULL, NULL, -1, NULL},
 };
 

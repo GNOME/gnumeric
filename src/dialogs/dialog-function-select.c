@@ -1273,20 +1273,6 @@ dialog_function_select_init (FunctionSelectState *state)
 		gtk_entry_set_text (GTK_ENTRY (state->search_entry),
 				    state->paste.prefix);
 
-	gtk_entry_set_icon_from_stock
-		(GTK_ENTRY (state->search_entry),
-		 GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
-	gtk_entry_set_icon_tooltip_text
-		(GTK_ENTRY (state->search_entry),
-		 GTK_ENTRY_ICON_SECONDARY,
-		 _("Erase the search entry."));
-	gtk_entry_set_icon_sensitive
-		(GTK_ENTRY (state->search_entry),
-		 GTK_ENTRY_ICON_SECONDARY, TRUE);
-	gtk_entry_set_icon_activatable
-		(GTK_ENTRY (state->search_entry),
-		 GTK_ENTRY_ICON_SECONDARY, TRUE);
-
 	g_signal_connect (G_OBJECT (state->search_entry),
 			  "icon-press",
 			  G_CALLBACK

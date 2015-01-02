@@ -1048,14 +1048,22 @@ cb_name_guru_selection_function (G_GNUC_UNUSED GtkTreeSelection *selection,
 	return FALSE;
 }
 
+static GdkPixbuf *
+get_icon (GtkIconTheme *theme, const char *icon_name)
+{
+	return gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL);
+}
+
+
 static gboolean
 name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 {
-	Workbook          *wb = wb_control_get_workbook
-		(WORKBOOK_CONTROL (wbcg));
+	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	GtkTreeViewColumn *column;
 	GtkCellRenderer   *renderer;
 	GtkTreeSelection  *selection;
+	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (wbcg)));
+	GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
 
 	state->is_paste_dialog = is_paste_dialog;
 	state->has_pasted = FALSE;
@@ -1181,10 +1189,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 				  "changed",
 				  G_CALLBACK (name_guru_update_sensitivity),
 				  state);
-		state->image_paste = gtk_widget_render_icon_pixbuf
-			(state->dialog,
-			 GTK_STOCK_PASTE,
-			 GTK_ICON_SIZE_SMALL_TOOLBAR);
+		state->image_paste = get_icon (theme, "edit-paste");
 		state->image_add    = NULL;
 		state->image_delete = NULL;
 		state->image_lock   = NULL;
@@ -1192,44 +1197,14 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 		state->image_down   = NULL;
 	} else {
 		state->image_paste = NULL;
-		state->image_add =  gtk_widget_render_icon_pixbuf
-			(state->dialog,
-			 GTK_STOCK_ADD,
-			 GTK_ICON_SIZE_SMALL_TOOLBAR);
-		state->image_delete =  gtk_widget_render_icon_pixbuf
-			(state->dialog,
-			 GTK_STOCK_REMOVE,
-			 GTK_ICON_SIZE_SMALL_TOOLBAR);
-		state->image_lock =  gtk_widget_render_icon_pixbuf
-			(state->dialog,
-			 "gnumeric-protection-yes",
-			 GTK_ICON_SIZE_SMALL_TOOLBAR);
-		state->image_up =  gtk_widget_render_icon_pixbuf
-			(state->dialog,
-			 GTK_STOCK_GO_UP,
-			 GTK_ICON_SIZE_SMALL_TOOLBAR);
-		state->image_down =  gtk_widget_render_icon_pixbuf
-			(state->dialog,
-			 GTK_STOCK_GO_DOWN,
-			 GTK_ICON_SIZE_SMALL_TOOLBAR);
+		state->image_add = get_icon (theme, "list-add");
+		state->image_delete = get_icon (theme, "list-remove");
+		state->image_lock = get_icon (theme, "gnumeric-protection-yes");
+		state->image_up = get_icon (theme, "go-up");
+		state->image_down = get_icon (theme, "do-down");
 	}
 
-	state->search_entry = go_gtk_builder_get_widget (state->gui,
-						    "search_entry");
-
-	gtk_entry_set_icon_from_stock
-		(GTK_ENTRY (state->search_entry),
-		 GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
-	gtk_entry_set_icon_tooltip_text
-		(GTK_ENTRY (state->search_entry),
-		 GTK_ENTRY_ICON_SECONDARY,
-		 _("Erase the search entry."));
-	gtk_entry_set_icon_sensitive
-		(GTK_ENTRY (state->search_entry),
-		 GTK_ENTRY_ICON_SECONDARY, TRUE);
-	gtk_entry_set_icon_activatable
-		(GTK_ENTRY (state->search_entry),
-		 GTK_ENTRY_ICON_SECONDARY, TRUE);
+	state->search_entry = go_gtk_builder_get_widget (state->gui, "search_entry");
 
 	g_signal_connect (G_OBJECT (state->search_entry),
 			  "icon-press",
