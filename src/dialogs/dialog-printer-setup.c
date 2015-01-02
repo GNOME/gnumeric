@@ -1098,36 +1098,35 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer,
 			HFFieldType type, const char *options)
 {
 	GtkTextIter iter;
-	gchar const *stock_id;
+	gchar const *icon_name;
 	GdkPixbuf* pix;
 	GtkTextMark *new_mark;
 	HFMarkInfo *mark_info;
 
-
 	switch (type) {
 	case HF_FIELD_FILE:
-		stock_id = GTK_STOCK_FILE;
+		icon_name = GTK_STOCK_FILE;
 		break;
 	case HF_FIELD_PATH:
-		stock_id = GTK_STOCK_DIRECTORY;
+		icon_name = "folder";
 		break;
 	case HF_FIELD_PAGE:
-		stock_id = "gnumeric-pagesetup-hf-page";
+		icon_name = "gnumeric-pagesetup-hf-page";
 		break;
 	case HF_FIELD_PAGES:
-		stock_id = "gnumeric-pagesetup-hf-pages";
+		icon_name = "gnumeric-pagesetup-hf-pages";
 		break;
 	case HF_FIELD_DATE:
-		stock_id = "gnumeric-pagesetup-hf-date";
+		icon_name = "gnumeric-pagesetup-hf-date";
 		break;
 	case HF_FIELD_TIME:
-		stock_id = "gnumeric-pagesetup-hf-time";
+		icon_name = "gnumeric-pagesetup-hf-time";
 		break;
 	case HF_FIELD_SHEET:
-		stock_id = "gnumeric-pagesetup-hf-sheet";
+		icon_name = "gnumeric-pagesetup-hf-sheet";
 		break;
 	case HF_FIELD_CELL:
-		stock_id = "gnumeric-pagesetup-hf-cell";
+		icon_name = "gnumeric-pagesetup-hf-cell";
 		break;
 	default:
 		return;
@@ -1137,12 +1136,13 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer,
 
 	if (gtk_text_buffer_insert_interactive_at_cursor
 	    (buffer, "", -1, TRUE)) {
+		GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (hf_state->printer_setup_state->wbcg)));
+		GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
+
 		gtk_text_buffer_get_iter_at_mark
 			(buffer, &iter, gtk_text_buffer_get_insert (buffer));
 
-		pix = gtk_widget_render_icon_pixbuf (GTK_WIDGET (hf_state->dialog),
-					      stock_id,
-					      GTK_ICON_SIZE_MENU);
+		pix = gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL);
 		gtk_text_buffer_insert_pixbuf (buffer, &iter, pix);
 		gtk_text_iter_backward_char (&iter);
 		new_mark = gtk_text_buffer_create_mark (buffer, NULL,
@@ -1796,29 +1796,29 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		 "clicked", G_CALLBACK (hf_delete_tag_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-date-button"));
-	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-date");
+	gtk_tool_button_set_icon_name (button, "gnumeric-pagesetup-hf-date");
 	hf_attach_insert_date_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-page-button"));
-	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-page");
+	gtk_tool_button_set_icon_name (button, "gnumeric-pagesetup-hf-page");
 	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_page_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-pages-button"));
-	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-pages");
+	gtk_tool_button_set_icon_name (button, "gnumeric-pagesetup-hf-pages");
 	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_pages_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-sheet-button"));
-	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-sheet");
+	gtk_tool_button_set_icon_name (button, "gnumeric-pagesetup-hf-sheet");
 	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_sheet_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-time-button"));
-	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-time");
+	gtk_tool_button_set_icon_name (button, "gnumeric-pagesetup-hf-time");
 	hf_attach_insert_time_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 
 	g_signal_connect_swapped
@@ -1830,7 +1830,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		 "clicked", G_CALLBACK (hf_insert_path_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-cell-button"));
-	gtk_tool_button_set_stock_id (button, "gnumeric-pagesetup-hf-cell");
+	gtk_tool_button_set_icon_name (button, "gnumeric-pagesetup-hf-cell");
 	hf_attach_insert_cell_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 
 

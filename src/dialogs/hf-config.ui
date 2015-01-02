@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.1 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.8"/>
   <object class="GtkDialog" id="hf-config">
     <property name="width_request">600</property>
     <property name="can_focus">False</property>
@@ -21,7 +22,6 @@
                 <property name="use_action_appearance">False</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -36,7 +36,6 @@
                 <property name="use_action_appearance">False</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -51,7 +50,6 @@
                 <property name="use_action_appearance">False</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -66,7 +64,6 @@
                 <property name="use_action_appearance">False</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -243,9 +240,8 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Delete the selected fields and text</property>
                     <property name="tooltip_text" translatable="yes">Delete the selected fields and text</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="label" translatable="yes">Delete Field</property>
-                    <property name="stock_id">gtk-delete</property>
+                    <property name="icon_name">edit-delete</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -260,6 +256,7 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="homogeneous">False</property>
                   </packing>
                 </child>
                 <child>
@@ -271,11 +268,11 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Insert the date of printing</property>
                     <property name="tooltip_text" translatable="yes">Insert the date of printing</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="label" translatable="yes">Date</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="homogeneous">False</property>
                   </packing>
                 </child>
                 <child>
@@ -287,11 +284,11 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Insert the time of printing</property>
                     <property name="tooltip_text" translatable="yes">Insert the time of printing</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="label" translatable="yes">Time</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="homogeneous">False</property>
                   </packing>
                 </child>
                 <child>
@@ -302,6 +299,7 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="homogeneous">False</property>
                   </packing>
                 </child>
                 <child>
@@ -313,7 +311,6 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Insert the page number</property>
                     <property name="tooltip_text" translatable="yes">Insert the page number</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="label" translatable="yes">Page</property>
                   </object>
                   <packing>
@@ -330,7 +327,6 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Insert the total number of pages</property>
                     <property name="tooltip_text" translatable="yes">Insert the total number of pages</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="label" translatable="yes">Pages</property>
                   </object>
                   <packing>
@@ -347,7 +343,6 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Insert the name of the current sheet</property>
                     <property name="tooltip_text" translatable="yes">Insert the name of the current sheet</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="label" translatable="yes">Sheet</property>
                   </object>
                   <packing>
@@ -363,6 +358,7 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="homogeneous">False</property>
                   </packing>
                 </child>
                 <child>
@@ -374,7 +370,6 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Insert the name of the file</property>
                     <property name="tooltip_text" translatable="yes">Insert the name of the file</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="label" translatable="yes">File</property>
                     <property name="stock_id">gtk-file</property>
                   </object>
@@ -392,9 +387,8 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Insert the path to the file</property>
                     <property name="tooltip_text" translatable="yes">Insert the path to the file</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="label" translatable="yes">Path</property>
-                    <property name="stock_id">gtk-directory</property>
+                    <property name="icon_name">folder</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -409,6 +403,7 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="homogeneous">False</property>
                   </packing>
                 </child>
                 <child>
@@ -420,11 +415,11 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Insert a spreadsheet cell</property>
                     <property name="tooltip_text" translatable="yes">Insert a spreadsheet cell</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="label" translatable="yes">Cell</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="homogeneous">False</property>
                   </packing>
                 </child>
               </object>
