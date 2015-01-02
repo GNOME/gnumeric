@@ -1426,6 +1426,14 @@ destroy_cb (GObject *obj)
 	g_object_set_data (obj, "state", NULL);
 }
 
+static GdkPixbuf *
+get_icon (GtkWidget *widget, const char *icon_name)
+{
+	GdkScreen *screen = gtk_widget_get_screen (widget);
+	GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
+	return gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL);
+}
+
 void
 dialog_sheet_order (WBCGtk *wbcg)
 {
@@ -1434,8 +1442,11 @@ dialog_sheet_order (WBCGtk *wbcg)
 	GtkGrid *grid;
 	GOColorGroup *cg;
 	Workbook *wb;
+	GtkWidget *widget;
 
 	g_return_if_fail (wbcg != NULL);
+
+	widget = GTK_WIDGET (wbcg_toplevel (wbcg));
 
 	gui = gnm_gtk_builder_load ("sheet-order.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
@@ -1472,21 +1483,11 @@ dialog_sheet_order (WBCGtk *wbcg)
 	state->cancel_btn  = go_gtk_builder_get_widget (gui, "cancel_button");
 	state->advanced_check  = go_gtk_builder_get_widget (gui, "advanced-check");
 	state->initial_colors_set = FALSE;
-	state->image_padlock =  gtk_widget_render_icon_pixbuf (state->dialog,
-                                             "gnumeric-protection-yes",
-                                             GTK_ICON_SIZE_LARGE_TOOLBAR);
-	state->image_padlock_no =  gtk_widget_render_icon_pixbuf (state->dialog,
-                                             "gnumeric-protection-no",
-                                             GTK_ICON_SIZE_LARGE_TOOLBAR);
-	state->image_visible = gtk_widget_render_icon_pixbuf (state->dialog,
-                                             "gnumeric-visible",
-                                             GTK_ICON_SIZE_LARGE_TOOLBAR);
-	state->image_ltr =  gtk_widget_render_icon_pixbuf (state->dialog,
-                                             "gtk-go-forward",
-                                             GTK_ICON_SIZE_LARGE_TOOLBAR);
-	state->image_rtl =  gtk_widget_render_icon_pixbuf (state->dialog,
-                                             "gtk-go-back",
-                                             GTK_ICON_SIZE_LARGE_TOOLBAR);
+	state->image_padlock = get_icon (widget, "gnumeric-protection-yes");
+	state->image_padlock_no = get_icon (widget, "gnumeric-protection-no");
+	state->image_visible = get_icon (widget, "gnumeric-visible");
+	state->image_ltr = get_icon (widget, "format-text-direction-ltr");
+	state->image_rtl = get_icon (widget, "format-text-direction-rtl");
 	/* Listen for changes in the sheet order. */
 	state->sheet_order_changed_listener = g_signal_connect (G_OBJECT (wb),
 		"sheet_order_changed", G_CALLBACK (cb_sheet_order_changed),
