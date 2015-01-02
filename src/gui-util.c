@@ -1064,7 +1064,7 @@ gnumeric_message_dialog_create (GtkWindow * parent,
 	GtkWidget * label;
 	GtkWidget * hbox;
 	gchar *message;
-	const gchar *stock_id;
+	const gchar *icon_name;
 	GtkWidget *image;
 	const char *title;
 
@@ -1074,29 +1074,27 @@ gnumeric_message_dialog_create (GtkWindow * parent,
 	default:
 		g_warning ("Unknown GtkMessageType %d", type);
 	case GTK_MESSAGE_INFO:
-		stock_id = GTK_STOCK_DIALOG_INFO;
+		icon_name = GTK_STOCK_DIALOG_INFO;
 		title = _("Information");
 		break;
 
 	case GTK_MESSAGE_QUESTION:
-		stock_id = GTK_STOCK_DIALOG_QUESTION;
+		icon_name = GTK_STOCK_DIALOG_QUESTION;
 		title = _("Question");
 		break;
 
 	case GTK_MESSAGE_WARNING:
-		stock_id = GTK_STOCK_DIALOG_WARNING;
+		icon_name = GTK_STOCK_DIALOG_WARNING;
 		title = _("Warning");
 		break;
 
 	case GTK_MESSAGE_ERROR:
-		stock_id = GTK_STOCK_DIALOG_ERROR;
+		icon_name = GTK_STOCK_DIALOG_ERROR;
 		title = _("Error");
 		break;
 	}
 
-	image = gtk_image_new ();
-	gtk_image_set_from_stock (GTK_IMAGE (image), stock_id,
-				  GTK_ICON_SIZE_DIALOG);
+	image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_DIALOG);
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
 
 	if (primary_message) {
