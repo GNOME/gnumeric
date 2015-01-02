@@ -1144,6 +1144,7 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer,
 
 		pix = gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL);
 		gtk_text_buffer_insert_pixbuf (buffer, &iter, pix);
+		g_object_unref (pix);
 		gtk_text_iter_backward_char (&iter);
 		new_mark = gtk_text_buffer_create_mark (buffer, NULL,
 							&iter, FALSE);
