@@ -1,5 +1,8 @@
 2015-01-01  Morten Welinder  <terra@gnome.org>
 
+	* dialog-hyperlink.c (dhl_setup_type): Fix deprecations.
+	(dhl_init): Plug leak.
+
 	* dialog-cell-format.c (build_validation_error_combo): Plug leak.
 	(cb_validation_error_action_changed): Fix deprecations.
 

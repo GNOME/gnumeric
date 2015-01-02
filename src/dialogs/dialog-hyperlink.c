@@ -296,13 +296,13 @@ dhl_get_target_url (HyperlinkState *state, gboolean *success)
 
 static struct {
 	char const *label;
-	char const *image_name;
+	char const *icon_name;
 	char const *name;
 	char const *widget_name;
 	char const *descriptor;
 	void (*set_target) (HyperlinkState *state, const char* const target);
 	char * (*get_target) (HyperlinkState *state, gboolean *success);
-} const type [] = {
+} const type[] = {
 	{ N_("Internal Link"), "gnumeric-link-internal",
 	  "GnmHLinkCurWB",	"internal-link-grid",
 	  N_("Jump to specific cells or named range in the current workbook"),
@@ -429,9 +429,9 @@ dhl_setup_type (HyperlinkState *state)
 
 		if (!strcmp (name, type[i].name)) {
 			gtk_widget_show_all (w);
-			gtk_image_set_from_stock
-				(state->type_image, type[i].image_name,
-				 GTK_ICON_SIZE_LARGE_TOOLBAR);
+			gtk_image_set_from_icon_name
+				(state->type_image, type[i].icon_name,
+				 GTK_ICON_SIZE_DIALOG);
 			gtk_label_set_text (state->type_descriptor,
 					    _(type[i].descriptor));
 		} else
@@ -476,10 +476,11 @@ dhl_init (HyperlinkState *state)
 	GtkSizeGroup *size_group;
 	GnmExprEntry *expr_entry;
 	unsigned i, select = 0;
-	GdkPixbuf *pixbuf;
 	GtkListStore *store;
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
+	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (state->wbcg)));
+	GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
 
 #ifdef GNM_NO_MAILTO
 	gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "email-grid"));
@@ -524,13 +525,14 @@ dhl_init (HyperlinkState *state)
 	g_object_unref (store);
 
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
-		pixbuf = gtk_widget_render_icon_pixbuf (w, type[i].image_name,
-						 GTK_ICON_SIZE_MENU);
+		GdkPixbuf *pixbuf =
+			gtk_icon_theme_load_icon (theme, type[i].icon_name, 16, 0, NULL);
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
 				    0, pixbuf,
 				    1, _(type[i].label),
 				    -1);
+		g_object_unref (pixbuf);
 
 		if (strcmp (G_OBJECT_TYPE_NAME (state->link),
 			    type [i].name) == 0)
