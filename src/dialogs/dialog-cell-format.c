@@ -1809,44 +1809,44 @@ cb_validation_rebuild (G_GNUC_UNUSED void *ignored,
 static void
 build_validation_error_combo (GtkComboBox *box)
 {
-	GdkPixbuf *pixbuf;
 	GtkListStore *store;
-	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
+	struct {
+		const char *text;
+		const char *icon_name;
+	} items[] = {
+		{
+			N_("None          (silently accept invalid input)"),
+			GTK_STOCK_STOP
+		},
+		{
+			N_("Warning     (accept/discard invalid input)"),
+			GTK_STOCK_DIALOG_WARNING
+		},
+		{
+			N_("Information (allow invalid input)"),
+			GTK_STOCK_DIALOG_INFO
+		}
+	};
+	unsigned ui;
 
 	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
 	gtk_combo_box_set_model (box, GTK_TREE_MODEL (store));
 
-	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter,
-			    1, _("None          (silently accept invalid input)"),
-			    -1);
+	for (ui = 0; ui < G_N_ELEMENTS (items); ui++) {
+		GdkPixbuf *pixbuf =
+			gtk_widget_render_icon_pixbuf (GTK_WIDGET (box),
+						       items[ui].icon_name,
+						       GTK_ICON_SIZE_BUTTON);
+		GtkTreeIter iter;
 
-	pixbuf = gtk_widget_render_icon_pixbuf (GTK_WIDGET (box), GTK_STOCK_STOP,
-					 GTK_ICON_SIZE_BUTTON);
-	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter,
-			    0, pixbuf,
-			    1, _("Stop            (never allow invalid input)"),
-			    -1);
-
-	pixbuf = gtk_widget_render_icon_pixbuf (GTK_WIDGET (box),
-					 GTK_STOCK_DIALOG_WARNING,
-					 GTK_ICON_SIZE_BUTTON);
-	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter,
-			    0, pixbuf,
-			    1, _("Warning     (accept/discard invalid input)"),
-			    -1);
-
-	pixbuf = gtk_widget_render_icon_pixbuf (GTK_WIDGET (box),
-					 GTK_STOCK_DIALOG_INFO,
-					 GTK_ICON_SIZE_BUTTON);
-	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter,
-			    0, pixbuf,
-			    1, _("Information (allow invalid input)"),
-			    -1);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+				    0, pixbuf,
+				    1, _(items[ui].text),
+				    -1);
+		g_object_unref (pixbuf);
+	}
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (box),

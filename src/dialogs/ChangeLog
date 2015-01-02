@@ -1,5 +1,7 @@
 2015-01-01  Morten Welinder  <terra@gnome.org>
 
+	* dialog-cell-format.c (build_validation_error_combo): Plug leak.
+
 	* dialog-sheet-order.c (dialog_sheet_order): Fix icon handling.
 
 	* dialog-about.c (dialog_about): Update copyright.
