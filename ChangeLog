@@ -1,5 +1,8 @@
 2015-01-01  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (gnumeric_message_dialog_create): Use icon theme
+	names, not stock ids.
+
 	* src/gnm-pane.c (update_control_point_colors): Avoid
 	gtk_style_context_get_background_color.
 	* src/item-cursor.c (ic_reload_style): Ditto.

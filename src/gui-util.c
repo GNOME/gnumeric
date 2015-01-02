@@ -1074,22 +1074,22 @@ gnumeric_message_dialog_create (GtkWindow * parent,
 	default:
 		g_warning ("Unknown GtkMessageType %d", type);
 	case GTK_MESSAGE_INFO:
-		icon_name = GTK_STOCK_DIALOG_INFO;
+		icon_name = "dialog-information";
 		title = _("Information");
 		break;
 
 	case GTK_MESSAGE_QUESTION:
-		icon_name = GTK_STOCK_DIALOG_QUESTION;
+		icon_name = "dialog-question";
 		title = _("Question");
 		break;
 
 	case GTK_MESSAGE_WARNING:
-		icon_name = GTK_STOCK_DIALOG_WARNING;
+		icon_name = "dialog-warning";
 		title = _("Warning");
 		break;
 
 	case GTK_MESSAGE_ERROR:
-		icon_name = GTK_STOCK_DIALOG_ERROR;
+		icon_name = "dialog-error";
 		title = _("Error");
 		break;
 	}
