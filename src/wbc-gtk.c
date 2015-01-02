@@ -2745,7 +2745,7 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 			{ N_("Go to Bottom"),   &cb_cs_go_down    },
 			{ N_("Go to First"),    &cb_cs_go_left    },
 			{ N_("Go to Last"),     &cb_cs_go_right   },
-			{ NULL, NULL, NULL},
+			{ NULL, NULL },
 			{ N_("Go to Cell..."),  &cb_cs_go_to_cell }
 		};
 		unsigned int ui;
