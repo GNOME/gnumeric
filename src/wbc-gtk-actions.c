@@ -2953,10 +2953,6 @@ wbc_gtk_init_alignments (WBCGtk *wbcg)
 		      "label", _("Horizontal Alignment"),
 		      "tooltip", _("Horizontal Alignment"),
 		      NULL);
-#if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horizontal Alignment"));
-	go_combo_pixmaps_select (wbcg->halignment, 1); /* default to none */
-#endif
 	g_signal_connect (G_OBJECT (wbcg->halignment),
 		"activate",
 		G_CALLBACK (cb_halignment_activated), wbcg);
@@ -2968,10 +2964,6 @@ wbc_gtk_init_alignments (WBCGtk *wbcg)
 		      "label", _("Vertical Alignment"),
 		      "tooltip", _("Vertical Alignment"),
 		      NULL);
-#if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horizontal Alignment"));
-	go_combo_pixmaps_select (wbcg->valignment, 1); /* default to none */
-#endif
 	g_signal_connect (G_OBJECT (wbcg->valignment),
 		"activate",
 		G_CALLBACK (cb_valignment_activated), wbcg);
