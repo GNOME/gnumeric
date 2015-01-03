@@ -1,3 +1,8 @@
+2015-01-03  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_address): Clear sheet_name when defaulting
+	to evaluating sheet.
+
 2014-09-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.18

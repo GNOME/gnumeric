@@ -859,6 +859,7 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		if (!sheet) {
 			/* Use evaluation sheet if named sheet does not exist.  */
 			sheet = ei->pos->sheet;
+			sheet_name = NULL;
 		}
 	} else
 		sheet = ei->pos->sheet;
