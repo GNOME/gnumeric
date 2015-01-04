@@ -38,11 +38,14 @@ libspreadsheet-@GNUMERIC_API_VER@.pc: libspreadsheet.pc
 	cp $< $@
 
 @INTLTOOL_DESKTOP_RULE@
+@INTLTOOL_XML_RULE@
 
 appdatadir = $(datadir)/appdata
+appdata_in_files = gnumeric.appdata.xml.in
 appdata_DATA = gnumeric.appdata.xml
-gnumeric.appdata.xml: gnumeric.appdata.xml.in
-	cp $< $@
+
+gnumeric.appdata.xml: gnumeric.appdata.xml.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
+	LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 
 Applicationsdir = $(datadir)/applications/
 Applications_in_files = gnumeric.desktop.in
