@@ -1048,13 +1048,6 @@ cb_name_guru_selection_function (G_GNUC_UNUSED GtkTreeSelection *selection,
 	return FALSE;
 }
 
-static GdkPixbuf *
-get_icon (GtkIconTheme *theme, const char *icon_name)
-{
-	return gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL);
-}
-
-
 static gboolean
 name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 {
@@ -1062,8 +1055,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer   *renderer;
 	GtkTreeSelection  *selection;
-	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (wbcg)));
-	GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
+	GtkWidget *widget = GTK_WIDGET (wbcg_toplevel (wbcg));
 
 	state->is_paste_dialog = is_paste_dialog;
 	state->has_pasted = FALSE;
@@ -1189,7 +1181,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 				  "changed",
 				  G_CALLBACK (name_guru_update_sensitivity),
 				  state);
-		state->image_paste = get_icon (theme, "edit-paste");
+		state->image_paste = go_gtk_widget_render_icon_pixbuf (widget, "edit-paste", GTK_ICON_SIZE_MENU);
 		state->image_add    = NULL;
 		state->image_delete = NULL;
 		state->image_lock   = NULL;
@@ -1197,11 +1189,11 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 		state->image_down   = NULL;
 	} else {
 		state->image_paste = NULL;
-		state->image_add = get_icon (theme, "list-add");
-		state->image_delete = get_icon (theme, "list-remove");
-		state->image_lock = get_icon (theme, "gnumeric-protection-yes");
-		state->image_up = get_icon (theme, "go-up");
-		state->image_down = get_icon (theme, "do-down");
+		state->image_add = go_gtk_widget_render_icon_pixbuf (widget, "list-add", GTK_ICON_SIZE_MENU);
+		state->image_delete = go_gtk_widget_render_icon_pixbuf (widget, "list-remove", GTK_ICON_SIZE_MENU);
+		state->image_lock = go_gtk_widget_render_icon_pixbuf (widget, "gnumeric-protection-yes", GTK_ICON_SIZE_MENU);
+		state->image_up = go_gtk_widget_render_icon_pixbuf (widget, "go-up", GTK_ICON_SIZE_MENU);
+		state->image_down = go_gtk_widget_render_icon_pixbuf (widget, "do-down", GTK_ICON_SIZE_MENU);
 	}
 
 	state->search_entry = go_gtk_builder_get_widget (state->gui, "search_entry");

@@ -1136,13 +1136,12 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer,
 
 	if (gtk_text_buffer_insert_interactive_at_cursor
 	    (buffer, "", -1, TRUE)) {
-		GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (hf_state->printer_setup_state->wbcg)));
-		GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
+		GtkWidget *w = GTK_WIDGET (wbcg_toplevel (hf_state->printer_setup_state->wbcg));
 
 		gtk_text_buffer_get_iter_at_mark
 			(buffer, &iter, gtk_text_buffer_get_insert (buffer));
 
-		pix = gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL);
+		pix = go_gtk_widget_render_icon_pixbuf (w, icon_name, GTK_ICON_SIZE_BUTTON);
 		gtk_text_buffer_insert_pixbuf (buffer, &iter, pix);
 		g_object_unref (pix);
 		gtk_text_iter_backward_char (&iter);

@@ -1822,8 +1822,6 @@ build_validation_error_combo (FormatState *state, GtkComboBox *box)
 {
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
-	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (state->wbcg)));
-	GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
 	unsigned ui;
 
 	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
@@ -1832,7 +1830,8 @@ build_validation_error_combo (FormatState *state, GtkComboBox *box)
 	for (ui = 0; ui < G_N_ELEMENTS (validation_error_actions); ui++) {
 		const char *icon_name = validation_error_actions[ui].icon_name;
 		GdkPixbuf *pixbuf = icon_name
-			? gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL)
+			? go_gtk_widget_render_icon_pixbuf (GTK_WIDGET (wbcg_toplevel (state->wbcg)),
+							    icon_name, GTK_ICON_SIZE_MENU)
 			: NULL;
 		GtkTreeIter iter;
 

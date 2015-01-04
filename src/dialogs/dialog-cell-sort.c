@@ -1172,13 +1172,13 @@ dialog_cell_sort (WBCGtk *wbcg)
         state->dialog = go_gtk_builder_get_widget (state->gui, "CellSort");
 
 	state->image_ascending =
-		gtk_widget_render_icon_pixbuf (state->dialog,
-					GTK_STOCK_SORT_ASCENDING,
-					GTK_ICON_SIZE_LARGE_TOOLBAR);
+		go_gtk_widget_render_icon_pixbuf (state->dialog,
+						  "view-sort-ascending",
+						  GTK_ICON_SIZE_LARGE_TOOLBAR);
 	state->image_descending =
-		gtk_widget_render_icon_pixbuf (state->dialog,
-					GTK_STOCK_SORT_DESCENDING,
-					GTK_ICON_SIZE_LARGE_TOOLBAR);
+		go_gtk_widget_render_icon_pixbuf (state->dialog,
+						  "view-sort-descending",
+						  GTK_ICON_SIZE_LARGE_TOOLBAR);
 	dialog_init (state);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),

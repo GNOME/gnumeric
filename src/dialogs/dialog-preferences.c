@@ -1216,7 +1216,7 @@ static page_info_t const page_info[] = {
 	{N_("Auto Correct"),  GTK_STOCK_DIALOG_ERROR,	 NULL, &pref_autocorrect_general_page_initializer},
 	{N_("Font"),          GTK_STOCK_ITALIC,		 NULL, &pref_font_initializer	       },
 	{N_("Files"),         GTK_STOCK_FLOPPY,		 NULL, &pref_file_page_initializer     },
-	{N_("Tools"),       GTK_STOCK_EXECUTE,           NULL, &pref_tool_page_initializer     },
+	{N_("Tools"),         GTK_STOCK_EXECUTE,         NULL, &pref_tool_page_initializer     },
 	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer     },
 	{N_("Windows"),       "gnumeric-object-combo",	 NULL, &pref_window_page_initializer   },
 	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "1",  &pref_font_hf_initializer       },

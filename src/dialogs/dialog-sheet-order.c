@@ -1426,14 +1426,6 @@ destroy_cb (GObject *obj)
 	g_object_set_data (obj, "state", NULL);
 }
 
-static GdkPixbuf *
-get_icon (GtkWidget *widget, const char *icon_name)
-{
-	GdkScreen *screen = gtk_widget_get_screen (widget);
-	GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
-	return gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL);
-}
-
 void
 dialog_sheet_order (WBCGtk *wbcg)
 {
@@ -1443,6 +1435,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	GOColorGroup *cg;
 	Workbook *wb;
 	GtkWidget *widget;
+	GdkPixbuf *icon;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -1483,11 +1476,11 @@ dialog_sheet_order (WBCGtk *wbcg)
 	state->cancel_btn  = go_gtk_builder_get_widget (gui, "cancel_button");
 	state->advanced_check  = go_gtk_builder_get_widget (gui, "advanced-check");
 	state->initial_colors_set = FALSE;
-	state->image_padlock = get_icon (widget, "gnumeric-protection-yes");
-	state->image_padlock_no = get_icon (widget, "gnumeric-protection-no");
-	state->image_visible = get_icon (widget, "gnumeric-visible");
-	state->image_ltr = get_icon (widget, "format-text-direction-ltr");
-	state->image_rtl = get_icon (widget, "format-text-direction-rtl");
+	state->image_padlock = go_gtk_widget_render_icon_pixbuf (widget, "gnumeric-protection-yes", GTK_ICON_SIZE_MENU);
+	state->image_padlock_no = go_gtk_widget_render_icon_pixbuf (widget, "gnumeric-protection-no", GTK_ICON_SIZE_MENU);
+	state->image_visible = go_gtk_widget_render_icon_pixbuf (widget, "gnumeric-visible", GTK_ICON_SIZE_MENU);
+	state->image_ltr = go_gtk_widget_render_icon_pixbuf (widget, "format-text-direction-ltr", GTK_ICON_SIZE_MENU);
+	state->image_rtl = go_gtk_widget_render_icon_pixbuf (widget, "format-text-direction-rtl", GTK_ICON_SIZE_MENU);
 	/* Listen for changes in the sheet order. */
 	state->sheet_order_changed_listener = g_signal_connect (G_OBJECT (wb),
 		"sheet_order_changed", G_CALLBACK (cb_sheet_order_changed),
@@ -1502,9 +1495,9 @@ dialog_sheet_order (WBCGtk *wbcg)
 	grid = GTK_GRID (go_gtk_builder_get_widget (gui,"main-grid"));
 	cg = go_color_group_fetch ("back_color_group",
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_back = go_combo_color_new (
-		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "gnumeric-bucket", 24, 0, NULL),
-		_("Default"), 0, cg);
+	icon = go_gtk_widget_render_icon_pixbuf (widget, "gnumeric-bucket", GTK_ICON_SIZE_LARGE_TOOLBAR);
+	state->ccombo_back = go_combo_color_new (icon, _("Default"), 0, cg);
+	g_object_unref (icon);
 	g_object_unref (cg);
 	go_combo_color_set_instant_apply (
 		GO_COMBO_COLOR (state->ccombo_back), TRUE);
@@ -1513,9 +1506,9 @@ dialog_sheet_order (WBCGtk *wbcg)
 
 	cg = go_color_group_fetch ("fore_color_group",
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_fore = go_combo_color_new (
-		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "font", 24, 0, NULL),
-		_("Default"), 0, cg);
+	icon = go_gtk_widget_render_icon_pixbuf (widget, "font", GTK_ICON_SIZE_LARGE_TOOLBAR);
+	state->ccombo_fore = go_combo_color_new (icon, _("Default"), 0, cg);
+	g_object_unref (icon);
 	g_object_unref (cg);
 	go_combo_color_set_instant_apply (
 		GO_COMBO_COLOR (state->ccombo_fore), TRUE);

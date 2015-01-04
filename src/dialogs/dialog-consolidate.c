@@ -505,8 +505,8 @@ dialog_consolidate_tool_init (ConsolidateState *state)
 	state->areas_index = -1;
 
 	setup_widgets (state, state->base.gui);
-	state->pixmap =  gtk_widget_render_icon_pixbuf
-		(GTK_WIDGET(state->base.dialog),
+	state->pixmap = go_gtk_widget_render_icon_pixbuf
+		(GTK_WIDGET (state->base.dialog),
 		 "gnumeric-exprentry",
 		 GTK_ICON_SIZE_LARGE_TOOLBAR);
 

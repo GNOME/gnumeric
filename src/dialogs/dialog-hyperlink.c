@@ -479,8 +479,6 @@ dhl_init (HyperlinkState *state)
 	GtkListStore *store;
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
-	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (state->wbcg)));
-	GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
 
 #ifdef GNM_NO_MAILTO
 	gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "email-grid"));
@@ -525,8 +523,9 @@ dhl_init (HyperlinkState *state)
 	g_object_unref (store);
 
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
-		GdkPixbuf *pixbuf =
-			gtk_icon_theme_load_icon (theme, type[i].icon_name, 16, 0, NULL);
+		GdkPixbuf *pixbuf = go_gtk_widget_render_icon_pixbuf
+			(GTK_WIDGET (wbcg_toplevel (state->wbcg)),
+			 type[i].icon_name, GTK_ICON_SIZE_MENU);
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
 				    0, pixbuf,

@@ -166,13 +166,10 @@ attr_dialog_add_item (AttrState *state, char const *page_name,
 		      int page, char const* parent_path)
 {
 	GtkTreeIter iter, parent;
-	GdkPixbuf *icon = NULL;
+	GdkPixbuf *icon = icon_name
+		? go_gtk_widget_render_icon_pixbuf (GTK_WIDGET (wbcg_toplevel (state->wbcg)), icon_name, GTK_ICON_SIZE_MENU)
+		: NULL;
 
-	if (icon_name != NULL) {
-		GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (state->wbcg)));
-		GtkIconTheme *theme = gtk_icon_theme_get_for_screen (screen);
-		icon = gtk_icon_theme_load_icon (theme, icon_name, 16, 0, NULL);
-	}
 	if (parent_path && gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->store),
 								&parent, parent_path))
 		gtk_tree_store_append (state->store, &iter, &parent);
