@@ -2047,10 +2047,10 @@ gnm_sub_solver_locate_binary (const char *binary, const char *solver,
 			       "title", title,
 			       NULL));
 	g_free (title);
-	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
-				GNM_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_EXECUTE, GTK_RESPONSE_OK,
-				NULL);
+	go_gtk_dialog_add_button (GTK_DIALOG (fsel), GNM_STOCK_CANCEL,
+				  "gtk-cancel", GTK_RESPONSE_CANCEL);
+	go_gtk_dialog_add_button (GTK_DIALOG (fsel), GNM_STOCK_OK,
+				  "system-run", GTK_RESPONSE_OK);
 	g_object_ref (fsel);
 	if (go_gtk_file_sel_dialog (parent, GTK_WIDGET (fsel))) {
 		path = gtk_file_chooser_get_filename (fsel);
