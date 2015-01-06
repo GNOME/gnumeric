@@ -88,6 +88,14 @@ gnumeric_cell_renderer_toggle_get_type (void)
 }
 
 static void
+gnumeric_cell_renderer_toggle_dispose (GObject *obj)
+{
+	GnumericCellRendererToggle *celltoggle = GNUMERIC_CELL_RENDERER_TOGGLE (obj);
+	g_clear_object (&celltoggle->pixbuf);
+	G_OBJECT_CLASS (parent_class)->dispose (obj);
+}
+
+static void
 gnumeric_cell_renderer_toggle_class_init (GnumericCellRendererToggleClass *class)
 {
 	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS  (class);
@@ -97,6 +105,7 @@ gnumeric_cell_renderer_toggle_class_init (GnumericCellRendererToggleClass *class
 
 	object_class->get_property = gnumeric_cell_renderer_toggle_get_property;
 	object_class->set_property = gnumeric_cell_renderer_toggle_set_property;
+	object_class->dispose = gnumeric_cell_renderer_toggle_dispose;
 
 	cell_class->render = gnumeric_cell_renderer_toggle_render;
 	cell_class->get_size = gnumeric_cell_renderer_toggle_get_size;
@@ -127,8 +136,7 @@ gnumeric_cell_renderer_toggle_get_property (GObject     *object,
 
 	switch (param_id) {
 	case PROP_PIXBUF:
-		g_value_set_object (value,
-				    celltoggle->pixbuf ? G_OBJECT (celltoggle->pixbuf) : NULL);
+		g_value_set_object (value, celltoggle->pixbuf);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
