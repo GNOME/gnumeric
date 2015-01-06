@@ -435,19 +435,15 @@ cb_dialog_destroy (SortFlowState  *state)
 	value_release (state->sel);
 	state->sel = NULL;
 
-	if (state->model != NULL)
-		g_object_unref (state->model);
-	if (state->gui != NULL)
-		g_object_unref (state->gui);
+	g_clear_object (&state->model);
+	g_clear_object (&state->gui);
 
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
 	state->dialog = NULL;
 
-	g_object_unref (state->image_ascending);
-	state->image_ascending = NULL;
-	g_object_unref (state->image_descending);
-	state->image_descending = NULL;
+	g_clear_object (&state->image_ascending);
+	g_clear_object (&state->image_descending);
 
 	g_free (state);
 }
@@ -1008,14 +1004,16 @@ dialog_init (SortFlowState *state)
 				  "changed",
 				  G_CALLBACK (cb_sort_selection_changed), state);
 
-	state->header_column = gtk_tree_view_column_new_with_attributes (_("Header"),
-								 gtk_cell_renderer_text_new (),
-									 "text", ITEM_HEADER, NULL);
+	state->header_column = gtk_tree_view_column_new_with_attributes
+		(_("Header"),
+		 gtk_cell_renderer_text_new (),
+		 "text", ITEM_HEADER, NULL);
 	gtk_tree_view_append_column (state->treeview, state->header_column);
 
-	column = gtk_tree_view_column_new_with_attributes (_("Row/Column"),
-							   gtk_cell_renderer_text_new (),
-							   "text", ITEM_NAME, NULL);
+	column = gtk_tree_view_column_new_with_attributes
+		(_("Row/Column"),
+		 gtk_cell_renderer_text_new (),
+		 "text", ITEM_NAME, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
 	renderer = gnumeric_cell_renderer_toggle_new ();
@@ -1157,7 +1155,7 @@ dialog_cell_sort (WBCGtk *wbcg)
 		return;
 
 	gui = gnm_gtk_builder_load ("cell-sort.ui", NULL, GO_CMD_CONTEXT (wbcg));
-    if (gui == NULL)
+	if (gui == NULL)
             return;
 
 	state = g_new (SortFlowState, 1);
