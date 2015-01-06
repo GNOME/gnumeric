@@ -546,21 +546,18 @@ cb_name_guru_destroy (NameGuruState *state)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
 	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
-	if (state->gui != NULL) {
-		g_object_unref (state->gui);
-		state->gui = NULL;
-	}
+	g_clear_object (&state->gui);
+	g_clear_object (&state->model);
 
-	if (state->is_paste_dialog)
-		g_object_unref (state->image_paste);
-	else {
+	if (!state->is_paste_dialog)
 		wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
-		g_object_unref (state->image_add);
-		g_object_unref (state->image_delete);
-		g_object_unref (state->image_lock);
-		g_object_unref (state->image_up);
-		g_object_unref (state->image_down);
-	}
+
+	g_clear_object (&state->image_paste);
+	g_clear_object (&state->image_add);
+	g_clear_object (&state->image_delete);
+	g_clear_object (&state->image_lock);
+	g_clear_object (&state->image_up);
+	g_clear_object (&state->image_down);
 
 	state->dialog = NULL;
 	g_free (state);
@@ -1193,7 +1190,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 		state->image_delete = go_gtk_widget_render_icon_pixbuf (widget, "list-remove", GTK_ICON_SIZE_MENU);
 		state->image_lock = go_gtk_widget_render_icon_pixbuf (widget, "gnumeric-protection-yes", GTK_ICON_SIZE_MENU);
 		state->image_up = go_gtk_widget_render_icon_pixbuf (widget, "go-up", GTK_ICON_SIZE_MENU);
-		state->image_down = go_gtk_widget_render_icon_pixbuf (widget, "do-down", GTK_ICON_SIZE_MENU);
+		state->image_down = go_gtk_widget_render_icon_pixbuf (widget, "go-down", GTK_ICON_SIZE_MENU);
 	}
 
 	state->search_entry = go_gtk_builder_get_widget (state->gui, "search_entry");
