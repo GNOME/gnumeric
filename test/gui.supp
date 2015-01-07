@@ -192,3 +192,26 @@
    fun:*
    fun:_IceWrite
 }
+
+{
+   Leak/gtk_read_settings
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:read_settings
+}
+
+{
+   Leak/gtk_css_keyframes1
+   Memcheck:Leak
+   ...
+   fun:gtk_css_keyframes_new
+}
+
+{
+   Leak/gtk_css_keyframes2
+   Memcheck:Leak
+   fun:realloc
+   fun:g_realloc
+   fun:gtk_css_keyframes_add_keyframe
+}
