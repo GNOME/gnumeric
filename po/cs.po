@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-04 02:19+0000\n"
-"PO-Revision-Date: 2015-01-04 13:36+0100\n"
+"POT-Creation-Date: 2015-01-07 03:11+0000\n"
+"PO-Revision-Date: 2015-01-07 20:34+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -927,8 +927,8 @@ msgid "%s version %s"
 msgstr "%s verze %s"
 
 #: ../plugins/fn-info/functions.c:1406 ../src/dialogs/dialog-cell-format.c:876
-#: ../src/dialogs/dialog-cell-format.c:2351
-#: ../src/dialogs/dialog-cell-format.c:2359 ../src/wbc-gtk.c:3403
+#: ../src/dialogs/dialog-cell-format.c:2350
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk.c:3403
 msgid "Automatic"
 msgstr "Automaticky"
 
@@ -1116,7 +1116,12 @@ msgstr "Databáze…"
 msgid "Target cell did not evaluate to a number."
 msgstr "Cílová buňka nebyla vyhodnocena jako číslo."
 
-#: ../plugins/glpk/glpk-write.c:352
+#: ../plugins/glpk/glpk-write.c:187 ../plugins/lpsolve/lpsolve-write.c:189
+#, c-format
+msgid "Only linear programs are handled."
+msgstr "Zpracovávány jsou jen lineární programy."
+
+#: ../plugins/glpk/glpk-write.c:362
 msgid "Writing glpk file..."
 msgstr "Zapisuje se soubor glpk…"
 
@@ -1265,7 +1270,7 @@ msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 msgid "The LPSolve exporter is not available."
 msgstr "Nástroj na export LPSolve není dostupný."
 
-#: ../plugins/lpsolve/lpsolve-write.c:335
+#: ../plugins/lpsolve/lpsolve-write.c:345
 msgid "Writing lpsolve file..."
 msgstr "Zapisuje se soubor lpsolve…"
 
@@ -1380,12 +1385,12 @@ msgstr "Načítá programy LP uložené ve formátu MPS (*.mps)"
 msgid "Linear and integer program (*.mps) file format"
 msgstr "Formát souboru pro lineární a celočíselné programy (*.mps)"
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:96
+#: ../plugins/nlsolve/gnm-nlsolve.c:105
 #, c-format
 msgid "This solver does not handle discrete variables."
 msgstr "Tento řešitel nezpracovává diskrétní proměnné."
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:202
+#: ../plugins/nlsolve/gnm-nlsolve.c:211
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Výchozí hodnoty nesplňují omezení."
@@ -5698,30 +5703,30 @@ msgstr "Max:"
 msgid "Value:"
 msgstr "Hodnota:"
 
-#: ../src/dialogs/dialog-cell-format.c:2082
+#: ../src/dialogs/dialog-cell-format.c:2081
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Kritérium pro ověření platnosti je nepoužitelné. Vypnout ověřování?"
 
-#: ../src/dialogs/dialog-cell-format.c:2288 ../src/dialogs/cell-format.ui.h:17
+#: ../src/dialogs/dialog-cell-format.c:2287 ../src/dialogs/cell-format.ui.h:17
 msgid "Format Cells"
 msgstr "Formát buněk"
 
-#: ../src/dialogs/dialog-cell-format.c:2351
+#: ../src/dialogs/dialog-cell-format.c:2350
 #: ../src/dialogs/cell-format-cond.ui.h:8 ../src/dialogs/cell-format.ui.h:57
 msgid "Border"
 msgstr "Ohraničení"
 
-#: ../src/dialogs/dialog-cell-format.c:2355 ../src/wbc-gtk.c:3450
+#: ../src/dialogs/dialog-cell-format.c:2354 ../src/wbc-gtk.c:3450
 msgid "Clear Background"
 msgstr "Vymazat pozadí"
 
-#: ../src/dialogs/dialog-cell-format.c:2355
+#: ../src/dialogs/dialog-cell-format.c:2354
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
 #: ../src/wbc-gtk.c:3452 ../src/wbc-gtk.c:3453
 msgid "Background"
 msgstr "Pozadí"
 
-#: ../src/dialogs/dialog-cell-format.c:2359
+#: ../src/dialogs/dialog-cell-format.c:2358
 msgid "Pattern"
 msgstr "Vzorek"
 
@@ -5960,27 +5965,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s do %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:761
+#: ../src/dialogs/dialog-cell-sort.c:757
 msgid "no available column"
 msgstr "není k dispozici žádný sloupec"
 
-#: ../src/dialogs/dialog-cell-sort.c:761
+#: ../src/dialogs/dialog-cell-sort.c:757
 msgid "no available row"
 msgstr "není k dispozici žádný řádek"
 
-#: ../src/dialogs/dialog-cell-sort.c:1011
+#: ../src/dialogs/dialog-cell-sort.c:1008
 msgid "Header"
 msgstr "Záhlaví"
 
-#: ../src/dialogs/dialog-cell-sort.c:1016
+#: ../src/dialogs/dialog-cell-sort.c:1014
 msgid "Row/Column"
 msgstr "Řádek/Sloupec"
 
-#: ../src/dialogs/dialog-cell-sort.c:1036
+#: ../src/dialogs/dialog-cell-sort.c:1034
 msgid "Case Sensitive"
 msgstr "Rozlišovat velikost písmen"
 
-#: ../src/dialogs/dialog-cell-sort.c:1056
+#: ../src/dialogs/dialog-cell-sort.c:1054
 msgid "By Value"
 msgstr "Podle hodnoty"
 
@@ -6066,32 +6071,32 @@ msgstr "Nelze vytvořit dialogové okno pro definování datové tabulky."
 msgid "Workbook"
 msgstr "Sešit"
 
-#: ../src/dialogs/dialog-define-names.c:601
+#: ../src/dialogs/dialog-define-names.c:598
 msgid "<new name>"
 msgstr "<nový název>"
 
-#: ../src/dialogs/dialog-define-names.c:857
+#: ../src/dialogs/dialog-define-names.c:854
 msgid "Why would you want to define a name for the empty string?"
 msgstr "Proč byste měl chtít definovat název pro prázdný řetězec?"
 
-#: ../src/dialogs/dialog-define-names.c:882
+#: ../src/dialogs/dialog-define-names.c:879
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "Proč byste měl chtít definovat název v podobě #NÁZEV?"
 
-#: ../src/dialogs/dialog-define-names.c:976
+#: ../src/dialogs/dialog-define-names.c:973
 msgid "This name is already in use!"
 msgstr "Tento název se již používá!"
 
-#: ../src/dialogs/dialog-define-names.c:1169
+#: ../src/dialogs/dialog-define-names.c:1158
 msgid "content"
 msgstr "obsah"
 
-#: ../src/dialogs/dialog-define-names.c:1239
+#: ../src/dialogs/dialog-define-names.c:1228
 msgid "Paste Defined Names"
 msgstr "Vložit definované názvy"
 
-#: ../src/dialogs/dialog-define-names.c:1273
-#: ../src/dialogs/dialog-define-names.c:1303
+#: ../src/dialogs/dialog-define-names.c:1262
+#: ../src/dialogs/dialog-define-names.c:1292
 msgid "Could not create the Name Guru."
 msgstr "Nelze vytvořit průvodce vytvořením názvu."
 
@@ -6399,7 +6404,7 @@ msgstr "Upravit hypertextový odkaz"
 msgid "Remove Hyperlink"
 msgstr "Odstranit hypertextový odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:620
+#: ../src/dialogs/dialog-hyperlink.c:619
 msgid "Could not create the hyperlink dialog."
 msgstr "Nelze vytvořit dialogové okno Hypertextový odkaz."
 
@@ -6649,105 +6654,105 @@ msgstr "palce"
 msgid "mm"
 msgstr "mm"
 
-#: ../src/dialogs/dialog-printer-setup.c:1581
+#: ../src/dialogs/dialog-printer-setup.c:1580
 msgid "Default date format"
 msgstr "Výchozí formát data"
 
-#: ../src/dialogs/dialog-printer-setup.c:1587
+#: ../src/dialogs/dialog-printer-setup.c:1586
 msgid "Custom date format"
 msgstr "Vlastní formát data"
 
-#: ../src/dialogs/dialog-printer-setup.c:1619
+#: ../src/dialogs/dialog-printer-setup.c:1618
 msgid "Default time format"
 msgstr "Výchozí formát času"
 
-#: ../src/dialogs/dialog-printer-setup.c:1625
+#: ../src/dialogs/dialog-printer-setup.c:1624
 msgid "Custom time format"
 msgstr "Vlastní formát času"
 
-#: ../src/dialogs/dialog-printer-setup.c:1657
+#: ../src/dialogs/dialog-printer-setup.c:1656
 msgid "A1 (first cell of the page area)"
 msgstr "A1 (první buňka tiskové oblasti)"
 
-#: ../src/dialogs/dialog-printer-setup.c:1664
+#: ../src/dialogs/dialog-printer-setup.c:1663
 msgid "$A$1 (first cell of this worksheet)"
 msgstr "$A$1 (první buňka tohoto listu)"
 
-#: ../src/dialogs/dialog-printer-setup.c:1671
+#: ../src/dialogs/dialog-printer-setup.c:1670
 msgid "First Printed Cell Of The Page"
 msgstr "První tištěná buňka na stránce"
 
-#: ../src/dialogs/dialog-printer-setup.c:1733
+#: ../src/dialogs/dialog-printer-setup.c:1732
 msgid "Custom header configuration"
 msgstr "Vlastní nastavení záhlaví"
 
-#: ../src/dialogs/dialog-printer-setup.c:1738
+#: ../src/dialogs/dialog-printer-setup.c:1737
 msgid "Custom footer configuration"
 msgstr "Vlastní nastavení zápatí"
 
-#: ../src/dialogs/dialog-printer-setup.c:1889
+#: ../src/dialogs/dialog-printer-setup.c:1888
 msgid "Date format selection"
 msgstr "Výběr formátu data"
 
-#: ../src/dialogs/dialog-printer-setup.c:1891
+#: ../src/dialogs/dialog-printer-setup.c:1890
 msgid "Time format selection"
 msgstr "Výběr formátu času"
 
-#: ../src/dialogs/dialog-printer-setup.c:2178
+#: ../src/dialogs/dialog-printer-setup.c:2177
 msgid "Print as displayed"
 msgstr "Tisknout jak je zobrazena"
 
-#: ../src/dialogs/dialog-printer-setup.c:2179
+#: ../src/dialogs/dialog-printer-setup.c:2178
 msgid "Print as spaces"
 msgstr "Tisknout jako mezery"
 
-#: ../src/dialogs/dialog-printer-setup.c:2180
+#: ../src/dialogs/dialog-printer-setup.c:2179
 msgid "Print as dashes"
 msgstr "Tisknout jako pomlčky"
 
-#: ../src/dialogs/dialog-printer-setup.c:2181
+#: ../src/dialogs/dialog-printer-setup.c:2180
 msgid "Print as #N/A"
 msgstr "Tisknout jako #N/A"
 
-#: ../src/dialogs/dialog-printer-setup.c:2214
+#: ../src/dialogs/dialog-printer-setup.c:2213
 #: ../src/dialogs/sheetobject-size.ui.h:7
 msgid "Do not print"
 msgstr "Netisknout"
 
-#: ../src/dialogs/dialog-printer-setup.c:2215
+#: ../src/dialogs/dialog-printer-setup.c:2214
 msgid "Print in place"
 msgstr "Tisknout v místě"
 
-#: ../src/dialogs/dialog-printer-setup.c:2216
+#: ../src/dialogs/dialog-printer-setup.c:2215
 msgid "Print at end"
 msgstr "Tisknout na konci"
 
-#: ../src/dialogs/dialog-printer-setup.c:2390
+#: ../src/dialogs/dialog-printer-setup.c:2389
 #, c-format
 msgid "%.0f pixels wide by %.0f pixels tall"
 msgstr "%.0f pixelů na šířku krát %.0f pixelů na výšku"
 
-#: ../src/dialogs/dialog-printer-setup.c:2393
+#: ../src/dialogs/dialog-printer-setup.c:2392
 #, c-format
 msgid "%.0f points wide by %.0f points tall"
 msgstr "%.0f bodů na šířku krát %.0f bodů na výšku"
 
-#: ../src/dialogs/dialog-printer-setup.c:2396
+#: ../src/dialogs/dialog-printer-setup.c:2395
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
 msgstr "%.1f palců na šířku krát %.1f palců na výšku"
 
-#: ../src/dialogs/dialog-printer-setup.c:2399
+#: ../src/dialogs/dialog-printer-setup.c:2398
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
 msgstr "%.0f mm na šířku krát %.0f mm na výšku"
 
-#: ../src/dialogs/dialog-printer-setup.c:2402
+#: ../src/dialogs/dialog-printer-setup.c:2401
 #, c-format
 msgid "%.1f wide by %.1f tall"
 msgstr "%.1f na šířku krát %.1f na výšku"
 
-#: ../src/dialogs/dialog-quit.c:83 ../src/dialogs/dialog-recent.c:145
+#: ../src/dialogs/dialog-quit.c:83 ../src/dialogs/dialog-recent.c:153
 #, c-format
 msgid ""
 "<b>%s</b>\n"
@@ -7037,7 +7042,7 @@ msgstr "Nelze vytvořit dialogové okno nástroje Generátor náhodných čísel
 #. * this.  The default will show things like "09:50"
 #. * and "21:50".
 #.
-#: ../src/dialogs/dialog-recent.c:187
+#: ../src/dialogs/dialog-recent.c:195
 msgid "%H:%M"
 msgstr "%H:%M"
 
@@ -7048,7 +7053,7 @@ msgstr "%H:%M"
 #. * to change this.  The default will show
 #. * things like " 9:50 am" and " 9:50 pm".
 #.
-#: ../src/dialogs/dialog-recent.c:196
+#: ../src/dialogs/dialog-recent.c:204
 msgid "%l:%M %P"
 msgstr "%l:%M %P"
 
@@ -7188,12 +7193,12 @@ msgstr "Nový název"
 msgid "You may not call more than one sheet \"%s\"."
 msgstr "Nemůže nazvat více listů jako „%s“."
 
-#: ../src/dialogs/dialog-sheet-order.c:1462
+#: ../src/dialogs/dialog-sheet-order.c:1455
 msgid "Another view is already managing sheets"
 msgstr "Jiné zobrazení již s listem pracuje"
 
-#: ../src/dialogs/dialog-sheet-order.c:1507
-#: ../src/dialogs/dialog-sheet-order.c:1518
+#: ../src/dialogs/dialog-sheet-order.c:1499
+#: ../src/dialogs/dialog-sheet-order.c:1510
 msgid "Default"
 msgstr "Výchozí"
 
@@ -7591,20 +7596,20 @@ msgstr "Obrazovka %d [Tato obrazovka]"
 msgid "Screen %d"
 msgstr "Obrazovka %d"
 
-#: ../src/dialogs/dialog-workbook-attr.c:200
+#: ../src/dialogs/dialog-workbook-attr.c:197
 msgid "Widgets"
 msgstr "Widgety"
 
-#: ../src/dialogs/dialog-workbook-attr.c:201
+#: ../src/dialogs/dialog-workbook-attr.c:198
 #: ../src/dialogs/cell-format-cond.ui.h:10 ../src/dialogs/cell-format.ui.h:95
 msgid "Protection"
 msgstr "Ochrana"
 
-#: ../src/dialogs/dialog-workbook-attr.c:202
+#: ../src/dialogs/dialog-workbook-attr.c:199
 msgid "Auto Completion"
 msgstr "Automatické doplňování"
 
-#: ../src/dialogs/dialog-workbook-attr.c:203
+#: ../src/dialogs/dialog-workbook-attr.c:200
 msgid "Cell Markers"
 msgstr "Značky buněk"
 
@@ -14661,7 +14666,7 @@ msgstr "Podmínka"
 msgid "No constraints"
 msgstr "Bez omezení"
 
-#: ../src/tools/gnm-solver.c:2022
+#: ../src/tools/gnm-solver.c:2045
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14674,12 +14679,12 @@ msgstr ""
 "\n"
 "Přejete si jej najít sami?"
 
-#: ../src/tools/gnm-solver.c:2026
+#: ../src/tools/gnm-solver.c:2049
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Nelze najít „%s“"
 
-#: ../src/tools/gnm-solver.c:2042
+#: ../src/tools/gnm-solver.c:2065
 #, c-format
 msgid "Locate the %s program"
 msgstr "Vyhledání programu %s"
