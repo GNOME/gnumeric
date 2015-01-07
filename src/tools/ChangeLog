@@ -1,3 +1,8 @@
+2015-01-06  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_sub_solver_finalize): New function to plug
+	leak.
+
 2014-09-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.18

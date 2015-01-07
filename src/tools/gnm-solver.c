@@ -1815,8 +1815,11 @@ gnm_sub_solver_clear (GnmSubSolver *subsol)
 		subsol->program_filename = NULL;
 	}
 
-	g_hash_table_remove_all (subsol->cell_from_name);
-	g_hash_table_remove_all (subsol->name_from_cell);
+	if (subsol->cell_from_name)
+		g_hash_table_remove_all (subsol->cell_from_name);
+
+	if (subsol->name_from_cell)
+		g_hash_table_remove_all (subsol->name_from_cell);
 }
 
 static void
@@ -1827,6 +1830,26 @@ gnm_sub_solver_dispose (GObject *obj)
 	gnm_sub_solver_clear (subsol);
 
 	gnm_sub_solver_parent_class->dispose (obj);
+}
+
+static void
+gnm_sub_solver_finalize (GObject *obj)
+{
+	GnmSubSolver *subsol = GNM_SUB_SOLVER (obj);
+
+	/*
+	 * The weird finalization in gnm_lpsolve_final makes it important that
+	 * we leave the object in a state that gnm_sub_solver_clear is happy
+	 * with.
+	 */
+
+	g_hash_table_destroy (subsol->cell_from_name);
+	subsol->cell_from_name = NULL;
+
+	g_hash_table_destroy (subsol->name_from_cell);
+	subsol->name_from_cell = NULL;
+
+	gnm_sub_solver_parent_class->finalize (obj);
 }
 
 static void
@@ -2088,6 +2111,7 @@ gnm_sub_solver_class_init (GObjectClass *object_class)
 	gnm_sub_solver_parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->dispose = gnm_sub_solver_dispose;
+	object_class->finalize = gnm_sub_solver_finalize;
 }
 
 GSF_CLASS (GnmSubSolver, gnm_sub_solver,
