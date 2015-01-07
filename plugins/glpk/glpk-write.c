@@ -180,6 +180,16 @@ glpk_create_program (Sheet *sheet, GOIOContext *io_context,
 
 	/* ---------------------------------------- */
 
+	if (sp->options.model_type != GNM_SOLVER_LP) {
+		g_set_error (err,
+			     go_error_invalid (),
+			     0,
+			     _("Only linear programs are handled."));
+		goto fail;
+	}
+
+	/* ---------------------------------------- */
+
 	if (ssol) {
 		unsigned ui;
 		GSList *l;
