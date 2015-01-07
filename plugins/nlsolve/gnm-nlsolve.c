@@ -52,6 +52,8 @@ typedef struct {
 	guint idle_tag;
 } GnmNlsolve;
 
+static void free_matrix (gnm_float **m, int n);
+
 static void
 gnm_nlsolve_cleanup (GnmNlsolve *nl)
 {
@@ -64,11 +66,18 @@ gnm_nlsolve_cleanup (GnmNlsolve *nl)
 static void
 gnm_nlsolve_final (GnmNlsolve *nl)
 {
+	const int n = nl->vars->len;
+
 	gnm_nlsolve_cleanup (nl);
 	if (nl->vars)
 		g_ptr_array_free (nl->vars, TRUE);
 	g_free (nl->xk);
 	g_free (nl->x0);
+	if (nl->xi) {
+		free_matrix (nl->xi, n);
+		nl->xi = NULL;
+	}
+
 	g_free (nl);
 }
 
