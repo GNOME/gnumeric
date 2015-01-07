@@ -76,6 +76,14 @@ cb_response (GtkWidget *dialog,
 	}
 }
 
+static void
+cb_destroy (GtkDialog *dialog)
+{
+	/* Trigger tear-down.  */
+	g_object_set_data (G_OBJECT (dialog), "gui", NULL);
+}
+
+
 static gboolean
 cb_key_press (GtkWidget *widget, GdkEventKey *event)
 {
@@ -326,6 +334,7 @@ dialog_recent_used (WBCGtk *wbcg)
 	/* ---------------------------------------- */
 
 	g_object_set_data_full (G_OBJECT (dialog), "gui", gui, g_object_unref);
+	g_signal_connect (dialog, "destroy", G_CALLBACK (cb_destroy), NULL);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (wbcg), GTK_WINDOW (dialog));
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
