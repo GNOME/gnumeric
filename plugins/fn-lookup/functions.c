@@ -833,9 +833,8 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	GnmParsePos	 pp;
 	gboolean	 err;
 	int		 col, row;
-	Sheet            *sheet;
-	const char       *sheet_name =
-		args[4] ? value_peek_string (args[4]) : NULL;
+	Sheet            *sheet = NULL;
+	const char       *sheet_name = args[4] ? value_peek_string (args[4]) : NULL;
 
 	switch (args[2] ? value_get_as_int (args[2]) : 1) {
 	case 1: case 5: ref.col_relative = ref.row_relative = FALSE; break;
@@ -853,15 +852,11 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		return value_new_error_VALUE (ei->pos);
 	}
 
-	if (sheet_name) {
+	if (sheet_name)
 		sheet = workbook_sheet_by_name (ei->pos->sheet->workbook,
 						sheet_name);
-		if (!sheet) {
-			/* Use evaluation sheet if named sheet does not exist.  */
-			sheet = ei->pos->sheet;
-			sheet_name = NULL;
-		}
-	} else
+	/* For unknown or missing sheet, use current sheet.  */
+	if (!sheet)
 		sheet = ei->pos->sheet;
 
 	ref.sheet = NULL;
@@ -882,6 +877,7 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		if (err)
 		        return value_new_error_VALUE (ei->pos);
 	}
+
 	if (col < 0 || col >= gnm_sheet_get_max_cols (sheet))
 		return value_new_error_VALUE (ei->pos);
 	if (row < 0 || row >= gnm_sheet_get_max_rows (sheet))
@@ -890,10 +886,13 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	if (!out.convs->r1c1_addresses)
 		pp.eval.col = pp.eval.row = 0;
 
-	if (sheet_name) {
-		out.accum = gnm_expr_conv_quote (gnm_conventions_default,
-						 sheet_name);
-		g_string_append_c (out.accum, '!');
+	if (sheet_name && sheet_name[0]) {
+		out.accum = gnm_expr_conv_quote (out.convs, sheet_name);
+		g_string_append_c (out.accum, out.convs->sheet_name_sep);
+	} else if (sheet_name) {
+		/* A crazy case.  Invalid name, but ends up unquoted.  */
+		out.accum = g_string_new (NULL);
+		g_string_append_c (out.accum, out.convs->sheet_name_sep);
 	} else
 		out.accum = g_string_new (NULL);
 	cellref_as_string (&out, &ref, TRUE);

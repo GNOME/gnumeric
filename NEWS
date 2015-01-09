@@ -22,6 +22,7 @@ Morten:
 	* Fix GNM_HALIGN_DISTRIBUTED rendering.  [#726155]
 	* Restore translations of function help texts.
 	* Fix import of extended float formula results from wk4 files.
+	* Fix ADDRESS problem.
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739679]
