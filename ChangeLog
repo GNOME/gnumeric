@@ -1,3 +1,8 @@
+2015-01-09  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (value_compare_real): Rewrite.  Handle errors and
+	sort them later than other values.  This fixes #742601.
+
 2015-01-01  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnumeric_message_dialog_create): Use icon theme

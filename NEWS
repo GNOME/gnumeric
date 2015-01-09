@@ -23,6 +23,7 @@ Morten:
 	* Restore translations of function help texts.
 	* Fix import of extended float formula results from wk4 files.
 	* Fix ADDRESS problem.
+	* Fix sheet-filter problem with errors.  [#742601]
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739679]

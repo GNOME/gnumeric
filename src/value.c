@@ -1193,6 +1193,25 @@ compare_float_float (GnmValue const *va, GnmValue const *vb)
 		return IS_GREATER;
 }
 
+static GnmValDiff
+compare_error_error (GnmValue const *va, GnmValue const *vb)
+{
+	GnmStdError ea = value_error_classify (va);
+	GnmStdError eb = value_error_classify (vb);
+	int i;
+
+	if (ea != eb)
+		return ea < eb ? IS_LESS : IS_GREATER;
+
+	if (ea != GNM_ERROR_UNKNOWN)
+		return IS_EQUAL;
+
+	/* Two unknown errors.  Just compare strings.  */
+	i = strcmp (value_peek_string (va), value_peek_string (vb));
+	return (i > 0 ? IS_GREATER : (i < 0 ? IS_LESS : IS_EQUAL));
+}
+
+
 /**
  * value_diff:
  * @a: value a
@@ -1300,6 +1319,10 @@ gnm_string_cmp_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 }
 
 
+/* This depends on the actual values of the enums. */
+#define PAIR(ta_,tb_) ((ta_) + (((tb_) >> 3) - 1))
+#define CPAIR(ta_,tb_) (1 ? PAIR((ta_),(tb_)) : sizeof (struct { int sanity_check[((ta_) >= (tb_)) * 2 - 1]; } ))
+
 /*
  * value_compare:
  *
@@ -1315,7 +1338,8 @@ value_compare_real (GnmValue const *a, GnmValue const *b,
 		    gboolean default_locale)
 {
 	GnmValueType ta, tb;
-	int t;
+	gboolean flip;
+	GnmValDiff res;
 
 	/* Handle trivial and double NULL case */
 	if (a == b)
@@ -1324,83 +1348,105 @@ value_compare_real (GnmValue const *a, GnmValue const *b,
 	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->v_any.type;
 	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->v_any.type;
 
-	/* string > empty */
-	if (ta == VALUE_STRING) {
-		switch (tb) {
-		/* Strings are > (empty, or number) */
-		case VALUE_EMPTY :
-			if (*a->v_str.val->str == '\0')
-				return IS_EQUAL;
-
-		case VALUE_FLOAT:
-			return IS_GREATER;
-
-		/* Strings are < FALSE ?? */
-		case VALUE_BOOLEAN :
-			return IS_LESS;
-
-		/* If both are strings compare as string */
-		case VALUE_STRING :
-			t = (default_locale) ?
-				(case_sensitive
-				 ? go_string_cmp
-				 (a->v_str.val, b->v_str.val)
-				 : go_string_cmp_ignorecase
-				 (a->v_str.val, b->v_str.val))
-				: (case_sensitive
-				   ? gnm_string_cmp
-				   (a->v_str.val, b->v_str.val)
-				   : gnm_string_cmp_ignorecase
-				   (a->v_str.val, b->v_str.val));
-
-			if (t > 0)
-				return IS_GREATER;
-			else if (t < 0)
-				return IS_LESS;
-			else
-				return IS_EQUAL;
-
-		default :
-			return TYPE_MISMATCH;
-		}
-	} else if (tb == VALUE_STRING) {
-		switch (ta) {
-		/* (empty, or number) < String */
-		case VALUE_EMPTY :
-			if (*b->v_str.val->str == '\0')
-				return IS_EQUAL;
-
-		case VALUE_FLOAT :
-			return IS_LESS;
-
-		/* Strings are < FALSE ?? */
-		case VALUE_BOOLEAN :
-			return IS_GREATER;
-
-		default :
-			return TYPE_MISMATCH;
-		}
+	flip = (tb > ta);
+	if (flip) {
+		GnmValueType t = ta;
+		GnmValue const *v = a;
+		ta = tb;
+		tb = t;
+		a = b;
+		b = v;
 	}
 
-	/* Booleans > all numbers (Why did excel do this ?? ) */
-	if (ta == VALUE_BOOLEAN && tb == VALUE_FLOAT)
-		return IS_GREATER;
-	if (tb == VALUE_BOOLEAN && ta == VALUE_FLOAT)
-		return IS_LESS;
-
-	switch ((ta > tb) ? ta : tb) {
-	case VALUE_EMPTY:	/* Empty Empty compare */
+	switch (PAIR (ta,tb)) {
+	case CPAIR (VALUE_EMPTY,VALUE_EMPTY):
+		g_assert_not_reached(); /* Should have hit trivial case.  */
 		return IS_EQUAL;
 
-	case VALUE_BOOLEAN:
-		return compare_bool_bool (a, b);
+	/* ---------------------------------------- */
 
-	case VALUE_FLOAT:
-		return compare_float_float (a, b);
-	default:
-		return TYPE_MISMATCH;
+	case CPAIR (VALUE_BOOLEAN,VALUE_EMPTY): /* Blank is FALSE */
+	case CPAIR (VALUE_BOOLEAN,VALUE_BOOLEAN):
+		res = compare_bool_bool (a, b);
+		break;
+
+	/* ---------------------------------------- */
+
+	case CPAIR (VALUE_FLOAT,VALUE_BOOLEAN):
+		/* Number < boolean  (Why did excel do this ?? ) */
+		res = IS_LESS;
+		break;
+	case CPAIR (VALUE_FLOAT,VALUE_EMPTY): /* Blank is 0 */
+	case CPAIR (VALUE_FLOAT,VALUE_FLOAT):
+		res = compare_float_float (a, b);
+		break;
+
+	/* ---------------------------------------- */
+
+	case CPAIR (VALUE_ERROR,VALUE_EMPTY):
+	case CPAIR (VALUE_ERROR,VALUE_BOOLEAN):
+	case CPAIR (VALUE_ERROR,VALUE_FLOAT):
+		/* Error > others */
+		res = IS_GREATER;
+		break;
+
+	case CPAIR (VALUE_ERROR,VALUE_ERROR):
+		res = compare_error_error (a, b);
+		break;
+
+	/* ---------------------------------------- */
+
+	case CPAIR (VALUE_STRING,VALUE_EMPTY): /* Blank is empty string */
+		/* String > empty, except empty string */
+		res = a->v_str.val->str[0] == '\0' ? IS_EQUAL : IS_GREATER;
+		break;
+
+	case CPAIR (VALUE_STRING,VALUE_BOOLEAN):
+		/* String < boolean */
+		res = IS_LESS;
+		break;
+
+	case CPAIR (VALUE_STRING,VALUE_FLOAT):
+		/* String > number */
+		res = IS_GREATER;
+		break;
+
+	case CPAIR (VALUE_STRING,VALUE_ERROR):
+		/* String < error */
+		res = IS_LESS;
+		break;
+
+	case CPAIR (VALUE_STRING,VALUE_STRING): {
+		GOString const *sa = a->v_str.val;
+		GOString const *sb = b->v_str.val;
+		int i = (default_locale
+			 ? (case_sensitive
+			    ? go_string_cmp (sa, sb)
+			    : go_string_cmp_ignorecase (sa, sb))
+			 : (case_sensitive
+			    ? gnm_string_cmp (sa, sb)
+			    : gnm_string_cmp_ignorecase (sa, sb)));
+		res = (i > 0 ? IS_GREATER : (i < 0 ? IS_LESS : IS_EQUAL));
+		break;
 	}
+
+	/* ---------------------------------------- */
+
+	default:
+		res = TYPE_MISMATCH;
+	}
+
+	if (flip) {
+		if (res == IS_LESS)
+			res = IS_GREATER;
+		else if (res == IS_GREATER)
+			res = IS_LESS;
+	}
+
+	return res;
 }
+#undef PAIR
+
 
 GnmValDiff
 value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
