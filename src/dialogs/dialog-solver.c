@@ -718,7 +718,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 		w = gtk_label_new ("");
 		gtk_widget_set_size_request
 			(w,
-			 gnm_widget_measure_string (w, "0") * (5 + GNM_DIG),
+			 gnm_widget_measure_string (w, "0") * (10 + GNM_DIG),
 			 -1);
 		gtk_grid_attach (GTK_GRID (grid), w, 1, y, 1, 1);
 		switch (y) {
