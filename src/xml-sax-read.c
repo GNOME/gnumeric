@@ -2128,16 +2128,19 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	} else if (expr_id > 0) {
 		GnmExprTop const *texpr = g_hash_table_lookup (state->expr_map,
 			GINT_TO_POINTER (expr_id));
-		GnmExprTop const *dummy = NULL;
 
 		if (!texpr) {
 			char *msg = g_strdup_printf
 				("Looking up shared expression id %d",
 				 expr_id);
+			char *s = g_strdup_printf ("<shared expression %d>", expr_id);
 			xml_sax_barf (G_STRFUNC, msg);
 			g_free (msg);
-			texpr = dummy = gnm_expr_top_new_constant (value_new_int (0));
 
+			texpr = gnm_expr_top_new_constant (value_new_string_nocopy (s));
+			g_hash_table_insert (state->expr_map,
+					     GINT_TO_POINTER (expr_id),
+					     (gpointer)texpr);
 		}
 
 		if (cell)
@@ -2146,8 +2149,6 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			cc->texpr = texpr;
 			gnm_expr_top_ref (texpr);
 		}
-		if (dummy)
-			gnm_expr_top_unref (dummy);
 	} else if (is_new_cell) {
 		GnmValue *v;
 
