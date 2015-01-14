@@ -2086,17 +2086,17 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 								    GNM_EXPR_PARSE_DEFAULT,
 								    state->convs,
 								    &perr);
-					if (texpr && cell) {
+					if (!texpr) {
+						g_warning ("Unparsable expression for %s: %s\n",
+							   cell ? cell_name (cell) : "-",
+							   content);
+						texpr = gnm_expr_top_new_constant (value_new_string (expr_start));
+					}
+					if (cell) {
 						gnm_cell_set_expr (cell, texpr);
 						gnm_expr_top_unref (texpr);
 					} else if (texpr)
 						cc->texpr = texpr;
-					else {
-						g_warning ("Unparsable expression for %s: %s\n",
-							   cell_name (cell),
-							   content);
-						gnm_cell_set_value (cell, value_new_string (content));
-					}
 					parse_error_free (&perr);
 				} else if (cell)
 					gnm_cell_set_text (cell, content);
