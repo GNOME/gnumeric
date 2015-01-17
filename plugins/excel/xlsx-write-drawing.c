@@ -220,6 +220,7 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 			NULL,         /* GO_MARKER_HOURGLASS */
 			NULL          /* GO_MARKER_LEFT_HALF_BAR */
 		};
+		gboolean need_spPr;
 		GOMarkerShape s = style->marker.auto_shape
 			? GO_MARKER_MAX
 			: go_marker_get_shape (style->marker.mark);
@@ -237,6 +238,28 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 		if (!style->marker.auto_shape) {
 			gsf_xml_out_start_element (xml, "c:size");
 			gsf_xml_out_add_int (xml, "val", go_marker_get_size (style->marker.mark));
+			gsf_xml_out_end_element (xml);
+		}
+
+		need_spPr = (!style->marker.auto_fill_color ||
+			     !style->marker.auto_outline_color);
+		if (need_spPr) {
+			gsf_xml_out_start_element (xml, "c:spPr");
+
+			if (!style->marker.auto_fill_color) {
+				gsf_xml_out_start_element (xml, "a:solidFill");
+				xlsx_write_rgbarea (xml, go_marker_get_fill_color (style->marker.mark));
+				gsf_xml_out_end_element (xml);
+			}
+
+			if (!style->marker.auto_outline_color) {
+				gsf_xml_out_start_element (xml, "a:ln");
+				gsf_xml_out_start_element (xml, "a:solidFill");
+				xlsx_write_rgbarea (xml, go_marker_get_outline_color (style->marker.mark));
+				gsf_xml_out_end_element (xml);
+				gsf_xml_out_end_element (xml);
+			}
+
 			gsf_xml_out_end_element (xml);
 		}
 
