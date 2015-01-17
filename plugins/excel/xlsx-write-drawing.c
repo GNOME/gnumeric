@@ -233,8 +233,11 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			axis_type[1] = GOG_AXIS_X;
 		}
 		gsf_xml_out_start_element (xml, "c:barChart");
-		gsf_xml_out_simple_element (xml, "c:barDir",
-			horizontal ? "bar" : "col");
+
+		gsf_xml_out_start_element (xml, "c:barDir");
+		gsf_xml_out_add_cstr_unchecked (xml, "val", horizontal ? "bar" : "col");
+		gsf_xml_out_end_element (xml);
+
 		xlsx_write_plot_1_5_type (xml, plot, TRUE);
 
 		gsf_xml_out_start_element (xml, "c:overlap");
