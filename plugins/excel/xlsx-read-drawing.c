@@ -1320,9 +1320,13 @@ xlsx_chart_solid_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 		if (!(state->sp_type & GO_STYLE_LINE)) {
 			state->color_setter = (void (*) (gpointer data, GOColor color)) go_marker_set_fill_color;
 			state->color_data = state->marker;
+			state->gocolor = NULL;
+			state->auto_color = &state->cur_style->marker.auto_fill_color;
 		} else {
 			state->color_setter = (void (*) (gpointer data, GOColor color)) go_marker_set_outline_color;
 			state->color_data = state->marker;
+			state->gocolor = NULL;
+			state->auto_color = &state->cur_style->marker.auto_outline_color;
 		}
 	} else if ((NULL != state->cur_style) && (state->gocolor == NULL)) {
 		if (state->sp_type & GO_STYLE_LINE) {
@@ -1339,6 +1343,25 @@ xlsx_chart_solid_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 			state->gocolor = &state->cur_style->fill.pattern.fore;
 			state->auto_color = &state->cur_style->fill.auto_fore;
 		}
+	}
+}
+
+static void
+color_set_helper (XLSXReadState *state)
+{
+	if (state->gocolor) {
+		if (*state->gocolor != state->color) {
+			*state->gocolor = state->color;
+			if (state->auto_color)
+				*state->auto_color = FALSE;
+		}
+		state->gocolor = NULL;
+		state->auto_color = NULL;
+	} else if (state->color_setter) {
+		state->color_setter (state->color_data, state->color);
+		state->color_setter = NULL;
+		if (state->auto_color)
+			*state->auto_color = FALSE;
 	}
 }
 
@@ -1369,68 +1392,49 @@ xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
 #endif
 
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gpointer val = NULL;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (0 == strcmp (attrs[0], "val")) {
-			val = g_hash_table_lookup (state->theme_colors_by_name, attrs[1]);
+			gpointer val =
+				g_hash_table_lookup (state->theme_colors_by_name, attrs[1]);
 			if (NULL == val)
 				xlsx_warning (xin, _("Unknown color '%s'"), attrs[1]);
+			else {
+				state->color = GPOINTER_TO_UINT (val);
+				color_set_helper (state);
+			}
 		}
-
-	state->color = GPOINTER_TO_UINT (val);
-	if (state->gocolor) {
-		if (*state->gocolor != state->color) {
-			*state->gocolor = state->color;
-			if (state->auto_color)
-				*state->auto_color = FALSE;
-		}
-		state->gocolor = NULL;
-		state->auto_color = NULL;
-	} else if (state->color_setter) {
-		state->color_setter (state->color_data, state->color);
-		state->color_setter = NULL;
 	}
 }
 
 static void
 xlsx_draw_color_rgb (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_gocolor (xin, attrs, "val", &state->color))
-			if (state->auto_color)
-				*state->auto_color = FALSE;
+			color_set_helper (state);
+	}
 }
 
 static void
 xlsx_draw_color_alpha (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int val;
 	if (simple_int (xin, attrs, &val)) {
 		int level = 255 * val / 100000;
 		state->color = GO_COLOR_CHANGE_A (state->color, level);
-		if (state->auto_color)
-			state->auto_color = FALSE;
+		color_set_helper (state);
 	}
 }
 
 static void
 xlsx_draw_color_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	if (state->gocolor) {
-		if (*state->gocolor != state->color) {
-			*state->gocolor = state->color;
-			if (state->auto_color)
-				*state->auto_color = FALSE;
-		}
-		state->gocolor = NULL;
-		state->auto_color = NULL;
-	} else if (state->color_setter) {
-		state->color_setter (state->color_data, state->color);
-		state->color_setter = NULL;
-	}
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->gocolor = NULL;
+	state->auto_color = NULL;
+	state->color_setter = NULL;
 }
 
 static void
@@ -1505,7 +1509,7 @@ xlsx_chart_marker_size (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		int sz;
-		if (attr_int (xin, attrs, "val", &sz))
+		if (simple_int (xin, attrs, &sz))
 			go_marker_set_size (state->marker, sz);
 	}
 }
