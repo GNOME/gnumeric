@@ -134,13 +134,34 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 	gsf_xml_out_start_element (xml, "c:spPr");
 	if ((style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) &&
 	    style->line.dash_type != GO_LINE_NONE) {/* TODO: add more tests for transparent line */
-		/* export the line color */
+		static const char * const dashes[] = {
+			NULL,            /* GO_LINE_NONE */
+			"solid",         /* GO_LINE_SOLID */
+			"sysDot",        /* GO_LINE_S_DOT */
+			"sysDashDot",    /* GO_LINE_S_DASH_DOT */
+			"sysDashDotDot", /* GO_LINE_S_DASH_DOT_DOT */
+			"lgDashDotDot",  /* GO_LINE_DASH_DOT_DOT_DOT */
+			"dot",           /* GO_LINE_DOT */
+			"sysDash",       /* GO_LINE_S_DASH */
+			"dash",          /* GO_LINE_DASH */
+			"lgDash",        /* GO_LINE_LONG_DASH */
+			"dashDot",       /* GO_LINE_DASH_DOT */
+			"lgDashDot",     /* GO_LINE_DASH_DOT_DOT */
+		};
+
 		gsf_xml_out_start_element (xml, "a:ln");
 		if (style->line.width > 0)
 			gsf_xml_out_add_int (xml, "w", style->line.width * 12700);
 		if (!style->line.auto_color) {
 			gsf_xml_out_start_element (xml, "a:solidFill");
 			xlsx_write_rgbarea (xml, style->line.color);
+			gsf_xml_out_end_element (xml);
+		}
+
+		if (style->line.dash_type < G_N_ELEMENTS (dashes) &&
+		    dashes[style->line.dash_type]) {
+			gsf_xml_out_start_element (xml, "a:prstDash");
+			gsf_xml_out_add_cstr_unchecked (xml, "val", dashes[style->line.dash_type]);
 			gsf_xml_out_end_element (xml);
 		}
 
