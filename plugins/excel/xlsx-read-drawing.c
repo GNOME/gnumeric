@@ -1228,7 +1228,7 @@ static void
 xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	int w = 0;
+	int w = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_int (xin, attrs, "w", &w))
@@ -1238,7 +1238,10 @@ xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->sp_type |= GO_STYLE_LINE;
 	if (!state->cur_style)
 		state->cur_style = (GOStyle *) gog_style_new ();
-	state->cur_style->line.width = w / 12700.;
+	
+	state->cur_style->line.auto_width = (w < 0);
+	if (!state->cur_style->line.auto_width)
+		state->cur_style->line.width = w / 12700.;
 	state->gocolor = &state->cur_style->line.color;
 	state->auto_color = &state->cur_style->line.auto_color;
 }

@@ -151,7 +151,7 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 		};
 
 		gsf_xml_out_start_element (xml, "a:ln");
-		if (style->line.width > 0)
+		if (!style->line.auto_width && style->line.width > 0)
 			gsf_xml_out_add_int (xml, "w", style->line.width * 12700);
 		if (!style->line.auto_color) {
 			gsf_xml_out_start_element (xml, "a:solidFill");
@@ -159,7 +159,8 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 			gsf_xml_out_end_element (xml);
 		}
 
-		if (style->line.dash_type < G_N_ELEMENTS (dashes) &&
+		if (!style->line.auto_dash &&
+		    style->line.dash_type < G_N_ELEMENTS (dashes) &&
 		    dashes[style->line.dash_type]) {
 			gsf_xml_out_start_element (xml, "a:prstDash");
 			gsf_xml_out_add_cstr_unchecked (xml, "val", dashes[style->line.dash_type]);
