@@ -133,6 +133,36 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 {
 	gsf_xml_out_start_element (xml, "c:spPr");
 
+	if ((style->interesting_fields & GO_STYLE_FILL) &&
+	    style->fill.type != GO_STYLE_FILL_NONE) {/* TODO add tests for transparent backgrounds */
+		switch (style->fill.type) {
+		default :
+			g_warning ("invalid fill type, saving as none");
+		case GO_STYLE_FILL_IMAGE:
+			/* FIXME: export image */
+		case GO_STYLE_FILL_PATTERN:
+			switch (style->fill.pattern.pattern) {
+			case GO_PATTERN_SOLID:
+				if (!style->fill.auto_back) {
+					gsf_xml_out_start_element (xml, "a:solidFill");
+					xlsx_write_rgbarea (xml, style->fill.pattern.back);
+					gsf_xml_out_end_element (xml);
+				}
+				break;
+			case GO_PATTERN_FOREGROUND_SOLID:
+				if (!style->fill.auto_fore) {
+					gsf_xml_out_start_element (xml, "a:solidFill");
+					xlsx_write_rgbarea (xml, style->fill.pattern.fore);
+					gsf_xml_out_end_element (xml);
+				}
+				break;
+			}
+			break;
+		case GO_STYLE_FILL_GRADIENT:
+			break;
+		}
+	}
+
 	if ((style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) &&
 	    !style->line.auto_dash) {/* TODO: add more tests for transparent line */
 		static const char * const dashes[] = {
@@ -173,36 +203,6 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 		}
 
 		gsf_xml_out_end_element (xml);
-	}
-
-	if ((style->interesting_fields & GO_STYLE_FILL) &&
-	    style->fill.type != GO_STYLE_FILL_NONE) {/* TODO add tests for transparent backgrounds */
-		switch (style->fill.type) {
-		default :
-			g_warning ("invalid fill type, saving as none");
-		case GO_STYLE_FILL_IMAGE:
-			/* FIXME: export image */
-		case GO_STYLE_FILL_PATTERN:
-			switch (style->fill.pattern.pattern) {
-			case GO_PATTERN_SOLID:
-				if (!style->fill.auto_back) {
-					gsf_xml_out_start_element (xml, "a:solidFill");
-					xlsx_write_rgbarea (xml, style->fill.pattern.back);
-					gsf_xml_out_end_element (xml);
-				}
-				break;
-			case GO_PATTERN_FOREGROUND_SOLID:
-				if (!style->fill.auto_fore) {
-					gsf_xml_out_start_element (xml, "a:solidFill");
-					xlsx_write_rgbarea (xml, style->fill.pattern.fore);
-					gsf_xml_out_end_element (xml);
-				}
-				break;
-			}
-			break;
-		case GO_STYLE_FILL_GRADIENT:
-			break;
-		}
 	}
 
 	gsf_xml_out_end_element (xml);  /* "c:spPr" */
@@ -320,29 +320,9 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 	xlsx_write_chart_cstr_unchecked (xml, "c:orientation", gog_axis_is_inverted (axis)? "maxMin": "minMax");
 	// TODO: export min, max, an others
 	gsf_xml_out_end_element (xml);
-	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (axis)));
 	/* FIXME position might be "t" or "r" */
 	xlsx_write_chart_cstr_unchecked (xml, "c:axPos", (at == GOG_AXIS_X || at == GOG_AXIS_CIRCULAR)? "b": "l");
-	xlsx_write_chart_int (xml, "c:crossAx", 0, GPOINTER_TO_UINT (crossed));
-	g_object_get (G_OBJECT (axis), "pos", &pos, NULL);
-	switch (pos) {
-	default:
-	case GOG_AXIS_AT_LOW:
-		/* FIXME: might be wrong if the axis is inverted */
-		xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "min");
-		break;
-	case GOG_AXIS_CROSS: {
-		double cross = gog_axis_base_get_cross_location (GOG_AXIS_BASE (axis));
-		if (cross == 0.)
-			xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "autoZero");
-		else
-			xlsx_write_chart_float (xml, "c:crossesAt", 0., cross);
-		break;
-	}
-	case GOG_AXIS_AT_HIGH:
-		xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "max");
-		break;
-	}
+
 	/* grids */
 	grid = gog_axis_get_grid_line (axis, TRUE);
 	if (grid) {
@@ -374,6 +354,29 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 	gsf_xml_out_add_cstr (xml, "formatCode", (format)? go_format_as_XL (format): "General");
 	gsf_xml_out_end_element (xml);
 
+	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (axis)));
+
+	xlsx_write_chart_int (xml, "c:crossAx", 0, GPOINTER_TO_UINT (crossed));
+	g_object_get (G_OBJECT (axis), "pos", &pos, NULL);
+	switch (pos) {
+	default:
+	case GOG_AXIS_AT_LOW:
+		/* FIXME: might be wrong if the axis is inverted */
+		xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "min");
+		break;
+	case GOG_AXIS_CROSS: {
+		double cross = gog_axis_base_get_cross_location (GOG_AXIS_BASE (axis));
+		if (cross == 0.)
+			xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "autoZero");
+		else
+			xlsx_write_chart_float (xml, "c:crossesAt", 0., cross);
+		break;
+	}
+	case GOG_AXIS_AT_HIGH:
+		xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "max");
+		break;
+	}
+
 	/* finished with axis */
 	gsf_xml_out_end_element (xml);
 }
@@ -382,30 +385,55 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 static void
 xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, GogObject const *plot)
 {
-	char const *plot_type;
-	gboolean failed = FALSE;
+	gboolean failed = TRUE;
 	gboolean use_xy = FALSE;
 	double explosion = 0.;
 	gboolean vary_by_element;
 	GogAxisType axis_type[3] = {GOG_AXIS_X, GOG_AXIS_Y, GOG_AXIS_UNKNOWN};
 	unsigned i;
+	static const char * const plot_types[] = {
+		/*  0 */ "GogAreaPlot",
+		/*  1 */ "GogBarColPlot",
+		/*  2 */ "GogLinePlot",
+		/*  3 */ "GogPiePlot",
+		/*  4 */ "GogRingPlot",
+		/*  5 */ "GogRadarPlot",
+		/*  6 */ "GogRadarAreaPlot",
+		/*  7 */ "GogBubblePlot",
+		/*  8 */ "GogXYPlot",
+		/*  9 */ "GogContourPlot",
+		/* 10 */ "XLContourPlot"
+	};
+	unsigned plot_type;
+	const char *plot_type_name;
+	GSList const *series;
+	unsigned count;
 
 	g_object_get (G_OBJECT (plot),
 		      "vary-style-by-element", &vary_by_element,
 		      NULL);
-	plot_type = G_OBJECT_TYPE_NAME (plot);
+	plot_type_name = G_OBJECT_TYPE_NAME (plot);
+	for (plot_type = 0; plot_type < G_N_ELEMENTS (plot_types); plot_type++) {
+		if (strcmp (plot_type_name, plot_types[plot_type]) == 0) {
+			failed = FALSE;
+			break;
+		}
+	}
+	if (failed) {
+		g_warning ("unexpected plot type %s", plot_type_name);
+		return;
+	}
 
-	if (0 == strcmp (plot_type, "GogAreaPlot")) {
+	switch (plot_type) {
+	case 0:   // "GogAreaPlot"
 		gsf_xml_out_start_element (xml, "c:areaChart");
 		xlsx_write_plot_1_5_type (xml, plot, FALSE);
-	} else if (0 == strcmp (plot_type, "GogBarColPlot")) {
+		break;
+
+	case 1: { // "GogBarColPlot"
 		gboolean horizontal;
-		int overlap_percentage, gap_percentage;
-		g_object_get (G_OBJECT (plot),
-			"horizontal",		&horizontal,
-			"overlap-percentage",	&overlap_percentage,
-			"gap-percentage",	&gap_percentage,
-			NULL);
+
+		g_object_get (G_OBJECT (plot), "horizontal", &horizontal, NULL);
 		if (horizontal) {
 			axis_type[0] = GOG_AXIS_Y;
 			axis_type[1] = GOG_AXIS_X;
@@ -417,35 +445,28 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		gsf_xml_out_end_element (xml);
 
 		xlsx_write_plot_1_5_type (xml, plot, TRUE);
+		break;
+	}
 
-		gsf_xml_out_start_element (xml, "c:overlap");
-		gsf_xml_out_add_int (xml, "val", overlap_percentage);
-		gsf_xml_out_end_element (xml);
-
-		gsf_xml_out_start_element (xml, "c:gapWidth");
-		gsf_xml_out_add_int (xml, "val", gap_percentage);
-		gsf_xml_out_end_element (xml);
-	} else if (0 == strcmp (plot_type, "GogLinePlot")) {
+	case 2:   // "GogLinePlot"
 		gsf_xml_out_start_element (xml, "c:lineChart");
 		xlsx_write_plot_1_5_type (xml, plot, FALSE);
-	} else if (0 == strcmp (plot_type, "GogPiePlot") ||
-		   0 == strcmp (plot_type, "GogRingPlot")) {
-		double initial_angle = 0., center_size = 0.;
+		break;
+
+	case 3:   // "GogPiePlot"
+	case 4: { // "GogRingPlot"
 		gint16 center = 0;
-		if (0 == strcmp (plot_type, "GogRingPlot")) {
+		if (plot_type == 4) {
+			double center_size;
 			gsf_xml_out_start_element (xml, "c:doughnutChart");
 			g_object_get (G_OBJECT (plot), "center-size", &center_size, NULL);
 			center = (int)floor (center_size * 100. + .5);
 			xlsx_write_chart_int (xml, "c:holeSize", 10,
-				CLAMP (center, 10, 90));
+					      CLAMP (center, 10, 90));
 		} else
 			gsf_xml_out_start_element (xml, "c:pieChart");
 
 		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
-		g_object_get (G_OBJECT (plot),
-			"initial-angle",	 &initial_angle,
-			NULL);
-		xlsx_write_chart_int (xml, "c:firstSliceAng", 0, (int) initial_angle);
 #if 0
 		double default_separation = 0.;
 		/* handled in series ? */
@@ -453,28 +474,27 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		xlsx_write_chart_int (xml, "c:explosion", 0, default_separation);
 #endif
 		axis_type[0] = axis_type[1] = GOG_AXIS_UNKNOWN;
-			   g_object_get (G_OBJECT (plot), "default-separation", &explosion, NULL);
-	} else if (0 == strcmp (plot_type, "GogRadarPlot") ||
-		   0 == strcmp (plot_type, "GogRadarAreaPlot")) {
+		g_object_get (G_OBJECT (plot), "default-separation", &explosion, NULL);
+		break;
+	}
+
+	case 5:   // "GogRadarPlot"
+	case 6:   // "GogRadarAreaPlot"
 		gsf_xml_out_start_element (xml, "c:radarChart");
+		gsf_xml_out_start_element (xml, "c:radarStyle");
+		gsf_xml_out_add_cstr_unchecked (xml, "val", "standard");
+		gsf_xml_out_end_element (xml);
 		axis_type[0] = GOG_AXIS_CIRCULAR;
 		axis_type[1] = GOG_AXIS_RADIAL;
-	} else if (0 == strcmp (plot_type, "GogBubblePlot")) {
-		gboolean show_neg = FALSE, in_3d = FALSE, as_area = TRUE;
-		g_object_get (G_OBJECT (plot),
-			"show-negatives",	&show_neg,
-			"in-3d",		&in_3d,
-			"size-as-area",		&as_area,
-			NULL);
+		break;
+
+	case 7:  // "GogBubblePlot"
 		gsf_xml_out_start_element (xml, "c:bubbleChart");
 		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
-		xlsx_write_chart_bool (xml, "c:showNegBubbles", show_neg);
-		xlsx_write_chart_cstr_unchecked (xml, "c:sizeRepresents",
-			as_area ? "area" : "w");
-		if (in_3d)
-			xlsx_write_chart_bool (xml, "c:bubble3D", TRUE);
 		use_xy = TRUE;
-	} else if ( 0 == strcmp (plot_type, "GogXYPlot")) {
+		break;
+
+	case 8: { // "GogXYPlot"
 		gboolean has_lines, has_markers, use_splines;
 		char const *style;
 		g_object_get (G_OBJECT (plot),
@@ -490,49 +510,110 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		use_xy = TRUE;
 		gsf_xml_out_start_element (xml, "c:scatterChart");
 		xlsx_write_chart_cstr_unchecked (xml, "c:scatterStyle", style);
-	} else if (0 == strcmp (plot_type, "GogContourPlot") ||
-		   0 == strcmp (plot_type, "XLContourPlot")) {
-		gsf_xml_out_start_element (xml, "c:surfaceChart");
-	} else {
-		g_warning ("unexpected plot type %s", plot_type);
-		failed = TRUE;
-		axis_type[0] = axis_type[1] = GOG_AXIS_UNKNOWN;
+		break;
 	}
-	if (!failed) {
-		GSList const *series = gog_plot_get_series (GOG_PLOT (plot));
-		unsigned count = 0;
-		for ( ; NULL != series ; series = series->next) {
-			gsf_xml_out_start_element (xml, "c:ser");
 
-			xlsx_write_chart_int (xml, "c:idx", -1, count);
-			xlsx_write_chart_int (xml, "c:order", -1, count);
-			if (!vary_by_element) /* FIXME: we might loose some style elements */
-				xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (series->data)));
-			xlsx_write_series_dim (state, xml, series->data,
-				"c:tx", GOG_MS_DIM_LABELS);
-			if (use_xy) {
-				xlsx_write_series_dim (state, xml, series->data,
-					"c:yVal", GOG_MS_DIM_VALUES);
-				xlsx_write_series_dim (state, xml, series->data,
-					"c:xVal",  GOG_MS_DIM_CATEGORIES);
-				xlsx_write_series_dim (state, xml, series->data,
-					"c:bubbleSize", GOG_MS_DIM_BUBBLES);
-			} else {
-				xlsx_write_series_dim (state, xml, series->data,
-					"c:val", GOG_MS_DIM_VALUES);
-				xlsx_write_series_dim (state, xml, series->data,
-					"c:cat",  GOG_MS_DIM_CATEGORIES);
-			}
-			if (explosion > 0.)
-				xlsx_write_chart_uint (xml, "c:explosion", 0, (unsigned) (explosion * 100));
-			gsf_xml_out_end_element (xml); /* </c:ser> */
-		}
-		/* write axes Ids */
-		for (i = 0; i < 3; i++)
-			if (axis_type[i] != GOG_AXIS_UNKNOWN)
-				xlsx_write_chart_uint (xml, "c:axId", 0, GPOINTER_TO_UINT (gog_plot_get_axis (GOG_PLOT (plot), axis_type[i])));
-		gsf_xml_out_end_element (xml);
+	case 9:    // "GogContourPlot"
+	case 10:   // "XLContourPlot"
+		gsf_xml_out_start_element (xml, "c:surfaceChart");
+		break;
+
+	default:
+		g_assert_not_reached ();
+		break;
 	}
+
+	count = 0;
+	for (series = gog_plot_get_series (GOG_PLOT (plot));
+	     NULL != series;
+	     series = series->next) {
+		gsf_xml_out_start_element (xml, "c:ser");
+
+		xlsx_write_chart_int (xml, "c:idx", -1, count);
+		xlsx_write_chart_int (xml, "c:order", -1, count);
+		xlsx_write_series_dim (state, xml, series->data,
+				       "c:tx", GOG_MS_DIM_LABELS);
+		if (!vary_by_element) /* FIXME: we might loose some style elements */
+			xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (series->data)));
+		if (explosion > 0.)
+			xlsx_write_chart_uint (xml, "c:explosion", 0, (unsigned) (explosion * 100));
+		if (use_xy) {
+			xlsx_write_series_dim (state, xml, series->data,
+					       "c:xVal",  GOG_MS_DIM_CATEGORIES);
+			xlsx_write_series_dim (state, xml, series->data,
+					       "c:yVal", GOG_MS_DIM_VALUES);
+			xlsx_write_series_dim (state, xml, series->data,
+					       "c:bubbleSize", GOG_MS_DIM_BUBBLES);
+		} else {
+			xlsx_write_series_dim (state, xml, series->data,
+					       "c:cat",  GOG_MS_DIM_CATEGORIES);
+			xlsx_write_series_dim (state, xml, series->data,
+					       "c:val", GOG_MS_DIM_VALUES);
+		}
+		gsf_xml_out_end_element (xml); /* </c:ser> */
+	}
+
+	switch (plot_type) {
+	case 1: {
+		char *s;
+		int overlap_percentage, gap_percentage;
+
+		g_object_get (G_OBJECT (plot),
+			"overlap-percentage",	&overlap_percentage,
+			"gap-percentage",	&gap_percentage,
+			NULL);
+
+		gsf_xml_out_start_element (xml, "c:gapWidth");
+		s = g_strdup_printf ("%d%%", CLAMP (gap_percentage, 0, 500));
+		gsf_xml_out_add_cstr_unchecked (xml, "val", s);
+		g_free (s);
+		gsf_xml_out_end_element (xml);
+
+		gsf_xml_out_start_element (xml, "c:overlap");
+		s = g_strdup_printf ("%d%%", CLAMP (overlap_percentage, 0, 100));
+		gsf_xml_out_add_cstr_unchecked (xml, "val", s);
+		g_free (s);
+		gsf_xml_out_end_element (xml);
+		break;
+	}
+
+	case 3:
+	case 4: {
+		double initial_angle = 0;
+		g_object_get (G_OBJECT (plot),
+			      "initial-angle", &initial_angle,
+			      NULL);
+		xlsx_write_chart_int (xml, "c:firstSliceAng", 0, (int) initial_angle);
+		break;
+	}
+
+	case 7: {
+		gboolean show_neg = FALSE, in_3d = FALSE, as_area = TRUE;
+		g_object_get (G_OBJECT (plot),
+			      "show-negatives",	&show_neg,
+			      "in-3d",		&in_3d,
+			      "size-as-area",	&as_area,
+			      NULL);
+		if (in_3d)
+			xlsx_write_chart_bool (xml, "c:bubble3D", TRUE);
+		xlsx_write_chart_bool (xml, "c:showNegBubbles", show_neg);
+		xlsx_write_chart_cstr_unchecked (xml, "c:sizeRepresents",
+			as_area ? "area" : "w");
+		break;
+	}
+
+	default:
+		break; /* Nothing */
+	}
+
+	/* write axes Ids */
+	for (i = 0; i < 3; i++)
+		if (axis_type[i] != GOG_AXIS_UNKNOWN)
+			xlsx_write_chart_uint (xml, "c:axId", 0, GPOINTER_TO_UINT (gog_plot_get_axis (GOG_PLOT (plot), axis_type[i])));
+
+
+	gsf_xml_out_end_element (xml);
+
 	/* Write axes */
 	/* first category axis */
 	/* FIXME: might be a date axis? */
@@ -572,8 +653,6 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 {
 	GogObject const *obj;
 
-	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (chart)));
-
 	gsf_xml_out_start_element (xml, "c:chart");
 
 	obj = gog_object_get_child_by_name (chart, "Title");
@@ -588,11 +667,12 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 
 	gsf_xml_out_start_element (xml, "c:plotArea");
 	/* save grid style here */
+
+	xlsx_write_plots (state, xml, chart);
+
 	obj = gog_object_get_child_by_name (GOG_OBJECT (chart), "Backplane");
 	if (obj)
 		xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (obj)));
-
-	xlsx_write_plots (state, xml, chart);
 
 	gsf_xml_out_end_element (xml); /* </c:plotArea> */
 
@@ -601,6 +681,8 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 		gsf_xml_out_end_element (xml); /* </c:legend> */
 	}
 	gsf_xml_out_end_element (xml); /* </c:chart> */
+
+	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (chart)));
 }
 
 static void

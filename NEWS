@@ -28,7 +28,7 @@ Morten:
 	* Improve xlsx graph import: line colour; marker size; marker color.
 	* Improve xlsx graph export: line style; bar/col direction; marker shape;
 	  marker size; marker color; axis label; chart title.
-	* Improve xlsx export: default col widths.
+	* Improve xlsx export: default col widths; schema validity.
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739679]
