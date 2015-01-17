@@ -1240,6 +1240,7 @@ xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->cur_style = (GOStyle *) gog_style_new ();
 	state->cur_style->line.width = w / 12700.;
 	state->gocolor = &state->cur_style->line.color;
+	state->auto_color = &state->cur_style->line.auto_color;
 }
 
 static void

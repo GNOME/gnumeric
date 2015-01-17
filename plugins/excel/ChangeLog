@@ -1,3 +1,9 @@
+2015-01-16  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_style_line_start): Also point to the
+	right auto_color location so we don't end up ignoring the colors
+	we read.
+
 2014-12-16  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-docprops.c (xlsx_meta_write_props_custom_type):

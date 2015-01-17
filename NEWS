@@ -25,6 +25,7 @@ Morten:
 	* Fix ADDRESS problem.
 	* Fix sheet-filter problem with errors.  [#742601]
 	* Improve error handling for .gnumeric a bit.
+	* Improve xlsx graph import.
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739679]
