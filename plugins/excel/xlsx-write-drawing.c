@@ -203,7 +203,7 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 
 	if (style->interesting_fields & GO_STYLE_MARKER) {
 		static const char *const markers[] = {
-			NULL,         /* GO_MARKER_NONE */
+			"none",       /* GO_MARKER_NONE */
 			"square",     /* GO_MARKER_SQUARE */
 			"diamond",    /* GO_MARKER_DIAMOND */
 			"triangle",   /* GO_MARKER_TRIANGLE_DOWN */   /* FIXME: rotation */
@@ -220,18 +220,25 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 			NULL,         /* GO_MARKER_HOURGLASS */
 			NULL          /* GO_MARKER_LEFT_HALF_BAR */
 		};
+		GOMarkerShape s = style->marker.auto_shape
+			? GO_MARKER_MAX
+			: go_marker_get_shape (style->marker.mark);
 
 		gsf_xml_out_start_element (xml, "c:marker");
 
 		gsf_xml_out_start_element (xml, "c:symbol");
-		if (style->marker.auto_shape)
-			gsf_xml_out_add_cstr_unchecked (xml, "val", "auto");
-		else {
-			GOMarkerShape s = go_marker_get_shape (style->marker.mark);
-			if (s < G_N_ELEMENTS (markers) && markers[s])
-				gsf_xml_out_add_cstr_unchecked (xml, "val", markers[s]);
-		}		
+		gsf_xml_out_add_cstr_unchecked
+			(xml, "val",
+			 (s < G_N_ELEMENTS (markers) && markers[s]
+			  ? markers[s]
+			  : "auto"));
 		gsf_xml_out_end_element (xml);
+
+		if (!style->marker.auto_shape) {
+			gsf_xml_out_start_element (xml, "c:size");
+			gsf_xml_out_add_int (xml, "val", go_marker_get_size (style->marker.mark));
+			gsf_xml_out_end_element (xml);
+		}
 
 		gsf_xml_out_end_element (xml);
 	}

@@ -1,5 +1,7 @@
 2015-01-17  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write-drawing.c (xlsx_write_go_style): Write marker size.
+
 	* xlsx-read-drawing.c (xlsx_chart_marker_size): Read marker size.
 
 	* xlsx-write.c (xlsx_write_cols): Make sure we include a width for
