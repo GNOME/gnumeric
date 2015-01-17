@@ -211,7 +211,6 @@ typedef struct {
 	GOColor		  color;
 	gpointer	  color_data;
 	GOMarker	 *marker;
-	GOMarkerShape	  marker_symbol;
 	GogObject	 *cur_obj;
 	GSList		 *obj_stack;
 	GSList		 *style_stack;

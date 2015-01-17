@@ -134,7 +134,7 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 	gsf_xml_out_start_element (xml, "c:spPr");
 
 	if ((style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) &&
-	    style->line.dash_type != GO_LINE_NONE) {/* TODO: add more tests for transparent line */
+	    !style->line.auto_dash) {/* TODO: add more tests for transparent line */
 		static const char * const dashes[] = {
 			NULL,            /* GO_LINE_NONE */
 			"solid",         /* GO_LINE_SOLID */
@@ -149,10 +149,15 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 			"dashDot",       /* GO_LINE_DASH_DOT */
 			"lgDashDot",     /* GO_LINE_DASH_DOT_DOT */
 		};
+		gboolean is_none = (style->line.dash_type == GO_LINE_NONE);
 
 		gsf_xml_out_start_element (xml, "a:ln");
-		if (!style->line.auto_width && style->line.width > 0)
+		if (is_none) {
+			/* Special meaning of zero width  */
+			gsf_xml_out_add_int (xml, "w", 0);
+		} else if (!style->line.auto_width && style->line.width > 0)
 			gsf_xml_out_add_int (xml, "w", style->line.width * 12700);
+
 		if (!style->line.auto_color) {
 			gsf_xml_out_start_element (xml, "a:solidFill");
 			xlsx_write_rgbarea (xml, style->line.color);
@@ -215,11 +220,11 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 			"x",          /* GO_MARKER_X */
 			"plus",       /* GO_MARKER_CROSS */
 			"star",       /* GO_MARKER_ASTERISK */
-			NULL,         /* GO_MARKER_BAR */
-			NULL,         /* GO_MARKER_HALF_BAR */
-			NULL,         /* GO_MARKER_BUTTERFLY */
-			NULL,         /* GO_MARKER_HOURGLASS */
-			NULL          /* GO_MARKER_LEFT_HALF_BAR */
+			"dash",       /* GO_MARKER_BAR */
+			"dot",        /* GO_MARKER_HALF_BAR */
+			"diamond",    /* GO_MARKER_BUTTERFLY */       /* FIXME: dubious */
+			"diamond",    /* GO_MARKER_HOURGLASS */       /* FIXME: dubious */
+			"dot"         /* GO_MARKER_LEFT_HALF_BAR */
 		};
 		gboolean need_spPr;
 		GOMarkerShape s = style->marker.auto_shape
@@ -236,7 +241,8 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 			  : "auto"));
 		gsf_xml_out_end_element (xml);
 
-		if (!style->marker.auto_shape) {
+		/* We don't have an auto_size flag */
+		if (TRUE) {
 			gsf_xml_out_start_element (xml, "c:size");
 			gsf_xml_out_add_int (xml, "val", go_marker_get_size (style->marker.mark));
 			gsf_xml_out_end_element (xml);

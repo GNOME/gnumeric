@@ -1238,10 +1238,15 @@ xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->sp_type |= GO_STYLE_LINE;
 	if (!state->cur_style)
 		state->cur_style = (GOStyle *) gog_style_new ();
-	
-	state->cur_style->line.auto_width = (w < 0);
-	if (!state->cur_style->line.auto_width)
+
+	if (w == 0) {
+		/* Special meaning of zero width  */
+		state->cur_style->line.auto_dash = FALSE;
+		state->cur_style->line.dash_type = GO_LINE_NONE;
+	} else if (w > 0) {
+		state->cur_style->line.auto_width = FALSE;
 		state->cur_style->line.width = w / 12700.;
+	}
 	state->gocolor = &state->cur_style->line.color;
 	state->auto_color = &state->cur_style->line.auto_color;
 }
@@ -1478,9 +1483,8 @@ xlsx_draw_line_dash (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_chart_marker_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	state->marker = go_marker_new ();
-	state->marker_symbol = GO_MARKER_MAX;
 }
 
 static void
@@ -1502,8 +1506,12 @@ xlsx_chart_marker_symbol (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int symbol;
-	if (NULL != state->marker && simple_enum (xin, attrs, symbols, &symbol))
-		state->marker_symbol = symbol;
+	if (NULL != state->marker && simple_enum (xin, attrs, symbols, &symbol)) {
+		if (symbol < GO_MARKER_MAX) {
+			go_marker_set_shape (state->marker, symbol);
+			state->cur_style->marker.auto_shape = FALSE;
+		}
+	}
 }
 
 static void
@@ -1522,10 +1530,6 @@ xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->cur_obj && GOG_IS_STYLED_OBJECT (state->cur_obj)) {
-		if (state->marker_symbol != GO_MARKER_MAX) {
-			state->cur_style->marker.auto_shape = FALSE;
-			go_marker_set_shape (state->marker, state->marker_symbol);
-		}
 		go_style_set_marker (state->cur_style, state->marker);
 		state->marker = NULL;
 		state->gocolor = NULL;
