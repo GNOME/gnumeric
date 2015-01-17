@@ -275,6 +275,111 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 }
 
 static void
+xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
+		       GOData *data, GOStyledObject *so)
+{
+	/* I don't really know what I am doing here.  */
+	char *text = go_data_get_scalar_string (data);
+
+	gsf_xml_out_start_element (xml, "c:tx");
+	gsf_xml_out_start_element (xml, "c:rich");
+
+	gsf_xml_out_start_element (xml, "a:bodyPr");
+	gsf_xml_out_end_element (xml);
+
+	gsf_xml_out_start_element (xml, "a:p");
+	gsf_xml_out_start_element (xml, "a:r");
+	gsf_xml_out_start_element (xml, "a:t");
+	gsf_xml_out_add_cstr (xml, NULL, text);
+	gsf_xml_out_end_element (xml);
+	gsf_xml_out_end_element (xml);
+	gsf_xml_out_end_element (xml);
+
+	gsf_xml_out_end_element (xml);
+	gsf_xml_out_end_element (xml);
+
+	g_free (text);
+}
+
+
+static void
+xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisType at)
+{
+	GogAxis *crossed = gog_axis_base_get_crossed_axis (GOG_AXIS_BASE (axis));
+	GogAxisPosition pos;
+	GogGridLine *grid;
+	GogObject *label;
+	GOFormat *format;
+
+	if (gog_axis_is_discrete (axis))
+		gsf_xml_out_start_element (xml, "c:catAx");
+	else
+		gsf_xml_out_start_element (xml, "c:valAx");
+	xlsx_write_chart_int (xml, "c:axId", 0, GPOINTER_TO_UINT (axis));
+	gsf_xml_out_start_element (xml, "c:scaling");
+	xlsx_write_chart_cstr_unchecked (xml, "c:orientation", gog_axis_is_inverted (axis)? "maxMin": "minMax");
+	// TODO: export min, max, an others
+	gsf_xml_out_end_element (xml);
+	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (axis)));
+	/* FIXME position might be "t" or "r" */
+	xlsx_write_chart_cstr_unchecked (xml, "c:axPos", (at == GOG_AXIS_X || at == GOG_AXIS_CIRCULAR)? "b": "l");
+	xlsx_write_chart_int (xml, "c:crossAx", 0, GPOINTER_TO_UINT (crossed));
+	g_object_get (G_OBJECT (axis), "pos", &pos, NULL);
+	switch (pos) {
+	default:
+	case GOG_AXIS_AT_LOW:
+		/* FIXME: might be wrong if the axis is inverted */
+		xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "min");
+		break;
+	case GOG_AXIS_CROSS: {
+		double cross = gog_axis_base_get_cross_location (GOG_AXIS_BASE (axis));
+		if (cross == 0.)
+			xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "autoZero");
+		else
+			xlsx_write_chart_float (xml, "c:crossesAt", 0., cross);
+		break;
+	}
+	case GOG_AXIS_AT_HIGH:
+		xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "max");
+		break;
+	}
+	/* grids */
+	grid = gog_axis_get_grid_line (axis, TRUE);
+	if (grid) {
+		gsf_xml_out_start_element (xml, "c:majorGridlines");
+		xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (grid)));
+		gsf_xml_out_end_element (xml);
+	}
+	grid = gog_axis_get_grid_line (axis, FALSE);
+	if (grid) {
+		gsf_xml_out_start_element (xml, "c:minorGridlines");
+		xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (grid)));
+		gsf_xml_out_end_element (xml);
+	}
+
+	label = gog_object_get_child_by_name (GOG_OBJECT (axis), "Label");
+	if (label) {
+		GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
+		if (text != NULL) {
+			gsf_xml_out_start_element (xml, "c:title");
+			xlsx_write_chart_text (state, xml, text, GO_STYLED_OBJECT (label));
+			gsf_xml_out_end_element (xml);
+		}
+	}
+
+	gsf_xml_out_start_element (xml, "c:numFmt");
+	format = gog_axis_get_format (axis);
+	gsf_xml_out_add_bool (xml, "sourceLinked", format == NULL || go_format_is_general (format));
+	format = gog_axis_get_effective_format (axis);
+	gsf_xml_out_add_cstr (xml, "formatCode", (format)? go_format_as_XL (format): "General");
+	gsf_xml_out_end_element (xml);
+
+	/* finished with axis */
+	gsf_xml_out_end_element (xml);
+}
+
+
+static void
 xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, GogObject const *plot)
 {
 	char const *plot_type;
@@ -431,70 +536,15 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	/* Write axes */
 	/* first category axis */
 	/* FIXME: might be a date axis? */
-	for (i = 0; i < 3; i++)
+	for (i = 0; i < 3; i++) {
 		if (axis_type[i] != GOG_AXIS_UNKNOWN) {
 			GSList *axes = gog_chart_get_axes (GOG_CHART (chart), axis_type[i]), *ptr;
 			for (ptr = axes; ptr; ptr = ptr->next) {
-				GogAxis *crossed = gog_axis_base_get_crossed_axis (GOG_AXIS_BASE (ptr->data));
-				GogAxisPosition pos;
-				GogGridLine *grid;
-				GOFormat *format;
-				if (gog_axis_is_discrete (ptr->data))
-					gsf_xml_out_start_element (xml, "c:catAx");
-				else
-					gsf_xml_out_start_element (xml, "c:valAx");
-				xlsx_write_chart_int (xml, "c:axId", 0, GPOINTER_TO_UINT (ptr->data));
-				gsf_xml_out_start_element (xml, "c:scaling");
-				xlsx_write_chart_cstr_unchecked (xml, "c:orientation", gog_axis_is_inverted (GOG_AXIS (ptr->data))? "maxMin": "minMax");
-				// TODO: export min, max, an others
-				gsf_xml_out_end_element (xml);
-				xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (ptr->data)));
-				/* FIXME position might be "t" or "r" */
-				xlsx_write_chart_cstr_unchecked (xml, "c:axPos", (axis_type[i] == GOG_AXIS_X || axis_type[i] == GOG_AXIS_CIRCULAR)? "b": "l");
-				xlsx_write_chart_int (xml, "c:crossAx", 0, GPOINTER_TO_UINT (crossed));
-				g_object_get (G_OBJECT (ptr->data), "pos", &pos, NULL);
-				switch (pos) {
-				default:
-				case GOG_AXIS_AT_LOW:
-					/* FIXME: might be wrong if the axis is inverted */
-					xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "min");
-					break;
-				case GOG_AXIS_CROSS: {
-					double cross = gog_axis_base_get_cross_location (GOG_AXIS_BASE (ptr->data));
-					if (cross == 0.)
-						xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "autoZero");
-					else
-						xlsx_write_chart_float (xml, "c:crossesAt", 0., cross);
-					break;
-				}
-				case GOG_AXIS_AT_HIGH:
-					xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "max");
-					break;
-				}
-				/* grids */
-				grid = gog_axis_get_grid_line (GOG_AXIS (ptr->data), TRUE);
-				if (grid) {
-					gsf_xml_out_start_element (xml, "c:majorGridlines");
-					xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (grid)));
-					gsf_xml_out_end_element (xml);
-				}
-				grid = gog_axis_get_grid_line (GOG_AXIS (ptr->data), FALSE);
-				if (grid) {
-					gsf_xml_out_start_element (xml, "c:minorGridlines");
-					xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (grid)));
-					gsf_xml_out_end_element (xml);
-				}
-				gsf_xml_out_start_element (xml, "c:numFmt");
-				format = gog_axis_get_format (GOG_AXIS (ptr->data));
-				gsf_xml_out_add_bool (xml, "sourceLinked", format == NULL || go_format_is_general (format));
-				format = gog_axis_get_effective_format (GOG_AXIS (ptr->data));
-				gsf_xml_out_add_cstr (xml, "formatCode", (format)? go_format_as_XL (format): "General");
-				gsf_xml_out_end_element (xml);
-
-				/* finished with axis */
-				gsf_xml_out_end_element (xml);
+				GogAxis *axis = ptr->data;
+				xlsx_write_axis (state, xml, axis, axis_type[i]);
 			}
 		}
+	}
 }
 
 static void
@@ -525,6 +575,17 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (chart)));
 
 	gsf_xml_out_start_element (xml, "c:chart");
+
+	obj = gog_object_get_child_by_name (chart, "Title");
+	if (obj) {
+		GOData *text = gog_dataset_get_dim (GOG_DATASET (obj), 0);
+		if (text != NULL) {
+			gsf_xml_out_start_element (xml, "c:title");
+			xlsx_write_chart_text (state, xml, text, GO_STYLED_OBJECT (obj));
+			gsf_xml_out_end_element (xml);
+		}
+	}
+
 	gsf_xml_out_start_element (xml, "c:plotArea");
 	/* save grid style here */
 	obj = gog_object_get_child_by_name (GOG_OBJECT (chart), "Backplane");
