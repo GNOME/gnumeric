@@ -15,6 +15,11 @@ if (!-r $schema) {
     &message ("Schema $schema not found");
     $schema = undef;
 }
+my $chart_schema = "$topsrc/test/ooxml-schema/dml-chart.xsd";
+if (!-r $chart_schema) {
+    &message ("Schema $chart_schema not found");
+    $chart_schema = undef;
+}
 
 my $xmllint = &GnumericTest::find_program ("xmllint");
 my $unzip = &GnumericTest::find_program ("unzip");
@@ -79,8 +84,9 @@ my $nskipped = 0;
 my $ngood = 0;
 my $nbad = 0;
 
-my $checker = "$xmllint --noout";
-$checker .= " --schema $schema" if defined $schema;
+my $checker = "$xmllint --noout" . ($schema ? " --schema $schema" : "");
+my $chart_checker = "$xmllint --noout" . ($chart_schema ? " --schema $chart_schema" : "");
+my %checkers = ( 0 => $checker, 1 => $chart_checker );
 
 foreach my $src (@sources) {
     if (!-r $src) {
@@ -112,14 +118,17 @@ foreach my $src (@sources) {
 	$members{$member} = 1;
     }
 
-    my @check_members = ('xl/workbook.xml', 'xl/styles.xml');
-    push @check_members, 'xl/sharedStrings.xml' if $members{'xl/sharedStrings.xml'};
+    my @check_members = (['xl/workbook.xml',0] , ['xl/styles.xml', 0]);
+    push @check_members, ['xl/sharedStrings.xml',0] if $members{'xl/sharedStrings.xml'};
     foreach my $member (sort keys %members) {
-	push @check_members, $member if $member =~ m{^xl/worksheets/sheet\d+\.xml$};
+	push @check_members, [$member,0] if $member =~ m{^xl/worksheets/sheet\d+\.xml$};
+	push @check_members, [$member,1] if $member =~ m{^xl/charts/chart\d+\.xml$};
     }
 
-    for my $member (@check_members) {
-	my $out = `$unzip -p $tmp $member | $checker - 2>&1`;
+    for (@check_members) {
+	my ($member,$typ) = @$_;
+	my $this_checker = $checkers{$typ};
+	my $out = `$unzip -p $tmp $member | $this_checker - 2>&1`;
 	if ($out ne '' && $out !~ /validates$/) {
 	    print STDERR "While checking $member from $tmp:\n";
 	    &GnumericTest::dump_indented ($out);
