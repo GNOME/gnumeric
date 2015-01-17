@@ -27,6 +27,7 @@ Morten:
 	* Improve error handling for .gnumeric a bit.
 	* Improve xlsx graph import: line colour.
 	* Improve xlsx graph export: line style; bar/col direction; marker shapes.
+	* Improve xlsx export: default col widths.
 
 Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739679]

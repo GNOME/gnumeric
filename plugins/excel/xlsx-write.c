@@ -2086,7 +2086,7 @@ xlsx_write_cols (XLSXWriteState *state, GsfXMLOut *xml, GnmStyle **styles)
 	gsf_xml_out_start_element (xml, "cols");
 
 	for (i = first_col + 1; i <= last_col; i++) {
-		ColRowInfo const *ci = sheet_col_get (state->sheet, i);
+		ColRowInfo const *ci = sheet_col_get_info (state->sheet, i);
 		if (!colrow_equal (info, ci) || styles[i] != styles[i - 1]) {
 			xlsx_write_col (state, xml, info,
 					first_col, i - 1,
