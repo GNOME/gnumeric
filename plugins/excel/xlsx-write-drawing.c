@@ -207,7 +207,7 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 			"square",     /* GO_MARKER_SQUARE */
 			"diamond",    /* GO_MARKER_DIAMOND */
 			"triangle",   /* GO_MARKER_TRIANGLE_DOWN */   /* FIXME: rotation */
-			"triangle",   /* GO_MARKER_TRIANGLE_UP */     /* FIXME: rotation */
+			"triangle",   /* GO_MARKER_TRIANGLE_UP */
 			"triangle",   /* GO_MARKER_TRIANGLE_RIGHT */  /* FIXME: rotation */
 			"triangle",   /* GO_MARKER_TRIANGLE_LEFT */   /* FIXME: rotation */
 			"circle",     /* GO_MARKER_CIRCLE */

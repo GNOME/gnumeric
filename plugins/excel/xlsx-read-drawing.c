@@ -1488,7 +1488,7 @@ xlsx_chart_marker_symbol (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "plus",	GO_MARKER_CROSS },		/* CHECK ME */
 		{ "square",	GO_MARKER_SQUARE },
 		{ "star",	GO_MARKER_ASTERISK },		/* CHECK ME */
-		{ "triangle",	GO_MARKER_TRIANGLE_UP },	/* FIXME */
+		{ "triangle",	GO_MARKER_TRIANGLE_UP },
 		{ "x",		GO_MARKER_X },
 		{ "auto",       GO_MARKER_MAX },
 		{ NULL, 0 }
@@ -1497,6 +1497,17 @@ xlsx_chart_marker_symbol (GsfXMLIn *xin, xmlChar const **attrs)
 	int symbol;
 	if (NULL != state->marker && simple_enum (xin, attrs, symbols, &symbol))
 		state->marker_symbol = symbol;
+}
+
+static void
+xlsx_chart_marker_size (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		int sz;
+		if (attr_int (xin, attrs, "val", &sz))
+			go_marker_set_size (state->marker, sz);
+	}
 }
 
 static void
@@ -1915,7 +1926,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
             GSF_XML_IN_NODE (SERIES_PT, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, &xlsx_chart_marker_start, &xlsx_chart_marker_end),
               GSF_XML_IN_NODE (MARKER, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
               GSF_XML_IN_NODE (MARKER, MARKER_SYMBOL, XL_NS_CHART, "symbol", GSF_XML_NO_CONTENT, &xlsx_chart_marker_symbol, NULL),
-              GSF_XML_IN_NODE (MARKER, MARKER_SIZE, XL_NS_CHART, "size", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (MARKER, MARKER_SIZE, XL_NS_CHART, "size", GSF_XML_NO_CONTENT, &xlsx_chart_marker_size, NULL),
 
           GSF_XML_IN_NODE (SERIES, SERIES_ERR_BARS, XL_NS_CHART,"errBars", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SERIES_ERR_BARS, SERIES_ERR_BARS_ERRBARTYPE, XL_NS_CHART, "errBarType",  GSF_XML_NO_CONTENT, NULL, NULL),
