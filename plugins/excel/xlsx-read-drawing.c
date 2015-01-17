@@ -1539,10 +1539,6 @@ xlsx_plot_area (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GogObject *backplane = gog_object_add_by_name (
 		GOG_OBJECT (state->chart), "Backplane", NULL);
-	/* set a transparent default background */
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (backplane));
-	style->fill.type = GO_STYLE_FILL_NONE;
-	style->fill.auto_type = FALSE;
 	xlsx_chart_push_obj (state, backplane);
 }
 
