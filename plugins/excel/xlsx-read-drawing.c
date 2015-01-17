@@ -437,13 +437,18 @@ xlsx_chart_bar_dir (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_chart_bar_overlap (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	int overlap;
-	g_return_if_fail (state->plot != NULL);
-	if (simple_int (xin, attrs, &overlap))
-		g_object_set (G_OBJECT (state->plot),
-			"overlap-percentage", CLAMP (overlap, -100, 100), NULL);
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (0 == strcmp (attrs[0], "val")) {
+			int overlap = strtol (attrs[1], NULL, 10);
+			g_object_set (G_OBJECT (state->plot),
+				      "overlap-percentage", CLAMP (overlap, -100, 100),
+				      NULL);
+		}
+	}
 }
+
 static void
 xlsx_chart_bar_group (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -465,10 +470,14 @@ static void
 xlsx_chart_bar_gap (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	int gap;
-	if (simple_int (xin, attrs, &gap))
-		g_object_set (G_OBJECT (state->plot),
-			"gap-percentage", CLAMP (gap, 0, 500), NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (0 == strcmp (attrs[0], "val")) {
+			int gap = strtol (attrs[1], NULL, 10);
+			g_object_set (G_OBJECT (state->plot),
+				      "gap-percentage", CLAMP (gap, 0, 500), NULL);
+		}
+	}
 }
 
 static void
