@@ -1,6 +1,7 @@
 2015-01-16  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_go_style): Export line style.
+	(xlsx_write_go_style): Have a first go at exporting marker shapes.
 
 	* xlsx-read-drawing.c (xlsx_style_line_start): Also point to the
 	right auto_color location so we don't end up ignoring the colors

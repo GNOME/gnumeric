@@ -132,6 +132,7 @@ static void
 xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 {
 	gsf_xml_out_start_element (xml, "c:spPr");
+
 	if ((style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) &&
 	    style->line.dash_type != GO_LINE_NONE) {/* TODO: add more tests for transparent line */
 		static const char * const dashes[] = {
@@ -167,6 +168,7 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 
 		gsf_xml_out_end_element (xml);
 	}
+
 	if ((style->interesting_fields & GO_STYLE_FILL) &&
 	    style->fill.type != GO_STYLE_FILL_NONE) {/* TODO add tests for transparent backgrounds */
 		switch (style->fill.type) {
@@ -196,8 +198,42 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 			break;
 		}
 	}
-	gsf_xml_out_end_element (xml);
+
+	gsf_xml_out_end_element (xml);  /* "c:spPr" */
+
 	if (style->interesting_fields & GO_STYLE_MARKER) {
+		static const char *const markers[] = {
+			NULL,         /* GO_MARKER_NONE */
+			"square",     /* GO_MARKER_SQUARE */
+			"diamond",    /* GO_MARKER_DIAMOND */
+			"triangle",   /* GO_MARKER_TRIANGLE_DOWN */   /* FIXME: rotation */
+			"triangle",   /* GO_MARKER_TRIANGLE_UP */     /* FIXME: rotation */
+			"triangle",   /* GO_MARKER_TRIANGLE_RIGHT */  /* FIXME: rotation */
+			"triangle",   /* GO_MARKER_TRIANGLE_LEFT */   /* FIXME: rotation */
+			"circle",     /* GO_MARKER_CIRCLE */
+			"x",          /* GO_MARKER_X */
+			"plus",       /* GO_MARKER_CROSS */
+			"star",       /* GO_MARKER_ASTERISK */
+			NULL,         /* GO_MARKER_BAR */
+			NULL,         /* GO_MARKER_HALF_BAR */
+			NULL,         /* GO_MARKER_BUTTERFLY */
+			NULL,         /* GO_MARKER_HOURGLASS */
+			NULL          /* GO_MARKER_LEFT_HALF_BAR */
+		};
+
+		gsf_xml_out_start_element (xml, "c:marker");
+
+		gsf_xml_out_start_element (xml, "c:symbol");
+		if (style->marker.auto_shape)
+			gsf_xml_out_add_cstr_unchecked (xml, "val", "auto");
+		else {
+			GOMarkerShape s = go_marker_get_shape (style->marker.mark);
+			if (s < G_N_ELEMENTS (markers) && markers[s])
+				gsf_xml_out_add_cstr_unchecked (xml, "val", markers[s]);
+		}		
+		gsf_xml_out_end_element (xml);
+
+		gsf_xml_out_end_element (xml);
 	}
 }
 

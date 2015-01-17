@@ -1490,6 +1490,7 @@ xlsx_chart_marker_symbol (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "star",	GO_MARKER_ASTERISK },		/* CHECK ME */
 		{ "triangle",	GO_MARKER_TRIANGLE_UP },	/* FIXME */
 		{ "x",		GO_MARKER_X },
+		{ "auto",       GO_MARKER_MAX },
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
