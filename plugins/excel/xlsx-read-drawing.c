@@ -797,47 +797,26 @@ xlsx_chart_xy (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_scatter_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	enum { SCATTER_LINES = 1, SCATTER_MARKERS = 2, SCATTER_SPLINES = 4 };
 	static const EnumVal styles[] = {
-		{"line",	0},
-		{"lineMarker",  1},
-		{"marker",      2},
-		{"markers",     2}, /* We used to write this erroneously */
-		{"none",	3},
-		{"smooth",      4},
-		{"smoothMarker", 5}
+		{"line",	SCATTER_LINES },
+		{"lineMarker",  SCATTER_LINES | SCATTER_MARKERS },
+		{"marker",      SCATTER_MARKERS },
+		{"markers",     SCATTER_MARKERS }, /* We used to write this erroneously */
+		{"none",	0 },
+		{"smooth",      SCATTER_SPLINES },
+		{"smoothMarker", SCATTER_SPLINES | SCATTER_MARKERS }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int style;
 
-	if (simple_enum (xin, attrs, styles, &style))
-		switch (style) {
-		case 0:
-			g_object_set (G_OBJECT (state->plot),
-			              "default-style-has-markers", FALSE,
-			              NULL);
-			break;
-		case 2:
-			g_object_set (G_OBJECT (state->plot),
-			              "default-style-has-lines", FALSE,
-			              NULL);
-			break;
-		case 3:
-			g_object_set (G_OBJECT (state->plot),
-			              "default-style-has-markers", FALSE,
-			              "default-style-has-lines", FALSE,
-			              NULL);
-			break;
-		case 4:
-			g_object_set (G_OBJECT (state->plot),
-			              "use-splines", TRUE,
-			              "default-style-has-markers", FALSE, NULL);
-			break;
-		case 5:
-			g_object_set (G_OBJECT (state->plot),
-			              "use-splines", TRUE,
-			              NULL);
-			break;
-		}
+	if (simple_enum (xin, attrs, styles, &style)) {
+		g_object_set (G_OBJECT (state->plot),
+			      "default-style-has-markers", (style & SCATTER_MARKERS) != 0,
+			      "default-style-has-lines", (style & SCATTER_LINES) != 0,
+			      "use-splines", (style & SCATTER_SPLINES) != 0,
+			      NULL);
+	}
 }
 
 static void
@@ -1275,7 +1254,10 @@ xlsx_chart_no_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	if (NULL != state->marker)
 		;
 	else if (NULL != state->cur_style) {
-		if (!(state->sp_type & GO_STYLE_LINE)) {
+		if (state->sp_type & GO_STYLE_LINE) {
+			state->cur_style->line.dash_type = GO_LINE_NONE;
+			state->cur_style->line.auto_dash = FALSE;
+		} else {
 			state->cur_style->fill.type = GO_STYLE_FILL_NONE;
 			state->cur_style->fill.auto_type = FALSE;
 		}
@@ -1543,6 +1525,7 @@ xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->marker = NULL;
 		state->gocolor = NULL;
 		state->color_setter = NULL;
+		state->color_data = NULL;
 	}
 }
 
@@ -1678,7 +1661,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (FILL_PATT_FG, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
     GSF_XML_IN_NODE (SHAPE_PR, SHAPE_PR_LN, XL_NS_DRAW, "ln", GSF_XML_NO_CONTENT, &xlsx_style_line_start, &xlsx_style_line_end),
-      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_NOFILL, XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_NOFILL, XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, &xlsx_chart_no_fill, NULL),
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
       GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */

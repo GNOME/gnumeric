@@ -25,7 +25,7 @@ Morten:
 	* Fix ADDRESS problem.
 	* Fix sheet-filter problem with errors.  [#742601]
 	* Improve error handling for .gnumeric a bit.
-	* Improve xlsx graph import: line colour; marker size; marker color.
+	* Improve xlsx graph import: line colour; marker size; marker color; no lines.
 	* Improve xlsx graph export: line style; bar/col direction; marker shape;
 	  marker size; marker color; axis label; chart title.
 	* Improve xlsx export: default col widths; schema validity.

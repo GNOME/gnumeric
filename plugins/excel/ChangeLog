@@ -2,6 +2,8 @@
 
 	* xlsx-read-drawing.c (xlsx_chart_bar_overlap)
 	(xlsx_chart_bar_gap): Fix reading percentages.
+	(xlsx_chart_no_fill): Handle noFill when used to avoid lines
+	between data points.
 
 	* xlsx-write-drawing.c (xlsx_write_axis): Factor this out from
 	xlsx_write_one_plot.  Write axis label.
