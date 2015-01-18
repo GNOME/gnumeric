@@ -97,6 +97,7 @@ static char const *ns_rel_hlink	 = "http://schemas.openxmlformats.org/officeDocu
 static char const *ns_rel_draw	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing";
 static char const *ns_rel_chart	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart";
 static char const *ns_rel_com	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments";
+
 typedef struct {
 	XLExportBase base;
 
@@ -111,6 +112,7 @@ typedef struct {
 	GPtrArray	*dxfs_array;
 	GnmConventions	*convs;
 	GOIOContext	*io_context;
+	GHashTable      *axids;
 
 	GsfOutfile	*xl_dir;
 	struct {
@@ -2917,6 +2919,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	state->styles_array = g_ptr_array_new ();
 	state->dxfs_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->dxfs_array = g_ptr_array_new ();
+	state->axids = g_hash_table_new (NULL, NULL);
 
 	xlsx_get_style_id (state, style);
 	gnm_style_unref (style);
@@ -3014,6 +3017,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	g_ptr_array_free (state->styles_array, TRUE);
 	g_hash_table_destroy (state->dxfs_hash);
 	g_ptr_array_free (state->dxfs_array, TRUE);
+	g_hash_table_destroy (state->axids);
 
 	if (NULL != state->chart.dir)
 		gsf_output_close (GSF_OUTPUT (state->chart.dir));

@@ -1,5 +1,8 @@
 2015-01-17  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write-drawing.c (xlsx_get_axid): New function allowing us
+	to get away from storing truncated pointers as axis ids.
+
 	* xlsx-read-drawing.c (xlsx_chart_bar_overlap)
 	(xlsx_chart_bar_gap): Fix reading percentages.
 	(xlsx_chart_no_fill): Handle noFill when used to avoid lines

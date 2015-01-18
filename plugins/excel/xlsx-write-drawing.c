@@ -301,6 +301,17 @@ xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
 	g_free (text);
 }
 
+static unsigned
+xlsx_get_axid (XLSXWriteState *state, GogAxis *axis)
+{
+	gpointer l = g_hash_table_lookup (state->axids, axis);
+	if (!l) {
+		l = GUINT_TO_POINTER (1 + g_hash_table_size (state->axids));
+		g_hash_table_insert (state->axids, axis, l);
+	}
+	return GPOINTER_TO_UINT (l);
+}
+
 
 static void
 xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisType at)
@@ -315,7 +326,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 		gsf_xml_out_start_element (xml, "c:catAx");
 	else
 		gsf_xml_out_start_element (xml, "c:valAx");
-	xlsx_write_chart_int (xml, "c:axId", 0, GPOINTER_TO_UINT (axis));
+	xlsx_write_chart_uint (xml, "c:axId", 0, xlsx_get_axid (state, axis));
 	gsf_xml_out_start_element (xml, "c:scaling");
 	xlsx_write_chart_cstr_unchecked (xml, "c:orientation", gog_axis_is_inverted (axis)? "maxMin": "minMax");
 	// TODO: export min, max, an others
@@ -356,7 +367,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 
 	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (axis)));
 
-	xlsx_write_chart_int (xml, "c:crossAx", 0, GPOINTER_TO_UINT (crossed));
+	xlsx_write_chart_int (xml, "c:crossAx", 0, xlsx_get_axid (state, crossed));
 	g_object_get (G_OBJECT (axis), "pos", &pos, NULL);
 	switch (pos) {
 	default:
@@ -609,7 +620,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	/* write axes Ids */
 	for (i = 0; i < 3; i++)
 		if (axis_type[i] != GOG_AXIS_UNKNOWN)
-			xlsx_write_chart_uint (xml, "c:axId", 0, GPOINTER_TO_UINT (gog_plot_get_axis (GOG_PLOT (plot), axis_type[i])));
+			xlsx_write_chart_uint (xml, "c:axId", 0, xlsx_get_axid (state, gog_plot_get_axis (GOG_PLOT (plot), axis_type[i])));
 
 
 	gsf_xml_out_end_element (xml);
