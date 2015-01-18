@@ -2215,48 +2215,50 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (NULL == state->so) {
 		xlsx_warning (xin,
 			_("Dropping missing object"));
-	} else {
-		if ((state->drawing_pos_flags & 0xFF) == 0xFF) {
-			SheetObjectAnchor anchor;
-			GnmRange r;
-			double coords[4];
-			double size;
-			int i;
-
-			range_init (&r,
-				state->drawing_pos[COL | FROM],
-				state->drawing_pos[ROW | FROM],
-				state->drawing_pos[COL | TO],
-				state->drawing_pos[ROW | TO]);
-
-			for (i = 0; i < 8; i+=2) {
-				ColRowInfo const *cri;
-				if (i & 2) {
-					cri = sheet_row_get (state->sheet, state->drawing_pos[i]);
-					size = cri? cri->size_pts: sheet_row_get_default_size_pts (state->sheet);
-				} else {
-					cri = sheet_col_get (state->sheet, state->drawing_pos[i]);
-					/* FIXME: scaling horizontally just like in xlsx_CT_Col */
-					size = cri? cri->size_pts: sheet_col_get_default_size_pts (state->sheet) * 1.16191275167785;
-				}
-				coords[i / 2] = (double) state->drawing_pos[i + 1] / 12700. / size;
-			}
-			sheet_object_anchor_init (&anchor, &r, coords, GOD_ANCHOR_DIR_DOWN_RIGHT);
-			sheet_object_set_anchor (state->so, &anchor);
-			sheet_object_set_sheet (state->so, state->sheet);
-		} else
-			xlsx_warning (xin,
-				_("Dropping object with incomplete anchor %2x"), state->drawing_pos_flags);
-
-		if (state->cur_style) {
-			g_object_set (state->so, "style", state->cur_style, NULL);
-			g_object_unref (state->cur_style);
-			state->cur_style = NULL;
-		}
+	} else if ((state->drawing_pos_flags & 0xFF) != 0xFF) {
+		xlsx_warning (xin,
+			      _("Dropping object with incomplete anchor %2x"), state->drawing_pos_flags);
 		g_object_unref (state->so);
-		state->so = NULL;
+	} else {
+		SheetObjectAnchor anchor;
+		GnmRange r;
+		double coords[4];
+		double size;
+		int i;
+
+		range_init (&r,
+			    state->drawing_pos[COL | FROM],
+			    state->drawing_pos[ROW | FROM],
+			    state->drawing_pos[COL | TO],
+			    state->drawing_pos[ROW | TO]);
+
+		for (i = 0; i < 8; i+=2) {
+			ColRowInfo const *cri;
+			if (i & 2) {
+				cri = sheet_row_get (state->sheet, state->drawing_pos[i]);
+				size = cri? cri->size_pts: sheet_row_get_default_size_pts (state->sheet);
+			} else {
+				cri = sheet_col_get (state->sheet, state->drawing_pos[i]);
+				/* FIXME: scaling horizontally just like in xlsx_CT_Col */
+				size = cri? cri->size_pts: sheet_col_get_default_size_pts (state->sheet) * 1.16191275167785;
+			}
+			coords[i / 2] = (double) state->drawing_pos[i + 1] / 12700. / size;
+		}
+		sheet_object_anchor_init (&anchor, &r, coords, GOD_ANCHOR_DIR_DOWN_RIGHT);
+		sheet_object_set_anchor (state->so, &anchor);
+		if (state->cur_style)
+			g_object_set (state->so, "style", state->cur_style, NULL);
+
+		state->pending_objects = g_slist_prepend (state->pending_objects, state->so);
 	}
+
+	if (state->cur_style) {
+		g_object_unref (state->cur_style);
+		state->cur_style = NULL;
+	}
+	state->so = NULL;
 }
+
 
 static void
 xlsx_drawing_oneCellAnchor_end (GsfXMLIn *xin, GsfXMLBlob *blob)

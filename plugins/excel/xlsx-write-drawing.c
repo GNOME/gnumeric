@@ -164,7 +164,9 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 	}
 
 	if ((style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) &&
-	    !style->line.auto_dash) {/* TODO: add more tests for transparent line */
+	    (!style->line.auto_dash ||
+	     !style->line.auto_width ||
+	     !style->line.auto_color)) {
 		static const char * const dashes[] = {
 			NULL,            /* GO_LINE_NONE */
 			"solid",         /* GO_LINE_SOLID */

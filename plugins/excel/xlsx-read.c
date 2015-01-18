@@ -233,6 +233,8 @@ typedef struct {
 	Sheet *defined_name_sheet;
 	GList *delayed_names;
 
+	GSList *pending_objects;
+
 	/* external refs */
        	Workbook *external_ref;
 	Sheet 	 *external_ref_sheet;
@@ -3901,6 +3903,14 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					       0.3 + i*0.6/n + 0.5/n, 0.3 + i*0.6/n + 0.6/n);
 			xlsx_parse_stream (state, cin, xlsx_comments_dtd);
 			end_update_progress (state);
+		}
+
+		while (state->pending_objects) {
+			SheetObject *obj = state->pending_objects->data;
+			state->pending_objects = g_slist_delete_link (state->pending_objects,
+								      state->pending_objects);
+			sheet_object_set_sheet (obj, state->sheet);
+			g_object_unref (obj);
 		}
 
 		/* Flag a respan here in case nothing else does */
