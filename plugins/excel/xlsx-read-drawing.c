@@ -520,11 +520,11 @@ xlsx_plot_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 				res->cross_value = go_nan;
 				g_hash_table_replace (state->axis.by_id, res->id, res);
 #ifdef DEBUG_AXIS
-				g_print ("create %s = %p\n", attrs[1], res);
+				g_printerr ("create info for %s = %p\n", attrs[1], res);
 #endif
 			}
 #ifdef DEBUG_AXIS
-			g_print ("add plot %p to %p\n", state->plot, res);
+			g_printerr ("add plot %p to info %p\n", state->plot, res);
 #endif
 			res->plots = g_slist_prepend (res->plots, state->plot);
 		}
@@ -538,6 +538,9 @@ xlsx_axis_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	state->axis.type = xin->node->user_data.v_int;
 	state->axis.info = NULL;
 	xlsx_chart_push_obj (state, GOG_OBJECT (state->axis.obj));
+#ifdef DEBUG_AXIS
+	g_printerr ("Created axis %p\n", state->axis.obj);
+#endif
 }
 
 static void
@@ -571,7 +574,7 @@ xlsx_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 					state->axis.obj, state->axis.info);
 			}
 #ifdef DEBUG_AXIS
-			g_print ("define %s = %p\n", attrs[1], state->axis.info);
+			g_printerr ("define %s = %p\n", attrs[1], state->axis.info);
 #endif
 		}
 }
@@ -638,7 +641,7 @@ xlsx_axis_pos (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int position;
 #ifdef DEBUG_AXIS
-	g_print ("SET POS %s for %p\n", attrs[1],  state->axis.info);
+	g_printerr ("SET POS %s for %p\n", attrs[1],  state->axis.info);
 #endif
 	if (state->axis.info && simple_enum (xin, attrs, positions, &position))
 		state->axis.info->compass = position;
@@ -766,13 +769,14 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 		/* absorb a ref, and set the id, and atype */
 		gog_object_add_by_name (GOG_OBJECT (state->chart),
-			role, GOG_OBJECT (state->axis.obj));
+					role, GOG_OBJECT (state->axis.obj));
 		g_object_ref (state->axis.obj);
 		for (ptr = state->axis.info->plots; ptr != NULL ; ptr = ptr->next) {
+			GogPlot *plot = ptr->data;
 #ifdef DEBUG_AXIS
-			g_print ("connect plot %p to %p in role %s\n", ptr->data, state->axis.obj, role);
+			g_printerr ("connect plot %p to %p in role %s\n", plot, state->axis.obj, role);
 #endif
-			gog_plot_set_axis (ptr->data, state->axis.obj);
+			gog_plot_set_axis (plot, state->axis.obj);
 		}
 
 		state->axis.obj  = NULL;
@@ -2097,14 +2101,29 @@ xlsx_axis_cleanup (XLSXReadState *state)
 
 	/* clean out axis that were auto created */
 	list = gog_object_get_children (GOG_OBJECT (state->chart), NULL);
-	for (ptr = list; ptr != NULL ; ptr = ptr->next)
-		if (GOG_IS_AXIS (ptr->data) &&
-		    NULL == g_hash_table_lookup (state->axis.by_obj, ptr->data)) {
-			if (gog_object_is_deletable (GOG_OBJECT (ptr->data))) {
-				gog_object_clear_parent	(GOG_OBJECT (ptr->data));
-				g_object_unref (ptr->data);
+	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
+		GogAxis *axis = ptr->data;
+		if (!GOG_IS_AXIS (axis))
+			continue;
+
+		if (g_hash_table_lookup (state->axis.by_obj, axis)) {
+#ifdef DEBUG_AXIS
+			g_printerr ("Axis %p (%s) is one of ours with role %s\n",
+				    axis, gog_object_get_name (GOG_OBJECT (axis)),
+				    GOG_OBJECT(axis)->role->id);
+#endif
+		} else {
+#ifdef DEBUG_AXIS
+			g_printerr ("Would like to delete axis %p (%s): %s\n",
+				    axis, gog_object_get_name (GOG_OBJECT (axis)),
+				    (gog_object_is_deletable (GOG_OBJECT (axis)) ? "allowed" : "not allowed"));
+#endif
+			if (gog_object_is_deletable (GOG_OBJECT (axis))) {
+				gog_object_clear_parent	(GOG_OBJECT (axis));
+				g_object_unref (axis);
 			}
 		}
+	}
 	g_slist_free (list);
 
 	g_hash_table_foreach (state->axis.by_obj,
