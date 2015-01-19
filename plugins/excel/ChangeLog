@@ -1,5 +1,8 @@
 2015-01-19  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_drawing_twoCellAnchor_end): Fix
+	operator precedence.
+
 	* xlsx-write-drawing.c (xlsx_write_one_plot): Use
 	xlsx_plottype_from_type_name for readability.
 

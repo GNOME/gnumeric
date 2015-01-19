@@ -2249,7 +2249,7 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			} else {
 				cri = sheet_col_get (state->sheet, state->drawing_pos[i]);
 				/* FIXME: scaling horizontally just like in xlsx_CT_Col */
-				size = cri? cri->size_pts: sheet_col_get_default_size_pts (state->sheet) * 1.16191275167785;
+				size = (cri? cri->size_pts: sheet_col_get_default_size_pts (state->sheet)) * 1.16191275167785;
 			}
 			coords[i / 2] = (double) state->drawing_pos[i + 1] / 12700. / size;
 		}
