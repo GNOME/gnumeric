@@ -38,6 +38,7 @@
 #include "gnm-marshalers.h"
 #include "style-color.h"
 #include "sheet-style.h"
+#include "sheet-object-graph.h"
 
 #include <goffice/goffice.h>
 
@@ -109,6 +110,20 @@ workbook_update_history (Workbook *wb, GnmFileSaveAsStyle type)
 		break;
 	}
 }
+
+void
+workbook_update_graphs (Workbook *wb)
+{
+	WORKBOOK_FOREACH_SHEET (wb, sheet, ({
+		GSList *l, *graphs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
+		for (l = graphs; l; l = l->next) {
+			SheetObject *sog = l->data;
+			gog_graph_force_update (sheet_object_graph_get_gog (sog));
+		}
+		g_slist_free (graphs);
+	}));
+}
+
 
 static void
 workbook_dispose (GObject *wb_object)

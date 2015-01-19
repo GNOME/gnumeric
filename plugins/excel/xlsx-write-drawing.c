@@ -324,6 +324,12 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 	GogObject *label;
 	GOFormat *format;
 
+#ifdef DEBUG_AXIS
+	g_printerr ("Writing axis %s.  (discrete = %d)\n",
+		    gog_object_get_name (GOG_OBJECT (axis)),
+		    gog_axis_is_discrete (axis));
+#endif
+
 	if (gog_axis_is_discrete (axis))
 		gsf_xml_out_start_element (xml, "c:catAx");
 	else
@@ -701,7 +707,7 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 static void
 xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 {
-	GogGraph const	*graph;
+	GogGraph const *graph;
 	GogObject const	*chart;
 	GsfXMLOut *xml;
 

@@ -1,3 +1,10 @@
+2015-01-19  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_update_graphs): New function.
+
+	* src/workbook-view.c (workbook_view_new_from_input): Update
+	graphs.
+
 2015-01-14  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_cell_content): When we fail to parse

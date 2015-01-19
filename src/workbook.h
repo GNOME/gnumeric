@@ -45,6 +45,8 @@ unsigned    workbook_find_command	(Workbook *wb,
 GnmExprSharer *workbook_share_expressions (Workbook *wb, gboolean freeit);
 void        workbook_optimize_style     (Workbook *wb);
 
+void        workbook_update_graphs      (Workbook *wb);
+
 /* IO Routines */
 gboolean       workbook_set_saveinfo	(Workbook *wb, GOFileFormatLevel lev,
 					 GOFileSaver *saver);
