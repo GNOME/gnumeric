@@ -749,3 +749,31 @@ xlsx_get_gradient_direction (double ang)
 		return GO_GRADIENT_N_TO_S;
 	}
 }
+
+
+XLSXPlotType
+xlsx_plottype_from_type_name (const char *type_name)
+{
+	static const char * const plot_types[] = {
+		NULL,
+		"GogAreaPlot",
+		"GogBarColPlot",
+		"GogLinePlot",
+		"GogPiePlot",
+		"GogRingPlot",
+		"GogRadarPlot",
+		"GogRadarAreaPlot",
+		"GogBubblePlot",
+		"GogXYPlot",
+		"GogContourPlot",
+		"XLContourPlot"
+	};
+	unsigned plot_type;
+
+	for (plot_type = 1; plot_type < G_N_ELEMENTS (plot_types); plot_type++) {
+		if (strcmp (type_name, plot_types[plot_type]) == 0)
+			return (XLSXPlotType)plot_type;
+	}
+
+	return XLSX_PT_UNKNOWN;
+}

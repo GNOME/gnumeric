@@ -59,4 +59,21 @@ GOFormat        *xlsx_pivot_date_fmt   (void);
 
 GOGradientDirection xlsx_get_gradient_direction (double ang);
 
+typedef enum {
+	XLSX_PT_UNKNOWN,
+	XLSX_PT_GOGAREAPLOT,
+	XLSX_PT_GOGBARCOLPLOT,
+	XLSX_PT_GOGLINEPLOT,
+	XLSX_PT_GOGPIEPLOT,
+	XLSX_PT_GOGRINGPLOT,
+	XLSX_PT_GOGRADARPLOT,
+	XLSX_PT_GOGRADARAREAPLOT,
+	XLSX_PT_GOGBUBBLEPLOT,
+	XLSX_PT_GOGXYPLOT,
+	XLSX_PT_GOGCONTOURPLOT,
+	XLSX_PT_XLCONTOURPLOT
+} XLSXPlotType;
+XLSXPlotType xlsx_plottype_from_type_name (const char *type_name);
+
+
 #endif /* GNM_XLSX_UTILS_H */

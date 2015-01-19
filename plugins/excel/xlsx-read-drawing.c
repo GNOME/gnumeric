@@ -741,36 +741,38 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		char const *type = G_OBJECT_TYPE_NAME (plot);
 		char const *role = NULL;
 		GSList *ptr;
+		gboolean inverted = FALSE;
+		gboolean cat_or_date = (state->axis.type == XLSX_AXIS_CAT ||
+					state->axis.type == XLSX_AXIS_DATE);
 
-		if (0 == strcmp (type, "GogRadarPlot") ||
-		    0 == strcmp (type, "GogRadarAreaPlot")) {
-			role = (state->axis.type == XLSX_AXIS_CAT
-				|| state->axis.type == XLSX_AXIS_DATE) ? "Circular-Axis" : "Radial-Axis";
-		} else if (0 == strcmp (type, "GogBubblePlot") ||
-			   0 == strcmp (type, "GogXYPlot")) {
-			/* both are VAL, use the position to decide */
+		switch (xlsx_plottype_from_type_name (type)) {
+		case XLSX_PT_GOGRADARPLOT:
+		case XLSX_PT_GOGRADARAREAPLOT:
+			role = cat_or_date ? "Circular-Axis" : "Radial-Axis";
+			break;
+		case XLSX_PT_GOGBUBBLEPLOT:
+		case XLSX_PT_GOGXYPLOT:
 			if (state->axis.info->compass  == GOG_POSITION_N ||
 			    state->axis.info->compass  == GOG_POSITION_S)
 				role = "X-Axis";
 			else
 				role = "Y-Axis";
-		} else if (0 == strcmp (type, "GogBarColPlot")) {
-			gboolean h;
+			break;
+		case XLSX_PT_GOGBARCOLPLOT:
 			/* swap for bar plots */
-			g_object_get (G_OBJECT (plot), "horizontal", &h, NULL);
-			if (h)
-				role = (state->axis.type == XLSX_AXIS_CAT
-				        || state->axis.type == XLSX_AXIS_DATE) ? "Y-Axis" : "X-Axis";
+			g_object_get (G_OBJECT (plot), "horizontal", &inverted, NULL);
+			break;
+
+		default:
+			break;
 		}
 
 		if (NULL == role)
-			role = (state->axis.type == XLSX_AXIS_CAT
-				|| state->axis.type == XLSX_AXIS_DATE) ? "X-Axis" : "Y-Axis";
+			role = (inverted ^ cat_or_date) ? "X-Axis" : "Y-Axis";
 
-		/* absorb a ref, and set the id, and atype */
+		/* Set the id, and atype.  Ref to balance.  */
 		gog_object_add_by_name (GOG_OBJECT (state->chart),
-					role, GOG_OBJECT (state->axis.obj));
-		g_object_ref (state->axis.obj);
+					role, GOG_OBJECT (g_object_ref (state->axis.obj)));
 		for (ptr = state->axis.info->plots; ptr != NULL ; ptr = ptr->next) {
 			GogPlot *plot = ptr->data;
 #ifdef DEBUG_AXIS
@@ -825,28 +827,16 @@ xlsx_scatter_style (GsfXMLIn *xin, xmlChar const **attrs)
 
 static void
 xlsx_chart_bubble (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
-{ xlsx_chart_add_plot (xin, "GogBubblePlot"); }
+{
+	xlsx_chart_add_plot (xin, "GogBubblePlot");
+}
 
 static void
 xlsx_chart_radar (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
-{ xlsx_chart_add_plot (xin, "GogRadarPlot"); }
+{
+	xlsx_chart_add_plot (xin, "GogRadarPlot");
+}
 
-#if 0
-	char const *type = "GogRadarPlot";
-	gboolean with_markers = FALSE;
-	/* Irritants.  They put the sub type into a child record ... */
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "type")) {
-			if (0 == strcmp (attrs[1], "filled"))
-				type = "as_percentage";
-			else if (0 == strcmp (attrs[1], "marker"))
-				type = "stacked";
-			g_object_set (G_OBJECT (state->plot), "type", type, NULL);
-		}
-		if (0 == strcmp (xin, attrs, "cx", state->drawing_pos + (COL | TO | OFFSET)))
-			state->drawing_pos_flags |= (1 << (COL | TO | OFFSET));
-	g_object_set (G_OBJECT (state->plot), "default-style-has-markers", with_markers, NULL);
-#endif
 
 static void
 xlsx_plot_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)

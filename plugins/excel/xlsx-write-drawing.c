@@ -404,26 +404,12 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 static void
 xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, GogObject const *plot)
 {
-	gboolean failed = TRUE;
 	gboolean use_xy = FALSE;
 	double explosion = 0.;
 	gboolean vary_by_element;
 	GogAxisType axis_type[3] = {GOG_AXIS_X, GOG_AXIS_Y, GOG_AXIS_UNKNOWN};
 	unsigned i;
-	static const char * const plot_types[] = {
-		/*  0 */ "GogAreaPlot",
-		/*  1 */ "GogBarColPlot",
-		/*  2 */ "GogLinePlot",
-		/*  3 */ "GogPiePlot",
-		/*  4 */ "GogRingPlot",
-		/*  5 */ "GogRadarPlot",
-		/*  6 */ "GogRadarAreaPlot",
-		/*  7 */ "GogBubblePlot",
-		/*  8 */ "GogXYPlot",
-		/*  9 */ "GogContourPlot",
-		/* 10 */ "XLContourPlot"
-	};
-	unsigned plot_type;
+	XLSXPlotType plot_type;
 	const char *plot_type_name;
 	GSList const *series;
 	unsigned count;
@@ -432,24 +418,20 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		      "vary-style-by-element", &vary_by_element,
 		      NULL);
 	plot_type_name = G_OBJECT_TYPE_NAME (plot);
-	for (plot_type = 0; plot_type < G_N_ELEMENTS (plot_types); plot_type++) {
-		if (strcmp (plot_type_name, plot_types[plot_type]) == 0) {
-			failed = FALSE;
-			break;
-		}
-	}
-	if (failed) {
-		g_warning ("unexpected plot type %s", plot_type_name);
-		return;
-	}
+	plot_type = xlsx_plottype_from_type_name (plot_type_name);
 
 	switch (plot_type) {
-	case 0:   // "GogAreaPlot"
+	default:
+	case XLSX_PT_UNKNOWN:
+		g_warning ("unexpected plot type %s", plot_type_name);
+		return;
+
+	case XLSX_PT_GOGAREAPLOT:
 		gsf_xml_out_start_element (xml, "c:areaChart");
 		xlsx_write_plot_1_5_type (xml, plot, FALSE);
 		break;
 
-	case 1: { // "GogBarColPlot"
+	case XLSX_PT_GOGBARCOLPLOT: {
 		gboolean horizontal;
 
 		g_object_get (G_OBJECT (plot), "horizontal", &horizontal, NULL);
@@ -467,15 +449,15 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		break;
 	}
 
-	case 2:   // "GogLinePlot"
+	case XLSX_PT_GOGLINEPLOT:
 		gsf_xml_out_start_element (xml, "c:lineChart");
 		xlsx_write_plot_1_5_type (xml, plot, FALSE);
 		break;
 
-	case 3:   // "GogPiePlot"
-	case 4: { // "GogRingPlot"
+	case XLSX_PT_GOGPIEPLOT:
+	case XLSX_PT_GOGRINGPLOT: {
 		gint16 center = 0;
-		if (plot_type == 4) {
+		if (plot_type == XLSX_PT_GOGRINGPLOT) {
 			double center_size;
 			gsf_xml_out_start_element (xml, "c:doughnutChart");
 			g_object_get (G_OBJECT (plot), "center-size", &center_size, NULL);
@@ -497,8 +479,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		break;
 	}
 
-	case 5:   // "GogRadarPlot"
-	case 6:   // "GogRadarAreaPlot"
+	case XLSX_PT_GOGRADARPLOT:
+	case XLSX_PT_GOGRADARAREAPLOT:
 		gsf_xml_out_start_element (xml, "c:radarChart");
 		gsf_xml_out_start_element (xml, "c:radarStyle");
 		gsf_xml_out_add_cstr_unchecked (xml, "val", "standard");
@@ -507,13 +489,13 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		axis_type[1] = GOG_AXIS_RADIAL;
 		break;
 
-	case 7:  // "GogBubblePlot"
+	case XLSX_PT_GOGBUBBLEPLOT:
 		gsf_xml_out_start_element (xml, "c:bubbleChart");
 		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		use_xy = TRUE;
 		break;
 
-	case 8: { // "GogXYPlot"
+	case XLSX_PT_GOGXYPLOT: {
 		gboolean has_lines, has_markers, use_splines;
 		char const *style;
 		g_object_get (G_OBJECT (plot),
@@ -532,13 +514,9 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		break;
 	}
 
-	case 9:    // "GogContourPlot"
-	case 10:   // "XLContourPlot"
+	case XLSX_PT_GOGCONTOURPLOT:
+	case XLSX_PT_XLCONTOURPLOT:
 		gsf_xml_out_start_element (xml, "c:surfaceChart");
-		break;
-
-	default:
-		g_assert_not_reached ();
 		break;
 	}
 
@@ -573,7 +551,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	}
 
 	switch (plot_type) {
-	case 1: {
+	case XLSX_PT_GOGBARCOLPLOT: {
 		char *s;
 		int overlap_percentage, gap_percentage;
 
@@ -596,8 +574,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		break;
 	}
 
-	case 3:
-	case 4: {
+	case XLSX_PT_GOGPIEPLOT:
+	case XLSX_PT_GOGRINGPLOT: {
 		double initial_angle = 0;
 		g_object_get (G_OBJECT (plot),
 			      "initial-angle", &initial_angle,
@@ -606,7 +584,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		break;
 	}
 
-	case 7: {
+	case XLSX_PT_GOGBUBBLEPLOT: {
 		gboolean show_neg = FALSE, in_3d = FALSE, as_area = TRUE;
 		g_object_get (G_OBJECT (plot),
 			      "show-negatives",	&show_neg,
