@@ -1,5 +1,8 @@
 2015-01-19  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm.gresource.xml: pre-process xpm files.  gdkpixbuf will
+	otherwise dump them in temporary files in order to load them.
+
 	* src/workbook.c (workbook_update_graphs): New function.
 
 	* src/workbook-view.c (workbook_view_new_from_input): Update

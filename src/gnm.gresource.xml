@@ -4,32 +4,32 @@
     <file>icons/16x16/actions/gnumeric-autofilter-delete.png</file>
     <file>icons/16x16/actions/gnumeric-autofilter.png</file>
     <file>icons/16x16/actions/gnumeric-brush.png</file>
-    <file>icons/16x16/actions/gnumeric-cells-merge.xpm</file>
-    <file>icons/16x16/actions/gnumeric-cells-split.xpm</file>
-    <file>icons/16x16/actions/gnumeric-center-across-selection.xpm</file>
-    <file>icons/16x16/actions/gnumeric-column-add.xpm</file>
-    <file>icons/16x16/actions/gnumeric-column-delete.xpm</file>
-    <file>icons/16x16/actions/gnumeric-column-hide.xpm</file>
-    <file>icons/16x16/actions/gnumeric-column-size.xpm</file>
-    <file>icons/16x16/actions/gnumeric-column-unhide.xpm</file>
-    <file>icons/16x16/actions/gnumeric-comment-add.xpm</file>
-    <file>icons/16x16/actions/gnumeric-comment-delete.xpm</file>
-    <file>icons/16x16/actions/gnumeric-comment-edit.xpm</file>
-    <file>icons/16x16/actions/gnumeric-component-insert-shaped.xpm</file>
-    <file>icons/16x16/actions/gnumeric-component-insert.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-cells-merge.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-cells-split.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-center-across-selection.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-column-add.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-column-delete.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-column-hide.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-column-size.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-column-unhide.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-comment-add.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-comment-delete.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-comment-edit.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-component-insert-shaped.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-component-insert.xpm</file>
     <file>icons/16x16/actions/gnumeric-data-slicer.png</file>
-    <file>icons/16x16/actions/gnumeric-detail-hide.xpm</file>
-    <file>icons/16x16/actions/gnumeric-detail-show.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-detail-hide.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-detail-show.xpm</file>
     <file>icons/16x16/actions/gnumeric-exprentry.png</file>
-    <file>icons/16x16/actions/gnumeric-format-border-bottom.xpm</file>
-    <file>icons/16x16/actions/gnumeric-format-border-diag.xpm</file>
-    <file>icons/16x16/actions/gnumeric-format-border-left.xpm</file>
-    <file>icons/16x16/actions/gnumeric-format-border-rev-diag.xpm</file>
-    <file>icons/16x16/actions/gnumeric-format-border-right.xpm</file>
-    <file>icons/16x16/actions/gnumeric-format-border-top.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-format-border-bottom.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-format-border-diag.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-format-border-left.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-format-border-rev-diag.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-format-border-right.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-format-border-top.xpm</file>
     <file>icons/16x16/actions/gnumeric-formulaguru.png</file>
-    <file>icons/16x16/actions/gnumeric-graphguru.xpm</file>
-    <file>icons/16x16/actions/gnumeric-group.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-graphguru.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-group.xpm</file>
     <file>icons/16x16/actions/gnumeric-link-add.png</file>
     <file>icons/16x16/actions/gnumeric-link-delete.png</file>
     <file>icons/16x16/actions/gnumeric-link-edit.png</file>
@@ -41,86 +41,86 @@
     <file>icons/16x16/actions/gnumeric-pagesetup-hf-page.png</file>
     <file>icons/16x16/actions/gnumeric-pagesetup-hf-pages.png</file>
     <file>icons/16x16/actions/gnumeric-pivottable.png</file>
-    <file>icons/16x16/actions/gnumeric-row-add.xpm</file>
-    <file>icons/16x16/actions/gnumeric-row-delete.xpm</file>
-    <file>icons/16x16/actions/gnumeric-row-hide.xpm</file>
-    <file>icons/16x16/actions/gnumeric-row-size.xpm</file>
-    <file>icons/16x16/actions/gnumeric-row-unhide.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-row-add.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-row-delete.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-row-hide.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-row-size.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-row-unhide.xpm</file>
     <file>icons/16x16/actions/gnumeric-subscript.png</file>
     <file>icons/16x16/actions/gnumeric-superscript.png</file>
-    <file>icons/16x16/actions/gnumeric-ungroup.xpm</file>
+    <file preprocess='to-pixdata'>icons/16x16/actions/gnumeric-ungroup.xpm</file>
     <file>icons/16x16/actions/gnumeric-visible.png</file>
     <file>icons/22x22/actions/gnumeric-brush.png</file>
-    <file>icons/22x22/actions/gnumeric-format-border-inside-horiz.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-125grey.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-25grey.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-50grey.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-625grey.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-75grey.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-bricks.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-diag-cross.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-diag.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-foreground-solid.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-horiz.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-large-circles.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-rev-diag.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-semi-circle.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-small-circle.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-solid.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-thatch.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-thick-diag-cross.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-thin-diag-cross.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-thin-diag.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-thin-horiz-cross.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-thin-horiz.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-thin-rev-diag.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-thin-vert.xpm</file>
-    <file>icons/22x22/actions/gnumeric-pattern-vert.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-format-border-inside-horiz.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-125grey.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-25grey.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-50grey.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-625grey.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-75grey.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-bricks.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-diag-cross.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-diag.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-foreground-solid.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-horiz.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-large-circles.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-rev-diag.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-semi-circle.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-small-circle.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-solid.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-thatch.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-thick-diag-cross.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-thin-diag-cross.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-thin-diag.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-thin-horiz-cross.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-thin-horiz.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-thin-rev-diag.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-thin-vert.xpm</file>
+    <file preprocess='to-pixdata'>icons/22x22/actions/gnumeric-pattern-vert.xpm</file>
     <file>icons/24x24/actions/gnumeric-autofilter-delete.png</file>
     <file>icons/24x24/actions/gnumeric-autofilter.png</file>
-    <file>icons/24x24/actions/gnumeric-autosum.xpm</file>
-    <file>icons/24x24/actions/gnumeric-bucket.xpm</file>
-    <file>icons/24x24/actions/gnumeric-cells-merge.xpm</file>
-    <file>icons/24x24/actions/gnumeric-cells-split.xpm</file>
-    <file>icons/24x24/actions/gnumeric-center-across-selection.xpm</file>
-    <file>icons/24x24/actions/gnumeric-column-add.xpm</file>
-    <file>icons/24x24/actions/gnumeric-column-delete.xpm</file>
-    <file>icons/24x24/actions/gnumeric-column-hide.xpm</file>
-    <file>icons/24x24/actions/gnumeric-column-size.xpm</file>
-    <file>icons/24x24/actions/gnumeric-column-unhide.xpm</file>
-    <file>icons/24x24/actions/gnumeric-component-insert-shaped.xpm</file>
-    <file>icons/24x24/actions/gnumeric-component-insert.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-autosum.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-bucket.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-cells-merge.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-cells-split.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-center-across-selection.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-column-add.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-column-delete.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-column-hide.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-column-size.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-column-unhide.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-component-insert-shaped.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-component-insert.xpm</file>
     <file>icons/24x24/actions/gnumeric-data-slicer.png</file>
-    <file>icons/24x24/actions/gnumeric-detail-hide.xpm</file>
-    <file>icons/24x24/actions/gnumeric-detail-show.xpm</file>
-    <file>icons/24x24/actions/gnumeric-equal.xpm</file>
-    <file>icons/24x24/actions/gnumeric-font.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-detail-hide.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-detail-show.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-equal.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-font.xpm</file>
     <file>icons/24x24/actions/gnumeric-format-accounting.png</file>
-    <file>icons/24x24/actions/gnumeric-format-border-all.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-bottom.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-double-bottom.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-inside-vert.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-inside.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-left.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-no.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-none.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-outline.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-outside.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-right.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-thick-bottom.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-thick-outside.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-top-n-bottom.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-top-n-double-bottom.xpm</file>
-    <file>icons/24x24/actions/gnumeric-format-border-top-n-thick-bottom.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-all.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-bottom.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-double-bottom.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-inside-vert.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-inside.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-left.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-no.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-none.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-outline.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-outside.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-right.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-thick-bottom.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-thick-outside.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-top-n-bottom.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-top-n-double-bottom.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-border-top-n-thick-bottom.xpm</file>
     <file>icons/24x24/actions/gnumeric-format-halign-fill.png</file>
     <file>icons/24x24/actions/gnumeric-format-halign-general.png</file>
     <file>icons/24x24/actions/gnumeric-format-percentage.png</file>
     <file>icons/24x24/actions/gnumeric-format-precision-decrease.png</file>
     <file>icons/24x24/actions/gnumeric-format-precision-increase.png</file>
-    <file>icons/24x24/actions/gnumeric-format-thousand-separator.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-format-thousand-separator.xpm</file>
     <file>icons/24x24/actions/gnumeric-formulaguru.png</file>
-    <file>icons/24x24/actions/gnumeric-graphguru.xpm</file>
-    <file>icons/24x24/actions/gnumeric-group.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-graphguru.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-group.xpm</file>
     <file>icons/24x24/actions/gnumeric-link-add.png</file>
     <file>icons/24x24/actions/gnumeric-link-email.png</file>
     <file>icons/24x24/actions/gnumeric-link-external.png</file>
@@ -146,15 +146,15 @@
     <file>icons/24x24/actions/gnumeric-pivottable.png</file>
     <file>icons/24x24/actions/gnumeric-protection-no.png</file>
     <file>icons/24x24/actions/gnumeric-protection-yes.png</file>
-    <file>icons/24x24/actions/gnumeric-row-add.xpm</file>
-    <file>icons/24x24/actions/gnumeric-row-delete.xpm</file>
-    <file>icons/24x24/actions/gnumeric-row-hide.xpm</file>
-    <file>icons/24x24/actions/gnumeric-row-size.xpm</file>
-    <file>icons/24x24/actions/gnumeric-row-unhide.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-row-add.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-row-delete.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-row-hide.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-row-size.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-row-unhide.xpm</file>
     <file>icons/24x24/actions/gnumeric-subscript.png</file>
     <file>icons/24x24/actions/gnumeric-superscript.png</file>
-    <file>icons/24x24/actions/gnumeric-ungroup.xpm</file>
-    <file>icons/32x32/actions/cursor-cross.xpm</file>
+    <file preprocess='to-pixdata'>icons/24x24/actions/gnumeric-ungroup.xpm</file>
+    <file preprocess='to-pixdata'>icons/32x32/actions/cursor-cross.xpm</file>
     <file>icons/32x32/actions/gnumeric-format-halign-distributed.png</file>
     <file>icons/32x32/actions/gnumeric-format-valign-bottom.png</file>
     <file>icons/32x32/actions/gnumeric-format-valign-center.png</file>
@@ -162,18 +162,18 @@
     <file>icons/32x32/actions/gnumeric-format-valign-justify.png</file>
     <file>icons/32x32/actions/gnumeric-format-valign-top.png</file>
     <file>icons/48x48/actions/gnumeric-protection-yes-dialog.png</file>
-    <file alias="images/line_pattern_dash_dot.xpm">src/pixmaps/line_pattern_dash_dot.xpm</file>
-    <file alias="images/line_pattern_dash_dot_dot.xpm">src/pixmaps/line_pattern_dash_dot_dot.xpm</file>
-    <file alias="images/line_pattern_dashed.xpm">src/pixmaps/line_pattern_dashed.xpm</file>
-    <file alias="images/line_pattern_dotted.xpm">src/pixmaps/line_pattern_dotted.xpm</file>
-    <file alias="images/line_pattern_double.xpm">src/pixmaps/line_pattern_double.xpm</file>
-    <file alias="images/line_pattern_hair.xpm">src/pixmaps/line_pattern_hair.xpm</file>
-    <file alias="images/line_pattern_medium.xpm">src/pixmaps/line_pattern_medium.xpm</file>
-    <file alias="images/line_pattern_medium_dash.xpm">src/pixmaps/line_pattern_medium_dash.xpm</file>
-    <file alias="images/line_pattern_medium_dash_dot.xpm">src/pixmaps/line_pattern_medium_dash_dot.xpm</file>
-    <file alias="images/line_pattern_medium_dash_dot_dot.xpm">src/pixmaps/line_pattern_medium_dash_dot_dot.xpm</file>
-    <file alias="images/line_pattern_slant.xpm">src/pixmaps/line_pattern_slant.xpm</file>
-    <file alias="images/line_pattern_thick.xpm">src/pixmaps/line_pattern_thick.xpm</file>
-    <file alias="images/line_pattern_thin.xpm">src/pixmaps/line_pattern_thin.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_dash_dot.xpm">src/pixmaps/line_pattern_dash_dot.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_dash_dot_dot.xpm">src/pixmaps/line_pattern_dash_dot_dot.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_dashed.xpm">src/pixmaps/line_pattern_dashed.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_dotted.xpm">src/pixmaps/line_pattern_dotted.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_double.xpm">src/pixmaps/line_pattern_double.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_hair.xpm">src/pixmaps/line_pattern_hair.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_medium.xpm">src/pixmaps/line_pattern_medium.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_medium_dash.xpm">src/pixmaps/line_pattern_medium_dash.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_medium_dash_dot.xpm">src/pixmaps/line_pattern_medium_dash_dot.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_medium_dash_dot_dot.xpm">src/pixmaps/line_pattern_medium_dash_dot_dot.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_slant.xpm">src/pixmaps/line_pattern_slant.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_thick.xpm">src/pixmaps/line_pattern_thick.xpm</file>
+    <file preprocess='to-pixdata' alias="images/line_pattern_thin.xpm">src/pixmaps/line_pattern_thin.xpm</file>
   </gresource>
 </gresources>
