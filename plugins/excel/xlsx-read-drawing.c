@@ -23,6 +23,8 @@
 
 #include "sheet-object-widget.h"
 
+#undef DEBUG_AXIS
+
 /*****************************************************************************
  * Various functions common to at least charts and user shapes               *
  *****************************************************************************/
@@ -740,10 +742,11 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GogPlot *plot = state->axis.info->plots->data; /* just use the first */
 		char const *type = G_OBJECT_TYPE_NAME (plot);
 		char const *role = NULL;
-		GSList *ptr;
+		GSList *ptr, *children;
 		gboolean inverted = FALSE;
 		gboolean cat_or_date = (state->axis.type == XLSX_AXIS_CAT ||
 					state->axis.type == XLSX_AXIS_DATE);
+		GogAxis *axis = state->axis.obj;
 
 		switch (xlsx_plottype_from_type_name (type)) {
 		case XLSX_PT_GOGRADARPLOT:
@@ -772,14 +775,44 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 		/* Set the id, and atype.  Ref to balance.  */
 		gog_object_add_by_name (GOG_OBJECT (state->chart),
-					role, GOG_OBJECT (g_object_ref (state->axis.obj)));
+					role, GOG_OBJECT (g_object_ref (axis)));
 		for (ptr = state->axis.info->plots; ptr != NULL ; ptr = ptr->next) {
 			GogPlot *plot = ptr->data;
 #ifdef DEBUG_AXIS
-			g_printerr ("connect plot %p to %p in role %s\n", plot, state->axis.obj, role);
+			g_printerr ("connect plot %p to %p in role %s\n", plot, axis, role);
 #endif
-			gog_plot_set_axis (plot, state->axis.obj);
+			gog_plot_set_axis (plot, axis);
 		}
+
+		/*
+		 * Go through the existing axes looking for an auto-generated one
+		 * whose id we can take over.  This avoids starting with "X-Axis2"
+		 * which (1) looks silly and (2) causes roundtrip issues.
+		 */
+		children = gog_object_get_children (GOG_OBJECT (state->chart), NULL);
+		for (ptr = children; ptr != NULL; ptr = ptr->next) {
+			GogObject *this_axis = ptr->data;
+			guint id;
+
+			if (!GOG_IS_AXIS (this_axis) ||
+			    g_hash_table_lookup (state->axis.by_obj, this_axis) ||
+			    !gog_object_is_deletable (this_axis) ||
+			    this_axis->role != GOG_OBJECT(axis)->role)
+				continue;
+
+#ifdef DEBUG_AXIS
+			g_printerr ("Axis %s is a going to be deleted and its id taken over\n",
+				    gog_object_get_name (this_axis));
+#endif
+			id = gog_object_get_id (this_axis);
+			gog_object_clear_parent	(this_axis);
+			g_object_unref (this_axis);
+
+			/* Take over the id of the deleted item.  */
+			g_object_set (axis, "id", id, NULL);
+			break;
+		}
+		g_slist_free (children);
 
 		state->axis.obj  = NULL;
 		state->axis.info = NULL;

@@ -2,6 +2,8 @@
 
 	* xlsx-read-drawing.c (xlsx_drawing_twoCellAnchor_end): Fix
 	operator precedence.
+	(xlsx_axis_end): Re-use the id of an automatically generated axis
+	if there is one we can delete that happens to have the right role.
 
 	* xlsx-write-drawing.c (xlsx_write_one_plot): Use
 	xlsx_plottype_from_type_name for readability.
