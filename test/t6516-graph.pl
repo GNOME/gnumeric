@@ -40,9 +40,13 @@ if (0) {
 		 'filter2' => 'std:drop_codepage',
 		 'ignore_failure' => 1);
 
+# Point size isn't important.
+my $xlsx_drop_pts_size = "$PERL -p -e '\$_ = \"\" if m{^\\s*<property name=\"(width|height)-pts\">[0-9.]+</property>\\s*}'";
+
 &message ("Check graph xlsx roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:xlsx',
 		 'ext' => "xlsx",
 		 'resize' => '1048576x16384',
+		 'filter1' => $xlsx_drop_pts_size,
 		 'ignore_failure' => 1);
