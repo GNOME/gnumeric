@@ -177,5 +177,6 @@
     <file preprocess='to-pixdata' alias="images/line_pattern_thin.xpm">src/pixmaps/line_pattern_thin.xpm</file>
     <file alias="images/right-down.png">src/pixmaps/right-down.png</file>
     <file alias="images/down-right.png">src/pixmaps/down-right.png</file>
+    <file alias="images/gnumeric_splash_1.4.png">src/pixmaps/gnumeric_splash_1.4.png</file>
   </gresource>
 </gresources>

@@ -126,13 +126,9 @@ icg_show_gui (GnmIOContextGtk *icg)
 	GtkWidget *frame;
 
 	box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 0));
-	if (icg->show_splash) {
-		GdkPixbuf *pixbuf = go_gdk_pixbuf_load_from_file
-			("res:gnm:pixmaps/gnumeric_splash_1.4.png");
-		gtk_box_pack_start (box, gtk_image_new_from_pixbuf (pixbuf),
+	if (icg->show_splash)
+		gtk_box_pack_start (box, gtk_image_new_from_resource ("/org/gnumeric/gnumeric/images/gnumeric_splash_1.4.png"),
 				    TRUE, FALSE, 0);
-		g_object_unref (pixbuf);
-	}
 
 	/* Don't show this unless we need it. */
 	if (icg->files_total > 1) {
