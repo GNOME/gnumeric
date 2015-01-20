@@ -396,7 +396,7 @@ xlsx_chart_add_plot (GsfXMLIn *xin, char const *type)
 static void
 xlsx_vary_colors (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int vary;
 	if (simple_bool (xin, attrs, &vary))
 		g_object_set (G_OBJECT (state->plot),
@@ -406,7 +406,7 @@ xlsx_vary_colors (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_chart_pie_sep (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int sep;
 	if (simple_int (xin, attrs, &sep))
 		g_object_set (G_OBJECT (state->plot),
@@ -427,7 +427,7 @@ xlsx_chart_bar_dir (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "col",	 FALSE },
 		{ NULL, 0 }
 	};
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int dir;
 
 	g_return_if_fail (state->plot != NULL);
@@ -454,7 +454,7 @@ xlsx_chart_bar_overlap (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_chart_bar_group (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	char const *type = "normal";
 
 	g_return_if_fail (state->plot != NULL);
@@ -471,7 +471,7 @@ xlsx_chart_bar_group (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_chart_bar_gap (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (0 == strcmp (attrs[0], "val")) {
@@ -504,7 +504,7 @@ xlsx_axis_info_free (XLSXAxisInfo *info)
 static void
 xlsx_plot_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL == state->plot)
 		return;
 
@@ -881,16 +881,17 @@ xlsx_plot_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_chart_ser_start (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->plot) {
 		state->series = gog_plot_new_series (state->plot);
 		xlsx_chart_push_obj (state, GOG_OBJECT (state->series));
 	}
 }
+
 static void
 xlsx_chart_ser_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->series) {
 		xlsx_chart_pop_obj (state);
 		state->series = NULL;
@@ -898,9 +899,51 @@ xlsx_chart_ser_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xlsx_ser_trendline_start (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	xlsx_chart_push_obj (state, NULL); /* Dummy object for now. */
+}
+
+static void
+xlsx_ser_trendline_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	xlsx_chart_pop_obj (state);
+}
+
+static void
+xlsx_ser_trendline_type (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	static const EnumVal styles[] = {
+		{"exp",	0 },
+		{"linear", 1 },
+		{"log", 2 },
+		{"movingAvg", 3 },
+		{"poly", 4 },
+		{"power", 5 }
+	};
+	static const char *types[] = {
+		"GogExpRegCurve", "GogLinRegCurve", "GogLogRegCurve",
+		"GogMovingAvg", "GogPolynomRegCurve", "GogPowerRegCurve"
+	};
+	int typ;
+
+	if (simple_enum (xin, attrs, styles, &typ)) {
+		state->cur_obj = GOG_OBJECT (gog_trend_line_new_by_name (types[typ]));
+		if (state->cur_obj)
+			gog_object_add_by_name (GOG_OBJECT (state->series),
+						"Trend line",
+						state->cur_obj);
+	}
+}
+
+
+static void
 xlsx_ser_labels_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean has_val;
 	if (GOG_IS_SERIES_LABELS (state->cur_obj) && attr_bool (xin, attrs, "val", &has_val)) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
@@ -927,7 +970,7 @@ xlsx_ser_labels_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_ser_labels_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean has_cat;
 	if (GOG_IS_SERIES_LABELS (state->cur_obj) && attr_bool (xin, attrs, "val", &has_cat)) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
@@ -975,7 +1018,7 @@ xlsx_ser_labels_pos (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_ser_labels_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->series) {
 		GogObject *data = gog_object_add_by_name (GOG_OBJECT (state->series), "Data labels", NULL);
 		GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
@@ -988,7 +1031,7 @@ xlsx_ser_labels_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_ser_labels_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (!go_style_is_auto (state->cur_style)) {
 		/* NOTE: this is a hack, but seems xl uses something like that */
 		GSList *children, *ptr;
@@ -1034,7 +1077,7 @@ xlsx_data_label_index (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_data_label_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean has_val;
 	if (GOG_IS_DATA_LABEL (state->cur_obj) && attr_bool (xin, attrs, "val", &has_val)) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
@@ -1061,7 +1104,7 @@ xlsx_data_label_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_data_label_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean has_cat;
 	if (GOG_IS_DATA_LABEL (state->cur_obj) && attr_bool (xin, attrs, "val", &has_cat)) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
@@ -1088,7 +1131,7 @@ xlsx_data_label_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_data_label_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GogObject *data = gog_object_add_by_name (state->cur_obj, "Point", NULL);
 	GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
 	gog_dataset_set_dim (GOG_DATASET (data), 1, sep, NULL);
@@ -1099,7 +1142,7 @@ xlsx_data_label_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_chart_ser_f (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->series && state->cur_obj == (GogObject *) state->series) {
 		GnmParsePos pp;
 		GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
@@ -1160,7 +1203,7 @@ xlsx_ser_type_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_chart_legend (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	xlsx_chart_push_obj (state, gog_object_add_by_name (GOG_OBJECT (state->chart), "Legend", NULL));
 }
 
@@ -1193,7 +1236,7 @@ xlsx_chart_legend_pos (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_chart_pt_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->series) {
 		state->series_pt_has_index = FALSE;
 		state->series_pt = gog_object_add_by_name (
@@ -1242,7 +1285,7 @@ xlsx_chart_pt_sep (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int w = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -1269,7 +1312,7 @@ xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_style_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	state->sp_type &= ~GO_STYLE_LINE;
 	state->gocolor = NULL;
 }
@@ -1277,7 +1320,7 @@ xlsx_style_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_chart_no_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker)
 		;
 	else if (NULL != state->cur_style) {
@@ -1294,7 +1337,7 @@ xlsx_chart_no_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_chart_grad_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker) /* do xlsx support gradients in markers */
 		;
 	else if (NULL != state->cur_style) {
@@ -1308,7 +1351,7 @@ xlsx_chart_grad_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_chart_grad_linear (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int ang;
 	g_return_if_fail (state->cur_style);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1321,7 +1364,7 @@ xlsx_chart_grad_linear (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_chart_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int pos;
 	g_return_if_fail (state->cur_style);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1341,7 +1384,7 @@ xlsx_chart_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_chart_solid_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker) {
 		if (!(state->sp_type & GO_STYLE_LINE)) {
 			state->color_setter = (void (*) (gpointer data, GOColor color)) go_marker_set_fill_color;
@@ -1871,8 +1914,8 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (SCATTER, PLOT_AXIS_ID, XL_NS_CHART,           "axId", GSF_XML_NO_CONTENT, &xlsx_plot_axis_id, NULL),
 
         GSF_XML_IN_NODE (SCATTER, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, &xlsx_chart_ser_start, &xlsx_chart_ser_end),
-          GSF_XML_IN_NODE (SERIES, SERIES_TRENDLINE, XL_NS_CHART,	"trendline", GSF_XML_NO_CONTENT, NULL, NULL),
-            GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_TYPE, XL_NS_CHART,	"trendlineType", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (SERIES, SERIES_TRENDLINE, XL_NS_CHART,	"trendline", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_start, &xlsx_ser_trendline_end),
+            GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_TYPE, XL_NS_CHART,	"trendlineType", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_type, NULL),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_RSQR, XL_NS_CHART,	"dispRSqr", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_EQ, XL_NS_CHART,	"dispEq", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_LABEL, XL_NS_CHART,	"trendlineLbl", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2159,7 +2202,7 @@ xlsx_axis_cleanup (XLSXReadState *state)
 static void
 xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	xmlChar const *part_id = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -2241,7 +2284,7 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_draw_anchor_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	g_return_if_fail (state->so == NULL);
 
@@ -2252,7 +2295,7 @@ xlsx_draw_anchor_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	if (NULL == state->so) {
 		xlsx_warning (xin,
@@ -2305,7 +2348,7 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_drawing_oneCellAnchor_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	state->drawing_pos[COL | TO] = state->drawing_pos[COL | FROM] + 5;
 	state->drawing_pos[ROW | TO] = state->drawing_pos[ROW | FROM] + 5;
@@ -2316,7 +2359,7 @@ xlsx_drawing_oneCellAnchor_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 static void
 xlsx_drawing_ext (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int64 (xin, attrs, "cx", state->drawing_pos + (COL | TO | OFFSET)))
 			state->drawing_pos_flags |= (1 << (COL | TO | OFFSET));
@@ -2327,7 +2370,7 @@ xlsx_drawing_ext (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_drawing_pos (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gint64 val;
 	char  *end;
 
@@ -2350,7 +2393,7 @@ xlsx_drawing_pos (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_drawing_preset_geom (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->so) /* FIXME FIXME FIXME: how does this happen? */
 		return;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -2375,14 +2418,14 @@ xlsx_drawing_preset_geom (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_drawing_picture (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	state->so = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
 }
 
 static void
 xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (state->so));
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (!strcmp (attrs[0], "r:embed")) {
@@ -2635,7 +2678,7 @@ xlsx_sheet_drawing (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_vml_group (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	char **elts, **cur, *key, *value, *end;
 	double coords[4], local_coords[4], *cur_offs, dim;
 	int i;
@@ -2710,7 +2753,7 @@ xlsx_vml_group (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_vml_group_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	/* assuming that a group can't be inside another group, otherwise we need a stack */
 	memcpy (state->grp_offset, state->grp_stack->data, sizeof (double) * 4);
 	g_free (state->grp_stack->data);
@@ -2720,7 +2763,7 @@ xlsx_vml_group_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (!strcmp (attrs[0], "style")) {
 			char **elts = g_strsplit (attrs[1], ";", 0), **cur, *key, *value, *end;
@@ -2774,7 +2817,7 @@ xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_vml_drop_style (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (!strcmp (xin->content->str, "Combo"))
 		/* adding a combo box */
 		state->so = SHEET_OBJECT (g_object_new (sheet_widget_combo_get_type (), NULL));
@@ -2784,7 +2827,7 @@ xlsx_vml_drop_style (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_vml_client_data (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (state->so) {
 		SheetObjectAnchor anchor;
 		ColRowInfo *cri;
@@ -2851,7 +2894,7 @@ xlsx_vml_client_data (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_vml_fmla_link (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmValue *value = value_new_cellrange_str (state->sheet, xin->content->str);
 	if (value)
 		state->link_texpr = gnm_expr_top_new_constant (value);
@@ -2860,7 +2903,7 @@ xlsx_vml_fmla_link (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_vml_fmla_range (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmValue *value = value_new_cellrange_str (state->sheet, xin->content->str);
 	if (value)
 		state->texpr = gnm_expr_top_new_constant (value);
