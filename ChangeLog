@@ -1,3 +1,8 @@
+2015-01-20  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.h (gnumeric_filter_modifiers): Drop reserved bits.
+	See bug #743130.
+
 2015-01-19  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_icon_dir): Remove.

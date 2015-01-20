@@ -67,7 +67,7 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 				 int sensitive_filter,
 				 GdkEvent *event);
 
-#define gnumeric_filter_modifiers(a) ((a) &(~(GDK_LOCK_MASK|GDK_MOD2_MASK|GDK_MOD5_MASK)))
+#define gnumeric_filter_modifiers(a) ((a) & (GDK_MODIFIER_MASK & (~(GDK_LOCK_MASK|GDK_MOD2_MASK|GDK_MOD5_MASK))))
 
 void gnumeric_init_help_button	(GtkWidget *w, char const *link);
 
