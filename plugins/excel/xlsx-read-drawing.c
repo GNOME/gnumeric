@@ -2148,6 +2148,7 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 	GogObject *obj = NULL;
 	if (info->cross_id) {
 		XLSXAxisInfo *cross_info = g_hash_table_lookup (state->axis.by_id, info->cross_id);
+
 		g_return_if_fail (cross_info != NULL);
 		obj = GOG_OBJECT (cross_info->axis);
 		if (go_finite (cross_info->cross_value)) {
@@ -2158,7 +2159,14 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 		}
 		if (gog_axis_is_inverted (GOG_AXIS (axis)))
 			cross_info->cross = 2 - cross_info->cross; /* KLUDGE */
-		g_object_set (obj, "pos", cross_info->cross, "cross-axis-id", gog_object_get_id (GOG_OBJECT (axis)), NULL);
+		g_object_set (obj, "pos", cross_info->cross, NULL);
+
+		/*
+		 * Set the cross-axis-id if it makes a difference, i.e., if it is different
+		 * from the implied value.  This helps roundtripping.
+		 */
+		if ((GogAxis*)axis != gog_axis_base_get_crossed_axis (GOG_AXIS_BASE (obj)))
+			g_object_set (obj, "cross-axis-id", gog_object_get_id (GOG_OBJECT (axis)), NULL);
 	}
 	if (info->deleted) {
 		GSList *l = gog_chart_get_axes (state->chart, gog_axis_get_atype (GOG_AXIS (axis))), *cur;
