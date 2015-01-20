@@ -69,7 +69,7 @@ insert_error_info (GtkTextBuffer* text, GOErrorInfo *error, gint level)
  * SHOULD BE IN GOFFICE
  * Returns: (transfer full): the newly allocated dialog.
  */
-GtkWidget *
+static GtkWidget *
 gnumeric_go_error_info_list_dialog_create (GSList *errs)
 {
 	GtkWidget *dialog;

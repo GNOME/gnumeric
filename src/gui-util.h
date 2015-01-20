@@ -13,7 +13,6 @@ G_BEGIN_DECLS
 	void name (GtkAction *a, WBCGtk *wbcg)
 
 GtkWidget* gnumeric_go_error_info_dialog_create (GOErrorInfo *error);
-GtkWidget* gnumeric_go_error_info_list_dialog_create (GSList *errs);
 void       gnumeric_go_error_info_dialog_show (GtkWindow *parent,
 					       GOErrorInfo *error);
 void       gnumeric_go_error_info_list_dialog_show (GtkWindow *parent,

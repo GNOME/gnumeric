@@ -46,8 +46,6 @@ GnmRenderedValue *gnm_rendered_value_new       (GnmCell const *cell,
 						double zoom);
 void              gnm_rendered_value_destroy   (GnmRenderedValue *rv);
 
-GnmRenderedValue *gnm_rendered_value_recontext (GnmRenderedValue *rv,
-						PangoContext *context);
 void              gnm_rendered_value_remeasure (GnmRenderedValue *rv);
 
 /* Return the value as a single string without format infomation.  */

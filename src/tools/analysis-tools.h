@@ -242,14 +242,6 @@ void analysis_tools_write_label_ftest (GnmValue *val, /* depreceated */
 				       data_analysis_output_t *dao,
 				       int x, int y,
 				       gboolean labels, int i);
-void analysis_tools_write_a_label     (GnmValue *val,
-				       data_analysis_output_t *dao,
-				       gboolean   labels,
-				       group_by_t group_by,
-				       int x, int y);
-void analysis_tools_remove_label      (GnmValue *val,
-				       gboolean labels,
-				       group_by_t group_by);
 
 gboolean analysis_tool_table (data_analysis_output_t *dao,
 			      analysis_tools_data_generic_t *info,

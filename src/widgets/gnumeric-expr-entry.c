@@ -2844,25 +2844,6 @@ gnm_expr_entry_editing_canceled (GnmExprEntry *gee)
 /*****************************************************************************/
 
 void
-gnm_expr_entry_disable_highlight (GnmExprEntry *gee)
-{
-	g_return_if_fail (gee != NULL);
-	gee_destroy_feedback_range (gee);
-	gee->feedback_disabled = TRUE;
-}
-
-void
-gnm_expr_entry_enable_highlight (GnmExprEntry *gee)
-{
-	g_return_if_fail (gee != NULL);
-	gee->feedback_disabled = FALSE;
-	gee_update_lexer_items (gee);
-	gee_scan_for_range (gee);
-}
-
-/*****************************************************************************/
-
-void
 gnm_expr_entry_disable_tips (GnmExprEntry *gee)
 {
 	g_return_if_fail (gee != NULL);

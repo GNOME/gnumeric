@@ -571,65 +571,6 @@ gnm_rendered_value_destroy (GnmRenderedValue *rv)
 		CHUNK_FREE (rendered_value_pool, rv);
 }
 
-/**
- * gnm_rendered_value_recontext: (skip)
- * @rv: #GnmRenderedValue
- * @context: the new Pango context.
- *
- * Returns:
- **/
-GnmRenderedValue *
-gnm_rendered_value_recontext (GnmRenderedValue *rv, PangoContext *context)
-{
-	GnmRenderedValue *res;
-	PangoLayout *layout, *olayout;
-
-	if (rv->rotation) {
-		GnmRenderedRotatedValue *rres =
-			CHUNK_ALLOC (GnmRenderedRotatedValue, rendered_rotated_value_pool);
-		res = (GnmRenderedValue *)rres;
-
-		*rres = *(GnmRenderedRotatedValue *)rv;
-		rres->lines = g_memdup (rres->lines,
-					rres->linecount * sizeof (struct GnmRenderedRotatedValueInfo));
-	} else {
-		res = CHUNK_ALLOC (GnmRenderedValue, rendered_value_pool);
-		*res = *rv;
-	}
-
-	res->layout = layout = pango_layout_new (context);
-	olayout = rv->layout;
-
-	pango_layout_set_text (layout, pango_layout_get_text (olayout), -1);
-	pango_layout_set_alignment (layout, pango_layout_get_alignment (olayout));
-	pango_layout_set_attributes (layout, pango_layout_get_attributes (olayout));
-	pango_layout_set_single_paragraph_mode (layout, pango_layout_get_single_paragraph_mode (olayout));
-	pango_layout_set_justify (layout, pango_layout_get_justify (olayout));
-	pango_layout_set_width (layout, pango_layout_get_width (olayout));
-	pango_layout_set_spacing (layout, pango_layout_get_spacing (olayout));
-	pango_layout_set_wrap (layout, pango_layout_get_wrap (olayout));
-	pango_layout_set_indent (layout, pango_layout_get_indent (olayout));
-	pango_layout_set_auto_dir (layout, pango_layout_get_auto_dir (olayout));
-	pango_layout_set_ellipsize (layout, pango_layout_get_ellipsize (olayout));
-	pango_layout_set_font_description (layout, pango_layout_get_font_description (olayout));
-	/* ignore tabs */
-
-	/*
-	 * We really want to keep the line breaks, but currently pango
-	 * does not support that.
-	 */
-	if (pango_layout_get_line_count (olayout) == 1) {
-		if (pango_layout_get_line_count (layout) > 1) {
-			res->wrap_text = FALSE;
-			pango_layout_set_width (layout, -1);
-		}
-	}
-
-	gnm_rendered_value_remeasure (res);
-	return res;
-}
-
-
 /* Return the value as a single string without format infomation.
  */
 char const *
