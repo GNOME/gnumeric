@@ -1,5 +1,7 @@
 2015-01-19  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (gnm_icon_dir): Remove.
+
 	* src/wbc-gtk.c (cb_sheet_label_drag_begin): Load arrow from glib
 	resources.
 

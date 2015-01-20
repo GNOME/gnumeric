@@ -33,7 +33,6 @@
 
 static char *gnumeric_lib_dir;
 static char *gnumeric_data_dir;
-static char *gnumeric_icon_dir;
 static char *gnumeric_locale_dir;
 static char *gnumeric_usr_dir;
 static char *gnumeric_usr_dir_unversioned;
@@ -80,8 +79,6 @@ gutils_init (void)
 	gnumeric_data_dir = g_build_filename (dir, "share",
 					      "gnumeric", GNM_VERSION_FULL,
 					      NULL);
-	gnumeric_icon_dir = g_build_filename (dir, "share", "pixmaps",
-					      "gnumeric", NULL);
 	gnumeric_locale_dir = g_build_filename (dir, "share", "locale", NULL);
 	gnumeric_extern_plugin_dir = g_build_filename
 		(dir, "lib", "gnumeric", GNM_API_VERSION, "plugins",
@@ -106,7 +103,6 @@ gutils_init (void)
 	if (!gnumeric_lib_dir)
 		gnumeric_lib_dir = g_strdup (GNUMERIC_LIBDIR);
 	gnumeric_data_dir = g_strdup (GNUMERIC_DATADIR);
-	gnumeric_icon_dir = g_strdup (GNUMERIC_ICONDIR);
 	gnumeric_locale_dir = g_strdup (GNUMERIC_LOCALEDIR);
 	gnumeric_extern_plugin_dir = g_strdup (GNUMERIC_EXTERNPLUGINDIR);
 #endif
@@ -126,8 +122,6 @@ gutils_shutdown (void)
 	gnumeric_lib_dir = NULL;
 	g_free (gnumeric_data_dir);
 	gnumeric_data_dir = NULL;
-	g_free (gnumeric_icon_dir);
-	gnumeric_icon_dir = NULL;
 	g_free (gnumeric_locale_dir);
 	gnumeric_locale_dir = NULL;
 	g_free (gnumeric_usr_dir);
@@ -154,12 +148,6 @@ char const *
 gnm_sys_extern_plugin_dir (void)
 {
 	return gnumeric_extern_plugin_dir;
-}
-
-char const *
-gnm_icon_dir (void)
-{
-	return gnumeric_icon_dir;
 }
 
 char const *
