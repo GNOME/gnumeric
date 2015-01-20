@@ -951,49 +951,6 @@ int_to_entry (GtkEntry *entry, gint the_int)
 	}
 }
 
-/**
- * gnumeric_load_image:
- * @name: the file name.
- *
- * utility routine to create image widgets from file named @name.
- * looking in the gnumeric icondir.
- * Returns: (transfer full): the newly allocated #GtkImage.
- **/
-GtkWidget *
-gnumeric_load_image (char const *filename)
-{
-	GdkPixbuf *pixbuf = gnumeric_load_pixbuf (filename);
-	if (pixbuf) {
-		GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
-		g_object_unref (pixbuf);
-		return image;
-	}
-	return NULL;
-}
-
-/**
- * gnumeric_load_pixbuf:
- * @name: the file name.
- *
- * utility routine to create pixbufs from file named @name.
- * looking in the gnumeric icondir.
- * Returns: (transfer full): the newly allocated pixbuf.
- **/
-GdkPixbuf *
-gnumeric_load_pixbuf (char const *filename)
-{
-	if (strncmp (filename, "res:", 4) == 0 ||
-	    g_path_is_absolute (filename))
-		return go_gdk_pixbuf_load_from_file (filename);
-	else {
-		char *path = g_build_filename (gnm_icon_dir (), filename, NULL);
-		GdkPixbuf *pixbuf = go_gdk_pixbuf_load_from_file (path);
-		g_free (path);
-		return pixbuf;
-	}
-}
-
-
 static void
 cb_focus_to_entry (GtkWidget *button, GtkWidget *entry)
 {

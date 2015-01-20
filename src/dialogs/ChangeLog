@@ -1,3 +1,8 @@
+2015-01-19  Morten Welinder  <terra@gnome.org>
+
+	* dialog-printer-setup.c (do_setup_page_info): Load right-down
+	images from glib resources.
+
 2015-01-06  Morten Welinder  <terra@gnome.org>
 
 	* dialog-recent.c (cb_destroy): Plug leak.

@@ -2313,8 +2313,8 @@ do_setup_page_info (PrinterSetupState *state)
 							 (GTK_COMBO_BOX (state->comment_display.combo)));
 	do_setup_comment_display (state);
 
-	state->icon_rd = gnumeric_load_image ("res:gnm:pixmaps/right-down.png");
-	state->icon_dr = gnumeric_load_image ("res:gnm:pixmaps/down-right.png");
+	state->icon_rd = gtk_image_new_from_resource ("/org/gnumeric/gnumeric/images/right-down.png");
+	state->icon_dr = gtk_image_new_from_resource ("/org/gnumeric/gnumeric/images/down-right.png");
 
 	gtk_widget_hide (state->icon_dr);
 	gtk_widget_hide (state->icon_rd);

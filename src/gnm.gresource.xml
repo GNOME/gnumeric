@@ -175,5 +175,7 @@
     <file preprocess='to-pixdata' alias="images/line_pattern_slant.xpm">src/pixmaps/line_pattern_slant.xpm</file>
     <file preprocess='to-pixdata' alias="images/line_pattern_thick.xpm">src/pixmaps/line_pattern_thick.xpm</file>
     <file preprocess='to-pixdata' alias="images/line_pattern_thin.xpm">src/pixmaps/line_pattern_thin.xpm</file>
+    <file alias="images/right-down.png">src/pixmaps/right-down.png</file>
+    <file alias="images/down-right.png">src/pixmaps/down-right.png</file>
   </gresource>
 </gresources>

@@ -99,9 +99,6 @@ gboolean entry_to_int	(GtkEntry *entry, gint *the_int, gboolean update);
 void	 float_to_entry	(GtkEntry *entry, gnm_float the_float);
 void	 int_to_entry	(GtkEntry *entry, gint the_int);
 
-GtkWidget *gnumeric_load_image  (char const *name);
-GdkPixbuf *gnumeric_load_pixbuf (char const *name);
-
 void gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry);
 
 void gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct);

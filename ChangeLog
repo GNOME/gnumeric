@@ -1,5 +1,8 @@
 2015-01-19  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (gnumeric_load_image, gnumeric_load_pixbuf):
+	Delete.
+
 	* src/gnm.gresource.xml: pre-process xpm files.  gdkpixbuf will
 	otherwise dump them in temporary files in order to load them.
 

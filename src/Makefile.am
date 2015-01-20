@@ -437,9 +437,7 @@ gnumeric_app_libs =				\
 
 embedded_imgs =						\
 	gnumeric.css					\
-	pixmaps/down-right.png				\
 	pixmaps/gnumeric_splash_1.4.png			\
-	pixmaps/right-down.png				\
 	pixmaps/sheet_move_marker.xpm			\
 	pixmaps/unknown_image.png
 
