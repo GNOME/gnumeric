@@ -666,16 +666,14 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	}
 }
 
+/*
+ * Not currently reachable, I believe.  We use the notebook's dragging.
+ */
 static void
 cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 			   WBCGtk *wbcg)
 {
 	GtkWidget *arrow, *image;
-	GdkPixbuf *pixbuf;
-#warning GTK3: how can we mask there?
-#if 0
-	GdkBitmap *bitmap;
-#endif
 
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 
@@ -684,21 +682,9 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	gtk_window_set_screen (GTK_WINDOW (arrow),
 			       gtk_widget_get_screen (widget));
 	gtk_widget_realize (arrow);
-	pixbuf = gtk_icon_theme_load_icon (
-		gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget)),
-		"sheet_move_marker", 13, 0, NULL);
-	image = gtk_image_new_from_pixbuf (pixbuf);
+	image = gtk_image_new_from_resource ("/org/gnumeric/gnumeric/images/sheet_move_marker.xpm");
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (arrow), image);
-#if 0
-	gdk_pixbuf_render_pixmap_and_mask_for_colormap (pixbuf,
-		gtk_widget_get_colormap (widget), NULL, &bitmap, 0x7f);
-#endif
-	g_object_unref (pixbuf);
-#if 0
-	gtk_widget_shape_combine_mask (arrow, bitmap, 0, 0);
-	g_object_unref (bitmap);
-#endif
 	g_object_ref_sink (arrow);
 	g_object_set_data (G_OBJECT (widget), "arrow", arrow);
 }

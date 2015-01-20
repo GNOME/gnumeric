@@ -436,8 +436,7 @@ gnumeric_app_libs =				\
 	widgets/libwidgets.la
 
 embedded_imgs =						\
-	gnumeric.css					\
-	pixmaps/sheet_move_marker.xpm
+	gnumeric.css
 
 
 embedded-imgs.c: $(top_srcdir)/tools/embedder $(embedded_imgs) Makefile

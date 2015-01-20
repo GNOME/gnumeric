@@ -179,5 +179,6 @@
     <file alias="images/down-right.png">src/pixmaps/down-right.png</file>
     <file alias="images/gnumeric_splash_1.4.png">src/pixmaps/gnumeric_splash_1.4.png</file>
     <file alias="images/unknown_image.png">src/pixmaps/unknown_image.png</file>
+    <file preprocess='to-pixdata' alias="images/sheet_move_marker.xpm">src/pixmaps/sheet_move_marker.xpm</file>
   </gresource>
 </gresources>

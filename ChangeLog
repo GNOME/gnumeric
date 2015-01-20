@@ -1,5 +1,8 @@
 2015-01-19  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_sheet_label_drag_begin): Load arrow from glib
+	resources.
+
 	* src/sheet-object-image.c (gnm_soi_new_view): Load unknown-image
 	from glib resources.
 
