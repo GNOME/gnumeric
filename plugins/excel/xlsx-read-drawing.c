@@ -939,6 +939,45 @@ xlsx_ser_trendline_type (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 	}
 }
 
+static GogObject *
+xlsx_get_trend_eq (XLSXReadState *state)
+{
+	const char *role = "Equation";
+	GogObject *eq = gog_object_get_child_by_name (state->cur_obj, role);
+
+	if (!eq) {
+		eq = gog_object_add_by_name (state->cur_obj, role, NULL);
+		g_object_set (eq, "show-r2", FALSE, "show-eq", FALSE, NULL);
+	}
+
+	return eq;
+}	
+
+
+static void
+xlsx_ser_trendline_disprsqr (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean disp;
+
+	if (simple_bool (xin, attrs, &disp) && disp) {
+		GogObject *eq = xlsx_get_trend_eq (state);
+		g_object_set (eq, "show-r2", TRUE, NULL);
+	}
+}
+
+static void
+xlsx_ser_trendline_dispeq (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean disp;
+
+	if (simple_bool (xin, attrs, &disp) && disp) {
+		GogObject *eq = xlsx_get_trend_eq (state);
+		g_object_set (eq, "show-eq", TRUE, NULL);
+	}
+}
+
 
 static void
 xlsx_ser_labels_show_val (GsfXMLIn *xin, xmlChar const **attrs)
@@ -1916,8 +1955,8 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (SCATTER, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, &xlsx_chart_ser_start, &xlsx_chart_ser_end),
           GSF_XML_IN_NODE (SERIES, SERIES_TRENDLINE, XL_NS_CHART,	"trendline", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_start, &xlsx_ser_trendline_end),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_TYPE, XL_NS_CHART,	"trendlineType", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_type, NULL),
-            GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_RSQR, XL_NS_CHART,	"dispRSqr", GSF_XML_NO_CONTENT, NULL, NULL),
-            GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_EQ, XL_NS_CHART,	"dispEq", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_RSQR, XL_NS_CHART,	"dispRSqr", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_disprsqr, NULL),
+            GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_EQ, XL_NS_CHART,	"dispEq", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_dispeq, NULL),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_LABEL, XL_NS_CHART,	"trendlineLbl", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (SERIES_TRENDLINE_LABEL, SERIES_TRENDLINE_LABEL_LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (SERIES_TRENDLINE_LABEL_LAYOUT, SERIES_TRENDLINE_LABEL_LAYOUT_MANUAL, XL_NS_CHART, "manualLayout", GSF_XML_NO_CONTENT, NULL, NULL),
