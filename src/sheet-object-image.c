@@ -207,8 +207,9 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 			NULL));
 
 	} else {
-		GdkPixbuf *placeholder = go_gdk_pixbuf_load_from_file
-			("res:gnm:pixmaps/unknown_image.png");
+		GdkPixbuf *placeholder =
+			gdk_pixbuf_new_from_resource ("/org/gnumeric/gnumeric/images/unknown_image.png",
+						      NULL);
 		GdkPixbuf *pixbuf = gdk_pixbuf_copy (placeholder);
 
 		goc_item_hide (goc_item_new (GOC_GROUP (item),

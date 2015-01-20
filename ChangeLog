@@ -1,5 +1,8 @@
 2015-01-19  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object-image.c (gnm_soi_new_view): Load unknown-image
+	from glib resources.
+
 	* src/gui-util.c (gnumeric_load_image, gnumeric_load_pixbuf):
 	Delete.
 

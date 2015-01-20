@@ -437,8 +437,8 @@ gnumeric_app_libs =				\
 
 embedded_imgs =						\
 	gnumeric.css					\
-	pixmaps/sheet_move_marker.xpm			\
-	pixmaps/unknown_image.png
+	pixmaps/sheet_move_marker.xpm
+
 
 embedded-imgs.c: $(top_srcdir)/tools/embedder $(embedded_imgs) Makefile
 	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
