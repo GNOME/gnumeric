@@ -524,29 +524,71 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	for (series = gog_plot_get_series (GOG_PLOT (plot));
 	     NULL != series;
 	     series = series->next) {
+		GogSeries *ser = series->data;
+		GSList *l, *children;
+
 		gsf_xml_out_start_element (xml, "c:ser");
 
 		xlsx_write_chart_int (xml, "c:idx", -1, count);
 		xlsx_write_chart_int (xml, "c:order", -1, count);
-		xlsx_write_series_dim (state, xml, series->data,
-				       "c:tx", GOG_MS_DIM_LABELS);
+		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
 		if (!vary_by_element) /* FIXME: we might loose some style elements */
-			xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (series->data)));
+			xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (ser)));
 		if (explosion > 0.)
 			xlsx_write_chart_uint (xml, "c:explosion", 0, (unsigned) (explosion * 100));
 		if (use_xy) {
-			xlsx_write_series_dim (state, xml, series->data,
-					       "c:xVal",  GOG_MS_DIM_CATEGORIES);
-			xlsx_write_series_dim (state, xml, series->data,
-					       "c:yVal", GOG_MS_DIM_VALUES);
-			xlsx_write_series_dim (state, xml, series->data,
-					       "c:bubbleSize", GOG_MS_DIM_BUBBLES);
+			xlsx_write_series_dim (state, xml, ser, "c:xVal", GOG_MS_DIM_CATEGORIES);
+			xlsx_write_series_dim (state, xml, ser, "c:yVal", GOG_MS_DIM_VALUES);
+			xlsx_write_series_dim (state, xml, ser, "c:bubbleSize", GOG_MS_DIM_BUBBLES);
 		} else {
-			xlsx_write_series_dim (state, xml, series->data,
-					       "c:cat",  GOG_MS_DIM_CATEGORIES);
-			xlsx_write_series_dim (state, xml, series->data,
-					       "c:val", GOG_MS_DIM_VALUES);
+			xlsx_write_series_dim (state, xml, ser, "c:cat", GOG_MS_DIM_CATEGORIES);
+			xlsx_write_series_dim (state, xml, ser, "c:val", GOG_MS_DIM_VALUES);
 		}
+
+		children = gog_object_get_children (GOG_OBJECT (ser), NULL);
+		for (l = children; l; l = l->next) {
+			GogObject *trend = l->data;
+			const char *trend_type_name = G_OBJECT_TYPE_NAME (trend);
+			const char *trend_type;
+			GogObject *eq;
+
+			if (!GOG_IS_TREND_LINE (trend))
+				continue;
+
+			if (strcmp (trend_type_name, "GogExpRegCurve") == 0)
+				trend_type = "exp";
+			else if (strcmp (trend_type_name, "GogLinRegCurve") == 0)
+				trend_type = "linear";
+			else if (strcmp (trend_type_name, "GogLogRegCurve") == 0)
+				trend_type = "log";
+			else if (strcmp (trend_type_name, "GogMovingAvg") == 0)
+				trend_type = "movingAvg";
+			else if (strcmp (trend_type_name, "GogPolynomRegCurve") == 0)
+				trend_type = "poly";
+			else if (strcmp (trend_type_name, "GogPowerRegCurve") == 0)
+				trend_type = "power";
+			else {
+				trend_type = "linear";
+				g_warning ("Unknown regression mapped to %s\n", trend_type);
+			}
+
+
+			gsf_xml_out_start_element (xml, "c:trendline");
+			xlsx_write_chart_cstr_unchecked (xml, "c:trendlineType", trend_type);
+			gsf_xml_out_end_element (xml); /* </c:trendline> */
+
+			eq = gog_object_get_child_by_name (trend, "Equation");
+			if (eq) {
+				gboolean has_r2, has_eq;
+				g_object_get (eq, "show-r2", &has_r2, "show-eq", &has_eq, NULL);
+				if (has_r2)
+					xlsx_write_chart_bool (xml, "c:dispRSqr", TRUE);
+				if (has_eq)
+					xlsx_write_chart_bool (xml, "c:dispEq", TRUE);
+			}
+		}
+		g_slist_free (children);
+
 		gsf_xml_out_end_element (xml); /* </c:ser> */
 	}
 
