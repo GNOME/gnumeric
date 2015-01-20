@@ -519,6 +519,12 @@ EXTRA_DIST =						\
 	pixmaps/line_pattern_slant.xpm			\
 	pixmaps/line_pattern_thick.xpm			\
 	pixmaps/line_pattern_thin.xpm			\
+        pixmaps/right-down.png				\
+	pixmaps/down-right.png				\
+	pixmaps/gnumeric_splash_1.4.png			\
+	pixmaps/unknown_image.png			\
+	pixmaps/sheet_move_marker.xpm			\
+	gnumeric.css					\
 	gnm-marshalers.list				\
 	README.gnm_float				\
 	gnumeric.rc					\
