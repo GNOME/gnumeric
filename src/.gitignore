@@ -14,7 +14,6 @@ gnumeric-component
 parser.c
 gnm-marshalers.c
 gnm-marshalers.h
-embedded-imgs.c
 gnmresources.c
 gnmresources.h
 gnumeric-paths.h

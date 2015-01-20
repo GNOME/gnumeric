@@ -42,7 +42,6 @@ sub find_files {
 	('stamp.h' => 1,
 	 'gnumeric-config.h' => 1,
 	 'src/parser.c' => 1,
-	 'src/embedded-imgs.c' => 1,
 	 'src/dialogs/embedded-ui.c' => 1,
 	 );
 

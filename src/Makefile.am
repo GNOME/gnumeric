@@ -22,7 +22,7 @@ bin_PROGRAMS =
 check_PROGRAMS =
 noinst_PROGRAMS = sstest
 
-noinst_HEADERS = dead-kittens.h compilation.h embedded-imgs.h gnm-i18n.h
+noinst_HEADERS = dead-kittens.h compilation.h gnm-i18n.h
 
 if WITH_GTK
   SUBDIRS += dialogs widgets
@@ -44,13 +44,12 @@ AM_CPPFLAGS = 								\
 BUILT_SOURCES =					\
 	gnm-marshalers.c			\
 	gnm-marshalers.h			\
-	embedded-imgs.c				\
 	gnmresources.c				\
 	gnmresources.h				\
 	gnumeric-paths.h
 
 # Another hint, see bugs #172211 and #172212:
-non-intermediate: gnm-marshalers.c embedded-imgs.c gnmresources.c
+non-intermediate: gnm-marshalers.c gnmresources.c
 
 resource_files = $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(top_srcdir) --generate-dependencies $(srcdir)/gnm.gresource.xml)
 
@@ -214,7 +213,7 @@ libspreadsheet_la_SOURCES =			\
 	print.c					\
 	print-cell.c
 
-nodist_libspreadsheet_la_SOURCES = embedded-imgs.c gnmresources.c gnmresources.h
+nodist_libspreadsheet_la_SOURCES = gnmresources.c gnmresources.h
 
 # When we switch to subversion fix this to nest as
 # libspreadsheet-ver/spreadsheet/header
@@ -435,18 +434,6 @@ gnumeric_app_libs =				\
 	tools/libtools.la			\
 	widgets/libwidgets.la
 
-embedded_imgs =						\
-	gnumeric.css
-
-
-embedded-imgs.c: $(top_srcdir)/tools/embedder $(embedded_imgs) Makefile
-	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
-		--register-function=gnm_register_imgs_files \
-		--register-file-function=go_rsm_register_file \
-		--id-prefix=gnm: \
-		--include '<goffice/goffice.h>' \
-		--include embedded-imgs.h \
-		NOCOMPRESS $(embedded_imgs) >$(abs_builddir)/$@
 
 # Rules for the marshalers code:
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_
@@ -518,7 +505,6 @@ uninstall-hook:
 # include conditional files to ensure everything gets distributed no matter
 # what the build
 EXTRA_DIST =						\
-	$(embedded_imgs)				\
 	gnm.gresource.xml				\
 	pixmaps/line_pattern_dash_dot.xpm		\
 	pixmaps/line_pattern_dash_dot_dot.xpm		\

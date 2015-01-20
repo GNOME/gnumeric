@@ -2383,8 +2383,9 @@ cb_screen_changed (GtkWidget *widget)
 
 	data = g_object_get_data (app, app_key);
 	if (!data) {
-		const char *resource = "gnm:gnumeric.css";
-		const char *csstext = go_rsm_lookup (resource, NULL);
+		const char *resource = "/org/gnumeric/gnumeric/ui/gnumeric.css";
+		GBytes *cssbytes = g_resources_lookup_data (resource, 0, NULL);
+		const char *csstext = g_bytes_get_data (cssbytes, NULL);
 		gboolean debug = gnm_debug_flag ("css");
 
 		data = g_new (struct css_provider_data, 1);
@@ -2400,6 +2401,7 @@ cb_screen_changed (GtkWidget *widget)
 
 		gtk_css_provider_load_from_data	(data->css, csstext, -1, NULL);
 		g_object_set_data_full (app, app_key, data, cb_unload_providers);
+		g_bytes_unref (cssbytes);
 	}
 
 	if (screen && !g_slist_find (data->screens, screen)) {

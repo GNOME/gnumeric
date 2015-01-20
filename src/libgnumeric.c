@@ -58,7 +58,6 @@
 #include "hlink.h"
 #include "wbc-gtk-impl.h"
 #include "gnmresources.h"
-#include "embedded-imgs.h"
 #include "dialogs/embedded-ui.h"
 #include <goffice/goffice.h>
 
@@ -304,7 +303,6 @@ gnm_init (void)
 						  "/org/gnumeric/gnumeric/icons");
 	}
 	gnm_register_ui_files ();
-	gnm_register_imgs_files ();
 	go_plugin_service_define ("function_group",
 		&plugin_service_function_group_get_type);
 	go_plugin_service_define ("ui",
