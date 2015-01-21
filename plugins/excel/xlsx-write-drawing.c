@@ -400,7 +400,6 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 static void
 xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, GogObject const *plot)
 {
-	gboolean use_xy = FALSE;
 	double explosion = 0.;
 	gboolean vary_by_element;
 	GogAxisType axis_type[3] = {GOG_AXIS_X, GOG_AXIS_Y, GOG_AXIS_UNKNOWN};
@@ -409,6 +408,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	const char *plot_type_name;
 	GSList const *series;
 	unsigned count;
+	gboolean use_xy = FALSE;
+	gboolean set_smooth = FALSE;
 
 	g_object_get (G_OBJECT (plot),
 		      "vary-style-by-element", &vary_by_element,
@@ -450,6 +451,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		gsf_xml_out_start_element (xml, "c:lineChart");
 		xlsx_write_plot_1_5_type (xml, plot, FALSE);
 		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
+		set_smooth = TRUE;
 		break;
 
 	case XLSX_PT_GOGPIEPLOT:
@@ -504,6 +506,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 					(has_markers? "lineMarker": "line")):
 				(has_markers? "marker": "none");
 		use_xy = TRUE;
+		set_smooth = TRUE;
 		gsf_xml_out_start_element (xml, "c:scatterChart");
 		xlsx_write_chart_cstr_unchecked (xml, "c:scatterStyle", style);
 		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
@@ -522,6 +525,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	     series = series->next) {
 		GogSeries *ser = series->data;
 		GSList *l, *children;
+		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (ser));
 
 		gsf_xml_out_start_element (xml, "c:ser");
 
@@ -529,7 +533,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		xlsx_write_chart_int (xml, "c:order", -1, count);
 		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
 		if (!vary_by_element) /* FIXME: we might loose some style elements */
-			xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (ser)));
+			xlsx_write_go_style (xml, style);
 
 		children = gog_object_get_children (GOG_OBJECT (ser), NULL);
 		for (l = children; l; l = l->next) {
@@ -584,6 +588,19 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		} else {
 			xlsx_write_series_dim (state, xml, ser, "c:cat", GOG_MS_DIM_CATEGORIES);
 			xlsx_write_series_dim (state, xml, ser, "c:val", GOG_MS_DIM_VALUES);
+		}
+
+		if (set_smooth) {
+			gboolean smooth;
+			GOLineInterpolation inter;
+			char *s;
+
+			g_object_get (ser, "interpolation", &s, NULL);
+			inter = go_line_interpolation_from_str (s);
+			g_free (s);
+
+			smooth = inter != GO_LINE_INTERPOLATION_LINEAR;
+			xlsx_write_chart_bool (xml, "c:smooth", smooth);
 		}
 
 		gsf_xml_out_end_element (xml); /* </c:ser> */

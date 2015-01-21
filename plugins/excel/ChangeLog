@@ -2,6 +2,8 @@
 
 	* xlsx-write-drawing.c (xlsx_write_one_plot): varyColor defaults
 	to TRUE, so be sure to output it for line plots etc.
+	(xlsx_write_one_plot): Set smooth for anything but linear
+	interpolation.
 
 2015-01-20  Morten Welinder  <terra@gnome.org>
 
