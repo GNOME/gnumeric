@@ -129,7 +129,8 @@ xlsx_write_rgbarea (GsfXMLOut *xml, GOColor color)
 }
 
 static void
-xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
+xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
+			  gboolean def_has_markers)
 {
 	gsf_xml_out_start_element (xml, "c:spPr");
 
@@ -230,7 +231,7 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 		};
 		gboolean need_spPr;
 		GOMarkerShape s = style->marker.auto_shape
-			? GO_MARKER_MAX
+			? (def_has_markers ? GO_MARKER_MAX : GO_MARKER_NONE)
 			: go_marker_get_shape (style->marker.mark);
 
 		gsf_xml_out_start_element (xml, "c:marker");
@@ -242,9 +243,10 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 			  : "auto"));
 
 		/* We don't have an auto_size flag */
-		if (TRUE)
-			xlsx_write_chart_int (xml, "c:size", 5,
-					      go_marker_get_size (style->marker.mark));
+		if (TRUE) {
+			int def = 5, s = go_marker_get_size (style->marker.mark);
+			xlsx_write_chart_int (xml, "c:size", def, s);
+		}
 
 		need_spPr = (!style->marker.auto_fill_color ||
 			     !style->marker.auto_outline_color);
@@ -270,6 +272,12 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 
 		gsf_xml_out_end_element (xml);
 	}
+}
+
+static void
+xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
+{
+	xlsx_write_go_style_full (xml, style, FALSE);
 }
 
 static void
@@ -410,6 +418,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	unsigned count;
 	gboolean use_xy = FALSE;
 	gboolean set_smooth = FALSE;
+	gboolean has_markers = FALSE;
 
 	g_object_get (G_OBJECT (plot),
 		      "vary-style-by-element", &vary_by_element,
@@ -452,6 +461,9 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		xlsx_write_plot_1_5_type (xml, plot, FALSE);
 		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		set_smooth = TRUE;
+		g_object_get (G_OBJECT (plot),
+		              "default-style-has-markers", &has_markers,
+		              NULL);
 		break;
 
 	case XLSX_PT_GOGPIEPLOT:
@@ -493,7 +505,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		break;
 
 	case XLSX_PT_GOGXYPLOT: {
-		gboolean has_lines, has_markers, use_splines;
+		gboolean has_lines, use_splines;
 		char const *style;
 		g_object_get (G_OBJECT (plot),
 		              "default-style-has-lines", &has_lines,
@@ -533,7 +545,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		xlsx_write_chart_int (xml, "c:order", -1, count);
 		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
 		if (!vary_by_element) /* FIXME: we might loose some style elements */
-			xlsx_write_go_style (xml, style);
+			xlsx_write_go_style_full (xml, style, has_markers);
 
 		children = gog_object_get_children (GOG_OBJECT (ser), NULL);
 		for (l = children; l; l = l->next) {
