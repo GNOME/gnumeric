@@ -425,6 +425,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	case XLSX_PT_GOGAREAPLOT:
 		gsf_xml_out_start_element (xml, "c:areaChart");
 		xlsx_write_plot_1_5_type (xml, plot, FALSE);
+		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		break;
 
 	case XLSX_PT_GOGBARCOLPLOT: {
@@ -441,18 +442,20 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 						 horizontal ? "bar" : "col");
 
 		xlsx_write_plot_1_5_type (xml, plot, TRUE);
+		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		break;
 	}
 
 	case XLSX_PT_GOGLINEPLOT:
 		gsf_xml_out_start_element (xml, "c:lineChart");
 		xlsx_write_plot_1_5_type (xml, plot, FALSE);
+		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		break;
 
 	case XLSX_PT_GOGPIEPLOT:
-	case XLSX_PT_GOGRINGPLOT: {
-		gint16 center = 0;
+	case XLSX_PT_GOGRINGPLOT:
 		if (plot_type == XLSX_PT_GOGRINGPLOT) {
+			gint16 center;
 			double center_size;
 			gsf_xml_out_start_element (xml, "c:doughnutChart");
 			g_object_get (G_OBJECT (plot), "center-size", &center_size, NULL);
@@ -472,7 +475,6 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		axis_type[0] = axis_type[1] = GOG_AXIS_UNKNOWN;
 		g_object_get (G_OBJECT (plot), "default-separation", &explosion, NULL);
 		break;
-	}
 
 	case XLSX_PT_GOGRADARPLOT:
 	case XLSX_PT_GOGRADARAREAPLOT:
@@ -504,6 +506,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		use_xy = TRUE;
 		gsf_xml_out_start_element (xml, "c:scatterChart");
 		xlsx_write_chart_cstr_unchecked (xml, "c:scatterStyle", style);
+		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		break;
 	}
 
