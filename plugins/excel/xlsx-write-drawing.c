@@ -588,7 +588,6 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 
 	switch (plot_type) {
 	case XLSX_PT_GOGBARCOLPLOT: {
-		char *s;
 		int overlap_percentage, gap_percentage;
 
 		g_object_get (G_OBJECT (plot),
@@ -596,13 +595,11 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			"gap-percentage",	&gap_percentage,
 			NULL);
 
-		s = g_strdup_printf ("%d%%", CLAMP (gap_percentage, 0, 500));
-		xlsx_write_chart_cstr_unchecked (xml, "c:gapWidth", s);
-		g_free (s);
+		/* Spec says add "%" at end; XL cannot handle that. */
+		xlsx_write_chart_int (xml, "c:gapWidth", 150, CLAMP (gap_percentage, 0, 500));
 
-		s = g_strdup_printf ("%d%%", CLAMP (overlap_percentage, 0, 100));
-		xlsx_write_chart_cstr_unchecked (xml, "c:overlap", s);
-		g_free (s);
+		/* Spec says add "%" at end; XL cannot handle that. */
+		xlsx_write_chart_int (xml, "c:overlap", 0, CLAMP (overlap_percentage, 0, 100));
 		break;
 	}
 

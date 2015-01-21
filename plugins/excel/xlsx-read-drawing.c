@@ -443,6 +443,7 @@ xlsx_chart_bar_overlap (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (0 == strcmp (attrs[0], "val")) {
+			/* Spec says add "%" at end; XL cannot handle that. */
 			int overlap = strtol (attrs[1], NULL, 10);
 			g_object_set (G_OBJECT (state->plot),
 				      "overlap-percentage", CLAMP (overlap, -100, 100),
@@ -476,6 +477,7 @@ xlsx_chart_bar_gap (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (0 == strcmp (attrs[0], "val")) {
 			int gap = strtol (attrs[1], NULL, 10);
+			/* Spec says add "%" at end; XL cannot handle that. */
 			g_object_set (G_OBJECT (state->plot),
 				      "gap-percentage", CLAMP (gap, 0, 500), NULL);
 		}
