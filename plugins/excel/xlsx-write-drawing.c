@@ -282,7 +282,7 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 
 static void
 xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
-		       GOData *data, GOStyledObject *so)
+		       GOData *data, GOStyle *style)
 {
 	/* I don't really know what I am doing here.  */
 	char *text = go_data_get_scalar_string (data);
@@ -303,6 +303,8 @@ xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
 
 	gsf_xml_out_end_element (xml);
 	gsf_xml_out_end_element (xml);
+
+	xlsx_write_go_style (xml, style);
 
 	g_free (text);
 }
@@ -364,8 +366,9 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 	if (label) {
 		GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
 		if (text != NULL) {
+			GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (label));
 			gsf_xml_out_start_element (xml, "c:title");
-			xlsx_write_chart_text (state, xml, text, GO_STYLED_OBJECT (label));
+			xlsx_write_chart_text (state, xml, text, style);
 			gsf_xml_out_end_element (xml);
 		}
 	}
@@ -718,8 +721,9 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 	if (obj) {
 		GOData *text = gog_dataset_get_dim (GOG_DATASET (obj), 0);
 		if (text != NULL) {
+			GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (obj));
 			gsf_xml_out_start_element (xml, "c:title");
-			xlsx_write_chart_text (state, xml, text, GO_STYLED_OBJECT (obj));
+			xlsx_write_chart_text (state, xml, text, style);
 			gsf_xml_out_end_element (xml);
 		}
 	}

@@ -152,10 +152,11 @@ xlsx_chart_title_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->cur_obj == (GogObject *)state->chart) {
 		xlsx_push_text_object (state, "Title");
-		state->inhibit_text_pop = TRUE;
 	} else {
-		xlsx_chart_text_start (xin, attrs);
+		xlsx_push_text_object (state, "Label");
 	}
+	state->inhibit_text_pop = TRUE;
+	state->sp_type |= GO_STYLE_LINE;
 }
 
 static void
@@ -163,7 +164,12 @@ xlsx_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	state->inhibit_text_pop = FALSE;
-	xlsx_chart_text (xin, blob);
+	if (GOG_IS_CHART (state->cur_obj)) {
+		xlsx_chart_text (xin, blob);
+	} else {
+		xlsx_chart_pop_obj (state);
+	}
+	state->sp_type &= ~GO_STYLE_LINE;
 }
 
 
