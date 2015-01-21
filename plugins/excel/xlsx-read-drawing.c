@@ -1956,6 +1956,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 
         GSF_XML_IN_NODE (SCATTER, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, &xlsx_chart_ser_start, &xlsx_chart_ser_end),
           GSF_XML_IN_NODE (SERIES, SERIES_TRENDLINE, XL_NS_CHART,	"trendline", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_start, &xlsx_ser_trendline_end),
+          GSF_XML_IN_NODE (SERIES_TRENDLINE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_TYPE, XL_NS_CHART,	"trendlineType", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_type, NULL),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_RSQR, XL_NS_CHART,	"dispRSqr", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_disprsqr, NULL),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_EQ, XL_NS_CHART,	"dispEq", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_dispeq, NULL),
