@@ -199,9 +199,9 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 		if (!style->line.auto_dash &&
 		    style->line.dash_type < G_N_ELEMENTS (dashes) &&
 		    dashes[style->line.dash_type]) {
-			gsf_xml_out_start_element (xml, "a:prstDash");
-			gsf_xml_out_add_cstr_unchecked (xml, "val", dashes[style->line.dash_type]);
-			gsf_xml_out_end_element (xml);
+			xlsx_write_chart_cstr_unchecked (xml,
+							 "a:prstDash",
+							 dashes[style->line.dash_type]);
 		}
 
 		gsf_xml_out_end_element (xml);
@@ -235,20 +235,16 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 
 		gsf_xml_out_start_element (xml, "c:marker");
 
-		gsf_xml_out_start_element (xml, "c:symbol");
-		gsf_xml_out_add_cstr_unchecked
-			(xml, "val",
+		xlsx_write_chart_cstr_unchecked
+			(xml, "c:symbol",
 			 (s < G_N_ELEMENTS (markers) && markers[s]
 			  ? markers[s]
 			  : "auto"));
-		gsf_xml_out_end_element (xml);
 
 		/* We don't have an auto_size flag */
-		if (TRUE) {
-			gsf_xml_out_start_element (xml, "c:size");
-			gsf_xml_out_add_int (xml, "val", go_marker_get_size (style->marker.mark));
-			gsf_xml_out_end_element (xml);
-		}
+		if (TRUE)
+			xlsx_write_chart_int (xml, "c:size", 5,
+					      go_marker_get_size (style->marker.mark));
 
 		need_spPr = (!style->marker.auto_fill_color ||
 			     !style->marker.auto_outline_color);
@@ -441,9 +437,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		}
 		gsf_xml_out_start_element (xml, "c:barChart");
 
-		gsf_xml_out_start_element (xml, "c:barDir");
-		gsf_xml_out_add_cstr_unchecked (xml, "val", horizontal ? "bar" : "col");
-		gsf_xml_out_end_element (xml);
+		xlsx_write_chart_cstr_unchecked (xml, "c:barDir",
+						 horizontal ? "bar" : "col");
 
 		xlsx_write_plot_1_5_type (xml, plot, TRUE);
 		break;
@@ -482,9 +477,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	case XLSX_PT_GOGRADARPLOT:
 	case XLSX_PT_GOGRADARAREAPLOT:
 		gsf_xml_out_start_element (xml, "c:radarChart");
-		gsf_xml_out_start_element (xml, "c:radarStyle");
-		gsf_xml_out_add_cstr_unchecked (xml, "val", "standard");
-		gsf_xml_out_end_element (xml);
+		xlsx_write_chart_cstr_unchecked (xml, "c:radarStyle", "standard");
 		axis_type[0] = GOG_AXIS_CIRCULAR;
 		axis_type[1] = GOG_AXIS_RADIAL;
 		break;
@@ -602,17 +595,13 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			"gap-percentage",	&gap_percentage,
 			NULL);
 
-		gsf_xml_out_start_element (xml, "c:gapWidth");
 		s = g_strdup_printf ("%d%%", CLAMP (gap_percentage, 0, 500));
-		gsf_xml_out_add_cstr_unchecked (xml, "val", s);
+		xlsx_write_chart_cstr_unchecked (xml, "c:gapWidth", s);
 		g_free (s);
-		gsf_xml_out_end_element (xml);
 
-		gsf_xml_out_start_element (xml, "c:overlap");
 		s = g_strdup_printf ("%d%%", CLAMP (overlap_percentage, 0, 100));
-		gsf_xml_out_add_cstr_unchecked (xml, "val", s);
+		xlsx_write_chart_cstr_unchecked (xml, "c:overlap", s);
 		g_free (s);
-		gsf_xml_out_end_element (xml);
 		break;
 	}
 
