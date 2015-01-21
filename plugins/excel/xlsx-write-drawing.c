@@ -564,6 +564,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 
 
 			gsf_xml_out_start_element (xml, "c:trendline");
+			xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (trend)));
 			xlsx_write_chart_cstr_unchecked (xml, "c:trendlineType", trend_type);
 			gsf_xml_out_end_element (xml); /* </c:trendline> */
 
