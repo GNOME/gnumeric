@@ -527,16 +527,6 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
 		if (!vary_by_element) /* FIXME: we might loose some style elements */
 			xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (ser)));
-		if (explosion > 0.)
-			xlsx_write_chart_uint (xml, "c:explosion", 0, (unsigned) (explosion * 100));
-		if (use_xy) {
-			xlsx_write_series_dim (state, xml, ser, "c:xVal", GOG_MS_DIM_CATEGORIES);
-			xlsx_write_series_dim (state, xml, ser, "c:yVal", GOG_MS_DIM_VALUES);
-			xlsx_write_series_dim (state, xml, ser, "c:bubbleSize", GOG_MS_DIM_BUBBLES);
-		} else {
-			xlsx_write_series_dim (state, xml, ser, "c:cat", GOG_MS_DIM_CATEGORIES);
-			xlsx_write_series_dim (state, xml, ser, "c:val", GOG_MS_DIM_VALUES);
-		}
 
 		children = gog_object_get_children (GOG_OBJECT (ser), NULL);
 		for (l = children; l; l = l->next) {
@@ -581,6 +571,17 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			}
 		}
 		g_slist_free (children);
+
+		if (explosion > 0.)
+			xlsx_write_chart_uint (xml, "c:explosion", 0, (unsigned) (explosion * 100));
+		if (use_xy) {
+			xlsx_write_series_dim (state, xml, ser, "c:xVal", GOG_MS_DIM_CATEGORIES);
+			xlsx_write_series_dim (state, xml, ser, "c:yVal", GOG_MS_DIM_VALUES);
+			xlsx_write_series_dim (state, xml, ser, "c:bubbleSize", GOG_MS_DIM_BUBBLES);
+		} else {
+			xlsx_write_series_dim (state, xml, ser, "c:cat", GOG_MS_DIM_CATEGORIES);
+			xlsx_write_series_dim (state, xml, ser, "c:val", GOG_MS_DIM_VALUES);
+		}
 
 		gsf_xml_out_end_element (xml); /* </c:ser> */
 	}
