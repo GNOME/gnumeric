@@ -1,5 +1,10 @@
 2015-01-21  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_read_chart): Reset chart position here
+	so we don't accidentally give the first object a (0,0) position.
+
+2015-01-21  Morten Welinder  <terra@gnome.org>
+
 	* xlsx-write-drawing.c (xlsx_write_one_plot): varyColor defaults
 	to TRUE, so be sure to output it for line plots etc.
 	(xlsx_write_one_plot): Set smooth for anything but linear

@@ -2280,6 +2280,8 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		state->axis.by_id  = g_hash_table_new_full (g_str_hash, g_str_equal,
 			NULL, (GDestroyNotify) xlsx_axis_info_free);
 		state->axis.by_obj = g_hash_table_new (g_direct_hash, g_direct_equal);
+		xlsx_reset_chart_pos (state);
+
 		xlsx_parse_rel_by_id (xin, part_id, xlsx_chart_dtd, xlsx_ns);
 
 		if (NULL != state->obj_stack) {
