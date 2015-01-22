@@ -286,23 +286,57 @@ xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
 {
 	/* I don't really know what I am doing here.  */
 	char *text = go_data_get_scalar_string (data);
+	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
+				   !style->font.auto_color);
+	gboolean has_font = ((style->interesting_fields & GO_STYLE_FONT) &&
+			     TRUE /* !style->font.auto_font */);
 
 	gsf_xml_out_start_element (xml, "c:tx");
 	gsf_xml_out_start_element (xml, "c:rich");
 
-	gsf_xml_out_start_element (xml, "a:bodyPr");
-	gsf_xml_out_end_element (xml);
+	gsf_xml_out_simple_element (xml, "a:bodyPr", NULL);
 
 	gsf_xml_out_start_element (xml, "a:p");
 	gsf_xml_out_start_element (xml, "a:r");
-	gsf_xml_out_start_element (xml, "a:t");
-	gsf_xml_out_add_cstr (xml, NULL, text);
-	gsf_xml_out_end_element (xml);
-	gsf_xml_out_end_element (xml);
-	gsf_xml_out_end_element (xml);
 
-	gsf_xml_out_end_element (xml);
-	gsf_xml_out_end_element (xml);
+	if (has_font_color || has_font) {
+		GOFont const *font = style->font.font;
+		PangoFontDescription *desc = font->desc;
+
+		gsf_xml_out_start_element (xml, "a:rPr");
+		if (has_font) {
+			int sz = pango_font_description_get_size (desc);
+			if (sz > 0) {
+				sz = CLAMP (sz, 1 * PANGO_SCALE, 4000 * PANGO_SCALE);
+				gsf_xml_out_add_uint (xml, "sz", sz * 100 / PANGO_SCALE);
+			}
+
+			if (pango_font_description_get_weight (desc) > PANGO_WEIGHT_NORMAL)
+				xlsx_add_bool (xml, "b", TRUE);
+			if (pango_font_description_get_style (desc) > PANGO_STYLE_NORMAL)
+				xlsx_add_bool (xml, "i", TRUE);
+		}
+		if (has_font_color) {
+			gsf_xml_out_start_element (xml, "a:solidFill");
+			xlsx_write_rgbarea (xml, style->font.color);
+			gsf_xml_out_end_element (xml);
+		}
+		if (has_font) {
+			gsf_xml_out_start_element (xml, "a:latin");
+			gsf_xml_out_add_cstr (xml, "typeface",
+					      pango_font_description_get_family (desc));
+			gsf_xml_out_end_element (xml);
+		}
+		gsf_xml_out_end_element (xml); /* </a:rPr> */
+	}
+
+	gsf_xml_out_simple_element (xml, "a:t", text);
+
+	gsf_xml_out_end_element (xml); /* </a:r> */
+	gsf_xml_out_end_element (xml); /* </a:p> */
+
+	gsf_xml_out_end_element (xml); /* </c:rich> */
+	gsf_xml_out_end_element (xml); /* </c:tx> */
 
 	xlsx_write_go_style (xml, style);
 
@@ -375,7 +409,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 
 	gsf_xml_out_start_element (xml, "c:numFmt");
 	format = gog_axis_get_format (axis);
-	gsf_xml_out_add_bool (xml, "sourceLinked", format == NULL || go_format_is_general (format));
+	xlsx_add_bool (xml, "sourceLinked", format == NULL || go_format_is_general (format));
 	format = gog_axis_get_effective_format (axis);
 	gsf_xml_out_add_cstr (xml, "formatCode", (format)? go_format_as_XL (format): "General");
 	gsf_xml_out_end_element (xml);
