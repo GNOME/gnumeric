@@ -120,6 +120,7 @@ typedef struct {
 	GogAxisPosition	  cross;
 	char	*cross_id;
 	gnm_float cross_value;
+	gboolean invert_axis;
 
 	gboolean deleted;
 } XLSXAxisInfo;

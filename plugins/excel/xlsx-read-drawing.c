@@ -528,6 +528,7 @@ xlsx_plot_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 				res->compass	= GOG_POSITION_AUTO;
 				res->cross	= GOG_AXIS_CROSS;
 				res->cross_value = go_nan;
+				res->invert_axis = FALSE;
 				g_hash_table_replace (state->axis.by_id, res->id, res);
 #ifdef DEBUG_AXIS
 				g_printerr ("create info for %s = %p\n", attrs[1], res);
@@ -544,12 +545,14 @@ static void
 xlsx_axis_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	state->axis.obj	 = g_object_new (GOG_TYPE_AXIS, NULL);
+	state->axis.obj	 = NULL;
 	state->axis.type = xin->node->user_data.v_int;
 	state->axis.info = NULL;
-	xlsx_chart_push_obj (state, GOG_OBJECT (state->axis.obj));
+
+	/* Push dummy object for now until we can deduce the role.  */
+	xlsx_chart_push_obj (state, NULL);
 #ifdef DEBUG_AXIS
-	g_printerr ("Created axis %p\n", state->axis.obj);
+	g_printerr ("Create dummy object for axis\n");
 #endif
 }
 
@@ -577,12 +580,6 @@ xlsx_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "val")) {
 			state->axis.info = g_hash_table_lookup (state->axis.by_id, attrs[1]);
-			if (NULL != state->axis.info) {
-				g_return_if_fail (state->axis.info->axis == NULL);
-				state->axis.info->axis = state->axis.obj;
-				g_hash_table_replace (state->axis.by_obj,
-					state->axis.obj, state->axis.info);
-			}
 #ifdef DEBUG_AXIS
 			g_printerr ("define %s = %p\n", attrs[1], state->axis.info);
 #endif
@@ -610,8 +607,7 @@ xlsx_axis_orientation (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int orient;
 	if (state->axis.info && simple_enum (xin, attrs, orients, &orient))
-		g_object_set (G_OBJECT (state->axis.obj),
-			"invert-axis", orient, NULL);
+		state->axis.info->invert_axis = orient;
 }
 
 static void
@@ -638,6 +634,65 @@ xlsx_chart_logbase (GsfXMLIn *xin, xmlChar const **attrs)
 		g_object_set (G_OBJECT (state->axis.obj),
 			"map-name", "Log", NULL);
 }
+
+/* See bug 743347 for discussion.  */
+static void
+xlsx_create_axis_object (XLSXReadState *state)
+{
+	GogPlot *plot = state->axis.info->plots->data; /* just use the first */
+	char const *type = G_OBJECT_TYPE_NAME (plot);
+	char const *role = NULL;
+	gboolean inverted = FALSE;
+	gboolean cat_or_date = (state->axis.type == XLSX_AXIS_CAT ||
+				state->axis.type == XLSX_AXIS_DATE);
+	GogObject *axis;
+
+	switch (xlsx_plottype_from_type_name (type)) {
+	case XLSX_PT_GOGRADARPLOT:
+	case XLSX_PT_GOGRADARAREAPLOT:
+		role = cat_or_date ? "Circular-Axis" : "Radial-Axis";
+		break;
+	case XLSX_PT_GOGBUBBLEPLOT:
+	case XLSX_PT_GOGXYPLOT:
+		if (state->axis.info->compass  == GOG_POSITION_N ||
+		    state->axis.info->compass  == GOG_POSITION_S)
+			role = "X-Axis";
+		else
+			role = "Y-Axis";
+		break;
+	case XLSX_PT_GOGBARCOLPLOT:
+		/* swap for bar plots */
+		g_object_get (G_OBJECT (plot), "horizontal", &inverted, NULL);
+		break;
+
+	default:
+		break;
+	}
+
+	if (NULL == role)
+		role = (inverted ^ cat_or_date) ? "X-Axis" : "Y-Axis";
+
+	axis = gog_object_add_by_name (GOG_OBJECT (state->chart), role, NULL);
+	state->axis.obj = g_object_ref (axis);
+#ifdef DEBUG_AXIS
+	g_printerr ("Created axis object %s with role %s\n",
+		    gog_object_get_name (axis), role);
+#endif
+
+	/* Replace dummy object.  */
+	xlsx_chart_pop_obj (state);
+	xlsx_chart_push_obj (state, axis);
+
+	if (NULL != state->axis.info) {
+		state->axis.info->axis = state->axis.obj;
+		g_hash_table_replace (state->axis.by_obj, axis, state->axis.info);
+
+		g_object_set (G_OBJECT (state->axis.obj),
+			      "invert-axis", state->axis.info->invert_axis, NULL);
+	}
+}
+
+
 static void
 xlsx_axis_pos (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -655,6 +710,9 @@ xlsx_axis_pos (GsfXMLIn *xin, xmlChar const **attrs)
 #endif
 	if (state->axis.info && simple_enum (xin, attrs, positions, &position))
 		state->axis.info->compass = position;
+
+	if (state->axis.obj == NULL)
+		xlsx_create_axis_object (state);
 }
 
 static void
@@ -747,47 +805,13 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	/* Try to guess what type of axis to use */
 	if (NULL != state->axis.info) {
-		GogPlot *plot = state->axis.info->plots->data; /* just use the first */
-		char const *type = G_OBJECT_TYPE_NAME (plot);
-		char const *role = NULL;
 		GSList *ptr, *children;
-		gboolean inverted = FALSE;
-		gboolean cat_or_date = (state->axis.type == XLSX_AXIS_CAT ||
-					state->axis.type == XLSX_AXIS_DATE);
 		GogAxis *axis = state->axis.obj;
 
-		switch (xlsx_plottype_from_type_name (type)) {
-		case XLSX_PT_GOGRADARPLOT:
-		case XLSX_PT_GOGRADARAREAPLOT:
-			role = cat_or_date ? "Circular-Axis" : "Radial-Axis";
-			break;
-		case XLSX_PT_GOGBUBBLEPLOT:
-		case XLSX_PT_GOGXYPLOT:
-			if (state->axis.info->compass  == GOG_POSITION_N ||
-			    state->axis.info->compass  == GOG_POSITION_S)
-				role = "X-Axis";
-			else
-				role = "Y-Axis";
-			break;
-		case XLSX_PT_GOGBARCOLPLOT:
-			/* swap for bar plots */
-			g_object_get (G_OBJECT (plot), "horizontal", &inverted, NULL);
-			break;
-
-		default:
-			break;
-		}
-
-		if (NULL == role)
-			role = (inverted ^ cat_or_date) ? "X-Axis" : "Y-Axis";
-
-		/* Set the id, and atype.  Ref to balance.  */
-		gog_object_add_by_name (GOG_OBJECT (state->chart),
-					role, GOG_OBJECT (g_object_ref (axis)));
 		for (ptr = state->axis.info->plots; ptr != NULL ; ptr = ptr->next) {
 			GogPlot *plot = ptr->data;
 #ifdef DEBUG_AXIS
-			g_printerr ("connect plot %p to %p in role %s\n", plot, axis, role);
+			g_printerr ("connect plot %p to %p\n", plot, axis);
 #endif
 			gog_plot_set_axis (plot, axis);
 		}
