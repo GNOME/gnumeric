@@ -108,7 +108,8 @@ xlsx_CT_pivotTableDefinition (GsfXMLIn *xin, xmlChar const **attrs)
     <xsd:attribute name="updatedVersion" type="xsd:unsignedByte" default="0">
     <xsd:attribute name="minRefreshableVersion" type="xsd:unsignedByte" default="0">
 #endif
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (0 == strcmp (attrs[0], "cacheId"))
 			cache = g_hash_table_lookup (state->pivot.cache_by_id, attrs[1]);
 		else if (0 == strcmp (attrs[0], "name")) name = go_string_new (attrs[1]);
@@ -153,7 +154,50 @@ xlsx_CT_pivotTableDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_bool (xin, attrs, "compact", &tmp)) compact = tmp;
 		else if (attr_bool (xin, attrs, "outline", &tmp)) outline = tmp;
 		else if (attr_bool (xin, attrs, "gridDropZones", &tmp)) gridDropZones = tmp;
+	}
 
+	(void)indent;
+	(void)pageWrap;
+	(void)dataOnRows;
+	(void)showError;
+	(void)showMissing;
+	(void)asteriskTotals;
+	(void)showItems;
+	(void)editData;
+	(void)disableFieldList;
+	(void)showCalcMbrs;
+	(void)visualTotals;
+	(void)showMultipleLabel;
+	(void)showDataDropDown;
+	(void)showDrill;
+	(void)printDrill;
+	(void)showMemberPropertyTips;
+	(void)showDataTips;
+	(void)enableWizard;
+	(void)enableDrill;
+	(void)enableFieldProperties;
+	(void)preserveFormatting;
+	(void)useAutoFormatting;
+	(void)pageOverThenDown;
+	(void)subtotalHiddenItems;
+	(void)rowGrandTotals;
+	(void)colGrandTotals;
+	(void)fieldPrintTitles;
+	(void)itemPrintTitles;
+	(void)mergeItem;
+	(void)showDropZones;
+	(void)published;
+	(void)immersive;
+	(void)multipleFieldFilters;
+	(void)showEmptyRow;
+	(void)showEmptyCol;
+	(void)showHeaders;
+	(void)outlineData;
+	(void)compactData;
+	(void)compact;
+	(void)outline;
+	(void)gridDropZones;
+	
 	state->pivot.field_count = 0;
 	state->pivot.slicer = g_object_new (GNM_SHEET_SLICER_TYPE,
 		"name",		name,
@@ -310,7 +354,7 @@ xlsx_CT_PivotField (GsfXMLIn *xin, xmlChar const **attrs)
 	go_data_slicer_add_field (GO_DATA_SLICER (state->pivot.slicer),
 		state->pivot.slicer_field);
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (0 == strcmp (attrs[0], "name"))	name = go_string_new (attrs[1]);
 		else if (attr_enum (xin, attrs, "axis", ST_Axis_types, &tmp))
 			go_data_slicer_field_set_field_type_pos (state->pivot.slicer_field, tmp, G_MAXINT);
@@ -357,7 +401,37 @@ xlsx_CT_PivotField (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_bool (xin, attrs, "showPropTip", &tmp))	showPropTip = tmp;
 		else if (attr_bool (xin, attrs, "showPropAsCaption", &tmp))	showPropAsCaption = tmp;
 		else if (attr_bool (xin, attrs, "defaultAttributeDrillState", &tmp))	defaultAttributeDrillState = tmp;
+	}
 
+	(void)defaultAttributeDrillState;
+	(void)showPropAsCaption;
+	(void)showPropTip;
+	(void)showPropCell;
+	(void)defaultSubtotal;
+	(void)nonAutoSortDefault;
+	(void)dataSourceSort;
+	(void)includeNewItemsInFilter;
+	(void)measureFilter;
+	(void)hideNewItems;
+	(void)topAutoShow;
+	(void)autoShow;
+	(void)insertPageBreak;
+	(void)serverField;
+	(void)insertBlankRow;
+	(void)showAll;
+	(void)dragOff;
+	(void)dragToData;
+	(void)dragToPage;
+	(void)multipleItemSelectionAllowed;
+	(void)dragToCol;
+	(void)dragToRow;
+	(void)subtotalTop;
+	(void)outline;
+	(void)allDrilled;
+	(void)compact;
+	(void)hiddenLevel;
+	(void)showDropDowns;
+	
 #if 0
 	"rankBy" type="xsd:unsignedInt"
 	"numFmtId" type="ST_NumFmtId"
@@ -956,7 +1030,7 @@ xlsx_CT_WorksheetSource (GsfXMLIn *xin, xmlChar const **attrs)
 	Sheet *sheet;
 
 	range_init_invalid (&range);
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_range (xin, attrs, "ref", &range)) ;
 		else if (0 == strcmp (attrs[0], "sheet"))
 			sheetName = attrs[1];
@@ -964,6 +1038,9 @@ xlsx_CT_WorksheetSource (GsfXMLIn *xin, xmlChar const **attrs)
 			targetName = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			sheetID = attrs[1];
+	}
+
+	(void)sheetID;
 
 	if (NULL != sheetName &&
 	    NULL != (sheet = workbook_sheet_by_name (state->wb, sheetName)))
