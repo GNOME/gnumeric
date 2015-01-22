@@ -208,21 +208,38 @@ static void
 xlsx_draw_text_run_props (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	/* FIXME: this should be for a text run, not for the full object */
-	if (GO_IS_STYLED_OBJECT (state->cur_obj) && state->cur_style) {
-		PangoFontDescription *desc = pango_font_description_new ();
-		int size = 1000; /* seems 10*100 is the default */
-		GOFont const *font;
-		/* looks like the default font is Calibri, FIXME: import that from file instead */
+	PangoFontDescription *desc;
+	GOStyle *style = state->cur_style;
+
+	if (!GO_IS_STYLED_OBJECT (state->cur_obj) || !style)
+		return;
+
+	/* FIXME: this should be for a text run, not for the full style */
+
+	if (style->font.font)
+		desc = pango_font_description_copy (style->font.font->desc);
+	else {
+		desc = pango_font_description_new ();
 		pango_font_description_set_family (desc, "Calibri");
-		for (; attrs && *attrs; attrs += 2)
-			attr_int (xin, attrs, "sz", &size);
-		pango_font_description_set_size (desc, size * PANGO_SCALE / 100);
-		/* FIXME: don't set the size to the whole object, only to the run,
-		 * anyway, this has to wait until we support rich text in chart labels */
-		font = go_font_new_by_desc (desc);
-		go_style_set_font (state->cur_style, font);
+		pango_font_description_set_size (desc, 10 * PANGO_SCALE);
 	}
+
+	for (; attrs && *attrs; attrs += 2) {
+		int i;
+		if (attr_int (xin, attrs, "sz", &i)) {
+			pango_font_description_set_size (desc, i * PANGO_SCALE / 100);
+		} else if (attr_int (xin, attrs, "b", &i)) {
+			pango_font_description_set_weight
+				(desc,
+				 i ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
+		} else if (attr_int (xin, attrs, "i", &i)) {
+			pango_font_description_set_style
+				(desc,
+				 i ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+		}
+	}
+
+	go_style_set_font (state->cur_style, go_font_new_by_desc (desc));
 }
 
 static void
@@ -1469,13 +1486,13 @@ xlsx_chart_solid_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 			state->auto_color = &state->cur_style->marker.auto_outline_color;
 		}
 	} else if ((NULL != state->cur_style) && (state->gocolor == NULL)) {
-		if (state->sp_type & GO_STYLE_LINE) {
+		if (state->sp_type & GO_STYLE_FONT) {
+			state->gocolor = &state->cur_style->font.color;
+			state->auto_color = &state->cur_style->font.auto_color;
+		} else if (state->sp_type & GO_STYLE_LINE) {
 			state->cur_style->line.dash_type = GO_LINE_SOLID;
 			state->gocolor = &state->cur_style->line.color;
 			state->auto_color = &state->cur_style->line.auto_color;
-		} else if (state->sp_type & GO_STYLE_FONT) {
-			state->gocolor = &state->cur_style->font.color;
-			state->auto_color = &state->cur_style->font.auto_color;
 		} else {
 			state->cur_style->fill.type = GO_STYLE_FILL_PATTERN;
 			state->cur_style->fill.auto_type = FALSE;
@@ -1901,7 +1918,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_P, XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, &xlsx_chart_p_start, NULL),
                 GSF_XML_IN_NODE (TX_RICH_P, PR_P_PR, XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
                 GSF_XML_IN_NODE (TX_RICH_P, TX_RICH_R, XL_NS_DRAW, "r", GSF_XML_NO_CONTENT, NULL, NULL),
-                  GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_PR, XL_NS_DRAW, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
+                  GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_PR, XL_NS_DRAW, "rPr", GSF_XML_NO_CONTENT, &xlsx_draw_text_run_props, NULL),
 		    GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
