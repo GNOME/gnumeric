@@ -1,3 +1,7 @@
+2015-01-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.19
+
 2015-01-20  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.h (gnumeric_filter_modifiers): Drop reserved bits.

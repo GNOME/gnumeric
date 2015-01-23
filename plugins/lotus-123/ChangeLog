@@ -1,3 +1,7 @@
+2015-01-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.19
+
 2015-01-01  Morten Welinder  <terra@gnome.org>
 
 	* lotus-formula.c (lotus_parse_formula_new): New formulas use

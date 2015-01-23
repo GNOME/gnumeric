@@ -1,3 +1,7 @@
+2015-01-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.19
+
 2015-01-09  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_address): Fix previous fix.  The sheet we
