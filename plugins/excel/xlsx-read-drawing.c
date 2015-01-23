@@ -239,7 +239,22 @@ xlsx_draw_text_run_props (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 
-	go_style_set_font (state->cur_style, go_font_new_by_desc (desc));
+	go_style_set_font (style, go_font_new_by_desc (desc));
+}
+
+static void
+xlsx_rpr_latin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GOStyle *style = state->cur_style;
+
+	for (; attrs && *attrs; attrs += 2) {
+		if (strcmp (attrs[0], "typeface") == 0) {
+			PangoFontDescription *desc = pango_font_description_copy (style->font.font->desc);
+			pango_font_description_set_family (desc, attrs[1]);
+			go_style_set_font (style, go_font_new_by_desc (desc));
+		}
+	}
 }
 
 static void
@@ -1846,7 +1861,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
           GSF_XML_IN_NODE (PR_P_PR, PR_P_PR_DEF, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, &xlsx_draw_text_run_props, NULL),
             GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
-            GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, &xlsx_rpr_latin, NULL),
 	    GSF_XML_IN_NODE (PR_P_PR_DEF, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
             GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_ULNTX, XL_NS_DRAW, "uLnTx", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2651,7 +2666,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 	      GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_PR, XL_NS_DRAW, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, &xlsx_rpr_latin, NULL),
 		GSF_XML_IN_NODE (TX_RICH_R_PR, TEXT_FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
 		  GSF_XML_IN_NODE (TEXT_FILL_SOLID, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),

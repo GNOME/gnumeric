@@ -1,5 +1,8 @@
 Gnumeric 1.12.20
 
+Morten:
+	* xlsx chart import: fix font family name.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.19
 
