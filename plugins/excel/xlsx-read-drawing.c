@@ -246,9 +246,19 @@ static void
 xlsx_body_pr (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	static EnumVal const wrap_types[] = {
+		{ "none", 0 },
+		{ "square", 1 },
+		{ NULL, 0 }
+	};
+
 	if (GO_IS_STYLED_OBJECT (state->cur_obj) && state->cur_style) {
-		for (; attrs && *attrs; attrs += 2)
-			if (!strcmp (attrs[0], "rot")) {
+		for (; attrs && *attrs; attrs += 2) {
+			int val;
+
+			if (attr_enum (xin, attrs, "wrap", wrap_types, &val)) {
+				g_object_set (state->cur_obj, "allow-wrap", val, NULL);
+			} else if (!strcmp (attrs[0], "rot")) {
 				/* FIXME: be careful if the "vert" property exists (not yet supported) */
 				int rotation;
 				if (attr_int (xin, attrs, "rot", &rotation)) {
@@ -256,6 +266,7 @@ xlsx_body_pr (GsfXMLIn *xin, xmlChar const **attrs)
 					state->cur_style->text_layout.angle = (double) rotation / 60000.;
 				}
 			}
+		}
 	}
 }
 

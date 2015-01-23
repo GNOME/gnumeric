@@ -282,19 +282,25 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 
 static void
 xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
-		       GOData *data, GOStyle *style)
+		       GOData *data, GogObject const *label)
 {
 	/* I don't really know what I am doing here.  */
 	char *text = go_data_get_scalar_string (data);
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (label));
 	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
 				   !style->font.auto_color);
 	gboolean has_font = ((style->interesting_fields & GO_STYLE_FONT) &&
 			     TRUE /* !style->font.auto_font */);
+	gboolean allow_wrap;
 
 	gsf_xml_out_start_element (xml, "c:tx");
 	gsf_xml_out_start_element (xml, "c:rich");
 
-	gsf_xml_out_simple_element (xml, "a:bodyPr", NULL);
+	gsf_xml_out_start_element (xml, "a:bodyPr");
+	g_object_get (G_OBJECT (label), "allow-wrap", &allow_wrap, NULL);
+	if (!allow_wrap)
+		gsf_xml_out_add_cstr_unchecked (xml, "wrap", "none");
+	gsf_xml_out_end_element (xml); /* </a:bodyPr> */
 
 	gsf_xml_out_start_element (xml, "a:p");
 	gsf_xml_out_start_element (xml, "a:r");
@@ -400,9 +406,8 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 	if (label) {
 		GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
 		if (text != NULL) {
-			GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (label));
 			gsf_xml_out_start_element (xml, "c:title");
-			xlsx_write_chart_text (state, xml, text, style);
+			xlsx_write_chart_text (state, xml, text, label);
 			gsf_xml_out_end_element (xml);
 		}
 	}
@@ -755,9 +760,8 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 	if (obj) {
 		GOData *text = gog_dataset_get_dim (GOG_DATASET (obj), 0);
 		if (text != NULL) {
-			GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (obj));
 			gsf_xml_out_start_element (xml, "c:title");
-			xlsx_write_chart_text (state, xml, text, style);
+			xlsx_write_chart_text (state, xml, text, obj);
 			gsf_xml_out_end_element (xml);
 		}
 	}
