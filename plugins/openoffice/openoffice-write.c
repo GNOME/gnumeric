@@ -6311,6 +6311,11 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
 
 		if (is_reg_curve && state->with_extension) {
+			/* name */
+			bd = gog_dataset_get_dim (GOG_DATASET (regression), -1);
+			if (bd != NULL)
+				odf_write_data_attribute
+					(state, bd, pp, GNMSTYLE "name");
 			/* Upper and lower bounds */
 			bd = gog_dataset_get_dim (GOG_DATASET (regression), 0);
 			if (bd != NULL)

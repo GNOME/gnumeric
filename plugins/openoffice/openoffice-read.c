@@ -9156,6 +9156,7 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *style_name = NULL;
 	gchar const *lower_bd = NULL;
 	gchar const *upper_bd = NULL;
+	gchar const *name = NULL;
 
 	state->chart.regression = NULL;
 
@@ -9166,6 +9167,8 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 			lower_bd = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "upper-bound"))
 			upper_bd = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "name"))
+			name = CXML2C (attrs[1]);
 
 	if (style_name != NULL) {
 		OOChartStyle *chart_style = g_hash_table_lookup
@@ -9215,8 +9218,9 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 				g_object_unref (style);
 			}
 
-			odf_store_data (state, lower_bd, regression , 0);
-			odf_store_data (state, upper_bd, regression , 1);
+			odf_store_data (state, name, regression, -1);
+			odf_store_data (state, lower_bd, regression, 0);
+			odf_store_data (state, upper_bd, regression, 1);
 		}
 	}
 }

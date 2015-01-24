@@ -1,3 +1,8 @@
+2015-01-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_series_regression): read trend line name
+	* openoffice-write.c (odf_write_regression_curve): save trendline name
+
 2015-01-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.19
