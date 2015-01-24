@@ -6,15 +6,17 @@ use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
 my $file = "$samples/solver-tests.gnumeric";
+$GnumericTest::default_subtests = 'gnumeric';
 
-&message ("Check solver gnumeric roundtrip.");
-&test_roundtrip ($file,
-		 'format' => 'Gnumeric_XmlIO:sax',
-		 'ext' => "gnm");
+if (&subtest ("gnumeric")) {
+    &message ("Check solver gnumeric roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_XmlIO:sax',
+		     'ext' => "gnm");
+}
 
-if (1) {
-    &message ("Not checking solver ods roundtrip -- format is deficient");
-} else {
+if (&subtest ("ods")) {
+    # Format is deficient
     &message ("Check solver ods roundtrip.");
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_OpenCalc:odf',
@@ -22,9 +24,8 @@ if (1) {
 		     'filter2' => 'std:drop_generator');
 }
 
-if (1) {
-    &message ("Not checking solver xls/BIFF7 roundtrip -- format is deficient");
-} else {
+if (&subtest ("biff7")) {
+    # Format is deficient
     &message ("Check solver xls/BIFF7 roundtrip.");
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_Excel:excel_biff7',
@@ -33,9 +34,8 @@ if (1) {
 		     'filter2' => 'std:drop_codepage');
 }
 
-if (1) {
-    &message ("Not checking solver xls/BIFF8 roundtrip -- format is deficient");
-} else {
+if (&subtest ("biff8")) {
+    # Format is deficient
     &message ("Check solver xls/BIFF8 roundtrip.");
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_Excel:excel_biff8',
@@ -43,9 +43,8 @@ if (1) {
 		     'filter2' => 'std:drop_codepage');
 }
 
-if (1) {
-    &message ("Not checking solver xlsx roundtrip -- format is deficient");
-} else {
+if (&subtest ("xlsx")) {
+    # Format is deficient
     &message ("Check solver xlsx roundtrip.");
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_Excel:xlsx',

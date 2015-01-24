@@ -10,12 +10,12 @@ $| = 1;
 @GnumericTest::ISA = qw (Exporter);
 @GnumericTest::EXPORT = qw(test_sheet_calc test_valgrind
                            test_importer test_exporter test_roundtrip
-			   test_ssindex sstest test_command message
+			   test_ssindex sstest test_command message subtest
 			   $ssconvert $sstest $ssdiff $topsrc $top_builddir
-			   $samples $PERL);
+			   $subtests $samples $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
-use vars qw($topsrc $top_builddir $samples $PERL $verbose);
+use vars qw($topsrc $top_builddir $samples $default_subtests $subtests $PERL $verbose);
 use vars qw($ssconvert $ssindex $sstest $ssdiff);
 use vars qw($normalize_gnumeric);
 
@@ -34,6 +34,8 @@ $sstest = "$top_builddir/src/sstest";
 $ssdiff = "$top_builddir/src/ssdiff";
 $normalize_gnumeric = "$PERL $topsrc/test/normalize-gnumeric";
 $verbose = 0;
+$default_subtests = '*';
+$subtests = undef;
 
 # -----------------------------------------------------------------------------
 
@@ -141,6 +143,24 @@ sub message {
     foreach (split (/\n/, $message)) {
 	print "$me: $_\n";
     }
+}
+
+# -----------------------------------------------------------------------------
+
+sub subtest {
+    my ($q) = @_;
+
+    my $res = 0;
+    foreach my $t (split (',', $subtests || $default_subtests)) {
+	if ($t eq '*' || $t eq $q) {
+	    $res = 1;
+	    next;
+	} elsif ($t eq '-*' || $t eq "-$q") {
+	    $res = 0;
+	    next;
+	}
+    }
+    return $res;
 }
 
 # -----------------------------------------------------------------------------
@@ -675,9 +695,17 @@ $ENV{'LC_ALL'} = 'C';
 # libgsf listens for this
 delete $ENV{'WINDOWS_LANGUAGE'};
 
-if (@ARGV && $ARGV[0] eq '--verbose') {
-    $verbose = 1;
-    scalar shift @ARGV;
+while (1) {
+    if (@ARGV && $ARGV[0] eq '--verbose') {
+	$verbose = 1;
+	scalar shift @ARGV;
+	next;
+    } elsif (@ARGV > 1 && $ARGV[0] eq '--subtests') {
+	scalar shift @ARGV;
+	$subtests = shift @ARGV;
+    } else {
+	last;
+    }
 }
 
 1;

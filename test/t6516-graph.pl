@@ -6,24 +6,30 @@ use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
 my $file = "$samples/graph-tests.gnumeric";
+$GnumericTest::default_subtests = '*,-biff7';
 
-&message ("Check graph gnumeric roundtrip.");
-&test_roundtrip ($file,
-		 'format' => 'Gnumeric_XmlIO:sax',
-		 'ext' => "gnm");
+
+if (&subtest ("gnumeric")) {
+    &message ("Check graph gnumeric roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_XmlIO:sax',
+		     'ext' => "gnm");
+}
 
 # ods doesn't have outline colour, so copy the fill colour.
 my $ods_outline_filter = "$PERL -p -e 'if (/\\bmarker\\b.*fill-color=\"([A-Z0-9:]+)\"/) { my \$col = \$1; s{\\b(outline-color)=\"[A-Z0-9:]+\"}{\$1=\"\$col\"}; }'";
 
-&message ("Check graph ods roundtrip.");
-&test_roundtrip ($file,
-		 'format' => 'Gnumeric_OpenCalc:odf',
-		 'ext' => "ods",
-		 'filter1' => $ods_outline_filter,
-		 'filter2' => 'std:drop_generator',
-		 'ignore_failure' => 1);
+if (&subtest ("ods")) {
+    &message ("Check graph ods roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_OpenCalc:odf',
+		     'ext' => "ods",
+		     'filter1' => $ods_outline_filter,
+		     'filter2' => 'std:drop_generator',
+		     'ignore_failure' => 1);
+}
 
-if (0) {
+if (&subtest ("biff7")) {
     # We don't save graphs, so don't test.
     &message ("Check graph xls/BIFF7 roundtrip.");
     &test_roundtrip ($file,
@@ -38,21 +44,25 @@ my $xls_drop_pts_size = "$PERL -p -e '\$_ = \"\" if m{^\\s*<property name=\"(wid
 
 my $xls_missing_marker_shapes = "$PERL -p -e 's/\\bshape=\"(hourglass|butterfly|lefthalf-bar)\"/shape=\"square\"/; s/\\bshape=\"triangle-(down|left|right)\"/shape=\"triangle-up\"/;'";
 
-&message ("Check graph xls/BIFF8 roundtrip.");
-&test_roundtrip ($file,
-		 'format' => 'Gnumeric_Excel:excel_biff8',
-		 'ext' => "xls",
-		 'filter1' => "$xls_drop_pts_size | $xls_missing_marker_shapes",
-		 'filter2' => 'std:drop_codepage',
-		 'ignore_failure' => 1);
+if (&subtest ("biff8")) {
+    &message ("Check graph xls/BIFF8 roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_Excel:excel_biff8',
+		     'ext' => "xls",
+		     'filter1' => "$xls_drop_pts_size | $xls_missing_marker_shapes",
+		     'filter2' => 'std:drop_codepage',
+		     'ignore_failure' => 1);
+}
 
 my $xlsx_missing_marker_shapes = "$PERL -p -e 's/\\bshape=\"(hourglass|butterfly)\"/shape=\"diamond\"/;'";
 
 
-&message ("Check graph xlsx roundtrip.");
-&test_roundtrip ($file,
-		 'format' => 'Gnumeric_Excel:xlsx',
-		 'ext' => "xlsx",
-		 'resize' => '1048576x16384',
-		 'filter1' => "$xls_drop_pts_size | $xlsx_missing_marker_shapes",
-		 'ignore_failure' => 1);
+if (&subtest ("xlsx")) {
+    &message ("Check graph xlsx roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_Excel:xlsx',
+		     'ext' => "xlsx",
+		     'resize' => '1048576x16384',
+		     'filter1' => "$xls_drop_pts_size | $xlsx_missing_marker_shapes",
+		     'ignore_failure' => 1);
+}
