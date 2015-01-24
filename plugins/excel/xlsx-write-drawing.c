@@ -607,6 +607,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			const char *trend_type_name = G_OBJECT_TYPE_NAME (trend);
 			const char *trend_type;
 			GogObject *eq;
+			GOData *dat;
+			char *name;
 
 			if (!GOG_IS_TREND_LINE (trend))
 				continue;
@@ -628,8 +630,11 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 				g_warning ("Unknown regression mapped to %s\n", trend_type);
 			}
 
-
 			gsf_xml_out_start_element (xml, "c:trendline");
+			dat = gog_dataset_get_dim (GOG_DATASET (trend), -1);
+			name = go_data_get_scalar_string (dat);
+			gsf_xml_out_simple_element (xml, "c:name", name);
+			g_free (name);
 			xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (trend)));
 			xlsx_write_chart_cstr_unchecked (xml, "c:trendlineType", trend_type);
 			gsf_xml_out_end_element (xml); /* </c:trendline> */
