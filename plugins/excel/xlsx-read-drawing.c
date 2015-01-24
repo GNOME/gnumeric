@@ -1717,7 +1717,8 @@ xlsx_sppr_xfrm (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		int rot;
+		int rot, flipH;
+
 		if (attr_int (xin, attrs, "rot", &rot)) {
 			rot = rot % (360 * 60000);
 			if (rot < 0) rot += 360 * 60000;
@@ -1736,6 +1737,10 @@ xlsx_sppr_xfrm (GsfXMLIn *xin, xmlChar const **attrs)
 				default:
 					break;
 				}
+			}
+		} else if (attr_bool (xin, attrs, "flipH", &flipH) && flipH) {
+			if (state->marker && go_marker_get_shape (state->marker) == GO_MARKER_HALF_BAR) {
+				go_marker_set_shape (state->marker, GO_MARKER_LEFT_HALF_BAR);
 			}
 		}
 	}

@@ -215,10 +215,10 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			"none",       /* GO_MARKER_NONE */
 			"square",     /* GO_MARKER_SQUARE */
 			"diamond",    /* GO_MARKER_DIAMOND */
-			"triangle",   /* GO_MARKER_TRIANGLE_DOWN */   /* FIXME: rotation */
+			"triangle",   /* GO_MARKER_TRIANGLE_DOWN */
 			"triangle",   /* GO_MARKER_TRIANGLE_UP */
-			"triangle",   /* GO_MARKER_TRIANGLE_RIGHT */  /* FIXME: rotation */
-			"triangle",   /* GO_MARKER_TRIANGLE_LEFT */   /* FIXME: rotation */
+			"triangle",   /* GO_MARKER_TRIANGLE_RIGHT */
+			"triangle",   /* GO_MARKER_TRIANGLE_LEFT */
 			"circle",     /* GO_MARKER_CIRCLE */
 			"x",          /* GO_MARKER_X */
 			"plus",       /* GO_MARKER_CROSS */
@@ -230,6 +230,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			"dot"         /* GO_MARKER_LEFT_HALF_BAR */
 		};
 		static gint8 nqturns[] = { 0, 0, 0, 2, 0, +1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		static gint8 flipH[] =   { 0, 0, 0, 0, 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
 		gboolean need_spPr;
 		GOMarkerShape s = style->marker.auto_shape
 			? (def_has_markers ? GO_MARKER_MAX : GO_MARKER_NONE)
@@ -254,9 +255,12 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 		if (need_spPr) {
 			gsf_xml_out_start_element (xml, "c:spPr");
 
-			if (nqturns[s]) {
+			if (nqturns[s] || flipH[s]) {
 				gsf_xml_out_start_element (xml, "a:xfrm");
-				gsf_xml_out_add_int (xml, "rot", nqturns[s] * (90 * 60000));
+				if (nqturns[s])
+					gsf_xml_out_add_int (xml, "rot", nqturns[s] * (90 * 60000));
+				if (flipH[s])
+					gsf_xml_out_add_int (xml, "flipH", flipH[s]);
 				gsf_xml_out_end_element (xml);
 			}
 
