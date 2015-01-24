@@ -33,15 +33,18 @@ if (0) {
 		     'filter2' => 'std:drop_codepage');
 }
 
+# Point size isn't important.
+my $xls_drop_pts_size = "$PERL -p -e '\$_ = \"\" if m{^\\s*<property name=\"(width|height)-pts\">[0-9.]+</property>\\s*}'";
+
+my $xls_missing_marker_shapes = "$PERL -p -e 's/\\bshape=\"(hourglass|butterfly|lefthalf-bar)\"/shape=\"square\"/; s/\\bshape=\"triangle-(down|left|right)\"/shape=\"triangle-up\"/;'";
+
 &message ("Check graph xls/BIFF8 roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:excel_biff8',
 		 'ext' => "xls",
+		 'filter1' => "$xls_drop_pts_size | $xls_missing_marker_shapes",
 		 'filter2' => 'std:drop_codepage',
 		 'ignore_failure' => 1);
-
-# Point size isn't important.
-my $xlsx_drop_pts_size = "$PERL -p -e '\$_ = \"\" if m{^\\s*<property name=\"(width|height)-pts\">[0-9.]+</property>\\s*}'";
 
 my $xlsx_missing_marker_shapes = "$PERL -p -e 's/\\bshape=\"(hourglass|butterfly)\"/shape=\"diamond\"/;'";
 
@@ -51,5 +54,5 @@ my $xlsx_missing_marker_shapes = "$PERL -p -e 's/\\bshape=\"(hourglass|butterfly
 		 'format' => 'Gnumeric_Excel:xlsx',
 		 'ext' => "xlsx",
 		 'resize' => '1048576x16384',
-		 'filter1' => "$xlsx_drop_pts_size | $xlsx_missing_marker_shapes",
+		 'filter1' => "$xls_drop_pts_size | $xlsx_missing_marker_shapes",
 		 'ignore_failure' => 1);
