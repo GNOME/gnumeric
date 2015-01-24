@@ -43,10 +43,13 @@ if (0) {
 # Point size isn't important.
 my $xlsx_drop_pts_size = "$PERL -p -e '\$_ = \"\" if m{^\\s*<property name=\"(width|height)-pts\">[0-9.]+</property>\\s*}'";
 
+my $xlsx_missing_marker_shapes = "$PERL -p -e 's/\\bshape=\"(hourglass|butterfly)\"/shape=\"diamond\"/;'";
+
+
 &message ("Check graph xlsx roundtrip.");
 &test_roundtrip ($file,
 		 'format' => 'Gnumeric_Excel:xlsx',
 		 'ext' => "xlsx",
 		 'resize' => '1048576x16384',
-		 'filter1' => $xlsx_drop_pts_size,
+		 'filter1' => "$xlsx_drop_pts_size | $xlsx_missing_marker_shapes",
 		 'ignore_failure' => 1);
