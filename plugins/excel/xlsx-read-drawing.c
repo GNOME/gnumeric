@@ -1693,11 +1693,10 @@ static void
 xlsx_chart_marker_size (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		int sz;
-		if (simple_int (xin, attrs, &sz))
-			go_marker_set_size (state->marker, sz);
-	}
+	int sz;
+
+	if (simple_int (xin, attrs, &sz))
+		go_marker_set_size (state->marker, sz);
 }
 
 static void
@@ -1712,6 +1711,36 @@ xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->color_data = NULL;
 	}
 }
+
+static void
+xlsx_sppr_xfrm (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		int rot;
+		if (attr_int (xin, attrs, "rot", &rot)) {
+			rot = rot % (360 * 60000);
+			if (rot < 0) rot += 360 * 60000;
+
+			if (state->marker && go_marker_get_shape (state->marker) == GO_MARKER_TRIANGLE_UP) {
+				switch ((rot + 45 * 60000) / (90 * 60000)) {
+				case 1:
+					go_marker_set_shape (state->marker, GO_MARKER_TRIANGLE_RIGHT);
+					break;
+				case 2:
+					go_marker_set_shape (state->marker, GO_MARKER_TRIANGLE_DOWN);
+					break;
+				case 3:
+					go_marker_set_shape (state->marker, GO_MARKER_TRIANGLE_LEFT);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+}
+
 
 static void
 xlsx_plot_area (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
@@ -1810,7 +1839,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
   GSF_XML_IN_NODE (CHART_SPACE, DATE1904, XL_NS_CHART, "date1904", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (CHART_SPACE, ROUNDEDCORNERS, XL_NS_CHART, "roundedCorners", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (CHART_SPACE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (SHAPE_PR, SP_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, SP_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, &xlsx_sppr_xfrm, NULL),
       GSF_XML_IN_NODE (SP_XFRM, SP_XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SP_XFRM, SP_XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (SHAPE_PR, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),

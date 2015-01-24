@@ -1,6 +1,10 @@
 2015-01-23  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write-drawing.c (xlsx_write_go_style_full): Use rotation to
+	handle marker triangles other than up.
+
 	* xlsx-read-drawing.c (xlsx_rpr_latin): Read typeface from xlsx charts.
+	(xlsx_sppr_xfrm): Rotate marker shapes.
 
 2015-01-23  Morten Welinder <terra@gnome.org>
 

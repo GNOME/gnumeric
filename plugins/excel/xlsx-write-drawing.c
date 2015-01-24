@@ -229,6 +229,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			"diamond",    /* GO_MARKER_HOURGLASS */       /* FIXME: dubious */
 			"dot"         /* GO_MARKER_LEFT_HALF_BAR */
 		};
+		static gint8 nqturns[] = { 0, 0, 0, 2, 0, +1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gboolean need_spPr;
 		GOMarkerShape s = style->marker.auto_shape
 			? (def_has_markers ? GO_MARKER_MAX : GO_MARKER_NONE)
@@ -252,6 +253,12 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			     !style->marker.auto_outline_color);
 		if (need_spPr) {
 			gsf_xml_out_start_element (xml, "c:spPr");
+
+			if (nqturns[s]) {
+				gsf_xml_out_start_element (xml, "a:xfrm");
+				gsf_xml_out_add_int (xml, "rot", nqturns[s] * (90 * 60000));
+				gsf_xml_out_end_element (xml);
+			}
 
 			if (!style->marker.auto_fill_color) {
 				gsf_xml_out_start_element (xml, "a:solidFill");
