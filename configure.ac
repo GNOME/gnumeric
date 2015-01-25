@@ -594,7 +594,7 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pango/pango.h>]],
 	       [AC_MSG_RESULT(no)])
 
 AC_MSG_CHECKING([for OO_NS_LOCALC_EXT])
-AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gsf/gfs.h>]],
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gsf/gsf.h>]],
 				[[(void)(OO_NS_LOCALC_EXT == OO_NS_LOCALC_EXT);]])],
                [AC_DEFINE(HAVE_OO_NS_LOCALC_EXT, 1, [Define if OO_NS_LOCALC_EXT is available])
 		AC_MSG_RESULT(yes)],
