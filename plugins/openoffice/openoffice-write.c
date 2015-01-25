@@ -6311,11 +6311,6 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
 
 		if (is_reg_curve && state->with_extension) {
-			/* name */
-			bd = gog_dataset_get_dim (GOG_DATASET (regression), -1);
-			if (bd != NULL)
-				odf_write_data_attribute
-					(state, bd, pp, GNMSTYLE "name");
 			/* Upper and lower bounds */
 			bd = gog_dataset_get_dim (GOG_DATASET (regression), 0);
 			if (bd != NULL)
@@ -8100,6 +8095,20 @@ odf_write_drop (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 }
 
 static void
+odf_write_reg_name (GnmOOExport *state, GogObject const *obj)
+{
+	if (state->with_extension) {
+		GnmParsePos pp;
+		GOData const *bd;
+		parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+		bd = gog_dataset_get_dim (GOG_DATASET (obj), -1);
+		if (bd != NULL)
+			odf_write_data_attribute
+				(state, bd, &pp, GNMSTYLE "regression-name");
+	}
+}
+
+static void
 odf_write_lin_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		   GogObject const *obj)
 {
@@ -8110,6 +8119,7 @@ odf_write_lin_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		odf_write_plot_style_uint (state->xml, obj,
 					  "dims", GNMSTYLE "regression-polynomial-dims");
 	}
+	odf_write_reg_name (state, obj);
 }
 
 static void
@@ -8124,6 +8134,7 @@ odf_write_polynom_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		odf_write_plot_style_bool (state->xml, obj,
 					  "affine", GNMSTYLE "regression-affine");
 	}
+	odf_write_reg_name (state, obj);
 }
 
 static void
@@ -8131,6 +8142,7 @@ odf_write_exp_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		   G_GNUC_UNUSED GogObject const *obj)
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "exponential");
+	odf_write_reg_name (state, obj);
 }
 
 static void
@@ -8138,6 +8150,7 @@ odf_write_power_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		     G_GNUC_UNUSED GogObject const *obj)
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "power");
+	odf_write_reg_name (state, obj);
 }
 
 static void
@@ -8145,6 +8158,7 @@ odf_write_log_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		   G_GNUC_UNUSED GogObject const *obj)
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "logarithmic");
+	odf_write_reg_name (state, obj);
 }
 
 static void
@@ -8154,6 +8168,7 @@ odf_write_log_fit_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 	if (state->with_extension)
 		gsf_xml_out_add_cstr (state->xml, CHART "regression-type",
 				      GNMSTYLE "log-fit");
+	odf_write_reg_name (state, obj);
 }
 
 static void
@@ -8163,6 +8178,7 @@ odf_write_movig_avg_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 	if (state->with_extension)
 		gsf_xml_out_add_cstr (state->xml, CHART "regression-type",
 				      GNMSTYLE "moving-average");
+	odf_write_reg_name (state, obj);
 }
 
 static void
@@ -8172,6 +8188,7 @@ odf_write_exp_smooth_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style
 	if (state->with_extension)
 		gsf_xml_out_add_cstr (state->xml, CHART "regression-type",
 				      GNMSTYLE "exponential-smoothed");
+	odf_write_reg_name (state, obj);
 }
 
 static void

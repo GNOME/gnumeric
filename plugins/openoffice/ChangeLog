@@ -1,5 +1,14 @@
 2015-01-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_style_prop_chart): store regression name expression
+	from gnm: name space
+	(od_series_regression): apply style name expression specified by style
+	* openoffice-write.c (odf_write_regression_curve): do not save trendline name here
+	(odf_write_reg_name): new
+	(odf_write_*_reg): call odf_write_reg_name
+
+2015-01-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_series_regression): read trend line name
 	* openoffice-write.c (odf_write_regression_curve): save trendline name
 

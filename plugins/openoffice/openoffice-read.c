@@ -7217,6 +7217,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				       &btmp))
 			style->other_props = g_slist_prepend (style->other_props,
 				oo_prop_new_bool ("regression-affine", btmp));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
+					     "regression-name"))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_string ("regression-name-expression",
+						     CXML2C(attrs[1])));
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
 				       "is-position-manual",
 				       &btmp))
@@ -9156,7 +9162,6 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *style_name = NULL;
 	gchar const *lower_bd = NULL;
 	gchar const *upper_bd = NULL;
-	gchar const *name = NULL;
 
 	state->chart.regression = NULL;
 
@@ -9167,8 +9172,6 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 			lower_bd = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "upper-bound"))
 			upper_bd = CXML2C (attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "name"))
-			name = CXML2C (attrs[1]);
 
 	if (style_name != NULL) {
 		OOChartStyle *chart_style = g_hash_table_lookup
@@ -9179,6 +9182,7 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 			GOStyle *style = NULL;
 			GogObject *regression;
 			gchar const *type_name = "GogLinRegCurve";
+			gchar const *regression_name = NULL;
 			for (l = chart_style->other_props; l != NULL; l = l->next) {
 				OOProp *prop = l->data;
 				if (0 == strcmp ("regression-type", prop->name)) {
@@ -9203,6 +9207,8 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 					else if (0 == strcmp
 						 (reg_type, "gnm:moving-average"))
 						type_name = "GogMovingAvg";
+				} else if (0 == strcmp ("regression-name-expression", prop->name)) {
+					regression_name = g_value_get_string (&prop->value);
 				}
 			}
 
@@ -9218,7 +9224,21 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 				g_object_unref (style);
 			}
 
-			odf_store_data (state, name, regression, -1);
+			if (regression_name != NULL) {
+				GnmParsePos pp;
+				GOData *data;
+				GnmExprTop const *expr;
+				parse_pos_init (&pp, state->pos.wb, state->pos.sheet, 0, 0);
+				expr = oo_expr_parse_str
+					(xin, regression_name, &pp,
+					 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+					 FORMULA_OPENFORMULA);
+				if (expr != NULL) {
+					data = gnm_go_data_scalar_new_expr (state->pos.sheet, expr);
+					gog_dataset_set_dim (GOG_DATASET (regression), -1, data, NULL);
+				}	
+			}
+
 			odf_store_data (state, lower_bd, regression, 0);
 			odf_store_data (state, upper_bd, regression, 1);
 		}

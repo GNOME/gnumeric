@@ -1,7 +1,7 @@
 Gnumeric 1.12.20
 
 Andreas:
-	* ODF import/export: handle some trendline names. [#743448]
+	* ODF import/export trendline names. [#743448]
 
 Morten:
 	* xlsx chart import: fix font family name.
