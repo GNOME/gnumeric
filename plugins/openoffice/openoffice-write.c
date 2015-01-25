@@ -105,6 +105,8 @@
 #define TABLEOOO "tableooo:"
 #define XML      "xml:"
 #define CSS      "css3t:"
+#define LOEXT    "loext:"
+#define CALCEXT  "calcext:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
 typedef struct {
@@ -200,6 +202,8 @@ static struct {
 	{ "xmlns:xsi",		"http://www.w3.org/2001/XMLSchema-instance" },
 	{ "xmlns:gnm",		"http://www.gnumeric.org/odf-extension/1.0"},
 	{ "xmlns:css3t",        "http://www.w3.org/TR/css3-text/"},
+	{ "xmlns:loext",        "urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0"},
+	{ "xmlns:calcext",      "urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0"},
 };
 
 /*****************************************************************************/
@@ -6260,7 +6264,7 @@ odf_write_data_element (GnmOOExport *state, GOData const *data, GnmParsePos *pp,
 
 static void
 odf_write_data_attribute (GnmOOExport *state, GOData const *data, GnmParsePos *pp,
-			  char const *attribute)
+			  char const *attribute, char const *c_attribute)
 {
 	GnmExprTop const *texpr = gnm_go_data_get_expr (data);
 
@@ -6269,6 +6273,12 @@ odf_write_data_attribute (GnmOOExport *state, GOData const *data, GnmParsePos *p
 		gsf_xml_out_add_cstr (state->xml, attribute,
 				      odf_strip_brackets (str));
 		g_free (str);
+		if (NULL != c_attribute) {
+			GnmValue const *v = gnm_expr_top_get_constant (texpr);
+			if (NULL != v && VALUE_IS_STRING (v))
+				gsf_xml_out_add_cstr (state->xml, c_attribute, 
+						      value_peek_string (v));
+		}
 	}
 }
 
@@ -6315,11 +6325,11 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 			bd = gog_dataset_get_dim (GOG_DATASET (regression), 0);
 			if (bd != NULL)
 				odf_write_data_attribute
-					(state, bd, pp, GNMSTYLE "lower-bound");
+					(state, bd, pp, GNMSTYLE "lower-bound", NULL);
 			bd = gog_dataset_get_dim (GOG_DATASET (regression), 1);
 			if (bd != NULL)
 				odf_write_data_attribute
-					(state, bd, pp, GNMSTYLE "upper-bound");
+					(state, bd, pp, GNMSTYLE "upper-bound", NULL);
 		}
 		if (equation != NULL) {
 			char const *eq_element, *eq_automatic, *eq_display, *eq_r;
@@ -8104,7 +8114,8 @@ odf_write_reg_name (GnmOOExport *state, GogObject const *obj)
 		bd = gog_dataset_get_dim (GOG_DATASET (obj), -1);
 		if (bd != NULL)
 			odf_write_data_attribute
-				(state, bd, &pp, GNMSTYLE "regression-name");
+				(state, bd, &pp, GNMSTYLE "regression-name",
+				 LOEXT "regression-name");
 	}
 }
 

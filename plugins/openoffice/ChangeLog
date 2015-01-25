@@ -1,4 +1,10 @@
-2015-01-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2015-01-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_data_attribute): add argument, change all callers
+	and write loext extendion if appropriate
+	(odf_write_reg_name): pass loext extension name to odf_write_data_attribute
+
+2015-01-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_style_prop_chart): store regression name constant
 	from loext: name space
