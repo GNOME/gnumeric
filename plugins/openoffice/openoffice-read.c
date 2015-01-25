@@ -7223,6 +7223,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->other_props,
 				 oo_prop_new_string ("regression-name-expression",
 						     CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_LOCALC_EXT,
+					     "regression-name"))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_string ("regression-name-constant",
+						     CXML2C(attrs[1])));
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
 				       "is-position-manual",
 				       &btmp))
@@ -9183,6 +9189,7 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 			GogObject *regression;
 			gchar const *type_name = "GogLinRegCurve";
 			gchar const *regression_name = NULL;
+			gchar const *regression_name_c = NULL;
 			for (l = chart_style->other_props; l != NULL; l = l->next) {
 				OOProp *prop = l->data;
 				if (0 == strcmp ("regression-type", prop->name)) {
@@ -9209,6 +9216,8 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 						type_name = "GogMovingAvg";
 				} else if (0 == strcmp ("regression-name-expression", prop->name)) {
 					regression_name = g_value_get_string (&prop->value);
+				} else if (0 == strcmp ("regression-name-constant", prop->name)) {
+					regression_name_c = g_value_get_string (&prop->value);
 				}
 			}
 
@@ -9237,6 +9246,12 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 					data = gnm_go_data_scalar_new_expr (state->pos.sheet, expr);
 					gog_dataset_set_dim (GOG_DATASET (regression), -1, data, NULL);
 				}	
+			} else if (regression_name_c != NULL) {
+				GOData *data;
+				data = gnm_go_data_scalar_new_expr 
+					(state->pos.sheet, gnm_expr_top_new_constant
+					 (value_new_string (regression_name_c)));
+				gog_dataset_set_dim (GOG_DATASET (regression), -1, data, NULL);
 			}
 
 			odf_store_data (state, lower_bd, regression, 0);
