@@ -7223,12 +7223,14 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->other_props,
 				 oo_prop_new_string ("regression-name-expression",
 						     CXML2C(attrs[1])));
+#if 0
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_LOCALC_EXT,
 					     "regression-name"))
 			style->other_props = g_slist_prepend
 				(style->other_props,
 				 oo_prop_new_string ("regression-name-constant",
 						     CXML2C(attrs[1])));
+#endif
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
 				       "is-position-manual",
 				       &btmp))
