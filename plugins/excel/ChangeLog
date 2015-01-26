@@ -1,5 +1,8 @@
 2015-01-26  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_body_pr): Fix reading angle.  In xlsx
+	positive angles are measured clock-wise.
+
 	* xlsx-write-drawing.c (xlsx_write_go_style_full): Make sure auto
 	markers don't get rotated or flipped.
 

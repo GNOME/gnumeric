@@ -279,7 +279,7 @@ xlsx_body_pr (GsfXMLIn *xin, xmlChar const **attrs)
 				int rotation;
 				if (attr_int (xin, attrs, "rot", &rotation)) {
 					state->cur_style->text_layout.auto_angle = FALSE;
-					state->cur_style->text_layout.angle = (double) rotation / 60000.;
+					state->cur_style->text_layout.angle = -rotation / 60000.0;
 				}
 			}
 		}
