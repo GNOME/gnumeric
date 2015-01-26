@@ -1,5 +1,12 @@
 2015-01-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_plot_style_affine): new
+	(odf_write_lin_reg): call odf_write_plot_style_affine
+	(odf_write_polynom_reg): call odf_write_plot_style_affine
+	(odf_write_exp_reg): call odf_write_plot_style_affine
+
+2015-01-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_data_attribute): add argument, change all callers
 	and write loext extendion if appropriate
 	(odf_write_reg_name): pass loext extension name to odf_write_data_attribute

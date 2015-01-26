@@ -8120,15 +8120,26 @@ odf_write_reg_name (GnmOOExport *state, GogObject const *obj)
 }
 
 static void
+odf_write_plot_style_affine (GsfXMLOut *xml, GogObject const *plot, float intercept)
+{
+	gboolean b;
+	if (gnm_object_has_readable_prop (plot, "affine", G_TYPE_BOOLEAN, &b)) {
+		odf_add_bool (xml, GNMSTYLE "regression-affine", b);
+		odf_add_bool (xml, LOEXT "regression-force-intercept", !b);
+		gsf_xml_out_add_float (xml, LOEXT "regression-intercept-value", intercept, -1);	
+	}
+}
+
+
+static void
 odf_write_lin_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		   GogObject const *obj)
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "linear");
 	if (state->with_extension) {
-		odf_write_plot_style_bool (state->xml, obj,
-					  "affine", GNMSTYLE "regression-affine");
 		odf_write_plot_style_uint (state->xml, obj,
 					  "dims", GNMSTYLE "regression-polynomial-dims");
+		odf_write_plot_style_affine (state->xml, obj, 0.);
 	}
 	odf_write_reg_name (state, obj);
 }
@@ -8142,8 +8153,7 @@ odf_write_polynom_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 				      GNMSTYLE "polynomial");
 		odf_write_plot_style_uint (state->xml, obj,
 					  "dims", GNMSTYLE "regression-polynomial-dims");
-		odf_write_plot_style_bool (state->xml, obj,
-					  "affine", GNMSTYLE "regression-affine");
+		odf_write_plot_style_affine (state->xml, obj, 0.);
 	}
 	odf_write_reg_name (state, obj);
 }
@@ -8153,6 +8163,8 @@ odf_write_exp_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		   G_GNUC_UNUSED GogObject const *obj)
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "exponential");
+	if (state->with_extension)
+		odf_write_plot_style_affine (state->xml, obj, 1.);
 	odf_write_reg_name (state, obj);
 }
 
