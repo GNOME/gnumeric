@@ -1,3 +1,8 @@
+2015-01-26  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_go_style_full): Make sure auto
+	markers don't get rotated or flipped.
+
 2015-01-23  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_go_style_full): Use rotation to

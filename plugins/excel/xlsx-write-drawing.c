@@ -230,8 +230,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			"diamond",    /* GO_MARKER_HOURGLASS */       /* FIXME: dubious */
 			"dot"         /* GO_MARKER_LEFT_HALF_BAR */
 		};
-		static gint8 nqturns[] = { 0, 0, 0, 2, 0, +1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		static gint8 flipH[] =   { 0, 0, 0, 0, 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+		static gint8 nqturns[] = { 0, 0, 0, 2, 0, +1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		static gint8 flipH[] =   { 0, 0, 0, 0, 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 };
 		gboolean need_spPr;
 		GOMarkerShape s = style->marker.auto_shape
 			? (def_has_markers ? GO_MARKER_MAX : GO_MARKER_NONE)
