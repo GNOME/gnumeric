@@ -7213,6 +7213,14 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->other_props = g_slist_prepend
 				(style->other_props,
 				 oo_prop_new_int ("dims", tmp));
+#if HAVE_OO_NS_LOCALC_EXT
+		else if (oo_attr_int_range (xin, attrs, OO_NS_LOCALC_EXT,
+					      "regression-max-degree", &tmp,
+					      1, 100))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_int ("lo-dims", tmp));
+#endif
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "regression-affine",
 				       &btmp))
 			style->other_props = g_slist_prepend (style->other_props,
@@ -9192,6 +9200,8 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 			gchar const *type_name = "GogLinRegCurve";
 			gchar const *regression_name = NULL;
 			gchar const *regression_name_c = NULL;
+			gboolean write_lo_dims = FALSE;
+			GValue *lo_dim = NULL;
 			for (l = chart_style->other_props; l != NULL; l = l->next) {
 				OOProp *prop = l->data;
 				if (0 == strcmp ("regression-type", prop->name)) {
@@ -9211,15 +9221,18 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 						 (reg_type, "gnm:logfit"))
 						type_name = "GogLogFitCurve";
 					else if (0 == strcmp
-						 (reg_type, "gnm:polynomial"))
+						 (reg_type, "gnm:polynomial")) {
 						type_name = "GogPolynomRegCurve";
-					else if (0 == strcmp
+						write_lo_dims = TRUE;
+					} else if (0 == strcmp
 						 (reg_type, "gnm:moving-average"))
 						type_name = "GogMovingAvg";
 				} else if (0 == strcmp ("regression-name-expression", prop->name)) {
 					regression_name = g_value_get_string (&prop->value);
 				} else if (0 == strcmp ("regression-name-constant", prop->name)) {
 					regression_name_c = g_value_get_string (&prop->value);
+				} else if (0 == strcmp ("lo-dims", prop->name)) {
+					lo_dim = &prop->value;
 				}
 			}
 
@@ -9227,6 +9240,8 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 				GOG_OBJECT (gog_trend_line_new_by_name (type_name));
 			regression = gog_object_add_by_name (GOG_OBJECT (state->chart.series),
 							     "Trend line", regression);
+			if (write_lo_dims && lo_dim != NULL)
+				g_object_set_property ( G_OBJECT (regression), "dims", lo_dim);
 			oo_prop_list_apply (chart_style->other_props, G_OBJECT (regression));
 
 			g_object_get (G_OBJECT (regression), "style", &style, NULL);

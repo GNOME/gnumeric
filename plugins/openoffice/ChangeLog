@@ -1,3 +1,12 @@
+2015-01-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_lin_reg): write
+	loext:regression-max-degree
+	(odf_write_polynom_reg): ditto
+	* openoffice-read.c (od_style_prop_chart): read
+	loext:regression-max-degree
+	(od_series_regression): apply loext:regression-max-degree
+
 2015-01-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_plot_style_affine): new

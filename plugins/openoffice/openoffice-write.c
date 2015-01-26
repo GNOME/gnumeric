@@ -8138,7 +8138,9 @@ odf_write_lin_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "linear");
 	if (state->with_extension) {
 		odf_write_plot_style_uint (state->xml, obj,
-					  "dims", GNMSTYLE "regression-polynomial-dims");
+					   "dims", GNMSTYLE "regression-polynomial-dims");
+		odf_write_plot_style_uint (state->xml, obj,
+					   "dims", LOEXT "regression-max-degree");
 		odf_write_plot_style_affine (state->xml, obj, 0.);
 	}
 	odf_write_reg_name (state, obj);
@@ -8153,6 +8155,8 @@ odf_write_polynom_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 				      GNMSTYLE "polynomial");
 		odf_write_plot_style_uint (state->xml, obj,
 					  "dims", GNMSTYLE "regression-polynomial-dims");
+		odf_write_plot_style_uint (state->xml, obj,
+					   "dims", LOEXT "regression-max-degree");
 		odf_write_plot_style_affine (state->xml, obj, 0.);
 	}
 	odf_write_reg_name (state, obj);
