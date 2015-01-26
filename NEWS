@@ -6,6 +6,7 @@ Andreas:
 Morten:
 	* xlsx chart import: fix font family name.
 	* xlsx import/export trend line names.
+	* Fix gda plugin compilation.  [#743506]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.19
