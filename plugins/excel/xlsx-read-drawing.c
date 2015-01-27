@@ -683,13 +683,18 @@ xlsx_chart_logbase (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_create_axis_object (XLSXReadState *state)
 {
-	GogPlot *plot = state->axis.info->plots->data; /* just use the first */
-	char const *type = G_OBJECT_TYPE_NAME (plot);
+	GogPlot *plot;
+	char const *type;
 	char const *role = NULL;
 	gboolean inverted = FALSE;
 	gboolean cat_or_date = (state->axis.type == XLSX_AXIS_CAT ||
 				state->axis.type == XLSX_AXIS_DATE);
 	GogObject *axis;
+
+	plot = state->axis.info && state->axis.info->plots
+		? state->axis.info->plots->data /* just use the first */
+		: NULL;
+	type = plot ? G_OBJECT_TYPE_NAME (plot) : "GogLinePlot";
 
 	switch (xlsx_plottype_from_type_name (type)) {
 	case XLSX_PT_GOGRADARPLOT:
