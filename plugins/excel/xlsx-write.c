@@ -2682,7 +2682,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet");
 	GsfXMLOut *xml;
 	GnmRange  extent, cell_extent;
-	GSList   *charts;
+	GSList   *charts, *comments, *others, *objects, *p;
 	char const *chart_drawing_rel_id = NULL;
 	GnmStyle **col_styles;
 	PrintInformation *pi = NULL;
@@ -2694,19 +2694,42 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	cell_extent = sheet_get_cells_extent (state->sheet);
 	extent = range_union (&extent, &cell_extent);
 
-/*   comments   */
-	charts = sheet_objects_get (state->sheet, NULL, CELL_COMMENT_TYPE);
-	if (NULL != charts) {
-		xlsx_write_comments (state, sheet_part, charts);
-		g_slist_free (charts);
+	objects = sheet_objects_get (state->sheet, NULL, G_TYPE_NONE);
+	charts = comments = others = NULL;
+	for (p = objects; p; p = p->next) {
+		SheetObject *so = p->data;
+		if (IS_CELL_COMMENT (so))
+			comments = g_slist_prepend (comments, so);
+		else if (IS_SHEET_OBJECT_GRAPH (so))
+			charts = g_slist_prepend (charts, so);
+		else
+			others = g_slist_prepend (others, so);
+	}
+	g_slist_free (objects);
+
+	comments = g_slist_reverse (comments);
+	if (comments) {
+		xlsx_write_comments (state, sheet_part, comments);
+		g_slist_free (comments);
 	}
 
-/*   charts   */
-	charts = sheet_objects_get (state->sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
-	if (NULL != charts) {
+	charts = g_slist_reverse (charts);
+	if (charts) {
 		chart_drawing_rel_id = xlsx_write_objects (state, sheet_part, charts);
 		g_slist_free (charts);
 	}
+
+	for (p = others; p; p = p->next) {
+		SheetObject *so = p->data;
+		char *name;
+
+		g_object_get (so, "name", &name, NULL);
+		g_warning ("Not exporting object %s of type %s",
+			   (name ? name : "?"),
+			   g_type_name (G_OBJECT_TYPE (so)));
+		g_free (name);
+	}
+	g_slist_free (others);
 
 	xml = gsf_xml_out_new (sheet_part);
 /* CT_Worksheet =                                          */

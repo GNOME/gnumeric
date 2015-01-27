@@ -1,5 +1,7 @@
 2015-01-26  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_write_sheet): Warn about dropped objects.
+
 	* xlsx-read-drawing.c (xlsx_body_pr): Fix reading angle.  In xlsx
 	positive angles are measured clock-wise.
 
