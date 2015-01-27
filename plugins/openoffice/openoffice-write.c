@@ -6720,7 +6720,7 @@ odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 	else
 		odf_add_bool (state->xml, CHART "three-dimensional", FALSE);
 
-	odf_add_bool (state->xml, CHART "lines", FALSE);
+	odf_write_plot_style_bool (state->xml, plot, "default-style-has-lines", CHART "lines");
 
 	if (state->with_extension) {
 		if (0 == strcmp ( "XLSurfacePlot", plot_type))
@@ -6835,6 +6835,15 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 			}
 		}
 	}
+	odf_write_plot_style_bool
+		(state->xml, axis, "major-tick-in", CHART "tick-marks-major-inner");
+	odf_write_plot_style_bool
+		(state->xml, axis, "major-tick-out", CHART "tick-marks-major-outer");
+	odf_write_plot_style_bool
+		(state->xml, axis, "minor-tick-in", CHART "tick-marks-minor-inner");
+	odf_write_plot_style_bool
+		(state->xml, axis, "minor-tick-out", CHART "tick-marks-minor-outer");
+
 	if (state->odf_version > 101)
 		odf_write_plot_style_bool
 			(state->xml, axis,

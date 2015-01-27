@@ -7295,6 +7295,18 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-width", &btmp))
 			style->style_props = g_slist_prepend (style->style_props,
 				oo_prop_new_bool ("gnm-auto-width", btmp));
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "tick-marks-major-inner", &btmp))
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_bool ("major-tick-in", btmp));
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "tick-marks-major-outer", &btmp))
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_bool ("major-tick-out", btmp));
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "tick-marks-minor-inner", &btmp))
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_bool ("minor-tick-in", btmp));
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "tick-marks-minor-outer", &btmp))
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_bool ("minor-tick-out", btmp));
 	}
 
 	if ((stacked_set && !overlap_set) ||
