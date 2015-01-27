@@ -1,3 +1,15 @@
+2015-01-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_data_attribute): check for extensions
+	(+odf_add_expr): new
+	(odf_write_axis_style): write minimum- and maximum-expression
+	(odf_write_reg_name): use odf_add_expr
+	* openoffice-read.c (odf_apply_expression): new
+	(oo_prop_list_apply_to_axis): handle minimum_expression and
+	maximum_expression
+	(od_style_prop_chart): read minimum_expression and
+	maximum_expression
+
 2015-01-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_plot_style): correctly write chart lines

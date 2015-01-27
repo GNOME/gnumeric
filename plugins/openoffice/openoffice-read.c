@@ -6726,8 +6726,28 @@ oo_prop_list_apply (GSList *props, GObject *obj)
 }
 
 static void
-oo_prop_list_apply_to_axis (OOParseState *state, GSList *props, GObject *obj)
+odf_apply_expression (GsfXMLIn *xin, gint dim, GObject *obj, gchar const *expression)
 {
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GnmParsePos pp;
+	GOData *data;
+	GnmExprTop const *expr;
+	parse_pos_init (&pp, state->pos.wb, state->pos.sheet, 0, 0);
+	expr = oo_expr_parse_str
+		(xin, expression, &pp,
+		 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+		 FORMULA_OPENFORMULA);
+	if (expr != NULL) {
+		data = gnm_go_data_scalar_new_expr (state->pos.sheet, expr);
+		gog_dataset_set_dim (GOG_DATASET (obj), dim, data, NULL);
+	} 
+}
+
+static void
+oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
 	GSList *ptr;
 	OOProp *prop;
 	GOData *data;
@@ -6735,6 +6755,8 @@ oo_prop_list_apply_to_axis (OOParseState *state, GSList *props, GObject *obj)
 	double minimum = go_ninf, maximum = go_pinf;
 	double interval_major = 0.;
 	double interval_minor_divisor = 0.;
+	gchar const *minimum_expression = NULL;
+	gchar const *maximum_expression = NULL;
 
 	oo_prop_list_apply (props, obj);
 
@@ -6749,10 +6771,17 @@ oo_prop_list_apply_to_axis (OOParseState *state, GSList *props, GObject *obj)
 		else if (0 == strcmp ("interval-minor-divisor", prop->name))
 			interval_minor_divisor
 				= g_value_get_double (&prop->value);
-
+		else if (0 == strcmp ("minimum-expression", prop->name))
+			minimum_expression = g_value_get_string (&prop->value);
+		else if (0 == strcmp ("maximum-expression", prop->name))
+			maximum_expression = g_value_get_string (&prop->value);
 	}
 
 	gog_axis_set_bounds (GOG_AXIS (obj), minimum, maximum);
+	if (minimum_expression)
+		odf_apply_expression (xin, 0, obj, minimum_expression);
+	if (maximum_expression)
+		odf_apply_expression (xin, 1, obj, maximum_expression);
 
 	if (interval_major > 0) {
 		data = gnm_go_data_scalar_new_expr
@@ -6914,52 +6943,64 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			/* This is for BoxPlots */
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_bool ("vertical", btmp));
-		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "outliers", &btmp)) {
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "outliers", &btmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_bool ("outliers", btmp));
-		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "reverse-direction", &btmp)) {
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "reverse-direction", &btmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("invert-axis", btmp));
-		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART,
-					 "reverse-direction", &btmp)) {
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART,
+					 "reverse-direction", &btmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("invert-axis", btmp));
-		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
-					 "vary-style-by-element", &btmp)) {
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
+					 "vary-style-by-element", &btmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_bool ("vary-style-by-element",
 						  btmp));
-		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
-					 "show-negatives", &btmp)) {
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
+					 "show-negatives", &btmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_bool ("show-negatives", btmp));
-		} else if (oo_attr_float (xin, attrs, OO_NS_CHART,
-					  "minimum", &ftmp)) {
+		else if (oo_attr_float (xin, attrs, OO_NS_CHART,
+					  "minimum", &ftmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_double ("minimum", ftmp));
-		} else if (oo_attr_float (xin, attrs, OO_NS_CHART,
-					  "maximum", &ftmp)) {
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
+					     "chart-minimum-expression"))
+			style->axis_props = g_slist_prepend
+				(style->axis_props,
+				 oo_prop_new_string ("minimum-expression",
+						     CXML2C(attrs[1])));
+		else if (oo_attr_float (xin, attrs, OO_NS_CHART,
+					  "maximum", &ftmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_double ("maximum", ftmp));
-		} else if (oo_attr_float (xin, attrs, OO_NS_CHART,
-					  "interval-major", &ftmp)) {
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
+					     "chart-maximum-expression"))
+			style->axis_props = g_slist_prepend
+				(style->axis_props,
+				 oo_prop_new_string ("maximum-expression",
+						     CXML2C(attrs[1])));
+		else if (oo_attr_float (xin, attrs, OO_NS_CHART,
+					  "interval-major", &ftmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_double ("interval-major", ftmp));
-		} else if (oo_attr_float (xin, attrs, OO_NS_CHART,
-					  "interval-minor-divisor", &ftmp)) {
+		else if (oo_attr_float (xin, attrs, OO_NS_CHART,
+					  "interval-minor-divisor", &ftmp))
 			style->axis_props = g_slist_prepend
 				(style->axis_props,
 				 oo_prop_new_double ("interval-minor-divisor",
 						     ftmp));
-		} else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
-					  "radius-ratio", &ftmp)) {
+		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
+					  "radius-ratio", &ftmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_double ("radius-ratio", ftmp));
-		} else if (oo_attr_percent (xin, attrs, OO_GNUM_NS_EXT,
-					    "default-separation", &ftmp)) {
+		else if (oo_attr_percent (xin, attrs, OO_GNUM_NS_EXT,
+					    "default-separation", &ftmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_double ("default-separation", ftmp));
-		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART,
+		else if (oo_attr_int_range (xin, attrs, OO_NS_CHART,
 					      "pie-offset", &tmp, 0, 500)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_double ("default-separation",
@@ -6968,14 +7009,14 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_prop_new_double ("separation",
 						   tmp/100.));
 		} else if (oo_attr_percent (xin, attrs, OO_NS_CHART,
-					    "hole-size", &ftmp)) {
+					    "hole-size", &ftmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_double ("center-size", ftmp));
-		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART,
-					 "reverse-direction", &btmp)) {
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART,
+					 "reverse-direction", &btmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("invert-axis", btmp));
-		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "stacked",
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "stacked",
 					 &btmp)) {
 			if (btmp) {
 				style->plot_props = g_slist_prepend
@@ -8445,7 +8486,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 			GOStyle *gostyle;
 			g_object_get (G_OBJECT (state->chart.axis), "style", &gostyle, NULL);
 
-			oo_prop_list_apply_to_axis (state, style->axis_props,
+			oo_prop_list_apply_to_axis (xin, style->axis_props,
 						    G_OBJECT (state->chart.axis));
 			odf_apply_style_props (xin, style->style_props, gostyle);
 			g_object_unref (gostyle);

@@ -6269,10 +6269,13 @@ odf_write_data_attribute (GnmOOExport *state, GOData const *data, GnmParsePos *p
 	GnmExprTop const *texpr = gnm_go_data_get_expr (data);
 
 	if (NULL != texpr) {
-		char *str = gnm_expr_top_as_string (texpr, pp, state->conv);
-		gsf_xml_out_add_cstr (state->xml, attribute,
-				      odf_strip_brackets (str));
-		g_free (str);
+		if (state->with_extension) {
+			char *str = gnm_expr_top_as_string (texpr, pp,
+							    state->conv);
+			gsf_xml_out_add_cstr (state->xml, attribute,
+					      odf_strip_brackets (str));
+			g_free (str);
+		}
 		if (NULL != c_attribute) {
 			GnmValue const *v = gnm_expr_top_get_constant (texpr);
 			if (NULL != v && VALUE_IS_STRING (v))
@@ -6780,6 +6783,19 @@ odf_get_marker (GOMarkerShape m)
 }
 
 static void
+odf_add_expr (GnmOOExport *state, GogObject const *obj, gint dim,
+	      char const *attribute, char const *c_attribute)
+{
+		GnmParsePos pp;
+		GOData const *bd;
+		parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+		bd = gog_dataset_get_dim (GOG_DATASET (obj), dim);
+		if (bd != NULL)
+			odf_write_data_attribute
+				(state, bd, &pp, attribute, c_attribute);
+} 
+
+static void
 odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		      GogObject const *axis)
 {
@@ -6800,12 +6816,20 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 
 	tmp = gog_axis_get_entry
 		(GOG_AXIS (axis), GOG_AXIS_ELEM_MIN, &user_defined);
-	if (user_defined)
+	if (user_defined) {
 		gsf_xml_out_add_float (state->xml, CHART "minimum", tmp, -1);
+		if (state->with_extension)
+			odf_add_expr (state, GOG_OBJECT (axis), 0, 
+				      GNMSTYLE "chart-minimum-expression", NULL);
+	}
 	tmp = gog_axis_get_entry
 		(GOG_AXIS (axis), GOG_AXIS_ELEM_MAX, &user_defined);
-	if (user_defined)
+	if (user_defined) {
 		gsf_xml_out_add_float (state->xml, CHART "maximum", tmp, -1);
+		if (state->with_extension)
+			odf_add_expr (state, GOG_OBJECT (axis), 1, 
+				      GNMSTYLE "chart-maximum-expression", NULL);		
+	}
 
 	interval = gog_dataset_get_dim (GOG_DATASET(axis),2);
 	if (interval != NULL) {
@@ -8116,16 +8140,9 @@ odf_write_drop (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 static void
 odf_write_reg_name (GnmOOExport *state, GogObject const *obj)
 {
-	if (state->with_extension) {
-		GnmParsePos pp;
-		GOData const *bd;
-		parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
-		bd = gog_dataset_get_dim (GOG_DATASET (obj), -1);
-		if (bd != NULL)
-			odf_write_data_attribute
-				(state, bd, &pp, GNMSTYLE "regression-name",
+	if (state->with_extension)
+		odf_add_expr (state, obj, -1, GNMSTYLE "regression-name",
 				 LOEXT "regression-name");
-	}
 }
 
 static void
