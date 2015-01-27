@@ -10,6 +10,7 @@ Morten:
 	* Fix gda plugin compilation.  [#743506]
 	* Fix xlsx export problem with auto markers.
 	* Import/export xlsx chart axis min/max/steps.
+	* Export xlsx chart axis tick marks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.19

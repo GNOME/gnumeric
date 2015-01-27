@@ -436,6 +436,22 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 	gsf_xml_out_add_cstr (xml, "formatCode", (format)? go_format_as_XL (format): "General");
 	gsf_xml_out_end_element (xml);
 
+	{
+		gboolean mati, miti, mato, mito;
+		static const char *marks[4] = { "none", "in", "out", "cross" };
+
+		g_object_get (G_OBJECT (axis),
+			      "major-tick-in", &mati,
+			      "minor-tick-in", &miti,
+			      "major-tick-out", &mato,
+			      "minor-tick-out", &mito,
+			      NULL);
+		xlsx_write_chart_cstr_unchecked (xml, "c:majorTickMark",
+						 marks[2 * mato + mati]);
+		xlsx_write_chart_cstr_unchecked (xml, "c:minorTickMark",
+						 marks[2 * mito + miti]);
+	}
+
 	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (axis)));
 
 	xlsx_write_chart_int (xml, "c:crossAx", 0, xlsx_get_axid (state, crossed));
