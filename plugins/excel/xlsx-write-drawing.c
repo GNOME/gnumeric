@@ -477,9 +477,9 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 	}
 
 	d = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, &user_defined);
-	if (user_defined) xlsx_write_chart_float (xml, "c:majorUnit", go_nan, d);
+	if (user_defined && d > 0) xlsx_write_chart_float (xml, "c:majorUnit", go_nan, d);
 	d = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, &user_defined);
-	if (user_defined) xlsx_write_chart_float (xml, "c:minorUnit", go_nan, d);
+	if (user_defined && d > 0) xlsx_write_chart_float (xml, "c:minorUnit", go_nan, d);
 
 	/* finished with axis */
 	gsf_xml_out_end_element (xml);
