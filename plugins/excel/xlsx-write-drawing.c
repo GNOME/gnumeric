@@ -459,9 +459,13 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 	switch (pos) {
 	default:
 	case GOG_AXIS_AT_LOW:
-		/* FIXME: might be wrong if the axis is inverted */
-		xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "min");
+	case GOG_AXIS_AT_HIGH: {
+		gboolean is_low = (pos == GOG_AXIS_AT_LOW);
+		gboolean cross_inv = gog_axis_is_inverted (crossed);
+		xlsx_write_chart_cstr_unchecked (xml, "c:crosses",
+						 is_low ^ cross_inv ? "min" : "max");
 		break;
+	}
 	case GOG_AXIS_CROSS: {
 		double cross = gog_axis_base_get_cross_location (GOG_AXIS_BASE (axis));
 		if (cross == 0.)
@@ -470,9 +474,6 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 			xlsx_write_chart_float (xml, "c:crossesAt", 0., cross);
 		break;
 	}
-	case GOG_AXIS_AT_HIGH:
-		xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "max");
-		break;
 	}
 
 	d = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, &user_defined);

@@ -849,15 +849,17 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
-	/* Try to guess what type of axis to use */
 	if (NULL != state->axis.info) {
 		GSList *ptr, *children;
 		GogAxis *axis = state->axis.obj;
 		GogAxisElemType et;
+		XLSXAxisInfo *info = state->axis.info;
+
+		/* Apply pending attributes.  */
 
 		for (et = GOG_AXIS_ELEM_MIN; et < GOG_AXIS_ELEM_MAX_ENTRY; et++) {
-			if (state->axis.info->axis_element_set[et]) {
-				double d = state->axis.info->axis_elements[et];
+			if (info->axis_element_set[et]) {
+				double d = info->axis_elements[et];
 				GnmExprTop const *te = gnm_expr_top_new_constant (value_new_float (d));
 				gog_dataset_set_dim (GOG_DATASET (axis),
 						     et,
@@ -866,7 +868,7 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			}
 		}
 
-		for (ptr = state->axis.info->plots; ptr != NULL ; ptr = ptr->next) {
+		for (ptr = info->plots; ptr != NULL ; ptr = ptr->next) {
 			GogPlot *plot = ptr->data;
 #ifdef DEBUG_AXIS
 			g_printerr ("connect plot %p to %p\n", plot, axis);

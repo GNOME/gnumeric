@@ -13,6 +13,7 @@ Morten:
 	* Fix xlsx export problem with auto markers.
 	* Import/export xlsx chart axis min/max/steps.
 	* Export xlsx chart axis tick marks.
+	* Fix xlsx problem with inverted axis.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.19
