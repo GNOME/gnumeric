@@ -833,7 +833,6 @@ static void
 xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 {
 	GogGraph const *graph;
-	GogObject const	*chart;
 	GsfXMLOut *xml;
 
 	xml = gsf_xml_out_new (chart_part);
@@ -844,9 +843,16 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 
 	graph = sheet_object_graph_get_gog (so);
 	if (graph != NULL) {
-		chart = gog_object_get_child_by_name (GOG_OBJECT (graph), "Chart");
-		if (chart != NULL)
-			xlsx_write_one_chart (state, xml, chart);
+		GogObjectRole const *role = gog_object_find_role_by_name (GOG_OBJECT (graph), "Chart");
+		GSList *charts = gog_object_get_children (GOG_OBJECT (graph), role);
+		if (charts != NULL) {
+			GogObject const	*chart1 = charts->data;
+			xlsx_write_one_chart (state, xml, chart1);
+			if (charts->next)
+				g_warning ("Dropping %d charts on the floor!",
+					   g_slist_length (charts));
+			g_slist_free (charts);
+		}
 	}
 	gsf_xml_out_end_element (xml); /* </c:chartSpace> */
 	g_object_unref (xml);
