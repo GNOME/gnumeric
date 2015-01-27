@@ -122,6 +122,9 @@ typedef struct {
 	gnm_float cross_value;
 	gboolean invert_axis;
 
+	double axis_elements[GOG_AXIS_ELEM_MAX_ENTRY];
+	guint8 axis_element_set[GOG_AXIS_ELEM_MAX_ENTRY];
+
 	gboolean deleted;
 } XLSXAxisInfo;
 

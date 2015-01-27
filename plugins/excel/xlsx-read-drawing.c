@@ -764,10 +764,12 @@ xlsx_axis_bound (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gnm_float val;
-	if (state->axis.info && simple_float (xin, attrs, &val))
-		gog_dataset_set_dim (GOG_DATASET (state->axis.obj),
-			xin->node->user_data.v_int,
-			go_data_scalar_val_new (val), NULL);
+	GogAxisElemType et = xin->node->user_data.v_int;
+
+	if (state->axis.info && simple_float (xin, attrs, &val)) {
+		state->axis.info->axis_elements[et] = val;
+		state->axis.info->axis_element_set[et] = TRUE;
+	}
 }
 
 static void
@@ -851,6 +853,18 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (NULL != state->axis.info) {
 		GSList *ptr, *children;
 		GogAxis *axis = state->axis.obj;
+		GogAxisElemType et;
+
+		for (et = GOG_AXIS_ELEM_MIN; et < GOG_AXIS_ELEM_MAX_ENTRY; et++) {
+			if (state->axis.info->axis_element_set[et]) {
+				double d = state->axis.info->axis_elements[et];
+				GnmExprTop const *te = gnm_expr_top_new_constant (value_new_float (d));
+				gog_dataset_set_dim (GOG_DATASET (axis),
+						     et,
+						     gnm_go_data_scalar_new_expr (state->sheet, te),
+						     NULL);
+			}
+		}
 
 		for (ptr = state->axis.info->plots; ptr != NULL ; ptr = ptr->next) {
 			GogPlot *plot = ptr->data;

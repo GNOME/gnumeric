@@ -9,6 +9,7 @@ Morten:
 	* xlsx import/export trend line names.
 	* Fix gda plugin compilation.  [#743506]
 	* Fix xlsx export problem with auto markers.
+	* Import/export xlsx chart axis min/max/steps.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.19
