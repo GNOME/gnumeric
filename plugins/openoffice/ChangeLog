@@ -1,5 +1,11 @@
 2015-01-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_fill_type): new
+	(odf_write_gog_style_chart): connect odf_write_fill_type
+	* openoffice-read.c (od_style_prop_chart): read gnm:fill-type
+
+2015-01-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_data_element_range): correctly write single cell
 	references
 

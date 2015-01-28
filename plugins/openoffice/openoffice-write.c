@@ -6611,6 +6611,18 @@ odf_write_min_max_series (GnmOOExport *state, GSList const *orig_series)
 
 
 static void
+odf_write_fill_type (GnmOOExport *state,
+		     GogObject const *series)
+{
+	gchar *type_str = NULL;
+
+	if (gnm_object_has_readable_prop (series, "fill-type", G_TYPE_STRING, &type_str)) {
+		gsf_xml_out_add_cstr (state->xml, GNMSTYLE "fill-type", type_str);
+		g_free (type_str);
+	}
+}
+
+static void
 odf_write_interpolation_attribute (GnmOOExport *state,
 				   G_GNUC_UNUSED GOStyle const *style,
 				   GogObject const *series)
@@ -7435,6 +7447,8 @@ odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject c
 		GOFormat *fmt = gog_axis_get_format (GOG_AXIS (obj));
 		odf_add_bool (state->xml, CHART "link-data-style-to-source", fmt == NULL);
 	}
+
+	odf_write_fill_type (state, obj); 
 
 	func = g_hash_table_lookup (state->chart_props_hash, type);
 	if (func != NULL)

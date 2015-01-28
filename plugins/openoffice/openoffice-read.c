@@ -7101,6 +7101,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->plot_props,
 				 oo_prop_new_bool ("interpolation-skip-invalid", btmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_GNUM_NS_EXT, "fill-type"))
+			style->plot_props = g_slist_prepend
+				(style->plot_props,
+				 oo_prop_new_string ("fill-type",
+						     CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_NS_DRAW, "stroke")) {
 			draw_stroke = !attr_eq (attrs[1], "none");
 			draw_stroke_set = TRUE;

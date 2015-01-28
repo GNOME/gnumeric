@@ -6,6 +6,7 @@ Andreas:
 	* ODF import/export major & minor chart axis tick marks.
 	* ODF import/export chart axis min and max formulae.
 	* Fix ODF export of single cell ranges in graphs. [#743619]
+	* ODF import/export series fill types. [#743613]
 
 Morten:
 	* xlsx chart import: fix font family name.
