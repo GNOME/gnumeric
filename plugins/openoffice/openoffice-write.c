@@ -6218,8 +6218,9 @@ odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop c
 		GString *gstr = g_string_new (NULL);
 		for (i = 0; i < expr->set.argc; i++) {
 			GnmExpr const *expr_arg = expr->set.argv[i];
-			if (GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CONSTANT &&
-			    VALUE_IS_CELLRANGE (expr_arg->constant.value)) {
+			if ((GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CONSTANT &&
+			     VALUE_IS_CELLRANGE (expr_arg->constant.value)) || 
+			    (GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CELLREF)) {
 				char *str = gnm_expr_as_string (expr_arg, pp, state->conv);
 				if (gstr->len > 0)
 					g_string_append_c (gstr, ' ');
@@ -6240,9 +6241,11 @@ odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop c
 		break;
 	}
 
+	/* case GNM_EXPR_OP_CELLREF: */
 	/* ODF does not support anything else but we write it anyways */
 	str = gnm_expr_top_as_string (texpr, pp, state->conv);
-	gsf_xml_out_add_cstr (state->xml, attribute, str);
+	gsf_xml_out_add_cstr (state->xml, attribute,
+			      odf_strip_brackets (str));
 	g_free (str);
 }
 

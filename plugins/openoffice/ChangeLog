@@ -1,3 +1,8 @@
+2015-01-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_data_element_range): correctly write single cell
+	references
+
 2015-01-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_data_attribute): check for extensions

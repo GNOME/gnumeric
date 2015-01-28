@@ -4,7 +4,8 @@ Andreas:
 	* ODF import/export trendline names. [#743448]
 	* ODF import/export trendline affinity & dimensions.
 	* ODF import/export major & minor chart axis tick marks.
-	* ODF import/export chart axis min and max formulae
+	* ODF import/export chart axis min and max formulae.
+	* Fix ODF export of single cell ranges in graphs. [#743619]
 
 Morten:
 	* xlsx chart import: fix font family name.
