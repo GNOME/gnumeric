@@ -4663,7 +4663,8 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 		shape = 0xc9;
 		type = MSOT_SPINNER;
 		flags = 0x0011;
-	} else if (GNM_IS_SOW_SCROLLBAR (so)) {
+	} else if (GNM_IS_SOW_SCROLLBAR (so) || GNM_IS_SOW_SLIDER (so)) {
+		/* Pretend sliders are scrollbars.  */
 		shape = 0xc9;
 		type = MSOT_SCROLLBAR;
 		flags = 0x6011;
@@ -5860,6 +5861,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			   GNM_IS_SOW_RADIO_BUTTON (so) ||
 			   GNM_IS_SOW_SPINBUTTON (so) ||
 			   GNM_IS_SOW_SCROLLBAR (so) ||
+			   GNM_IS_SOW_SLIDER (so) ||
 			   GNM_IS_SOW_LIST (so) ||
 			   GNM_IS_SOW_BUTTON (so) ||
 			   GNM_IS_SOW_COMBO (so)) {

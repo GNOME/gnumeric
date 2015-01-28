@@ -16,6 +16,7 @@ Morten:
 	* Import/export xlsx chart axis min/max/steps.
 	* Export xlsx chart axis tick marks.
 	* Fix xlsx problem with inverted axis.
+	* Export sliders as scrollbars for xls.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.19

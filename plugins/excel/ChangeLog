@@ -1,3 +1,8 @@
+2015-01-28  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_other_v8): Export sliders as-if
+	they were scrollbars.
+
 2015-01-27  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_axis): Fix crossing for
