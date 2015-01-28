@@ -16,15 +16,11 @@ if (&subtest ("gnumeric")) {
 		     'ext' => "gnm");
 }
 
-# ods doesn't have outline colour, so copy the fill colour.
-my $ods_outline_filter = "$PERL -p -e 'if (/\\bmarker\\b.*fill-color=\"([A-Z0-9:]+)\"/) { my \$col = \$1; s{\\b(outline-color)=\"[A-Z0-9:]+\"}{\$1=\"\$col\"}; }'";
-
 if (&subtest ("ods")) {
     &message ("Check graph ods roundtrip.");
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_OpenCalc:odf',
 		     'ext' => "ods",
-		     'filter1' => $ods_outline_filter,
 		     'filter2' => 'std:drop_generator',
 		     'ignore_failure' => 1);
 }

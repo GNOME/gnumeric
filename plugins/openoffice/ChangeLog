@@ -1,5 +1,12 @@
 2015-01-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_apply_style_props): handle marker outline colour
+	(od_style_prop_chart): read marker outline colour
+	* openoffice-write.c (odf_write_gog_style_graphic): write marker outline
+	colour as extension.
+
+2015-01-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_fill_type): new
 	(odf_write_gog_style_chart): connect odf_write_fill_type
 	* openoffice-read.c (od_style_prop_chart): read gnm:fill-type

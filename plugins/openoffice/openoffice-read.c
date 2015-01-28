@@ -807,6 +807,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	gboolean gnm_auto_dash_set = FALSE;
 	gboolean gnm_auto_width_set = FALSE;
 	char const *stroke_dash = NULL;
+	char const *marker_outline_colour = NULL;
 
 	style->line.auto_dash = TRUE;
 
@@ -859,6 +860,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				style->line.pattern = GO_PATTERN_SOLID;
 				stroke_colour_set = TRUE;
 			}
+		} else if (0 == strcmp (prop->name, "marker-outline-colour")) {
+			marker_outline_colour = g_value_get_string (&prop->value);
 		} else if (0 == strcmp (prop->name, "lines")) {
 			lines_value = g_value_get_boolean (&prop->value);
 		} else if (0 == strcmp (prop->name, "gnm-auto-color")) {
@@ -1116,7 +1119,17 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			/* Inherit line colour.  */
 			go_marker_set_fill_color (m, style->line.color);
 			style->marker.auto_fill_color = gnm_auto_color_value;
-			go_marker_set_outline_color (m, style->line.color);
+			if (marker_outline_colour == NULL)
+				go_marker_set_outline_color (m, style->line.color);
+			else {
+				GOColor color;
+				GdkRGBA rgba;
+				if (gdk_rgba_parse (&rgba, marker_outline_colour)) {
+					go_color_from_gdk_rgba (&rgba, &color);
+					go_marker_set_outline_color (m, color);
+				} else
+					go_marker_set_outline_color (m, style->line.color);
+			}
 			style->marker.auto_outline_color = gnm_auto_color_value;
 		}
 
@@ -7125,6 +7138,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_string ("stroke-color",
+						     CXML2C(attrs[1])));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_GNUM_NS_EXT, "marker-outline-colour")) {
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("marker-outline-colour",
 						     CXML2C(attrs[1])));
 		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_SVG,
 						     "stroke-width", &ftmp))
