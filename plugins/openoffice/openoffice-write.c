@@ -6616,7 +6616,7 @@ odf_write_fill_type (GnmOOExport *state,
 {
 	gchar *type_str = NULL;
 
-	if (gnm_object_has_readable_prop (series, "fill-type", G_TYPE_STRING, &type_str)) {
+	if (state->with_extension && gnm_object_has_readable_prop (series, "fill-type", G_TYPE_STRING, &type_str)) {
 		gsf_xml_out_add_cstr (state->xml, GNMSTYLE "fill-type", type_str);
 		g_free (type_str);
 	}
