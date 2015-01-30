@@ -1,3 +1,9 @@
+2015-01-30  Morten Welinder  <terra@gnome.org>
+
+	* ms-obj.c (ms_obj_read_biff8_obj): Gather orientation.
+
+	* ms-excel-read.c (ms_sheet_realize_obj): Set orientation.
+
 2015-01-28  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_other_v8): Export sliders as-if

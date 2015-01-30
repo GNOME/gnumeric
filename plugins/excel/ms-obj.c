@@ -838,6 +838,9 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_PAGE,
 				GSF_LE_GET_GUINT16 (q->data+56)));
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_HORIZ,
+				GSF_LE_GET_GUINT16 (q->data+58)));
 
 		{
 			guint8 const *last = q->data + q->length;
@@ -1068,6 +1071,9 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_PAGE,
 					GSF_LE_GET_GUINT16 (data+16)));
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_HORIZ,
+					GSF_LE_GET_GUINT16 (data+18)));
 			ms_obj_dump (data, len, data_len_left, "ScrollBar");
 			break;
 

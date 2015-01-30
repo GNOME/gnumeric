@@ -1449,10 +1449,11 @@ cb_adjustment_widget_value_changed (GtkWidget *widget,
 	}
 }
 
-static void
-sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
+void
+sheet_widget_adjustment_set_horizontal (SheetObject *so,
 					gboolean horizontal)
 {
+	SheetWidgetAdjustment *swa = (SheetWidgetAdjustment *)so;
 	GList *ptr;
 
 	if (!SWA_CLASS (swa)->has_orientation)
@@ -1497,8 +1498,7 @@ sheet_widget_adjustment_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case SWA_PROP_HORIZONTAL:
-		sheet_widget_adjustment_set_horizontal (swa, g_value_get_boolean (value));
-		/* FIXME */
+		sheet_widget_adjustment_set_horizontal (SHEET_OBJECT (swa), g_value_get_boolean (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);

@@ -741,6 +741,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 						     ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_MAX, 100) - 1,
 						     ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
 						     ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
+		sheet_widget_adjustment_set_horizontal (obj->gnum_obj,
+							ms_obj_attr_get_uint (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_HORIZ, FALSE));
 		break;
 
 	case MSOT_LIST:

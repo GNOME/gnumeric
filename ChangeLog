@@ -1,3 +1,8 @@
+2015-01-30  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c
+	(sheet_widget_adjustment_set_horizontal): Make this public.
+
 2015-01-23  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
