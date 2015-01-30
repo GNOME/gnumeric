@@ -2867,6 +2867,17 @@ odf_write_frame_size (GnmOOExport *state, SheetObject *so)
 	}
 }
 
+static guint
+odf_n_charts (GnmOOExport *state, SheetObject *so)
+{
+	GogGraph const	*graph = sheet_object_graph_get_gog (so);
+	GogObjectRole const *role = gog_object_find_role_by_name (GOG_OBJECT (graph), "Chart");
+	GSList *list = gog_object_get_children (GOG_OBJECT (graph), role);
+	guint n = g_slist_length (list);
+	g_slist_free (list);
+	return n;
+}
+
 static void
 odf_write_graph (GnmOOExport *state, SheetObject *so, char const *name)
 {
@@ -2874,34 +2885,41 @@ odf_write_graph (GnmOOExport *state, SheetObject *so, char const *name)
 	parse_pos_init_sheet (&pp, state->sheet);
 
 	if (name != NULL) {
-		char *full_name = g_strdup_printf ("%s/", name);
-		gsf_xml_out_start_element (state->xml, DRAW "object");
-		gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
-		g_free (full_name);
-		gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
-		gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
-		gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
-		full_name = odf_graph_get_series (state, sheet_object_graph_get_gog (so), &pp);
-		gsf_xml_out_add_cstr (state->xml, DRAW "notify-on-update-of-ranges",
-				      full_name);
-		g_free (full_name);
-		gsf_xml_out_end_element (state->xml); /*  DRAW "object" */
-		full_name = g_strdup_printf ("Pictures/%s", name);
-		gsf_xml_out_start_element (state->xml, DRAW "image");
-		gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
-		g_free (full_name);
-		gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
-		gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
-		gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
-		gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
-		full_name = g_strdup_printf ("Pictures/%s.png", name);
-		gsf_xml_out_start_element (state->xml, DRAW "image");
-		gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
-		g_free (full_name);
-		gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
-		gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
-		gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
-		gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
+		char *series_name = odf_graph_get_series (state, sheet_object_graph_get_gog (so), &pp);
+		guint i, n = odf_n_charts (state, so);
+
+		for (i = 0; i < n; i++) {
+			char *full_name = g_strdup_printf ("%s-%i/", name, i);
+			gsf_xml_out_start_element (state->xml, DRAW "frame");
+			odf_write_frame_size (state, so);
+			gsf_xml_out_start_element (state->xml, DRAW "object");
+			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+			g_free (full_name);
+			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+			gsf_xml_out_add_cstr (state->xml, DRAW "notify-on-update-of-ranges",
+					      series_name);
+			gsf_xml_out_end_element (state->xml); /*  DRAW "object" */
+			full_name = g_strdup_printf ("Pictures/%s-%i", name, i);
+			gsf_xml_out_start_element (state->xml, DRAW "image");
+			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+			g_free (full_name);
+			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
+			full_name = g_strdup_printf ("Pictures/%s-%i.png", name,i);
+			gsf_xml_out_start_element (state->xml, DRAW "image");
+			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+			g_free (full_name);
+			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
+			gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
+		}
+		g_free (series_name);
 	} else
 		g_warning ("Graph is missing from hash.");
 }
@@ -2933,22 +2951,22 @@ odf_write_image (GnmOOExport *state, SheetObject *so, char const *name)
 static void
 odf_write_frame (GnmOOExport *state, SheetObject *so)
 {
-	gsf_xml_out_start_element (state->xml, DRAW "frame");
-
-	odf_write_frame_size (state, so);
-
 	if (IS_SHEET_OBJECT_GRAPH (so))
 		odf_write_graph (state, so, g_hash_table_lookup (state->graphs, so));
-	else if (IS_SHEET_OBJECT_IMAGE (so))
+	else if (IS_SHEET_OBJECT_IMAGE (so)) {
+		gsf_xml_out_start_element (state->xml, DRAW "frame");
+		odf_write_frame_size (state, so);
 		odf_write_image (state, so, g_hash_table_lookup (state->images, so));
-	else {
+		gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
+	} else {
+		gsf_xml_out_start_element (state->xml, DRAW "frame");
+		odf_write_frame_size (state, so);
 		gsf_xml_out_start_element (state->xml, DRAW "text-box");
 		gsf_xml_out_simple_element (state->xml, TEXT "p",
 					    "Missing Framed Sheet Object");
 		gsf_xml_out_end_element (state->xml); /*  DRAW "text-box" */
+		gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
 	}
-
-	gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
 }
 
 static void
@@ -6045,26 +6063,32 @@ odf_file_entry (GsfXMLOut *out, char const *type, char const *name)
 }
 
 static void
-odf_write_graph_manifest (G_GNUC_UNUSED SheetObject *graph, char const *name, GnmOOExport *state)
+odf_write_graph_manifest (SheetObject *graph, char const *name, GnmOOExport *state)
 {
-	char *fullname = g_strdup_printf ("%s/", name);
-	odf_file_entry (state->xml, "application/vnd.oasis.opendocument.chart", fullname);
-	g_free(fullname);
-	fullname = g_strdup_printf ("%s/content.xml", name);
-	odf_file_entry (state->xml, "text/xml", fullname);
-	g_free(fullname);
-	fullname = g_strdup_printf ("%s/meta.xml", name);
-	odf_file_entry (state->xml, "text/xml", fullname);
-	g_free(fullname);
-	fullname = g_strdup_printf ("%s/styles.xml", name);
-	odf_file_entry (state->xml, "text/xml", fullname);
-	g_free(fullname);
-	fullname = g_strdup_printf ("Pictures/%s", name);
-	odf_file_entry (state->xml, "image/svg+xml", fullname);
-	g_free(fullname);
-	fullname = g_strdup_printf ("Pictures/%s.png", name);
-	odf_file_entry (state->xml, "image/png", fullname);
-	g_free(fullname);
+	guint i, n = odf_n_charts (state, graph);
+	
+	for (i = 0; i < n; i++) {
+		char *realname = g_strdup_printf ("%s-%i", name, i);
+		char *fullname = g_strdup_printf ("%s/", realname);
+		odf_file_entry (state->xml, "application/vnd.oasis.opendocument.chart", fullname);
+		g_free(fullname);
+		fullname = g_strdup_printf ("%s/content.xml", realname);
+		odf_file_entry (state->xml, "text/xml", fullname);
+		g_free(fullname);
+		fullname = g_strdup_printf ("%s/meta.xml", realname);
+		odf_file_entry (state->xml, "text/xml", fullname);
+		g_free(fullname);
+		fullname = g_strdup_printf ("%s/styles.xml", realname);
+		odf_file_entry (state->xml, "text/xml", fullname);
+		g_free(fullname);
+		fullname = g_strdup_printf ("Pictures/%s", realname);
+		odf_file_entry (state->xml, "image/svg+xml", fullname);
+		g_free(fullname);
+		fullname = g_strdup_printf ("Pictures/%s.png", realname);
+		odf_file_entry (state->xml, "image/png", fullname);
+		g_free(fullname);
+		g_free(realname);
+	}
 }
 
 static void
@@ -8047,7 +8071,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 
 
 static void
-odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
+odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so, GogObject const	*chart)
 {
 	int i;
 	GogGraph const	*graph;
@@ -8066,8 +8090,7 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 	if (graph != NULL) {
 		double pos[4];
 		GogRenderer *renderer;
-		GogObjectRole const *role =
-			gog_object_find_role_by_name (GOG_OBJECT (graph), "Chart");
+		GogObjectRole const *role;
 
 		sheet_object_position_pts_get (so, pos);
 		renderer  = g_object_new (GOG_TYPE_RENDERER,
@@ -8076,25 +8099,16 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 		gog_renderer_update (renderer, pos[2] - pos[0], pos[3] - pos[1]);
 		g_object_get (G_OBJECT (renderer), "view", &state->root_view, NULL);
 
+		role = gog_object_find_role_by_name (chart, "Plot");
 		if (role != NULL) {
-			GSList *charts = gog_object_get_children
-				(GOG_OBJECT (graph), role);
-
-			if (charts != NULL && charts->data != NULL) {
-				GogObject const	*chart = charts->data;
-				role = gog_object_find_role_by_name (chart, "Plot");
-				if (role != NULL) {
-					GSList *plots = gog_object_get_children
-						(chart, gog_object_find_role_by_name (chart, "Plot"));
-					if (plots != NULL && plots->data != NULL) {
-						odf_write_plot (state, so, GOG_OBJECT (graph),
-								chart, plots->data);
-						plot_written = TRUE;
-					}
-					g_slist_free (plots);
-				}
+			GSList *plots = gog_object_get_children
+				(chart, gog_object_find_role_by_name (chart, "Plot"));
+			if (plots != NULL && plots->data != NULL) {
+				odf_write_plot (state, so, GOG_OBJECT (graph),
+						chart, plots->data);
+				plot_written = TRUE;
 			}
-			g_slist_free (charts);
+			g_slist_free (plots);
 		}
 		g_object_unref (state->root_view);
 		state->root_view = NULL;
@@ -8359,106 +8373,124 @@ odf_write_fill_images (GOImage *image, char const *name, GnmOOExport *state)
 }
 
 static void
-odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
+odf_write_graphs (SheetObject *so, char const *name, GnmOOExport *state)
 {
-	GsfOutput  *child;
+	GogGraph *graph = sheet_object_graph_get_gog (so);
+	GogObjectRole const *role = gog_object_find_role_by_name (GOG_OBJECT (graph), "Chart");
+	GSList *l, *chart_list = gog_object_get_children (GOG_OBJECT (graph), role);
+	gint n = 0;
+	guint num = g_slist_length (chart_list);
+	gchar *chartname;
+	float progress = state->graph_progress / num;
 
-	g_hash_table_remove_all (state->xl_styles);
+	l = chart_list;
 
-	state->object_name = name;
+	while (NULL != chart_list) {
+		GsfOutput  *child;
+		GogObject const	*chart = chart_list->data;
+		chartname = g_strdup_printf ("%s-%i", name, n);
+		g_hash_table_remove_all (state->xl_styles);
+		
+		state->object_name = chartname;
 
-	child = gsf_outfile_new_child_full
-		(state->outfile, name, TRUE,
-		 "compression-level", GSF_ZIP_DEFLATED,
-		 NULL);
-	if (NULL != child) {
-		char *fullname = g_strdup_printf ("%s/content.xml", name);
-		GsfOutput  *sec_child;
+		child = gsf_outfile_new_child_full
+			(state->outfile, chartname, TRUE,
+			 "compression-level", GSF_ZIP_DEFLATED,
+			 NULL);
+		if (NULL != child) {
+			char *fullname = g_strdup_printf ("%s/content.xml", chartname);
+			GsfOutput  *sec_child;
 
-		state->chart_props_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
-							     NULL, NULL);
-		odf_fill_chart_props_hash (state);
+			state->chart_props_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
+									 NULL, NULL);
+			odf_fill_chart_props_hash (state);
 
-		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
-							"compression-level", GSF_ZIP_DEFLATED,
-							NULL);
-		if (NULL != sec_child) {
-			odf_write_graph_content (state, sec_child, graph);
-			gsf_output_close (sec_child);
-			g_object_unref (sec_child);
+			sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+								"compression-level", GSF_ZIP_DEFLATED,
+								NULL);
+			if (NULL != sec_child) {
+				odf_write_graph_content (state, sec_child, so, chart);
+				gsf_output_close (sec_child);
+				g_object_unref (sec_child);
+			}
+			g_free (fullname);
+
+			odf_update_progress (state, 4 * progress);
+
+			fullname = g_strdup_printf ("%s/meta.xml", chartname);
+			sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+								"compression-level", GSF_ZIP_DEFLATED,
+								NULL);
+			if (NULL != sec_child) {
+				odf_write_meta_graph (state, sec_child);
+				gsf_output_close (sec_child);
+				g_object_unref (sec_child);
+			}
+			g_free (fullname);
+			odf_update_progress (state, progress / 2);
+
+			fullname = g_strdup_printf ("%s/styles.xml", chartname);
+			sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+								"compression-level", GSF_ZIP_DEFLATED,
+								NULL);
+			if (NULL != sec_child) {
+				odf_write_graph_styles (state, sec_child);
+				gsf_output_close (sec_child);
+				g_object_unref (sec_child);
+			}
+			g_free (fullname);
+
+			g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images,
+					      state);
+
+			g_hash_table_remove_all (state->graph_dashes);
+			g_hash_table_remove_all (state->graph_hatches);
+			g_hash_table_remove_all (state->graph_gradients);
+			g_hash_table_remove_all (state->graph_fill_images);
+
+			g_hash_table_unref (state->chart_props_hash);
+			state->chart_props_hash = NULL;
+			odf_update_progress (state, progress * (3./2.));
+
+			gsf_output_close (child);
+			g_object_unref (child);
+
+			fullname = g_strdup_printf ("Pictures/%s", chartname);
+			sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+								"compression-level", GSF_ZIP_DEFLATED,
+								NULL);
+			if (NULL != sec_child) {
+				if (!gog_graph_export_image (graph, GO_IMAGE_FORMAT_SVG, 
+							     sec_child, 100., 100.))
+					g_print ("Failed to create svg image of graph.\n");
+				gsf_output_close (sec_child);
+				g_object_unref (sec_child);
+			}
+			g_free (fullname);
+
+			odf_update_progress (state, progress);
+
+			fullname = g_strdup_printf ("Pictures/%s.png", chartname);
+			sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+								"compression-level", GSF_ZIP_DEFLATED,
+								NULL);
+			if (NULL != sec_child) {
+				if (!gog_graph_export_image (graph, GO_IMAGE_FORMAT_PNG,
+							     sec_child, 100., 100.))
+					g_print ("Failed to create png image of graph.\n");
+				gsf_output_close (sec_child);
+				g_object_unref (sec_child);
+			}
+			g_free (fullname);
+			odf_update_progress (state, progress);
 		}
-		g_free (fullname);
 
-		odf_update_progress (state, 4 * state->graph_progress);
-
-		fullname = g_strdup_printf ("%s/meta.xml", name);
-		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
-							"compression-level", GSF_ZIP_DEFLATED,
-							NULL);
-		if (NULL != sec_child) {
-			odf_write_meta_graph (state, sec_child);
-			gsf_output_close (sec_child);
-			g_object_unref (sec_child);
-		}
-		g_free (fullname);
-		odf_update_progress (state, state->graph_progress / 2);
-
-		fullname = g_strdup_printf ("%s/styles.xml", name);
-		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
-							"compression-level", GSF_ZIP_DEFLATED,
-							NULL);
-		if (NULL != sec_child) {
-			odf_write_graph_styles (state, sec_child);
-			gsf_output_close (sec_child);
-			g_object_unref (sec_child);
-		}
-		g_free (fullname);
-
-		g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images, state);
-
-		g_hash_table_remove_all (state->graph_dashes);
-		g_hash_table_remove_all (state->graph_hatches);
-		g_hash_table_remove_all (state->graph_gradients);
-		g_hash_table_remove_all (state->graph_fill_images);
-
-		g_hash_table_unref (state->chart_props_hash);
-		state->chart_props_hash = NULL;
-		odf_update_progress (state, state->graph_progress * (3./2.));
-
-		gsf_output_close (child);
-		g_object_unref (child);
-
-		fullname = g_strdup_printf ("Pictures/%s", name);
-		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
-							"compression-level", GSF_ZIP_DEFLATED,
-							NULL);
-		if (NULL != sec_child) {
-			GogGraph *gog = sheet_object_graph_get_gog (graph);
-			if (!gog_graph_export_image (gog, GO_IMAGE_FORMAT_SVG, sec_child, 100., 100.))
-				g_print ("Failed to create svg image of graph.\n");
-			gsf_output_close (sec_child);
-			g_object_unref (sec_child);
-		}
-		g_free (fullname);
-
-		odf_update_progress (state, state->graph_progress);
-
-		fullname = g_strdup_printf ("Pictures/%s.png", name);
-		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
-							"compression-level", GSF_ZIP_DEFLATED,
-							NULL);
-		if (NULL != sec_child) {
-			GogGraph *gog = sheet_object_graph_get_gog (graph);
-			if (!gog_graph_export_image (gog, GO_IMAGE_FORMAT_PNG, sec_child, 100., 100.))
-				g_print ("Failed to create png image of graph.\n");
-			gsf_output_close (sec_child);
-			g_object_unref (sec_child);
-		}
-		g_free (fullname);
-		odf_update_progress (state, state->graph_progress);
+		chart_list = chart_list->next;
+		n++;
+		g_free (chartname);
 	}
-
 	state->object_name = NULL;
+	g_slist_free (l);
 }
 
 

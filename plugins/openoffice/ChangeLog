@@ -1,3 +1,12 @@
+2015-01-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_n_charts): new
+	(odf_write_graph): write a frame for each chart in the graph
+	(odf_write_frame): for graphs postpone writing the frame
+	(odf_write_graph_manifest): write info for each chart in a graph
+	(odf_write_graph_content): write the content for the specified chart in a graph
+	(odf_write_graphs): write each chart in the graph
+
 2015-01-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_apply_style_props): handle marker outline colour
