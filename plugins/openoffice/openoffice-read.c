@@ -6770,6 +6770,8 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 	double interval_minor_divisor = 0.;
 	gchar const *minimum_expression = NULL;
 	gchar const *maximum_expression = NULL;
+	gchar const *pos_str_expression = NULL;
+	gchar const *pos_str_val = NULL;
 
 	oo_prop_list_apply (props, obj);
 
@@ -6788,6 +6790,10 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 			minimum_expression = g_value_get_string (&prop->value);
 		else if (0 == strcmp ("maximum-expression", prop->name))
 			maximum_expression = g_value_get_string (&prop->value);
+		else if (0 == strcmp ("pos-str-expr", prop->name))
+			pos_str_expression = g_value_get_string (&prop->value);
+		else if (0 == strcmp ("pos-str-val", prop->name))
+			pos_str_val = g_value_get_string (&prop->value);
 	}
 
 	gog_axis_set_bounds (GOG_AXIS (obj), minimum, maximum);
@@ -6795,6 +6801,10 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 		odf_apply_expression (xin, 0, obj, minimum_expression);
 	if (maximum_expression)
 		odf_apply_expression (xin, 1, obj, maximum_expression);
+	if (pos_str_expression)
+		odf_apply_expression (xin, 4, obj, pos_str_expression);
+	else if (pos_str_val)
+		odf_apply_expression (xin, 4, obj, pos_str_val);
 
 	if (interval_major > 0) {
 		data = gnm_go_data_scalar_new_expr
@@ -7005,7 +7015,32 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->axis_props,
 				 oo_prop_new_double ("interval-minor-divisor",
 						     ftmp));
-		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART,
+					     "axis-position")) {
+			if (0 == strcmp (CXML2C(attrs[1]), "start"))
+				style->axis_props = g_slist_prepend
+					(style->axis_props,
+					 oo_prop_new_string ("pos-str",
+							     "low"));
+			else if (0 == strcmp (CXML2C(attrs[1]), "end")) 
+				style->axis_props = g_slist_prepend
+					(style->axis_props,
+					 oo_prop_new_string ("pos-str",
+							     "high"));
+			else {
+				style->axis_props = g_slist_prepend
+					(style->axis_props,
+					 oo_prop_new_string ("pos-str", "cross"));
+				style->axis_props = g_slist_prepend
+					(style->axis_props, oo_prop_new_string ("pos-str-val",
+										CXML2C(attrs[1])));
+			}
+		} else if (gsf_xml_in_namecmp  (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
+						"axis-position-expression"))
+			style->axis_props = g_slist_prepend (style->axis_props,
+							     oo_prop_new_string ("pos-str-expr",
+										 CXML2C(attrs[1])));
+		 else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
 					  "radius-ratio", &ftmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_double ("radius-ratio", ftmp));

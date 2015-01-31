@@ -9,7 +9,7 @@ Andreas:
 	* ODF import/export series fill types. [#743613]
 	* ODF import/export marker outline colour.
 	* ODF export all charts in a graph. (part 1)
-	* ODF export axis positions.
+	* ODF import/export axis positions.
 
 Morten:
 	* xlsx chart import: fix font family name.

@@ -1,3 +1,8 @@
+2015-01-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_prop_list_apply_to_axis): handle pos-str
+	(od_style_prop_chart): read axis-position and friends
+
 2015-01-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_data_attribute): alsoe handle constant
