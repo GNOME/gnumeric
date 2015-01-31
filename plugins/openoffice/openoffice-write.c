@@ -6308,6 +6308,9 @@ odf_write_data_attribute (GnmOOExport *state, GOData const *data, GnmParsePos *p
 			if (NULL != v && VALUE_IS_STRING (v))
 				gsf_xml_out_add_cstr (state->xml, c_attribute, 
 						      value_peek_string (v));
+			if (NULL != v && VALUE_IS_FLOAT (v))
+				gsf_xml_out_add_float (state->xml, c_attribute, 
+						       value_get_as_float (v), -1);
 		}
 	}
 }
@@ -6832,10 +6835,34 @@ odf_add_expr (GnmOOExport *state, GogObject const *obj, gint dim,
 		if (bd != NULL)
 			odf_write_data_attribute
 				(state, bd, &pp, attribute, c_attribute);
-} 
+}
 
 static void
-odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
+odf_write_axis_position (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
+			 GogObject const *axis)
+{
+	char *pos_str = NULL;
+	if (gnm_object_has_readable_prop (axis, "pos-str",
+					  G_TYPE_STRING, &pos_str)) {
+		if (0 == strcmp (pos_str, "low"))
+			gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
+		else if (0 == strcmp (pos_str, "high"))
+			gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "end");
+		else if (0 == strcmp (pos_str, "cross")) {
+			GnmParsePos pp;
+			GOData const *bd;
+			parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0, 0);
+			bd = gog_dataset_get_dim (GOG_DATASET (axis), 4);
+			if (bd != NULL)
+				odf_write_data_attribute (state, bd, &pp,
+							  GNMSTYLE "axis-position-expression",
+							  CHART "axis-position");
+		}
+	}
+}
+
+static void
+odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 		      GogObject const *axis)
 {
 	double tmp;
@@ -6843,7 +6870,7 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 	gboolean user_defined;
 	char *map_name_str = NULL;
 
-	gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
+	odf_write_axis_position (state, style, axis);
 	odf_add_bool (state->xml, CHART "display-label", TRUE);
 
 	if (gnm_object_has_readable_prop (axis, "map-name",

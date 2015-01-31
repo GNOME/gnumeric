@@ -1,3 +1,10 @@
+2015-01-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_data_attribute): alsoe handle constant
+	floats
+	(odf_write_axis_position): new
+	(odf_write_axis_style): call odf_write_axis_position from here
+
 2015-01-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_n_charts): new
