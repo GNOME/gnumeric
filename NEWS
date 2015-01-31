@@ -8,7 +8,7 @@ Andreas:
 	* Fix ODF export of single cell ranges in graphs. [#743619]
 	* ODF import/export series fill types. [#743613]
 	* ODF import/export marker outline colour.
-	* ODF export all charts in a graph. (part 1)
+	* ODF export all charts in a graph.
 	* ODF import/export axis positions.
 
 Morten:

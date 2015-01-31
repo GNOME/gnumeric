@@ -2867,6 +2867,70 @@ odf_write_frame_size (GnmOOExport *state, SheetObject *so)
 	}
 }
 
+static void
+odf_write_multi_chart_frame_size (GnmOOExport *state, SheetObject *so, GogObject *obj, guint tr, guint tc)
+{
+	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
+	double abs_pts[4] = {0.,0.,0.,0.};
+	double off_pts[4] = {0.,0.,0.,0.};
+	double res_pts[4] = {0.,0.,0.,0.};
+	GnmRange const *r = &anchor->cell_bound;
+	GnmCellRef ref;
+	GnmExprTop const *texpr;
+	GnmParsePos pp;
+	char *formula;
+	Sheet const *sheet = state->sheet;
+	int xpos = 0, ypos = 0, columns = 1, rows = 1;
+	double height, width;
+
+	g_object_get (G_OBJECT (obj), 
+		      "xpos", &xpos,
+		      "ypos", &ypos,
+		      "columns", &columns,
+		      "rows", &rows,
+		      NULL);
+
+	sheet_object_anchor_to_pts (anchor, sheet, abs_pts);
+	sheet_object_anchor_to_offset_pts (anchor, sheet, off_pts);
+	
+	res_pts[0] = off_pts[0] + xpos * (abs_pts[2]-abs_pts[0])/tc;
+	res_pts[1] = off_pts[1] + ypos * (abs_pts[3]-abs_pts[1])/tr;
+	res_pts[2] = off_pts[0] + (xpos + columns) * (abs_pts[2]-abs_pts[0])/tc;
+	res_pts[3] = off_pts[1] + (ypos + rows) * (abs_pts[3]-abs_pts[1])/tr;
+	width = res_pts[2] - res_pts[0];
+	height = res_pts[3] - res_pts[1];
+
+	res_pts[2] -= sheet_col_get_distance_pts (sheet, r->start.col,
+						  r->end.col);
+	res_pts[3] -= sheet_row_get_distance_pts (sheet, r->start.row,
+						  r->end.row);
+
+	odf_add_pt (state->xml, SVG "x", res_pts[0]);
+	odf_add_pt (state->xml, SVG "y", res_pts[1]);
+	odf_add_pt (state->xml, TABLE "end-x", res_pts[2]);
+	odf_add_pt (state->xml, TABLE "end-y", res_pts[3]);
+
+	odf_add_pt (state->xml, SVG "width", width);
+	odf_add_pt (state->xml, SVG "height", height);
+
+
+	gnm_cellref_init (&ref, (Sheet *) sheet, r->end.col, r->end.row, TRUE);
+	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
+	parse_pos_init_sheet (&pp, state->sheet);
+	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+	gnm_expr_top_unref (texpr);
+	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address",
+			      odf_strip_brackets (formula));
+	g_free (formula);
+
+	if (sheet) {
+		int z;
+		z = g_slist_length (sheet->sheet_objects)
+			- sheet_object_get_stacking (so);
+		gsf_xml_out_add_int (state->xml, DRAW "z-index", z);
+	}
+}
+
 static guint
 odf_n_charts (GnmOOExport *state, SheetObject *so)
 {
@@ -2885,41 +2949,60 @@ odf_write_graph (GnmOOExport *state, SheetObject *so, char const *name)
 	parse_pos_init_sheet (&pp, state->sheet);
 
 	if (name != NULL) {
-		char *series_name = odf_graph_get_series (state, sheet_object_graph_get_gog (so), &pp);
-		guint i, n = odf_n_charts (state, so);
+		GogGraph *graph = sheet_object_graph_get_gog (so);
+		GogObjectRole const *role = gog_object_find_role_by_name (GOG_OBJECT (graph), "Chart");
+		GSList *list = gog_object_get_children (GOG_OBJECT (graph), role);
+		if (list != NULL) {
+			GSList *l = list;
+			gboolean multichart = (NULL != list->next);
+			char *series_name = odf_graph_get_series (state, graph, &pp);
+			guint i = 0, total_rows, total_columns;
+			
+			if (multichart) {
+				total_columns = gog_graph_num_cols (graph);
+				total_rows = gog_graph_num_rows (graph);
+			}
 
-		for (i = 0; i < n; i++) {
-			char *full_name = g_strdup_printf ("%s-%i/", name, i);
-			gsf_xml_out_start_element (state->xml, DRAW "frame");
-			odf_write_frame_size (state, so);
-			gsf_xml_out_start_element (state->xml, DRAW "object");
-			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
-			g_free (full_name);
-			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
-			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
-			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
-			gsf_xml_out_add_cstr (state->xml, DRAW "notify-on-update-of-ranges",
-					      series_name);
-			gsf_xml_out_end_element (state->xml); /*  DRAW "object" */
-			full_name = g_strdup_printf ("Pictures/%s-%i", name, i);
-			gsf_xml_out_start_element (state->xml, DRAW "image");
-			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
-			g_free (full_name);
-			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
-			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
-			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
-			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
-			full_name = g_strdup_printf ("Pictures/%s-%i.png", name,i);
-			gsf_xml_out_start_element (state->xml, DRAW "image");
-			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
-			g_free (full_name);
-			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
-			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
-			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
-			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
-			gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
+			while  (l) {
+				char *full_name = g_strdup_printf ("%s-%i/", name, i);
+				gsf_xml_out_start_element (state->xml, DRAW "frame");
+				if (multichart)
+					odf_write_multi_chart_frame_size (state, so, GOG_OBJECT (l->data),
+									  total_rows, total_columns);
+				else
+					odf_write_frame_size (state, so);
+				gsf_xml_out_start_element (state->xml, DRAW "object");
+				gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+				g_free (full_name);
+				gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+				gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+				gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+				gsf_xml_out_add_cstr (state->xml, DRAW "notify-on-update-of-ranges",
+						      series_name);
+				gsf_xml_out_end_element (state->xml); /*  DRAW "object" */
+				full_name = g_strdup_printf ("Pictures/%s-%i", name, i);
+				gsf_xml_out_start_element (state->xml, DRAW "image");
+				gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+				g_free (full_name);
+				gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+				gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+				gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+				gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
+				full_name = g_strdup_printf ("Pictures/%s-%i.png", name,i);
+				gsf_xml_out_start_element (state->xml, DRAW "image");
+				gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+				g_free (full_name);
+				gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+				gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+				gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+				gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
+				gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
+				i++;
+				l = l->next;
+			}
+			g_free (series_name);
+			g_slist_free (list);
 		}
-		g_free (series_name);
 	} else
 		g_warning ("Graph is missing from hash.");
 }
