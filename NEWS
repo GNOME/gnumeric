@@ -11,6 +11,7 @@ Andreas:
 	* ODF export all charts in a graph.
 	* ODF import/export axis positions.
 	* ODF import/export series lines. [#743785]
+	* ODF export all plots in a chart.
 
 Morten:
 	* xlsx chart import: fix font family name.

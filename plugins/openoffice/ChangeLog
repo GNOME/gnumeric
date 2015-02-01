@@ -1,5 +1,14 @@
 2015-02-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_*_series): add argument and
+	write plot type if necessary
+	(odf_write_plot): add argument, change calls to odf_write_*_series,
+	and handle the second and later plots too.
+	(odf_write_graph_content): call odf_write_plot with additional
+	argument
+
+2015-02-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_series_lines): new
 	(odf_write_standard_series): call odf_write_series_lines
 	* openoffice-read.c (oo_series_serieslines): new

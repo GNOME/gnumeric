@@ -6497,7 +6497,7 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 
 
 static void
-odf_write_standard_series (GnmOOExport *state, GSList const *series)
+odf_write_standard_series (GnmOOExport *state, GSList const *series, char const* class)
 {
 	GnmParsePos pp;
 	int i;
@@ -6517,6 +6517,9 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 
 			odf_write_label_cell_address
 				(state, gog_series_get_name (GOG_SERIES (series->data)));
+
+			if (NULL != class)
+				gsf_xml_out_add_cstr_unchecked (state->xml, CHART "class", class);
 
 			if (NULL != cat && odf_write_data_element (state, cat, &pp, CHART "domain",
 								   TABLE "cell-range-address"))
@@ -6580,7 +6583,7 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 }
 
 static void
-odf_write_box_series (GnmOOExport *state, GSList const *series)
+odf_write_box_series (GnmOOExport *state, GSList const *series, char const* class)
 {
 	GnmParsePos pp;
 	int i;
@@ -6603,6 +6606,8 @@ odf_write_box_series (GnmOOExport *state, GSList const *series)
 				g_free (str);
 				odf_write_label_cell_address
 					(state, gog_series_get_name (GOG_SERIES (series->data)));
+				if (NULL != class)
+					gsf_xml_out_add_cstr_unchecked (state->xml, CHART "class", class);
 				gsf_xml_out_end_element (state->xml); /* </chart:series> */
 			}
 		}
@@ -6610,7 +6615,7 @@ odf_write_box_series (GnmOOExport *state, GSList const *series)
 }
 
 static void
-odf_write_gantt_series (GnmOOExport *state, GSList const *series)
+odf_write_gantt_series (GnmOOExport *state, GSList const *series, char const* class)
 {
 	GnmParsePos pp;
 	int i;
@@ -6630,6 +6635,10 @@ odf_write_gantt_series (GnmOOExport *state, GSList const *series)
 				str = odf_get_gog_style_name_from_obj (state, series->data);
 				gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
 				g_free (str);
+
+				if (NULL != class)
+					gsf_xml_out_add_cstr_unchecked (state->xml, CHART "class", class);
+
 				if (NULL != cat) {
 					texpr = gnm_go_data_get_expr (cat);
 					if (NULL != texpr) {
@@ -6663,7 +6672,7 @@ odf_write_gantt_series (GnmOOExport *state, GSList const *series)
 }
 
 static void
-odf_write_bubble_series (GnmOOExport *state, GSList const *orig_series)
+odf_write_bubble_series (GnmOOExport *state, GSList const *orig_series, char const* class)
 {
 	GnmParsePos pp;
 	int i, j;
@@ -6684,6 +6693,10 @@ odf_write_bubble_series (GnmOOExport *state, GSList const *orig_series)
 				str = odf_get_gog_style_name_from_obj (state, series->data);
 				gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
 				g_free (str);
+
+				if (NULL != class)
+					gsf_xml_out_add_cstr_unchecked (state->xml, CHART "class", class);
+
 				for (j = 1; j >= 0; j--) {
 					dat = gog_dataset_get_dim (GOG_DATASET (series->data), j);
 					if (NULL != dat) {
@@ -6705,7 +6718,7 @@ odf_write_bubble_series (GnmOOExport *state, GSList const *orig_series)
 }
 
 static void
-odf_write_min_max_series (GnmOOExport *state, GSList const *orig_series)
+odf_write_min_max_series (GnmOOExport *state, GSList const *orig_series, char const* class)
 {
 	GnmParsePos pp;
 	int i, j;
@@ -6730,6 +6743,8 @@ odf_write_min_max_series (GnmOOExport *state, GSList const *orig_series)
 					break;
 				}
 			}
+			if (NULL != class)
+				gsf_xml_out_add_cstr_unchecked (state->xml, CHART "class", class);	
 		}
 		gsf_xml_out_end_element (state->xml); /* </chart:series> */
 	}
@@ -7807,7 +7822,7 @@ odf_write_generic_axis (GnmOOExport *state,
 
 static void
 odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
-		GogObject const *chart, GogObject const *plot)
+		GogObject const *chart, GogObject const *plot, GSList *other_plots)
 {
 	char const *plot_type = G_OBJECT_TYPE_NAME (plot);
 	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
@@ -7843,7 +7858,8 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 						gchar const *y_role,
 						gchar const *z_role);
 		void (*odf_write_series)       (GnmOOExport *state,
-						GSList const *series);
+						GSList const *series,
+						char const* class);
 		void (*odf_write_x_axis) (GnmOOExport *state,
 					  GogObject const *chart,
 					  char const *axis_role,
@@ -7865,7 +7881,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 					  char const *dimension,
 					  odf_chart_type_t gtype,
 					  GSList const *series);
-	} *this_plot, plots[] = {
+	} *this_plot, *this_second_plot, plots[] = {
 		{ "GogColPlot", CHART "bar", ODF_BARCOL,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  odf_write_standard_series,
@@ -8172,7 +8188,37 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 			 this_plot->gtype, series);
 
 	if (this_plot->odf_write_series != NULL)
-		this_plot->odf_write_series (state, series);
+		this_plot->odf_write_series (state, series, NULL);
+
+	while (other_plots) {
+		GogObject const *second_plot = GOG_OBJECT (other_plots->data);
+		plot_type = G_OBJECT_TYPE_NAME (second_plot);
+
+		if (0 == strcmp ("GogBarColPlot", plot_type)) {
+			gboolean b;
+
+			if (gnm_object_has_readable_prop 
+			    (second_plot, "horizontal",
+			     G_TYPE_BOOLEAN, &b) && b)
+				plot_type = "GogBarPlot";
+			else
+				plot_type = "GogColPlot";
+		}
+
+		for (this_second_plot = &plots[0]; this_second_plot->type != NULL; this_second_plot++)
+			if (0 == strcmp (plot_type, this_second_plot->type))
+				break;
+
+		if (this_second_plot->type == NULL) {
+			g_printerr ("Encountered unknown chart type %s\n", plot_type);
+			this_second_plot = &plots[0];
+		}
+		
+		series = gog_plot_get_series (GOG_PLOT (second_plot));
+
+		this_second_plot->odf_write_series (state, series, this_second_plot->odf_plot_type);
+		other_plots = other_plots->next;
+	}
 
 	if (wall != NULL) {
 		char *name = odf_get_gog_style_name_from_obj (state, wall);
@@ -8231,7 +8277,7 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so, 
 				(chart, gog_object_find_role_by_name (chart, "Plot"));
 			if (plots != NULL && plots->data != NULL) {
 				odf_write_plot (state, so, GOG_OBJECT (graph),
-						chart, plots->data);
+						chart, plots->data, plots->next);
 				plot_written = TRUE;
 			}
 			g_slist_free (plots);
