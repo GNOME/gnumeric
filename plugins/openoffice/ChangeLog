@@ -1,4 +1,12 @@
-2015-01-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2015-02-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_series_lines): new
+	(odf_write_standard_series): call odf_write_series_lines
+	* openoffice-read.c (oo_series_serieslines): new
+	(opendoc_content_dtd): connect oo_series_serieslines
+	(opendoc_content_preparse_dtd): advertise new element here too
+
+2015-01-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_multi_chart_frame_size): new
 	(odf_write_graph): call odf_write_multi_chart_frame_size if app.

@@ -6281,6 +6281,21 @@ odf_write_label_cell_address (GnmOOExport *state, GOData const *dat)
 }
 
 static void
+odf_write_series_lines (GnmOOExport *state, GogObject const *series)
+{
+	GogObject const *serieslines = gog_object_get_child_by_name (series, "Series lines");
+	if (serieslines) {
+			char *style = odf_get_gog_style_name_from_obj (state, series);
+
+			gsf_xml_out_start_element (state->xml, GNMSTYLE "serieslines");
+			gsf_xml_out_add_cstr (state->xml, CHART "style-name", style);
+			gsf_xml_out_end_element (state->xml); /* </gnm:serieslines> */
+
+			g_free (style);
+	}
+}
+
+static void
 odf_write_drop_line (GnmOOExport *state, GogObject const *series, char const *drop)
 {
 	GogObjectRole const *role = gog_object_find_role_by_name (series, drop);
@@ -6557,6 +6572,7 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 						     "Vertical drop lines");
 				odf_write_drop_line (state, GOG_OBJECT (series->data),
 						     "Drop lines");
+				odf_write_series_lines (state, GOG_OBJECT (series->data));
 			}
 			gsf_xml_out_end_element (state->xml); /* </chart:series> */
 		}

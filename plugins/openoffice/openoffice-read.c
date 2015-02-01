@@ -9439,6 +9439,30 @@ oo_series_droplines (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+oo_series_serieslines (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *style_name = NULL;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
+			style_name = CXML2C (attrs[1]);
+	if (style_name != NULL) {
+		OOChartStyle *chart_style = g_hash_table_lookup (state->chart.graph_styles, style_name);
+		GOStyle *style = NULL;
+		GogObject const *lines;
+
+		lines = gog_object_add_by_name (GOG_OBJECT (state->chart.series), "Series lines", NULL);
+		if (chart_style) {
+			g_object_get (G_OBJECT (lines), "style", &style, NULL);
+			if (style != NULL) {
+				odf_apply_style_props (xin, chart_style->style_props, style);
+				g_object_unref (style);
+			}
+		}
+	}
+}
+
+static void
 oo_chart_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -11692,6 +11716,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (SERIES_REGRESSION_MULTIPLE, SERIES_REG_EQ, OO_NS_CHART, "equation", GSF_XML_NO_CONTENT,  NULL, NULL),/* 2nd Def */
 	            GSF_XML_IN_NODE (SERIES_REGRESSION_MULTIPLE, SERIES_REG_EQ_GNM, OO_GNUM_NS_EXT, "equation", GSF_XML_NO_CONTENT,  NULL, NULL), /* 2nd Def */
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DROPLINES, OO_GNUM_NS_EXT, "droplines", GSF_XML_NO_CONTENT, &oo_series_droplines, NULL),
+		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_SERIESLINES, OO_GNUM_NS_EXT, "serieslines", GSF_XML_NO_CONTENT, &oo_series_serieslines, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, &oo_chart_wall, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, &oo_chart_axis, &oo_chart_axis_end),
@@ -11963,6 +11988,7 @@ static GsfXMLInNode const opendoc_content_preparse_dtd [] =
 	            GSF_XML_IN_NODE (SERIES_REGRESSION_MULTIPLE, SERIES_REG_EQ, OO_NS_CHART, "equation", GSF_XML_NO_CONTENT,  NULL, NULL),/* 2nd Def */
 	            GSF_XML_IN_NODE (SERIES_REGRESSION_MULTIPLE, SERIES_REG_EQ_GNM, OO_GNUM_NS_EXT, "equation", GSF_XML_NO_CONTENT,  NULL, NULL), /* 2nd Def */
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DROPLINES, OO_GNUM_NS_EXT, "droplines", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_SERIESLINES, OO_GNUM_NS_EXT, "serieslines", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, NULL, NULL),
