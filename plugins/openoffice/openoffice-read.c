@@ -513,6 +513,31 @@ typedef struct {
 	int rows;
 } sheet_order_t;
 
+typedef struct {
+	char const * const name;
+	int val;
+} OOEnum;
+
+static OOEnum const odf_chart_classes[] = {
+	{ "chart:area",		OO_PLOT_AREA },
+	{ "chart:bar",		OO_PLOT_BAR },
+	{ "chart:circle",	OO_PLOT_CIRCLE },
+	{ "chart:line",		OO_PLOT_LINE },
+	{ "chart:radar",	OO_PLOT_RADAR },
+	{ "chart:filled-radar",	OO_PLOT_RADARAREA },
+	{ "chart:ring",		OO_PLOT_RING },
+	{ "chart:scatter",	OO_PLOT_SCATTER },
+	{ "chart:stock",	OO_PLOT_STOCK },
+	{ "chart:bubble",	OO_PLOT_BUBBLE },
+	{ "chart:gantt",	OO_PLOT_GANTT },
+	{ "chart:surface",	OO_PLOT_CONTOUR },
+	{ "gnm:polar",  	OO_PLOT_POLAR },
+	{ "gnm:xyz-surface", 	OO_PLOT_XYZ_SURFACE },
+	{ "gnm:scatter-color", 	OO_PLOT_SCATTER_COLOUR },
+	{ "gnm:box", 	        OO_PLOT_BOX },
+	{ "gnm:none", 	        OO_PLOT_UNKNOWN },
+	{ NULL,	0 },
+};
 
 /* Some  prototypes */
 static GsfXMLInNode const * get_dtd (void);
@@ -1354,12 +1379,6 @@ odf_attr_range (GsfXMLIn *xin, xmlChar const * const *attrs, Sheet *sheet, GnmRa
 
 	return flags == 0xf;
 }
-
-
-typedef struct {
-	char const * const name;
-	int val;
-} OOEnum;
 
 static gboolean
 oo_attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
@@ -8764,6 +8783,69 @@ oo_legend_set_position (OOParseState *state)
 					       GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
 }
 
+static gchar const
+*odf_find_plot_type (OOParseState *state, OOPlotType *oo_type)
+{
+	switch (*oo_type) {
+	case OO_PLOT_AREA:	return "GogAreaPlot";	break;
+	case OO_PLOT_BAR:	return "GogBarColPlot";	break;
+	case OO_PLOT_CIRCLE:	return "GogPiePlot";	break;
+	case OO_PLOT_LINE:	return "GogLinePlot";	break;
+	case OO_PLOT_RADAR:	return "GogRadarPlot";	break;
+	case OO_PLOT_RADARAREA: return "GogRadarAreaPlot";break;
+	case OO_PLOT_RING:	return "GogRingPlot";	break;
+	case OO_PLOT_SCATTER:	return "GogXYPlot";	break;
+	case OO_PLOT_STOCK:	return "GogMinMaxPlot";	break;  /* This is not quite right! */
+	case OO_PLOT_CONTOUR:
+		if (oo_style_has_property (state->chart.i_plot_styles, "multi-series", FALSE)) {
+			*oo_type = OO_PLOT_XL_SURFACE;
+			return "XLSurfacePlot";
+		} else if (oo_style_has_property (state->chart.i_plot_styles,
+						   "three-dimensional", FALSE)) {
+			*oo_type = OO_PLOT_SURFACE;
+			return "GogSurfacePlot";
+		} else
+			return "GogContourPlot";
+		break;
+	case OO_PLOT_BUBBLE:	return "GogBubblePlot"; break;
+	case OO_PLOT_GANTT:	return "GogDropBarPlot"; break;
+	case OO_PLOT_POLAR:	return "GogPolarPlot"; break;
+	case OO_PLOT_XYZ_SURFACE:
+		if (oo_style_has_property (state->chart.i_plot_styles,
+						   "three-dimensional", FALSE))
+			return "GogXYZSurfacePlot";
+		else
+			return "GogXYZContourPlot";
+		break;
+	case OO_PLOT_SURFACE: return "GogSurfacePlot"; break;
+	case OO_PLOT_SCATTER_COLOUR: return "GogXYColorPlot";	break;
+	case OO_PLOT_XL_SURFACE: return "XLSurfacePlot";	break;
+	case OO_PLOT_BOX: return "GogBoxPlot";	break;
+	case OO_PLOT_UNKNOWN: 
+	default:
+		return "GogLinePlot";
+		/* It is simpler to create a plot than to check that we don't have one */
+		 break;
+	}
+}
+
+static GogPlot *odf_create_plot (OOParseState *state,  OOPlotType *oo_type)
+{
+	GogPlot *plot;
+	gchar const *type;
+	
+	type = odf_find_plot_type (state, oo_type);
+	plot = gog_plot_new_by_name (type);
+	
+	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
+		"Plot", GOG_OBJECT (plot));
+
+	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL)
+		oo_prop_list_apply (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA]->
+				    plot_props, G_OBJECT (plot));
+	return plot;
+}
+
 static void
 oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -8776,7 +8858,6 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 
 	OOParseState *state = (OOParseState *)xin->user_state;
-	gchar const *type = NULL;
 	xmlChar const   *source_range_str = NULL;
 	int label_flags = 0;
 	GSList *prop_list = NULL;
@@ -8865,54 +8946,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 
-	switch (state->chart.plot_type) {
-	case OO_PLOT_AREA:	type = "GogAreaPlot";	break;
-	case OO_PLOT_BAR:	type = "GogBarColPlot";	break;
-	case OO_PLOT_CIRCLE:	type = "GogPiePlot";	break;
-	case OO_PLOT_LINE:	type = "GogLinePlot";	break;
-	case OO_PLOT_RADAR:	type = "GogRadarPlot";	break;
-	case OO_PLOT_RADARAREA: type = "GogRadarAreaPlot";break;
-	case OO_PLOT_RING:	type = "GogRingPlot";	break;
-	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
-	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;  /* This is not quite right! */
-	case OO_PLOT_CONTOUR:
-		if (oo_style_has_property (state->chart.i_plot_styles, "multi-series", FALSE)) {
-			type = "XLSurfacePlot";
-			state->chart.plot_type = OO_PLOT_XL_SURFACE;
-		} else if (oo_style_has_property (state->chart.i_plot_styles,
-						   "three-dimensional", FALSE)) {
-			type = "GogSurfacePlot";
-			state->chart.plot_type = OO_PLOT_SURFACE;
-		} else
-			type = "GogContourPlot";
-		break;
-	case OO_PLOT_BUBBLE:	type = "GogBubblePlot"; break;
-	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
-	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
-	case OO_PLOT_XYZ_SURFACE:
-		if (oo_style_has_property (state->chart.i_plot_styles,
-						   "three-dimensional", FALSE))
-			type = "GogXYZSurfacePlot";
-		else
-			type = "GogXYZContourPlot";
-		break;
-	case OO_PLOT_SURFACE: type = "GogSurfacePlot"; break;
-	case OO_PLOT_SCATTER_COLOUR: type = "GogXYColorPlot";	break;
-	case OO_PLOT_XL_SURFACE: type = "XLSurfacePlot";	break;
-	case OO_PLOT_BOX: type = "GogBoxPlot";	break;
-	case OO_PLOT_UNKNOWN: type = "GogLinePlot";
-		/* It is simpler to create a plot than to check that we don't have one */
-		 break;
-	default: return;
-	}
-
-	state->chart.plot = gog_plot_new_by_name (type);
-	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
-		"Plot", GOG_OBJECT (state->chart.plot));
-
-	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL)
-		oo_prop_list_apply (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA]->
-				    plot_props, G_OBJECT (state->chart.plot));
+	state->chart.plot = odf_create_plot (state, &state->chart.plot_type);
 
 	if (go_finite (x) && go_finite (y) &&
 	    go_finite (width) && go_finite (height) &&
@@ -9001,6 +9035,11 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	xmlChar const *label = NULL;
+	xmlChar const **attrs_cp = attrs;
+	OOPlotType plot_type = state->chart.plot_type;
+	gboolean plot_type_set = FALSE;
+	int tmp;
+	GogPlot *plot;
 
 	if (state->debug)
 		g_print ("<<<<< Start\n");
@@ -9009,19 +9048,30 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.domain_count = 0;
 	state->chart.data_pt_count = 0;
 
+        /* We need to first know whether we are overriding the class */
+	for (; attrs_cp != NULL && attrs_cp[0] && attrs_cp[1] ; attrs_cp += 2)
+		if (oo_attr_enum (xin, attrs_cp, OO_NS_CHART, "class", odf_chart_classes, &tmp)) {
+			plot_type = tmp;
+			plot_type_set = TRUE;
+		}
+
+	if (plot_type_set)
+		plot = odf_create_plot (state, &plot_type);
+	else
+		plot = state->chart.plot;
 
 	/* Create the series */
-	switch (state->chart.plot_type) {
+	switch (plot_type) {
 	case OO_PLOT_STOCK: /* We need to construct the series later. */
 		break;
 	case OO_PLOT_SURFACE:
 	case OO_PLOT_CONTOUR:
 		if (state->chart.series == NULL)
-			state->chart.series = gog_plot_new_series (state->chart.plot);
+			state->chart.series = gog_plot_new_series (plot);
 		break;
 	default:
 		if (state->chart.series == NULL) {
-			state->chart.series = gog_plot_new_series (state->chart.plot);
+			state->chart.series = gog_plot_new_series (plot);
 			/* In ODF by default we skip invalid data for interpolation */
 			g_object_set (state->chart.series, "interpolation-skip-invalid", TRUE, NULL);
 			if (state->chart.cat_expr != NULL) {
@@ -9035,7 +9085,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	/* Now check the attributes */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
-			switch (state->chart.plot_type) {
+			switch (plot_type) {
 			case OO_PLOT_STOCK:
 				state->chart.list = g_slist_append (state->chart.list,
 								    g_strdup (attrs[1]));
@@ -9489,33 +9539,13 @@ odf_chart_set_default_style (GogObject *chart)
 static void
 oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const types[] = {
-		{ "chart:area",		OO_PLOT_AREA },
-		{ "chart:bar",		OO_PLOT_BAR },
-		{ "chart:circle",	OO_PLOT_CIRCLE },
-		{ "chart:line",		OO_PLOT_LINE },
-		{ "chart:radar",	OO_PLOT_RADAR },
-		{ "chart:filled-radar",	OO_PLOT_RADARAREA },
-		{ "chart:ring",		OO_PLOT_RING },
-		{ "chart:scatter",	OO_PLOT_SCATTER },
-		{ "chart:stock",	OO_PLOT_STOCK },
-		{ "chart:bubble",	OO_PLOT_BUBBLE },
-		{ "chart:gantt",	OO_PLOT_GANTT },
-		{ "chart:surface",	OO_PLOT_CONTOUR },
-		{ "gnm:polar",  	OO_PLOT_POLAR },
-		{ "gnm:xyz-surface", 	OO_PLOT_XYZ_SURFACE },
-		{ "gnm:scatter-color", 	OO_PLOT_SCATTER_COLOUR },
-		{ "gnm:box", 	        OO_PLOT_BOX },
-		{ "gnm:none", 	        OO_PLOT_UNKNOWN },
-		{ NULL,	0 },
-	};
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int tmp;
 	OOPlotType type = OO_PLOT_UNKNOWN;
 	OOChartStyle	*style = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "class", types, &tmp))
+		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "class", odf_chart_classes, &tmp))
 			type = tmp;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_NS_CHART, "style-name"))

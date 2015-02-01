@@ -1,5 +1,14 @@
 2015-02-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_chart_classes): extract from oo_chart
+	(odf_find_plot_type): new
+	(odf_create_plot): new
+	(oo_plot_area): use the above
+	(oo_plot_series): handle plot class override
+	(oo_chart): use odf_chart_classes
+
+2015-02-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_*_series): add argument and
 	write plot type if necessary
 	(odf_write_plot): add argument, change calls to odf_write_*_series,
