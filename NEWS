@@ -25,6 +25,7 @@ Morten:
 	* Fix xls loading of horizontal scrollbars.  [#743754]
 	* Plug leaks.
 	* Fix xlsx comment export.
+	* Make XL see our exported xlsx axes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.19
