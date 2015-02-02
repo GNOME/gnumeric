@@ -8,7 +8,7 @@ use GnumericTest;
 &message ("Check that the ods exporter produces valid files.");
 
 my $format = "Gnumeric_OpenCalc:openoffice";
-my $schema = $ENV{'HOME'} . "/Download/OpenDocument-v1.2-os-schema.rng";
+my $schema = "$topsrc/test/ods-schema/OpenDocument-v1.2-os-schema.rng";
 &GnumericTest::report_skip ("Cannot find schema") unless -r $schema;
 
 my $xmllint = &GnumericTest::find_program ("xmllint");
