@@ -10,6 +10,7 @@ zzufit.log
 *.pl.trs
 test-suite.log
 ooxml-schema
+ods-schema
 
 # We don't want to ignore spreadsheet files here.
 !*.gnumeric
