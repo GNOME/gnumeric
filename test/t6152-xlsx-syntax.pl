@@ -131,6 +131,7 @@ foreach my $src (@sources) {
     push @check_members, ['xl/sharedStrings.xml',0] if $members{'xl/sharedStrings.xml'};
     foreach my $member (sort keys %members) {
 	push @check_members, [$member,0] if $member =~ m{^xl/worksheets/sheet\d+\.xml$};
+	push @check_members, [$member,0] if $member =~ m{^xl/comments\d+\.xml$};
 	push @check_members, [$member,1] if $member =~ m{^xl/charts/chart\d+\.xml$};
 	push @check_members, [$member,2] if $member =~ m{^xl/drawings/drawing\d+\.xml$};
     }

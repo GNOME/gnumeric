@@ -2654,7 +2654,7 @@ xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objec
 		/* Save text as rich text */
 		g_object_get (ptr->data, "text", &name, "markup", &attrs, NULL);
 		if (name && *name)
-			xlsx_write_rich_text (xml, name, attrs, TRUE);
+			xlsx_write_rich_text (xml, name, attrs, FALSE);
 		g_free (name);
 		pango_attr_list_unref (attrs);
 		gsf_xml_out_end_element (xml); /* </text> */

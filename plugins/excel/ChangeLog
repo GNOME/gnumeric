@@ -1,5 +1,8 @@
 2015-02-01  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_write_comments): We cannot use xml:space in
+	comments.
+
 	* xlsx-read.c (xlsx_comment_end): Plug leak.
 
 2015-01-30  Morten Welinder  <terra@gnome.org>
