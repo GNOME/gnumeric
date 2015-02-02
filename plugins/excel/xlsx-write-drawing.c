@@ -625,6 +625,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 
 		xlsx_write_chart_int (xml, "c:idx", -1, count);
 		xlsx_write_chart_int (xml, "c:order", -1, count);
+		xlsx_write_chart_uint (xml, "c:invertIfNegative", 1, 0);
 		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
 		if (!vary_by_element) /* FIXME: we might loose some style elements */
 			xlsx_write_go_style_full (xml, style, has_markers);
@@ -842,6 +843,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
+	xlsx_write_chart_uint (xml, "c:roundedCorners", 1, 0);
 
 	graph = sheet_object_graph_get_gog (so);
 	if (graph != NULL) {
