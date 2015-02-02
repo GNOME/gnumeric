@@ -3818,6 +3818,7 @@ xlsx_comment_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->rich_attrs = NULL;
 	}
 	sheet_object_set_sheet (SHEET_OBJECT (state->comment), state->sheet);
+	g_object_unref (state->comment);
 	state->comment = NULL;
 
 	maybe_update_progress (xin);
@@ -5006,10 +5007,12 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 
 			in = gsf_open_pkg_open_rel_by_type (wb_part,
 				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme", NULL);
-			start_update_progress (&state, in, _("Reading theme..."),
-					       0.05, 0.1);
-			xlsx_parse_stream (&state, in, xlsx_theme_dtd);
-			end_update_progress (&state);
+			if (in) {
+				start_update_progress (&state, in, _("Reading theme..."),
+						       0.05, 0.1);
+				xlsx_parse_stream (&state, in, xlsx_theme_dtd);
+				end_update_progress (&state);
+			}
 
 			in = gsf_open_pkg_open_rel_by_type (wb_part,
 				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", NULL);
@@ -5030,6 +5033,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 		} else
 			go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 				_("No workbook stream found."));
+
 		g_object_unref (state.zip);
 	}
 

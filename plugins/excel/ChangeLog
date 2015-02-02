@@ -1,3 +1,7 @@
+2015-02-01  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_comment_end): Plug leak.
+
 2015-01-30  Morten Welinder  <terra@gnome.org>
 
 	* ms-obj.c (ms_obj_read_biff8_obj): Gather orientation.

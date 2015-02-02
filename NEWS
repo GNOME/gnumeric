@@ -23,6 +23,7 @@ Morten:
 	* Fix xlsx problem with inverted axis.
 	* Export sliders as scrollbars for xls.
 	* Fix xls loading of horizontal scrollbars.  [#743754]
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.19
