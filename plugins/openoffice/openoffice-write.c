@@ -6319,7 +6319,7 @@ odf_write_drop_line (GnmOOExport *state, GogObject const *series, char const *dr
 
 static void
 odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop const *texpr,
-			      char const *attribute)
+			      char const *attribute, char const *gnm_attribute)
 {
 	char *str;
 
@@ -6359,28 +6359,34 @@ odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop c
 		g_string_free (gstr, TRUE);
 		break;
 	}
+	case GNM_EXPR_OP_CELLREF:
+		str = gnm_expr_top_as_string (texpr, pp, state->conv);
+		gsf_xml_out_add_cstr (state->xml, attribute,
+				      odf_strip_brackets (str));
+		g_free (str);
+		return;
 	default:
 		break;
 	}
 
-	/* case GNM_EXPR_OP_CELLREF: */
-	/* ODF does not support anything else but we write it anyways */
-	str = gnm_expr_top_as_string (texpr, pp, state->conv);
-	gsf_xml_out_add_cstr (state->xml, attribute,
-			      odf_strip_brackets (str));
-	g_free (str);
+	/* ODF does not support anything but Gnumeric does */
+	if (NULL != gnm_attribute) {
+		str = gnm_expr_top_as_string (texpr, pp, state->conv);
+		gsf_xml_out_add_cstr (state->xml, gnm_attribute, str);
+		g_free (str);
+	}
 }
 
 static gboolean
 odf_write_data_element (GnmOOExport *state, GOData const *data, GnmParsePos *pp,
-			char const *element, char const *attribute)
+			char const *element, char const *attribute, char const *gnm_attribute)
 {
 	GnmExprTop const *texpr = gnm_go_data_get_expr (data);
 
 	if (NULL != texpr) {
 		char *str = gnm_expr_top_as_string (texpr, pp, state->conv);
 		gsf_xml_out_start_element (state->xml, element);
-		odf_write_data_element_range (state, pp, texpr, attribute);
+		odf_write_data_element_range (state, pp, texpr, attribute, gnm_attribute);
 		g_free (str);
 		return TRUE;
 	}
@@ -6506,7 +6512,8 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series, char const*
 	for (i = 1; NULL != series ; series = series->next, i++) {
 		GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_VALUES);
 		if (NULL != dat && odf_write_data_element (state, dat, &pp, CHART "series",
-							   CHART "values-cell-range-address")) {
+							   CHART "values-cell-range-address",
+							   GNMSTYLE "values-cell-range-expression")) {
 			GogObjectRole const *role;
 			GSList *points;
 			GOData const *cat = gog_dataset_get_dim (GOG_DATASET (series->data),
@@ -6522,7 +6529,8 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series, char const*
 				gsf_xml_out_add_cstr_unchecked (state->xml, CHART "class", class);
 
 			if (NULL != cat && odf_write_data_element (state, cat, &pp, CHART "domain",
-								   TABLE "cell-range-address"))
+								   TABLE "cell-range-address",
+								   GNMSTYLE "cell-range-expression"))
 				gsf_xml_out_end_element (state->xml); /* </chart:domain> */
 
 			role = gog_object_find_role_by_name

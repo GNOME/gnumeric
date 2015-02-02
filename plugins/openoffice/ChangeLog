@@ -1,5 +1,11 @@
 2015-02-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_data_element_range): add foreign
+	attribute argument and use it when the data specification is not
+	just a range. Change all callers.
+
+2015-02-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_chart_classes): extract from oo_chart
 	(odf_find_plot_type): new
 	(odf_create_plot): new
