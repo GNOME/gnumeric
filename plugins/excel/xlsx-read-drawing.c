@@ -40,6 +40,15 @@ xlsx_chart_push_obj (XLSXReadState *state, GogObject *obj)
 #if 0
 	g_print ("push %s\n", G_OBJECT_TYPE_NAME (obj));
 #endif
+	if (gnm_debug_flag ("leaks")) {
+		if (obj) {
+			const char *name = gog_object_get_name (obj);
+			go_debug_check_finalized (obj, name);
+		}
+		if (state->cur_style) {
+			go_debug_check_finalized (state->cur_style, "Anonymous style");
+		}
+	}
 }
 
 static void
@@ -2104,6 +2113,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (SCATTER, PLOT_AXIS_ID, XL_NS_CHART,           "axId", GSF_XML_NO_CONTENT, &xlsx_plot_axis_id, NULL),
 
         GSF_XML_IN_NODE (SCATTER, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, &xlsx_chart_ser_start, &xlsx_chart_ser_end),
+	  GSF_XML_IN_NODE (SERIES, SERIES_INVERTIFNEG, XL_NS_CHART,	"invertIfNegative", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SERIES, SERIES_TRENDLINE, XL_NS_CHART,	"trendline", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_start, &xlsx_ser_trendline_end),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_NAME, XL_NS_CHART, "name", GSF_XML_CONTENT, NULL, &xlsx_ser_trendline_name),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
