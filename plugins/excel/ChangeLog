@@ -1,5 +1,8 @@
 2015-02-03  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_write_sheet): Don't complain over sheet
+	filter combos.
+
 	* xlsx-write-drawing.c (xlsx_write_go_style_full): Write font
 	information.
 

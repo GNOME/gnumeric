@@ -36,6 +36,7 @@
 #include "sheet-style.h"
 #include "sheet-view.h"
 #include "sheet-filter.h"
+#include "sheet-filter-combo.h"
 #include "ranges.h"
 #include "value.h"
 #include "cell.h"
@@ -2702,6 +2703,8 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 			comments = g_slist_prepend (comments, so);
 		else if (IS_SHEET_OBJECT_GRAPH (so))
 			charts = g_slist_prepend (charts, so);
+		else if (IS_GNM_FILTER_COMBO (so))
+			; /* Nothing here */
 		else
 			others = g_slist_prepend (others, so);
 	}
