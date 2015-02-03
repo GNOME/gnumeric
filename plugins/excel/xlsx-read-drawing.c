@@ -112,7 +112,7 @@ xlsx_tx_pr (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (GO_IS_STYLED_OBJECT (state->cur_obj) && state->cur_style) {
 		state->gocolor = &state->cur_style->font.color;
-		state->auto_color = NULL;
+		state->auto_color = &state->cur_style->font.auto_color;
 	}
 }
 
