@@ -956,7 +956,26 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void xlsx_chart_area (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogAreaPlot"); }
-static void xlsx_chart_line (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogLinePlot"); }
+
+static void
+xlsx_chart_line (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	xlsx_chart_add_plot (xin, "GogLinePlot");
+	g_object_set (G_OBJECT (state->plot), "default-style-has-markers", FALSE, NULL);
+}
+
+static void
+xlsx_chart_line_marker (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean has_marker;
+
+	if (simple_bool (xin, attrs, &has_marker)) {
+		g_object_set (G_OBJECT (state->plot),
+			      "default-style-has-markers", has_marker, NULL);
+	}
+}
 
 static void
 xlsx_chart_xy (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
@@ -2267,7 +2286,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
             GSF_XML_IN_NODE (MARKER, MARKER_SIZE, XL_NS_CHART, "size", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (LINE, PLOT_AXIS_ID, XL_NS_CHART,"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
         GSF_XML_IN_NODE (LINE, GROUPING, XL_NS_CHART,	"grouping", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
-        GSF_XML_IN_NODE (LINE, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (LINE, LINE_MARKER, XL_NS_CHART, "marker", GSF_XML_NO_CONTENT, &xlsx_chart_line_marker, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, AREA, XL_NS_CHART,	"areaChart", GSF_XML_NO_CONTENT, &xlsx_chart_area, &xlsx_plot_end),
         GSF_XML_IN_NODE (AREA, PLOT_AXIS_ID, XL_NS_CHART,"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
