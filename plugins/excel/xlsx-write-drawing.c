@@ -194,20 +194,6 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 				   !style->font.auto_color);
 	gboolean has_font = xlsx_go_style_has_font (style);
 
-	if (has_font_color || has_font) {
-		gsf_xml_out_start_element (xml, "c:txPr");
-		gsf_xml_out_simple_element (xml, "a:bodyPr", NULL);
-		gsf_xml_out_simple_element (xml, "a:lstStyle", NULL);
-		gsf_xml_out_start_element (xml, "a:p");
-		gsf_xml_out_start_element (xml, "a:pPr");
-		gsf_xml_out_start_element (xml, "a:defRPr");
-		xlsx_write_rpr (xml, style);
-		gsf_xml_out_end_element (xml);  /* "a:defRPr" */
-		gsf_xml_out_end_element (xml);  /* "a:pPr" */
-		gsf_xml_out_end_element (xml);  /* "a:p" */
-		gsf_xml_out_end_element (xml);  /* "c:txPr" */
-	}
-
 	gsf_xml_out_start_element (xml, "c:spPr");
 
 	if ((style->interesting_fields & GO_STYLE_FILL) &&
@@ -285,6 +271,20 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 	}
 
 	gsf_xml_out_end_element (xml);  /* "c:spPr" */
+
+	if (has_font_color || has_font) {
+		gsf_xml_out_start_element (xml, "c:txPr");
+		gsf_xml_out_simple_element (xml, "a:bodyPr", NULL);
+		gsf_xml_out_simple_element (xml, "a:lstStyle", NULL);
+		gsf_xml_out_start_element (xml, "a:p");
+		gsf_xml_out_start_element (xml, "a:pPr");
+		gsf_xml_out_start_element (xml, "a:defRPr");
+		xlsx_write_rpr (xml, style);
+		gsf_xml_out_end_element (xml);  /* "a:defRPr" */
+		gsf_xml_out_end_element (xml);  /* "a:pPr" */
+		gsf_xml_out_end_element (xml);  /* "a:p" */
+		gsf_xml_out_end_element (xml);  /* "c:txPr" */
+	}
 
 	if (style->interesting_fields & GO_STYLE_MARKER) {
 		static const char *const markers[] = {
@@ -550,6 +550,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	gboolean use_xy = FALSE;
 	gboolean set_smooth = FALSE;
 	gboolean has_markers = FALSE;
+	gboolean set_invert = FALSE;
 
 	g_object_get (G_OBJECT (plot),
 		      "vary-style-by-element", &vary_by_element,
@@ -584,6 +585,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 
 		xlsx_write_plot_1_5_type (xml, plot, TRUE);
 		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
+		set_invert = TRUE;
 		break;
 	}
 
@@ -633,6 +635,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		gsf_xml_out_start_element (xml, "c:bubbleChart");
 		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		use_xy = TRUE;
+		set_invert = TRUE;
 		break;
 
 	case XLSX_PT_GOGXYPLOT: {
@@ -674,10 +677,11 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 
 		xlsx_write_chart_int (xml, "c:idx", -1, count);
 		xlsx_write_chart_int (xml, "c:order", -1, count);
-		xlsx_write_chart_uint (xml, "c:invertIfNegative", 1, 0);
 		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
 		if (!vary_by_element) /* FIXME: we might loose some style elements */
 			xlsx_write_go_style_full (xml, style, has_markers);
+		if (set_invert)
+			xlsx_write_chart_uint (xml, "c:invertIfNegative", 1, 0);
 
 		children = gog_object_get_children (GOG_OBJECT (ser), NULL);
 		for (l = children; l; l = l->next) {
@@ -797,6 +801,11 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			as_area ? "area" : "w");
 		break;
 	}
+
+	case XLSX_PT_GOGLINEPLOT:
+		if (has_markers)
+			xlsx_write_chart_bool (xml, "c:marker", has_markers);
+		break;
 
 	default:
 		break; /* Nothing */
