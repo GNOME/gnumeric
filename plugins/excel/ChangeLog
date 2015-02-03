@@ -1,6 +1,7 @@
 2015-02-02  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_push_obj): Optionally check for leaks.
+	(xlsx_axis_end): Plug leak.
 
 	* xlsx-write-drawing.c (xlsx_write_axis): Make axis visible.
 

@@ -699,11 +699,19 @@ xlsx_create_axis_object (XLSXReadState *state)
 	gboolean cat_or_date = (state->axis.type == XLSX_AXIS_CAT ||
 				state->axis.type == XLSX_AXIS_DATE);
 	GogObject *axis;
+	gboolean dummy;
 
-	plot = state->axis.info && state->axis.info->plots
-		? state->axis.info->plots->data /* just use the first */
-		: NULL;
-	type = plot ? G_OBJECT_TYPE_NAME (plot) : "GogLinePlot";
+	if (state->cur_obj)
+		return;
+
+	dummy = (!state->axis.info || !state->axis.info->plots);
+	if (dummy) {
+		plot = NULL;
+		type = "GogLinePlot";
+	} else {
+		plot = state->axis.info->plots->data; /* just use the first */
+		type = G_OBJECT_TYPE_NAME (plot);
+	}
 
 	switch (xlsx_plottype_from_type_name (type)) {
 	case XLSX_PT_GOGRADARPLOT:
@@ -731,7 +739,7 @@ xlsx_create_axis_object (XLSXReadState *state)
 		role = (inverted ^ cat_or_date) ? "X-Axis" : "Y-Axis";
 
 	axis = gog_object_add_by_name (GOG_OBJECT (state->chart), role, NULL);
-	state->axis.obj = g_object_ref (axis);
+	state->axis.obj = GOG_AXIS (axis);
 #ifdef DEBUG_AXIS
 	g_printerr ("Created axis object %s with role %s\n",
 		    gog_object_get_name (axis), role);
@@ -741,8 +749,13 @@ xlsx_create_axis_object (XLSXReadState *state)
 	xlsx_chart_pop_obj (state);
 	xlsx_chart_push_obj (state, axis);
 
-	if (NULL != state->axis.info) {
-		state->axis.info->axis = state->axis.obj;
+	if (dummy)
+		g_object_set (axis, "invisible", TRUE, NULL);
+
+	if (state->axis.info) {
+		if (dummy)
+			state->axis.info->deleted = TRUE;
+		state->axis.info->axis = g_object_ref (state->axis.obj);
 		g_hash_table_replace (state->axis.by_obj, axis, state->axis.info);
 
 		g_object_set (G_OBJECT (state->axis.obj),
@@ -862,10 +875,10 @@ static void
 xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GogAxis *axis = state->axis.obj;
 
-	if (NULL != state->axis.info) {
+	if (state->axis.info) {
 		GSList *ptr, *children;
-		GogAxis *axis = state->axis.obj;
 		GogAxisElemType et;
 		XLSXAxisInfo *info = state->axis.info;
 
@@ -919,13 +932,27 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			break;
 		}
 		g_slist_free (children);
-
-		state->axis.obj  = NULL;
-		state->axis.info = NULL;
 	}
 
 	xlsx_chart_pop_obj (state);
-	state->axis.info = NULL;
+
+	if (state->axis.info)
+		state->axis.info = NULL;
+	else if (axis) {
+		if (gog_object_is_deletable (GOG_OBJECT (axis))) {
+#ifdef DEBUG_AXIS
+			g_printerr ("Deleting axis %p\n", axis);
+#endif
+			gog_object_clear_parent (GOG_OBJECT (axis));
+			g_object_unref (axis);
+		} else {
+#ifdef DEBUG_AXIS
+			g_printerr ("Axis %p is not deletable\n", axis);
+#endif
+		}
+	}
+
+	state->axis.obj  = NULL;
 }
 
 static void xlsx_chart_area (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogAreaPlot"); }
