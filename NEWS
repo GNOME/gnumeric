@@ -26,6 +26,7 @@ Morten:
 	* Plug leaks.
 	* Fix xlsx comment export.
 	* Make XL see our exported xlsx axes.
+	* Fix xlsx import/export of axis font info.  [#743822]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.19

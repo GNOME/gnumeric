@@ -1,5 +1,8 @@
 2015-02-03  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write-drawing.c (xlsx_write_go_style_full): Write font
+	information.
+
 	* xlsx-read-drawing.c (xlsx_tx_pr): Set the right auto_color flag.
 
 2015-02-02  Morten Welinder  <terra@gnome.org>

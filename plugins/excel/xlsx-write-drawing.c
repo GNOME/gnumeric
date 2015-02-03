@@ -129,10 +129,85 @@ xlsx_write_rgbarea (GsfXMLOut *xml, GOColor color)
 	gsf_xml_out_end_element (xml);
 }
 
+static gboolean
+xlsx_go_style_has_font (GOStyle *style)
+{
+	GOFont const *def;
+	gboolean is_def;
+
+	if (!(style->interesting_fields & GO_STYLE_FONT))
+		return FALSE;
+
+	/* We need to fix auto_font! */
+
+	def = go_font_new_by_index (0);
+	is_def = (style->font.font == def);
+	go_font_unref (def);
+
+	if (is_def)
+		return FALSE;
+
+	return TRUE /* !style->font.auto_font */;
+}
+
+static void
+xlsx_write_rpr (GsfXMLOut *xml, GOStyle *style)
+{
+	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
+				   !style->font.auto_color);
+	gboolean has_font = xlsx_go_style_has_font (style);
+
+	GOFont const *font = style->font.font;
+	PangoFontDescription *desc = font->desc;
+
+	if (has_font) {
+		int sz = pango_font_description_get_size (desc);
+		if (sz > 0) {
+			sz = CLAMP (sz, 1 * PANGO_SCALE, 4000 * PANGO_SCALE);
+			gsf_xml_out_add_uint (xml, "sz", sz * 100 / PANGO_SCALE);
+		}
+
+		if (pango_font_description_get_weight (desc) > PANGO_WEIGHT_NORMAL)
+			xlsx_add_bool (xml, "b", TRUE);
+		if (pango_font_description_get_style (desc) > PANGO_STYLE_NORMAL)
+			xlsx_add_bool (xml, "i", TRUE);
+	}
+	if (has_font_color) {
+		gsf_xml_out_start_element (xml, "a:solidFill");
+		xlsx_write_rgbarea (xml, style->font.color);
+		gsf_xml_out_end_element (xml);
+	}
+	if (has_font) {
+		gsf_xml_out_start_element (xml, "a:latin");
+		gsf_xml_out_add_cstr (xml, "typeface",
+				      pango_font_description_get_family (desc));
+		gsf_xml_out_end_element (xml);
+	}
+}
+
+
 static void
 xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			  gboolean def_has_markers)
 {
+	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
+				   !style->font.auto_color);
+	gboolean has_font = xlsx_go_style_has_font (style);
+
+	if (has_font_color || has_font) {
+		gsf_xml_out_start_element (xml, "c:txPr");
+		gsf_xml_out_simple_element (xml, "a:bodyPr", NULL);
+		gsf_xml_out_simple_element (xml, "a:lstStyle", NULL);
+		gsf_xml_out_start_element (xml, "a:p");
+		gsf_xml_out_start_element (xml, "a:pPr");
+		gsf_xml_out_start_element (xml, "a:defRPr");
+		xlsx_write_rpr (xml, style);
+		gsf_xml_out_end_element (xml);  /* "a:defRPr" */
+		gsf_xml_out_end_element (xml);  /* "a:pPr" */
+		gsf_xml_out_end_element (xml);  /* "a:p" */
+		gsf_xml_out_end_element (xml);  /* "c:txPr" */
+	}
+
 	gsf_xml_out_start_element (xml, "c:spPr");
 
 	if ((style->interesting_fields & GO_STYLE_FILL) &&
@@ -301,8 +376,7 @@ xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (label));
 	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
 				   !style->font.auto_color);
-	gboolean has_font = ((style->interesting_fields & GO_STYLE_FONT) &&
-			     TRUE /* !style->font.auto_font */);
+	gboolean has_font = xlsx_go_style_has_font (style);
 	gboolean allow_wrap;
 
 	gsf_xml_out_start_element (xml, "c:tx");
@@ -318,33 +392,8 @@ xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
 	gsf_xml_out_start_element (xml, "a:r");
 
 	if (has_font_color || has_font) {
-		GOFont const *font = style->font.font;
-		PangoFontDescription *desc = font->desc;
-
 		gsf_xml_out_start_element (xml, "a:rPr");
-		if (has_font) {
-			int sz = pango_font_description_get_size (desc);
-			if (sz > 0) {
-				sz = CLAMP (sz, 1 * PANGO_SCALE, 4000 * PANGO_SCALE);
-				gsf_xml_out_add_uint (xml, "sz", sz * 100 / PANGO_SCALE);
-			}
-
-			if (pango_font_description_get_weight (desc) > PANGO_WEIGHT_NORMAL)
-				xlsx_add_bool (xml, "b", TRUE);
-			if (pango_font_description_get_style (desc) > PANGO_STYLE_NORMAL)
-				xlsx_add_bool (xml, "i", TRUE);
-		}
-		if (has_font_color) {
-			gsf_xml_out_start_element (xml, "a:solidFill");
-			xlsx_write_rgbarea (xml, style->font.color);
-			gsf_xml_out_end_element (xml);
-		}
-		if (has_font) {
-			gsf_xml_out_start_element (xml, "a:latin");
-			gsf_xml_out_add_cstr (xml, "typeface",
-					      pango_font_description_get_family (desc));
-			gsf_xml_out_end_element (xml);
-		}
+		xlsx_write_rpr (xml, style);
 		gsf_xml_out_end_element (xml); /* </a:rPr> */
 	}
 
