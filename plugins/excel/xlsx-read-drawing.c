@@ -1182,6 +1182,20 @@ xlsx_ser_trendline_dispeq (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 	}
 }
 
+static void
+xlsx_ser_smooth (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean smooth;
+
+	if (simple_bool (xin, attrs, &smooth) && smooth) {
+		GOLineInterpolation inter = GO_LINE_INTERPOLATION_CUBIC_SPLINE;
+		g_object_set (state->cur_obj,
+			      "interpolation", go_line_interpolation_as_str (inter),
+			      NULL);
+	}
+}
+
 
 static void
 xlsx_ser_labels_show_val (GsfXMLIn *xin, xmlChar const **attrs)
@@ -2262,7 +2276,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 
           GSF_XML_IN_NODE (SERIES, SERIES_BUBBLES_3D, XL_NS_CHART,	"bubble3D", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SERIES, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-	GSF_XML_IN_NODE (SERIES, SERIES_SMOOTH, XL_NS_CHART, "smooth", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SERIES, SERIES_SMOOTH, XL_NS_CHART, "smooth", GSF_XML_NO_CONTENT, xlsx_ser_smooth, NULL),
           GSF_XML_IN_NODE (SERIES, SERIES_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SERIES, SERIES_D_LBLS, XL_NS_CHART,	"dLbls", GSF_XML_NO_CONTENT, &xlsx_ser_labels_start, &xlsx_ser_labels_end),
             GSF_XML_IN_NODE (SERIES_D_LBLS, SERIES_D_LBLS_POS, XL_NS_CHART,	"dLblPos", GSF_XML_NO_CONTENT, &xlsx_ser_labels_pos, NULL),
