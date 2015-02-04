@@ -25,6 +25,7 @@
 #include "sheet-object-widget.h"
 
 #undef DEBUG_AXIS
+#undef DEBUG_COLOR
 
 /*****************************************************************************
  * Various functions common to at least charts and user shapes               *
@@ -40,14 +41,13 @@ xlsx_chart_push_obj (XLSXReadState *state, GogObject *obj)
 #if 0
 	g_print ("push %s\n", G_OBJECT_TYPE_NAME (obj));
 #endif
-	if (gnm_debug_flag ("leaks")) {
-		if (obj) {
-			const char *name = gog_object_get_name (obj);
-			go_debug_check_finalized (obj, name);
-		}
-		if (state->cur_style) {
-			go_debug_check_finalized (state->cur_style, "Anonymous style");
-		}
+
+	if (obj) {
+		const char *name = gog_object_get_name (obj);
+		go_debug_check_finalized (obj, name);
+	}
+	if (state->cur_style) {
+		go_debug_check_finalized (state->cur_style, "Anonymous style");
 	}
 }
 
@@ -70,9 +70,6 @@ xlsx_chart_pop_obj (XLSXReadState *state)
 	state->obj_stack = g_slist_remove (state->obj_stack, state->cur_obj);
 	state->cur_style = state->style_stack->data;
 	state->style_stack = g_slist_remove (state->style_stack, state->cur_style);
-	/* Should not be needed, but we might not fully import some color */
-	state->gocolor = NULL;
-	state->color_setter = NULL;
 }
 
 static void
@@ -97,22 +94,57 @@ xlsx_push_text_object (XLSXReadState *state, const char *name)
 }
 
 
+typedef enum {
+	XLSX_CS_NONE = 0,
+	XLSX_CS_FONT = 1,
+	XLSX_CS_LINE = 2,
+	XLSX_CS_FILL_BACK = 3,
+	XLSX_CS_FILL_FORE = 4,
+	XLSX_CS_MARKER = 5,
+	XLSX_CS_MARKER_OUTLINE = 6,
+        XLSX_CS_ANY = 7 /* for pop */
+} XLSXColorState;
+
+static void
+xlsx_chart_push_color_state (XLSXReadState *state, XLSXColorState s)
+{
+	/* We need only a few levels.  */
+	state->chart_color_state = (state->chart_color_state << 3) | s;
+}
+
+static void
+xlsx_chart_pop_color_state (XLSXReadState *state, XLSXColorState s)
+{
+	XLSXColorState s0 = (state->chart_color_state & 7);
+	state->chart_color_state = (state->chart_color_state >> 3);
+	if (s != XLSX_CS_ANY)
+		g_return_if_fail (s == s0);
+}
+
+
+
+static void
+xlsx_tx_pr (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->sp_type |= GO_STYLE_FONT;
+	xlsx_chart_push_color_state (state, XLSX_CS_FONT);
+}
+
+static void
+xlsx_tx_pr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->sp_type &= ~GO_STYLE_FONT;
+	xlsx_chart_pop_color_state (state, XLSX_CS_FONT);
+}
+
 static void
 xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (!GOG_IS_LABEL (state->cur_obj) && IS_SHEET_OBJECT_GRAPH (state->so) && NULL == state->series) { /* Hmm, why? */
 		xlsx_push_text_object (state, "Label");
-	}
-}
-
-static void
-xlsx_tx_pr (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (GO_IS_STYLED_OBJECT (state->cur_obj) && state->cur_style) {
-		state->gocolor = &state->cur_style->font.color;
-		state->auto_color = &state->cur_style->font.auto_color;
 	}
 }
 
@@ -1516,8 +1548,8 @@ xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->cur_style->line.auto_width = FALSE;
 		state->cur_style->line.width = w / 12700.;
 	}
-	state->gocolor = &state->cur_style->line.color;
-	state->auto_color = &state->cur_style->line.auto_color;
+
+	xlsx_chart_push_color_state (state, XLSX_CS_LINE);
 }
 
 static void
@@ -1525,7 +1557,7 @@ xlsx_style_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	state->sp_type &= ~GO_STYLE_LINE;
-	state->gocolor = NULL;
+	xlsx_chart_pop_color_state (state, XLSX_CS_LINE);
 }
 
 static void
@@ -1577,19 +1609,27 @@ xlsx_chart_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int pos;
+	XLSXColorState s = XLSX_CS_NONE;
+
 	g_return_if_fail (state->cur_style);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int (xin, attrs, "pos", &pos)) {
 			if (pos <= 50000) {
 				/* FIXME: use betstate->auto_colorter gradients
 				 * for now, we only support stops at 0 and 1 */
-				state->gocolor = &state->cur_style->fill.pattern.back;
-				state->auto_color = &state->cur_style->fill.auto_back;
+				s = XLSX_CS_FILL_BACK;
 			} else {
-				state->gocolor = &state->cur_style->fill.pattern.fore;
-				state->auto_color = &state->cur_style->fill.auto_fore;
+				s = XLSX_CS_FILL_FORE;
 			}
 		}
+	xlsx_chart_push_color_state (state, s);
+}
+
+static void
+xlsx_chart_grad_stop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	xlsx_chart_pop_color_state (state, XLSX_CS_ANY);
 }
 
 static void
@@ -1597,51 +1637,69 @@ xlsx_chart_solid_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker) {
-		if (!(state->sp_type & GO_STYLE_LINE)) {
-			state->color_setter = (void (*) (gpointer data, GOColor color)) go_marker_set_fill_color;
-			state->color_data = state->marker;
-			state->gocolor = NULL;
-			state->auto_color = &state->cur_style->marker.auto_fill_color;
-		} else {
-			state->color_setter = (void (*) (gpointer data, GOColor color)) go_marker_set_outline_color;
-			state->color_data = state->marker;
-			state->gocolor = NULL;
-			state->auto_color = &state->cur_style->marker.auto_outline_color;
-		}
-	} else if ((NULL != state->cur_style) && (state->gocolor == NULL)) {
-		if (state->sp_type & GO_STYLE_FONT) {
-			state->gocolor = &state->cur_style->font.color;
-			state->auto_color = &state->cur_style->font.auto_color;
-		} else if (state->sp_type & GO_STYLE_LINE) {
+		if (!(state->sp_type & GO_STYLE_LINE))
+			xlsx_chart_push_color_state (state, XLSX_CS_MARKER);
+		else
+			xlsx_chart_push_color_state (state, XLSX_CS_MARKER_OUTLINE);
+	} else if (state->cur_style) {
+		if (state->sp_type & GO_STYLE_FONT)
+			xlsx_chart_push_color_state (state, XLSX_CS_FONT);
+		else if (state->sp_type & GO_STYLE_LINE) {
 			state->cur_style->line.dash_type = GO_LINE_SOLID;
-			state->gocolor = &state->cur_style->line.color;
-			state->auto_color = &state->cur_style->line.auto_color;
+			xlsx_chart_push_color_state (state, XLSX_CS_LINE);
 		} else {
 			state->cur_style->fill.type = GO_STYLE_FILL_PATTERN;
 			state->cur_style->fill.auto_type = FALSE;
 			state->cur_style->fill.pattern.pattern = GO_PATTERN_FOREGROUND_SOLID;
-			state->gocolor = &state->cur_style->fill.pattern.fore;
-			state->auto_color = &state->cur_style->fill.auto_fore;
+			xlsx_chart_push_color_state (state, XLSX_CS_FILL_FORE);
 		}
-	}
+	} else
+		  xlsx_chart_push_color_state (state, XLSX_CS_NONE);
+}
+
+static void
+xlsx_chart_solid_fill_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	xlsx_chart_pop_color_state (state, XLSX_CS_ANY);
 }
 
 static void
 color_set_helper (XLSXReadState *state)
 {
-	if (state->gocolor) {
-		if (*state->gocolor != state->color) {
-			*state->gocolor = state->color;
-			if (state->auto_color)
-				*state->auto_color = FALSE;
-		}
-		state->gocolor = NULL;
-		state->auto_color = NULL;
-	} else if (state->color_setter) {
-		state->color_setter (state->color_data, state->color);
-		state->color_setter = NULL;
-		if (state->auto_color)
-			*state->auto_color = FALSE;
+#ifdef DEBUG_COLOR
+	g_printerr ("color: #%08x in state %d\n",
+		    state->color, state->chart_color_state & 7);
+#endif
+
+	switch (state->chart_color_state & 7) {
+	default:
+	case XLSX_CS_NONE:
+		break;
+	case XLSX_CS_FONT:
+		state->cur_style->font.color = state->color;
+		state->cur_style->font.auto_color = FALSE;
+		break;
+	case XLSX_CS_LINE:
+		state->cur_style->line.color = state->color;
+		state->cur_style->line.auto_color = FALSE;
+		break;
+	case XLSX_CS_FILL_BACK:
+		state->cur_style->fill.pattern.back = state->color;
+		state->cur_style->fill.auto_back = FALSE;
+		break;
+	case XLSX_CS_FILL_FORE:
+		state->cur_style->fill.pattern.fore = state->color;
+		state->cur_style->fill.auto_fore = FALSE;
+		break;
+	case XLSX_CS_MARKER:
+		go_marker_set_fill_color (state->marker, state->color);
+		state->cur_style->marker.auto_fill_color = FALSE;
+		break;
+	case XLSX_CS_MARKER_OUTLINE:
+		go_marker_set_outline_color (state->marker, state->color);
+		state->cur_style->marker.auto_outline_color = FALSE;
+		break;
 	}
 }
 
@@ -1706,15 +1764,6 @@ xlsx_draw_color_alpha (GsfXMLIn *xin, xmlChar const **attrs)
 		state->color = GO_COLOR_CHANGE_A (state->color, level);
 		color_set_helper (state);
 	}
-}
-
-static void
-xlsx_draw_color_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	state->gocolor = NULL;
-	state->auto_color = NULL;
-	state->color_setter = NULL;
 }
 
 static void
@@ -1803,9 +1852,6 @@ xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (NULL != state->cur_obj && GOG_IS_STYLED_OBJECT (state->cur_obj)) {
 		go_style_set_marker (state->cur_style, state->marker);
 		state->marker = NULL;
-		state->gocolor = NULL;
-		state->color_setter = NULL;
-		state->color_data = NULL;
 	}
 }
 
@@ -1946,10 +1992,10 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (SP_XFRM, SP_XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (SHAPE_PR, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (SHAPE_PR, FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, &xlsx_chart_no_fill, NULL),
-    GSF_XML_IN_NODE (SHAPE_PR, FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, NULL),
-      GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, &xlsx_draw_color_end),
+    GSF_XML_IN_NODE (SHAPE_PR, FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, &xlsx_chart_solid_fill_end),
+      GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, NULL),
         GSF_XML_IN_NODE (COLOR_THEMED, COLOR_LUM, XL_NS_DRAW, "lumMod", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (FILL_SOLID, COLOR_RGB,	 XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_rgb, &xlsx_draw_color_end),
+      GSF_XML_IN_NODE (FILL_SOLID, COLOR_RGB,	 XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_rgb, NULL),
         GSF_XML_IN_NODE (COLOR_RGB, RGB_ALPHA,	   XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, &xlsx_draw_color_alpha, NULL),
         GSF_XML_IN_NODE (COLOR_RGB, RGB_GAMMA,	   XL_NS_DRAW, "gamma", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (COLOR_RGB, RGB_INV_GAMMA, XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1984,7 +2030,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_ROUND,	XL_NS_DRAW, "round", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_HEAD,	XL_NS_DRAW, "headEnd", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_TAIL,	XL_NS_DRAW, "tailEnd", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (SHAPE_PR, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, &xlsx_tx_pr, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, &xlsx_tx_pr, &xlsx_tx_pr_end),
       GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_BODY,	XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, &xlsx_body_pr, NULL),
       GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_STYLE,	XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_P,	XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2527,8 +2573,6 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		}
 		xlsx_reset_chart_pos (state);
-		state->gocolor = NULL;
-		state->color_setter = NULL;
 		state->cur_obj   = NULL;
 		state->chart = NULL;
 		state->graph = NULL;
@@ -2734,7 +2778,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
         GSF_XML_IN_NODE (SHAPE, SP_XFRM_STYLE, XL_NS_SS_DRAW, "style", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SP_XFRM_STYLE, LN_REF, XL_NS_DRAW, "lnRef", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (LN_REF, SCHEME_CLR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (LN_REF, SCRGB_CLR, XL_NS_DRAW, "scrgbClr", GSF_XML_NO_CONTENT, xlsx_draw_color_rgb, xlsx_draw_color_end),
+	    GSF_XML_IN_NODE (LN_REF, SCRGB_CLR, XL_NS_DRAW, "scrgbClr", GSF_XML_NO_CONTENT, xlsx_draw_color_rgb, NULL),
           GSF_XML_IN_NODE (SP_XFRM_STYLE, FILL_REF, XL_NS_DRAW, "fillRef", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (FILL_REF, SCHEME_CLR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (FILL_REF, SCRGB_CLR, XL_NS_DRAW, "scrgbClr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2762,9 +2806,9 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
           GSF_XML_IN_NODE (SP_PR_XFRM, CHILD_EXT, XL_NS_DRAW, "chExt", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHAPE_PR, SP_FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHAPE_PR, SP_FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
-	  GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, &xlsx_draw_color_end),
+	  GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, NULL),
 	    GSF_XML_IN_NODE (COLOR_THEMED, COLOR_LUM, XL_NS_DRAW, "lumMod", GSF_XML_NO_CONTENT, NULL, NULL),
-	  GSF_XML_IN_NODE (FILL_SOLID, COLOR_RGB,	 XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_rgb, &xlsx_draw_color_end),
+	  GSF_XML_IN_NODE (FILL_SOLID, COLOR_RGB,	 XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_rgb, NULL),
 	    GSF_XML_IN_NODE (COLOR_RGB, RGB_ALPHA,	   XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, &xlsx_draw_color_alpha, NULL),
 	    GSF_XML_IN_NODE (COLOR_RGB, RGB_GAMMA,	   XL_NS_DRAW, "gamma", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (COLOR_RGB, RGB_INV_GAMMA, XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2779,7 +2823,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 
 	GSF_XML_IN_NODE (SHAPE_PR, FILL_GRAD,	XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, xlsx_chart_grad_fill, NULL),
 	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
-	   GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, xlsx_chart_grad_stop, NULL),
+	   GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, xlsx_chart_grad_stop, xlsx_chart_grad_stop_end),
 	     GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LINE,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, NULL, NULL),
 

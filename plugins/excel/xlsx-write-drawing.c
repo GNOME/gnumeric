@@ -258,7 +258,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			gsf_xml_out_start_element (xml, "a:solidFill");
 			xlsx_write_rgbarea (xml, style->line.color);
 			gsf_xml_out_end_element (xml);
-		} else if (!def_has_lines)
+		} else if (style->line.auto_dash && !def_has_lines)
 			gsf_xml_out_simple_element (xml, "a:noFill", NULL);
 
 		if (!style->line.auto_dash &&
@@ -366,20 +366,20 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 static void
 xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 {
-	xlsx_write_go_style_full (xml, style, FALSE, FALSE);
+	xlsx_write_go_style_full (xml, style, FALSE, TRUE);
 }
 
 static void
 xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
 		       GOData *data, GogObject const *label)
 {
-	/* I don't really know what I am doing here.  */
 	char *text = go_data_get_scalar_string (data);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (label));
 	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
 				   !style->font.auto_color);
 	gboolean has_font = xlsx_go_style_has_font (style);
 	gboolean allow_wrap;
+	GOStyle *style_minus_font;
 
 	gsf_xml_out_start_element (xml, "c:tx");
 	gsf_xml_out_start_element (xml, "c:rich");
@@ -407,7 +407,10 @@ xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
 	gsf_xml_out_end_element (xml); /* </c:rich> */
 	gsf_xml_out_end_element (xml); /* </c:tx> */
 
-	xlsx_write_go_style (xml, style);
+	style_minus_font = go_style_dup (style);
+	style_minus_font->interesting_fields &= ~GO_STYLE_FONT;
+	xlsx_write_go_style (xml, style_minus_font);
+	g_object_unref (style_minus_font);
 
 	g_free (text);
 }
@@ -597,6 +600,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		xlsx_write_plot_1_5_type (xml, plot, FALSE);
 		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		set_smooth = TRUE;
+		has_lines = TRUE;
 		g_object_get (G_OBJECT (plot),
 		              "default-style-has-markers", &has_markers,
 		              NULL);

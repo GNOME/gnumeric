@@ -209,11 +209,8 @@ typedef struct {
 	GogObject	 *series_pt;
 	gboolean	  series_pt_has_index;
 	GOStyle	 *cur_style;
-	GOColor		 *gocolor;
-	gboolean	 *auto_color;
-	void (*color_setter) (gpointer data, GOColor color);
+	guint32           chart_color_state;
 	GOColor		  color;
-	gpointer	  color_data;
 	GOMarker	 *marker;
 	GogObject	 *cur_obj;
 	GSList		 *obj_stack;
