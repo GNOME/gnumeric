@@ -188,7 +188,7 @@ xlsx_write_rpr (GsfXMLOut *xml, GOStyle *style)
 
 static void
 xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
-			  gboolean def_has_markers)
+			  gboolean def_has_markers, gboolean def_has_lines)
 {
 	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
 				   !style->font.auto_color);
@@ -227,7 +227,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 	}
 
 	if ((style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) &&
-	    (!style->line.auto_dash ||
+	    (!def_has_lines ||
+	     !style->line.auto_dash ||
 	     !style->line.auto_width ||
 	     !style->line.auto_color)) {
 		static const char * const dashes[] = {
@@ -244,7 +245,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			"dashDot",       /* GO_LINE_DASH_DOT */
 			"lgDashDot",     /* GO_LINE_DASH_DOT_DOT */
 		};
-		gboolean is_none = (style->line.dash_type == GO_LINE_NONE);
+		gboolean is_none = (!style->line.auto_dash && style->line.dash_type == GO_LINE_NONE);
 
 		gsf_xml_out_start_element (xml, "a:ln");
 		if (is_none) {
@@ -257,7 +258,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			gsf_xml_out_start_element (xml, "a:solidFill");
 			xlsx_write_rgbarea (xml, style->line.color);
 			gsf_xml_out_end_element (xml);
-		}
+		} else if (!def_has_lines)
+			gsf_xml_out_simple_element (xml, "a:noFill", NULL);
 
 		if (!style->line.auto_dash &&
 		    style->line.dash_type < G_N_ELEMENTS (dashes) &&
@@ -364,7 +366,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 static void
 xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 {
-	xlsx_write_go_style_full (xml, style, FALSE);
+	xlsx_write_go_style_full (xml, style, FALSE, FALSE);
 }
 
 static void
@@ -547,9 +549,10 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	const char *plot_type_name;
 	GSList const *series;
 	unsigned count;
+	gboolean has_markers = FALSE;
+	gboolean has_lines = FALSE;
 	gboolean use_xy = FALSE;
 	gboolean set_smooth = FALSE;
-	gboolean has_markers = FALSE;
 	gboolean set_invert = FALSE;
 
 	g_object_get (G_OBJECT (plot),
@@ -639,7 +642,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		break;
 
 	case XLSX_PT_GOGXYPLOT: {
-		gboolean has_lines, use_splines;
+		gboolean use_splines;
 		char const *style;
 		g_object_get (G_OBJECT (plot),
 		              "default-style-has-lines", &has_lines,
@@ -679,7 +682,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		xlsx_write_chart_int (xml, "c:order", -1, count);
 		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
 		if (!vary_by_element) /* FIXME: we might loose some style elements */
-			xlsx_write_go_style_full (xml, style, has_markers);
+			xlsx_write_go_style_full (xml, style, has_markers, has_lines);
 		if (set_invert)
 			xlsx_write_chart_uint (xml, "c:invertIfNegative", 1, 0);
 
