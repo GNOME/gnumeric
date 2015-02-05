@@ -1,3 +1,7 @@
+2015-02-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.20
+
 2015-02-01  Morten Welinder  <terra@gnome.org>
 
 	* t6152-xlsx-syntax.pl: Also check comments.

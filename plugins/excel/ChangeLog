@@ -1,3 +1,7 @@
+2015-02-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.20
+
 2015-02-03  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_line): Default is no markers.

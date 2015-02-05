@@ -1,3 +1,7 @@
+2015-02-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.20
+
 2015-02-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_data_element_range): add foreign
