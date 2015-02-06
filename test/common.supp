@@ -853,7 +853,6 @@
 {
    FONTCONFIG/CONFIGVALUES_LEAK
    Memcheck:Leak
-   match-leak-kinds: possible
    fun:malloc
    fun:strdup
    fun:FcValueSave
