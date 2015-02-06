@@ -1178,7 +1178,7 @@ sheet_widget_button_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
  	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
  	dependent_set_expr (&swb->dep, texpr);
- 	if (NULL != texpr)
+ 	if (texpr && swb->dep.sheet)
  		dependent_link (&swb->dep);
 }
 
@@ -1383,7 +1383,7 @@ sheet_widget_adjustment_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
 	SheetWidgetAdjustment *swa = GNM_SOW_ADJUSTMENT (so);
 	dependent_set_expr (&swa->dep, texpr);
-	if (NULL != texpr)
+	if (texpr && swa->dep.sheet)
 		dependent_link (&swa->dep);
 }
 
@@ -1873,7 +1873,7 @@ sheet_widget_adjustment_set_details (SheetObject *so, GnmExprTop const *tlink,
 	g_return_if_fail (swa != NULL);
 
 	dependent_set_expr (&swa->dep, tlink);
-	if (NULL != tlink)
+	if (tlink && swa->dep.sheet)
 		dependent_link (&swa->dep);
 
 	page_size = gtk_adjustment_get_page_size (swa->adjustment); /* ??? */
@@ -2645,7 +2645,7 @@ sheet_widget_checkbox_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
 	SheetWidgetCheckbox *swc = GNM_SOW_CHECKBOX (so);
 	dependent_set_expr (&swc->dep, texpr);
-	if (NULL != texpr)
+	if (texpr && swc->dep.sheet)
 		dependent_link (&swc->dep);
 }
 
@@ -3100,7 +3100,7 @@ sheet_widget_radio_button_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
 	SheetWidgetRadioButton *swrb = GNM_SOW_RADIO_BUTTON (so);
 	dependent_set_expr (&swrb->dep, texpr);
-	if (NULL != texpr)
+	if (texpr && swrb->dep.sheet)
 		dependent_link (&swrb->dep);
 }
 
@@ -3720,10 +3720,10 @@ sheet_widget_list_base_set_links (SheetObject *so,
 {
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
 	dependent_set_expr (&swl->output_dep, output);
-	if (NULL != output)
+	if (output && swl->output_dep.sheet)
 		dependent_link (&swl->output_dep);
 	dependent_set_expr (&swl->content_dep, content);
-	if (NULL != content)
+	if (content && swl->content_dep.sheet)
 		dependent_link (&swl->content_dep);
 	list_content_eval (&swl->content_dep); /* populate the list */
 }

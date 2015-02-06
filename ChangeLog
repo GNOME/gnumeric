@@ -1,3 +1,12 @@
+2015-02-06  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_adjustment_set_link)
+	(sheet_widget_button_set_link, sheet_widget_checkbox_set_link)
+	(sheet_widget_radio_button_set_link)
+	(sheet_widget_list_base_set_links)
+	(sheet_widget_adjustment_set_details): Only link if we have a
+	sheet.
+
 2015-02-04  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
