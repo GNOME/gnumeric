@@ -3145,7 +3145,44 @@ xlsx_vml_drop_style (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_vml_client_data (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xlsx_vml_client_data_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GType typ = G_TYPE_NONE;
+
+	static EnumVal const types[] = {
+		{ "Scroll", 0 },
+		{ "Radio", 1 },
+		{ "Spin", 2 },
+		{ "Button", 3 },
+		{ "Checkbox", 4 },
+		{ NULL, 0 }
+	};
+	static GType gtypes[G_N_ELEMENTS(types) - 1];
+
+	if (!gtypes[0]) {
+		gtypes[0] = GNM_SOW_SCROLLBAR_TYPE;
+		gtypes[1] = GNM_SOW_RADIO_BUTTON_TYPE;
+		gtypes[2] = GNM_SOW_SPIN_BUTTON_TYPE;
+		gtypes[3] = GNM_SOW_BUTTON_TYPE;
+		gtypes[4] = GNM_SOW_CHECKBOX_TYPE;
+	}
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		int tmp;
+
+		if (attr_enum (xin, attrs, "ObjectType", types, &tmp))
+			typ = gtypes[tmp];
+	}
+
+	if (typ != G_TYPE_NONE && !state->so) {
+		state->so = SHEET_OBJECT (g_object_new (typ, NULL));
+		state->pending_objects = g_slist_prepend (state->pending_objects, state->so);
+	}
+}
+
+static void
+xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (state->so) {
@@ -3196,9 +3233,19 @@ xlsx_vml_client_data (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		coords[3] = (state->chart_pos[3] - sum) / size;
 		sheet_object_anchor_init (&anchor, &r, coords, GOD_ANCHOR_DIR_DOWN_RIGHT);
 		sheet_object_set_anchor (state->so, &anchor);
-		if (GNM_IS_SOW_LIST (state->so) || GNM_IS_SOW_COMBO (state->so))
+		if (GNM_IS_SOW_LIST (state->so) ||
+		    GNM_IS_SOW_COMBO (state->so))
 			sheet_widget_list_base_set_links (state->so, state->link_texpr, state->texpr);
-		g_object_unref (state->so);
+		else if (GNM_IS_SOW_SCROLLBAR (state->so) ||
+			 GNM_IS_SOW_SPINBUTTON (state->so) ||
+			 GNM_IS_SOW_SLIDER (state->so))
+			sheet_widget_adjustment_set_link (state->so, state->link_texpr);
+		else if (GNM_IS_SOW_RADIO_BUTTON (state->so))
+			sheet_widget_radio_button_set_link (state->so, state->link_texpr);
+		else if (GNM_IS_SOW_BUTTON (state->so))
+			sheet_widget_button_set_link (state->so, state->link_texpr);
+		else if (GNM_IS_SOW_CHECKBOX (state->so))
+			sheet_widget_checkbox_set_link (state->so, state->link_texpr);
 		state->so = NULL;
 	}
 	if (state->texpr) {
@@ -3247,7 +3294,7 @@ GSF_XML_IN_NODE_FULL (START, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, FAL
   GSF_XML_IN_NODE (SP, TEXTBOX, XL_NS_LEG_VML, "textbox", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (TEXTBOX, DIV, -1, "div", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SP, LOCK, XL_NS_LEG_OFF, "lock", GSF_XML_NO_CONTENT, NULL, NULL), /* already defined */
-  GSF_XML_IN_NODE (SP, CLIENT_DATA, XL_NS_LEG_XL, "ClientData", GSF_XML_NO_CONTENT, NULL, &xlsx_vml_client_data),
+  GSF_XML_IN_NODE (SP, CLIENT_DATA, XL_NS_LEG_XL, "ClientData", GSF_XML_NO_CONTENT, &xlsx_vml_client_data_start, &xlsx_vml_client_data_end),
     GSF_XML_IN_NODE (CLIENT_DATA, ANCHOR, XL_NS_LEG_XL, "Anchor", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, AUTO_FILL, XL_NS_LEG_XL, "AutoFill", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, AUTO_LINE, XL_NS_LEG_XL, "AutoLine", GSF_XML_NO_CONTENT, NULL, NULL),

@@ -1,3 +1,9 @@
+2015-02-06  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_vml_client_data_start)
+	(xlsx_vml_client_data_end): First attempt at reading scrollbars,
+	radio buttons, checkboxes, buttons, and spin buttons.
+
 2015-02-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.20
