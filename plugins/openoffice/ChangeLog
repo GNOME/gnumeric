@@ -1,5 +1,10 @@
 2015-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_apply_style_props): apply gnm-auto-type
+	(od_style_prop_chart): use a name indicative of it being an extension
+
+2015-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_gog_style_graphic): we need to write fill colour
 	info even if auto-type == TRUE since nobody else understands auto-type
 

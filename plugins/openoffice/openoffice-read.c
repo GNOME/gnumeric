@@ -980,6 +980,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 		        style->line.auto_width = g_value_get_boolean (&prop->value);
 		} else if (0 == strcmp (prop->name, "repeat"))
 			style->fill.image.type = g_value_get_int (&prop->value);
+		else if (0 == strcmp (prop->name, "gnm-auto-type"))
+			style->fill.auto_type = g_value_get_boolean (&prop->value);
 	}
 	if (desc_changed)
 		go_style_set_font_desc	(style, desc);
@@ -7243,7 +7245,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-type", &btmp))
 			style->style_props = g_slist_prepend
 				(style->style_props,
-				 oo_prop_new_bool ("auto-type", btmp));
+				 oo_prop_new_bool ("gnm-auto-type", btmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "fill-color"))
 			style->style_props = g_slist_prepend
 				(style->style_props,

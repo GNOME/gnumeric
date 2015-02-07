@@ -4,7 +4,7 @@ Andreas:
 	* ODF import/export general plot data specifications. [#743818]
 	* ODF import/export the z-index for line objects.
 	* Fix ODF import of stroke colours of sheet objects.
-	* Fix ODF export of fill colour and type.
+	* Fix ODF import/export of fill colour and type. [#744051]
 
 Morten:
 	* Initial xlsx import of sheet widgets.
