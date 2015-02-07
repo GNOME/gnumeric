@@ -3,6 +3,9 @@
 	* xlsx-read-drawing.c (xlsx_vml_client_data_start)
 	(xlsx_vml_client_data_end): First attempt at reading scrollbars,
 	radio buttons, checkboxes, buttons, and spin buttons.
+	(xlsx_vml_shape): Reset position so we don't depend on junk.
+	(xlsx_vml_client_data_end): Resolve NaNs in position gracefully.
+	(xlsx_vml_adj): New function to read adjustment details.
 
 2015-02-04  Morten Welinder <terra@gnome.org>
 

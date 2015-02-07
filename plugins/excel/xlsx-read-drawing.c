@@ -3084,7 +3084,10 @@ static void
 xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+
+	xlsx_reset_chart_pos (state);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (!strcmp (attrs[0], "style")) {
 			char **elts = g_strsplit (attrs[1], ";", 0), **cur, *key, *value, *end;
 			int dim;
@@ -3132,6 +3135,7 @@ xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 			state->chart_pos[2] += state->chart_pos[0];
 			state->chart_pos[3] += state->chart_pos[1];
 		}
+	}
 }
 
 static void
@@ -3191,7 +3195,12 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GnmRange r;
 		double coords[4];
 		int default_size = sheet_col_get_default_size_pixels (state->sheet);
-		int pos, sum, size;
+		int i, pos, sum, size;
+
+		for (i = 0; i < 4; i++)
+			if (!go_finite (state->chart_pos[i]))
+				state->chart_pos[i] = 0;
+
 		for (pos = 0, sum = 0; /* no test */; pos++) {
 			cri = sheet_col_get (state->sheet, pos);
 			size = (cri)? cri->size_pixels: default_size;
@@ -3276,6 +3285,25 @@ xlsx_vml_fmla_range (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->texpr = gnm_expr_top_new_constant (value);
 }
 
+static void
+xlsx_vml_adj (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (state->so) {
+		GtkAdjustment *adj = sheet_widget_adjustment_get_adjustment (state->so);
+		double x = g_ascii_strtod (xin->content->str, NULL);
+		switch (xin->node->user_data.v_int) {
+		case 0: gtk_adjustment_set_lower (adj, x); break;
+		case 1: gtk_adjustment_set_upper (adj, x); break;
+		case 2: gtk_adjustment_set_step_increment (adj, x); break;
+		case 3: gtk_adjustment_set_page_increment (adj, x); break;
+		default: break;
+		}
+	}
+}
+
+
+
 static GsfXMLInNode const xlsx_legacy_drawing_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, SP_LAYOUT, XL_NS_LEG_OFF, "shapelayout", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -3304,13 +3332,12 @@ GSF_XML_IN_NODE_FULL (START, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, FAL
     GSF_XML_IN_NODE (CLIENT_DATA, DX, XL_NS_LEG_XL, "Dx", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, FMLA_LINK, XL_NS_LEG_XL, "FmlaLink", GSF_XML_CONTENT, NULL, &xlsx_vml_fmla_link),
     GSF_XML_IN_NODE (CLIENT_DATA, FMLA_RANGE, XL_NS_LEG_XL, "FmlaRange", GSF_XML_CONTENT, NULL, &xlsx_vml_fmla_range),
-    GSF_XML_IN_NODE (CLIENT_DATA, INC, XL_NS_LEG_XL, "Inc", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE_FULL (CLIENT_DATA, INC, XL_NS_LEG_XL, "Inc", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xlsx_vml_adj, 2),
     GSF_XML_IN_NODE (CLIENT_DATA, LCT, XL_NS_LEG_XL, "LCT", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (CLIENT_DATA, XMIN, XL_NS_LEG_XL, "Min", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE_FULL (CLIENT_DATA, XMIN, XL_NS_LEG_XL, "Min", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xlsx_vml_adj, 0),
+    GSF_XML_IN_NODE_FULL (CLIENT_DATA, XMAX, XL_NS_LEG_XL, "Max", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xlsx_vml_adj, 1),
     GSF_XML_IN_NODE (CLIENT_DATA, MOVE_WITH_CELLS, XL_NS_LEG_XL, "MoveWithCells", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (CLIENT_DATA, XMAX, XL_NS_LEG_XL, "Max", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (CLIENT_DATA, MOVE_WITH_CELLS, XL_NS_LEG_XL, "MoveWithCells", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (CLIENT_DATA, PAGE, XL_NS_LEG_XL, "Page", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE_FULL (CLIENT_DATA, PAGE, XL_NS_LEG_XL, "Page", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xlsx_vml_adj, 3),
     GSF_XML_IN_NODE (CLIENT_DATA, PRINT_OBJECT, XL_NS_LEG_XL, "PrintObject", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, RECALC_ALWAYS, XL_NS_LEG_XL, "RecalcAlways", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, ROW, XL_NS_LEG_XL, "Row", GSF_XML_NO_CONTENT, NULL, NULL),
