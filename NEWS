@@ -3,6 +3,7 @@ Gnumeric 1.12.21
 Andreas:
 	* ODF import/export general plot data specifications. [#743818]
 	* ODF import/export the z-index for line objects.
+	* Fix ODF import of stroke colours of sheet objects.
 
 Morten:
 	* Initial xlsx import of sheet widgets.
