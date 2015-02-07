@@ -1,5 +1,10 @@
 2015-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_line): read the z-index
+	* openoffice-write.c (odf_write_line): write a z-index
+
+2015-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_table_end): put all objects without z-index at the top.
 
 2015-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>

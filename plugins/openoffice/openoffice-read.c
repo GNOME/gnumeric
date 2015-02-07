@@ -10342,6 +10342,7 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 	double frame_offset[4];
 	char const *style_name = NULL;
 	gdouble height, width;
+	int z = -1;
 
 	cell_base.start.col = cell_base.end.col = state->pos.eval.col;
 	cell_base.start.row = cell_base.end.row = state->pos.eval.row;
@@ -10375,7 +10376,9 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 				cell_base.end.col = ref.a.col;
 				cell_base.end.row = ref.a.row;
 			}
-		}
+		} else if (oo_attr_int_range (xin,attrs, OO_NS_DRAW, "z-index",
+					      &z, 0, G_MAXINT))
+			;
 
 	if (x1 < x2) {
 		if (y1 < y2)
@@ -10467,6 +10470,7 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 	odf_push_text_p (state, FALSE);
+	state->chart.z_index = z;
 }
 
 /****************************************************************************/
