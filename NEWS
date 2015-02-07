@@ -1,5 +1,8 @@
 Gnumeric 1.12.21
 
+Andreas:
+	* ODF import/export general plot data specifications. [#743818]
+
 Morten:
 	* Initial xlsx import of sheet widgets.
 	* Initial xlsx export of sheet widgets.

@@ -1,3 +1,11 @@
+2015-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_plot_assign_dim): add argument to handle
+	general expressions. Change all callers.
+	(oo_plot_series): handle new gnm:values-cell-range-expression attribute
+	(oo_plot_series_end): reset overridden plot type
+	(oo_series_domain): handle new gnm:cell-range-expression attribute
+
 2015-02-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.20
