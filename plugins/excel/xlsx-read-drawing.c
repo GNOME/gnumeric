@@ -3286,6 +3286,23 @@ xlsx_vml_fmla_range (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xlsx_vml_horiz (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (state->so) {
+		const char *s = xin->content->str;
+		gboolean horiz;
+		if (g_ascii_toupper (s[0]) == 'T')
+			horiz = TRUE;
+		else if (g_ascii_toupper (s[0]) == 'F')
+			horiz = FALSE;
+		else
+			return; /* Blank means default.  */
+		//sheet_widget_adjustment_set_horizontal (state->so, horiz);
+	}
+}
+
+static void
 xlsx_vml_adj (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -3332,6 +3349,7 @@ GSF_XML_IN_NODE_FULL (START, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, FAL
     GSF_XML_IN_NODE (CLIENT_DATA, DX, XL_NS_LEG_XL, "Dx", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, FMLA_LINK, XL_NS_LEG_XL, "FmlaLink", GSF_XML_CONTENT, NULL, &xlsx_vml_fmla_link),
     GSF_XML_IN_NODE (CLIENT_DATA, FMLA_RANGE, XL_NS_LEG_XL, "FmlaRange", GSF_XML_CONTENT, NULL, &xlsx_vml_fmla_range),
+    GSF_XML_IN_NODE (CLIENT_DATA, HORIZ, XL_NS_LEG_XL, "Horiz", GSF_XML_CONTENT, NULL, &xlsx_vml_horiz),
     GSF_XML_IN_NODE_FULL (CLIENT_DATA, INC, XL_NS_LEG_XL, "Inc", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xlsx_vml_adj, 2),
     GSF_XML_IN_NODE (CLIENT_DATA, LCT, XL_NS_LEG_XL, "LCT", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE_FULL (CLIENT_DATA, XMIN, XL_NS_LEG_XL, "Min", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xlsx_vml_adj, 0),

@@ -1115,6 +1115,8 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 		GnmExprTop const *tlink = NULL;
 		double res_pts[4] = {0.,0.,0.,0.};
 		GtkAdjustment *adj = NULL;
+		int horiz = -1;
+
 		sheet_object_position_pts_get (so, res_pts);
 
 		gsf_xml_out_start_element (xml, "v:shape");
@@ -1134,6 +1136,7 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			otype = "Scroll";
 			tlink = sheet_widget_adjustment_get_link (so);
 			adj = sheet_widget_adjustment_get_adjustment (so);
+			horiz = sheet_widget_adjustment_get_horizontal (so);
 		} else if (GNM_IS_SOW_SPINBUTTON (so)) {
 			otype = "Spin";
 			tlink = sheet_widget_adjustment_get_link (so);
@@ -1173,6 +1176,9 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			gsf_xml_out_simple_float_element (xml, "x:Page",
 							  gtk_adjustment_get_page_increment (adj), -1);
 		}
+		if (horiz >= 0)
+			gsf_xml_out_simple_element (xml, "x:Horiz", horiz ? "t" : "f");
+
 		gsf_xml_out_end_element (xml);  /* </x:ClientData> */
 
 		gsf_xml_out_end_element (xml);  /* </v:shape> */
