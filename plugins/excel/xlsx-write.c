@@ -2710,7 +2710,11 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 			comments = g_slist_prepend (comments, so);
 		else if (IS_SHEET_OBJECT_GRAPH (so))
 			drawing_objs = g_slist_prepend (drawing_objs, so);
-		else if (GNM_IS_SOW_SCROLLBAR (so))
+		else if (GNM_IS_SOW_SCROLLBAR (so) || GNM_IS_SOW_SLIDER (so) ||
+			 GNM_IS_SOW_SPINBUTTON (so) ||
+			 GNM_IS_SOW_BUTTON (so) ||
+			 GNM_IS_SOW_RADIO_BUTTON (so) ||
+			 GNM_IS_SOW_CHECKBOX (so))
 			legacy_drawing_objs = g_slist_prepend (legacy_drawing_objs, so);
 		else if (IS_GNM_FILTER_COMBO (so))
 			; /* Nothing here */

@@ -1130,10 +1130,25 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 		}
 
 		gsf_xml_out_start_element (xml, "x:ClientData");
-		if (GNM_IS_SOW_SCROLLBAR (so)) {
+		if (GNM_IS_SOW_SCROLLBAR (so) || GNM_IS_SOW_SLIDER (so)) {
 			otype = "Scroll";
 			tlink = sheet_widget_adjustment_get_link (so);
 			adj = sheet_widget_adjustment_get_adjustment (so);
+		} else if (GNM_IS_SOW_SPINBUTTON (so)) {
+			otype = "Spin";
+			tlink = sheet_widget_adjustment_get_link (so);
+			adj = sheet_widget_adjustment_get_adjustment (so);
+		} else if (GNM_IS_SOW_BUTTON (so)) {
+			otype = "Button";
+			tlink = sheet_widget_button_get_link (so);
+		} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
+			otype = "Radio";
+			tlink = sheet_widget_radio_button_get_link (so);
+		} else if (GNM_IS_SOW_CHECKBOX (so)) {
+			otype = "Checkbox";
+			tlink = sheet_widget_checkbox_get_link (so);
+		} else {
+			g_assert_not_reached ();
 		}
 		gsf_xml_out_add_cstr_unchecked (xml, "ObjectType", otype);
 		gsf_xml_out_start_element (xml, "x:Anchor");
