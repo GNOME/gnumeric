@@ -3141,11 +3141,18 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	for (l = state->chart_list; l != NULL; l = l->next) {
 		object_offset_t *ob_off = l->data;
+		if (top_z < ob_off->z_index)
+			top_z = ob_off->z_index;
+	}
+
+	for (l = state->chart_list; l != NULL; l = l->next) {
+		object_offset_t *ob_off = l->data;
 		if (ob_off->z_index < 0) {
 			top_z++;
 			ob_off->z_index = top_z;
-		} else if (top_z < ob_off->z_index)
-			top_z = ob_off->z_index;
+			if (state->debug)
+				g_print ("Object Ordering: Object without z-index encountered.\n");
+		}
 	}
 
 	state->chart_list = g_slist_sort (state->chart_list,
