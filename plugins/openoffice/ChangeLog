@@ -1,5 +1,10 @@
 2015-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_axis_position): Gnumeric uses a default crossing
+	position of 0 if pos-str==cross
+
+2015-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_apply_style_props): apply gnm-auto-type
 	(od_style_prop_chart): use a name indicative of it being an extension
 

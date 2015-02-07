@@ -6983,6 +6983,8 @@ odf_write_axis_position (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 				odf_write_data_attribute (state, bd, &pp,
 							  GNMSTYLE "axis-position-expression",
 							  CHART "axis-position");
+			else
+				gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "0");	
 		}
 	}
 }
