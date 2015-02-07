@@ -1,5 +1,10 @@
 2015-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_gog_style_graphic): we need to write fill colour
+	info even if auto-type == TRUE since nobody else understands auto-type
+
+2015-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_apply_style_props): add argument and evaluate depending
 	on whether we are in a chart context. Change all callers.
 

@@ -7401,9 +7401,11 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 	if (!style)
 		return;
 
-	if (state->with_extension && style->fill.auto_type) {
-		odf_add_bool (state->xml, GNMSTYLE "auto-type", TRUE);
-	} else {
+	if (style->interesting_fields & (GO_STYLE_FILL)) {
+		if (state->with_extension && style->fill.auto_type) {
+			odf_add_bool (state->xml, GNMSTYLE "auto-type", TRUE);
+		}
+		/* We need to write our colours even for auto_type == TRUE since nobody else understands this */
 		switch (style->fill.type) {
 		case GO_STYLE_FILL_NONE:
 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
