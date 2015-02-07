@@ -949,16 +949,14 @@ xlsx_write_object_anchor (GsfXMLOut *xml, GnmCellPos const *pos, char const *ele
 }
 
 static char const *
-xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objects)
+xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objects)
 {
-	GSList *obj, *chart_id, *chart_ids = NULL;
-	char *name, *tmp;
-	char const *rId, *rId1;
+	GSList *obj, *rId_ptr, *rIds = NULL;
+	char *name;
+	char const *rId;
 	int count = 1;
-	GsfOutput *drawing_part, *chart_part;
+	GsfOutput *drawing_part;
 	GsfXMLOut *xml;
-	SheetObjectAnchor const *anchor;
-	double res_pts[4] = {0.,0.,0.,0.};
 
 	if (NULL == state->drawing.dir)
 		state->drawing.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "drawings", TRUE);
@@ -972,33 +970,53 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 	g_free (name);
 
 	rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (drawing_part),
-		GSF_OUTFILE_OPEN_PKG (sheet_part), ns_rel_draw);
+					   GSF_OUTFILE_OPEN_PKG (sheet_part),
+					   ns_rel_draw);
 
-	objects = sheet_objects_get (state->sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
 	for (obj = objects ; obj != NULL ; obj = obj->next) {
-		char *name = g_strdup_printf ("chart%u.xml", ++state->chart.count);
-		chart_part = gsf_outfile_new_child_full (state->chart.dir, name, FALSE,
-			"content-type", "application/vnd.openxmlformats-officedocument.drawingml.chart+xml",
-			NULL);
-		g_free (name);
-		rId1 = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (chart_part),
-			GSF_OUTFILE_OPEN_PKG (drawing_part), ns_rel_chart);
+		SheetObject *so = obj->data;
+		const char *rId1;
 
-		chart_ids = g_slist_prepend (chart_ids, (gpointer)rId1);
+		if (IS_SHEET_OBJECT_GRAPH (so)) {
+			char *name = g_strdup_printf ("chart%u.xml", ++state->chart.count);
+			GsfOutput *chart_part = gsf_outfile_new_child_full
+				(state->chart.dir, name, FALSE,
+				 "content-type",
+				 "application/vnd.openxmlformats-officedocument.drawingml.chart+xml",
+				 NULL);
+			g_free (name);
+			rId1 = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (chart_part),
+							    GSF_OUTFILE_OPEN_PKG (drawing_part),
+							    ns_rel_chart);
 
-		xlsx_write_chart (state, chart_part, obj->data);
-		gsf_output_close (chart_part);
-		g_object_unref (chart_part);
+			xlsx_write_chart (state, chart_part, so);
+			gsf_output_close (chart_part);
+			g_object_unref (chart_part);
+		} else {
+			rId1 = NULL;
+		}
+
+		rIds = g_slist_prepend (rIds, (gpointer)rId1);
 	}
+	rIds = g_slist_reverse (rIds);
 
 	xml = gsf_xml_out_new (drawing_part);
 	gsf_xml_out_start_element (xml, "xdr:wsDr");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:xdr", ns_ss_drawing);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
 
-	chart_id = g_slist_reverse (chart_ids);
-	for (obj = objects; obj != NULL ; obj = obj->next, chart_id = chart_id->next) {
-		anchor = sheet_object_get_anchor (obj->data);
+	for (obj = objects, rId_ptr = rIds;
+	     obj != NULL ;
+	     obj = obj->next, rId_ptr = rId_ptr->next) {
+		SheetObject *so = obj->data;
+		const char *rId1 = rId_ptr->data;
+		SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
+		double res_pts[4] = {0.,0.,0.,0.};
+		char *tmp;
+
+		if (!rId1)
+			continue;
+
 		sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 
 		gsf_xml_out_start_element (xml, "xdr:twoCellAnchor");
@@ -1014,10 +1032,9 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 
 		gsf_xml_out_start_element (xml, "xdr:cNvPr");
 		gsf_xml_out_add_int (xml, "id",  count+1);
-		gsf_xml_out_add_cstr_unchecked (xml, "name",
-			(tmp = g_strdup_printf ("Chart %d", count)));
+		tmp = g_strdup_printf ("Chart %d", count++);
+		gsf_xml_out_add_cstr_unchecked (xml, "name", tmp);
 		g_free (tmp);
-		count++;
 		gsf_xml_out_end_element (xml);
 
 		gsf_xml_out_simple_element (xml, "xdr:cNvGraphicFramePr", NULL);
@@ -1044,7 +1061,7 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
 
-		gsf_xml_out_add_cstr_unchecked (xml, "r:id", chart_id->data);
+		gsf_xml_out_add_cstr_unchecked (xml, "r:id", rId1);
 		gsf_xml_out_end_element (xml); /* </c:chart> */
 		gsf_xml_out_end_element (xml); /* </a:graphicData> */
 		gsf_xml_out_end_element (xml); /* </a:graphic> */
@@ -1052,10 +1069,101 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 		gsf_xml_out_simple_element (xml, "xdr:clientData", NULL);
 		gsf_xml_out_end_element (xml); /* </xdr:twoCellAnchor> */
 	}
-	g_slist_free (objects);
-	g_slist_free (chart_ids);
+	g_slist_free (rIds);
 
 	gsf_xml_out_end_element (xml); /* </wsDr> */
+	g_object_unref (xml);
+	gsf_output_close (drawing_part);
+	g_object_unref (drawing_part);
+
+	return rId;
+}
+
+static char const *
+xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objects)
+{
+	GSList *obj;
+	char *name;
+	char const *rId;
+	GsfOutput *drawing_part;
+	GsfXMLOut *xml;
+	GnmParsePos pp0;
+
+	parse_pos_init_sheet (&pp0, state->sheet);
+
+	/* Note: we use drawing.dir here.  */
+	if (NULL == state->drawing.dir)
+		state->drawing.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "drawings", TRUE);
+
+	name = g_strdup_printf ("vmlDrawing%u.vml", ++state->legacy_drawing.count);
+	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE, NULL);
+	g_free (name);
+
+	rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (drawing_part),
+					   GSF_OUTFILE_OPEN_PKG (sheet_part),
+					   ns_rel_leg_draw);
+
+	xml = gsf_xml_out_new (drawing_part);
+	gsf_xml_out_start_element (xml, "xml");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:v", ns_vml);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:o", ns_leg_office);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:x", ns_leg_excel);
+
+	for (obj = objects ; obj != NULL ; obj = obj->next) {
+		SheetObject *so = obj->data;
+		const char *otype = NULL;
+		GnmExprTop const *tlink = NULL;
+		double res_pts[4] = {0.,0.,0.,0.};
+		GtkAdjustment *adj = NULL;
+		sheet_object_position_pts_get (so, res_pts);
+
+		gsf_xml_out_start_element (xml, "v:shape");
+		{
+			GString *str = g_string_new (NULL);
+			g_string_append (str, "position:absolute;");
+			g_string_append_printf (str, "margin-left:%.2fpt;", res_pts[0]);
+			g_string_append_printf (str, "margin-top:%.2fpt;", res_pts[1]);
+			g_string_append_printf (str, "width:%.2fpt;", res_pts[2] - res_pts[0]);
+			g_string_append_printf (str, "height:%.2fpt;", res_pts[3] - res_pts[1]);
+			gsf_xml_out_add_cstr (xml, "style", str->str);
+			g_string_free (str, TRUE);
+		}
+
+		gsf_xml_out_start_element (xml, "x:ClientData");
+		if (GNM_IS_SOW_SCROLLBAR (so)) {
+			otype = "Scroll";
+			tlink = sheet_widget_adjustment_get_link (so);
+			adj = sheet_widget_adjustment_get_adjustment (so);
+		}
+		gsf_xml_out_add_cstr_unchecked (xml, "ObjectType", otype);
+		gsf_xml_out_start_element (xml, "x:Anchor");
+		gsf_xml_out_end_element (xml);  /* </x:Anchor> */
+		if (tlink) {
+			char *s = gnm_expr_top_as_string (tlink, &pp0, state->convs);
+			gsf_xml_out_start_element (xml, "x:FmlaLink");
+			gsf_xml_out_add_cstr (xml, NULL, s);
+			gsf_xml_out_end_element (xml);  /* </x:FmlaLink> */
+			g_free (s);
+			gnm_expr_top_unref (tlink);
+		}
+		if (adj) {
+			gsf_xml_out_simple_float_element (xml, "x:Val",
+							  gtk_adjustment_get_value (adj), -1);
+			gsf_xml_out_simple_float_element (xml, "x:Min",
+							  gtk_adjustment_get_lower (adj), -1);
+			gsf_xml_out_simple_float_element (xml, "x:Max",
+							  gtk_adjustment_get_upper (adj), -1);
+			gsf_xml_out_simple_float_element (xml, "x:Inc",
+							  gtk_adjustment_get_step_increment (adj), -1);
+			gsf_xml_out_simple_float_element (xml, "x:Page",
+							  gtk_adjustment_get_page_increment (adj), -1);
+		}
+		gsf_xml_out_end_element (xml);  /* </x:ClientData> */
+
+		gsf_xml_out_end_element (xml);  /* </v:shape> */
+	}
+
+	gsf_xml_out_end_element (xml);  /* </xml> */
 	g_object_unref (xml);
 	gsf_output_close (drawing_part);
 	g_object_unref (drawing_part);

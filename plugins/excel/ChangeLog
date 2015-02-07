@@ -1,5 +1,10 @@
 2015-02-06  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (xlsx_write_sheet): Handle sheet widgets.
+
+	* xlsx-write-drawing.c (xlsx_write_legacy_drawing_objects): First
+	cut at writing sheet widgets.
+
 	* xlsx-read-drawing.c (xlsx_vml_client_data_start)
 	(xlsx_vml_client_data_end): First attempt at reading scrollbars,
 	radio buttons, checkboxes, buttons, and spin buttons.

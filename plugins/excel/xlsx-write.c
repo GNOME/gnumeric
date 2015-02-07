@@ -52,6 +52,7 @@
 #include "sheet-object.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-graph.h"
+#include "sheet-object-widget.h"
 #include "graph.h"
 #include "style-border.h"
 #include "style-conditions.h"
@@ -93,9 +94,14 @@ static char const *ns_docprops_extended_vt   = "http://schemas.openxmlformats.or
 static char const *ns_docprops_custom        = "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties";
 static char const *ns_drawing	 = "http://schemas.openxmlformats.org/drawingml/2006/main";
 static char const *ns_chart	 = "http://schemas.openxmlformats.org/drawingml/2006/chart";
+static char const *ns_vml	 = "urn:schemas-microsoft-com:vml";
+static char const *ns_leg_office = "urn:schemas-microsoft-com:office:office";
+static char const *ns_leg_excel	 = "urn:schemas-microsoft-com:office:excel";
+
 static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
 static char const *ns_rel_hlink	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink";
 static char const *ns_rel_draw	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing";
+static char const *ns_rel_leg_draw = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing";
 static char const *ns_rel_chart	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart";
 static char const *ns_rel_com	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments";
 
@@ -119,7 +125,7 @@ typedef struct {
 	struct {
 		unsigned int	count;
 		GsfOutfile	*dir;
-	} chart, drawing, pivotCache, pivotTable;
+	} chart, drawing, legacy_drawing, pivotCache, pivotTable;
 	unsigned comment;
 	GOFormat *date_fmt;
 
@@ -2683,8 +2689,9 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet");
 	GsfXMLOut *xml;
 	GnmRange  extent, cell_extent;
-	GSList   *charts, *comments, *others, *objects, *p;
+	GSList   *drawing_objs, *legacy_drawing_objs, *comments, *others, *objects, *p;
 	char const *chart_drawing_rel_id = NULL;
+	char const *legacy_drawing_rel_id = NULL;
 	GnmStyle **col_styles;
 	PrintInformation *pi = NULL;
 
@@ -2696,13 +2703,15 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	extent = range_union (&extent, &cell_extent);
 
 	objects = sheet_objects_get (state->sheet, NULL, G_TYPE_NONE);
-	charts = comments = others = NULL;
+	drawing_objs = legacy_drawing_objs = comments = others = NULL;
 	for (p = objects; p; p = p->next) {
 		SheetObject *so = p->data;
 		if (IS_CELL_COMMENT (so))
 			comments = g_slist_prepend (comments, so);
 		else if (IS_SHEET_OBJECT_GRAPH (so))
-			charts = g_slist_prepend (charts, so);
+			drawing_objs = g_slist_prepend (drawing_objs, so);
+		else if (GNM_IS_SOW_SCROLLBAR (so))
+			legacy_drawing_objs = g_slist_prepend (legacy_drawing_objs, so);
 		else if (IS_GNM_FILTER_COMBO (so))
 			; /* Nothing here */
 		else
@@ -2710,16 +2719,22 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	}
 	g_slist_free (objects);
 
-	comments = g_slist_reverse (comments);
 	if (comments) {
+		comments = g_slist_reverse (comments);
 		xlsx_write_comments (state, sheet_part, comments);
 		g_slist_free (comments);
 	}
 
-	charts = g_slist_reverse (charts);
-	if (charts) {
-		chart_drawing_rel_id = xlsx_write_objects (state, sheet_part, charts);
-		g_slist_free (charts);
+	if (drawing_objs) {
+		drawing_objs = g_slist_reverse (drawing_objs);
+		chart_drawing_rel_id = xlsx_write_drawing_objects (state, sheet_part, drawing_objs);
+		g_slist_free (drawing_objs);
+	}
+
+	if (legacy_drawing_objs) {
+		legacy_drawing_objs = g_slist_reverse (legacy_drawing_objs);
+		legacy_drawing_rel_id = xlsx_write_legacy_drawing_objects (state, sheet_part, legacy_drawing_objs);
+		g_slist_free (legacy_drawing_objs);
 	}
 
 	for (p = others; p; p = p->next) {
@@ -2817,6 +2832,11 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		gsf_xml_out_end_element (xml);  /* </drawing> */
 	}
 /*   element legacyDrawing { CT_LegacyDrawing }?,  Deleted in edition 2   */
+	if (NULL != legacy_drawing_rel_id) {
+		gsf_xml_out_start_element (xml, "legacyDrawing");
+		gsf_xml_out_add_cstr_unchecked (xml, "r:id", legacy_drawing_rel_id);
+		gsf_xml_out_end_element (xml);  /* </legacyDrawing> */
+	}
 /*   element legacyDrawingHF { CT_LegacyDrawing }?,  Deleted in edition 2   */
 /*   element picture { CT_SheetBackgroundPicture }?,     */
 /*   element oleObjects { CT_OleObjects }?,     */
@@ -2951,8 +2971,8 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	gnm_style_unref (style);
 
 	state->convs	 = xlsx_conventions_new (TRUE);
-	state->chart.dir   = state->drawing.dir   = NULL;
-	state->chart.count = state->drawing.count = 0;
+	state->chart.dir   = state->drawing.dir   = state->legacy_drawing.dir = NULL;
+	state->chart.count = state->drawing.count = state->legacy_drawing.count = 0;
 
 	g_ptr_array_set_size (sheetIds, workbook_sheet_count (state->base.wb));
 	for (i = 0 ; i < workbook_sheet_count (state->base.wb); i++)
@@ -3049,6 +3069,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 		gsf_output_close (GSF_OUTPUT (state->chart.dir));
 	if (NULL != state->drawing.dir)
 		gsf_output_close (GSF_OUTPUT (state->drawing.dir));
+	/* legacy_drawing.dir is unused */
 	gsf_output_close (GSF_OUTPUT (wb_part));
 	g_ptr_array_free (sheetIds, TRUE);
 	gsf_output_close (GSF_OUTPUT (sheet_dir));
