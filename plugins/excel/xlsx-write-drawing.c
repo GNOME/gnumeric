@@ -1009,10 +1009,14 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 	GsfOutput *drawing_part;
 	GsfXMLOut *xml;
 
-	if (NULL == state->drawing.dir)
+	if (NULL == state->drawing.dir) {
 		state->drawing.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "drawings", TRUE);
-	if (NULL == state->chart.dir)
+		go_debug_check_finalized (state->drawing.dir, "drawing.dir");
+	}
+	if (NULL == state->chart.dir) {
 		state->chart.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "charts", TRUE);
+		go_debug_check_finalized (state->chart.dir, "chart.dir");
+	}
 
 	name = g_strdup_printf ("drawing%u.xml", ++state->drawing.count);
 	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE,
@@ -1169,8 +1173,10 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 	parse_pos_init_sheet (&pp0, state->sheet);
 
 	/* Note: we use drawing.dir here.  */
-	if (NULL == state->drawing.dir)
+	if (NULL == state->drawing.dir) {
 		state->drawing.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "drawings", TRUE);
+		go_debug_check_finalized (state->drawing.dir, "drawing.dir");
+	}
 
 	name = g_strdup_printf ("vmlDrawing%u.vml", ++state->legacy_drawing.count);
 	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE, NULL);

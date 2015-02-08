@@ -3073,15 +3073,26 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	g_ptr_array_free (state->dxfs_array, TRUE);
 	g_hash_table_destroy (state->axids);
 
-	if (NULL != state->chart.dir)
+	if (NULL != state->chart.dir) {
 		gsf_output_close (GSF_OUTPUT (state->chart.dir));
-	if (NULL != state->drawing.dir)
+		g_object_unref (state->chart.dir);
+	}
+	if (NULL != state->drawing.dir) {
 		gsf_output_close (GSF_OUTPUT (state->drawing.dir));
+		g_object_unref (state->drawing.dir);
+	}
 	/* legacy_drawing.dir is unused */
+
 	gsf_output_close (GSF_OUTPUT (wb_part));
-	g_ptr_array_free (sheetIds, TRUE);
+	g_object_unref (wb_part);
+
 	gsf_output_close (GSF_OUTPUT (sheet_dir));
+	g_object_unref (sheet_dir);
+
 	gsf_output_close (GSF_OUTPUT (xl_dir));
+	g_object_unref (xl_dir);
+
+	g_ptr_array_free (sheetIds, TRUE);
 }
 
 G_MODULE_EXPORT void
