@@ -830,10 +830,15 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 	gboolean lines_value = !in_chart_context;
 	gboolean gnm_auto_color_value_set = FALSE;
 	gboolean gnm_auto_color_value = FALSE;
+	gboolean gnm_auto_marker_outline_color_value_set = FALSE;
+	gboolean gnm_auto_marker_outline_color_value = FALSE;
+	gboolean gnm_auto_marker_fill_color_value_set = FALSE;
+	gboolean gnm_auto_marker_fill_color_value = FALSE;
 	gboolean gnm_auto_dash_set = FALSE;
 	gboolean gnm_auto_width_set = FALSE;
 	char const *stroke_dash = NULL;
 	char const *marker_outline_colour = NULL;
+	char const *marker_fill_colour = NULL;
 
 	style->line.auto_dash = TRUE;
 
@@ -888,11 +893,19 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 			}
 		} else if (0 == strcmp (prop->name, "marker-outline-colour")) {
 			marker_outline_colour = g_value_get_string (&prop->value);
+		} else if (0 == strcmp (prop->name, "marker-fill-colour")) {
+			marker_fill_colour = g_value_get_string (&prop->value);
 		} else if (0 == strcmp (prop->name, "lines")) {
 			lines_value = g_value_get_boolean (&prop->value);
 		} else if (0 == strcmp (prop->name, "gnm-auto-color")) {
 			gnm_auto_color_value_set = TRUE;
 			gnm_auto_color_value = g_value_get_boolean (&prop->value);
+		} else if (0 == strcmp (prop->name, "gnm-auto-marker-outline-colour")) {
+			gnm_auto_marker_outline_color_value_set = TRUE;
+			gnm_auto_marker_outline_color_value = g_value_get_boolean (&prop->value);
+		} else if (0 == strcmp (prop->name, "gnm-auto-marker-fill-colour")) {
+			gnm_auto_marker_fill_color_value_set = TRUE;
+			gnm_auto_marker_fill_color_value = g_value_get_boolean (&prop->value);
 		} else if (0 == strcmp (prop->name, "color")) {
 			GdkRGBA rgba;
 			gchar const *color = g_value_get_string (&prop->value);
@@ -1146,7 +1159,17 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 		if (symbol_type != OO_SYMBOL_TYPE_NONE) {
 			/* Inherit line colour.  */
 			go_marker_set_fill_color (m, style->line.color);
-			style->marker.auto_fill_color = gnm_auto_color_value;
+			if (marker_fill_colour != NULL) {
+				GOColor color;
+				GdkRGBA rgba;
+				if (gdk_rgba_parse (&rgba, marker_fill_colour)) {
+					go_color_from_gdk_rgba (&rgba, &color);
+					go_marker_set_fill_color (m, color);
+				}
+			}
+			go_marker_set_fill_color (m, style->line.color);
+			style->marker.auto_fill_color = gnm_auto_marker_fill_color_value_set ?
+				gnm_auto_marker_fill_color_value : gnm_auto_color_value;
 			if (marker_outline_colour == NULL)
 				go_marker_set_outline_color (m, style->line.color);
 			else {
@@ -1158,7 +1181,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 				} else
 					go_marker_set_outline_color (m, style->line.color);
 			}
-			style->marker.auto_outline_color = gnm_auto_color_value;
+			style->marker.auto_outline_color = gnm_auto_marker_outline_color_value_set ?
+				gnm_auto_marker_outline_color_value : gnm_auto_color_value;
 		}
 
 		if (symbol_height >= 0. || symbol_width >= 0.) {
@@ -7209,6 +7233,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("marker-outline-colour",
 						     CXML2C(attrs[1])));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_GNUM_NS_EXT, "marker-fill-colour")) {
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("marker-fill-colour",
+						     CXML2C(attrs[1])));
 		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_SVG,
 						     "stroke-width", &ftmp))
 			style->style_props = g_slist_prepend
@@ -7416,9 +7446,15 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->other_props,
 				 oo_prop_new_string
 				 ("border", CXML2C(attrs[1])));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-marker-outline-colour", &btmp))
+			style->style_props = g_slist_prepend (style->style_props,
+				oo_prop_new_bool ("gnm-auto-marker-outline-colour", btmp));
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-color", &btmp))
 			style->style_props = g_slist_prepend (style->style_props,
 				oo_prop_new_bool ("gnm-auto-color", btmp));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-marker-fill-colour", &btmp))
+			style->style_props = g_slist_prepend (style->style_props,
+				oo_prop_new_bool ("gnm-auto-marker-fill-colour", btmp));
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-dash", &btmp))
 			style->style_props = g_slist_prepend (style->style_props,
 				oo_prop_new_bool ("gnm-auto-dash", btmp));

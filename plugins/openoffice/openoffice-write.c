@@ -7527,9 +7527,18 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 				s = odf_go_color_to_string (go_marker_get_outline_color (style->marker.mark));
 				gsf_xml_out_add_cstr (state->xml, GNMSTYLE "marker-outline-colour", s);
 				g_free (s);
+				s = odf_go_color_to_string (go_marker_get_fill_color (style->marker.mark));
+				gsf_xml_out_add_cstr (state->xml, GNMSTYLE "marker-fill-colour", s);
+				g_free (s);				
 			}
 		} else if (state->with_extension)
 			odf_add_bool (state->xml, GNMSTYLE "auto-color", TRUE);
+		if (state->with_extension && (style->interesting_fields & GO_STYLE_MARKER)) {
+			odf_add_bool (state->xml, GNMSTYLE "auto-marker-outline-colour", 
+				      style->marker.auto_outline_color);
+			odf_add_bool (state->xml, GNMSTYLE "auto-marker-fill-colour", 
+				      style->marker.auto_fill_color);
+		}
 	} else {
 		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 	}
