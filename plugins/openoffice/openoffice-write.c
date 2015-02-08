@@ -2880,23 +2880,24 @@ odf_write_multi_chart_frame_size (GnmOOExport *state, SheetObject *so, GogObject
 	GnmParsePos pp;
 	char *formula;
 	Sheet const *sheet = state->sheet;
-	int xpos = 0, ypos = 0, columns = 1, rows = 1;
+	unsigned int xpos = 0, ypos = 0, columns = 1, rows = 1;
 	double height, width;
 
-	g_object_get (G_OBJECT (obj), 
-		      "xpos", &xpos,
-		      "ypos", &ypos,
-		      "columns", &columns,
-		      "rows", &rows,
-		      NULL);
+	if (!gog_chart_get_position (GOG_CHART (obj),
+			&xpos, &ypos, &columns, &rows)) {
+		odf_write_frame_size (state, so);
+		return;
+	}
 
 	sheet_object_anchor_to_pts (anchor, sheet, abs_pts);
 	sheet_object_anchor_to_offset_pts (anchor, sheet, off_pts);
 	
-	res_pts[0] = off_pts[0] + xpos * (abs_pts[2]-abs_pts[0])/tc;
-	res_pts[1] = off_pts[1] + ypos * (abs_pts[3]-abs_pts[1])/tr;
-	res_pts[2] = off_pts[0] + (xpos + columns) * (abs_pts[2]-abs_pts[0])/tc;
-	res_pts[3] = off_pts[1] + (ypos + rows) * (abs_pts[3]-abs_pts[1])/tr;
+	res_pts[0] = off_pts[0] + (tc == 0) ? 0 : (xpos * (abs_pts[2]-abs_pts[0])/tc);
+	res_pts[1] = off_pts[1] + (tr == 0) ? 0 : (ypos * (abs_pts[3]-abs_pts[1])/tr);
+	res_pts[2] = off_pts[0] + (tc == 0) ? (abs_pts[2]-abs_pts[0]) : 
+		((xpos + columns) * (abs_pts[2]-abs_pts[0])/tc);
+	res_pts[3] = off_pts[1] + (tr == 0) ? (abs_pts[3]-abs_pts[1]) :
+		((ypos + rows) * (abs_pts[3]-abs_pts[1])/tr);
 	width = res_pts[2] - res_pts[0];
 	height = res_pts[3] - res_pts[1];
 

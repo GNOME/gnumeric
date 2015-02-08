@@ -1,5 +1,10 @@
 2015-02-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_multi_chart_frame_size): For manually positioned
+	charts we may have 0 columns and/or rows.
+
+2015-02-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_apply_style_props): handle marker-fill-colour,
 	gnm-auto-marker-outline-colour & gnm-auto-marker-fill-colour
 	(od_style_prop_chart): read the above

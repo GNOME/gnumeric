@@ -6,6 +6,8 @@ Andreas:
 	* Fix ODF import of stroke colours of sheet objects.
 	* Fix ODF import/export of fill colour and type. [#744051]
 	* Fix ODF import/export of marker fill and outline colours.
+	* Improve ODF export of manually positioned charts in multi-chart
+	  graphs. [#743789]
 
 Morten:
 	* Initial xlsx import of sheet widgets.
