@@ -6288,15 +6288,21 @@ odf_write_label_cell_address (GnmOOExport *state, GOData const *dat)
 static void
 odf_write_series_lines (GnmOOExport *state, GogObject const *series)
 {
-	GogObject const *serieslines = gog_object_get_child_by_name (series, "Series lines");
-	if (serieslines) {
-			char *style = odf_get_gog_style_name_from_obj (state, series);
+	GogObjectRole const *role = gog_object_find_role_by_name (series, "Series lines");
+
+	if (role != NULL) {
+		GSList *serieslines = gog_object_get_children (series, role);
+		if (serieslines != NULL && serieslines->data != NULL) {
+			GogObject *obj = GOG_OBJECT (serieslines->data);
+			char *style = odf_get_gog_style_name_from_obj (state, obj);
 
 			gsf_xml_out_start_element (state->xml, GNMSTYLE "serieslines");
 			gsf_xml_out_add_cstr (state->xml, CHART "style-name", style);
 			gsf_xml_out_end_element (state->xml); /* </gnm:serieslines> */
 
 			g_free (style);
+		}
+		g_slist_free (serieslines);
 	}
 }
 
