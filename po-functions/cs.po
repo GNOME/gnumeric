@@ -1,16 +1,16 @@
 # Gnumeric Czech translation
 # Copyright (c) 1999, 2000, 2001, 2002 The Free Software Foundation
-# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013, 2014.
+# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-08-05 18:37+0000\n"
-"PO-Revision-Date: 2014-08-16 08:46+0200\n"
+"POT-Creation-Date: 2015-02-07 15:08+0000\n"
+"PO-Revision-Date: 2015-02-08 23:08+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
+"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -202,8 +202,8 @@ msgstr "Pokud @{i} není ani „i“ ani „j“, COMPLEX vrátí #HODNOTA!."
 #: ../plugins/fn-math/functions.c:2109 ../plugins/fn-math/functions.c:2236
 #: ../plugins/fn-math/functions.c:2484 ../plugins/fn-math/functions.c:2528
 #: ../plugins/fn-math/functions.c:2571 ../plugins/fn-math/functions.c:2614
-#: ../plugins/fn-math/functions.c:2671 ../plugins/fn-math/functions.c:2860
-#: ../plugins/fn-math/functions.c:2958 ../plugins/fn-math/functions.c:3003
+#: ../plugins/fn-math/functions.c:2671 ../plugins/fn-math/functions.c:2861
+#: ../plugins/fn-math/functions.c:2959 ../plugins/fn-math/functions.c:3004
 #: ../plugins/fn-random/functions.c:48 ../plugins/fn-random/functions.c:249
 #: ../plugins/fn-stat/functions.c:85 ../plugins/fn-stat/functions.c:113
 #: ../plugins/fn-stat/functions.c:140 ../plugins/fn-stat/functions.c:168
@@ -513,8 +513,8 @@ msgstr "IMARCSINH:komplexní hyperbolický arkus sinus komplexního čísla @{z}
 
 #: ../plugins/fn-complex/functions.c:918
 msgid ""
-"IMARCSINH returns the complex hyperbolic arcsine of the complex number @"
-"{z}.  The branch cuts are on the imaginary axis, below -i and above i."
+"IMARCSINH returns the complex hyperbolic arcsine of the complex number "
+"@{z}.  The branch cuts are on the imaginary axis, below -i and above i."
 msgstr ""
 "IMARCSINH vrací komplexní hyperbolický arkus sinus komplexního čísla @{z}. "
 "Dělící řezy jsou na imaginární ose, menší než -i a větší než i."
@@ -525,8 +525,8 @@ msgstr "IMARCCOSH:komplexní hyperbolický arkus kosinus komplexního čísla @{
 
 #: ../plugins/fn-complex/functions.c:945
 msgid ""
-"IMARCCOSH returns the complex hyperbolic arccosine of the complex number @"
-"{z}. The branch cut is on the real axis, less than 1."
+"IMARCCOSH returns the complex hyperbolic arccosine of the complex number "
+"@{z}. The branch cut is on the real axis, less than 1."
 msgstr ""
 "IMARCCOSH vrací komplexní hyperbolický arkus kosinus komplexního čísla @{z}. "
 "Dělící řez je na reálné ose, menší než 1."
@@ -537,8 +537,8 @@ msgstr "IMARCTANH:komplexní hyperbolický arkus tangens komplexního čísla @{
 
 #: ../plugins/fn-complex/functions.c:973
 msgid ""
-"IMARCTANH returns the complex hyperbolic arctangent of the complex number @"
-"{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
+"IMARCTANH returns the complex hyperbolic arctangent of the complex number "
+"@{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
 "IMARCTANH vrací komplexní hyperbolický arkus tangens komplexního čísla @{z}. "
 "Dělící řezy jsou na reálné ose, menší než -1 a větší než 1."
@@ -650,13 +650,13 @@ msgstr ""
 
 #: ../plugins/fn-database/functions.c:57
 msgid ""
-"@{field} is a string or integer specifying which field is to be used. If @"
-"{field} is an integer n then the nth column will be used. If @{field} is a "
+"@{field} is a string or integer specifying which field is to be used. If "
+"@{field} is an integer n then the nth column will be used. If @{field} is a "
 "string, then the column with the matching label will be used."
 msgstr ""
 "@{field} je řetězec nebo celé číslo určující, které pole se má použít. Pokud "
-"je hodnota @{field} celé číslo n, pak se použije n-tý sloupec. Pokud je @"
-"{field} řetězec, pak se použije sloupec s odpovídajícím popiskem."
+"je hodnota @{field} celé číslo n, pak se použije n-tý sloupec. Pokud je "
+"@{field} řetězec, pak se použije sloupec s odpovídajícím popiskem."
 
 #: ../plugins/fn-database/functions.c:62
 msgid ""
@@ -772,8 +772,8 @@ msgstr "DCOUNTA(A1:C7;\"Jméno\";A9:B11) rovná se 2."
 
 #: ../plugins/fn-database/functions.c:426
 msgid ""
-"DGET:a value from @{field} in @{database} belonging to records that match @"
-"{criteria}"
+"DGET:a value from @{field} in @{database} belonging to records that match "
+"@{criteria}"
 msgstr ""
 "DGET:hodnota z pole @{field} v databázi @{database} náležejících záznamům, "
 "které odpovídají kritériu @{criteria}"
@@ -848,8 +848,8 @@ msgid ""
 "DSTDEV:sample standard deviation of the values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
 msgstr ""
-"DSTDEV:výběrová směrodatná odchylka hodnot v poli @{field} v databázi @"
-"{database} náležejících záznamům, které odpovídají kritériu @{criteria}"
+"DSTDEV:výběrová směrodatná odchylka hodnot v poli @{field} v databázi "
+"@{database} náležejících záznamům, které odpovídají kritériu @{criteria}"
 
 #: ../plugins/fn-database/functions.c:578
 msgid "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949."
@@ -861,11 +861,11 @@ msgstr "DSTDEV(A1:C7;\"Plat\";A9:B11) rovná se 9135,112506."
 
 #: ../plugins/fn-database/functions.c:602
 msgid ""
-"DSTDEVP:standard deviation of the population of values in @{field} in @"
-"{database} belonging to records that match @{criteria}"
+"DSTDEVP:standard deviation of the population of values in @{field} in "
+"@{database} belonging to records that match @{criteria}"
 msgstr ""
-"DSTDEVP:směrodatná odchylka souboru hodnot v poli @{field} v databázi @"
-"{database} náležejících záznamům, které odpovídají kritériu @{criteria}"
+"DSTDEVP:směrodatná odchylka souboru hodnot v poli @{field} v databázi "
+"@{database} náležejících záznamům, které odpovídají kritériu @{criteria}"
 
 #: ../plugins/fn-database/functions.c:612
 msgid "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7."
@@ -1190,8 +1190,8 @@ msgstr "second:sekunda"
 
 #: ../plugins/fn-date/functions.c:462
 msgid ""
-"The ODF.TIME function computes the time given by @{hour}, @{minute}, and @"
-"{second} as a fraction of a day."
+"The ODF.TIME function computes the time given by @{hour}, @{minute}, and "
+"@{second} as a fraction of a day."
 msgstr ""
 "Funkce ODF.TIME vypočítá čas daný pomocí hodiny @{hour}, minuty @{minute} a "
 "sekundy @{second} do podoby desetinného číslo jako části dne."
@@ -1213,8 +1213,8 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1066 ../plugins/fn-math/functions.c:1093
 #: ../plugins/fn-math/functions.c:1469 ../plugins/fn-math/functions.c:1489
 #: ../plugins/fn-math/functions.c:2157 ../plugins/fn-math/functions.c:2821
-#: ../plugins/fn-math/functions.c:3020 ../plugins/fn-stat/functions.c:1608
-#: ../plugins/fn-stat/functions.c:2481 ../plugins/fn-stat/functions.c:4668
+#: ../plugins/fn-math/functions.c:3021 ../plugins/fn-stat/functions.c:1608
+#: ../plugins/fn-stat/functions.c:2481 ../plugins/fn-stat/functions.c:4667
 #: ../plugins/fn-string/functions.c:304 ../plugins/fn-string/functions.c:388
 #: ../plugins/fn-string/functions.c:515 ../plugins/fn-string/functions.c:1103
 #: ../plugins/fn-string/functions.c:1419 ../plugins/fn-string/functions.c:1549
@@ -1241,8 +1241,8 @@ msgstr "time:čas v desetinné podobě"
 
 #: ../plugins/fn-date/functions.c:509
 msgid ""
-"The HOUR function computes the hour part of the fractional day given by @"
-"{time}."
+"The HOUR function computes the hour part of the fractional day given by "
+"@{time}."
 msgstr ""
 "Funkce HOUR vypočítá hodinovou část z desetinného vyjádření dne daného časem "
 "@{time}. 0 až 24 hodinám dne odpovídá reálné číslo v rozsahu 0 až 1."
@@ -1253,8 +1253,8 @@ msgstr "MINUTE:spočítá minuty z desetinného vyjádření dne"
 
 #: ../plugins/fn-date/functions.c:532
 msgid ""
-"The MINUTE function computes the minute part of the fractional day given by @"
-"{time}."
+"The MINUTE function computes the minute part of the fractional day given by "
+"@{time}."
 msgstr ""
 "Funkce MINUTE vypočítá minutovou část z desetinného vyjádření dne daného "
 "časem @{time}. 0 až 24 hodinám dne odpovídá reálné číslo v rozsahu 0 až 1."
@@ -1305,8 +1305,8 @@ msgstr "method:způsob počítání, výchozí je 1"
 
 #: ../plugins/fn-date/functions.c:651
 msgid ""
-"The WEEKDAY function returns the day-of-week of @{date}.  The value of @"
-"{method} determines how days are numbered; it defaults to 1. "
+"The WEEKDAY function returns the day-of-week of @{date}.  The value of "
+"@{method} determines how days are numbered; it defaults to 1. "
 msgstr ""
 "Funkce WEEKDAY vrací z data @{date} den v týdnu. Hodnota @{method} určuje, "
 "jak jsou dny počítány; výchozí je 1. "
@@ -1367,13 +1367,13 @@ msgstr "DAYS360 vrací počet dní od data @{start_date} do data @{end_date}."
 msgid ""
 "If @{method} is 0, the default, the MS Excel (tm) US method will be used. "
 "This is a somewhat complicated industry standard method where the last day "
-"of February is considered to be the 30th day of the month, but only for @"
-"{start_date}."
+"of February is considered to be the 30th day of the month, but only for "
+"@{start_date}."
 msgstr ""
 "Pokud je @{method} rovno 0, což je výchozí, použije se americká metoda z MS "
 "Excel ™. Jedná se o poněkud komplikovanější průmyslový standard, kdy "
-"poslední den v únoru je pokládán za 30. den měsíce, ale pouze pro datum @"
-"{start_date}."
+"poslední den v únoru je pokládán za 30. den měsíce, ale pouze pro datum "
+"@{start_date}."
 
 #: ../plugins/fn-date/functions.c:724
 msgid ""
@@ -1397,9 +1397,9 @@ msgstr "EOMONTH:konec měsíce"
 
 #: ../plugins/fn-date/functions.c:763
 msgid ""
-"EOMONTH returns the date serial value of the end of the month specified by @"
-"{date} adjusted forward or backward the number of months specified by @"
-"{months}."
+"EOMONTH returns the date serial value of the end of the month specified by "
+"@{date} adjusted forward or backward the number of months specified by "
+"@{months}."
 msgstr ""
 "EOMONTH vrací sériovou hodnotu data pro konec měsíce zadaného v @{date} a "
 "posunutého vpřed nebo zpět o počet měsíců zadaných v @{months}."
@@ -1568,11 +1568,11 @@ msgstr "DAYS:rozdíl mezi daty ve dnech"
 
 #: ../plugins/fn-date/functions.c:1321
 msgid ""
-"DAYS returns the positive or negative number of days from @{start_date} to @"
-"{end_date}."
+"DAYS returns the positive or negative number of days from @{start_date} to "
+"@{end_date}."
 msgstr ""
-"Funkce DAYS vrací kladný nebo záporný počet dní v rozsahu od data @"
-"{start_date} do data @{end_date}."
+"Funkce DAYS vrací kladný nebo záporný počet dní v rozsahu od data "
+"@{start_date} do data @{end_date}."
 
 #. Some common decriptors
 #: ../plugins/fn-derivatives/options.c:46
@@ -1645,11 +1645,11 @@ msgstr "cost_of_carry:čisté náklady na držení podkladového aktiva"
 
 #: ../plugins/fn-derivatives/options.c:62
 msgid ""
-"The returned value will be expressed in the same units as @{strike} and @"
-"{spot}."
+"The returned value will be expressed in the same units as @{strike} and "
+"@{spot}."
 msgstr ""
-"Vrácená hodnota bude vyjádřená ve stejných jednotkách jako ceny @{strike} a @"
-"{spot}."
+"Vrácená hodnota bude vyjádřená ve stejných jednotkách jako ceny @{strike} a "
+"@{spot}."
 
 #: ../plugins/fn-derivatives/options.c:192
 msgid "CUM_BIV_NORM_DIST:cumulative bivariate normal distribution"
@@ -1793,8 +1793,8 @@ msgid ""
 "Rho is expressed as the rate of change of the option value, per 100% change "
 "in @{rate}."
 msgstr ""
-"Rho vyjadřuje rychlost změny hodnoty opce na 100 % změny v úrokové míře @"
-"{rate}."
+"Rho vyjadřuje rychlost změny hodnoty opce na 100 % změny v úrokové míře "
+"@{rate}."
 
 #: ../plugins/fn-derivatives/options.c:566
 msgid "OPT_BS_CARRYCOST:elasticity of a European option"
@@ -1803,13 +1803,13 @@ msgstr "OPT_BS_CARRYCOST:elasticita evropské opce"
 #: ../plugins/fn-derivatives/options.c:574
 msgid ""
 "OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the 'elasticity' "
-"of a European option struck at @{strike} on an asset with spot price @"
-"{spot}. The elasticity of an option is the rate of change of its price with "
+"of a European option struck at @{strike} on an asset with spot price "
+"@{spot}. The elasticity of an option is the rate of change of its price with "
 "respect to its @{cost_of_carry}."
 msgstr ""
 "OPT_BS_CARRYCOST používá Black-Scholesův model k výpočtu „elasticity“ "
-"evropské opce vypsané na částku @{strike} na aktivu se spotovou cenou @"
-"{spot}. Elasticita opce je rychlost změny její ceny s ohledem na čisté "
+"evropské opce vypsané na částku @{strike} na aktivu se spotovou cenou "
+"@{spot}. Elasticita opce je rychlost změny její ceny s ohledem na čisté "
 "náklady na její držení @{cost_of_carry}."
 
 #: ../plugins/fn-derivatives/options.c:580
@@ -1875,8 +1875,8 @@ msgstr ""
 #: ../plugins/fn-derivatives/options.c:687
 msgid ""
 "OPT_FRENCH values the theoretical price of a European option adjusted for "
-"trading day volatility, struck at @{strike} on an asset with spot price @"
-"{spot}."
+"trading day volatility, struck at @{strike} on an asset with spot price "
+"@{spot}."
 msgstr ""
 "OPT_FRENCH vyhodnocuje teoretickou cenu evropské opce přizpůsobenou "
 "volatilitě v obchodní den, vypsané na částku @{strike} na aktivu se spotovou "
@@ -2046,8 +2046,8 @@ msgid ""
 "was greater than @{strike} (for a call) or below it (for a put)."
 msgstr ""
 "OPT_TIME_SWITCH modeluje teoretickou cenu opce záměny. (Pechtl 1995). "
-"Držitel obdrží @{a}.@{dt} za každé období, kdy byla cena aktiva větší než @"
-"{strike} (pro kupní) nebo nižší (pro prodejní)."
+"Držitel obdrží @{a}.@{dt} za každé období, kdy byla cena aktiva větší než "
+"@{strike} (pro kupní) nebo nižší (pro prodejní)."
 
 #: ../plugins/fn-derivatives/options.c:1336
 msgid "OPT_SIMPLE_CHOOSER:theoretical price of a simple chooser option"
@@ -2157,8 +2157,8 @@ msgid ""
 "strike2:strike price at which the option is re-struck if out of the money at "
 "@{time1}"
 msgstr ""
-"strike2:realizační cena, ve které je opce znovu vypsána, pokud je v době @"
-"{time1} mimo peníze"
+"strike2:realizační cena, ve které je opce znovu vypsána, pokud je v době "
+"@{time1} mimo peníze"
 
 #: ../plugins/fn-derivatives/options.c:1568
 msgid "time1:initial maturity of the option in years"
@@ -2175,8 +2175,8 @@ msgid ""
 "the option is out of the money at @{time1}."
 msgstr ""
 "OPT_EXTENDIBLE_WRITER modeluje teoretickou cenu opce prodloužitelné "
-"vypisovatelem. To jsou opce, které mají svoji splatnost prodlouženo do doby @"
-"{time2}, pokud je opce době @{time1} mimo peníze."
+"vypisovatelem. To jsou opce, které mají svoji splatnost prodlouženo do doby "
+"@{time2}, pokud je opce době @{time1} mimo peníze."
 
 #: ../plugins/fn-derivatives/options.c:1615
 msgid ""
@@ -2236,8 +2236,8 @@ msgstr "rho:korelace mezi dvěma podkladovými aktivy"
 #: ../plugins/fn-derivatives/options.c:1630
 msgid ""
 "OPT_2_ASSET_CORRELATION models the theoretical price of options on 2 assets "
-"with correlation @{rho}. The payoff for a call is max(@{spot2} - @"
-"{strike2},0) if @{spot1} > @{strike1} or 0 otherwise. The payoff for a put "
+"with correlation @{rho}. The payoff for a call is max(@{spot2} - "
+"@{strike2},0) if @{spot1} > @{strike1} or 0 otherwise. The payoff for a put "
 "is max (@{strike2} - @{spot2}, 0) if @{spot1} < @{strike1} or 0 otherwise."
 msgstr ""
 "OPT_2_ASSET_CORRELATION modeluje teoretickou cenu opce na 2 aktiva s "
@@ -2466,8 +2466,8 @@ msgid ""
 "will be added to reach the minimum length given by @{length}."
 msgstr ""
 "BASE převede číslo @{n} na řetězec s podobou čísla v číselné soustavě @{b}. "
-"Na začátek jsou případně doplněny nuly, aby bylo dosaženo zadané délky @"
-"{length}."
+"Na začátek jsou případně doplněny nuly, aby bylo dosaženo zadané délky "
+"@{length}."
 
 #: ../plugins/fn-eng/functions.c:236
 msgid "BIN2DEC:decimal representation of the binary number @{x}"
@@ -2745,10 +2745,10 @@ msgstr "CONVERT:převedená míra"
 #: ../plugins/fn-stat/functions.c:1280 ../plugins/fn-stat/functions.c:1369
 #: ../plugins/fn-stat/functions.c:1399 ../plugins/fn-stat/functions.c:1632
 #: ../plugins/fn-stat/functions.c:1811 ../plugins/fn-stat/functions.c:1847
-#: ../plugins/fn-stat/functions.c:2014 ../plugins/fn-stat/functions.c:4469
-#: ../plugins/fn-stat/functions.c:4500 ../plugins/fn-stat/functions.c:4534
-#: ../plugins/fn-stat/functions.c:4568 ../plugins/fn-stat/functions.c:4607
-#: ../plugins/fn-stat/functions.c:4640
+#: ../plugins/fn-stat/functions.c:2014 ../plugins/fn-stat/functions.c:4468
+#: ../plugins/fn-stat/functions.c:4499 ../plugins/fn-stat/functions.c:4533
+#: ../plugins/fn-stat/functions.c:4567 ../plugins/fn-stat/functions.c:4606
+#: ../plugins/fn-stat/functions.c:4639
 msgid "x:number"
 msgstr "x:číslo"
 
@@ -3091,8 +3091,8 @@ msgstr "circuits:počet vedení"
 
 #: ../plugins/fn-erlang/functions.c:108
 msgid ""
-"PROBBLOCK returns probability of blocking when @{traffic} calls load into @"
-"{circuits} circuits."
+"PROBBLOCK returns probability of blocking when @{traffic} calls load into "
+"@{circuits} circuits."
 msgstr ""
 "PROBBLOCK vrací pravděpodobnost obsazení, když počet volání @{traffic} "
 "zatíží počet vedení @{circuits}."
@@ -3152,8 +3152,8 @@ msgstr "@{frequency} může být 1 (roční), 2 (půlroční) nebo 4 (čtvrtletn
 
 #: ../plugins/fn-financial/functions.c:56
 msgid ""
-"If @{type} is 0, the default, payment is at the end of each period.  If @"
-"{type} is 1, payment is at the beginning of each period."
+"If @{type} is 0, the default, payment is at the end of each period.  If "
+"@{type} is 1, payment is at the beginning of each period."
 msgstr ""
 "Pokud je @{type} 0, což je výchozí hodnota, platba je na konci každého "
 "období. Pokud je @{type} 1, je platba na začátku každého období."
@@ -3250,8 +3250,8 @@ msgstr "calc_method:způsob výpočtu, výchozí je PRAVDA"
 #: ../plugins/fn-financial/functions.c:372
 msgid ""
 "If @{first_interest} < @{settlement} and @{calc_method} is TRUE, then "
-"ACCRINT returns the sum of the interest accrued in all coupon periods from @"
-"{issue}  date until @{settlement} date."
+"ACCRINT returns the sum of the interest accrued in all coupon periods from "
+"@{issue}  date until @{settlement} date."
 msgstr ""
 "Pokud je @{first_interest} < @{settlement} a @{calc_method} je PRAVDA, pak "
 "funkce ACCRINT vrátí součet nahromaděných úroků ve všech obdobích  placení "
@@ -3260,13 +3260,13 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:377
 msgid ""
 "If @{first_interest} < @{settlement} and @{calc_method} is FALSE, then "
-"ACCRINT returns the sum of the interest accrued in all coupon periods from @"
-"{first_interest}  date until @{settlement} date."
+"ACCRINT returns the sum of the interest accrued in all coupon periods from "
+"@{first_interest}  date until @{settlement} date."
 msgstr ""
 "Pokud je @{first_interest} < @{settlement} a @{calc_method} je NEPRAVDA, pak "
 "funkce ACCRINT vrátí součet nahromaděných úroků ve všech období placení "
-"kupónů od data platby prvního úroku @{first_interest} po datum vypořádání @"
-"{settlement}."
+"kupónů od data platby prvního úroku @{first_interest} po datum vypořádání "
+"@{settlement}."
 
 #: ../plugins/fn-financial/functions.c:382
 msgid ""
@@ -3274,8 +3274,8 @@ msgid ""
 "periods from @{issue}  date until @{settlement} date."
 msgstr ""
 "V ostatních případech funkce ACCRINT vrací součet nahromaděných úroků ve "
-"všech kupónových obdobích od data emise @{issue} po datum vypořádání @"
-"{settlement}."
+"všech kupónových obdobích od data emise @{issue} po datum vypořádání "
+"@{settlement}."
 
 #: ../plugins/fn-financial/functions.c:385
 msgid ""
@@ -3288,8 +3288,8 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:387
 msgid "@{issue} must precede both @{first_interest} and @{settlement}."
 msgstr ""
-"Datum emise @{issue} musí předcházet jak datu první platby @"
-"{first_interest}, tak datu vypořádání @{settlement}."
+"Datum emise @{issue} musí předcházet jak datu první platby "
+"@{first_interest}, tak datu vypořádání @{settlement}."
 
 #: ../plugins/fn-financial/functions.c:449
 msgid "ACCRINTM:accrued interest"
@@ -3439,8 +3439,8 @@ msgstr "nper:počet období použitých pro skládání"
 
 #: ../plugins/fn-financial/functions.c:688
 msgid ""
-"EFFECT calculates the effective interest rate using the formula (1+@{rate}/@"
-"{nper})^@{nper}-1."
+"EFFECT calculates the effective interest rate using the formula (1+@{rate}/"
+"@{nper})^@{nper}-1."
 msgstr ""
 "EFFECT vypočítá efektivní roční úrokovou sazbu za pomocí vzorce (1 + @{rate}:"
 "@{nper})^@{nper} - 1."
@@ -3779,8 +3779,8 @@ msgid ""
 "payments.  @{values} lists the payments (negative values) and receipts "
 "(positive values) for each period."
 msgstr ""
-"IRR vypočítá interní výnosnost peněžního toku s pravidelnými platbami. Ve @"
-"{values} jsou uvedeny výdaje (záporné hodnoty) a příjmy (kladné hodnoty) "
+"IRR vypočítá interní výnosnost peněžního toku s pravidelnými platbami. Ve "
+"@{values} jsou uvedeny výdaje (záporné hodnoty) a příjmy (kladné hodnoty) "
 "platící pro každé období."
 
 #: ../plugins/fn-financial/functions.c:1457
@@ -3796,8 +3796,8 @@ msgstr "rate:efektivní úroková sazba za období"
 #: ../plugins/fn-financial/functions.c:1463
 msgid ""
 "PV calculates the present value of @{fv} which is @{nper} periods into the "
-"future, assuming a periodic payment of @{pmt} and an interest rate of @"
-"{rate} per period."
+"future, assuming a periodic payment of @{pmt} and an interest rate of "
+"@{rate} per period."
 msgstr ""
 "PV vypočítává současnou hodnotu z @{fv}, která je @{nper} období v budoucnu, "
 "přičemž se uvažují pravidelné platba @{pmt} a úroková míra  @{rate} za jedno "
@@ -3854,12 +3854,12 @@ msgstr "FV:budoucí hodnota"
 #: ../plugins/fn-financial/functions.c:1697
 msgid ""
 "FV calculates the future value of @{pv} moved @{nper} periods into the "
-"future, assuming a periodic payment of @{pmt} and an interest rate of @"
-"{rate} per period."
+"future, assuming a periodic payment of @{pmt} and an interest rate of "
+"@{rate} per period."
 msgstr ""
 "FV vypočítá budoucí hodnotu pro @{pv} posunutou o @{nper} období do "
-"budoucna, přičemž předpokládá pravidelné splátky @{pmt} a úrokovou sazbu @"
-"{rate} za období."
+"budoucna, přičemž předpokládá pravidelné splátky @{pmt} a úrokovou sazbu "
+"@{rate} za období."
 
 #: ../plugins/fn-financial/functions.c:1727
 msgid "PMT:payment for annuity"
@@ -3875,8 +3875,8 @@ msgstr "IPMT:platba úroků za období"
 
 #: ../plugins/fn-financial/functions.c:1764
 msgid ""
-"IPMT calculates the interest part of an annuity's payment for period number @"
-"{per}."
+"IPMT calculates the interest part of an annuity's payment for period number "
+"@{per}."
 msgstr "IPMT vypočítá část úroků z roční splátky za @{per} období."
 
 #: ../plugins/fn-financial/functions.c:1797
@@ -4016,8 +4016,8 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2208
 msgid ""
-"EUROCONVERT converts @{n} units of currency @{source} to currency @"
-"{target}.  The rates used are the official ones used on the introduction of "
+"EUROCONVERT converts @{n} units of currency @{source} to currency "
+"@{target}.  The rates used are the official ones used on the introduction of "
 "the Euro."
 msgstr ""
 "EUROCONVERT převádí částku @{n} v měně @{source} na měnu @{target}. Použité "
@@ -4194,8 +4194,8 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2917
 msgid ""
 "Special depreciation rules are applied for the last two periods resulting in "
-"a possible total depreciation exceeding the difference of @{cost} - @"
-"{salvage}."
+"a possible total depreciation exceeding the difference of @{cost} - "
+"@{salvage}."
 msgstr ""
 "Pro dvě poslední období jsou použita speciální odpisová pravidla, která mají "
 "za následek možné celkové odpisy převyšující rozdíl @{cost} - @{salvage}."
@@ -4326,11 +4326,11 @@ msgstr "end_period:poslední období, pro které se akumuluje"
 
 #: ../plugins/fn-financial/functions.c:3156
 msgid ""
-"CUMIPMT calculates the cumulative interest paid on a loan from @"
-"{start_period} to @{end_period}."
+"CUMIPMT calculates the cumulative interest paid on a loan from "
+"@{start_period} to @{end_period}."
 msgstr ""
-"CUMIPMT vypočítá kumulovaný úrok z půjčky vyplacený v době od @"
-"{start_period} do @{end_period}."
+"CUMIPMT vypočítá kumulovaný úrok z půjčky vyplacený v době od "
+"@{start_period} do @{end_period}."
 
 #: ../plugins/fn-financial/functions.c:3193
 msgid "CUMPRINC:cumulative principal"
@@ -4338,8 +4338,8 @@ msgstr "CUMPRINC:kumulovaná jistina"
 
 #: ../plugins/fn-financial/functions.c:3200
 msgid ""
-"CUMPRINC calculates the cumulative principal paid on a loan from @"
-"{start_period} to @{end_period}."
+"CUMPRINC calculates the cumulative principal paid on a loan from "
+"@{start_period} to @{end_period}."
 msgstr ""
 "CUMPRINC vypočítá kumulativní jistinu půjčky splacenou od @{start_period} do "
 "@{end_period}."
@@ -4594,8 +4594,8 @@ msgid ""
 "  system       \t\tReturns the name of the environment.\n"
 "  totmem       \t\tReturns the amount of total memory available."
 msgstr ""
-"Funkce INFO vrací informace o současném pracovním prostředí podle typu @"
-"{type}:\n"
+"Funkce INFO vrací informace o současném pracovním prostředí podle typu "
+"@{type}:\n"
 "  memavail     \t\tVrací množství dostupné paměti, v bajtech.\n"
 "  memused      \t\tVrací množství dostupné paměti (v bajtech).\n"
 "  numfile      \t\tVrací počet aktivních sešitů.\n"
@@ -4790,8 +4790,8 @@ msgstr "GET.LINK:cíl hyperodkazu napojeného na buňku @{cell} jako text"
 
 #: ../plugins/fn-info/functions.c:1817
 msgid ""
-"The value return is not updated automatically when the link attached to @"
-"{cell} changes but requires a recalculation."
+"The value return is not updated automatically when the link attached to "
+"@{cell} changes but requires a recalculation."
 msgstr ""
 "V případě, že se odkaz napojený na buňku @{cell} změní, není vrácená hodnota "
 "aktualizována automaticky, ale vyžaduje přepočet."
@@ -4888,8 +4888,8 @@ msgstr "XOR:logická exkluzivní disjunkce"
 
 #: ../plugins/fn-logical/functions.c:180
 msgid ""
-"XOR calculates the logical exclusive disjunction of its arguments @{b0},@"
-"{b1},..."
+"XOR calculates the logical exclusive disjunction of its arguments @{b0},"
+"@{b1},..."
 msgstr ""
 "XOR vypočítá logickou exkluzivní disjunkci svých argumentů @{b0}, @{b1}, …"
 
@@ -5027,8 +5027,8 @@ msgstr "CHOOSE vrací svůj (@{index}+1)-tý argument."
 
 #: ../plugins/fn-lookup/functions.c:979
 msgid ""
-"@{index} is truncated to an integer. If @{index} < 1 or the truncated @"
-"{index} > number of values, CHOOSE returns #VALUE!"
+"@{index} is truncated to an integer. If @{index} < 1 or the truncated "
+"@{index} > number of values, CHOOSE returns #VALUE!"
 msgstr ""
 "Index @{index} je oříznut na celé číslo. Pokud je @{index} < 1 nebo oříznutý "
 "index @{index} > počet hodnot, CHOOSE vrací #HODNOTA!."
@@ -5054,8 +5054,8 @@ msgid ""
 "approximate:if false, an exact match of @{value} must be found; defaults to "
 "TRUE"
 msgstr ""
-"approximate:pokud je nepravda, musí se nalézt přesná shoda s hodnotou @"
-"{value}; výchozí je PRAVDA"
+"approximate:pokud je nepravda, musí se nalézt přesná shoda s hodnotou "
+"@{value}; výchozí je PRAVDA"
 
 #: ../plugins/fn-lookup/functions.c:1027
 msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
@@ -5065,8 +5065,8 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1029
 msgid ""
-"VLOOKUP function finds the row in @{range} that has a first cell similar to @"
-"{value}.  If @{approximate} is not true it finds the row with an exact "
+"VLOOKUP function finds the row in @{range} that has a first cell similar to "
+"@{value}.  If @{approximate} is not true it finds the row with an exact "
 "equality. If @{approximate} is true, it finds the last row with first value "
 "less than or equal to @{value}. If @{as_index} is true the 0-based row "
 "offset is returned."
@@ -5074,8 +5074,8 @@ msgstr ""
 "Funkce VLOOKUP hledá řádek v rozsahu @{range}, který má první buňku podobnou "
 "hodnotě @{value}. Pokud @{approximate} není nastaveno na pravda, hledá se "
 "řádek s přesně stejnou hodnotou. Pokud @{approximate} je nastaveno na "
-"pravda, hledá se poslední řádek s první hodnotou menší nebo rovnou hodnotě @"
-"{value}. Pokud je @{as_index} nastaveno na pravda, je vrácena pozice řádku "
+"pravda, hledá se poslední řádek s první hodnotou menší nebo rovnou hodnotě "
+"@{value}. Pokud je @{as_index} nastaveno na pravda, je vrácena pozice řádku "
 "počítaná od 0."
 
 #: ../plugins/fn-lookup/functions.c:1036 ../plugins/fn-lookup/functions.c:1104
@@ -5108,8 +5108,8 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1097
 msgid ""
-"HLOOKUP function finds the row in @{range} that has a first cell similar to @"
-"{value}.  If @{approximate} is not true it finds the column with an exact "
+"HLOOKUP function finds the row in @{range} that has a first cell similar to "
+"@{value}.  If @{approximate} is not true it finds the column with an exact "
 "equality. If @{approximate} is true, it finds the last column with first "
 "value less than or equal to @{value}. If @{as_index} is true the 0-based "
 "column offset is returned."
@@ -5117,8 +5117,8 @@ msgstr ""
 "Funkce HLOOKUP hledá řádek v rozsahu @{range}, který má první buňku podobnou "
 "hodnotě @{value}. Pokud @{approximate} není nastaveno na PRAVDA, hledá se "
 "sloupec s přesně stejnou hodnotou. Pokud @{approximate} je nastaveno na "
-"PRAVDA, hledá se poslední řádek s první hodnotou menší nebo rovnou hodnotě @"
-"{value}. Pokud je @{as_index} nastaveno na PRAVDA, je vrácena pozice řádku "
+"PRAVDA, hledá se poslední řádek s první hodnotou menší nebo rovnou hodnotě "
+"@{value}. Pokud je @{as_index} nastaveno na PRAVDA, je vrácena pozice řádku "
 "počítaná od 0."
 
 #: ../plugins/fn-lookup/functions.c:1106
@@ -5128,11 +5128,11 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1157
 msgid ""
-"LOOKUP:contents of @{vector2} at the corresponding location to @{value} in @"
-"{vector1}"
+"LOOKUP:contents of @{vector2} at the corresponding location to @{value} in "
+"@{vector1}"
 msgstr ""
-"LOOKUP:obsah @{vector2} z pozice odpovídajícímu pozici hodnoty @{value} ve @"
-"{vector1}"
+"LOOKUP:obsah @{vector2} z pozice odpovídajícímu pozici hodnoty @{value} ve "
+"@{vector1}"
 
 #: ../plugins/fn-lookup/functions.c:1159
 msgid "value:value to look up"
@@ -5148,12 +5148,12 @@ msgstr "vector2:rozsah vracených hodnot"
 
 #: ../plugins/fn-lookup/functions.c:1162
 msgid ""
-"If  @{vector1} has more rows than columns, LOOKUP searches the first row of @"
-"{vector1}, otherwise the first column. If @{vector2} is omitted the return "
+"If  @{vector1} has more rows than columns, LOOKUP searches the first row of "
+"@{vector1}, otherwise the first column. If @{vector2} is omitted the return "
 "value is taken from the last row or column of @{vector1}."
 msgstr ""
-"Pokud @{vector1} má více řádků než sloupců, LOOKUP prohledá první řádek z @"
-"{vector1}, jinak první sloupec. Pokud je @{vector2} vynechán, vrácená "
+"Pokud @{vector1} má více řádků než sloupců, LOOKUP prohledá první řádek z "
+"@{vector1}, jinak první sloupec. Pokud je @{vector2} vynechán, vrácená "
 "hodnota je vzata z posledního řádku nebo sloupce z @{vector1}."
 
 #: ../plugins/fn-lookup/functions.c:1166
@@ -5236,8 +5236,8 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1315
 msgid ""
-"If @{ref_text} is not a valid reference in the style determined by @"
-"{format}, INDIRECT returns #REF!"
+"If @{ref_text} is not a valid reference in the style determined by "
+"@{format}, INDIRECT returns #REF!"
 msgstr ""
 "Pokud @{ref_text} není platný odkaz ve stylu určeném formátem @{format}, "
 "funkce INDIRECT vrací #ODKAZ!."
@@ -5364,11 +5364,11 @@ msgstr "šířka:šířka posunutého rozsahu, výchozí je šířka rozsahu @{r
 
 #: ../plugins/fn-lookup/functions.c:1550
 msgid ""
-"OFFSET returns the cell range starting at offset (@{row},@{col}) from @"
-"{range} of height @{height} and width @{width}."
+"OFFSET returns the cell range starting at offset (@{row},@{col}) from "
+"@{range} of height @{height} and width @{width}."
 msgstr ""
-"OFFSET vrací rozsah buněk začínající posunutý o (@{row},@{col}) od rozsahu @"
-"{range} a s výškou @{height} a šířkou @{width}."
+"OFFSET vrací rozsah buněk začínající posunutý o (@{row},@{col}) od rozsahu "
+"@{range} a s výškou @{height} a šířkou @{width}."
 
 #: ../plugins/fn-lookup/functions.c:1553
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
@@ -5531,8 +5531,8 @@ msgstr "n1:kladné celé číslo"
 
 #: ../plugins/fn-math/functions.c:64
 msgid ""
-"GCD calculates the greatest common divisor of the given numbers @{n0},@"
-"{n1},..., the greatest integer that is a divisor of each argument."
+"GCD calculates the greatest common divisor of the given numbers @{n0},"
+"@{n1},..., the greatest integer that is a divisor of each argument."
 msgstr ""
 "GCD vypočítá největšího společného dělitele pro zadaná čísla @{n0}, @{n1}, "
 "…, což je největší celé číslo, které funguje jako celočíselný dělitel pro "
@@ -5548,8 +5548,8 @@ msgstr "LCM:nejmenší společný násobek"
 
 #: ../plugins/fn-math/functions.c:127
 msgid ""
-"LCM calculates the least common multiple of the given numbers @{n0},@"
-"{n1},..., the smallest integer that is a multiple of each argument."
+"LCM calculates the least common multiple of the given numbers @{n0},"
+"@{n1},..., the smallest integer that is a multiple of each argument."
 msgstr ""
 "LCM vypočítá nejmenší společný násobek pro zadaná čísla @{n0}, @{n1}, …, což "
 "je nejmenší celé číslo, které je celočíselným násobkem pro každý z argumentů."
@@ -5637,8 +5637,8 @@ msgstr "ASIN:arkus sinus @{x}"
 msgid ""
 "ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}."
 msgstr ""
-"ASIN vypočítá arkus sinus @{x}; to je hodnota, pro kterou je sinus roven @"
-"{x}."
+"ASIN vypočítá arkus sinus @{x}; to je hodnota, pro kterou je sinus roven "
+"@{x}."
 
 #: ../plugins/fn-math/functions.c:331
 msgid "If @{x} falls outside the range -1 to 1, ASIN returns #NUM!"
@@ -5662,8 +5662,8 @@ msgstr "ATAN:arkus tangens @{x}"
 
 #: ../plugins/fn-math/functions.c:374
 msgid ""
-"ATAN calculates the arc tangent of @{x}; that is the value whose tangent is @"
-"{x}."
+"ATAN calculates the arc tangent of @{x}; that is the value whose tangent is "
+"@{x}."
 msgstr ""
 "ATAN vypočítá arkus tangens @{x}; to je hodnota, pro kterou je tangens roven "
 "@{x}."
@@ -5761,8 +5761,8 @@ msgstr "actual_range:oblast buněk, výchozí je @{range}"
 
 #: ../plugins/fn-math/functions.c:554
 msgid ""
-"If the @{actual_range} has a size that differs from the size of @{range}, @"
-"{actual_range} is resized (retaining the top-left corner) to match the size "
+"If the @{actual_range} has a size that differs from the size of @{range}, "
+"@{actual_range} is resized (retaining the top-left corner) to match the size "
 "of @{range}."
 msgstr ""
 "Pokud má @{actual_range} velikost, která se liší od velikosti @{range}, je "
@@ -5823,8 +5823,9 @@ msgid ""
 "CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},"
 "@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
 msgstr ""
-"CEILING(@{x}) je exportováno do ODF jako CEILING(@{x},SIGN(@{x}),1). CEILING"
-"(@{x},@{significance}) je funkce OpenFormula CEILING(@{x},@{significance},1)."
+"CEILING(@{x}) je exportováno do ODF jako CEILING(@{x},SIGN(@{x}),1). "
+"CEILING(@{x},@{significance}) je funkce OpenFormula CEILING(@{x},"
+"@{significance},1)."
 
 #: ../plugins/fn-math/functions.c:766
 msgid "COS:the cosine of @{x}"
@@ -5931,8 +5932,8 @@ msgstr ""
 msgid ""
 "This is a real valued function as long as neither @{a} nor @{z} are negative."
 msgstr ""
-"Jde o funkci vyhodnocovanou v reálném oboru za předpokladu, že ani @{a} ani @"
-"{z} nejsou záporné."
+"Jde o funkci vyhodnocovanou v reálném oboru za předpokladu, že ani @{a} ani "
+"@{z} nejsou záporné."
 
 #: ../plugins/fn-math/functions.c:1009
 msgid "BETA:Euler beta function"
@@ -5999,11 +6000,11 @@ msgstr "k:nezáporné celé číslo"
 
 #: ../plugins/fn-math/functions.c:1061
 msgid ""
-"COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number of @"
-"{k}-combinations of an @{n}-element set without repetition."
+"COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number of "
+"@{k}-combinations of an @{n}-element set without repetition."
 msgstr ""
-"COMBIN vrací kombinační číslo „@{k}-té třídy z @{n} prvků“, což je výběr @"
-"{k} prvků z celkových @{n} prvků bez opakování."
+"COMBIN vrací kombinační číslo „@{k}-té třídy z @{n} prvků“, což je výběr "
+"@{k} prvků z celkových @{n} prvků bez opakování."
 
 #: ../plugins/fn-math/functions.c:1064
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
@@ -6025,8 +6026,8 @@ msgstr "wiki:cs:Multimnožina"
 
 #: ../plugins/fn-math/functions.c:1117
 msgid ""
-"FLOOR:nearest multiple of @{significance} whose absolute value is at most ABS"
-"(@{x})"
+"FLOOR:nearest multiple of @{significance} whose absolute value is at most "
+"ABS(@{x})"
 msgstr ""
 "FLOOR:nejbližší násobek @{significance}, jehož absolutní hodnota je "
 "nanejvýše ABS(@{x})"
@@ -6041,11 +6042,11 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1123
 msgid ""
-"FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@"
-"{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1)."
+"FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},"
+"@{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1)."
 msgstr ""
-"FLOOR(@{x}) je exportováno do ODF jako FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@"
-"{significance}) je funkce OpenFormula FLOOR(@{x},@{significance},1)."
+"FLOOR(@{x}) je exportováno do ODF jako FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},"
+"@{significance}) je funkce OpenFormula FLOOR(@{x},@{significance},1)."
 
 #: ../plugins/fn-math/functions.c:1153
 msgid "INT:largest integer not larger than @{x}"
@@ -6087,11 +6088,11 @@ msgstr "LN1P:LN(1 + @{x})"
 
 #: ../plugins/fn-math/functions.c:1237
 msgid ""
-"LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating LN"
-"(1+@{x})."
+"LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating "
+"LN(1+@{x})."
 msgstr ""
-"LN1P vypočítává LN(1+@{x}), ale poskytuje větší přesnost než běžný výpočet LN"
-"(1+@{x})."
+"LN1P vypočítává LN(1+@{x}), ale poskytuje větší přesnost než běžný výpočet "
+"LN(1+@{x})."
 
 #: ../plugins/fn-math/functions.c:1238
 msgid "If @{x} ≤ -1, LN returns #NUM! error."
@@ -6099,8 +6100,8 @@ msgstr "Pokud je @{x} ≤ -1, funkce LN vrací chybu #ČÍSLO!."
 
 #: ../plugins/fn-math/functions.c:1259
 msgid ""
-"POWER:the value of @{x} raised to the power @{y} raised to the power of 1/@"
-"{z}"
+"POWER:the value of @{x} raised to the power @{y} raised to the power of 1/"
+"@{z}"
 msgstr "POWER:hodnota @{x} umocněná na @{y} umocněné na 1/@{z}"
 
 #: ../plugins/fn-math/functions.c:1262
@@ -6404,14 +6405,14 @@ msgstr "denominator:nenulové celé číslo"
 
 #: ../plugins/fn-math/functions.c:1919
 msgid ""
-"QUOTIENT yields the integer portion of the division @{numerator}/@"
-"{denominator}.\n"
-"QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@"
-"{denominator})=@{numerator}"
+"QUOTIENT yields the integer portion of the division @{numerator}/"
+"@{denominator}.\n"
+"QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},"
+"@{denominator})=@{numerator}"
 msgstr ""
 "QUOTIENT poskytuje celočíselnou část podílu @{numerator}/@{denominator}.\n"
-"QUOTIENT (@{dělenec},@{dělitel})⨉@{dělitel} + MOD(@{dělenec},@{dělitel}) = @"
-"{dělenec}"
+"QUOTIENT (@{dělenec},@{dělitel})⨉@{dělitel} + MOD(@{dělenec},@{dělitel}) = "
+"@{dělenec}"
 
 #: ../plugins/fn-math/functions.c:1943
 msgid "SIGN:sign of @{x}"
@@ -6658,7 +6659,7 @@ msgstr "Potom se SERIESSUM(2;1;2,23;A1:A5) vyhodnotí jako 5056,37439843926"
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE:inverzní matice k matici @{matrix}"
 
-#: ../plugins/fn-math/functions.c:2668 ../plugins/fn-math/functions.c:2956
+#: ../plugins/fn-math/functions.c:2668 ../plugins/fn-math/functions.c:2957
 msgid "matrix:a square matrix"
 msgstr "matrix:čtvercová matice"
 
@@ -6688,11 +6689,11 @@ msgstr "threshold:relativní velikost prahu pro zahazování vlastních čísel"
 
 #: ../plugins/fn-math/functions.c:2741
 msgid ""
-"CHOLESKY:the Cholesky decomposition of the symmetric positive-definite @"
-"{matrix}"
+"CHOLESKY:the Cholesky decomposition of the symmetric positive-definite "
+"@{matrix}"
 msgstr ""
-"CHOLESKY:Choleského dekompozice symetrické pozitivně definitní matice @"
-"{matrix}"
+"CHOLESKY:Choleského dekompozice symetrické pozitivně definitní matice "
+"@{matrix}"
 
 #: ../plugins/fn-math/functions.c:2742
 msgid "matrix:a symmetric positive definite matrix"
@@ -6734,31 +6735,42 @@ msgstr "mat1:matice"
 msgid "mat2:a matrix"
 msgstr "mat2:matice"
 
-#: ../plugins/fn-math/functions.c:2899
+#: ../plugins/fn-math/functions.c:2860
+msgid ""
+"The number of columns in @{mat1} must equal the number of rows in @{mat2}; "
+"otherwise #VALUE! is returned.  The result of MMULT is an array, in which "
+"the number of rows is the same as in @{mat1}), and the number of columns is "
+"the same as in (@{mat2})."
+msgstr ""
+"Počet sloupců v @{mat1} musí být roven počtu řádků v @{mat2}. V opačném "
+"případě je vráceno #HODNOTA!. Výsledkem MMULT je pole, ve kterém je počet "
+"řádků stejný jako u @{mat1} a počet sloupců stejný jako u @{mat2}."
+
+#: ../plugins/fn-math/functions.c:2900
 msgid "LINSOLVE:solve linear equation"
 msgstr "LINSOLVE:řeší lineární rovnici"
 
-#: ../plugins/fn-math/functions.c:2900 ../plugins/fn-stat/functions.c:3212
+#: ../plugins/fn-math/functions.c:2901 ../plugins/fn-stat/functions.c:3212
 msgid "A:a matrix"
 msgstr "A:matice a"
 
-#: ../plugins/fn-math/functions.c:2901
+#: ../plugins/fn-math/functions.c:2902
 msgid "B:a matrix"
 msgstr "B:matice b"
 
-#: ../plugins/fn-math/functions.c:2903
+#: ../plugins/fn-math/functions.c:2904
 msgid "Solves the equation @{A}*X=@{B} and returns X."
 msgstr "Vyřeší rovnici @{A}*X=@{B} a vrátí X."
 
-#: ../plugins/fn-math/functions.c:2904
+#: ../plugins/fn-math/functions.c:2905
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
 msgstr "Pokud je matice @{A} singulární, je vráceno #HODNOTA!."
 
-#: ../plugins/fn-math/functions.c:2955
+#: ../plugins/fn-math/functions.c:2956
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:determinant matice @{matrix}"
 
-#: ../plugins/fn-math/functions.c:2957
+#: ../plugins/fn-math/functions.c:2958
 msgid ""
 "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, "
 "2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then "
@@ -6768,11 +6780,11 @@ msgstr ""
 "čísla 4; 2; 4 a 1, C1; …; C4 čísla 9; 4; 3 a 2 a D1; …; D4 čísla 7; 3; 4 a "
 "5. Pak se MDETERM(A1:D4) rovná 148."
 
-#: ../plugins/fn-math/functions.c:2987
+#: ../plugins/fn-math/functions.c:2988
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:vynásobí jednotlivé prvky a vrátí jejich součet"
 
-#: ../plugins/fn-math/functions.c:2989 ../plugins/fn-math/functions.c:3012
+#: ../plugins/fn-math/functions.c:2990 ../plugins/fn-math/functions.c:3013
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -6780,11 +6792,11 @@ msgstr ""
 "Vynásobí odpovídající datové položky v zadaném poli nebo rozsahu a vrátí "
 "součet těchto násobků."
 
-#: ../plugins/fn-math/functions.c:2992
+#: ../plugins/fn-math/functions.c:2993
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Pokud některé zadání není číselné, použije se místo něj nula."
 
-#: ../plugins/fn-math/functions.c:2993 ../plugins/fn-math/functions.c:3016
+#: ../plugins/fn-math/functions.c:2994 ../plugins/fn-math/functions.c:3017
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -6792,7 +6804,7 @@ msgstr ""
 "Pokud argumenty v podobě pole nebo rozsahu nemají stejné rozměry, je vrácena "
 "chyba #HODNOTA!."
 
-#: ../plugins/fn-math/functions.c:2995
+#: ../plugins/fn-math/functions.c:2996
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
@@ -6800,47 +6812,47 @@ msgstr ""
 "Tato funkce ignoruje pravdivostní výrazy, takže SUMPRODUCT(A1:A5>0) nebude "
 "pracovat. Namísto toho použijte SUMPRODUCT(--(A1:A5>0))"
 
-#: ../plugins/fn-math/functions.c:3004
+#: ../plugins/fn-math/functions.c:3005
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
 "Tato funkce není kompatibilní s OpenFormula. Použijte místo ní ODF."
 "SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:3010
+#: ../plugins/fn-math/functions.c:3011
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT:vynásobí jednotlivé prvky a vrátí jejich součet"
 
-#: ../plugins/fn-math/functions.c:3015
+#: ../plugins/fn-math/functions.c:3016
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr ""
 "Pokud některé zadání není číselné nebo pravdivostní, použije se místo něj "
 "nula."
 
-#: ../plugins/fn-math/functions.c:3018
+#: ../plugins/fn-math/functions.c:3019
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 "Tato funkce se liší od funkce SUMPRODUCT braním v úvahu pravdivostních "
 "hodnot."
 
-#: ../plugins/fn-math/functions.c:3019
+#: ../plugins/fn-math/functions.c:3020
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr ""
 "Tato funkce není kompatibilní s aplikací Excel. Použijte místo ní SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:3154
+#: ../plugins/fn-math/functions.c:3155
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:vlastní čísla a vlastní vektory symetrické matice @{matrix}"
 
-#: ../plugins/fn-math/functions.c:3155
+#: ../plugins/fn-math/functions.c:3156
 msgid "matrix:a symmetric matrix"
 msgstr "matrix:symetrická matice"
 
-#: ../plugins/fn-math/functions.c:3156
+#: ../plugins/fn-math/functions.c:3157
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
 msgstr "Pokud není matice @{matrix} symetrická, funkce EIGEN vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:3157
+#: ../plugins/fn-math/functions.c:3158
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -6862,8 +6874,8 @@ msgstr "NT_PHI:Eulerova funkce"
 
 #: ../plugins/fn-numtheory/numtheory.c:254
 msgid ""
-"Euler's totient function gives the number of integers less than or equal to @"
-"{n} that are relatively prime (coprime) to @{n}."
+"Euler's totient function gives the number of integers less than or equal to "
+"@{n} that are relatively prime (coprime) to @{n}."
 msgstr ""
 "Eulerova funkce udává počet celých čísel menších nebo rovných číslu @{n}, "
 "která jsou nesoudělná s číslem @{n}."
@@ -8027,8 +8039,8 @@ msgstr "Pokud je @{n} < 0, funkce RANDBINOM vrací #ČÍSLO!."
 
 #: ../plugins/fn-random/functions.c:244
 msgid ""
-"RANDBETWEEN:a random integer number between and including @{bottom} and @"
-"{top}"
+"RANDBETWEEN:a random integer number between and including @{bottom} and "
+"@{top}"
 msgstr "RANDBETWEEN:náhodné celé číslo mezi, a včetně, @{bottom} a @{top}"
 
 #: ../plugins/fn-random/functions.c:246
@@ -8412,8 +8424,8 @@ msgstr ""
 "vrací SIMTABLE hodnotu @{d1}.\n"
 "Se simulačním nástrojem a funkcí SIMTABLE můžete testovat dané rozhodovací "
 "proměnné. Každá funkce SIMTABLE obsahuje možné hodnoty simulační proměnné. "
-"Ve většině platných simulačních modelů byste měli mít stejný počet hodnot @"
-"{dN} pro všechny rozhodovací proměnné. Pokud simulace běží více cyklů, než "
+"Ve většině platných simulačních modelů byste měli mít stejný počet hodnot "
+"@{dN} pro všechny rozhodovací proměnné. Pokud simulace běží více cyklů, než "
 "je definováno hodnot, SIMTABLE vrací chybu #N/A! (např. když A1 obsahuje "
 "„=SIMTABLE(1)“ a A2 „=SIMTABLE(1,2)“, pak A1 ve druhém cyklu nabude hodnotu "
 "#N/A!).\n"
@@ -8469,11 +8481,11 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:903
 msgid ""
-"The standard deviation of a skew-normal distribution with scale parameter @"
-"{𝜔}=1 is not 1."
+"The standard deviation of a skew-normal distribution with scale parameter "
+"@{𝜔}=1 is not 1."
 msgstr ""
-"Směrodatná odchylka nesouměrného normálního rozdělení s koeficient měřítka @"
-"{𝜔}=1 není 1."
+"Směrodatná odchylka nesouměrného normálního rozdělení s koeficient měřítka "
+"@{𝜔}=1 není 1."
 
 #: ../plugins/fn-random/functions.c:905
 msgid "The skewness of a skew-normal distribution is in general not @{𝛼}."
@@ -8826,7 +8838,7 @@ msgstr "Pokud je (@{f} + @{t} -1) <= 0, tak tato funkce vrací chybu #ČÍSLO!."
 #: ../plugins/fn-stat/functions.c:998 ../plugins/fn-stat/functions.c:1250
 #: ../plugins/fn-stat/functions.c:1539 ../plugins/fn-stat/functions.c:1572
 #: ../plugins/fn-stat/functions.c:1606 ../plugins/fn-stat/functions.c:1667
-#: ../plugins/fn-stat/functions.c:4442
+#: ../plugins/fn-stat/functions.c:4441
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
 msgstr "Pokud je @{p} < 0 nebo @{p} > 1, tak tato funkce vrací chybu #ČÍSLO!."
 
@@ -9477,7 +9489,7 @@ msgid "p:probability of success in each trial"
 msgstr "p:pravděpodobnost úspěchu v každém pokusu"
 
 #: ../plugins/fn-stat/functions.c:1568 ../plugins/fn-stat/functions.c:1722
-#: ../plugins/fn-stat/functions.c:2040 ../plugins/fn-stat/functions.c:4440
+#: ../plugins/fn-stat/functions.c:2040 ../plugins/fn-stat/functions.c:4439
 msgid ""
 "cumulative:whether to evaluate the mass function or the cumulative "
 "distribution function"
@@ -9534,8 +9546,8 @@ msgstr ""
 "CAUCHY:pravděpodobnostní míra nebo hromadná distribuční funkce pro Cauchyho, "
 "Lorentzovo nebo Breit-Wignerovo rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1633 ../plugins/fn-stat/functions.c:4470
-#: ../plugins/fn-stat/functions.c:4608
+#: ../plugins/fn-stat/functions.c:1633 ../plugins/fn-stat/functions.c:4469
+#: ../plugins/fn-stat/functions.c:4607
 msgid "a:scale parameter"
 msgstr "a:koeficient měřítka"
 
@@ -9543,7 +9555,7 @@ msgstr "a:koeficient měřítka"
 msgid "If @{a} < 0 this function returns a #NUM! error."
 msgstr "Pokud je @{a} < 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1636 ../plugins/fn-stat/functions.c:4443
+#: ../plugins/fn-stat/functions.c:1636 ../plugins/fn-stat/functions.c:4442
 msgid ""
 "If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! "
 "error."
@@ -9694,9 +9706,9 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1815
 msgid ""
-"If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/@{beta})"
-"^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * @{x}^(@"
-"{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
+"If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/"
+"@{beta})^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * "
+"@{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
 msgstr ""
 "Pokud je pravdivostní hodnota @{cumulative} pravda, tak bude vráceno: 1 - "
 "exp (-(@{x}:@{beta})^@{alpha}), v ostatních případech bude vráceno (@{alpha}:"
@@ -9914,8 +9926,8 @@ msgid ""
 "check whether the data points are at least @{interval} apart."
 msgstr ""
 "Pokud je @{interval} <= 0, vrací tato funkce chybu #ČÍSLO!. Funkce SSMEDIAN "
-"nekontroluje, zda jsou referenční body od sebe vzdálené nejméně délku @"
-"{interval}."
+"nekontroluje, zda jsou referenční body od sebe vzdálené nejméně délku "
+"@{interval}."
 
 #: ../plugins/fn-stat/functions.c:2244
 msgid "LARGE:@{k}-th largest value in a data set"
@@ -10062,8 +10074,8 @@ msgid ""
 msgstr ""
 "ZTEST vypočítá pravděpodobnost, že střední hodnota pozorovaného vzorku je "
 "velká jako, nebo větší než, střední hodnota daného vzorku pro vzorky získané "
-"z normálního rozdělení se střední hodnotou @{x} a směrodatnou odchylkou @"
-"{stddev}."
+"z normálního rozdělení se střední hodnotou @{x} a směrodatnou odchylkou "
+"@{stddev}."
 
 #: ../plugins/fn-stat/functions.c:2478
 msgid ""
@@ -10203,8 +10215,8 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2737
 msgid ""
-"If @{x} exceeds the largest value or is less than the smallest value in @"
-"{array}, this function returns a #NUM! error."
+"If @{x} exceeds the largest value or is less than the smallest value in "
+"@{array}, this function returns a #NUM! error."
 msgstr ""
 "Pokud @{x} překročí největší hodnotu nebo je menší než nejmenší hodnota v "
 "poli @{array}, tak tato funkce vrací chybu #ČÍSLO!."
@@ -10248,8 +10260,8 @@ msgstr "quart:číslo od 0 do 4 určující, který kvartil se má vypočítat"
 
 #: ../plugins/fn-stat/functions.c:2872
 msgid ""
-"If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @"
-"{quart} = 0, the smallest value of @{array} to be returned."
+"If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If "
+"@{quart} = 0, the smallest value of @{array} to be returned."
 msgstr ""
 "Pokud je @{quart} < 0 nebo @{quart} > 4, tak tato funkce vrací chybu "
 "#ČÍSLO!. Pokud je @{quart} = 0, je vrácena nejmenší z hodnot pole @{array}."
@@ -10309,8 +10321,8 @@ msgid ""
 "If the data sets contain a different number of data points and the test is "
 "paired (@{type} one), TTEST returns the #N/A error."
 msgstr ""
-"Pokud množiny dat obsahují různý počet referenčních bodů a test je párový (@"
-"{type} je 1), pak funkce TTEST vrací chybu #N/A."
+"Pokud množiny dat obsahují různý počet referenčních bodů a test je párový "
+"(@{type} je 1), pak funkce TTEST vrací chybu #N/A."
 
 #: ../plugins/fn-stat/functions.c:2978
 msgid "@{tails} and @{type} are truncated to integers."
@@ -10442,8 +10454,8 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3437 ../plugins/fn-stat/functions.c:3741
 msgid ""
-"If the length of @{known_ys} does not match the corresponding length of @"
-"{known_xs}, this function returns a #NUM! error."
+"If the length of @{known_ys} does not match the corresponding length of "
+"@{known_xs}, this function returns a #NUM! error."
 msgstr ""
 "Pokud délka @{known_ys} neodpovídá příslušné délce @{known_xs}, tak tato "
 "funkce vrací chybu #ČÍSLO!."
@@ -10572,11 +10584,11 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3739
 msgid ""
-"new_xs:array of x-values for which to estimate the y-values; defaults to @"
-"{known_xs}"
+"new_xs:array of x-values for which to estimate the y-values; defaults to "
+"@{known_xs}"
 msgstr ""
-"new_xs:hodnoty x, pro které se mají odhadnout hodnoty y; výchozí jsou @"
-"{known_xs}"
+"new_xs:hodnoty x, pro které se mají odhadnout hodnoty y; výchozí jsou "
+"@{known_xs}"
 
 #: ../plugins/fn-stat/functions.c:3743
 msgid ""
@@ -10636,8 +10648,8 @@ msgstr "GROWTH:prognóza exponenciálního růstu"
 msgid ""
 "new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
 msgstr ""
-"new_xs:hodnoty x, pro které se mají odhadnout hodnoty y; výchozí jsou @"
-"{known_xs}"
+"new_xs:hodnoty x, pro které se mají odhadnout hodnoty y; výchozí jsou "
+"@{known_xs}"
 
 #: ../plugins/fn-stat/functions.c:3986
 msgid ""
@@ -10649,8 +10661,8 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3991
 msgid ""
-"GROWTH returns an array having one column and a row for each data point in @"
-"{new_xs}."
+"GROWTH returns an array having one column and a row for each data point in "
+"@{new_xs}."
 msgstr ""
 "Funkce GROWTH vrací pole s jedním sloupcem a řádkem pro každý referenční bod "
 "v @{new_xs}."
@@ -10769,9 +10781,9 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4252
 msgid ""
-"Then SUBTOTAL(1,A1:A5) equals 30.SUBTOTAL(6,A1:A5) equals 22378356.SUBTOTAL"
-"(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150.SUBTOTAL(11,A1:A5) "
-"equals 30.4."
+"Then SUBTOTAL(1,A1:A5) equals 30.SUBTOTAL(6,A1:A5) equals 22378356."
+"SUBTOTAL(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150."
+"SUBTOTAL(11,A1:A5) equals 30.4."
 msgstr ""
 "Potom se SUBTOTAL(1;A1:A5) rovná 30. SUBTOTAL(6;A1:A5) se rovná 22378356. "
 "SUBTOTAL(7;A1:A5) se rovná 6,164414003. SUBTOTAL(9;A1:A5) se rovná 150. "
@@ -10789,7 +10801,7 @@ msgstr "ref1:první množina dat"
 msgid "ref2:second data set"
 msgstr "ref2:druhá množina dat"
 
-#: ../plugins/fn-stat/functions.c:4437
+#: ../plugins/fn-stat/functions.c:4436
 msgid ""
 "GEOMDIST:probability mass or cumulative distribution function of the "
 "geometric distribution"
@@ -10797,60 +10809,60 @@ msgstr ""
 "GEOMDIST:hustota pravděpodobnosti nebo hromadná distribuční funkce "
 "geometrického rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4438
+#: ../plugins/fn-stat/functions.c:4437
 msgid "k:number of trials"
 msgstr "k:počet pokusů"
 
-#: ../plugins/fn-stat/functions.c:4439
+#: ../plugins/fn-stat/functions.c:4438
 msgid "p:probability of success in any trial"
 msgstr "p:pravděpodobnost úspěchu v kterémkoliv pokusu"
 
-#: ../plugins/fn-stat/functions.c:4441
+#: ../plugins/fn-stat/functions.c:4440
 msgid "If @{k} < 0 this function returns a #NUM! error."
 msgstr "Pokud je @{k} < 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:4468
+#: ../plugins/fn-stat/functions.c:4467
 msgid "LOGISTIC:probability density function of the logistic distribution"
 msgstr "LOGISTIC:funkce hustoty pravděpodobnosti pro logistické rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4499
+#: ../plugins/fn-stat/functions.c:4498
 msgid "PARETO:probability density function of the Pareto distribution"
 msgstr "PARETO:funkce hustoty pravděpodobnosti pro Paretovo rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4501
+#: ../plugins/fn-stat/functions.c:4500
 msgid "a:exponent"
 msgstr "a:exponent"
 
-#: ../plugins/fn-stat/functions.c:4502 ../plugins/fn-stat/functions.c:4609
+#: ../plugins/fn-stat/functions.c:4501 ../plugins/fn-stat/functions.c:4608
 msgid "b:scale parameter"
 msgstr "b:koeficient měřítka"
 
-#: ../plugins/fn-stat/functions.c:4533
+#: ../plugins/fn-stat/functions.c:4532
 msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgstr "RAYLEIGH:funkce hustoty pravděpodobnosti pro Rayleighovo rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4535 ../plugins/fn-stat/functions.c:4570
+#: ../plugins/fn-stat/functions.c:4534 ../plugins/fn-stat/functions.c:4569
 msgid "sigma:scale parameter"
 msgstr "sigma:koeficient měřítka"
 
-#: ../plugins/fn-stat/functions.c:4567
+#: ../plugins/fn-stat/functions.c:4566
 msgid ""
 "RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution"
 msgstr ""
 "RAYLEIGHTAIL:funkce hustoty pravděpodobnosti pro Rayleighovo výběrové "
 "rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4569
+#: ../plugins/fn-stat/functions.c:4568
 msgid "a:lower limit"
 msgstr "a:dolní limit"
 
-#: ../plugins/fn-stat/functions.c:4605
+#: ../plugins/fn-stat/functions.c:4604
 msgid ""
 "EXPPOWDIST:the probability density function of the Exponential Power "
 "distribution"
 msgstr "EXPPOWDIST:funkce hustoty pravděpodobnosti mocninného rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4611
+#: ../plugins/fn-stat/functions.c:4610
 msgid ""
 "This distribution has been recommended for lifetime analysis when a U-shaped "
 "hazard function is desired. This corresponds to rapid failure once the "
@@ -10862,15 +10874,15 @@ msgstr ""
 "začne opotřebovávat po skončení období stability nebo i po zlepšení "
 "spolehlivosti."
 
-#: ../plugins/fn-stat/functions.c:4639
+#: ../plugins/fn-stat/functions.c:4638
 msgid "LAPLACE:probability density function of the Laplace distribution"
 msgstr "LAPLACE:funkce hustoty pravděpodobnosti pro Laplaceovo rozložení"
 
-#: ../plugins/fn-stat/functions.c:4641
+#: ../plugins/fn-stat/functions.c:4640
 msgid "a:mean"
 msgstr "a:střední hodnota"
 
-#: ../plugins/fn-stat/functions.c:4662
+#: ../plugins/fn-stat/functions.c:4661
 msgid ""
 "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} "
 "objects with repetition allowed"
@@ -10878,36 +10890,36 @@ msgstr ""
 "PERMUTATIONA:počet variací (respektive permutací pro @{y} = @{x}) @{y} "
 "objektů vybíraných z @{x} objektů s opakováním"
 
-#: ../plugins/fn-stat/functions.c:4663
+#: ../plugins/fn-stat/functions.c:4662
 msgid "x:total number of objects"
 msgstr "x:celkový počet objektů"
 
-#: ../plugins/fn-stat/functions.c:4664
+#: ../plugins/fn-stat/functions.c:4663
 msgid "y:number of selected objects"
 msgstr "y:počet vybraných objektů"
 
-#: ../plugins/fn-stat/functions.c:4665
+#: ../plugins/fn-stat/functions.c:4664
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
 msgstr "Pokud se hodnoty @{x} i @{y} rovnají 0, funkce PERMUTATIONA vrací 1."
 
-#: ../plugins/fn-stat/functions.c:4666
+#: ../plugins/fn-stat/functions.c:4665
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
 msgstr "Pokud je @{x} < 0 nebo @{y} < 0, funkce PERMUTATIONA vrací #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:4667
+#: ../plugins/fn-stat/functions.c:4666
 msgid "If @{x} or @{y} are not integers, they are truncated"
 msgstr "Pokud jsou hodnoty @{x} nebo @{y} neceločíselné, tak jsou oříznuty."
 
-#: ../plugins/fn-stat/functions.c:4695
+#: ../plugins/fn-stat/functions.c:4694
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
 msgstr "LKSTEST:Lillieforsův (Kolmogorovův-Smirnovův) test dobré shody"
 
-#: ../plugins/fn-stat/functions.c:4696 ../plugins/fn-stat/functions.c:4813
-#: ../plugins/fn-stat/functions.c:4897 ../plugins/fn-stat/functions.c:4982
+#: ../plugins/fn-stat/functions.c:4695 ../plugins/fn-stat/functions.c:4812
+#: ../plugins/fn-stat/functions.c:4896 ../plugins/fn-stat/functions.c:4981
 msgid "x:array of sample values"
 msgstr "x:pole ukázkových hodnot"
 
-#: ../plugins/fn-stat/functions.c:4697
+#: ../plugins/fn-stat/functions.c:4696
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of "
@@ -10918,19 +10930,19 @@ msgstr ""
 "hodnotu testové statistiky testu a v třetím počet pozorovaných hodnot ve "
 "vzorku."
 
-#: ../plugins/fn-stat/functions.c:4699
+#: ../plugins/fn-stat/functions.c:4698
 msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
 msgstr "Pokud je méně než 5 hodnot vzorků, funkce LKSTEST vrací #HODNOTA!."
 
-#: ../plugins/fn-stat/functions.c:4701
+#: ../plugins/fn-stat/functions.c:4700
 msgid "wiki:en:Lilliefors_test"
 msgstr "wiki:en:Lilliefors_test"
 
-#: ../plugins/fn-stat/functions.c:4812
+#: ../plugins/fn-stat/functions.c:4811
 msgid "SFTEST:Shapiro-Francia Test of Normality"
 msgstr "SFTEST:Shapiroův-Franciův test dobré shody"
 
-#: ../plugins/fn-stat/functions.c:4814
+#: ../plugins/fn-stat/functions.c:4813
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Shapiro-Francia Test, the second row the test statistic of the test, and the "
@@ -10940,7 +10952,7 @@ msgstr ""
 "Francisova testu dobré shody, v druhém řádku hodnotu testové statistiky "
 "testu a v třetím počet pozorovaných hodnot ve vzorku."
 
-#: ../plugins/fn-stat/functions.c:4816
+#: ../plugins/fn-stat/functions.c:4815
 msgid ""
 "If there are less than 5 or more than 5000 sample values, SFTEST returns "
 "#VALUE!"
@@ -10948,11 +10960,11 @@ msgstr ""
 "Pokud je hodnot vzorků méně než 5 nebo více než 5000, funkce SFTEST vrací "
 "#HODNOTA!."
 
-#: ../plugins/fn-stat/functions.c:4896
+#: ../plugins/fn-stat/functions.c:4895
 msgid "CVMTEST:Cramér-von Mises Test of Normality"
 msgstr "CVMTEST:Cramér-von Miseseův test dobré shody"
 
-#: ../plugins/fn-stat/functions.c:4898
+#: ../plugins/fn-stat/functions.c:4897
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Cramér-von Mises Test, the second row the test statistic of the test, and "
@@ -10962,19 +10974,19 @@ msgstr ""
 "Misesova testu dobré shody, v druhém řádku hodnotu testové statistiky testu "
 "a v třetím počet pozorovaných hodnot ve vzorku."
 
-#: ../plugins/fn-stat/functions.c:4900
+#: ../plugins/fn-stat/functions.c:4899
 msgid "If there are less than 8 sample values, CVMTEST returns #VALUE!"
 msgstr "Pokud je méně než 8 hodnot vzorků, funkce CVMTEST vrací #HODNOTA!."
 
-#: ../plugins/fn-stat/functions.c:4902
+#: ../plugins/fn-stat/functions.c:4901
 msgid "wiki:en:Cramér–von-Mises_criterion"
 msgstr "wiki:en:Cramér–von-Mises_criterion"
 
-#: ../plugins/fn-stat/functions.c:4981
+#: ../plugins/fn-stat/functions.c:4980
 msgid "ADTEST:Anderson-Darling Test of Normality"
 msgstr "ADTEST:Andersonův-Darlingův test dobré shody"
 
-#: ../plugins/fn-stat/functions.c:4983
+#: ../plugins/fn-stat/functions.c:4982
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Anderson-Darling Test, the second row the test statistic of the test, and "
@@ -10984,11 +10996,11 @@ msgstr ""
 "Darlingova testu dobré shody, v druhém řádku hodnotu testové statistiky "
 "testu a v třetím počet pozorovaných hodnot ve vzorku."
 
-#: ../plugins/fn-stat/functions.c:4985
+#: ../plugins/fn-stat/functions.c:4984
 msgid "If there are less than 8 sample values, ADTEST returns #VALUE!"
 msgstr "Pokud je hodnot vzorků méně než 8, funkce ADTEST vrací #HODNOTA!."
 
-#: ../plugins/fn-stat/functions.c:4987
+#: ../plugins/fn-stat/functions.c:4986
 msgid "wiki:en:Anderson–Darling_test"
 msgstr "wiki:en:Anderson–Darling_test"
 
@@ -11036,11 +11048,11 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:67 ../plugins/fn-string/functions.c:139
 msgid ""
-"For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@"
-"{x}))=@{x}."
+"For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have "
+"CODE(CHAR(@{x}))=@{x}."
 msgstr ""
-"Pro všechna @{x} od 1 do 255, vyjma 129, 141, 143, 144 a 157 platí CODE(CHAR"
-"(@{x}))=@{x}."
+"Pro všechna @{x} od 1 do 255, vyjma 129, 141, 143, 144 a 157 platí "
+"CODE(CHAR(@{x}))=@{x}."
 
 #: ../plugins/fn-string/functions.c:105
 msgid ""
@@ -11120,8 +11132,8 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:331
 msgid ""
-"LEFTB:the first characters  of the string @{s} comprising at most @"
-"{num_bytes} bytes"
+"LEFTB:the first characters  of the string @{s} comprising at most "
+"@{num_bytes} bytes"
 msgstr "LEFTB:první znaky řetězce @{s} tvořící maximálně @{num_bytes} bajtů"
 
 #: ../plugins/fn-string/functions.c:333 ../plugins/fn-string/functions.c:426
@@ -11176,8 +11188,8 @@ msgid ""
 "MID:the substring of the string @{s} starting at position @{position} "
 "consisting of @{length} characters"
 msgstr ""
-"MID:podřetězec řetězce @{s} začínající na pozici @{position} sestávající z @"
-"{length} znaků"
+"MID:podřetězec řetězce @{s} začínající na pozici @{position} sestávající z "
+"@{length} znaků"
 
 #: ../plugins/fn-string/functions.c:385
 msgid "position:the starting position"
@@ -11192,8 +11204,8 @@ msgid ""
 "MIDB:the characters following the first @{start_pos} bytes comprising at "
 "most @{num_bytes} bytes"
 msgstr ""
-"MIDB:znaky následující po prvních @{start_pos} bajtech a tvořící maximálně @"
-"{num_bytes} bajtů"
+"MIDB:znaky následující po prvních @{start_pos} bajtech a tvořící maximálně "
+"@{num_bytes} bajtů"
 
 #: ../plugins/fn-string/functions.c:425
 msgid "start_pos:the number of the byte with which to start (defaults to 1)"
@@ -11237,8 +11249,8 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:546
 msgid ""
-"RIGHTB:the last characters of the string @{s} comprising at most @"
-"{num_bytes} bytes"
+"RIGHTB:the last characters of the string @{s} comprising at most "
+"@{num_bytes} bytes"
 msgstr "LEFTB:poslední znaky řetězce @{s} tvořící maximálně @{num_bytes} bajtů"
 
 #: ../plugins/fn-string/functions.c:581
@@ -11316,8 +11328,8 @@ msgid ""
 "REPLACE:string @{old} with @{num} characters starting at @{start} replaced "
 "by @{new}"
 msgstr ""
-"REPLACE:řetězec @{old} s @{num} znaky, počínaje od @{start}, nahrazenými za @"
-"{new}"
+"REPLACE:řetězec @{old} s @{num} znaky, počínaje od @{start}, nahrazenými za "
+"@{new}"
 
 #: ../plugins/fn-string/functions.c:837 ../plugins/fn-string/functions.c:888
 msgid "old:original text"
@@ -11357,8 +11369,8 @@ msgid ""
 "REPLACEB replaces the string of valid unicode characters starting at the "
 "byte @{start} and ending at @{start}+@{num}-1 with the string @{new}."
 msgstr ""
-"REPLACEB nahrazuje řetězec platných unikódových znaků počínaje bajtem @"
-"{start} a konče na @{start}+@{num}-1 řetězcem @{new}."
+"REPLACEB nahrazuje řetězec platných unikódových znaků počínaje bajtem "
+"@{start} a konče na @{start}+@{num}-1 řetězcem @{new}."
 
 #: ../plugins/fn-string/functions.c:940
 msgid "T:@{value} if and only if @{value} is text, otherwise empty"
@@ -11403,8 +11415,8 @@ msgid ""
 "value VALUE would return (ignoring the given @{separator})."
 msgstr ""
 "Pokud @{text} nevypadá jako desetinné číslo, vrací funkce NUMBERVALUE "
-"hodnotu, kterou by vrátila funkce VALUE (ignoruje se zadaný oddělovač @"
-"{separator})."
+"hodnotu, kterou by vrátila funkce VALUE (ignoruje se zadaný oddělovač "
+"@{separator})."
 
 #: ../plugins/fn-string/functions.c:1156
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
@@ -11420,11 +11432,11 @@ msgstr "old:řetězec, který má být nahrazen"
 
 #: ../plugins/fn-string/functions.c:1160
 msgid ""
-"num:if @{num} is specified and a number only the @{num}th occurrence of @"
-"{old} is replaced"
+"num:if @{num} is specified and a number only the @{num}th occurrence of "
+"@{old} is replaced"
 msgstr ""
-"num:pokud je zadána hodnota @{num} a jedná se o číslo, je nahrazen jen @"
-"{num}-tý výskyt @{old}"
+"num:pokud je zadána hodnota @{num} a jedná se o číslo, je nahrazen jen "
+"@{num}-tý výskyt @{old}"
 
 #: ../plugins/fn-string/functions.c:1230
 msgid "DOLLAR:@{num} formatted as currency"
@@ -11436,8 +11448,8 @@ msgstr "decimals:desetinná místa"
 
 #: ../plugins/fn-string/functions.c:1302
 msgid ""
-"SEARCH:the location of the @{search} string within @{text} after position @"
-"{start}"
+"SEARCH:the location of the @{search} string within @{text} after position "
+"@{start}"
 msgstr ""
 "SEARCH:umístění řetězce @{search} v rámci textu @{text} za pozicí @{start}"
 
@@ -11490,8 +11502,8 @@ msgstr "Pokud není @{search} nalezeno, funkce SEARCHB vrací #HODNOTA!."
 
 #: ../plugins/fn-string/functions.c:1357
 msgid ""
-"If @{start} is less than one or it is greater than the byte length of @"
-"{text}, SEARCHB returns #VALUE!"
+"If @{start} is less than one or it is greater than the byte length of "
+"@{text}, SEARCHB returns #VALUE!"
 msgstr ""
 "Pokud je @{start} menší než jedna nebo je větší než délka @{text} v bajtech, "
 "funkce SEARCHB vrací #HODNOTA!."
@@ -11784,35 +11796,35 @@ msgstr ""
 "Pokud @{Sequence} obsahuje méně než 6 číselných hodnot, tak tato funkce "
 "vrací #HODNOTA!."
 
-#: ../plugins/gda/plugin-gda.c:375
+#: ../plugins/gda/plugin-gda.c:374
 msgid "EXECSQL:result of executing @{sql} in the libgda data source @{dsn}"
 msgstr "EXECSQL:výsledek spuštění @{sql} ve zdroji dat libgda @{dsn}"
 
-#: ../plugins/gda/plugin-gda.c:377 ../plugins/gda/plugin-gda.c:453
+#: ../plugins/gda/plugin-gda.c:376 ../plugins/gda/plugin-gda.c:452
 msgid "dsn:libgda data source"
 msgstr "dsn:zdroj dat libgda"
 
-#: ../plugins/gda/plugin-gda.c:378 ../plugins/gda/plugin-gda.c:454
+#: ../plugins/gda/plugin-gda.c:377 ../plugins/gda/plugin-gda.c:453
 msgid "username:user name to access @{dsn}"
 msgstr "username:uživatelské jméno pro přístup k @{dsn}"
 
-#: ../plugins/gda/plugin-gda.c:379 ../plugins/gda/plugin-gda.c:455
+#: ../plugins/gda/plugin-gda.c:378 ../plugins/gda/plugin-gda.c:454
 msgid "password:password to access @{dsn} as @{username}"
 msgstr "password:heslo pro přístup k @{dsn} jako @{username}"
 
-#: ../plugins/gda/plugin-gda.c:380
+#: ../plugins/gda/plugin-gda.c:379
 msgid "sql:SQL command"
 msgstr "sql:příkaz SQL"
 
-#: ../plugins/gda/plugin-gda.c:381 ../plugins/gda/plugin-gda.c:457
+#: ../plugins/gda/plugin-gda.c:380 ../plugins/gda/plugin-gda.c:456
 msgid "Before using EXECSQL, you need to set up a libgda data source."
 msgstr "Než použijete EXECSQL, je zapotřebí nastavit zdroj dat libgda."
 
-#: ../plugins/gda/plugin-gda.c:452
+#: ../plugins/gda/plugin-gda.c:451
 msgid "READDBTABLE:all rows of the table @{table} in @{dsn}"
 msgstr "READDBTABLE:všechny řádky v tabulce @{table} v @{dsn}"
 
-#: ../plugins/gda/plugin-gda.c:456
+#: ../plugins/gda/plugin-gda.c:455
 msgid "table:SQL table to retrieve"
 msgstr "table:tabulka SQL, která se má získat"
 
