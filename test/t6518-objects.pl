@@ -40,6 +40,7 @@ if (&subtest ("biff8")) {
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_Excel:excel_biff8',
 		     'ext' => "xls",
+		     'filter0' => 'std:noframewidget',
 		     'filter2' => 'std:drop_codepage',
 		     'ignore_failure' => 1);
 }
@@ -49,6 +50,7 @@ if (&subtest ("xlsx")) {
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_Excel:xlsx',
 		     'ext' => "xlsx",
+		     'filter0' => 'std:noframewidget',
 		     'resize' => '1048576x16384',
 		     'ignore_failure' => 1);
 }

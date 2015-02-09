@@ -425,16 +425,18 @@ my $no_rich_comment_filter = "$PERL -p -e 'if (/gnm:CellComment/) { s{ TextForma
 # Excel cannot have superscript and subscript at the same time
 my $supersub_filter = "$PERL -p -e 's{\\[superscript=1:(\\d+):(\\d+)\\]\\[subscript=1:(\\d+):\\2\\]}{[superscript=1:\$1:\$3][subscript=1:\$3:\$2]};'";
 
+my $noframe_filter = "$PERL -p -e '\$_ = \"\" if m{<gnm:SheetWidgetFrame .*/>}'";
 
 sub normalize_filter {
     my ($f) = @_;
     return 'cat' unless defined $f;
 
-    $f =~ s/std:drop_codepage/$drop_codepage_filter/;
-    $f =~ s/std:drop_generator/$drop_generator_filter/;
-    $f =~ s/std:no_author/$no_author_filter/;
-    $f =~ s/std:no_rich_comment/$no_rich_comment_filter/;
-    $f =~ s/std:supersub/$supersub_filter/;
+    $f =~ s/\bstd:drop_codepage\b/$drop_codepage_filter/;
+    $f =~ s/\bstd:drop_generator\b/$drop_generator_filter/;
+    $f =~ s/\bstd:no_author\b/$no_author_filter/;
+    $f =~ s/\bstd:no_rich_comment\b/$no_rich_comment_filter/;
+    $f =~ s/\bstd:supersub\b/$supersub_filter/;
+    $f =~ s/\bstd:noframewidget\b/$noframe_filter/;
 
     return $f;
 }
@@ -451,6 +453,7 @@ sub test_roundtrip {
     my $resize = $named_args{'resize'};
     my $ignore_failure = $named_args{'ignore_failure'};
 
+    my $filter0 = &normalize_filter ($named_args{'filter0'});
     my $filter1 = &normalize_filter ($named_args{'filter1'} ||
 				     $named_args{'filter'});
     my $filter2 = &normalize_filter ($named_args{'filter2'} ||
@@ -474,12 +477,25 @@ sub test_roundtrip {
 	die "Failed to produce $file_resized\n" unless -r $file_resized;
 	&junkfile ($file_resized) unless $keep;
     }
+
+    my $file_filtered = $file_resized;
+    if ($filter0) {
+	$file_filtered =~ s{^.*/}{};
+	$file_filtered =~ s/(\.gnumeric)$/-filter$1/;
+	unlink $file_filtered;
+	my $cmd = "zcat " . &quotearg ($file_resized) . " | $filter0 >" . &quotearg ($file_filtered);
+	print STDERR "# $cmd\n" if $verbose;
+	$code = system ("($cmd) 2>&1 | sed -e 's/^/| /'");
+	&system_failure ($ssconvert, $code) if $code;
+	die "Failed to produce $file_filtered\n" unless -r $file_filtered;
+	&junkfile ($file_filtered) unless $keep;
+    }
     
     my $tmp1 = "$tmp.$newext";
     unlink $tmp1;
     &junkfile ($tmp1) unless $keep;
     {
-	my $cmd = &quotearg ($ssconvert, "-T", $format, $file_resized, $tmp1);
+	my $cmd = &quotearg ($ssconvert, "-T", $format, $file_filtered, $tmp1);
 	print "# $cmd\n" if $verbose;
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
@@ -500,7 +516,7 @@ sub test_roundtrip {
     my $tmp_xml = "$tmp.xml";
     unlink $tmp_xml;
     &junkfile ($tmp_xml) unless $keep;
-    $code = system ("zcat -f '$file_resized' | $normalize_gnumeric | $filter1 >'$tmp_xml'");
+    $code = system ("zcat -f '$file_filtered' | $normalize_gnumeric | $filter1 >'$tmp_xml'");
     &system_failure ('zcat', $code) if $code;
 
     my $tmp2_xml = "$tmp-new.xml";
