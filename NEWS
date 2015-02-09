@@ -9,6 +9,7 @@ Andreas:
 	* Improve ODF export of manually positioned charts in multi-chart
 	  graphs. [#743789]
 	* Fix ODF export of serieslines styles.
+	* Fix ODF import/export of axes label visibility. [#743788]
 
 Morten:
 	* Initial xlsx import of sheet widgets.

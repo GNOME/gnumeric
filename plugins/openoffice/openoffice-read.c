@@ -7473,6 +7473,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "tick-marks-minor-outer", &btmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("minor-tick-out", btmp));
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "display-label", &btmp))
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_bool ("major-tick-labeled", btmp));
 	}
 
 	if ((stacked_set && !overlap_set) ||

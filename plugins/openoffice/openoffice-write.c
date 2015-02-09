@@ -7006,7 +7006,6 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 	char *map_name_str = NULL;
 
 	odf_write_axis_position (state, style, axis);
-	odf_add_bool (state->xml, CHART "display-label", TRUE);
 
 	if (gnm_object_has_readable_prop (axis, "map-name",
 					  G_TYPE_STRING, &map_name_str)) {
@@ -7068,6 +7067,8 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 		(state->xml, axis, "minor-tick-in", CHART "tick-marks-minor-inner");
 	odf_write_plot_style_bool
 		(state->xml, axis, "minor-tick-out", CHART "tick-marks-minor-outer");
+	odf_write_plot_style_bool
+		(state->xml, axis, "major-tick-labeled", CHART "display-label");
 
 	if (state->odf_version > 101)
 		odf_write_plot_style_bool

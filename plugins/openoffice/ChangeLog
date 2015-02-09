@@ -1,5 +1,10 @@
 2015-02-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_style_prop_chart): read chart:display-label
+	* openoffice-write.c (odf_write_axis_style): write the correct chart:display-label
+
+2015-02-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_series_lines): don't use
 	gog_object_get_child_by_name since it may return the wrong objects. Get teh correct
 	style name.
