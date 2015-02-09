@@ -53,6 +53,8 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-graph.h"
 #include "sheet-object-widget.h"
+#include "gnm-so-line.h"
+#include "gnm-so-filled.h"
 #include "graph.h"
 #include "style-border.h"
 #include "style-conditions.h"
@@ -2708,7 +2710,9 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		SheetObject *so = p->data;
 		if (IS_CELL_COMMENT (so))
 			comments = g_slist_prepend (comments, so);
-		else if (IS_SHEET_OBJECT_GRAPH (so))
+		else if (IS_SHEET_OBJECT_GRAPH (so) ||
+			 IS_GNM_SO_LINE (so) ||
+			 IS_GNM_SO_FILLED (so))
 			drawing_objs = g_slist_prepend (drawing_objs, so);
 		else if (GNM_IS_SOW_SCROLLBAR (so) || GNM_IS_SOW_SLIDER (so) ||
 			 GNM_IS_SOW_SPINBUTTON (so) ||

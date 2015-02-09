@@ -2714,16 +2714,37 @@ static void
 xlsx_drawing_preset_geom (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	static EnumVal const types[] = {
+		{ "rect", 0 },
+		{ "ellipse", 1 },
+		{ "line", 2 },
+		{ NULL, 0 }
+	};
+	int typ = -1;
+
 	if (NULL != state->so) /* FIXME FIXME FIXME: how does this happen? */
 		return;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (!strcmp (attrs[0], "prst")) {
-			/* TODO, use a hash here for all preset geometries */
-			if (!strcmp (attrs[1], "rect"))
-				state->so = g_object_new (GNM_SO_FILLED_TYPE, "is_oval", FALSE, NULL);
-			else if (!strcmp (attrs[1], "line"))
-				state->so = g_object_new (GNM_SO_LINE_TYPE, NULL);
-		}
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_enum (xin, attrs, "prst", types, &typ))
+			; /* Nothing */
+	}
+
+	switch (typ) {
+	case 0:
+		state->so = g_object_new (GNM_SO_FILLED_TYPE, "is_oval", FALSE, NULL);
+		break;
+	case 1:
+		state->so = g_object_new (GNM_SO_FILLED_TYPE, "is_oval", TRUE, NULL);
+		break;
+	case 2:
+		state->so = g_object_new (GNM_SO_LINE_TYPE, NULL);
+		break;
+	default:
+		break;
+	}
+
 	if (state->so) {
 		GOStyle *style = NULL;
 		if (g_object_class_find_property (G_OBJECT_GET_CLASS (state->so), "style"))
@@ -2809,9 +2830,9 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
             GSF_XML_IN_NODE (SP_XFRM_OFF, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SP_XFRM_OFF, SHAPE_PR_LN, XL_NS_DRAW, "ln", GSF_XML_NO_CONTENT, xlsx_style_line_start, &xlsx_style_line_end),
 	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_NOFILL, XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, &xlsx_draw_line_dash, NULL),		/* 2nd Def */
-	      GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-	      GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, &xlsx_draw_line_dash, NULL),
+	      GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, &xlsx_chart_solid_fill_end),
+	      GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_MITER,	XL_NS_DRAW, "miter", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_ROUND,	XL_NS_DRAW, "round", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_HEAD,	XL_NS_DRAW, "headEnd", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3298,7 +3319,7 @@ xlsx_vml_horiz (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			horiz = FALSE;
 		else
 			return; /* Blank means default.  */
-		//sheet_widget_adjustment_set_horizontal (state->so, horiz);
+		sheet_widget_adjustment_set_horizontal (state->so, horiz);
 	}
 }
 

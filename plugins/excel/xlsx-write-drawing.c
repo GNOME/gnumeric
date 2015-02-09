@@ -188,13 +188,21 @@ xlsx_write_rpr (GsfXMLOut *xml, GOStyle *style)
 
 static void
 xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
-			  gboolean def_has_markers, gboolean def_has_lines)
+			  gboolean def_has_markers, gboolean def_has_lines,
+			  const char *ns, const char *shapename)
 {
 	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
 				   !style->font.auto_color);
 	gboolean has_font = xlsx_go_style_has_font (style);
+	char *spPr_tag = g_strconcat (ns, ":spPr", NULL);
 
-	gsf_xml_out_start_element (xml, "c:spPr");
+	gsf_xml_out_start_element (xml, spPr_tag);
+
+	if (shapename) {
+		gsf_xml_out_start_element (xml, "a:prstGeom");
+		gsf_xml_out_add_cstr_unchecked (xml, "prst", shapename);
+		gsf_xml_out_end_element (xml); /* </a:prstGeom> */
+	}
 
 	if ((style->interesting_fields & GO_STYLE_FILL) &&
 	    style->fill.type != GO_STYLE_FILL_NONE) {/* TODO add tests for transparent backgrounds */
@@ -272,7 +280,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 		gsf_xml_out_end_element (xml);
 	}
 
-	gsf_xml_out_end_element (xml);  /* "c:spPr" */
+	gsf_xml_out_end_element (xml);  /* "NS:spPr" */
+	g_free (spPr_tag);
 
 	if (has_font_color || has_font) {
 		gsf_xml_out_start_element (xml, "c:txPr");
@@ -366,7 +375,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 static void
 xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 {
-	xlsx_write_go_style_full (xml, style, FALSE, TRUE);
+	xlsx_write_go_style_full (xml, style, FALSE, TRUE, "c", NULL);
 }
 
 static void
@@ -686,7 +695,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		xlsx_write_chart_int (xml, "c:order", -1, count);
 		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
 		if (!vary_by_element) /* FIXME: we might loose some style elements */
-			xlsx_write_go_style_full (xml, style, has_markers, has_lines);
+			xlsx_write_go_style_full (xml, style, has_markers, has_lines,
+						  "c", NULL);
 		if (set_invert)
 			xlsx_write_chart_uint (xml, "c:invertIfNegative", 1, 0);
 
@@ -993,6 +1003,7 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 			gsf_output_close (chart_part);
 			g_object_unref (chart_part);
 		} else {
+			/* Lines etc. go here.  */
 			rId1 = NULL;
 		}
 
@@ -1012,10 +1023,6 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 		const char *rId1 = rId_ptr->data;
 		SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
 		double res_pts[4] = {0.,0.,0.,0.};
-		char *tmp;
-
-		if (!rId1)
-			continue;
 
 		sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 
@@ -1025,48 +1032,77 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 		xlsx_write_object_anchor (xml, &anchor->cell_bound.end, "xdr:to",
 					  res_pts[2], res_pts[3]);
 
-		gsf_xml_out_start_element (xml, "xdr:graphicFrame");
-		gsf_xml_out_add_cstr_unchecked (xml, "macro", "");
+		if (IS_SHEET_OBJECT_GRAPH (so)) {
+			char *tmp;
 
-		gsf_xml_out_start_element (xml, "xdr:nvGraphicFramePr");
+			gsf_xml_out_start_element (xml, "xdr:graphicFrame");
+			gsf_xml_out_add_cstr_unchecked (xml, "macro", "");
 
-		gsf_xml_out_start_element (xml, "xdr:cNvPr");
-		gsf_xml_out_add_int (xml, "id",  count+1);
-		tmp = g_strdup_printf ("Chart %d", count++);
-		gsf_xml_out_add_cstr_unchecked (xml, "name", tmp);
-		g_free (tmp);
-		gsf_xml_out_end_element (xml);
+			gsf_xml_out_start_element (xml, "xdr:nvGraphicFramePr");
 
-		gsf_xml_out_simple_element (xml, "xdr:cNvGraphicFramePr", NULL);
-		gsf_xml_out_end_element (xml); /* </xdr:nvGraphicFramePr> */
+			gsf_xml_out_start_element (xml, "xdr:cNvPr");
+			gsf_xml_out_add_int (xml, "id",  count+1);
+			tmp = g_strdup_printf ("Chart %d", count++);
+			gsf_xml_out_add_cstr_unchecked (xml, "name", tmp);
+			g_free (tmp);
+			gsf_xml_out_end_element (xml);
 
-		gsf_xml_out_start_element (xml, "xdr:xfrm");
+			gsf_xml_out_simple_element (xml, "xdr:cNvGraphicFramePr", NULL);
+			gsf_xml_out_end_element (xml); /* </xdr:nvGraphicFramePr> */
 
-		gsf_xml_out_start_element (xml, "a:off");
-		gsf_xml_out_add_int (xml, "x", 0);
-		gsf_xml_out_add_int (xml, "y", 0);
-		gsf_xml_out_end_element (xml); /* </a:off> */
+			gsf_xml_out_start_element (xml, "xdr:xfrm");
 
-		gsf_xml_out_start_element (xml, "a:ext");
-		gsf_xml_out_add_int (xml, "cx", 0);
-		gsf_xml_out_add_int (xml, "cy", 0);
-		gsf_xml_out_end_element (xml); /* </a:ext> */
+			gsf_xml_out_start_element (xml, "a:off");
+			gsf_xml_out_add_int (xml, "x", 0);
+			gsf_xml_out_add_int (xml, "y", 0);
+			gsf_xml_out_end_element (xml); /* </a:off> */
 
-		gsf_xml_out_end_element (xml); /* </xdr:xfrm> */
+			gsf_xml_out_start_element (xml, "a:ext");
+			gsf_xml_out_add_int (xml, "cx", 0);
+			gsf_xml_out_add_int (xml, "cy", 0);
+			gsf_xml_out_end_element (xml); /* </a:ext> */
 
-		gsf_xml_out_start_element (xml, "a:graphic");
-		gsf_xml_out_start_element (xml, "a:graphicData");
-		gsf_xml_out_add_cstr_unchecked (xml, "uri", ns_chart);
-		gsf_xml_out_start_element (xml, "c:chart");
-		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
-		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
+			gsf_xml_out_end_element (xml); /* </xdr:xfrm> */
 
-		gsf_xml_out_add_cstr_unchecked (xml, "r:id", rId1);
-		gsf_xml_out_end_element (xml); /* </c:chart> */
-		gsf_xml_out_end_element (xml); /* </a:graphicData> */
-		gsf_xml_out_end_element (xml); /* </a:graphic> */
-		gsf_xml_out_end_element (xml); /* </xdr:graphicFrame> */
-		gsf_xml_out_simple_element (xml, "xdr:clientData", NULL);
+			gsf_xml_out_start_element (xml, "a:graphic");
+			gsf_xml_out_start_element (xml, "a:graphicData");
+			gsf_xml_out_add_cstr_unchecked (xml, "uri", ns_chart);
+			gsf_xml_out_start_element (xml, "c:chart");
+			gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
+			gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
+
+			gsf_xml_out_add_cstr_unchecked (xml, "r:id", rId1);
+			gsf_xml_out_end_element (xml); /* </c:chart> */
+			gsf_xml_out_end_element (xml); /* </a:graphicData> */
+			gsf_xml_out_end_element (xml); /* </a:graphic> */
+			gsf_xml_out_end_element (xml); /* </xdr:graphicFrame> */
+			gsf_xml_out_simple_element (xml, "xdr:clientData", NULL);
+		} else if (IS_GNM_SO_LINE (so) ||
+			   IS_GNM_SO_FILLED (so)) {
+			const char *shapename = "?";
+			GOStyle *style = NULL;
+
+			if (IS_GNM_SO_LINE (so))
+				shapename = "line";
+			else if (IS_GNM_SO_FILLED (so)) {
+				gboolean oval;
+				g_object_get (so, "is-oval", &oval, NULL);
+				shapename = oval ? "ellipse" : "rect";
+			} else {
+				shapename = "?";
+				g_assert_not_reached ();
+			}
+			if (g_object_class_find_property (G_OBJECT_GET_CLASS (so), "style"))
+				g_object_get (so, "style", &style, NULL);
+
+			if (style) {
+				gsf_xml_out_start_element (xml, "xdr:sp");
+				xlsx_write_go_style_full (xml, style, FALSE, FALSE,
+							  "xdr", shapename);
+				gsf_xml_out_end_element (xml); /* </xdr:sp> */
+				g_object_unref (style);
+			}
+		}
 		gsf_xml_out_end_element (xml); /* </xdr:twoCellAnchor> */
 	}
 	g_slist_free (rIds);
