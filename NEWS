@@ -15,6 +15,7 @@ Morten:
 	* Initial xlsx import of sheet widgets.
 	* Initial xlsx export of sheet widgets.
 	* xlsx import/exports of patterns.
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20
