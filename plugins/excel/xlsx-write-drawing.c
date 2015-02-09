@@ -211,7 +211,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			g_warning ("invalid fill type, saving as none");
 		case GO_STYLE_FILL_IMAGE:
 			/* FIXME: export image */
-		case GO_STYLE_FILL_PATTERN:
+		case GO_STYLE_FILL_PATTERN: {
+			const char *pattname = NULL;
 			switch (style->fill.pattern.pattern) {
 			case GO_PATTERN_SOLID:
 				if (!style->fill.auto_back) {
@@ -227,8 +228,48 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 					gsf_xml_out_end_element (xml);
 				}
 				break;
+			case GO_PATTERN_GREY75: pattname = "pct75"; break;
+			case GO_PATTERN_GREY50: pattname = "pct50"; break;
+			case GO_PATTERN_GREY25: pattname = "pct25"; break;
+			case GO_PATTERN_GREY125: pattname = "pct10"; break;
+			case GO_PATTERN_GREY625: pattname = "pct5"; break;
+			case GO_PATTERN_HORIZ: pattname = "horz"; break;
+			case GO_PATTERN_VERT: pattname = "vert"; break;
+			case GO_PATTERN_REV_DIAG: pattname = "dnDiag"; break;
+			case GO_PATTERN_DIAG: pattname = "upDiag"; break;
+			case GO_PATTERN_DIAG_CROSS: pattname = "diagCross"; break;
+			case GO_PATTERN_THICK_DIAG_CROSS: pattname = "trellis"; break;
+			case GO_PATTERN_THIN_HORIZ: pattname = "ltHorz"; break;
+			case GO_PATTERN_THIN_VERT: pattname = "ltVert"; break;
+			case GO_PATTERN_THIN_REV_DIAG: pattname = "ltDnDiag"; break;
+			case GO_PATTERN_THIN_DIAG: pattname = "ltUpDiag"; break;
+			case GO_PATTERN_THIN_HORIZ_CROSS: pattname = "smGrid"; break;
+			case GO_PATTERN_THIN_DIAG_CROSS: pattname = "openDmnd"; break;
+			case GO_PATTERN_SMALL_CIRCLES: pattname = "smConfetti"; break;
+			case GO_PATTERN_SEMI_CIRCLES: pattname = "shingle"; break;
+			case GO_PATTERN_THATCH: pattname = "weave"; break;
+			case GO_PATTERN_LARGE_CIRCLES: pattname = "sphere"; break;
+			case GO_PATTERN_BRICKS: pattname = "horzBrick"; break;
 			}
+
+			if (pattname) {
+				gsf_xml_out_start_element (xml, "a:pattFill");
+				gsf_xml_out_add_cstr_unchecked (xml, "prst", pattname);
+				if (!style->fill.auto_fore) {
+					gsf_xml_out_start_element (xml, "a:fgClr");
+					xlsx_write_rgbarea (xml, style->fill.pattern.fore);
+					gsf_xml_out_end_element (xml);
+				}
+				if (!style->fill.auto_back) {
+					gsf_xml_out_start_element (xml, "a:bgClr");
+					xlsx_write_rgbarea (xml, style->fill.pattern.back);
+					gsf_xml_out_end_element (xml);
+				}
+				gsf_xml_out_end_element (xml);
+			}
+
 			break;
+		}
 		case GO_STYLE_FILL_GRADIENT:
 			break;
 		}
