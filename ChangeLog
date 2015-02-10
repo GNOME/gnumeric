@@ -1,3 +1,7 @@
+2015-02-10  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-so-line.c (gnm_so_line_draw_cairo): Simplify.
+
 2015-02-06  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_adjustment_set_link)

@@ -208,36 +208,20 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 	    style->line.dash_type == GO_LINE_NONE)
 		return;
 
-	switch (so->anchor.base.direction) {
-	case GOD_ANCHOR_DIR_UP_RIGHT:
-	case GOD_ANCHOR_DIR_DOWN_RIGHT:
+	if ((so->anchor.base.direction & GOD_ANCHOR_DIR_H_MASK) == GOD_ANCHOR_DIR_RIGHT) {
 		x1 = 0.;
 		x2 = width;
-		break;
-	case GOD_ANCHOR_DIR_UP_LEFT:
-	case GOD_ANCHOR_DIR_DOWN_LEFT:
+	} else {
 		x1 = width;
 		x2 = 0.;
-		break;
-	default:
-		g_warning ("Cannot guess direction!");
-		return;
 	}
 
-	switch (so->anchor.base.direction) {
-	case GOD_ANCHOR_DIR_UP_LEFT:
-	case GOD_ANCHOR_DIR_UP_RIGHT:
-		y1 = height;
-		y2 = 0.;
-		break;
-	case GOD_ANCHOR_DIR_DOWN_LEFT:
-	case GOD_ANCHOR_DIR_DOWN_RIGHT:
+	if ((so->anchor.base.direction & GOD_ANCHOR_DIR_V_MASK) == GOD_ANCHOR_DIR_DOWN) {
 		y1 = 0.;
 		y2 = height;
-		break;
-	default:
-		g_warning ("Cannot guess direction!");
-		return;
+	} else {
+		y1 = height;
+		y2 = 0.;
 	}
 
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
