@@ -3106,6 +3106,7 @@ xlsx_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *io_context,
 	XLSXWriteState state;
 	GsfOutfile *root_part;
 	GnmLocale  *locale;
+	GsfOutfile *zip;
 
 	locale = gnm_push_C_locale ();
 
@@ -3116,8 +3117,9 @@ xlsx_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *io_context,
 	state.custom_prop_id    = 29;
 	state.drawing_elem_id   = 1024;
 
-	root_part = gsf_outfile_open_pkg_new (
-		gsf_outfile_zip_new (output, NULL));
+	zip = gsf_outfile_zip_new (output, NULL);
+	root_part = gsf_outfile_open_pkg_new (zip);
+	g_object_unref (zip);
 
 	xlsx_write_workbook (&state, root_part);
 	gsf_output_close (GSF_OUTPUT (root_part));
@@ -3136,6 +3138,7 @@ xlsx2_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *io_context,
 	XLSXWriteState state;
 	GsfOutfile *root_part;
 	GnmLocale  *locale;
+	GsfOutfile *zip;
 
 	locale = gnm_push_C_locale ();
 	state.version           = ECMA_376_2008;
@@ -3145,8 +3148,9 @@ xlsx2_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *io_context,
 	state.custom_prop_id    = 29;
 	state.drawing_elem_id   = 1024;
 
-	root_part = gsf_outfile_open_pkg_new (
-		gsf_outfile_zip_new (output, NULL));
+	zip = gsf_outfile_zip_new (output, NULL);
+	root_part = gsf_outfile_open_pkg_new (zip);
+	g_object_unref (zip);
 
 	xlsx_write_workbook (&state, root_part);
 	gsf_output_close (GSF_OUTPUT (root_part));
