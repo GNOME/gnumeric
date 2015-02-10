@@ -1,3 +1,10 @@
+2015-02-10  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx2_file_save, xlsx_file_save): Initialize
+	counter.
+
+	* xlsx-write-docprops.c (xlsx_write_docprops): Plug leak.
+
 2015-02-09  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_line_headtail): First cut at

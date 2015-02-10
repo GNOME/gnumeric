@@ -518,9 +518,12 @@ xlsx_write_docprops_custom (XLSXWriteState *state, GsfOutfile *root_part, GsfOut
 static void
 xlsx_write_docprops (XLSXWriteState *state, GsfOutfile *root_part)
 {
-	GsfOutfile *docprops_dir    = (GsfOutfile *)gsf_outfile_new_child (root_part, "docProps", TRUE);
+	GsfOutfile *docprops_dir = (GsfOutfile *)gsf_outfile_new_child (root_part, "docProps", TRUE);
 
 	xlsx_write_docprops_app (state, root_part, docprops_dir);
 	xlsx_write_docprops_core (state, root_part, docprops_dir);
 	xlsx_write_docprops_custom (state, root_part, docprops_dir);
+
+	gsf_output_close (GSF_OUTPUT (docprops_dir));
+	g_object_unref (docprops_dir);
 }
