@@ -1,5 +1,8 @@
 2015-02-10  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write-drawing.c (xlsx_write_drawing_objects): Save arrow
+	direction.
+
 	* xlsx-write.c (xlsx2_file_save, xlsx_file_save): Initialize
 	counter.
 

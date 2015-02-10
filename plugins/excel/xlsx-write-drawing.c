@@ -195,6 +195,8 @@ typedef struct {
 	const char *shapename;
 	GOArrow *start_arrow;
 	GOArrow *end_arrow;
+	gboolean flipH;
+	gboolean flipV;
 } XLSXStyleContext;
 
 static void
@@ -207,6 +209,8 @@ xlsx_style_context_init (XLSXStyleContext *sctx)
 	sctx->must_fill = FALSE;
 	sctx->start_arrow = NULL;
 	sctx->end_arrow = NULL;
+	sctx->flipH = FALSE;
+	sctx->flipV = FALSE;
 }
 
 static void
@@ -218,6 +222,15 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 	char *spPr_tag = g_strconcat (sctx->spPr_ns, ":spPr", NULL);
 
 	gsf_xml_out_start_element (xml, spPr_tag);
+
+	if (sctx->flipH || sctx->flipV) {
+		gsf_xml_out_start_element (xml, "a:xfrm");
+		if (sctx->flipH)
+			gsf_xml_out_add_uint (xml, "flipH", 1);
+		if (sctx->flipV)
+			gsf_xml_out_add_uint (xml, "flipV", 1);
+		gsf_xml_out_end_element (xml); /* </a:xfrm> */
+	}
 
 	if (sctx->shapename) {
 		gsf_xml_out_start_element (xml, "a:prstGeom");
@@ -1183,6 +1196,8 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 			xlsx_style_context_init (&sctx);
 			sctx.spPr_ns = "xdr";
 			sctx.must_fill = TRUE;
+			sctx.flipH = (anchor->base.direction & GOD_ANCHOR_DIR_H_MASK) != GOD_ANCHOR_DIR_RIGHT;
+			sctx.flipV = (anchor->base.direction & GOD_ANCHOR_DIR_V_MASK) != GOD_ANCHOR_DIR_DOWN;
 
 			if (IS_GNM_SO_LINE (so)) {
 				g_object_get (G_OBJECT (so),
