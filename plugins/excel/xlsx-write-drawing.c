@@ -193,6 +193,8 @@ typedef struct {
 
 	/* Not strictly context, but extensions to the style.  */
 	const char *shapename;
+	GOArrow *start_arrow;
+	GOArrow *end_arrow;
 } XLSXStyleContext;
 
 static void
@@ -203,6 +205,8 @@ xlsx_style_context_init (XLSXStyleContext *sctx)
 	sctx->spPr_ns = "c";
 	sctx->shapename = NULL;
 	sctx->must_fill = FALSE;
+	sctx->start_arrow = NULL;
+	sctx->end_arrow = NULL;
 }
 
 static void
@@ -298,6 +302,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 	     !style->line.auto_width ||
 	     !style->line.auto_color ||
 	     sctx->must_fill)) {
+		int i;
+
 		static const char * const dashes[] = {
 			NULL,            /* GO_LINE_NONE */
 			"solid",         /* GO_LINE_SOLID */
@@ -337,6 +343,26 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 			xlsx_write_chart_cstr_unchecked (xml,
 							 "a:prstDash",
 							 dashes[style->line.dash_type]);
+		}
+
+		for (i = 0; i < 2; i++) {
+			GOArrow const *arr = i ? sctx->end_arrow : sctx->start_arrow;
+			const char *typ;
+
+			if (!arr) continue;
+
+			switch (arr->typ) {
+			case GO_ARROW_NONE: typ = "none"; break;
+			default:
+			case GO_ARROW_KITE: typ = "arrow"; break;
+			case GO_ARROW_OVAL: typ = "oval"; break;
+			}
+
+			gsf_xml_out_start_element (xml, i ? "a:tailEnd" : "a:headEnd");
+			gsf_xml_out_add_cstr_unchecked (xml, "type", typ);
+			/* "w" */
+			/* "len" */
+			gsf_xml_out_end_element (xml);
 		}
 
 		gsf_xml_out_end_element (xml);
@@ -1151,17 +1177,24 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 			gsf_xml_out_end_element (xml); /* </xdr:graphicFrame> */
 		} else if (IS_GNM_SO_LINE (so) ||
 			   IS_GNM_SO_FILLED (so)) {
-			const char *shapename = "?";
 			GOStyle *style = NULL;
+			XLSXStyleContext sctx;
 
-			if (IS_GNM_SO_LINE (so))
-				shapename = "line";
-			else if (IS_GNM_SO_FILLED (so)) {
+			xlsx_style_context_init (&sctx);
+			sctx.spPr_ns = "xdr";
+			sctx.must_fill = TRUE;
+
+			if (IS_GNM_SO_LINE (so)) {
+				g_object_get (G_OBJECT (so),
+					      "start-arrow", &sctx.start_arrow,
+					      "end-arrow", &sctx.end_arrow,
+					      NULL);
+				sctx.shapename = "line";
+			} else if (IS_GNM_SO_FILLED (so)) {
 				gboolean oval;
 				g_object_get (so, "is-oval", &oval, NULL);
-				shapename = oval ? "ellipse" : "rect";
+				sctx.shapename = oval ? "ellipse" : "rect";
 			} else {
-				shapename = "?";
 				g_assert_not_reached ();
 			}
 
@@ -1169,7 +1202,6 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 				g_object_get (so, "style", &style, NULL);
 			if (style) {
 				char *name;
-				XLSXStyleContext sctx;
 
 				g_object_get (so, "name", &name, NULL);
 				gsf_xml_out_start_element (xml, "xdr:sp");
@@ -1182,15 +1214,14 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 				gsf_xml_out_end_element (xml); /* </xdr:cNvSpPr> */
 				gsf_xml_out_end_element (xml); /* </xdr:nvSpPr> */
 
-				xlsx_style_context_init (&sctx);
-				sctx.spPr_ns = "xdr";
-				sctx.shapename = shapename;
-				sctx.must_fill = TRUE;
 				xlsx_write_go_style_full (xml, style, &sctx);
 				gsf_xml_out_end_element (xml); /* </xdr:sp> */
 				g_object_unref (style);
 				g_free (name);
 			}
+
+			g_free (sctx.start_arrow);
+			g_free (sctx.end_arrow);
 		}
 		gsf_xml_out_simple_element (xml, "xdr:clientData", NULL);
 		gsf_xml_out_end_element (xml); /* </xdr:twoCellAnchor> */
