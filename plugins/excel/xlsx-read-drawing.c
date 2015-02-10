@@ -382,6 +382,54 @@ xlsx_user_shape_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 }
 
+static void
+xlsx_sppr_xfrm (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int rot = 0, flipH = 0, flipV = 0;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_int (xin, attrs, "rot", &rot) ||
+		    attr_bool (xin, attrs, "flipH", &flipH) ||
+		    attr_bool (xin, attrs, "flipV", &flipV))
+			; /* Nothing */
+	}
+
+	rot = rot % (360 * 60000);
+	if (rot < 0) rot += 360 * 60000;
+
+	if (state->marker) {
+		if (go_marker_get_shape (state->marker) == GO_MARKER_TRIANGLE_UP) {
+			switch ((rot + 45 * 60000) / (90 * 60000)) {
+			case 1:
+				go_marker_set_shape (state->marker, GO_MARKER_TRIANGLE_RIGHT);
+				break;
+			case 2:
+				go_marker_set_shape (state->marker, GO_MARKER_TRIANGLE_DOWN);
+				break;
+			case 3:
+				go_marker_set_shape (state->marker, GO_MARKER_TRIANGLE_LEFT);
+				break;
+			default:
+				break;
+			}
+		}
+
+		if (flipH) {
+			if (go_marker_get_shape (state->marker) == GO_MARKER_HALF_BAR) {
+				go_marker_set_shape (state->marker, GO_MARKER_LEFT_HALF_BAR);
+			}
+		}
+		return;
+	}
+
+	if (flipH)
+		state->so_direction ^= GOD_ANCHOR_DIR_RIGHT;
+	if (flipV)
+		state->so_direction ^= GOD_ANCHOR_DIR_DOWN;
+}
+
+
 static GsfXMLInNode const xlsx_chart_drawing_dtd[] =
 {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -400,7 +448,7 @@ GSF_XML_IN_NODE_FULL (START, USER_SHAPES, XL_NS_CHART, "userShapes", GSF_XML_NO_
       GSF_XML_IN_NODE_FULL (SHAPE, SHAPE_PR, XL_NS_CHART_DRAW, "spPr", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
         GSF_XML_IN_NODE (SHAPE_PR, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SP_PR_PRST_GEOM, AV_LST, XL_NS_DRAW, "avLst", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (SHAPE_PR, SP_PR_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHAPE_PR, SP_PR_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, &xlsx_sppr_xfrm, NULL),
           GSF_XML_IN_NODE (SP_PR_XFRM, SP_XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SP_PR_XFRM, SP_XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE, TX_BODY, XL_NS_CHART_DRAW, "txBody", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, &xlsx_chart_text),
@@ -1992,44 +2040,9 @@ xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->cur_obj && GOG_IS_STYLED_OBJECT (state->cur_obj)) {
 		go_style_set_marker (state->cur_style, state->marker);
-		state->marker = NULL;
 	}
+	state->marker = NULL;
 }
-
-static void
-xlsx_sppr_xfrm (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		int rot, flipH;
-
-		if (attr_int (xin, attrs, "rot", &rot)) {
-			rot = rot % (360 * 60000);
-			if (rot < 0) rot += 360 * 60000;
-
-			if (state->marker && go_marker_get_shape (state->marker) == GO_MARKER_TRIANGLE_UP) {
-				switch ((rot + 45 * 60000) / (90 * 60000)) {
-				case 1:
-					go_marker_set_shape (state->marker, GO_MARKER_TRIANGLE_RIGHT);
-					break;
-				case 2:
-					go_marker_set_shape (state->marker, GO_MARKER_TRIANGLE_DOWN);
-					break;
-				case 3:
-					go_marker_set_shape (state->marker, GO_MARKER_TRIANGLE_LEFT);
-					break;
-				default:
-					break;
-				}
-			}
-		} else if (attr_bool (xin, attrs, "flipH", &flipH) && flipH) {
-			if (state->marker && go_marker_get_shape (state->marker) == GO_MARKER_HALF_BAR) {
-				go_marker_set_shape (state->marker, GO_MARKER_LEFT_HALF_BAR);
-			}
-		}
-	}
-}
-
 
 static void
 xlsx_plot_area (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
@@ -2737,6 +2750,7 @@ xlsx_draw_anchor_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 
 	memset ((gpointer)state->drawing_pos, 0, sizeof (state->drawing_pos));
 	state->drawing_pos_flags = 0;
+	state->so_direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 }
 
 static void
@@ -2776,7 +2790,7 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			}
 			coords[i / 2] = (double) state->drawing_pos[i + 1] / 12700. / size;
 		}
-		sheet_object_anchor_init (&anchor, &r, coords, GOD_ANCHOR_DIR_DOWN_RIGHT);
+		sheet_object_anchor_init (&anchor, &r, coords, state->so_direction);
 		sheet_object_set_anchor (state->so, &anchor);
 		if (state->cur_style)
 			g_object_set (state->so, "style", state->cur_style, NULL);
@@ -2951,7 +2965,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
             GSF_XML_IN_NODE (FONT_REF, SCHEME_CLR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE, SHAPE_PR, XL_NS_SS_DRAW, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (SHAPE_PR, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, &xlsx_drawing_preset_geom, NULL),
-        GSF_XML_IN_NODE (SHAPE_PR, SP_PR_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHAPE_PR, SP_PR_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, &xlsx_sppr_xfrm, NULL),
           GSF_XML_IN_NODE (SP_PR_XFRM, SP_XFRM_STYLE, XL_NS_SS_DRAW, "style", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SP_PR_XFRM, SP_XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (SP_XFRM_OFF, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3074,7 +3088,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 			      GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
           GSF_XML_IN_NODE (GRAPHIC_DATA, CHART, XL_NS_CHART, "chart", GSF_XML_NO_CONTENT, &xlsx_read_chart, NULL),
           GSF_XML_IN_NODE (GRAPHIC_DATA, GRAPHIC_PR_CHILD, XL_NS_SS_DRAW, "cNvGraphicFramePr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (GRAPHIC_FRAME, TWO_CELL_XFRM, XL_NS_SS_DRAW, "xfrm", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (GRAPHIC_FRAME, TWO_CELL_XFRM, XL_NS_SS_DRAW, "xfrm", GSF_XML_NO_CONTENT, &xlsx_sppr_xfrm, NULL),
         GSF_XML_IN_NODE (TWO_CELL_XFRM, XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TWO_CELL_XFRM, XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (TWO_CELL, CLIENT_DATA, XL_NS_SS_DRAW, "clientData", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3294,6 +3308,7 @@ xlsx_vml_drop_style (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (!strcmp (xin->content->str, "Combo"))
 		/* adding a combo box */
 		state->so = SHEET_OBJECT (g_object_new (sheet_widget_combo_get_type (), NULL));
+		state->so_direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 		sheet_object_set_sheet (state->so, state->sheet);
 }
 
@@ -3330,6 +3345,7 @@ xlsx_vml_client_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (typ != G_TYPE_NONE && !state->so) {
 		state->so = SHEET_OBJECT (g_object_new (typ, NULL));
+		state->so_direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 		state->pending_objects = g_slist_prepend (state->pending_objects, state->so);
 	}
 }
@@ -3389,7 +3405,7 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 		r.end.row = pos;
 		coords[3] = (state->chart_pos[3] - sum) / size;
-		sheet_object_anchor_init (&anchor, &r, coords, GOD_ANCHOR_DIR_DOWN_RIGHT);
+		sheet_object_anchor_init (&anchor, &r, coords, state->so_direction);
 		sheet_object_set_anchor (state->so, &anchor);
 		if (GNM_IS_SOW_LIST (state->so) ||
 		    GNM_IS_SOW_COMBO (state->so))
