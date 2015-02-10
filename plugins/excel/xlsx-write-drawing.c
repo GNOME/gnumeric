@@ -185,22 +185,39 @@ xlsx_write_rpr (GsfXMLOut *xml, GOStyle *style)
 	}
 }
 
+typedef struct {
+	gboolean def_has_markers;
+	gboolean def_has_lines;
+	const char *spPr_ns;
+	gboolean must_fill;
+
+	/* Not strictly context, but extensions to the style.  */
+	const char *shapename;
+} XLSXStyleContext;
 
 static void
-xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
-			  gboolean def_has_markers, gboolean def_has_lines,
-			  const char *ns, const char *shapename)
+xlsx_style_context_init (XLSXStyleContext *sctx)
+{
+	sctx->def_has_markers = FALSE;
+	sctx->def_has_lines = TRUE;
+	sctx->spPr_ns = "c";
+	sctx->shapename = NULL;
+	sctx->must_fill = FALSE;
+}
+
+static void
+xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext *sctx)
 {
 	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
 				   !style->font.auto_color);
 	gboolean has_font = xlsx_go_style_has_font (style);
-	char *spPr_tag = g_strconcat (ns, ":spPr", NULL);
+	char *spPr_tag = g_strconcat (sctx->spPr_ns, ":spPr", NULL);
 
 	gsf_xml_out_start_element (xml, spPr_tag);
 
-	if (shapename) {
+	if (sctx->shapename) {
 		gsf_xml_out_start_element (xml, "a:prstGeom");
-		gsf_xml_out_add_cstr_unchecked (xml, "prst", shapename);
+		gsf_xml_out_add_cstr_unchecked (xml, "prst", sctx->shapename);
 		gsf_xml_out_end_element (xml); /* </a:prstGeom> */
 	}
 
@@ -276,10 +293,11 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 	}
 
 	if ((style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) &&
-	    (!def_has_lines ||
+	    (!sctx->def_has_lines ||
 	     !style->line.auto_dash ||
 	     !style->line.auto_width ||
-	     !style->line.auto_color)) {
+	     !style->line.auto_color ||
+	     sctx->must_fill)) {
 		static const char * const dashes[] = {
 			NULL,            /* GO_LINE_NONE */
 			"solid",         /* GO_LINE_SOLID */
@@ -307,7 +325,10 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 			gsf_xml_out_start_element (xml, "a:solidFill");
 			xlsx_write_rgbarea (xml, style->line.color);
 			gsf_xml_out_end_element (xml);
-		} else if (style->line.auto_dash && !def_has_lines)
+		} else if (sctx->must_fill) {
+			gsf_xml_out_start_element (xml, "a:solidFill");
+			gsf_xml_out_end_element (xml);
+		} else if (style->line.auto_dash && !sctx->def_has_lines)
 			gsf_xml_out_simple_element (xml, "a:noFill", NULL);
 
 		if (!style->line.auto_dash &&
@@ -361,7 +382,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 		static gint8 flipH[] =   { 0, 0, 0, 0, 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 };
 		gboolean need_spPr;
 		GOMarkerShape s = style->marker.auto_shape
-			? (def_has_markers ? GO_MARKER_MAX : GO_MARKER_NONE)
+			? (sctx->def_has_markers ? GO_MARKER_MAX : GO_MARKER_NONE)
 			: go_marker_get_shape (style->marker.mark);
 
 		gsf_xml_out_start_element (xml, "c:marker");
@@ -416,7 +437,9 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style,
 static void
 xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 {
-	xlsx_write_go_style_full (xml, style, FALSE, TRUE, "c", NULL);
+	XLSXStyleContext sctx;
+	xlsx_style_context_init (&sctx);
+	xlsx_write_go_style_full (xml, style, &sctx);
 }
 
 static void
@@ -735,9 +758,14 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		xlsx_write_chart_int (xml, "c:idx", -1, count);
 		xlsx_write_chart_int (xml, "c:order", -1, count);
 		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
-		if (!vary_by_element) /* FIXME: we might loose some style elements */
-			xlsx_write_go_style_full (xml, style, has_markers, has_lines,
-						  "c", NULL);
+		if (!vary_by_element) {
+			/* FIXME: we might loose some style elements */
+			XLSXStyleContext sctx;
+			xlsx_style_context_init (&sctx);
+			sctx.def_has_markers = has_markers;
+			sctx.def_has_lines = has_lines;
+			xlsx_write_go_style_full (xml, style, &sctx);
+		}
 		if (set_invert)
 			xlsx_write_chart_uint (xml, "c:invertIfNegative", 1, 0);
 
@@ -1121,7 +1149,6 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 			gsf_xml_out_end_element (xml); /* </a:graphicData> */
 			gsf_xml_out_end_element (xml); /* </a:graphic> */
 			gsf_xml_out_end_element (xml); /* </xdr:graphicFrame> */
-			gsf_xml_out_simple_element (xml, "xdr:clientData", NULL);
 		} else if (IS_GNM_SO_LINE (so) ||
 			   IS_GNM_SO_FILLED (so)) {
 			const char *shapename = "?";
@@ -1137,17 +1164,35 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 				shapename = "?";
 				g_assert_not_reached ();
 			}
+
 			if (g_object_class_find_property (G_OBJECT_GET_CLASS (so), "style"))
 				g_object_get (so, "style", &style, NULL);
-
 			if (style) {
+				char *name;
+				XLSXStyleContext sctx;
+
+				g_object_get (so, "name", &name, NULL);
 				gsf_xml_out_start_element (xml, "xdr:sp");
-				xlsx_write_go_style_full (xml, style, FALSE, FALSE,
-							  "xdr", shapename);
+				gsf_xml_out_start_element (xml, "xdr:nvSpPr");
+				gsf_xml_out_start_element (xml, "xdr:cNvPr");
+				gsf_xml_out_add_uint (xml, "id", state->drawing_elem_id++);
+				gsf_xml_out_add_cstr (xml, "name", name ? name : "");
+				gsf_xml_out_end_element (xml); /* </xdr:cNvPr> */
+				gsf_xml_out_start_element (xml, "xdr:cNvSpPr");
+				gsf_xml_out_end_element (xml); /* </xdr:cNvSpPr> */
+				gsf_xml_out_end_element (xml); /* </xdr:nvSpPr> */
+
+				xlsx_style_context_init (&sctx);
+				sctx.spPr_ns = "xdr";
+				sctx.shapename = shapename;
+				sctx.must_fill = TRUE;
+				xlsx_write_go_style_full (xml, style, &sctx);
 				gsf_xml_out_end_element (xml); /* </xdr:sp> */
 				g_object_unref (style);
+				g_free (name);
 			}
 		}
+		gsf_xml_out_simple_element (xml, "xdr:clientData", NULL);
 		gsf_xml_out_end_element (xml); /* </xdr:twoCellAnchor> */
 	}
 	g_slist_free (rIds);

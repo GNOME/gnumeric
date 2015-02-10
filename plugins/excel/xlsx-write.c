@@ -129,6 +129,7 @@ typedef struct {
 		GsfOutfile	*dir;
 	} chart, drawing, legacy_drawing, pivotCache, pivotTable;
 	unsigned comment;
+	unsigned drawing_elem_id;
 	GOFormat *date_fmt;
 
 	int custom_prop_id;
