@@ -17,6 +17,7 @@ Morten:
 	* Initial xlsx export of sheet widgets.
 	* xlsx import/exports of patterns.
 	* Plug leaks.
+	* Arrow properties editor.  [#158327]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20

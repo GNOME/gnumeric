@@ -39,47 +39,61 @@
 typedef struct {
 	GObject *so;
 	WBCGtk *wbcg;
-	GOStyle *orig_style;
-	char *orig_text;
-	PangoAttrList *orig_attributes;
+	GSList *orig_props;
+
 	so_styled_t extent;
 } DialogSOStyled;
 
 #define GNM_SO_STYLED_KEY "gnm-so-styled-key"
 
 static void
-dialog_so_styled_free (DialogSOStyled *pref)
+dialog_so_styled_free (DialogSOStyled *state)
 {
-	if (pref->orig_style != NULL) {
-		g_object_set (G_OBJECT (pref->so), "style", pref->orig_style, NULL);
-		g_object_unref (pref->orig_style);
-	}
-	if (pref->extent & SO_STYLED_TEXT) {
-		g_object_set (G_OBJECT (pref->so), "text", pref->orig_text, NULL);
-		g_free (pref->orig_text);
-		g_object_set (G_OBJECT (pref->so), "markup", pref->orig_attributes, NULL);
-		pango_attr_list_unref (pref->orig_attributes);
-	}
-	g_free (pref);
+	go_object_properties_apply (state->so, state->orig_props, TRUE);
+	go_object_properties_free (state->orig_props);
+	g_free (state);
+}
+
+static void
+force_new_style (GObject *so)
+{
+	GOStyle *style;
+
+	/* Ensure we have a new style object.  */
+	g_object_get (so, "style", &style, NULL);
+	g_object_set (so, "style", style, NULL);
+	g_object_unref (style);
+}
+
+static void
+cb_set_props (gpointer a, gpointer b, gpointer data)
+{
+	go_object_properties_apply (a, b, TRUE);
+}
+
+static GOUndo *
+make_undo (GObject *so, GSList *props)
+{
+	return go_undo_binary_new (g_object_ref (so), props,
+				   cb_set_props,
+				   g_object_unref,
+				   (GFreeFunc)go_object_properties_free);
 }
 
 static void
 cb_dialog_so_styled_response (GtkWidget *dialog,
-			      gint response_id, DialogSOStyled *pref)
+			      gint response_id, DialogSOStyled *state)
 {
 	if (response_id == GTK_RESPONSE_HELP)
 		return;
 	if (response_id == GTK_RESPONSE_OK) {
-		cmd_object_format (WORKBOOK_CONTROL (pref->wbcg),
-				   SHEET_OBJECT (pref->so), pref->orig_style,
-				   pref->orig_text, pref->orig_attributes);
-		g_object_unref (pref->orig_style);
-		pref->orig_style = NULL;
-		g_free (pref->orig_text);
-		pref->orig_text = NULL;
-		pango_attr_list_unref (pref->orig_attributes);
-		pref->orig_attributes = NULL;
-		pref->extent = 0;
+		GSList *new_props = go_object_properties_collect (state->so);
+		force_new_style (state->so);
+		cmd_generic (WORKBOOK_CONTROL (state->wbcg),
+			     _("Format Object"),
+			     make_undo (state->so, state->orig_props),
+			     make_undo (state->so, new_props));
+		state->orig_props = NULL;
 	}
 	gtk_widget_destroy (dialog);
 }
@@ -110,12 +124,11 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 
 	g_object_get (state->so, "text", &strval, NULL);
 	g_object_set (gtv, "text", (strval == NULL) ? "" : strval, NULL);
-	state->orig_text = strval;
+	g_free (strval);
 
 	g_object_get (state->so, "markup", &markup, NULL);
-	state->orig_attributes = markup;
-	pango_attr_list_ref (state->orig_attributes);
 	g_object_set (gtv, "attributes", markup, NULL);
+	/* unref? */
 
 	g_signal_connect (G_OBJECT (gtv), "changed",
 			  G_CALLBACK (cb_dialog_so_styled_text_widget_changed), state);
@@ -155,12 +168,12 @@ dialog_so_styled_line_widget (DialogSOStyled *state, const char *prop)
 }
 
 void
-dialog_so_styled (WBCGtk *wbcg,
-		  GObject *so, GOStyle *orig, GOStyle *default_style,
+dialog_so_styled (WBCGtk *wbcg, GObject *so, GOStyle *default_style,
 		  char const *title, so_styled_t extent)
 {
 	DialogSOStyled *state;
 	GtkWidget	*dialog, *help, *editor;
+	GOStyle *style;
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, GNM_SO_STYLED_KEY)) {
@@ -171,8 +184,9 @@ dialog_so_styled (WBCGtk *wbcg,
 	state = g_new0 (DialogSOStyled, 1);
 	state->so    = G_OBJECT (so);
 	state->wbcg  = wbcg;
-	state->orig_style = go_style_dup (orig);
-	state->orig_text = NULL;
+	state->orig_props = go_object_properties_collect (so);
+	force_new_style (state->so);
+
 	dialog = gtk_dialog_new_with_buttons
 		(title,
 		 wbcg_toplevel (state->wbcg),
@@ -193,8 +207,10 @@ dialog_so_styled (WBCGtk *wbcg,
 		GNM_STOCK_OK,		GTK_RESPONSE_OK,
 		NULL);
 
-	editor = go_style_get_editor (orig, default_style,
+	g_object_get (so, "style", &style, NULL);
+	editor = go_style_get_editor (style, default_style,
 				      GO_CMD_CONTEXT (wbcg), G_OBJECT (so));
+	g_object_unref (style);
 
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
 		editor, TRUE, TRUE, TRUE);

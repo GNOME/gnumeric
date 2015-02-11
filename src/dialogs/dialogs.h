@@ -139,8 +139,7 @@ typedef enum {
 	SO_STYLED_TEXT = 2,
 } so_styled_t;
 
-void	dialog_so_styled (WBCGtk *wbcg, GObject *so,
-			  GOStyle *orig, GOStyle *default_style,
+void	dialog_so_styled (WBCGtk *wbcg, GObject *so, GOStyle *default_style,
 			  char const *title, so_styled_t extent);
 void	dialog_so_list	 (WBCGtk *wbcg, GObject *so);
 

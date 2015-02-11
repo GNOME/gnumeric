@@ -172,7 +172,7 @@ gnm_so_filled_user_config (SheetObject *so, SheetControl *sc)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
 	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
-			  sof->style, sof_default_style (),
+			  sof_default_style (),
 			  _("Filled Object Properties"),
 			  SO_STYLED_TEXT);
 }

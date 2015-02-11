@@ -175,9 +175,6 @@ gboolean cmd_objects_delete	(WorkbookControl *wbc, GSList *objects,
 gboolean cmd_objects_move	(WorkbookControl *wbc,
 				 GSList *objects, GSList *anchors,
 				 gboolean objects_created, char const *name);
-gboolean cmd_object_format	(WorkbookControl *wbc, SheetObject *so,
-				 gpointer orig_style, char *orig_text,
-				 PangoAttrList *orig_attr);
 
 gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,
                               GObject *n_graph, GObject *o_graph);
