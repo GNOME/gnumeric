@@ -6810,6 +6810,31 @@ odf_apply_expression (GsfXMLIn *xin, gint dim, GObject *obj, gchar const *expres
 }
 
 static void
+oo_prop_list_apply_to_axisline (GsfXMLIn *xin, GSList *props, GObject *obj)
+{
+	GSList *ptr;
+	OOProp *prop;
+	gchar const *pos_str_expression = NULL;
+	gchar const *pos_str_val = NULL;
+
+	oo_prop_list_apply (props, obj);
+
+	for (ptr = props; ptr; ptr = ptr->next) {
+		prop = ptr->data;
+		if (0 == strcmp ("pos-str-expr", prop->name))
+			pos_str_expression = g_value_get_string (&prop->value);
+		else if (0 == strcmp ("pos-str-val", prop->name))
+			pos_str_val = g_value_get_string (&prop->value);
+	}
+
+	if (pos_str_expression)
+		odf_apply_expression (xin, 4, obj, pos_str_expression);
+	else if (pos_str_val)
+		odf_apply_expression (xin, 4, obj, pos_str_val);
+
+}
+
+static void
 oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -6823,10 +6848,9 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 	double interval_minor_divisor = 0.;
 	gchar const *minimum_expression = NULL;
 	gchar const *maximum_expression = NULL;
-	gchar const *pos_str_expression = NULL;
-	gchar const *pos_str_val = NULL;
 
-	oo_prop_list_apply (props, obj);
+
+	oo_prop_list_apply_to_axisline (xin, props, obj);
 
 	for (ptr = props; ptr; ptr = ptr->next) {
 		prop = ptr->data;
@@ -6843,10 +6867,6 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 			minimum_expression = g_value_get_string (&prop->value);
 		else if (0 == strcmp ("maximum-expression", prop->name))
 			maximum_expression = g_value_get_string (&prop->value);
-		else if (0 == strcmp ("pos-str-expr", prop->name))
-			pos_str_expression = g_value_get_string (&prop->value);
-		else if (0 == strcmp ("pos-str-val", prop->name))
-			pos_str_val = g_value_get_string (&prop->value);
 	}
 
 	gog_axis_set_bounds (GOG_AXIS (obj), minimum, maximum);
@@ -6854,10 +6874,6 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 		odf_apply_expression (xin, 0, obj, minimum_expression);
 	if (maximum_expression)
 		odf_apply_expression (xin, 1, obj, maximum_expression);
-	if (pos_str_expression)
-		odf_apply_expression (xin, 4, obj, pos_str_expression);
-	else if (pos_str_val)
-		odf_apply_expression (xin, 4, obj, pos_str_val);
 
 	if (interval_major > 0) {
 		data = gnm_go_data_scalar_new_expr
@@ -9800,6 +9816,39 @@ oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+oo_chart_axisline (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gchar const *style_name = NULL;
+	GogObject *axisline;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
+			style_name = CXML2C (attrs[1]);
+
+	axisline = gog_object_add_by_name (GOG_OBJECT (state->chart.axis), "AxisLine", NULL);
+
+	if (style_name != NULL && axisline != NULL) {
+		GOStyle *style = NULL;
+		g_object_get (G_OBJECT (axisline), "style", &style, NULL);
+
+		if (style != NULL) {
+			OOChartStyle *chart_style = g_hash_table_lookup
+				(state->chart.graph_styles, style_name);
+			if (chart_style) {
+				oo_prop_list_apply_to_axisline (xin, chart_style->axis_props,
+								G_OBJECT (axisline));
+				odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
+			} else
+				oo_warning (xin, _("Chart style with name '%s' is missing."),
+					    style_name);
+			g_object_unref (style);
+		}
+	}
+
+}
+
+static void
 oo_chart_style_free (OOChartStyle *cstyle)
 {
 	if (cstyle == NULL)
@@ -11819,6 +11868,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, &oo_chart_wall, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, &oo_chart_axis, &oo_chart_axis_end),
+		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_LINE, OO_GNUM_NS_EXT, "axisline", GSF_XML_NO_CONTENT, &oo_chart_axisline, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, &od_chart_axis_categories, NULL),
 	          GSF_XML_IN_NODE_FULL (CHART_AXIS, CHART_AXIS_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 3),
@@ -12091,6 +12141,7 @@ static GsfXMLInNode const opendoc_content_preparse_dtd [] =
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXISLINE, OO_GNUM_NS_EXT, "axisline", GSF_XML_NO_CONTENT, NULL, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, NULL, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE_FULL (CHART_AXIS, CHART_AXIS_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, NULL, NULL, .v_int = 3),

@@ -6997,6 +6997,24 @@ odf_write_axis_position (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 }
 
 static void
+odf_write_axisline_style (GnmOOExport *state, GOStyle const *style,
+		      GogObject const *axis)
+{
+	odf_write_axis_position (state, style, axis);
+
+	odf_write_plot_style_bool
+		(state->xml, axis, "major-tick-in", CHART "tick-marks-major-inner");
+	odf_write_plot_style_bool
+		(state->xml, axis, "major-tick-out", CHART "tick-marks-major-outer");
+	odf_write_plot_style_bool
+		(state->xml, axis, "minor-tick-in", CHART "tick-marks-minor-inner");
+	odf_write_plot_style_bool
+		(state->xml, axis, "minor-tick-out", CHART "tick-marks-minor-outer");
+	odf_write_plot_style_bool
+		(state->xml, axis, "major-tick-labeled", CHART "display-label");
+}
+
+static void
 odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 		      GogObject const *axis)
 {
@@ -7004,8 +7022,6 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 	GOData const *interval;
 	gboolean user_defined;
 	char *map_name_str = NULL;
-
-	odf_write_axis_position (state, style, axis);
 
 	if (gnm_object_has_readable_prop (axis, "map-name",
 					  G_TYPE_STRING, &map_name_str)) {
@@ -7059,17 +7075,6 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 			}
 		}
 	}
-	odf_write_plot_style_bool
-		(state->xml, axis, "major-tick-in", CHART "tick-marks-major-inner");
-	odf_write_plot_style_bool
-		(state->xml, axis, "major-tick-out", CHART "tick-marks-major-outer");
-	odf_write_plot_style_bool
-		(state->xml, axis, "minor-tick-in", CHART "tick-marks-minor-inner");
-	odf_write_plot_style_bool
-		(state->xml, axis, "minor-tick-out", CHART "tick-marks-minor-outer");
-	odf_write_plot_style_bool
-		(state->xml, axis, "major-tick-labeled", CHART "display-label");
-
 	if (state->odf_version > 101)
 		odf_write_plot_style_bool
 			(state->xml, axis,
@@ -7078,6 +7083,8 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 		odf_write_plot_style_bool
 			(state->xml, axis,
 			 "invert-axis", GNMSTYLE "reverse-direction");
+
+	odf_write_axisline_style (state, style, axis);
 }
 
 static void
@@ -7202,6 +7209,31 @@ odf_write_axis_grid (GnmOOExport *state, GogObject const *axis)
 	g_return_if_fail (axis != NULL);
 	odf_write_one_axis_grid (state, axis, "MajorGrid", "major");
 	odf_write_one_axis_grid (state, axis, "MinorGrid", "minor");
+}
+
+static void
+odf_write_axislines (GnmOOExport *state, GogObject const *axis)
+{
+	g_return_if_fail (axis != NULL);
+	
+	if (state->with_extension) {
+		GogObjectRole const *role;
+		role = gog_object_find_role_by_name (axis, "AxisLine");
+		if (role != NULL) {
+			GSList *l, *lines = gog_object_get_children (axis, role);
+			l = lines;
+			while (l != NULL && l->data != NULL) {
+				char *name = odf_get_gog_style_name_from_obj (state, GOG_OBJECT (l->data));
+				gsf_xml_out_start_element (state->xml, GNMSTYLE "axisline");
+				if (name != NULL)
+					gsf_xml_out_add_cstr (state->xml, CHART "style-name", name);
+				gsf_xml_out_end_element (state->xml); /* </gnm:axisline> */
+				l = l->next;
+			}
+			g_slist_free (lines);
+		}
+		
+	}
 }
 
 static void
@@ -7806,6 +7838,7 @@ odf_write_axis_full (GnmOOExport *state,
 		if (include_cats)
 			odf_write_axis_categories (state, series);
 		odf_write_axis_grid (state, axis);
+		odf_write_axislines (state, axis);
 		gsf_xml_out_end_element (state->xml); /* </chart:axis> */
 	}
 
@@ -8511,6 +8544,7 @@ odf_fill_chart_props_hash (GnmOOExport *state)
 	} props[] = {
 		{"GogSeriesLines", odf_write_drop},
 		{"GogAxis", odf_write_axis_style},
+		{"GogAxisLine", odf_write_axisline_style},
 		{"GogLinRegCurve", odf_write_lin_reg},
 		{"GogPolynomRegCurve", odf_write_polynom_reg},
 		{"GogExpRegCurve", odf_write_exp_reg},

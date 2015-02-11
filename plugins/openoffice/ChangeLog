@@ -1,3 +1,15 @@
+2015-02-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_prop_list_apply_to_axisline): new
+	(oo_prop_list_apply_to_axis): use oo_prop_list_apply_to_axisline
+	(oo_chart_axisline): new
+	(opendoc_content_dtd): connect oo_chart_axisline
+	* openoffice-write.c (odf_write_axisline_style): new
+	(odf_write_axis_style): use odf_write_axisline_style
+	(odf_write_axislines): new
+	(odf_write_axis_full): call odf_write_axislines
+	(odf_fill_chart_props_hash): connect odf_write_axisline_style
+
 2015-02-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_style_prop_chart): read chart:display-label
