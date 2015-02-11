@@ -135,7 +135,8 @@ void	dialog_new_view (WBCGtk *wbcg);
 
 typedef enum {
 	SO_STYLED_STYLE_ONLY = 0,
-	SO_STYLED_TEXT
+	SO_STYLED_LINE = 1,
+	SO_STYLED_TEXT = 2,
 } so_styled_t;
 
 void	dialog_so_styled (WBCGtk *wbcg, GObject *so,

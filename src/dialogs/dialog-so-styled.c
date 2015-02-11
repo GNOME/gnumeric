@@ -31,6 +31,7 @@
 #include "wbc-gtk.h"
 #include "commands.h"
 #include "sheet-object.h"
+#include "gnm-so-line.h"
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
 #include <widgets/gnumeric-text-view.h>
@@ -42,6 +43,11 @@ typedef struct {
 	char *orig_text;
 	PangoAttrList *orig_attributes;
 	so_styled_t extent;
+
+	GtkWidget *spin_a;
+	GtkWidget *spin_b;
+	GtkWidget *spin_c;
+	GtkWidget *arrow_draw;
 } DialogSOStyled;
 
 #define GNM_SO_STYLED_KEY "gnm-so-styled-key"
@@ -53,7 +59,7 @@ dialog_so_styled_free (DialogSOStyled *pref)
 		g_object_set (G_OBJECT (pref->so), "style", pref->orig_style, NULL);
 		g_object_unref (pref->orig_style);
 	}
-	if ((pref->extent & SO_STYLED_TEXT) != 0) {
+	if (pref->extent & SO_STYLED_TEXT) {
 		g_object_set (G_OBJECT (pref->so), "text", pref->orig_text, NULL);
 		g_free (pref->orig_text);
 		g_object_set (G_OBJECT (pref->so), "markup", pref->orig_attributes, NULL);
@@ -122,6 +128,84 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 	return GTK_WIDGET (gtv);
 }
 
+static void
+cb_arrow_changed (GtkWidget *spin, DialogSOStyled *state)
+{
+	GOArrow *arrow;
+
+	g_object_get (state->so, "end-arrow", &arrow, NULL);
+	arrow->a = gtk_spin_button_get_value (GTK_SPIN_BUTTON (state->spin_a));
+	arrow->b = gtk_spin_button_get_value (GTK_SPIN_BUTTON (state->spin_b));
+	arrow->c = gtk_spin_button_get_value (GTK_SPIN_BUTTON (state->spin_c));
+	g_object_set (state->so, "end-arrow", arrow, NULL);
+	g_free (arrow);
+
+	gtk_widget_queue_draw (state->arrow_draw);
+}
+
+static gboolean
+cb_draw_arrow (GtkWidget *widget, cairo_t *cr, DialogSOStyled *state)
+{
+	GOArrow *arrow;
+	GOStyle *style;
+	guint width = gtk_widget_get_allocated_width (widget);
+	guint height = gtk_widget_get_allocated_height (widget);
+	double x = width / 2;
+	double y = height / 2;
+
+	g_object_get (state->so, "end-arrow", &arrow, "style", &style, NULL);
+
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
+
+	gnm_so_line_draw_arrow (arrow, cr, &x, &y, 0);
+
+	g_object_unref (style);
+	g_free (arrow);
+	return FALSE;
+}
+
+static GtkWidget *
+dialog_so_styled_line_widget (DialogSOStyled *state)
+{
+	GtkGrid *grid = GTK_GRID (gtk_grid_new ());
+	GOArrow *arrow;
+	double LIM = 25, STEP = 0.1;
+
+	g_object_get (state->so, "end-arrow", &arrow, NULL);
+
+	g_object_set (grid, "border-width", 12, "column-spacing", 12, "row-spacing", 6, NULL);
+
+	gtk_grid_attach (grid, gtk_label_new (_("Type")), 0, 0, 1, 1);
+	gtk_grid_attach (grid, gtk_label_new (_("A")), 0, 1, 1, 1);
+	gtk_grid_attach (grid, gtk_label_new (_("B")), 0, 2, 1, 1);
+	gtk_grid_attach (grid, gtk_label_new (_("C")), 0, 3, 1, 1);
+
+	state->spin_a = gtk_spin_button_new_with_range (0, LIM, STEP);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->spin_a), arrow->a);
+	g_signal_connect (state->spin_a, "value-changed", G_CALLBACK (cb_arrow_changed), state);
+	gtk_grid_attach (grid, state->spin_a, 1, 1, 1, 1);
+
+	state->spin_b = gtk_spin_button_new_with_range (0, LIM, STEP);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->spin_b), arrow->b);
+	g_signal_connect (state->spin_b, "value-changed", G_CALLBACK (cb_arrow_changed), state);
+	gtk_grid_attach (grid, state->spin_b, 1, 2, 1, 1);
+
+	state->spin_c = gtk_spin_button_new_with_range (0, LIM, STEP);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->spin_c), arrow->c);
+	g_signal_connect (state->spin_c, "value-changed", G_CALLBACK (cb_arrow_changed), state);
+	gtk_grid_attach (grid, state->spin_c, 1, 3, 1, 1);
+
+	state->arrow_draw = gtk_drawing_area_new ();
+	gtk_widget_set_size_request (state->arrow_draw, 100, 100);
+	gtk_grid_attach (grid, state->arrow_draw, 2, 0, 1, 4);
+	g_signal_connect (G_OBJECT (state->arrow_draw), "draw",
+			  G_CALLBACK (cb_draw_arrow), state);
+
+	g_free (arrow);
+
+	return GTK_WIDGET (grid);
+}
+
 void
 dialog_so_styled (WBCGtk *wbcg,
 		  GObject *so, GOStyle *orig, GOStyle *default_style,
@@ -168,7 +252,7 @@ dialog_so_styled (WBCGtk *wbcg,
 		editor, TRUE, TRUE, TRUE);
 	g_object_unref (default_style);
 
-	if (extent == SO_STYLED_TEXT) {
+	if (extent & SO_STYLED_TEXT) {
 		GtkWidget *text_w = dialog_so_styled_text_widget (state);
 		gtk_widget_show_all (text_w);
 		if (GTK_IS_NOTEBOOK (editor))
@@ -178,6 +262,17 @@ dialog_so_styled (WBCGtk *wbcg,
 		else
 			gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
 					    text_w, TRUE, TRUE, TRUE);
+	}
+
+	if (extent & SO_STYLED_LINE) {
+		GtkWidget *w = dialog_so_styled_line_widget (state);
+		gtk_widget_show_all (w);
+		if (GTK_IS_NOTEBOOK (editor))
+			gtk_notebook_append_page (GTK_NOTEBOOK (editor), w,
+						  gtk_label_new (_("Head")));
+		else
+			gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
+					    w, TRUE, TRUE, TRUE);
 	}
 
 	g_signal_connect (G_OBJECT (dialog), "response",
