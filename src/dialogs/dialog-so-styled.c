@@ -150,14 +150,15 @@ cb_draw_arrow (GtkWidget *widget, cairo_t *cr, DialogSOStyled *state)
 	GOStyle *style;
 	guint width = gtk_widget_get_allocated_width (widget);
 	guint height = gtk_widget_get_allocated_height (widget);
-	double x = width / 2;
-	double y = height / 2;
 
 	g_object_get (state->so, "end-arrow", &arrow, "style", &style, NULL);
 
+	cairo_save (cr);
+	cairo_translate (cr, width / 2, height / 2);
+	/* cairo_scale (cr, 2, 2); */
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
-
-	gnm_so_line_draw_arrow (arrow, cr, &x, &y, 0);
+	go_arrow_draw (arrow, cr, NULL, NULL, 0);
+	cairo_restore (cr);
 
 	g_object_unref (style);
 	g_free (arrow);

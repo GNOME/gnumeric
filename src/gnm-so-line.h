@@ -10,8 +10,6 @@ G_BEGIN_DECLS
 #define IS_GNM_SO_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SO_LINE_TYPE))
 GType gnm_so_line_get_type (void);
 
-void gnm_so_line_draw_arrow (const GOArrow *arrow, cairo_t *cr, double *x, double *y, double phi);
-
 G_END_DECLS
 
 #endif /* _GNM_SO_LINE_H_ */

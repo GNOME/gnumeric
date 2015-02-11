@@ -154,43 +154,17 @@ gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 
 #endif /* GNM_WITH_GTK */
 
-void
-gnm_so_line_draw_arrow (const GOArrow *arrow, cairo_t *cr,
-			double *x, double *y, double phi)
+static void
+draw_arrow (const GOArrow *arrow, cairo_t *cr,
+	    double *x, double *y, double phi)
 {
+	double dx, dy;
+
 	cairo_save (cr);
-
-	switch (arrow->typ) {
-	case GO_ARROW_NONE:
-		return;
-
-	case GO_ARROW_KITE:
-		cairo_translate (cr, *x, *y);
-		cairo_rotate (cr, phi);
-		cairo_set_line_width (cr, 1.0);
-		cairo_new_path (cr);
-		cairo_move_to (cr, 0.0, 0.0);
-		cairo_line_to (cr, -arrow->c, -arrow->b);
-		cairo_line_to (cr, 0.0, -arrow->a);
-		cairo_line_to (cr, arrow->c, -arrow->b);
-		cairo_close_path (cr);
-		cairo_fill (cr);
-
-		/* Make the line shorter so that the arrow won't be
-		 * on top of a (perhaps quite fat) line.  */
-		(*x) += arrow->a * sin (phi);
-		(*y) -= arrow->a * cos (phi);
-		break;
-
-	case GO_ARROW_OVAL:
-		cairo_translate (cr, *x, *y);
-		cairo_rotate (cr, phi);
-		cairo_scale (cr, arrow->a, arrow->b);
-		cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
-		cairo_fill (cr);
-		break;
-	}
-
+	cairo_translate (cr, *x, *y);
+	go_arrow_draw (arrow, cr, &dx, &dy, phi);
+	*x += dx;
+	*y += dy;
 	cairo_restore (cr);
 }
 
@@ -227,8 +201,8 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
 
 	phi = atan2 (y2 - y1, x2 - x1) - M_PI_2;
-	gnm_so_line_draw_arrow (&sol->start_arrow, cr, &x1, &y1, phi + M_PI);
-	gnm_so_line_draw_arrow (&sol->end_arrow, cr, &x2, &y2, phi);
+	draw_arrow (&sol->start_arrow, cr, &x1, &y1, phi + M_PI);
+	draw_arrow (&sol->end_arrow, cr, &x2, &y2, phi);
 
 	cairo_move_to (cr, x1, y1);
 	cairo_line_to (cr, x2, y2);
