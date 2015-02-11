@@ -128,20 +128,23 @@ cb_arrow_changed (GOArrowSel *as,
 		  G_GNUC_UNUSED GParamSpec *pspec,
 		  DialogSOStyled *state)
 {
+	const char *prop = g_object_get_data (G_OBJECT (as), "prop");
 	g_object_set (state->so,
-		      "end-arrow", go_arrow_sel_get_arrow (as),
+		      prop, go_arrow_sel_get_arrow (as),
 		      NULL);
 }
 
 static GtkWidget *
-dialog_so_styled_line_widget (DialogSOStyled *state)
+dialog_so_styled_line_widget (DialogSOStyled *state, const char *prop)
 {
 	GtkWidget *w = go_arrow_sel_new ();
 	GOArrow *arrow;
 
-	g_object_get (state->so, "end-arrow", &arrow, NULL);
+	g_object_get (state->so, prop, &arrow, NULL);
 	go_arrow_sel_set_arrow (GO_ARROW_SEL (w), arrow);
 	g_free (arrow);
+
+	g_object_set_data_full (G_OBJECT (w), "prop", g_strdup (prop), g_free);
 
 	g_signal_connect (G_OBJECT (w),
 			  "notify::arrow",
@@ -210,11 +213,22 @@ dialog_so_styled (WBCGtk *wbcg,
 	}
 
 	if (extent & SO_STYLED_LINE) {
-		GtkWidget *w = dialog_so_styled_line_widget (state);
+		GtkWidget *w = dialog_so_styled_line_widget (state, "end-arrow");
 		gtk_widget_show_all (w);
 		if (GTK_IS_NOTEBOOK (editor))
 			gtk_notebook_append_page (GTK_NOTEBOOK (editor), w,
 						  gtk_label_new (_("Head")));
+		else
+			gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
+					    w, TRUE, TRUE, TRUE);
+	}
+
+	if (extent & SO_STYLED_LINE) {
+		GtkWidget *w = dialog_so_styled_line_widget (state, "start-arrow");
+		gtk_widget_show_all (w);
+		if (GTK_IS_NOTEBOOK (editor))
+			gtk_notebook_append_page (GTK_NOTEBOOK (editor), w,
+						  gtk_label_new (_("Tail")));
 		else
 			gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
 					    w, TRUE, TRUE, TRUE);
