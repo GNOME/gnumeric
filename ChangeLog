@@ -1,3 +1,8 @@
+2015-02-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (cb_assign_val): use go_nan instead of infinite for strings
+	that can't be convered to valid numbers.
+
 2015-02-10  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-line.c (gnm_so_line_draw_cairo): Simplify.

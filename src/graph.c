@@ -648,7 +648,7 @@ cb_assign_val (GnmCellIter const *iter, struct assign_closure *dat)
 		v = format_match_number (value_peek_string (v), NULL,
 					 dat->date_conv);
 		if (v == NULL) {
-			dat->vals[dat->i++] = gnm_pinf;
+			dat->vals[dat->i++] = go_nan;
 			return NULL;
 		}
 		res = value_get_as_float (v);
