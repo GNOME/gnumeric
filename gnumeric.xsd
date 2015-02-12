@@ -830,7 +830,7 @@
                     <xs:attribute name="OutlineColor"     type="gnm:color"               use="optional"/>
                     <xs:attribute name="FillColor"        type="gnm:color"               use="optional"/>
                     <xs:attribute name="Type"             type="gnm:objectfilled"        use="required"/>
-                    <xs:attribute name="Width"            type="xs:nonNegativeInteger" use="required"/>
+                    <xs:attribute name="Width"            type="xs:nonNegativeInteger" use="optional"/>
                     <xs:attribute name="Label"            type="xs:string"  use="optional"/>
                     <xs:attribute name="LabelFormat"      type="xs:string"  use="optional"/>
 
