@@ -4884,42 +4884,10 @@ static void
 write_arrow (GOArrow const *arrow, GString *escher, gsize optmark,
 	     guint id)
 {
-	int typ = 0;
-	int l = 0, w = 0;
+	XLArrowType typ;
+	int l, w;
 
-	/* NOTE: This mess should match code in ms-excel-read.c  */
-
-	switch (arrow->typ) {
-	case GO_ARROW_NONE:
-		typ = 0;
-		break;
-	case GO_ARROW_KITE:
-		if (fabs (arrow->a - arrow->b) < 0.01) {
-			typ = 1;
-			l = (int)CLAMP ((arrow->a / 3.5) - 1, 0.0, 2.0);
-			w = (int)CLAMP ((arrow->c / 2.5) - 1, 0.0, 2.0);
-		} else if (arrow->a > arrow->b) {
-			typ = 3;
-			l = (int)CLAMP ((arrow->a / 5.0) - 1, 0.0, 2.0);
-			w = (int)CLAMP ((arrow->c / 2.5) - 1, 0.0, 2.0);
-		} else if (arrow->a < 0.5 * arrow->b) {
-			typ = 5;
-			l = (int)CLAMP ((arrow->a / 1.0) - 1, 0.0, 2.0);
-			w = (int)CLAMP ((arrow->c / 1.5) - 1, 0.0, 2.0);
-		} else {
-			typ = 2;
-			l = (int)CLAMP ((arrow->b / 4.0) - 1, 0.0, 2.0);
-			w = (int)CLAMP ((arrow->c / 2.0) - 1, 0.0, 2.0);
-		}
-		break;
-	case GO_ARROW_OVAL:
-		typ = 4;
-		l = (int)CLAMP ((arrow->a / 2.5) - 1, 0.0, 2.0);
-		w = (int)CLAMP ((arrow->b / 2.5) - 1, 0.0, 2.0);
-		break;
-	default:
-		g_assert_not_reached ();
-	}
+	xls_arrow_to_xl (arrow, &typ, &l, &w);
 
 	switch (id) {
 	case MSEP_LINESTARTARROWHEAD:

@@ -821,3 +821,43 @@ xls_header_footer_import (PrintHF *hf, const char *txt)
 		txt++;
 	}
 }
+
+/*****************************************************************************/
+
+void
+xls_arrow_to_xl (GOArrow const *arrow, XLArrowType *ptyp, int *pl, int *pw)
+{
+	switch (arrow->typ) {
+	case GO_ARROW_NONE:
+		*ptyp = XL_ARROW_NONE;
+		*pl = 0;
+		*pw = 0;
+		break;
+	case GO_ARROW_KITE:
+		if (fabs (arrow->a - arrow->b) < 0.01) {
+			*ptyp = XL_ARROW_REGULAR;
+			*pl = (int)CLAMP ((arrow->a / 3.5) - 1, 0.0, 2.0);
+			*pw = (int)CLAMP ((arrow->c / 2.5) - 1, 0.0, 2.0);
+		} else if (arrow->a > arrow->b) {
+			*ptyp = XL_ARROW_DIAMOND;
+			*pl = (int)CLAMP ((arrow->a / 5.0) - 1, 0.0, 2.0);
+			*pw = (int)CLAMP ((arrow->c / 2.5) - 1, 0.0, 2.0);
+		} else if (arrow->a < 0.5 * arrow->b) {
+			*ptyp = XL_ARROW_OPEN;
+			*pl = (int)CLAMP ((arrow->a / 1.0) - 1, 0.0, 2.0);
+			*pw = (int)CLAMP ((arrow->c / 1.5) - 1, 0.0, 2.0);
+		} else {
+			*ptyp = XL_ARROW_STEALTH;
+			*pl = (int)CLAMP ((arrow->b / 4.0) - 1, 0.0, 2.0);
+			*pw = (int)CLAMP ((arrow->c / 2.0) - 1, 0.0, 2.0);
+		}
+		break;
+	case GO_ARROW_OVAL:
+		*ptyp = XL_ARROW_OVAL;
+		*pl = (int)CLAMP ((arrow->a / 2.5) - 1, 0.0, 2.0);
+		*pw = (int)CLAMP ((arrow->b / 2.5) - 1, 0.0, 2.0);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}

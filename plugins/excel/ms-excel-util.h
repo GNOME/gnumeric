@@ -107,5 +107,17 @@ void xls_header_footer_import (PrintHF *hf, const char *txt);
 
 /*****************************************************************************/
 
+typedef enum {
+	XL_ARROW_NONE = 0,
+	XL_ARROW_REGULAR = 1,
+	XL_ARROW_STEALTH = 2,
+	XL_ARROW_DIAMOND = 3,
+	XL_ARROW_OVAL = 4,
+	XL_ARROW_OPEN = 5
+} XLArrowType;
+
+void xls_arrow_to_xl (GOArrow const *arrow, XLArrowType *ptyp, int *pl, int *pw);
+
+/*****************************************************************************/
 
 #endif /* GNM_MS_EXCEL_UTIL_H */
