@@ -1,3 +1,8 @@
+2015-02-12  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_col): Always write column width.
+	Otherwise Excel might see zero.
+
 2015-02-10  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_drawing_objects): Save arrow

@@ -2066,9 +2066,11 @@ xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
 	gsf_xml_out_add_int (xml, "max", last + 1);
 	gsf_xml_out_add_int (xml, "style", style_id);
 
+	gsf_xml_out_add_float (xml, "width",
+			       (ci ? ci->size_pts : def_width) /
+			       ((130. / 18.5703125) * (72./96.)), 7);
+
 	if (ci) {
-		gsf_xml_out_add_float (xml, "width",
-				       ci->size_pts / ((130. / 18.5703125) * (72./96.)), 7);
 		if (!ci->visible)
 			gsf_xml_out_add_cstr_unchecked (xml, "hidden", "1");
 		if (ci->hard_size)
