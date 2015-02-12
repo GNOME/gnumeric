@@ -360,21 +360,23 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 
 		for (i = 0; i < 2; i++) {
 			GOArrow const *arr = i ? sctx->end_arrow : sctx->start_arrow;
-			const char *typ;
+			XLArrowType typ;
+			int l, w;
+			static const char *types[] = {
+				"none", "triangle", "stealth",
+				"diamond", "oval", "arrow"
+			};
+			static const char *sizes[] = { "sm", "med", "lg" };
 
 			if (!arr) continue;
 
-			switch (arr->typ) {
-			case GO_ARROW_NONE: typ = "none"; break;
-			default:
-			case GO_ARROW_KITE: typ = "arrow"; break;
-			case GO_ARROW_OVAL: typ = "oval"; break;
-			}
-
+			xls_arrow_to_xl (arr, &typ, &l, &w);
 			gsf_xml_out_start_element (xml, i ? "a:tailEnd" : "a:headEnd");
-			gsf_xml_out_add_cstr_unchecked (xml, "type", typ);
-			/* "w" */
-			/* "len" */
+			gsf_xml_out_add_cstr_unchecked (xml, "type", types[typ]);
+			if (typ) {
+				gsf_xml_out_add_cstr_unchecked (xml, "w", sizes[CLAMP(w,0,2)]);
+				gsf_xml_out_add_cstr_unchecked (xml, "len", sizes[CLAMP(l,0,2)]);
+			}
 			gsf_xml_out_end_element (xml);
 		}
 

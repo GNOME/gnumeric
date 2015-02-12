@@ -1,5 +1,8 @@
 2015-02-12  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write-drawing.c (xlsx_write_go_style_full): Improve arrow
+	export with xls_arrow_to_xl.
+
 	* ms-excel-util.c (xls_arrow_to_xl): New function extraced from...
 	* ms-excel-write.c (write_arrow): ...here
 
