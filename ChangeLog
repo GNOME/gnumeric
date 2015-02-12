@@ -1,3 +1,8 @@
+2015-02-11  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-so-filled.c (gnm_so_filled_write_xml_sax): Don't bother
+	writing duplicate style so version 1.2 and earlier can read it.
+
 2015-02-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (cb_assign_val): use go_nan instead of infinite for strings

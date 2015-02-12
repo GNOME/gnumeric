@@ -170,7 +170,6 @@ sof_default_style (void)
 static void
 gnm_so_filled_user_config (SheetObject *so, SheetControl *sc)
 {
-	GnmSOFilled *sof = GNM_SO_FILLED (so);
 	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
 			  sof_default_style (),
 			  _("Filled Object Properties"),
@@ -332,15 +331,9 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 {
 	GnmSOFilled const *sof = GNM_SO_FILLED (so);
 	GOStyle const *style = sof->style;
-	gsf_xml_out_add_int	(output, "Type", sof->is_oval ? 102 : 101);
+	gsf_xml_out_add_int (output, "Type", sof->is_oval ? 102 : 101);
 
-	/* Old 1.0 and 1.2 */
-	gsf_xml_out_add_float   (output, "Width", style->line.width, 2);
-	if (!style->line.auto_color)
-		gnm_xml_out_add_gocolor (output, "OutlineColor", style->line.color);
-	if (!style->fill.auto_back)
-		gnm_xml_out_add_gocolor (output, "FillColor", style->fill.pattern.back);
-	if (sof->text != NULL && *(sof->text) != '\0') {
+	if (sof->text != NULL && sof->text[0] != '\0') {
 		gsf_xml_out_add_cstr (output, "Label", sof->text);
 		if (sof->markup != NULL) {
 			GOFormat *fmt = go_format_new_markup (sof->markup, TRUE);
