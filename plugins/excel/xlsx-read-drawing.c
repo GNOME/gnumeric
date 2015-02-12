@@ -1831,21 +1831,26 @@ xlsx_chart_line_headtail (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "triangle", GO_ARROW_KITE },
 		{ NULL, 0 }
 	};
-	int typ = GO_ARROW_NONE;
-	double a = 8, b = 10, c = 3;
+	static EnumVal const sizes[] = {
+		{ "sm", 0 },
+		{ "med", 1 },
+		{ "lg", 2 },
+		{ NULL, 0 }
+	};
+	int typ = XL_ARROW_NONE;
+	int w = 1, l = 1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_enum (xin, attrs, "type", types, &typ)) {
+		if (attr_enum (xin, attrs, "type", types, &typ) ||
+		    attr_enum (xin, attrs, "w", sizes, &w) ||
+		    attr_enum (xin, attrs, "len", sizes, &l)) {
 			/* Nothing */
 		}
 	}
 
 	if (IS_GNM_SO_LINE (state->so)) {
 		GOArrow arrow;
-		arrow.typ = typ;
-		arrow.a = a;
-		arrow.b = b;
-		arrow.c = c;
+		xls_arrow_from_xl (&arrow, typ, l, w);
 		g_object_set (state->so,
 			      (is_tail ? "end-arrow" : "start-arrow"), &arrow,
 			      NULL);

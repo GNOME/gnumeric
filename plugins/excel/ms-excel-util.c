@@ -861,3 +861,43 @@ xls_arrow_to_xl (GOArrow const *arrow, XLArrowType *ptyp, int *pl, int *pw)
 		g_assert_not_reached ();
 	}
 }
+
+void
+xls_arrow_from_xl (GOArrow *arrow, XLArrowType typ, int l, int w)
+{
+	switch (typ) {
+	case XL_ARROW_NONE:
+		go_arrow_clear (arrow);
+		break;
+	default:
+	case XL_ARROW_REGULAR:
+		go_arrow_init_kite (arrow,
+				    3.5 * (l + 1),
+				    3.5 * (l + 1),
+				    2.5 * (w + 1));
+		break;
+	case XL_ARROW_STEALTH:
+		go_arrow_init_kite (arrow,
+				    2.5 * (l + 1),
+				    4.0 * (l + 1),
+				    2.0 * (w + 1));
+		break;
+	case XL_ARROW_DIAMOND:
+		go_arrow_init_kite (arrow,
+				    5 * (l + 1),
+				    2.5 * (l + 1),
+				    2.5 * (w + 1));
+		break;
+	case XL_ARROW_OVAL:
+		go_arrow_init_oval (arrow, (l + 1) * 2.5, (w + 1) * 2.5);
+		break;
+	case XL_ARROW_OPEN: /* Approximation! */
+		go_arrow_init_kite (arrow,
+				    1.0 * (l + 1),
+				    2.5 * (l + 1),
+				    1.5 * (w + 1));
+		break;
+	}
+}
+
+/*****************************************************************************/

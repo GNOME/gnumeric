@@ -455,44 +455,8 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 	GOArrow arrow;
 	int w = ms_obj_attr_get_int (attrs, wid, 1);
 	int l = ms_obj_attr_get_int (attrs, lid, 1);
-
-	/* NOTE: This mess should match code in ms-excel-write.c  */
-
 	int typ = ms_obj_attr_get_int (attrs, typid, 0);
-	switch (typ) {
-	case 0:
-		go_arrow_clear (&arrow);
-		break;
-	default:
-	case 1: /* Regular */
-		go_arrow_init_kite (&arrow,
-				    3.5 * (l + 1),
-				    3.5 * (l + 1),
-				    2.5 * (w + 1));
-		break;
-	case 2: /* Stealth */
-		go_arrow_init_kite (&arrow,
-				    2.5 * (l + 1),
-				    4.0 * (l + 1),
-				    2.0 * (w + 1));
-		break;
-	case 3: /* Diamond */
-		go_arrow_init_kite (&arrow,
-				    5 * (l + 1),
-				    2.5 * (l + 1),
-				    2.5 * (w + 1));
-		break;
-	case 4: /* Oval */
-		go_arrow_init_oval (&arrow, (l + 1) * 2.5, (w + 1) * 2.5);
-		break;
-	case 5: /* Open -- Approximation! */
-		go_arrow_init_kite (&arrow,
-				    1.0 * (l + 1),
-				    2.5 * (l + 1),
-				    1.5 * (w + 1));
-		break;
-	}
-
+	xls_arrow_from_xl (&arrow, typ, l, w);
 	g_object_set (so, prop_name, &arrow, NULL);
 }
 

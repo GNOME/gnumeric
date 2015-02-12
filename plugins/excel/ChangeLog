@@ -1,5 +1,11 @@
 2015-02-12  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_chart_line_headtail): Improve arrow
+	import with xls_arrow_from_xl.
+
+	* ms-excel-util.c (xls_arrow_from_xl): New function extrated...
+	* ms-excel-read.c (handle_arrow_head): ...from here.
+
 	* xlsx-write-drawing.c (xlsx_write_go_style_full): Improve arrow
 	export with xls_arrow_to_xl.
 

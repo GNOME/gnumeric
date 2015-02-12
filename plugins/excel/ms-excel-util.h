@@ -117,6 +117,7 @@ typedef enum {
 } XLArrowType;
 
 void xls_arrow_to_xl (GOArrow const *arrow, XLArrowType *ptyp, int *pl, int *pw);
+void xls_arrow_from_xl (GOArrow *arrow, XLArrowType typ, int l, int w);
 
 /*****************************************************************************/
 
