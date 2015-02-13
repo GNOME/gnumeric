@@ -2,6 +2,7 @@
 
 	* xlsx-write-drawing.c (xlsx_write_go_style_full): When we must
 	use fill in the line style, use a:noFill to indicate no line.
+	(xlsx_write_drawing_objects): Fix output of default background.
 
 2015-02-12  Morten Welinder  <terra@gnome.org>
 

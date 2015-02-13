@@ -190,6 +190,7 @@ typedef struct {
 	gboolean def_has_lines;
 	const char *spPr_ns;
 	gboolean must_fill_line;
+	gboolean must_fill_fill;
 
 	/* Not strictly context, but extensions to the style.  */
 	const char *shapename;
@@ -207,6 +208,7 @@ xlsx_style_context_init (XLSXStyleContext *sctx)
 	sctx->spPr_ns = "c";
 	sctx->shapename = NULL;
 	sctx->must_fill_line = FALSE;
+	sctx->must_fill_fill = FALSE;
 	sctx->start_arrow = NULL;
 	sctx->end_arrow = NULL;
 	sctx->flipH = FALSE;
@@ -239,12 +241,16 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 	}
 
 	if ((style->interesting_fields & GO_STYLE_FILL) &&
-	    style->fill.type != GO_STYLE_FILL_NONE) {/* TODO add tests for transparent backgrounds */
+	    (style->fill.type != GO_STYLE_FILL_NONE ||
+	     sctx->must_fill_fill)) {
 		switch (style->fill.type) {
-		default :
+		default:
 			g_warning ("invalid fill type, saving as none");
 		case GO_STYLE_FILL_IMAGE:
 			/* FIXME: export image */
+		case GO_STYLE_FILL_NONE:
+			gsf_xml_out_simple_element (xml, "a:noFill", NULL);
+			break;			
 		case GO_STYLE_FILL_PATTERN: {
 			const char *pattname = NULL;
 			switch (style->fill.pattern.pattern) {
@@ -253,12 +259,21 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 					gsf_xml_out_start_element (xml, "a:solidFill");
 					xlsx_write_rgbarea (xml, style->fill.pattern.back);
 					gsf_xml_out_end_element (xml);
+				} else if (sctx->must_fill_fill) {
+					/* We must output a color, or we'll get the foreground colour, i.e., black. */
+					gsf_xml_out_start_element (xml, "a:solidFill");
+					xlsx_write_rgbarea (xml, GO_COLOR_WHITE);
+					gsf_xml_out_end_element (xml);
 				}
 				break;
 			case GO_PATTERN_FOREGROUND_SOLID:
 				if (!style->fill.auto_fore) {
 					gsf_xml_out_start_element (xml, "a:solidFill");
 					xlsx_write_rgbarea (xml, style->fill.pattern.fore);
+					gsf_xml_out_end_element (xml);
+				} else if (sctx->must_fill_fill) {
+					/* No colour needed.  */
+					gsf_xml_out_start_element (xml, "a:solidFill");
 					gsf_xml_out_end_element (xml);
 				}
 				break;
@@ -1203,6 +1218,7 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 			xlsx_style_context_init (&sctx);
 			sctx.spPr_ns = "xdr";
 			sctx.must_fill_line = TRUE;
+			sctx.must_fill_fill = IS_GNM_SO_FILLED (so);
 			sctx.flipH = (anchor->base.direction & GOD_ANCHOR_DIR_H_MASK) != GOD_ANCHOR_DIR_RIGHT;
 			sctx.flipV = (anchor->base.direction & GOD_ANCHOR_DIR_V_MASK) != GOD_ANCHOR_DIR_DOWN;
 
