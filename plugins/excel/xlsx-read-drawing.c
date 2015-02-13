@@ -1850,7 +1850,9 @@ xlsx_chart_line_headtail (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (IS_GNM_SO_LINE (state->so)) {
 		GOArrow arrow;
-		xls_arrow_from_xl (&arrow, typ, l, w);
+		GOStyle const *style = state->cur_style;
+		double width = style->line.auto_width ? 0 : style->line.width;
+		xls_arrow_from_xl (&arrow, width, typ, l, w);
 		g_object_set (state->so,
 			      (is_tail ? "end-arrow" : "start-arrow"), &arrow,
 			      NULL);

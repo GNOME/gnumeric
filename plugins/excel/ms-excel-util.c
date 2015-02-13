@@ -825,8 +825,11 @@ xls_header_footer_import (PrintHF *hf, const char *txt)
 /*****************************************************************************/
 
 void
-xls_arrow_to_xl (GOArrow const *arrow, XLArrowType *ptyp, int *pl, int *pw)
+xls_arrow_to_xl (GOArrow const *arrow, double width,
+		 XLArrowType *ptyp, int *pl, int *pw)
 {
+	double s = CLAMP (width, 1.0, 5); /* Excel arrows scale with line width */
+
 	switch (arrow->typ) {
 	case GO_ARROW_NONE:
 		*ptyp = XL_ARROW_NONE;
@@ -836,26 +839,26 @@ xls_arrow_to_xl (GOArrow const *arrow, XLArrowType *ptyp, int *pl, int *pw)
 	case GO_ARROW_KITE:
 		if (fabs (arrow->a - arrow->b) < 0.01) {
 			*ptyp = XL_ARROW_REGULAR;
-			*pl = (int)CLAMP ((arrow->a / 3.5) - 1, 0.0, 2.0);
-			*pw = (int)CLAMP ((arrow->c / 2.5) - 1, 0.0, 2.0);
+			*pl = (int)CLAMP ((arrow->a / (s * 3.5)) - 1, 0.0, 2.0);
+			*pw = (int)CLAMP ((arrow->c / (s * 2.5)) - 1, 0.0, 2.0);
 		} else if (arrow->a > arrow->b) {
 			*ptyp = XL_ARROW_DIAMOND;
-			*pl = (int)CLAMP ((arrow->a / 5.0) - 1, 0.0, 2.0);
-			*pw = (int)CLAMP ((arrow->c / 2.5) - 1, 0.0, 2.0);
+			*pl = (int)CLAMP ((arrow->a / (s * 5.0)) - 1, 0.0, 2.0);
+			*pw = (int)CLAMP ((arrow->c / (s * 2.5)) - 1, 0.0, 2.0);
 		} else if (arrow->a < 0.5 * arrow->b) {
 			*ptyp = XL_ARROW_OPEN;
-			*pl = (int)CLAMP ((arrow->a / 1.0) - 1, 0.0, 2.0);
-			*pw = (int)CLAMP ((arrow->c / 1.5) - 1, 0.0, 2.0);
+			*pl = (int)CLAMP ((arrow->a / (s * 1.0)) - 1, 0.0, 2.0);
+			*pw = (int)CLAMP ((arrow->c / (s * 1.5)) - 1, 0.0, 2.0);
 		} else {
 			*ptyp = XL_ARROW_STEALTH;
-			*pl = (int)CLAMP ((arrow->b / 4.0) - 1, 0.0, 2.0);
-			*pw = (int)CLAMP ((arrow->c / 2.0) - 1, 0.0, 2.0);
+			*pl = (int)CLAMP ((arrow->b / (s * 4.0)) - 1, 0.0, 2.0);
+			*pw = (int)CLAMP ((arrow->c / (s * 2.0)) - 1, 0.0, 2.0);
 		}
 		break;
 	case GO_ARROW_OVAL:
 		*ptyp = XL_ARROW_OVAL;
-		*pl = (int)CLAMP ((arrow->a / 2.5) - 1, 0.0, 2.0);
-		*pw = (int)CLAMP ((arrow->b / 2.5) - 1, 0.0, 2.0);
+		*pl = (int)CLAMP ((arrow->a / (s * 2.5)) - 1, 0.0, 2.0);
+		*pw = (int)CLAMP ((arrow->b / (s * 2.5)) - 1, 0.0, 2.0);
 		break;
 	default:
 		g_assert_not_reached ();
@@ -863,8 +866,10 @@ xls_arrow_to_xl (GOArrow const *arrow, XLArrowType *ptyp, int *pl, int *pw)
 }
 
 void
-xls_arrow_from_xl (GOArrow *arrow, XLArrowType typ, int l, int w)
+xls_arrow_from_xl (GOArrow *arrow, double width, XLArrowType typ, int l, int w)
 {
+	double s = CLAMP (width, 1.0, 5); /* Excel arrows scale with line width */
+
 	switch (typ) {
 	case XL_ARROW_NONE:
 		go_arrow_clear (arrow);
@@ -872,30 +877,30 @@ xls_arrow_from_xl (GOArrow *arrow, XLArrowType typ, int l, int w)
 	default:
 	case XL_ARROW_REGULAR:
 		go_arrow_init_kite (arrow,
-				    3.5 * (l + 1),
-				    3.5 * (l + 1),
-				    2.5 * (w + 1));
+				    s * 3.5 * (l + 1),
+				    s * 3.5 * (l + 1),
+				    s * 2.5 * (w + 1));
 		break;
 	case XL_ARROW_STEALTH:
 		go_arrow_init_kite (arrow,
-				    2.5 * (l + 1),
-				    4.0 * (l + 1),
-				    2.0 * (w + 1));
+				    s * 2.5 * (l + 1),
+				    s * 4.0 * (l + 1),
+				    s * 2.0 * (w + 1));
 		break;
 	case XL_ARROW_DIAMOND:
 		go_arrow_init_kite (arrow,
-				    5 * (l + 1),
-				    2.5 * (l + 1),
-				    2.5 * (w + 1));
+				    s * 5 * (l + 1),
+				    s * 2.5 * (l + 1),
+				    s * 2.5 * (w + 1));
 		break;
 	case XL_ARROW_OVAL:
-		go_arrow_init_oval (arrow, (l + 1) * 2.5, (w + 1) * 2.5);
+		go_arrow_init_oval (arrow, s * 2.5 * (l + 1), s * 2.5 * (w + 1));
 		break;
 	case XL_ARROW_OPEN: /* Approximation! */
 		go_arrow_init_kite (arrow,
-				    1.0 * (l + 1),
-				    2.5 * (l + 1),
-				    1.5 * (w + 1));
+				    s * 1.0 * (l + 1),
+				    s * 2.5 * (l + 1),
+				    s * 1.5 * (w + 1));
 		break;
 	}
 }

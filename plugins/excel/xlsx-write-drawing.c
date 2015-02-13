@@ -367,10 +367,13 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 				"diamond", "oval", "arrow"
 			};
 			static const char *sizes[] = { "sm", "med", "lg" };
+			double width;
 
 			if (!arr) continue;
 
-			xls_arrow_to_xl (arr, &typ, &l, &w);
+			width = style->line.auto_width ? 0 : style->line.width;
+
+			xls_arrow_to_xl (arr, width, &typ, &l, &w);
 			gsf_xml_out_start_element (xml, i ? "a:tailEnd" : "a:headEnd");
 			gsf_xml_out_add_cstr_unchecked (xml, "type", types[typ]);
 			if (typ) {

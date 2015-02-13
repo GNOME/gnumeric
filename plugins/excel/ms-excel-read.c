@@ -449,6 +449,7 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet,
 
 static void
 handle_arrow_head (SheetObject *so, const char *prop_name,
+		   double width,
 		   MSObjAttrBag *attrs, MSObjAttrID typid,
 		   MSObjAttrID wid, MSObjAttrID lid)
 {
@@ -456,7 +457,7 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 	int w = ms_obj_attr_get_int (attrs, wid, 1);
 	int l = ms_obj_attr_get_int (attrs, lid, 1);
 	int typ = ms_obj_attr_get_int (attrs, typid, 0);
-	xls_arrow_from_xl (&arrow, typ, l, w);
+	xls_arrow_from_xl (&arrow, width, typ, l, w);
 	g_object_set (so, prop_name, &arrow, NULL);
 }
 
@@ -552,7 +553,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		break;
 
 	case MSOT_LINE:
-	case MSOT_ARC:
+	case MSOT_ARC: {
+		double width;
 		style = go_style_new ();
 		style->line.color = ms_sheet_map_color
 			(esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR,
@@ -565,20 +567,22 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			? GO_LINE_NONE
 			: ms_escher_xl_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 0));
 
+		width = style->line.auto_width ? 0 : style->line.width;
 		g_object_set (G_OBJECT (so), "style", style, NULL);
 		g_object_unref (style);
 
-		handle_arrow_head (so, "start-arrow",
+		handle_arrow_head (so, "start-arrow", width,
 				   obj->attrs,
 				   MS_OBJ_ATTR_ARROW_START,
 				   MS_OBJ_ATTR_ARROW_START_WIDTH,
 				   MS_OBJ_ATTR_ARROW_START_LENGTH);
-		handle_arrow_head (so, "end-arrow",
+		handle_arrow_head (so, "end-arrow", width,
 				   obj->attrs,
 				   MS_OBJ_ATTR_ARROW_END,
 				   MS_OBJ_ATTR_ARROW_END_WIDTH,
 				   MS_OBJ_ATTR_ARROW_END_LENGTH);
 		break;
+	}
 
 	case MSOT_POLYGON:
 		g_object_set (G_OBJECT (so), "points",

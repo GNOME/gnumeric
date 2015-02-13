@@ -4881,13 +4881,13 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 }
 
 static void
-write_arrow (GOArrow const *arrow, GString *escher, gsize optmark,
+write_arrow (GOArrow const *arrow, double width, GString *escher, gsize optmark,
 	     guint id)
 {
 	XLArrowType typ;
 	int l, w;
 
-	xls_arrow_to_xl (arrow, &typ, &l, &w);
+	xls_arrow_to_xl (arrow, width, &typ, &l, &w);
 
 	switch (id) {
 	case MSEP_LINESTARTARROWHEAD:
@@ -4929,6 +4929,7 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	GOArrow *start_arrow, *end_arrow;
 	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
 	guint32 spflags;
+	double width;
 
 	g_object_get (so,
 		      "start-arrow", &start_arrow,
@@ -4969,12 +4970,13 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	}
 
 	/* The two arrows' attributes are interleaved.  */
-	write_arrow (start_arrow, escher, optmark, MSEP_LINESTARTARROWHEAD);
-	write_arrow (end_arrow, escher, optmark, MSEP_LINEENDARROWHEAD);
-	write_arrow (start_arrow, escher, optmark, MSEP_LINESTARTARROWWIDTH);
-	write_arrow (start_arrow, escher, optmark, MSEP_LINESTARTARROWLENGTH);
-	write_arrow (end_arrow, escher, optmark, MSEP_LINEENDARROWWIDTH);
-	write_arrow (end_arrow, escher, optmark, MSEP_LINEENDARROWLENGTH);
+	width = style->line.auto_width ? 0 : style->line.width;
+	write_arrow (start_arrow, width, escher, optmark, MSEP_LINESTARTARROWHEAD);
+	write_arrow (end_arrow, width, escher, optmark, MSEP_LINEENDARROWHEAD);
+	write_arrow (start_arrow, width, escher, optmark, MSEP_LINESTARTARROWWIDTH);
+	write_arrow (start_arrow, width, escher, optmark, MSEP_LINESTARTARROWLENGTH);
+	write_arrow (end_arrow, width, escher, optmark, MSEP_LINEENDARROWWIDTH);
+	write_arrow (end_arrow, width, escher, optmark, MSEP_LINEENDARROWLENGTH);
 	ms_escher_opt_add_bool (escher, optmark, MSEP_ARROWHEADSOK, TRUE);
 
 	if (name)
