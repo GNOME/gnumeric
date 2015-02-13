@@ -1,3 +1,8 @@
+2015-02-13  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_go_style_full): When we must
+	use fill in the line style, use a:noFill to indicate no line.
+
 2015-02-12  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_line_headtail): Improve arrow

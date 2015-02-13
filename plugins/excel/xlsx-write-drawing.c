@@ -189,7 +189,7 @@ typedef struct {
 	gboolean def_has_markers;
 	gboolean def_has_lines;
 	const char *spPr_ns;
-	gboolean must_fill;
+	gboolean must_fill_line;
 
 	/* Not strictly context, but extensions to the style.  */
 	const char *shapename;
@@ -206,7 +206,7 @@ xlsx_style_context_init (XLSXStyleContext *sctx)
 	sctx->def_has_lines = TRUE;
 	sctx->spPr_ns = "c";
 	sctx->shapename = NULL;
-	sctx->must_fill = FALSE;
+	sctx->must_fill_line = FALSE;
 	sctx->start_arrow = NULL;
 	sctx->end_arrow = NULL;
 	sctx->flipH = FALSE;
@@ -314,7 +314,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 	     !style->line.auto_dash ||
 	     !style->line.auto_width ||
 	     !style->line.auto_color ||
-	     sctx->must_fill)) {
+	     sctx->must_fill_line)) {
 		int i;
 
 		static const char * const dashes[] = {
@@ -344,9 +344,11 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 			gsf_xml_out_start_element (xml, "a:solidFill");
 			xlsx_write_rgbarea (xml, style->line.color);
 			gsf_xml_out_end_element (xml);
-		} else if (sctx->must_fill) {
-			gsf_xml_out_start_element (xml, "a:solidFill");
-			gsf_xml_out_end_element (xml);
+		} else if (sctx->must_fill_line) {
+			gsf_xml_out_simple_element
+				(xml,
+				 is_none ? "a:noFill" : "a:solidFill",
+				 NULL);
 		} else if (style->line.auto_dash && !sctx->def_has_lines)
 			gsf_xml_out_simple_element (xml, "a:noFill", NULL);
 
@@ -1200,7 +1202,7 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 
 			xlsx_style_context_init (&sctx);
 			sctx.spPr_ns = "xdr";
-			sctx.must_fill = TRUE;
+			sctx.must_fill_line = TRUE;
 			sctx.flipH = (anchor->base.direction & GOD_ANCHOR_DIR_H_MASK) != GOD_ANCHOR_DIR_RIGHT;
 			sctx.flipV = (anchor->base.direction & GOD_ANCHOR_DIR_V_MASK) != GOD_ANCHOR_DIR_DOWN;
 

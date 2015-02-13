@@ -18,6 +18,7 @@ Morten:
 	* xlsx import/exports of patterns.
 	* Plug leaks.
 	* Arrow properties editor.  [#158327]
+	* Fix xlsx export of line style None.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20
