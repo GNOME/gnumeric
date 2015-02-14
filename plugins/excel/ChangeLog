@@ -3,6 +3,8 @@
 	* xlsx-write-drawing.c (xlsx_write_go_style_full): When needed
 	store our pattern in extension structure.  MS docs say other
 	consumers should ignore, but let's see.
+	(xlsx_write_go_style_full): If translation loses information,
+	store complete arrow details in extension.
 
 2015-02-13  Morten Welinder  <terra@gnome.org>
 

@@ -2940,11 +2940,19 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GOStyle *style = state->cur_style;
+	GOArrow *start_arrow = NULL;
+	GOArrow *end_arrow = NULL;
+	gboolean has_arrow = IS_GNM_SO_LINE (state->so);
 
 	if (!style)
 		return;
 
+	if (has_arrow)
+		g_object_get (state->so, "start_arrow", &start_arrow, "end_arrow", &end_arrow, NULL);
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		gnm_float f;
+
 		if (strcmp (attrs[0], "pattern") == 0) {
 			GOPatternType p = go_pattern_from_str (attrs[1]);
 			if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID &&
@@ -2956,7 +2964,29 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 				style->fill.pattern.fore = GO_COLOR_BLACK;
 			}
 			style->fill.pattern.pattern = p;
+		} else if (start_arrow && strcmp (attrs[0], "StartArrowType") == 0) {
+			start_arrow->typ = go_arrow_type_from_str (attrs[1]);
+		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeA", &f)) {
+			start_arrow->a = f;
+		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeB", &f)) {
+			start_arrow->b = f;
+		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeC", &f)) {
+			start_arrow->c = f;
+		} else if (start_arrow && strcmp (attrs[0], "EndArrowType") == 0) {
+			end_arrow->typ = go_arrow_type_from_str (attrs[1]);
+		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeA", &f)) {
+			end_arrow->a = f;
+		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeB", &f)) {
+			end_arrow->b = f;
+		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeC", &f)) {
+			end_arrow->c = f;
 		}
+	}
+
+	if (has_arrow) {
+		g_object_set (state->so, "start_arrow", start_arrow, "end_arrow", end_arrow, NULL);
+		g_free (start_arrow);
+		g_free (end_arrow);
 	}
 }
 

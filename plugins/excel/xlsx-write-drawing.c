@@ -224,6 +224,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 				   !style->font.auto_color);
 	gboolean has_font = xlsx_go_style_has_font (style);
 	gboolean ext_fill_pattern = FALSE;
+	gboolean ext_start_arrow = FALSE;
+	gboolean ext_end_arrow = FALSE;
 
 	char *spPr_tag = g_strconcat (sctx->spPr_ns, ":spPr", NULL);
 
@@ -390,17 +392,26 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 			};
 			static const char *sizes[] = { "sm", "med", "lg" };
 			double width;
+			GOArrow res_arrow;
 
 			if (!arr) continue;
 
 			width = style->line.auto_width ? 0 : style->line.width;
 
 			xls_arrow_to_xl (arr, width, &typ, &l, &w);
+			xls_arrow_from_xl (&res_arrow, width, typ, l, w);
+			if (!go_arrow_equal (&res_arrow, arr)) {
+				if (i)
+					ext_end_arrow = TRUE;
+				else
+					ext_start_arrow = TRUE;
+			}
+
 			gsf_xml_out_start_element (xml, i ? "a:tailEnd" : "a:headEnd");
 			gsf_xml_out_add_cstr_unchecked (xml, "type", types[typ]);
 			if (typ) {
-				gsf_xml_out_add_cstr_unchecked (xml, "w", sizes[CLAMP(w,0,2)]);
-				gsf_xml_out_add_cstr_unchecked (xml, "len", sizes[CLAMP(l,0,2)]);
+				gsf_xml_out_add_cstr_unchecked (xml, "w", sizes[w]);
+				gsf_xml_out_add_cstr_unchecked (xml, "len", sizes[l]);
 			}
 			gsf_xml_out_end_element (xml);
 		}
@@ -408,7 +419,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 		gsf_xml_out_end_element (xml);
 	}
 
-	if (sctx->state->with_extension && ext_fill_pattern) {
+	if (sctx->state->with_extension &&
+	    (ext_fill_pattern || ext_start_arrow || ext_end_arrow)) {
 		/* What namespace do we use?  */
 		gsf_xml_out_start_element (xml, "a:extLst");
 		gsf_xml_out_start_element (xml, "a:ext");
@@ -416,6 +428,20 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 		gsf_xml_out_start_element (xml, "gnmx:gostyle");
 		if (ext_fill_pattern) {
 			gsf_xml_out_add_cstr (xml, "pattern", go_pattern_as_str (style->fill.pattern.pattern));
+		}
+		if (ext_start_arrow) {
+			GOArrow const *arrow = sctx->start_arrow;
+			gsf_xml_out_add_cstr (xml, "StartArrowType", go_arrow_type_as_str (arrow->typ));
+			gsf_xml_out_add_float (xml, "StartArrowShapeA", arrow->a, -1);
+			gsf_xml_out_add_float (xml, "StartArrowShapeB", arrow->b, -1);
+			gsf_xml_out_add_float (xml, "StartArrowShapeC", arrow->c, -1);
+		}
+		if (ext_end_arrow) {
+			GOArrow const *arrow = sctx->end_arrow;
+			gsf_xml_out_add_cstr (xml, "EndArrowType", go_arrow_type_as_str (arrow->typ));
+			gsf_xml_out_add_float (xml, "EndArrowShapeA", arrow->a, -1);
+			gsf_xml_out_add_float (xml, "EndArrowShapeB", arrow->b, -1);
+			gsf_xml_out_add_float (xml, "EndArrowShapeC", arrow->c, -1);
 		}
 		gsf_xml_out_end_element (xml);  /* "gnmx:gostyle" */
 		gsf_xml_out_end_element (xml);  /* "a:ext" */
