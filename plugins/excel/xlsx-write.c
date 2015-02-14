@@ -100,6 +100,8 @@ static char const *ns_vml	 = "urn:schemas-microsoft-com:vml";
 static char const *ns_leg_office = "urn:schemas-microsoft-com:office:office";
 static char const *ns_leg_excel	 = "urn:schemas-microsoft-com:office:excel";
 
+static char const *ns_gnm_ext = "http://www.gnumeric.org/ext/spreadsheetml";
+
 static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
 static char const *ns_rel_hlink	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink";
 static char const *ns_rel_draw	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing";
@@ -111,6 +113,7 @@ typedef struct {
 	XLExportBase base;
 
 	gint             version;
+	gboolean         with_extension;
 
 	Sheet const	*sheet;
 	GHashTable	*shared_string_hash;
@@ -3113,6 +3116,7 @@ xlsx_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *io_context,
 	locale = gnm_push_C_locale ();
 
 	state.version           = ECMA_376_2006;
+	state.with_extension    = TRUE;
 	state.io_context	= io_context;
 	state.base.wb		= wb_view_get_workbook (wb_view);
 	state.comment		= 0;
@@ -3144,6 +3148,7 @@ xlsx2_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *io_context,
 
 	locale = gnm_push_C_locale ();
 	state.version           = ECMA_376_2008;
+	state.with_extension    = TRUE;
 	state.io_context	= io_context;
 	state.base.wb		= wb_view_get_workbook (wb_view);
 	state.comment		= 0;

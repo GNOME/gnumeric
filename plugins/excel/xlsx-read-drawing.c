@@ -2935,6 +2935,31 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 }
 
+static void
+xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GOStyle *style = state->cur_style;
+
+	if (!style)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (strcmp (attrs[0], "pattern") == 0) {
+			GOPatternType p = go_pattern_from_str (attrs[1]);
+			if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID &&
+			    p == GO_PATTERN_SOLID) {
+				/* We read the wrong color */
+				style->fill.pattern.back = style->fill.pattern.fore;
+				style->fill.auto_back = style->fill.auto_fore;
+				style->fill.auto_fore = TRUE;
+				style->fill.pattern.fore = GO_COLOR_BLACK;
+			}
+			style->fill.pattern.pattern = p;
+		}
+	}
+}
+
 static GsfXMLInNode const xlsx_drawing_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -3053,6 +3078,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
         GSF_XML_IN_NODE (SHAPE_PR, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (SHAPE_PR, EXTLST, XL_NS_DRAW, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (EXTLST, EXTITEM, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, NULL),
+            GSF_XML_IN_NODE (EXTITEM, EXT_GOSTYLE, XL_NS_GNM_EXT, "gostyle", GSF_XML_NO_CONTENT, &xlsx_ext_gostyle, NULL),
 
       GSF_XML_IN_NODE (SHAPE, TX_BODY, XL_NS_SS_DRAW, "txBody", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, &xlsx_chart_text),
         GSF_XML_IN_NODE (TX_BODY, LST_STYLE, XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */

@@ -286,6 +286,7 @@ static GsfXMLInNS const xlsx_ns[] = {
 	GSF_XML_IN_NS (XL_NS_CHART_DRAW,    "http://schemas.openxmlformats.org/drawingml/2006/chartDrawing"),
 	GSF_XML_IN_NS (XL_NS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/3/main"),		  /* Office 12 BETA-2 */
 	GSF_XML_IN_NS (XL_NS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/main"),		  /* Office 12 BETA-2 Technical Refresh */
+	GSF_XML_IN_NS (XL_NS_GNM_EXT,   "http://www.gnumeric.org/ext/spreadsheetml"),
 	GSF_XML_IN_NS (XL_NS_DOC_REL,	"http://schemas.openxmlformats.org/officeDocument/2006/relationships"),
 	GSF_XML_IN_NS (XL_NS_PKG_REL,	"http://schemas.openxmlformats.org/package/2006/relationships"),
 	GSF_XML_IN_NS (XL_NS_LEG_OFF,   "urn:schemas-microsoft-com:office:office"),
