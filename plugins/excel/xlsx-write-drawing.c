@@ -69,15 +69,18 @@ xlsx_write_chart_float (GsfXMLOut *xml, char const *name, double def_val, double
 static void
 xlsx_write_plot_1_5_type (GsfXMLOut *xml, GogObject const *plot, gboolean is_barcol)
 {
-	char const *type;
+	char *type;
+	const char *gtype;
+
 	g_object_get (G_OBJECT (plot), "type", &type, NULL);
 	if (0 == strcmp (type, "as_percentage"))
-		type = "percentStacked";
+		gtype = "percentStacked";
 	else if (0 == strcmp (type, "stacked"))
-		type = "stacked";
+		gtype = "stacked";
 	else
-		type = (is_barcol)? "clustered": "standard";
-	xlsx_write_chart_cstr_unchecked (xml, "c:grouping", type);
+		gtype = is_barcol ? "clustered": "standard";
+	xlsx_write_chart_cstr_unchecked (xml, "c:grouping", gtype);
+	g_free (type);
 }
 
 static void

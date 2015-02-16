@@ -1,6 +1,7 @@
 2015-02-16  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_one_plot): Plug leak.
+	(xlsx_write_plot_1_5_type): Plug leak.
 
 2015-02-14  Morten Welinder  <terra@gnome.org>
 
