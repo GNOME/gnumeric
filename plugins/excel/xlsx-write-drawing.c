@@ -1021,6 +1021,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 				GogAxis *axis = ptr->data;
 				xlsx_write_axis (state, xml, axis, axis_type[i]);
 			}
+			g_slist_free (axes);
 		}
 	}
 }
