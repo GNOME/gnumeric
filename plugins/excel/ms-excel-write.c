@@ -6806,6 +6806,13 @@ vip_equal (XLValInputPair const *a, XLValInputPair const *b)
 	return a->v == b->v && a->msg == b->msg;
 }
 
+static void
+vip_free (XLValInputPair *vip)
+{
+	g_slist_free (vip->ranges);
+	g_free (vip);
+}
+
 /* We store input msg and validation as distinct items, XL merges them find the
  * pairs, and the regions that use them */
 GHashTable *
@@ -6813,8 +6820,11 @@ excel_collect_validations (GnmStyleList *ptr, int max_col, int max_row)
 {
 	GnmStyleRegion const *sr;
 	XLValInputPair key, *tmp;
-	GHashTable *group = g_hash_table_new_full ((GHashFunc)&vip_hash,
-		(GCompareFunc)&vip_equal, g_free, NULL);
+	GHashTable *group = g_hash_table_new_full
+		((GHashFunc)vip_hash,
+		 (GCompareFunc)vip_equal,
+		 (GDestroyNotify)vip_free,
+		 NULL);
 
 	for (; ptr != NULL ; ptr = ptr->next) {
 		sr = ptr->data;
