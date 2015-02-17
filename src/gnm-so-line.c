@@ -25,6 +25,7 @@
 #include "gnumeric.h"
 #include "gnm-so-line.h"
 #include "sheet-object-impl.h"
+#include "gutils.h"
 #include "xml-sax.h"
 
 #include <goffice/goffice.h>
@@ -304,8 +305,10 @@ gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	double tmp, arrow_a = -1., arrow_b = -1., arrow_c = -1.;
 	int type = 0;
 
-	if (NULL == doc)
+	if (NULL == doc) {
 		doc = gsf_xml_in_doc_new (dtd, NULL);
+		gnm_xml_in_doc_dispose_on_exit (&doc);
+	}
 	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
 
 	go_arrow_clear (&sol->start_arrow);

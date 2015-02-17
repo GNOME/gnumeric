@@ -18,6 +18,7 @@
 #include "sheet-control-gui.h"
 #include "gui-file.h"
 #include "application.h"
+#include "gutils.h"
 #include "xml-sax.h"
 
 #include <goffice/goffice.h>
@@ -413,8 +414,10 @@ gnm_soi_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	static GsfXMLInDoc *doc = NULL;
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 
-	if (NULL == doc)
+	if (NULL == doc) {
 		doc = gsf_xml_in_doc_new (dtd, NULL);
+		gnm_xml_in_doc_dispose_on_exit (&doc);
+	}
 	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {

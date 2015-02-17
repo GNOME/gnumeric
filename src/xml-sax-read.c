@@ -2409,8 +2409,10 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 		  GSF_XML_IN_NODE_END
 		};
 		static GsfXMLInDoc *doc = NULL;
-		if (NULL == doc)
+		if (NULL == doc) {
 			doc = gsf_xml_in_doc_new (dtd, NULL);
+			gnm_xml_in_doc_dispose_on_exit (&doc);
+		}
 		gsf_xml_in_push_state (xin, doc, NULL,
 			(GsfXMLInExtDtor) gnm_xml_finish_obj, attrs);
 	}

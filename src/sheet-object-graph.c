@@ -39,6 +39,7 @@
 #include "print-info.h"
 #include "workbook.h"
 #include "workbook-view.h"
+#include "gutils.h"
 #include <graph.h>
 
 #include <goffice/goffice.h>
@@ -1097,8 +1098,10 @@ gnm_sogg_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 	GuppiReadState *state;
 	GogTheme *theme = gog_theme_registry_lookup ("Guppi");
 
-	if (NULL == doc)
+	if (NULL == doc) {
 		doc = gsf_xml_in_doc_new (dtd, NULL);
+		gnm_xml_in_doc_dispose_on_exit (&doc);
+	}
 	state = g_new0 (GuppiReadState, 1);
 	state->graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 	gog_graph_set_theme (state->graph, theme);

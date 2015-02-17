@@ -37,6 +37,7 @@ static char *gnumeric_locale_dir;
 static char *gnumeric_usr_dir;
 static char *gnumeric_usr_dir_unversioned;
 static char *gnumeric_extern_plugin_dir;
+static GSList *gutils_xml_in_docs;
 
 static gboolean
 running_in_tree (void)
@@ -118,6 +119,8 @@ gutils_init (void)
 void
 gutils_shutdown (void)
 {
+	GSList *l;
+
 	g_free (gnumeric_lib_dir);
 	gnumeric_lib_dir = NULL;
 	g_free (gnumeric_data_dir);
@@ -130,6 +133,14 @@ gutils_shutdown (void)
 	gnumeric_usr_dir_unversioned = NULL;
 	g_free (gnumeric_extern_plugin_dir);
 	gnumeric_extern_plugin_dir = NULL;
+
+	for (l = gutils_xml_in_docs; l; l = l->next) {
+		GsfXMLInDoc **pdoc = l->data;
+		gsf_xml_in_doc_free (*pdoc);
+		*pdoc = NULL;
+	}
+	g_slist_free (gutils_xml_in_docs);
+	gutils_xml_in_docs = NULL;
 }
 
 char const *
@@ -792,3 +803,13 @@ gnm_hash_table_foreach_ordered (GHashTable *h,
 	/* Clean up */
 	g_ptr_array_free (data, TRUE);
 }
+
+/* ------------------------------------------------------------------------- */
+
+void
+gnm_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc)
+{
+	gutils_xml_in_docs = g_slist_prepend (gutils_xml_in_docs, pdoc);
+}
+
+/* ------------------------------------------------------------------------- */
