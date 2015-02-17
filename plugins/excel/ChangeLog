@@ -1,5 +1,9 @@
 2015-02-16  Morten Welinder  <terra@gnome.org>
 
+	* ms-chart.c (chart_write_axis): Only output font record when it's
+	not automatic.
+	(BC_R(fontx)): When we see a font record, it's not auto_font.
+
 	* xlsx-read-drawing.c (xlsx_draw_text_run_props): Fix reading of
 	fonts, notably of the auto-font flag.  Part of #744632.
 
