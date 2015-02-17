@@ -5165,6 +5165,17 @@ static render_ops_t odf_render_ops_to_xl [] = {
 	{ NULL, NULL, NULL },
 };
 
+static void
+ods_render_ops_clear (render_ops_t *render_ops)
+{
+	int i;
+
+	for (i = 0; render_ops [i].name; i++) {
+		g_free (render_ops[i].name);
+		render_ops[i].name =  NULL;
+	}
+}
+
 /*
  * Renders an opcode.  The opcodes can take an argument by adding trailing ':'
  * to the opcode and then a number format code
@@ -8953,6 +8964,9 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	go_format_unref (state.time_fmt);
 	go_format_unref (state.date_fmt);
 	go_format_unref (state.date_long_fmt);
+
+	ods_render_ops_clear (odf_render_ops);
+	ods_render_ops_clear (odf_render_ops_to_xl);
 }
 
 
