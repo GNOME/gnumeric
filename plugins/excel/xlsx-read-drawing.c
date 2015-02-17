@@ -252,36 +252,51 @@ xlsx_draw_text_run_props (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	PangoFontDescription *desc;
 	GOStyle *style = state->cur_style;
+	gboolean auto_font;
 
 	if (!GO_IS_STYLED_OBJECT (state->cur_obj) || !style)
 		return;
 
 	/* FIXME: this should be for a text run, not for the full style */
 
-	if (style->font.font)
+	if (style->font.font) {
 		desc = pango_font_description_copy (style->font.font->desc);
-	else {
+		auto_font = style->font.auto_font;
+	} else {
 		desc = pango_font_description_new ();
 		pango_font_description_set_family (desc, "Calibri");
 		pango_font_description_set_size (desc, 10 * PANGO_SCALE);
+		auto_font = TRUE;
 	}
 
 	for (; attrs && *attrs; attrs += 2) {
 		int i;
 		if (attr_int (xin, attrs, "sz", &i)) {
-			pango_font_description_set_size (desc, i * PANGO_SCALE / 100);
+			int psize = i * PANGO_SCALE / 100;
+			if (psize != pango_font_description_get_size (desc)) {
+				auto_font = FALSE;
+				pango_font_description_set_size (desc, psize);
+			}
 		} else if (attr_int (xin, attrs, "b", &i)) {
-			pango_font_description_set_weight
-				(desc,
-				 i ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
+			PangoWeight pw = i ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL;
+			if (pw != pango_font_description_get_weight (desc)) {
+				pango_font_description_set_weight (desc, pw);
+				auto_font = FALSE;
+			}
 		} else if (attr_int (xin, attrs, "i", &i)) {
-			pango_font_description_set_style
-				(desc,
-				 i ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+			PangoStyle ps = i ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL;
+			if (ps != pango_font_description_get_style (desc)) {
+				pango_font_description_set_style (desc, ps);
+				auto_font = FALSE;
+			}
 		}
 	}
 
-	go_style_set_font (style, go_font_new_by_desc (desc));
+	style->font.auto_font = auto_font;
+	if (auto_font)
+		pango_font_description_free (desc);
+	else
+		go_style_set_font (style, go_font_new_by_desc (desc));
 }
 
 static void
@@ -294,6 +309,7 @@ xlsx_rpr_latin (GsfXMLIn *xin, xmlChar const **attrs)
 		if (strcmp (attrs[0], "typeface") == 0) {
 			PangoFontDescription *desc = pango_font_description_copy (style->font.font->desc);
 			pango_font_description_set_family (desc, attrs[1]);
+			style->font.auto_font = FALSE;
 			go_style_set_font (style, go_font_new_by_desc (desc));
 		}
 	}

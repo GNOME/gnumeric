@@ -1,5 +1,8 @@
 2015-02-16  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_draw_text_run_props): Fix reading of
+	fonts, notably of the auto-font flag.  Part of #744632.
+
 	* xlsx-write-drawing.c (xlsx_write_one_plot): Plug leak.
 	(xlsx_write_plot_1_5_type): Plug leak.
 
