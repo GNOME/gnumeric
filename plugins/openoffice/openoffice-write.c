@@ -1447,7 +1447,6 @@ odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
 		gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-family",
 				      gnm_style_get_font_name (style));
 
-
 	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
 }
 
@@ -7666,6 +7665,10 @@ odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style)
 		if ((mask & PANGO_FONT_MASK_GRAVITY) && state->with_extension)
 			gsf_xml_out_add_int (state->xml, GNMSTYLE "font-gravity-pango",
 					     pango_font_description_get_gravity (desc));
+
+		if (state->with_extension)
+			odf_add_bool (state->xml, GNMSTYLE "auto-font",
+				      style->font.auto_font);
 	}
 }
 

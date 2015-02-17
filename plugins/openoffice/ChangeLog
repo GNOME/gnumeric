@@ -1,3 +1,9 @@
+2015-02-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_apply_style_props): handle auto-font
+	(od_style_prop_chart): read auto-font
+	* openoffice-write.c (odf_write_gog_style_text): write auto-font
+
 2015-02-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_prop_list_apply_to_axisline): new

@@ -11,6 +11,7 @@ Andreas:
 	* Fix ODF export of serieslines styles.
 	* Fix ODF import/export of axes label visibility. [#743788]
 	* ODF import/export additional axislines.
+	* Fix ODF import/export of fonts in charts. [#744632]
 
 Morten:
 	* Initial xlsx import of sheet widgets.

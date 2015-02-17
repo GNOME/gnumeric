@@ -839,6 +839,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 	char const *stroke_dash = NULL;
 	char const *marker_outline_colour = NULL;
 	char const *marker_fill_colour = NULL;
+	gboolean gnm_auto_font_set = FALSE;
+	gboolean gnm_auto_font = FALSE;
 
 	style->line.auto_dash = TRUE;
 
@@ -995,11 +997,16 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 			style->fill.image.type = g_value_get_int (&prop->value);
 		else if (0 == strcmp (prop->name, "gnm-auto-type"))
 			style->fill.auto_type = g_value_get_boolean (&prop->value);
+		else if (0 == strcmp (prop->name, "gnm-auto-font")) {
+			gnm_auto_font_set = TRUE;
+			gnm_auto_font = g_value_get_boolean (&prop->value);
+		} 
 	}
 	if (desc_changed)
 		go_style_set_font_desc	(style, desc);
 	else
 		pango_font_description_free (desc);
+	style->font.auto_font = gnm_auto_font_set ? gnm_auto_font : !desc_changed;
 
 	/*
 	 * Stroke colour is tricky: if we have lines, that is what it
@@ -7360,6 +7367,10 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("font-family",
 						     CXML2C(attrs[1])));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-font",
+				       &btmp))
+			style->style_props = g_slist_prepend (style->style_props,
+				oo_prop_new_bool ("gnm-auto-font", btmp));
 		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT,
 					      "font-stretch-pango", &tmp,
 					      0, PANGO_STRETCH_ULTRA_EXPANDED))
