@@ -1,3 +1,8 @@
+2015-02-17  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_regression_curve): Plug leak.
+	(odf_write_axis_position): Plug leak.
+
 2015-02-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_apply_style_props): handle auto-font

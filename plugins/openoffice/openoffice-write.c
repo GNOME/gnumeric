@@ -6509,6 +6509,7 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 		gsf_xml_out_end_element (state->xml); /* </chart:regression-curve> */
 		g_free (str);
 	}
+	g_slist_free (regressions);
 }
 
 
@@ -6992,6 +6993,7 @@ odf_write_axis_position (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 			else
 				gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "0");	
 		}
+		g_free (pos_str);
 	}
 }
 
