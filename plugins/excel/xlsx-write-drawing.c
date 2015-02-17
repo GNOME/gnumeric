@@ -135,22 +135,10 @@ xlsx_write_rgbarea (GsfXMLOut *xml, GOColor color)
 static gboolean
 xlsx_go_style_has_font (GOStyle *style)
 {
-	GOFont const *def;
-	gboolean is_def;
-
 	if (!(style->interesting_fields & GO_STYLE_FONT))
 		return FALSE;
 
-	/* We need to fix auto_font! */
-
-	def = go_font_new_by_index (0);
-	is_def = (style->font.font == def);
-	go_font_unref (def);
-
-	if (is_def)
-		return FALSE;
-
-	return TRUE /* !style->font.auto_font */;
+	return !style->font.auto_font;
 }
 
 static void

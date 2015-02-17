@@ -1,3 +1,8 @@
+2015-02-17  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_go_style_has_font): Simplify now that
+	we have a sane auto_font.
+
 2015-02-16  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c (chart_write_axis): Only output font record when it's
