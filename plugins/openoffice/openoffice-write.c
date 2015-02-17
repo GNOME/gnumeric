@@ -571,8 +571,11 @@ odf_new_markup (GnmOOExport *state, const PangoAttrList *markup, char const *tex
 		if (from > handled)
 			odf_add_chars (state, text + handled, from - handled, &white_written);
 		list = pango_attr_iterator_get_attrs (iter);
-		for (l = list; l != NULL; l = l->next)
-			spans += odf_attrs_as_string (state, l->data);
+		for (l = list; l != NULL; l = l->next) {
+			PangoAttribute *a = l->data;
+			spans += odf_attrs_as_string (state, a);
+			pango_attribute_destroy (a);
+		}
 		g_slist_free (list);
 		if (to > from) {
 			odf_add_chars (state, text + from, to - from, &white_written);
@@ -6466,6 +6469,7 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 			 (l == regressions) ? CHART "regression-curve"
 			 : GNMSTYLE "regression-curve");
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+		g_free (str);
 
 		if (is_reg_curve && state->with_extension) {
 			/* Upper and lower bounds */
@@ -6501,13 +6505,13 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 			str = odf_get_gog_style_name_from_obj
 				(state, GOG_OBJECT (equation));
 			gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+			g_free (str);
 			odf_write_gog_position (state, equation);
 			odf_write_gog_position_pts (state, equation);
 			gsf_xml_out_end_element (state->xml); /* </chart:equation> */
 		}
 
 		gsf_xml_out_end_element (state->xml); /* </chart:regression-curve> */
-		g_free (str);
 	}
 	g_slist_free (regressions);
 }
@@ -7229,6 +7233,7 @@ odf_write_axislines (GnmOOExport *state, GogObject const *axis)
 				if (name != NULL)
 					gsf_xml_out_add_cstr (state->xml, CHART "style-name", name);
 				gsf_xml_out_end_element (state->xml); /* </gnm:axisline> */
+				g_free (name);
 				l = l->next;
 			}
 			g_slist_free (lines);

@@ -3,6 +3,8 @@
 	* openoffice-write.c (odf_write_regression_curve): Plug leak.
 	(odf_write_axis_position): Plug leak.
 	(openoffice_file_save_real): Plug leak.
+	(odf_write_axislines): Plug leak.
+	(odf_new_markup): Plug leak.
 
 2015-02-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
