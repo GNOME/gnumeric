@@ -5171,8 +5171,8 @@ ods_render_ops_clear (render_ops_t *render_ops)
 	int i;
 
 	for (i = 0; render_ops [i].name; i++) {
-		g_free (render_ops[i].name);
-		render_ops[i].name =  NULL;
+		g_free (render_ops[i].name_trans);
+		render_ops[i].name_trans =  NULL;
 	}
 }
 
