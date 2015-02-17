@@ -8819,7 +8819,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 							 (GDestroyNotify) g_free);
 	state.arrow_markers = g_hash_table_new_full (g_direct_hash,
 						     (GEqualFunc)odf_match_arrow_markers,
-						     NULL,
+						     (GDestroyNotify) g_free,
 						     (GDestroyNotify) g_free);
 	state.text_colours = g_hash_table_new_full (g_str_hash, g_str_equal,
 						    (GDestroyNotify) g_free,
