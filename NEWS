@@ -20,6 +20,7 @@ Morten:
 	* Plug leaks.
 	* Arrow properties editor.  [#158327]
 	* Fix xlsx export of line style None.
+	* Fix search-and-replace problem with text format.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20

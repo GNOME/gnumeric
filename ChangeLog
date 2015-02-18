@@ -1,3 +1,9 @@
+2015-02-18  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_search_replace_do_cell): Don't report and
+	error just because a cell with text format fails to produce an
+	expression.  That's expected for text format.
+
 2015-02-17  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-image.c (gnm_soi_get_property): Plug leak.

@@ -4208,8 +4208,9 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		 * FIXME: this is a hack, but parse_text_value_or_expr
 		 * does not have a better way of signaling an error.
 		 */
-		err = val && gnm_expr_char_start_p (cell_res.new_text);
-
+		err = (val &&
+		       gnm_expr_char_start_p (cell_res.new_text) &&
+		       !go_format_is_text (gnm_cell_get_format (cell_res.cell)));
 		value_release (val);
 		if (texpr) gnm_expr_top_unref (texpr);
 
