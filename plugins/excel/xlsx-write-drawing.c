@@ -317,8 +317,46 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 
 			break;
 		}
-		case GO_STYLE_FILL_GRADIENT:
+		case GO_STYLE_FILL_GRADIENT: {
+			GOGradientDirection dir = style->fill.gradient.dir;
+			static gint16 angles[GO_GRADIENT_MAX] = {
+				90, 270, 90, 90,
+				0, 180, 0, 0,
+				45, 225, 45, 45,
+				135, 315, 135, 135
+			};
+			static gint8 flags[GO_GRADIENT_MAX] = {
+				0, 0, 1, 3,
+				0, 0, 1, 3,
+				0, 0, 1, 3,
+				0, 0, 1, 3
+			};
+			int i, N = (flags[dir] & 1) ? 3 : 2;
+			gboolean rev = (flags[dir] & 2) != 0;
+
+			/* FIXME: Unicolor? */
+			gsf_xml_out_start_element (xml, "a:gradFill");
+			gsf_xml_out_start_element (xml, "a:gsLst");
+			for (i = 0; i < N; i++) {
+				gboolean fore = rev ^ (i == 1);
+				unsigned pos = (i == 0)
+					? 0
+					: (i == N - 1 ? 100 * 1000 : 50 * 1000);
+				gsf_xml_out_start_element (xml, "a:gs");
+				gsf_xml_out_add_uint (xml, "pos", pos);
+				xlsx_write_rgbarea (xml,
+						    fore
+						    ? style->fill.pattern.fore
+						    : style->fill.pattern.back);
+				gsf_xml_out_end_element (xml); /* "a:gs" */
+			}
+			gsf_xml_out_end_element (xml); /* "a:gsLst" */
+			gsf_xml_out_start_element (xml, "a:lin");
+			gsf_xml_out_add_uint (xml, "ang", 60000 * angles[dir]);
+			gsf_xml_out_end_element (xml);
+			gsf_xml_out_end_element (xml); /* "a:gradFill" */
 			break;
+		}
 		}
 	}
 

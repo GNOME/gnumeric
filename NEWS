@@ -16,11 +16,12 @@ Andreas:
 Morten:
 	* Initial xlsx import of sheet widgets.
 	* Initial xlsx export of sheet widgets.
-	* xlsx import/exports of patterns.
+	* xlsx import/export of patterns.
 	* Plug leaks.
 	* Arrow properties editor.  [#158327]
 	* Fix xlsx export of line style None.
 	* Fix search-and-replace problem with text format.
+	* xlsx export of gradients.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20
