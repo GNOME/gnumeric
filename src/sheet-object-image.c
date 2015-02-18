@@ -596,7 +596,7 @@ gnm_soi_get_property (GObject     *object,
 		break;
 	case PROP_PIXBUF:
 		pixbuf = go_image_get_pixbuf (soi->image);
-		g_value_set_object (value, pixbuf);
+		g_value_take_object (value, pixbuf);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
