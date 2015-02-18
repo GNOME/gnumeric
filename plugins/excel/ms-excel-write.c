@@ -1579,8 +1579,6 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 		ms_biff_put_var_write (bp, data, 8);
 	}
 	ms_biff_put_commit (bp);
-
-	g_slist_free (vip->ranges);
 }
 
 static void

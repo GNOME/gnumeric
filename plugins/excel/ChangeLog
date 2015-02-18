@@ -1,6 +1,7 @@
 2015-02-17  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_collect_validations): Plug leak.
+	(excel_write_DV): Don't free ranges here.
 
 	* xlsx-write-drawing.c (xlsx_go_style_has_font): Simplify now that
 	we have a sane auto_font.

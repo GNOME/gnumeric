@@ -5351,6 +5351,8 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 					"pos-str", &str, "invert-axis", &y_inverted, NULL);
 				y_cross_at_max ^= y_inverted;
 				y_force_catserrange = gog_axis_is_discrete (s->primary_axis[GOG_AXIS_Y]);
+				/* What did we want str for?  */
+				g_free (str);
 			}
 
 			/* BIFF_CHART_pos, optional we use auto positioning */
