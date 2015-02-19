@@ -1665,6 +1665,7 @@ xlsx_chart_grad_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 		if (!(state->sp_type & GO_STYLE_LINE)) {
 			state->cur_style->fill.type = GO_STYLE_FILL_GRADIENT;
 			state->cur_style->fill.auto_type = FALSE;
+			state->gradient_count = 0;
 		}
 	}
 }
@@ -1673,12 +1674,36 @@ static void
 xlsx_chart_grad_linear (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int ang;
+	int ang = 0, ang_deg;
+	GOGradientDirection dir;
+
 	g_return_if_fail (state->cur_style);
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_int (xin, attrs, "ang", &ang))
-			state->cur_style->fill.gradient.dir
-				= xlsx_get_gradient_direction (ang / 60000.);
+			; /* Nothing */
+	}
+
+	ang_deg = ((ang + 30000) / 60000);
+	for (dir = 0; dir < GO_GRADIENT_MAX; dir++) {
+		int this_ang = xlsx_gradient_info[dir].angle;
+		gboolean this_mirrored = xlsx_gradient_info[dir].mirrored;
+		int a;
+
+		if (state->gradient_count != (this_mirrored ? 3 : 2))
+			continue;
+		/* We cannot distinguish the reversed case */
+
+		/* Different angle convention. */
+		this_ang = (360 - this_ang) % (this_mirrored ? 180 : 360);
+		a = ang_deg % (this_mirrored ? 180 : 360);
+		if (this_ang != a)
+			continue;
+
+		state->cur_style->fill.gradient.dir = dir;
+		break;
+	}
+
 	/* FIXME: we do not support the "scaled" attribute */
 }
 
@@ -1686,20 +1711,24 @@ static void
 xlsx_chart_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int pos;
+	int pos = 0;
 	XLSXColorState s = XLSX_CS_NONE;
 
 	g_return_if_fail (state->cur_style);
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, "pos", &pos)) {
-			if (pos <= 50000) {
-				/* FIXME: use betstate->auto_colorter gradients
-				 * for now, we only support stops at 0 and 1 */
-				s = XLSX_CS_FILL_BACK;
-			} else {
-				s = XLSX_CS_FILL_FORE;
-			}
-		}
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_int (xin, attrs, "pos", &pos))
+			; /* Nothing */
+	}
+
+	state->gradient_count++;
+
+	if (state->gradient_count == 1 && pos == 0)
+		s = XLSX_CS_FILL_BACK;
+	else if (state->gradient_count == 2 && (pos == 50000 || pos == 100000))
+		s = XLSX_CS_FILL_FORE;
+	else
+		s = XLSX_CS_NONE; /* I.e., ignore.  */
+
 	xlsx_chart_push_color_state (state, s);
 }
 
@@ -2188,7 +2217,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 
     GSF_XML_IN_NODE (SHAPE_PR, FILL_GRAD,	XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, &xlsx_chart_grad_fill, NULL),
       GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
-       GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, NULL, NULL),
+       GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, xlsx_chart_grad_stop, xlsx_chart_grad_stop_end),
          GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE (FILL_GRAD, GRAD_LINE,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, &xlsx_chart_grad_linear, NULL),
 
@@ -2959,6 +2988,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 	GOArrow *start_arrow = NULL;
 	GOArrow *end_arrow = NULL;
 	gboolean has_arrow = IS_GNM_SO_LINE (state->so);
+	int rev_gradient = 0;
 
 	if (!style)
 		return;
@@ -2996,6 +3026,8 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 			end_arrow->b = f;
 		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeC", &f)) {
 			end_arrow->c = f;
+		} else if (attr_bool (xin, attrs, "reverse-gradient", &rev_gradient)) {
+			/* Nothing */
 		}
 	}
 
@@ -3003,6 +3035,25 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 		g_object_set (state->so, "start_arrow", start_arrow, "end_arrow", end_arrow, NULL);
 		g_free (start_arrow);
 		g_free (end_arrow);
+	}
+
+	if (rev_gradient) {
+		GOGradientDirection dir0 = style->fill.gradient.dir;
+		GOGradientDirection dir;
+		for (dir = 0; dir < GO_GRADIENT_MAX; dir++) {
+			if (xlsx_gradient_info[dir0].angle == xlsx_gradient_info[dir].angle &&
+			    xlsx_gradient_info[dir0].mirrored == xlsx_gradient_info[dir].mirrored &&
+			    xlsx_gradient_info[dir0].reversed == !xlsx_gradient_info[dir].reversed) {
+				GOColor c = style->fill.pattern.back;
+				gboolean a = style->fill.auto_back;
+				style->fill.gradient.dir = dir;
+				style->fill.pattern.back = style->fill.pattern.fore;
+				style->fill.pattern.fore = c;
+				style->fill.auto_back = style->fill.auto_fore;
+				style->fill.auto_fore = a;
+				break;
+			}
+		}
 	}
 }
 
@@ -3079,7 +3130,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
 	   GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, xlsx_chart_grad_stop, xlsx_chart_grad_stop_end),
 	     GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LINE,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LINE,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, &xlsx_chart_grad_linear, NULL),
 
         GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, &xlsx_chart_patt_fill, NULL),
           GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_BG,	XL_NS_DRAW, "bgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_patt_fill_clr, &xlsx_chart_patt_fill_clr_end, FALSE),

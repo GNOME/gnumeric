@@ -210,6 +210,7 @@ typedef struct {
 	GogObject	 *series_pt;
 	gboolean	  series_pt_has_index;
 	GOStyle	 *cur_style;
+	int               gradient_count;
 	guint32           chart_color_state;
 	GOColor		  color;
 	GOMarker	 *marker;

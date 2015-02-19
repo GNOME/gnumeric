@@ -217,6 +217,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 	gboolean ext_fill_pattern = FALSE;
 	gboolean ext_start_arrow = FALSE;
 	gboolean ext_end_arrow = FALSE;
+	gboolean ext_gradient_rev = FALSE;
 
 	char *spPr_tag = g_strconcat (sctx->spPr_ns, ":spPr", NULL);
 
@@ -319,22 +320,16 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 		}
 		case GO_STYLE_FILL_GRADIENT: {
 			GOGradientDirection dir = style->fill.gradient.dir;
-			static gint16 angles[GO_GRADIENT_MAX] = {
-				90, 270, 90, 90,
-				0, 180, 0, 0,
-				45, 225, 45, 45,
-				135, 315, 135, 135
-			};
-			static gint8 flags[GO_GRADIENT_MAX] = {
-				0, 0, 1, 3,
-				0, 0, 1, 3,
-				0, 0, 1, 3,
-				0, 0, 1, 3
-			};
-			int i, N = (flags[dir] & 1) ? 3 : 2;
-			gboolean rev = (flags[dir] & 2) != 0;
+			gboolean mirrored = xlsx_gradient_info[dir].mirrored;
+			gboolean rev = xlsx_gradient_info[dir].reversed;
+			unsigned angle = xlsx_gradient_info[dir].angle;
+			int i, N = mirrored ? 3 : 2;
+
+			/* Different angle convention. */
+			angle = (360 - angle) % (mirrored ? 180 : 360);
 
 			/* FIXME: Unicolor? */
+
 			gsf_xml_out_start_element (xml, "a:gradFill");
 			gsf_xml_out_start_element (xml, "a:gsLst");
 			for (i = 0; i < N; i++) {
@@ -352,9 +347,12 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 			}
 			gsf_xml_out_end_element (xml); /* "a:gsLst" */
 			gsf_xml_out_start_element (xml, "a:lin");
-			gsf_xml_out_add_uint (xml, "ang", 60000 * angles[dir]);
+			gsf_xml_out_add_uint (xml, "ang", 60000 * angle);
 			gsf_xml_out_end_element (xml);
 			gsf_xml_out_end_element (xml); /* "a:gradFill" */
+
+			if (rev)
+				ext_gradient_rev = TRUE;
 			break;
 		}
 		}
@@ -449,7 +447,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 	}
 
 	if (sctx->state->with_extension &&
-	    (ext_fill_pattern || ext_start_arrow || ext_end_arrow)) {
+	    (ext_fill_pattern || ext_start_arrow || ext_end_arrow ||
+	     ext_gradient_rev)) {
 		/* What namespace do we use?  */
 		gsf_xml_out_start_element (xml, "a:extLst");
 		gsf_xml_out_start_element (xml, "a:ext");
@@ -471,6 +470,9 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 			gsf_xml_out_add_float (xml, "EndArrowShapeA", arrow->a, -1);
 			gsf_xml_out_add_float (xml, "EndArrowShapeB", arrow->b, -1);
 			gsf_xml_out_add_float (xml, "EndArrowShapeC", arrow->c, -1);
+		}
+		if (ext_gradient_rev) {
+			gsf_xml_out_add_uint (xml, "reverse-gradient", 1);
 		}
 		gsf_xml_out_end_element (xml);  /* "gnmx:gostyle" */
 		gsf_xml_out_end_element (xml);  /* "a:ext" */

@@ -21,7 +21,7 @@ Morten:
 	* Arrow properties editor.  [#158327]
 	* Fix xlsx export of line style None.
 	* Fix search-and-replace problem with text format.
-	* xlsx export of gradients.
+	* xlsx import/export of gradients.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20

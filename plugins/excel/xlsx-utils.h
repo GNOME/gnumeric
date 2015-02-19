@@ -58,8 +58,6 @@ Workbook	*xlsx_conventions_add_extern_ref (GnmConventions *conv,
 						  char const *path);
 GOFormat        *xlsx_pivot_date_fmt   (void);
 
-GOGradientDirection xlsx_get_gradient_direction (double ang);
-
 typedef enum {
 	XLSX_PT_UNKNOWN,
 	XLSX_PT_GOGAREAPLOT,
@@ -76,5 +74,25 @@ typedef enum {
 } XLSXPlotType;
 XLSXPlotType xlsx_plottype_from_type_name (const char *type_name);
 
+/*****************************************************************************/
+
+typedef struct {
+	/*
+	 * Angle in degrees for the starting point.
+	 * 0 is west, 90 is north; 180 is east; 270 is south.
+	 * range is [0-360[ normally, but [0;180[ for mirrored.
+	 */
+	unsigned angle : 16;
+
+	/* Gradient has three stop like F to B to F. */
+	unsigned mirrored : 1;
+
+	/* Gradient goes from B to F to B. */
+	unsigned reversed : 1;
+} XLSXGradientInfo;
+
+extern XLSXGradientInfo xlsx_gradient_info[GO_GRADIENT_MAX];
+
+/*****************************************************************************/
 
 #endif /* GNM_XLSX_UTILS_H */
