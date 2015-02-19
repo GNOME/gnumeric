@@ -336,9 +336,11 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 				gboolean fore = rev ^ (i == 1);
 				unsigned pos = (i == 0)
 					? 0
-					: (i == N - 1 ? 100 * 1000 : 50 * 1000);
+					: (i == N - 1 ? 100 : 50);
+				char *spos = g_strdup_printf ("%d%%", pos);
 				gsf_xml_out_start_element (xml, "a:gs");
-				gsf_xml_out_add_uint (xml, "pos", pos);
+				gsf_xml_out_add_cstr_unchecked (xml, "pos", spos);
+				g_free (spos);
 				xlsx_write_rgbarea (xml,
 						    fore
 						    ? style->fill.pattern.fore

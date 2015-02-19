@@ -1716,7 +1716,7 @@ xlsx_chart_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
 
 	g_return_if_fail (state->cur_style);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_int (xin, attrs, "pos", &pos))
+		if (attr_percent (xin, attrs, "pos", &pos))
 			; /* Nothing */
 	}
 

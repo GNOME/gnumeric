@@ -585,6 +585,45 @@ attr_float (GsfXMLIn *xin, xmlChar const **attrs,
 	return TRUE;
 }
 
+/*
+ * Either an integer scaled so 100000 means 100%, or something like "50%"
+ * which we'll return as 50*1000.
+ *
+ * The first seems off-spec, but is what Excel produces.
+ */
+static gboolean
+attr_percent (GsfXMLIn *xin, xmlChar const **attrs,
+	      char const *target, int *res)
+{
+	char *end;
+	long tmp;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], target))
+		return FALSE;
+
+	errno = 0;
+	tmp = strtol (attrs[1], &end, 10);
+	if (errno == ERANGE || tmp > G_MAXINT / 1000 || tmp < G_MININT / 1000)
+		return xlsx_warning (xin,
+			_("Integer '%s' is out of range, for attribute %s"),
+			attrs[1], target);
+	if (*end == 0)
+		*res = tmp;
+	else if (strcmp (end, "%") == 0)
+		*res = tmp * 1000;
+	else
+		return xlsx_warning (xin,
+			_("Invalid integer '%s' for attribute %s"),
+			attrs[1], target);
+
+	return TRUE;
+}
+
+
 static gboolean
 attr_pos (GsfXMLIn *xin, xmlChar const **attrs,
 	  char const *target,
