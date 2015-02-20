@@ -1399,6 +1399,9 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 		double res_pts[4] = {0.,0.,0.,0.};
 		GtkAdjustment *adj = NULL;
 		int horiz = -1;
+		gboolean has_text_prop =
+			g_object_class_find_property (G_OBJECT_GET_CLASS (so), "text") != NULL;
+		char *text = NULL;
 
 		sheet_object_position_pts_get (so, res_pts);
 
@@ -1413,6 +1416,17 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			g_string_append_printf (str, "height:%.2fpt;", res_pts[3] - res_pts[1]);
 			gsf_xml_out_add_cstr (xml, "style", str->str);
 			g_string_free (str, TRUE);
+		}
+
+		if (has_text_prop)
+			g_object_get (so, "text", &text, NULL);
+		if (text) {
+			gsf_xml_out_start_element (xml, "v:textbox");
+			gsf_xml_out_start_element (xml, "div");
+			gsf_xml_out_add_cstr (xml, NULL, text);
+			gsf_xml_out_end_element (xml);  /* </div> */
+			gsf_xml_out_end_element (xml);  /* </v:textbox> */
+			g_free (text);
 		}
 
 		gsf_xml_out_start_element (xml, "x:ClientData");

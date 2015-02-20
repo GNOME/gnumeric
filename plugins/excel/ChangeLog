@@ -2,6 +2,7 @@
 
 	* xlsx-write-drawing.c (xlsx_write_legacy_drawing_objects): Define
 	and reference shapetype.
+	(xlsx_write_legacy_drawing_objects): Export label too.
 
 2015-02-19  Morten Welinder  <terra@gnome.org>
 
