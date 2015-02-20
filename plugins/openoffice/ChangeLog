@@ -1,3 +1,7 @@
+2015-02-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_gradient_info): use positive angles
+
 2015-02-17  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_write_regression_curve): Plug leak.
