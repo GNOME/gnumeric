@@ -1364,6 +1364,7 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 	GsfOutput *drawing_part;
 	GsfXMLOut *xml;
 	GnmParsePos pp0;
+	const char *shapetype = "#_x0000_t201";
 
 	parse_pos_init_sheet (&pp0, state->sheet);
 
@@ -1387,6 +1388,10 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:o", ns_leg_office);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:x", ns_leg_excel);
 
+	gsf_xml_out_start_element (xml, "v:shapetype");
+	gsf_xml_out_add_cstr (xml, "id", shapetype);
+	gsf_xml_out_end_element (xml);  /* </v:shapetype> */
+
 	for (obj = objects ; obj != NULL ; obj = obj->next) {
 		SheetObject *so = obj->data;
 		const char *otype = NULL;
@@ -1398,6 +1403,7 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 		sheet_object_position_pts_get (so, res_pts);
 
 		gsf_xml_out_start_element (xml, "v:shape");
+		gsf_xml_out_add_cstr (xml, "type", shapetype);
 		{
 			GString *str = g_string_new (NULL);
 			g_string_append (str, "position:absolute;");

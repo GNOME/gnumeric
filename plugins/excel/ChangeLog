@@ -1,3 +1,8 @@
+2015-02-20  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_legacy_drawing_objects): Define
+	and reference shapetype.
+
 2015-02-19  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_go_style_full): Write gradient
