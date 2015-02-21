@@ -1444,8 +1444,11 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			otype = "Button";
 			tlink = sheet_widget_button_get_link (so);
 		} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
+			gboolean c;
 			otype = "Radio";
 			tlink = sheet_widget_radio_button_get_link (so);
+			g_object_get (so, "active", &c, NULL);
+			checked = c;
 		} else if (GNM_IS_SOW_CHECKBOX (so)) {
 			gboolean c;
 			otype = "Checkbox";
