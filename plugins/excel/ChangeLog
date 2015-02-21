@@ -1,5 +1,9 @@
 2015-02-20  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_vml_client_data_end): Better handling
+	of anchor: don't overrun col/row limit; use point, not pixels;
+	take invible cols/rows into account.
+
 	* xlsx-write-drawing.c (xlsx_write_legacy_drawing_objects): Define
 	and reference shapetype.
 	(xlsx_write_legacy_drawing_objects): Export label too.

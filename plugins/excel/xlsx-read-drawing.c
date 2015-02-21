@@ -3382,10 +3382,11 @@ xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (!strcmp (attrs[0], "style")) {
-			char **elts = g_strsplit (attrs[1], ";", 0), **cur, *key, *value, *end;
-			int dim;
+			char **elts = g_strsplit (attrs[1], ";", 0), **cur;
 			for (cur =  elts; *cur; cur++) {
-				value = strchr (*cur, ':');
+				double dim;
+				char *key, *end;
+				char *value = strchr (*cur, ':');
 				if (!value)
 					continue; /* Hope this does not occur */
 				*value = 0;
@@ -3398,23 +3399,15 @@ xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 				/* FIXME: scaling just like in xlsx_CT_Col */
 				if (!strcmp (key, "margin-left") || !strcmp (key, "left")) {
 					dim = g_ascii_strtod (value, &end);
-					if (!strcmp (end, "pt"))
-						dim *= 4./3.;
-					state->chart_pos[0] = (double) dim * XLSX_SHEET_HSCALE;
+					state->chart_pos[0] = dim;
 				} else if (!strcmp (key, "margin-top") || !strcmp (key, "top")) {
 					dim = g_ascii_strtod (value, &end);
-					if (!strcmp (end, "pt"))
-						dim *= 4./3.;
 					state->chart_pos[1] = dim;
 				} else if (!strcmp (key, "width")) {
 					dim = g_ascii_strtod (value, &end);
-					if (!strcmp (end, "pt"))
-						dim *= 4./3.;
-					state->chart_pos[2] = (double) dim * XLSX_SHEET_HSCALE;
+					state->chart_pos[2] = dim;
 				} else if (!strcmp (key, "height")) {
 					dim = g_ascii_strtod (value, &end);
-					if (!strcmp (end, "pt"))
-						dim *= 4./3.;
 					state->chart_pos[3] = dim;
 				}
 			}
@@ -3486,51 +3479,51 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (state->so) {
 		SheetObjectAnchor anchor;
-		ColRowInfo *cri;
 		GnmRange r;
 		double coords[4];
-		int default_size = sheet_col_get_default_size_pixels (state->sheet);
-		int i, pos, sum, size;
+		Sheet *sheet = state->sheet;
+		int cols = gnm_sheet_get_max_cols (sheet);
+		int rows = gnm_sheet_get_max_rows (sheet);
+		int i, pos;
+		double sum, size;
 
 		for (i = 0; i < 4; i++)
 			if (!go_finite (state->chart_pos[i]))
 				state->chart_pos[i] = 0;
 
-		for (pos = 0, sum = 0; /* no test */; pos++) {
-			cri = sheet_col_get (state->sheet, pos);
-			size = (cri)? cri->size_pixels: default_size;
+		size = sum = 0;
+		for (pos = 0; pos < cols; pos++) {
+			size = sheet_col_get_distance_pts (sheet, pos, pos + 1);
 			if (sum + size > state->chart_pos[0])
 				break;
 			sum += size;
 		}
 		r.start.col = pos;
 		coords[0] = (state->chart_pos[0] - sum) / size;
-		while (sum < state->chart_pos[2]) {
+		while (sum < state->chart_pos[2] && pos < cols) {
 			if (sum + size > state->chart_pos[2])
 				break;
 			sum += size;
-			cri = sheet_col_get (state->sheet, pos);
-			size = (cri)? cri->size_pixels: default_size;
+			size = sheet_col_get_distance_pts (sheet, pos, pos + 1);
 			pos++;
 		}
 		r.end.col = pos;
 		coords[2] = (state->chart_pos[2] - sum) / size;
-		default_size = sheet_row_get_default_size_pixels (state->sheet);
-		for (pos = 0, sum = 0; /* no test */; pos++) {
-			cri = sheet_row_get (state->sheet, pos);
-			size = (cri)? cri->size_pixels: default_size;
+
+		size = sum = 0;
+		for (pos = 0; pos < cols; pos++) {
+			size = sheet_row_get_distance_pts (sheet, pos, pos + 1);
 			if (sum + size > state->chart_pos[1])
 				break;
 			sum += size;
 		}
 		r.start.row = pos;
 		coords[1] = (state->chart_pos[1] - sum) / size;
-		while (sum < state->chart_pos[3]) {
+		while (sum < state->chart_pos[3] && pos < rows) {
 			if (sum + size > state->chart_pos[3])
 				break;
 			sum += size;
-			cri = sheet_row_get (state->sheet, pos);
-			size = (cri)? cri->size_pixels: default_size;
+			size = sheet_row_get_distance_pts (sheet, pos, pos + 1);
 			pos++;
 		}
 		r.end.row = pos;
