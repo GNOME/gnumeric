@@ -934,7 +934,7 @@ cb_button_released (GtkToggleButton *button, SheetWidgetButton *swb)
 {
 	GnmCellRef ref;
 
-	swb->value = TRUE;
+	swb->value = FALSE;
 
 	if (so_get_ref (SHEET_OBJECT (swb), &ref, TRUE) != NULL) {
 		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
@@ -2252,6 +2252,25 @@ enum {
 };
 
 static void
+sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
+{
+	GList *ptr;
+
+	swc->being_updated = TRUE;
+
+	for (ptr = swc->sow.so.realized_list; ptr != NULL ; ptr = ptr->next) {
+		SheetObjectView *view = ptr->data;
+		GocWidget *item = get_goc_widget (view);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
+					      swc->value);
+	}
+
+	g_object_notify (G_OBJECT (swc), "active");
+
+	swc->being_updated = FALSE;
+}
+
+static void
 sheet_widget_checkbox_get_property (GObject *obj, guint param_id,
 				    GValue *value, GParamSpec *pspec)
 {
@@ -2281,7 +2300,8 @@ sheet_widget_checkbox_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case SOC_PROP_ACTIVE:
-		g_assert_not_reached ();
+		swc->value = g_value_get_boolean (value);
+		sheet_widget_checkbox_set_active (swc);
 		break;
 	case SOC_PROP_TEXT:
 		sheet_widget_checkbox_set_label (SHEET_OBJECT (swc),
@@ -2297,25 +2317,6 @@ sheet_widget_checkbox_set_property (GObject *obj, guint param_id,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		return;
 	}
-}
-
-static void
-sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
-{
-	GList *ptr;
-
-	swc->being_updated = TRUE;
-
-	for (ptr = swc->sow.so.realized_list; ptr != NULL ; ptr = ptr->next) {
-		SheetObjectView *view = ptr->data;
-		GocWidget *item = get_goc_widget (view);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
-					      swc->value);
-	}
-
-	g_object_notify (G_OBJECT (swc), "active");
-
-	swc->being_updated = FALSE;
 }
 
 static void
@@ -2752,7 +2753,7 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 			       (object_class, SOC_PROP_ACTIVE,
 				g_param_spec_boolean ("active", NULL, NULL,
 						      FALSE,
-						      GSF_PARAM_STATIC | G_PARAM_READABLE));
+						      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 		       g_object_class_install_property
 			       (object_class, SOC_PROP_TEXT,
 				g_param_spec_string ("text", NULL, NULL, NULL,

@@ -1,3 +1,8 @@
+2015-02-20  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c: Make checkbox' "active" writable.
+	(cb_button_released): Set value to FALSE here(!)
+
 2015-02-18  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_search_replace_do_cell): Don't report and
