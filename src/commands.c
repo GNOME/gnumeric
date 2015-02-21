@@ -7683,7 +7683,7 @@ cmd_so_set_adjustment_adj (CmdSOSetAdjustment *me)
 	double old_upper = gtk_adjustment_get_upper (adj);
 	double old_step = gtk_adjustment_get_step_increment (adj);
 	double old_page = gtk_adjustment_get_page_increment (adj);
-	double old_horizontal;
+	gboolean old_horizontal;
 	g_object_get (G_OBJECT (me->so), "horizontal", &old_horizontal, NULL);
 
 	gtk_adjustment_configure (adj,

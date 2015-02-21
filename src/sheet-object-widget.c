@@ -1884,8 +1884,8 @@ sheet_widget_adjustment_set_details (SheetObject *so, GnmExprTop const *tlink,
 static GtkWidget *
 sheet_widget_adjustment_create_widget (G_GNUC_UNUSED SheetObjectWidget *sow)
 {
-	g_warning("ERROR: sheet_widget_adjustment_create_widget SHOULD NEVER BE CALLED (but it has been)!\n");
-	return gtk_frame_new ("invisiwidget(WARNING: I AM A BUG!)");
+	g_assert_not_reached ();
+	return NULL;
 }
 
 SOW_MAKE_TYPE (adjustment, Adjustment,

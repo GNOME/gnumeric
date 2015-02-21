@@ -22,6 +22,7 @@ Morten:
 	* Fix xlsx export of line style None.
 	* Fix search-and-replace problem with text format.
 	* xlsx import/export of gradients.
+	* Fix undo problems with scrollbars.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20
