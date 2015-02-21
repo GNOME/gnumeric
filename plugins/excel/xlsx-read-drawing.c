@@ -3635,6 +3635,19 @@ xlsx_vml_textbox_div (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->chart_tx = newtext;
 }
 
+static void
+xlsx_vml_checked (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	const char *s = xin->content->str;
+	gboolean checked = strtol (s, NULL, 10) > 0;
+
+	if (GNM_IS_SOW_CHECKBOX (state->so)) {
+		g_object_set (state->so, "active", checked, NULL);
+	}
+}
+
+
 
 static GsfXMLInNode const xlsx_legacy_drawing_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -3658,8 +3671,9 @@ GSF_XML_IN_NODE_FULL (START, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, FAL
     GSF_XML_IN_NODE (CLIENT_DATA, ANCHOR, XL_NS_LEG_XL, "Anchor", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, AUTO_FILL, XL_NS_LEG_XL, "AutoFill", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, AUTO_LINE, XL_NS_LEG_XL, "AutoLine", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (CLIENT_DATA, DROP_LINES, XL_NS_LEG_XL, "DropLines", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, CHECKED, XL_NS_LEG_XL, "Checked", GSF_XML_CONTENT, NULL, &xlsx_vml_checked),
     GSF_XML_IN_NODE (CLIENT_DATA, COLUMN, XL_NS_LEG_XL, "Column", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, DROP_LINES, XL_NS_LEG_XL, "DropLines", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, DROP_STYLE, XL_NS_LEG_XL, "DropStyle", GSF_XML_CONTENT, NULL, &xlsx_vml_drop_style),
     GSF_XML_IN_NODE (CLIENT_DATA, DX, XL_NS_LEG_XL, "Dx", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, FMLA_LINK, XL_NS_LEG_XL, "FmlaLink", GSF_XML_CONTENT, NULL, &xlsx_vml_fmla_link),

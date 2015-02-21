@@ -1399,6 +1399,7 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 		double res_pts[4] = {0.,0.,0.,0.};
 		GtkAdjustment *adj = NULL;
 		int horiz = -1;
+		int checked = -1;
 		gboolean has_text_prop =
 			g_object_class_find_property (G_OBJECT_GET_CLASS (so), "text") != NULL;
 		char *text = NULL;
@@ -1446,14 +1447,19 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			otype = "Radio";
 			tlink = sheet_widget_radio_button_get_link (so);
 		} else if (GNM_IS_SOW_CHECKBOX (so)) {
+			gboolean c;
 			otype = "Checkbox";
 			tlink = sheet_widget_checkbox_get_link (so);
+			g_object_get (so, "active", &c, NULL);
+			checked = c;
 		} else {
 			g_assert_not_reached ();
 		}
 		gsf_xml_out_add_cstr_unchecked (xml, "ObjectType", otype);
 		gsf_xml_out_start_element (xml, "x:Anchor");
 		gsf_xml_out_end_element (xml);  /* </x:Anchor> */
+		if (checked != -1)
+			gsf_xml_out_simple_int_element (xml, "x:Checked", checked);
 		if (tlink) {
 			char *s = gnm_expr_top_as_string (tlink, &pp0, state->convs);
 			gsf_xml_out_start_element (xml, "x:FmlaLink");
