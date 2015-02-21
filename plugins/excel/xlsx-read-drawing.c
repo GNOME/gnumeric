@@ -3543,6 +3543,11 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			sheet_widget_button_set_link (state->so, state->link_texpr);
 		else if (GNM_IS_SOW_CHECKBOX (state->so))
 			sheet_widget_checkbox_set_link (state->so, state->link_texpr);
+
+		if (state->chart_tx &&
+		    g_object_class_find_property (G_OBJECT_GET_CLASS (state->so), "text") != NULL)
+			g_object_set (state->so, "text", state->chart_tx, NULL);
+
 		state->so = NULL;
 	}
 	if (state->texpr) {
@@ -3553,13 +3558,20 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		gnm_expr_top_unref (state->link_texpr);
 		state->link_texpr = NULL;
 	}
+
+	g_free (state->chart_tx);
+	state->chart_tx = NULL;
 }
 
 static void
 xlsx_vml_fmla_link (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmValue *value = value_new_cellrange_str (state->sheet, xin->content->str);
+	GnmParsePos pp;
+	GnmValue *value;
+
+	parse_pos_init_sheet (&pp, state->sheet);
+	value = value_new_cellrange_parsepos_str (&pp, xin->content->str, 0);
 	if (value)
 		state->link_texpr = gnm_expr_top_new_constant (value);
 }
@@ -3568,7 +3580,11 @@ static void
 xlsx_vml_fmla_range (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmValue *value = value_new_cellrange_str (state->sheet, xin->content->str);
+	GnmParsePos pp;
+	GnmValue *value;
+
+	parse_pos_init_sheet (&pp, state->sheet);
+	value = value_new_cellrange_parsepos_str (&pp, xin->content->str, 0);
 	if (value)
 		state->texpr = gnm_expr_top_new_constant (value);
 }
@@ -3607,6 +3623,17 @@ xlsx_vml_adj (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 }
 
+static void
+xlsx_vml_textbox_div (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	const char *text = xin->content->str;
+	char *newtext = state->chart_tx
+		? g_strconcat (state->chart_tx, text, NULL)
+		: g_strdup (text);
+	g_free (state->chart_tx);
+	state->chart_tx = newtext;
+}
 
 
 static GsfXMLInNode const xlsx_legacy_drawing_dtd[] = {
@@ -3625,7 +3652,7 @@ GSF_XML_IN_NODE_FULL (START, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, FAL
   GSF_XML_IN_NODE (SP, SHADOW, XL_NS_LEG_VML, "shadow", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SP, STROKE, XL_NS_LEG_VML, "stroke", GSF_XML_NO_CONTENT, NULL, NULL), /* already defined */
   GSF_XML_IN_NODE (SP, TEXTBOX, XL_NS_LEG_VML, "textbox", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (TEXTBOX, DIV, -1, "div", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (TEXTBOX, DIV, -1, "div", GSF_XML_CONTENT, NULL, &xlsx_vml_textbox_div),
   GSF_XML_IN_NODE (SP, LOCK, XL_NS_LEG_OFF, "lock", GSF_XML_NO_CONTENT, NULL, NULL), /* already defined */
   GSF_XML_IN_NODE (SP, CLIENT_DATA, XL_NS_LEG_XL, "ClientData", GSF_XML_NO_CONTENT, &xlsx_vml_client_data_start, &xlsx_vml_client_data_end),
     GSF_XML_IN_NODE (CLIENT_DATA, ANCHOR, XL_NS_LEG_XL, "Anchor", GSF_XML_NO_CONTENT, NULL, NULL),
