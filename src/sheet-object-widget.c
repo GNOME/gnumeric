@@ -1455,6 +1455,7 @@ sheet_widget_adjustment_set_horizontal (SheetObject *so,
 {
 	SheetWidgetAdjustment *swa = (SheetWidgetAdjustment *)so;
 	GList *ptr;
+	GtkOrientation o;
 
 	if (!SWA_CLASS (swa)->has_orientation)
 		return;
@@ -1462,14 +1463,13 @@ sheet_widget_adjustment_set_horizontal (SheetObject *so,
 	if (horizontal == swa->horizontal)
 		return;
 	swa->horizontal = horizontal;
+	o = horizontal ? GTK_ORIENTATION_HORIZONTAL : GTK_ORIENTATION_VERTICAL;
 
 	/* Change direction for all realized widgets.  */
 	for (ptr = swa->sow.so.realized_list; ptr != NULL; ptr = ptr->next) {
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
-		GtkWidget *neww = sow_create_widget (GNM_SOW (swa));
-		gtk_widget_show (neww);
-		goc_item_set (GOC_ITEM (item), "widget", neww, NULL);
+		gtk_orientable_set_orientation (GTK_ORIENTABLE (item->widget), o);
 	}
 }
 
@@ -1809,19 +1809,19 @@ sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 
 	gsf_xml_out_add_float (output, "Min",
 			       gtk_adjustment_get_lower (swa->adjustment),
-			       2);
+			       -1);
 	gsf_xml_out_add_float (output, "Max",
 			       gtk_adjustment_get_upper (swa->adjustment),
-			       2); /* allow scrolling to max */
+			       -1); /* allow scrolling to max */
 	gsf_xml_out_add_float (output, "Inc",
 			       gtk_adjustment_get_step_increment (swa->adjustment),
-			       2);
+			       -1);
 	gsf_xml_out_add_float (output, "Page",
 			       gtk_adjustment_get_page_increment (swa->adjustment),
-			       2);
+			       -1);
 	gsf_xml_out_add_float (output, "Value",
 			       gtk_adjustment_get_value (swa->adjustment),
-			       2);
+			       -1);
 
 	if (swa_class->has_orientation)
 		gsf_xml_out_add_bool (output, "Horizontal", swa->horizontal);
@@ -2984,6 +2984,7 @@ sheet_widget_radio_button_toggled (GtkToggleButton *button,
 
 	if (swrb->being_updated)
 		return;
+	swrb->active = gtk_toggle_button_get_active (button);
 
 	if (so_get_ref (SHEET_OBJECT (swrb), &ref, TRUE) != NULL) {
 		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
