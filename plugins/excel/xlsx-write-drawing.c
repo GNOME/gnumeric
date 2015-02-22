@@ -1375,7 +1375,9 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 	}
 
 	name = g_strdup_printf ("vmlDrawing%u.vml", ++state->legacy_drawing.count);
-	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE, NULL);
+	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE,
+						   "content-type", NULL,
+						   NULL);
 	g_free (name);
 
 	rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (drawing_part),
