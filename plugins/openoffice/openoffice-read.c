@@ -8596,13 +8596,13 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "y",	GOG_AXIS_RADIAL },
 		{ NULL,	0 },
 	};
-	GSList	*axes;
+	GSList	*axes, *l;
 
 	OOParseState *state = (OOParseState *)xin->user_state;
 	OOChartStyle *style = NULL;
 	gchar const *style_name = NULL;
 	GogAxisType  axis_type;
-	int tmp;
+	int tmp, gnm_id = 1;
 	OOEnum const *axes_types;
 
 	switch (state->chart.plot_type) {
@@ -8628,12 +8628,34 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 			style_name = CXML2C (attrs[1]);
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "dimension", axes_types, &tmp))
 			axis_type = tmp;
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "id", &gnm_id, 1, INT_MAX))
+			;
 
 	axes = gog_chart_get_axes (state->chart.chart, axis_type);
-	if (NULL != axes) {
-		state->chart.axis = axes->data;
-		g_slist_free (axes);
+	for (l = axes; NULL != l; l = l->next) {
+		if (((unsigned)gnm_id) == gog_object_get_id (GOG_OBJECT (l->data))) {
+			state->chart.axis = l->data;
+			break;
+		}
 	}
+	g_slist_free (axes);
+	if (NULL == state->chart.axis && (axis_type == GOG_AXIS_X || axis_type == GOG_AXIS_Y
+					  || axis_type == GOG_AXIS_Z)) {
+		GogObject *axis = GOG_OBJECT (g_object_new (GOG_TYPE_AXIS, "type", axis_type, NULL));
+		gog_object_add_by_name	 (GOG_OBJECT (state->chart.chart),
+					  axis_type == GOG_AXIS_X ? "X-Axis" :
+					  (axis_type == GOG_AXIS_Y ? "Y-Axis" : "Z-Axis"), axis);
+		axes = gog_chart_get_axes (state->chart.chart, axis_type);
+		for (l = axes; NULL != l; l = l->next) {
+			if (((unsigned)gnm_id) == gog_object_get_id (GOG_OBJECT (l->data))) {
+				state->chart.axis = l->data;
+				break;
+			}
+		}
+		g_slist_free (axes);	
+	}
+	if (NULL == state->chart.axis)
+		g_print ("Did not find axis with type %i and id %i.\n", axis_type, gnm_id);
 
 	if (NULL != style_name &&
 	    NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name))) {
@@ -11879,10 +11901,15 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, &oo_chart_wall, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, &oo_chart_axis, &oo_chart_axis_end),
+		GSF_XML_IN_NODE (CHART_PLOT_AREA, GNM_CHART_AXIS, OO_GNUM_NS_EXT, "axis", GSF_XML_NO_CONTENT, &oo_chart_axis, &oo_chart_axis_end),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_LINE, OO_GNUM_NS_EXT, "axisline", GSF_XML_NO_CONTENT, &oo_chart_axisline, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, &od_chart_axis_categories, NULL),
 	          GSF_XML_IN_NODE_FULL (CHART_AXIS, CHART_AXIS_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 3),
+		  GSF_XML_IN_NODE (GNM_CHART_AXIS, GNM_CHART_AXIS_LINE, OO_GNUM_NS_EXT, "axisline", GSF_XML_NO_CONTENT, &oo_chart_axisline, NULL),
+		  GSF_XML_IN_NODE (GNM_CHART_AXIS, GNM_CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
+		  GSF_XML_IN_NODE (GNM_CHART_AXIS, GNM_CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, &od_chart_axis_categories, NULL),
+	          GSF_XML_IN_NODE_FULL (GNM_CHART_AXIS, GNM_CHART_AXIS_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 3),
 	            GSF_XML_IN_NODE (CHART_AXIS_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
 	        GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_OOO_COORDINATE_REGION, OO_NS_CHART_OOO, "coordinate-region", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
@@ -12152,10 +12179,15 @@ static GsfXMLInNode const opendoc_content_preparse_dtd [] =
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (CHART_PLOT_AREA, GNM_CHART_AXIS, OO_GNUM_NS_EXT, "axis", GSF_XML_NO_CONTENT, NULL, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXISLINE, OO_GNUM_NS_EXT, "axisline", GSF_XML_NO_CONTENT, NULL, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, NULL, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE_FULL (CHART_AXIS, CHART_AXIS_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, NULL, NULL, .v_int = 3),
+		  GSF_XML_IN_NODE (GNM_CHART_AXIS, GNM_CHART_AXISLINE, OO_GNUM_NS_EXT, "axisline", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (GNM_CHART_AXIS, GNM_CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (GNM_CHART_AXIS, GNM_CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE_FULL (GNM_CHART_AXIS, GNM_CHART_AXIS_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, NULL, NULL, .v_int = 3),
 	            GSF_XML_IN_NODE (CHART_AXIS_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
 	        GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_OOO_COORDINATE_REGION, OO_NS_CHART_OOO, "coordinate-region", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &odf_preparse_table_start, &odf_preparse_table_end),

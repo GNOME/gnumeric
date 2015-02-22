@@ -7845,24 +7845,34 @@ odf_write_axis_full (GnmOOExport *state,
 		     GSList const *series,
 		     gboolean include_cats)
 {
-	GogObject const *axis;
+	GSList *children = NULL, *l;
 
 	if (axis_role == NULL)
 		return;
 
-	axis = gog_object_get_child_by_name (chart, axis_role);
-	if (axis != NULL) {
-		gsf_xml_out_start_element (state->xml, CHART "axis");
-		gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
-		gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
-		odf_write_label (state, axis);
-		if (include_cats)
-			odf_write_axis_categories (state, series);
-		odf_write_axis_grid (state, axis);
-		odf_write_axislines (state, axis);
-		gsf_xml_out_end_element (state->xml); /* </chart:axis> */
+	children = gog_object_get_children (chart, gog_object_find_role_by_name (chart, axis_role));
+	
+	for (l = children; l != NULL; l = l->next) {
+		GogObject const *axis = l->data;
+		if (axis != NULL) {
+			int id = gog_object_get_id (GOG_OBJECT (axis));
+			if (state->with_extension || id == 1) {
+				gsf_xml_out_start_element (state->xml, 
+							   (id == 1) ? CHART "axis" : GNMSTYLE "axis");
+				gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
+				if (state->with_extension)
+					gsf_xml_out_add_int (state->xml, GNMSTYLE "id", id);
+				gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
+				odf_write_label (state, axis);
+				if (include_cats)
+					odf_write_axis_categories (state, series);
+				odf_write_axis_grid (state, axis);
+				odf_write_axislines (state, axis);
+				gsf_xml_out_end_element (state->xml); /* </chart:axis> or </gnm:axis>*/
+			}
+		}
 	}
-
+	g_slist_free (children);
 }
 
 static void

@@ -1,3 +1,10 @@
+2015-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_chart_axis): read and use gnm:id
+	(opendoc_content_dtd): attach gnm:axis
+	(opendoc_content_preparse_dtd): ditto
+	* openoffice-write.c (odf_write_axis_full): write all axes
+
 2015-02-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_gradient_info): use positive angles
