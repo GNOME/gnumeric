@@ -7510,10 +7510,10 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		style->plot_props = g_slist_prepend (style->plot_props,
 						     oo_prop_new_int ("overlap-percentage", 100));
 
-	if (draw_stroke_set && !default_style_has_lines_set)
+	if (!default_style_has_lines_set)
 		style->plot_props = g_slist_prepend
 			(style->plot_props,
-			 oo_prop_new_bool ("default-style-has-lines", draw_stroke));
+			 oo_prop_new_bool ("default-style-has-lines", draw_stroke_set && draw_stroke));	
 
 	if (state->chart.cur_graph_style == NULL && state->default_style.cells != NULL) {
 		/* odf_apply_style_props (xin, style->style_props, state->default_style.cells, TRUE);*/
@@ -9255,6 +9255,9 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 							     (state->pos.sheet, texpr)),
 					     NULL);
 	}
+	if (plot_type_set && state->chart.i_plot_styles[OO_CHART_STYLE_SERIES] != NULL)
+		oo_prop_list_apply (state->chart.i_plot_styles[OO_CHART_STYLE_SERIES]->
+				    plot_props, G_OBJECT (plot));
 	oo_chart_style_to_series (xin, state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA],
 				  G_OBJECT (state->chart.series));
 	oo_chart_style_to_series (xin, state->chart.i_plot_styles[OO_CHART_STYLE_SERIES],

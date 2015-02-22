@@ -13,6 +13,7 @@ Andreas:
 	* ODF import/export additional axislines.
 	* Fix ODF import/export of fonts in charts. [#744632]
 	* ODF import/export additional axes. [#743787]
+	* Fix ODF style import of secondary plots. [#744930]
 
 Morten:
 	* Initial xlsx import of sheet widgets.

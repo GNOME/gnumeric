@@ -1,5 +1,11 @@
 2015-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_style_prop_chart): without a stroke style and
+	chart:lines set, assume that there are no lines.
+	(oo_plot_series): set the style for overridden plots from the series style.
+
+2015-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_chart_axis): read and use gnm:id
 	(opendoc_content_dtd): attach gnm:axis
 	(opendoc_content_preparse_dtd): ditto
