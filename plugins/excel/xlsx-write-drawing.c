@@ -1359,8 +1359,8 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 static int
 cb_radio_value_cmp (void const *ptr_a, void const *ptr_b)
 {
-	GnmValue *va = sheet_widget_radio_button_get_value ((SheetObject *)ptr_a);
-	GnmValue *vb = sheet_widget_radio_button_get_value ((SheetObject *)ptr_a);
+	GnmValue const *va = sheet_widget_radio_button_get_value ((SheetObject *)ptr_a);
+	GnmValue const *vb = sheet_widget_radio_button_get_value ((SheetObject *)ptr_b);
 	return value_cmp (&va, &vb);
 }
 
