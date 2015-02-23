@@ -1,5 +1,11 @@
 2015-02-23  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_chart_dtd): Handle gostyle extension
+	here too.
+
+	* xlsx-write-drawing.c (xlsx_write_chart): Add gnmx namespace as
+	needed.
+
 	* xlsx-read-drawing.c (xlsx_vml_adj): Read scroll bar value too.
 
 2015-02-20  Morten Welinder  <terra@gnome.org>

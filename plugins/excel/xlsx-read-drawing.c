@@ -2186,6 +2186,84 @@ xlsx_chart_layout_mode (GsfXMLIn *xin, xmlChar const **attrs)
 		state->chart_pos_mode[xin->node->user_data.v_int] = choice;
 }
 
+static void
+xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GOStyle *style = state->cur_style;
+	GOArrow *start_arrow = NULL;
+	GOArrow *end_arrow = NULL;
+	gboolean has_arrow = IS_GNM_SO_LINE (state->so);
+	int rev_gradient = 0;
+
+	if (!style)
+		return;
+
+	if (has_arrow)
+		g_object_get (state->so, "start_arrow", &start_arrow, "end_arrow", &end_arrow, NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		gnm_float f;
+
+		if (strcmp (attrs[0], "pattern") == 0) {
+			GOPatternType p = go_pattern_from_str (attrs[1]);
+			if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID &&
+			    p == GO_PATTERN_SOLID) {
+				/* We read the wrong color */
+				style->fill.pattern.back = style->fill.pattern.fore;
+				style->fill.auto_back = style->fill.auto_fore;
+				style->fill.auto_fore = TRUE;
+				style->fill.pattern.fore = GO_COLOR_BLACK;
+			}
+			style->fill.pattern.pattern = p;
+		} else if (start_arrow && strcmp (attrs[0], "StartArrowType") == 0) {
+			start_arrow->typ = go_arrow_type_from_str (attrs[1]);
+		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeA", &f)) {
+			start_arrow->a = f;
+		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeB", &f)) {
+			start_arrow->b = f;
+		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeC", &f)) {
+			start_arrow->c = f;
+		} else if (start_arrow && strcmp (attrs[0], "EndArrowType") == 0) {
+			end_arrow->typ = go_arrow_type_from_str (attrs[1]);
+		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeA", &f)) {
+			end_arrow->a = f;
+		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeB", &f)) {
+			end_arrow->b = f;
+		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeC", &f)) {
+			end_arrow->c = f;
+		} else if (attr_bool (xin, attrs, "reverse-gradient", &rev_gradient)) {
+			/* Nothing */
+		}
+	}
+
+	if (has_arrow) {
+		g_object_set (state->so, "start_arrow", start_arrow, "end_arrow", end_arrow, NULL);
+		g_free (start_arrow);
+		g_free (end_arrow);
+	}
+
+	if (rev_gradient) {
+		GOGradientDirection dir0 = style->fill.gradient.dir;
+		GOGradientDirection dir;
+		for (dir = 0; dir < GO_GRADIENT_MAX; dir++) {
+			if (xlsx_gradient_info[dir0].angle == xlsx_gradient_info[dir].angle &&
+			    xlsx_gradient_info[dir0].mirrored == xlsx_gradient_info[dir].mirrored &&
+			    xlsx_gradient_info[dir0].reversed == !xlsx_gradient_info[dir].reversed) {
+				GOColor c = style->fill.pattern.back;
+				gboolean a = style->fill.auto_back;
+				style->fill.gradient.dir = dir;
+				style->fill.pattern.back = style->fill.pattern.fore;
+				style->fill.pattern.fore = c;
+				style->fill.auto_back = style->fill.auto_fore;
+				style->fill.auto_fore = a;
+				break;
+			}
+		}
+	}
+}
+
+
 static GsfXMLInNode const xlsx_chart_dtd[] =
 {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -2249,6 +2327,9 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
             GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_ULNTX, XL_NS_DRAW, "uLnTx", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TEXT_PR_P, PR_P_PR_END,XL_NS_DRAW, "endParaRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, EXTLST, XL_NS_DRAW, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (EXTLST, EXTITEM, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, NULL),
+        GSF_XML_IN_NODE (EXTITEM, EXT_GOSTYLE, XL_NS_GNM_EXT, "gostyle", GSF_XML_NO_CONTENT, &xlsx_ext_gostyle, NULL),
 
   GSF_XML_IN_NODE (CHART_SPACE, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 
@@ -2978,83 +3059,6 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 				NULL, data, size, FALSE);
 	}
 
-}
-
-static void
-xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GOStyle *style = state->cur_style;
-	GOArrow *start_arrow = NULL;
-	GOArrow *end_arrow = NULL;
-	gboolean has_arrow = IS_GNM_SO_LINE (state->so);
-	int rev_gradient = 0;
-
-	if (!style)
-		return;
-
-	if (has_arrow)
-		g_object_get (state->so, "start_arrow", &start_arrow, "end_arrow", &end_arrow, NULL);
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		gnm_float f;
-
-		if (strcmp (attrs[0], "pattern") == 0) {
-			GOPatternType p = go_pattern_from_str (attrs[1]);
-			if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID &&
-			    p == GO_PATTERN_SOLID) {
-				/* We read the wrong color */
-				style->fill.pattern.back = style->fill.pattern.fore;
-				style->fill.auto_back = style->fill.auto_fore;
-				style->fill.auto_fore = TRUE;
-				style->fill.pattern.fore = GO_COLOR_BLACK;
-			}
-			style->fill.pattern.pattern = p;
-		} else if (start_arrow && strcmp (attrs[0], "StartArrowType") == 0) {
-			start_arrow->typ = go_arrow_type_from_str (attrs[1]);
-		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeA", &f)) {
-			start_arrow->a = f;
-		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeB", &f)) {
-			start_arrow->b = f;
-		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeC", &f)) {
-			start_arrow->c = f;
-		} else if (start_arrow && strcmp (attrs[0], "EndArrowType") == 0) {
-			end_arrow->typ = go_arrow_type_from_str (attrs[1]);
-		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeA", &f)) {
-			end_arrow->a = f;
-		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeB", &f)) {
-			end_arrow->b = f;
-		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeC", &f)) {
-			end_arrow->c = f;
-		} else if (attr_bool (xin, attrs, "reverse-gradient", &rev_gradient)) {
-			/* Nothing */
-		}
-	}
-
-	if (has_arrow) {
-		g_object_set (state->so, "start_arrow", start_arrow, "end_arrow", end_arrow, NULL);
-		g_free (start_arrow);
-		g_free (end_arrow);
-	}
-
-	if (rev_gradient) {
-		GOGradientDirection dir0 = style->fill.gradient.dir;
-		GOGradientDirection dir;
-		for (dir = 0; dir < GO_GRADIENT_MAX; dir++) {
-			if (xlsx_gradient_info[dir0].angle == xlsx_gradient_info[dir].angle &&
-			    xlsx_gradient_info[dir0].mirrored == xlsx_gradient_info[dir].mirrored &&
-			    xlsx_gradient_info[dir0].reversed == !xlsx_gradient_info[dir].reversed) {
-				GOColor c = style->fill.pattern.back;
-				gboolean a = style->fill.auto_back;
-				style->fill.gradient.dir = dir;
-				style->fill.pattern.back = style->fill.pattern.fore;
-				style->fill.pattern.fore = c;
-				style->fill.auto_back = style->fill.auto_fore;
-				style->fill.auto_fore = a;
-				break;
-			}
-		}
-	}
 }
 
 static GsfXMLInNode const xlsx_drawing_dtd[] = {

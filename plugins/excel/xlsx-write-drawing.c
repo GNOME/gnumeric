@@ -1127,6 +1127,8 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
+	if (state->with_extension)
+		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:gnmx", ns_gnm_ext);
 	xlsx_write_chart_uint (xml, "c:roundedCorners", 1, 0);
 
 	graph = sheet_object_graph_get_gog (so);
