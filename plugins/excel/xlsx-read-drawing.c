@@ -3571,8 +3571,12 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			 GNM_IS_SOW_SPINBUTTON (state->so) ||
 			 GNM_IS_SOW_SLIDER (state->so))
 			sheet_widget_adjustment_set_link (state->so, state->link_texpr);
-		else if (GNM_IS_SOW_RADIO_BUTTON (state->so))
+		else if (GNM_IS_SOW_RADIO_BUTTON (state->so)) {
+			GnmValue *v = value_new_int (state->radio_value++);
 			sheet_widget_radio_button_set_link (state->so, state->link_texpr);
+			sheet_widget_radio_button_set_value (state->so, v);
+			value_release (v);
+		}
 		else if (GNM_IS_SOW_BUTTON (state->so))
 			sheet_widget_button_set_link (state->so, state->link_texpr);
 		else if (GNM_IS_SOW_CHECKBOX (state->so))
@@ -3595,6 +3599,13 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	g_free (state->chart_tx);
 	state->chart_tx = NULL;
+}
+
+static void
+xlsx_vml_firstbutton (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->radio_value = 1;
 }
 
 static void
@@ -3713,6 +3724,7 @@ GSF_XML_IN_NODE_FULL (START, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, FAL
     GSF_XML_IN_NODE (CLIENT_DATA, DROP_LINES, XL_NS_LEG_XL, "DropLines", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, DROP_STYLE, XL_NS_LEG_XL, "DropStyle", GSF_XML_CONTENT, NULL, &xlsx_vml_drop_style),
     GSF_XML_IN_NODE (CLIENT_DATA, DX, XL_NS_LEG_XL, "Dx", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, FIRSTBUTTON, XL_NS_LEG_XL, "FirstButton", GSF_XML_CONTENT, NULL, &xlsx_vml_firstbutton),
     GSF_XML_IN_NODE (CLIENT_DATA, FMLA_LINK, XL_NS_LEG_XL, "FmlaLink", GSF_XML_CONTENT, NULL, &xlsx_vml_fmla_link),
     GSF_XML_IN_NODE (CLIENT_DATA, FMLA_RANGE, XL_NS_LEG_XL, "FmlaRange", GSF_XML_CONTENT, NULL, &xlsx_vml_fmla_range),
     GSF_XML_IN_NODE (CLIENT_DATA, HORIZ, XL_NS_LEG_XL, "Horiz", GSF_XML_CONTENT, NULL, &xlsx_vml_horiz),
@@ -3745,6 +3757,9 @@ xlsx_sheet_legacy_drawing (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
-	if (NULL != part_id)
+	if (NULL != part_id) {
+		XLSXReadState *state = (XLSXReadState *)xin->user_state;
+		state->radio_value = 1;
 		xlsx_parse_rel_by_id (xin, part_id, xlsx_legacy_drawing_dtd, xlsx_ns);
+	}
 }

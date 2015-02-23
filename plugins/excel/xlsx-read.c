@@ -223,6 +223,7 @@ typedef struct {
 	gnm_float	  chart_pos[4];  /* x, w, y, h */
 	gboolean	  chart_pos_mode[4]; /* false: "factor", true: "edge" */
 	gboolean	  chart_pos_target; /* true if "inner" */
+	int               radio_value;
 
 	struct {
 		GogAxis *obj;
