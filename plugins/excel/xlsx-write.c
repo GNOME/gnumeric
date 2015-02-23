@@ -2702,6 +2702,8 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	char const *legacy_drawing_rel_id = NULL;
 	GnmStyle **col_styles;
 	PrintInformation *pi = NULL;
+	GHashTable *zorder;
+	int z;
 
 	state->sheet = workbook_sheet_by_index (state->base.wb, i);
 	col_styles = sheet_style_most_common (state->sheet, TRUE);
@@ -2712,8 +2714,12 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 
 	objects = sheet_objects_get (state->sheet, NULL, G_TYPE_NONE);
 	drawing_objs = legacy_drawing_objs = comments = others = NULL;
-	for (p = objects; p; p = p->next) {
+	zorder = g_hash_table_new (g_direct_hash, g_direct_equal);
+	for (p = objects, z = 1; p; p = p->next, z++) {
 		SheetObject *so = p->data;
+
+		g_hash_table_insert (zorder, so, GINT_TO_POINTER (z));
+
 		if (IS_CELL_COMMENT (so))
 			comments = g_slist_prepend (comments, so);
 		else if (IS_SHEET_OBJECT_GRAPH (so) ||
@@ -2741,13 +2747,13 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 
 	if (drawing_objs) {
 		drawing_objs = g_slist_reverse (drawing_objs);
-		chart_drawing_rel_id = xlsx_write_drawing_objects (state, sheet_part, drawing_objs);
+		chart_drawing_rel_id = xlsx_write_drawing_objects (state, sheet_part, drawing_objs, zorder);
 		g_slist_free (drawing_objs);
 	}
 
 	if (legacy_drawing_objs) {
 		legacy_drawing_objs = g_slist_reverse (legacy_drawing_objs);
-		legacy_drawing_rel_id = xlsx_write_legacy_drawing_objects (state, sheet_part, legacy_drawing_objs);
+		legacy_drawing_rel_id = xlsx_write_legacy_drawing_objects (state, sheet_part, legacy_drawing_objs, zorder);
 		g_slist_free (legacy_drawing_objs);
 	}
 
@@ -2762,6 +2768,8 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		g_free (name);
 	}
 	g_slist_free (others);
+
+	g_hash_table_destroy (zorder);
 
 	xml = gsf_xml_out_new (sheet_part);
 /* CT_Worksheet =                                          */

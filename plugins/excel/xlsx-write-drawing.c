@@ -1168,7 +1168,8 @@ xlsx_write_object_anchor (GsfXMLOut *xml, GnmCellPos const *pos, char const *ele
 }
 
 static char const *
-xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objects)
+xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
+			    GSList *objects, GHashTable *zorder)
 {
 	GSList *obj, *rId_ptr, *rIds = NULL;
 	char *name;
@@ -1355,18 +1356,208 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList
 	return rId;
 }
 
+static int
+cb_radio_value_cmp (void const *ptr_a, void const *ptr_b)
+{
+	SheetObject *a = (gpointer)ptr_a;
+	SheetObject *b = (gpointer)ptr_b;
+	GnmValue *va, *vb;
+	g_object_get (a, "value", &va, NULL);
+	g_object_get (b, "value", &vb, NULL);
+	return value_cmp (&va, &vb);
+}
+
+static GHashTable *
+xlsx_preprocess_radio (XLSXWriteState *state, GSList *objects)
+{
+	GHashTable *radio_by_link = g_hash_table_new_full
+		((GHashFunc)gnm_expr_top_hash, (GEqualFunc)gnm_expr_top_equal,
+		 (GDestroyNotify)gnm_expr_top_unref, (GDestroyNotify)g_slist_free);
+	GHashTableIter hiter;
+	gpointer hkey, hval;
+	GSList *obj;
+	GnmParsePos pp0;
+
+	parse_pos_init_sheet (&pp0, state->sheet);
+
+	/* Collect objects on a per-link basis. */
+	for (obj = objects ; obj != NULL ; obj = obj->next) {
+		SheetObject *so = obj->data;
+		GSList *sos;
+		GnmExprTop const *tlink;
+
+		if (!GNM_IS_SOW_RADIO_BUTTON (so))
+			continue;
+
+		tlink = sheet_widget_radio_button_get_link (so);
+		if (!tlink)
+			continue;
+
+		sos = g_hash_table_lookup (radio_by_link, tlink);
+		if (sos) {
+			gnm_expr_top_unref (tlink);
+			sos->next = g_slist_prepend (sos->next, so);
+		} else {
+			sos = g_slist_prepend (sos, so);
+			g_hash_table_insert (radio_by_link, (gpointer)tlink, sos);
+		}
+	}
+	/* Sort by value. */
+	g_hash_table_iter_init (&hiter, radio_by_link);
+	while (g_hash_table_iter_next (&hiter, &hkey, &hval)) {
+		GSList *sos = g_slist_copy (hval);
+		int i;
+
+		sos = g_slist_sort (sos, cb_radio_value_cmp);
+		g_hash_table_iter_replace (&hiter, sos);
+
+		for (i = 1; sos; sos = sos->next, i++) {
+			SheetObject *so = sos->data;
+			GnmValue const *v;
+			g_object_get (so, "value", &v, NULL);
+			if (!v || !VALUE_IS_FLOAT (v) || value_get_as_float (v) != i) {
+				char *etxt = gnm_expr_top_as_string (hkey, &pp0, state->sheet->convs);
+				g_printerr ("One or more radio buttons linked to %s has non-sequential values, first one %s\n",
+					    etxt, value_peek_string (v));
+				g_free (etxt);
+				break;
+			}
+		}
+	}
+
+	return radio_by_link;
+}
+
+
+static void
+xlsx_write_legacy_object (XLSXWriteState *state, GsfXMLOut *xml, SheetObject *so, GHashTable *zorder, GHashTable *radio_by_link)
+{
+	const char *otype = NULL;
+	GnmExprTop const *tlink = NULL;
+	double res_pts[4] = {0.,0.,0.,0.};
+	GtkAdjustment *adj = NULL;
+	int horiz = -1;
+	int checked = -1;
+	gboolean has_text_prop =
+		g_object_class_find_property (G_OBJECT_GET_CLASS (so), "text") != NULL;
+	char *text = NULL;
+	GnmParsePos pp0;
+	const char *shapetype = "#_x0000_t201";
+	gboolean firstbutton = FALSE;
+
+	parse_pos_init_sheet (&pp0, state->sheet);
+
+	sheet_object_position_pts_get (so, res_pts);
+
+	gsf_xml_out_start_element (xml, "v:shape");
+	gsf_xml_out_add_cstr (xml, "type", shapetype);
+	{
+		int z = GPOINTER_TO_INT (g_hash_table_lookup (zorder, so));
+		GString *str = g_string_new (NULL);
+		g_string_append (str, "position:absolute;");
+		g_string_append_printf (str, "margin-left:%.2fpt;", res_pts[0]);
+		g_string_append_printf (str, "margin-top:%.2fpt;", res_pts[1]);
+		g_string_append_printf (str, "width:%.2fpt;", res_pts[2] - res_pts[0]);
+		g_string_append_printf (str, "height:%.2fpt;", res_pts[3] - res_pts[1]);
+		g_string_append_printf (str, "z-index:%d;", z);
+		gsf_xml_out_add_cstr (xml, "style", str->str);
+		g_string_free (str, TRUE);
+	}
+
+	if (has_text_prop)
+		g_object_get (so, "text", &text, NULL);
+	if (text) {
+		gsf_xml_out_start_element (xml, "v:textbox");
+		gsf_xml_out_start_element (xml, "div");
+		gsf_xml_out_add_cstr (xml, NULL, text);
+		gsf_xml_out_end_element (xml);  /* </div> */
+		gsf_xml_out_end_element (xml);  /* </v:textbox> */
+		g_free (text);
+	}
+
+	gsf_xml_out_start_element (xml, "x:ClientData");
+	if (GNM_IS_SOW_SCROLLBAR (so) || GNM_IS_SOW_SLIDER (so)) {
+		otype = "Scroll";
+		tlink = sheet_widget_adjustment_get_link (so);
+		adj = sheet_widget_adjustment_get_adjustment (so);
+		horiz = sheet_widget_adjustment_get_horizontal (so);
+	} else if (GNM_IS_SOW_SPINBUTTON (so)) {
+		otype = "Spin";
+		tlink = sheet_widget_adjustment_get_link (so);
+		adj = sheet_widget_adjustment_get_adjustment (so);
+	} else if (GNM_IS_SOW_BUTTON (so)) {
+		otype = "Button";
+		tlink = sheet_widget_button_get_link (so);
+	} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
+		gboolean c;
+		GSList *sos;
+		otype = "Radio";
+		tlink = sheet_widget_radio_button_get_link (so);
+		sos = tlink ? g_hash_table_lookup (radio_by_link, tlink) : NULL;
+		firstbutton = (!sos || so == sos->data);
+		g_object_get (so, "active", &c, NULL);
+		checked = c;
+	} else if (GNM_IS_SOW_CHECKBOX (so)) {
+		gboolean c;
+		otype = "Checkbox";
+		tlink = sheet_widget_checkbox_get_link (so);
+		g_object_get (so, "active", &c, NULL);
+		checked = c;
+	} else {
+		g_assert_not_reached ();
+	}
+	gsf_xml_out_add_cstr_unchecked (xml, "ObjectType", otype);
+	gsf_xml_out_start_element (xml, "x:Anchor");
+	gsf_xml_out_end_element (xml);  /* </x:Anchor> */
+	if (checked != -1)
+		gsf_xml_out_simple_int_element (xml, "x:Checked", checked);
+	if (tlink) {
+		char *s = gnm_expr_top_as_string (tlink, &pp0, state->convs);
+		gsf_xml_out_start_element (xml, "x:FmlaLink");
+		gsf_xml_out_add_cstr (xml, NULL, s);
+		gsf_xml_out_end_element (xml);  /* </x:FmlaLink> */
+		g_free (s);
+		gnm_expr_top_unref (tlink);
+	}
+	if (firstbutton)
+		gsf_xml_out_simple_element (xml, "x:FirstButton", NULL);
+	if (adj) {
+		gsf_xml_out_simple_float_element (xml, "x:Val",
+						  gtk_adjustment_get_value (adj), -1);
+		gsf_xml_out_simple_float_element (xml, "x:Min",
+						  gtk_adjustment_get_lower (adj), -1);
+		gsf_xml_out_simple_float_element (xml, "x:Max",
+						  gtk_adjustment_get_upper (adj), -1);
+		gsf_xml_out_simple_float_element (xml, "x:Inc",
+						  gtk_adjustment_get_step_increment (adj), -1);
+		gsf_xml_out_simple_float_element (xml, "x:Page",
+						  gtk_adjustment_get_page_increment (adj), -1);
+	}
+	if (horiz >= 0)
+		gsf_xml_out_simple_element (xml, "x:Horiz", horiz ? "t" : "f");
+
+	gsf_xml_out_end_element (xml);  /* </x:ClientData> */
+
+	gsf_xml_out_end_element (xml);  /* </v:shape> */
+}
+
 static char const *
-xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objects)
+xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
+				   GSList *objects, GHashTable *zorder)
 {
 	GSList *obj;
 	char *name;
 	char const *rId;
 	GsfOutput *drawing_part;
 	GsfXMLOut *xml;
-	GnmParsePos pp0;
 	const char *shapetype = "#_x0000_t201";
+	GHashTable *radio_by_link;
 
-	parse_pos_init_sheet (&pp0, state->sheet);
+	/*
+	 * Radio buttons need extra work.  Excel doesn't have our concept of
+	 * a value field, so the buttons need to be written in value order.
+	 */
+	radio_by_link = xlsx_preprocess_radio (state, objects);
 
 	/* Note: we use drawing.dir here.  */
 	if (NULL == state->drawing.dir) {
@@ -1396,107 +1587,32 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 
 	for (obj = objects ; obj != NULL ; obj = obj->next) {
 		SheetObject *so = obj->data;
-		const char *otype = NULL;
-		GnmExprTop const *tlink = NULL;
-		double res_pts[4] = {0.,0.,0.,0.};
-		GtkAdjustment *adj = NULL;
-		int horiz = -1;
-		int checked = -1;
-		gboolean has_text_prop =
-			g_object_class_find_property (G_OBJECT_GET_CLASS (so), "text") != NULL;
-		char *text = NULL;
 
-		sheet_object_position_pts_get (so, res_pts);
+		if (GNM_IS_SOW_RADIO_BUTTON (so)) {
+			GnmExprTop const *tlink = sheet_widget_radio_button_get_link (so);
+			if (tlink) {
+				GSList *sos = g_hash_table_lookup (radio_by_link, tlink);
+				gnm_expr_top_unref (tlink);
+				if (so == sos->data) {
+					for (; sos; sos = sos->next) {
+						so = sos->data;
+						xlsx_write_legacy_object (state, xml, so, zorder, radio_by_link);
+					}
 
-		gsf_xml_out_start_element (xml, "v:shape");
-		gsf_xml_out_add_cstr (xml, "type", shapetype);
-		{
-			GString *str = g_string_new (NULL);
-			g_string_append (str, "position:absolute;");
-			g_string_append_printf (str, "margin-left:%.2fpt;", res_pts[0]);
-			g_string_append_printf (str, "margin-top:%.2fpt;", res_pts[1]);
-			g_string_append_printf (str, "width:%.2fpt;", res_pts[2] - res_pts[0]);
-			g_string_append_printf (str, "height:%.2fpt;", res_pts[3] - res_pts[1]);
-			gsf_xml_out_add_cstr (xml, "style", str->str);
-			g_string_free (str, TRUE);
+				}
+				continue;
+			}
 		}
 
-		if (has_text_prop)
-			g_object_get (so, "text", &text, NULL);
-		if (text) {
-			gsf_xml_out_start_element (xml, "v:textbox");
-			gsf_xml_out_start_element (xml, "div");
-			gsf_xml_out_add_cstr (xml, NULL, text);
-			gsf_xml_out_end_element (xml);  /* </div> */
-			gsf_xml_out_end_element (xml);  /* </v:textbox> */
-			g_free (text);
-		}
-
-		gsf_xml_out_start_element (xml, "x:ClientData");
-		if (GNM_IS_SOW_SCROLLBAR (so) || GNM_IS_SOW_SLIDER (so)) {
-			otype = "Scroll";
-			tlink = sheet_widget_adjustment_get_link (so);
-			adj = sheet_widget_adjustment_get_adjustment (so);
-			horiz = sheet_widget_adjustment_get_horizontal (so);
-		} else if (GNM_IS_SOW_SPINBUTTON (so)) {
-			otype = "Spin";
-			tlink = sheet_widget_adjustment_get_link (so);
-			adj = sheet_widget_adjustment_get_adjustment (so);
-		} else if (GNM_IS_SOW_BUTTON (so)) {
-			otype = "Button";
-			tlink = sheet_widget_button_get_link (so);
-		} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
-			gboolean c;
-			otype = "Radio";
-			tlink = sheet_widget_radio_button_get_link (so);
-			g_object_get (so, "active", &c, NULL);
-			checked = c;
-		} else if (GNM_IS_SOW_CHECKBOX (so)) {
-			gboolean c;
-			otype = "Checkbox";
-			tlink = sheet_widget_checkbox_get_link (so);
-			g_object_get (so, "active", &c, NULL);
-			checked = c;
-		} else {
-			g_assert_not_reached ();
-		}
-		gsf_xml_out_add_cstr_unchecked (xml, "ObjectType", otype);
-		gsf_xml_out_start_element (xml, "x:Anchor");
-		gsf_xml_out_end_element (xml);  /* </x:Anchor> */
-		if (checked != -1)
-			gsf_xml_out_simple_int_element (xml, "x:Checked", checked);
-		if (tlink) {
-			char *s = gnm_expr_top_as_string (tlink, &pp0, state->convs);
-			gsf_xml_out_start_element (xml, "x:FmlaLink");
-			gsf_xml_out_add_cstr (xml, NULL, s);
-			gsf_xml_out_end_element (xml);  /* </x:FmlaLink> */
-			g_free (s);
-			gnm_expr_top_unref (tlink);
-		}
-		if (adj) {
-			gsf_xml_out_simple_float_element (xml, "x:Val",
-							  gtk_adjustment_get_value (adj), -1);
-			gsf_xml_out_simple_float_element (xml, "x:Min",
-							  gtk_adjustment_get_lower (adj), -1);
-			gsf_xml_out_simple_float_element (xml, "x:Max",
-							  gtk_adjustment_get_upper (adj), -1);
-			gsf_xml_out_simple_float_element (xml, "x:Inc",
-							  gtk_adjustment_get_step_increment (adj), -1);
-			gsf_xml_out_simple_float_element (xml, "x:Page",
-							  gtk_adjustment_get_page_increment (adj), -1);
-		}
-		if (horiz >= 0)
-			gsf_xml_out_simple_element (xml, "x:Horiz", horiz ? "t" : "f");
-
-		gsf_xml_out_end_element (xml);  /* </x:ClientData> */
-
-		gsf_xml_out_end_element (xml);  /* </v:shape> */
+		xlsx_write_legacy_object (state, xml, so, zorder, radio_by_link);
 	}
 
 	gsf_xml_out_end_element (xml);  /* </xml> */
 	g_object_unref (xml);
 	gsf_output_close (drawing_part);
 	g_object_unref (drawing_part);
+
+	g_hash_table_destroy (radio_by_link);
 
 	return rId;
 }
