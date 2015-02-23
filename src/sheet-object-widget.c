@@ -2875,6 +2875,17 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 	}
 }
 
+GnmValue const *
+sheet_widget_radio_button_get_value (SheetObject *so)
+{
+	SheetWidgetRadioButton *swrb;
+
+	g_return_val_if_fail (GNM_IS_SOW_RADIO_BUTTON (so), NULL);
+
+	swrb = GNM_SOW_RADIO_BUTTON (so);
+	return swrb->value;
+}
+
 void
 sheet_widget_radio_button_set_value (SheetObject *so, GnmValue const *val)
 {

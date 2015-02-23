@@ -1359,11 +1359,8 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 static int
 cb_radio_value_cmp (void const *ptr_a, void const *ptr_b)
 {
-	SheetObject *a = (gpointer)ptr_a;
-	SheetObject *b = (gpointer)ptr_b;
-	GnmValue *va, *vb;
-	g_object_get (a, "value", &va, NULL);
-	g_object_get (b, "value", &vb, NULL);
+	GnmValue *va = sheet_widget_radio_button_get_value ((SheetObject *)ptr_a);
+	GnmValue *vb = sheet_widget_radio_button_get_value ((SheetObject *)ptr_a);
 	return value_cmp (&va, &vb);
 }
 
@@ -1413,8 +1410,7 @@ xlsx_preprocess_radio (XLSXWriteState *state, GSList *objects)
 
 		for (i = 1; sos; sos = sos->next, i++) {
 			SheetObject *so = sos->data;
-			GnmValue const *v;
-			g_object_get (so, "value", &v, NULL);
+			GnmValue const *v = sheet_widget_radio_button_get_value (so);
 			if (!v || !VALUE_IS_FLOAT (v) || value_get_as_float (v) != i) {
 				char *etxt = gnm_expr_top_as_string (hkey, &pp0, state->sheet->convs);
 				g_printerr ("One or more radio buttons linked to %s has non-sequential values, first one %s\n",

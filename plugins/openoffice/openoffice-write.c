@@ -4137,10 +4137,10 @@ static void
 odf_write_sheet_control_radio_button (GnmOOExport *state, SheetObject *so)
 {
 	GnmExprTop const *texpr = sheet_widget_radio_button_get_link (so);
+	GnmValue const *val = sheet_widget_radio_button_get_value (so);
 	char *label = NULL;
-	GnmValue *val = NULL;
 
-	g_object_get (G_OBJECT (so), "text", &label, "value", &val, NULL);
+	g_object_get (G_OBJECT (so), "text", &label, NULL);
 
 	odf_sheet_control_start_element (state, so, FORM "radio");
 

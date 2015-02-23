@@ -1,3 +1,8 @@
+2015-02-23  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_radio_button_get_value):
+	New function.
+
 2015-02-21  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_so_set_adjustment_adj): horizontal is a
