@@ -3293,7 +3293,7 @@ xlsx_vml_group (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	char **elts, **cur, *key, *value, *end;
-	double coords[4], local_coords[4], *cur_offs, dim;
+	double coords[4], local_coords[4], *cur_offs;
 	int i;
 	for (i = 0; i < 4; i++)
 		coords[i] = local_coords[i] = 0.;
@@ -3313,22 +3313,22 @@ xlsx_vml_group (GsfXMLIn *xin, xmlChar const **attrs)
 				/* for now we get only left, top, width and height, assuming they are in pixels */
 				/* FIXME: scaling just like in xlsx_CT_Col */
 				if (!strcmp (key, "margin-left") || !strcmp (key, "left")) {
-					dim = g_ascii_strtod (value, &end);
+					double dim = g_ascii_strtod (value, &end);
 					if (!strcmp (end, "pt"))
 						dim *= 4./3.;
 					coords[0] = (double) dim * XLSX_SHEET_HSCALE;
 				} else if (!strcmp (key, "margin-top") || !strcmp (key, "top")) {
-					dim = g_ascii_strtod (value, &end);
+					double dim = g_ascii_strtod (value, &end);
 					if (!strcmp (end, "pt"))
 						dim *= 4./3.;
 					coords[1] = dim;
 				} else if (!strcmp (key, "width")) {
-					dim = g_ascii_strtod (value, &end);
+					double dim = g_ascii_strtod (value, &end);
 					if (!strcmp (end, "pt"))
 						dim *= 4./3.;
 					coords[2] = (double) dim * XLSX_SHEET_HSCALE;
 				} else if (!strcmp (key, "height")) {
-					dim = g_ascii_strtod (value, &end);
+					double dim = g_ascii_strtod (value, &end);
 					if (!strcmp (end, "pt"))
 						dim *= 4./3.;
 					coords[3] = dim;
@@ -3377,6 +3377,7 @@ static void
 xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int z = -1;
 
 	xlsx_reset_chart_pos (state);
 
@@ -3409,6 +3410,8 @@ xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 				} else if (!strcmp (key, "height")) {
 					dim = g_ascii_strtod (value, &end);
 					state->chart_pos[3] = dim;
+				} else if (!strcmp (key, "z-index")) {
+					z = strtol (value, &end, 10);
 				}
 			}
 			g_strfreev (elts);
@@ -3422,6 +3425,8 @@ xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 			state->chart_pos[3] += state->chart_pos[1];
 		}
 	}
+
+	state->zindex = z;
 }
 
 static void
@@ -3504,6 +3509,8 @@ xlsx_vml_client_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->so = SHEET_OBJECT (g_object_new (typ, NULL));
 		state->so_direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 		state->pending_objects = g_slist_prepend (state->pending_objects, state->so);
+		if (state->zindex >= 1)
+			g_hash_table_insert (state->zorder, state->so, GINT_TO_POINTER (state->zindex));
 	}
 }
 

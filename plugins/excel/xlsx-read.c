@@ -224,6 +224,7 @@ typedef struct {
 	gboolean	  chart_pos_mode[4]; /* false: "factor", true: "edge" */
 	gboolean	  chart_pos_target; /* true if "inner" */
 	int               radio_value;
+	int               zindex;
 
 	struct {
 		GogAxis *obj;
@@ -238,6 +239,7 @@ typedef struct {
 	GList *delayed_names;
 
 	GSList *pending_objects;
+	GHashTable *zorder;
 
 	/* external refs */
        	Workbook *external_ref;
@@ -3891,6 +3893,16 @@ GSF_XML_IN_NODE_END
 
 /**************************************************************************************************/
 
+static gint
+cb_by_zorder (gconstpointer a, gconstpointer b, gpointer data)
+{
+	GHashTable *zorder = data;
+	int za = GPOINTER_TO_UINT (g_hash_table_lookup (zorder, a));
+	int zb = GPOINTER_TO_UINT (g_hash_table_lookup (zorder, b));
+	return zb - za; /* descending */
+}
+
+
 static void
 xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -3907,6 +3919,8 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	 * all of them and parse names */
 	for (i = 0 ; i < n ; i++, state->sheet = NULL) {
 		char *message;
+		int j, zoffset;
+		GSList *l;
 
 		if (NULL == (state->sheet = workbook_sheet_by_index (state->wb, i)))
 			continue;
@@ -3949,6 +3963,20 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			xlsx_parse_stream (state, cin, xlsx_comments_dtd);
 			end_update_progress (state);
 		}
+
+		zoffset = (g_slist_length (state->pending_objects) -
+			   g_hash_table_size (state->zorder));
+		for (j = zoffset, l = state->pending_objects; l; l = l->next) {
+			SheetObject *so = l->data;
+			int z = GPOINTER_TO_UINT (g_hash_table_lookup (state->zorder, so));
+			if (z >= 1)
+				z += zoffset;
+			else
+				z = j--;
+			g_hash_table_insert (state->zorder, so, GINT_TO_POINTER (z));
+		}
+		state->pending_objects = g_slist_sort_with_data
+			(state->pending_objects, cb_by_zorder, state->zorder);
 
 		while (state->pending_objects) {
 			SheetObject *obj = state->pending_objects->data;
@@ -5025,6 +5053,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	g_hash_table_replace (state.theme_colors_by_name, g_strdup ("bg1"), GUINT_TO_POINTER (GO_COLOR_WHITE));
 	state.pivot.cache_by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) g_object_unref);
+	state.zorder = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	locale = gnm_push_C_locale ();
 
@@ -5103,6 +5132,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	xlsx_style_array_free (state.dxfs);
 	xlsx_style_array_free (state.table_styles);
 	g_hash_table_destroy (state.theme_colors_by_name);
+	g_hash_table_destroy (state.zorder);
 	value_release (state.val);
 	if (state.texpr) gnm_expr_top_unref (state.texpr);
 	if (state.comment) g_object_unref (state.comment);
