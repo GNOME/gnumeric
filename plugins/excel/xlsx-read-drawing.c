@@ -3440,6 +3440,7 @@ xlsx_vml_client_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GType typ = G_TYPE_NONE;
+	const char *tname = NULL;
 
 	static EnumVal const types[] = {
 		{ "Scroll", 0 },
@@ -3447,26 +3448,59 @@ xlsx_vml_client_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "Spin", 2 },
 		{ "Button", 3 },
 		{ "Checkbox", 4 },
+		{ "Note", 5 },
+		{ "Dialog", 6 },
+		{ "Drop", 7 },
+		{ "Edit", 8 },
+		{ "GBox", 9 },
+		{ "Label", 10 },
+		{ "LineA", 11 },
+		{ "List", 12 },
+		{ "Movie", 13 },
+		{ "Pict", 14 },
+		{ "RectA", 15 },
+		{ "Shape", 16 },
+		{ "Group", 17 },
+		{ "Rect", 18 },
 		{ NULL, 0 }
 	};
 	static GType gtypes[G_N_ELEMENTS(types) - 1];
 
 	if (!gtypes[0]) {
-		gtypes[0] = GNM_SOW_SCROLLBAR_TYPE;
-		gtypes[1] = GNM_SOW_RADIO_BUTTON_TYPE;
-		gtypes[2] = GNM_SOW_SPIN_BUTTON_TYPE;
-		gtypes[3] = GNM_SOW_BUTTON_TYPE;
-		gtypes[4] = GNM_SOW_CHECKBOX_TYPE;
+		int i = 0;
+		gtypes[i++] = GNM_SOW_SCROLLBAR_TYPE;
+		gtypes[i++] = GNM_SOW_RADIO_BUTTON_TYPE;
+		gtypes[i++] = GNM_SOW_SPIN_BUTTON_TYPE;
+		gtypes[i++] = GNM_SOW_BUTTON_TYPE;
+		gtypes[i++] = GNM_SOW_CHECKBOX_TYPE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE;
 	}
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		int tmp;
-
-		if (attr_enum (xin, attrs, "ObjectType", types, &tmp))
+		if (attr_enum (xin, attrs, "ObjectType", types, &tmp)) {
 			typ = gtypes[tmp];
+			tname = attrs[1];
+		}
 	}
 
-	if (typ != G_TYPE_NONE && !state->so) {
+	if (state->so) {
+		g_warning ("New object when one is in progress.");
+	} else if (typ == G_TYPE_NONE) {
+		g_printerr ("Unhandled object of type %s\n", tname);
+	} else {
 		state->so = SHEET_OBJECT (g_object_new (typ, NULL));
 		state->so_direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 		state->pending_objects = g_slist_prepend (state->pending_objects, state->so);
