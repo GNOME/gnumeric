@@ -3652,6 +3652,7 @@ xlsx_vml_adj (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		case 1: gtk_adjustment_set_upper (adj, x); break;
 		case 2: gtk_adjustment_set_step_increment (adj, x); break;
 		case 3: gtk_adjustment_set_page_increment (adj, x); break;
+		case 4: gtk_adjustment_set_value (adj, x); break;
 		default: break;
 		}
 	}
@@ -3727,7 +3728,7 @@ GSF_XML_IN_NODE_FULL (START, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, FAL
     GSF_XML_IN_NODE (CLIENT_DATA, SEL, XL_NS_LEG_XL, "Sel", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, SEL_TYPE, XL_NS_LEG_XL, "SelType", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CLIENT_DATA, SIZE_WITH_CELLS, XL_NS_LEG_XL, "SizeWithCells", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (CLIENT_DATA, VAL, XL_NS_LEG_XL, "Val", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE_FULL (CLIENT_DATA, VAL, XL_NS_LEG_XL, "Val", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xlsx_vml_adj, 4),
 GSF_XML_IN_NODE_FULL (START, GROUP, XL_NS_LEG_VML, "group", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_vml_group, &xlsx_vml_group_end, 0),
   GSF_XML_IN_NODE (GROUP, LOCK, XL_NS_LEG_OFF, "lock", GSF_XML_NO_CONTENT, NULL, NULL), /* already defined */
 	GSF_XML_IN_NODE (LOCK, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, NULL, NULL),  /* already defined */

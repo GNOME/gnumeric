@@ -1,3 +1,7 @@
+2015-02-23  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_vml_adj): Read scroll bar value too.
+
 2015-02-20  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_vml_client_data_end): Better handling
