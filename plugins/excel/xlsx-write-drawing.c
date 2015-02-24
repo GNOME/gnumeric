@@ -24,6 +24,8 @@
 
 /*****************************************************************************/
 
+#undef DEBUG_AXIS
+
 static void
 xlsx_write_chart_cstr_unchecked (GsfXMLOut *xml, char const *name, char const *val)
 {
@@ -649,9 +651,10 @@ xlsx_get_axid (XLSXWriteState *state, GogAxis *axis)
 
 
 static void
-xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisType at)
+xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *axis)
 {
-	GogAxis *crossed = gog_axis_base_get_crossed_axis (GOG_AXIS_BASE (axis));
+	GogAxisType at = gog_axis_get_atype (axis);
+	GogAxis *crossed = gog_axis_base_get_crossed_axis_for_plot (GOG_AXIS_BASE (axis), plot);
 	GogAxisPosition pos;
 	GogGridLine *grid;
 	GogObject *label;
@@ -660,8 +663,9 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogAxis *axis, GogAxisTy
 	gboolean user_defined;
 
 #ifdef DEBUG_AXIS
-	g_printerr ("Writing axis %s.  (discrete = %d)\n",
+	g_printerr ("Writing axis %s [id=%d].  (discrete = %d)\n",
 		    gog_object_get_name (GOG_OBJECT (axis)),
+		    xlsx_get_axid (state, axis),
 		    gog_axis_is_discrete (axis));
 #endif
 
@@ -1069,10 +1073,12 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	}
 
 	/* write axes Ids */
-	for (i = 0; i < 3; i++)
-		if (axis_type[i] != GOG_AXIS_UNKNOWN)
-			xlsx_write_chart_uint (xml, "c:axId", 0, xlsx_get_axid (state, gog_plot_get_axis (GOG_PLOT (plot), axis_type[i])));
-
+	for (i = 0; i < 3; i++) {
+		if (axis_type[i] != GOG_AXIS_UNKNOWN) {
+			GogAxis *axis = gog_plot_get_axis (GOG_PLOT (plot), axis_type[i]);
+			xlsx_write_chart_uint (xml, "c:axId", 0, xlsx_get_axid (state, axis));
+		}
+	}
 
 	gsf_xml_out_end_element (xml);
 
@@ -1081,12 +1087,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	/* FIXME: might be a date axis? */
 	for (i = 0; i < 3; i++) {
 		if (axis_type[i] != GOG_AXIS_UNKNOWN) {
-			GSList *axes = gog_chart_get_axes (GOG_CHART (chart), axis_type[i]), *ptr;
-			for (ptr = axes; ptr; ptr = ptr->next) {
-				GogAxis *axis = ptr->data;
-				xlsx_write_axis (state, xml, axis, axis_type[i]);
-			}
-			g_slist_free (axes);
+			GogAxis *axis = gog_plot_get_axis (GOG_PLOT (plot), axis_type[i]);
+			xlsx_write_axis (state, xml, GOG_PLOT (plot), axis);
 		}
 	}
 }

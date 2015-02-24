@@ -2672,10 +2672,11 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 		      XLSXReadState *state)
 {
 	GogObject *obj = NULL;
-	if (info->cross_id) {
-		XLSXAxisInfo *cross_info = g_hash_table_lookup (state->axis.by_id, info->cross_id);
+	XLSXAxisInfo *cross_info = info->cross_id
+		? g_hash_table_lookup (state->axis.by_id, info->cross_id)
+		: NULL;
 
-		g_return_if_fail (cross_info != NULL);
+	if (cross_info) {
 		obj = GOG_OBJECT (cross_info->axis);
 		if (go_finite (cross_info->cross_value)) {
 			GnmValue *value = value_new_float (cross_info->cross_value);
@@ -2693,7 +2694,11 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 		 */
 		if ((GogAxis*)axis != gog_axis_base_get_crossed_axis (GOG_AXIS_BASE (obj)))
 			g_object_set (obj, "cross-axis-id", gog_object_get_id (GOG_OBJECT (axis)), NULL);
+	} else if (info->cross_id) {
+		g_printerr ("Axis %s has invalid cross-axis id %s\n",
+			    info->id, info->cross_id);
 	}
+
 	if (info->deleted) {
 		GSList *l = gog_chart_get_axes (state->chart, gog_axis_get_atype (GOG_AXIS (axis))), *cur;
 		GogAxis *visible = NULL;
