@@ -928,13 +928,11 @@ xlsx_chart_gridlines (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean ismajor = xin->node->user_data.v_int;
-	if (NULL != state->axis.obj) {
-		GogObject *grid = gog_object_add_by_name
-			(GOG_OBJECT (state->axis.obj),
-			 ismajor ? "MajorGrid" : "MinorGrid",
-			 NULL);
-		xlsx_chart_push_obj (state, grid);
-	}
+	GogObject *grid = gog_object_add_by_name
+		(GOG_OBJECT (state->axis.obj),
+		 ismajor ? "MajorGrid" : "MinorGrid",
+		 NULL);
+	xlsx_chart_push_obj (state, grid);
 }
 
 static void
@@ -1130,20 +1128,16 @@ static void
 xlsx_chart_ser_start (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL != state->plot) {
-		state->series = gog_plot_new_series (state->plot);
-		xlsx_chart_push_obj (state, GOG_OBJECT (state->series));
-	}
+	state->series = gog_plot_new_series (state->plot);
+	xlsx_chart_push_obj (state, GOG_OBJECT (state->series));
 }
 
 static void
 xlsx_chart_ser_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL != state->series) {
-		xlsx_chart_pop_obj (state);
-		state->series = NULL;
-	}
+	xlsx_chart_pop_obj (state);
+	state->series = NULL;
 }
 
 static void
@@ -1340,13 +1334,11 @@ static void
 xlsx_ser_labels_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL != state->series) {
-		GogObject *data = gog_object_add_by_name (GOG_OBJECT (state->series), "Data labels", NULL);
-		GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
-		gog_dataset_set_dim (GOG_DATASET (data), 1, sep, NULL);
-		g_object_set (data, "format", "", "offset", 3, NULL);
-		xlsx_chart_push_obj (state, data);
-	}
+	GogObject *data = gog_object_add_by_name (GOG_OBJECT (state->series), "Data labels", NULL);
+	GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
+	gog_dataset_set_dim (GOG_DATASET (data), 1, sep, NULL);
+	g_object_set (data, "format", "", "offset", 3, NULL);
+	xlsx_chart_push_obj (state, data);
 }
 
 static void
@@ -1558,26 +1550,22 @@ static void
 xlsx_chart_pt_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL != state->series) {
-		state->series_pt_has_index = FALSE;
-		state->series_pt = gog_object_add_by_name (
-			GOG_OBJECT (state->series), "Point", NULL);
-		xlsx_chart_push_obj (state, state->series_pt);
-	}
+	state->series_pt_has_index = FALSE;
+	state->series_pt = gog_object_add_by_name (
+		GOG_OBJECT (state->series), "Point", NULL);
+	xlsx_chart_push_obj (state, state->series_pt);
 }
 
 static void
 xlsx_chart_pt_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL != state->series) {
-		xlsx_chart_pop_obj (state);
-		if (!state->series_pt_has_index) {
-			gog_object_clear_parent (state->series_pt);
-			g_object_unref (state->series_pt);
-		}
-		state->series_pt = NULL;
+	xlsx_chart_pop_obj (state);
+	if (!state->series_pt_has_index) {
+		gog_object_clear_parent (state->series_pt);
+		g_object_unref (state->series_pt);
 	}
+	state->series_pt = NULL;
 }
 
 static void
