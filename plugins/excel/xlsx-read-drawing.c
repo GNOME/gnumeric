@@ -2099,15 +2099,6 @@ xlsx_chart_pop (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	xlsx_chart_pop_obj ((XLSXReadState *)xin->user_state);
 }
 
-#if 0
-/* this adds a NULL object so that the style is not polluted by unsupported things */
-static void
-xlsx_chart_start_dummy (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	xlsx_chart_push_obj ((XLSXReadState *)xin->user_state, NULL);
-}
-#endif
-
 static void
 xlsx_chart_layout_manual (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -2560,6 +2551,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 	    GSF_XML_IN_NODE (SERIES_D_LBLS, SHOW_PERCENT, XL_NS_CHART, "showPercent", GSF_XML_NO_CONTENT, NULL, NULL),
 
           GSF_XML_IN_NODE (SERIES, SERIES_PT, XL_NS_CHART,	"dPt", GSF_XML_NO_CONTENT, &xlsx_chart_pt_start, &xlsx_chart_pt_end),
+            GSF_XML_IN_NODE (SERIES_PT, BUBBLE3D, XL_NS_CHART,	"bubble3D", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (SERIES_PT, PT_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, &xlsx_chart_pt_index, NULL),
             GSF_XML_IN_NODE (SERIES_PT, SHAPE_PR, XL_NS_CHART,	"spPr", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (SERIES_PT, PT_SEP, XL_NS_CHART,	"explosion", GSF_XML_NO_CONTENT, &xlsx_chart_pt_sep, NULL),

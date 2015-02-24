@@ -209,6 +209,87 @@ xlsx_style_context_init (XLSXStyleContext *sctx, XLSXWriteState *state)
 }
 
 static void
+xlsx_write_go_style_marker (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext *sctx)
+{
+	static const char *const markers[] = {
+		"none",       /* GO_MARKER_NONE */
+		"square",     /* GO_MARKER_SQUARE */
+		"diamond",    /* GO_MARKER_DIAMOND */
+		"triangle",   /* GO_MARKER_TRIANGLE_DOWN */
+		"triangle",   /* GO_MARKER_TRIANGLE_UP */
+		"triangle",   /* GO_MARKER_TRIANGLE_RIGHT */
+		"triangle",   /* GO_MARKER_TRIANGLE_LEFT */
+		"circle",     /* GO_MARKER_CIRCLE */
+		"x",          /* GO_MARKER_X */
+		"plus",       /* GO_MARKER_CROSS */
+		"star",       /* GO_MARKER_ASTERISK */
+		"dash",       /* GO_MARKER_BAR */
+		"dot",        /* GO_MARKER_HALF_BAR */
+		"diamond",    /* GO_MARKER_BUTTERFLY */       /* FIXME: dubious */
+		"diamond",    /* GO_MARKER_HOURGLASS */       /* FIXME: dubious */
+		"dot"         /* GO_MARKER_LEFT_HALF_BAR */
+	};
+	static gint8 nqturns[] = { 0, 0, 0, 2, 0, +1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	static gint8 flipH[] =   { 0, 0, 0, 0, 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 };
+	gboolean need_spPr;
+	GOMarkerShape s;
+
+	if ((style->interesting_fields & GO_STYLE_MARKER) == 0)
+		return;
+
+	s = style->marker.auto_shape
+		? (sctx->def_has_markers ? GO_MARKER_MAX : GO_MARKER_NONE)
+		: go_marker_get_shape (style->marker.mark);
+
+	gsf_xml_out_start_element (xml, "c:marker");
+
+	xlsx_write_chart_cstr_unchecked
+		(xml, "c:symbol",
+		 (s < G_N_ELEMENTS (markers) && markers[s]
+		  ? markers[s]
+		  : "auto"));
+
+	/* We don't have an auto_size flag */
+	if (TRUE) {
+		int def = 5, s = go_marker_get_size (style->marker.mark);
+		xlsx_write_chart_int (xml, "c:size", def, s);
+	}
+
+	need_spPr = (!style->marker.auto_fill_color ||
+		     !style->marker.auto_outline_color);
+	if (need_spPr) {
+		gsf_xml_out_start_element (xml, "c:spPr");
+
+		if (nqturns[s] || flipH[s]) {
+			gsf_xml_out_start_element (xml, "a:xfrm");
+			if (nqturns[s])
+				gsf_xml_out_add_int (xml, "rot", nqturns[s] * (90 * 60000));
+			if (flipH[s])
+				gsf_xml_out_add_int (xml, "flipH", flipH[s]);
+			gsf_xml_out_end_element (xml);
+		}
+
+		if (!style->marker.auto_fill_color) {
+			gsf_xml_out_start_element (xml, "a:solidFill");
+			xlsx_write_rgbarea (xml, go_marker_get_fill_color (style->marker.mark));
+			gsf_xml_out_end_element (xml);
+		}
+
+		if (!style->marker.auto_outline_color) {
+			gsf_xml_out_start_element (xml, "a:ln");
+			gsf_xml_out_start_element (xml, "a:solidFill");
+			xlsx_write_rgbarea (xml, go_marker_get_outline_color (style->marker.mark));
+			gsf_xml_out_end_element (xml);
+			gsf_xml_out_end_element (xml);
+		}
+
+		gsf_xml_out_end_element (xml);
+	}
+
+	gsf_xml_out_end_element (xml);
+}
+
+static void
 xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext *sctx)
 {
 	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
@@ -498,79 +579,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 		gsf_xml_out_end_element (xml);  /* "c:txPr" */
 	}
 
-	if (style->interesting_fields & GO_STYLE_MARKER) {
-		static const char *const markers[] = {
-			"none",       /* GO_MARKER_NONE */
-			"square",     /* GO_MARKER_SQUARE */
-			"diamond",    /* GO_MARKER_DIAMOND */
-			"triangle",   /* GO_MARKER_TRIANGLE_DOWN */
-			"triangle",   /* GO_MARKER_TRIANGLE_UP */
-			"triangle",   /* GO_MARKER_TRIANGLE_RIGHT */
-			"triangle",   /* GO_MARKER_TRIANGLE_LEFT */
-			"circle",     /* GO_MARKER_CIRCLE */
-			"x",          /* GO_MARKER_X */
-			"plus",       /* GO_MARKER_CROSS */
-			"star",       /* GO_MARKER_ASTERISK */
-			"dash",       /* GO_MARKER_BAR */
-			"dot",        /* GO_MARKER_HALF_BAR */
-			"diamond",    /* GO_MARKER_BUTTERFLY */       /* FIXME: dubious */
-			"diamond",    /* GO_MARKER_HOURGLASS */       /* FIXME: dubious */
-			"dot"         /* GO_MARKER_LEFT_HALF_BAR */
-		};
-		static gint8 nqturns[] = { 0, 0, 0, 2, 0, +1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		static gint8 flipH[] =   { 0, 0, 0, 0, 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 };
-		gboolean need_spPr;
-		GOMarkerShape s = style->marker.auto_shape
-			? (sctx->def_has_markers ? GO_MARKER_MAX : GO_MARKER_NONE)
-			: go_marker_get_shape (style->marker.mark);
-
-		gsf_xml_out_start_element (xml, "c:marker");
-
-		xlsx_write_chart_cstr_unchecked
-			(xml, "c:symbol",
-			 (s < G_N_ELEMENTS (markers) && markers[s]
-			  ? markers[s]
-			  : "auto"));
-
-		/* We don't have an auto_size flag */
-		if (TRUE) {
-			int def = 5, s = go_marker_get_size (style->marker.mark);
-			xlsx_write_chart_int (xml, "c:size", def, s);
-		}
-
-		need_spPr = (!style->marker.auto_fill_color ||
-			     !style->marker.auto_outline_color);
-		if (need_spPr) {
-			gsf_xml_out_start_element (xml, "c:spPr");
-
-			if (nqturns[s] || flipH[s]) {
-				gsf_xml_out_start_element (xml, "a:xfrm");
-				if (nqturns[s])
-					gsf_xml_out_add_int (xml, "rot", nqturns[s] * (90 * 60000));
-				if (flipH[s])
-					gsf_xml_out_add_int (xml, "flipH", flipH[s]);
-				gsf_xml_out_end_element (xml);
-			}
-
-			if (!style->marker.auto_fill_color) {
-				gsf_xml_out_start_element (xml, "a:solidFill");
-				xlsx_write_rgbarea (xml, go_marker_get_fill_color (style->marker.mark));
-				gsf_xml_out_end_element (xml);
-			}
-
-			if (!style->marker.auto_outline_color) {
-				gsf_xml_out_start_element (xml, "a:ln");
-				gsf_xml_out_start_element (xml, "a:solidFill");
-				xlsx_write_rgbarea (xml, go_marker_get_outline_color (style->marker.mark));
-				gsf_xml_out_end_element (xml);
-				gsf_xml_out_end_element (xml);
-			}
-
-			gsf_xml_out_end_element (xml);
-		}
-
-		gsf_xml_out_end_element (xml);
-	}
+	xlsx_write_go_style_marker (xml, style, sctx);
 }
 
 static void
@@ -909,6 +918,29 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			xlsx_write_chart_uint (xml, "c:invertIfNegative", 1, 0);
 
 		children = gog_object_get_children (GOG_OBJECT (ser), NULL);
+
+		for (l = children; l; l = l->next) {
+			GogObject *pt = l->data;
+			unsigned idx;
+			GOStyle *style;
+			XLSXStyleContext sctx;
+
+			if (!GOG_IS_SERIES_ELEMENT (pt))
+				continue;
+
+			gsf_xml_out_start_element (xml, "c:dPt");
+
+			g_object_get (pt, "index", &idx, NULL);
+			xlsx_write_chart_uint (xml, "c:idx", 0, idx);
+
+			xlsx_style_context_init (&sctx, state);
+			sctx.def_has_markers = TRUE;
+			style = go_styled_object_get_style (GO_STYLED_OBJECT (pt));
+			xlsx_write_go_style_marker (xml, style, &sctx);
+
+			gsf_xml_out_end_element (xml); /* </c:dPt> */
+		}
+
 		for (l = children; l; l = l->next) {
 			GogObject *trend = l->data;
 			const char *trend_type_name = G_OBJECT_TYPE_NAME (trend);
