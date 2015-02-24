@@ -1,3 +1,8 @@
+2015-02-24  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_create_axis_object): Move setting of
+	"invisible" here.
+
 2015-02-23  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_dtd): Handle gostyle extension

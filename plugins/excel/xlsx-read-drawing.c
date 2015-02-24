@@ -742,9 +742,8 @@ xlsx_axis_delete (GsfXMLIn *xin, xmlChar const **attrs)
 	int del = 0;
 	if (state->axis.info && simple_bool (xin, attrs, &del))
 		state->axis.info->deleted = del;
-	if (state->axis.info && del)
-		g_object_set (state->axis.info->axis, "invisible", TRUE, NULL);
 }
+
 static void
 xlsx_axis_orientation (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -855,6 +854,7 @@ xlsx_create_axis_object (XLSXReadState *state)
 		g_hash_table_replace (state->axis.by_obj, axis, state->axis.info);
 
 		g_object_set (G_OBJECT (state->axis.obj),
+			      "invisible", state->axis.info->deleted,
 			      "invert-axis", state->axis.info->invert_axis, NULL);
 	}
 }
