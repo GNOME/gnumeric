@@ -1,3 +1,10 @@
+2015-02-25  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_list_base_set_sheet):
+	Also evaluate here.
+	(SOW_MAKE_TYPE): Don't evaluate unless we have a sheet for the
+	contents.
+
 2015-02-23  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_radio_button_get_value):

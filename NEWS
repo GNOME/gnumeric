@@ -16,14 +16,14 @@ Andreas:
 	* Fix ODF style import of secondary plots. [#744930]
 
 Morten:
-	* Initial xlsx import of sheet widgets.
-	* Initial xlsx export of sheet widgets.
-	* xlsx import/export of patterns.
+	* Implement xlsx import of sheet widgets.
+	* Implement xlsx export of sheet widgets.
+	* Fix xlsx import/export of patterns.
 	* Plug leaks.
 	* Arrow properties editor.  [#158327]
 	* Fix xlsx export of line style None.
 	* Fix search-and-replace problem with text format.
-	* xlsx import/export of gradients.
+	* Fix xlsx import/export of gradients.
 	* Fix undo problems with scrollbars.
 
 --------------------------------------------------------------------------

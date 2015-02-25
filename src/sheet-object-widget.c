@@ -3650,6 +3650,8 @@ sheet_widget_list_base_set_sheet (SheetObject *so, Sheet *sheet)
 	dependent_set_sheet (&swl->content_dep, sheet);
 	dependent_set_sheet (&swl->output_dep, sheet);
 
+	list_content_eval (&swl->content_dep); /* populate the list */
+
 	return FALSE;
 }
 
@@ -3731,9 +3733,10 @@ sheet_widget_list_base_set_links (SheetObject *so,
 	if (output && swl->output_dep.sheet)
 		dependent_link (&swl->output_dep);
 	dependent_set_expr (&swl->content_dep, content);
-	if (content && swl->content_dep.sheet)
+	if (content && swl->content_dep.sheet) {
 		dependent_link (&swl->content_dep);
-	list_content_eval (&swl->content_dep); /* populate the list */
+		list_content_eval (&swl->content_dep); /* populate the list */
+	}
 }
 
 GnmExprTop const *

@@ -1466,10 +1466,13 @@ xlsx_write_legacy_object (XLSXWriteState *state, GsfXMLOut *xml, SheetObject *so
 {
 	const char *otype = NULL;
 	GnmExprTop const *tlink = NULL;
+	GnmExprTop const *trange = NULL;
 	double res_pts[4] = {0.,0.,0.,0.};
 	GtkAdjustment *adj = NULL;
 	int horiz = -1;
 	int checked = -1;
+	int selected = -1;
+	const char *seltype = NULL;
 	gboolean has_text_prop =
 		g_object_class_find_property (G_OBJECT_GET_CLASS (so), "text") != NULL;
 	char *text = NULL;
@@ -1512,11 +1515,13 @@ xlsx_write_legacy_object (XLSXWriteState *state, GsfXMLOut *xml, SheetObject *so
 		otype = "Scroll";
 		tlink = sheet_widget_adjustment_get_link (so);
 		adj = sheet_widget_adjustment_get_adjustment (so);
+		g_object_ref (adj);
 		horiz = sheet_widget_adjustment_get_horizontal (so);
 	} else if (GNM_IS_SOW_SPINBUTTON (so)) {
 		otype = "Spin";
 		tlink = sheet_widget_adjustment_get_link (so);
 		adj = sheet_widget_adjustment_get_adjustment (so);
+		g_object_ref (adj);
 	} else if (GNM_IS_SOW_BUTTON (so)) {
 		otype = "Button";
 		tlink = sheet_widget_button_get_link (so);
@@ -1535,6 +1540,19 @@ xlsx_write_legacy_object (XLSXWriteState *state, GsfXMLOut *xml, SheetObject *so
 		tlink = sheet_widget_checkbox_get_link (so);
 		g_object_get (so, "active", &c, NULL);
 		checked = c;
+	} else if (GNM_IS_SOW_COMBO (so)) {
+		otype = "Drop";
+		tlink = sheet_widget_list_base_get_result_link (so);
+		trange = sheet_widget_list_base_get_content_link (so);
+		adj = sheet_widget_list_base_get_adjustment (so);
+		// selected = ;
+	} else if (GNM_IS_SOW_LIST (so)) {
+		otype = "List";
+		tlink = sheet_widget_list_base_get_result_link (so);
+		trange = sheet_widget_list_base_get_content_link (so);
+		adj = sheet_widget_list_base_get_adjustment (so);
+		// selected = ;
+		seltype = "Single";
 	} else {
 		g_assert_not_reached ();
 	}
@@ -1564,7 +1582,18 @@ xlsx_write_legacy_object (XLSXWriteState *state, GsfXMLOut *xml, SheetObject *so
 						  gtk_adjustment_get_step_increment (adj), -1);
 		gsf_xml_out_simple_float_element (xml, "x:Page",
 						  gtk_adjustment_get_page_increment (adj), -1);
+		g_object_unref (adj);
 	}
+	if (trange) {
+		char *s = gnm_expr_top_as_string (trange, &pp0, state->convs);
+		gsf_xml_out_simple_element (xml, "x:FmlaRange", s);
+		g_free (s);
+		gnm_expr_top_unref (trange);
+	}
+	if (selected >= 1)
+		gsf_xml_out_simple_int_element (xml, "x:Sel", selected);
+	if (seltype)
+		gsf_xml_out_simple_element (xml, "x:SelType", seltype);
 	if (horiz >= 0)
 		gsf_xml_out_simple_element (xml, "x:Horiz", horiz ? "t" : "f");
 

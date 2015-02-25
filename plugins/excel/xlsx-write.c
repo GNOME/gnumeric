@@ -2730,7 +2730,9 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 			 GNM_IS_SOW_SPINBUTTON (so) ||
 			 GNM_IS_SOW_BUTTON (so) ||
 			 GNM_IS_SOW_RADIO_BUTTON (so) ||
-			 GNM_IS_SOW_CHECKBOX (so))
+			 GNM_IS_SOW_CHECKBOX (so) ||
+			 GNM_IS_SOW_COMBO (so) ||
+			 GNM_IS_SOW_LIST (so))
 			legacy_drawing_objs = g_slist_prepend (legacy_drawing_objs, so);
 		else if (IS_GNM_FILTER_COMBO (so))
 			; /* Nothing here */
