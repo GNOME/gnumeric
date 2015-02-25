@@ -3039,6 +3039,7 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 			size = gsf_input_size (input);
 			data = g_new (guint8, size);
 			gsf_input_read (input, size, data);
+			g_object_unref (input);
 			sheet_object_image_set_image (SHEET_OBJECT_IMAGE (state->so),
 				NULL, data, size, FALSE);
 	}
