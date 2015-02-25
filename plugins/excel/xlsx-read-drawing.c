@@ -3421,12 +3421,6 @@ xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_vml_drop_style (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (!strcmp (xin->content->str, "Combo"))
-		/* adding a combo box */
-		state->so = SHEET_OBJECT (g_object_new (sheet_widget_combo_get_type (), NULL));
-		state->so_direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
-		sheet_object_set_sheet (state->so, state->sheet);
 }
 
 static void

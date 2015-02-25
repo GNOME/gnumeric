@@ -371,11 +371,11 @@ xlsx_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
 		      GsfXMLInNS const *ns)
 {
 	GError *err;
+	gboolean debug = gnm_debug_flag ("xlsx-parsing");
 
-#ifdef DEBUG_PARSER
-	g_print ("{ /* Parsing  : %s :: %s */\n",
-		 gsf_input_name (gsf_xml_in_get_input (xin)), part_id);
-#endif
+	if (debug)
+		g_printerr ("{ /* Parsing  : %s :: %s */\n",
+			    gsf_input_name (gsf_xml_in_get_input (xin)), part_id);
 
 	err = gsf_open_pkg_parse_rel_by_id (xin, part_id, dtd, ns);
 	if (NULL != err) {
@@ -384,10 +384,9 @@ xlsx_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
 		g_error_free (err);
 	}
 
-#ifdef DEBUG_PARSER
-	g_print ("} /* DONE : %s :: %s */\n",
-		 gsf_input_name (gsf_xml_in_get_input (xin)), part_id);
-#endif
+	if (debug)
+		g_printerr ("} /* DONE : %s :: %s */\n",
+			    gsf_input_name (gsf_xml_in_get_input (xin)), part_id);
 }
 
 /****************************************************************************/

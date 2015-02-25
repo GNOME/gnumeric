@@ -1,5 +1,10 @@
 2015-02-24  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read.c (xlsx_parse_rel_by_id): Debug code.
+
+	* xlsx-read-drawing.c (xlsx_vml_drop_style): Don't create objects
+	here -- that'll just leak.
+
 	* xlsx-write-drawing.c (xlsx_write_axis): Pick the crossing axis
 	within the relevant plot.
 
