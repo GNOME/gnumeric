@@ -2808,12 +2808,30 @@ enum {
 	SOR_PROP_VALUE
 };
 
-static GnmValue *
-so_parse_value (SheetObject *so, const char *s)
+static void
+sheet_widget_radio_button_set_active (SheetWidgetRadioButton *swrb,
+				      gboolean active)
 {
-	Sheet *sheet = so->sheet;
-	return format_match (s, NULL, workbook_date_conv (sheet->workbook));
+	GList *ptr;
+
+	if (swrb->active == active)
+		return;
+	swrb->active = active;
+
+	swrb->being_updated = TRUE;
+
+	for (ptr = swrb->sow.so.realized_list; ptr != NULL ; ptr = ptr->next) {
+		SheetObjectView *view = ptr->data;
+		GocWidget *item = get_goc_widget (view);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
+					      active);
+	}
+
+	g_object_notify (G_OBJECT (swrb), "active");
+
+	swrb->being_updated = FALSE;
 }
+
 
 static void
 sheet_widget_radio_button_get_property (GObject *obj, guint param_id,
@@ -2848,7 +2866,8 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case SOR_PROP_ACTIVE:
-		g_assert_not_reached ();
+		sheet_widget_radio_button_set_active (swrb,
+						      g_value_get_boolean (value));
 		break;
 	case SOR_PROP_TEXT:
 		sheet_widget_radio_button_set_label (SHEET_OBJECT (swrb),
@@ -2888,30 +2907,6 @@ sheet_widget_radio_button_set_value (SheetObject *so, GnmValue const *val)
 
 	value_release (swrb->value);
 	swrb->value = value_dup (val);
-}
-
-static void
-sheet_widget_radio_button_set_active (SheetWidgetRadioButton *swrb,
-				      gboolean active)
-{
-	GList *ptr;
-
-	if (swrb->active == active)
-		return;
-	swrb->active = active;
-
-	swrb->being_updated = TRUE;
-
-	for (ptr = swrb->sow.so.realized_list; ptr != NULL ; ptr = ptr->next) {
-		SheetObjectView *view = ptr->data;
-		GocWidget *item = get_goc_widget (view);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
-					      active);
-	}
-
-	g_object_notify (G_OBJECT (swrb), "active");
-
-	swrb->being_updated = FALSE;
 }
 
 static void
@@ -3203,6 +3198,13 @@ cb_radio_button_config_destroy (RadioButtonConfigState *state)
  	g_free (state);
 }
 
+static GnmValue *
+so_parse_value (SheetObject *so, const char *s)
+{
+	Sheet *sheet = so->sheet;
+	return format_match (s, NULL, workbook_date_conv (sheet->workbook));
+}
+
 static void
 cb_radio_button_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, RadioButtonConfigState *state)
 {
@@ -3404,7 +3406,7 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 			       (object_class, SOR_PROP_ACTIVE,
 				g_param_spec_boolean ("active", NULL, NULL,
 						      FALSE,
-						      GSF_PARAM_STATIC | G_PARAM_READABLE));
+						      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 		       g_object_class_install_property
 			       (object_class, SOR_PROP_TEXT,
 				g_param_spec_string ("text", NULL, NULL, NULL,

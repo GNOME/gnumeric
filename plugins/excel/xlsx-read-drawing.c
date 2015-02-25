@@ -3678,10 +3678,9 @@ xlsx_vml_checked (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	const char *s = xin->content->str;
 	gboolean checked = strtol (s, NULL, 10) > 0;
 
-	if (GNM_IS_SOW_CHECKBOX (state->so)) {
+	if (GNM_IS_SOW_CHECKBOX (state->so) ||
+	    GNM_IS_SOW_RADIO_BUTTON (state->so)) {
 		g_object_set (state->so, "active", checked, NULL);
-	} else if (GNM_IS_SOW_RADIO_BUTTON (state->so)) {
-		/* FIXME */
 	}
 }
 
