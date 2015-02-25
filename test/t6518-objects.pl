@@ -51,6 +51,7 @@ if (&subtest ("xlsx")) {
 		     'format' => 'Gnumeric_Excel:xlsx',
 		     'ext' => "xlsx",
 		     'filter0' => 'std:noframewidget',
+		     'filter' => 'std:nocomboasindex',
 		     'resize' => '1048576x16384',
 		     'ignore_failure' => 1);
 }

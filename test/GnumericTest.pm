@@ -427,6 +427,8 @@ my $supersub_filter = "$PERL -p -e 's{\\[superscript=1:(\\d+):(\\d+)\\]\\[subscr
 
 my $noframe_filter = "$PERL -p -e '\$_ = \"\" if m{<gnm:SheetWidgetFrame .*/>}'";
 
+my $noasindex_filter = "$PERL -p -e 'if (/gnm:SheetWidget(List|Combo)/) { s{( OutputAsIndex=)\"\\d+\"}{\$1\"0\"}; }'";
+
 sub normalize_filter {
     my ($f) = @_;
     return 'cat' unless defined $f;
@@ -437,6 +439,7 @@ sub normalize_filter {
     $f =~ s/\bstd:no_rich_comment\b/$no_rich_comment_filter/;
     $f =~ s/\bstd:supersub\b/$supersub_filter/;
     $f =~ s/\bstd:noframewidget\b/$noframe_filter/;
+    $f =~ s/\bstd:nocomboasindex\b/$noasindex_filter/;
 
     return $f;
 }
