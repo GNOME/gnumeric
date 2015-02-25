@@ -3463,12 +3463,12 @@ xlsx_vml_client_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 		gtypes[i++] = GNM_SOW_CHECKBOX_TYPE;
 		gtypes[i++] = G_TYPE_NONE;
 		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = GNM_SOW_COMBO_TYPE;
 		gtypes[i++] = G_TYPE_NONE;
 		gtypes[i++] = G_TYPE_NONE;
 		gtypes[i++] = G_TYPE_NONE;
 		gtypes[i++] = G_TYPE_NONE;
-		gtypes[i++] = G_TYPE_NONE;
-		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = GNM_SOW_LIST_TYPE;
 		gtypes[i++] = G_TYPE_NONE;
 		gtypes[i++] = G_TYPE_NONE;
 		gtypes[i++] = G_TYPE_NONE;
@@ -3645,7 +3645,7 @@ static void
 xlsx_vml_adj (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (state->so) {
+	if (GNM_IS_SOW_ADJUSTMENT (state->so)) {
 		GtkAdjustment *adj = sheet_widget_adjustment_get_adjustment (state->so);
 		double x = g_ascii_strtod (xin->content->str, NULL);
 		switch (xin->node->user_data.v_int) {

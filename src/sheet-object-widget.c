@@ -1306,9 +1306,6 @@ SOW_MAKE_TYPE (button, Button,
 
 /****************************************************************************/
 
-#define GNM_SOW_ADJUSTMENT_TYPE   (sheet_widget_adjustment_get_type())
-#define GNM_SOW_ADJUSTMENT(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_SOW_ADJUSTMENT_TYPE, SheetWidgetAdjustment))
-#define GNM_IS_SOW_ADJUSTMENT(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_ADJUSTMENT_TYPE))
 #define DEP_TO_ADJUSTMENT(d_ptr)	(SheetWidgetAdjustment *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetAdjustment, dep))
 #define GNM_SOW_ADJUSTMENT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SOW_ADJUSTMENT_TYPE, SheetWidgetAdjustmentClass))
 #define SWA_CLASS(so)		     (GNM_SOW_ADJUSTMENT_CLASS (G_OBJECT_GET_CLASS(so)))
@@ -1333,8 +1330,6 @@ enum {
 	SWA_PROP_0 = 0,
 	SWA_PROP_HORIZONTAL
 };
-
-static GType sheet_widget_adjustment_get_type (void);
 
 #ifndef g_signal_handlers_disconnect_by_data
 #define g_signal_handlers_disconnect_by_data(instance, data) \

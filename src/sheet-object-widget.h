@@ -16,6 +16,10 @@ GType sheet_object_widget_get_type (void);
 #define GNM_SOW(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_SOW_TYPE, SheetObjectWidget))
 #define GNM_IS_SOW(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_TYPE))
 
+GType sheet_widget_adjustment_get_type (void);
+#define GNM_SOW_ADJUSTMENT_TYPE   (sheet_widget_adjustment_get_type())
+#define GNM_SOW_ADJUSTMENT(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_SOW_ADJUSTMENT_TYPE, SheetWidgetAdjustment))
+#define GNM_IS_SOW_ADJUSTMENT(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_ADJUSTMENT_TYPE))
 
 GType sheet_widget_frame_get_type	 (void); /* convert to non-widget */
 #define GNM_SOW_FRAME_TYPE (sheet_widget_frame_get_type ())
