@@ -9353,16 +9353,19 @@ oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_prop_list_apply (style->plot_props, G_OBJECT (element));
 				g_object_get (G_OBJECT (element), "style", &gostyle, NULL);
 				if (gostyle != NULL) {
+					GOStyle *nstyle = go_style_dup (gostyle);
 					OOChartStyle *astyle = state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA];
 					if (astyle != NULL)
 						odf_apply_style_props
-							(xin, astyle->style_props, gostyle, TRUE);
+							(xin, astyle->style_props, nstyle, TRUE);
 					astyle = state->chart.i_plot_styles[OO_CHART_STYLE_SERIES];
 					if (astyle != NULL)
 						odf_apply_style_props
-							(xin, astyle->style_props, gostyle, TRUE);
-					odf_apply_style_props (xin, style->style_props, gostyle, TRUE);
+							(xin, astyle->style_props, nstyle, TRUE);
+					odf_apply_style_props (xin, style->style_props, nstyle, TRUE);
+					g_object_set (element, "style", nstyle, NULL);
 					g_object_unref (gostyle);
+					g_object_unref (nstyle);
 				}
 			}
 		}

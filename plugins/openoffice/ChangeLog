@@ -1,3 +1,8 @@
+2015-02-26  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_series_pt): Don't change the style of an
+	object.  Copy, change, and reset it.
+
 2015-02-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_gog_style_graphic): write colours also
