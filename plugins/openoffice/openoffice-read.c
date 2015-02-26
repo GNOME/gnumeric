@@ -6908,9 +6908,11 @@ oo_chart_style_to_series (GsfXMLIn *xin, OOChartStyle *oostyle, GObject *obj)
 
 	oo_prop_list_apply (oostyle->plot_props, obj);
 
-	g_object_get (obj, "style", &style, NULL);
+	style = go_styled_object_get_style (GO_STYLED_OBJECT (obj));
 	if (style != NULL) {
+		style = go_style_dup (style);
 		odf_apply_style_props (xin, oostyle->style_props, style, TRUE);
+		go_styled_object_set_style (GO_STYLED_OBJECT (obj), style);
 		g_object_unref (style);
 	}
 }
@@ -8509,14 +8511,13 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (state->chart.title_style != NULL) {
 			OOChartStyle *oostyle = g_hash_table_lookup
 				(state->chart.graph_styles, state->chart.title_style);
-			if (oostyle != NULL) {
-				GOStyle *style;
-				g_object_get (G_OBJECT (label), "style", &style, NULL);
-
-				if (style != NULL) {
-					odf_apply_style_props (xin, oostyle->style_props, style, TRUE);
-					g_object_unref (style);
-				}
+			GOStyle *style =
+				go_styled_object_get_style (GO_STYLED_OBJECT (label));
+			if (oostyle && style) {
+				style = go_style_dup (style);
+				odf_apply_style_props (xin, oostyle->style_props, style, TRUE);
+				go_styled_object_set_style (GO_STYLED_OBJECT (label), style);
+				g_object_unref (style);
 			}
 			g_free (state->chart.title_style);
 			state->chart.title_style = NULL;
@@ -9420,10 +9421,12 @@ od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
 	if (style_name != NULL) {
 		OOChartStyle *chart_style = g_hash_table_lookup
 			(state->chart.graph_styles, style_name);
-		GOStyle *style = NULL;
-		g_object_get (G_OBJECT (equation), "style", &style, NULL);
+		GOStyle *style =
+			go_styled_object_get_style (GO_STYLED_OBJECT (equation));
 		if (style != NULL) {
+			style = go_style_dup (style);
 			odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
+			go_styled_object_set_style (GO_STYLED_OBJECT (equation), style);
 			g_object_unref (style);
 		}
 		/* In the moment we don't need this. */
@@ -9527,9 +9530,11 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 				g_object_set_property ( G_OBJECT (regression), "dims", lo_dim);
 			oo_prop_list_apply (chart_style->other_props, G_OBJECT (regression));
 
-			g_object_get (G_OBJECT (regression), "style", &style, NULL);
+			style = go_styled_object_get_style (GO_STYLED_OBJECT (regression));
 			if (style != NULL) {
+				style = go_style_dup (style);
 				odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
+				go_styled_object_set_style (GO_STYLED_OBJECT (regression), style);
 				g_object_unref (style);
 			}
 
@@ -9599,9 +9604,11 @@ oo_series_droplines (GsfXMLIn *xin, xmlChar const **attrs)
 
 			lines = gog_object_add_by_name (GOG_OBJECT (state->chart.series), role_name, NULL);
 
-			g_object_get (G_OBJECT (lines), "style", &style, NULL);
+			style = go_styled_object_get_style (GO_STYLED_OBJECT (lines));
 			if (style != NULL) {
+				style = go_style_dup (style);
 				odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
+				go_styled_object_set_style (GO_STYLED_OBJECT (lines), style);
 				g_object_unref (style);
 			}
 		}
@@ -9618,16 +9625,16 @@ oo_series_serieslines (GsfXMLIn *xin, xmlChar const **attrs)
 			style_name = CXML2C (attrs[1]);
 	if (style_name != NULL) {
 		OOChartStyle *chart_style = g_hash_table_lookup (state->chart.graph_styles, style_name);
-		GOStyle *style = NULL;
+		GOStyle *style;
 		GogObject const *lines;
 
 		lines = gog_object_add_by_name (GOG_OBJECT (state->chart.series), "Series lines", NULL);
-		if (chart_style) {
-			g_object_get (G_OBJECT (lines), "style", &style, NULL);
-			if (style != NULL) {
-				odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
-				g_object_unref (style);
-			}
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (lines));
+		if (chart_style && style) {
+			style = go_style_dup (style);
+			odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
+			go_styled_object_set_style (GO_STYLED_OBJECT (lines), style);
+			g_object_unref (style);
 		}
 	}
 }
@@ -9766,19 +9773,18 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 	legend = gog_object_add_by_name ((GogObject *)state->chart.chart, "Legend", NULL);
 	state->chart.legend = legend;
 	if (legend != NULL) {
-		if (style_name) {
-			GOStyle *style = NULL;
-			g_object_get (G_OBJECT (legend), "style", &style, NULL);
-			if (style != NULL) {
-				OOChartStyle *chart_style = g_hash_table_lookup
-					(state->chart.graph_styles, style_name);
-				if (chart_style)
-					odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
-				else
-					oo_warning (xin, _("Chart style with name '%s' is missing."),
-						    style_name);
-				g_object_unref (style);
-			}
+		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (legend));
+		if (style_name && style) {
+			OOChartStyle *chart_style = g_hash_table_lookup
+				(state->chart.graph_styles, style_name);
+			style = go_style_dup (style);
+			if (chart_style)
+				odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
+			else
+				oo_warning (xin, _("Chart style with name '%s' is missing."),
+					    style_name);
+			go_styled_object_set_style (GO_STYLED_OBJECT (legend), style);
+			g_object_unref (style);
 		}
 		state->chart.legend_x = x;
 		state->chart.legend_y = y;
@@ -9808,17 +9814,17 @@ oo_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
 			style_name = CXML2C (attrs[1]);
 
 	if (grid != NULL && style_name != NULL) {
-		GOStyle *style = NULL;
-		g_object_get (G_OBJECT (grid), "style", &style, NULL);
-
+		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (grid));
 		if (style) {
 			OOChartStyle *chart_style = g_hash_table_lookup
 				(state->chart.graph_styles, style_name);
+			style = go_style_dup (style);
 			if (chart_style)
 				odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
 			else
 				oo_warning (xin, _("Chart style with name '%s' is missing."),
 					    style_name);
+			go_styled_object_set_style (GO_STYLED_OBJECT (grid), style);
 			g_object_unref (style);
 		}
 	}
@@ -9838,17 +9844,17 @@ oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 	backplane = gog_object_add_by_name (GOG_OBJECT (state->chart.chart), "Backplane", NULL);
 
 	if (style_name != NULL && backplane != NULL) {
-		GOStyle *style = NULL;
-		g_object_get (G_OBJECT (backplane), "style", &style, NULL);
-
+		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (backplane));
 		if (style != NULL) {
 			OOChartStyle *chart_style = g_hash_table_lookup
 				(state->chart.graph_styles, style_name);
+			style = go_style_dup (style);
 			if (chart_style)
 				odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
 			else
 				oo_warning (xin, _("Chart style with name '%s' is missing."),
 					    style_name);
+			go_styled_object_set_style (GO_STYLED_OBJECT (backplane), style);
 			g_object_unref (style);
 		}
 	}
@@ -9868,12 +9874,11 @@ oo_chart_axisline (GsfXMLIn *xin, xmlChar const **attrs)
 	axisline = gog_object_add_by_name (GOG_OBJECT (state->chart.axis), "AxisLine", NULL);
 
 	if (style_name != NULL && axisline != NULL) {
-		GOStyle *style = NULL;
-		g_object_get (G_OBJECT (axisline), "style", &style, NULL);
-
+		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (axisline));
 		if (style != NULL) {
 			OOChartStyle *chart_style = g_hash_table_lookup
 				(state->chart.graph_styles, style_name);
+			style = go_style_dup (style);
 			if (chart_style) {
 				oo_prop_list_apply_to_axisline (xin, chart_style->axis_props,
 								G_OBJECT (axisline));
@@ -9881,10 +9886,10 @@ oo_chart_axisline (GsfXMLIn *xin, xmlChar const **attrs)
 			} else
 				oo_warning (xin, _("Chart style with name '%s' is missing."),
 					    style_name);
+			go_styled_object_set_style (GO_STYLED_OBJECT (axisline), style);
 			g_object_unref (style);
 		}
 	}
-
 }
 
 static void
@@ -9966,11 +9971,9 @@ odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
 	od_draw_frame_start (xin, attrs);
 	state->chart.so = g_object_new (GNM_SO_FILLED_TYPE,
 					"is-oval", is_oval, NULL);
-
-	g_object_get (G_OBJECT (state->chart.so),
-		      "style", &style, NULL);
-
+	style = go_styled_object_get_style (GO_STYLED_OBJECT (state->chart.so));
 	if (style != NULL) {
+		style = go_style_dup (style);
 		if (state->default_style.graphics)
 			odf_apply_style_props
 				(xin, state->default_style.graphics->style_props,
@@ -9987,6 +9990,7 @@ odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
 				odf_apply_style_props (xin, oostyle->style_props,
 						       style, FALSE);
 		}
+		go_styled_object_set_style (GO_STYLED_OBJECT (state->chart.so), style);
 		g_object_unref (style);
 	}
 }
@@ -10561,12 +10565,12 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 			char const *end_marker = NULL;
 			GSList *l;
 
-			g_object_get (G_OBJECT (state->chart.so),
-				      "style", &style, NULL);
-
+			style = go_styled_object_get_style (GO_STYLED_OBJECT (state->chart.so));
 			if (style != NULL) {
+				style = go_style_dup (style);
 				odf_apply_style_props (xin, oostyle->style_props,
 						       style, FALSE);
+				go_styled_object_set_style (GO_STYLED_OBJECT (state->chart.so), style);
 				g_object_unref (style);
 			}
 
