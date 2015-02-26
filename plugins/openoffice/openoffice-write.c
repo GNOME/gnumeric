@@ -7530,7 +7530,7 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 		}
 	}
 
-	if (style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) {
+	if (style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE | GO_STYLE_MARKER)) {
 		GOLineDashType dash_type = style->line.dash_type;
 		gboolean has_line = go_style_is_line_visible (style);
 		gboolean is_auto;
@@ -7724,15 +7724,18 @@ odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject c
 		const char *symbol_type = NULL;
 
 		if (style->marker.auto_shape) {
-			GogPlot *plot =	GOG_IS_SERIES (obj)
-				? gog_series_get_plot (GOG_SERIES (obj))
-				: NULL;
-			gboolean has_marker;
-
-			if (gnm_object_has_readable_prop
-			    (plot, "default-style-has-markers",
-			     G_TYPE_BOOLEAN, &has_marker) &&
-			    has_marker)
+			if (GOG_IS_SERIES (obj)) {
+				GogPlot *plot =	gog_series_get_plot (GOG_SERIES (obj));
+				gboolean has_marker = TRUE;
+				
+				if (gnm_object_has_readable_prop
+				    (plot, "default-style-has-markers",
+				     G_TYPE_BOOLEAN, &has_marker)) {
+					if (has_marker)
+						symbol_type = "automatic";
+				} else
+					symbol_type = "automatic";
+			} else
 				symbol_type = "automatic";
 		} else {
 			GOMarkerShape m = go_marker_get_shape (marker);
