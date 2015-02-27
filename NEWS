@@ -26,6 +26,7 @@ Morten:
 	* Fix search-and-replace problem with text format.
 	* Fix xlsx import/export of gradients.
 	* Fix undo problems with scrollbars.
+	* Fix spinner properties dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20

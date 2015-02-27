@@ -1715,7 +1715,8 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 		state->direction_h = NULL;
 		state->direction_v = NULL;
 		gtk_widget_destroy (go_gtk_builder_get_widget (gui, "direction_label"));
-		gtk_widget_destroy (go_gtk_builder_get_widget (gui, "direction_box"));
+		gtk_widget_destroy (go_gtk_builder_get_widget (gui, "direction_h"));
+		gtk_widget_destroy (go_gtk_builder_get_widget (gui, "direction_v"));
 	}
 
 	/* TODO : This is silly, no need to be similar to XL here. */

@@ -1,3 +1,9 @@
+2015-02-27  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c
+	(sheet_widget_adjustment_user_config_impl): Widgets must have
+	changed names at some point.  Adjust for that.
+
 2015-02-25  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_list_base_set_sheet):
