@@ -804,7 +804,7 @@
 	<xs:attribute name="Inc"	type="xs:double"	use="required"/>
 	<xs:attribute name="Page"	type="xs:double"	use="required"/>
 	<xs:attribute name="Value"	type="xs:double"	use="required"/>
-	<xs:attribute name="Input"	type="xs:string"	use="required"/>
+	<xs:attribute name="Input"	type="xs:string"	use="optional"/>
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:attributeGroup>
 
