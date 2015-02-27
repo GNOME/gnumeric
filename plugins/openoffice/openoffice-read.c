@@ -9966,14 +9966,14 @@ odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *style_name = NULL;
-	GOStyle *style;
+	GOStyle *style0;
 
 	od_draw_frame_start (xin, attrs);
 	state->chart.so = g_object_new (GNM_SO_FILLED_TYPE,
 					"is-oval", is_oval, NULL);
-	style = go_styled_object_get_style (GO_STYLED_OBJECT (state->chart.so));
-	if (style != NULL) {
-		style = go_style_dup (style);
+	g_object_get (state->chart.so, "style", &style0, NULL);
+	if (style0 != NULL) {
+		GOStyle *style = go_style_dup (style0);
 		if (state->default_style.graphics)
 			odf_apply_style_props
 				(xin, state->default_style.graphics->style_props,
@@ -9990,8 +9990,9 @@ odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
 				odf_apply_style_props (xin, oostyle->style_props,
 						       style, FALSE);
 		}
-		go_styled_object_set_style (GO_STYLED_OBJECT (state->chart.so), style);
+		g_object_set (state->chart.so, "style", style, NULL);
 		g_object_unref (style);
+		g_object_unref (style0);
 	}
 }
 
@@ -10560,18 +10561,19 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 		OOChartStyle *oostyle = g_hash_table_lookup
 			(state->chart.graph_styles, style_name);
 		if (oostyle != NULL) {
-			GOStyle *style;
+			GOStyle *style0;
 			char const *start_marker = NULL;
 			char const *end_marker = NULL;
 			GSList *l;
 
-			style = go_styled_object_get_style (GO_STYLED_OBJECT (state->chart.so));
-			if (style != NULL) {
-				style = go_style_dup (style);
+			g_object_get (state->chart.so, "style", &style0, NULL);
+			if (style0 != NULL) {
+				GOStyle *style = go_style_dup (style0);
 				odf_apply_style_props (xin, oostyle->style_props,
 						       style, FALSE);
-				go_styled_object_set_style (GO_STYLED_OBJECT (state->chart.so), style);
+				g_object_set (state->chart.so, "style", style, NULL);
 				g_object_unref (style);
+				g_object_unref (style0);
 			}
 
 			for (l = oostyle->other_props; l != NULL; l = l->next) {
