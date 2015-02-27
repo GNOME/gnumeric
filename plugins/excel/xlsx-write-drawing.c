@@ -920,12 +920,14 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		}
 		if (set_invert)
 			xlsx_write_chart_uint (xml, "c:invertIfNegative", 1, 0);
+		if (explosion > 0.)
+			xlsx_write_chart_uint (xml, "c:explosion", 0, (unsigned) (explosion * 100));
 
 		children = gog_object_get_children (GOG_OBJECT (ser), NULL);
 
 		for (l = children; l; l = l->next) {
 			GogObject *pt = l->data;
-			unsigned idx;
+			int idx;
 			GOStyle *style;
 			XLSXStyleContext sctx;
 
@@ -935,7 +937,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			gsf_xml_out_start_element (xml, "c:dPt");
 
 			g_object_get (pt, "index", &idx, NULL);
-			xlsx_write_chart_uint (xml, "c:idx", 0, idx);
+			xlsx_write_chart_int (xml, "c:idx", -1, MAX (0, idx));
 
 			xlsx_style_context_init (&sctx, state);
 			sctx.def_has_markers = TRUE;
@@ -994,8 +996,6 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		}
 		g_slist_free (children);
 
-		if (explosion > 0.)
-			xlsx_write_chart_uint (xml, "c:explosion", 0, (unsigned) (explosion * 100));
 		if (use_xy) {
 			xlsx_write_series_dim (state, xml, ser, "c:xVal", GOG_MS_DIM_CATEGORIES);
 			xlsx_write_series_dim (state, xml, ser, "c:yVal", GOG_MS_DIM_VALUES);
