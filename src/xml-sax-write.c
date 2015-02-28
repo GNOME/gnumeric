@@ -1226,7 +1226,7 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 	 */
 	for (ptr = objects ;ptr != NULL ; ptr = ptr->next) {
 		SheetObject *so = ptr->data;
-		SheetObjectClass *klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
+		SheetObjectClass *klass = GNM_SO_CLASS (G_OBJECT_GET_CLASS (so));
 		if (klass == NULL || klass->write_xml_sax == NULL)
 			continue;
 
@@ -1240,7 +1240,7 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 
 	for (ptr = objects ;ptr != NULL ; ptr = ptr->next) {
 		SheetObject *so = ptr->data;
-		SheetObjectClass *klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
+		SheetObjectClass *klass = GNM_SO_CLASS (G_OBJECT_GET_CLASS (so));
 
 		if (needs_container) {
 			needs_container = FALSE;

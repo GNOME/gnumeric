@@ -2365,7 +2365,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	}
 
 	g_return_if_fail (so != NULL);
-	klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
+	klass = GNM_SO_CLASS (G_OBJECT_GET_CLASS (so));
 	g_return_if_fail (klass != NULL);
 
 	state->so = so;

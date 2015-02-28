@@ -576,7 +576,7 @@ gnm_filter_combo_finalize (GObject *object)
 	gnm_filter_condition_free (fcombo->cond);
 	fcombo->cond = NULL;
 
-	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
+	parent = g_type_class_peek (GNM_SO_TYPE);
 	parent->finalize (object);
 }
 
@@ -595,7 +595,7 @@ gnm_filter_combo_view_new (SheetObject *so, SheetObjectViewContainer *container)
 static void
 gnm_filter_combo_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (gobject_class);
 
 	/* Object class method overrides */
 	gobject_class->finalize = gnm_filter_combo_finalize;
@@ -617,7 +617,7 @@ gnm_filter_combo_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GnmFilterCombo, gnm_filter_combo,
 	   gnm_filter_combo_class_init, gnm_filter_combo_init,
-	   SHEET_OBJECT_TYPE)
+	   GNM_SO_TYPE)
 
 /*************************************************************************/
 

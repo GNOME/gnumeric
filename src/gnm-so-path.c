@@ -148,7 +148,7 @@ so_path_goc_view_class_init (SheetObjectViewClass *sov_klass)
 typedef SheetObjectViewClass	GnmSOPathViewClass;
 static GSF_CLASS (GnmSOPathView, so_path_goc_view,
 	so_path_goc_view_class_init, NULL,
-	SHEET_OBJECT_VIEW_TYPE)
+	GNM_SO_VIEW_TYPE)
 
 #endif
 
@@ -647,7 +647,7 @@ gnm_so_path_finalize (GObject *object)
 static void
 gnm_so_path_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (gobject_class);
 
 	gnm_so_path_parent_class = g_type_class_peek_parent (gobject_class);
 
@@ -695,4 +695,4 @@ gnm_so_path_init (GObject *obj)
 
 GSF_CLASS (GnmSOPath, gnm_so_path,
 	   gnm_so_path_class_init, gnm_so_path_init,
-	   SHEET_OBJECT_TYPE)
+	   GNM_SO_TYPE)

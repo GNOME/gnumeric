@@ -25,20 +25,20 @@ struct _SheetObjectAnchor {
 };
 GType sheet_object_anchor_get_type (void); /* Boxed type */
 
-#define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
-#define SHEET_OBJECT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_TYPE, SheetObject))
-#define GNM_IS_SO(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_TYPE))
+#define GNM_SO_TYPE     (sheet_object_get_type ())
+#define SHEET_OBJECT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_SO_TYPE, SheetObject))
+#define GNM_IS_SO(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SO_TYPE))
 GType sheet_object_get_type (void);
 
-#define SHEET_OBJECT_IMAGEABLE_TYPE  (sheet_object_imageable_get_type ())
-#define SHEET_OBJECT_IMAGEABLE(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), SHEET_OBJECT_IMAGEABLE_TYPE, SheetObjectImageableIface))
-#define IS_SHEET_OBJECT_IMAGEABLE(o)  (G_TYPE_CHECK_INSTANCE_TYPE ((o), SHEET_OBJECT_IMAGEABLE_TYPE))
+#define GNM_SO_IMAGEABLE_TYPE  (sheet_object_imageable_get_type ())
+#define GNM_SO_IMAGEABLE(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SO_IMAGEABLE_TYPE, SheetObjectImageableIface))
+#define GNM_IS_SO_IMAGEABLE(o)  (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SO_IMAGEABLE_TYPE))
 
 GType sheet_object_imageable_get_type (void);
 
-#define SHEET_OBJECT_EXPORTABLE_TYPE  (sheet_object_exportable_get_type ())
-#define SHEET_OBJECT_EXPORTABLE(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), SHEET_OBJECT_EXPORTABLE_TYPE, SheetObjectExportableIface))
-#define IS_SHEET_OBJECT_EXPORTABLE(o)  (G_TYPE_CHECK_INSTANCE_TYPE ((o), SHEET_OBJECT_EXPORTABLE_TYPE))
+#define GNM_SO_EXPORTABLE_TYPE  (sheet_object_exportable_get_type ())
+#define GNM_SO_EXPORTABLE(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SO_EXPORTABLE_TYPE, SheetObjectExportableIface))
+#define GNM_IS_SO_EXPORTABLE(o)  (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SO_EXPORTABLE_TYPE))
 
 GType sheet_object_exportable_get_type (void);
 

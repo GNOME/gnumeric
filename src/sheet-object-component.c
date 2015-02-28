@@ -79,7 +79,7 @@ so_component_goc_view_class_init (SheetObjectViewClass *sov_klass)
 
 static GSF_CLASS (SOComponentGocView, so_component_goc_view,
 	so_component_goc_view_class_init, NULL,
-	SHEET_OBJECT_VIEW_TYPE)
+	GNM_SO_VIEW_TYPE)
 
 
 /****************************************************************************/
@@ -273,7 +273,7 @@ gnm_soc_populate_menu (SheetObject *so, GPtrArray *actions)
 
 	unsigned int i;
 
-	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, actions);
+	GNM_SO_CLASS (parent_klass)->populate_menu (so, actions);
 
 	for (i = 0; i < G_N_ELEMENTS (soc_actions); i++)
 		go_ptr_array_insert (actions, (gpointer) (soc_actions + i), 1 + i);
@@ -401,7 +401,7 @@ gnm_soc_draw_cairo (SheetObject const *so, cairo_t *cr,
 static void
 gnm_soc_class_init (GObjectClass *klass)
 {
-	SheetObjectClass	*so_class  = SHEET_OBJECT_CLASS (klass);
+	SheetObjectClass	*so_class  = GNM_SO_CLASS (klass);
 
 	parent_klass = g_type_class_peek_parent (klass);
 
@@ -444,9 +444,9 @@ soc_exportable_init (SheetObjectExportableIface *soe_iface)
 
 GSF_CLASS_FULL (SheetObjectComponent, sheet_object_component,
 		NULL, NULL, gnm_soc_class_init,NULL,
-		gnm_soc_init, SHEET_OBJECT_TYPE, 0,
-		GSF_INTERFACE (soc_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE) \
-		GSF_INTERFACE (soc_exportable_init, SHEET_OBJECT_EXPORTABLE_TYPE));
+		gnm_soc_init, GNM_SO_TYPE, 0,
+		GSF_INTERFACE (soc_imageable_init, GNM_SO_IMAGEABLE_TYPE) \
+		GSF_INTERFACE (soc_exportable_init, GNM_SO_EXPORTABLE_TYPE));
 
 /**
  * sheet_object_component_new:

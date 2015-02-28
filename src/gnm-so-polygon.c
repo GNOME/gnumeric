@@ -103,7 +103,7 @@ typedef SheetObjectView	PolygonGocView;
 typedef SheetObjectViewClass	PolygonGocViewClass;
 static GSF_CLASS (PolygonGocView, so_polygon_goc_view,
 	so_polygon_goc_view_class_init, NULL,
-	SHEET_OBJECT_VIEW_TYPE)
+	GNM_SO_VIEW_TYPE)
 
 #endif /* GNM_WITH_GTK */
 
@@ -283,7 +283,7 @@ gnm_so_polygon_finalize (GObject *object)
 static void
 gnm_so_polygon_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (gobject_class);
 
 	gnm_so_polygon_parent_class = g_type_class_peek_parent (gobject_class);
 
@@ -329,4 +329,4 @@ gnm_so_polygon_init (GObject *obj)
 
 GSF_CLASS (GnmSOPolygon, gnm_so_polygon,
 	   gnm_so_polygon_class_init, gnm_so_polygon_init,
-	   SHEET_OBJECT_TYPE)
+	   GNM_SO_TYPE)

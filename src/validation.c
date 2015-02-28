@@ -114,7 +114,7 @@ gnm_validation_combo_view_new (SheetObject *so, SheetObjectViewContainer *contai
 static void
 gnm_validation_combo_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (gobject_class);
 	gobject_class->finalize	= gnm_validation_combo_finalize;
 	so_class->new_view = gnm_validation_combo_view_new;
 

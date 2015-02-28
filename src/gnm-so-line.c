@@ -89,7 +89,7 @@ typedef SheetObjectView		LineGocView;
 typedef SheetObjectViewClass	LineGocViewClass;
 static GSF_CLASS (LineGocView, so_line_goc_view,
 	so_line_goc_view_class_init, NULL,
-	SHEET_OBJECT_VIEW_TYPE)
+	GNM_SO_VIEW_TYPE)
 
 #endif /* GNM_WITH_GTK */
 enum {
@@ -409,7 +409,7 @@ gnm_so_line_finalize (GObject *object)
 static void
 gnm_so_line_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass *so_class  = SHEET_OBJECT_CLASS (gobject_class);
+	SheetObjectClass *so_class  = GNM_SO_CLASS (gobject_class);
 
 	gnm_so_line_parent_class = g_type_class_peek_parent (gobject_class);
 
@@ -453,4 +453,4 @@ gnm_so_line_init (GObject *obj)
 
 GSF_CLASS (GnmSOLine, gnm_so_line,
 	   gnm_so_line_class_init, gnm_so_line_init,
-	   SHEET_OBJECT_TYPE)
+	   GNM_SO_TYPE)

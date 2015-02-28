@@ -86,7 +86,7 @@ typedef SheetObjectViewClass	SOGraphGocViewClass;
 
 static GSF_CLASS (SOGraphGocView, so_graph_goc_view,
 	so_graph_goc_view_class_init, NULL,
-	SHEET_OBJECT_VIEW_TYPE)
+	GNM_SO_VIEW_TYPE)
 
 /****************************************************************************/
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-graph-key"
@@ -161,7 +161,7 @@ cb_graph_size_changed (GocItem *item, GtkAllocation *allocation)
 {
 	GogRenderer *rend;
 	GogGraph *graph;
-	SheetObject *so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (item->parent));
+	SheetObject *so = sheet_object_view_get_so (GNM_SO_VIEW (item->parent));
 	PrintInformation *pi = so->sheet->print_info;
 	double top, bottom, left, right, edge_to_below_header, edge_to_above_footer, w, h, x = 0., y = 0.;
 	w = print_info_get_paper_width (pi, GTK_UNIT_POINTS);
@@ -404,7 +404,7 @@ gnm_sog_populate_menu (SheetObject *so, GPtrArray *actions)
 
 	unsigned int i;
 
-	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, actions);
+	GNM_SO_CLASS (parent_klass)->populate_menu (so, actions);
 
 	for (i = 0; i < G_N_ELEMENTS (sog_actions); i++)
 		go_ptr_array_insert (actions, (gpointer) (sog_actions + i), 1 + i);
@@ -561,7 +561,7 @@ gnm_sog_bounds_changed (SheetObject *so)
 static void
 gnm_sog_class_init (GObjectClass *klass)
 {
-	SheetObjectClass	*so_class  = SHEET_OBJECT_CLASS (klass);
+	SheetObjectClass	*so_class  = GNM_SO_CLASS (klass);
 
 	parent_klass = g_type_class_peek_parent (klass);
 
@@ -608,9 +608,9 @@ sog_exportable_init (SheetObjectExportableIface *soe_iface)
 
 GSF_CLASS_FULL (SheetObjectGraph, sheet_object_graph,
 		NULL, NULL, gnm_sog_class_init,NULL,
-		gnm_sog_init, SHEET_OBJECT_TYPE, 0,
-		GSF_INTERFACE (sog_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE) \
-		GSF_INTERFACE (sog_exportable_init, SHEET_OBJECT_EXPORTABLE_TYPE))
+		gnm_sog_init, GNM_SO_TYPE, 0,
+		GSF_INTERFACE (sog_imageable_init, GNM_SO_IMAGEABLE_TYPE) \
+		GSF_INTERFACE (sog_exportable_init, GNM_SO_EXPORTABLE_TYPE))
 
 /**
  * sheet_object_graph_new:

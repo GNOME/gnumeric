@@ -479,4 +479,4 @@ gnm_cell_combo_view_init (SheetObjectView *view)
 
 GSF_CLASS (GnmCComboView, gnm_ccombo_view,
 	   NULL, gnm_cell_combo_view_init,
-	   SHEET_OBJECT_VIEW_TYPE)
+	   GNM_SO_VIEW_TYPE)

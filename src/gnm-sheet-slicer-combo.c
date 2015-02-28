@@ -89,7 +89,7 @@ gnm_sheet_slicer_combo_get_property (GObject *obj, guint property_id,
 static void
 gnm_sheet_slicer_combo_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (gobject_class);
 
 	gssc_parent_klass = g_type_class_peek_parent (gobject_class);
 

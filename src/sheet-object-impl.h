@@ -105,7 +105,7 @@ typedef struct {
 	void *data_pad3;
 	void *data_pad4;
 } SheetObjectClass;
-#define SHEET_OBJECT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_TYPE, SheetObjectClass))
+#define GNM_SO_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SO_TYPE, SheetObjectClass))
 
 /***************************************************************************/
 
@@ -123,12 +123,12 @@ typedef struct {
 			    double const *coords, gboolean visible);
 } SheetObjectViewClass;
 
-#define SHEET_OBJECT_VIEW_TYPE		(sheet_object_view_get_type ())
-#define SHEET_OBJECT_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_OBJECT_VIEW_TYPE, SheetObjectView))
-#define IS_SHEET_OBJECT_VIEW(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_VIEW_TYPE))
-#define SHEET_OBJECT_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k), SHEET_OBJECT_VIEW_TYPE, SheetObjectViewIface))
-#define IS_SHEET_OBJECT_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE((k), SHEET_OBJECT_VIEW_TYPE))
-#define SHEET_OBJECT_VIEW_GET_CLASS(o)  (G_TYPE_INSTANCE_GET_CLASS ((o), SHEET_OBJECT_VIEW_TYPE, SheetObjectViewClass))
+#define GNM_SO_VIEW_TYPE		(sheet_object_view_get_type ())
+#define GNM_SO_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_SO_VIEW_TYPE, SheetObjectView))
+#define GNM_IS_SO_VIEW(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SO_VIEW_TYPE))
+#define GNM_SO_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k), GNM_SO_VIEW_TYPE, SheetObjectViewIface))
+#define GNM_IS_SO_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE((k), GNM_SO_VIEW_TYPE))
+#define GNM_SO_VIEW_GET_CLASS(o)  (G_TYPE_INSTANCE_GET_CLASS ((o), GNM_SO_VIEW_TYPE, SheetObjectViewClass))
 
 GType	     sheet_object_view_get_type	  (void);
 SheetObject *sheet_object_view_get_so	  (SheetObjectView *sov);

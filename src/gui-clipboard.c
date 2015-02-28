@@ -759,7 +759,7 @@ image_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	if (strncmp (mime_type, "image/", 6) != 0)
 		return ret;
 	for (l = cr->objects; l != NULL; l = l->next) {
-		if (IS_SHEET_OBJECT_IMAGEABLE (SHEET_OBJECT (l->data))) {
+		if (GNM_IS_SO_IMAGEABLE (SHEET_OBJECT (l->data))) {
 			so = SHEET_OBJECT (l->data);
 			break;
 		}
@@ -811,7 +811,7 @@ object_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	g_return_val_if_fail (so != NULL, NULL);
 
 	for (l = cr->objects; l != NULL; l = l->next) {
-		if (IS_SHEET_OBJECT_EXPORTABLE (SHEET_OBJECT (l->data))) {
+		if (GNM_IS_SO_EXPORTABLE (SHEET_OBJECT (l->data))) {
 			so = SHEET_OBJECT (l->data);
 			break;
 		}
@@ -1100,9 +1100,9 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 		for (ptr = content->objects; ptr != NULL;
 		     ptr = ptr->next) {
 			SheetObject *candidate = SHEET_OBJECT (ptr->data);
-			if (exportable == NULL && IS_SHEET_OBJECT_EXPORTABLE (candidate))
+			if (exportable == NULL && GNM_IS_SO_EXPORTABLE (candidate))
 				exportable = candidate;
-			if (imageable == NULL && IS_SHEET_OBJECT_IMAGEABLE (candidate))
+			if (imageable == NULL && GNM_IS_SO_IMAGEABLE (candidate))
 				imageable = candidate;
 		}
 		/* Currently, we can't render sheet objects as text or html */

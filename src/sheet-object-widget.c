@@ -172,7 +172,7 @@ so_widget_view_class_init (SheetObjectViewClass *sov_klass)
 
 static GSF_CLASS (SOWidgetView, so_widget_view,
 	so_widget_view_class_init, NULL,
-	SHEET_OBJECT_VIEW_TYPE)
+	GNM_SO_VIEW_TYPE)
 
 /****************************************************************************/
 
@@ -190,7 +190,7 @@ static void								\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 {									\
 	SheetObjectWidgetClass *sow_class = GNM_SOW_CLASS (object_class); \
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);	\
+	SheetObjectClass *so_class = GNM_SO_CLASS (object_class);	\
 	object_class->finalize		= &sheet_widget_ ## n1 ## _finalize; \
 	object_class->set_property	= fn_set_property;		\
 	object_class->get_property	= fn_get_property;		\
@@ -313,7 +313,7 @@ sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *contain
 static void
 sheet_object_widget_class_init (GObjectClass *object_class)
 {
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (object_class);
 	SheetObjectWidgetClass *sow_class = GNM_SOW_CLASS (object_class);
 
 	sheet_object_widget_class = G_OBJECT_CLASS (object_class);
@@ -336,7 +336,7 @@ sheet_object_widget_init (SheetObjectWidget *sow)
 GSF_CLASS (SheetObjectWidget, sheet_object_widget,
 	   sheet_object_widget_class_init,
 	   sheet_object_widget_init,
-	   SHEET_OBJECT_TYPE)
+	   GNM_SO_TYPE)
 
 static WorkbookControl *
 widget_wbc (GtkWidget *widget)
@@ -1996,7 +1996,7 @@ static void
 sheet_widget_scrollbar_class_init (SheetObjectWidgetClass *sow_class)
 {
 	SheetWidgetAdjustmentClass *swa_class = (SheetWidgetAdjustmentClass *)sow_class;
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (sow_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (sow_class);
 
         sow_class->create_widget = &sheet_widget_scrollbar_create_widget;
 	so_class->user_config = &sheet_widget_scrollbar_user_config;
@@ -2102,7 +2102,7 @@ static void
 sheet_widget_spinbutton_class_init (SheetObjectWidgetClass *sow_class)
 {
 	SheetWidgetAdjustmentClass *swa_class = (SheetWidgetAdjustmentClass *)sow_class;
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (sow_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (sow_class);
 
         sow_class->create_widget = &sheet_widget_spinbutton_create_widget;
 	so_class->user_config = &sheet_widget_spinbutton_user_config;
@@ -2212,7 +2212,7 @@ static void
 sheet_widget_slider_class_init (SheetObjectWidgetClass *sow_class)
 {
 	SheetWidgetAdjustmentClass *swa_class = (SheetWidgetAdjustmentClass *)sow_class;
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (sow_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (sow_class);
 
         sow_class->create_widget = &sheet_widget_slider_create_widget;
 	so_class->user_config = &sheet_widget_slider_user_config;
@@ -3971,7 +3971,7 @@ sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 static void
 sheet_widget_list_class_init (SheetObjectWidgetClass *sow_class)
 {
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (sow_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (sow_class);
 
 	so_class->draw_cairo = &sheet_widget_list_draw_cairo;
         sow_class->create_widget = &sheet_widget_list_create_widget;
@@ -4104,7 +4104,7 @@ sheet_widget_combo_draw_cairo (SheetObject const *so, cairo_t *cr,
 static void
 sheet_widget_combo_class_init (SheetObjectWidgetClass *sow_class)
 {
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (sow_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (sow_class);
 
 	so_class->draw_cairo = &sheet_widget_combo_draw_cairo;
         sow_class->create_widget = &sheet_widget_combo_create_widget;

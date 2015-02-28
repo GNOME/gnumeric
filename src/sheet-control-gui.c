@@ -2551,7 +2551,7 @@ calc_obj_place (GnmPane *pane, gint64 canvas_coord, gboolean is_col,
 	return colrow;
 }
 
-#define SO_CLASS(so) SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))
+#define SO_CLASS(so) GNM_SO_CLASS (G_OBJECT_GET_CLASS(so))
 
 /**
  * scg_object_select:
@@ -4284,7 +4284,7 @@ scg_drag_send_image (G_GNUC_UNUSED SheetControlGUI *scg,
 	GSList *ptr;
 
 	for (ptr = objects; ptr != NULL; ptr = ptr->next) {
-		if (IS_SHEET_OBJECT_IMAGEABLE (SHEET_OBJECT (ptr->data))) {
+		if (GNM_IS_SO_IMAGEABLE (SHEET_OBJECT (ptr->data))) {
 			so = SHEET_OBJECT (ptr->data);
 			break;
 		}
@@ -4328,7 +4328,7 @@ scg_drag_send_graph (G_GNUC_UNUSED SheetControlGUI *scg,
 	GSList *ptr;
 
 	for (ptr = objects; ptr != NULL; ptr = ptr->next)
-		if (IS_SHEET_OBJECT_EXPORTABLE (SHEET_OBJECT (ptr->data))) {
+		if (GNM_IS_SO_EXPORTABLE (SHEET_OBJECT (ptr->data))) {
 			so = SHEET_OBJECT (ptr->data);
 			break;
 		}

@@ -92,7 +92,7 @@ typedef SheetObjectView	SOImageGocView;
 typedef SheetObjectViewClass	SOImageGocViewClass;
 static GSF_CLASS (SOImageGocView, so_image_goc_view,
 	so_image_goc_view_class_init, NULL,
-	SHEET_OBJECT_VIEW_TYPE)
+	GNM_SO_VIEW_TYPE)
 
 /****************************************************************************/
 struct _SheetObjectImage {
@@ -558,7 +558,7 @@ gnm_soi_class_init (GObjectClass *object_class)
 	object_class->get_property = gnm_soi_get_property;
 
 	/* SheetObject class method overrides */
-	so_class = SHEET_OBJECT_CLASS (object_class);
+	so_class = GNM_SO_CLASS (object_class);
 	so_class->new_view		= gnm_soi_new_view;
 	so_class->populate_menu		= gnm_soi_populate_menu;
 	so_class->write_xml_sax		= gnm_soi_write_xml_sax;
@@ -613,5 +613,5 @@ soi_imageable_init (SheetObjectImageableIface *soi_iface)
 
 GSF_CLASS_FULL (SheetObjectImage, sheet_object_image,
 	   NULL, NULL, gnm_soi_class_init, NULL,
-	   gnm_soi_init, SHEET_OBJECT_TYPE, 0,
-	   GSF_INTERFACE (soi_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE))
+	   gnm_soi_init, GNM_SO_TYPE, 0,
+	   GSF_INTERFACE (soi_imageable_init, GNM_SO_IMAGEABLE_TYPE))

@@ -2553,10 +2553,10 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 		candidate = SHEET_OBJECT (ptr->data);
 
 		if (exportable == NULL &&
-		    IS_SHEET_OBJECT_EXPORTABLE (candidate))
+		    GNM_IS_SO_EXPORTABLE (candidate))
 			exportable = candidate;
 		if (imageable == NULL &&
-		    IS_SHEET_OBJECT_IMAGEABLE (candidate))
+		    GNM_IS_SO_IMAGEABLE (candidate))
 			imageable = candidate;
 	}
 
@@ -3109,7 +3109,7 @@ cb_bounds_changed (SheetObject *so, GocItem *sov)
 		gnm_pane_object_update_bbox (GNM_PANE (sov->canvas), so);
 	}
 
-	sheet_object_view_set_bounds (SHEET_OBJECT_VIEW (sov),
+	sheet_object_view_set_bounds (GNM_SO_VIEW (sov),
 		coords, so->flags & SHEET_OBJECT_IS_VISIBLE);
 }
 
@@ -3127,7 +3127,7 @@ gnm_pane_object_register (SheetObject *so, GocItem *view, gboolean selectable)
 {
 	g_signal_connect_object (so, "bounds-changed",
 		G_CALLBACK (cb_bounds_changed), view, 0);
-	return SHEET_OBJECT_VIEW (view);
+	return GNM_SO_VIEW (view);
 }
 
 /**

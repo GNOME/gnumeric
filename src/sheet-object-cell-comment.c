@@ -133,7 +133,7 @@ comment_view_button_released (GocItem *item, int button, double x, double y)
 		return FALSE;
 
 	gnm_canvas_get_screen_position (item->canvas, x, y, &ix, &iy);
-	so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (item));
+	so = sheet_object_view_get_so (GNM_SO_VIEW (item));
 	scg_comment_display (GNM_PANE (item->canvas)->simple.scg,
 	                     CELL_COMMENT (so),
 			     ix, iy);
@@ -157,7 +157,7 @@ comment_view_button2_pressed (GocItem *item, int button, double x, double y)
 		return FALSE;
 
 	scg = GNM_PANE (item->canvas)->simple.scg;
-	so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (item));
+	so = sheet_object_view_get_so (GNM_SO_VIEW (item));
 	r = sheet_object_get_range (so);
 	dialog_cell_comment (scg->wbcg, so->sheet, &r->start);
 	return TRUE;
@@ -172,7 +172,7 @@ comment_view_enter_notify (GocItem *item, double x, double y)
 	gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_ARROW);
 
 	gnm_canvas_get_screen_position (item->canvas, x, y, &ix, &iy);
-	so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (item));
+	so = sheet_object_view_get_so (GNM_SO_VIEW (item));
 
 	scg_comment_select (GNM_PANE (item->canvas)->simple.scg,
 			    CELL_COMMENT (so),
@@ -184,7 +184,7 @@ static gboolean
 comment_view_leave_notify (GocItem *item, double x, double y)
 {
 	scg_comment_unselect (GNM_PANE (item->canvas)->simple.scg,
-	                      CELL_COMMENT (sheet_object_view_get_so (SHEET_OBJECT_VIEW (item))));
+	                      CELL_COMMENT (sheet_object_view_get_so (GNM_SO_VIEW (item))));
 	return TRUE;
 }
 
@@ -206,7 +206,7 @@ comment_view_class_init (SheetObjectViewClass *sov_klass)
 
 static GSF_CLASS (CommentView, comment_view,
 	comment_view_class_init, NULL,
-	SHEET_OBJECT_VIEW_TYPE)
+	GNM_SO_VIEW_TYPE)
 
 static void
 cell_comment_finalize (GObject *object)
@@ -358,7 +358,7 @@ cell_comment_copy (SheetObject *dst, SheetObject const *src)
 static void
 cell_comment_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (gobject_class);
+	SheetObjectClass *sheet_object_class = GNM_SO_CLASS (gobject_class);
 
 	cell_comment_parent_class = g_type_class_peek_parent (gobject_class);
 
@@ -392,7 +392,7 @@ cell_comment_init (GnmComment *cc)
 }
 
 GSF_CLASS (GnmComment, cell_comment,
-	   cell_comment_class_init, cell_comment_init, SHEET_OBJECT_TYPE)
+	   cell_comment_class_init, cell_comment_init, GNM_SO_TYPE)
 
 char const  *
 cell_comment_author_get (GnmComment const *cc)

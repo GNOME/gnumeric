@@ -70,7 +70,7 @@ sheet_object_anchor_get_type (void)
 }
 
 /* Returns the class for a SheetObject */
-#define SO_CLASS(so) SHEET_OBJECT_CLASS(G_OBJECT_GET_CLASS(so))
+#define SO_CLASS(so) GNM_SO_CLASS(G_OBJECT_GET_CLASS(so))
 
 enum {
 	SO_PROP_0 = 0,
@@ -273,7 +273,7 @@ sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	g_return_if_fail  (NULL != so);
 
-	SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, actions);
+	GNM_SO_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, actions);
 }
 
 /**
@@ -390,7 +390,7 @@ so_default_size (G_GNUC_UNUSED SheetObject const *so, double *width, double *hei
 static void
 sheet_object_class_init (GObjectClass *klass)
 {
-	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (klass);
+	SheetObjectClass *sheet_object_class = GNM_SO_CLASS (klass);
 
 	parent_klass = g_type_class_peek_parent (klass);
 
@@ -412,14 +412,14 @@ sheet_object_class_init (GObjectClass *klass)
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	signals [BOUNDS_CHANGED] = g_signal_new ("bounds-changed",
-		SHEET_OBJECT_TYPE,
+		GNM_SO_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (SheetObjectClass, bounds_changed),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 	signals [UNREALIZED] = g_signal_new ("unrealized",
-		SHEET_OBJECT_TYPE,
+		GNM_SO_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (SheetObjectClass, unrealized),
 		NULL, NULL,
@@ -446,7 +446,7 @@ sheet_object_get_view (SheetObject const *so, SheetObjectViewContainer *containe
 	g_return_val_if_fail (GNM_IS_SO (so), NULL);
 
 	for (l = so->realized_list; l; l = l->next) {
-		SheetObjectView *view = SHEET_OBJECT_VIEW (l->data);
+		SheetObjectView *view = GNM_SO_VIEW (l->data);
 		if (container == g_object_get_qdata (G_OBJECT (view), sov_container_quark))
 			return view;
 	}
@@ -697,7 +697,7 @@ sheet_object_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	if (NULL == view)
 		return NULL;
 
-	g_return_val_if_fail (IS_SHEET_OBJECT_VIEW (view), NULL);
+	g_return_val_if_fail (GNM_IS_SO_VIEW (view), NULL);
 
 	/* Store some useful information */
 	g_object_set_qdata (G_OBJECT (view), sov_so_quark, so);
@@ -1276,8 +1276,8 @@ sheet_object_view_set_bounds (SheetObjectView *sov,
 {
 	SheetObjectViewClass *klass;
 
-	g_return_if_fail (IS_SHEET_OBJECT_VIEW (sov));
-	klass = SHEET_OBJECT_VIEW_GET_CLASS (sov);
+	g_return_if_fail (GNM_IS_SO_VIEW (sov));
+	klass = GNM_SO_VIEW_GET_CLASS (sov);
 	if (NULL != klass->set_bounds)
 		(klass->set_bounds) (sov, coords, visible);
 }
@@ -1316,7 +1316,7 @@ cb_so_menu_activate (GObject *menu, GocItem *view)
 	SheetObjectAction const *a = g_object_get_data (menu, "action");
 
 	if (a->func) {
-		SheetObject *so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
+		SheetObject *so = sheet_object_view_get_so (GNM_SO_VIEW (view));
 		gpointer data = g_object_get_data (G_OBJECT (view->canvas), "sheet-control");
 
 		if (data == NULL)
@@ -1401,7 +1401,7 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 		/* cb_sheet_object_widget_canvas_event calls even if selected */
 		if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so)) {
 			SheetObjectClass *soc =
-				G_TYPE_INSTANCE_GET_CLASS (so, SHEET_OBJECT_TYPE, SheetObjectClass);
+				G_TYPE_INSTANCE_GET_CLASS (so, GNM_SO_TYPE, SheetObjectClass);
 			GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
 
 			if (soc->interactive && button != 3)
@@ -1506,24 +1506,24 @@ sheet_object_imageable_get_type (void)
 	return type;
 }
 
-#define SHEET_OBJECT_IMAGEABLE_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), SHEET_OBJECT_IMAGEABLE_TYPE, SheetObjectImageableIface))
+#define GNM_SO_IMAGEABLE_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GNM_SO_IMAGEABLE_TYPE, SheetObjectImageableIface))
 
 GtkTargetList *
 sheet_object_get_target_list (SheetObject const *so)
 {
-	if (!IS_SHEET_OBJECT_IMAGEABLE (so))
+	if (!GNM_IS_SO_IMAGEABLE (so))
 		return NULL;
 
-	return SHEET_OBJECT_IMAGEABLE_CLASS (so)->get_target_list (so);
+	return GNM_SO_IMAGEABLE_CLASS (so)->get_target_list (so);
 }
 
 void
 sheet_object_write_image (SheetObject const *so, char const *format, double resolution,
 			  GsfOutput *output, GError **err)
 {
-	g_return_if_fail (IS_SHEET_OBJECT_IMAGEABLE (so));
+	g_return_if_fail (GNM_IS_SO_IMAGEABLE (so));
 
-	SHEET_OBJECT_IMAGEABLE_CLASS (so)->write_image (so, format, resolution,
+	GNM_SO_IMAGEABLE_CLASS (so)->write_image (so, format, resolution,
 							output, err);
 
 }
@@ -1550,15 +1550,15 @@ sheet_object_exportable_get_type (void)
 	return type;
 }
 
-#define SHEET_OBJECT_EXPORTABLE_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), SHEET_OBJECT_EXPORTABLE_TYPE, SheetObjectExportableIface))
+#define GNM_SO_EXPORTABLE_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GNM_SO_EXPORTABLE_TYPE, SheetObjectExportableIface))
 
 GtkTargetList *
 sheet_object_exportable_get_target_list (SheetObject const *so)
 {
-	if (!IS_SHEET_OBJECT_EXPORTABLE (so))
+	if (!GNM_IS_SO_EXPORTABLE (so))
 		return NULL;
 
-	return SHEET_OBJECT_EXPORTABLE_CLASS (so)->get_target_list (so);
+	return GNM_SO_EXPORTABLE_CLASS (so)->get_target_list (so);
 }
 
 void
@@ -1568,10 +1568,10 @@ sheet_object_write_object (SheetObject const *so, char const *format,
 {
 	GnmLocale *locale;
 
-	g_return_if_fail (IS_SHEET_OBJECT_EXPORTABLE (so));
+	g_return_if_fail (GNM_IS_SO_EXPORTABLE (so));
 
 	locale = gnm_push_C_locale ();
-	SHEET_OBJECT_EXPORTABLE_CLASS (so)->
+	GNM_SO_EXPORTABLE_CLASS (so)->
 		write_object (so, format, output, err, convs);
 	gnm_pop_C_locale (locale);
 }

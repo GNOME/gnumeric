@@ -106,7 +106,7 @@ gnm_cell_combo_init (SheetObject *so)
 static void
 gnm_cell_combo_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+	SheetObjectClass *so_class = GNM_SO_CLASS (gobject_class);
 
 	gcc_parent_klass = g_type_class_peek_parent (gobject_class);
 
@@ -125,4 +125,4 @@ gnm_cell_combo_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS_ABSTRACT (GnmCellCombo, gnm_cell_combo,
 		    gnm_cell_combo_class_init, gnm_cell_combo_init,
-		    SHEET_OBJECT_TYPE)
+		    GNM_SO_TYPE)
