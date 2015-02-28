@@ -1243,6 +1243,32 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			xlsx_write_chart (state, chart_part, so);
 			gsf_output_close (chart_part);
 			g_object_unref (chart_part);
+		} else if (GNM_IS_SO_IMAGE (so)) {
+			const char *ext;
+			char *name, *mime_type;
+			GsfOutput *image_part;
+			GOImage *image;
+			GOImageFormatInfo const *info;
+
+			g_object_get (so, "image", &image, NULL);
+			info = go_image_get_info (image);
+
+			ext = info ? info->ext : "image";
+			mime_type = info ? go_image_format_to_mime (info->name) : NULL;
+			name = g_strdup_printf ("image%u.%s", ++state->media_dir.count, ext);
+			image_part = gsf_outfile_new_child_full
+				(xlsx_dir_get (&state->media_dir), name, FALSE,
+				 "content-type", (mime_type ? mime_type : "image"),
+				 NULL);
+			rId1 = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (image_part),
+							    GSF_OUTFILE_OPEN_PKG (drawing_part),
+							    ns_rel_chart);
+			sheet_object_write_image (so, NULL, -1, image_part, NULL);
+			gsf_output_close (image_part);
+			g_object_unref (image_part);
+			g_free (name);
+			g_free (mime_type);
+			g_object_unref (image);
 		} else {
 			/* Lines etc. go here.  */
 			rId1 = NULL;
@@ -1319,6 +1345,8 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			gsf_xml_out_end_element (xml); /* </a:graphicData> */
 			gsf_xml_out_end_element (xml); /* </a:graphic> */
 			gsf_xml_out_end_element (xml); /* </xdr:graphicFrame> */
+		} else if (GNM_IS_SO_IMAGE (so)) {
+			/* What? */
 		} else if (IS_GNM_SO_LINE (so) ||
 			   IS_GNM_SO_FILLED (so)) {
 			GOStyle *style = NULL;
