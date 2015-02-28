@@ -1102,34 +1102,17 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 						    href_complete);
 				else {
 					gsf_off_t len = gsf_input_size (input);
-					guint8 const *data = gsf_input_read
-						(input, len, NULL);
-					GdkPixbufLoader *loader
-						= gdk_pixbuf_loader_new ();
-					GdkPixbuf *pixbuf = NULL;
-
-					if (gdk_pixbuf_loader_write (loader,
-								     (guchar *)data,
-								     (gsize)len,
-								     NULL)) {
-						gdk_pixbuf_loader_close (loader, NULL);
-						pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-						g_object_ref (pixbuf);
-						if (style->fill.image.image != NULL)
-							g_object_set
-								(G_OBJECT (style->fill.image.image),
-								 "pixbuf", pixbuf, NULL);
-						else
-							style->fill.image.image =
-								go_pixbuf_new_from_pixbuf (pixbuf);
-						go_image_set_name (style->fill.image.image,
-								   fill_image_name);
-						g_object_unref (loader);
+					guint8 const *data = gsf_input_read (input, len, NULL);
+					GOImage *image = go_image_new_from_data (NULL, data, len, NULL, NULL);
+					if (image) {
+						g_clear_object (&style->fill.image.image);
+						style->fill.image.image = image;
 					} else {
 						oo_warning (xin, _("Unable to load "
 								   "the file \'%s\'."),
 							    href_complete);
 					}
+
 					g_object_unref (input);
 				}
 				g_free (href_complete);

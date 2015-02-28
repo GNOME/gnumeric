@@ -1,3 +1,8 @@
+2015-02-28  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_apply_style_props): Simplify using
+	go_image_new_from_data.
+
 2015-02-26  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c: Don't change the style of an object.  Copy,
