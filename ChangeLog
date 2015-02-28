@@ -1,5 +1,9 @@
 2015-02-27  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object-image.c (gnm_soi_get_property): Use a boxed
+	type for image data.  Create image data if needed.
+	(SheetObjectImage): Use a properly allocated GByteArray.
+
 	* src/sheet-object-widget.c
 	(sheet_widget_adjustment_user_config_impl): Widgets must have
 	changed names at some point.  Adjust for that.

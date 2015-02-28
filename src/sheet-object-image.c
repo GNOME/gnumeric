@@ -101,7 +101,7 @@ struct _SheetObjectImage {
 	GOImage      *image;
 	char         *type;
 	char	     *name;
-	GByteArray   bytes;
+	GByteArray   *bytes;
 
 	gboolean dumped;
 	double   crop_top;
@@ -142,12 +142,15 @@ sheet_object_image_set_image (SheetObjectImage *soi,
 			      gboolean      copy_data)
 {
 	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (soi));
-	g_return_if_fail (soi->bytes.data == NULL && soi->bytes.len == 0);
+	g_return_if_fail (soi->bytes->len == 0);
+	g_return_if_fail (soi->type == NULL);
 
 	soi->type       = (type && *type)? g_strdup (type): NULL;
-	soi->bytes.len  = data_len;
-	soi->bytes.data = copy_data ? g_memdup (data, data_len) : data;
-	soi->image = go_image_new_from_data (soi->type, soi->bytes.data, soi->bytes.len,
+	g_byte_array_set_size (soi->bytes, 0);
+	g_byte_array_append (soi->bytes, data, data_len);
+	if (!copy_data)
+		g_free (data);
+	soi->image = go_image_new_from_data (soi->type, soi->bytes->data, soi->bytes->len,
 	                                     ((soi->type == NULL)? &soi->type: NULL), NULL);
 	if (soi->sheet_object.sheet != NULL) {
 		GOImage *image = go_doc_add_image (GO_DOC (soi->sheet_object.sheet->workbook), NULL, soi->image);
@@ -177,10 +180,10 @@ gnm_soi_finalize (GObject *object)
 	SheetObjectImage *soi;
 
 	soi = SHEET_OBJECT_IMAGE (object);
-	g_free (soi->bytes.data);
+	g_byte_array_unref (soi->bytes);
+	soi->bytes = NULL;
 	g_free (soi->type);
 	g_free (soi->name);
-	soi->bytes.data = NULL;
 	if (soi->image)
 		g_object_unref (soi->image);
 
@@ -292,13 +295,13 @@ gnm_soi_write_image (SheetObject const *so, char const *format,
 	GdkPixbuf *pixbuf = go_image_get_pixbuf (soi->image);
 
 	if (!soi->type || strcmp (format, soi->type) == 0) {
-		if (soi->bytes.len == 0) {
+		if (soi->bytes->len == 0) {
 			gsize length;
 			guint8 const *data = go_image_get_data (soi->image, &length);
 			res = gsf_output_write (output,	length, data);
 		} else
 			res = gsf_output_write (output,
-						soi->bytes.len, soi->bytes.data);
+						soi->bytes->len, soi->bytes->data);
 	} else if (pixbuf)
 		res = gdk_pixbuf_save_to_callback (pixbuf,
 						   soi_gdk_pixbuf_save, output,
@@ -394,11 +397,11 @@ content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 
 	if (data->len >= 4) {
 		size_t len = gsf_base64_decode_simple (data->str, data->len);
-		soi->bytes.len = len;
-		soi->bytes.data = g_memdup (data->str, len);
+		g_byte_array_set_size (soi->bytes, 0);
+		g_byte_array_append (soi->bytes, data->str, len);
 		soi->image = go_image_new_from_data (soi->type,
-						     soi->bytes.data,
-						     len, NULL, NULL);
+						     soi->bytes->data,
+						     soi->bytes->len, NULL, NULL);
 	}
 }
 
@@ -459,8 +462,8 @@ gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 			gsf_xml_out_add_base64 (output, NULL, data, length);
 		}
 	} else {
-		gsf_xml_out_add_uint (output, "size-bytes", soi->bytes.len);
-		gsf_xml_out_add_base64 (output, NULL, soi->bytes.data, soi->bytes.len);
+		gsf_xml_out_add_uint (output, "size-bytes", soi->bytes->len);
+		gsf_xml_out_add_base64 (output, NULL, soi->bytes->data, soi->bytes->len);
 	}
 	gsf_xml_out_end_element (output);
 }
@@ -472,8 +475,8 @@ gnm_soi_copy (SheetObject *dst, SheetObject const *src)
 	SheetObjectImage   *new_soi = SHEET_OBJECT_IMAGE (dst);
 
 	new_soi->type		= g_strdup (soi->type);
-	new_soi->bytes.len	= soi->bytes.len;
-	new_soi->bytes.data	= g_memdup (soi->bytes.data, soi->bytes.len);
+	new_soi->bytes->len	= soi->bytes->len;
+	new_soi->bytes->data	= g_memdup (soi->bytes->data, soi->bytes->len);
 	new_soi->crop_top	= soi->crop_top;
 	new_soi->crop_bottom	= soi->crop_bottom;
 	new_soi->crop_left	= soi->crop_left;
@@ -575,6 +578,7 @@ gnm_soi_assign_to_sheet (SheetObject *so, Sheet *sheet)
 	} else {
 		/* There is nothing we can do */
 	}
+
 	return FALSE;
 }
 
@@ -592,7 +596,12 @@ gnm_soi_get_property (GObject     *object,
 		g_value_set_string (value, soi->type);
 		break;
 	case PROP_IMAGE_DATA:
-		g_value_set_pointer (value, &soi->bytes);
+		if (soi->bytes->len == 0 && soi->image) {
+			gsize len;
+			gconstpointer data = go_image_get_data (soi->image, &len);
+			g_byte_array_append (soi->bytes, data, len);
+		}
+		g_value_set_boxed (value, soi->bytes);
 		break;
 	case PROP_PIXBUF:
 		pixbuf = go_image_get_pixbuf (soi->image);
@@ -636,10 +645,11 @@ gnm_soi_class_init (GObjectClass *object_class)
 				      NULL,
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 	g_object_class_install_property (object_class, PROP_IMAGE_DATA,
-		 g_param_spec_pointer ("image-data",
-				       P_("Image data"),
-				       P_("Image data"),
-				       GSF_PARAM_STATIC | G_PARAM_READABLE));
+		 g_param_spec_boxed ("image-data",
+				     P_("Image data"),
+				     P_("Image data"),
+				     G_TYPE_BYTE_ARRAY,
+				     GSF_PARAM_STATIC | G_PARAM_READABLE));
 	g_object_class_install_property (object_class, PROP_PIXBUF,
 		 g_param_spec_object ("pixbuf", "Pixbuf",
 				       "Pixbuf",
@@ -654,6 +664,7 @@ gnm_soi_init (GObject *obj)
 	SheetObject *so;
 
 	soi = SHEET_OBJECT_IMAGE (obj);
+	soi->bytes = g_byte_array_new ();
 	soi->dumped = FALSE;
 	soi->crop_top = soi->crop_bottom = soi->crop_left = soi->crop_right
 		= 0.0;

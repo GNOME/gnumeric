@@ -4373,6 +4373,7 @@ blipinf_new (SheetObjectImage *soi)
 		      NULL);
 	blip->bytes = *bytes;	/* Need to copy, we may change it. */
 	blip_type = blip->type ? blip->type : "?";
+	g_byte_array_unref (bytes);
 
 	if (strcmp (blip_type, "jpeg") == 0 || /* Raster format */
 	    strcmp (blip_type, "png")  == 0 ||	/* understood by Excel */

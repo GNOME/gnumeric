@@ -8430,6 +8430,7 @@ odf_write_images (SheetObjectImage *image, char const *name, GnmOOExport *state)
 
 	g_free (fullname);
 	g_free (image_type);
+	g_byte_array_unref (bytes);
 
 	odf_update_progress (state, state->graph_progress);
 }
