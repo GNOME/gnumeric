@@ -1040,14 +1040,14 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 
 	state = g_new (FormulaGuruState, 1);
 	state->wbcg  = wbcg;
-	state->wb    = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_get_workbook (GNM_WBC (wbcg));
 	state->gui   = gui;
 	state->active_path = NULL;
 	state->pos = g_new (GnmParsePos, 1);
 
 	gnm_expr_entry_disable_tips (wbcg_get_entry_logical (wbcg));
 
-	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	cell = sheet_cell_get (sv_sheet (sv), sv->edit_pos.col, sv->edit_pos.row);
 	if (cell != NULL) {
 		parse_pos_init_cell (state->pos, cell);

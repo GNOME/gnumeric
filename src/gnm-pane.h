@@ -9,7 +9,7 @@ G_BEGIN_DECLS
 
 #define GNM_PANE_TYPE	(gnm_pane_get_type ())
 #define GNM_PANE(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_PANE_TYPE, GnmPane))
-#define IS_GNM_PANE(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_PANE_TYPE))
+#define GNM_IS_PANE(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_PANE_TYPE))
 
 GType	 gnm_pane_get_type (void);
 GnmPane *gnm_pane_new (SheetControlGUI *scg,

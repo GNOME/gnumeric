@@ -361,7 +361,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkButton *button,
 	       AutoFormatState *state)
 {
 	if (state->selected_template)
-		cmd_selection_autoformat (WORKBOOK_CONTROL (state->wbcg),
+		cmd_selection_autoformat (GNM_WBC (state->wbcg),
 			format_template_clone (state->selected_template));
 
 	gtk_widget_destroy (GTK_WIDGET (state->dialog));
@@ -518,7 +518,7 @@ dialog_autoformat (WBCGtk *wbcg)
 		return;
 
 	state = g_new0 (AutoFormatState, 1);
-	state->wb              = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb              = wb_control_get_workbook (GNM_WBC (wbcg));
 	state->wbcg            = wbcg;
 	state->templates       = NULL;
 	state->category_groups = NULL;

@@ -444,7 +444,7 @@ check_for_changed_options (SolverState *state)
 				     state->orig_params)) {
 		GOUndo *undo = set_params (sheet, state->orig_params);
 		GOUndo *redo = set_params (sheet, sheet->solver_parameters);
-		cmd_generic (WORKBOOK_CONTROL (state->wbcg),
+		cmd_generic (GNM_WBC (state->wbcg),
 			     _("Changing solver parameters"),
 			     undo, redo);
 
@@ -763,7 +763,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	/* ---------------------------------------- */
 
 	ok = gnm_solver_start (sol,
-			       WORKBOOK_CONTROL (state->wbcg),
+			       GNM_WBC (state->wbcg),
 			       &err);
 	if (ok) {
 		dialog_res = go_gtk_dialog_run (dialog, top);
@@ -836,7 +836,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 			redo = go_undo_combine (redo, redo_report);
 		}
 
-		cmd_generic (WORKBOOK_CONTROL (state->wbcg),
+		cmd_generic (GNM_WBC (state->wbcg),
 			     _("Running solver"),
 			     undo, redo);
 		res = g_object_ref (sol->result);
@@ -865,7 +865,7 @@ solver_add_scenario (SolverState *state, GnmSolverResult *res, gchar const *name
 	GnmValue const *vinput;
 	GnmScenario *sc;
 	GnmSheetRange sr;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 
 	vinput = gnm_solver_param_get_input (param);
 	gnm_sheet_range_from_value (&sr, vinput);
@@ -1187,7 +1187,7 @@ dialog_init (SolverState *state)
 					       cell_name (target_cell));
 	else {
 		SheetView *sv = wb_control_cur_sheet_view
-			(WORKBOOK_CONTROL (state->wbcg));
+			(GNM_WBC (state->wbcg));
 		if (sv) {
 			GnmRange first = {sv->edit_pos, sv->edit_pos};
 			gnm_expr_entry_load_from_range (state->target_entry,

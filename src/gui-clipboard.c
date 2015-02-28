@@ -125,7 +125,7 @@ text_to_cell_region (WBCGtk *wbcg,
 		     char const *opt_encoding,
 		     gboolean fixed_encoding)
 {
-	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *wb = wb_control_get_workbook (GNM_WBC (wbcg));
 	DialogStfResult_t *dialogresult;
 	GnmCellRegion *cr = NULL;
 	gboolean oneline;
@@ -203,7 +203,7 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
 	WBCGtk *wbcg = ctxt->wbcg;
-	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl	   *wbc  = GNM_WBC (wbcg);
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 	GnmCellRegion *content = NULL;
 	GdkAtom target = gtk_selection_data_get_target (sel);
@@ -261,7 +261,7 @@ utf8_content_received (GtkClipboard *clipboard,  const gchar *text,
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
 	WBCGtk *wbcg = ctxt->wbcg;
-	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl	   *wbc  = GNM_WBC (wbcg);
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 	GnmCellRegion *content = NULL;
 
@@ -471,7 +471,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
 	WBCGtk *wbcg = ctxt->wbcg;
-	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl	   *wbc  = GNM_WBC (wbcg);
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 	GnmCellRegion *content = NULL;
 	GdkAtom target = gtk_selection_data_get_target (sel);
@@ -1192,7 +1192,7 @@ gnm_x_store_clipboard_if_needed (Workbook *wb)
 
 	if (sheet && sheet->workbook == wb) {
 		WORKBOOK_FOREACH_CONTROL (wb, view, control, {
-			if (IS_WBC_GTK (control)) {
+			if (GNM_IS_WBC_GTK (control)) {
 				wbcg = WBC_GTK (control);
 			}
 		});

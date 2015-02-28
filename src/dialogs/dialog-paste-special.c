@@ -217,7 +217,7 @@ cb_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	    (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,"dont-change-formulae"))))
 		result |= PASTE_EXPR_LOCAL_RELOCATE;
 
-	cmd_paste_to_selection (WORKBOOK_CONTROL (state->wbcg), state->sv, result);
+	cmd_paste_to_selection (GNM_WBC (state->wbcg), state->sv, result);
 	gtk_widget_destroy (state->dialog);
 	return;
 }
@@ -226,7 +226,7 @@ static void
 cb_tool_paste_link_clicked (G_GNUC_UNUSED GtkWidget *button,
 			PasteSpecialState *state)
 {
-	cmd_paste_to_selection (WORKBOOK_CONTROL (state->wbcg), state->sv, PASTE_LINK);
+	cmd_paste_to_selection (GNM_WBC (state->wbcg), state->sv, PASTE_LINK);
 	gtk_widget_destroy (state->dialog);
 	return;
 }
@@ -249,7 +249,7 @@ dialog_paste_special (WBCGtk *wbcg)
 	state->gui    = gui;
 	state->dialog =  go_gtk_builder_get_widget (state->gui, "paste-special");
 	state->sheet = wbcg_cur_sheet (wbcg);
-	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 
 	g_return_if_fail (state->dialog != NULL);
 

@@ -505,7 +505,7 @@ cb_dialog_ok_clicked (SortFlowState *state)
 		 g_strdup((text != NULL && text[0] != '\0') ? text : "Other"),
 		 data_copy);
 
-	cmd_sort (WORKBOOK_CONTROL (state->wbcg), data);
+	cmd_sort (GNM_WBC (state->wbcg), data);
 
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -1160,8 +1160,8 @@ dialog_cell_sort (WBCGtk *wbcg)
 
 	state = g_new (SortFlowState, 1);
 	state->wbcg  = wbcg;
-	state->wb    = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
-	state->sv    = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_get_workbook (GNM_WBC (wbcg));
+	state->sv    = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->warning_dialog = NULL;
 	state->sel = NULL;

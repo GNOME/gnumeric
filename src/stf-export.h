@@ -10,7 +10,7 @@ G_BEGIN_DECLS
 
 #define GNM_STF_EXPORT_TYPE        (gnm_stf_export_get_type ())
 #define GNM_STF_EXPORT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_STF_EXPORT_TYPE, GnmStfExport))
-#define IS_GNM_STF_EXPORT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_STF_EXPORT_TYPE))
+#define GNM_IS_STF_EXPORT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_STF_EXPORT_TYPE))
 
 typedef enum {
 	GNM_STF_TRANSLITERATE_MODE_TRANS,  /* Automatically quote where needed */

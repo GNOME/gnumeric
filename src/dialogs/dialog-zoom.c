@@ -149,7 +149,7 @@ cb_zoom_ok_clicked (G_GNUC_UNUSED GtkWidget *button, ZoomState *state)
 	g_list_free (l);
 
 	if (sheets) {
-		WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+		WorkbookControl *wbc = GNM_WBC (state->wbcg);
 		double new_zoom = gtk_spin_button_get_value (state->zoom) / 100;
 		sheets = g_slist_reverse (sheets);
 		cmd_zoom (wbc, sheets, new_zoom);
@@ -200,7 +200,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 	gtk_tree_view_column_set_sort_column_id (column, COL_SHEET_NAME);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (state->sheet_list), column);
 
-	sheets = workbook_sheets (wb_control_get_workbook (WORKBOOK_CONTROL (wbcg)));
+	sheets = workbook_sheets (wb_control_get_workbook (GNM_WBC (wbcg)));
 	cur_row = row = 0;
 	for (l = sheets; l; l = l->next) {
 		GtkTreeIter iter;

@@ -59,7 +59,7 @@ vcombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg,
 		gtk_tree_model_get (gtk_tree_view_get_model (list), &iter,
 			1, &strval,
 			-1);
-		cmd_set_text (WORKBOOK_CONTROL (wbcg),
+		cmd_set_text (GNM_WBC (wbcg),
 			      sv_sheet (sv), &sv->edit_pos, strval, NULL, TRUE);
 		g_free (strval);
 	}

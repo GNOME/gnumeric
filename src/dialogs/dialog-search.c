@@ -286,7 +286,7 @@ cursor_change (GtkTreeView *tree_view, DialogState *dd)
 		GnmSearchFilterResult *item = g_ptr_array_index (dd->matches, matchno);
 		int col = item->ep.eval.col;
 		int row = item->ep.eval.row;
-		WorkbookControl *wbc = WORKBOOK_CONTROL (dd->wbcg);
+		WorkbookControl *wbc = GNM_WBC (dd->wbcg);
 		WorkbookView *wbv = wb_control_view (wbc);
 		SheetView *sv;
 
@@ -309,7 +309,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GtkBuilder *gui = dd->gui;
 	WBCGtk *wbcg = dd->wbcg;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	GnmSearchReplace *sr;
 	char *err;
 	int i;
@@ -525,7 +525,7 @@ dialog_search (WBCGtk *wbcg)
 	{
 		char *selection_text =
 			selection_to_string (
-				wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)),
+				wb_control_cur_sheet_view (GNM_WBC (wbcg)),
 				TRUE);
 		gnm_expr_entry_load_from_text  (dd->rangetext, selection_text);
 		g_free (selection_text);

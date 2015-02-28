@@ -53,7 +53,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		    ViewState *state)
 {
 	WBCGtk *wbcg = state->wbcg;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	WorkbookControl *new_wbc;
 	gboolean shared;
 	GdkScreen *screen;
@@ -102,7 +102,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		 wb_control_get_workbook (wbc),
 		 screen);
 
-	if (IS_WBC_GTK (new_wbc)) {
+	if (GNM_IS_WBC_GTK (new_wbc)) {
 		/* What else would it be?  */
 		WBCGtk *new_wbcg = WBC_GTK (new_wbc);
 		wbcg_copy_toolbar_visibility (new_wbcg, wbcg);

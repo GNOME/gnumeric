@@ -61,7 +61,7 @@ cb_delete_cell_destroy (DeleteCellState *state)
 static void
 cb_delete_cell_ok_clicked (DeleteCellState *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	GtkWidget *radio_0;
 	int  cols, rows;
 	int i;
@@ -111,7 +111,7 @@ void
 dialog_delete_cells (WBCGtk *wbcg)
 {
 	DeleteCellState *state;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	SheetView	*sv  = wb_control_cur_sheet_view (wbc);
 	Sheet *sheet = sv_sheet (sv);
 	GnmRange const *sel;

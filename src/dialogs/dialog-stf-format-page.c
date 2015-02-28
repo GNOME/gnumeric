@@ -778,7 +778,7 @@ stf_dialog_format_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 	/* Set properties */
 	pagedata->format.renderdata =
 		stf_preview_new (pagedata->format.format_data_container,
-				 workbook_date_conv (wb_control_get_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
+				 workbook_date_conv (wb_control_get_workbook (GNM_WBC (pagedata->wbcg))));
 	pagedata->format.formats          = g_ptr_array_new ();
 	pagedata->format.index         = -1;
 	pagedata->format.manual_change = FALSE;

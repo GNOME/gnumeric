@@ -285,7 +285,7 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 	GnmHLink* hlink = gnm_style_get_hlink (style);
 	const guchar* hlink_target = NULL;
 
-	if (hlink && IS_GNM_HLINK_URL (hlink)) {
+	if (hlink && GNM_IS_HLINK_URL (hlink)) {
 		hlink_target = gnm_hlink_get_target (hlink);
 	}
 

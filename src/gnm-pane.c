@@ -363,9 +363,9 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 		if (gnm_pane_guru_key (wbcg, event))
 			break;
 		if (state == GDK_CONTROL_MASK)
-			sv_selection_copy (sv, WORKBOOK_CONTROL (wbcg));
+			sv_selection_copy (sv, GNM_WBC (wbcg));
 		else if (state == GDK_SHIFT_MASK)
-			cmd_paste_to_selection (WORKBOOK_CONTROL (wbcg), sv, PASTE_DEFAULT);
+			cmd_paste_to_selection (GNM_WBC (wbcg), sv, PASTE_DEFAULT);
 		break;
 
 	case GDK_KEY_BackSpace:
@@ -394,9 +394,9 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 			break;
 		if (state == GDK_SHIFT_MASK) {
 			scg_mode_edit (scg);
-			sv_selection_cut (sv, WORKBOOK_CONTROL (wbcg));
+			sv_selection_cut (sv, GNM_WBC (wbcg));
 		} else
-			cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES);
+			cmd_selection_clear (GNM_WBC (wbcg), CLEAR_VALUES);
 		break;
 
 	/*
@@ -1127,7 +1127,7 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 	SheetControlGUI *scg = GNM_PANE (widget)->simple.scg;
 
-	if ((IS_GNM_PANE (source_widget) &&
+	if ((GNM_IS_PANE (source_widget) &&
 	     GNM_PANE (source_widget)->simple.scg == scg)) {
 		/* same scg */
 		GocCanvas *canvas = GOC_CANVAS (widget);
@@ -1184,7 +1184,7 @@ cb_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
 	GnmPane *source_pane;
 	WBCGtk *wbcg;
 
-	if (!source_widget || !IS_GNM_PANE (source_widget)) return;
+	if (!source_widget || !GNM_IS_PANE (source_widget)) return;
 
 	source_pane = GNM_PANE (source_widget);
 
@@ -1489,7 +1489,7 @@ gnm_pane_redraw_range (GnmPane *pane, GnmRange const *r)
 	Sheet *sheet;
 	double scale = goc_canvas_get_pixels_per_unit (GOC_CANVAS (pane));
 
-	g_return_if_fail (IS_GNM_PANE (pane));
+	g_return_if_fail (GNM_IS_PANE (pane));
 
 	scg = pane->simple.scg;
 	sheet = scg_sheet (scg);
@@ -1748,7 +1748,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 	gint64 dx = 0, dy = 0, left, top;
 	GtkAllocation pa, p0a, p1a, p3a;
 
-	g_return_val_if_fail (IS_GNM_PANE (pane), FALSE);
+	g_return_val_if_fail (GNM_IS_PANE (pane), FALSE);
 	g_return_val_if_fail (GOC_IS_CANVAS (canvas), FALSE);
 	g_return_val_if_fail (slide_handler != NULL, FALSE);
 
@@ -1868,7 +1868,7 @@ gnm_pane_slide_init (GnmPane *pane)
 {
 	GnmPane *pane0, *pane1, *pane3;
 
-	g_return_if_fail (IS_GNM_PANE (pane));
+	g_return_if_fail (GNM_IS_PANE (pane));
 
 	pane0 = scg_pane (pane->simple.scg, 0);
 	pane1 = scg_pane (pane->simple.scg, 1);

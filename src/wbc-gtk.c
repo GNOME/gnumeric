@@ -105,7 +105,7 @@ static GObjectClass *parent_class = NULL;
 static gboolean
 wbcg_ui_update_begin (WBCGtk *wbcg)
 {
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), FALSE);
 	g_return_val_if_fail (!wbcg->updating_ui, FALSE);
 
 	return (wbcg->updating_ui = TRUE);
@@ -114,7 +114,7 @@ wbcg_ui_update_begin (WBCGtk *wbcg)
 static void
 wbcg_ui_update_end (WBCGtk *wbcg)
 {
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 	g_return_if_fail (wbcg->updating_ui);
 
 	wbcg->updating_ui = FALSE;
@@ -260,9 +260,9 @@ cb_autosave (WBCGtk *wbcg)
 {
 	WorkbookView *wb_view;
 
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), FALSE);
 
-	wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	wb_view = wb_control_view (GNM_WBC (wbcg));
 
 	if (wb_view == NULL)
 		return FALSE;
@@ -287,7 +287,7 @@ cb_autosave (WBCGtk *wbcg)
 gboolean
 wbcg_rangesel_possible (WBCGtk const *wbcg)
 {
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), FALSE);
 
 	/* Already range selecting */
 	if (wbcg->rangesel != NULL)
@@ -303,7 +303,7 @@ wbcg_rangesel_possible (WBCGtk const *wbcg)
 gboolean
 wbcg_is_editing (WBCGtk const *wbcg)
 {
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), FALSE);
 	return wbcg->editing;
 }
 
@@ -423,7 +423,7 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 void
 wbcg_insert_sheet (GtkWidget *unused, WBCGtk *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	Workbook *wb = sheet->workbook;
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
@@ -437,7 +437,7 @@ wbcg_insert_sheet (GtkWidget *unused, WBCGtk *wbcg)
 void
 wbcg_append_sheet (GtkWidget *unused, WBCGtk *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	Workbook *wb = sheet->workbook;
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
@@ -451,7 +451,7 @@ wbcg_append_sheet (GtkWidget *unused, WBCGtk *wbcg)
 void
 wbcg_clone_sheet (GtkWidget *unused, WBCGtk *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	Workbook *wb = sheet->workbook;
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
@@ -629,7 +629,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	SheetControlGUI *scg_src, *scg_dst;
 	Sheet *s_src, *s_dst;
 
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 
 	w_source = gtk_drag_get_source_widget (context);
@@ -655,7 +655,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		int p_dst = s_dst->index_in_wb;
 		WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 		workbook_sheet_move (s_src, p_dst - p_src);
-		cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg),
+		cmd_reorganize_sheets (GNM_WBC (wbcg),
 				       old_state,
 				       s_src);
 	} else {
@@ -675,7 +675,7 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 {
 	GtkWidget *arrow, *image;
 
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
 	/* Create the arrow. */
 	arrow = gtk_window_new (GTK_WINDOW_POPUP);
@@ -695,7 +695,7 @@ cb_sheet_label_drag_end (GtkWidget *widget, GdkDragContext *context,
 {
 	GtkWidget *arrow;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL (wbcg));
+	g_return_if_fail (GNM_IS_WBC (wbcg));
 
 	/* Destroy the arrow. */
 	arrow = g_object_get_data (G_OBJECT (widget), "arrow");
@@ -727,8 +727,8 @@ cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 	gint root_x, root_y, pos_x, pos_y;
 	GtkAllocation wa, wsa;
 
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), FALSE);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), FALSE);
 
 	/* Make sure we are really hovering over another label. */
 	w_source = gtk_drag_get_source_widget (context);
@@ -846,7 +846,7 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
 	Sheet *sheet;
 	SheetControlGUI *new_scg;
 
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
 	/* Ignore events during destruction */
 	if (wbcg->snotebook == NULL)
@@ -920,7 +920,7 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
 		wbcg_update_menu_feedback (wbcg, sheet);
 		sheet_flag_status_update_range (sheet, NULL);
 		sheet_update (sheet);
-		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
+		wb_view_sheet_focus (wb_control_view (GNM_WBC (wbcg)), sheet);
 		cb_zoom_change (sheet, NULL, wbcg);
 	}
 }
@@ -953,7 +953,7 @@ cb_bnotebook_page_reordered (GtkNotebook *notebook, GtkWidget *child,
 		g_printerr ("Reordered %d -> %d\n", old, page_num);
 
 	if (old != page_num) {
-		WorkbookControl * wbc = WORKBOOK_CONTROL (wbcg);
+		WorkbookControl * wbc = GNM_WBC (wbcg);
 		Workbook *wb = wb_control_get_workbook (wbc);
 		Sheet *sheet = workbook_sheet_by_index (wb, old);
 		WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
@@ -1292,7 +1292,7 @@ wbcg_sheet_order_changed (WBCGtk *wbcg)
 static void
 wbcg_update_title (WBCGtk *wbcg)
 {
-	GODoc *doc = wb_control_get_doc (WORKBOOK_CONTROL (wbcg));
+	GODoc *doc = wb_control_get_doc (GNM_WBC (wbcg));
 	char *basename = doc->uri ? go_basename_from_uri (doc->uri) : NULL;
 	char *title = g_strconcat
 		(go_doc_is_dirty (doc) ? "*" : "",
@@ -1873,7 +1873,7 @@ wbcg_close_if_user_permits (WBCGtk *wbcg, WorkbookView *wb_view)
 gboolean
 wbc_gtk_close (WBCGtk *wbcg)
 {
-	WorkbookView *wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	WorkbookView *wb_view = wb_control_view (GNM_WBC (wbcg));
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), TRUE);
 	g_return_val_if_fail (wb_view->wb_controls != NULL, TRUE);
@@ -1950,7 +1950,7 @@ cb_accept_input_selected_merged (WBCGtk *wbcg)
 #warning FIXME: this creates 2 undo items!
 	if (wbcg_is_editing (wbcg) &&
 	    wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL)) {
-		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		WorkbookControl *wbc = GNM_WBC (wbcg);
 		WorkbookView	*wbv = wb_control_view (wbc);
 		SheetView *sv = sheet_get_view (sheet, wbv);
 		GnmRange sel = *(selection_first_range (sv, NULL, NULL));
@@ -1972,7 +1972,7 @@ cb_accept_input_selected_merged (WBCGtk *wbcg)
 /* cb_accept_input_sheets (WBCGtk *wbcg) */
 /* { */
 /* 	GSList *sheets = workbook_sheets  */
-/* 		(wb_control_get_workbook (WORKBOOK_CONTROL (wbcg))); */
+/* 		(wb_control_get_workbook (GNM_WBC (wbcg))); */
 /* 	GSList *vis_sheets = NULL; */
 
 /* 	g_slist_foreach (sheets,  */
@@ -1996,7 +1996,7 @@ cb_accept_input_selected_merged (WBCGtk *wbcg)
 /* cb_accept_input_menu_sensitive_sheets (WBCGtk *wbcg)  */
 /* { */
 /* 	GSList *sheets = workbook_sheets  */
-/* 		(wb_control_get_workbook (WORKBOOK_CONTROL (wbcg))); */
+/* 		(wb_control_get_workbook (GNM_WBC (wbcg))); */
 /* 	gint n = 0; */
 
 /* 	g_slist_foreach (sheets,  */
@@ -2010,7 +2010,7 @@ cb_accept_input_selected_merged (WBCGtk *wbcg)
 /* cb_accept_input_menu_sensitive_selected_sheets (WBCGtk *wbcg)  */
 /* { */
 /* 	GSList *sheets = workbook_sheets  */
-/* 		(wb_control_get_workbook (WORKBOOK_CONTROL (wbcg))); */
+/* 		(wb_control_get_workbook (GNM_WBC (wbcg))); */
 /* 	gint n = 0; */
 
 /* 	g_slist_foreach (sheets,  */
@@ -2023,7 +2023,7 @@ cb_accept_input_selected_merged (WBCGtk *wbcg)
 static gboolean
 cb_accept_input_menu_sensitive_selected_cells (WBCGtk *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	WorkbookView	*wbv = wb_control_view (wbc);
 	SheetView *sv = sheet_get_view (wbcg->editing_sheet, wbv);
 	gboolean result = TRUE;
@@ -2044,7 +2044,7 @@ cb_accept_input_menu_sensitive_selected_cells (WBCGtk *wbcg)
 static gboolean
 cb_accept_input_menu_sensitive_selected_merged (WBCGtk *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	WorkbookView	*wbv = wb_control_view (wbc);
 	SheetView *sv = sheet_get_view (wbcg->editing_sheet, wbv);
 	GnmRange const *sel = selection_first_range (sv, NULL, NULL);
@@ -2164,7 +2164,7 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 static void
 cb_statusbox_activate (GtkEntry *entry, WBCGtk *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	wb_control_parse_and_jump (wbc, gtk_entry_get_text (entry));
 	wbcg_focus_cur_scg (wbcg);
 	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
@@ -2183,7 +2183,7 @@ cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
 static void
 cb_workbook_debug_info (WBCGtk *wbcg)
 {
-	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *wb = wb_control_get_workbook (GNM_WBC (wbcg));
 
 	if (gnm_debug_flag ("deps")) {
 		dependents_dump (wb);
@@ -2290,7 +2290,7 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 		}
 
 		if (0 <= zoom && zoom <= 390)
-			cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
+			cmd_zoom (GNM_WBC (wbcg), g_slist_append (NULL, sheet),
 				  (double) (zoom + 10) / 100);
 	} else if ((event->state & GDK_SHIFT_MASK)) {
 		/* XL sort of shows/hides groups */
@@ -2416,7 +2416,7 @@ cb_screen_changed (GtkWidget *widget)
 void
 wbcg_set_status_text (WBCGtk *wbcg, char const *text)
 {
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 	gtk_statusbar_pop (GTK_STATUSBAR (wbcg->status_text), 0);
 	gtk_statusbar_push (GTK_STATUSBAR (wbcg->status_text), 0, text);
 }
@@ -2462,7 +2462,7 @@ wbcg_copy_toolbar_visibility (WBCGtk *new_wbcg,
 void
 wbcg_set_end_mode (WBCGtk *wbcg, gboolean flag)
 {
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
 	if (!wbcg->last_key_was_end != !flag) {
 		const char *txt = flag ? _("END") : "";
@@ -2521,7 +2521,7 @@ static int
 show_gui (WBCGtk *wbcg)
 {
 	SheetControlGUI *scg;
-	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	WorkbookView *wbv = wb_control_view (GNM_WBC (wbcg));
 	int sx, sy;
 	gdouble fx, fy;
 	GdkRectangle rect;
@@ -2604,7 +2604,7 @@ wbcg_get_label_for_position (WBCGtk *wbcg, GtkWidget *source,
 	guint n, i;
 	GtkWidget *last_visible = NULL;
 
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), NULL);
 
 	n = wbcg_get_n_scg (wbcg);
 	for (i = 0; i < n; i++) {
@@ -2637,7 +2637,7 @@ static gboolean
 wbcg_is_local_drag (WBCGtk *wbcg, GtkWidget *source_widget)
 {
 	GtkWidget *top = (GtkWidget *)wbcg_toplevel (wbcg);
-	return IS_GNM_PANE (source_widget) &&
+	return GNM_IS_PANE (source_widget) &&
 		gtk_widget_get_toplevel (source_widget) == top;
 }
 static gboolean
@@ -2666,7 +2666,7 @@ cb_wbcg_drag_leave (GtkWidget *widget, GdkDragContext *context,
 {
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
 	if (GNM_IS_NOTEBOOK (gtk_widget_get_parent (source_widget)))
 		gtk_widget_hide (
@@ -2707,13 +2707,13 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 }
 
 static void cb_cs_go_up  (WBCGtk *wbcg)
-{ wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_top); }
+{ wb_control_navigate_to_cell (GNM_WBC (wbcg), navigator_top); }
 static void cb_cs_go_down  (WBCGtk *wbcg)
-{ wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_bottom); }
+{ wb_control_navigate_to_cell (GNM_WBC (wbcg), navigator_bottom); }
 static void cb_cs_go_left  (WBCGtk *wbcg)
-{ wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_first); }
+{ wb_control_navigate_to_cell (GNM_WBC (wbcg), navigator_first); }
 static void cb_cs_go_right  (WBCGtk *wbcg)
-{ wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_last); }
+{ wb_control_navigate_to_cell (GNM_WBC (wbcg), navigator_last); }
 static void cb_cs_go_to_cell  (WBCGtk *wbcg) { dialog_goto_cell (wbcg); }
 
 static void
@@ -2925,7 +2925,7 @@ wbcg_view_changed (WBCGtk *wbcg,
 		   G_GNUC_UNUSED GParamSpec *pspec,
 		   Workbook *old_wb)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	WorkbookView *wbv = wb_control_view (wbc);
 
@@ -3359,7 +3359,7 @@ cb_custom_color_created (GOActionComboColor *caction, GtkWidget *dialog, WBCGtk 
 static void
 cb_fore_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	GnmStyle *mstyle;
 	GOColor   c;
 	gboolean  is_default;
@@ -3408,7 +3408,7 @@ wbc_gtk_init_color_fore (WBCGtk *gtk)
 static void
 cb_back_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	GnmStyle *mstyle;
 	GOColor   c;
 	gboolean  is_default;
@@ -3619,7 +3619,7 @@ cb_font_changed (GtkAction *act, WBCGtk *gtk)
 		gnm_style_set_font_name (style, family);
 		gnm_style_set_font_size (style, size / (double)PANGO_SCALE);
 
-		cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
+		cmd_selection_format (GNM_WBC (gtk), style, NULL, title);
 		g_free (title);
 	}
 }
@@ -3924,7 +3924,7 @@ regenerate_window_menu (WBCGtk *gtk, Workbook *wb, unsigned i)
 	/* How many controls are there?  */
 	count = 0;
 	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, {
-		if (IS_WBC_GTK (wbc))
+		if (GNM_IS_WBC_GTK (wbc))
 			count++;
 	});
 
@@ -3932,7 +3932,7 @@ regenerate_window_menu (WBCGtk *gtk, Workbook *wb, unsigned i)
 	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, {
 		if (i >= 20)
 			return i;
-		if (IS_WBC_GTK (wbc) && basename) {
+		if (GNM_IS_WBC_GTK (wbc) && basename) {
 			GString *label = g_string_new (NULL);
 			char *name;
 			char const *s;
@@ -3971,7 +3971,7 @@ regenerate_window_menu (WBCGtk *gtk, Workbook *wb, unsigned i)
 static void
 cb_regenerate_window_menu (WBCGtk *gtk)
 {
-	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (gtk));
+	Workbook *wb = wb_control_get_workbook (GNM_WBC (gtk));
 	GList const *ptr;
 	unsigned i;
 
@@ -4516,7 +4516,7 @@ cb_wbcg_window_state_event (GtkWidget           *widget,
 static void
 cb_auto_expr_cell_changed (GtkWidget *item, WBCGtk *wbcg)
 {
-	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	WorkbookView *wbv = wb_control_view (GNM_WBC (wbcg));
 	const GnmEvalPos *ep;
 	GnmExprTop const *texpr;
 	GnmValue const *v;
@@ -4546,7 +4546,7 @@ cb_auto_expr_changed (GtkWidget *item, WBCGtk *wbcg)
 {
 	const GnmFunc *func;
 	const char *descr;
-	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	WorkbookView *wbv = wb_control_view (GNM_WBC (wbcg));
 
 	if (wbcg->updating_ui)
 		return;
@@ -4564,7 +4564,7 @@ cb_auto_expr_changed (GtkWidget *item, WBCGtk *wbcg)
 static void
 cb_auto_expr_precision_toggled (GtkWidget *item, WBCGtk *wbcg)
 {
-	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	WorkbookView *wbv = wb_control_view (GNM_WBC (wbcg));
 	if (wbcg->updating_ui)
 		return;
 
@@ -4629,7 +4629,7 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	dao->put_formulas      = TRUE;
 
 	specs = g_new0 (analysis_tools_data_auto_expression_t, 1);
-	specs->base.wbc = WORKBOOK_CONTROL (wbcg);
+	specs->base.wbc = GNM_WBC (wbcg);
 	specs->base.input = g_slist_prepend (NULL, value_new_cellrange_r (scg_sheet (scg), input));
 	g_free (input);
 	specs->base.group_by = below ? GROUPED_BY_COL : GROUPED_BY_ROW;
@@ -4637,13 +4637,13 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	specs->multiple = multiple;
 	specs->below = below;
 	specs->func = NULL;
-	g_object_get (G_OBJECT (wb_control_view (WORKBOOK_CONTROL (wbcg))),
+	g_object_get (G_OBJECT (wb_control_view (GNM_WBC (wbcg))),
 		      "auto-expr-func", &(specs->func), NULL);
 	if (specs->func == NULL)
 		specs->func =  gnm_func_lookup_or_add_placeholder ("sum");
 	gnm_func_ref (specs->func);
 
-	cmd_analysis_tool (WORKBOOK_CONTROL (wbcg), scg_sheet (scg),
+	cmd_analysis_tool (GNM_WBC (wbcg), scg_sheet (scg),
 			   dao, specs, analysis_tool_auto_expression_engine,
 			   TRUE);
 }
@@ -4690,7 +4690,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEvent *event, WBCGtk *wbcg)
 		{ NULL, NULL }
 	};
 
-	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	WorkbookView *wbv = wb_control_view (GNM_WBC (wbcg));
 	Sheet *sheet = wb_view_cur_sheet (wbv);
 	GtkWidget *item, *menu;
 	int i;
@@ -5288,7 +5288,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 			else {
 				g_return_if_fail (perr.err != NULL);
 
-				wb_control_validation_msg (WORKBOOK_CONTROL (scg_wbcg (scg)),
+				wb_control_validation_msg (GNM_WBC (scg_wbcg (scg)),
 					GNM_VALIDATION_STYLE_INFO, NULL, perr.err->message);
 				parse_error_free (&perr);
 				gtk_editable_select_region (GTK_EDITABLE (gnm_expr_entry_get_entry (editor->entry)), 0, G_MAXINT);
@@ -5536,7 +5536,7 @@ static void
 wbc_gtk_class_init (GObjectClass *gobject_class)
 {
 	WorkbookControlClass *wbc_class =
-		WORKBOOK_CONTROL_CLASS (gobject_class);
+		GNM_WBC_CLASS (gobject_class);
 
 	g_return_if_fail (wbc_class != NULL);
 
@@ -5587,7 +5587,7 @@ wbc_gtk_class_init (GObjectClass *gobject_class)
 				   GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	wbc_gtk_signals [WBC_GTK_MARKUP_CHANGED] = g_signal_new ("markup-changed",
-		WBC_GTK_TYPE,
+		GNM_WBC_GTK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WBCGtkClass, markup_changed),
 		NULL, NULL,
@@ -5783,7 +5783,7 @@ wbc_gtk_init (GObject *obj)
 
 	/* updates the undo/redo menu labels before check_underlines
 	 * to avoid problems like #324692. */
-	wb_control_undo_redo_labels (WORKBOOK_CONTROL (wbcg), NULL, NULL);
+	wb_control_undo_redo_labels (GNM_WBC (wbcg), NULL, NULL);
 	if (GNM_VERSION_MAJOR % 2 != 0 ||
 	    gnm_debug_flag ("underlines")) {
 		gtk_container_foreach (GTK_CONTAINER (wbcg->menu_zone),
@@ -5807,7 +5807,7 @@ wbc_gtk_init (GObject *obj)
 }
 
 GSF_CLASS_FULL (WBCGtk, wbc_gtk, NULL, NULL, wbc_gtk_class_init, NULL,
-	wbc_gtk_init, WORKBOOK_CONTROL_TYPE, 0,
+	wbc_gtk_init, GNM_WBC_TYPE, 0,
 	GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_TYPE_DATA_ALLOCATOR);
 	GSF_INTERFACE (wbcg_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
@@ -5883,7 +5883,7 @@ wbc_gtk_new (WorkbookView *optional_view,
 GtkWindow *
 wbcg_toplevel (WBCGtk *wbcg)
 {
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), NULL);
 	return GTK_WINDOW (wbcg->toplevel);
 }
 
@@ -5915,7 +5915,7 @@ wbcg_get_nth_scg (WBCGtk *wbcg, int i)
 	SheetControlGUI *scg;
 	GtkWidget *w;
 
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), NULL);
 
 	if (NULL != wbcg->snotebook &&
 	    NULL != (w = gtk_notebook_get_nth_page (wbcg->snotebook, i)) &&
@@ -5945,7 +5945,7 @@ wbcg_focus_cur_scg (WBCGtk *wbcg)
 {
 	SheetControlGUI *scg;
 
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), NULL);
 
 	if (wbcg->snotebook == NULL)
 		return NULL;
@@ -5980,13 +5980,13 @@ wbcg_cur_scg (WBCGtk *wbcg)
 Sheet *
 wbcg_cur_sheet (WBCGtk *wbcg)
 {
-	return wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	return wb_control_cur_sheet (GNM_WBC (wbcg));
 }
 
 PangoFontDescription *
 wbcg_get_font_desc (WBCGtk *wbcg)
 {
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), NULL);
 
 	if (!wbcg->font_desc) {
 		GtkSettings *settings = wbcg_get_gtk_settings (wbcg);
@@ -6016,9 +6016,9 @@ wbcg_find_for_workbook (Workbook *wb,
 	gboolean has_screen, has_display;
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
-	g_return_val_if_fail (candidate == NULL || IS_WBC_GTK (candidate), NULL);
+	g_return_val_if_fail (candidate == NULL || GNM_IS_WBC_GTK (candidate), NULL);
 
-	if (candidate && wb_control_get_workbook (WORKBOOK_CONTROL (candidate)) == wb)
+	if (candidate && wb_control_get_workbook (GNM_WBC (candidate)) == wb)
 		return candidate;
 
 	if (!pref_screen && candidate)
@@ -6031,7 +6031,7 @@ wbcg_find_for_workbook (Workbook *wb,
 	has_screen = FALSE;
 	has_display = FALSE;
 	WORKBOOK_FOREACH_CONTROL(wb, wbv, wbc, {
-		if (IS_WBC_GTK (wbc)) {
+		if (GNM_IS_WBC_GTK (wbc)) {
 			WBCGtk *wbcg = WBC_GTK (wbc);
 			GdkScreen *screen = wbcg_get_screen (wbcg);
 			GdkDisplay *display = gdk_screen_get_display (screen);

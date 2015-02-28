@@ -266,7 +266,7 @@ cb_dialog_destroy (GoalSeekState *state)
 	if (!state->cancelled
 	    && state->old_value != NULL
 	    && state->old_cell != NULL) {
-		cmd_goal_seek (WORKBOOK_CONTROL(state->wbcg),
+		cmd_goal_seek (GNM_WBC(state->wbcg),
 			       state->old_cell, state->old_value, NULL);
 		state->old_value = NULL;
 	}
@@ -489,7 +489,7 @@ dialog_preload_selection (GoalSeekState *state, GnmExprEntry *entry)
 
 	sel = selection_first_range
 		(wb_control_cur_sheet_view
-		 (WORKBOOK_CONTROL (state->wbcg)), NULL, NULL);
+		 (GNM_WBC (state->wbcg)), NULL, NULL);
 	if (sel)
 		gnm_expr_entry_load_from_range (entry,
 						state->sheet, sel);
@@ -692,7 +692,7 @@ dialog_goal_seek (WBCGtk *wbcg, Sheet *sheet)
 
 	state = g_new (GoalSeekState, 1);
 	state->wbcg  = wbcg;
-	state->wb    = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_get_workbook (GNM_WBC (wbcg));
 	state->sheet = sheet;
 	state->gui   = gui;
 	state->warning_dialog = NULL;

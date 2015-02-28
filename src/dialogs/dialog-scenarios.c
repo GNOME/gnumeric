@@ -340,7 +340,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao_init_new_sheet (&dao);
 	dao.sheet = state->base.sheet;
 
-	wbc = WORKBOOK_CONTROL (state->base.wbcg);
+	wbc = GNM_WBC (state->base.wbcg);
 
 	sc = gnm_sheet_scenario_new (state->base.sheet, name);
 	if (comment && comment[0])
@@ -383,7 +383,7 @@ dialog_scenario_add (WBCGtk *wbcg)
 	if (wbcg == NULL)
 		return;
 
-	wbc = WORKBOOK_CONTROL (wbcg);
+	wbc = GNM_WBC (wbcg);
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, "ScenarioAdd"))
@@ -563,7 +563,7 @@ scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			 ScenariosState *state)
 {
 	if (state->current) {
-		WorkbookControl *wbc = WORKBOOK_CONTROL (state->base.wbcg);
+		WorkbookControl *wbc = GNM_WBC (state->base.wbcg);
 		cmd_scenario_mngr (wbc, state->current, state->undo);
 	}
 
@@ -606,7 +606,7 @@ scenarios_cancel_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	restore_old_values (state);
 
-	wbc = WORKBOOK_CONTROL (state->base.wbcg);
+	wbc = GNM_WBC (state->base.wbcg);
 
 	/* Remove report sheets created on this dialog session. */
 	for (cur = state->new_report_sheets; cur != NULL;
@@ -718,7 +718,7 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		return;
 	}
 
-	scenario_summary (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
+	scenario_summary (GNM_WBC (state->base.wbcg), state->base.sheet,
 			  results, &new_sheet);
 
 	state->new_report_sheets =
@@ -783,7 +783,7 @@ dialog_scenarios (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	wbc   = WORKBOOK_CONTROL (wbcg);
+	wbc   = GNM_WBC (wbcg);
 	sheet = wb_control_cur_sheet (wbc);
 
 	state = g_new (ScenariosState, 1);

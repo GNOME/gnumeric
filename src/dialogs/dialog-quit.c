@@ -381,7 +381,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 				Workbook *wb = WORKBOOK (doc);
 				WBCGtk *wbcg2 = wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
 
-				ok = wbcg2 && gui_file_save (wbcg2, wb_control_view (WORKBOOK_CONTROL (wbcg2)));
+				ok = wbcg2 && gui_file_save (wbcg2, wb_control_view (GNM_WBC (wbcg2)));
 				if (!ok)
 					quit = FALSE;
 			}

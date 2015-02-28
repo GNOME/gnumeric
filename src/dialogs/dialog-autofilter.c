@@ -129,7 +129,7 @@ map_op (AutoFilterState *state, GnmFilterOp *op,
 	}
 
 	if (v == NULL) {
-		Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg));
+		Workbook *wb = wb_control_get_workbook (GNM_WBC (state->wbcg));
 		v = format_match (txt, NULL, workbook_date_conv (wb));
 	}
 	if (v == NULL)
@@ -178,7 +178,7 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 			 count);
 	}
 	if (cond != NULL)
-		cmd_autofilter_set_condition (WORKBOOK_CONTROL (state->wbcg),
+		cmd_autofilter_set_condition (GNM_WBC (state->wbcg),
 					      state->filter, state->field,
 					      cond);
 

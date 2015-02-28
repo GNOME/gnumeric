@@ -68,7 +68,7 @@ gboolean
 dialog_autosave_prompt (WBCGtk *wbcg)
 {
 	char const *uri   = go_doc_get_uri (
-		wb_control_get_doc (WORKBOOK_CONTROL (wbcg)));
+		wb_control_get_doc (GNM_WBC (wbcg)));
 	GtkWidget *dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_QUESTION,
@@ -135,7 +135,7 @@ dialog_autosave (WBCGtk *wbcg)
 
 	state = g_new (autosave_t, 1);
 	state->wbcg = wbcg;
-	state->wb   = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb   = wb_control_get_workbook (GNM_WBC (wbcg));
 
 	state->dialog = go_gtk_builder_get_widget (gui, "AutoSave");
 	state->minutes_entry = go_gtk_builder_get_widget (gui, "minutes");

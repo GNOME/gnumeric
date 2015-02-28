@@ -74,7 +74,7 @@ cb_cell_comment_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			    (state->gui, "new-author-entry")));
 	g_object_get (G_OBJECT (state->gtv), "text", &text,
 		      "attributes", &attr, NULL);
-	if (!cmd_set_comment (WORKBOOK_CONTROL (state->wbcg),
+	if (!cmd_set_comment (GNM_WBC (state->wbcg),
 			      state->sheet, state->pos, text, attr, author))
 		gtk_widget_destroy (state->dialog);
 	g_free (text);

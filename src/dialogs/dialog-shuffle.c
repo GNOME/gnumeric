@@ -110,10 +110,10 @@ shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 
 	type = gnm_gui_group_value (state->gui, shuffle_by);
 
-	ds = data_shuffling (WORKBOOK_CONTROL (state->wbcg), dao,
+	ds = data_shuffling (GNM_WBC (state->wbcg), dao,
 			     state->sheet, input, type);
 
-	wbc = WORKBOOK_CONTROL (state->wbcg);
+	wbc = GNM_WBC (state->wbcg);
 	cmd_data_shuffle (wbc, ds, state->sheet);
 
 	value_release (input);
@@ -139,7 +139,7 @@ dialog_shuffle (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	wbc = WORKBOOK_CONTROL (wbcg);
+	wbc = GNM_WBC (wbcg);
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHUFFLE_KEY))

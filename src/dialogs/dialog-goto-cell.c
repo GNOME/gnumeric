@@ -108,7 +108,7 @@ static GnmValue *
 dialog_goto_get_val (GotoState *state)
 {
 	char const *text = gtk_entry_get_text (state->goto_text);
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
+	Sheet *sheet = wb_control_cur_sheet (GNM_WBC (state->wbcg));
 	GnmValue *val = value_new_cellrange_str (sheet, text);
 
 	if (val == NULL) {
@@ -131,7 +131,7 @@ cb_dialog_goto_go_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gint cols = gtk_spin_button_get_value_as_int (state->spin_cols);
 	gint rows = gtk_spin_button_get_value_as_int (state->spin_rows);
 	GnmValue *val = dialog_goto_get_val (state);
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
+	Sheet *sheet = wb_control_cur_sheet (GNM_WBC (state->wbcg));
 
 	if (val == NULL)
 		return;
@@ -143,7 +143,7 @@ cb_dialog_goto_go_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gnm_cellref_make_abs (&range.b, &val->v_range.cell.b, &ep);
 	value_release (val);
 
-	wb_control_jump (WORKBOOK_CONTROL (state->wbcg), sheet, &range);
+	wb_control_jump (GNM_WBC (state->wbcg), sheet, &range);
 	return;
 }
 
@@ -158,7 +158,7 @@ cb_dialog_goto_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 		GnmSheetSize const *ssz;
 
 		if (sheet == NULL)
-			sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
+			sheet = wb_control_cur_sheet (GNM_WBC (state->wbcg));
 		ssz = gnm_sheet_get_size (sheet);
 
 		cols = ssz->max_cols;
@@ -266,11 +266,11 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 			char *where_to;
 
 			if (NULL == sheet)
-				sheet = wb_control_cur_sheet ( WORKBOOK_CONTROL (state->wbcg));
+				sheet = wb_control_cur_sheet ( GNM_WBC (state->wbcg));
 
 			parse_pos_init_sheet (&pp, sheet);
 			where_to = expr_name_as_string  (name, &pp, gnm_conventions_default);
-			if (wb_control_parse_and_jump (WORKBOOK_CONTROL (state->wbcg), where_to))
+			if (wb_control_parse_and_jump (GNM_WBC (state->wbcg), where_to))
 				gtk_entry_set_text (state->goto_text,
 						    where_to);
 			g_free (where_to);
@@ -278,7 +278,7 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 		}
 		if (sheet)
 			wb_view_sheet_focus (
-				wb_control_view (WORKBOOK_CONTROL (state->wbcg)), sheet);
+				wb_control_view (GNM_WBC (state->wbcg)), sheet);
 	}
 }
 
@@ -307,7 +307,7 @@ static void
 dialog_goto_load_selection (GotoState *state)
 {
 	SheetView *sv = wb_control_cur_sheet_view
-		(WORKBOOK_CONTROL (state->wbcg));
+		(GNM_WBC (state->wbcg));
 	GnmRange const *first = selection_first_range (sv, NULL, NULL);
 
 	if (first != NULL) {
@@ -449,7 +449,7 @@ dialog_goto_cell (WBCGtk *wbcg)
 
 	state = g_new (GotoState, 1);
 	state->wbcg   = wbcg;
-	state->wb     = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb     = wb_control_get_workbook (GNM_WBC (wbcg));
 	state->gui    = gui;
         state->dialog = go_gtk_builder_get_widget (state->gui, "goto_dialog");
 

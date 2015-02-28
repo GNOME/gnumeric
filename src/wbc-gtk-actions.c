@@ -102,13 +102,13 @@ static GNM_ACTION_DEF (cb_file_new)
 }
 
 static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, GNM_FILE_OPEN_STYLE_OPEN, NULL); }
-static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
+static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (GNM_WBC (wbcg))); }
 static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as
-		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
+		(wbcg, wb_control_view (GNM_WBC (wbcg)),
 		 GNM_FILE_SAVE_AS_STYLE_SAVE, NULL); }
 
 static GNM_ACTION_DEF (cb_file_sendto) {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	WorkbookView *wbv = wb_control_view (wbc);
 	GOCmdContext *gcc = GO_CMD_CONTEXT (wbcg);
 	gboolean problem = FALSE;
@@ -200,7 +200,7 @@ static GNM_ACTION_DEF (cb_file_page_setup)
 static GNM_ACTION_DEF (cb_file_print_area_set)
 {
 	Sheet *sheet = wbcg_cur_sheet (wbcg);
-	SheetView *sv = sheet_get_view (sheet, wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	SheetView *sv = sheet_get_view (sheet, wb_control_view (GNM_WBC (wbcg)));
 	GnmParsePos pp;
 	char *message;
 	char * selection;
@@ -210,7 +210,7 @@ static GNM_ACTION_DEF (cb_file_print_area_set)
 		parse_pos_init_sheet (&pp, sheet);
 		selection = undo_range_name (sheet, r);
 		message = g_strdup_printf (_("Set Print Area to %s"), selection);
-		cmd_define_name	(WORKBOOK_CONTROL (wbcg), "Print_Area", &pp,
+		cmd_define_name	(GNM_WBC (wbcg), "Print_Area", &pp,
 				 gnm_expr_top_new_constant
 				 (value_new_cellrange_r (NULL, r)),
 				 message);
@@ -225,7 +225,7 @@ static GNM_ACTION_DEF (cb_file_print_area_clear)
 	Sheet *sheet = wbcg_cur_sheet (wbcg);
 
 	parse_pos_init_sheet (&pp, sheet);
-	cmd_define_name	(WORKBOOK_CONTROL (wbcg), "Print_Area", &pp,
+	cmd_define_name	(GNM_WBC (wbcg), "Print_Area", &pp,
 			 gnm_expr_top_new_constant
 			 (value_new_error_REF (NULL)),
 			 _("Clear Print Area"));
@@ -238,8 +238,8 @@ static GNM_ACTION_DEF (cb_file_print_area_show)
 
 	if (r != NULL) {
 		SheetView *sv = sheet_get_view (sheet,
-						wb_control_view (WORKBOOK_CONTROL (wbcg)));
-		wb_control_sheet_focus (WORKBOOK_CONTROL (wbcg), sheet);
+						wb_control_view (GNM_WBC (wbcg)));
+		wb_control_sheet_focus (GNM_WBC (wbcg), sheet);
 		sv_selection_reset (sv);
 		sv_selection_add_range (sv, r);
 		sv_make_cell_visible (sv, r->start.col, r->start.row, FALSE);
@@ -249,31 +249,31 @@ static GNM_ACTION_DEF (cb_file_print_area_show)
 
 static GNM_ACTION_DEF (cb_file_print_area_toggle_col)
 {
-	cmd_page_break_toggle (WORKBOOK_CONTROL (wbcg),
+	cmd_page_break_toggle (GNM_WBC (wbcg),
 			       wbcg_cur_sheet (wbcg),
 			       TRUE);
 }
 static GNM_ACTION_DEF (cb_file_print_area_toggle_row)
 {
-	cmd_page_break_toggle (WORKBOOK_CONTROL (wbcg),
+	cmd_page_break_toggle (GNM_WBC (wbcg),
 			       wbcg_cur_sheet (wbcg),
 			       FALSE);
 }
 
 static GNM_ACTION_DEF (cb_file_print_area_clear_pagebreaks)
 {
-	cmd_page_breaks_clear (WORKBOOK_CONTROL (wbcg), wbcg_cur_sheet (wbcg));
+	cmd_page_breaks_clear (GNM_WBC (wbcg), wbcg_cur_sheet (wbcg));
 }
 
 static GNM_ACTION_DEF (cb_file_print)
 {
-	gnm_print_sheet (WORKBOOK_CONTROL (wbcg),
+	gnm_print_sheet (GNM_WBC (wbcg),
 		wbcg_cur_sheet (wbcg), FALSE, GNM_PRINT_SAVED_INFO, NULL);
 }
 
 static GNM_ACTION_DEF (cb_file_print_preview)
 {
-	gnm_print_sheet (WORKBOOK_CONTROL (wbcg),
+	gnm_print_sheet (GNM_WBC (wbcg),
 		wbcg_cur_sheet (wbcg), TRUE, GNM_PRINT_ACTIVE_SHEET, NULL);
 }
 
@@ -300,32 +300,32 @@ static GNM_ACTION_DEF (cb_file_quit)
 
 static GNM_ACTION_DEF (cb_edit_clear_all)
 {
-	cmd_selection_clear (WORKBOOK_CONTROL (wbcg),
+	cmd_selection_clear (GNM_WBC (wbcg),
 		CLEAR_VALUES | CLEAR_FORMATS | CLEAR_OBJECTS | CLEAR_COMMENTS);
 }
 
 static GNM_ACTION_DEF (cb_edit_clear_formats)
-	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_FORMATS); }
+	{ cmd_selection_clear (GNM_WBC (wbcg), CLEAR_FORMATS); }
 static GNM_ACTION_DEF (cb_edit_clear_comments)
-	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_COMMENTS); }
+	{ cmd_selection_clear (GNM_WBC (wbcg), CLEAR_COMMENTS); }
 static GNM_ACTION_DEF (cb_edit_clear_content)
-	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES); }
+	{ cmd_selection_clear (GNM_WBC (wbcg), CLEAR_VALUES); }
 static GNM_ACTION_DEF (cb_edit_clear_all_filtered)
 {
-	cmd_selection_clear (WORKBOOK_CONTROL (wbcg),
+	cmd_selection_clear (GNM_WBC (wbcg),
 		CLEAR_VALUES | CLEAR_FORMATS | CLEAR_OBJECTS | CLEAR_COMMENTS | CLEAR_FILTERED_ONLY);
 }
 
 static GNM_ACTION_DEF (cb_edit_clear_formats_filtered)
-	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_FORMATS | CLEAR_FILTERED_ONLY); }
+	{ cmd_selection_clear (GNM_WBC (wbcg), CLEAR_FORMATS | CLEAR_FILTERED_ONLY); }
 static GNM_ACTION_DEF (cb_edit_clear_comments_filtered)
-	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_COMMENTS | CLEAR_FILTERED_ONLY); }
+	{ cmd_selection_clear (GNM_WBC (wbcg), CLEAR_COMMENTS | CLEAR_FILTERED_ONLY); }
 static GNM_ACTION_DEF (cb_edit_clear_content_filtered)
-	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES | CLEAR_FILTERED_ONLY); }
+	{ cmd_selection_clear (GNM_WBC (wbcg), CLEAR_VALUES | CLEAR_FILTERED_ONLY); }
 
 static GNM_ACTION_DEF (cb_edit_delete_rows)
 {
-	WorkbookControl *wbc   = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc   = GNM_WBC (wbcg);
 	SheetView       *sv    = wb_control_cur_sheet_view (wbc);
 	Sheet           *sheet = wb_control_cur_sheet (wbc);
 	GnmRange const  *sel;
@@ -339,7 +339,7 @@ static GNM_ACTION_DEF (cb_edit_delete_rows)
 }
 static GNM_ACTION_DEF (cb_edit_delete_columns)
 {
-	WorkbookControl *wbc   = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc   = GNM_WBC (wbcg);
 	SheetView       *sv    = wb_control_cur_sheet_view (wbc);
 	Sheet           *sheet = wb_control_cur_sheet (wbc);
 	GnmRange const *sel;
@@ -364,7 +364,7 @@ static GNM_ACTION_DEF (cb_edit_delete_links)
 		int n_links = 0;
 		gchar const *format;
 		gchar *name;
-		WorkbookControl *wbc   = WORKBOOK_CONTROL (wbcg);
+		WorkbookControl *wbc   = GNM_WBC (wbcg);
 		Sheet *sheet = wb_control_cur_sheet (wbc);
 
 		for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
@@ -388,23 +388,23 @@ static GNM_ACTION_DEF (cb_edit_select_all)
 }
 static GNM_ACTION_DEF (cb_edit_select_row)
 {
-	sv_select_cur_row (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
+	sv_select_cur_row (wb_control_cur_sheet_view (GNM_WBC (wbcg)));
 }
 static GNM_ACTION_DEF (cb_edit_select_col)
 {
-	sv_select_cur_col (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
+	sv_select_cur_col (wb_control_cur_sheet_view (GNM_WBC (wbcg)));
 }
 static GNM_ACTION_DEF (cb_edit_select_array)
 {
-	sv_select_cur_array (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
+	sv_select_cur_array (wb_control_cur_sheet_view (GNM_WBC (wbcg)));
 }
 static GNM_ACTION_DEF (cb_edit_select_depends)
 {
-	sv_select_cur_depends (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
+	sv_select_cur_depends (wb_control_cur_sheet_view (GNM_WBC (wbcg)));
 }
 static GNM_ACTION_DEF (cb_edit_select_inputs)
 {
-	sv_select_cur_inputs (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
+	sv_select_cur_inputs (wb_control_cur_sheet_view (GNM_WBC (wbcg)));
 }
 static GNM_ACTION_DEF (cb_edit_select_object)
 {
@@ -415,7 +415,7 @@ static GNM_ACTION_DEF (cb_edit_cut)
 {
 	if (!wbcg_is_editing (wbcg)) {
 		SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		WorkbookControl *wbc = GNM_WBC (wbcg);
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
 		if (scg != NULL && scg->selected_objects != NULL)
 			gnm_app_clipboard_cut_copy_obj (wbc, TRUE, sv,
@@ -430,7 +430,7 @@ static GNM_ACTION_DEF (cb_edit_copy)
 {
 	if (!wbcg_is_editing (wbcg)) {
 		SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		WorkbookControl *wbc = GNM_WBC (wbcg);
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
 		if (scg != NULL && scg->selected_objects != NULL)
 			gnm_app_clipboard_cut_copy_obj (wbc, FALSE, sv,
@@ -444,7 +444,7 @@ static GNM_ACTION_DEF (cb_edit_copy)
 static GNM_ACTION_DEF (cb_edit_paste)
 {
 	if (!wbcg_is_editing (wbcg)) {
-		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		WorkbookControl *wbc = GNM_WBC (wbcg);
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
 		cmd_paste_to_selection (wbc, sv, PASTE_DEFAULT);
 	} else
@@ -472,7 +472,7 @@ common_cell_goto (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	if (!sheet_is_visible (sheet))
 		return;
 
-	wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	wbv = wb_control_view (GNM_WBC (wbcg));
 	sv = sheet_get_view (sheet, wbv);
 	wb_view_sheet_focus (wbv, sheet);
 	sv_selection_set (sv, pos,
@@ -559,7 +559,7 @@ static gboolean
 cb_edit_search_replace_action (WBCGtk *wbcg,
 			       GnmSearchReplace *sr)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 
 	sr->query_func = cb_edit_search_replace_query;
 	sr->user_data = wbcg;
@@ -573,7 +573,7 @@ static GNM_ACTION_DEF (cb_edit_search) { dialog_search (wbcg); }
 
 static GNM_ACTION_DEF (cb_edit_fill_autofill)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Sheet	  *sheet = wb_control_cur_sheet (wbc);
 
@@ -626,19 +626,19 @@ static GNM_ACTION_DEF (cb_edit_fill_series)
 
 static GNM_ACTION_DEF (cb_edit_goto_top)
 {
-	wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_top);
+	wb_control_navigate_to_cell (GNM_WBC (wbcg), navigator_top);
 }
 static GNM_ACTION_DEF (cb_edit_goto_bottom)
 {
-	wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_bottom);
+	wb_control_navigate_to_cell (GNM_WBC (wbcg), navigator_bottom);
 }
 static GNM_ACTION_DEF (cb_edit_goto_first)
 {
-	wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_first);
+	wb_control_navigate_to_cell (GNM_WBC (wbcg), navigator_first);
 }
 static GNM_ACTION_DEF (cb_edit_goto_last)
 {
-	wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_last);
+	wb_control_navigate_to_cell (GNM_WBC (wbcg), navigator_last);
 }
 static GNM_ACTION_DEF (cb_edit_goto)
 {
@@ -646,7 +646,7 @@ static GNM_ACTION_DEF (cb_edit_goto)
 }
 static GNM_ACTION_DEF (cb_edit_goto_cell_indicator)
 {
-	if (IS_WBC_GTK (wbcg))
+	if (GNM_IS_WBC_GTK (wbcg))
 		wbcg_focus_current_cell_indicator (WBC_GTK (wbcg));
 }
 
@@ -658,40 +658,40 @@ static GNM_ACTION_DEF (cb_edit_recalc)
 	 * ctrl-alt-f9 -  force a full recalc across all sheets
 	 * ctrl-alt-shift-f9  -  a full-monty super recalc
 	 */
-	workbook_recalc_all (wb_control_get_workbook (WORKBOOK_CONTROL (wbcg)));
+	workbook_recalc_all (wb_control_get_workbook (GNM_WBC (wbcg)));
 }
 
-static GNM_ACTION_DEF (cb_repeat)	{ command_repeat (WORKBOOK_CONTROL (wbcg)); }
+static GNM_ACTION_DEF (cb_repeat)	{ command_repeat (GNM_WBC (wbcg)); }
 
 /****************************************************************************/
 
 static GNM_ACTION_DEF (cb_direction)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	cmd_toggle_rtl (WORKBOOK_CONTROL (wbcg), sheet);
+	Sheet *sheet = wb_control_cur_sheet (GNM_WBC (wbcg));
+	cmd_toggle_rtl (GNM_WBC (wbcg), sheet);
 }
 
 static GNM_ACTION_DEF (cb_view_zoom_in)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	Sheet *sheet = wb_control_cur_sheet (GNM_WBC (wbcg));
 	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
 	if ((zoom % 15) != 0)
 		zoom = 15 * (int)(zoom/15);
 	zoom += 15;
 	if (zoom <= 390)
-		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
+		cmd_zoom (GNM_WBC (wbcg), g_slist_append (NULL, sheet),
 			  (double) (zoom + 10) / 100);
 }
 static GNM_ACTION_DEF (cb_view_zoom_out)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	Sheet *sheet = wb_control_cur_sheet (GNM_WBC (wbcg));
 	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
 	if ((zoom % 15) != 0)
 		zoom = 15 * (int)(zoom/15);
 	else
 		zoom -= 15;
 	if (0 <= zoom)
-		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
+		cmd_zoom (GNM_WBC (wbcg), g_slist_append (NULL, sheet),
 			  (double) (zoom + 10) / 100);
 }
 
@@ -707,7 +707,7 @@ static GNM_ACTION_DEF (cb_view_zoom)	{ dialog_zoom (wbcg, wbcg_cur_sheet (wbcg))
 static GNM_ACTION_DEF (cb_view_new)	{ dialog_new_view (wbcg); }
 static GNM_ACTION_DEF (cb_view_freeze_panes)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 
@@ -776,7 +776,7 @@ static void
 insert_date_time_common (WBCGtk *wbcg, gboolean do_date, gboolean do_time)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
-		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		WorkbookControl *wbc = GNM_WBC (wbcg);
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
 		Sheet *sheet = sv_sheet (sv);
 		GnmCell const *cell = sheet_cell_fetch (sheet,
@@ -844,7 +844,7 @@ static GNM_ACTION_DEF (cb_paste_names)
 
 static GNM_ACTION_DEF (cb_insert_rows)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	Sheet     *sheet = wb_control_cur_sheet (wbc);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmRange const *sel;
@@ -860,7 +860,7 @@ static GNM_ACTION_DEF (cb_insert_rows)
 
 static GNM_ACTION_DEF (cb_insert_cols)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmRange const *sel;
@@ -879,7 +879,7 @@ static GNM_ACTION_DEF (cb_insert_cells) { dialog_insert_cells (wbcg); }
 
 static GNM_ACTION_DEF (cb_insert_comment)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	dialog_cell_comment (wbcg, sheet, &sv->edit_pos);
@@ -889,7 +889,7 @@ static GNM_ACTION_DEF (cb_insert_comment)
 
 static GNM_ACTION_DEF (cb_sheet_name)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	dialog_sheet_rename (wbcg, sheet);
 }
@@ -950,32 +950,32 @@ static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open
 static GNM_ACTION_DEF (cb_data_import_other)	{ gui_file_open
 		(wbcg, GNM_FILE_OPEN_STYLE_IMPORT, NULL); }
 
-static GNM_ACTION_DEF (cb_auto_filter)          { cmd_autofilter_add_remove (WORKBOOK_CONTROL (wbcg)); }
-static GNM_ACTION_DEF (cb_show_all)		{ filter_show_all (WORKBOOK_CONTROL (wbcg)); }
+static GNM_ACTION_DEF (cb_auto_filter)          { cmd_autofilter_add_remove (GNM_WBC (wbcg)); }
+static GNM_ACTION_DEF (cb_show_all)		{ filter_show_all (GNM_WBC (wbcg)); }
 static GNM_ACTION_DEF (cb_data_filter)		{ dialog_advanced_filter (wbcg); }
 static GNM_ACTION_DEF (cb_data_validate)	{ dialog_cell_format (wbcg, FD_VALIDATION,
 								      (1 << FD_VALIDATION) | (1 << FD_INPUT_MSG)); }
-static GNM_ACTION_DEF (cb_data_text_to_columns) { stf_text_to_columns (WORKBOOK_CONTROL (wbcg), GO_CMD_CONTEXT (wbcg)); }
+static GNM_ACTION_DEF (cb_data_text_to_columns) { stf_text_to_columns (GNM_WBC (wbcg), GO_CMD_CONTEXT (wbcg)); }
 static GNM_ACTION_DEF (cb_data_consolidate)	{ dialog_consolidate (wbcg); }
 static GNM_ACTION_DEF (cb_data_table)		{ dialog_data_table (wbcg); }
 static GNM_ACTION_DEF (cb_data_slicer_create)	{ dialog_data_slicer (wbcg, TRUE); }
-static GNM_ACTION_DEF (cb_data_slicer_refresh)	{ cmd_slicer_refresh (WORKBOOK_CONTROL (wbcg)); }
+static GNM_ACTION_DEF (cb_data_slicer_refresh)	{ cmd_slicer_refresh (GNM_WBC (wbcg)); }
 static GNM_ACTION_DEF (cb_data_slicer_edit)	{ dialog_data_slicer (wbcg, FALSE); }
 static GNM_ACTION_DEF (cb_data_export)	        { gui_file_save_as
-		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
+		(wbcg, wb_control_view (GNM_WBC (wbcg)),
 		 GNM_FILE_SAVE_AS_STYLE_EXPORT, NULL); }
 static GNM_ACTION_DEF (cb_data_export_text)	        { gui_file_save_as
-		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
+		(wbcg, wb_control_view (GNM_WBC (wbcg)),
 		 GNM_FILE_SAVE_AS_STYLE_EXPORT, "Gnumeric_stf:stf_assistant"); }
 static GNM_ACTION_DEF (cb_data_export_csv)	        { gui_file_save_as
-		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
+		(wbcg, wb_control_view (GNM_WBC (wbcg)),
 		 GNM_FILE_SAVE_AS_STYLE_EXPORT, "Gnumeric_stf:stf_csv"); }
 static GNM_ACTION_DEF (cb_data_export_repeat)	{ gui_file_export_repeat (wbcg); }
 
 static void
 hide_show_detail_real (WBCGtk *wbcg, gboolean is_cols, gboolean show)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
 	GnmRange const *r = selection_first_range (sv, GO_CMD_CONTEXT (wbc),
@@ -994,7 +994,7 @@ hide_show_detail_real (WBCGtk *wbcg, gboolean is_cols, gboolean show)
 static void
 hide_show_detail (WBCGtk *wbcg, gboolean show)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Sheet const *sheet = sv_sheet (sv);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
@@ -1022,7 +1022,7 @@ hide_show_detail (WBCGtk *wbcg, gboolean show)
 static void
 group_ungroup_colrow (WBCGtk *wbcg, gboolean group)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Sheet const *sheet = sv_sheet (sv);
 	char const *operation = group ? _("Group") : _("Ungroup");
@@ -1172,8 +1172,8 @@ static GNM_ACTION_DEF (cb_insert_image)
 
 static GNM_ACTION_DEF (cb_insert_hyperlink)	{ dialog_hyperlink (wbcg, SHEET_CONTROL (wbcg_cur_scg (wbcg))); }
 static GNM_ACTION_DEF (cb_formula_guru)		{ dialog_formula_guru (wbcg, NULL); }
-static GNM_ACTION_DEF (cb_insert_sort_ascending) { workbook_cmd_wrap_sort (WORKBOOK_CONTROL (wbcg), 1);}
-static GNM_ACTION_DEF (cb_insert_sort_descending){ workbook_cmd_wrap_sort (WORKBOOK_CONTROL (wbcg), 0);}
+static GNM_ACTION_DEF (cb_insert_sort_ascending) { workbook_cmd_wrap_sort (GNM_WBC (wbcg), 1);}
+static GNM_ACTION_DEF (cb_insert_sort_descending){ workbook_cmd_wrap_sort (GNM_WBC (wbcg), 0);}
 
 static void
 sort_by_rows (WBCGtk *wbcg, gboolean descending)
@@ -1189,9 +1189,9 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	gboolean top_to_bottom = TRUE;
 	gboolean not_acceptable = FALSE;
 
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
-	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	for (l = sv->selections; l != NULL; l = l->next) {
 		GnmRange const *r = l->data;
 		if (range_is_singleton (r)) {
@@ -1316,7 +1316,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	if (sheet_range_has_heading (data->sheet, data->range, data->top, FALSE))
 		data->range->start.row += 1;
 
-	cmd_sort (WORKBOOK_CONTROL (wbcg), data);
+	cmd_sort (GNM_WBC (wbcg), data);
 }
 static GNM_ACTION_DEF (cb_sort_ascending)  { sort_by_rows (wbcg, FALSE); }
 static GNM_ACTION_DEF (cb_sort_descending) { sort_by_rows (wbcg, TRUE); }
@@ -1327,7 +1327,7 @@ cb_add_graph (GogGraph *graph, gpointer wbcg)
 	GnmGraphDataClosure *data = (GnmGraphDataClosure *) g_object_get_data (G_OBJECT (graph), "data-closure");
 	if (data) {
 		if (data->new_sheet) {
-			WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+			WorkbookControl *wbc = GNM_WBC (wbcg);
 			Sheet *sheet = wb_control_cur_sheet (wbc);
 			WorkbookSheetState *old_state = workbook_sheet_state_new (wb_control_get_workbook (wbc));
 			Sheet *new_sheet = workbook_sheet_add_with_type (
@@ -1457,7 +1457,7 @@ static GNM_ACTION_DEF (cmd_create_ellipse)
 static void
 wbcg_set_selection_halign (WBCGtk *wbcg, GnmHAlign halign)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	WorkbookView	*wb_view;
 	GnmStyle *style;
 
@@ -1488,7 +1488,7 @@ static GNM_ACTION_DEF (cb_center_across_selection)
 static void
 wbcg_set_selection_valign (WBCGtk *wbcg, GnmVAlign valign)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	WorkbookView	*wb_view;
 	GnmStyle *style;
 
@@ -1519,7 +1519,7 @@ static GNM_ACTION_DEF (cb_align_bottom)
 
 static GNM_ACTION_DEF (cb_merge_and_center)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	GSList *range_list = selection_get_ranges (
 		wb_control_cur_sheet_view (wbc), FALSE);
 	cmd_merge_cells (wbc, wb_control_cur_sheet (wbc), range_list, TRUE);
@@ -1528,7 +1528,7 @@ static GNM_ACTION_DEF (cb_merge_and_center)
 
 static GNM_ACTION_DEF (cb_merge_cells)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	GSList *range_list = selection_get_ranges (
 		wb_control_cur_sheet_view (wbc), FALSE);
 	cmd_merge_cells (wbc, wb_control_cur_sheet (wbc), range_list, FALSE);
@@ -1537,7 +1537,7 @@ static GNM_ACTION_DEF (cb_merge_cells)
 
 static GNM_ACTION_DEF (cb_unmerge_cells)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	GSList *range_list = selection_get_ranges (
 		wb_control_cur_sheet_view (wbc), FALSE);
 	cmd_unmerge_cells (wbc, wb_control_cur_sheet (wbc), range_list);
@@ -1555,7 +1555,7 @@ static void
 toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
 		  GnmStyleElement t, unsigned true_val, unsigned false_val)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	GnmStyle *new_style;
 	unsigned val;
 
@@ -1644,7 +1644,7 @@ apply_number_format (WBCGtk *wbcg,
 {
 	GnmStyle *mstyle = gnm_style_new ();
 	gnm_style_set_format (mstyle, format);
-	cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, descriptor);
+	cmd_selection_format (GNM_WBC (wbcg), mstyle, NULL, descriptor);
 }
 
 static GNM_ACTION_DEF (cb_format_as_general)
@@ -1733,7 +1733,7 @@ mutate_borders (WBCGtk *wbcg, gboolean add)
 		else
 			borders[i] = NULL;
 
-	cmd_selection_format (WORKBOOK_CONTROL (wbcg), NULL, borders,
+	cmd_selection_format (GNM_WBC (wbcg), NULL, borders,
 		add ? _("Add Borders") : _("Remove borders"));
 }
 
@@ -1745,7 +1745,7 @@ modify_format (WBCGtk *wbcg,
 	       GOFormat *(*format_modify_fn) (GOFormat const *format),
 	       char const *descriptor)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	WorkbookView const *wbv;
 	GOFormat *new_fmt;
 
@@ -1804,7 +1804,7 @@ inc_dec (WBCGtk *wbcg,
 	 GOFormat *(*format_modify_fn) (GOFormat const *format),
 	 char const *descriptor)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	WorkbookView *wbv = wb_control_view (wbc);
 	GOFormat const *fmt = gnm_style_get_format (wbv->current_style);
 	SheetView *sv;
@@ -1857,18 +1857,18 @@ static GNM_ACTION_DEF (cb_format_dec_precision)
 static GNM_ACTION_DEF (cb_format_with_thousands)
 	{ modify_format (wbcg, &go_format_toggle_1000sep, _("Toggle thousands separator")); }
 
-static GNM_ACTION_DEF (cb_format_dec_indent) { workbook_cmd_dec_indent (WORKBOOK_CONTROL (wbcg)); }
-static GNM_ACTION_DEF (cb_format_inc_indent) { workbook_cmd_inc_indent (WORKBOOK_CONTROL (wbcg)); }
+static GNM_ACTION_DEF (cb_format_dec_indent) { workbook_cmd_dec_indent (GNM_WBC (wbcg)); }
+static GNM_ACTION_DEF (cb_format_inc_indent) { workbook_cmd_inc_indent (GNM_WBC (wbcg)); }
 
 static GNM_ACTION_DEF (cb_copydown)
 {
-	WorkbookControl  *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl  *wbc = GNM_WBC (wbcg);
 	cmd_copyrel (wbc, 0, -1, _("Copy down"));
 }
 
 static GNM_ACTION_DEF (cb_copyright)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	/* xgettext: copy from the cell to the left into current cell --
 	   this has nothing whatsoever to do with copyright.  */
 	cmd_copyrel (wbc, -1, 0, _("Copy right"));
@@ -1876,21 +1876,21 @@ static GNM_ACTION_DEF (cb_copyright)
 
 static GNM_ACTION_DEF (cb_format_cells_auto_fit_height)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	workbook_cmd_autofit_selection
 		(wbc, wb_control_cur_sheet (wbc), FALSE);
 }
 
 static GNM_ACTION_DEF (cb_format_cells_auto_fit_width)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	workbook_cmd_autofit_selection
 		(wbc, wb_control_cur_sheet (wbc), TRUE);
 }
 
 static GNM_ACTION_DEF (cb_format_column_auto_fit)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	workbook_cmd_resize_selected_colrow (wbc,
 		wb_control_cur_sheet (wbc), TRUE, -1);
 }
@@ -1904,16 +1904,16 @@ static GNM_ACTION_DEF (cb_format_column_std_width)
 }
 static GNM_ACTION_DEF (cb_format_column_hide)
 {
-	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), TRUE, FALSE);
+	cmd_selection_colrow_hide (GNM_WBC (wbcg), TRUE, FALSE);
 }
 static GNM_ACTION_DEF (cb_format_column_unhide)
 {
-	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), TRUE, TRUE);
+	cmd_selection_colrow_hide (GNM_WBC (wbcg), TRUE, TRUE);
 }
 
 static GNM_ACTION_DEF (cb_format_row_auto_fit)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	workbook_cmd_resize_selected_colrow (wbc,
 		wb_control_cur_sheet (wbc), FALSE, -1);
 }
@@ -1927,11 +1927,11 @@ static GNM_ACTION_DEF (cb_format_row_std_height)
 }
 static GNM_ACTION_DEF (cb_format_row_hide)
 {
-	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), FALSE, FALSE);
+	cmd_selection_colrow_hide (GNM_WBC (wbcg), FALSE, FALSE);
 }
 static GNM_ACTION_DEF (cb_format_row_unhide)
 {
-	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), FALSE, TRUE);
+	cmd_selection_colrow_hide (GNM_WBC (wbcg), FALSE, TRUE);
 }
 
 static GNM_ACTION_DEF (cb_file_menu)
@@ -2781,7 +2781,7 @@ static GtkActionEntry const actions[] = {
 #define TOGGLE_HANDLER(flag,property)					\
 static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
 {									\
-	g_return_if_fail (IS_WBC_GTK (wbcg));		\
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));		\
 									\
 	if (!wbcg->updating_ui) {					\
 		Sheet *sheet = wbcg_cur_sheet (wbcg);			\

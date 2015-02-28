@@ -233,7 +233,7 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 
 	state = g_new0 (DialogDataSlicer, 1);
 	state->wbcg	= wbcg;
-	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sv	= wb_control_cur_sheet_view (GNM_WBC (wbcg));
 
 	state->dialog	= go_gtk_builder_get_widget (gui, "dialog_data_slicer");
 	state->notebook = go_gtk_builder_get_widget (gui, "notebook");

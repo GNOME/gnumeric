@@ -1420,7 +1420,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 
 		/* Be careful to restore the editing sheet if we are editing */
 		sv = sheet_get_view (wbcg->editing_sheet,
-			wb_control_view (WORKBOOK_CONTROL (wbcg)));
+			wb_control_view (GNM_WBC (wbcg)));
 
 		/* move the edit pos for normal entry */
 		if (wbcg_edit_finish (wbcg, result, NULL) && result == WBC_EDIT_ACCEPT) {
@@ -1737,7 +1737,7 @@ gee_class_init (GObjectClass *gobject_class)
 		 g_param_spec_object ("wbcg",
 				      P_("WBCGtk"),
 				      P_("The toplevel GUI container associated with the entry."),
-				      WBC_GTK_TYPE,
+				      GNM_WBC_GTK_TYPE,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property

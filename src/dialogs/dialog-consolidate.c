@@ -312,7 +312,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 	}
 
 	if (consolidate_check_destination (cs, dao)) {
-		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+		if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 					state->base.sheet,
 					dao, cs, tool_consolidate_engine,
 					FALSE) &&
@@ -533,7 +533,7 @@ dialog_consolidate (WBCGtk *wbcg)
 	Sheet *sheet;
 
 	g_return_if_fail (wbcg != NULL);
-	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	sheet = sv_sheet (sv);
 
 	/* Only pop up one copy per workbook */

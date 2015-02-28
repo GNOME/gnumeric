@@ -129,17 +129,17 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	unique = (1 == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)));
 
 	if (dao->type == InPlaceOutput)
-		err = advanced_filter (WORKBOOK_CONTROL (state->wbcg),
+		err = advanced_filter (GNM_WBC (state->wbcg),
 				       dao, input, criteria, unique);
 	else {
 		analysis_tools_data_advanced_filter_t  *
 			data = g_new0 (analysis_tools_data_advanced_filter_t, 1);
-		data->base.wbc = WORKBOOK_CONTROL (state->wbcg);
+		data->base.wbc = GNM_WBC (state->wbcg);
 		data->base.range_1 = input;
 		data->base.range_2 = criteria;
 		data->unique_only_flag = unique;
 
-		if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+		if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet,
 				       dao, data, analysis_tool_advanced_filter_engine, FALSE)) {
 			err = data->base.err;
 			g_free (data);
@@ -196,7 +196,7 @@ dialog_advanced_filter (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	wbc = WORKBOOK_CONTROL (wbcg);
+	wbc = GNM_WBC (wbcg);
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, ADVANCED_FILTER_KEY))

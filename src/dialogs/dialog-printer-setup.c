@@ -2155,11 +2155,11 @@ load_print_area (PrinterSetupState *state)
 
 	print_area = sheet_get_nominal_printarea
 		(wb_control_cur_sheet
-		 (WORKBOOK_CONTROL (state->wbcg)));
+		 (GNM_WBC (state->wbcg)));
 	if (print_area != NULL)
 		gnm_expr_entry_load_from_range
 			(state->area_entry,
-			 wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
+			 wb_control_cur_sheet (GNM_WBC (state->wbcg)),
 			 print_area);
 	else
 		gnm_expr_entry_load_from_text
@@ -2662,7 +2662,7 @@ cb_do_print_preview (PrinterSetupState *state)
 			gog_graph_set_size (graph, w, h);
 		}
 	}
-	gnm_print_sheet (WORKBOOK_CONTROL (state->wbcg),
+	gnm_print_sheet (GNM_WBC (state->wbcg),
 		state->sheet, TRUE, GNM_PRINT_ACTIVE_SHEET, NULL);
 	if (graph)
 		gog_graph_set_size (graph, width, height);
@@ -2685,7 +2685,7 @@ cb_do_print_ok (PrinterSetupState *state)
 						  "is_default_check")))) {
 		print_info_save (state->pi);
 	}
-	cmd_print_setup (WORKBOOK_CONTROL (state->wbcg),
+	cmd_print_setup (GNM_WBC (state->wbcg),
 		print_setup_get_sheet (state), state->pi);
 	gtk_widget_destroy (state->dialog);
 }
@@ -2694,7 +2694,7 @@ static void
 cb_do_print (PrinterSetupState *state)
 {
 	Sheet *sheet = state->sheet;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 
 	cb_do_print_ok (state);
 	gnm_print_sheet (wbc, sheet, FALSE, GNM_PRINT_SAVED_INFO, NULL);

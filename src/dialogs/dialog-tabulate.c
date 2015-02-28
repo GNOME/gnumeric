@@ -272,7 +272,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	data->steps = steps;
 	data->with_coordinates = with_coordinates;
 
-	if (!cmd_tabulate (WORKBOOK_CONTROL (dd->wbcg), data)) {
+	if (!cmd_tabulate (GNM_WBC (dd->wbcg), data)) {
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		return;
 	}

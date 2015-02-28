@@ -10,11 +10,11 @@ G_BEGIN_DECLS
 
 #define GNM_HLINK_TYPE		(gnm_hlink_get_type ())
 #define GNM_HLINK(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_HLINK_TYPE, GnmHLink))
-#define IS_GNM_HLINK(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_HLINK_TYPE))
+#define GNM_IS_HLINK(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_HLINK_TYPE))
 
 #define GNM_HLINK_URL_TYPE		(gnm_hlink_url_get_type ())
 #define GNM_HLINK_URL(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_HLINK_URL_TYPE, GnmHLinkURL))
-#define IS_GNM_HLINK_URL(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_HLINK_URL_TYPE))
+#define GNM_IS_HLINK_URL(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_HLINK_URL_TYPE))
 
 GnmHLink	*sheet_hlink_find   (Sheet const *sheet, GnmCellPos const *pos);
 

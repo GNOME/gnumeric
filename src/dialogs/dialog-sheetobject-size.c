@@ -219,7 +219,7 @@ cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		char const *label = state->so_pos_needs_restore ?
 			_("Move Object") : _("Resize Object");
 		sheet_object_set_anchor	(state->so, state->old_anchor);
-		if (!cmd_objects_move (WORKBOOK_CONTROL (state->wbcg),
+		if (!cmd_objects_move (GNM_WBC (state->wbcg),
 				       g_slist_prepend (NULL, state->so),
 				       g_slist_prepend
 				       (NULL, sheet_object_anchor_dup
@@ -257,7 +257,7 @@ cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		if (cnt > 1)
 			undo_name =  _("Set Object Properties");
 		state->so_name_changed = state->so_print_check_changed =
-			cmd_generic (WORKBOOK_CONTROL (state->wbcg),
+			cmd_generic (GNM_WBC (state->wbcg),
 				     undo_name, undo, redo);
 	}
 	dialog_so_size_button_sensitivity (state);
@@ -319,7 +319,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 
 	state = g_new (SOSizeState, 1);
 	state->wbcg  = wbcg;
-	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->scg = wbcg_get_nth_scg (wbcg, state->sheet->index_in_wb);
 	state->gui    = gui;

@@ -203,7 +203,7 @@ void
 gnm_sheet_slicer_set_sheet (GnmSheetSlicer *gss, Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (IS_GNM_SHEET_SLICER (gss));
+	g_return_if_fail (GNM_IS_SHEET_SLICER (gss));
 	g_return_if_fail (NULL == gss->sheet);
 
 	g_object_ref (gss);
@@ -214,7 +214,7 @@ gnm_sheet_slicer_set_sheet (GnmSheetSlicer *gss, Sheet *sheet)
 void
 gnm_sheet_slicer_clear_sheet (GnmSheetSlicer *gss)
 {
-	g_return_if_fail (IS_GNM_SHEET_SLICER (gss));
+	g_return_if_fail (GNM_IS_SHEET_SLICER (gss));
 	g_return_if_fail (NULL != gss->sheet);
 
 	gss->sheet->slicers = g_slist_remove (gss->sheet->slicers, gss);
@@ -225,14 +225,14 @@ gnm_sheet_slicer_clear_sheet (GnmSheetSlicer *gss)
 GnmRange const	*
 gnm_sheet_slicer_get_range (GnmSheetSlicer const *gss)
 {
-	g_return_val_if_fail (IS_GNM_SHEET_SLICER (gss), NULL);
+	g_return_val_if_fail (GNM_IS_SHEET_SLICER (gss), NULL);
 	return &gss->range;
 }
 
 void
 gnm_sheet_slicer_set_range (GnmSheetSlicer *gss, GnmRange const *r)
 {
-	g_return_if_fail (IS_GNM_SHEET_SLICER (gss));
+	g_return_if_fail (GNM_IS_SHEET_SLICER (gss));
 	gss->range = *r;
 }
 
@@ -246,7 +246,7 @@ gnm_sheet_slicer_set_range (GnmSheetSlicer *gss, GnmRange const *r)
 gboolean
 gnm_sheet_slicer_overlaps_range (GnmSheetSlicer const *gss, GnmRange const *r)
 {
-	g_return_val_if_fail (IS_GNM_SHEET_SLICER (gss), FALSE);
+	g_return_val_if_fail (GNM_IS_SHEET_SLICER (gss), FALSE);
 	return range_overlap (&gss->range, r);
 }
 
@@ -267,7 +267,7 @@ gnm_sheet_slicer_field_header_at_pos (GnmSheetSlicer const *gss,
 	int res = -1;
 	unsigned int c, r;
 
-	g_return_val_if_fail (IS_GNM_SHEET_SLICER (gss), NULL);
+	g_return_val_if_fail (GNM_IS_SHEET_SLICER (gss), NULL);
 
 	/* 0) TODO page fields */
 	if (pos->col < gss->range.start.col || pos->row < gss->range.start.row)
@@ -371,7 +371,7 @@ gnm_sheet_slicer_regenerate (GnmSheetSlicer *gss)
 	GArray *permutation, *rows;
 	unsigned int i, n;
 
-	g_return_if_fail (IS_GNM_SHEET_SLICER (gss));
+	g_return_if_fail (GNM_IS_SHEET_SLICER (gss));
 	g_return_if_fail (IS_SHEET (gss->sheet));
 	g_return_if_fail (NULL != gss->base.cache);
 
@@ -386,14 +386,14 @@ gnm_sheet_slicer_regenerate (GnmSheetSlicer *gss)
 GnmSheetSlicerLayout
 gnm_sheet_slicer_get_layout (GnmSheetSlicer const *gss)
 {
-	g_return_val_if_fail (IS_GNM_SHEET_SLICER (gss), GSS_Layout_XL_outline);
+	g_return_val_if_fail (GNM_IS_SHEET_SLICER (gss), GSS_Layout_XL_outline);
 	return gss->layout;
 }
 
 void
 gnm_sheet_slicer_set_layout (GnmSheetSlicer *gss, GnmSheetSlicerLayout l)
 {
-	g_return_if_fail (IS_GNM_SHEET_SLICER (gss));
+	g_return_if_fail (GNM_IS_SHEET_SLICER (gss));
 	gss->layout = l;
 }
 

@@ -383,7 +383,7 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 	if (!success)
 		return;		/* Let user continue editing */
 
-	wb_control_sheet_focus (WORKBOOK_CONTROL (state->wbcg), state->sheet);
+	wb_control_sheet_focus (GNM_WBC (state->wbcg), state->sheet);
 
 	if (target) {
 		gnm_hlink_set_target (state->link, target);
@@ -397,12 +397,12 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 
 		if (state->is_new) {
 			cmdname = _("Add Hyperlink");
-			cmd_selection_hyperlink (WORKBOOK_CONTROL (state->wbcg),
+			cmd_selection_hyperlink (GNM_WBC (state->wbcg),
 						 style,
 						 cmdname, target);
 		} else {
 			cmdname = _("Edit Hyperlink");
-			cmd_selection_hyperlink (WORKBOOK_CONTROL (state->wbcg),
+			cmd_selection_hyperlink (GNM_WBC (state->wbcg),
 						 style,
 						 cmdname, NULL);
 			g_free (target);
@@ -411,7 +411,7 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 		style = gnm_style_new ();
 		gnm_style_set_hlink (style, NULL);
 		cmdname = _("Remove Hyperlink");
-		cmd_selection_hyperlink (WORKBOOK_CONTROL (state->wbcg), style,
+		cmd_selection_hyperlink (GNM_WBC (state->wbcg), style,
 					 cmdname, NULL);
 	}
 	gtk_widget_destroy (state->dialog);
@@ -589,7 +589,7 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 
 	state = g_new (HyperlinkState, 1);
 	state->wbcg  = wbcg;
-	state->wb   = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb   = wb_control_get_workbook (GNM_WBC (wbcg));
 	state->sc   = sc;
 	state->gui  = gui;
         state->dialog = go_gtk_builder_get_widget (state->gui, "hyperlink-dialog");

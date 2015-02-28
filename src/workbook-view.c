@@ -568,7 +568,7 @@ void
 wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 {
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
-	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
+	g_return_if_fail (GNM_IS_WBC (wbc));
 	g_return_if_fail (wb_control_view (wbc) == NULL);
 
 	if (wbv->wb_controls == NULL)
@@ -583,7 +583,7 @@ wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 void
 wb_view_detach_control (WorkbookControl *wbc)
 {
-	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
+	g_return_if_fail (GNM_IS_WBC (wbc));
 	g_return_if_fail (IS_WORKBOOK_VIEW (wb_control_view (wbc)));
 
 	g_ptr_array_remove (wbc->wb_view->wb_controls, wbc);

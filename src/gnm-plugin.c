@@ -177,7 +177,7 @@ plugin_service_function_group_func_ref_notify (GnmFunc *fn_def, int refcount)
 	GOPluginService *service;
 
 	service = gnm_func_get_user_data (fn_def);
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 	if (refcount == 0) {
 		go_plugin_use_unref (service->plugin);
 	} else {
@@ -745,7 +745,7 @@ gnm_plugin_loader_module_func_desc_load (GOPluginService *service,
 	ServiceLoaderDataFunctionGroup *loader_data;
 	gpointer func_index_ptr;
 
-	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
+	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
 	g_return_val_if_fail (name != NULL, FALSE);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -766,7 +766,7 @@ gnm_plugin_loader_module_load_service_function_group (GOPluginLoader  *loader,
 	gchar *fn_info_array_name;
 	GnmFuncDescriptor *module_fn_info_array = NULL;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	fn_info_array_name = g_strconcat (
@@ -830,7 +830,7 @@ gnm_plugin_loader_module_func_exec_action (GOPluginService *service,
 	gpointer action_index_ptr;
 	int action_index;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_UI (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -856,7 +856,7 @@ gnm_plugin_loader_module_load_service_ui (GOPluginLoader *loader,
 	ServiceLoaderDataUI *loader_data;
 	gint i;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_UI (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	ui_actions_array_name = g_strconcat (
@@ -899,7 +899,7 @@ gnm_plugin_loader_module_load_service_solver (GOPluginLoader *loader,
 	GnmSolverCreator creator;
 	GnmSolverFactoryFunctional functional;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_SOLVER (service));
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_SOLVER (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 
@@ -929,11 +929,11 @@ gnm_plugin_loader_module_load_service_solver (GOPluginLoader *loader,
 static gboolean
 gplm_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
-	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
+	if (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (s))
 		gnm_plugin_loader_module_load_service_function_group (l, s, err);
-	else if (IS_GNM_PLUGIN_SERVICE_UI (s))
+	else if (GNM_IS_PLUGIN_SERVICE_UI (s))
 		gnm_plugin_loader_module_load_service_ui (l, s, err);
-	else if (IS_GNM_PLUGIN_SERVICE_SOLVER (s))
+	else if (GNM_IS_PLUGIN_SERVICE_SOLVER (s))
 		gnm_plugin_loader_module_load_service_solver (l, s, err);
 	else
 		return FALSE;
@@ -943,13 +943,13 @@ gplm_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 static gboolean
 gplm_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
-	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s)) {
+	if (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (s)) {
 		PluginServiceFunctionGroupCallbacks *cbs = go_plugin_service_get_cbs (s);
 		cbs->func_desc_load = NULL;
-	} else if (IS_GNM_PLUGIN_SERVICE_UI (s)) {
+	} else if (GNM_IS_PLUGIN_SERVICE_UI (s)) {
 		PluginServiceUICallbacks *cbs = go_plugin_service_get_cbs (s);
 		cbs->plugin_func_exec_action = NULL;
-	} else if (IS_GNM_PLUGIN_SERVICE_SOLVER (s)) {
+	} else if (GNM_IS_PLUGIN_SERVICE_SOLVER (s)) {
 		PluginServiceSolverCallbacks *cbs =
 			go_plugin_service_get_cbs (s);
 		cbs->creator = NULL;

@@ -139,7 +139,7 @@ apply_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	replace_text = gnm_search_normalize (gtk_entry_get_text (dd->replace_text));
 
 	sr = g_object_new (GNM_SEARCH_REPLACE_TYPE,
-			   "sheet", wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),
+			   "sheet", wb_control_cur_sheet (GNM_WBC (wbcg)),
 			   "scope", scope,
 			   "range-text", gnm_expr_entry_get_text (dd->rangetext),
 			   "search-text", search_text,
@@ -278,7 +278,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	gtk_widget_set_hexpand (GTK_WIDGET (dd->rangetext), TRUE);
 	gtk_grid_attach (grid, GTK_WIDGET (dd->rangetext), 1, 9, 2, 1);
 	selection_text = selection_to_string (
-		wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)),
+		wb_control_cur_sheet_view (GNM_WBC (wbcg)),
 		TRUE);
 	gnm_expr_entry_load_from_text  (dd->rangetext, selection_text);
 	g_free (selection_text);

@@ -903,7 +903,7 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 		    ((existing_value == NULL) && (existing_link == NULL)))
 			return G_TYPE_INVALID;
 		else {
-			cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg), NULL,
+			cmd_change_meta_data (GNM_WBC (state->wbcg), NULL,
 					      g_slist_prepend (NULL, g_strdup (name)));
 			return G_TYPE_INVALID;
 		}
@@ -962,7 +962,7 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 	if (link != NULL)
 		gsf_doc_prop_set_link (doc_prop, g_strdup (link));
 
-	cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg),
+	cmd_change_meta_data (GNM_WBC (state->wbcg),
 			      g_slist_prepend (NULL, doc_prop), NULL);
 
 	return val_type;
@@ -1554,7 +1554,7 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 						 NULL, NULL);
 
 		/* Remove property from GsfMetadata */
-		cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg), NULL,
+		cmd_change_meta_data (GNM_WBC (state->wbcg), NULL,
 				      g_slist_prepend (NULL, g_value_dup_string (prop_name)));
 
 		/* Remove from Tree View */
@@ -2109,7 +2109,7 @@ dialog_doc_metadata_set_file_permissions (DialogDocMetaData *state)
 static void
 dialog_doc_metadata_free (DialogDocMetaData *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 
 	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
 
@@ -2312,9 +2312,9 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	int i;
 
 	state->wbcg     = wbcg;
-	state->wb       = wb_control_get_workbook (WORKBOOK_CONTROL(wbcg));
+	state->wb       = wb_control_get_workbook (GNM_WBC(wbcg));
 	state->doc      = GO_DOC (state->wb);
-	state->metadata = go_doc_get_meta_data (wb_control_get_doc (WORKBOOK_CONTROL (state->wbcg)));
+	state->metadata = go_doc_get_meta_data (wb_control_get_doc (GNM_WBC (state->wbcg)));
 
 	g_return_val_if_fail (state->metadata  != NULL, TRUE);
 

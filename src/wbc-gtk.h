@@ -11,9 +11,9 @@
 
 G_BEGIN_DECLS
 
-#define WBC_GTK_TYPE	(wbc_gtk_get_type ())
-#define WBC_GTK(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), WBC_GTK_TYPE, WBCGtk))
-#define IS_WBC_GTK(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), WBC_GTK_TYPE))
+#define GNM_WBC_GTK_TYPE	(wbc_gtk_get_type ())
+#define WBC_GTK(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_WBC_GTK_TYPE, WBCGtk))
+#define GNM_IS_WBC_GTK(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_WBC_GTK_TYPE))
 
 GType   wbc_gtk_get_type (void);
 WBCGtk *wbc_gtk_new (WorkbookView *optional_view,

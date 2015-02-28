@@ -340,7 +340,7 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	sim.max_time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w)) - 1;
 
 	g_get_current_time (&sim.start);
-	err = simulation_tool (WORKBOOK_CONTROL (state->wbcg),
+	err = simulation_tool (GNM_WBC (state->wbcg),
 			       &dao, &sim);
 	g_get_current_time (&sim.end);
 
@@ -410,7 +410,7 @@ dialog_simulation (WBCGtk *wbcg, G_GNUC_UNUSED Sheet *sheet)
 
 	g_return_if_fail (wbcg != NULL);
 
-	wbc = WORKBOOK_CONTROL (wbcg);
+	wbc = GNM_WBC (wbcg);
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, SIMULATION_KEY))

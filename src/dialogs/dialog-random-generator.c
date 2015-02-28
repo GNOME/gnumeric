@@ -536,7 +536,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	data = g_new0 (tools_data_random_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
-	data->wbc = WORKBOOK_CONTROL (state->base.wbcg);
+	data->wbc = GNM_WBC (state->base.wbcg);
 
 	err = entry_to_int (GTK_ENTRY (state->vars_entry), &data->n_vars, FALSE);
 	err = entry_to_int (GTK_ENTRY (state->count_entry), &data->count, FALSE);
@@ -695,7 +695,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		break;
 	}
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 				state->base.sheet,
 				dao, data, tool_random_engine, TRUE) &&
 	    (button == state->base.ok_button))

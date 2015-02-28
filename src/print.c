@@ -1308,7 +1308,7 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 			(settings, GNUMERIC_PRINT_SETTING_IGNORE_PAGE_BREAKS_KEY, pi->ignore_pb ? 1 : 0);
 	}
 
-	if (NULL != pi->wbc && IS_WBC_GTK(pi->wbc)) {
+	if (NULL != pi->wbc && GNM_IS_WBC_GTK(pi->wbc)) {
 		pi->progress = gtk_message_dialog_new (wbcg_toplevel (WBC_GTK (pi->wbc)),
 						       GTK_DIALOG_MODAL |
 						       GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1772,7 +1772,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 
 	pi = printing_instance_new ();
 	pi->wb = sheet->workbook;
-	pi->wbc = wbc ? WORKBOOK_CONTROL (wbc) : NULL;
+	pi->wbc = wbc ? GNM_WBC (wbc) : NULL;
 	pi->sheet = sheet;
 	pi->preview = preview;
 
@@ -1829,7 +1829,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	gtk_print_operation_set_use_full_page (print, FALSE);
 	gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);
 
-	if (NULL != wbc && IS_WBC_GTK(wbc))
+	if (NULL != wbc && GNM_IS_WBC_GTK(wbc))
 		parent = wbcg_toplevel (WBC_GTK (wbc));
 
 	if (preview_via_pdf || export_dst) {
@@ -2002,7 +2002,7 @@ gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 
 	so = g_ptr_array_index (sos, 0),
 	sheet = sheet_object_get_sheet (so);
-	if (NULL != wbc && IS_WBC_GTK(wbc))
+	if (NULL != wbc && GNM_IS_WBC_GTK(wbc))
 		parent = wbcg_toplevel (WBC_GTK (wbc));
 
 	print = gtk_print_operation_new ();

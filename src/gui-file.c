@@ -83,17 +83,17 @@ void
 gui_wb_view_show (WBCGtk *wbcg, WorkbookView *wbv)
 {
 	WBCGtk *new_wbcg = NULL;
-	Workbook *tmp_wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *tmp_wb = wb_control_get_workbook (GNM_WBC (wbcg));
 
 	if (go_doc_is_pristine (GO_DOC (tmp_wb))) {
 		g_object_ref (wbcg);
 		g_object_unref (tmp_wb);
-		wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
-		wb_control_init_state (WORKBOOK_CONTROL (wbcg));
+		wb_control_set_view (GNM_WBC (wbcg), wbv, NULL);
+		wb_control_init_state (GNM_WBC (wbcg));
 	} else {
 		GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
 		WorkbookControl *new_wbc =
-			workbook_control_new_wrapper (WORKBOOK_CONTROL (wbcg),
+			workbook_control_new_wrapper (GNM_WBC (wbcg),
 						wbv, NULL, screen);
 		new_wbcg = WBC_GTK (new_wbc);
 
@@ -233,7 +233,7 @@ gui_file_open (WBCGtk *wbcg, GnmFileOpenStyle type, char const *default_format)
 	GSList *uris = NULL;
 	char const *encoding = NULL;
 	GOFileOpener *fo = NULL;
-	Workbook *workbook = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *workbook = wb_control_get_workbook (GNM_WBC (wbcg));
 
 	all_openers = go_get_file_openers ();
 
@@ -778,7 +778,7 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 gboolean
 gui_file_export_repeat (WBCGtk *wbcg)
 {
-	WorkbookView *wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	WorkbookView *wb_view = wb_control_view (GNM_WBC (wbcg));
 	Workbook *wb = wb_view_get_workbook (wb_view);
 	GOFileSaver *fs = workbook_get_file_exporter (wb);
 	gchar const *last_uri = workbook_get_last_export_uri (wb);

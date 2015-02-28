@@ -53,7 +53,7 @@ typedef struct {
 					  char const *title, char const *msg);
 } WorkbookControlClass;
 
-#define WORKBOOK_CONTROL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WORKBOOK_CONTROL_TYPE, WorkbookControlClass))
+#define GNM_WBC_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_WBC_TYPE, WorkbookControlClass))
 
 G_END_DECLS
 

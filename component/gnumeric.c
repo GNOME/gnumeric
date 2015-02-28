@@ -179,7 +179,7 @@ cb_gognm_save (G_GNUC_UNUSED GtkAction *a, WBCGtk *wbcg)
 		GOComponent *component = GO_COMPONENT (data);
 		/* update the component data since not all clients will call set_data */
 		GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
-		WorkbookView *wv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+		WorkbookView *wv = wb_control_view (GNM_WBC (wbcg));
 		if (wv != gognm->wv) {
 			if (gognm->wv != NULL) {
 				g_object_unref (gognm->wv);
@@ -193,7 +193,7 @@ cb_gognm_save (G_GNUC_UNUSED GtkAction *a, WBCGtk *wbcg)
 		go_gnm_component_update_data (gognm);
 		go_component_emit_changed (component);
 	} else
-		gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
+		gui_file_save (wbcg, wb_control_view (GNM_WBC (wbcg)));
 }
 
 static GtkActionEntry const actions[] = {
@@ -253,7 +253,7 @@ go_gnm_component_finalize (GObject *obj)
 		gognm->wv = NULL;
 	}
 	if (gognm->edited != NULL) {
-		g_object_unref (wb_control_view (WORKBOOK_CONTROL (gognm->edited)));
+		g_object_unref (wb_control_view (GNM_WBC (gognm->edited)));
 		gognm->edited = NULL;
 	}
 	G_OBJECT_CLASS (gognm_parent_klass)->finalize (obj);

@@ -128,7 +128,7 @@ update_undo (SheetManager *state, WorkbookControl *wbc)
 static void
 workbook_signals_block (SheetManager *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_signal_handler_block (G_OBJECT (wb),
@@ -142,7 +142,7 @@ workbook_signals_block (SheetManager *state)
 static void
 workbook_signals_unblock (SheetManager *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_signal_handler_unblock (G_OBJECT (wb),
@@ -229,7 +229,7 @@ static void
 sort_asc_desc (SheetManager *state, gboolean asc)
 {
 	WorkbookSheetState *old_state;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	GSList *l = NULL, *l_tmp;
 	gint n = 0;
@@ -302,7 +302,7 @@ cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	GList *selected_rows, *l;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
 	WorkbookSheetState *old_state;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	GdkRGBA gdk_color;
 	GdkRGBA *p_gdk_color;
@@ -354,7 +354,7 @@ cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	GList *selected_rows, *l;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
 	WorkbookSheetState *old_state;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	GdkRGBA gdk_color;
 	GdkRGBA *p_gdk_color;
@@ -494,7 +494,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 
 	if (sheet != NULL)
 		wb_view_sheet_focus (
-			wb_control_view (WORKBOOK_CONTROL (state->wbcg)), sheet);
+			wb_control_view (GNM_WBC (state->wbcg)), sheet);
 
 	g_list_free_full (selected_rows, (GDestroyNotify) gtk_tree_path_free);
 }
@@ -511,7 +511,7 @@ cb_toggled_lock (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	gboolean is_locked = TRUE;
 	Sheet *this_sheet = NULL;
 	WorkbookSheetState *old_state = NULL;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
@@ -557,7 +557,7 @@ cb_toggled_direction (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	gboolean is_rtl = TRUE;
 	Sheet *this_sheet = NULL;
 	WorkbookSheetState *old_state = NULL;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
@@ -601,7 +601,7 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	gboolean is_visible;
 	Sheet *this_sheet;
 	WorkbookSheetState *old_state;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	int cnt;
 
@@ -839,7 +839,7 @@ populate_sheet_list (SheetManager *state)
 {
 	GtkTreeSelection  *selection;
 	GtkTreeIter iter;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	Sheet *cur_sheet = wb_control_cur_sheet (wbc);
 	int i, n = workbook_sheet_count (wb);
@@ -921,7 +921,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	GList *selected_rows;
 	int index = -1;
 	WorkbookSheetState *old_state;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	Sheet *sheet, *old_sheet = NULL;
 
@@ -963,7 +963,7 @@ static void
 cb_append_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 {
 	WorkbookSheetState *old_state;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	GtkTreeIter iter;
 	Sheet *sheet, *old_sheet;
@@ -1000,7 +1000,7 @@ cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	GList *selected_rows;
 	WorkbookSheetState *old_state;
 	int index;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	Sheet *new_sheet, *this_sheet;
 
@@ -1045,7 +1045,7 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
 	GList *selected_rows, *l;
 	WorkbookSheetState *old_state;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_return_if_fail (selection != NULL);
@@ -1139,7 +1139,7 @@ verify_validity (SheetManager *state, gboolean *pchanged)
 static void
 cb_apply_names_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	WorkbookSheetState *old_state;
 	GtkTreeIter this_iter;
@@ -1183,7 +1183,7 @@ cb_apply_names_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 static void
 cb_sheet_order_destroy (SheetManager *state)
 {
-	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg));
+	Workbook *wb = wb_control_get_workbook (GNM_WBC (state->wbcg));
 
 	/* Stop to listen to changes in the sheet order. */
 	if (state->sheet_order_changed_listener)
@@ -1226,7 +1226,7 @@ static void
 dialog_sheet_order_update_sheet_order (SheetManager *state)
 {
 	GtkTreeIter iter;
-	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg));
+	Workbook *wb = wb_control_get_workbook (GNM_WBC (state->wbcg));
 	int i, n_sheets, n_children;
 	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
 	GtkTreeSelection *sel = gtk_tree_view_get_selection (state->sheet_list);
@@ -1336,7 +1336,7 @@ cb_sheet_added (Workbook *wb, SheetManager *state)
 static void
 dialog_sheet_order_changed (SheetManager *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	WorkbookSheetState *old_state;
 	GtkTreeIter this_iter;
@@ -1399,7 +1399,7 @@ cb_dialog_order_changed_by_insertion (G_GNUC_UNUSED GtkListStore *model,
 static void
 cb_undo_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	command_undo (wbc);
@@ -1445,7 +1445,7 @@ dialog_sheet_order (WBCGtk *wbcg)
         if (gui == NULL)
                 return;
 
-	wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	wb = wb_control_get_workbook (GNM_WBC (wbcg));
 	if (g_object_get_data (G_OBJECT (wb), SHEET_ORDER_KEY)) {
 		GtkWidget *dialog = gtk_message_dialog_new
 			(wbcg_toplevel (wbcg),
@@ -1494,7 +1494,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 
 	grid = GTK_GRID (go_gtk_builder_get_widget (gui,"main-grid"));
 	cg = go_color_group_fetch ("back_color_group",
-		wb_control_view (WORKBOOK_CONTROL (wbcg)));
+		wb_control_view (GNM_WBC (wbcg)));
 	icon = go_gtk_widget_render_icon_pixbuf (widget, "gnumeric-bucket", GTK_ICON_SIZE_LARGE_TOOLBAR);
 	state->ccombo_back = go_combo_color_new (icon, _("Default"), 0, cg);
 	g_object_unref (icon);
@@ -1505,7 +1505,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	gtk_widget_set_sensitive (state->ccombo_back, FALSE);
 
 	cg = go_color_group_fetch ("fore_color_group",
-		wb_control_view (WORKBOOK_CONTROL (wbcg)));
+		wb_control_view (GNM_WBC (wbcg)));
 	icon = go_gtk_widget_render_icon_pixbuf (widget, "font", GTK_ICON_SIZE_LARGE_TOOLBAR);
 	state->ccombo_fore = go_combo_color_new (icon, _("Default"), 0, cg);
 	g_object_unref (icon);

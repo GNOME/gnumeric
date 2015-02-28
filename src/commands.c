@@ -3051,7 +3051,7 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	me->has_been_through_cycle = TRUE;
 
 	/* Select the newly pasted contents  (this queues a redraw) */
-	if (me->only_objects && IS_WBC_GTK (wbc)) {
+	if (me->only_objects && GNM_IS_WBC_GTK (wbc)) {
 		SheetControlGUI *scg =
 			wbcg_get_nth_scg (WBC_GTK (wbc),
 					  cmd->sheet->index_in_wb);
@@ -4700,7 +4700,7 @@ cmd_objects_delete (WorkbookControl *wbc, GSList *objects,
 {
 	CmdObjectsDelete *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 	g_return_val_if_fail (objects != NULL, TRUE);
 
 	me = g_object_new (CMD_OBJECTS_DELETE_TYPE, NULL);
@@ -4738,7 +4738,7 @@ cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
 	GOUndo *redo = NULL;
 	gboolean result = TRUE;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 
 	undo = sheet_object_move_undo (objects, objects_created);
 	redo = sheet_object_move_do (objects, anchors, objects_created);
@@ -6261,7 +6261,7 @@ cmd_scenario_add (WorkbookControl *wbc, GnmScenario *s, Sheet *sheet)
 {
 	CmdScenarioAdd *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	me = g_object_new (CMD_SCENARIO_ADD_TYPE, NULL);
@@ -6324,7 +6324,7 @@ cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc, GOUndo *undo)
 {
 	CmdScenarioMngr *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 	g_return_val_if_fail (GNM_IS_SCENARIO (sc), TRUE);
 
 	me = g_object_new (CMD_SCENARIO_MNGR_TYPE, NULL);
@@ -6383,7 +6383,7 @@ cmd_data_shuffle (WorkbookControl *wbc, data_shuffling_t *sc, Sheet *sheet)
 {
 	CmdDataShuffle *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	me = g_object_new (CMD_DATA_SHUFFLE_TYPE, NULL);
@@ -6876,7 +6876,7 @@ cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 {
 	CmdSOGraphConfig *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 	g_return_val_if_fail (GNM_IS_SO_GRAPH (so), TRUE);
 	g_return_val_if_fail (GOG_IS_GRAPH (n_graph), TRUE);
 	g_return_val_if_fail (GOG_IS_GRAPH (o_graph), TRUE);
@@ -6948,7 +6948,7 @@ cmd_so_component_config (WorkbookControl *wbc, SheetObject *so,
 {
 	CmdSOComponentConfig *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 	g_return_val_if_fail (GNM_IS_SO_COMPONENT (so), TRUE);
 	g_return_val_if_fail (GO_IS_COMPONENT (n_obj), TRUE);
 	g_return_val_if_fail (GO_IS_COMPONENT (o_obj), TRUE);
@@ -7001,7 +7001,7 @@ cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet)
 {
 	CmdToggleRTL *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	me = g_object_new (CMD_TOGGLE_RTL_TYPE, NULL);
@@ -7070,7 +7070,7 @@ cmd_so_set_value (WorkbookControl *wbc,
 	CmdSOSetValue *me;
 	GnmRange r;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 
 	r.start.col = r.end.col = pref->col;
 	r.start.row = r.end.row = pref->row;
@@ -7340,7 +7340,7 @@ cmd_so_set_links (WorkbookControl *wbc,
 {
 	CmdSOSetLink *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 
 	me = g_object_new (CMD_SO_SET_LINKS_TYPE, NULL);
 	me->cmd.sheet = sheet_object_get_sheet (so);
@@ -7411,7 +7411,7 @@ cmd_so_set_frame_label (WorkbookControl *wbc,
 {
 	CmdSOSetFrameLabel *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 
 	me = g_object_new (CMD_SO_SET_FRAME_LABEL_TYPE, NULL);
 	me->cmd.sheet = sheet_object_get_sheet (so);
@@ -7482,7 +7482,7 @@ cmd_so_set_button (WorkbookControl *wbc,
 {
 	CmdSOSetButton *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 
 	me = g_object_new (CMD_SO_SET_BUTTON_TYPE, NULL);
 	me->cmd.sheet = sheet_object_get_sheet (so);
@@ -7563,7 +7563,7 @@ cmd_so_set_radio_button (WorkbookControl *wbc,
 {
 	CmdSOSetRadioButton *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 
 	me = g_object_new (CMD_SO_SET_RADIO_BUTTON_TYPE, NULL);
 	me->cmd.sheet = sheet_object_get_sheet (so);
@@ -7639,7 +7639,7 @@ cmd_so_set_checkbox (WorkbookControl *wbc,
 {
 	CmdSOSetCheckbox *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 
 	me = g_object_new (CMD_SO_SET_CHECKBOX_TYPE, NULL);
 	me->cmd.sheet = sheet_object_get_sheet (so);
@@ -7745,7 +7745,7 @@ cmd_so_set_adjustment (WorkbookControl *wbc,
 {
 	CmdSOSetAdjustment *me;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 
 	me = g_object_new (CMD_SO_SET_ADJUSTMENT_TYPE, NULL);
 	me->cmd.sheet = sheet_object_get_sheet (so);
@@ -7935,7 +7935,7 @@ cmd_page_breaks_clear (WorkbookControl *wbc, Sheet *sheet)
 	GOUndo *undo = NULL;
 	GOUndo *redo = NULL;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
 	if (sheet->print_info->page_breaks.v != NULL) {

@@ -310,7 +310,7 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 {
 	KeyedDialogContext *ctxt;
 
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 	g_return_if_fail (GTK_IS_WINDOW (dialog));
 	g_return_if_fail (key != NULL);
 
@@ -1129,8 +1129,8 @@ gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 				   GnmDialogDestroyOptions what)
 {
 	GnmDialogDestroySignals *dd = g_new (GnmDialogDestroySignals, 1);
-	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	Workbook *wb = wb_control_get_workbook (GNM_WBC (wbcg));
+	Sheet *sheet = wb_control_cur_sheet (GNM_WBC (wbcg));
 	int N = workbook_sheet_count (wb), i;
 	GPtrArray *os = g_ptr_array_new ();
 

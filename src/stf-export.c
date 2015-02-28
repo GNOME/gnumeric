@@ -75,7 +75,7 @@ enum {
 static void
 cb_sheet_destroyed (GnmStfExport *stfe, gpointer deadsheet)
 {
-	g_return_if_fail (IS_GNM_STF_EXPORT (stfe));
+	g_return_if_fail (GNM_IS_STF_EXPORT (stfe));
 
 	stfe->sheet_list = g_slist_remove (stfe->sheet_list, deadsheet);
 }
@@ -91,7 +91,7 @@ gnm_stf_export_options_sheet_list_clear (GnmStfExport *stfe)
 {
 	GSList *l;
 
-	g_return_if_fail (IS_GNM_STF_EXPORT (stfe));
+	g_return_if_fail (GNM_IS_STF_EXPORT (stfe));
 
 
 	for (l = stfe->sheet_list; l; l = l->next) {
@@ -117,7 +117,7 @@ gnm_stf_export_options_sheet_list_clear (GnmStfExport *stfe)
 void
 gnm_stf_export_options_sheet_list_add (GnmStfExport *stfe, Sheet *sheet)
 {
-	g_return_if_fail (IS_GNM_STF_EXPORT (stfe));
+	g_return_if_fail (GNM_IS_STF_EXPORT (stfe));
 	g_return_if_fail (IS_SHEET (sheet));
 
 	g_object_weak_ref (G_OBJECT (sheet),
@@ -137,7 +137,7 @@ gnm_stf_export_options_sheet_list_add (GnmStfExport *stfe, Sheet *sheet)
 GSList *
 gnm_stf_export_options_sheet_list_get (const GnmStfExport *stfe)
 {
-	g_return_val_if_fail (IS_GNM_STF_EXPORT (stfe), NULL);
+	g_return_val_if_fail (GNM_IS_STF_EXPORT (stfe), NULL);
 
 	return stfe->sheet_list;
 }
@@ -333,7 +333,7 @@ gnm_stf_export (GnmStfExport *stfe)
 	gboolean result = TRUE;
 	char *old_locale = NULL;
 
-	g_return_val_if_fail (IS_GNM_STF_EXPORT (stfe), FALSE);
+	g_return_val_if_fail (GNM_IS_STF_EXPORT (stfe), FALSE);
 	g_return_val_if_fail (stfe->sheet_list != NULL, FALSE);
 	g_object_get (G_OBJECT (stfe), "sink", &sink, NULL);
 	g_return_val_if_fail (sink != NULL, FALSE);
@@ -668,7 +668,7 @@ gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *conte
 
 	/* TODO: move this GUI dependent code out of this
 	 * filesaver into gui-file.c. After this, remove includes (see above). */
-	if (IS_WBC_GTK (context->impl)) {
+	if (GNM_IS_WBC_GTK (context->impl)) {
 		gboolean cancelled =
 			stf_export_dialog (WBC_GTK (context->impl), stfe, wb);
 		if (cancelled) {

@@ -82,7 +82,7 @@ cb_data_table_response (GtkWidget *dialog, gint response_id, GnmDialogDataTable 
 	if (response_id == GTK_RESPONSE_HELP)
 		return;
 	if (response_id == GTK_RESPONSE_OK)
-		cmd_create_data_table (WORKBOOK_CONTROL (state->wbcg),
+		cmd_create_data_table (GNM_WBC (state->wbcg),
 			state->sheet, &state->input_range,
 			gnm_expr_entry_get_text	(state->col_entry),
 			gnm_expr_entry_get_text (state->row_entry));
@@ -140,7 +140,7 @@ dialog_data_table (WBCGtk *wbcg)
 	    gnumeric_dialog_raise_if_exists (wbcg, DIALOG_DATA_TABLE_KEY))
 		return;
 
-	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	r = selection_first_range (sv, GO_CMD_CONTEXT (wbcg), _("Create Data Table"));
 	if (NULL == r)
 		return;
@@ -159,7 +159,7 @@ dialog_data_table (WBCGtk *wbcg)
 				       GO_CMD_CONTEXT (wbcg), _("Data Table")))
 		return;
 	if (cmd_cell_range_is_locked_effective
-	    (sheet, &input_range, WORKBOOK_CONTROL (wbcg),
+	    (sheet, &input_range, GNM_WBC (wbcg),
 					   _("Data Table")))
 		return;
 

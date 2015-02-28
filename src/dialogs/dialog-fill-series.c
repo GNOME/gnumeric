@@ -117,7 +117,7 @@ cb_fill_series_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	entry_to_float (GTK_ENTRY (state->start_entry),
 			&fs->start_value, TRUE);
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 				state->base.sheet,
 				dao, fs, fill_series_engine, TRUE))
 		gtk_widget_destroy (state->base.dialog);
@@ -236,7 +236,7 @@ void
 dialog_fill_series (WBCGtk *wbcg)
 {
 	FillSeriesState *state;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	SheetView       *sv = wb_control_cur_sheet_view (wbc);
 
 	g_return_if_fail (wbcg != NULL);

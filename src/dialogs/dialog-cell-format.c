@@ -2068,7 +2068,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 		/* since we are acting on the current selection   */
 		/* validation may have switched sheets.           */
 
-		wb_control_sheet_focus (WORKBOOK_CONTROL (state->wbcg),
+		wb_control_sheet_focus (GNM_WBC (state->wbcg),
 					state->sheet);
 
 		if (state->validation.changed)
@@ -2119,7 +2119,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 			GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
 			for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
 				borders[i] = border_get_mstyle (state, i);
-			cmd_selection_format (WORKBOOK_CONTROL (state->wbcg),
+			cmd_selection_format (GNM_WBC (state->wbcg),
 					      state->result, borders, NULL);
 		}
 		/* state->result got absorbed.  */
@@ -2560,7 +2560,7 @@ dialog_cell_format_init (WBCGtk *wbcg)
 	state = g_new (FormatState, 1);
 	state->wbcg	= wbcg;
 	state->gui	= gui;
-	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sv	= wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	state->sheet	= sv_sheet (state->sv);
 
 	edit_cell = sheet_cell_get (state->sheet,

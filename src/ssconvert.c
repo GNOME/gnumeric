@@ -512,7 +512,7 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 	WorkbookControl *wbc;
 	GnmSolver *sol = NULL;
 
-	wbc = g_object_new (WORKBOOK_CONTROL_TYPE, NULL);
+	wbc = g_object_new (GNM_WBC_TYPE, NULL);
 	wb_control_set_view (wbc, wbv, NULL);
 
 	/* Pick a functional algorithm.  */
@@ -603,7 +603,7 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 	}
 
 	wb = wb_view_get_workbook (wbv);
-	wbc = g_object_new (WORKBOOK_CONTROL_TYPE, NULL);
+	wbc = g_object_new (GNM_WBC_TYPE, NULL);
 	wb_control_set_view (wbc, wbv, NULL);
 
 	sheet = GET_ARG (SHEET_ARG, "sheet", wb_view_cur_sheet (wbv));

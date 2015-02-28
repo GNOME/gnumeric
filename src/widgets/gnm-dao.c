@@ -276,7 +276,7 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 	dao_ready =  ((grp_val  != 2) ||
 		      gnm_expr_entry_is_cell_ref
 		      (GNM_EXPR_ENTRY (gdao->output_entry),
-		       wb_control_cur_sheet (WORKBOOK_CONTROL (gdao->wbcg)),
+		       wb_control_cur_sheet (GNM_WBC (gdao->wbcg)),
 		       TRUE));
 
 	if (dao_ready && NULL != dao) {
@@ -294,7 +294,7 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 		case 2:
 			output_range = gnm_expr_entry_parse_as_value
 				(GNM_EXPR_ENTRY (gdao->output_entry),
-				 wb_control_cur_sheet (WORKBOOK_CONTROL
+				 wb_control_cur_sheet (GNM_WBC
 						       (gdao->wbcg)));
 			*dao = dao_init (*dao, RangeOutput);
 			dao_load_from_value (*dao, output_range);
@@ -362,7 +362,7 @@ gnm_dao_load_range (GnmDao *gdao, GnmRange const *range)
 
 	gnm_expr_entry_load_from_range
 		(gdao->output_entry,
-		 wb_control_cur_sheet (WORKBOOK_CONTROL (gdao->wbcg)),
+		 wb_control_cur_sheet (GNM_WBC (gdao->wbcg)),
 		 range);
 }
 

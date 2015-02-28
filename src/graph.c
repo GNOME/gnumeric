@@ -1457,9 +1457,9 @@ gnm_go_data_get_dep (GOData const *dat)
 {
 	if (IS_GNM_GO_DATA_SCALAR (dat))
 		return &((GnmGODataScalar *)dat)->dep;
-	if (IS_GNM_GO_DATA_VECTOR (dat))
+	if (GNM_IS_GO_DATA_VECTOR (dat))
 		return &((GnmGODataVector *)dat)->dep;
-	if (IS_GNM_GO_DATA_MATRIX (dat))
+	if (GNM_IS_GO_DATA_MATRIX (dat))
 		return &((GnmGODataMatrix *)dat)->dep;
 	return NULL;
 }

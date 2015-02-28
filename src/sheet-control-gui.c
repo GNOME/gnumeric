@@ -936,7 +936,7 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 	GnmRange range;
 	GtkAllocation ca;
 
-	g_return_if_fail (IS_GNM_PANE (pane));
+	g_return_if_fail (GNM_IS_PANE (pane));
 
 	/* Avoid calling this before the canvas is realized: We do not know the
 	 * visible area, and would unconditionally scroll the cell to the top
@@ -1564,7 +1564,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 
 	scg = g_object_new (SHEET_CONTROL_GUI_TYPE, NULL);
 	scg->wbcg = wbcg;
-	scg->sheet_control.wbc = WORKBOOK_CONTROL (wbcg);
+	scg->sheet_control.wbc = GNM_WBC (wbcg);
 
 	g_object_weak_ref (G_OBJECT (wbcg),
 		(GWeakNotify) cb_wbc_destroyed,
@@ -2056,7 +2056,7 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		dialog_cell_comment (wbcg, sheet, &sv->edit_pos);
 		break;
 	case CONTEXT_COMMENT_REMOVE:
-		cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_COMMENTS);
+		cmd_selection_clear (GNM_WBC (wbcg), CLEAR_COMMENTS);
 		break;
 	case CONTEXT_HYPERLINK_EDIT:
 	case CONTEXT_HYPERLINK_ADD:
@@ -2520,7 +2520,7 @@ scg_mode_edit (SheetControlGUI *scg)
 		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 
 	if (wbcg)
-		wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
+		wb_control_update_action_sensitivity (GNM_WBC (wbcg));
 }
 
 static void
@@ -2937,7 +2937,7 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 		if (undo_title)
 			*undo_title = text;
 	} else {
-		cmd_generic (WORKBOOK_CONTROL (scg_wbcg (scg)),
+		cmd_generic (GNM_WBC (scg_wbcg (scg)),
 			     text, undo, redo);
 		g_free (text);
 	}
@@ -4120,7 +4120,7 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 	GnmPane *pane;
 
 	g_return_if_fail (source_widget != NULL);
-	g_return_if_fail (IS_GNM_PANE (source_widget));
+	g_return_if_fail (GNM_IS_PANE (source_widget));
 
 	pane = GNM_PANE (source_widget);
 	x *= goc_canvas_get_pixels_per_unit (GOC_CANVAS (pane));
@@ -4183,7 +4183,7 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 			redo = go_undo_combine (nudge_redo, redo);
 		} else
 			scg_objects_drag_commit	(scg, 8, FALSE, &undo, &redo, &title);
-		cmd_generic (WORKBOOK_CONTROL (scg_wbcg (scg)), title, undo, redo);
+		cmd_generic (GNM_WBC (scg_wbcg (scg)), title, undo, redo);
 		g_free (title);
 	} else {
 		GnmCellRegion *content;

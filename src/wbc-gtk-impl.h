@@ -151,7 +151,7 @@ typedef struct {
 	void (*markup_changed)		(WBCGtk const *wbcg);
 } WBCGtkClass;
 
-#define WORKBOOK_CONTROL_GUI_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WBC_GTK_TYPE, WBCGtkClass))
+#define WORKBOOK_CONTROL_GUI_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_WBC_GTK_TYPE, WBCGtkClass))
 
 #define GNM_RESPONSE_SAVE_ALL -1000
 #define GNM_RESPONSE_DISCARD_ALL -1001

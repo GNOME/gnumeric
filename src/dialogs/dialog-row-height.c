@@ -196,14 +196,14 @@ cb_dialog_row_height_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	if (state->set_default_value) {
 		double points = value * 72./gnm_app_display_dpi_get (TRUE);
-		cmd_colrow_std_size (WORKBOOK_CONTROL (state->wbcg),
+		cmd_colrow_std_size (GNM_WBC (state->wbcg),
 				     state->sheet, FALSE, points);
 		dialog_row_height_load_value (state);
 	} else {
 		if (use_default)
 			size_pixels = 0;
 
-		workbook_cmd_resize_selected_colrow (WORKBOOK_CONTROL (state->wbcg),
+		workbook_cmd_resize_selected_colrow (GNM_WBC (state->wbcg),
 			state->sheet, FALSE, size_pixels);
 		dialog_row_height_load_value (state);
 	}
@@ -252,7 +252,7 @@ dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 
 	state = g_new (RowHeightState, 1);
 	state->wbcg  = wbcg;
-	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->adjusting = FALSE;
 	state->gui = gnm_gtk_builder_load ("row-height.ui", NULL, GO_CMD_CONTEXT (wbcg));

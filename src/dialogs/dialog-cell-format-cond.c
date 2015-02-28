@@ -691,7 +691,7 @@ c_fmt_dialog_set_conditions (CFormatState *state, char const *cmd_label)
 				      (GnmSelectionFunc)c_fmt_dialog_condition_setter_tiled,
 				      state);
 	}
-	cmd_generic_with_size (WORKBOOK_CONTROL (state->wbcg), cmd_label,
+	cmd_generic_with_size (GNM_WBC (state->wbcg), cmd_label,
 			       state->action.size, state->action.undo, state->action.redo);
 
 	state->action.undo = NULL;
@@ -1306,7 +1306,7 @@ dialog_cell_format_cond (WBCGtk *wbcg)
 	state = g_new (CFormatState, 1);
 	state->wbcg	= wbcg;
 	state->gui	= gui;
-	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sv	= wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	state->sheet	= sv_sheet (state->sv);
 	state->style	= NULL;
 	state->editor.style = NULL;

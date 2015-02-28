@@ -1299,7 +1299,7 @@ sheet_object_view_enter_notify (GocItem *item, double x, double y)
 {
 	SheetObject *so;
 
-	if (IS_GNM_PANE (item->canvas) && scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
+	if (GNM_IS_PANE (item->canvas) && scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
 		GnmItemGrid *grid = GNM_PANE (item->canvas)->grid;
 		return GOC_ITEM_GET_CLASS (grid)->enter_notify (GOC_ITEM (grid), x, y);
 	}
@@ -1384,7 +1384,7 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 {
 	GnmPane *pane;
 	SheetObject *so;
-	if (IS_GNM_PANE (item->canvas)) {
+	if (GNM_IS_PANE (item->canvas)) {
 		if (scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
 			GnmItemGrid *grid = GNM_PANE (item->canvas)->grid;
 			return GOC_ITEM_GET_CLASS (grid)->button_pressed (GOC_ITEM (grid), button, x, y);
@@ -1448,7 +1448,7 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 static gboolean
 sheet_object_view_button2_pressed (GocItem *item, int button, double x, double y)
 {
-	if (button == 1 && !IS_GNM_PANE (item->canvas)) {
+	if (button == 1 && !GNM_IS_PANE (item->canvas)) {
 		SheetControl *sc = SHEET_CONTROL (g_object_get_data (G_OBJECT (item->canvas), "sheet-control"));
 		SheetObject *so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
 

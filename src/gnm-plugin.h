@@ -16,7 +16,7 @@ GType gnm_plugin_loader_module_get_type (void);
 
 #define GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE  (plugin_service_function_group_get_type ())
 #define GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE, PluginServiceFunctionGroup))
-#define IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE))
+#define GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE))
 
 GType plugin_service_function_group_get_type (void);
 typedef struct _PluginServiceFunctionGroup	PluginServiceFunctionGroup;
@@ -27,7 +27,7 @@ typedef struct {
 
 #define GNM_PLUGIN_SERVICE_UI_TYPE  (plugin_service_ui_get_type ())
 #define GNM_PLUGIN_SERVICE_UI(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_UI_TYPE, PluginServiceUI))
-#define IS_GNM_PLUGIN_SERVICE_UI(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_UI_TYPE))
+#define GNM_IS_PLUGIN_SERVICE_UI(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_UI_TYPE))
 
 GType plugin_service_ui_get_type (void);
 typedef struct _PluginServiceUI PluginServiceUI;
@@ -48,7 +48,7 @@ typedef struct {
 
 #define GNM_PLUGIN_SERVICE_SOLVER_TYPE  (plugin_service_solver_get_type ())
 #define GNM_PLUGIN_SERVICE_SOLVER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_SOLVER_TYPE, PluginServiceSolver))
-#define IS_GNM_PLUGIN_SERVICE_SOLVER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_SOLVER_TYPE))
+#define GNM_IS_PLUGIN_SERVICE_SOLVER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_SOLVER_TYPE))
 
 GType plugin_service_solver_get_type (void);
 typedef struct _PluginServiceSolver PluginServiceSolver;

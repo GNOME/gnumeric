@@ -162,7 +162,7 @@ random_cor_tool_ok_clicked_cb (GtkWidget *button, RandomCorToolState *state)
 		(state->base.gui, matrix_group);
 
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 				state->base.sheet,
 				dao, data, tool_random_cor_engine, TRUE) &&
 	    (button == state->base.ok_button))

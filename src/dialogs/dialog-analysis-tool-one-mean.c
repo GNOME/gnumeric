@@ -153,7 +153,7 @@ one_mean_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 				state->base.sheet,
 				dao, data, analysis_tool_one_mean_test_engine,
 				TRUE))

@@ -13,7 +13,7 @@ char *gnm_search_normalize (const char *txt);
 
 #define GNM_SEARCH_REPLACE_TYPE        (gnm_search_replace_get_type ())
 #define GNM_SEARCH_REPLACE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SEARCH_REPLACE_TYPE, GnmSearchReplace))
-#define IS_GNM_SEARCH_REPLACE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SEARCH_REPLACE_TYPE))
+#define GNM_IS_SEARCH_REPLACE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SEARCH_REPLACE_TYPE))
 
 typedef enum {
 	GNM_SRE_FAIL = 0,

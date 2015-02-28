@@ -381,7 +381,7 @@ gnm_soc_user_config (SheetObject *so, SheetControl *sc)
 		gnm_soc_user_config_t *data = g_new0 (gnm_soc_user_config_t, 1);
 		data->so = so;
 		data->component = new_comp;
-		data->wbc = WORKBOOK_CONTROL (scg_wbcg (SHEET_CONTROL_GUI (sc)));
+		data->wbc = GNM_WBC (scg_wbcg (SHEET_CONTROL_GUI (sc)));
 		data->signal = g_signal_connect (new_comp, "changed", G_CALLBACK (component_changed_cb), data);
 		g_object_set_data_full (G_OBJECT (w), "editor", data, (GDestroyNotify) destroy_cb);
 		wbc_gtk_attach_guru (scg_wbcg (SHEET_CONTROL_GUI (sc)), w);

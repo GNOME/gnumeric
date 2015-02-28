@@ -648,7 +648,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	GtkCellRenderer *rend;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, PLUGIN_MANAGER_DIALOG_KEY))
 		return;

@@ -319,7 +319,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 {
 	PluginServiceFunctionGroupCallbacks *cbs;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 
@@ -330,7 +330,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 static gboolean
 gplp_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
-	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
+	if (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (s))
 		gplp_load_service_function_group (l, s, err);
 	else
 		return FALSE;
@@ -340,7 +340,7 @@ gplp_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 static gboolean
 gplp_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
-	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
+	if (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (s))
 		;
 	else
 		return FALSE;

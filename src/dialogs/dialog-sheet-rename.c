@@ -61,7 +61,7 @@ cb_ok_clicked (RenameState *state)
 {
 	const char *name = gtk_entry_get_text (GTK_ENTRY (state->new_name));
 
-	cmd_rename_sheet (WORKBOOK_CONTROL (state->wbcg),
+	cmd_rename_sheet (GNM_WBC (state->wbcg),
 			  state->sheet,
 			  name);
 

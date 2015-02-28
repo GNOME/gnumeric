@@ -89,7 +89,7 @@ cb_dialog_so_styled_response (GtkWidget *dialog,
 	if (response_id == GTK_RESPONSE_OK) {
 		GSList *new_props = go_object_properties_collect (state->so);
 		force_new_style (state->so);
-		cmd_generic (WORKBOOK_CONTROL (state->wbcg),
+		cmd_generic (GNM_WBC (state->wbcg),
 			     _("Format Object"),
 			     make_undo (state->so, state->orig_props),
 			     make_undo (state->so, new_props));

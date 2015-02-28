@@ -30,7 +30,7 @@ G_BEGIN_DECLS
 
 #define GNM_SHEET_SLICER_TYPE	(gnm_sheet_slicer_get_type ())
 #define GNM_SHEET_SLICER(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SHEET_SLICER_TYPE, GnmSheetSlicer))
-#define IS_GNM_SHEET_SLICER(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SHEET_SLICER_TYPE))
+#define GNM_IS_SHEET_SLICER(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SHEET_SLICER_TYPE))
 
 GType gnm_sheet_slicer_get_type (void);
 

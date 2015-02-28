@@ -59,7 +59,7 @@
 gboolean
 gnm_hlink_activate (GnmHLink *lnk, WBCGtk *wbcg)
 {
-	g_return_val_if_fail (IS_GNM_HLINK (lnk), FALSE);
+	g_return_val_if_fail (GNM_IS_HLINK (lnk), FALSE);
 
 	return GET_CLASS (lnk)->Activate (lnk, wbcg);
 }
@@ -112,7 +112,7 @@ GSF_CLASS_ABSTRACT (GnmHLink, gnm_hlink,
 gchar const *
 gnm_hlink_get_target (GnmHLink const *lnk)
 {
-	g_return_val_if_fail (IS_GNM_HLINK (lnk), NULL);
+	g_return_val_if_fail (GNM_IS_HLINK (lnk), NULL);
 	return lnk->target;
 }
 
@@ -121,7 +121,7 @@ gnm_hlink_set_target (GnmHLink *lnk, gchar const *target)
 {
 	gchar *tmp;
 
-	g_return_if_fail (IS_GNM_HLINK (lnk));
+	g_return_if_fail (GNM_IS_HLINK (lnk));
 
 	tmp = g_strdup (target);
 	g_free (lnk->target);
@@ -131,7 +131,7 @@ gnm_hlink_set_target (GnmHLink *lnk, gchar const *target)
 gchar const *
 gnm_hlink_get_tip (GnmHLink const *lnk)
 {
-	g_return_val_if_fail (IS_GNM_HLINK (lnk), NULL);
+	g_return_val_if_fail (GNM_IS_HLINK (lnk), NULL);
 	return lnk->tip;
 }
 
@@ -140,7 +140,7 @@ gnm_hlink_set_tip (GnmHLink *lnk, gchar const *tip)
 {
 	gchar *tmp;
 
-	g_return_if_fail (IS_GNM_HLINK (lnk));
+	g_return_if_fail (GNM_IS_HLINK (lnk));
 
 	tmp = g_strdup (tip);
 	g_free (lnk->tip);
@@ -161,7 +161,7 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WBCGtk *wbcg)
 	GnmRangeRef const *r;
 	GnmCellPos tmp;
 	Sheet	  *target_sheet;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	Sheet	  *sheet = wbcg_cur_sheet (wbcg);
 	SheetView *sv;
 	GnmValue *target;

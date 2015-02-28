@@ -652,7 +652,7 @@ gplp_func_desc_load (GOPluginService *service,
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *fn_info_obj;
 
-	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
+	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
 	g_return_val_if_fail (name != NULL, FALSE);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -713,7 +713,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 	gchar *fn_info_dict_name;
 	PyObject *python_fn_info_dict;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
@@ -762,7 +762,7 @@ gplp_unload_service_function_group (GOPluginLoader *loader,
 	ServiceLoaderDataFunctionGroup *loader_data;
 
 	g_return_if_fail (IS_GNM_PYTHON_PLUGIN_LOADER (loader));
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -825,7 +825,7 @@ gplp_load_service_ui (GOPluginLoader *loader,
 	gchar *ui_action_names;
 	PyObject *ui_actions;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_UI (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
@@ -869,9 +869,9 @@ gplp_load_service_ui (GOPluginLoader *loader,
 static gboolean
 gplp_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
-	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
+	if (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (s))
 		gplp_load_service_function_group (l, s, err);
-	else if (IS_GNM_PLUGIN_SERVICE_UI (s))
+	else if (GNM_IS_PLUGIN_SERVICE_UI (s))
 		gplp_load_service_ui (l, s, err);
 	else
 		return FALSE;
@@ -881,9 +881,9 @@ gplp_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 static gboolean
 gplp_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
-	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
+	if (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (s))
 		;
-	else if (IS_GNM_PLUGIN_SERVICE_UI (s))
+	else if (GNM_IS_PLUGIN_SERVICE_UI (s))
 		gplp_unload_service_function_group (l, s, err);
 	else
 		return FALSE;

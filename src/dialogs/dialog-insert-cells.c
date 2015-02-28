@@ -62,7 +62,7 @@ static void
 cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			   InsertCellState *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 	GtkWidget *radio_0;
 	int  cols, rows;
 	int i;
@@ -114,7 +114,7 @@ dialog_insert_cells (WBCGtk *wbcg)
 {
 	GtkBuilder *gui;
 	InsertCellState *state;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 	SheetView       *sv = wb_control_cur_sheet_view (wbc);
 	Sheet *sheet = sv_sheet (sv);
 	GnmRange const *sel;

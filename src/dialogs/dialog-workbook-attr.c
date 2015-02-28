@@ -343,8 +343,8 @@ dialog_workbook_attr (WBCGtk *wbcg)
 	state = g_new (AttrState, 1);
 	state->gui = gui;
 	state->wbcg = wbcg;
-	state->wbv  = wb_control_view (WORKBOOK_CONTROL (wbcg));
-	state->wb   = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wbv  = wb_control_view (GNM_WBC (wbcg));
+	state->wb   = wb_control_get_workbook (GNM_WBC (wbcg));
 
 	attr_dialog_impl (state);
 

@@ -292,7 +292,7 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 
 	}
 
-	if (!cmd_merge_data (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+	if (!cmd_merge_data (GNM_WBC (state->wbcg), state->sheet,
 			     v_zone, field_list, data_list))
 		gtk_widget_destroy (state->dialog);
 }
@@ -329,7 +329,7 @@ dialog_merge (WBCGtk *wbcg)
 	state = g_new0 (MergeState, 1);
 	state->gui = gui;
 	state->wbcg = wbcg;
-	state->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
+	state->sheet = wb_control_cur_sheet (GNM_WBC (state->wbcg));
 	state->dialog     = go_gtk_builder_get_widget (gui, "Merge");
 	state->warning_dialog = NULL;
 
@@ -354,7 +354,7 @@ dialog_merge (WBCGtk *wbcg)
 	gtk_widget_set_hexpand (GTK_WIDGET (state->zone), TRUE);
 	gtk_grid_attach (grid, GTK_WIDGET (state->zone), 1, 0, 2, 1);
 	r = selection_first_range (
-		wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)), NULL, NULL);
+		wb_control_cur_sheet_view (GNM_WBC (wbcg)), NULL, NULL);
 	if (r != NULL)
 		gnm_expr_entry_load_from_range (state->zone,
 			state->sheet, r);

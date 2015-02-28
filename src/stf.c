@@ -68,7 +68,7 @@ stf_warning (GOIOContext *context, char const *msg)
 	 * successfully imported portion.  We ought to have a
 	 * way to issue a warning.
 	 */
-	if (IS_WBC_GTK (context->impl))
+	if (GNM_IS_WBC_GTK (context->impl))
 		go_gtk_notice_dialog
 			(wbcg_toplevel (WBC_GTK (context->impl)),
 			 GTK_MESSAGE_WARNING,
@@ -225,7 +225,7 @@ stf_read_workbook (G_GNUC_UNUSED GOFileOpener const *fo,  gchar const *enc,
 	size_t data_len;
 	WorkbookView *wbv = WORKBOOK_VIEW (view);
 
-	if (!IS_WBC_GTK (context->impl)) {
+	if (!GNM_IS_WBC_GTK (context->impl)) {
 		go_io_error_string (context, _("This importer can only be used with a GUI."));
 		return;
 	}
@@ -330,7 +330,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 	}
 
 	/* FIXME : how to do this cleanly ? */
-	if (!IS_WBC_GTK (wbc))
+	if (!GNM_IS_WBC_GTK (wbc))
 		return;
 
 #warning Add UI for this

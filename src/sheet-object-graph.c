@@ -201,7 +201,7 @@ gnm_sog_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmPane *pane;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	if (IS_GNM_PANE (container)) {
+	if (GNM_IS_PANE (container)) {
 		GocItem *view;
 		pane = GNM_PANE (container);
 		view = goc_item_new (pane->object_views,
@@ -494,7 +494,7 @@ gnm_sog_user_config (SheetObject *so, SheetControl *sc)
 
 	data = g_new0 (gnm_sog_user_config_t, 1);
 	data->so = so;
-	data->wbc = WORKBOOK_CONTROL (wbcg);
+	data->wbc = GNM_WBC (wbcg);
 
 	closure = g_cclosure_new (G_CALLBACK (cb_update_graph), data,
 		(GClosureNotify) gnm_sog_user_config_free_data);

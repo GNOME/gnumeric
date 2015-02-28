@@ -219,7 +219,7 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		? analysis_tool_sign_test_two_engine
 		: analysis_tool_signed_rank_test_two_engine;
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 				state->base.sheet,
 				dao, data, engine, TRUE))
 		gtk_widget_destroy (state->base.dialog);
@@ -333,7 +333,7 @@ sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		? analysis_tool_sign_test_engine
 		: analysis_tool_signed_rank_test_engine;
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 				state->base.sheet,
 				dao, data, engine, TRUE))
 		gtk_widget_destroy (state->base.dialog);

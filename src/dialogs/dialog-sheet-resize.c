@@ -117,7 +117,7 @@ cb_ok_clicked (ResizeState *state)
 	all_sheets = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->all_sheets_button));
 
-	wbc = WORKBOOK_CONTROL (state->wbcg);
+	wbc = GNM_WBC (state->wbcg);
 
 	if (all_sheets) {
 		wb = wb_control_get_workbook (wbc);

@@ -99,9 +99,9 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 	WorkbookControl *wbc;
 	WorkbookView	*wbv;
 
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), FALSE);
 
-	wbc = WORKBOOK_CONTROL (wbcg);
+	wbc = GNM_WBC (wbcg);
 	wbv = wb_control_view (wbc);
 
 	wbcg_focus_cur_scg (wbcg);
@@ -296,7 +296,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 					gtk_editable_set_position (
 								   GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
 
-				reedit = wb_control_validation_msg (WORKBOOK_CONTROL (wbcg),
+				reedit = wb_control_validation_msg (GNM_WBC (wbcg),
 								    GNM_VALIDATION_STYLE_PARSE_ERROR, NULL,
 								    perr.err->message);
 				if (showed_dialog != NULL)
@@ -533,7 +533,7 @@ cb_entry_changed (G_GNUC_UNUSED GtkEntry *entry, WBCGtk *wbcg)
 {
 	char const *text;
 	int text_len;
-	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	WorkbookView *wbv = wb_control_view (GNM_WBC (wbcg));
 
 	text = gtk_entry_get_text (wbcg_get_entry (wbcg));
 	text_len = strlen (text);
@@ -668,7 +668,7 @@ cb_entry_cursor_pos (WBCGtk *wbcg)
 			gnm_style_set_from_pango_attribute (style, attr);
 			pango_attribute_destroy (attr);
 		}
-		wb_control_style_feedback (WORKBOOK_CONTROL (wbcg), style);
+		wb_control_style_feedback (GNM_WBC (wbcg), style);
 		gnm_style_unref (style);
 		g_slist_free (attrs);
 	}
@@ -714,7 +714,7 @@ wbcg_edit_init_markup (WBCGtk *wbcg, PangoAttrList *markup)
 
 	wbcg->edit_line.markup = markup;
 
-	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	style = sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row);
 	wbcg->edit_line.cell_attrs = gnm_style_generate_attrs_full (style);
 
@@ -843,7 +843,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 	WorkbookView *wbv;
 	int cursor_pos = -1;
 
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), FALSE);
 
 	if (wbcg_is_editing (wbcg))
 		return TRUE;
@@ -853,8 +853,8 @@ wbcg_edit_start (WBCGtk *wbcg,
 		return TRUE;
 	wbcg->inside_editing = TRUE;
 
-	wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
-	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	wbv = wb_control_view (GNM_WBC (wbcg));
+	sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	scg = wbcg_cur_scg (wbcg);
 
 	col = sv->edit_pos.col;
@@ -915,7 +915,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		case GNM_RESPONSE_REMOVE: {
 			GnmStyle *style = gnm_style_new ();
 			gnm_style_set_format (style, go_format_general ());
-			if (!cmd_selection_format (WORKBOOK_CONTROL (wbcg),
+			if (!cmd_selection_format (GNM_WBC (wbcg),
 						   style, NULL, NULL))
 				break;
 			/* Fall through.  */
@@ -1008,7 +1008,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		G_CALLBACK (cb_entry_cursor_pos), wbcg);
 
 	g_free (text);
-	wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
+	wb_control_update_action_sensitivity (GNM_WBC (wbcg));
 
 	wbcg->inside_editing = FALSE;
 
@@ -1033,7 +1033,7 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 	int i, npages;
 	SheetControlGUI *scg;
 
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 	g_return_if_fail (GNM_IS_SO (so));
 
 	wbcg_insert_object_clear (wbcg);
@@ -1051,7 +1051,7 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 	 * selected object, the new object will be destroyed by the loop
 	 * above. See #669648. */
 	wbcg->new_object = so;
-	wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
+	wb_control_update_action_sensitivity (GNM_WBC (wbcg));
 }
 
 /**
@@ -1065,7 +1065,7 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 void
 wbcg_insert_object_clear (WBCGtk *wbcg)
 {
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
 	if (NULL != wbcg->new_object) {
 		int i, npages;
@@ -1091,7 +1091,7 @@ wbcg_insert_object_clear (WBCGtk *wbcg)
 GtkEntry *
 wbcg_get_entry (WBCGtk const *wbcg)
 {
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
+	g_return_val_if_fail (GNM_IS_WBC_GTK (wbcg), NULL);
 	g_return_val_if_fail (wbcg != NULL, NULL);
 
 	return gnm_expr_entry_get_entry (wbcg->edit_line.entry);
@@ -1133,7 +1133,7 @@ wbcg_get_entry_underlying (WBCGtk const *wbcg)
 void
 wbcg_set_entry (WBCGtk *wbcg, GnmExprEntry *entry)
 {
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
 	if (wbcg->edit_line.temp_entry != entry) {
 		scg_rangesel_stop (wbcg_cur_scg (wbcg), FALSE);
@@ -1158,10 +1158,10 @@ wbcg_entry_has_logical (WBCGtk const *wbcg)
 static void
 wbcg_edit_attach_guru_main (WBCGtk *wbcg, GtkWidget *guru)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 
 	g_return_if_fail (guru != NULL);
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 	g_return_if_fail (wbcg->edit_line.guru == NULL);
 
 	/* Make sure we don't have anything anted.
@@ -1198,7 +1198,7 @@ void
 wbc_gtk_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
 {
 	g_return_if_fail (guru != NULL);
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
 	wbcg_edit_attach_guru_main (wbcg, guru);
 	g_signal_connect_object (G_OBJECT (guru), "set-focus",
@@ -1210,7 +1210,7 @@ wbc_gtk_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
 				       GnmExprEntry *gee)
 {
 	g_return_if_fail (guru != NULL);
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
 	wbcg_edit_attach_guru_main (wbcg, guru);
 
@@ -1225,9 +1225,9 @@ wbc_gtk_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
 void
 wbc_gtk_detach_guru (WBCGtk *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = GNM_WBC (wbcg);
 
-	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
 	/* don't sit end 'End' mode when a dialog comes up */
 	wbcg_set_end_mode (wbcg, FALSE);
@@ -1284,7 +1284,7 @@ wbcg_edit_get_display_text (WBCGtk *wbcg)
 void
 wbc_gtk_init_editline (WBCGtk *wbcg)
 {
-	g_assert (IS_WBC_GTK (wbcg));
+	g_assert (GNM_IS_WBC_GTK (wbcg));
 	g_assert (wbcg->edit_line.entry == NULL);
 
 	wbcg->edit_line.entry = g_object_new (GNM_EXPR_ENTRY_TYPE,

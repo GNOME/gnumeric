@@ -481,7 +481,7 @@ cb_frame_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, FrameConfigState *s
 {
 	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
 
-	cmd_so_set_frame_label (WORKBOOK_CONTROL (state->wbcg),
+	cmd_so_set_frame_label (GNM_WBC (state->wbcg),
 				SHEET_OBJECT (state->swf),
 				g_strdup (state->old_label), g_strdup (text));
 	gtk_widget_destroy (state->dialog);
@@ -1030,7 +1030,7 @@ cb_button_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, ButtonConfigState 
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
 
-	cmd_so_set_button (WORKBOOK_CONTROL (state->wbcg), so,
+	cmd_so_set_button (GNM_WBC (state->wbcg), so,
 			     texpr, g_strdup (state->old_label), g_strdup (text));
 
 	gtk_widget_destroy (state->dialog);
@@ -1639,7 +1639,7 @@ cb_adjustment_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, AdjustmentConf
 		? gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->direction_h))
 		: state->swa->horizontal;
 
-	cmd_so_set_adjustment (WORKBOOK_CONTROL (state->wbcg), so,
+	cmd_so_set_adjustment (GNM_WBC (state->wbcg), so,
 			       texpr,
 			       horizontal,
 			       gtk_spin_button_get_value_as_int (
@@ -2492,7 +2492,7 @@ cb_checkbox_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, CheckboxConfigSt
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
 
-	cmd_so_set_checkbox (WORKBOOK_CONTROL (state->wbcg), so,
+	cmd_so_set_checkbox (GNM_WBC (state->wbcg), so,
 			     texpr, g_strdup (state->old_label), g_strdup (text));
 
 	gtk_widget_destroy (state->dialog);
@@ -3219,7 +3219,7 @@ cb_radio_button_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, RadioButtonC
  	gchar const *val = gtk_entry_get_text (GTK_ENTRY (state->value));
 	GnmValue *new_val = so_parse_value (so, val);
 
- 	cmd_so_set_radio_button (WORKBOOK_CONTROL (state->wbcg), so,
+ 	cmd_so_set_radio_button (GNM_WBC (state->wbcg), so,
  				 texpr,
 				 g_strdup (state->old_label), g_strdup (text),
 				 value_dup (state->old_value), new_val);

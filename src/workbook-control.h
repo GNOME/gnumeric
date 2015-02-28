@@ -8,9 +8,9 @@
 
 G_BEGIN_DECLS
 
-#define WORKBOOK_CONTROL_TYPE     (workbook_control_get_type ())
-#define WORKBOOK_CONTROL(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), WORKBOOK_CONTROL_TYPE, WorkbookControl))
-#define IS_WORKBOOK_CONTROL(o)	  (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_CONTROL_TYPE))
+#define GNM_WBC_TYPE     (workbook_control_get_type ())
+#define GNM_WBC(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_WBC_TYPE, WorkbookControl))
+#define GNM_IS_WBC(o)	  (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_WBC_TYPE))
 
 GType workbook_control_get_type    (void);
 void  wb_control_set_view	   (WorkbookControl *wbc,

@@ -47,7 +47,7 @@ enum {
 	PROP_VIEW
 };
 
-#define WBC_CLASS(o) WORKBOOK_CONTROL_CLASS (G_OBJECT_GET_CLASS (o))
+#define WBC_CLASS(o) GNM_WBC_CLASS (G_OBJECT_GET_CLASS (o))
 #define WBC_VIRTUAL_FULL(func, handle, arglist, call)		\
 void wb_control_ ## func arglist				\
 {								\
@@ -121,7 +121,7 @@ wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
 {
 	WorkbookControlClass *wbc_class;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
+	g_return_if_fail (GNM_IS_WBC (wbc));
 
 	wbc_class = WBC_CLASS (wbc);
 	if (wbc_class != NULL && wbc_class->sheet.add != NULL) {
@@ -147,7 +147,7 @@ wb_control_claim_selection (WorkbookControl *wbc)
 {
 	WorkbookControlClass *wbc_class;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), FALSE);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), FALSE);
 
 	wbc_class = WBC_CLASS (wbc);
 	if (wbc_class != NULL && wbc_class->claim_selection != NULL)
@@ -167,7 +167,7 @@ wb_control_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 {
 	WorkbookControlClass *wbc_class;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), 1);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), 1);
 
 	wbc_class = WBC_CLASS (wbc);
 	if (wbc_class != NULL && wbc_class->validation_msg != NULL)
@@ -184,7 +184,7 @@ wb_control_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 WorkbookView *
 wb_control_view (WorkbookControl const *wbc)
 {
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), NULL);
 	return wbc->wb_view;
 }
 
@@ -209,7 +209,7 @@ wb_control_get_doc (WorkbookControl const *wbc)
 Workbook *
 wb_control_get_workbook (WorkbookControl const *wbc)
 {
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), NULL);
 	return wbc->wb_view ? wb_view_get_workbook (wbc->wb_view) : NULL;
 }
 
@@ -222,7 +222,7 @@ wb_control_get_workbook (WorkbookControl const *wbc)
 Sheet *
 wb_control_cur_sheet (WorkbookControl const *wbc)
 {
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), NULL);
 	return wb_view_cur_sheet (wbc->wb_view);
 }
 
@@ -235,7 +235,7 @@ wb_control_cur_sheet (WorkbookControl const *wbc)
 SheetView *
 wb_control_cur_sheet_view (WorkbookControl const *wbc)
 {
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), NULL);
 	return wb_view_cur_sheet_view (wbc->wb_view);
 }
 
@@ -471,7 +471,7 @@ static GObjectClass *parent_klass;
 static void
 wbc_dispose (GObject *obj)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
+	WorkbookControl *wbc = GNM_WBC (obj);
 	if (wbc->clipboard_changed_signal) {
 		g_signal_handler_disconnect (gnm_app_get_app (),
 					     wbc->clipboard_changed_signal);
@@ -506,7 +506,7 @@ workbook_control_class_init (GObjectClass *object_class)
 static void
 workbook_control_init (GObject *obj)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
+	WorkbookControl *wbc = GNM_WBC (obj);
 
 	wbc->clipboard_changed_signal = g_signal_connect (
 		gnm_app_get_app (),
@@ -540,7 +540,7 @@ wb_control_set_view (WorkbookControl *wbc,
 {
 	WorkbookView *wbv;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
+	g_return_if_fail (GNM_IS_WBC (wbc));
 	g_return_if_fail (wbc->wb_view == NULL);
 
 	wbv = (opt_view != NULL) ? opt_view : workbook_view_new (opt_wb);
@@ -554,7 +554,7 @@ wb_control_init_state (WorkbookControl *wbc)
 	WorkbookView *wbv;
 	WorkbookControlClass *wbc_class;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
+	g_return_if_fail (GNM_IS_WBC (wbc));
 
 	/* Setup the undo/redo combos */
 	command_setup_combos (wbc);

@@ -1381,7 +1381,7 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 
 	state = g_new (FunctionSelectState, 1);
 	state->wbcg  = wbcg;
-	state->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	state->sheet = wb_control_cur_sheet (GNM_WBC (wbcg));
 	state->localized_function_names = state->sheet->convs->localized_function_names;
 	state->wb    = state->sheet->workbook;
         state->gui   = gui;

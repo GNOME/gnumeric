@@ -543,7 +543,7 @@ name_guru_init_button (NameGuruState *state, char const *name)
 static void
 cb_name_guru_destroy (NameGuruState *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControl *wbc = GNM_WBC (state->wbcg);
 
 	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
 	g_clear_object (&state->gui);
@@ -625,7 +625,7 @@ name_guru_delete (NameGuruState *state, GtkTreeIter *iter, item_type_t type)
 		if (!name_guru_warn (state, nexpr))
 			return;
 
-		cmd_remove_name (WORKBOOK_CONTROL (state->wbcg), nexpr);
+		cmd_remove_name (GNM_WBC (state->wbcg), nexpr);
 	}
 	gtk_tree_store_remove (state->model, iter);
 }
@@ -768,7 +768,7 @@ cb_name_guru_switch_scope (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		switch (type) {
 		case item_type_available_wb_name:
 			if (cmd_rescope_name
-			    (WORKBOOK_CONTROL (state->wbcg),
+			    (GNM_WBC (state->wbcg),
 			     nexpr, state->sheet))
 				return;
 			new_path  = "1";
@@ -780,7 +780,7 @@ cb_name_guru_switch_scope (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 			break;
 		case item_type_available_sheet_name:
 			if (cmd_rescope_name
-			    (WORKBOOK_CONTROL (state->wbcg),
+			    (GNM_WBC (state->wbcg),
 			     nexpr, NULL))
 				return;
 			new_path  = "0";
@@ -920,7 +920,7 @@ cb_name_guru_content_edited
 	if (type != item_type_new_unsaved_wb_name
 	    && type != item_type_new_unsaved_sheet_name) {
 		/* save the changes (if the name is already saved) */
-		cmd_define_name (WORKBOOK_CONTROL (state->wbcg),
+		cmd_define_name (GNM_WBC (state->wbcg),
 				 expr_name_name (nexpr),
 				 &pp, texpr, NULL);
 	} else
@@ -979,7 +979,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	if (texpr == NULL)
 		return;
 
-	if (!cmd_define_name (WORKBOOK_CONTROL (state->wbcg),
+	if (!cmd_define_name (GNM_WBC (state->wbcg),
 			      new_text, &pp,
 			      texpr, NULL)) {
 		nexpr = expr_name_lookup (&pp, new_text);
@@ -1048,7 +1048,7 @@ cb_name_guru_selection_function (G_GNUC_UNUSED GtkTreeSelection *selection,
 static gboolean
 name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 {
-	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *wb = wb_control_get_workbook (GNM_WBC (wbcg));
 	GtkTreeViewColumn *column;
 	GtkCellRenderer   *renderer;
 	GtkTreeSelection  *selection;
@@ -1064,7 +1064,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 
 	state->wbcg  = wbcg;
 	state->wb   = wb;
-	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	parse_pos_init_editpos (&state->pp, state->sv);
 

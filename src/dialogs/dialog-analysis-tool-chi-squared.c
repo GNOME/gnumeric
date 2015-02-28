@@ -85,7 +85,7 @@ chi_squared_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
 
-	data->wbc = WORKBOOK_CONTROL (state->base.wbcg);
+	data->wbc = GNM_WBC (state->base.wbcg);
 
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->label));
 

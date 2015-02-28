@@ -122,7 +122,7 @@ principal_components_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet,
 			       dao, data,
 			       analysis_tool_principal_components_engine,
 			       TRUE)) {
