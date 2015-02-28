@@ -1,3 +1,10 @@
+2015-02-28  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-image.c (SheetObjectImage): Just keep the
+	image, not the bytes in addition.
+	(gnm_soi_class_init): Use property "image" of type GOImage instead
+	of "image-data" weirdness.
+
 2015-02-27  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-image.c (gnm_soi_get_property): Use a boxed

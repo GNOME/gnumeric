@@ -27,6 +27,7 @@ Morten:
 	* Fix xlsx import/export of gradients.
 	* Fix undo problems with scrollbars.
 	* Fix spinner properties dialog.
+	* SheetObjectImage fixes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20

@@ -4359,8 +4359,9 @@ static BlipInf *
 blipinf_new (SheetObjectImage *soi)
 {
 	BlipInf *blip;
-	GByteArray *bytes;
+	GOImage *image;
 	char const *blip_type;
+	gsize len;
 
 	blip = g_new0 (BlipInf, 1);
 	blip->uncomp_len = -1;
@@ -4369,11 +4370,12 @@ blipinf_new (SheetObjectImage *soi)
 
 	g_object_get (G_OBJECT (soi),
 		      "image-type", &blip->type,
-		      "image-data", &bytes,
+		      "image", &image,
 		      NULL);
-	blip->bytes = *bytes;	/* Need to copy, we may change it. */
+	blip->bytes.data = (gpointer)go_image_get_data (image, &len);
+	blip->bytes.len = len;
 	blip_type = blip->type ? blip->type : "?";
-	g_byte_array_unref (bytes);
+	g_object_unref (image);
 
 	if (strcmp (blip_type, "jpeg") == 0 || /* Raster format */
 	    strcmp (blip_type, "png")  == 0 ||	/* understood by Excel */

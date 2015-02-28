@@ -101,9 +101,7 @@ struct _SheetObjectImage {
 	GOImage      *image;
 	char         *type;
 	char	     *name;
-	GByteArray   *bytes;
 
-	gboolean dumped;
 	double   crop_top;
 	double   crop_bottom;
 	double   crop_left;
@@ -119,7 +117,7 @@ static SheetObjectClass *gnm_soi_parent_class;
 enum {
 	PROP_0,
 	PROP_IMAGE_TYPE,
-	PROP_IMAGE_DATA,
+	PROP_IMAGE,
 	PROP_PIXBUF
 };
 
@@ -131,7 +129,7 @@ enum {
  * @data_len
  * @copy_data:
  *
- * Assign raw data and type to @so assuming that it has not been initialized
+ * Assign raw data and type to @soi.
  * yet.
  **/
 void
@@ -142,17 +140,19 @@ sheet_object_image_set_image (SheetObjectImage *soi,
 			      gboolean      copy_data)
 {
 	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (soi));
-	g_return_if_fail (soi->bytes->len == 0);
-	g_return_if_fail (soi->type == NULL);
 
-	soi->type       = (type && *type)? g_strdup (type): NULL;
-	g_byte_array_set_size (soi->bytes, 0);
-	g_byte_array_append (soi->bytes, data, data_len);
+	g_free (soi->type);
+	soi->type = (type && *type) ? g_strdup (type) : NULL;
+	if (soi->image)
+		g_object_unref (soi->image);
+	soi->image = go_image_new_from_data (soi->type, data, data_len,
+	                                     ((soi->type == NULL)? &soi->type: NULL), NULL);
+
 	if (!copy_data)
 		g_free (data);
-	soi->image = go_image_new_from_data (soi->type, soi->bytes->data, soi->bytes->len,
-	                                     ((soi->type == NULL)? &soi->type: NULL), NULL);
+
 	if (soi->sheet_object.sheet != NULL) {
+		/* Share within document.  */
 		GOImage *image = go_doc_add_image (GO_DOC (soi->sheet_object.sheet->workbook), NULL, soi->image);
 		if (image != soi->image) {
 			g_object_unref (soi->image);
@@ -180,8 +180,6 @@ gnm_soi_finalize (GObject *object)
 	SheetObjectImage *soi;
 
 	soi = SHEET_OBJECT_IMAGE (object);
-	g_byte_array_unref (soi->bytes);
-	soi->bytes = NULL;
 	g_free (soi->type);
 	g_free (soi->name);
 	if (soi->image)
@@ -225,21 +223,6 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	}
 
 	return gnm_pane_object_register (so, item, TRUE);
-}
-
-static gboolean
-soi_gdk_pixbuf_save (gchar const *buf,
-		     gsize count,
-		     GError **error,
-		     gpointer data)
-{
-	GsfOutput *output = GSF_OUTPUT (data);
-	gboolean ok = gsf_output_write (output, count, buf);
-
-	if (!ok && error)
-		*error = g_error_copy (gsf_output_error (output));
-
-	return ok;
 }
 
 static GOImageFormat const standard_formats[] = {
@@ -291,24 +274,15 @@ gnm_soi_write_image (SheetObject const *so, char const *format,
 		     GsfOutput *output, GError **err)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
-	gboolean res = FALSE;
-	GdkPixbuf *pixbuf = go_image_get_pixbuf (soi->image);
+	gboolean res;
+	gsize length;
+	guint8 const *data;
 
-	if (!soi->type || strcmp (format, soi->type) == 0) {
-		if (soi->bytes->len == 0) {
-			gsize length;
-			guint8 const *data = go_image_get_data (soi->image, &length);
-			res = gsf_output_write (output,	length, data);
-		} else
-			res = gsf_output_write (output,
-						soi->bytes->len, soi->bytes->data);
-	} else if (pixbuf)
-		res = gdk_pixbuf_save_to_callback (pixbuf,
-						   soi_gdk_pixbuf_save, output,
-						   format,
-						   err, NULL);
-	if (pixbuf)
-		g_object_unref (pixbuf);
+	g_return_if_fail (soi->image != NULL);
+
+	data = go_image_get_data (soi->image, &length);
+	res  = gsf_output_write (output, length, data);
+
 	if (!res && err && *err == NULL)
 		*err = g_error_new (gsf_output_error_id (), 0,
 				   _("Unknown failure while saving image"));
@@ -397,11 +371,10 @@ content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 
 	if (data->len >= 4) {
 		size_t len = gsf_base64_decode_simple (data->str, data->len);
-		g_byte_array_set_size (soi->bytes, 0);
-		g_byte_array_append (soi->bytes, data->str, len);
-		soi->image = go_image_new_from_data (soi->type,
-						     soi->bytes->data,
-						     soi->bytes->len, NULL, NULL);
+		if (soi->image)
+			g_object_unref (soi->image);
+		soi->image = go_image_new_from_data (soi->type, data->str, len,
+						     NULL, NULL);
 	}
 }
 
@@ -450,10 +423,13 @@ gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	gsf_xml_out_start_element (output, "Content");
 	if (soi->type != NULL)
 		gsf_xml_out_add_cstr (output, "image-type", soi->type);
-	if (soi->image && go_image_get_name (soi->image)) {
-		gsf_xml_out_add_cstr (output, "name", go_image_get_name (soi->image));
-		if (sheet_object_get_sheet (so))
-			go_doc_save_image (GO_DOC (sheet_object_get_sheet (so)->workbook), go_image_get_name (soi->image));
+	if (soi->image) {
+		const char *name = go_image_get_name (soi->image);
+		Sheet *sheet = sheet_object_get_sheet (so);
+		if (name)
+			gsf_xml_out_add_cstr (output, "name", name);
+		if (sheet)
+			go_doc_save_image (GO_DOC (sheet->workbook), go_image_get_name (soi->image));
 		else {
 			/* looks that this may happen when pasting from another process, see #687414 */
 			gsize length;
@@ -462,8 +438,7 @@ gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 			gsf_xml_out_add_base64 (output, NULL, data, length);
 		}
 	} else {
-		gsf_xml_out_add_uint (output, "size-bytes", soi->bytes->len);
-		gsf_xml_out_add_base64 (output, NULL, soi->bytes->data, soi->bytes->len);
+		gsf_xml_out_add_uint (output, "size-bytes", 0);
 	}
 	gsf_xml_out_end_element (output);
 }
@@ -475,13 +450,11 @@ gnm_soi_copy (SheetObject *dst, SheetObject const *src)
 	SheetObjectImage   *new_soi = SHEET_OBJECT_IMAGE (dst);
 
 	new_soi->type		= g_strdup (soi->type);
-	new_soi->bytes->len	= soi->bytes->len;
-	new_soi->bytes->data	= g_memdup (soi->bytes->data, soi->bytes->len);
 	new_soi->crop_top	= soi->crop_top;
 	new_soi->crop_bottom	= soi->crop_bottom;
 	new_soi->crop_left	= soi->crop_left;
 	new_soi->crop_right	= soi->crop_right;
-	new_soi->image		= g_object_ref (soi->image);
+	new_soi->image		= soi->image ? g_object_ref (soi->image) : NULL;
 }
 
 static void
@@ -595,13 +568,8 @@ gnm_soi_get_property (GObject     *object,
 	case PROP_IMAGE_TYPE:
 		g_value_set_string (value, soi->type);
 		break;
-	case PROP_IMAGE_DATA:
-		if (soi->bytes->len == 0 && soi->image) {
-			gsize len;
-			gconstpointer data = go_image_get_data (soi->image, &len);
-			g_byte_array_append (soi->bytes, data, len);
-		}
-		g_value_set_boxed (value, soi->bytes);
+	case PROP_IMAGE:
+		g_value_set_object (value, soi->image);
 		break;
 	case PROP_PIXBUF:
 		pixbuf = go_image_get_pixbuf (soi->image);
@@ -644,12 +612,12 @@ gnm_soi_class_init (GObjectClass *object_class)
 				      P_("Type of image"),
 				      NULL,
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
-	g_object_class_install_property (object_class, PROP_IMAGE_DATA,
-		 g_param_spec_boxed ("image-data",
-				     P_("Image data"),
-				     P_("Image data"),
-				     G_TYPE_BYTE_ARRAY,
-				     GSF_PARAM_STATIC | G_PARAM_READABLE));
+	g_object_class_install_property (object_class, PROP_IMAGE,
+		 g_param_spec_object ("image",
+				      P_("Image data"),
+				      P_("Image data"),
+				      GO_TYPE_IMAGE,
+				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 	g_object_class_install_property (object_class, PROP_PIXBUF,
 		 g_param_spec_object ("pixbuf", "Pixbuf",
 				       "Pixbuf",
@@ -664,8 +632,6 @@ gnm_soi_init (GObject *obj)
 	SheetObject *so;
 
 	soi = SHEET_OBJECT_IMAGE (obj);
-	soi->bytes = g_byte_array_new ();
-	soi->dumped = FALSE;
 	soi->crop_top = soi->crop_bottom = soi->crop_left = soi->crop_right
 		= 0.0;
 

@@ -8406,31 +8406,33 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so, 
 /**********************************************************************************/
 
 static void
-odf_write_images (SheetObjectImage *image, char const *name, GnmOOExport *state)
+odf_write_images (SheetObjectImage *soi, char const *name, GnmOOExport *state)
 {
 	char *image_type;
 	char *fullname;
 	GsfOutput  *child;
-	GByteArray *bytes;
+	GOImage *image;
 
-	g_object_get (G_OBJECT (image),
+	g_object_get (G_OBJECT (soi),
 		      "image-type", &image_type,
-		      "image-data", &bytes,
+		      "image", &image,
 		      NULL);
 	fullname = g_strdup_printf ("Pictures/%s.%s", name, image_type);
 
 	child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
-							"compression-level", GSF_ZIP_DEFLATED,
-							NULL);
+					    "compression-level", GSF_ZIP_DEFLATED,
+					    NULL);
 	if (NULL != child) {
-		gsf_output_write (child, bytes->len, bytes->data);
+		gsize length;
+		guint8 const *data = go_image_get_data (image, &length);
+		gsf_output_write (child, length, data);
 		gsf_output_close (child);
 		g_object_unref (child);
 	}
 
 	g_free (fullname);
 	g_free (image_type);
-	g_byte_array_unref (bytes);
+	g_object_unref (image);
 
 	odf_update_progress (state, state->graph_progress);
 }
