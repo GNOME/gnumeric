@@ -461,14 +461,11 @@ static void
 gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 		    double width, double height)
 {
-	GdkPixbuf *pixbuf;
-	GOImage *img;
-	int w, h;
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 
 	if (soi->image) {
-		w = go_image_get_width (soi->image);
-		h = go_image_get_height (soi->image);
+		int w = go_image_get_width (soi->image);
+		int h = go_image_get_height (soi->image);
 		w -= soi->crop_left - soi->crop_right;
 		h -= soi->crop_top - soi->crop_bottom;
 		if (w <= 0 || h <= 0)
@@ -480,24 +477,6 @@ gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 		cairo_translate (cr, -soi->crop_left, -soi->crop_top);
 		go_image_draw (soi->image, cr);
 		cairo_restore (cr);
-	} else {
-		pixbuf = go_image_get_pixbuf (soi->image);
-		if (!pixbuf || width == 0. || height == 0.)
-			return;
-		cairo_save (cr);
-		img = go_pixbuf_new_from_pixbuf (pixbuf);
-
-		w = gdk_pixbuf_get_width  (pixbuf);
-		h = gdk_pixbuf_get_height (pixbuf);
-		cairo_scale (cr, width / w, height / h);
-		go_image_draw (img, cr);
-		/*
-		 * We need to unset the source before we destroy the pattern.
-		 * cairo_restore will do that.  See #632439.
-		 */
-		cairo_restore (cr);
-		g_object_unref (img);
-		g_object_unref (pixbuf);
 	}
 }
 
@@ -509,25 +488,7 @@ gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 		*w = go_image_get_width (soi->image);
 		*h = go_image_get_height (soi->image);
 	} else {
-		GdkPixbuf *buf = go_image_get_pixbuf (soi->image);
-
-		if (!buf) {
-			*w = *h = 5;
-			return;
-		}
-
-		*w = gdk_pixbuf_get_width  (buf);
-		*h = gdk_pixbuf_get_height (buf);
-
-		/* In case buf is invalid with size 0,0 or if the image is just too
-		 * small to be useful default to something slightly larger
-		 * http://bugzilla.gnome.org/show_bug.cgi?id=462787
-		 **/
-		if ((*w * *h) < 25.) {
-			if (*w < 5) *w = 25;
-			if (*h < 5) *h = 25;
-		}
-		g_object_unref (buf);
+		*w = *h = 5;
 	}
 }
 
