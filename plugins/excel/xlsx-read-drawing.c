@@ -467,6 +467,13 @@ GSF_XML_IN_NODE_FULL (START, USER_SHAPES, XL_NS_CHART, "userShapes", GSF_XML_NO_
         GSF_XML_IN_NODE (SHAPE_PR, SP_PR_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, &xlsx_sppr_xfrm, NULL),
           GSF_XML_IN_NODE (SP_PR_XFRM, SP_XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SP_PR_XFRM, SP_XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHAPE_PR, FILL_GRAD, XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_SYS, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIN,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_TILE,	XL_NS_DRAW, "tileRect", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE, TX_BODY, XL_NS_CHART_DRAW, "txBody", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TX_BODY, LST_STYLE, XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (LST_STYLE, DEF_P_PR, XL_NS_DRAW, "defPPr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1664,7 +1671,8 @@ xlsx_chart_grad_linear (GsfXMLIn *xin, xmlChar const **attrs)
 	int ang = 0, ang_deg;
 	GOGradientDirection dir;
 
-	g_return_if_fail (state->cur_style);
+	if (!state->cur_style)
+		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_int (xin, attrs, "ang", &ang))
@@ -1701,7 +1709,9 @@ xlsx_chart_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
 	int pos = 0;
 	XLSXColorState s = XLSX_CS_NONE;
 
-	g_return_if_fail (state->cur_style);
+	if (!state->cur_style)
+		return;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_percent (xin, attrs, "pos", &pos))
 			; /* Nothing */
@@ -1723,6 +1733,10 @@ static void
 xlsx_chart_grad_stop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	if (!state->cur_style)
+		return;
+
 	xlsx_chart_pop_color_state (state, XLSX_CS_ANY);
 }
 
@@ -2275,9 +2289,11 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
        GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, xlsx_chart_grad_stop, xlsx_chart_grad_stop_end),
          GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (FILL_GRAD, GRAD_LINE,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, &xlsx_chart_grad_linear, NULL),
+	 GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_SYS, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIN,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, &xlsx_chart_grad_linear, NULL),
+      GSF_XML_IN_NODE (FILL_GRAD, GRAD_TILE,	XL_NS_DRAW, "tileRect", GSF_XML_NO_CONTENT, NULL, NULL),
 
-      GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, &xlsx_chart_patt_fill, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, &xlsx_chart_patt_fill, NULL),
       GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_BG,	XL_NS_DRAW, "bgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_patt_fill_clr, &xlsx_chart_patt_fill_clr_end, FALSE),
         GSF_XML_IN_NODE (FILL_PATT_BG, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_FG,	XL_NS_DRAW, "fgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_patt_fill_clr, &xlsx_chart_patt_fill_clr_end, TRUE),
@@ -3119,7 +3135,8 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
 	   GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, xlsx_chart_grad_stop, xlsx_chart_grad_stop_end),
 	     GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LINE,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, &xlsx_chart_grad_linear, NULL),
+	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIN,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, &xlsx_chart_grad_linear, NULL),
+          GSF_XML_IN_NODE (FILL_GRAD, GRAD_TILE, XL_NS_DRAW, "tileRect", GSF_XML_NO_CONTENT, NULL, NULL),
 
         GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, &xlsx_chart_patt_fill, NULL),
           GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_BG,	XL_NS_DRAW, "bgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_patt_fill_clr, &xlsx_chart_patt_fill_clr_end, FALSE),
