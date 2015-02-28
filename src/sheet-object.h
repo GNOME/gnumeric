@@ -27,7 +27,7 @@ GType sheet_object_anchor_get_type (void); /* Boxed type */
 
 #define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
 #define SHEET_OBJECT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_TYPE, SheetObject))
-#define IS_SHEET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_TYPE))
+#define GNM_IS_SO(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_TYPE))
 GType sheet_object_get_type (void);
 
 #define SHEET_OBJECT_IMAGEABLE_TYPE  (sheet_object_imageable_get_type ())

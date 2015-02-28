@@ -8189,7 +8189,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	int i;
 
 	if (state->chart.so != NULL) {
-		if (IS_SHEET_OBJECT_GRAPH (state->chart.so))
+		if (GNM_IS_SO_GRAPH (state->chart.so))
 			/* Only one object per frame! */
 			return;
 		/* We prefer objects over images etc. */

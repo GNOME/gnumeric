@@ -195,7 +195,7 @@ static void
 gnm_so_path_user_config (SheetObject *so, SheetControl *sc)
 {
 	GnmSOPath *sop = GNM_SO_PATH (so);
-	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
+	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (sop),
 			  sop_default_style (),
 			  _("Filled Object Properties"),
 			  SO_STYLED_TEXT);
@@ -203,8 +203,8 @@ gnm_so_path_user_config (SheetObject *so, SheetControl *sc)
 
 static void
 cb_gnm_so_path_changed (GnmSOPath const *sop,
-			  G_GNUC_UNUSED GParamSpec *pspec,
-			  GnmSOPathView *group)
+			G_GNUC_UNUSED GParamSpec *pspec,
+			GnmSOPathView *group)
 {
 	GList *ptr = GOC_GROUP (group)->children;
 	for (; ptr && ptr->data; ptr = ptr->next)

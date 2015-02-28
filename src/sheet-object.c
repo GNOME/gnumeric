@@ -166,7 +166,7 @@ sheet_object_get_editor (SheetObject *so, SheetControl *sc)
 {
 	WBCGtk *wbcg;
 
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (GNM_IS_SO (so));
 	g_return_if_fail (SO_CLASS (so));
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (sc));
 
@@ -197,7 +197,7 @@ cb_so_copy (SheetObject *so, SheetControl *sc)
 gboolean
 sheet_object_can_print (SheetObject const *so)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
+	g_return_val_if_fail (GNM_IS_SO (so), FALSE);
 	return  (so->flags & SHEET_OBJECT_IS_VISIBLE) &&
 		(so->flags & SHEET_OBJECT_PRINT) &&
 		SO_CLASS (so)->draw_cairo != NULL;
@@ -206,21 +206,21 @@ sheet_object_can_print (SheetObject const *so)
 gboolean
 sheet_object_can_resize (SheetObject const *so)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
+	g_return_val_if_fail (GNM_IS_SO (so), FALSE);
 	return  so->flags & SHEET_OBJECT_CAN_RESIZE;
 }
 
 gboolean
 sheet_object_can_edit (SheetObject const *so)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
+	g_return_val_if_fail (GNM_IS_SO (so), FALSE);
 	return  so->flags & SHEET_OBJECT_CAN_EDIT;
 }
 
 static gboolean
 sheet_object_can_prop (SheetObject const *so)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
+	g_return_val_if_fail (GNM_IS_SO (so), FALSE);
 	return (sheet_object_can_edit (so) && (SO_CLASS(so)->user_config != NULL));
 }
 
@@ -443,7 +443,7 @@ sheet_object_get_view (SheetObject const *so, SheetObjectViewContainer *containe
 {
 	GList *l;
 
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (GNM_IS_SO (so), NULL);
 
 	for (l = so->realized_list; l; l = l->next) {
 		SheetObjectView *view = SHEET_OBJECT_VIEW (l->data);
@@ -470,7 +470,7 @@ sheet_object_update_bounds (SheetObject *so, GnmCellPos const *pos)
 	gboolean is_hidden = TRUE;
 	int i, end;
 
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (GNM_IS_SO (so));
 
 	if (pos != NULL &&
 	    so->anchor.cell_bound.end.col < pos->col &&
@@ -507,7 +507,7 @@ sheet_object_update_bounds (SheetObject *so, GnmCellPos const *pos)
 Sheet *
 sheet_object_get_sheet (SheetObject const *so)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (GNM_IS_SO (so), NULL);
 
 	return so->sheet;
 }
@@ -533,7 +533,7 @@ cb_create_views (SheetObject *so)
 gboolean
 sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
+	g_return_val_if_fail (GNM_IS_SO (so), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	if (sheet == so->sheet)
@@ -575,7 +575,7 @@ sheet_object_clear_sheet (SheetObject *so)
 	GSList *ptr;
 	gpointer view_handler;
 
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (GNM_IS_SO (so));
 
 	if (so->sheet == NULL) /* already removed */
 		return;
@@ -685,7 +685,7 @@ sheet_object_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	SheetObjectView *view;
 
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (GNM_IS_SO (so), NULL);
 	g_return_val_if_fail (NULL != container, NULL);
 
 	view = sheet_object_get_view (so, container);
@@ -775,7 +775,7 @@ sheet_object_draw_cairo_sized (SheetObject const *so, cairo_t *cr, double width,
 GnmRange const *
 sheet_object_get_range (SheetObject const *so)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (GNM_IS_SO (so), NULL);
 
 	return &so->anchor.cell_bound;
 }
@@ -789,7 +789,7 @@ sheet_object_get_range (SheetObject const *so)
 SheetObjectAnchor const *
 sheet_object_get_anchor (SheetObject const *so)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (GNM_IS_SO (so), NULL);
 
 	return &so->anchor;
 }
@@ -797,7 +797,7 @@ sheet_object_get_anchor (SheetObject const *so)
 void
 sheet_object_set_anchor (SheetObject *so, SheetObjectAnchor const *anchor)
 {
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (GNM_IS_SO (so));
 
 	so->anchor = *anchor;
 	if (so->sheet != NULL) {
@@ -831,7 +831,7 @@ cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col, double offset)
 void
 sheet_object_default_size (SheetObject *so, double *w, double *h)
 {
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (GNM_IS_SO (so));
 	g_return_if_fail (w != NULL);
 	g_return_if_fail (h != NULL);
 
@@ -849,7 +849,7 @@ sheet_object_default_size (SheetObject *so, double *w, double *h)
 void
 sheet_object_position_pts_get (SheetObject const *so, double *coords)
 {
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (GNM_IS_SO (so));
 	sheet_object_anchor_to_pts (&so->anchor, so->sheet, coords);
 }
 

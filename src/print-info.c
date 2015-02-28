@@ -863,7 +863,7 @@ pdf_export (GOFileSaver const *fs, GOIOContext *context,
 	if (objects && objects->len > 0) {
 		gpointer object_fit = g_object_get_data (G_OBJECT (wb), "pdf-object-fit");
 		if (object_fit != NULL && GPOINTER_TO_INT (object_fit) == 1
-		    && IS_SHEET_OBJECT_GRAPH (g_ptr_array_index (objects, 0))) {
+		    && GNM_IS_SO_GRAPH (g_ptr_array_index (objects, 0))) {
 			GError *err = NULL;
 			sheet_object_write_image (g_ptr_array_index (objects, 0), "pdf", 150., output, &err);
 			if (err != NULL) {

@@ -27,7 +27,7 @@
 G_BEGIN_DECLS
 
 #define GNM_SO_PATH_TYPE  (gnm_so_path_get_type ())
-#define IS_GNM_SO_PATH(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SO_PATH_TYPE))
+#define GNM_IS_SO_PATH(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SO_PATH_TYPE))
 GType gnm_so_path_get_type (void);
 
 G_END_DECLS

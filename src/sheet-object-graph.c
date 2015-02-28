@@ -637,7 +637,7 @@ sheet_object_graph_new (GogGraph *graph)
 GogGraph *
 sheet_object_graph_get_gog (SheetObject *sog)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (sog), NULL);
+	g_return_val_if_fail (GNM_IS_SO_GRAPH (sog), NULL);
 
 	return ((SheetObjectGraph *)sog)->graph;
 }
@@ -656,7 +656,7 @@ sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 
-	g_return_if_fail (IS_SHEET_OBJECT_GRAPH (so));
+	g_return_if_fail (GNM_IS_SO_GRAPH (so));
 
 	if (graph != NULL) {
 		if (sog->graph == graph)

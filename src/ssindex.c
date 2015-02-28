@@ -211,7 +211,7 @@ ssindex (char const *file, GOIOContext *ioc)
 				gsf_xml_out_simple_element (state.output,
 							    "data", str);
 				g_free (str);
-			} else if (IS_SHEET_OBJECT_GRAPH (obj))
+			} else if (GNM_IS_SO_GRAPH (obj))
 				ssindex_chart (&state,
 					       (GogObject *)sheet_object_graph_get_gog (SHEET_OBJECT (obj)));
 		}

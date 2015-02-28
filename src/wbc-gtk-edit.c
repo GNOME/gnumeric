@@ -1034,7 +1034,7 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 	SheetControlGUI *scg;
 
 	g_return_if_fail (IS_WBC_GTK (wbcg));
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (GNM_IS_SO (so));
 
 	wbcg_insert_object_clear (wbcg);
 

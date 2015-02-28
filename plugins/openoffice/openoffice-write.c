@@ -3037,7 +3037,7 @@ odf_write_image (GnmOOExport *state, SheetObject *so, char const *name)
 static void
 odf_write_frame (GnmOOExport *state, SheetObject *so)
 {
-	if (IS_SHEET_OBJECT_GRAPH (so))
+	if (GNM_IS_SO_GRAPH (so))
 		odf_write_graph (state, so, g_hash_table_lookup (state->graphs, so));
 	else if (GNM_IS_SO_IMAGE (so)) {
 		gsf_xml_out_start_element (state->xml, DRAW "frame");
@@ -3253,13 +3253,13 @@ odf_write_objects (GnmOOExport *state, GSList *objects)
 			continue;
 		if (id != NULL)
 			odf_write_control (state, so, id);
-		else if (IS_CELL_COMMENT (so))
+		else if (GNM_IS_CELL_COMMENT (so))
 			odf_write_comment (state, CELL_COMMENT (so));
-		else if (IS_GNM_SO_FILLED (so))
+		else if (GNM_IS_SO_FILLED (so))
 			odf_write_so_filled (state, so);
-		else if (IS_GNM_SO_LINE (so))
+		else if (GNM_IS_SO_LINE (so))
 			odf_write_line (state, so);
-		else if (IS_GNM_SO_PATH (so))
+		else if (GNM_IS_SO_PATH (so))
 			odf_write_custom_shape (state, so);
 		else
 			odf_write_frame (state, so);

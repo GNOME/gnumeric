@@ -2599,7 +2599,7 @@ gnm_pane_object_start_resize (GnmPane *pane, int button, guint64 x, gint64 y,
 	GocItem **ctrl_pts;
 	GdkEvent *event;
 
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (GNM_IS_SO (so));
 	g_return_if_fail (0 <= drag_type);
 	g_return_if_fail (drag_type < 9);
 

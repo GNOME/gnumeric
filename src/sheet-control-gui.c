@@ -3076,7 +3076,7 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 	else if (scg->comment.selected != cc)
 		scg_comment_unselect (scg, scg->comment.selected);
 
-	g_return_if_fail (IS_CELL_COMMENT (cc));
+	g_return_if_fail (GNM_IS_CELL_COMMENT (cc));
 
 	if (scg->comment.item == NULL) {
 		GtkWidget *label, *box;

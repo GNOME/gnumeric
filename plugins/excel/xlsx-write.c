@@ -2761,11 +2761,11 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 
 		g_hash_table_insert (zorder, so, GINT_TO_POINTER (z));
 
-		if (IS_CELL_COMMENT (so))
+		if (GNM_IS_CELL_COMMENT (so))
 			comments = g_slist_prepend (comments, so);
-		else if (IS_SHEET_OBJECT_GRAPH (so) ||
-			 IS_GNM_SO_LINE (so) ||
-			 IS_GNM_SO_FILLED (so) ||
+		else if (GNM_IS_SO_GRAPH (so) ||
+			 GNM_IS_SO_LINE (so) ||
+			 GNM_IS_SO_FILLED (so) ||
 			 GNM_IS_SO_IMAGE (so))
 			drawing_objs = g_slist_prepend (drawing_objs, so);
 		else if (GNM_IS_SOW_SCROLLBAR (so) || GNM_IS_SOW_SLIDER (so) ||

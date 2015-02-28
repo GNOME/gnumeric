@@ -397,7 +397,7 @@ GSF_CLASS (GnmComment, cell_comment,
 char const  *
 cell_comment_author_get (GnmComment const *cc)
 {
-	g_return_val_if_fail (IS_CELL_COMMENT (cc), NULL);
+	g_return_val_if_fail (GNM_IS_CELL_COMMENT (cc), NULL);
 	return cc->author;
 }
 
@@ -405,7 +405,7 @@ void
 cell_comment_author_set (GnmComment *cc, char const *author)
 {
 	char *tmp;
-	g_return_if_fail (IS_CELL_COMMENT (cc));
+	g_return_if_fail (GNM_IS_CELL_COMMENT (cc));
 
 	tmp = g_strdup (author);
 	g_free (cc->author);
@@ -415,7 +415,7 @@ cell_comment_author_set (GnmComment *cc, char const *author)
 char const  *
 cell_comment_text_get (GnmComment const *cc)
 {
-	g_return_val_if_fail (IS_CELL_COMMENT (cc), NULL);
+	g_return_val_if_fail (GNM_IS_CELL_COMMENT (cc), NULL);
 	return cc->text;
 }
 
@@ -423,7 +423,7 @@ void
 cell_comment_text_set (GnmComment *cc, char const *text)
 {
 	char *tmp;
-	g_return_if_fail (IS_CELL_COMMENT (cc));
+	g_return_if_fail (GNM_IS_CELL_COMMENT (cc));
 
 	tmp = g_strdup (text);
 	g_free (cc->text);
@@ -439,7 +439,7 @@ cell_comment_set_pos (GnmComment *cc, GnmCellPos const *pos)
 	SheetObjectAnchor anchor;
 	GnmRange	  r;
 
-	g_return_if_fail (IS_CELL_COMMENT (cc));
+	g_return_if_fail (GNM_IS_CELL_COMMENT (cc));
 
 	r.start = r.end = *pos;
 	sheet_object_anchor_init (&anchor, &r, a_offsets,

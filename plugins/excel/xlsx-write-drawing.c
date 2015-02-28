@@ -1228,7 +1228,7 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 		SheetObject *so = obj->data;
 		const char *rId1;
 
-		if (IS_SHEET_OBJECT_GRAPH (so)) {
+		if (GNM_IS_SO_GRAPH (so)) {
 			char *name = g_strdup_printf ("chart%u.xml", ++state->chart_dir.count);
 			GsfOutput *chart_part = gsf_outfile_new_child_full
 				(xlsx_dir_get (&state->chart_dir), name, FALSE,
@@ -1301,7 +1301,7 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 		xlsx_write_object_anchor (xml, &anchor->cell_bound.end, "xdr:to",
 					  res_pts[2], res_pts[3]);
 
-		if (IS_SHEET_OBJECT_GRAPH (so)) {
+		if (GNM_IS_SO_GRAPH (so)) {
 			char *tmp;
 
 			gsf_xml_out_start_element (xml, "xdr:graphicFrame");
@@ -1347,25 +1347,25 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			gsf_xml_out_end_element (xml); /* </xdr:graphicFrame> */
 		} else if (GNM_IS_SO_IMAGE (so)) {
 			/* What? */
-		} else if (IS_GNM_SO_LINE (so) ||
-			   IS_GNM_SO_FILLED (so)) {
+		} else if (GNM_IS_SO_LINE (so) ||
+			   GNM_IS_SO_FILLED (so)) {
 			GOStyle *style = NULL;
 			XLSXStyleContext sctx;
 
 			xlsx_style_context_init (&sctx, state);
 			sctx.spPr_ns = "xdr";
 			sctx.must_fill_line = TRUE;
-			sctx.must_fill_fill = IS_GNM_SO_FILLED (so);
+			sctx.must_fill_fill = GNM_IS_SO_FILLED (so);
 			sctx.flipH = (anchor->base.direction & GOD_ANCHOR_DIR_H_MASK) != GOD_ANCHOR_DIR_RIGHT;
 			sctx.flipV = (anchor->base.direction & GOD_ANCHOR_DIR_V_MASK) != GOD_ANCHOR_DIR_DOWN;
 
-			if (IS_GNM_SO_LINE (so)) {
+			if (GNM_IS_SO_LINE (so)) {
 				g_object_get (G_OBJECT (so),
 					      "start-arrow", &sctx.start_arrow,
 					      "end-arrow", &sctx.end_arrow,
 					      NULL);
 				sctx.shapename = "line";
-			} else if (IS_GNM_SO_FILLED (so)) {
+			} else if (GNM_IS_SO_FILLED (so)) {
 				gboolean oval;
 				g_object_get (so, "is-oval", &oval, NULL);
 				sctx.shapename = oval ? "ellipse" : "rect";

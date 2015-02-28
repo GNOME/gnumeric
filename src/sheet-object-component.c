@@ -471,7 +471,7 @@ sheet_object_component_new (GOComponent *component)
 GOComponent*
 sheet_object_component_get_component (SheetObject *soc)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT_COMPONENT (soc), NULL);
+	g_return_val_if_fail (GNM_IS_SO_COMPONENT (soc), NULL);
 
 	return ((SheetObjectComponent *) soc)->component;
 }
@@ -483,7 +483,7 @@ sheet_object_component_set_component (SheetObject *so, GOComponent *component)
 	GList *l = so->realized_list;
 	GnmPane *pane = (l && l->data)? GNM_PANE (GOC_ITEM (l->data)->canvas): NULL;
 
-	g_return_if_fail (IS_SHEET_OBJECT_COMPONENT (so));
+	g_return_if_fail (GNM_IS_SO_COMPONENT (so));
 	soc = SHEET_OBJECT_COMPONENT (so);
 	if (soc->component != NULL) {
 		go_component_stop_editing (soc->component);

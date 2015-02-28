@@ -1230,7 +1230,7 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 		if (klass == NULL || klass->write_xml_sax == NULL)
 			continue;
 
-		if (IS_CELL_COMMENT (so))
+		if (GNM_IS_CELL_COMMENT (so))
 			without_zorder = g_slist_prepend (without_zorder, so);
 		else
 			with_zorder = g_slist_prepend (with_zorder, so);

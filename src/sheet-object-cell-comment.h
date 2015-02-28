@@ -9,7 +9,7 @@ G_BEGIN_DECLS
 #define CELL_COMMENT_TYPE     (cell_comment_get_type ())
 #define CELL_COMMENT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), CELL_COMMENT_TYPE, GnmComment))
 #define CELL_COMMENT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), CELL_COMMENT_TYPE, CellCommentClass))
-#define IS_CELL_COMMENT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), CELL_COMMENT_TYPE))
+#define GNM_IS_CELL_COMMENT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), CELL_COMMENT_TYPE))
 
 GType	     cell_comment_get_type (void);
 

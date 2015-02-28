@@ -4615,7 +4615,7 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 		? g_hash_table_lookup (esheet->widget_macroname, so)
 		: NULL;
 
-	if (IS_CELL_COMMENT (so)) {
+	if (GNM_IS_CELL_COMMENT (so)) {
 		static double const offset[4] = { .5, .5, .5, .5 };
 		GnmRange r;
 
@@ -4632,7 +4632,7 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 		g_hash_table_insert (esheet->commentshash,
 				     so, GINT_TO_POINTER (esheet->cur_obj));
 
-	} else if (IS_GNM_SO_FILLED (so)) {
+	} else if (GNM_IS_SO_FILLED (so)) {
 		gboolean is_oval;
 
 		type = MSOT_TEXTBOX;
@@ -5017,9 +5017,9 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 static gsize
 excel_write_obj_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
-	if (IS_SHEET_OBJECT_GRAPH (so))
+	if (GNM_IS_SO_GRAPH (so))
 		return excel_write_chart_v8 (esheet, so);
-	if (IS_GNM_SO_LINE (so))
+	if (GNM_IS_SO_LINE (so))
 		return excel_write_line_v8 (esheet, so);
 	return excel_write_other_v8 (esheet, so);
 }
@@ -5799,7 +5799,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		SheetObject *so = SHEET_OBJECT (l->data);
 		gboolean handled = FALSE;
 
-		if (IS_SHEET_OBJECT_GRAPH (so)) {
+		if (GNM_IS_SO_GRAPH (so)) {
 			/* No derivation for now.  */
 			esheet->graphs = g_slist_prepend (esheet->graphs, so);
 			esheet->objects =
@@ -5817,14 +5817,14 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			esheet->objects =
 				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
-		} else if (IS_CELL_COMMENT (so)) {
+		} else if (GNM_IS_CELL_COMMENT (so)) {
 			esheet->comments = g_slist_prepend (esheet->comments,
 							    so);
 			/* Also an object.  Is that right for v7?  */
 			esheet->objects =
 				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
-		} else if (IS_GNM_SO_FILLED (so)) {
+		} else if (GNM_IS_SO_FILLED (so)) {
 			esheet->objects =
 				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
@@ -5842,7 +5842,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 					     so,
 					     create_macroname (so));
 			handled = TRUE;
-		} else if (IS_GNM_SO_LINE (so)) {
+		} else if (GNM_IS_SO_LINE (so)) {
 			esheet->objects =
 				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;

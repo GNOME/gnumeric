@@ -5707,7 +5707,7 @@ cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector 
 {
 	CmdObjectRaise *me;
 
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
+	g_return_val_if_fail (GNM_IS_SO (so), TRUE);
 
 	me = g_object_new (CMD_OBJECT_RAISE_TYPE, NULL);
 
@@ -6877,7 +6877,7 @@ cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 	CmdSOGraphConfig *me;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
-	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (so), TRUE);
+	g_return_val_if_fail (GNM_IS_SO_GRAPH (so), TRUE);
 	g_return_val_if_fail (GOG_IS_GRAPH (n_graph), TRUE);
 	g_return_val_if_fail (GOG_IS_GRAPH (o_graph), TRUE);
 
@@ -6949,7 +6949,7 @@ cmd_so_component_config (WorkbookControl *wbc, SheetObject *so,
 	CmdSOComponentConfig *me;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
-	g_return_val_if_fail (IS_SHEET_OBJECT_COMPONENT (so), TRUE);
+	g_return_val_if_fail (GNM_IS_SO_COMPONENT (so), TRUE);
 	g_return_val_if_fail (GO_IS_COMPONENT (n_obj), TRUE);
 	g_return_val_if_fail (GO_IS_COMPONENT (o_obj), TRUE);
 

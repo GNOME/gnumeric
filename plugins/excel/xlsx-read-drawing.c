@@ -143,7 +143,7 @@ static void
 xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (!GOG_IS_LABEL (state->cur_obj) && IS_SHEET_OBJECT_GRAPH (state->so) && NULL == state->series) { /* Hmm, why? */
+	if (!GOG_IS_LABEL (state->cur_obj) && GNM_IS_SO_GRAPH (state->so) && NULL == state->series) { /* Hmm, why? */
 		xlsx_push_text_object (state, "Label");
 	}
 }
@@ -153,7 +153,7 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
-	if (IS_GNM_SO_FILLED (state->so))
+	if (GNM_IS_SO_FILLED (state->so))
 		g_object_set (G_OBJECT (state->so), "text", state->chart_tx, NULL);
 	else if (NULL == state->series) {
 		if (GOG_IS_LABEL (state->cur_obj)) {
@@ -1894,7 +1894,7 @@ xlsx_chart_line_headtail (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 
-	if (IS_GNM_SO_LINE (state->so)) {
+	if (GNM_IS_SO_LINE (state->so)) {
 		GOArrow arrow;
 		GOStyle const *style = state->cur_style;
 		double width = style->line.auto_width ? 0 : style->line.width;
@@ -2185,7 +2185,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 	GOStyle *style = state->cur_style;
 	GOArrow *start_arrow = NULL;
 	GOArrow *end_arrow = NULL;
-	gboolean has_arrow = IS_GNM_SO_LINE (state->so);
+	gboolean has_arrow = GNM_IS_SO_LINE (state->so);
 	int rev_gradient = 0;
 
 	if (!style)
