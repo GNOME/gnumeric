@@ -3041,7 +3041,7 @@ static void
 xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (state->so));
+	g_return_if_fail (GNM_IS_SO_IMAGE (state->so));
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (!strcmp (attrs[0], "r:embed")) {
 			GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_id (

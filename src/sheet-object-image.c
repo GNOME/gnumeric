@@ -139,7 +139,7 @@ sheet_object_image_set_image (SheetObjectImage *soi,
 			      unsigned      data_len,
 			      gboolean      copy_data)
 {
-	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (soi));
+	g_return_if_fail (GNM_IS_SO_IMAGE (soi));
 
 	g_free (soi->type);
 	soi->type = (type && *type) ? g_strdup (type) : NULL;
@@ -166,7 +166,7 @@ sheet_object_image_set_crop (SheetObjectImage *soi,
 			     double crop_left,  double crop_top,
 			     double crop_right, double crop_bottom)
 {
-	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (soi));
+	g_return_if_fail (GNM_IS_SO_IMAGE (soi));
 
 	soi->crop_left   = crop_left;
 	soi->crop_top    = crop_top;
@@ -413,7 +413,7 @@ gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 {
 	SheetObjectImage *soi;
 
-	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (so));
+	g_return_if_fail (GNM_IS_SO_IMAGE (so));
 	soi = SHEET_OBJECT_IMAGE (so);
 
 	gsf_xml_out_add_float (output, "crop-top", soi->crop_top, 3);

@@ -8,7 +8,7 @@ G_BEGIN_DECLS
 
 #define SHEET_OBJECT_IMAGE_TYPE  (sheet_object_image_get_type ())
 #define SHEET_OBJECT_IMAGE(o)	 (G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_OBJECT_IMAGE_TYPE, SheetObjectImage))
-#define IS_SHEET_OBJECT_IMAGE(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_IMAGE_TYPE))
+#define GNM_IS_SO_IMAGE(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_IMAGE_TYPE))
 
 typedef struct _SheetObjectImage SheetObjectImage;
 

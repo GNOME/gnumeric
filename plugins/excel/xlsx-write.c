@@ -2766,7 +2766,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 		else if (IS_SHEET_OBJECT_GRAPH (so) ||
 			 IS_GNM_SO_LINE (so) ||
 			 IS_GNM_SO_FILLED (so) ||
-			 IS_SHEET_OBJECT_IMAGE (so))
+			 GNM_IS_SO_IMAGE (so))
 			drawing_objs = g_slist_prepend (drawing_objs, so);
 		else if (GNM_IS_SOW_SCROLLBAR (so) || GNM_IS_SOW_SLIDER (so) ||
 			 GNM_IS_SOW_SPINBUTTON (so) ||

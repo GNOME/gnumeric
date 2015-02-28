@@ -4681,7 +4681,7 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 		shape = 0xc9;
 		type = MSOT_COMBO;
 		flags = 0x2011;
-	} else if (IS_SHEET_OBJECT_IMAGE (so)) {
+	} else if (GNM_IS_SO_IMAGE (so)) {
 		shape = 0x4b;
 		type = MSOT_PICTURE;
 		flags = 0x6011;
@@ -5805,7 +5805,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			esheet->objects =
 				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
-		} else if (IS_SHEET_OBJECT_IMAGE (so)) {
+		} else if (GNM_IS_SO_IMAGE (so)) {
 			SheetObjectImage *soi = SHEET_OBJECT_IMAGE (l->data);
 			BlipInf *bi = blipinf_new (soi);
 

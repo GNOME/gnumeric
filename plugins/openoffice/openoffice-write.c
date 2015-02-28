@@ -3039,7 +3039,7 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 {
 	if (IS_SHEET_OBJECT_GRAPH (so))
 		odf_write_graph (state, so, g_hash_table_lookup (state->graphs, so));
-	else if (IS_SHEET_OBJECT_IMAGE (so)) {
+	else if (GNM_IS_SO_IMAGE (so)) {
 		gsf_xml_out_start_element (state->xml, DRAW "frame");
 		odf_write_frame_size (state, so);
 		odf_write_image (state, so, g_hash_table_lookup (state->images, so));
