@@ -1,3 +1,8 @@
+2015-02-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (gnm_soi_assign_to_sheet): ensure that the
+	pixbuf stores the image type.
+
 2015-02-28  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-image.c (SheetObjectImage): Just keep the

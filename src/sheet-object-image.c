@@ -507,8 +507,12 @@ gnm_soi_assign_to_sheet (SheetObject *so, Sheet *sheet)
 	} else if (soi->name) {
 		GODoc *doc = GO_DOC (sheet->workbook);
 		GType type = go_image_type_for_format (soi->type);
-		if (type != 0)
+		if (type != 0) {
 			soi->image = g_object_ref (go_doc_image_fetch (doc, soi->name, type));
+			if (GO_IS_PIXBUF (soi->image))
+				/* we need to ensure that the pixbuf type is set because it used to be missed, see #745297 */
+				g_object_set (soi->image, "image-type", soi->type, NULL);
+		}
 	} else {
 		/* There is nothing we can do */
 	}
