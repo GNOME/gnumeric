@@ -53,6 +53,7 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-graph.h"
 #include "sheet-object-widget.h"
+#include "sheet-object-image.h"
 #include "gnm-so-line.h"
 #include "gnm-so-filled.h"
 #include "graph.h"
@@ -110,6 +111,46 @@ static char const *ns_rel_chart	 = "http://schemas.openxmlformats.org/officeDocu
 static char const *ns_rel_com	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments";
 
 typedef struct {
+	unsigned int count;
+	GsfOutfile *parent;
+	GsfOutfile *dir;
+	const char *name;
+} XLSXDir;
+
+static void
+xlsx_dir_init (XLSXDir *dir, GsfOutfile *parent, const char *name)
+{
+	dir->count = 0;
+	dir->parent = parent;
+	dir->dir = NULL;
+	dir->name = name;
+}
+
+static void
+xlsx_dir_close (XLSXDir *dir)
+{
+	if (dir->dir) {
+		gsf_output_close (GSF_OUTPUT (dir->dir));
+		g_object_unref (dir->dir);
+		dir->dir = NULL;
+	}
+}
+
+static GsfOutfile *
+xlsx_dir_get (XLSXDir *dir)
+{
+	if (!dir->dir) {
+		char *debug_name = g_strdup_printf ("xlsx directory %s", dir->name);
+		dir->dir = (GsfOutfile *)gsf_outfile_new_child (dir->parent, dir->name, TRUE);
+		go_debug_check_finalized (dir->dir, debug_name);
+		g_free (debug_name);
+	}
+	return dir->dir;
+}
+
+
+
+typedef struct {
 	XLExportBase base;
 
 	gint             version;
@@ -127,10 +168,9 @@ typedef struct {
 	GHashTable      *axids;
 
 	GsfOutfile	*xl_dir;
-	struct {
-		unsigned int	count;
-		GsfOutfile	*dir;
-	} chart, drawing, legacy_drawing, pivotCache, pivotTable;
+	XLSXDir         sheet_dir;
+	XLSXDir         chart_dir, drawing_dir, legacy_drawing_dir;
+	XLSXDir         media_dir, pivotCache_dir, pivotTable_dir;
 	unsigned comment;
 	unsigned drawing_elem_id;
 	GOFormat *date_fmt;
@@ -2686,12 +2726,13 @@ xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objec
 #include "xlsx-write-drawing.c"
 
 static char const *
-xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, unsigned i)
+xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 {
-	char *name = g_strdup_printf ("sheet%u.xml", i+1);
-	GsfOutput *sheet_part = gsf_outfile_new_child_full (dir, name, FALSE,
-		"content-type", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml",
-		NULL);
+	char *name = g_strdup_printf ("sheet%u.xml", ++state->sheet_dir.count);
+	GsfOutput *sheet_part = gsf_outfile_new_child_full
+		(xlsx_dir_get (&state->sheet_dir), name, FALSE,
+		 "content-type", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml",
+		 NULL);
 	char const *rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (sheet_part),
 		GSF_OUTFILE_OPEN_PKG (wb_part),
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet");
@@ -2705,7 +2746,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	GHashTable *zorder;
 	int z;
 
-	state->sheet = workbook_sheet_by_index (state->base.wb, i);
+	state->sheet = sheet;
 	col_styles = sheet_style_most_common (state->sheet, TRUE);
 	excel_sheet_extent (state->sheet, &extent, col_styles,
 			    XLSX_MAX_COLS, XLSX_MAX_ROWS, state->io_context);
@@ -2724,7 +2765,8 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 			comments = g_slist_prepend (comments, so);
 		else if (IS_SHEET_OBJECT_GRAPH (so) ||
 			 IS_GNM_SO_LINE (so) ||
-			 IS_GNM_SO_FILLED (so))
+			 IS_GNM_SO_FILLED (so) ||
+			 IS_SHEET_OBJECT_IMAGE (so))
 			drawing_objs = g_slist_prepend (drawing_objs, so);
 		else if (GNM_IS_SOW_SCROLLBAR (so) || GNM_IS_SOW_SLIDER (so) ||
 			 GNM_IS_SOW_SPINBUTTON (so) ||
@@ -2971,7 +3013,6 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	GSList	   *cacheRefs;
 	GPtrArray  *sheetIds  = g_ptr_array_new ();
 	GsfOutfile *xl_dir    = (GsfOutfile *)gsf_outfile_new_child (root_part, "xl", TRUE);
-	GsfOutfile *sheet_dir = (GsfOutfile *)gsf_outfile_new_child (xl_dir, "worksheets", TRUE);
 	GsfOutfile *wb_part   = (GsfOutfile *)gsf_outfile_open_pkg_add_rel (xl_dir, "workbook.xml",
 		"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml",
 		root_part,
@@ -2995,13 +3036,20 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	gnm_style_unref (style);
 
 	state->convs	 = xlsx_conventions_new (TRUE);
-	state->chart.dir   = state->drawing.dir   = state->legacy_drawing.dir = NULL;
-	state->chart.count = state->drawing.count = state->legacy_drawing.count = 0;
+	xlsx_dir_init (&state->sheet_dir, state->xl_dir, "worksheets");
+	xlsx_dir_init (&state->chart_dir, state->xl_dir, "charts");
+	xlsx_dir_init (&state->drawing_dir, state->xl_dir, "drawings");
+	xlsx_dir_init (&state->legacy_drawing_dir, NULL, NULL);
+	xlsx_dir_init (&state->media_dir, state->xl_dir, "media");
+	xlsx_dir_init (&state->pivotCache_dir, state->xl_dir, "pivotCache");
+	xlsx_dir_init (&state->pivotTable_dir, state->xl_dir, "pivotTable");
 
 	g_ptr_array_set_size (sheetIds, workbook_sheet_count (state->base.wb));
-	for (i = 0 ; i < workbook_sheet_count (state->base.wb); i++)
-		g_ptr_array_index (sheetIds, i) =
-			(gpointer) xlsx_write_sheet (state, sheet_dir, wb_part, i);
+	for (i = 0 ; i < workbook_sheet_count (state->base.wb); i++) {
+		Sheet *sheet = workbook_sheet_by_index (state->base.wb, i);
+		const char *rId = xlsx_write_sheet (state, wb_part, sheet);
+		g_ptr_array_index (sheetIds, i) = (gpointer)rId;
+	}
 
 	xlsx_write_shared_strings (state, wb_part);
 	xlsx_write_styles (state, wb_part);
@@ -3089,21 +3137,16 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	g_ptr_array_free (state->dxfs_array, TRUE);
 	g_hash_table_destroy (state->axids);
 
-	if (NULL != state->chart.dir) {
-		gsf_output_close (GSF_OUTPUT (state->chart.dir));
-		g_object_unref (state->chart.dir);
-	}
-	if (NULL != state->drawing.dir) {
-		gsf_output_close (GSF_OUTPUT (state->drawing.dir));
-		g_object_unref (state->drawing.dir);
-	}
-	/* legacy_drawing.dir is unused */
+	xlsx_dir_close (&state->sheet_dir);
+	xlsx_dir_close (&state->chart_dir);
+	xlsx_dir_close (&state->drawing_dir);
+	xlsx_dir_close (&state->legacy_drawing_dir);
+	xlsx_dir_close (&state->media_dir);
+	xlsx_dir_close (&state->pivotCache_dir);
+	xlsx_dir_close (&state->pivotTable_dir);
 
 	gsf_output_close (GSF_OUTPUT (wb_part));
 	g_object_unref (wb_part);
-
-	gsf_output_close (GSF_OUTPUT (sheet_dir));
-	g_object_unref (sheet_dir);
 
 	gsf_output_close (GSF_OUTPUT (xl_dir));
 	g_object_unref (xl_dir);

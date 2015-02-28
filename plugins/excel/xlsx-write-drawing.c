@@ -1214,17 +1214,8 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 	GsfOutput *drawing_part;
 	GsfXMLOut *xml;
 
-	if (NULL == state->drawing.dir) {
-		state->drawing.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "drawings", TRUE);
-		go_debug_check_finalized (state->drawing.dir, "drawing.dir");
-	}
-	if (NULL == state->chart.dir) {
-		state->chart.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "charts", TRUE);
-		go_debug_check_finalized (state->chart.dir, "chart.dir");
-	}
-
-	name = g_strdup_printf ("drawing%u.xml", ++state->drawing.count);
-	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE,
+	name = g_strdup_printf ("drawing%u.xml", ++state->drawing_dir.count);
+	drawing_part = gsf_outfile_new_child_full (xlsx_dir_get (&state->drawing_dir), name, FALSE,
 		"content-type", "application/vnd.openxmlformats-officedocument.drawing+xml",
 		NULL);
 	g_free (name);
@@ -1238,9 +1229,9 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 		const char *rId1;
 
 		if (IS_SHEET_OBJECT_GRAPH (so)) {
-			char *name = g_strdup_printf ("chart%u.xml", ++state->chart.count);
+			char *name = g_strdup_printf ("chart%u.xml", ++state->chart_dir.count);
 			GsfOutput *chart_part = gsf_outfile_new_child_full
-				(state->chart.dir, name, FALSE,
+				(xlsx_dir_get (&state->chart_dir), name, FALSE,
 				 "content-type",
 				 "application/vnd.openxmlformats-officedocument.drawingml.chart+xml",
 				 NULL);
@@ -1620,14 +1611,9 @@ xlsx_write_legacy_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 	 */
 	radio_by_link = xlsx_preprocess_radio (state, objects);
 
+	name = g_strdup_printf ("vmlDrawing%u.vml", ++state->legacy_drawing_dir.count);
 	/* Note: we use drawing.dir here.  */
-	if (NULL == state->drawing.dir) {
-		state->drawing.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "drawings", TRUE);
-		go_debug_check_finalized (state->drawing.dir, "drawing.dir");
-	}
-
-	name = g_strdup_printf ("vmlDrawing%u.vml", ++state->legacy_drawing.count);
-	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE,
+	drawing_part = gsf_outfile_new_child_full (xlsx_dir_get (&state->drawing_dir), name, FALSE,
 						   "content-type", NULL,
 						   NULL);
 	g_free (name);

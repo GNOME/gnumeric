@@ -89,7 +89,7 @@ xlsx_write_pivot_cache_records (XLSXWriteState *state, GODataCache const *cache,
 	unsigned int i, j;
 	GsfXMLOut *xml;
 	char *name = g_strdup_printf ("pivotCacheRecords%u.xml", cache_records_num);
-	GsfOutput *record_part = gsf_outfile_new_child_full (state->pivotCache.dir, name, FALSE,
+	GsfOutput *record_part = gsf_outfile_new_child_full (xlsx_dir_get (&state->pivotCache_dir), name, FALSE,
 		"content-type", "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheRecords+xml",
 		NULL);
 	char const *record_id = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (record_part),
@@ -257,7 +257,7 @@ xlsx_write_pivot_cache_definition (XLSXWriteState *state, GsfOutfile *wb_part,
 	int i, n;
 	char const *record_id;
 	char *name = g_strdup_printf ("pivotCacheDefinition%u.xml", cache_def_num);
-	GsfOutput *cache_def_part = gsf_outfile_new_child_full (state->pivotCache.dir, name, FALSE,
+	GsfOutput *cache_def_part = gsf_outfile_new_child_full (xlsx_dir_get (&state->pivotCache_dir), name, FALSE,
 		"content-type", "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheDefinition+xml",
 		NULL);
 	char const *cache_def_id = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (cache_def_part),
@@ -322,21 +322,18 @@ xlsx_write_pivots (XLSXWriteState *state, GsfOutfile *wb_part)
 		return NULL;
 
 	state->date_fmt = xlsx_pivot_date_fmt ();
-	state->pivotCache.count = state->pivotTable.count = 0;
-	state->pivotCache.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "pivotCache", TRUE);
-	state->pivotTable.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "pivotTable", TRUE);
 
 	g_hash_table_iter_init (&iter, caches);
-	while (g_hash_table_iter_next (&iter, &key, &value))
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
 		if (NULL != key) {
 			cache_def_id = xlsx_write_pivot_cache_definition (state, wb_part, key, GPOINTER_TO_UINT(value));
 			refs = g_slist_prepend (refs, (gpointer)cache_def_id);
 		}
+	}
 
-	gsf_output_close (GSF_OUTPUT (state->pivotCache.dir));
-	gsf_output_close (GSF_OUTPUT (state->pivotTable.dir));
 	g_hash_table_destroy (caches);
 	go_format_unref	(state->date_fmt);
+	state->date_fmt = NULL;
 
 	return g_slist_reverse (refs);
 }
