@@ -1,3 +1,8 @@
+2015-03-01  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c
+	(sheet_widget_list_base_set_selection_value): Plug leak.
+
 2015-02-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-image.c (gnm_soi_assign_to_sheet): ensure that the

@@ -3496,11 +3496,11 @@ sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 static void
 sheet_widget_list_base_set_selection_value (SheetWidgetListBase *swl, GnmValue *v)
 {
-	char const *str = value_get_as_string (v);
 	GtkTreeIter iter;
 	int selection = 0, i = 1;
 
-	if (swl->model != NULL && gtk_tree_model_get_iter_first (swl->model, &iter))
+	if (swl->model != NULL && gtk_tree_model_get_iter_first (swl->model, &iter)) {
+		char *str = value_get_as_string (v);
 		do {
 			char *content;
 			gboolean match;
@@ -3514,6 +3514,8 @@ sheet_widget_list_base_set_selection_value (SheetWidgetListBase *swl, GnmValue *
 			}
 			i++;
 		} while (gtk_tree_model_iter_next (swl->model, &iter));
+		g_free (str);
+	}
 
 	if (swl->selection != selection) {
 		swl->selection = selection;
