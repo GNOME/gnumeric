@@ -3049,15 +3049,14 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 			GsfInput *input = gsf_open_pkg_open_rel (
 			        gsf_xml_in_get_input (xin), rel, NULL);
 			size_t size;
-			guint8 *data;
+			gpointer data;
 
 			g_return_if_fail (input != NULL);
 			size = gsf_input_size (input);
-			data = g_new (guint8, size);
-			gsf_input_read (input, size, data);
+			data = (gpointer)gsf_input_read (input, size, NULL);
 			g_object_unref (input);
 			sheet_object_image_set_image (SHEET_OBJECT_IMAGE (state->so),
-				NULL, data, size, FALSE);
+						      NULL, data, size, TRUE);
 	}
 
 }
