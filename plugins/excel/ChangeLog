@@ -1,3 +1,8 @@
+2015-03-01  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (ms_sheet_realize_obj): Don't let the sheet
+	object take over the memory.  We might need it later.
+
 2015-02-25  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_sheet): Also write combos and lists.

@@ -28,6 +28,7 @@ Morten:
 	* Fix undo problems with scrollbars.
 	* Fix spinner properties dialog.
 	* SheetObjectImage fixes.
+	* Fix problem reading images from xls.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20

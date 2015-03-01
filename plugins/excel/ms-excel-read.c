@@ -649,8 +649,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			        } else {
 					sheet_object_image_set_image (SHEET_OBJECT_IMAGE (so),
 								      blip->type, blip->data, blip->data_len,
-								      !blip->needs_free);
-					blip->needs_free = FALSE; /* image took over managing data */
+								      TRUE);
 				}
 			}
 		} else if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
