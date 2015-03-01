@@ -1210,7 +1210,8 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 	GSList *obj, *rId_ptr, *rIds = NULL;
 	char *name;
 	char const *rId;
-	int count = 1;
+	int chart_count = 0;
+	int pic_count = 0;
 	GsfOutput *drawing_part;
 	GsfXMLOut *xml;
 
@@ -1282,6 +1283,7 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 	gsf_xml_out_start_element (xml, "xdr:wsDr");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:xdr", ns_ss_drawing);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
 	if (state->with_extension)
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:gnmx", ns_gnm_ext);
 
@@ -1310,8 +1312,8 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			gsf_xml_out_start_element (xml, "xdr:nvGraphicFramePr");
 
 			gsf_xml_out_start_element (xml, "xdr:cNvPr");
-			gsf_xml_out_add_int (xml, "id",  count+1);
-			tmp = g_strdup_printf ("Chart %d", count++);
+			gsf_xml_out_add_int (xml, "id",  chart_count + 1);
+			tmp = g_strdup_printf ("Chart %d", chart_count++);
 			gsf_xml_out_add_cstr_unchecked (xml, "name", tmp);
 			g_free (tmp);
 			gsf_xml_out_end_element (xml);
@@ -1338,7 +1340,6 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			gsf_xml_out_add_cstr_unchecked (xml, "uri", ns_chart);
 			gsf_xml_out_start_element (xml, "c:chart");
 			gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
-			gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
 
 			gsf_xml_out_add_cstr_unchecked (xml, "r:id", rId1);
 			gsf_xml_out_end_element (xml); /* </c:chart> */
@@ -1346,7 +1347,31 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			gsf_xml_out_end_element (xml); /* </a:graphic> */
 			gsf_xml_out_end_element (xml); /* </xdr:graphicFrame> */
 		} else if (GNM_IS_SO_IMAGE (so)) {
-			/* What? */
+			char *tmp;
+
+			gsf_xml_out_start_element (xml, "xdr:pic");
+
+			gsf_xml_out_start_element (xml, "xdr:nvPicPr");
+			gsf_xml_out_start_element (xml, "xdr:cNvPr");
+			gsf_xml_out_add_int (xml, "id",  pic_count + 1);
+			tmp = g_strdup_printf ("Picture %d", pic_count++);
+			gsf_xml_out_add_cstr_unchecked (xml, "name", tmp);
+			g_free (tmp);
+			gsf_xml_out_end_element (xml); /* </xdr:cNvPr> */
+			gsf_xml_out_start_element (xml, "xdr:cNvPicPr");
+			gsf_xml_out_end_element (xml); /* </xdr:cNvPicPr> */
+			gsf_xml_out_end_element (xml); /* </xdr:nvPicPr> */
+
+			gsf_xml_out_start_element (xml, "xdr:blipFill");
+			gsf_xml_out_start_element (xml, "a:blip");
+			gsf_xml_out_add_cstr (xml, "r:embed", rId1);
+			gsf_xml_out_end_element (xml); /* </a:blip> */
+			gsf_xml_out_end_element (xml); /* </xdr:blipFill> */
+
+			gsf_xml_out_start_element (xml, "xdr:spPr");
+			gsf_xml_out_end_element (xml); /* </xdr:spPr> */
+
+			gsf_xml_out_end_element (xml); /* </xdr:pic> */
 		} else if (GNM_IS_SO_LINE (so) ||
 			   GNM_IS_SO_FILLED (so)) {
 			GOStyle *style = NULL;
