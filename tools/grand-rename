@@ -8,7 +8,19 @@ die "$0: must be run from top-level directory.\n"
 	    -r 'ChangeLog' &&
 	    -r 'po/POTFILES.in');
 
-my $doit = ($ARGV[0] && $ARGV[0] =~ /^--doit/ && shift);
+my $test = 1;
+my $doit = 1;
+
+while (@ARGV > 0) {
+    if ($ARGV[0] =~ /^--doit/) {
+	# Nothing -- this is now the default
+    } elsif ($ARGV[0] =~ /^--test/) {
+	$doit = 0;
+    } else {
+	last;
+    }
+}
+
 
 my $oldname = $ARGV[0];
 my $newname = $ARGV[1];
@@ -27,7 +39,9 @@ die "$0: oldname and newname must be different\n" if $oldname eq $newname;
 
 my @files = &find_files ();
 
-&do_files (\@files, 1);
+if ($test) {
+    &do_files (\@files, 1);
+}
 if ($doit) {
     print STDERR "Renaming $oldname to $newname\n";
     &do_files (\@files, 0);
