@@ -723,7 +723,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 	                                             fn_info_dict_name);
 	gnm_python_clear_error_if_needed (loader_python->py_object);
 	if (python_fn_info_dict != NULL && PyDict_Check (python_fn_info_dict)) {
-		PluginServiceFunctionGroupCallbacks *cbs;
+		GnmPluginServiceFunctionGroupCallbacks *cbs;
 		ServiceLoaderDataFunctionGroup *loader_data;
 
 		cbs = go_plugin_service_get_cbs (service);
@@ -835,7 +835,7 @@ gplp_load_service_ui (GOPluginLoader *loader,
 					   ui_action_names);
 	gnm_python_clear_error_if_needed (loader_python->py_object);
 	if (ui_actions != NULL && PyDict_Check (ui_actions)) {
-		PluginServiceUICallbacks *cbs;
+		GnmPluginServiceUICallbacks *cbs;
 		ServiceLoaderDataUI *loader_data;
 
 		cbs = go_plugin_service_get_cbs (service);

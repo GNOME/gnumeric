@@ -14,48 +14,48 @@ G_BEGIN_DECLS
 #define GNM_PLUGIN_LOADER_MODULE(o)  (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_LOADER_MODULE_TYPE, GnmPluginLoaderModule))
 GType gnm_plugin_loader_module_get_type (void);
 
-#define GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE  (plugin_service_function_group_get_type ())
-#define GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE, PluginServiceFunctionGroup))
+#define GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE  (gnm_plugin_service_function_group_get_type ())
+#define GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE, GnmPluginServiceFunctionGroup))
 #define GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE))
 
-GType plugin_service_function_group_get_type (void);
-typedef struct _PluginServiceFunctionGroup	PluginServiceFunctionGroup;
+GType gnm_plugin_service_function_group_get_type (void);
+typedef struct GnmPluginServiceFunctionGroup_	GnmPluginServiceFunctionGroup;
 typedef struct {
 	gboolean (*func_desc_load) (GOPluginService *service, char const *name,
 				    GnmFuncDescriptor *res);
-} PluginServiceFunctionGroupCallbacks;
+} GnmPluginServiceFunctionGroupCallbacks;
 
-#define GNM_PLUGIN_SERVICE_UI_TYPE  (plugin_service_ui_get_type ())
+#define GNM_PLUGIN_SERVICE_UI_TYPE  (gnm_plugin_service_ui_get_type ())
 #define GNM_PLUGIN_SERVICE_UI(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_UI_TYPE, PluginServiceUI))
 #define GNM_IS_PLUGIN_SERVICE_UI(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_UI_TYPE))
 
-GType plugin_service_ui_get_type (void);
-typedef struct _PluginServiceUI PluginServiceUI;
+GType gnm_plugin_service_ui_get_type (void);
+typedef struct GnmPluginServiceUI_ PluginServiceUI;
 typedef struct {
 	void (*plugin_func_exec_action) (
 		GOPluginService *service, GnmAction const *action,
 		WorkbookControl *wbc, GOErrorInfo **ret_error);
-} PluginServiceUICallbacks;
+} GnmPluginServiceUICallbacks;
 
 /* This type is intended for use with "ui" service.
  * Plugins should define arrays of structs of the form:
- * ModulePluginUIActions <service-id>_actions[] = { ... };
+ * GnmModulePluginUIActions <service-id>_actions[] = { ... };
  */
 typedef struct {
 	char const *name;
 	void (*handler) (GnmAction const *action, WorkbookControl *wbc);
-} ModulePluginUIActions;
+} GnmModulePluginUIActions;
 
-#define GNM_PLUGIN_SERVICE_SOLVER_TYPE  (plugin_service_solver_get_type ())
+#define GNM_PLUGIN_SERVICE_SOLVER_TYPE  (gnm_plugin_service_solver_get_type ())
 #define GNM_PLUGIN_SERVICE_SOLVER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_SOLVER_TYPE, PluginServiceSolver))
 #define GNM_IS_PLUGIN_SERVICE_SOLVER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_SOLVER_TYPE))
 
-GType plugin_service_solver_get_type (void);
-typedef struct _PluginServiceSolver PluginServiceSolver;
+GType gnm_plugin_service_solver_get_type (void);
+typedef struct GnmPluginServiceSolver_ PluginServiceSolver;
 typedef struct {
 	GnmSolverCreator creator;
 	GnmSolverFactoryFunctional functional;
-} PluginServiceSolverCallbacks;
+} GnmPluginServiceSolverCallbacks;
 
 /**************************************************************************/
 #define GNM_PLUGIN_MODULE_HEADER					\

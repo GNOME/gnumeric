@@ -32,22 +32,22 @@ xml2c (xmlChar *src)
 	return dst;
 }
 
-typedef GOPluginServiceSimpleClass	PluginServiceFunctionGroupClass;
-struct _PluginServiceFunctionGroup {
+typedef GOPluginServiceSimpleClass GnmPluginServiceFunctionGroupClass;
+struct GnmPluginServiceFunctionGroup_ {
 	GOPluginServiceSimple	base;
 
 	gchar *category_name, *translated_category_name;
 	GSList *function_name_list;
 
 	GnmFuncGroup *func_group;
-	PluginServiceFunctionGroupCallbacks cbs;
+	GnmPluginServiceFunctionGroupCallbacks cbs;
 	char *textdomain;
 };
 
 static void
 plugin_service_function_group_finalize (GObject *obj)
 {
-	PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (obj);
+	GnmPluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (obj);
 	GObjectClass *parent_class;
 
 	g_free (sfg->category_name);
@@ -116,7 +116,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 		GO_SLIST_REVERSE (function_name_list);
 	}
 	if (category_name != NULL && function_name_list != NULL) {
-		PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+		GnmPluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
 		sfg->category_name = category_name;
 		sfg->translated_category_name = translated_category_name;
@@ -149,7 +149,7 @@ plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
 					      GnmFuncDescriptor *res)
 {
 	GOPluginService	*service = gnm_func_get_user_data (fn_def);
-	PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	GnmPluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 	GOErrorInfo *error = NULL;
 
 	g_return_val_if_fail (fn_def != NULL, FALSE);
@@ -199,7 +199,7 @@ delayed_ref_notify (GOPlugin *plugin, GnmFunc *fd)
 static void
 plugin_service_function_group_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
-	PluginServiceFunctionGroup *sfg =
+	GnmPluginServiceFunctionGroup *sfg =
 		GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
@@ -241,7 +241,7 @@ plugin_service_function_group_activate (GOPluginService *service, GOErrorInfo **
 static void
 plugin_service_function_group_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
-	PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	GnmPluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
 	if (gnm_debug_flag ("plugin-func"))
 		g_printerr ("Deactivating group %s\n", sfg->category_name);
@@ -256,7 +256,7 @@ plugin_service_function_group_deactivate (GOPluginService *service, GOErrorInfo 
 static char *
 plugin_service_function_group_get_description (GOPluginService *service)
 {
-	PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	GnmPluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 	int n_functions;
 	char const *category_name;
 
@@ -273,7 +273,7 @@ plugin_service_function_group_get_description (GOPluginService *service)
 }
 
 static void
-plugin_service_function_group_init (PluginServiceFunctionGroup *s)
+plugin_service_function_group_init (GnmPluginServiceFunctionGroup *s)
 {
 	GO_PLUGIN_SERVICE (s)->cbs_ptr = &s->cbs;
 	s->category_name = NULL;
@@ -295,7 +295,7 @@ plugin_service_function_group_class_init (GObjectClass *gobject_class)
 	plugin_service_class->get_description = plugin_service_function_group_get_description;
 }
 
-GSF_CLASS (PluginServiceFunctionGroup, plugin_service_function_group,
+GSF_CLASS (GnmPluginServiceFunctionGroup, gnm_plugin_service_function_group,
            plugin_service_function_group_class_init, plugin_service_function_group_init,
            GO_TYPE_PLUGIN_SERVICE_SIMPLE)
 
@@ -305,14 +305,14 @@ GSF_CLASS (PluginServiceFunctionGroup, plugin_service_function_group,
  * PluginServiceUI
  */
 typedef GOPluginServiceSimpleClass PluginServiceUIClass;
-struct _PluginServiceUI {
+struct GnmPluginServiceUI_ {
 	GOPluginServiceSimple base;
 
 	char *file_name;
 	GSList *actions;
 
 	gpointer layout_id;
-	PluginServiceUICallbacks cbs;
+	GnmPluginServiceUICallbacks cbs;
 };
 
 static void
@@ -528,7 +528,7 @@ plugin_service_ui_class_init (GObjectClass *gobject_class)
 	plugin_service_class->get_description = plugin_service_ui_get_description;
 }
 
-GSF_CLASS (PluginServiceUI, plugin_service_ui,
+GSF_CLASS (PluginServiceUI, gnm_plugin_service_ui,
            plugin_service_ui_class_init, plugin_service_ui_init,
            GO_TYPE_PLUGIN_SERVICE_SIMPLE)
 
@@ -538,12 +538,12 @@ GSF_CLASS (PluginServiceUI, plugin_service_ui,
  * PluginServiceSolver
  */
 typedef GOPluginServiceClass PluginServiceSolverClass;
-struct _PluginServiceSolver {
+struct GnmPluginServiceSolver_ {
 	GOPluginService base;
 
 	GnmSolverFactory *factory;
 
-	PluginServiceSolverCallbacks cbs;
+	GnmPluginServiceSolverCallbacks cbs;
 };
 
 static GnmSolver *
@@ -710,7 +710,7 @@ plugin_service_solver_class_init (GObjectClass *gobject_class)
 	plugin_service_class->get_description = plugin_service_solver_get_description;
 }
 
-GSF_CLASS (PluginServiceSolver, plugin_service_solver,
+GSF_CLASS (PluginServiceSolver, gnm_plugin_service_solver,
            plugin_service_solver_class_init, plugin_service_solver_init,
            GO_TYPE_PLUGIN_SERVICE)
 
@@ -773,7 +773,7 @@ gnm_plugin_loader_module_load_service_function_group (GOPluginLoader  *loader,
 		go_plugin_service_get_id (service), "_functions", NULL);
 	g_module_symbol (loader_module->handle, fn_info_array_name, (gpointer) &module_fn_info_array);
 	if (module_fn_info_array != NULL) {
-		PluginServiceFunctionGroupCallbacks *cbs;
+		GnmPluginServiceFunctionGroupCallbacks *cbs;
 		ServiceLoaderDataFunctionGroup *loader_data;
 		gint i;
 
@@ -807,7 +807,7 @@ gnm_plugin_loader_module_load_service_function_group (GOPluginLoader  *loader,
  */
 
 typedef struct {
-	ModulePluginUIActions *module_ui_actions_array;
+	GnmModulePluginUIActions *module_ui_actions_array;
 	GHashTable *ui_actions_hash;
 } ServiceLoaderDataUI;
 
@@ -851,8 +851,8 @@ gnm_plugin_loader_module_load_service_ui (GOPluginLoader *loader,
 {
 	GnmPluginLoaderModule *loader_module = GNM_PLUGIN_LOADER_MODULE (loader);
 	char *ui_actions_array_name;
-	ModulePluginUIActions *module_ui_actions_array = NULL;
-	PluginServiceUICallbacks *cbs;
+	GnmModulePluginUIActions *module_ui_actions_array = NULL;
+	GnmPluginServiceUICallbacks *cbs;
 	ServiceLoaderDataUI *loader_data;
 	gint i;
 
@@ -894,7 +894,7 @@ gnm_plugin_loader_module_load_service_solver (GOPluginLoader *loader,
 {
 	GnmPluginLoaderModule *loader_module =
 		GNM_PLUGIN_LOADER_MODULE (loader);
-	PluginServiceSolverCallbacks *cbs;
+	GnmPluginServiceSolverCallbacks *cbs;
 	char *symname;
 	GnmSolverCreator creator;
 	GnmSolverFactoryFunctional functional;
@@ -944,13 +944,13 @@ static gboolean
 gplm_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	if (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (s)) {
-		PluginServiceFunctionGroupCallbacks *cbs = go_plugin_service_get_cbs (s);
+		GnmPluginServiceFunctionGroupCallbacks *cbs = go_plugin_service_get_cbs (s);
 		cbs->func_desc_load = NULL;
 	} else if (GNM_IS_PLUGIN_SERVICE_UI (s)) {
-		PluginServiceUICallbacks *cbs = go_plugin_service_get_cbs (s);
+		GnmPluginServiceUICallbacks *cbs = go_plugin_service_get_cbs (s);
 		cbs->plugin_func_exec_action = NULL;
 	} else if (GNM_IS_PLUGIN_SERVICE_SOLVER (s)) {
-		PluginServiceSolverCallbacks *cbs =
+		GnmPluginServiceSolverCallbacks *cbs =
 			go_plugin_service_get_cbs (s);
 		cbs->creator = NULL;
 		cbs->functional = NULL;

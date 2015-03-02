@@ -25,7 +25,7 @@ view_data_sources (GnmAction const *action, WorkbookControl *wbc)
 	}
 }
 
-ModulePluginUIActions const gnome_db_ui_actions[] = {
+GnmModulePluginUIActions const gnome_db_ui_actions[] = {
 	{"ViewDataSources", view_data_sources},
 	{NULL}
 };

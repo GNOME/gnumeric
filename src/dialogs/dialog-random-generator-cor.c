@@ -182,7 +182,7 @@ dialog_random_cor_tool_init (RandomCorToolState *state)
 {
 	state->count_entry = go_gtk_builder_get_widget (state->base.gui, "count_entry");
 	int_to_entry (GTK_ENTRY (state->count_entry), 2);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->count_entry));
 	g_signal_connect_after (G_OBJECT (state->count_entry),
 				"changed",
@@ -209,7 +209,7 @@ dialog_random_cor_tool (WBCGtk *wbcg, Sheet *sheet)
 
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, RANDOM_COR_KEY)) {
+	if (gnm_dialog_raise_if_exists (wbcg, RANDOM_COR_KEY)) {
 		return 0;
 	}
 

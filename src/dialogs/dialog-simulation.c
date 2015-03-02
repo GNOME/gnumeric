@@ -413,7 +413,7 @@ dialog_simulation (WBCGtk *wbcg, G_GNUC_UNUSED Sheet *sheet)
 	wbc = GNM_WBC (wbcg);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SIMULATION_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, SIMULATION_KEY))
 		return;
 
 	state = g_new (SimulationState, 1);

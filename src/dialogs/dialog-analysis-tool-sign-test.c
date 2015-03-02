@@ -247,7 +247,7 @@ dialog_sign_test_two_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SIGN_TEST_KEY_TWO))
+	if (gnm_dialog_raise_if_exists (wbcg, SIGN_TEST_KEY_TWO))
 		return 0;
 
 	state = g_new0 (SignTestToolState, 1);
@@ -395,7 +395,7 @@ dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SIGN_TEST_KEY_ONE))
+	if (gnm_dialog_raise_if_exists (wbcg, SIGN_TEST_KEY_ONE))
 		return 0;
 
 	state = g_new0 (SignTestToolState, 1);

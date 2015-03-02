@@ -36,7 +36,7 @@ hello_message (GnmAction const *action, WorkbookControl *wbc)
 	g_free (msg);
 }
 
-ModulePluginUIActions const hello_ui_actions[] = {
+GnmModulePluginUIActions const hello_ui_actions[] = {
 	{ "HelloMenu", NULL },
 	{ "HelloWorld", hello_message },
 	{ NULL }

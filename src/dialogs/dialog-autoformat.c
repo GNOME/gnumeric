@@ -411,7 +411,7 @@ cb_canvas_button_press (GocCanvas *canvas,
 	state->selected_template = ft;
 	gtk_entry_set_text (state->info_name,   _(ft->name));
 	gtk_entry_set_text (state->info_author, ft->author);
-	gnumeric_textview_set_text (GTK_TEXT_VIEW (state->info_descr),
+	gnm_textview_set_text (GTK_TEXT_VIEW (state->info_descr),
 		_(ft->description));
 
 	gtk_entry_set_text (state->info_cat, _(ft->category->name));
@@ -642,7 +642,7 @@ dialog_autoformat (WBCGtk *wbcg)
 		gtk_widget_show_all (GTK_WIDGET (state->category));
 	}
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_AUTOFORMAT);
 

@@ -317,7 +317,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 				  GOPluginService *service,
 				  GOErrorInfo **ret_error)
 {
-	PluginServiceFunctionGroupCallbacks *cbs;
+	GnmPluginServiceFunctionGroupCallbacks *cbs;
 
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 

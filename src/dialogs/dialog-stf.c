@@ -213,19 +213,19 @@ static void
 stf_dialog_editables_enter (StfDialogData *pagedata)
 {
 #if 0
-	gnumeric_editable_enters
+	gnm_editable_enters
 		(pagedata->window,
 		 GTK_WIDGET (&pagedata->main.main_startrow->entry));
-	gnumeric_editable_enters
+	gnm_editable_enters
 		(pagedata->window,
 		 GTK_WIDGET (&pagedata->main.main_stoprow->entry));
-	gnumeric_editable_enters
+	gnm_editable_enters
 		(pagedata->window,
 		 GTK_WIDGET (pagedata->csv.csv_customseparator));
 	gnumeric_combo_enters
 		(pagedata->window,
 		 pagedata->csv.csv_textindicator);
-	gnumeric_editable_enters
+	gnm_editable_enters
 		(pagedata->window,
 		 GTK_WIDGET (&pagedata->fixed.fixed_colend->entry));
 	go_format_sel_editable_enters

@@ -386,7 +386,7 @@ dialog_scenario_add (WBCGtk *wbcg)
 	wbc = GNM_WBC (wbcg);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, "ScenarioAdd"))
+	if (gnm_dialog_raise_if_exists (wbcg, "ScenarioAdd"))
 		return;
 
 	state = g_new (ScenariosState, 1);
@@ -425,7 +425,7 @@ dialog_scenario_add (WBCGtk *wbcg)
 					   wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->name_entry));
 	scenario_add_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);

@@ -487,7 +487,7 @@ cb_pm_button_activate_all_clicked (G_GNUC_UNUSED GtkButton *button,
 	if (activation_error != NULL) {
 		error = go_error_info_new_str_with_details (
 			_("Errors while activating plugins"), activation_error);
-		gnumeric_go_error_info_dialog_show (
+		gnm_go_error_info_dialog_show (
 			GTK_WINDOW (pm_gui->dialog_pm), error);
 		go_error_info_free (error);
 	}
@@ -650,7 +650,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, PLUGIN_MANAGER_DIALOG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, PLUGIN_MANAGER_DIALOG_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("plugin-manager.ui", NULL, GO_CMD_CONTEXT (wbcg));
@@ -763,14 +763,14 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	pm_gui_load_directory_page (pm_gui);
 
 	pm_dialog_init (pm_gui);
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_PLUGIN_MANAGER);
 	g_signal_connect_swapped (go_gtk_builder_get_widget (gui, "button_close_manager"),
 		"clicked",
 		G_CALLBACK (cb_pm_close_clicked), pm_gui);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (pm_gui->dialog_pm),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (pm_gui->dialog_pm),
 			       PLUGIN_MANAGER_DIALOG_KEY);
 	gtk_widget_show (GTK_WIDGET (pm_gui->dialog_pm));
 }

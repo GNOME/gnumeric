@@ -616,7 +616,7 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, KAPLAN_MEIER_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, KAPLAN_MEIER_KEY))
 		return 0;
 
 	state = g_new0 (KaplanMeierToolState, 1);
@@ -726,7 +726,7 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 			  "focus-in-event",
 			  G_CALLBACK (kaplan_meier_tool_set_groups_cb), state);
 
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 					  GTK_WIDGET (state->groups_input));
 
 	widget = go_gtk_builder_get_widget (state->base.gui, "groups-label");

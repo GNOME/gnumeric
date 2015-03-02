@@ -1088,7 +1088,7 @@ cb_cursor_come_to_rest (GnmItemGrid *ig)
 
 			gnm_canvas_get_position (canvas, &wx, &wy,
 						 ig->last_x, ig->last_y);
-			ig->tip = gnumeric_create_tooltip (cw);
+			ig->tip = gnm_create_tooltip (cw);
 			gtk_label_set_text (GTK_LABEL (ig->tip), tiptext);
 			/* moving the tip window some pixels from wx,wy in order to
 			 * avoid a leave_notify event that would destroy the tip.

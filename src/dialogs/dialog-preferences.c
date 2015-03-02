@@ -1379,7 +1379,7 @@ dialog_preferences (WBCGtk *wbcg, gchar const *page)
 		"clicked",
 		G_CALLBACK (cb_close_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_PREFERENCES);
 	g_signal_connect_swapped (G_OBJECT (state->dialog),

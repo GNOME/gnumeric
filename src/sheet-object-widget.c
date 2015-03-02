@@ -538,7 +538,7 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	g_return_if_fail (swf != NULL);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("so-frame.ui", NULL, GO_CMD_CONTEXT (wbcg));
@@ -555,7 +555,7 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	state->label = go_gtk_builder_get_widget (gui, "entry");
 	gtk_entry_set_text (GTK_ENTRY(state->label), swf->label);
 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->label));
 
 	g_signal_connect (G_OBJECT(state->label),
@@ -570,12 +570,12 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 			  "clicked",
 			  G_CALLBACK (cb_frame_config_cancel_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_FRAME);
 
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
@@ -1063,7 +1063,7 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	g_return_if_fail (swb != NULL);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("so-button.ui", NULL, GO_CMD_CONTEXT (wbcg));
@@ -1093,9 +1093,9 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	state->label = go_gtk_builder_get_widget (gui, "label_entry");
 	gtk_entry_set_text (GTK_ENTRY (state->label), swb->label);
 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->expression));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->label));
 
 	g_signal_connect (G_OBJECT (state->label),
@@ -1108,11 +1108,11 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 		"clicked",
 		G_CALLBACK (cb_button_config_cancel_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_BUTTON);
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
@@ -1673,7 +1673,7 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	gboolean has_directions = swa_class->has_orientation;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("so-scrollbar.ui", NULL, GO_CMD_CONTEXT (wbcg));
@@ -1733,15 +1733,15 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->page),
 				   gtk_adjustment_get_page_increment (swa->adjustment));
 
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->expression));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->min));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->max));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->inc));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->page));
 	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "ok_button")),
 		"clicked",
@@ -1750,11 +1750,11 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 		"clicked",
 		G_CALLBACK (cb_adjustment_config_cancel_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_ADJUSTMENT);
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
@@ -2525,7 +2525,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	g_return_if_fail (swc != NULL);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("so-checkbox.ui", NULL, GO_CMD_CONTEXT (wbcg));
@@ -2555,9 +2555,9 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	state->label = go_gtk_builder_get_widget (gui, "label_entry");
 	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->expression));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->label));
 
 	g_signal_connect (G_OBJECT (state->label),
@@ -2570,11 +2570,11 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 		"clicked",
 		G_CALLBACK (cb_checkbox_config_cancel_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_CHECKBOX);
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
@@ -3268,7 +3268,7 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	g_return_if_fail (swrb != NULL);
 
 	/* Only pop up one copy per workbook */
- 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+ 	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
  		return;
 
 	gui = gnm_gtk_builder_load ("so-radiobutton.ui", NULL, GO_CMD_CONTEXT (wbcg));
@@ -3306,11 +3306,11 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	gtk_entry_set_text (GTK_ENTRY (state->value), valstr->str);
 	g_string_free (valstr, TRUE);
 
-  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+  	gnm_editable_enters (GTK_WINDOW (state->dialog),
  				  GTK_WIDGET (state->expression));
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+ 	gnm_editable_enters (GTK_WINDOW (state->dialog),
  				  GTK_WIDGET (state->label));
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+ 	gnm_editable_enters (GTK_WINDOW (state->dialog),
  				  GTK_WIDGET (state->value));
 
  	g_signal_connect (G_OBJECT (state->label),
@@ -3326,11 +3326,11 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
 			  "clicked",
 			  G_CALLBACK (cb_radio_button_config_cancel_clicked), state);
 
- 	gnumeric_init_help_button (
+ 	gnm_init_help_button (
  		go_gtk_builder_get_widget (gui, "help_button"),
  		GNUMERIC_HELP_LINK_SO_RADIO_BUTTON);
 
- 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+ 	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
  			       SHEET_OBJECT_CONFIG_KEY);
 
  	wbc_gtk_attach_guru (state->wbcg, state->dialog);

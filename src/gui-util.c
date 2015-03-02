@@ -149,13 +149,13 @@ gnumeric_go_error_info_list_dialog_create (GSList *errs)
 }
 
 /**
- * gnumeric_go_error_info_dialog_create:
+ * gnm_go_error_info_dialog_create:
  *
  * SHOULD BE IN GOFFICE
  * Returns: (transfer full): the newly allocated dialog.
  */
 GtkWidget *
-gnumeric_go_error_info_dialog_create (GOErrorInfo *error)
+gnm_go_error_info_dialog_create (GOErrorInfo *error)
 {
 	GSList *l = g_slist_append (NULL, error);
 	GtkWidget *w = gnumeric_go_error_info_list_dialog_create (l);
@@ -164,24 +164,24 @@ gnumeric_go_error_info_dialog_create (GOErrorInfo *error)
 }
 
 /**
- * gnumeric_go_error_info_dialog_show:
+ * gnm_go_error_info_dialog_show:
  *
  */
 void
-gnumeric_go_error_info_dialog_show (GtkWindow *parent, GOErrorInfo *error)
+gnm_go_error_info_dialog_show (GtkWindow *parent, GOErrorInfo *error)
 {
-	GtkWidget *dialog = gnumeric_go_error_info_dialog_create (error);
+	GtkWidget *dialog = gnm_go_error_info_dialog_create (error);
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
 /**
- * gnumeric_go_error_info_list_dialog_show:
+ * gnm_go_error_info_list_dialog_show:
  * @parent:
  * @errs: (element-type GOErrorInfo):
  *
  */
 void
-gnumeric_go_error_info_list_dialog_show (GtkWindow *parent,
+gnm_go_error_info_list_dialog_show (GtkWindow *parent,
 					 GSList *errs)
 {
 	GtkWidget *dialog = gnumeric_go_error_info_list_dialog_create (errs);
@@ -268,7 +268,7 @@ cb_save_sizes (GtkWidget *dialog, const char *key)
 }
 
 void
-gnumeric_restore_window_geometry (GtkWindow *dialog, const char *key)
+gnm_restore_window_geometry (GtkWindow *dialog, const char *key)
 {
 	GtkWidget *top = gtk_widget_get_toplevel (GTK_WIDGET (dialog));
 	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
@@ -295,7 +295,7 @@ gnumeric_restore_window_geometry (GtkWindow *dialog, const char *key)
 }
 
 /**
- * gnumeric_keyed_dialog:
+ * gnm_keyed_dialog:
  * @wbcg:    A WBCGtk
  * @dialog:  A transient window
  * @key:     A key to identify the dialog
@@ -306,7 +306,7 @@ gnumeric_restore_window_geometry (GtkWindow *dialog, const char *key)
  * the object data is managed here.
  **/
 void
-gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
+gnm_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 {
 	KeyedDialogContext *ctxt;
 
@@ -332,11 +332,11 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 	g_signal_connect (G_OBJECT (dialog), "destroy",
 			  G_CALLBACK (cb_keyed_dialog_destroy), NULL);
 
-	gnumeric_restore_window_geometry (dialog, key);
+	gnm_restore_window_geometry (dialog, key);
 }
 
 /**
- * gnumeric_dialog_raise_if_exists:
+ * gnm_dialog_raise_if_exists:
  * @wbcg:    A WBCGtk
  * @key:     A key to identify the dialog
  *
@@ -344,7 +344,7 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
  * Returns: (transfer none): TRUE if dialog found, FALSE if not.
  **/
 gpointer
-gnumeric_dialog_raise_if_exists (WBCGtk *wbcg, char const *key)
+gnm_dialog_raise_if_exists (WBCGtk *wbcg, char const *key)
 {
 	KeyedDialogContext *ctxt;
 
@@ -374,7 +374,7 @@ cb_activate_default (GtkWindow *window)
 
 
 /**
- * gnumeric_editable_enters:
+ * gnm_editable_enters:
  * @window: dialog to affect.
  * @editable: Editable to affect.
  *
@@ -391,7 +391,7 @@ cb_activate_default (GtkWindow *window)
  *
  **/
 void
-gnumeric_editable_enters (GtkWindow *window, GtkWidget *w)
+gnm_editable_enters (GtkWindow *window, GtkWidget *w)
 {
 	g_return_if_fail (GTK_IS_WINDOW(window));
 
@@ -505,14 +505,14 @@ gnumeric_tooltip_set_style (GtkWidget *widget)
 }
 
 /**
- * gnumeric_convert_to_tooltip:
+ * gnm_convert_to_tooltip:
  * @ref_widget:
  * @widget:
  *
  * Returns: (transfer none): @widget
  **/
 GtkWidget *
-gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *widget)
+gnm_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *widget)
 {
 	GtkWidget *tip, *frame;
 	GdkScreen *screen = gtk_widget_get_screen (ref_widget);
@@ -537,18 +537,18 @@ gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *widget)
 }
 
 /**
- * gnumeric_create_tooltip:
+ * gnm_create_tooltip:
  *
  * Returns: (transfer full): the newly allocated #GtkWidget.
  **/
 GtkWidget *
-gnumeric_create_tooltip (GtkWidget *ref_widget)
+gnm_create_tooltip (GtkWidget *ref_widget)
 {
-	return gnumeric_convert_to_tooltip (ref_widget, gtk_label_new (""));
+	return gnm_convert_to_tooltip (ref_widget, gtk_label_new (""));
 }
 
 void
-gnumeric_position_tooltip (GtkWidget *tip, int px, int py, gboolean horizontal)
+gnm_position_tooltip (GtkWidget *tip, int px, int py, gboolean horizontal)
 {
 	GtkRequisition req;
 
@@ -599,9 +599,9 @@ gnm_gtk_builder_load (char const *uifile, char const *domain, GOCmdContext *cc)
 static void
 popup_item_activate (GtkWidget *item, gpointer *user_data)
 {
-	GnumericPopupMenuElement const *elem =
+	GnmPopupMenuElement const *elem =
 		g_object_get_data (G_OBJECT (item), "descriptor");
-	GnumericPopupMenuHandler handler =
+	GnmPopupMenuHandler handler =
 		g_object_get_data (G_OBJECT (item), "handler");
 
 	g_return_if_fail (elem != NULL);
@@ -611,7 +611,7 @@ popup_item_activate (GtkWidget *item, gpointer *user_data)
 }
 
 /**
- * gnumeric_create_popup_menu:
+ * gnm_create_popup_menu:
  * @elements:
  * @handler: (scope async):
  * @user_data: user data to pass to @handler.
@@ -620,8 +620,8 @@ popup_item_activate (GtkWidget *item, gpointer *user_data)
  * @event:
  **/
 void
-gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
-			    GnumericPopupMenuHandler handler,
+gnm_create_popup_menu (GnmPopupMenuElement const *elements,
+			    GnmPopupMenuHandler handler,
 			    gpointer user_data,
 			    int display_filter, int sensitive_filter,
 			    GdkEvent *event)
@@ -701,13 +701,13 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 }
 
 void
-gnumeric_init_help_button (GtkWidget *w, char const *link)
+gnm_init_help_button (GtkWidget *w, char const *link)
 {
 	go_gtk_help_button_init (w, gnm_sys_data_dir (), "gnumeric", link);
 }
 
 char *
-gnumeric_textbuffer_get_text (GtkTextBuffer *buf)
+gnm_textbuffer_get_text (GtkTextBuffer *buf)
 {
 	GtkTextIter    start, end;
 
@@ -720,14 +720,14 @@ gnumeric_textbuffer_get_text (GtkTextBuffer *buf)
 }
 
 char *
-gnumeric_textview_get_text (GtkTextView *text_view)
+gnm_textview_get_text (GtkTextView *text_view)
 {
-	return gnumeric_textbuffer_get_text
+	return gnm_textbuffer_get_text
 		(gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view)));
 }
 
 void
-gnumeric_textview_set_text (GtkTextView *text_view, char const *txt)
+gnm_textview_set_text (GtkTextView *text_view, char const *txt)
 {
 	gtk_text_buffer_set_text (
 		gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view)),
@@ -804,7 +804,7 @@ gnm_get_pango_attributes_from_buffer (GtkTextBuffer *buffer)
 {
 	PangoAttrList *list = pango_attr_list_new ();
 	GtkTextIter start;
-	gchar *text = gnumeric_textbuffer_get_text (buffer);
+	gchar *text = gnm_textbuffer_get_text (buffer);
 
 	gtk_text_buffer_get_start_iter (buffer, &start);
 
@@ -997,7 +997,7 @@ gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 /* ------------------------------------------------------------------------- */
 
 /**
- * gnumeric_message_dialog_create:
+ * gnm_message_dialog_create:
  *
  * A convenience fonction to build HIG compliant message dialogs.
  *
@@ -1011,7 +1011,7 @@ gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
  **/
 
 GtkWidget *
-gnumeric_message_dialog_create (GtkWindow * parent,
+gnm_message_dialog_create (GtkWindow * parent,
 				GtkDialogFlags flags,
 				GtkMessageType type,
 				gchar const * primary_message,
@@ -1085,20 +1085,6 @@ gnumeric_message_dialog_create (GtkWindow * parent,
 	gtk_widget_show_all (GTK_WIDGET (gtk_dialog_get_content_area (GTK_DIALOG (dialog))));
 
 	return dialog;
-}
-
-gboolean
-gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter)
-{
-	GtkTreePath *path = gtk_tree_model_get_path (model, iter);
-
-	if (gtk_tree_path_prev (path) &&
-	    gtk_tree_model_get_iter (model, iter, path)) {
-		gtk_tree_path_free (path);
-		return TRUE;
-	}
-	gtk_tree_path_free (path);
-	return FALSE;
 }
 
 typedef struct {
@@ -1246,7 +1232,7 @@ gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent)
 			error = go_error_info_new_printf
 				(_("The plugin with id %s is required "
 				   "but cannot be found."), *ids);
-			gnumeric_go_error_info_dialog_show (parent,
+			gnm_go_error_info_dialog_show (parent,
 							 error);
 			return TRUE;
 		} else if (!go_plugin_is_active (pi)) {
@@ -1255,7 +1241,7 @@ gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent)
 				(_("The %s plugin is required "
 				   "but is not loaded."),
 				 go_plugin_get_name (pi));
-			gnumeric_go_error_info_dialog_show (parent,
+			gnm_go_error_info_dialog_show (parent,
 							 error);
 			return TRUE;
 		}

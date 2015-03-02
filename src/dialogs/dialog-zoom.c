@@ -173,7 +173,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (sheet != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, ZOOM_DIALOG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, ZOOM_DIALOG_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("dialog-zoom.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
@@ -270,17 +270,17 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 		"clicked",
 		G_CALLBACK (cb_zoom_cancel_clicked), state);
 
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (&state->zoom->entry));
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_ZOOM);
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       ZOOM_DIALOG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_zoom_destroy);

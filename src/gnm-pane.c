@@ -163,7 +163,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 	GdkModifierType event_state;
 
 	(void)gdk_event_get_state (event, &event_state);
-	state = gnumeric_filter_modifiers (event_state);
+	state = gnm_filter_modifiers (event_state);
 	jump_to_bounds = (event_state & GDK_CONTROL_MASK) != 0;
 
 	/* Update end-mode for magic end key stuff. */
@@ -232,7 +232,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 
 	case GDK_KEY_KP_Down:
 	case GDK_KEY_Down:
-		if (gnumeric_filter_modifiers (event_state) == GDK_MOD1_MASK) {
+		if (gnm_filter_modifiers (event_state) == GDK_MOD1_MASK) {
 			/* 1) Any in cell combos ? */
 			SheetObject *so = sv_wbv (sv)->in_cell_combo;
 
@@ -408,7 +408,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 		if (wbcg_is_editing (wbcg) &&
 		    (state == GDK_CONTROL_MASK ||
 		     state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
-		     gnumeric_filter_modifiers (event_state) == GDK_MOD1_MASK))
+		     gnm_filter_modifiers (event_state) == GDK_MOD1_MASK))
 			/* Forward the keystroke to the input line */
 			return gtk_widget_event (
 				wbcg_get_entry_underlying (wbcg), (GdkEvent *) event);
@@ -2013,7 +2013,7 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, GocItem *ctrl_pt)
 			return;
 		}
 
-		pane->size_tip = gnumeric_create_tooltip (cw);
+		pane->size_tip = gnm_create_tooltip (cw);
 		top = gtk_widget_get_toplevel (pane->size_tip);
 
 		gnm_canvas_get_screen_position (ctrl_pt->canvas,

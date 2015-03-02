@@ -24,7 +24,7 @@ python_get_loader_type (GOErrorInfo **ret_error)
 	return TYPE_GNM_PYTHON_PLUGIN_LOADER;
 }
 
-ModulePluginUIActions const console_ui_actions[] = {
+GnmModulePluginUIActions const console_ui_actions[] = {
 	{ "ShowConsole", show_python_console },
 	{ NULL }
 };

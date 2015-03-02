@@ -533,7 +533,7 @@ dialog_about (WBCGtk *wbcg)
 	GList *children;
 	AboutState *state;
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, ABOUT_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, ABOUT_KEY))
 		return;
 
 	state = g_new0 (AboutState, 1);
@@ -580,6 +580,6 @@ dialog_about (WBCGtk *wbcg)
 	}
 	g_list_free (children);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (w), ABOUT_KEY);
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (w), ABOUT_KEY);
 	gtk_widget_show_all (w);
 }

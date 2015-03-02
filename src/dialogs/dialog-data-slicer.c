@@ -224,7 +224,7 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("data-slicer.ui", NULL, GO_CMD_CONTEXT (wbcg));
@@ -287,12 +287,12 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->notebook), create ? 0 : 1);
 
 	/* a candidate for merging into attach guru */
-	gnumeric_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
+	gnm_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_DATA_SLICER);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_dialog_data_slicer_destroy);
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), DIALOG_KEY);
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 	g_object_unref (gui);
 }

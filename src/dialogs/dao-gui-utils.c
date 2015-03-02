@@ -90,7 +90,7 @@ dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb)
 	g_signal_connect_after (G_OBJECT (state->gdao),
 				"readiness-changed",
 				G_CALLBACK (sensitivity_cb), state);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->gdao));
 
 	return;

@@ -991,7 +991,7 @@ dialog_init (SolverState *state)
 	g_signal_connect (G_OBJECT (state->close_button), "clicked",
 			  G_CALLBACK (cb_dialog_close_clicked), state);
 
-	gnumeric_init_help_button (go_gtk_builder_get_widget (state->gui,
+	gnm_init_help_button (go_gtk_builder_get_widget (state->gui,
 							 "helpbutton"),
 				   GNUMERIC_HELP_LINK_SOLVER);
 
@@ -1021,7 +1021,7 @@ dialog_init (SolverState *state)
 		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_widget_set_hexpand (GTK_WIDGET (state->target_entry), TRUE);
 	gtk_grid_attach (grid, GTK_WIDGET (state->target_entry), 1, 0, 2, 1);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->target_entry));
 	gtk_widget_show (GTK_WIDGET (state->target_entry));
 	g_signal_connect_after (G_OBJECT (state->target_entry),	"changed",
@@ -1037,7 +1037,7 @@ dialog_init (SolverState *state)
 	gtk_widget_set_hexpand (GTK_WIDGET (state->change_cell_entry), TRUE);
 	gtk_grid_attach (grid,
 	                 GTK_WIDGET (state->change_cell_entry), 1, 2, 2, 1);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->change_cell_entry));
 	gtk_widget_show (GTK_WIDGET (state->change_cell_entry));
 	g_signal_connect_after (G_OBJECT (state->change_cell_entry), "changed",
@@ -1251,7 +1251,7 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 	int pass;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SOLVER_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, SOLVER_KEY))
 		return;
 
 	/*
@@ -1294,7 +1294,7 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SOLVER_KEY);
 
 	gtk_widget_show (state->dialog);

@@ -547,7 +547,7 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 	cnc_hash = NULL;
 }
 
-ModulePluginUIActions const gdaif_ui_actions[] = {
+GnmModulePluginUIActions const gdaif_ui_actions[] = {
 	{"ViewDataSources", view_data_sources},
 	{NULL}
 };

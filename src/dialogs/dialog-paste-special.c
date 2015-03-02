@@ -238,7 +238,7 @@ dialog_paste_special (WBCGtk *wbcg)
 	GtkBuilder *gui;
 	char const * const *group;
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, GNM_PASTE_SPECIAL_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, GNM_PASTE_SPECIAL_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("paste-special.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
@@ -258,7 +258,7 @@ dialog_paste_special (WBCGtk *wbcg)
 			  "clicked",
 			  G_CALLBACK (cb_tool_paste_link_clicked), state);
 	state->help_button = go_gtk_builder_get_widget (state->gui, "help_button");
-	gnumeric_init_help_button (state->help_button, GNUMERIC_HELP_LINK_PASTE_SPECIAL);
+	gnm_init_help_button (state->help_button, GNUMERIC_HELP_LINK_PASTE_SPECIAL);
 	state->cancel_button = go_gtk_builder_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 			  "clicked",
@@ -289,7 +289,7 @@ dialog_paste_special (WBCGtk *wbcg)
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       GNM_PASTE_SPECIAL_KEY);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);

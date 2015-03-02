@@ -84,7 +84,7 @@ non_model_dialog (WBCGtk *wbcg,
 		  GtkDialog *dialog,
 		  const char *key)
 {
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), key);
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (dialog), key);
 
 	gtk_widget_show (GTK_WIDGET (dialog));
 }
@@ -299,7 +299,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 	if (wbc_gtk_get_guru (wbcg))
 		return;
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, TABULATE_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, TABULATE_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("tabulate.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
@@ -342,7 +342,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 		"clicked",
 		G_CALLBACK (cancel_clicked), dd);
 /* FIXME: Add correct helpfile address */
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_TABULATE);
 	g_object_set_data_full (G_OBJECT (dialog),

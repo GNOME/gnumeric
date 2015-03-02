@@ -276,7 +276,7 @@ dialog_recent_used (WBCGtk *wbcg)
 	GtkDialog *dialog;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, RECENT_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, RECENT_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("recent.ui", NULL, GO_CMD_CONTEXT (wbcg));

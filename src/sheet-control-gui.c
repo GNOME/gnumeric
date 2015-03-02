@@ -1961,7 +1961,7 @@ enum {
 	CONTEXT_DATA_SLICER_EDIT	/* prop dialog */
 };
 static void
-context_menu_handler (GnumericPopupMenuElement const *element,
+context_menu_handler (GnmPopupMenuElement const *element,
 		      gpointer user_data)
 {
 	SheetControlGUI *scg = user_data;
@@ -2163,7 +2163,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 		POPUPITEM_FORMAT
 	};
 
-	static GnumericPopupMenuElement popup_elements[] = {
+	static GnmPopupMenuElement popup_elements[] = {
 		{ N_("Cu_t"),           "edit-cut",
 		    0, 0, CONTEXT_CUT, NULL },
 		{ N_("_Copy"),          "edit-copy",
@@ -2454,7 +2454,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 	}
 
 
-	gnumeric_create_popup_menu (popup_elements, &context_menu_handler,
+	gnm_create_popup_menu (popup_elements, &context_menu_handler,
 				    scg, display_filter,
 				    sensitivity_filter, event);
 }
@@ -3141,7 +3141,7 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 		gtk_widget_set_halign (label, GTK_ALIGN_START);
 		gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
 
-		gnumeric_convert_to_tooltip (GTK_WIDGET (scg->grid), box);
+		gnm_convert_to_tooltip (GTK_WIDGET (scg->grid), box);
 
 		scg->comment.item = gtk_widget_get_toplevel (box);
 		gtk_window_move (GTK_WINDOW (scg->comment.item),
@@ -3795,7 +3795,7 @@ scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
 			if (len_title > 0)
 				gtk_box_set_spacing (GTK_BOX (box), 10);
 		}
-		gnumeric_convert_to_tooltip (GTK_WIDGET (scg->grid), box);
+		gnm_convert_to_tooltip (GTK_WIDGET (scg->grid), box);
 		scg->im.item = gtk_widget_get_toplevel (box);
 
 		x = sheet_col_get_distance_pixels

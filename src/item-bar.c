@@ -976,7 +976,7 @@ item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 		if (ib->tip == NULL) {
 			GtkWidget *cw = GTK_WIDGET (canvas);
 			int wx, wy;
-			ib->tip = gnumeric_create_tooltip (cw);
+			ib->tip = gnm_create_tooltip (cw);
 			colrow_tip_setlabel (ib, is_cols, ib->colrow_resize_size);
 			/* Position above the current point for both
 			 * col and row headers.  trying to put it
@@ -986,7 +986,7 @@ item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 			 * different from X. */
 
 			gnm_canvas_get_position (canvas, &wx, &wy,x, y);
-			gnumeric_position_tooltip (ib->tip,
+			gnm_position_tooltip (ib->tip,
 						   wx, wy, TRUE);
 			gtk_widget_show_all (gtk_widget_get_toplevel (ib->tip));
 		}

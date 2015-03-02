@@ -247,7 +247,7 @@ dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, ROW_HEIGHT_DIALOG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, ROW_HEIGHT_DIALOG_KEY))
 		return;
 
 	state = g_new (RowHeightState, 1);
@@ -289,7 +289,7 @@ dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 		"clicked",
 		G_CALLBACK (cb_dialog_row_height_cancel_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_ROW_HEIGHT);
 	g_object_set_data_full (G_OBJECT (state->dialog),
@@ -303,7 +303,7 @@ dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 	dialog_row_height_load_value (state);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       ROW_HEIGHT_DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 }

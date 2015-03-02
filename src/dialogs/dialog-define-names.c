@@ -1208,13 +1208,13 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 	name_guru_populate_list (state);
 	name_guru_update_sensitivity (selection, state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		is_paste_dialog ? GNUMERIC_HELP_LINK_PASTE_NAMES
 		: GNUMERIC_HELP_LINK_DEFINE_NAMES);
 
 	/* a candidate for merging into attach guru */
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       is_paste_dialog ? PASTE_NAMES_KEY
 			       : DEFINE_NAMES_KEY);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
@@ -1253,7 +1253,7 @@ dialog_define_names (WBCGtk *wbcg)
 		return;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, DEFINE_NAMES_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, DEFINE_NAMES_KEY))
 		return;
 
 	state = g_new0 (NameGuruState, 1);
@@ -1283,7 +1283,7 @@ dialog_paste_names (WBCGtk *wbcg)
 		return;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, PASTE_NAMES_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, PASTE_NAMES_KEY))
 		return;
 
 	state = g_new0 (NameGuruState, 1);

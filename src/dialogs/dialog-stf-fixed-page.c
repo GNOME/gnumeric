@@ -64,7 +64,7 @@ enum {
 	CONTEXT_STF_IMPORT_NARROW = 5
 };
 
-static GnumericPopupMenuElement const popup_elements[] = {
+static GnmPopupMenuElement const popup_elements[] = {
 	{ N_("Merge with column on _left"), GTK_STOCK_REMOVE,
 	  0, 1 << CONTEXT_STF_IMPORT_MERGE_LEFT, CONTEXT_STF_IMPORT_MERGE_LEFT },
 	{ N_("Merge with column on _right"), GTK_STOCK_REMOVE,
@@ -211,7 +211,7 @@ select_column (StfDialogData *pagedata, int col)
 }
 
 static void
-fixed_context_menu_handler (GnumericPopupMenuElement const *element,
+fixed_context_menu_handler (GnmPopupMenuElement const *element,
 			    gpointer user_data)
 {
 	StfDialogData *pagedata = user_data;
@@ -259,7 +259,7 @@ fixed_context_menu (StfDialogData *pagedata, GdkEventButton *event,
 		sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_NARROW);
 
 	select_column (pagedata, col);
-	gnumeric_create_popup_menu (popup_elements, &fixed_context_menu_handler,
+	gnm_create_popup_menu (popup_elements, &fixed_context_menu_handler,
 				    pagedata, 0,
 				    sensitivity_filter,
 				    (GdkEvent*)event);

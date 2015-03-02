@@ -35,10 +35,10 @@ G_BEGIN_DECLS
 GType gnm_sheet_slicer_get_type (void);
 
 typedef enum {
-	GSS_Layout_XL_outline	= 0,
-	GSS_Layout_XL_compact	= 1,
-	GSS_Layout_XL_tabular	= 2,
-	GSS_Layout_MAX
+	GSS_LAYOUT_XL_OUTLINE	= 0,
+	GSS_LAYOUT_XL_COMPACT	= 1,
+	GSS_LAYOUT_XL_TABULAR	= 2,
+	GSS_LAYOUT_MAX
 } GnmSheetSlicerLayout;
 
 void		 gnm_sheet_slicer_set_sheet      (GnmSheetSlicer *gss, Sheet *sheet);

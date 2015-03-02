@@ -139,7 +139,7 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 }
 
 gboolean
-gui_file_template (WBCGtk *wbcg, char const *uri)
+gnm_gui_file_template (WBCGtk *wbcg, char const *uri)
 {
 	GOIOContext *io_context;
 	WorkbookView *wbv;

@@ -242,7 +242,7 @@ dialog_fill_series (WBCGtk *wbcg)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, FILL_SERIES_KEY)) {
+	if (gnm_dialog_raise_if_exists (wbcg, FILL_SERIES_KEY)) {
 		return;
 	}
 

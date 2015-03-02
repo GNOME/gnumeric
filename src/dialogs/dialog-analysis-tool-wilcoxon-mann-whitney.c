@@ -178,7 +178,7 @@ dialog_wilcoxon_m_w_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, WILCOXON_MANN_WHITNEY_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, WILCOXON_MANN_WHITNEY_KEY))
 		return 0;
 
 	state = g_new0 (GenericToolState, 1);

@@ -320,7 +320,7 @@ dialog_merge (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, MERGE_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, MERGE_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("merge.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
@@ -347,7 +347,7 @@ dialog_merge (WBCGtk *wbcg)
 	grid = GTK_GRID (go_gtk_builder_get_widget (gui, "main-grid"));
 	state->zone = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->zone, GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->zone));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (go_gtk_builder_get_widget (gui, "var1-label")),
 				       GTK_WIDGET (state->zone));
@@ -429,11 +429,11 @@ dialog_merge (WBCGtk *wbcg)
 					   state->wbcg,
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_DATA_MERGE);
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       MERGE_KEY);
 
 	/* a candidate for merging into attach guru */

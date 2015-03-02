@@ -887,7 +887,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		GtkWidget *check;
 		GtkWidget *align;
 
-		GtkWidget *d = gnumeric_message_dialog_create
+		GtkWidget *d = gnm_message_dialog_create
 			(wbcg_toplevel (wbcg),
 			 GTK_DIALOG_DESTROY_WITH_PARENT,
 			 GTK_MESSAGE_WARNING,

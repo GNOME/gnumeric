@@ -785,7 +785,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 			(G_OBJECT (toplevel), "focus-out-event",
 			 G_CALLBACK (cb_gee_focus_out_event), gee);
 
-	label = gnumeric_convert_to_tooltip (toplevel, gtk_text_view_new ());
+	label = gnm_convert_to_tooltip (toplevel, gtk_text_view_new ());
 	tip = gtk_widget_get_toplevel (label);
 
 	gtk_style_context_add_class (gtk_widget_get_style_context (label),
@@ -1295,7 +1295,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 {
 	WBCGtk *wbcg  = gee->wbcg;
 	gboolean is_enter = FALSE;
-	int state = gnumeric_filter_modifiers (event->state);
+	int state = gnm_filter_modifiers (event->state);
 
 	switch (event->keyval) {
 	case GDK_KEY_Up:	case GDK_KEY_KP_Up:

@@ -242,7 +242,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	if (wbc_gtk_get_guru (wbcg))
 		return;
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("search-replace.ui", NULL, GO_CMD_CONTEXT (wbcg));
@@ -264,13 +264,13 @@ dialog_search_replace (WBCGtk *wbcg,
 	dd->search_text = GTK_ENTRY (gtk_entry_new ());
 	gtk_widget_set_hexpand (GTK_WIDGET (dd->search_text), TRUE);
 	gtk_grid_attach (grid, GTK_WIDGET (dd->search_text), 1, 1, 2, 1);
-	gnumeric_editable_enters (GTK_WINDOW (dialog),
+	gnm_editable_enters (GTK_WINDOW (dialog),
 				  GTK_WIDGET (dd->search_text));
 
 	dd->replace_text = GTK_ENTRY (gtk_entry_new ());
 	gtk_widget_set_hexpand (GTK_WIDGET (dd->replace_text), TRUE);
 	gtk_grid_attach (grid, GTK_WIDGET (dd->replace_text), 1, 2, 2, 1);
-	gnumeric_editable_enters (GTK_WINDOW (dialog),
+	gnm_editable_enters (GTK_WINDOW (dialog),
 				  GTK_WIDGET (dd->replace_text));
 
 	dd->rangetext = gnm_expr_entry_new (wbcg, TRUE);
@@ -331,7 +331,7 @@ dialog_search_replace (WBCGtk *wbcg,
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SEARCH_REPLACE);
 	g_object_set_data_full (G_OBJECT (dialog),
@@ -345,7 +345,7 @@ dialog_search_replace (WBCGtk *wbcg,
 
 	wbc_gtk_attach_guru (wbcg, GTK_WIDGET (dialog));
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), SEARCH_REPLACE_KEY);
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (dialog), SEARCH_REPLACE_KEY);
 	gtk_widget_show (GTK_WIDGET (dialog));
 }
 

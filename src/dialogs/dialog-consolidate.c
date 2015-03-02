@@ -537,7 +537,7 @@ dialog_consolidate (WBCGtk *wbcg)
 	sheet = sv_sheet (sv);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, CONSOLIDATE_KEY)) {
+	if (gnm_dialog_raise_if_exists (wbcg, CONSOLIDATE_KEY)) {
 		return;
 	}
 

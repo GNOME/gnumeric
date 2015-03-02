@@ -1325,7 +1325,7 @@ dialog_cell_format_cond (WBCGtk *wbcg)
 
 	c_fmt_dialog_load (state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_CELL_FORMAT_COND);
 
@@ -1344,7 +1344,7 @@ dialog_cell_format_cond (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (dialog), "destroy",
 			  G_CALLBACK (cb_dialog_destroy), NULL);
 
-	gnumeric_restore_window_geometry (GTK_WINDOW (state->dialog),
+	gnm_restore_window_geometry (GTK_WINDOW (state->dialog),
 					  CELL_FORMAT_KEY);
 
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),

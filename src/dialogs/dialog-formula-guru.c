@@ -963,7 +963,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 		"clicked",
 		G_CALLBACK (cb_dialog_formula_guru_cancel_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_FORMULA_GURU);
 
@@ -1004,7 +1004,7 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 
 	g_return_if_fail (wbcg != NULL);
 
-	dialog = gnumeric_dialog_raise_if_exists (wbcg, FORMULA_GURU_KEY);
+	dialog = gnm_dialog_raise_if_exists (wbcg, FORMULA_GURU_KEY);
 
 	if (dialog) {
 		/* We already exist */
@@ -1095,7 +1095,7 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 		return;
 	}
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       FORMULA_GURU_KEY);
 
 	gtk_widget_show_all (gtk_dialog_get_content_area (GTK_DIALOG (state->dialog)));

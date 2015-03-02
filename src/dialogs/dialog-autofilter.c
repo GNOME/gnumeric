@@ -331,7 +331,7 @@ init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 
 	w = go_gtk_builder_get_widget (state->gui, val_widget);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog), w);
+	gnm_editable_enters (GTK_WINDOW (state->dialog), w);
 	if (v != NULL)
 		gtk_entry_set_text (GTK_ENTRY (w), content ? content : str);
 
@@ -368,7 +368,7 @@ dialog_auto_filter_expression (WBCGtk *wbcg,
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists
+	if (gnm_dialog_raise_if_exists
 	    (wbcg, DIALOG_KEY_EXPRESSION))
 		return;
 	gui = gnm_gtk_builder_load ("autofilter-expression.ui",
@@ -431,7 +431,7 @@ dialog_auto_filter_expression (WBCGtk *wbcg,
 		G_CALLBACK (cb_autofilter_cancel), state);
 
 	/* a candidate for merging into attach guru */
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_AUTOFILTER_CUSTOM);
 
@@ -443,7 +443,7 @@ dialog_auto_filter_expression (WBCGtk *wbcg,
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_autofilter_destroy);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       DIALOG_KEY_EXPRESSION);
 	gtk_widget_show (state->dialog);
 }
@@ -469,7 +469,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("autofilter-top10.ui",
 				   NULL, GO_CMD_CONTEXT (wbcg));
@@ -561,7 +561,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 		G_CALLBACK (cb_autofilter_cancel), state);
 
 	/* a candidate for merging into attach guru */
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_AUTOFILTER_TOP_TEN);
 
@@ -573,7 +573,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_autofilter_destroy);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 }

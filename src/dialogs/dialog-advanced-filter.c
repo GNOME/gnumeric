@@ -199,7 +199,7 @@ dialog_advanced_filter (WBCGtk *wbcg)
 	wbc = GNM_WBC (wbcg);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, ADVANCED_FILTER_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, ADVANCED_FILTER_KEY))
 		return;
 
 	state = g_new (AdvancedFilterState, 1);

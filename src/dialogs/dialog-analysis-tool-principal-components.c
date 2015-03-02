@@ -161,7 +161,7 @@ dialog_principal_components_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, PRINCIPAL_COMPONENTS_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, PRINCIPAL_COMPONENTS_KEY))
 		return 0;
 
 	state = g_new0 (GenericToolState, 1);

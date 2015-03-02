@@ -311,7 +311,7 @@ attr_dialog_impl (AttrState *state)
 			  "clicked",
 			  G_CALLBACK (cb_attr_dialog_dialog_close), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_WORKBOOK_ATTRIBUTE);
 
@@ -319,7 +319,7 @@ attr_dialog_impl (AttrState *state)
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", state, (GDestroyNotify) cb_attr_dialog_dialog_destroy);
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       WORKBOOK_ATTRIBUTE_KEY);
 	gtk_widget_show (state->dialog);
 }
@@ -332,7 +332,7 @@ dialog_workbook_attr (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, WORKBOOK_ATTRIBUTE_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, WORKBOOK_ATTRIBUTE_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("workbook-attr.ui", NULL, GO_CMD_CONTEXT (wbcg));

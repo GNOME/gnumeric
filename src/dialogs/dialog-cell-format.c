@@ -652,7 +652,7 @@ fmt_dialog_init_align_page (FormatState *state)
 			  G_CALLBACK (cb_indent_changed), state);
 
 	/* Catch <return> in the spin box */
-	gnumeric_editable_enters (
+	gnm_editable_enters (
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (w));
 
@@ -1616,7 +1616,7 @@ validation_rebuild_validation (FormatState *state)
 		ValidationStyle style = gtk_combo_box_get_active (state->validation.error.action);
 		ValidationOp    op    = gtk_combo_box_get_active (state->validation.op);
 		char *title = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.title), 0, -1);
-		char *msg   = gnumeric_textview_get_text (state->validation.error.msg);
+		char *msg   = gnm_textview_get_text (state->validation.error.msg);
 		GnmExprTop const *texpr0 =
 			validation_entry_to_expr (state->sheet,
 						  state->validation.expr0.entry);
@@ -1801,7 +1801,7 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 	gtk_grid_attach (state->validation.criteria_grid,
 		GTK_WIDGET (entry->entry), 1, 3+i, 3, 1);
 	gtk_widget_show (GTK_WIDGET (entry->entry));
-	gnumeric_editable_enters (
+	gnm_editable_enters (
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (entry->entry));
 	gnm_expr_entry_set_flags (entry->entry, GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
@@ -1890,7 +1890,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 	state->validation.error.msg          = GTK_TEXT_VIEW   (go_gtk_builder_get_widget (state->gui, "validation_error_msg"));
 	state->validation.error.image        = GTK_IMAGE       (go_gtk_builder_get_widget (state->gui, "validation_error_image"));
 
-	gnumeric_editable_enters (
+	gnm_editable_enters (
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (state->validation.error.title));
 
@@ -1933,7 +1933,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 		gtk_entry_set_text (GTK_ENTRY (state->validation.error.title),
 			(v->title != NULL) ? v->title->str : "");
 		if (v->msg != NULL)
-			gnumeric_textview_set_text (GTK_TEXT_VIEW (state->validation.error.msg),
+			gnm_textview_set_text (GTK_TEXT_VIEW (state->validation.error.msg),
 				v->msg->str);
 		gtk_toggle_button_set_active (state->validation.allow_blank,  v->allow_blank);
 		gtk_toggle_button_set_active (state->validation.use_dropdown, v->use_dropdown);
@@ -1956,7 +1956,7 @@ static void
 input_msg_rebuild_input_msg (FormatState *state)
 {
 	GnmInputMsg *im;
-	char *msg = gnumeric_textview_get_text (state->input_msg.msg);
+	char *msg = gnm_textview_get_text (state->input_msg.msg);
 	char const *title = gtk_entry_get_text (state->input_msg.title);
 
 	im = gnm_input_msg_new	(msg, title);
@@ -2011,12 +2011,12 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 	if (im) {
 		gtk_entry_set_text (state->input_msg.title,
 				    gnm_input_msg_get_title (im));
-		gnumeric_textview_set_text (state->input_msg.msg,
+		gnm_textview_set_text (state->input_msg.msg,
 					    gnm_input_msg_get_msg (im));
 	}
 	gtk_toggle_button_set_active (state->input_msg.flag, im != NULL);
 
-	gnumeric_editable_enters (
+	gnm_editable_enters (
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (state->input_msg.title));
 
@@ -2416,7 +2416,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 
 	draw_border_preview (state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_CELL_FORMAT);
 
@@ -2473,7 +2473,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 		}
 
 
-	gnumeric_restore_window_geometry (GTK_WINDOW (state->dialog),
+	gnm_restore_window_geometry (GTK_WINDOW (state->dialog),
 					  CELL_FORMAT_KEY);
 }
 

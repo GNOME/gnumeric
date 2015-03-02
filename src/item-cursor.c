@@ -810,7 +810,7 @@ item_cursor_do_action (GnmItemCursor *ic, ActionType action)
 }
 
 static void
-context_menu_hander (GnumericPopupMenuElement const *element,
+context_menu_hander (GnmPopupMenuElement const *element,
 		     gpointer ic)
 {
 	g_return_if_fail (element != NULL);
@@ -820,7 +820,7 @@ context_menu_hander (GnumericPopupMenuElement const *element,
 static void
 item_cursor_popup_menu (GnmItemCursor *ic, GdkEvent *event)
 {
-	static GnumericPopupMenuElement const popup_elements[] = {
+	static GnmPopupMenuElement const popup_elements[] = {
 		{ N_("_Move"),		NULL,
 		    0, 0, ACTION_MOVE_CELLS },
 
@@ -851,7 +851,7 @@ item_cursor_popup_menu (GnmItemCursor *ic, GdkEvent *event)
 		{ NULL, NULL, 0, 0, 0 }
 	};
 
-	gnumeric_create_popup_menu (popup_elements,
+	gnm_create_popup_menu (popup_elements,
 				    &context_menu_hander, ic,
 				    0, 0, event);
 }
@@ -889,10 +889,10 @@ item_cursor_tip_setlabel (GnmItemCursor *ic, char const *text)
 	if (ic->tip == NULL) {
 		GtkWidget *cw = GTK_WIDGET (GOC_ITEM (ic)->canvas);
 		int x, y;
-		ic->tip = gnumeric_create_tooltip (cw);
+		ic->tip = gnm_create_tooltip (cw);
 
 		gnm_canvas_get_position (GOC_CANVAS (cw), &x, &y, ic->last_x, ic->last_y);
-		gnumeric_position_tooltip (ic->tip, x, y, TRUE);
+		gnm_position_tooltip (ic->tip, x, y, TRUE);
 		gtk_widget_show_all (gtk_widget_get_toplevel (ic->tip));
 	}
 

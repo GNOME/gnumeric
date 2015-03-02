@@ -398,7 +398,7 @@ gtv_get_property (GObject      *object,
 	case PROP_TEXT:
 		g_value_take_string
 			(value,
-			 gnumeric_textbuffer_get_text (gtv->buffer));
+			 gnm_textbuffer_get_text (gtv->buffer));
 		break;
 	case PROP_WRAP:
 		g_value_set_enum (value,

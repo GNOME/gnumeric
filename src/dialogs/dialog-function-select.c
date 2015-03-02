@@ -320,7 +320,7 @@ static void
 cb_dialog_function_select_destroy (FunctionSelectState  *state)
 {
 	if (state->formula_guru_key &&
-	    gnumeric_dialog_raise_if_exists (state->wbcg, state->formula_guru_key)) {
+	    gnm_dialog_raise_if_exists (state->wbcg, state->formula_guru_key)) {
 		/* The formula guru is waiting for us.*/
 		state->formula_guru_key = NULL;
 		dialog_formula_guru (state->wbcg, NULL);
@@ -1327,7 +1327,7 @@ dialog_function_select_init (FunctionSelectState *state)
 		 state->wbcg,
 		 GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_FUNCTION_SELECT);
 	g_object_set_data_full
@@ -1373,7 +1373,7 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, key))
+	if (gnm_dialog_raise_if_exists (wbcg, key))
 		return;
 	gui = gnm_gtk_builder_load ("function-select.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
@@ -1406,7 +1406,7 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 		state->paste.prefix = NULL;
 
 	dialog_function_select_init (state);
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       key);
 
 	gtk_widget_show (state->dialog);

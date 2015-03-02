@@ -1770,7 +1770,7 @@ wbcg_show_save_dialog (WBCGtk *wbcg, Workbook *wb)
 		msg = g_strdup (_("Save changes to workbook before closing?"));
 	}
 
-	d = gnumeric_message_dialog_create (wbcg_toplevel (wbcg),
+	d = gnm_message_dialog_create (wbcg_toplevel (wbcg),
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_WARNING,
 					 msg,
@@ -3649,7 +3649,7 @@ cb_font_name_vaction_clicked (GtkAction *act, WBCGtk *wbcg)
 	GtkFontChooser *font_dialog;
 	const char *key = "font-name-dialog";
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, key))
+	if (gnm_dialog_raise_if_exists (wbcg, key))
 		return;
 
 	font_dialog = g_object_new (GO_TYPE_FONT_SEL_DIALOG, NULL);
@@ -3661,7 +3661,7 @@ cb_font_name_vaction_clicked (GtkAction *act, WBCGtk *wbcg)
 
 	gtk_window_present (GTK_WINDOW (font_dialog));
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (font_dialog), key);
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (font_dialog), key);
 }
 
 
@@ -4898,7 +4898,7 @@ static void
 cb_new_from_template (GObject *action, WBCGtk *wbcg)
 {
 	const char *uri = g_object_get_data (action, "uri");
-	gui_file_template (wbcg, uri);
+	gnm_gui_file_template (wbcg, uri);
 }
 
 static void
@@ -5495,14 +5495,14 @@ wbcg_error_error (GOCmdContext *cc, GError *err)
 static void
 wbcg_error_error_info (GOCmdContext *cc, GOErrorInfo *error)
 {
-	gnumeric_go_error_info_dialog_show (
+	gnm_go_error_info_dialog_show (
 		wbcg_toplevel (WBC_GTK (cc)), error);
 }
 
 static void
 wbcg_error_error_info_list (GOCmdContext *cc, GSList *errs)
 {
-	gnumeric_go_error_info_list_dialog_show
+	gnm_go_error_info_list_dialog_show
 		(wbcg_toplevel (WBC_GTK (cc)), errs);
 }
 

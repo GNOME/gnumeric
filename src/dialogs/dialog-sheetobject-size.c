@@ -311,7 +311,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, SO_SIZE_DIALOG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, SO_SIZE_DIALOG_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("sheetobject-size.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
@@ -418,7 +418,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 		"clicked",
 		G_CALLBACK (cb_dialog_so_size_cancel_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_SIZE);
 
@@ -430,7 +430,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_dialog_so_size_destroy);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       SO_SIZE_DIALOG_KEY);
 	dialog_so_size_button_sensitivity (state);
 	gtk_widget_show (state->dialog);

@@ -106,12 +106,12 @@ data_table_init (GnmDialogDataTable *state, WBCGtk *wbcg)
 
 	g_signal_connect (G_OBJECT (state->dialog), "response",
 		G_CALLBACK (cb_data_table_response), state);
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help"),
 		GNUMERIC_HELP_LINK_DATA_TABLE);
 
 	/* a candidate for merging into attach guru */
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 		DIALOG_DATA_TABLE_KEY);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 		GTK_WINDOW (state->dialog));
@@ -137,7 +137,7 @@ dialog_data_table (WBCGtk *wbcg)
 	g_return_if_fail (wbcg != NULL);
 
 	if (wbc_gtk_get_guru (wbcg) ||
-	    gnumeric_dialog_raise_if_exists (wbcg, DIALOG_DATA_TABLE_KEY))
+	    gnm_dialog_raise_if_exists (wbcg, DIALOG_DATA_TABLE_KEY))
 		return;
 
 	sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));

@@ -419,7 +419,7 @@ dialog_goto_init (GotoState *state)
 		G_CALLBACK (cb_dialog_goto_go_clicked), state);
 	gtk_window_set_default (GTK_WINDOW (state->dialog), state->go_button);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_GOTO_CELL);
 
@@ -441,7 +441,7 @@ dialog_goto_cell (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, GOTO_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, GOTO_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("goto.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
@@ -460,7 +460,7 @@ dialog_goto_cell (WBCGtk *wbcg)
 		return;
 	}
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       GOTO_KEY);
 
 	gtk_widget_show_all (state->dialog);

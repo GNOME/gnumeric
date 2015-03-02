@@ -161,7 +161,7 @@ dialog_sheet_resize (WBCGtk *wbcg)
 	ResizeState *state;
 	int slider_width;
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, RESIZE_DIALOG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, RESIZE_DIALOG_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("sheet-resize.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
@@ -215,7 +215,7 @@ dialog_sheet_resize (WBCGtk *wbcg)
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       RESIZE_DIALOG_KEY);
 
 	g_object_set_data_full (G_OBJECT (state->dialog),

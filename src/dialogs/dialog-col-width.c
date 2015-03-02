@@ -244,7 +244,7 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, COL_WIDTH_DIALOG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, COL_WIDTH_DIALOG_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("col-width.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
@@ -286,7 +286,7 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 		"clicked",
 		G_CALLBACK (cb_dialog_col_width_cancel_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_COL_WIDTH);
 
@@ -300,7 +300,7 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state, (GDestroyNotify)g_free);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       COL_WIDTH_DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 	g_object_unref (gui);

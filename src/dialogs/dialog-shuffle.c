@@ -142,7 +142,7 @@ dialog_shuffle (WBCGtk *wbcg)
 	wbc = GNM_WBC (wbcg);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SHUFFLE_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, SHUFFLE_KEY))
 		return;
 
 	state = g_new (ShuffleState, 1);

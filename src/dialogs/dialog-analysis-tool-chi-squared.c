@@ -207,7 +207,7 @@ dialog_chi_square_tool (WBCGtk *wbcg, Sheet *sheet, gboolean independence)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, CHI_SQUARED_I_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, CHI_SQUARED_I_KEY))
 		return 0;
 
 	state = g_new0 (ChiSquaredIToolState, 1);

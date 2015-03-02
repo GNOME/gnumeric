@@ -136,7 +136,7 @@ dialog_insert_cells (WBCGtk *wbcg)
 		return;
 	}
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, INSERT_CELL_DIALOG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, INSERT_CELL_DIALOG_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("insert-cells.ui", NULL, GO_CMD_CONTEXT (wbcg));
@@ -170,7 +170,7 @@ dialog_insert_cells (WBCGtk *wbcg)
 		"clicked",
 		G_CALLBACK (cb_insert_cell_cancel_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_INSERT_CELS);
 	gtk_toggle_button_set_active
@@ -183,7 +183,7 @@ dialog_insert_cells (WBCGtk *wbcg)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_insert_cell_destroy);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       INSERT_CELL_DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 }

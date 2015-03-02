@@ -904,13 +904,13 @@ cb_item_move (SheetManager *state, gnm_iter_search_t iter_search)
 static void
 cb_up (G_GNUC_UNUSED GtkWidget *w, SheetManager *state)
 {
-	cb_item_move (state, gnm_tree_model_iter_prev);
+	cb_item_move (state, gtk_tree_model_iter_previous);
 }
 
 static void
 cb_down (G_GNUC_UNUSED GtkWidget *w, SheetManager *state)
 {
-	cb_item_move (state, gnm_tree_model_iter_next);
+	cb_item_move (state, gtk_tree_model_iter_next);
 }
 
 static void
@@ -1540,7 +1540,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 
 	cb_adv_check_toggled (NULL, state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_SHEET_MANAGER);
 
@@ -1553,7 +1553,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 		"state", state, (GDestroyNotify) cb_sheet_order_destroy);
 	g_signal_connect (G_OBJECT (state->dialog), "destroy", G_CALLBACK (destroy_cb), NULL);
 
-	gnumeric_restore_window_geometry (GTK_WINDOW (state->dialog),
+	gnm_restore_window_geometry (GTK_WINDOW (state->dialog),
 					  SHEET_ORDER_KEY);
 
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),

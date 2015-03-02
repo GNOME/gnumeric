@@ -628,7 +628,7 @@ cb_sort_selection_changed (SortFlowState *state)
 	test = iter;
 	gtk_widget_set_sensitive
 		(state->up_button,
-		 gnm_tree_model_iter_prev (GTK_TREE_MODEL (state->model),
+		 gtk_tree_model_iter_previous (GTK_TREE_MODEL (state->model),
 					   &test));
 
 	test = iter;
@@ -682,7 +682,7 @@ move_cb (SortFlowState *state,
 static void
 cb_up (SortFlowState *state)
 {
-	move_cb (state, gnm_tree_model_iter_prev);
+	move_cb (state, gtk_tree_model_iter_previous);
 }
 
 static void
@@ -704,7 +704,7 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 	ok = gtk_tree_model_iter_next (GTK_TREE_MODEL (state->model), &iter2);
 	if (!ok) {
 		iter2 = iter;
-		ok = gnm_tree_model_iter_prev (GTK_TREE_MODEL (state->model), &iter2);
+		ok = gtk_tree_model_iter_previous (GTK_TREE_MODEL (state->model), &iter2);
 	}
 
 	if (ok)
@@ -874,7 +874,7 @@ cb_treeview_keypress (G_GNUC_UNUSED GtkWidget *w, GdkEventKey *event,
 		}
 
 		if (gtk_tree_selection_get_selected (state->selection, NULL, &iter) &&
-		    gnm_tree_model_iter_prev (GTK_TREE_MODEL (state->model), &iter))
+		    gtk_tree_model_iter_previous (GTK_TREE_MODEL (state->model), &iter))
 			gtk_tree_selection_select_iter (state->selection,
 							&iter);
 		return TRUE;
@@ -962,7 +962,7 @@ dialog_init (SortFlowState *state)
 	gtk_widget_set_hexpand (GTK_WIDGET (state->range_entry), TRUE);
 	gtk_grid_attach (grid, GTK_WIDGET (state->range_entry),
 			  1, 1, 2, 1);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->range_entry));
 	gnm_expr_entry_set_update_policy (state->range_entry, GNM_UPDATE_DISCONTINUOUS);
 	gtk_widget_show (GTK_WIDGET (state->range_entry));
@@ -985,7 +985,7 @@ dialog_init (SortFlowState *state)
 	gtk_widget_set_hexpand (GTK_WIDGET (state->add_entry), TRUE);
 	gtk_grid_attach (grid, GTK_WIDGET (state->add_entry),
 			  0, 5, 1, 1);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->add_entry));
 	gtk_widget_show (GTK_WIDGET (state->add_entry));
 
@@ -1112,7 +1112,7 @@ dialog_init (SortFlowState *state)
 	gtk_button_set_alignment (GTK_BUTTON (state->add_button), 0., .5);
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_button), 0., .5);
 	gtk_button_set_alignment (GTK_BUTTON (state->clear_button), 0., .5);
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_CELL_SORT);
 
@@ -1151,7 +1151,7 @@ dialog_cell_sort (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, CELL_SORT_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, CELL_SORT_KEY))
 		return;
 
 	gui = gnm_gtk_builder_load ("cell-sort.ui", NULL, GO_CMD_CONTEXT (wbcg));
@@ -1179,7 +1179,7 @@ dialog_cell_sort (WBCGtk *wbcg)
 						  GTK_ICON_SIZE_LARGE_TOOLBAR);
 	dialog_init (state);
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       CELL_SORT_KEY);
 
 	gtk_widget_show (state->dialog);

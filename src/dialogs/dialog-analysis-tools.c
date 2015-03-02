@@ -352,7 +352,7 @@ dialog_tool_init_buttons (GenericToolState *state,
 				  G_CALLBACK (ok_function), state);
 	state->help_button = go_gtk_builder_get_widget (state->gui, "helpbutton");
 	if (state->help_button != NULL )
-		gnumeric_init_help_button (state->help_button,
+		gnm_init_help_button (state->help_button,
 					   state->help_link);
 }
 
@@ -431,7 +431,7 @@ dialog_tool_init (GenericToolState *state,
 		g_signal_connect_after (G_OBJECT (state->input_entry),
 					"changed",
 					G_CALLBACK (sensitivity_cb), state);
-		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+		gnm_editable_enters (GTK_WINDOW (state->dialog),
 					  GTK_WIDGET (state->input_entry));
 		gtk_label_set_mnemonic_widget (GTK_LABEL (widget),
 					       GTK_WIDGET (state->input_entry));
@@ -469,7 +469,7 @@ dialog_tool_init (GenericToolState *state,
 		g_signal_connect_after (G_OBJECT (state->input_entry_2),
 					"changed",
 					G_CALLBACK (sensitivity_cb), state);
-		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+		gnm_editable_enters (GTK_WINDOW (state->dialog),
 					  GTK_WIDGET (state->input_entry_2));
 		gtk_label_set_mnemonic_widget (GTK_LABEL (widget),
 					       GTK_WIDGET (state->input_entry_2));
@@ -484,7 +484,7 @@ dialog_tool_init (GenericToolState *state,
 
 	dialog_tool_init_outputs (state, sensitivity_cb);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), key);
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), key);
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
 					   state->wbcg,
@@ -541,10 +541,10 @@ tool_setup_update (GenericToolState* state, char const *name, GCallback cb,
 	GtkWidget *w = go_gtk_builder_get_widget (state->gui, name);
 	if (GTK_IS_SPIN_BUTTON (w)) {
 		g_signal_connect_after (w, "value-changed", cb, closure);
-		gnumeric_editable_enters (GTK_WINDOW (state->dialog), w);
+		gnm_editable_enters (GTK_WINDOW (state->dialog), w);
 	} else if (GTK_IS_ENTRY (w)) {
 		g_signal_connect_after (w, "changed", cb, closure);
-		gnumeric_editable_enters (GTK_WINDOW (state->dialog), w);
+		gnm_editable_enters (GTK_WINDOW (state->dialog), w);
 	} else if (GTK_IS_TOGGLE_BUTTON (w))
 		g_signal_connect_after (w, "toggled", cb, closure);
 	else
@@ -703,7 +703,7 @@ dialog_correlation_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, CORRELATION_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, CORRELATION_KEY))
 		return 0;
 
 	state = g_new0 (GenericToolState, 1);
@@ -823,7 +823,7 @@ dialog_covariance_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, COVARIANCE_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, COVARIANCE_KEY))
 		return 0;
 
 	state = g_new0 (GenericToolState, 1);
@@ -915,7 +915,7 @@ dialog_ranking_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, RANK_PERCENTILE_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, RANK_PERCENTILE_KEY))
 		return 0;
 
 	state = g_new0 (GenericToolState, 1);
@@ -1008,7 +1008,7 @@ dialog_fourier_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, FOURIER_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, FOURIER_KEY))
 		return 0;
 
 	state = g_new0 (GenericToolState, 1);
@@ -1220,7 +1220,7 @@ dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, DESCRIPTIVE_STATS_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, DESCRIPTIVE_STATS_KEY))
 		return 0;
 
 	state = g_new0 (DescriptiveStatState, 1);
@@ -1278,11 +1278,11 @@ dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->s_entry),
 		"changed",
 		G_CALLBACK (desc_stat_tool_update_sensitivity_cb), state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->c_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->l_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->s_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
@@ -1600,7 +1600,7 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	dialog = gnumeric_dialog_raise_if_exists (wbcg, TTEST_KEY);
+	dialog = gnm_dialog_raise_if_exists (wbcg, TTEST_KEY);
 	if (dialog) {
 		state = g_object_get_data (G_OBJECT (dialog), "state");
                 state->invocation = test;
@@ -1664,13 +1664,13 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 	g_signal_connect (G_OBJECT (state->base.dialog),
 		"realize",
 		G_CALLBACK (dialog_ttest_realized), state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->var1_variance));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->var2_variance));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->mean_diff_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
@@ -1796,7 +1796,7 @@ dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, FTEST_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, FTEST_KEY))
 		return 0;
 
 	state = g_new0 (FTestToolState, 1);
@@ -1816,7 +1816,7 @@ dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	state->alpha_entry = go_gtk_builder_get_widget (state->base.gui, "one_alpha");
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
 	g_signal_connect_after (G_OBJECT (state->alpha_entry),
 		"changed",
@@ -2053,7 +2053,7 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SAMPLING_KEY)) {
+	if (gnm_dialog_raise_if_exists (wbcg, SAMPLING_KEY)) {
 		return 0;
 	}
 
@@ -2108,11 +2108,11 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->number_entry),
 		"changed",
 		G_CALLBACK (sampling_tool_update_sensitivity_cb), state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->period_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->random_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->number_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
@@ -2416,7 +2416,7 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, REGRESSION_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, REGRESSION_KEY))
 		return 0;
 
 	state = g_new0 (RegressionToolState, 1);
@@ -2439,7 +2439,7 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->confidence_entry),
 		"changed",
 		G_CALLBACK (regression_tool_update_sensitivity_cb), state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->confidence_entry));
 
 	state->simple_linear_regression_radio
@@ -2726,7 +2726,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, EXP_SMOOTHING_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, EXP_SMOOTHING_KEY))
 		return 0;
 
 	state = g_new0 (ExpSmoothToolState, 1);
@@ -2808,11 +2808,11 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 				"toggled",
 				G_CALLBACK (exp_smoothing_tes_cb), state);
 
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->damping_fact_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->g_damping_fact_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->s_damping_fact_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
@@ -3100,7 +3100,7 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, AVERAGE_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, AVERAGE_KEY))
 		return 0;
 
 	state = g_new0 (AverageToolState, 1);
@@ -3178,7 +3178,7 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 		"changed",
 		G_CALLBACK (average_tool_interval_cb), state);
 
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->interval_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
@@ -3372,7 +3372,7 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, HISTOGRAM_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, HISTOGRAM_KEY))
 		return 0;
 
 	state = g_new0 (HistogramToolState, 1);
@@ -3552,7 +3552,7 @@ dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, ANOVA_SINGLE_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, ANOVA_SINGLE_KEY))
 		return 0;
 
 	state = g_new0 (AnovaSingleToolState, 1);
@@ -3578,7 +3578,7 @@ dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->alpha_entry),
 		"changed",
 		G_CALLBACK (anova_single_tool_update_sensitivity_cb), state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
@@ -3784,7 +3784,7 @@ dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, ANOVA_TWO_FACTOR_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, ANOVA_TWO_FACTOR_KEY))
 		return 0;
 
 	state = g_new0 (AnovaTwoFactorToolState, 1);
@@ -3819,9 +3819,9 @@ dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 		"changed",
 		G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb),
 				state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->replication_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);

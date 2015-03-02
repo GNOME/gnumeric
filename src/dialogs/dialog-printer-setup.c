@@ -1787,7 +1787,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_signal_connect_swapped (G_OBJECT (right_buffer),
 		"modified-changed", G_CALLBACK (cb_hf_changed), gui);
 
-	gnumeric_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
+	gnm_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
 		header  ? GNUMERIC_HELP_LINK_PRINTER_SETUP_HEADER_CUSTOMIZATION
 			: GNUMERIC_HELP_LINK_PRINTER_SETUP_FOOTER_CUSTOMIZATION);
 
@@ -1896,7 +1896,7 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 	g_object_set_data_full (G_OBJECT (dialog),
 		"hfdtstate", hf_dt_state, (GDestroyNotify) g_free);
 
-	gnumeric_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
+	gnm_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL);
 
 	grid = go_gtk_builder_get_widget (gui, "layout-grid");
@@ -2275,11 +2275,11 @@ do_setup_page_area (PrinterSetupState *state)
 	gtk_widget_show (GTK_WIDGET (state->left_entry));
 
 
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->area_entry)));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->top_entry)));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->left_entry)));
 
 	gnm_expr_entry_load_from_text (state->top_entry,
@@ -2601,7 +2601,7 @@ do_setup_scale (PrinterSetupState *state)
 	scale_percent_spin = go_gtk_builder_get_widget (gui, "scale-percent-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_percent_spin), pi->scaling.percentage.x);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_percent_spin));
 
 	scale_width_spin = go_gtk_builder_get_widget (gui, "scale-h-spin");
@@ -2610,7 +2610,7 @@ do_setup_scale (PrinterSetupState *state)
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "fit-h-check")),
 		 pi->scaling.dim.cols > 0);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_width_spin));
 
 	scale_height_spin = go_gtk_builder_get_widget (gui, "scale-v-spin");
@@ -2619,7 +2619,7 @@ do_setup_scale (PrinterSetupState *state)
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "fit-v-check")),
 		 pi->scaling.dim.rows > 0);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_height_spin));
 }
 
@@ -3016,7 +3016,7 @@ dialog_printer_setup (WBCGtk *wbcg, Sheet *sheet)
 		return;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, PRINTER_SETUP_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, PRINTER_SETUP_KEY))
 		return;
 
 	state = printer_setup_state_new (wbcg, sheet);
@@ -3027,10 +3027,10 @@ dialog_printer_setup (WBCGtk *wbcg, Sheet *sheet)
 					   state->wbcg,
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL);
-	gnumeric_keyed_dialog (
+	gnm_keyed_dialog (
 		wbcg, GTK_WINDOW (state->dialog), PRINTER_SETUP_KEY);
 	gtk_widget_show (state->dialog);
 }

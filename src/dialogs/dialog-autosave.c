@@ -122,7 +122,7 @@ dialog_autosave (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, AUTOSAVE_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, AUTOSAVE_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("autosave.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
@@ -155,7 +155,7 @@ dialog_autosave (WBCGtk *wbcg)
 	float_to_entry (GTK_ENTRY (state->minutes_entry),
 			secs / 60);
 
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  state->minutes_entry);
 
 	g_signal_connect (G_OBJECT (state->autosave_on_off),
@@ -173,7 +173,7 @@ dialog_autosave (WBCGtk *wbcg)
 
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)g_free);
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "button3"),
 		GNUMERIC_HELP_LINK_AUTOSAVE);
 
@@ -183,7 +183,7 @@ dialog_autosave (WBCGtk *wbcg)
 				      prompt);
 
 	autosave_set_sensitivity (NULL, state);
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       AUTOSAVE_KEY);
 	gtk_widget_show (state->dialog);
 

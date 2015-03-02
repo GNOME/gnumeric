@@ -190,7 +190,7 @@ gnm_sheet_slicer_class_init (GnmSheetSlicerClass *klass)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_LAYOUT,
-		 g_param_spec_enum ("layout", NULL, NULL, gnm_sheet_slicer_layout_get_type (), GSS_Layout_XL_outline,
+		 g_param_spec_enum ("layout", NULL, NULL, gnm_sheet_slicer_layout_get_type (), GSS_LAYOUT_XL_OUTLINE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	parent_klass = g_type_class_peek_parent (klass);
 }
@@ -386,7 +386,7 @@ gnm_sheet_slicer_regenerate (GnmSheetSlicer *gss)
 GnmSheetSlicerLayout
 gnm_sheet_slicer_get_layout (GnmSheetSlicer const *gss)
 {
-	g_return_val_if_fail (GNM_IS_SHEET_SLICER (gss), GSS_Layout_XL_outline);
+	g_return_val_if_fail (GNM_IS_SHEET_SLICER (gss), GSS_LAYOUT_XL_OUTLINE);
 	return gss->layout;
 }
 
@@ -403,9 +403,9 @@ gnm_sheet_slicer_layout_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue const values[] = {
-			{ GSS_Layout_XL_outline, "GSS_Layout_XL_outline", "xl-outline" },
-			{ GSS_Layout_XL_compact, "GSS_Layout_XL_compact", "xl-compact" },
-			{ GSS_Layout_XL_tabular, "GSS_Layout_XL_tabular", "xl-tabular" },
+			{ GSS_LAYOUT_XL_OUTLINE, "GSS_LAYOUT_XL_OUTLINE", "xl-outline" },
+			{ GSS_LAYOUT_XL_COMPACT, "GSS_LAYOUT_XL_COMPACT", "xl-compact" },
+			{ GSS_LAYOUT_XL_TABULAR, "GSS_LAYOUT_XL_TABULAR", "xl-tabular" },
 			{ 0, NULL, NULL }
 		};
 		etype = g_enum_register_static ("GnmSheetSlicerLayout", values);

@@ -176,7 +176,7 @@ dialog_so_styled (WBCGtk *wbcg, GObject *so, GOStyle *default_style,
 	GOStyle *style;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, GNM_SO_STYLED_KEY)) {
+	if (gnm_dialog_raise_if_exists (wbcg, GNM_SO_STYLED_KEY)) {
 		g_object_unref (default_style);
 		return;
 	}
@@ -200,7 +200,7 @@ dialog_so_styled (WBCGtk *wbcg, GObject *so, GOStyle *default_style,
 
 	help = gtk_dialog_add_button (GTK_DIALOG (dialog),
 		GTK_STOCK_HELP,		GTK_RESPONSE_HELP);
-	gnumeric_init_help_button (help, "sect-graphics-drawings");
+	gnm_init_help_button (help, "sect-graphics-drawings");
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 		GNM_STOCK_CANCEL,	GTK_RESPONSE_CANCEL,
@@ -252,7 +252,7 @@ dialog_so_styled (WBCGtk *wbcg, GObject *so, GOStyle *default_style,
 
 	g_signal_connect (G_OBJECT (dialog), "response",
 		G_CALLBACK (cb_dialog_so_styled_response), state);
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (dialog),
 		GNM_SO_STYLED_KEY);
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", state, (GDestroyNotify) dialog_so_styled_free);

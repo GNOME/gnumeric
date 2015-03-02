@@ -74,7 +74,7 @@ dialog_sheet_rename (WBCGtk *wbcg, Sheet *sheet)
 	GtkBuilder *gui;
 	RenameState *state;
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, RENAME_DIALOG_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, RENAME_DIALOG_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("sheet-rename.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
@@ -96,7 +96,7 @@ dialog_sheet_rename (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect (state->new_name,
 			  "changed", G_CALLBACK (cb_name_changed),
 			  state);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog), state->new_name);
+	gnm_editable_enters (GTK_WINDOW (state->dialog), state->new_name);
 
 	state->ok_button = go_gtk_builder_get_widget (gui, "ok_button");
 	g_signal_connect_swapped (G_OBJECT (state->ok_button),
@@ -111,7 +111,7 @@ dialog_sheet_rename (WBCGtk *wbcg, Sheet *sheet)
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       RENAME_DIALOG_KEY);
 
 	g_object_set_data_full (G_OBJECT (state->dialog),

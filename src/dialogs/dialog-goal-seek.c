@@ -529,7 +529,7 @@ dialog_init (GoalSeekState *state)
 		"clicked",
 		G_CALLBACK (cb_dialog_apply_clicked), state);
 
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_GOAL_SEEK);
 
@@ -555,7 +555,7 @@ dialog_init (GoalSeekState *state)
 	gtk_grid_attach (grid, GTK_WIDGET (state->set_cell_entry),
 			  1, 0, 1, 1);
 	gtk_widget_set_hexpand (GTK_WIDGET (state->set_cell_entry), TRUE);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->set_cell_entry));
 	dialog_preload_selection (state, state->set_cell_entry);
 	gtk_widget_show (GTK_WIDGET (state->set_cell_entry));
@@ -568,7 +568,7 @@ dialog_init (GoalSeekState *state)
 	gtk_grid_attach (grid, GTK_WIDGET (state->change_cell_entry),
 			  1, 2, 1, 1);
 	gtk_widget_set_hexpand (GTK_WIDGET (state->change_cell_entry), TRUE);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->change_cell_entry));
 	dialog_preload_selection (state, state->change_cell_entry);
 	gtk_widget_show (GTK_WIDGET (state->change_cell_entry));
@@ -684,7 +684,7 @@ dialog_goal_seek (WBCGtk *wbcg, Sheet *sheet)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, GOALSEEK_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, GOALSEEK_KEY))
 		return;
 	gui = gnm_gtk_builder_load ("goalseek.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
@@ -705,7 +705,7 @@ dialog_goal_seek (WBCGtk *wbcg, Sheet *sheet)
 		return;
 	}
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       GOALSEEK_KEY);
 
 	gtk_widget_show (state->dialog);

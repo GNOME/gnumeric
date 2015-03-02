@@ -248,8 +248,8 @@ stf_export_dialog_format_page_init (TextExportState *state)
 		gtk_combo_box_set_active (state->format.transliterate, i);
 	}
 
-	gnumeric_editable_enters (state->window, state->format.custom);
-	gnumeric_editable_enters (state->window,
+	gnm_editable_enters (state->window, state->format.custom);
+	gnm_editable_enters (state->window,
 			gtk_bin_get_child (GTK_BIN (state->format.quotechar)));
 
 	grid = go_gtk_builder_get_widget (state->gui, "format-grid");
@@ -490,13 +490,13 @@ move_element (TextExportState *state, gnm_iter_search_t iter_search)
 static void
 cb_sheet_up   (TextExportState *state)
 {
-	move_element (state, gnm_tree_model_iter_prev);
+	move_element (state, gtk_tree_model_iter_previous);
 }
 
 static void
 cb_sheet_down (TextExportState *state)
 {
-	move_element (state, gnm_tree_model_iter_next);
+	move_element (state, gtk_tree_model_iter_next);
 }
 
 static void

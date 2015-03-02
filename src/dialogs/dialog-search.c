@@ -535,7 +535,7 @@ dialog_search (WBCGtk *wbcg)
 	gtk_widget_set_hexpand (GTK_WIDGET (dd->gentry), TRUE);
 	gtk_grid_attach (grid, GTK_WIDGET (dd->gentry), 1, 0, 1, 1);
 	gtk_widget_grab_focus (GTK_WIDGET (dd->gentry));
-	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (dd->gentry));
+	gnm_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (dd->gentry));
 
 	dd->matches_table = make_matches_table (dd);
 
@@ -607,10 +607,10 @@ dialog_search (WBCGtk *wbcg)
 		"state", dd, (GDestroyNotify) free_state);
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
 		GNM_DIALOG_DESTROY_SHEET_REMOVED);
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SEARCH);
-	gnumeric_restore_window_geometry (GTK_WINDOW (dialog), SEARCH_KEY);
+	gnm_restore_window_geometry (GTK_WINDOW (dialog), SEARCH_KEY);
 
 	go_gtk_nonmodal_dialog (wbcg_toplevel (wbcg), GTK_WINDOW (dialog));
 	gtk_widget_show_all (GTK_WIDGET (dialog));

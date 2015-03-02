@@ -772,16 +772,16 @@ dialog_random_tool_init (RandomToolState *state)
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	gtk_widget_set_hexpand (state->par1_expr_entry, TRUE);
 	gtk_grid_attach (grid, state->par1_expr_entry, 1, 1, 1, 1);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->par1_expr_entry));
 
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->par1_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->par2_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->vars_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->count_entry));
 
 	g_signal_connect (G_OBJECT (state->base.dialog),
@@ -835,7 +835,7 @@ dialog_random_tool (WBCGtk *wbcg, Sheet *sheet)
 
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, RANDOM_KEY)) {
+	if (gnm_dialog_raise_if_exists (wbcg, RANDOM_KEY)) {
 		return 0;
 	}
 

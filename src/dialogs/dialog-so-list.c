@@ -129,12 +129,12 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 
 	g_signal_connect (G_OBJECT (state->dialog), "response",
 		G_CALLBACK (cb_so_list_response), state);
-	gnumeric_init_help_button (
+	gnm_init_help_button (
 		go_gtk_builder_get_widget (gui, "help"),
 		GNUMERIC_HELP_LINK_SO_LIST);
 
 	/* a candidate for merging into attach guru */
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 		DIALOG_SO_LIST_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, g_free);
@@ -155,7 +155,7 @@ dialog_so_list (WBCGtk *wbcg, GObject *so)
 	g_return_if_fail (wbcg != NULL);
 
 	if (wbc_gtk_get_guru (wbcg) ||
-	    gnumeric_dialog_raise_if_exists (wbcg, DIALOG_SO_LIST_KEY))
+	    gnm_dialog_raise_if_exists (wbcg, DIALOG_SO_LIST_KEY))
 		return;
 
 	state = g_new0 (GnmDialogSOList, 1);

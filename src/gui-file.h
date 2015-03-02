@@ -27,7 +27,7 @@ void     gui_wb_view_show   (WBCGtk *wbcg, WorkbookView *wbv);
 WorkbookView *gui_file_read (WBCGtk *wbcg, char const *file_name,
 			     GOFileOpener const *optional_format,
 			     gchar const *optional_encoding);
-gboolean gui_file_template  (WBCGtk *wbcg, char const *uri);
+gboolean gnm_gui_file_template  (WBCGtk *wbcg, char const *uri);
 
 G_END_DECLS
 

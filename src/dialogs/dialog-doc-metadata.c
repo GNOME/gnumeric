@@ -2395,7 +2395,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->store), ITEM_NAME, GTK_SORT_ASCENDING);
 
 	/* A candidate for merging into attach guru */
-	gnumeric_keyed_dialog (state->wbcg,
+	gnm_keyed_dialog (state->wbcg,
 			       GTK_WINDOW (state->dialog),
 			       DOC_METADATA_KEY);
 
@@ -2408,7 +2408,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 		state, (GDestroyNotify) dialog_doc_metadata_free);
 
 	/* Help and Close buttons */
-	gnumeric_init_help_button (GTK_WIDGET (state->help_button),
+	gnm_init_help_button (GTK_WIDGET (state->help_button),
 				   GNUMERIC_HELP_LINK_METADATA);
 
 	g_signal_connect_swapped (G_OBJECT (state->close_button),
@@ -2445,7 +2445,7 @@ dialog_doc_metadata_new (WBCGtk *wbcg, int page)
 		return;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, DOC_METADATA_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, DOC_METADATA_KEY))
 		return;
 
 	state = g_new0 (DialogDocMetaData, 1);

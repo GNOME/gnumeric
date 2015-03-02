@@ -214,7 +214,7 @@ dialog_one_mean_test_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 1;
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, ONE_MEAN_TEST_KEY))
+	if (gnm_dialog_raise_if_exists (wbcg, ONE_MEAN_TEST_KEY))
 		return 0;
 
 	state = g_new0 (OneeMeanTestToolState, 1);
