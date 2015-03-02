@@ -44,7 +44,7 @@ typedef struct _GnmFilter		GnmFilter;
 typedef struct _GnmFilterCondition	GnmFilterCondition;
 typedef struct _GnmFont			GnmFont;
 typedef struct _GnmFontMetrics		GnmFontMetrics;
-typedef struct _GnmFormatTemplate       GnmFormatTemplate; /* does not really belong here */
+typedef struct GnmFT_       GnmFT; /* does not really belong here */
 typedef struct _GnmFunc			GnmFunc;
 typedef struct _GnmFuncDescriptor	GnmFuncDescriptor;
 typedef struct _GnmFuncEvalInfo         GnmFuncEvalInfo;

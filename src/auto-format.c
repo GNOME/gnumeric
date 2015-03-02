@@ -242,7 +242,7 @@ do_af_suggest_list (int argc, GnmExprConstPtr const *argv,
 GNM_BEGIN_KILL_SWITCH_WARNING
 
 GOFormat const *
-auto_style_format_suggest (GnmExprTop const *texpr, GnmEvalPos const *epos)
+gnm_auto_style_format_suggest (GnmExprTop const *texpr, GnmEvalPos const *epos)
 {
 	GOFormat const *explicit = NULL;
 

@@ -931,7 +931,7 @@ main (int argc, char const **argv)
 
 	gnm_init ();
 
-	cc = cmd_context_stderr_new ();
+	cc = gnm_cmd_context_stderr_new ();
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
 	go_plugin_db_activate_plugin_list (
 		go_plugins_get_available_plugins (), &plugin_errs);

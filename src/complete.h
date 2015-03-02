@@ -7,7 +7,7 @@
 
 G_BEGIN_DECLS
 
-#define GNM_COMPLETE_TYPE        (complete_get_type ())
+#define GNM_COMPLETE_TYPE        (gnm_complete_get_type ())
 #define GNM_COMPLETE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_COMPLETE_TYPE, GnmComplete))
 #define GNM_COMPLETE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GNM_COMPLETE_TYPE, GnmCompleteClass))
 #define GNM_IS_COMPLETE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_COMPLETE_TYPE))
@@ -32,11 +32,11 @@ typedef struct {
 	gboolean (*search_iteration) (GnmComplete *complete);
 } GnmCompleteClass;
 
-void  complete_construct (GnmComplete *complete,
-			  GnmCompleteMatchNotifyFn notify,
-			  void *notify_closure);
-void  complete_start     (GnmComplete *complete, char const *text);
-GType complete_get_type  (void);
+void  gnm_complete_construct (GnmComplete *complete,
+			      GnmCompleteMatchNotifyFn notify,
+			      void *notify_closure);
+void  gnm_complete_start     (GnmComplete *complete, char const *text);
+GType gnm_complete_get_type  (void);
 
 G_END_DECLS
 

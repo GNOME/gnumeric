@@ -168,7 +168,7 @@ gnm_go_data_preferred_fmt (GOData const *dat)
 
 	eval_pos_init_dep (&ep, dep);
 	return dep->texpr
-		? (GOFormat *)auto_style_format_suggest (dep->texpr, &ep)
+		? (GOFormat *)gnm_auto_style_format_suggest (dep->texpr, &ep)
 		: NULL;
 }
 
@@ -399,7 +399,7 @@ gnm_go_data_scalar_get_str (GODataScalar *dat)
 
 		eval_pos_init_dep (&ep, &scalar->dep);
 		if (scalar->dep.texpr)
-			fmt = auto_style_format_suggest (scalar->dep.texpr, &ep);
+			fmt = gnm_auto_style_format_suggest (scalar->dep.texpr, &ep);
 		scalar->val_str =
 			render_val (scalar_get_val (scalar), 0, 0, fmt, &ep);
 	}

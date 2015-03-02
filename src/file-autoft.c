@@ -40,9 +40,9 @@
 #define CXML2C(s) ((char const *)(s))
 
 static gint
-category_compare_name_and_dir (gconstpointer a, gconstpointer b)
+gnm_ft_category_compare_name_and_dir (gconstpointer a, gconstpointer b)
 {
-	FormatTemplateCategory const *cat_a = a, *cat_b = b;
+	GnmFTCategory const *cat_a = a, *cat_b = b;
 	int res;
 
 	res = strcmp (cat_a->name, cat_b->name);
@@ -50,7 +50,7 @@ category_compare_name_and_dir (gconstpointer a, gconstpointer b)
 }
 
 static void
-category_free (FormatTemplateCategory *category)
+gnm_ft_category_free (GnmFTCategory *category)
 {
 	g_free (category->directory);
 	g_free (category->name);
@@ -59,8 +59,8 @@ category_free (FormatTemplateCategory *category)
 }
 
 static GSList *
-category_get_templates_list (FormatTemplateCategory *category,
-			     GOCmdContext *cc)
+gnm_ft_category_get_templates_list (GnmFTCategory *category,
+				    GOCmdContext *cc)
 {
 	GSList *templates = NULL;
 	GDir *dir;
@@ -79,10 +79,10 @@ category_get_templates_list (FormatTemplateCategory *category,
 		name_len = strlen (d_name);
 		if (name_len > 4 && strcmp (d_name + name_len - 4, ".xml") == 0) {
 			gchar *full_entry_name;
-			GnmFormatTemplate *ft;
+			GnmFT *ft;
 
 			full_entry_name = g_build_filename (category->directory, d_name, NULL);
-			ft = format_template_new_from_file (full_entry_name, cc);
+			ft = gnm_ft_new_from_file (full_entry_name, cc);
 			if (ft == NULL) {
 				g_warning (_("Invalid template file: %s"), full_entry_name);
 			} else {
@@ -95,20 +95,20 @@ category_get_templates_list (FormatTemplateCategory *category,
 
 	g_dir_close (dir);
 
-	return g_slist_sort (templates, format_template_compare_name);
+	return g_slist_sort (templates, gnm_ft_compare_name);
 }
 
 /**
- * gnumeric_xml_read_format_template_category :
- * Open an XML file and read a FormatTemplateCategory
+ * gnm_ft_xml_read_category :
+ * Open an XML file and read a GnmFTCategory
  */
-static FormatTemplateCategory *
-gnumeric_xml_read_format_template_category (char const *dir_name)
+static GnmFTCategory *
+gnm_ft_xml_read_category (char const *dir_name)
 {
 	gchar *file_name;
 	xmlDocPtr doc;
 	xmlNodePtr node;
-	FormatTemplateCategory *category = NULL;
+	GnmFTCategory *category = NULL;
 
 	g_return_val_if_fail (dir_name != NULL, NULL);
 
@@ -121,7 +121,7 @@ gnumeric_xml_read_format_template_category (char const *dir_name)
 		xmlChar *name = xmlGetProp (node, (xmlChar *)"name");
 		if (name != NULL) {
 			xmlChar *description = xmlGetProp (node, (xmlChar *)"description");
-			category = g_new (FormatTemplateCategory, 1);
+			category = g_new (GnmFTCategory, 1);
 			category->directory = g_strdup (dir_name);
 			category->name = g_strdup ((gchar *)name);
 			category->description = g_strdup ((gchar *)description);
@@ -136,8 +136,9 @@ gnumeric_xml_read_format_template_category (char const *dir_name)
 
 	return category;
 }
+
 static GList *
-category_list_get_from_dir_list (GSList *dir_list)
+gnm_ft_category_list_get_from_dir_list (GSList *dir_list)
 {
 	GList *categories = NULL;
 	GSList *dir_iterator;
@@ -158,9 +159,9 @@ category_list_get_from_dir_list (GSList *dir_list)
 
 			full_entry_name = g_build_filename (dir_name, d_name, NULL);
 			if (d_name[0] != '.' && g_file_test (full_entry_name, G_FILE_TEST_IS_DIR)) {
-				FormatTemplateCategory *category;
+				GnmFTCategory *category;
 
-				category = gnumeric_xml_read_format_template_category (full_entry_name);
+				category = gnm_ft_xml_read_category (full_entry_name);
 				if (category != NULL) {
 					categories = g_list_prepend (categories, category);
 				}
@@ -175,14 +176,14 @@ category_list_get_from_dir_list (GSList *dir_list)
 }
 
 static void
-category_list_free (GList *categories)
+gnm_ft_category_list_free (GList *categories)
 {
 	GList *l;
 
 	g_return_if_fail (categories);
 
 	for (l = categories; l != NULL; l = l->next) {
-		category_free ((FormatTemplateCategory *) l->data);
+		gnm_ft_category_free ((GnmFTCategory *) l->data);
 	}
 	g_list_free (categories);
 }
@@ -199,19 +200,19 @@ add_dir (GSList **pl, const char *dir, const char *base_dir)
 }
 
 /**
- * category_group_list_get:
+ * gnm_ft_category_group_list_get:
  *
- * Returns: (element-type FormatTemplateCategoryGroup) (transfer full):
- * the list of #FormatTemplateCategoryGroup which should be freed using
- * category_group_list_free().
+ * Returns: (element-type GnmFTCategoryGroup) (transfer full):
+ * the list of #GnmFTCategoryGroup which should be freed using
+ * gnm_ft_category_group_list_free().
  **/
 GList *
-category_group_list_get (void)
+gnm_ft_category_group_list_get (void)
 {
 	GList *category_groups = NULL;
 	GSList *dir_list = NULL, *sl;
 	GList *categories, *l;
-	FormatTemplateCategoryGroup *current_group;
+	GnmFTCategoryGroup *current_group;
 
 	add_dir (&dir_list,
 		 gnm_conf_get_autoformat_sys_dir (),
@@ -228,19 +229,19 @@ category_group_list_get (void)
 		add_dir (&dir_list, dir, g_get_home_dir ());
 	}
 	dir_list = g_slist_reverse (dir_list);
-	categories = category_list_get_from_dir_list (dir_list);
+	categories = gnm_ft_category_list_get_from_dir_list (dir_list);
 	g_slist_free_full (dir_list, g_free);
 
-	categories = g_list_sort (categories, category_compare_name_and_dir);
+	categories = g_list_sort (categories, gnm_ft_category_compare_name_and_dir);
 
 	current_group = NULL;
 	for (l = categories; l != NULL; l = l->next) {
-		FormatTemplateCategory *category = l->data;
+		GnmFTCategory *category = l->data;
 		if (current_group == NULL || strcmp (current_group->name, category->name) != 0) {
 			if (current_group != NULL) {
 				category_groups = g_list_prepend (category_groups, current_group);
 			}
-			current_group = g_new (FormatTemplateCategoryGroup, 1);
+			current_group = g_new (GnmFTCategoryGroup, 1);
 			current_group->categories = g_list_append (NULL, category);
 			current_group->name = g_strdup (category->name);
 			current_group->description = g_strdup (category->description);
@@ -258,50 +259,50 @@ category_group_list_get (void)
 
 
 /**
- * category_group_list_free:
- * @category_groups: (element-type FormatTemplateCategoryGroup): the list to free.
+ * gnm_ft_category_group_list_free:
+ * @category_groups: (element-type GnmFTCategoryGroup): the list to free.
  *
  **/
 void
-category_group_list_free (GList *groups)
+gnm_ft_category_group_list_free (GList *groups)
 {
 	GList *ptr;
 
 	for (ptr = groups; ptr != NULL; ptr = ptr->next) {
-		FormatTemplateCategoryGroup *group = ptr->data;
+		GnmFTCategoryGroup *group = ptr->data;
 		g_free (group->name);
 		g_free (group->description);
-		category_list_free (group->categories);
+		gnm_ft_category_list_free (group->categories);
 		g_free (group);
 	}
 	g_list_free (groups);
 }
 
 /**
- * category_group_get_templates_list:
- * @category_group: #FormatTemplateCategoryGroup
+ * gnm_ft_category_group_get_templates_list:
+ * @category_group: #GnmFTCategoryGroup
  * @context: #GOCmdContext
  *
- * Returns: (element-type FormatTemplate) (transfer container):
+ * Returns: (element-type GnmFT) (transfer container):
  **/
 GSList *
-category_group_get_templates_list (FormatTemplateCategoryGroup *category_group,
-				   GOCmdContext *cc)
+gnm_ft_category_group_get_templates_list (GnmFTCategoryGroup *category_group,
+					  GOCmdContext *cc)
 {
 	GSList *templates = NULL;
 	GList *l;
 
 	for (l = category_group->categories; l != NULL; l = l->next)
 		templates = g_slist_concat (templates,
-			category_get_templates_list (l->data, cc));
+			gnm_ft_category_get_templates_list (l->data, cc));
 
-	return g_slist_sort (templates, format_template_compare_name);
+	return g_slist_sort (templates, gnm_ft_compare_name);
 }
 
 int
-category_group_cmp (gconstpointer a, gconstpointer b)
+gnm_ft_category_group_cmp (gconstpointer a, gconstpointer b)
 {
-	FormatTemplateCategoryGroup const *group_a = a;
-	FormatTemplateCategoryGroup const *group_b = b;
+	GnmFTCategoryGroup const *group_a = a;
+	GnmFTCategoryGroup const *group_b = b;
 	return g_utf8_collate (_(group_a->name), _(group_b->name));
 }

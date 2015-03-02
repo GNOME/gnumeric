@@ -73,7 +73,7 @@ main (int argc, char const **argv)
 	gtk_init (&argc, (char ***)&argv);
 	gnm_init ();
 
-	cc  = cmd_context_stderr_new ();
+	cc  = gnm_cmd_context_stderr_new ();
 	ioc = go_io_context_new (cc);
 	g_object_unref (cc);
 

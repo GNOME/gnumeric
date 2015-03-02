@@ -662,7 +662,7 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 		char *etxt = gnm_expr_top_as_string (texpr, &pp, convs);
 		GnmValue *val = gnm_expr_top_eval
 			(texpr, &ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
-		GOFormat const *format = auto_style_format_suggest (texpr, &ep);
+		GOFormat const *format = gnm_auto_style_format_suggest (texpr, &ep);
 		char *vtxt = format_value (format, val, -1,
 					   workbook_date_conv
 					   (sheet->workbook));

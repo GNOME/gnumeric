@@ -850,7 +850,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	GnmCellRegion *clipboard = gnm_app_clipboard_contents_get ();
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	GnmRange const *a = gnm_app_clipboard_area_get ();
-	GOCmdContext *ctx = cmd_context_stderr_new ();
+	GOCmdContext *ctx = gnm_cmd_context_stderr_new ();
 	GdkAtom target = gtk_selection_data_get_target (selection_data);
 	gchar *target_name = gdk_atom_name (target);
 

@@ -884,7 +884,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		text = g_strdup_printf (_("Inserting expression in %s"), name);
 
 		if (go_format_is_general (format)) {
-			sf = auto_style_format_suggest (texpr, ep);
+			sf = gnm_auto_style_format_suggest (texpr, ep);
 			if (sf != NULL) {
 				new_style = gnm_style_new ();
 				gnm_style_set_format (new_style, sf);
@@ -3619,14 +3619,14 @@ typedef struct {
 	GSList         *selection;   /* Selections on the sheet */
 	GSList         *old_styles;  /* Older styles, one style_list per selection range*/
 
-	GnmFormatTemplate *ft;    /* Template that has been applied */
+	GnmFT *ft;    /* Template that has been applied */
 } CmdAutoFormat;
 
 static void
 cmd_autoformat_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 {
 	CmdAutoFormat const *orig = (CmdAutoFormat const *) cmd;
-	cmd_selection_autoformat (wbc, format_template_clone (orig->ft));
+	cmd_selection_autoformat (wbc, gnm_ft_clone (orig->ft));
 }
 MAKE_GNM_COMMAND (CmdAutoFormat, cmd_autoformat, cmd_autoformat_repeat)
 
@@ -3668,7 +3668,7 @@ cmd_autoformat_redo (GnmCommand *cmd,
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	format_template_apply_to_sheet_regions (me->ft,
+	gnm_ft_apply_to_sheet_regions (me->ft,
 		me->cmd.sheet, me->selection);
 
 	return FALSE;
@@ -3697,7 +3697,7 @@ cmd_autoformat_finalize (GObject *cmd)
 	range_fragment_free (me->selection);
 	me->selection = NULL;
 
-	format_template_free (me->ft);
+	gnm_ft_free (me->ft);
 
 	gnm_command_finalize (cmd);
 }
@@ -3710,7 +3710,7 @@ cmd_autoformat_finalize (GObject *cmd)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_selection_autoformat (WorkbookControl *wbc, GnmFormatTemplate *ft)
+cmd_selection_autoformat (WorkbookControl *wbc, GnmFT *ft)
 {
 	CmdAutoFormat *me;
 	char      *names;
@@ -3724,7 +3724,7 @@ cmd_selection_autoformat (WorkbookControl *wbc, GnmFormatTemplate *ft)
 	me->cmd.sheet = sv_sheet (sv);
 	me->cmd.size = 1;  /* FIXME?  */
 
-	if (!format_template_check_valid (ft, me->selection, GO_CMD_CONTEXT (wbc))) {
+	if (!gnm_ft_check_valid (ft, me->selection, GO_CMD_CONTEXT (wbc))) {
 		g_object_unref (me);
 		return TRUE;
 	}

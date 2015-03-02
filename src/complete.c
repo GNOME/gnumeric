@@ -31,13 +31,13 @@
 #define ACC(o) (GNM_COMPLETE_CLASS (G_OBJECT_GET_CLASS (o)))
 
 /**
- * complete_construct:
+ * gnm_complete_construct:
  * @complete: #GnmComplete
  * @notify: (scope async): #GnmCompleteMatchNotifyFn
  * @notify_closure: user data
  **/
 void
-complete_construct (GnmComplete *complete,
+gnm_complete_construct (GnmComplete *complete,
 		    GnmCompleteMatchNotifyFn notify,
 		    void *notify_closure)
 {
@@ -79,7 +79,7 @@ complete_idle (gpointer data)
 }
 
 void
-complete_start (GnmComplete *complete, char const *text)
+gnm_complete_start (GnmComplete *complete, char const *text)
 {
 	g_return_if_fail (complete != NULL);
 	g_return_if_fail (GNM_IS_COMPLETE (complete));
@@ -112,5 +112,5 @@ complete_class_init (GObjectClass *object_class)
 	complete_class->search_iteration = default_search_iteration;
 }
 
-GSF_CLASS (GnmComplete, complete,
-	   &complete_class_init, NULL, PARENT_TYPE)
+GSF_CLASS (GnmComplete, gnm_complete,
+	   complete_class_init, NULL, PARENT_TYPE)

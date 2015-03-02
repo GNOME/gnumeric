@@ -48,18 +48,18 @@ attr_eq (const xmlChar *a, const char *s)
  ******************************************************************************/
 
 /**
- * format_template_member_new:
+ * gnm_ft_member_new:
  *
- * Create a new TemplateMember
+ * Create a new GnmFTMember
  *
- * Return value: the new TemplateMember
+ * Return value: the new GnmFTMember
  **/
-static TemplateMember *
-format_template_member_new (void)
+static GnmFTMember *
+gnm_ft_member_new (void)
 {
-	TemplateMember *member;
+	GnmFTMember *member;
 
-	member = g_new (TemplateMember, 1);
+	member = g_new (GnmFTMember, 1);
 
 	member->col.offset	   = member->row.offset = 0;
 	member->col.offset_gravity = member->row.offset_gravity = 1;
@@ -74,16 +74,16 @@ format_template_member_new (void)
 }
 
 /**
- * format_template_member_clone:
+ * gnm_ft_member_clone:
  *
  * Clone a template member
  *
  * Return value: a copy of @member
  **/
-static TemplateMember *
-format_template_member_clone (TemplateMember *member)
+static GnmFTMember *
+gnm_ft_member_clone (GnmFTMember *member)
 {
-	TemplateMember *clone = format_template_member_new ();
+	GnmFTMember *clone = gnm_ft_member_new ();
 
 	clone->row = member->row;
 	clone->col = member->col;
@@ -98,13 +98,13 @@ format_template_member_clone (TemplateMember *member)
 }
 
 /**
- * format_template_member_free:
- * @member: TemplateMember
+ * gnm_ft_member_free:
+ * @member: GnmFTMember
  *
  * Frees an existing template member
  **/
 static void
-format_template_member_free (TemplateMember *member)
+gnm_ft_member_free (GnmFTMember *member)
 {
 	g_return_if_fail (member != NULL);
 
@@ -118,11 +118,11 @@ format_template_member_free (TemplateMember *member)
 
 
 /**
- * format_template_member_get_rect:
+ * gnm_ft_member_get_rect:
  * @member:
  * @r:
  *
- * Get the rectangular area covered by the TemplateMember @member in the parent
+ * Get the rectangular area covered by the GnmFTMember @member in the parent
  * rectangle @r.
  * NOTE : This simply calculates the rectangle, it does not calculate repetitions
  *        or anything. That you'll have to do yourself :-)
@@ -130,7 +130,7 @@ format_template_member_free (TemplateMember *member)
  * Return value: a GnmRange containing the effective rectangle of @member
  **/
 static GnmRange
-format_template_member_get_rect (TemplateMember const *member, GnmRange const *r)
+gnm_ft_member_get_rect (GnmFTMember const *member, GnmRange const *r)
 {
 	GnmRange res;
 
@@ -184,7 +184,7 @@ format_template_member_get_rect (TemplateMember const *member, GnmRange const *r
 /****************************************************************************/
 
 static gboolean
-format_template_member_valid (TemplateMember const *member)
+gnm_ft_member_valid (GnmFTMember const *member)
 {
 	return (member &&
 		member->mstyle &&
@@ -196,22 +196,22 @@ format_template_member_valid (TemplateMember const *member)
 }
 
 /******************************************************************************
- * GnmFormatTemplate - Creation/Destruction
+ * GnmFT - Creation/Destruction
  ******************************************************************************/
 
 /**
- * format_template_new:
+ * gnm_ft_new:
  *
- * Create a new 'empty' GnmFormatTemplate
+ * Create a new 'empty' GnmFT
  *
- * Return value: the new GnmFormatTemplate
+ * Return value: the new GnmFT
  **/
-static GnmFormatTemplate *
-format_template_new (void)
+static GnmFT *
+gnm_ft_new (void)
 {
-	GnmFormatTemplate *ft;
+	GnmFT *ft;
 
-	ft = g_new0 (GnmFormatTemplate, 1);
+	ft = g_new0 (GnmFT, 1);
 
 	ft->filename    = NULL;
 	ft->author      = g_strdup (go_get_real_name ());
@@ -244,10 +244,10 @@ format_template_new (void)
 }
 
 /**
- * format_template_free:
+ * gnm_ft_free:
  **/
 void
-format_template_free (GnmFormatTemplate *ft)
+gnm_ft_free (GnmFT *ft)
 {
 	g_return_if_fail (ft != NULL);
 
@@ -255,7 +255,7 @@ format_template_free (GnmFormatTemplate *ft)
 	g_free (ft->author);
 	g_free (ft->name);
 	g_free (ft->description);
-	g_slist_free_full (ft->members, (GDestroyNotify)format_template_member_free);
+	g_slist_free_full (ft->members, (GDestroyNotify)gnm_ft_member_free);
 	g_hash_table_destroy (ft->table);
 
 	g_free (ft);
@@ -263,7 +263,7 @@ format_template_free (GnmFormatTemplate *ft)
 
 
 static void
-format_template_set_name (GnmFormatTemplate *ft, char const *name)
+gnm_ft_set_name (GnmFT *ft, char const *name)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (name != NULL);
@@ -273,7 +273,7 @@ format_template_set_name (GnmFormatTemplate *ft, char const *name)
 }
 
 static void
-format_template_set_author (GnmFormatTemplate *ft, char const *author)
+gnm_ft_set_author (GnmFT *ft, char const *author)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (author != NULL);
@@ -283,7 +283,7 @@ format_template_set_author (GnmFormatTemplate *ft, char const *author)
 }
 
 static void
-format_template_set_description (GnmFormatTemplate *ft, char const *description)
+gnm_ft_set_description (GnmFT *ft, char const *description)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (description != NULL);
@@ -293,30 +293,30 @@ format_template_set_description (GnmFormatTemplate *ft, char const *description)
 }
 
 /**
- * format_template_clone:
- * @ft: GnmFormatTemplate
+ * gnm_ft_clone:
+ * @ft: GnmFT
  *
  * Make a copy of @ft.
  *
  * Returns: transfer full): a copy of @ft
  **/
-GnmFormatTemplate *
-format_template_clone (GnmFormatTemplate const *ft)
+GnmFT *
+gnm_ft_clone (GnmFT const *ft)
 {
-	GnmFormatTemplate *clone;
+	GnmFT *clone;
 
 	g_return_val_if_fail (ft != NULL, NULL);
 
-	clone = format_template_new ();
-	format_template_set_author (clone, ft->author);
-	format_template_set_name (clone, ft->name);
-	format_template_set_description (clone, ft->description);
+	clone = gnm_ft_new ();
+	gnm_ft_set_author (clone, ft->author);
+	gnm_ft_set_name (clone, ft->name);
+	gnm_ft_set_description (clone, ft->description);
 	g_free (clone->filename); clone->filename = g_strdup (ft->filename);
 
 	clone->category    = ft->category;
 
 	clone->members = go_slist_map (ft->members,
-				       (GOMapFunc)format_template_member_clone);
+				       (GOMapFunc)gnm_ft_member_clone);
 
 	clone->number    = ft->number;
 	clone->border    = ft->border;
@@ -332,14 +332,14 @@ format_template_clone (GnmFormatTemplate const *ft)
 }
 
 GType
-gnm_format_template_get_type (void)
+gnm_ft_get_type (void)
 {
 	static GType t = 0;
 
 	if (t == 0) {
-		t = g_boxed_type_register_static ("GnmFormatTemplate",
-			 (GBoxedCopyFunc)format_template_clone,
-			 (GBoxedFreeFunc)format_template_free);
+		t = g_boxed_type_register_static ("GnmFT",
+			 (GBoxedCopyFunc)gnm_ft_clone,
+			 (GBoxedFreeFunc)gnm_ft_free);
 	}
 	return t;
 }
@@ -356,30 +356,30 @@ static GsfXMLInNS const template_ns[] = {
 static void
 sax_information (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	GnmFT *ft = (GnmFT *)xin->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "author"))
-			format_template_set_author (ft, CXML2C (attrs[1]));
+			gnm_ft_set_author (ft, CXML2C (attrs[1]));
 		else if (attr_eq (attrs[0], "name"))
-			format_template_set_name (ft, CXML2C (attrs[1]));
+			gnm_ft_set_name (ft, CXML2C (attrs[1]));
 		else if (attr_eq (attrs[0], "description"))
-			format_template_set_description (ft, CXML2C (attrs[1]));
+			gnm_ft_set_description (ft, CXML2C (attrs[1]));
 	}
 }
 
 static void
 sax_members_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	GnmFT *ft = (GnmFT *)xin->user_state;
 	ft->members = g_slist_reverse (ft->members);
 }
 
 static void
 sax_member (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
-	TemplateMember *member = format_template_member_new ();
+	GnmFT *ft = (GnmFT *)xin->user_state;
+	GnmFTMember *member = gnm_ft_member_new ();
 
 	/* Order reversed in sax_members_end.  */
 	ft->members = g_slist_prepend (ft->members, member);
@@ -388,18 +388,18 @@ sax_member (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 sax_member_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
-	TemplateMember *member = ft->members->data;
+	GnmFT *ft = (GnmFT *)xin->user_state;
+	GnmFTMember *member = ft->members->data;
 
-	if (!format_template_member_valid (member)) {
+	if (!gnm_ft_member_valid (member)) {
 		g_warning ("Invalid template member in %s\n", ft->filename);
 		ft->members = g_slist_remove (ft->members, member);
-		format_template_member_free (member);
+		gnm_ft_member_free (member);
 	}
 }
 
 static void
-sax_placement (FormatColRowInfo *info, xmlChar const **attrs)
+sax_placement (GnmFTColRowInfo *info, xmlChar const **attrs)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "offset", &info->offset) ||
@@ -411,21 +411,21 @@ sax_placement (FormatColRowInfo *info, xmlChar const **attrs)
 static void
 sax_row_placement (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
-	TemplateMember *member = ft->members->data;
+	GnmFT *ft = (GnmFT *)xin->user_state;
+	GnmFTMember *member = ft->members->data;
 	sax_placement (&member->row, attrs);
 }
 
 static void
 sax_col_placement (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
-	TemplateMember *member = ft->members->data;
+	GnmFT *ft = (GnmFT *)xin->user_state;
+	GnmFTMember *member = ft->members->data;
 	sax_placement (&member->col, attrs);
 }
 
 static void
-sax_dimensions (FormatColRowInfo *info, xmlChar const **attrs)
+sax_dimensions (GnmFTColRowInfo *info, xmlChar const **attrs)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "size", &info->size))
@@ -436,24 +436,24 @@ sax_dimensions (FormatColRowInfo *info, xmlChar const **attrs)
 static void
 sax_row_dimensions (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
-	TemplateMember *member = ft->members->data;
+	GnmFT *ft = (GnmFT *)xin->user_state;
+	GnmFTMember *member = ft->members->data;
 	sax_dimensions (&member->row, attrs);
 }
 
 static void
 sax_col_dimensions (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
-	TemplateMember *member = ft->members->data;
+	GnmFT *ft = (GnmFT *)xin->user_state;
+	GnmFTMember *member = ft->members->data;
 	sax_dimensions (&member->col, attrs);
 }
 
 static void
 sax_frequency (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
-	TemplateMember *member = ft->members->data;
+	GnmFT *ft = (GnmFT *)xin->user_state;
+	GnmFTMember *member = ft->members->data;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		int i;
@@ -470,8 +470,8 @@ sax_frequency (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 sax_style_handler (GsfXMLIn *xin, GnmStyle *style, gpointer user)
 {
-	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
-	TemplateMember *member = ft->members->data;
+	GnmFT *ft = (GnmFT *)xin->user_state;
+	GnmFTMember *member = ft->members->data;
 	gnm_style_ref (style);
 	member->mstyle = style;
 }
@@ -513,19 +513,19 @@ GSF_XML_IN_NODE (START, TEMPLATE, GMR, "FormatTemplate", GSF_XML_NO_CONTENT, NUL
 };
 
 /**
- * format_template_new_from_file:
+ * gnm_ft_new_from_file:
  * @context:
  * @filename: The filename to load from
  *
- * Create a new GnmFormatTemplate and load a template file
+ * Create a new GnmFT and load a template file
  * into it.
  *
- * Return value: (transfer full): a new GnmFormatTemplate (or NULL on error)
+ * Return value: (transfer full): a new GnmFT (or NULL on error)
  **/
-GnmFormatTemplate *
-format_template_new_from_file (char const *filename, GOCmdContext *cc)
+GnmFT *
+gnm_ft_new_from_file (char const *filename, GOCmdContext *cc)
 {
-	GnmFormatTemplate *ft = NULL;
+	GnmFT *ft = NULL;
 	GsfXMLInDoc *doc = NULL;
 	GnmLocale *locale;
 	gboolean ok = FALSE;
@@ -546,7 +546,7 @@ format_template_new_from_file (char const *filename, GOCmdContext *cc)
 		goto done;
 	gsf_xml_in_doc_set_unknown_handler (doc, &template_sax_unknown);
 
-	ft = format_template_new ();
+	ft = gnm_ft_new ();
 	ft->filename = g_strdup (filename);
 
 	locale = gnm_push_C_locale ();
@@ -558,7 +558,7 @@ format_template_new_from_file (char const *filename, GOCmdContext *cc)
 	if (doc) gsf_xml_in_doc_free (doc);
 
 	if (ft && !ok) {
-		format_template_free (ft);
+		gnm_ft_free (ft);
 		ft = NULL;
 	}
 
@@ -567,22 +567,22 @@ format_template_new_from_file (char const *filename, GOCmdContext *cc)
 
 
 /**
- * format_template_compare_name:
- * @a: First GnmFormatTemplate
- * @b: Second GnmFormatTemplate
+ * gnm_ft_compare_name:
+ * @a: First GnmFT
+ * @b: Second GnmFT
  *
  **/
 gint
-format_template_compare_name (gconstpointer a, gconstpointer b)
+gnm_ft_compare_name (gconstpointer a, gconstpointer b)
 {
-	GnmFormatTemplate const *ft_a = (GnmFormatTemplate const *) a;
-	GnmFormatTemplate const *ft_b = (GnmFormatTemplate const *) b;
+	GnmFT const *ft_a = (GnmFT const *) a;
+	GnmFT const *ft_b = (GnmFT const *) b;
 
 	return g_utf8_collate (_(ft_a->name), _(ft_b->name));
 }
 
 /******************************************************************************
- * GnmFormatTemplate - Actual implementation (Filtering and calculating)
+ * GnmFT - Actual implementation (Filtering and calculating)
  ******************************************************************************/
 
 /**
@@ -600,7 +600,7 @@ format_template_compare_name (gconstpointer a, gconstpointer b)
  * Return value: The same mstyle as @mstyle with most likely some modifications
  **/
 static GnmStyle *
-format_template_filter_style (GnmFormatTemplate *ft, GnmStyle *mstyle, gboolean fill_defaults)
+format_template_filter_style (GnmFT *ft, GnmStyle *mstyle, gboolean fill_defaults)
 {
 	g_return_val_if_fail (ft != NULL, NULL);
 	g_return_val_if_fail (mstyle != NULL, NULL);
@@ -688,7 +688,7 @@ format_template_filter_style (GnmFormatTemplate *ft, GnmStyle *mstyle, gboolean 
 /*
  * Callback used for calculating the styles
  */
-typedef void (* PCalcCallback) (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, gpointer data);
+typedef void (* PCalcCallback) (GnmFT *ft, GnmRange *r, GnmStyle *mstyle, gpointer data);
 
 /**
  * format_template_range_check:
@@ -702,7 +702,7 @@ typedef void (* PCalcCallback) (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *ms
  * Return value: TRUE if @s is big enough, FALSE if not.
  **/
 static gboolean
-format_template_range_check (GnmFormatTemplate *ft, GnmRange const *r,
+format_template_range_check (GnmFT *ft, GnmRange const *r,
 			     GOCmdContext *optional_cc)
 {
 	GSList *ptr;
@@ -713,8 +713,8 @@ format_template_range_check (GnmFormatTemplate *ft, GnmRange const *r,
 	g_return_val_if_fail (ft != NULL, FALSE);
 
 	for (ptr = ft->members; NULL != ptr ; ptr = ptr->next) {
-		TemplateMember *member = ptr->data;
-		GnmRange range = format_template_member_get_rect (member, r);
+		GnmFTMember *member = ptr->data;
+		GnmRange range = gnm_ft_member_get_rect (member, r);
 
 		if (!range_valid (&range)) {
 			int diff_col = (range.start.col - range.end.col);
@@ -771,12 +771,12 @@ format_template_range_check (GnmFormatTemplate *ft, GnmRange const *r,
 
 /* Remove edge styles from a template and shift items that anchor on a filtered
  * edge.  Returns a filtered copy of @origft. */
-static GnmFormatTemplate *
-gnm_auto_fmt_filter_edges (GnmFormatTemplate const *origft)
+static GnmFT *
+gnm_auto_fmt_filter_edges (GnmFT const *origft)
 {
 	GSList *ptr;
-	GnmFormatTemplate *ft = format_template_clone (origft);
-	TemplateMember *member;
+	GnmFT *ft = gnm_ft_clone (origft);
+	GnmFTMember *member;
 	gboolean is_edge, l = FALSE, r = FALSE, t = FALSE, b = FALSE;
 
 	for (ptr = ft->members; ptr != NULL ; ) {
@@ -799,7 +799,7 @@ gnm_auto_fmt_filter_edges (GnmFormatTemplate const *origft)
 				b |= (is_edge = TRUE);
 		}
 		if (is_edge) {
-			format_template_member_free (member);
+			gnm_ft_member_free (member);
 			ft->members = g_slist_remove (ft->members, member);
 		}
 	}
@@ -807,7 +807,7 @@ gnm_auto_fmt_filter_edges (GnmFormatTemplate const *origft)
 	if (!l && !r && !t && !b)
 		return ft;
 	for (ptr = ft->members; ptr != NULL ; ptr = ptr->next) {
-		TemplateMember *submember = ptr->data;
+		GnmFTMember *submember = ptr->data;
 
 		if (l && submember->col.offset_gravity > 0) {
 			if (submember->col.offset >= 1)
@@ -837,8 +837,8 @@ gnm_auto_fmt_filter_edges (GnmFormatTemplate const *origft)
 }
 
 /**
- * format_template_calculate:
- * @origft: GnmFormatTemplate
+ * gnm_ft_calculate:
+ * @origft: GnmFT
  * @s: Target range
  * @pc: Callback function
  * @cb_data: Data to pass to the callback function
@@ -849,10 +849,10 @@ gnm_auto_fmt_filter_edges (GnmFormatTemplate const *origft)
  *
  **/
 static void
-format_template_calculate (GnmFormatTemplate *origft, GnmRange const *r,
+gnm_ft_calculate (GnmFT *origft, GnmRange const *r,
 			   PCalcCallback pc, gpointer cb_data)
 {
-	GnmFormatTemplate *ft = origft;
+	GnmFT *ft = origft;
 	GSList *ptr;
 
 	g_return_if_fail (origft != NULL);
@@ -861,9 +861,9 @@ format_template_calculate (GnmFormatTemplate *origft, GnmRange const *r,
 		ft = gnm_auto_fmt_filter_edges (origft);
 
 	for (ptr = ft->members; NULL != ptr ; ptr = ptr->next) {
-		TemplateMember const *member = ptr->data;
+		GnmFTMember const *member = ptr->data;
 		GnmStyle const *mstyle = member->mstyle;
-		GnmRange range = format_template_member_get_rect (member, r);
+		GnmRange range = gnm_ft_member_get_rect (member, r);
 
 		g_return_if_fail (range_valid (&range));
 
@@ -914,15 +914,15 @@ format_template_calculate (GnmFormatTemplate *origft, GnmRange const *r,
 	}
 
 	if (ft != origft)
-		format_template_free (ft);
+		gnm_ft_free (ft);
 }
 
 /******************************************************************************
- * GnmFormatTemplate - Application for the hashtable (previews)
+ * GnmFT - Application for the hashtable (previews)
  ******************************************************************************/
 
 static void
-cb_format_hash_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
+cb_format_hash_style (GnmFT *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
 {
 	GHashTable *table = user;
 	int row, col;
@@ -951,12 +951,12 @@ cb_format_hash_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, gpoi
 
 /**
  * format_template_recalc_hash:
- * @ft: GnmFormatTemplate
+ * @ft: GnmFT
  *
  * Refills the hashtable based on new dimensions
  **/
 static void
-format_template_recalc_hash (GnmFormatTemplate *ft)
+format_template_recalc_hash (GnmFT *ft)
 {
 	GnmRange r;
 
@@ -974,11 +974,11 @@ format_template_recalc_hash (GnmFormatTemplate *ft)
 		return;
 	}
 
-	format_template_calculate (ft, &r, cb_format_hash_style, ft->table);
+	gnm_ft_calculate (ft, &r, cb_format_hash_style, ft->table);
 }
 
 /**
- * format_template_get_style:
+ * gnm_ft_get_style:
  * @ft:
  * @row:
  * @col:
@@ -992,7 +992,7 @@ format_template_recalc_hash (GnmFormatTemplate *ft)
  * Return value: an GnmStyle
  **/
 GnmStyle *
-format_template_get_style (GnmFormatTemplate *ft, int row, int col)
+gnm_ft_get_style (GnmFT *ft, int row, int col)
 {
 	GnmCellPos key;
 
@@ -1016,11 +1016,11 @@ format_template_get_style (GnmFormatTemplate *ft, int row, int col)
 
 
 /******************************************************************************
- * GnmFormatTemplate - Application to Sheet
+ * GnmFT - Application to Sheet
  ******************************************************************************/
 
 static void
-cb_format_sheet_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
+cb_format_sheet_style (GnmFT *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
 {
 	Sheet *sheet = user;
 
@@ -1038,7 +1038,7 @@ cb_format_sheet_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, gpo
 }
 
 /**
- * format_template_check_valid:
+ * gnm_ft_check_valid:
  * @ft:
  * @regions: (element-type GnmRange):
  * @cc: where to report errors
@@ -1048,7 +1048,7 @@ cb_format_sheet_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, gpo
  * supplied.
  */
 gboolean
-format_template_check_valid (GnmFormatTemplate *ft, GSList *regions, GOCmdContext *cc)
+gnm_ft_check_valid (GnmFT *ft, GSList *regions, GOCmdContext *cc)
 {
 	g_return_val_if_fail (cc != NULL, FALSE);
 
@@ -1060,17 +1060,17 @@ format_template_check_valid (GnmFormatTemplate *ft, GSList *regions, GOCmdContex
 }
 
 /**
- * format_template_apply_to_sheet_regions:
- * @ft: GnmFormatTemplate
+ * gnm_ft_apply_to_sheet_regions:
+ * @ft: GnmFT
  * @sheet: the Target sheet
  * @regions: (element-type GnmRange): Region list
  *
  * Apply the template to all selected regions in @sheet.
  **/
 void
-format_template_apply_to_sheet_regions (GnmFormatTemplate *ft, Sheet *sheet, GSList *regions)
+gnm_ft_apply_to_sheet_regions (GnmFT *ft, Sheet *sheet, GSList *regions)
 {
 	for (; regions != NULL ; regions = regions->next)
-		format_template_calculate (ft, regions->data,
+		gnm_ft_calculate (ft, regions->data,
 					   cb_format_sheet_style, sheet);
 }

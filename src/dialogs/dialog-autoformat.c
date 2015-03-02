@@ -80,11 +80,11 @@ typedef struct {
 	WBCGtk *wbcg;
 	GocItem		   *grid[NUM_PREVIEWS];              /* Previewgrid's */
 	GocItem		   *selrect;                         /* Selection rectangle */
-	GSList             *templates;                       /* List of GnmFormatTemplate's */
-	GnmFormatTemplate  *selected_template;               /* The currently selected template */
+	GSList             *templates;                       /* List of GnmFT's */
+	GnmFT  *selected_template;               /* The currently selected template */
 	GList              *category_groups;                 /* List of groups of categories */
 
-	FormatTemplateCategoryGroup *current_category_group; /* Currently selected category group */
+	GnmFTCategoryGroup *current_category_group; /* Currently selected category group */
 
 	int               preview_top;       /* Top index of the previewlist */
 	int               preview_index;     /* Selected canvas in previewlist */
@@ -122,7 +122,7 @@ typedef struct {
 
 typedef struct {
 	GnmPreviewGrid base;
-	GnmFormatTemplate *ft;
+	GnmFT *ft;
 } AutoFormatGrid;
 typedef GnmPreviewGridClass AutoFormatGridClass;
 
@@ -132,7 +132,7 @@ afg_get_cell_style (GnmPreviewGrid *pg, int col, int row)
 	/* If this happens to be NULL the default style
 	 * will automatically be used. */
 	AutoFormatGrid *ag = (AutoFormatGrid *) pg;
-	return format_template_get_style (ag->ft, row, col);
+	return gnm_ft_get_style (ag->ft, row, col);
 }
 
 static GnmValue *
@@ -165,7 +165,7 @@ static GSF_CLASS (AutoFormatGrid, auto_format_grid,
 		  gnm_preview_grid_get_type())
 
 static GocItem *
-auto_format_grid_new (AutoFormatState *state, int i, GnmFormatTemplate *ft)
+auto_format_grid_new (AutoFormatState *state, int i, GnmFT *ft)
 {
 	GocItem *item = goc_item_new (
 		goc_canvas_get_root (state->canvas[i]),
@@ -191,7 +191,7 @@ templates_free (AutoFormatState *state)
 	g_return_if_fail (state != NULL);
 
 	for (ptr = state->templates; ptr != NULL ; ptr = ptr->next)
-		format_template_free (ptr->data);
+		gnm_ft_free (ptr->data);
 	g_slist_free (state->templates);
 	state->templates = NULL;
 }
@@ -216,10 +216,10 @@ templates_load (AutoFormatState *state)
 	if (state->category_groups == NULL)
 		return FALSE;
 
-	state->templates = category_group_get_templates_list (
+	state->templates = gnm_ft_category_group_get_templates_list (
 		state->current_category_group, GO_CMD_CONTEXT (state->wbcg));
 	for (l = state->templates; l != NULL; l = l->next) {
-		GnmFormatTemplate *ft = l->data;
+		GnmFT *ft = l->data;
 		range_init (&ft->dimension,
 			0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
 		ft->invalidate_hash = TRUE;
@@ -312,7 +312,7 @@ previews_load (AutoFormatState *state, int topindex)
 			gtk_widget_hide (GTK_WIDGET (state->canvas[i]));
 			gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_NONE);
 		} else {
-			GnmFormatTemplate *ft = start->data;
+			GnmFT *ft = start->data;
 
 			state->grid[i] = auto_format_grid_new (state, i, ft);
 
@@ -362,7 +362,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkButton *button,
 {
 	if (state->selected_template)
 		cmd_selection_autoformat (GNM_WBC (state->wbcg),
-			format_template_clone (state->selected_template));
+			gnm_ft_clone (state->selected_template));
 
 	gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
@@ -371,7 +371,7 @@ static void
 cb_autoformat_destroy (AutoFormatState *state)
 {
 	templates_free (state);
-	category_group_list_free (state->category_groups);
+	gnm_ft_category_group_list_free (state->category_groups);
 	g_free (state);
 }
 
@@ -387,7 +387,7 @@ cb_canvas_button_press (GocCanvas *canvas,
 			G_GNUC_UNUSED GdkEventButton *event,
 			AutoFormatState *state)
 {
-	GnmFormatTemplate *ft;
+	GnmFT *ft;
 	GSList *ptr;
 	int index = 0;
 
@@ -427,7 +427,7 @@ cb_check_item_toggled (G_GNUC_UNUSED GtkCheckMenuItem *item,
 	int i;
 
 	for (ptr = state->templates; ptr != NULL ; ptr = ptr->next) {
-		GnmFormatTemplate *ft = ptr->data;
+		GnmFT *ft = ptr->data;
 
 		ft->number    = gtk_check_menu_item_get_active (state->number);
 		ft->border    = gtk_check_menu_item_get_active (state->border);
@@ -601,7 +601,7 @@ dialog_autoformat (WBCGtk *wbcg)
 
 	/* Fill category list */
 	state->category_groups =
-		g_list_sort (category_group_list_get (),  category_group_cmp);
+		g_list_sort (gnm_ft_category_group_list_get (),  gnm_ft_category_group_cmp);
 
 	if (state->category_groups == NULL) {
 		GtkWidget *dialog;
@@ -626,7 +626,7 @@ dialog_autoformat (WBCGtk *wbcg)
 						NULL);
 
 		for (i = 0 ; ptr != NULL ; ptr = ptr->next, i++) {
-			FormatTemplateCategoryGroup *group = ptr->data;
+			GnmFTCategoryGroup *group = ptr->data;
 			if (!strcmp (group->name,   "General" ))
 				select = i;
 			gtk_list_store_append (store, &iter);

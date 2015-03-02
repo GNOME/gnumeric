@@ -3382,7 +3382,7 @@ typedef union {
 #endif
 
 void
-expr_init (void)
+_gnm_expr_init (void)
 {
 #if 0
 	GnmExpr e;
@@ -3432,7 +3432,7 @@ cb_expression_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 #endif
 
 void
-expr_shutdown (void)
+_gnm_expr_shutdown (void)
 {
 #if USE_EXPR_POOLS
 	go_mem_chunk_foreach_leak (expression_pool_small, cb_expression_pool_leak, NULL);

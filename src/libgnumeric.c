@@ -321,7 +321,7 @@ gnm_init (void)
 
 	value_init ();
 	parse_util_init ();
-	expr_init ();
+	_gnm_expr_init ();
 	gnm_sheet_cell_init ();
 	clipboard_init ();
 	dependent_types_init ();
@@ -351,10 +351,10 @@ int
 gnm_dump_func_defs (char const* filename, int dump_type)
 {
 	int retval;
-	GOCmdContext *cc = cmd_context_stderr_new ();
+	GOCmdContext *cc = gnm_cmd_context_stderr_new ();
 
 	gnm_plugins_init (cc);
-	if ((retval = cmd_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc))) == 0)
+	if ((retval = gnm_cmd_context_stderr_get_status (GNM_CMD_CONTEXT_STDERR (cc))) == 0)
 		function_dump_defs (filename, dump_type);
 
 	return retval;
@@ -385,7 +385,7 @@ gnm_shutdown (void)
 	dependent_types_shutdown ();
 	clipboard_shutdown ();
 	gnm_sheet_cell_shutdown ();
-	expr_shutdown ();
+	_gnm_expr_shutdown ();
 	parse_util_shutdown ();
 	value_shutdown ();
 

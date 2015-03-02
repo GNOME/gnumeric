@@ -132,7 +132,7 @@ adjust_source_areas (ConsolidateState *state)
 static GnmConsolidate *
 construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 {
-	GnmConsolidate      *cs   = consolidate_new ();
+	GnmConsolidate      *cs   = gnm_consolidate_new ();
 	GnmConsolidateMode  mode = 0;
 	char       const *func;
 	GnmValue         *range_value;
@@ -155,7 +155,7 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 		g_warning ("Unknown function index!");
 	}
 
-	consolidate_set_function (cs, gnm_func_lookup (func, NULL));
+	gnm_consolidate_set_function (cs, gnm_func_lookup (func, NULL));
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->labels_row)))
 		mode |= CONSOLIDATE_COL_LABELS;
@@ -167,7 +167,7 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 	if (!dao_put_formulas (dao))
 		mode |= CONSOLIDATE_PUT_VALUES;
 
-	consolidate_set_mode (cs, mode);
+	gnm_consolidate_set_mode (cs, mode);
 
 	g_return_val_if_fail (gtk_tree_model_iter_n_children
 			      (state->source_areas,
@@ -192,16 +192,16 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 					  "does not define a region"),
 					source);
 				g_free (source);
-				consolidate_free (cs, FALSE);
+				gnm_consolidate_free (cs, FALSE);
 				return NULL;
 			}
-			if (!consolidate_add_source (cs, range_value)) {
+			if (!gnm_consolidate_add_source (cs, range_value)) {
 				state->construct_error = g_strdup_printf (
 					_("Source region %s overlaps "
 					  "with the destination region"),
 					source);
 				g_free (source);
-				consolidate_free (cs, FALSE);
+				gnm_consolidate_free (cs, FALSE);
 				return NULL;
 			}
 		}
@@ -311,10 +311,10 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 		return;
 	}
 
-	if (consolidate_check_destination (cs, dao)) {
+	if (gnm_consolidate_check_destination (cs, dao)) {
 		if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 					state->base.sheet,
-					dao, cs, tool_consolidate_engine,
+					dao, cs, gnm_tool_consolidate_engine,
 					FALSE) &&
 		    (button == state->base.ok_button))
 			gtk_widget_destroy (state->base.dialog);
@@ -325,7 +325,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 					  _("The output range overlaps "
 					    "with the input ranges."));
 		g_free (dao);
-		consolidate_free (cs, FALSE);
+		gnm_consolidate_free (cs, FALSE);
 	}
 }
 

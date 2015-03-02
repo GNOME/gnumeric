@@ -56,7 +56,7 @@ search_strategy_next (GnmCompleteSheet *cs)
 static void
 complete_sheet_finalize (GObject *object)
 {
-	GnmCompleteSheet *cs = COMPLETE_SHEET (object);
+	GnmCompleteSheet *cs = GNM_COMPLETE_SHEET (object);
 	g_free (cs->current_text);
 	parent_class->finalize (object);
 }
@@ -83,7 +83,7 @@ text_matches (GnmCompleteSheet const *cs)
 static gboolean
 complete_sheet_search_iteration (GnmComplete *complete)
 {
-	GnmCompleteSheet *cs = COMPLETE_SHEET (complete);
+	GnmCompleteSheet *cs = GNM_COMPLETE_SHEET (complete);
 	int i;
 
 	if ((int)strlen (complete->text) <
@@ -115,7 +115,7 @@ complete_sheet_class_init (GObjectClass *object_class)
 }
 
 /**
- * complete_sheet_new:
+ * gnm_complete_sheet_new:
  * @sheet: #Sheet
  * @col: column
  * @row: row
@@ -125,15 +125,15 @@ complete_sheet_class_init (GObjectClass *object_class)
  * Returns: (transfer full): the new #GnmComplete.
  **/
 GnmComplete *
-complete_sheet_new (Sheet *sheet, int col, int row, GnmCompleteMatchNotifyFn notify, void *notify_closure)
+gnm_complete_sheet_new (Sheet *sheet, int col, int row, GnmCompleteMatchNotifyFn notify, void *notify_closure)
 {
 	/*
 	 * Somehow every time I pronounce this, I feel like something is not quite right.
 	 */
 	GnmCompleteSheet *cs;
 
-	cs = g_object_new (COMPLETE_SHEET_TYPE, NULL);
-	complete_construct (GNM_COMPLETE (cs), notify, notify_closure);
+	cs = g_object_new (GNM_COMPLETE_SHEET_TYPE, NULL);
+	gnm_complete_construct (GNM_COMPLETE (cs), notify, notify_closure);
 
 	cs->sheet = sheet;
 	cs->entry.col = col;
@@ -144,5 +144,5 @@ complete_sheet_new (Sheet *sheet, int col, int row, GnmCompleteMatchNotifyFn not
 	return GNM_COMPLETE (cs);
 }
 
-GSF_CLASS (GnmCompleteSheet, complete_sheet,
+GSF_CLASS (GnmCompleteSheet, gnm_complete_sheet,
 	   complete_sheet_class_init, NULL, PARENT_TYPE)

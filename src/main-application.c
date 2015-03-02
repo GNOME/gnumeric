@@ -289,7 +289,7 @@ main (int argc, char const **argv)
 		return gnm_dump_func_defs (ext_refs_file, 4);
 
 	if (with_gui) {
-		go_component_set_default_command_context (cc = cmd_context_stderr_new ());
+		go_component_set_default_command_context (cc = gnm_cmd_context_stderr_new ());
 		g_object_unref (cc);
 		cc = g_object_new (GNM_TYPE_IO_CONTEXT_GTK,
 				   "show-splash", !gnumeric_no_splash,
@@ -300,7 +300,7 @@ main (int argc, char const **argv)
 		pathetic_qt_workaround ();
 	} else {
 		/* TODO: Make this inconsistency go away */
-		cc = cmd_context_stderr_new ();
+		cc = gnm_cmd_context_stderr_new ();
 		ioc = go_io_context_new (cc);
 		go_component_set_default_command_context (cc);
 	}

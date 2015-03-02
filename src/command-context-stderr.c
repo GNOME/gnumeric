@@ -15,40 +15,37 @@
 #include <goffice/goffice.h>
 #include "ranges.h"
 
-struct _CmdContextStderr {
+struct GnmCmdContextStderr_ {
 	GObject	 base;
 	int	 status;
 };
-typedef GObjectClass CmdContextStderrClass;
-
-#define COMMAND_CONTEXT_STDERR_CLASS(k) \
-	(G_TYPE_CHECK_CLASS_CAST ((k), CMD_CONTEXT_STDERR_TYPE, CmdContextStderrClass))
+typedef GObjectClass GnmCmdContextStderrClass;
 
 /**
- * cmd_context_stderr_new:
+ * gnm_cmd_context_stderr_new:
  *
  * Returns: (transfer full): the newly allocated #GOCmdContext.
  **/
 GOCmdContext *
-cmd_context_stderr_new (void)
+gnm_cmd_context_stderr_new (void)
 {
-	return g_object_new (CMD_CONTEXT_STDERR_TYPE, NULL);
+	return g_object_new (GNM_CMD_CONTEXT_STDERR_TYPE, NULL);
 }
 
 void
-cmd_context_stderr_set_status (CmdContextStderr *ccs, int status)
+gnm_cmd_context_stderr_set_status (GnmCmdContextStderr *ccs, int status)
 {
 	g_return_if_fail (ccs != NULL);
-	g_return_if_fail (GNM_IS_COMMAND_CONTEXT_STDERR (ccs));
+	g_return_if_fail (GNM_IS_CMD_CONTEXT_STDERR (ccs));
 
 	ccs->status = status;
 }
 
 int
-cmd_context_stderr_get_status (CmdContextStderr *ccs)
+gnm_cmd_context_stderr_get_status (GnmCmdContextStderr *ccs)
 {
 	g_return_val_if_fail (ccs != NULL, -1);
-	g_return_val_if_fail (GNM_IS_COMMAND_CONTEXT_STDERR (ccs), -1);
+	g_return_val_if_fail (GNM_IS_CMD_CONTEXT_STDERR (ccs), -1);
 
 	return ccs->status;
 }
@@ -56,7 +53,7 @@ cmd_context_stderr_get_status (CmdContextStderr *ccs)
 static void
 ccs_error_error (GOCmdContext *cc, GError *error)
 {
-	CmdContextStderr *ccs = COMMAND_CONTEXT_STDERR (cc);
+	GnmCmdContextStderr *ccs = GNM_CMD_CONTEXT_STDERR (cc);
 
 	g_printerr ("Error: %s\n", error->message);
 	ccs->status = -1;
@@ -64,7 +61,7 @@ ccs_error_error (GOCmdContext *cc, GError *error)
 static void
 ccs_error_info (GOCmdContext *cc, GOErrorInfo *error)
 {
-	CmdContextStderr *ccs = COMMAND_CONTEXT_STDERR (cc);
+	GnmCmdContextStderr *ccs = GNM_CMD_CONTEXT_STDERR (cc);
 
 	go_error_info_print (error);
 	ccs->status = -1;
@@ -93,7 +90,7 @@ ccs_progress_message_set (GOCmdContext *cc, gchar const *msg)
 }
 
 static void
-ccs_init (CmdContextStderr *ccs)
+ccs_init (GnmCmdContextStderr *ccs)
 {
 	ccs->status = 0;
 }
@@ -109,7 +106,7 @@ ccs_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 	cc_class->error.error_info	= ccs_error_info;
 }
 
-GSF_CLASS_FULL (CmdContextStderr, cmd_context_stderr,
+GSF_CLASS_FULL (GnmCmdContextStderr, gnm_cmd_context_stderr,
 		NULL, NULL, NULL, NULL,
 		ccs_init, G_TYPE_OBJECT, 0,
 		GSF_INTERFACE (ccs_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))

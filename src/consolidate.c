@@ -101,7 +101,7 @@ cb_value_compare (GnmValue const *a, GnmValue const *b)
 /**********************************************************************************/
 
 GnmConsolidate *
-consolidate_new (void)
+gnm_consolidate_new (void)
 {
 	GnmConsolidate *cs;
 
@@ -115,7 +115,7 @@ consolidate_new (void)
 }
 
 void
-consolidate_free (GnmConsolidate *cs, gboolean content_only)
+gnm_consolidate_free (GnmConsolidate *cs, gboolean content_only)
 {
 	GSList *l;
 
@@ -149,7 +149,7 @@ gnm_consolidate_unref (GnmConsolidate *cs)
 {
 	cs->ref_count--;
 	if (cs->ref_count == 0)
-		consolidate_free (cs, TRUE);
+		gnm_consolidate_free (cs, TRUE);
 }
 
 GType
@@ -166,7 +166,7 @@ gnm_consolidate_get_type (void)
 }
 
 void
-consolidate_set_function (GnmConsolidate *cs, GnmFunc *fd)
+gnm_consolidate_set_function (GnmConsolidate *cs, GnmFunc *fd)
 {
 	g_return_if_fail (cs != NULL);
 	g_return_if_fail (fd != NULL);
@@ -179,7 +179,7 @@ consolidate_set_function (GnmConsolidate *cs, GnmFunc *fd)
 }
 
 void
-consolidate_set_mode (GnmConsolidate *cs, GnmConsolidateMode mode)
+gnm_consolidate_set_mode (GnmConsolidate *cs, GnmConsolidateMode mode)
 {
 	g_return_if_fail (cs != NULL);
 
@@ -187,7 +187,7 @@ consolidate_set_mode (GnmConsolidate *cs, GnmConsolidateMode mode)
 }
 
 gboolean
-consolidate_check_destination (GnmConsolidate *cs, data_analysis_output_t *dao)
+gnm_consolidate_check_destination (GnmConsolidate *cs, data_analysis_output_t *dao)
 {
 	GnmSheetRange *new;
 	GnmRange r;
@@ -218,7 +218,7 @@ consolidate_check_destination (GnmConsolidate *cs, data_analysis_output_t *dao)
 }
 
 gboolean
-consolidate_add_source (GnmConsolidate *cs, GnmValue *range)
+gnm_consolidate_add_source (GnmConsolidate *cs, GnmValue *range)
 {
 	GnmSheetRange *new;
 
@@ -776,7 +776,7 @@ consolidate_apply (GnmConsolidate *cs,
 
 
 gboolean
-tool_consolidate_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
+gnm_tool_consolidate_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			 analysis_tool_engine_t selector, gpointer result)
 {
 	GnmConsolidate *cs = specs;
@@ -817,7 +817,7 @@ tool_consolidate_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t
 		return FALSE;
 	}
 	case TOOL_ENGINE_CLEAN_UP:
-		consolidate_free (cs, TRUE);
+		gnm_consolidate_free (cs, TRUE);
 		return FALSE;
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;

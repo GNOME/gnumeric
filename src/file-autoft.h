@@ -7,13 +7,13 @@
 
 G_BEGIN_DECLS
 
-GSList  *category_group_get_templates_list (FormatTemplateCategoryGroup *category_group,
+GSList  *gnm_ft_category_group_get_templates_list (GnmFTCategoryGroup *category_group,
 					    GOCmdContext *context);
 
-GList   *category_group_list_get (void);
-void     category_group_list_free (GList *category_groups);
+GList   *gnm_ft_category_group_list_get (void);
+void     gnm_ft_category_group_list_free (GList *category_groups);
 
-int category_group_cmp (gconstpointer a, gconstpointer b);
+int gnm_ft_category_group_cmp (gconstpointer a, gconstpointer b);
 
 G_END_DECLS
 

@@ -47,14 +47,14 @@ typedef struct {
 	int offset;       	/* Offset (top/left) */
 	int offset_gravity;	/* Gravity +1 means relative to top/left, -1 relative to bottom/right */
 	int size;		/* Dimensions (These form the bottom right coordinates) */
-} FormatColRowInfo;
+} GnmFTColRowInfo;
 
 /* WARNING : do not change these or persistence will break */
 typedef enum {
 	FREQ_DIRECTION_NONE,
 	FREQ_DIRECTION_HORIZONTAL,
 	FREQ_DIRECTION_VERTICAL
-} FreqDirection;
+} GnmFTFreqDirection;
 
 /* A collection of categories of the same name from different paths */
 typedef struct {
@@ -63,7 +63,7 @@ typedef struct {
 	/* translatable via gettext in the std message domain */
 	char *name;
 	char *description;
-} FormatTemplateCategoryGroup;
+} GnmFTCategoryGroup;
 
 typedef struct {
 	char *directory;
@@ -72,10 +72,10 @@ typedef struct {
 	/* translatable via gettext in the std message domain */
 	char *name;
 	char *description;
-} FormatTemplateCategory;
+} GnmFTCategory;
 
-struct _GnmFormatTemplate {
-	FormatTemplateCategory *category;
+struct GnmFT_ {
+	GnmFTCategory *category;
 	GSList *members;	/* the actual TemplateMembers */
 	char *filename;
 	char *author;
@@ -106,35 +106,35 @@ struct _GnmFormatTemplate {
 };
 
 typedef struct {
-	FormatColRowInfo row; /* Row info */
-	FormatColRowInfo col; /* Col info */
+	GnmFTColRowInfo row; /* Row info */
+	GnmFTColRowInfo col; /* Col info */
 
 	/* Frequency (How many times to repeat) and in which
 	 * direction and when to stop.
 	 */
-	FreqDirection direction;
+	GnmFTFreqDirection direction;
 	int repeat;
 	int skip;
 	int edge;
 
 	GnmStyle *mstyle;       /* Style to apply */
-} TemplateMember;
+} GnmFTMember;
 
 /*
- * Functions for GnmFormatTemplate
+ * Functions for GnmFT
  */
-GType              gnm_format_template_get_type   (void);
-void               format_template_free           (GnmFormatTemplate *ft);
-GnmFormatTemplate *format_template_clone          (GnmFormatTemplate const *ft);
-GnmFormatTemplate *format_template_new_from_file  (char const *filename,
-						   GOCmdContext *context);
+GType            gnm_ft_get_type       (void);
+void             gnm_ft_free           (GnmFT *ft);
+GnmFT		*gnm_ft_clone          (GnmFT const *ft);
+GnmFT 		*gnm_ft_new_from_file  (char const *filename,
+					GOCmdContext *context);
 
-gint                  format_template_compare_name             (gconstpointer a, gconstpointer b);
+gint		 gnm_ft_compare_name   (gconstpointer a, gconstpointer b);
 
-GnmStyle               *format_template_get_style                (GnmFormatTemplate *ft, int row, int col);
-void                  format_template_apply_to_sheet_regions   (GnmFormatTemplate *ft, Sheet *sheet, GSList *regions);
-gboolean	      format_template_check_valid	       (GnmFormatTemplate *ft, GSList *regions,
-								GOCmdContext *cc);
+GnmStyle	*gnm_ft_get_style      (GnmFT *ft, int row, int col);
+void		 gnm_ft_apply_to_sheet_regions   (GnmFT *ft, Sheet *sheet, GSList *regions);
+gboolean	 gnm_ft_check_valid   (GnmFT *ft, GSList *regions,
+				       GOCmdContext *cc);
 
 G_END_DECLS
 

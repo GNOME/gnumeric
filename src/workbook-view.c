@@ -547,7 +547,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		if (wbv->auto_expr.use_max_precision)
 			value_set_fmt (v, NULL);
 		else if (!VALUE_FMT (v)) {
-			GOFormat const *fmt = auto_style_format_suggest (texpr, &ep);
+			GOFormat const *fmt = gnm_auto_style_format_suggest (texpr, &ep);
 			value_set_fmt (v, fmt);
 			go_format_unref (fmt);
 		}
