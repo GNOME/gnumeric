@@ -17,7 +17,7 @@
  * with any .gnumeric extension stripped off.
  */
 gchar *
-history_item_label (gchar const *uri, int accel_number)
+gnm_history_item_label (gchar const *uri, int accel_number)
 {
 	GString *res = g_string_new (NULL);
 	char *basename, *tmp;

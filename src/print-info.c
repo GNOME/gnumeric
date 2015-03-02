@@ -41,7 +41,7 @@
 
 #define MAX_SAVED_CUSTOM_HF_FORMATS 9
 
-GList *hf_formats = NULL;
+GList *gnm_print_hf_formats = NULL;
 static gint hf_formats_base_num = 0;
 
 GType
@@ -86,12 +86,12 @@ gnm_print_errors_get_type (void)
 }
 
 
-PrintHF *
-print_hf_new (char const *left_side_format,
+GnmPrintHF *
+gnm_print_hf_new (char const *left_side_format,
 	      char const *middle_format,
 	      char const *right_side_format)
 {
-	PrintHF *hf = g_new0 (PrintHF, 1);
+	GnmPrintHF *hf = g_new0 (GnmPrintHF, 1);
 	hf->left_format   = g_strdup (left_side_format ?
 				      left_side_format : "");
 	hf->middle_format = g_strdup (middle_format ?
@@ -102,7 +102,7 @@ print_hf_new (char const *left_side_format,
 }
 
 gboolean
-print_hf_same (PrintHF const *a, PrintHF const *b)
+gnm_print_hf_same (GnmPrintHF const *a, GnmPrintHF const *b)
 {
 	if (a->left_format != b->left_format) {
 		if (a->left_format == NULL ||
@@ -126,31 +126,31 @@ print_hf_same (PrintHF const *a, PrintHF const *b)
 	return TRUE;
 }
 
-PrintHF *
-print_hf_register (PrintHF *hf)
+GnmPrintHF *
+gnm_print_hf_register (GnmPrintHF *hf)
 {
 	GList *l;
-	PrintHF *newi;
+	GnmPrintHF *newi;
 
 	g_return_val_if_fail (hf != NULL, NULL);
 
-	for (l = hf_formats; l; l = l->next)
-		if (print_hf_same (hf, l->data))
+	for (l = gnm_print_hf_formats; l; l = l->next)
+		if (gnm_print_hf_same (hf, l->data))
 			return l->data;
 
-	newi = print_hf_copy (hf);
-	hf_formats = g_list_append (hf_formats, newi);
+	newi = gnm_print_hf_copy (hf);
+	gnm_print_hf_formats = g_list_append (gnm_print_hf_formats, newi);
 
 	return newi;
 }
 
 
-PrintHF *
-print_hf_copy (PrintHF const *source)
+GnmPrintHF *
+gnm_print_hf_copy (GnmPrintHF const *source)
 {
-	PrintHF *res;
+	GnmPrintHF *res;
 
-	res = g_new0 (PrintHF, 1);
+	res = g_new0 (GnmPrintHF, 1);
 	res->left_format = g_strdup (source->left_format);
 	res->middle_format = g_strdup (source->middle_format);
 	res->right_format = g_strdup (source->right_format);
@@ -159,7 +159,7 @@ print_hf_copy (PrintHF const *source)
 }
 
 void
-print_hf_free (PrintHF *print_hf)
+gnm_print_hf_free (GnmPrintHF *print_hf)
 {
 	if (print_hf == NULL)
 		return;
@@ -171,20 +171,20 @@ print_hf_free (PrintHF *print_hf)
 }
 
 GType
-print_hf_get_type (void)
+gnm_print_hf_get_type (void)
 {
 	static GType t = 0;
 
 	if (t == 0) {
-		t = g_boxed_type_register_static ("PrintHF",
-			 (GBoxedCopyFunc)print_hf_copy,
-			 (GBoxedFreeFunc)print_hf_free);
+		t = g_boxed_type_register_static ("GnmPrintHF",
+			 (GBoxedCopyFunc)gnm_print_hf_copy,
+			 (GBoxedFreeFunc)gnm_print_hf_free);
 	}
 	return t;
 }
 
 void
-print_info_free (PrintInformation *pi)
+gnm_print_info_free (GnmPrintInformation *pi)
 {
 	g_return_if_fail (pi != NULL);
 
@@ -195,8 +195,8 @@ print_info_free (PrintInformation *pi)
 
 	g_free (pi->repeat_top);
 	g_free (pi->repeat_left);
-	print_hf_free (pi->header);
-	print_hf_free (pi->footer);
+	gnm_print_hf_free (pi->header);
+	gnm_print_hf_free (pi->footer);
 
 	g_free (pi->printtofile_uri);
 	if (pi->page_setup)
@@ -206,14 +206,14 @@ print_info_free (PrintInformation *pi)
 }
 
 GType
-print_information_get_type (void)
+gnm_print_information_get_type (void)
 {
 	static GType t = 0;
 
 	if (t == 0) {
-		t = g_boxed_type_register_static ("PrintInformation",
-			 (GBoxedCopyFunc)print_info_dup,
-			 (GBoxedFreeFunc)print_info_free);
+		t = g_boxed_type_register_static ("GnmPrintInformation",
+			 (GBoxedCopyFunc)gnm_print_info_dup,
+			 (GBoxedFreeFunc)gnm_print_info_free);
 	}
 	return t;
 }
@@ -242,9 +242,9 @@ load_formats (void)
 		int i;
 
 		for (i = 0; predefined_formats [i].left_format; i++) {
-			PrintHF *format;
+			GnmPrintHF *format;
 
-			format = print_hf_new (
+			format = gnm_print_hf_new (
 				predefined_formats [i].left_format[0]?
 				_(predefined_formats [i].left_format):"",
 				predefined_formats [i].middle_format[0]?
@@ -252,7 +252,7 @@ load_formats (void)
 				predefined_formats [i].right_format[0]?
 				_(predefined_formats [i].right_format):"");
 
-			hf_formats = g_list_prepend (hf_formats, format);
+			gnm_print_hf_formats = g_list_prepend (gnm_print_hf_formats, format);
 			hf_formats_base_num++;
 		}
 	}
@@ -269,14 +269,14 @@ load_formats (void)
 
 		while (left != NULL && middle != NULL && right != NULL)
 		{
-			PrintHF *format;
+			GnmPrintHF *format;
 
-			format = print_hf_new
+			format = gnm_print_hf_new
 				(left->data ? left->data : "",
 				 middle->data ? middle->data : "",
 				 right->data ? right->data : "");
 
-			hf_formats = g_list_prepend (hf_formats, format);
+			gnm_print_hf_formats = g_list_prepend (gnm_print_hf_formats, format);
 
 			left = left->next;
 			middle = middle->next;
@@ -284,11 +284,11 @@ load_formats (void)
 		}
 	}
 
-	hf_formats = g_list_reverse (hf_formats);
+	gnm_print_hf_formats = g_list_reverse (gnm_print_hf_formats);
 }
 
 /**
- * print_info_load_defaults:
+ * gnm_print_info_load_defaults:
  *
  *
  * NOTE: This reads from a globally stored configuration. If a
@@ -296,8 +296,8 @@ load_formats (void)
  *       override these global defaults.
  */
 
-PrintInformation *
-print_info_load_defaults (PrintInformation *res)
+GnmPrintInformation *
+gnm_print_info_load_defaults (GnmPrintInformation *res)
 {
 	GSList *list;
 	GtkPrintSettings *settings;
@@ -334,17 +334,17 @@ print_info_load_defaults (PrintInformation *res)
 
 	list = gnm_conf_get_printsetup_header ();
 	res->header = list ?
-		print_hf_new (g_slist_nth_data (list, 0),
+		gnm_print_hf_new (g_slist_nth_data (list, 0),
 			      g_slist_nth_data (list, 1),
 			      g_slist_nth_data (list, 2)) :
-		print_hf_new ("", _("&[TAB]"), "");
+		gnm_print_hf_new ("", _("&[TAB]"), "");
 
 	list = gnm_conf_get_printsetup_footer ();
 	res->footer = list ?
-		print_hf_new (g_slist_nth_data (list, 0),
+		gnm_print_hf_new (g_slist_nth_data (list, 0),
 			      g_slist_nth_data (list, 1),
 			      g_slist_nth_data (list, 2)) :
-		print_hf_new ("", _("Page &[PAGE]"), "");
+		gnm_print_hf_new ("", _("Page &[PAGE]"), "");
 
 	settings = gnm_conf_get_print_settings ();
 	print_info_set_from_settings (res, settings);
@@ -354,15 +354,15 @@ print_info_load_defaults (PrintInformation *res)
 }
 
 /**
- * print_information_new:
+ * gnm_print_information_new:
  *
- * Returns a newly allocated PrintInformation buffer
+ * Returns a newly allocated GnmPrintInformation buffer
  *
  */
-PrintInformation *
-print_information_new (gboolean load_defaults)
+GnmPrintInformation *
+gnm_print_information_new (gboolean load_defaults)
 {
-	PrintInformation *res = g_new0 (PrintInformation, 1);
+	GnmPrintInformation *res = g_new0 (GnmPrintInformation, 1);
 
 	res->print_as_draft	   = FALSE;
 	res->comment_placement = GNM_PRINT_COMMENTS_IN_PLACE;
@@ -380,7 +380,7 @@ print_information_new (gboolean load_defaults)
 	res->print_range = GNM_PRINT_ACTIVE_SHEET;
 
 	if (load_defaults)
-		return print_info_load_defaults (res);
+		return gnm_print_info_load_defaults (res);
 	else
 		return res;
 }
@@ -399,12 +399,12 @@ save_formats (void)
 	GSList *right = NULL;
 	int start;
 
-	start = g_list_length (hf_formats) - MAX_SAVED_CUSTOM_HF_FORMATS;
+	start = g_list_length (gnm_print_hf_formats) - MAX_SAVED_CUSTOM_HF_FORMATS;
 	if (start > base)
 		base = start;
 
-	for (l = hf_formats; l; l = l->next) {
-		PrintHF *hf = l->data;
+	for (l = gnm_print_hf_formats; l; l = l->next) {
+		GnmPrintHF *hf = l->data;
 
 		if (base-- > 0)
 			continue;
@@ -429,12 +429,12 @@ save_formats (void)
 static void
 destroy_formats (void)
 {
-	g_list_free_full (hf_formats, (GDestroyNotify)print_hf_free);
-	hf_formats = NULL;
+	g_list_free_full (gnm_print_hf_formats, (GDestroyNotify)gnm_print_hf_free);
+	gnm_print_hf_formats = NULL;
 }
 
 static GSList *
-make_triple (const PrintHF *hf)
+make_triple (const GnmPrintHF *hf)
 {
 	GSList *l = NULL;
 
@@ -446,7 +446,7 @@ make_triple (const PrintHF *hf)
 }
 
 void
-print_info_save (PrintInformation *pi)
+gnm_print_info_save (GnmPrintInformation *pi)
 {
 	GSList *l;
 
@@ -519,7 +519,7 @@ unit_to_unit_name (GtkUnit unit)
 
 
 static void
-render_cell (GString *target, HFRenderInfo *info, char const *args)
+render_cell (GString *target, GnmPrintHFRenderInfo *info, char const *args)
 {
 	gboolean use_repeating = FALSE;
 
@@ -565,7 +565,7 @@ render_cell (GString *target, HFRenderInfo *info, char const *args)
 }
 
 static void
-render_tab (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
+render_tab (GString *target, GnmPrintHFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	if (info->sheet)
 		g_string_append (target, info->sheet->name_unquoted);
@@ -574,19 +574,19 @@ render_tab (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
 }
 
 static void
-render_page (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
+render_page (GString *target, GnmPrintHFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	g_string_append_printf (target, "%d", info->page);
 }
 
 static void
-render_pages (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
+render_pages (GString *target, GnmPrintHFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	g_string_append_printf (target, "%d", info->pages);
 }
 
 static void
-render_timestamp_with_format (GString *target, char const *number_format, HFRenderInfo *info)
+render_timestamp_with_format (GString *target, char const *number_format, GnmPrintHFRenderInfo *info)
 {
 	GOFormat *format;
 
@@ -598,7 +598,7 @@ render_timestamp_with_format (GString *target, char const *number_format, HFRend
 }
 
 static void
-render_date (GString *target, HFRenderInfo *info, char const *args)
+render_date (GString *target, GnmPrintHFRenderInfo *info, char const *args)
 {
 	char const *date_format;
 
@@ -611,7 +611,7 @@ render_date (GString *target, HFRenderInfo *info, char const *args)
 }
 
 static void
-render_time (GString *target, HFRenderInfo *info, char const *args)
+render_time (GString *target, GnmPrintHFRenderInfo *info, char const *args)
 {
 	char const *time_format;
 
@@ -623,7 +623,7 @@ render_time (GString *target, HFRenderInfo *info, char const *args)
 }
 
 static void
-render_file (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
+render_file (GString *target, GnmPrintHFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
 		char *name = go_basename_from_uri (
@@ -635,7 +635,7 @@ render_file (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args
 }
 
 static void
-render_path (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
+render_path (GString *target, GnmPrintHFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
 		char *path = go_dirname_from_uri (
@@ -647,7 +647,7 @@ render_path (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args
 }
 
 static void
-render_title (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
+render_title (GString *target, GnmPrintHFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
 		GsfDocProp *prop;
@@ -664,7 +664,7 @@ render_title (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *arg
 
 static struct {
 	char const *name;
-	void (*render)(GString *target, HFRenderInfo *info, char const *args);
+	void (*render)(GString *target, GnmPrintHFRenderInfo *info, char const *args);
 	char *name_trans;
 } render_ops [] = {
 	{ N_("TAB"),   render_tab   , NULL},
@@ -684,8 +684,8 @@ static struct {
  */
 static void
 render_opcode (GString *target, char /* non-const */ *opcode,
-	       HFRenderInfo *info,
-	       G_GNUC_UNUSED HFRenderType render_type)
+	       GnmPrintHFRenderInfo *info,
+	       G_GNUC_UNUSED GnmPrintHFRenderType render_type)
 {
 	char *args;
 	char *opcode_trans;
@@ -740,7 +740,7 @@ render_opcode (GString *target, char /* non-const */ *opcode,
 #endif
 
 char *
-hf_format_render (char const *format, HFRenderInfo *info, HFRenderType render_type)
+gnm_print_hf_format_render (char const *format, GnmPrintHFRenderInfo *info, GnmPrintHFRenderType render_type)
 {
 	GString *result;
 	char const *p;
@@ -771,12 +771,12 @@ hf_format_render (char const *format, HFRenderInfo *info, HFRenderType render_ty
 	return g_string_free (result, FALSE);
 }
 
-HFRenderInfo *
-hf_render_info_new (void)
+GnmPrintHFRenderInfo *
+gnm_print_hf_render_info_new (void)
 {
-	HFRenderInfo *hfi;
+	GnmPrintHFRenderInfo *hfi;
 
-	hfi = g_new0 (HFRenderInfo, 1);
+	hfi = g_new0 (GnmPrintHFRenderInfo, 1);
 	hfi->date_conv = go_date_conv_from_str ("Lotus:1900");
 	hfi->date_time = value_new_float
 		(go_date_timet_to_serial_raw (time (NULL), hfi->date_conv));
@@ -789,7 +789,7 @@ hf_render_info_new (void)
 }
 
 void
-hf_render_info_destroy (HFRenderInfo *hfi)
+gnm_print_hf_render_info_destroy (GnmPrintHFRenderInfo *hfi)
 {
 	g_return_if_fail (hfi != NULL);
 
@@ -797,13 +797,13 @@ hf_render_info_destroy (HFRenderInfo *hfi)
 	g_free (hfi);
 }
 
-static HFRenderInfo *
-hf_render_info_copy (HFRenderInfo *hfi)
+static GnmPrintHFRenderInfo *
+hf_render_info_copy (GnmPrintHFRenderInfo *hfi)
 {
-	HFRenderInfo *res;
+	GnmPrintHFRenderInfo *res;
 	g_return_val_if_fail (hfi != NULL, NULL);
 
-	res = g_new (HFRenderInfo, 1);
+	res = g_new (GnmPrintHFRenderInfo, 1);
 	res->sheet = hfi->sheet;
 	res->page = hfi->page;
 	res->pages = hfi->pages;
@@ -815,14 +815,14 @@ hf_render_info_copy (HFRenderInfo *hfi)
 }
 
 GType
-hf_render_info_get_type (void)
+gnm_print_hf_render_info_get_type (void)
 {
 	static GType t = 0;
 
 	if (t == 0) {
-		t = g_boxed_type_register_static ("HFRenderInfo",
+		t = g_boxed_type_register_static ("GnmPrintHFRenderInfo",
 			 (GBoxedCopyFunc)hf_render_info_copy,
-			 (GBoxedFreeFunc)hf_render_info_destroy);
+			 (GBoxedFreeFunc)gnm_print_hf_render_info_destroy);
 	}
 	return t;
 }
@@ -1001,12 +1001,12 @@ print_shutdown (void)
 
 #define COPY(field) dst->field = src->field
 
-PrintInformation *
-print_info_dup (PrintInformation const *src)
+GnmPrintInformation *
+gnm_print_info_dup (GnmPrintInformation const *src)
 {
-	PrintInformation *dst = print_information_new (TRUE);
+	GnmPrintInformation *dst = gnm_print_information_new (TRUE);
 
-	print_info_load_defaults ((PrintInformation *)src);
+	gnm_print_info_load_defaults ((GnmPrintInformation *)src);
 
 	COPY(scaling);
 	COPY(edge_to_below_header);
@@ -1037,11 +1037,11 @@ print_info_dup (PrintInformation const *src)
 	gnm_page_breaks_free (dst->page_breaks.v);
 	dst->page_breaks.v = gnm_page_breaks_dup (src->page_breaks.v);
 
-	print_hf_free (dst->header);
-	dst->header = print_hf_copy (src->header);
+	gnm_print_hf_free (dst->header);
+	dst->header = gnm_print_hf_copy (src->header);
 
-	print_hf_free (dst->footer);
-	dst->footer = print_hf_copy (src->footer);
+	gnm_print_hf_free (dst->footer);
+	dst->footer = gnm_print_hf_copy (src->footer);
 
 	COPY(start_page);
         COPY(n_copies);
@@ -1059,14 +1059,14 @@ print_info_dup (PrintInformation const *src)
 #undef COPY
 
 void
-print_info_get_margins (PrintInformation *pi,
+print_info_get_margins (GnmPrintInformation *pi,
 			double *top, double *bottom,
 			double *left, double *right,
 			double *edge_to_below_header,
 			double *edge_to_above_footer)
 {
 	g_return_if_fail (pi != NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	g_return_if_fail (pi->page_setup != NULL);
 
 	if (NULL != top)
@@ -1084,60 +1084,60 @@ print_info_get_margins (PrintInformation *pi,
 }
 
 void
-print_info_set_margin_header (PrintInformation *pi, double header)
+print_info_set_margin_header (GnmPrintInformation *pi, double header)
 {
 	g_return_if_fail (pi != NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	g_return_if_fail (pi->page_setup != NULL);
 
 	gtk_page_setup_set_top_margin (pi->page_setup, header, GTK_UNIT_POINTS);
 }
 
 void
-print_info_set_margin_footer (PrintInformation *pi, double footer)
+print_info_set_margin_footer (GnmPrintInformation *pi, double footer)
 {
 	g_return_if_fail (pi != NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
         g_return_if_fail (pi->page_setup != NULL);
 
         gtk_page_setup_set_bottom_margin (pi->page_setup, footer, GTK_UNIT_POINTS);
 }
 
 void
-print_info_set_margin_left (PrintInformation *pi, double left)
+print_info_set_margin_left (GnmPrintInformation *pi, double left)
 {
 	g_return_if_fail (pi != NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	g_return_if_fail (pi->page_setup != NULL);
 
 	gtk_page_setup_set_left_margin (pi->page_setup, left, GTK_UNIT_POINTS);
 }
 
 void
-print_info_set_margin_right (PrintInformation *pi, double right)
+print_info_set_margin_right (GnmPrintInformation *pi, double right)
 {
 	g_return_if_fail (pi != NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	g_return_if_fail (pi->page_setup != NULL);
 
 	gtk_page_setup_set_right_margin (pi->page_setup, right, GTK_UNIT_POINTS);
 }
 
 void
-print_info_set_edge_to_above_footer (PrintInformation *pi, double e_f)
+print_info_set_edge_to_above_footer (GnmPrintInformation *pi, double e_f)
 {
 	g_return_if_fail (pi != NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	g_return_if_fail (pi->page_setup != NULL);
 
 	pi->edge_to_above_footer = e_f;
 }
 
 void
-print_info_set_edge_to_below_header (PrintInformation *pi, double e_h)
+print_info_set_edge_to_below_header (GnmPrintInformation *pi, double e_h)
 {
 	g_return_if_fail (pi != NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	g_return_if_fail (pi->page_setup != NULL);
 
 	pi->edge_to_below_header = e_h;
@@ -1145,11 +1145,11 @@ print_info_set_edge_to_below_header (PrintInformation *pi, double e_h)
 
 
 void
-print_info_set_margins (PrintInformation *pi,
+print_info_set_margins (GnmPrintInformation *pi,
 			double header, double footer, double left, double right)
 {
 	g_return_if_fail (pi != NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	g_return_if_fail (pi->page_setup != NULL);
 
 	if (header >= 0)
@@ -1265,11 +1265,11 @@ page_setup_set_paper (GtkPageSetup *page_setup, char const *paper)
 }
 
 gboolean
-print_info_set_paper (PrintInformation *pi, char const *paper)
+print_info_set_paper (GnmPrintInformation *pi, char const *paper)
 {
 	g_return_val_if_fail (pi != NULL, TRUE);
 
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	return page_setup_set_paper (pi->page_setup, paper);
 }
 
@@ -1303,31 +1303,31 @@ page_setup_get_paper (GtkPageSetup *page_setup)
 }
 
 char  *
-print_info_get_paper (PrintInformation *pi)
+print_info_get_paper (GnmPrintInformation *pi)
 {
 	g_return_val_if_fail (pi != NULL, g_strdup (GTK_PAPER_NAME_A4));
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 
 	return page_setup_get_paper (pi->page_setup);
 }
 
 GtkPaperSize *
-print_info_get_paper_size (PrintInformation *pi)
+print_info_get_paper_size (GnmPrintInformation *pi)
 {
 	g_return_val_if_fail (pi != NULL, NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 
 	return gtk_page_setup_get_paper_size (pi->page_setup);
 }
 
 
 char  const*
-print_info_get_paper_display_name (PrintInformation *pi)
+print_info_get_paper_display_name (GnmPrintInformation *pi)
 {
 	GtkPaperSize* paper;
 
 	g_return_val_if_fail (pi != NULL, "ERROR: No printinformation specified");
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	g_return_val_if_fail (pi->page_setup != NULL, "ERROR: No pagesetup loaded");
 
 	paper = gtk_page_setup_get_paper_size (pi->page_setup);
@@ -1335,41 +1335,41 @@ print_info_get_paper_display_name (PrintInformation *pi)
 }
 
 double
-print_info_get_paper_width (PrintInformation *pi, GtkUnit unit)
+print_info_get_paper_width (GnmPrintInformation *pi, GtkUnit unit)
 {
 	g_return_val_if_fail (pi != NULL, 0.);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 
 	return gtk_page_setup_get_paper_width (pi->page_setup, unit);
 }
 
 double
-print_info_get_paper_height (PrintInformation *pi, GtkUnit unit)
+print_info_get_paper_height (GnmPrintInformation *pi, GtkUnit unit)
 {
 	g_return_val_if_fail (pi != NULL, 0);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 
 	return gtk_page_setup_get_paper_height (pi->page_setup, unit);
 }
 
 /**
- * print_info_get_page_setup:
- * @pi: #PrintInformation
+ * gnm_print_info_get_page_setup:
+ * @pi: #GnmPrintInformation
  *
  * Returns: (transfer none): the page setup.
  **/
 GtkPageSetup*
-print_info_get_page_setup (PrintInformation *pi)
+gnm_print_info_get_page_setup (GnmPrintInformation *pi)
 {
 	g_return_val_if_fail (pi != NULL, NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 
 	return pi->page_setup;
 }
 
 /**
- * print_info_set_page_setup :
- * @pi: #PrintInformation
+ * gnm_print_info_set_page_setup :
+ * @pi: #GnmPrintInformation
  * @page_setup: #GtkPageSetup
  *
  * Absorb a ref to @page_setup.
@@ -1382,11 +1382,11 @@ print_info_get_page_setup (PrintInformation *pi)
  * 2) Why not copy the page_setup in here and make the arg const ?
  **/
 void
-print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup)
+gnm_print_info_set_page_setup (GnmPrintInformation *pi, GtkPageSetup *page_setup)
 {
 	g_return_if_fail (pi != NULL);
 
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 
 	if (pi->page_setup) {
 		double header, footer, left, right;
@@ -1400,12 +1400,12 @@ print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup)
 }
 
 GtkPageOrientation
-print_info_get_paper_orientation (PrintInformation *pi)
+print_info_get_paper_orientation (GnmPrintInformation *pi)
 {
 	GtkPageOrientation orientation;
 
 	g_return_val_if_fail (pi != NULL, GTK_PAGE_ORIENTATION_PORTRAIT);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	g_return_val_if_fail (pi->page_setup != NULL, GTK_PAGE_ORIENTATION_PORTRAIT);
 
 	orientation = gtk_page_setup_get_orientation (pi->page_setup);
@@ -1413,24 +1413,24 @@ print_info_get_paper_orientation (PrintInformation *pi)
 }
 
 void
-print_info_set_paper_orientation (PrintInformation *pi,
+print_info_set_paper_orientation (GnmPrintInformation *pi,
 				  GtkPageOrientation orientation)
 {
 	g_return_if_fail (pi != NULL);
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 
 	gtk_page_setup_set_orientation (pi->page_setup, orientation);
 }
 
 /**
  * print_info_set_breaks :
- * @pi: #PrintInformation
+ * @pi: #GnmPrintInformation
  * @breaks: #GnmPageBreaks
  *
  * NOTE : Takes ownership of @breaks.  DO NOT FREE after calling.
  **/
 void
-print_info_set_breaks (PrintInformation *pi,
+print_info_set_breaks (GnmPrintInformation *pi,
 		       GnmPageBreaks    *breaks)
 {
 	GnmPageBreaks **target;
@@ -1447,7 +1447,7 @@ print_info_set_breaks (PrintInformation *pi,
 }
 
 gboolean
-print_info_has_manual_breaks (PrintInformation *pi)
+print_info_has_manual_breaks (GnmPrintInformation *pi)
 {
 	if (gnm_page_breaks_get_next_manual_break (pi->page_breaks.v, 0) > -1)
 		return TRUE;
@@ -1714,7 +1714,7 @@ gnm_page_breaks_clean (GnmPageBreaks *breaks)
 }
 
 void
-print_info_set_printtofile_uri (PrintInformation *pi,
+print_info_set_printtofile_uri (GnmPrintInformation *pi,
 				gchar const *uri)
 {
 	g_free (pi->printtofile_uri);
@@ -1722,7 +1722,7 @@ print_info_set_printtofile_uri (PrintInformation *pi,
 }
 
 void
-print_info_set_printtofile_from_settings (PrintInformation *pi,
+print_info_set_printtofile_from_settings (GnmPrintInformation *pi,
 					  GtkPrintSettings* settings,
 					  gchar const *default_uri)
 {
@@ -1736,7 +1736,7 @@ print_info_set_printtofile_from_settings (PrintInformation *pi,
 }
 
 void
-print_info_set_from_settings (PrintInformation *pi,
+print_info_set_from_settings (GnmPrintInformation *pi,
 					  GtkPrintSettings* settings)
 {
 	pi->print_range = gtk_print_settings_get_int_with_default
@@ -1746,14 +1746,14 @@ print_info_set_from_settings (PrintInformation *pi,
 }
 
 PrintRange
-print_info_get_printrange (PrintInformation *pi)
+print_info_get_printrange (GnmPrintInformation *pi)
 {
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	return pi->print_range;
 }
 
 void
-print_info_set_printrange (PrintInformation *pi, PrintRange pr)
+print_info_set_printrange (GnmPrintInformation *pi, PrintRange pr)
 {
 	if (pr >= GNM_PRINT_ACTIVE_SHEET
 	    && pr <= GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA)
@@ -1764,9 +1764,9 @@ print_info_set_printrange (PrintInformation *pi, PrintRange pr)
 
 
 char const *
-print_info_get_printtofile_uri (PrintInformation *pi)
+print_info_get_printtofile_uri (GnmPrintInformation *pi)
 {
-	print_info_load_defaults (pi);
+	gnm_print_info_load_defaults (pi);
 	return pi->printtofile_uri;
 }
 

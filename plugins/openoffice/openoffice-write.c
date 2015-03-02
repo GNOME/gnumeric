@@ -299,7 +299,7 @@ table_master_page_style_name (GnmOOExport *state, Sheet const *sheet)
 }
 
 static char *
-page_layout_name (GnmOOExport *state, PrintInformation *pi)
+page_layout_name (GnmOOExport *state, GnmPrintInformation *pi)
 {
 	return oo_item_name (state, OO_ITEM_PAGE_LAYOUT, pi);
 }
@@ -5250,7 +5250,7 @@ odf_master_styles_to_xl_styles (GnmOOExport *state)
 		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
 
 		if (sheet->print_info->page_setup == NULL)
-			print_info_load_defaults (sheet->print_info);
+			gnm_print_info_load_defaults (sheet->print_info);
 
 		if (sheet->print_info->header != NULL) {
 			odf_hf_region_to_xl_styles
@@ -5320,12 +5320,12 @@ odf_write_hf_region (GnmOOExport *state, char const *format, char const *id)
 }
 
 static void
-odf_write_hf (GnmOOExport *state, PrintInformation *pi, char const *id, gboolean header)
+odf_write_hf (GnmOOExport *state, GnmPrintInformation *pi, char const *id, gboolean header)
 {
-	PrintHF *hf = header ? pi->header : pi->footer;
+	GnmPrintHF *hf = header ? pi->header : pi->footer;
 	double page_margin;
 	double hf_height;
-	GtkPageSetup *gps = print_info_get_page_setup (pi);
+	GtkPageSetup *gps = gnm_print_info_get_page_setup (pi);
 
 	if (hf == NULL)
 		return;
@@ -5458,12 +5458,12 @@ odf_write_office_styles (GnmOOExport *state)
 }
 
 static void
-odf_write_hf_style (GnmOOExport *state, PrintInformation *pi, char const *id, gboolean header)
+odf_write_hf_style (GnmOOExport *state, GnmPrintInformation *pi, char const *id, gboolean header)
 {
-	PrintHF *hf = header ? pi->header : pi->footer;
+	GnmPrintHF *hf = header ? pi->header : pi->footer;
 	double page_margin;
 	double hf_height;
-	GtkPageSetup *gps = print_info_get_page_setup (pi);
+	GtkPageSetup *gps = gnm_print_info_get_page_setup (pi);
 
 	if (hf == NULL)
 		return;
@@ -5493,7 +5493,7 @@ odf_write_hf_style (GnmOOExport *state, PrintInformation *pi, char const *id, gb
 
 
 static void
-odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
+odf_write_page_layout (GnmOOExport *state, GnmPrintInformation *pi,
 		       Sheet const *sheet)
 {
 	static char const *centre_type [] = {
@@ -5504,7 +5504,7 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
 		NULL          };
 
 	char *name =  page_layout_name (state, pi);
-	GtkPageSetup *gps = print_info_get_page_setup (pi);
+	GtkPageSetup *gps = gnm_print_info_get_page_setup (pi);
 	int i;
 	GtkPageOrientation orient = gtk_page_setup_get_orientation (gps);
 	gboolean landscape = !(orient == GTK_PAGE_ORIENTATION_PORTRAIT ||

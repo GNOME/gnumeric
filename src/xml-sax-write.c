@@ -289,7 +289,7 @@ xml_write_print_repeat_range (GnmOutputXML *state,
 
 static void
 xml_write_print_hf (GnmOutputXML *state, char const *name,
-		    PrintHF const *hf)
+		    GnmPrintHF const *hf)
 {
 	gsf_xml_out_start_element (state->output, name);
 	gsf_xml_out_add_cstr (state->output, "Left", hf->left_format);
@@ -326,7 +326,7 @@ xml_write_breaks (GnmOutputXML *state, GnmPageBreaks *breaks)
 }
 
 static void
-xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
+xml_write_print_info (GnmOutputXML *state, GnmPrintInformation *pi)
 {
 	char  *paper_name;
 	char const *uri;

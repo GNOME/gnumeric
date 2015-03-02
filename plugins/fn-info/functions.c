@@ -1838,7 +1838,7 @@ gnumeric_get_link (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 		sheet = (a->sheet == NULL) ? ei->pos->sheet : a->sheet;
 		gnm_cellpos_init_cellref (&pos, a, &(ei->pos->eval), sheet);
-		link = sheet_hlink_find (sheet, &pos);
+		link = gnm_sheet_hlink_find (sheet, &pos);
 
 		if (link)
 			return value_new_string (gnm_hlink_get_target (link));

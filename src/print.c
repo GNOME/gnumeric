@@ -75,7 +75,7 @@ typedef struct {
 	guint to, from;
 	gboolean ignore_pb;
 	guint last_pagination;
-	HFRenderInfo *hfi;
+	GnmPrintHFRenderInfo *hfi;
 	GtkWidget *progress;
 	gboolean cancel;
 	gboolean preview;
@@ -149,7 +149,7 @@ static PrintingInstance *
 printing_instance_new (void)
 {
 	PrintingInstance * pi = g_new0 (PrintingInstance,1);
-	pi->hfi = hf_render_info_new ();
+	pi->hfi = gnm_print_hf_render_info_new ();
 	pi->cancel = FALSE;
 	pi->hfi->pages = -1;
 
@@ -170,7 +170,7 @@ static void
 printing_instance_delete (PrintingInstance *pi)
 {
 	g_list_free_full (pi->gnmSheets, sheet_print_info_free);
-	hf_render_info_destroy (pi->hfi);
+	gnm_print_hf_render_info_destroy (pi->hfi);
 	if (pi->progress) {
 		gtk_widget_destroy (pi->progress);
 	}
@@ -258,7 +258,7 @@ print_page_cells (G_GNUC_UNUSED GtkPrintContext   *context,
 {
 	gnm_gtk_print_cell_range (cr, sheet, range,
 				  base_x, base_y,
-				  (PrintInformation const *) sheet->print_info);
+				  (GnmPrintInformation const *) sheet->print_info);
 	gnm_print_sheet_objects (cr, sheet, range, base_x, base_y);
 }
 
@@ -412,7 +412,7 @@ print_hf_element (GtkPrintContext *context, cairo_t *cr,
 		  G_GNUC_UNUSED Sheet const *sheet,
 		  char const *format,
 		  PangoAlignment side, gdouble width, gboolean align_bottom,
-		  HFRenderInfo *hfi)
+		  GnmPrintHFRenderInfo *hfi)
 {
 	PangoLayout *layout;
 
@@ -422,7 +422,7 @@ print_hf_element (GtkPrintContext *context, cairo_t *cr,
 	if (format == NULL)
 		return;
 
-	text = hf_format_render (format, hfi, HF_RENDER_PRINT);
+	text = gnm_print_hf_format_render (format, hfi, HF_RENDER_PRINT);
 
 	if (text == NULL)
 		return;
@@ -457,7 +457,7 @@ print_hf_element (GtkPrintContext *context, cairo_t *cr,
  */
 static void
 print_hf_line (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet,
-	       PrintHF const *hf, gboolean align_bottom, gdouble width, HFRenderInfo *hfi)
+	       GnmPrintHF const *hf, gboolean align_bottom, gdouble width, GnmPrintHFRenderInfo *hfi)
 {
 	print_hf_element (context, cr, sheet, hf->left_format, PANGO_ALIGN_LEFT, width, align_bottom, hfi);
 	print_hf_element (context, cr, sheet, hf->middle_format, PANGO_ALIGN_CENTER, width, align_bottom, hfi);
@@ -483,7 +483,7 @@ print_page (G_GNUC_UNUSED GtkPrintOperation *operation,
 	    SheetPageRange *gsr)
 {
 	Sheet *sheet = gsr->sheet;
-	PrintInformation *pinfo = sheet->print_info;
+	GnmPrintInformation *pinfo = sheet->print_info;
 	gdouble print_height, print_width;
 	gdouble main_height, main_width;
 	gdouble header, footer, left, right;
@@ -946,7 +946,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 		     SheetPrintInfo *spi)
 {
 	Sheet *sheet = spi->sheet;
-	PrintInformation *pinfo = sheet->print_info;
+	GnmPrintInformation *pinfo = sheet->print_info;
 	GnmRange r;
 	GnmRange const *selection_range;
 	GnmRange print_area;
@@ -1166,7 +1166,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	/*
 	 * Setup render info
 	 */
-	pj->render_info = hf_render_info_new ();
+	pj->render_info = gnm_print_hf_render_info_new ();
 	pj->render_info->sheet = sheet;
 	pj->render_info->page = 1;
 
@@ -1177,7 +1177,7 @@ static void
 print_job_info_destroy (PrintJobInfo *pj)
 {
 	g_object_unref (pj->gp_config);
-	hf_render_info_destroy (pj->render_info);
+	gnm_print_hf_render_info_destroy (pj->render_info);
 	if (pj->decoration_layout)
 		g_object_unref (pj->decoration_layout);
 	if (pj->print_context)
@@ -1375,7 +1375,7 @@ gnm_request_page_setup_cb (GtkPrintOperation *operation,
 
 	gtk_print_settings_set_use_color (settings, !sheet->print_info->print_black_and_white);
 	if (sheet->print_info->page_setup == NULL)
-		print_info_load_defaults (sheet->print_info);
+		gnm_print_info_load_defaults (sheet->print_info);
 	if (sheet->print_info->page_setup != NULL)
 		cp_gtk_page_setup (sheet->print_info->page_setup, setup);
 }
@@ -1815,7 +1815,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	gtk_print_operation_set_print_settings (print, settings);
 	g_object_unref (settings);
 
-	page_setup = print_info_get_page_setup (sheet->print_info);
+	page_setup = gnm_print_info_get_page_setup (sheet->print_info);
 	if (page_setup)
 		gtk_print_operation_set_default_page_setup (print, page_setup);
 
@@ -2013,7 +2013,7 @@ gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 	gtk_print_operation_set_print_settings (print, settings);
 	g_object_unref (settings);
 
-	page_setup = print_info_get_page_setup (sheet->print_info);
+	page_setup = gnm_print_info_get_page_setup (sheet->print_info);
 	if (page_setup)
 		gtk_print_operation_set_default_page_setup (print, page_setup);
 

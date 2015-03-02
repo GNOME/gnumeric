@@ -17,14 +17,14 @@ GType gnm_print_errors_get_type (void);
 
 typedef struct {
 	GtkUnit   top, bottom, left, right, header, footer;
-} DesiredDisplay;
+} GnmPrintDesiredDisplay;
 
 /* Header/Footer definition */
 typedef struct {
 	char *left_format;
 	char *middle_format;
 	char *right_format;
-} PrintHF;
+} GnmPrintHF;
 
 typedef enum {
 	GNM_PRINT_COMMENTS_NONE,
@@ -57,9 +57,9 @@ typedef struct {
 	GArray	*details; /* ordered array of GnmPageBreak  */
 } GnmPageBreaks;
 
-struct _PrintInformation {
-	struct _PrintInfoScaling {
-		enum _PrintScaleType {
+struct GnmPrintInformation_ {
+	struct GnmPrintInfoScaling_ {
+		enum GnmPrintScaleType_ {
 			PRINT_SCALE_PERCENTAGE,
 			PRINT_SCALE_FIT_PAGES
 		} type;
@@ -81,7 +81,7 @@ struct _PrintInformation {
 	} scaling;
 	double           edge_to_below_header;
 	double           edge_to_above_footer;
-        DesiredDisplay   desired_display;
+        GnmPrintDesiredDisplay   desired_display;
 	char            *repeat_top, *repeat_left;
 	unsigned int	 print_across_then_down;
 	unsigned int     center_vertically:1;
@@ -102,7 +102,7 @@ struct _PrintInformation {
 		GnmPageBreaks *h,  /* between rows */
 			      *v;  /* between columns */
 	} page_breaks;
-	PrintHF		*header, *footer;
+	GnmPrintHF		*header, *footer;
 
 	int		  start_page; /* < 0 implies auto */
         int              n_copies;
@@ -116,7 +116,7 @@ struct _PrintInformation {
 
 typedef enum {
 	HF_RENDER_PRINT
-} HFRenderType;
+} GnmPrintHFRenderType;
 
 typedef struct {
 	Sheet const *sheet;
@@ -126,34 +126,34 @@ typedef struct {
 	GODateConventions const *date_conv;
 	GnmRange  page_area;
 	GnmCellPos top_repeating;
-} HFRenderInfo;
+} GnmPrintHFRenderInfo;
 
-GType             print_information_get_type (void);
-PrintInformation *print_information_new         (gboolean load_defaults);
-PrintInformation *print_info_load_defaults (PrintInformation *pi);
-PrintInformation *print_info_dup	 (PrintInformation const *pi);
-void              print_info_free        (PrintInformation *pi);
-void              print_info_save        (PrintInformation *pi);
+GType             gnm_print_information_get_type (void);
+GnmPrintInformation *gnm_print_information_new         (gboolean load_defaults);
+GnmPrintInformation *gnm_print_info_load_defaults (GnmPrintInformation *pi);
+GnmPrintInformation *gnm_print_info_dup	 (GnmPrintInformation const *pi);
+void              gnm_print_info_free        (GnmPrintInformation *pi);
+void              gnm_print_info_save        (GnmPrintInformation *pi);
 
-GtkPageSetup     *print_info_get_page_setup (PrintInformation *pi); /* Does not return a ref! */
-void              print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup);
+GtkPageSetup     *gnm_print_info_get_page_setup (GnmPrintInformation *pi); /* Does not return a ref! */
+void              gnm_print_info_set_page_setup (GnmPrintInformation *pi, GtkPageSetup *page_setup);
 
-GType             print_hf_get_type      (void);
-PrintHF          *print_hf_new           (char const *left,
+GType             gnm_print_hf_get_type      (void);
+GnmPrintHF          *gnm_print_hf_new           (char const *left,
 					  char const *middle,
 				          char const *right);
-void              print_hf_free          (PrintHF *print_hf);
-PrintHF          *print_hf_copy          (PrintHF const *source);
-PrintHF          *print_hf_register      (PrintHF *hf);
-gboolean          print_hf_same          (PrintHF const *a, PrintHF const *b);
+void              gnm_print_hf_free          (GnmPrintHF *print_hf);
+GnmPrintHF          *gnm_print_hf_copy          (GnmPrintHF const *source);
+GnmPrintHF          *gnm_print_hf_register      (GnmPrintHF *hf);
+gboolean          gnm_print_hf_same          (GnmPrintHF const *a, GnmPrintHF const *b);
 
-char             *hf_format_render       (char const *format,
-					  HFRenderInfo *info,
-					  HFRenderType render_type);
+char             *gnm_print_hf_format_render       (char const *format,
+					  GnmPrintHFRenderInfo *info,
+					  GnmPrintHFRenderType render_type);
 
-GType             hf_render_info_get_type      (void);
-HFRenderInfo     *hf_render_info_new     (void);
-void              hf_render_info_destroy (HFRenderInfo *hfi);
+GType             gnm_print_hf_render_info_get_type      (void);
+GnmPrintHFRenderInfo     *gnm_print_hf_render_info_new     (void);
+void              gnm_print_hf_render_info_destroy (GnmPrintHFRenderInfo *hfi);
 
 
 GtkUnit     unit_name_to_unit    (char const *name);
@@ -164,48 +164,48 @@ void        print_shutdown           (void);
 
 gboolean    page_setup_set_paper (GtkPageSetup *page_setup, char const *paper);
 char	   *page_setup_get_paper (GtkPageSetup *page_setup); /* caller frees result */
-gboolean    print_info_set_paper (PrintInformation *pi, char const *paper);
-char       *print_info_get_paper (PrintInformation *pi); /* caller frees result */
-GtkPaperSize *print_info_get_paper_size (PrintInformation *pi);
+gboolean    print_info_set_paper (GnmPrintInformation *pi, char const *paper);
+char       *print_info_get_paper (GnmPrintInformation *pi); /* caller frees result */
+GtkPaperSize *print_info_get_paper_size (GnmPrintInformation *pi);
 
-void	    print_info_set_paper_orientation   (PrintInformation *pi,
+void	    print_info_set_paper_orientation   (GnmPrintInformation *pi,
 						GtkPageOrientation orientation);
-char const *print_info_get_paper_display_name (PrintInformation *pi);
+char const *print_info_get_paper_display_name (GnmPrintInformation *pi);
 
-double      print_info_get_paper_width     (PrintInformation *pi, GtkUnit unit);
-double      print_info_get_paper_height    (PrintInformation *pi, GtkUnit unit);
-GtkPageOrientation print_info_get_paper_orientation   (PrintInformation *pi);
-void        print_info_get_margins   (PrintInformation *pi,
+double      print_info_get_paper_width     (GnmPrintInformation *pi, GtkUnit unit);
+double      print_info_get_paper_height    (GnmPrintInformation *pi, GtkUnit unit);
+GtkPageOrientation print_info_get_paper_orientation   (GnmPrintInformation *pi);
+void        print_info_get_margins   (GnmPrintInformation *pi,
 				      double *top, double *bottom,
 				      double *left, double *right,
 				      double *edge_to_below_header,
 				      double *edge_to_above_footer);
-void        print_info_set_margins   (PrintInformation *pi,
+void        print_info_set_margins   (GnmPrintInformation *pi,
 				      double header, double footer, double left, double right);
-void        print_info_set_margin_header (PrintInformation *pi, double header);
-void        print_info_set_margin_footer (PrintInformation *pi, double footer);
-void        print_info_set_margin_left   (PrintInformation *pi, double left);
-void        print_info_set_margin_right  (PrintInformation *pi, double right);
-void        print_info_set_edge_to_above_footer (PrintInformation *pi,
+void        print_info_set_margin_header (GnmPrintInformation *pi, double header);
+void        print_info_set_margin_footer (GnmPrintInformation *pi, double footer);
+void        print_info_set_margin_left   (GnmPrintInformation *pi, double left);
+void        print_info_set_margin_right  (GnmPrintInformation *pi, double right);
+void        print_info_set_edge_to_above_footer (GnmPrintInformation *pi,
 						 double e_f);
-void        print_info_set_edge_to_below_header (PrintInformation *pi,
+void        print_info_set_edge_to_below_header (GnmPrintInformation *pi,
 						 double e_h);
-void        print_info_set_printtofile_uri (PrintInformation *pi,
+void        print_info_set_printtofile_uri (GnmPrintInformation *pi,
 					gchar const *uri);
 void        print_info_set_printtofile_from_settings
-                               (PrintInformation *pi,
+                               (GnmPrintInformation *pi,
 				GtkPrintSettings *settings,
 				gchar const *default_uri);
 void        print_info_set_from_settings
-                               (PrintInformation *pi,
+                               (GnmPrintInformation *pi,
 				GtkPrintSettings *settings);
-char const *print_info_get_printtofile_uri (PrintInformation *pi);
-PrintRange  print_info_get_printrange (PrintInformation *pi);
-void        print_info_set_printrange (PrintInformation *pi, PrintRange pr);
+char const *print_info_get_printtofile_uri (GnmPrintInformation *pi);
+PrintRange  print_info_get_printrange (GnmPrintInformation *pi);
+void        print_info_set_printrange (GnmPrintInformation *pi, PrintRange pr);
 
-void        print_info_set_breaks (PrintInformation *pi, GnmPageBreaks *breaks);
+void        print_info_set_breaks (GnmPrintInformation *pi, GnmPageBreaks *breaks);
 
-gboolean        print_info_has_manual_breaks (PrintInformation *pi);
+gboolean        print_info_has_manual_breaks (GnmPrintInformation *pi);
 
 GType            gnm_page_breaks_get_type       (void);
 GnmPageBreaks	*gnm_page_breaks_new		(gboolean is_vert);
@@ -228,7 +228,7 @@ gboolean         print_load_repeat_range (char const *str, GnmRange *r, Sheet co
 
 
 /* Formats known */
-extern GList *hf_formats;
+extern GList *gnm_print_hf_formats;
 
 G_END_DECLS
 

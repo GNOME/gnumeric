@@ -109,7 +109,7 @@ struct _PrinterSetupState {
 	WBCGtk  *wbcg;
 	Sheet            *sheet;
 	GtkBuilder       *gui;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	GtkWidget        *dialog;
 	GtkWidget        *sheet_selector;
 
@@ -145,8 +145,8 @@ struct _PrinterSetupState {
 	GnmExprEntry *left_entry;
 
 	/* The header and footer data. */
-	PrintHF *header;
-	PrintHF *footer;
+	GnmPrintHF *header;
+	GnmPrintHF *footer;
 
 	/* The header and footer customize dialogs. */
 	GtkWidget *customize_header;
@@ -184,7 +184,7 @@ struct _HFCustomizeState {
 	GtkWidget        *dialog;
 	GtkBuilder       *gui;
 	PrinterSetupState *printer_setup_state;
-	PrintHF          **hf;
+	GnmPrintHF          **hf;
 	gboolean         is_header;
 	GtkTextBuffer    *left_buffer;
 	GtkTextBuffer    *middle_buffer;
@@ -871,13 +871,13 @@ static void
 display_hf_preview (PrinterSetupState *state, gboolean header)
 {
 	gchar *text = NULL;
-	PrintHF *sample = NULL;
-	HFRenderInfo *hfi;
+	GnmPrintHF *sample = NULL;
+	GnmPrintHFRenderInfo *hfi;
 	HFPreviewInfo *pi;
 
 	g_return_if_fail (state != NULL);
 
-	hfi = hf_render_info_new ();
+	hfi = gnm_print_hf_render_info_new ();
 
 	hfi->page = 1;
 	hfi->pages = 99;
@@ -891,19 +891,19 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 		sample = state->footer;
 	}
 
-	text = hf_format_render (sample->left_format, hfi, HF_RENDER_PRINT);
+	text = gnm_print_hf_format_render (sample->left_format, hfi, HF_RENDER_PRINT);
 	goc_item_set (pi->left, "text", text ? text : "", NULL);
 	g_free (text);
 
-	text = hf_format_render (sample->middle_format, hfi, HF_RENDER_PRINT);
+	text = gnm_print_hf_format_render (sample->middle_format, hfi, HF_RENDER_PRINT);
 	goc_item_set (pi->middle, "text", text ? text : "", NULL);
 	g_free (text);
 
-	text  = hf_format_render (sample->right_format, hfi, HF_RENDER_PRINT);
+	text  = gnm_print_hf_format_render (sample->right_format, hfi, HF_RENDER_PRINT);
 	goc_item_set (pi->right, "text", text ? text : "", NULL);
 	g_free (text);
 
-	hf_render_info_destroy (hfi);
+	gnm_print_hf_render_info_destroy (hfi);
 }
 
 static void
@@ -921,15 +921,15 @@ do_footer_customize (PrinterSetupState *state)
 static void
 header_changed (GtkComboBox *menu, PrinterSetupState *state)
 {
-	GList *selection = g_list_nth (hf_formats,
+	GList *selection = g_list_nth (gnm_print_hf_formats,
 		gtk_combo_box_get_active (menu));
-	PrintHF *format = (selection)? selection->data: NULL;
+	GnmPrintHF *format = (selection)? selection->data: NULL;
 
 	if (format == NULL) {
 		do_header_customize (state);
 	} else {
-		print_hf_free (state->header);
-		state->header = print_hf_copy (format);
+		gnm_print_hf_free (state->header);
+		state->header = gnm_print_hf_copy (format);
 	}
 
 		display_hf_preview (state, TRUE);
@@ -938,15 +938,15 @@ header_changed (GtkComboBox *menu, PrinterSetupState *state)
 static void
 footer_changed (GtkComboBox *menu, PrinterSetupState *state)
 {
-	GList *selection = g_list_nth (hf_formats,
+	GList *selection = g_list_nth (gnm_print_hf_formats,
 		gtk_combo_box_get_active (menu));
-	PrintHF *format = (selection)? selection->data: NULL;
+	GnmPrintHF *format = (selection)? selection->data: NULL;
 
 	if (format == NULL) {
 		do_footer_customize (state);
 	} else {
-		print_hf_free (state->footer);
-		state->footer = print_hf_copy (format);
+		gnm_print_hf_free (state->footer);
+		state->footer = gnm_print_hf_copy (format);
 	}
 
 	display_hf_preview (state, FALSE);
@@ -977,15 +977,15 @@ create_hf_name (char const *left, char const *middle, char const *right)
 }
 
 static void
-append_hf_item (GtkListStore *store, PrintHF *format, HFRenderInfo *hfi)
+append_hf_item (GtkListStore *store, GnmPrintHF *format, GnmPrintHFRenderInfo *hfi)
 {
 	GtkTreeIter iter;
 	char *left, *middle, *right;
 	char *res;
 
-	left   = hf_format_render (format->left_format, hfi, HF_RENDER_PRINT);
-	middle = hf_format_render (format->middle_format, hfi, HF_RENDER_PRINT);
-	right  = hf_format_render (format->right_format, hfi, HF_RENDER_PRINT);
+	left   = gnm_print_hf_format_render (format->left_format, hfi, HF_RENDER_PRINT);
+	middle = gnm_print_hf_format_render (format->middle_format, hfi, HF_RENDER_PRINT);
+	right  = gnm_print_hf_format_render (format->right_format, hfi, HF_RENDER_PRINT);
 
 	res = create_hf_name (left, middle, right);
 
@@ -1009,12 +1009,12 @@ static void
 fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean header)
 {
 	GList *l;
-	HFRenderInfo *hfi;
+	GnmPrintHFRenderInfo *hfi;
 	GtkListStore *store;
-	PrintHF *select = header ? state->header : state->footer;
+	GnmPrintHF *select = header ? state->header : state->footer;
 	int i, idx = -1;
 
-	hfi = hf_render_info_new ();
+	hfi = gnm_print_hf_render_info_new ();
 	hfi->page = 1;
 	hfi->pages = 99;
 
@@ -1022,10 +1022,10 @@ fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean
 	gtk_combo_box_set_model (om, GTK_TREE_MODEL (store));
 	g_object_unref (store);
 
-	for (i = 0, l = hf_formats; l; l = l->next, i++) {
-		PrintHF *format = l->data;
+	for (i = 0, l = gnm_print_hf_formats; l; l = l->next, i++) {
+		GnmPrintHF *format = l->data;
 
-		if (print_hf_same (format, select))
+		if (gnm_print_hf_same (format, select))
 			idx = i;
 
 		append_hf_item (store, format, hfi);
@@ -1037,7 +1037,7 @@ fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean
 	gtk_combo_box_set_active (om, idx);
 	g_signal_connect (G_OBJECT (om), "changed", callback, state);
 
-	hf_render_info_destroy (hfi);
+	gnm_print_hf_render_info_destroy (hfi);
 }
 
 static void
@@ -1052,9 +1052,9 @@ do_setup_hf_menus (PrinterSetupState *state)
 	footer = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "option-menu-footer"));
 
 	if (state->header)
-		print_hf_register (state->header);
+		gnm_print_hf_register (state->header);
 	if (state->footer)
-		print_hf_register (state->footer);
+		gnm_print_hf_register (state->footer);
 
 	if (state->header)
 		fill_hf (state, header, G_CALLBACK (header_changed), TRUE);
@@ -1396,14 +1396,14 @@ hf_customize_apply (HFCustomizeState *hf_state)
 	middle_format = text_get (hf_state, hf_state->middle_buffer);
 	right_format  = text_get (hf_state, hf_state->right_buffer);
 
-	print_hf_free (*(hf_state->hf));
-	*(hf_state->hf) = print_hf_new (left_format, middle_format, right_format);
+	gnm_print_hf_free (*(hf_state->hf));
+	*(hf_state->hf) = gnm_print_hf_new (left_format, middle_format, right_format);
 
 	g_free (left_format);
 	g_free (middle_format);
 	g_free (right_format);
 
-	print_hf_register (*(hf_state->hf));
+	gnm_print_hf_register (*(hf_state->hf));
 	do_setup_hf_menus (hf_state->printer_setup_state);
 	display_hf_preview (hf_state->printer_setup_state, hf_state->is_header);
 
@@ -2106,10 +2106,10 @@ do_setup_hf (PrinterSetupState *state)
                                         "text", 0,
                                         NULL);
 
-	state->header = print_hf_copy (state->pi->header ? state->pi->header :
-				     hf_formats->data);
-	state->footer = print_hf_copy (state->pi->footer ? state->pi->footer :
-				     hf_formats->data);
+	state->header = gnm_print_hf_copy (state->pi->header ? state->pi->header :
+				     gnm_print_hf_formats->data);
+	state->footer = gnm_print_hf_copy (state->pi->footer ? state->pi->footer :
+				     gnm_print_hf_formats->data);
 
 	do_setup_hf_menus (state);
 
@@ -2368,7 +2368,7 @@ do_update_margin (UnitInfo *margin, double value, GtkUnit unit)
 static void
 do_update_page (PrinterSetupState *state)
 {
-	PrintInformation *pi = state->pi;
+	GnmPrintInformation *pi = state->pi;
 	GtkBuilder *gui;
 	double top, bottom;
 	double left, right;
@@ -2563,7 +2563,7 @@ scaling_fit_to_changed (GtkToggleButton *toggle, PrinterSetupState *state)
 static void
 do_setup_scale (PrinterSetupState *state)
 {
-	PrintInformation *pi = state->pi;
+	GnmPrintInformation *pi = state->pi;
 	GtkWidget *scale_percent_spin, *scale_width_spin, *scale_height_spin;
 	GtkBuilder *gui;
 
@@ -2642,7 +2642,7 @@ print_setup_get_sheet (PrinterSetupState *state)
 static void
 cb_do_print_preview (PrinterSetupState *state)
 {
-	PrintInformation *old_pi;
+	GnmPrintInformation *old_pi;
 	double width, height;
 	GogGraph *graph = NULL;
 
@@ -2683,7 +2683,7 @@ cb_do_print_ok (PrinterSetupState *state)
 		    GTK_TOGGLE_BUTTON (
 			    go_gtk_builder_get_widget (state->gui,
 						  "is_default_check")))) {
-		print_info_save (state->pi);
+		gnm_print_info_save (state->pi);
 	}
 	cmd_print_setup (GNM_WBC (state->wbcg),
 		print_setup_get_sheet (state), state->pi);
@@ -2711,9 +2711,9 @@ cb_do_print_destroy (PrinterSetupState *state)
 
 	g_object_unref (state->gui);
 
-	print_hf_free (state->header);
-	print_hf_free (state->footer);
-	print_info_free (state->pi);
+	gnm_print_hf_free (state->header);
+	gnm_print_hf_free (state->footer);
+	gnm_print_info_free (state->pi);
 	g_free (state->pi_header);
 	g_free (state->pi_footer);
 	g_object_unref (state->unit_model);
@@ -2814,7 +2814,7 @@ printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->sheet = sheet;
 	state->gui   = gui;
-	state->pi    = print_info_dup (sheet->print_info);
+	state->pi    = gnm_print_info_dup (sheet->print_info);
 	state->display_unit = state->pi->desired_display.top;
 	state->customize_header = NULL;
 	state->customize_footer = NULL;
@@ -2900,7 +2900,7 @@ static void
 do_fetch_margins (PrinterSetupState *state)
 {
 	double header, footer, top, bottom, left, right;
-	GtkPageSetup     *ps = print_info_get_page_setup (state->pi);
+	GtkPageSetup     *ps = gnm_print_info_get_page_setup (state->pi);
 	double factor = get_conversion_factor (state->display_unit);
 
 	header = state->margins.header.value;
@@ -2925,17 +2925,17 @@ do_fetch_margins (PrinterSetupState *state)
 static void
 do_fetch_hf (PrinterSetupState *state)
 {
-	print_hf_free (state->pi->header);
-	print_hf_free (state->pi->footer);
+	gnm_print_hf_free (state->pi->header);
+	gnm_print_hf_free (state->pi->footer);
 
-	state->pi->header = print_hf_copy (state->header);
-	state->pi->footer = print_hf_copy (state->footer);
+	state->pi->header = gnm_print_hf_copy (state->header);
+	state->pi->footer = gnm_print_hf_copy (state->footer);
 }
 
 static void
 do_fetch_page_info (PrinterSetupState *state)
 {
-	PrintInformation *pi = state->pi;
+	GnmPrintInformation *pi = state->pi;
 	GtkTreeIter iter;
 
 	pi->print_grid_lines = gtk_toggle_button_get_active
@@ -2985,7 +2985,7 @@ dialog_printer_setup_done_cb (GtkPageSetup *page_setup,
 {
 	if (page_setup) {
 		PrinterSetupState *state = data;
-		print_info_set_page_setup (state->pi,
+		gnm_print_info_set_page_setup (state->pi,
 			gtk_page_setup_copy (page_setup));
 		do_update_page (state);
 	}
@@ -2994,7 +2994,7 @@ dialog_printer_setup_done_cb (GtkPageSetup *page_setup,
 static void
 dialog_gtk_printer_setup_cb (PrinterSetupState *state)
 {
-	GtkPageSetup *page_setup = print_info_get_page_setup (state->pi);
+	GtkPageSetup *page_setup = gnm_print_info_get_page_setup (state->pi);
 
 	gtk_print_run_page_setup_dialog_async
 		(GTK_WINDOW (state->dialog),

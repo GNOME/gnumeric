@@ -6,9 +6,9 @@
 
 G_BEGIN_DECLS
 
-#define GNUMERIC_SHEET_PATTERNS 25
+#define GNM_PATTERNS_MAX 25
 
-gboolean    gnumeric_background_set	(GnmStyle const *mstyle,
+gboolean    gnm_pattern_background_set	(GnmStyle const *mstyle,
 					 cairo_t *cr,
 					 gboolean const is_selected,
 					 GtkStyleContext *ctxt);

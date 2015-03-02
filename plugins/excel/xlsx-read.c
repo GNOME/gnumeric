@@ -1714,11 +1714,11 @@ static void
 xlsx_sheet_page_setup (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	PrintInformation *pi = state->sheet->print_info;
+	GnmPrintInformation *pi = state->sheet->print_info;
 	gboolean tmp;
 
 	if (pi->page_setup == NULL)
-		print_info_load_defaults (pi);
+		gnm_print_info_load_defaults (pi);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_bool (xin, attrs, "fitToPage", &tmp))
@@ -1766,7 +1766,7 @@ xlsx_paper_size (gdouble width, gdouble height, GtkUnit unit, int code)
 }
 
 static gboolean
-xlsx_set_paper_from_code (PrintInformation *pi, int code)
+xlsx_set_paper_from_code (GnmPrintInformation *pi, int code)
 {
 	XLSXPaperDefs paper[] =
 		{{ 0 , 0 , 0 , GTK_UNIT_MM , NULL },
@@ -1915,7 +1915,7 @@ static void
 xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	PrintInformation *pi = state->sheet->print_info;
+	GnmPrintInformation *pi = state->sheet->print_info;
 	int orient, paper_code = 0, scale, tmp_int;
 	gboolean orient_set = FALSE, first_page_number = TRUE, tmp_bool;
 	gnm_float width = 0., height = 0.;
@@ -1945,7 +1945,7 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 
 	if (pi->page_setup == NULL)
-		print_info_load_defaults (pi);
+		gnm_print_info_load_defaults (pi);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_enum (xin, attrs, "orientation", orientation_types, &orient))
@@ -1995,7 +1995,7 @@ xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gnm_float margin;
-	PrintInformation *pi = state->sheet->print_info;
+	GnmPrintInformation *pi = state->sheet->print_info;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_float (xin, attrs, "left", &margin))
@@ -2017,7 +2017,7 @@ static void
 xlsx_CT_oddheader_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	PrintInformation *pi = state->sheet->print_info;
+	GnmPrintInformation *pi = state->sheet->print_info;
 	xls_header_footer_import (pi->header, xin->content->str);
 }
 
@@ -2025,7 +2025,7 @@ static void
 xlsx_CT_oddfooter_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	PrintInformation *pi = state->sheet->print_info;
+	GnmPrintInformation *pi = state->sheet->print_info;
 	xls_header_footer_import (pi->footer, xin->content->str);
 }
 

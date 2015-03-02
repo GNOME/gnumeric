@@ -175,7 +175,7 @@ cb_cursor_motion (GnmItemGrid *ig)
 	pos.row = gnm_pane_find_row (pane, ig->last_y, NULL);
 
 	old_link = ig->cur_link;
-	ig->cur_link = sheet_hlink_find (sheet, &pos);
+	ig->cur_link = gnm_sheet_hlink_find (sheet, &pos);
 	cursor = (ig->cur_link != NULL) ? ig->cursor_link : ig->cursor_cross;
 	if (pane->mouse_cursor != cursor) {
 		gnm_pane_mouse_cursor_set (pane, cursor);
@@ -320,7 +320,7 @@ item_grid_draw_merged_range (cairo_t *cr, GnmItemGrid *ig,
 	}
 
 	/* Check for background THEN selection */
-	if (gnumeric_background_set (style, cr, is_selected, ctxt) ||
+	if (gnm_pattern_background_set (style, cr, is_selected, ctxt) ||
 	    is_selected) {
 		/* Remember X excludes the far pixels */
 		if (dir > 0)
@@ -384,7 +384,7 @@ item_grid_draw_background (cairo_t *cr, GnmItemGrid *ig,
 		(sv->edit_pos.col != col || sv->edit_pos.row != row) &&
 		sv_is_pos_selected (sv, col, row);
 	gboolean const has_back =
-		gnumeric_background_set (style, cr, is_selected, ctxt);
+		gnm_pattern_background_set (style, cr, is_selected, ctxt);
 
 #if DEBUG_SELECTION_PAINT
 	if (is_selected) {
@@ -1078,7 +1078,7 @@ cb_cursor_come_to_rest (GnmItemGrid *ig)
 	pos.col = gnm_pane_find_col (pane, x, NULL);
 	pos.row = gnm_pane_find_row (pane, y, NULL);
 
-	link = sheet_hlink_find (sheet, &pos);
+	link = gnm_sheet_hlink_find (sheet, &pos);
 	if (link != NULL && (tiptext = gnm_hlink_get_tip (link)) != NULL) {
 		g_return_val_if_fail (link == ig->cur_link, FALSE);
 
@@ -1187,7 +1187,7 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 		if (pos != NULL) {
 			GnmHLink *link;
 			/* check for hyper links */
-			link = sheet_hlink_find (sheet, pos);
+			link = gnm_sheet_hlink_find (sheet, pos);
 			if (link != NULL)
 				gnm_hlink_activate (link, scg_wbcg (scg));
 		}

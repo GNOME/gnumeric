@@ -29,6 +29,8 @@ Morten:
 	* Fix spinner properties dialog.
 	* SheetObjectImage fixes.
 	* Fix problem reading images from xls.
+	* Namespace fixes
+
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20

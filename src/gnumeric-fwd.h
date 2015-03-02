@@ -82,7 +82,7 @@ typedef struct _GnmValueErr		GnmValueErr;
 typedef struct _GnmValueFloat		GnmValueFloat;
 typedef struct _GnmValueRange		GnmValueRange;
 typedef struct _GnmValueStr		GnmValueStr;
-typedef struct _PrintInformation        PrintInformation;
+typedef struct GnmPrintInformation_        GnmPrintInformation;
 typedef struct _Sheet			Sheet;
 typedef struct _SheetControl		SheetControl;
 typedef struct _SheetControlGUI		SheetControlGUI;

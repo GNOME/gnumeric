@@ -174,7 +174,7 @@ static void
 preview_grid_draw_background (cairo_t *cr, GnmPreviewGrid const *pg, GnmStyle const *mstyle,
 			      int col, int row, int x, int y, int w, int h)
 {
-	if (gnumeric_background_set (mstyle, cr, FALSE, NULL)) {
+	if (gnm_pattern_background_set (mstyle, cr, FALSE, NULL)) {
 		cairo_rectangle (cr, x, y, w+1, h+1);
 		cairo_fill (cr);
 	}

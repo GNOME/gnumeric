@@ -2514,7 +2514,7 @@ xlsx_find_paper_code (GtkPaperSize *psize)
 
 static void
 xlsx_write_print_info_hf (XLSXWriteState *state, GsfXMLOut *xml,
-			  const PrintHF *hf, const char *hftext)
+			  const GnmPrintHF *hf, const char *hftext)
 {
 	char *s = xls_header_footer_export (hf);
 
@@ -2528,7 +2528,7 @@ xlsx_write_print_info_hf (XLSXWriteState *state, GsfXMLOut *xml,
 static void
 xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 {
-	PrintInformation *pi = state->sheet->print_info;
+	GnmPrintInformation *pi = state->sheet->print_info;
 	double h_margin, f_margin;
 	double left;
 	double right;
@@ -2742,7 +2742,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	char const *chart_drawing_rel_id = NULL;
 	char const *legacy_drawing_rel_id = NULL;
 	GnmStyle **col_styles;
-	PrintInformation *pi = NULL;
+	GnmPrintInformation *pi = NULL;
 	GHashTable *zorder;
 	int z;
 

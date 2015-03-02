@@ -152,7 +152,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	/* avoid a weak/strong cursor to extend outside the item,
 	 a better fix would be to have enough room for cursors */
 	cairo_clip (cr);
-	if (gnumeric_background_set (ie->style, cr, FALSE, NULL)) {
+	if (gnm_pattern_background_set (ie->style, cr, FALSE, NULL)) {
 		cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
 		cairo_fill (cr);
 	} else {

@@ -58,7 +58,7 @@ print_cell_gtk (GnmCell const *cell,
 		cairo_t *context,
 		double x1, double y1,
 		double width, double height, double h_center,
-		PrintInformation const *pinfo)
+		GnmPrintInformation const *pinfo)
 {
 	GnmRenderedValue *rv, *rv100 = NULL;
 	GOColor fore_color;
@@ -192,7 +192,7 @@ print_cell_background_gtk (cairo_t *context,
 			   G_GNUC_UNUSED int col, G_GNUC_UNUSED int row,
 			   double x, double y, double w, double h)
 {
-	if (gnumeric_background_set (style, context, FALSE, NULL))
+	if (gnm_pattern_background_set (style, context, FALSE, NULL))
 		/* Remember api excludes the far pixels */
 		print_rectangle_gtk (context, x, y, w+0.2, h+0.2);
 	gnm_style_border_print_diag_gtk (style, context, x, y, x+w, y+h);
@@ -211,7 +211,7 @@ print_merged_range_gtk (cairo_t *context,
 			Sheet const *sheet,
 			double start_x, double start_y,
 			GnmRange const *view, GnmRange const *range,
-			PrintInformation const *pinfo)
+			GnmPrintInformation const *pinfo)
 {
 	double l, r, t, b;
 	int last;
@@ -248,7 +248,7 @@ print_merged_range_gtk (cairo_t *context,
 			style = g_ptr_array_index (style->cond_styles, res);
 	}
 
-	if (gnumeric_background_set (style, context, FALSE, NULL))
+	if (gnm_pattern_background_set (style, context, FALSE, NULL))
 		print_rectangle_gtk (context, l, t, r-l+0.2, b-t+0.2);
 
 	if (range->start.col < view->start.col)
@@ -291,7 +291,7 @@ void
 gnm_gtk_print_cell_range (cairo_t *context,
 			  Sheet const *sheet, GnmRange *range,
 			  double base_x, double base_y,
-			  PrintInformation const *pinfo)
+			  GnmPrintInformation const *pinfo)
 {
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int const dir = sheet->text_is_rtl ? -1 : 1;

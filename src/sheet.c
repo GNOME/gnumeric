@@ -805,7 +805,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->rows.info = g_ptr_array_new ();
 	sheet_row_set_default_size_pts (sheet, 12.75);
 
-	sheet->print_info = print_information_new (FALSE);
+	sheet->print_info = gnm_print_information_new (FALSE);
 
 	sheet->filters = NULL;
 	sheet->scenarios = NULL;
@@ -4584,7 +4584,7 @@ sheet_destroy (Sheet *sheet)
 		g_warning ("Unexpected left over views");
 
 	if (sheet->print_info) {
-		print_info_free (sheet->print_info);
+		gnm_print_info_free (sheet->print_info);
 		sheet->print_info = NULL;
 	}
 
@@ -6005,8 +6005,8 @@ sheet_dup (Sheet const *src)
 		"tab-background",	    src->tab_color,
 		NULL);
 
-	print_info_free (dst->print_info);
-	dst->print_info = print_info_dup (src->print_info);
+	gnm_print_info_free (dst->print_info);
+	dst->print_info = gnm_print_info_dup (src->print_info);
 
 	sheet_dup_styles         (src, dst);
 	sheet_dup_merged_regions (src, dst);

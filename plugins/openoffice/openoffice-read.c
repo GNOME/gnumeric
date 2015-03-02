@@ -467,8 +467,8 @@ struct  _OOParseState {
 			GnmPageBreaks *h, *v;
 		} page_breaks;
 
-		PrintInformation *cur_pi;
-		PrintHF          *cur_hf;
+		GnmPrintInformation *cur_pi;
+		GnmPrintHF          *cur_hf;
 		char            **cur_hf_format;
 		int               rep_rows_from;
 		int               rep_rows_to;
@@ -2365,7 +2365,7 @@ odf_pi_parse_format (GsfXMLIn *xin, char **fmt)
 }
 
 static void
-odf_pi_parse_hf (GsfXMLIn *xin, PrintHF  *hf)
+odf_pi_parse_hf (GsfXMLIn *xin, GnmPrintHF  *hf)
 {
 	odf_pi_parse_format (xin, &hf->left_format);
 	odf_pi_parse_format (xin, &hf->middle_format);
@@ -2373,7 +2373,7 @@ odf_pi_parse_hf (GsfXMLIn *xin, PrintHF  *hf)
 }
 
 static void
-odf_pi_parse_expressions (GsfXMLIn *xin, PrintInformation *pi)
+odf_pi_parse_expressions (GsfXMLIn *xin, GnmPrintInformation *pi)
 {
 	odf_pi_parse_hf (xin, pi->header);
 	odf_pi_parse_hf (xin, pi->footer);
@@ -2410,13 +2410,13 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (style_name != NULL) {
 		OOSheetStyle const *style = g_hash_table_lookup (state->styles.sheet, style_name);
 		if (style) {
-			PrintInformation *pi = NULL;
+			GnmPrintInformation *pi = NULL;
 			if (style->master_page_name)
 				pi = g_hash_table_lookup (state->styles.master_pages,
 							  style->master_page_name);
 			if (pi != NULL) {
-				print_info_free (state->pos.sheet->print_info);
-				state->pos.sheet->print_info = print_info_dup (pi);
+				gnm_print_info_free (state->pos.sheet->print_info);
+				state->pos.sheet->print_info = gnm_print_info_dup (pi);
 				odf_pi_parse_expressions (xin, state->pos.sheet->print_info);
 			}
 			g_object_set (state->pos.sheet,
@@ -5733,7 +5733,7 @@ odf_header_properties (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->print.cur_pi == NULL)
 		return;
-	gps = print_info_get_page_setup (state->print.cur_pi);
+	gps = gnm_print_info_get_page_setup (state->print.cur_pi);
 	page_margin = gtk_page_setup_get_top_margin (gps, GTK_UNIT_POINTS);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -5757,7 +5757,7 @@ odf_footer_properties (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->print.cur_pi == NULL)
 		return;
-	gps = print_info_get_page_setup (state->print.cur_pi);
+	gps = gnm_print_info_get_page_setup (state->print.cur_pi);
 	page_margin = gtk_page_setup_get_bottom_margin (gps, GTK_UNIT_POINTS);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -5803,7 +5803,7 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->print.cur_pi == NULL)
 		return;
-	gps = print_info_get_page_setup (state->print.cur_pi);
+	gps = gnm_print_info_get_page_setup (state->print.cur_pi);
 	gtk_page_setup_set_orientation (gps, GTK_PAGE_ORIENTATION_PORTRAIT);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -5901,7 +5901,7 @@ odf_page_layout (GsfXMLIn *xin, xmlChar const **attrs)
 		oo_warning (xin, _("Missing page layout identifier"));
 		name = "Missing page layout identifier";
 	}
-	state->print.cur_pi = print_information_new (TRUE);
+	state->print.cur_pi = gnm_print_information_new (TRUE);
 	g_hash_table_insert (state->styles.page_layouts, g_strdup (name),
 			     state->print.cur_pi);
 }
@@ -5937,7 +5937,7 @@ odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *name = NULL;
 	char const *pl_name = NULL;
-	PrintInformation *pi = NULL;
+	GnmPrintInformation *pi = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
@@ -5951,19 +5951,19 @@ odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 	if (pi == NULL) {
 		if (state->ver != OOO_VER_1) /* For OOO_VER_1 this may be acceptable */
 			oo_warning (xin, _("Master page style without page layout encountered!"));
-		state->print.cur_pi = print_information_new (TRUE);
+		state->print.cur_pi = gnm_print_information_new (TRUE);
 	} else
-		state->print.cur_pi = print_info_dup (pi);
+		state->print.cur_pi = gnm_print_info_dup (pi);
 
 	if (name == NULL) {
 		oo_warning (xin, _("Master page style without name encountered!"));
 		name = "Master page style without name encountered!";
 	}
 
-	print_hf_free (state->print.cur_pi->header);
-	print_hf_free (state->print.cur_pi->footer);
-	state->print.cur_pi->header = print_hf_new (NULL, NULL, NULL);
-	state->print.cur_pi->footer = print_hf_new (NULL, NULL, NULL);
+	gnm_print_hf_free (state->print.cur_pi->header);
+	gnm_print_hf_free (state->print.cur_pi->footer);
+	state->print.cur_pi->header = gnm_print_hf_new (NULL, NULL, NULL);
+	state->print.cur_pi->footer = gnm_print_hf_new (NULL, NULL, NULL);
 
 	g_hash_table_insert (state->styles.master_pages, g_strdup (name), state->print.cur_pi);
 }
@@ -6005,7 +6005,7 @@ odf_header_footer (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->print.cur_pi == NULL)
 		return;
-	gps = print_info_get_page_setup (state->print.cur_pi);
+	gps = gnm_print_info_get_page_setup (state->print.cur_pi);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "display",
@@ -13354,10 +13354,10 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		(GDestroyNotify) odf_oo_cell_style_unref);
 	state.styles.master_pages = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) print_info_free);
+		(GDestroyNotify) gnm_print_info_free);
 	state.styles.page_layouts = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) print_info_free);
+		(GDestroyNotify) gnm_print_info_free);
 	state.formats = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) go_format_unref);

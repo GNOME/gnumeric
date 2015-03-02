@@ -65,14 +65,14 @@ gnm_hlink_activate (GnmHLink *lnk, WBCGtk *wbcg)
 }
 
 /**
- * sheet_hlink_find:
+ * gnm_sheet_hlink_find:
  * @sheet: #Sheet
  * @pos: #GcmCellPos
  *
  * Returns: (transfer none): the found #GnmHLink.
  **/
 GnmHLink *
-sheet_hlink_find (Sheet const *sheet, GnmCellPos const *pos)
+gnm_sheet_hlink_find (Sheet const *sheet, GnmCellPos const *pos)
 {
 	GnmStyle const *style = sheet_style_get (sheet, pos->col, pos->row);
 	return gnm_style_get_hlink (style);

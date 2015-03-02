@@ -105,7 +105,7 @@ struct _Sheet {
 	GSList		 *list_merged;
 	GHashTable	 *hash_merged;
 	SheetPrivate     *priv;
-	PrintInformation *print_info;
+	GnmPrintInformation *print_info;
 	GnmColor	 *tab_color;
 	GnmColor	 *tab_text_color;
 	GnmSheetType	  sheet_type;

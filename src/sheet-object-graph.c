@@ -162,7 +162,7 @@ cb_graph_size_changed (GocItem *item, GtkAllocation *allocation)
 	GogRenderer *rend;
 	GogGraph *graph;
 	SheetObject *so = sheet_object_view_get_so (GNM_SO_VIEW (item->parent));
-	PrintInformation *pi = so->sheet->print_info;
+	GnmPrintInformation *pi = so->sheet->print_info;
 	double top, bottom, left, right, edge_to_below_header, edge_to_above_footer, w, h, x = 0., y = 0.;
 	w = print_info_get_paper_width (pi, GTK_UNIT_POINTS);
 	h = print_info_get_paper_height (pi, GTK_UNIT_POINTS);

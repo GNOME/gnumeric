@@ -166,7 +166,7 @@ gnm_color_to_bgr (GnmColor const *c)
 static int
 map_pattern_to_xl (int i)
 {
-	static int const map_to_excel[GNUMERIC_SHEET_PATTERNS + 1] = {
+	static int const map_to_excel[GNM_PATTERNS_MAX + 1] = {
 		 0,
 		 1,  3,  2,  4, 17, 18,
 		 5,  6,  8,  7,  9, 10,
@@ -536,7 +536,7 @@ points_to_inches (double pts)
 void
 excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 {
-	PrintInformation *pi = NULL;
+	GnmPrintInformation *pi = NULL;
 	double header = 0., footer = 0.;
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
 	guint16 flags = 0;
@@ -5108,7 +5108,7 @@ excel_write_PAGE_BREAK (BiffPut *bp, GnmPageBreaks const *breaks)
 }
 
 static void
-excel_write_HEADER_FOOTER (BiffPut *bp, PrintHF const *hf, int id)
+excel_write_HEADER_FOOTER (BiffPut *bp, GnmPrintHF const *hf, int id)
 {
 	char *s = xls_header_footer_export (hf);
 
@@ -5127,7 +5127,7 @@ static void
 write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	guint8 *data;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	Sheet const *sheet = esheet->gnum_sheet;
 	Workbook const *wb = sheet->workbook;
 	double left;

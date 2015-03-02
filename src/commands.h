@@ -133,7 +133,7 @@ gboolean cmd_merge_data		(WorkbookControl *wbc, Sheet *sheet,
 				 GnmValue *merge_zone, GSList *merge_fields, GSList *merge_data);
 
 gboolean cmd_change_meta_data	(WorkbookControl *wbc, GSList *changes, GSList *removed);
-gboolean cmd_print_setup	(WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi);
+gboolean cmd_print_setup	(WorkbookControl *wbc, Sheet *sheet, GnmPrintInformation const *pi);
 gboolean cmd_define_name	(WorkbookControl *wbc, char const *name,
 				 GnmParsePos const *pp,
 				 GnmExprTop const *texpr,

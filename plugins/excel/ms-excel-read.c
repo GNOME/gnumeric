@@ -832,7 +832,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 static void
 excel_init_margins (ExcelReadSheet *esheet)
 {
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	double points;
 	double short_points;
 
@@ -4605,7 +4605,7 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
 static void
 excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	PrintInformation *pi = esheet->sheet->print_info;
+	GnmPrintInformation *pi = esheet->sheet->print_info;
 	guint16  flags;
 	gboolean rotate_paper = FALSE;
 	gboolean portrait_orientation = TRUE;
@@ -6367,7 +6367,7 @@ excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
 			  BiffQuery *q, ExcelReadSheet *esheet,
 			  gboolean is_header)
 {
-	PrintInformation *pi = esheet->sheet->print_info;
+	GnmPrintInformation *pi = esheet->sheet->print_info;
 
 	if (q->length) {
 		char *str;
@@ -6446,7 +6446,7 @@ static void
 excel_read_MARGIN (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	double m;
-	PrintInformation *pi = esheet->sheet->print_info;
+	GnmPrintInformation *pi = esheet->sheet->print_info;
 
 	XL_CHECK_CONDITION (q->length >= 8);
 	m = GO_IN_TO_PT (gsf_le_get_double (q->data));

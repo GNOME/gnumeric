@@ -44,7 +44,7 @@ static const GOPatternType patterns[] = {
 };
 
 /**
- * gnumeric_background_set:
+ * gnm_pattern_background_set:
  * @mstyle:
  * @cr:
  * @is_selected:
@@ -56,7 +56,7 @@ static const GOPatternType patterns[] = {
  */
 
 gboolean
-gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
+gnm_pattern_background_set (GnmStyle const *mstyle, cairo_t *cr,
 			 gboolean const is_selected, GtkStyleContext *ctxt)
 {
 	int pattern;
@@ -68,7 +68,7 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 	 * Draw a stipple too if the pattern is > 1
 	 */
 	pattern = gnm_style_get_pattern (mstyle);
-	if (pattern > 0 && pattern < GNUMERIC_SHEET_PATTERNS) {
+	if (pattern > 0 && pattern < GNM_PATTERNS_MAX) {
 		GOPattern gopat;
 		cairo_pattern_t *crpat;
 		gopat.pattern = patterns[pattern];

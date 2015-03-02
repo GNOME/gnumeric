@@ -881,7 +881,7 @@ xml_sax_print_margins (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	double points = -1.;
 
 	xml_sax_must_have_sheet (state);
@@ -977,7 +977,7 @@ xml_sax_print_scale (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	double percentage;
 	int cols, rows;
 
@@ -1001,7 +1001,7 @@ static void
 xml_sax_print_vcenter (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	int val;
 
 	xml_sax_must_have_sheet (state);
@@ -1017,7 +1017,7 @@ static void
 xml_sax_print_hcenter (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	int val;
 
 	xml_sax_must_have_sheet (state);
@@ -1033,7 +1033,7 @@ static void
 xml_sax_print_grid (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	int val;
 
 	xml_sax_must_have_sheet (state);
@@ -1049,7 +1049,7 @@ static void
 xml_sax_print_do_not_print (GsfXMLIn *xin, xmlChar const **attrs)
 {
         XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-        PrintInformation *pi;
+        GnmPrintInformation *pi;
         int val;
 
 	xml_sax_must_have_sheet (state);
@@ -1065,7 +1065,7 @@ static void
 xml_sax_print_print_range (GsfXMLIn *xin, xmlChar const **attrs)
 {
         XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-        PrintInformation *pi;
+        GnmPrintInformation *pi;
         int val;
 
 	xml_sax_must_have_sheet (state);
@@ -1084,7 +1084,7 @@ static void
 xml_sax_monochrome (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	int val;
 
 	xml_sax_must_have_sheet (state);
@@ -1100,7 +1100,7 @@ static void
 xml_sax_print_titles (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	int val;
 
 	xml_sax_must_have_sheet (state);
@@ -1116,7 +1116,7 @@ static void
 xml_sax_repeat_top (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 
 	xml_sax_must_have_sheet (state);
 
@@ -1134,7 +1134,7 @@ static void
 xml_sax_repeat_left (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 
 	xml_sax_must_have_sheet (state);
 
@@ -1152,8 +1152,8 @@ static void
 xml_sax_print_hf (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	PrintInformation *pi;
-	PrintHF *hf;
+	GnmPrintInformation *pi;
+	GnmPrintHF *hf;
 
 	xml_sax_must_have_sheet (state);
 
@@ -1192,7 +1192,7 @@ static void
 xml_sax_even_if_only_styles (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	int val;
 
 	xml_sax_must_have_sheet (state);
@@ -2840,7 +2840,7 @@ static void
 xml_sax_orientation (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	PrintInformation *pi;
+	GnmPrintInformation *pi;
 	GtkPageOrientation orient = GTK_PAGE_ORIENTATION_PORTRAIT;
 
 	xml_sax_must_have_sheet (state);

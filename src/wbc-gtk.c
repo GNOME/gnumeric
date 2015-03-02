@@ -1547,7 +1547,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	if (MS_PAGE_BREAKS & flags) {
 		gint col = sv->edit_pos.col;
 		gint row = sv->edit_pos.row;
-		PrintInformation *pi = sheet->print_info;
+		GnmPrintInformation *pi = sheet->print_info;
 		char const* new_label = NULL;
 		char const *new_tip = NULL;
 
@@ -4856,7 +4856,7 @@ wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
 		GtkAction *action;
 		char const *uri = ptr->data;
 		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
-		char *label = history_item_label (uri, i);
+		char *label = gnm_history_item_label (uri, i);
 		char *filename = go_filename_from_uri (uri);
 		char *filename_utf8 = filename ? g_filename_to_utf8 (filename, -1, NULL, NULL, NULL) : NULL;
 		char *tooltip = g_strdup_printf (_("Open %s"), filename_utf8 ? filename_utf8 : uri);

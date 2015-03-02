@@ -5744,7 +5744,7 @@ typedef struct {
 	GnmCommand cmd;
 
 	GSList *old_pi;
-	PrintInformation *new_pi;
+	GnmPrintInformation *new_pi;
 } CmdPrintSetup;
 
 MAKE_GNM_COMMAND (CmdPrintSetup, cmd_print_setup, NULL)
@@ -5768,9 +5768,9 @@ cmd_print_setup_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->old_pi != NULL, TRUE);
 
 	if (me->cmd.sheet) {
-		PrintInformation *pi = me->old_pi->data;
-		print_info_free (me->cmd.sheet->print_info);
-		me->cmd.sheet->print_info = print_info_dup (pi);
+		GnmPrintInformation *pi = me->old_pi->data;
+		gnm_print_info_free (me->cmd.sheet->print_info);
+		me->cmd.sheet->print_info = gnm_print_info_dup (pi);
 		if (me->cmd.sheet->sheet_type == GNM_SHEET_OBJECT)
 			update_sheet_graph_cb (me->cmd.sheet);
 	} else {
@@ -5780,13 +5780,13 @@ cmd_print_setup_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		g_return_val_if_fail (g_slist_length (infos) == n, TRUE);
 
 		for (i = 0 ; i < n ; i++) {
-			PrintInformation *pi = infos->data;
+			GnmPrintInformation *pi = infos->data;
 			Sheet *sheet = workbook_sheet_by_index (book, i);
 
 			g_return_val_if_fail (infos != NULL, TRUE);
 
-			print_info_free (sheet->print_info);
-			sheet->print_info = print_info_dup (pi);
+			gnm_print_info_free (sheet->print_info);
+			sheet->print_info = gnm_print_info_dup (pi);
 			if (sheet->sheet_type == GNM_SHEET_OBJECT)
 				update_sheet_graph_cb (sheet);
 			infos = infos->next;
@@ -5807,8 +5807,8 @@ cmd_print_setup_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		if (save_pis)
 			me->old_pi = g_slist_append (me->old_pi, me->cmd.sheet->print_info);
 		else
-			print_info_free (me->cmd.sheet->print_info);
-		me->cmd.sheet->print_info = print_info_dup (me->new_pi);
+			gnm_print_info_free (me->cmd.sheet->print_info);
+		me->cmd.sheet->print_info = gnm_print_info_dup (me->new_pi);
 		if (me->cmd.sheet->sheet_type == GNM_SHEET_OBJECT)
 			update_sheet_graph_cb (me->cmd.sheet);
 	} else {
@@ -5820,8 +5820,8 @@ cmd_print_setup_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			if (save_pis)
 				me->old_pi = g_slist_prepend (me->old_pi, sheet->print_info);
 			else
-				print_info_free (sheet->print_info);
-			sheet->print_info = print_info_dup (me->new_pi);
+				gnm_print_info_free (sheet->print_info);
+			sheet->print_info = gnm_print_info_dup (me->new_pi);
 			if (sheet->sheet_type == GNM_SHEET_OBJECT)
 				update_sheet_graph_cb (sheet);
 		}
@@ -5838,15 +5838,15 @@ cmd_print_setup_finalize (GObject *cmd)
 	GSList *list = me->old_pi;
 
 	if (me->new_pi)
-		print_info_free (me->new_pi);
+		gnm_print_info_free (me->new_pi);
 	for (; list; list = list->next)
-		print_info_free ((PrintInformation *) list->data);
+		gnm_print_info_free ((GnmPrintInformation *) list->data);
 	g_slist_free (me->old_pi);
 	gnm_command_finalize (cmd);
 }
 
 gboolean
-cmd_print_setup (WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi)
+cmd_print_setup (WorkbookControl *wbc, Sheet *sheet, GnmPrintInformation const *pi)
 {
 	CmdPrintSetup *me;
 
@@ -5860,7 +5860,7 @@ cmd_print_setup (WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi)
 	else
 		me->cmd.cmd_descriptor = g_strdup (_("Page Setup For All Sheets"));
 	me->old_pi = NULL;
-	me->new_pi = print_info_dup (pi);
+	me->new_pi = gnm_print_info_dup (pi);
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }

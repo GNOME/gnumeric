@@ -735,7 +735,7 @@ xls_header_footer_export1 (GString *res, const char *s, const char *section)
 
 
 char *
-xls_header_footer_export (const PrintHF *hf)
+xls_header_footer_export (const GnmPrintHF *hf)
 {
 	GString *res = g_string_new (NULL);
 
@@ -747,7 +747,7 @@ xls_header_footer_export (const PrintHF *hf)
 }
 
 void
-xls_header_footer_import (PrintHF *hf, const char *txt)
+xls_header_footer_import (GnmPrintHF *hf, const char *txt)
 {
 	char section = 'L';
 	GString *accum;
