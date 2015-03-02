@@ -8,13 +8,13 @@
  *
  * Theory of operation:
  *
- *    Derived types of Complete provide the search function.
+ *    Derived types of GnmComplete provide the search function.
  *
  *    The search function should not take too long to run, and try to
  *    search on each step information on its data repository.  When the
  *    data repository information has been extenuated or if a match has
  *    been found, then the method should return FALSE and invoke the
- *    notification function that was provided to Complete.
+ *    notification function that was provided to GnmComplete.
  *
  *
  * (C) 2000-2001 Ximain Inc.
@@ -28,17 +28,17 @@
 #include <stdlib.h>
 
 #define PARENT_TYPE (G_TYPE_OBJECT)
-#define ACC(o) (COMPLETE_CLASS (G_OBJECT_GET_CLASS (o)))
+#define ACC(o) (GNM_COMPLETE_CLASS (G_OBJECT_GET_CLASS (o)))
 
 /**
  * complete_construct:
- * @complete: #Complete
- * @notify: (scope async): #CompleteMatchNotifyFn
+ * @complete: #GnmComplete
+ * @notify: (scope async): #GnmCompleteMatchNotifyFn
  * @notify_closure: user data
  **/
 void
-complete_construct (Complete *complete,
-		    CompleteMatchNotifyFn notify,
+complete_construct (GnmComplete *complete,
+		    GnmCompleteMatchNotifyFn notify,
 		    void *notify_closure)
 {
 	complete->notify = notify;
@@ -49,7 +49,7 @@ static void
 complete_finalize (GObject *object)
 {
 	GObjectClass *parent;
-	Complete *complete = COMPLETE (object);
+	GnmComplete *complete = GNM_COMPLETE (object);
 
 	if (complete->idle_tag) {
 		g_source_remove (complete->idle_tag);
@@ -66,7 +66,7 @@ complete_finalize (GObject *object)
 static gint
 complete_idle (gpointer data)
 {
-	Complete *complete = data;
+	GnmComplete *complete = data;
 
 	g_return_val_if_fail (complete->idle_tag != 0, FALSE);
 
@@ -79,10 +79,10 @@ complete_idle (gpointer data)
 }
 
 void
-complete_start (Complete *complete, char const *text)
+complete_start (GnmComplete *complete, char const *text)
 {
 	g_return_if_fail (complete != NULL);
-	g_return_if_fail (IS_COMPLETE (complete));
+	g_return_if_fail (GNM_IS_COMPLETE (complete));
 	g_return_if_fail (text != NULL);
 
 	if (complete->text != text) {
@@ -98,7 +98,7 @@ complete_start (Complete *complete, char const *text)
 }
 
 static gboolean
-default_search_iteration (G_GNUC_UNUSED Complete *complete)
+default_search_iteration (G_GNUC_UNUSED GnmComplete *complete)
 {
 	return FALSE;
 }
@@ -106,11 +106,11 @@ default_search_iteration (G_GNUC_UNUSED Complete *complete)
 static void
 complete_class_init (GObjectClass *object_class)
 {
-	CompleteClass *complete_class = (CompleteClass *) object_class;
+	GnmCompleteClass *complete_class = (GnmCompleteClass *) object_class;
 
 	object_class->finalize = complete_finalize;
 	complete_class->search_iteration = default_search_iteration;
 }
 
-GSF_CLASS (Complete, complete,
+GSF_CLASS (GnmComplete, complete,
 	   &complete_class_init, NULL, PARENT_TYPE)

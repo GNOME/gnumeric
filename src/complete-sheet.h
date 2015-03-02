@@ -8,13 +8,13 @@
 G_BEGIN_DECLS
 
 #define COMPLETE_SHEET_TYPE        (complete_sheet_get_type ())
-#define COMPLETE_SHEET(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), COMPLETE_SHEET_TYPE, CompleteSheet))
-#define COMPLETE_SHEET_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), COMPLETE_SHEET_TYPE, CompleteSheetClass))
-#define IS_COMPLETE_SHEET(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), COMPLETE_SHEET_TYPE))
+#define COMPLETE_SHEET(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), COMPLETE_SHEET_TYPE, GnmCompleteSheet))
+#define COMPLETE_SHEET_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), COMPLETE_SHEET_TYPE, GnmCompleteSheetClass))
+#define GNM_IS_COMPLETE_SHEET(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), COMPLETE_SHEET_TYPE))
 #define IS_COMPLETE_SHEET_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), COMPLETE_SHEET_TYPE))
 
 typedef struct {
-	Complete parent;
+	GnmComplete parent;
 
 	/* Cell being entered into.  */
 	Sheet *sheet;
@@ -25,15 +25,15 @@ typedef struct {
 	GnmCell *cell;
 
 	char  *current_text;
-} CompleteSheet;
+} GnmCompleteSheet;
 
 typedef struct {
-	CompleteClass parent_class;
-} CompleteSheetClass;
+	GnmCompleteClass parent_class;
+} GnmCompleteSheetClass;
 
 GType     complete_sheet_get_type (void);
-Complete *complete_sheet_new      (Sheet *sheet, int col, int row,
-				   CompleteMatchNotifyFn notify,
+GnmComplete *complete_sheet_new   (Sheet *sheet, int col, int row,
+				   GnmCompleteMatchNotifyFn notify,
 				   void *notify_closure);
 
 G_END_DECLS

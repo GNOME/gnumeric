@@ -3,39 +3,39 @@
 # define _GNM_COMPLETE_H_
 
 #include <glib-object.h>
+#include <gnumeric-fwd.h>
 
 G_BEGIN_DECLS
 
-#define COMPLETE_TYPE        (complete_get_type ())
-#define COMPLETE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), COMPLETE_TYPE, Complete))
-#define COMPLETE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), COMPLETE_TYPE, CompleteClass))
-#define IS_COMPLETE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), COMPLETE_TYPE))
-#define IS_COMPLETE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), COMPLETE_TYPE))
+#define GNM_COMPLETE_TYPE        (complete_get_type ())
+#define GNM_COMPLETE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_COMPLETE_TYPE, GnmComplete))
+#define GNM_COMPLETE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GNM_COMPLETE_TYPE, GnmCompleteClass))
+#define GNM_IS_COMPLETE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_COMPLETE_TYPE))
 
-typedef void (*CompleteMatchNotifyFn) (char const *text, void *closure);
+typedef void (*GnmCompleteMatchNotifyFn) (char const *text, void *closure);
 
-typedef struct {
+struct GnmComplete_ {
 	GObject parent;
 
-	CompleteMatchNotifyFn notify;
+	GnmCompleteMatchNotifyFn notify;
 	void *notify_closure;
 
 	char *text;
 
 	guint idle_tag;
-} Complete;
+};
 
 typedef struct {
 	GObjectClass parent_class;
 
-	void     (*start_over)       (Complete *complete);
-	gboolean (*search_iteration) (Complete *complete);
-} CompleteClass;
+	void     (*start_over)       (GnmComplete *complete);
+	gboolean (*search_iteration) (GnmComplete *complete);
+} GnmCompleteClass;
 
-void  complete_construct (Complete *complete,
-			  CompleteMatchNotifyFn notify,
+void  complete_construct (GnmComplete *complete,
+			  GnmCompleteMatchNotifyFn notify,
 			  void *notify_closure);
-void  complete_start     (Complete *complete, char const *text);
+void  complete_start     (GnmComplete *complete, char const *text);
 GType complete_get_type  (void);
 
 G_END_DECLS

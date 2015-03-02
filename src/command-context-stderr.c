@@ -39,7 +39,7 @@ void
 cmd_context_stderr_set_status (CmdContextStderr *ccs, int status)
 {
 	g_return_if_fail (ccs != NULL);
-	g_return_if_fail (IS_COMMAND_CONTEXT_STDERR (ccs));
+	g_return_if_fail (GNM_IS_COMMAND_CONTEXT_STDERR (ccs));
 
 	ccs->status = status;
 }
@@ -48,7 +48,7 @@ int
 cmd_context_stderr_get_status (CmdContextStderr *ccs)
 {
 	g_return_val_if_fail (ccs != NULL, -1);
-	g_return_val_if_fail (IS_COMMAND_CONTEXT_STDERR (ccs), -1);
+	g_return_val_if_fail (GNM_IS_COMMAND_CONTEXT_STDERR (ccs), -1);
 
 	return ccs->status;
 }

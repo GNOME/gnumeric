@@ -542,7 +542,7 @@ cb_entry_changed (G_GNUC_UNUSED GtkEntry *entry, WBCGtk *wbcg)
 		wbcg->auto_max_size = text_len;
 
 	if (wbv->do_auto_completion && wbcg->auto_completing)
-		complete_start (COMPLETE (wbcg->auto_complete), text);
+		complete_start (GNM_COMPLETE (wbcg->auto_complete), text);
 }
 
 static gboolean

@@ -25,13 +25,13 @@
 
 #define SEARCH_STEPS	50
 
-#define PARENT_TYPE	COMPLETE_TYPE
+#define PARENT_TYPE	GNM_COMPLETE_TYPE
 
 static GObjectClass *parent_class;
 
 
 static void
-search_strategy_reset_search (CompleteSheet *cs)
+search_strategy_reset_search (GnmCompleteSheet *cs)
 {
 	cs->current.col = cs->entry.col;
 	cs->current.row = cs->entry.row;
@@ -42,7 +42,7 @@ search_strategy_reset_search (CompleteSheet *cs)
  * Very simple search strategy: up until blank.
  */
 static gboolean
-search_strategy_next (CompleteSheet *cs)
+search_strategy_next (GnmCompleteSheet *cs)
 {
 	cs->current.row--;
 	if (cs->current.row < 0)
@@ -56,16 +56,16 @@ search_strategy_next (CompleteSheet *cs)
 static void
 complete_sheet_finalize (GObject *object)
 {
-	CompleteSheet *cs = COMPLETE_SHEET (object);
+	GnmCompleteSheet *cs = COMPLETE_SHEET (object);
 	g_free (cs->current_text);
 	parent_class->finalize (object);
 }
 
 static gboolean
-text_matches (CompleteSheet const *cs)
+text_matches (GnmCompleteSheet const *cs)
 {
 	char const *text;
-	Complete const *complete = &cs->parent;
+	GnmComplete const *complete = &cs->parent;
 
 	if (cs->cell->value == NULL ||
 	    !VALUE_IS_STRING (cs->cell->value) ||
@@ -81,9 +81,9 @@ text_matches (CompleteSheet const *cs)
 }
 
 static gboolean
-complete_sheet_search_iteration (Complete *complete)
+complete_sheet_search_iteration (GnmComplete *complete)
 {
-	CompleteSheet *cs = COMPLETE_SHEET (complete);
+	GnmCompleteSheet *cs = COMPLETE_SHEET (complete);
 	int i;
 
 	if ((int)strlen (complete->text) <
@@ -107,7 +107,7 @@ complete_sheet_search_iteration (Complete *complete)
 static void
 complete_sheet_class_init (GObjectClass *object_class)
 {
-	CompleteClass *auto_complete_class = (CompleteClass *) object_class;
+	GnmCompleteClass *auto_complete_class = (GnmCompleteClass *) object_class;
 
 	parent_class = g_type_class_peek (PARENT_TYPE);
 	object_class->finalize = complete_sheet_finalize;
@@ -119,21 +119,21 @@ complete_sheet_class_init (GObjectClass *object_class)
  * @sheet: #Sheet
  * @col: column
  * @row: row
- * @notify: (scope async): #CompleteMatchNotifyFn
+ * @notify: (scope async): #GnmCompleteMatchNotifyFn
  * @notify_closure: user data
  *
- * Returns: (transfer full): the new #Complete.
+ * Returns: (transfer full): the new #GnmComplete.
  **/
-Complete *
-complete_sheet_new (Sheet *sheet, int col, int row, CompleteMatchNotifyFn notify, void *notify_closure)
+GnmComplete *
+complete_sheet_new (Sheet *sheet, int col, int row, GnmCompleteMatchNotifyFn notify, void *notify_closure)
 {
 	/*
 	 * Somehow every time I pronounce this, I feel like something is not quite right.
 	 */
-	CompleteSheet *cs;
+	GnmCompleteSheet *cs;
 
 	cs = g_object_new (COMPLETE_SHEET_TYPE, NULL);
-	complete_construct (COMPLETE (cs), notify, notify_closure);
+	complete_construct (GNM_COMPLETE (cs), notify, notify_closure);
 
 	cs->sheet = sheet;
 	cs->entry.col = col;
@@ -141,8 +141,8 @@ complete_sheet_new (Sheet *sheet, int col, int row, CompleteMatchNotifyFn notify
 	cs->current_text = g_strdup ("");
 	search_strategy_reset_search (cs);
 
-	return COMPLETE (cs);
+	return GNM_COMPLETE (cs);
 }
 
-GSF_CLASS (CompleteSheet, complete_sheet,
+GSF_CLASS (GnmCompleteSheet, complete_sheet,
 	   complete_sheet_class_init, NULL, PARENT_TYPE)

@@ -57,7 +57,7 @@ struct _WBCGtk {
 	gboolean    inside_editing;
 
 	/* Auto completion */
-	GObject		*auto_complete;         /* GType is (Complete *) */
+	GnmComplete	*auto_complete;
 	gboolean	 auto_completing;
 	char		*auto_complete_text;
 

@@ -2821,8 +2821,8 @@ static GSF_CLASS (GnmControlCircle, control_circle,
 		  control_circle_class_init, NULL,
 		  GOC_TYPE_CIRCLE)
 
-#define ITEM_ACETATE(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), item_acetate_get_type (), ItemAcetate))
-#define IS_ITEM_ACETATE(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), item_acetate_get_type ()))
+#define GNM_ITEM_ACETATE(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), item_acetate_get_type (), ItemAcetate))
+#define GNM_IS_ITEM_ACETATE(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), item_acetate_get_type ()))
 
 #define MARGIN	10
 
