@@ -325,7 +325,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 	state->gui    = gui;
 	state->dialog = go_gtk_builder_get_widget (state->gui, "object-size");
 
-	state->so = SHEET_OBJECT (so);
+	state->so = GNM_SO (so);
 	g_object_ref (so);
 
 	state->nameentry = GTK_ENTRY (go_gtk_builder_get_widget (state->gui, "name-entry"));

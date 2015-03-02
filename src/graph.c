@@ -1455,7 +1455,7 @@ gnm_go_data_matrix_new_expr (Sheet *sheet, GnmExprTop const *texpr)
 static GnmDependent *
 gnm_go_data_get_dep (GOData const *dat)
 {
-	if (IS_GNM_GO_DATA_SCALAR (dat))
+	if (GNM_IS_GO_DATA_SCALAR (dat))
 		return &((GnmGODataScalar *)dat)->dep;
 	if (GNM_IS_GO_DATA_VECTOR (dat))
 		return &((GnmGODataVector *)dat)->dep;

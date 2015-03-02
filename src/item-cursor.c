@@ -1474,7 +1474,7 @@ gnm_item_cursor_class_init (GObjectClass *gobject_klass)
 		g_param_spec_object ("SheetControlGUI",
 				     P_("SheetControlGUI"),
 				     P_("The sheet control gui controlling the item"),
-				     SHEET_CONTROL_GUI_TYPE,
+				     GNM_SCG_TYPE,
 				     GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_STYLE,
 		g_param_spec_int ("style",

@@ -1159,9 +1159,9 @@ static GNM_ACTION_DEF (cb_insert_image)
 		if (input != NULL) {
 			unsigned len = gsf_input_size (input);
 			guint8 const *data = gsf_input_read (input, len, NULL);
-			SheetObjectImage *soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
+			SheetObjectImage *soi = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
 			sheet_object_image_set_image (soi, "", (guint8 *)data, len, TRUE);
-			wbcg_insert_object (wbcg, SHEET_OBJECT (soi));
+			wbcg_insert_object (wbcg, GNM_SO (soi));
 			g_object_unref (input);
 		} else
 			go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
@@ -1170,7 +1170,7 @@ static GNM_ACTION_DEF (cb_insert_image)
 	}
 }
 
-static GNM_ACTION_DEF (cb_insert_hyperlink)	{ dialog_hyperlink (wbcg, SHEET_CONTROL (wbcg_cur_scg (wbcg))); }
+static GNM_ACTION_DEF (cb_insert_hyperlink)	{ dialog_hyperlink (wbcg, GNM_SC (wbcg_cur_scg (wbcg))); }
 static GNM_ACTION_DEF (cb_formula_guru)		{ dialog_formula_guru (wbcg, NULL); }
 static GNM_ACTION_DEF (cb_insert_sort_ascending) { workbook_cmd_wrap_sort (GNM_WBC (wbcg), 1);}
 static GNM_ACTION_DEF (cb_insert_sort_descending){ workbook_cmd_wrap_sort (GNM_WBC (wbcg), 0);}

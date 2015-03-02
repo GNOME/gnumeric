@@ -58,7 +58,7 @@ gnumeric_cell_renderer_expr_entry_get_type (void)
 				(GInstanceInitFunc) NULL,
 			};
 
-		cell_expr_entry_type = g_type_register_static (GNUMERIC_TYPE_CELL_RENDERER_TEXT,
+		cell_expr_entry_type = g_type_register_static (GNM_CELL_RENDERER_TEXT_TYPE,
 							       "GnumericCellRendererExprEntry",
 							       &cell_expr_entry_info, 0);
 	}
@@ -83,8 +83,8 @@ GtkCellRenderer *
 gnumeric_cell_renderer_expr_entry_new (WBCGtk *wbcg)
 {
 	GnumericCellRendererExprEntry *this =
-		GNUMERIC_CELL_RENDERER_EXPR_ENTRY(g_object_new
-						  (GNUMERIC_TYPE_CELL_RENDERER_EXPR_ENTRY, NULL));
+		GNM_CELL_RENDERER_EXPR_ENTRY(g_object_new
+						  (GNM_CELL_RENDERER_EXPR_ENTRY_TYPE, NULL));
 	this->wbcg = wbcg;
 	return GTK_CELL_RENDERER (this);
 }
@@ -121,7 +121,7 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
   GnmExprEntry *gentry;
   char *text;
 
-  celltext = GNUMERIC_CELL_RENDERER_EXPR_ENTRY (cell);
+  celltext = GNM_CELL_RENDERER_EXPR_ENTRY (cell);
 
   /* If the cell isn't editable we return NULL. */
   if (gtk_cell_renderer_text_get_editable (celltext) == FALSE)

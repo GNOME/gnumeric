@@ -329,7 +329,7 @@ sheet_object_widget_class_init (GObjectClass *object_class)
 static void
 sheet_object_widget_init (SheetObjectWidget *sow)
 {
-	SheetObject *so = SHEET_OBJECT (sow);
+	SheetObject *so = GNM_SO (sow);
 	so->flags |= SHEET_OBJECT_CAN_PRESS;
 }
 
@@ -382,7 +382,7 @@ sheet_widget_frame_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case SOF_PROP_TEXT:
-		sheet_widget_frame_set_label (SHEET_OBJECT (swf),
+		sheet_widget_frame_set_label (GNM_SO (swf),
 					       g_value_get_string (value));
 		break;
 	default:
@@ -482,7 +482,7 @@ cb_frame_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, FrameConfigState *s
 	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
 
 	cmd_so_set_frame_label (GNM_WBC (state->wbcg),
-				SHEET_OBJECT (state->swf),
+				GNM_SO (state->swf),
 				g_strdup (state->old_label), g_strdup (text));
 	gtk_widget_destroy (state->dialog);
 }
@@ -513,7 +513,7 @@ sheet_widget_frame_set_label (SheetObject *so, char const* str)
 static void
 cb_frame_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, FrameConfigState *state)
 {
-	sheet_widget_frame_set_label (SHEET_OBJECT (state->swf), state->old_label);
+	sheet_widget_frame_set_label (GNM_SO (state->swf), state->old_label);
 
 	gtk_widget_destroy (state->dialog);
 }
@@ -524,14 +524,14 @@ cb_frame_label_changed (GtkWidget *entry, FrameConfigState *state)
 	gchar const *text;
 
 	text = gtk_entry_get_text(GTK_ENTRY(entry));
-	sheet_widget_frame_set_label (SHEET_OBJECT (state->swf), text);
+	sheet_widget_frame_set_label (GNM_SO (state->swf), text);
 }
 
 static void
 sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetWidgetFrame *swf = GNM_SOW_FRAME (so);
-	WBCGtk   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	WBCGtk   *wbcg = scg_wbcg (GNM_SCG (sc));
 	FrameConfigState *state;
 	GtkBuilder *gui;
 
@@ -829,12 +829,12 @@ sheet_widget_button_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case SOB_PROP_TEXT:
-		sheet_widget_button_set_label (SHEET_OBJECT (swb),
+		sheet_widget_button_set_label (GNM_SO (swb),
 					       g_value_get_string (value));
 		break;
 	case SOB_PROP_MARKUP:
 #if 0
-		sheet_widget_button_set_markup (SHEET_OBJECT (swb),
+		sheet_widget_button_set_markup (GNM_SO (swb),
 						g_value_peek_pointer (value));
 #endif
 		break;
@@ -876,7 +876,7 @@ sheet_widget_button_init_full (SheetWidgetButton *swb,
 			       char const *text,
 			       PangoAttrList *markup)
 {
-	SheetObject *so = SHEET_OBJECT (swb);
+	SheetObject *so = GNM_SO (swb);
 
 	so->flags &= ~SHEET_OBJECT_PRINT;
 	swb->label = g_strdup (text);
@@ -921,11 +921,11 @@ cb_button_pressed (GtkToggleButton *button, SheetWidgetButton *swb)
 
 	swb->value = TRUE;
 
-	if (so_get_ref (SHEET_OBJECT (swb), &ref, TRUE) != NULL) {
+	if (so_get_ref (GNM_SO (swb), &ref, TRUE) != NULL) {
 		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
 				  _("Pressed Button"),
 				  &ref, value_new_bool (TRUE),
-				  sheet_object_get_sheet (SHEET_OBJECT (swb)));
+				  sheet_object_get_sheet (GNM_SO (swb)));
 	}
 }
 
@@ -936,11 +936,11 @@ cb_button_released (GtkToggleButton *button, SheetWidgetButton *swb)
 
 	swb->value = FALSE;
 
-	if (so_get_ref (SHEET_OBJECT (swb), &ref, TRUE) != NULL) {
+	if (so_get_ref (GNM_SO (swb), &ref, TRUE) != NULL) {
 		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
 				  _("Released Button"),
 				  &ref, value_new_bool (FALSE),
-				  sheet_object_get_sheet (SHEET_OBJECT (swb)));
+				  sheet_object_get_sheet (GNM_SO (swb)));
 	}
 }
 
@@ -997,7 +997,7 @@ cb_button_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
 	/* Force an update of the content in case it needs tweaking (eg make it
 	 * absolute) */
 	if (state->old_focus != NULL &&
-	    IS_GNM_EXPR_ENTRY (gtk_widget_get_parent (state->old_focus))) {
+	    GNM_EXPR_ENTRY_IS (gtk_widget_get_parent (state->old_focus))) {
 		GnmParsePos  pp;
 		GnmExprTop const *texpr = gnm_expr_entry_parse
 			(GNM_EXPR_ENTRY (gtk_widget_get_parent (state->old_focus)),
@@ -1023,7 +1023,7 @@ cb_button_config_destroy (ButtonConfigState *state)
 static void
 cb_button_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, ButtonConfigState *state)
 {
-	SheetObject *so = SHEET_OBJECT (state->swb);
+	SheetObject *so = GNM_SO (state->swb);
 	GnmParsePos  pp;
 	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
 		parse_pos_init_sheet (&pp, so->sheet),
@@ -1039,7 +1039,7 @@ cb_button_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, ButtonConfigState 
 static void
 cb_button_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, ButtonConfigState *state)
 {
-	sheet_widget_button_set_label	(SHEET_OBJECT (state->swb),
+	sheet_widget_button_set_label	(GNM_SO (state->swb),
 					 state->old_label);
 	gtk_widget_destroy (state->dialog);
 }
@@ -1047,7 +1047,7 @@ cb_button_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, ButtonConfigSt
 static void
 cb_button_label_changed (GtkEntry *entry, ButtonConfigState *state)
 {
-	sheet_widget_button_set_label	(SHEET_OBJECT (state->swb),
+	sheet_widget_button_set_label	(GNM_SO (state->swb),
 					 gtk_entry_get_text (entry));
 }
 
@@ -1055,7 +1055,7 @@ static void
 sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
-	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	WBCGtk  *wbcg = scg_wbcg (GNM_SCG (sc));
 	ButtonConfigState *state;
 	GtkWidget *grid;
 	GtkBuilder *gui;
@@ -1425,7 +1425,7 @@ cb_adjustment_widget_value_changed (GtkWidget *widget,
 	if (swa->being_updated)
 		return;
 
-	if (so_get_ref (SHEET_OBJECT (swa), &ref, TRUE) != NULL) {
+	if (so_get_ref (GNM_SO (swa), &ref, TRUE) != NULL) {
 		GnmCell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		/* TODO : add more control for precision, XL is stupid */
 		int new_val = gnm_fake_round (gtk_adjustment_get_value (swa->adjustment));
@@ -1439,7 +1439,7 @@ cb_adjustment_widget_value_changed (GtkWidget *widget,
 				  /* FIXME: This text sucks:  */
 				  _("Change widget"),
 				  &ref, value_new_int (new_val),
-				  sheet_object_get_sheet (SHEET_OBJECT (swa)));
+				  sheet_object_get_sheet (GNM_SO (swa)));
 		swa->being_updated = FALSE;
 	}
 }
@@ -1493,7 +1493,7 @@ sheet_widget_adjustment_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case SWA_PROP_HORIZONTAL:
-		sheet_widget_adjustment_set_horizontal (SHEET_OBJECT (swa), g_value_get_boolean (value));
+		sheet_widget_adjustment_set_horizontal (GNM_SO (swa), g_value_get_boolean (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -1509,7 +1509,7 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa,
 	SheetObject *so;
 	g_return_if_fail (swa != NULL);
 
-	so = SHEET_OBJECT (swa);
+	so = GNM_SO (swa);
 	so->flags &= ~SHEET_OBJECT_PRINT;
 
 	swa->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 0.));
@@ -1602,7 +1602,7 @@ cb_adjustment_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widge
 		: NULL;
 	/* Force an update of the content in case it needs tweaking (eg make it
 	 * absolute) */
-	if (ofp && IS_GNM_EXPR_ENTRY (ofp)) {
+	if (ofp && GNM_EXPR_ENTRY_IS (ofp)) {
 		GnmParsePos  pp;
 		GnmExprTop const *texpr = gnm_expr_entry_parse (
 			GNM_EXPR_ENTRY (ofp),
@@ -1628,7 +1628,7 @@ cb_adjustment_config_destroy (AdjustmentConfigState *state)
 static void
 cb_adjustment_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, AdjustmentConfigState *state)
 {
-	SheetObject *so = SHEET_OBJECT (state->swa);
+	SheetObject *so = GNM_SO (state->swa);
 	GnmParsePos pp;
 	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
 		parse_pos_init_sheet (&pp, so->sheet),
@@ -1666,7 +1666,7 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 {
 	SheetWidgetAdjustment *swa = GNM_SOW_ADJUSTMENT (so);
 	SheetWidgetAdjustmentClass *swa_class = SWA_CLASS (swa);
-	WBCGtk *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	WBCGtk *wbcg = scg_wbcg (GNM_SCG (sc));
 	AdjustmentConfigState *state;
 	GtkWidget *grid;
 	GtkBuilder *gui;
@@ -2300,12 +2300,12 @@ sheet_widget_checkbox_set_property (GObject *obj, guint param_id,
 		sheet_widget_checkbox_set_active (swc);
 		break;
 	case SOC_PROP_TEXT:
-		sheet_widget_checkbox_set_label (SHEET_OBJECT (swc),
+		sheet_widget_checkbox_set_label (GNM_SO (swc),
 						 g_value_get_string (value));
 		break;
 	case SOC_PROP_MARKUP:
 #if 0
-		sheet_widget_checkbox_set_markup (SHEET_OBJECT (swc),
+		sheet_widget_checkbox_set_markup (GNM_SO (swc),
 						g_value_peek_pointer (value));
 #endif
 		break;
@@ -2391,13 +2391,13 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 	swc->value = gtk_toggle_button_get_active (button);
 	sheet_widget_checkbox_set_active (swc);
 
-	if (so_get_ref (SHEET_OBJECT (swc), &ref, TRUE) != NULL) {
+	if (so_get_ref (GNM_SO (swc), &ref, TRUE) != NULL) {
 		gboolean new_val = gtk_toggle_button_get_active (button);
 		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
 				  /* FIXME: This text sucks:  */
 				  _("Clicking checkbox"),
 				  &ref, value_new_bool (new_val),
-				  sheet_object_get_sheet (SHEET_OBJECT (swc)));
+				  sheet_object_get_sheet (GNM_SO (swc)));
 	}
 }
 
@@ -2459,7 +2459,7 @@ cb_checkbox_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
 
 	/* Force an update of the content in case it needs tweaking (eg make it
 	 * absolute) */
-	if (ofp && IS_GNM_EXPR_ENTRY (ofp)) {
+	if (ofp && GNM_EXPR_ENTRY_IS (ofp)) {
 		GnmParsePos  pp;
 		GnmExprTop const *texpr = gnm_expr_entry_parse (
 			GNM_EXPR_ENTRY (ofp),
@@ -2485,7 +2485,7 @@ cb_checkbox_config_destroy (CheckboxConfigState *state)
 static void
 cb_checkbox_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, CheckboxConfigState *state)
 {
-	SheetObject *so = SHEET_OBJECT (state->swc);
+	SheetObject *so = GNM_SO (state->swc);
 	GnmParsePos  pp;
 	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
 		parse_pos_init_sheet (&pp, so->sheet),
@@ -2501,7 +2501,7 @@ cb_checkbox_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, CheckboxConfigSt
 static void
 cb_checkbox_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, CheckboxConfigState *state)
 {
-	sheet_widget_checkbox_set_label	(SHEET_OBJECT (state->swc),
+	sheet_widget_checkbox_set_label	(GNM_SO (state->swc),
 					 state->old_label);
 	gtk_widget_destroy (state->dialog);
 }
@@ -2509,7 +2509,7 @@ cb_checkbox_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, CheckboxConf
 static void
 cb_checkbox_label_changed (GtkEntry *entry, CheckboxConfigState *state)
 {
-	sheet_widget_checkbox_set_label	(SHEET_OBJECT (state->swc),
+	sheet_widget_checkbox_set_label	(GNM_SO (state->swc),
 					 gtk_entry_get_text (entry));
 }
 
@@ -2517,7 +2517,7 @@ static void
 sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetWidgetCheckbox *swc = GNM_SOW_CHECKBOX (so);
-	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	WBCGtk  *wbcg = scg_wbcg (GNM_SCG (sc));
 	CheckboxConfigState *state;
 	GtkWidget *grid;
 	GtkBuilder *gui;
@@ -2871,17 +2871,17 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 						      g_value_get_boolean (value));
 		break;
 	case SOR_PROP_TEXT:
-		sheet_widget_radio_button_set_label (SHEET_OBJECT (swrb),
+		sheet_widget_radio_button_set_label (GNM_SO (swrb),
 						     g_value_get_string (value));
 		break;
 	case SOR_PROP_MARKUP:
 #if 0
-		sheet_widget_radio_button_set_markup (SHEET_OBJECT (swrb),
+		sheet_widget_radio_button_set_markup (GNM_SO (swrb),
 						      g_value_peek_pointer (value));
 #endif
 		break;
 	case SOR_PROP_VALUE:
-		sheet_widget_radio_button_set_value (SHEET_OBJECT (swrb),
+		sheet_widget_radio_button_set_value (GNM_SO (swrb),
 						      g_value_peek_pointer (value));
 		break;
 	default:
@@ -2988,12 +2988,12 @@ sheet_widget_radio_button_toggled (GtkToggleButton *button,
 		return;
 	swrb->active = gtk_toggle_button_get_active (button);
 
-	if (so_get_ref (SHEET_OBJECT (swrb), &ref, TRUE) != NULL) {
+	if (so_get_ref (GNM_SO (swrb), &ref, TRUE) != NULL) {
 		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
 				  /* FIXME: This text sucks:  */
 				  _("Clicking radiobutton"),
 				  &ref, value_dup (swrb->value),
-				  sheet_object_get_sheet (SHEET_OBJECT (swrb)));
+				  sheet_object_get_sheet (GNM_SO (swrb)));
 	}
 }
 
@@ -3171,7 +3171,7 @@ cb_radio_button_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_wid
 
  	/* Force an update of the content in case it needs tweaking (eg make it
  	 * absolute) */
- 	if (ofp && IS_GNM_EXPR_ENTRY (ofp)) {
+ 	if (ofp && GNM_EXPR_ENTRY_IS (ofp)) {
  		GnmParsePos  pp;
  		GnmExprTop const *texpr = gnm_expr_entry_parse (
  			GNM_EXPR_ENTRY (ofp),
@@ -3209,7 +3209,7 @@ so_parse_value (SheetObject *so, const char *s)
 static void
 cb_radio_button_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, RadioButtonConfigState *state)
 {
-	SheetObject *so = SHEET_OBJECT (state->swrb);
+	SheetObject *so = GNM_SO (state->swrb);
 	GnmParsePos  pp;
  	GnmExprTop const *texpr = gnm_expr_entry_parse
 		(state->expression,
@@ -3230,9 +3230,9 @@ cb_radio_button_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, RadioButtonC
 static void
 cb_radio_button_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, RadioButtonConfigState *state)
 {
- 	sheet_widget_radio_button_set_label (SHEET_OBJECT (state->swrb),
+ 	sheet_widget_radio_button_set_label (GNM_SO (state->swrb),
  					     state->old_label);
- 	sheet_widget_radio_button_set_value (SHEET_OBJECT (state->swrb),
+ 	sheet_widget_radio_button_set_value (GNM_SO (state->swrb),
  					     state->old_value);
  	gtk_widget_destroy (state->dialog);
 }
@@ -3240,7 +3240,7 @@ cb_radio_button_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, RadioBut
 static void
 cb_radio_button_label_changed (GtkEntry *entry, RadioButtonConfigState *state)
 {
- 	sheet_widget_radio_button_set_label (SHEET_OBJECT (state->swrb),
+ 	sheet_widget_radio_button_set_label (GNM_SO (state->swrb),
  					     gtk_entry_get_text (entry));
 }
 
@@ -3248,7 +3248,7 @@ static void
 cb_radio_button_value_changed (GtkEntry *entry, RadioButtonConfigState *state)
 {
 	const char *text = gtk_entry_get_text (entry);
-	SheetObject *so = SHEET_OBJECT (state->swrb);
+	SheetObject *so = GNM_SO (state->swrb);
 	GnmValue *val = so_parse_value (so, text);
 
  	sheet_widget_radio_button_set_value (so, val);
@@ -3259,7 +3259,7 @@ static void
 sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
 {
  	SheetWidgetRadioButton *swrb = GNM_SOW_RADIO_BUTTON (so);
- 	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+ 	WBCGtk  *wbcg = scg_wbcg (GNM_SCG (sc));
  	RadioButtonConfigState *state;
  	GtkWidget *grid;
 	GString *valstr;
@@ -3471,7 +3471,7 @@ sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 	if (swl->selection != selection) {
 		swl->selection = selection;
 		if (NULL!= wbc &&
-		    so_get_ref (SHEET_OBJECT (swl), &ref, TRUE) != NULL) {
+		    so_get_ref (GNM_SO (swl), &ref, TRUE) != NULL) {
 			GnmValue *v;
 			if (swl->result_as_index)
 				v = value_new_int (swl->selection);
@@ -3486,7 +3486,7 @@ sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 			} else
 				v = value_new_string ("");
 			cmd_so_set_value (wbc, _("Clicking in list"), &ref, v,
-					  sheet_object_get_sheet (SHEET_OBJECT (swl)));
+					  sheet_object_get_sheet (GNM_SO (swl)));
 		}
 		g_signal_emit (G_OBJECT (swl),
 			list_base_signals [LIST_BASE_SELECTION_CHANGED], 0);
@@ -3608,7 +3608,7 @@ static void
 sheet_widget_list_base_init (SheetObjectWidget *sow)
 {
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (sow);
-	SheetObject *so = SHEET_OBJECT (sow);
+	SheetObject *so = GNM_SO (sow);
 
 	so->flags &= ~SHEET_OBJECT_PRINT;
 
@@ -3641,7 +3641,7 @@ sheet_widget_list_base_finalize (GObject *obj)
 static void
 sheet_widget_list_base_user_config (SheetObject *so, SheetControl *sc)
 {
-	dialog_so_list (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so));
+	dialog_so_list (scg_wbcg (GNM_SCG (sc)), G_OBJECT (so));
 }
 static gboolean
 sheet_widget_list_base_set_sheet (SheetObject *so, Sheet *sheet)

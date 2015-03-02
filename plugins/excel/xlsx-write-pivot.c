@@ -147,7 +147,7 @@ xlsx_write_pivot_cache_source (XLSXWriteState *state, GsfXMLOut *xml, GODataCach
 	if (NULL == src)
 		return;
 
-	if (IS_GNM_DATA_CACHE_SOURCE (src)) {
+	if (GNM_IS_DATA_CACHE_SOURCE (src)) {
 		GnmDataCacheSource const *ssrc = GNM_DATA_CACHE_SOURCE (src);
 		Sheet const *src_sheet	= gnm_data_cache_source_get_sheet (ssrc);
 		GnmRange const	*r	= gnm_data_cache_source_get_range (ssrc);

@@ -120,7 +120,7 @@ gnm_cell_combo_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property (gobject_class, PROP_SV,
 		 g_param_spec_object ("sheet-view", NULL, NULL,
-			SHEET_VIEW_TYPE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+			GNM_SV_TYPE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 GSF_CLASS_ABSTRACT (GnmCellCombo, gnm_cell_combo,

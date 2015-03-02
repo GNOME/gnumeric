@@ -225,34 +225,34 @@ gnm_data_cache_source_new (Sheet *src_sheet,
 Sheet *
 gnm_data_cache_source_get_sheet (GnmDataCacheSource const *src)
 {
-	g_return_val_if_fail (IS_GNM_DATA_CACHE_SOURCE (src), NULL);
+	g_return_val_if_fail (GNM_IS_DATA_CACHE_SOURCE (src), NULL);
 	return src->src_sheet;
 }
 
 void
 gnm_data_cache_source_set_sheet (GnmDataCacheSource *src, Sheet *sheet)
 {
-	g_return_if_fail (IS_GNM_DATA_CACHE_SOURCE (src));
+	g_return_if_fail (GNM_IS_DATA_CACHE_SOURCE (src));
 }
 
 GnmRange const	*
 gnm_data_cache_source_get_range (GnmDataCacheSource const *src)
 {
-	g_return_val_if_fail (IS_GNM_DATA_CACHE_SOURCE (src), NULL);
+	g_return_val_if_fail (GNM_IS_DATA_CACHE_SOURCE (src), NULL);
 	return &src->src_range;
 }
 
 void
 gnm_data_cache_source_set_range (GnmDataCacheSource *src, GnmRange const *r)
 {
-	g_return_if_fail (IS_GNM_DATA_CACHE_SOURCE (src));
+	g_return_if_fail (GNM_IS_DATA_CACHE_SOURCE (src));
 	src->src_range = *r;
 }
 
 char const *
 gnm_data_cache_source_get_name  (GnmDataCacheSource const *src)
 {
-	g_return_val_if_fail (IS_GNM_DATA_CACHE_SOURCE (src), NULL);
+	g_return_val_if_fail (GNM_IS_DATA_CACHE_SOURCE (src), NULL);
 	return src->src_name ? src->src_name->str : NULL;
 }
 
@@ -261,7 +261,7 @@ gnm_data_cache_source_set_name (GnmDataCacheSource *src, char const *name)
 {
 	GOString *new_val;
 
-	g_return_if_fail (IS_GNM_DATA_CACHE_SOURCE (src));
+	g_return_if_fail (GNM_IS_DATA_CACHE_SOURCE (src));
 
 	new_val = go_string_new (name);
 	go_string_unref (src->src_name);

@@ -4247,7 +4247,7 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 	gboolean need_release = FALSE;
 
 	if (dim != NULL) {
-		if (IS_GNM_GO_DATA_SCALAR (dim) || GNM_IS_GO_DATA_VECTOR (dim)) {
+		if (GNM_IS_GO_DATA_SCALAR (dim) || GNM_IS_GO_DATA_VECTOR (dim)) {
 			texpr = gnm_go_data_get_expr (dim);
 			if ((value = gnm_expr_top_get_range (texpr)) != NULL) {
 				GType const t = G_OBJECT_TYPE (dim);

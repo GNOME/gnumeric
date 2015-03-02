@@ -504,7 +504,7 @@ gee_set_property (GObject      *object,
 		break;
 	case PROP_SCG:
 		gnm_expr_entry_set_scg (gee,
-			SHEET_CONTROL_GUI (g_value_get_object (value)));
+			GNM_SCG (g_value_get_object (value)));
 		break;
 	case PROP_WBCG:
 		g_return_if_fail (gee->wbcg == NULL);
@@ -1520,7 +1520,7 @@ cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
 			   G_GNUC_UNUSED GdkEventButton *event,
 			   GnmExprEntry *gee)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), FALSE);
 
 	if (gee->scg) {
 		scg_rangesel_stop (gee->scg, FALSE);
@@ -1729,7 +1729,7 @@ gee_class_init (GObjectClass *gobject_class)
 		 g_param_spec_object ("scg",
 				      P_("SheetControlGUI"),
 				      P_("The GUI container associated with the entry."),
-				      SHEET_CONTROL_GUI_TYPE,
+				      GNM_SCG_TYPE,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
@@ -2122,7 +2122,7 @@ gnm_expr_entry_rangesel_stop (GnmExprEntry *gee,
 {
 	Rangesel *rs;
 
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
+	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
 
 	rs = &gee->rangesel;
 	if (clear_string && rs->text_end > rs->text_start)
@@ -2224,7 +2224,7 @@ void
 gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
 				       GnmUpdateType  policy)
 {
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
+	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
 
 	if (gee->update_policy == policy)
 		return;
@@ -2256,7 +2256,7 @@ gnm_expr_entry_new (WBCGtk *wbcg, gboolean with_icon)
 void
 gnm_expr_entry_freeze (GnmExprEntry *gee)
 {
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
+	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
 
 	gee->freeze_count++;
 }
@@ -2264,7 +2264,7 @@ gnm_expr_entry_freeze (GnmExprEntry *gee)
 void
 gnm_expr_entry_thaw (GnmExprEntry *gee)
 {
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
+	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
 
 	if (gee->freeze_count > 0 && (--gee->freeze_count) == 0) {
 		gee_rangesel_update_text (gee);
@@ -2305,7 +2305,7 @@ gnm_expr_entry_set_flags (GnmExprEntry *gee,
 			  GnmExprEntryFlags mask)
 {
 	GnmExprEntryFlags newflags;
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
+	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
 
 	newflags = (gee->flags & ~mask) | (flags & mask);
 	if (gee->flags == newflags)
@@ -2327,8 +2327,8 @@ gnm_expr_entry_set_flags (GnmExprEntry *gee,
 void
 gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 {
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
-	g_return_if_fail (scg == NULL || IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
+	g_return_if_fail (scg == NULL || GNM_IS_SCG (scg));
 
 	if ((gee->flags & GNM_EE_SINGLE_RANGE) || scg != gee->scg)
 		gee_rangesel_reset (gee);
@@ -2338,7 +2338,7 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 	if (scg) {
 		g_object_weak_ref (G_OBJECT (gee->scg),
 				   (GWeakNotify) cb_scg_destroy, gee);
-		gee->sheet = sc_sheet (SHEET_CONTROL (scg));
+		gee->sheet = sc_sheet (GNM_SC (scg));
 		parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
 		gee->wbcg = scg_wbcg (gee->scg);
 	} else
@@ -2369,7 +2369,7 @@ gnm_expr_entry_get_scg (GnmExprEntry *gee)
 void
 gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
 {
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
+	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
 
@@ -2393,7 +2393,7 @@ gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
 void
 gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 {
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
+	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
 	g_return_if_fail (dep != NULL);
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
@@ -2430,7 +2430,7 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
 			       GnmExprTop const *texpr,
 			       GnmParsePos const *pp)
 {
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
+	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
 
@@ -2469,7 +2469,7 @@ gnm_expr_entry_load_from_range (GnmExprEntry *gee,
 	GnmRangeRef ref;
 	gboolean needs_change = FALSE;
 
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (r != NULL, FALSE);
 
@@ -2527,7 +2527,7 @@ gnm_expr_entry_get_rangesel (GnmExprEntry const *gee,
 	GnmRangeRef ref;
 	Rangesel const *rs = &gee->rangesel;
 
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), FALSE);
 
 	gee_prepare_range (gee, &ref);
 
@@ -2561,7 +2561,7 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 {
 	char const *text;
 
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), FALSE);
 
 	if (wbc_gtk_get_guru (gee->wbcg) != NULL &&
 	    gee == gee->wbcg->edit_line.entry)
@@ -2596,7 +2596,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	char *str;
 	GnmExprTop const *texpr;
 
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), NULL);
 
 	text = gtk_entry_get_text (gee->entry);
 
@@ -2656,7 +2656,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 		SheetControlGUI *scg = wbcg_cur_scg (gee->wbcg);
 		Rangesel const *rs = &gee->rangesel;
 		if (gee == wbcg_get_entry_logical (gee->wbcg) &&
-		    start_sel && sc_sheet (SHEET_CONTROL (scg)) == rs->ref.a.sheet) {
+		    start_sel && sc_sheet (GNM_SC (scg)) == rs->ref.a.sheet) {
 			scg_rangesel_bound (scg,
 				rs->ref.a.col, rs->ref.a.row,
 				rs->ref.b.col, rs->ref.b.row);
@@ -2683,7 +2683,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 char const *
 gnm_expr_entry_get_text	(GnmExprEntry const *gee)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), NULL);
 	return gtk_entry_get_text (gee->entry);
 }
 
@@ -2703,7 +2703,7 @@ gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
 	GnmValue *v;
 	const char *txt;
 
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), NULL);
 
 	if ((gee->flags & GNM_EE_FORCE_ABS_REF))
 		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES;
@@ -2738,7 +2738,7 @@ gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
 GSList *
 gnm_expr_entry_parse_as_list (GnmExprEntry *gee, Sheet *sheet)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), NULL);
 
 	return global_range_list_parse (sheet,
 		gtk_entry_get_text (gnm_expr_entry_get_entry (gee)));
@@ -2753,7 +2753,7 @@ gnm_expr_entry_parse_as_list (GnmExprEntry *gee, Sheet *sheet)
 GtkEntry *
 gnm_expr_entry_get_entry (GnmExprEntry *gee)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), NULL);
 
 	return gee->entry;
 }
@@ -2765,7 +2765,7 @@ gnm_expr_entry_is_cell_ref (GnmExprEntry *gee, Sheet *sheet,
         GnmValue *val;
 	gboolean res;
 
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), FALSE);
 
 	val = gnm_expr_entry_parse_as_value (gee, sheet);
         if (val == NULL)
@@ -2786,7 +2786,7 @@ gnm_expr_entry_is_blank	(GnmExprEntry *gee)
 	GtkEntry *entry;
 	char const *text;
 
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), FALSE);
 
 	entry = gnm_expr_entry_get_entry (gee);
 
@@ -2809,7 +2809,7 @@ gnm_expr_entry_global_range_name (GnmExprEntry *gee, Sheet *sheet)
 	GnmValue *val;
 	char *text = NULL;
 
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), NULL);
 
 	val = gnm_expr_entry_parse_as_value (gee, sheet);
 	if (val != NULL) {
@@ -2824,7 +2824,7 @@ gnm_expr_entry_global_range_name (GnmExprEntry *gee, Sheet *sheet)
 void
 gnm_expr_entry_grab_focus (GnmExprEntry *gee, gboolean select_all)
 {
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
+	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
 
 	gtk_widget_grab_focus (GTK_WIDGET (gee->entry));
 	if (select_all) {
@@ -2836,7 +2836,7 @@ gnm_expr_entry_grab_focus (GnmExprEntry *gee, gboolean select_all)
 gboolean
 gnm_expr_entry_editing_canceled (GnmExprEntry *gee)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), TRUE);
+	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), TRUE);
 
 	return gee->editing_canceled;
 }

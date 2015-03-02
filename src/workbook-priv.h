@@ -53,9 +53,6 @@ typedef struct {
 	void (*sheet_deleted)       (Workbook *wb);
 } WorkbookClass;
 
-#define WORKBOOK_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), WORKBOOK_TYPE, WorkbookClass))
-#define IS_WORKBOOK_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), WORKBOOK_TYPE))
-
 #define WORKBOOK_FOREACH_VIEW(wb, view, code)					\
 do {										\
 	int InD;								\

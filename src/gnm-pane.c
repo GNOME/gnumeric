@@ -84,7 +84,7 @@ static gboolean
 gnm_pane_object_key_press (GnmPane *pane, GdkEventKey *ev)
 {
 	SheetControlGUI *scg = pane->simple.scg;
-	SheetControl    *sc = SHEET_CONTROL (scg);
+	SheetControl    *sc = GNM_SC (scg);
 	gboolean const shift	= 0 != (ev->state & GDK_SHIFT_MASK);
 	gboolean const control	= 0 != (ev->state & GDK_CONTROL_MASK);
 	gboolean const alt	= 0 != (ev->state & GDK_MOD1_MASK);
@@ -1228,7 +1228,7 @@ gnm_pane_new (SheetControlGUI *scg,
 	GnmPane	*pane;
 	Sheet   *sheet;
 
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+	g_return_val_if_fail (GNM_IS_SCG (scg), NULL);
 
 	pane = g_object_new (GNM_PANE_TYPE, NULL);
 	pane->index      = index;
@@ -1474,7 +1474,7 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 
 	/* Update the scrollbar sizes for the primary pane */
 	if (pane->index == 0)
-		sc_scrollbar_config (SHEET_CONTROL (scg));
+		sc_scrollbar_config (GNM_SC (scg));
 
 	/* Force the cursor to update its bounds relative to the new visible region */
 	gnm_pane_reposition_cursors (pane);
@@ -2550,7 +2550,7 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 				  G_N_ELEMENTS (drag_types_out));
 	objects = go_hash_keys (scg->selected_objects);
 	for (ptr = objects; ptr != NULL; ptr = ptr->next) {
-		candidate = SHEET_OBJECT (ptr->data);
+		candidate = GNM_SO (ptr->data);
 
 		if (exportable == NULL &&
 		    GNM_IS_SO_EXPORTABLE (candidate))
@@ -2748,7 +2748,7 @@ control_point_button2_pressed (GocItem *item, int button, G_GNUC_UNUSED double x
 
 	so  = g_object_get_data (G_OBJECT (item), "so");
 	if (pane->drag.button == 1)
-		sheet_object_get_editor (so, SHEET_CONTROL (scg));
+		sheet_object_get_editor (so, GNM_SC (scg));
 	return TRUE;
 }
 

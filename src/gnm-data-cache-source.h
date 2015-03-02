@@ -32,7 +32,7 @@ G_BEGIN_DECLS
 
 #define GNM_DATA_CACHE_SOURCE_TYPE	(gnm_data_cache_source_get_type ())
 #define GNM_DATA_CACHE_SOURCE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_DATA_CACHE_SOURCE_TYPE, GnmDataCacheSource))
-#define IS_GNM_DATA_CACHE_SOURCE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_DATA_CACHE_SOURCE_TYPE))
+#define GNM_IS_DATA_CACHE_SOURCE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_DATA_CACHE_SOURCE_TYPE))
 
 GType gnm_data_cache_source_get_type (void);
 

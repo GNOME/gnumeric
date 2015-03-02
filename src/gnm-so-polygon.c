@@ -164,7 +164,7 @@ gnm_so_polygon_new_view (SheetObject *so, SheetObjectViewContainer *container)
 static void
 gnm_so_polygon_user_config (SheetObject *so, SheetControl *sc)
 {
-	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
+	dialog_so_styled (scg_wbcg (GNM_SCG (sc)), G_OBJECT (so),
 			  sop_default_style (),
 			  _("Polygon Properties"), SO_STYLED_STYLE_ONLY);
 }
@@ -258,7 +258,7 @@ gnm_so_polygon_get_property (GObject *obj, guint param_id,
 		g_value_set_pointer (value, sop->points);
 		break;
 	case SOP_PROP_DOCUMENT:
-		g_value_set_object (value, sheet_object_get_sheet (SHEET_OBJECT (obj))->workbook);
+		g_value_set_object (value, sheet_object_get_sheet (GNM_SO (obj))->workbook);
 		break;
 	default :
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);

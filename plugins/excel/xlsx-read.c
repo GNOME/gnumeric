@@ -3825,7 +3825,7 @@ xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmRange anchor_r;
 
 	state->comment = g_object_new (cell_comment_get_type (), NULL);
-	so = SHEET_OBJECT (state->comment);
+	so = GNM_SO (state->comment);
 	anchor_r = sheet_object_get_anchor (so)->cell_bound;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -3841,7 +3841,7 @@ xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		}
 
-	cell_comment_set_pos (CELL_COMMENT (so), &anchor_r.start);
+	cell_comment_set_pos (GNM_CELL_COMMENT (so), &anchor_r.start);
 	state->r_text = g_string_new ("");
 }
 
@@ -3858,7 +3858,7 @@ xlsx_comment_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		pango_attr_list_unref (state->rich_attrs);
 		state->rich_attrs = NULL;
 	}
-	sheet_object_set_sheet (SHEET_OBJECT (state->comment), state->sheet);
+	sheet_object_set_sheet (GNM_SO (state->comment), state->sheet);
 	g_object_unref (state->comment);
 	state->comment = NULL;
 

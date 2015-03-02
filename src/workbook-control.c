@@ -498,7 +498,7 @@ workbook_control_class_init (GObjectClass *object_class)
 		 g_param_spec_object ("view",
 				      P_("View"),
 				      P_("The workbook view being controlled."),
-				      WORKBOOK_VIEW_TYPE,
+				      GNM_WORKBOOK_VIEW_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
 }

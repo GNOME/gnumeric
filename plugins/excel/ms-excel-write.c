@@ -3641,7 +3641,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	for (l = esheet->comments; l; l = l->next) {
 		GnmComment const *cc = l->data;
-		GnmRange const *pos = sheet_object_get_range (SHEET_OBJECT (cc));
+		GnmRange const *pos = sheet_object_get_range (GNM_SO (cc));
 		char const *in = cell_comment_text_get (cc);
 		size_t out_bytes, o;
 		gpointer convstr;
@@ -4366,7 +4366,7 @@ blipinf_new (SheetObjectImage *soi)
 	blip = g_new0 (BlipInf, 1);
 	blip->uncomp_len = -1;
 	blip->needs_free = FALSE;
-	blip->so         = SHEET_OBJECT (soi);
+	blip->so         = GNM_SO (soi);
 
 	g_object_get (G_OBJECT (soi),
 		      "image-type", &blip->type,
@@ -5522,7 +5522,7 @@ static void
 cb_NOTE_v8 (SheetObject const *so, gconstpointer id, BiffPut *bp)
 {
 	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
-	char const *author = cell_comment_author_get (CELL_COMMENT (so));
+	char const *author = cell_comment_author_get (GNM_CELL_COMMENT (so));
 	guint8 buf [4 * 2];
 
 	if (!author)
@@ -5796,7 +5796,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 
 	objs = sheet_objects_get (sheet, NULL, G_TYPE_NONE);
 	for (l = objs; l; l = l->next) {
-		SheetObject *so = SHEET_OBJECT (l->data);
+		SheetObject *so = GNM_SO (l->data);
 		gboolean handled = FALSE;
 
 		if (GNM_IS_SO_GRAPH (so)) {
@@ -5806,7 +5806,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
 		} else if (GNM_IS_SO_IMAGE (so)) {
-			SheetObjectImage *soi = SHEET_OBJECT_IMAGE (l->data);
+			SheetObjectImage *soi = GNM_SO_IMAGE (l->data);
 			BlipInf *bi = blipinf_new (soi);
 
 			/* Images we can't export have a NULL BlipInf */
@@ -5846,7 +5846,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			esheet->objects =
 				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
-		} else if (IS_GNM_FILTER_COMBO (so)) {
+		} else if (GNM_IS_FILTER_COMBO (so)) {
 			/* Handled outside loop.  */
 			continue;
 		}

@@ -615,7 +615,7 @@ cb_sheet_label_drag_data_get (GtkWidget *widget, GdkDragContext *context,
 			      guint info, guint time)
 {
 	SheetControlGUI *scg = get_scg (widget);
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	scg_drag_data_get (scg, selection_data);
 }
@@ -659,7 +659,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 				       old_state,
 				       s_src);
 	} else {
-		g_return_if_fail (IS_SHEET_CONTROL_GUI (gtk_selection_data_get_data (data)));
+		g_return_if_fail (GNM_IS_SCG (gtk_selection_data_get_data (data)));
 
 		/* Different workbook, same process */
 		g_warning ("Not yet implemented!");
@@ -1023,7 +1023,7 @@ cb_sheet_tab_change (Sheet *sheet,
 	GdkRGBA cfore, cback;
 	SheetControlGUI *scg = get_scg (widget);
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	/* We're lazy and just set all relevant attributes.  */
 	g_object_set (widget,
@@ -1057,7 +1057,7 @@ cb_sheet_visibility_change (Sheet *sheet,
 {
 	gboolean viz;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	viz = sheet_is_visible (sheet);
 	gtk_widget_set_visible (GTK_WIDGET (scg->grid), viz);
@@ -1672,7 +1672,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			}
 			if (!has_comments) {
 				objs = sheet_objects_get
-					(sheet, r, CELL_COMMENT_TYPE);
+					(sheet, r, GNM_CELL_COMMENT_TYPE);
 				has_comments = (objs != NULL);
 				g_slist_free (objs);
 			}
@@ -1811,7 +1811,7 @@ wbcg_close_if_user_permits (WBCGtk *wbcg, WorkbookView *wb_view)
 	Workbook  *wb = wb_view_get_workbook (wb_view);
 	static int in_can_close;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), 0);
 
 	if (in_can_close)
 		return 0;
@@ -1875,7 +1875,7 @@ wbc_gtk_close (WBCGtk *wbcg)
 {
 	WorkbookView *wb_view = wb_control_view (GNM_WBC (wbcg));
 
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), TRUE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wb_view), TRUE);
 	g_return_val_if_fail (wb_view->wb_controls != NULL, TRUE);
 
 	/* If we were editing when the quit request came make sure we don't
@@ -1893,7 +1893,7 @@ wbc_gtk_close (WBCGtk *wbcg)
 	if (wb_view->wb_controls->len <= 1) {
 		Workbook *wb = wb_view_get_workbook (wb_view);
 
-		g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
+		g_return_val_if_fail (GNM_IS_WORKBOOK (wb), TRUE);
 		g_return_val_if_fail (wb->wb_views != NULL, TRUE);
 
 		/* This is the last view */
@@ -5354,7 +5354,7 @@ cb_graph_dim_entry_changed (GraphDimEditor *editor)
 static void
 set_entry_contents (GnmExprEntry *entry, GOData *val)
 {
-	if (IS_GNM_GO_DATA_SCALAR (val)) {
+	if (GNM_IS_GO_DATA_SCALAR (val)) {
 		GnmValue const *v = gnm_expr_top_get_constant (gnm_go_data_get_expr (val));
 		if (v && VALUE_IS_NUMBER (v)) {
 			double d = go_data_get_scalar_value (val);
@@ -6015,7 +6015,7 @@ wbcg_find_for_workbook (Workbook *wb,
 {
 	gboolean has_screen, has_display;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
 	g_return_val_if_fail (candidate == NULL || GNM_IS_WBC_GTK (candidate), NULL);
 
 	if (candidate && wb_control_get_workbook (GNM_WBC (candidate)) == wb)

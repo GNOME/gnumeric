@@ -210,7 +210,7 @@ gnm_print_sheet_objects (cairo_t *cr,
 	objects = g_slist_reverse (g_slist_copy (sheet->sheet_objects));
 
 	for (ptr = objects; ptr; ptr = ptr->next) {
-		SheetObject *so = SHEET_OBJECT (ptr->data);
+		SheetObject *so = GNM_SO (ptr->data);
 		GnmRange const *r = &so->anchor.cell_bound;
 
 		if (!sheet_object_can_print (so) ||

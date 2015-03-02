@@ -102,7 +102,7 @@ static void
 search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 {
 	DialogState *dd = (DialogState *)_dd;
-	GnumericLazyList *ll = GNUMERIC_LAZY_LIST (gtk_tree_view_get_model (dd->matches_table));
+	GnumericLazyList *ll = GNM_LAZY_LIST (gtk_tree_view_get_model (dd->matches_table));
 	GnmSearchFilterResult *item = g_ptr_array_index (dd->matches, row);
 	GnmCell *cell;
 	GnmComment *comment;

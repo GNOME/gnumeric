@@ -870,7 +870,7 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 		g_param_spec_object ("workbook",
 				     P_("Parent workbook"),
 				     P_("The workbook in which this sheet lives"),
-				     WORKBOOK_TYPE,
+				     GNM_WORKBOOK_TYPE,
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE |
 				     G_PARAM_CONSTRUCT_ONLY));
@@ -1093,7 +1093,7 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 		 G_STRUCT_OFFSET (GnmSheetClass, detached_from_workbook),
 		 NULL, NULL,
 		 g_cclosure_marshal_VOID__OBJECT,
-		 G_TYPE_NONE, 1, WORKBOOK_TYPE);
+		 G_TYPE_NONE, 1, GNM_WORKBOOK_TYPE);
 
 }
 
@@ -1827,7 +1827,7 @@ sheet_reposition_objects (Sheet const *sheet, GnmCellPos const *pos)
 {
 	GSList *ptr;
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
-		sheet_object_update_bounds (SHEET_OBJECT (ptr->data), pos);
+		sheet_object_update_bounds (GNM_SO (ptr->data), pos);
 }
 
 /**
@@ -2292,7 +2292,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend, gboolean
 	sheet_cell_foreach (sheet, &cb_sheet_get_extent, &closure);
 
 	for (ptr = sheet->sheet_objects; ptr; ptr = ptr->next) {
-		SheetObject *so = SHEET_OBJECT (ptr->data);
+		SheetObject *so = GNM_SO (ptr->data);
 
 		closure.range.start.col = MIN (so->anchor.cell_bound.start.col,
 					       closure.range.start.col);
@@ -4133,10 +4133,10 @@ sheet_cell_positions (Sheet *sheet, gboolean comments)
 		GSList *scomments, *ptr;
 
 		range_init_full_sheet (&r, sheet);
-		scomments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
+		scomments = sheet_objects_get (sheet, &r, GNM_CELL_COMMENT_TYPE);
 		for (ptr = scomments; ptr; ptr = ptr->next) {
 			GnmComment *c = ptr->data;
-			GnmRange const *loc = sheet_object_get_range (SHEET_OBJECT (c));
+			GnmRange const *loc = sheet_object_get_range (GNM_SO (c));
 			GnmCell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
 			if (!cell) {
 				/* If cell does not exist, we haven't seen it...  */
@@ -4525,7 +4525,7 @@ sheet_destroy_contents (Sheet *sheet)
 		GSList *objs = g_slist_copy (sheet->sheet_objects);
 		GSList *ptr;
 		for (ptr = objs; ptr != NULL ; ptr = ptr->next) {
-			SheetObject *so = SHEET_OBJECT (ptr->data);
+			SheetObject *so = GNM_SO (ptr->data);
 			if (so != NULL)
 				sheet_object_clear_sheet (so);
 		}
@@ -4740,7 +4740,7 @@ sheet_clear_region (Sheet *sheet,
 	if (clear_flags & CLEAR_OBJECTS)
 		sheet_objects_clear (sheet, &r, G_TYPE_NONE, NULL);
 	else if (clear_flags & CLEAR_COMMENTS)
-		sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE, NULL);
+		sheet_objects_clear (sheet, &r, GNM_CELL_COMMENT_TYPE, NULL);
 
 	/* TODO : how to handle objects ? */
 	if (clear_flags & CLEAR_VALUES) {
@@ -6130,10 +6130,10 @@ sheet_get_comment (Sheet const *sheet, GnmCellPos const *pos)
 	mr = gnm_sheet_merge_contains_pos (sheet, pos);
 
 	if (mr)
-		comments = sheet_objects_get (sheet, mr, CELL_COMMENT_TYPE);
+		comments = sheet_objects_get (sheet, mr, GNM_CELL_COMMENT_TYPE);
 	else {
 		r.start = r.end = *pos;
-		comments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
+		comments = sheet_objects_get (sheet, &r, GNM_CELL_COMMENT_TYPE);
 	}
 	if (!comments)
 		return NULL;

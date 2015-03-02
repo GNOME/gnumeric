@@ -427,7 +427,7 @@ setup_widgets (ConsolidateState *state, GtkBuilder *gui)
 
 	renderer = gnumeric_cell_renderer_expr_entry_new (state->base.wbcg);
 	state->cellrenderer =
-		GNUMERIC_CELL_RENDERER_EXPR_ENTRY (renderer);
+		GNM_CELL_RENDERER_EXPR_ENTRY (renderer);
 	column = gtk_tree_view_column_new_with_attributes
 		("", renderer,
 		 "text", SOURCE_COLUMN,

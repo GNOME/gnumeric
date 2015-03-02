@@ -27,7 +27,7 @@
 
 #define GNM_TEXT_VIEW_TYPE	(gnm_text_view_get_type ())
 #define GNM_TEXT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TEXT_VIEW_TYPE, GnmTextView))
-#define IS_GNM_TEXT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TEXT_VIEW_TYPE))
+#define GNM_IS_TEXT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TEXT_VIEW_TYPE))
 
 typedef struct _GnmTextView GnmTextView;
 

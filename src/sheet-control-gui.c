@@ -94,7 +94,7 @@ GnmPane *
 scg_pane (SheetControlGUI *scg, int p)
 {
 	/* it is ok to request a pane when we are not frozen */
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+	g_return_val_if_fail (GNM_IS_SCG (scg), NULL);
 	g_return_val_if_fail (p >= 0, NULL);
 	g_return_val_if_fail (p < 4, NULL);
 
@@ -110,7 +110,7 @@ scg_pane (SheetControlGUI *scg, int p)
 SheetView *
 scg_view (SheetControlGUI const *scg)
 {
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+	g_return_val_if_fail (GNM_IS_SCG (scg), NULL);
 	return scg->sheet_control.view;
 }
 
@@ -137,7 +137,7 @@ scg_sheet (SheetControlGUI const *scg)
 WorkbookControl *
 scg_wbc (SheetControlGUI const *scg)
 {
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+	g_return_val_if_fail (GNM_IS_SCG (scg), NULL);
 	return scg->sheet_control.wbc;
 }
 
@@ -152,7 +152,7 @@ scg_wbc (SheetControlGUI const *scg)
 WBCGtk *
 scg_wbcg (SheetControlGUI const *scg)
 {
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+	g_return_val_if_fail (GNM_IS_SCG (scg), NULL);
 	return scg->wbcg;
 }
 
@@ -161,7 +161,7 @@ scg_redraw_all (SheetControl *sc, gboolean headers)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	SCG_FOREACH_PANE (scg, pane, {
 		goc_canvas_invalidate (GOC_CANVAS (pane),
@@ -463,7 +463,7 @@ scg_resize_virt (SheetControl *sc, gboolean force_scroll)
 static void
 scg_scrollbar_config (SheetControl const *sc)
 {
-	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
+	SheetControlGUI *scg = GNM_SCG (sc);
 	GtkAdjustment *va = scg->va;
 	GtkAdjustment *ha = scg->ha;
 	GnmPane *pane = scg_pane (scg, 0);
@@ -782,7 +782,7 @@ scg_set_left_col (SheetControlGUI *scg, int col)
 	Sheet const *sheet;
 	GnmRange const *bound;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	sheet = scg_sheet (scg);
 	bound = &sheet->priv->unhidden_region;
@@ -845,7 +845,7 @@ scg_set_top_row (SheetControlGUI *scg, int row)
 	Sheet const *sheet;
 	GnmRange const *bound;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	sheet = scg_sheet (scg);
 	bound = &sheet->priv->unhidden_region;
@@ -917,7 +917,7 @@ scg_set_top_left (SheetControl *sc, int col, int row)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	if (!scg->pane[0])
 		return;
@@ -1033,7 +1033,7 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 	SheetView const *sv = scg_view (scg);
 	GnmCellPos const *tl, *br;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	if (!scg->active_panes)
 		return;
@@ -1113,7 +1113,7 @@ scg_set_panes (SheetControl *sc)
 	gboolean const being_frozen = sv_is_frozen (sv);
 	GocDirection direction = (sv_sheet (sv)->text_is_rtl)? GOC_DIRECTION_RTL: GOC_DIRECTION_LTR;
 
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 
 	if (!scg->pane[0])
 		return;
@@ -1496,7 +1496,7 @@ cb_canvas_resize (GtkWidget *w, G_GNUC_UNUSED GtkAllocation *allocation,
 static gboolean
 post_create_cb (SheetControlGUI *scg)
 {
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	Sheet *sheet = sc_sheet (GNM_SC (scg));
 	if (sheet->sheet_objects)
 		scg_object_select (scg, (SheetObject *) sheet->sheet_objects->data);
 	return FALSE;
@@ -1557,12 +1557,12 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 	GocDirection direction;
 	GdkRGBA cfore, cback;
 
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
 
 	sheet = sv_sheet (sv);
 	direction = (sheet->text_is_rtl)? GOC_DIRECTION_RTL: GOC_DIRECTION_LTR;
 
-	scg = g_object_new (SHEET_CONTROL_GUI_TYPE, NULL);
+	scg = g_object_new (GNM_SCG_TYPE, NULL);
 	scg->wbcg = wbcg;
 	scg->sheet_control.wbc = GNM_WBC (wbcg);
 
@@ -1685,7 +1685,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			G_CALLBACK (cb_table_destroy), G_OBJECT (scg),
 			G_CONNECT_SWAPPED);
 
-		sv_attach_control (sv, SHEET_CONTROL (scg));
+		sv_attach_control (sv, GNM_SC (scg));
 
 		g_object_connect (G_OBJECT (sheet),
 			 "swapped_signal::notify::text-is-rtl", cb_scg_direction_changed, scg,
@@ -1720,7 +1720,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			g_signal_connect (G_OBJECT (scg->vs), "key-press-event",
 			                  G_CALLBACK (sheet_object_key_pressed), scg);
 		}
-		sv_attach_control (sv, SHEET_CONTROL (scg));
+		sv_attach_control (sv, GNM_SC (scg));
 		if (scg->vs) {
 			g_object_set_data (G_OBJECT (scg->vs), "sheet-control", scg);
 			if (sheet->sheet_objects) {
@@ -1776,7 +1776,7 @@ scg_im_destroy (SheetControlGUI *scg) {
 static void
 scg_finalize (GObject *object)
 {
-	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
+	SheetControlGUI *scg = GNM_SCG (object);
 	SheetControl	*sc = (SheetControl *) scg;
 	Sheet		*sheet = scg_sheet (scg);
 	GSList *ptr;
@@ -1841,7 +1841,7 @@ scg_unant (SheetControl *sc)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	/* Always have a pane 0 */
 	if (scg->active_panes == 0  || scg->pane[0]->cursor.animated == NULL)
@@ -1866,7 +1866,7 @@ scg_ant (SheetControl *sc)
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	GList *l;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	if (scg->active_panes == 0)
 		return;
@@ -2361,7 +2361,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 		n_links += g_slist_length (styles);
 		style_list_free (styles);
 
-		objs = sheet_objects_get (sheet, r, CELL_COMMENT_TYPE);
+		objs = sheet_objects_get (sheet, r, GNM_CELL_COMMENT_TYPE);
 		n_comments += g_slist_length (objs);
 		g_slist_free (objs);
 	}
@@ -2497,7 +2497,7 @@ void
 scg_mode_edit (SheetControlGUI *scg)
 {
 	WBCGtk *wbcg;
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	wbcg = scg->wbcg;
 
@@ -2575,7 +2575,7 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 		wbcg_insert_object_clear (scg->wbcg);
 		scg_cursor_visible (scg, FALSE);
 		scg_set_display_cursor (scg);
-		scg_unant (SHEET_CONTROL (scg));
+		scg_unant (GNM_SC (scg));
 
 		scg->selected_objects = g_hash_table_new_full (
 			g_direct_hash, g_direct_equal,
@@ -2963,7 +2963,7 @@ scg_object_coords_to_anchor (SheetControlGUI const *scg,
 	/* pane 0 always exists and the others are always use the same basis */
 	GnmPane *pane = scg_pane ((SheetControlGUI *)scg, 0);
 	double	tmp[4];
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 	g_return_if_fail (coords != NULL);
 
 	in_out->base.direction = GOD_ANCHOR_DIR_NONE_MASK;
@@ -3011,7 +3011,7 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
 	gint64 pixels[4];
 	GnmRange const *r;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 	g_return_if_fail (anchor != NULL);
 	g_return_if_fail (coords != NULL);
 
@@ -3063,7 +3063,7 @@ void
 scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 		     int x, int y)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	scg_comment_timer_clear (scg);
 
@@ -3154,7 +3154,7 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 static gint
 cb_cell_comment_timer (SheetControlGUI *scg)
 {
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
+	g_return_val_if_fail (GNM_IS_SCG (scg), FALSE);
 	g_return_val_if_fail (scg->comment.timer != 0, FALSE);
 
 	scg->comment.timer = 0;
@@ -3173,7 +3173,7 @@ cb_cell_comment_timer (SheetControlGUI *scg)
 void
 scg_comment_select (SheetControlGUI *scg, GnmComment *cc, int x, int y)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	if (scg->comment.selected != NULL)
 		scg_comment_unselect (scg, scg->comment.selected);
@@ -3198,7 +3198,7 @@ scg_comment_select (SheetControlGUI *scg, GnmComment *cc, int x, int y)
 void
 scg_comment_unselect (SheetControlGUI *scg, GnmComment *cc)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	if (cc == scg->comment.selected) {
 		scg->comment.selected = NULL;
@@ -3225,7 +3225,7 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 	gint64 pixels = 0;
 	int sign = 1;
 
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), 1);
+	g_return_val_if_fail (GNM_IS_SCG (scg), 1);
 
 	if (from > to) {
 		int const tmp = to;
@@ -3292,7 +3292,7 @@ scg_recompute_visible_region (SheetControl *sc, gboolean full_recompute)
 void
 scg_edit_start (SheetControlGUI *scg)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	SCG_FOREACH_PANE (scg, pane, gnm_pane_edit_start (pane););
 }
@@ -3300,7 +3300,7 @@ scg_edit_start (SheetControlGUI *scg)
 void
 scg_edit_stop (SheetControlGUI *scg)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	scg_rangesel_stop (scg, FALSE);
 	SCG_FOREACH_PANE (scg, pane, gnm_pane_edit_stop (pane););
@@ -3322,7 +3322,7 @@ scg_rangesel_changed (SheetControlGUI *scg,
 	GnmRange *r, last_r;
 	Sheet *sheet;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	scg->rangesel.base_corner.col = base_col;
 	scg->rangesel.base_corner.row = base_row;
@@ -3377,7 +3377,7 @@ scg_rangesel_start (SheetControlGUI *scg,
 {
 	GnmRange r;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	if (scg->rangesel.active)
 		return;
@@ -3398,7 +3398,7 @@ scg_rangesel_start (SheetControlGUI *scg,
 void
 scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	if (!scg->rangesel.active)
 		return;
@@ -3424,7 +3424,7 @@ scg_set_display_cursor (SheetControlGUI *scg)
 {
 	GdkCursorType cursor = GDK_CURSOR_IS_PIXMAP;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	if (scg->wbcg->new_object != NULL)
 		cursor = GDK_CROSSHAIR;
@@ -3607,7 +3607,7 @@ scg_cursor_extend (SheetControlGUI *scg, int n,
 void
 scg_take_focus (SheetControlGUI *scg)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	/* FIXME: Slightly hackish. */
 	if (wbcg_toplevel (scg->wbcg))
@@ -3621,21 +3621,21 @@ void
 scg_size_guide_start (SheetControlGUI *scg,
 		      gboolean vert, int colrow, gboolean is_colrow_resize)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 	SCG_FOREACH_PANE (scg, pane,
 			  gnm_pane_size_guide_start (pane, vert, colrow, is_colrow_resize););
 }
 void
 scg_size_guide_motion (SheetControlGUI *scg, gboolean vert, gint64 guide_pos)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_size_guide_motion (pane, vert, guide_pos););
 }
 void
 scg_size_guide_stop (SheetControlGUI *scg)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_size_guide_stop (pane););
 }
@@ -3644,7 +3644,7 @@ scg_size_guide_stop (SheetControlGUI *scg)
 void
 scg_special_cursor_start (SheetControlGUI *scg, int style, int button)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_special_cursor_start (pane, style, button););
@@ -3653,7 +3653,7 @@ scg_special_cursor_start (SheetControlGUI *scg, int style, int button)
 void
 scg_special_cursor_stop (SheetControlGUI *scg)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_special_cursor_stop (pane););
@@ -3664,7 +3664,7 @@ scg_special_cursor_bound_set (SheetControlGUI *scg, GnmRange const *r)
 {
 	gboolean changed = FALSE;
 
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
+	g_return_val_if_fail (GNM_IS_SCG (scg), FALSE);
 
 	SCG_FOREACH_PANE (scg, pane,
 		changed |= gnm_pane_special_cursor_bound_set (pane, r););
@@ -3674,7 +3674,7 @@ scg_special_cursor_bound_set (SheetControlGUI *scg, GnmRange const *r)
 static void
 scg_object_create_view	(SheetControl *sc, SheetObject *so)
 {
-	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
+	SheetControlGUI *scg = GNM_SCG (sc);
 	if (scg->active_panes)
 		SCG_FOREACH_PANE (scg, pane,
 			sheet_object_new_view (so, (SheetObjectViewContainer *)pane););
@@ -3690,7 +3690,7 @@ scg_scale_changed (SheetControl *sc)
 	double z;
 	GSList *ptr;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	z = sheet->last_zoom_factor_used;
 
@@ -3707,13 +3707,13 @@ scg_scale_changed (SheetControl *sc)
 	set_resize_pane_pos (scg, scg->hpane);
 	/* now, update sheet objects positions and sizes */
 	for (ptr = sheet->sheet_objects; ptr; ptr = ptr->next)
-		sheet_object_update_bounds (SHEET_OBJECT (ptr->data), NULL);
+		sheet_object_update_bounds (GNM_SO (ptr->data), NULL);
 }
 
 static gboolean
 cb_cell_im_timer (SheetControlGUI *scg)
 {
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
+	g_return_val_if_fail (GNM_IS_SCG (scg), FALSE);
 	g_return_val_if_fail (scg->im.timer != 0, FALSE);
 
 	scg->im.timer = 0;
@@ -3745,7 +3745,7 @@ scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	GnmPane *pane;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	scg_im_destroy (scg);
 
@@ -3853,7 +3853,7 @@ scg_class_init (GObjectClass *object_class)
 }
 
 GSF_CLASS (SheetControlGUI, sheet_control_gui,
-	   scg_class_init, scg_init, SHEET_CONTROL_TYPE)
+	   scg_class_init, scg_init, GNM_SC_TYPE)
 
 static gint
 cb_scg_queued_movement (SheetControlGUI *scg)
@@ -3886,7 +3886,7 @@ scg_queue_movement (SheetControlGUI	*scg,
 		    SCGUIMoveFunc	 handler,
 		    int n, gboolean jump, gboolean horiz)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (GNM_IS_SCG (scg));
 
 	/* do we need to flush a pending movement */
 	if (scg->delayedMovement.timer != 0) {
@@ -3938,10 +3938,10 @@ scg_image_create (SheetControlGUI *scg, SheetObjectAnchor *anchor,
 	/* ensure that we are not editing anything else */
 	scg_mode_edit (scg);
 
-	soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
+	soi = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
 	sheet_object_image_set_image (soi, "", (guint8 *)data, len, TRUE);
 
-	so = SHEET_OBJECT (soi);
+	so = GNM_SO (soi);
 	sheet_object_set_anchor (so, anchor);
 	sheet_object_set_sheet (so, scg_sheet (scg));
 	scg_object_select (scg, so);
@@ -4189,7 +4189,7 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 		GnmCellRegion *content;
 		GSList *objects;
 
-		g_return_if_fail (IS_SHEET_CONTROL_GUI (source_scg));
+		g_return_if_fail (GNM_IS_SCG (source_scg));
 
 		objects = go_hash_keys (source_scg->selected_objects);
 		content = clipboard_copy_obj (scg_sheet (source_scg),
@@ -4284,8 +4284,8 @@ scg_drag_send_image (G_GNUC_UNUSED SheetControlGUI *scg,
 	GSList *ptr;
 
 	for (ptr = objects; ptr != NULL; ptr = ptr->next) {
-		if (GNM_IS_SO_IMAGEABLE (SHEET_OBJECT (ptr->data))) {
-			so = SHEET_OBJECT (ptr->data);
+		if (GNM_IS_SO_IMAGEABLE (GNM_SO (ptr->data))) {
+			so = GNM_SO (ptr->data);
 			break;
 		}
 	}
@@ -4328,8 +4328,8 @@ scg_drag_send_graph (G_GNUC_UNUSED SheetControlGUI *scg,
 	GSList *ptr;
 
 	for (ptr = objects; ptr != NULL; ptr = ptr->next)
-		if (GNM_IS_SO_EXPORTABLE (SHEET_OBJECT (ptr->data))) {
-			so = SHEET_OBJECT (ptr->data);
+		if (GNM_IS_SO_EXPORTABLE (GNM_SO (ptr->data))) {
+			so = GNM_SO (ptr->data);
 			break;
 		}
 
@@ -4408,7 +4408,7 @@ scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 		gtk_selection_data_set (selection_data, target,
 					8, (void *)scg, sizeof (scg));
 	else if (strcmp (target_name, "application/x-gnumeric") == 0)
-		scg_drag_send_clipboard_objects (SHEET_CONTROL (scg),
+		scg_drag_send_clipboard_objects (GNM_SC (scg),
 			selection_data, objects);
 	else if (strcmp (target_name, "application/x-goffice-graph") == 0)
 		scg_drag_send_graph (scg, selection_data, objects, target_name);

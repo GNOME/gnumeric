@@ -151,8 +151,6 @@ typedef struct {
 	void (*markup_changed)		(WBCGtk const *wbcg);
 } WBCGtkClass;
 
-#define WORKBOOK_CONTROL_GUI_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_WBC_GTK_TYPE, WBCGtkClass))
-
 #define GNM_RESPONSE_SAVE_ALL -1000
 #define GNM_RESPONSE_DISCARD_ALL -1001
 
@@ -168,7 +166,7 @@ void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
 
 gboolean wbc_gtk_load_templates (WBCGtk *gtk);
 
-	G_MODULE_EXPORT void set_uifilename (char const *name, GtkActionEntry const *actions, int nb);
+G_MODULE_EXPORT void set_uifilename (char const *name, GtkActionEntry const *actions, int nb);
 
 G_END_DECLS
 

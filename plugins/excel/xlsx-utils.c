@@ -117,7 +117,7 @@ Workbook *
 xlsx_conventions_add_extern_ref (GnmConventions *convs, char const *path)
 {
 	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;
-	Workbook *res = g_object_new (WORKBOOK_TYPE, NULL);
+	Workbook *res = g_object_new (GNM_WORKBOOK_TYPE, NULL);
 	char *id;
 
 	(void) go_doc_set_uri (GO_DOC (res), path);

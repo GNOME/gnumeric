@@ -2394,7 +2394,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	/* Patch problems introduced in some 1.7.x versions that stored
 	 * comments in merged cells with the full rectangle of the merged cell
 	 * rather than just the top left corner */
-	if (G_OBJECT_TYPE (so) == CELL_COMMENT_TYPE)
+	if (G_OBJECT_TYPE (so) == GNM_CELL_COMMENT_TYPE)
 		anchor_r.end = anchor_r.start;
 
 	sheet_object_anchor_init (&anchor, &anchor_r, anchor_offset, anchor_dir);
@@ -3307,7 +3307,7 @@ read_file_common (ReadFileWhat what, XMLSaxParseState *state,
 	GnmLocale       *locale;
 	gboolean         ok;
 
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), FALSE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wb_view), FALSE);
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
 	read_file_init_state (state, io_context, wb_view, sheet);
@@ -3486,7 +3486,7 @@ gnm_xml_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context
 	input = maybe_convert (input, FALSE);
 
 	ok = read_file_common (READ_FULL_FILE, &state,
-			       io_context, WORKBOOK_VIEW (view), NULL,
+			       io_context, GNM_WORKBOOK_VIEW (view), NULL,
 			       input);
 
 	g_object_unref (input);

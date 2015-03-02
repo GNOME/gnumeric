@@ -125,8 +125,7 @@
 
 #define GNM_COMMAND(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_COMMAND_TYPE, GnmCommand))
 #define GNM_COMMAND_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GNM_COMMAND_TYPE, GnmCommandClass))
-#define IS_GNM_COMMAND(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_COMMAND_TYPE))
-#define IS_GNM_COMMAND_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GNM_COMMAND_TYPE))
+#define GNM_IS_COMMAND(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_COMMAND_TYPE))
 #define CMD_CLASS(o)		GNM_COMMAND_CLASS (G_OBJECT_GET_CLASS(cmd))
 
 GSF_CLASS (GnmCommand, gnm_command, NULL, NULL, G_TYPE_OBJECT)
@@ -4660,7 +4659,7 @@ cmd_objects_delete_undo (GnmCommand *cmd,
 		(GFunc) sheet_object_set_sheet, me->cmd.sheet);
 
 	for (l = me->objects, i = 0; l; l = l->next, i++)
-		cmd_objects_restore_location (SHEET_OBJECT (l->data),
+		cmd_objects_restore_location (GNM_SO (l->data),
 					      g_array_index(me->location,
 							    gint, i));
 	return FALSE;
@@ -5010,11 +5009,11 @@ cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos,
 			mr = gnm_sheet_merge_contains_pos (sheet, pos);
 
 			if (mr)
-				sheet_objects_clear (sheet, mr, CELL_COMMENT_TYPE, NULL);
+				sheet_objects_clear (sheet, mr, GNM_CELL_COMMENT_TYPE, NULL);
 			else {
 				GnmRange r;
 				r.start = r.end = *pos;
-				sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE, NULL);
+				sheet_objects_clear (sheet, &r, GNM_CELL_COMMENT_TYPE, NULL);
 			}
 		}
 	} else if (text && (strlen (text) > 0)) {
@@ -5755,7 +5754,7 @@ update_sheet_graph_cb (Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet) && sheet->sheet_type == GNM_SHEET_OBJECT);
 
-	sheet_object_graph_ensure_size (SHEET_OBJECT (sheet->sheet_objects->data));
+	sheet_object_graph_ensure_size (GNM_SO (sheet->sheet_objects->data));
 }
 
 static gboolean

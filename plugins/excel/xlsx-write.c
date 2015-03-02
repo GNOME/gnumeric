@@ -2687,7 +2687,7 @@ xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objec
 	/* search for comments authors */
 	authors = g_hash_table_new (g_str_hash, g_str_equal);
 	for (ptr = objects; ptr; ptr = ptr->next) {
-		authorname = cell_comment_author_get (CELL_COMMENT (ptr->data));
+		authorname = cell_comment_author_get (GNM_CELL_COMMENT (ptr->data));
 		if (authorname != NULL && !g_hash_table_lookup_extended (authors, authorname, NULL, NULL))
 			g_hash_table_insert (authors, (gpointer) authorname, GUINT_TO_POINTER (author++));
 	}
@@ -2701,7 +2701,7 @@ xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objec
 		gsf_xml_out_start_element (xml, "comment");
 		anchor = sheet_object_get_anchor (ptr->data);
 		gsf_xml_out_add_cstr_unchecked (xml, "ref", range_as_string (&anchor->cell_bound));
-		authorname = cell_comment_author_get (CELL_COMMENT (ptr->data));
+		authorname = cell_comment_author_get (GNM_CELL_COMMENT (ptr->data));
 		if (authorname != NULL)
 			gsf_xml_out_add_uint (xml, "authorId",
 					      GPOINTER_TO_UINT (g_hash_table_lookup (authors, authorname)));
@@ -2776,7 +2776,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 			 GNM_IS_SOW_COMBO (so) ||
 			 GNM_IS_SOW_LIST (so))
 			legacy_drawing_objs = g_slist_prepend (legacy_drawing_objs, so);
-		else if (IS_GNM_FILTER_COMBO (so))
+		else if (GNM_IS_FILTER_COMBO (so))
 			; /* Nothing here */
 		else
 			others = g_slist_prepend (others, so);

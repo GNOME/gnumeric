@@ -23,12 +23,9 @@
 
 G_BEGIN_DECLS
 
-#define GNUMERIC_TYPE_CELL_RENDERER_TEXT	 (gnumeric_cell_renderer_text_get_type ())
-#define GNUMERIC_CELL_RENDERER_TEXT(o)		 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNUMERIC_TYPE_CELL_RENDERER_TEXT, GnumericCellRendererText))
-#define GNUMERIC_CELL_RENDERER_TEXT_CLASS(k)	 (G_TYPE_CHECK_CLASS_CAST ((k), GNUMERIC_TYPE_CELL_RENDERER_TEXT, GnumericCellRendererTextClass))
-#define GNUMERIC_IS_CELL_RENDERER_TEXT(o)	 (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNUMERIC_TYPE_CELL_RENDERER_TEXT))
-#define GNUMERIC_IS_CELL_RENDERER_TEXT_CLASS(k)	 (G_TYPE_CHECK_CLASS_TYPE ((k), GNUMERIC_TYPE_CELL_RENDERER_TEXT))
-#define GNUMERIC_CELL_RENDERER_TEXT_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GNUMERIC_TYPE_CELL_RENDERER_TEXT, GnumericCellRendererTextClass))
+#define GNM_CELL_RENDERER_TEXT_TYPE	 (gnumeric_cell_renderer_text_get_type ())
+#define GNM_CELL_RENDERER_TEXT(o)		 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_CELL_RENDERER_TEXT_TYPE, GnumericCellRendererText))
+#define GNM_IS_CELL_RENDERER_TEXT(o)	 (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_CELL_RENDERER_TEXT_TYPE))
 
 typedef struct _GnumericCellRendererText      GnumericCellRendererText;
 typedef struct _GnumericCellRendererTextClass GnumericCellRendererTextClass;

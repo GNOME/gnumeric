@@ -282,7 +282,7 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str)
 				       GTK_MESSAGE_ERROR,
 				       "%s", err_str);
 
-	if (IS_GNM_EXPR_ENTRY (entry))
+	if (GNM_EXPR_ENTRY_IS (entry))
 		gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (entry), TRUE);
 	else
 		focus_on_entry (GTK_ENTRY (entry));

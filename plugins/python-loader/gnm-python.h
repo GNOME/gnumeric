@@ -7,7 +7,7 @@
 
 #define GNM_PYTHON_TYPE        (gnm_python_get_type ())
 #define GNM_PYTHON(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PYTHON_TYPE, GnmPython))
-#define IS_GNM_PYTHON(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PYTHON_TYPE))
+#define GNM_IS_PYTHON(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PYTHON_TYPE))
 
 GType gnm_python_get_type (void);
 typedef struct _GnmPython GnmPython;

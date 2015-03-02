@@ -761,7 +761,7 @@ gplp_unload_service_function_group (GOPluginLoader *loader,
 {
 	ServiceLoaderDataFunctionGroup *loader_data;
 
-	g_return_if_fail (IS_GNM_PYTHON_PLUGIN_LOADER (loader));
+	g_return_if_fail (GNM_IS_PYTHON_PLUGIN_LOADER (loader));
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
@@ -904,7 +904,7 @@ gplp_finalize (GObject *obj)
 static void
 gplp_init (GnmPythonPluginLoader *loader_python)
 {
-	g_return_if_fail (IS_GNM_PYTHON_PLUGIN_LOADER (loader_python));
+	g_return_if_fail (GNM_IS_PYTHON_PLUGIN_LOADER (loader_python));
 
 	loader_python->module_name = NULL;
 	loader_python->py_object = NULL;

@@ -508,7 +508,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	 * we need to store the indicator */
 	if (obj->excel_type == 0x19 &&
 	    obj->comment_pos.col >= 0 && obj->comment_pos.row >= 0) {
-		cell_comment_set_pos (CELL_COMMENT (obj->gnum_obj),
+		cell_comment_set_pos (GNM_CELL_COMMENT (obj->gnum_obj),
 				      &obj->comment_pos);
 	} else {
 		attr = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
@@ -643,11 +643,11 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 					if (data) {
 						excel_fill_bmp_header(data, blip->data, blip->data_len);
 						memcpy(data + BMP_HDR_SIZE, blip->data, blip->data_len);
-						sheet_object_image_set_image (SHEET_OBJECT_IMAGE (so),
+						sheet_object_image_set_image (GNM_SO_IMAGE (so),
 									      blip->type, data, blip->data_len + BMP_HDR_SIZE, FALSE);
 					}
 			        } else {
-					sheet_object_image_set_image (SHEET_OBJECT_IMAGE (so),
+					sheet_object_image_set_image (GNM_SO_IMAGE (so),
 								      blip->type, blip->data, blip->data_len,
 								      TRUE);
 				}
@@ -665,7 +665,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 					 NULL, NULL);
 				if (buf_size > 0) {
 					sheet_object_image_set_image
-						(SHEET_OBJECT_IMAGE (so),
+						(GNM_SO_IMAGE (so),
 						 "png", buf, buf_size, FALSE);
 				}
 			}
@@ -683,7 +683,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 						    MS_OBJ_ATTR_BLIP_CROP_BOTTOM)) != NULL)
 			crop_bottom = (double) attr->v.v_uint / 65536.;
 
-		sheet_object_image_set_crop (SHEET_OBJECT_IMAGE (so),
+		sheet_object_image_set_crop (GNM_SO_IMAGE (so),
 					     crop_left, crop_top, crop_right, crop_bottom);
 		break;
 	}
@@ -766,7 +766,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		so = g_object_new (sheet_widget_button_get_type (), NULL);
 		break;
 	case MSOT_PICTURE:
-		so = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL); /* Picture */
+		so = g_object_new (GNM_SO_IMAGE_TYPE, NULL); /* Picture */
 		break;
 	case MSOT_POLYGON:
 		so = g_object_new (GNM_SO_POLYGON_TYPE, NULL);
@@ -3124,7 +3124,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 
 		obj = ms_container_get_obj (&esheet->container, obj_id);
 		if (obj != NULL) {
-			cell_comment_author_set (CELL_COMMENT (obj->gnum_obj), author);
+			cell_comment_author_set (GNM_CELL_COMMENT (obj->gnum_obj), author);
 			obj->comment_pos = pos;
 		} else {
 			/* hmm, how did this happen ? we should have seen

@@ -7,7 +7,7 @@
 
 #define GNM_EXPR_ENTRY_TYPE	(gnm_expr_entry_get_type ())
 #define GNM_EXPR_ENTRY(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_EXPR_ENTRY_TYPE, GnmExprEntry))
-#define IS_GNM_EXPR_ENTRY(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_EXPR_ENTRY_TYPE))
+#define GNM_EXPR_ENTRY_IS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_EXPR_ENTRY_TYPE))
 
 typedef struct _GnmExprEntry GnmExprEntry;
 

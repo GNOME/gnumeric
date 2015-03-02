@@ -27,7 +27,7 @@
 
 #define TYPE_GNM_PERL_PLUGIN_LOADER	(gnm_perl_plugin_loader_get_type ())
 #define GNM_PERL_PLUGIN_LOADER(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_GNM_PERL_PLUGIN_LOADER, GnmPerlPluginLoader))
-#define IS_GNM_PERL_PLUGIN_LOADER(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_GNM_PERL_PLUGIN_LOADER))
+#define GNM_IS_PERL_PLUGIN_LOADER(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_GNM_PERL_PLUGIN_LOADER))
 
 #define dirty _perl_dirty
 #undef _perl_dirty
@@ -377,7 +377,7 @@ gplp_class_init (GObjectClass *gobject_class)
 static void
 gplp_init (GnmPerlPluginLoader *loader_perl)
 {
-	g_return_if_fail (IS_GNM_PERL_PLUGIN_LOADER (loader_perl));
+	g_return_if_fail (GNM_IS_PERL_PLUGIN_LOADER (loader_perl));
 
 	loader_perl->module_name = NULL;
 }

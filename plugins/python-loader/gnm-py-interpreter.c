@@ -109,7 +109,7 @@ void
 gnm_py_interpreter_destroy (GnmPyInterpreter *interpreter,
                             GnmPyInterpreter *new_interpreter)
 {
-	g_return_if_fail (IS_GNM_PY_INTERPRETER (interpreter));
+	g_return_if_fail (GNM_IS_PY_INTERPRETER (interpreter));
 
 	gnm_py_interpreter_switch_to (interpreter);
 	Py_EndInterpreter (interpreter->py_thread_state);
@@ -121,7 +121,7 @@ gnm_py_interpreter_destroy (GnmPyInterpreter *interpreter,
 void
 gnm_py_interpreter_switch_to (GnmPyInterpreter *interpreter)
 {
-	g_return_if_fail (IS_GNM_PY_INTERPRETER (interpreter));
+	g_return_if_fail (GNM_IS_PY_INTERPRETER (interpreter));
 
 	if (PyThreadState_Get ()->interp != interpreter->py_thread_state->interp) {
 		(void) PyThreadState_Swap (interpreter->py_thread_state);
@@ -161,7 +161,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 	         *saved_stderr_obj = NULL, *stderr_obj = NULL;
 	PyObject *py_str;
 
-	g_return_if_fail (IS_GNM_PY_INTERPRETER (interpreter));
+	g_return_if_fail (GNM_IS_PY_INTERPRETER (interpreter));
 
 	gnm_py_interpreter_switch_to (interpreter);
 
@@ -246,7 +246,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 const char *
 gnm_py_interpreter_get_name (GnmPyInterpreter *interpreter)
 {
-	g_return_val_if_fail (IS_GNM_PY_INTERPRETER (interpreter), NULL);
+	g_return_val_if_fail (GNM_IS_PY_INTERPRETER (interpreter), NULL);
 
 	if (interpreter->plugin != NULL) {
 		return go_plugin_get_name (interpreter->plugin);
@@ -258,7 +258,7 @@ gnm_py_interpreter_get_name (GnmPyInterpreter *interpreter)
 GOPlugin *
 gnm_py_interpreter_get_plugin (GnmPyInterpreter *interpreter)
 {
-	g_return_val_if_fail (IS_GNM_PY_INTERPRETER (interpreter), NULL);
+	g_return_val_if_fail (GNM_IS_PY_INTERPRETER (interpreter), NULL);
 
 	return interpreter->plugin;
 }

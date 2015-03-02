@@ -2793,7 +2793,7 @@ dependents_invalidate_sheet (Sheet *sheet, gboolean destroy)
 void
 dependents_workbook_destroy (Workbook *wb)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	g_return_if_fail (wb->during_destruction);
 	g_return_if_fail (wb->sheets != NULL);
 
@@ -2862,7 +2862,7 @@ workbook_recalc (Workbook *wb)
 {
 	gboolean redraw = FALSE;
 
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 
 	gnm_app_recalc_start ();
 

@@ -135,7 +135,7 @@ comment_view_button_released (GocItem *item, int button, double x, double y)
 	gnm_canvas_get_screen_position (item->canvas, x, y, &ix, &iy);
 	so = sheet_object_view_get_so (GNM_SO_VIEW (item));
 	scg_comment_display (GNM_PANE (item->canvas)->simple.scg,
-	                     CELL_COMMENT (so),
+	                     GNM_CELL_COMMENT (so),
 			     ix, iy);
 
 	return TRUE;
@@ -175,7 +175,7 @@ comment_view_enter_notify (GocItem *item, double x, double y)
 	so = sheet_object_view_get_so (GNM_SO_VIEW (item));
 
 	scg_comment_select (GNM_PANE (item->canvas)->simple.scg,
-			    CELL_COMMENT (so),
+			    GNM_CELL_COMMENT (so),
 			    ix, iy);
 	return TRUE;
 }
@@ -184,7 +184,7 @@ static gboolean
 comment_view_leave_notify (GocItem *item, double x, double y)
 {
 	scg_comment_unselect (GNM_PANE (item->canvas)->simple.scg,
-	                      CELL_COMMENT (sheet_object_view_get_so (GNM_SO_VIEW (item))));
+	                      GNM_CELL_COMMENT (sheet_object_view_get_so (GNM_SO_VIEW (item))));
 	return TRUE;
 }
 
@@ -211,7 +211,7 @@ static GSF_CLASS (CommentView, comment_view,
 static void
 cell_comment_finalize (GObject *object)
 {
-	GnmComment *cc = CELL_COMMENT (object);
+	GnmComment *cc = GNM_CELL_COMMENT (object);
 
 	g_return_if_fail (cc != NULL);
 
@@ -238,7 +238,7 @@ static void
 cell_comment_set_property (GObject *obj, guint param_id,
 			   GValue const *value, GParamSpec *pspec)
 {
-	GnmComment *cc = CELL_COMMENT (obj);
+	GnmComment *cc = GNM_CELL_COMMENT (obj);
 
 	switch (param_id) {
 	case CC_PROP_TEXT:
@@ -267,7 +267,7 @@ static void
 cell_comment_get_property (GObject *obj, guint param_id,
 			   GValue  *value,  GParamSpec *pspec)
 {
-	GnmComment *cc = CELL_COMMENT (obj);
+	GnmComment *cc = GNM_CELL_COMMENT (obj);
 	switch (param_id) {
 	case CC_PROP_TEXT :
 		g_value_set_string (value, cc->text);
@@ -307,7 +307,7 @@ static void
 cell_comment_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 			    GnmConventions const *convs)
 {
-	GnmComment const *cc = CELL_COMMENT (so);
+	GnmComment const *cc = GNM_CELL_COMMENT (so);
 	if (NULL != cc->author)
 		gsf_xml_out_add_cstr (output, "Author", cc->author);
 	if (NULL != cc->text) {
@@ -326,7 +326,7 @@ cell_comment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			      xmlChar const **attrs,
 			      GnmConventions const *convs)
 {
-	GnmComment *cc = CELL_COMMENT (so);
+	GnmComment *cc = GNM_CELL_COMMENT (so);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (!strcmp (attrs[0], "Text"))
@@ -347,8 +347,8 @@ cell_comment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 static void
 cell_comment_copy (SheetObject *dst, SheetObject const *src)
 {
-	GnmComment const *comment	= CELL_COMMENT (src);
-	GnmComment	 *new_comment	= CELL_COMMENT (dst);
+	GnmComment const *comment	= GNM_CELL_COMMENT (src);
+	GnmComment	 *new_comment	= GNM_CELL_COMMENT (dst);
 	new_comment->author = g_strdup (comment->author);
 	new_comment->text   = g_strdup (comment->text);
 	new_comment->markup = comment->markup;
@@ -444,7 +444,7 @@ cell_comment_set_pos (GnmComment *cc, GnmCellPos const *pos)
 	r.start = r.end = *pos;
 	sheet_object_anchor_init (&anchor, &r, a_offsets,
 		GOD_ANCHOR_DIR_DOWN_RIGHT);
-	sheet_object_set_anchor (SHEET_OBJECT (cc), &anchor);
+	sheet_object_set_anchor (GNM_SO (cc), &anchor);
 }
 
 /**
@@ -467,7 +467,7 @@ cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (pos != NULL, NULL);
 
-	cc = g_object_new (CELL_COMMENT_TYPE, NULL);
+	cc = g_object_new (GNM_CELL_COMMENT_TYPE, NULL);
 	cc->author = g_strdup (author);
 	cc->text = g_strdup (text);
 	cc->markup = attr;
@@ -476,7 +476,7 @@ cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
 
 	cell_comment_set_pos (cc, pos);
 
-	sheet_object_set_sheet (SHEET_OBJECT (cc), sheet);
+	sheet_object_set_sheet (GNM_SO (cc), sheet);
 	/* setting the sheet added a reference */
 	g_object_unref (cc);
 

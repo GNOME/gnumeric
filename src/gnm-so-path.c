@@ -195,7 +195,7 @@ static void
 gnm_so_path_user_config (SheetObject *so, SheetControl *sc)
 {
 	GnmSOPath *sop = GNM_SO_PATH (so);
-	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (sop),
+	dialog_so_styled (scg_wbcg (GNM_SCG (sc)), G_OBJECT (sop),
 			  sop_default_style (),
 			  _("Filled Object Properties"),
 			  SO_STYLED_TEXT);

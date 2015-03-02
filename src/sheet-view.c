@@ -79,7 +79,7 @@ sv_sheet_name_changed (G_GNUC_UNUSED Sheet *sheet,
 		       G_GNUC_UNUSED GParamSpec *pspec,
 		       SheetView *sv)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	sv->edit_pos_changed.content = TRUE;
 }
 
@@ -88,7 +88,7 @@ sv_sheet_visibility_changed (Sheet *sheet,
 			     G_GNUC_UNUSED GParamSpec *pspec,
 			     SheetView *sv)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	/* See bug 366477.  */
 	if (sheet_is_visible (sheet) && !wb_view_cur_sheet (sv->sv_wbv))
 		wb_view_sheet_focus (sv->sv_wbv, sheet);
@@ -99,7 +99,7 @@ sv_sheet_r1c1_changed (G_GNUC_UNUSED Sheet *sheet,
 		       G_GNUC_UNUSED GParamSpec *pspec,
 		       SheetView *sv)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	sv->edit_pos_changed.location = TRUE;
 }
 
@@ -112,7 +112,7 @@ sv_sheet_r1c1_changed (G_GNUC_UNUSED Sheet *sheet,
 Sheet *
 sv_sheet (SheetView const *sv)
 {
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
 	return sv->sheet;
 }
 
@@ -125,7 +125,7 @@ sv_sheet (SheetView const *sv)
 WorkbookView *
 sv_wbv (SheetView const *sv)
 {
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
 	return sv->sv_wbv;
 }
 
@@ -152,8 +152,8 @@ sv_init_sc (SheetView const *sv, SheetControl *sc)
 void
 sv_attach_control (SheetView *sv, SheetControl *sc)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
-	g_return_if_fail (IS_SHEET_CONTROL (sc));
+	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SC (sc));
 	g_return_if_fail (sc->view == NULL);
 
 	if (sv->controls == NULL)
@@ -166,8 +166,8 @@ sv_attach_control (SheetView *sv, SheetControl *sc)
 void
 sv_detach_control (SheetControl *sc)
 {
-	g_return_if_fail (IS_SHEET_CONTROL (sc));
-	g_return_if_fail (IS_SHEET_VIEW (sc->view));
+	g_return_if_fail (GNM_IS_SC (sc));
+	g_return_if_fail (GNM_IS_SV (sc->view));
 
 	g_ptr_array_remove (sc->view->controls, sc);
 	if (sc->view->controls->len == 0) {
@@ -215,7 +215,7 @@ static GObjectClass *parent_class;
 static void
 sv_real_dispose (GObject *object)
 {
-	SheetView *sv = SHEET_VIEW (object);
+	SheetView *sv = GNM_SV (object);
 
 	if (sv->controls != NULL) {
 		SHEET_VIEW_FOREACH_CONTROL (sv, control, {
@@ -248,7 +248,7 @@ sv_real_dispose (GObject *object)
 static void
 sheet_view_class_init (GObjectClass *klass)
 {
-	SheetViewClass *wbc_class = SHEET_VIEW_CLASS (klass);
+	SheetViewClass *wbc_class = GNM_SV_CLASS (klass);
 
 	g_return_if_fail (wbc_class != NULL);
 
@@ -259,7 +259,7 @@ sheet_view_class_init (GObjectClass *klass)
 static void
 sheet_view_init (GObject *object)
 {
-	SheetView *sv = SHEET_VIEW (object);
+	SheetView *sv = GNM_SV (object);
 
 	/* Init menu states */
 	sv->enable_insert_rows = TRUE;
@@ -294,7 +294,7 @@ sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	sv = g_object_new (SHEET_VIEW_TYPE, NULL);
+	sv = g_object_new (GNM_SV_TYPE, NULL);
 	sv->sheet = g_object_ref (sheet);
 	sv->sv_wbv = wbv;
 	g_ptr_array_add (sheet->sheet_views, sv);
@@ -331,7 +331,7 @@ sv_unant (SheetView *sv)
 {
 	GList *ptr;
 
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 
 	if (sv->ants == NULL)
 		return;
@@ -354,7 +354,7 @@ sv_ant (SheetView *sv, GList *ranges)
 {
 	GList *ptr;
 
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	g_return_if_fail (ranges != NULL);
 
 	if (sv->ants != NULL)
@@ -371,7 +371,7 @@ void
 sv_make_cell_visible (SheetView *sv, int col, int row,
 		      gboolean couple_panes)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	SHEET_VIEW_FOREACH_CONTROL(sv, control,
 		sc_make_cell_visible (control, col, row, couple_panes););
 }
@@ -379,7 +379,7 @@ sv_make_cell_visible (SheetView *sv, int col, int row,
 void
 sv_redraw_range	(SheetView *sv, GnmRange const *r)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 
 	SHEET_VIEW_FOREACH_CONTROL (sv, sc, sc_redraw_range (sc, r););
 }
@@ -389,7 +389,7 @@ sv_redraw_headers (SheetView const *sv,
 		   gboolean col, gboolean row,
 		   GnmRange const* r /* optional == NULL */)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 
 	SHEET_VIEW_FOREACH_CONTROL (sv, control,
 		sc_redraw_headers (control, col, row, r););
@@ -400,7 +400,7 @@ sv_selection_copy (SheetView *sv, WorkbookControl *wbc)
 {
 	GnmRange const *sel;
 
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
+	g_return_val_if_fail (GNM_IS_SV (sv), FALSE);
 	if (!(sel = selection_first_range (sv, GO_CMD_CONTEXT (wbc), _("Copy"))))
 		return FALSE;
 
@@ -424,7 +424,7 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 	 * NOTE : This command DOES NOT MOVE ANYTHING !
 	 *        We only store the src, paste does the move.
 	 */
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
+	g_return_val_if_fail (GNM_IS_SV (sv), FALSE);
 
 	if (!(sel = selection_first_range (sv, GO_CMD_CONTEXT (wbc), _("Cut"))))
 		return FALSE;
@@ -456,7 +456,7 @@ sv_cursor_set (SheetView *sv,
 {
 	GnmRange r;
 
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 
 	/* Change the edit position */
 	sv_set_edit_pos (sv, edit);
@@ -496,7 +496,7 @@ sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 	GnmCellPos old;
 	GnmRange const *merged;
 
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	g_return_if_fail (pos != NULL);
 
 	old = sv->edit_pos;
@@ -554,7 +554,7 @@ sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 void
 sv_flag_status_update_pos (SheetView *sv, GnmCellPos const *pos)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	g_return_if_fail (pos != NULL);
 
 	/* if a part of the selected region changed value update
@@ -585,7 +585,7 @@ sv_flag_status_update_pos (SheetView *sv, GnmCellPos const *pos)
 void
 sv_flag_status_update_range (SheetView *sv, GnmRange const *range)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 
 	/* Force an update */
 	if (range == NULL) {
@@ -619,7 +619,7 @@ sv_flag_status_update_range (SheetView *sv, GnmRange const *range)
 void
 sv_flag_style_update_range (SheetView *sv, GnmRange const *range)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	g_return_if_fail (range != NULL);
 	if (range_contains (range, sv->edit_pos.col, sv->edit_pos.row))
 		sv->edit_pos_changed.style  = TRUE;
@@ -636,7 +636,7 @@ sv_flag_style_update_range (SheetView *sv, GnmRange const *range)
 void
 sv_flag_selection_change (SheetView *sv)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	sv->selection_content_changed = TRUE;
 }
 
@@ -660,7 +660,7 @@ sheet_view_edit_pos_tool_tips (SheetView *sv)
 void
 sv_update (SheetView *sv)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 
 	if (sv->edit_pos_changed.content) {
 		sv->edit_pos_changed.content = FALSE;
@@ -714,7 +714,7 @@ sv_update (SheetView *sv)
 GnmFilter *
 sv_editpos_in_filter (SheetView const *sv)
 {
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
 	return gnm_sheet_filter_at_pos (sv->sheet, &sv->edit_pos);
 }
 
@@ -729,7 +729,7 @@ GnmFilter *
 sv_selection_intersects_filter_rows (SheetView const *sv)
 {
 	GnmRange const *r;
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
 	r = selection_first_range (sv, NULL, NULL);
 
 	return r ? gnm_sheet_filter_intersect_rows
@@ -748,7 +748,7 @@ GnmRange *
 sv_selection_extends_filter (SheetView const *sv, GnmFilter const *f)
 {
 	GnmRange const *r;
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
 	r = selection_first_range (sv, NULL, NULL);
 
 	return gnm_sheet_filter_can_be_extended (sv->sheet, f, r);
@@ -767,7 +767,7 @@ sv_selection_extends_filter (SheetView const *sv, GnmFilter const *f)
 GnmSheetSlicer *
 sv_editpos_in_slicer (SheetView const *sv)
 {
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
 	return gnm_sheet_slicers_at_pos (sv->sheet, &sv->edit_pos);
 }
 
@@ -785,7 +785,7 @@ sv_freeze_panes (SheetView *sv,
 		 GnmCellPos const *frozen,
 		 GnmCellPos const *unfrozen)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 
 	if (gnm_debug_flag ("frozen-panes")) {
 		g_printerr ("Frozen: %-10s",
@@ -854,7 +854,7 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 	GnmCellPos tl;
 	GnmCellPos br;
 
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 
 	tl = sv->frozen_top_left;	/* _copy_ them */
 	br = sv->unfrozen_top_left;
@@ -900,7 +900,7 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 gboolean
 sv_is_frozen (SheetView const *sv)
 {
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
+	g_return_val_if_fail (GNM_IS_SV (sv), FALSE);
 
 	/* be flexible, in the future we will support 2 way splits too */
 	return  sv->unfrozen_top_left.col >= 0 ||
@@ -923,7 +923,7 @@ sv_is_frozen (SheetView const *sv)
 void
 sv_set_initial_top_left (SheetView *sv, int col, int row)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	g_return_if_fail (0 <= col && col < gnm_sheet_get_max_cols (sv->sheet));
 	g_return_if_fail (0 <= row && row < gnm_sheet_get_max_rows (sv->sheet));
 	g_return_if_fail (!sv_is_frozen (sv) ||

@@ -26,7 +26,7 @@ struct _SheetObjectAnchor {
 GType sheet_object_anchor_get_type (void); /* Boxed type */
 
 #define GNM_SO_TYPE     (sheet_object_get_type ())
-#define SHEET_OBJECT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_SO_TYPE, SheetObject))
+#define GNM_SO(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_SO_TYPE, SheetObject))
 #define GNM_IS_SO(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SO_TYPE))
 GType sheet_object_get_type (void);
 

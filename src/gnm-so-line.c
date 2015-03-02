@@ -119,7 +119,7 @@ sol_default_style (void)
 static void
 gnm_so_line_user_config (SheetObject *so, SheetControl *sc)
 {
-	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
+	dialog_so_styled (scg_wbcg (GNM_SCG (sc)), G_OBJECT (so),
 			  sol_default_style (),
 			  _("Line/Arrow Properties"), SO_STYLED_LINE);
 }
@@ -448,7 +448,7 @@ gnm_so_line_init (GObject *obj)
 	sol->style = sol_default_style ();
 	go_arrow_clear (&sol->start_arrow);
 	go_arrow_clear (&sol->end_arrow);
-	SHEET_OBJECT (obj)->anchor.base.direction = GOD_ANCHOR_DIR_NONE_MASK;
+	GNM_SO (obj)->anchor.base.direction = GOD_ANCHOR_DIR_NONE_MASK;
 }
 
 GSF_CLASS (GnmSOLine, gnm_so_line,

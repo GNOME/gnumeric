@@ -1174,7 +1174,7 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 			if (line_info[i].location == edge->index &&
 			    state->border.lines[i] != NULL) {
 				gnumeric_dashed_canvas_line_set_dash_index (
-					GNUMERIC_DASHED_CANVAS_LINE (state->border.lines[i]),
+					GNM_DASHED_CANVAS_LINE (state->border.lines[i]),
 					edge->pattern_index);
 			}
 		}
@@ -1371,7 +1371,7 @@ draw_border_preview (FormatState *state)
 				style = go_styled_object_get_style (GO_STYLED_OBJECT (state->border.lines[i]));
 				style->line.color = p->rgba;
 				gnumeric_dashed_canvas_line_set_dash_index (
-					GNUMERIC_DASHED_CANVAS_LINE (state->border.lines[i]),
+					GNM_DASHED_CANVAS_LINE (state->border.lines[i]),
 					p->pattern_index);
 			} else
 				state->border.lines[i] = NULL;

@@ -90,7 +90,7 @@ gnumeric_cell_renderer_toggle_get_type (void)
 static void
 gnumeric_cell_renderer_toggle_dispose (GObject *obj)
 {
-	GnumericCellRendererToggle *celltoggle = GNUMERIC_CELL_RENDERER_TOGGLE (obj);
+	GnumericCellRendererToggle *celltoggle = GNM_CELL_RENDERER_TOGGLE (obj);
 	g_clear_object (&celltoggle->pixbuf);
 	G_OBJECT_CLASS (parent_class)->dispose (obj);
 }
@@ -123,7 +123,7 @@ gnumeric_cell_renderer_toggle_class_init (GnumericCellRendererToggleClass *class
 GtkCellRenderer *
 gnumeric_cell_renderer_toggle_new (void)
 {
-	return GTK_CELL_RENDERER (g_object_new (GNUMERIC_TYPE_CELL_RENDERER_TOGGLE, NULL));
+	return GTK_CELL_RENDERER (g_object_new (GNM_CELL_RENDERER_TOGGLE_TYPE, NULL));
 }
 
 static void
@@ -132,7 +132,7 @@ gnumeric_cell_renderer_toggle_get_property (GObject     *object,
 					    GValue      *value,
 					    GParamSpec  *pspec)
 {
-	GnumericCellRendererToggle *celltoggle = GNUMERIC_CELL_RENDERER_TOGGLE (object);
+	GnumericCellRendererToggle *celltoggle = GNM_CELL_RENDERER_TOGGLE (object);
 
 	switch (param_id) {
 	case PROP_PIXBUF:
@@ -151,7 +151,7 @@ gnumeric_cell_renderer_toggle_set_property (GObject      *object,
 					    const GValue *value,
 					    GParamSpec   *pspec)
 {
-	GnumericCellRendererToggle *celltoggle = GNUMERIC_CELL_RENDERER_TOGGLE (object);
+	GnumericCellRendererToggle *celltoggle = GNM_CELL_RENDERER_TOGGLE (object);
 	GdkPixbuf *pixbuf;
 
 	switch (param_id) {

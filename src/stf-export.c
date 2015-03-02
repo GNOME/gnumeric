@@ -661,7 +661,7 @@ static void
 gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *context,
 			 GoView const *view, GsfOutput *output)
 {
-	WorkbookView *wbv = WORKBOOK_VIEW (view);
+	WorkbookView *wbv = GNM_WORKBOOK_VIEW (view);
 	Workbook *wb = wb_view_get_workbook (wbv);
 	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (wb));
 	GsfOutput *dummy_sink;

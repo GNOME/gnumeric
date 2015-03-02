@@ -9,9 +9,9 @@
 
 G_BEGIN_DECLS
 
-#define WORKBOOK_TYPE        (workbook_get_type ())
-#define WORKBOOK(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), WORKBOOK_TYPE, Workbook))
-#define IS_WORKBOOK(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_TYPE))
+#define GNM_WORKBOOK_TYPE        (workbook_get_type ())
+#define WORKBOOK(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_WORKBOOK_TYPE, Workbook))
+#define GNM_IS_WORKBOOK(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_WORKBOOK_TYPE))
 
 GType       workbook_get_type            (void);
 Workbook   *workbook_new                 (void);

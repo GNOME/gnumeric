@@ -17,7 +17,7 @@ void	 gnm_go_data_foreach_dep (GOData *dat, SheetObject *so,
 
 #define GNM_GO_DATA_SCALAR_TYPE	 (gnm_go_data_scalar_get_type ())
 #define GNM_GO_DATA_SCALAR(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_GO_DATA_SCALAR_TYPE, GnmGODataScalar))
-#define IS_GNM_GO_DATA_SCALAR(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_GO_DATA_SCALAR_TYPE))
+#define GNM_IS_GO_DATA_SCALAR(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_GO_DATA_SCALAR_TYPE))
 
 typedef struct _GnmGODataScalar GnmGODataScalar;
 GType	 gnm_go_data_scalar_get_type  (void);

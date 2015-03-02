@@ -653,7 +653,7 @@ array_elem_get_corner (GnmExprArrayElem const *elem,
 	g_return_val_if_fail (corner != NULL, NULL);
 	g_return_val_if_fail (gnm_cell_has_expr (corner), NULL);
 	g_return_val_if_fail (corner->base.texpr != (void *)0xdeadbeef, NULL);
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (corner->base.texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (corner->base.texpr), NULL);
 
 	return corner;
 }
@@ -2843,7 +2843,7 @@ gnm_expr_top_new_constant (GnmValue *v)
 void
 gnm_expr_top_ref (GnmExprTop const *texpr)
 {
-	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
+	g_return_if_fail (GNM_IS_EXPR_TOP (texpr));
 
 	((GnmExprTop *)texpr)->refcount++;
 }
@@ -2851,7 +2851,7 @@ gnm_expr_top_ref (GnmExprTop const *texpr)
 void
 gnm_expr_top_unref (GnmExprTop const *texpr)
 {
-	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
+	g_return_if_fail (GNM_IS_EXPR_TOP (texpr));
 
 	((GnmExprTop *)texpr)->refcount--;
 	if (texpr->refcount == 0) {
@@ -2877,7 +2877,7 @@ gnm_expr_top_get_type (void)
 gboolean
 gnm_expr_top_is_shared (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), FALSE);
 
 	return texpr->refcount > 1;
 }
@@ -2923,7 +2923,7 @@ gnm_expr_top_get_ranges (GnmExprTop const *texpr)
 {
 	GSList *res = NULL;
 
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 	gnm_expr_walk (texpr->expr, cb_get_ranges, &res);
 	return res;
 }
@@ -2931,7 +2931,7 @@ gnm_expr_top_get_ranges (GnmExprTop const *texpr)
 GnmValue *
 gnm_expr_top_get_range (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 
 	return gnm_expr_get_range (texpr->expr);
 }
@@ -2941,7 +2941,7 @@ gnm_expr_top_as_string (GnmExprTop const *texpr,
 			GnmParsePos const *pp,
 			GnmConventions const *convs)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 
 	return gnm_expr_as_string (texpr->expr, pp, convs);
 }
@@ -2950,7 +2950,7 @@ void
 gnm_expr_top_as_gstring (GnmExprTop const *texpr,
 			 GnmConventionsOut *out)
 {
-	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
+	g_return_if_fail (GNM_IS_EXPR_TOP (texpr));
 	g_return_if_fail (out != NULL);
 
 	do_expr_as_string (texpr->expr, 0, out);
@@ -2959,7 +2959,7 @@ gnm_expr_top_as_gstring (GnmExprTop const *texpr,
 guint
 gnm_expr_top_hash (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), 0);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), 0);
 
 	if (texpr->hash == 0) {
 		((GnmExprTop *)texpr)->hash = gnm_expr_hash (texpr->expr);
@@ -2978,8 +2978,8 @@ gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
 	if (te1 == NULL || te2 == NULL)
 		return FALSE;
 
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (te1), FALSE);
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (te2), FALSE);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (te1), FALSE);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (te2), FALSE);
 
 	if (te1->hash && te2->hash && te1->hash != te2->hash)
 		return FALSE;
@@ -3014,7 +3014,7 @@ gnm_expr_top_relocate (GnmExprTop const *texpr,
 {
 	RelocInfoInternal rinfo_tmp;
 
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 	g_return_val_if_fail (NULL != rinfo, NULL);
 
 	rinfo_tmp.details = rinfo;
@@ -3037,7 +3037,7 @@ gnm_expr_top_relocate_sheet (GnmExprTop const *texpr,
 	GnmExprRelocateInfo rinfo;
 	GnmExprTop const *res;
 
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 	g_return_val_if_fail (IS_SHEET (src), NULL);
 	g_return_val_if_fail (IS_SHEET (dst), NULL);
 
@@ -3063,7 +3063,7 @@ gnm_expr_top_relocate_sheet (GnmExprTop const *texpr,
 gboolean
 gnm_expr_top_contains_subtotal (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), FALSE);
 
 	return gnm_expr_contains_subtotal (texpr->expr);
 }
@@ -3091,7 +3091,7 @@ gnm_expr_top_is_volatile (GnmExprTop const *texpr)
 	 * volatile function won't even be reached.
 	 */
 
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), FALSE);
 	gnm_expr_walk (texpr->expr, cb_is_volatile, &res);
 	return res;
 }
@@ -3106,7 +3106,7 @@ gnm_expr_top_eval (GnmExprTop const *texpr,
 	GnmEvalPos ep;
 	GnmExprArrayCorner array;
 
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 
 	gnm_app_recalc_start ();
 	if ((flags & GNM_EXPR_EVAL_ARRAY_CONTEXT) && !pos->array) {
@@ -3174,7 +3174,7 @@ gnm_expr_top_referenced_sheets (GnmExprTop const *texpr)
 {
 	GSList *res = NULL;
 
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 	gnm_expr_walk (texpr->expr, cb_referenced_sheets, &res);
 	return res;
 }
@@ -3182,7 +3182,7 @@ gnm_expr_top_referenced_sheets (GnmExprTop const *texpr)
 gboolean
 gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError err)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), FALSE);
 	return gnm_expr_is_err (texpr->expr, err);
 }
 
@@ -3195,7 +3195,7 @@ gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError err)
 GnmValue const *
 gnm_expr_top_get_constant (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 
 	return gnm_expr_get_constant (texpr->expr);
 }
@@ -3203,7 +3203,7 @@ gnm_expr_top_get_constant (GnmExprTop const *texpr)
 GnmCellRef const *
 gnm_expr_top_get_cellref (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 
 	if (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CELLREF)
 		return NULL;
@@ -3232,7 +3232,7 @@ gnm_expr_top_first_funcall (GnmExprTop const *texpr)
 {
 	GnmExpr const *res = NULL;
 
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 	gnm_expr_walk (texpr->expr, cb_first_funcall, &res);
 	return res;
 }
@@ -3281,7 +3281,7 @@ gnm_expr_top_get_boundingbox (GnmExprTop const *texpr, Sheet const *sheet,
 {
 	struct cb_get_boundingbox args;
 
-	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
+	g_return_if_fail (GNM_IS_EXPR_TOP (texpr));
 
 	range_init_full_sheet (bound, sheet);
 
@@ -3293,7 +3293,7 @@ gnm_expr_top_get_boundingbox (GnmExprTop const *texpr, Sheet const *sheet,
 gboolean
 gnm_expr_top_is_rangeref (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), FALSE);
 
 	return gnm_expr_is_rangeref (texpr->expr);
 }
@@ -3307,7 +3307,7 @@ gnm_expr_top_is_rangeref (GnmExprTop const *texpr)
 GnmExprArrayCorner const *
 gnm_expr_top_get_array_corner (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER
 		? &texpr->expr->array_corner
 		: NULL;
@@ -3316,14 +3316,14 @@ gnm_expr_top_get_array_corner (GnmExprTop const *texpr)
 gboolean
 gnm_expr_top_is_array_corner (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), FALSE);
 	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER;
 }
 
 gboolean
 gnm_expr_top_is_array_elem (GnmExprTop const *texpr, int *x, int *y)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), FALSE);
 
 	if (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_ARRAY_ELEM)
 		return FALSE;
@@ -3336,14 +3336,14 @@ gnm_expr_top_is_array_elem (GnmExprTop const *texpr, int *x, int *y)
 gboolean
 gnm_expr_top_is_array (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), FALSE);
 	return gnm_expr_is_array (texpr->expr);
 }
 
 GnmExprTop const *
 gnm_expr_top_transpose (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 	switch (GNM_EXPR_GET_OPER (texpr->expr)) {
 	case GNM_EXPR_OP_ARRAY_CORNER:
 		/* Transpose size  */

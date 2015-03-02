@@ -315,7 +315,7 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 	SheetObjectAnchor tmp;
 
 	tmp = *sheet_object_get_anchor (src);
-	if (G_OBJECT_TYPE (src) == CELL_COMMENT_TYPE) {
+	if (G_OBJECT_TYPE (src) == GNM_CELL_COMMENT_TYPE) {
 		if ((pt->paste_flags & PASTE_COMMENTS) &&
 		    (pt->paste_flags & PASTE_IGNORE_COMMENTS_AT_ORIGIN &&
 		     tmp.cell_bound.start.col == 0  &&

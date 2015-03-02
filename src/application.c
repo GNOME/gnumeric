@@ -35,9 +35,7 @@
 #include <gtk/gtk.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
-#define GNM_APP_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k),	 GNM_APP_TYPE, GnmAppClass))
-#define IS_GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_APP_TYPE))
-#define IS_GNM_APP_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE((k),	 GNM_APP_TYPE))
+#define GNM_IS_APP(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_APP_TYPE))
 
 enum {
 	APPLICATION_PROP_0,
@@ -113,7 +111,7 @@ gnm_app_get_app (void)
 void
 gnm_app_workbook_list_add (Workbook *wb)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	g_return_if_fail (app != NULL);
 
 	app->workbook_list = g_list_prepend (app->workbook_list, wb);
@@ -246,7 +244,7 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 {
 	Sheet *sheet;
 
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	g_return_if_fail (area != NULL);
 	g_return_if_fail (app != NULL);
 
@@ -286,7 +284,7 @@ void
 gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 				SheetView *sv, GSList *objects)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SV (sv));
 	g_return_if_fail (objects != NULL);
 	g_return_if_fail (app != NULL);
 
@@ -764,7 +762,7 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 		G_STRUCT_OFFSET (GnmAppClass, workbook_added),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1, WORKBOOK_TYPE);
+		G_TYPE_NONE, 1, GNM_WORKBOOK_TYPE);
 	signals[WORKBOOK_REMOVED] = g_signal_new ("workbook_removed",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,

@@ -103,7 +103,7 @@ enum {
 Workbook *
 wb_view_get_workbook (WorkbookView const *wbv)
 {
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), NULL);
 	return wbv->wb;
 }
 
@@ -116,7 +116,7 @@ wb_view_get_workbook (WorkbookView const *wbv)
 GODoc *
 wb_view_get_doc (WorkbookView const *wbv)
 {
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), NULL);
 	return GO_DOC (wbv->wb);
 }
 
@@ -129,7 +129,7 @@ wb_view_get_doc (WorkbookView const *wbv)
 int
 wb_view_get_index_in_wb (WorkbookView const *wbv)
 {
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), -1);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), -1);
 	if (NULL != wbv->wb) {
 		unsigned i = wbv->wb->wb_views->len;
 		while (i-- > 0)
@@ -148,7 +148,7 @@ wb_view_get_index_in_wb (WorkbookView const *wbv)
 Sheet *
 wb_view_cur_sheet (WorkbookView const *wbv)
 {
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), NULL);
 	return wbv->current_sheet;
 }
 
@@ -161,7 +161,7 @@ wb_view_cur_sheet (WorkbookView const *wbv)
 SheetView *
 wb_view_cur_sheet_view (WorkbookView const *wbv)
 {
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), NULL);
 	return wbv->current_sheet_view;
 }
 
@@ -195,7 +195,7 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 {
 	SheetView *new_view;
 
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
 	new_view = sheet_view_new (new_sheet, wbv);
 
@@ -211,7 +211,7 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 gboolean
 wb_view_is_protected (WorkbookView *wbv, gboolean check_sheet)
 {
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), FALSE);
 
 	return wbv->is_protected || (check_sheet &&
 		wbv->current_sheet != NULL && wbv->current_sheet->is_protected);
@@ -224,7 +224,7 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 	GObject *obj;
 	const char *tname;
 
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (value != NULL);
 
@@ -260,7 +260,7 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 void
 wb_view_preferred_size (WorkbookView *wbv, int w, int h)
 {
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
 	if (w <= 0)
 		w = 768; /* use default */
@@ -285,7 +285,7 @@ wb_view_style_feedback (WorkbookView *wbv)
 	GnmCell *cell;
 	gboolean update_controls = TRUE;
 
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
 	sv = wbv->current_sheet_view;
 	if (sv == NULL)
@@ -357,7 +357,7 @@ wb_view_menus_update (WorkbookView *wbv)
 {
 	Sheet *sheet;
 
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
 	sheet = wbv->current_sheet;
 	if (sheet != NULL) {
@@ -374,7 +374,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 {
 	SheetView *sv;
 
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
 	sv = wbv->current_sheet_view;
 	if (sv != NULL) {
@@ -382,7 +382,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		char const *sel_descr = buffer;
 		GnmRange const *r, *m;
 
-		g_return_if_fail (IS_SHEET_VIEW (sv));
+		g_return_if_fail (GNM_IS_SV (sv));
 		g_return_if_fail (sv->selections);
 
 		r = selection_first_range (sv, NULL, NULL);
@@ -435,7 +435,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 {
 	SheetView *sv;
 
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
 	sv = wbv->current_sheet_view;
 	if (sv != NULL) {
@@ -521,7 +521,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	GnmExprTop const *texpr;
 	GnmEvalPos      ep;
 
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
 	sv = wb_view_cur_sheet_view (wbv);
 	if (wbv->current_sheet == NULL ||
@@ -567,7 +567,7 @@ wb_view_init_control (G_GNUC_UNUSED WorkbookControl *wbc)
 void
 wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 {
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (GNM_IS_WBC (wbc));
 	g_return_if_fail (wb_control_view (wbc) == NULL);
 
@@ -584,7 +584,7 @@ void
 wb_view_detach_control (WorkbookControl *wbc)
 {
 	g_return_if_fail (GNM_IS_WBC (wbc));
-	g_return_if_fail (IS_WORKBOOK_VIEW (wb_control_view (wbc)));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wb_control_view (wbc)));
 
 	g_ptr_array_remove (wbc->wb_view->wb_controls, wbc);
 	if (wbc->wb_view->wb_controls->len == 0) {
@@ -803,7 +803,7 @@ wb_view_get_property (GObject *object, guint property_id,
 void
 wb_view_detach_from_workbook (WorkbookView *wbv)
 {
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
 	if (wbv->wb) {
 		workbook_detach_view (wbv);
@@ -815,7 +815,7 @@ wb_view_detach_from_workbook (WorkbookView *wbv)
 static void
 wb_view_dispose (GObject *object)
 {
-	WorkbookView *wbv = WORKBOOK_VIEW (object);
+	WorkbookView *wbv = GNM_WORKBOOK_VIEW (object);
 
 	if (wbv->wb_controls != NULL) {
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control, {
@@ -1002,7 +1002,7 @@ workbook_view_new (Workbook *wb)
 	g_return_val_if_fail (wb != NULL, NULL);
 
 	wbv = g_object_new
-		(WORKBOOK_VIEW_TYPE,
+		(GNM_WORKBOOK_VIEW_TYPE,
 		 "show-horizontal-scrollbar", TRUE,
 		 "show-vertical-scrollbar", TRUE,
 		 "show-notebook-tabs", TRUE,
@@ -1116,7 +1116,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	Workbook  *wb;
 	gboolean has_error, has_warning;
 
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
 	g_return_val_if_fail (GO_IS_CMD_CONTEXT (cc), FALSE);
@@ -1169,7 +1169,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	GOFileSaver	*fs;
 	gboolean has_error, has_warning;
 
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (GO_IS_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_get_workbook (wbv);

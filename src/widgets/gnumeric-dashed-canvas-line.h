@@ -5,16 +5,12 @@
 #include <goffice/goffice.h>
 #include "style-border.h"
 
-#define GNUMERIC_TYPE_DASHED_CANVAS_LINE\
+#define GNM_DASHED_CANVAS_LINE_TYPE\
     (gnumeric_dashed_canvas_line_get_type ())
-#define GNUMERIC_DASHED_CANVAS_LINE(obj)\
-    (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNUMERIC_TYPE_DASHED_CANVAS_LINE, GnumericDashedCanvasLine))
-#define GNUMERIC_DASHED_CANVAS_LINE_CLASS(klass)\
-    (G_TYPE_CHECK_CLASS_CAST ((klass), GNUMERIC_TYPE_DASHED_CANVAS_LINE, GnumericDashedCanvasLineClass))
-#define GNUMERIC_IS_DASHED_CANVAS_LINE(obj)\
-    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNUMERIC_TYPE_DASHED_CANVAS_LINE))
-#define GNUMERIC_IS_DASHED_CANVAS_LINE_CLASS(klass)\
-    (G_TYPE_CHECK_CLASS_TYPE ((klass), GNUMERIC_TYPE_DASHED_CANVAS_LINE))
+#define GNM_DASHED_CANVAS_LINE(obj)\
+    (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_DASHED_CANVAS_LINE_TYPE, GnumericDashedCanvasLine))
+#define GNM_IS_DASHED_CANVAS_LINE(obj)\
+    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNM_DASHED_CANVAS_LINE_TYPE))
 
 
 typedef struct _GnumericDashedCanvasLine GnumericDashedCanvasLine;

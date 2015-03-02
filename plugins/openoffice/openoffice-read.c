@@ -8342,10 +8342,10 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 		SheetObjectImage *soi;
 		gsf_off_t len = gsf_input_size (input);
 		guint8 const *data = gsf_input_read (input, len, NULL);
-		soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
+		soi = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
 		sheet_object_image_set_image (soi, "", (void *)data, len, TRUE);
 
-		state->chart.so = SHEET_OBJECT (soi);
+		state->chart.so = GNM_SO (soi);
 		g_object_unref (input);
 	} else
 		oo_warning (xin, _("Unable to load "

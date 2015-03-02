@@ -709,7 +709,7 @@ stf_export_dialog (WBCGtk *wbcg, GnmStfExport *stfe, Workbook *wb)
 {
 	TextExportState state;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), TRUE);
 	g_return_val_if_fail (GNM_IS_STF_EXPORT (stfe), TRUE);
 
 	state.gui = gnm_gtk_builder_load ("dialog-stf-export.ui", NULL, GO_CMD_CONTEXT (wbcg));

@@ -133,7 +133,7 @@ GnmExprList *gnm_expr_list_copy	  (GnmExprList *list);
 /*****************************************************************************/
 
 #define GNM_EXPR_TOP_MAGIC 0x42
-#define IS_GNM_EXPR_TOP(et) ((et) && (et)->magic == GNM_EXPR_TOP_MAGIC)
+#define GNM_IS_EXPR_TOP(et) ((et) && (et)->magic == GNM_EXPR_TOP_MAGIC)
 
 struct _GnmExprTop {
 	unsigned magic : 8;

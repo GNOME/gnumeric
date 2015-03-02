@@ -2650,7 +2650,7 @@ cb_do_print_preview (PrinterSetupState *state)
 	old_pi = state->sheet->print_info;
 	state->sheet->print_info = state->pi;
 	if (state->sheet->sheet_type == GNM_SHEET_OBJECT) {
-		graph = GOG_GRAPH (sheet_object_graph_get_gog (SHEET_OBJECT (state->sheet->sheet_objects->data)));
+		graph = GOG_GRAPH (sheet_object_graph_get_gog (GNM_SO (state->sheet->sheet_objects->data)));
 		if (graph) {
 			double top, bottom, left, right, edge_to_below_header, edge_to_above_footer, w, h;
 			gog_graph_get_size (graph, &width, &height);

@@ -753,14 +753,14 @@ image_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	*size = -1;
 
 	g_return_val_if_fail (cr->objects != NULL, NULL);
-	so = SHEET_OBJECT (cr->objects->data);
+	so = GNM_SO (cr->objects->data);
 	g_return_val_if_fail (so != NULL, NULL);
 
 	if (strncmp (mime_type, "image/", 6) != 0)
 		return ret;
 	for (l = cr->objects; l != NULL; l = l->next) {
-		if (GNM_IS_SO_IMAGEABLE (SHEET_OBJECT (l->data))) {
-			so = SHEET_OBJECT (l->data);
+		if (GNM_IS_SO_IMAGEABLE (GNM_SO (l->data))) {
+			so = GNM_SO (l->data);
 			break;
 		}
 	}
@@ -807,12 +807,12 @@ object_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	*size = -1;
 
 	g_return_val_if_fail (cr->objects != NULL, NULL);
-	so = SHEET_OBJECT (cr->objects->data);
+	so = GNM_SO (cr->objects->data);
 	g_return_val_if_fail (so != NULL, NULL);
 
 	for (l = cr->objects; l != NULL; l = l->next) {
-		if (GNM_IS_SO_EXPORTABLE (SHEET_OBJECT (l->data))) {
-			so = SHEET_OBJECT (l->data);
+		if (GNM_IS_SO_EXPORTABLE (GNM_SO (l->data))) {
+			so = GNM_SO (l->data);
 			break;
 		}
 	}
@@ -1099,7 +1099,7 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 		GSList *ptr;
 		for (ptr = content->objects; ptr != NULL;
 		     ptr = ptr->next) {
-			SheetObject *candidate = SHEET_OBJECT (ptr->data);
+			SheetObject *candidate = GNM_SO (ptr->data);
 			if (exportable == NULL && GNM_IS_SO_EXPORTABLE (candidate))
 				exportable = candidate;
 			if (imageable == NULL && GNM_IS_SO_IMAGEABLE (candidate))
@@ -1188,7 +1188,7 @@ gnm_x_store_clipboard_if_needed (Workbook *wb)
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	WBCGtk *wbcg = NULL;
 
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 
 	if (sheet && sheet->workbook == wb) {
 		WORKBOOK_FOREACH_CONTROL (wb, view, control, {

@@ -179,7 +179,7 @@ gnm_soi_finalize (GObject *object)
 {
 	SheetObjectImage *soi;
 
-	soi = SHEET_OBJECT_IMAGE (object);
+	soi = GNM_SO_IMAGE (object);
 	g_free (soi->type);
 	g_free (soi->name);
 	if (soi->image)
@@ -191,7 +191,7 @@ gnm_soi_finalize (GObject *object)
 static SheetObjectView *
 gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 	GocItem *item = NULL;
 
 	item = goc_item_new (
@@ -237,7 +237,7 @@ static GOImageFormat const standard_formats[] = {
 static GtkTargetList *
 gnm_soi_get_target_list (SheetObject const *so)
 {
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
 	char *mime_str;
 	GSList *mimes, *ptr;
@@ -273,7 +273,7 @@ gnm_soi_write_image (SheetObject const *so, char const *format,
 		     G_GNUC_UNUSED double resolution,
 		     GsfOutput *output, GError **err)
 {
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 	gboolean res;
 	gsize length;
 	guint8 const *data;
@@ -299,7 +299,7 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	GOImageFormatInfo const *format_info;
 	GdkPixbuf *pixbuf = NULL;
 	GError *err = NULL;
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 
 	g_return_if_fail (soi != NULL);
 
@@ -312,7 +312,7 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 		l = g_slist_prepend (l, GUINT_TO_POINTER (sel_fmt));
 	}
 
-	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	wbcg = scg_wbcg (GNM_SCG (sc));
 
 	uri = go_gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt, NULL);
 	if (!uri)
@@ -349,7 +349,7 @@ static void
 content_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	SheetObject *so = gnm_xml_in_cur_obj (xin);
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 	char const *image_type = NULL, *image_name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -366,7 +366,7 @@ static void
 content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
 	SheetObject *so = gnm_xml_in_cur_obj (xin);
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 	GString *data = xin->content;
 
 	if (data->len >= 4) {
@@ -388,7 +388,7 @@ gnm_soi_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	  GSF_XML_IN_NODE_END
 	};
 	static GsfXMLInDoc *doc = NULL;
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 
 	if (NULL == doc) {
 		doc = gsf_xml_in_doc_new (dtd, NULL);
@@ -414,7 +414,7 @@ gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	SheetObjectImage *soi;
 
 	g_return_if_fail (GNM_IS_SO_IMAGE (so));
-	soi = SHEET_OBJECT_IMAGE (so);
+	soi = GNM_SO_IMAGE (so);
 
 	gsf_xml_out_add_float (output, "crop-top", soi->crop_top, 3);
 	gsf_xml_out_add_float (output, "crop-bottom", soi->crop_bottom, 3);
@@ -446,8 +446,8 @@ gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 static void
 gnm_soi_copy (SheetObject *dst, SheetObject const *src)
 {
-	SheetObjectImage const *soi = SHEET_OBJECT_IMAGE (src);
-	SheetObjectImage   *new_soi = SHEET_OBJECT_IMAGE (dst);
+	SheetObjectImage const *soi = GNM_SO_IMAGE (src);
+	SheetObjectImage   *new_soi = GNM_SO_IMAGE (dst);
 
 	new_soi->type		= g_strdup (soi->type);
 	new_soi->crop_top	= soi->crop_top;
@@ -461,7 +461,7 @@ static void
 gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 		    double width, double height)
 {
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 
 	if (soi->image) {
 		int w = go_image_get_width (soi->image);
@@ -483,7 +483,7 @@ gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 static void
 gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 {
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 	if (soi->image) {
 		*w = go_image_get_width (soi->image);
 		*h = go_image_get_height (soi->image);
@@ -495,7 +495,7 @@ gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 static gboolean
 gnm_soi_assign_to_sheet (SheetObject *so, Sheet *sheet)
 {
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 
 	if (soi->image/* && !go_image_get_name (soi->image)*/) {
 		GODoc *doc = GO_DOC (sheet->workbook);
@@ -526,7 +526,7 @@ gnm_soi_get_property (GObject     *object,
 		      GValue      *value,
 		      GParamSpec  *pspec)
 {
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (object);
+	SheetObjectImage *soi = GNM_SO_IMAGE (object);
 	GdkPixbuf *pixbuf;
 
 	switch (property_id) {
@@ -596,11 +596,11 @@ gnm_soi_init (GObject *obj)
 	SheetObjectImage *soi;
 	SheetObject *so;
 
-	soi = SHEET_OBJECT_IMAGE (obj);
+	soi = GNM_SO_IMAGE (obj);
 	soi->crop_top = soi->crop_bottom = soi->crop_left = soi->crop_right
 		= 0.0;
 
-	so = SHEET_OBJECT (obj);
+	so = GNM_SO (obj);
 	so->anchor.base.direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 }
 

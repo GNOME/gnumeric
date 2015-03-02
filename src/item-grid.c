@@ -1269,7 +1269,7 @@ gnm_item_grid_class_init (GObjectClass *gobject_klass)
 		g_param_spec_object ("SheetControlGUI",
 				     P_("SheetControlGUI"),
 				     P_("The sheet control gui controlling the item"),
-				     SHEET_CONTROL_GUI_TYPE,
+				     GNM_SCG_TYPE,
 				     GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, GNM_ITEM_GRID_PROP_BOUND,
 		g_param_spec_pointer ("bound",

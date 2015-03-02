@@ -71,7 +71,7 @@ static void
 cb_saver_finalize (Workbook *wb, GOFileSaver *saver)
 {
 	g_return_if_fail (GO_IS_FILE_SAVER (saver));
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	g_return_if_fail (wb->file_saver == saver);
 	wb->file_saver = NULL;
 }
@@ -79,7 +79,7 @@ static void
 cb_exporter_finalize (Workbook *wb, GOFileSaver *saver)
 {
 	g_return_if_fail (GO_IS_FILE_SAVER (saver));
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	g_return_if_fail (wb->file_exporter == saver);
 	workbook_set_file_exporter (wb, NULL);
 }
@@ -87,7 +87,7 @@ cb_exporter_finalize (Workbook *wb, GOFileSaver *saver)
 void
 workbook_update_history (Workbook *wb, GnmFileSaveAsStyle type)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 
 	switch (type) {
 	case GNM_FILE_SAVE_AS_STYLE_SAVE:
@@ -115,7 +115,7 @@ void
 workbook_update_graphs (Workbook *wb)
 {
 	WORKBOOK_FOREACH_SHEET (wb, sheet, ({
-		GSList *l, *graphs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
+		GSList *l, *graphs = sheet_objects_get (sheet, NULL, GNM_SO_GRAPH_TYPE);
 		for (l = graphs; l; l = l->next) {
 			SheetObject *sog = l->data;
 			gog_graph_force_update (sheet_object_graph_get_gog (sog));
@@ -293,7 +293,7 @@ workbook_class_init (GObjectClass *gobject_class)
 				       G_PARAM_READWRITE));
 
 	signals [SHEET_ORDER_CHANGED] = g_signal_new ("sheet_order_changed",
-		WORKBOOK_TYPE,
+		GNM_WORKBOOK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, sheet_order_changed),
 		NULL, NULL,
@@ -302,7 +302,7 @@ workbook_class_init (GObjectClass *gobject_class)
 		0, G_TYPE_NONE);
 
 	signals [SHEET_ADDED] = g_signal_new ("sheet_added",
-		WORKBOOK_TYPE,
+		GNM_WORKBOOK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, sheet_added),
 		NULL, NULL,
@@ -311,7 +311,7 @@ workbook_class_init (GObjectClass *gobject_class)
 		0, G_TYPE_NONE);
 
 	signals [SHEET_DELETED] = g_signal_new ("sheet_deleted",
-		WORKBOOK_TYPE,
+		GNM_WORKBOOK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, sheet_deleted),
 		NULL, NULL,
@@ -340,7 +340,7 @@ workbook_new (void)
 	if (extension == NULL)
 		extension = "gnumeric";
 
-	wb = g_object_new (WORKBOOK_TYPE, NULL);
+	wb = g_object_new (GNM_WORKBOOK_TYPE, NULL);
 
 	/* Assign a default name */
 	do {
@@ -479,7 +479,7 @@ workbook_set_saveinfo (Workbook *wb, GOFileFormatLevel level, GOFileSaver *fs)
 GOFileSaver *
 workbook_get_file_saver (Workbook *wb)
 {
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
 
 	return wb->file_saver;
 }
@@ -493,7 +493,7 @@ workbook_get_file_saver (Workbook *wb)
 GOFileSaver *
 workbook_get_file_exporter (Workbook *wb)
 {
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
 
 	return wb->file_exporter;
 }
@@ -507,7 +507,7 @@ workbook_get_file_exporter (Workbook *wb)
 gchar const *
 workbook_get_last_export_uri (Workbook *wb)
 {
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
 
 	return wb->last_export_uri;
 }
@@ -677,7 +677,7 @@ void
 workbook_foreach_name (Workbook const *wb, gboolean globals_only,
 		       GHFunc func, gpointer data)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 
 	if (wb->names)
 		gnm_named_expr_collection_foreach (wb->names, func, data);
@@ -695,7 +695,7 @@ workbook_enable_recursive_dirty (Workbook *wb, gboolean enable)
 {
 	gboolean old;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), FALSE);
 
 	old = wb->recursive_dirty_enabled;
 	wb->recursive_dirty_enabled = enable;
@@ -705,28 +705,28 @@ workbook_enable_recursive_dirty (Workbook *wb, gboolean enable)
 void
 workbook_set_recalcmode (Workbook *wb, gboolean is_auto)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	wb->recalc_auto = is_auto;
 }
 
 gboolean
 workbook_get_recalcmode (Workbook const *wb)
 {
-	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), FALSE);
 	return wb->recalc_auto;
 }
 
 void
 workbook_iteration_enabled (Workbook *wb, gboolean enable)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	wb->iteration.enabled = enable;
 }
 
 void
 workbook_iteration_max_number (Workbook *wb, int max_number)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	g_return_if_fail (max_number >= 0);
 	wb->iteration.max_number = max_number;
 }
@@ -734,7 +734,7 @@ workbook_iteration_max_number (Workbook *wb, int max_number)
 void
 workbook_iteration_tolerance (Workbook *wb, double tolerance)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	g_return_if_fail (tolerance >= 0);
 
 	wb->iteration.tolerance = tolerance;
@@ -745,10 +745,10 @@ workbook_attach_view (WorkbookView *wbv)
 {
 	Workbook *wb;
 
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
 	wb = wb_view_get_workbook (wbv);
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 
 	if (wb->wb_views == NULL)
 		wb->wb_views = g_ptr_array_new ();
@@ -758,8 +758,8 @@ workbook_attach_view (WorkbookView *wbv)
 void
 workbook_detach_view (WorkbookView *wbv)
 {
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
-	g_return_if_fail (IS_WORKBOOK (wbv->wb));
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (GNM_IS_WORKBOOK (wbv->wb));
 
 	WORKBOOK_FOREACH_SHEET (wbv->wb, sheet, {
 		SheetView *sv = sheet_get_view (sheet, wbv);
@@ -788,7 +788,7 @@ workbook_sheets (Workbook const *wb)
 {
 	GSList *list = NULL;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
 
 	if (wb->sheets) {
 		int i = wb->sheets->len;
@@ -803,7 +803,7 @@ workbook_sheets (Workbook const *wb)
 int
 workbook_sheet_count (Workbook const *wb)
 {
-	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), 0);
 
 	return wb->sheets ? wb->sheets->len : 0;
 }
@@ -861,7 +861,7 @@ workbook_sheet_index_update (Workbook *wb, int start)
 Sheet *
 workbook_sheet_by_index (Workbook const *wb, int i)
 {
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
 	g_return_val_if_fail (i < (int)wb->sheets->len, NULL);
 	g_return_val_if_fail (i >= -1, NULL);
 
@@ -887,7 +887,7 @@ workbook_sheet_by_name (Workbook const *wb, char const *name)
 	Sheet *sheet;
 	char *tmp;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
 	tmp = g_utf8_casefold (name, -1);
@@ -941,7 +941,7 @@ workbook_sheet_remove_controls (Workbook *wb, Sheet *sheet)
 {
 	Sheet *focus = NULL;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (sheet->workbook == wb, TRUE);
 	g_return_val_if_fail (workbook_sheet_by_name (wb, sheet->name_unquoted) == sheet, TRUE);
@@ -973,7 +973,7 @@ workbook_sheet_remove_controls (Workbook *wb, Sheet *sheet)
 void
 workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	g_return_if_fail (IS_SHEET (new_sheet));
 	g_return_if_fail (new_sheet->workbook == wb);
 	g_return_if_fail (pos >= 0 && pos <= (int)wb->sheets->len);
@@ -1090,7 +1090,7 @@ workbook_sheet_delete (Sheet *sheet)
 	int sheet_index;
 
         g_return_if_fail (IS_SHEET (sheet));
-        g_return_if_fail (IS_WORKBOOK (sheet->workbook));
+        g_return_if_fail (GNM_IS_WORKBOOK (sheet->workbook));
 
 	wb = sheet->workbook;
 	sheet_index = sheet->index_in_wb;
@@ -1282,7 +1282,7 @@ workbook_find_command (Workbook *wb, gboolean is_undo, gpointer cmd)
 	GSList *ptr;
 	unsigned n = 1;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), 0);
 
 	ptr = is_undo ? wb->undo_commands : wb->redo_commands;
 	for ( ; ptr != NULL ; ptr = ptr->next, n++)
@@ -1308,7 +1308,7 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order)
 	Sheet    *sheet;
 	unsigned  pos = 0;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), FALSE);
 	g_return_val_if_fail (g_slist_length (new_order) == wb->sheets->len, FALSE);
 
 	pre_sheet_index_change (wb);
@@ -1349,7 +1349,7 @@ workbook_date_conv (Workbook const *wb)
 void
 workbook_set_date_conv (Workbook *wb, GODateConventions const *date_conv)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	g_return_if_fail (date_conv != NULL);
 
 	wb->date_conv = date_conv;

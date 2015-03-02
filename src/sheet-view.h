@@ -66,10 +66,10 @@ struct _SheetView {
 
 typedef GObjectClass SheetViewClass;
 
-#define SHEET_VIEW_TYPE     (sheet_view_get_type ())
-#define SHEET_VIEW(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_VIEW_TYPE, SheetView))
-#define IS_SHEET_VIEW(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), SHEET_VIEW_TYPE))
-#define SHEET_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_VIEW_TYPE, SheetViewClass))
+#define GNM_SV_TYPE     (sheet_view_get_type ())
+#define GNM_SV(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_SV_TYPE, SheetView))
+#define GNM_IS_SV(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SV_TYPE))
+#define GNM_SV_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SV_TYPE, SheetViewClass))
 
 /* Lifecycle */
 GType	      sheet_view_get_type (void);

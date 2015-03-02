@@ -213,7 +213,7 @@ ssindex (char const *file, GOIOContext *ioc)
 				g_free (str);
 			} else if (GNM_IS_SO_GRAPH (obj))
 				ssindex_chart (&state,
-					       (GogObject *)sheet_object_graph_get_gog (SHEET_OBJECT (obj)));
+					       (GogObject *)sheet_object_graph_get_gog (GNM_SO (obj)));
 		}
 		g_slist_free (objs);
 

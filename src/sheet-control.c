@@ -33,7 +33,7 @@ void sc_ ## func arglist				        \
 {								\
 	SheetControlClass *sc_class;			        \
 								\
-	g_return_if_fail (IS_SHEET_CONTROL (sc));		\
+	g_return_if_fail (GNM_IS_SC (sc));		\
 								\
 	sc_class = SC_CLASS (sc);				\
 	if (sc_class->handle != NULL)				\
@@ -49,7 +49,7 @@ static void
 sc_finalize (GObject *obj)
 {
 	/* Commented out until needed */
-	/* SheetControl *sc = SHEET_CONTROL (obj); */
+	/* SheetControl *sc = GNM_SC (obj); */
 	parent_class->finalize (obj);
 }
 
@@ -72,7 +72,7 @@ GSF_CLASS (SheetControl, sheet_control,
 WorkbookControl *
 sc_wbc (SheetControl const *sc)
 {
-	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	g_return_val_if_fail (GNM_IS_SC (sc), NULL);
 	return sc->wbc;
 }
 
@@ -85,7 +85,7 @@ sc_wbc (SheetControl const *sc)
 Sheet *
 sc_sheet (SheetControl const *sc)
 {
-	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	g_return_val_if_fail (GNM_IS_SC (sc), NULL);
 	return sc->view ? sc->view->sheet : NULL;
 }
 
@@ -98,7 +98,7 @@ sc_sheet (SheetControl const *sc)
 SheetView *
 sc_view (SheetControl const *sc)
 {
-	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	g_return_val_if_fail (GNM_IS_SC (sc), NULL);
 	return sc->view;
 }
 

@@ -428,9 +428,9 @@ cb_hide_unwanted_percentage (GnmCellIter const *iter,
 int
 gnm_filter_combo_index (GnmFilterCombo *fcombo)
 {
-	g_return_val_if_fail (IS_GNM_FILTER_COMBO (fcombo), 0);
+	g_return_val_if_fail (GNM_IS_FILTER_COMBO (fcombo), 0);
 
-	return (sheet_object_get_range (SHEET_OBJECT (fcombo))->start.col -
+	return (sheet_object_get_range (GNM_SO (fcombo))->start.col -
 		fcombo->filter->r.start.col);
 }
 
@@ -449,11 +449,11 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 	int col, start_row, end_row;
 	CellIterFlags iter_flags = CELL_ITER_IGNORE_HIDDEN;
 
-	g_return_if_fail (IS_GNM_FILTER_COMBO (fcombo));
+	g_return_if_fail (GNM_IS_FILTER_COMBO (fcombo));
 
 	filter = fcombo->filter;
 	cond = fcombo->cond;
-	col = sheet_object_get_range (SHEET_OBJECT (fcombo))->start.col;
+	col = sheet_object_get_range (GNM_SO (fcombo))->start.col;
 	start_row = filter->r.start.row + 1;
 	end_row = filter->r.end.row;
 
@@ -636,8 +636,8 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	tmp.start.col = tmp.end.col = filter->r.start.col + i;
 	sheet_object_anchor_init (&anchor, &tmp, a_offsets,
 		GOD_ANCHOR_DIR_DOWN_RIGHT);
-	sheet_object_set_anchor (SHEET_OBJECT (fcombo), &anchor);
-	sheet_object_set_sheet (SHEET_OBJECT (fcombo), filter->sheet);
+	sheet_object_set_anchor (GNM_SO (fcombo), &anchor);
+	sheet_object_set_sheet (GNM_SO (fcombo), filter->sheet);
 
 	g_ptr_array_add (filter->fields, NULL);
 	for (n = filter->fields->len; --n > i ; )

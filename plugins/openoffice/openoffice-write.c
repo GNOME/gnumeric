@@ -916,21 +916,21 @@ odf_write_sheet_object_styles (GnmOOExport *state)
 		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
 		GSList *objects = sheet_objects_get (sheet, NULL, GNM_SO_FILLED_TYPE), *l;
 		for (l = objects; l != NULL; l = l->next) {
-			SheetObject *so = SHEET_OBJECT (l->data);
+			SheetObject *so = GNM_SO (l->data);
 			char *name = odf_write_sheet_object_style (state, so);
 			g_hash_table_replace (state->so_styles, so, name);
 		}
 		g_slist_free (objects);
 		objects = sheet_objects_get (sheet, NULL, GNM_SO_LINE_TYPE);
 		for (l = objects; l != NULL; l = l->next) {
-			SheetObject *so = SHEET_OBJECT (l->data);
+			SheetObject *so = GNM_SO (l->data);
 			char *name = odf_write_sheet_object_line_style (state, so);
 			g_hash_table_replace (state->so_styles, so, name);
 		}
 		g_slist_free (objects);
 		objects = sheet_objects_get (sheet, NULL, GNM_SO_PATH_TYPE);
 		for (l = objects; l != NULL; l = l->next) {
-			SheetObject *so = SHEET_OBJECT (l->data);
+			SheetObject *so = GNM_SO (l->data);
 			char *name = odf_write_sheet_object_style (state, so);
 			g_hash_table_replace (state->so_styles, so, name);
 		}
@@ -3249,12 +3249,12 @@ odf_write_objects (GnmOOExport *state, GSList *objects)
 			g_warning ("NULL sheet object encountered.");
 			continue;
 		}
-		if (IS_GNM_FILTER_COMBO (so) || IS_GNM_VALIDATION_COMBO(so))
+		if (GNM_IS_FILTER_COMBO (so) || GNM_IS_VALIDATION_COMBO(so))
 			continue;
 		if (id != NULL)
 			odf_write_control (state, so, id);
 		else if (GNM_IS_CELL_COMMENT (so))
-			odf_write_comment (state, CELL_COMMENT (so));
+			odf_write_comment (state, GNM_CELL_COMMENT (so));
 		else if (GNM_IS_SO_FILLED (so))
 			odf_write_so_filled (state, so);
 		else if (GNM_IS_SO_LINE (so))
@@ -3708,7 +3708,7 @@ odf_sheet_objects_get (Sheet const *sheet, GnmCellPos const *pos)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
-		SheetObject *so = SHEET_OBJECT (ptr->data);
+		SheetObject *so = GNM_SO (ptr->data);
 		SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
 		if (gnm_cellpos_equal (&anchor->cell_bound.start, pos))
 			res = g_slist_prepend (res, so);
@@ -3740,7 +3740,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 		GSList *ptr;
 
 		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
-			SheetObject *so = SHEET_OBJECT (ptr->data);
+			SheetObject *so = GNM_SO (ptr->data);
 			SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
 			int row = anchor->cell_bound.start.row;
 			row_flags[row] |= RF_OBJECT;
@@ -4895,13 +4895,13 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 		state->sheet = sheet;
 
-		graphs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
+		graphs = sheet_objects_get (sheet, NULL, GNM_SO_GRAPH_TYPE);
 		for (l = graphs; l != NULL; l = l->next)
 			g_hash_table_insert (state->graphs, l->data,
 					     g_strdup_printf ("Graph%i", graph_n++));
 		g_slist_free (graphs);
 
-		images = sheet_objects_get (sheet, NULL, SHEET_OBJECT_IMAGE_TYPE);
+		images = sheet_objects_get (sheet, NULL, GNM_SO_IMAGE_TYPE);
 		for (l = images; l != NULL; l = l->next)
 			g_hash_table_insert (state->images, l->data,
 					     g_strdup_printf ("Image%i", image_n++));

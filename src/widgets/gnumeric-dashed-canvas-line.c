@@ -142,7 +142,7 @@ double_line_draw (GocItem const *item, GnmStyleBorderType const i, cairo_t *cr)
 static void
 gnumeric_dashed_canvas_line_draw (GocItem const *item, cairo_t *cr)
 {
-	GnumericDashedCanvasLine *line = GNUMERIC_DASHED_CANVAS_LINE (item);
+	GnumericDashedCanvasLine *line = GNM_DASHED_CANVAS_LINE (item);
 
 	if (line->dash_style_index == GNM_STYLE_BORDER_DOUBLE)
 		double_line_draw (item, line->dash_style_index, cr);

@@ -1044,7 +1044,7 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 			scg_object_unselect (scg, NULL);
 			scg_cursor_visible (scg, FALSE);
 			scg_set_display_cursor (scg);
-			sc_unant (SHEET_CONTROL (scg));
+			sc_unant (GNM_SC (scg));
 		}
 	}
 	/* we can't set wbcg->new_object before now because if one sheet has a
@@ -1187,7 +1187,7 @@ cb_guru_set_focus (G_GNUC_UNUSED GtkWidget *window,
 {
 	GnmExprEntry *gee = NULL;
 	if (focus_widget != NULL &&
-	    IS_GNM_EXPR_ENTRY (gtk_widget_get_parent (focus_widget)))
+	    GNM_EXPR_ENTRY_IS (gtk_widget_get_parent (focus_widget)))
 		gee = GNM_EXPR_ENTRY (gtk_widget_get_parent (focus_widget));
 	wbcg_set_entry (wbcg, gee);
 }

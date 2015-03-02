@@ -707,7 +707,7 @@ item_edit_set_property (GObject *gobject, guint param_id,
 		/* We can only set the sheet-control-gui once */
 		g_return_if_fail (ie->scg == NULL);
 
-		ie->scg = SHEET_CONTROL_GUI (g_value_get_object (value));
+		ie->scg = GNM_SCG (g_value_get_object (value));
 		ie->pos = scg_view (ie->scg)->edit_pos;
 		ie->entry = wbcg_get_entry (scg_wbcg (ie->scg));
 		break;
@@ -731,7 +731,7 @@ gnm_item_edit_class_init (GObjectClass *gobject_class)
 		g_param_spec_object ("SheetControlGUI",
 				     P_("SheetControlGUI"),
 				     P_("The sheet control gui controlling the item"),
-				     SHEET_CONTROL_GUI_TYPE,
+				     GNM_SCG_TYPE,
 				     /* resist the urge to use G_PARAM_CONSTRUCT_ONLY
 				      * We are going through goc_item_new, which
 				      * calls g_object_new assigns the parent pointer before

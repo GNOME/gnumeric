@@ -10,7 +10,7 @@ static GObjectClass *lazy_list_parent_class = NULL;
 static void
 lazy_list_finalize (GObject *object)
 {
-	GnumericLazyList *ll = GNUMERIC_LAZY_LIST (object);
+	GnumericLazyList *ll = GNM_LAZY_LIST (object);
 
 	g_free (ll->column_headers);
 
@@ -45,7 +45,7 @@ lazy_list_class_init (GnumericLazyListClass *class)
 static GtkTreeModelFlags
 lazy_list_get_flags (GtkTreeModel *tree_model)
 {
-	g_return_val_if_fail (GNUMERIC_IS_LAZY_LIST (tree_model), 0);
+	g_return_val_if_fail (GNM_IS_LAZY_LIST (tree_model), 0);
 
 	return GTK_TREE_MODEL_ITERS_PERSIST | GTK_TREE_MODEL_LIST_ONLY;
 }
@@ -55,7 +55,7 @@ lazy_list_get_n_columns (GtkTreeModel *tree_model)
 {
 	GnumericLazyList *ll = (GnumericLazyList *) tree_model;
 
-	g_return_val_if_fail (GNUMERIC_IS_LAZY_LIST (tree_model), 0);
+	g_return_val_if_fail (GNM_IS_LAZY_LIST (tree_model), 0);
 
 	return ll->cols;
 }
@@ -66,7 +66,7 @@ lazy_list_get_column_type (GtkTreeModel *tree_model,
 {
 	GnumericLazyList *ll = (GnumericLazyList *) tree_model;
 
-	g_return_val_if_fail (GNUMERIC_IS_LAZY_LIST (tree_model), G_TYPE_INVALID);
+	g_return_val_if_fail (GNM_IS_LAZY_LIST (tree_model), G_TYPE_INVALID);
 	g_return_val_if_fail (index >= 0 && index < ll->cols, G_TYPE_INVALID);
 
 	return ll->column_headers[index];
@@ -80,7 +80,7 @@ lazy_list_get_iter (GtkTreeModel *tree_model,
 	GnumericLazyList *ll = (GnumericLazyList *) tree_model;
 	gint i;
 
-	g_return_val_if_fail (GNUMERIC_IS_LAZY_LIST (tree_model), FALSE);
+	g_return_val_if_fail (GNM_IS_LAZY_LIST (tree_model), FALSE);
 	g_return_val_if_fail (gtk_tree_path_get_depth (path) > 0, FALSE);
 
 	i = gtk_tree_path_get_indices (path)[0];
@@ -111,7 +111,7 @@ lazy_list_get_value (GtkTreeModel *tree_model,
 	gint row;
 	GnumericLazyList *ll = (GnumericLazyList *) tree_model;
 
-	g_return_if_fail (GNUMERIC_IS_LAZY_LIST (tree_model));
+	g_return_if_fail (GNM_IS_LAZY_LIST (tree_model));
 	row = GPOINTER_TO_INT (iter->user_data);
 
 	if (ll->get_value)
@@ -127,7 +127,7 @@ lazy_list_iter_next (GtkTreeModel  *tree_model,
 	gint row;
 	GnumericLazyList *ll = (GnumericLazyList *) tree_model;
 
-	g_return_val_if_fail (GNUMERIC_IS_LAZY_LIST (tree_model), FALSE);
+	g_return_val_if_fail (GNM_IS_LAZY_LIST (tree_model), FALSE);
 	row = GPOINTER_TO_INT (iter->user_data);
 	row++;
 	iter->user_data = GINT_TO_POINTER (row);
@@ -166,9 +166,9 @@ static gint
 lazy_list_iter_n_children (GtkTreeModel *tree_model,
 			   GtkTreeIter  *iter)
 {
-	g_return_val_if_fail (GNUMERIC_IS_LAZY_LIST (tree_model), -1);
+	g_return_val_if_fail (GNM_IS_LAZY_LIST (tree_model), -1);
 	if (iter == NULL)
-		return GNUMERIC_LAZY_LIST (tree_model)->rows;
+		return GNM_LAZY_LIST (tree_model)->rows;
 
 	return 0;
 }
@@ -181,7 +181,7 @@ lazy_list_iter_nth_child (GtkTreeModel *tree_model,
 {
 	GnumericLazyList *ll = (GnumericLazyList *) tree_model;
 
-	g_return_val_if_fail (GNUMERIC_IS_LAZY_LIST (tree_model), FALSE);
+	g_return_val_if_fail (GNM_IS_LAZY_LIST (tree_model), FALSE);
 
 	if (parent)
 		return FALSE;
@@ -266,7 +266,7 @@ gnumeric_lazy_list_new (GnumericLazyListValueGetFunc get_value,
 	g_return_val_if_fail (n_rows >= 0, NULL);
 	g_return_val_if_fail (n_columns >= 0, NULL);
 
-	retval = GNUMERIC_LAZY_LIST (g_object_new (gnumeric_lazy_list_get_type (), NULL));
+	retval = GNM_LAZY_LIST (g_object_new (gnumeric_lazy_list_get_type (), NULL));
 	retval->get_value = get_value;
 	retval->user_data = user_data;
 	retval->rows = n_rows;
@@ -286,7 +286,7 @@ gnumeric_lazy_list_add_column (GnumericLazyList *ll, int count, GType typ)
 {
 	int i;
 
-	g_return_if_fail (GNUMERIC_IS_LAZY_LIST (ll));
+	g_return_if_fail (GNM_IS_LAZY_LIST (ll));
 	g_return_if_fail (count >= 0);
 
 	ll->column_headers = g_renew (GType, ll->column_headers,

@@ -42,7 +42,7 @@ static void
 render_get_value (gint row, gint column, gpointer _rd, GValue *value)
 {
 	RenderData_t *rd = (RenderData_t *)_rd;
-	GnumericLazyList *ll = GNUMERIC_LAZY_LIST (gtk_tree_view_get_model (rd->tree_view));
+	GnumericLazyList *ll = GNM_LAZY_LIST (gtk_tree_view_get_model (rd->tree_view));
 	GPtrArray *lines = rd->lines;
 	GPtrArray *line = (row < (int)lines->len)
 		? g_ptr_array_index (lines, row)

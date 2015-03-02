@@ -102,7 +102,7 @@ cb_so_size_position (SheetObject *so, SheetControl *sc)
 {
 	WBCGtk *wbcg;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (sc));
+	g_return_if_fail (GNM_IS_SCG (sc));
 
 	wbcg = scg_wbcg ((SheetControlGUI *)sc);
 
@@ -168,7 +168,7 @@ sheet_object_get_editor (SheetObject *so, SheetControl *sc)
 
 	g_return_if_fail (GNM_IS_SO (so));
 	g_return_if_fail (SO_CLASS (so));
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (sc));
+	g_return_if_fail (GNM_IS_SCG (sc));
 
 	wbcg = scg_wbcg ((SheetControlGUI *)sc);
 
@@ -289,7 +289,7 @@ sheet_objects_max_extent (Sheet *sheet)
 	GSList *ptr;
 
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
-		SheetObject *so = SHEET_OBJECT (ptr->data);
+		SheetObject *so = GNM_SO (ptr->data);
 
 		if (max_pos.col < so->anchor.cell_bound.end.col)
 			max_pos.col = so->anchor.cell_bound.end.col;
@@ -320,7 +320,7 @@ static void
 sheet_object_get_property (GObject *obj, guint param_id,
 			   GValue  *value, GParamSpec *pspec)
 {
-	SheetObject *so = SHEET_OBJECT (obj);
+	SheetObject *so = GNM_SO (obj);
 
 	switch (param_id) {
 	case SO_PROP_NAME:
@@ -336,7 +336,7 @@ static void
 sheet_object_set_property (GObject *obj, guint param_id,
 			   GValue const *value, GParamSpec *pspec)
 {
-	SheetObject *so = SHEET_OBJECT (obj);
+	SheetObject *so = GNM_SO (obj);
 
 	switch (param_id) {
 	case SO_PROP_NAME:
@@ -352,7 +352,7 @@ sheet_object_set_property (GObject *obj, guint param_id,
 static void
 sheet_object_finalize (GObject *object)
 {
-	SheetObject *so = SHEET_OBJECT (object);
+	SheetObject *so = GNM_SO (object);
 	if (so->sheet != NULL)
 		sheet_object_clear_sheet (so);
 	g_free (so->name);
@@ -363,7 +363,7 @@ static void
 sheet_object_init (GObject *object)
 {
 	int i;
-	SheetObject *so = SHEET_OBJECT (object);
+	SheetObject *so = GNM_SO (object);
 
 	so->sheet = NULL;
 	so->flags = SHEET_OBJECT_IS_VISIBLE | SHEET_OBJECT_PRINT |
@@ -950,7 +950,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 	if (change_sheets) {
 		GSList *copy = g_slist_copy (rinfo->target_sheet->sheet_objects);
 		for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
-			SheetObject *so = SHEET_OBJECT (ptr->data);
+			SheetObject *so = GNM_SO (ptr->data);
 			GnmRange const *r  = &so->anchor.cell_bound;
 			if (range_contains (&dest, r->start.col, r->start.row)) {
 				clear_sheet (so, pundo);
@@ -961,7 +961,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 
 	ptr = rinfo->origin_sheet->sheet_objects;
 	for (; ptr != NULL ; ptr = next ) {
-		SheetObject *so = SHEET_OBJECT (ptr->data);
+		SheetObject *so = GNM_SO (ptr->data);
 		GnmRange r = so->anchor.cell_bound;
 
 		next = ptr->next;
@@ -1019,7 +1019,7 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 		GObject *obj = G_OBJECT (ptr->data);
 
 		if (t == G_TYPE_NONE || t == G_OBJECT_TYPE (obj)) {
-			SheetObject *so = SHEET_OBJECT (obj);
+			SheetObject *so = GNM_SO (obj);
 			if (r == NULL || range_contained (&so->anchor.cell_bound, r))
 				res = g_slist_prepend (res, so);
 		}
@@ -1047,7 +1047,7 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t,
 		next = ptr->next;
 		if ((t == G_TYPE_NONE && G_OBJECT_TYPE (obj) != GNM_FILTER_COMBO_TYPE)
 		    || t == G_OBJECT_TYPE (obj)) {
-			SheetObject *so = SHEET_OBJECT (obj);
+			SheetObject *so = GNM_SO (obj);
 			if (r == NULL || range_contained (&so->anchor.cell_bound, r))
 				clear_sheet (so, pundo);
 		}
@@ -1322,7 +1322,7 @@ cb_so_menu_activate (GObject *menu, GocItem *view)
 		if (data == NULL)
 			data = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 
-		(a->func) (so, SHEET_CONTROL (data));
+		(a->func) (so, GNM_SC (data));
 	}
 }
 
@@ -1449,7 +1449,7 @@ static gboolean
 sheet_object_view_button2_pressed (GocItem *item, int button, double x, double y)
 {
 	if (button == 1 && !GNM_IS_PANE (item->canvas)) {
-		SheetControl *sc = SHEET_CONTROL (g_object_get_data (G_OBJECT (item->canvas), "sheet-control"));
+		SheetControl *sc = GNM_SC (g_object_get_data (G_OBJECT (item->canvas), "sheet-control"));
 		SheetObject *so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
 
 		if (sc && sheet_object_can_edit (so))
@@ -1671,12 +1671,12 @@ sheet_objects_init (void)
 {
 	GNM_SO_LINE_TYPE;
 	GNM_SO_FILLED_TYPE;
-	SHEET_OBJECT_GRAPH_TYPE;
-	SHEET_OBJECT_IMAGE_TYPE;
+	GNM_SO_GRAPH_TYPE;
+	GNM_SO_IMAGE_TYPE;
 	GNM_GO_DATA_SCALAR_TYPE;
 	GNM_GO_DATA_VECTOR_TYPE;
 	GNM_GO_DATA_MATRIX_TYPE;
-	CELL_COMMENT_TYPE;
+	GNM_CELL_COMMENT_TYPE;
 
 	sheet_object_widget_register ();
 	sov_so_quark = g_quark_from_static_string ("SheetObject");

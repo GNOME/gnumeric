@@ -91,7 +91,7 @@ static GSF_CLASS (SOGraphGocView, so_graph_goc_view,
 /****************************************************************************/
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-graph-key"
 
-#define SHEET_OBJECT_GRAPH_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPH_TYPE, SheetObjectGraphClass))
+#define SHEET_OBJECT_GRAPH_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SO_GRAPH_TYPE, SheetObjectGraphClass))
 
 typedef struct {
 	SheetObject  base;
@@ -142,7 +142,7 @@ sog_datas_set_sheet (SheetObjectGraph *sog, Sheet *sheet)
 static void
 gnm_sog_finalize (GObject *obj)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (obj);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (obj);
 
 	if (sog->renderer != NULL) {
 		g_object_unref (sog->renderer);
@@ -200,7 +200,7 @@ static SheetObjectView *
 gnm_sog_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmPane *pane;
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 	if (GNM_IS_PANE (container)) {
 		GocItem *view;
 		pane = GNM_PANE (container);
@@ -263,13 +263,13 @@ static void
 gnm_sog_write_image (SheetObject const *so, char const *format, double resolution,
 		     GsfOutput *output, GError **err)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 	gboolean res = FALSE;
 	double coords[4];
 	double w, h;
 
 	if (so->sheet) {
-		sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
+		sheet_object_position_pts_get (GNM_SO (sog), coords);
 		w = fabs (coords[2] - coords[0]) + 1.;
 		h = fabs (coords[3] - coords[1]) + 1.;
 	} else {
@@ -294,7 +294,7 @@ gnm_sog_write_object (SheetObject const *so, char const *format,
 		      GsfOutput *output, G_GNUC_UNUSED GError **err,
 		      GnmConventions const *convs)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 	GsfXMLOut *xout;
 	GogObject *graph;
 
@@ -318,7 +318,7 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 	GSList *l;
 	GOImageFormat selected_format;
 	GOImageFormatInfo const *format_info;
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 	double resolution;
 
 	g_return_if_fail (sog != NULL);
@@ -328,7 +328,7 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 	selected_format = GPOINTER_TO_UINT (l->data);
 
 #warning "This violates model gui barrier"
-	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	wbcg = scg_wbcg (GNM_SCG (sc));
 	uri = go_gui_get_image_save_info (wbcg_toplevel (wbcg), l, &selected_format, &resolution);
 	if (!uri)
 		goto out;
@@ -350,8 +350,8 @@ out:
 static void
 sog_cb_open_in_new_window (SheetObject *so, SheetControl *sc)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
+	SheetControlGUI *scg = GNM_SCG (sc);
 	WBCGtk *wbcg = scg_wbcg (scg);
 	GtkWidget *window;
 	double coords[4];
@@ -373,8 +373,8 @@ sog_cb_open_in_new_window (SheetObject *so, SheetControl *sc)
 static void
 sog_cb_copy_to_new_sheet (SheetObject *so, SheetControl *sc)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
+	SheetControlGUI *scg = GNM_SCG (sc);
 	WorkbookControl *wbc = scg_wbc (scg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	GogGraph *graph = GOG_GRAPH (gog_object_dup (GOG_OBJECT (sog->graph), NULL, NULL));
@@ -415,7 +415,7 @@ static void
 gnm_sog_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 		       GnmConventions const *convs)
 {
-	SheetObjectGraph const *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph const *sog = GNM_SO_GRAPH (so);
 	gog_object_write_xml_sax (GOG_OBJECT (sog->graph), output,
 				  (gpointer)convs);
 }
@@ -445,7 +445,7 @@ gnm_sog_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 static void
 gnm_sog_copy (SheetObject *dst, SheetObject const *src)
 {
-	SheetObjectGraph const *sog = SHEET_OBJECT_GRAPH (src);
+	SheetObjectGraph const *sog = GNM_SO_GRAPH (src);
 	GogGraph *graph = gog_graph_dup (sog->graph);
 	sheet_object_graph_set_gog (dst, graph);
 	g_object_unref (graph);
@@ -455,7 +455,7 @@ static void
 gnm_sog_draw_cairo (SheetObject const *so, cairo_t *cr,
 			  double width, double height)
 {
-	gog_graph_render_to_cairo (SHEET_OBJECT_GRAPH (so)->graph,
+	gog_graph_render_to_cairo (GNM_SO_GRAPH (so)->graph,
 				   cr, width, height);
 }
 
@@ -476,13 +476,13 @@ static void
 cb_update_graph (GogGraph *graph, gnm_sog_user_config_t *data)
 {
 	cmd_so_graph_config (data->wbc, data->so, G_OBJECT (graph),
-			     G_OBJECT (SHEET_OBJECT_GRAPH (data->so)->graph));
+			     G_OBJECT (GNM_SO_GRAPH (data->so)->graph));
 }
 
 static void
 gnm_sog_user_config (SheetObject *so, SheetControl *sc)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 	WBCGtk *wbcg;
 	gnm_sog_user_config_t *data;
 	GClosure *closure;
@@ -490,7 +490,7 @@ gnm_sog_user_config (SheetObject *so, SheetControl *sc)
 	g_return_if_fail (sog != NULL);
 	g_return_if_fail (sc != NULL);
 
-	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	wbcg = scg_wbcg (GNM_SCG (sc));
 
 	data = g_new0 (gnm_sog_user_config_t, 1);
 	data->so = so;
@@ -508,7 +508,7 @@ gnm_sog_foreach_dep (SheetObject *so,
 		     SheetObjectForeachDepFunc func,
 		     gpointer user)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 	GSList *ptr = gog_graph_get_data (sog->graph);
 	for (; ptr != NULL ; ptr = ptr->next)
 		sog_data_foreach_dep (so, ptr->data, func, user);
@@ -517,7 +517,7 @@ gnm_sog_foreach_dep (SheetObject *so,
 static gboolean
 gnm_sog_set_sheet (SheetObject *so, Sheet *sheet)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 	if (sog->graph != NULL)
 		sog_datas_set_sheet (sog, sheet);
 	return FALSE;
@@ -526,7 +526,7 @@ gnm_sog_set_sheet (SheetObject *so, Sheet *sheet)
 static gboolean
 gnm_sog_remove_from_sheet (SheetObject *so)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 	if (sog->graph != NULL)
 		sog_datas_set_sheet (sog, NULL);
 	return FALSE;
@@ -542,7 +542,7 @@ gnm_sog_default_size (G_GNUC_UNUSED SheetObject const *so, double *w, double *h)
 static void
 gnm_sog_bounds_changed (SheetObject *so)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 
 	/* If it has not been realized there is no renderer yet */
 	if (sog->renderer != NULL) {
@@ -588,7 +588,7 @@ gnm_sog_class_init (GObjectClass *klass)
 static void
 gnm_sog_init (GObject *obj)
 {
-	SheetObject *so = SHEET_OBJECT (obj);
+	SheetObject *so = GNM_SO (obj);
 	so->anchor.base.direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 }
 
@@ -622,9 +622,9 @@ GSF_CLASS_FULL (SheetObjectGraph, sheet_object_graph,
 SheetObject *
 sheet_object_graph_new (GogGraph *graph)
 {
-	SheetObjectGraph *sog = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
-	sheet_object_graph_set_gog (SHEET_OBJECT (sog), graph);
-	return SHEET_OBJECT (sog);
+	SheetObjectGraph *sog = g_object_new (GNM_SO_GRAPH_TYPE, NULL);
+	sheet_object_graph_set_gog (GNM_SO (sog), graph);
+	return GNM_SO (sog);
 }
 
 /**
@@ -654,7 +654,7 @@ sheet_object_graph_get_gog (SheetObject *sog)
 void
 sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 
 	g_return_if_fail (GNM_IS_SO_GRAPH (so));
 

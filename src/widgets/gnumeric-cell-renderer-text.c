@@ -124,5 +124,5 @@ gnumeric_cell_renderer_text_class_init (GnumericCellRendererTextClass *class)
 GtkCellRenderer *
 gnumeric_cell_renderer_text_new (void)
 {
-	return GTK_CELL_RENDERER (g_object_new (GNUMERIC_TYPE_CELL_RENDERER_TEXT, NULL));
+	return GTK_CELL_RENDERER (g_object_new (GNM_CELL_RENDERER_TEXT_TYPE, NULL));
 }

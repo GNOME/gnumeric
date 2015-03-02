@@ -1445,7 +1445,7 @@ gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs,
 	GnmOutputXML state;
 	GsfOutput   *gzout = NULL;
 	GnmLocale   *locale;
-	WorkbookView *wb_view = WORKBOOK_VIEW (view);
+	WorkbookView *wb_view = GNM_WORKBOOK_VIEW (view);
 
 	if (compress) {
 		gzout  = gsf_output_gzip_new (output, NULL);

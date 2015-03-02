@@ -223,7 +223,7 @@ stf_read_workbook (G_GNUC_UNUSED GOFileOpener const *fo,  gchar const *enc,
 	char *name, *nameutf8 = NULL;
 	char *data = NULL;
 	size_t data_len;
-	WorkbookView *wbv = WORKBOOK_VIEW (view);
+	WorkbookView *wbv = GNM_WORKBOOK_VIEW (view);
 
 	if (!GNM_IS_WBC_GTK (context->impl)) {
 		go_io_error_string (context, _("This importer can only be used with a GUI."));
@@ -434,7 +434,7 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 	int cols, rows, i;
 	GStringChunk *lines_chunk;
 	GPtrArray *lines;
-	WorkbookView *wbv = WORKBOOK_VIEW (view);
+	WorkbookView *wbv = GNM_WORKBOOK_VIEW (view);
 
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (wbv != NULL);
@@ -523,7 +523,7 @@ stf_write_csv (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *context,
 {
 	Sheet *sheet;
 	GnmRangeRef const *range;
-	WorkbookView *wbv = WORKBOOK_VIEW (view);
+	WorkbookView *wbv = GNM_WORKBOOK_VIEW (view);
 
 	GnmStfExport *config = g_object_new
 		(GNM_STF_EXPORT_TYPE,

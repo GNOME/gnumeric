@@ -8,10 +8,9 @@
 
 G_BEGIN_DECLS
 
-#define SHEET_CONTROL_GUI_TYPE        (sheet_control_gui_get_type ())
-#define SHEET_CONTROL_GUI(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_CONTROL_GUI_TYPE, SheetControlGUI))
-#define SHEET_CONTROL_GUI_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), SHEET_CONTROL_GUI_TYPE))
-#define IS_SHEET_CONTROL_GUI(o)       (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_CONTROL_GUI_TYPE))
+#define GNM_SCG_TYPE        (sheet_control_gui_get_type ())
+#define GNM_SCG(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_SCG_TYPE, SheetControlGUI))
+#define GNM_IS_SCG(o)       (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SCG_TYPE))
 
 GType		 sheet_control_gui_get_type (void);
 SheetControlGUI *sheet_control_gui_new	    (SheetView *sv, WBCGtk *wbcg);

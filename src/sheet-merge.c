@@ -141,7 +141,7 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 
 	comment = sheet_get_comment (sheet, &r2.start);
 	if (comment != NULL)
-		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
+		sheet_object_update_bounds (GNM_SO (comment), NULL);
 
 	sheet_flag_status_update_range (sheet, &r2);
 	if (sheet->cols.max_used < r2.end.col) {
@@ -190,7 +190,7 @@ gnm_sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
 
 	comment = sheet_get_comment (sheet, &r->start);
 	if (comment != NULL)
-		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
+		sheet_object_update_bounds (GNM_SO (comment), NULL);
 
 	sheet_redraw_range (sheet, r);
 	sheet_flag_status_update_range (sheet, r);

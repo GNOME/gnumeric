@@ -856,7 +856,7 @@ static void
 pdf_export (GOFileSaver const *fs, GOIOContext *context,
 		    GoView const *view, GsfOutput *output)
 {
-	WorkbookView const *wbv = WORKBOOK_VIEW (view);
+	WorkbookView const *wbv = GNM_WORKBOOK_VIEW (view);
 	Workbook const *wb = wb_view_get_workbook (wbv);
 	GPtrArray *objects = g_object_get_data (G_OBJECT (wb), "pdf-objects");
 

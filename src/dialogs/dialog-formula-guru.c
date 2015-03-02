@@ -900,7 +900,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 							   "text", ARG_TYPE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 	renderer = gnumeric_cell_renderer_expr_entry_new (state->wbcg);
-	state->cellrenderer = GNUMERIC_CELL_RENDERER_EXPR_ENTRY (renderer);
+	state->cellrenderer = GNM_CELL_RENDERER_EXPR_ENTRY (renderer);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_dialog_formula_guru_edited), state);
 	state->editable = NULL;

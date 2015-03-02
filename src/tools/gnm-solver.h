@@ -189,7 +189,6 @@ GType gnm_solver_result_get_type (void);
 
 #define GNM_SOLVER_TYPE        (gnm_solver_get_type ())
 #define GNM_SOLVER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SOLVER_TYPE, GnmSolver))
-#define GNM_SOLVER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SOLVER_TYPE, GnmSolverClass))
 #define GNM_IS_SOLVER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SOLVER_TYPE))
 
 typedef struct {
@@ -254,7 +253,6 @@ gboolean gnm_solver_debug (void);
 
 #define GNM_SUB_SOLVER_TYPE     (gnm_sub_solver_get_type ())
 #define GNM_SUB_SOLVER(o)       (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SUB_SOLVER_TYPE, GnmSubSolver))
-#define GNM_SUB_SOLVER_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SUB_SOLVER_TYPE, GnmSubSolverClass))
 #define GNM_IS_SUB_SOLVER(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SUB_SOLVER_TYPE))
 
 typedef struct {

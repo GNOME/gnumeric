@@ -85,7 +85,7 @@ static GSF_CLASS (SOComponentGocView, so_component_goc_view,
 /****************************************************************************/
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-component-key"
 
-#define SHEET_OBJECT_COMPONENT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_COMPONENT_TYPE, SheetObjectComponentClass))
+#define SHEET_OBJECT_COMPONENT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SO_COMPONENT_TYPE, SheetObjectComponentClass))
 
 typedef struct {
 	SheetObject  base;
@@ -99,7 +99,7 @@ static GObjectClass *parent_klass;
 static void
 gnm_soc_finalize (GObject *obj)
 {
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (obj);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (obj);
 
 	g_object_unref (soc->component);
 
@@ -110,7 +110,7 @@ static SheetObjectView *
 gnm_soc_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmPane *pane = GNM_PANE (container);
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (so);
 	GocItem *view = goc_item_new (pane->object_views,
 		so_component_goc_view_get_type (),
 		NULL);
@@ -147,7 +147,7 @@ gnm_soc_get_target_list (SheetObject const *so)
 static GtkTargetList *
 gnm_soc_get_object_target_list (SheetObject const *so)
 {
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (so);
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
 	if (soc && soc->component)
 		gtk_target_list_add (tl,
@@ -159,13 +159,13 @@ static void
 gnm_soc_write_image (SheetObject const *so, char const *format, double resolution,
 		     GsfOutput *output, GError **err)
 {
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (so);
 	gboolean res = FALSE;
 	double coords[4];
 	double w, h;
 
 	if (so->sheet) {
-		sheet_object_position_pts_get (SHEET_OBJECT (so), coords);
+		sheet_object_position_pts_get (GNM_SO (so), coords);
 		w = fabs (coords[2] - coords[0]) + 1.;
 		h = fabs (coords[3] - coords[1]) + 1.;
 	} else {
@@ -188,9 +188,9 @@ gnm_soc_write_image (SheetObject const *so, char const *format, double resolutio
 static void
 soc_cb_save_as (SheetObject *so, SheetControl *sc)
 {
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (so);
 	/* FIXME: This violates model gui barrier */
-	WBCGtk *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	WBCGtk *wbcg = scg_wbcg (GNM_SCG (sc));
 	GtkWidget *dlg = gtk_file_chooser_dialog_new (_("Save as"),
 	                                              GTK_WINDOW (wbcg_toplevel (wbcg)),
 	                                              GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -233,7 +233,7 @@ soc_cb_save_as_image (SheetObject *so, SheetControl *sc)
 	GSList *l;
 	GOImageFormat selected_format;
 	GOImageFormatInfo const *format_info;
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (so);
 	double resolution;
 
 	g_return_if_fail (soc != NULL);
@@ -244,7 +244,7 @@ soc_cb_save_as_image (SheetObject *so, SheetControl *sc)
 	selected_format = GPOINTER_TO_UINT (l->data);
 
 	/* FIXME: This violates model gui barrier */
-	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	wbcg = scg_wbcg (GNM_SCG (sc));
 	uri = go_gui_get_image_save_info (wbcg_toplevel (wbcg), l, &selected_format, &resolution);
 	if (!uri)
 		goto out;
@@ -284,7 +284,7 @@ gnm_soc_write_object (SheetObject const *so, char const *format,
 		      GsfOutput *output, GError **err,
 		      GnmConventions const *convs)
 {
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (so);
 	char *buf;
 	int length;
 	gpointer user_data = NULL;
@@ -299,7 +299,7 @@ static void
 gnm_soc_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 		       GnmConventions const *convs)
 {
-	SheetObjectComponent const *soc = SHEET_OBJECT_COMPONENT (so);
+	SheetObjectComponent const *soc = GNM_SO_COMPONENT (so);
 	go_component_write_xml_sax (soc->component, output);
 }
 
@@ -320,7 +320,7 @@ gnm_soc_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 static void
 gnm_soc_copy (SheetObject *dst, SheetObject const *src)
 {
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (src);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (src);
 	GOComponent *component = go_component_duplicate (soc->component);
 	sheet_object_component_set_component (dst, component);
 	g_object_unref (component);
@@ -329,7 +329,7 @@ gnm_soc_copy (SheetObject *dst, SheetObject const *src)
 static void
 gnm_soc_default_size (SheetObject const *so, double *w, double *h)
 {
-	SheetObjectComponent const *soc = SHEET_OBJECT_COMPONENT (so);
+	SheetObjectComponent const *soc = GNM_SO_COMPONENT (so);
 	if (soc->component && !go_component_is_resizable (soc->component)) {
 		go_component_get_size (soc->component, w, h);
 		*w = GO_IN_TO_PT (*w);
@@ -350,7 +350,7 @@ typedef struct {
 static void
 component_changed_cb (GOComponent *component, gnm_soc_user_config_t *data)
 {
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (data->so);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (data->so);
 	cmd_so_component_config (data->wbc, data->so, G_OBJECT (component), G_OBJECT (soc->component));
 }
 
@@ -366,25 +366,25 @@ destroy_cb ( gnm_soc_user_config_t *data)
 static void
 gnm_soc_user_config (SheetObject *so, SheetControl *sc)
 {
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (so);
 	GtkWidget *w;
 	GOComponent *new_comp;
 
 	g_return_if_fail (soc && soc->component);
 
-	go_component_set_command_context (soc->component, GO_CMD_CONTEXT (scg_wbcg (SHEET_CONTROL_GUI (sc))));
+	go_component_set_command_context (soc->component, GO_CMD_CONTEXT (scg_wbcg (GNM_SCG (sc))));
 	new_comp = go_component_duplicate (soc->component);
-	go_component_set_command_context (new_comp, GO_CMD_CONTEXT (scg_wbcg (SHEET_CONTROL_GUI (sc))));
+	go_component_set_command_context (new_comp, GO_CMD_CONTEXT (scg_wbcg (GNM_SCG (sc))));
 	w = (GtkWidget *) go_component_edit (new_comp);
 	go_component_set_command_context (soc->component, NULL);
 	if (w) {
 		gnm_soc_user_config_t *data = g_new0 (gnm_soc_user_config_t, 1);
 		data->so = so;
 		data->component = new_comp;
-		data->wbc = GNM_WBC (scg_wbcg (SHEET_CONTROL_GUI (sc)));
+		data->wbc = GNM_WBC (scg_wbcg (GNM_SCG (sc)));
 		data->signal = g_signal_connect (new_comp, "changed", G_CALLBACK (component_changed_cb), data);
 		g_object_set_data_full (G_OBJECT (w), "editor", data, (GDestroyNotify) destroy_cb);
-		wbc_gtk_attach_guru (scg_wbcg (SHEET_CONTROL_GUI (sc)), w);
+		wbc_gtk_attach_guru (scg_wbcg (GNM_SCG (sc)), w);
 	}
 }
 
@@ -392,7 +392,7 @@ static void
 gnm_soc_draw_cairo (SheetObject const *so, cairo_t *cr,
 			  double width, double height)
 {
-	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	SheetObjectComponent *soc = GNM_SO_COMPONENT (so);
 	g_return_if_fail (soc && soc->component);
 
 	go_component_render (soc->component, cr, width, height);
@@ -424,7 +424,7 @@ gnm_soc_class_init (GObjectClass *klass)
 static void
 gnm_soc_init (GObject *obj)
 {
-	SheetObject *so = SHEET_OBJECT (obj);
+	SheetObject *so = GNM_SO (obj);
 	so->anchor.base.direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 }
 
@@ -457,9 +457,9 @@ GSF_CLASS_FULL (SheetObjectComponent, sheet_object_component,
 SheetObject *
 sheet_object_component_new (GOComponent *component)
 {
-	SheetObjectComponent *soc = g_object_new (SHEET_OBJECT_COMPONENT_TYPE, NULL);
-	sheet_object_component_set_component (SHEET_OBJECT (soc), component);
-	return SHEET_OBJECT (soc);
+	SheetObjectComponent *soc = g_object_new (GNM_SO_COMPONENT_TYPE, NULL);
+	sheet_object_component_set_component (GNM_SO (soc), component);
+	return GNM_SO (soc);
 }
 
 /**
@@ -484,7 +484,7 @@ sheet_object_component_set_component (SheetObject *so, GOComponent *component)
 	GnmPane *pane = (l && l->data)? GNM_PANE (GOC_ITEM (l->data)->canvas): NULL;
 
 	g_return_if_fail (GNM_IS_SO_COMPONENT (so));
-	soc = SHEET_OBJECT_COMPONENT (so);
+	soc = GNM_SO_COMPONENT (so);
 	if (soc->component != NULL) {
 		go_component_stop_editing (soc->component);
 		g_object_unref (soc->component);

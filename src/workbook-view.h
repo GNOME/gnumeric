@@ -52,10 +52,9 @@ typedef struct {
 	void (*sheet_entered) (Sheet *sheet);
 } WorkbookViewClass;
 
-#define WORKBOOK_VIEW_TYPE     (workbook_view_get_type ())
-#define WORKBOOK_VIEW(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), WORKBOOK_VIEW_TYPE, WorkbookView))
-#define WORKBOOK_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WORKBOOK_VIEW_TYPE, WorkbookViewClass))
-#define IS_WORKBOOK_VIEW(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_VIEW_TYPE))
+#define GNM_WORKBOOK_VIEW_TYPE     (workbook_view_get_type ())
+#define GNM_WORKBOOK_VIEW(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_WORKBOOK_VIEW_TYPE, WorkbookView))
+#define GNM_IS_WORKBOOK_VIEW(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_WORKBOOK_VIEW_TYPE))
 
 /* Lifecycle */
 GType		 workbook_view_get_type	  (void);

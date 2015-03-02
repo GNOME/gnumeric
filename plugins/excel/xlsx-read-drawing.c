@@ -3034,7 +3034,7 @@ static void
 xlsx_drawing_picture (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	state->so = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
+	state->so = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
 }
 
 static void
@@ -3054,7 +3054,7 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 			g_return_if_fail (input != NULL);
 			size = gsf_input_size (input);
 			data = (gpointer)gsf_input_read (input, size, NULL);
-			sheet_object_image_set_image (SHEET_OBJECT_IMAGE (state->so),
+			sheet_object_image_set_image (GNM_SO_IMAGE (state->so),
 						      NULL, data, size, TRUE);
 			g_object_unref (input);
 	}
@@ -3505,7 +3505,7 @@ xlsx_vml_client_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 	} else if (typ == G_TYPE_NONE) {
 		g_printerr ("Unhandled object of type %s\n", tname);
 	} else {
-		state->so = SHEET_OBJECT (g_object_new (typ, NULL));
+		state->so = GNM_SO (g_object_new (typ, NULL));
 		state->so_direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 		state->pending_objects = g_slist_prepend (state->pending_objects, state->so);
 		if (state->zindex >= 1)

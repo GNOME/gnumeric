@@ -171,7 +171,7 @@ sof_default_style (void)
 static void
 gnm_so_filled_user_config (SheetObject *so, SheetControl *sc)
 {
-	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
+	dialog_so_styled (scg_wbcg (GNM_SCG (sc)), G_OBJECT (so),
 			  sof_default_style (),
 			  _("Filled Object Properties"),
 			  SO_STYLED_TEXT);
@@ -473,7 +473,7 @@ gnm_so_filled_get_property (GObject *obj, guint param_id,
 		g_value_set_boxed (value, sof->markup);
 		break;
 	case SOF_PROP_DOCUMENT:
-		g_value_set_object (value, sheet_object_get_sheet (SHEET_OBJECT (obj))->workbook);
+		g_value_set_object (value, sheet_object_get_sheet (GNM_SO (obj))->workbook);
 		break;
 	default :
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -547,7 +547,7 @@ gnm_so_filled_init (GObject *obj)
 	sof->markup = NULL;
 	sof->margin_pts.top  = sof->margin_pts.bottom = 3;
 	sof->margin_pts.left = sof->margin_pts.right  = 5;
-	SHEET_OBJECT (obj)->anchor.base.direction = GOD_ANCHOR_DIR_NONE_MASK;
+	GNM_SO (obj)->anchor.base.direction = GOD_ANCHOR_DIR_NONE_MASK;
 }
 
 GSF_CLASS (GnmSOFilled, gnm_so_filled,

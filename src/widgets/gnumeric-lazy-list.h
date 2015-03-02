@@ -37,12 +37,9 @@
 
 G_BEGIN_DECLS
 
-#define GNUMERIC_TYPE_LAZY_LIST              (gnumeric_lazy_list_get_type ())
-#define GNUMERIC_LAZY_LIST(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNUMERIC_TYPE_LAZY_LIST, GnumericLazyList))
-#define GNUMERIC_LAZY_LIST_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), GNUMERIC_TYPE_LAZY_LIST, GnumericLazyListClass))
-#define GNUMERIC_IS_LAZY_LIST(obj)           (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNUMERIC_TYPE_LAZY_LIST))
-#define GNUMERIC_IS_LAZY_LIST_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), GNUMERIC_TYPE_LAZY_LIST))
-#define GNUMERIC_LAZY_LIST_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), GNUMERIC_TYPE_LAZY_LIST, GnumericLazyListClass))
+#define GNM_LAZY_LIST_TYPE              (gnumeric_lazy_list_get_type ())
+#define GNM_LAZY_LIST(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_LAZY_LIST_TYPE, GnumericLazyList))
+#define GNM_IS_LAZY_LIST(obj)           (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNM_LAZY_LIST_TYPE))
 
 
 typedef struct _GnumericLazyList       GnumericLazyList;

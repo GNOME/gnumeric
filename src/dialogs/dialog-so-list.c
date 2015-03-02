@@ -159,7 +159,7 @@ dialog_so_list (WBCGtk *wbcg, GObject *so)
 		return;
 
 	state = g_new0 (GnmDialogSOList, 1);
-	if (so_list_init (state, wbcg, SHEET_OBJECT (so))) {
+	if (so_list_init (state, wbcg, GNM_SO (so))) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 			_("Could not create the List Property dialog."));
 		g_free (state);

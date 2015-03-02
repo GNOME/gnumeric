@@ -29,9 +29,9 @@
 
 G_BEGIN_DECLS
 
-#define SHEET_OBJECT_COMPONENT_TYPE  (sheet_object_component_get_type ())
-#define GNM_IS_SO_COMPONENT(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_COMPONENT_TYPE))
-#define SHEET_OBJECT_COMPONENT(o)	 (G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_OBJECT_COMPONENT_TYPE, SheetObjectComponent))
+#define GNM_SO_COMPONENT_TYPE  (sheet_object_component_get_type ())
+#define GNM_IS_SO_COMPONENT(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SO_COMPONENT_TYPE))
+#define GNM_SO_COMPONENT(o)	 (G_TYPE_CHECK_INSTANCE_CAST((o), GNM_SO_COMPONENT_TYPE, SheetObjectComponent))
 
 GType	     sheet_object_component_get_type (void);
 SheetObject *sheet_object_component_new  (GOComponent *component);
