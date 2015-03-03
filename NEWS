@@ -30,7 +30,7 @@ Morten:
 	* SheetObjectImage fixes.
 	* Fix problem reading images from xls.
 	* Namespace fixes
-
+	* Test suite improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.20
