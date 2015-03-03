@@ -3043,7 +3043,7 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	g_return_if_fail (GNM_IS_SO_IMAGE (state->so));
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (!strcmp (attrs[0], "r:embed")) {
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "embed")) {
 			GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_id (
 				gsf_xml_in_get_input (xin), attrs[1]);
 			GsfInput *input = gsf_open_pkg_open_rel (
