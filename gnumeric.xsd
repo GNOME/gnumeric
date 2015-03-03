@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-            xmlns:gnm="http://www.gnumeric.org/v10.dtd"
+            xmlns:gnm="http://www.gnumeric.org/v14.dtd"
 	    xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
-            targetNamespace="http://www.gnumeric.org/v10.dtd"
+            targetNamespace="http://www.gnumeric.org/v14.dtd"
             elementFormDefault="qualified"
             attributeFormDefault="unqualified">
 
@@ -20,6 +20,7 @@
 	    updated for 1.7.91 in Nov 2007	jody@gnome.org
 	    partially updated for 1.10.17 in July 2011	aguelzow@pyrshep.ca
 	    partially updated for 1.12.13 in March 2014	terra@gnome.org
+	    updated for 1.12.21 in Feb 2015	terra@gnome.org
         </xs:documentation>
     </xs:annotation>
     

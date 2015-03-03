@@ -1467,7 +1467,7 @@ gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs,
 
 	/* backwards compat, must be first */
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gnm",
-		"http://www.gnumeric.org/v10.dtd");
+		"http://www.gnumeric.org/v14.dtd");
 #if 0 /* seems to break meta data */
 	/* default namespace added for 1.8 */
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns",

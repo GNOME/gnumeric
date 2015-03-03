@@ -82,6 +82,9 @@
 #include <string.h>
 #include <errno.h>
 
+/* libgsf defines OO_NS_OFFICE to be 0, so we need to take something different for GNM */
+#define GNM		100
+
 static void
 xml_sax_barf (const char *locus, const char *reason)
 {
@@ -139,7 +142,7 @@ gnm_xml_attr_double (xmlChar const * const *attrs, char const *name, double * re
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (CXML2C (attrs[0]), name))
+	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
 	tmp = go_strtod (CXML2C (attrs[1]), &end);
@@ -167,10 +170,10 @@ gnm_xml_attr_bool (xmlChar const * const *attrs, char const *name, gboolean *res
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (CXML2C (attrs[0]), name))
+	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
-	*res = g_ascii_strcasecmp (CXML2C (attrs[1]), "false") && !attr_eq (attrs[1], "0");
+	*res = g_ascii_strcasecmp (CXML2C (attrs[1]), "false") && strcmp (CXML2C (attrs[1]), "0");
 
 	return TRUE;
 }
@@ -185,7 +188,7 @@ gnm_xml_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (CXML2C (attrs[0]), name))
+	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
 	errno = 0;
@@ -215,7 +218,7 @@ xml_sax_attr_enum (xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (CXML2C (attrs[0]), name))
+	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
 	eclass = G_ENUM_CLASS (g_type_class_ref (etype));
@@ -240,7 +243,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (CXML2C (attrs[0]), name))
+	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
 	if (cellpos_parse (CXML2C (attrs[1]), gnm_sheet_get_size (sheet), val, TRUE) == NULL) {
@@ -260,7 +263,7 @@ xml_sax_attr_color (xmlChar const * const *attrs, char const *name, GnmColor **r
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (CXML2C (attrs[0]), name))
+	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
 	if (sscanf (CXML2C (attrs[1]), "%X:%X:%X:%X", &red, &green, &blue, &alpha) < 3){
@@ -461,13 +464,22 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	/*
+	 * NOTE: If we read a file with a dtd that is newer, i.e., from the
+	 * future, then we will not get here!  For that reason we also muck
+	 * with ->version in xml_sax_version.
+	 */
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (strcmp (CXML2C (attrs[0]), "xmlns:gmr") == 0 ||
 		    strcmp (CXML2C (attrs[0]), "xmlns:gnm") == 0) {
 			static struct {
 				char const * const id;
 				GnumericXMLVersion const version;
 			} const GnumericVersions [] = {
+				{ "http://www.gnumeric.org/v14.dtd", GNM_XML_V14 },	/* 1.12.21 */
+				{ "http://www.gnumeric.org/v13.dtd", GNM_XML_V13 },	/* 1.7.7 */
+				{ "http://www.gnumeric.org/v12.dtd", GNM_XML_V12 },	/* 1.7.3 */
+				{ "http://www.gnumeric.org/v11.dtd", GNM_XML_V11 },	/* 1.7.0 */
 				{ "http://www.gnumeric.org/v10.dtd", GNM_XML_V10 },	/* 1.0.3 */
 				{ "http://www.gnumeric.org/v9.dtd", GNM_XML_V9 },	/* 0.73 */
 				{ "http://www.gnumeric.org/v8.dtd", GNM_XML_V8 },	/* 0.71 */
@@ -482,7 +494,7 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 			};
 			int i;
 			for (i = 0 ; GnumericVersions [i].id != NULL ; ++i )
-				if (attr_eq (attrs[1], GnumericVersions [i].id)) {
+				if (strcmp (CXML2C (attrs[1]), GnumericVersions [i].id) == 0) {
 					if (state->version != GNM_XML_UNKNOWN)
 						go_io_warning (state->context,
 							_("Multiple version specifications.  Assuming %d"),
@@ -496,6 +508,7 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (attr_eq (attrs[0], "xsi:schemaLocation")) {
 		} else
 			unknown_attr (xin, attrs);
+	}
 }
 
 static void
@@ -518,16 +531,22 @@ xml_sax_version (GsfXMLIn *xin, xmlChar const **attrs)
 	int version;
 
 	state->version = GNM_XML_V11;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gnm_xml_attr_int (attrs, "Epoch", &major)) ;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_int (attrs, "Epoch", &epoch))
+			/* Nothing */ ;
 		else if (gnm_xml_attr_int (attrs, "Major", &major))
 			/* Nothing */ ;
 		else if (gnm_xml_attr_int (attrs, "Minor", &minor))
 			/* Nothing */ ;
+	}
 
 	version = (epoch * 100 + major) * 100 + minor;
-	if (major >= 7) {
-		if (version >= 10705)
+	if (state->version == GNM_XML_UNKNOWN && version >= 10700) {
+		if (version >= 11221)
+			state->version = GNM_XML_V14;
+		else if (version >= 10707)
+			state->version = GNM_XML_V13;
+		else if (version >= 10705)
 			state->version = GNM_XML_V12;
 		else if (version >= 10700)
 			state->version = GNM_XML_V11;
@@ -986,7 +1005,7 @@ xml_sax_print_scale (GsfXMLIn *xin, xmlChar const **attrs)
 	pi = state->sheet->print_info;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "type"))
-			pi->scaling.type = attr_eq (attrs[1], "percentage")
+			pi->scaling.type = !strcmp (CXML2C (attrs[1]), "percentage")
 				? PRINT_SCALE_PERCENTAGE : PRINT_SCALE_FIT_PAGES;
 		else if (gnm_xml_attr_double (attrs, "percentage", &percentage))
 			pi->scaling.percentage.x = pi->scaling.percentage.y = percentage;
@@ -2933,10 +2952,10 @@ xml_sax_go_doc (GsfXMLIn *xin, xmlChar const **attrs)
 
 /****************************************************************************/
 
-/* libgsf defines OO_NS_OFFICE to be 0, so we need to take something different for GNM */
-#define GNM		100
-
 static GsfXMLInNS const content_ns[] = {
+	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v13.dtd"),
+	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v12.dtd"),
+	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v11.dtd"),
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v10.dtd"),
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v9.dtd"),
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v8.dtd"),
