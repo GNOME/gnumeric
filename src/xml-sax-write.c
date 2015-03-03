@@ -1465,9 +1465,14 @@ gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs,
 
 	gsf_xml_out_start_element (state.output, GNM "Workbook");
 
-	/* backwards compat, must be first */
+	/*
+	 * As long as we want older versions of Gnumeric to be able to read
+	 * the files we produce, we should not increase the version number
+	 * in the file we write.  Until 1.12.21, v10 was the highest listed
+	 * xml-sax-read.c's content_ns.
+	 */
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gnm",
-		"http://www.gnumeric.org/v14.dtd");
+		"http://www.gnumeric.org/v10.dtd");
 #if 0 /* seems to break meta data */
 	/* default namespace added for 1.8 */
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns",

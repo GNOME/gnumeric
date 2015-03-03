@@ -2953,6 +2953,7 @@ xml_sax_go_doc (GsfXMLIn *xin, xmlChar const **attrs)
 /****************************************************************************/
 
 static GsfXMLInNS const content_ns[] = {
+	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v14.dtd"), /* future */
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v13.dtd"),
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v12.dtd"),
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v11.dtd"),
