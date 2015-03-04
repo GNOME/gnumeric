@@ -1,3 +1,7 @@
+2015-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.21
+
 2015-03-02  Morten Welinder  <terra@gnome.org>
 
 	* normalize-gnumeric: Blind out schema version.

@@ -3542,6 +3542,7 @@ The depreciation coefficient used is:
 @SYNTAX=MMULT(mat1,mat2)
 @ARGUMENTDESCRIPTION=@{mat1}: a matrix
 @{mat2}: a matrix
+@NOTE=The number of columns in @{mat1} must equal the number of rows in @{mat2}; otherwise #VALUE! is returned.  The result of MMULT is an array, in which the number of rows is the same as in @{mat1}), and the number of columns is the same as in (@{mat2}).
 @EXCEL=This function is Excel compatible.
 @SEEALSO=TRANSPOSE,MINVERSE
 

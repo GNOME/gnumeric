@@ -1,3 +1,7 @@
+2015-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.21
+
 2015-02-28  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_apply_style_props): Simplify using

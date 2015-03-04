@@ -11991,6 +11991,10 @@
         <para><parameter>mat2</parameter>: a matrix</para>
       </refsect1>
       <refsect1>
+        <title>Note</title>
+        <para>The number of columns in <parameter>mat1</parameter> must equal the number of rows in <parameter>mat2</parameter>; otherwise #VALUE! is returned.  The result of <function>MMULT</function> is an array, in which the number of rows is the same as in <parameter>mat1</parameter>), and the number of columns is the same as in (<parameter>mat2</parameter>).</para>
+      </refsect1>
+      <refsect1>
         <title>Microsoft Excel Compatibility</title>
         <para>This function is Excel compatible.</para>
       </refsect1>
