@@ -1,3 +1,8 @@
+2015-03-04  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_drawing_objects): Fix
+	relationship.  Write a prstGeom for the image.
+
 2015-03-01  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (ms_sheet_realize_obj): Don't let the sheet

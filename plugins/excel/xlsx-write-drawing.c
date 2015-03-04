@@ -1263,7 +1263,7 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 				 NULL);
 			rId1 = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (image_part),
 							    GSF_OUTFILE_OPEN_PKG (drawing_part),
-							    ns_rel_chart);
+							    ns_rel_image);
 			sheet_object_write_image (so, NULL, -1, image_part, NULL);
 			gsf_output_close (image_part);
 			g_object_unref (image_part);
@@ -1369,6 +1369,10 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			gsf_xml_out_end_element (xml); /* </xdr:blipFill> */
 
 			gsf_xml_out_start_element (xml, "xdr:spPr");
+			gsf_xml_out_start_element (xml, "a:prstGeom");
+			gsf_xml_out_add_cstr (xml, "prst", "rect");
+			gsf_xml_out_simple_element (xml, "a:avLst", NULL);
+			gsf_xml_out_end_element (xml); /* </a:prstGeom> */
 			gsf_xml_out_end_element (xml); /* </xdr:spPr> */
 
 			gsf_xml_out_end_element (xml); /* </xdr:pic> */

@@ -109,6 +109,8 @@ static char const *ns_rel_draw	 = "http://schemas.openxmlformats.org/officeDocum
 static char const *ns_rel_leg_draw = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing";
 static char const *ns_rel_chart	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart";
 static char const *ns_rel_com	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments";
+static char const *ns_rel_image	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
+
 
 typedef struct {
 	unsigned int count;
