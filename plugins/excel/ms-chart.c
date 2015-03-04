@@ -4356,10 +4356,10 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GOStyledObject const 
 	chart_write_BEGIN (s);
 
 	/* BIFF_CHART_pos, optional we use auto positioning */
-	ms_biff_put_2byte (s->bp, BIFF_CHART_fontx,
-			   (style && !style->font.auto_font)
-			   ? excel_font_from_go_font (&s->ewb->base, style->font.font)
-			   : 5);
+	if (style && !style->font.auto_font)
+		ms_biff_put_2byte (s->bp, BIFF_CHART_fontx,
+				   excel_font_from_go_font (&s->ewb->base, style->font.font));
+
 	chart_write_AI (s, src, 0, 1);
 	if (obj && purpose) {
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_objectlink, 6);
