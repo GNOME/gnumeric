@@ -121,6 +121,7 @@ typedef struct {
 	char	*cross_id;
 	gnm_float cross_value;
 	gboolean invert_axis;
+	double logbase;
 
 	double axis_elements[GOG_AXIS_ELEM_MAX_ENTRY];
 	guint8 axis_element_set[GOG_AXIS_ELEM_MAX_ENTRY];

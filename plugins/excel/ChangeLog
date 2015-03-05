@@ -1,3 +1,8 @@
+2015-03-04  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_create_axis_object): Handle log axis.
+	* xlsx-write-drawing.c (xlsx_write_axis): Ditto.
+
 2015-03-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.21

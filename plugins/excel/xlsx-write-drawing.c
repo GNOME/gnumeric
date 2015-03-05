@@ -661,6 +661,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	GOFormat *format;
 	double d;
 	gboolean user_defined;
+	char *map_name;
 
 #ifdef DEBUG_AXIS
 	g_printerr ("Writing axis %s [id=%d].  (discrete = %d)\n",
@@ -674,13 +675,22 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	else
 		gsf_xml_out_start_element (xml, "c:valAx");
 	xlsx_write_chart_uint (xml, "c:axId", 0, xlsx_get_axid (state, axis));
+
 	gsf_xml_out_start_element (xml, "c:scaling");
-	xlsx_write_chart_cstr_unchecked (xml, "c:orientation", gog_axis_is_inverted (axis)? "maxMin": "minMax");
+	g_object_get (axis, "map-name", &map_name, NULL);
+	if (g_strcmp0 (map_name, "Log") == 0) {
+		double base = 10;
+		xlsx_write_chart_float (xml, "c:logBase", go_nan, base);
+	}
+	g_free (map_name);
+	xlsx_write_chart_cstr_unchecked (xml, "c:orientation",
+					 gog_axis_is_inverted (axis)? "maxMin": "minMax");
 	d = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAX, &user_defined);
 	if (user_defined) xlsx_write_chart_float (xml, "c:max", go_nan, d);
 	d = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MIN, &user_defined);
 	if (user_defined) xlsx_write_chart_float (xml, "c:min", go_nan, d);
 	gsf_xml_out_end_element (xml);
+
 	xlsx_write_chart_uint (xml, "c:delete", 1, 0);
 	/* FIXME position might be "t" or "r" */
 	xlsx_write_chart_cstr_unchecked (xml, "c:axPos", (at == GOG_AXIS_X || at == GOG_AXIS_CIRCULAR)? "b": "l");

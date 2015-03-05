@@ -684,6 +684,7 @@ xlsx_plot_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 				res->cross	= GOG_AXIS_CROSS;
 				res->cross_value = go_nan;
 				res->invert_axis = FALSE;
+				res->logbase = 0;
 				g_hash_table_replace (state->axis.by_id, res->id, res);
 #ifdef DEBUG_AXIS
 				g_printerr ("create info for %s = %p\n", attrs[1], res);
@@ -783,10 +784,9 @@ static void
 xlsx_chart_logbase (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int base;
-	if (state->axis.info && simple_int (xin, attrs, &base))
-		g_object_set (G_OBJECT (state->axis.obj),
-			"map-name", "Log", NULL);
+	gnm_float base;
+	if (state->axis.info && simple_float (xin, attrs, &base) && base >= 2 && base <= 1000)
+		state->axis.info->logbase = base;
 }
 
 /* See bug 743347 for discussion.  */
@@ -862,6 +862,13 @@ xlsx_create_axis_object (XLSXReadState *state)
 		g_object_set (G_OBJECT (state->axis.obj),
 			      "invisible", state->axis.info->deleted,
 			      "invert-axis", state->axis.info->invert_axis, NULL);
+
+		if (state->axis.info->logbase > 0) {
+			g_object_set (G_OBJECT (state->axis.obj),
+				      "map-name", "Log",
+				      NULL);
+			/* Base?  */
+		}
 	}
 }
 
