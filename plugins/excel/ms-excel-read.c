@@ -644,12 +644,12 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 						excel_fill_bmp_header(data, blip->data, blip->data_len);
 						memcpy(data + BMP_HDR_SIZE, blip->data, blip->data_len);
 						sheet_object_image_set_image (GNM_SO_IMAGE (so),
-									      blip->type, data, blip->data_len + BMP_HDR_SIZE, FALSE);
+									      blip->type, data, blip->data_len + BMP_HDR_SIZE);
+						g_free (data);
 					}
 			        } else {
 					sheet_object_image_set_image (GNM_SO_IMAGE (so),
-								      blip->type, blip->data, blip->data_len,
-								      TRUE);
+								      blip->type, blip->data, blip->data_len);
 				}
 			}
 		} else if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
@@ -657,7 +657,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			GdkPixbuf *pixbuf = GDK_PIXBUF (attr->v.v_object);
 
 			if (pixbuf) {
-				gchar *buf;
+				gchar *buf = NULL;
 				gsize buf_size;
 
 				gdk_pixbuf_save_to_buffer
@@ -666,8 +666,9 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 				if (buf_size > 0) {
 					sheet_object_image_set_image
 						(GNM_SO_IMAGE (so),
-						 "png", buf, buf_size, FALSE);
+						 "png", buf, buf_size);
 				}
+				g_free (buf);
 			}
 		}
 		if ((attr = ms_obj_attr_bag_lookup (obj->attrs,

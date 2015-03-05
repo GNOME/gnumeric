@@ -127,7 +127,6 @@ enum {
  * @type:
  * @data:
  * @data_len
- * @copy_data:
  *
  * Assign raw data and type to @soi.
  * yet.
@@ -135,9 +134,8 @@ enum {
 void
 sheet_object_image_set_image (SheetObjectImage *soi,
 			      char const   *type,
-			      guint8       *data,
-			      unsigned      data_len,
-			      gboolean      copy_data)
+			      gconstpointer data,
+			      unsigned      data_len)
 {
 	g_return_if_fail (GNM_IS_SO_IMAGE (soi));
 
@@ -147,9 +145,6 @@ sheet_object_image_set_image (SheetObjectImage *soi,
 		g_object_unref (soi->image);
 	soi->image = go_image_new_from_data (soi->type, data, data_len,
 	                                     ((soi->type == NULL)? &soi->type: NULL), NULL);
-
-	if (!copy_data)
-		g_free (data);
 
 	if (soi->sheet_object.sheet != NULL) {
 		/* Share within document.  */

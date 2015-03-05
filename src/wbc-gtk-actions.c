@@ -1160,7 +1160,7 @@ static GNM_ACTION_DEF (cb_insert_image)
 			unsigned len = gsf_input_size (input);
 			guint8 const *data = gsf_input_read (input, len, NULL);
 			SheetObjectImage *soi = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
-			sheet_object_image_set_image (soi, "", (guint8 *)data, len, TRUE);
+			sheet_object_image_set_image (soi, "", data, len);
 			wbcg_insert_object (wbcg, GNM_SO (soi));
 			g_object_unref (input);
 		} else

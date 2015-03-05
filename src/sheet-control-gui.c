@@ -3939,7 +3939,7 @@ scg_image_create (SheetControlGUI *scg, SheetObjectAnchor *anchor,
 	scg_mode_edit (scg);
 
 	soi = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
-	sheet_object_image_set_image (soi, "", (guint8 *)data, len, TRUE);
+	sheet_object_image_set_image (soi, "", data, len);
 
 	so = GNM_SO (soi);
 	sheet_object_set_anchor (so, anchor);

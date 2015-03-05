@@ -15,9 +15,8 @@ typedef struct _SheetObjectImage SheetObjectImage;
 GType	     sheet_object_image_get_type (void);
 void sheet_object_image_set_image (SheetObjectImage *soi,
 				   char const   *type,
-				   guint8       *data,
-				   unsigned	 data_len,
-				   gboolean      copy_data);
+				   gconstpointer data,
+				   unsigned	 data_len);
 void sheet_object_image_set_crop (SheetObjectImage *soi,
 				  double crop_left,  double crop_top,
 				  double crop_right, double crop_bottom);

@@ -8343,7 +8343,7 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 		gsf_off_t len = gsf_input_size (input);
 		guint8 const *data = gsf_input_read (input, len, NULL);
 		soi = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
-		sheet_object_image_set_image (soi, "", (void *)data, len, TRUE);
+		sheet_object_image_set_image (soi, "", data, len);
 
 		state->chart.so = GNM_SO (soi);
 		g_object_unref (input);

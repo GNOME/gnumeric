@@ -3056,13 +3056,13 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 			GsfInput *input = gsf_open_pkg_open_rel (
 			        gsf_xml_in_get_input (xin), rel, NULL);
 			size_t size;
-			gpointer data;
+			gconstpointer data;
 
 			g_return_if_fail (input != NULL);
 			size = gsf_input_size (input);
-			data = (gpointer)gsf_input_read (input, size, NULL);
+			data = gsf_input_read (input, size, NULL);
 			sheet_object_image_set_image (GNM_SO_IMAGE (state->so),
-						      NULL, data, size, TRUE);
+						      NULL, data, size);
 			g_object_unref (input);
 	}
 
