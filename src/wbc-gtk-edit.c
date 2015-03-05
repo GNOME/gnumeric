@@ -965,7 +965,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 	if (cursorp && /* autocompletion code will not work in the edit line */
 	    wbv->do_auto_completion &&
 	    (text == NULL || g_unichar_isalpha (g_utf8_get_char (text)))) {
-		wbcg->auto_complete = (GObject *)gnm_complete_sheet_new (
+		wbcg->auto_complete = gnm_complete_sheet_new (
 			sv->sheet, col, row,
 			workbook_edit_complete_notify, wbcg);
 		wbcg->auto_completing = TRUE;
