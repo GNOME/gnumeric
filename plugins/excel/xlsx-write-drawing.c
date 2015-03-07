@@ -51,11 +51,10 @@ xlsx_write_chart_int (GsfXMLOut *xml, char const *name, int def_val, int val)
 }
 
 static void
-xlsx_write_chart_uint (GsfXMLOut *xml, char const *name, int def_val, int val)
+xlsx_write_chart_uint (GsfXMLOut *xml, char const *name, int val)
 {
 	gsf_xml_out_start_element (xml, name);
-	if (val != def_val)
-		gsf_xml_out_add_uint (xml, "val", val);
+	gsf_xml_out_add_uint (xml, "val", val);
 	gsf_xml_out_end_element (xml);
 }
 
@@ -673,7 +672,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 		gsf_xml_out_start_element (xml, "c:catAx");
 	else
 		gsf_xml_out_start_element (xml, "c:valAx");
-	xlsx_write_chart_uint (xml, "c:axId", 0, xlsx_get_axid (state, axis));
+	xlsx_write_chart_uint (xml, "c:axId", xlsx_get_axid (state, axis));
 
 	gsf_xml_out_start_element (xml, "c:scaling");
 	g_object_get (axis, "map-name", &map_name, NULL);
@@ -690,7 +689,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	if (user_defined) xlsx_write_chart_float (xml, "c:min", d);
 	gsf_xml_out_end_element (xml);
 
-	xlsx_write_chart_uint (xml, "c:delete", 1, 0);
+	xlsx_write_chart_uint (xml, "c:delete", 0);
 	/* FIXME position might be "t" or "r" */
 	xlsx_write_chart_cstr_unchecked (xml, "c:axPos", (at == GOG_AXIS_X || at == GOG_AXIS_CIRCULAR)? "b": "l");
 
@@ -928,9 +927,9 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			xlsx_write_go_style_full (xml, style, &sctx);
 		}
 		if (set_invert)
-			xlsx_write_chart_uint (xml, "c:invertIfNegative", 1, 0);
+			xlsx_write_chart_uint (xml, "c:invertIfNegative", 0);
 		if (explosion > 0.)
-			xlsx_write_chart_uint (xml, "c:explosion", 0, (unsigned) (explosion * 100));
+			xlsx_write_chart_uint (xml, "c:explosion", (unsigned) (explosion * 100));
 
 		children = gog_object_get_children (GOG_OBJECT (ser), NULL);
 
@@ -1085,7 +1084,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	for (i = 0; i < 3; i++) {
 		if (axis_type[i] != GOG_AXIS_UNKNOWN) {
 			GogAxis *axis = gog_plot_get_axis (GOG_PLOT (plot), axis_type[i]);
-			xlsx_write_chart_uint (xml, "c:axId", 0, xlsx_get_axid (state, axis));
+			xlsx_write_chart_uint (xml, "c:axId", xlsx_get_axid (state, axis));
 		}
 	}
 
@@ -1172,7 +1171,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
 	if (state->with_extension)
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:gnmx", ns_gnm_ext);
-	xlsx_write_chart_uint (xml, "c:roundedCorners", 1, 0);
+	xlsx_write_chart_uint (xml, "c:roundedCorners", 0);
 
 	graph = sheet_object_graph_get_gog (so);
 	if (graph != NULL) {
