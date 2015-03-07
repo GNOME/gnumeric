@@ -708,7 +708,7 @@ xlsx_axis_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	/* Push dummy object for now until we can deduce the role.  */
 	xlsx_chart_push_obj (state, NULL);
 #ifdef DEBUG_AXIS
-	g_printerr ("Create dummy object for axis\n");
+	g_printerr ("Create NULL object for axis\n");
 #endif
 }
 
@@ -804,6 +804,18 @@ xlsx_create_axis_object (XLSXReadState *state)
 
 	if (state->cur_obj)
 		return;
+
+	if (state->axis.info && state->axis.info->axis) {
+		axis = GOG_OBJECT (state->axis.obj = state->axis.info->axis);
+		/* Replace dummy object.  */
+		xlsx_chart_pop_obj (state);
+		xlsx_chart_push_obj (state, axis);
+#ifdef DEBUG_AXIS
+		g_printerr ("Re-using axis object %s with role %s\n",
+			    gog_object_get_name (axis), role);
+#endif
+		return;
+	}
 
 	dummy = (!state->axis.info || !state->axis.info->plots);
 	if (dummy) {

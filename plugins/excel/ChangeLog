@@ -1,5 +1,8 @@
 2015-03-07  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write-drawing.c (xlsx_write_plots): Write all plots, not
+	just the first one.
+
 	* xlsx-write.c: Use new go_xml_out_add_double.
 
 	* xlsx-write-drawing.c: Use new go_xml_out_add_double.

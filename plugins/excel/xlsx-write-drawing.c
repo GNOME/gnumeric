@@ -66,7 +66,7 @@ xlsx_write_chart_float (GsfXMLOut *xml, char const *name, double val)
 }
 
 static void
-xlsx_write_plot_1_5_type (GsfXMLOut *xml, GogObject const *plot, gboolean is_barcol)
+xlsx_write_plot_1_5_type (GsfXMLOut *xml, GogPlot const *plot, gboolean is_barcol)
 {
 	char *type;
 	const char *gtype;
@@ -774,7 +774,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 
 
 static void
-xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, GogObject const *plot)
+xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, GogPlot *plot)
 {
 	double explosion = 0.;
 	gboolean vary_by_element;
@@ -1102,18 +1102,12 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 static void
 xlsx_write_plots (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart)
 {
-	GSList *plots;
-	GogObject const *plot;
+	GSList *plots, *l;
+	GogObjectRole const *role = gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot");
 
-	plots = gog_object_get_children
-		(GOG_OBJECT (chart),
-		 gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot"));
-	if (plots != NULL && plots->data != NULL) {
-		plot = plots->data;
-		if (plots->next != NULL) {
-			int n = g_slist_length (plots) - 1;
-			g_warning ("Dropping %d plots from a chart.", n);
-		}
+	plots = gog_object_get_children (GOG_OBJECT (chart), role);
+	for (l = plots; l; l = l->next) {
+		GogPlot *plot = l->data;
 		xlsx_write_one_plot (state, xml, chart, plot);
 	}
 	g_slist_free (plots);
@@ -1180,7 +1174,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 			xlsx_write_one_chart (state, xml, chart1);
 			if (charts->next)
 				g_warning ("Dropping %d charts on the floor!",
-					   g_slist_length (charts));
+					   g_slist_length (charts->next));
 			g_slist_free (charts);
 		}
 	}
