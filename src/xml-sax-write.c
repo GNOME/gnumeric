@@ -363,11 +363,11 @@ xml_write_print_info (GnmOutputXML *state, GnmPrintInformation *pi)
 	gsf_xml_out_start_element (state->output, GNM "Scale");
 	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) {
 		gsf_xml_out_add_cstr_unchecked  (state->output, "type", "percentage");
-		gsf_xml_out_add_float  (state->output, "percentage", pi->scaling.percentage.x, -1);
+		go_xml_out_add_double  (state->output, "percentage", pi->scaling.percentage.x);
 	} else {
 		gsf_xml_out_add_cstr_unchecked  (state->output, "type", "size_fit");
-		gsf_xml_out_add_float  (state->output, "cols", pi->scaling.dim.cols, -1);
-		gsf_xml_out_add_float  (state->output, "rows", pi->scaling.dim.rows, -1);
+		go_xml_out_add_double  (state->output, "cols", pi->scaling.dim.cols);
+		go_xml_out_add_double  (state->output, "rows", pi->scaling.dim.rows);
 	}
 	gsf_xml_out_end_element (state->output);
 
@@ -998,7 +998,7 @@ xml_write_filter_field (GnmOutputXML *state,
 			cond->op[0] & 1 ? TRUE : FALSE);
 		gsf_xml_out_add_bool (state->output, "items",
 			cond->op[0] & 2 ? TRUE : FALSE);
-		gsf_xml_out_add_float (state->output, "count", cond->count, 4);
+		go_xml_out_add_double (state->output, "count", cond->count);
 		break;
 	}
 
@@ -1406,8 +1406,8 @@ xml_write_calculation (GnmOutputXML *state)
 		"EnableIteration",	state->wb->iteration.enabled);
 	gsf_xml_out_add_int (state->output,
 		"MaxIterations",	state->wb->iteration.max_number);
-	gsf_xml_out_add_float (state->output,
-		"IterationTolerance",	state->wb->iteration.tolerance, -1);
+	go_xml_out_add_double (state->output,
+		"IterationTolerance",	state->wb->iteration.tolerance);
 	xml_write_date_conventions_as_attr (state,
 					    workbook_date_conv (state->wb));
 	xml_write_number_system (state);

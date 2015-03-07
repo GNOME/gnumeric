@@ -62,7 +62,7 @@ xlsx_write_pivot_val (XLSXWriteState *state, GsfXMLOut *xml,
 			gsf_xml_out_end_element (xml);
 		} else {
 			gsf_xml_out_start_element (xml, "n");
-			gsf_xml_out_add_float (xml, "v", v->v_float.val, -1);
+			go_xml_out_add_double (xml, "v", v->v_float.val);
 			gsf_xml_out_end_element (xml);
 		}
 		break;
@@ -233,9 +233,9 @@ xlsx_write_pivot_cache_field (XLSXWriteState *state, GsfXMLOut *xml,
 		}
 		if (group_by) gsf_xml_out_add_cstr_unchecked (xml, "groupBy", group_by);
 		if (bucketer->type == GO_VAL_BUCKET_SERIES_LINEAR) {
-			gsf_xml_out_add_float (xml, "startNum",		bucketer->details.series.minimum, -1);
-			gsf_xml_out_add_float (xml, "endNum",		bucketer->details.series.maximum, -1);
-			gsf_xml_out_add_float (xml, "groupInterval",	bucketer->details.series.step, -1);
+			go_xml_out_add_double (xml, "startNum",		bucketer->details.series.minimum);
+			go_xml_out_add_double (xml, "endNum",		bucketer->details.series.maximum);
+			go_xml_out_add_double (xml, "groupInterval",	bucketer->details.series.step);
 		} else {
 			xlsx_write_date (state, xml, "startDate", bucketer->details.dates.minimum);
 			xlsx_write_date (state, xml, "endDate",   bucketer->details.dates.maximum);
@@ -276,8 +276,8 @@ xlsx_write_pivot_cache_definition (XLSXWriteState *state, GsfOutfile *wb_part,
 	if (cache->refreshed_by) gsf_xml_out_add_cstr (xml, "refreshedBy", cache->refreshed_by);
 	if (cache->refreshed_on) {
 		if (state->version == ECMA_376_2006)
-			gsf_xml_out_add_float (xml, "refreshedDate",
-					       go_val_as_float (cache->refreshed_on), -1);
+			go_xml_out_add_double (xml, "refreshedDate",
+					       go_val_as_float (cache->refreshed_on));
 		else {
 			GOFormat const *format = go_format_new_from_XL ("yyyy-mm-dd\"T\"hh:mm:ss");
 			gchar *date = format_value (format, cache->refreshed_on, -1, NULL);

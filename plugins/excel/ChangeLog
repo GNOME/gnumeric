@@ -1,5 +1,12 @@
 2015-03-07  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c: Use new go_xml_out_add_double.
+
+	* xlsx-write-drawing.c: Use new go_xml_out_add_double.
+
+	* xlsx-write-docprops.c (xlsx_write_docprops_app): Use string for
+	version, nont floating point.
+
 	* xlsx-write-drawing.c (xlsx_write_chart_float): Drop def_val
 	argument.
 

@@ -682,7 +682,7 @@ odf_write_plot_style_double (GsfXMLOut *xml, GogObject const *plot,
 {
 	double d;
 	if (gnm_object_has_readable_prop (plot, property, G_TYPE_DOUBLE, &d))
-		gsf_xml_out_add_float (xml, id, d, -1);
+		go_xml_out_add_double (xml, id, d);
 }
 
 static void
@@ -4042,12 +4042,9 @@ odf_write_sheet_control_scrollbar (GnmOOExport *state, SheetObject *so,
 	gsf_xml_out_add_cstr (state->xml, FORM "orientation",
 			      sheet_widget_adjustment_get_horizontal (so) ?
 			      "horizontal" : "vertical");
-	gsf_xml_out_add_float (state->xml, FORM "value",
-		       gtk_adjustment_get_value (adj), -1);
-	gsf_xml_out_add_float (state->xml, FORM "min-value",
-		       gtk_adjustment_get_lower (adj), -1);
-	gsf_xml_out_add_float (state->xml, FORM "max-value",
-		       gtk_adjustment_get_upper (adj), -1);
+	go_xml_out_add_double (state->xml, FORM "value", gtk_adjustment_get_value (adj));
+	go_xml_out_add_double (state->xml, FORM "min-value", gtk_adjustment_get_lower (adj));
+	go_xml_out_add_double (state->xml, FORM "max-value", gtk_adjustment_get_upper (adj));
 	gsf_xml_out_add_int (state->xml, FORM "step-size",
 			     (int)(gtk_adjustment_get_step_increment (adj) + 0.5));
 	gsf_xml_out_add_int (state->xml, FORM "page-step-size",
@@ -4741,8 +4738,8 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "value-type", "date");
 	gsf_xml_out_end_element (state->xml); /* </table:null-date> */
 	gsf_xml_out_start_element (state->xml, TABLE "iteration");
-	gsf_xml_out_add_float (state->xml, TABLE "maximum-difference",
-			       state->wb->iteration.tolerance, -1);
+	go_xml_out_add_double (state->xml, TABLE "maximum-difference",
+			       state->wb->iteration.tolerance);
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "status",
 					state->wb->iteration.enabled ?  "enable" : "disable");
 	gsf_xml_out_add_int (state->xml, TABLE "steps", state->wb->iteration.max_number);
@@ -5723,9 +5720,9 @@ odf_write_arrow_marker_info (GOArrow const *arrow, char const *name, GnmOOExport
 
 	if (state->with_extension) {
 		gsf_xml_out_add_int (state->xml, GNMSTYLE "arrow-type", arrow->typ);
-		gsf_xml_out_add_float (state->xml, GNMSTYLE "arrow-a", arrow->a, -1);
-		gsf_xml_out_add_float (state->xml, GNMSTYLE "arrow-b", arrow->b, -1);
-		gsf_xml_out_add_float (state->xml, GNMSTYLE "arrow-c", arrow->c, -1);
+		go_xml_out_add_double (state->xml, GNMSTYLE "arrow-a", arrow->a);
+		go_xml_out_add_double (state->xml, GNMSTYLE "arrow-b", arrow->b);
+		go_xml_out_add_double (state->xml, GNMSTYLE "arrow-c", arrow->c);
 	}
 
 	gsf_xml_out_add_cstr (state->xml, SVG "viewBox", "0 0 20 30");
@@ -5772,8 +5769,8 @@ odf_write_gradient_info (GOStyle const *style, char const *name, GnmOOExport *st
 	g_free (color);
 
 	if (style->fill.gradient.brightness >= 0.0 && state->with_extension)
-		gsf_xml_out_add_float (state->xml, GNMSTYLE "brightness",
-				       style->fill.gradient.brightness, -1);
+		go_xml_out_add_double (state->xml, GNMSTYLE "brightness",
+				       style->fill.gradient.brightness);
 
 	color = odf_go_color_to_string (style->fill.pattern.fore);
 	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "end-color", color);
@@ -6437,8 +6434,8 @@ odf_write_data_attribute (GnmOOExport *state, GOData const *data, GnmParsePos *p
 				gsf_xml_out_add_cstr (state->xml, c_attribute, 
 						      value_peek_string (v));
 			if (NULL != v && VALUE_IS_FLOAT (v))
-				gsf_xml_out_add_float (state->xml, c_attribute, 
-						       value_get_as_float (v), -1);
+				go_xml_out_add_double (state->xml, c_attribute, 
+						       value_get_as_float (v));
 		}
 	}
 }
@@ -7049,7 +7046,7 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 	tmp = gog_axis_get_entry
 		(GOG_AXIS (axis), GOG_AXIS_ELEM_MIN, &user_defined);
 	if (user_defined) {
-		gsf_xml_out_add_float (state->xml, CHART "minimum", tmp, -1);
+		go_xml_out_add_double (state->xml, CHART "minimum", tmp);
 		if (state->with_extension)
 			odf_add_expr (state, GOG_OBJECT (axis), 0, 
 				      GNMSTYLE "chart-minimum-expression", NULL);
@@ -7057,7 +7054,7 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 	tmp = gog_axis_get_entry
 		(GOG_AXIS (axis), GOG_AXIS_ELEM_MAX, &user_defined);
 	if (user_defined) {
-		gsf_xml_out_add_float (state->xml, CHART "maximum", tmp, -1);
+		go_xml_out_add_double (state->xml, CHART "maximum", tmp);
 		if (state->with_extension)
 			odf_add_expr (state, GOG_OBJECT (axis), 1, 
 				      GNMSTYLE "chart-maximum-expression", NULL);		
@@ -7069,11 +7066,8 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 			= gnm_go_data_get_expr (interval);
 		if (texpr != NULL &&
 		    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT) {
-			double val = value_get_as_float
-				(texpr->expr->constant.value);
-			gsf_xml_out_add_float
-				(state->xml,
-				 CHART "interval-major", val, -1);
+			double val = value_get_as_float (texpr->expr->constant.value);
+			go_xml_out_add_double (state->xml, CHART "interval-major", val);
 
 			interval = gog_dataset_get_dim (GOG_DATASET(axis),3);
 			if (interval != NULL) {
@@ -8463,7 +8457,7 @@ odf_write_plot_style_affine (GsfXMLOut *xml, GogObject const *plot, float interc
 	if (gnm_object_has_readable_prop (plot, "affine", G_TYPE_BOOLEAN, &b)) {
 		odf_add_bool (xml, GNMSTYLE "regression-affine", b);
 		odf_add_bool (xml, LOEXT "regression-force-intercept", !b);
-		gsf_xml_out_add_float (xml, LOEXT "regression-intercept-value", intercept, -1);	
+		go_xml_out_add_double (xml, LOEXT "regression-intercept-value", intercept);	
 	}
 }
 

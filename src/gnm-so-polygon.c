@@ -183,14 +183,13 @@ gnm_so_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 {
 	GnmSOPolygon const *sop = GNM_SO_POLYGON (so);
 	unsigned int ui;
-	int prec = convs ? convs->output.decimal_digits : -1;
 
 	for (ui = 0; ui + 1 < (sop->points ? sop->points->len : 0); ui += 2) {
 		double x = g_array_index (sop->points, double, ui);
 		double y = g_array_index (sop->points, double, ui + 1);
 		gsf_xml_out_start_element (output, "Point");
-		gsf_xml_out_add_float (output, "x", x, prec);
-		gsf_xml_out_add_float (output, "y", y, prec);
+		go_xml_out_add_double (output, "x", x);
+		go_xml_out_add_double (output, "y", y);
 		gsf_xml_out_end_element (output); /* </Point> */
 	}
 

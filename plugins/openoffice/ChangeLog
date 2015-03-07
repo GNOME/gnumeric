@@ -1,3 +1,7 @@
+2015-03-07  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c: Use new go_xml_out_add_double.
+
 2015-03-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.21

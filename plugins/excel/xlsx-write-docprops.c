@@ -284,19 +284,17 @@ xlsx_write_docprops_app (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfil
 		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties");
 	GsfXMLOut *xml = gsf_xml_out_new (part);
 	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb));
-	double version;
+	char *version;
 
 	gsf_xml_out_start_element (xml, "Properties");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_docprops_extended);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:vt", ns_docprops_extended_vt);
-	gsf_xml_out_start_element (xml, "Application");
-	gsf_xml_out_add_cstr_unchecked (xml, NULL, PACKAGE_NAME);
-	gsf_xml_out_end_element (xml); /* </Application> */
-	gsf_xml_out_start_element (xml, "AppVersion");
+	gsf_xml_out_simple_element (xml, "Application", PACKAGE_NAME);
+
 	/*1.10.17 is not permitted for AppVersion, so we need to convert it to 1.1017 */
-	version = GNM_VERSION_EPOCH + 0.01 * GNM_VERSION_MAJOR + 0.0001 * GNM_VERSION_MINOR;
-	gsf_xml_out_add_float (xml, NULL, version, 5);
-	gsf_xml_out_end_element (xml); /* </AppVersion> */
+	version = g_strdup_printf ("%d.%02d%02d", GNM_VERSION_EPOCH, GNM_VERSION_MAJOR, GNM_VERSION_MINOR);
+	gsf_xml_out_simple_element (xml, "AppVersion", version);
+	g_free (version);
 
 	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_extended, xml);
 

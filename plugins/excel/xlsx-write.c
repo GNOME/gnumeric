@@ -748,9 +748,8 @@ xlsx_write_font (XLSXWriteState *state, GsfXMLOut *xml, GnmStyle const *style)
 	}
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE)) {
 		gsf_xml_out_start_element (xml, "sz");
-		gsf_xml_out_add_float
-			(xml, "val", gnm_style_get_font_size (style),
-			 2);
+		go_xml_out_add_double
+			(xml, "val", gnm_style_get_font_size (style));
 		gsf_xml_out_end_element (xml);
 
 	}
@@ -1569,7 +1568,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 			}
 			if (ri->hard_size || fabs (ri->size_pts - sheet->cols.default_style.size_pts) > 1e-6) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
-				gsf_xml_out_add_float (xml, "ht", ri->size_pts, 4);
+				go_xml_out_add_double (xml, "ht", ri->size_pts);
 			}
 			if (ri->is_collapsed) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
@@ -2111,9 +2110,9 @@ xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
 	gsf_xml_out_add_int (xml, "max", last + 1);
 	gsf_xml_out_add_int (xml, "style", style_id);
 
-	gsf_xml_out_add_float (xml, "width",
+	go_xml_out_add_double (xml, "width",
 			       (ci ? ci->size_pts : def_width) /
-			       ((130. / 18.5703125) * (72./96.)), 7);
+			       ((130. / 18.5703125) * (72./96.)));
 
 	if (ci) {
 		if (!ci->visible)
@@ -2249,7 +2248,7 @@ xlsx_write_autofilters (XLSXWriteState *state, GsfXMLOut *xml)
 		case GNM_FILTER_OP_TOP_N_PERCENT:
 		case GNM_FILTER_OP_BOTTOM_N_PERCENT:
 			gsf_xml_out_start_element (xml, "top10");
-			gsf_xml_out_add_float (xml, "val", cond->count, -1);
+			go_xml_out_add_double (xml, "val", cond->count);
 			if (cond->op[0] & GNM_FILTER_OP_BOTTOM_MASK)
 				gsf_xml_out_add_cstr_unchecked (xml, "top", "0");
 			if (cond->op[0] & GNM_FILTER_OP_PERCENT_MASK)
@@ -2544,12 +2543,12 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	gsf_xml_out_start_element (xml, "pageMargins");
 	print_info_get_margins (pi, &h_margin, &f_margin, &left, &right,
 				&t_margin, &b_margin);
-	gsf_xml_out_add_float (xml, "left",	left / 72., 4);
-	gsf_xml_out_add_float (xml, "right",	right / 72., 4);
-	gsf_xml_out_add_float (xml, "top",	t_margin / 72., 4);
-	gsf_xml_out_add_float (xml, "bottom",	b_margin / 72., 4);
-	gsf_xml_out_add_float (xml, "header",	h_margin / 72., 4);
-	gsf_xml_out_add_float (xml, "footer",	f_margin / 72., 4);
+	go_xml_out_add_double (xml, "left",	left / 72.);
+	go_xml_out_add_double (xml, "right",	right / 72.);
+	go_xml_out_add_double (xml, "top",	t_margin / 72.);
+	go_xml_out_add_double (xml, "bottom",	b_margin / 72.);
+	go_xml_out_add_double (xml, "header",	h_margin / 72.);
+	go_xml_out_add_double (xml, "footer",	f_margin / 72.);
 	gsf_xml_out_end_element (xml); /* </pageMargins> */
 
 	gsf_xml_out_start_element (xml, "pageSetup");
@@ -2850,8 +2849,8 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	gsf_xml_out_end_element (xml); /* </sheetViews> */
 /*   element sheetFormatPr { CT_SheetFormatPr }?,     */
 	gsf_xml_out_start_element (xml, "sheetFormatPr");
-	gsf_xml_out_add_float (xml, "defaultRowHeight",
-		sheet_row_get_default_size_pts (state->sheet), 4);
+	go_xml_out_add_double (xml, "defaultRowHeight",
+		sheet_row_get_default_size_pts (state->sheet));
 	if (state->sheet->rows.max_outline_level > 0)
 		gsf_xml_out_add_int (xml, "outlineLevelRow",
 			state->sheet->rows.max_outline_level);
@@ -2984,8 +2983,8 @@ xlsx_write_calcPR (XLSXWriteState *state, GsfXMLOut *xml)
 	xlsx_add_bool (xml, "iterate", wb->iteration.enabled);
 	gsf_xml_out_add_int (xml, "iterateCount",
 		wb->iteration.max_number);
-	gsf_xml_out_add_float (xml, "iterateDelta",
-		wb->iteration.tolerance, -1);
+	go_xml_out_add_double (xml, "iterateDelta",
+		wb->iteration.tolerance);
 
 	gsf_xml_out_end_element (xml);
 }

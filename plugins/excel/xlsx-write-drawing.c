@@ -61,7 +61,7 @@ static void
 xlsx_write_chart_float (GsfXMLOut *xml, char const *name, double val)
 {
 	gsf_xml_out_start_element (xml, name);
-	gsf_xml_out_add_float (xml, "val", val, -1);
+	go_xml_out_add_double (xml, "val", val);
 	gsf_xml_out_end_element (xml);
 }
 
@@ -542,16 +542,16 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 		if (ext_start_arrow) {
 			GOArrow const *arrow = sctx->start_arrow;
 			gsf_xml_out_add_cstr (xml, "StartArrowType", go_arrow_type_as_str (arrow->typ));
-			gsf_xml_out_add_float (xml, "StartArrowShapeA", arrow->a, -1);
-			gsf_xml_out_add_float (xml, "StartArrowShapeB", arrow->b, -1);
-			gsf_xml_out_add_float (xml, "StartArrowShapeC", arrow->c, -1);
+			go_xml_out_add_double (xml, "StartArrowShapeA", arrow->a);
+			go_xml_out_add_double (xml, "StartArrowShapeB", arrow->b);
+			go_xml_out_add_double (xml, "StartArrowShapeC", arrow->c);
 		}
 		if (ext_end_arrow) {
 			GOArrow const *arrow = sctx->end_arrow;
 			gsf_xml_out_add_cstr (xml, "EndArrowType", go_arrow_type_as_str (arrow->typ));
-			gsf_xml_out_add_float (xml, "EndArrowShapeA", arrow->a, -1);
-			gsf_xml_out_add_float (xml, "EndArrowShapeB", arrow->b, -1);
-			gsf_xml_out_add_float (xml, "EndArrowShapeC", arrow->c, -1);
+			go_xml_out_add_double (xml, "EndArrowShapeA", arrow->a);
+			go_xml_out_add_double (xml, "EndArrowShapeB", arrow->b);
+			go_xml_out_add_double (xml, "EndArrowShapeC", arrow->c);
 		}
 		if (ext_gradient_rev) {
 			gsf_xml_out_add_uint (xml, "reverse-gradient", 1);

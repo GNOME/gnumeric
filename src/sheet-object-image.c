@@ -411,10 +411,10 @@ gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	g_return_if_fail (GNM_IS_SO_IMAGE (so));
 	soi = GNM_SO_IMAGE (so);
 
-	gsf_xml_out_add_float (output, "crop-top", soi->crop_top, 3);
-	gsf_xml_out_add_float (output, "crop-bottom", soi->crop_bottom, 3);
-	gsf_xml_out_add_float (output, "crop-left", soi->crop_left, 3);
-	gsf_xml_out_add_float (output, "crop-right", soi->crop_right, 3);
+	go_xml_out_add_double (output, "crop-top", soi->crop_top);
+	go_xml_out_add_double (output, "crop-bottom", soi->crop_bottom);
+	go_xml_out_add_double (output, "crop-left", soi->crop_left);
+	go_xml_out_add_double (output, "crop-right", soi->crop_right);
 	gsf_xml_out_start_element (output, "Content");
 	if (soi->type != NULL)
 		gsf_xml_out_add_cstr (output, "image-type", soi->type);

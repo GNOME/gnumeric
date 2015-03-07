@@ -1,3 +1,14 @@
+2015-03-07  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c: Use new go_xml_out_add_double.
+
+	* src/sheet-object-widget.c
+	(sheet_widget_adjustment_write_xml_sax): Use new
+	go_xml_out_add_double.
+
+	* src/sheet-object-image.c (gnm_soi_write_xml_sax): Use new
+	go_xml_out_add_double.
+
 2015-03-05  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-image.c (sheet_object_image_set_image): Drop

@@ -1803,21 +1803,11 @@ sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	SheetWidgetAdjustment const *swa = GNM_SOW_ADJUSTMENT (so);
 	SheetWidgetAdjustmentClass *swa_class = SWA_CLASS (so);
 
-	gsf_xml_out_add_float (output, "Min",
-			       gtk_adjustment_get_lower (swa->adjustment),
-			       -1);
-	gsf_xml_out_add_float (output, "Max",
-			       gtk_adjustment_get_upper (swa->adjustment),
-			       -1); /* allow scrolling to max */
-	gsf_xml_out_add_float (output, "Inc",
-			       gtk_adjustment_get_step_increment (swa->adjustment),
-			       -1);
-	gsf_xml_out_add_float (output, "Page",
-			       gtk_adjustment_get_page_increment (swa->adjustment),
-			       -1);
-	gsf_xml_out_add_float (output, "Value",
-			       gtk_adjustment_get_value (swa->adjustment),
-			       -1);
+	go_xml_out_add_double (output, "Min", gtk_adjustment_get_lower (swa->adjustment));
+	go_xml_out_add_double (output, "Max", gtk_adjustment_get_upper (swa->adjustment));
+	go_xml_out_add_double (output, "Inc", gtk_adjustment_get_step_increment (swa->adjustment));
+	go_xml_out_add_double (output, "Page", gtk_adjustment_get_page_increment (swa->adjustment));
+	go_xml_out_add_double (output, "Value", gtk_adjustment_get_value (swa->adjustment));
 
 	if (swa_class->has_orientation)
 		gsf_xml_out_add_bool (output, "Horizontal", swa->horizontal);

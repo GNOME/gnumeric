@@ -228,15 +228,15 @@ write_xml_sax_arrow (GOArrow const *arrow, const char *prefix,
 	g_free (attr);
 
 	attr = g_strconcat (prefix, "ArrowShapeA", NULL);
-	gsf_xml_out_add_float (output, attr, arrow->a, -1);
+	go_xml_out_add_double (output, attr, arrow->a);
 	g_free (attr);
 
 	attr = g_strconcat (prefix, "ArrowShapeB", NULL);
-	gsf_xml_out_add_float (output, attr, arrow->b, -1);
+	go_xml_out_add_double (output, attr, arrow->b);
 	g_free (attr);
 
 	attr = g_strconcat (prefix, "ArrowShapeC", NULL);
-	gsf_xml_out_add_float (output, attr, arrow->c, -1);
+	go_xml_out_add_double (output, attr, arrow->c);
 	g_free (attr);
 }
 
