@@ -42,11 +42,10 @@ xlsx_write_chart_bool (GsfXMLOut *xml, char const *name, gboolean val)
 }
 
 static void
-xlsx_write_chart_int (GsfXMLOut *xml, char const *name, int def_val, int val)
+xlsx_write_chart_int (GsfXMLOut *xml, char const *name, int val)
 {
 	gsf_xml_out_start_element (xml, name);
-	if (val != def_val)
-		gsf_xml_out_add_int (xml, "val", val);
+	gsf_xml_out_add_int (xml, "val", val);
 	gsf_xml_out_end_element (xml);
 }
 
@@ -251,8 +250,8 @@ xlsx_write_go_style_marker (GsfXMLOut *xml, GOStyle *style, const XLSXStyleConte
 
 	/* We don't have an auto_size flag */
 	if (TRUE) {
-		int def = 5, s = go_marker_get_size (style->marker.mark);
-		xlsx_write_chart_int (xml, "c:size", def, s);
+		int s = go_marker_get_size (style->marker.mark);
+		xlsx_write_chart_int (xml, "c:size", s);
 	}
 
 	need_spPr = (!style->marker.auto_fill_color ||
@@ -742,7 +741,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 
 	xlsx_write_go_style (xml, state, go_styled_object_get_style (GO_STYLED_OBJECT (axis)));
 
-	xlsx_write_chart_int (xml, "c:crossAx", 0, xlsx_get_axid (state, crossed));
+	xlsx_write_chart_int (xml, "c:crossAx", xlsx_get_axid (state, crossed));
 	g_object_get (G_OBJECT (axis), "pos", &pos, NULL);
 	switch (pos) {
 	default:
@@ -847,8 +846,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			gsf_xml_out_start_element (xml, "c:doughnutChart");
 			g_object_get (G_OBJECT (plot), "center-size", &center_size, NULL);
 			center = (int)floor (center_size * 100. + .5);
-			xlsx_write_chart_int (xml, "c:holeSize", 10,
-					      CLAMP (center, 10, 90));
+			xlsx_write_chart_int (xml, "c:holeSize", CLAMP (center, 10, 90));
 		} else
 			gsf_xml_out_start_element (xml, "c:pieChart");
 
@@ -857,7 +855,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		double default_separation = 0.;
 		/* handled in series ? */
 		"default-separation",	&default_separation,
-		xlsx_write_chart_int (xml, "c:explosion", 0, default_separation);
+		xlsx_write_chart_int (xml, "c:explosion", default_separation);
 #endif
 		axis_type[0] = axis_type[1] = GOG_AXIS_UNKNOWN;
 		g_object_get (G_OBJECT (plot), "default-separation", &explosion, NULL);
@@ -915,8 +913,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 
 		gsf_xml_out_start_element (xml, "c:ser");
 
-		xlsx_write_chart_int (xml, "c:idx", -1, count);
-		xlsx_write_chart_int (xml, "c:order", -1, count);
+		xlsx_write_chart_int (xml, "c:idx", count);
+		xlsx_write_chart_int (xml, "c:order", count);
 		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
 		if (!vary_by_element) {
 			/* FIXME: we might loose some style elements */
@@ -945,7 +943,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			gsf_xml_out_start_element (xml, "c:dPt");
 
 			g_object_get (pt, "index", &idx, NULL);
-			xlsx_write_chart_int (xml, "c:idx", -1, MAX (0, idx));
+			xlsx_write_chart_int (xml, "c:idx", MAX (0, idx));
 
 			xlsx_style_context_init (&sctx, state);
 			sctx.def_has_markers = TRUE;
@@ -1039,10 +1037,10 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 			NULL);
 
 		/* Spec says add "%" at end; XL cannot handle that. */
-		xlsx_write_chart_int (xml, "c:gapWidth", 150, CLAMP (gap_percentage, 0, 500));
+		xlsx_write_chart_int (xml, "c:gapWidth", CLAMP (gap_percentage, 0, 500));
 
 		/* Spec says add "%" at end; XL cannot handle that. */
-		xlsx_write_chart_int (xml, "c:overlap", 0, CLAMP (overlap_percentage, 0, 100));
+		xlsx_write_chart_int (xml, "c:overlap", CLAMP (overlap_percentage, 0, 100));
 		break;
 	}
 
@@ -1052,7 +1050,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		g_object_get (G_OBJECT (plot),
 			      "initial-angle", &initial_angle,
 			      NULL);
-		xlsx_write_chart_int (xml, "c:firstSliceAng", 0, (int) initial_angle);
+		xlsx_write_chart_int (xml, "c:firstSliceAng", (int) initial_angle);
 		break;
 	}
 
