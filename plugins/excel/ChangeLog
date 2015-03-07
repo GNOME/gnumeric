@@ -1,3 +1,8 @@
+2015-03-07  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_chart_float): Drop def_val
+	argument.
+
 2015-03-04  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_create_axis_object): Handle log axis.

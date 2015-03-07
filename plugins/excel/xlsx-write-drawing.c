@@ -60,11 +60,10 @@ xlsx_write_chart_uint (GsfXMLOut *xml, char const *name, int def_val, int val)
 }
 
 static void
-xlsx_write_chart_float (GsfXMLOut *xml, char const *name, double def_val, double val)
+xlsx_write_chart_float (GsfXMLOut *xml, char const *name, double val)
 {
 	gsf_xml_out_start_element (xml, name);
-	if (val != def_val)
-		gsf_xml_out_add_float (xml, "val", val, -1);
+	gsf_xml_out_add_float (xml, "val", val, -1);
 	gsf_xml_out_end_element (xml);
 }
 
@@ -680,15 +679,15 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	g_object_get (axis, "map-name", &map_name, NULL);
 	if (g_strcmp0 (map_name, "Log") == 0) {
 		double base = 10;
-		xlsx_write_chart_float (xml, "c:logBase", go_nan, base);
+		xlsx_write_chart_float (xml, "c:logBase", base);
 	}
 	g_free (map_name);
 	xlsx_write_chart_cstr_unchecked (xml, "c:orientation",
 					 gog_axis_is_inverted (axis)? "maxMin": "minMax");
 	d = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAX, &user_defined);
-	if (user_defined) xlsx_write_chart_float (xml, "c:max", go_nan, d);
+	if (user_defined) xlsx_write_chart_float (xml, "c:max", d);
 	d = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MIN, &user_defined);
-	if (user_defined) xlsx_write_chart_float (xml, "c:min", go_nan, d);
+	if (user_defined) xlsx_write_chart_float (xml, "c:min", d);
 	gsf_xml_out_end_element (xml);
 
 	xlsx_write_chart_uint (xml, "c:delete", 1, 0);
@@ -761,15 +760,15 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 		if (cross == 0.)
 			xlsx_write_chart_cstr_unchecked (xml, "c:crosses", "autoZero");
 		else
-			xlsx_write_chart_float (xml, "c:crossesAt", 0., cross);
+			xlsx_write_chart_float (xml, "c:crossesAt", cross);
 		break;
 	}
 	}
 
 	d = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, &user_defined);
-	if (user_defined && d > 0) xlsx_write_chart_float (xml, "c:majorUnit", go_nan, d);
+	if (user_defined && d > 0) xlsx_write_chart_float (xml, "c:majorUnit", d);
 	d = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, &user_defined);
-	if (user_defined && d > 0) xlsx_write_chart_float (xml, "c:minorUnit", go_nan, d);
+	if (user_defined && d > 0) xlsx_write_chart_float (xml, "c:minorUnit", d);
 
 	/* finished with axis */
 	gsf_xml_out_end_element (xml);
