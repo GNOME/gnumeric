@@ -773,7 +773,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 }
 
 
-static void
+static GSList *
 xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, GogPlot *plot)
 {
 	double explosion = 0.;
@@ -789,6 +789,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	gboolean use_xy = FALSE;
 	gboolean set_smooth = FALSE;
 	gboolean set_invert = FALSE;
+	GSList *axes = NULL;
 
 	g_object_get (G_OBJECT (plot),
 		      "vary-style-by-element", &vary_by_element,
@@ -800,7 +801,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	default:
 	case XLSX_PT_UNKNOWN:
 		g_warning ("unexpected plot type %s", plot_type_name);
-		return;
+		return NULL;
 
 	case XLSX_PT_GOGAREAPLOT:
 		gsf_xml_out_start_element (xml, "c:areaChart");
@@ -1083,20 +1084,13 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		if (axis_type[i] != GOG_AXIS_UNKNOWN) {
 			GogAxis *axis = gog_plot_get_axis (GOG_PLOT (plot), axis_type[i]);
 			xlsx_write_chart_uint (xml, "c:axId", xlsx_get_axid (state, axis));
+			axes = g_slist_append (axes, axis);
 		}
 	}
 
 	gsf_xml_out_end_element (xml);
 
-	/* Write axes */
-	/* first category axis */
-	/* FIXME: might be a date axis? */
-	for (i = 0; i < 3; i++) {
-		if (axis_type[i] != GOG_AXIS_UNKNOWN) {
-			GogAxis *axis = gog_plot_get_axis (GOG_PLOT (plot), axis_type[i]);
-			xlsx_write_axis (state, xml, GOG_PLOT (plot), axis);
-		}
-	}
+	return axes;
 }
 
 static void
@@ -1104,13 +1098,33 @@ xlsx_write_plots (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart)
 {
 	GSList *plots, *l;
 	GogObjectRole const *role = gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot");
+	GHashTable *axis_to_plot = g_hash_table_new (NULL, NULL);
+	GSList *axes = NULL;
 
 	plots = gog_object_get_children (GOG_OBJECT (chart), role);
 	for (l = plots; l; l = l->next) {
 		GogPlot *plot = l->data;
-		xlsx_write_one_plot (state, xml, chart, plot);
+		GSList *plot_axes, *al;
+
+		plot_axes = xlsx_write_one_plot (state, xml, chart, plot);
+		for (al = plot_axes; al; al = al->next) {
+			GogAxis *axis = al->data;
+			if (!g_hash_table_lookup (axis_to_plot, axis)) {
+				g_hash_table_insert (axis_to_plot, axis, plot);
+				axes = g_slist_append (axes, axis);
+			}
+		}
+		g_slist_free (plot_axes);
 	}
 	g_slist_free (plots);
+
+	for (l = axes; l; l = l->next) {
+		GogAxis *axis = l->data;
+		GogPlot *plot = g_hash_table_lookup (axis_to_plot, axis);
+		xlsx_write_axis (state, xml, plot, axis);
+	}
+	g_slist_free (axes);
+	g_hash_table_destroy (axis_to_plot);
 }
 
 static void

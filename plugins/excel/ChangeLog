@@ -1,3 +1,10 @@
+2015-03-08  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_one_plot): Don't write axes
+	here; return a list of needed axes instead.
+	(xlsx_write_plots): Write the union of needed axes after all the
+	plots.
+
 2015-03-07  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_plots): Write all plots, not
