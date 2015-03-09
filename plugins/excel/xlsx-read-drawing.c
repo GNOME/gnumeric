@@ -2704,36 +2704,22 @@ xlsx_get_axes (GogObject *chart)
 }
 
 static void
-cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
-		      XLSXReadState *state)
+cb_axis_set_position (GObject *axis, XLSXAxisInfo *info, XLSXReadState *state)
 {
-	GogObject *obj = NULL;
 	XLSXAxisInfo *cross_info = info->cross_id
 		? g_hash_table_lookup (state->axis.by_id, info->cross_id)
 		: NULL;
+	GogAxisPosition pos = info->cross;
 
-	if (cross_info) {
-		obj = GOG_OBJECT (cross_info->axis);
-		if (go_finite (cross_info->cross_value)) {
-			GnmValue *value = value_new_float (cross_info->cross_value);
-			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
-			gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_CROSS_POINT,
-				gnm_go_data_scalar_new_expr (state->sheet, texpr), NULL);
+	if (cross_info && cross_info->invert_axis) {
+		switch (pos) {
+		case GOG_AXIS_AT_LOW: pos = GOG_AXIS_AT_HIGH; break;
+		case GOG_AXIS_AT_HIGH: pos = GOG_AXIS_AT_LOW; break;
+		default: break;
 		}
-		if (gog_axis_is_inverted (GOG_AXIS (axis)))
-			cross_info->cross = 2 - cross_info->cross; /* KLUDGE */
-		g_object_set (obj, "pos", cross_info->cross, NULL);
-
-		/*
-		 * Set the cross-axis-id if it makes a difference, i.e., if it is different
-		 * from the implied value.  This helps roundtripping.
-		 */
-		if ((GogAxis*)axis != gog_axis_base_get_crossed_axis (GOG_AXIS_BASE (obj)))
-			g_object_set (obj, "cross-axis-id", gog_object_get_id (GOG_OBJECT (axis)), NULL);
-	} else if (info->cross_id) {
-		g_printerr ("Axis %s has invalid cross-axis id %s\n",
-			    info->id, info->cross_id);
 	}
+
+	g_object_set (axis, "pos", pos, NULL);
 }
 
 /*

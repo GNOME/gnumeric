@@ -1,3 +1,9 @@
+2015-03-09  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (cb_axis_set_position): Set position of
+	present axis, not of crossed axis.  The latter is more complicated
+	and breaks down with multiple axes.
+
 2015-03-08  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_axis_cleanup): Perform axis-renaming
