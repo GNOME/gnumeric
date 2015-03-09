@@ -997,7 +997,7 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GogAxis *axis = state->axis.obj;
 
 	if (state->axis.info) {
-		GSList *ptr, *children;
+		GSList *ptr;
 		GogAxisElemType et;
 		XLSXAxisInfo *info = state->axis.info;
 
@@ -1021,36 +1021,6 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 #endif
 			gog_plot_set_axis (plot, axis);
 		}
-
-		/*
-		 * Go through the existing axes looking for an auto-generated one
-		 * whose id we can take over.  This avoids starting with "X-Axis2"
-		 * which (1) looks silly and (2) causes roundtrip issues.
-		 */
-		children = gog_object_get_children (GOG_OBJECT (state->chart), NULL);
-		for (ptr = children; ptr != NULL; ptr = ptr->next) {
-			GogObject *this_axis = ptr->data;
-			guint id;
-
-			if (!GOG_IS_AXIS (this_axis) ||
-			    g_hash_table_lookup (state->axis.by_obj, this_axis) ||
-			    !gog_object_is_deletable (this_axis) ||
-			    this_axis->role != GOG_OBJECT(axis)->role)
-				continue;
-
-#ifdef DEBUG_AXIS
-			g_printerr ("Axis %s is a going to be deleted and its id taken over\n",
-				    gog_object_get_name (this_axis));
-#endif
-			id = gog_object_get_id (this_axis);
-			gog_object_clear_parent	(this_axis);
-			g_object_unref (this_axis);
-
-			/* Take over the id of the deleted item.  */
-			g_object_set (axis, "id", id, NULL);
-			break;
-		}
-		g_slist_free (children);
 	}
 
 	xlsx_chart_pop_obj (state);
@@ -2748,6 +2718,12 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 		}
 		g_slist_free (l);
 
+#ifdef DEBUG_AXIS
+		g_printerr ("Axis %s is marked as deleted; visible=%p\n",
+			    gog_object_get_name (GOG_OBJECT (axis)),
+			    visible);
+#endif
+
 		if (visible) {
 			GSList *l1, *cur1;
 
@@ -2772,43 +2748,138 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 	}
 }
 
+static int
+cb_by_id (gconstpointer a, gconstpointer b)
+{
+	return gog_object_get_id (a) - gog_object_get_id (b);
+}
+
+/*
+ * Rename axes so we get numbers 1, 2, 3, etc.  This is partly cosmetic
+ * and partly for roundtrips.  Note, that different axis types have their
+ * own numbering.
+ */
+static void
+xlsx_rename_axes (XLSXReadState *state)
+{
+	GogObject *chart = GOG_OBJECT (state->chart);
+	GSList *children, *axes, *l, *l2;
+	GHashTable *role_to_id = g_hash_table_new (NULL, NULL);
+
+	children = gog_object_get_children (chart, NULL);
+	for (axes = NULL, l = children; l; l = l->next) {
+		GogObject *c = l->data;
+		if (GOG_IS_AXIS (c))
+			axes = g_slist_prepend (axes, c);
+	}
+	g_slist_free (children);
+
+	axes = g_slist_sort (axes, cb_by_id);
+	for (l = axes; l; l = l->next) {
+		GogObject *axis = l->data;
+		GogObjectRole const *role = axis->role;
+		guint old_id = axis->id;
+		guint new_id = 1 + GPOINTER_TO_UINT (g_hash_table_lookup (role_to_id, (gpointer)role));
+		GogAxisType cross_atype;
+
+		if (new_id == old_id)
+			continue;
+#ifdef DEBUG_AXIS
+		g_printerr ("Changing id of %s to %u\n",
+			    gog_object_get_name (axis), new_id);
+#endif
+		g_object_set (axis, "id", new_id, NULL);
+		g_hash_table_replace (role_to_id, (gpointer)role, GUINT_TO_POINTER (new_id));
+
+		/*
+		 * We shouldn't have to fixup cross-axis-id of other axes, but
+		 * looking for the old id won't hurt either.
+		 */
+		cross_atype = gog_axis_base_get_crossed_axis_type (GOG_AXIS_BASE (axis));
+		for (l2 = axes; l2; l2 = l2->next) {
+			GogObject *axis2 = l2->data;
+			guint cross_id;
+
+			if (gog_axis_get_atype (GOG_AXIS (axis2)) != cross_atype)
+				continue;
+
+			g_object_get (axis2, "cross-axis-id", &cross_id, NULL);
+			if (cross_id == old_id)
+				g_object_set (axis2, "cross-axis-id", new_id, NULL);
+		}
+	}
+	g_slist_free (axes);
+	g_hash_table_destroy (role_to_id);
+}
+
+
 static void
 xlsx_axis_cleanup (XLSXReadState *state)
 {
 	GSList *list, *ptr;
 
-	/* clean out axis that were auto created */
+	/* clean out axes that were auto created */
 	list = gog_object_get_children (GOG_OBJECT (state->chart), NULL);
 	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
 		GogAxis *axis = ptr->data;
+		XLSXAxisInfo *info;
+		gboolean may_delete;
+
 		if (!GOG_IS_AXIS (axis))
 			continue;
 
-		if (g_hash_table_lookup (state->axis.by_obj, axis)) {
+		info = g_hash_table_lookup (state->axis.by_obj, axis);
+		if (info)
+			continue;
+
+		may_delete = gog_object_is_deletable (GOG_OBJECT (axis));
 #ifdef DEBUG_AXIS
-			g_printerr ("Axis %p (%s) is one of ours with role %s\n",
-				    axis, gog_object_get_name (GOG_OBJECT (axis)),
-				    GOG_OBJECT(axis)->role->id);
+		g_printerr ("Would like to delete auto axis %p (%s): %s\n",
+			    axis, gog_object_get_name (GOG_OBJECT (axis)),
+			    may_delete ? "allowed" : "not allowed");
 #endif
-		} else {
-#ifdef DEBUG_AXIS
-			g_printerr ("Would like to delete axis %p (%s): %s\n",
-				    axis, gog_object_get_name (GOG_OBJECT (axis)),
-				    (gog_object_is_deletable (GOG_OBJECT (axis)) ? "allowed" : "not allowed"));
-#endif
-			if (gog_object_is_deletable (GOG_OBJECT (axis))) {
-				gog_object_clear_parent	(GOG_OBJECT (axis));
-				g_object_unref (axis);
-			}
+		if (may_delete) {
+			gog_object_clear_parent	(GOG_OBJECT (axis));
+			g_object_unref (axis);
 		}
 	}
 	g_slist_free (list);
 
 	g_hash_table_foreach (state->axis.by_obj,
 		(GHFunc)cb_axis_set_position, state);
+
+	/* Clean out file axes marked "deleted".  */
+	list = gog_object_get_children (GOG_OBJECT (state->chart), NULL);
+	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
+		GogAxis *axis = ptr->data;
+		XLSXAxisInfo *info;
+		gboolean may_delete;
+
+		if (!GOG_IS_AXIS (axis))
+			continue;
+
+		info = g_hash_table_lookup (state->axis.by_obj, axis);
+		if (!info || !info->deleted)
+			continue;
+
+		may_delete = gog_object_is_deletable (GOG_OBJECT (axis));
+#ifdef DEBUG_AXIS
+		g_printerr ("Would like to delete file axis %p (%s): %s\n",
+			    axis, gog_object_get_name (GOG_OBJECT (axis)),
+			    may_delete ? "allowed" : "not allowed");
+#endif
+		if (may_delete) {
+			gog_object_clear_parent	(GOG_OBJECT (axis));
+			g_object_unref (axis);
+		}
+	}
+	g_slist_free (list);
+
 	g_hash_table_destroy (state->axis.by_obj);
 	g_hash_table_destroy (state->axis.by_id);
 	state->axis.by_obj = state->axis.by_id = NULL;
+
+	xlsx_rename_axes (state);
 }
 
 static void

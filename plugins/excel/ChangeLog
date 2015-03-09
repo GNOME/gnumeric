@@ -1,5 +1,8 @@
 2015-03-08  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_axis_cleanup): Perform axis-renaming
+	as the last step in cleanup.
+
 	* xlsx-write-drawing.c (xlsx_write_one_plot): Don't write axes
 	here; return a list of needed axes instead.
 	(xlsx_write_plots): Write the union of needed axes after all the
