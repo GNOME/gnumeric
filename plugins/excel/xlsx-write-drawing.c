@@ -788,7 +788,8 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 
 
 static GSList *
-xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, GogPlot *plot)
+xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
+		     GogObject const *chart, GogPlot *plot, int *ser_count)
 {
 	double explosion = 0.;
 	gboolean vary_by_element;
@@ -797,7 +798,6 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 	XLSXPlotType plot_type;
 	const char *plot_type_name;
 	GSList const *series;
-	unsigned count;
 	gboolean has_markers = FALSE;
 	gboolean has_lines = FALSE;
 	gboolean use_xy = FALSE;
@@ -918,13 +918,13 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 		break;
 	}
 
-	count = 0;
 	for (series = gog_plot_get_series (GOG_PLOT (plot));
 	     NULL != series;
 	     series = series->next) {
 		GogSeries *ser = series->data;
 		GSList *l, *children;
 		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (ser));
+		int count = (*ser_count)++;
 
 		gsf_xml_out_start_element (xml, "c:ser");
 
@@ -1108,7 +1108,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *cha
 }
 
 static void
-xlsx_write_plots (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart)
+xlsx_write_plots (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, int *ser_count)
 {
 	GSList *plots, *l;
 	GogObjectRole const *role = gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot");
@@ -1120,7 +1120,7 @@ xlsx_write_plots (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart)
 		GogPlot *plot = l->data;
 		GSList *plot_axes, *al;
 
-		plot_axes = xlsx_write_one_plot (state, xml, chart, plot);
+		plot_axes = xlsx_write_one_plot (state, xml, chart, plot, ser_count);
 		for (al = plot_axes; al; al = al->next) {
 			GogAxis *axis = al->data;
 			if (!g_hash_table_lookup (axis_to_plot, axis)) {
@@ -1145,6 +1145,7 @@ static void
 xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart)
 {
 	GogObject const *obj;
+	int ser_count = 0;
 
 	gsf_xml_out_start_element (xml, "c:chart");
 
@@ -1161,7 +1162,7 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 	gsf_xml_out_start_element (xml, "c:plotArea");
 	/* save grid style here */
 
-	xlsx_write_plots (state, xml, chart);
+	xlsx_write_plots (state, xml, chart, &ser_count);
 
 	obj = gog_object_get_child_by_name (GOG_OBJECT (chart), "Backplane");
 	if (obj)
