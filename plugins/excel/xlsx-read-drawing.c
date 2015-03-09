@@ -2671,6 +2671,38 @@ GSF_XML_IN_NODE_END
 
 /***********************************************************************/
 
+static int
+cb_by_id (gconstpointer a, gconstpointer b)
+{
+	return gog_object_get_id (a) - gog_object_get_id (b);
+}
+
+static GSList *
+xlsx_get_axes (GogObject *chart)
+{
+	GSList *children, *waste = NULL, *axes = NULL;
+
+	children = gog_object_get_children (chart, NULL);
+
+	while (children) {
+		GSList *next = children->next;
+		GogObject *obj = children->data;
+
+		if (GOG_IS_AXIS (obj)) {
+			children->next = axes;
+			axes = children;
+		} else {
+			children->next = waste;
+			waste = children;
+		}
+
+		children = next;
+	}
+
+	g_slist_free (waste);
+	return g_slist_sort (axes, cb_by_id);
+}
+
 static void
 cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 		      XLSXReadState *state)
@@ -2702,56 +2734,6 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 		g_printerr ("Axis %s has invalid cross-axis id %s\n",
 			    info->id, info->cross_id);
 	}
-
-	if (info->deleted) {
-		GSList *l = gog_chart_get_axes (state->chart, gog_axis_get_atype (GOG_AXIS (axis))), *cur;
-		GogAxis *visible = NULL;
-
-		for (cur = l; cur; cur = cur->next) {
-			GogAxis *axis = GOG_AXIS (cur->data);
-			gboolean invisible;
-			g_object_get (axis, "invisible", &invisible, NULL);
-			if (!invisible) {
-				visible = axis;
-				break;
-			}
-		}
-		g_slist_free (l);
-
-#ifdef DEBUG_AXIS
-		g_printerr ("Axis %s is marked as deleted; visible=%p\n",
-			    gog_object_get_name (GOG_OBJECT (axis)),
-			    visible);
-#endif
-
-		if (visible) {
-			GSList *l1, *cur1;
-
-			if (obj)
-				g_object_set (obj, "cross-axis-id", gog_object_get_id (GOG_OBJECT (visible)), NULL);
-			l1 = g_slist_copy ((GSList *) gog_axis_contributors (GOG_AXIS (axis)));
-			for (cur1 = l1; cur1; cur1 = cur1->next) {
-				if (GOG_IS_PLOT (cur1->data))
-					gog_plot_set_axis (GOG_PLOT (cur1->data), visible);
-			}
-			g_slist_free (l1);
-			/* now reparent the children of the hidden axis */
-			l1 = gog_object_get_children (GOG_OBJECT (axis), NULL);
-			for (cur1 = l1; cur1; cur1 = cur1->next) {
-				GogObject *obj = GOG_OBJECT (cur1->data);
-				GogObjectRole const *role = obj->role;
-				gog_object_clear_parent (obj);
-				gog_object_set_parent (obj, GOG_OBJECT (visible), role, obj->id);
-			}
-			g_slist_free (l1);
-		}
-	}
-}
-
-static int
-cb_by_id (gconstpointer a, gconstpointer b)
-{
-	return gog_object_get_id (a) - gog_object_get_id (b);
 }
 
 /*
@@ -2760,21 +2742,14 @@ cb_by_id (gconstpointer a, gconstpointer b)
  * own numbering.
  */
 static void
-xlsx_rename_axes (XLSXReadState *state)
+xlsx_axes_rename (XLSXReadState *state)
 {
 	GogObject *chart = GOG_OBJECT (state->chart);
-	GSList *children, *axes, *l, *l2;
+	GSList *axes, *l, *l2;
 	GHashTable *role_to_id = g_hash_table_new (NULL, NULL);
 
-	children = gog_object_get_children (chart, NULL);
-	for (axes = NULL, l = children; l; l = l->next) {
-		GogObject *c = l->data;
-		if (GOG_IS_AXIS (c))
-			axes = g_slist_prepend (axes, c);
-	}
-	g_slist_free (children);
+	axes = xlsx_get_axes (chart);
 
-	axes = g_slist_sort (axes, cb_by_id);
 	for (l = axes; l; l = l->next) {
 		GogObject *axis = l->data;
 		GogObjectRole const *role = axis->role;
@@ -2808,25 +2783,102 @@ xlsx_rename_axes (XLSXReadState *state)
 				g_object_set (axis2, "cross-axis-id", new_id, NULL);
 		}
 	}
+
 	g_slist_free (axes);
 	g_hash_table_destroy (role_to_id);
 }
 
+static void
+xlsx_axes_redirect_deleted (XLSXReadState *state)
+{
+	GogObject *chart = GOG_OBJECT (state->chart);
+	GSList *l, *axes = xlsx_get_axes (chart);
+
+	for (l = axes; l; l = l->next) {
+		GogAxis *axis = l->data;
+		XLSXAxisInfo *info;
+		GogAxisType atype;
+		GSList *l2, *plots, *children;
+		GogAxis *visible = NULL;
+
+		info = g_hash_table_lookup (state->axis.by_obj, axis);
+		if (!info || !info->deleted)
+			continue;
+
+		/* Find a visible alternative for the deleted axis.  */
+		atype = gog_axis_get_atype (GOG_AXIS (axis));
+		for (l2 = axes; l2; l2 = l2->next) {
+			GogAxis *axis2 = GOG_AXIS (l2->data);
+			if (gog_axis_get_atype (GOG_AXIS (axis2)) == atype &&
+			    !gnm_object_get_bool (axis2, "invisible")) {
+				visible = axis2;
+				break;
+			}
+		}
+		if (!visible)
+			continue;
+
+		/* Make all plots use the new, visible axis.  */
+		plots = g_slist_copy ((GSList *) gog_axis_contributors (GOG_AXIS (axis)));
+		for (l2 = plots; l2; l2 = l2->next) {
+			GogPlot *plot = l2->data;
+			if (GOG_IS_PLOT (plot))
+				gog_plot_set_axis (plot, visible);
+		}
+		g_slist_free (plots);
+
+		/* Reparent the children of the deleted axis */
+		children = gog_object_get_children (GOG_OBJECT (axis), NULL);
+		for (l2 = children; l2; l2 = l2->next) {
+			GogObject *obj = l2->data;
+			GogObjectRole const *role = obj->role;
+			gog_object_clear_parent (obj);
+			gog_object_set_parent (obj, GOG_OBJECT (visible), role, obj->id);
+		}
+		g_slist_free (children);
+	}
+
+	g_slist_free (axes);
+}
+
+static void
+xlsx_axes_remove_deleted (XLSXReadState *state)
+{
+	GHashTableIter hiter;
+	gpointer key, val;
+
+	g_hash_table_iter_init (&hiter, state->axis.by_obj);
+	while (g_hash_table_iter_next (&hiter, &key, &val)) {
+		GogAxis *axis = key;
+		XLSXAxisInfo *info = val;
+		if (info->deleted) {
+			gboolean may_delete =
+				gog_object_is_deletable (GOG_OBJECT (axis));
+#ifdef DEBUG_AXIS
+			g_printerr ("Would like to delete file axis %p (%s): %s\n",
+				    axis,
+				    gog_object_get_name (GOG_OBJECT (axis)),
+				    may_delete ? "allowed" : "not allowed");
+#endif
+			if (may_delete) {
+				gog_object_clear_parent	(GOG_OBJECT (axis));
+				g_object_unref (axis);
+			}
+		}
+	}
+}
 
 static void
 xlsx_axis_cleanup (XLSXReadState *state)
 {
-	GSList *list, *ptr;
+	GSList *axes, *l;
 
 	/* clean out axes that were auto created */
-	list = gog_object_get_children (GOG_OBJECT (state->chart), NULL);
-	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
-		GogAxis *axis = ptr->data;
+	axes = xlsx_get_axes (GOG_OBJECT (state->chart));
+	for (l = axes; l; l = l->next) {
+		GogAxis *axis = l->data;
 		XLSXAxisInfo *info;
 		gboolean may_delete;
-
-		if (!GOG_IS_AXIS (axis))
-			continue;
 
 		info = g_hash_table_lookup (state->axis.by_obj, axis);
 		if (info)
@@ -2843,43 +2895,20 @@ xlsx_axis_cleanup (XLSXReadState *state)
 			g_object_unref (axis);
 		}
 	}
-	g_slist_free (list);
+	g_slist_free (axes);
+
+	xlsx_axes_redirect_deleted (state);
 
 	g_hash_table_foreach (state->axis.by_obj,
 		(GHFunc)cb_axis_set_position, state);
 
-	/* Clean out file axes marked "deleted".  */
-	list = gog_object_get_children (GOG_OBJECT (state->chart), NULL);
-	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
-		GogAxis *axis = ptr->data;
-		XLSXAxisInfo *info;
-		gboolean may_delete;
-
-		if (!GOG_IS_AXIS (axis))
-			continue;
-
-		info = g_hash_table_lookup (state->axis.by_obj, axis);
-		if (!info || !info->deleted)
-			continue;
-
-		may_delete = gog_object_is_deletable (GOG_OBJECT (axis));
-#ifdef DEBUG_AXIS
-		g_printerr ("Would like to delete file axis %p (%s): %s\n",
-			    axis, gog_object_get_name (GOG_OBJECT (axis)),
-			    may_delete ? "allowed" : "not allowed");
-#endif
-		if (may_delete) {
-			gog_object_clear_parent	(GOG_OBJECT (axis));
-			g_object_unref (axis);
-		}
-	}
-	g_slist_free (list);
+	xlsx_axes_remove_deleted (state);
 
 	g_hash_table_destroy (state->axis.by_obj);
 	g_hash_table_destroy (state->axis.by_id);
 	state->axis.by_obj = state->axis.by_id = NULL;
 
-	xlsx_rename_axes (state);
+	xlsx_axes_rename (state);
 }
 
 static void

@@ -667,6 +667,11 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 		    gog_axis_is_discrete (axis));
 #endif
 
+	g_object_get (G_OBJECT (axis),
+		      "pos", &pos,
+		      "map-name", &map_name,
+		      NULL);
+
 	if (gog_axis_is_discrete (axis))
 		gsf_xml_out_start_element (xml, "c:catAx");
 	else
@@ -674,7 +679,6 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	xlsx_write_chart_uint (xml, "c:axId", xlsx_get_axid (state, axis));
 
 	gsf_xml_out_start_element (xml, "c:scaling");
-	g_object_get (axis, "map-name", &map_name, NULL);
 	if (g_strcmp0 (map_name, "Log") == 0) {
 		double base = 10;
 		xlsx_write_chart_float (xml, "c:logBase", base);
@@ -689,8 +693,19 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	gsf_xml_out_end_element (xml);
 
 	xlsx_write_chart_uint (xml, "c:delete", 0);
-	/* FIXME position might be "t" or "r" */
-	xlsx_write_chart_cstr_unchecked (xml, "c:axPos", (at == GOG_AXIS_X || at == GOG_AXIS_CIRCULAR)? "b": "l");
+
+	/*
+	 * It is unclear what this is good for.  The information is in the
+	 * crossing location.
+	 */
+	{
+		const char * const axpos[4] = { "l", "r", "b", "t" };
+		gboolean tb = (at == GOG_AXIS_X || at == GOG_AXIS_CIRCULAR);
+		gboolean tr = (pos == GOG_AXIS_AT_HIGH);
+		xlsx_write_chart_cstr_unchecked (xml,
+						 "c:axPos",
+						 axpos[2 * tb + tr]);
+	}
 
 	/* grids */
 	grid = gog_axis_get_grid_line (axis, TRUE);
@@ -742,7 +757,6 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	xlsx_write_go_style (xml, state, go_styled_object_get_style (GO_STYLED_OBJECT (axis)));
 
 	xlsx_write_chart_int (xml, "c:crossAx", xlsx_get_axid (state, crossed));
-	g_object_get (G_OBJECT (axis), "pos", &pos, NULL);
 	switch (pos) {
 	default:
 	case GOG_AXIS_AT_LOW:
