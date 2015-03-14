@@ -1,3 +1,7 @@
+2015-03-13  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_ext_begin): Ignore unknown stuff inside.
+
 2015-03-09  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (cb_axis_set_position): Set position of
