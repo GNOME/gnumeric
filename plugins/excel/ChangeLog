@@ -1,5 +1,8 @@
 2015-03-13  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_drawing_twoCellAnchor_end): Only set
+	style if the object has style.  SheetObjectImage does not.
+
 	* xlsx-read.c (xlsx_ext_begin): Ignore unknown stuff inside.
 
 2015-03-09  Morten Welinder  <terra@gnome.org>

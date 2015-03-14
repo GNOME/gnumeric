@@ -3030,7 +3030,8 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 		sheet_object_anchor_init (&anchor, &r, coords, state->so_direction);
 		sheet_object_set_anchor (state->so, &anchor);
-		if (state->cur_style)
+		if (state->cur_style &&
+		    g_object_class_find_property (G_OBJECT_GET_CLASS (state->so), "style"))
 			g_object_set (state->so, "style", state->cur_style, NULL);
 
 		state->pending_objects = g_slist_prepend (state->pending_objects, state->so);
