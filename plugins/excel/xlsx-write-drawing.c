@@ -468,6 +468,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 		if (is_none) {
 			/* Special meaning of zero width  */
 			gsf_xml_out_add_int (xml, "w", 0);
+			gsf_xml_out_simple_element (xml, "a:noFill", NULL);
 		} else if (!style->line.auto_width && style->line.width > 0)
 			gsf_xml_out_add_int (xml, "w", style->line.width * 12700);
 

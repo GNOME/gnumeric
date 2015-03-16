@@ -1,3 +1,8 @@
+2015-03-16  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_go_style_full): Ensure that XL
+	doesn't see lines where none are wanted.
+
 2015-03-13  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_drawing_twoCellAnchor_end): Only set
