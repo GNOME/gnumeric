@@ -728,6 +728,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 		if (text != NULL) {
 			gsf_xml_out_start_element (xml, "c:title");
 			xlsx_write_chart_text (state, xml, text, label);
+			xlsx_write_chart_uint (xml, "c:overlay", 0);
 			gsf_xml_out_end_element (xml);
 		}
 	}
@@ -1156,6 +1157,7 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 		if (text != NULL) {
 			gsf_xml_out_start_element (xml, "c:title");
 			xlsx_write_chart_text (state, xml, text, obj);
+			xlsx_write_chart_uint (xml, "c:overlay", 0);
 			gsf_xml_out_end_element (xml);
 		}
 	}

@@ -4,6 +4,8 @@ Morten:
 	* xlsx import/export of log axis.
 	* xlsx export of multiple plots in chart.
 	* Fix xlsx import of multiple axes.
+	* Fix xlsx title export problem.
+	* Improve test suite.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21
