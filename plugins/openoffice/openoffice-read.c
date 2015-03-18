@@ -246,6 +246,9 @@ typedef struct {
 	unsigned	 series_count;	/* reset for each plotarea */
 	unsigned	 domain_count;	/* reset for each series */
 	unsigned	 data_pt_count;	/* reset for each series */
+	unsigned	 x_axis_count;	/* reset for each plotarea */
+	unsigned	 y_axis_count;	/* reset for each plotarea */
+	unsigned	 z_axis_count;	/* reset for each plotarea */
 
 	GogObject	*axis;
 	xmlChar         *cat_expr;
@@ -8586,7 +8589,8 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	OOChartStyle *style = NULL;
 	gchar const *style_name = NULL;
 	GogAxisType  axis_type;
-	int tmp, gnm_id = 1;
+	int tmp;
+	int gnm_id = 0;
 	OOEnum const *axes_types;
 
 	switch (state->chart.plot_type) {
@@ -8613,7 +8617,27 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "dimension", axes_types, &tmp))
 			axis_type = tmp;
 		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "id", &gnm_id, 1, INT_MAX))
-			;
+		 	;
+	
+	if (gnm_id == 0) {
+		switch (axis_type) {
+		case GOG_AXIS_X:
+			gnm_id = ++(state->chart.x_axis_count);
+			break;
+		case GOG_AXIS_Y:
+			gnm_id = ++(state->chart.y_axis_count);
+			break;
+		case GOG_AXIS_Z:
+			gnm_id = ++(state->chart.z_axis_count);
+			break;
+		case GOG_AXIS_CIRCULAR:
+		case GOG_AXIS_RADIAL:
+		case GOG_AXIS_UNKNOWN:
+		default:
+			gnm_id = 1;
+			break;
+		}
+	}
 
 	axes = gog_chart_get_axes (state->chart.chart, axis_type);
 	for (l = axes; NULL != l; l = l->next) {
@@ -8979,6 +9003,9 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.src_label_set = FALSE;
 	state->chart.series = NULL;
 	state->chart.series_count = 0;
+	state->chart.x_axis_count = 0;
+	state->chart.y_axis_count = 0;
+	state->chart.z_axis_count = 0;
 	state->chart.list = NULL;
 	if (NULL != source_range_str) {
 		GnmParsePos pp;

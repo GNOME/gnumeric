@@ -1,7 +1,7 @@
 Gnumeric 1.12.22
 
 Andreas:
-	* Improve ODF export of additional axislines. [#746321]
+	* Improve ODF import/export of additional axes. [#746321]
 
 Morten:
 	* xlsx import/export of log axis.

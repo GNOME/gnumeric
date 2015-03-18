@@ -1,4 +1,10 @@
-2015-02-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2015-03-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_chart_axis): determine the axis id from the sequence
+	unless we stored it
+	(oo_plot_area): reset new axes counters
+
+2015-03-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_axis_full): the ODF schema allows multiple
 	chart:axis with the same dimension
