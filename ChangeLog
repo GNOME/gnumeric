@@ -1,3 +1,8 @@
+2015-03-19  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-gamma.c (qbetaf): Return zero as result when a+b is a
+	non-positive integer, but neither a nor b is.
+
 2015-03-07  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c: Use new go_xml_out_add_double.

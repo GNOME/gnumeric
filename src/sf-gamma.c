@@ -506,9 +506,14 @@ qbetaf (gnm_float a, gnm_float b, GnmQuad *mant, int *exp2)
 
 	if (gnm_isnan (ab) ||
 	    (a <= 0 && a == gnm_floor (a)) ||
-	    (b <= 0 && b == gnm_floor (b)) ||
-	    (ab <= 0 && ab == gnm_floor (ab)))
+	    (b <= 0 && b == gnm_floor (b)))
 		return 2;
+
+	if (ab <= 0 && ab == gnm_floor (ab)) {
+		gnm_quad_init (mant, 0);
+		*exp2 = 0;
+		return 0;
+	}
 
 	if (!qgammaf (a, &ma, &ea) &&
 	    !qgammaf (b, &mb, &eb) &&
