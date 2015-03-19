@@ -9,6 +9,7 @@ Morten:
 	* Fix xlsx import of multiple axes.
 	* Fix xlsx title export problem.
 	* Improve test suite.
+	* Actually implement DECIMAL.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21
