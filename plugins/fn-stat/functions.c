@@ -4683,7 +4683,7 @@ gnumeric_permutationa (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (ix < 0 || iy < 0)
 		return value_new_error_NUM (ei->pos);
 	else if (ix == 0 && iy == 0)
-		return value_new_float (0);
+		return value_new_float (1);
 	else
 		return value_new_float (gnm_pow (ix, iy));
 }

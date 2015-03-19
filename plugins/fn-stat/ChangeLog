@@ -1,6 +1,7 @@
 2015-03-19  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_beta_dist): Fix sample.
+	(gnumeric_permutationa): Fix (0,0) case.
 
 2015-03-04  Morten Welinder <terra@gnome.org>
 
