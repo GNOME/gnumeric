@@ -268,8 +268,8 @@ static GnmFuncHelp const help_acosh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ACOSH:the hyperbolic arc cosine of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, "=ACOSH(0.1)" },
-	{ GNM_FUNC_HELP_EXAMPLES, "=ACOSH(-0.1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ACOSH(1.1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ACOSH(6.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH"},
 	{ GNM_FUNC_HELP_END}
 };
@@ -399,7 +399,7 @@ static GnmFuncHelp const help_atanh[] = {
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ATANH(0.5)" },
-	{ GNM_FUNC_HELP_EXAMPLES, "=ATANH(1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ATANH(0.9)" },
 	{ GNM_FUNC_HELP_SEEALSO, "ATAN,COS,SIN"},
 	{ GNM_FUNC_HELP_END}
 };
