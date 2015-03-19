@@ -196,7 +196,7 @@ static GnmFuncHelp const help_randpoisson[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{\xce\xbb} < 0 RANDPOISSON returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDPOISSON(30)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDPOISSON(30)" },
-        { GNM_FUNC_HELP_EXAMPLES, "=RANDPOISSON(-1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDPOISSON(2)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND,RANDBETWEEN" },
         { GNM_FUNC_HELP_END}
 };
