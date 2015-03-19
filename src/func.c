@@ -240,6 +240,7 @@ dump_samples (GPtrArray *defs, FILE *out)
 		GnmFunc const *fd = g_ptr_array_index (defs, ui);
 		int j;
 		const char *last = NULL;
+		gboolean has_sample = FALSE;
 
 		if (last_group != fd->fn_group) {
 			last_group = fd->fn_group;
@@ -250,13 +251,16 @@ dump_samples (GPtrArray *defs, FILE *out)
 		for (j = 0; fd->help[j].type != GNM_FUNC_HELP_END; j++) {
 			const char *s = fd->help[j].text;
 
+			if (fd->help[j].type != GNM_FUNC_HELP_EXAMPLES)
+				continue;
+
+			has_sample = TRUE;
+
 			/*
 			 * Some of the random numbers functions have duplicate
 			 * samples.  We don't want the duplicates here.
 			 */
-			if (fd->help[j].type != GNM_FUNC_HELP_EXAMPLES ||
-			    s[0] != '=' ||
-			    (last && strcmp (last, s) == 0))
+			if (s[0] != '=' || (last && strcmp (last, s) == 0))
 				continue;
 
 			fputc (',', out);
@@ -268,6 +272,9 @@ dump_samples (GPtrArray *defs, FILE *out)
 			csv_quoted_print (out, s);
 			fputc ('\n', out);
 		}
+
+		if (!has_sample)
+			g_printerr ("No samples for %s\n", fd->name);
 	}
 }
 

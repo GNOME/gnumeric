@@ -53,8 +53,7 @@ static GnmFuncHelp const help_varp[] = {
 	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARP is also known as the N-variance.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain number 11.4, 17.3, 21.3, 25.9, and 40.1.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VARP(A1:A5) equals 94.112")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=VARP(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, ("AVERAGE,DVAR,DVARP,STDEV,VAR")},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Variance") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Variance.html") },
@@ -83,8 +82,7 @@ static GnmFuncHelp const help_var[] = {
 				 "under reasonable conditions the N-1-variance is an unbiased estimator of the variance of the population "
 				 "from which the sample is drawn.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VAR(A1:A5) equals 117.64.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=VAR(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, ("VARP,STDEV,VARA")},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Variance") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Variance.html") },
@@ -111,8 +109,7 @@ static GnmFuncHelp const help_stdev[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("STDEV is also known as the N-1-standard deviation.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("To obtain the population standard deviation of a whole population use STDEVP.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEV(A1:A5) equals 10.84619749.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=STDEV(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, ("AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR")},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Standard_deviation") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:StandardDeviation.html") },
@@ -138,8 +135,7 @@ static GnmFuncHelp const help_stdevp[] = {
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This is also known as the N-standard deviation")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEVP(A1:A5) equals 9.701133954.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=STDEVP(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, ("STDEV,STDEVA,STDEVPA")},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Standard_deviation") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:StandardDeviation.html") },
@@ -613,8 +609,7 @@ static GnmFuncHelp const help_mode[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the data set does not contain any duplicates this function returns a #N/A error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 11.4, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MODE(A1:A5) equals 11.4.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MODE(11.4,17.3,11.4,3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,MEDIAN"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Mode_(statistics)") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Mode.html") },
@@ -638,10 +633,9 @@ static GnmFuncHelp const help_harmean[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HARMEAN:harmonic mean")},
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The harmonic mean of N data points is  N divided by the sum of the reciprocals of the data points).")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The harmonic mean of N data points is N divided by the sum of the reciprocals of the data points).")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then HARMEAN(A1:A5) equals 19.529814427.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=HARMEAN(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Harmonic_mean") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:HarmonicMean.html") },
@@ -667,8 +661,7 @@ static GnmFuncHelp const help_geomean[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The geometric mean is equal to the Nth root of the product of the N values.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then GEOMEAN(A1:A5) equals 21.279182482.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=GEOMEAN(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Geometric_mean") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:GeometricMean.html") },
@@ -743,8 +736,7 @@ static GnmFuncHelp const help_average[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVERAGE(A1:A5) equals 23.2.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=AVERAGE(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, ("SUM, COUNT")},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Arithmetic_mean") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:ArithmeticMean.html") },
@@ -769,8 +761,7 @@ static GnmFuncHelp const help_min[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MIN(A1:A5) equals 11.4.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MIN(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "MAX,ABS"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -804,8 +795,7 @@ static GnmFuncHelp const help_max[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MAX(A1:A5) equals 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MAX(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "MIN,ABS"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -844,8 +834,7 @@ static GnmFuncHelp const help_skew[] = {
 				 "symmetric (e.g., normal) distribution is zero.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If less than three numbers are given, this function returns a #DIV/0! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SKEW(A1:A5) equals 0.976798268.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SKEW(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,VAR,SKEWP,KURT"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -869,8 +858,7 @@ static GnmFuncHelp const help_skewp[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If less than two numbers are given, SKEWP returns a #DIV/0! error.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SKEWP(A1:A5) equals 0.655256198.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SKEWP(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,VARP,SKEW,KURTP"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1915,8 +1903,7 @@ static GnmFuncHelp const help_kurt[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If fewer than four numbers are given or all of them are equal "
 				 "this function returns a #DIV/0! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then KURT(A1:A5) equals 1.234546305.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=KURT(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,VAR,SKEW,KURTP"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1941,8 +1928,7 @@ static GnmFuncHelp const help_kurtp[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If fewer than two numbers are given or all of them are equal "
            "this function returns a #DIV/0! error.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then KURTP(A1:A5) equals -0.691363424.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=KURTP(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,VARP,SKEWP,KURT"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1965,8 +1951,7 @@ static GnmFuncHelp const help_avedev[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVEDEV(A1:A5) equals 7.84.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=AVEDEV(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "STDEV"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1990,8 +1975,7 @@ static GnmFuncHelp const help_devsq[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then DEVSQ(A1:A5) equals 470.56.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=DEVSQ(11.4,17.3,21.3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "STDEV"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -2116,8 +2100,7 @@ static GnmFuncHelp const help_median[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If even numbers are given MEDIAN returns the average of the two "
 	   "numbers in the center.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MEDIAN(A1:A5) equals 21.3.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MEDIAN(11.4,17.3,11.4,3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Median") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:StatisticalMedian.html") },
@@ -2537,8 +2520,7 @@ static GnmFuncHelp const help_averagea[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVERAGEA(A1:A5) equals 18.94.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=AVERAGE(11.4,17.3,21.3,3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -2562,9 +2544,7 @@ static GnmFuncHelp const help_maxa[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
-				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MAXA(A1:A5) equals 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MAXA(11.4,17.3,21.3,3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "MAX,MINA"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -2589,9 +2569,7 @@ static GnmFuncHelp const help_mina[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
-				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MINA(A1:A5) equals 0.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MINA(11.4,17.3,21.3,3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "MIN,MAXA"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -2621,9 +2599,7 @@ static GnmFuncHelp const help_vara[] = {
 				 "under reasonable conditions the N-1-variance is an unbiased estimator of the variance of the population "
 				 "from which the sample is drawn.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
-				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VARA(A1:A5) equals 228.613.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=VARA(11.4,17.3,21.3,3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "VAR,VARPA"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -2648,9 +2624,7 @@ static GnmFuncHelp const help_varpa[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARPA is also known as the N-variance.") },
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
-				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VARPA(A1:A5) equals 182.8904.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=VARPA(11.4,17.3,21.3,3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "VARA,VARP"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -2678,9 +2652,7 @@ static GnmFuncHelp const help_stdeva[] = {
 					"use STDEVPA.")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
-				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEVA(A1:A5) equals 15.119953704.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=STDEVA(11.4,17.3,21.3,3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "STDEV,STDEVPA"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -2705,9 +2677,7 @@ static GnmFuncHelp const help_stdevpa[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This is also known as the N-standard deviation")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
-				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEVPA(A1:A5) equals 13.523697719.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=STDEVPA(11.4,17.3,21.3,3,25.9,40.1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "STDEVA,STDEVP"},
 	{ GNM_FUNC_HELP_END }
 };
