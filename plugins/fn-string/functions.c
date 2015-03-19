@@ -446,13 +446,13 @@ gnumeric_midb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if ((len < 0) || (pos < 1))
 		return value_new_error_VALUE (ei->pos);
-	ipos = (int)MIN ((gnm_float)INT_MAX, pos) - 1;
-	ilen = (int)MIN ((gnm_float)INT_MAX, len);
+	ipos = (int)MIN ((gnm_float)INT_MAX / 2, pos) - 1;
+	ilen = (int)MIN ((gnm_float)INT_MAX / 2, len);
 	if ((ipos >= slen) ||
 	    ((gunichar)-1 == g_utf8_get_char_validated (peek + ipos, -1)))
 		return value_new_error_VALUE (ei->pos);
 
-	if ((ipos + ilen) >= slen)
+	if ((ipos + ilen) > slen)
 		return value_new_string (peek + ipos);
 
 	newlen = ((const guchar *)g_utf8_find_prev_char (peek + ipos, peek + ipos + ilen + 1))
@@ -918,10 +918,10 @@ gnumeric_replaceb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if ((len < 0) || (pos < 1))
 		return value_new_error_VALUE (ei->pos);
-	ipos = (int)MIN ((gnm_float)INT_MAX, pos) - 1;
-	ilen = (int)MIN ((gnm_float)INT_MAX, len);
-	if ((ipos >= slen) ||
-	    (ipos + ilen - 1 > slen) ||
+	ipos = (int)MIN ((gnm_float)INT_MAX / 2, pos) - 1;
+	ilen = (int)MIN ((gnm_float)INT_MAX / 2, len);
+	if ((ipos > slen) ||
+	    (ipos + ilen > slen) ||
 	    ((gunichar)-1 == g_utf8_get_char_validated (old + ipos, -1)) ||
 	    !g_utf8_validate (old + ipos, ilen, NULL))
 		return value_new_error_VALUE (ei->pos);

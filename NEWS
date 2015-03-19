@@ -11,6 +11,7 @@ Morten:
 	* Improve test suite.
 	* Actually implement DECIMAL.
 	* Fix BETA problem with special case.
+	* Fix MIDB and REPLACEB length check.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21
