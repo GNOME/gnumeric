@@ -1210,7 +1210,7 @@ static GnmFuncHelp const help_beta_dist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, "=BETA.DIST(0.12,2,3,FALSE,2,4)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BETA.DIST(0.12,2,3,FALSE,0,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BETAINV,BETADIST"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -4440,7 +4440,7 @@ static GnmFuncHelp const help_geomdist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{k} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! error.") },
-	{ GNM_FUNC_HELP_EXAMPLES, "=GEOMDIST(2,10.4,TRUE)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=GEOMDIST(2,0.4,TRUE)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDGEOM"},
 	{ GNM_FUNC_HELP_END }
 };
