@@ -1,5 +1,8 @@
 2015-03-19  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (dump_samples): New function to dump all sample in
+	help documentation to csv format.
+
 	* src/sf-gamma.c (qbetaf): Return zero as result when a+b is a
 	non-positive integer, but neither a nor b is.
 

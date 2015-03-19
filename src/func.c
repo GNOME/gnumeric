@@ -211,6 +211,66 @@ dump_externals (GPtrArray *defs, FILE *out)
 	fprintf (out, "<!--#include virtual=\"footer.shtml\" -->\n");
 }
 
+static void
+csv_quoted_print (FILE *out, const char *s)
+{
+	char quote = '"';
+	fputc (quote, out);
+	while (*s) {
+		if (*s == quote) {
+			fputc (quote, out);
+			fputc (quote, out);
+			s++;
+		} else {
+			int len = g_utf8_skip[(unsigned char)*s];
+			fprintf (out, "%-.*s", len, s);
+			s += len;
+		}
+	}
+	fputc ('"', out);
+}
+
+static void
+dump_samples (GPtrArray *defs, FILE *out)
+{
+	unsigned ui;
+	GnmFuncGroup *last_group = NULL;
+
+	for (ui = 0; ui < defs->len; ui++) {
+		GnmFunc const *fd = g_ptr_array_index (defs, ui);
+		int j;
+		const char *last = NULL;
+
+		if (last_group != fd->fn_group) {
+			last_group = fd->fn_group;
+			csv_quoted_print (out, last_group->display_name->str);
+			fputc ('\n', out);
+		}
+
+		for (j = 0; fd->help[j].type != GNM_FUNC_HELP_END; j++) {
+			const char *s = fd->help[j].text;
+
+			/*
+			 * Some of the random numbers functions have duplicate
+			 * samples.  We don't want the duplicates here.
+			 */
+			if (fd->help[j].type != GNM_FUNC_HELP_EXAMPLES ||
+			    s[0] != '=' ||
+			    (last && strcmp (last, s) == 0))
+				continue;
+
+			fputc (',', out);
+			if (!last)
+				csv_quoted_print (out, fd->name);
+			last = s;
+
+			fputc (',', out);
+			csv_quoted_print (out, s);
+			fputc ('\n', out);
+		}
+	}
+}
+
 /**
  * function_dump_defs :
  * @filename:
@@ -224,6 +284,7 @@ dump_externals (GPtrArray *defs, FILE *out)
  * 2 : generate_po
  * 3 : dump function usage count
  * 4 : external refs
+ * 5 : all sample expressions
  **/
 void
 function_dump_defs (char const *filename, int dump_type)
@@ -265,6 +326,13 @@ function_dump_defs (char const *filename, int dump_type)
 
 	if (dump_type == 4) {
 		dump_externals (ordered, output_file);
+		g_ptr_array_free (ordered, TRUE);
+		fclose (output_file);
+		return;
+	}
+
+	if (dump_type == 5) {
+		dump_samples (ordered, output_file);
 		g_ptr_array_free (ordered, TRUE);
 		fclose (output_file);
 		return;
