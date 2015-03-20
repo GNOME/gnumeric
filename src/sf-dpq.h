@@ -37,5 +37,10 @@ gnm_float qcauchy (gnm_float p, gnm_float location, gnm_float scale,
 		   gboolean lower_tail, gboolean log_p);
 
 /* ------------------------------------------------------------------------- */
+/* Hyper-geometrical distribution.  */
+
+gnm_float qhyper (gnm_float p, gnm_float r, gnm_float b, gnm_float n, gboolean lower_tail, gboolean log_p);
+
+/* ------------------------------------------------------------------------- */
 
 #endif
