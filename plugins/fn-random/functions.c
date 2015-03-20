@@ -472,8 +472,8 @@ gnumeric_randrayleightail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_randgamma[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDGAMMA:random variate from a Gamma distribution") },
-        { GNM_FUNC_HELP_ARG, F_("a:parameter of the Gamma distribution") },
-        { GNM_FUNC_HELP_ARG, F_("b:parameter of the Gamma distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:shape parameter of the Gamma distribution") },
+        { GNM_FUNC_HELP_ARG, F_("b:scale parameter of the Gamma distribution") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} \xe2\x89\xa4 0, RANDGAMMA returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDGAMMA(1,2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDGAMMA(1,2)" },
