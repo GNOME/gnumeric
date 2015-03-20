@@ -898,7 +898,7 @@ test_random_randexp (int N)
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 0 && gnm_finite (T))) {
+	if (!(mean >= 0 && gnm_finite (mean))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Mean failure.\n");
 		ok = FALSE;
@@ -906,7 +906,7 @@ test_random_randexp (int N)
 
 	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 0 && gnm_finite (T))) {
+	if (!(var >= 0 && gnm_finite (var))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Var failure.\n");
 		ok = FALSE;
@@ -914,7 +914,7 @@ test_random_randexp (int N)
 
 	T = skew_target;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (!gnm_finite (T)) {
+	if (!gnm_finite (skew)) {
 		/* That is a very simplistic test! */
 		g_printerr ("Skew failure.\n");
 		ok = FALSE;
@@ -922,7 +922,7 @@ test_random_randexp (int N)
 
 	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= -3 && gnm_finite (T))) {
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
@@ -966,7 +966,7 @@ test_random_randbinom (int N)
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 0 && T <= param_trials)) {
+	if (!(mean >= 0 && mean <= param_trials)) {
 		/* That is a very simplistic test! */
 		g_printerr ("Mean failure.\n");
 		ok = FALSE;
@@ -974,7 +974,7 @@ test_random_randbinom (int N)
 
 	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 0 && gnm_finite (T))) {
+	if (!(var >= 0 && gnm_finite (var))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Var failure.\n");
 		ok = FALSE;
@@ -982,7 +982,7 @@ test_random_randbinom (int N)
 
 	T = skew_target;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (!gnm_finite (T)) {
+	if (!gnm_finite (skew)) {
 		/* That is a very simplistic test! */
 		g_printerr ("Skew failure.\n");
 		ok = FALSE;
@@ -990,7 +990,7 @@ test_random_randbinom (int N)
 
 	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= -3 && gnm_finite (T))) {
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
@@ -1035,7 +1035,7 @@ test_random_randnegbinom (int N)
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 0 && gnm_finite (T))) {
+	if (!(mean >= 0 && gnm_finite (mean))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Mean failure.\n");
 		ok = FALSE;
@@ -1043,7 +1043,7 @@ test_random_randnegbinom (int N)
 
 	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 0 && gnm_finite (T))) {
+	if (!(var >= 0 && gnm_finite (var))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Var failure.\n");
 		ok = FALSE;
@@ -1051,7 +1051,7 @@ test_random_randnegbinom (int N)
 
 	T = skew_target;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (!gnm_finite (T)) {
+	if (!gnm_finite (skew)) {
 		/* That is a very simplistic test! */
 		g_printerr ("Skew failure.\n");
 		ok = FALSE;
@@ -1059,7 +1059,7 @@ test_random_randnegbinom (int N)
 
 	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= -3 && gnm_finite (T))) {
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
@@ -1105,7 +1105,7 @@ test_random_randbetween (int N)
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= param_l && T <= param_h)) {
+	if (!(mean >= param_l && mean <= param_h)) {
 		/* That is a very simplistic test! */
 		g_printerr ("Mean failure.\n");
 		ok = FALSE;
@@ -1113,7 +1113,7 @@ test_random_randbetween (int N)
 
 	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 0 && gnm_finite (T))) {
+	if (!(var >= 0 && gnm_finite (var))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Var failure.\n");
 		ok = FALSE;
@@ -1121,7 +1121,7 @@ test_random_randbetween (int N)
 
 	T = skew_target;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (!gnm_finite (T)) {
+	if (!gnm_finite (skew)) {
 		/* That is a very simplistic test! */
 		g_printerr ("Skew failure.\n");
 		ok = FALSE;
@@ -1129,7 +1129,7 @@ test_random_randbetween (int N)
 
 	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= -3 && gnm_finite (T))) {
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
@@ -1172,7 +1172,7 @@ test_random_randpoisson (int N)
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 0 && gnm_finite (T))) {
+	if (!(mean >= 0 && gnm_finite (mean))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Mean failure.\n");
 		ok = FALSE;
@@ -1180,7 +1180,7 @@ test_random_randpoisson (int N)
 
 	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 0 && gnm_finite (T))) {
+	if (!(var >= 0 && gnm_finite (var))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Var failure.\n");
 		ok = FALSE;
@@ -1188,7 +1188,7 @@ test_random_randpoisson (int N)
 
 	T = skew_target;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (!gnm_finite (T)) {
+	if (!gnm_finite (skew)) {
 		/* That is a very simplistic test! */
 		g_printerr ("Skew failure.\n");
 		ok = FALSE;
@@ -1196,7 +1196,7 @@ test_random_randpoisson (int N)
 
 	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= -3 && gnm_finite (T))) {
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
@@ -1239,7 +1239,7 @@ test_random_randgeom (int N)
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 1 && gnm_finite (T))) {
+	if (!(mean >= 1 && gnm_finite (mean))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Mean failure.\n");
 		ok = FALSE;
@@ -1247,7 +1247,7 @@ test_random_randgeom (int N)
 
 	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= 0 && gnm_finite (T))) {
+	if (!(var >= 0 && gnm_finite (var))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Var failure.\n");
 		ok = FALSE;
@@ -1255,7 +1255,7 @@ test_random_randgeom (int N)
 
 	T = skew_target;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (!gnm_finite (T)) {
+	if (!gnm_finite (skew)) {
 		/* That is a very simplistic test! */
 		g_printerr ("Skew failure.\n");
 		ok = FALSE;
@@ -1263,7 +1263,85 @@ test_random_randgeom (int N)
 
 	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (!(T >= -3 && gnm_finite (T))) {
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
+test_random_randlog (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float param_p = random_01 ();
+	gnm_float p = param_p;
+	gnm_float l1mp = gnm_log1p (-p);
+	gnm_float mean_target = -p / (1 - p) / l1mp;
+	gnm_float var_target = -(p * (p + l1mp)) / gnm_pow ((1 - p) * l1mp, 2);
+	/* See http://mathworld.wolfram.com/Log-SeriesDistribution.html */
+	gnm_float skew_target =
+		-l1mp *
+		(2 * p * p + 3 * p * l1mp + (1 + p) * l1mp * l1mp) /
+		(l1mp * (p + l1mp) * gnm_sqrt (-p * (p + l1mp)));
+	gnm_float kurt_target =
+		-(6 * p * p * p +
+		  12 * p * p * l1mp +
+		  p * (7 + 4 * p) * l1mp * l1mp +
+		  (1 + 4 * p + p * p) * l1mp * l1mp * l1mp) /
+		(p * gnm_pow (p + l1mp, 2));
+	char *expr;
+	gnm_float T;
+	int i;
+
+	expr = g_strdup_printf ("=RANDLOG(%.10" GNM_FORMAT_g ")", param_p);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 1 && gnm_finite (r) && r == gnm_floor (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (!(mean >= 1 && gnm_finite (mean))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(var >= 0 && gnm_finite (var))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (skew)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
@@ -1294,6 +1372,7 @@ test_random (void)
         test_random_randbetween (N);
         test_random_randpoisson (N);
         test_random_randgeom (N);
+        test_random_randlog (N);
 
 #if 0
         test_random_randbeta (N);
@@ -1309,7 +1388,6 @@ test_random (void)
         test_random_randlandau (N);
         test_random_randlaplace (N);
         test_random_randlevy (N);
-        test_random_randlog (N);
         test_random_randlogistic (N);
         test_random_randlognorm (N);
         test_random_randpareto (N);
