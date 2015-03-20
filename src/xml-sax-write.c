@@ -202,12 +202,19 @@ xml_write_sheet_names (GnmOutputXML *state)
 	for (i = 0 ; i < n ; i++) {
 		sheet = workbook_sheet_by_index (state->wb, i);
 		gsf_xml_out_start_element (state->output, GNM "SheetName");
+
+		/*
+		 * Note, that we explicitly namespace these attributes.
+		 * That is not wrong, per se, but note that Gnumeric until
+		 * 1.12.22 will not read files without this explicit name-
+		 * space and that the abbreviation must be "gnm".
+		 */
 		if (sheet->sheet_type == GNM_SHEET_OBJECT)
 			gsf_xml_out_add_cstr (state->output, GNM "SheetType", "object");
 		gsf_xml_out_add_int (state->output, GNM "Cols",
-							 gnm_sheet_get_max_cols (sheet));
+				     gnm_sheet_get_max_cols (sheet));
 		gsf_xml_out_add_int (state->output, GNM "Rows",
-							 gnm_sheet_get_max_rows (sheet));
+				     gnm_sheet_get_max_rows (sheet));
 		gsf_xml_out_add_cstr (state->output, NULL, sheet->name_unquoted);
 		gsf_xml_out_end_element (state->output); /* </gnm:SheetName> */
 	}
