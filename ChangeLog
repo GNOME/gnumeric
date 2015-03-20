@@ -1,3 +1,7 @@
+2015-03-20  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-random.c (random_logarithmic): Fix.  See #746449.
+
 2015-03-19  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (dump_samples): New function to dump all sample in

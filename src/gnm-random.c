@@ -830,7 +830,7 @@ random_logarithmic (gnm_float p)
 		do {
 			u = random_01 ();
 		} while (u == 0);
-		q = gnm_expm1 (c * u);
+		q = -gnm_expm1 (c * u);
 
 		if (v <= q * q)
 			return gnm_floor (1 + gnm_log (v) / gnm_log (q));

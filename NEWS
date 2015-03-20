@@ -12,7 +12,8 @@ Morten:
 	* Actually implement DECIMAL.
 	* Fix BETA problem with special case.
 	* Fix MIDB and REPLACEB length check.
-	* Fix PERMUATIONA.
+	* Fix PERMUATIONA corner case.
+	* Fix RANDLOG.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21
