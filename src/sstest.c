@@ -867,6 +867,73 @@ test_random_randsnorm (int N)
 }
 
 static void
+test_random_randexp (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float param_l = 1 / (0.0001 + gnm_pow (random_01 () / 2, 4));
+	gnm_float mean_target = param_l;
+	gnm_float var_target = mean_target * mean_target;
+	gnm_float skew_target = 2;
+	gnm_float kurt_target = 6;
+	char *expr;
+	gnm_float T;
+	int i;
+
+	expr = g_strdup_printf ("=RANDEXP(%.10" GNM_FORMAT_g ")", param_l);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 0 && gnm_finite (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 0 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 0 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (T)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= -3 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
 test_random_randbinom (int N)
 {
 	gnm_float mean, var, skew, kurt;
@@ -923,7 +990,7 @@ test_random_randbinom (int N)
 
 	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (!gnm_finite (T)) {
+	if (!(T >= -3 && gnm_finite (T))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
@@ -993,7 +1060,141 @@ test_random_randbetween (int N)
 
 	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= -3 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
+test_random_randpoisson (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float param_l = 1 / (0.0001 + gnm_pow (random_01 () / 2, 4));
+	gnm_float mean_target = param_l;
+	gnm_float var_target = param_l;
+	gnm_float skew_target = 1 / gnm_sqrt (param_l);
+	gnm_float kurt_target = 1 / param_l;
+	char *expr;
+	gnm_float T;
+	int i;
+
+	expr = g_strdup_printf ("=RANDPOISSON(%.10" GNM_FORMAT_g ")", param_l);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 0 && gnm_finite (r) && r == gnm_floor (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 0 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 0 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
 	if (!gnm_finite (T)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= -3 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
+test_random_randgeom (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float param_p = random_01 ();
+	gnm_float mean_target = 1 / param_p;
+	gnm_float var_target = (1 - param_p) / (param_p * param_p);
+	gnm_float skew_target = (2 - param_p) / gnm_sqrt (1 - param_p);
+	gnm_float kurt_target = 6 + (param_p * param_p) / (1 - param_p);
+	char *expr;
+	gnm_float T;
+	int i;
+
+	expr = g_strdup_printf ("=RANDGEOM(%.10" GNM_FORMAT_g ")", param_p);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 1 && gnm_finite (r) && r == gnm_floor (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 1 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 0 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (T)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= -3 && gnm_finite (T))) {
 		/* That is a very simplistic test! */
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
@@ -1012,23 +1213,27 @@ test_random (void)
 	const int High_N = 65000;
 
 	mark_test_start (test_name);
+
 	test_random_rand (N);
-        test_random_randbernoulli (N);
         test_random_randnorm (High_N);
         test_random_randsnorm (High_N);
+	test_random_randexp (N);
+
+        test_random_randbernoulli (N);
         test_random_randbinom (N);
         test_random_randbetween (N);
+        test_random_randpoisson (N);
+        test_random_randgeom (N);
+
 #if 0
         test_random_randbeta (N);
         test_random_randcauchy (N);
         test_random_randchisq (N);
 	test_random_randdiscrete (N);
-	test_random_randexp (N);
         test_random_randexppow (N);
         test_random_randfdist (N);
         test_random_randgamma (N);
         test_random_randnormtail (N);
-        test_random_randgeom (N);
         test_random_randgumbel (N);
         test_random_randhyperg (N);
         test_random_randlandau (N);
@@ -1039,7 +1244,6 @@ test_random (void)
         test_random_randlognorm (N);
         test_random_randnegbinom (N);
         test_random_randpareto (N);
-        test_random_randpoisson (N);
         test_random_randrayleigh (N);
         test_random_randrayleightail (N);
         test_random_randstdist (N);

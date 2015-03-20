@@ -2,6 +2,9 @@
 
 	* src/sstest.c (test_random_randbinom): New test.
 	(test_random_randbetween): New test.
+	(test_random_randexp): New test.
+	(test_random_randpoisson): New test.
+	(test_random_randgeom): New test.
 
 	* src/gnm-random.c (random_logarithmic): Fix.  See #746449.
 
