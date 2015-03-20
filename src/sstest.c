@@ -530,6 +530,43 @@ define_cell (Sheet *sheet, int c, int r, const char *expr)
 	sheet_cell_set_text (cell, expr, NULL);
 }
 
+static gboolean
+rand_fractile_test (gnm_float const *vals, int N, int nf, gnm_float const *fractiles)
+{
+	gnm_float f = 1.0 / nf, T = f * N;
+	int *fractilecount = g_new (int, nf + 1);
+	int i;
+	gboolean ok = TRUE;
+
+	for (i = 0; i <= nf; i++)
+		fractilecount[i] = 0;
+
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		int j;
+		for (j = 1; j < nf; j++)
+			if (r < fractiles[j])
+				break;
+		fractilecount[j]++;
+	}
+	g_printerr ("Fractile counts:");
+	for (i = 1; i <= nf; i++)
+		g_printerr ("%s%d", (i == 1) ? " " : ", ", fractilecount[i]);
+	g_printerr ("\n");
+
+	g_printerr ("Expected count in each fractile: %.10" GNM_FORMAT_g "\n", T);
+	for (i = 1; i <= nf; i++) {
+		if (!(gnm_abs (fractilecount[i] - T) < 3 * gnm_sqrt (f * N))) {
+			g_printerr ("Fractile test failure.\n");
+			ok = FALSE;
+		}
+	}
+
+	g_free (fractilecount);
+
+	return ok;
+}
+
 static gnm_float *
 test_random_1 (int N, const char *expr,
 	       gnm_float *mean, gnm_float *var,
@@ -667,6 +704,8 @@ test_random_rand (int N)
 	int i;
 	gboolean ok;
 	gnm_float T;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	vals = test_random_1 (N, "=RAND()", &mean, &var, &skew, &kurt);
 	ok = TRUE;
@@ -678,7 +717,6 @@ test_random_rand (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = 0.5;
 	if (gnm_abs (mean - T) > 0.01) {
@@ -700,9 +738,18 @@ test_random_rand (int N)
 		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
+
+	/* Fractile test */
+	for (i = 1; i < nf; i++)
+		fractiles[i] = i / (double)nf;
+	if (!rand_fractile_test (vals, N, nf, fractiles))
+		ok = FALSE;
+
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -722,6 +769,8 @@ test_random_randuniform (int N)
 	char *expr;
 	gnm_float T;
 	int i;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	expr = g_strdup_printf ("=RANDUNIFORM(%.10" GNM_FORMAT_g ",%.10" GNM_FORMAT_g ")", param_l, param_h);
 	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
@@ -736,7 +785,6 @@ test_random_randuniform (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -769,9 +817,17 @@ test_random_randuniform (int N)
 		ok = FALSE;
 	}
 
+	/* Fractile test */
+	for (i = 1; i < nf; i++)
+		fractiles[i] = param_l + n * i / (double)nf;
+	if (!rand_fractile_test (vals, N, nf, fractiles))
+		ok = FALSE;
+
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -1022,6 +1078,8 @@ test_random_randexp (int N)
 	char *expr;
 	gnm_float T;
 	int i;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	expr = g_strdup_printf ("=RANDEXP(%.10" GNM_FORMAT_g ")", param_l);
 	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
@@ -1036,7 +1094,6 @@ test_random_randexp (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -1069,9 +1126,17 @@ test_random_randexp (int N)
 		ok = FALSE;
 	}
 
+	/* Fractile test */
+	for (i = 1; i < nf; i++)
+		fractiles[i] = qexp (i / (double)nf, param_l, TRUE, FALSE);
+	if (!rand_fractile_test (vals, N, nf, fractiles))
+		ok = FALSE;
+
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -1089,6 +1154,8 @@ test_random_randgamma (int N)
 	char *expr;
 	gnm_float T;
 	int i;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	expr = g_strdup_printf ("=RANDGAMMA(%.0" GNM_FORMAT_f ",%.10" GNM_FORMAT_g ")", param_shape, param_scale);
 	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
@@ -1103,7 +1170,6 @@ test_random_randgamma (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -1136,9 +1202,17 @@ test_random_randgamma (int N)
 		ok = FALSE;
 	}
 
+	/* Fractile test */
+	for (i = 1; i < nf; i++)
+		fractiles[i] = qgamma (i / (double)nf, param_shape, param_scale, TRUE, FALSE);
+	if (!rand_fractile_test (vals, N, nf, fractiles))
+		ok = FALSE;
+
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -1155,6 +1229,8 @@ test_random_randtdist (int N)
 	char *expr;
 	gnm_float T;
 	int i;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	expr = g_strdup_printf ("=RANDTDIST(%.0" GNM_FORMAT_f ")", param_df);
 	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
@@ -1169,165 +1245,6 @@ test_random_randtdist (int N)
 			break;
 		}
 	}
-	g_free (vals);
-
-	T = mean_target;
-	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
-	if (gnm_finite (var_target) && !(gnm_abs (mean - T) < 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
-		ok = FALSE;
-	}
-
-	T = var_target;
-	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
-	if (!(var >= 0 && gnm_finite (var))) {
-		/* That is a very simplistic test! */
-		g_printerr ("Var failure.\n");
-		ok = FALSE;
-	}
-
-	T = skew_target;
-	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (!gnm_finite (skew)) {
-		/* That is a very simplistic test! */
-		g_printerr ("Skew failure.\n");
-		ok = FALSE;
-	}
-
-	T = kurt_target;
-	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (!(kurt >= -3 && gnm_finite (kurt))) {
-		/* That is a very simplistic test! */
-		g_printerr ("Kurt failure.\n");
-		ok = FALSE;
-	}
-
-	if (ok)
-		g_printerr ("OK\n");
-	g_printerr ("\n");
-}
-
-static void
-test_random_randfdist (int N)
-{
-	gnm_float mean, var, skew, kurt;
-	gnm_float *vals;
-	gboolean ok;
-	gnm_float param_df1 = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
-	gnm_float param_df2 = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
-	gnm_float mean_target = param_df2 > 2 ? param_df2 / (param_df2 - 2) : gnm_nan;
-	gnm_float var_target = param_df2 > 4
-		? (2 * param_df2 * param_df2 * (param_df1 + param_df2 - 2) /
-		   (param_df1 * (param_df2 - 2) * (param_df2 - 2) * (param_df2 - 4)))
-		: gnm_nan;
-	gnm_float skew_target = gnm_nan; /* Complicated */
-	gnm_float kurt_target = gnm_nan; /* Complicated */
-	char *expr;
-	gnm_float T;
-	int i;
-
-	expr = g_strdup_printf ("=RANDFDIST(%.0" GNM_FORMAT_f ",%.0" GNM_FORMAT_f ")", param_df1, param_df2);
-	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
-	g_free (expr);
-
-	ok = TRUE;
-	for (i = 0; i < N; i++) {
-		gnm_float r = vals[i];
-		if (!(r >= 0 && gnm_finite (r))) {
-			g_printerr ("Range failure.\n");
-			ok = FALSE;
-			break;
-		}
-	}
-	g_free (vals);
-
-	T = mean_target;
-	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
-	if (gnm_finite (var_target) && !(gnm_abs (mean - T) < 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
-		ok = FALSE;
-	}
-
-	T = var_target;
-	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
-	if (!(var >= 0 && gnm_finite (var))) {
-		/* That is a very simplistic test! */
-		g_printerr ("Var failure.\n");
-		ok = FALSE;
-	}
-
-	T = skew_target;
-	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (!gnm_finite (skew)) {
-		/* That is a very simplistic test! */
-		g_printerr ("Skew failure.\n");
-		ok = FALSE;
-	}
-
-	T = kurt_target;
-	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (!(kurt >= -3 && gnm_finite (kurt))) {
-		/* That is a very simplistic test! */
-		g_printerr ("Kurt failure.\n");
-		ok = FALSE;
-	}
-
-	if (ok)
-		g_printerr ("OK\n");
-	g_printerr ("\n");
-}
-
-static void
-test_random_randcauchy (int N)
-{
-	gnm_float mean, var, skew, kurt;
-	gnm_float *vals;
-	gboolean ok;
-	gnm_float param_scale = 0.001 + gnm_pow (random_01 (), 4) * 1000;
-	gnm_float mean_target = gnm_nan;
-	gnm_float var_target = gnm_nan;
-	gnm_float skew_target = gnm_nan;
-	gnm_float kurt_target = gnm_nan;
-	char *expr;
-	gnm_float T;
-	gnm_float fractiles[10 + 1];
-	int i, fractilecount[G_N_ELEMENTS (fractiles)];
-	const int nf = G_N_ELEMENTS (fractiles) - 1;
-	gnm_float f = 1.0 / nf;
-
-	/*
-	 * The distribution has no mean, no variance, no skew, and no kurtosis.
-	 * The support is all reals.
-	 */
-	fractiles[0] = gnm_ninf;
-	for (i = 1; i < nf; i++)
-		fractiles[i] = qcauchy (i * f, 0.0, param_scale, TRUE, FALSE);
-	fractiles[nf] = gnm_pinf;
-	for (i = 0; i <= nf; i++)
-		fractilecount[i] = 0;
-
-	expr = g_strdup_printf ("=RANDCAUCHY(%.10" GNM_FORMAT_g ")", param_scale);
-	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
-	g_free (expr);
-
-	ok = TRUE;
-	for (i = 0; i < N; i++) {
-		int j;
-		gnm_float r = vals[i];
-		if (!(gnm_finite (r))) {
-			g_printerr ("Range failure.\n");
-			ok = FALSE;
-			break;
-		}
-		for (j = 1; j <= nf; j++)
-			if (r < fractiles[j])
-				break;
-		fractilecount[j]++;
-	}
-	g_free (vals);
-
-	for (i = 1; i <= nf; i++)
-		g_printerr ("Fractile %d count: %d\n", i, fractilecount[i]);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -1361,18 +1278,175 @@ test_random_randcauchy (int N)
 	}
 
 	/* Fractile test */
-	T = f * N;
-	g_printerr ("Expected count in each fractile: %.10" GNM_FORMAT_g "\n", T);
-	for (i = 1; i <= nf; i++) {
-		if (!(gnm_abs (fractilecount[i] - T) < 3 * gnm_sqrt (d * N))) {
-			g_printerr ("Fractile test failure.\n");
-			ok = FALSE;
-		}
-	}
+	for (i = 1; i < nf; i++)
+		fractiles[i] = qt (i / (double)nf, param_df, TRUE, FALSE);
+	if (!rand_fractile_test (vals, N, nf, fractiles))
+		ok = FALSE;
 
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
+}
+
+static void
+test_random_randfdist (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float param_df1 = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
+	gnm_float param_df2 = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
+	gnm_float mean_target = param_df2 > 2 ? param_df2 / (param_df2 - 2) : gnm_nan;
+	gnm_float var_target = param_df2 > 4
+		? (2 * param_df2 * param_df2 * (param_df1 + param_df2 - 2) /
+		   (param_df1 * (param_df2 - 2) * (param_df2 - 2) * (param_df2 - 4)))
+		: gnm_nan;
+	gnm_float skew_target = gnm_nan; /* Complicated */
+	gnm_float kurt_target = gnm_nan; /* Complicated */
+	char *expr;
+	gnm_float T;
+	int i;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
+
+	expr = g_strdup_printf ("=RANDFDIST(%.0" GNM_FORMAT_f ",%.0" GNM_FORMAT_f ")", param_df1, param_df2);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 0 && gnm_finite (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (gnm_finite (var_target) && !(gnm_abs (mean - T) < 3 * gnm_sqrt (var_target / N))) {
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(var >= 0 && gnm_finite (var))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (skew)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	/* Fractile test */
+	for (i = 1; i < nf; i++)
+		fractiles[i] = qf (i / (double)nf, param_df1, param_df2, TRUE, FALSE);
+	if (!rand_fractile_test (vals, N, nf, fractiles))
+		ok = FALSE;
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+
+	g_free (vals);
+}
+
+static void
+test_random_randcauchy (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float param_scale = 0.001 + gnm_pow (random_01 (), 4) * 1000;
+	gnm_float mean_target = gnm_nan;
+	gnm_float var_target = gnm_nan;
+	gnm_float skew_target = gnm_nan;
+	gnm_float kurt_target = gnm_nan;
+	char *expr;
+	gnm_float T;
+	int i;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
+
+	/*
+	 * The distribution has no mean, no variance, no skew, and no kurtosis.
+	 * The support is all reals.
+	 */
+
+	expr = g_strdup_printf ("=RANDCAUCHY(%.10" GNM_FORMAT_g ")", param_scale);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(gnm_finite (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (gnm_finite (var_target) && !(gnm_abs (mean - T) < 3 * gnm_sqrt (var_target / N))) {
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(var >= 0 && gnm_finite (var))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (skew)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	/* Fractile test */
+	for (i = 1; i < nf; i++)
+		fractiles[i] = qcauchy (i / (double)nf, 0.0, param_scale, TRUE, FALSE);
+	if (!rand_fractile_test (vals, N, nf, fractiles))
+		ok = FALSE;
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
