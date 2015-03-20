@@ -1002,6 +1002,75 @@ test_random_randbinom (int N)
 }
 
 static void
+test_random_randnegbinom (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float param_p = random_01 ();
+	gnm_float param_fails = gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 4)));
+	/* Warning: these differ from Wikipedia by swapping p and 1-p.  */
+	gnm_float mean_target = param_fails * (1 - param_p) / param_p;
+	gnm_float var_target = mean_target / param_p;
+	gnm_float skew_target = (2 - param_p) / gnm_sqrt (param_fails * (1 - param_p));
+	gnm_float kurt_target = 6 / param_fails + 1 / var_target;
+	char *expr;
+	gnm_float T;
+	int i;
+
+	expr = g_strdup_printf ("=RANDNEGBINOM(%.10" GNM_FORMAT_g ",%.0" GNM_FORMAT_f ")", param_p, param_fails);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 0 && gnm_finite (r) && r == gnm_floor (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 0 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 0 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (T)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= -3 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
 test_random_randbetween (int N)
 {
 	gnm_float mean, var, skew, kurt;
@@ -1221,6 +1290,7 @@ test_random (void)
 
         test_random_randbernoulli (N);
         test_random_randbinom (N);
+        test_random_randnegbinom (N);
         test_random_randbetween (N);
         test_random_randpoisson (N);
         test_random_randgeom (N);
@@ -1242,7 +1312,6 @@ test_random (void)
         test_random_randlog (N);
         test_random_randlogistic (N);
         test_random_randlognorm (N);
-        test_random_randnegbinom (N);
         test_random_randpareto (N);
         test_random_randrayleigh (N);
         test_random_randrayleightail (N);
