@@ -1,5 +1,8 @@
 2015-03-20  Morten Welinder  <terra@gnome.org>
 
+	* src/sstest.c (test_random_randbinom): New test.
+	(test_random_randbetween): New test.
+
 	* src/gnm-random.c (random_logarithmic): Fix.  See #746449.
 
 2015-03-19  Morten Welinder  <terra@gnome.org>

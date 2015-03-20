@@ -23,6 +23,7 @@
 #include "parse-util.h"
 #include "sheet-object-cell-comment.h"
 #include "mathfunc.h"
+#include "gnm-random.h"
 
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
@@ -663,7 +664,7 @@ test_random_rand (int N)
 	ok = TRUE;
 	for (i = 0; i < N; i++) {
 		gnm_float r = vals[i];
-		if (!(r >= 0 && r <= 1)) {
+		if (!(r >= 0 && r < 1)) {
 			g_printerr ("Range failure.\n");
 			ok = FALSE;
 			break;
@@ -757,14 +758,23 @@ test_random_randnorm (int N)
 	gboolean ok;
 	char *expr;
 	gnm_float T;
+	int i;
 
 	expr = g_strdup_printf ("=RANDNORM(%.10" GNM_FORMAT_g ",%.10" GNM_FORMAT_g ")",
 				mean_target, var_target);
 	vals = test_random_normality (N, expr, &mean, &var, &adtest, &cvmtest, &lkstest, &sftest);
 	g_free (expr);
-	g_free (vals);
 
 	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!gnm_finite (r)) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
 
 	T = mean_target;
 	if (gnm_abs (mean - T) > 0.02) {
@@ -813,13 +823,22 @@ test_random_randsnorm (int N)
 	gnm_float var_target = 1-mean_target*mean_target;
 	char *expr;
 	gnm_float T;
+	int i;
 
 	expr = g_strdup_printf ("=RANDSNORM(%.10" GNM_FORMAT_g ")", alpha);
 	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
 	g_free (expr);
-	g_free (vals);
 
 	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!gnm_finite (r)) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
 
 	T = mean_target;
 	if (gnm_abs (mean - T) > 0.01) {
@@ -848,6 +867,144 @@ test_random_randsnorm (int N)
 }
 
 static void
+test_random_randbinom (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float param_p = random_01 ();
+	gnm_float param_trials = gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 4)));
+	gnm_float mean_target = param_trials * param_p;
+	gnm_float var_target = mean_target * (1 - param_p);
+	gnm_float skew_target = (1 - 2 * param_p) / gnm_sqrt (var_target);
+	gnm_float kurt_target = (1 - 6 * param_p * (1 - param_p)) / var_target;
+	char *expr;
+	gnm_float T;
+	int i;
+
+	expr = g_strdup_printf ("=RANDBINOM(%.10" GNM_FORMAT_g ",%.0" GNM_FORMAT_f ")", param_p, param_trials);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 0 && r <= param_trials && r == gnm_floor (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 0 && T <= param_trials)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 0 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (T)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (T)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
+test_random_randbetween (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float lsign = (random_01 () > 0.75 ? 1 : -1);
+	gnm_float param_l = lsign * gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 4)));
+	gnm_float param_h = param_l + gnm_floor (1 / (0.0001 + gnm_pow (random_01 () / 2, 4)));
+	gnm_float n = param_h - param_l + 1;
+	gnm_float mean_target = (param_l + param_h) / 2;
+	gnm_float var_target = (n * n - 1) / 12;
+	gnm_float skew_target = 0;
+	gnm_float kurt_target = (n * n + 1) / (n * n - 1) * -6 / 5;
+	char *expr;
+	gnm_float T;
+	int i;
+
+	expr = g_strdup_printf ("=RANDBETWEEN(%.0" GNM_FORMAT_f ",%.0" GNM_FORMAT_f ")", param_l, param_h);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= param_l && r <= param_h && r == gnm_floor (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= param_l && T <= param_h)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(T >= 0 && gnm_finite (T))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (T)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (T)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
 test_random (void)
 {
 	const char *test_name = "test_random";
@@ -859,10 +1016,10 @@ test_random (void)
         test_random_randbernoulli (N);
         test_random_randnorm (High_N);
         test_random_randsnorm (High_N);
+        test_random_randbinom (N);
+        test_random_randbetween (N);
 #if 0
         test_random_randbeta (N);
-        test_random_randbetween (N);
-        test_random_randbinom (N);
         test_random_randcauchy (N);
         test_random_randchisq (N);
 	test_random_randdiscrete (N);

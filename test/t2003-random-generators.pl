@@ -11,7 +11,7 @@ my $ignore_failure = !($user eq 'welinder' || $user eq 'aguelzow');
 sub expected {
     my ($actual) = @_;
 
-    my $actual_ok = ($actual =~ /Start: test_random\s*-*\s*(Testing =\S+\s+(\S+: [-+eE0-9.]*\s)*OK\s*)*End: test_random/);
+    my $actual_ok = ($actual =~ /Start: test_random\s*-*\s*(Testing =\S+\s+((\S| )+: [-+eE0-9.]*\s)*OK\s*)*End: test_random/);
     if (!$actual_ok && $ignore_failure) {
 	print STDERR "Ignoring failure possibly caused by random numbers.\n";
 	&GnumericTest::dump_indented ($actual);
