@@ -1071,6 +1071,72 @@ test_random_randgamma (int N)
 }
 
 static void
+test_random_randtdist (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float param_df = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
+	gnm_float mean_target = 0;
+	gnm_float var_target = param_df > 2 ? param_df / (param_df - 2) : gnm_nan;
+	gnm_float skew_target = param_df > 3 ? 0 : gnm_nan;
+	gnm_float kurt_target = param_df > 4 ? 6 / (param_df - 4) : gnm_nan;
+	char *expr;
+	gnm_float T;
+	int i;
+
+	expr = g_strdup_printf ("=RANDTDIST(%.0" GNM_FORMAT_f ")", param_df);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(gnm_finite (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (gnm_finite (var_target) && !(gnm_abs (mean - T) < 3 * gnm_sqrt (var_target / N))) {
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(var >= 0 && gnm_finite (var))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (skew)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
 test_random_randbinom (int N)
 {
 	gnm_float mean, var, skew, kurt;
@@ -1497,6 +1563,7 @@ test_random (void)
 	test_random_randsnorm (High_N);
 	test_random_randexp (N);
 	test_random_randgamma (N);
+	test_random_randtdist (N);
 
 	test_random_randbernoulli (N);
 	test_random_randdiscrete (N);
@@ -1525,7 +1592,6 @@ test_random (void)
 	test_random_randrayleigh (N);
 	test_random_randrayleightail (N);
 	test_random_randstdist (N);
-	test_random_randtdist (N);
 	test_random_randuniform (N);
 	test_random_randweibull (N);
 #endif
