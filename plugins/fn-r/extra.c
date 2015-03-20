@@ -6,33 +6,6 @@
 #include <sf-gamma.h>
 #include "extra.h"
 
-gnm_float
-qcauchy (gnm_float p, gnm_float location, gnm_float scale,
-	 gboolean lower_tail, gboolean log_p)
-{
-	if (gnm_isnan(p) || gnm_isnan(location) || gnm_isnan(scale))
-		return p + location + scale;
-
-	if (log_p ? (p > 0) : (p < 0 || p > 1))
-		return gnm_nan;
-
-	if (scale < 0 || !gnm_finite(scale)) return gnm_nan;
-
-	if (log_p) {
-		if (p > -1)
-			/* The "0" here is important for the p=0 case:  */
-			lower_tail = !lower_tail, p = 0 - gnm_expm1 (p);
-		else
-			p = gnm_exp (p);
-	}
-	if (p > 0.5) {
-		p = 1 - p;
-		lower_tail = !lower_tail;
-	}
-	if (lower_tail) scale = -scale;
-	return location + scale / gnm_tanpi (p);
-}
-
 /* ------------------------------------------------------------------------- */
 
 /* The skew-normal distribution.  */

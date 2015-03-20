@@ -31,5 +31,11 @@ gnm_float plnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean lowe
 gnm_float qlnorm (gnm_float p, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p);
 
 /* ------------------------------------------------------------------------- */
+/* The Cauchy distribution */
+
+gnm_float qcauchy (gnm_float p, gnm_float location, gnm_float scale,
+		   gboolean lower_tail, gboolean log_p);
+
+/* ------------------------------------------------------------------------- */
 
 #endif
