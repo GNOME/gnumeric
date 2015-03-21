@@ -3495,6 +3495,8 @@ gnm_float qexp(gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_p
 
 gnm_float qgeom(gnm_float p, gnm_float prob, gboolean lower_tail, gboolean log_p)
 {
+    gnm_float q;
+
     R_Q_P01_check(p);
     if (prob <= 0 || prob > 1) ML_ERR_return_NAN;
 
@@ -3508,7 +3510,8 @@ gnm_float qgeom(gnm_float p, gnm_float prob, gboolean lower_tail, gboolean log_p
     if (p == R_DT_0) return 0;
 
 /* add a fuzz to ensure left continuity */
-    return gnm_ceil(R_DT_Clog(p) / gnm_log1p(- prob) - 1 - 1e-7);
+    q = gnm_ceil(R_DT_Clog(p) / gnm_log1p(- prob) - 1 - 1e-12);
+    return MAX (q, 0.0);
 }
 
 /* ------------------------------------------------------------------------ */

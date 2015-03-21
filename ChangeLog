@@ -1,3 +1,13 @@
+2015-03-21  Morten Welinder  <terra@gnome.org>
+
+	* src/sstest.c (rand_fractile_test): Add support for
+	non-continuous distributions.
+
+	* src/mathfunc.c (qgeom): Update to current version in R.
+
+	* src/gnm-random.c (random_geometric): Don't add one.
+	r.{d,p,q}geom all use the version with support {0,1,2,3,...}
+
 2015-03-20  Morten Welinder  <terra@gnome.org>
 
 	* src/sstest.c (test_random_randbinom): New test.

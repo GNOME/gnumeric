@@ -797,7 +797,10 @@ random_geometric (gnm_float p)
 		u = random_01 ();
 	} while (u == 0);
 
-	return gnm_floor (gnm_log (u) / gnm_log1p (-p) + 1);
+	/*
+	 * Change from gsl version: we have support {0,1,2,...}
+	 */
+	return gnm_floor (gnm_log (u) / gnm_log1p (-p));
 }
 
 gnm_float

@@ -530,13 +530,37 @@ define_cell (Sheet *sheet, int c, int r, const char *expr)
 	sheet_cell_set_text (cell, expr, NULL);
 }
 
+#define GET_PROB(i_) ((i_) <= 0 ? 0 : ((i_) >= nf ? 1 : probs[(i_)]))
+
 static gboolean
-rand_fractile_test (gnm_float const *vals, int N, int nf, gnm_float const *fractiles)
+rand_fractile_test (gnm_float const *vals, int N, int nf,
+		    gnm_float const *fractiles, gnm_float const *probs)
 {
-	gnm_float f = 1.0 / nf, T = f * N;
+	gnm_float f = 1.0 / nf;
 	int *fractilecount = g_new (int, nf + 1);
+	int *expected = g_new (int, nf + 1);
 	int i;
 	gboolean ok = TRUE;
+	gboolean debug = TRUE;
+
+	if (debug) {
+		g_printerr ("Bin upper limit:");
+		for (i = 1; i <= nf; i++) {
+			gnm_float U = (i == nf) ? gnm_pinf : fractiles[i];
+			g_printerr ("%s%" GNM_FORMAT_g,
+				    (i == 1) ? " " : ", ",
+				    U);
+		}
+		g_printerr (".\n");
+	}
+
+	if (debug && probs) {
+		g_printerr ("Cumulative probabilities:");
+		for (i = 1; i <= nf; i++)
+			g_printerr ("%s%.1" GNM_FORMAT_f "%%",
+				    (i == 1) ? " " : ", ", 100 * GET_PROB (i));
+		g_printerr (".\n");
+	}
 
 	for (i = 0; i <= nf; i++)
 		fractilecount[i] = 0;
@@ -545,19 +569,34 @@ rand_fractile_test (gnm_float const *vals, int N, int nf, gnm_float const *fract
 		gnm_float r = vals[i];
 		int j;
 		for (j = 1; j < nf; j++)
-			if (r < fractiles[j])
+			if (r <= fractiles[j])
 				break;
 		fractilecount[j]++;
 	}
 	g_printerr ("Fractile counts:");
 	for (i = 1; i <= nf; i++)
 		g_printerr ("%s%d", (i == 1) ? " " : ", ", fractilecount[i]);
-	g_printerr ("\n");
+	g_printerr (".\n");
 
-	g_printerr ("Expected count in each fractile: %.10" GNM_FORMAT_g "\n", T);
+	if (probs) {
+		g_printerr ("Expected counts:");
+		for (i = 1; i <= nf; i++) {
+			gnm_float p = GET_PROB (i) - GET_PROB (i-1);
+			expected[i] = gnm_floor (p * N + 0.5);
+			g_printerr ("%s%d", (i == 1) ? " " : ", ", expected[i]);
+		}
+		g_printerr (".\n");
+	} else {
+		gnm_float T = f * N;
+		g_printerr ("Expected count in each fractile: %.10" GNM_FORMAT_g "\n", T);
+		for (i = 0; i <= nf; i++)
+			expected[i] = T;
+	}
+
 	for (i = 1; i <= nf; i++) {
-		if (!(gnm_abs (fractilecount[i] - T) < 3 * gnm_sqrt (f * N))) {
-			g_printerr ("Fractile test failure.\n");
+		gnm_float T = expected[i];
+		if (!(gnm_abs (fractilecount[i] - T) <= 3 * gnm_sqrt (T))) {
+			g_printerr ("Fractile test failure for bin %d.\n", i);
 			ok = FALSE;
 		}
 	}
@@ -566,6 +605,8 @@ rand_fractile_test (gnm_float const *vals, int N, int nf, gnm_float const *fract
 
 	return ok;
 }
+
+#undef GET_PROB
 
 static gnm_float *
 test_random_1 (int N, const char *expr,
@@ -742,7 +783,7 @@ test_random_rand (int N)
 	/* Fractile test */
 	for (i = 1; i < nf; i++)
 		fractiles[i] = i / (double)nf;
-	if (!rand_fractile_test (vals, N, nf, fractiles))
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
 	if (ok)
@@ -820,7 +861,7 @@ test_random_randuniform (int N)
 	/* Fractile test */
 	for (i = 1; i < nf; i++)
 		fractiles[i] = param_l + n * i / (double)nf;
-	if (!rand_fractile_test (vals, N, nf, fractiles))
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
 	if (ok)
@@ -855,7 +896,6 @@ test_random_randbernoulli (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = p;
 	if (gnm_abs (mean - p) > 0.01) {
@@ -880,6 +920,8 @@ test_random_randbernoulli (int N)
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -909,7 +951,6 @@ test_random_randdiscrete (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -945,6 +986,8 @@ test_random_randdiscrete (int N)
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -972,7 +1015,6 @@ test_random_randnorm (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	if (gnm_abs (mean - T) > 0.02) {
@@ -1003,10 +1045,11 @@ test_random_randnorm (int N)
 		ok = FALSE;
 	}
 
-
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -1036,7 +1079,6 @@ test_random_randsnorm (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	if (gnm_abs (mean - T) > 0.01) {
@@ -1059,9 +1101,12 @@ test_random_randsnorm (int N)
 		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
+
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -1129,7 +1174,7 @@ test_random_randexp (int N)
 	/* Fractile test */
 	for (i = 1; i < nf; i++)
 		fractiles[i] = qexp (i / (double)nf, param_l, TRUE, FALSE);
-	if (!rand_fractile_test (vals, N, nf, fractiles))
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
 	if (ok)
@@ -1205,7 +1250,7 @@ test_random_randgamma (int N)
 	/* Fractile test */
 	for (i = 1; i < nf; i++)
 		fractiles[i] = qgamma (i / (double)nf, param_shape, param_scale, TRUE, FALSE);
-	if (!rand_fractile_test (vals, N, nf, fractiles))
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
 	if (ok)
@@ -1283,7 +1328,7 @@ test_random_randbeta (int N)
 	/* Fractile test */
 	for (i = 1; i < nf; i++)
 		fractiles[i] = qbeta (i / (double)nf, param_a, param_b, TRUE, FALSE);
-	if (!rand_fractile_test (vals, N, nf, fractiles))
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
 	if (ok)
@@ -1358,7 +1403,7 @@ test_random_randtdist (int N)
 	/* Fractile test */
 	for (i = 1; i < nf; i++)
 		fractiles[i] = qt (i / (double)nf, param_df, TRUE, FALSE);
-	if (!rand_fractile_test (vals, N, nf, fractiles))
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
 	if (ok)
@@ -1437,7 +1482,7 @@ test_random_randfdist (int N)
 	/* Fractile test */
 	for (i = 1; i < nf; i++)
 		fractiles[i] = qf (i / (double)nf, param_df1, param_df2, TRUE, FALSE);
-	if (!rand_fractile_test (vals, N, nf, fractiles))
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
 	if (ok)
@@ -1512,7 +1557,7 @@ test_random_randchisq (int N)
 	/* Fractile test */
 	for (i = 1; i < nf; i++)
 		fractiles[i] = qchisq (i / (double)nf, param_df, TRUE, FALSE);
-	if (!rand_fractile_test (vals, N, nf, fractiles))
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
 	if (ok)
@@ -1592,7 +1637,7 @@ test_random_randcauchy (int N)
 	/* Fractile test */
 	for (i = 1; i < nf; i++)
 		fractiles[i] = qcauchy (i / (double)nf, 0.0, param_scale, TRUE, FALSE);
-	if (!rand_fractile_test (vals, N, nf, fractiles))
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
 	if (ok)
@@ -1617,6 +1662,8 @@ test_random_randbinom (int N)
 	char *expr;
 	gnm_float T;
 	int i;
+	gnm_float fractiles[10], probs[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	expr = g_strdup_printf ("=RANDBINOM(%.10" GNM_FORMAT_g ",%.0" GNM_FORMAT_f ")", param_p, param_trials);
 	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
@@ -1631,7 +1678,6 @@ test_random_randbinom (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -1664,9 +1710,19 @@ test_random_randbinom (int N)
 		ok = FALSE;
 	}
 
+	/* Fractile test */
+	for (i = 1; i < nf; i++) {
+		fractiles[i] = qbinom (i / (double)nf, param_trials, param_p, TRUE, FALSE);
+		probs[i] = pbinom (fractiles[i], param_trials, param_p, TRUE, FALSE);
+	}
+	if (!rand_fractile_test (vals, N, nf, fractiles, probs))
+		ok = FALSE;
+
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -1685,6 +1741,8 @@ test_random_randnegbinom (int N)
 	char *expr;
 	gnm_float T;
 	int i;
+	gnm_float fractiles[10], probs[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	expr = g_strdup_printf ("=RANDNEGBINOM(%.10" GNM_FORMAT_g ",%.0" GNM_FORMAT_f ")", param_p, param_fails);
 	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
@@ -1699,7 +1757,6 @@ test_random_randnegbinom (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -1732,9 +1789,19 @@ test_random_randnegbinom (int N)
 		ok = FALSE;
 	}
 
+	/* Fractile test */
+	for (i = 1; i < nf; i++) {
+		fractiles[i] = qnbinom (i / (double)nf, param_fails, param_p, TRUE, FALSE);
+		probs[i] = pnbinom (fractiles[i], param_fails, param_p, TRUE, FALSE);
+	}
+	if (!rand_fractile_test (vals, N, nf, fractiles, probs))
+		ok = FALSE;
+
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -1756,6 +1823,8 @@ test_random_randhyperg (int N)
 	char *expr;
 	gnm_float T;
 	int i;
+	gnm_float fractiles[10], probs[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	expr = g_strdup_printf ("=RANDHYPERG(%.10" GNM_FORMAT_g ",%.0" GNM_FORMAT_f ",%.0" GNM_FORMAT_f ")", param_nr, param_nb, param_n);
 	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
@@ -1770,7 +1839,6 @@ test_random_randhyperg (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -1804,9 +1872,19 @@ test_random_randhyperg (int N)
 		ok = FALSE;
 	}
 
+	/* Fractile test */
+	for (i = 1; i < nf; i++) {
+		fractiles[i] = qhyper (i / (double)nf, param_nr, param_nb, param_n, TRUE, FALSE);
+		probs[i] = phyper (fractiles[i], param_nr, param_nb, param_n, TRUE, FALSE);
+	}
+	if (!rand_fractile_test (vals, N, nf, fractiles, probs))
+		ok = FALSE;
+
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -1840,7 +1918,6 @@ test_random_randbetween (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -1876,6 +1953,8 @@ test_random_randbetween (int N)
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -1892,6 +1971,8 @@ test_random_randpoisson (int N)
 	char *expr;
 	gnm_float T;
 	int i;
+	gnm_float fractiles[10], probs[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	expr = g_strdup_printf ("=RANDPOISSON(%.10" GNM_FORMAT_g ")", param_l);
 	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
@@ -1906,7 +1987,6 @@ test_random_randpoisson (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -1939,11 +2019,24 @@ test_random_randpoisson (int N)
 		ok = FALSE;
 	}
 
+	/* Fractile test */
+	for (i = 1; i < nf; i++) {
+		fractiles[i] = qpois (i / (double)nf, param_l, TRUE, FALSE);
+		probs[i] = ppois (fractiles[i], param_l, TRUE, FALSE);
+	}
+	if (!rand_fractile_test (vals, N, nf, fractiles, probs))
+		ok = FALSE;
+
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
+/*
+ * Note: this geometric distribution is the only with support {0,1,2,...}
+ */
 static void
 test_random_randgeom (int N)
 {
@@ -1951,13 +2044,15 @@ test_random_randgeom (int N)
 	gnm_float *vals;
 	gboolean ok;
 	gnm_float param_p = random_01 ();
-	gnm_float mean_target = 1 / param_p;
+	gnm_float mean_target = (1 - param_p) / param_p;
 	gnm_float var_target = (1 - param_p) / (param_p * param_p);
 	gnm_float skew_target = (2 - param_p) / gnm_sqrt (1 - param_p);
 	gnm_float kurt_target = 6 + (param_p * param_p) / (1 - param_p);
 	char *expr;
 	gnm_float T;
 	int i;
+	gnm_float fractiles[10], probs[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	expr = g_strdup_printf ("=RANDGEOM(%.10" GNM_FORMAT_g ")", param_p);
 	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
@@ -1966,13 +2061,12 @@ test_random_randgeom (int N)
 	ok = TRUE;
 	for (i = 0; i < N; i++) {
 		gnm_float r = vals[i];
-		if (!(r >= 1 && gnm_finite (r) && r == gnm_floor (r))) {
+		if (!(r >= 0 && gnm_finite (r) && r == gnm_floor (r))) {
 			g_printerr ("Range failure.\n");
 			ok = FALSE;
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -2005,9 +2099,19 @@ test_random_randgeom (int N)
 		ok = FALSE;
 	}
 
+	/* Fractile test */
+	for (i = 1; i < nf; i++) {
+		fractiles[i] = qgeom (i / (double)nf, param_p, TRUE, FALSE);
+		probs[i] = pgeom (fractiles[i], param_p, TRUE, FALSE);
+	}
+	if (!rand_fractile_test (vals, N, nf, fractiles, probs))
+		ok = FALSE;
+
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -2049,7 +2153,6 @@ test_random_randlog (int N)
 			break;
 		}
 	}
-	g_free (vals);
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
@@ -2085,6 +2188,8 @@ test_random_randlog (int N)
 	if (ok)
 		g_printerr ("OK\n");
 	g_printerr ("\n");
+
+	g_free (vals);
 }
 
 static void
@@ -2111,12 +2216,12 @@ test_random (void)
 	test_random_randbernoulli (N);
 	test_random_randdiscrete (N);
 	test_random_randbinom (N);
-	test_random_randnegbinom (N);
+	test_random_randnegbinom (High_N);
+	test_random_randhyperg (High_N);
 	test_random_randbetween (N);
-	test_random_randpoisson (N);
-	test_random_randgeom (N);
+	test_random_randpoisson (High_N);
+	test_random_randgeom (High_N);
 	test_random_randlog (N);
-	test_random_randhyperg (N);
 
 #if 0
 	test_random_randexppow (N);
