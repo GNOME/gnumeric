@@ -6524,6 +6524,43 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 	g_slist_free (regressions);
 }
 
+static void
+odf_write_attached_axis (GnmOOExport *state, char const * const axis_role, int id)
+{
+	GString *str = g_string_new (NULL);
+	g_string_append_printf (str, "%s-%i", axis_role, id);
+	gsf_xml_out_add_cstr_unchecked (state->xml, CHART "attached-axis", str->str);
+	g_string_free (str, TRUE);
+}
+
+static void
+odf_write_attached_axes (GnmOOExport *state, GogObject *series)
+{
+	GogPlot	*plot = gog_series_get_plot (GOG_SERIES (series));
+	GogAxis	*axis = gog_plot_get_axis (plot, GOG_AXIS_X);
+	int id;
+
+	if (NULL != axis) {
+		id = gog_object_get_id (GOG_OBJECT (axis));
+		if (id != 1)
+			odf_write_attached_axis (state, "X-Axis", id);
+		    else {
+			axis = gog_plot_get_axis (plot, GOG_AXIS_Z);
+			if (NULL != axis) {
+				id = gog_object_get_id (GOG_OBJECT (axis));
+				if (id != 1)
+					odf_write_attached_axis (state, "Z-Axis", id);
+				else {
+					axis = gog_plot_get_axis (plot, GOG_AXIS_Y);
+					if (NULL != axis) {
+						id = gog_object_get_id (GOG_OBJECT (axis));
+						odf_write_attached_axis (state, "Y-Axis", id);
+					}				
+				}
+			}			
+		}
+	}
+}
 
 static void
 odf_write_standard_series (GnmOOExport *state, GSList const *series, char const* class)
@@ -6542,6 +6579,9 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series, char const*
 			GOData const *cat = gog_dataset_get_dim (GOG_DATASET (series->data),
 								 GOG_MS_DIM_LABELS);
 			char *str = odf_get_gog_style_name_from_obj (state, series->data);
+
+			odf_write_attached_axes (state, series->data);
+
 			gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
 			g_free (str);
 
@@ -7843,10 +7883,12 @@ odf_write_axis_full (GnmOOExport *state,
 		     gboolean include_cats)
 {
 	GSList *children = NULL, *l;
+	GString *str = g_string_new (NULL);
 
 	if (axis_role == NULL)
 		return;
 
+	str = g_string_new (NULL);
 	children = gog_object_get_children (chart, gog_object_find_role_by_name (chart, axis_role));
 	
 	for (l = children; l != NULL; l = l->next) {
@@ -7858,6 +7900,9 @@ odf_write_axis_full (GnmOOExport *state,
 			gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
 			if (state->with_extension)
 				gsf_xml_out_add_int (state->xml, GNMSTYLE "id", id);
+			g_string_truncate (str, 0);
+			g_string_append_printf (str, "%s-%i", axis_role, id);
+			gsf_xml_out_add_cstr_unchecked (state->xml, CHART "name", str->str);
 			gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
 			odf_write_label (state, axis);
 			if (include_cats)
@@ -7868,6 +7913,7 @@ odf_write_axis_full (GnmOOExport *state,
 		}
 	}
 	g_slist_free (children);
+	g_string_free (str, TRUE);
 }
 
 static void

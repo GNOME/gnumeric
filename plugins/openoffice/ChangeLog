@@ -1,5 +1,12 @@
 2015-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_attached_axis): new
+	(odf_write_attached_axes): new
+	(odf_write_standard_series): call odf_write_attached_axes
+	(odf_write_axis_full): write axis name
+
+2015-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_chart_axis): store axis name
 	(oo_plot_area): create named_axes hash
 	(oo_plot_area_end): destroy named axes hash
