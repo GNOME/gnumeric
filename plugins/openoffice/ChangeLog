@@ -1,5 +1,10 @@
 2015-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_attached_axes): avoid
+	pre-mature exit on missing axes.
+
+2015-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_attached_axis): new
 	(odf_write_attached_axes): new
 	(odf_write_standard_series): call odf_write_attached_axes

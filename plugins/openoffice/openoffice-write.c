@@ -6540,27 +6540,24 @@ odf_write_attached_axes (GnmOOExport *state, GogObject *series)
 	GogAxis	*axis = gog_plot_get_axis (plot, GOG_AXIS_X);
 	int id;
 
-	if (NULL != axis) {
-		id = gog_object_get_id (GOG_OBJECT (axis));
-		if (id != 1)
-			odf_write_attached_axis (state, "X-Axis", id);
-		    else {
-			axis = gog_plot_get_axis (plot, GOG_AXIS_Z);
+	id = (NULL != axis) ? gog_object_get_id (GOG_OBJECT (axis)) : 0;
+	if (id > 1)
+		odf_write_attached_axis (state, "X-Axis", id);
+	else {
+		axis = gog_plot_get_axis (plot, GOG_AXIS_Z);
+		id = (NULL != axis) ? gog_object_get_id (GOG_OBJECT (axis)) : 0;
+		if (id > 1)
+			odf_write_attached_axis (state, "Z-Axis", id);
+		else {
+			axis = gog_plot_get_axis (plot, GOG_AXIS_Y);
 			if (NULL != axis) {
 				id = gog_object_get_id (GOG_OBJECT (axis));
-				if (id != 1)
-					odf_write_attached_axis (state, "Z-Axis", id);
-				else {
-					axis = gog_plot_get_axis (plot, GOG_AXIS_Y);
-					if (NULL != axis) {
-						id = gog_object_get_id (GOG_OBJECT (axis));
-						odf_write_attached_axis (state, "Y-Axis", id);
-					}				
-				}
-			}			
+				odf_write_attached_axis (state, "Y-Axis", id);
+			}				
 		}
-	}
+	}			
 }
+
 
 static void
 odf_write_standard_series (GnmOOExport *state, GSList const *series, char const* class)
