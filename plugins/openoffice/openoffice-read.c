@@ -271,6 +271,7 @@ typedef struct {
 	GSList		        *saved_fill_image_styles;
 	GSList		        *saved_gradient_styles;
 
+	GHashTable		*named_axes;
 	GHashTable		*graph_styles;
 	GHashTable              *hatches;
 	GHashTable              *dash_styles;
@@ -8588,6 +8589,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	OOChartStyle *style = NULL;
 	gchar const *style_name = NULL;
+	gchar const *chart_name = NULL;
 	GogAxisType  axis_type;
 	int tmp;
 	int gnm_id = 0;
@@ -8614,6 +8616,8 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "name"))
+			chart_name = CXML2C (attrs[1]);
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "dimension", axes_types, &tmp))
 			axis_type = tmp;
 		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "id", &gnm_id, 1, INT_MAX))
@@ -8688,6 +8692,10 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		if (NULL != state->chart.plot && (state->ver == OOO_VER_1))
 			oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
 	}
+	if (NULL != chart_name && NULL != state->chart.axis)
+		g_hash_table_replace (state->chart.named_axes,
+				      g_strdup (chart_name),
+				      state->chart.axis);
 }
 
 static void
@@ -9007,6 +9015,10 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.y_axis_count = 0;
 	state->chart.z_axis_count = 0;
 	state->chart.list = NULL;
+	state->chart.named_axes = g_hash_table_new_full
+		(g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		NULL);	
 	if (NULL != source_range_str) {
 		GnmParsePos pp;
 		GnmEvalPos  ep;
@@ -9144,6 +9156,8 @@ oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 	state->chart.plot = NULL;
 	state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] = NULL;
+	g_hash_table_destroy (state->chart.named_axes);
+	state->chart.named_axes = NULL;
 }
 
 
@@ -9152,13 +9166,13 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	xmlChar const *label = NULL;
-	xmlChar const **attrs_cp = attrs;
 	OOPlotType plot_type = state->chart.plot_type;
 	gboolean plot_type_set = FALSE;
 	int tmp;
 	GogPlot *plot;
 	gchar const *cell_range_address = NULL;
 	gchar const *cell_range_expression = NULL;
+	GogObject *attached_axis = NULL;
 	gboolean general_expression;
 
 	if (state->debug)
@@ -9169,12 +9183,28 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.domain_count = 0;
 	state->chart.data_pt_count = 0;
 
-        /* We need to first know whether we are overriding the class */
-	for (; attrs_cp != NULL && attrs_cp[0] && attrs_cp[1] ; attrs_cp += 2)
-		if (oo_attr_enum (xin, attrs_cp, OO_NS_CHART, "class", odf_chart_classes, &tmp)) {
+	/* Now check the attributes */
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "class", odf_chart_classes, &tmp)) {
 			state->chart.plot_type = plot_type = tmp;
 			plot_type_set = TRUE;
-		}
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address"))
+			cell_range_address = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "values-cell-range-expression"))
+			cell_range_expression = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address")) {
+			if (label == NULL)
+				label = attrs[1];
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "label-cell-expression"))
+			label = attrs[1];
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_CHART, "style-name"))
+			state->chart.i_plot_styles[OO_CHART_STYLE_SERIES] = g_hash_table_lookup
+				(state->chart.graph_styles, CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_CHART, "attached-axis"))
+			attached_axis = g_hash_table_lookup (state->chart.named_axes, CXML2C (attrs[1]));
+	}
 
 	if (plot_type_set)
 		plot = odf_create_plot (state, &plot_type);
@@ -9203,22 +9233,8 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 
-	/* Now check the attributes */
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address"))
-			cell_range_address = CXML2C (attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "values-cell-range-expression"))
-			cell_range_expression = CXML2C (attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address")) {
-			if (label == NULL)
-				label = attrs[1];
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "label-cell-expression"))
-			label = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
-					     OO_NS_CHART, "style-name"))
-			state->chart.i_plot_styles[OO_CHART_STYLE_SERIES] = g_hash_table_lookup
-				(state->chart.graph_styles, CXML2C (attrs[1]));
-	}
+	if (NULL != attached_axis && NULL != plot)
+		gog_plot_set_axis (plot, GOG_AXIS (attached_axis));
 
 	if ((general_expression = (NULL != cell_range_expression)))
 		cell_range_address = cell_range_expression;
