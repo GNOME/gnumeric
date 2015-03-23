@@ -1,3 +1,8 @@
+2015-03-23  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_chart_text): Move overlay
+	attribute here.
+
 2015-03-16  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_go_style_full): Ensure that XL
