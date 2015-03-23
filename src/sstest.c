@@ -602,6 +602,7 @@ rand_fractile_test (gnm_float const *vals, int N, int nf,
 	}
 
 	g_free (fractilecount);
+	g_free (expected);
 
 	return ok;
 }

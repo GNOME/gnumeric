@@ -1,3 +1,7 @@
+2015-03-23  Morten Welinder  <terra@gnome.org>
+
+	* src/sstest.c (rand_fractile_test): Plug leak.
+
 2015-03-21  Morten Welinder  <terra@gnome.org>
 
 	* src/sstest.c (rand_fractile_test): Add support for
