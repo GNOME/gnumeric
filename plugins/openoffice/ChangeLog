@@ -1,5 +1,15 @@
 2015-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (-odf_write_circle_axes_styles): deleted
+	(odf_write_radar_axes_styles): deleted
+	(odf_write_standard_axes_styles): deleted
+	(odf_write_surface_axes_styles): deleted
+	(odf_write_axis_full): trim argument, change all callers
+	(odf_write_generic_axis): trim argument
+	(odf_write_plot): drop array field
+
+2015-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_standard_axes_styles): allow NULL style
 	pointers
 	(odf_write_axis_full): retrieve style name when it isn't given.
