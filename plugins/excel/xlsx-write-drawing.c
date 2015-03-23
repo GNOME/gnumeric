@@ -468,7 +468,6 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 		if (is_none) {
 			/* Special meaning of zero width  */
 			gsf_xml_out_add_int (xml, "w", 0);
-			gsf_xml_out_simple_element (xml, "a:noFill", NULL);
 		} else if (!style->line.auto_width && style->line.width > 0)
 			gsf_xml_out_add_int (xml, "w", style->line.width * 12700);
 
@@ -476,13 +475,12 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 			gsf_xml_out_start_element (xml, "a:solidFill");
 			xlsx_write_rgbarea (xml, style->line.color);
 			gsf_xml_out_end_element (xml);
-		} else if (sctx->must_fill_line) {
+		} else {
 			gsf_xml_out_simple_element
 				(xml,
 				 is_none ? "a:noFill" : "a:solidFill",
 				 NULL);
-		} else if (style->line.auto_dash && !sctx->def_has_lines)
-			gsf_xml_out_simple_element (xml, "a:noFill", NULL);
+		}
 
 		if (!style->line.auto_dash &&
 		    style->line.dash_type < G_N_ELEMENTS (dashes) &&

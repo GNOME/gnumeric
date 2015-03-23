@@ -2,6 +2,7 @@
 
 	* xlsx-write-drawing.c (xlsx_write_chart_text): Move overlay
 	attribute here.
+	(xlsx_write_go_style_full): Fix noFill/solidFill writing.
 
 2015-03-16  Morten Welinder  <terra@gnome.org>
 
