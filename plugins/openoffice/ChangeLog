@@ -1,5 +1,11 @@
 2015-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_standard_axes_styles): allow NULL style
+	pointers
+	(odf_write_axis_full): retrieve style name when it isn't given.
+
+2015-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_attached_axes): avoid
 	pre-mature exit on missing axes.
 

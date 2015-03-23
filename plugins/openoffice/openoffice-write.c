@@ -7203,11 +7203,11 @@ odf_write_standard_axes_styles (G_GNUC_UNUSED GnmOOExport *state,
 	GogObject const *axis;
 
 	axis = gog_object_get_child_by_name (chart, x_role);
-	if (axis != NULL)
+	if (axis != NULL && x_style != NULL)
 		*x_style = odf_get_gog_style_name_from_obj (state, axis);
 
 	axis = gog_object_get_child_by_name (chart, y_role);
-	if (axis != NULL)
+	if (axis != NULL && y_style != NULL)
 		*y_style = odf_get_gog_style_name_from_obj (state, axis);
 }
 
@@ -7900,7 +7900,11 @@ odf_write_axis_full (GnmOOExport *state,
 			g_string_truncate (str, 0);
 			g_string_append_printf (str, "%s-%i", axis_role, id);
 			gsf_xml_out_add_cstr_unchecked (state->xml, CHART "name", str->str);
-			gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
+			if (style_label)
+				gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
+			else 
+				gsf_xml_out_add_cstr (state->xml, CHART "style-name",
+						      odf_get_gog_style_name_from_obj (state, GOG_OBJECT (axis)));
 			odf_write_label (state, axis);
 			if (include_cats)
 				odf_write_axis_categories (state, series);

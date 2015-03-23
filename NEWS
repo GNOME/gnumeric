@@ -2,6 +2,7 @@ Gnumeric 1.12.22
 
 Andreas:
 	* Improve ODF import/export of additional axes. [#746321]
+	* Fix ODF export of styles for additional axes. [#746621]
 
 Morten:
 	* xlsx import/export of log axis.
