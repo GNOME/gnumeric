@@ -50,15 +50,12 @@ if (&subtest ("biff8")) {
 		     'ignore_failure' => 1);
 }
 
-my $xlsx_missing_marker_shapes = "$PERL -p -e 's/\\bshape=\"(hourglass|butterfly)\"/shape=\"diamond\"/;'";
-
-
 if (&subtest ("xlsx")) {
     &message ("Check graph xlsx roundtrip.");
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_Excel:xlsx',
 		     'ext' => "xlsx",
 		     'resize' => '1048576x16384',
-		     'filter1' => "$xls_drop_pts_size | $xlsx_missing_marker_shapes",
+		     'filter1' => $xls_drop_pts_size,
 		     'ignore_failure' => 1);
 }

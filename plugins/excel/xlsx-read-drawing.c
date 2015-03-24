@@ -2221,7 +2221,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 				style->marker.auto_shape = TRUE;
 			} else {
 				style->marker.auto_shape = FALSE;
-				go_marker_set_shape (style->marker.mark, go_marker_shape_from_str (s));
+				go_marker_set_shape (state->marker, go_marker_shape_from_str (s));
 			}
 		} else if (strcmp (attrs[0], "dashType") == 0) {
 			const char *s = attrs[1];
