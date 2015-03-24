@@ -462,13 +462,12 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 			"dashDot",       /* GO_LINE_DASH_DOT */
 			"lgDashDot",     /* GO_LINE_DASH_DOT_DOT */
 		};
-		gboolean is_none = (!style->line.auto_dash && style->line.dash_type == GO_LINE_NONE);
+		gboolean is_none = style->line.auto_dash
+			? !sctx->def_has_lines
+			: style->line.dash_type == GO_LINE_NONE;
 
 		gsf_xml_out_start_element (xml, "a:ln");
-		if (is_none) {
-			/* Special meaning of zero width  */
-			gsf_xml_out_add_int (xml, "w", 0);
-		} else if (!style->line.auto_width && style->line.width > 0)
+		if (!style->line.auto_width && style->line.width > 0)
 			gsf_xml_out_add_int (xml, "w", style->line.width * 12700);
 
 		if (!style->line.auto_color) {
