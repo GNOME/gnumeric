@@ -2215,6 +2215,22 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 			end_arrow->c = f;
 		} else if (attr_bool (xin, attrs, "reverse-gradient", &rev_gradient)) {
 			/* Nothing */
+		} else if (strcmp (attrs[0], "markerSymbol") == 0) {
+			const char *s = attrs[1];
+			if (strcmp (s, "auto") == 0) {
+				style->marker.auto_shape = TRUE;
+			} else {
+				style->marker.auto_shape = FALSE;
+				go_marker_set_shape (style->marker.mark, go_marker_shape_from_str (s));
+			}
+		} else if (strcmp (attrs[0], "dashType") == 0) {
+			const char *s = attrs[1];
+			if (strcmp (s, "auto") == 0) {
+				style->line.auto_dash = TRUE;
+			} else {
+				style->line.auto_dash = FALSE;
+				style->line.dash_type = go_line_dash_from_str (s);
+			}
 		}
 	}
 
@@ -2563,6 +2579,9 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
               GSF_XML_IN_NODE (MARKER, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
               GSF_XML_IN_NODE (MARKER, MARKER_SYMBOL, XL_NS_CHART, "symbol", GSF_XML_NO_CONTENT, &xlsx_chart_marker_symbol, NULL),
               GSF_XML_IN_NODE (MARKER, MARKER_SIZE, XL_NS_CHART, "size", GSF_XML_NO_CONTENT, &xlsx_chart_marker_size, NULL),
+              GSF_XML_IN_NODE (MARKER, EXTLST_C, XL_NS_CHART, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+                GSF_XML_IN_NODE (EXTLST_C, EXTITEM_C, XL_NS_CHART, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, &xlsx_ext_end),
+                  GSF_XML_IN_NODE (EXTITEM_C, EXT_GOSTYLE, XL_NS_GNM_EXT, "gostyle", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
 
           GSF_XML_IN_NODE (SERIES, SERIES_ERR_BARS, XL_NS_CHART,"errBars", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SERIES_ERR_BARS, SERIES_ERR_BARS_ERRBARTYPE, XL_NS_CHART, "errBarType",  GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2598,9 +2617,6 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (LINE, PLOT_AXIS_ID, XL_NS_CHART,"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
         GSF_XML_IN_NODE (LINE, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),					/* 2nd Def */
           GSF_XML_IN_NODE (SERIES, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),
-            GSF_XML_IN_NODE (MARKER, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
-            GSF_XML_IN_NODE (MARKER, MARKER_SYMBOL, XL_NS_CHART, "symbol", GSF_XML_NO_CONTENT, NULL, NULL),
-            GSF_XML_IN_NODE (MARKER, MARKER_SIZE, XL_NS_CHART, "size", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (LINE, PLOT_AXIS_ID, XL_NS_CHART,"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
         GSF_XML_IN_NODE (LINE, GROUPING, XL_NS_CHART,	"grouping", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
         GSF_XML_IN_NODE (LINE, LINE_MARKER, XL_NS_CHART, "marker", GSF_XML_NO_CONTENT, &xlsx_chart_line_marker, NULL),

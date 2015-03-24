@@ -228,9 +228,11 @@ xlsx_write_go_style_marker (GsfXMLOut *xml, GOStyle *style, const XLSXStyleConte
 		"diamond",    /* GO_MARKER_HOURGLASS */       /* FIXME: dubious */
 		"dot"         /* GO_MARKER_LEFT_HALF_BAR */
 	};
-	static gint8 nqturns[] = { 0, 0, 0, 2, 0, +1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-	static gint8 flipH[] =   { 0, 0, 0, 0, 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 };
+	static const gint8 nqturns[] = { 0, 0, 0, 2, 0, +1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	static const gint8 flipH[] =   { 0, 0, 0, 0, 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 };
+	static const gint8 extS[] =    { 0, 0, 0, 0, 0,  0,  0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0 };
 	gboolean need_spPr;
+	gboolean ext_symbol = FALSE;
 	GOMarkerShape s;
 
 	if ((style->interesting_fields & GO_STYLE_MARKER) == 0)
@@ -239,6 +241,10 @@ xlsx_write_go_style_marker (GsfXMLOut *xml, GOStyle *style, const XLSXStyleConte
 	s = style->marker.auto_shape
 		? (sctx->def_has_markers ? GO_MARKER_MAX : GO_MARKER_NONE)
 		: go_marker_get_shape (style->marker.mark);
+	if (!style->marker.auto_shape && s < G_N_ELEMENTS (extS) && extS[s])
+		ext_symbol = TRUE;
+	if (style->marker.auto_shape && s == GO_MARKER_NONE)
+		ext_symbol = TRUE;
 
 	gsf_xml_out_start_element (xml, "c:marker");
 
@@ -285,6 +291,24 @@ xlsx_write_go_style_marker (GsfXMLOut *xml, GOStyle *style, const XLSXStyleConte
 		gsf_xml_out_end_element (xml);
 	}
 
+	if (sctx->state->with_extension && ext_symbol) {
+		gsf_xml_out_start_element (xml, "c:extLst");
+		gsf_xml_out_start_element (xml, "c:ext");
+		gsf_xml_out_add_cstr_unchecked (xml, "uri", ns_gnm_ext);
+		gsf_xml_out_start_element (xml, "gnmx:gostyle");
+
+		if (ext_symbol) {
+			gsf_xml_out_add_cstr (xml, "markerSymbol",
+					      style->marker.auto_shape
+					      ? "auto"
+					      : go_marker_shape_as_str (s));
+		}
+
+		gsf_xml_out_end_element (xml);  /* "gnmx:gostyle" */
+		gsf_xml_out_end_element (xml);  /* "c:ext" */
+		gsf_xml_out_end_element (xml);  /* "c:extLst" */
+	}
+
 	gsf_xml_out_end_element (xml);
 }
 
@@ -298,6 +322,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 	gboolean ext_start_arrow = FALSE;
 	gboolean ext_end_arrow = FALSE;
 	gboolean ext_gradient_rev = FALSE;
+	gboolean ext_dash_type = FALSE;
 
 	char *spPr_tag = g_strconcat (sctx->spPr_ns, ":spPr", NULL);
 
@@ -481,12 +506,15 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 				 NULL);
 		}
 
-		if (!style->line.auto_dash &&
-		    style->line.dash_type < G_N_ELEMENTS (dashes) &&
-		    dashes[style->line.dash_type]) {
-			xlsx_write_chart_cstr_unchecked (xml,
-							 "a:prstDash",
-							 dashes[style->line.dash_type]);
+		if (style->line.auto_dash) {
+			ext_dash_type = TRUE;
+		} else {
+			if (style->line.dash_type < G_N_ELEMENTS (dashes) &&
+			    dashes[style->line.dash_type]) {
+				xlsx_write_chart_cstr_unchecked (xml,
+								 "a:prstDash",
+								 dashes[style->line.dash_type]);
+			}
 		}
 
 		for (i = 0; i < 2; i++) {
@@ -528,12 +556,17 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 
 	if (sctx->state->with_extension &&
 	    (ext_fill_pattern || ext_start_arrow || ext_end_arrow ||
-	     ext_gradient_rev)) {
-		/* What namespace do we use?  */
+	     ext_gradient_rev || ext_dash_type)) {
 		gsf_xml_out_start_element (xml, "a:extLst");
 		gsf_xml_out_start_element (xml, "a:ext");
 		gsf_xml_out_add_cstr_unchecked (xml, "uri", ns_gnm_ext);
 		gsf_xml_out_start_element (xml, "gnmx:gostyle");
+		if (ext_dash_type) {
+			gsf_xml_out_add_cstr (xml, "dashType",
+					      style->line.auto_dash
+					      ? "auto"
+					      : go_line_dash_as_str (style->line.dash_type));
+		}
 		if (ext_fill_pattern) {
 			gsf_xml_out_add_cstr (xml, "pattern", go_pattern_as_str (style->fill.pattern.pattern));
 		}

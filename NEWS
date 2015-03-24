@@ -16,6 +16,7 @@ Morten:
 	* Fix PERMUATIONA corner case.
 	* Fix RANDLOG.
 	* Fix RANDGEOM to use same distribution as R.DGEOM.
+	* Improve xlsx roundtrip of GOStyle.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21
