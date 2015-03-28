@@ -789,6 +789,7 @@ simple_bool (GsfXMLIn *xin, xmlChar const **attrs, int *res)
 			return TRUE;
 	return FALSE;
 }
+
 static gboolean
 simple_int (GsfXMLIn *xin, xmlChar const **attrs, int *res)
 {
@@ -797,6 +798,7 @@ simple_int (GsfXMLIn *xin, xmlChar const **attrs, int *res)
 			return TRUE;
 	return FALSE;
 }
+
 static gboolean
 simple_float (GsfXMLIn *xin, xmlChar const **attrs, gnm_float *res)
 {
@@ -813,6 +815,15 @@ simple_enum (GsfXMLIn *xin, xmlChar const **attrs, EnumVal const *enums, int *re
 		if (attr_enum (xin, attrs, "val", enums, res))
 			return TRUE;
 	return FALSE;
+}
+
+static const char *
+simple_string (G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const **attrs)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (strcmp (attrs[0], "val") == 0)
+			return CXML2C (attrs[1]);
+	return NULL;
 }
 
 /***********************************************************************

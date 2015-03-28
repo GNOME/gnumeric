@@ -1,3 +1,8 @@
+2015-03-28  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_axis_crossax): Improve parsing.  Take
+	default values of many enum attributes into account.
+
 2015-03-23  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_chart_text): Move overlay

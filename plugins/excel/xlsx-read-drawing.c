@@ -589,27 +589,25 @@ xlsx_chart_bar_dir (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int dir;
+	int dir = FALSE;
 
 	g_return_if_fail (state->plot != NULL);
 
-	if (simple_enum (xin, attrs, dirs, &dir))
-		g_object_set (G_OBJECT (state->plot), "horizontal", dir, NULL);
+	(void)simple_enum (xin, attrs, dirs, &dir);
+	g_object_set (G_OBJECT (state->plot), "horizontal", dir, NULL);
 }
 
 static void
 xlsx_chart_bar_overlap (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "val")) {
-			/* Spec says add "%" at end; XL cannot handle that. */
-			int overlap = strtol (attrs[1], NULL, 10);
-			g_object_set (G_OBJECT (state->plot),
-				      "overlap-percentage", CLAMP (overlap, -100, 100),
-				      NULL);
-		}
+	const char *soverlap = simple_string (xin, attrs);
+	if (soverlap) {
+		/* Spec says add "%" at end; XL cannot handle that. */
+		int overlap = strtol (soverlap, NULL, 10);
+		g_object_set (G_OBJECT (state->plot),
+			      "overlap-percentage", CLAMP (overlap, -100, 100),
+			      NULL);
 	}
 }
 
@@ -617,31 +615,32 @@ static void
 xlsx_chart_bar_group (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	char const *type = "normal";
+	static const EnumVal const grps[] = {
+		{ "percentStacked", 0 },
+		{ "clustered", 1 },
+		{ "standard", 2 },
+		{ "stacked", 3 },
+		{ NULL, 0 }
+	};
+	static const char *types[] = { "as_percentage", "normal", "normal", "stacked" };
+	int grp = 1;
 
 	g_return_if_fail (state->plot != NULL);
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "val")) {
-			if (0 == strcmp (attrs[1], "percentStacked"))
-				type = "as_percentage";
-			else if (0 == strcmp (attrs[1], "stacked"))
-				type = "stacked";
-			g_object_set (G_OBJECT (state->plot), "type", type, NULL);
-		}
+	(void)simple_enum (xin, attrs, grps, &grp);
+	g_object_set (G_OBJECT (state->plot), "type", types[grp], NULL);
 }
+
 static void
 xlsx_chart_bar_gap (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "val")) {
-			int gap = strtol (attrs[1], NULL, 10);
-			/* Spec says add "%" at end; XL cannot handle that. */
-			g_object_set (G_OBJECT (state->plot),
-				      "gap-percentage", CLAMP (gap, 0, 500), NULL);
-		}
+	const char *sgap = simple_string (xin, attrs);
+	if (sgap) {
+		/* Spec says add "%" at end; XL cannot handle that. */
+		int gap = strtol (sgap, NULL, 10);
+		g_object_set (G_OBJECT (state->plot),
+			      "gap-percentage", CLAMP (gap, 0, 500), NULL);
 	}
 }
 
@@ -668,33 +667,34 @@ static void
 xlsx_plot_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL == state->plot)
+	const char *axid = simple_string (xin, attrs);
+	XLSXAxisInfo *res;
+
+	if (!state->plot || !axid)
 		return;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "val")) {
-			XLSXAxisInfo *res = g_hash_table_lookup (state->axis.by_id, attrs[1]);
-			if (NULL == res) {
-				res = g_new0 (XLSXAxisInfo, 1);
-				res->id = g_strdup (attrs[1]);
-				res->axis	= NULL;
-				res->plots	= NULL;
-				res->type	= XLSX_AXIS_UNKNOWN;
-				res->compass	= GOG_POSITION_AUTO;
-				res->cross	= GOG_AXIS_CROSS;
-				res->cross_value = go_nan;
-				res->invert_axis = FALSE;
-				res->logbase = 0;
-				g_hash_table_replace (state->axis.by_id, res->id, res);
+	res = g_hash_table_lookup (state->axis.by_id, axid);
+	if (NULL == res) {
+		res = g_new0 (XLSXAxisInfo, 1);
+		res->id = g_strdup (axid);
+		res->axis	= NULL;
+		res->plots	= NULL;
+		res->type	= XLSX_AXIS_UNKNOWN;
+		res->compass	= GOG_POSITION_AUTO;
+		res->cross	= GOG_AXIS_CROSS;
+		res->cross_value = go_nan;
+		res->invert_axis = FALSE;
+		res->logbase = 0;
+		g_hash_table_replace (state->axis.by_id, res->id, res);
 #ifdef DEBUG_AXIS
-				g_printerr ("create info for %s = %p\n", attrs[1], res);
+		g_printerr ("create info for %s = %p\n", res->id, res);
 #endif
-			}
+	}
+
 #ifdef DEBUG_AXIS
-			g_printerr ("add plot %p to info %p\n", state->plot, res);
+	g_printerr ("add plot %p to info %p\n", state->plot, res);
 #endif
-			res->plots = g_slist_prepend (res->plots, state->plot);
-		}
+	res->plots = g_slist_prepend (res->plots, state->plot);
 }
 
 static void
@@ -733,13 +733,13 @@ static void
 xlsx_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "val")) {
-			state->axis.info = g_hash_table_lookup (state->axis.by_id, attrs[1]);
+	const char *axid = simple_string (xin, attrs);
+	if (axid) {
+		state->axis.info = g_hash_table_lookup (state->axis.by_id, axid);
 #ifdef DEBUG_AXIS
-			g_printerr ("define %s = %p\n", attrs[1], state->axis.info);
+		g_printerr ("define %s = %p\n", axid, state->axis.info);
 #endif
-		}
+	}
 }
 
 static void
@@ -760,8 +760,10 @@ xlsx_axis_orientation (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int orient;
-	if (state->axis.info && simple_enum (xin, attrs, orients, &orient))
+	int orient = FALSE;
+
+	(void)simple_enum (xin, attrs, orients, &orient);
+	if (state->axis.info)
 		state->axis.info->invert_axis = orient;
 }
 
@@ -896,11 +898,14 @@ xlsx_axis_pos (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int position;
+	int position = GOG_POSITION_AUTO;
+
 #ifdef DEBUG_AXIS
-	g_printerr ("SET POS %s for %p\n", attrs[1],  state->axis.info);
+	g_printerr ("SET POS %s for %p\n", simple_string (xin, attrs), state->axis.info);
 #endif
-	if (state->axis.info && simple_enum (xin, attrs, positions, &position))
+	/* Apparently no default value.  */
+	(void)simple_enum (xin, attrs, positions, &position);
+	if (state->axis.info)
 		state->axis.info->compass = position;
 
 	if (state->axis.obj == NULL)
@@ -932,9 +937,11 @@ xlsx_axis_crosses (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int cross = GOG_AXIS_CROSS;
 
+	/* No explicit default in docs -- assuming autoZero.  */
+	(void)simple_enum (xin, attrs, crosses, &cross);
+
 	if (state->axis.info) {
-		if (simple_enum (xin, attrs, crosses, &cross))
-			state->axis.info->cross = cross;
+		state->axis.info->cross = cross;
 		if (cross == GOG_AXIS_CROSS)
 			state->axis.info->cross_value = 0.;
 	}
@@ -944,8 +951,9 @@ static void
 xlsx_axis_crossax (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (state->axis.info && !strcmp ((char const*) attrs[0], "val"))
-		state->axis.info->cross_id = g_strdup (attrs[1]);
+	const char *axid = simple_string (xin, attrs);
+	if (state->axis.info && axid)
+		state->axis.info->cross_id = g_strdup (axid);
 }
 
 static void
@@ -971,11 +979,9 @@ xlsx_axis_mark (GsfXMLIn *xin, xmlChar const **attrs)
 		{"out",		2},
 		{"cross",	3},
 	};
-	int res;
+	int res = 3;
 
-	if (!simple_enum (xin, attrs, marks, &res))
-		return;
-
+	(void)simple_enum (xin, attrs, marks, &res);
 	g_object_set (G_OBJECT (state->axis.obj),
 		      (ismajor ? "major-tick-in" : "minor-tick-in"), (res & 1) != 0,
 		      (ismajor ? "major-tick-out" : "minor-tick-out"), (res & 2) != 0,
@@ -986,8 +992,16 @@ static void
 xslx_chart_tick_label_pos (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (attrs && !strcmp (attrs[0], "val") && !strcmp (attrs[1], "none"))
-	    g_object_set (G_OBJECT (state->axis.obj), "major-tick-labeled", FALSE, NULL);
+	static const EnumVal positions[] = {
+		{"high",	0},
+		{"low",		1},
+		{"nextTo",	2},
+		{"none",	3},
+	};
+	int res = 2;
+
+	(void)simple_enum (xin, attrs, positions, &res);
+	g_object_set (G_OBJECT (state->axis.obj), "major-tick-labeled", res != 3, NULL);
 }
 
 static void
@@ -1088,15 +1102,14 @@ xlsx_scatter_style (GsfXMLIn *xin, xmlChar const **attrs)
 		{"smoothMarker", SCATTER_SPLINES | SCATTER_MARKERS }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int style;
+	int style = SCATTER_MARKERS;
 
-	if (simple_enum (xin, attrs, styles, &style)) {
-		g_object_set (G_OBJECT (state->plot),
-			      "default-style-has-markers", (style & SCATTER_MARKERS) != 0,
-			      "default-style-has-lines", (style & SCATTER_LINES) != 0,
-			      "use-splines", (style & SCATTER_SPLINES) != 0,
-			      NULL);
-	}
+	(void)simple_enum (xin, attrs, styles, &style);
+	g_object_set (G_OBJECT (state->plot),
+		      "default-style-has-markers", (style & SCATTER_MARKERS) != 0,
+		      "default-style-has-lines", (style & SCATTER_LINES) != 0,
+		      "use-splines", (style & SCATTER_SPLINES) != 0,
+		      NULL);
 }
 
 static void
@@ -1174,21 +1187,20 @@ xlsx_ser_trendline_type (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 		"GogExpRegCurve", "GogLinRegCurve", "GogLogRegCurve",
 		"GogMovingAvg", "GogPolynomRegCurve", "GogPowerRegCurve"
 	};
-	int typ;
+	int typ = 1;
 
-	if (simple_enum (xin, attrs, styles, &typ)) {
-		state->cur_obj = GOG_OBJECT (gog_trend_line_new_by_name (types[typ]));
-		if (state->cur_obj) {
-			GogObject *trend =
-				gog_object_add_by_name (GOG_OBJECT (state->series),
-							"Trend line",
-							state->cur_obj);
-			if (state->chart_tx) {
-				GOData *dat =
-					gnm_go_data_scalar_new_expr (state->sheet,
-								     gnm_expr_top_new_constant (value_new_string (state->chart_tx)));
-				gog_dataset_set_dim (GOG_DATASET (trend), -1, dat, NULL);
-			}
+	(void)simple_enum (xin, attrs, styles, &typ);
+	state->cur_obj = GOG_OBJECT (gog_trend_line_new_by_name (types[typ]));
+	if (state->cur_obj) {
+		GogObject *trend =
+			gog_object_add_by_name (GOG_OBJECT (state->series),
+						"Trend line",
+						state->cur_obj);
+		if (state->chart_tx) {
+			GOData *dat =
+				gnm_go_data_scalar_new_expr (state->sheet,
+							     gnm_expr_top_new_constant (value_new_string (state->chart_tx)));
+			gog_dataset_set_dim (GOG_DATASET (trend), -1, dat, NULL);
 		}
 	}
 
@@ -1255,7 +1267,7 @@ xlsx_ser_labels_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean has_val;
-	if (GOG_IS_SERIES_LABELS (state->cur_obj) && attr_bool (xin, attrs, "val", &has_val)) {
+	if (GOG_IS_SERIES_LABELS (state->cur_obj) && simple_bool (xin, attrs, &has_val)) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
@@ -1282,7 +1294,7 @@ xlsx_ser_labels_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean has_cat;
-	if (GOG_IS_SERIES_LABELS (state->cur_obj) && attr_bool (xin, attrs, "val", &has_cat)) {
+	if (GOG_IS_SERIES_LABELS (state->cur_obj) && simple_bool (xin, attrs, &has_cat)) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
@@ -1319,10 +1331,11 @@ xlsx_ser_labels_pos (GsfXMLIn *xin, xmlChar const **attrs)
 		{"t", GOG_SERIES_LABELS_TOP}
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int position;
+	int position = GOG_SERIES_LABELS_DEFAULT_POS;
 
-	if (simple_enum (xin, attrs, pos, &position))
-		gog_series_labels_set_position (GOG_SERIES_LABELS (state->cur_obj), position);
+	/* No documented default.  */
+	(void)simple_enum (xin, attrs, pos, &position);
+	gog_series_labels_set_position (GOG_SERIES_LABELS (state->cur_obj), position);
 }
 
 static void
@@ -1367,10 +1380,11 @@ xlsx_data_label_pos (GsfXMLIn *xin, xmlChar const **attrs)
 		{"t", GOG_SERIES_LABELS_TOP}
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int position;
+	int position = GOG_SERIES_LABELS_DEFAULT_POS;
 
-	if (simple_enum (xin, attrs, pos, &position))
-		gog_data_label_set_position (GOG_DATA_LABEL (state->cur_obj), position);
+	/* No documented default.  */
+	(void)simple_enum (xin, attrs, pos, &position);
+	gog_data_label_set_position (GOG_DATA_LABEL (state->cur_obj), position);
 }
 
 static void
@@ -1387,7 +1401,7 @@ xlsx_data_label_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean has_val;
-	if (GOG_IS_DATA_LABEL (state->cur_obj) && attr_bool (xin, attrs, "val", &has_val)) {
+	if (GOG_IS_DATA_LABEL (state->cur_obj) && simple_bool (xin, attrs, &has_val)) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
@@ -1414,7 +1428,7 @@ xlsx_data_label_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean has_cat;
-	if (GOG_IS_DATA_LABEL (state->cur_obj) && attr_bool (xin, attrs, "val", &has_cat)) {
+	if (GOG_IS_DATA_LABEL (state->cur_obj) && simple_bool (xin, attrs, &has_cat)) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
@@ -1523,9 +1537,9 @@ xlsx_chart_legend_pos (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "b",	 GOG_POSITION_S },
 		{ "l",	 GOG_POSITION_W },
 		{ "r",	 GOG_POSITION_E },
-		{ "rt",	 GOG_POSITION_N | GOG_POSITION_E },
-		/* adding extra values not in spec, but actually possible (found first one at least) */
 		{ "tr",	 GOG_POSITION_N | GOG_POSITION_E },
+		/* adding extra values not in spec, but actually possible */
+		{ "rt",	 GOG_POSITION_N | GOG_POSITION_E },
 		{ "lt",	 GOG_POSITION_N | GOG_POSITION_W },
 		{ "tl",	 GOG_POSITION_N | GOG_POSITION_W },
 		{ "rb",	 GOG_POSITION_S | GOG_POSITION_E },
@@ -1535,10 +1549,11 @@ xlsx_chart_legend_pos (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int position;
-	if (GOG_IS_LEGEND (state->cur_obj) && simple_enum (xin, attrs, positions, &position)) {
+	int position = GOG_POSITION_E;
+
+	(void)simple_enum (xin, attrs, positions, &position);
+	if (GOG_IS_LEGEND (state->cur_obj))
 		gog_object_set_position_flags (state->cur_obj, position, GOG_POSITION_COMPASS);
-	}
 }
 
 static void
@@ -1569,11 +1584,10 @@ xlsx_chart_pt_index (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int tmp;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, "val", &tmp)) {
-			state->series_pt_has_index = TRUE;
-			g_object_set (state->series_pt, "index", tmp, NULL);
-		}
+	if (simple_int (xin, attrs, &tmp)) {
+		state->series_pt_has_index = TRUE;
+		g_object_set (state->series_pt, "index", tmp, NULL);
+	}
 }
 
 static void
@@ -1961,17 +1975,15 @@ xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
 #endif
 
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "val")) {
-			gpointer val =
-				g_hash_table_lookup (state->theme_colors_by_name, attrs[1]);
-			if (NULL == val)
-				xlsx_warning (xin, _("Unknown color '%s'"), attrs[1]);
-			else {
-				state->color = GPOINTER_TO_UINT (val);
-				color_set_helper (state);
-			}
-		}
+	const char *colname = simple_string (xin, attrs);
+
+	if (colname) {
+		gpointer val;
+		if (g_hash_table_lookup_extended (state->theme_colors_by_name, colname, NULL, &val)) {
+			state->color = GPOINTER_TO_UINT (val);
+			color_set_helper (state);
+		} else
+			xlsx_warning (xin, _("Unknown color '%s'"), colname);
 	}
 }
 
@@ -2015,10 +2027,10 @@ xlsx_draw_line_dash (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int dash;
+	int dash = GO_LINE_SOLID;
 
-	if (!simple_enum (xin, attrs, dashes, &dash))
-		return;
+	/* No documented default -- solid seems reasonable.   */
+	(void)simple_enum (xin, attrs, dashes, &dash);
 
 	if (NULL != state->marker)
 		; /* what goes here ?*/
@@ -2053,16 +2065,19 @@ xlsx_chart_marker_symbol (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "star",	GO_MARKER_ASTERISK },		/* CHECK ME */
 		{ "triangle",	GO_MARKER_TRIANGLE_UP },
 		{ "x",		GO_MARKER_X },
-		{ "auto",       GO_MARKER_MAX },
+		{ "auto",       GO_MARKER_MAX },  /* Not in all versions of spec. */
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int symbol;
-	if (NULL != state->marker && simple_enum (xin, attrs, symbols, &symbol)) {
+	int symbol = GO_MARKER_MAX;
+
+	simple_enum (xin, attrs, symbols, &symbol);
+	if (NULL != state->marker) {
 		if (symbol < GO_MARKER_MAX) {
 			go_marker_set_shape (state->marker, symbol);
 			state->cur_style->marker.auto_shape = FALSE;
-		}
+		} else
+			state->cur_style->marker.auto_shape = TRUE;
 	}
 }
 
@@ -2163,8 +2178,8 @@ xlsx_chart_layout_mode (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	int choice = FALSE;
 
-	if (simple_enum (xin, attrs, choices, &choice))
-		state->chart_pos_mode[xin->node->user_data.v_int] = choice;
+	(void)simple_enum (xin, attrs, choices, &choice);
+	state->chart_pos_mode[xin->node->user_data.v_int] = choice;
 }
 
 static void
