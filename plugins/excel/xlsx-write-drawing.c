@@ -119,13 +119,13 @@ static void
 xlsx_write_rgbarea (GsfXMLOut *xml, GOColor color)
 {
 	char *buf = g_strdup_printf ("%06x", (guint) color >> 8);
-	int alpha = GO_COLOR_UINT_A (color);
+	unsigned alpha = GO_COLOR_UINT_A (color);
 	gsf_xml_out_start_element (xml, "a:srgbClr");
 	gsf_xml_out_add_cstr_unchecked (xml, "val", buf);
 	g_free (buf);
 	if (alpha < 255) {
 		gsf_xml_out_start_element (xml, "a:alpha");
-		gsf_xml_out_add_int (xml, "val", alpha * 100000 / 255);
+		gsf_xml_out_add_uint (xml, "val", alpha * 100000u / 255u);
 		gsf_xml_out_end_element (xml);
 	}
 	gsf_xml_out_end_element (xml);

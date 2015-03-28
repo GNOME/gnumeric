@@ -2016,7 +2016,8 @@ xlsx_draw_color_alpha (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	unsigned val;
 	if (simple_uint (xin, attrs, &val)) {
-		int level = 255 * CLAMP (val, 0, 10000000) / 100000;
+		const unsigned scale = 100000u;
+		int level = 255u * CLAMP (val, 0u, scale) / scale;
 		state->color = GO_COLOR_CHANGE_A (state->color, level);
 		color_set_helper (state);
 	}

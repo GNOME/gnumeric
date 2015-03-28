@@ -2,6 +2,7 @@
 
 	* xlsx-read-drawing.c (xlsx_axis_crossax): Improve parsing.  Take
 	default values of many enum attributes into account.
+	(xlsx_draw_color_alpha): Fix clamping.
 
 2015-03-23  Morten Welinder  <terra@gnome.org>
 
