@@ -558,20 +558,19 @@ static void
 xlsx_vary_colors (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int vary;
-	if (simple_bool (xin, attrs, &vary))
-		g_object_set (G_OBJECT (state->plot),
-			"vary-style-by-element", vary, NULL);
+	int vary = TRUE;  /* A somewhat crazy default */
+	(void)simple_bool (xin, attrs, &vary);
+	g_object_set (G_OBJECT (state->plot), "vary-style-by-element", vary, NULL);
 }
 
 static void
 xlsx_chart_pie_sep (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int sep;
-	if (simple_int (xin, attrs, &sep))
-		g_object_set (G_OBJECT (state->plot),
-			"default-separation", (double)(CLAMP (sep, 0, 500))/ 100., NULL);
+	unsigned sep = 0;
+	(void)simple_uint (xin, attrs, &sep);
+	g_object_set (G_OBJECT (state->plot),
+		      "default-separation", (double)(CLAMP (sep, 0u, 500u)) / 100.0, NULL);
 }
 
 /* shared with pie of pie, and bar of pie */
@@ -746,8 +745,9 @@ static void
 xlsx_axis_delete (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int del = 0;
-	if (state->axis.info && simple_bool (xin, attrs, &del))
+	int del = TRUE; /* A crazy default */
+	(void)simple_bool (xin, attrs, &del);
+	if (state->axis.info)
 		state->axis.info->deleted = del;
 }
 
@@ -787,7 +787,17 @@ xlsx_chart_logbase (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gnm_float base;
-	if (state->axis.info && simple_float (xin, attrs, &base) && base >= 2 && base <= 1000)
+
+	/*
+	 * The documented limits are 2-1000.  The example uses 1.0.  *Sigh*
+	 * We choose to ignore a base outside the limits rather than clamping
+	 * and pretending it makes sense.  (That's not to say that we currently
+	 * do anything useful with it even if it is in range.)
+	 */
+
+	if (state->axis.info &&
+	    simple_float (xin, attrs, &base) &&
+	    base >= 2 && base <= 1000)
 		state->axis.info->logbase = base;
 }
 
@@ -1072,12 +1082,11 @@ static void
 xlsx_chart_line_marker (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean has_marker;
+	gboolean has_marker = TRUE;
 
-	if (simple_bool (xin, attrs, &has_marker)) {
-		g_object_set (G_OBJECT (state->plot),
-			      "default-style-has-markers", has_marker, NULL);
-	}
+	(void)simple_bool (xin, attrs, &has_marker);
+	g_object_set (G_OBJECT (state->plot),
+		      "default-style-has-markers", has_marker, NULL);
 }
 
 static void
@@ -1227,38 +1236,34 @@ static void
 xlsx_ser_trendline_disprsqr (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean disp;
+	gboolean disp = TRUE;
 
-	if (simple_bool (xin, attrs, &disp) && disp) {
-		GogObject *eq = xlsx_get_trend_eq (state);
-		g_object_set (eq, "show-r2", TRUE, NULL);
-	}
+	(void)simple_bool (xin, attrs, &disp);
+	g_object_set (xlsx_get_trend_eq (state), "show-r2", disp, NULL);
 }
 
 static void
 xlsx_ser_trendline_dispeq (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean disp;
+	gboolean disp = TRUE;
 
-	if (simple_bool (xin, attrs, &disp) && disp) {
-		GogObject *eq = xlsx_get_trend_eq (state);
-		g_object_set (eq, "show-eq", TRUE, NULL);
-	}
+	(void)simple_bool (xin, attrs, &disp);
+	g_object_set (xlsx_get_trend_eq (state), "show-eq", disp, NULL);
 }
 
 static void
 xlsx_ser_smooth (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean smooth;
+	gboolean smooth = TRUE;
+	GOLineInterpolation inter;
 
-	if (simple_bool (xin, attrs, &smooth) && smooth) {
-		GOLineInterpolation inter = GO_LINE_INTERPOLATION_CUBIC_SPLINE;
-		g_object_set (state->cur_obj,
-			      "interpolation", go_line_interpolation_as_str (inter),
-			      NULL);
-	}
+	(void)simple_bool (xin, attrs, &smooth);
+	inter = smooth ? GO_LINE_INTERPOLATION_CUBIC_SPLINE : GO_LINE_INTERPOLATION_LINEAR;
+	g_object_set (state->cur_obj,
+		      "interpolation", go_line_interpolation_as_str (inter),
+		      NULL);
 }
 
 
@@ -1266,8 +1271,10 @@ static void
 xlsx_ser_labels_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean has_val;
-	if (GOG_IS_SERIES_LABELS (state->cur_obj) && simple_bool (xin, attrs, &has_val)) {
+	gboolean has_val = TRUE;
+
+	(void)simple_bool (xin, attrs, &has_val);
+	if (GOG_IS_SERIES_LABELS (state->cur_obj) && has_val) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
@@ -1293,8 +1300,10 @@ static void
 xlsx_ser_labels_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean has_cat;
-	if (GOG_IS_SERIES_LABELS (state->cur_obj) && simple_bool (xin, attrs, &has_cat)) {
+	gboolean has_cat = TRUE;
+
+	(void)simple_bool (xin, attrs, &has_cat);
+	if (GOG_IS_SERIES_LABELS (state->cur_obj) && has_cat) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
@@ -1391,8 +1400,8 @@ static void
 xlsx_data_label_index (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int index;
-	if (simple_int (xin, attrs, &index))
+	unsigned index;
+	if (simple_uint (xin, attrs, &index))
 		g_object_set (state->cur_obj, "index", index, NULL);
 }
 
@@ -1400,8 +1409,10 @@ static void
 xlsx_data_label_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean has_val;
-	if (GOG_IS_DATA_LABEL (state->cur_obj) && simple_bool (xin, attrs, &has_val)) {
+	gboolean has_val = TRUE;
+
+	(void)simple_bool (xin, attrs, &has_val);
+	if (GOG_IS_DATA_LABEL (state->cur_obj) && has_val) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
@@ -1427,8 +1438,10 @@ static void
 xlsx_data_label_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean has_cat;
-	if (GOG_IS_DATA_LABEL (state->cur_obj) && simple_bool (xin, attrs, &has_cat)) {
+	gboolean has_cat = TRUE;
+
+	(void)simple_bool (xin, attrs, &has_cat);
+	if (GOG_IS_DATA_LABEL (state->cur_obj) && has_cat) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
@@ -1582,11 +1595,11 @@ static void
 xlsx_chart_pt_index (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int tmp;
+	unsigned idx;
 
-	if (simple_int (xin, attrs, &tmp)) {
+	if (simple_uint (xin, attrs, &idx)) {
 		state->series_pt_has_index = TRUE;
-		g_object_set (state->series_pt, "index", tmp, NULL);
+		g_object_set (state->series_pt, "index", idx, NULL);
 	}
 }
 
@@ -1594,10 +1607,10 @@ static void
 xlsx_chart_pt_sep (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int sep;
-	if (simple_int (xin, attrs, &sep) &&
+	unsigned sep;
+	if (simple_uint (xin, attrs, &sep) &&
 	    g_object_class_find_property (G_OBJECT_GET_CLASS (state->series_pt), "separation"))
-		g_object_set (state->series_pt, "separation", (double)sep / 100., NULL);
+		g_object_set (state->series_pt, "separation", (double)sep / 100.0, NULL);
 }
 
 static void
@@ -2001,9 +2014,9 @@ static void
 xlsx_draw_color_alpha (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int val;
-	if (simple_int (xin, attrs, &val)) {
-		int level = 255 * val / 100000;
+	unsigned val;
+	if (simple_uint (xin, attrs, &val)) {
+		int level = 255 * CLAMP (val, 0, 10000000) / 100000;
 		state->color = GO_COLOR_CHANGE_A (state->color, level);
 		color_set_helper (state);
 	}
@@ -2085,10 +2098,10 @@ static void
 xlsx_chart_marker_size (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int sz;
+	unsigned sz = 5;  /* Documented default. */
 
-	if (simple_int (xin, attrs, &sz))
-		go_marker_set_size (state->marker, sz);
+	(void)simple_uint (xin, attrs, &sz);
+	go_marker_set_size (state->marker, CLAMP (sz, 2, 72));
 }
 
 static void

@@ -490,7 +490,7 @@ attr_int (GsfXMLIn *xin, xmlChar const **attrs,
 
 	errno = 0;
 	tmp = strtol (attrs[1], &end, 10);
-	if (errno == ERANGE)
+	if (errno == ERANGE || tmp > G_MAXINT || tmp < G_MININT)
 		return xlsx_warning (xin,
 			_("Integer '%s' is out of range, for attribute %s"),
 			attrs[1], target);
@@ -502,6 +502,36 @@ attr_int (GsfXMLIn *xin, xmlChar const **attrs,
 	*res = tmp;
 	return TRUE;
 }
+
+static gboolean
+attr_uint (GsfXMLIn *xin, xmlChar const **attrs,
+	   char const *target, unsigned *res)
+{
+	char *end;
+	unsigned long tmp;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], target))
+		return FALSE;
+
+	errno = 0;
+	tmp = strtoul (attrs[1], &end, 10);
+	if (errno == ERANGE || tmp != (unsigned)tmp)
+		return xlsx_warning (xin,
+			_("Unisgned integer '%s' is out of range, for attribute %s"),
+			attrs[1], target);
+	if (*end)
+		return xlsx_warning (xin,
+			_("Invalid unsigned integer '%s' for attribute %s"),
+			attrs[1], target);
+
+	*res = tmp;
+	return TRUE;
+}
+
 static gboolean
 attr_int64 (GsfXMLIn *xin, xmlChar const **attrs,
 	    char const *target,
@@ -790,11 +820,23 @@ simple_bool (GsfXMLIn *xin, xmlChar const **attrs, int *res)
 	return FALSE;
 }
 
+#if 0
 static gboolean
 simple_int (GsfXMLIn *xin, xmlChar const **attrs, int *res)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int (xin, attrs, "val", res))
+			return TRUE;
+	return FALSE;
+}
+#endif
+
+
+static gboolean
+simple_uint (GsfXMLIn *xin, xmlChar const **attrs, unsigned *res)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_uint (xin, attrs, "val", res))
 			return TRUE;
 	return FALSE;
 }
