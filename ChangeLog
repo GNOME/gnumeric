@@ -1,3 +1,7 @@
+2015-03-30  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (grammar): Use new libgsf check for "2nd".
+
 2015-03-23  Morten Welinder  <terra@gnome.org>
 
 	* src/sstest.c (rand_fractile_test): Plug leak.
