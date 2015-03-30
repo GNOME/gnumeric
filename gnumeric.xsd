@@ -787,6 +787,7 @@
     </xs:complexType>
     
     <xs:attributeGroup name="ObjectAnchor">
+        <xs:attribute name="AnchorMode"       type="gnm:anchor_mode" use="optional"/>
 	<xs:attribute name="ObjectBound"      type="xs:string"	use="required"/>
 	<xs:attribute name="ObjectOffset"     type="gnm:offsets"	use="required"/>
 	<xs:attribute name="ObjectAnchorType" type="gnm:anchor_type"	use="optional"/>
@@ -1076,6 +1077,14 @@
                  48 = PTS_ABSOLUTE
             -->
             <xs:pattern value="\d+ \d+ \d+ \d+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="anchor_mode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="absolute"/>
+            <xs:enumeration value="one cell"/>
+            <xs:enumeration value="two cells"/>
         </xs:restriction>
     </xs:simpleType>
 

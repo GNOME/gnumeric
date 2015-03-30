@@ -2401,6 +2401,8 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 		else if (!strcmp (attrs[i], "AnchorMode")) {
 			if (!strcmp (attrs[i+1], "one cell"))
 				anchor_mode = GNM_SO_ANCHOR_ONE_CELL;
+			else if (!strcmp (attrs[i+1], "two cells"))
+				anchor_mode = GNM_SO_ANCHOR_TWO_CELLS;
 			else if (!strcmp (attrs[i+1], "absolute") )
 				anchor_mode = GNM_SO_ANCHOR_ABSOLUTE;
 			else {
