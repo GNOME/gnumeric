@@ -2015,7 +2015,7 @@ xlsx_draw_color_rgba_channel (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	guint action = xin->node->user_data.v_int & 3;
-	guint channel = xin->node->user_data.v_int >> 2;
+	guint channel = xin->node->user_data.v_int >> 2; /* a=3, r=2, g=1, b=0 */
 	int val;
 	if (simple_int (xin, attrs, &val)) {
 		const double f = val / 100000.0;
@@ -2046,6 +2046,20 @@ xlsx_draw_color_rgba_channel (GsfXMLIn *xin, xmlChar const **attrs)
 		color_set_helper (state);
 	}
 }
+
+static void
+xlsx_draw_color_hsl_channel (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	guint action = xin->node->user_data.v_int & 3;
+	guint channel = xin->node->user_data.v_int >> 2; /* hue=2, sat=1, lum=0 */
+	int val;
+	if (simple_int (xin, attrs, &val)) {
+		g_warning ("Unhandling hsl colour modification %d %d for #%08x",
+			   action, channel, state->color);
+	}
+}
+
 
 static void
 xlsx_draw_color_shade (GsfXMLIn *xin, xmlChar const **attrs)
@@ -2363,15 +2377,15 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA, "alpha", first, &xlsx_draw_color_rgba_channel, 12), \
 	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_OFF, "alphaOff", first, &xlsx_draw_color_rgba_channel, 13), \
 	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_MOD, "alphaMod", first, &xlsx_draw_color_rgba_channel, 14), \
-	COLOR_MODIFIER_NODE(parent, COLOR_HUE, "hue", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_HUE_OFF, "hueOff", first, NULL, 1), \
-	COLOR_MODIFIER_NODE(parent, COLOR_HUE_MOD, "hueMod", first, NULL, 2), \
-	COLOR_MODIFIER_NODE(parent, COLOR_SAT, "sat", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_SAT_OFF, "satOff", first, NULL, 1), \
-	COLOR_MODIFIER_NODE(parent, COLOR_SAT_MOD, "satMod", first, NULL, 2), \
-	COLOR_MODIFIER_NODE(parent, COLOR_LUM, "lum", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_LUM_OFF, "lumOff", first, NULL, 1), \
-	COLOR_MODIFIER_NODE(parent, COLOR_LUM_MOD, "lumMod", first, NULL, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_HUE, "hue", first, xlsx_draw_color_hsl_channel, 8), \
+	COLOR_MODIFIER_NODE(parent, COLOR_HUE_OFF, "hueOff", first, xlsx_draw_color_hsl_channel, 9), \
+	COLOR_MODIFIER_NODE(parent, COLOR_HUE_MOD, "hueMod", first, xlsx_draw_color_hsl_channel, 10), \
+	COLOR_MODIFIER_NODE(parent, COLOR_SAT, "sat", first, xlsx_draw_color_hsl_channel, 4), \
+	COLOR_MODIFIER_NODE(parent, COLOR_SAT_OFF, "satOff", first, xlsx_draw_color_hsl_channel, 5), \
+	COLOR_MODIFIER_NODE(parent, COLOR_SAT_MOD, "satMod", first, xlsx_draw_color_hsl_channel, 6), \
+	COLOR_MODIFIER_NODE(parent, COLOR_LUM, "lum", first, xlsx_draw_color_hsl_channel, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_LUM_OFF, "lumOff", first, xlsx_draw_color_hsl_channel, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_LUM_MOD, "lumMod", first, xlsx_draw_color_hsl_channel, 2), \
 	COLOR_MODIFIER_NODE(parent, COLOR_RED, "red", first, &xlsx_draw_color_rgba_channel, 8), \
 	COLOR_MODIFIER_NODE(parent, COLOR_RED_OFF, "redOff", first, &xlsx_draw_color_rgba_channel, 9), \
 	COLOR_MODIFIER_NODE(parent, COLOR_RED_MOD, "redMod", first, &xlsx_draw_color_rgba_channel, 10), \
