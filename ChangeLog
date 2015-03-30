@@ -1,3 +1,8 @@
+2015-03-30  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-graph.c (sheet_object_graph_new): Allow NULL
+	graph here.
+
 2015-03-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.h: add support for absolute anchoring of sheet objects.
@@ -7,7 +12,7 @@
 	* src/sheet-object-cell-comment.c: ditto.
 	* src/sheet-object-component.c: ditto.
 	* src/sheet-object-graph.c: ditto and make graphs not anymore resize with
-	cells by default. [#684450] 
+	cells by default. [#684450]
 	* src/sheet-object-image.c: make images don't resize with cells by default.
 	* src/sheet-object.c : add support for absolute anchoring of sheet objects.
 	* src/sheet-object.h: ditto.
