@@ -45,6 +45,14 @@ static GObjectClass *parent_class = NULL;
 
 static GnmPython *gnm_python_obj = NULL;
 
+static int
+cb_test_signals (void)
+{
+	if (PyErr_CheckSignals () < 0)
+		exit (0);
+	return TRUE;
+}
+
 static void
 gnm_python_init (GnmPython *gpy)
 {
@@ -53,6 +61,8 @@ gnm_python_init (GnmPython *gpy)
 	gpy->interpreters = g_slist_append (NULL, gpy->default_interpreter);
 	g_return_if_fail (gnm_python_obj == NULL);
 	gnm_python_obj = gpy;
+	g_timeout_add_full (G_PRIORITY_LOW, 100, (GSourceFunc) cb_test_signals,
+	                    gnm_python_obj, NULL);
 }
 
 static void
@@ -60,6 +70,7 @@ gnm_python_finalize (GObject *obj)
 {
 	GnmPython *gpy = GNM_PYTHON (obj);
 
+	g_source_remove_by_user_data (gnm_python_obj);
 	if (gpy->default_interpreter != NULL) {
 		GO_SLIST_FOREACH (gpy->interpreters, GnmPyInterpreter, interpreter,
 			if (interpreter != gpy->default_interpreter) {
