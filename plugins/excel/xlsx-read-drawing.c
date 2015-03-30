@@ -2011,30 +2011,38 @@ xlsx_draw_color_rgb (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_draw_color_alpha (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_draw_color_rgba_channel (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	guint action = xin->node->user_data.v_int;
-	unsigned val;
-	if (simple_uint (xin, attrs, &val)) {
-		const unsigned scale = 100000u;
-		int a = GO_COLOR_UINT_A (state->color);
-		switch (action) {
-		case 0:
-			a = 255u * CLAMP (val, 0u, scale) / scale;
-			break;
-		case 1:
-			a += 255u * CLAMP (val, 0u, scale) / scale;
-			break;
-		case 2:
-			a = a * CLAMP (val, 0u, scale) / scale;
-			break;
-		default:
-			g_assert_not_reached ();
-		}
+	guint action = xin->node->user_data.v_int & 3;
+	guint channel = xin->node->user_data.v_int >> 2;
+	int val;
+	if (simple_int (xin, attrs, &val)) {
+		const double f = val / 100000.0;
+		int v;
+		double vf;
 
-		a = CLAMP (a, 0, 255);
-		state->color = GO_COLOR_CHANGE_A (state->color, a);
+		switch (channel) {
+		case 3: v = GO_COLOR_UINT_A (state->color); break;
+		case 2: v = GO_COLOR_UINT_R (state->color); break;
+		case 1: v = GO_COLOR_UINT_G (state->color); break;
+		case 0: v = GO_COLOR_UINT_B (state->color); break;
+		default: g_assert_not_reached ();
+		}
+		switch (action) {
+		case 0:	vf = 256 * f; break;
+		case 1: vf = v + 256 * f; break;
+		case 2: vf = v * f; break;
+		default: g_assert_not_reached ();
+		}
+		v = CLAMP (vf, 0, 255);
+		switch (channel) {
+		case 3: state->color = GO_COLOR_CHANGE_A (state->color, v); break;
+		case 2: state->color = GO_COLOR_CHANGE_R (state->color, v); break;
+		case 1: state->color = GO_COLOR_CHANGE_G (state->color, v); break;
+		case 0: state->color = GO_COLOR_CHANGE_B (state->color, v); break;
+		default: g_assert_not_reached ();
+		}
 		color_set_helper (state);
 	}
 }
@@ -2352,9 +2360,9 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 	COLOR_MODIFIER_NODE(parent, COLOR_COMP, "comp", first, NULL, 0), \
 	COLOR_MODIFIER_NODE(parent, COLOR_INV, "inv", first, NULL, 0), \
 	COLOR_MODIFIER_NODE(parent, COLOR_GRAY, "gray", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA, "alpha", first, &xlsx_draw_color_alpha, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_OFF, "alphaOff", first, &xlsx_draw_color_alpha, 1), \
-	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_MOD, "alphaMod", first, &xlsx_draw_color_alpha, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA, "alpha", first, &xlsx_draw_color_rgba_channel, 12), \
+	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_OFF, "alphaOff", first, &xlsx_draw_color_rgba_channel, 13), \
+	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_MOD, "alphaMod", first, &xlsx_draw_color_rgba_channel, 14), \
 	COLOR_MODIFIER_NODE(parent, COLOR_HUE, "hue", first, NULL, 0), \
 	COLOR_MODIFIER_NODE(parent, COLOR_HUE_OFF, "hueOff", first, NULL, 1), \
 	COLOR_MODIFIER_NODE(parent, COLOR_HUE_MOD, "hueMod", first, NULL, 2), \
@@ -2364,15 +2372,15 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 	COLOR_MODIFIER_NODE(parent, COLOR_LUM, "lum", first, NULL, 0), \
 	COLOR_MODIFIER_NODE(parent, COLOR_LUM_OFF, "lumOff", first, NULL, 1), \
 	COLOR_MODIFIER_NODE(parent, COLOR_LUM_MOD, "lumMod", first, NULL, 2), \
-	COLOR_MODIFIER_NODE(parent, COLOR_RED, "red", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_RED_OFF, "redOff", first, NULL, 1), \
-	COLOR_MODIFIER_NODE(parent, COLOR_RED_MOD, "redMod", first, NULL, 2), \
-	COLOR_MODIFIER_NODE(parent, COLOR_GREEN, "green", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_GREEN_OFF, "greenOff", first, NULL, 1), \
-	COLOR_MODIFIER_NODE(parent, COLOR_GREEN_MOD, "greenMod", first, NULL, 2), \
-	COLOR_MODIFIER_NODE(parent, COLOR_BLUE, "blue", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_OFF, "blueOff", first, NULL, 1), \
-	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_MOD, "blueMod", first, NULL, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_RED, "red", first, &xlsx_draw_color_rgba_channel, 8), \
+	COLOR_MODIFIER_NODE(parent, COLOR_RED_OFF, "redOff", first, &xlsx_draw_color_rgba_channel, 9), \
+	COLOR_MODIFIER_NODE(parent, COLOR_RED_MOD, "redMod", first, &xlsx_draw_color_rgba_channel, 10), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GREEN, "green", first, &xlsx_draw_color_rgba_channel, 4), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GREEN_OFF, "greenOff", first, &xlsx_draw_color_rgba_channel, 5), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GREEN_MOD, "greenMod", first, &xlsx_draw_color_rgba_channel, 6), \
+	COLOR_MODIFIER_NODE(parent, COLOR_BLUE, "blue", first, &xlsx_draw_color_rgba_channel, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_OFF, "blueOff", first, &xlsx_draw_color_rgba_channel, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_MOD, "blueMod", first, &xlsx_draw_color_rgba_channel, 2), \
 	COLOR_MODIFIER_NODE(parent, COLOR_GAMMA, "gamma", first, NULL, 0), \
 	COLOR_MODIFIER_NODE(parent, COLOR_INV_GAMMA, "invGamma", first, NULL, 0)
 

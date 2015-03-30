@@ -821,7 +821,6 @@ simple_bool (GsfXMLIn *xin, xmlChar const **attrs, int *res)
 	return FALSE;
 }
 
-#if 0
 static gboolean
 simple_int (GsfXMLIn *xin, xmlChar const **attrs, int *res)
 {
@@ -830,8 +829,6 @@ simple_int (GsfXMLIn *xin, xmlChar const **attrs, int *res)
 			return TRUE;
 	return FALSE;
 }
-#endif
-
 
 static gboolean
 simple_uint (GsfXMLIn *xin, xmlChar const **attrs, unsigned *res)

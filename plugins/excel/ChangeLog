@@ -1,3 +1,8 @@
+2015-03-30  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_draw_color_rgba_channel): Rename from
+	xlsx_draw_color_alpha.  Handle all four channels.
+
 2015-03-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (ms_excel_chart_read): support absolute sheet object anchoring.
