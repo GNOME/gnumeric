@@ -445,6 +445,217 @@ xlsx_sppr_xfrm (GsfXMLIn *xin, xmlChar const **attrs)
 		state->so_direction ^= GOD_ANCHOR_DIR_DOWN;
 }
 
+static void
+color_set_helper (XLSXReadState *state)
+{
+#ifdef DEBUG_COLOR
+	g_printerr ("color: #%08x in state %d\n",
+		    state->color, state->chart_color_state & 7);
+#endif
+
+	switch (state->chart_color_state & 7) {
+	default:
+	case XLSX_CS_NONE:
+		break;
+	case XLSX_CS_FONT:
+		state->cur_style->font.color = state->color;
+		state->cur_style->font.auto_color = FALSE;
+		break;
+	case XLSX_CS_LINE:
+		state->cur_style->line.color = state->color;
+		state->cur_style->line.auto_color = FALSE;
+		break;
+	case XLSX_CS_FILL_BACK:
+		state->cur_style->fill.pattern.back = state->color;
+		state->cur_style->fill.auto_back = FALSE;
+		break;
+	case XLSX_CS_FILL_FORE:
+		state->cur_style->fill.pattern.fore = state->color;
+		state->cur_style->fill.auto_fore = FALSE;
+		break;
+	case XLSX_CS_MARKER:
+		go_marker_set_fill_color (state->marker, state->color);
+		state->cur_style->marker.auto_fill_color = FALSE;
+		break;
+	case XLSX_CS_MARKER_OUTLINE:
+		go_marker_set_outline_color (state->marker, state->color);
+		state->cur_style->marker.auto_outline_color = FALSE;
+		break;
+	}
+}
+
+static void
+xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
+{
+#if 0
+	static EnumVal const colors[] = {
+		{ "bg1",	 0 }, /* Background Color 1 */
+		{ "tx1",	 1 }, /* Text Color 1 */
+		{ "bg2",	 2 }, /* Background Color 2 */
+		{ "tx2",	 3 }, /* Text Color 2 */
+		{ "accent1",	 4 }, /* Accent Color 1 */
+		{ "accent2",	 5 }, /* Accent Color 2 */
+		{ "accent3",	 6 }, /* Accent Color 3 */
+		{ "accent4",	 7 }, /* Accent Color 4 */
+		{ "accent5",	 8 }, /* Accent Color 5 */
+		{ "accent6",	 9 }, /* Accent Color 6 */
+		{ "hlink",	10 }, /* Hyperlink Color */
+		{ "folHlink",	11 }, /* Followed Hyperlink Color */
+		{ "phClr",	12 }, /* Style Color */
+		{ "dk1",	13 }, /* Dark Color 1 */
+		{ "lt1",	14 }, /* Light Color 1 */
+		{ "dk2",	15 }, /* Dark Color 2 */
+		{ "lt2",	16 }, /* Light Color 2 */
+		{ NULL, 0 }
+	};
+#endif
+
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	const char *colname = simple_string (xin, attrs);
+
+	if (colname) {
+		gpointer val;
+		if (g_hash_table_lookup_extended (state->theme_colors_by_name, colname, NULL, &val)) {
+			state->color = GPOINTER_TO_UINT (val);
+			color_set_helper (state);
+		} else
+			xlsx_warning (xin, _("Unknown color '%s'"), colname);
+	}
+}
+
+static void
+xlsx_draw_color_rgb (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_gocolor (xin, attrs, "val", &state->color))
+			color_set_helper (state);
+	}
+}
+
+static void
+xlsx_draw_color_rgba_channel (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	guint action = xin->node->user_data.v_int & 3;
+	guint channel = xin->node->user_data.v_int >> 2; /* a=3, r=2, g=1, b=0 */
+	int val;
+	if (simple_int (xin, attrs, &val)) {
+		const double f = val / 100000.0;
+		int v;
+		double vf;
+
+		switch (channel) {
+		case 3: v = GO_COLOR_UINT_A (state->color); break;
+		case 2: v = GO_COLOR_UINT_R (state->color); break;
+		case 1: v = GO_COLOR_UINT_G (state->color); break;
+		case 0: v = GO_COLOR_UINT_B (state->color); break;
+		default: g_assert_not_reached ();
+		}
+		switch (action) {
+		case 0:	vf = 256 * f; break;
+		case 1: vf = v + 256 * f; break;
+		case 2: vf = v * f; break;
+		default: g_assert_not_reached ();
+		}
+		v = CLAMP (vf, 0, 255);
+		switch (channel) {
+		case 3: state->color = GO_COLOR_CHANGE_A (state->color, v); break;
+		case 2: state->color = GO_COLOR_CHANGE_R (state->color, v); break;
+		case 1: state->color = GO_COLOR_CHANGE_G (state->color, v); break;
+		case 0: state->color = GO_COLOR_CHANGE_B (state->color, v); break;
+		default: g_assert_not_reached ();
+		}
+		color_set_helper (state);
+	}
+}
+
+static void
+xlsx_draw_color_hsl_channel (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	guint action = xin->node->user_data.v_int & 3;
+	guint channel = xin->node->user_data.v_int >> 2; /* hue=2, sat=1, lum=0 */
+	int val;
+	if (simple_int (xin, attrs, &val)) {
+		g_warning ("Unhandling hsl colour modification %d %d for #%08x",
+			   action, channel, state->color);
+	}
+}
+
+
+static void
+xlsx_draw_color_shade (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	unsigned val;
+	if (simple_uint (xin, attrs, &val)) {
+		const unsigned scale = 100000u;
+		double f = CLAMP (val, 0u, scale) / (double)scale;
+		/*
+		 * FIXME: Wrong RGB colour space, see
+		 * https://social.msdn.microsoft.com/forums/office/en-US/f6d26f2c-114f-4a0d-8bca-a27442aec4d0/tint-and-shade-elements
+		 */
+		state->color = GO_COLOR_CHANGE_R(state->color, (guint8)(f*GO_COLOR_UINT_R(state->color)));
+		state->color = GO_COLOR_CHANGE_G(state->color, (guint8)(f*GO_COLOR_UINT_G(state->color)));
+		state->color = GO_COLOR_CHANGE_B(state->color, (guint8)(f*GO_COLOR_UINT_B(state->color)));
+		color_set_helper (state);
+	}
+}
+
+static void
+xlsx_draw_color_tint (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	unsigned val;
+	if (simple_uint (xin, attrs, &val)) {
+		const unsigned scale = 100000u;
+		double f = CLAMP (val, 0u, scale) / (double)scale;
+		/*
+		 * FIXME: Wrong RGB colour space, see
+		 * https://social.msdn.microsoft.com/forums/office/en-US/f6d26f2c-114f-4a0d-8bca-a27442aec4d0/tint-and-shade-elements
+		 */
+		state->color = GO_COLOR_CHANGE_R(state->color, (guint8)(f * 255 + (1 - f) * GO_COLOR_UINT_R(state->color)));
+		state->color = GO_COLOR_CHANGE_G(state->color, (guint8)(f * 255 + (1 - f) * GO_COLOR_UINT_G(state->color)));
+		state->color = GO_COLOR_CHANGE_B(state->color, (guint8)(f * 255 + (1 - f) * GO_COLOR_UINT_B(state->color)));
+		color_set_helper (state);
+	}
+}
+
+
+#define COLOR_MODIFIER_NODE(parent,node,name,first,handler,user) \
+	GSF_XML_IN_NODE_FULL (parent, node, XL_NS_DRAW, name, (first ? GSF_XML_NO_CONTENT : GSF_XML_2ND), FALSE, FALSE, handler, NULL, user)
+
+#define COLOR_MODIFIER_NODES(parent,first)				\
+	COLOR_MODIFIER_NODE(parent, COLOR_SHADE, "shade", first, &xlsx_draw_color_shade, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_TINT, "tint", first, &xlsx_draw_color_tint, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_COMP, "comp", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_INV, "inv", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GRAY, "gray", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA, "alpha", first, &xlsx_draw_color_rgba_channel, 12), \
+	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_OFF, "alphaOff", first, &xlsx_draw_color_rgba_channel, 13), \
+	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_MOD, "alphaMod", first, &xlsx_draw_color_rgba_channel, 14), \
+	COLOR_MODIFIER_NODE(parent, COLOR_HUE, "hue", first, xlsx_draw_color_hsl_channel, 8), \
+	COLOR_MODIFIER_NODE(parent, COLOR_HUE_OFF, "hueOff", first, xlsx_draw_color_hsl_channel, 9), \
+	COLOR_MODIFIER_NODE(parent, COLOR_HUE_MOD, "hueMod", first, xlsx_draw_color_hsl_channel, 10), \
+	COLOR_MODIFIER_NODE(parent, COLOR_SAT, "sat", first, xlsx_draw_color_hsl_channel, 4), \
+	COLOR_MODIFIER_NODE(parent, COLOR_SAT_OFF, "satOff", first, xlsx_draw_color_hsl_channel, 5), \
+	COLOR_MODIFIER_NODE(parent, COLOR_SAT_MOD, "satMod", first, xlsx_draw_color_hsl_channel, 6), \
+	COLOR_MODIFIER_NODE(parent, COLOR_LUM, "lum", first, xlsx_draw_color_hsl_channel, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_LUM_OFF, "lumOff", first, xlsx_draw_color_hsl_channel, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_LUM_MOD, "lumMod", first, xlsx_draw_color_hsl_channel, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_RED, "red", first, &xlsx_draw_color_rgba_channel, 8), \
+	COLOR_MODIFIER_NODE(parent, COLOR_RED_OFF, "redOff", first, &xlsx_draw_color_rgba_channel, 9), \
+	COLOR_MODIFIER_NODE(parent, COLOR_RED_MOD, "redMod", first, &xlsx_draw_color_rgba_channel, 10), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GREEN, "green", first, &xlsx_draw_color_rgba_channel, 4), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GREEN_OFF, "greenOff", first, &xlsx_draw_color_rgba_channel, 5), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GREEN_MOD, "greenMod", first, &xlsx_draw_color_rgba_channel, 6), \
+	COLOR_MODIFIER_NODE(parent, COLOR_BLUE, "blue", first, &xlsx_draw_color_rgba_channel, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_OFF, "blueOff", first, &xlsx_draw_color_rgba_channel, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_MOD, "blueMod", first, &xlsx_draw_color_rgba_channel, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GAMMA, "gamma", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_INV_GAMMA, "invGamma", first, NULL, 0)
+
 
 static GsfXMLInNode const xlsx_chart_drawing_dtd[] =
 {
@@ -471,7 +682,11 @@ GSF_XML_IN_NODE_FULL (START, USER_SHAPES, XL_NS_CHART, "userShapes", GSF_XML_NO_
 	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),
+                COLOR_MODIFIER_NODES(COLOR_RGB,1),
+	      GSF_XML_IN_NODE (GRAD_LIST_ITEM, SCHEME_CLR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),
+                COLOR_MODIFIER_NODES(SCHEME_CLR,0),
 	      GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_SYS, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),
+                COLOR_MODIFIER_NODES(COLOR_SYS,0),
 	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIN,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_TILE,	XL_NS_DRAW, "tileRect", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE, TX_BODY, XL_NS_CHART_DRAW, "txBody", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -507,7 +722,9 @@ GSF_XML_IN_NODE_FULL (START, USER_SHAPES, XL_NS_CHART, "userShapes", GSF_XML_NO_
               GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH_R_PR, TEXT_FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
-                GSF_XML_IN_NODE (TEXT_FILL_SOLID, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),
+                GSF_XML_IN_NODE (TEXT_FILL_SOLID, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_2ND, NULL, NULL),
+                GSF_XML_IN_NODE (TEXT_FILL_SOLID, SCHEME_CLR, XL_NS_DRAW, "schemeClr", GSF_XML_2ND, NULL, NULL),
+                GSF_XML_IN_NODE (TEXT_FILL_SOLID, COLOR_SYS, XL_NS_DRAW, "sysClr", GSF_XML_2ND, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_ULNTX, XL_NS_DRAW, "uLnTx", GSF_XML_NO_CONTENT, NULL, NULL),
  	    GSF_XML_IN_NODE (TX_RICH_FLD, PR_P_PR,	XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1923,183 +2140,6 @@ xlsx_draw_line_headtail (GsfXMLIn *xin, xmlChar const **attrs)
 
 
 static void
-color_set_helper (XLSXReadState *state)
-{
-#ifdef DEBUG_COLOR
-	g_printerr ("color: #%08x in state %d\n",
-		    state->color, state->chart_color_state & 7);
-#endif
-
-	switch (state->chart_color_state & 7) {
-	default:
-	case XLSX_CS_NONE:
-		break;
-	case XLSX_CS_FONT:
-		state->cur_style->font.color = state->color;
-		state->cur_style->font.auto_color = FALSE;
-		break;
-	case XLSX_CS_LINE:
-		state->cur_style->line.color = state->color;
-		state->cur_style->line.auto_color = FALSE;
-		break;
-	case XLSX_CS_FILL_BACK:
-		state->cur_style->fill.pattern.back = state->color;
-		state->cur_style->fill.auto_back = FALSE;
-		break;
-	case XLSX_CS_FILL_FORE:
-		state->cur_style->fill.pattern.fore = state->color;
-		state->cur_style->fill.auto_fore = FALSE;
-		break;
-	case XLSX_CS_MARKER:
-		go_marker_set_fill_color (state->marker, state->color);
-		state->cur_style->marker.auto_fill_color = FALSE;
-		break;
-	case XLSX_CS_MARKER_OUTLINE:
-		go_marker_set_outline_color (state->marker, state->color);
-		state->cur_style->marker.auto_outline_color = FALSE;
-		break;
-	}
-}
-
-static void
-xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
-{
-#if 0
-	static EnumVal const colors[] = {
-		{ "bg1",	 0 }, /* Background Color 1 */
-		{ "tx1",	 1 }, /* Text Color 1 */
-		{ "bg2",	 2 }, /* Background Color 2 */
-		{ "tx2",	 3 }, /* Text Color 2 */
-		{ "accent1",	 4 }, /* Accent Color 1 */
-		{ "accent2",	 5 }, /* Accent Color 2 */
-		{ "accent3",	 6 }, /* Accent Color 3 */
-		{ "accent4",	 7 }, /* Accent Color 4 */
-		{ "accent5",	 8 }, /* Accent Color 5 */
-		{ "accent6",	 9 }, /* Accent Color 6 */
-		{ "hlink",	10 }, /* Hyperlink Color */
-		{ "folHlink",	11 }, /* Followed Hyperlink Color */
-		{ "phClr",	12 }, /* Style Color */
-		{ "dk1",	13 }, /* Dark Color 1 */
-		{ "lt1",	14 }, /* Light Color 1 */
-		{ "dk2",	15 }, /* Dark Color 2 */
-		{ "lt2",	16 }, /* Light Color 2 */
-		{ NULL, 0 }
-	};
-#endif
-
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	const char *colname = simple_string (xin, attrs);
-
-	if (colname) {
-		gpointer val;
-		if (g_hash_table_lookup_extended (state->theme_colors_by_name, colname, NULL, &val)) {
-			state->color = GPOINTER_TO_UINT (val);
-			color_set_helper (state);
-		} else
-			xlsx_warning (xin, _("Unknown color '%s'"), colname);
-	}
-}
-
-static void
-xlsx_draw_color_rgb (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_gocolor (xin, attrs, "val", &state->color))
-			color_set_helper (state);
-	}
-}
-
-static void
-xlsx_draw_color_rgba_channel (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	guint action = xin->node->user_data.v_int & 3;
-	guint channel = xin->node->user_data.v_int >> 2; /* a=3, r=2, g=1, b=0 */
-	int val;
-	if (simple_int (xin, attrs, &val)) {
-		const double f = val / 100000.0;
-		int v;
-		double vf;
-
-		switch (channel) {
-		case 3: v = GO_COLOR_UINT_A (state->color); break;
-		case 2: v = GO_COLOR_UINT_R (state->color); break;
-		case 1: v = GO_COLOR_UINT_G (state->color); break;
-		case 0: v = GO_COLOR_UINT_B (state->color); break;
-		default: g_assert_not_reached ();
-		}
-		switch (action) {
-		case 0:	vf = 256 * f; break;
-		case 1: vf = v + 256 * f; break;
-		case 2: vf = v * f; break;
-		default: g_assert_not_reached ();
-		}
-		v = CLAMP (vf, 0, 255);
-		switch (channel) {
-		case 3: state->color = GO_COLOR_CHANGE_A (state->color, v); break;
-		case 2: state->color = GO_COLOR_CHANGE_R (state->color, v); break;
-		case 1: state->color = GO_COLOR_CHANGE_G (state->color, v); break;
-		case 0: state->color = GO_COLOR_CHANGE_B (state->color, v); break;
-		default: g_assert_not_reached ();
-		}
-		color_set_helper (state);
-	}
-}
-
-static void
-xlsx_draw_color_hsl_channel (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	guint action = xin->node->user_data.v_int & 3;
-	guint channel = xin->node->user_data.v_int >> 2; /* hue=2, sat=1, lum=0 */
-	int val;
-	if (simple_int (xin, attrs, &val)) {
-		g_warning ("Unhandling hsl colour modification %d %d for #%08x",
-			   action, channel, state->color);
-	}
-}
-
-
-static void
-xlsx_draw_color_shade (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	unsigned val;
-	if (simple_uint (xin, attrs, &val)) {
-		const unsigned scale = 100000u;
-		double f = CLAMP (val, 0u, scale) / (double)scale;
-		/*
-		 * FIXME: Wrong RGB colour space, see
-		 * https://social.msdn.microsoft.com/forums/office/en-US/f6d26f2c-114f-4a0d-8bca-a27442aec4d0/tint-and-shade-elements
-		 */
-		state->color = GO_COLOR_CHANGE_R(state->color, (guint8)(f*GO_COLOR_UINT_R(state->color)));
-		state->color = GO_COLOR_CHANGE_G(state->color, (guint8)(f*GO_COLOR_UINT_G(state->color)));
-		state->color = GO_COLOR_CHANGE_B(state->color, (guint8)(f*GO_COLOR_UINT_B(state->color)));
-		color_set_helper (state);
-	}
-}
-
-static void
-xlsx_draw_color_tint (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	unsigned val;
-	if (simple_uint (xin, attrs, &val)) {
-		const unsigned scale = 100000u;
-		double f = CLAMP (val, 0u, scale) / (double)scale;
-		/*
-		 * FIXME: Wrong RGB colour space, see
-		 * https://social.msdn.microsoft.com/forums/office/en-US/f6d26f2c-114f-4a0d-8bca-a27442aec4d0/tint-and-shade-elements
-		 */
-		state->color = GO_COLOR_CHANGE_R(state->color, (guint8)(f * 255 + (1 - f) * GO_COLOR_UINT_R(state->color)));
-		state->color = GO_COLOR_CHANGE_G(state->color, (guint8)(f * 255 + (1 - f) * GO_COLOR_UINT_G(state->color)));
-		state->color = GO_COLOR_CHANGE_B(state->color, (guint8)(f * 255 + (1 - f) * GO_COLOR_UINT_B(state->color)));
-		color_set_helper (state);
-	}
-}
-
-static void
 xlsx_draw_line_dash (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static const EnumVal const dashes[] = {
@@ -2364,40 +2404,6 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 }
-
-#define COLOR_MODIFIER_NODE(parent,node,name,first,handler,user) \
-	GSF_XML_IN_NODE_FULL (parent, node, XL_NS_DRAW, name, (first ? GSF_XML_NO_CONTENT : GSF_XML_2ND), FALSE, FALSE, handler, NULL, user)
-
-#define COLOR_MODIFIER_NODES(parent,first)				\
-	COLOR_MODIFIER_NODE(parent, COLOR_SHADE, "shade", first, &xlsx_draw_color_shade, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_TINT, "tint", first, &xlsx_draw_color_tint, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_COMP, "comp", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_INV, "inv", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_GRAY, "gray", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA, "alpha", first, &xlsx_draw_color_rgba_channel, 12), \
-	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_OFF, "alphaOff", first, &xlsx_draw_color_rgba_channel, 13), \
-	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_MOD, "alphaMod", first, &xlsx_draw_color_rgba_channel, 14), \
-	COLOR_MODIFIER_NODE(parent, COLOR_HUE, "hue", first, xlsx_draw_color_hsl_channel, 8), \
-	COLOR_MODIFIER_NODE(parent, COLOR_HUE_OFF, "hueOff", first, xlsx_draw_color_hsl_channel, 9), \
-	COLOR_MODIFIER_NODE(parent, COLOR_HUE_MOD, "hueMod", first, xlsx_draw_color_hsl_channel, 10), \
-	COLOR_MODIFIER_NODE(parent, COLOR_SAT, "sat", first, xlsx_draw_color_hsl_channel, 4), \
-	COLOR_MODIFIER_NODE(parent, COLOR_SAT_OFF, "satOff", first, xlsx_draw_color_hsl_channel, 5), \
-	COLOR_MODIFIER_NODE(parent, COLOR_SAT_MOD, "satMod", first, xlsx_draw_color_hsl_channel, 6), \
-	COLOR_MODIFIER_NODE(parent, COLOR_LUM, "lum", first, xlsx_draw_color_hsl_channel, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_LUM_OFF, "lumOff", first, xlsx_draw_color_hsl_channel, 1), \
-	COLOR_MODIFIER_NODE(parent, COLOR_LUM_MOD, "lumMod", first, xlsx_draw_color_hsl_channel, 2), \
-	COLOR_MODIFIER_NODE(parent, COLOR_RED, "red", first, &xlsx_draw_color_rgba_channel, 8), \
-	COLOR_MODIFIER_NODE(parent, COLOR_RED_OFF, "redOff", first, &xlsx_draw_color_rgba_channel, 9), \
-	COLOR_MODIFIER_NODE(parent, COLOR_RED_MOD, "redMod", first, &xlsx_draw_color_rgba_channel, 10), \
-	COLOR_MODIFIER_NODE(parent, COLOR_GREEN, "green", first, &xlsx_draw_color_rgba_channel, 4), \
-	COLOR_MODIFIER_NODE(parent, COLOR_GREEN_OFF, "greenOff", first, &xlsx_draw_color_rgba_channel, 5), \
-	COLOR_MODIFIER_NODE(parent, COLOR_GREEN_MOD, "greenMod", first, &xlsx_draw_color_rgba_channel, 6), \
-	COLOR_MODIFIER_NODE(parent, COLOR_BLUE, "blue", first, &xlsx_draw_color_rgba_channel, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_OFF, "blueOff", first, &xlsx_draw_color_rgba_channel, 1), \
-	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_MOD, "blueMod", first, &xlsx_draw_color_rgba_channel, 2), \
-	COLOR_MODIFIER_NODE(parent, COLOR_GAMMA, "gamma", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_INV_GAMMA, "invGamma", first, NULL, 0)
-
 
 static GsfXMLInNode const xlsx_chart_dtd[] =
 {
@@ -3381,7 +3387,9 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
         GSF_XML_IN_NODE (SHAPE, SP_XFRM_STYLE, XL_NS_SS_DRAW, "style", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SP_XFRM_STYLE, LN_REF, XL_NS_DRAW, "lnRef", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (LN_REF, SCHEME_CLR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),
+              COLOR_MODIFIER_NODES(SCHEME_CLR,1),
 	    GSF_XML_IN_NODE (LN_REF, SCRGB_CLR, XL_NS_DRAW, "scrgbClr", GSF_XML_NO_CONTENT, xlsx_draw_color_rgb, NULL),
+              COLOR_MODIFIER_NODES(SCRGB_CLR,0),
           GSF_XML_IN_NODE (SP_XFRM_STYLE, FILL_REF, XL_NS_DRAW, "fillRef", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (FILL_REF, SCHEME_CLR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (FILL_REF, SCRGB_CLR, XL_NS_DRAW, "scrgbClr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3410,7 +3418,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 	GSF_XML_IN_NODE (SHAPE_PR, SP_FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHAPE_PR, SP_FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, NULL),
-            COLOR_MODIFIER_NODES(COLOR_THEMED,1),
+            COLOR_MODIFIER_NODES(COLOR_THEMED,0),
 	  GSF_XML_IN_NODE (FILL_SOLID, COLOR_RGB,	 XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_rgb, NULL),
             COLOR_MODIFIER_NODES(COLOR_THEMED,0),
 
