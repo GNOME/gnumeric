@@ -4,6 +4,7 @@
 	xlsx_draw_color_alpha.  Handle all four channels.
 	(xlsx_draw_color_hsl_channel): Hook up hue-sat-lum modification.
 	(xlsx_draw_color_scrgb): Properly parse <scrgbClr>.
+	(xlsx_chart_drawing_dtd): more grammar.
 
 2015-03-30  Jean Brefort  <jean.brefort@normalesup.org>
 
