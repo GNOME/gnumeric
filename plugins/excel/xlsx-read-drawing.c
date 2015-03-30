@@ -1649,7 +1649,7 @@ xlsx_style_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_chart_no_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+xlsx_draw_no_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker)
@@ -1666,7 +1666,7 @@ xlsx_chart_no_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_grad_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+xlsx_draw_grad_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker) /* do xlsx support gradients in markers */
@@ -1681,7 +1681,7 @@ xlsx_chart_grad_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_grad_linear (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_draw_grad_linear (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int ang = 0, ang_deg;
@@ -1719,7 +1719,7 @@ xlsx_chart_grad_linear (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_draw_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int pos = 0;
@@ -1746,7 +1746,7 @@ xlsx_chart_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_grad_stop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xlsx_draw_grad_stop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
@@ -1757,7 +1757,7 @@ xlsx_chart_grad_stop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_chart_solid_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+xlsx_draw_solid_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker) {
@@ -1782,14 +1782,14 @@ xlsx_chart_solid_fill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_solid_fill_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xlsx_draw_solid_fill_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	xlsx_chart_pop_color_state (state, XLSX_CS_ANY);
 }
 
 static void
-xlsx_chart_patt_fill (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_draw_patt_fill (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	static EnumVal const patterns[] = {
@@ -1863,7 +1863,7 @@ xlsx_chart_patt_fill (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_patt_fill_clr (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+xlsx_draw_patt_fill_clr (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean is_fg = xin->node->user_data.v_int;
@@ -1872,14 +1872,14 @@ xlsx_chart_patt_fill_clr (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 }
 
 static void
-xlsx_chart_patt_fill_clr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xlsx_draw_patt_fill_clr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	xlsx_chart_pop_color_state (state, XLSX_CS_ANY);
 }
 
 static void
-xlsx_chart_line_headtail (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_draw_line_headtail (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean is_tail = xin->node->user_data.v_int;
@@ -2388,8 +2388,8 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (SP_XFRM, SP_XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SP_XFRM, SP_XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (SHAPE_PR, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (SHAPE_PR, FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, &xlsx_chart_no_fill, NULL),
-    GSF_XML_IN_NODE (SHAPE_PR, FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, &xlsx_chart_solid_fill_end),
+    GSF_XML_IN_NODE (SHAPE_PR, FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, &xlsx_draw_no_fill, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_draw_solid_fill, &xlsx_draw_solid_fill_end),
       GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, NULL),
         COLOR_MODIFIER_NODES(COLOR_THEMED,1),
       GSF_XML_IN_NODE (FILL_SOLID, COLOR_RGB,	 XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_rgb, NULL),
@@ -2401,22 +2401,22 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_SRC,	XL_NS_DRAW, "srcRect", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_TILE,	XL_NS_DRAW, "tile", GSF_XML_NO_CONTENT, NULL, NULL),
 
-    GSF_XML_IN_NODE (SHAPE_PR, FILL_GRAD,	XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, &xlsx_chart_grad_fill, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, FILL_GRAD,	XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, &xlsx_draw_grad_fill, NULL),
       GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
-       GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, xlsx_chart_grad_stop, xlsx_chart_grad_stop_end),
+       GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, xlsx_draw_grad_stop, xlsx_draw_grad_stop_end),
          GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 	 GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_SYS, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIN,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, &xlsx_chart_grad_linear, NULL),
+      GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIN,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, &xlsx_draw_grad_linear, NULL),
       GSF_XML_IN_NODE (FILL_GRAD, GRAD_TILE,	XL_NS_DRAW, "tileRect", GSF_XML_NO_CONTENT, NULL, NULL),
 
-    GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, &xlsx_chart_patt_fill, NULL),
-      GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_BG,	XL_NS_DRAW, "bgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_patt_fill_clr, &xlsx_chart_patt_fill_clr_end, FALSE),
+    GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, &xlsx_draw_patt_fill, NULL),
+      GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_BG,	XL_NS_DRAW, "bgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_draw_patt_fill_clr, &xlsx_draw_patt_fill_clr_end, FALSE),
         GSF_XML_IN_NODE (FILL_PATT_BG, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_FG,	XL_NS_DRAW, "fgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_patt_fill_clr, &xlsx_chart_patt_fill_clr_end, TRUE),
+      GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_FG,	XL_NS_DRAW, "fgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_draw_patt_fill_clr, &xlsx_draw_patt_fill_clr_end, TRUE),
         GSF_XML_IN_NODE (FILL_PATT_FG, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
     GSF_XML_IN_NODE (SHAPE_PR, SHAPE_PR_LN, XL_NS_DRAW, "ln", GSF_XML_NO_CONTENT, &xlsx_style_line_start, &xlsx_style_line_end),
-      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_NOFILL, XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, &xlsx_chart_no_fill, NULL),
+      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_NOFILL, XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, &xlsx_draw_no_fill, NULL),
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
       GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
@@ -3338,12 +3338,12 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 	    GSF_XML_IN_NODE (SP_XFRM_OFF, SHAPE_PR_LN, XL_NS_DRAW, "ln", GSF_XML_NO_CONTENT, xlsx_style_line_start, &xlsx_style_line_end),
 	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_NOFILL, XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, &xlsx_draw_line_dash, NULL),
-	      GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, &xlsx_chart_solid_fill_end),
+	      GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_draw_solid_fill, &xlsx_draw_solid_fill_end),
 	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_MITER,	XL_NS_DRAW, "miter", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_ROUND,	XL_NS_DRAW, "round", GSF_XML_NO_CONTENT, NULL, NULL),
-              GSF_XML_IN_NODE_FULL (SHAPE_PR_LN, LN_HEAD,	XL_NS_DRAW, "headEnd", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_line_headtail, NULL, FALSE),
-              GSF_XML_IN_NODE_FULL (SHAPE_PR_LN, LN_TAIL,	XL_NS_DRAW, "tailEnd", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_line_headtail, NULL, TRUE),
+              GSF_XML_IN_NODE_FULL (SHAPE_PR_LN, LN_HEAD,	XL_NS_DRAW, "headEnd", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_draw_line_headtail, NULL, FALSE),
+              GSF_XML_IN_NODE_FULL (SHAPE_PR_LN, LN_TAIL,	XL_NS_DRAW, "tailEnd", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_draw_line_headtail, NULL, TRUE),
           GSF_XML_IN_NODE (SP_PR_XFRM, CHILD_OFF, XL_NS_DRAW, "chOff", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SP_PR_XFRM, CHILD_EXT, XL_NS_DRAW, "chExt", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHAPE_PR, SP_FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3358,17 +3358,17 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 	  GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_SRC,	XL_NS_DRAW, "srcRect", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_TILE,	XL_NS_DRAW, "tile", GSF_XML_NO_CONTENT, NULL, NULL),
 
-	GSF_XML_IN_NODE (SHAPE_PR, FILL_GRAD,	XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, xlsx_chart_grad_fill, NULL),
+	GSF_XML_IN_NODE (SHAPE_PR, FILL_GRAD,	XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, xlsx_draw_grad_fill, NULL),
 	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
-	   GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, xlsx_chart_grad_stop, xlsx_chart_grad_stop_end),
+	   GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, xlsx_draw_grad_stop, xlsx_draw_grad_stop_end),
 	     GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIN,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, &xlsx_chart_grad_linear, NULL),
+	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIN,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, &xlsx_draw_grad_linear, NULL),
           GSF_XML_IN_NODE (FILL_GRAD, GRAD_TILE, XL_NS_DRAW, "tileRect", GSF_XML_NO_CONTENT, NULL, NULL),
 
-        GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, &xlsx_chart_patt_fill, NULL),
-          GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_BG,	XL_NS_DRAW, "bgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_patt_fill_clr, &xlsx_chart_patt_fill_clr_end, FALSE),
+        GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, &xlsx_draw_patt_fill, NULL),
+          GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_BG,	XL_NS_DRAW, "bgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_draw_patt_fill_clr, &xlsx_draw_patt_fill_clr_end, FALSE),
 	    GSF_XML_IN_NODE (FILL_PATT_BG, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-          GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_FG,	XL_NS_DRAW, "fgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_patt_fill_clr, &xlsx_chart_patt_fill_clr_end, TRUE),
+          GSF_XML_IN_NODE_FULL (FILL_PATT, FILL_PATT_FG,	XL_NS_DRAW, "fgClr", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_draw_patt_fill_clr, &xlsx_draw_patt_fill_clr_end, TRUE),
 	    GSF_XML_IN_NODE (FILL_PATT_FG, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
 	GSF_XML_IN_NODE (SHAPE_PR, SHAPE_PR_LN, XL_NS_DRAW, "ln", GSF_XML_NO_CONTENT, NULL, NULL),
