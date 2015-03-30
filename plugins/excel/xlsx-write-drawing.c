@@ -1359,11 +1359,41 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 
 		sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 
-		gsf_xml_out_start_element (xml, "xdr:twoCellAnchor");
-		xlsx_write_object_anchor (xml, &anchor->cell_bound.start, "xdr:from",
-					  res_pts[0], res_pts[1]);
-		xlsx_write_object_anchor (xml, &anchor->cell_bound.end, "xdr:to",
-					  res_pts[2], res_pts[3]);
+		switch (anchor->mode) {
+		case GNM_SO_ANCHOR_TWO_CELLS:
+			gsf_xml_out_start_element (xml, "xdr:twoCellAnchor");
+			xlsx_write_object_anchor (xml, &anchor->cell_bound.start, "xdr:from",
+						  res_pts[0], res_pts[1]);
+			xlsx_write_object_anchor (xml, &anchor->cell_bound.end, "xdr:to",
+						  res_pts[2], res_pts[3]);
+			break;
+		case GNM_SO_ANCHOR_ONE_CELL:
+			gsf_xml_out_start_element (xml, "xdr:oneCellAnchor");
+			xlsx_write_object_anchor (xml, &anchor->cell_bound.start, "xdr:from",
+						  res_pts[0], res_pts[1]);
+			gsf_xml_out_start_element (xml, "xdr:ext");
+			gsf_xml_out_add_int  (xml, "cx",
+								xlsx_pts_to_emu (anchor->offset[2]));
+			gsf_xml_out_add_int (xml, "cy",
+								xlsx_pts_to_emu (anchor->offset[3]));
+			gsf_xml_out_end_element (xml);
+			break;
+		case GNM_SO_ANCHOR_ABSOLUTE:
+			gsf_xml_out_start_element (xml, "xdr:absoluteAnchor");
+			gsf_xml_out_start_element (xml, "xdr:pos");
+			gsf_xml_out_add_int  (xml, "x",
+								xlsx_pts_to_emu (anchor->offset[0]));
+			gsf_xml_out_add_int (xml, "y",
+								xlsx_pts_to_emu (anchor->offset[1]));
+			gsf_xml_out_end_element (xml);
+			gsf_xml_out_start_element (xml, "xdr:ext");
+			gsf_xml_out_add_int  (xml, "cx",
+								xlsx_pts_to_emu (anchor->offset[2]));
+			gsf_xml_out_add_int (xml, "cy",
+								xlsx_pts_to_emu (anchor->offset[3]));
+			gsf_xml_out_end_element (xml);
+			break;
+		}
 
 		if (GNM_IS_SO_GRAPH (so)) {
 			char *tmp;

@@ -391,7 +391,7 @@ static gboolean
 ms_sheet_obj_anchor_to_pos (Sheet const * sheet,
 			    G_GNUC_UNUSED MsBiffVersion const ver,
 			    guint8 const *raw_anchor,
-			    GnmRange *range, double offset[4])
+			    GnmRange *range, double offset[4], GnmSOAnchorMode *mode)
 {
 	/* NOTE :
 	 * gnm_float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
@@ -407,6 +407,17 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet,
 		   gsf_mem_dump (raw_anchor, 18);
 	   });
 
+	switch (raw_anchor[0]) {
+	case 2:
+		*mode = GNM_SO_ANCHOR_ONE_CELL;
+		break;
+	case 3:
+		*mode = GNM_SO_ANCHOR_ABSOLUTE;
+		break;
+	default:
+		*mode = GNM_SO_ANCHOR_TWO_CELLS;
+		break;
+	}
 	/* Ignore the first 2 bytes.  What are they ? */
 	/* Dec/1/2000 JEG: I have not researched it, but this may have some
 	 * flags indicating whether or not the object is anchored to the cell
@@ -494,6 +505,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	SheetObjectAnchor anchor;
 	SheetObject *so;
 	GOStyle *style;
+	GnmSOAnchorMode mode = GNM_SO_ANCHOR_TWO_CELLS;
 
 	if (obj == NULL)
 		return TRUE;
@@ -518,7 +530,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		}
 
 		if (ms_sheet_obj_anchor_to_pos (esheet->sheet, container->importer->ver,
-						attr->v.v_ptr, &range, offsets))
+						attr->v.v_ptr, &range, offsets, &mode))
 			return TRUE;
 
 		flip_h = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
@@ -527,10 +539,12 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			((flip_h == NULL) ? GOD_ANCHOR_DIR_RIGHT : 0) |
 			((flip_v == NULL) ? GOD_ANCHOR_DIR_DOWN : 0);
 
-		sheet_object_anchor_init (&anchor, &range, offsets, direction);
+		sheet_object_anchor_init (&anchor, &range, offsets, direction, GNM_SO_ANCHOR_TWO_CELLS);
 		sheet_object_set_anchor (so, &anchor);
 	}
 	sheet_object_set_sheet (so, esheet->sheet);
+	if (mode != GNM_SO_ANCHOR_TWO_CELLS)
+		sheet_object_set_anchor_mode (so, &mode);
 
 	{
 		gpointer label;

@@ -885,7 +885,7 @@ ig_obj_create_begin (GnmItemGrid *ig, int button, gint64 x, gint64 y)
 
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
-	sheet_object_anchor_init (&anchor, NULL, NULL, GOD_ANCHOR_DIR_DOWN_RIGHT);
+	sheet_object_anchor_init (&anchor, NULL, NULL, GOD_ANCHOR_DIR_DOWN_RIGHT, so->anchor.mode);
 	scg_object_coords_to_anchor (ig->scg, coords, &anchor);
 	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, scg_sheet (ig->scg));

@@ -341,7 +341,7 @@ wb_view_style_feedback (WorkbookView *wbv)
 		GnmRange const *r;
 		if (NULL == (r = gnm_sheet_merge_contains_pos (sv->sheet, &sv->edit_pos)))
 			r = range_init_cellpos (&corner, &sv->edit_pos);
-		sheet_object_anchor_init (&anchor, r, a_offsets, GOD_ANCHOR_DIR_DOWN_RIGHT);
+		sheet_object_anchor_init (&anchor, r, a_offsets, GOD_ANCHOR_DIR_DOWN_RIGHT, GNM_SO_ANCHOR_TWO_CELLS);
 		sheet_object_set_anchor (wbv->in_cell_combo, &anchor);
 		sheet_object_set_sheet (wbv->in_cell_combo, sv->sheet);
 	}

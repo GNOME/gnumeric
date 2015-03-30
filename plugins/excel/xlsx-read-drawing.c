@@ -3116,6 +3116,7 @@ xlsx_draw_anchor_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	memset ((gpointer)state->drawing_pos, 0, sizeof (state->drawing_pos));
 	state->drawing_pos_flags = 0;
 	state->so_direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
+	state->so_anchor_mode = GNM_SO_ANCHOR_TWO_CELLS;
 }
 
 static void
@@ -3135,7 +3136,7 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GnmRange r;
 		double coords[4];
 		double size;
-		int i;
+		int i, max;
 
 		range_init (&r,
 			    state->drawing_pos[COL | FROM],
@@ -3143,19 +3144,34 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			    state->drawing_pos[COL | TO],
 			    state->drawing_pos[ROW | TO]);
 
+		switch (state->so_anchor_mode) {
+		default:
+		case GNM_SO_ANCHOR_TWO_CELLS:
+			max = 8;
+			break;
+		case GNM_SO_ANCHOR_ONE_CELL:
+			max = 4;
+			break;
+		case GNM_SO_ANCHOR_ABSOLUTE:
+			max = 0;
+			break;
+		}
 		for (i = 0; i < 8; i+=2) {
 			ColRowInfo const *cri;
-			if (i & 2) {
-				cri = sheet_row_get (state->sheet, state->drawing_pos[i]);
-				size = cri? cri->size_pts: sheet_row_get_default_size_pts (state->sheet);
-			} else {
-				cri = sheet_col_get (state->sheet, state->drawing_pos[i]);
-				/* FIXME: scaling horizontally just like in xlsx_CT_Col */
-				size = (cri? cri->size_pts: sheet_col_get_default_size_pts (state->sheet)) * 1.16191275167785;
-			}
-			coords[i / 2] = (double) state->drawing_pos[i + 1] / 12700. / size;
+			if (i < max) {
+				if (i & 2) {
+					cri = sheet_row_get (state->sheet, state->drawing_pos[i]);
+					size = cri? cri->size_pts: sheet_row_get_default_size_pts (state->sheet);
+				} else {
+					cri = sheet_col_get (state->sheet, state->drawing_pos[i]);
+					/* FIXME: scaling horizontally just like in xlsx_CT_Col */
+					size = (cri? cri->size_pts: sheet_col_get_default_size_pts (state->sheet)) * 1.16191275167785;
+				}
+				coords[i / 2] = (double) state->drawing_pos[i + 1] / 12700. / size;
+			} else
+				coords[i / 2] = (double) state->drawing_pos[i + 1] / 12700.;
 		}
-		sheet_object_anchor_init (&anchor, &r, coords, state->so_direction);
+		sheet_object_anchor_init (&anchor, &r, coords, state->so_direction, state->so_anchor_mode);
 		sheet_object_set_anchor (state->so, &anchor);
 		if (state->cur_style &&
 		    g_object_class_find_property (G_OBJECT_GET_CLASS (state->so), "style"))
@@ -3177,10 +3193,33 @@ xlsx_drawing_oneCellAnchor_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
-	state->drawing_pos[COL | TO] = state->drawing_pos[COL | FROM] + 5;
-	state->drawing_pos[ROW | TO] = state->drawing_pos[ROW | FROM] + 5;
+	state->drawing_pos[COL | TO] = state->drawing_pos[COL | FROM];
+	state->drawing_pos[ROW | TO] = state->drawing_pos[ROW | FROM];
 	state->drawing_pos_flags |= ((1 << (COL | TO)) | (1 << (ROW | TO)));
+	state->so_anchor_mode = GNM_SO_ANCHOR_ONE_CELL;
 	xlsx_drawing_twoCellAnchor_end (xin, blob);
+}
+
+static void
+xlsx_drawing_absoluteAnchor_end (GsfXMLIn *xin, GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	state->drawing_pos_flags |= ((1 << (COL | TO)) | (1 << (ROW | TO)) |
+				(1 << (COL | FROM)) | (1 << (ROW | FROM)));
+	state->so_anchor_mode = GNM_SO_ANCHOR_ABSOLUTE;
+	xlsx_drawing_twoCellAnchor_end (xin, blob);
+}
+
+static void
+xlsx_drawing_anchor_pos (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int64 (xin, attrs, "x", state->drawing_pos + (COL | FROM | OFFSET)))
+			state->drawing_pos_flags |= (1 << (COL | FROM | OFFSET));
+		else if (attr_int64 (xin, attrs, "y", state->drawing_pos + (ROW | FROM | OFFSET)))
+			state->drawing_pos_flags |= (1 << (ROW | FROM | OFFSET));
 }
 
 static void
@@ -3500,6 +3539,22 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
     GSF_XML_IN_NODE (ONE_CELL, ONE_CELL_EXT, XL_NS_SS_DRAW, "ext", GSF_XML_NO_CONTENT, &xlsx_drawing_ext, NULL),
     GSF_XML_IN_NODE (ONE_CELL, CLIENT_DATA, XL_NS_SS_DRAW, "clientData", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
     GSF_XML_IN_NODE (ONE_CELL, GRAPHIC_FRAME, XL_NS_SS_DRAW, "graphicFrame", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+    GSF_XML_IN_NODE (ONE_CELL, SHAPE, XL_NS_SS_DRAW, "sp", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+    GSF_XML_IN_NODE (ONE_CELL, CLIENT_DATA, XL_NS_SS_DRAW, "clientData", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+    GSF_XML_IN_NODE (ONE_CELL, CONTENT_PART, XL_NS_SS_DRAW, "contentPart", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+    GSF_XML_IN_NODE (ONE_CELL, CXN_SP, XL_NS_SS_DRAW, "cxnSp", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+    GSF_XML_IN_NODE (ONE_CELL, PICTURE, XL_NS_SS_DRAW, "pic", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+  GSF_XML_IN_NODE (DRAWING, ABSOLUTE, XL_NS_SS_DRAW, "absoluteAnchor", GSF_XML_NO_CONTENT,
+		   &xlsx_draw_anchor_start, &xlsx_drawing_absoluteAnchor_end),
+    GSF_XML_IN_NODE (ABSOLUTE, ABSOLUTE_POS, XL_NS_SS_DRAW, "pos", GSF_XML_NO_CONTENT, &xlsx_drawing_anchor_pos, NULL),
+    GSF_XML_IN_NODE (ABSOLUTE, ONE_CELL_EXT, XL_NS_SS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+    GSF_XML_IN_NODE (ABSOLUTE, CLIENT_DATA, XL_NS_SS_DRAW, "clientData", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+    GSF_XML_IN_NODE (ABSOLUTE, GRAPHIC_FRAME, XL_NS_SS_DRAW, "graphicFrame", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+    GSF_XML_IN_NODE (ABSOLUTE, SHAPE, XL_NS_SS_DRAW, "sp", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+    GSF_XML_IN_NODE (ABSOLUTE, CLIENT_DATA, XL_NS_SS_DRAW, "clientData", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+    GSF_XML_IN_NODE (ABSOLUTE, CONTENT_PART, XL_NS_SS_DRAW, "contentPart", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+    GSF_XML_IN_NODE (ABSOLUTE, CXN_SP, XL_NS_SS_DRAW, "cxnSp", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+    GSF_XML_IN_NODE (ABSOLUTE, PICTURE, XL_NS_SS_DRAW, "pic", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 GSF_XML_IN_NODE_END
 };
 
@@ -3796,7 +3851,7 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 		r.end.row = pos;
 		coords[3] = (state->chart_pos[3] - sum) / size;
-		sheet_object_anchor_init (&anchor, &r, coords, state->so_direction);
+		sheet_object_anchor_init (&anchor, &r, coords, state->so_direction, state->so_anchor_mode);
 		sheet_object_set_anchor (state->so, &anchor);
 		if (GNM_IS_SOW_LIST (state->so) ||
 		    GNM_IS_SOW_COMBO (state->so))

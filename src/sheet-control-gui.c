@@ -2853,6 +2853,7 @@ cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsDat
 	SheetObjectAnchor *anchor = sheet_object_anchor_dup (
 		sheet_object_get_anchor (so));
 	if (!sheet_object_can_resize (so)) {
+		/* FIXME: that code should be invalid */
 		double scale = goc_canvas_get_pixels_per_unit (GOC_CANVAS (data->scg->pane[0])) / 72.;
 		sheet_object_default_size (so, coords + 2, coords + 3);
 		coords[2] *= gnm_app_display_dpi_get (TRUE) * scale;
@@ -2960,6 +2961,7 @@ void
 scg_object_coords_to_anchor (SheetControlGUI const *scg,
 			     double const *coords, SheetObjectAnchor *in_out)
 {
+	Sheet *sheet = scg_sheet (scg);
 	/* pane 0 always exists and the others are always use the same basis */
 	GnmPane *pane = scg_pane ((SheetControlGUI *)scg, 0);
 	double	tmp[4];
@@ -2984,14 +2986,36 @@ scg_object_coords_to_anchor (SheetControlGUI const *scg,
 		in_out->base.direction |= GOD_ANCHOR_DIR_DOWN;
 	}
 
-	in_out->cell_bound.start.col = calc_obj_place (pane, tmp[0], TRUE,
-		in_out->offset + 0);
-	in_out->cell_bound.start.row = calc_obj_place (pane, tmp[1], FALSE,
-		in_out->offset + 1);
-	in_out->cell_bound.end.col = calc_obj_place (pane, tmp[2], TRUE,
-		in_out->offset + 2);
-	in_out->cell_bound.end.row = calc_obj_place (pane, tmp[3], FALSE,
-		in_out->offset + 3);
+	switch (in_out->mode) {
+	case GNM_SO_ANCHOR_TWO_CELLS:
+		in_out->cell_bound.start.col = calc_obj_place (pane, tmp[0], TRUE,
+			in_out->offset + 0);
+		in_out->cell_bound.start.row = calc_obj_place (pane, tmp[1], FALSE,
+			in_out->offset + 1);
+		in_out->cell_bound.end.col = calc_obj_place (pane, tmp[2], TRUE,
+			in_out->offset + 2);
+		in_out->cell_bound.end.row = calc_obj_place (pane, tmp[3], FALSE,
+			in_out->offset + 3);
+		break;
+	case GNM_SO_ANCHOR_ONE_CELL:
+		in_out->cell_bound.start.col = calc_obj_place (pane, tmp[0], TRUE,
+			in_out->offset + 0);
+		in_out->cell_bound.start.row = calc_obj_place (pane, tmp[1], FALSE,
+			in_out->offset + 1);
+		in_out->offset[2] = (tmp[2] - tmp[0]) / colrow_compute_pixel_scale (sheet, TRUE);
+		in_out->offset[3] = (tmp[3] - tmp[1]) / colrow_compute_pixel_scale (sheet, FALSE);
+		break;
+	case GNM_SO_ANCHOR_ABSOLUTE: {
+		double h, v;
+		h = colrow_compute_pixel_scale (sheet, TRUE);
+		v = colrow_compute_pixel_scale (sheet, FALSE);
+		in_out->offset[0] = tmp[0] / h;
+		in_out->offset[1] = tmp[1] / v;
+		in_out->offset[2] = (tmp[2] - tmp[0]) / h;
+		in_out->offset[3] = (tmp[3] - tmp[1]) / v;
+		break;
+	}
+	}
 }
 
 static double
@@ -3016,21 +3040,41 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
 	g_return_if_fail (coords != NULL);
 
 	r = &anchor->cell_bound;
-	pixels[0] = scg_colrow_distance_get (scg, TRUE, 0,  r->start.col);
-	pixels[2] = pixels[0] + scg_colrow_distance_get (scg, TRUE,
-		r->start.col, r->end.col);
-	pixels[1] = scg_colrow_distance_get (scg, FALSE, 0, r->start.row);
-	pixels[3] = pixels[1] + scg_colrow_distance_get (scg, FALSE,
-		r->start.row, r->end.row);
-	/* add .5 to offsets so that the rounding is optimal */
-	pixels[0] += cell_offset_calc_pixel (sheet, r->start.col,
-		TRUE, anchor->offset[0]) + .5;
-	pixels[1] += cell_offset_calc_pixel (sheet, r->start.row,
-		FALSE, anchor->offset[1]) + .5;
-	pixels[2] += cell_offset_calc_pixel (sheet, r->end.col,
-		TRUE, anchor->offset[2]) + .5;
-	pixels[3] += cell_offset_calc_pixel (sheet, r->end.row,
-		FALSE, anchor->offset[3]) + .5;
+	if (anchor->mode != GNM_SO_ANCHOR_ABSOLUTE) {
+		pixels[0] = scg_colrow_distance_get (scg, TRUE, 0,  r->start.col);
+		pixels[1] = scg_colrow_distance_get (scg, FALSE, 0, r->start.row);
+		if (anchor->mode == GNM_SO_ANCHOR_TWO_CELLS) {
+			pixels[2] = pixels[0] + scg_colrow_distance_get (scg, TRUE,
+				r->start.col, r->end.col);
+			pixels[3] = pixels[1] + scg_colrow_distance_get (scg, FALSE,
+				r->start.row, r->end.row);
+			/* add .5 to offsets so that the rounding is optimal */
+			pixels[0] += cell_offset_calc_pixel (sheet, r->start.col,
+				TRUE, anchor->offset[0]) + .5;
+			pixels[1] += cell_offset_calc_pixel (sheet, r->start.row,
+				FALSE, anchor->offset[1]) + .5;
+			pixels[2] += cell_offset_calc_pixel (sheet, r->end.col,
+				TRUE, anchor->offset[2]) + .5;
+			pixels[3] += cell_offset_calc_pixel (sheet, r->end.row,
+				FALSE, anchor->offset[3]) + .5;
+		} else {
+			/* add .5 to offsets so that the rounding is optimal */
+			pixels[0] += cell_offset_calc_pixel (sheet, r->start.col,
+				TRUE, anchor->offset[0]) + .5;
+			pixels[1] += cell_offset_calc_pixel (sheet, r->start.row,
+				FALSE, anchor->offset[1]) + .5;
+			pixels[2] = pixels[0] + go_fake_floor (anchor->offset[2] * colrow_compute_pixel_scale (sheet, TRUE) + .5);
+			pixels[3] = pixels[1] + go_fake_floor (anchor->offset[3] * colrow_compute_pixel_scale (sheet, TRUE) + .5);
+		}
+	} else {
+		double h, v;
+		h = colrow_compute_pixel_scale (sheet, TRUE);
+		v = colrow_compute_pixel_scale (sheet, FALSE);
+		pixels[0] = go_fake_floor (anchor->offset[0] * h);
+		pixels[1] = go_fake_floor (anchor->offset[1] * v);
+		pixels[2] = go_fake_floor ((anchor->offset[0] + anchor->offset[2]) * h);
+		pixels[3] = go_fake_floor ((anchor->offset[1] + anchor->offset[3]) * v);
+	}
 
 	direction = anchor->base.direction;
 	if (direction == GOD_ANCHOR_DIR_UNKNOWN)
@@ -3957,7 +4001,7 @@ scg_paste_image (SheetControlGUI *scg, GnmRange *where,
 	SheetObjectAnchor anchor;
 
 	sheet_object_anchor_init (&anchor, where, NULL,
-		GOD_ANCHOR_DIR_DOWN_RIGHT);
+		GOD_ANCHOR_DIR_DOWN_RIGHT, GNM_SO_ANCHOR_TWO_CELLS);
 	scg_image_create (scg, &anchor, data, len);
 }
 
@@ -3969,7 +4013,7 @@ scg_drag_receive_img_data (SheetControlGUI *scg, double x, double y,
 	SheetObjectAnchor anchor;
 
 	sheet_object_anchor_init (&anchor, NULL, NULL,
-		GOD_ANCHOR_DIR_DOWN_RIGHT);
+		GOD_ANCHOR_DIR_DOWN_RIGHT, GNM_SO_ANCHOR_TWO_CELLS);
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
 	scg_object_coords_to_anchor (scg, coords, &anchor);
@@ -4037,7 +4081,7 @@ scg_paste_cellregion (SheetControlGUI *scg, double x, double y,
 	double coords[4];
 
 	sheet_object_anchor_init (&anchor, NULL, NULL,
-		GOD_ANCHOR_DIR_DOWN_RIGHT);
+		GOD_ANCHOR_DIR_DOWN_RIGHT, GNM_SO_ANCHOR_TWO_CELLS);
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
 	scg_object_coords_to_anchor (scg, coords, &anchor);

@@ -481,7 +481,6 @@ sheet_object_component_set_component (SheetObject *so, GOComponent *component)
 {
 	SheetObjectComponent *soc;
 	GList *l = so->realized_list;
-	GnmPane *pane = (l && l->data)? GNM_PANE (GOC_ITEM (l->data)->canvas): NULL;
 
 	g_return_if_fail (GNM_IS_SO_COMPONENT (so));
 	soc = GNM_SO_COMPONENT (so);
@@ -503,26 +502,14 @@ sheet_object_component_set_component (SheetObject *so, GOComponent *component)
 		go_component_stop_editing (component);
 		if (go_component_is_resizable (component))
 			so->flags |= SHEET_OBJECT_CAN_RESIZE;
-		else
-			so->flags &= ~SHEET_OBJECT_CAN_RESIZE;
+		else {
+			so->flags &= ~(SHEET_OBJECT_CAN_RESIZE | SHEET_OBJECT_SIZE_WITH_CELLS);
+			so->anchor.mode = GNM_SO_ANCHOR_ONE_CELL;
+		}
 		if (go_component_is_editable (component))
 			so->flags |= SHEET_OBJECT_CAN_EDIT;
 		else
 			so->flags &= ~SHEET_OBJECT_CAN_EDIT;
-		if (pane != NULL && !(so->flags & SHEET_OBJECT_CAN_RESIZE)) {
-			SheetControlGUI *scg = pane->simple.scg;
-			double coords[4], w, h;
-			SheetObjectAnchor anchor;
-			/* the size must be updated */
-			scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);
-			coords[0] = MIN (coords [0], coords[2]);
-			coords[1] = MIN (coords [1], coords[3]);
-			go_component_get_size (component, &w, &h);
-			coords[2] = coords[0] + w * gnm_app_display_dpi_get (TRUE);
-			coords[3] = coords[1] + h * gnm_app_display_dpi_get (FALSE);
-			scg_object_coords_to_anchor (scg, coords, &anchor);
-			sheet_object_set_anchor (so, &anchor);
-		}
 	}
 
 }

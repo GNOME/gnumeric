@@ -443,7 +443,7 @@ cell_comment_set_pos (GnmComment *cc, GnmCellPos const *pos)
 
 	r.start = r.end = *pos;
 	sheet_object_anchor_init (&anchor, &r, a_offsets,
-		GOD_ANCHOR_DIR_DOWN_RIGHT);
+		GOD_ANCHOR_DIR_DOWN_RIGHT, GNM_SO_ANCHOR_TWO_CELLS);
 	sheet_object_set_anchor (GNM_SO (cc), &anchor);
 }
 

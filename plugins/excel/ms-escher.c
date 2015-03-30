@@ -2373,6 +2373,16 @@ ms_escher_clientanchor (GString *buf, SheetObjectAnchor const *anchor)
 	guint8 *p = tmp + 10;
 	GSF_LE_SET_GUINT32 (tmp + 4, sizeof (tmp) - 8);
 
+	switch (anchor->mode) {
+	case GNM_SO_ANCHOR_ONE_CELL:
+		tmp[8] = 2;
+		break;
+	case GNM_SO_ANCHOR_ABSOLUTE:
+		tmp[8] = 3;
+		break;
+	default:
+		break;
+	}
 	GSF_LE_SET_GUINT16 (p +  0, anchor->cell_bound.start.col);
 	GSF_LE_SET_GUINT16 (p +  2, (guint16)(anchor->offset[0]*1024. + .5));
 	GSF_LE_SET_GUINT16 (p +  4, anchor->cell_bound.start.row);

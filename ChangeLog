@@ -1,3 +1,20 @@
+2015-03-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.h: add support for absolute anchoring of sheet objects.
+	* src/item-grid.c: ditto.
+	* src/sheet-control-gui.c: ditto.
+	* src/sheet-filter.c: ditto.
+	* src/sheet-object-cell-comment.c: ditto.
+	* src/sheet-object-component.c: ditto.
+	* src/sheet-object-graph.c: ditto and make graphs not anymore resize with
+	cells by default. [#684450] 
+	* src/sheet-object-image.c: make images don't resize with cells by default.
+	* src/sheet-object.c : add support for absolute anchoring of sheet objects.
+	* src/sheet-object.h: ditto.
+	* src/workbook-view.c: ditto.
+	* src/xml-sax-read.c: ditto.
+	* src/xml-sax-write.c: ditto.
+
 2015-03-30  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (grammar): Use new libgsf check for "2nd".

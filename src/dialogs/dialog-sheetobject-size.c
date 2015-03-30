@@ -40,6 +40,7 @@
 #include <sheet-object-widget.h>
 #include <sheet-object-impl.h>
 #include <sheet-control-gui.h>
+#include <widgets/gnm-so-anchor-mode-chooser.h>
 
 #include <gtk/gtk.h>
 
@@ -65,6 +66,7 @@ typedef struct {
 	GtkSpinButton      *yspin;
 	GtkEntry           *nameentry;
 	GtkWidget          *print_check;
+	GnmSOAnchorModeChooser *modecombo;
 
 	SheetObject        *so;
 	SheetObjectAnchor  *old_anchor;
@@ -75,6 +77,7 @@ typedef struct {
 	gboolean            so_pos_needs_restore;
 	gboolean            so_name_changed;
 	gboolean            so_print_check_changed;
+	gboolean            so_mode_changed;
 } SOSizeState;
 
 static void
@@ -94,7 +97,8 @@ dialog_so_size_button_sensitivity (SOSizeState *state)
 	gboolean sensitive = state->so_size_needs_restore ||
 		state->so_pos_needs_restore ||
 		state->so_name_changed ||
-		state->so_print_check_changed;
+		state->so_print_check_changed ||
+		state->so_mode_changed;
 	gtk_widget_set_sensitive
 		(state->ok_button, sensitive);
 	gtk_widget_set_sensitive
@@ -206,6 +210,18 @@ set_print_flag (SheetObject *so, gboolean print)
 		 g_object_unref, g_free);
 }
 
+static GOUndo *
+set_mode (SheetObject *so, GnmSOAnchorMode mode)
+{
+	GnmSOAnchorMode *p_mode = g_new (GnmSOAnchorMode, 1);
+
+	*p_mode = mode;
+	return go_undo_binary_new
+		(g_object_ref (so), p_mode,
+		 (GOUndoBinaryFunc)sheet_object_set_anchor_mode,
+		 g_object_unref, g_free);
+}
+
 static void
 cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 				   SOSizeState *state)
@@ -252,11 +268,19 @@ cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		undo_name =  _("Set Object Print Property");
 		cnt++;
 	}
+	if (state->so_mode_changed) {
+		int new_mode = gnm_so_anchor_mode_chooser_get_mode (state->modecombo);
+		int old_mode = state->so->anchor.mode;
+		undo = go_undo_combine (undo, set_mode (state->so, old_mode));
+		redo = go_undo_combine (redo, set_mode (state->so, new_mode));
+		undo_name = _("Set Object Anchor Mode");
+		cnt++;
+	}
 
 	if (cnt > 0) {
 		if (cnt > 1)
 			undo_name =  _("Set Object Properties");
-		state->so_name_changed = state->so_print_check_changed =
+		state->so_name_changed = state->so_print_check_changed = state->so_mode_changed =
 			cmd_generic (GNM_WBC (state->wbcg),
 				     undo_name, undo, redo);
 	}
@@ -302,11 +326,26 @@ cb_dialog_so_size_print_check_toggled (GtkToggleButton *togglebutton,
 	return;
 }
 
+static void
+cb_dialog_so_size_mode_changed (GnmSOAnchorModeChooser *chooser, SOSizeState *state)
+{
+	GnmSOAnchorMode new_mode = gnm_so_anchor_mode_chooser_get_mode (chooser);
+	GnmSOAnchorMode old_mode = state->so->anchor.mode;
+	double coords[4];
+
+	scg_object_anchor_to_coords (state->scg, state->active_anchor, coords);
+	state->active_anchor->mode = new_mode;
+	scg_object_coords_to_anchor (state->scg, coords, state->active_anchor);
+	state->so_mode_changed = new_mode != old_mode;
+	dialog_so_size_button_sensitivity (state);
+}
+
 void
 dialog_so_size (WBCGtk *wbcg, GObject *so)
 {
 	GtkBuilder *gui;
 	SOSizeState *state;
+	GtkGrid *grid;
 	int width, height;
 
 	g_return_if_fail (wbcg != NULL);
@@ -352,6 +391,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 	state->yspin  = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (state->gui, "y-spin"));
 	state->print_check = GTK_WIDGET (go_gtk_builder_get_widget (state->gui,
 							       "print-check"));
+	state->modecombo = GNM_SO_ANCHOR_MODE_CHOOSER (gnm_so_anchor_mode_chooser_new (sheet_object_can_resize (state->so)));
 	dialog_so_size_load (state);
 	state->active_anchor = sheet_object_anchor_dup (sheet_object_get_anchor
 							(state->so));
@@ -364,6 +404,13 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 	gtk_spin_button_set_value (state->yspin, 0.);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->print_check),
 				      !(state->so->flags & SHEET_OBJECT_PRINT));
+	gnm_so_anchor_mode_chooser_set_mode (state->modecombo,
+	                                     state->so->anchor.mode);
+	grid = GTK_GRID (gtk_builder_get_object (state->gui, "main-grid"));
+	gtk_grid_insert_row (grid, 7);
+	gtk_grid_attach (grid, GTK_WIDGET (state->modecombo), 0, 7, 2, 1);
+	gtk_widget_set_halign (GTK_WIDGET (state->modecombo), GTK_ALIGN_START);
+	gtk_widget_show (GTK_WIDGET (state->modecombo));
 	g_signal_connect (G_OBJECT (state->wspin),
 			  "value-changed",
 			  G_CALLBACK (cb_dialog_so_size_value_changed_update_points),
@@ -404,7 +451,11 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 		"value-changed",
 		G_CALLBACK (cb_dialog_so_size_value_changed), state);
 
-	state->ok_button = go_gtk_builder_get_widget (state->gui, "ok_button");
+	g_signal_connect (G_OBJECT (state->modecombo),
+	    "changed",
+	    G_CALLBACK (cb_dialog_so_size_mode_changed), state);
+
+		state->ok_button = go_gtk_builder_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_so_size_ok_clicked), state);

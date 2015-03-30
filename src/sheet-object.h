@@ -17,11 +17,18 @@ typedef enum {
 	GNM_SO_RESIZE_NONE /* can't be resized like some sheet components */
 } GnmSOResizeMode;
 
+typedef enum {
+	GNM_SO_ANCHOR_TWO_CELLS,	 /* move and size (if sizeable) with cells) */
+	GNM_SO_ANCHOR_ONE_CELL, /* move with cells */
+	GNM_SO_ANCHOR_ABSOLUTE	/* anchored to the sheet */
+} GnmSOAnchorMode;
+
 struct _SheetObjectAnchor {
 	GODrawingAnchor	base;
 
 	GnmRange cell_bound; /* cellpos containing corners */
 	double	 offset[4];  /* offsets from the top left (in LTR of cell_bound) */
+	GnmSOAnchorMode mode;
 };
 GType sheet_object_anchor_get_type (void); /* Boxed type */
 
@@ -99,6 +106,7 @@ void    sheet_objects_dup	 (Sheet const *src, Sheet *dst, GnmRange *range);
 
 void     sheet_object_direction_set (SheetObject *so, gdouble const *coords);
 gboolean sheet_object_rubber_band_directly (SheetObject const *so);
+void	 sheet_object_set_anchor_mode (SheetObject *so, GnmSOAnchorMode const *mode);
 
 /* Anchor utilities */
 void sheet_object_anchor_to_pts	(SheetObjectAnchor const *anchor,
@@ -108,7 +116,10 @@ void sheet_object_anchor_to_offset_pts	(SheetObjectAnchor const *anchor,
 void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
 				 GnmRange const *cell_bound,
 				 const double *offsets,
-				 GODrawingAnchorDir direction);
+				 GODrawingAnchorDir direction,
+	             GnmSOAnchorMode mode);
+void sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
+			     Sheet const *sheet, double const *res_pts);
 SheetObjectAnchor *
      sheet_object_anchor_dup	(SheetObjectAnchor const *src);
 

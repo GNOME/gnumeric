@@ -4251,7 +4251,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 
 		r.end.col = 1 + (r.start.col = filter->r.start.col + i);
 		sheet_object_anchor_init (&anchor, &r, NULL,
-			GOD_ANCHOR_DIR_DOWN_RIGHT);
+			GOD_ANCHOR_DIR_DOWN_RIGHT, GNM_SO_ANCHOR_TWO_CELLS);
 		if (bp->version >= MS_BIFF_V8) {
 			guint32 id = excel_write_start_drawing (esheet);
 			memcpy (buf, obj_v8, sizeof obj_v8);
@@ -4615,6 +4615,14 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 		? g_hash_table_lookup (esheet->widget_macroname, so)
 		: NULL;
 
+	if (anchor.mode != GNM_SO_ANCHOR_TWO_CELLS) {
+		double pts[4];
+		GnmSOAnchorMode mode = anchor.mode;
+		sheet_object_anchor_to_pts (&anchor, esheet->gnum_sheet, pts);
+		anchor.mode = GNM_SO_ANCHOR_TWO_CELLS;
+		sheet_object_pts_to_anchor (&anchor, esheet->gnum_sheet, pts);
+		anchor.mode = mode; /* this anchor is not valid for gnumeric but is what we need there */
+	}
 	if (GNM_IS_CELL_COMMENT (so)) {
 		static double const offset[4] = { .5, .5, .5, .5 };
 		GnmRange r;
@@ -4625,7 +4633,7 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 		r.end.col = r.start.col + 2;
 		r.end.row = r.start.row + 4;
 		sheet_object_anchor_init (&anchor, &r, offset,
-					  GOD_ANCHOR_DIR_DOWN_RIGHT);
+					  GOD_ANCHOR_DIR_DOWN_RIGHT, GNM_SO_ANCHOR_TWO_CELLS);
 		type = MSOT_COMMENT;
 		flags = 0x4011; /* not autofilled */
 		do_textbox = TRUE;

@@ -622,9 +622,13 @@ GSF_CLASS_FULL (SheetObjectGraph, sheet_object_graph,
 SheetObject *
 sheet_object_graph_new (GogGraph *graph)
 {
-	SheetObjectGraph *sog = g_object_new (GNM_SO_GRAPH_TYPE, NULL);
-	sheet_object_graph_set_gog (GNM_SO (sog), graph);
-	return GNM_SO (sog);
+	SheetObject *sog = g_object_new (GNM_SO_GRAPH_TYPE, NULL);
+	GnmGraphDataClosure *data = (GnmGraphDataClosure *) g_object_get_data (G_OBJECT (graph), "data-closure");
+	sheet_object_graph_set_gog (sog, graph);
+	if (data != NULL)
+		sog->anchor.mode = data->anchor_mode;
+
+	return sog;
 }
 
 /**
@@ -776,6 +780,7 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_sheet_target_changed), data);
 		gtk_grid_attach (GTK_GRID (custom), w, 0, 2, 2, 1);
 		data->obj = G_OBJECT (custom);
+		data->anchor_mode = GNM_SO_ANCHOR_ONE_CELL; /* don't resize graphs with cells, see # */
 		gog_guru_add_custom_widget (dialog, custom);
 		object = (GObject*) g_object_get_data (data->obj, "graph");
 		if (object)

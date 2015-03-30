@@ -2327,6 +2327,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	SheetObjectClass *klass;
 	GnmRange		anchor_r;
 	GODrawingAnchorDir	anchor_dir;
+	GnmSOAnchorMode anchor_mode;
 	SheetObjectAnchor	anchor;
 	double			f_tmp[4], *anchor_offset = NULL;
 
@@ -2390,13 +2391,25 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	state->so = so;
 
 	anchor_dir = GOD_ANCHOR_DIR_UNKNOWN;
+	anchor_mode = GNM_SO_ANCHOR_TWO_CELLS;
 	/* Provide a default.  */
 	anchor_r = sheet_object_get_anchor (so)->cell_bound;
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
 		if (attr_eq (attrs[i], "Name"))
 			sheet_object_set_name (so, CXML2C (attrs[i + 1]));
-		else if (attr_eq (attrs[i], "ObjectBound"))
+		else if (!strcmp (attrs[i], "AnchorMode")) {
+			if (!strcmp (attrs[i+1], "one cell"))
+				anchor_mode = GNM_SO_ANCHOR_ONE_CELL;
+			else if (!strcmp (attrs[i+1], "absolute") )
+				anchor_mode = GNM_SO_ANCHOR_ABSOLUTE;
+			else {
+				char *str = g_strdup_printf (_("Unknown object anchor mode '%s'"),
+				                             attrs[i+1]);
+				go_io_warning_unsupported_feature (state->context, str);
+				g_free (str);
+			}
+		} else if (attr_eq (attrs[i], "ObjectBound"))
 			range_parse (&anchor_r, CXML2C (attrs[i + 1]), gnm_sheet_get_size (state->sheet));
 		else if (attr_eq (attrs[i], "ObjectOffset") &&
 			4 == sscanf (CXML2C (attrs[i + 1]), "%lg %lg %lg %lg",
@@ -2416,7 +2429,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	if (G_OBJECT_TYPE (so) == GNM_CELL_COMMENT_TYPE)
 		anchor_r.end = anchor_r.start;
 
-	sheet_object_anchor_init (&anchor, &anchor_r, anchor_offset, anchor_dir);
+	sheet_object_anchor_init (&anchor, &anchor_r, anchor_offset, anchor_dir, anchor_mode);
 	sheet_object_set_anchor (so, &anchor);
 
 	if (NULL != klass->prep_sax_parser)

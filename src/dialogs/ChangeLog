@@ -1,3 +1,10 @@
+2015-03-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-sheetobject-size.c (dialog_so_size_button_sensitivity),
+	(set_mode), (cb_dialog_so_size_apply_clicked),
+	(cb_dialog_so_size_mode_changed), (dialog_so_size): support relative and
+	absolute anchoring.
+
 2015-03-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.21

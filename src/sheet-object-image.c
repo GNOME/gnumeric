@@ -597,6 +597,7 @@ gnm_soi_init (GObject *obj)
 
 	so = GNM_SO (obj);
 	so->anchor.base.direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
+	so->anchor.mode = GNM_SO_ANCHOR_ONE_CELL;
 }
 
 static void

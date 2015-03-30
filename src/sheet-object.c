@@ -1,5 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * sheet-object.c: Implements the sheet object manipulation for Gnumeric
  *
@@ -477,22 +475,37 @@ sheet_object_update_bounds (SheetObject *so, GnmCellPos const *pos)
 	    so->anchor.cell_bound.end.row < pos->row)
 		return;
 
-	/* Are all cols hidden ? */
-	end = so->anchor.cell_bound.end.col;
-	i = so->anchor.cell_bound.start.col;
-	while (i <= end && is_hidden)
-		is_hidden &= sheet_col_is_hidden (so->sheet, i++);
-
-	/* Are all rows hidden ? */
-	if (!is_hidden) {
-		is_hidden = TRUE;
-		end = so->anchor.cell_bound.end.row;
-		i = so->anchor.cell_bound.start.row;
+	switch (so->anchor.mode) {
+	default:
+	case GNM_SO_ANCHOR_TWO_CELLS:
+		/* Are all cols hidden ? */
+		end = so->anchor.cell_bound.end.col;
+		i = so->anchor.cell_bound.start.col;
 		while (i <= end && is_hidden)
-			is_hidden &= sheet_row_is_hidden (so->sheet, i++);
-		so->flags |= SHEET_OBJECT_IS_VISIBLE;
-	} else
+			is_hidden &= sheet_col_is_hidden (so->sheet, i++);
+
+		/* Are all rows hidden ? */
+		if (!is_hidden) {
+			is_hidden = TRUE;
+			end = so->anchor.cell_bound.end.row;
+			i = so->anchor.cell_bound.start.row;
+			while (i <= end && is_hidden)
+				is_hidden &= sheet_row_is_hidden (so->sheet, i++);
+		}
+		break;
+	case GNM_SO_ANCHOR_ONE_CELL:
+		/* Should we really hide if the row or column is hidden? */
+		is_hidden = sheet_col_is_hidden (so->sheet, so->anchor.cell_bound.start.col) ||
+				sheet_row_is_hidden (so->sheet, so->anchor.cell_bound.start.row);
+		break;
+	case GNM_SO_ANCHOR_ABSOLUTE:
+		is_hidden = FALSE;
+		break;
+	}
+	if (is_hidden)
 		so->flags &= ~SHEET_OBJECT_IS_VISIBLE;
+	else
+		so->flags |= SHEET_OBJECT_IS_VISIBLE;
 
 	g_signal_emit (so, signals [BOUNDS_CHANGED], 0);
 }
@@ -863,23 +876,137 @@ sheet_object_anchor_to_pts (SheetObjectAnchor const *anchor,
 
 	r = &anchor->cell_bound;
 
-	res_pts [0] = sheet_col_get_distance_pts (sheet, 0,
-		r->start.col);
-	res_pts [2] = res_pts [0] + sheet_col_get_distance_pts (sheet,
-		r->start.col, r->end.col);
-	res_pts [1] = sheet_row_get_distance_pts (sheet, 0,
-		r->start.row);
-	res_pts [3] = res_pts [1] + sheet_row_get_distance_pts (sheet,
-		r->start.row, r->end.row);
+	if (anchor->mode != GNM_SO_ANCHOR_ABSOLUTE) {
+		res_pts [0] = sheet_col_get_distance_pts (sheet, 0,
+			r->start.col);
+		res_pts [1] = sheet_row_get_distance_pts (sheet, 0,
+			r->start.row);
+		if (anchor->mode == GNM_SO_ANCHOR_TWO_CELLS) {
+			res_pts [2] = res_pts [0] + sheet_col_get_distance_pts (sheet,
+				r->start.col, r->end.col);
+			res_pts [3] = res_pts [1] + sheet_row_get_distance_pts (sheet,
+				r->start.row, r->end.row);
 
-	res_pts [0] += cell_offset_calc_pt (sheet, r->start.col,
-		TRUE, anchor->offset [0]);
-	res_pts [1] += cell_offset_calc_pt (sheet, r->start.row,
-		FALSE, anchor->offset [1]);
-	res_pts [2] += cell_offset_calc_pt (sheet, r->end.col,
-		TRUE, anchor->offset [2]);
-	res_pts [3] += cell_offset_calc_pt (sheet, r->end.row,
-		FALSE, anchor->offset [3]);
+			res_pts [0] += cell_offset_calc_pt (sheet, r->start.col,
+				TRUE, anchor->offset [0]);
+			res_pts [1] += cell_offset_calc_pt (sheet, r->start.row,
+				FALSE, anchor->offset [1]);
+			res_pts [2] += cell_offset_calc_pt (sheet, r->end.col,
+				TRUE, anchor->offset [2]);
+			res_pts [3] += cell_offset_calc_pt (sheet, r->end.row,
+				FALSE, anchor->offset [3]);
+		} else {
+			res_pts [0] += cell_offset_calc_pt (sheet, r->start.col,
+				TRUE, anchor->offset [0]);
+			res_pts [1] += cell_offset_calc_pt (sheet, r->start.row,
+				FALSE, anchor->offset [1]);
+			res_pts[2] = res_pts [0] + anchor->offset [2];
+			res_pts[3] = res_pts [1] + anchor->offset [3];
+		}
+	} else {
+		res_pts [0] = anchor->offset [0];
+		res_pts [1] = anchor->offset [1];
+		res_pts[2] = res_pts [0] + anchor->offset [2];
+		res_pts[3] = res_pts [1] + anchor->offset [3];
+	}
+}
+
+void
+sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
+			    Sheet const *sheet, double const *res_pts)
+{
+	int col, row;
+	double x, y, tmp = 0;
+	ColRowInfo const *ci;
+	if (anchor->mode == GNM_SO_ANCHOR_ABSOLUTE) {
+		anchor->cell_bound.start.col = 0;
+		anchor->cell_bound.start.row = 0;
+		anchor->cell_bound.end.col = 0;
+		anchor->cell_bound.end.row = 0;
+		anchor->offset[0] = res_pts[0];
+		anchor->offset[1] = res_pts[1];
+		anchor->offset[2] = res_pts[2] - res_pts[0];
+		anchor->offset[3] = res_pts[3] - res_pts[1];
+		return;
+	}
+	/* find end column */
+	col = x = 0;
+	do {
+		ci = sheet_col_get_info (sheet, col);
+		if (ci->visible) {
+			tmp = ci->size_pts;
+			if (res_pts[0] <= x + tmp)
+				break;
+			x += tmp;
+		}
+	} while (++col < gnm_sheet_get_last_col (sheet));
+	if (col == gnm_sheet_get_last_col (sheet)) {
+		/* not sure this will occur */
+		col--;
+		x -= tmp;
+	}
+	anchor->cell_bound.start.col = col;
+	anchor->offset[0] = (res_pts[0] - x) / tmp;
+	/* find start row */
+	row = y = 0;
+	do {
+		ci = sheet_row_get_info (sheet, row);
+		if (ci->visible) {
+			tmp = ci->size_pts;
+			if (res_pts[1] <= y + tmp)
+				break;
+			y += tmp;
+		}
+	} while (++row < gnm_sheet_get_last_row (sheet));
+	if (row == gnm_sheet_get_last_row (sheet)) {
+		/* not sure this will occur */
+		row--;
+		y -= tmp;
+	}
+	anchor->cell_bound.start.row = row;
+	anchor->offset[1] = (res_pts[1] - y) / tmp;
+	if (anchor->mode == GNM_SO_ANCHOR_ONE_CELL) {
+		anchor->cell_bound.end.col = col;
+		anchor->cell_bound.end.row = row;
+		anchor->offset[2] = res_pts[2] - res_pts[0];
+		anchor->offset[3] = res_pts[3] - res_pts[1];
+		return;
+	}
+
+	/* find end column */
+	do {
+		ci = sheet_col_get_info (sheet, col);
+		if (ci->visible) {
+			tmp = ci->size_pts;
+			if (res_pts[2] <= x + tmp)
+				break;
+			x += tmp;
+		}
+	} while (++col < gnm_sheet_get_last_col (sheet));
+	if (col == gnm_sheet_get_last_col (sheet)) {
+		/* not sure this will occur */
+		col--;
+		x -= tmp;
+	}
+	anchor->cell_bound.end.col = col;
+	anchor->offset[2] = (res_pts[2] - x) / tmp;
+	/* find end row */
+	do {
+		ci = sheet_row_get_info (sheet, row);
+		if (ci->visible) {
+			tmp = ci->size_pts;
+			if (res_pts[3] <= y + tmp)
+				break;
+			y += tmp;
+		}
+	} while (++row < gnm_sheet_get_last_row (sheet));
+	if (row == gnm_sheet_get_last_row (sheet)) {
+		/* not sure this will occur */
+		row--;
+		y -= tmp;
+	}
+	anchor->cell_bound.end.row = row;
+	anchor->offset[3] = (res_pts[3] - y) / tmp;
 }
 
 void
@@ -892,14 +1019,18 @@ sheet_object_anchor_to_offset_pts (SheetObjectAnchor const *anchor,
 
 	r = &anchor->cell_bound;
 
-	res_pts [0] = cell_offset_calc_pt (sheet, r->start.col,
-					   TRUE, anchor->offset [0]);
-	res_pts [1] = cell_offset_calc_pt (sheet, r->start.row,
-					   FALSE, anchor->offset [1]);
-	res_pts [2] = cell_offset_calc_pt (sheet, r->end.col,
-					   TRUE, anchor->offset [2]);
-	res_pts [3] = cell_offset_calc_pt (sheet, r->end.row,
-					   FALSE, anchor->offset [3]);
+	if (anchor->mode != GNM_SO_ANCHOR_ABSOLUTE) {
+		res_pts [0] = cell_offset_calc_pt (sheet, r->start.col,
+						   TRUE, anchor->offset [0]);
+		res_pts [1] = cell_offset_calc_pt (sheet, r->start.row,
+						   FALSE, anchor->offset [1]);
+		if (anchor->mode == GNM_SO_ANCHOR_TWO_CELLS) {
+			res_pts [2] = cell_offset_calc_pt (sheet, r->end.col,
+							   TRUE, anchor->offset [2]);
+			res_pts [3] = cell_offset_calc_pt (sheet, r->end.row,
+							   FALSE, anchor->offset [3]);
+		}
+	}
 }
 
 static void
@@ -965,7 +1096,8 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 		GnmRange r = so->anchor.cell_bound;
 
 		next = ptr->next;
-		if (update && 0 == (so->flags & SHEET_OBJECT_MOVE_WITH_CELLS))
+		if ((so->anchor.mode == GNM_SO_ANCHOR_ABSOLUTE) ||
+		    (update && 0 == (so->flags & SHEET_OBJECT_MOVE_WITH_CELLS)))
 			continue;
 		if (range_contains (&rinfo->origin, r.start.col, r.start.row)) {
 			/* FIXME : just moving the range is insufficent for all anchor types */
@@ -1178,6 +1310,7 @@ sheet_object_rubber_band_directly (G_GNUC_UNUSED SheetObject const *so)
  * @cell_bound: #GnmRange
  * @offsets: double[4]
  * @direction: #GODrawingAnchorDir
+ * @mode: #GnmSOAnchorMode
  *
  * A utility routine to initialize an anchor.  Useful in case we change fields
  * in the future and want to ensure that everything is initialized.
@@ -1185,7 +1318,8 @@ sheet_object_rubber_band_directly (G_GNUC_UNUSED SheetObject const *so)
 void
 sheet_object_anchor_init (SheetObjectAnchor *anchor,
 			  GnmRange const *r, const double *offsets,
-			  GODrawingAnchorDir direction)
+			  GODrawingAnchorDir direction,
+              GnmSOAnchorMode mode)
 {
 	int i;
 
@@ -1203,6 +1337,7 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 		anchor->offset[i] = offsets [i];
 
 	anchor->base.direction = direction;
+	anchor->mode = mode;
 	/* TODO : add sanity checking to handle offsets past edges of col/row */
 }
 
@@ -1264,6 +1399,19 @@ sheet_object_adjust_stacking (SheetObject *so, gint offset)
 			goc_item_lower (item, - offset);
 	}
 	return cur - i;
+}
+
+void
+sheet_object_set_anchor_mode (SheetObject *so, GnmSOAnchorMode const *mode)
+{
+	/* FIXME: adjust offsets according to the old and new modes */
+	double pts[4];
+
+	if (so->anchor.mode == *mode)
+		return;
+	sheet_object_anchor_to_pts (&so->anchor, so->sheet, pts);
+	so->anchor.mode = *mode;
+	sheet_object_pts_to_anchor (&so->anchor, so->sheet, pts);
 }
 
 /*****************************************************************************/

@@ -635,7 +635,7 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	tmp.start.row = tmp.end.row = filter->r.start.row;
 	tmp.start.col = tmp.end.col = filter->r.start.col + i;
 	sheet_object_anchor_init (&anchor, &tmp, a_offsets,
-		GOD_ANCHOR_DIR_DOWN_RIGHT);
+		GOD_ANCHOR_DIR_DOWN_RIGHT, GNM_SO_ANCHOR_TWO_CELLS);
 	sheet_object_set_anchor (GNM_SO (fcombo), &anchor);
 	sheet_object_set_sheet (GNM_SO (fcombo), filter->sheet);
 

@@ -1,3 +1,10 @@
+2015-03-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* openoffice-read.c (odf_shapes), (odf_shapes_end), (oo_table_end),
+	(od_draw_frame_start), (odf_line): support absolute sheet object anchoring.
+	* openoffice-write.c (odf_write_frame_size), (odf_write_line),
+	(odf_sheet_objects_get), (odf_write_content): ditto.
+
 2015-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (-odf_write_circle_axes_styles): deleted

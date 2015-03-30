@@ -196,6 +196,7 @@ typedef struct {
 	gint64		    drawing_pos[8];
 	int		    drawing_pos_flags;
 	GODrawingAnchorDir  so_direction;
+	GnmSOAnchorMode so_anchor_mode;
 	GnmExprTop const *link_texpr;
 
 	/* Legacy drawing state */

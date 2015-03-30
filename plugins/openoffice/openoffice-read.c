@@ -2475,6 +2475,20 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+odf_shapes (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	state->pos.eval.col = -1; /* we use that to know that objects have absolute anchors */
+}
+
+static void
+odf_shapes_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	state->pos.eval.col = 0;
+}
+
+static void
 odf_init_pp (GnmParsePos *pp, GsfXMLIn *xin, gchar const *base)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -2969,7 +2983,6 @@ odf_validation_help_message_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	odf_pop_text_p (state);
 }
 
-
 static void
 odf_adjust_offsets_col (OOParseState *state, int *col, double *x, gboolean absolute)
 {
@@ -3185,12 +3198,16 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		SheetObjectAnchor const *old = sheet_object_get_anchor (ob_off->so);
 		GnmRange cell_base = *sheet_object_get_range (ob_off->so);
 
-		odf_adjust_offsets (state, &cell_base.start, &ob_off->frame_offset[0],
-				    &ob_off->frame_offset[1], ob_off->absolute_distance);
-		odf_adjust_offsets (state, &cell_base.end, &ob_off->frame_offset[2],
-				    &ob_off->frame_offset[3], ob_off->absolute_distance);
+		if (old->mode != GNM_SO_ANCHOR_ABSOLUTE) {
+			odf_adjust_offsets (state, &cell_base.start, &ob_off->frame_offset[0],
+					    &ob_off->frame_offset[1], ob_off->absolute_distance);
+			if (old->mode == GNM_SO_ANCHOR_TWO_CELLS)
+				odf_adjust_offsets (state, &cell_base.end, &ob_off->frame_offset[2],
+						    &ob_off->frame_offset[3], ob_off->absolute_distance);
+		}
 		sheet_object_anchor_init (&new, &cell_base, ob_off->frame_offset,
-					  old->base.direction);
+					  old->base.direction,
+					  old->mode);
 		sheet_object_set_anchor (ob_off->so, &new);
 
 		sheet_object_set_sheet (ob_off->so, state->pos.sheet);
@@ -7933,9 +7950,9 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmRange cell_base;
 	double frame_offset[4];
 	gdouble height = 0., width = 0., x = 0., y = 0., end_x = 0., end_y = 0.;
-	ColRowInfo const *col, *row;
 	GnmExprTop const *texpr = NULL;
 	int z = -1;
+	GnmSOAnchorMode mode;
 
 	height = width = x = y = 0.;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
@@ -7964,39 +7981,43 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 	}
 
-	cell_base.start.col = cell_base.end.col = state->pos.eval.col;
-	cell_base.start.row = cell_base.end.row = state->pos.eval.row;
-
-	col = sheet_col_get_info (state->pos.sheet, state->pos.eval.col);
-	row = sheet_row_get_info (state->pos.sheet, state->pos.eval.row);
-
 	frame_offset[0] = x;
 	frame_offset[1] = y;
+	if (state->pos.eval.col >= 0) {
+		cell_base.start.col = cell_base.end.col = state->pos.eval.col;
+		cell_base.start.row = cell_base.end.row = state->pos.eval.row;
 
-	if (texpr == NULL || (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CELLREF)) {
-		frame_offset[2] = x+width;
-		frame_offset[3] = y+height;
+		if (texpr == NULL || (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CELLREF)) {
+			cell_base.end.col = cell_base.start.col;
+			cell_base.end.row = cell_base.start.row;
+			frame_offset[2] = width;
+			frame_offset[3] = height;
+			mode = GNM_SO_ANCHOR_ONE_CELL;
+
+		} else {
+			GnmCellRef const *ref = &texpr->expr->cellref.ref;
+			cell_base.end.col = ref->col;
+			cell_base.end.row = ref->row;
+			frame_offset[2] = end_x;
+			frame_offset[3] = end_y ;
+			mode = GNM_SO_ANCHOR_TWO_CELLS;
+		}
+		if (texpr)
+			gnm_expr_top_unref (texpr);
 	} else {
-		GnmCellRef const *ref = &texpr->expr->cellref.ref;
-		cell_base.end.col = ref->col;
-		cell_base.end.row = ref->row;
-		frame_offset[2] = end_x;
-		frame_offset[3] = end_y ;
+		cell_base.end.col = cell_base.start.col =
+			cell_base.end.row = cell_base.start.row = 0; /* actually not needed */
+		frame_offset[2] = width;
+		frame_offset[3] = height;
+		mode = GNM_SO_ANCHOR_ABSOLUTE;
 	}
 
 	odf_draw_frame_store_location (state, frame_offset,
 				       (height > 0) ? height : go_nan,
 				       (width > 0) ? width : go_nan);
 
-	frame_offset[0] /= col->size_pts;
-	frame_offset[1] /= row->size_pts;
-	frame_offset[2] /= col->size_pts;
-	frame_offset[3] /= row->size_pts;
-
-	if (texpr)
-		gnm_expr_top_unref (texpr);
 	sheet_object_anchor_init (&state->chart.anchor, &cell_base, frame_offset,
-				  GOD_ANCHOR_DIR_DOWN_RIGHT);
+				  GOD_ANCHOR_DIR_DOWN_RIGHT, mode);
 	state->chart.so = NULL;
 	state->chart.z_index = z;
 }
@@ -10496,16 +10517,16 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gnm_float x1 = 0., x2 = 0., y1 = 0., y2 = 0.;
-	ColRowInfo const *col, *row;
 	GODrawingAnchorDir direction;
 	GnmRange cell_base;
 	double frame_offset[4];
 	char const *style_name = NULL;
 	gdouble height, width;
 	int z = -1;
-
-	cell_base.start.col = cell_base.end.col = state->pos.eval.col;
-	cell_base.start.row = cell_base.end.row = state->pos.eval.row;
+	GnmSOAnchorMode mode;
+	cell_base.start.col = state->pos.eval.col;
+	cell_base.start.row = state->pos.eval.row;
+	cell_base.end.col = cell_base.end.row = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
@@ -10567,20 +10588,31 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 		height = y1 - y2;
 	}
 
+	if (state->pos.eval.col >= 0) {
+		if (cell_base.end.col >= 0) {
+			mode = GNM_SO_ANCHOR_TWO_CELLS;
+		} else {
+			cell_base.end.col = cell_base.start.col;
+			cell_base.end.row = cell_base.start.row;
+			frame_offset[2] = width;
+			frame_offset[3] = height;
+			mode = GNM_SO_ANCHOR_ONE_CELL;
+		}
+	} else {
+		cell_base.end.col = cell_base.start.col =
+			cell_base.end.row = cell_base.start.row = 0; /* actually not needed */
+		frame_offset[2] = width;
+		frame_offset[3] = height;
+		mode = GNM_SO_ANCHOR_ABSOLUTE;
+	}
+
 	odf_draw_frame_store_location (state, frame_offset,
 				       height, width);
 
-	col = sheet_col_get_info (state->pos.sheet, cell_base.start.col);
-	row = sheet_row_get_info (state->pos.sheet, cell_base.start.row);
-	frame_offset[0] /= col->size_pts;
-	frame_offset[1] /= row->size_pts;
-	frame_offset[2] /= col->size_pts;
-	frame_offset[3] /= row->size_pts;
-
-
 	sheet_object_anchor_init (&state->chart.anchor, &cell_base,
 				  frame_offset,
-				  direction);
+				  direction,
+	                          mode);
 	state->chart.so = g_object_new (GNM_SO_LINE_TYPE, NULL);
 
 	if (style_name != NULL) {
@@ -11954,7 +11986,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (TABLE, SHEET_SELECTIONS, OO_GNUM_NS_EXT, "selections", GSF_XML_NO_CONTENT, &odf_selection, &odf_selection_end),
 	        GSF_XML_IN_NODE (SHEET_SELECTIONS, SELECTION, OO_GNUM_NS_EXT, "selection", GSF_XML_NO_CONTENT, &odf_selection_range, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_SOURCE, OO_NS_TABLE, "table-source", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (TABLE, TABLE_SHAPES, OO_NS_TABLE, "shapes", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE, TABLE_SHAPES, OO_NS_TABLE, "shapes", GSF_XML_NO_CONTENT, &odf_shapes, &odf_shapes_end),
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CAPTION, OO_NS_DRAW, "caption", GSF_XML_NO_CONTENT, &odf_caption, &od_draw_text_frame_end),
 	            GSF_XML_IN_NODE (DRAW_CAPTION, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */

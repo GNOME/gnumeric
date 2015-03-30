@@ -2840,25 +2840,40 @@ odf_write_frame_size (GnmOOExport *state, SheetObject *so)
 
 	sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 
-	odf_add_pt (state->xml, SVG "x", res_pts[0]);
-	odf_add_pt (state->xml, SVG "y", res_pts[1]);
-	odf_add_pt (state->xml, TABLE "end-x", res_pts[2]);
-	odf_add_pt (state->xml, TABLE "end-y", res_pts[3]);
+	switch (anchor->mode) {
+	case GNM_SO_ANCHOR_TWO_CELLS:
+		odf_add_pt (state->xml, SVG "x", res_pts[0]);
+		odf_add_pt (state->xml, SVG "y", res_pts[1]);
+		odf_add_pt (state->xml, TABLE "end-x", res_pts[2]);
+		odf_add_pt (state->xml, TABLE "end-y", res_pts[3]);
+		/* The next 3 lines should not be needed, but older versions of Gnumeric used the */
+		/* width and height. */
+		sheet_object_anchor_to_pts (anchor, state->sheet, res_pts);
+		odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0]);
+		odf_add_pt (state->xml, SVG "height", res_pts[3] - res_pts[1]);
 
-	/* The next 3 lines should not be needed, but older versions of Gnumeric used the */
-	/* width and height. */
-	sheet_object_anchor_to_pts (anchor, state->sheet, res_pts);
-	odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0]);
-	odf_add_pt (state->xml, SVG "height", res_pts[3] - res_pts[1]);
-
-	gnm_cellref_init (&ref, (Sheet *) state->sheet, r->end.col, r->end.row, TRUE);
-	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
-	parse_pos_init_sheet (&pp, state->sheet);
-	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
-	gnm_expr_top_unref (texpr);
-	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address",
-			      odf_strip_brackets (formula));
-	g_free (formula);
+		gnm_cellref_init (&ref, (Sheet *) state->sheet, r->end.col, r->end.row, TRUE);
+		texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
+		parse_pos_init_sheet (&pp, state->sheet);
+		formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+		gnm_expr_top_unref (texpr);
+		gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address",
+					  odf_strip_brackets (formula));
+		g_free (formula);
+		break;
+	case GNM_SO_ANCHOR_ONE_CELL:
+		odf_add_pt (state->xml, SVG "x", res_pts[0]);
+		odf_add_pt (state->xml, SVG "y", res_pts[1]);
+		odf_add_pt (state->xml, SVG "width", anchor->offset[2]);
+		odf_add_pt (state->xml, SVG "height", anchor->offset[3]);
+		break;
+	case GNM_SO_ANCHOR_ABSOLUTE:
+		odf_add_pt (state->xml, SVG "x", anchor->offset[0]);
+		odf_add_pt (state->xml, SVG "y", anchor->offset[1]);
+		odf_add_pt (state->xml, SVG "width", anchor->offset[2]);
+		odf_add_pt (state->xml, SVG "height", anchor->offset[3]);
+		break;
+	}
 
 	sheet = sheet_object_get_sheet (so);
 	if (sheet) {
@@ -3186,9 +3201,6 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 		sheet_object_get_stacking (so);
 	gsf_xml_out_add_int (state->xml, DRAW "z-index", z);
 
-	sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
-	odf_add_pt (state->xml, TABLE "end-x", res_pts[2]);
-	odf_add_pt (state->xml, TABLE "end-y", res_pts[3]);
 	sheet_object_anchor_to_pts (anchor, state->sheet, res_pts);
 
 	switch (anchor->base.direction) {
@@ -3225,14 +3237,20 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 	odf_add_pt (state->xml, SVG "x2", x2);
 	odf_add_pt (state->xml, SVG "y2", y2);
 
-	gnm_cellref_init (&ref, (Sheet *) state->sheet, r->end.col, r->end.row, TRUE);
-	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
-	parse_pos_init_sheet (&pp, state->sheet);
-	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
-	gnm_expr_top_unref (texpr);
-	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address",
-			      odf_strip_brackets (formula));
-	g_free (formula);
+	if (anchor->mode == GNM_SO_ANCHOR_TWO_CELLS) {
+		sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
+		odf_add_pt (state->xml, TABLE "end-x", res_pts[2]);
+		odf_add_pt (state->xml, TABLE "end-y", res_pts[3]);
+
+		gnm_cellref_init (&ref, (Sheet *) state->sheet, r->end.col, r->end.row, TRUE);
+		texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
+		parse_pos_init_sheet (&pp, state->sheet);
+		formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+		gnm_expr_top_unref (texpr);
+		gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address",
+					  odf_strip_brackets (formula));
+		g_free (formula);
+	}
 
 	gsf_xml_out_end_element (state->xml); /*  DRAW "line" */
 }
@@ -3710,7 +3728,10 @@ odf_sheet_objects_get (Sheet const *sheet, GnmCellPos const *pos)
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
 		SheetObject *so = GNM_SO (ptr->data);
 		SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
-		if (gnm_cellpos_equal (&anchor->cell_bound.start, pos))
+		if (anchor->mode == GNM_SO_ANCHOR_ABSOLUTE) {
+			if (pos == NULL)
+				res = g_slist_prepend (res, so);
+		} else if (pos && gnm_cellpos_equal (&anchor->cell_bound.start, pos))
 			res = g_slist_prepend (res, so);
 	}
 	return res;
@@ -4855,6 +4876,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	int graph_n = 1;
 	int image_n = 1;
 	gboolean has_autofilters = FALSE;
+	GSList *objects;
 
 	state->xml = create_new_xml_child (state, child);
 	gsf_xml_out_set_doc_type (state->xml, "\n");
@@ -4937,6 +4959,15 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 			gsf_xml_out_add_cstr (state->xml, TABLE "print-ranges",
 					      odf_strip_brackets (formula));
 			g_free (formula);
+		}
+
+		/* writing shapes with absolute anchors */
+		objects = odf_sheet_objects_get (sheet, NULL);
+		if (objects != NULL) {
+			gsf_xml_out_start_element (state->xml, TABLE "shapes");
+			odf_write_objects (state, objects);
+			gsf_xml_out_end_element (state->xml);
+			g_slist_free (objects);
 		}
 
 		odf_write_sheet_controls (state);

@@ -1,3 +1,18 @@
+2015-03-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (ms_excel_chart_read): support absolute sheet object anchoring.
+	* ms-escher.c (ms_escher_clientanchor): ditto.
+	* ms-excel-read.c (ms_sheet_obj_anchor_to_pos),
+	(ms_sheet_realize_obj): ditto.
+	* ms-excel-write.c (excel_write_autofilter_objs),
+	(excel_write_other_v8): ditto.
+	* xlsx-read-drawing.c (xlsx_draw_anchor_start),
+	(xlsx_drawing_twoCellAnchor_end), (xlsx_drawing_oneCellAnchor_end),
+	(xlsx_drawing_absoluteAnchor_end), (xlsx_drawing_anchor_pos),
+	(xlsx_vml_client_data_end): ditto.
+	* xlsx-read.c: ditto.
+	* xlsx-write-drawing.c (xlsx_write_drawing_objects): ditto.
+
 2015-03-28  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_axis_crossax): Improve parsing.  Take

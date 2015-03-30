@@ -6,6 +6,8 @@ Andreas:
 
 Jean:
 	* Fix signal handling while running Python. [#744638]
+	* Implement absolute anchoring for sheet objects.
+	* Make graphs (and images) not resize with cells by default. [#684450]
 
 Morten:
 	* xlsx import/export of log axis.
