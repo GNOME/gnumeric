@@ -2014,11 +2014,27 @@ static void
 xlsx_draw_color_alpha (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	guint action = xin->node->user_data.v_int;
 	unsigned val;
 	if (simple_uint (xin, attrs, &val)) {
 		const unsigned scale = 100000u;
-		int level = 255u * CLAMP (val, 0u, scale) / scale;
-		state->color = GO_COLOR_CHANGE_A (state->color, level);
+		int a = GO_COLOR_UINT_A (state->color);
+		switch (action) {
+		case 0:
+			a = 255u * CLAMP (val, 0u, scale) / scale;
+			break;
+		case 1:
+			a += 255u * CLAMP (val, 0u, scale) / scale;
+			break;
+		case 2:
+			a = a * CLAMP (val, 0u, scale) / scale;
+			break;
+		default:
+			g_assert_not_reached ();
+		}
+
+		a = CLAMP (a, 0, 255);
+		state->color = GO_COLOR_CHANGE_A (state->color, a);
 		color_set_helper (state);
 	}
 }
@@ -2327,35 +2343,38 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
-#define COLOR_MODIFIER_NODES(parent,first)					\
-        GSF_XML_IN_NODE (parent, COLOR_SHADE,	   XL_NS_DRAW, "shade", GSF_XML_NO_CONTENT, (first ? &xlsx_draw_color_shade : NULL), NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_TINT,	   XL_NS_DRAW, "tint", GSF_XML_NO_CONTENT, (first ? &xlsx_draw_color_tint : NULL), NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_COMP,	   XL_NS_DRAW, "comp", GSF_XML_NO_CONTENT, NULL, NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_INV,	   XL_NS_DRAW, "inv", GSF_XML_NO_CONTENT, NULL, NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_GRAY,	   XL_NS_DRAW, "gray", GSF_XML_NO_CONTENT, NULL, NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_ALPHA,	   XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, (first ? &xlsx_draw_color_alpha : NULL), NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_ALPHA_OFF,  XL_NS_DRAW, "alphaOff", GSF_XML_NO_CONTENT, NULL, NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_ALPHA_MOD,  XL_NS_DRAW, "alphaMod", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_HUE,	   XL_NS_DRAW, "hue", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_HUE_OFF,    XL_NS_DRAW, "hueOff", GSF_XML_NO_CONTENT, NULL, NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_HUE_MOD,    XL_NS_DRAW, "hueMod", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_SAT,	   XL_NS_DRAW, "sat", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_SAT_OFF,    XL_NS_DRAW, "satOff", GSF_XML_NO_CONTENT, NULL, NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_SAT_MOD,    XL_NS_DRAW, "satMod", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_LUM,	   XL_NS_DRAW, "lum", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_LUM_OFF,    XL_NS_DRAW, "lumOff", GSF_XML_NO_CONTENT, NULL, NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_LUM_MOD,    XL_NS_DRAW, "lumMod", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_RED,	   XL_NS_DRAW, "red", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_RED_OFF,    XL_NS_DRAW, "redOff", GSF_XML_NO_CONTENT, NULL, NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_RED_MOD,    XL_NS_DRAW, "redMod", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_GREEN,	   XL_NS_DRAW, "green", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_GREEN_OFF,  XL_NS_DRAW, "greenOff", GSF_XML_NO_CONTENT, NULL, NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_GREEN_MOD,  XL_NS_DRAW, "greenMod", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_BLUE,	   XL_NS_DRAW, "blue", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_BLUE_OFF,   XL_NS_DRAW, "blueOff", GSF_XML_NO_CONTENT, NULL, NULL), \
-	GSF_XML_IN_NODE (parent, COLOR_BLUE_MOD,   XL_NS_DRAW, "blueMod", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_GAMMA,	   XL_NS_DRAW, "gamma", GSF_XML_NO_CONTENT, NULL, NULL), \
-        GSF_XML_IN_NODE (parent, COLOR_INV_GAMMA,  XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL)
+#define COLOR_MODIFIER_NODE(parent,node,name,first,handler,user) \
+	GSF_XML_IN_NODE_FULL (parent, node, XL_NS_DRAW, name, (first ? GSF_XML_NO_CONTENT : GSF_XML_2ND), FALSE, FALSE, handler, NULL, user)
+
+#define COLOR_MODIFIER_NODES(parent,first)				\
+	COLOR_MODIFIER_NODE(parent, COLOR_SHADE, "shade", first, &xlsx_draw_color_shade, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_TINT, "tint", first, &xlsx_draw_color_tint, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_COMP, "comp", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_INV, "inv", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GRAY, "gray", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA, "alpha", first, &xlsx_draw_color_alpha, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_OFF, "alphaOff", first, &xlsx_draw_color_alpha, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_MOD, "alphaMod", first, &xlsx_draw_color_alpha, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_HUE, "hue", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_HUE_OFF, "hueOff", first, NULL, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_HUE_MOD, "hueMod", first, NULL, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_SAT, "sat", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_SAT_OFF, "satOff", first, NULL, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_SAT_MOD, "satMod", first, NULL, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_LUM, "lum", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_LUM_OFF, "lumOff", first, NULL, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_LUM_MOD, "lumMod", first, NULL, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_RED, "red", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_RED_OFF, "redOff", first, NULL, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_RED_MOD, "redMod", first, NULL, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GREEN, "green", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GREEN_OFF, "greenOff", first, NULL, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GREEN_MOD, "greenMod", first, NULL, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_BLUE, "blue", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_OFF, "blueOff", first, NULL, 1), \
+	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_MOD, "blueMod", first, NULL, 2), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GAMMA, "gamma", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_INV_GAMMA, "invGamma", first, NULL, 0)
 
 
 static GsfXMLInNode const xlsx_chart_dtd[] =
