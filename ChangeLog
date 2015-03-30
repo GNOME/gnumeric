@@ -1,5 +1,8 @@
 2015-03-30  Morten Welinder  <terra@gnome.org>
 
+	* src/sstest.c (test_random_randhyperg): Take var=0 case into
+	account when checking mean.
+
 	* src/sheet-object-graph.c (sheet_object_graph_new): Allow NULL
 	graph here.
 
