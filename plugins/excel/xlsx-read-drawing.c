@@ -534,6 +534,28 @@ xlsx_draw_color_rgb (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_draw_color_scrgb (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int r = 0, g = 0, b = 0;
+	int scale = 100000;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_int (xin, attrs, "r", &r) ||
+		    attr_int (xin, attrs, "g", &g) ||
+		    attr_int (xin, attrs, "b", &b)) {
+			/* Nothing more */
+		}
+	}
+
+	r = 255 * CLAMP (r, 0, scale) / scale;
+	g = 255 * CLAMP (g, 0, scale) / scale;
+	b = 255 * CLAMP (b, 0, scale) / scale;
+	state->color = GO_COLOR_FROM_RGB (r, g, b);
+	color_set_helper (state);
+}
+
+static void
 xlsx_draw_color_rgba_channel (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -3388,7 +3410,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
           GSF_XML_IN_NODE (SP_XFRM_STYLE, LN_REF, XL_NS_DRAW, "lnRef", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (LN_REF, SCHEME_CLR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),
               COLOR_MODIFIER_NODES(SCHEME_CLR,1),
-	    GSF_XML_IN_NODE (LN_REF, SCRGB_CLR, XL_NS_DRAW, "scrgbClr", GSF_XML_NO_CONTENT, xlsx_draw_color_rgb, NULL),
+	    GSF_XML_IN_NODE (LN_REF, SCRGB_CLR, XL_NS_DRAW, "scrgbClr", GSF_XML_NO_CONTENT, xlsx_draw_color_scrgb, NULL),
               COLOR_MODIFIER_NODES(SCRGB_CLR,0),
           GSF_XML_IN_NODE (SP_XFRM_STYLE, FILL_REF, XL_NS_DRAW, "fillRef", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (FILL_REF, SCHEME_CLR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),
