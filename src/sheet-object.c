@@ -67,6 +67,23 @@ sheet_object_anchor_get_type (void)
 	return t;
 }
 
+GType
+gnm_sheet_object_anchor_mode_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+	  static GEnumValue const values[] = {
+		  { GNM_SO_ANCHOR_TWO_CELLS, "GNM_SO_ANCHOR_TWO_CELLS", "two-cells" },
+		  { GNM_SO_ANCHOR_ONE_CELL, "GNM_SO_ANCHOR_ONE_CELL", "one-cell" },
+		  { GNM_SO_ANCHOR_ABSOLUTE, "GNM_SO_ANCHOR_ABSOLUTE", "absolute" },
+		  { 0, NULL, NULL }
+	  };
+	  etype = g_enum_register_static ("GnmSOAnchorMode", values);
+  }
+  return etype;
+}
+
+
 /* Returns the class for a SheetObject */
 #define SO_CLASS(so) GNM_SO_CLASS(G_OBJECT_GET_CLASS(so))
 

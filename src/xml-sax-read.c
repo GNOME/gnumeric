@@ -2398,20 +2398,9 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
 		if (attr_eq (attrs[i], "Name"))
 			sheet_object_set_name (so, CXML2C (attrs[i + 1]));
-		else if (!strcmp (attrs[i], "AnchorMode")) {
-			if (!strcmp (attrs[i+1], "one cell"))
-				anchor_mode = GNM_SO_ANCHOR_ONE_CELL;
-			else if (!strcmp (attrs[i+1], "two cells"))
-				anchor_mode = GNM_SO_ANCHOR_TWO_CELLS;
-			else if (!strcmp (attrs[i+1], "absolute") )
-				anchor_mode = GNM_SO_ANCHOR_ABSOLUTE;
-			else {
-				char *str = g_strdup_printf (_("Unknown object anchor mode '%s'"),
-				                             attrs[i+1]);
-				go_io_warning_unsupported_feature (state->context, str);
-				g_free (str);
-			}
-		} else if (attr_eq (attrs[i], "ObjectBound"))
+		else if (xml_sax_attr_enum (attrs, "AnchorMode", GNM_SHEET_OBJECT_ANCHOR_MODE_TYPE, &tmp_int))
+			anchor_mode = tmp_int;
+		else if (attr_eq (attrs[i], "ObjectBound"))
 			range_parse (&anchor_r, CXML2C (attrs[i + 1]), gnm_sheet_get_size (state->sheet));
 		else if (attr_eq (attrs[i], "ObjectOffset") &&
 			4 == sscanf (CXML2C (attrs[i + 1]), "%lg %lg %lg %lg",

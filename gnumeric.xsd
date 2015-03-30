@@ -1082,9 +1082,9 @@
 
     <xs:simpleType name="anchor_mode">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="absolute"/>
-            <xs:enumeration value="one cell"/>
-            <xs:enumeration value="two cells"/>
+            <xs:enumeration value="GNM_SO_ANCHOR_ABSOLUTE"/>
+            <xs:enumeration value="GNM_SO_ANCHOR_ONE_CELL"/>
+            <xs:enumeration value="GNM_SO_ANCHOR_TWO_CELLS"/>
         </xs:restriction>
     </xs:simpleType>
 

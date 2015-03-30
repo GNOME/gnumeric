@@ -1,5 +1,11 @@
 2015-03-30  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object.c (gnm_sheet_object_anchor_mode_get_type): New
+	function.
+
+	* src/xml-sax-read.c (xml_sax_read_obj): Use an enum for anchor
+	mode.
+
 	* src/sstest.c (test_random_randhyperg): Take var=0 case into
 	account when checking mean.
 

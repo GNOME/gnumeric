@@ -18,10 +18,12 @@ typedef enum {
 } GnmSOResizeMode;
 
 typedef enum {
-	GNM_SO_ANCHOR_TWO_CELLS,	 /* move and size (if sizeable) with cells) */
-	GNM_SO_ANCHOR_ONE_CELL, /* move with cells */
-	GNM_SO_ANCHOR_ABSOLUTE	/* anchored to the sheet */
+	GNM_SO_ANCHOR_TWO_CELLS,	/* move and size (if sizeable) with cells) */
+	GNM_SO_ANCHOR_ONE_CELL,		/* move with cells */
+	GNM_SO_ANCHOR_ABSOLUTE		/* anchored to the sheet */
 } GnmSOAnchorMode;
+GType gnm_sheet_object_anchor_mode_get_type (void);
+#define GNM_SHEET_OBJECT_ANCHOR_MODE_TYPE (gnm_sheet_object_anchor_mode_get_type ())
 
 struct _SheetObjectAnchor {
 	GODrawingAnchor	base;
@@ -117,7 +119,7 @@ void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
 				 GnmRange const *cell_bound,
 				 const double *offsets,
 				 GODrawingAnchorDir direction,
-	             GnmSOAnchorMode mode);
+				 GnmSOAnchorMode mode);
 void sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 			     Sheet const *sheet, double const *res_pts);
 SheetObjectAnchor *

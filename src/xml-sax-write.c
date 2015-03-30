@@ -1266,9 +1266,10 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 		if (so->anchor.mode != GNM_SO_ANCHOR_ABSOLUTE)
 			gsf_xml_out_add_cstr (state->output, "ObjectBound", range_as_string (&so->anchor.cell_bound));
 		if (so->anchor.mode != GNM_SO_ANCHOR_TWO_CELLS)
-			gsf_xml_out_add_cstr_unchecked (state->output, "AnchorMode",
-		                            (so->anchor.mode == GNM_SO_ANCHOR_ONE_CELL)?
-		                             "one cell": "absolute");
+			gsf_xml_out_add_enum (state->output,
+					      "AnchorMode",
+					      GNM_SHEET_OBJECT_ANCHOR_MODE_TYPE,
+					      so->anchor.mode);
 		snprintf (buffer, sizeof (buffer), "%.3g %.3g %.3g %.3g",
 			  so->anchor.offset [0], so->anchor.offset [1],
 			  so->anchor.offset [2], so->anchor.offset [3]);
