@@ -2024,6 +2024,44 @@ xlsx_draw_color_alpha (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_draw_color_shade (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	unsigned val;
+	if (simple_uint (xin, attrs, &val)) {
+		const unsigned scale = 100000u;
+		double f = CLAMP (val, 0u, scale) / (double)scale;
+		/*
+		 * FIXME: Wrong RGB colour space, see
+		 * https://social.msdn.microsoft.com/forums/office/en-US/f6d26f2c-114f-4a0d-8bca-a27442aec4d0/tint-and-shade-elements
+		 */
+		state->color = GO_COLOR_CHANGE_R(state->color, (guint8)(f*GO_COLOR_UINT_R(state->color)));
+		state->color = GO_COLOR_CHANGE_G(state->color, (guint8)(f*GO_COLOR_UINT_G(state->color)));
+		state->color = GO_COLOR_CHANGE_B(state->color, (guint8)(f*GO_COLOR_UINT_B(state->color)));
+		color_set_helper (state);
+	}
+}
+
+static void
+xlsx_draw_color_tint (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	unsigned val;
+	if (simple_uint (xin, attrs, &val)) {
+		const unsigned scale = 100000u;
+		double f = CLAMP (val, 0u, scale) / (double)scale;
+		/*
+		 * FIXME: Wrong RGB colour space, see
+		 * https://social.msdn.microsoft.com/forums/office/en-US/f6d26f2c-114f-4a0d-8bca-a27442aec4d0/tint-and-shade-elements
+		 */
+		state->color = GO_COLOR_CHANGE_R(state->color, (guint8)(f * 255 + (1 - f) * GO_COLOR_UINT_R(state->color)));
+		state->color = GO_COLOR_CHANGE_G(state->color, (guint8)(f * 255 + (1 - f) * GO_COLOR_UINT_G(state->color)));
+		state->color = GO_COLOR_CHANGE_B(state->color, (guint8)(f * 255 + (1 - f) * GO_COLOR_UINT_B(state->color)));
+		color_set_helper (state);
+	}
+}
+
+static void
 xlsx_draw_line_dash (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static const EnumVal const dashes[] = {
@@ -2289,6 +2327,36 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
+#define COLOR_MODIFIER_NODES(parent,first)					\
+        GSF_XML_IN_NODE (parent, COLOR_SHADE,	   XL_NS_DRAW, "shade", GSF_XML_NO_CONTENT, (first ? &xlsx_draw_color_shade : NULL), NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_TINT,	   XL_NS_DRAW, "tint", GSF_XML_NO_CONTENT, (first ? &xlsx_draw_color_tint : NULL), NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_COMP,	   XL_NS_DRAW, "comp", GSF_XML_NO_CONTENT, NULL, NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_INV,	   XL_NS_DRAW, "inv", GSF_XML_NO_CONTENT, NULL, NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_GRAY,	   XL_NS_DRAW, "gray", GSF_XML_NO_CONTENT, NULL, NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_ALPHA,	   XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, (first ? &xlsx_draw_color_alpha : NULL), NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_ALPHA_OFF,  XL_NS_DRAW, "alphaOff", GSF_XML_NO_CONTENT, NULL, NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_ALPHA_MOD,  XL_NS_DRAW, "alphaMod", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_HUE,	   XL_NS_DRAW, "hue", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_HUE_OFF,    XL_NS_DRAW, "hueOff", GSF_XML_NO_CONTENT, NULL, NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_HUE_MOD,    XL_NS_DRAW, "hueMod", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_SAT,	   XL_NS_DRAW, "sat", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_SAT_OFF,    XL_NS_DRAW, "satOff", GSF_XML_NO_CONTENT, NULL, NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_SAT_MOD,    XL_NS_DRAW, "satMod", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_LUM,	   XL_NS_DRAW, "lum", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_LUM_OFF,    XL_NS_DRAW, "lumOff", GSF_XML_NO_CONTENT, NULL, NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_LUM_MOD,    XL_NS_DRAW, "lumMod", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_RED,	   XL_NS_DRAW, "red", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_RED_OFF,    XL_NS_DRAW, "redOff", GSF_XML_NO_CONTENT, NULL, NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_RED_MOD,    XL_NS_DRAW, "redMod", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_GREEN,	   XL_NS_DRAW, "green", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_GREEN_OFF,  XL_NS_DRAW, "greenOff", GSF_XML_NO_CONTENT, NULL, NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_GREEN_MOD,  XL_NS_DRAW, "greenMod", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_BLUE,	   XL_NS_DRAW, "blue", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_BLUE_OFF,   XL_NS_DRAW, "blueOff", GSF_XML_NO_CONTENT, NULL, NULL), \
+	GSF_XML_IN_NODE (parent, COLOR_BLUE_MOD,   XL_NS_DRAW, "blueMod", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_GAMMA,	   XL_NS_DRAW, "gamma", GSF_XML_NO_CONTENT, NULL, NULL), \
+        GSF_XML_IN_NODE (parent, COLOR_INV_GAMMA,  XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL)
+
 
 static GsfXMLInNode const xlsx_chart_dtd[] =
 {
@@ -2304,15 +2372,10 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
     GSF_XML_IN_NODE (SHAPE_PR, FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, &xlsx_chart_no_fill, NULL),
     GSF_XML_IN_NODE (SHAPE_PR, FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, &xlsx_chart_solid_fill_end),
       GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, NULL),
-        GSF_XML_IN_NODE (COLOR_THEMED, COLOR_LUM, XL_NS_DRAW, "lumMod", GSF_XML_NO_CONTENT, NULL, NULL),
+        COLOR_MODIFIER_NODES(COLOR_THEMED,1),
       GSF_XML_IN_NODE (FILL_SOLID, COLOR_RGB,	 XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_rgb, NULL),
-        GSF_XML_IN_NODE (COLOR_RGB, RGB_ALPHA,	   XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, &xlsx_draw_color_alpha, NULL),
-        GSF_XML_IN_NODE (COLOR_RGB, RGB_GAMMA,	   XL_NS_DRAW, "gamma", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_RGB, RGB_INV_GAMMA, XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_RGB, RGB_SHADE,	   XL_NS_DRAW, "shade", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_RGB, RGB_TINT,	   XL_NS_DRAW, "tint", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_RGB, LN_DASH,	   XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, &xlsx_draw_line_dash, NULL),
-      GSF_XML_IN_NODE (FILL_SOLID, LN_DASH,	   XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
+        COLOR_MODIFIER_NODES(COLOR_RGB,0),
+      GSF_XML_IN_NODE (FILL_SOLID, LN_DASH,	   XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, &xlsx_draw_line_dash, NULL),
 
     GSF_XML_IN_NODE (SHAPE_PR, FILL_BLIP,	XL_NS_DRAW, "blipFill", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_BLIP,	XL_NS_DRAW, "blip", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3267,14 +3330,9 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 	GSF_XML_IN_NODE (SHAPE_PR, SP_FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHAPE_PR, SP_FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, NULL),
-	    GSF_XML_IN_NODE (COLOR_THEMED, COLOR_LUM, XL_NS_DRAW, "lumMod", GSF_XML_NO_CONTENT, NULL, NULL),
+            COLOR_MODIFIER_NODES(COLOR_THEMED,1),
 	  GSF_XML_IN_NODE (FILL_SOLID, COLOR_RGB,	 XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_rgb, NULL),
-	    GSF_XML_IN_NODE (COLOR_RGB, RGB_ALPHA,	   XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, &xlsx_draw_color_alpha, NULL),
-	    GSF_XML_IN_NODE (COLOR_RGB, RGB_GAMMA,	   XL_NS_DRAW, "gamma", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (COLOR_RGB, RGB_INV_GAMMA, XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (COLOR_RGB, RGB_SHADE,	   XL_NS_DRAW, "shade", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (COLOR_RGB, RGB_TINT,	   XL_NS_DRAW, "tint", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (COLOR_RGB, LN_DASH,	   XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),
+            COLOR_MODIFIER_NODES(COLOR_THEMED,0),
 
 	GSF_XML_IN_NODE (SHAPE_PR, FILL_BLIP,	XL_NS_DRAW, "blipFill", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_BLIP,	XL_NS_DRAW, "blip", GSF_XML_NO_CONTENT, NULL, NULL),
