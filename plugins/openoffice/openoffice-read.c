@@ -12044,7 +12044,6 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT,NULL, NULL ),/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),			/* ignore for now */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
@@ -12322,7 +12321,6 @@ static GsfXMLInNode const opendoc_content_preparse_dtd [] =
 	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT,NULL, NULL ),/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),			/* ignore for now */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
