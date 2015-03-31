@@ -593,6 +593,32 @@ xlsx_draw_color_rgba_channel (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_draw_color_gray (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int g = (22 * GO_COLOR_UINT_R (state->color) +
+		 72 * GO_COLOR_UINT_G (state->color) +
+		 06 * GO_COLOR_UINT_B (state->color)) / 100;
+	state->color = GO_COLOR_GREY (g);
+	color_set_helper (state);
+}
+
+static void
+xlsx_draw_color_comp (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	g_warning ("Unhandled hsl complement of #%08x\n", state->color);
+}
+
+static void
+xlsx_draw_color_invert (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->color = GO_COLOR_FROM_RGBA (0xff, 0xff, 0xff, 0) ^ state->color;
+	color_set_helper (state);
+}
+
+static void
 xlsx_draw_color_hsl_channel (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -603,6 +629,14 @@ xlsx_draw_color_hsl_channel (GsfXMLIn *xin, xmlChar const **attrs)
 		g_warning ("Unhandling hsl colour modification %d %d for #%08x",
 			   action, channel, state->color);
 	}
+}
+
+static void
+xlsx_draw_color_gamma (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean inv = xin->node->user_data.v_int;
+	g_warning ("Unhandled colour %d gamma transformation of #%08x\n", inv, state->color);
 }
 
 
@@ -651,9 +685,9 @@ xlsx_draw_color_tint (GsfXMLIn *xin, xmlChar const **attrs)
 #define COLOR_MODIFIER_NODES(parent,first)				\
 	COLOR_MODIFIER_NODE(parent, COLOR_SHADE, "shade", first, &xlsx_draw_color_shade, 0), \
 	COLOR_MODIFIER_NODE(parent, COLOR_TINT, "tint", first, &xlsx_draw_color_tint, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_COMP, "comp", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_INV, "inv", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_GRAY, "gray", first, NULL, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_COMP, "comp", first, &xlsx_draw_color_comp, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_INV, "inv", first, &xlsx_draw_color_invert, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_GRAY, "gray", first, &xlsx_draw_color_gray, 0), \
 	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA, "alpha", first, &xlsx_draw_color_rgba_channel, 12), \
 	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_OFF, "alphaOff", first, &xlsx_draw_color_rgba_channel, 13), \
 	COLOR_MODIFIER_NODE(parent, COLOR_ALPHA_MOD, "alphaMod", first, &xlsx_draw_color_rgba_channel, 14), \
@@ -675,8 +709,8 @@ xlsx_draw_color_tint (GsfXMLIn *xin, xmlChar const **attrs)
 	COLOR_MODIFIER_NODE(parent, COLOR_BLUE, "blue", first, &xlsx_draw_color_rgba_channel, 0), \
 	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_OFF, "blueOff", first, &xlsx_draw_color_rgba_channel, 1), \
 	COLOR_MODIFIER_NODE(parent, COLOR_BLUE_MOD, "blueMod", first, &xlsx_draw_color_rgba_channel, 2), \
-	COLOR_MODIFIER_NODE(parent, COLOR_GAMMA, "gamma", first, NULL, 0), \
-	COLOR_MODIFIER_NODE(parent, COLOR_INV_GAMMA, "invGamma", first, NULL, 0)
+	COLOR_MODIFIER_NODE(parent, COLOR_GAMMA, "gamma", first, &xlsx_draw_color_gamma, 0), \
+	COLOR_MODIFIER_NODE(parent, COLOR_INV_GAMMA, "invGamma", first, &xlsx_draw_color_gamma, 1)
 
 
 static GsfXMLInNode const xlsx_chart_drawing_dtd[] =
