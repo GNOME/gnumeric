@@ -109,7 +109,8 @@ typedef enum {
 	XLSX_AXIS_UNKNOWN,
 	XLSX_AXIS_CAT,
 	XLSX_AXIS_VAL,
-	XLSX_AXIS_DATE
+	XLSX_AXIS_DATE,
+	XLSX_AXIS_SER
 } XLSXAxisType;
 typedef struct {
 	char	*id;
