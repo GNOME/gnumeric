@@ -1,3 +1,8 @@
+2015-04-01  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-graph.c (gnm_sogg_prep_sax_parser): Use
+	GNM_XML_2ND here too.
+
 2015-03-30  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object.c (gnm_sheet_object_anchor_mode_get_type): New
