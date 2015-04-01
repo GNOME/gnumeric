@@ -45,6 +45,7 @@ my @sources =
      "$samples/sumif.xls",
      "$samples/array-intersection.xls",
      "$samples/arrays.xls",
+     "$samples/docs-samples.gnumeric",
      "$samples/ftest.xls",
      "$samples/ttest.xls",
      "$samples/chitest.xls",
