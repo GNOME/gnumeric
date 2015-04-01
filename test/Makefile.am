@@ -61,6 +61,7 @@ TESTS =	t1000-statfuns.pl			\
 	t5902-applix.pl				\
 	t5903-sylk.pl				\
 	t5904-mps.pl				\
+	t5905-guppi.pl				\
 	t6000-statfuns.pl			\
 	t6001-mathfuns.pl			\
 	t6002-objs.pl				\
