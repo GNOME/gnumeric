@@ -24,6 +24,7 @@ Morten:
 	* Improve xlsx roundtrip of GOStyle.
 	* Improve reading of xlsx theme colours.
 	* Plug leaks.
+	* Fix REPLACEB problem.  [#747210]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21

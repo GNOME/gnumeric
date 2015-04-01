@@ -1,3 +1,8 @@
+2015-04-01  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_replaceb): Copy from the right string.
+	Ensure room for terminating 0.  Fixes #747210.
+
 2015-03-19  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_midb, gnumeric_replaceb): Fix length

@@ -923,13 +923,14 @@ gnumeric_replaceb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if ((ipos > slen) ||
 	    (ipos + ilen > slen) ||
 	    ((gunichar)-1 == g_utf8_get_char_validated (old + ipos, -1)) ||
+	    ((gunichar)-1 == g_utf8_get_char_validated (old + ipos + ilen, -1)) ||
 	    !g_utf8_validate (old + ipos, ilen, NULL))
 		return value_new_error_VALUE (ei->pos);
 	newlen = strlen (new);
-	res = g_malloc (slen - ilen + newlen);
+	res = g_malloc (slen - ilen + newlen + 1);
 	memcpy (res, old, ipos);
 	memcpy (res + ipos, new, newlen);
-	memcpy (res + ipos + newlen, new + ipos + ilen + 1, slen - ipos - ilen);
+	memcpy (res + ipos + newlen, old + ipos + ilen, slen - ipos - ilen + 1);
 	return value_new_string_nocopy (res);
 }
 
