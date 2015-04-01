@@ -1,3 +1,7 @@
+2015-03-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c: use GSF_XML_2ND throughout
+
 2015-03-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* openoffice-read.c (odf_shapes), (odf_shapes_end), (oo_table_end),
