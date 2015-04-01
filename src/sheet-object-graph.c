@@ -1058,6 +1058,7 @@ gnm_sogg_sax_parser_done (G_GNUC_UNUSED GsfXMLIn *xin, GuppiReadState *state)
 		if (obj)
 			g_object_unref (obj);
 	}
+	g_ptr_array_free (state->data, TRUE);
 	g_free (state);
 }
 

@@ -23,6 +23,7 @@ Morten:
 	* Fix RANDGEOM to use same distribution as R.DGEOM.
 	* Improve xlsx roundtrip of GOStyle.
 	* Improve reading of xlsx theme colours.
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21

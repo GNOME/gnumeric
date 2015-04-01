@@ -2,6 +2,7 @@
 
 	* src/sheet-object-graph.c (gnm_sogg_prep_sax_parser): Use
 	GNM_XML_2ND here too.
+	(gnm_sogg_sax_parser_done): Plug leak.
 
 2015-03-30  Morten Welinder  <terra@gnome.org>
 
