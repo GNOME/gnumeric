@@ -83,6 +83,7 @@ EXTRA_DIST = $(xml_in_files)	\
 	xlsx-write-docprops.c	\
 	xlsx-read-pivot.c	\
 	xlsx-write-pivot.c	\
+	xlsx-read-color.c	\
 	xlsx-read-drawing.c	\
 	xlsx-write-drawing.c
 

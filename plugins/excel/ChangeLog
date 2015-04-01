@@ -1,3 +1,11 @@
+2015-03-31  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-color.c: New file extracted from xlsx-read-drawing.c
+	and xlsx-read.c
+	(xlsx_draw_color_hsl_channel): Implement.
+
+	* xlsx-read.c (theme): Apply colour modifications.
+
 2015-03-30  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_draw_color_rgba_channel): Rename from
@@ -187,7 +195,7 @@
 	* xlsx-read-drawing.c (xlsx_chart_line_headtail): Improve arrow
 	import with xls_arrow_from_xl.
 
-	* ms-excel-util.c (xls_arrow_from_xl): New function extrated...
+	* ms-excel-util.c (xls_arrow_from_xl): New function extracted...
 	* ms-excel-read.c (handle_arrow_head): ...from here.
 
 	* xlsx-write-drawing.c (xlsx_write_go_style_full): Improve arrow

@@ -1201,102 +1201,10 @@ xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 static void xlsx_ext_begin (GsfXMLIn *xin, xmlChar const **attrs);
 static void xlsx_ext_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob);
 
+#include "xlsx-read-color.c"
 #include "xlsx-read-drawing.c"
 
 /***********************************************************************/
-
-/* RGBMAX, HLSMAX must each fit in a byte. */
-/* HLSMAX BEST IF DIVISIBLE BY 6 */
-#define  HLSMAX   240 /* H,L, and S vary over 0-HLSMAX */
-#define  RGBMAX   255 /* R,G, and B vary over 0-RGBMAX */
-
-/* Hue is undefined if Saturation is 0 (grey-scale) */
-/* This value determines where the Hue scrollbar is */
-/* initially set for achromatic colors */
-#define UNDEFINED (HLSMAX*2/3)
-
-/* utility routine for HLStoRGB */
-static int
-hue_to_color (int m1, int m2, int h)
-{
-	if (h < 0)
-		h += HLSMAX;
-	if (h > HLSMAX)
-		h -= HLSMAX;
-
-	/* return r,g, or b value from this tridrant */
-	if (h < (HLSMAX/6))
-		return m1 + (((m2 - m1)*h + (HLSMAX/12))/(HLSMAX/6));
-	if (h < (HLSMAX/2))
-		return m2;
-	if (h < ((HLSMAX*2)/3))
-		return m1 + (((m2 - m1)*(((HLSMAX*2)/3)-h)+(HLSMAX/12))/(HLSMAX/6));
-
-	return m1;
-}
-
-static GOColor
-apply_tint (GOColor orig, double tint)
-{
-	int r = GO_COLOR_UINT_R (orig);
-	int g = GO_COLOR_UINT_G (orig);
-	int b = GO_COLOR_UINT_B (orig);
-	int a = GO_COLOR_UINT_A (orig);
-	int maxC = b, minC = b, delta, sum, h = 0, l, s, m1, m2;
-
-	if (fabs (tint) < .005)
-		return orig;
-
-	maxC = MAX (MAX (r,g),b);
-	minC = MIN (MIN (r,g),b);
-	l = (((maxC + minC)*HLSMAX) + RGBMAX)/(2*RGBMAX);
-
-	delta = maxC - minC;
-	sum   = maxC + minC;
-	if (delta != 0) {
-		if (l <= (HLSMAX/2))
-			s = ( (delta*HLSMAX) + (sum/2) ) / sum;
-		else
-			s = ( (delta*HLSMAX) + ((2*RGBMAX - sum)/2) ) / (2*RGBMAX - sum);
-
-		if (r == maxC)
-			h =                ((g - b) * HLSMAX) / (6 * delta);
-		else if (g == maxC)
-			h = (  HLSMAX/3) + ((b - r) * HLSMAX) / (6 * delta);
-		else if (b == maxC)
-			h = (2*HLSMAX/3) + ((r - g) * HLSMAX) / (6 * delta);
-
-		if (h < 0)
-			h += HLSMAX;
-		else if (h >= HLSMAX)
-			h -= HLSMAX;
-	} else {
-		h = 0;
-		s = 0;
-	}
-
-	if (tint < 0.)
-		l = l * (1. + tint);
-	else
-		l = l * (1. - tint) + (HLSMAX - HLSMAX * (1.0 - tint));
-
-	if (s == 0) {            /* achromatic case */
-		r = (l * RGBMAX) / HLSMAX;
-		return GO_COLOR_FROM_RGBA (r, r, r, a);
-	}
-
-	if (l <= (HLSMAX/2))
-		m2 = (l*(HLSMAX + s) + (HLSMAX/2))/HLSMAX;
-	else
-		m2 = l + s - ((l*s) + (HLSMAX/2))/HLSMAX;
-	m1 = 2*l - m2;
-
-	r = (hue_to_color (m1, m2, h + (HLSMAX/3))*RGBMAX + (HLSMAX/2)) / HLSMAX;
-	g = (hue_to_color (m1, m2, h             )*RGBMAX + (HLSMAX/2)) / HLSMAX;
-	b = (hue_to_color (m1, m2, h - (HLSMAX/3))*RGBMAX + (HLSMAX/2)) / HLSMAX;
-
-	return GO_COLOR_FROM_RGBA (r,g,b,a);
-}
 
 static GnmColor *
 elem_color (GsfXMLIn *xin, xmlChar const **attrs, gboolean allow_alpha)
@@ -1325,14 +1233,14 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs, gboolean allow_alpha)
 			has_color = TRUE;
 			c = themed_color (xin, indx);
 		} else if (attr_float (xin, attrs, "tint", &tint))
-			tint = CLAMP (tint, -1., 1.);
+			; /* Nothing */
 	}
 
 	if (!has_color)
 		return NULL;
-	c = apply_tint (c, tint);
+	c = gnm_go_color_apply_tint (c, tint);
 	if (!allow_alpha)
-		c |= 0xFF;
+		c = GO_COLOR_CHANGE_A (c, 0xFF);
 	return gnm_color_new_go (c);
 }
 
@@ -4874,25 +4782,38 @@ static void
 xlsx_theme_color_sys (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	GOColor c;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	GOColor c = GO_COLOR_BLACK;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_gocolor (xin, attrs, "lastClr", &c)) {
-			g_hash_table_replace (state->theme_colors_by_name,
-				g_strdup (((GsfXMLInNode *)xin->node_stack->data)->name),
-				GUINT_TO_POINTER (c));
 		}
+	}
+
+	state->color = c;
 }
 static void
 xlsx_theme_color_rgb (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	GOColor c;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	GOColor c = GO_COLOR_BLACK;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_gocolor (xin, attrs, "val", &c)) {
-			g_hash_table_replace (state->theme_colors_by_name,
-				g_strdup (((GsfXMLInNode *)xin->node_stack->data)->name),
-				GUINT_TO_POINTER (c));
 		}
+	}
+
+	state->color = c;
+}
+
+static void
+xlsx_theme_color_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	const char *name = ((GsfXMLInNode *)xin->node_stack->data)->name;
+
+	g_hash_table_replace (state->theme_colors_by_name,
+			      g_strdup (name),
+			      GUINT_TO_POINTER (state->color));
 }
 
 static GsfXMLInNode const xlsx_theme_dtd[] = {
@@ -4901,9 +4822,10 @@ GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FAL
   GSF_XML_IN_NODE (THEME, ELEMENTS, XL_NS_DRAW, "themeElements", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (ELEMENTS, COLOR_SCHEME, XL_NS_DRAW, "clrScheme", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (COLOR_SCHEME, dk1, XL_NS_DRAW, "dk1", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (dk1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, &xlsx_theme_color_sys, NULL),
-        GSF_XML_IN_NODE (dk1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_theme_color_rgb, NULL),
-          GSF_XML_IN_NODE (RGB_COLOR, COLOR_ALPHA, XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (dk1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, &xlsx_theme_color_sys, &xlsx_theme_color_end),
+          COLOR_MODIFIER_NODES(SYS_COLOR,TRUE),
+        GSF_XML_IN_NODE (dk1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_theme_color_rgb, &xlsx_theme_color_end),
+          COLOR_MODIFIER_NODES(RGB_COLOR,FALSE),
       GSF_XML_IN_NODE (COLOR_SCHEME, lt1, XL_NS_DRAW, "lt1", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (lt1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (lt1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_2ND, NULL, NULL),
@@ -4954,10 +4876,7 @@ GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FAL
       GSF_XML_IN_NODE (FORMAT_SCHEME, FILL_STYLE_LIST,	XL_NS_DRAW, "fillStyleLst", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (FILL_STYLE_LIST,  SOLID_FILL, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SOLID_FILL, SCHEME_COLOR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),
-           GSF_XML_IN_NODE (SCHEME_COLOR, COLOR_TINT, XL_NS_DRAW, "tint", GSF_XML_NO_CONTENT, NULL, NULL),
-           GSF_XML_IN_NODE (SCHEME_COLOR, COLOR_LUM, XL_NS_DRAW, "lumMod", GSF_XML_NO_CONTENT, NULL, NULL),
-           GSF_XML_IN_NODE (SCHEME_COLOR, COLOR_SAT, XL_NS_DRAW, "satMod", GSF_XML_NO_CONTENT, NULL, NULL),
-           GSF_XML_IN_NODE (SCHEME_COLOR, COLOR_SHADE, XL_NS_DRAW, "shade", GSF_XML_NO_CONTENT, NULL, NULL),
+           COLOR_MODIFIER_NODES(SCHEME_COLOR,FALSE),
         GSF_XML_IN_NODE (FILL_STYLE_LIST,  GRAD_FILL, XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (GRAD_FILL, GRAD_PATH, XL_NS_DRAW, "path", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (GRAD_PATH, GRAD_PATH_RECT, XL_NS_DRAW, "fillToRect", GSF_XML_NO_CONTENT, NULL, NULL),
