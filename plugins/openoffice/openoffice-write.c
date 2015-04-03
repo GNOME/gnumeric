@@ -2172,27 +2172,6 @@ odf_func_floor_ceiling_handler (GnmConventionsOut *out, GnmExprFunction const *f
 }
 
 static gboolean
-odf_func_sec_handler (GnmConventionsOut *out, GnmExprFunction const *func)
-{
-	GString *target = out->accum;
-	g_string_append (target, "(1/COS");
-	gnm_expr_list_as_string (func->argc, func->argv, out);
-	g_string_append_c (target, ')');
-	return TRUE;
-}
-
-static gboolean
-odf_func_sech_handler (GnmConventionsOut *out, GnmExprFunction const *func)
-{
-	GString *target = out->accum;
-	g_string_append (target, "(1/COSH");
-	gnm_expr_list_as_string (func->argc, func->argv, out);
-	g_string_append_c (target, ')');
-	return TRUE;
-}
-
-
-static gboolean
 odf_func_eastersunday_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
 	if (func->argc == 1) {
@@ -2219,8 +2198,6 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 			{"R.QCHISQ", odf_func_r_qchisq_handler},
 			{"R.DCHISQ", odf_func_r_dchisq_handler},
 			{"R.PCHISQ", odf_func_r_pchisq_handler},
-			{"SEC",      odf_func_sec_handler},
-			{"SECH",      odf_func_sech_handler},
 			{"EASTERSUNDAY", odf_func_eastersunday_handler},
 			{NULL, NULL}
 	};
