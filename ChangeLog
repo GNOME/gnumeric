@@ -1,3 +1,11 @@
+2015-04-04  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_objects): Save only relevant
+	parts of the cell bound.
+
+	* src/sheet-control-gui.c (scg_object_coords_to_anchor):
+	Initialize parts of cell_bound not used.
+
 2015-04-01  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-graph.c (gnm_sogg_prep_sax_parser): Use

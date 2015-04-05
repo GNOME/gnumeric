@@ -3002,11 +3002,13 @@ scg_object_coords_to_anchor (SheetControlGUI const *scg,
 			in_out->offset + 0);
 		in_out->cell_bound.start.row = calc_obj_place (pane, tmp[1], FALSE,
 			in_out->offset + 1);
+		in_out->cell_bound.end = in_out->cell_bound.start;
 		in_out->offset[2] = (tmp[2] - tmp[0]) / colrow_compute_pixel_scale (sheet, TRUE);
 		in_out->offset[3] = (tmp[3] - tmp[1]) / colrow_compute_pixel_scale (sheet, FALSE);
 		break;
 	case GNM_SO_ANCHOR_ABSOLUTE: {
 		double h, v;
+		range_init (&in_out->cell_bound, 0, 0, 0, 0);
 		h = colrow_compute_pixel_scale (sheet, TRUE);
 		v = colrow_compute_pixel_scale (sheet, FALSE);
 		in_out->offset[0] = tmp[0] / h;
