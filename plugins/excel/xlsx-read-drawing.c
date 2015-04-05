@@ -615,10 +615,28 @@ static void
 xlsx_chart_add_plot (GsfXMLIn *xin, char const *type)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL != (state->plot = (GogPlot*) gog_plot_new_by_name (type)))
+	if (NULL != (state->plot = (GogPlot*) gog_plot_new_by_name (type))) {
 		/* Add _before_ setting styles so theme does not override */
 		gog_object_add_by_name (GOG_OBJECT (state->chart),
 			"Plot", GOG_OBJECT (state->plot));
+
+		if (state->cur_obj == NULL) {
+			/* Add a backplane if compatible with plot.  */
+
+			const char *bp_name = "Backplane";
+			GogObjectRole const *role =
+				gog_object_find_role_by_name (GOG_OBJECT (state->chart),
+							      bp_name);
+			if (role->can_add (GOG_OBJECT (state->chart))) {
+				GogObject *bp = gog_object_add_by_name (GOG_OBJECT (state->chart),
+									bp_name,
+									NULL);
+				/* Replace dummy object.  */
+				xlsx_chart_pop_obj (state);
+				xlsx_chart_push_obj (state, bp);
+			}
+		}
+	}
 }
 
 /* shared with pie of pie, and bar of pie */
@@ -2086,33 +2104,15 @@ static void
 xlsx_plot_area (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GogObject *backplane = gog_object_add_by_name (
-		GOG_OBJECT (state->chart), "Backplane", NULL);
-	xlsx_chart_push_obj (state, backplane);
+	/* Push a NULL object for backplane.  */
+	xlsx_chart_push_obj (state, NULL);
 }
 
 static void
 xlsx_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GogObject *bp = g_object_ref (state->cur_obj);
-	gboolean remove_backplane;
-
 	xlsx_chart_pop_obj (state);
-
-	/*
-	 * We added a backplane.  For pie and ring charts we don't need it.
-	 * We might want to see if we can wait and only add it for plots
-	 * that need it.
-	 */
-	remove_backplane =
-		gog_chart_axis_set_is_valid (state->chart, GOG_AXIS_SET_NONE);
-	if (remove_backplane) {
-		gog_object_clear_parent (bp);
-		g_object_unref (bp);
-	}
-
-	g_object_unref (bp);
 }
 
 

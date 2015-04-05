@@ -1,3 +1,8 @@
+2015-04-05  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_chart_add_plot): Add backplane here.
+	(xlsx_plot_area): Not here, but push a dummy object.
+
 2015-04-04  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_plot_area_end): Get rid of the
