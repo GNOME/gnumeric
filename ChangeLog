@@ -1,5 +1,8 @@
 2015-04-04  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-read.c (xml_sax_read_obj): Fix reading anchor mode.
+	Fixes #747356.
+
 	* src/xml-sax-write.c (xml_write_objects): Save only relevant
 	parts of the cell bound.
 
