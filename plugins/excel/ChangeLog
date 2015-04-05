@@ -1,3 +1,8 @@
+2015-04-04  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_plot_area_end): Get rid of the
+	Backplane we tentatively added.
+
 2015-03-31  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-color.c: New file extracted from xlsx-read-drawing.c

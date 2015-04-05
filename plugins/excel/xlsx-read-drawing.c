@@ -2092,6 +2092,31 @@ xlsx_plot_area (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 }
 
 static void
+xlsx_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GogObject *bp = g_object_ref (state->cur_obj);
+	gboolean remove_backplane;
+
+	xlsx_chart_pop_obj (state);
+
+	/*
+	 * We added a backplane.  For pie and ring charts we don't need it.
+	 * We might want to see if we can wait and only add it for plots
+	 * that need it.
+	 */
+	remove_backplane =
+		gog_chart_axis_set_is_valid (state->chart, GOG_AXIS_SET_NONE);
+	if (remove_backplane) {
+		gog_object_clear_parent (bp);
+		g_object_unref (bp);
+	}
+
+	g_object_unref (bp);
+}
+
+
+static void
 xlsx_chart_pop (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	xlsx_chart_pop_obj ((XLSXReadState *)xin->user_state);
@@ -2324,7 +2349,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 
   GSF_XML_IN_NODE (CHART_SPACE, CHART, XL_NS_CHART, "chart", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CHART, SHOW_DBLS_OVER_MAX, XL_NS_CHART, "showDLblsOverMax", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (CHART, PLOTAREA, XL_NS_CHART, "plotArea", GSF_XML_NO_CONTENT, &xlsx_plot_area, &xlsx_chart_pop),
+    GSF_XML_IN_NODE (CHART, PLOTAREA, XL_NS_CHART, "plotArea", GSF_XML_NO_CONTENT, &xlsx_plot_area, &xlsx_plot_area_end),
       GSF_XML_IN_NODE (PLOTAREA, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_2ND, NULL, NULL),
       GSF_XML_IN_NODE_FULL (PLOTAREA, CAT_AXIS, XL_NS_CHART, "catAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			    &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_CAT),
