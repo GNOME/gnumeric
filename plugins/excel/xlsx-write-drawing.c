@@ -178,6 +178,7 @@ xlsx_write_rpr (GsfXMLOut *xml, GOStyle *style)
 typedef struct {
 	gboolean def_has_markers;
 	gboolean def_has_lines;
+	gboolean inhibit_marker;
 	const char *spPr_ns;
 	gboolean must_fill_line;
 	gboolean must_fill_fill;
@@ -196,6 +197,7 @@ xlsx_style_context_init (XLSXStyleContext *sctx, XLSXWriteState *state)
 {
 	sctx->def_has_markers = FALSE;
 	sctx->def_has_lines = TRUE;
+	sctx->inhibit_marker = FALSE;
 	sctx->spPr_ns = "c";
 	sctx->must_fill_line = FALSE;
 	sctx->must_fill_fill = FALSE;
@@ -609,7 +611,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 		gsf_xml_out_end_element (xml);  /* "c:txPr" */
 	}
 
-	xlsx_write_go_style_marker (xml, style, sctx);
+	if (!sctx->inhibit_marker)
+		xlsx_write_go_style_marker (xml, style, sctx);
 }
 
 static void
@@ -997,6 +1000,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 			sctx.def_has_markers = TRUE;
 			style = go_styled_object_get_style (GO_STYLED_OBJECT (pt));
 			xlsx_write_go_style_marker (xml, style, &sctx);
+			sctx.inhibit_marker = TRUE;
+			xlsx_write_go_style_full (xml, style, &sctx);
 
 			gsf_xml_out_end_element (xml); /* </c:dPt> */
 		}
