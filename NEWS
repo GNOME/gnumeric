@@ -15,6 +15,7 @@ Morten:
 	* xlsx export of multiple plots in chart.
 	* Fix xlsx import of multiple axes.
 	* Fix xlsx title export problem.
+	* Fix xlsx export problem with series' style.
 	* Improve test suite.
 	* Actually implement DECIMAL.
 	* Fix BETA problem with special case.

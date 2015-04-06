@@ -1,3 +1,8 @@
+2015-04-06  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_one_plot): Always write series'
+	style.
+
 2015-04-05  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_add_plot): Add backplane here.

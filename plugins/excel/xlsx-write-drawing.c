@@ -960,6 +960,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 		GogSeries *ser = series->data;
 		GSList *l, *children;
 		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (ser));
+		XLSXStyleContext sctx;
 		int count = (*ser_count)++;
 
 		gsf_xml_out_start_element (xml, "c:ser");
@@ -967,14 +968,12 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 		xlsx_write_chart_int (xml, "c:idx", count);
 		xlsx_write_chart_int (xml, "c:order", count);
 		xlsx_write_series_dim (state, xml, ser, "c:tx", GOG_MS_DIM_LABELS);
-		if (!vary_by_element) {
-			/* FIXME: we might loose some style elements */
-			XLSXStyleContext sctx;
-			xlsx_style_context_init (&sctx, state);
-			sctx.def_has_markers = has_markers;
-			sctx.def_has_lines = has_lines;
-			xlsx_write_go_style_full (xml, style, &sctx);
-		}
+
+		xlsx_style_context_init (&sctx, state);
+		sctx.def_has_markers = has_markers;
+		sctx.def_has_lines = has_lines;
+		xlsx_write_go_style_full (xml, style, &sctx);
+
 		if (set_invert)
 			xlsx_write_chart_uint (xml, "c:invertIfNegative", 0);
 		if (explosion > 0.)
@@ -1594,7 +1593,7 @@ xlsx_preprocess_radio (XLSXWriteState *state, GSList *objects)
 			GnmValue const *v = sheet_widget_radio_button_get_value (so);
 			if (!v || !VALUE_IS_FLOAT (v) || value_get_as_float (v) != i) {
 				char *etxt = gnm_expr_top_as_string (hkey, &pp0, state->sheet->convs);
-				g_printerr ("One or more radio buttons linked to %s has non-sequential values, first one %s\n",
+				g_printerr ("One or more radio buttons linked to %s has non-sequential values, first one [%s]\n",
 					    etxt, value_peek_string (v));
 				g_free (etxt);
 				break;
