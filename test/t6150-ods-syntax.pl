@@ -7,12 +7,25 @@ use GnumericTest;
 
 &message ("Check that the ods exporter produces valid files.");
 
-my $format = "Gnumeric_OpenCalc:openoffice";
-my $schema = "$topsrc/test/ods-schema/OpenDocument-v1.2-os-schema.rng";
-&GnumericTest::report_skip ("Cannot find schema") unless -r $schema;
-
 my $xmllint = &GnumericTest::find_program ("xmllint");
 my $unzip = &GnumericTest::find_program ("unzip");
+
+my $format = "Gnumeric_OpenCalc:openoffice";
+my $schema = "$topsrc/test/ods-schema/OpenDocument-v1.2-os-schema.rng";
+if (!-r $schema) {
+    &message ("Cannot find schema");
+    $schema = undef;
+}
+my $manifest_schema = "$topsrc/test/ods-schema/OpenDocument-v1.2-os-manifest-schema.rng";
+if (!-r $manifest_schema) {
+    &message ("Cannot find manifest schema");
+    $manifest_schema = undef;
+}
+
+my $checker = "$xmllint --noout" . ($schema ? " --relaxng $schema" : "");
+my $manifest_checker = "$xmllint --noout" . ($manifest_schema ? " --relaxng $manifest_schema" : "");
+my %checkers = ( 0 => $checker,
+		 1 => $manifest_checker);
 
 my @sources =
     ("$samples/excel/address.xls",
@@ -108,13 +121,15 @@ foreach my $src (@sources) {
 	$members{$member} = 1;
     }
 
-    my @check_members = ('content.xml', 'styles.xml');
+    my @check_members = (['content.xml',0], ['styles.xml',0],['META-INF/manifest.xml',1]);
     foreach my $member (sort keys %members) {
-	push @check_members, $member if $member =~ m{^Graph\d+/content.xml$};
+	push @check_members, [$member,0] if $member =~ m{^Graph\d+/content.xml$};
     }
 
-    for my $member (@check_members) {
-	my $cmd = "$unzip -p $tmp $member | $xmllint --noout --relaxng $schema -";
+    for (@check_members) {
+	my ($member,$typ) = @$_;
+	my $this_checker = $checkers{$typ};
+	my $cmd = "$unzip -p $tmp $member | $this_checker --noout -";
 	print STDERR "# $cmd\n" if $GnumericTest::verbose;
 	my $out = `$cmd 2>&1`;
 	if ($out !~ /^- validates$/) {
