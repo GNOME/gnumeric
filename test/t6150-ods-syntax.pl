@@ -121,7 +121,11 @@ foreach my $src (@sources) {
 	$members{$member} = 1;
     }
 
-    my @check_members = (['content.xml',0], ['styles.xml',0],['META-INF/manifest.xml',1]);
+    my @check_members = (['content.xml',0],
+			 ['styles.xml',0],
+			 ['META-INF/manifest.xml',1],
+			 ['settings.xml',0],
+			 ['meta.xml',0]);
     foreach my $member (sort keys %members) {
 	push @check_members, [$member,0] if $member =~ m{^Graph\d+/content.xml$};
     }
