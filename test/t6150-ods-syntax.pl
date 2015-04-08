@@ -11,10 +11,17 @@ my $xmllint = &GnumericTest::find_program ("xmllint");
 my $unzip = &GnumericTest::find_program ("unzip");
 
 my $format = "Gnumeric_OpenCalc:openoffice";
+my $format_ext = "Gnumeric_OpenCalc:odf";
+
 my $schema = "$topsrc/test/ods-schema/OpenDocument-v1.2-os-schema.rng";
 if (!-r $schema) {
-    &message ("Cannot find schema");
+    &message ("Cannot find strict conformance schema");
     $schema = undef;
+}
+my $schema_ext = "$topsrc/test/ods-schema/OpenDocument-v1.2-os-ext-schema.rng";
+if (!-r $schema_ext) {
+    &message ("Cannot find extended conformance schema");
+    $schema_ext = undef;
 }
 my $manifest_schema = "$topsrc/test/ods-schema/OpenDocument-v1.2-os-manifest-schema.rng";
 if (!-r $manifest_schema) {
@@ -23,9 +30,11 @@ if (!-r $manifest_schema) {
 }
 
 my $checker = "$xmllint --noout" . ($schema ? " --relaxng $schema" : "");
+my $checker_ext = "$xmllint --noout" . ($schema_ext ? " --relaxng $schema_ext" : "");
 my $manifest_checker = "$xmllint --noout" . ($manifest_schema ? " --relaxng $manifest_schema" : "");
 my %checkers = ( 0 => $checker,
-		 1 => $manifest_checker);
+		 1 => $checker_ext,
+		 2 => $manifest_checker);
 
 my @sources =
     ("$samples/excel/address.xls",
@@ -91,61 +100,63 @@ my $nbad = 0;
 
 foreach my $src (@sources) {
     if (!-r $src) {
-	$nskipped++;
+	$nskipped += 2;
 	next;
     }
 
-    print STDERR "Checking $src\n";
+    for (my $ext = 0; $ext <= 1; $ext++) {
+	print STDERR "Checking $src (", ($ext ? "extended" : "strict"),  " conformance)\n";
 
-    my $tmp = $src;
-    $tmp =~ s|^.*/||;
-    $tmp =~ s|\..*|.ods|;
-    &GnumericTest::junkfile ($tmp);
-    my $cmd = "$ssconvert -T $format $src $tmp";
-    print STDERR "# $cmd\n" if $GnumericTest::verbose;
-    system ($cmd);
-    if (!-r $tmp) {
-	print STDERR "ssconvert failed to produce $tmp\n";
-	die "Fail\n";
-    }
-
-    my %members;
-    foreach (`$unzip -v $tmp`) {
-	next unless /^----/ ... /^----/;
-	next unless m{^\s*\d.*\s(\S+)$};
-	my $member = $1;
-	if (exists $members{$member}) {
-	    print STDERR "Duplicate member $member\n";
+	my $tmp = $src;
+	$tmp =~ s|^.*/||;
+	$tmp =~ s|\..*|.ods|;
+	&GnumericTest::junkfile ($tmp);
+	my $cmd = "$ssconvert -T " . ($ext ? $format_ext : $format) . " $src $tmp";
+	print STDERR "# $cmd\n" if $GnumericTest::verbose;
+	system ($cmd);
+	if (!-r $tmp) {
+	    print STDERR "ssconvert failed to produce $tmp\n";
 	    die "Fail\n";
 	}
-	$members{$member} = 1;
-    }
 
-    my @check_members = (['content.xml',0],
-			 ['styles.xml',0],
-			 ['META-INF/manifest.xml',1],
-			 ['settings.xml',0],
-			 ['meta.xml',0]);
-    foreach my $member (sort keys %members) {
-	push @check_members, [$member,0] if $member =~ m{^Graph\d+/content.xml$};
-    }
-
-    for (@check_members) {
-	my ($member,$typ) = @$_;
-	my $this_checker = $checkers{$typ};
-	my $cmd = "$unzip -p $tmp $member | $this_checker --noout -";
-	print STDERR "# $cmd\n" if $GnumericTest::verbose;
-	my $out = `$cmd 2>&1`;
-	if ($out !~ /^- validates$/) {
-	    print STDERR "While checking $member from $tmp:\n";
-	    &GnumericTest::dump_indented ($out);
-	    $nbad++;
-	} else {
-	    $ngood++;
+	my %members;
+	foreach (`$unzip -v $tmp`) {
+	    next unless /^----/ ... /^----/;
+	    next unless m{^\s*\d.*\s(\S+)$};
+	    my $member = $1;
+	    if (exists $members{$member}) {
+		print STDERR "Duplicate member $member\n";
+		die "Fail\n";
+	    }
+	    $members{$member} = 1;
 	}
-    }
 
-    &GnumericTest::removejunk ($tmp);
+	my @check_members = (['content.xml',$ext],
+			     ['styles.xml',$ext],
+			     ['META-INF/manifest.xml',2],
+			     ['settings.xml',$ext],
+			     ['meta.xml',$ext]);
+	foreach my $member (sort keys %members) {
+	    push @check_members, [$member,$ext] if $member =~ m{^Graph\d+/content.xml$};
+	}
+
+	for (@check_members) {
+	    my ($member,$typ) = @$_;
+	    my $this_checker = $checkers{$typ};
+	    my $cmd = "$unzip -p $tmp $member | $this_checker --noout -";
+	    print STDERR "# $cmd\n" if $GnumericTest::verbose;
+	    my $out = `$cmd 2>&1`;
+	    if ($out !~ /^- validates$/) {
+		print STDERR "While checking $member from $tmp:\n";
+		&GnumericTest::dump_indented ($out);
+		$nbad++;
+	    } else {
+		$ngood++;
+	    }
+	}
+
+	&GnumericTest::removejunk ($tmp);
+    }
 }
 
 &GnumericTest::report_skip ("No source files present") if $nbad + $ngood == 0;
