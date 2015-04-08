@@ -25,21 +25,22 @@ if (($ARGV[0] || '-') eq 'download') {
 
 my $suggest_download = 0;
 if (!-r $schema) {
-    &message ("Cannot find strict conformance schema");
+    print STDERR "Cannot find strict conformance schema\n";
     $schema = undef;
     $suggest_download = 1;
 }
 if (!-r $schema_ext) {
-    &message ("Cannot find extended conformance schema");
+    print STDERR "Cannot find extended conformance schema\n";
     $schema_ext = undef;
+    # This is not a schema supplies by oasis
 }
 if (!-r $schema_manifest) {
-    &message ("Cannot find manifest schema");
+    print STDERR "Cannot find manifest schema\n";
     $schema_manifest = undef;
     $suggest_download = 1;
 }
 
-&message ("Suggest rerunning with argument \"download\" to obtain schemas")
+print STDERR "NOTE: Suggest rerunning with argument \"download\" to obtain missing schemas\n"
     if $suggest_download;
 
 my $checker = "$xmllint --noout" . ($schema ? " --relaxng $schema" : "");
@@ -193,41 +194,48 @@ sub download {
     }
 
     my $curl = &GnumericTest::find_program ("curl");
+    my $sha1sum = &GnumericTest::find_program ("sha1sum");
 
     foreach ([scalar &File::Basename::fileparse ($schema),
 	      "adc746cbb415ac3a17199442a15b38a5858fc7ef"],
 	     [scalar &File::Basename::fileparse ($schema_manifest),
 	      "661ab5bc695f9a8266e89cdf2747d8d76eacfedf"],
 	) {
-	my ($b,$sha1sum) = @$_;
+	my ($b,$sum) = @$_;
 
 	my $fn = "$schemadir/$b";
-	if (-r $fn) {
-	    print STDERR "We already have $b\n";
-	    next;
-	}
-
-	print STDERR "Downloading $b...\n";
 	my $tmpfn = "$fn.tmp";
-	unlink $tmpfn;
 
-	my $cmd = "$curl -s -S -o $tmpfn $src/$b";
-	print STDERR "# $cmd\n";
-	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /' ");
-	&GnumericTest::system_failure ($curl, $code) if $code;
-
-	my $out = `sha1sum $tmpfn 2>&1`;
-	die "$0: Unexpected output from sha1sum\n" unless ($out =~ /^([a-f0-9]{40})\b/);
-	my $act = $1;
-	if ($act ne $sha1sum) {
+	my $had_it = (-r $fn);
+	if ($had_it) {
+	    print STDERR "We already have $b\n";
+	} else {
+	    print STDERR "Downloading $b...\n";
 	    unlink $tmpfn;
-	    print STDERR "$0: Download failure.\n";
-	    print STDERR "$0: Expected checksum $sha1sum, got $act.\n";
-	    exit 1;
+
+	    my $cmd = "$curl -s -S -o $tmpfn $src/$b";
+	    print STDERR "# $cmd\n";
+	    my $code = system ("$cmd 2>&1 | sed -e 's/^/| /' ");
+	    &GnumericTest::system_failure ($curl, $code) if $code;
 	}
 
-	rename ($tmpfn, $fn) or
-	    die "$0: Cannot rename temporary file into place: $!\n";
-	print STDERR "Got it.\n";
+	my $cmd = &GnumericTest::quotearg ($sha1sum, ($had_it ? $fn : $tmpfn));
+	my $out = `$cmd 2>&1`;
+	die "$0: Unexpected output from $sha1sum\n" unless ($out =~ /^([a-f0-9]{40})\b/i);
+	my $act = lc ($1);
+	if ($act eq $sum) {
+	    if (!$had_it) {
+		rename ($tmpfn, $fn) or
+		    die "$0: Cannot rename temporary file into place: $!\n";
+		print STDERR "Download ok.\n";
+	    }
+	} else {
+	    print STDERR "NOTE: Expected checksum $sum, got $act.\n";
+	    if (!$had_it) {
+		unlink $tmpfn;
+		print STDERR "ERROR: Download failure.\n";
+		exit 1;
+	    }
+	}
     }
 }
