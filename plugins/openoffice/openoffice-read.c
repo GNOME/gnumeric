@@ -4225,6 +4225,8 @@ oo_cell_content_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
        OOParseState *state = (OOParseState *)xin->user_state;
 
+       odf_push_text_p (state, TRUE);
+
        if (state->text_p_for_cell.content_is_simple) {
 		int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
 		int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
@@ -4247,7 +4249,6 @@ oo_cell_content_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 		}
        }
 
-       odf_push_text_p (state, TRUE);
 }
 
 
