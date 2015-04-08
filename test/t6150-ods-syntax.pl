@@ -189,7 +189,7 @@ sub download {
     my $src = "http://docs.oasis-open.org/office/v1.2/os";
 
     if (!-d $schemadir) {
-	mkdir (0777, $schemadir) or
+	mkdir $schemadir or
 	    die "$0: Cannot create directory $schemadir\n";
     }
 
