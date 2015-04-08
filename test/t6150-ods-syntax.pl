@@ -13,25 +13,38 @@ my $unzip = &GnumericTest::find_program ("unzip");
 my $format = "Gnumeric_OpenCalc:openoffice";
 my $format_ext = "Gnumeric_OpenCalc:odf";
 
-my $schema = "$topsrc/test/ods-schema/OpenDocument-v1.2-os-schema.rng";
+my $schemadir = "$topsrc/test/ods-schema";
+my $schema = "$schemadir/OpenDocument-v1.2-os-schema.rng";
+my $schema_ext = "$schemadir/OpenDocument-v1.2-os-ext-schema.rng";
+my $schema_manifest = "$schemadir/OpenDocument-v1.2-os-manifest-schema.rng";
+
+if (($ARGV[0] || '-') eq 'download') {
+    &download ();
+    exit 0;
+}
+
+my $suggest_download = 0;
 if (!-r $schema) {
     &message ("Cannot find strict conformance schema");
     $schema = undef;
+    $suggest_download = 1;
 }
-my $schema_ext = "$topsrc/test/ods-schema/OpenDocument-v1.2-os-ext-schema.rng";
 if (!-r $schema_ext) {
     &message ("Cannot find extended conformance schema");
     $schema_ext = undef;
 }
-my $manifest_schema = "$topsrc/test/ods-schema/OpenDocument-v1.2-os-manifest-schema.rng";
-if (!-r $manifest_schema) {
+if (!-r $schema_manifest) {
     &message ("Cannot find manifest schema");
-    $manifest_schema = undef;
+    $schema_manifest = undef;
+    $suggest_download = 1;
 }
+
+&message ("Suggest rerunning with argument \"download\" to obtain schemas")
+    if $suggest_download;
 
 my $checker = "$xmllint --noout" . ($schema ? " --relaxng $schema" : "");
 my $checker_ext = "$xmllint --noout" . ($schema_ext ? " --relaxng $schema_ext" : "");
-my $manifest_checker = "$xmllint --noout" . ($manifest_schema ? " --relaxng $manifest_schema" : "");
+my $manifest_checker = "$xmllint --noout" . ($schema_manifest ? " --relaxng $schema_manifest" : "");
 my %checkers = ( 0 => $checker,
 		 1 => $checker_ext,
 		 2 => $manifest_checker);
@@ -169,4 +182,52 @@ if ($nbad > 0) {
     die "Fail\n";
 } else {
     print STDERR "Pass\n";
+}
+
+sub download {
+    my $src = "http://docs.oasis-open.org/office/v1.2/os";
+
+    if (!-d $schemadir) {
+	mkdir (0777, $schemadir) or
+	    die "$0: Cannot create directory $schemadir\n";
+    }
+
+    my $curl = &GnumericTest::find_program ("curl");
+
+    foreach ([scalar &File::Basename::fileparse ($schema),
+	      "adc746cbb415ac3a17199442a15b38a5858fc7ef"],
+	     [scalar &File::Basename::fileparse ($schema_manifest),
+	      "661ab5bc695f9a8266e89cdf2747d8d76eacfedf"],
+	) {
+	my ($b,$sha1sum) = @$_;
+
+	my $fn = "$schemadir/$b";
+	if (-r $fn) {
+	    print STDERR "We already have $b\n";
+	    next;
+	}
+
+	print STDERR "Downloading $b...\n";
+	my $tmpfn = "$fn.tmp";
+	unlink $tmpfn;
+
+	my $cmd = "$curl -s -S -o $tmpfn $src/$b";
+	print STDERR "# $cmd\n";
+	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /' ");
+	&GnumericTest::system_failure ($curl, $code) if $code;
+
+	my $out = `sha1sum $tmpfn 2>&1`;
+	die "$0: Unexpected output from sha1sum\n" unless ($out =~ /^([a-f0-9]{40})\b/);
+	my $act = $1;
+	if ($act ne $sha1sum) {
+	    unlink $tmpfn;
+	    print STDERR "$0: Download failure.\n";
+	    print STDERR "$0: Expected checksum $sha1sum, got $act.\n";
+	    exit 1;
+	}
+
+	rename ($tmpfn, $fn) or
+	    die "$0: Cannot rename temporary file into place: $!\n";
+	print STDERR "Got it.\n";
+    }
 }
