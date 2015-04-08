@@ -4061,12 +4061,14 @@ odf_write_sheet_control_checkbox (GnmOOExport *state, SheetObject *so)
 {
 	GnmExprTop const *texpr = sheet_widget_checkbox_get_link (so);
 	char *label = NULL;
+	gboolean active = NULL;
 
-	g_object_get (G_OBJECT (so), "text", &label, NULL);
+	g_object_get (G_OBJECT (so), "text", &label, "active", &active, NULL);
 
 	odf_sheet_control_start_element (state, so, FORM "checkbox");
 
 	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
+	gsf_xml_out_add_cstr (state->xml, FORM "current-state", active ? "checked" : "unchecked");
 
 	odf_write_sheet_control_linked_cell (state, texpr);
 

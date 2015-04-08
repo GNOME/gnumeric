@@ -194,6 +194,7 @@ typedef struct {
 	int page_step;
 	char *value;
 	char *value_type;
+	char *current_state;
 	char *linked_cell;
 	char *label;
 	char *implementation;
@@ -3061,6 +3062,9 @@ odf_complete_control_setup (OOParseState *state, object_offset_t const *ob_off)
 	if (oc == NULL)
 		return;
 
+	if (oc->t == sheet_widget_checkbox_get_type () && oc->current_state != NULL)
+		g_object_set (G_OBJECT (so), "active", 
+			      strcmp (oc->current_state, "checked") == 0, NULL);
 	if (oc->linked_cell) {
 		GnmParsePos pp;
 		GnmRangeRef ref;
@@ -9969,6 +9973,7 @@ oo_control_free (OOControl *ctrl)
 	g_free (ctrl->value);
 	g_free (ctrl->value_type);
 	g_free (ctrl->label);
+	g_free (ctrl->current_state);
 	g_free (ctrl->linked_cell);
 	g_free (ctrl->implementation);
 	g_free (ctrl->source_cell_range);
@@ -10739,6 +10744,10 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 					     OO_GNUM_NS_EXT, "linked-cell")) {
 			g_free (oc->linked_cell);
 			oc->linked_cell =  g_strdup (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_FORM, "current-state")) {
+			g_free (oc->current_state);
+			oc->current_state =  g_strdup (CXML2C (attrs[1]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_NS_FORM, "label")) {
 			g_free (oc->label);

@@ -1,3 +1,12 @@
+2015-04-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_complete_control_setup): setup value for
+	checkboxes
+	(oo_control_free): free current_state
+	(odf_form_control): read form:current-state
+	* openoffice-write.c (odf_write_sheet_control_checkbox): write
+	form:current-state
+
 2015-04-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_draw_frame_start): ensure that the base address
