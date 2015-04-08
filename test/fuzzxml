@@ -41,6 +41,7 @@ my $remove_attr_prob = 0.1 * $base_prob;
 my $change_int_prob = $base_prob;
 my $copy_attr_value_prob = $base_prob;
 my $permute_attrs_prob = $base_prob;
+my $permute_tags_prob = 5 * $base_prob;
 
 my %attr_range;
 
@@ -79,6 +80,15 @@ foreach my $key (sort keys %attr_range) {
 
 sub fuzz_tags {
     my ($pl) = @_;
+
+    if (@$pl > 2 && &doit ($permute_tags_prob)) {
+	my @p = &random_permutation (@$pl / 2);
+	my @l2 = ();
+	foreach my $i (@p) {
+	    push @l2, $pl->[$i * 2], $pl->[$i * 2 + 1];
+	}
+	@$pl = @l2;
+    }
 
     for (my $i = 0; $i + 1 < @$pl; $i += 2) {
 	my $tag = $pl->[$i];
