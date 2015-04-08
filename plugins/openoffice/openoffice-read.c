@@ -7954,6 +7954,9 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmExprTop const *texpr = NULL;
 	int z = -1;
 	GnmSOAnchorMode mode;
+	int last_row = gnm_sheet_get_last_row (state->pos.sheet);
+	int last_col = gnm_sheet_get_last_col (state->pos.sheet);
+	
 
 	height = width = x = y = 0.;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
@@ -8017,6 +8020,13 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 				       (height > 0) ? height : go_nan,
 				       (width > 0) ? width : go_nan);
 
+	if (cell_base.start.col > last_col || cell_base.start.row > last_row) {
+		oo_warning (xin, _("Moving sheet object from column %i and row %i"),
+			    cell_base.start.col, cell_base.start.row);
+		cell_base.start.col = cell_base.start.row = 0;
+		range_ensure_sanity (&cell_base, state->pos.sheet);
+	}
+	
 	sheet_object_anchor_init (&state->chart.anchor, &cell_base, frame_offset,
 				  GOD_ANCHOR_DIR_DOWN_RIGHT, mode);
 	state->chart.so = NULL;
