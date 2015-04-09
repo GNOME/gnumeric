@@ -152,6 +152,6 @@ import-db:
 	for t in $(srcdir)/t5[0-9][0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
 
 
-EXTRA_DIST = GnumericTest.pm $(SUPPS) normalize-gnumeric $(TESTS)
+EXTRA_DIST = GnumericTest.pm $(SUPPS) normalize-gnumeric ods-ext-schema.patch $(TESTS)
 .PHONY: import-db $(TESTS)
 .NOTPARALLEL:

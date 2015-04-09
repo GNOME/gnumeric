@@ -17,11 +17,19 @@ my $schemadir = "$topsrc/test/ods-schema";
 my $schema = "$schemadir/OpenDocument-v1.2-os-schema.rng";
 my $schema_ext = "$schemadir/OpenDocument-v1.2-os-ext-schema.rng";
 my $schema_manifest = "$schemadir/OpenDocument-v1.2-os-manifest-schema.rng";
+my $schema_ext_patch = "$topsrc/test/ods-ext-schema.patch";
 
-if (($ARGV[0] || '-') eq 'download') {
+my $cmd = ($ARGV[0] || '-');
+if ($cmd eq 'download') {
     &download ();
     exit 0;
-}
+} elsif ($cmd eq 'make-schema-patch') {
+    &make_schema_patch ();
+    exit 0;
+} elsif ($cmd eq 'make-schema-ext') {
+    &make_schema_ext ();
+    exit 0;
+} 
 
 my $suggest_download = 0;
 if (!-r $schema) {
@@ -185,6 +193,8 @@ if ($nbad > 0) {
     print STDERR "Pass\n";
 }
 
+# -----------------------------------------------------------------------------
+
 sub download {
     my $src = "http://docs.oasis-open.org/office/v1.2/os";
 
@@ -238,4 +248,59 @@ sub download {
 	    }
 	}
     }
+
+    &make_schema_ext () unless -e $schema_ext;
 }
+
+# -----------------------------------------------------------------------------
+
+sub make_schema_ext {
+    my $dir = "$topsrc/test";
+    my $o = length ($dir) + 1;
+
+    if (-e $schema_ext) {
+	print STDERR "ERROR: Extended schema already exists.\n";
+	print STDERR "If you really want to update it, remove it first.\n";
+	exit 1;
+    }
+
+    if (!-r $schema || !-r $schema_ext_patch) {
+	print STDERR "ERROR: Making extended schema requires both $schema and $schema_ext_patch\n";
+	exit 1;
+    }
+
+    my $cmd = &GnumericTest::quotearg ("cp", $schema, $schema_ext);
+    print STDERR "# $cmd\n";
+    system ($cmd);
+
+    $cmd =
+	"(cd " . &GnumericTest::quotearg ($dir) .
+	" && " .
+	&GnumericTest::quotearg ("patch", "-i", substr($schema_ext_patch,$o), substr($schema_ext,$o)) .
+	")";
+    print STDERR "# $cmd\n";
+    system ($cmd);
+}
+
+# -----------------------------------------------------------------------------
+
+sub make_schema_patch {
+    my $dir = "$topsrc/test";
+    my $o = length ($dir) + 1;
+
+    if (!-r $schema || !-r $schema_ext) {
+	print STDERR "ERROR: Making patch requires both $schema and $schema_ext\n";
+	exit 1;
+    }
+
+    my $cmd =
+	"(cd " . &GnumericTest::quotearg ($dir) .
+	" && " .
+	&GnumericTest::quotearg ("diff", "-u", substr($schema,$o), substr($schema_ext,$o)) .
+	" >" . &GnumericTest::quotearg (substr($schema_ext_patch,$o)) .
+	")";
+    print STDERR "# $cmd\n";
+    system ($cmd);
+}
+
+# -----------------------------------------------------------------------------
