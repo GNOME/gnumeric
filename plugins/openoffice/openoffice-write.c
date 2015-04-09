@@ -4061,7 +4061,7 @@ odf_write_sheet_control_checkbox (GnmOOExport *state, SheetObject *so)
 {
 	GnmExprTop const *texpr = sheet_widget_checkbox_get_link (so);
 	char *label = NULL;
-	gboolean active = NULL;
+	gboolean active = FALSE;
 
 	g_object_get (G_OBJECT (so), "text", &label, "active", &active, NULL);
 
@@ -4136,12 +4136,14 @@ odf_write_sheet_control_radio_button (GnmOOExport *state, SheetObject *so)
 	GnmExprTop const *texpr = sheet_widget_radio_button_get_link (so);
 	GnmValue const *val = sheet_widget_radio_button_get_value (so);
 	char *label = NULL;
+	gboolean active = FALSE;
 
-	g_object_get (G_OBJECT (so), "text", &label, NULL);
+	g_object_get (G_OBJECT (so), "text", &label, "active", &active, NULL);
 
 	odf_sheet_control_start_element (state, so, FORM "radio");
 
 	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
+	odf_add_bool (state->xml, FORM "current-selected", active);
 
 	if (val != NULL) {
 		switch (val->v_any.type) {

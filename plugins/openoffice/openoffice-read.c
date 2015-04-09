@@ -3062,9 +3062,11 @@ odf_complete_control_setup (OOParseState *state, object_offset_t const *ob_off)
 	if (oc == NULL)
 		return;
 
-	if (oc->t == sheet_widget_checkbox_get_type () && oc->current_state != NULL)
+	if ((oc->t == sheet_widget_checkbox_get_type () ||
+	     oc->t == sheet_widget_radio_button_get_type ()) && oc->current_state != NULL)
 		g_object_set (G_OBJECT (so), "active", 
-			      strcmp (oc->current_state, "checked") == 0, NULL);
+			      strcmp (oc->current_state, "checked") == 0 || 
+			      strcmp (oc->current_state, "true") == 0, NULL);
 	if (oc->linked_cell) {
 		GnmParsePos pp;
 		GnmRangeRef ref;
@@ -10746,6 +10748,10 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 			oc->linked_cell =  g_strdup (CXML2C (attrs[1]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_NS_FORM, "current-state")) {
+			g_free (oc->current_state);
+			oc->current_state =  g_strdup (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_FORM, "current-selected")) {
 			g_free (oc->current_state);
 			oc->current_state =  g_strdup (CXML2C (attrs[1]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),

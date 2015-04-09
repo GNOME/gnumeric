@@ -5,7 +5,7 @@ Andreas:
 	* Fix ODF export of styles for additional axes. [#746621]
 	* Simplify export of SEC and SECH to ODF. [#747211]
 	* Harden ODF import against fuzzed files. [#747447][#747448]
-	* Fix ODF import/export of unlinked checkboxes.
+	* Fix ODF import/export of unlinked checkboxes and radio buttons.
 
 Jean:
 	* Fix signal handling while running Python. [#744638]
