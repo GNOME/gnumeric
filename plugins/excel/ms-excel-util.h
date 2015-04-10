@@ -123,4 +123,8 @@ void xls_arrow_from_xl (GOArrow *arrow, double width,
 
 /*****************************************************************************/
 
+GHashTable *xls_collect_hlinks (GnmStyleList *sl, int max_col, int max_row);
+
+/*****************************************************************************/
+
 #endif /* GNM_MS_EXCEL_UTIL_H */

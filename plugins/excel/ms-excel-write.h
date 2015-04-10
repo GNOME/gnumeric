@@ -166,8 +166,6 @@ typedef struct {
 } XLValInputPair;
 GHashTable *excel_collect_validations  (GnmStyleList *ptr,
 					int max_col, int max_row);
-GHashTable *excel_collect_hlinks       (GnmStyleList *ptr,
-					int max_col, int max_row);
 GHashTable *excel_collect_pivot_caches (Workbook const *wb);
 
 void excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,

@@ -1,3 +1,10 @@
+2015-04-10  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-util.c (xls_collect_hlinks): Rename from
+	excel_collect_hlinks.  Move from-ms-excel-write.c.  Plug leak.
+
+	* xlsx-write-docprops.c (xlsx_map_to_date_core): Plug leaks.
+
 2015-04-06  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_one_plot): Always write series'

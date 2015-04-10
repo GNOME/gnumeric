@@ -99,6 +99,7 @@ xlsx_map_to_date_core (GsfXMLOut *output, GValue const *val)
 		str = gsf_timestamp_as_string (ts);
 		gsf_xml_out_add_cstr (output, NULL, str);
 		g_free (str);
+		gsf_timestamp_free (ts);
 	} else {
 		GsfTimestamp * ts = gsf_timestamp_new ();
 		char *str;
@@ -109,6 +110,7 @@ xlsx_map_to_date_core (GsfXMLOut *output, GValue const *val)
 		str = gsf_timestamp_as_string (ts);
 		gsf_xml_out_add_cstr (output, NULL, str);
 		g_free (str);
+		gsf_timestamp_free (ts);
 	}
 }
 

@@ -17,6 +17,9 @@
 #include "ms-excel-util.h"
 #include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
+#include <hlink.h>
+#include <sheet-style.h>
+#include <ranges.h>
 
 #include <string.h>
 
@@ -903,6 +906,36 @@ xls_arrow_from_xl (GOArrow *arrow, double width, XLArrowType typ, int l, int w)
 				    s * 1.5 * (w + 1));
 		break;
 	}
+}
+
+/*****************************************************************************/
+
+GHashTable *
+xls_collect_hlinks (GnmStyleList *sl, int max_col, int max_row)
+{
+	GHashTable *group = g_hash_table_new_full
+		(g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)g_slist_free);
+
+	for (; sl != NULL ; sl = sl->next) {
+		GnmStyleRegion const *sr = sl->data;
+		GnmHLink   *hlink;
+		GSList	   *ranges;
+
+		/* Clip here to avoid creating a DV record if there are no regions */
+		if (sr->range.start.col >= max_col ||
+		    sr->range.start.row >= max_row) {
+			range_dump (&sr->range, "bounds drop\n");
+			continue;
+		}
+		hlink  = gnm_style_get_hlink (sr->style);
+		ranges = g_hash_table_lookup (group, hlink);
+		if (ranges)
+			g_hash_table_steal (group, hlink);
+		g_hash_table_insert (group, hlink,
+				     g_slist_prepend (ranges, (gpointer)&sr->range));
+	}
+
+	return group;
 }
 
 /*****************************************************************************/
