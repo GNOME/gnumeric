@@ -6,7 +6,7 @@ Andreas:
 	* Simplify export of SEC and SECH to ODF. [#747211]
 	* Harden ODF import against fuzzed files. [#747447][#747448]
 	* Fix ODF import/export of unlinked checkboxes and radio buttons.
-	* Plug leak in ODF import.
+	* Plug leak in ODF import and export. [#747590]
 
 Jean:
 	* Fix signal handling while running Python. [#744638]

@@ -1,5 +1,10 @@
 2015-04-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_sheet_control_button): fix leak
+	(odf_write_axis_full): fix leak
+
+2015-04-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_validation_new_pair_expr): fix leak
 
 2015-04-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>

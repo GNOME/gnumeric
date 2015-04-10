@@ -4202,10 +4202,12 @@ odf_write_sheet_control_button (GnmOOExport *state, SheetObject *so)
 	GnmExprTop const *texpr = sheet_widget_button_get_link (so);
 	char *label = NULL;
 
-	g_object_get (G_OBJECT (so), "text", &label, NULL);
-
 	odf_sheet_control_start_element (state, so, FORM "button");
+
+	g_object_get (G_OBJECT (so), "text", &label, NULL);
 	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
+	g_free (label);
+
 	gsf_xml_out_add_cstr_unchecked (state->xml, FORM "button-type", "push");
 
 	if (texpr != NULL ) {
@@ -7809,7 +7811,7 @@ odf_write_axis_full (GnmOOExport *state,
 		     gboolean include_cats)
 {
 	GSList *children = NULL, *l;
-	GString *str = g_string_new (NULL);
+	GString *str;
 
 	if (axis_role == NULL)
 		return;
@@ -7821,6 +7823,7 @@ odf_write_axis_full (GnmOOExport *state,
 		GogObject const *axis = l->data;
 		if (axis != NULL) {
 			int id = gog_object_get_id (GOG_OBJECT (axis));
+			char *name;
 
 			gsf_xml_out_start_element (state->xml, CHART "axis");
 			gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
@@ -7829,8 +7832,9 @@ odf_write_axis_full (GnmOOExport *state,
 			g_string_truncate (str, 0);
 			g_string_append_printf (str, "%s-%i", axis_role, id);
 			gsf_xml_out_add_cstr_unchecked (state->xml, CHART "name", str->str);
-			gsf_xml_out_add_cstr (state->xml, CHART "style-name",
-					      odf_get_gog_style_name_from_obj (state, GOG_OBJECT (axis)));
+			name = odf_get_gog_style_name_from_obj (state, GOG_OBJECT (axis));
+			if (name != NULL)
+				gsf_xml_out_add_cstr (state->xml, CHART "style-name", name);
 			odf_write_label (state, axis);
 			if (include_cats)
 				odf_write_axis_categories (state, series);
