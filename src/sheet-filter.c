@@ -232,7 +232,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 		char *str = filter_cell_contents (cell);
 		GORegmatch rm;
 		int res = go_regexec (regexp, str, 1, &rm, 0);
-		gboolean whole = (rm.rm_so == 0 && str[rm.rm_eo] == 0);
+		gboolean whole = (res == GO_REG_OK && rm.rm_so == 0 && str[rm.rm_eo] == 0);
 
 		g_free (str);
 

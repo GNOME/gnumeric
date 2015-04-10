@@ -29,6 +29,7 @@ Morten:
 	* Improve reading of xlsx theme colours.
 	* Plug leaks.
 	* Fix REPLACEB problem.  [#747210]
+	* Fix sheet filter problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21
