@@ -2640,7 +2640,8 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 	}
 	texpr_a = oo_expr_parse_str (xin, pair, &pp, flag, val->f_type);
 
-	if (texpr_b != NULL)
+	if (texpr_b != NULL) {
+		g_free (pair);
 		return gnm_validation_new (val->style,
 				       val_type,
 				       val_op,
@@ -2651,6 +2652,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 				       texpr_b,
 				       val->allow_blank,
 				       val->use_dropdown);
+	}
  pair_error:
 	g_free (pair);
 	return NULL;
