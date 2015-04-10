@@ -1,5 +1,9 @@
 2015-04-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_axis_full): really fix leak
+
+2015-04-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_sheet_control_button): fix leak
 	(odf_write_axis_full): fix leak
 

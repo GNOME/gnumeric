@@ -7835,6 +7835,7 @@ odf_write_axis_full (GnmOOExport *state,
 			name = odf_get_gog_style_name_from_obj (state, GOG_OBJECT (axis));
 			if (name != NULL)
 				gsf_xml_out_add_cstr (state->xml, CHART "style-name", name);
+			g_free (name);
 			odf_write_label (state, axis);
 			if (include_cats)
 				odf_write_axis_categories (state, series);
