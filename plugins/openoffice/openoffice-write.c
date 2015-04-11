@@ -4971,7 +4971,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 				/* Insert the selections in REVERSE order */
 				copy = g_slist_copy (sv->selections);
-				ptr = g_slist_reverse (copy);
+				ptr = copy = g_slist_reverse (copy);
 				for (; ptr != NULL ; ptr = ptr->next) {
 					GnmRange const *r = ptr->data;
 					gsf_xml_out_start_element (state->xml, GNMSTYLE "selection");
