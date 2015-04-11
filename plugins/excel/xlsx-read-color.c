@@ -86,6 +86,61 @@ gnm_go_color_to_hsla (GOColor orig, int *ph, int *ps, int *pl, int *pa)
 	*pa = a;
 }
 
+/* See http://en.wikipedia.org/wiki/SRGB#Specification_of_the_transformation */
+
+#define GAMMA1(c_) do {						\
+	double c = (c_) / 255.0;				\
+	if (c < 0.04045)					\
+		c = c / 12.92;					\
+	else							\
+		c = pow ((c + 0.055) / 1.055, (12.0 / 5.0));	\
+	c = MIN (255, c * 256);					\
+	(c_) = (int)c;						\
+} while (0)
+
+static GOColor
+gnm_go_color_gamma (GOColor col)
+{
+	int r = GO_COLOR_UINT_R (col);
+	int g = GO_COLOR_UINT_G (col);
+	int b = GO_COLOR_UINT_B (col);
+	int a = GO_COLOR_UINT_A (col);
+
+	GAMMA1 (r);
+	GAMMA1 (g);
+	GAMMA1 (b);
+
+	return GO_COLOR_FROM_RGBA (r, g, b, a);
+}
+#undef GAMMA1
+
+#define INVGAMMA1(c_) do {					\
+	double c = (c_) / 255.0;				\
+	if (c < 0.0031308)					\
+		c = c * 12.92;					\
+	else							\
+		c = 1.055 * pow (c, 5.0 / 12.0) - 0.055;	\
+	c = MIN (255, c * 256);					\
+	(c_) = (int)c;						\
+} while (0)
+
+static GOColor
+gnm_go_color_invgamma (GOColor col)
+{
+	int r = GO_COLOR_UINT_R (col);
+	int g = GO_COLOR_UINT_G (col);
+	int b = GO_COLOR_UINT_B (col);
+	int a = GO_COLOR_UINT_A (col);
+
+	INVGAMMA1 (r);
+	INVGAMMA1 (g);
+	INVGAMMA1 (b);
+
+	return GO_COLOR_FROM_RGBA (r, g, b, a);
+}
+#undef INVGAMMA1
+
+
 /*
  * Apply tinting or shading.
  *  0 <= tint <= 1: tinting -- l is increased
@@ -254,6 +309,7 @@ xlsx_draw_color_hsl_channel (GsfXMLIn *xin, xmlChar const **attrs)
 
 		hsl[channel] = CLAMP (vf, 0, HSLMAX);
 		state->color = gnm_go_color_from_hsla (hsl[2], hsl[1], hsl[0], a);
+		color_set_helper (state);
 	}
 }
 
@@ -262,7 +318,13 @@ xlsx_draw_color_gamma (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean inv = xin->node->user_data.v_int;
-	g_warning ("Unhandled colour %d gamma transformation of #%08x\n", inv, state->color);
+
+	if (inv)
+		state->color = gnm_go_color_invgamma (state->color);
+	else
+		state->color = gnm_go_color_gamma (state->color);
+
+	color_set_helper (state);
 }
 
 

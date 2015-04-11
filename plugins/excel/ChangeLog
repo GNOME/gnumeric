@@ -1,5 +1,7 @@
 2015-04-11  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-color.c (xlsx_draw_color_gamma): Implement.
+
 	* xlsx-write.c (xlsx_write_workbook): Plug pivot leak.
 
 2015-04-10  Morten Welinder  <terra@gnome.org>
