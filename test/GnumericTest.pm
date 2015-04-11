@@ -538,7 +538,7 @@ sub test_roundtrip {
 # -----------------------------------------------------------------------------
 
 sub test_valgrind {
-    my ($cmd,$uselibtool) = @_;
+    my ($cmd,$uselibtool,$qreturn) = @_;
 
     local (%ENV) = %ENV;
     $ENV{'G_DEBUG'} .= ':gc-friendly:resident-modules';
@@ -597,12 +597,13 @@ sub test_valgrind {
 	: -1;
     if ($errors == 0) {
 	# &dump_indented ($txt);
-	print STDERR "Pass\n";
-	return;
+	print STDERR "Pass\n" unless $qreturn;
+	return 0;
     }
 
     &dump_indented ($txt);
-    die "Fail\n";
+    die "Fail\n" unless $qreturn;
+    return 1;
 }
 
 # -----------------------------------------------------------------------------

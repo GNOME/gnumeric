@@ -859,3 +859,47 @@
    fun:FcConfigEvaluate
    fun:FcConfigValues
 }
+
+# See https://bugs.freedesktop.org/show_bug.cgi?id=87898
+{
+   _CAIRO_RECORDING_SURFACE_SNAPSHOT_LEAK
+   Memcheck:Leak
+   fun:malloc
+   fun:_cairo_recording_surface_snapshot
+}
+
+{
+   CAIRO_REPLAY_UMR
+   Memcheck:Cond
+   fun:_cairo_recording_surface_merge_source_attributes.isra.8
+   fun:_cairo_recording_surface_replay_internal
+   fun:_cairo_recording_surface_replay_and_create_regions
+}
+
+{
+   PNG_UMR
+   Memcheck:Value8
+   fun:crc32
+   ...
+   fun:png_write_chunk
+}
+
+{
+   PNG_WRITE_ROW_UMR
+   Memcheck:Cond
+   fun:*
+   fun:png_write_row
+}
+
+{
+   PIXMAN_UMR
+   Memcheck:Cond
+   fun:sse2_combine_over_u
+}
+
+# Probably just valgrind getting confused
+{
+   PIXMAN_UMR2
+   Memcheck:Cond
+   fun:go_cairo_convert_data_to_pixbuf
+}
