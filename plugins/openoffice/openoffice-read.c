@@ -231,6 +231,7 @@ typedef struct {
 	GogChart	*chart;
 	SheetObject     *so;
 	GSList          *list; /* used by Stock plot and textbox*/
+	char            *name;
 
 	/* set in plot-area */
 	GogPlot		*plot;
@@ -7964,7 +7965,8 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmSOAnchorMode mode;
 	int last_row = gnm_sheet_get_last_row (state->pos.sheet);
 	int last_col = gnm_sheet_get_last_col (state->pos.sheet);
-	
+
+	state->chart.name = NULL;
 
 	height = width = x = y = 0.;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
@@ -7991,6 +7993,8 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_int_range (xin,attrs, OO_NS_DRAW, "z-index",
 					      &z, 0, G_MAXINT))
 			;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "name"))
+			state->chart.name = g_strdup (CXML2C (attrs[1]));
 	}
 
 	frame_offset[0] = x;
@@ -8064,6 +8068,8 @@ od_draw_frame_end_full (GsfXMLIn *xin, gboolean absolute_distance, char const *c
 
 		state->chart.so = NULL;
 	}
+	g_free (state->chart.name);
+	state->chart.name = NULL;
 }
 
 static void
@@ -8387,10 +8393,16 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 		gsf_off_t len = gsf_input_size (input);
 		guint8 const *data = gsf_input_read (input, len, NULL);
 		soi = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
-		sheet_object_image_set_image (soi, "", data, len);
-
 		state->chart.so = GNM_SO (soi);
+		sheet_object_image_set_image (soi, "", data, len);
 		g_object_unref (input);
+		if (state->chart.name != NULL) {
+			GOImage *image = NULL;
+			g_object_get (G_OBJECT (soi),
+				      "image", &image,
+				      NULL);
+			go_image_set_name (image, state->chart.name);
+		}
 	} else
 		oo_warning (xin, _("Unable to load "
 				   "the file \'%s\'."),

@@ -3008,9 +3008,20 @@ odf_write_image (GnmOOExport *state, SheetObject *so, char const *name)
 	if (name != NULL) {
 		char *image_type;
 		char *fullname;
+		GOImage *image = NULL;
+
 		g_object_get (G_OBJECT (so),
 			      "image-type", &image_type,
+			      "image", &image,
 			      NULL);
+
+		if (image) {
+			/* Write attribute for surrounding draw:frame */
+			const char *image_name = go_image_get_name (image);
+			if (image_name)
+				gsf_xml_out_add_cstr (state->xml, DRAW "name", image_name);
+		}	
+
 		fullname = g_strdup_printf ("Pictures/%s.%s", name, image_type);
 
 		gsf_xml_out_start_element (state->xml, DRAW "image");
