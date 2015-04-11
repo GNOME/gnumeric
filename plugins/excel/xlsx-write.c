@@ -3116,6 +3116,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 			gsf_xml_out_end_element (xml); /* </pivotCache> */
 		}
 		gsf_xml_out_end_element (xml); /* </pivotCaches> */
+		g_slist_free (cacheRefs);
 	}
 	gsf_xml_out_start_element (xml, "webPublishing");
 	xlsx_add_bool (xml, "allowPng", TRUE);
