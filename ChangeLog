@@ -1,3 +1,8 @@
+2015-04-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-image.c (gnm_soi_assign_to_sheet): if there is no
+	sheet object name, try the image name.
+
 2015-04-11  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-dpq.c (dnorm): Improve accuracy in certain far-tail cases.

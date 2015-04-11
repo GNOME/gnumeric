@@ -494,7 +494,10 @@ gnm_soi_assign_to_sheet (SheetObject *so, Sheet *sheet)
 
 	if (soi->image/* && !go_image_get_name (soi->image)*/) {
 		GODoc *doc = GO_DOC (sheet->workbook);
-		GOImage *image = go_doc_add_image (doc, soi->name, soi->image);
+		GOImage *image = go_doc_add_image 
+			(doc, 
+			 (soi->name != NULL) ? soi->name : go_image_get_name (soi->image),
+			 soi->image);
 		if (soi->image != image) {
 			g_object_unref (soi->image);
 			soi->image = g_object_ref (image);
