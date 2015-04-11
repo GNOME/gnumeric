@@ -4507,27 +4507,13 @@ static GnmFuncHelp const help_rayleigh[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static gnm_float
-random_rayleigh_pdf (gnm_float x, gnm_float sigma)
-{
-	if (sigma <= 0)
-		return gnm_nan;
-
-	if (x < 0)
-		return 0;
-	else {
-		gnm_float u = x / sigma;
-		return (u / sigma) * expmx2h (u);
-	}
-}
-
 static GnmValue *
 gnumeric_rayleigh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x     = value_get_as_float (argv[0]);
 	gnm_float sigma = value_get_as_float (argv[1]);
 
-	return value_new_float (random_rayleigh_pdf (x, sigma));
+	return value_new_float (drayleigh (x, sigma, FALSE));
 }
 
 /***************************************************************************/

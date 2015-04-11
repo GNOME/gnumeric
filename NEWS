@@ -31,6 +31,8 @@ Morten:
 	* Plug leaks.
 	* Fix REPLACEB problem.  [#747210]
 	* Fix sheet filter problem.
+	* Minor R.DNORM improvement.
+	* Improve RAYLEIGH accuracy.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21

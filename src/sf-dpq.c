@@ -8,6 +8,7 @@
 #define R_DT_0	(lower_tail ? R_D__0 : R_D__1)
 #define R_DT_1	(lower_tail ? R_D__1 : R_D__0)
 #define M_1_SQRT_2PI    GNM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
+#define M_SQRT_2PI GNM_const(2.506628274631000502415765284811045253006986740609938316629923)
 
 /* ------------------------------------------------------------------------- */
 
@@ -305,18 +306,37 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 gnm_float
 dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
 {
+	gnm_float x0;
+
 	if (gnm_isnan (x) || gnm_isnan (mu) || gnm_isnan (sigma))
 		return x + mu + sigma;
 	if (sigma < 0)
 		return gnm_nan;
 
-	x = gnm_abs ((x - mu) / sigma);
+	/* Center.  */
+	x = x0 = gnm_abs (x - mu);
+	x /= sigma;
 
-	if (x >= 2 * gnm_sqrt (GNM_MAX))
-		return R_D__0;
 	if (give_log)
 		return -(M_LN_SQRT_2PI + 0.5 * x * x + gnm_log (sigma));
-	else
+	else if (x > 3 + 2 * gnm_sqrt (gnm_log (GNM_MAX)))
+		/* Far into the tail; x > ~100 for long double  */
+		return 0;
+	else if (x > 4) {
+		/*
+		 * Split x into xh+xl such that:
+		 * 1) xh*xh is exact
+		 * 2) 0 <= xl <= 1/65536
+		 * 3) 0 <= xl*xh < ~100/65536
+		 */
+		gnm_float xh = gnm_floor (x * 65536) / 65536;  /* At most 24 bits */
+		gnm_float xl = (x0 - xh * sigma) / sigma;
+		return M_1_SQRT_2PI *
+			gnm_exp (-0.5 * (xh * xh)) *
+			gnm_exp (-xl * (0.5 * xl + xh)) /
+			sigma;
+	} else
+		/* Near-center case.  */
 		return M_1_SQRT_2PI * expmx2h (x) / sigma;
 }
 
@@ -560,6 +580,33 @@ qhyper (gnm_float p, gnm_float NR, gnm_float NB, gnm_float n,
 	return discpfuncinverter (p, shape, lower_tail, log_p,
 				  MAX (0, n - NB), MIN (n, NR), y,
 				  phyper1);
+}
+
+/* ------------------------------------------------------------------------ */
+/**
+ * drayleigh:
+ * @x: observation
+ * @scale: scale parameter
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the Rayleigh distribution.
+ */
+
+gnm_float
+drayleigh (gnm_float x, gnm_float scale, gboolean give_log)
+{
+	if (scale <= 0)
+		return gnm_nan;
+
+	if (x <= 0)
+		return R_D__0;
+	else {
+		gnm_float p = dnorm (x, 0, scale, give_log);
+		gnm_float f = M_SQRT_2PI * x / scale;
+		return give_log
+			? p + gnm_log (f)
+			: p * f;
+	}
 }
 
 /* ------------------------------------------------------------------------ */

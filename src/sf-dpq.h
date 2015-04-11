@@ -42,5 +42,10 @@ gnm_float qcauchy (gnm_float p, gnm_float location, gnm_float scale,
 gnm_float qhyper (gnm_float p, gnm_float r, gnm_float b, gnm_float n, gboolean lower_tail, gboolean log_p);
 
 /* ------------------------------------------------------------------------- */
+/* Rayleigh distribution  */
+
+gnm_float drayleigh (gnm_float x, gnm_float scale, gboolean give_log);
+
+/* ------------------------------------------------------------------------- */
 
 #endif
