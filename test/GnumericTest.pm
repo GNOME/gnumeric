@@ -12,10 +12,10 @@ $| = 1;
                            test_importer test_exporter test_roundtrip
 			   test_ssindex sstest test_command message subtest
 			   $ssconvert $sstest $ssdiff $topsrc $top_builddir
-			   $subtests $samples $PERL);
+			   $subtests $samples corpus $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
-use vars qw($topsrc $top_builddir $samples $default_subtests $subtests $PERL $verbose);
+use vars qw($topsrc $top_builddir $samples $default_subtests $default_corpus $PERL $verbose);
 use vars qw($ssconvert $ssindex $sstest $ssdiff);
 use vars qw($normalize_gnumeric);
 
@@ -35,7 +35,9 @@ $ssdiff = "$top_builddir/src/ssdiff";
 $normalize_gnumeric = "$PERL $topsrc/test/normalize-gnumeric";
 $verbose = 0;
 $default_subtests = '*';
-$subtests = undef;
+my $subtests = undef;
+$default_corpus = 'full';
+my $user_corpus = undef;
 
 # -----------------------------------------------------------------------------
 
@@ -161,6 +163,84 @@ sub subtest {
 	}
     }
     return $res;
+}
+
+# -----------------------------------------------------------------------------
+
+my @full_corpus =
+    ("$samples/excel/address.xls",
+     "$samples/excel/bitwise.xls",
+     "$samples/excel/chart-tests-excel.xls",
+     "$samples/excel/datefuns.xls",
+     "$samples/excel/dbfuns.xls",
+     "$samples/excel/engfuns.xls",
+     "$samples/excel/finfuns.xls",
+     "$samples/excel/functions.xls",
+     "$samples/excel/infofuns.xls",
+     "$samples/excel/logfuns.xls",
+     "$samples/excel/lookfuns2.xls",
+     "$samples/excel/lookfuns.xls",
+     "$samples/excel/mathfuns.xls",
+     "$samples/excel/objs.xls",
+     "$samples/excel/operator.xls",
+     "$samples/excel/sort.xls",
+     "$samples/excel/statfuns.xls",
+     "$samples/excel/textfuns.xls",
+     "$samples/excel/yalta2008.xls",
+     "$samples/excel12/cellstyle.xlsx",
+     "$samples/crlibm.gnumeric",
+     "$samples/amath.gnumeric",
+     "$samples/gamma.gnumeric",
+     "$samples/linest.xls",
+     "$samples/vba-725220.xls",
+     "$samples/sumif.xls",
+     "$samples/array-intersection.xls",
+     "$samples/arrays.xls",
+     "$samples/docs-samples.gnumeric",
+     "$samples/ftest.xls",
+     "$samples/ttest.xls",
+     "$samples/chitest.xls",
+     "$samples/numbermatch.gnumeric",
+     "$samples/solver/afiro.mps",
+     "$samples/solver/blend.mps",
+     "$samples/auto-filter-tests.gnumeric",
+     "$samples/cell-comment-tests.gnumeric",
+     "$samples/colrow-tests.gnumeric",
+     "$samples/cond-format-tests.gnumeric",
+     "$samples/formula-tests.gnumeric",
+     "$samples/graph-tests.gnumeric",
+     "$samples/merge-tests.gnumeric",
+     "$samples/names-tests.gnumeric",
+     "$samples/number-tests.gnumeric",
+     "$samples/object-tests.gnumeric",
+     "$samples/page-setup-tests.gnumeric",
+     "$samples/rich-text-tests.gnumeric",
+     "$samples/sheet-formatting-tests.gnumeric",
+     "$samples/solver-tests.gnumeric",
+     "$samples/split-panes-tests.gnumeric",
+     "$samples/string-tests.gnumeric",
+     "$samples/merge-tests.gnumeric",
+     "$samples/style-tests.gnumeric",
+     "$samples/validation-tests.gnumeric",
+    );
+
+sub corpus {
+    my ($q) = @_;
+
+    my $corpus = ($user_corpus || $default_corpus);
+    if ($corpus eq 'full') {
+	return @full_corpus;
+    } elsif ($corpus =~ /^random:(\d+)$/) {
+	my $n = $1;
+	my @corpus = grep { -r $_; } @full_corpus;
+	while ($n < @corpus) {
+	    my $i = int (rand() * @corpus);
+	    splice @corpus, $i, 1;
+	}
+	return @corpus;
+    } else {
+	die "Invalid corpus specification\n";
+    }
 }
 
 # -----------------------------------------------------------------------------
@@ -715,6 +795,8 @@ $ENV{'LC_ALL'} = 'C';
 # libgsf listens for this
 delete $ENV{'WINDOWS_LANGUAGE'};
 
+my $seed = time();
+
 while (1) {
     if (@ARGV && $ARGV[0] eq '--verbose') {
 	$verbose = 1;
@@ -723,9 +805,14 @@ while (1) {
     } elsif (@ARGV > 1 && $ARGV[0] eq '--subtests') {
 	scalar shift @ARGV;
 	$subtests = shift @ARGV;
+    } elsif (@ARGV > 1 && $ARGV[0] eq '--corpus') {
+	scalar shift @ARGV;
+	$user_corpus = shift @ARGV;
     } else {
 	last;
     }
 }
+
+srand ($seed);
 
 1;
