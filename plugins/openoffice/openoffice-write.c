@@ -3020,6 +3020,7 @@ odf_write_image (GnmOOExport *state, SheetObject *so, char const *name)
 			const char *image_name = go_image_get_name (image);
 			if (image_name)
 				gsf_xml_out_add_cstr (state->xml, DRAW "name", image_name);
+			g_object_unref (image);
 		}	
 
 		fullname = g_strdup_printf ("Pictures/%s.%s", name, image_type);

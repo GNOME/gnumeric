@@ -1,4 +1,8 @@
-2015-04-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2015-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_image): don't keep image ref
+
+2015-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_draw_image): don't keep image ref
 
