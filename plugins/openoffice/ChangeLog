@@ -1,5 +1,9 @@
 2015-04-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_draw_image): don't keep image ref
+
+2015-04-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_frame_start): read and store the
 	image name
 	(od_draw_frame_end_full): clear the saved image name

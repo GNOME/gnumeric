@@ -8402,6 +8402,7 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 				      "image", &image,
 				      NULL);
 			go_image_set_name (image, state->chart.name);
+			g_object_unref (image);
 		}
 	} else
 		oo_warning (xin, _("Unable to load "
