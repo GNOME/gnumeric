@@ -1,5 +1,5 @@
---- ods-schema/OpenDocument-v1.2-os-schema.rng	2015-01-28 18:46:19.155715877 -0500
-+++ ods-schema/OpenDocument-v1.2-os-ext-schema.rng	2015-04-12 14:14:37.624042609 -0400
+--- ods-schema/OpenDocument-v1.2-os-schema.rng	2015-04-08 21:49:54.058918977 -0600
++++ ods-schema/OpenDocument-v1.2-os-ext-schema.rng	2015-04-12 12:20:51.420486277 -0600
 @@ -62,6 +62,9 @@
  	xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"
  	xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0"
@@ -358,7 +358,7 @@
  				<attribute name="style:diagonal-tl-br">
  					<ref name="string"/>
  				</attribute>
-@@ -17060,6 +17207,41 @@
+@@ -17060,6 +17207,46 @@
  					<ref name="nonNegativeInteger"/>
  				</attribute>
  			</optional>
@@ -383,6 +383,11 @@
 +				</attribute>
 +			</optional>
 +			<optional>
++				<attribute name="gnm:foreground-solid">
++					<ref name="boolean"/>
++				</attribute>
++			</optional>
++			<optional>
 +				<attribute name="gnm:pattern">
 +					<ref name="integer"/>
 +				</attribute>
@@ -400,7 +405,7 @@
  		</interleave>
  	</define>
  	<define name="style-graphic-fill-properties-attlist">
-@@ -18124,4 +18306,78 @@
+@@ -18124,4 +18311,78 @@
  			</element>
  		</zeroOrMore>
  	</define>

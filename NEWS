@@ -7,6 +7,7 @@ Andreas:
 	* Harden ODF import against fuzzed files. [#747447][#747448]
 	* Fix ODF import/export of unlinked checkboxes and radio buttons.
 	* Plug leak in ODF import and export. [#747590]
+	* Improve pattern fill round trip through ODF.
 
 Jean:
 	* Fix signal handling while running Python. [#744638]

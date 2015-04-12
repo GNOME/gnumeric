@@ -1,5 +1,12 @@
 2015-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_apply_style_props): read and obey the
+	new foreground-solid flag
+	* openoffice-write.c (odf_write_gog_style_graphic): write the
+	new foreground-solid flag
+
+2015-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_image): don't keep image ref
 
 2015-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>

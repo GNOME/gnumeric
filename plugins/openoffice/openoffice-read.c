@@ -554,6 +554,7 @@ static OOFormula odf_get_formula_type (GsfXMLIn *xin, char const **str);
 static char const *odf_strunescape (char const *string, GString *target,
 				    G_GNUC_UNUSED GnmConventions const *convs);
 static void odf_sheet_suggest_size (GsfXMLIn *xin, int *cols, int *rows);
+static void oo_prop_list_has (GSList *props, gboolean *threed, char const *tag);
 
 
 /* Implementations */
@@ -847,7 +848,9 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 	char const *marker_fill_colour = NULL;
 	gboolean gnm_auto_font_set = FALSE;
 	gboolean gnm_auto_font = FALSE;
+	gboolean gnm_foreground_solid = FALSE;
 
+	oo_prop_list_has (props, &gnm_foreground_solid, "gnm-foreground-solid");
 	style->line.auto_dash = TRUE;
 
 	desc = pango_font_description_copy (style->font.font->desc);
@@ -858,7 +861,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 			if (0 == strcmp (val_string, "solid")) {
 				style->fill.type = GO_STYLE_FILL_PATTERN;
 				style->fill.auto_type = FALSE;
-				style->fill.pattern.pattern = GO_PATTERN_SOLID;
+				style->fill.pattern.pattern = (gnm_foreground_solid) ? 
+					GO_PATTERN_FOREGROUND_SOLID : GO_PATTERN_SOLID;
 				fill_type = OO_FILL_TYPE_SOLID;
 			} else if (0 == strcmp (val_string, "hatch")) {
 				style->fill.type = GO_STYLE_FILL_PATTERN;
@@ -881,12 +885,20 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 			GdkRGBA rgba;
 			gchar const *color = g_value_get_string (&prop->value);
 			if (gdk_rgba_parse (&rgba, color)) {
-				guint a = GO_COLOR_UINT_A (style->fill.pattern.back);
-				go_color_from_gdk_rgba (&rgba, &style->fill.pattern.back);
-				style->fill.auto_back = FALSE;
-				style->fill.pattern.back = GO_COLOR_CHANGE_A (style->fill.pattern.back, a);
+				guint a; 
+				if (gnm_foreground_solid) {
+					a = GO_COLOR_UINT_A (style->fill.pattern.fore);
+					go_color_from_gdk_rgba (&rgba, &style->fill.pattern.fore);
+					style->fill.auto_fore = FALSE;
+					style->fill.pattern.fore = GO_COLOR_CHANGE_A (style->fill.pattern.fore, a);
+				} else {
+					a = GO_COLOR_UINT_A (style->fill.pattern.back);
+					go_color_from_gdk_rgba (&rgba, &style->fill.pattern.back);
+					style->fill.auto_back = FALSE;
+					style->fill.pattern.back = GO_COLOR_CHANGE_A (style->fill.pattern.back, a);
+				}
 			}
-		} else if (0 == strcmp (prop->name, "opacity")) {
+		}else if (0 == strcmp (prop->name, "opacity")) {
 			guint a = 255 * g_value_get_double (&prop->value);
 			style->fill.pattern.back = GO_COLOR_CHANGE_A (style->fill.pattern.back, a);
 		} else if (0 == strcmp (prop->name, "stroke-color")) {
@@ -1008,6 +1020,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 			gnm_auto_font = g_value_get_boolean (&prop->value);
 		} 
 	}
+
 	if (desc_changed)
 		go_style_set_font_desc	(style, desc);
 	else
@@ -7311,6 +7324,10 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("fill",
 						     CXML2C(attrs[1])));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "foreground-solid", &btmp))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_bool ("gnm-foreground-solid", btmp));
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-type", &btmp))
 			style->style_props = g_slist_prepend
 				(style->style_props,

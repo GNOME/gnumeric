@@ -1,3 +1,7 @@
+2015-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ods-ext-schema.patch: add gnm:foreground-solid
+
 2015-04-12  Morten Welinder  <terra@gnome.org>
 
 	* t6150-ods-syntax.pl: Use default full corpos.

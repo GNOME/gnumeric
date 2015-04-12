@@ -7455,6 +7455,8 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 					g_free (color);
 				}
 			} else if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID) {
+				if (state->with_extension)
+					odf_add_bool (state->xml, GNMSTYLE "foreground-solid", TRUE);
 				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
 				if (!style->fill.auto_fore) {
 					char *color = odf_go_color_to_string (style->fill.pattern.fore);
