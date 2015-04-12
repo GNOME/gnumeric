@@ -226,9 +226,9 @@ my @full_corpus =
     );
 
 sub corpus {
-    my ($q) = @_;
+    my ($c) = @_;
 
-    my $corpus = ($user_corpus || $default_corpus);
+    my $corpus = ($c || $user_corpus || $default_corpus);
     if ($corpus eq 'full') {
 	return @full_corpus;
     } elsif ($corpus =~ /^random:(\d+)$/) {
@@ -238,6 +238,10 @@ sub corpus {
 	    my $i = int (rand() * @corpus);
 	    splice @corpus, $i, 1;
 	}
+	return @corpus;
+    } elsif ($corpus =~ m{^/(.*)/$}) {
+	my $rx = $1;
+	my @corpus = grep { /$rx/ } @full_corpus;
 	return @corpus;
     } else {
 	die "Invalid corpus specification\n";

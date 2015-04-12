@@ -1,3 +1,13 @@
+2015-04-12  Morten Welinder  <terra@gnome.org>
+
+	* t6150-ods-syntax.pl: Use default full corpos.
+
+	* ods-schema/OpenDocument-v1.2-os-ext-schema.rng: Allow multiple
+	selection.
+
+	* GnumericTest.pm (corpus): Allow specifying "--corpus /foo/" to
+	match a subset of the full corpus.
+
 2015-03-23  Morten Welinder  <terra@gnome.org>
 
 	* t2003-random-generators.pl (expected): Fix check to match sstest

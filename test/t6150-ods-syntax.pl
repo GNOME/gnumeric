@@ -41,6 +41,7 @@ if (!-r $schema_ext) {
     print STDERR "Cannot find extended conformance schema\n";
     $schema_ext = undef;
     # This is not a schema supplies by oasis
+    $suggest_download = 1;
 }
 if (!-r $schema_manifest) {
     print STDERR "Cannot find manifest schema\n";
@@ -58,64 +59,11 @@ my %checkers = ( 0 => $checker,
 		 1 => $checker_ext,
 		 2 => $manifest_checker);
 
-my @sources =
-    ("$samples/excel/address.xls",
-     "$samples/excel/bitwise.xls",
-     "$samples/excel/chart-tests-excel.xls",
-     "$samples/excel/datefuns.xls",
-     "$samples/excel/dbfuns.xls",
-     "$samples/excel/engfuns.xls",
-     "$samples/excel/finfuns.xls",
-     "$samples/excel/functions.xls",
-     "$samples/excel/infofuns.xls",
-     "$samples/excel/logfuns.xls",
-     "$samples/excel/lookfuns2.xls",
-     "$samples/excel/lookfuns.xls",
-     "$samples/excel/mathfuns.xls",
-     "$samples/excel/objs.xls",
-     "$samples/excel/operator.xls",
-     "$samples/excel/sort.xls",
-     "$samples/excel/statfuns.xls",
-     "$samples/excel/textfuns.xls",
-     "$samples/excel/yalta2008.xls",
-     "$samples/excel12/cellstyle.xlsx",
-     # xmllint hangs on these files.  (Well, amath finishes but takes too
-     # long.)
-     # "$samples/crlibm.gnumeric",
-     # "$samples/amath.gnumeric",
-     # "$samples/gamma.gnumeric",
-     "$samples/linest.xls",
-     "$samples/vba-725220.xls",
-     "$samples/sumif.xls",
-     "$samples/array-intersection.xls",
-     "$samples/arrays.xls",
-     "$samples/docs-samples.gnumeric",
-     "$samples/ftest.xls",
-     "$samples/ttest.xls",
-     "$samples/chitest.xls",
-     "$samples/numbermatch.gnumeric",
-     "$samples/solver/afiro.mps",
-     "$samples/solver/blend.mps",
-     "$samples/auto-filter-tests.gnumeric",
-     "$samples/cell-comment-tests.gnumeric",
-     "$samples/colrow-tests.gnumeric",
-     "$samples/cond-format-tests.gnumeric",
-     "$samples/formula-tests.gnumeric",
-     "$samples/graph-tests.gnumeric",
-     "$samples/merge-tests.gnumeric",
-     "$samples/names-tests.gnumeric",
-     "$samples/number-tests.gnumeric",
-     "$samples/object-tests.gnumeric",
-     "$samples/page-setup-tests.gnumeric",
-     "$samples/rich-text-tests.gnumeric",
-     "$samples/sheet-formatting-tests.gnumeric",
-     "$samples/solver-tests.gnumeric",
-     "$samples/split-panes-tests.gnumeric",
-     "$samples/string-tests.gnumeric",
-     "$samples/merge-tests.gnumeric",
-     "$samples/style-tests.gnumeric",
-     "$samples/validation-tests.gnumeric",
-    );
+my @sources = &GnumericTest::corpus();
+# xmllint hangs on these files.  (Well, amath finishes but takes too
+# long.)
+@sources = grep { !m{(^|/)(amath|crlibm|gamma)\.gnumeric$} } @sources;
+
 my $nskipped = 0;
 my $ngood = 0;
 my $nbad = 0;
