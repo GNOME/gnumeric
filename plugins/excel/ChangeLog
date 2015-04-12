@@ -1,5 +1,8 @@
 2015-04-11  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_FORMULA): Only print recalc tag in
+	debug mode for V5+.
+
 	* xlsx-read-color.c (xlsx_draw_color_gamma): Implement.
 
 	* xlsx-write.c (xlsx_write_workbook): Plug pivot leak.

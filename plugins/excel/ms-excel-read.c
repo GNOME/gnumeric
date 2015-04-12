@@ -2908,14 +2908,6 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	if (!cell)
 		return;
 
-	/* TODO : it would be nice to figure out how to allocate recalc tags.
-	 * that would avoid the scary
-	 *	'this file was calculated with a different version of XL'
-	 * warning when exiting without changing. */
-	d (1, g_printerr ("Formula in %s!%s has recalc tag 0x%x;\n",
-			  esheet->sheet->name_quoted, cell_name (cell),
-			  GSF_LE_GET_GUINT32 (q->data + 16)););
-
 	/* TODO TODO TODO: Wishlist
 	 * We should make an array of minimum sizes for each BIFF type
 	 * and have this checking done there.
@@ -2924,6 +2916,15 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		XL_CHECK_CONDITION (q->length >= 22);
 		expr_length = GSF_LE_GET_GUINT16 (q->data + 20);
 		offset = 22;
+
+		/* TODO : it would be nice to figure out how to allocate recalc tags.
+		 * that would avoid the scary
+		 *	'this file was calculated with a different version of XL'
+		 * warning when exiting without changing. */
+		d (1, g_printerr ("Formula in %s!%s has recalc tag 0x%x;\n",
+				  esheet->sheet->name_quoted, cell_name (cell),
+				  GSF_LE_GET_GUINT32 (q->data + 16)););
+
 	} else if (esheet_ver (esheet) >= MS_BIFF_V3) {
 		XL_CHECK_CONDITION (q->length >= 18);
 		expr_length = GSF_LE_GET_GUINT16 (q->data + 16);
@@ -7100,6 +7101,22 @@ excel_read_CODEPAGE (BiffQuery *q, GnmXLImporter *importer)
 				      GSF_LE_GET_GUINT16 (q->data));
 }
 
+static void
+excel_read_RECALCID (BiffQuery *q, GnmXLImporter *importer)
+{
+	guint32 engine;
+
+	XL_CHECK_CONDITION (q->length >= 8);
+	engine = GSF_LE_GET_GUINT32 (q->data + 4);
+
+	(void)engine;
+}
+
+static void
+excel_read_UNCALCED (BiffQuery *q, GnmXLImporter *importer)
+{
+}
+
 void
 excel_read_workbook (GOIOContext *context, WorkbookView *wb_view,
 		     GsfInput *input,
@@ -7276,7 +7293,8 @@ excel_read_workbook (GOIOContext *context, WorkbookView *wb_view,
 			d (0, g_printerr ("%s\n", "XL 2000 file"););
 			break;
 
-		case BIFF_RECALCID:	break;
+		case BIFF_RECALCID:	excel_read_RECALCID (q, importer); break;
+		case BIFF_UNCALCED:     excel_read_UNCALCED (q, importer); break;
 		case BIFF_REFRESHALL:	break;
 		case BIFF_CODENAME:	excel_read_CODENAME (q, importer, NULL); break;
 		case BIFF_PROT4REVPASS: break;
