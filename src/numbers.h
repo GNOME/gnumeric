@@ -41,10 +41,13 @@ typedef long double gnm_float;
 #define gnm_asinh asinhl
 #define gnm_atan atanl
 #define gnm_atan2 atan2l
+#define gnm_atanpi go_atanpil
+#define gnm_atan2pi go_atan2pil
 #define gnm_atanh atanhl
 #define gnm_ceil ceill
 #define gnm_cosh coshl
 #define gnm_cospi go_cospil
+#define gnm_cotpi go_cotpil
 #define gnm_erf erfl
 #define gnm_erfc erfcl
 #define gnm_exp expl
@@ -153,10 +156,13 @@ typedef double gnm_float;
 #define gnm_asinh asinh
 #define gnm_atan atan
 #define gnm_atan2 atan2
+#define gnm_atanpi go_atanpi
+#define gnm_atan2pi go_atan2pi
 #define gnm_atanh atanh
 #define gnm_ceil ceil
 #define gnm_cosh cosh
 #define gnm_cospi go_cospi
+#define gnm_cotpi go_cotpi
 #define gnm_erf erf
 #define gnm_erfc erfc
 #define gnm_exp exp

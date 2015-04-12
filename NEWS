@@ -33,6 +33,7 @@ Morten:
 	* Fix sheet filter problem.
 	* Minor R.DNORM improvement.
 	* Improve RAYLEIGH accuracy.
+	* Improve R.QCAUCHY accuracy.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21

@@ -3272,13 +3272,11 @@ gnm_float pcauchy(gnm_float x, gnm_float location, gnm_float scale,
 #endif
     if (!lower_tail)
 	x = -x;
-    /* for large x, the standard formula suffers from cancellation.
-     * This is from Morten Welinder thanks to  Ian Smith's  atan(1/x) : */
-    if (gnm_abs(x) > 1) {
-	gnm_float y = atan(1/x) / M_PIgnum;
-	return (x > 0) ? R_D_Clog(y) : R_D_val(-y);
-    } else
-	return R_D_val(0.5 + atan(x) / M_PIgnum);
+
+    if (log_p && x > 0)
+	    return R_D_Clog(gnm_atan2pi (1, x));
+    else
+	    return R_D_val(gnm_atan2pi (1, -x));
 }
 
 /* ------------------------------------------------------------------------ */

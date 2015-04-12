@@ -499,6 +499,18 @@ qlnorm (gnm_float p, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gb
 
 /* ------------------------------------------------------------------------ */
 
+static gnm_float
+dcauchy1 (gnm_float x, const gnm_float shape[], gboolean give_log)
+{
+	return dcauchy (x, shape[0], shape[1], give_log);
+}
+
+static gnm_float
+pcauchy1 (gnm_float x, const gnm_float shape[], gboolean lower_tail, gboolean log_p)
+{
+	return pcauchy (x, shape[0], shape[1], lower_tail, log_p);
+}
+
 /**
  * qcauchy:
  * @p: probability
@@ -515,6 +527,8 @@ gnm_float
 qcauchy (gnm_float p, gnm_float location, gnm_float scale,
 	 gboolean lower_tail, gboolean log_p)
 {
+	gnm_float x;
+
 	if (gnm_isnan(p) || gnm_isnan(location) || gnm_isnan(scale))
 		return p + location + scale;
 
@@ -529,13 +543,27 @@ qcauchy (gnm_float p, gnm_float location, gnm_float scale,
 			lower_tail = !lower_tail, p = 0 - gnm_expm1 (p);
 		else
 			p = gnm_exp (p);
+		log_p = FALSE;
+	} else {
+		if (p > 0.5) {
+			p = 1 - p;
+			lower_tail = !lower_tail;
+		}
 	}
-	if (p > 0.5) {
-		p = 1 - p;
-		lower_tail = !lower_tail;
+	x = location + (lower_tail ? -scale : scale) * gnm_cotpi (p);
+
+	if (location != 0 && gnm_abs (x / location) < 0.25) {
+		/* Cancellation has occurred.  */
+		gnm_float shape[2];
+		shape[0] = location;
+		shape[1] = scale;
+		x = pfuncinverter (p, shape, lower_tail, log_p,
+				   gnm_ninf, gnm_pinf, x,
+				   pcauchy1, dcauchy1);
+
 	}
-	if (lower_tail) scale = -scale;
-	return location + scale / gnm_tanpi (p);
+
+	return x;
 }
 
 /* ------------------------------------------------------------------------ */
