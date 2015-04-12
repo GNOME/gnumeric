@@ -220,6 +220,7 @@ my @full_corpus =
      "$samples/split-panes-tests.gnumeric",
      "$samples/string-tests.gnumeric",
      "$samples/merge-tests.gnumeric",
+     "$samples/selection-tests.gnumeric",
      "$samples/style-tests.gnumeric",
      "$samples/validation-tests.gnumeric",
     );
