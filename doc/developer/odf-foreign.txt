@@ -42,6 +42,10 @@ various attribute values specifying chart:interpolation types
 *******************************************************************************************
 Part 3: In any ODF files:
 
+0) Obsolete elements that are no longer written:
+
+gnm:regression-curve element used instead of chart:regression-curve for any second or later regression curve in a plot. Since ODF in fact allows multiple chart:regression-curve elements, this is unnecessary.
+
 1) Elements and attributes added by goffice:
 
 gnm:display-factor="pi" is an attribute to number:fraction indicating a pi-fraction (ie. a fraction written as a multiple of pi)
@@ -80,7 +84,7 @@ gnm:default-separation
 This is an attribute for the plot-style chart:circle
 
 gnm:expression
-Attribute used where ODF restricts expressions to be cell references via table:cell-range-address for example chart titles.
+Attribute used instead of table:cell-range in chart titles.
 
 gnm:font-stretch-pango
 gnm:font-gravity-pango
@@ -91,9 +95,6 @@ used instead of chart:label-cell-address if that isn't just a range reference
 
 gnm:droplines
 element to add droplines to charts
-
-gnm:regression-curve
-element used instead of chart:regression-curve for any second or later regression curve in a plot
 
 gnm:multi-series
 flag to recognize an XLSurfacePlot export
@@ -113,6 +114,7 @@ dimension for a polynomial regression
 gnm:is-position-manual
 gnm:position
 gnm:anchor
+gnm:compass
 position of GogObject
 
 gnm:tab-color

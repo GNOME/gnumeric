@@ -6499,9 +6499,7 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 		str = odf_get_gog_style_name_from_obj
 			(state, GOG_OBJECT (regression));
 		gsf_xml_out_start_element
-			(state->xml,
-			 (l == regressions) ? CHART "regression-curve"
-			 : GNMSTYLE "regression-curve");
+			(state->xml, CHART "regression-curve");
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
 		g_free (str);
 
