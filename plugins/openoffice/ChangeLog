@@ -1,5 +1,11 @@
 2015-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_generic_axis): deleted
+	(odf_write_plot): don't even try to write axes for Pie or
+	Ring plots.
+
+2015-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_regression_curve): we may use
 	several chart:regression-curve
 

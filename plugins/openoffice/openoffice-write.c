@@ -7883,21 +7883,6 @@ odf_write_axis_no_cats (GnmOOExport *state,
 }
 
 static void
-odf_write_generic_axis (GnmOOExport *state,
-			G_GNUC_UNUSED GogObject const *chart,
-			G_GNUC_UNUSED char const *axis_role,
-			char const *dimension,
-			G_GNUC_UNUSED odf_chart_type_t gtype,
-			GSList const *series)
-{
-	gsf_xml_out_start_element (state->xml, CHART "axis");
-	gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
-	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "generic-axis");
-	odf_write_axis_categories (state, series);
-	gsf_xml_out_end_element (state->xml); /* </chart:axis> */
-}
-
-static void
 odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		GogObject const *chart, GogObject const *plot, GSList *other_plots)
 {
@@ -7973,9 +7958,9 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		  odf_write_min_max_series,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogPiePlot", CHART "circle", ODF_CIRCLE,
-		  5., "X-Axis", "Y-Axis", NULL,
+		  5., NULL, NULL, NULL,
 		  odf_write_standard_series,
-		  odf_write_axis, odf_write_axis, odf_write_axis},
+		  NULL, NULL, NULL},
 		{ "GogRadarPlot", CHART "radar", ODF_RADAR,
 		  10., "Circular-Axis", "Radial-Axis", NULL,
 		  odf_write_standard_series,
@@ -7985,9 +7970,9 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		  odf_write_standard_series,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogRingPlot", CHART "ring", ODF_RING,
-		  10., "X-Axis", "Y-Axis", NULL,
+		  10., NULL, NULL, NULL,
 		  odf_write_standard_series,
-		  odf_write_generic_axis, odf_write_generic_axis, NULL},
+		  NULL, NULL, NULL},
 		{ "GogXYPlot", CHART "scatter", ODF_SCATTER,
 		  20., "X-Axis", "Y-Axis", NULL,
 		  odf_write_standard_series,
