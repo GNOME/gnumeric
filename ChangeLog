@@ -1,3 +1,8 @@
+2015-04-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/wbc-gtk.c (set_entry_contents): format number whenever possible.
+	(see #700599, comment #11).
+
 2015-04-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-image.c (gnm_soi_assign_to_sheet): if there is no
