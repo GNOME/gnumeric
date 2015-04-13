@@ -659,6 +659,16 @@ xlsx_chart_pie_sep (GsfXMLIn *xin, xmlChar const **attrs)
 		      "default-separation", (double)(CLAMP (sep, 0u, 500u)) / 100.0, NULL);
 }
 
+static void
+xlsx_chart_pie_angle (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	unsigned angle = 0;
+	(void)simple_uint (xin, attrs, &angle);
+	g_object_set (G_OBJECT (state->plot),
+		      "initial-angle", (double)angle, NULL);
+}
+
 /* shared with pie of pie, and bar of pie */
 static void xlsx_chart_pie (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogPiePlot"); }
 static void xlsx_chart_ring (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogRingPlot"); }
@@ -2662,7 +2672,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (PIE, SERIES, XL_NS_CHART,	"ser", GSF_XML_2ND, NULL, NULL),
           GSF_XML_IN_NODE (SERIES, PIE_SER_SEP, XL_NS_CHART,	"explosion", GSF_XML_NO_CONTENT, &xlsx_chart_pie_sep, NULL),
         GSF_XML_IN_NODE (PIE, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_2ND, NULL, NULL),
-        GSF_XML_IN_NODE (PIE, PIE_FIRST_SLICE, XL_NS_CHART,	"firstSliceAng", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (PIE, PIE_FIRST_SLICE, XL_NS_CHART,	"firstSliceAng", GSF_XML_NO_CONTENT, &xlsx_chart_pie_angle, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, OF_PIE, XL_NS_CHART,	"ofPieChart", GSF_XML_NO_CONTENT, &xlsx_chart_pie, &xlsx_plot_end),
         GSF_XML_IN_NODE (OF_PIE, OF_PIE_TYPE,	XL_NS_CHART, "ofPieType", GSF_XML_NO_CONTENT, NULL, NULL),

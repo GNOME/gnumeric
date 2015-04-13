@@ -1,5 +1,7 @@
 2015-04-13  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_chart_pie_angle): Read firstSliceAng.
+
 	* xlsx-read.c (xlsx_ext_tabtextcolor): New function for round trip
 	of tab text color.
 
