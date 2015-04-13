@@ -1061,7 +1061,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 						   " encountered!"), hatch_name);
 			else {
 				style->fill.pattern.fore = pat->fore;
-				style->fill.auto_fore = FALSE;
+				style->fill.auto_fore = gnm_auto_color_value_set && gnm_auto_color_value;
 				style->fill.pattern.pattern =  (gnm_hatch > 0) ?
 					gnm_hatch : pat->pattern;
 			}

@@ -1,3 +1,10 @@
+2015-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_apply_style_props): for hatch use
+	auto_color to set auto_fore
+	* openoffice-write.c (odf_write_gog_style_graphic): write
+	auto_fore as auto-color
+
 2015-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_generic_axis): deleted

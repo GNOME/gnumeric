@@ -7564,7 +7564,7 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 				g_free (s);				
 			}
 		} else if (state->with_extension)
-			odf_add_bool (state->xml, GNMSTYLE "auto-color", TRUE);
+			odf_add_bool (state->xml, GNMSTYLE "auto-color", style->fill.auto_fore);
 		if (state->with_extension && (style->interesting_fields & GO_STYLE_MARKER)) {
 			odf_add_bool (state->xml, GNMSTYLE "auto-marker-outline-colour", 
 				      style->marker.auto_outline_color);
