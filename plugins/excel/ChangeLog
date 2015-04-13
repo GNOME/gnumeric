@@ -1,5 +1,8 @@
 2015-04-13  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read.c (xlsx_ext_tabtextcolor): New function for round trip
+	of tab text color.
+
 	* xlsx-write-drawing.c (xlsx_write_one_plot): Move c:holeSize to
 	where the schema says it should be.
 

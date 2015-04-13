@@ -2746,6 +2746,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	GnmPrintInformation *pi = NULL;
 	GHashTable *zorder;
 	int z;
+	gboolean ext_tab_textcolor = FALSE;
 
 	state->sheet = sheet;
 	col_styles = sheet_style_most_common (state->sheet, TRUE);
@@ -2821,6 +2822,8 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	gsf_xml_out_start_element (xml, "worksheet");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
+	if (state->with_extension)
+		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:gnmx", ns_gnm_ext);
 
 	/*   element sheetPr { CT_SheetPr }?,     */
 	gsf_xml_out_start_element (xml, "sheetPr");
@@ -2837,6 +2840,9 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 		xlsx_add_rgb (xml, "rgb", state->sheet->tab_color->go_color);
 		gsf_xml_out_end_element (xml); /* </tabColor> */
 	}
+	if (NULL != state->sheet->tab_text_color)
+		ext_tab_textcolor = TRUE;
+
 	gsf_xml_out_end_element (xml); /* </sheetPr> */
 
 /*   element dimension { CT_SheetDimension }?,     */
@@ -2910,6 +2916,20 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 /*   element controls { CT_Controls }?,     */
 /*   element webPublishItems { CT_WebPublishItems }?,     */
 /*   element tableParts { CT_TableParts }?,     */
+
+	if (state->with_extension && ext_tab_textcolor) {
+		gsf_xml_out_start_element (xml, "extLst");
+		gsf_xml_out_start_element (xml, "ext");
+		gsf_xml_out_add_cstr_unchecked (xml, "uri", ns_gnm_ext);
+
+		gsf_xml_out_start_element (xml, "gnmx:tabTextColor");
+		xlsx_add_rgb (xml, "rgb", state->sheet->tab_text_color->go_color);
+		gsf_xml_out_end_element (xml); /* </gnmx:tabTextColor> */
+
+		gsf_xml_out_end_element (xml);  /* "ext" */
+		gsf_xml_out_end_element (xml);  /* "extLst" */
+	}
+
 /*   element extLst { CT_ExtensionList }?     */
 	gsf_xml_out_end_element (xml); /* </worksheet> */
 

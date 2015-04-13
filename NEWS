@@ -21,6 +21,7 @@ Morten:
 	* Fix xlsx import of multiple axes.
 	* Fix xlsx title export problem.
 	* Fix xlsx export problem with series' style.
+	* Fix xlsx import/export of sheet tab text colour.
 	* Improve test suite.
 	* Actually implement DECIMAL.
 	* Fix BETA problem with special case.

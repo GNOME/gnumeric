@@ -1650,26 +1650,28 @@ xlsx_CT_SheetPr (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attr
 }
 
 static void
-xlsx_sheet_tabcolor (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_sheet_tab_fgbg (GsfXMLIn *xin, xmlChar const **attrs, gboolean fg)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmColor *text_color, *color = elem_color (xin, attrs, TRUE);
-	if (NULL != color) {
-		int contrast =
-			GO_COLOR_UINT_R (color->go_color) +
-			GO_COLOR_UINT_G (color->go_color) +
-			GO_COLOR_UINT_B (color->go_color);
-		if (contrast >= 0x180)
-			text_color = style_color_black ();
-		else
-			text_color = style_color_white ();
+	GnmColor *color = elem_color (xin, attrs, TRUE);
+	if (color) {
 		g_object_set (state->sheet,
-			      "tab-foreground", text_color,
-			      "tab-background", color,
+			      (fg ? "tab-foreground" : "tab-background"), color,
 			      NULL);
-		style_color_unref (text_color);
 		style_color_unref (color);
 	}
+}
+
+static void
+xlsx_sheet_tabcolor (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	xlsx_sheet_tab_fgbg (xin, attrs, FALSE);
+}
+
+static void
+xlsx_ext_tabtextcolor (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	xlsx_sheet_tab_fgbg (xin, attrs, TRUE);
 }
 
 static void
@@ -3325,6 +3327,7 @@ GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, N
 GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, &xlsx_CT_worksheet, 0),
   GSF_XML_IN_NODE (SHEET, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (EXTLST, EXTITEM, XL_NS_SS, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, &xlsx_ext_end),
+      GSF_XML_IN_NODE (EXTITEM, EXT_TABTEXTCOLOR, XL_NS_GNM_EXT, "tabTextColor", GSF_XML_NO_CONTENT, &xlsx_ext_tabtextcolor, NULL),
   GSF_XML_IN_NODE (SHEET, PROPS, XL_NS_SS, "sheetPr", GSF_XML_NO_CONTENT, &xlsx_CT_SheetPr, NULL),
     GSF_XML_IN_NODE (PROPS, OUTLINE_PROPS, XL_NS_SS, "outlinePr", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PROPS, TAB_COLOR, XL_NS_SS, "tabColor", GSF_XML_NO_CONTENT, &xlsx_sheet_tabcolor, NULL),
