@@ -2828,13 +2828,6 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	/*   element sheetPr { CT_SheetPr }?,     */
 	gsf_xml_out_start_element (xml, "sheetPr");
 
-	pi = state->sheet->print_info;
-	if (pi != NULL) {
-		gsf_xml_out_start_element (xml, "pageSetUpPr");
-		xlsx_add_bool (xml, "fitToPage", pi->scaling.type == PRINT_SCALE_FIT_PAGES);
-		gsf_xml_out_end_element (xml); /* </pageSetUpPr> */
-	}
-
 	if (NULL != state->sheet->tab_color) {
 		gsf_xml_out_start_element (xml, "tabColor");
 		xlsx_add_rgb (xml, "rgb", state->sheet->tab_color->go_color);
@@ -2842,6 +2835,13 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	}
 	if (NULL != state->sheet->tab_text_color)
 		ext_tab_textcolor = TRUE;
+
+	pi = state->sheet->print_info;
+	if (pi != NULL) {
+		gsf_xml_out_start_element (xml, "pageSetUpPr");
+		xlsx_add_bool (xml, "fitToPage", pi->scaling.type == PRINT_SCALE_FIT_PAGES);
+		gsf_xml_out_end_element (xml); /* </pageSetUpPr> */
+	}
 
 	gsf_xml_out_end_element (xml); /* </sheetPr> */
 
