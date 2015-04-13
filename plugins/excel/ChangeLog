@@ -1,3 +1,8 @@
+2015-04-13  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_one_plot): Move c:holeSize to
+	where the schema says it should be.
+
 2015-04-11  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_FORMULA): Only print recalc tag in

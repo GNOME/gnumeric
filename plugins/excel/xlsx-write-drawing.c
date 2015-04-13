@@ -892,16 +892,12 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 	case XLSX_PT_GOGPIEPLOT:
 	case XLSX_PT_GOGRINGPLOT:
 		if (plot_type == XLSX_PT_GOGRINGPLOT) {
-			gint16 center;
-			double center_size;
 			gsf_xml_out_start_element (xml, "c:doughnutChart");
-			g_object_get (G_OBJECT (plot), "center-size", &center_size, NULL);
-			center = (int)floor (center_size * 100. + .5);
-			xlsx_write_chart_int (xml, "c:holeSize", CLAMP (center, 10, 90));
 		} else
 			gsf_xml_out_start_element (xml, "c:pieChart");
 
 		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
+
 #if 0
 		double default_separation = 0.;
 		/* handled in series ? */
@@ -1103,6 +1099,14 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 			      "initial-angle", &initial_angle,
 			      NULL);
 		xlsx_write_chart_int (xml, "c:firstSliceAng", (int) initial_angle);
+
+		if (plot_type == XLSX_PT_GOGRINGPLOT) {
+			int center;
+			double center_size;
+			g_object_get (G_OBJECT (plot), "center-size", &center_size, NULL);
+			center = (int)floor (center_size * 100. + .5);
+			xlsx_write_chart_int (xml, "c:holeSize", CLAMP (center, 10, 90));
+		}
 		break;
 	}
 
