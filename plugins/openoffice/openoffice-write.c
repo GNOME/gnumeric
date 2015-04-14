@@ -6960,6 +6960,10 @@ odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 					     "center-size",
 					     CHART "hole-size");
 
+	odf_write_plot_style_double (state->xml, plot,
+				     "initial-angle",
+				     CHART "angle-offset");
+
 	if (gnm_object_has_readable_prop (plot, "interpolation",
 					  G_TYPE_NONE, NULL))
 		odf_write_interpolation_attribute (state, NULL, plot);
@@ -7154,7 +7158,7 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 		odf_write_plot_style_bool
 			(state->xml, axis,
 			 "invert-axis", GNMSTYLE "reverse-direction");
-
+	
 	odf_write_axisline_style (state, style, axis);
 }
 

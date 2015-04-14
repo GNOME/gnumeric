@@ -7165,6 +7165,10 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					    "hole-size", &ftmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_double ("center-size", ftmp));
+		else if (oo_attr_angle (xin, attrs, OO_NS_CHART,
+					    "angle-offset", &tmp))
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_double ("initial-angle", (double) tmp));
 		else if (oo_attr_bool (xin, attrs, OO_NS_CHART,
 					 "reverse-direction", &btmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
