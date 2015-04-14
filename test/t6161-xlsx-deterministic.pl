@@ -5,9 +5,9 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
-&message ("Check that the ods exporter produces the same results every time.");
+&message ("Check that the xlsx exporter produces the same results every time.");
 
-my $format = "Gnumeric_OpenCalc:odf";
+my $format = "Gnumeric_Excel:xlsx";
 my $unzip = &GnumericTest::find_program ("unzip");
 
 my @sources = &GnumericTest::corpus();
@@ -31,7 +31,7 @@ foreach my $src (@sources) {
     foreach my $i (1, 2) {
 	my $tmp = $src;
 	$tmp =~ s|^.*/||;
-	$tmp =~ s|\..*|-$i.ods|;
+	$tmp =~ s|\..*|-$i.xlsx|;
 	&GnumericTest::junkfile ($tmp);
 	my $cmd = "$ssconvert -T $format $src $tmp";
 	print STDERR "# $cmd\n" if $GnumericTest::verbose;
@@ -65,8 +65,11 @@ foreach my $src (@sources) {
 	    next;
 	}
 
-	# May contain time stamp.
-	next if $member eq 'meta.xml';
+	# unzip trouble
+	next if $member eq '[Content_Types].xml';
+
+	# May contain timestamp
+	next if $member eq 'docProps/core.xml';
 
 	my $cmd1 = &GnumericTest::quotearg ($unzip, "-p", $tmp1, $member);
 	print STDERR "# $cmd1\n" if $GnumericTest::verbose;
