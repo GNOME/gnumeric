@@ -2021,6 +2021,16 @@ xlsx_write_validation (XLValInputPair const *vip, G_GNUC_UNUSED gpointer dummy, 
 	gsf_xml_out_end_element (info->xml); /*  </dataValidation> */
 }
 
+static int
+by_first_range (gpointer vip_a, G_GNUC_UNUSED gpointer val_a,
+		gpointer vip_b, G_GNUC_UNUSED gpointer val_b,
+		G_GNUC_UNUSED gpointer user)
+{
+	const XLValInputPair *a = vip_a;
+	const XLValInputPair *b = vip_b;
+	return gnm_range_compare (a->ranges->data, b->ranges->data);
+}
+
 static void
 xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED GnmRange const *extent)
 {
@@ -2035,7 +2045,10 @@ xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED Gnm
 
 		gsf_xml_out_start_element (xml, "dataValidations");
 		gsf_xml_out_add_int (xml, "count", g_hash_table_size (group)) ;
-		g_hash_table_foreach (group, (GHFunc) xlsx_write_validation, &info);
+		gnm_hash_table_foreach_ordered
+			(group, (GHFunc)xlsx_write_validation,
+			 by_first_range,
+			 &info);
 		gsf_xml_out_end_element (xml); /*  </dataValidations> */
 
 		g_hash_table_destroy (group);

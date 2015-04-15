@@ -24,6 +24,7 @@ G_BEGIN_DECLS
 GType	  gnm_range_get_type (void); /* GBoxedType */
 GnmRange *gnm_range_dup	  (GnmRange const *r);
 gboolean  gnm_range_equal (GnmRange const *a, GnmRange const *b);
+int       gnm_range_compare (GnmRange const *a, GnmRange const *b);
 
 /**
  * range_overlap:

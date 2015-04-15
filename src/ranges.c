@@ -784,6 +784,28 @@ gnm_range_equal (const GnmRange *a, const GnmRange *b)
 	return range_equal (a, b);
 }
 
+/**
+ * gnm_range_compare:
+ * @a: first range
+ * @b: second range
+ *
+ * Returns: a value that is negative if range @a comes before range @b;
+ * zero if the two ranges are equal; positive if range @a comes after
+ * range @b.  The order imposed is lexicographical by starting row,
+ * then column, then ending row, then column.
+ */
+int
+gnm_range_compare (GnmRange const *a, GnmRange const *b)
+{
+	int i = 0;
+	if (!i) i = a->start.row - b->start.row;
+	if (!i) i = a->start.col - b->start.col;
+	if (!i) i = a->end.row - b->end.row;
+	if (!i) i = a->end.col - b->end.col;
+	return i;
+}
+
+
 GnmSheetRange *
 gnm_sheet_range_new (Sheet *sheet, GnmRange const *r)
 {
