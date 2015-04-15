@@ -1,5 +1,12 @@
 2015-04-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_office_styles): use
+	gnm_hash_table_foreach_ordered for text_colours
+	(odf_write_graphs): use gnm_hash_table_foreach_ordered
+	for fill_images
+
+2015-04-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_scale_initial_angle): new
 	(od_style_prop_chart): use odf_scale_initial_angle
 	(oo_chart_axis): do not add axes to ring and pie plots

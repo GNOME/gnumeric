@@ -5419,7 +5419,11 @@ odf_write_office_styles (GnmOOExport *state)
 		 by_value_str,
 		 state);
 
-	g_hash_table_foreach (state->text_colours, (GHFunc) odf_write_text_colours, state);
+	gnm_hash_table_foreach_ordered
+		(state->text_colours,
+		 (GHFunc) odf_write_text_colours,
+		 by_key_str,
+		 state);
 
 	if (state->default_style_region->style != NULL) {
 		gsf_xml_out_start_element (state->xml, STYLE "default-style");
@@ -8684,8 +8688,11 @@ odf_write_graphs (SheetObject *so, char const *name, GnmOOExport *state)
 			}
 			g_free (fullname);
 
-			g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images,
-					      state);
+			gnm_hash_table_foreach_ordered
+				(state->graph_fill_images,
+				 (GHFunc) odf_write_fill_images,
+				 by_value_str,
+				 state);
 
 			g_hash_table_remove_all (state->graph_dashes);
 			g_hash_table_remove_all (state->graph_hatches);

@@ -10,6 +10,7 @@ Andreas:
 	* Improve pattern fill round trip through ODF.
 	* Fix export of Ring plots to ODF. [#747763]
 	* Fix import/export of Pie charts from/to ODF. [#747807]
+	* Add more determinism to ODF export. [#747916]
 
 Jean:
 	* Fix signal handling while running Python. [#744638]
