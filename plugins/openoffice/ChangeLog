@@ -1,3 +1,13 @@
+2015-04-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_scale_initial_angle): new
+	(od_style_prop_chart): use odf_scale_initial_angle
+	(oo_chart_axis): do not add axes to ring and pie plots
+	* openoffice-write.c (odf_scale_initial_angle): new
+	(odf_write_plot_style): use odf_scale_initial_angle
+	(odf_write_pie_axis): new (former odf_write_generic_axis)
+	(odf_write_plot): connect odf_write_pie_axis
+
 2015-04-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_style_prop_chart): read

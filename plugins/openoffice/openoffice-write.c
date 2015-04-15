@@ -6905,12 +6905,24 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 	g_free (interpolation);
 }
 
+static int
+odf_scale_initial_angle (gnm_float angle)
+{
+	angle = 90 - angle;
+	while (angle < 0)
+		angle += 360.;
+	angle = gnm_fake_round (angle);
+
+	return (((int) angle) % 360);
+}
+
 static void
 odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 {
 	gchar const *plot_type = G_OBJECT_TYPE_NAME (plot);
 	gchar *type_str = NULL;
 	double default_separation = 0.;
+	double d;
 
 	odf_add_bool (state->xml, CHART "auto-size", TRUE);
 
@@ -6960,9 +6972,8 @@ odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 					     "center-size",
 					     CHART "hole-size");
 
-	odf_write_plot_style_double (state->xml, plot,
-				     "initial-angle",
-				     CHART "angle-offset");
+	if (gnm_object_has_readable_prop (plot, "initial-angle", G_TYPE_DOUBLE, &d))
+		gsf_xml_out_add_int (state->xml, CHART "angle-offset", odf_scale_initial_angle (d));
 
 	if (gnm_object_has_readable_prop (plot, "interpolation",
 					  G_TYPE_NONE, NULL))
@@ -7887,6 +7898,22 @@ odf_write_axis_no_cats (GnmOOExport *state,
 }
 
 static void
+odf_write_pie_axis (GnmOOExport *state,
+		    G_GNUC_UNUSED GogObject const *chart,
+		    G_GNUC_UNUSED char const *axis_role,
+		    char const *dimension,
+		    G_GNUC_UNUSED odf_chart_type_t gtype,
+		    GSList const *series)
+{
+	gsf_xml_out_start_element (state->xml, CHART "axis");
+	gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
+	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "pie-axis");
+	odf_write_axis_categories (state, series);
+	gsf_xml_out_end_element (state->xml); /* </chart:axis> */
+}
+
+
+static void
 odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		GogObject const *chart, GogObject const *plot, GSList *other_plots)
 {
@@ -7962,9 +7989,9 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		  odf_write_min_max_series,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogPiePlot", CHART "circle", ODF_CIRCLE,
-		  5., NULL, NULL, NULL,
+		  5., NULL, "Y-Axis", NULL,
 		  odf_write_standard_series,
-		  NULL, NULL, NULL},
+		  NULL, odf_write_pie_axis, NULL},
 		{ "GogRadarPlot", CHART "radar", ODF_RADAR,
 		  10., "Circular-Axis", "Radial-Axis", NULL,
 		  odf_write_standard_series,
@@ -7974,9 +8001,9 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		  odf_write_standard_series,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogRingPlot", CHART "ring", ODF_RING,
-		  10., NULL, NULL, NULL,
+		  10., NULL, "Y-Axis", NULL,
 		  odf_write_standard_series,
-		  NULL, NULL, NULL},
+		  NULL, odf_write_pie_axis, NULL},
 		{ "GogXYPlot", CHART "scatter", ODF_SCATTER,
 		  20., "X-Axis", "Y-Axis", NULL,
 		  odf_write_standard_series,
@@ -8044,7 +8071,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
 	odf_write_character_styles (state);
 
-	odf_write_generic_axis_style (state, "generic-axis");
+	odf_write_generic_axis_style (state, "pie-axis");
 
 	odf_start_style (state->xml, "plotstyle", "chart");
 	gsf_xml_out_start_element (state->xml, STYLE "chart-properties");

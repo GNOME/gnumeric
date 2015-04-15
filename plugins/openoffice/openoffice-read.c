@@ -6981,6 +6981,16 @@ oo_style_has_plot_property (OOChartStyle **style, char const *prop, gboolean def
 	return has_prop;
 }
 
+static int
+odf_scale_initial_angle (int angle)
+{
+	angle = 90 - angle;
+	while (angle < 0)
+		angle += 360;
+
+	return (angle % 360);
+}
+
 static void
 od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -7041,6 +7051,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean stacked_unset = FALSE;
 	gboolean overlap_set = FALSE;
 	gboolean percentage_set = FALSE;
+	gboolean initial_angle_set = FALSE;
 	char const *interpolation = NULL;
 
 
@@ -7166,10 +7177,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_double ("center-size", ftmp));
 		else if (oo_attr_angle (xin, attrs, OO_NS_CHART,
-					    "angle-offset", &tmp))
-			style->plot_props = g_slist_prepend (style->plot_props,
-				oo_prop_new_double ("initial-angle", (double) tmp));
-		else if (oo_attr_bool (xin, attrs, OO_NS_CHART,
+					"angle-offset", &tmp)) {
+			initial_angle_set = TRUE;
+			style->plot_props = g_slist_prepend 
+				(style->plot_props, oo_prop_new_double ("initial-angle", 
+									(double) odf_scale_initial_angle (tmp)));
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART,
 					 "reverse-direction", &btmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("invert-axis", btmp));
@@ -7541,6 +7554,10 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("major-tick-labeled", btmp));
 	}
+
+	if (!initial_angle_set)
+		style->plot_props = g_slist_prepend
+			(style->plot_props, oo_prop_new_double ("initial-angle", odf_scale_initial_angle (0)));
 
 	if ((stacked_set && !overlap_set) ||
 	    (percentage_set && !stacked_unset && !overlap_set))
@@ -8681,6 +8698,9 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		else
 			axes_types = types;
 		break;
+	case OO_PLOT_CIRCLE:
+	case OO_PLOT_RING:
+		return;
 	default:
 		axes_types = types;
 		break;
