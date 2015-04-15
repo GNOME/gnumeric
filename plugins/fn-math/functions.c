@@ -835,6 +835,23 @@ gnumeric_cot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_cotpi[] = {
+	{ GNM_FUNC_HELP_NAME, F_("COTPI:the cotangent of Pi*@{x}")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number of half turns")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=COTPI(0.5)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COTPI(0.25)" },
+	{ GNM_FUNC_HELP_SEEALSO, "COT" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_cotpi (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (gnm_cotpi (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_coth[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COTH:the hyperbolic cotangent of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
@@ -1692,6 +1709,22 @@ gnumeric_tan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_tanpi[] = {
+	{ GNM_FUNC_HELP_NAME, F_("TANPI:the tangent of Pi*@{x}")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number of half turns")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=TANPI(1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TANPI(0.25)" },
+	{ GNM_FUNC_HELP_SEEALSO, "TAN" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_tanpi (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (gnm_tanpi (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
 static GnmFuncHelp const help_tanh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TANH:the hyperbolic tangent of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
@@ -3300,6 +3333,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "cot",     "f",     help_cot,
 	  gnumeric_cot, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "cotpi",   "f",     help_cotpi,
+	  gnumeric_cotpi, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "coth",     "f",     help_coth,
 	  gnumeric_coth, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
@@ -3498,6 +3534,9 @@ GnmFuncDescriptor const math_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "tan",     "f",     help_tan,
 	  gnumeric_tan, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	{ "tanpi",   "f",     help_tanpi,
+	  gnumeric_tanpi, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{ "tanh",    "f",     help_tanh,
 	  gnumeric_tanh, NULL, NULL, NULL,

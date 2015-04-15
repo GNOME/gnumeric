@@ -35,6 +35,7 @@
 				<function name="cospi"/>
 				<function name="cot"/>
 				<function name="coth"/>
+				<function name="cotpi"/>
 				<function name="countif"/>
 				<function name="csc"/>
 				<function name="csch"/>
@@ -99,6 +100,7 @@
 				<function name="sumxmy2"/>
 				<function name="tan"/>
 				<function name="tanh"/>
+				<function name="tanpi"/>
 				<function name="trunc"/>
 				<!-- <function name="logmdeterm"/> -->
 			</functions>

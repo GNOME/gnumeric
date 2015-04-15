@@ -39,6 +39,7 @@ Morten:
 	* Minor R.DNORM improvement.
 	* Improve RAYLEIGH accuracy.
 	* Improve R.QCAUCHY accuracy.
+	* Add TANPI and COTPI functions.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.21
