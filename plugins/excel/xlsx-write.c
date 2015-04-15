@@ -2040,7 +2040,7 @@ xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED Gnm
 		XLSXClosure info = { state, xml };
 		/* filter on logical max, not extent.  XL allows validations
 		 * past the stated dimension */
-		GHashTable *group = excel_collect_validations (validations,
+		GHashTable *group = xls_collect_validations (validations,
 			XLSX_MAX_COLS, XLSX_MAX_ROWS);
 
 		gsf_xml_out_start_element (xml, "dataValidations");

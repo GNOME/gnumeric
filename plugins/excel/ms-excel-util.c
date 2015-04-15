@@ -938,4 +938,72 @@ xls_collect_hlinks (GnmStyleList *sl, int max_col, int max_row)
 	return group;
 }
 
+/****************************************************************************/
+
+static guint
+vip_hash (XLValInputPair const *vip)
+{
+	/* bogus, but who cares */
+	return GPOINTER_TO_UINT (vip->v) ^ GPOINTER_TO_UINT (vip->msg);
+}
+
+static gint
+vip_equal (XLValInputPair const *a, XLValInputPair const *b)
+{
+	return a->v == b->v && a->msg == b->msg;
+}
+
+static void
+vip_free (XLValInputPair *vip)
+{
+	g_slist_free (vip->ranges);
+	g_free (vip);
+}
+
+/* We store input msg and validation as distinct items, XL merges them find the
+ * pairs, and the regions that use them */
+GHashTable *
+xls_collect_validations (GnmStyleList *ptr, int max_col, int max_row)
+{
+	GHashTable *group = g_hash_table_new_full
+		((GHashFunc)vip_hash,
+		 (GCompareFunc)vip_equal,
+		 (GDestroyNotify)vip_free,
+		 NULL);
+	GHashTableIter iter;
+	gpointer vip_;
+
+	for (; ptr != NULL ; ptr = ptr->next) {
+		GnmStyleRegion const *sr = ptr->data;
+		XLValInputPair key, *tmp;
+
+		/* Clip here to avoid creating a DV record if there are no regions */
+		if (sr->range.start.col >= max_col ||
+		    sr->range.start.row >= max_row) {
+			range_dump (&sr->range, "bounds drop\n");
+			continue;
+		}
+
+		key.v   = gnm_style_get_validation (sr->style);
+		key.msg = gnm_style_get_input_msg (sr->style);
+		tmp = g_hash_table_lookup (group, &key);
+		if (tmp == NULL) {
+			tmp = g_new (XLValInputPair, 1);
+			tmp->v = key.v;
+			tmp->msg = key.msg;
+			tmp->ranges = NULL;
+			g_hash_table_insert (group, tmp, tmp);
+		}
+		tmp->ranges = g_slist_prepend (tmp->ranges, (gpointer)&sr->range);
+	}
+
+	g_hash_table_iter_init (&iter, group);
+	while (g_hash_table_iter_next (&iter, &vip_, NULL)) {
+		XLValInputPair *vip = vip_;
+		vip->ranges = g_slist_sort (vip->ranges, (GCompareFunc)gnm_range_compare);
+	}
+
+	return group;
+}
+
 /*****************************************************************************/

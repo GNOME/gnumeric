@@ -1,5 +1,9 @@
 2015-04-15  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-util.c (xls_collect_validations): Rename from
+	excel_collect_validations and move from ms-excel-write.c.
+	Sort ranges.
+
 	* xlsx-write.c (xlsx_write_validations): Impose an ordering of
 	validation entries.
 

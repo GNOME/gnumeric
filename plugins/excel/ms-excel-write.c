@@ -1714,7 +1714,7 @@ excel_write_DVALs (BiffPut *bp, ExcelWriteSheet *esheet)
 	if (NULL == (ptr = esheet->validations))
 		return;
 
-	group = excel_collect_validations (ptr,
+	group = xls_collect_validations (ptr,
 			esheet->max_col, esheet->max_row);
 
 	i = g_hash_table_size (group);
@@ -6800,66 +6800,7 @@ excel_write_state_free (ExcelWriteState *ewb)
 	g_free (ewb);
 }
 
-/****************************************************************************/
-
-static guint
-vip_hash (XLValInputPair const *vip)
-{
-	/* bogus, but who cares */
-	return GPOINTER_TO_UINT (vip->v) ^ GPOINTER_TO_UINT (vip->msg);
-}
-
-static gint
-vip_equal (XLValInputPair const *a, XLValInputPair const *b)
-{
-	return a->v == b->v && a->msg == b->msg;
-}
-
-static void
-vip_free (XLValInputPair *vip)
-{
-	g_slist_free (vip->ranges);
-	g_free (vip);
-}
-
-/* We store input msg and validation as distinct items, XL merges them find the
- * pairs, and the regions that use them */
-GHashTable *
-excel_collect_validations (GnmStyleList *ptr, int max_col, int max_row)
-{
-	GnmStyleRegion const *sr;
-	XLValInputPair key, *tmp;
-	GHashTable *group = g_hash_table_new_full
-		((GHashFunc)vip_hash,
-		 (GCompareFunc)vip_equal,
-		 (GDestroyNotify)vip_free,
-		 NULL);
-
-	for (; ptr != NULL ; ptr = ptr->next) {
-		sr = ptr->data;
-
-		/* Clip here to avoid creating a DV record if there are no regions */
-		if (sr->range.start.col >= max_col ||
-		    sr->range.start.row >= max_row) {
-			range_dump (&sr->range, "bounds drop\n");
-			continue;
-		}
-
-		key.v   = gnm_style_get_validation (sr->style);
-		key.msg = gnm_style_get_input_msg (sr->style);
-		tmp = g_hash_table_lookup (group, &key);
-		if (tmp == NULL) {
-			tmp = g_new (XLValInputPair, 1);
-			tmp->v = key.v;
-			tmp->msg = key.msg;
-			tmp->ranges = NULL;
-			g_hash_table_insert (group, tmp, tmp);
-		}
-		tmp->ranges = g_slist_prepend (tmp->ranges, (gpointer)&sr->range);
-	}
-
-	return group;
-}
+/*****************************************************************************/
 
 GHashTable *
 excel_collect_pivot_caches (Workbook const *wb)
