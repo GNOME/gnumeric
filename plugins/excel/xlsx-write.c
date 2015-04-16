@@ -2671,11 +2671,11 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 /**********************************************************************/
 
 static int
-by_key_str (gpointer key_a, G_GNUC_UNUSED gpointer val_a,
-	    gpointer key_b, G_GNUC_UNUSED gpointer val_b,
-	    G_GNUC_UNUSED gpointer user)
+by_val_int (G_GNUC_UNUSED gpointer key_a, gpointer val_a,
+	     G_GNUC_UNUSED gpointer key_b, gpointer val_b,
+	     G_GNUC_UNUSED gpointer user)
 {
-	return strcmp (key_a, key_b);
+	return GPOINTER_TO_INT (val_a) - GPOINTER_TO_INT (val_b);
 }
 
 static void
@@ -2716,7 +2716,7 @@ xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objec
 	/* save authors */
 	gsf_xml_out_start_element (xml, "authors");
 	gnm_hash_table_foreach_ordered (authors, (GHFunc) write_comment_author,
-					by_key_str, xml);
+					by_val_int, xml);
 	gsf_xml_out_end_element (xml); /* </authors> */
 	/* save comments */
 	gsf_xml_out_start_element (xml, "commentList");

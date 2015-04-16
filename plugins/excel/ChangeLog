@@ -1,3 +1,8 @@
+2015-04-16  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_comments): Write comments in id order
+	since we refer to them by their implied id based on the order.
+
 2015-04-15  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_comments): Write comment authors in
