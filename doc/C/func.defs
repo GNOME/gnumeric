@@ -3280,6 +3280,13 @@ The depreciation coefficient used is:
 @SEEALSO=TANH,ACOTH
 
 @CATEGORY=Mathematics
+@FUNCTION=COTPI
+@SHORTDESC=the cotangent of Pi*@{x}
+@SYNTAX=COTPI(x)
+@ARGUMENTDESCRIPTION=@{x}: number of half turns
+@SEEALSO=COT
+
+@CATEGORY=Mathematics
 @FUNCTION=COUNTIF
 @SHORTDESC=count of the cells meeting the given @{criteria}
 @SYNTAX=COUNTIF(range,criteria)
@@ -3891,6 +3898,13 @@ Strings and empty cells are simply ignored.
 @SEEALSO=TAN,SIN,SINH,COS,COSH
 
 @CATEGORY=Mathematics
+@FUNCTION=TANPI
+@SHORTDESC=the tangent of Pi*@{x}
+@SYNTAX=TANPI(x)
+@ARGUMENTDESCRIPTION=@{x}: number of half turns
+@SEEALSO=TAN
+
+@CATEGORY=Mathematics
 @FUNCTION=TRUNC
 @SHORTDESC=@{x} truncated to @{d} digits
 @SYNTAX=TRUNC(x,d)
@@ -4069,8 +4083,8 @@ For @{b} = 2 the exponential power distribution reduces to the normal distributi
 @FUNCTION=RANDGAMMA
 @SHORTDESC=random variate from a Gamma distribution
 @SYNTAX=RANDGAMMA(a,b)
-@ARGUMENTDESCRIPTION=@{a}: parameter of the Gamma distribution
-@{b}: parameter of the Gamma distribution
+@ARGUMENTDESCRIPTION=@{a}: shape parameter of the Gamma distribution
+@{b}: scale parameter of the Gamma distribution
 @NOTE=If @{a} ≤ 0, RANDGAMMA returns #NUM!
 @SEEALSO=RAND
 
@@ -4673,7 +4687,7 @@ GROWTH returns an array having one column and a row for each data point in @{new
 @SYNTAX=HARMEAN(number1,number2,…)
 @ARGUMENTDESCRIPTION=@{number1}: first value
 @{number2}: second value
-@DESCRIPTION=The harmonic mean of N data points is  N divided by the sum of the reciprocals of the data points).
+@DESCRIPTION=The harmonic mean of N data points is N divided by the sum of the reciprocals of the data points).
 @EXCEL=This function is Excel compatible.
 @SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN
 

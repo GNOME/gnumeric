@@ -10964,6 +10964,33 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-COTPI">
+      <refmeta>
+        <refentrytitle>
+          <function>COTPI</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>COTPI</function>
+        </refname>
+        <refpurpose>
+        the cotangent of Pi*<parameter>x</parameter>
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COTPI</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: number of half turns</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-COT"><function>COT</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-COUNTIF">
       <refmeta>
         <refentrytitle>
@@ -13305,6 +13332,33 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-TANPI">
+      <refmeta>
+        <refentrytitle>
+          <function>TANPI</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>TANPI</function>
+        </refname>
+        <refpurpose>
+        the tangent of Pi*<parameter>x</parameter>
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>TANPI</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: number of half turns</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-TAN"><function>TAN</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-TRUNC">
       <refmeta>
         <refentrytitle>
@@ -14007,8 +14061,8 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>a</parameter>: parameter of the Gamma distribution</para>
-        <para><parameter>b</parameter>: parameter of the Gamma distribution</para>
+        <para><parameter>a</parameter>: shape parameter of the Gamma distribution</para>
+        <para><parameter>b</parameter>: scale parameter of the Gamma distribution</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -16142,7 +16196,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>The harmonic mean of N data points is  N divided by the sum of the reciprocals of the data points).</para>
+        <para>The harmonic mean of N data points is N divided by the sum of the reciprocals of the data points).</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
