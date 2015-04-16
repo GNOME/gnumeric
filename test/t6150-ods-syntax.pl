@@ -116,7 +116,7 @@ foreach my $src (@sources) {
 	    my $cmd = "$unzip -p $tmp $member | $this_checker --noout -";
 	    print STDERR "# $cmd\n" if $GnumericTest::verbose;
 	    my $out = `$cmd 2>&1`;
-	    if ($out !~ /^- validates$/) {
+	    if ($out ne '' && $out !~ /^- validates$/) {
 		print STDERR "While checking $member from $tmp:\n";
 		&GnumericTest::dump_indented ($out);
 		$nbad++;
