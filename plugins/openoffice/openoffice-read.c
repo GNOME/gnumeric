@@ -7051,7 +7051,6 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean stacked_unset = FALSE;
 	gboolean overlap_set = FALSE;
 	gboolean percentage_set = FALSE;
-	gboolean initial_angle_set = FALSE;
 	char const *interpolation = NULL;
 
 
@@ -7177,12 +7176,11 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_double ("center-size", ftmp));
 		else if (oo_attr_angle (xin, attrs, OO_NS_CHART,
-					"angle-offset", &tmp)) {
-			initial_angle_set = TRUE;
+					"angle-offset", &tmp))
 			style->plot_props = g_slist_prepend 
-				(style->plot_props, oo_prop_new_double ("initial-angle", 
+				(style->plot_props, oo_prop_new_double ("plot-initial-angle", 
 									(double) odf_scale_initial_angle (tmp)));
-		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART,
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART,
 					 "reverse-direction", &btmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("invert-axis", btmp));
@@ -7554,10 +7552,6 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("major-tick-labeled", btmp));
 	}
-
-	if (!initial_angle_set)
-		style->plot_props = g_slist_prepend
-			(style->plot_props, oo_prop_new_double ("initial-angle", odf_scale_initial_angle (0)));
 
 	if ((stacked_set && !overlap_set) ||
 	    (percentage_set && !stacked_unset && !overlap_set))
@@ -9045,6 +9039,21 @@ static gchar const
 	}
 }
 
+static gboolean
+oo_prop_list_has_double (GSList *props, double *d, char const *tag)
+{
+	GSList *ptr;
+	for (ptr = props; ptr; ptr = ptr->next) {
+		OOProp *prop = ptr->data;
+		if (0 == strcmp (prop->name, tag)) { 
+			*d = g_value_get_double (&prop->value);
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+
 static GogPlot *odf_create_plot (OOParseState *state,  OOPlotType *oo_type)
 {
 	GogPlot *plot;
@@ -9056,9 +9065,21 @@ static GogPlot *odf_create_plot (OOParseState *state,  OOPlotType *oo_type)
 	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
 		"Plot", GOG_OBJECT (plot));
 
-	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL)
+	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL) 
 		oo_prop_list_apply (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA]->
 				    plot_props, G_OBJECT (plot));
+
+	if (0 == strcmp (type, "GogPiePlot") || 0 == strcmp (type, "GogRingPlot")) {
+		/* Note we cannot use the oo_prop_list_apply method since series also have a */
+		/* initial-angle property */
+		double angle = 0.;
+		if (!((state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL) &&
+		    oo_prop_list_has_double (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA]->
+					     plot_props, &angle, "plot-initial-angle")))
+			angle = odf_scale_initial_angle (90);
+		g_object_set (plot, "initial-angle", angle, NULL);
+	}
+
 	return plot;
 }
 

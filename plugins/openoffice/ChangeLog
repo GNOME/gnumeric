@@ -1,5 +1,12 @@
 2015-04-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_style_prop_chart): don't use the real
+	property name, no need to set a default here
+	(oo_prop_list_has_double): new
+	(odf_create_plot): set the initial-angle for plots
+
+2015-04-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_office_styles): use
 	gnm_hash_table_foreach_ordered for text_colours
 	(odf_write_graphs): use gnm_hash_table_foreach_ordered
