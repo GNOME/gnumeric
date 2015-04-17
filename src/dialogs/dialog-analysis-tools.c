@@ -3431,6 +3431,10 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 	histogram_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->calculated_button), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->base.gui,"histogram-button")), TRUE);
+	gtk_entry_set_text (GTK_ENTRY (state->n_entry), "12");
+
         return 0;
 }
 
