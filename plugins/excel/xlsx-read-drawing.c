@@ -2145,7 +2145,8 @@ xlsx_chart_layout_manual (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	alloc.y = state->chart_pos[2];
 	alloc.h = state->chart_pos[3];
 
-	if (GOG_IS_GRID (state->cur_obj)) {
+	if (state->cur_obj == NULL) {
+		/* plot area position, see xlsx_plot_area() and #748016 */
 
 		if (0 && state->chart_pos_mode[0]) {
 			alloc.x = 0;
