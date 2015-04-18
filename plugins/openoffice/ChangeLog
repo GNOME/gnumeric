@@ -1,5 +1,12 @@
 2015-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_col_start): avoid overflow
+	(oo_row_start): avoid overflow
+	(oo_cell_start): avoid overflow
+	(oo_covered_cell_start): avoid overflow
+
+2015-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_preparse_row_start): avoid overflow
 	(odf_preparse_cell_start): avoid overflow
 	(odf_preparse_covered_cell_start): avoid overflow

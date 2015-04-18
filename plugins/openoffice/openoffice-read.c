@@ -3605,7 +3605,8 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			style = odf_style_from_oo_cell_style (xin, oostyle);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			col_info = g_hash_table_lookup (state->styles.col, attrs[1]);
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &repeat_count, 0, INT_MAX))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
+					    &repeat_count, 0, INT_MAX - state->pos.eval.col))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "visibility"))
 			hidden = !attr_eq (attrs[1], "visible");
@@ -3747,7 +3748,8 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 			style = odf_style_from_oo_cell_style (xin, oostyle);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			row_info = g_hash_table_lookup (state->styles.row, attrs[1]);
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count, 0, INT_MAX))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count, 0,
+					    INT_MAX - state->pos.eval.row))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "visibility"))
 			hidden = !attr_eq (attrs[1], "visible");
@@ -3870,7 +3872,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->content_is_error = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
-				       &state->col_inc, 0, INT_MAX))
+				       &state->col_inc, 0, INT_MAX - state->pos.eval.col))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "error-value"))
 			/* While the value of this attribute contains the true error value   */
@@ -4354,7 +4356,7 @@ oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->col_inc = 1;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
-				       &state->col_inc, 0, INT_MAX))
+				       &state->col_inc, 0, INT_MAX - state->pos.eval.col))
 			;
 #if 0
 		/* why bother it is covered ? */
