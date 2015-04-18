@@ -11546,7 +11546,8 @@ odf_preparse_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->row_inc = 1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &state->row_inc, 0, INT_MAX));
+		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &state->row_inc,
+				       0, INT_MAX - state->pos.eval.row));
 }
 
 static void
@@ -11565,7 +11566,7 @@ odf_preparse_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
-				       &state->col_inc, 0, INT_MAX));
+				       &state->col_inc, 0, INT_MAX - state->pos.eval.col));
 
 	oo_update_data_extent (state, state->col_inc, state->row_inc);
 	state->pos.eval.col += state->col_inc;
@@ -11579,7 +11580,7 @@ odf_preparse_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->col_inc = 1;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
-				       &state->col_inc, 0, INT_MAX));
+				       &state->col_inc, 0, INT_MAX - state->pos.eval.col));
 	state->pos.eval.col += state->col_inc;
 }
 
