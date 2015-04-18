@@ -1,5 +1,13 @@
 2015-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_extent_sheet_cols): delete
+	(oo_col_start): just check for the sheet size
+	(oo_extent_sheet_rows): delete
+	(oo_row_start): just check for the sheet size
+	(oo_cell_start): it is too late to try enlarge the sheet
+
+2015-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_col_start): avoid overflow
 	(oo_row_start): avoid overflow
 	(oo_cell_start): avoid overflow

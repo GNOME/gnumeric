@@ -3303,23 +3303,6 @@ oo_update_data_extent (OOParseState *state, int cols, int rows)
 		state->extent_data.row = state->pos.eval.row + rows - 1;
 }
 
-static int
-oo_extent_sheet_cols (Sheet *sheet, int cols)
-{
-	GOUndo   * goundo;
-	int new_cols, new_rows;
-	gboolean err;
-
-	new_cols = cols;
-	new_rows = gnm_sheet_get_max_rows (sheet);
-	odf_sheet_suggest_size (NULL, &new_cols, &new_rows);
-
-	goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL, &err);
-	if (goundo) g_object_unref (goundo);
-
-	return gnm_sheet_get_max_cols (sheet);
-}
-
 static OOCellStyle *
 odf_oo_cell_style_new (GnmStyle *style)
 {
@@ -3612,8 +3595,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			hidden = !attr_eq (attrs[1], "visible");
 
 	if (state->pos.eval.col + repeat_count > max_cols) {
-		max_cols = oo_extent_sheet_cols (state->pos.sheet, state->pos.eval.col
-						 + repeat_count);
+		max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
 		if (state->pos.eval.col + repeat_count > max_cols) {
 			oo_warning (xin, _("Ignoring column information beyond"
 					   " column %i"), max_cols);
@@ -3701,23 +3683,6 @@ odf_table_header_cols_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->print.rep_cols_to = state->pos.eval.col - 1;
 }
 
-static int
-oo_extent_sheet_rows (Sheet *sheet, int rows)
-{
-	GOUndo * goundo;
-	int new_cols, new_rows;
-	gboolean err;
-
-	new_cols = gnm_sheet_get_max_cols (sheet);
-	new_rows = rows;
-	odf_sheet_suggest_size (NULL, &new_cols, &new_rows);
-
-	goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL, &err);
-	if (goundo) g_object_unref (goundo);
-
-	return gnm_sheet_get_max_rows (sheet);
-}
-
 static void
 oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -3734,7 +3699,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->pos.eval.col = 0;
 
 	if (state->pos.eval.row >= max_rows) {
-		max_rows = oo_extent_sheet_rows (state->pos.sheet, state->pos.eval.row + 1);
+		max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
 		if (state->pos.eval.row >= max_rows) {
 			oo_warning (xin, _("Content past the maximum number of rows (%i) supported."), max_rows);
 			state->row_inc = 0;
@@ -3755,14 +3720,9 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 			hidden = !attr_eq (attrs[1], "visible");
 	}
 
-	if (state->pos.eval.row + repeat_count > max_rows) {
-		max_rows = oo_extent_sheet_rows
-			(state->pos.sheet,
-			 state->pos.eval.row + repeat_count);
-		if (state->pos.eval.row + repeat_count >= max_rows)
+	if (state->pos.eval.row + repeat_count > max_rows)
         	/* There are probably lots of empty lines at the end. */
-			repeat_count = max_rows - state->pos.eval.row - 1;
-	}
+		repeat_count = max_rows - state->pos.eval.row - 1;
 
 	if (hidden)
 		colrow_set_visibility (state->pos.sheet, FALSE, FALSE, state->pos.eval.row,
@@ -4120,11 +4080,6 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			r.end = r.start;
 			r.end.col += array_cols - 1;
 			r.end.row += array_rows - 1;
-
-			if (r.end.col > gnm_sheet_get_last_col (sheet))
-				oo_extent_sheet_cols (sheet, r.end.col + 1);
-			if (r.end.row > gnm_sheet_get_last_row (sheet))
-				oo_extent_sheet_rows (sheet, r.end.row + 1);
 
 			if (r.end.col > gnm_sheet_get_last_col (sheet)) {
 				oo_warning
