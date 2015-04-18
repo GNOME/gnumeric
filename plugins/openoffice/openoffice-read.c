@@ -5496,14 +5496,6 @@ odf_map (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
-static inline gboolean
-attr_eq_ncase (xmlChar const *a, char const *s, int n)
-{
-	return !g_ascii_strncasecmp (CXML2C (a), s, n);
-}
-
-
-
 static void
 odf_format_invisible_text (GsfXMLIn *xin, xmlChar const **attrs)
 {
