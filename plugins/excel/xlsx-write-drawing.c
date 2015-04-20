@@ -912,6 +912,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 	case XLSX_PT_GOGRADARAREAPLOT:
 		gsf_xml_out_start_element (xml, "c:radarChart");
 		xlsx_write_chart_cstr_unchecked (xml, "c:radarStyle", "standard");
+		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
+		has_lines = TRUE;
 		axis_type[0] = GOG_AXIS_CIRCULAR;
 		axis_type[1] = GOG_AXIS_RADIAL;
 		break;
