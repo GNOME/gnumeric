@@ -634,6 +634,9 @@ xlsx_chart_add_plot (GsfXMLIn *xin, char const *type)
 				/* Replace dummy object.  */
 				xlsx_chart_pop_obj (state);
 				xlsx_chart_push_obj (state, bp);
+
+				/* If there is no style, we will remove the backplane.  */
+				state->cur_style->fill.type = GO_STYLE_FILL_NONE;
 			}
 		}
 	}
@@ -667,6 +670,17 @@ xlsx_chart_pie_angle (GsfXMLIn *xin, xmlChar const **attrs)
 	(void)simple_uint (xin, attrs, &angle);
 	g_object_set (G_OBJECT (state->plot),
 		      "initial-angle", (double)angle, NULL);
+}
+
+static void
+xlsx_chart_ring_hole (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	unsigned size = 50;
+	(void)simple_uint (xin, attrs, &size);
+	/* Allow full range for size.  Spec says 10-90.  */
+	g_object_set (G_OBJECT (state->plot),
+		      "center-size", CLAMP (size, 0, 100) / 100.0, NULL);
 }
 
 /* shared with pie of pie, and bar of pie */
@@ -2122,7 +2136,20 @@ static void
 xlsx_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GogObject *bp = state->cur_obj;
+	GOStyle const *s = state->cur_style;
+	gboolean delete;
+
+	delete = (GOG_IS_GRID (bp) &&
+		  !go_style_is_fill_visible (s) &&
+		  gog_object_is_deletable (bp));
+	if (delete)
+		gog_object_clear_parent (bp);
+
 	xlsx_chart_pop_obj (state);
+
+	if (delete)
+		g_object_unref (bp);  /* from _clear_parent. */
 }
 
 
@@ -2217,6 +2244,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		gnm_float f;
+		int i;
 
 		if (strcmp (attrs[0], "pattern") == 0) {
 			GOPatternType p = go_pattern_from_str (attrs[1]);
@@ -2229,6 +2257,10 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 				style->fill.pattern.fore = GO_COLOR_BLACK;
 			}
 			style->fill.pattern.pattern = p;
+		} else if (attr_bool (xin, attrs, "auto-pattern", &i)) {
+			style->fill.auto_type = i != 0;
+		} else if (attr_bool (xin, attrs, "auto-back", &i)) {
+			style->fill.auto_back = i != 0;
 		} else if (start_arrow && strcmp (attrs[0], "StartArrowType") == 0) {
 			start_arrow->typ = go_arrow_type_from_str (attrs[1]);
 		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeA", &f)) {
@@ -2695,7 +2727,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (DOUGHNUT, SERIES, XL_NS_CHART,	"ser", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (DOUGHNUT, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (DOUGHNUT, PIE_FIRST_SLICE, XL_NS_CHART,	"firstSliceAng", GSF_XML_2ND, NULL, NULL),
-        GSF_XML_IN_NODE (DOUGHNUT, HOLE_SIZE, XL_NS_CHART,		"holeSize", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (DOUGHNUT, HOLE_SIZE, XL_NS_CHART,		"holeSize", GSF_XML_NO_CONTENT, &xlsx_chart_ring_hole, NULL),
 	GSF_XML_IN_NODE (DOUGHNUT, PLOT_DLBLS,    XL_NS_CHART, "dLbls", GSF_XML_2ND, NULL, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, DATA_TABLE, XL_NS_CHART, "dTable", GSF_XML_NO_CONTENT, NULL, NULL),

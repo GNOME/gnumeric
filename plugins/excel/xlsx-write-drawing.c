@@ -321,6 +321,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 				   !style->font.auto_color);
 	gboolean has_font = xlsx_go_style_has_font (style);
 	gboolean ext_fill_pattern = FALSE;
+	gboolean ext_fill_auto_pattern = FALSE;
+	gboolean ext_fill_auto_back = FALSE;
 	gboolean ext_start_arrow = FALSE;
 	gboolean ext_end_arrow = FALSE;
 	gboolean ext_gradient_rev = FALSE;
@@ -358,17 +360,15 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 			break;			
 		case GO_STYLE_FILL_PATTERN: {
 			const char *pattname = NULL;
+			ext_fill_auto_pattern = TRUE;
 			switch (style->fill.pattern.pattern) {
 			case GO_PATTERN_SOLID:
 				ext_fill_pattern = TRUE;
-				if (!style->fill.auto_back) {
+				if (!style->fill.auto_back || sctx->must_fill_fill) {
+					if (style->fill.auto_back)
+						ext_fill_auto_back = TRUE;
 					gsf_xml_out_start_element (xml, "a:solidFill");
 					xlsx_write_rgbarea (xml, style->fill.pattern.back);
-					gsf_xml_out_end_element (xml);
-				} else if (sctx->must_fill_fill) {
-					/* We must output a color, or we'll get the foreground colour, i.e., black. */
-					gsf_xml_out_start_element (xml, "a:solidFill");
-					xlsx_write_rgbarea (xml, GO_COLOR_WHITE);
 					gsf_xml_out_end_element (xml);
 				}
 				break;
@@ -557,7 +557,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 	}
 
 	if (sctx->state->with_extension &&
-	    (ext_fill_pattern || ext_start_arrow || ext_end_arrow ||
+	    (ext_fill_pattern || ext_fill_auto_pattern || ext_fill_auto_back ||
+	     ext_start_arrow || ext_end_arrow ||
 	     ext_gradient_rev || ext_dash_type)) {
 		gsf_xml_out_start_element (xml, "a:extLst");
 		gsf_xml_out_start_element (xml, "a:ext");
@@ -570,7 +571,14 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 					      : go_line_dash_as_str (style->line.dash_type));
 		}
 		if (ext_fill_pattern) {
-			gsf_xml_out_add_cstr (xml, "pattern", go_pattern_as_str (style->fill.pattern.pattern));
+			gsf_xml_out_add_cstr (xml, "pattern",
+					      go_pattern_as_str (style->fill.pattern.pattern));
+		}
+		if (ext_fill_auto_pattern) {
+			xlsx_add_bool (xml, "auto-pattern", style->fill.auto_type);
+		}
+		if (ext_fill_auto_back) {
+			xlsx_add_bool (xml, "auto-back", style->fill.auto_back);
 		}
 		if (ext_start_arrow) {
 			GOArrow const *arrow = sctx->start_arrow;
@@ -1208,8 +1216,14 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 	xlsx_write_plots (state, xml, chart, &ser_count);
 
 	obj = gog_object_get_child_by_name (GOG_OBJECT (chart), "Backplane");
-	if (obj)
-		xlsx_write_go_style (xml, state, go_styled_object_get_style (GO_STYLED_OBJECT (obj)));
+	if (obj) {
+		XLSXStyleContext sctx;
+		xlsx_style_context_init (&sctx, state);
+		sctx.must_fill_fill = TRUE;
+		xlsx_write_go_style_full
+			(xml, go_styled_object_get_style (GO_STYLED_OBJECT (obj)),
+			 &sctx);
+	}
 
 	gsf_xml_out_end_element (xml); /* </c:plotArea> */
 

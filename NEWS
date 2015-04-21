@@ -3,6 +3,9 @@ Gnumeric 1.12.23
 Jean:
 	* Fix xlsx import of plot area manual layout. [#748016]
 
+Morten:
+	* Fix import/export of graph backplane.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.22
 
