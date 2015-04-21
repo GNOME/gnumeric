@@ -5,6 +5,7 @@ Jean:
 
 Morten:
 	* Fix import/export of graph backplane.
+	* Fix export of unlabelled axes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.22

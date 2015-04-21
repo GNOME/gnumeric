@@ -783,7 +783,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	gsf_xml_out_end_element (xml);
 
 	{
-		gboolean mati, miti, mato, mito;
+		gboolean mati, miti, mato, mito, mal;
 		static const char *marks[4] = { "none", "in", "out", "cross" };
 
 		g_object_get (G_OBJECT (axis),
@@ -791,11 +791,14 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 			      "minor-tick-in", &miti,
 			      "major-tick-out", &mato,
 			      "minor-tick-out", &mito,
+			      "major-tick-labeled", &mal,
 			      NULL);
 		xlsx_write_chart_cstr_unchecked (xml, "c:majorTickMark",
 						 marks[2 * mato + mati]);
 		xlsx_write_chart_cstr_unchecked (xml, "c:minorTickMark",
 						 marks[2 * mito + miti]);
+		if (!mal)
+			xlsx_write_chart_cstr_unchecked (xml, "c:tickLblPos", "none");
 	}
 
 	xlsx_write_go_style (xml, state, go_styled_object_get_style (GO_STYLED_OBJECT (axis)));
