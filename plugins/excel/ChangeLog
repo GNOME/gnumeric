@@ -1,3 +1,8 @@
+2015-04-23  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c: simplify parsing and fix attribute namespace
+	issues.
+
 2015-04-21  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_ring_hole): read hole size.

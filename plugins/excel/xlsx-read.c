@@ -3123,14 +3123,10 @@ static void
 xlsx_run_weight (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	PangoWeight wt = PANGO_WEIGHT_BOLD;  /* Default */
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		int i;
-		if (attr_bool (xin, attrs, "val", &i))
-			wt = i ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL;
-	}
-
+	PangoWeight wt;
+	int b = TRUE;
+	(void)simple_bool (xin, attrs, &b);
+	wt = b ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL;
 	add_attr (state, pango_attr_weight_new (wt));
 }
 
@@ -3138,14 +3134,11 @@ static void
 xlsx_run_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	PangoStyle st = PANGO_STYLE_ITALIC;
+	PangoStyle st;
+	int it = TRUE;
+	(void)simple_bool (xin, attrs, &it);
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		int i;
-		if (attr_bool (xin, attrs, "val", &i))
-			st = i ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL;
-	}
-
+	st = it ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL;
 	add_attr (state, pango_attr_style_new (st));
 }
 
@@ -3153,37 +3146,30 @@ static void
 xlsx_run_family (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
-			PangoAttribute *attr = pango_attr_family_new (attrs[1]);
-			add_attr (state, attr);
-		}
+	const char *fam = simple_string (xin, attrs);
+	if (fam) {
+		PangoAttribute *attr = pango_attr_family_new (fam);
+		add_attr (state, attr);
+	}
 }
 
 static void
 xlsx_run_size (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
-			PangoAttribute *attr = pango_attr_size_new (atoi (attrs[1]) * PANGO_SCALE);
-			add_attr (state, attr);
-
-		}
+	gnm_float sz;
+	if (simple_float (xin, attrs, &sz)) {
+		PangoAttribute *attr = pango_attr_size_new (CLAMP (sz, 0.0, 1000.0) * PANGO_SCALE);
+		add_attr (state, attr);
+	}
 }
 
 static void
 xlsx_run_strikethrough (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean st = TRUE;  /* Default */
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		int i;
-		if (attr_bool (xin, attrs, "val", &i))
-			st = i;
-	}
-
+	int st = TRUE;  /* Default */
+	(void)simple_bool (xin, attrs, &st);
 	add_attr (state, pango_attr_strikethrough_new (st));
 }
 
@@ -3200,12 +3186,7 @@ xlsx_run_underline (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int u = PANGO_UNDERLINE_SINGLE;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_enum (xin, attrs, "val", types, &u))
-			;
-	}
-
+	(void)simple_enum (xin, attrs, types, &u);
 	add_attr (state, pango_attr_underline_new (u));
 }
 
@@ -3220,12 +3201,7 @@ xlsx_run_vertalign (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	int v = GO_FONT_SCRIPT_STANDARD;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_enum (xin, attrs, "val", types, &v))
-			;
-	}
-
+	(void)simple_enum (xin, attrs, types, &v);
 	switch (v) {
 	case GO_FONT_SCRIPT_SUB:
 		add_attr (state, go_pango_attr_subscript_new (TRUE));
@@ -3246,7 +3222,7 @@ xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
 	GOColor c = GO_COLOR_BLACK;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "rgb")) {
+		if (strcmp (attrs[0], "rgb") == 0) {
 			unsigned r, g, b, a;
 			if (4 != sscanf (attrs[1], "%02x%02x%02x%02x", &a, &r, &g, &b)) {
 				xlsx_warning (xin,
@@ -3256,7 +3232,7 @@ xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 
 			c = GO_COLOR_FROM_RGBA (r, g, b, a);
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "indexed")) {
+		} else if (strcmp (attrs[0], "indexed") == 0) {
 			int idx = atoi (CXML2C (attrs[1]));
 			c = indexed_color (state, idx);
 		}
@@ -3804,9 +3780,9 @@ xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
 	anchor_r = sheet_object_get_anchor (so)->cell_bound;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ref"))
+		if (strcmp (attrs[0], "ref") == 0)
 			range_parse (&anchor_r, attrs[1], gnm_sheet_get_size (state->sheet));
-		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "authorId")) {
+		else if (strcmp (attrs[0], "authorId") == 0) {
 			unsigned id = atoi (attrs[1]);
 			char const *name;
 			if (id < state->authors->len) {
@@ -4203,41 +4179,38 @@ static void
 xlsx_font_name (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "val"))
-			gnm_style_set_font_name	(state->style_accum, attrs[1]);
+	const char *name = simple_string (xin, attrs);
+	if (name)
+		gnm_style_set_font_name	(state->style_accum, name);
 }
+
 static void
 xlsx_font_bold (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int val = TRUE;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_bool (xin, attrs, "val", &val)) ;
-			;
+	(void)simple_bool (xin, attrs, &val);
 	gnm_style_set_font_bold (state->style_accum, val);
 }
+
 static void
 xlsx_font_italic (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int val = TRUE;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_bool (xin, attrs, "val", &val)) ;
-			;
+	(void)simple_bool (xin, attrs, &val);
 	gnm_style_set_font_italic (state->style_accum, val);
 }
+
 static void
 xlsx_font_strike (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int val = TRUE;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_bool (xin, attrs, "val", &val))
-			;
+	(void)simple_bool (xin, attrs, &val);
 	gnm_style_set_font_strike (state->style_accum, val);
 }
+
 static void
 xlsx_font_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -4253,10 +4226,8 @@ xlsx_CT_FontSize (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gnm_float val;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_float (xin, attrs, "val", &val))
-			gnm_style_set_font_size	(state->style_accum, val);
+	if (simple_float (xin, attrs, &val))
+		gnm_style_set_font_size	(state->style_accum, val);
 }
 static void
 xlsx_CT_vertAlign (GsfXMLIn *xin, xmlChar const **attrs)
@@ -4269,11 +4240,7 @@ xlsx_CT_vertAlign (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	int val = GO_FONT_SCRIPT_STANDARD;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, "val", types, &val))
-			; /* Nothing */
-
+	(void)simple_enum (xin, attrs, types, &val);
 	gnm_style_set_font_script (state->style_accum, val);
 }
 static void
@@ -4289,10 +4256,7 @@ xlsx_font_uline (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int val = UNDERLINE_SINGLE;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, "val", types, &val))
-			;
+	(void)simple_enum (xin, attrs, types, &val);
 	gnm_style_set_font_uline (state->style_accum, val);
 }
 
@@ -4307,10 +4271,8 @@ xlsx_font_valign (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int val = GO_FONT_SCRIPT_STANDARD;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, "val", types, &val))
-			gnm_style_set_font_script (state->style_accum, val);
+	(void)simple_enum (xin, attrs, types, &val);
+	gnm_style_set_font_script (state->style_accum, val);
 }
 
 static void
