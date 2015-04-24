@@ -1,3 +1,10 @@
+2015-04-24  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_solver_get_current_values): Delete unused
+	function.
+	(gnm_solver_check_constraints): Avoid undefined C behaviour.
+	(gnm_solver_param_get_input_cells): Avoid O(n^2) list handling.
+
 2015-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.22

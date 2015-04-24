@@ -513,7 +513,7 @@ cb_grab_cells (GnmCellIter const *iter, gpointer user)
 	if (NULL == (cell = iter->cell))
 		cell = sheet_cell_create (iter->pp.sheet,
 			iter->pp.eval.col, iter->pp.eval.row);
-	*the_list = g_slist_append (*the_list, cell);
+	*the_list = g_slist_prepend (*the_list, cell);
 	return NULL;
 }
 
@@ -531,7 +531,7 @@ gnm_solver_param_get_input_cells (GnmSolverParameters const *sp)
 	workbook_foreach_cell_in_range (&ep, vr, CELL_ITER_ALL,
 					cb_grab_cells,
 					&input_cells);
-	return input_cells;
+	return g_slist_reverse (input_cells);
 }
 
 void
@@ -1108,6 +1108,7 @@ gnm_solver_check_constraints (GnmSolver *solver)
 	    sp->options.assume_discrete) {
 		GSList *input_cells = gnm_solver_param_get_input_cells (sp);
 		GSList *l;
+		gboolean bad;
 
 		for (l = input_cells; l; l = l->next) {
 			GnmCell *cell = l->data;
@@ -1121,9 +1122,10 @@ gnm_solver_check_constraints (GnmSolver *solver)
 			    val != gnm_floor (val))
 				break;
 		}
+		bad = (l != NULL);
 		g_slist_free (input_cells);
 
-		if (l)
+		if (bad)
 			return FALSE;
 	}
 
@@ -1181,39 +1183,6 @@ gnm_solver_check_constraints (GnmSolver *solver)
 		return FALSE;
 
 	return TRUE;
-}
-
-static GnmValue *
-cb_get_value (GnmValueIter const *iter, gpointer user_data)
-{
-	GnmValue *res = user_data;
-
-	value_array_set (res, iter->x, iter->y,
-			 iter->v
-			 ? value_dup (iter->v)
-			 : value_new_int (0));
-
-	return NULL;
-}
-
-GnmValue *
-gnm_solver_get_current_values (GnmSolver *solver)
-{
-	int w, h;
-	GnmValue *res;
-	GnmSolverParameters const *sp = solver->params;
-	GnmValue const *vinput = gnm_solver_param_get_input (sp);
-	GnmEvalPos ep;
-
-	eval_pos_init_sheet (&ep, sp->sheet);
-
-	w = value_area_get_width (vinput, &ep);
-	h = value_area_get_height (vinput, &ep);
-	res = value_new_array_empty (w, h);
-
-	value_area_foreach (vinput, &ep, CELL_ITER_ALL, cb_get_value, res);
-
-	return res;
 }
 
 gboolean
