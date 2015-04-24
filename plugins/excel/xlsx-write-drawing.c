@@ -320,6 +320,8 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 	gboolean has_font_color = ((style->interesting_fields & GO_STYLE_FONT) &&
 				   !style->font.auto_color);
 	gboolean has_font = xlsx_go_style_has_font (style);
+	gboolean has_layout_angle = ((style->interesting_fields & GO_STYLE_TEXT_LAYOUT) &&
+				     !style->text_layout.auto_angle);
 	gboolean ext_fill_pattern = FALSE;
 	gboolean ext_fill_auto_pattern = FALSE;
 	gboolean ext_fill_auto_back = FALSE;
@@ -605,9 +607,18 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 	gsf_xml_out_end_element (xml);  /* "NS:spPr" */
 	g_free (spPr_tag);
 
-	if (has_font_color || has_font) {
+	if (has_font_color || has_font || has_layout_angle) {
 		gsf_xml_out_start_element (xml, "c:txPr");
-		gsf_xml_out_simple_element (xml, "a:bodyPr", NULL);
+
+		gsf_xml_out_start_element (xml, "a:bodyPr");
+		if (has_layout_angle) {
+			double angle = fmod (360 - style->text_layout.angle, 360.0);
+			if (angle <= -180) angle += 360;
+			if (angle > 180) angle -= 360;
+			gsf_xml_out_add_int (xml, "rot", (int)(angle * 60000));
+		}
+		gsf_xml_out_end_element (xml);  /* "a:bodyPr" */
+
 		gsf_xml_out_simple_element (xml, "a:lstStyle", NULL);
 		gsf_xml_out_start_element (xml, "a:p");
 		gsf_xml_out_start_element (xml, "a:pPr");
