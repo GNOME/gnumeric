@@ -12,6 +12,25 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+/*
+ * This is based on the algorithm from "An Automatic Method for finding
+ * the Greatest or Least Value of a Function" by H. H. Rosenbrock
+ * published in _The Computer Journal_ (1960) 3(3): 175-184.
+ *
+ * It is thus 50+ years old.  You would think that advances in computer
+ * science would have produced improvements that would run circles
+ * around this, but that is not obviously true.
+ *
+ * There are a couple of attrictive features of the Rosenbrock method:
+ * 1. It's monotonic.  Unlike Newton-style methods it cannot suddenly
+ *    warp far away.
+ * 2. We don't need the Hessian.
+ *
+ * Note, that in order to speed convergence we occasionally perform
+ * a tentative Newton iteration step.  (It's tentative because we will
+ * discard it if it doesn't lead to an immediate improvement.)
+ */
+
 #define PRIVATE_KEY "::nlsolve::"
 
 /*
