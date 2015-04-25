@@ -10,6 +10,7 @@
 #include "gnm-solver.h"
 #include "workbook-view.h"
 #include "workbook-control.h"
+#include "application.h"
 #include "gnm-marshalers.h"
 #include "dao.h"
 #include "gui-util.h"
@@ -507,31 +508,31 @@ gnm_solver_param_set_input (GnmSolverParameters *sp, GnmValue *v)
 static GnmValue *
 cb_grab_cells (GnmCellIter const *iter, gpointer user)
 {
-	GSList **the_list = user;
+	GPtrArray *input_cells = user;
 	GnmCell *cell;
 
 	if (NULL == (cell = iter->cell))
 		cell = sheet_cell_create (iter->pp.sheet,
 			iter->pp.eval.col, iter->pp.eval.row);
-	*the_list = g_slist_prepend (*the_list, cell);
+	g_ptr_array_add (input_cells, cell);
 	return NULL;
 }
 
-GSList *
+GPtrArray *
 gnm_solver_param_get_input_cells (GnmSolverParameters const *sp)
 {
 	GnmValue const *vr = gnm_solver_param_get_input (sp);
-	GSList *input_cells = NULL;
-	GnmEvalPos ep;
+	GPtrArray *input_cells = g_ptr_array_new ();
 
-	if (!vr)
-		return NULL;
+	if (vr) {
+		GnmEvalPos ep;
+		eval_pos_init_sheet (&ep, sp->sheet);
+		workbook_foreach_cell_in_range (&ep, vr, CELL_ITER_ALL,
+						cb_grab_cells,
+						input_cells);
+	}
 
-	eval_pos_init_sheet (&ep, sp->sheet);
-	workbook_foreach_cell_in_range (&ep, vr, CELL_ITER_ALL,
-					cb_grab_cells,
-					&input_cells);
-	return g_slist_reverse (input_cells);
+	return input_cells;
 }
 
 void
@@ -584,7 +585,8 @@ gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 	GSList *l;
 	int i;
 	GnmCell *target_cell;
-	GSList *input_cells;
+	GPtrArray *input_cells;
+	unsigned ui;
 
 	target_cell = gnm_solver_param_get_target_cell (sp);
 	if (!target_cell) {
@@ -617,8 +619,8 @@ gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 		return FALSE;
 	}
 	input_cells = gnm_solver_param_get_input_cells (sp);
-	for (l = input_cells; l; l = l->next) {
-		GnmCell *cell = l->data;
+	for (ui = 0; ui < input_cells->len; ui++) {
+		GnmCell *cell = g_ptr_array_index (input_cells, ui);
 		if (gnm_cell_has_expr (cell)) {
 			char *cname = gnm_solver_cell_name (cell, sp->sheet);
 			g_set_error (err,
@@ -627,11 +629,11 @@ gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 				     _("Input cell %s contains a formula"),
 				     cname);
 			g_free (cname);
-			g_slist_free (input_cells);
+			g_ptr_array_free (input_cells, TRUE);
 			return FALSE;
 		}
 	}
-	g_slist_free (input_cells);
+	g_ptr_array_free (input_cells, TRUE);
 
 	for (i = 1, l = sp->constraints; l; i++, l = l->next) {
 		GnmSolverConstraint *c = l->data;
@@ -1136,12 +1138,12 @@ gnm_solver_check_constraints (GnmSolver *solver)
 
 	if (sp->options.assume_non_negative ||
 	    sp->options.assume_discrete) {
-		GSList *input_cells = gnm_solver_param_get_input_cells (sp);
-		GSList *l;
+		GPtrArray *input_cells = gnm_solver_param_get_input_cells (sp);
+		unsigned ui;
 		gboolean bad;
 
-		for (l = input_cells; l; l = l->next) {
-			GnmCell *cell = l->data;
+		for (ui = 0; ui < input_cells->len; ui++) {
+			GnmCell *cell = g_ptr_array_index (input_cells, ui);
 			gnm_float val;
 
 			gnm_cell_eval (cell);
@@ -1152,8 +1154,8 @@ gnm_solver_check_constraints (GnmSolver *solver)
 			    val != gnm_floor (val))
 				break;
 		}
-		bad = (l != NULL);
-		g_slist_free (input_cells);
+		bad = (ui < input_cells->len);
+		g_ptr_array_free (input_cells, TRUE);
 
 		if (bad)
 			return FALSE;
@@ -2169,13 +2171,21 @@ gnm_iter_solver_idle (gpointer data)
 {
 	GnmIterSolver *isol = data;
 	GnmSolver *sol = &isol->parent;
+	GnmSolverParameters *params = sol->params;
+	gboolean progress;
 
-	g_signal_emit (isol, iter_solver_signals[ITER_SOL_SIG_ITERATE], 0);
-
+	g_signal_emit (isol, iter_solver_signals[ITER_SOL_SIG_ITERATE], 0, &progress);
 	isol->iterations++;
+
+	if (!gnm_solver_finished (sol) &&
+	    (!progress || isol->iterations >= params->options.max_iter))
+		gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
 
 	if (gnm_solver_finished (sol)) {
 		isol->idle_tag = 0;
+
+		gnm_app_recalc ();
+
 		return FALSE;
 	} else {
 		/* Call again.  */
@@ -2227,8 +2237,8 @@ gnm_iter_solver_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GnmIterSolverClass, iterate),
 			      NULL, NULL,
-			      gnm__VOID__VOID,
-			      G_TYPE_NONE, 0);
+			      gnm__BOOLEAN__VOID,
+			      G_TYPE_BOOLEAN, 0);
 }
 
 GSF_CLASS (GnmIterSolver, gnm_iter_solver,

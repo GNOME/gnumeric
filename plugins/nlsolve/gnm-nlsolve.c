@@ -7,7 +7,6 @@
 #include "regression.h"
 #include "rangefunc.h"
 #include "workbook.h"
-#include "application.h"
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -64,16 +63,18 @@ typedef struct {
 
 	/* Parameters: */
 	gboolean debug;
-	guint64 max_iter;
 	gnm_float min_factor;
 } GnmNlsolve;
 
 static void free_matrix (gnm_float **m, int n);
+static void rosenbrock_tentative_end (GnmNlsolve *nl, gboolean accept);
 
 static void
 gnm_nlsolve_final (GnmNlsolve *nl)
 {
 	const int n = nl->vars->len;
+
+	rosenbrock_tentative_end (nl, FALSE);
 
 	if (nl->vars)
 		g_ptr_array_free (nl->vars, TRUE);
@@ -620,17 +621,6 @@ rosenbrock_iter (GnmNlsolve *nl)
 	return any_at_all;
 }
 
-static void
-rosenbrock_shutdown (GnmNlsolve *nl)
-{
-	const int n = nl->vars->len;
-
-	rosenbrock_tentative_end (nl, FALSE);
-
-	free_matrix (nl->xi, n);
-	nl->xi = NULL;
-}
-
 static gboolean
 polish_iter (GnmNlsolve *nl)
 {
@@ -679,13 +669,11 @@ polish_iter (GnmNlsolve *nl)
 	return any_at_all;
 }
 
-static void
+static gboolean
 gnm_nlsolve_iterate (GnmIterSolver *isol, GnmNlsolve *nl)
 {
-	GnmSolver *sol = GNM_SOLVER (isol);
 	const int n = nl->vars->len;
-	gboolean ok;
-	gboolean call_again = TRUE;
+	gboolean progress;
 
 	if (isol->iterations == 0)
 		rosenbrock_init (nl);
@@ -696,28 +684,13 @@ gnm_nlsolve_iterate (GnmIterSolver *isol, GnmNlsolve *nl)
 		print_vector ("Current point", nl->xk, n);
 	}
 
-	ok = rosenbrock_iter (nl);
+	progress = rosenbrock_iter (nl);
 
-	if (!ok && !nl->tentative) {
-		ok = polish_iter (nl);
+	if (!progress && !nl->tentative) {
+		progress = polish_iter (nl);
 	}
 
-	if (!ok) {
-		gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
-		call_again = FALSE;
-	}
-
-	if (call_again && isol->iterations >= nl->max_iter) {
-		gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
-		call_again = FALSE;
-	}
-
-	if (!call_again) {
-		set_vector (nl, nl->x0);
-		gnm_app_recalc ();
-
-		rosenbrock_shutdown (nl);
-	}
+	return progress;
 }
 
 gboolean
@@ -740,7 +713,6 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 					   "params", params,
 					   NULL);
 	GnmNlsolve *nl = g_new0 (GnmNlsolve, 1);
-	GSList *input_cells, *l;
 	int n;
 	GnmValue const *vinput = gnm_solver_param_get_input (params);
 	GnmEvalPos ep;
@@ -760,16 +732,11 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	}
 
 	nl->debug = gnm_solver_debug ();
-	nl->max_iter = params->options.max_iter;
 	nl->min_factor = 1e-10;
 
 	nl->target = gnm_solver_param_get_target_cell (params);
 
-	nl->vars = g_ptr_array_new ();
-	input_cells = gnm_solver_param_get_input_cells (params);
-	for (l = input_cells; l; l = l->next)
-		g_ptr_array_add (nl->vars, l->data);
-	g_slist_free (input_cells);
+	nl->vars = gnm_solver_param_get_input_cells (params);
 	n = nl->vars->len;
 
 	nl->x0 = g_new (gnm_float, n);

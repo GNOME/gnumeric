@@ -88,12 +88,12 @@ lpsolve_var_name (GnmSubSolver *ssol, GnmCell const *cell)
 
 static gboolean
 lpsolve_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
-		     gnm_float cst, GSList *input_cells, GError **err)
+		     gnm_float cst, GPtrArray *input_cells, GError **err)
 {
-	GSList *l, *ol;
+	unsigned ui;
 	gboolean any = FALSE;
 	gnm_float y;
-	GSList *old_values = NULL;
+	GPtrArray *old_values;
 	gboolean ok = TRUE;
 
 	if (!target) {
@@ -101,20 +101,19 @@ lpsolve_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
 		return TRUE;
 	}
 
- 	for (l = input_cells; l; l = l->next) {
-	        GnmCell *cell = l->data;
-		old_values = g_slist_prepend (old_values,
-					      value_dup (cell->value));
+	old_values = g_ptr_array_new ();
+	for (ui = 0; ui < input_cells->len; ui++) {
+	        GnmCell *cell = g_ptr_array_index (input_cells, ui);
+		g_ptr_array_add (old_values, value_dup (cell->value));
 		gnm_cell_set_value (cell, value_new_int (0));
 		cell_queue_recalc (cell);
 	}
-	old_values = g_slist_reverse (old_values);
 
 	gnm_cell_eval (target);
 	y = cst + value_get_as_float (target->value);
 
- 	for (l = input_cells; l; l = l->next) {
-	        GnmCell *cell = l->data;
+	for (ui = 0; ui < input_cells->len; ui++) {
+	        GnmCell *cell = g_ptr_array_index (input_cells, ui);
 		gnm_float x;
 		ok = gnm_solver_get_lp_coeff (target, cell, &x, err);
 		if (!ok)
@@ -153,15 +152,13 @@ lpsolve_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
 	}
 
 fail:
- 	for (l = input_cells, ol = old_values;
-	     l;
-	     l = l->next, ol = ol->next) {
-	        GnmCell *cell = l->data;
-		GnmValue *old = ol->data;
+	for (ui = 0; ui < input_cells->len; ui++) {
+	        GnmCell *cell = g_ptr_array_index (input_cells, ui);
+		GnmValue *old = g_ptr_array_index (old_values, ui);
 		gnm_cell_set_value (cell, old);
 		cell_queue_recalc (cell);
 	}
-	g_slist_free (old_values);
+	g_ptr_array_free (old_values, TRUE);
 
 	return ok;
 }
@@ -177,7 +174,7 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 	GString *objfunc = g_string_new (NULL);
 	GSList *l;
 	GnmCell *target_cell = gnm_solver_param_get_target_cell (sp);
-	GSList *input_cells = gnm_solver_param_get_input_cells (sp);
+	GPtrArray *input_cells = gnm_solver_param_get_input_cells (sp);
 	gsize progress;
 
 	/* ---------------------------------------- */
@@ -222,9 +219,9 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 	/* ---------------------------------------- */
 
 	if (sp->options.assume_non_negative) {
-		GSList *l;
-		for (l = input_cells; l; l = l->next) {
-			GnmCell *cell = l->data;
+		unsigned ui;
+		for (ui = 0; ui < input_cells->len; ui++) {
+			GnmCell *cell = g_ptr_array_index (input_cells, ui);
 			g_string_append (constraints,
 					 lpsolve_var_name (ssol, cell));
 			g_string_append (constraints, " >= 0;\n");
@@ -233,9 +230,9 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 	}
 
 	if (sp->options.assume_discrete) {
-		GSList *l;
-		for (l = input_cells; l; l = l->next) {
-			GnmCell *cell = l->data;
+		unsigned ui;
+		for (ui = 0; ui < input_cells->len; ui++) {
+			GnmCell *cell = g_ptr_array_index (input_cells, ui);
 			g_string_append (declarations, "int ");
 			g_string_append (declarations,
 					 lpsolve_var_name (ssol, cell));
@@ -326,7 +323,7 @@ fail:
 	g_string_free (objfunc, TRUE);
 	g_string_free (constraints, TRUE);
 	g_string_free (declarations, TRUE);
-	g_slist_free (input_cells);
+	g_ptr_array_free (input_cells, TRUE);
 
 	return prg;
 }

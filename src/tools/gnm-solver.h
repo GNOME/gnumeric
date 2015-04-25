@@ -103,7 +103,7 @@ char *gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet);
 
 typedef struct {
 	int                 max_time_sec;
-	int                 max_iter;
+	unsigned            max_iter;
 	GnmSolverFactory   *algorithm;
 	GnmSolverModelType  model_type;
 	gboolean            assume_non_negative;
@@ -149,7 +149,7 @@ gboolean gnm_solver_param_equal (GnmSolverParameters const *a,
 
 GnmValue const *gnm_solver_param_get_input (GnmSolverParameters const *sp);
 void gnm_solver_param_set_input (GnmSolverParameters *sp, GnmValue *v);
-GSList *gnm_solver_param_get_input_cells (GnmSolverParameters const *sp);
+GPtrArray *gnm_solver_param_get_input_cells (GnmSolverParameters const *sp);
 
 const GnmCellRef *gnm_solver_param_get_target (GnmSolverParameters const *sp);
 void gnm_solver_param_set_target (GnmSolverParameters *sp,
