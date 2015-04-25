@@ -815,6 +815,15 @@ gnm_solver_dispose (GObject *obj)
 }
 
 static void
+gnm_solver_constructed (GObject *obj)
+{
+	GnmSolver *sol = GNM_SOLVER (obj);
+	GnmSolverParameters *params = sol->params;
+	sol->target = gnm_solver_param_get_target_cell (params);
+	gnm_solver_parent_class->constructed (obj);
+}
+
+static void
 gnm_solver_get_property (GObject *object, guint property_id,
 			 GValue *value, GParamSpec *pspec)
 {
@@ -1642,12 +1651,27 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 #undef ADD_HEADER
 #undef MARK_BAD
 
+gnm_float
+gnm_solver_get_target_value (GnmSolver *solver)
+{
+	GnmValue const *v;
+
+	gnm_cell_eval (solver->target);
+	v = solver->target->value;
+
+	if (VALUE_IS_NUMBER (v) || VALUE_IS_EMPTY (v))
+		return value_get_as_float (v);
+	else
+		return gnm_nan;
+}
+
 static void
 gnm_solver_class_init (GObjectClass *object_class)
 {
 	gnm_solver_parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->dispose = gnm_solver_dispose;
+	object_class->constructed = gnm_solver_constructed;
 	object_class->set_property = gnm_solver_set_property;
 	object_class->get_property = gnm_solver_get_property;
 

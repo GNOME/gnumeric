@@ -2,6 +2,8 @@
 
 	* gnm-solver.c (gnm_solver_param_get_input_cells): Return result
 	as a GPtrArray for random access.  All callers changed.
+	(gnm_solver_get_target_value): New function.  Handle target value
+	in GnmSolver.
 
 2015-04-24  Morten Welinder  <terra@gnome.org>
 

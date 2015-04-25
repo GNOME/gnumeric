@@ -44,7 +44,6 @@ typedef struct {
 
 	/* Input/output cells.  */
 	GPtrArray *vars;
-	GnmCell *target;
 	GnmCellPos origin;
 	int input_width, input_height;
 	gboolean maximize; /* See note above */
@@ -148,19 +147,12 @@ set_vector (GnmNlsolve *nl, const gnm_float *xs)
 		set_value (nl, i, xs[i]);
 }
 
+/* Get the target value as-if we were minimizing.  */
 static gnm_float
 get_value (GnmNlsolve *nl)
 {
-	GnmValue const *v;
-
-	gnm_cell_eval (nl->target);
-	v = nl->target->value;
-
-	if (VALUE_IS_NUMBER (v) || VALUE_IS_EMPTY (v)) {
-		gnm_float y = value_get_as_float (v);
-		return nl->maximize ? 0 - y : y;
-	} else
-		return gnm_nan;
+	gnm_float y = gnm_solver_get_target_value (GNM_SOLVER (nl->parent));
+	return nl->maximize ? 0 - y : y;
 }
 
 static void
@@ -733,8 +725,6 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 
 	nl->debug = gnm_solver_debug ();
 	nl->min_factor = 1e-10;
-
-	nl->target = gnm_solver_param_get_target_cell (params);
 
 	nl->vars = gnm_solver_param_get_input_cells (params);
 	n = nl->vars->len;

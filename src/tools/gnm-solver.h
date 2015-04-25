@@ -200,6 +200,9 @@ typedef struct {
 	GnmSolverParameters *params;
 	GnmSolverResult *result;
 	double starttime, endtime;
+
+	/* Derived information */
+	GnmCell *target;
 } GnmSolver;
 
 typedef struct {
@@ -244,6 +247,8 @@ gboolean gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 			    GError **err);
 
 gboolean gnm_solver_debug (void);
+
+gnm_float gnm_solver_get_target_value (GnmSolver *solver);
 
 /* ------------------------------------------------------------------------- */
 /* Solver subclass for subprocesses. */
@@ -313,7 +318,6 @@ typedef struct {
 	GnmSolver parent;
 
 	guint64 iterations;
-
 	guint idle_tag;
 } GnmIterSolver;
 
