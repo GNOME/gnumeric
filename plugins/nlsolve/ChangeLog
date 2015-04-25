@@ -1,3 +1,7 @@
+2015-04-24  Morten Welinder  <terra@gnome.org>
+
+	* gnm-nlsolve.c: Recast in terms of GnmIterSolver.
+
 2015-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.22

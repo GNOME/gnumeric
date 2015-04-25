@@ -767,7 +767,6 @@ enum {
 	SOL_SIG_PREPARE,
 	SOL_SIG_START,
 	SOL_SIG_STOP,
-	SOL_SIG_CHILD_EXIT,
 	SOL_SIG_LAST
 };
 
@@ -889,6 +888,18 @@ gnm_solver_set_property (GObject *object, guint property_id,
 	}
 }
 
+/**
+ * gnm_solver_prepare:
+ * @sol: solver
+ * @wbc: control for user interaction
+ * @err: location to store error
+ *
+ * Prepare for solving.  Preparation need not do anything, but may include
+ * such tasks as checking that the model is valid for the solver and
+ * locating necessary external programs.
+ *
+ * Returns: %TRUE ok success, %FALSE on error.
+ */
 gboolean
 gnm_solver_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 {
@@ -901,6 +912,16 @@ gnm_solver_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 	return res;
 }
 
+/**
+ * gnm_solver_start:
+ * @sol: solver
+ * @wbc: control for user interaction
+ * @err: location to store error
+ *
+ * Start the solving process.  If needed, the solver will be prepared first.
+ *
+ * Returns: %TRUE ok success, %FALSE on error.
+ */
 gboolean
 gnm_solver_start (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 {
@@ -922,6 +943,15 @@ gnm_solver_start (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 	return res;
 }
 
+/**
+ * gnm_solver_stop:
+ * @sol: solver
+ * @err: location to store error
+ *
+ * Terminate the currently-running solver.
+ *
+ * Returns: %TRUE ok success, %FALSE on error.
+ */
 gboolean
 gnm_solver_stop (GnmSolver *sol, GError **err)
 {
@@ -1700,16 +1730,6 @@ gnm_solver_class_init (GObjectClass *object_class)
 			      gnm__BOOLEAN__POINTER,
 			      G_TYPE_BOOLEAN, 1,
 			      G_TYPE_POINTER);
-
-	solver_signals[SOL_SIG_CHILD_EXIT] =
-		g_signal_new ("child-exit",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GnmSolverClass, child_exit),
-			      NULL, NULL,
-			      gnm__VOID__BOOLEAN_INT,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_BOOLEAN, G_TYPE_INT);
 }
 
 GSF_CLASS (GnmSolver, gnm_solver,
@@ -1742,6 +1762,13 @@ GSF_CLASS (GnmSolverResult, gnm_solver_result,
 /* ------------------------------------------------------------------------- */
 
 static GObjectClass *gnm_sub_solver_parent_class;
+
+enum {
+	SUB_SOL_SIG_CHILD_EXIT,
+	SUB_SOL_SIG_LAST
+};
+
+static guint sub_solver_signals[SUB_SOL_SIG_LAST] = { 0 };
 
 void
 gnm_sub_solver_clear (GnmSubSolver *subsol)
@@ -1862,7 +1889,7 @@ cb_child_exit (G_GNUC_UNUSED GPid pid, gint status, GnmSubSolver *subsol)
 			    status);
 	}
 
-	g_signal_emit (subsol, solver_signals[SOL_SIG_CHILD_EXIT], 0,
+	g_signal_emit (subsol, sub_solver_signals[SUB_SOL_SIG_CHILD_EXIT], 0,
 		       normal, code);
 
 	if (subsol->child_pid) {
@@ -2081,10 +2108,131 @@ gnm_sub_solver_class_init (GObjectClass *object_class)
 
 	object_class->dispose = gnm_sub_solver_dispose;
 	object_class->finalize = gnm_sub_solver_finalize;
+
+	sub_solver_signals[SUB_SOL_SIG_CHILD_EXIT] =
+		g_signal_new ("child-exit",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GnmSubSolverClass, child_exit),
+			      NULL, NULL,
+			      gnm__VOID__BOOLEAN_INT,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_BOOLEAN, G_TYPE_INT);
 }
 
 GSF_CLASS (GnmSubSolver, gnm_sub_solver,
 	   gnm_sub_solver_class_init, gnm_sub_solver_init, GNM_SOLVER_TYPE)
+
+/* ------------------------------------------------------------------------- */
+
+static GObjectClass *gnm_iter_solver_parent_class;
+
+enum {
+	ITER_SOL_SIG_ITERATE,
+	ITER_SOL_SIG_LAST
+};
+
+static guint iter_solver_signals[ITER_SOL_SIG_LAST] = { 0 };
+
+static void
+gnm_iter_solver_clear (GnmIterSolver *isol)
+{
+	if (isol->idle_tag) {
+		g_source_remove (isol->idle_tag);
+		isol->idle_tag = 0;
+	}
+}
+
+static void
+gnm_iter_solver_dispose (GObject *obj)
+{
+	GnmIterSolver *isol = GNM_ITER_SOLVER (obj);
+	gnm_iter_solver_clear (isol);
+	gnm_iter_solver_parent_class->dispose (obj);
+}
+
+static void
+gnm_iter_solver_finalize (GObject *obj)
+{
+	GnmIterSolver *isol = GNM_ITER_SOLVER (obj);
+	(void)isol;
+	gnm_iter_solver_parent_class->finalize (obj);
+}
+
+static void
+gnm_iter_solver_init (GnmIterSolver *isol)
+{
+}
+
+static gint
+gnm_iter_solver_idle (gpointer data)
+{
+	GnmIterSolver *isol = data;
+	GnmSolver *sol = &isol->parent;
+
+	g_signal_emit (isol, iter_solver_signals[ITER_SOL_SIG_ITERATE], 0);
+
+	isol->iterations++;
+
+	if (gnm_solver_finished (sol)) {
+		isol->idle_tag = 0;
+		return FALSE;
+	} else {
+		/* Call again.  */
+		return TRUE;
+	}
+}
+
+static gboolean
+gnm_iter_solver_start (GnmSolver *solver, WorkbookControl *wbc, GError **err)
+{
+	GnmIterSolver *isol = GNM_ITER_SOLVER (solver);
+
+	g_return_val_if_fail (isol->idle_tag == 0, FALSE);
+
+	isol->idle_tag = g_idle_add (gnm_iter_solver_idle, solver);
+	gnm_solver_set_status (solver, GNM_SOLVER_STATUS_RUNNING);
+
+	return TRUE;
+}
+
+static gboolean
+gnm_iter_solver_stop (GnmSolver *solver, GError **err)
+{
+	GnmIterSolver *isol = GNM_ITER_SOLVER (solver);
+	GnmSolver *sol = &isol->parent;
+
+	gnm_iter_solver_clear (isol);
+
+	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_CANCELLED);
+
+	return TRUE;
+}
+
+static void
+gnm_iter_solver_class_init (GObjectClass *object_class)
+{
+	GnmSolverClass *sclass = (GnmSolverClass *)object_class;
+
+	gnm_iter_solver_parent_class = g_type_class_peek_parent (object_class);
+
+	object_class->dispose = gnm_iter_solver_dispose;
+	object_class->finalize = gnm_iter_solver_finalize;
+	sclass->start = gnm_iter_solver_start;
+	sclass->stop = gnm_iter_solver_stop;
+
+	iter_solver_signals[ITER_SOL_SIG_ITERATE] =
+		g_signal_new ("iterate",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GnmIterSolverClass, iterate),
+			      NULL, NULL,
+			      gnm__VOID__VOID,
+			      G_TYPE_NONE, 0);
+}
+
+GSF_CLASS (GnmIterSolver, gnm_iter_solver,
+	   gnm_iter_solver_class_init, gnm_iter_solver_init, GNM_SOLVER_TYPE)
 
 /* ------------------------------------------------------------------------- */
 

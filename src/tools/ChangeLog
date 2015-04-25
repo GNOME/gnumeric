@@ -4,6 +4,7 @@
 	function.
 	(gnm_solver_check_constraints): Avoid undefined C behaviour.
 	(gnm_solver_param_get_input_cells): Avoid O(n^2) list handling.
+	(gnm_iter_solver_class_init): New class for in-process solvers.
 
 2015-04-16  Morten Welinder <terra@gnome.org>
 

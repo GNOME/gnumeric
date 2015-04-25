@@ -41,7 +41,7 @@
 
 
 typedef struct {
-	GnmSolver *parent;
+	GnmIterSolver *parent;
 
 	/* Input/output cells.  */
 	GPtrArray *vars;
@@ -55,7 +55,6 @@ typedef struct {
 
 	/* Current point.  */
 	gnm_float *xk, yk;
-	int k;
 
 	/* Rosenbrock state */
 	gnm_float **xi;
@@ -65,29 +64,17 @@ typedef struct {
 
 	/* Parameters: */
 	gboolean debug;
-	int max_iter;
+	guint64 max_iter;
 	gnm_float min_factor;
-
-	guint idle_tag;
 } GnmNlsolve;
 
 static void free_matrix (gnm_float **m, int n);
-
-static void
-gnm_nlsolve_cleanup (GnmNlsolve *nl)
-{
-	if (nl->idle_tag) {
-		g_source_remove (nl->idle_tag);
-		nl->idle_tag = 0;
-	}
-}
 
 static void
 gnm_nlsolve_final (GnmNlsolve *nl)
 {
 	const int n = nl->vars->len;
 
-	gnm_nlsolve_cleanup (nl);
 	if (nl->vars)
 		g_ptr_array_free (nl->vars, TRUE);
 	g_free (nl->xk);
@@ -187,7 +174,7 @@ free_matrix (gnm_float **m, int n)
 static void
 gnm_nlsolve_set_solution (GnmNlsolve *nl)
 {
-	GnmSolver *sol = nl->parent;
+	GnmSolver *sol = GNM_SOLVER (nl->parent);
 	GnmSolverResult *result = g_object_new (GNM_SOLVER_RESULT_TYPE, NULL);
 	const int n = nl->vars->len;
 	int i;
@@ -215,7 +202,7 @@ gnm_nlsolve_set_solution (GnmNlsolve *nl)
 static gboolean
 gnm_nlsolve_get_initial_solution (GnmNlsolve *nl, GError **err)
 {
-	GnmSolver *sol = nl->parent;
+	GnmSolver *sol = GNM_SOLVER (nl->parent);
 	const int n = nl->vars->len;
 	int i;
 
@@ -258,7 +245,6 @@ gnm_nlsolve_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 	if (ok) {
 		gnm_solver_set_status (sol, GNM_SOLVER_STATUS_PREPARED);
 	} else {
-		gnm_nlsolve_cleanup (nl);
 		gnm_solver_set_status (sol, GNM_SOLVER_STATUS_ERROR);
 	}
 
@@ -344,7 +330,7 @@ compute_hessian (GnmNlsolve *nl, const gnm_float *xs, const gnm_float *g0)
 static gboolean
 newton_improve (GnmNlsolve *nl, gnm_float *xs, gnm_float *y, gnm_float ymax)
 {
-	GnmSolver *sol = nl->parent;
+	GnmSolver *sol = GNM_SOLVER (nl->parent);
 	const int n = nl->vars->len;
 	gnm_float *g, **H, *d;
 	gboolean ok;
@@ -438,7 +424,8 @@ rosenbrock_tentative_end (GnmNlsolve *nl, gboolean accept)
 static gboolean
 rosenbrock_iter (GnmNlsolve *nl)
 {
-	GnmSolver *sol = nl->parent;
+	GnmSolver *sol = GNM_SOLVER (nl->parent);
+	GnmIterSolver *isol = GNM_ITER_SOLVER (sol);
 	const int n = nl->vars->len;
 	int i, j;
 	const gnm_float alpha = 3;
@@ -460,7 +447,7 @@ rosenbrock_iter (GnmNlsolve *nl)
 		}
 	}
 
-	if (nl->k % 20 == 0) {
+	if (isol->iterations % 20 == 0) {
 		for (i = 0; i < n; i++)
 			for (j = 0; j < n; j++)
 				nl->xi[i][j] = (i == j);
@@ -647,7 +634,7 @@ rosenbrock_shutdown (GnmNlsolve *nl)
 static gboolean
 polish_iter (GnmNlsolve *nl)
 {
-	GnmSolver *sol = nl->parent;
+	GnmSolver *sol = GNM_SOLVER (nl->parent);
 	const int n = nl->vars->len;
 	gnm_float *x;
 	gnm_float step;
@@ -692,25 +679,23 @@ polish_iter (GnmNlsolve *nl)
 	return any_at_all;
 }
 
-static gint
-gnm_nlsolve_idle (gpointer data)
+static void
+gnm_nlsolve_iterate (GnmIterSolver *isol, GnmNlsolve *nl)
 {
-	GnmNlsolve *nl = data;
-	GnmSolver *sol = nl->parent;
+	GnmSolver *sol = GNM_SOLVER (isol);
 	const int n = nl->vars->len;
 	gboolean ok;
 	gboolean call_again = TRUE;
 
-	if (nl->k == 0)
+	if (isol->iterations == 0)
 		rosenbrock_init (nl);
 
 	if (nl->debug) {
-		g_printerr ("Iteration %d at %.15" GNM_FORMAT_g "\n",
-			    nl->k, nl->yk);
+		g_printerr ("Iteration %ld at %.15" GNM_FORMAT_g "\n",
+			    (long)(isol->iterations), nl->yk);
 		print_vector ("Current point", nl->xk, n);
 	}
 
-	nl->k++;
 	ok = rosenbrock_iter (nl);
 
 	if (!ok && !nl->tentative) {
@@ -722,7 +707,7 @@ gnm_nlsolve_idle (gpointer data)
 		call_again = FALSE;
 	}
 
-	if (call_again && nl->k >= nl->max_iter) {
+	if (call_again && isol->iterations >= nl->max_iter) {
 		gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
 		call_again = FALSE;
 	}
@@ -733,37 +718,6 @@ gnm_nlsolve_idle (gpointer data)
 
 		rosenbrock_shutdown (nl);
 	}
-
-	if (!call_again)
-		nl->idle_tag = 0;
-
-	return call_again;
-}
-
-static gboolean
-gnm_nlsolve_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
-		   GnmNlsolve *nl)
-{
-	gboolean ok = TRUE;
-
-	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_PREPARED, FALSE);
-
-	nl->idle_tag = g_idle_add (gnm_nlsolve_idle, nl);
-	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_RUNNING);
-
-	return ok;
-}
-
-static gboolean
-gnm_nlsolve_stop (GnmSolver *sol, GError *err, GnmNlsolve *nl)
-{
-	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_RUNNING, FALSE);
-
-	gnm_nlsolve_cleanup (nl);
-
-	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_CANCELLED);
-
-	return TRUE;
 }
 
 gboolean
@@ -782,9 +736,9 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params);
 GnmSolver *
 nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 {
-	GnmSolver *res = g_object_new (GNM_SOLVER_TYPE,
-				       "params", params,
-				       NULL);
+	GnmIterSolver *res = g_object_new (GNM_ITER_SOLVER_TYPE,
+					   "params", params,
+					   NULL);
 	GnmNlsolve *nl = g_new0 (GnmNlsolve, 1);
 	GSList *input_cells, *l;
 	int n;
@@ -792,7 +746,7 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	GnmEvalPos ep;
 	GnmCellRef origin;
 
-	nl->parent = GNM_SOLVER (res);
+	nl->parent = res;
 
 	nl->maximize = (params->problem_type == GNM_SOLVER_MAXIMIZE);
 
@@ -822,11 +776,10 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	nl->xk = g_new (gnm_float, n);
 
 	g_signal_connect (res, "prepare", G_CALLBACK (gnm_nlsolve_prepare), nl);
-	g_signal_connect (res, "start", G_CALLBACK (gnm_nlsolve_start), nl);
-	g_signal_connect (res, "stop", G_CALLBACK (gnm_nlsolve_stop), nl);
+	g_signal_connect (res, "iterate", G_CALLBACK (gnm_nlsolve_iterate), nl);
 
 	g_object_set_data_full (G_OBJECT (res), PRIVATE_KEY, nl,
 				(GDestroyNotify)gnm_nlsolve_final);
 
-	return res;
+	return GNM_SOLVER (res);
 }

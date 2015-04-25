@@ -210,7 +210,6 @@ typedef struct {
 	gboolean (*start) (GnmSolver *solver,
 			   WorkbookControl *wbc, GError **err);
 	gboolean (*stop) (GnmSolver *solver, GError **err);
-	void (*child_exit) (GnmSolver *solver, gboolean normal, int code);
 } GnmSolverClass;
 
 GType gnm_solver_get_type  (void);
@@ -274,6 +273,8 @@ typedef struct {
 
 typedef struct {
 	GnmSolverClass parent_class;
+
+	void (*child_exit) (GnmSubSolver *subsol, gboolean normal, int code);
 } GnmSubSolverClass;
 
 GType gnm_sub_solver_get_type  (void);
@@ -300,6 +301,29 @@ const char *gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
 char *gnm_sub_solver_locate_binary (const char *binary, const char *solver,
 				    const char *url,
 				    WBCGtk *wbcg);
+
+/* ------------------------------------------------------------------------- */
+/* Solver subclass for iterative in-process solvers. */
+
+#define GNM_ITER_SOLVER_TYPE     (gnm_iter_solver_get_type ())
+#define GNM_ITER_SOLVER(o)       (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_ITER_SOLVER_TYPE, GnmIterSolver))
+#define GNM_IS_ITER_SOLVER(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_ITER_SOLVER_TYPE))
+
+typedef struct {
+	GnmSolver parent;
+
+	guint64 iterations;
+
+	guint idle_tag;
+} GnmIterSolver;
+
+typedef struct {
+	GnmSolverClass parent_class;
+
+	void (*iterate) (GnmIterSolver *isol);
+} GnmIterSolverClass;
+
+GType gnm_iter_solver_get_type  (void);
 
 /* ------------------------------------------------------------------------- */
 
