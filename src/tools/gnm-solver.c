@@ -811,6 +811,11 @@ gnm_solver_dispose (GObject *obj)
 		sol->params = NULL;
 	}
 
+	if (sol->input_cells) {
+		g_ptr_array_free (sol->input_cells, TRUE);
+		sol->input_cells = NULL;
+	}
+
 	gnm_solver_parent_class->dispose (obj);
 }
 
@@ -819,7 +824,10 @@ gnm_solver_constructed (GObject *obj)
 {
 	GnmSolver *sol = GNM_SOLVER (obj);
 	GnmSolverParameters *params = sol->params;
+
 	sol->target = gnm_solver_param_get_target_cell (params);
+	sol->input_cells = gnm_solver_param_get_input_cells (params);
+
 	gnm_solver_parent_class->constructed (obj);
 }
 
@@ -1147,12 +1155,11 @@ gnm_solver_check_constraints (GnmSolver *solver)
 
 	if (sp->options.assume_non_negative ||
 	    sp->options.assume_discrete) {
-		GPtrArray *input_cells = gnm_solver_param_get_input_cells (sp);
 		unsigned ui;
 		gboolean bad;
 
-		for (ui = 0; ui < input_cells->len; ui++) {
-			GnmCell *cell = g_ptr_array_index (input_cells, ui);
+		for (ui = 0; ui < solver->input_cells->len; ui++) {
+			GnmCell *cell = g_ptr_array_index (solver->input_cells, ui);
 			gnm_float val;
 
 			gnm_cell_eval (cell);
@@ -1163,8 +1170,7 @@ gnm_solver_check_constraints (GnmSolver *solver)
 			    val != gnm_floor (val))
 				break;
 		}
-		bad = (ui < input_cells->len);
-		g_ptr_array_free (input_cells, TRUE);
+		bad = (ui < solver->input_cells->len);
 
 		if (bad)
 			return FALSE;

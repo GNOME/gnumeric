@@ -75,8 +75,6 @@ gnm_nlsolve_final (GnmNlsolve *nl)
 
 	rosenbrock_tentative_end (nl, FALSE);
 
-	if (nl->vars)
-		g_ptr_array_free (nl->vars, TRUE);
 	g_free (nl->xk);
 	g_free (nl->x0);
 	if (nl->xi) {
@@ -726,7 +724,7 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	nl->debug = gnm_solver_debug ();
 	nl->min_factor = 1e-10;
 
-	nl->vars = gnm_solver_param_get_input_cells (params);
+	nl->vars = GNM_SOLVER (res)->input_cells;
 	n = nl->vars->len;
 
 	nl->x0 = g_new (gnm_float, n);

@@ -88,13 +88,15 @@ lpsolve_var_name (GnmSubSolver *ssol, GnmCell const *cell)
 
 static gboolean
 lpsolve_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
-		     gnm_float cst, GPtrArray *input_cells, GError **err)
+		     gnm_float cst, GError **err)
 {
+	GnmSolver *sol = GNM_SOLVER (ssol);
 	unsigned ui;
 	gboolean any = FALSE;
 	gnm_float y;
 	GPtrArray *old_values;
 	gboolean ok = TRUE;
+	GPtrArray *input_cells = sol->input_cells;
 
 	if (!target) {
 		gnm_string_add_number (dst, cst);
@@ -167,6 +169,7 @@ static GString *
 lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 			GnmSubSolver *ssol, GError **err)
 {
+	GnmSolver *sol = GNM_SOLVER (ssol);
 	GnmSolverParameters *sp = sheet->solver_parameters;
 	GString *prg = NULL;
 	GString *constraints = g_string_new (NULL);
@@ -174,7 +177,7 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 	GString *objfunc = g_string_new (NULL);
 	GSList *l;
 	GnmCell *target_cell = gnm_solver_param_get_target_cell (sp);
-	GPtrArray *input_cells = gnm_solver_param_get_input_cells (sp);
+	GPtrArray *input_cells = sol->input_cells;
 	gsize progress;
 
 	/* ---------------------------------------- */
@@ -211,7 +214,7 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 	go_io_count_progress_update (io_context, 1);
 
 	if (!lpsolve_affine_func (objfunc, target_cell, ssol,
-				  0, input_cells, err))
+				  0, err))
 		goto fail;
 	g_string_append (objfunc, ";\n");
 	go_io_count_progress_update (io_context, 1);
@@ -283,8 +286,7 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 				gboolean ok;
 
 				ok = lpsolve_affine_func
-					(constraints, lhs, ssol,
-					 cl, input_cells, err);
+					(constraints, lhs, ssol, cl, err);
 				if (!ok)
 					goto fail;
 
@@ -293,8 +295,7 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 				g_string_append_c (constraints, ' ');
 
 				ok = lpsolve_affine_func
-					(constraints, rhs, ssol,
-					 cr, input_cells, err);
+					(constraints, rhs, ssol, cr, err);
 				if (!ok)
 					goto fail;
 
@@ -323,7 +324,6 @@ fail:
 	g_string_free (objfunc, TRUE);
 	g_string_free (constraints, TRUE);
 	g_string_free (declarations, TRUE);
-	g_ptr_array_free (input_cells, TRUE);
 
 	return prg;
 }

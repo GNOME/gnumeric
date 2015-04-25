@@ -203,6 +203,7 @@ typedef struct {
 
 	/* Derived information */
 	GnmCell *target;
+	GPtrArray *input_cells;
 } GnmSolver;
 
 typedef struct {
