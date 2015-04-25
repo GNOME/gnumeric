@@ -163,11 +163,10 @@ fail:
 }
 
 static GString *
-glpk_create_program (Sheet *sheet, GOIOContext *io_context,
-		     GnmSubSolver *ssol, GError **err)
+glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 {
 	GnmSolver *sol = GNM_SOLVER (ssol);
-	GnmSolverParameters *sp = sheet->solver_parameters;
+	GnmSolverParameters *sp = sol->params;
 	GString *prg = NULL;
 	GString *constraints = g_string_new (NULL);
 	GString *binaries = g_string_new (NULL);
@@ -350,7 +349,6 @@ void
 glpk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		WorkbookView const *wb_view, GsfOutput *output)
 {
-	Sheet *sheet = wb_view_cur_sheet (wb_view);
 	GError *err = NULL;
 	GString *prg;
 	GnmLocale *locale;
@@ -360,7 +358,7 @@ glpk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 				_("Writing glpk file..."));
 
 	locale = gnm_push_C_locale ();
-	prg = glpk_create_program (sheet, io_context, ssol, &err);
+	prg = glpk_create_program (ssol, io_context, &err);
 	gnm_pop_C_locale (locale);
 
 	gnm_app_recalc ();
