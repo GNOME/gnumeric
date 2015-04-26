@@ -2,6 +2,8 @@
 
 	* xlsx-write.c (xlsx_shared_string): Retry hash lookup when we
 	clear the format.
+	(xlsx_write_cells): Handle string values with formats other than
+	markup.  Fixes #748477.
 
 2015-04-24  Morten Welinder  <terra@gnome.org>
 

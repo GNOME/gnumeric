@@ -1708,7 +1708,9 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 				}
 
 				if (inlineStr) {
-					PangoAttrList *attrs = VALUE_FMT (val)
+					GOFormat const *fmt = VALUE_FMT (val);
+					PangoAttrList *attrs =
+						fmt && go_format_is_markup (fmt)
 						? (PangoAttrList *)go_format_get_markup (VALUE_FMT (val))
 						: NULL;
 
