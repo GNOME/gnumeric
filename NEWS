@@ -7,6 +7,7 @@ Morten:
 	* Fix import/export of graph backplane.
 	* Fix export of unlabelled axes.
 	* Fix export of rotated axis labels.
+	* Fix xlsx save crash related to shared strings.  [#748477]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.22

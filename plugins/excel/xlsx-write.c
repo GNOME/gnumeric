@@ -473,13 +473,16 @@ xlsx_shared_string (XLSXWriteState *state, GnmValue const *v)
 	else {
 		GnmValue *v2 = value_dup (v);
 
-		if (VALUE_FMT (v2) && !go_format_is_markup (VALUE_FMT (v2)))
+		if (VALUE_FMT (v2) && !go_format_is_markup (VALUE_FMT (v2))) {
 			value_set_fmt (v2, NULL);
-
-		i = state->shared_string_array->len;
-		g_ptr_array_add (state->shared_string_array, v2);
-		g_hash_table_insert (state->shared_string_hash,
-				     v2, GINT_TO_POINTER (i));
+			i = xlsx_shared_string (state, v2);
+			value_release (v2);
+		} else {
+			i = state->shared_string_array->len;
+			g_ptr_array_add (state->shared_string_array, v2);
+			g_hash_table_insert (state->shared_string_hash,
+					     v2, GINT_TO_POINTER (i));
+		}
 	}
 
 	return i;
