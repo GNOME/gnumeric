@@ -1162,8 +1162,10 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 	for (i = 0; i < 3; i++) {
 		if (axis_type[i] != GOG_AXIS_UNKNOWN) {
 			GogAxis *axis = gog_plot_get_axis (GOG_PLOT (plot), axis_type[i]);
-			xlsx_write_chart_uint (xml, "c:axId", xlsx_get_axid (state, axis));
-			axes = g_slist_append (axes, axis);
+			if (axis) {
+				xlsx_write_chart_uint (xml, "c:axId", xlsx_get_axid (state, axis));
+				axes = g_slist_append (axes, axis);
+			}
 		}
 	}
 
