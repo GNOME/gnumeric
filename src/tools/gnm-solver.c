@@ -824,9 +824,22 @@ gnm_solver_constructed (GObject *obj)
 {
 	GnmSolver *sol = GNM_SOLVER (obj);
 	GnmSolverParameters *params = sol->params;
+	GnmValue const *vinput = gnm_solver_param_get_input (params);
 
 	sol->target = gnm_solver_param_get_target_cell (params);
+
 	sol->input_cells = gnm_solver_param_get_input_cells (params);
+	if (vinput) {
+		GnmCellRef origin;
+		GnmEvalPos ep;
+
+		eval_pos_init_sheet (&ep, params->sheet);
+		gnm_cellref_make_abs (&origin, &vinput->v_range.cell.a, &ep);
+		sol->origin.col = origin.col;
+		sol->origin.row = origin.row;
+		sol->input_width = value_area_get_width (vinput, &ep);
+		sol->input_height = value_area_get_height (vinput, &ep);
+	}
 
 	gnm_solver_parent_class->constructed (obj);
 }
@@ -1034,8 +1047,8 @@ gnm_solver_store_result (GnmSolver *sol)
 {
 	GnmValue const *vinput;
 	GnmSheetRange sr;
-	int h, w, x, y;
 	GnmValue const *solution;
+	unsigned ui, n = sol->input_cells->len;
 
 	g_return_if_fail (GNM_IS_SOLVER (sol));
 	g_return_if_fail (sol->result != NULL);
@@ -1044,25 +1057,20 @@ gnm_solver_store_result (GnmSolver *sol)
 	vinput = gnm_solver_param_get_input (sol->params);
 	gnm_sheet_range_from_value (&sr, vinput);
 	if (!sr.sheet) sr.sheet = sol->params->sheet;
-	h = range_height (&sr.range);
-	w = range_width (&sr.range);
 
 	solution = gnm_solver_has_solution (sol)
 		? sol->result->solution
 		: NULL;
 
-	for (x = 0; x < w; x++) {
-		for (y = 0; y < h; y++) {
-			GnmValue *v = solution
-				? value_dup (value_area_fetch_x_y (solution, x, y, NULL))
-				: value_new_error_NA (NULL);
-			GnmCell *cell =
-				sheet_cell_fetch (sr.sheet,
-						  sr.range.start.col + x,
-						  sr.range.start.row + y);
-			gnm_cell_set_value (cell, v);
-			cell_queue_recalc (cell);
-		}
+	for (ui = 0; ui < n; ui++) {
+		GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
+		int x = cell->pos.col - sol->origin.col;
+		int y = cell->pos.row - sol->origin.row;
+		GnmValue *v = solution
+			? value_dup (value_area_fetch_x_y (solution, x, y, NULL))
+			: value_new_error_NA (NULL);
+		gnm_cell_set_value (cell, v);
+		cell_queue_recalc (cell);
 	}
 }
 
@@ -1293,7 +1301,7 @@ cell_in_cr (GnmCell const *cell, GnmSheetRange *sr, gboolean follow,
 
 	if (sr->sheet != cell->base.sheet ||
 	    !range_contains (&sr->range, cell->pos.col, cell->pos.row)) {
-		/* If the expression is just =X42 thenm look at X42 instead.
+		/* If the expression is just =X42 then look at X42 instead.
 		   This is because the mps loader uses such a level of
 		   indirection.  Note: we follow only one such step.  */
 		GnmCellRef const *cr = gnm_expr_top_get_cellref (cell->base.texpr);
@@ -1669,6 +1677,30 @@ gnm_solver_get_target_value (GnmSolver *solver)
 		return value_get_as_float (v);
 	else
 		return gnm_nan;
+}
+
+void
+gnm_solver_set_var (GnmSolver *sol, int i, gnm_float x)
+{
+	GnmCell *cell = g_ptr_array_index (sol->input_cells, i);
+
+	if (cell->value &&
+	    VALUE_IS_FLOAT (cell->value) &&
+	    value_get_as_float (cell->value) == x)
+		return;
+
+	gnm_cell_set_value (cell, value_new_float (x));
+	cell_queue_recalc (cell);
+}
+
+void
+gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs)
+{
+	const int n = sol->input_cells->len;
+	int i;
+
+	for (i = 0; i < n; i++)
+		gnm_solver_set_var (sol, i, xs[i]);
 }
 
 static void
@@ -2157,14 +2189,222 @@ GSF_CLASS (GnmSubSolver, gnm_sub_solver,
 
 /* ------------------------------------------------------------------------- */
 
+enum {
+	SOL_ITER_SIG_ITERATE,
+	SOL_ITER_SIG_LAST
+};
+
+static guint solver_iterator_signals[SOL_ITER_SIG_LAST] = { 0 };
+
+static void
+gnm_solver_iterator_class_init (GObjectClass *object_class)
+{
+	solver_iterator_signals[SOL_ITER_SIG_ITERATE] =
+		g_signal_new ("iterate",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GnmSolverIteratorClass, iterate),
+			      NULL, NULL,
+			      gnm__BOOLEAN__VOID,
+			      G_TYPE_BOOLEAN, 0);
+}
+
+gboolean
+gnm_solver_iterator_iterate (GnmSolverIterator *iter)
+{
+	gboolean progress = FALSE;
+	g_signal_emit (iter, solver_iterator_signals[SOL_ITER_SIG_ITERATE], 0, &progress);
+	return progress;
+}
+
+GnmSolverIterator *
+gnm_solver_iterator_new_func (GCallback iterate, gpointer user)
+{
+	GnmSolverIterator *iter;
+
+	iter = g_object_new (GNM_SOLVER_ITERATOR_TYPE, NULL);
+	g_signal_connect (iter, "iterate", G_CALLBACK (iterate), user);
+	return iter;
+}
+
+GSF_CLASS (GnmSolverIterator, gnm_solver_iterator,
+	   gnm_solver_iterator_class_init, NULL, G_TYPE_OBJECT)
+
+/* ------------------------------------------------------------------------- */
+
+static GObjectClass *gnm_solver_iterator_compound_parent_class;
+
+/**
+ * gnm_solver_iterator_compound_add:
+ * @ic: Compound iterator
+ * @iter: (transfer full): sub-iterator
+ * @count: repeat count
+ *
+ * Add an iterator to a compound iterator with a given repeat count.  As a
+ * special case, a repeat count of zero means to try the iterator once
+ * in a cycle, but only if no other sub-iterator has shown any progress so far.
+ */
+void
+gnm_solver_iterator_compound_add (GnmSolverIteratorCompound *ic,
+				  GnmSolverIterator *iter,
+				  unsigned count)
+{
+	g_ptr_array_add (ic->iterators, iter);
+	ic->counts = g_renew (unsigned, ic->counts, ic->iterators->len);
+	ic->counts[ic->iterators->len - 1] = count;
+}
+
+static gboolean
+gnm_solver_iterator_compound_iterate (GnmSolverIterator *iter)
+{
+	GnmSolverIteratorCompound *ic = (GnmSolverIteratorCompound *)iter;
+	gboolean progress;
+
+	while (TRUE) {
+		if (ic->cycle >= ic->cycles)
+			return FALSE;
+
+		if (ic->next >= ic->iterators->len) {
+			/* We've been through all iterators.  */
+			if (!ic->cycle_progress)
+				return FALSE;
+			ic->cycle_progress = FALSE;
+			ic->next = 0;
+			ic->next_counter = 0;
+			ic->cycle++;
+			continue;
+		}
+
+		if (ic->next_counter < ic->counts[ic->next])
+			break;
+
+		/* Special case: when count==0, use only if no progress.  */
+		if (!ic->cycle_progress && ic->next_counter == 0)
+			break;
+
+		ic->next++;
+		ic->next_counter = 0;
+	}
+
+	progress = gnm_solver_iterator_iterate (g_ptr_array_index (ic->iterators, ic->next));
+	if (progress) {
+		ic->cycle_progress = TRUE;
+		ic->next_counter++;
+	} else {
+		/* No progress, so don't retry.  */
+		ic->next++;
+		ic->next_counter = 0;
+	}
+
+	/* Report progress as long as we have stuff to try.  */
+	return TRUE;
+}
+
+static void
+gnm_solver_iterator_compound_init (GnmSolverIteratorCompound *ic)
+{
+	ic->iterators = g_ptr_array_new ();
+	ic->cycles = G_MAXUINT;
+}
+
+static void
+gnm_solver_iterator_compound_finalize (GObject *obj)
+{
+	GnmSolverIteratorCompound *ic = (GnmSolverIteratorCompound *)obj;
+	g_ptr_array_foreach (ic->iterators, (GFunc)g_object_unref, NULL);
+	g_ptr_array_free (ic->iterators, TRUE);
+	g_free (ic->counts);
+	gnm_solver_iterator_compound_parent_class->finalize (obj);
+}
+
+static void
+gnm_solver_iterator_compound_class_init (GObjectClass *object_class)
+{
+	GnmSolverIteratorClass *iclass = (GnmSolverIteratorClass *)object_class;
+
+	gnm_solver_iterator_compound_parent_class = g_type_class_peek_parent (object_class);
+
+	object_class->finalize = gnm_solver_iterator_compound_finalize;
+	iclass->iterate = gnm_solver_iterator_compound_iterate;
+}
+
+GSF_CLASS (GnmSolverIteratorCompound, gnm_solver_iterator_compound,
+	   gnm_solver_iterator_compound_class_init, gnm_solver_iterator_compound_init, GNM_SOLVER_ITERATOR_TYPE)
+
+/* ------------------------------------------------------------------------- */
+
 static GObjectClass *gnm_iter_solver_parent_class;
 
 enum {
-	ITER_SOL_SIG_ITERATE,
-	ITER_SOL_SIG_LAST
+	ISOL_PROP_0,
+	ISOL_PROP_FLIP_SIGN
 };
 
-static guint iter_solver_signals[ITER_SOL_SIG_LAST] = { 0 };
+gnm_float
+gnm_iter_solver_get_target_value (GnmIterSolver *isol)
+{
+	GnmSolver *sol = GNM_SOLVER (isol);
+	gnm_float y = gnm_solver_get_target_value (sol);
+	return isol->flip_sign ? 0 - y : y;
+}
+
+gboolean
+gnm_iter_solver_get_initial_solution (GnmIterSolver *isol, GError **err)
+{
+	GnmSolver *sol = GNM_SOLVER (isol);
+	const int n = sol->input_cells->len;
+	int i;
+
+	if (gnm_solver_check_constraints (sol))
+		goto got_it;
+
+	/* More? */
+
+	g_set_error (err,
+		     go_error_invalid (),
+		     0,
+		     _("The initial values do not satisfy the constraints."));
+	return FALSE;
+
+got_it:
+	for (i = 0; i < n; i++) {
+		GnmCell *cell = g_ptr_array_index (sol->input_cells, i);
+		isol->xk[i] = value_get_as_float (cell->value);
+	}
+	isol->yk = gnm_iter_solver_get_target_value (isol);
+
+	gnm_iter_solver_set_solution (isol);
+
+	return TRUE;
+}
+
+void
+gnm_iter_solver_set_solution (GnmIterSolver *isol)
+{
+	GnmSolver *sol = GNM_SOLVER (isol);
+	GnmSolverResult *result = g_object_new (GNM_SOLVER_RESULT_TYPE, NULL);
+	const int n = sol->input_cells->len;
+	int i;
+
+	result->quality = GNM_SOLVER_RESULT_FEASIBLE;
+	result->value = isol->flip_sign ? 0 - isol->yk : isol->yk;
+	result->solution = value_new_array_empty (sol->input_width,
+						  sol->input_height);
+	for (i = 0; i < n; i++) {
+		GnmCell *cell = g_ptr_array_index (sol->input_cells, i);
+		value_array_set (result->solution,
+				 cell->pos.col - sol->origin.col,
+				 cell->pos.row - sol->origin.row,
+				 value_new_float (isol->xk[i]));
+	}
+
+	g_object_set (sol, "result", result, NULL);
+	g_object_unref (result);
+
+	if (!gnm_solver_check_constraints (sol)) {
+		g_printerr ("Infeasible solution set\n");
+	}
+}
 
 static void
 gnm_iter_solver_clear (GnmIterSolver *isol)
@@ -2187,13 +2427,59 @@ static void
 gnm_iter_solver_finalize (GObject *obj)
 {
 	GnmIterSolver *isol = GNM_ITER_SOLVER (obj);
-	(void)isol;
+	g_free (isol->xk);
 	gnm_iter_solver_parent_class->finalize (obj);
+}
+
+static void
+gnm_iter_solver_constructed (GObject *obj)
+{
+	GnmIterSolver *isol = GNM_ITER_SOLVER (obj);
+	GnmSolver *sol = GNM_SOLVER (obj);
+
+	/* Chain to parent first */
+	gnm_iter_solver_parent_class->constructed (obj);
+
+	isol->xk = g_new0 (gnm_float, sol->input_cells->len);
 }
 
 static void
 gnm_iter_solver_init (GnmIterSolver *isol)
 {
+}
+
+static void
+gnm_iter_solver_get_property (GObject *object, guint property_id,
+			      GValue *value, GParamSpec *pspec)
+{
+	GnmIterSolver *isol = (GnmIterSolver *)object;
+
+	switch (property_id) {
+	case ISOL_PROP_FLIP_SIGN:
+		g_value_set_boolean (value, isol->flip_sign);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_iter_solver_set_property (GObject *object, guint property_id,
+			      GValue const *value, GParamSpec *pspec)
+{
+	GnmIterSolver *isol = (GnmIterSolver *)object;
+
+	switch (property_id) {
+	case ISOL_PROP_FLIP_SIGN:
+		isol->flip_sign = g_value_get_boolean (value);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
 }
 
 static gint
@@ -2204,7 +2490,7 @@ gnm_iter_solver_idle (gpointer data)
 	GnmSolverParameters *params = sol->params;
 	gboolean progress;
 
-	g_signal_emit (isol, iter_solver_signals[ITER_SOL_SIG_ITERATE], 0, &progress);
+	progress = isol->iterator && gnm_solver_iterator_iterate (isol->iterator);
 	isol->iterations++;
 
 	if (!gnm_solver_finished (sol) &&
@@ -2244,6 +2530,8 @@ gnm_iter_solver_stop (GnmSolver *solver, GError **err)
 
 	gnm_iter_solver_clear (isol);
 
+	g_clear_object (&isol->iterator);
+
 	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_CANCELLED);
 
 	return TRUE;
@@ -2258,17 +2546,18 @@ gnm_iter_solver_class_init (GObjectClass *object_class)
 
 	object_class->dispose = gnm_iter_solver_dispose;
 	object_class->finalize = gnm_iter_solver_finalize;
+	object_class->constructed = gnm_iter_solver_constructed;
+	object_class->set_property = gnm_iter_solver_set_property;
+	object_class->get_property = gnm_iter_solver_get_property;
 	sclass->start = gnm_iter_solver_start;
 	sclass->stop = gnm_iter_solver_stop;
 
-	iter_solver_signals[ITER_SOL_SIG_ITERATE] =
-		g_signal_new ("iterate",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GnmIterSolverClass, iterate),
-			      NULL, NULL,
-			      gnm__BOOLEAN__VOID,
-			      G_TYPE_BOOLEAN, 0);
+	g_object_class_install_property (object_class, ISOL_PROP_FLIP_SIGN,
+		g_param_spec_boolean ("flip-sign",
+				      P_("Flip Sign"),
+				      P_("Flip sign of target value"),
+				      FALSE,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 GSF_CLASS (GnmIterSolver, gnm_iter_solver,

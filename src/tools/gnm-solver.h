@@ -204,6 +204,8 @@ typedef struct {
 	/* Derived information */
 	GnmCell *target;
 	GPtrArray *input_cells;
+	GnmCellPos origin;
+	int input_width, input_height;
 } GnmSolver;
 
 typedef struct {
@@ -216,7 +218,7 @@ typedef struct {
 	gboolean (*stop) (GnmSolver *solver, GError **err);
 } GnmSolverClass;
 
-GType gnm_solver_get_type  (void);
+GType gnm_solver_get_type (void);
 
 gboolean gnm_solver_prepare (GnmSolver *solver,
 			     WorkbookControl *wbc, GError **err);
@@ -250,6 +252,8 @@ gboolean gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 gboolean gnm_solver_debug (void);
 
 gnm_float gnm_solver_get_target_value (GnmSolver *solver);
+void gnm_solver_set_var (GnmSolver *sol, int i, gnm_float x);
+void gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs);
 
 /* ------------------------------------------------------------------------- */
 /* Solver subclass for subprocesses. */
@@ -283,7 +287,7 @@ typedef struct {
 	void (*child_exit) (GnmSubSolver *subsol, gboolean normal, int code);
 } GnmSubSolverClass;
 
-GType gnm_sub_solver_get_type  (void);
+GType gnm_sub_solver_get_type (void);
 
 void gnm_sub_solver_clear (GnmSubSolver *subsol);
 
@@ -309,26 +313,88 @@ char *gnm_sub_solver_locate_binary (const char *binary, const char *solver,
 				    WBCGtk *wbcg);
 
 /* ------------------------------------------------------------------------- */
+
+typedef struct GnmIterSolver_ GnmIterSolver;
+typedef struct GnmSolverIterator_ GnmSolverIterator;
+
+/* Utility class for single iteration in a solving process.  */
+
+#define GNM_SOLVER_ITERATOR_TYPE     (gnm_solver_iterator_get_type ())
+#define GNM_SOLVER_ITERATOR(o)       (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SOLVER_ITERATOR_TYPE, GnmSolverIterator))
+#define GNM_IS_SOLVER_ITERATOR(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SOLVER_ITERATOR_TYPE))
+
+struct GnmSolverIterator_ {
+	GObject parent;
+};
+
+typedef struct {
+	GObjectClass parent_class;
+
+	gboolean (*iterate) (GnmSolverIterator *iter);
+} GnmSolverIteratorClass;
+
+GType gnm_solver_iterator_get_type (void);
+GnmSolverIterator *gnm_solver_iterator_new_func (GCallback iterate, gpointer user);
+gboolean gnm_solver_iterator_iterate (GnmSolverIterator *iter);
+
+
+
+#define GNM_SOLVER_ITERATOR_COMPOUND_TYPE     (gnm_solver_iterator_compound_get_type ())
+#define GNM_SOLVER_ITERATOR_COMPOUND(o)       (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SOLVER_ITERATOR_COMPOUND_TYPE, GnmSolverIteratorCompound))
+#define GNM_IS_SOLVER_ITERATOR_COMPOUND(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SOLVER_ITERATOR_COMPOUND_TYPE))
+
+typedef struct {
+	GnmSolverIterator parent;
+	unsigned cycles;
+
+	/* <protected> */
+	GPtrArray *iterators;
+	unsigned *counts;
+	unsigned next, next_counter, cycle;
+	gboolean cycle_progress;
+} GnmSolverIteratorCompound;
+
+typedef struct {
+	GnmSolverIteratorClass parent_class;
+} GnmSolverIteratorCompoundClass;
+
+GType gnm_solver_iterator_compound_get_type (void);
+void gnm_solver_iterator_compound_add (GnmSolverIteratorCompound *ic,
+				       GnmSolverIterator *iter,
+				       unsigned count);
+
+/* ------------------------------------------------------------------------- */
 /* Solver subclass for iterative in-process solvers. */
 
 #define GNM_ITER_SOLVER_TYPE     (gnm_iter_solver_get_type ())
 #define GNM_ITER_SOLVER(o)       (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_ITER_SOLVER_TYPE, GnmIterSolver))
 #define GNM_IS_ITER_SOLVER(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_ITER_SOLVER_TYPE))
 
-typedef struct {
+struct GnmIterSolver_ {
 	GnmSolver parent;
 
+	/* Current point */
+	gnm_float *xk, yk;
+	gboolean flip_sign;
+
+	GnmSolverIterator *iterator;
+
 	guint64 iterations;
+
+	/* <private> */
 	guint idle_tag;
-} GnmIterSolver;
+};
 
 typedef struct {
 	GnmSolverClass parent_class;
-
-	void (*iterate) (GnmIterSolver *isol);
 } GnmIterSolverClass;
 
-GType gnm_iter_solver_get_type  (void);
+GType gnm_iter_solver_get_type (void);
+
+gnm_float gnm_iter_solver_get_target_value (GnmIterSolver *isol);
+
+gboolean gnm_iter_solver_get_initial_solution (GnmIterSolver *isol, GError **err);
+void gnm_iter_solver_set_solution (GnmIterSolver *isol);
 
 /* ------------------------------------------------------------------------- */
 
