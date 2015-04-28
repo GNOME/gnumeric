@@ -2,6 +2,8 @@
 
 	* src/xml-sax-read.c (read_file_free_state): Plug leaks related to
 	malformed documents.  Fixes #748596.
+	(xml_sax_unknown): Don't rely on xin->user_state here.  Fixes
+	#748595.
 
 2015-04-16  Morten Welinder <terra@gnome.org>
 

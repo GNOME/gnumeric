@@ -3243,8 +3243,11 @@ xml_sax_unknown (GsfXMLIn *xin, xmlChar const *elem, xmlChar const **attrs)
 	    0 == strcmp (xin->node->id, "SHEET_OBJECTS")) {
 		char const *type_name = gsf_xml_in_check_ns (xin, CXML2C (elem), GNM);
 		if (type_name != NULL) {
+			XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+			/* This may change xin->user_state.  */
 			xml_sax_read_obj (xin, TRUE, type_name, attrs);
-			return gnm_xml_in_cur_obj (xin) != NULL;
+			/* xin->user_state hasn't been restored yet.  */
+			return state->so != NULL;
 		}
 	}
 	return FALSE;
