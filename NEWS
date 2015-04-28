@@ -1,5 +1,8 @@
 Gnumeric 1.12.23
 
+Andreas:
+	* Fix memory handling error on fuzzed sxc file. [#748535]
+
 Jean:
 	* Fix xlsx import of plot area manual layout. [#748016]
 

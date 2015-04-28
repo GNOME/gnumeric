@@ -13447,6 +13447,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.pos.eval.row	= -1;
 	state.cell_comment      = NULL;
 	state.sharer = gnm_expr_sharer_new ();
+	state.chart.name = NULL;
 	state.chart.cs_enhanced_path = NULL;
 	state.chart.cs_modifiers = NULL;
 	state.chart.cs_viewbox = NULL;
