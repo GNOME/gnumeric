@@ -1,3 +1,8 @@
+2015-04-28  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (sst_read_string): Prevent string overrun.
+	Fixes #748597.
+
 2015-04-26  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_shared_string): Retry hash lookup when we

@@ -1292,11 +1292,13 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 			offset = ms_biff_query_bound_check (q, offset, 4);
 			if (offset == (guint32)-1) {
 				g_free (res_str);
+				pango_attr_list_unref (txo_run.accum);
 				return offset;
 			}
 			if ((q->length - offset) >= 4) {
-				txo_run.last = g_utf8_offset_to_pointer (res_str,
-									 GSF_LE_GET_GUINT16 (q->data+offset)) - res_str;
+				guint16 o = GSF_LE_GET_GUINT16 (q->data + offset);
+				size_t l = strlen (res_str);
+				txo_run.last = g_utf8_offset_to_pointer (res_str, MIN (o, l)) - res_str;
 				if (prev_markup != NULL)
 					pango_attr_list_filter (prev_markup,
 								(PangoAttrFilterFunc) append_markup, &txo_run);
