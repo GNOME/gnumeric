@@ -12,6 +12,7 @@ Morten:
 	* Fix export of rotated axis labels.
 	* Fix xlsx save crash related to shared strings.  [#748477]
 	* Solver code refactoring.
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.22

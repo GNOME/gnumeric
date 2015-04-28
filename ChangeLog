@@ -1,3 +1,8 @@
+2015-04-28  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (read_file_free_state): Plug leaks related to
+	malformed documents.  Fixes #748596.
+
 2015-04-16  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

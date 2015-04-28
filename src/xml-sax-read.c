@@ -3302,9 +3302,24 @@ read_file_free_state (XMLSaxParseState *state, gboolean self)
 	gnm_conventions_unref (state->convs);
 	state->convs = NULL;
 
+	/*
+	 * Malformed documents can cause the parser to exit early.
+	 * This cleans up various bits that may be left.
+	 */
+
 	if (state->style) {
 		gnm_style_unref (state->style);
 		state->style = NULL;
+	}
+
+	if (state->cond_save_style) {
+		gnm_style_unref (state->cond_save_style);
+		state->cond_save_style = NULL;
+	}
+
+	if (state->cond) {
+		gnm_style_cond_free (state->cond);
+		state->cond = NULL;
 	}
 
 	if (state->style_handler_doc) {
