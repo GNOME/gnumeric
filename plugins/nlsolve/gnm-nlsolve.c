@@ -525,55 +525,6 @@ rosenbrock_iter (GnmNlsolve *nl)
 }
 
 static gboolean
-polish_iter (GnmNlsolve *nl)
-{
-	GnmSolver *sol = nl->sol;
-	GnmIterSolver *isol = nl->isol;
-	const int n = nl->n;
-	gnm_float *x;
-	gnm_float step;
-	gboolean any_at_all = FALSE;
-
-	x = g_new (gnm_float, n);
-	for (step = gnm_pow2 (-10); step > GNM_EPSILON; step *= 0.75) {
-		int c, s;
-
-		for (c = 0; c < n; c++) {
-			for (s = 0; s <= 1; s++) {
-				gnm_float y;
-				gnm_float dx = step * gnm_abs (isol->xk[c]);
-
-				if (dx == 0) dx = step;
-				if (s) dx = -dx;
-
-				memcpy (x, isol->xk, n * sizeof (gnm_float));
-				x[c] += dx;
-				set_vector (nl, x);
-				y = get_value (nl);
-
-				if (y < isol->yk && gnm_solver_check_constraints (sol))  {
-					isol->yk = y;
-					memcpy (isol->xk, x, n * sizeof (gnm_float));
-					any_at_all = TRUE;
-					if (nl->debug)
-						g_printerr ("Polish step %.15" GNM_FORMAT_g
-							    " in direction %d\n",
-							    dx, c);
-					break;
-				}
-			}
-		}
-	}
-
-	g_free (x);
-
-	if (any_at_all)
-		set_solution (nl);
-
-	return any_at_all;
-}
-
-static gboolean
 gnm_nlsolve_iterate (GnmSolverIterator *iter, GnmNlsolve *nl)
 {
 	GnmIterSolver *isol = nl->isol;
@@ -589,12 +540,6 @@ gnm_nlsolve_iterate (GnmSolverIterator *iter, GnmNlsolve *nl)
 	}
 
 	return rosenbrock_iter (nl);
-}
-
-static gboolean
-gnm_nlsolve_polish (GnmSolverIterator *iter, GnmNlsolve *nl)
-{
-	return !nl->tentative && polish_iter (nl);
 }
 
 static void
@@ -628,11 +573,12 @@ nlsolve_solver_factory_functional (GnmSolverFactory *factory)
 GnmSolver *
 nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 {
-	GnmIterSolver *res = g_object_new
+	GnmIterSolver *isol = g_object_new
 		(GNM_ITER_SOLVER_TYPE,
 		 "params", params,
 		 "flip-sign", (params->problem_type == GNM_SOLVER_MAXIMIZE),
 		 NULL);
+	GnmSolver *sol = GNM_SOLVER (isol);
 	GnmNlsolve *nl = g_new0 (GnmNlsolve, 1);
 	GnmSolverIteratorCompound *citer;
 	GnmSolverIterator *iter;
@@ -642,24 +588,22 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	iter = gnm_solver_iterator_new_func (G_CALLBACK (gnm_nlsolve_iterate), nl);
 	gnm_solver_iterator_compound_add (citer, iter, 1);
 
-	iter = gnm_solver_iterator_new_func (G_CALLBACK (gnm_nlsolve_polish), nl);
-	gnm_solver_iterator_compound_add (citer, iter, 0);
+	gnm_solver_iterator_compound_add (citer, gnm_solver_iterator_new_polish (isol), 0);
 
-	res->iterator = GNM_SOLVER_ITERATOR (citer);
+	isol->iterator = GNM_SOLVER_ITERATOR (citer);
 
-	nl->sol = GNM_SOLVER (res);
-	nl->isol = res;
-
+	nl->sol = sol;
+	nl->isol = isol;
 	nl->debug = gnm_solver_debug ();
 	nl->min_factor = 1e-10;
 	nl->n = nl->sol->input_cells->len;
 
-	g_signal_connect (res, "prepare", G_CALLBACK (gnm_nlsolve_prepare), nl);
+	g_signal_connect (isol, "prepare", G_CALLBACK (gnm_nlsolve_prepare), nl);
 
-	g_object_set_data_full (G_OBJECT (res), PRIVATE_KEY, nl,
+	g_object_set_data_full (G_OBJECT (isol), PRIVATE_KEY, nl,
 				(GDestroyNotify)gnm_nlsolve_final);
 
-	return GNM_SOLVER (res);
+	return sol;
 }
 
 /* ------------------------------------------------------------------------- */

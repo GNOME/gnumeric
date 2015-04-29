@@ -2227,6 +2227,93 @@ gnm_solver_iterator_new_func (GCallback iterate, gpointer user)
 	return iter;
 }
 
+static gboolean
+cb_polish_iter (GnmSolverIterator *iter, GnmIterSolver *isol)
+{
+	GnmSolver *sol = GNM_SOLVER (isol);
+	const int n = sol->input_cells->len;
+	gnm_float *x;
+	gboolean progress = FALSE;
+	gboolean debug = gnm_solver_debug ();
+	int c;
+
+	x = g_new (gnm_float, n);
+
+	for (c = 0; c < n; c++) {
+		gnm_float xc = isol->xk[c], dx;
+		int e;
+		gboolean try_reverse = TRUE;
+		gboolean try_bigger = TRUE;
+
+		(void)gnm_frexp (xc, &e);
+		dx = gnm_ldexp (1, e + 10);
+		if (dx == 0) dx = GNM_MIN;
+
+		memcpy (x, isol->xk, n * sizeof (gnm_float));
+		while (1) {
+			gnm_float y;
+
+			x[c] = xc + dx;
+			if (x[c] == xc)
+				break;
+			gnm_solver_set_vars (sol, x);
+			y = gnm_iter_solver_get_target_value (isol);
+
+			if (y < isol->yk && gnm_solver_check_constraints (sol))  {
+				/* Success!  */
+
+				isol->yk = y;
+				isol->xk[c] = xc = x[c];
+				progress = TRUE;
+				try_reverse = FALSE;
+				if (debug)
+					g_printerr ("Polish step %.15" GNM_FORMAT_g
+						    " in direction %d\n",
+						    dx, c);
+				if (try_bigger) {
+					dx *= 2;
+					if (gnm_finite (dx))
+						continue;
+				}
+				break;
+			} else {
+				/* Step didn't work.  Restore and find new step to try.  */
+				x[c] = xc;
+
+				if (try_reverse) {
+					dx = -dx;
+					if (dx < 0)
+						continue;
+				}
+
+				dx /= 2;
+				try_bigger = FALSE;
+			}
+		}
+	}
+
+	g_free (x);
+
+	if (progress)
+		gnm_iter_solver_set_solution (isol);
+
+	return progress;
+}
+
+/**
+ * gnm_solver_iterator_new_polish:
+ * @isol: the solver to operate on
+ *
+ * Returns: (transfer full): an iterator object that can be used to polish
+ * a solution by simple axis-parallel movement.
+ */
+GnmSolverIterator *
+gnm_solver_iterator_new_polish (GnmIterSolver *isol)
+{
+	return gnm_solver_iterator_new_func (G_CALLBACK (cb_polish_iter), isol);
+}
+
+
 GSF_CLASS (GnmSolverIterator, gnm_solver_iterator,
 	   gnm_solver_iterator_class_init, NULL, G_TYPE_OBJECT)
 

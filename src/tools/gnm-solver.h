@@ -334,7 +334,10 @@ typedef struct {
 } GnmSolverIteratorClass;
 
 GType gnm_solver_iterator_get_type (void);
+
 GnmSolverIterator *gnm_solver_iterator_new_func (GCallback iterate, gpointer user);
+GnmSolverIterator *gnm_solver_iterator_new_polish (GnmIterSolver *isol);
+
 gboolean gnm_solver_iterator_iterate (GnmSolverIterator *iter);
 
 

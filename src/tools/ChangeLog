@@ -1,3 +1,8 @@
+2015-04-28  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_solver_iterator_new_polish): New function with
+	guts from nlsolve.
+
 2015-04-25  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_param_get_input_cells): Return result
