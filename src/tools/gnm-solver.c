@@ -5,6 +5,7 @@
 #include "expr.h"
 #include "sheet.h"
 #include "workbook.h"
+#include "rangefunc.h"
 #include "ranges.h"
 #include "gutils.h"
 #include "gnm-solver.h"
@@ -781,7 +782,8 @@ enum {
 	SOL_PROP_PARAMS,
 	SOL_PROP_RESULT,
 	SOL_PROP_STARTTIME,
-	SOL_PROP_ENDTIME
+	SOL_PROP_ENDTIME,
+	SOL_PROP_FLIP_SIGN
 };
 
 static GObjectClass *gnm_solver_parent_class;
@@ -875,6 +877,10 @@ gnm_solver_get_property (GObject *object, guint property_id,
 		g_value_set_double (value, sol->endtime);
 		break;
 
+	case SOL_PROP_FLIP_SIGN:
+		g_value_set_boolean (value, sol->flip_sign);
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -912,6 +918,10 @@ gnm_solver_set_property (GObject *object, guint property_id,
 
 	case SOL_PROP_ENDTIME:
 		sol->endtime = g_value_get_double (value);
+		break;
+
+	case SOL_PROP_FLIP_SIGN:
+		sol->flip_sign = g_value_get_boolean (value);
 		break;
 
 	default:
@@ -1665,6 +1675,13 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 #undef ADD_HEADER
 #undef MARK_BAD
 
+/**
+ * gnm_solver_get_target_value:
+ * @isol: solver
+ *
+ * Returns: the current value of the target cell, possibly with the sign
+ * flipped.
+ */
 gnm_float
 gnm_solver_get_target_value (GnmSolver *solver)
 {
@@ -1673,9 +1690,10 @@ gnm_solver_get_target_value (GnmSolver *solver)
 	gnm_cell_eval (solver->target);
 	v = solver->target->value;
 
-	if (VALUE_IS_NUMBER (v) || VALUE_IS_EMPTY (v))
-		return value_get_as_float (v);
-	else
+	if (VALUE_IS_NUMBER (v) || VALUE_IS_EMPTY (v)) {
+		gnm_float y = value_get_as_float (v);
+		return solver->flip_sign ? 0 - y : y;
+	} else
 		return gnm_nan;
 }
 
@@ -1702,6 +1720,49 @@ gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs)
 	for (i = 0; i < n; i++)
 		gnm_solver_set_var (sol, i, xs[i]);
 }
+
+/**
+ * gnm_solver_compute_gradient:
+ * @sol: Solver
+ * @xs: Point to compute gradient at
+ *
+ * Returns: (transfer full): A vector containing the gradient.  This
+ * function takes the flip_sign into account.  Note, that this is a
+ * numerical approximation.
+ */
+gnm_float *
+gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs)
+{
+	gnm_float *g;
+	gnm_float y0;
+	const int n = sol->input_cells->len;
+	int i;
+
+	gnm_solver_set_vars (sol, xs);
+	y0 = gnm_solver_get_target_value (sol);
+
+	g = g_new (gnm_float, n);
+	for (i = 0; i < n; i++) {
+		gnm_float x0 = xs[i];
+		gnm_float dx;
+		gnm_float y1;
+		gnm_float eps = gnm_pow2 (-25);
+
+		if (x0 == 0)
+			dx = eps;
+		else
+			dx = gnm_abs (x0) * eps;
+
+		gnm_solver_set_var (sol, i, x0 + dx);
+		y1 = gnm_solver_get_target_value (sol);
+		g[i] = (y1 - y0) / dx;
+
+		gnm_solver_set_var (sol, i, x0);
+	}
+
+	return g;
+}
+
 
 static void
 gnm_solver_class_init (GObjectClass *object_class)
@@ -1762,6 +1823,13 @@ gnm_solver_class_init (GObjectClass *object_class)
 				     -1, 1e10, -1,
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, SOL_PROP_FLIP_SIGN,
+		g_param_spec_boolean ("flip-sign",
+				      P_("Flip Sign"),
+				      P_("Flip sign of target value"),
+				      FALSE,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	solver_signals[SOL_SIG_PREPARE] =
 		g_signal_new ("prepare",
@@ -2257,7 +2325,7 @@ cb_polish_iter (GnmSolverIterator *iter, GnmIterSolver *isol)
 			if (x[c] == xc)
 				break;
 			gnm_solver_set_vars (sol, x);
-			y = gnm_iter_solver_get_target_value (isol);
+			y = gnm_solver_get_target_value (sol);
 
 			if (y < isol->yk && gnm_solver_check_constraints (sol))  {
 				/* Success!  */
@@ -2422,17 +2490,17 @@ GSF_CLASS (GnmSolverIteratorCompound, gnm_solver_iterator_compound,
 
 static GObjectClass *gnm_iter_solver_parent_class;
 
-enum {
-	ISOL_PROP_0,
-	ISOL_PROP_FLIP_SIGN
-};
-
-gnm_float
-gnm_iter_solver_get_target_value (GnmIterSolver *isol)
+void
+gnm_iter_solver_set_iterator (GnmIterSolver *isol, GnmSolverIterator *iterator)
 {
-	GnmSolver *sol = GNM_SOLVER (isol);
-	gnm_float y = gnm_solver_get_target_value (sol);
-	return isol->flip_sign ? 0 - y : y;
+	GnmSolverIterator *old_iterator;
+
+	g_return_if_fail (GNM_IS_ITER_SOLVER (isol));
+
+	old_iterator = isol->iterator;
+	isol->iterator = iterator ? g_object_ref (iterator) : NULL;
+	if (old_iterator)
+		g_object_unref (old_iterator);
 }
 
 gboolean
@@ -2458,7 +2526,7 @@ got_it:
 		GnmCell *cell = g_ptr_array_index (sol->input_cells, i);
 		isol->xk[i] = value_get_as_float (cell->value);
 	}
-	isol->yk = gnm_iter_solver_get_target_value (isol);
+	isol->yk = gnm_solver_get_target_value (sol);
 
 	gnm_iter_solver_set_solution (isol);
 
@@ -2474,7 +2542,7 @@ gnm_iter_solver_set_solution (GnmIterSolver *isol)
 	int i;
 
 	result->quality = GNM_SOLVER_RESULT_FEASIBLE;
-	result->value = isol->flip_sign ? 0 - isol->yk : isol->yk;
+	result->value = sol->flip_sign ? 0 - isol->yk : isol->yk;
 	result->solution = value_new_array_empty (sol->input_width,
 						  sol->input_height);
 	for (i = 0; i < n; i++) {
@@ -2533,40 +2601,6 @@ gnm_iter_solver_constructed (GObject *obj)
 static void
 gnm_iter_solver_init (GnmIterSolver *isol)
 {
-}
-
-static void
-gnm_iter_solver_get_property (GObject *object, guint property_id,
-			      GValue *value, GParamSpec *pspec)
-{
-	GnmIterSolver *isol = (GnmIterSolver *)object;
-
-	switch (property_id) {
-	case ISOL_PROP_FLIP_SIGN:
-		g_value_set_boolean (value, isol->flip_sign);
-		break;
-
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-gnm_iter_solver_set_property (GObject *object, guint property_id,
-			      GValue const *value, GParamSpec *pspec)
-{
-	GnmIterSolver *isol = (GnmIterSolver *)object;
-
-	switch (property_id) {
-	case ISOL_PROP_FLIP_SIGN:
-		isol->flip_sign = g_value_get_boolean (value);
-		break;
-
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
 }
 
 static gint
@@ -2634,17 +2668,8 @@ gnm_iter_solver_class_init (GObjectClass *object_class)
 	object_class->dispose = gnm_iter_solver_dispose;
 	object_class->finalize = gnm_iter_solver_finalize;
 	object_class->constructed = gnm_iter_solver_constructed;
-	object_class->set_property = gnm_iter_solver_set_property;
-	object_class->get_property = gnm_iter_solver_get_property;
 	sclass->start = gnm_iter_solver_start;
 	sclass->stop = gnm_iter_solver_stop;
-
-	g_object_class_install_property (object_class, ISOL_PROP_FLIP_SIGN,
-		g_param_spec_boolean ("flip-sign",
-				      P_("Flip Sign"),
-				      P_("Flip sign of target value"),
-				      FALSE,
-				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 GSF_CLASS (GnmIterSolver, gnm_iter_solver,

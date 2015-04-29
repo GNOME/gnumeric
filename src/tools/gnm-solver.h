@@ -200,6 +200,7 @@ typedef struct {
 	GnmSolverParameters *params;
 	GnmSolverResult *result;
 	double starttime, endtime;
+	gboolean flip_sign;
 
 	/* Derived information */
 	GnmCell *target;
@@ -254,6 +255,8 @@ gboolean gnm_solver_debug (void);
 gnm_float gnm_solver_get_target_value (GnmSolver *solver);
 void gnm_solver_set_var (GnmSolver *sol, int i, gnm_float x);
 void gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs);
+
+gnm_float *gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs);
 
 /* ------------------------------------------------------------------------- */
 /* Solver subclass for subprocesses. */
@@ -378,7 +381,6 @@ struct GnmIterSolver_ {
 
 	/* Current point */
 	gnm_float *xk, yk;
-	gboolean flip_sign;
 
 	GnmSolverIterator *iterator;
 
@@ -394,7 +396,7 @@ typedef struct {
 
 GType gnm_iter_solver_get_type (void);
 
-gnm_float gnm_iter_solver_get_target_value (GnmIterSolver *isol);
+void gnm_iter_solver_set_iterator (GnmIterSolver *isol, GnmSolverIterator *iterator);
 
 gboolean gnm_iter_solver_get_initial_solution (GnmIterSolver *isol, GError **err);
 void gnm_iter_solver_set_solution (GnmIterSolver *isol);

@@ -111,8 +111,8 @@ set_vector (GnmNlsolve *nl, const gnm_float *xs)
 static gnm_float
 get_value (GnmNlsolve *nl)
 {
-	/* nl->isol has been taught to flip sign if needed.  */
-	return gnm_iter_solver_get_target_value (nl->isol);
+	/* nl->sol has been taught to flip sign if needed.  */
+	return gnm_solver_get_target_value (nl->sol);
 }
 
 static void
@@ -157,34 +157,7 @@ gnm_nlsolve_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 static gnm_float *
 compute_gradient (GnmNlsolve *nl, const gnm_float *xs)
 {
-	gnm_float *g;
-	gnm_float y0;
-	const int n = nl->n;
-	int i;
-
-	set_vector (nl, xs);
-	y0 = get_value (nl);
-
-	g = g_new (gnm_float, n);
-	for (i = 0; i < n; i++) {
-		gnm_float x0 = xs[i];
-		gnm_float dx;
-		gnm_float y1;
-		gnm_float eps = gnm_pow2 (-25);
-
-		if (x0 == 0)
-			dx = eps;
-		else
-			dx = gnm_abs (x0) * eps;
-
-		set_value (nl, i, x0 + dx);
-		y1 = get_value (nl);
-		g[i] = (y1 - y0) / dx;
-
-		set_value (nl, i, x0);
-	}
-
-	return g;
+	return gnm_solver_compute_gradient (nl->sol, xs);
 }
 
 static gnm_float **
@@ -590,7 +563,8 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 
 	gnm_solver_iterator_compound_add (citer, gnm_solver_iterator_new_polish (isol), 0);
 
-	isol->iterator = GNM_SOLVER_ITERATOR (citer);
+	gnm_iter_solver_set_iterator (isol, GNM_SOLVER_ITERATOR (citer));
+	g_object_unref (citer);
 
 	nl->sol = sol;
 	nl->isol = isol;
