@@ -2387,6 +2387,11 @@ GSF_CLASS (GnmSolverIterator, gnm_solver_iterator,
 
 /* ------------------------------------------------------------------------- */
 
+enum {
+	SOLIC_PROP_0,
+	SOLIC_PROP_CYCLES
+};
+
 static GObjectClass *gnm_solver_iterator_compound_parent_class;
 
 /**
@@ -2473,6 +2478,40 @@ gnm_solver_iterator_compound_finalize (GObject *obj)
 }
 
 static void
+gnm_solver_iterator_compound_get_property (GObject *object, guint property_id,
+					   GValue *value, GParamSpec *pspec)
+{
+	GnmSolverIteratorCompound *it = (GnmSolverIteratorCompound *)object;
+
+	switch (property_id) {
+	case SOLIC_PROP_CYCLES:
+		g_value_set_uint (value, it->cycles);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_solver_iterator_compound_set_property (GObject *object, guint property_id,
+					   GValue const *value, GParamSpec *pspec)
+{
+	GnmSolverIteratorCompound *it = (GnmSolverIteratorCompound *)object;
+
+	switch (property_id) {
+	case SOLIC_PROP_CYCLES:
+		it->cycles = g_value_get_uint (value);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
 gnm_solver_iterator_compound_class_init (GObjectClass *object_class)
 {
 	GnmSolverIteratorClass *iclass = (GnmSolverIteratorClass *)object_class;
@@ -2480,7 +2519,16 @@ gnm_solver_iterator_compound_class_init (GObjectClass *object_class)
 	gnm_solver_iterator_compound_parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->finalize = gnm_solver_iterator_compound_finalize;
+	object_class->set_property = gnm_solver_iterator_compound_set_property;
+	object_class->get_property = gnm_solver_iterator_compound_get_property;
 	iclass->iterate = gnm_solver_iterator_compound_iterate;
+
+	g_object_class_install_property (object_class, SOLIC_PROP_CYCLES,
+		g_param_spec_uint ("cycles",
+				   P_("Cycles"),
+				   P_("Maximum number of cycles"),
+				   0, G_MAXUINT, G_MAXUINT,
+				    GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 GSF_CLASS (GnmSolverIteratorCompound, gnm_solver_iterator_compound,
