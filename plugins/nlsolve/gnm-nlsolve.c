@@ -465,7 +465,7 @@ rosenbrock_iter (GnmNlsolve *nl)
 			nl->smallsteps++;
 		}
 
-		if (!nl->tentative && nl->smallsteps > 50) {
+		if (0 && !nl->tentative && nl->smallsteps > 50) {
 			gnm_float yk = isol->yk;
 
 			nl->tentative = 10;

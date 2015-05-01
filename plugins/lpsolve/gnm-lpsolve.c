@@ -17,7 +17,6 @@
 typedef struct {
 	GnmSubSolver *parent;
 	GnmSolverResult *result;
-	GnmSheetRange srinput;
 	enum { SEC_UNKNOWN, SEC_VALUES } section;
 } GnmLPSolve;
 
@@ -61,12 +60,14 @@ write_program (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 static GnmSolverResult *
 gnm_lpsolve_start_solution (GnmLPSolve *lp)
 {
+	int n;
+
 	g_return_val_if_fail (lp->result == NULL, NULL);
 
+	n = GNM_SOLVER (lp->parent)->input_cells->len;
+
 	lp->result = g_object_new (GNM_SOLVER_RESULT_TYPE, NULL);
-	lp->result->solution = value_new_array_empty
-		(range_width (&lp->srinput.range),
-		 range_height (&lp->srinput.range));
+	lp->result->solution = g_new0 (gnm_float, n);
 
 	return lp->result;
 }
@@ -85,6 +86,7 @@ gnm_lpsolve_flush_solution (GnmLPSolve *lp)
 static gboolean
 cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 {
+	GnmSolver *sol = GNM_SOLVER (lp->parent);
 	const char obj_line_prefix[] = "Value of objective function:";
 	size_t obj_line_len = sizeof (obj_line_prefix) - 1;
 	const char val_header_line[] = "Actual values of the variables:";
@@ -117,10 +119,10 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 			lp->section = SEC_VALUES;
 		} else if (lp->section == SEC_VALUES && lp->result) {
 			GnmSolverResult *r = lp->result;
-			int x, y;
 			double v;
 			char *space = strchr (line, ' ');
 			GnmCell *cell;
+			int idx;
 
 			if (!space) {
 				lp->section = SEC_UNKNOWN;
@@ -128,7 +130,8 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 			}
 			*space = 0;
 			cell = gnm_sub_solver_find_cell (lp->parent, line);
-			if (!cell) {
+			idx = gnm_solver_cell_index (sol, cell);
+			if (idx < 0) {
 				g_printerr ("Strange cell %s in output\n",
 					    line);
 				lp->section = SEC_UNKNOWN;
@@ -136,14 +139,7 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 			}
 
 			v = g_ascii_strtod (space + 1, NULL);
-			x = cell->pos.col - lp->srinput.range.start.col;
-			y = cell->pos.row - lp->srinput.range.start.row;
-			if (x >= 0 &&
-			    x < value_area_get_width (r->solution, NULL) &&
-			    y >= 0 &&
-			    y < value_area_get_height (r->solution, NULL))
-				value_array_set (r->solution, x, y,
-						 value_new_float (v));
+			r->solution[idx] = v;
 		}
 		g_free (line);
 	} while (1);
@@ -354,9 +350,6 @@ lpsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	GnmLPSolve *lp = g_new0 (GnmLPSolve, 1);
 
 	lp->parent = GNM_SUB_SOLVER (res);
-	gnm_sheet_range_from_value (&lp->srinput,
-				    gnm_solver_param_get_input (params));
-	if (!lp->srinput.sheet) lp->srinput.sheet = params->sheet;
 
 	g_signal_connect (res, "prepare", G_CALLBACK (gnm_lpsolve_prepare), lp);
 	g_signal_connect (res, "start", G_CALLBACK (gnm_lpsolve_start), lp);

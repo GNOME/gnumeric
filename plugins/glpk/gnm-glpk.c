@@ -22,7 +22,6 @@
 typedef struct {
 	GnmSubSolver *parent;
 	char *result_filename;
-	GnmSheetRange srinput;
 } GnmGlpk;
 
 static void
@@ -74,7 +73,6 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	int pstat, dstat;
 	gnm_float val;
 	GnmSolverResult *result;
-	int width, height;
 	gboolean has_integer;
 	GSList *l;
 
@@ -96,10 +94,8 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	tl = GSF_INPUT_TEXTLINE (gsf_input_textline_new (input));
 	g_object_unref (input);
 
-	width = range_width (&lp->srinput.range);
-	height = range_height (&lp->srinput.range);
 	result = g_object_new (GNM_SOLVER_RESULT_TYPE, NULL);
-	result->solution = value_new_array_empty (width, height);
+	result->solution = g_new0 (gnm_float, sol->input_cells->len);
 
 	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 		goto fail;
@@ -142,7 +138,7 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	for (c = 0; c < cols; c++) {
 		gnm_float pval, dval;
 		unsigned cstat;
-		int x, y;
+		unsigned idx = c;
 
 		if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 			goto fail;
@@ -153,10 +149,7 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 			      &cstat, &pval, &dval) != 3)
 			goto fail;
 
-		x = c % width;
-		y = c / width;
-		value_array_set (result->solution, x, y,
-				 value_new_float (pval));
+		result->solution[idx] = pval;
 	}
 
 	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
@@ -360,9 +353,6 @@ glpk_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	GnmGlpk *lp = g_new0 (GnmGlpk, 1);
 
 	lp->parent = GNM_SUB_SOLVER (res);
-	gnm_sheet_range_from_value (&lp->srinput,
-				    gnm_solver_param_get_input (params));
-	if (!lp->srinput.sheet) lp->srinput.sheet = params->sheet;
 
 	g_signal_connect (res, "prepare", G_CALLBACK (gnm_glpk_prepare), lp);
 	g_signal_connect (res, "start", G_CALLBACK (gnm_glpk_start), lp);

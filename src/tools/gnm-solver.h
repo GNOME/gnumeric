@@ -175,7 +175,7 @@ typedef struct {
 	gnm_float value;
 
 	/* Array value of solution, if any */
-	GnmValue *solution;
+	gnm_float *solution;
 } GnmSolverResult;
 
 typedef struct {
@@ -205,8 +205,7 @@ typedef struct {
 	/* Derived information */
 	GnmCell *target;
 	GPtrArray *input_cells;
-	GnmCellPos origin;
-	int input_width, input_height;
+	GHashTable *index_from_cell;
 } GnmSolver;
 
 typedef struct {
@@ -251,6 +250,8 @@ gboolean gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 			    GError **err);
 
 gboolean gnm_solver_debug (void);
+
+int gnm_solver_cell_index (GnmSolver *solver, GnmCell const *cell);
 
 gnm_float gnm_solver_get_target_value (GnmSolver *solver);
 void gnm_solver_set_var (GnmSolver *sol, int i, gnm_float x);

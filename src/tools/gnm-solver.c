@@ -818,6 +818,11 @@ gnm_solver_dispose (GObject *obj)
 		sol->input_cells = NULL;
 	}
 
+	if (sol->index_from_cell) {
+		g_hash_table_destroy (sol->index_from_cell);
+		sol->index_from_cell = NULL;
+	}
+
 	gnm_solver_parent_class->dispose (obj);
 }
 
@@ -826,21 +831,15 @@ gnm_solver_constructed (GObject *obj)
 {
 	GnmSolver *sol = GNM_SOLVER (obj);
 	GnmSolverParameters *params = sol->params;
-	GnmValue const *vinput = gnm_solver_param_get_input (params);
+	unsigned ui;
 
 	sol->target = gnm_solver_param_get_target_cell (params);
 
 	sol->input_cells = gnm_solver_param_get_input_cells (params);
-	if (vinput) {
-		GnmCellRef origin;
-		GnmEvalPos ep;
-
-		eval_pos_init_sheet (&ep, params->sheet);
-		gnm_cellref_make_abs (&origin, &vinput->v_range.cell.a, &ep);
-		sol->origin.col = origin.col;
-		sol->origin.row = origin.row;
-		sol->input_width = value_area_get_width (vinput, &ep);
-		sol->input_height = value_area_get_height (vinput, &ep);
+	sol->index_from_cell = g_hash_table_new (g_direct_hash, g_direct_equal);
+	for (ui = 0; ui < sol->input_cells->len; ui++) {
+		GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
+		g_hash_table_insert (sol->index_from_cell, cell, GUINT_TO_POINTER (ui));
 	}
 
 	gnm_solver_parent_class->constructed (obj);
@@ -1055,18 +1054,12 @@ gnm_solver_check_timeout (GnmSolver *solver)
 void
 gnm_solver_store_result (GnmSolver *sol)
 {
-	GnmValue const *vinput;
-	GnmSheetRange sr;
-	GnmValue const *solution;
+	gnm_float const *solution;
 	unsigned ui, n = sol->input_cells->len;
 
 	g_return_if_fail (GNM_IS_SOLVER (sol));
 	g_return_if_fail (sol->result != NULL);
 	g_return_if_fail (sol->result->solution);
-
-	vinput = gnm_solver_param_get_input (sol->params);
-	gnm_sheet_range_from_value (&sr, vinput);
-	if (!sr.sheet) sr.sheet = sol->params->sheet;
 
 	solution = gnm_solver_has_solution (sol)
 		? sol->result->solution
@@ -1074,11 +1067,7 @@ gnm_solver_store_result (GnmSolver *sol)
 
 	for (ui = 0; ui < n; ui++) {
 		GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
-		int x = cell->pos.col - sol->origin.col;
-		int y = cell->pos.row - sol->origin.row;
-		GnmValue *v = solution
-			? value_dup (value_area_fetch_x_y (solution, x, y, NULL))
-			: value_new_error_NA (NULL);
+		GnmValue *v = solution ? value_new_float (solution[ui])	: value_new_error_NA (NULL);
 		gnm_cell_set_value (cell, v);
 		cell_queue_recalc (cell);
 	}
@@ -1302,15 +1291,29 @@ gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 	return TRUE;
 }
 
-static gboolean
-cell_in_cr (GnmCell const *cell, GnmSheetRange *sr, gboolean follow,
-	    int *px, int *py)
+int
+gnm_solver_cell_index (GnmSolver *solver, GnmCell const *cell)
 {
-	if (!cell)
-		return FALSE;
+	gpointer idx;
 
-	if (sr->sheet != cell->base.sheet ||
-	    !range_contains (&sr->range, cell->pos.col, cell->pos.row)) {
+	if (g_hash_table_lookup_extended (solver->index_from_cell,
+					  (gpointer)cell,
+					  NULL, &idx))
+		return GPOINTER_TO_INT (idx);
+	else
+		return -1;
+}
+
+static int
+cell_in_cr (GnmSolver *sol, GnmCell const *cell, gboolean follow)
+{
+	int idx;
+
+	if (!cell)
+		return -1;
+
+	idx = gnm_solver_cell_index (sol, cell);
+	if (idx < 0 && follow) {
 		/* If the expression is just =X42 then look at X42 instead.
 		   This is because the mps loader uses such a level of
 		   indirection.  Note: we follow only one such step.  */
@@ -1320,19 +1323,16 @@ cell_in_cr (GnmCell const *cell, GnmSheetRange *sr, gboolean follow,
 		GnmEvalPos ep;
 
 		if (!cr)
-			return FALSE;
+			return -1;
 
 		eval_pos_init_cell (&ep, cell);
 		gnm_cellref_make_abs (&cr2, cr, &ep);
 		new_cell = sheet_cell_get (eval_sheet (cr2.sheet, cell->base.sheet),
 					   cr2.col, cr2.row);
-		return cell_in_cr (new_cell, sr, FALSE, px, py);
-
+		return cell_in_cr (sol, new_cell, FALSE);
 	}
 
-	*px = cell->pos.col - sr->range.start.col;
-	*py = cell->pos.row - sr->range.start.row;
-	return TRUE;
+	return idx;
 }
 
 static gboolean
@@ -1350,14 +1350,14 @@ cell_is_constant (GnmCell *cell, gnm_float *pc)
 }
 
 #define SET_LOWER(l_)						\
-  do {								\
-	  (*pmin)[y * w + x] = MAX ((*pmin)[y * w + x], (l_));	\
-  } while (0)
+	do {							\
+		(*pmin)[idx] = MAX ((*pmin)[idx], (l_));	\
+	} while (0)
 
 #define SET_UPPER(l_)						\
-  do {								\
-	  (*pmax)[y * w + x] = MIN ((*pmax)[y * w + x], (l_));	\
-  } while (0)
+	do {							\
+		(*pmax)[idx] = MIN ((*pmax)[idx], (l_));	\
+	} while (0)
 
 
 
@@ -1366,28 +1366,20 @@ gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
 {
 	GnmValue const *vinput;
 	GnmSolverParameters *params = solver->params;
-	int x, y, w, h;
-	GnmSheetRange sr;
 	GSList *l;
+	unsigned const n = solver->input_cells->len;
+	unsigned ui;
 
 	*pmin = *pmax = NULL;
 
 	vinput = gnm_solver_param_get_input (params);
 	if (!vinput) return;
 
-	gnm_sheet_range_from_value (&sr, vinput);
-	if (!sr.sheet) sr.sheet = params->sheet;
-	h = range_height (&sr.range);
-	w = range_width (&sr.range);
-
-	*pmin = g_new (gnm_float, h * w);
-	*pmax = g_new (gnm_float, h * w);
-
-	for (x = 0; x < w; x++) {
-		for (y = 0; y < h; y++) {
-			(*pmin)[y * w + x] = params->options.assume_non_negative ? 0 : gnm_ninf;
-			(*pmax)[y * w + x] = gnm_pinf;
-		}
+	*pmin = g_new (gnm_float, n);
+	*pmax = g_new (gnm_float, n);
+	for (ui = 0; ui < n; ui++) {
+		(*pmin)[ui] = params->options.assume_non_negative ? 0 : gnm_ninf;
+		(*pmax)[ui] = gnm_pinf;
 	}
 
 	for (l = params->constraints; l; l = l->next) {
@@ -1401,7 +1393,9 @@ gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
 						     &lhs, &cl,
 						     &rhs, &cr);
 		     i++) {
-			if (!cell_in_cr (lhs, &sr, TRUE, &x, &y))
+			int idx = cell_in_cr (solver, lhs, TRUE);
+
+			if (idx < 0)
 				continue;
 			if (!cell_is_constant (rhs, &cr))
 				continue;
@@ -1430,7 +1424,6 @@ gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
 			}
 		}
 	}
-
 }
 
 #undef SET_LOWER
@@ -1528,9 +1521,8 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 
 	vinput = gnm_solver_param_get_input (params);
 	if (vinput) {
-		int x, y, w, h;
-		GnmSheetRange sr;
 		gnm_float *pmin, *pmax;
+		unsigned ui;
 
 		ADD_HEADER (_("Variables"));
 
@@ -1541,47 +1533,35 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 		dao_set_cell (dao, 5, R, _("Slack"));
 		R++;
 
-		gnm_sheet_range_from_value (&sr, vinput);
-		if (!sr.sheet) sr.sheet = params->sheet;
-		h = range_height (&sr.range);
-		w = range_width (&sr.range);
-
 		gnm_solver_get_limits (solver, &pmin, &pmax);
 
-		for (x = 0; x < w; x++) {
-			for (y = 0; y < h; y++) {
-				GnmCell *cell = sheet_cell_fetch
-					(sr.sheet,
-					 sr.range.start.col + x,
-					 sr.range.start.row + y);
-				gnm_float m = pmin[y * w + x];
-				gnm_float M = pmax[y * w + x];
-				GnmValue const *vs = value_area_fetch_x_y (solver->result->solution, x, y, NULL);
-				gnm_float s = value_get_as_float (vs);
-				gnm_float slack = MIN (s - m, M - s);
+		for (ui = 0; ui < solver->input_cells->len; ui++) {
+			GnmCell *cell = g_ptr_array_index (solver->input_cells, ui);
+			gnm_float m = pmin[ui];
+			gnm_float M = pmax[ui];
+			gnm_float s = solver->result->solution[ui];
+			gnm_float slack = MIN (s - m, M - s);
 
-				char *cname = gnm_solver_cell_name (cell, params->sheet);
-				dao_set_cell (dao, 1, R, cname);
-				g_free (cname);
-				dao_set_cell_value (dao, 2, R, value_dup (vs));
-				add_value_or_special (dao, 3, R, m);
-				add_value_or_special (dao, 4, R, M);
+			char *cname = gnm_solver_cell_name (cell, params->sheet);
+			dao_set_cell (dao, 1, R, cname);
+			g_free (cname);
+			dao_set_cell_value (dao, 2, R, value_new_float (s));
+			add_value_or_special (dao, 3, R, m);
+			add_value_or_special (dao, 4, R, M);
 
-				add_value_or_special (dao, 5, R, slack);
-				if (slack < 0)
-					MARK_BAD (5);
+			add_value_or_special (dao, 5, R, slack);
+			if (slack < 0)
+				MARK_BAD (5);
 
-				if (AT_LIMIT (s, m) || AT_LIMIT (s, M))
-					dao_set_cell (dao, 6, R, _("At limit"));
+			if (AT_LIMIT (s, m) || AT_LIMIT (s, M))
+				dao_set_cell (dao, 6, R, _("At limit"));
 
-
-				if (s < m || s > M) {
-					dao_set_cell (dao, 7, R, _("Outside bounds"));
-					MARK_BAD (7);
-				}
-
-				R++;
+			if (s < m || s > M) {
+				dao_set_cell (dao, 7, R, _("Outside bounds"));
+				MARK_BAD (7);
 			}
+
+			R++;
 		}
 
 		g_free (pmin);
@@ -1875,7 +1855,7 @@ static void
 gnm_solver_result_finalize (GObject *obj)
 {
 	GnmSolverResult *r = GNM_SOLVER_RESULT (obj);
-	value_release (r->solution);
+	g_free (r->solution);
 	gnm_solver_result_parent_class->finalize (obj);
 }
 
@@ -2587,20 +2567,10 @@ gnm_iter_solver_set_solution (GnmIterSolver *isol)
 	GnmSolver *sol = GNM_SOLVER (isol);
 	GnmSolverResult *result = g_object_new (GNM_SOLVER_RESULT_TYPE, NULL);
 	const int n = sol->input_cells->len;
-	int i;
 
 	result->quality = GNM_SOLVER_RESULT_FEASIBLE;
 	result->value = sol->flip_sign ? 0 - isol->yk : isol->yk;
-	result->solution = value_new_array_empty (sol->input_width,
-						  sol->input_height);
-	for (i = 0; i < n; i++) {
-		GnmCell *cell = g_ptr_array_index (sol->input_cells, i);
-		value_array_set (result->solution,
-				 cell->pos.col - sol->origin.col,
-				 cell->pos.row - sol->origin.row,
-				 value_new_float (isol->xk[i]));
-	}
-
+	result->solution = g_memdup (isol->xk, n * sizeof (gnm_float));
 	g_object_set (sol, "result", result, NULL);
 	g_object_unref (result);
 
