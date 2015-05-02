@@ -644,6 +644,8 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	GtkWindow *top = GTK_WINDOW (gtk_widget_get_toplevel (state->dialog));
 	GnmSolverResult *res = NULL;
 	char *txt;
+	GtkWidget *spin;
+	int size;
 
 	sol = gnm_solver_factory_functional (param->options.algorithm,
 					     state->wbcg)
@@ -675,9 +677,20 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	 */
 	txt = g_strdup_printf (_("Solver \"%s\" is running"),
 			       param->options.algorithm->name);
-	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (dialog)),
+	if (0) gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (dialog)),
 			   gtk_label_new (txt));
 	g_free (txt);
+
+
+	size = gnm_widget_measure_string (GTK_WIDGET (wbcg_toplevel (state->wbcg)),
+					  "0123456789012345");
+	spin = g_object_new (GTK_TYPE_SPINNER,
+			     "active", TRUE,
+			     "margin", size / 4,
+			     NULL);
+	gtk_widget_set_size_request (spin, size, size);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (dialog)),
+			   spin);
 
 	state->run.stop_button =
 		go_gtk_dialog_add_button (dialog,
