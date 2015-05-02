@@ -1707,8 +1707,8 @@ gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs)
  * @xs: Point to compute gradient at
  *
  * Returns: (transfer full): A vector containing the gradient.  This
- * function takes the flip_sign into account.  Note, that this is a
- * numerical approximation.
+ * function takes the flip-sign property into account.  Note, that this
+ * is a numerical approximation.
  */
 gnm_float *
 gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs)
@@ -1741,6 +1741,178 @@ gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs)
 	}
 
 	return g;
+}
+
+static gnm_float
+try_step (GnmSolver *sol, gnm_float const *x0, gnm_float const *dir, gnm_float step)
+{
+	int const n = sol->input_cells->len;
+	gnm_float *x = g_new (gnm_float, n);
+	int i;
+	gnm_float y;
+
+	for (i = 0; i < n; i++)
+		x[i] = x0[i] + step * dir[i];
+	gnm_solver_set_vars (sol, x);
+	y = gnm_solver_get_target_value (sol);
+	g_free (x);
+	return y;
+}
+
+/**
+ * gnm_solver_line_search:
+ * @sol: Solver
+ * @x0: Starting point
+ * @dir: direction
+ * @try_reverse: whether to try reverse direction at all
+ * @step: initial step size
+ * @max_step: largest allowed step
+ * @eps: tolerance for optimal step
+ * @py: (out): location to store resulting objective function value
+ *
+ * Returns: optimal step size.
+ */
+gnm_float
+gnm_solver_line_search (GnmSolver *sol,
+			gnm_float const *x0, gnm_float const *dir,
+			gboolean try_reverse,
+			gnm_float step, gnm_float max_step, gnm_float eps,
+			gnm_float *py)
+{
+	/*
+	 * 0: Initial
+	 * 1: Found improvement, but not far side of it
+	 * 2: Have (s0,s1,s2) with s1 lowest
+	 */
+	int phase = 0;
+	gnm_float s, s0, s1, s2;
+	gnm_float y, y0, y1, y2;
+	gnm_float const phi = (gnm_sqrt (5) + 1) / 2;
+	gboolean rbig;
+	gboolean debug = gnm_solver_debug ();
+
+	g_return_val_if_fail (eps >= 0, gnm_nan);
+	g_return_val_if_fail (step > 0, gnm_nan);
+	g_return_val_if_fail (max_step >= step, gnm_nan);
+
+	if (debug)
+		g_printerr ("LS: step=%" GNM_FORMAT_g ", max=%" GNM_FORMAT_g ", eps=%" GNM_FORMAT_g "\n", step, max_step, eps);
+
+	gnm_solver_set_vars (sol, x0);
+	y0 = gnm_solver_get_target_value (sol);
+	s0 = 0;
+
+	s = step;
+	while (phase == 0) {
+		gboolean flat = TRUE;
+
+		y = try_step (sol, x0, dir, s);
+		if (debug)
+			g_printerr ("LS0: s:%.6" GNM_FORMAT_g "  y:%.6" GNM_FORMAT_g "\n",
+				    s, y);
+		if (y < y0 && gnm_solver_check_constraints (sol)) {
+			y1 = y;
+			s1 = s;
+			phase = 1;
+			break;
+		} else if (y != y0)
+			flat = FALSE;
+
+		if (try_reverse) {
+			y = try_step (sol, x0, dir, -s);
+		if (debug)
+			g_printerr ("LS0: s:%.6" GNM_FORMAT_g "  y:%.6" GNM_FORMAT_g "\n",
+				    -s, y);
+			if (y < y0 && gnm_solver_check_constraints (sol)) {
+				y1 = y;
+				s1 = -s;
+				phase = 1;
+				break;
+			} else if (y != y0)
+				flat = FALSE;
+		}
+
+		s /= 32;
+
+		if (s <= 0 || flat)
+			return gnm_nan;
+	}
+
+	while (phase == 1) {
+		s = s1 * (phi + 1);
+
+		if (gnm_abs (s) >= max_step)
+			return gnm_nan;
+
+		y = try_step (sol, x0, dir, s);
+		if (!gnm_finite (y) || !gnm_solver_check_constraints (sol))
+			return gnm_nan;
+
+		if (y < y1) {
+			y1 = y;
+			s1 = s;
+			continue;
+		}
+
+		y2 = y;
+		s2 = s;
+		phase = 2;
+	}
+
+	/*
+	 * Phase 2: we have three steps, s0/s1/s2, in order (descending or ascending) such
+	 * that
+	 *   1.  y1<=y0 (equality unlikely)
+	 *   2.  y1<=y2 (equality unlikely)
+	 *   3a. (s2-s1)=phi*(s1-s0) or
+	 *   3b. (s2-s1)*phi=(s1-s0)
+	 */
+	rbig = TRUE;  /* Initially 3a holds. */
+	while (phase == 2) {
+		if (debug) {
+			gnm_float s01 = s1 - s0;
+			gnm_float s12 = s2 - s1;
+			g_printerr ("LS2: s0:%.6" GNM_FORMAT_g "  s01=%.6" GNM_FORMAT_g "  s12=%.6" GNM_FORMAT_g
+				    "  r=%" GNM_FORMAT_g
+				    "  y:%.10" GNM_FORMAT_g "/%.10" GNM_FORMAT_g "/%.10" GNM_FORMAT_g "\n",
+				    s0, s01, s12, s12 / s01, y0, y1, y2);
+		}
+
+		s = rbig ? s1 + (s1 - s0) * (phi - 1) : s1 - (s2 - s1) * (phi - 1);
+		if (s <= s0 || s >= s2 || gnm_abs (s - s1) <= eps)
+			break;
+
+		y = try_step (sol, x0, dir, s);
+		if (!gnm_finite (y) || !gnm_solver_check_constraints (sol))
+			return gnm_nan;
+
+		if (y < y1) {
+			if (rbig) {
+				y0 = y1;
+				s0 = s1;
+			} else {
+				y2 = y1;
+				s2 = s1;
+			}
+			y1 = y;
+			s1 = s;
+		} else {
+			if (rbig) {
+				y2 = y;
+				s2 = s;
+			} else {
+				y0 = y;
+				s0 = s;
+			}
+			rbig = !rbig;
+
+			if (y0 == y1 && y1 == y2)
+				break;
+		}
+	}
+
+	*py = y1;
+	return s1;
 }
 
 
@@ -2280,67 +2452,32 @@ cb_polish_iter (GnmSolverIterator *iter, GnmIterSolver *isol)
 {
 	GnmSolver *sol = GNM_SOLVER (isol);
 	const int n = sol->input_cells->len;
-	gnm_float *x;
+	gnm_float *dir;
 	gboolean progress = FALSE;
-	gboolean debug = gnm_solver_debug ();
 	int c;
 
-	x = g_new (gnm_float, n);
-
+	dir = g_new0 (gnm_float, n);
 	for (c = 0; c < n; c++) {
-		gnm_float xc = isol->xk[c], dx;
+		gnm_float s, y, s0, xc = isol->xk[c];
 		int e;
-		gboolean try_reverse = TRUE;
-		gboolean try_bigger = TRUE;
 
 		(void)gnm_frexp (xc, &e);
-		dx = gnm_ldexp (1, e + 10);
-		if (dx == 0) dx = GNM_MIN;
+		s0 = gnm_ldexp (1, e - 10);
+		if (s0 == 0) s0 = GNM_MIN;
 
-		memcpy (x, isol->xk, n * sizeof (gnm_float));
-		while (1) {
-			gnm_float y;
+		dir[c] = 1;
+		s = gnm_solver_line_search (sol, isol->xk, dir, TRUE,
+					    s0, gnm_abs (xc), 0.0,
+					    &y);
+		dir[c] = 0;
 
-			x[c] = xc + dx;
-			if (x[c] == xc)
-				break;
-			gnm_solver_set_vars (sol, x);
-			y = gnm_solver_get_target_value (sol);
-
-			if (y < isol->yk && gnm_solver_check_constraints (sol))  {
-				/* Success!  */
-
-				isol->yk = y;
-				isol->xk[c] = xc = x[c];
-				progress = TRUE;
-				try_reverse = FALSE;
-				if (debug)
-					g_printerr ("Polish step %.15" GNM_FORMAT_g
-						    " in direction %d\n",
-						    dx, c);
-				if (try_bigger) {
-					dx *= 2;
-					if (gnm_finite (dx))
-						continue;
-				}
-				break;
-			} else {
-				/* Step didn't work.  Restore and find new step to try.  */
-				x[c] = xc;
-
-				if (try_reverse) {
-					dx = -dx;
-					if (dx < 0)
-						continue;
-				}
-
-				dx /= 2;
-				try_bigger = FALSE;
-			}
+		if (gnm_finite (s)) {
+			isol->xk[c] += s;
+			isol->yk = y;
+			progress = TRUE;
 		}
 	}
-
-	g_free (x);
+	g_free (dir);
 
 	if (progress)
 		gnm_iter_solver_set_solution (isol);
@@ -2632,9 +2769,14 @@ gnm_iter_solver_idle (gpointer data)
 	progress = isol->iterator && gnm_solver_iterator_iterate (isol->iterator);
 	isol->iterations++;
 
-	if (!gnm_solver_finished (sol) &&
-	    (!progress || isol->iterations >= params->options.max_iter))
-		gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
+	if (!gnm_solver_finished (sol)) {
+		if (!progress) {
+			gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
+		} else if (isol->iterations >= params->options.max_iter) {
+			gnm_solver_stop (sol, NULL);
+			gnm_solver_set_reason (sol, _("Iteration limit exceeded"));
+		}
+	}
 
 	if (gnm_solver_finished (sol)) {
 		isol->idle_tag = 0;

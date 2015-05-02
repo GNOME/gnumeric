@@ -1,3 +1,9 @@
+2015-05-02  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (cb_polish_iter): Implement in terms of line search.
+	(gnm_solver_line_search): Generic line search with Fibonacci
+	interval reduction.
+
 2015-04-28  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_iterator_new_polish): New function with

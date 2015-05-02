@@ -259,6 +259,12 @@ void gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs);
 
 gnm_float *gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs);
 
+gnm_float gnm_solver_line_search (GnmSolver *sol,
+				  gnm_float const *x0, gnm_float const *dir,
+				  gboolean try_reverse,
+				  gnm_float step, gnm_float max_step, gnm_float eps,
+				  gnm_float *py);
+
 /* ------------------------------------------------------------------------- */
 /* Solver subclass for subprocesses. */
 
