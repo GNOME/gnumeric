@@ -1,3 +1,8 @@
+2015-05-02  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (run_solver): Move everything except the stop
+	button from the run dialog to the main dialog.
+
 2015-04-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (dialog_histogram_tool): set defaults
