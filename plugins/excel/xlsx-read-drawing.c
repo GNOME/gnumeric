@@ -1086,6 +1086,31 @@ xlsx_axis_custom_unit (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_axis_builtin_unit (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	/* It's absolutely moronic, but these values are spelled out.  */
+	static const EnumVal const units[] = {
+		{ "hundreds", 2 },
+		{ "thousands", 3 },
+		{ "tenThousands", 4 },
+		{ "hundredThousands", 5 },
+		{ "millions", 6 },
+		{ "tenMillions", 7 },
+		{ "hundredMillions", 8 },
+		{ "billions", 9 },  /* Small billions */
+		{ "trillions", 12 },  /* Small trillions */
+		{ NULL, 0 }
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int e = 3;
+
+	(void)simple_enum (xin, attrs, units, &e);
+	if (state->axis.obj)
+		g_object_set (state->axis.obj, "display-factor",
+			      go_pow10 (e), NULL);
+}
+
+static void
 xlsx_chart_gridlines (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2489,8 +2514,9 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 	GSF_XML_IN_NODE (VAL_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_SCALING, XL_NS_CHART, "scaling", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_2ND, NULL, NULL),
-		GSF_XML_IN_NODE (VAL_AXIS, AXIS_DISPUNITS, XL_NS_CHART, "dispUnits", GSF_XML_NO_CONTENT, NULL, NULL),
-			GSF_XML_IN_NODE (AXIS_DISPUNITS, AXIS_CUSTUNIT, XL_NS_CHART, "custUnit", GSF_XML_NO_CONTENT, &xlsx_axis_custom_unit, NULL),
+	  GSF_XML_IN_NODE (VAL_AXIS, AXIS_DISPUNITS, XL_NS_CHART, "dispUnits", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (AXIS_DISPUNITS, AXIS_CUSTUNIT, XL_NS_CHART, "custUnit", GSF_XML_NO_CONTENT, &xlsx_axis_custom_unit, NULL),
+	  GSF_XML_IN_NODE (AXIS_DISPUNITS, AXIS_BUILTINUNIT, XL_NS_CHART, "builtInUnit", GSF_XML_NO_CONTENT, &xlsx_axis_builtin_unit, NULL),
 	GSF_XML_IN_NODE (VAL_AXIS, AXIS_POS, XL_NS_CHART, "axPos", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_MAJORGRID, XL_NS_CHART, "majorGridlines", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_MINORGRID, XL_NS_CHART, "minorGridlines", GSF_XML_2ND, NULL, NULL),
