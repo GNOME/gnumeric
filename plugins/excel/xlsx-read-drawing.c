@@ -1080,8 +1080,9 @@ static void
 xlsx_axis_custom_unit (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	double f;
-	if (state->axis.obj && attr_float (xin, attrs, "val", &f) && f != 0)
+	gnm_float f = 1;
+	(void)simple_float (xin, attrs, &f);
+	if (state->axis.obj && f != 0)
 		g_object_set (state->axis.obj, "display-factor", f, NULL);
 }
 
