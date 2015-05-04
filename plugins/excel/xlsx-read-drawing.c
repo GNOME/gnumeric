@@ -1077,6 +1077,15 @@ xlsx_axis_crossax (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_axis_custom_unit (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	double f;
+	if (state->axis.obj && attr_float (xin, attrs, "val", &f) && f > 0.)
+		g_object_set (state->axis.obj, "display-factor", f, NULL);
+}
+
+static void
 xlsx_chart_gridlines (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2480,6 +2489,8 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 	GSF_XML_IN_NODE (VAL_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_SCALING, XL_NS_CHART, "scaling", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_2ND, NULL, NULL),
+		GSF_XML_IN_NODE (VAL_AXIS, AXIS_DISPUNITS, XL_NS_CHART, "dispUnits", GSF_XML_NO_CONTENT, NULL, NULL),
+			GSF_XML_IN_NODE (AXIS_DISPUNITS, AXIS_CUSTUNIT, XL_NS_CHART, "custUnit", GSF_XML_NO_CONTENT, &xlsx_axis_custom_unit, NULL),
 	GSF_XML_IN_NODE (VAL_AXIS, AXIS_POS, XL_NS_CHART, "axPos", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_MAJORGRID, XL_NS_CHART, "majorGridlines", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_MINORGRID, XL_NS_CHART, "minorGridlines", GSF_XML_2ND, NULL, NULL),

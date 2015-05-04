@@ -840,6 +840,15 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	d = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, &user_defined);
 	if (user_defined && d > 0) xlsx_write_chart_float (xml, "c:minorUnit", d);
 
+	g_object_get (axis, "display-factor", &d, NULL);
+	if (d != 1.) {
+		gsf_xml_out_start_element (xml, "c:dispUnits");
+		gsf_xml_out_start_element (xml, "c:custUnit");
+		gsf_xml_out_add_float (xml, "val", d, -1);
+		gsf_xml_out_end_element (xml);
+		gsf_xml_out_end_element (xml);
+	}
+
 	/* finished with axis */
 	gsf_xml_out_end_element (xml);
 }
