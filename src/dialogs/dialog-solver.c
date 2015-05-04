@@ -89,6 +89,7 @@ typedef struct {
 		GtkWidget   *status_widget;
 		GtkWidget   *problem_status_widget;
 		GtkWidget   *objective_value_widget;
+		guint       obj_val_source;
 		GtkWidget   *spinner;
 		guint        in_main;
 	} run;
@@ -520,6 +521,62 @@ remove_timer_source (SolverState *state)
 }
 
 static void
+remove_objective_value_source (SolverState *state)
+{
+	if (state->run.obj_val_source) {
+		g_source_remove (state->run.obj_val_source);
+		state->run.obj_val_source = 0;
+	}
+}
+
+static void
+update_obj_value (SolverState *state)
+{
+	GnmSolver *sol = state->run.solver;
+	GnmSolverResult *r = sol->result;
+	char *valtxt;
+	const char *txt;
+
+	switch (r ? r->quality : GNM_SOLVER_RESULT_NONE) {
+	default:
+	case GNM_SOLVER_RESULT_NONE:
+		txt = "";
+		break;
+
+	case GNM_SOLVER_RESULT_FEASIBLE:
+		txt = _("Feasible");
+		break;
+
+	case GNM_SOLVER_RESULT_OPTIMAL:
+		txt = _("Optimal");
+		break;
+
+	case GNM_SOLVER_RESULT_INFEASIBLE:
+		txt = _("Infeasible");
+		break;
+
+	case GNM_SOLVER_RESULT_UNBOUNDED:
+		txt = _("Unbounded");
+		break;
+	}
+	gtk_label_set_text (GTK_LABEL (state->run.problem_status_widget), txt);
+
+	if (gnm_solver_has_solution (sol)) {
+		txt = valtxt = gnm_format_value (go_format_general (),
+						 r->value);
+	} else {
+		valtxt = NULL;
+		txt = g_strdup ("");
+	}
+
+	gtk_label_set_text (GTK_LABEL (state->run.objective_value_widget),
+			    txt);
+	g_free (valtxt);
+
+	remove_objective_value_source (state);
+}
+
+static void
 cb_notify_status (SolverState *state)
 {
 	GnmSolver *sol = state->run.solver;
@@ -569,6 +626,9 @@ cb_notify_status (SolverState *state)
 	gtk_widget_set_sensitive (state->solve_button, finished);
 	gtk_widget_set_sensitive (state->close_button, finished);
 
+	if (state->run.obj_val_source)
+		update_obj_value (state);
+
 	if (finished) {
 		remove_timer_source (state);
 		if (state->run.in_main)
@@ -576,49 +636,21 @@ cb_notify_status (SolverState *state)
 	}
 }
 
+static gboolean
+cb_obj_val_tick (SolverState *state)
+{
+	state->run.obj_val_source = 0;
+	update_obj_value (state);
+	return FALSE;
+}
+
 static void
 cb_notify_result (SolverState *state)
 {
-	GnmSolver *sol = state->run.solver;
-	GnmSolverResult *r;
-	const char *txt;
-
-	cb_notify_status (state);
-
-	r = sol->result;
-	switch (r ? r->quality : GNM_SOLVER_RESULT_NONE) {
-	default:
-	case GNM_SOLVER_RESULT_NONE:
-		txt = "";
-		break;
-
-	case GNM_SOLVER_RESULT_FEASIBLE:
-		txt = _("Feasible");
-		break;
-
-	case GNM_SOLVER_RESULT_OPTIMAL:
-		txt = _("Optimal");
-		break;
-
-	case GNM_SOLVER_RESULT_INFEASIBLE:
-		txt = _("Infeasible");
-		break;
-
-	case GNM_SOLVER_RESULT_UNBOUNDED:
-		txt = _("Unbounded");
-		break;
-	}
-	gtk_label_set_text (GTK_LABEL (state->run.problem_status_widget), txt);
-
-	if (gnm_solver_has_solution (sol)) {
-		char *valtxt = gnm_format_value (go_format_general (),
-						 r->value);
-		gtk_label_set_text (GTK_LABEL (state->run.objective_value_widget),
-				    valtxt);
-		g_free (valtxt);
-	}
+	if (state->run.obj_val_source == 0)
+		state->run.obj_val_source = g_timeout_add
+			(100, (GSourceFunc)cb_obj_val_tick, state);
 }
-
 
 static gboolean
 cb_timer_tick (SolverState *state)
@@ -720,6 +752,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 		ok = gnm_solver_has_solution (sol);
 	}
 
+	remove_objective_value_source (state);
 	remove_timer_source (state);
 
 	/* ---------------------------------------- */

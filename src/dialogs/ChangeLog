@@ -1,3 +1,8 @@
+2015-05-04  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (cb_notify_result): Rate-limit actual updates to
+	10 per second.
+
 2015-05-02  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (run_solver): Move everything except the stop
