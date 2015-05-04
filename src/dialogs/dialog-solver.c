@@ -56,6 +56,7 @@
 #define SOLVER_KEY            "solver-dialog"
 
 typedef struct {
+	int                 ref_count;
 	GtkBuilder          *gui;
 	GtkWidget           *dialog;
 	GtkWidget           *notebook;
@@ -65,6 +66,8 @@ typedef struct {
 	GtkWidget           *max_time_entry;
 	GtkWidget           *solve_button;
 	GtkWidget           *close_button;
+	GtkWidget           *stop_button;
+	GtkWidget           *help_button;
 	GtkWidget           *add_button;
 	GtkWidget           *change_button;
 	GtkWidget           *delete_button;
@@ -81,16 +84,13 @@ typedef struct {
 
 	struct {
 		GnmSolver   *solver;
-		GtkDialog   *dialog;
 		GtkWidget   *timer_widget;
 		guint       timer_source;
 		GtkWidget   *status_widget;
 		GtkWidget   *problem_status_widget;
 		GtkWidget   *objective_value_widget;
-		GtkWidget   *stop_button;
-		gulong       sig_notify_result;
-		gulong       sig_notify_status;
-		gulong       sig_notify_reason;
+		GtkWidget   *spinner;
+		guint        in_main;
 	} run;
 
 	Sheet		    *sheet;
@@ -359,8 +359,12 @@ cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 static void
-free_state (SolverState *state)
+unref_state (SolverState *state)
 {
+	state->ref_count--;
+	if (state->ref_count > 0)
+		return;
+
 	if (state->orig_params)
 		g_object_unref (state->orig_params);
 	g_free (state);
@@ -460,6 +464,11 @@ cb_dialog_solver_destroy (SolverState *state)
 {
 	g_return_if_fail (state != NULL);
 
+	if (state->run.solver) {
+		gnm_solver_stop (state->run.solver, NULL);
+		g_object_set (state->run.solver, "result", NULL, NULL);
+	}
+
 	extract_settings (state);
 
 	check_for_changed_options (state);
@@ -502,11 +511,21 @@ cb_stop_solver (SolverState *state)
 }
 
 static void
+remove_timer_source (SolverState *state)
+{
+	if (state->run.timer_source) {
+		g_source_remove (state->run.timer_source);
+		state->run.timer_source = 0;
+	}
+}
+
+static void
 cb_notify_status (SolverState *state)
 {
 	GnmSolver *sol = state->run.solver;
 	const char *text;
 	gboolean finished = gnm_solver_finished (sol);
+	gboolean running = FALSE;
 
 	switch (sol->status) {
 	case GNM_SOLVER_STATUS_READY:
@@ -520,6 +539,7 @@ cb_notify_status (SolverState *state)
 		break;
 	case GNM_SOLVER_STATUS_RUNNING:
 		text = _("Running");
+		running = TRUE;
 		break;
 	case GNM_SOLVER_STATUS_DONE:
 		text = _("Done");
@@ -544,12 +564,15 @@ cb_notify_status (SolverState *state)
 		gtk_label_set_text (GTK_LABEL (state->run.status_widget), text);
 	}
 
+	gtk_widget_set_visible (state->run.spinner, running);
+	gtk_widget_set_visible (state->stop_button, !finished);
+	gtk_widget_set_sensitive (state->solve_button, finished);
+	gtk_widget_set_sensitive (state->close_button, finished);
+
 	if (finished) {
-		if (state->run.timer_source) {
-			g_source_remove (state->run.timer_source);
-			state->run.timer_source = 0;
-		}
-		gtk_widget_destroy (GTK_WIDGET (state->run.dialog));
+		remove_timer_source (state);
+		if (state->run.in_main)
+			gtk_main_quit ();
 	}
 }
 
@@ -633,8 +656,6 @@ create_report (GnmSolver *sol, SolverState *state)
 static GnmSolverResult *
 run_solver (SolverState *state, GnmSolverParameters *param)
 {
-	GtkDialog *dialog;
-	int dialog_res;
 	GError *err = NULL;
 	gboolean ok;
 	GnmSheetRange sr;
@@ -643,9 +664,8 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	GnmValue const *vinput;
 	GtkWindow *top = GTK_WINDOW (gtk_widget_get_toplevel (state->dialog));
 	GnmSolverResult *res = NULL;
-	char *txt;
-	GtkWidget *spin;
-	int size;
+
+	state->ref_count++;
 
 	sol = gnm_solver_factory_functional (param->options.algorithm,
 					     state->wbcg)
@@ -666,66 +686,22 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	if (!sr.sheet) sr.sheet = param->sheet;
 	undo = clipboard_copy_range_undo (sr.sheet, &sr.range);
 
-	dialog = (GtkDialog *)gtk_dialog_new_with_buttons
-		(_("Running Solver"),
-		 wbcg_toplevel (state->wbcg), 0,
-		 NULL, NULL);
-
-	/*
-	 * Toss a label in there -- not because we have something to say,
-	 * but because the title otherwise gets truncated.
-	 */
-	txt = g_strdup_printf (_("Solver \"%s\" is running"),
-			       param->options.algorithm->name);
-	if (0) gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (dialog)),
-			   gtk_label_new (txt));
-	g_free (txt);
-
-
-	size = gnm_widget_measure_string (GTK_WIDGET (wbcg_toplevel (state->wbcg)),
-					  "0123456789012345");
-	spin = g_object_new (GTK_TYPE_SPINNER,
-			     "active", TRUE,
-			     "margin", size / 4,
-			     NULL);
-	gtk_widget_set_size_request (spin, size, size);
-	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (dialog)),
-			   spin);
-
-	state->run.stop_button =
-		go_gtk_dialog_add_button (dialog,
-					  _("Stop"),
-					  GTK_STOCK_STOP,
-					  GTK_RESPONSE_NO);
-	gtk_widget_set_tooltip_text
-		(state->run.stop_button,
-		 _("Stop the running solver"));
-	g_signal_connect_swapped (G_OBJECT (state->run.stop_button),
-				  "clicked", G_CALLBACK (cb_stop_solver),
+	g_signal_connect_swapped (G_OBJECT (sol),
+				  "notify::status",
+				  G_CALLBACK (cb_notify_status),
 				  state);
-
-	gtk_widget_show_all (GTK_WIDGET (dialog));
-
-	state->run.sig_notify_status =
-		g_signal_connect_swapped (G_OBJECT (sol),
-					  "notify::status",
-					  G_CALLBACK (cb_notify_status),
-					  state);
-	state->run.sig_notify_reason =
-		g_signal_connect_swapped (G_OBJECT (sol),
-					  "notify::reason",
-					  G_CALLBACK (cb_notify_status),
-					  state);
+	g_signal_connect_swapped (G_OBJECT (sol),
+				  "notify::reason",
+				  G_CALLBACK (cb_notify_status),
+				  state);
 	cb_notify_status (state);
 
-	state->run.sig_notify_result =
-		g_signal_connect_swapped (G_OBJECT (sol),
-					  "notify::result",
-					  G_CALLBACK (cb_notify_result),
-					  state);
+	g_signal_connect_swapped (G_OBJECT (sol),
+				  "notify::result",
+				  G_CALLBACK (cb_notify_result),
+				  state);
 	cb_notify_result (state);
 
-	state->run.dialog = g_object_ref (dialog);
 	state->run.timer_source = g_timeout_add_seconds
 		(1, (GSourceFunc)cb_timer_tick, state);
 	cb_timer_tick (state);
@@ -736,42 +712,19 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 			       GNM_WBC (state->wbcg),
 			       &err);
 	if (ok) {
-		dialog_res = go_gtk_dialog_run (dialog, top);
-		if (dialog_res == GTK_RESPONSE_YES && !sol->result)
-			dialog_res = GTK_RESPONSE_DELETE_EVENT;
-	} else {
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		go_gtk_notice_dialog (top, GTK_MESSAGE_ERROR,
-				      "%s", err->message);
-		dialog_res = GTK_RESPONSE_DELETE_EVENT;
+		state->run.in_main++;
+		go_cmd_context_set_sensitive (GO_CMD_CONTEXT (state->wbcg), FALSE);
+		gtk_main ();
+		go_cmd_context_set_sensitive (GO_CMD_CONTEXT (state->wbcg), TRUE);
+		state->run.in_main--;
+		ok = gnm_solver_has_solution (sol);
 	}
 
-	g_signal_handler_disconnect (G_OBJECT (sol),
-				     state->run.sig_notify_result);
-	g_signal_handler_disconnect (G_OBJECT (sol),
-				     state->run.sig_notify_status);
-	g_signal_handler_disconnect (G_OBJECT (sol),
-				     state->run.sig_notify_reason);
-
-	if (sol->status == GNM_SOLVER_STATUS_RUNNING)
-		gnm_solver_stop (sol, NULL);
+	remove_timer_source (state);
 
 	/* ---------------------------------------- */
 
-	gtk_widget_destroy (GTK_WIDGET (state->run.dialog));
-	if (state->run.timer_source) {
-		g_source_remove (state->run.timer_source);
-		state->run.timer_source = 0;
-	}
-	g_object_unref (state->run.dialog);
-
-	switch (dialog_res) {
-	default:
-	case GTK_RESPONSE_NO:
-	case GTK_RESPONSE_DELETE_EVENT:
-		break;
-
-	case GTK_RESPONSE_YES: {
+	if (ok) {
 		GOUndo *redo;
 
 		gnm_solver_store_result (sol);
@@ -809,8 +762,6 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 			     undo, redo);
 		res = g_object_ref (sol->result);
 		undo = redo = NULL;
-		break;
-	}
 	}
 
 fail:
@@ -821,6 +772,8 @@ fail:
 		g_object_unref (state->run.solver);
 		state->run.solver = NULL;
 	}
+
+	unref_state (state);
 
 	return res;
 }
@@ -961,9 +914,8 @@ dialog_init (SolverState *state)
 	g_signal_connect (G_OBJECT (state->close_button), "clicked",
 			  G_CALLBACK (cb_dialog_close_clicked), state);
 
-	gnm_init_help_button (go_gtk_builder_get_widget (state->gui,
-							 "helpbutton"),
-				   GNUMERIC_HELP_LINK_SOLVER);
+	state->help_button = go_gtk_builder_get_widget (state->gui, "helpbutton");
+	gnm_init_help_button (state->help_button, GNUMERIC_HELP_LINK_SOLVER);
 
 	state->add_button  = go_gtk_builder_get_widget (state->gui, "addbutton");
 	gtk_button_set_alignment (GTK_BUTTON (state->add_button), 0.5, .5);
@@ -980,6 +932,11 @@ dialog_init (SolverState *state)
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_button), 0.5, .5);
 	g_signal_connect (G_OBJECT (state->delete_button), "clicked",
 			  G_CALLBACK (cb_dialog_delete_clicked), state);
+
+	state->stop_button = go_gtk_builder_get_widget (state->gui, "stopbutton");
+	g_signal_connect_swapped (G_OBJECT (state->stop_button),
+				  "clicked", G_CALLBACK (cb_stop_solver),
+				  state);
 
 	/* target_entry */
 	grid = GTK_GRID (go_gtk_builder_get_widget (state->gui,
@@ -1187,6 +1144,8 @@ dialog_init (SolverState *state)
 	state->run.problem_status_widget = go_gtk_builder_get_widget (state->gui, "problem_status_label");
 	state->run.objective_value_widget = go_gtk_builder_get_widget (state->gui, "objective_value_label");
 	state->run.timer_widget = go_gtk_builder_get_widget (state->gui, "elapsed_time_label");
+	state->run.spinner = go_gtk_builder_get_widget (state->gui, "run_spinner");
+
 
 /* Done */
 	gnm_expr_entry_grab_focus (state->target_entry, FALSE);
@@ -1204,7 +1163,7 @@ dialog_init (SolverState *state)
 				  state);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state,
-				(GDestroyNotify)free_state);
+				(GDestroyNotify)unref_state);
 
 	return FALSE;
 }
@@ -1253,6 +1212,7 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 	}
 
 	state                 = g_new0 (SolverState, 1);
+	state->ref_count      = 1;
 	state->wbcg           = wbcg;
 	state->sheet          = sheet;
 	state->warning_dialog = NULL;
@@ -1262,7 +1222,7 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 	if (dialog_init (state)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Solver dialog."));
-		free_state (state);
+		unref_state (state);
 		return;
 	}
 
