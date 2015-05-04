@@ -1,6 +1,12 @@
+2015-05-04  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_axis_custom_unit): Allow negative
+	units too.
+
 2015-05-04  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* xlsx-read-drawing.c (xlsx_axis_custom_unit): read custom scaling factor.
+	* xlsx-read-drawing.c (xlsx_axis_custom_unit): read custom scaling
+	factor.
 	* xlsx-write-drawing.c (xlsx_write_axis): write it back. [#748295]
 
 2015-04-28  Morten Welinder  <terra@gnome.org>
