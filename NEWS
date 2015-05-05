@@ -14,6 +14,7 @@ Morten:
 	* Solver code refactoring.
 	* Plug leaks.
 	* Fuzzed file fixes.  [#748595]  [#748597]
+	* Make solver check linearity of model.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.22

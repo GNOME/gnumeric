@@ -36,44 +36,6 @@
 #include <string.h>
 
 
-static gboolean
-gnm_solver_get_lp_coeff (GnmCell *target, GnmCell *cell,
-			 gnm_float *x, GError **err)
-{
-        gnm_float x0, x1;
-	gboolean res = FALSE;
-
-	gnm_cell_eval (target);
-	if (!VALUE_IS_NUMBER (target->value))
-		goto fail;
-	x0 = value_get_as_float (target->value);
-
-	gnm_cell_set_value (cell, value_new_float (1));
-	cell_queue_recalc (cell);
-	gnm_cell_eval (target);
-	if (!VALUE_IS_NUMBER (target->value))
-		goto fail;
-	x1 = value_get_as_float (target->value);
-
-	*x = x1 - x0;
-	res = TRUE;
-	goto out;
-
-fail:
-	g_set_error (err,
-		     go_error_invalid (),
-		     0,
-		     _("Target cell did not evaluate to a number."));
-	*x = 0;
-
-out:
-	gnm_cell_set_value (cell, value_new_int (0));
-	cell_queue_recalc (cell);
-	gnm_cell_eval (target);
-
-	return res;
-}
-
 static const char *
 lpsolve_var_name (GnmSubSolver *ssol, GnmCell const *cell)
 {
@@ -88,38 +50,37 @@ lpsolve_var_name (GnmSubSolver *ssol, GnmCell const *cell)
 
 static gboolean
 lpsolve_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
+		     gnm_float const *x1, gnm_float const *x2, guint8 const *pdisc,
 		     gnm_float cst, GError **err)
 {
 	GnmSolver *sol = GNM_SOLVER (ssol);
 	unsigned ui;
 	gboolean any = FALSE;
 	gnm_float y;
-	GPtrArray *old_values;
 	gboolean ok = TRUE;
 	GPtrArray *input_cells = sol->input_cells;
+	gnm_float *cs;
 
 	if (!target) {
 		gnm_string_add_number (dst, cst);
 		return TRUE;
 	}
 
-	old_values = g_ptr_array_new ();
-	for (ui = 0; ui < input_cells->len; ui++) {
-	        GnmCell *cell = g_ptr_array_index (input_cells, ui);
-		g_ptr_array_add (old_values, value_dup (cell->value));
-		gnm_cell_set_value (cell, value_new_int (0));
-		cell_queue_recalc (cell);
-	}
-
+	gnm_solver_set_vars (sol, x1);
 	gnm_cell_eval (target);
 	y = cst + value_get_as_float (target->value);
 
+	cs = gnm_solver_get_lp_coeffs (sol, target, x1, x2, pdisc, err);
+	if (!cs)
+		goto fail;
+
+	/* Adjust constant for choice of x1.  */
+	for (ui = 0; ui < input_cells->len; ui++)
+		y -= x1[ui] * cs[ui];
+
 	for (ui = 0; ui < input_cells->len; ui++) {
 	        GnmCell *cell = g_ptr_array_index (input_cells, ui);
-		gnm_float x;
-		ok = gnm_solver_get_lp_coeff (target, cell, &x, err);
-		if (!ok)
-			goto fail;
+		gnm_float x = cs[ui];
 		if (x == 0)
 			continue;
 
@@ -154,13 +115,7 @@ lpsolve_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
 	}
 
 fail:
-	for (ui = 0; ui < input_cells->len; ui++) {
-	        GnmCell *cell = g_ptr_array_index (input_cells, ui);
-		GnmValue *old = g_ptr_array_index (old_values, ui);
-		gnm_cell_set_value (cell, old);
-		cell_queue_recalc (cell);
-	}
-	g_ptr_array_free (old_values, TRUE);
+	g_free (cs);
 
 	return ok;
 }
@@ -178,6 +133,9 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 	GnmCell *target_cell = gnm_solver_param_get_target_cell (sp);
 	GPtrArray *input_cells = sol->input_cells;
 	gsize progress;
+	GPtrArray *old = NULL;
+	gnm_float *x1 = NULL, *x2 = NULL;
+	guint8 *pdisc = NULL;
 
 	/* ---------------------------------------- */
 
@@ -191,12 +149,19 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 
 	/* ---------------------------------------- */
 
-	progress = 2;
+	progress = 3;
 	if (sp->options.assume_non_negative) progress++;
 	if (sp->options.assume_discrete) progress++;
 	progress += g_slist_length (sp->constraints);
 
 	go_io_count_progress_set (io_context, progress, 1);
+
+	/* ---------------------------------------- */
+
+	old = gnm_solver_save_vars (sol);
+
+	gnm_solver_pick_lp_coords (sol, &x1, &x2, &pdisc);
+	go_io_count_progress_update (io_context, 1);
 
 	/* ---------------------------------------- */
 
@@ -213,6 +178,7 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 	go_io_count_progress_update (io_context, 1);
 
 	if (!lpsolve_affine_func (objfunc, target_cell, ssol,
+				  x1, x2, pdisc,
 				  0, err))
 		goto fail;
 	g_string_append (objfunc, ";\n");
@@ -285,7 +251,9 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 				gboolean ok;
 
 				ok = lpsolve_affine_func
-					(constraints, lhs, ssol, cl, err);
+					(constraints, lhs, ssol,
+					 x1, x2, pdisc,
+					 cl, err);
 				if (!ok)
 					goto fail;
 
@@ -294,7 +262,9 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 				g_string_append_c (constraints, ' ');
 
 				ok = lpsolve_affine_func
-					(constraints, rhs, ssol, cr, err);
+					(constraints, rhs, ssol,
+					 x1, x2, pdisc,
+					 cr, err);
 				if (!ok)
 					goto fail;
 
@@ -323,6 +293,12 @@ fail:
 	g_string_free (objfunc, TRUE);
 	g_string_free (constraints, TRUE);
 	g_string_free (declarations, TRUE);
+	g_free (x1);
+	g_free (x2);
+	g_free (pdisc);
+
+	if (old)
+		gnm_solver_restore_vars (sol, old);
 
 	return prg;
 }

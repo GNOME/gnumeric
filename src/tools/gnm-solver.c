@@ -1370,7 +1370,9 @@ cell_is_constant (GnmCell *cell, gnm_float *pc)
 
 
 static void
-gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
+gnm_solver_get_limits (GnmSolver *solver,
+		       gnm_float **pmin, gnm_float **pmax,
+		       guint8 **pdisc)
 {
 	GnmValue const *vinput;
 	GnmSolverParameters *params = solver->params;
@@ -1379,15 +1381,18 @@ gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
 	unsigned ui;
 
 	*pmin = *pmax = NULL;
+	*pdisc = NULL;
 
 	vinput = gnm_solver_param_get_input (params);
 	if (!vinput) return;
 
 	*pmin = g_new (gnm_float, n);
 	*pmax = g_new (gnm_float, n);
+	*pdisc = g_new (guint8, n);
 	for (ui = 0; ui < n; ui++) {
 		(*pmin)[ui] = params->options.assume_non_negative ? 0 : gnm_ninf;
 		(*pmax)[ui] = gnm_pinf;
+		(*pdisc)[ui] = params->options.assume_discrete;
 	}
 
 	for (l = params->constraints; l; l = l->next) {
@@ -1410,8 +1415,10 @@ gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
 
 			switch (c->type) {
 			case GNM_SOLVER_INTEGER:
+				(*pdisc)[idx] = TRUE;
 				break;
 			case GNM_SOLVER_BOOLEAN:
+				(*pdisc)[idx] = TRUE;
 				SET_LOWER (0.0);
 				SET_UPPER (1.0);
 				break;
@@ -1430,6 +1437,17 @@ gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
 				g_assert_not_reached ();
 				break;
 			}
+		}
+	}
+
+	/*
+	 * If parameters are discrete, narrow the range by eliminating
+	 * the fractional part of the limits.
+	 */
+	for (ui = 0; ui < n; ui++) {
+		if ((*pdisc)[ui]) {
+			(*pmin)[ui] = gnm_ceil ((*pmin)[ui]);
+			(*pmax)[ui] = gnm_floor ((*pmax)[ui]);
 		}
 	}
 }
@@ -1530,6 +1548,7 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 	vinput = gnm_solver_param_get_input (params);
 	if (vinput) {
 		gnm_float *pmin, *pmax;
+		guint8 *pdisc;
 		unsigned ui;
 
 		ADD_HEADER (_("Variables"));
@@ -1541,7 +1560,7 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 		dao_set_cell (dao, 5, R, _("Slack"));
 		R++;
 
-		gnm_solver_get_limits (solver, &pmin, &pmax);
+		gnm_solver_get_limits (solver, &pmin, &pmax, &pdisc);
 
 		for (ui = 0; ui < solver->input_cells->len; ui++) {
 			GnmCell *cell = g_ptr_array_index (solver->input_cells, ui);
@@ -1574,6 +1593,7 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 
 		g_free (pmin);
 		g_free (pmax);
+		g_free (pdisc);
 		R++;
 	}
 
@@ -1708,6 +1728,35 @@ gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs)
 	for (i = 0; i < n; i++)
 		gnm_solver_set_var (sol, i, xs[i]);
 }
+
+GPtrArray *
+gnm_solver_save_vars (GnmSolver *sol)
+{
+	GPtrArray *vals = g_ptr_array_new ();
+	unsigned ui;
+
+	for (ui = 0; ui < sol->input_cells->len; ui++) {
+		GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
+		g_ptr_array_add (vals, value_dup (cell->value));
+	}
+
+	return vals;
+}
+
+void
+gnm_solver_restore_vars (GnmSolver *sol, GPtrArray *vals)
+{
+	unsigned ui;
+
+	for (ui = 0; ui < sol->input_cells->len; ui++) {
+		GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
+		gnm_cell_set_value (cell, g_ptr_array_index (vals, ui));
+		cell_queue_recalc (cell);
+	}
+
+	g_ptr_array_free (vals, TRUE);
+}
+
 
 /**
  * gnm_solver_compute_gradient:
@@ -1921,6 +1970,148 @@ gnm_solver_line_search (GnmSolver *sol,
 
 	*py = y1;
 	return s1;
+}
+
+/**
+ * gnm_solver_pick_lp_coords:
+ * @sol: Solver
+ * @px1: (out): first coordinate value
+ * @px2: (out): second coordinate value
+ * @pdisc: (out): indicator for discrete coordinate
+ *
+ * Pick two good values for each coordinate.  We prefer 0 and 1
+ * when they are valid.
+ */
+void
+gnm_solver_pick_lp_coords (GnmSolver *sol,
+			   gnm_float **px1, gnm_float **px2,
+			   guint8 **pdisc)
+{
+	const unsigned n = sol->input_cells->len;
+	gnm_float *pmin, *pmax;
+	gnm_float *x1 = g_new (gnm_float, n);
+	gnm_float *x2 = g_new (gnm_float, n);
+	unsigned ui;
+
+	gnm_solver_get_limits (sol, &pmin, &pmax, pdisc);
+
+	for (ui = 0; ui < sol->input_cells->len; ui++) {
+		const gnm_float L = pmin[ui], H = pmax[ui];
+
+		if (L == H) {
+			x1[ui] = x2[ui] = L;
+		} else if ((*pdisc)[ui] && H - L == 1) {
+			x1[ui] = L;
+			x2[ui] = H;
+		} else {
+			if (L <= 0 && H >= 0)
+				x1[ui] = 0;
+			else if (gnm_finite (L))
+				x1[ui] = L;
+			else
+				x1[ui] = H;
+
+			if (x1[ui] + 1 <= H)
+				x2[ui] = x1[ui] + 1;
+			else if (x1[ui] - 1 >= H)
+				x2[ui] = x1[ui] - 1;
+			else if (x1[ui] != H)
+				x2[ui] = (x1[ui] + H) / 2;
+			else
+				x2[ui] = (x1[ui] + L) / 2;
+		}
+	}
+
+	g_free (pmin);
+	g_free (pmax);
+	*px1 = x1;
+	*px2 = x2;
+}
+
+/**
+ * gnm_solver_get_lp_coeffs:
+ * @sol: Solver
+ * @ycell: Cell for which to compute coefficients
+ * @x1: first coordinate value
+ * @x2: second coordinate value
+ * @pdisc: indicator for discrete coordinate
+ * @err: error location
+ *
+ * Returns: (transfer full): coordinates, or NULL in case of error.
+ * Note: this function is not affected by the flip-sign property, even
+ * if @ycell happens to coindice with the solver target cell.
+ */
+gnm_float *
+gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
+			  gnm_float const *x1, gnm_float const *x2,
+			  guint8 const *pdisc,
+			  GError **err)
+{
+	const unsigned n = sol->input_cells->len;
+	unsigned ui;
+	gnm_float *res = g_new (gnm_float, n);
+	gnm_float y0;
+
+	gnm_solver_set_vars (sol, x1);
+	gnm_cell_eval (ycell);
+	y0 = VALUE_IS_NUMBER (ycell->value) ? value_get_as_float (ycell->value) : gnm_nan;
+	if (!gnm_finite (y0))
+		goto fail_calc;
+
+	for (ui = 0; ui < sol->input_cells->len; ui++) {
+		gnm_float dx = x2[ui] - x1[ui], dy, y1;
+
+		if (dx <= 0) {
+			res[ui] = 0;
+			continue;
+		}
+
+		gnm_solver_set_var (sol, ui, x2[ui]);
+		gnm_cell_eval (ycell);
+		y1 = VALUE_IS_NUMBER (ycell->value) ? value_get_as_float (ycell->value) : gnm_nan;
+
+		dy = y1 - y0;
+		res[ui] = dy / dx;
+		if (!gnm_finite (res[ui]))
+			goto fail_calc;
+
+		if (!pdisc[ui] || dx != 1) {
+			gnm_float x01, y01, e, emax;
+
+			x01 = (x1[ui] + x2[ui]) / 2;
+			if (pdisc[ui]) x01 = gnm_floor (x01);
+			gnm_solver_set_var (sol, ui, x01);
+			gnm_cell_eval (ycell);
+			y01 = VALUE_IS_NUMBER (ycell->value) ? value_get_as_float (ycell->value) : gnm_nan;
+			if (!gnm_finite (y01))
+				goto fail_calc;
+
+			emax = dy == 0 ? 1e-10 : gnm_abs (dy) / 1e-10;
+			e = dy - 2 * (y01 - y0);
+			if (gnm_abs (e) > emax)
+				goto fail_linear;
+		}
+
+		gnm_solver_set_var (sol, ui, x1[ui]);
+	}
+
+	return res;
+
+fail_calc:
+	g_set_error (err,
+		     go_error_invalid (),
+		     0,
+		     _("Target cell did not evaluate to a number."));
+	g_free (res);
+	return NULL;
+
+fail_linear:
+	g_set_error (err,
+		     go_error_invalid (),
+		     0,
+		     _("Target cell does not appear to depend linearly on input cells."));
+	g_free (res);
+	return NULL;
 }
 
 

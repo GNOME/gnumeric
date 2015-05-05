@@ -257,6 +257,9 @@ gnm_float gnm_solver_get_target_value (GnmSolver *solver);
 void gnm_solver_set_var (GnmSolver *sol, int i, gnm_float x);
 void gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs);
 
+GPtrArray *gnm_solver_save_vars (GnmSolver *sol);
+void gnm_solver_restore_vars (GnmSolver *sol, GPtrArray *vals);
+
 gnm_float *gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs);
 
 gnm_float gnm_solver_line_search (GnmSolver *sol,
@@ -264,6 +267,15 @@ gnm_float gnm_solver_line_search (GnmSolver *sol,
 				  gboolean try_reverse,
 				  gnm_float step, gnm_float max_step, gnm_float eps,
 				  gnm_float *py);
+
+void gnm_solver_pick_lp_coords (GnmSolver *sol,
+				gnm_float **px1, gnm_float **px2,
+				guint8 **pdisc);
+
+gnm_float *gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
+				     gnm_float const *x1, gnm_float const *x2,
+				     guint8 const *pdisc,
+				     GError **err);
 
 /* ------------------------------------------------------------------------- */
 /* Solver subclass for subprocesses. */
