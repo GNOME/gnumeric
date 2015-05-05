@@ -789,6 +789,37 @@ enum {
 static GObjectClass *gnm_solver_parent_class;
 
 static void
+gnm_solver_update_derived (GnmSolver *sol)
+{
+	GnmSolverParameters *params = sol->params;
+
+	if (sol->input_cells) {
+		g_ptr_array_free (sol->input_cells, TRUE);
+		sol->input_cells = NULL;
+	}
+
+	if (sol->index_from_cell) {
+		g_hash_table_destroy (sol->index_from_cell);
+		sol->index_from_cell = NULL;
+	}
+	sol->target = NULL;
+
+	if (params) {
+		unsigned ui;
+
+		sol->target = gnm_solver_param_get_target_cell (params);
+
+		sol->input_cells = gnm_solver_param_get_input_cells (params);
+
+		sol->index_from_cell = g_hash_table_new (g_direct_hash, g_direct_equal);
+		for (ui = 0; ui < sol->input_cells->len; ui++) {
+			GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
+			g_hash_table_insert (sol->index_from_cell, cell, GUINT_TO_POINTER (ui));
+		}
+	}
+}
+
+static void
 gnm_solver_dispose (GObject *obj)
 {
 	GnmSolver *sol = GNM_SOLVER (obj);
@@ -811,38 +842,10 @@ gnm_solver_dispose (GObject *obj)
 	if (sol->params) {
 		g_object_unref (sol->params);
 		sol->params = NULL;
-	}
-
-	if (sol->input_cells) {
-		g_ptr_array_free (sol->input_cells, TRUE);
-		sol->input_cells = NULL;
-	}
-
-	if (sol->index_from_cell) {
-		g_hash_table_destroy (sol->index_from_cell);
-		sol->index_from_cell = NULL;
+		gnm_solver_update_derived (sol);
 	}
 
 	gnm_solver_parent_class->dispose (obj);
-}
-
-static void
-gnm_solver_constructed (GObject *obj)
-{
-	GnmSolver *sol = GNM_SOLVER (obj);
-	GnmSolverParameters *params = sol->params;
-	unsigned ui;
-
-	sol->target = gnm_solver_param_get_target_cell (params);
-
-	sol->input_cells = gnm_solver_param_get_input_cells (params);
-	sol->index_from_cell = g_hash_table_new (g_direct_hash, g_direct_equal);
-	for (ui = 0; ui < sol->input_cells->len; ui++) {
-		GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
-		g_hash_table_insert (sol->index_from_cell, cell, GUINT_TO_POINTER (ui));
-	}
-
-	gnm_solver_parent_class->constructed (obj);
 }
 
 static void
@@ -901,15 +904,20 @@ gnm_solver_set_property (GObject *object, guint property_id,
 		gnm_solver_set_reason (sol, g_value_get_string (value));
 		break;
 
-	case SOL_PROP_PARAMS:
+	case SOL_PROP_PARAMS: {
+		GnmSolverParameters *p = g_value_dup_object (value);
 		if (sol->params) g_object_unref (sol->params);
-		sol->params = g_value_dup_object (value);
+		sol->params = p;
+		gnm_solver_update_derived (sol);
 		break;
+	}
 
-	case SOL_PROP_RESULT:
+	case SOL_PROP_RESULT: {
+		GnmSolverResult *r = g_value_dup_object (value);
 		if (sol->result) g_object_unref (sol->result);
-		sol->result = g_value_dup_object (value);
+		sol->result = r;
 		break;
+	}
 
 	case SOL_PROP_STARTTIME:
 		sol->starttime = g_value_get_double (value);
@@ -1922,7 +1930,6 @@ gnm_solver_class_init (GObjectClass *object_class)
 	gnm_solver_parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->dispose = gnm_solver_dispose;
-	object_class->constructed = gnm_solver_constructed;
 	object_class->set_property = gnm_solver_set_property;
 	object_class->get_property = gnm_solver_get_property;
 

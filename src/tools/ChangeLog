@@ -1,3 +1,8 @@
+2015-05-05  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_solver_set_property): Update derived
+	information when parameters change.
+
 2015-05-02  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (cb_polish_iter): Implement in terms of line search.
