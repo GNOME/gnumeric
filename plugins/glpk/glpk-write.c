@@ -46,7 +46,7 @@ glpk_var_name (GnmSubSolver *ssol, GnmCell const *cell)
 
 static gboolean
 glpk_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
-		  gnm_float const *x1, gnm_float const *x2, guint8 const *pdisc,
+		  gnm_float const *x1, gnm_float const *x2,
 		  gboolean zero_too,
 		  gnm_float cst, GError **err)
 {
@@ -67,7 +67,7 @@ glpk_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
 	gnm_cell_eval (target);
 	y = cst + value_get_as_float (target->value);
 
-	cs = gnm_solver_get_lp_coeffs (sol, target, x1, x2, pdisc, err);
+	cs = gnm_solver_get_lp_coeffs (sol, target, x1, x2, err);
 	if (!cs)
 		goto fail;
 
@@ -133,7 +133,6 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 	gsize progress;
 	GPtrArray *old = NULL;
 	gnm_float *x1 = NULL, *x2 = NULL;
-	guint8 *pdisc = NULL;
 
 	/* ---------------------------------------- */
 
@@ -171,7 +170,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 
 	old = gnm_solver_save_vars (sol);
 
-	gnm_solver_pick_lp_coords (sol, &x1, &x2, &pdisc);
+	gnm_solver_pick_lp_coords (sol, &x1, &x2);
 	go_io_count_progress_update (io_context, 1);
 
 	/* ---------------------------------------- */
@@ -189,7 +188,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 	go_io_count_progress_update (io_context, 1);
 
 	g_string_append (objfunc, " obj: ");
-	if (!glpk_affine_func (objfunc, target_cell, ssol, x1, x2, pdisc,
+	if (!glpk_affine_func (objfunc, target_cell, ssol, x1, x2,
 			       TRUE, 0, err))
 		goto fail;
 	g_string_append (objfunc, "\n");
@@ -261,7 +260,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 
 				ok = glpk_affine_func
 					(constraints, lhs, ssol,
-					 x1, x2, pdisc,
+					 x1, x2,
 					 FALSE, cl, err);
 				if (!ok)
 					goto fail;
@@ -272,7 +271,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 
 				ok = glpk_affine_func
 					(constraints, rhs, ssol,
-					 x1, x2, pdisc,
+					 x1, x2,
 					 FALSE, cr, err);
 				if (!ok)
 					goto fail;
@@ -310,7 +309,6 @@ fail:
 	g_string_free (binaries, TRUE);
 	g_free (x1);
 	g_free (x2);
-	g_free (pdisc);
 
 	if (old)
 		gnm_solver_restore_vars (sol, old);

@@ -206,6 +206,9 @@ typedef struct {
 	GnmCell *target;
 	GPtrArray *input_cells;
 	GHashTable *index_from_cell;
+	gnm_float *min;
+	gnm_float *max;
+	guint8 *discrete;
 } GnmSolver;
 
 typedef struct {
@@ -269,12 +272,10 @@ gnm_float gnm_solver_line_search (GnmSolver *sol,
 				  gnm_float *py);
 
 void gnm_solver_pick_lp_coords (GnmSolver *sol,
-				gnm_float **px1, gnm_float **px2,
-				guint8 **pdisc);
+				gnm_float **px1, gnm_float **px2);
 
 gnm_float *gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 				     gnm_float const *x1, gnm_float const *x2,
-				     guint8 const *pdisc,
 				     GError **err);
 
 /* ------------------------------------------------------------------------- */

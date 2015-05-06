@@ -788,36 +788,7 @@ enum {
 
 static GObjectClass *gnm_solver_parent_class;
 
-static void
-gnm_solver_update_derived (GnmSolver *sol)
-{
-	GnmSolverParameters *params = sol->params;
-
-	if (sol->input_cells) {
-		g_ptr_array_free (sol->input_cells, TRUE);
-		sol->input_cells = NULL;
-	}
-
-	if (sol->index_from_cell) {
-		g_hash_table_destroy (sol->index_from_cell);
-		sol->index_from_cell = NULL;
-	}
-	sol->target = NULL;
-
-	if (params) {
-		unsigned ui;
-
-		sol->target = gnm_solver_param_get_target_cell (params);
-
-		sol->input_cells = gnm_solver_param_get_input_cells (params);
-
-		sol->index_from_cell = g_hash_table_new (g_direct_hash, g_direct_equal);
-		for (ui = 0; ui < sol->input_cells->len; ui++) {
-			GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
-			g_hash_table_insert (sol->index_from_cell, cell, GUINT_TO_POINTER (ui));
-		}
-	}
-}
+static void gnm_solver_update_derived (GnmSolver *sol);
 
 static void
 gnm_solver_dispose (GObject *obj)
@@ -1359,101 +1330,126 @@ cell_is_constant (GnmCell *cell, gnm_float *pc)
 
 #define SET_LOWER(l_)						\
 	do {							\
-		(*pmin)[idx] = MAX ((*pmin)[idx], (l_));	\
+		sol->min[idx] = MAX (sol->min[idx], (l_));	\
 	} while (0)
 
 #define SET_UPPER(l_)						\
 	do {							\
-		(*pmax)[idx] = MIN ((*pmax)[idx], (l_));	\
+		sol->max[idx] = MIN (sol->max[idx], (l_));	\
 	} while (0)
 
 
 
 static void
-gnm_solver_get_limits (GnmSolver *solver,
-		       gnm_float **pmin, gnm_float **pmax,
-		       guint8 **pdisc)
+gnm_solver_update_derived (GnmSolver *sol)
 {
-	GnmValue const *vinput;
-	GnmSolverParameters *params = solver->params;
-	GSList *l;
-	unsigned const n = solver->input_cells->len;
-	unsigned ui;
+	GnmSolverParameters *params = sol->params;
 
-	*pmin = *pmax = NULL;
-	*pdisc = NULL;
-
-	vinput = gnm_solver_param_get_input (params);
-	if (!vinput) return;
-
-	*pmin = g_new (gnm_float, n);
-	*pmax = g_new (gnm_float, n);
-	*pdisc = g_new (guint8, n);
-	for (ui = 0; ui < n; ui++) {
-		(*pmin)[ui] = params->options.assume_non_negative ? 0 : gnm_ninf;
-		(*pmax)[ui] = gnm_pinf;
-		(*pdisc)[ui] = params->options.assume_discrete;
+	if (sol->input_cells) {
+		g_ptr_array_free (sol->input_cells, TRUE);
+		sol->input_cells = NULL;
 	}
 
-	for (l = params->constraints; l; l = l->next) {
-		GnmSolverConstraint *c = l->data;
-		int i;
-		gnm_float cl, cr;
-		GnmCell *lhs, *rhs;
+	if (sol->index_from_cell) {
+		g_hash_table_destroy (sol->index_from_cell);
+		sol->index_from_cell = NULL;
+	}
+	sol->target = NULL;
 
-		for (i = 0;
-		     gnm_solver_constraint_get_part (c, params, i,
-						     &lhs, &cl,
-						     &rhs, &cr);
-		     i++) {
-			int idx = cell_in_cr (solver, lhs, TRUE);
+	g_free (sol->min);
+	sol->min = NULL;
 
-			if (idx < 0)
-				continue;
-			if (!cell_is_constant (rhs, &cr))
-				continue;
+	g_free (sol->max);
+	sol->max = NULL;
 
-			switch (c->type) {
-			case GNM_SOLVER_INTEGER:
-				(*pdisc)[idx] = TRUE;
-				break;
-			case GNM_SOLVER_BOOLEAN:
-				(*pdisc)[idx] = TRUE;
-				SET_LOWER (0.0);
-				SET_UPPER (1.0);
-				break;
-			case GNM_SOLVER_LE:
-				SET_UPPER (cr);
-				break;
-			case GNM_SOLVER_GE:
-				SET_LOWER (cr);
-				break;
-			case GNM_SOLVER_EQ:
-				SET_LOWER (cr);
-				SET_UPPER (cr);
-				break;
+	g_free (sol->discrete);
+	sol->discrete = NULL;
 
-			default:
-				g_assert_not_reached ();
-				break;
+	if (params) {
+		unsigned ui, n;
+		GSList *l;
+
+		sol->target = gnm_solver_param_get_target_cell (params);
+
+		sol->input_cells = gnm_solver_param_get_input_cells (params);
+
+		n = sol->input_cells->len;
+		sol->index_from_cell = g_hash_table_new (g_direct_hash, g_direct_equal);
+		for (ui = 0; ui < n; ui++) {
+			GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
+			g_hash_table_insert (sol->index_from_cell, cell, GUINT_TO_POINTER (ui));
+		}
+
+		sol->min = g_new (gnm_float, n);
+		sol->max = g_new (gnm_float, n);
+		sol->discrete = g_new (guint8, n);
+		for (ui = 0; ui < n; ui++) {
+			sol->min[ui] = params->options.assume_non_negative ? 0 : gnm_ninf;
+			sol->max[ui] = gnm_pinf;
+			sol->discrete[ui] = params->options.assume_discrete;
+		}
+
+		for (l = params->constraints; l; l = l->next) {
+			GnmSolverConstraint *c = l->data;
+			int i;
+			gnm_float cl, cr;
+			GnmCell *lhs, *rhs;
+
+			for (i = 0;
+			     gnm_solver_constraint_get_part (c, params, i,
+							     &lhs, &cl,
+							     &rhs, &cr);
+			     i++) {
+				int idx = cell_in_cr (sol, lhs, TRUE);
+
+				if (idx < 0)
+					continue;
+				if (!cell_is_constant (rhs, &cr))
+					continue;
+
+				switch (c->type) {
+				case GNM_SOLVER_INTEGER:
+					sol->discrete[idx] = TRUE;
+					break;
+				case GNM_SOLVER_BOOLEAN:
+					sol->discrete[idx] = TRUE;
+					SET_LOWER (0.0);
+					SET_UPPER (1.0);
+					break;
+				case GNM_SOLVER_LE:
+					SET_UPPER (cr);
+					break;
+				case GNM_SOLVER_GE:
+					SET_LOWER (cr);
+					break;
+				case GNM_SOLVER_EQ:
+					SET_LOWER (cr);
+					SET_UPPER (cr);
+					break;
+
+				default:
+					g_assert_not_reached ();
+					break;
+				}
 			}
 		}
-	}
 
-	/*
-	 * If parameters are discrete, narrow the range by eliminating
-	 * the fractional part of the limits.
-	 */
-	for (ui = 0; ui < n; ui++) {
-		if ((*pdisc)[ui]) {
-			(*pmin)[ui] = gnm_ceil ((*pmin)[ui]);
-			(*pmax)[ui] = gnm_floor ((*pmax)[ui]);
+		/*
+		 * If parameters are discrete, narrow the range by eliminating
+		 * the fractional part of the limits.
+		 */
+		for (ui = 0; ui < n; ui++) {
+			if (sol->discrete[ui]) {
+				sol->min[ui] = gnm_ceil (sol->min[ui]);
+				sol->max[ui] = gnm_floor (sol->max[ui]);
+			}
 		}
 	}
 }
 
 #undef SET_LOWER
 #undef SET_UPPER
+
 
 #define ADD_HEADER(txt_) do {			\
 	dao_set_bold (dao, 0, R, 0, R);		\
@@ -1547,8 +1543,6 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 
 	vinput = gnm_solver_param_get_input (params);
 	if (vinput) {
-		gnm_float *pmin, *pmax;
-		guint8 *pdisc;
 		unsigned ui;
 
 		ADD_HEADER (_("Variables"));
@@ -1560,30 +1554,28 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 		dao_set_cell (dao, 5, R, _("Slack"));
 		R++;
 
-		gnm_solver_get_limits (solver, &pmin, &pmax, &pdisc);
-
 		for (ui = 0; ui < solver->input_cells->len; ui++) {
 			GnmCell *cell = g_ptr_array_index (solver->input_cells, ui);
-			gnm_float m = pmin[ui];
-			gnm_float M = pmax[ui];
+			gnm_float L = solver->min[ui];
+			gnm_float H = solver->max[ui];
 			gnm_float s = solver->result->solution[ui];
-			gnm_float slack = MIN (s - m, M - s);
+			gnm_float slack = MIN (s - L, H - s);
 
 			char *cname = gnm_solver_cell_name (cell, params->sheet);
 			dao_set_cell (dao, 1, R, cname);
 			g_free (cname);
 			dao_set_cell_value (dao, 2, R, value_new_float (s));
-			add_value_or_special (dao, 3, R, m);
-			add_value_or_special (dao, 4, R, M);
+			add_value_or_special (dao, 3, R, L);
+			add_value_or_special (dao, 4, R, H);
 
 			add_value_or_special (dao, 5, R, slack);
 			if (slack < 0)
 				MARK_BAD (5);
 
-			if (AT_LIMIT (s, m) || AT_LIMIT (s, M))
+			if (AT_LIMIT (s, L) || AT_LIMIT (s, H))
 				dao_set_cell (dao, 6, R, _("At limit"));
 
-			if (s < m || s > M) {
+			if (s < L || s > H) {
 				dao_set_cell (dao, 7, R, _("Outside bounds"));
 				MARK_BAD (7);
 			}
@@ -1591,9 +1583,6 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 			R++;
 		}
 
-		g_free (pmin);
-		g_free (pmax);
-		g_free (pdisc);
 		R++;
 	}
 
@@ -1977,30 +1966,25 @@ gnm_solver_line_search (GnmSolver *sol,
  * @sol: Solver
  * @px1: (out): first coordinate value
  * @px2: (out): second coordinate value
- * @pdisc: (out): indicator for discrete coordinate
  *
  * Pick two good values for each coordinate.  We prefer 0 and 1
  * when they are valid.
  */
 void
 gnm_solver_pick_lp_coords (GnmSolver *sol,
-			   gnm_float **px1, gnm_float **px2,
-			   guint8 **pdisc)
+			   gnm_float **px1, gnm_float **px2)
 {
 	const unsigned n = sol->input_cells->len;
-	gnm_float *pmin, *pmax;
-	gnm_float *x1 = g_new (gnm_float, n);
-	gnm_float *x2 = g_new (gnm_float, n);
+	gnm_float *x1 = *px1 = g_new (gnm_float, n);
+	gnm_float *x2 = *px2 = g_new (gnm_float, n);
 	unsigned ui;
 
-	gnm_solver_get_limits (sol, &pmin, &pmax, pdisc);
-
-	for (ui = 0; ui < sol->input_cells->len; ui++) {
-		const gnm_float L = pmin[ui], H = pmax[ui];
+	for (ui = 0; ui < n; ui++) {
+		const gnm_float L = sol->min[ui], H = sol->max[ui];
 
 		if (L == H) {
 			x1[ui] = x2[ui] = L;
-		} else if ((*pdisc)[ui] && H - L == 1) {
+		} else if (sol->discrete[ui] && H - L == 1) {
 			x1[ui] = L;
 			x2[ui] = H;
 		} else {
@@ -2021,11 +2005,6 @@ gnm_solver_pick_lp_coords (GnmSolver *sol,
 				x2[ui] = (x1[ui] + L) / 2;
 		}
 	}
-
-	g_free (pmin);
-	g_free (pmax);
-	*px1 = x1;
-	*px2 = x2;
 }
 
 /**
@@ -2034,7 +2013,6 @@ gnm_solver_pick_lp_coords (GnmSolver *sol,
  * @ycell: Cell for which to compute coefficients
  * @x1: first coordinate value
  * @x2: second coordinate value
- * @pdisc: indicator for discrete coordinate
  * @err: error location
  *
  * Returns: (transfer full): coordinates, or NULL in case of error.
@@ -2044,7 +2022,6 @@ gnm_solver_pick_lp_coords (GnmSolver *sol,
 gnm_float *
 gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 			  gnm_float const *x1, gnm_float const *x2,
-			  guint8 const *pdisc,
 			  GError **err)
 {
 	const unsigned n = sol->input_cells->len;
@@ -2058,7 +2035,7 @@ gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 	if (!gnm_finite (y0))
 		goto fail_calc;
 
-	for (ui = 0; ui < sol->input_cells->len; ui++) {
+	for (ui = 0; ui < n; ui++) {
 		gnm_float dx = x2[ui] - x1[ui], dy, y1;
 
 		if (dx <= 0) {
@@ -2075,11 +2052,11 @@ gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 		if (!gnm_finite (res[ui]))
 			goto fail_calc;
 
-		if (!pdisc[ui] || dx != 1) {
+		if (!sol->discrete[ui] || dx != 1) {
 			gnm_float x01, y01, e, emax;
 
 			x01 = (x1[ui] + x2[ui]) / 2;
-			if (pdisc[ui]) x01 = gnm_floor (x01);
+			if (sol->discrete[ui]) x01 = gnm_floor (x01);
 			gnm_solver_set_var (sol, ui, x01);
 			gnm_cell_eval (ycell);
 			y01 = VALUE_IS_NUMBER (ycell->value) ? value_get_as_float (ycell->value) : gnm_nan;

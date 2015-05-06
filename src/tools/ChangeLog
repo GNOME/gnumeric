@@ -1,3 +1,8 @@
+2015-05-06  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_solver_update_derived): Determine minima,
+	maxima, and discrete status here.
+
 2015-05-05  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_set_property): Update derived
