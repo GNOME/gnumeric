@@ -750,7 +750,10 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 		go_cmd_context_set_sensitive (GO_CMD_CONTEXT (state->wbcg), TRUE);
 		state->run.in_main--;
 		ok = gnm_solver_has_solution (sol);
+	} else if (err) {
+		gnm_solver_set_reason (sol, err->message);
 	}
+	g_clear_error (&err);
 
 	remove_objective_value_source (state);
 	remove_timer_source (state);
