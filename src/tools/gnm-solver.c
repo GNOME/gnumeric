@@ -2656,17 +2656,22 @@ cb_polish_iter (GnmSolverIterator *iter, GnmIterSolver *isol)
 
 	dir = g_new0 (gnm_float, n);
 	for (c = 0; c < n; c++) {
-		gnm_float s, y, s0, xc = isol->xk[c];
-		int e;
+		gnm_float s, y, s0, sm, xc = isol->xk[c];
 
-		(void)gnm_frexp (xc, &e);
-		s0 = gnm_ldexp (1, e - 10);
-		if (s0 == 0) s0 = GNM_MIN;
+		if (xc == 0) {
+			s0 = 0.5;
+			sm = 1;
+		} else {
+			int e;
+			(void)gnm_frexp (xc, &e);
+			s0 = gnm_ldexp (1, e - 10);
+			if (s0 == 0) s0 = GNM_MIN;
+			sm = gnm_abs (xc);
+		}
 
 		dir[c] = 1;
 		s = gnm_solver_line_search (sol, isol->xk, dir, TRUE,
-					    s0, gnm_abs (xc), 0.0,
-					    &y);
+					    s0, sm, 0.0, &y);
 		dir[c] = 0;
 
 		if (gnm_finite (s)) {
