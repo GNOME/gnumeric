@@ -68,9 +68,15 @@ check_program (const GnmSolverParameters *params, GError **err)
 
 	for (l = params->constraints; l; l = l->next) {
 		GnmSolverConstraint *c  = l->data;
-		if (c->type == GNM_SOLVER_INTEGER ||
-		    c->type == GNM_SOLVER_BOOLEAN)
+		switch (c->type) {
+		case GNM_SOLVER_INTEGER:
+		case GNM_SOLVER_BOOLEAN:
 			goto no_discrete;
+		case GNM_SOLVER_EQ:
+			goto no_equal;
+		default:
+			break;
+		}
 	}
 
 	return TRUE;
@@ -80,6 +86,13 @@ no_discrete:
 		     go_error_invalid (),
 		     0,
 		     _("This solver does not handle discrete variables."));
+	return FALSE;
+
+no_equal:
+	g_set_error (err,
+		     go_error_invalid (),
+		     0,
+		     _("This solver does not handle equality constraints."));
 	return FALSE;
 }
 

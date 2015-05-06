@@ -1,3 +1,8 @@
+2015-05-06  Morten Welinder  <terra@gnome.org>
+
+	* gnm-nlsolve.c (check_program): We really don't handle equality
+	constraints so detect that.
+
 2015-04-24  Morten Welinder  <terra@gnome.org>
 
 	* gnm-nlsolve.c: Recast in terms of GnmIterSolver.
