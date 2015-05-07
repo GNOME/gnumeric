@@ -1,3 +1,8 @@
+2015-05-07  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (blipinf_new): Handle NULL image.  Fixes
+	#749069.
+
 2015-05-06  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_file_open): Plug leaks related to fuzzed

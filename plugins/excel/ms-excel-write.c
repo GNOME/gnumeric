@@ -4361,7 +4361,6 @@ blipinf_new (SheetObjectImage *soi)
 	BlipInf *blip;
 	GOImage *image;
 	char const *blip_type;
-	gsize len;
 
 	blip = g_new0 (BlipInf, 1);
 	blip->uncomp_len = -1;
@@ -4372,8 +4371,14 @@ blipinf_new (SheetObjectImage *soi)
 		      "image-type", &blip->type,
 		      "image", &image,
 		      NULL);
-	blip->bytes.data = (gpointer)go_image_get_data (image, &len);
-	blip->bytes.len = len;
+	if (image) {
+		gsize len;
+		blip->bytes.data = (gpointer)go_image_get_data (image, &len);
+		blip->bytes.len = len;
+	} else {
+		blip->bytes.data = NULL;
+		blip->bytes.len = 0;
+	}
 	blip_type = blip->type ? blip->type : "?";
 	g_object_unref (image);
 
