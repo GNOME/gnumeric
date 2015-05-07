@@ -13,7 +13,7 @@ Morten:
 	* Fix xlsx save crash related to shared strings.  [#748477]
 	* Solver code refactoring.
 	* Plug leaks.
-	* Fuzzed file fixes.  [#748595]  [#748597]
+	* Fuzzed file fixes.  [#748595]  [#748597] [#749031]
 	* Make solver check linearity of model.
 
 --------------------------------------------------------------------------

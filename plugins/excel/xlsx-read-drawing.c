@@ -1729,7 +1729,7 @@ xlsx_chart_pt_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	xlsx_chart_pop_obj (state);
-	if (!state->series_pt_has_index) {
+	if (!state->series_pt_has_index && state->series_pt) {
 		gog_object_clear_parent (state->series_pt);
 		g_object_unref (state->series_pt);
 	}
@@ -1742,7 +1742,7 @@ xlsx_chart_pt_index (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	unsigned idx;
 
-	if (simple_uint (xin, attrs, &idx)) {
+	if (simple_uint (xin, attrs, &idx) && state->series_pt) {
 		state->series_pt_has_index = TRUE;
 		g_object_set (state->series_pt, "index", idx, NULL);
 	}

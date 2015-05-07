@@ -190,6 +190,8 @@ color_set_helper (XLSXReadState *state)
 	g_printerr ("color: #%08x in state %d\n",
 		    state->color, state->chart_color_state & 7);
 #endif
+	if (!state->cur_style)
+		return;
 
 	switch (state->chart_color_state & 7) {
 	default:
