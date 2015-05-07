@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-05-02 21:22+0000\n"
-"PO-Revision-Date: 2015-05-03 13:30+0200\n"
+"POT-Creation-Date: 2015-05-06 13:27+0000\n"
+"PO-Revision-Date: 2015-05-07 11:35+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -452,11 +452,11 @@ msgstr "Neplatné číslo „%s“ pro uzel %s"
 msgid "Unknown color '%s'"
 msgstr "Neznámá barva „%s“"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3100
+#: ../plugins/excel/xlsx-read-drawing.c:3138
 msgid "Dropping missing object"
 msgstr "Zahazuje se chybějící objekt"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3103
+#: ../plugins/excel/xlsx-read-drawing.c:3141
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Zahazuje se objekt s neúplnou kotvou %2x"
@@ -1123,17 +1123,12 @@ msgstr "Databázové funkce pro získávání dat z databází."
 msgid "Data Bases..."
 msgstr "Databáze…"
 
-#: ../plugins/glpk/glpk-write.c:66 ../plugins/lpsolve/lpsolve-write.c:66
-#, c-format
-msgid "Target cell did not evaluate to a number."
-msgstr "Cílová buňka nebyla vyhodnocena jako číslo."
-
-#: ../plugins/glpk/glpk-write.c:186 ../plugins/lpsolve/lpsolve-write.c:188
+#: ../plugins/glpk/glpk-write.c:144 ../plugins/lpsolve/lpsolve-write.c:146
 #, c-format
 msgid "Only linear programs are handled."
 msgstr "Zpracovávány jsou jen lineární programy."
 
-#: ../plugins/glpk/glpk-write.c:358
+#: ../plugins/glpk/glpk-write.c:331
 msgid "Writing glpk file..."
 msgstr "Zapisuje se soubor glpk…"
 
@@ -1282,7 +1277,7 @@ msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 msgid "The LPSolve exporter is not available."
 msgstr "Nástroj na export LPSolve není dostupný."
 
-#: ../plugins/lpsolve/lpsolve-write.c:340
+#: ../plugins/lpsolve/lpsolve-write.c:316
 msgid "Writing lpsolve file..."
 msgstr "Zapisuje se soubor lpsolve…"
 
@@ -1359,17 +1354,17 @@ msgstr "Omezení"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1483
-#: ../src/tools/gnm-solver.c:1530 ../src/tools/gnm-solver.c:1578
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1509
+#: ../src/tools/gnm-solver.c:1557 ../src/tools/gnm-solver.c:1606
 msgid "Value"
 msgstr "Hodnota"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1484
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1510
 msgid "Type"
 msgstr "Typ"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1579
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1607
 msgid "Limit"
 msgstr "Limit"
 
@@ -1397,10 +1392,15 @@ msgstr "Načítá programy LP uložené ve formátu MPS (*.mps)"
 msgid "Linear and integer program (*.mps) file format"
 msgstr "Formát souboru pro lineární a celočíselné programy (*.mps)"
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:82
+#: ../plugins/nlsolve/gnm-nlsolve.c:88
 #, c-format
 msgid "This solver does not handle discrete variables."
 msgstr "Tento řešitel nezpracovává diskrétní proměnné."
+
+#: ../plugins/nlsolve/gnm-nlsolve.c:95
+#, c-format
+msgid "This solver does not handle equality constraints."
+msgstr "Tento řešitel nezpracovává omezení rovností."
 
 #. -------------------------------------------------------------------------
 #: ../plugins/nlsolve/plugin.xml.in.h:1
@@ -6357,8 +6357,8 @@ msgstr "List"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2255 ../src/tools/gnm-solver.c:1482
-#: ../src/tools/gnm-solver.c:1529
+#: ../src/sheet-control-gui.c:2255 ../src/tools/gnm-solver.c:1508
+#: ../src/tools/gnm-solver.c:1556
 msgid "Cell"
 msgstr "Buňka"
 
@@ -7316,7 +7316,7 @@ msgstr "Hrot"
 msgid "Tail"
 msgstr "Ocas"
 
-#: ../src/dialogs/dialog-solver.c:355
+#: ../src/dialogs/dialog-solver.c:356
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a "
 "solver for Gnumeric?"
@@ -7324,96 +7324,75 @@ msgstr ""
 "Hledáte téma pro svoji diplomovou práce? Možná byste rád napsal řešitele pro "
 "Gnumeric?"
 
-#: ../src/dialogs/dialog-solver.c:448
+#: ../src/dialogs/dialog-solver.c:453
 msgid "Changing solver parameters"
 msgstr "Změna parametrů řešitele"
 
-#: ../src/dialogs/dialog-solver.c:513
-msgid "Ready"
-msgstr "Přichystán"
-
-#: ../src/dialogs/dialog-solver.c:516
-msgid "Preparing"
-msgstr "Připravuje se"
-
-#: ../src/dialogs/dialog-solver.c:519
-msgid "Prepared"
-msgstr "Připraveno"
-
-#: ../src/dialogs/dialog-solver.c:522
-msgid "Running"
-msgstr "Běží"
-
-#: ../src/dialogs/dialog-solver.c:525
-msgid "Done"
-msgstr "Dokončeno"
-
-#: ../src/dialogs/dialog-solver.c:529 ../src/gui-util.c:1050
-msgid "Error"
-msgstr "Chyba"
-
-#: ../src/dialogs/dialog-solver.c:532
-msgid "Cancelled"
-msgstr "Zrušeno"
-
-#: ../src/dialogs/dialog-solver.c:573 ../src/tools/gnm-solver.c:1509
+#: ../src/dialogs/dialog-solver.c:547 ../src/tools/gnm-solver.c:1535
 msgid "Feasible"
 msgstr "Přijatelné"
 
-#: ../src/dialogs/dialog-solver.c:577 ../src/tools/gnm-solver.c:1512
+#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1538
 msgid "Optimal"
 msgstr "Optimální"
 
-#: ../src/dialogs/dialog-solver.c:581
+#: ../src/dialogs/dialog-solver.c:555
 msgid "Infeasible"
 msgstr "Neproveditelné"
 
-#: ../src/dialogs/dialog-solver.c:585
+#: ../src/dialogs/dialog-solver.c:559
 msgid "Unbounded"
 msgstr "Neomezené"
 
-#: ../src/dialogs/dialog-solver.c:656
+#: ../src/dialogs/dialog-solver.c:589
+msgid "Ready"
+msgstr "Přichystán"
+
+#: ../src/dialogs/dialog-solver.c:592
+msgid "Preparing"
+msgstr "Připravuje se"
+
+#: ../src/dialogs/dialog-solver.c:595
+msgid "Prepared"
+msgstr "Připraveno"
+
+#: ../src/dialogs/dialog-solver.c:598
+msgid "Running"
+msgstr "Běží"
+
+#: ../src/dialogs/dialog-solver.c:602
+msgid "Done"
+msgstr "Dokončeno"
+
+#: ../src/dialogs/dialog-solver.c:606 ../src/gui-util.c:1050
+msgid "Error"
+msgstr "Chyba"
+
+#: ../src/dialogs/dialog-solver.c:609
+msgid "Cancelled"
+msgstr "Zrušeno"
+
+#: ../src/dialogs/dialog-solver.c:708
 msgid "The chosen solver is not functional."
 msgstr "Vybraný řešitel není funkční."
 
-#: ../src/dialogs/dialog-solver.c:670
-msgid "Running Solver"
-msgstr "Řešitel běží"
-
-#.
-#. * Toss a label in there -- not because we have something to say,
-#. * but because the title otherwise gets truncated.
-#.
-#: ../src/dialogs/dialog-solver.c:678
-#, c-format
-msgid "Solver \"%s\" is running"
-msgstr "Řešitel „%s“ běží"
-
-#: ../src/dialogs/dialog-solver.c:697
-msgid "Stop"
-msgstr "Zastavit"
-
-#: ../src/dialogs/dialog-solver.c:702
-msgid "Stop the running solver"
-msgstr "Zastavit běžícího řešitele"
-
-#: ../src/dialogs/dialog-solver.c:808
+#: ../src/dialogs/dialog-solver.c:797
 msgid "Running solver"
 msgstr "Řešitel běží"
 
-#: ../src/dialogs/dialog-solver.c:845
+#: ../src/dialogs/dialog-solver.c:834
 msgid "Optimal solution created by solver.\n"
 msgstr "Řešitel nalezl optimální řešení.\n"
 
-#: ../src/dialogs/dialog-solver.c:849
+#: ../src/dialogs/dialog-solver.c:838
 msgid "Feasible solution created by solver.\n"
 msgstr "Řešitel nalezl přijatelné řešení.\n"
 
-#: ../src/dialogs/dialog-solver.c:1109
+#: ../src/dialogs/dialog-solver.c:1102
 msgid "Subject to the Constraints:"
 msgstr "Omezení použít pro:"
 
-#: ../src/dialogs/dialog-solver.c:1264
+#: ../src/dialogs/dialog-solver.c:1260
 msgid "Could not create the Solver dialog."
 msgstr "Nelze vytvořit dialogové okno Řešitel."
 
@@ -7771,7 +7750,7 @@ msgstr "_Alfa:"
 #: ../src/dialogs/random-generation-cor.ui.h:7
 #: ../src/dialogs/random-generation.ui.h:7 ../src/dialogs/rank.ui.h:14
 #: ../src/dialogs/scenario-manager.ui.h:11 ../src/dialogs/simulation.ui.h:11
-#: ../src/dialogs/solver.ui.h:29
+#: ../src/dialogs/solver.ui.h:30
 msgid "Options"
 msgstr "Volby"
 
@@ -11354,7 +11333,7 @@ msgstr "Vstupní proměnné:"
 msgid "Output variables:"
 msgstr "Výstupní proměnné:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1527
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1554
 msgid "Variables"
 msgstr "Proměnné"
 
@@ -11481,131 +11460,135 @@ msgid "Solve"
 msgstr "Řešit"
 
 #: ../src/dialogs/solver.ui.h:8
+msgid "Stop the running solver"
+msgstr "Zastavit běžícího řešitele"
+
+#: ../src/dialogs/solver.ui.h:9
 msgid "_Set Target Cell:       "
 msgstr "Na_stavit cílovou buňku:       "
 
-#: ../src/dialogs/solver.ui.h:9
+#: ../src/dialogs/solver.ui.h:10
 msgid "_Equal To:"
 msgstr "_Rovná se:"
 
-#: ../src/dialogs/solver.ui.h:10
+#: ../src/dialogs/solver.ui.h:11
 msgid "B_y Changing Cells: "
 msgstr "_Změnou buněk:"
 
-#: ../src/dialogs/solver.ui.h:11
+#: ../src/dialogs/solver.ui.h:12
 msgid "_Max"
 msgstr "_Max"
 
-#: ../src/dialogs/solver.ui.h:12
+#: ../src/dialogs/solver.ui.h:13
 msgid "M_in"
 msgstr "M_in"
 
-#: ../src/dialogs/solver.ui.h:13
+#: ../src/dialogs/solver.ui.h:14
 msgid "Parameters"
 msgstr "Parametry"
 
-#: ../src/dialogs/solver.ui.h:14
+#: ../src/dialogs/solver.ui.h:15
 msgid "_Linear Model (LP/MILP)"
 msgstr "_Lineární model (LP/MILP)"
 
-#: ../src/dialogs/solver.ui.h:15
+#: ../src/dialogs/solver.ui.h:16
 msgid "_Quadratic Model (QP/MIQP)"
 msgstr "_Kvadratický model (QP/MIQP)"
 
-#: ../src/dialogs/solver.ui.h:16
+#: ../src/dialogs/solver.ui.h:17
 msgid "_Non-Linear Model"
 msgstr "_Nelineární model"
 
-#: ../src/dialogs/solver.ui.h:17
+#: ../src/dialogs/solver.ui.h:18
 msgid "_Assume Non-Negative"
 msgstr "Předpokládat _nezáporná čísla"
 
-#: ../src/dialogs/solver.ui.h:18
+#: ../src/dialogs/solver.ui.h:19
 msgid "Assume _Integer (Discrete)"
 msgstr "Předpokládat _celá čísla (diskrétní)"
 
-#: ../src/dialogs/solver.ui.h:19
+#: ../src/dialogs/solver.ui.h:20
 msgid "_Algorithm:"
 msgstr "_Algoritmus:"
 
-#: ../src/dialogs/solver.ui.h:20
+#: ../src/dialogs/solver.ui.h:21
 msgid "Model"
 msgstr "Model"
 
-#: ../src/dialogs/solver.ui.h:21
+#: ../src/dialogs/solver.ui.h:22
 msgid "_Left Hand Side:"
 msgstr "_Levá strana:"
 
-#: ../src/dialogs/solver.ui.h:22
+#: ../src/dialogs/solver.ui.h:23
 msgid "_Type:"
 msgstr "_Typ:"
 
-#: ../src/dialogs/solver.ui.h:23
+#: ../src/dialogs/solver.ui.h:24
 msgid "_Right Hand Side:"
 msgstr "_Pravá strana:"
 
-#: ../src/dialogs/solver.ui.h:24
+#: ../src/dialogs/solver.ui.h:25
 msgid "Re_place"
 msgstr "Na_hradit"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:25 ../src/tools/gnm-solver.c:1574
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1602
 msgid "Constraints"
 msgstr "Omezení"
 
-#: ../src/dialogs/solver.ui.h:26
+#: ../src/dialogs/solver.ui.h:27
 msgid "Max _Iterations:"
 msgstr "Max _iterací:"
 
-#: ../src/dialogs/solver.ui.h:27
+#: ../src/dialogs/solver.ui.h:28
 msgid "Max _Time (sec.):"
 msgstr "Ma_x čas (sekundy):"
 
-#: ../src/dialogs/solver.ui.h:28
+#: ../src/dialogs/solver.ui.h:29
 msgid "Automatic _Scaling"
 msgstr "Automatické š_kálování"
 
-#: ../src/dialogs/solver.ui.h:30
+#: ../src/dialogs/solver.ui.h:31
 msgid "P_rogram"
 msgstr "P_rogram"
 
-#: ../src/dialogs/solver.ui.h:31
+#: ../src/dialogs/solver.ui.h:32
 msgid "Reports"
 msgstr "Výstupní sestavy"
 
-#: ../src/dialogs/solver.ui.h:32
+#: ../src/dialogs/solver.ui.h:33
 msgid "_Do not create scenarios"
 msgstr "_Nevytvářet scénáře"
 
-#: ../src/dialogs/solver.ui.h:33
+#: ../src/dialogs/solver.ui.h:34
 msgid "_Create a scenario if the optimal solution is found"
 msgstr "_Vytvořit scénář, je-li nalezeno optimální řešení"
 
-#: ../src/dialogs/solver.ui.h:34
+#: ../src/dialogs/solver.ui.h:35
 msgid "_Name: "
 msgstr "_Název:"
 
-#: ../src/dialogs/solver.ui.h:35
+#: ../src/dialogs/solver.ui.h:36
 msgid "Scenarios"
 msgstr "Scénáře"
 
-#: ../src/dialogs/solver.ui.h:36
+#: ../src/dialogs/solver.ui.h:37
 msgid "Solver Status:"
 msgstr "Stav řešitele:"
 
-#: ../src/dialogs/solver.ui.h:37
+#: ../src/dialogs/solver.ui.h:38
 msgid "Problem Status:"
 msgstr "Stav problému:"
 
-#: ../src/dialogs/solver.ui.h:38
+#: ../src/dialogs/solver.ui.h:39
 msgid "Objective Value:"
 msgstr "Cílová hodnota:"
 
-#: ../src/dialogs/solver.ui.h:39
+#: ../src/dialogs/solver.ui.h:40
 msgid "Elapsed Time:"
 msgstr "Uplynulý čas:"
 
-#: ../src/dialogs/solver.ui.h:40
+#: ../src/dialogs/solver.ui.h:41
 msgid "Results"
 msgstr "Výsledky"
 
@@ -14646,70 +14629,80 @@ msgstr "Vstupní buňka %s obsahuje vzorec"
 msgid "Solver constraint #%d is invalid"
 msgstr "Omezení č. %d v řešiteli je neplatné"
 
-#: ../src/tools/gnm-solver.c:1049
+#: ../src/tools/gnm-solver.c:1057
 msgid "Timeout"
 msgstr "Časový limit"
 
-#: ../src/tools/gnm-solver.c:1258
+#: ../src/tools/gnm-solver.c:1266
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Selhalo vytvoření souboru pro lineární program"
 
-#: ../src/tools/gnm-solver.c:1267
+#: ../src/tools/gnm-solver.c:1275
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Selhalo vytvoření souboru lineárního programu"
 
-#: ../src/tools/gnm-solver.c:1287
+#: ../src/tools/gnm-solver.c:1295
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Selhalo uložení lineárního programu"
 
-#: ../src/tools/gnm-solver.c:1481
+#: ../src/tools/gnm-solver.c:1507
 msgid "Target"
 msgstr "Cíl"
 
-#: ../src/tools/gnm-solver.c:1485
+#: ../src/tools/gnm-solver.c:1511
 msgid "Status"
 msgstr "Stav"
 
-#: ../src/tools/gnm-solver.c:1498
+#: ../src/tools/gnm-solver.c:1524
 msgid "Minimize"
 msgstr "Minimalizace"
 
-#: ../src/tools/gnm-solver.c:1501
+#: ../src/tools/gnm-solver.c:1527
 msgid "Maximize"
 msgstr "Maximalizace"
 
-#: ../src/tools/gnm-solver.c:1531
+#: ../src/tools/gnm-solver.c:1558
 msgid "Lower"
 msgstr "Dolní"
 
-#: ../src/tools/gnm-solver.c:1532
+#: ../src/tools/gnm-solver.c:1559
 msgid "Upper"
 msgstr "Horní"
 
-#: ../src/tools/gnm-solver.c:1533 ../src/tools/gnm-solver.c:1580
+#: ../src/tools/gnm-solver.c:1560 ../src/tools/gnm-solver.c:1608
 msgid "Slack"
 msgstr "Volné"
 
-#: ../src/tools/gnm-solver.c:1557
+#: ../src/tools/gnm-solver.c:1584
 msgid "At limit"
 msgstr "V limitu"
 
-#: ../src/tools/gnm-solver.c:1560
+#: ../src/tools/gnm-solver.c:1587
 msgid "Outside bounds"
 msgstr "Mimo omezení"
 
-#: ../src/tools/gnm-solver.c:1577
+#: ../src/tools/gnm-solver.c:1605
 msgid "Condition"
 msgstr "Podmínka"
 
-#: ../src/tools/gnm-solver.c:1582
+#: ../src/tools/gnm-solver.c:1610
 msgid "No constraints"
 msgstr "Bez omezení"
 
-#: ../src/tools/gnm-solver.c:2325
+#: ../src/tools/gnm-solver.c:2104
+#, c-format
+msgid "Target cell did not evaluate to a number."
+msgstr "Cílová buňka nebyla vyhodnocena jako číslo."
+
+#: ../src/tools/gnm-solver.c:2112
+#, c-format
+msgid "Target cell does not appear to depend linearly on input cells."
+msgstr "Nezdá se, že by cílová buňka lineárně závisela na vstupních buňkách."
+
+#: ../src/tools/gnm-solver.c:2523
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14722,22 +14715,22 @@ msgstr ""
 "\n"
 "Přejete si jej najít sami?"
 
-#: ../src/tools/gnm-solver.c:2329
+#: ../src/tools/gnm-solver.c:2527
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Nelze najít „%s“"
 
-#: ../src/tools/gnm-solver.c:2345
+#: ../src/tools/gnm-solver.c:2543
 #, c-format
 msgid "Locate the %s program"
 msgstr "Vyhledání programu %s"
 
-#: ../src/tools/gnm-solver.c:2686
+#: ../src/tools/gnm-solver.c:2889
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Výchozí hodnoty nesplňují omezení."
 
-#: ../src/tools/gnm-solver.c:2777
+#: ../src/tools/gnm-solver.c:2980
 msgid "Iteration limit exceeded"
 msgstr "Dosažen limit iterací"
 
