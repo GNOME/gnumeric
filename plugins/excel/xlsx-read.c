@@ -5084,6 +5084,8 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	if (state.texpr) gnm_expr_top_unref (state.texpr);
 	if (state.comment) g_object_unref (state.comment);
 	if (state.cur_style) g_object_unref (state.cur_style);
+	if (state.style_accum) gnm_style_unref (state.style_accum);
+	if (state.border_color) style_color_unref (state.border_color);
 
 	workbook_set_saveinfo (state.wb, GO_FILE_FL_AUTO,
 			       go_file_saver_for_id ((state.version == ECMA_376_2006) ?
