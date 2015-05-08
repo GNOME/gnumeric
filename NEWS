@@ -14,7 +14,7 @@ Morten:
 	* Solver code refactoring.
 	* Plug leaks.
 	* Fuzzed file fixes.  [#748595]  [#748597] [#749031] [#749030]
-	  [#749069]
+	  [#749069] [#748533]
 	* Make solver check linearity of model.
 
 --------------------------------------------------------------------------

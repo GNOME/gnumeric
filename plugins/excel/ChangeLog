@@ -1,3 +1,8 @@
+2015-05-08  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_series_dim): GogSeriesDesc does
+	not have a dimension -1, so don't access it.
+
 2015-05-07  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (blipinf_new): Handle NULL image.  Fixes

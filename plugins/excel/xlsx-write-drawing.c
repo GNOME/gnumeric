@@ -90,7 +90,7 @@ xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *s
 	int dim;
 	GOData const *dat;
 
-	for (dim = -1; dim < (int) desc->num_dim; dim++)
+	for (dim = 0; dim < (int) desc->num_dim; dim++)
 		if (desc->dim[dim].ms_type == ms_type)
 			break;
 	if (dim == (int) desc->num_dim)
