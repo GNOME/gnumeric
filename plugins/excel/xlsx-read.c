@@ -4120,6 +4120,16 @@ xlsx_collection_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xlsx_col_elem_begin (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (!state->style_accum_partial) {
+		g_return_if_fail (NULL == state->style_accum);
+		state->style_accum = gnm_style_new ();
+	}
+}
+
+static void
 xlsx_col_elem_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -4135,16 +4145,6 @@ xlsx_col_elem_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		} else
 			g_ptr_array_index (state->collection, state->count) = res;
 		state->count++;
-	}
-}
-
-static void
-xlsx_col_elem_begin (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (!state->style_accum_partial) {
-		g_return_if_fail (NULL == state->style_accum);
-		state->style_accum = gnm_style_new ();
 	}
 }
 
@@ -5085,6 +5085,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	if (state.comment) g_object_unref (state.comment);
 	if (state.cur_style) g_object_unref (state.cur_style);
 	if (state.style_accum) gnm_style_unref (state.style_accum);
+	if (state.pending_rowcol_style) gnm_style_unref (state.pending_rowcol_style);
 	if (state.border_color) style_color_unref (state.border_color);
 
 	workbook_set_saveinfo (state.wb, GO_FILE_FL_AUTO,
