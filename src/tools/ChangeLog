@@ -1,3 +1,8 @@
+2015-05-09  Morten Welinder  <terra@gnome.org>
+
+	* analysis-frequency.c (analysis_tool_frequency_engine_run):
+	Please clang.
+
 2015-05-06  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_update_derived): Determine minima,

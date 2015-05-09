@@ -139,20 +139,21 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 					   gnm_expr_new_funcall1 (fd_index,
 								  gnm_expr_new_constant (val_c)));
 		} else {
-			char const *format;
+			char *txt;
 
 			switch (info->base.group_by) {
 			case GROUPED_BY_ROW:
-				format = _("Row %d");
+				txt = g_strdup_printf (_("Row %d"), col);
 				break;
 			case GROUPED_BY_COL:
-				format = _("Column %d");
+				txt = g_strdup_printf (_("Column %d"), col);
 				break;
 			default:
-				format = _("Area %d");
+				txt = g_strdup_printf (_("Area %d"), col);
 				break;
 			}
-			dao_set_cell_printf (dao, col, 1, format, col);
+			dao_set_cell (dao, col, 1, txt);
+			g_free (txt);
 		}
 
 		expr_data = gnm_expr_new_constant (val);
