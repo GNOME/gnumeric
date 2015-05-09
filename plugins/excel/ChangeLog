@@ -1,5 +1,9 @@
 2015-05-09  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read-drawing.c (xlsx_read_chart): Handle missing series.
+	[#749166]
+	(xlsx_read_chart): Free left-over styles.
+
 	* ms-excel-read.c (excel_read_NAME): Take record length into
 	account.
 

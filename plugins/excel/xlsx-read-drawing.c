@@ -3061,7 +3061,7 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		xlsx_parse_rel_by_id (xin, part_id, xlsx_chart_dtd, xlsx_ns);
 
 		if (NULL != state->obj_stack) {
-			g_warning ("left over content on chart object stack");
+			g_warning ("left-over content on chart object stack");
 			g_slist_free (state->obj_stack);
 			state->obj_stack = NULL;
 		}
@@ -3071,7 +3071,13 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		g_object_unref (state->cur_style);
 		state->cur_style = NULL;
 		if (NULL != state->style_stack) {
-			g_warning ("left over style");
+			GSList *l;
+			g_warning ("left-over style");
+			for (l = state->style_stack; l; l = l->next) {
+				GOStyle *style = l->data;
+				if (style)
+					g_object_unref (style);
+			}
 			g_slist_free (state->style_stack);
 			state->style_stack = NULL;
 		}
@@ -3087,7 +3093,8 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					GSList *plots = gog_chart_get_plots (state->chart);
 					if (plots != NULL && plots->data != NULL) {
 						GogPlot *plot = GOG_PLOT (plots->data);
-						GogDataset *ds = plot? GOG_DATASET (gog_plot_get_series  (plot)->data): NULL;
+						GSList const *series = plot ? gog_plot_get_series  (plot) : NULL;
+						GogDataset *ds = series ? GOG_DATASET (series->data) : NULL;
 						if (ds)
 							dat = gog_dataset_get_dim (ds, -1);
 						if (dat)
