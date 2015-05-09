@@ -645,13 +645,20 @@ xlsx_CT_PivotTableStyle (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean showLastColumn = TRUE;
 	gboolean showLastRow = TRUE;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_bool (xin, attrs, "showColHeaders", &showColHeaders)) ;
-		else if (attr_bool (xin, attrs, "showRowHeaders", &showRowHeaders)) ;
-		else if (attr_bool (xin, attrs, "showColStripes", &showColStripes)) ;
-		else if (attr_bool (xin, attrs, "showRowStripes", &showRowStripes)) ;
-		else if (attr_bool (xin, attrs, "showLastColumn", &showLastColumn)) ;
-		else if (attr_bool (xin, attrs, "showLastRow", &showLastRow)) ;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_bool (xin, attrs, "showColHeaders", &showColHeaders))
+			;
+		else if (attr_bool (xin, attrs, "showRowHeaders", &showRowHeaders))
+			;
+		else if (attr_bool (xin, attrs, "showColStripes", &showColStripes))
+			;
+		else if (attr_bool (xin, attrs, "showRowStripes", &showRowStripes))
+			;
+		else if (attr_bool (xin, attrs, "showLastColumn", &showLastColumn))
+			;
+		else if (attr_bool (xin, attrs, "showLastRow", &showLastRow))
+			;
+	}
 
 	g_object_set (G_OBJECT (state->pivot.slicer),
 		"show-headers-col", showColHeaders,
@@ -887,8 +894,10 @@ xlsx_CT_pivotCacheRecords (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int n = 0;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, "count", &n)) ;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_int (xin, attrs, "count", &n))
+			;
+	}
 
 	state->pivot.record_count = 0;
 	go_data_cache_import_start (state->pivot.cache, n);
@@ -935,7 +944,7 @@ xlsx_CT_pivotCacheDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 	gnm_float v;
 
 	state->pivot.cache_record_part_id = NULL;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			state->pivot.cache_record_part_id = g_strdup (attrs[1]);
 		else if (0 == strcmp (attrs[0], "refreshedBy")) refreshedBy = attrs[1];
@@ -953,9 +962,13 @@ xlsx_CT_pivotCacheDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 				go_val_free (refreshedDate);
 			refreshedDate = date;
 			state->version = ECMA_376_2008;
-		} else if (attr_int (xin, attrs, "createdVersion", &createdVersion)) ;
-		else if (attr_int (xin, attrs, "refreshedVersion", &refreshedVersion)) ;
-		else if (attr_bool (xin, attrs, "upgradeOnRefresh", &upgradeOnRefresh)) ;
+		} else if (attr_int (xin, attrs, "createdVersion", &createdVersion))
+			;
+		else if (attr_int (xin, attrs, "refreshedVersion", &refreshedVersion))
+			;
+		else if (attr_bool (xin, attrs, "upgradeOnRefresh", &upgradeOnRefresh))
+			;
+	}
 
 #if 0
     <xsd:attribute name="invalid" type="xsd:boolean" use="optional" default="false">
@@ -1176,8 +1189,10 @@ xlsx_CT_SharedItems (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int n = 0;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, "count", &n)) ;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_int (xin, attrs, "count", &n))
+			;
+	}
 
 	state->pivot.record_count = 0;
 	state->pivot.cache_field_values = g_ptr_array_sized_new (n);
@@ -1205,8 +1220,10 @@ xlsx_CT_GroupItems (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int n = 0;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, "count", &n)) ;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_int (xin, attrs, "count", &n))
+			;
+	}
 
 	state->pivot.record_count = 0;
 	state->pivot.cache_field_values = g_ptr_array_sized_new (n);

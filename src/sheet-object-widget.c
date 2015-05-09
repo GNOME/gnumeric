@@ -3678,9 +3678,12 @@ sheet_widget_list_base_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (sax_read_dep (attrs, "Content", &swl->content_dep, xin, convs)) ;
-		else if (sax_read_dep (attrs, "Output", &swl->output_dep, xin, convs)) ;
-		else if (gnm_xml_attr_bool (attrs, "OutputAsIndex", &swl->result_as_index));
+		if (sax_read_dep (attrs, "Content", &swl->content_dep, xin, convs))
+			;
+		else if (sax_read_dep (attrs, "Output", &swl->output_dep, xin, convs))
+			;
+		else if (gnm_xml_attr_bool (attrs, "OutputAsIndex", &swl->result_as_index))
+			;
 }
 
 static GtkWidget *

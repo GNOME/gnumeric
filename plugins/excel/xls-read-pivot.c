@@ -389,7 +389,7 @@ xls_read_pivot_cache (XLSReadPivot *s, BiffQuery *q)
 		/* guint16 zero */
 		guint16 type		= GSF_LE_GET_GUINT16 (q->data + 16);
 		g_printerr ("num_rec = %u;\nstream_id = %u;\n"
-			 "rec per block = %u;\nbase fields = %hu;\ntotal fields = %hu;\n"
+			 "rec per block = %u;\nbase fields = %hu;\ntotal fields = %u;\n"
 			 "last modified by = '%s';type = 0x%x, flags = 0x%x;\n",
 			 num_records, stream_id, rec_per_block, base_fields,
 			 num_fields, refreshedBy, type, flags);

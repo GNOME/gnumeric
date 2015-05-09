@@ -34,14 +34,6 @@
 #include <string.h>
 #include <math.h>
 
-#define CXML2C(s) ((char const *)(s))
-
-static inline gboolean
-attr_eq (const xmlChar *a, const char *s)
-{
-	return !strcmp (CXML2C (a), s);
-}
-
 #define GNM_SO_POLYGON(o)       (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SO_POLYGON_TYPE, GnmSOPolygon))
 #define GNM_SO_POLYGON_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),	GNM_SO_POLYGON_TYPE, GnmSOPolygonClass))
 

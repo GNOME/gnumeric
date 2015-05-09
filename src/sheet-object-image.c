@@ -220,15 +220,6 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	return gnm_pane_object_register (so, item, TRUE);
 }
 
-static GOImageFormat const standard_formats[] = {
-	GO_IMAGE_FORMAT_PNG,
-	GO_IMAGE_FORMAT_JPG,
-	GO_IMAGE_FORMAT_SVG,
-	GO_IMAGE_FORMAT_EMF,
-	GO_IMAGE_FORMAT_WMF,
-	GO_IMAGE_FORMAT_EPS
-};
-
 static GtkTargetList *
 gnm_soi_get_target_list (SheetObject const *so)
 {

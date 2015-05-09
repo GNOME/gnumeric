@@ -724,7 +724,7 @@ static void
 xlsx_chart_bar_group (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	static const EnumVal const grps[] = {
+	static const EnumVal grps[] = {
 		{ "percentStacked", 0 },
 		{ "clustered", 1 },
 		{ "standard", 2 },
@@ -864,7 +864,7 @@ xlsx_axis_delete (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_axis_orientation (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static const EnumVal const orients[] = {
+	static const EnumVal orients[] = {
 		{ "minMax",	 FALSE },
 		{ "maxMin",	 TRUE },
 		{ NULL, 0 }
@@ -1010,7 +1010,7 @@ xlsx_create_axis_object (XLSXReadState *state)
 static void
 xlsx_axis_pos (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static const EnumVal const positions[] = {
+	static const EnumVal positions[] = {
 		{ "t",	 GOG_POSITION_N },
 		{ "b",	 GOG_POSITION_S },
 		{ "l",	 GOG_POSITION_W },
@@ -1048,7 +1048,7 @@ xlsx_axis_bound (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_axis_crosses (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static const EnumVal const crosses[] = {
+	static const EnumVal crosses[] = {
 		{ "autoZero",	GOG_AXIS_CROSS },
 		{ "max",	GOG_AXIS_AT_HIGH },
 		{ "min",	GOG_AXIS_AT_LOW },
@@ -1090,7 +1090,7 @@ static void
 xlsx_axis_builtin_unit (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	/* It's absolutely moronic, but these values are spelled out.  */
-	static const EnumVal const units[] = {
+	static const EnumVal units[] = {
 		{ "hundreds", 2 },
 		{ "thousands", 3 },
 		{ "tenThousands", 4 },
@@ -1690,7 +1690,7 @@ xlsx_chart_legend (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_chart_legend_pos (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static const EnumVal const positions[] = {
+	static const EnumVal positions[] = {
 		{ "t",	 GOG_POSITION_N },
 		{ "b",	 GOG_POSITION_S },
 		{ "l",	 GOG_POSITION_W },
@@ -2070,7 +2070,7 @@ xlsx_draw_line_headtail (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_draw_line_dash (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static const EnumVal const dashes[] = {
+	static const EnumVal dashes[] = {
 		{ "solid",		GO_LINE_SOLID },
 		{ "dot",		GO_LINE_DOT },
 		{ "dash",		GO_LINE_DASH },
@@ -2112,7 +2112,7 @@ xlsx_chart_marker_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_chart_marker_symbol (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static const EnumVal const symbols[] = {
+	static const EnumVal symbols[] = {
 		{ "circle",	GO_MARKER_CIRCLE },
 		{ "dash",	GO_MARKER_BAR },		/* FIXME */
 		{ "diamond",	GO_MARKER_DIAMOND },
@@ -2250,7 +2250,7 @@ static void
 xlsx_chart_layout_mode (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	static const EnumVal const choices[] = {
+	static const EnumVal choices[] = {
 		{ "factor",	FALSE },
 		{ "edge",	TRUE },
 		{ NULL, 0 }

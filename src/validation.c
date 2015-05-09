@@ -255,8 +255,7 @@ gnm_validation_new (ValidationStyle style,
 	GnmValidation *v;
 	int nops;
 
-	g_return_val_if_fail (type >= 0, NULL);
-	g_return_val_if_fail (type < G_N_ELEMENTS (typeinfo), NULL);
+	g_return_val_if_fail ((size_t)type < G_N_ELEMENTS (typeinfo), NULL);
 	g_return_val_if_fail (op >= GNM_VALIDATION_OP_NONE, NULL);
 	g_return_val_if_fail (op < (int)G_N_ELEMENTS (opinfo), NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);

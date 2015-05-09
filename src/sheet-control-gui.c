@@ -2725,7 +2725,7 @@ snap_pos_to_grid (ObjDragInfo const *info, gboolean is_col, double pos,
 		pixel -= length;
 		if (snap) {
 			if (info->is_mouse_move)
-				pos = (abs (pos - pixel) < abs (pos - pixel - length)) ? pixel : pixel + length;
+				pos = (fabs (pos - pixel) < fabs (pos - pixel - length)) ? pixel : pixel + length;
 			else
 				pos = (pixel == pos) ? pixel : (to_min ? pixel : pixel + length);
 		}
