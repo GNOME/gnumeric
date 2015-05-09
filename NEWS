@@ -5,6 +5,7 @@ Andreas:
 
 Jean:
 	* Fix xlsx import of plot area manual layout. [#748016]
+	* Fix out of bounds read. [#749121]
 
 Morten:
 	* Fix import/export of graph backplane.

@@ -719,11 +719,14 @@ xlsx_write_font (XLSXWriteState *state, GsfXMLOut *xml, GnmStyle const *style)
 			"singleAccounting",
 			"doubleAccounting"
 		};
+		unsigned uline = gnm_style_get_font_uline (style);
 
-		gsf_xml_out_start_element (xml, "u");
-		gsf_xml_out_add_cstr
-			(xml, "val", types[gnm_style_get_font_uline (style)]);
-		gsf_xml_out_end_element (xml);
+		if (uline < G_N_ELEMENTS (types)) {
+			gsf_xml_out_start_element (xml, "u");
+			gsf_xml_out_add_cstr
+				(xml, "val", types[gnm_style_get_font_uline (style)]);
+			gsf_xml_out_end_element (xml);
+		}
 	}
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
 		xlsx_write_color_element
