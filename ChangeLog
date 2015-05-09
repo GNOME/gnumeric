@@ -1,3 +1,7 @@
+2015-05-09  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (gnm_style_set_font_uline): Add sanity check.
+
 2015-04-28  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (read_file_free_state): Plug leaks related to

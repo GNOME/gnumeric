@@ -1469,6 +1469,8 @@ void
 gnm_style_set_font_uline (GnmStyle *style, GnmUnderline const underline)
 {
 	g_return_if_fail (style != NULL);
+	g_return_if_fail (underline >= UNDERLINE_NONE && underline <= UNDERLINE_DOUBLE_LOW);
+
 	elem_changed (style, MSTYLE_FONT_UNDERLINE);
 	elem_set (style, MSTYLE_FONT_UNDERLINE);
 	style->font_detail.underline = underline;
