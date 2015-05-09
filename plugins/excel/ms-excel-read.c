@@ -3749,7 +3749,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 
 static char *
 excel_read_name_str (GnmXLImporter *importer,
-		     guint8 const *data, unsigned *name_len, gboolean is_builtin)
+		     guint8 const *data, unsigned datalen, unsigned *name_len, gboolean is_builtin)
 {
 	gboolean use_utf16, has_extended;
 	unsigned trailing_data_len, n_markup;
@@ -3763,29 +3763,44 @@ excel_read_name_str (GnmXLImporter *importer,
 	if (is_builtin && *name_len) {
 		guint8 const *str = data;
 		char const *builtin;
+		unsigned clen;
 
 		if (importer->ver < MS_BIFF_V8) {
 			use_utf16 = has_extended = FALSE;
 			n_markup = trailing_data_len = 0;
-		} else
-			str += excel_read_string_header
-				(str, G_MAXINT /* FIXME */,
+		} else {
+			int hlen = excel_read_string_header
+				(str, datalen,
 				 &use_utf16, &n_markup, &has_extended,
 				 &trailing_data_len);
+			str += hlen;
+			datalen -= hlen;
+		}
+
+		clen = use_utf16 ? 2 : 1;
 
 		/* pull out the magic builtin enum */
-		builtin = excel_builtin_name (str);
-		str += use_utf16 ? 2 : 1;
+		if (datalen >= clen) {
+			builtin = excel_builtin_name (str);
+			str += clen;
+			datalen -= clen;
+		} else
+			builtin = "bogus";
+
 		if (--(*name_len)) {
-			char *tmp = excel_get_chars (importer, str, *name_len, use_utf16, NULL);
+			char *tmp;
+
+			*name_len = MIN (*name_len, datalen / clen);
+			tmp = excel_get_chars (importer, str, *name_len, use_utf16, NULL);
 			name = g_strconcat (builtin, tmp, NULL);
 			g_free (tmp);
-			*name_len = (use_utf16 ? 2 : 1) * (*name_len);
+			*name_len = clen * (*name_len);
 		} else
 			name = g_strdup (builtin);
+
 		*name_len += str - data;
 	} else /* converts char len to byte len, and handles header */
-		name = excel_get_text_fixme (importer, data, *name_len, name_len, NULL);
+		name = excel_get_text (importer, data, *name_len, name_len, NULL, datalen);
 	return name;
 }
 
@@ -3815,7 +3830,7 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 		flags   = GSF_LE_GET_GUINT8 (q->data);
 		namelen = GSF_LE_GET_GUINT8 (q->data + 6);
 
-		name = excel_read_name_str (container->importer, q->data + 7, &namelen, flags&1);
+		name = excel_read_name_str (container->importer, q->data + 7, q->length - 7, &namelen, flags&1);
 		if ((flags & (~1)) == 0) {	/* all flags but builtin must be 0 */
 			if (7 + 2 + namelen <= q->length) {
 				unsigned el = GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
@@ -3965,7 +3980,7 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 	}
 
 	XL_NEED_BYTES (name_len);
-	name = excel_read_name_str (importer, data, &name_len, builtin_name);
+	name = excel_read_name_str (importer, data, q->length - (data - q->data), &name_len, builtin_name);
 	XL_NEED_BYTES (name_len);
 	data += name_len;
 
