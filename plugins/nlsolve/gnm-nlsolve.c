@@ -59,24 +59,36 @@ typedef struct {
 } GnmNlsolve;
 
 static gboolean
-check_program (const GnmSolverParameters *params, GError **err)
+check_program (GnmSolver *sol, GError **err)
 {
+	unsigned ui;
+	const GnmSolverParameters *params = sol->params;
 	GSList *l;
-
-	if (params->options.assume_discrete)
-		goto no_discrete;
 
 	for (l = params->constraints; l; l = l->next) {
 		GnmSolverConstraint *c  = l->data;
 		switch (c->type) {
-		case GNM_SOLVER_INTEGER:
-		case GNM_SOLVER_BOOLEAN:
-			goto no_discrete;
 		case GNM_SOLVER_EQ:
+			/*
+			 * This catches also equalities where the sides are not
+			 * input variables.
+			 */
 			goto no_equal;
 		default:
 			break;
 		}
+	}
+
+	for (ui = 0; ui < sol->input_cells->len; ui++) {
+		if (sol->discrete[ui])
+			goto no_discrete;
+
+		/*
+		 * This also catches using two inequality constraints used
+		 * to emulate equality.
+		 */
+		if (sol->min[ui] == sol->max[ui])
+			goto no_equal;
 	}
 
 	return TRUE;
@@ -154,7 +166,7 @@ gnm_nlsolve_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 
 	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_PREPARING);
 
-	ok = check_program (sol->params, err);
+	ok = check_program (sol, err);
 	if (ok)
 		ok = gnm_iter_solver_get_initial_solution (nl->isol, err);
 
