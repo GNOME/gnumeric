@@ -1,5 +1,8 @@
 2015-05-10  Morten Welinder  <terra@gnome.org>
 
+	* ms-chart.c (chart_write_MARKERFORMAT): Shape map was missing an
+	item.
+
 	* xlsx-read-drawing.c (xlsx_data_label_pos): Terminate enum list.
 	(xlsx_ser_labels_pos): Ditto.
 	(xlsx_ser_trendline_type): Ditto.

@@ -17,6 +17,7 @@ Morten:
 	* Fuzzed file fixes.  [#748595] [#748597] [#749031] [#749030]
 	  [#749069] [#748533] [#749118] [#749166] [#749181]
 	* Make solver check linearity of model.
+	* Fix xls saving of marker style.  [#749185]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.22

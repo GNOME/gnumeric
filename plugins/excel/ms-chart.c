@@ -4087,8 +4087,23 @@ chart_write_MARKERFORMAT (XLChartWriteState *s, GOStyle const *style,
 	guint32 size;
 	GOColor fore, back;
 	static int const shape_map[] = {
-		0, 1, 2, 3, 3, 3, 3, 8, 4, 9, 5, 7, 6, 1, 1};
-		/* use square for butterfly and hourglass */
+		0,    /* GO_MARKER_NONE	         */
+		1,    /* GO_MARKER_SQUARE	 */
+		2,    /* GO_MARKER_DIAMOND	 */
+		3,    /* GO_MARKER_TRIANGLE_DOWN */
+		3,    /* GO_MARKER_TRIANGLE_UP	 */
+		3,    /* GO_MARKER_TRIANGLE_RIGHT*/
+		3,    /* GO_MARKER_TRIANGLE_LEFT */
+		8,    /* GO_MARKER_CIRCLE	 */
+		4,    /* GO_MARKER_X		 */
+		9,    /* GO_MARKER_CROSS	 */
+		5,    /* GO_MARKER_ASTERISK	 */
+		7,    /* GO_MARKER_BAR		 */
+		6,    /* GO_MARKER_HALF_BAR	 */
+		1,    /* GO_MARKER_BUTTERFLY	 */
+		1,    /* GO_MARKER_HOURGLASS	 */
+		6     /* GO_MARKER_LEFT_HALF_BAR */
+	};
 
 	if (style != NULL) {
 		fore = go_marker_get_outline_color (style->marker.mark);
