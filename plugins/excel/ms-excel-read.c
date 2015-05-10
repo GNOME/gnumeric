@@ -5512,6 +5512,8 @@ excel_read_CONDFMT (BiffQuery *q, ExcelReadSheet *esheet,
 	for (i = 0 ; i < num_fmts ; i++) {
 		guint16 next;
 		if (!ms_biff_query_peek_next (q, &next) || next != BIFF_CF) {
+			g_object_unref (sc);
+			g_slist_free_full (regions, g_free);
 			g_warning ("EXCEL: missing CF record");
 			return;
 		}
