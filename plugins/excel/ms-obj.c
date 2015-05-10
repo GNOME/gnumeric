@@ -437,7 +437,7 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 			continue;
 
 		use_utf16 = q->data[0] != 0;
-		maxlen = use_utf16 ? q->length / 2 : q->length-1;
+		maxlen = (q->length - 1) / (use_utf16 ? 2 : 1);
 		text = excel_get_chars (c->importer,
 			q->data + 1, MIN (text_len, maxlen), use_utf16, NULL);
 		g_string_append (accum, text);

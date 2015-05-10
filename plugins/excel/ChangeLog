@@ -1,5 +1,7 @@
 2015-05-10  Morten Welinder  <terra@gnome.org>
 
+	* ms-obj.c (ms_read_TXO): Fix maxlen calculation for UTF-16.
+
 	* ms-chart.c (chart_write_MARKERFORMAT): Shape map was missing an
 	item.
 
