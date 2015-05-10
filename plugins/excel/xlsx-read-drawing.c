@@ -1133,6 +1133,7 @@ xlsx_axis_mark (GsfXMLIn *xin, xmlChar const **attrs)
 		{"in",		1},
 		{"out",		2},
 		{"cross",	3},
+		{NULL, 0}
 	};
 	int res = 3;
 
@@ -1152,6 +1153,7 @@ xslx_chart_tick_label_pos (GsfXMLIn *xin, xmlChar const **attrs)
 		{"low",		1},
 		{"nextTo",	2},
 		{"none",	3},
+		{NULL, 0}
 	};
 	int res = 2;
 
@@ -1253,7 +1255,8 @@ xlsx_scatter_style (GsfXMLIn *xin, xmlChar const **attrs)
 		{"markers",     SCATTER_MARKERS }, /* We used to write this erroneously */
 		{"none",	0 },
 		{"smooth",      SCATTER_SPLINES },
-		{"smoothMarker", SCATTER_SPLINES | SCATTER_MARKERS }
+		{"smoothMarker", SCATTER_SPLINES | SCATTER_MARKERS },
+		{NULL, 0}
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int style = SCATTER_MARKERS;
@@ -1335,7 +1338,8 @@ xlsx_ser_trendline_type (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 		{"log", 2 },
 		{"movingAvg", 3 },
 		{"poly", 4 },
-		{"power", 5 }
+		{"power", 5 },
+		{NULL, 0}
 	};
 	static const char *types[] = {
 		"GogExpRegCurve", "GogLinRegCurve", "GogLogRegCurve",
@@ -1482,7 +1486,8 @@ xlsx_ser_labels_pos (GsfXMLIn *xin, xmlChar const **attrs)
 		{"l", GOG_SERIES_LABELS_LEFT},
 		{"outEnd", GOG_SERIES_LABELS_OUTSIDE},
 		{"r", GOG_SERIES_LABELS_RIGHT},
-		{"t", GOG_SERIES_LABELS_TOP}
+		{"t", GOG_SERIES_LABELS_TOP},
+		{NULL, 0}
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int position = GOG_SERIES_LABELS_DEFAULT_POS;
@@ -1531,7 +1536,8 @@ xlsx_data_label_pos (GsfXMLIn *xin, xmlChar const **attrs)
 		{"l", GOG_SERIES_LABELS_LEFT},
 		{"outEnd", GOG_SERIES_LABELS_OUTSIDE},
 		{"r", GOG_SERIES_LABELS_RIGHT},
-		{"t", GOG_SERIES_LABELS_TOP}
+		{"t", GOG_SERIES_LABELS_TOP},
+		{NULL, 0}
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int position = GOG_SERIES_LABELS_DEFAULT_POS;
