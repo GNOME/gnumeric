@@ -2716,7 +2716,7 @@ cb_gradient_iter (GnmSolverIterator *iter, GnmIterSolver *isol)
  * @isol: the solver to operate on
  *
  * Returns: (transfer full): an iterator object that can be used to perform
- * a gradient decent step.
+ * a gradient descent step.
  */
 GnmSolverIterator *
 gnm_solver_iterator_new_gradient (GnmIterSolver *isol)
