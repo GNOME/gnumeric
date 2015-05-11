@@ -583,7 +583,7 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str,
 
 	g_return_val_if_fail (str, FALSE);
 
-	if (*str != '"')
+	if (*str != '"' || str[1] == 0)
 		goto err_out;
 
 	s = tmpout = g_strdup (str);
