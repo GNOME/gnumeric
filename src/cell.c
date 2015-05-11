@@ -389,6 +389,8 @@ gnm_cell_set_array (Sheet *sheet,
 {
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (range_is_sane (r), FALSE);
+	g_return_val_if_fail (r->end.row < gnm_sheet_get_max_rows (sheet), FALSE);
+	g_return_val_if_fail (r->end.col < gnm_sheet_get_max_cols (sheet), FALSE);
 	g_return_val_if_fail (texpr != NULL, FALSE);
 
 	if (sheet_range_splits_array (sheet, r, NULL, NULL, NULL))

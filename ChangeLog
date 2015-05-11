@@ -1,3 +1,7 @@
+2015-05-11  Morten Welinder  <terra@gnome.org>
+
+	* src/cell.c (gnm_cell_set_array): Improve preconditions.
+
 2015-05-09  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_set_font_uline): Add sanity check.
