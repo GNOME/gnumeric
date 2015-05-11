@@ -2651,7 +2651,7 @@ cb_polish_iter (GnmSolverIterator *iter, GnmIterSolver *isol)
 					    s0, sm, 0.0, &y);
 		dir[c] = 0;
 
-		if (gnm_finite (s)) {
+		if (gnm_finite (s) && s != 0) {
 			isol->xk[c] += s;
 			isol->yk = y;
 			progress = TRUE;
@@ -2678,6 +2678,51 @@ gnm_solver_iterator_new_polish (GnmIterSolver *isol)
 	return gnm_solver_iterator_new_func (G_CALLBACK (cb_polish_iter), isol);
 }
 
+
+static gboolean
+cb_gradient_iter (GnmSolverIterator *iter, GnmIterSolver *isol)
+{
+	GnmSolver *sol = GNM_SOLVER (isol);
+	const int n = sol->input_cells->len;
+	gboolean progress = FALSE;
+	gnm_float s, y;
+	gnm_float *g;
+	int i;
+
+	/* Search in opposite direction of gradient.  */
+	g = gnm_solver_compute_gradient (sol, isol->xk);
+	for (i = 0; i < n; i++)
+		g[i] = -g[i];
+
+	s = gnm_solver_line_search (sol, isol->xk, g, FALSE,
+				    1, gnm_pinf, 0.0, &y);
+	if (s > 0) {
+		for (i = 0; i < n; i++)
+			isol->xk[i] += s * g[i];
+		isol->yk = y;
+		progress = TRUE;
+	}
+
+	g_free (g);
+
+	if (progress)
+		gnm_iter_solver_set_solution (isol);
+
+	return progress;
+}
+
+/**
+ * gnm_solver_iterator_new_gradient:
+ * @isol: the solver to operate on
+ *
+ * Returns: (transfer full): an iterator object that can be used to perform
+ * a gradient decent step.
+ */
+GnmSolverIterator *
+gnm_solver_iterator_new_gradient (GnmIterSolver *isol)
+{
+	return gnm_solver_iterator_new_func (G_CALLBACK (cb_gradient_iter), isol);
+}
 
 GSF_CLASS (GnmSolverIterator, gnm_solver_iterator,
 	   gnm_solver_iterator_class_init, NULL, G_TYPE_OBJECT)
