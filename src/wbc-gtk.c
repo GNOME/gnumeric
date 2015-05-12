@@ -2893,7 +2893,8 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 		type = GTK_MESSAGE_ERROR;
 		break;
 
-	default : g_return_val_if_fail (FALSE, 1);
+	default:
+		g_assert_not_reached ();
 	}
 
 	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),

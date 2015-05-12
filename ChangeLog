@@ -1,5 +1,8 @@
 2015-05-11  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbcg_validation_msg): Fix clang warning about
+	something bad that will happen whenever FALSE equals TRUE.
+
 	* src/go-data-cache.c (go_data_cache_set_val): Use memcpy for
 	inline values.
 

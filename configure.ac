@@ -285,7 +285,7 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 			 -Werror=format-security -Wbitwise -Wcast-to-as \
 			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
 			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign \
-			 -Wstrict-prototypes"
+			 -Wstrict-prototypes -Wno-error=format-nonliteral "
 	for option in $warning_options ; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $uwoption $option"
