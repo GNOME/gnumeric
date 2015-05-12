@@ -16,7 +16,7 @@ Morten:
 	* Plug leaks.
 	* Fuzzed file fixes.  [#748595] [#748597] [#749031] [#749030]
 	  [#749069] [#748533] [#749118] [#749166] [#749181] [#749184]
-	  [#749236] [#749240]
+	  [#749236] [#749240] [#749234]
 	* Make solver check linearity of model.
 	* Fix xls saving of marker style.  [#749185]
 

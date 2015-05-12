@@ -100,18 +100,18 @@ static void
 go_data_cache_finalize (GObject *obj)
 {
 	GODataCache *cache = (GODataCache *)obj;
-	unsigned int i, j;
+	unsigned i;
 
 	if (NULL != cache->records) {
-		GODataCacheField const *f;
-		gpointer p;
-
 		for (i = cache->fields->len ; i-- > 0 ; ) {
-			f = g_ptr_array_index (cache->fields, i);
+			GODataCacheField const *f = g_ptr_array_index (cache->fields, i);
 			if (GO_DATA_CACHE_FIELD_TYPE_INLINE == f->ref_type) {
+				unsigned j;
 				for (j = cache->records_len ; j-- > 0 ; ) {
-					p = go_data_cache_records_index (cache, j) + f->offset;
-					go_val_free (*((GOVal **)p));
+					GOVal *v;
+					gpointer p = go_data_cache_records_index (cache, j) + f->offset;
+					memcpy (&v, p, sizeof (v));
+					go_val_free (v);
 				}
 			}
 		}
@@ -338,7 +338,9 @@ go_data_cache_set_val (GODataCache *cache,
 			   f->indx, f->name->str);
 		return;
 
-	case GO_DATA_CACHE_FIELD_TYPE_INLINE	 : *((GOVal **)p)  = v; return;
+	case GO_DATA_CACHE_FIELD_TYPE_INLINE:
+		memcpy (p, &v, sizeof (v));
+		return;
 
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : *((guint8 *)p)  = 0; break;
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : *((guint16 *)p) = 0; break;
@@ -378,7 +380,11 @@ go_data_cache_set_index (GODataCache *cache,
 		g_warning ("attempt to get value from grouped/calculated field #%d : '%s'",
 			   f->indx, f->name->str);
 		return;
-	case GO_DATA_CACHE_FIELD_TYPE_INLINE	 : *((GOVal **)p)  = go_val_new_empty (); break;
+	case GO_DATA_CACHE_FIELD_TYPE_INLINE: {
+		GOVal *v = go_val_new_empty ();
+		memcpy (p, &v, sizeof (v));
+		break;
+	}
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : *((guint8 *)p)  = idx+1; break;
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : *((guint16 *)p) = idx+1; break;
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : *((guint32 *)p) = idx+1; break;
@@ -556,10 +562,10 @@ go_data_cache_dump (GODataCache *cache,
 			p = go_data_cache_records_index (cache, i) + base->offset;
 			index_val = TRUE;
 			switch (base->ref_type) {
-			case GO_DATA_CACHE_FIELD_TYPE_NONE :
+			case GO_DATA_CACHE_FIELD_TYPE_NONE:
 				continue;
-			case GO_DATA_CACHE_FIELD_TYPE_INLINE	 :
-				v = *((GOVal **)p);
+			case GO_DATA_CACHE_FIELD_TYPE_INLINE:
+				memcpy (&v, p, sizeof (v));
 				index_val = FALSE;
 				break;
 			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : idx = *(guint8 *)p; break;

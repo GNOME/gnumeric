@@ -177,17 +177,17 @@ xls_read_pivot_cache_values (XLSReadPivot *s, BiffQuery *q, unsigned int n, cons
 {
 	/* TODO : go_val_array_sized_new */
 	GPtrArray *res = g_ptr_array_sized_new (n);
-	GnmValue *v;
 	unsigned int i;
 
 	d (1, g_printerr ("/* %u %s items */ ;\n", n, type););
 	for (i = 0 ; i < n ; i++) {
-		if (NULL == (v = xls_read_pivot_cache_value (s, q))) {
-	/* TODO : go_val_array_set_size */
-			g_ptr_array_set_size (res, i);
+		GnmValue *v = xls_read_pivot_cache_value (s, q);
+		if (!v) {
+			/* TODO : go_val_array_set_size */
+			g_ptr_array_set_size (res, n);
 			return res;
 		}
-	/* TODO : go_val_array_add */
+		/* TODO : go_val_array_add */
 		g_ptr_array_add (res, v);
 	}
 	return res;
