@@ -1,7 +1,10 @@
 2015-05-11  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-util.c (xls_header_footer_import): Handle terminating
+	"&".  Fixes #749235.
+
 	* xls-read-pivot.c (xls_read_pivot_cache_values): Set the right
-	size on error.
+	size on error.  Fixes #749234.
 
 2015-05-10  Morten Welinder  <terra@gnome.org>
 

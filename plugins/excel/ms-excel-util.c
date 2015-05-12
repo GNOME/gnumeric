@@ -765,7 +765,7 @@ xls_header_footer_import (GnmPrintHF *hf, const char *txt)
 	accum = g_string_new (NULL);
 	while (1) {
 		if (txt[0] == 0 ||
-		    (txt[0] == '&' && strchr ("LCR", txt[1]))) {
+		    (txt[0] == '&' && txt[1] && strchr ("LCR", txt[1]))) {
 			char **sp;
 			switch (section) {
 			case 'L': sp = &hf->left_format; break;
