@@ -1,5 +1,8 @@
 2015-05-12  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_DV): Stop using
+	excel_get_text_fixme.  Fixes #749270.
+
 	* ms-excel-write.c (extract_txomarkup): Handle missing text.
 
 2015-05-11  Morten Welinder  <terra@gnome.org>

@@ -5555,23 +5555,27 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	data = q->data + 4;
 
 	XL_CHECK_CONDITION (data+3 <= end);
-	input_title = excel_get_text_fixme (esheet->container.importer, data + 2,
-					    GSF_LE_GET_GUINT16 (data), &len, NULL);
+	input_title = excel_get_text (esheet->container.importer, data + 2,
+				      GSF_LE_GET_GUINT16 (data), &len, NULL,
+				      end - (data + 2));
 	data += len + 2;
 
 	XL_CHECK_CONDITION (data+3 <= end);
-	error_title = excel_get_text_fixme (esheet->container.importer, data + 2,
-					    GSF_LE_GET_GUINT16 (data), &len, NULL);
+	error_title = excel_get_text (esheet->container.importer, data + 2,
+				      GSF_LE_GET_GUINT16 (data), &len, NULL,
+				      end - (data + 2));
 	data += len + 2;
 
 	XL_CHECK_CONDITION (data+3 <= end);
-	input_msg = excel_get_text_fixme (esheet->container.importer, data + 2,
-					  GSF_LE_GET_GUINT16 (data), &len, NULL);
+	input_msg = excel_get_text (esheet->container.importer, data + 2,
+				    GSF_LE_GET_GUINT16 (data), &len, NULL,
+				    end - (data + 2));
 	data += len + 2;
 
 	XL_CHECK_CONDITION (data+3 <= end);
-	error_msg = excel_get_text_fixme (esheet->container.importer, data + 2,
-					  GSF_LE_GET_GUINT16 (data), &len, NULL);
+	error_msg = excel_get_text (esheet->container.importer, data + 2,
+				    GSF_LE_GET_GUINT16 (data), &len, NULL,
+				    end - (data + 2));
 	data += len + 2;
 
 	d (1, {
@@ -5581,13 +5585,13 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 			g_printerr ("Error Msg   : '%s'\n", error_msg);
 		});
 
-	XL_CHECK_CONDITION (data+2 <= end);
+	XL_CHECK_CONDITION (data+4 <= end);
 	expr1_len = GSF_LE_GET_GUINT16 (data);
 	d (5, g_printerr ("Unknown1 = %hx\n", GSF_LE_GET_GUINT16 (data+2)););
 	expr1_dat = data  + 4;	/* TODO : What are the missing 2 bytes ? */
 	data += expr1_len + 4;
 
-	XL_CHECK_CONDITION (data+2 <= end);
+	XL_CHECK_CONDITION (data+4 <= end);
 	expr2_len = GSF_LE_GET_GUINT16 (data);
 	d (5, g_printerr ("Unknown2 = %hx\n", GSF_LE_GET_GUINT16 (data+2)););
 	expr2_dat = data  + 4;	/* TODO : What are the missing 2 bytes ? */
