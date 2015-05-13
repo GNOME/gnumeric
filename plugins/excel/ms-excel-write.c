@@ -6663,7 +6663,7 @@ extract_txomarkup (ExcelWriteState *ewb, SheetObject *so)
 		return;
 
 	g_object_get (G_OBJECT (so), "text", &text, NULL);
-	txo = txomarkup_new (ewb, text, markup, ewb->base.xf.default_style);
+	txo = txomarkup_new (ewb, text ? text : "", markup, ewb->base.xf.default_style);
 	g_free (text);
 
 	/* It isn't a cell, but that doesn't matter here */
