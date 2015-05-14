@@ -1093,23 +1093,6 @@ excel_get_text (GnmXLImporter const *importer,
 	return ans;
 }
 
-/**
- * excel_get_text_fixme :
- * @importer:
- * @pos: pointer to the start of string information
- * @length: in _characters_
- * @byte_len: The number of bytes between @pos and the end of string data
- *
- * Returns a string which the caller is responsible for freeing
- **/
-static char *
-excel_get_text_fixme (GnmXLImporter const *importer,
-		      guint8 const *pos, guint32 length, guint32 *byte_length, guint16 const *codepage)
-{
-	return excel_get_text (importer, pos, length, byte_length, codepage,
-			       G_MAXUINT);
-}
-
 static char *
 excel_biff_text (GnmXLImporter const *importer,
 		 const BiffQuery *q, guint32 ofs, guint32 length)
@@ -4049,19 +4032,20 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 			guint8  menu_txt_len	= GSF_LE_GET_GUINT8  (q->data + 10);
 			guint8  descr_txt_len	= GSF_LE_GET_GUINT8  (q->data + 11);
 			guint8  help_txt_len	= GSF_LE_GET_GUINT8  (q->data + 12);
-			guint8  status_txt_len= GSF_LE_GET_GUINT8  (q->data + 13);
+			guint8  status_txt_len  = GSF_LE_GET_GUINT8  (q->data + 13);
+			const guint8 *end = q->data + q->length;
 			char *menu_txt;
 			char *descr_txt;
 			char *help_txt;
 			char *status_txt;
 
-			menu_txt = excel_get_text_fixme (importer, data, menu_txt_len, NULL, NULL);
+			menu_txt = excel_get_text (importer, data, menu_txt_len, NULL, NULL, end - data);
 			data += menu_txt_len;
-			descr_txt = excel_get_text_fixme (importer, data, descr_txt_len, NULL, NULL);
+			descr_txt = excel_get_text (importer, data, descr_txt_len, NULL, NULL, end - data);
 			data += descr_txt_len;
-			help_txt = excel_get_text_fixme (importer, data, help_txt_len, NULL, NULL);
+			help_txt = excel_get_text (importer, data, help_txt_len, NULL, NULL, end - data);
 			data += help_txt_len;
-			status_txt = excel_get_text_fixme (importer, data, status_txt_len, NULL, NULL);
+			status_txt = excel_get_text (importer, data, status_txt_len, NULL, NULL, end - data);
 
 			g_printerr ("Name record: '%s', '%s', '%s', '%s', '%s'\n",
 				    nexpr ? expr_name_name (nexpr) : "(null)",
@@ -4152,7 +4136,7 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 				XL_NEED_BYTES (1);
 				len = *data++;
 				v = value_new_string_nocopy (
-							     excel_get_text_fixme (importer, data, len, NULL, NULL));
+					excel_get_text (importer, data, len, NULL, NULL, q->data + q->length - data));
 				data += len;
 				break;
 
@@ -6047,6 +6031,7 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 		unsigned     len0, len1;
 		GnmFilterOp  op0,  op1;
 		guint8 const *data;
+		guint8 const *end = q->data + q->length;
 		GnmValue *v0, *v1;
 
 		XL_CHECK_CONDITION (q->length >= 24);
@@ -6056,20 +6041,20 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 		data = q->data + 24;
 		if (len0 > 0) {
 			v0 = value_new_string_nocopy (
-						      excel_get_text_fixme (esheet->container.importer, data, len0, NULL, NULL));
+				excel_get_text (esheet->container.importer, data, len0, NULL, NULL, end - data));
 			data += len0;
 		}
 		if (len1 > 0)
 			v1 = value_new_string_nocopy (
-						      excel_get_text_fixme (esheet->container.importer, data, len1, NULL, NULL));
+				excel_get_text (esheet->container.importer, data, len1, NULL, NULL, end - data));
 
 		if (op1 == GNM_FILTER_UNUSED) {
 			cond = gnm_filter_condition_new_single (op0, v0);
 			value_release (v1); /* paranoia */
 		} else {
 			/* NOTE : Docs are backwards */
-			cond = gnm_filter_condition_new_double (
-								op0, v0, (flags & 3) ? FALSE : TRUE, op1, v1);
+			cond = gnm_filter_condition_new_double
+				(op0, v0, (flags & 3) ? FALSE : TRUE, op1, v1);
 		}
 	}
 
@@ -6362,8 +6347,9 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 		return;
 	fd = excel_font_get (esheet->container.importer, xf->font_idx);
 
-	txt = excel_get_text_fixme (esheet->container.importer, q->data + 8,
-				    in_len, &str_len, fd ? &fd->codepage : NULL);
+	txt = excel_get_text (esheet->container.importer, q->data + 8,
+			      in_len, &str_len, fd ? &fd->codepage : NULL,
+			      q->length - 8);
 
 	d (0, g_printerr ("%s in %s;\n",
 			  has_markup ? "formatted string" : "string",
