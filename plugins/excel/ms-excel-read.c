@@ -6298,7 +6298,7 @@ excel_read_EXTERNSHEET (BiffQuery const *q, GnmXLImporter *importer,
 /* FILEPASS, ask the user for a password if necessary
  * return value is an error string, or NULL for success
  */
-static char *
+static const char *
 excel_read_FILEPASS (BiffQuery *q, GnmXLImporter *importer)
 {
 	/* files with workbook protection are encrypted using a
@@ -6796,7 +6796,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_STYLE:	break;
 		case BIFF_1904:		excel_read_1904 (q, importer);	break;
 		case BIFF_FILEPASS: {
-			char *problem = excel_read_FILEPASS (q, importer);
+			const char *problem = excel_read_FILEPASS (q, importer);
 			if (problem != NULL) {
 				go_cmd_context_error_import (GO_CMD_CONTEXT (importer->context), problem);
 				return FALSE;
@@ -7136,7 +7136,7 @@ excel_read_workbook (GOIOContext *context, WorkbookView *wb_view,
 	BiffQuery *q;
 	MsBiffBofData *ver = NULL;
 	unsigned current_sheet = 0;
-	char *problem_loading = NULL;
+	const char *problem_loading = NULL;
 	gboolean stop_loading = FALSE;
 	gboolean prev_was_eof = FALSE;
 
