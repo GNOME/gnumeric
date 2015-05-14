@@ -1360,7 +1360,7 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 
 /* ------------------------------------------------------------------------- */
 
-GnmFuncDescriptor const stat_functions[] = {
+GnmFuncDescriptor const rstat_functions[] = {
 	{
 		"r.dnorm",
 		"fff|b",

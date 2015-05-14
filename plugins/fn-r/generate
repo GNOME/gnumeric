@@ -224,7 +224,7 @@ foreach my $header ($mathfunch, "extra.h") {
 
 &emit_line ();
 
-&emit ("GnmFuncDescriptor const stat_functions[] = {\n" .
+&emit ("GnmFuncDescriptor const rstat_functions[] = {\n" .
        $funcdefs .
        "\t{ NULL }\n" .
        "};\n");

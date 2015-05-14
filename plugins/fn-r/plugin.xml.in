@@ -8,7 +8,7 @@
 		<attribute name="module_file" value="rstat"/>
 	</loader>
 	<services>
-		<service type="function_group" id="stat">
+		<service type="function_group" id="rstat">
 			<_category>Statistics</_category>
 			<functions textdomain="gnumeric-VERSION-functions">
 				<function name="r.dbeta"/>
