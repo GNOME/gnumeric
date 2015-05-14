@@ -29,6 +29,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <glib.h>
+#include <gsf/gsf-utils.h>
 
 #if USE_UNLOCKED_IO
 # include "unlocked-io.h"
@@ -80,26 +81,19 @@ md5_init_ctx (struct md5_ctx *ctx)
 }
 
 /* Put result from CTX in first 16 bytes following RESBUF.  The result
-   must be in little endian byte order.
-
-   IMPORTANT: On some systems it is required that RESBUF is correctly
-   aligned for a 32-bit value.  */
+   will be in little endian byte order. */
 void *
 md5_read_ctx (const struct md5_ctx *ctx, void *resbuf)
 {
-  ((uint32_t *) resbuf)[0] = SWAP (ctx->A);
-  ((uint32_t *) resbuf)[1] = SWAP (ctx->B);
-  ((uint32_t *) resbuf)[2] = SWAP (ctx->C);
-  ((uint32_t *) resbuf)[3] = SWAP (ctx->D);
-
-  return resbuf;
+	GSF_LE_SET_GUINT32 ((char *)resbuf + 0x00, ctx->A);
+	GSF_LE_SET_GUINT32 ((char *)resbuf + 0x04, ctx->B);
+	GSF_LE_SET_GUINT32 ((char *)resbuf + 0x08, ctx->C);
+	GSF_LE_SET_GUINT32 ((char *)resbuf + 0x0c, ctx->D);
+	return resbuf;
 }
 
 /* Process the remaining bytes in the internal buffer and the usual
-   prolog according to the standard and write the result to RESBUF.
-
-   IMPORTANT: On some systems it is required that RESBUF is correctly
-   aligned for a 32-bit value.  */
+   prolog according to the standard and write the result to RESBUF.  */
 void *
 md5_finish_ctx (struct md5_ctx *ctx, void *resbuf)
 {

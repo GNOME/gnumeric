@@ -1,3 +1,11 @@
+2015-05-14  Morten Welinder  <terra@gnome.org>
+
+	* md5.c (md5_read_ctx): Don't require aligned memory.
+
+2015-05-13  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_get_text_fixme): Eliminate.
+
 2015-05-12  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_DV): Stop using

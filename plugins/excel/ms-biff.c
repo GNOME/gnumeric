@@ -173,12 +173,7 @@ makekey (guint32 block, RC4_KEY *key, const unsigned char *valDigest)
 	/* 40 bit of hashed password, set by verify_password () */
 	memcpy (pwarray, valDigest, 5);
 
-	/* put block number in byte 6...9 */
-	pwarray[5] = (guint8) (block & 0xFF);
-	pwarray[6] = (guint8) ((block >> 8) & 0xFF);
-	pwarray[7] = (guint8) ((block >> 16) & 0xFF);
-	pwarray[8] = (guint8) ((block >> 24) & 0xFF);
-
+	GSF_LE_SET_GUINT32 (pwarray + 5, block);
 	pwarray[9] = 0x80;
 	pwarray[56] = 0x48;
 
