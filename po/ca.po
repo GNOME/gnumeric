@@ -287,10 +287,10 @@ msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u rows, "
 "and this workbook has %d"
 msgstr[0] ""
-"Alguns continguts es perdran en desar. Aquest format només es permet %u "
+"Alguns continguts es perdran en desar. Aquest format només permet %u "
 "fila, i aquest llibre de treball en té %d"
 msgstr[1] ""
-"Alguns continguts es perdran en desar. Aquest format només es permet %u "
+"Alguns continguts es perdran en desar. Aquest format només permet %u "
 "files, i aquest llibre de treball en té %d"
 
 #: ../plugins/excel/ms-excel-write.c:354
@@ -4337,11 +4337,11 @@ msgstr "Moure objecte al davant de tot"
 
 #: ../src/commands.c:5731
 msgid "Pull Object Forward"
-msgstr "Moure objecte cap a endavant"
+msgstr "Moure objecte cap endavant"
 
 #: ../src/commands.c:5734
 msgid "Push Object Backward"
-msgstr "Moure objecte cap a endarrere"
+msgstr "Moure objecte cap endarrere"
 
 #: ../src/commands.c:5737
 msgid "Push Object to the Back"
@@ -8112,7 +8112,7 @@ msgstr "Semicercles"
 
 #: ../src/dialogs/cell-format.ui.h:66
 msgid "Shrin_k to fit"
-msgstr "_Encongeix fins encaixar"
+msgstr "_Encongeix fins a encaixar"
 
 #: ../src/dialogs/cell-format.ui.h:67
 msgid "Small Circles"
@@ -9642,7 +9642,7 @@ msgstr "Secció es_querra:"
 
 #: ../src/dialogs/hf-config.ui.h:21
 msgid "_Middle section:"
-msgstr "Secció inter_mitja:"
+msgstr "Secció del _mig:"
 
 #: ../src/dialogs/hf-config.ui.h:22
 msgid "_Right section:"
@@ -13595,7 +13595,7 @@ msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
 msgstr ""
-"Hi han més columnes de dades que cel·les en el full. Les columnes extres "
+"Hi ha més columnes de dades que cel·les en el full. Les columnes extres "
 "s'ignoren."
 
 #: ../src/stf.c:113
