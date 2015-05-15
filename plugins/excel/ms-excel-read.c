@@ -2771,7 +2771,6 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	gboolean is_array;
 	GnmExprTop const *texpr;
 	guint8 const *data;
-	XLSharedFormula *sf;
 
 	if (!ms_biff_query_peek_next (q, &opcode) ||
 	    !(opcode == BIFF_SHRFMLA ||
@@ -2838,22 +2837,26 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 				     data, data_len, array_data_len,
 				     !is_array, NULL);
 
-	sf = g_new (XLSharedFormula, 1);
+	if (g_hash_table_lookup (esheet->shared_formulae, &cell->pos)) {
+		g_printerr ("Duplicate shared formula for cell %s\n", cell_name (cell));
+	} else {
+		XLSharedFormula *sf = g_new (XLSharedFormula, 1);
 
-	/* WARNING: Do NOT use the upper left corner as the hashkey.
-	 *     For some bizzare reason XL appears to sometimes not
-	 *     flag the formula as shared until later.
-	 *  Use the location of the cell we are reading as the key.
-	 */
-	sf->key = cell->pos;
-	sf->is_array = is_array;
-	sf->data = data_len > 0 ? g_memdup (data, data_len + array_data_len) : NULL;
-	sf->data_len = data_len;
-	sf->array_data_len = array_data_len;
+		/* WARNING: Do NOT use the upper left corner as the hashkey.
+		 *     For some bizzare reason XL appears to sometimes not
+		 *     flag the formula as shared until later.
+		 *  Use the location of the cell we are reading as the key.
+		 */
+		sf->key = cell->pos;
+		sf->is_array = is_array;
+		sf->data = data_len > 0 ? g_memdup (data, data_len + array_data_len) : NULL;
+		sf->data_len = data_len;
+		sf->array_data_len = array_data_len;
 
-	d (1, g_printerr ("Shared formula, extent %s\n", range_as_string (&r)););
+		d (1, g_printerr ("Shared formula, extent %s\n", range_as_string (&r)););
 
-	g_hash_table_insert (esheet->shared_formulae, &sf->key, sf);
+		g_hash_table_insert (esheet->shared_formulae, &sf->key, sf);
+	}
 
 	g_return_val_if_fail (texpr != NULL, NULL);
 

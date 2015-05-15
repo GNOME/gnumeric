@@ -1,3 +1,8 @@
+2015-05-15  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_formula_shared): Catch duplicate shared
+	formulas for the same cell.
+
 2015-05-14  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_FILEPASS): Constify.
