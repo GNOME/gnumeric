@@ -21,6 +21,9 @@
 /* Written by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.  */
 
 
+/* API pruned by Morten Welinder, 2015  */
+
+
 
 #include "md5.h"
 
@@ -35,18 +38,6 @@
 # include "unlocked-io.h"
 #endif
 
-#ifdef _LIBC
-/* We need to keep the namespace clean so define the MD5 function
-   protected using leading __ .  */
-# define md5_init_ctx __md5_init_ctx
-# define md5_process_block __md5_process_block
-# define md5_process_bytes __md5_process_bytes
-# define md5_finish_ctx __md5_finish_ctx
-# define md5_read_ctx __md5_read_ctx
-# define md5_stream __md5_stream
-# define md5_buffer __md5_buffer
-#endif
-
 #if G_BYTE_ORDER == G_BIG_ENDIAN
 # define SWAP(n)							\
     (((n) << 24) | (((n) & 0xff00) << 8) | (((n) >> 8) & 0xff00) | ((n) >> 24))
@@ -55,16 +46,6 @@
 #else
 #error "There's something rotten in Denmark"
 #endif
-
-#define BLOCKSIZE 4096
-#if BLOCKSIZE % 64 != 0
-# error "invalid BLOCKSIZE"
-#endif
-
-/* This array contains the bytes used to pad the buffer to the next
-   64-byte boundary.  (RFC 1321, 3.1: Step 1)  */
-static const unsigned char fillbuf[64] = { 0x80, 0 /* , 0, 0, ...  */ };
-
 
 /* Initialize structure containing state of computation.
    (RFC 1321, 3.3: Step 3)  */
@@ -91,186 +72,6 @@ md5_read_ctx (const struct md5_ctx *ctx, void *resbuf)
 	GSF_LE_SET_GUINT32 ((char *)resbuf + 0x0c, ctx->D);
 	return resbuf;
 }
-
-/* Process the remaining bytes in the internal buffer and the usual
-   prolog according to the standard and write the result to RESBUF.  */
-void *
-md5_finish_ctx (struct md5_ctx *ctx, void *resbuf)
-{
-  /* Take yet unprocessed bytes into account.  */
-  uint32_t bytes = ctx->buflen;
-  size_t size = (bytes < 56) ? 64 / 4 : 64 * 2 / 4;
-
-  /* Now count remaining bytes.  */
-  ctx->total[0] += bytes;
-  if (ctx->total[0] < bytes)
-    ++ctx->total[1];
-
-  /* Put the 64-bit file length in *bits* at the end of the buffer.  */
-  ctx->buffer[size - 2] = SWAP (ctx->total[0] << 3);
-  ctx->buffer[size - 1] = SWAP ((ctx->total[1] << 3) | (ctx->total[0] >> 29));
-
-  memcpy (&((char *) ctx->buffer)[bytes], fillbuf, (size - 2) * 4 - bytes);
-
-  /* Process last bytes.  */
-  md5_process_block (ctx->buffer, size * 4, ctx);
-
-  return md5_read_ctx (ctx, resbuf);
-}
-
-/* Compute MD5 message digest for bytes read from STREAM.  The
-   resulting message digest number will be written into the 16 bytes
-   beginning at RESBLOCK.  */
-int
-md5_stream (FILE *stream, void *resblock)
-{
-  struct md5_ctx ctx;
-  char buffer[BLOCKSIZE + 72];
-  size_t sum;
-
-  /* Initialize the computation context.  */
-  md5_init_ctx (&ctx);
-
-  /* Iterate over full file contents.  */
-  while (1)
-    {
-      /* We read the file in blocks of BLOCKSIZE bytes.  One call of the
-         computation function processes the whole buffer so that with the
-         next round of the loop another block can be read.  */
-      size_t n;
-      sum = 0;
-
-      /* Read block.  Take care for partial reads.  */
-      while (1)
-	{
-	  n = fread (buffer + sum, 1, BLOCKSIZE - sum, stream);
-
-	  sum += n;
-
-	  if (sum == BLOCKSIZE)
-	    break;
-
-	  if (n == 0)
-	    {
-	      /* Check for the error flag IFF N == 0, so that we don't
-	         exit the loop after a partial read due to e.g., EAGAIN
-	         or EWOULDBLOCK.  */
-	      if (ferror (stream))
-		return 1;
-	      goto process_partial_block;
-	    }
-
-	  /* We've read at least one byte, so ignore errors.  But always
-	     check for EOF, since feof may be true even though N > 0.
-	     Otherwise, we could end up calling fread after EOF.  */
-	  if (feof (stream))
-	    goto process_partial_block;
-	}
-
-      /* Process buffer with BLOCKSIZE bytes.  Note that
-         BLOCKSIZE % 64 == 0
-       */
-      md5_process_block (buffer, BLOCKSIZE, &ctx);
-    }
-
-process_partial_block:
-
-  /* Process any remaining bytes.  */
-  if (sum > 0)
-    md5_process_bytes (buffer, sum, &ctx);
-
-  /* Construct result in desired memory.  */
-  md5_finish_ctx (&ctx, resblock);
-  return 0;
-}
-
-/* Compute MD5 message digest for LEN bytes beginning at BUFFER.  The
-   result is always in little endian byte order, so that a byte-wise
-   output yields to the wanted ASCII representation of the message
-   digest.  */
-void *
-md5_buffer (const char *buffer, size_t len, void *resblock)
-{
-  struct md5_ctx ctx;
-
-  /* Initialize the computation context.  */
-  md5_init_ctx (&ctx);
-
-  /* Process whole buffer but last len % 64 bytes.  */
-  md5_process_bytes (buffer, len, &ctx);
-
-  /* Put result in desired memory area.  */
-  return md5_finish_ctx (&ctx, resblock);
-}
-
-
-void
-md5_process_bytes (const void *buffer, size_t len, struct md5_ctx *ctx)
-{
-  /* When we already have some bits in our internal buffer concatenate
-     both inputs first.  */
-  if (ctx->buflen != 0)
-    {
-      size_t left_over = ctx->buflen;
-      size_t add = 128 - left_over > len ? len : 128 - left_over;
-
-      memcpy (&((char *) ctx->buffer)[left_over], buffer, add);
-      ctx->buflen += add;
-
-      if (ctx->buflen > 64)
-	{
-	  md5_process_block (ctx->buffer, ctx->buflen & ~63, ctx);
-
-	  ctx->buflen &= 63;
-	  /* The regions in the following copy operation cannot overlap.  */
-	  memcpy (ctx->buffer,
-		  &((char *) ctx->buffer)[(left_over + add) & ~63],
-		  ctx->buflen);
-	}
-
-      buffer = (const char *) buffer + add;
-      len -= add;
-    }
-
-  /* Process available complete blocks.  */
-  if (len >= 64)
-    {
-#if !_STRING_ARCH_unaligned
-# define alignof(type) offsetof (struct { char c; type x; }, x)
-# define UNALIGNED_P(p) (((size_t) p) % alignof (uint32_t) != 0)
-      if (UNALIGNED_P (buffer))
-	while (len > 64)
-	  {
-	    md5_process_block (memcpy (ctx->buffer, buffer, 64), 64, ctx);
-	    buffer = (const char *) buffer + 64;
-	    len -= 64;
-	  }
-      else
-#endif
-	{
-	  md5_process_block (buffer, len & ~63, ctx);
-	  buffer = (const char *) buffer + (len & ~63);
-	  len &= 63;
-	}
-    }
-
-  /* Move remaining bytes in internal buffer.  */
-  if (len > 0)
-    {
-      size_t left_over = ctx->buflen;
-
-      memcpy (&((char *) ctx->buffer)[left_over], buffer, len);
-      left_over += len;
-      if (left_over >= 64)
-	{
-	  md5_process_block (ctx->buffer, 64, ctx);
-	  left_over -= 64;
-	  memcpy (ctx->buffer, &ctx->buffer[16], left_over);
-	}
-      ctx->buflen = left_over;
-    }
-}
-
 
 /* These are the four functions used in the four steps of the MD5 algorithm
    and defined in the RFC 1321.  The first function is a little bit optimized
