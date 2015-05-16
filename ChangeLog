@@ -1,3 +1,8 @@
+2015-05-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (content_start): fixed leak, [see #749444,
+	comment #3]
+
 2015-05-11  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_validation_msg): Fix clang warning about

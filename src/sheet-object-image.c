@@ -344,6 +344,7 @@ content_start (GsfXMLIn *xin, xmlChar const **attrs)
 	else if (attr_eq (attrs[0], "name"))
 			image_name = CXML2C (attrs[1]);
 
+	g_free (soi->type);
 	soi->type = g_strdup (image_type);
 	if (image_name)
 		soi->name = g_strdup (image_name);
