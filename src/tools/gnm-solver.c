@@ -429,18 +429,10 @@ gnm_solver_param_dup (GnmSolverParameters *src, Sheet *new_sheet)
 	dependent_managed_set_expr (&dst->target, src->target.texpr);
 	dependent_managed_set_expr (&dst->input, src->input.texpr);
 
-	dst->options.max_time_sec = src->options.max_time_sec;
-	dst->options.max_iter = src->options.max_iter;
-	dst->options.model_type = src->options.model_type;
-	dst->options.assume_non_negative = src->options.assume_non_negative;
-	dst->options.assume_discrete = src->options.assume_discrete;
-	dst->options.automatic_scaling = src->options.automatic_scaling;
-	dst->options.program_report = src->options.program_report;
-	dst->options.add_scenario = src->options.add_scenario;
-
 	g_free (dst->options.scenario_name);
+	dst->options = src->options;
+	dst->options.algorithm = NULL;
 	dst->options.scenario_name = g_strdup (src->options.scenario_name);
-
 	gnm_solver_param_set_algorithm (dst, src->options.algorithm);
 
 	/* Copy the constraints */
@@ -475,7 +467,8 @@ gnm_solver_param_equal (GnmSolverParameters const *a,
             a->options.automatic_scaling != b->options.automatic_scaling ||
             a->options.program_report != b->options.program_report ||
             a->options.add_scenario != b->options.add_scenario ||
-	    strcmp (a->options.scenario_name, b->options.scenario_name))
+	    strcmp (a->options.scenario_name, b->options.scenario_name) ||
+	    a->options.gradient_order != b->options.gradient_order)
 		return FALSE;
 
 	for (la = a->constraints, lb = b->constraints;
@@ -671,6 +664,7 @@ gnm_solver_param_constructor (GType type,
 	sp->options.max_time_sec = 60;
 	sp->options.assume_non_negative = TRUE;
 	sp->options.scenario_name = g_strdup ("Optimal");
+	sp->options.gradient_order = 10;
 
 	return obj;
 }
@@ -1482,12 +1476,23 @@ add_value_or_special (data_analysis_output_t *dao, int col, int row,
 	}
 }
 
+static void
+print_vector (const char *name, const gnm_float *v, int n)
+{
+	int i;
+
+	if (name)
+		g_printerr ("%s:\n", name);
+	for (i = 0; i < n; i++)
+		g_printerr ("%15.8" GNM_FORMAT_f " ", v[i]);
+	g_printerr ("\n");
+}
+
 void
 gnm_solver_create_report (GnmSolver *solver, const char *name)
 {
 	GnmSolverParameters *params = solver->params;
 	int R = 0;
-	GnmValue const *vinput;
 	data_analysis_output_t *dao;
 	GSList *l;
 
@@ -1541,8 +1546,7 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 
 	/* ---------------------------------------- */
 
-	vinput = gnm_solver_param_get_input (params);
-	if (vinput) {
+	if (solver->input_cells->len > 0) {
 		unsigned ui;
 
 		ADD_HEADER (_("Variables"));
@@ -1763,6 +1767,7 @@ gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs)
 	gnm_float y0;
 	const int n = sol->input_cells->len;
 	int i;
+	const int order = sol->params->options.gradient_order;
 
 	gnm_solver_set_vars (sol, xs);
 	y0 = gnm_solver_get_target_value (sol);
@@ -1770,18 +1775,33 @@ gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs)
 	g = g_new (gnm_float, n);
 	for (i = 0; i < n; i++) {
 		gnm_float x0 = xs[i];
-		gnm_float dx;
-		gnm_float y1;
-		gnm_float eps = gnm_pow2 (-25);
+		gnm_float dx, dy;
+		int j;
 
-		if (x0 == 0)
-			dx = eps;
-		else
-			dx = gnm_abs (x0) * eps;
+		/*
+		 * This computes the least-squares fit of an affine function
+		 * based on 2*order equidistant points symmetrically around
+		 * the value we compute the derivative for.
+		 *
+		 * We use an even number of ULPs for the step size.  This
+		 * ensures that the x values are computed without rounding
+		 * error except, potentially, a single step that crosses an
+		 * integer power of 2.
+		 */
+		dx = 16 * (go_add_epsilon (x0) - x0);
+		dy = 0;
+		for (j = -order; j <= order; j++) {
+			gnm_float y;
 
-		gnm_solver_set_var (sol, i, x0 + dx);
-		y1 = gnm_solver_get_target_value (sol);
-		g[i] = (y1 - y0) / dx;
+			if (j == 0)
+				continue;
+
+			gnm_solver_set_var (sol, i, x0 + j * dx);
+			y = gnm_solver_get_target_value (sol);
+			dy += j * (y - y0);
+		}
+		dy /= 2 * (order * (2 * order * order + 3 * order + 1) / 6);
+		g[i] = dy / dx;
 
 		gnm_solver_set_var (sol, i, x0);
 	}
@@ -1841,8 +1861,10 @@ gnm_solver_line_search (GnmSolver *sol,
 	g_return_val_if_fail (step > 0, gnm_nan);
 	g_return_val_if_fail (max_step >= step, gnm_nan);
 
-	if (debug)
+	if (debug) {
 		g_printerr ("LS: step=%" GNM_FORMAT_g ", max=%" GNM_FORMAT_g ", eps=%" GNM_FORMAT_g "\n", step, max_step, eps);
+		print_vector (NULL, dir, sol->input_cells->len);
+	}
 
 	gnm_solver_set_vars (sol, x0);
 	y0 = gnm_solver_get_target_value (sol);
@@ -1853,7 +1875,7 @@ gnm_solver_line_search (GnmSolver *sol,
 		gboolean flat = TRUE;
 
 		y = try_step (sol, x0, dir, s);
-		if (debug)
+		if (0 && debug)
 			g_printerr ("LS0: s:%.6" GNM_FORMAT_g "  y:%.6" GNM_FORMAT_g "\n",
 				    s, y);
 		if (y < y0 && gnm_solver_check_constraints (sol)) {
@@ -1866,9 +1888,9 @@ gnm_solver_line_search (GnmSolver *sol,
 
 		if (try_reverse) {
 			y = try_step (sol, x0, dir, -s);
-		if (debug)
-			g_printerr ("LS0: s:%.6" GNM_FORMAT_g "  y:%.6" GNM_FORMAT_g "\n",
-				    -s, y);
+			if (0 && debug)
+				g_printerr ("LS0: s:%.6" GNM_FORMAT_g "  y:%.6" GNM_FORMAT_g "\n",
+					    -s, y);
 			if (y < y0 && gnm_solver_check_constraints (sol)) {
 				y1 = y;
 				s1 = -s;
@@ -1915,7 +1937,7 @@ gnm_solver_line_search (GnmSolver *sol,
 	 */
 	rbig = TRUE;  /* Initially 3a holds. */
 	while (phase == 2) {
-		if (debug) {
+		if (0 && debug) {
 			gnm_float s01 = s1 - s0;
 			gnm_float s12 = s2 - s1;
 			g_printerr ("LS2: s0:%.6" GNM_FORMAT_g "  s01=%.6" GNM_FORMAT_g "  s12=%.6" GNM_FORMAT_g
@@ -1956,6 +1978,9 @@ gnm_solver_line_search (GnmSolver *sol,
 				break;
 		}
 	}
+
+	if (debug)
+		g_printerr ("LS: step %.6" GNM_FORMAT_g "\n", s1);
 
 	*py = y1;
 	return s1;

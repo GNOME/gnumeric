@@ -64,6 +64,7 @@ typedef struct {
 	GnmExprEntry	    *change_cell_entry;
 	GtkWidget           *max_iter_entry;
 	GtkWidget           *max_time_entry;
+	GtkWidget           *gradient_order_entry;
 	GtkWidget           *solve_button;
 	GtkWidget           *close_button;
 	GtkWidget           *stop_button;
@@ -423,6 +424,8 @@ extract_settings (SolverState *state)
 		(GTK_SPIN_BUTTON (state->max_iter_entry));
 	param->options.max_time_sec = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->max_time_entry));
+	param->options.gradient_order = gtk_spin_button_get_value
+		(GTK_SPIN_BUTTON (state->gradient_order_entry));
 
 	GET_BOOL_ENTRY ("autoscale_button", options.automatic_scaling);
 	GET_BOOL_ENTRY ("non_neg_button", options.assume_non_negative);
@@ -1036,6 +1039,11 @@ dialog_init (SolverState *state)
 						      "max_time_entry");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->max_time_entry),
 				   param->options.max_time_sec);
+
+	state->gradient_order_entry = go_gtk_builder_get_widget (state->gui,
+								 "gradient_order_entry");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->gradient_order_entry),
+				   param->options.gradient_order);
 
 	/* lhs_entry */
 	grid = GTK_GRID (go_gtk_builder_get_widget (state->gui,

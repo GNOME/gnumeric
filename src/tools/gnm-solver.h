@@ -112,6 +112,7 @@ typedef struct {
 	gboolean            program_report;
 	gboolean            add_scenario;
 	gchar               *scenario_name;
+	unsigned            gradient_order;
 } GnmSolverOptions;
 
 #define GNM_SOLVER_PARAMETERS_TYPE   (gnm_solver_param_get_type ())
