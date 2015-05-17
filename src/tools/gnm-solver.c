@@ -1667,6 +1667,56 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 
 	/* ---------------------------------------- */
 
+	if (gnm_solver_has_solution (solver) &&
+	    gnm_debug_flag ("solver-sensitivity")) {
+		unsigned ui;
+		const int N = 500;
+		gnm_float const *xs0 = solver->result->solution;
+
+		if (gnm_solver_debug ()) {
+			gnm_float *g = gnm_solver_compute_gradient (solver, xs0);
+			print_vector ("Computed gradient", g, solver->input_cells->len);
+			g_free (g);
+		}
+
+		gnm_solver_set_vars (solver, xs0);
+
+		for (ui = 0; ui < solver->input_cells->len; ui++) {
+			char *txt;
+			int i, j;
+			gnm_float x0, y0, x, y;
+			GnmCell *cell = g_ptr_array_index (solver->input_cells, ui);
+
+			R++;
+			txt = g_strdup_printf (_("Neighborhood for %s\n"),
+					       cell_name (cell));
+			ADD_HEADER (txt);
+			g_free (txt);
+
+			x0 = xs0[ui];
+			y0 = solver->result->value;
+
+			x = x0;
+			for (i = 0; i < N; i++)
+				for (j = 0; j < 10; j++)
+					x = nextafter (x, gnm_ninf);
+
+			for (i = -N; i <= +N; i++) {
+				gnm_solver_set_var (solver, ui, x);
+				y = gnm_solver_get_target_value (solver);
+
+				add_value_or_special (dao, 1, R, x - x0);
+				add_value_or_special (dao, 2, R, y - y0);
+				R++;
+
+				for (j = 0; j < 10; j++)
+					x = nextafter (x, gnm_pinf);
+			}
+			gnm_solver_set_var (solver, ui, x0);
+		}
+	}
+
+	/* ---------------------------------------- */
 	dao_redraw_respan (dao);
 
 	dao_free (dao);
