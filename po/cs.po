@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-05-06 13:27+0000\n"
-"PO-Revision-Date: 2015-05-07 11:35+0200\n"
+"POT-Creation-Date: 2015-05-16 17:43+0000\n"
+"PO-Revision-Date: 2015-05-17 10:55+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -103,7 +103,7 @@ msgstr "Import tabulek verzí 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7136
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7146
 #: ../plugins/openoffice/openoffice-read.c:13564 ../src/xml-sax-read.c:3395
 msgid "Reading file..."
 msgstr "Načítá se soubor…"
@@ -216,42 +216,42 @@ msgstr "Neplatný obsah prvku ss:data, obdrženo „%s“"
 msgid "XML document not well formed!"
 msgstr "Dokument XML není syntakticky správný!"
 
-#: ../plugins/excel/ms-excel-read.c:1385 ../src/value.c:67
+#: ../plugins/excel/ms-excel-read.c:1368 ../src/value.c:67
 msgid "#UNKNOWN!"
 msgstr "#NEZNÁMÝ!"
 
-#: ../plugins/excel/ms-excel-read.c:1485 ../plugins/excel/ms-excel-read.c:1496
+#: ../plugins/excel/ms-excel-read.c:1468 ../plugins/excel/ms-excel-read.c:1479
 #: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:544
 #, c-format
 msgid "Sheet%d"
 msgstr "List%d"
 
-#: ../plugins/excel/ms-excel-read.c:1500
+#: ../plugins/excel/ms-excel-read.c:1483
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1504
+#: ../plugins/excel/ms-excel-read.c:1487
 #, c-format
 msgid "Chart%d"
 msgstr "Graf%d"
 
-#: ../plugins/excel/ms-excel-read.c:1507
+#: ../plugins/excel/ms-excel-read.c:1490
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: ../plugins/excel/ms-excel-read.c:3682
+#: ../plugins/excel/ms-excel-read.c:3668
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Selhání při zpracování názvu „%s“"
 
-#: ../plugins/excel/ms-excel-read.c:3827
+#: ../plugins/excel/ms-excel-read.c:3828
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Nesprávný výraz pro název „%s“: obsah bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3832
+#: ../plugins/excel/ms-excel-read.c:3833
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -260,7 +260,7 @@ msgstr ""
 "Odkazy DDE nejsou zatím podporovány.\n"
 "Název „%s“ bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3836
+#: ../plugins/excel/ms-excel-read.c:3837
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -269,11 +269,11 @@ msgstr ""
 "Odkazy OLE nejsou zatím podporovány.\n"
 "Název „%s“ bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6271
+#: ../plugins/excel/ms-excel-read.c:6280
 msgid "external references"
 msgstr "externí odkazy"
 
-#: ../plugins/excel/ms-excel-read.c:6310
+#: ../plugins/excel/ms-excel-read.c:6319
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
@@ -362,11 +362,11 @@ msgstr[2] ""
 "Při ukládání bude něco z obsahu ztraceno. Tento formát podporuje pouze %u "
 "řádků a tento sešit jich má %d"
 
-#: ../plugins/excel/ms-excel-write.c:6562
+#: ../plugins/excel/ms-excel-write.c:6567
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepodařilo se otevřít kanál „Book“ (kniha) pro zápis\n"
 
-#: ../plugins/excel/ms-excel-write.c:6584
+#: ../plugins/excel/ms-excel-write.c:6589
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepodařilo se otevřít kanál „Workbook“ (sešit) pro zápis\n"
 
@@ -452,22 +452,22 @@ msgstr "Neplatné číslo „%s“ pro uzel %s"
 msgid "Unknown color '%s'"
 msgstr "Neznámá barva „%s“"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3138
+#: ../plugins/excel/xlsx-read-drawing.c:3151
 msgid "Dropping missing object"
 msgstr "Zahazuje se chybějící objekt"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3141
+#: ../plugins/excel/xlsx-read-drawing.c:3154
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Zahazuje se objekt s neúplnou kotvou %2x"
 
-#: ../plugins/excel/xlsx-read-pivot.c:949
+#: ../plugins/excel/xlsx-read-pivot.c:958
 msgid ""
 "Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "Vyskytly se naráz oba atributy „refreshedDate“ a „refreshedDateIso“."
 
-#: ../plugins/excel/xlsx-read-pivot.c:1277
+#: ../plugins/excel/xlsx-read-pivot.c:1294
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
@@ -548,7 +548,7 @@ msgstr "Neznámá barva %d motivu"
 msgid "Undefined number format id '%s'"
 msgstr "Nedefinované ID formátu čísla „%s“"
 
-#: ../plugins/excel/xlsx-read.c:1223 ../plugins/excel/xlsx-read.c:3229
+#: ../plugins/excel/xlsx-read.c:1223 ../plugins/excel/xlsx-read.c:3311
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Neplatná barva „%s“ pro atribut rgb"
@@ -573,91 +573,91 @@ msgstr "Neplatný odkaz sst „%s“"
 msgid "Invalid cell %s"
 msgstr "Neplatná buňka %s"
 
-#: ../plugins/excel/xlsx-read.c:1585
+#: ../plugins/excel/xlsx-read.c:1601
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 "Ignoruje se informace o sloupci, která neurčuje ani první ani poslední."
 
-#: ../plugins/excel/xlsx-read.c:1720
+#: ../plugins/excel/xlsx-read.c:1738
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr "Papír ze souboru XLSX: %i pt × %i pt"
 
-#: ../plugins/excel/xlsx-read.c:1724
+#: ../plugins/excel/xlsx-read.c:1742
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr "Papír ze souboru XLSX, č. %i"
 
-#: ../plugins/excel/xlsx-read.c:2169
+#: ../plugins/excel/xlsx-read.c:2200
 #: ../plugins/openoffice/openoffice-read.c:2839
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignoruje se kontrola platnosti neplatných dat protože: %s"
 
-#: ../plugins/excel/xlsx-read.c:2654
+#: ../plugins/excel/xlsx-read.c:2723
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignoruje se neobsluhovaný podmíněný formát u typu „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3048
+#: ../plugins/excel/xlsx-read.c:3128
 msgid "Unknown type of hyperlink"
 msgstr "Neznámý typ hypertextového odkazu"
 
-#: ../plugins/excel/xlsx-read.c:3091
+#: ../plugins/excel/xlsx-read.c:3171
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 "Vyskytlo se neintepretovatelné rozšíření „ext“ ve jmenném prostoru „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3098
+#: ../plugins/excel/xlsx-read.c:3180
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 "Vyskytlo se neintepretovatelné rozšíření „ext“ s chybějícím jmenným prostorem"
 
-#: ../plugins/excel/xlsx-read.c:3556
+#: ../plugins/excel/xlsx-read.c:3642
 msgid "Ignoring a sheet without a name"
 msgstr "Ignoruje se list bez názvu"
 
-#: ../plugins/excel/xlsx-read.c:3626
+#: ../plugins/excel/xlsx-read.c:3712
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Selhalo definování názvu: %s"
 
-#: ../plugins/excel/xlsx-read.c:3688
+#: ../plugins/excel/xlsx-read.c:3774
 msgid "Unable to resolve external relationship"
 msgstr "Nelze najít externí vztah"
 
-#: ../plugins/excel/xlsx-read.c:3878
+#: ../plugins/excel/xlsx-read.c:3967
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Schází part-id pro list „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3903
+#: ../plugins/excel/xlsx-read.c:3992
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Načítá se list „%s“…"
 
-#: ../plugins/excel/xlsx-read.c:3911
+#: ../plugins/excel/xlsx-read.c:4000
 msgid "Reading comments..."
 msgstr "Načítají se komentáře…"
 
-#: ../plugins/excel/xlsx-read.c:5018
+#: ../plugins/excel/xlsx-read.c:5128
 msgid "Reading shared strings..."
 msgstr "Načítají se sdílené texty…"
 
-#: ../plugins/excel/xlsx-read.c:5027
+#: ../plugins/excel/xlsx-read.c:5137
 msgid "Reading theme..."
 msgstr "Načítá se motiv…"
 
-#: ../plugins/excel/xlsx-read.c:5036
+#: ../plugins/excel/xlsx-read.c:5146
 msgid "Reading styles..."
 msgstr "Načítají se styly…"
 
-#: ../plugins/excel/xlsx-read.c:5041
+#: ../plugins/excel/xlsx-read.c:5151
 msgid "Reading workbook..."
 msgstr "Načítá se sešit…"
 
-#: ../plugins/excel/xlsx-read.c:5051
+#: ../plugins/excel/xlsx-read.c:5161
 msgid "No workbook stream found."
 msgstr "Nebyl nalezen žádný proud pro sešit."
 
@@ -940,7 +940,7 @@ msgstr "%s verze %s"
 
 #: ../plugins/fn-info/functions.c:1406 ../src/dialogs/dialog-cell-format.c:876
 #: ../src/dialogs/dialog-cell-format.c:2350
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk.c:3391
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk.c:3392
 msgid "Automatic"
 msgstr "Automaticky"
 
@@ -1123,12 +1123,12 @@ msgstr "Databázové funkce pro získávání dat z databází."
 msgid "Data Bases..."
 msgstr "Databáze…"
 
-#: ../plugins/glpk/glpk-write.c:144 ../plugins/lpsolve/lpsolve-write.c:146
+#: ../plugins/glpk/glpk-write.c:143 ../plugins/lpsolve/lpsolve-write.c:145
 #, c-format
 msgid "Only linear programs are handled."
 msgstr "Zpracovávány jsou jen lineární programy."
 
-#: ../plugins/glpk/glpk-write.c:331
+#: ../plugins/glpk/glpk-write.c:329
 msgid "Writing glpk file..."
 msgstr "Zapisuje se soubor glpk…"
 
@@ -1277,7 +1277,7 @@ msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 msgid "The LPSolve exporter is not available."
 msgstr "Nástroj na export LPSolve není dostupný."
 
-#: ../plugins/lpsolve/lpsolve-write.c:316
+#: ../plugins/lpsolve/lpsolve-write.c:314
 msgid "Writing lpsolve file..."
 msgstr "Zapisuje se soubor lpsolve…"
 
@@ -1354,17 +1354,17 @@ msgstr "Omezení"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1509
-#: ../src/tools/gnm-solver.c:1557 ../src/tools/gnm-solver.c:1606
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1510
+#: ../src/tools/gnm-solver.c:1555 ../src/tools/gnm-solver.c:1599
 msgid "Value"
 msgstr "Hodnota"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1510
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1511
 msgid "Type"
 msgstr "Typ"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1607
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1600
 msgid "Limit"
 msgstr "Limit"
 
@@ -1392,12 +1392,12 @@ msgstr "Načítá programy LP uložené ve formátu MPS (*.mps)"
 msgid "Linear and integer program (*.mps) file format"
 msgstr "Formát souboru pro lineární a celočíselné programy (*.mps)"
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:88
+#: ../plugins/nlsolve/gnm-nlsolve.c:100
 #, c-format
 msgid "This solver does not handle discrete variables."
 msgstr "Tento řešitel nezpracovává diskrétní proměnné."
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:95
+#: ../plugins/nlsolve/gnm-nlsolve.c:107
 #, c-format
 msgid "This solver does not handle equality constraints."
 msgstr "Tento řešitel nezpracovává omezení rovností."
@@ -5726,13 +5726,13 @@ msgstr "Formát buněk"
 msgid "Border"
 msgstr "Ohraničení"
 
-#: ../src/dialogs/dialog-cell-format.c:2354 ../src/wbc-gtk.c:3438
+#: ../src/dialogs/dialog-cell-format.c:2354 ../src/wbc-gtk.c:3439
 msgid "Clear Background"
 msgstr "Vymazat pozadí"
 
 #: ../src/dialogs/dialog-cell-format.c:2354
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
-#: ../src/wbc-gtk.c:3440 ../src/wbc-gtk.c:3441
+#: ../src/wbc-gtk.c:3441 ../src/wbc-gtk.c:3442
 msgid "Background"
 msgstr "Pozadí"
 
@@ -6357,8 +6357,8 @@ msgstr "List"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2255 ../src/tools/gnm-solver.c:1508
-#: ../src/tools/gnm-solver.c:1556
+#: ../src/sheet-control-gui.c:2255 ../src/tools/gnm-solver.c:1509
+#: ../src/tools/gnm-solver.c:1554
 msgid "Cell"
 msgstr "Buňka"
 
@@ -7273,16 +7273,16 @@ msgid "Run on"
 msgstr "Běžet na"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4686
+#: ../src/wbc-gtk.c:4687
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4688
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4689
 msgid "Average"
 msgstr "Průměr"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4687
+#: ../src/wbc-gtk.c:4688
 msgid "Max"
 msgstr "Max"
 
@@ -7316,7 +7316,7 @@ msgstr "Hrot"
 msgid "Tail"
 msgstr "Ocas"
 
-#: ../src/dialogs/dialog-solver.c:356
+#: ../src/dialogs/dialog-solver.c:357
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a "
 "solver for Gnumeric?"
@@ -7324,75 +7324,75 @@ msgstr ""
 "Hledáte téma pro svoji diplomovou práce? Možná byste rád napsal řešitele pro "
 "Gnumeric?"
 
-#: ../src/dialogs/dialog-solver.c:453
+#: ../src/dialogs/dialog-solver.c:456
 msgid "Changing solver parameters"
 msgstr "Změna parametrů řešitele"
 
-#: ../src/dialogs/dialog-solver.c:547 ../src/tools/gnm-solver.c:1535
+#: ../src/dialogs/dialog-solver.c:550 ../src/tools/gnm-solver.c:1536
 msgid "Feasible"
 msgstr "Přijatelné"
 
-#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1538
+#: ../src/dialogs/dialog-solver.c:554 ../src/tools/gnm-solver.c:1539
 msgid "Optimal"
 msgstr "Optimální"
 
-#: ../src/dialogs/dialog-solver.c:555
+#: ../src/dialogs/dialog-solver.c:558
 msgid "Infeasible"
 msgstr "Neproveditelné"
 
-#: ../src/dialogs/dialog-solver.c:559
+#: ../src/dialogs/dialog-solver.c:562
 msgid "Unbounded"
 msgstr "Neomezené"
 
-#: ../src/dialogs/dialog-solver.c:589
+#: ../src/dialogs/dialog-solver.c:592
 msgid "Ready"
 msgstr "Přichystán"
 
-#: ../src/dialogs/dialog-solver.c:592
+#: ../src/dialogs/dialog-solver.c:595
 msgid "Preparing"
 msgstr "Připravuje se"
 
-#: ../src/dialogs/dialog-solver.c:595
+#: ../src/dialogs/dialog-solver.c:598
 msgid "Prepared"
 msgstr "Připraveno"
 
-#: ../src/dialogs/dialog-solver.c:598
+#: ../src/dialogs/dialog-solver.c:601
 msgid "Running"
 msgstr "Běží"
 
-#: ../src/dialogs/dialog-solver.c:602
+#: ../src/dialogs/dialog-solver.c:605
 msgid "Done"
 msgstr "Dokončeno"
 
-#: ../src/dialogs/dialog-solver.c:606 ../src/gui-util.c:1050
+#: ../src/dialogs/dialog-solver.c:609 ../src/gui-util.c:1050
 msgid "Error"
 msgstr "Chyba"
 
-#: ../src/dialogs/dialog-solver.c:609
+#: ../src/dialogs/dialog-solver.c:612
 msgid "Cancelled"
 msgstr "Zrušeno"
 
-#: ../src/dialogs/dialog-solver.c:708
+#: ../src/dialogs/dialog-solver.c:711
 msgid "The chosen solver is not functional."
 msgstr "Vybraný řešitel není funkční."
 
-#: ../src/dialogs/dialog-solver.c:797
+#: ../src/dialogs/dialog-solver.c:800
 msgid "Running solver"
 msgstr "Řešitel běží"
 
-#: ../src/dialogs/dialog-solver.c:834
+#: ../src/dialogs/dialog-solver.c:837
 msgid "Optimal solution created by solver.\n"
 msgstr "Řešitel nalezl optimální řešení.\n"
 
-#: ../src/dialogs/dialog-solver.c:838
+#: ../src/dialogs/dialog-solver.c:841
 msgid "Feasible solution created by solver.\n"
 msgstr "Řešitel nalezl přijatelné řešení.\n"
 
-#: ../src/dialogs/dialog-solver.c:1102
+#: ../src/dialogs/dialog-solver.c:1110
 msgid "Subject to the Constraints:"
 msgstr "Omezení použít pro:"
 
-#: ../src/dialogs/dialog-solver.c:1260
+#: ../src/dialogs/dialog-solver.c:1268
 msgid "Could not create the Solver dialog."
 msgstr "Nelze vytvořit dialogové okno Řešitel."
 
@@ -7750,7 +7750,7 @@ msgstr "_Alfa:"
 #: ../src/dialogs/random-generation-cor.ui.h:7
 #: ../src/dialogs/random-generation.ui.h:7 ../src/dialogs/rank.ui.h:14
 #: ../src/dialogs/scenario-manager.ui.h:11 ../src/dialogs/simulation.ui.h:11
-#: ../src/dialogs/solver.ui.h:30
+#: ../src/dialogs/solver.ui.h:34
 msgid "Options"
 msgstr "Volby"
 
@@ -7849,7 +7849,7 @@ msgid "Top"
 msgstr "Nahoře"
 
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:44
-#: ../src/wbc-gtk.c:3135
+#: ../src/wbc-gtk.c:3136
 msgid "Bottom"
 msgstr "Dole"
 
@@ -8160,12 +8160,12 @@ msgstr "Uhlopřičně"
 
 #. start sub menu
 #: ../src/dialogs/cell-format.ui.h:42 ../src/sheet-control-gui.c:2235
-#: ../src/wbc-gtk.c:3127
+#: ../src/wbc-gtk.c:3128
 msgid "Left"
 msgstr "Vlevo"
 
 #: ../src/dialogs/cell-format.ui.h:43 ../src/sheet-control-gui.c:2238
-#: ../src/wbc-gtk.c:3129
+#: ../src/wbc-gtk.c:3130
 msgid "Right"
 msgstr "Vpravo"
 
@@ -9203,8 +9203,8 @@ msgstr "Ořezat:"
 msgid "Source Locale:"
 msgstr "Národní prostředí zdroje:"
 
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:3089
-#: ../src/wbc-gtk.c:3108
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:3090
+#: ../src/wbc-gtk.c:3109
 msgid "Zoom"
 msgstr "Přiblížit"
 
@@ -11333,7 +11333,7 @@ msgstr "Vstupní proměnné:"
 msgid "Output variables:"
 msgstr "Výstupní proměnné:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1554
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1552
 msgid "Variables"
 msgstr "Proměnné"
 
@@ -11532,7 +11532,7 @@ msgid "Re_place"
 msgstr "Na_hradit"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1602
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1595
 msgid "Constraints"
 msgstr "Omezení"
 
@@ -11545,50 +11545,71 @@ msgid "Max _Time (sec.):"
 msgstr "Ma_x čas (sekundy):"
 
 #: ../src/dialogs/solver.ui.h:29
+msgid "The maximum number of steps allowed for the solver"
+msgstr "Maximální počet kroků povolený v řešiteli"
+
+#: ../src/dialogs/solver.ui.h:30
+msgid "The maximum time allowed for the solver"
+msgstr "Maximální čas povolený v řešiteli"
+
+#: ../src/dialogs/solver.ui.h:31
 msgid "Automatic _Scaling"
 msgstr "Automatické š_kálování"
 
-#: ../src/dialogs/solver.ui.h:31
+#: ../src/dialogs/solver.ui.h:32
+#| msgid "Set Borders"
+msgid "Gradient order:"
+msgstr "Pořadí v gradientu:"
+
+#: ../src/dialogs/solver.ui.h:33
+msgid ""
+"The number of data points used on each side when doing numerical "
+"differentiation"
+msgstr ""
+"Počet datových bodů použitých na každé straně, když se provádí numerická "
+"derivace"
+
+#: ../src/dialogs/solver.ui.h:35
 msgid "P_rogram"
 msgstr "P_rogram"
 
-#: ../src/dialogs/solver.ui.h:32
+#: ../src/dialogs/solver.ui.h:36
 msgid "Reports"
 msgstr "Výstupní sestavy"
 
-#: ../src/dialogs/solver.ui.h:33
+#: ../src/dialogs/solver.ui.h:37
 msgid "_Do not create scenarios"
 msgstr "_Nevytvářet scénáře"
 
-#: ../src/dialogs/solver.ui.h:34
+#: ../src/dialogs/solver.ui.h:38
 msgid "_Create a scenario if the optimal solution is found"
 msgstr "_Vytvořit scénář, je-li nalezeno optimální řešení"
 
-#: ../src/dialogs/solver.ui.h:35
+#: ../src/dialogs/solver.ui.h:39
 msgid "_Name: "
 msgstr "_Název:"
 
-#: ../src/dialogs/solver.ui.h:36
+#: ../src/dialogs/solver.ui.h:40
 msgid "Scenarios"
 msgstr "Scénáře"
 
-#: ../src/dialogs/solver.ui.h:37
+#: ../src/dialogs/solver.ui.h:41
 msgid "Solver Status:"
 msgstr "Stav řešitele:"
 
-#: ../src/dialogs/solver.ui.h:38
+#: ../src/dialogs/solver.ui.h:42
 msgid "Problem Status:"
 msgstr "Stav problému:"
 
-#: ../src/dialogs/solver.ui.h:39
+#: ../src/dialogs/solver.ui.h:43
 msgid "Objective Value:"
 msgstr "Cílová hodnota:"
 
-#: ../src/dialogs/solver.ui.h:40
+#: ../src/dialogs/solver.ui.h:44
 msgid "Elapsed Time:"
 msgstr "Uplynulý čas:"
 
-#: ../src/dialogs/solver.ui.h:41
+#: ../src/dialogs/solver.ui.h:45
 msgid "Results"
 msgstr "Výsledky"
 
@@ -12081,7 +12102,7 @@ msgstr "Vlastnosti vyplněného objektu"
 msgid "Line/Arrow Properties"
 msgstr "Vlastnosti čáry/šipky"
 
-#: ../src/gnm-so-polygon.c:169
+#: ../src/gnm-so-polygon.c:161
 msgid "Polygon Properties"
 msgstr "Vlastnosti mnohoúhelníku"
 
@@ -13043,7 +13064,7 @@ msgid "Print"
 msgstr "Tisk"
 
 #: ../src/sheet-object-component.c:185 ../src/sheet-object-graph.c:289
-#: ../src/sheet-object-image.c:283
+#: ../src/sheet-object-image.c:274
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr "Neznámá chyba při ukládání obrázku"
@@ -13053,7 +13074,7 @@ msgid "Save as"
 msgstr "Uložení jako"
 
 #: ../src/sheet-object-component.c:271 ../src/sheet-object-graph.c:400
-#: ../src/sheet-object-image.c:338
+#: ../src/sheet-object-image.c:329
 msgid "_Save As Image"
 msgstr "_Uložit jako obrázek"
 
@@ -13938,12 +13959,12 @@ msgstr "/Frekvenční tabulka/Kategorie"
 msgid "Area %d"
 msgstr "Oblast %d"
 
-#: ../src/tools/analysis-frequency.c:270
+#: ../src/tools/analysis-frequency.c:271
 #, c-format
 msgid "Frequency Table (%s)"
 msgstr "Frekvenční tabulka (%s)"
 
-#: ../src/tools/analysis-frequency.c:289 ../src/tools/analysis-frequency.c:292
+#: ../src/tools/analysis-frequency.c:290 ../src/tools/analysis-frequency.c:293
 msgid "Frequency Table"
 msgstr "Frekvenční tabulka"
 
@@ -14604,105 +14625,105 @@ msgstr "/Pokročilý filtr:/Zdrojová oblast:/Oblast kritérií:"
 msgid "Advanced Filter (%s)"
 msgstr "Pokročilý filtr (%s)"
 
-#: ../src/tools/gnm-solver.c:597
+#: ../src/tools/gnm-solver.c:590
 #, c-format
 msgid "Invalid solver target"
 msgstr "Neplatná cílová oblast řešitele"
 
-#: ../src/tools/gnm-solver.c:609
+#: ../src/tools/gnm-solver.c:602
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "Cílová buňka, %s, musí obsahovat vzorec, jehož výsledkem je číslo"
 
-#: ../src/tools/gnm-solver.c:619
+#: ../src/tools/gnm-solver.c:612
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Neplatná vstupní oblast řešitele"
 
-#: ../src/tools/gnm-solver.c:630
+#: ../src/tools/gnm-solver.c:623
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Vstupní buňka %s obsahuje vzorec"
 
-#: ../src/tools/gnm-solver.c:645
+#: ../src/tools/gnm-solver.c:638
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Omezení č. %d v řešiteli je neplatné"
 
-#: ../src/tools/gnm-solver.c:1057
+#: ../src/tools/gnm-solver.c:1022
 msgid "Timeout"
 msgstr "Časový limit"
 
-#: ../src/tools/gnm-solver.c:1266
+#: ../src/tools/gnm-solver.c:1231
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Selhalo vytvoření souboru pro lineární program"
 
-#: ../src/tools/gnm-solver.c:1275
+#: ../src/tools/gnm-solver.c:1240
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Selhalo vytvoření souboru lineárního programu"
 
-#: ../src/tools/gnm-solver.c:1295
+#: ../src/tools/gnm-solver.c:1260
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Selhalo uložení lineárního programu"
 
-#: ../src/tools/gnm-solver.c:1507
+#: ../src/tools/gnm-solver.c:1508
 msgid "Target"
 msgstr "Cíl"
 
-#: ../src/tools/gnm-solver.c:1511
+#: ../src/tools/gnm-solver.c:1512
 msgid "Status"
 msgstr "Stav"
 
-#: ../src/tools/gnm-solver.c:1524
+#: ../src/tools/gnm-solver.c:1525
 msgid "Minimize"
 msgstr "Minimalizace"
 
-#: ../src/tools/gnm-solver.c:1527
+#: ../src/tools/gnm-solver.c:1528
 msgid "Maximize"
 msgstr "Maximalizace"
 
-#: ../src/tools/gnm-solver.c:1558
+#: ../src/tools/gnm-solver.c:1556
 msgid "Lower"
 msgstr "Dolní"
 
-#: ../src/tools/gnm-solver.c:1559
+#: ../src/tools/gnm-solver.c:1557
 msgid "Upper"
 msgstr "Horní"
 
-#: ../src/tools/gnm-solver.c:1560 ../src/tools/gnm-solver.c:1608
+#: ../src/tools/gnm-solver.c:1558 ../src/tools/gnm-solver.c:1601
 msgid "Slack"
 msgstr "Volné"
 
-#: ../src/tools/gnm-solver.c:1584
+#: ../src/tools/gnm-solver.c:1580
 msgid "At limit"
 msgstr "V limitu"
 
-#: ../src/tools/gnm-solver.c:1587
+#: ../src/tools/gnm-solver.c:1583
 msgid "Outside bounds"
 msgstr "Mimo omezení"
 
-#: ../src/tools/gnm-solver.c:1605
+#: ../src/tools/gnm-solver.c:1598
 msgid "Condition"
 msgstr "Podmínka"
 
-#: ../src/tools/gnm-solver.c:1610
+#: ../src/tools/gnm-solver.c:1603
 msgid "No constraints"
 msgstr "Bez omezení"
 
-#: ../src/tools/gnm-solver.c:2104
+#: ../src/tools/gnm-solver.c:2106
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "Cílová buňka nebyla vyhodnocena jako číslo."
 
-#: ../src/tools/gnm-solver.c:2112
+#: ../src/tools/gnm-solver.c:2114
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr "Nezdá se, že by cílová buňka lineárně závisela na vstupních buňkách."
 
-#: ../src/tools/gnm-solver.c:2523
+#: ../src/tools/gnm-solver.c:2525
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14715,22 +14736,22 @@ msgstr ""
 "\n"
 "Přejete si jej najít sami?"
 
-#: ../src/tools/gnm-solver.c:2527
+#: ../src/tools/gnm-solver.c:2529
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Nelze najít „%s“"
 
-#: ../src/tools/gnm-solver.c:2543
+#: ../src/tools/gnm-solver.c:2545
 #, c-format
 msgid "Locate the %s program"
 msgstr "Vyhledání programu %s"
 
-#: ../src/tools/gnm-solver.c:2889
+#: ../src/tools/gnm-solver.c:2936
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Výchozí hodnoty nesplňují omezení."
 
-#: ../src/tools/gnm-solver.c:2980
+#: ../src/tools/gnm-solver.c:3027
 msgid "Iteration limit exceeded"
 msgstr "Dosažen limit iterací"
 
@@ -14838,7 +14859,7 @@ msgstr "Strmost"
 msgid "Range"
 msgstr "Interval"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4689
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4690
 msgid "Count"
 msgstr "Počet"
 
@@ -14932,56 +14953,56 @@ msgstr "Větší nebo rovno"
 msgid "Less than or Equal"
 msgstr "Menší nebo rovno"
 
-#: ../src/validation.c:439
+#: ../src/validation.c:438
 #, c-format
 msgid "Missing formula for validation"
 msgstr "Schází vzorec pro ověření"
 
-#: ../src/validation.c:442
+#: ../src/validation.c:441
 #, c-format
 msgid "Extra formula for validation"
 msgstr "Dodatečný vzorec pro ověření"
 
-#: ../src/validation.c:453
+#: ../src/validation.c:452
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Ověření"
 
-#: ../src/validation.c:516
+#: ../src/validation.c:515
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Buňka %s nesmí být prázdná"
 
-#: ../src/validation.c:524
+#: ../src/validation.c:523
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "Buňka %s nesmí obsahovat chybovou hodnotu"
 
-#: ../src/validation.c:535
+#: ../src/validation.c:534
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "Buňka %s nesmí obsahovat text"
 
-#: ../src/validation.c:551
+#: ../src/validation.c:550
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "„%s“ není celé číslo"
 
-#: ../src/validation.c:561
+#: ../src/validation.c:560
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "„%s“ není platné datum"
 
-#: ../src/validation.c:585
+#: ../src/validation.c:584
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s neobsahuje novou hodnotu."
 
-#: ../src/validation.c:621
+#: ../src/validation.c:620
 #, c-format
 msgid "%s is not true."
 msgstr "%s není pravda."
 
-#: ../src/validation.c:660
+#: ../src/validation.c:659
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s je mimo povolený rozsah"
@@ -16633,7 +16654,7 @@ msgid "Adjust a data slicer"
 msgstr "Přizpůsobit datový průřez"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2667 ../src/wbc-gtk.c:4685
+#: ../src/wbc-gtk-actions.c:2667 ../src/wbc-gtk.c:4686
 #: ../src/workbook-view.c:1033
 msgid "Sum"
 msgstr "Součet"
@@ -17349,81 +17370,81 @@ msgstr "Zaho_dit"
 msgid "_Accept"
 msgstr "_Přijmout"
 
-#: ../src/wbc-gtk.c:3087
+#: ../src/wbc-gtk.c:3088
 msgid "_Zoom"
 msgstr "_Přiblížit"
 
-#: ../src/wbc-gtk.c:3128
+#: ../src/wbc-gtk.c:3129
 msgid "Clear Borders"
 msgstr "Vymazat ohraničení"
 
-#: ../src/wbc-gtk.c:3131
+#: ../src/wbc-gtk.c:3132
 msgid "All Borders"
 msgstr "Všechno ohraničení"
 
-#: ../src/wbc-gtk.c:3132
+#: ../src/wbc-gtk.c:3133
 msgid "Outside Borders"
 msgstr "Vnější ohraničení"
 
-#: ../src/wbc-gtk.c:3133
+#: ../src/wbc-gtk.c:3134
 msgid "Thick Outside Borders"
 msgstr "Tučné vnější ohraničení"
 
-#: ../src/wbc-gtk.c:3136
+#: ../src/wbc-gtk.c:3137
 msgid "Double Bottom"
 msgstr "Dvojité dole"
 
-#: ../src/wbc-gtk.c:3137
+#: ../src/wbc-gtk.c:3138
 msgid "Thick Bottom"
 msgstr "Tučné dole"
 
-#: ../src/wbc-gtk.c:3139
+#: ../src/wbc-gtk.c:3140
 msgid "Top and Bottom"
 msgstr "Nahoře a dole"
 
-#: ../src/wbc-gtk.c:3140
+#: ../src/wbc-gtk.c:3141
 msgid "Top and Double Bottom"
 msgstr "Nahoře a dvojité dole"
 
-#: ../src/wbc-gtk.c:3141
+#: ../src/wbc-gtk.c:3142
 msgid "Top and Thick Bottom"
 msgstr "Nahoře a tučné dole"
 
-#: ../src/wbc-gtk.c:3226
+#: ../src/wbc-gtk.c:3227
 msgid "Set Borders"
 msgstr "Nastavit ohraničení"
 
-#: ../src/wbc-gtk.c:3234 ../src/wbc-gtk.c:3235
+#: ../src/wbc-gtk.c:3235 ../src/wbc-gtk.c:3236
 msgid "Borders"
 msgstr "Ohraničení"
 
-#: ../src/wbc-gtk.c:3341
+#: ../src/wbc-gtk.c:3342
 msgid "Redo the undone action"
 msgstr "Znovu vykonat vrácenou akci"
 
-#: ../src/wbc-gtk.c:3346
+#: ../src/wbc-gtk.c:3347
 msgid "Undo the last action"
 msgstr "Vrátit zpět poslední akci"
 
-#: ../src/wbc-gtk.c:3380
+#: ../src/wbc-gtk.c:3381
 msgid "Set Foreground Color"
 msgstr "Nastavit barvu popředí"
 
-#: ../src/wbc-gtk.c:3394 ../src/wbc-gtk.c:3395
+#: ../src/wbc-gtk.c:3395 ../src/wbc-gtk.c:3396
 msgid "Foreground"
 msgstr "Popředí"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:3431
+#: ../src/wbc-gtk.c:3432
 msgid "Set Background Color"
 msgstr "Nastavit barvu pozadí"
 
-#: ../src/wbc-gtk.c:3616
+#: ../src/wbc-gtk.c:3617
 #, c-format
 msgid "Setting Font %s"
 msgstr "Nastavení písma %s"
 
-#: ../src/wbc-gtk.c:3694
+#: ../src/wbc-gtk.c:3695
 msgid "Change font"
 msgstr "Změnit písmo"
 
@@ -17433,62 +17454,62 @@ msgstr "Změnit písmo"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3896
+#: ../src/wbc-gtk.c:3897
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "V nabídce „%s“ se klávesa „%s“ používá pro „%s“ i „%s“."
 
-#: ../src/wbc-gtk.c:4219
+#: ../src/wbc-gtk.c:4220
 msgid "Display above sheets"
 msgstr "Zobrazit nad listy"
 
-#: ../src/wbc-gtk.c:4220
+#: ../src/wbc-gtk.c:4221
 msgid "Display to the left of sheets"
 msgstr "Zobrazit nalevo od listů"
 
-#: ../src/wbc-gtk.c:4221
+#: ../src/wbc-gtk.c:4222
 msgid "Display to the right of sheets"
 msgstr "Zobrazit napravo od listů"
 
-#: ../src/wbc-gtk.c:4250
+#: ../src/wbc-gtk.c:4251
 msgid "Hide"
 msgstr "Skrýt"
 
-#: ../src/wbc-gtk.c:4316
+#: ../src/wbc-gtk.c:4317
 msgid "Standard Toolbar"
 msgstr "Lišta nástrojů Standardní"
 
-#: ../src/wbc-gtk.c:4317
+#: ../src/wbc-gtk.c:4318
 msgid "Format Toolbar"
 msgstr "Lišta nástrojů Formát"
 
-#: ../src/wbc-gtk.c:4318
+#: ../src/wbc-gtk.c:4319
 msgid "Object Toolbar"
 msgstr "Lišta nástrojů Objekt"
 
-#: ../src/wbc-gtk.c:4332
+#: ../src/wbc-gtk.c:4333
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Zobrazit/skrýt lištu nástrojů %s"
 
-#: ../src/wbc-gtk.c:4746
+#: ../src/wbc-gtk.c:4747
 #, c-format
 msgid "Content of %s"
 msgstr "Obsah buňky %s"
 
-#: ../src/wbc-gtk.c:4761
+#: ../src/wbc-gtk.c:4762
 msgid "Use Maximum Precision"
 msgstr "Používat maximální přesnost"
 
-#: ../src/wbc-gtk.c:4773
+#: ../src/wbc-gtk.c:4774
 msgid "Insert Formula Below"
 msgstr "Vložit vzorec pod."
 
-#: ../src/wbc-gtk.c:4779
+#: ../src/wbc-gtk.c:4780
 msgid "Insert Formula to Side"
 msgstr "Vložit vzorec vedle."
 
-#: ../src/wbc-gtk.c:4862
+#: ../src/wbc-gtk.c:4863
 #, c-format
 msgid "Open %s"
 msgstr "Otevřít %s"
