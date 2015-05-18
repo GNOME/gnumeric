@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-05-16 17:43+0000\n"
-"PO-Revision-Date: 2015-05-17 10:55+0200\n"
+"POT-Creation-Date: 2015-05-17 20:03+0000\n"
+"PO-Revision-Date: 2015-05-18 11:43+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -11557,7 +11557,6 @@ msgid "Automatic _Scaling"
 msgstr "Automatické š_kálování"
 
 #: ../src/dialogs/solver.ui.h:32
-#| msgid "Set Borders"
 msgid "Gradient order:"
 msgstr "Pořadí v gradientu:"
 
@@ -14713,17 +14712,22 @@ msgstr "Podmínka"
 msgid "No constraints"
 msgstr "Bez omezení"
 
-#: ../src/tools/gnm-solver.c:2106
+#: ../src/tools/gnm-solver.c:1691
+#, c-format
+msgid "Neighborhood for %s\n"
+msgstr "Sousedství pro %s\n"
+
+#: ../src/tools/gnm-solver.c:2156
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "Cílová buňka nebyla vyhodnocena jako číslo."
 
-#: ../src/tools/gnm-solver.c:2114
+#: ../src/tools/gnm-solver.c:2164
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr "Nezdá se, že by cílová buňka lineárně závisela na vstupních buňkách."
 
-#: ../src/tools/gnm-solver.c:2525
+#: ../src/tools/gnm-solver.c:2575
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14736,22 +14740,22 @@ msgstr ""
 "\n"
 "Přejete si jej najít sami?"
 
-#: ../src/tools/gnm-solver.c:2529
+#: ../src/tools/gnm-solver.c:2579
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Nelze najít „%s“"
 
-#: ../src/tools/gnm-solver.c:2545
+#: ../src/tools/gnm-solver.c:2595
 #, c-format
 msgid "Locate the %s program"
 msgstr "Vyhledání programu %s"
 
-#: ../src/tools/gnm-solver.c:2936
+#: ../src/tools/gnm-solver.c:2986
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Výchozí hodnoty nesplňují omezení."
 
-#: ../src/tools/gnm-solver.c:3027
+#: ../src/tools/gnm-solver.c:3077
 msgid "Iteration limit exceeded"
 msgstr "Dosažen limit iterací"
 
