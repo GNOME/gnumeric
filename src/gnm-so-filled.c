@@ -323,6 +323,7 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 		cairo_new_path (cr);
 		cairo_restore (cr);
 		g_object_unref (pl);
+		pango_font_description_free (desc);
 	}
 }
 
