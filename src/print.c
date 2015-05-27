@@ -821,8 +821,7 @@ compute_scale_fit_to (Sheet const *sheet,
 	/* We first calculate the max percentage needed */
 
 	max_p = (pages * usable)/(extent + pages * header);
-	if (max_p > max_percent)
-		max_p = max_percent;
+	max_p = CLAMP (max_p, 0.01, max_percent);
 
 	max_pages = paginate (NULL, sheet, start, end, usable/max_p - header,
 			      repeat, repeat_start, repeat_end,
@@ -834,8 +833,7 @@ compute_scale_fit_to (Sheet const *sheet,
 	/* The we calculate the min percentage */
 
 	min_p = usable/(extent + header);
-	if (min_p > max_percent)
-		min_p = max_percent;
+	min_p = CLAMP (min_p, 0.01, max_percent);
 
 	paginate (NULL, sheet, start, end, usable/min_p - header,
 		  repeat, repeat_start, repeat_end,

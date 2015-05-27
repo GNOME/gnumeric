@@ -1,5 +1,8 @@
 2015-05-27  Morten Welinder  <terra@gnome.org>
 
+	* src/print.c (compute_scale_fit_to): Attempt a workaround for fp
+	division by zero.  Fixes #749917.
+
 	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): Plug leak.
 
 2015-05-16  Jean Brefort  <jean.brefort@normalesup.org>
