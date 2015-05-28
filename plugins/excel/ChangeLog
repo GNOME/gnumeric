@@ -1,3 +1,7 @@
+2015-05-28  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (xls_read_range32): Clamp to sane dimensions.
+
 2015-05-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_formula_shared): Catch duplicate shared

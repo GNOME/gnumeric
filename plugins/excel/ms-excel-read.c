@@ -4803,6 +4803,12 @@ xls_read_range32 (GnmRange *r, guint8 const *data)
 	r->end.row	= GSF_LE_GET_GUINT32 (data + 4);
 	r->start.col	= GSF_LE_GET_GUINT16 (data + 8);
 	r->end.col	= GSF_LE_GET_GUINT16 (data + 10);
+
+	r->start.row = CLAMP (r->start.row, 0, GNM_MAX_ROWS - 1);
+	r->end.row = CLAMP (r->end.row, 0, GNM_MAX_ROWS - 1);
+	r->start.col = CLAMP (r->start.col, 0, GNM_MAX_COLS - 1);
+	r->end.col = CLAMP (r->end.col, 0, GNM_MAX_COLS - 1);
+
 	d (4, range_dump (r, ";\n"););
 }
 
@@ -4813,6 +4819,12 @@ xls_read_range16 (GnmRange *r, guint8 const *data)
 	r->end.row	= GSF_LE_GET_GUINT16 (data + 2);
 	r->start.col	= GSF_LE_GET_GUINT16 (data + 4);
 	r->end.col	= GSF_LE_GET_GUINT16 (data + 6);
+
+	r->start.row = CLAMP (r->start.row, 0, GNM_MAX_ROWS - 1);
+	r->end.row = CLAMP (r->end.row, 0, GNM_MAX_ROWS - 1);
+	r->start.col = CLAMP (r->start.col, 0, GNM_MAX_COLS - 1);
+	r->end.col = CLAMP (r->end.col, 0, GNM_MAX_COLS - 1);
+
 	d (4, range_dump (r, ";\n"););
 }
 
