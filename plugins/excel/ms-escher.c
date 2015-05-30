@@ -368,47 +368,50 @@ ms_escher_read_BSE (MSEscherState *state, MSEscherHeader *h)
 	gboolean needs_free;
 	guint8 const * data = ms_escher_get_data (state,
 		h->offset + COMMON_HEADER_LEN, 36, &needs_free);
-	guint8 const  win_type	= GSF_LE_GET_GUINT8  (data + 0);
-	guint8 const  mac_type	= GSF_LE_GET_GUINT8  (data + 1);
-	/*guint16 const tag	= GSF_LE_GET_GUINT16 (data + 18);*/
-	guint32 const size	= GSF_LE_GET_GUINT32 (data + 20);
-	guint32 const ref_count	= GSF_LE_GET_GUINT32 (data + 24);
-	gint32 const del_offset	= GSF_LE_GET_GUINT32 (data + 28);
-	guint8 const is_texture	= GSF_LE_GET_GUINT8  (data + 32);
-	guint8 const name_len	= GSF_LE_GET_GUINT8  (data + 33);
-	guint8 checksum[16]; /* RSA Data Security, Inc. MD4 Message-Digest Algorithm */
-	char const *name = "unknown";
-	int i;
-	for (i = 16; i-- > 0;)
-		checksum[i] = GSF_LE_GET_GUINT8 (data + 2 + i);
+	if (data != NULL) {
+		guint8 const  win_type	= GSF_LE_GET_GUINT8  (data + 0);
+		guint8 const  mac_type	= GSF_LE_GET_GUINT8  (data + 1);
+		/*guint16 const tag	= GSF_LE_GET_GUINT16 (data + 18);*/
+		guint32 const size	= GSF_LE_GET_GUINT32 (data + 20);
+		guint32 const ref_count	= GSF_LE_GET_GUINT32 (data + 24);
+		gint32 const del_offset	= GSF_LE_GET_GUINT32 (data + 28);
+		guint8 const is_texture	= GSF_LE_GET_GUINT8  (data + 32);
+		guint8 const name_len	= GSF_LE_GET_GUINT8  (data + 33);
+		guint8 checksum[16]; /* RSA Data Security, Inc. MD4 Message-Digest Algorithm */
+		char const *name = "unknown";
+		int i;
+		for (i = 16; i-- > 0;)
+			checksum[i] = GSF_LE_GET_GUINT8 (data + 2 + i);
 
-	d (0 , {
-		g_printerr ("Win type = %s;\n", bliptype_name (win_type));
-		g_printerr ("Mac type = %s;\n", bliptype_name (mac_type));
-		g_printerr ("Size = 0x%x(=%d) RefCount = 0x%x DelayOffset = 0x%x '%s';\n",
-			size, size, ref_count, del_offset, name);
+		d (0 , {
+			g_printerr ("Win type = %s;\n", bliptype_name (win_type));
+			g_printerr ("Mac type = %s;\n", bliptype_name (mac_type));
+			g_printerr ("Size = 0x%x(=%d) RefCount = 0x%x DelayOffset = 0x%x '%s';\n",
+				size, size, ref_count, del_offset, name);
 
-		switch (is_texture) {
-		case 0: g_printerr ("Default usage;\n"); break;
-		case 1: g_printerr ("Is texture;\n"); break;
-		default:g_printerr ("UNKNOWN USAGE : %d;\n", is_texture);
+			switch (is_texture) {
+			case 0: g_printerr ("Default usage;\n"); break;
+			case 1: g_printerr ("Is texture;\n"); break;
+			default:g_printerr ("UNKNOWN USAGE : %d;\n", is_texture);
+			}
+
+			g_printerr ("Checksum = 0x");
+			for (i = 0; i < 16; ++i)
+				g_printerr ("%02x", checksum[i]);
+			g_printerr (";\n");
+		});
+
+		/* Very red herring I think */
+		if (name_len != 0) {
+			g_printerr ("WARNING : Maybe a name?\n");
+			/* name = biff_get_text (data+36, name_len, &txt_byte_len); */
 		}
 
-		g_printerr ("Checksum = 0x");
-		for (i = 0; i < 16; ++i)
-			g_printerr ("%02x", checksum[i]);
-		g_printerr (";\n");
-	});
-
-	/* Very red herring I think */
-	if (name_len != 0) {
-		g_printerr ("WARNING : Maybe a name?\n");
-		/* name = biff_get_text (data+36, name_len, &txt_byte_len); */
-	}
-
-	/* Ignore empties */
-	if (h->len > 36 + COMMON_HEADER_LEN)
-		return ms_escher_read_container (state, h, 36, FALSE);
+		/* Ignore empties */
+		if (h->len > 36 + COMMON_HEADER_LEN)
+			return ms_escher_read_container (state, h, 36, FALSE);
+	} else
+		return TRUE;
 
 	/* Store a blank */
 	ms_container_add_blip (state->container, NULL);
@@ -450,53 +453,55 @@ ms_escher_read_Blip (MSEscherState *state, MSEscherHeader *h)
 	if (inst == 0x216 || inst == 0x3d4 || inst == 0x542) {
 		guint8 const *tmp = ms_escher_get_data (state, h->offset + offset,
 			META_FILE_HEADER_LEN, &needs_free);
-		guint32 uncompressed_len = GSF_LE_GET_GUINT32 (tmp+0);
-		guint32 compressed_len = GSF_LE_GET_GUINT32 (tmp+28);
-		guint8  compress = tmp[32];
-		guint8  filter	 = tmp[33];
+		if (tmp != NULL) {
+			guint32 uncompressed_len = GSF_LE_GET_GUINT32 (tmp+0);
+			guint32 compressed_len = GSF_LE_GET_GUINT32 (tmp+28);
+			guint8  compress = tmp[32];
+			guint8  filter	 = tmp[33];
 
-		if (needs_free)
-			g_free ((guint8*)tmp);
-		offset += META_FILE_HEADER_LEN;
-
-		if (inst == 0x216)
-			type = "wmf";
-		else if (inst == 0x3d4)
-			type = "emf";
-		else
-			type = "pict";
-
-		if (filter != 0xfe /* must be none */	||
-		    (unsigned)(h->len - offset) < compressed_len) {
-			failure = TRUE;
-			g_warning ("invalid metafile header %x, %u != %u;", filter,
-				   (h->len - offset), compressed_len);
-		} else {
-			tmp = ms_escher_get_data (state, h->offset + offset,
-				compressed_len, &needs_free);
-			if (compress == 0) {		/* Yes 0 == deflate */
-				uLongf len = uncompressed_len*4;
-				guint8 *buffer = g_malloc (len);
-
-				int res = uncompress (buffer, &len, tmp, compressed_len);
-				if (res != Z_OK) {
-					g_free (buffer);
-					failure = TRUE;
-					g_warning ("compression failure %d;", res);
-				} else
-					blip = ms_escher_blip_new (buffer,
-						len, type, FALSE);
-			} else if (compress == 0xfe) {	/* 0xfe  == none */
-				blip = ms_escher_blip_new ((guint8 *)tmp, compressed_len,
-					type, !needs_free);
-				needs_free = FALSE;
-			} else {
-				failure = TRUE;
-				g_warning ("Unknown compression type %hhx;", compress);
-			}
 			if (needs_free)
 				g_free ((guint8*)tmp);
-		}
+			offset += META_FILE_HEADER_LEN;
+
+			if (inst == 0x216)
+				type = "wmf";
+			else if (inst == 0x3d4)
+				type = "emf";
+			else
+				type = "pict";
+
+			if (filter != 0xfe /* must be none */	||
+			    (unsigned)(h->len - offset) < compressed_len) {
+				failure = TRUE;
+				g_warning ("invalid metafile header %x, %u != %u;", filter,
+					   (h->len - offset), compressed_len);
+			} else if ((tmp = ms_escher_get_data (state, h->offset + offset,
+			                                      compressed_len, &needs_free))) {
+				if (compress == 0) {		/* Yes 0 == deflate */
+					uLongf len = uncompressed_len*4;
+					guint8 *buffer = g_malloc (len);
+
+					int res = uncompress (buffer, &len, tmp, compressed_len);
+					if (res != Z_OK) {
+						g_free (buffer);
+						failure = TRUE;
+						g_warning ("compression failure %d;", res);
+					} else
+						blip = ms_escher_blip_new (buffer,
+							len, type, FALSE);
+				} else if (compress == 0xfe) {	/* 0xfe  == none */
+					blip = ms_escher_blip_new ((guint8 *)tmp, compressed_len,
+						type, !needs_free);
+					needs_free = FALSE;
+				} else {
+					failure = TRUE;
+					g_warning ("Unknown compression type %hhx;", compress);
+				}
+				if (needs_free)
+					g_free ((guint8*)tmp);
+			}
+		} else
+			failure = TRUE;
 	} else if (inst == 0x46a || inst == 0x6e0 || inst == 0x7a8) {
 		if (inst == 0x46a)	/* JPEG data, with 1 byte header */
 			type = "jpeg";
@@ -746,6 +751,8 @@ ms_escher_read_Spgr (MSEscherState *state, MSEscherHeader *h)
 	int len = h->len - COMMON_HEADER_LEN;
 	guint8 const *data = ms_escher_get_data (state,
 		h->offset + COMMON_HEADER_LEN, len, &needs_free);
+	if (data == NULL)
+		return TRUE;
 
 	/* Stored as absolute pixels in fixed point for pre-grouped position
 	 * What we do not know is where the parent group stores the offset from
@@ -779,6 +786,8 @@ ms_escher_read_ChildAnchor (MSEscherState *state, MSEscherHeader *h)
 	int len = h->len - COMMON_HEADER_LEN;
 	guint8 const *data = ms_escher_get_data (state,
 		h->offset + COMMON_HEADER_LEN, len, &needs_free);
+	if (data == NULL)
+		return TRUE;
 
 	/* Stored as absolute pixels in fixed point for pre-grouped position
 	 * What we do not know is where the parent group stores the offset from

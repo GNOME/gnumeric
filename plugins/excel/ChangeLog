@@ -1,3 +1,9 @@
+2015-05-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-escher.c (ms_escher_read_BSE), (ms_escher_read_Blip),
+	(ms_escher_read_Spgr), (ms_escher_read_ChildAnchor): fixed data access
+	in fuzzed files. [#750042]
+
 2015-05-28  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (xls_read_range32): Clamp to sane dimensions.
