@@ -1,5 +1,7 @@
 2015-06-01  Morten Welinder  <terra@gnome.org>
 
+	* ms-obj.c (ms_read_TXO): Zero out markup earlier.  Fixes #750046.
+
 	* ms-excel-read.c (excel_fill_bmp_header): Don't read beyond
 	buffer.
 	(excel_read_os2bmp): Check that image length makes sense.  Fixes

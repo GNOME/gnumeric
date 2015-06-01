@@ -413,6 +413,8 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 	GString *accum;
 	gboolean continue_seen = FALSE;
 
+	*markup = NULL;
+
 	XL_CHECK_CONDITION_VAL (q->length >= 14, g_strdup (""));
 
 	options = GSF_LE_GET_GUINT16 (q->data);
@@ -422,7 +424,6 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 	halign = (options >> 1) & 0x7;
 	valign = (options >> 4) & 0x7;
 
-	*markup = NULL;
 	if (text_len == 0)
 		return NULL;
 
