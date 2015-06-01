@@ -3,21 +3,22 @@
 # This file is under the same license as the gnumeric package.
 # Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 # Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>, 2015.
+# Cédric Valmary (Tot en Òc) <cvalmary@yahoo.fr>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.5.4\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeri"
-"c&keywords=I18N+L10N&component=general\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumer"
+"ic&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-04-15 17:33+0000\n"
-"PO-Revision-Date: 2015-05-03 22:01+0200\n"
-"Last-Translator: Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>\n"
-"Language-Team: Tot en òc (totenoc.eu)\n"
+"PO-Revision-Date: 2015-06-01 15:06+0200\n"
+"Last-Translator: Cédric Valmary (Tot en Òc) <cvalmary@yahoo.fr>\n"
+"Language-Team: www.totenoc.eu\n"
 "Language: oc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Virtaal 0.7.0\n"
 "X-Project-Style: gnome\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -109,7 +110,7 @@ msgid ""
 "ASCENSIONTHURSDAY:Ascension Thursday in the Gregorian calendar according to "
 "the Roman rite of the Christian Church"
 msgstr ""
-"ASCENSIONTHURSDAY : jeudi de l'Ascension dins lo calendièr gregorian segon "
+"ASCENSIONTHURSDAY : dijòus de l'Ascension dins lo calendièr gregorian segon "
 "lo rite catolic roman de la Glèisa crestiana"
 
 #: ../plugins/fn-christian-date/functions.c:223
@@ -259,11 +260,11 @@ msgstr "Se @{i} n'est ni « i » ni « j », COMPLEX renvia l'error #VALOR!"
 #: ../plugins/fn-string/functions.c:1163 ../plugins/fn-string/functions.c:1234
 #: ../plugins/fn-string/functions.c:1317
 msgid "This function is Excel compatible."
-msgstr "Aquesta foncion es compatible Excel."
+msgstr "Aquesta foncion es compatibla amb Excel."
 
 #: ../plugins/fn-complex/functions.c:109
 msgid "IMAGINARY:the imaginary part of the complex number @{z}"
-msgstr "IMAGINARY : la partida imaginaire del nombre complèxe @{z}"
+msgstr "IMAGINARY : la partida imaginària del nombre complèxe @{z}"
 
 #: ../plugins/fn-complex/functions.c:110 ../plugins/fn-complex/functions.c:137
 #: ../plugins/fn-complex/functions.c:161 ../plugins/fn-complex/functions.c:188
@@ -315,7 +316,7 @@ msgstr "z : un nombre complèxe"
 #: ../plugins/fn-complex/functions.c:1126
 msgid "If @{z} is not a valid complex number, #VALUE! is returned."
 msgstr ""
-"Se @{z} es pas un nombre complèxe valide, la foncion renvia l'error #VALOR!."
+"Se @{z} es pas un nombre complèxe valid, la foncion renvia l'error #VALOR!."
 
 #: ../plugins/fn-complex/functions.c:136
 msgid "IMABS:the absolute value of the complex number @{z}"
@@ -395,8 +396,8 @@ msgid ""
 "The natural logarithm is not uniquely defined on complex numbers. You may "
 "need to add or subtract an even multiple of π to the imaginary part."
 msgstr ""
-"La partida imaginaire del resultat serà comprise entre -π e +π.\n"
-"Lo logaritme neperian d'un complexe es pas definit de manière univoque. Il "
+"La partida imaginaire del resultat serà compresa entre -π e +π.\n"
+"Lo logaritme neperian d'un complèxe es pas definit de manière univoque. Il "
 "pòt èsser nécessaire d'apondre o de retrancher un multiple pair de π a la "
 "partida imaginaire."
 
@@ -467,27 +468,27 @@ msgstr "IMCOTH : la cotangenta iperbolica del nombre complèxe @{z}"
 
 #: ../plugins/fn-complex/functions.c:762
 msgid "IMARCSIN:the complex arcsine of the complex number @{z}"
-msgstr "IMARCSIN : l'arcsinus complexe del nombre complèxe @{z}"
+msgstr "IMARCSIN : l'arcsinus complèxe del nombre complèxe @{z}"
 
 #: ../plugins/fn-complex/functions.c:764
 msgid ""
 "IMARCSIN returns the complex arcsine of the complex number @{z}. The branch "
 "cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
-"IMARCSIN renvia l'arcsinus complexe del nombre @{z}. Las copaduras de "
+"IMARCSIN renvia l'arcsinus complèxe del nombre @{z}. Las copaduras de "
 "continuitat son situadas sus l'axe dels reals per las valors inferioras a -1 "
 "e superioras a +1."
 
 #: ../plugins/fn-complex/functions.c:789
 msgid "IMARCCOS:the complex arccosine of the complex number "
-msgstr "IMARCCOS : l'arccosinus complexe del nombre complèxe @{z}."
+msgstr "IMARCCOS : l'arccosinus complèxe del nombre complèxe @{z}."
 
 #: ../plugins/fn-complex/functions.c:791
 msgid ""
 "IMARCCOS returns the complex arccosine of the complex number @{z}. The "
 "branch cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
-"IMARCCOS renvia l'arccosinus complexe del nombre complèxe @{z}. Las "
+"IMARCCOS renvia l'arccosinus complèxe del nombre complèxe @{z}. Las "
 "copaduras de continuitat son situadas sus l'axe de las réels per las valors "
 "inferioras a -1 e superioras a +1."
 
@@ -500,7 +501,7 @@ msgid ""
 "IMARCTAN returns the complex arctangent of the complex number @{z}. The "
 "branch cuts are on the imaginary axis, below -i and above i."
 msgstr ""
-"IMARCTAN renvia l'arctangenta complèxa del nombre complèxe @{z}. Las "
+"IMARCTAN renvia l'arctangenta complèxa del nombre complèxa @{z}. Las "
 "copaduras de continuitat son situadas sus l'axe dels imaginaris per las "
 "valors al dessous de -i e al dessus de +i."
 
@@ -518,14 +519,14 @@ msgstr "IMARCCOT : l'arccotangenta complèxa del nombre complèxe @{z}"
 
 #: ../plugins/fn-complex/functions.c:916
 msgid "IMARCSINH:the complex hyperbolic arcsine of the complex number @{z}"
-msgstr "IMARCSINH : l'arcsinus iperbolic complexe del nombre complèxe @{z}"
+msgstr "IMARCSINH : l'arcsinus iperbolic complèxe del nombre complèxe @{z}"
 
 #: ../plugins/fn-complex/functions.c:918
 msgid ""
 "IMARCSINH returns the complex hyperbolic arcsine of the complex number "
 "@{z}.  The branch cuts are on the imaginary axis, below -i and above i."
 msgstr ""
-"IMARCSINH renvia l'arcsinus iperbolic complexe del nombre complèxe @{z}. Las "
+"IMARCSINH renvia l'arcsinus iperbolic complèxe del nombre complèxe @{z}. Las "
 "copaduras de continuitat son situadas sus l'axe de las imaginaires per las "
 "valors al dessous de -i e al dessus de +i."
 
@@ -544,30 +545,30 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:971
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
-msgstr "IMARCTANH : l'arctangenta iperbolica complexe del nombre complèxe @{z}"
+msgstr "IMARCTANH : l'arctangenta iperbolica complèxe del nombre complèxe @{z}"
 
 #: ../plugins/fn-complex/functions.c:973
 msgid ""
 "IMARCTANH returns the complex hyperbolic arctangent of the complex number "
 "@{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
-"IMARCTANH renvia l'arctangenta iperbolica complexe del nombre complèxe @{z}. "
+"IMARCTANH renvia l'arctangenta iperbolica complèxe del nombre complèxe @{z}. "
 "Las copaduras de continuitat son situadas sus l'axe de las réels per las "
 "valors inferioras a -1 e superioras a +1."
 
 #: ../plugins/fn-complex/functions.c:999
 msgid "IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}"
-msgstr "IMARCSECH : l'arcsecanta iperbolica complexe del nombre complèxe @{z}"
+msgstr "IMARCSECH : l'arcsecanta iperbolica complèxe del nombre complèxe @{z}"
 
 #: ../plugins/fn-complex/functions.c:1023
 msgid "IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
-msgstr "IMARCCSCH : l'arccosecanta iperbolica complexe del nombre complèxe @{z}"
+msgstr "IMARCCSCH : l'arccosecanta iperbolica complèxe del nombre complèxe @{z}"
 
 #: ../plugins/fn-complex/functions.c:1048
 msgid ""
 "IMARCCOTH:the complex hyperbolic arccotangent of the complex number @{z}"
 msgstr ""
-"IMARCCOTH : l'arccotangenta iperbolica complexe del nombre complèxe @{z}"
+"IMARCCOTH : l'arccotangenta iperbolica complèxa del nombre complèxe @{z}"
 
 #: ../plugins/fn-complex/functions.c:1073
 msgid "IMSQRT:the square root of the complex number @{z}"
@@ -635,7 +636,7 @@ msgid ""
 "If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is "
 "returned."
 msgstr ""
-"Se l'un quelconque de las @{z1}, @{z2},... es pas un nombre complèxe valide, "
+"Se l'un quelconque de las @{z1}, @{z2},... es pas un nombre complèxe valid, "
 "l'error #VALOR! es renviada."
 
 #: ../plugins/fn-complex/functions.c:1281
@@ -724,7 +725,7 @@ msgstr ""
 "Susan  \t37   \t42932\n"
 "Jill  \t\t45   \t45324\n"
 "\n"
-"En outre, las cellulas A9:B11 contenon las valors seguentas :\n"
+"En otra, las cellulas A9:B11 contenon las valors seguentas :\n"
 "Edat   \tSalari\n"
 "<30\n"
 ">40   \t>46000\n"
@@ -734,8 +735,8 @@ msgid ""
 "DAVERAGE:average of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
-"DAVERAGE : mejana de las valors de @{camp} dins @{bancadedonadas} se "
-"rapòrtant aux enregistraments répondant a @{critèri}"
+"DAVERAGE : mejana de las valors de @{camp} dins @{bancadedonadas} que "
+"se rapòrtan als enregistraments que respondon a @{critèri}"
 
 #: ../plugins/fn-database/functions.c:332
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333."
@@ -798,13 +799,13 @@ msgid ""
 "DGET:a value from @{field} in @{database} belonging to records that match "
 "@{criteria}"
 msgstr ""
-"DGET : una valor de @{camp} dins @{bancadedonadas} se rapòrtant aux "
-"enregistraments répondant a @{critèri}"
+"DGET : una valor de @{camp} dins @{bancadedonadas} que se rapòrta als "
+"enregistraments que respondon a @{critèri}"
 
 #: ../plugins/fn-database/functions.c:435
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
 msgstr ""
-"Se cap d'enregistrament ne répond a las condicions, DGET renvia l'error "
+"Se cap d'enregistrament respond pas a las condicions, DGET renvia l'error "
 "#VALOR!"
 
 #: ../plugins/fn-database/functions.c:436
@@ -891,7 +892,7 @@ msgid ""
 "@{database} belonging to records that match @{criteria}"
 msgstr ""
 "DSTDEVP : escart-tipe de la populacion de las valors de @{camp} dins "
-"@{bancadedonadas} se rapòrtant aux enregistraments répondant a @{critèri}"
+"@{bancadedonadas} que se rapòrtan als enregistraments que respondon a @{critèri}"
 
 #: ../plugins/fn-database/functions.c:612
 msgid "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7."
@@ -923,7 +924,7 @@ msgid ""
 "records that match @{criteria}"
 msgstr ""
 "DVAR : variança d'un escandalhatge de valors de @{camp} dins "
-"@{bancadedonadas} se rapòrtant aux enregistraments répondant a @{critèri}"
+"@{bancadedonadas} que se rapòrtan als enregistraments que respondon a @{critèri}"
 
 #: ../plugins/fn-database/functions.c:679
 msgid "DVAR(A1:C7, \"Age\", A9:B11) equals 98."
@@ -983,7 +984,7 @@ msgstr "mes : mois de l'annada"
 
 #: ../plugins/fn-date/functions.c:77
 msgid "day:day of month"
-msgstr "jorn : jorn del mois"
+msgstr "jorn : jorn del mes"
 
 #: ../plugins/fn-date/functions.c:78
 msgid ""
@@ -1027,8 +1028,8 @@ msgid ""
 "January 1st, 1970 GMT."
 msgstr ""
 "La foncion UNIT2DATE traduit los orodatatges Unix en valors serialas de "
-"data. L'orodatatge Unix correspond al nombre de segondas écoulées depuis lo "
-"1èr genièr 1970 mièjanuèch (0:00) GMT."
+"data. L'orodatatge Unix correspond al nombre de segondas passadas dempuèi lo "
+"1èr de genièr de 1970 mièjanuèch (0:00) GMT."
 
 #: ../plugins/fn-date/functions.c:167
 msgid "DATE2UNIX:the Unix timestamp corresponding to a date @{d}"
@@ -1045,7 +1046,7 @@ msgid ""
 "1970 GMT."
 msgstr ""
 "La foncion DATE2UNIX traduit las valors serialas de data en orodatatges "
-"Unix. L'orodatatge Unix correspond al nombre de segondas écoulées depuis lo "
+"Unix. L'orodatatge Unix correspond al nombre de segondas passadas dempuèi lo "
 "1èr genièr 1970 mièjanuèch (0:00) GMT."
 
 #: ../plugins/fn-date/functions.c:193
@@ -1105,7 +1106,7 @@ msgid ""
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
 "Se @{interval} es « ym » o « yd », alara l'escart entre datas serà mesuré "
-"respectivament en mois o jorns entièrs, en excluant toute diferéncia en "
+"respectivament en meses o jorns entièrs, en excluant tota diferéncia en "
 "annadas."
 
 #: ../plugins/fn-date/functions.c:218
@@ -1113,12 +1114,12 @@ msgid ""
 "If @{interval} is \"md\" then the distance is measured in complete days but "
 "excluding any difference in months."
 msgstr ""
-"Se @{interval} es « md », alara l'escart entre datas serà mesuré en jorns "
-"entièrs en excluant toute diferéncia en mois."
+"Se @{interval} es « md », alara l'escart entre datas serà mesurat en jorns "
+"entièrs en excluissent tota diferéncia en mois."
 
 #: ../plugins/fn-date/functions.c:350
 msgid "EDATE:adjust a date by a number of months"
-msgstr "EDATE : ajoute o retranche un nombre de meses a una data donada."
+msgstr "EDATE : apond o lèva un nombre de meses a una data donada."
 
 #: ../plugins/fn-date/functions.c:351 ../plugins/fn-date/functions.c:577
 #: ../plugins/fn-date/functions.c:601 ../plugins/fn-date/functions.c:625
@@ -1142,7 +1143,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:387
 msgid "TODAY:the date serial value of today"
-msgstr "TODAY : la valor seriala de la data del jour"
+msgstr "TODAY : la valor seriala de la data del jorn"
 
 #: ../plugins/fn-date/functions.c:388
 msgid ""
@@ -1150,7 +1151,8 @@ msgid ""
 "Recomputing on a later date will produce a different value."
 msgstr ""
 "La foncion TODAY renvia la valor seriala de la data del jorn de son "
-"avaloracion. La recalcular a una data ulteriora générera una valor diferenta."
+"avaloracion. La recalcular a una data ulteriora générera una valor "
+"diferenta."
 
 #: ../plugins/fn-date/functions.c:404
 msgid "NOW:the date and time serial value of the current time"
@@ -1170,7 +1172,7 @@ msgstr "TIME : genèra la valor seriala d'una ora donada"
 
 #: ../plugins/fn-date/functions.c:422
 msgid "hour:hour of the day"
-msgstr "ora : ora del jour"
+msgstr "ora : ora del jorn"
 
 #: ../plugins/fn-date/functions.c:423
 msgid "minute:minute within the hour"
@@ -1262,16 +1264,16 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:515 ../plugins/fn-string/functions.c:1104
 #: ../plugins/fn-string/functions.c:1420 ../plugins/fn-string/functions.c:1550
 msgid "This function is OpenFormula compatible."
-msgstr "Aquesta foncion es compatible OpenFormula."
+msgstr "Aquesta foncion es compatibla amb OpenFormula."
 
 #: ../plugins/fn-date/functions.c:488
 msgid "TIMEVALUE:the time part of a date and time serial value"
-msgstr "TIMEVALUE : la partida horaire d'una valor seriala d'orodatatge"
+msgstr "TIMEVALUE : la partida orària d'una valor seriala d'orodatatge"
 
 #: ../plugins/fn-date/functions.c:490
 msgid "TIMEVALUE returns the time-of-day part of a date and time serial value."
 msgstr ""
-"TIMEVALUE renvia la partida horaire de la valor seriala d'un orodatatge."
+"TIMEVALUE renvia la partida orària de la valor seriala d'un orodatatge."
 
 #: ../plugins/fn-date/functions.c:507
 msgid "HOUR:compute hour part of fractional day"
@@ -1332,11 +1334,11 @@ msgstr "La foncion MONTH renvia la partida mois de @{data}."
 
 #: ../plugins/fn-date/functions.c:624
 msgid "DAY:the day-of-month part of a date serial value"
-msgstr "DAY : la partida jorn del mois d'una valor seriala de data"
+msgstr "DAY : la partida jorn del mes d'una valor seriala de data"
 
 #: ../plugins/fn-date/functions.c:626
 msgid "The DAY function returns the day-of-month part of @{date}."
-msgstr "La foncion DAY renvia la partida jorn del mois de @{data}."
+msgstr "La foncion DAY renvia la partida jorn del mes de @{data}."
 
 #: ../plugins/fn-date/functions.c:648
 msgid "WEEKDAY:day-of-week"
@@ -1423,9 +1425,9 @@ msgid ""
 "@{start_date}."
 msgstr ""
 "Se @{metòde} es egal a 0, valor per defaut, lo metòde MS Excel™ US serà "
-"employée. Es un metòde quelque peu complexe, normalisée dins l'industrie, "
-"dins la quala lo darrièr jorn de février es considerat coma étant lo 30ième "
-"jorn del mois, mas uniquement per @{data_començament}."
+"emplegat. Es un metòde un bocin complèxe, normalizat dins l'industria, "
+"dins la quala lo darrièr jorn de febrièr es considerat coma étant lo 30ième "
+"jorn del mes, mas unicament per @{data_començament}."
 
 #: ../plugins/fn-date/functions.c:724
 msgid ""
@@ -1433,7 +1435,7 @@ msgid ""
 "day of the month is 31 it will be considered as 30"
 msgstr ""
 "Se @{metòde} es egal a 1, lo metòde europèa es utilizada. Dins aqueste cas, "
-"se lo jorn del mois es un 31, il serà considerat coma étant un 30"
+"se lo jorn del mes es un 31, serà considerat coma étant un 30"
 
 #: ../plugins/fn-date/functions.c:725
 msgid ""
@@ -1441,12 +1443,12 @@ msgid ""
 "dates get the same February treatment."
 msgstr ""
 "Se @{metòde} es egal a 2, on utiliza una version plus saine del metòde US "
-"dins la quala las doas datas son soumises al meteis traitement per çò que "
+"dins la quala las doas datas son somesas al meteis tractament per çò que "
 "concernís febrièr."
 
 #: ../plugins/fn-date/functions.c:760
 msgid "EOMONTH:end of month"
-msgstr "EOMONTH : fin del mois"
+msgstr "EOMONTH : fin del mes"
 
 #: ../plugins/fn-date/functions.c:763
 msgid ""
@@ -1459,15 +1461,15 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:800
 msgid "WORKDAY:add working days"
-msgstr "WORKDAY : ajoute los jorns ouvrables"
+msgstr "WORKDAY : apond los jorns obrants"
 
 #: ../plugins/fn-date/functions.c:802
 msgid "days:number of days to add"
-msgstr "jours : nombre de jorns a apondre"
+msgstr "jorns : nombre de jorns a apondre"
 
 #: ../plugins/fn-date/functions.c:803 ../plugins/fn-date/functions.c:1026
 msgid "holidays:array of holidays"
-msgstr "vacances : tablèu de las vacanças"
+msgstr "vacanças : tablèu de las vacanças"
 
 #: ../plugins/fn-date/functions.c:804 ../plugins/fn-date/functions.c:1027
 msgid ""
@@ -1475,15 +1477,15 @@ msgid ""
 "S) is on the weekend, defaults to {1,0,0,0,0,0,1}"
 msgstr ""
 "week-end : tablèu de 0 e de 1 indiquant se un jorn de la setmana (D, L, M, "
-"M, J, V, S) fait partida del week-end, la valor per defaut es {1,0,0,0,0,0,1}"
+"M, J, V, S) fa partida del week-end, la valor per defaut es {1,0,0,0,0,0,1}"
 
 #: ../plugins/fn-date/functions.c:806
 msgid ""
 "WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in "
 "the process."
 msgstr ""
-"WORKDAY ajuste @{data} del nombre de jorns @{jorns} sens décompter week-ends "
-"e @{vacances} dins lo calcul."
+"WORKDAY ajuste @{data} del nombre de jorns @{jorns} sens descomptar week-ends "
+"e @{vacanças} dins lo calcul."
 
 #: ../plugins/fn-date/functions.c:807
 msgid "@{days} may be negative."
@@ -1511,7 +1513,7 @@ msgid ""
 "skipping weekends and @{holidays} in the process."
 msgstr ""
 "NETWORKDAYS calcula lo nombre de jorns entre @{data_començament} e "
-"@{data_fin} sens décompter los week-ends e @{vacances} dins lo calcul."
+"@{data_fin} sens décompter los week-ends e @{vacanças} dins lo calcul."
 
 #: ../plugins/fn-date/functions.c:1190
 msgid "ISOWEEKNUM:ISO week number"
@@ -1523,7 +1525,7 @@ msgid ""
 "Weeks start on Mondays and week 1 contains the first Thursday of the year."
 msgstr ""
 "ISOWEEKNUM calcula lo numèro de setmana segon la norme ISO 8601. Las "
-"setmanas començan lo diluns e la setmana 1 inclut lo primièr jeudi de "
+"setmanas començan lo diluns e la setmana 1 inclutz lo primièr dijòus de "
 "l'annada."
 
 #: ../plugins/fn-date/functions.c:1193 ../plugins/fn-date/functions.c:1217
@@ -1828,7 +1830,7 @@ msgstr ""
 "OPT_BS_VEGA utiliza lo modèl Black-Scholes per calcular lo « vèga » d'una "
 "opcion europèa exerçada al prètz @{prètz_exercici} sus un actiu de prètz "
 "comptant @{prètz_comptant}. Lo vèga d'una opcion es lo taus de variation de "
-"son prètz en foncion de la volatilitat de l'indice boursier."
+"son prètz en foncion de la volatilitat de l'indici borsièr."
 
 #: ../plugins/fn-derivatives/options.c:457
 msgid "Vega is the same for calls and puts."
@@ -2139,7 +2141,7 @@ msgid ""
 "was greater than @{strike} (for a call) or below it (for a put)."
 msgstr ""
 "OPT_TIME_SWITCH modélise lo prètz teoric de las opcions a escasença s "
-"programadas. (Pechtl 1995). Lo detentor recep @{a} * @{dt} per cada periòde "
+"programadas. (Pechtl 1995). Lo detenidor recep @{a} * @{dt} per cada periòde "
 "ont lo prètz de l'actiu a été superior al prètz d'exercici per una opcion de "
 "crompa @{prètz_exercici} o inferior a aqueste meteis prètz per una opcion de "
 "venda."
@@ -2152,7 +2154,7 @@ msgstr ""
 #: ../plugins/fn-derivatives/options.c:1340
 msgid "time1:time in years until the holder chooses a put or a call option"
 msgstr ""
-"relambi1 : relambi en annadas al cap del qual lo detentor causís una opcion "
+"relambi1 : relambi en annadas al cap del qual lo detenidor causís una opcion "
 "de crompa o de venda"
 
 #: ../plugins/fn-derivatives/options.c:1341
@@ -2166,28 +2168,28 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1387
 msgid "strike_call:strike price, if exercised as a call option"
-msgstr "prètz_achat : prètz d'exercici, se exercé en tant qu'option de crompa"
+msgstr "prètz_achat : prètz d'exercici, se exerçat en tant qu'opcion de crompa"
 
 #: ../plugins/fn-derivatives/options.c:1388
 msgid "strike_put:strike price, if exercised as a put option"
-msgstr "prètz_venda : prètz d'exercici, se exercé en tant qu'option de venda"
+msgstr "prètz_venda : prètz d'exercici, se exerçat en tant qu'opcion de venda"
 
 #: ../plugins/fn-derivatives/options.c:1389
 msgid "time:time in years until the holder chooses a put or a call option"
 msgstr ""
-"temps : relambi en annadas al cap del qual lo detentor causís una opcion de "
+"temps : relambi en annadas al cap del qual lo detenidor causís una opcion de "
 "crompa o de venda"
 
 #: ../plugins/fn-derivatives/options.c:1390
 msgid "time_call:time in years to maturity of the call option if chosen"
 msgstr ""
-"relambi_mat : relambi de maturité en annadas de l'opcion de crompa, se "
+"relambi_mat : relambi de maduretat en annadas de l'opcion de crompa, se "
 "choisie"
 
 #: ../plugins/fn-derivatives/options.c:1391
 msgid "time_put:time in years  to maturity of the put option if chosen"
 msgstr ""
-"relambi_mat : relambi de maturité en annadas de l'opcion de venda, se choisie"
+"relambi_mat : relambi de maduretat en annadas de l'opcion de venda, se choisie"
 
 #: ../plugins/fn-derivatives/options.c:1486
 msgid "OPT_ON_OPTIONS:theoretical price of options on options"
@@ -2513,8 +2515,8 @@ msgid ""
 "asset."
 msgstr ""
 "OPT_FLOAT_STRK_LKBK determina lo prètz teoric d'una opcion « lookback » a "
-"prètz d'exercici variable ont lo detentor pòt exercer l'option a son "
-"expiracion al prètz lo plus favorable observat per l'actiu sosjacent pendant "
+"prètz d'exercici variable ont lo detenidor pòt exercer l'option a son "
+"expiracion al prètz lo plus favorable observat per l'actiu sosjacent pendent "
 "la durada de vida de l'opcion."
 
 #: ../plugins/fn-derivatives/options.c:1872
@@ -2531,8 +2533,8 @@ msgid ""
 "asset."
 msgstr ""
 "OPT_FIXED_STRK_LKBK determina lo prètz teoric d'una opcion « lookback » a "
-"prètz d'exercici fixé ont lo detentor pòt exercer l'option a son expiracion "
-"al prètz lo plus favorable observat per l'actiu sosjacent pendant la durada "
+"prètz d'exercici fixé ont lo detenidor pòt exercer l'option a son expiracion "
+"al prètz lo plus favorable observat per l'actiu sosjacent pendent la durada "
 "de vida de l'opcion."
 
 #: ../plugins/fn-derivatives/options.c:1956
@@ -2810,7 +2812,7 @@ msgstr ""
 #: ../plugins/fn-eng/functions.c:602 ../plugins/fn-eng/functions.c:625
 msgid "This function is Excel compatible if only integer orders @{α} are used."
 msgstr ""
-"Aquesta foncion es compatible Excel uniquement se l'òrdre de la foncion @{α} "
+"Aquesta foncion es compatible Excel unicament se l'òrdre de la foncion @{α} "
 "es un entièr."
 
 #: ../plugins/fn-eng/functions.c:559 ../plugins/fn-eng/functions.c:581
@@ -3444,7 +3446,7 @@ msgstr "ACCRINTM : interèsses corruts"
 #: ../plugins/fn-financial/functions.c:3127
 #: ../plugins/fn-financial/functions.c:3239
 msgid "maturity:maturity date"
-msgstr "maturité : data d'escasença "
+msgstr "maduretat : data d'escasença "
 
 #: ../plugins/fn-financial/functions.c:453
 msgid "par:par value"
@@ -3454,7 +3456,7 @@ msgstr "par : valor nominale"
 msgid "ACCRINTM calculates the accrued interest from @{issue} to @{maturity}."
 msgstr ""
 "ACCRINTM calcula los interèsses corruts de la data d'emission @{emission} a "
-"la data d'escasença @{maturité}."
+"la data d'escasença @{maduretat}."
 
 #: ../plugins/fn-financial/functions.c:456
 msgid "@{par} defaults to $1000."
@@ -3745,7 +3747,7 @@ msgstr "DOLLARFR : convertís en montant fraccionari"
 msgid "decimal_dollar:amount to convert"
 msgstr "dollar_decimal : montant a convertir"
 
-# Bogue documentaire : il convient d'écrire « DOLLARFR converts a decimal dollar amount...  ». Le reste de la phrase n'en demeure pas moins confus quant à l'action exacte de cette fonction.
+# Bogue documentaire : il convient d'écrire « DOLLARFR converts a decimal dollar amount...  ». Le reste de la phrase n'en demeure pas moins confus quant à l'action exacte de aquesta fonction.
 #: ../plugins/fn-financial/functions.c:984
 #, fuzzy
 msgid ""
@@ -3755,7 +3757,7 @@ msgid ""
 "inverse of the DOLLARDE function."
 msgstr ""
 "DOLLARFR convertís un montant decimal de devisa en montant fraccionari dont "
-"lo numerator es représenté per autant de chifras aprèp la virgule decimala "
+"lo numerator es représenté per autant de chifras aprèp la virgula decimala "
 "que lo denominator en comporte. Per exemple, DOLLARFR(2/8;8) donarà ,2 "
 "mentre que DOLLARFR(3/16;16) renverra ,03. Il s'agit de la faprèponcion "
 "invèrsa de la foncion DOLLARDE."
@@ -4574,7 +4576,7 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:318
 msgid "day:Gregorian day of month, defaults to the current day"
 msgstr ""
-"jorn : jorn del mois gregoriana, la valor per defaut es l'annada actuala"
+"jorn : jorn del mes gregoriana, la valor per defaut es l'annada actuala"
 
 #: ../plugins/fn-hebrew-date/functions.c:127
 msgid "DATE2HDATE:Hebrew date"
@@ -4677,7 +4679,7 @@ msgstr ""
 " formulatipe  \tidentique a tipe\n"
 " locked     \t\trenvia 1 se la cellula @{cellula} es varrolhada.\n"
 " parentheses  \trenvia 1 se la cellula @{cellula} conten una valor negativa\n"
-"         \t\te se son format l'affiche entre parentèsis.\n"
+"         \t\te se son format l'aficha entre parentèsis.\n"
 " prefix     \t\trenvia un caractèr indiquant l'alinhament \n"
 "         \t\torizontal de @{cellula}.\n"
 " prefixcharacter \tidentique a prefix\n"
@@ -4754,7 +4756,7 @@ msgstr ""
 msgid ""
 "INFO:information about the current operating environment according to @{type}"
 msgstr ""
-"INFO : informacion concernant l'environnement d'exploitation actiu segon lo "
+"INFO : informacion concernant l'environament d'exploitation actiu segon lo "
 "@{tipe}"
 
 #: ../plugins/fn-info/functions.c:1340
@@ -4774,7 +4776,7 @@ msgid ""
 "  system       \t\tReturns the name of the environment.\n"
 "  totmem       \t\tReturns the amount of total memory available."
 msgstr ""
-"INFO renvia una informacion concernant l'environnement d'exploitation actiu "
+"INFO renvia una informacion concernant l'environament d'exploitation actiu "
 "segon lo @{tipe} demandé :\n"
 "  memavail    \t\trenvia la quantitat de memòria disponible (octets).\n"
 "  memused     \t\trenvia la quantitat de memòria utilizada (octets).\n"
@@ -4952,11 +4954,11 @@ msgstr ""
 #: ../plugins/fn-info/functions.c:1792
 msgid "GETENV:the value of execution environment variable @{name}"
 msgstr ""
-"GETENV : la valor dins l'environnement d'exécution de la variable @{nom}"
+"GETENV : la valor dins l'environament d'exécution de la variable @{nom}"
 
 #: ../plugins/fn-info/functions.c:1793
 msgid "name:the name of the environment variable"
-msgstr "nom : lo nom de la variable d'environnement"
+msgstr "nom : lo nom de la variable d'environament"
 
 #: ../plugins/fn-info/functions.c:1794
 msgid "If a variable called @{name} does not exist, #N/A! will be returned."
@@ -5749,7 +5751,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:65 ../plugins/fn-math/functions.c:128
 msgid "If any of the arguments is not an integer, it is truncated."
 msgstr ""
-"Se l'un quelconque dels paramètres es pas un entièr, il serà trocejat a sa "
+"Se l'un quelconque dels paramètres es pas un entièr, serà trocejat a sa "
 "partida entièra."
 
 #: ../plugins/fn-math/functions.c:124
@@ -6043,7 +6045,7 @@ msgstr ""
 msgid "COS:the cosine of @{x}"
 msgstr "COS : lo cosinus de @{x}"
 
-# Certainement pas ! Le résultat des fonctions réciproques ASIN, ACOS, ATAN, etc est un angle en radians ; le paramètre de la fonction est sans dimension. Dans le cas des fonctions hyperboliques, x et la valeur de retour sont sans dimension.
+# Certainement pas ! Le resultat des fonctions réciproques ASIN, ACOS, ATAN, etc est un angle en radians ; le paramètre de la fonction est sans dimension. Dans le cas des fonctions hyperboliques, x et la valor de retour sont sans dimension.
 #: ../plugins/fn-math/functions.c:767 ../plugins/fn-math/functions.c:875
 #: ../plugins/fn-math/functions.c:1448 ../plugins/fn-math/functions.c:1484
 #: ../plugins/fn-math/functions.c:1524 ../plugins/fn-math/functions.c:1697
@@ -6592,8 +6594,8 @@ msgid ""
 "If @{d} is omitted or negative then it defaults to zero. If it is not an "
 "integer then it is truncated to an integer."
 msgstr ""
-"Se @{d} es omis o negatiu, il serà pris egal a 0 per defaut. Se es pas un "
-"entièr, il serà trocejat a sa partida entièra."
+"Se @{d} es omis o negatiu, serà pris egal a 0 per defaut. Se es pas un "
+"entièr, serà trocejat a sa partida entièra."
 
 #: ../plugins/fn-math/functions.c:1801
 msgid "EVEN:@{x} rounded away from 0 to the next even integer"
@@ -7627,7 +7629,7 @@ msgstr ""
 msgid "a:the first shape parameter of the distribution"
 msgstr "a : lo primièr paramètre de forma de la distribucion"
 
-# Il ne s'agit pas d'un « scale parameter », mais d'un « shape parameter ». Les paramètres a et b ont un rôle « symétrique ».
+# Il ne s'agit pas d'un « scale parameter », mas d'un « shape parameter ». Les paramètres a et b ont un rôle « symétrique ».
 # B(a,b)=intégrale de 0 à 1 de (x^(a-1))*((1-x)^(b-1))*dx
 #: ../plugins/fn-r/functions.c:250 ../plugins/fn-r/functions.c:274
 #: ../plugins/fn-r/functions.c:300
@@ -8888,7 +8890,7 @@ msgstr ""
 "La foncion SIMTABLE renvia una de las valors de sa lista de paramètres segon "
 "lo numèro de l'iteracion de l'aisina de simulacion. Se l'aisina de "
 "simulacion es pas actiu, SIMTABLE renvia @{d1}.\n"
-"Amb l'aisina de simulacion e la foncion SIMTABLE vous pouvez tester de "
+"Amb l'aisina de simulacion e la foncion SIMTABLE podètz tester de "
 "variablas d'una decision donada. Cada foncion SIMTABLE conten las valors "
 "possiblas d'una variabla de simulacion. Dins la màger part dels modèls de "
 "simulacion valides, auretz lo meteis nombre de valors @{dN} per totas las "
@@ -9280,7 +9282,7 @@ msgstr "p : probabilitat de succès"
 
 #: ../plugins/fn-stat/functions.c:412
 msgid "If @{f} or @{t} is a non-integer it is truncated."
-msgstr "Se @{f} o @{t} es pas un entièr, il serà trocejat."
+msgstr "Se @{f} o @{t} es pas un entièr, serà trocejat."
 
 #: ../plugins/fn-stat/functions.c:413
 msgid "If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error."
@@ -9514,7 +9516,7 @@ msgstr "GEOMEAN : mejana geometrica"
 msgid ""
 "The geometric mean is equal to the Nth root of the product of the N values."
 msgstr ""
-"La mejana geometrica es egala a la racine n-ième del produit de las N valors."
+"La mejana geometrica es egala a la raiç n-ième del produit de las N valors."
 
 #: ../plugins/fn-stat/functions.c:666
 msgid "wiki:en:Geometric_mean"
@@ -9528,7 +9530,7 @@ msgstr "wolfram:GeometricMean.html"
 msgid "COUNT:total number of integer or floating point arguments passed"
 msgstr ""
 "COUNT : nombre total de paramètres passés jos la forma de nombres entièrs o "
-"a virgule flottante"
+"a virgula flottante"
 
 #: ../plugins/fn-stat/functions.c:690
 msgid "Then COUNT(A1:A5) equals 5."
@@ -10017,7 +10019,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1653
 msgid "If @{trials} is a non-integer it is truncated."
-msgstr "Se @{espròvas} es pas un entièr, il serà trocejat."
+msgstr "Se @{espròvas} es pas un entièr, serà trocejat."
 
 #: ../plugins/fn-stat/functions.c:1656
 msgid "If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error."
@@ -10255,7 +10257,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2022
 msgid "x:number of events"
-msgstr "x : nombre d'événements"
+msgstr "x : nombre d'eveniments"
 
 #: ../plugins/fn-stat/functions.c:2025
 msgid "If @{x} is a non-integer it is truncated."
@@ -11269,7 +11271,7 @@ msgid ""
 "RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution"
 msgstr ""
 "RAYLEIGHTAIL : foncion de densitat de probabilitat de la distribucion segon "
-"la version généralisée (à coa lourde) del modèl de Rayleigh"
+"la version generalisée (à coa lourde) del modèl de Rayleigh"
 
 #: ../plugins/fn-stat/functions.c:4524
 msgid "a:lower limit"
@@ -11281,7 +11283,7 @@ msgid ""
 "distribution"
 msgstr ""
 "EXPPOWDIST : foncion de densitat de probabilitat de la distribucion normala "
-"généralisée"
+"generalisée"
 
 #: ../plugins/fn-stat/functions.c:4566
 msgid ""
@@ -11290,7 +11292,7 @@ msgid ""
 "product starts to wear out after a period of steady or even improving "
 "reliability."
 msgstr ""
-"Aquesta distribucion es a recommander per una analyse de durada de vida "
+"Aquesta distribucion es a recomandar per una analyse de durada de vida "
 "quand una foncion de hasard en forma de U es recherchée. Cela correspond a "
 "una défaillance rapida una fois que lo produit commence a s'user aprèp un "
 "periòde de fiabilité establa o quitament accrue."
@@ -11729,7 +11731,7 @@ msgid ""
 "regular characters and white-space."
 msgstr ""
 "CLEAN enlève los caractèrs non-affichables de son paramètre en conservant "
-"uniquement los caractèrs normaux e los espacis."
+"unicament los caractèrs normaux e los espacis."
 
 #: ../plugins/fn-string/functions.c:695
 msgid ""
@@ -11759,7 +11761,7 @@ msgstr "decimalas : nombre de decimalas"
 msgid ""
 "no_commas:TRUE if no thousand separators should be used, defaults to FALSE"
 msgstr ""
-"pas2virgules : TRUE(VERAI) se on ne souhaite pas de séparateurs de milliers, "
+"pas2virgulas : TRUE(VERAI) se on ne souhaite pas de séparateurs de milliers, "
 "FALSE(FALS) per defaut"
 
 #: ../plugins/fn-string/functions.c:793
@@ -11819,7 +11821,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:941
 msgid "T:@{value} if and only if @{value} is text, otherwise empty"
-msgstr "T : @{valor} se e seulement se @{valor} es del tèxte, siquenon vide"
+msgstr "T : @{valor} se e solament se @{valor} es del tèxte, siquenon vide"
 
 #: ../plugins/fn-string/functions.c:942
 msgid "value:original value"
@@ -11880,7 +11882,7 @@ msgid ""
 "num:if @{num} is specified and a number only the @{num}th occurrence of "
 "@{old} is replaced"
 msgstr ""
-"nbre : se un nombre @{nbre} es precisat, uniquement la @{nbre}ena ocurréncia "
+"nbre : se un nombre @{nbre} es precisat, unicament la @{nbre}ena ocurréncia "
 "de @{ancian} es remplaçada"
 
 #: ../plugins/fn-string/functions.c:1231
@@ -12270,7 +12272,7 @@ msgstr ""
 #: ../plugins/gda/plugin-gda.c:374
 msgid "EXECSQL:result of executing @{sql} in the libgda data source @{dsn}"
 msgstr ""
-"EXECSQL : resultat d'una commande @{sql} dins la font de donadas « libgda » "
+"EXECSQL : resultat d'una comanda @{sql} dins la font de donadas « libgda » "
 "@{sdn}"
 
 #: ../plugins/gda/plugin-gda.c:376 ../plugins/gda/plugin-gda.c:452
@@ -12287,7 +12289,7 @@ msgstr "senhal : senhal per accéder a @{sdn} en tant que @{nom_utilizaire}"
 
 #: ../plugins/gda/plugin-gda.c:379
 msgid "sql:SQL command"
-msgstr "sql : commande SQL"
+msgstr "sql : comanda SQL"
 
 #: ../plugins/gda/plugin-gda.c:380 ../plugins/gda/plugin-gda.c:456
 msgid "Before using EXECSQL, you need to set up a libgda data source."
@@ -12330,7 +12332,7 @@ msgstr ""
 #~ "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! "
 #~ "is returned. If @{α} is not an integer, it is truncated."
 #~ msgstr ""
-#~ "Si @{x} ou @{α} ne sont pas des valeurs numériques, une erreur #VALEUR! "
+#~ "Si @{x} ou @{α} ne sont pas des valors numériques, une erreur #VALEUR! "
 #~ "est renvoyée. Si @{α} < 0, une erreur #NUM! est renvoyée. Si @{α} n'est "
 #~ "pas un entier, il est tronqué."
 
@@ -12341,7 +12343,7 @@ msgstr ""
 #~ msgstr ""
 #~ "DURATION calcule la « duration » d'une obligation (concept mathématique "
 #~ "du risque d`une obligation : nombre d`années nécessaires pour recevoir la "
-#~ "valeur actuelle des flux futurs de revenu de cette obligation)."
+#~ "valor actuelle des flux futurs de revenu de aquesta obligation)."
 
 #~ msgid ""
 #~ "SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 "
@@ -12355,7 +12357,7 @@ msgstr ""
 #~ msgstr "a : quantité d'asymétrie, par défaut 0"
 
 #~ msgid "μ:mean of the underlying normal distribution, defaults to 0"
-#~ msgstr "μ : moyenne de la distribution normale sous-jacente, 0 par défaut"
+#~ msgstr "μ : moyenne de la distribucion normale sous-jacente, 0 par défaut"
 
 #~ msgid ""
 #~ "Let us assume that the cells A1, A2, ..., A5 contain number 11.4, 17.3, "
@@ -12377,7 +12379,7 @@ msgstr ""
 #~ msgstr "alors, STDEVP(A1:A5) est égal à 9,701133954."
 
 #~ msgid "If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error."
-#~ msgstr "Si @{p} < 0 ou @{p} > 1, cette fonction renvoie une erreur #NUM!."
+#~ msgstr "Si @{p} < 0 ou @{p} > 1, aquesta fonction renvoie une erreur #NUM!."
 
 #~ msgid ""
 #~ "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
