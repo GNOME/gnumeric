@@ -472,7 +472,8 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 	g_object_set (so, prop_name, &arrow, NULL);
 }
 
-static void excel_fill_bmp_header(guint8 *bmphdr, guint8 *data, guint32 len)
+static void
+excel_fill_bmp_header(guint8 *bmphdr, guint8 *data, guint32 len)
 {
 	guint bpp;
 	guint offset;
@@ -482,7 +483,7 @@ static void excel_fill_bmp_header(guint8 *bmphdr, guint8 *data, guint32 len)
 	GSF_LE_SET_GUINT32 (bmphdr + 2, len + BMP_HDR_SIZE);
 	GSF_LE_SET_GUINT16 (bmphdr + 6, 0);
 	GSF_LE_SET_GUINT16 (bmphdr + 8, 0);
-	bpp = GSF_LE_GET_GUINT16 (data + 18);
+	bpp = len >= 20 ? GSF_LE_GET_GUINT16 (data + 18) : 1;
 	switch (bpp) {
 	case 24: offset = 0;       break;
 	case 8:  offset = 256 * 3; break;
@@ -4405,6 +4406,8 @@ excel_read_os2bmp (BiffQuery *q, guint32 image_len)
 	GdkPixbuf	*pixbuf = NULL;
 	gboolean ret = FALSE;
 	guint8 bmphdr[BMP_HDR_SIZE];
+
+	XL_CHECK_CONDITION_VAL (q->length >= 8 && image_len < q->length - 8, NULL);
 
 	loader = gdk_pixbuf_loader_new_with_type ("bmp", &err);
 	if (!loader)

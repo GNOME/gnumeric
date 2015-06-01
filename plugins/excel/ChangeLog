@@ -1,3 +1,10 @@
+2015-06-01  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_fill_bmp_header): Don't read beyond
+	buffer.
+	(excel_read_os2bmp): Check that image length makes sense.  Fixes
+	#750043.
+
 2015-05-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-escher.c (ms_escher_read_BSE), (ms_escher_read_Blip),
