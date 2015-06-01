@@ -4,6 +4,7 @@
 	buffer.
 	(excel_read_os2bmp): Check that image length makes sense.  Fixes
 	#750043.
+	(excel_read_FONT): Fix record length check.  Fixes #750044.
 
 2015-05-30  Jean Brefort  <jean.brefort@normalesup.org>
 

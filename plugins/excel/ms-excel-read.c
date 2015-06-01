@@ -1628,7 +1628,8 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 		cp = gnm_font_override_codepage (fd->fontname);
 		fd->codepage = (cp > 0 ? cp : 1252);
 	} else {
-		XL_CHECK_CONDITION (q->length >= 11);
+		XL_CHECK_CONDITION (q->length >= 13);
+
 		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
 		fd->boldness   = GSF_LE_GET_GUINT16 (q->data + 6);
 		data = GSF_LE_GET_GUINT16 (q->data + 8);
