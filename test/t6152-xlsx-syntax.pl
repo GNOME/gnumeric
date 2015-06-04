@@ -58,10 +58,15 @@ foreach my $src (@sources) {
     $tmp =~ s|^.*/||;
     $tmp =~ s|\..*|.xlsx|;
     &GnumericTest::junkfile ($tmp);
-    system ("$ssconvert -T $format $src $tmp");
-    if (!-r $tmp) {
-	print STDERR "ssconvert failed to produce $tmp\n";
-	die "Fail\n";
+
+    {
+	my $cmd = &GnumericTest::quotearg ($ssconvert, '-T', $format, $src, $tmp);
+	print STDERR "# $cmd\n" if $GnumericTest::verbose;
+	system ($cmd);
+	if (!-r $tmp) {
+	    print STDERR "ssconvert failed to produce $tmp\n";
+	    die "Fail\n";
+	}
     }
 
     my %members;
