@@ -5578,6 +5578,36 @@ odf_write_page_layout (GnmOOExport *state, GnmPrintInformation *pi,
 	gsf_xml_out_add_cstr_unchecked
 		(state->xml, STYLE "print", gstr->str);
 
+	switch (pi->scaling.type) {
+	case PRINT_SCALE_FIT_PAGES: {
+		int x = pi->scaling.dim.cols;
+		int y = pi->scaling.dim.rows;
+		if (state->with_extension) {
+			/* LO uses style:scale-to-X and style:scale-to-Y but */
+			/* these are not valid in the style: namespace       */
+			/* So to be understood by LO we would need to write  */
+			/* invalid ODF. They should be using one of their    */
+			/* extension namespace, but are not!                 */
+			if (x > 0)
+				gsf_xml_out_add_int (state->xml, GNMSTYLE "scale-to-X", x);
+			if (y > 0)
+				gsf_xml_out_add_int (state->xml, GNMSTYLE "scale-to-Y", y);			
+		} else {
+			/* ODF 1.2 only allows us to specify the total number of pages. */
+			int x = pi->scaling.dim.cols;
+			int y = pi->scaling.dim.rows;
+			if (x > 0 && y > 0)
+				gsf_xml_out_add_int (state->xml, STYLE "scale-to-pages", x*y);
+		}
+		break;
+	}
+	case PRINT_SCALE_PERCENTAGE:
+		odf_add_percent (state->xml, STYLE "scale-to", pi->scaling.percentage.x);
+		break;
+	default:
+		odf_add_percent (state->xml, STYLE "scale-to", 1.);
+	}
+
 	if (state->with_extension) {
 		g_string_truncate (gstr, 0);
 		if (pi->comment_placement == GNM_PRINT_COMMENTS_AT_END)

@@ -5793,8 +5793,12 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 	gint orient = GTK_PAGE_ORIENTATION_PORTRAIT;
 	gboolean gnm_style_print = FALSE;
 	gboolean annotations_at_end = FALSE;
+	gnm_float scale_to = 1.;
+	gint scale_to_x = 0;
+	gint scale_to_y = 0;
+	GnmPrintInformation *pi = state->print.cur_pi;
 
-	if (state->print.cur_pi == NULL)
+	if (pi == NULL)
 		return;
 	gps = gnm_print_info_get_page_setup (state->print.cur_pi);
 	gtk_page_setup_set_orientation (gps, GTK_PAGE_ORIENTATION_PORTRAIT);
@@ -5814,11 +5818,11 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 			w_set = TRUE;
 		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "table-centering",
 				       centre_type, &tmp)) {
-			state->print.cur_pi->center_horizontally = ((1 & tmp) != 0);
-			state->print.cur_pi->center_vertically = ((2 & tmp) != 0);
+			pi->center_horizontally = ((1 & tmp) != 0);
+			pi->center_vertically = ((2 & tmp) != 0);
 		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "print-page-order",
 					 print_order_type, &tmp)) {
-			state->print.cur_pi->print_across_then_down = (tmp == 0);
+			pi->print_across_then_down = (tmp == 0);
 		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "print-orientation",
 					 print_orientation_type, &orient)) {
 			gtk_page_setup_set_orientation (gps, orient);
@@ -5826,47 +5830,72 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 					       OO_NS_STYLE, "print")) {
 			gchar **items = g_strsplit (CXML2C (attrs[1]), " ", 0);
 			gchar **items_c = items;
-			state->print.cur_pi->print_grid_lines = 0;
-			state->print.cur_pi->print_titles = 0;
-			state->print.cur_pi->comment_placement = GNM_PRINT_COMMENTS_NONE;
+			pi->print_grid_lines = 0;
+			pi->print_titles = 0;
+			pi->comment_placement = GNM_PRINT_COMMENTS_NONE;
 			for (;items != NULL && *items; items++)
 				if (0 == strcmp (*items, "grid"))
-					state->print.cur_pi->print_grid_lines = 1;
+					pi->print_grid_lines = 1;
 				else if (0 == strcmp (*items, "headers"))
-					state->print.cur_pi->print_titles = 1;
+					pi->print_titles = 1;
 				else if (0 == strcmp (*items, "annotations"))
 					/* ODF does not distinguish AT_END and IN_PLACE */
-					state->print.cur_pi->comment_placement = GNM_PRINT_COMMENTS_AT_END;
+					pi->comment_placement = GNM_PRINT_COMMENTS_AT_END;
 			g_strfreev (items_c);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_GNUM_NS_EXT, "style-print")) {
 			gchar **items = g_strsplit (CXML2C (attrs[1]), " ", 0);
 			gchar **items_c = items;
 			gnm_style_print = TRUE;
-			state->print.cur_pi->print_black_and_white = 0;
-			state->print.cur_pi->print_as_draft = 0;
-			state->print.cur_pi->print_even_if_only_styles = 0;
-			state->print.cur_pi->error_display = GNM_PRINT_ERRORS_AS_DISPLAYED;
+			pi->print_black_and_white = 0;
+			pi->print_as_draft = 0;
+			pi->print_even_if_only_styles = 0;
+			pi->error_display = GNM_PRINT_ERRORS_AS_DISPLAYED;
 			for (;items != NULL && *items; items++)
 				if (0 == strcmp (*items, "annotations_at_end"))
 					annotations_at_end = TRUE;
 				else if (0 == strcmp (*items, "black_n_white"))
-					state->print.cur_pi->print_black_and_white = 1;
+					pi->print_black_and_white = 1;
 				else if (0 == strcmp (*items, "draft"))
-					state->print.cur_pi->print_as_draft = 1;
+					pi->print_as_draft = 1;
 				else if (0 == strcmp (*items, "errors_as_blank"))
-					state->print.cur_pi->error_display = GNM_PRINT_ERRORS_AS_BLANK;
+					pi->error_display = GNM_PRINT_ERRORS_AS_BLANK;
 				else if (0 == strcmp (*items, "errors_as_dashes"))
-					state->print.cur_pi->error_display = GNM_PRINT_ERRORS_AS_DASHES;
+					pi->error_display = GNM_PRINT_ERRORS_AS_DASHES;
 				else if (0 == strcmp (*items, "errors_as_na"))
-					state->print.cur_pi->error_display = GNM_PRINT_ERRORS_AS_NA;
+					pi->error_display = GNM_PRINT_ERRORS_AS_NA;
 				else if (0 == strcmp (*items, "print_even_if_only_styles"))
-					state->print.cur_pi->print_even_if_only_styles = 1;
+					pi->print_even_if_only_styles = 1;
 			g_strfreev (items_c);
-		}
+		} else if (oo_attr_int_range (xin, attrs, OO_NS_STYLE, "scale-to-pages",
+					      &scale_to_x, 1, INT_MAX)) {
+			scale_to_y = scale_to_x;
+			scale_to = -1.;
+		} else if (oo_attr_int_range (xin, attrs, OO_NS_STYLE, "scale-to-X",
+					      &scale_to_x, 1, INT_MAX)) {
+			scale_to = -1.;
+		} else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "scale-to-X",
+					      &scale_to_x, 1, INT_MAX)) {
+			scale_to = -1.;
+		} else if (oo_attr_int_range (xin, attrs, OO_NS_STYLE, "scale-to-Y",
+					      &scale_to_y, 1, INT_MAX)) {
+			scale_to = -1.;
+		} else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "scale-to-Y",
+					      &scale_to_y, 1, INT_MAX)) {
+			scale_to = -1.;
+		} else if (oo_attr_percent (xin, attrs, OO_NS_STYLE, "scale-to", &scale_to))
+			;
+	if (scale_to < 0) {
+		pi->scaling.dim.cols = scale_to_x;
+		pi->scaling.dim.rows = scale_to_y;
+		pi->scaling.type = PRINT_SCALE_FIT_PAGES;
+	} else {
+		pi->scaling.type = PRINT_SCALE_PERCENTAGE;
+		pi->scaling.percentage.x = pi->scaling.percentage.y = scale_to;		
+	}
 
-	if (gnm_style_print && state->print.cur_pi->comment_placement != GNM_PRINT_COMMENTS_NONE)
-		state->print.cur_pi->comment_placement = annotations_at_end ? GNM_PRINT_COMMENTS_AT_END :
+	if (gnm_style_print && pi->comment_placement != GNM_PRINT_COMMENTS_NONE)
+		pi->comment_placement = annotations_at_end ? GNM_PRINT_COMMENTS_AT_END :
 			GNM_PRINT_COMMENTS_IN_PLACE;
 
 	/* STYLE "writing-mode" is being ignored since we can't store it anywhere atm */

@@ -1,5 +1,5 @@
 --- ods-schema/OpenDocument-v1.2-os-schema.rng	2015-04-08 21:49:54.058918977 -0600
-+++ ods-schema/OpenDocument-v1.2-os-ext-schema.rng	2015-04-12 15:44:20.728861320 -0600
++++ ods-schema/OpenDocument-v1.2-os-ext-schema.rng	2015-06-05 13:07:06.067557896 -0600
 @@ -62,6 +62,12 @@
  	xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"
  	xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0"
@@ -317,7 +317,7 @@
  		</interleave>
  	</define>
  	<define name="draw-stroke-dash">
-@@ -14383,6 +14507,11 @@
+@@ -14383,6 +14507,21 @@
  					<ref name="boolean"/>
  				</attribute>
  			</optional>
@@ -326,10 +326,20 @@
 +					<ref name="string"/>
 +				</attribute>
 +			</optional>
++			<optional>
++				<attribute name="gnm:scale-to-X">
++					<ref name="positiveInteger"/>
++				</attribute>
++			</optional>
++			<optional>
++				<attribute name="gnm:scale-to-Y">
++					<ref name="positiveInteger"/>
++				</attribute>
++			</optional>
  		</interleave>
  	</define>
  	<define name="style-page-layout-properties-elements">
-@@ -14874,11 +15003,33 @@
+@@ -14874,11 +15013,33 @@
  				</attribute>
  			</optional>
  			<optional>
@@ -363,7 +373,7 @@
  				<attribute name="style:text-line-through-mode">
  					<ref name="lineMode"/>
  				</attribute>
-@@ -15090,6 +15241,18 @@
+@@ -15090,6 +15251,18 @@
  	<define name="style-paragraph-properties-attlist">
  		<interleave>
  			<optional>
@@ -382,7 +392,7 @@
  				<attribute name="fo:line-height">
  					<choice>
  						<value>normal</value>
-@@ -15461,14 +15624,21 @@
+@@ -15461,14 +15634,21 @@
  		</optional>
  	</define>
  	<define name="common-background-color-attlist">
@@ -411,7 +421,7 @@
  	</define>
  	<define name="style-background-image">
  		<optional>
-@@ -15564,6 +15734,36 @@
+@@ -15564,6 +15744,36 @@
  				<ref name="string"/>
  			</attribute>
  		</optional>
@@ -448,7 +458,7 @@
  	</define>
  	<define name="common-border-line-width-attlist">
  		<optional>
-@@ -15904,6 +16104,37 @@
+@@ -15904,6 +16114,37 @@
  					<ref name="boolean"/>
  				</attribute>
  			</optional>
@@ -486,7 +496,7 @@
  		</interleave>
  	</define>
  	<define name="style-table-properties-elements">
-@@ -16004,6 +16235,11 @@
+@@ -16004,6 +16245,11 @@
  				</attribute>
  			</optional>
  			<optional>
@@ -498,7 +508,7 @@
  				<attribute name="style:text-align-source">
  					<choice>
  						<value>fix</value>
-@@ -16028,6 +16264,16 @@
+@@ -16028,6 +16274,16 @@
  			<ref name="common-background-color-attlist"/>
  			<ref name="common-border-attlist"/>
  			<optional>
@@ -515,7 +525,7 @@
  				<attribute name="style:diagonal-tl-br">
  					<ref name="string"/>
  				</attribute>
-@@ -16104,6 +16350,16 @@
+@@ -16104,6 +16360,16 @@
  					<ref name="boolean"/>
  				</attribute>
  			</optional>
@@ -532,7 +542,7 @@
  		</interleave>
  	</define>
  	<define name="common-style-direction-attlist">
-@@ -17060,6 +17316,46 @@
+@@ -17060,6 +17326,46 @@
  					<ref name="nonNegativeInteger"/>
  				</attribute>
  			</optional>
@@ -579,7 +589,7 @@
  		</interleave>
  	</define>
  	<define name="style-graphic-fill-properties-attlist">
-@@ -17388,6 +17684,10 @@
+@@ -17388,6 +17694,10 @@
  						<value>none</value>
  						<value>cubic-spline</value>
  						<value>b-spline</value>
@@ -590,7 +600,7 @@
  					</choice>
  				</attribute>
  			</optional>
-@@ -17661,6 +17961,10 @@
+@@ -17661,6 +17971,10 @@
  						<value>logarithmic</value>
  						<value>exponential</value>
  						<value>power</value>
@@ -601,7 +611,7 @@
  					</choice>
  				</attribute>
  			</optional>
-@@ -17697,6 +18001,62 @@
+@@ -17697,6 +18011,62 @@
  					<ref name="boolean"/>
  				</attribute>
  			</optional>
@@ -664,7 +674,7 @@
  		</interleave>
  	</define>
  	<define name="labelPositions">
-@@ -18124,4 +18484,85 @@
+@@ -18124,4 +18494,85 @@
  			</element>
  		</zeroOrMore>
  	</define>

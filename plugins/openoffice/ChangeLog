@@ -1,3 +1,8 @@
+2015-06-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_page_layout): write scaling information
+	* openoffice-read.c (odf_page_layout_properties): handle scaling
+
 2015-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_multi_chart_frame_size): add parentheses
