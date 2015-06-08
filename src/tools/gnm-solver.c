@@ -1960,11 +1960,11 @@ gnm_solver_line_search (GnmSolver *sol,
 		s = s1 * (phi + 1);
 
 		if (gnm_abs (s) >= max_step)
-			return gnm_nan;
+			goto bail;
 
 		y = try_step (sol, x0, dir, s);
 		if (!gnm_finite (y) || !gnm_solver_check_constraints (sol))
-			return gnm_nan;
+			goto bail;
 
 		if (y < y1) {
 			y1 = y;
@@ -2002,7 +2002,7 @@ gnm_solver_line_search (GnmSolver *sol,
 
 		y = try_step (sol, x0, dir, s);
 		if (!gnm_finite (y) || !gnm_solver_check_constraints (sol))
-			return gnm_nan;
+			goto bail;
 
 		if (y < y1) {
 			if (rbig) {
@@ -2029,6 +2029,7 @@ gnm_solver_line_search (GnmSolver *sol,
 		}
 	}
 
+bail:
 	if (debug)
 		g_printerr ("LS: step %.6" GNM_FORMAT_g "\n", s1);
 
