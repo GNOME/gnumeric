@@ -12922,6 +12922,45 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "TRUE","TRUE" },                 /* see handler */
 		{ "USDOLLAR","DOLLAR" },
 
+/* The following are known to have appeared (usually with a COM.MICROSOFT prefix. */
+
+		{ "BETA.INV","BETAINV" },
+		{ "BINOM.DIST","BINOMDIST" },
+		{ "BINOM.INV","CRITBINOM" },
+		{ "CHISQ.DIST.RT","CHIDIST" },
+		{ "CHISQ.INV.RT","CHIINV" },
+		{ "CHISQ.TEST","CHITEST" },
+		{ "CONFIDENCE.NORM","CONFIDENCE" },
+		{ "COVARIANCE.P","COVAR" },
+		{ "EXPON.DIST","EXPONDIST" },
+		{ "F.DIST.RT","FDIST" },
+		{ "F.INV.RT","FINV" },
+		{ "F.TEST","FTEST" },
+		{ "GAMMA.DIST","GAMMADIST" },
+		{ "GAMMA.INV","GAMMAINV" },
+		{ "GAMMALN.PRECISE","GAMMALN" },
+		{ "HYPGEOM.DIST","HYPGEOMDIST" },
+		{ "LOGNORM.DIST","LOGNORMDIST" },
+		{ "LOGNORM.INV","LOGINV" },
+		{ "MODE.SNGL","MODE" },
+		{ "NEGBINOM.DIST","NEGBINOMDIST" },
+		{ "NORM.DIST","NORMDIST" },
+		{ "NORM.INV","NORMINV" },
+		{ "NORM.S.INV","NORMSINV" },
+		{ "PERCENTILE.INC","PERCENTILE" },
+		{ "PERCENTRANK.INC","PERCENTRANK" },
+		{ "POISSON.DIST","POISSON" },
+		{ "QUARTILE.INC","QUARTILE" },
+		{ "RANK.EQ","RANK" },
+		{ "STDEV.S","STDEV" },
+		{ "STDEV.P","STDEVP" },
+		{ "T.INV.2T","TINV" },
+		{ "T.TEST","TTEST" },
+		{ "VAR.S","VAR" },
+		{ "VAR.P","VARP" },
+		{ "WEIBULL.DIST","WEIBULL" },
+		{ "Z.TEST","ZTEST" },
+
 /* { "ADDRESS","ADDRESS" },       also  see handler */
 /* { "ABS","ABS" }, */
 /* { "ACCRINT","ACCRINT" }, */
@@ -13296,9 +13335,9 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	};
 	static char const OOoAnalysisPrefix[] = "com.sun.star.sheet.addin.Analysis.get";
 	static char const GnumericPrefix[] = "ORG.GNUMERIC.";
+	static char const MicrosoftPrefix[] = "COM.MICROSOFT.";
 
-	GnmFunc  *f;
-	char const *new_name;
+	GnmFunc  *f = NULL;
 	int i;
 	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope, GnmExprList *args);
 	ODFConventions *oconv = (ODFConventions *)convs;
@@ -13337,13 +13376,22 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 
 	if (0 == g_ascii_strncasecmp (name, GnumericPrefix, sizeof (GnumericPrefix)-1)) {
 		f = gnm_func_lookup_or_add_placeholder (name+sizeof (GnumericPrefix)-1);
-	} else if (0 != g_ascii_strncasecmp (name, OOoAnalysisPrefix, sizeof (OOoAnalysisPrefix)-1)) {
+	} else if (0 == g_ascii_strncasecmp (name, OOoAnalysisPrefix, sizeof (OOoAnalysisPrefix)-1)) {
+		f = gnm_func_lookup_or_add_placeholder (name+sizeof (OOoAnalysisPrefix)-1);
+	} else if (0 == g_ascii_strncasecmp (name, MicrosoftPrefix, sizeof (MicrosoftPrefix)-1)) {
+		char const *new_name;
+		if (NULL != namemap &&
+		    NULL != (new_name = g_hash_table_lookup (namemap, name+sizeof (MicrosoftPrefix)-1)))
+			f = gnm_func_lookup_or_add_placeholder (new_name);
+	}
+
+	if (NULL == f) {
+		char const *new_name;
 		if (NULL != namemap &&
 		    NULL != (new_name = g_hash_table_lookup (namemap, name)))
 			name = new_name;
 		f = gnm_func_lookup_or_add_placeholder (name);
-	} else
-		f = gnm_func_lookup_or_add_placeholder (name+sizeof (OOoAnalysisPrefix)-1);
+	}
 
 	return gnm_expr_new_funcall (f, args);
 }

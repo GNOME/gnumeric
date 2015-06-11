@@ -1,3 +1,8 @@
+2015-06-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_func_map_in): Add some new excel function names
+	and handle a potential COM.MICROSOFT. prefix.
+
 2015-06-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_page_layout): write scaling information
