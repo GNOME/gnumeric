@@ -12924,10 +12924,14 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 
 /* The following are known to have appeared (usually with a COM.MICROSOFT prefix. */
 
+		{ "BETA.DIST","BETA.DIST" }, /* We need this mapping to satisfy */
+		                             /* the COM.MICROSOFT prefix        */
 		{ "BETA.INV","BETAINV" },
 		{ "BINOM.DIST","BINOMDIST" },
 		{ "BINOM.INV","CRITBINOM" },
+		{ "CHISQ.DIST","R.PCHISQ" },
 		{ "CHISQ.DIST.RT","CHIDIST" },
+		{ "CHISQ.INV","R.QCHISQ" },
 		{ "CHISQ.INV.RT","CHIINV" },
 		{ "CHISQ.TEST","CHITEST" },
 		{ "CONFIDENCE.NORM","CONFIDENCE" },
@@ -12943,7 +12947,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "LOGNORM.DIST","LOGNORMDIST" },
 		{ "LOGNORM.INV","LOGINV" },
 		{ "MODE.SNGL","MODE" },
-		{ "NEGBINOM.DIST","NEGBINOMDIST" },
+		/* { "NEGBINOM.DIST","NEGBINOMDIST" }, NEGBINOM.DIST has a cum argument*/
 		{ "NORM.DIST","NORMDIST" },
 		{ "NORM.INV","NORMINV" },
 		{ "NORM.S.INV","NORMSINV" },
