@@ -2,6 +2,7 @@
 
 	* ms-excel-read.c (excel_read_AUTOFILTER): Handle invalid filter
 	condition.  Fixes #750811.
+	(excel_read_SST): Fuzzed file fix.  #750810.
 
 2015-06-01  Morten Welinder  <terra@gnome.org>
 

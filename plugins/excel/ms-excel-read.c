@@ -1308,7 +1308,7 @@ static void
 excel_read_SST (BiffQuery *q, GnmXLImporter *importer)
 {
 	guint32 offset;
-	unsigned i;
+	unsigned i, sst_len;
 
 	XL_CHECK_CONDITION (q->length >= 8);
 
@@ -1319,9 +1319,10 @@ excel_read_SST (BiffQuery *q, GnmXLImporter *importer)
 			gsf_mem_dump (q->data, q->length);
 		});
 
-	importer->sst_len = GSF_LE_GET_GUINT32 (q->data + 4);
-	XL_CHECK_CONDITION (importer->sst_len < INT_MAX / sizeof (ExcelStringEntry));
+	sst_len = GSF_LE_GET_GUINT32 (q->data + 4);
+	XL_CHECK_CONDITION (sst_len < INT_MAX / sizeof (ExcelStringEntry));
 
+	importer->sst_len = sst_len;
 	importer->sst = g_new0 (ExcelStringEntry, importer->sst_len);
 
 	offset = 8;
