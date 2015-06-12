@@ -3379,7 +3379,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		cols_spanned = merge_range->end.col - merge_range->start.col + 1;
 	}
 
-	if (style && cols_spanned <= 1 && gnm_style_get_align_h (style) == GNM_HALIGN_CENTER_ACROSS_SELECTION) {
+	if (style && cell && cols_spanned <= 1 && gnm_style_get_align_h (style) == GNM_HALIGN_CENTER_ACROSS_SELECTION) {
 		/* We have to simulate GNM_HALIGN_CENTER_ACROSS_SELECTION by a merge */
 		int cell_col = cell->pos.col;
 		int cell_row = cell->pos.row;
