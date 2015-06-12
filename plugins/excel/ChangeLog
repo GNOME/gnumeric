@@ -1,3 +1,8 @@
+2015-06-11  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_AUTOFILTER): Handle invalid filter
+	condition.  Fixes #750811.
+
 2015-06-01  Morten Welinder  <terra@gnome.org>
 
 	* ms-obj.c (ms_read_TXO): Zero out markup earlier.  Fixes #750046.

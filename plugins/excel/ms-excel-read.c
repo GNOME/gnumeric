@@ -5602,8 +5602,10 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 
 	XL_CHECK_CONDITION (data+2 < end);
 	i = GSF_LE_GET_GUINT16 (data);
-	for (data += 2; i-- > 0 ; data += 8) {
-		XL_CHECK_CONDITION (data+8 <= end);
+	data += 2;
+	XL_CHECK_CONDITION ((end - data) / 8 >= i);
+
+	for (; i-- > 0 ; data += 8) {
 		xls_read_range16 (&r, data);
 		ranges = g_slist_prepend (ranges, gnm_range_dup (&r));
 	}
@@ -6066,6 +6068,10 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 		if (len1 > 0)
 			v1 = value_new_string_nocopy (
 				excel_get_text (esheet->container.importer, data, len1, NULL, NULL, end - data));
+
+		/* Survive fuzzed files.  */
+		if (op0 == GNM_FILTER_UNUSED)
+			op0 = GNM_FILTER_OP_BLANKS;
 
 		if (op1 == GNM_FILTER_UNUSED) {
 			cond = gnm_filter_condition_new_single (op0, v0);
