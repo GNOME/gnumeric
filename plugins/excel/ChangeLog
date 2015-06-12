@@ -1,3 +1,8 @@
+2015-06-12  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-util.c (xls_header_footer_import): Allocate if needed.
+	Fixes #750853.
+
 2015-06-11  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_AUTOFILTER): Handle invalid filter

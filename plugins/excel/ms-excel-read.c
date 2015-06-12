@@ -6430,7 +6430,7 @@ excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
 
 		d (2, g_printerr ("%s == '%s'\n", is_header ? "header" : "footer", str););
 
-		xls_header_footer_import (is_header ? pi->header : pi->footer,
+		xls_header_footer_import (is_header ? &pi->header : &pi->footer,
 					  str);
 
 		g_free (str);

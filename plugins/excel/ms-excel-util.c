@@ -750,10 +750,14 @@ xls_header_footer_export (const GnmPrintHF *hf)
 }
 
 void
-xls_header_footer_import (GnmPrintHF *hf, const char *txt)
+xls_header_footer_import (GnmPrintHF **phf, const char *txt)
 {
 	char section = 'L';
 	GString *accum;
+	GnmPrintHF *hf = *phf;
+
+	if (!hf)
+		*phf = hf = gnm_print_hf_new ("", "", "");
 
 	g_free (hf->left_format); hf->left_format = g_strdup ("");
 	g_free (hf->middle_format); hf->middle_format = g_strdup ("");

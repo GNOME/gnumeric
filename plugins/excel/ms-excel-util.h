@@ -103,7 +103,7 @@ unsigned xls_paper_size (GtkPaperSize *ps, gboolean rotated);
 /*****************************************************************************/
 
 char *xls_header_footer_export (const GnmPrintHF *hf);
-void xls_header_footer_import (GnmPrintHF *hf, const char *txt);
+void xls_header_footer_import (GnmPrintHF **hf, const char *txt);
 
 /*****************************************************************************/
 

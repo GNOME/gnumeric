@@ -25,6 +25,7 @@ Morten:
 	* Make solver check linearity of model.
 	* Fix xls saving of marker style.  [#749185]
 	* Make compilation with clang work again.  [#749138]
+	* Fix xlsx problem with import of header/footer.  [#750853]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.22

@@ -2002,7 +2002,7 @@ xlsx_CT_oddheader_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmPrintInformation *pi = state->sheet->print_info;
-	xls_header_footer_import (pi->header, xin->content->str);
+	xls_header_footer_import (&pi->header, xin->content->str);
 }
 
 static void
@@ -2010,7 +2010,7 @@ xlsx_CT_oddfooter_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmPrintInformation *pi = state->sheet->print_info;
-	xls_header_footer_import (pi->footer, xin->content->str);
+	xls_header_footer_import (&pi->footer, xin->content->str);
 }
 
 static void
