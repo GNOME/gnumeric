@@ -4179,8 +4179,22 @@ xlsx_collection_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	unsigned count = 0;
+	GPtrArray **pcollection;
 
 	g_return_if_fail (NULL == state->collection);
+
+	switch (xin->node->user_data.v_int) {
+	case XLSX_COLLECT_FONT: pcollection = &state->fonts; break;
+	case XLSX_COLLECT_FILLS: pcollection = &state->fills; break;
+	case XLSX_COLLECT_BORDERS: pcollection = &state->borders; break;
+	case XLSX_COLLECT_XFS: pcollection = &state->xfs; break;
+	case XLSX_COLLECT_STYLE_XFS: pcollection = &state->style_xfs; break;
+	case XLSX_COLLECT_DXFS: pcollection = &state->dxfs; break;
+	case XLSX_COLLECT_TABLE_STYLES: pcollection = &state->table_styles; break;
+	default:
+		g_assert_not_reached ();
+		return;
+	}
 
 	state->count = 0;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -4191,18 +4205,12 @@ xlsx_collection_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	/* Don't trust huge counts. */
 	count = MIN (count, 1000u);
 
-	state->collection = g_ptr_array_new ();
-	g_ptr_array_set_size (state->collection, count);
-
-	switch (xin->node->user_data.v_int) {
-	case XLSX_COLLECT_FONT :	state->fonts = state->collection;	 break;
-	case XLSX_COLLECT_FILLS :	state->fills = state->collection;	 break;
-	case XLSX_COLLECT_BORDERS :	state->borders = state->collection;	 break;
-	case XLSX_COLLECT_XFS :		state->xfs = state->collection;		 break;
-	case XLSX_COLLECT_STYLE_XFS :	state->style_xfs = state->collection;	 break;
-	case XLSX_COLLECT_DXFS :	state->dxfs = state->collection;	 break;
-	case XLSX_COLLECT_TABLE_STYLES: state->table_styles = state->collection; break;
+	if (*pcollection == NULL) {
+		*pcollection = g_ptr_array_new ();
+		g_ptr_array_set_size (*pcollection, count);
 	}
+
+	state->collection = *pcollection;
 }
 
 static void
