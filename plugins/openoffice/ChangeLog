@@ -1,3 +1,9 @@
+2015-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_func_f_dist_handler): new
+	(odf_func_lognorm_dist_handler): new
+	(oo_func_map_in): connect the above
+
 2015-06-12  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_write_cell): Add check for null cell in
