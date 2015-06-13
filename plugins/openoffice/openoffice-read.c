@@ -12893,7 +12893,7 @@ odf_func_f_dist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSE
 }
 
 static GnmExpr const *
-odf_func_lognorm_dist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+odf_func_dist4_handler (GnmExprList *args, char const *fd_p_name, char const *fd_d_name)
 {
 	switch (gnm_expr_list_length (args)) {
 	case 4: {
@@ -12902,30 +12902,30 @@ odf_func_lognorm_dist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC
 		GnmExpr const *arg2 = args->next->next->data;
 		GnmExpr const *arg3 = args->next->next->next->data;
 		GnmFunc  *fd_if;
-		GnmFunc  *fd_pln;
-		GnmFunc  *fd_dln;
-		GnmExpr const *expr_pln;
-		GnmExpr const *expr_dln;
+		GnmFunc  *fd_p;
+		GnmFunc  *fd_d;
+		GnmExpr const *expr_p;
+		GnmExpr const *expr_d;
 		GnmExpr const *res, *simp;
 
 		fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-		fd_pln = gnm_func_lookup_or_add_placeholder ("LOGNORMDIST");
-		fd_dln = gnm_func_lookup_or_add_placeholder ("R.DLNORM");
-		expr_pln = gnm_expr_new_funcall3
-			(fd_pln,
+		fd_p = gnm_func_lookup_or_add_placeholder (fd_p_name);
+		fd_d = gnm_func_lookup_or_add_placeholder (fd_d_name);
+		expr_p = gnm_expr_new_funcall3
+			(fd_p,
 			 gnm_expr_copy (arg0),
 			 gnm_expr_copy (arg1),
 			 gnm_expr_copy (arg2));
-		expr_dln = gnm_expr_new_funcall3
-			(fd_dln,
+		expr_d = gnm_expr_new_funcall3
+			(fd_d,
 			 arg0,
 			 arg1,
 			 arg2);
 		res = gnm_expr_new_funcall3
 			(fd_if,
 			 arg3,
-			 expr_pln,
-			 expr_dln);
+			 expr_p,
+			 expr_d);
 
 		simp = gnm_expr_simplify_if (res);
 		if (simp) {
@@ -12940,6 +12940,155 @@ odf_func_lognorm_dist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC
 		break;
 	}
 	return NULL;
+}
+
+static GnmExpr const *
+odf_func_dist3_handler (GnmExprList *args, char const *fd_p_name, char const *fd_d_name)
+{
+	switch (gnm_expr_list_length (args)) {
+	case 3: {
+		GnmExpr const *arg0 = args->data;
+		GnmExpr const *arg1 = args->next->data;
+		GnmExpr const *arg2 = args->next->next->data;
+		GnmFunc  *fd_if;
+		GnmFunc  *fd_p;
+		GnmFunc  *fd_d;
+		GnmExpr const *expr_p;
+		GnmExpr const *expr_d;
+		GnmExpr const *res, *simp;
+
+		fd_if = gnm_func_lookup_or_add_placeholder ("IF");
+		fd_p = gnm_func_lookup_or_add_placeholder (fd_p_name);
+		fd_d = gnm_func_lookup_or_add_placeholder (fd_d_name);
+		expr_p = gnm_expr_new_funcall2
+			(fd_p,
+			 gnm_expr_copy (arg0),
+			 gnm_expr_copy (arg1));
+		expr_d = gnm_expr_new_funcall2
+			(fd_d,
+			 arg0,
+			 arg1);
+		res = gnm_expr_new_funcall3
+			(fd_if,
+			 arg2,
+			 expr_p,
+			 expr_d);
+
+		simp = gnm_expr_simplify_if (res);
+		if (simp) {
+			gnm_expr_free (res);
+			res = simp;
+		}
+
+		g_slist_free (args);
+		return res;
+	}
+	default:
+		break;
+	}
+	return NULL;
+}
+
+static GnmExpr const *
+odf_func_norm_s_dist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+{
+	switch (gnm_expr_list_length (args)) {
+	case 2: {
+		GnmExpr const *arg0 = args->data;
+		GnmExpr const *arg1 = args->next->data;
+		GnmFunc  *fd_if;
+		GnmFunc  *fd_p;
+		GnmFunc  *fd_d;
+		GnmExpr const *expr_p;
+		GnmExpr const *expr_d;
+		GnmExpr const *res, *simp;
+
+		fd_if = gnm_func_lookup_or_add_placeholder ("IF");
+		fd_p = gnm_func_lookup_or_add_placeholder ("R.DNORM");
+		fd_d = gnm_func_lookup_or_add_placeholder ("NORMSDIST");
+		expr_p = gnm_expr_new_funcall3
+			(fd_p,
+			 gnm_expr_copy (arg0),
+			 gnm_expr_new_constant (value_new_int (0)),
+			 gnm_expr_new_constant (value_new_int (1)));
+		expr_d = gnm_expr_new_funcall1
+			(fd_d,
+			 arg0);
+		res = gnm_expr_new_funcall3
+			(fd_if,
+			 arg1,
+			 expr_p,
+			 expr_d);
+
+		simp = gnm_expr_simplify_if (res);
+		if (simp) {
+			gnm_expr_free (res);
+			res = simp;
+		}
+
+		g_slist_free (args);
+		return res;
+	}
+	default:
+		break;
+	}
+	return NULL;
+}
+
+static GnmExpr const *
+odf_func_t_dist_tail_handler (GnmExprList *args, int tails)
+{
+	switch (gnm_expr_list_length (args)) {
+	case 2: {
+		GnmExpr const *arg0 = args->data;
+		GnmExpr const *arg1 = args->next->data;
+		GnmFunc  *fd;
+		GnmExpr const *res;
+
+		fd = gnm_func_lookup_or_add_placeholder ("TDIST");
+		res = gnm_expr_new_funcall3
+			(fd,
+			 arg0,
+			 arg1,
+			 gnm_expr_new_constant (value_new_int (tails)));
+
+		g_slist_free (args);
+		return res;
+	}
+	default:
+		break;
+	}
+	return NULL;
+}
+
+static GnmExpr const *
+odf_func_t_dist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+{
+	return odf_func_dist3_handler (args, "R.PT", "R.DT");
+}
+
+static GnmExpr const *
+odf_func_t_dist_rt_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+{
+	return odf_func_t_dist_tail_handler (args, 1);
+}
+
+static GnmExpr const *
+odf_func_t_dist_2t_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+{
+	return odf_func_t_dist_tail_handler (args, 2);
+}
+
+static GnmExpr const *
+odf_func_lognorm_dist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+{
+	return odf_func_dist4_handler (args, "LOGNORMDIST", "R.DLNORM");
+}
+
+static GnmExpr const *
+odf_func_negbinom_dist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+{
+	return odf_func_dist4_handler (args, "R.PNBINOM", "NEGBINOMDIST");
 }
 
 static GnmExpr const *
@@ -12974,6 +13123,11 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{"FALSE", odf_func_false_handler},
 		{"COM.MICROSOFT.F.DIST", odf_func_f_dist_handler},
 		{"COM.MICROSOFT.LOGNORM.DIST", odf_func_lognorm_dist_handler},
+		{"COM.MICROSOFT.NEGBINOM.DIST", odf_func_negbinom_dist_handler},
+		{"COM.MICROSOFT.T.DIST", odf_func_t_dist_handler},
+		{"COM.MICROSOFT.T.DIST.RT", odf_func_t_dist_rt_handler},
+		{"COM.MICROSOFT.T.DIST.2T", odf_func_t_dist_2t_handler},
+		{"COM.MICROSOFT.NORM.S.DIST", odf_func_norm_s_dist_handler},
 		{NULL, NULL}
 	};
 
@@ -13047,10 +13201,8 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "GAMMA.INV","GAMMAINV" },
 		{ "GAMMALN.PRECISE","GAMMALN" },
 		{ "HYPGEOM.DIST","HYPGEOMDIST" },
-		/* { "LOGNORM.DIST","LOGNORMDIST" }, LOGNORM.DIST has a cum argument */
 		{ "LOGNORM.INV","LOGINV" },
 		{ "MODE.SNGL","MODE" },
-		/* { "NEGBINOM.DIST","NEGBINOMDIST" }, NEGBINOM.DIST has a cum argument */
 		{ "NORM.DIST","NORMDIST" },
 		{ "NORM.INV","NORMINV" },
 		{ "NORM.S.INV","NORMSINV" },
@@ -13061,6 +13213,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "RANK.EQ","RANK" },
 		{ "STDEV.S","STDEV" },
 		{ "STDEV.P","STDEVP" },
+		{ "T.INV","R.QT" },
 		{ "T.INV.2T","TINV" },
 		{ "T.TEST","TTEST" },
 		{ "VAR.S","VAR" },

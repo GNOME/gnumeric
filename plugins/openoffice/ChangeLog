@@ -1,5 +1,18 @@
 2015-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_func_dist4_handler): new
+	(odf_func_dist3_handler): new
+	(odf_func_norm_s_dist_handler): new
+	(odf_func_t_dist_tail_handler): new
+	(odf_func_t_dist_handler): new
+	(odf_func_t_dist_rt_handler): new
+	(odf_func_t_dist_2t_handler): new
+	(odf_func_lognorm_dist_handler): use odf_func_dist4_handler
+	(odf_func_negbinom_dist_handler): new
+	(oo_func_map_in): connect more handlers and add more mappings
+
+2015-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_func_f_dist_handler): new
 	(odf_func_lognorm_dist_handler): new
 	(oo_func_map_in): connect the above
