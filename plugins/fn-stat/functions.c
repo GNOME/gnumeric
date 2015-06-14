@@ -1748,7 +1748,7 @@ static GnmFuncHelp const help_confidence[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is 0 this function returns a #DIV/0! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CONFIDENCE(0.05,1,33)" },
-	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,CONFIDENCE.T"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1759,10 +1759,45 @@ gnumeric_confidence (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float stddev = value_get_as_float (argv[1]);
 	gnm_float size = gnm_fake_floor (value_get_as_float (argv[2]));
 
+	if (size == 0.)
+		return value_new_error_DIV0 (ei->pos);
 	if (size <= 0 || stddev <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (-qnorm (x / 2, 0, 1, TRUE, FALSE) * (stddev / gnm_sqrt (size)));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_confidence_t[] = {
+	{ GNM_FUNC_HELP_NAME, F_("CONFIDENCE.T:margin of error of a confidence interval for the "
+				 "population mean using the Student's t-distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("alpha:significance level")},
+	{ GNM_FUNC_HELP_ARG, F_("stddev:sample standard deviation")},
+	{ GNM_FUNC_HELP_ARG, F_("size:sample size")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} < 0 or = 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is non-integer it is truncated.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{size} < 1 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is 1 this function returns a #DIV/0! error.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=CONFIDENCE.T(0.05,1,33)" },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,CONFIDENCE"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_confidence_t (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float stddev = value_get_as_float (argv[1]);
+	gnm_float size = gnm_fake_floor (value_get_as_float (argv[2]));
+
+	if (size == 1.)
+		return value_new_error_DIV0 (ei->pos);
+	if (size <= 1 || stddev <= 0)
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (-qt (x / 2, size - 1, TRUE, FALSE) * (stddev / gnm_sqrt (size)));
 }
 
 /***************************************************************************/
@@ -5052,6 +5087,9 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "confidence",   "fff",
 	  help_confidence, gnumeric_confidence, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "confidence.t",   "fff",
+	  help_confidence_t, gnumeric_confidence_t, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE,  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "correl",       "AA",
 	  help_correl, gnumeric_correl, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

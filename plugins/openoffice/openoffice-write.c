@@ -2211,8 +2211,9 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		/* ORG.GNUMERIC. So we need not list gnumeric unique names or those that  */
 		/* come from unknown plugins                                              */
 
-		/* The following are functions that exist in OpenFormula, this listing is */
-		/* alphabetical by the second entry, the OpenFormula name.                */
+		/* The following are functions that exist in OpenFormula or with anbother */
+		/* known prefix. This listing is */
+		/* alphabetical by the second entry, the OpenFormula or foreign name (w/o prefix). */
 
 		{ "ABS","ABS" },
 		{ "ACCRINT","ACCRINT" },
@@ -2265,7 +2266,8 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "CLEAN","CLEAN" },
 		{ "CODE","CODE" },
 		{ "COLUMN","COLUMN" },
-		{ "COLUMNS","COLUMNS" },
+		{ "COLUMNS","COLUMNS" }
+,		{ "CONFIDENCE.T","COM.MICROSOFT.CONFIDENCE.T" },
 		{ "COMBIN","COMBIN" },
 		{ "COMBINA","COMBINA" },
 		{ "COMPLEX","COMPLEX" },

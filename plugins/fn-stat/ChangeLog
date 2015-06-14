@@ -1,3 +1,10 @@
+2015-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_confidence_t): new
+	(gnumeric_confidence_t): new
+	(stat_functions): connect the above
+	* plugin.xml.in: add CONFIDENCE.T
+
 2015-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.22

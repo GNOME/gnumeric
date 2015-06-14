@@ -26,6 +26,7 @@
 				<function name="chiinv"/>
 				<function name="chitest"/>
 				<function name="confidence"/>
+				<function name="confidence.t"/>
 				<function name="correl"/>
 				<function name="count"/>
 				<function name="counta"/>
