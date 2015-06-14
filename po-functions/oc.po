@@ -4,21 +4,22 @@
 # Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 # Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>, 2015.
 # Cédric Valmary (Tot en Òc) <cvalmary@yahoo.fr>, 2015.
+# Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.5.4\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumer"
-"ic&keywords=I18N+L10N&component=general\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeri"
+"c&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-04-15 17:33+0000\n"
-"PO-Revision-Date: 2015-06-01 15:06+0200\n"
-"Last-Translator: Cédric Valmary (Tot en Òc) <cvalmary@yahoo.fr>\n"
-"Language-Team: www.totenoc.eu\n"
+"PO-Revision-Date: 2015-06-14 14:44+0200\n"
+"Last-Translator: Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>\n"
+"Language-Team: Tot En Òc\n"
 "Language: oc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Virtaal 0.7.0\n"
+"X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -691,8 +692,8 @@ msgid ""
 msgstr ""
 "@{critèri} es una plaja de cellulas que conten de condicions. La primièra "
 "linha de @{critèri} deu conténer d'etiquetas. Cada etiqueta définit lo camp "
-"auquel las condicions donadas dins la colomna s'appliquent. Cada cellula jos "
-"l'etiqueta définit una condicion coma « >3 » o « <9 ». Una condicion "
+"al qual las condicions donadas dins la colomna s'appliquent. Cada cellula "
+"jos l'etiqueta définit una condicion coma « >3 » o « <9 ». Una condicion "
 "d'ègalité pòt èsser donada simplement per la precision d'una valor, per "
 "exemple « 3 » o « Jody ». Per qu'un enregistrament siá pris en "
 "consideracion, il deu satisfaire totas las condicions al mens dins una de "
@@ -1533,9 +1534,9 @@ msgid ""
 "January 1 of a year is sometimes in week 52 or 53 of the previous year.  "
 "Similarly, December 31 is sometimes in week 1 of the following year."
 msgstr ""
-"Lo 1èr genièr d'una annada se situe quelquefois dins la setmana 52 o 53 de "
-"l'annada precedenta. Del meteis biais, lo 31 de decembre es quelquefois dins "
-"la setmana 1 de l'annada seguenta."
+"Lo 1èr genièr d'una annada se situe de còps dins la setmana 52 o 53 de "
+"l'annada precedenta. Del meteis biais, lo 31 de decembre es de còps dins la "
+"setmana 1 de l'annada seguenta."
 
 #: ../plugins/fn-date/functions.c:1214
 msgid "ISOYEAR:year corresponding to the ISO week number"
@@ -1667,7 +1668,7 @@ msgstr "data_exp : data d'expiracion"
 
 #: ../plugins/fn-derivatives/options.c:53
 msgid "rate:risk-free interest rate to the exercise date in percent"
-msgstr "taus : taus d'interès sens risque a la data d'exercici en percentatge"
+msgstr "taus : taus d'interès sens risc a la data d'exercici en percentatge"
 
 #: ../plugins/fn-derivatives/options.c:54
 msgid "rate:annualized interest rate"
@@ -1675,7 +1676,7 @@ msgstr "taus : taus d'interès annualizat"
 
 #: ../plugins/fn-derivatives/options.c:55
 msgid "rate:annualized risk-free interest rate"
-msgstr "taus : taus d'interès sens risque annualizat"
+msgstr "taus : taus d'interès sens risc annualizat"
 
 #: ../plugins/fn-derivatives/options.c:56
 msgid ""
@@ -1699,7 +1700,7 @@ msgid ""
 "the risk free rate less the dividend yield), defaults to 0"
 msgstr ""
 "còst_portatge : còst net del portatge dels actius sosjacents (per las "
-"accions, lo taus sens risque mens lo rendement del dividend), per defaut 0"
+"accions, lo taus sens risc mens lo rendement del dividend), per defaut 0"
 
 #: ../plugins/fn-derivatives/options.c:60
 msgid "cost_of_carry:net cost of holding the underlying asset"
@@ -1907,14 +1908,14 @@ msgid ""
 "domestic_rate:domestic risk-free interest rate to the exercise date in "
 "percent"
 msgstr ""
-"taus_intèrne : taus d'interès de drech intèrne sens risque a la data "
+"taus_intèrne : taus d'interès de drech intèrne sens risc a la data "
 "d'exercici en percentatge"
 
 #: ../plugins/fn-derivatives/options.c:630
 msgid ""
 "foreign_rate:foreign risk-free interest rate to the exercise date in percent"
 msgstr ""
-"taus_étranger : taus d'interès de droit étranger sens risque a la data "
+"taus_étranger : taus d'interès de droit étranger sens risc a la data "
 "d'exercici en percentatge"
 
 #: ../plugins/fn-derivatives/options.c:632
@@ -2126,7 +2127,7 @@ msgstr "a : montant percebut a cada escasença periodica"
 #: ../plugins/fn-derivatives/options.c:1300
 msgid "m:number of time units the option has already met the condition"
 msgstr ""
-"m : nombre d'escasença s programadas per las qualas l'option a efectivament "
+"m : nombre d'escasença s programadas per las qualas l'opcion a efectivament "
 "rempli la condicion"
 
 #: ../plugins/fn-derivatives/options.c:1301
@@ -2159,12 +2160,12 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1341
 msgid "time2:time in years until the chosen option expires"
-msgstr "relambi2 : relambi en annadas al cap del qual l'option expire"
+msgstr "relambi2 : relambi en annadas al cap del qual l'opcion expira"
 
 #: ../plugins/fn-derivatives/options.c:1385
 msgid "OPT_COMPLEX_CHOOSER:theoretical price of a complex chooser option"
 msgstr ""
-"OPT_COMPLEX_CHOOSER : prètz teoric d'una opcion a choix différé complexe"
+"OPT_COMPLEX_CHOOSER : prètz teoric d'una opcion de causida diferida complèxa"
 
 #: ../plugins/fn-derivatives/options.c:1387
 msgid "strike_call:strike price, if exercised as a call option"
@@ -2184,12 +2185,13 @@ msgstr ""
 msgid "time_call:time in years to maturity of the call option if chosen"
 msgstr ""
 "relambi_mat : relambi de maduretat en annadas de l'opcion de crompa, se "
-"choisie"
+"causida"
 
 #: ../plugins/fn-derivatives/options.c:1391
 msgid "time_put:time in years  to maturity of the put option if chosen"
 msgstr ""
-"relambi_mat : relambi de maduretat en annadas de l'opcion de venda, se choisie"
+"relambi_mat : relambi de maduretat en annadas de l'opcion de venda, se "
+"causida"
 
 #: ../plugins/fn-derivatives/options.c:1486
 msgid "OPT_ON_OPTIONS:theoretical price of options on options"
@@ -2206,12 +2208,12 @@ msgstr ""
 #: ../plugins/fn-derivatives/options.c:1489
 msgid "strike1:strike price at which the option being valued is struck"
 msgstr ""
-"prètz_exercici1 : prètz d'exercici auquel l'option avalorada es exerçada"
+"prètz_exercici1 : prètz d'exercici al qual l'opcion avalorada es exerçada"
 
 #: ../plugins/fn-derivatives/options.c:1490
 msgid "strike2:strike price at which the underlying option is struck"
 msgstr ""
-"prètz_exercici2 : prètz d'exercici auquel l'option sosjacente es exerçada"
+"prètz_exercici2 : prètz d'exercici al qual l'opcion sosjacente es exerçada"
 
 #: ../plugins/fn-derivatives/options.c:1491
 msgid "time1:time in years to maturity of the option"
@@ -2242,8 +2244,8 @@ msgid ""
 "For common stocks, @{cost_of_carry} is the risk free rate less the dividend "
 "yield."
 msgstr ""
-"Per las accions, @{còst_portatge} es lo taus sens risque mens lo rendement "
-"de dividend."
+"Per las accions, @{còst_portatge} es lo taus sens risc mens lo rendement de "
+"dividend."
 
 #: ../plugins/fn-derivatives/options.c:1497
 msgid "@{time2} ≥ @{time1}"
@@ -2257,14 +2259,14 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1566
 msgid "strike1:strike price at which the option is struck"
-msgstr "prètz_exercici1 : prètz d'exercici auquel l'option es exerçada"
+msgstr "prètz_exercici1 : prètz d'exercici al qual l'opcion es exerçada"
 
 #: ../plugins/fn-derivatives/options.c:1567
 msgid ""
 "strike2:strike price at which the option is re-struck if out of the money at "
 "@{time1}"
 msgstr ""
-"prètz_exercici2 : prètz d'exercici auquel l'option serà re-exerçada se elle "
+"prètz_exercici2 : prètz d'exercici al qual l'opcion serà re-exerçada se elle "
 "es en dehors de la moneda a l'escasença @{escasença 1}"
 
 #: ../plugins/fn-derivatives/options.c:1568
@@ -2273,7 +2275,7 @@ msgstr "escasença 1 : escasença iniciala de l'opcion en annadas"
 
 #: ../plugins/fn-derivatives/options.c:1569
 msgid "time2:extended maturity in years if chosen"
-msgstr "escasença 2 : escasença étendue en annada, se choisie"
+msgstr "escasença 2 : escasença étendue en annada, se causida"
 
 #: ../plugins/fn-derivatives/options.c:1573
 msgid ""
@@ -2317,7 +2319,7 @@ msgid ""
 "(for common stocks, the risk free rate less the dividend yield)"
 msgstr ""
 "còst_portatge1 : còst net del portatge de l'actiu sosjacent de la primièra "
-"option (per las accions, lo taus sens risque mens lo rendement de dividend)"
+"option (per las accions, lo taus sens risc mens lo rendement de dividend)"
 
 #: ../plugins/fn-derivatives/options.c:1624
 msgid ""
@@ -2325,7 +2327,7 @@ msgid ""
 "(for common stocks, the risk free rate less the dividend yield)"
 msgstr ""
 "còst_portatge2 : còst net del portatge de l'actiu sosjacent de la segonda "
-"option (per las accions, lo taus sens risque mens lo rendement de dividend)"
+"option (per las accions, lo taus sens risc mens lo rendement de dividend)"
 
 #: ../plugins/fn-derivatives/options.c:1627
 msgid ""
@@ -2396,7 +2398,7 @@ msgid ""
 "rate less the dividend yield)"
 msgstr ""
 "còst_portatge1 : còst net del portatge de l'actiu 1 (per las accions, lo "
-"taus sens risque mens lo rendement de dividend)"
+"taus sens risc mens lo rendement de dividend)"
 
 #: ../plugins/fn-derivatives/options.c:1674
 #: ../plugins/fn-derivatives/options.c:1718
@@ -2405,7 +2407,7 @@ msgid ""
 "rate less the dividend yield)"
 msgstr ""
 "còst_portatge2 : còst net del portatge de l'actiu 2 (per las accions, lo "
-"taus sens risque mens lo rendement de dividend)"
+"taus sens risc mens lo rendement de dividend)"
 
 #: ../plugins/fn-derivatives/options.c:1676
 #: ../plugins/fn-derivatives/options.c:1720
@@ -2515,7 +2517,7 @@ msgid ""
 "asset."
 msgstr ""
 "OPT_FLOAT_STRK_LKBK determina lo prètz teoric d'una opcion « lookback » a "
-"prètz d'exercici variable ont lo detenidor pòt exercer l'option a son "
+"prètz d'exercici variable ont lo detenidor pòt exercer l'opcion a son "
 "expiracion al prètz lo plus favorable observat per l'actiu sosjacent pendent "
 "la durada de vida de l'opcion."
 
@@ -2533,7 +2535,7 @@ msgid ""
 "asset."
 msgstr ""
 "OPT_FIXED_STRK_LKBK determina lo prètz teoric d'una opcion « lookback » a "
-"prètz d'exercici fixé ont lo detenidor pòt exercer l'option a son expiracion "
+"prètz d'exercici fixé ont lo detenidor pòt exercer l'opcion a son expiracion "
 "al prètz lo plus favorable observat per l'actiu sosjacent pendent la durada "
 "de vida de l'opcion."
 
@@ -3414,7 +3416,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:387
 msgid "@{issue} must precede both @{first_interest} and @{settlement}."
-msgstr "@{emission} deu précéder a la fois @{primièr_interès} and @{règlament}."
+msgstr "@{emission} deu précéder a l'encòp @{primièr_interès} and @{règlament}."
 
 #: ../plugins/fn-financial/functions.c:449
 msgid "ACCRINTM:accrued interest"
@@ -3512,7 +3514,7 @@ msgid ""
 "PRICEDISC calculates the price per $100 face value of a bond that does not "
 "pay interest at maturity."
 msgstr ""
-"PRICEDISC calcule, per 100 € de valor faciale, lo prètz d'un titre qui ne "
+"PRICEDISC calcula, per 100 € de valor faciale, lo prètz d'un titre qui ne "
 "paga pas d'interèsses a escasença ."
 
 #: ../plugins/fn-financial/functions.c:602
@@ -3533,7 +3535,7 @@ msgid ""
 "PRICEMAT calculates the price per $100 face value of a bond that pays "
 "interest at maturity."
 msgstr ""
-"PRICEMAT calcule, per 100 € de valor faciale, lo prètz d'un titre qui paga "
+"PRICEMAT calcula, per 100 € de valor faciale, lo prètz d'un titre qui paga "
 "sos interèsses a l'escasença ."
 
 #: ../plugins/fn-financial/functions.c:647
@@ -3790,12 +3792,12 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1085
 msgid "TBILLEQ:bond-equivalent yield for a treasury bill"
-msgstr "TBILLEQ : rendement équivalent obligacion per un bon del Tresaur"
+msgstr "TBILLEQ : rendement equivalent obligacion per un bon del Tresaur"
 
 #: ../plugins/fn-financial/functions.c:1089
 msgid "TBILLEQ calculates the bond-equivalent yield for a treasury bill."
 msgstr ""
-"TBILLEQ calcula lo rendement équivalent a celui d'una obligacion per un bon "
+"TBILLEQ calcula lo rendement equivalent a celui d'una obligacion per un bon "
 "del Tresaur."
 
 #: ../plugins/fn-financial/functions.c:1123
@@ -3878,7 +3880,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1305
 msgid "RRI:equivalent interest rate for an investment increasing in value"
 msgstr ""
-"RRI : taus d'interès équivalent per un investissement a valor croissante"
+"RRI : taus d'interès equivalent per un investissement a valor croissante"
 
 #: ../plugins/fn-financial/functions.c:1306
 msgid "p:number of periods"
@@ -3889,7 +3891,7 @@ msgid ""
 "RRI determines an equivalent interest rate for an investment that increases "
 "in value. The interest is compounded after each complete period."
 msgstr ""
-"RRI determina un taus d'interès équivalent per un investissement qui "
+"RRI determina un taus d'interès equivalent per un investissement qui "
 "augmente de valor. L'interès es composé aprèp cada periòde échue."
 
 #: ../plugins/fn-financial/functions.c:1311
@@ -4054,7 +4056,7 @@ msgstr "copon : taus del copon annadièr"
 #| msgid "MDURATION calculates the Macaulay duration of a security."
 msgid "DURATION calculates the (Macaulay) duration of a security."
 msgstr ""
-"MDURATION calcula la « duration » (concept mathématique del risque d'una "
+"MDURATION calcula la « duration » (concept mathématique del risc d'una "
 "obligacion) Macaulay d'una obligacion."
 
 #: ../plugins/fn-financial/functions.c:1935
@@ -4107,7 +4109,7 @@ msgid ""
 "of the national currencies that were replaced by the Euro on its "
 "introduction."
 msgstr ""
-"EURO calcula l'équivalent de 1 € en devisas nationales per l'une quelconque "
+"EURO calcula l'equivalent de 1 € en devisas nationales per l'une quelconque "
 "de las monedas nationales remplaçadas per l'èuro a son introduction."
 
 #: ../plugins/fn-financial/functions.c:2008
@@ -4157,9 +4159,9 @@ msgid ""
 "triangulation_precision:number of digits (at least 3) to be rounded to after "
 "conversion of the source currency to euro; defaults to no rounding"
 msgstr ""
-"precision_triangulation : nombre de chifras (au mens 3) qui devon èsser "
-"arredondit aprèp la conversion de la devisa font en euro ; per defaut, il "
-"n'y a pas d'arredondit."
+"precision_triangulacion : nombre de chifras (au mens 3) qui devon èsser "
+"arredondit aprèp la conversion de la devisa font en euro ; per defaut, i a "
+"pas d'arredondit."
 
 #: ../plugins/fn-financial/functions.c:2208
 msgid ""
@@ -4198,7 +4200,7 @@ msgid ""
 "PRICE calculates the price per $100 face value of a security that pays "
 "periodic interest."
 msgstr ""
-"PRICE calcule, per una valor faciale de 100 €, lo prètz d'una obligacion que "
+"PRICE calcula, per una valor faciale de 100 €, lo prètz d'una obligacion que "
 "paga un interès periodic."
 
 #: ../plugins/fn-financial/functions.c:2304
@@ -4253,7 +4255,7 @@ msgid ""
 "ODDFPRICE calculates the price per $100 face value of a security that pays "
 "periodic interest, but has an odd first period."
 msgstr ""
-"ODDFPRICE calcule, per una valor faciale de 100 €, lo prètz d'una obligacion "
+"ODDFPRICE calcula, per una valor faciale de 100 €, lo prètz d'una obligacion "
 "que servís un interès periodic, mas qu'a un primièr periòde irregular (mai "
 "cort o mai long)."
 
@@ -4284,7 +4286,7 @@ msgid ""
 "ODDLPRICE calculates the price per $100 face value of a security that pays "
 "periodic interest, but has an odd last period."
 msgstr ""
-"ODDLPRICE calcule, per una valor faciale de 100 €, lo prètz d'una obligacion "
+"ODDLPRICE calcula, per una valor faciale de 100 €, lo prètz d'una obligacion "
 "de versament periodic d'interèsses, mas dont lo darrièr periòde es irregular "
 "(mai cort o mai long)."
 
@@ -4381,7 +4383,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2966
 msgid "Named for AMORtissement LINeaire Comptabilite."
-msgstr "Ainsi nomenada per AMORtissement LINéaire Comptabilité."
+msgstr "Atal nomenada per AMORtissement LINéaire Comptabilitat."
 
 #: ../plugins/fn-financial/functions.c:3001
 msgid "COUPDAYBS:number of days from coupon period to settlement"
@@ -4514,7 +4516,7 @@ msgstr "MDURATION : la « duration » Macaulay d'una obligacion"
 #| msgid "MDURATION calculates the Macaulay duration of a security."
 msgid "MDURATION calculates the modified (Macaulay) duration of a security."
 msgstr ""
-"MDURATION calcula la « duration » (concept mathématique del risque d'una "
+"MDURATION calcula la « duration » (concept mathématique del risc d'una "
 "obligacion) Macaulay d'una obligacion."
 
 #: ../plugins/fn-financial/functions.c:3284
@@ -4523,7 +4525,7 @@ msgstr "VDB : amortiment d'un actiu"
 
 #: ../plugins/fn-financial/functions.c:3291
 msgid "no_switch:do not switch to straight-line depreciation"
-msgstr "pas2bascule : ne pas basculer en lei d'amortiment linear"
+msgstr "pas2bascule : bascular pas en lei d'amortiment linear"
 
 #: ../plugins/fn-financial/functions.c:3292
 msgid ""
@@ -4586,7 +4588,7 @@ msgstr "DATE2HDATE : data ebraïca"
 #: ../plugins/fn-hebrew-date/functions.c:203
 #: ../plugins/fn-hebrew-date/functions.c:342
 msgid "date:Gregorian date, defaults to today"
-msgstr "data : data gregoriana, per defaut aujourd'hui"
+msgstr "data : data gregoriana, per defaut uèi"
 
 #: ../plugins/fn-hebrew-date/functions.c:161
 msgid "HDATE_HEB:Hebrew date in Hebrew"
@@ -5090,19 +5092,19 @@ msgstr "IFERROR : tèst d'error"
 
 #: ../plugins/fn-logical/functions.c:231
 msgid "x:value to test for error"
-msgstr "x : valor a tester per error"
+msgstr "x : valor a testar per error"
 
 #: ../plugins/fn-logical/functions.c:232 ../plugins/fn-logical/functions.c:250
 msgid "y:alternate value"
-msgstr "y : valor alternative"
+msgstr "y : valor alternativa"
 
 #: ../plugins/fn-logical/functions.c:233
 msgid ""
 "This function returns the first value, unless that is an error, in which "
 "case it returns the second."
 msgstr ""
-"Aquesta foncion renvia la primièra valor, sauf se es una error ; auquel cas, "
-"elle renverra la segonda."
+"Aquesta foncion renvia la primièra valor, sauf se es una error ; al qual "
+"cas, elle renverra la segonda."
 
 #: ../plugins/fn-logical/functions.c:248
 msgid "IFNA:test for #NA! error"
@@ -5110,7 +5112,7 @@ msgstr "IFNA : tèst d'error #NA!"
 
 #: ../plugins/fn-logical/functions.c:249
 msgid "x:value to test for #NA! error"
-msgstr "x : valor a tester coma error #NA!"
+msgstr "x : valor a testar coma error #NA!"
 
 #: ../plugins/fn-logical/functions.c:251
 msgid ""
@@ -5227,7 +5229,7 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1022 ../plugins/fn-lookup/functions.c:1090
 msgid "value:search value"
-msgstr "valor : valor recherchée"
+msgstr "valor : valor recercada"
 
 #: ../plugins/fn-lookup/functions.c:1023 ../plugins/fn-lookup/functions.c:1091
 msgid "range:range to search"
@@ -6769,7 +6771,7 @@ msgstr "Se @{x} e @{m} son de signe diferent, MROUND renvia una error #NUM!"
 
 #: ../plugins/fn-math/functions.c:2184
 msgid "ARABIC:the Roman numeral @{roman} as number"
-msgstr "ARABIC : lo nombre équivalent al chifra romana @{romain}"
+msgstr "ARABIC : lo nombre equivalent al chifra romana @{romain}"
 
 #: ../plugins/fn-math/functions.c:2185
 msgid "roman:Roman numeral"
@@ -8890,14 +8892,14 @@ msgstr ""
 "La foncion SIMTABLE renvia una de las valors de sa lista de paramètres segon "
 "lo numèro de l'iteracion de l'aisina de simulacion. Se l'aisina de "
 "simulacion es pas actiu, SIMTABLE renvia @{d1}.\n"
-"Amb l'aisina de simulacion e la foncion SIMTABLE podètz tester de "
-"variablas d'una decision donada. Cada foncion SIMTABLE conten las valors "
-"possiblas d'una variabla de simulacion. Dins la màger part dels modèls de "
-"simulacion valides, auretz lo meteis nombre de valors @{dN} per totas las "
-"variablas de decision. Se la simulacion itère un nombre de còps superior al "
-"nombre de valors definidas, SIMTABLE renvia una error #N/A! (per ex., se A1 "
-"conten « =SIMTABLE(1) » e A2 « =SIMTABLE(1;2) », A1 produira una error #N/A! "
-"al segond tour).\n"
+"Amb l'aisina de simulacion e la foncion SIMTABLE podètz testar de variablas "
+"d'una decision donada. Cada foncion SIMTABLE conten las valors possiblas "
+"d'una variabla de simulacion. Dins la màger part dels modèls de simulacion "
+"valides, auretz lo meteis nombre de valors @{dN} per totas las variablas de "
+"decision. Se la simulacion itère un nombre de còps superior al nombre de "
+"valors definidas, SIMTABLE renvia una error #N/A! (per ex., se A1 conten « "
+"=SIMTABLE(1) » e A2 « =SIMTABLE(1;2) », A1 produira una error #N/A! al "
+"segond tour).\n"
 "L'utilizacion capitada de l'aisina de simulacion requiert tanben qu'au mens "
 "una de las variablas d'entrada utiliza RAND() o una de las foncions "
 "RAND<distribucion>(). À cada tour, l'aisina de simulacion parcourt lo nombre "
@@ -9768,9 +9770,9 @@ msgid ""
 "independence or test of homogeneity."
 msgstr ""
 "Se la plaja_actuala es pas de dimension n per 1 o 1 per n mas de talha n per "
-"m, alara CHITEST utiliza (n-1) fois (m-1) coma grases de libertat. Ceci es "
+"m, alara CHITEST utiliza (n-1) còps (m-1) coma grases de libertat. Aquò es "
 "utile se las valors esperadas son calculadas a partir de la valor observada "
-"dins un tèst d'indépendance o un tèst d'homogénéité."
+"dins un tèst d'independéncia o un tèst d'omogeneïtat."
 
 #: ../plugins/fn-stat/functions.c:1076
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
@@ -11292,10 +11294,10 @@ msgid ""
 "product starts to wear out after a period of steady or even improving "
 "reliability."
 msgstr ""
-"Aquesta distribucion es a recomandar per una analyse de durada de vida "
-"quand una foncion de hasard en forma de U es recherchée. Cela correspond a "
-"una défaillance rapida una fois que lo produit commence a s'user aprèp un "
-"periòde de fiabilité establa o quitament accrue."
+"Aquesta distribucion es a recomandar per una analyse de durada de vida quand "
+"una foncion de hasard en forma de U es recercada. Aquò correspond a una "
+"défaillance rapida un còp que lo produit commence a s'user aprèp un periòde "
+"de fiabilité establa o quitament accrue."
 
 #: ../plugins/fn-stat/functions.c:4594
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -11661,7 +11663,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:468 ../plugins/fn-string/functions.c:696
 msgid "string1:search string"
-msgstr "cadena1 : cadena recherchée"
+msgstr "cadena1 : cadena recercada"
 
 #: ../plugins/fn-string/functions.c:469 ../plugins/fn-string/functions.c:697
 msgid "string2:search field"
@@ -11917,9 +11919,9 @@ msgid ""
 "with ~."
 msgstr ""
 "La cadena @{recèrca} pòt conténer los caractèrs joker (*) e (?). Lo punt "
-"d'interrogation correspond a un caractèr unique quelconque e l'astérisque "
-"una cadena quelconque, y compris la cadena nulla. Per recercar de « * » o de "
-"« ? », los cal prefixar amb lo simbòl « ~ »."
+"d'interrogation correspond a un caractèr unique quelconque e l'asterisc una "
+"cadena quelconque, inclusa la cadena nulla. Per recercar de « * » o de « ? »"
+", los cal prefixar amb lo simbòl « ~ »."
 
 #: ../plugins/fn-string/functions.c:1313 ../plugins/fn-string/functions.c:1356
 msgid "This search is not case sensitive."
@@ -11972,7 +11974,7 @@ msgid ""
 "equivalent characters, copying all others. "
 msgstr ""
 "La foncion ASC convertís los caractèrs katakana e ASCII « pleine-chasse » en "
-"leurs équivalents « mièjachassa » sens modificar los autres."
+"leurs equivalents « mièjachassa » sens modificar los autres."
 
 #: ../plugins/fn-string/functions.c:1417 ../plugins/fn-string/functions.c:1545
 msgid ""
@@ -12010,7 +12012,7 @@ msgid ""
 "equivalent characters, copying all others. "
 msgstr ""
 "La foncion JIS convertís los caractèrs katakana e ASCII « mièjachassa » en "
-"leurs équivalents « pleine-chasse » sens modificar los autres."
+"leurs equivalents « pleine-chasse » sens modificar los autres."
 
 #: ../plugins/fn-string/functions.c:1548
 msgid ""
@@ -12326,7 +12328,7 @@ msgstr ""
 #: ../plugins/sample_datasource/sample_datasource.c:277
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
-"Cela es pas prévu per èsser activé en règle generala ; per defaut egal a OFF."
+"Aquò es pas prévu per èsser activé en règle generala ; per defaut egal a OFF."
 
 #~ msgid ""
 #~ "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! "
