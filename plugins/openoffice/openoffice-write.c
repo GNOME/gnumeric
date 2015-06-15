@@ -2509,6 +2509,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "PROPER","PROPER" },
 		{ "PV","PV" },
 		{ "QUARTILE","QUARTILE" },
+		{ "QUARTILE.EXC","COM.MICROSOFT.QUARTILE.EXC" },
 		{ "QUOTIENT","QUOTIENT" },
 		{ "RADIANS","RADIANS" },
 		{ "RAND","RAND" },

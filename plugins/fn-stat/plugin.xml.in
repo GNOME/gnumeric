@@ -89,6 +89,7 @@
 				<function name="poisson"/>
 				<function name="prob"/>
 				<function name="quartile"/>
+				<function name="quartile.exc"/>
 				<function name="rank"/>
 				<function name="rank.avg"/>
 				<function name="rayleigh"/>

@@ -2870,7 +2870,7 @@ gnumeric_percentile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_quartile[] = {
-	{ GNM_FUNC_HELP_NAME, F_("QUARTILE:the @{k}-th quartile of the data points")},
+	{ GNM_FUNC_HELP_NAME, F_("QUARTILE:the @{k}-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)")},
 	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
 	{ GNM_FUNC_HELP_ARG, F_("quart:a number from 0 to 4, indicating which quartile to calculate")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
@@ -2879,7 +2879,7 @@ static GnmFuncHelp const help_quartile[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then QUARTILE(A1:A5,1) equals 17.3.") },
-	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"},
+	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE.EXC,SMALL"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2910,6 +2910,49 @@ gnumeric_quartile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return result;
 }
 
+/***************************************************************************/
+
+static GnmFuncHelp const help_quartile_exc[] = {
+	{ GNM_FUNC_HELP_NAME, F_("QUARTILE.EXC:the @{k}-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)")},
+	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
+	{ GNM_FUNC_HELP_ARG, F_("quart:a number from 1 to 3, indicating which quartile to calculate")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @{quart} = 0, the smallest value of @{array} to be returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{quart} is not an integer, it is truncated.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then QUARTILE.EXC(A1:A5,1) equals 14.35.") },
+	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_quartile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *data;
+	GnmValue *result = NULL;
+	int n;
+
+	data = collect_floats_value (argv[0], ei->pos,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_SORT,
+				     &n, &result);
+	if (!result) {
+		gnm_float q = gnm_fake_floor (value_get_as_float (argv[1]));
+		gnm_float res;
+		gnm_float fr = ((q / 4.0) * (n + 1) - 1)/(n-1);
+
+		if (gnm_range_fractile_inter_sorted (data, n, &res, fr))
+			result = value_new_error_NUM (ei->pos);
+		else
+			result = value_new_float (res);
+	}
+
+	g_free (data);
+	return result;
+}
 /***************************************************************************/
 
 static GnmFuncHelp const help_ftest[] = {
@@ -5253,6 +5296,9 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "quartile",     "Af",
 	  help_quartile, gnumeric_quartile, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "quartile.exc",     "Af",
+	  help_quartile_exc, gnumeric_quartile_exc, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "rank",         "fr|b",
 	  help_rank, gnumeric_rank, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

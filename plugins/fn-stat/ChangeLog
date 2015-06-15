@@ -1,5 +1,12 @@
 2015-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_quartile_exc): new
+	(gnumeric_quartile_exc): new
+	(stat_functions): connect the above
+	* plugin.xml.in: add QUARTILE.EXC
+
+2015-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_confidence_t): new
 	(gnumeric_confidence_t): new
 	(stat_functions): connect the above

@@ -1,5 +1,11 @@
 2015-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_func_map_in): Add QUARTILE.EXC
+	* openoffice-write.c (odf_expr_func_handler): Export QUARTILE.EXC
+	with Microsoft prefix
+
+2015-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_func_map_in): Add CONFIDENCE.T
 	* openoffice-write.c (odf_expr_func_handler): Export CONFIDENCE.T
 	with Microsoft prefix
