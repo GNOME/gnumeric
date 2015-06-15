@@ -88,8 +88,8 @@ gnm_print_errors_get_type (void)
 
 GnmPrintHF *
 gnm_print_hf_new (char const *left_side_format,
-	      char const *middle_format,
-	      char const *right_side_format)
+		  char const *middle_format,
+		  char const *right_side_format)
 {
 	GnmPrintHF *hf = g_new0 (GnmPrintHF, 1);
 	hf->left_format   = g_strdup (left_side_format ?
