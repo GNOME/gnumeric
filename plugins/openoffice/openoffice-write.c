@@ -2492,6 +2492,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "G_DURATION","PDURATION" },
 		{ "PEARSON","PEARSON" },
 		{ "PERCENTILE","PERCENTILE" },
+		{ "PERCENTILE.EXC","COM.MICROSOFT.PERCENTILE.EXC" },
 		{ "PERCENTRANK","PERCENTRANK" },
 		{ "PERMUT","PERMUT" },
 		{ "PERMUTATIONA","PERMUTATIONA" },

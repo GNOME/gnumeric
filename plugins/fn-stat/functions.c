@@ -2828,7 +2828,7 @@ gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_percentile[] = {
-	{ GNM_FUNC_HELP_NAME, F_("PERCENTILE:determines the  100*@{k}-th percentile of the given data points")},
+	{ GNM_FUNC_HELP_NAME, F_("PERCENTILE:determines the  100*@{k}-th percentile of the given data points (Hyndman-Fan method 7: N-1 basis)")},
 	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
 	{ GNM_FUNC_HELP_ARG, F_("k:which percentile to calculate")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
@@ -2867,6 +2867,48 @@ gnumeric_percentile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return result;
 }
 
+/***************************************************************************/
+
+static GnmFuncHelp const help_percentile_exc[] = {
+	{ GNM_FUNC_HELP_NAME, F_("PERCENTILE.EXC:determines the  100*@{k}-th percentile of the given data points (Hyndman-Fan method 6: N+1 basis)")},
+	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
+	{ GNM_FUNC_HELP_ARG, F_("k:which percentile to calculate")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{k} < 0 or @{k} > 1, this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then PERCENTILE.EXC(A1:A5,0.42) equals 20.02.") },
+	{ GNM_FUNC_HELP_SEEALSO, "PERCENTILE,QUARTILE,QUARTILE.EXC"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_percentile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *data;
+	GnmValue *result = NULL;
+	int n;
+
+	data = collect_floats_value (argv[0], ei->pos,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_SORT,
+				     &n, &result);
+	if (!result) {
+		gnm_float p = value_get_as_float (argv[1]);
+		gnm_float res;
+		gnm_float fr = (p * (n + 1) - 1)/(n-1);
+
+		if (gnm_range_fractile_inter_sorted (data, n, &res, fr))
+			result = value_new_error_NUM (ei->pos);
+		else
+			result = value_new_float (res);
+	}
+
+	g_free (data);
+	return result;
+}
 /***************************************************************************/
 
 static GnmFuncHelp const help_quartile[] = {
@@ -2922,7 +2964,7 @@ static GnmFuncHelp const help_quartile_exc[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then QUARTILE.EXC(A1:A5,1) equals 14.35.") },
-	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"},
+	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,PERCENTILE.EXC,QUARTILE,SMALL"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5281,6 +5323,9 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "percentile",   "Af",
 	  help_percentile, gnumeric_percentile, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "percentile.exc",   "Af",
+	  help_percentile_exc, gnumeric_percentile_exc, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "percentrank",  "Af|f",
 	  help_percentrank, gnumeric_percentrank, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

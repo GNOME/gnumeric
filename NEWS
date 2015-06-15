@@ -4,7 +4,7 @@ Andreas:
 	* Fix memory handling error on fuzzed sxc file. [#748535]
 	* Improve import/export of page layout from/to ODF.
 	* Improve function import to ODF. [#750627]
-	* Add CONFIDENCE.T and QUARTILE.EXC.
+	* Add CONFIDENCE.T, PERCENTILE.EXC and QUARTILE.EXC.
 
 Jean:
 	* Fix xlsx import of plot area manual layout. [#748016]

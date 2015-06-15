@@ -83,6 +83,7 @@
 				<function name="pareto"/>
 				<function name="pearson"/>
 				<function name="percentile"/>
+				<function name="percentile.exc"/>
 				<function name="percentrank"/>
 				<function name="permut"/>
 				<function name="permutationa"/>
