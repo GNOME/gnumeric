@@ -2828,7 +2828,7 @@ gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_percentile[] = {
-	{ GNM_FUNC_HELP_NAME, F_("PERCENTILE:determines the  100*@{k}-th percentile of the given data points (Hyndman-Fan method 7: N-1 basis)")},
+	{ GNM_FUNC_HELP_NAME, F_("PERCENTILE:determines the 100*@{k}-th percentile of the given data points (Hyndman-Fan method 7: N-1 basis)")},
 	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
 	{ GNM_FUNC_HELP_ARG, F_("k:which percentile to calculate")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
@@ -2870,7 +2870,7 @@ gnumeric_percentile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_percentile_exc[] = {
-	{ GNM_FUNC_HELP_NAME, F_("PERCENTILE.EXC:determines the  100*@{k}-th percentile of the given data points (Hyndman-Fan method 6: N+1 basis)")},
+	{ GNM_FUNC_HELP_NAME, F_("PERCENTILE.EXC:determines the 100*@{k}-th percentile of the given data points (Hyndman-Fan method 6: N+1 basis)")},
 	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
 	{ GNM_FUNC_HELP_ARG, F_("k:which percentile to calculate")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
