@@ -1,3 +1,8 @@
+2015-06-15  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_comments_dtd): Fix dtd by not including
+	children in parent scope.
+
 2015-06-12  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_collection_begin): Don't reallocation if a

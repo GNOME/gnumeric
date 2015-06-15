@@ -3846,6 +3846,7 @@ xlsx_comment_author_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int i = strlen (xin->content->str);
 	char *name = xin->content->str;
+
 	/* remove any trailing white space */
 	/* not sure this is correct, we might be careful about encoding */
 	while (i > 0 && g_ascii_isspace (name[i-1]))
@@ -3914,7 +3915,7 @@ xlsx_r_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 static GsfXMLInNode const xlsx_comments_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-GSF_XML_IN_NODE_FULL (START, COMMENTS, XL_NS_SS, "comments", GSF_XML_NO_CONTENT, TRUE, TRUE, xlsx_comments_start, xlsx_comments_end, 0),
+GSF_XML_IN_NODE_FULL (START, COMMENTS, XL_NS_SS, "comments", GSF_XML_NO_CONTENT, FALSE, TRUE, xlsx_comments_start, xlsx_comments_end, 0),
   GSF_XML_IN_NODE (COMMENTS, AUTHORS, XL_NS_SS, "authors", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (AUTHORS, AUTHOR, XL_NS_SS, "author", GSF_XML_CONTENT, NULL, xlsx_comment_author_end),
   GSF_XML_IN_NODE (COMMENTS, COMMENTLIST, XL_NS_SS, "commentList", GSF_XML_NO_CONTENT, NULL, NULL),
