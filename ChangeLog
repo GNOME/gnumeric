@@ -1,3 +1,8 @@
+2015-06-16  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (handle_delayed_names): Check for circularity
+	in names.  Fixes #751056.
+
 2015-05-27  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (compute_scale_fit_to): Attempt a workaround for fp

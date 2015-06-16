@@ -28,6 +28,7 @@ Morten:
 	* Make compilation with clang work again.  [#749138]
 	* Fix xlsx problem with import of header/footer.  [#750853]
 	* Fix xls save problem with characters outside codepage.  [#750856]
+	* Fix named expression problem.  [#751056]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.22

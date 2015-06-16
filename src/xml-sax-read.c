@@ -2932,11 +2932,16 @@ handle_delayed_names (XMLSaxParseState *state)
 					    GNM_EXPR_PARSE_DEFAULT,
 					    state->convs,
 					    &perr);
-		if (texpr) {
+		if (!texpr) {
+			  go_io_warning (state->context, "%s", perr.err->message);
+		} else if (expr_name_check_for_loop (expr_name_name (nexpr), texpr)) {
+			g_printerr ("Ignoring would-be circular definition of %s\n",
+				    expr_name_name (nexpr));
+			gnm_expr_top_unref (texpr);
+		} else {
 			nexpr->pos.eval = pp.eval;
 			expr_name_set_expr (nexpr, texpr);
-		} else
-			go_io_warning (state->context, "%s", perr.err->message);
+		}
 
 		parse_error_free (&perr);
 		g_free (expr_str);
