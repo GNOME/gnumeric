@@ -3693,8 +3693,10 @@ xlsx_wb_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		nexpr = expr_name_add (&pp, state->defined_name + 6,
 				       gnm_expr_top_new_constant (value_new_empty ()),
 				       &error_msg, TRUE, NULL);
-		nexpr->is_permanent = TRUE;
-		nexpr->is_editable = editable;
+		if (nexpr) {
+			nexpr->is_permanent = TRUE;
+			nexpr->is_editable = editable;
+		}
 	} else
 		nexpr = expr_name_add (&pp, state->defined_name,
 				       gnm_expr_top_new_constant (value_new_empty ()),
