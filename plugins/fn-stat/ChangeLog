@@ -1,3 +1,10 @@
+2015-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_percentrank_exc): new
+	(gnumeric_percentrank_exc): new
+	(stat_functions): connect the above
+	* plugin.xml.in: add PERCENTRANK.EXC
+
 2015-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_percentile_exc): new

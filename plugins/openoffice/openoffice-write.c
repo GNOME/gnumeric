@@ -2266,8 +2266,8 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "CLEAN","CLEAN" },
 		{ "CODE","CODE" },
 		{ "COLUMN","COLUMN" },
-		{ "COLUMNS","COLUMNS" }
-,		{ "CONFIDENCE.T","COM.MICROSOFT.CONFIDENCE.T" },
+		{ "COLUMNS","COLUMNS" },
+		{ "CONFIDENCE.T","COM.MICROSOFT.CONFIDENCE.T" },
 		{ "COMBIN","COMBIN" },
 		{ "COMBINA","COMBINA" },
 		{ "COMPLEX","COMPLEX" },
@@ -2494,6 +2494,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "PERCENTILE","PERCENTILE" },
 		{ "PERCENTILE.EXC","COM.MICROSOFT.PERCENTILE.EXC" },
 		{ "PERCENTRANK","PERCENTRANK" },
+		{ "PERCENTRANK.EXC","COM.MICROSOFT.PERCENTRANK.EXC" },
 		{ "PERMUT","PERMUT" },
 		{ "PERMUTATIONA","PERMUTATIONA" },
 		/* { "PHI","PHI" },  converted to NORMDIST on import */
@@ -2516,6 +2517,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "RAND","RAND" },
 		{ "RANDBETWEEN","RANDBETWEEN" },
 		{ "RANK","RANK" },
+		{ "RANK.AVG","COM.MICROSOFT.RANK.AVG" },
 		{ "RATE","RATE" },
 		{ "RECEIVED","RECEIVED" },
 		{ "REPLACE","REPLACE" },

@@ -85,6 +85,7 @@
 				<function name="percentile"/>
 				<function name="percentile.exc"/>
 				<function name="percentrank"/>
+				<function name="percentrank.exc"/>
 				<function name="permut"/>
 				<function name="permutationa"/>
 				<function name="poisson"/>

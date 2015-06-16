@@ -2731,7 +2731,7 @@ gnumeric_stdevpa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_percentrank[] = {
-	{ GNM_FUNC_HELP_NAME, F_("PERCENTRANK:rank of a data point in a data set")},
+	{ GNM_FUNC_HELP_NAME, F_("PERCENTRANK:rank of a data point in a data set (Hyndman-Fan method 7: N-1 basis)")},
 	{ GNM_FUNC_HELP_ARG, F_("array:range of numeric values")},
 	{ GNM_FUNC_HELP_ARG, F_("x:data point to be ranked")},
 	{ GNM_FUNC_HELP_ARG, F_("significance:number of significant digits, defaults to 3")},
@@ -2814,6 +2814,105 @@ gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		if (s10 <= 0) {
 			result = value_new_error_DIV0 (ei->pos);
 			goto done;
+		}
+
+		r = gnm_fake_trunc (r / s10) * s10;
+	}
+	result = value_new_float (r);
+
+ done:
+	g_free (data);
+	return result;
+}
+
+/***************************************************************************/
+
+
+
+static GnmFuncHelp const help_percentrank_exc[] = {
+	{ GNM_FUNC_HELP_NAME, F_("PERCENTRANK_EXC:rank of a data point in a data set (Hyndman-Fan method 6: N+1 basis)")},
+	{ GNM_FUNC_HELP_ARG, F_("array:range of numeric values")},
+	{ GNM_FUNC_HELP_ARG, F_("x:data point to be ranked")},
+	{ GNM_FUNC_HELP_ARG, F_("significance:number of significant digits, defaults to 3")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{array} contains no data points, this function returns a #NUM! "
+				 "error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{significance} is less than one, this function returns a #NUM! "
+				 "error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} exceeds the largest value or is less than the smallest "
+				 "value in @{array}, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} does not match any of the values in @{array} or @{x} matches "
+				 "more than once, this function interpolates the returned value.") },
+	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,PERCENTILE.EXC,QUARTILE,QUARTILE.EXC,SMALL"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_percentrank_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *data, x, significance, r;
+	GnmValue *result = NULL;
+	int i, n;
+	int n_equal, n_smaller, n_larger;
+	gnm_float x_larger, x_smaller;
+
+	data = collect_floats_value (argv[0], ei->pos,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_ORDER_IRRELEVANT,
+				     &n, &result);
+	x = value_get_as_float (argv[1]);
+	significance = argv[2] ? value_get_as_float (argv[2]) : 3;
+
+	if (result)
+		goto done;
+
+	n_equal = n_smaller = n_larger = 0;
+	x_larger = x_smaller = 42;
+	for (i = 0; i < n; i++) {
+		gnm_float y = data[i];
+
+		if (y < x) {
+			if (n_smaller == 0 || x_smaller < y)
+				x_smaller = y;
+			n_smaller++;
+		} else if (y > x) {
+			if (n_larger == 0 || x_larger > y)
+				x_larger = y;
+			n_larger++;
+		} else
+			n_equal++;
+	}
+
+	if (n_smaller + n_equal == 0 || n_larger + n_equal == 0) {
+		result = value_new_error_NA (ei->pos);
+		goto done;
+	}
+
+	if (n == 1)
+		r = 1;
+	else {
+		gnm_float s10;
+
+		/* A strange place to check, but n==1 is special.  */
+		if (significance < 0) {
+			result = value_new_error_NUM (ei->pos);
+			goto done;
+		}
+		s10 = gnm_pow10 (-significance);
+		if (s10 <= 0) {
+			result = value_new_error_DIV0 (ei->pos);
+			goto done;
+		}
+
+
+		if (n_equal > 0)
+			r = (n_smaller + 1) / (gnm_float)(n + 1);
+		else {
+			gnm_float r1 = n_smaller / (gnm_float)(n + 1);
+			gnm_float r2 = (n_smaller + 1) / (gnm_float)(n + 1);
+			r = (r1 * (x_larger - x) +
+			     r2 * (x - x_smaller)) / (x_larger - x_smaller);
 		}
 
 		r = gnm_fake_trunc (r / s10) * s10;
@@ -5329,6 +5428,9 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "percentrank",  "Af|f",
 	  help_percentrank, gnumeric_percentrank, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "percentrank.exc",  "Af|f",
+	  help_percentrank_exc, gnumeric_percentrank_exc, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "permut",       "ff",
 	  help_permut, gnumeric_permut, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
