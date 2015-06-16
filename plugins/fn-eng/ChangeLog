@@ -1,3 +1,8 @@
+2015-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_convert): add PS
+	(help_convert): add PS
+
 2015-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.22

@@ -691,6 +691,7 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'BTU'  \t\tBTU\n\n"
 					"Power:\n"
 					"\t'HP'   \t\tHorsepower\n"
+					"\t'PS'   \t\tPferdestärke\n"
 					"\t'W'    \t\tWatt\n\n"
 					"Magnetism:\n"
 					"\t'T'    \t\tTesla\n"
@@ -837,6 +838,7 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	/* Power constants */
 #define one_HP_to_W     745.701
+#define one_PS_to_W     735.49875
 
 	/* Energy constants */
 #define one_J_to_e      9999995.193
@@ -946,6 +948,7 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	static const eng_convert_unit_t power_units[] = {
 	        { "HP",   1.0 },
+		{ "PS",   one_HP_to_W/one_PS_to_W },
 		{ "W",    one_HP_to_W },
 		{ NULL,   0.0 }
 	};
