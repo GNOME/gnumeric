@@ -291,6 +291,7 @@ excel_convert_string (BiffPut *bp, const char *txt, size_t *out_bytes)
 	size_t bytes_read;
 	GString *accum;
 	gpointer res;
+	gboolean is_ilseq;
 
 	res = g_convert_with_iconv
 		(txt, -1,
@@ -300,8 +301,10 @@ excel_convert_string (BiffPut *bp, const char *txt, size_t *out_bytes)
 	if (res)
 		return res;
 
-	if (!g_error_matches (err, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE)) {
-		g_error_free (err);
+	is_ilseq = g_error_matches (err, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE);
+	g_error_free (err);
+
+	if (!is_ilseq) {
 		g_printerr ("Unexpected conversion error for string\n");
 		*out_bytes = 0;
 		return g_strdup ("");

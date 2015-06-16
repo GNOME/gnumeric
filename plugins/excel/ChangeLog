@@ -1,7 +1,10 @@
 2015-06-16  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read.c (xlsx_file_open): Plug leaks.
+
 	* ms-excel-write.c (excel_convert_string): Ensure multi-NUL
 	terminator.  Fixes #750856.
+	(excel_convert_string): Plug leak.
 
 2015-06-15  Morten Welinder  <terra@gnome.org>
 
