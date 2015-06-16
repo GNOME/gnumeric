@@ -1,3 +1,8 @@
+2015-06-16  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_convert_string): Ensure multi-NUL
+	terminator.  Fixes #750856.
+
 2015-06-15  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_comments_dtd): Fix dtd by not including

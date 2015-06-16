@@ -343,6 +343,10 @@ excel_convert_string (BiffPut *bp, const char *txt, size_t *out_bytes)
 	}
 
 	*out_bytes = accum->len;
+
+	/* Ensure termination with 4+ NULs.  */
+	g_string_append_len (accum, "\0\0\0\0", 4);
+
 	return g_string_free (accum, FALSE);
 }
 
