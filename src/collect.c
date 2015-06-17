@@ -402,8 +402,8 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 	return NULL;
 }
 
-/*
- * collect_floats:
+/**
+ * collect_floats: (skip):
  *
  * exprlist:       List of expressions to evaluate.
  * cr:             Current location (for resolving relative cells).
