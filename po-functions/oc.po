@@ -138,7 +138,7 @@ msgstr "y : partida imaginaire"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i : lo suffixe del nombre complèxe, siá « i », siá « j » ; « i » per defaut"
+"i : lo sufixe del nombre complèxe, siá « i », siá « j » ; « i » per defaut"
 
 #: ../plugins/fn-complex/functions.c:83
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -432,7 +432,7 @@ msgstr "z2 : un nombre complèxe"
 #: ../plugins/fn-complex/functions.c:1185
 msgid "If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned."
 msgstr ""
-"Se @{z1} o @{z2} ne son pas de las nombres complexes valides, la foncion "
+"Se @{z1} o @{z2} son pas de las nombres complexes valides, la foncion "
 "renvia l'error #VALOR!."
 
 #: ../plugins/fn-complex/functions.c:557
@@ -608,7 +608,7 @@ msgid ""
 "lower:if true (the default), the lower incomplete gamma function, otherwise "
 "the upper incomplete gamma function"
 msgstr ""
-"coa_basse : se TRUE(VERAI) (valor per defaut), lo cumul es effectué sus lo "
+"coa_basse : se TRUE(VERAI) (valor per defaut), lo cumul es efectuat sus lo "
 "demi-segment inferior de las observations"
 
 #: ../plugins/fn-complex/functions.c:1153 ../plugins/fn-math/functions.c:996
@@ -679,7 +679,7 @@ msgid ""
 msgstr ""
 "@{camp} es una cadena o un entièr définissant lo camp a utilizar. Se @{camp} "
 "es un entièr n alara la nième colomna serà utilizada. Se @{camp} es una "
-"cadena, la colomna amb l'etiqueta correspondenta serà employée."
+"cadena, la colomna amb l'etiqueta correspondenta serà emplegada."
 
 #: ../plugins/fn-database/functions.c:62
 msgid ""
@@ -812,7 +812,7 @@ msgstr ""
 #: ../plugins/fn-database/functions.c:436
 msgid "If more than one record match the conditions, DGET returns #NUM!"
 msgstr ""
-"Se plus d'un enregistrament répond a las condicions, DGET renvia l'error "
+"Se mai d'un enregistrament répond a las condicions, DGET renvia l'error "
 "#NUM!"
 
 #: ../plugins/fn-database/functions.c:437
@@ -1003,7 +1003,7 @@ msgid ""
 "If @{month} or @{day} is less than 1 or too big, then the year and/or month "
 "will be adjusted."
 msgstr ""
-"Se @{mes} o @{jorn} es inferior a 1 o tròp grand, la valor de l'annada et/ou "
+"Se @{mes} o @{jorn} es inferior a 1 o tròp grand, la valor de l'annada e/o "
 "del mois serà ajustada."
 
 #: ../plugins/fn-date/functions.c:80
@@ -1048,7 +1048,7 @@ msgid ""
 msgstr ""
 "La foncion DATE2UNIX traduit las valors serialas de data en orodatatges "
 "Unix. L'orodatatge Unix correspond al nombre de segondas passadas dempuèi lo "
-"1èr genièr 1970 mièjanuèch (0:00) GMT."
+"1èr de genièr 1970 mièjanuèch (0:00) GMT."
 
 #: ../plugins/fn-date/functions.c:193
 msgid "DATEVALUE:the date part of a date and time serial value"
@@ -1152,7 +1152,7 @@ msgid ""
 "Recomputing on a later date will produce a different value."
 msgstr ""
 "La foncion TODAY renvia la valor seriala de la data del jorn de son "
-"avaloracion. La recalcular a una data ulteriora générera una valor "
+"avaloracion. La recalcular a una data ulteriora generara una valor "
 "diferenta."
 
 #: ../plugins/fn-date/functions.c:404
@@ -1443,7 +1443,7 @@ msgid ""
 "If @{method} is 2, a saner version of the US method is used in which both "
 "dates get the same February treatment."
 msgstr ""
-"Se @{metòde} es egal a 2, on utiliza una version plus saine del metòde US "
+"Se @{metòde} es egal a 2, on utiliza una version mai saine del metòde US "
 "dins la quala las doas datas son somesas al meteis tractament per çò que "
 "concernís febrièr."
 
@@ -1458,7 +1458,7 @@ msgid ""
 "@{months}."
 msgstr ""
 "EOMONTH renvia la valor seriala de la data de fin del mois definit per "
-"@{data} modificat en plus o mens del nombre de meses spécifié per @{mes}."
+"@{data} modificat en mai o mens del nombre de meses especificat per @{mes}."
 
 #: ../plugins/fn-date/functions.c:800
 msgid "WORKDAY:add working days"
@@ -1485,7 +1485,7 @@ msgid ""
 "WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in "
 "the process."
 msgstr ""
-"WORKDAY ajuste @{data} del nombre de jorns @{jorns} sens descomptar week-ends "
+"WORKDAY ajusta @{data} del nombre de jorns @{jorns} sens descomptar week-ends "
 "e @{vacanças} dins lo calcul."
 
 #: ../plugins/fn-date/functions.c:807
@@ -1534,7 +1534,7 @@ msgid ""
 "January 1 of a year is sometimes in week 52 or 53 of the previous year.  "
 "Similarly, December 31 is sometimes in week 1 of the following year."
 msgstr ""
-"Lo 1èr genièr d'una annada se situe de còps dins la setmana 52 o 53 de "
+"Lo 1èr de genièr d'una annada se situe de còps dins la setmana 52 o 53 de "
 "l'annada precedenta. Del meteis biais, lo 31 de decembre es de còps dins la "
 "setmana 1 de l'annada seguenta."
 
@@ -1566,14 +1566,14 @@ msgstr "WEEKNUM calcula lo numèro de setmana segon @{metòde} (per defaut = 1).
 msgid ""
 "If @{method} is 1, then weeks start on Sundays and January 1 is in week 1."
 msgstr ""
-"Se @{metòde} es egal a 1, las setmanas començan lo dimenge e lo 1èr genièr "
+"Se @{metòde} es egal a 1, las setmanas començan lo dimenge e lo 1èr de genièr "
 "se tròba dins la setmana 1."
 
 #: ../plugins/fn-date/functions.c:1255
 msgid ""
 "If @{method} is 2, then weeks start on Mondays and January 1 is in week 1."
 msgstr ""
-"Se @{metòde} es egal a 2, las setmanas començan lo diluns e lo 1èr genièr se "
+"Se @{metòde} es egal a 2, las setmanas començan lo diluns e lo 1èr de genièr se "
 "tròba dins la setmana 1."
 
 #: ../plugins/fn-date/functions.c:1256
@@ -2275,7 +2275,7 @@ msgstr "escasença 1 : escasença iniciala de l'opcion en annadas"
 
 #: ../plugins/fn-derivatives/options.c:1569
 msgid "time2:extended maturity in years if chosen"
-msgstr "escasença 2 : escasença étendue en annada, se causida"
+msgstr "escasença 2 : escasença espandida en annada, se causida"
 
 #: ../plugins/fn-derivatives/options.c:1573
 msgid ""
@@ -2518,7 +2518,7 @@ msgid ""
 msgstr ""
 "OPT_FLOAT_STRK_LKBK determina lo prètz teoric d'una opcion « lookback » a "
 "prètz d'exercici variable ont lo detenidor pòt exercer l'opcion a son "
-"expiracion al prètz lo plus favorable observat per l'actiu sosjacent pendent "
+"expiracion al prètz lo mai favorable observat per l'actiu sosjacent pendent "
 "la durada de vida de l'opcion."
 
 #: ../plugins/fn-derivatives/options.c:1872
@@ -2536,7 +2536,7 @@ msgid ""
 msgstr ""
 "OPT_FIXED_STRK_LKBK determina lo prètz teoric d'una opcion « lookback » a "
 "prètz d'exercici fixé ont lo detenidor pòt exercer l'opcion a son expiracion "
-"al prètz lo plus favorable observat per l'actiu sosjacent pendent la durada "
+"al prètz lo mai favorable observat per l'actiu sosjacent pendent la durada "
 "de vida de l'opcion."
 
 #: ../plugins/fn-derivatives/options.c:1956
@@ -2564,8 +2564,8 @@ msgid ""
 "A larger @{num_time_steps} yields greater accuracy but  OPT_BINOMIAL is "
 "slower to calculate."
 msgstr ""
-"Un mai grand nombre de pas @{nombre_pas} dona una meilleure precision, mas "
-"OPT_BINOMIAL es alara plus long a calcular."
+"Un mai grand nombre de pas @{nombre_pas} dona una melhora precision, mas "
+"OPT_BINOMIAL es alara mai long a calcular."
 
 #: ../plugins/fn-eng/functions.c:207
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
@@ -2757,7 +2757,7 @@ msgid ""
 "needed"
 msgstr ""
 "x : un nombre exadecimal jos la forma d'una cadena de caractèrs o d'un "
-"nombre se los signes A a F ne son pas nécessaires per sa representacion."
+"nombre se los signes A a F son pas nécessaires per sa representacion."
 
 #: ../plugins/fn-eng/functions.c:486
 msgid ""
@@ -2845,7 +2845,7 @@ msgstr ""
 "BESSELY : foncion de Bessel de segonda espècia d'òrdre @{α} a la valor @{x}"
 
 #: ../plugins/fn-eng/functions.c:643
-msgid "CONVERT:a converted measurement"
+msgid "CONVERT:a converdad measurement"
 msgstr "CONVERT : una mesura convertida"
 
 #: ../plugins/fn-eng/functions.c:644 ../plugins/fn-eng/functions.c:1087
@@ -2893,7 +2893,7 @@ msgstr "en : unitat (cadena tèxte)"
 #: ../plugins/fn-eng/functions.c:647
 msgid ""
 "CONVERT returns a conversion from one measurement system to another. @{x} is "
-"a value in @{from} units that is to be converted into @{to} units."
+"a value in @{from} units that is to be converdad into @{to} units."
 msgstr ""
 "CONVERT convertís d'un sistèma de mesura dins un autre. @{x} es la valor en "
 "unitats @{de} a convertir en unitats @{en}."
@@ -3350,7 +3350,7 @@ msgstr "taus : taus d'interès annadièr nominal"
 
 #: ../plugins/fn-financial/functions.c:367
 msgid "par:par value, defaults to $1000"
-msgstr "par : valor nominale, per defaut egala a 1000 €"
+msgstr "par : valor nominala, per defaut egala a 1000 €"
 
 #: ../plugins/fn-financial/functions.c:368
 #: ../plugins/fn-financial/functions.c:1894
@@ -3452,7 +3452,7 @@ msgstr "maduretat : data d'escasença "
 
 #: ../plugins/fn-financial/functions.c:453
 msgid "par:par value"
-msgstr "par : valor nominale"
+msgstr "par : valor nominala"
 
 #: ../plugins/fn-financial/functions.c:455
 msgid "ACCRINTM calculates the accrued interest from @{issue} to @{maturity}."
@@ -3462,7 +3462,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:456
 msgid "@{par} defaults to $1000."
-msgstr "@{par} valor nominale (per defaut egala a 1000 €)."
+msgstr "@{par} valor nominala (per defaut egala a 1000 €)."
 
 #: ../plugins/fn-financial/functions.c:487
 msgid "INTRATE:interest rate"
@@ -3874,7 +3874,7 @@ msgid ""
 "The optional @{guess} is needed because there can be more than one valid "
 "result.  It defaults to 10%."
 msgstr ""
-"Lo paramètre optionnel @{estim} es nécessaire car il pòt y aver plus d'un "
+"Lo paramètre optionnel @{estim} es nécessaire car il pòt y aver mai d'un "
 "resultat valide. La valor per defaut es de 10 %."
 
 #: ../plugins/fn-financial/functions.c:1305
@@ -4129,7 +4129,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2027
 #: ../plugins/fn-financial/functions.c:2211
 msgid "This function is not likely to be useful anymore."
-msgstr "Aquesta foncion n'est vraisemblablement plus utile actualament."
+msgstr "Aquesta foncion n'est vraisemblablement mai utile actualament."
 
 #: ../plugins/fn-financial/functions.c:2202
 msgid "EUROCONVERT:pre-Euro amount from one currency to another"
@@ -4185,7 +4185,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2210
 msgid ""
-"@{source} and @{target} must be one of the currencies listed for the EURO "
+"@{source} and @{target} must be one of the currencies listad for the EURO "
 "function."
 msgstr ""
 "@{font} e @{cibla} devon èsser una de las devisas listadas per la foncion "
@@ -4542,7 +4542,7 @@ msgid ""
 "calculation."
 msgstr ""
 "Se @{pas2bascule} es FALSE (FALS), lo calcul bascule dins la lei "
-"d'amortiment linear se l'amortiment devient plus rapide qu'amb la lei "
+"d'amortiment linear se l'amortiment devient mai rapide qu'amb la lei "
 "d'amortiment degressiu."
 
 #: ../plugins/fn-hebrew-date/functions.c:92
@@ -4912,7 +4912,7 @@ msgid "ISTEXT:TRUE if @{value} is text"
 msgstr "ISTEXT : TRUE(VERAI) se la valor @{valor} es del tèxte"
 
 #: ../plugins/fn-info/functions.c:1719
-msgid "N:@{text} converted to a number"
+msgid "N:@{text} converdad to a number"
 msgstr "N : @{tèxte} convertit en nombre"
 
 #: ../plugins/fn-info/functions.c:1720 ../plugins/fn-string/functions.c:366
@@ -5350,7 +5350,7 @@ msgid ""
 "@{vector1}, otherwise the first column. If @{vector2} is omitted the return "
 "value is taken from the last row or column of @{vector1}."
 msgstr ""
-"Se @{vector1} a plus de linhas que de colomnas, LOOKUP recèrca dins la "
+"Se @{vector1} a mai de linhas que de colomnas, LOOKUP recèrca dins la "
 "primièra linha de @{vector1}, siquenon dins la primièra colomna. Se "
 "@{vector2} es pas precisat, la valor renviada es prise dins la darrièra "
 "linha o colomna de @{vector1}."
@@ -5424,7 +5424,7 @@ msgstr ""
 "#N/A."
 
 #: ../plugins/fn-lookup/functions.c:1311
-msgid "INDIRECT:contents of the cell pointed to by the @{ref_text} string"
+msgid "INDIRECT:contents of the cell puntad to by the @{ref_text} string"
 msgstr "INDIRECT : contengut de la cellula designada per la cadena @{tèxte_ref}"
 
 #: ../plugins/fn-lookup/functions.c:1312
@@ -5623,7 +5623,7 @@ msgstr "SHEETS : nombre de fuèlhs dins @{referéncia}"
 
 #: ../plugins/fn-lookup/functions.c:1669
 msgid "reference:array, reference, or range, defaults to the maximum range"
-msgstr "referéncia : tablèu, referéncia o plaja, per defaut la plaja maximale"
+msgstr "referéncia : tablèu, referéncia o plaja, per defaut la plaja maximala"
 
 #: ../plugins/fn-lookup/functions.c:1670
 msgid ""
@@ -5900,7 +5900,7 @@ msgstr ""
 "ATANH calcula l'argument tangenta iperbolica de @{x} ; es la valor dont la "
 "tangenta iperbolica es egala a @{x}."
 
-# @{x} doit être strictement inférieur à |1|
+# @{x} doit èsser estrictament inférieur à |1|
 #: ../plugins/fn-math/functions.c:400
 msgid "If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!"
 msgstr ""
@@ -6003,7 +6003,7 @@ msgid ""
 "CEILING:nearest multiple of @{significance} whose absolute value is at least "
 "ABS(@{x})"
 msgstr ""
-"CEILING : plus proche multiple de @{significatiu} dont la valor absoluda es "
+"CEILING : mai proche multiple de @{significatiu} dont la valor absoluda es "
 "al mens ABS(@{x})"
 
 #: ../plugins/fn-math/functions.c:735 ../plugins/fn-math/functions.c:1136
@@ -6047,7 +6047,7 @@ msgstr ""
 msgid "COS:the cosine of @{x}"
 msgstr "COS : lo cosinus de @{x}"
 
-# Certainement pas ! Le resultat des fonctions réciproques ASIN, ACOS, ATAN, etc est un angle en radians ; le paramètre de la fonction est sans dimension. Dans le cas des fonctions hyperboliques, x et la valor de retour sont sans dimension.
+# Certanament pas ! Le resultat des fonctions réciproques ASIN, ACOS, ATAN, etc est un angle en radians ; le paramètre de la foncion est sans dimension. Dans le cas des fonctions hyperboliques, x et la valor de retour sont sans dimension.
 #: ../plugins/fn-math/functions.c:767 ../plugins/fn-math/functions.c:875
 #: ../plugins/fn-math/functions.c:1448 ../plugins/fn-math/functions.c:1484
 #: ../plugins/fn-math/functions.c:1524 ../plugins/fn-math/functions.c:1697
@@ -6182,7 +6182,7 @@ msgid ""
 "BETA function returns the value of the Euler beta function extended to all "
 "real numbers except 0 and negative integers."
 msgstr ""
-"La foncion BETA renvia la valor de la foncion β d'Euler étendue a totes los "
+"La foncion BETA renvia la valor de la foncion β d'Euler espandida a totes los "
 "nombres réels sauf 0 e tout entièr negatiu."
 
 #: ../plugins/fn-math/functions.c:1030
@@ -6209,7 +6209,7 @@ msgid ""
 "integers."
 msgstr ""
 "La foncion BETALN renvia lo logaritme neperian de la valor absoluda de la "
-"foncion β d'Euler étendue a totes los nombres réels sauf 0 e tout entièr "
+"foncion β d'Euler espandida a totes los nombres réels sauf 0 e tout entièr "
 "negatiu."
 
 #: ../plugins/fn-math/functions.c:1054
@@ -6255,7 +6255,7 @@ msgid ""
 "COMBINA:the number of @{k}-combinations of an @{n}-element set with "
 "repetition"
 msgstr ""
-"COMBINA : lo nombre d'arrangements amb repeticion de @{k} elements pris dins "
+"COMBINA : lo nombre d'arrengaments amb repeticion de @{k} elements pris dins "
 "un ensemble de @{n} elements."
 
 #: ../plugins/fn-math/functions.c:1114
@@ -6267,7 +6267,7 @@ msgid ""
 "FLOOR:nearest multiple of @{significance} whose absolute value is at most "
 "ABS(@{x})"
 msgstr ""
-"FLOOR : plus proche multiple de @{significatiu} dont la valor absoluda es al "
+"FLOOR : mai proche multiple de @{significatiu} dont la valor absoluda es al "
 "plus ABS(@{x})"
 
 #: ../plugins/fn-math/functions.c:1138
@@ -6276,7 +6276,7 @@ msgid ""
 "absolute value is at most ABS(@{x})"
 msgstr ""
 "FLOOR(@{x};@{significatiu}) renvia lo mai pròche multiple de @{significatiu} "
-"dont la valor absoluda es al plus ABS(@{x})"
+"dont la valor absoluda es al mai ABS(@{x})"
 
 #: ../plugins/fn-math/functions.c:1140
 msgid ""
@@ -6330,7 +6330,7 @@ msgid ""
 "LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating "
 "LN(1+@{x})."
 msgstr ""
-"LN1P calcula LN(1+@{x}), mas amb una meilleure precision que celle obtenue "
+"LN1P calcula LN(1+@{x}), mas amb una melhora precision que celle obtenue "
 "per una avaloracion directe de LN(1+@{x})."
 
 #: ../plugins/fn-math/functions.c:1255
@@ -6367,7 +6367,7 @@ msgstr "Se @{x} < 0 e @{y} es pas un entièr, POWER renvia una error #NUM!"
 #, fuzzy
 #| msgid "@{par} defaults to $1000."
 msgid "@{z} defaults to 1"
-msgstr "@{par} valor nominale (per defaut egala a 1000 €)."
+msgstr "@{par} valor nominala (per defaut egala a 1000 €)."
 
 #: ../plugins/fn-math/functions.c:1284
 #, fuzzy
@@ -6580,7 +6580,7 @@ msgstr "PI : la constanta 𝜋"
 msgid ""
 "This function is Excel compatible, but it returns 𝜋 with a better precision."
 msgstr ""
-"Aquesta function es compatible Excel, mas elle renvia 𝜋 amb una meilleure "
+"Aquesta function es compatible Excel, mas elle renvia 𝜋 amb una melhora "
 "precision."
 
 #: ../plugins/fn-math/functions.c:1764
@@ -6805,7 +6805,7 @@ msgstr ""
 "ROMAN renvia la chifra aràbia @{n} en chifras romanas jos forma tèxte.\n"
 "Se @{tipe} es egal a 0 o es omis, ROMAN renvia la forma classique del nombre "
 "en chifras romanas.\n"
-"Lo tipe 1 es plus concis que lo tipe classique, lo tipe 2 es plus concis que "
+"Lo tipe 1 es mai concis que lo tipe classique, lo tipe 2 es mai concis que "
 "lo 1 e lo 3 que lo 2. Lo tipe 4 es un tipe simplifié."
 
 #: ../plugins/fn-math/functions.c:2512
@@ -6918,7 +6918,7 @@ msgstr "x : nombre dont on calcula la seria de poténcias"
 #: ../plugins/fn-math/functions.c:2644
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr ""
-"n : entièr non-negatiu, exponent lo plus faible de la primièra valor de la "
+"n : entièr non-negatiu, exponent lo mai faible de la primièra valor de la "
 "seria"
 
 #: ../plugins/fn-math/functions.c:2645
@@ -7449,7 +7449,7 @@ msgid ""
 "lower_tail:if true (the default), the lower tail of the distribution is "
 "considered"
 msgstr ""
-"coa_basse : se TRUE(VERAI) (valor per defaut), lo cumul es effectué sus lo "
+"coa_basse : se TRUE(VERAI) (valor per defaut), lo cumul es efectuat sus lo "
 "demi-segment inferior de las observations"
 
 #: ../plugins/fn-r/functions.c:48 ../plugins/fn-r/functions.c:74
@@ -8443,7 +8443,7 @@ msgid ""
 "If @{val_range} and @{prob_range} are not the same size, RANDDISCRETE "
 "returns #NUM!"
 msgstr ""
-"Se las plajas @{plaja_val} e @{plaja_proba} ne son pas de meteissa "
+"Se las plajas @{plaja_val} e @{plaja_proba} son pas de meteissa "
 "dimension, RANDDISCRETE renvia una error #NUM!"
 
 #: ../plugins/fn-random/functions.c:97
@@ -8709,7 +8709,7 @@ msgstr "n2 : nombre d'objèctes del tipe 2"
 
 #: ../plugins/fn-random/functions.c:607
 msgid "t:total number of objects selected"
-msgstr "t : nombre total d'objèctes choisis"
+msgstr "t : nombre total d'objèctes causits"
 
 #: ../plugins/fn-random/functions.c:629
 msgid "RANDLOG:random variate from a logarithmic distribution"
@@ -8849,7 +8849,7 @@ msgid ""
 "(Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, "
 "3rd ed, p139, 586 (exercise 11)."
 msgstr ""
-"La metòde es basée sus lo célèbre algoritme de la pyramide a grases "
+"La metòde es basada sus lo célèbre algoritme de la pyramide a grases "
 "(ziggourat) de Marsaglia (Ann Math Stat 32, 894-899 (1961)), dont los "
 "aspèctes son expliqués dins Knuth, v2, 3rd ed, p. 139, 586 (exercici 11)."
 
@@ -9007,7 +9007,7 @@ msgstr ""
 "conten del tèxte o un argument avalorat FALSE(FALS), elle serà considerada "
 "coma que conten la valor zèro (0). Se la cellula conten un argument avalorat "
 "TRUE(VERAI), la cellula serà considerada coma que conten la valor un (1). À "
-"noter que las cellulas voidas ne son pas comptadas."
+"noter que las cellulas voidas son pas comptadas."
 
 #: ../plugins/fn-stat/functions.c:52
 msgid "VARP:variance of an entire population"
@@ -9171,7 +9171,7 @@ msgid ""
 msgstr ""
 "Se @{fraccion} = 0,2 e que l'ensemble de donadas comporte 40 nombres, 8 "
 "nombres(40 x 0.2) son enlevés de l'ensemble de las donadas ; los 4 mai "
-"grands e los 4 mai pichons. Per éviter un resultat biaisé, la quantitat a "
+"grands e los 4 mai pichons. Per evitar un resultat biaisé, la quantitat a "
 "enlever es totjorn arredondida per defaut al nombre pair lo mai pròche."
 
 #: ../plugins/fn-stat/functions.c:275 ../plugins/fn-stat/functions.c:689
@@ -9276,7 +9276,7 @@ msgstr "f : nombre de fracasses"
 
 #: ../plugins/fn-stat/functions.c:410
 msgid "t:threshold number of successes"
-msgstr "t : seuil del nombre de succès"
+msgstr "t : sulhet del nombre de succès"
 
 #: ../plugins/fn-stat/functions.c:411
 msgid "p:probability of a success"
@@ -9444,7 +9444,7 @@ msgstr "Se @{x} es pas un nombre, aquesta foncion renvia una error #VALOR!."
 
 #: ../plugins/fn-stat/functions.c:606
 msgid "MODE:first most common number in the dataset"
-msgstr "MODE : primièr nombre lo plus fréquent dins l'ensemble de las donadas"
+msgstr "MODE : primièr nombre lo mai fréquent dins l'ensemble de las donadas"
 
 #: ../plugins/fn-stat/functions.c:607 ../plugins/fn-stat/functions.c:634
 #: ../plugins/fn-stat/functions.c:660 ../plugins/fn-stat/functions.c:686
@@ -9594,7 +9594,7 @@ msgid ""
 "moment.  The skewness of a symmetric (e.g., normal) distribution is zero."
 msgstr ""
 "Aquesta foncion n'a de sens que se la distribucion sosjacente a realament un "
-"tresen moment (moment d'asimetria). L'inclinaison d'una distribucion "
+"tresen moment (moment d'asimetria). L'inclinason d'una distribucion "
 "simetrica (es-à-dire normala) es nulla."
 
 #: ../plugins/fn-stat/functions.c:835
@@ -10017,7 +10017,7 @@ msgstr "CRITBINOM : valor critique a drecha d'una distribucion binomiale"
 #: ../plugins/fn-stat/functions.c:1652
 msgid "alpha:significance level (area of the tail)"
 msgstr ""
-"alfa : seuil de signification del tèst (surface de la zone « a drecha »)"
+"alfa : sulhet de signification del tèst (surface de la zone « a drecha »)"
 
 #: ../plugins/fn-stat/functions.c:1653
 msgid "If @{trials} is a non-integer it is truncated."
@@ -10030,7 +10030,7 @@ msgstr "Se @{alfa} < 0 o @{alfa} > 1, aquesta foncion renvia una error #NUM!."
 #: ../plugins/fn-stat/functions.c:1679
 msgid "PERMUT:number of @{k}-permutations of a @{n}-set"
 msgstr ""
-"PERMUT : arrangements sens repeticion de @{k} objèctes pris dins un ensemble "
+"PERMUT : arrengaments sens repeticion de @{k} objèctes pris dins un ensemble "
 "de @{n}"
 
 #: ../plugins/fn-stat/functions.c:1680
@@ -10039,7 +10039,7 @@ msgstr "n : talha de l'ensemble de base"
 
 #: ../plugins/fn-stat/functions.c:1681
 msgid "k:number of elements in each permutation"
-msgstr "k : nombre d'elements dins cada arrangement"
+msgstr "k : nombre d'elements dins cada arrengament"
 
 #: ../plugins/fn-stat/functions.c:1682
 msgid "If @{n} = 0 this function returns a #NUM! error."
@@ -10094,7 +10094,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1742
 msgid "alpha:significance level"
-msgstr "alfa : seuil de signification"
+msgstr "alfa : sulhet de signification"
 
 #: ../plugins/fn-stat/functions.c:1743
 msgid "stddev:population standard deviation"
@@ -10449,7 +10449,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2400
 msgid "STEYX:standard error of the predicted y-value in the regression"
-msgstr "STEYX : error mejana sus la prédiction de valor de y dins la regression"
+msgstr "STEYX : error mejana sus la prediccion de valor de y dins la regression"
 
 #: ../plugins/fn-stat/functions.c:2401 ../plugins/fn-stat/functions.c:3496
 #: ../plugins/fn-stat/functions.c:3612 ../plugins/fn-stat/functions.c:3854
@@ -10587,7 +10587,7 @@ msgstr "STDEVPA : escart-tipe de la totalitat d'una populacion"
 
 #: ../plugins/fn-stat/functions.c:2699
 msgid "PERCENTRANK:rank of a data point in a data set"
-msgstr "PERCENTRANK : reng d'una valor particulière dins un ensemble de donadas"
+msgstr "PERCENTRANK : reng d'una valor particulara dins un ensemble de donadas"
 
 #: ../plugins/fn-stat/functions.c:2700
 msgid "array:range of numeric values"
@@ -10627,7 +10627,7 @@ msgid ""
 "than once, this function interpolates the returned value."
 msgstr ""
 "Se @{x} ne correspond pas exactement a una valor de la plaja @{tablèu} o se "
-"@{x} correspond a plus d'una, aquesta foncion interpole la valor renviada."
+"@{x} correspond a mai d'una, aquesta foncion interpole la valor renviada."
 
 #: ../plugins/fn-stat/functions.c:2796
 msgid ""
@@ -10983,7 +10983,7 @@ msgstr ""
 "Es un calcul non-linear per aproximacions successivas. La precision de « c » "
 "es egala a la largor de l'interval dels x arredondit al desenat entièr per "
 "defaut (10^entièr) multiplicat per 0,000001. I pòt aver de cases ont "
-"l'aproximacion renviada es pas la meilleure possible."
+"l'aproximacion renviada es pas la melhora possible."
 
 #: ../plugins/fn-stat/functions.c:3706
 msgid ""
@@ -11312,7 +11312,7 @@ msgid ""
 "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} "
 "objects with repetition allowed"
 msgstr ""
-"PERMUTATIONA : lo nombre d'arrangements amb repeticion de @{y} objèctes pris "
+"PERMUTATIONA : lo nombre d'arrengaments amb repeticion de @{y} objèctes pris "
 "parmi @{x}"
 
 #: ../plugins/fn-stat/functions.c:4618
@@ -11321,7 +11321,7 @@ msgstr "x : nombre total d'objèctes"
 
 #: ../plugins/fn-stat/functions.c:4619
 msgid "y:number of selected objects"
-msgstr "y : nombre d'objèctes choisis"
+msgstr "y : nombre d'objèctes causits"
 
 #: ../plugins/fn-stat/functions.c:4620
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
@@ -11381,7 +11381,7 @@ msgid ""
 "If there are less than 5 or more than 5000 sample values, SFTEST returns "
 "#VALUE!"
 msgstr ""
-"S'il y a mens de 5 escandalhatges o plus de 5000, SFTEST renvia l'error "
+"S'il y a mens de 5 escandalhatges o mai de 5000, SFTEST renvia l'error "
 "#VALOR!"
 
 #: ../plugins/fn-stat/functions.c:4851
@@ -11467,7 +11467,7 @@ msgstr ""
 "La page de code CP1252 (Windows-1252) se fonde sus una primièra ébauche de "
 "la norme ISO-8859-1 e elle conten totes los caractèrs affichables prévus "
 "dins la norme. Elle conten tanben totes los caractèrs affichables de la "
-"norme ISO-8859-15 (mais a de las posicions diferentas per certains)."
+"norme ISO-8859-15 (mas a de las posicions diferentas per certains)."
 
 #: ../plugins/fn-string/functions.c:66 ../plugins/fn-string/functions.c:138
 msgid ""
@@ -11573,7 +11573,7 @@ msgid ""
 "LEFTB:the first characters  of the string @{s} comprising at most "
 "@{num_bytes} bytes"
 msgstr ""
-"LEFTB : los primièrs caractèrs de la cadena @{s} comportant al plus "
+"LEFTB : los primièrs caractèrs de la cadena @{s} comportant al mai "
 "@{nbre_octets} octets"
 
 #: ../plugins/fn-string/functions.c:333 ../plugins/fn-string/functions.c:426
@@ -11588,7 +11588,7 @@ msgid ""
 "The semantics of this function is subject to change as various applications "
 "implement it."
 msgstr ""
-"La sémantique d'aquesta foncion es sujette a modificacions eu ègard a la "
+"La sémantique d'aquesta foncion es subjèctete a modificacions eu ègard a la "
 "variété de las applications qui l'implémentent."
 
 #: ../plugins/fn-string/functions.c:335
@@ -11630,7 +11630,7 @@ msgid ""
 "MID:the substring of the string @{s} starting at position @{position} "
 "consisting of @{length} characters"
 msgstr ""
-"MID : la portion de cadena extraite de la cadena @{s} que comença a la "
+"MID : la portion de cadena extracha de la cadena @{s} que comença a la "
 "posicion @{posicion} e constituada de @{longor} caractèrs"
 
 #: ../plugins/fn-string/functions.c:385
@@ -11647,7 +11647,7 @@ msgid ""
 "most @{num_bytes} bytes"
 msgstr ""
 "MIDB : los caractèrs situats aprèp los @{pos_despart} primièrs octets e "
-"comprenant al plus @{nbre_octets} octets"
+"comprenant al mai @{nbre_octets} octets"
 
 #: ../plugins/fn-string/functions.c:425
 msgid "start_pos:the number of the byte with which to start (defaults to 1)"
@@ -11695,7 +11695,7 @@ msgid ""
 "RIGHTB:the last characters of the string @{s} comprising at most "
 "@{num_bytes} bytes"
 msgstr ""
-"RIGHTB : los darrièrs caractèrs de la cadena @{s} comportant al plus "
+"RIGHTB : los darrièrs caractèrs de la cadena @{s} comportant al mai "
 "@{nbre_octets} octets"
 
 #: ../plugins/fn-string/functions.c:581
@@ -11962,7 +11962,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:1414
 msgid ""
-"ASC:text with full-width katakana and ASCII characters converted to half-"
+"ASC:text with full-width katakana and ASCII characters converdad to half-"
 "width"
 msgstr ""
 "ASC : convertís un tèxte codat en caractèrs katakana e ASCII « pleine-chasse "
@@ -12000,7 +12000,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:1541
 msgid ""
-"JIS:text with half-width katakana and ASCII characters converted to full-"
+"JIS:text with half-width katakana and ASCII characters converdad to full-"
 "width"
 msgstr ""
 "JIS : convertís un tèxte codat en caractèrs katakana e ASCII « mièjachassa » "
@@ -12356,29 +12356,29 @@ msgstr ""
 #~ "priorité. À la place, utilisez --(A1:A5>0)"
 
 #~ msgid "a:amount of skew, defaults to 0"
-#~ msgstr "a : quantité d'asymétrie, par défaut 0"
+#~ msgstr "a : quantitat d'asymétrie, par défaut 0"
 
 #~ msgid "μ:mean of the underlying normal distribution, defaults to 0"
-#~ msgstr "μ : moyenne de la distribucion normale sous-jacente, 0 par défaut"
+#~ msgstr "μ : moyenne de la distribucion normale sosjacente, 0 par défaut"
 
 #~ msgid ""
 #~ "Let us assume that the cells A1, A2, ..., A5 contain number 11.4, 17.3, "
 #~ "21.3, 25.9, and 40.1."
 #~ msgstr ""
-#~ "Supposons que les cellules A1, A2, ..., A5 contiennent les nombres 11,4 "
+#~ "Supposons que les cellulas A1, A2, ..., A5 contiennent les nombres 11,4 "
 #~ "17,3 21,3 25,9 et 40,1."
 
 #~ msgid "Then VARP(A1:A5) equals 94.112"
-#~ msgstr "alors VARP(A1:A5) est égal à 94,112"
+#~ msgstr "alors VARP(A1:A5) est egal à 94,112"
 
 #~ msgid "Then VAR(A1:A5) equals 117.64."
-#~ msgstr "alors VAR(A1:A5) est égal à 117,64."
+#~ msgstr "alors VAR(A1:A5) est egal à 117,64."
 
 #~ msgid "Then STDEV(A1:A5) equals 10.84619749."
-#~ msgstr "alors, STDEV(A1:A5) est égal à 10,84619749."
+#~ msgstr "alors, STDEV(A1:A5) est egal à 10,84619749."
 
 #~ msgid "Then STDEVP(A1:A5) equals 9.701133954."
-#~ msgstr "alors, STDEVP(A1:A5) est égal à 9,701133954."
+#~ msgstr "alors, STDEVP(A1:A5) est egal à 9,701133954."
 
 #~ msgid "If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error."
 #~ msgstr "Si @{p} < 0 ou @{p} > 1, aquesta fonction renvoie une erreur #NUM!."
@@ -12387,80 +12387,80 @@ msgstr ""
 #~ "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 #~ "11.4, 25.9, and 40.1."
 #~ msgstr ""
-#~ "Supposons que les cellules A1, A2, ..., A5 contiennent les nombres 11,4 "
+#~ "Supposons que les cellulas A1, A2, ..., A5 contiennent les nombres 11,4 "
 #~ "17,3 11,4 25,9 et 40,1."
 
 #~ msgid "Then MODE(A1:A5) equals 11.4."
-#~ msgstr "alors, MODE(A1:A5) est égal à 11,4."
+#~ msgstr "alors, MODE(A1:A5) est egal à 11,4."
 
 #~ msgid "Then HARMEAN(A1:A5) equals 19.529814427."
-#~ msgstr "alors, HARMEAN(A1:A5) est égal 19,529814427."
+#~ msgstr "alors, HARMEAN(A1:A5) est egal 19,529814427."
 
 #~ msgid "Then GEOMEAN(A1:A5) equals 21.279182482."
-#~ msgstr "alors, GEOMEAN(A1:A5) est égal à 21,279182482."
+#~ msgstr "alors, GEOMEAN(A1:A5) est egal à 21,279182482."
 
 #~ msgid "Then AVERAGE(A1:A5) equals 23.2."
-#~ msgstr "alors, AVERAGE(A1:A5) est égal à 23,2."
+#~ msgstr "alors, AVERAGE(A1:A5) est egal à 23,2."
 
 #~ msgid "Then MIN(A1:A5) equals 11.4."
-#~ msgstr "alors, MIN(A1:A5) est égal à 11,4."
+#~ msgstr "alors, MIN(A1:A5) est egal à 11,4."
 
 #~ msgid "Then MAX(A1:A5) equals 40.1."
-#~ msgstr "alors, MAX(A1:A5) est égal à 40,1."
+#~ msgstr "alors, MAX(A1:A5) est egal à 40,1."
 
 #~ msgid "Then SKEW(A1:A5) equals 0.976798268."
-#~ msgstr "alors, SKEW(A1:A5) est égal à 0,976798268."
+#~ msgstr "alors, SKEW(A1:A5) est egal à 0,976798268."
 
 #~ msgid "Then SKEWP(A1:A5) equals 0.655256198."
-#~ msgstr "alors, SKEWP(A1:A5) est égal à 0,655256198."
+#~ msgstr "alors, SKEWP(A1:A5) est egal à 0,655256198."
 
 #~ msgid "TINV:inverse of the survival function of the Student t-distribution"
 #~ msgstr ""
-#~ "TINV : fonction réciproque de la fonction de survie d'une distribution t "
+#~ "TINV : fonction réciproque de la foncion de survie d'une distribution t "
 #~ "de Student."
 
 #~ msgid "Then KURT(A1:A5) equals 1.234546305."
-#~ msgstr "alors, KURT(A1:A5) est égal à 1,234546305."
+#~ msgstr "alors, KURT(A1:A5) est egal à 1,234546305."
 
 #~ msgid "Then KURTP(A1:A5) equals -0.691363424."
-#~ msgstr "alors, KURTP(A1:A5) est égal à -0,691363424."
+#~ msgstr "alors, KURTP(A1:A5) est egal à -0,691363424."
 
 #~ msgid "Then AVEDEV(A1:A5) equals 7.84."
-#~ msgstr "alors, AVEDEV(A1:A5) est égal à 7,84."
+#~ msgstr "alors, AVEDEV(A1:A5) est egal à 7,84."
 
 #~ msgid "Then DEVSQ(A1:A5) equals 470.56."
-#~ msgstr "alors, DEVSQ(A1:A5) est égal à 470,56."
+#~ msgstr "alors, DEVSQ(A1:A5) est egal à 470,56."
 
 #~ msgid "Then MEDIAN(A1:A5) equals 21.3."
-#~ msgstr "alors, MEDIAN(A1:A5) est égal à 21,3."
+#~ msgstr "alors, MEDIAN(A1:A5) est egal à 21,3."
 
 #~ msgid ""
 #~ "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 #~ "11.4, 17.3, \"missing\", 25.9, and 40.1."
 #~ msgstr ""
-#~ "Supposons que les cellules A1, A2, ..., A5 contiennent les nombres et la "
+#~ "Supposons que les cellulas A1, A2, ..., A5 contiennent les nombres et la "
 #~ "chaîne 11,4  17,3  « manquant » 25,9  et 40,1."
 
 #~ msgid "Then AVERAGEA(A1:A5) equals 18.94."
-#~ msgstr "alors, AVERAGEA(A1:A5) est égal à 18,94."
+#~ msgstr "alors, AVERAGEA(A1:A5) est egal à 18,94."
 
 #~ msgid "Then MAXA(A1:A5) equals 40.1."
-#~ msgstr "alors, MAXA(A1:A5) est égal à 40,1."
+#~ msgstr "alors, MAXA(A1:A5) est egal à 40,1."
 
 #~ msgid "Then MINA(A1:A5) equals 0."
-#~ msgstr "alors, MINA(A1:A5) est égal à 0."
+#~ msgstr "alors, MINA(A1:A5) est egal à 0."
 
 #~ msgid "Then VARA(A1:A5) equals 228.613."
-#~ msgstr "alors, VARA(A1:A5) est égal à 228,613."
+#~ msgstr "alors, VARA(A1:A5) est egal à 228,613."
 
 #~ msgid "Then VARPA(A1:A5) equals 182.8904."
-#~ msgstr "alors, VARPA(A1:A5) est égal à 182,8904."
+#~ msgstr "alors, VARPA(A1:A5) est egal à 182,8904."
 
 #~ msgid "Then STDEVA(A1:A5) equals 15.119953704."
-#~ msgstr "alors, STDEVA(A1:A5) est égal à 15,119953704."
+#~ msgstr "alors, STDEVA(A1:A5) est egal à 15,119953704."
 
 #~ msgid "Then STDEVPA(A1:A5) equals 13.523697719."
-#~ msgstr "alors, STDEVPA(A1:A5) est égal à 13,523697719."
+#~ msgstr "alors, STDEVPA(A1:A5) est egal à 13,523697719."
 
 #~ msgid "The @{abscissae} must be given in increasing order."
-#~ msgstr "Les @{abscisses} doivent être fournies en ordre croissant."
+#~ msgstr "Les @{abscisses} doivent èsser fournies en ordre croissant."
