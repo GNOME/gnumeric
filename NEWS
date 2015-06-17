@@ -6,6 +6,7 @@ Andreas:
 	* Improve function import to ODF. [#750627]
 	* Add CONFIDENCE.T, MODE.MULT, PERCENTILE.EXC, PERCENTRANK.EXC
 	and QUARTILE.EXC.
+	* Fuzzed file fixes.  [#751060]
 
 Jean:
 	* Fix xlsx import of plot area manual layout. [#748016]

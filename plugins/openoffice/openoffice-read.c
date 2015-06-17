@@ -9504,6 +9504,8 @@ od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean display_r_square = TRUE;
 	GSList *prop_list = NULL;
 
+	g_return_if_fail (state->chart.regression != NULL);
+
 	odf_gog_check_position (xin, attrs, &prop_list);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
