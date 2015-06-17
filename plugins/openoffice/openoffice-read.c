@@ -482,6 +482,7 @@ struct  _OOParseState {
 		int               rep_cols_to;
 	} print;
 
+	GSList *named_expression_names;
 	char *object_name; /* also used for table during preparsing */
 	OOControl *cur_control;
 
@@ -11423,6 +11424,23 @@ oo_marker (GsfXMLIn *xin, xmlChar const **attrs)
 
 /****************** These are the preparse functions ***********************/
 
+static void
+oo_named_expr_preparse (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *name      = NULL;
+
+	if (state->object_name == NULL)
+		/* We do not need to define global names during preparsing. */
+		return;
+	
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
+			name = CXML2C (attrs[1]);	
+	
+	if (name != NULL)
+		state->named_expression_names= g_slist_prepend (state->named_expression_names, g_strdup (name));
+}
 
 static void
 odf_preparse_table_start (GsfXMLIn *xin, xmlChar const **attrs)
@@ -11434,6 +11452,7 @@ odf_preparse_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->extent_data.col = 0;
 	state->extent_data.row = 0;
 	state->object_name = NULL;
+	state->named_expression_names = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
@@ -11472,6 +11491,7 @@ odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	char *table_name = state->object_name;
 	Sheet *sheet;
 	sheet_order_t *sot = g_new(sheet_order_t, 1);
+	GSList *l;
 
 	cols = state->extent_data.col + 1;
 	rows = state->extent_data.row + 1;
@@ -11522,6 +11542,18 @@ odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	sot->sheet = sheet;
 	state->sheet_order = g_slist_prepend
 		(state->sheet_order, sot);
+
+	for (l = state->named_expression_names; l != NULL; l = l->next) {
+		char *name = l->data;
+		GnmParsePos   pp;
+
+		parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
+		pp.sheet = sheet;
+		expr_name_add (&pp, name, NULL, NULL, TRUE, NULL);
+	}
+
+	g_slist_free_full (state->named_expression_names, g_free);
+	state->named_expression_names = NULL;
 }
 
 
@@ -11627,6 +11659,10 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_X
     GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_TABLE_ROW_PROPS, OO_NS_STYLE, "table-row-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
+#if HAVE_OO_NS_LOCALC_EXT
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBERFILL_CHARACTER, OO_NS_LOCALC_EXT,	"fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, LOEXT_TEXT, OO_NS_LOCALC_EXT, "text", GSF_XML_NO_CONTENT, NULL, NULL),
+#endif
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
 GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_CONTENT, &odf_embedded_text_start, &odf_embedded_text_end),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
@@ -11921,6 +11957,10 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (STYLE, GRAPHIC_PROPS, OO_NS_STYLE, "graphic-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 	      GSF_XML_IN_NODE (STYLE, STYLE_MAP, OO_NS_STYLE, "map", GSF_XML_NO_CONTENT, &oo_style_map, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
+#if HAVE_OO_NS_LOCALC_EXT
+              GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBERFILL_CHARACTER, OO_NS_LOCALC_EXT, "fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (NUMBER_STYLE, LOEXT_TEXT, OO_NS_LOCALC_EXT, "text", GSF_XML_NO_CONTENT, NULL, NULL),
+#endif
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", GSF_XML_NO_CONTENT, &odf_number, NULL),
                  GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
@@ -12120,6 +12160,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (TABLE_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	      GSF_XML_IN_NODE (TABLE_H_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &oo_cell_start, &oo_cell_end),
+		  GSF_XML_IN_NODE (TABLE_CELL, DETECTIVE, OO_NS_TABLE, "detective", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DETECTIVE, DETECTIVE_OPERATION, OO_NS_TABLE, "operation", GSF_XML_NO_CONTENT, NULL, NULL),
 		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &oo_cell_content_start, &oo_cell_content_end),
 		    GSF_XML_IN_NODE (CELL_TEXT, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
@@ -12203,6 +12245,10 @@ static GsfXMLInNode const opendoc_content_preparse_dtd [] =
 	      GSF_XML_IN_NODE (STYLE, GRAPHIC_PROPS, OO_NS_STYLE, "graphic-properties", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (STYLE, STYLE_MAP, OO_NS_STYLE, "map", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, NULL, NULL),
+#if HAVE_OO_NS_LOCALC_EXT
+              GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBERFILL_CHARACTER, OO_NS_LOCALC_EXT, "fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (NUMBER_STYLE, LOEXT_TEXT, OO_NS_LOCALC_EXT, "text", GSF_XML_NO_CONTENT, NULL, NULL),
+#endif
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", GSF_XML_NO_CONTENT, NULL, NULL),
                  GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -12397,6 +12443,8 @@ static GsfXMLInNode const opendoc_content_preparse_dtd [] =
 	      GSF_XML_IN_NODE (TABLE_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	      GSF_XML_IN_NODE (TABLE_H_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &odf_preparse_cell_start, NULL),
+		  GSF_XML_IN_NODE (TABLE_CELL, DETECTIVE, OO_NS_TABLE, "detective", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DETECTIVE, DETECTIVE_OPERATION, OO_NS_TABLE, "operation", GSF_XML_NO_CONTENT, NULL, NULL),
 		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (CELL_TEXT, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
@@ -12441,8 +12489,8 @@ static GsfXMLInNode const opendoc_content_preparse_dtd [] =
 	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	  GSF_XML_IN_NODE (TABLE, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (SPREADSHEET, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, &oo_named_expr_preparse, NULL),
+	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, &oo_named_expr_preparse, NULL),
 
 	  GSF_XML_IN_NODE (SPREADSHEET, DB_RANGES, OO_NS_TABLE, "database-ranges", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", GSF_XML_NO_CONTENT, NULL, NULL),
