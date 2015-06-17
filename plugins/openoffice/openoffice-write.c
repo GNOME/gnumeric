@@ -2462,6 +2462,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "MMULT","MMULT" },
 		{ "MOD","MOD" },
 		{ "MODE","MODE" },
+		{ "MODE.MULT","COM.MICROSOFT.MODE.MULT" },
 		{ "MONTH","MONTH" },
 		{ "MROUND","MROUND" },
 		{ "MULTINOMIAL","MULTINOMIAL" },

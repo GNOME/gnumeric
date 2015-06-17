@@ -1,3 +1,12 @@
+2015-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_mode_mult): new
+	(gnumeric_mode_mult_cmp): new
+	(gnumeric_mode_mult_rm): new
+	(gnumeric_mode_mult): new
+	(stat_functions): connect the above
+	* plugin.xml.in: add MODE.MULT
+
 2015-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_percentrank_exc): new

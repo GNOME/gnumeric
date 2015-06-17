@@ -73,6 +73,7 @@
 				<function name="min"/>
 				<function name="mina"/>
 				<function name="mode"/>
+				<function name="mode.mult"/>
 				<function name="negbinomdist"/>
 				<function name="normdist"/>
 				<function name="norminv"/>

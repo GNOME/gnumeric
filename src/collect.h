@@ -39,6 +39,10 @@ gnm_float *collect_floats_value (GnmValue const *val,
 				 GnmEvalPos const *ep,
 				 CollectFlags flags,
 				 int *n, GnmValue **error);
+gnm_float *collect_floats (int argc, GnmExprConstPtr const *argv,
+			   GnmEvalPos const *ep, CollectFlags flags,
+			   int *n, GnmValue **error, GSList **info,
+			   gboolean *constp);
 
 gnm_float *collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 				CollectFlags flags, int *n, GSList **info,

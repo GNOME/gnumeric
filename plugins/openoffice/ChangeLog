@@ -1,3 +1,9 @@
+2015-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_func_map_in): Add MODE.MULT
+	* openoffice-write.c (odf_expr_func_handler): Export MODE.MULT
+	with Microsoft prefix
+
 2015-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_func_map_in): Add PERCENTRANK.EXC and

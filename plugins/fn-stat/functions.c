@@ -31,6 +31,7 @@
 #include <regression.h>
 #include <sheet.h>
 #include <collect.h>
+#include <gutils.h>
 #include <value.h>
 #include <expr.h>
 #include <expr-impl.h>
@@ -610,7 +611,7 @@ static GnmFuncHelp const help_mode[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the data set does not contain any duplicates this function returns a #N/A error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=MODE(11.4,17.3,11.4,3,25.9,40.1)" },
-	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,MEDIAN"},
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,MEDIAN,MODE.MULT"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Mode_(statistics)") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Mode.html") },
 	{ GNM_FUNC_HELP_END }
@@ -627,6 +628,104 @@ gnumeric_mode (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     GNM_ERROR_NA);
 }
 
+/***************************************************************************/
+
+static GnmFuncHelp const help_mode_mult[] = {
+	{ GNM_FUNC_HELP_NAME, F_("MODE.MULT:most common numbers in the dataset")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the data set does not contain any duplicates this function returns a #N/A error.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MODE.MULT(11.4,17.3,11.4,3,25.9,40.1)" },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,MEDIAN,MODE"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Mode_(statistics)") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Mode.html") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static gint
+gnumeric_mode_mult_cmp (gconstpointer a, gconstpointer b)
+{
+	return (((*((gnm_float *)a))<(*((gnm_float *)b))) ? -1 : 1);
+}
+
+static gboolean
+gnumeric_mode_mult_rm (gpointer key, gpointer value, gpointer user_data)
+{
+	return (*((int *)user_data) != *((int *)value));
+}
+
+static GnmValue *
+gnumeric_mode_mult (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	GnmValue *error = NULL;
+	GnmValue *result;
+	gnm_float *vals;
+	int n;
+	gboolean constp;
+
+	vals = collect_floats (argc, argv, ei->pos, 
+			       COLLECT_IGNORE_STRINGS |
+			       COLLECT_IGNORE_BOOLS |
+			       COLLECT_IGNORE_BLANKS,
+			       &n, &error,
+			       NULL, &constp);
+	if (!vals)
+		return error;
+	
+	if (n <= 1)
+		result = value_new_error_NA (ei->pos);
+	else {
+		GHashTable *h;
+		int i;
+		int dups = 0;
+			
+		h = g_hash_table_new_full ((GHashFunc)gnm_float_hash,
+					   (GCompareFunc)gnm_float_equal,
+					   NULL,
+					   (GDestroyNotify)g_free);
+		for (i = 0; i < n; i++) {
+			gpointer rval;
+			gboolean found = g_hash_table_lookup_extended (h, &vals[i], NULL, &rval);
+			int *pdups;
+				
+			if (found) {
+				pdups = (int *)rval;
+				(*pdups)++;
+			} else {
+				pdups = g_new (int, 1);
+				*pdups = 1;
+				g_hash_table_insert (h, (gpointer)(vals + i), pdups);
+			}
+				
+			if (*pdups > dups)
+				dups = *pdups;
+		}
+
+		if (dups <= 1)
+			result = value_new_error_NA (ei->pos);
+		else {
+			GList *keys, *l;
+			
+			g_hash_table_foreach_remove (h, gnumeric_mode_mult_rm, &dups);
+			keys = g_hash_table_get_keys (h);
+
+			keys = g_list_sort (keys, gnumeric_mode_mult_cmp);
+
+			result = value_new_array (1,g_list_length (keys));
+			i = 0;
+			for (l = keys; l != NULL; l = l->next)
+				value_array_set (result, 0, i++, value_new_float (*((gnm_float *)(l->data))));
+		}
+
+		g_hash_table_destroy (h);			
+	}
+	
+	if (!constp) g_free (vals);
+
+	return result;
+}
 /***************************************************************************/
 
 static GnmFuncHelp const help_harmean[] = {
@@ -5394,6 +5493,10 @@ GnmFuncDescriptor const stat_functions[] = {
 	  help_mode, NULL, gnumeric_mode, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "mode.mult", NULL,
+	  help_mode_mult, NULL, gnumeric_mode_mult, NULL, NULL,
+	  GNM_FUNC_SIMPLE,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "negbinomdist", "fff",
 	  help_negbinomdist, gnumeric_negbinomdist, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

@@ -427,7 +427,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
  * Evaluate a list of expressions and return the result as an array of
  * gnm_float.
  */
-static gnm_float *
+gnm_float *
 collect_floats (int argc, GnmExprConstPtr const *argv,
 		GnmEvalPos const *ep, CollectFlags flags,
 		int *n, GnmValue **error, GSList **info,
