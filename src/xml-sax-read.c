@@ -2371,7 +2371,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	else {
 		GType type = g_type_from_name (type_name);
 
-		if (type == 0) {
+		if (type == 0 || !g_type_is_a (type, GNM_SO_TYPE)) {
 			char *str = g_strdup_printf (_("Unsupported object type '%s'"),
 						     type_name);
 			go_io_warning_unsupported_feature (state->context, str);

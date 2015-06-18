@@ -1,3 +1,8 @@
+2015-06-18  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_read_obj): Only allow type names
+	specifying types derived from sheet objects.  Fixes #751126.
+
 2015-06-16  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (handle_delayed_names): Check for circularity
