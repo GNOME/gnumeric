@@ -1,3 +1,8 @@
+2015-06-18  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (go_plugin_init): Derive the preparse dtd from
+	the regular dtd.  (The two were not in sync.)
+
 2015-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (_OOParseState): add named_expression_names
