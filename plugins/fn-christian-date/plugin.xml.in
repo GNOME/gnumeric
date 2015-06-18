@@ -8,7 +8,7 @@
 		<attribute name="module_file" value="plugin"/>
 	</loader>
 	<services>
-		<service type="function_group" id="datetime">
+		<service type="function_group" id="christian_datetime">
 			<_category>Date/Time</_category>
 			<functions textdomain="gnumeric-VERSION-functions">
 				<function name="eastersunday"/>

@@ -236,7 +236,7 @@ gnumeric_ascensionthursday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-GnmFuncDescriptor const datetime_functions[] = {
+GnmFuncDescriptor const christian_datetime_functions[] = {
 	{"ascensionthursday", "|f", help_ascensionthursday,
 	 gnumeric_ascensionthursday, NULL, NULL, NULL,
 	 GNM_FUNC_VOLATILE + GNM_FUNC_AUTO_DATE,

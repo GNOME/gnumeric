@@ -364,7 +364,7 @@ gnumeric_date2julian (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-GnmFuncDescriptor const datetime_functions[] = {
+GnmFuncDescriptor const hebrew_datetime_functions[] = {
 	{"hdate", "|fff", help_hdate,
 	 gnumeric_hdate, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
