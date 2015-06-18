@@ -2929,7 +2929,7 @@ gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 
 static GnmFuncHelp const help_percentrank_exc[] = {
-	{ GNM_FUNC_HELP_NAME, F_("PERCENTRANK_EXC:rank of a data point in a data set (Hyndman-Fan method 6: N+1 basis)")},
+	{ GNM_FUNC_HELP_NAME, F_("PERCENTRANK.EXC:rank of a data point in a data set (Hyndman-Fan method 6: N+1 basis)")},
 	{ GNM_FUNC_HELP_ARG, F_("array:range of numeric values")},
 	{ GNM_FUNC_HELP_ARG, F_("x:data point to be ranked")},
 	{ GNM_FUNC_HELP_ARG, F_("significance:number of significant digits, defaults to 3")},

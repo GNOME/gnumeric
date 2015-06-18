@@ -1,3 +1,7 @@
+2015-06-18  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (help_percentrank_exc): Fix function name.
+
 2015-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_mode_mult): new
