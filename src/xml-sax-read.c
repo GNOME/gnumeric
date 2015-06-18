@@ -1798,11 +1798,14 @@ xml_sax_hlink (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	if (NULL != type && NULL != target) {
-		GnmHLink *link = g_object_new (g_type_from_name (type), NULL);
-		gnm_hlink_set_target (link, target);
-		if (tip != NULL)
-			gnm_hlink_set_tip (link, tip);
-		gnm_style_set_hlink (state->style, link);
+		GType typ = g_type_from_name (type);
+		if (typ != 0 && g_type_is_a (typ, GNM_HLINK_TYPE)) {
+			GnmHLink *link = g_object_new (typ, NULL);
+			gnm_hlink_set_target (link, target);
+			if (tip != NULL)
+				gnm_hlink_set_tip (link, tip);
+			gnm_style_set_hlink (state->style, link);
+		}
 	}
 
 	g_free (type);

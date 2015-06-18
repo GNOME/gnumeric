@@ -2,6 +2,7 @@
 
 	* src/xml-sax-read.c (xml_sax_read_obj): Only allow type names
 	specifying types derived from sheet objects.  Fixes #751126.
+	(xml_sax_hlink): Similarly.
 
 2015-06-16  Morten Welinder  <terra@gnome.org>
 
