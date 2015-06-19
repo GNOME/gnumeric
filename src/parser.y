@@ -185,6 +185,7 @@ typedef struct {
 	/* loaded from convs with locale specific mappings */
 	gunichar decimal_point;
 	gunichar arg_sep;
+	gunichar union_char;
 	gunichar array_col_sep;
 	gunichar array_row_sep;
 	/* if arg_sep conflicts with array_col_sep or array_row_sep */
@@ -1163,6 +1164,8 @@ yylex (void)
 
 	if (c == state->arg_sep)
 		return eat_space (state, state->in_array ? state->in_array_sep_is : ARG_SEP);
+	if ((c == state->union_char) && (state->union_char != 0))
+		return eat_space (state, ARG_SEP);
 	if (c == state->array_col_sep)
 		return eat_space (state, ARRAY_COL_SEP);
 	if (c == state->array_row_sep)
@@ -1515,6 +1518,7 @@ setup_state (ParserState *pstate, const char *str,
 		pstate->arg_sep = pstate->convs->arg_sep;
 	else
 		pstate->arg_sep = go_locale_get_arg_sep ();
+	pstate->union_char = pstate->convs->union_char;
 	if (pstate->convs->array_col_sep != 0)
 		pstate->array_col_sep = pstate->convs->array_col_sep;
 	else

@@ -2161,6 +2161,7 @@ oo_conventions_new (OOParseState *state, GsfXMLIn *xin)
 	conv->exp_is_left_associative = TRUE;
 
 	conv->intersection_char	= '!';
+	conv->union_char	= '~';
 	conv->decimal_sep_dot	= TRUE;
 	conv->range_sep_colon	= TRUE;
 	conv->arg_sep		= ';';

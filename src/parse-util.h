@@ -119,6 +119,8 @@ struct _GnmConventions {
 
 	/* What character denotes range intersection?  */
 	gunichar intersection_char;
+	/* What character denotes range union?  */
+	gunichar union_char;
 
 	/* What characters are range separators?  */
 	gboolean range_sep_colon;  /* A1:B2 */

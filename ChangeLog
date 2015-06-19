@@ -1,3 +1,9 @@
+2015-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/parse-util.h (_GnmConventions): add union_char field
+	* src/parser.y (yylex): handle union_char
+	(setup_state): set union_char
+
 2015-06-18  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_read_obj): Only allow type names

@@ -8,6 +8,7 @@ Andreas:
 	and QUARTILE.EXC.
 	* Fuzzed file fixes.  [#751060]
 	* Fix ODF import of named expressions. [#750627]
+	* Import reference unions from ODF.[#750627]
 
 Jean:
 	* Fix xlsx import of plot area manual layout. [#748016]
