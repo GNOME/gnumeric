@@ -417,7 +417,7 @@ xls_read_pivot_cache (XLSReadPivot *s, BiffQuery *q)
 			return FALSE;
 		}
 
-	go_data_cache_import_start (s->cache, num_records);
+	go_data_cache_import_start (s->cache, MIN (num_records, 10000u));
 	record_count = 0;
 	while (ms_biff_query_peek_next (q, &opcode) && opcode != BIFF_EOF) {
 		switch (opcode) {

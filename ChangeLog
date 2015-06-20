@@ -1,3 +1,10 @@
+2015-06-20  Morten Welinder  <terra@gnome.org>
+
+	* src/go-data-cache.c (go_data_cache_records_set_size): Check for
+	overflow.
+	(go_data_cache_records_fetch_index): If resizing failed return
+	NULL early.
+
 2015-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/parse-util.h (_GnmConventions): add union_char field

@@ -1,5 +1,12 @@
 2015-06-20  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-read.c (attr_uint): Typo.
+
+	* xls-read-pivot.c (xls_read_pivot_cache): Don't trust large
+	record counts.
+	* xlsx-read-pivot.c (xlsx_CT_pivotCacheRecords): Ditto.  Also read
+	count as unsigned.
+
 	* ms-chart.c (trendlimits): Bail if we don't have a series.  Fixes
 	#751253.
 

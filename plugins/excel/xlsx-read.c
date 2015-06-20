@@ -523,7 +523,7 @@ attr_uint (GsfXMLIn *xin, xmlChar const **attrs,
 	tmp = strtoul (attrs[1], &end, 10);
 	if (errno == ERANGE || tmp != (unsigned)tmp)
 		return xlsx_warning (xin,
-			_("Unisgned integer '%s' is out of range, for attribute %s"),
+			_("Unsigned integer '%s' is out of range, for attribute %s"),
 			attrs[1], target);
 	if (*end)
 		return xlsx_warning (xin,

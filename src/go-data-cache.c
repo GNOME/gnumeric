@@ -47,7 +47,11 @@ enum {
 static void
 go_data_cache_records_set_size (GODataCache *cache, unsigned int n)
 {
-	int expand = n - cache->records_allocated;
+	int expand;
+
+	g_return_if_fail (n < G_MAXUINT / cache->record_size);
+
+	expand = n - cache->records_allocated;
 	if (0 == expand)
 		return;
 
@@ -61,8 +65,12 @@ go_data_cache_records_set_size (GODataCache *cache, unsigned int n)
 static guint8 *
 go_data_cache_records_fetch_index (GODataCache *cache, unsigned i)
 {
-	if (cache->records_allocated <= i)
+	if (cache->records_allocated <= i) {
 		go_data_cache_records_set_size (cache, i+128);
+		if (cache->records_allocated <= i)
+			return NULL;
+	}
+
 	if (cache->records_len <= i)
 		cache->records_len = i + 1;
 

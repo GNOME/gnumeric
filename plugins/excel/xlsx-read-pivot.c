@@ -892,15 +892,15 @@ static void
 xlsx_CT_pivotCacheRecords (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int n = 0;
+	unsigned int n = 0;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_int (xin, attrs, "count", &n))
+		if (attr_uint (xin, attrs, "count", &n))
 			;
 	}
 
 	state->pivot.record_count = 0;
-	go_data_cache_import_start (state->pivot.cache, n);
+	go_data_cache_import_start (state->pivot.cache, MIN (n, 10000u));
 }
 
 static GsfXMLInNode const xlsx_pivot_cache_records_dtd[] = {
