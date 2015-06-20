@@ -1257,6 +1257,10 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 				       q->data + offset, get_len, use_utf16, NULL);
 		offset += get_len * (use_utf16 ? 2 : 1);
 
+		/* Handle corrupted string.  */
+		if (!str)
+			str = g_strdup ("");
+
 		if (res_str != NULL) {
 			old_res = res_str;
 			res_str = g_strconcat (old_res, str, NULL);

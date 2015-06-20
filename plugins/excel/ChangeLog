@@ -1,3 +1,8 @@
+2015-06-20  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (sst_read_string): Handle errors from
+	excel_get_chars.  Fixes #751254.
+
 2015-06-16  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_file_open): Plug leaks.
