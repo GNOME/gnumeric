@@ -1,3 +1,8 @@
+2015-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_convert): add more mass units
+	(help_convert): add more mass units
+
 2015-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnumeric_convert): add PS

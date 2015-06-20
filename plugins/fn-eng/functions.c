@@ -649,11 +649,22 @@ static GnmFuncHelp const help_convert[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{from} and @{to} are different types, CONVERT returns #N/A!") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("@{from} and @{to} can be any of the following:\n\n"
 					"Weight and mass:\n"
+					"\t'brton'\t\tImperial ton\n"
+					"\t'cwt'\t\t\tU.S. (short) hundredweight\n"
 					"\t'g'  \t\t\tGram\n"
+					"\t'grain'\t\tGrain\n"
+					"\t'hweight'\t\tImperial (long) hundredweight\n"
+					"\t'LTON'\t\tImperial ton\n"
 					"\t'sg' \t\t\tSlug\n"
+					"\t'shweight'\tU.S. (short) hundredweight\n"
 					"\t'lbm'\t\tPound\n"
+					"\t'lcwt'\t\tImperial  (long) hundredweight\n"
 					"\t'u'  \t\t\tU (atomic mass)\n"
-					"\t'ozm'\t\tOunce\n\n"
+					"\t'uk_cwt'\t\tImperial  (long) hundredweight\n"
+					"\t'uk_ton'\t\tImperial ton\n"
+					"\t'ozm'\t\tOunce\n"
+					"\t'stone'\t\tStone\n"
+					"\t'ton'\t\t\tTon\n\n"
 					"Distance:\n"
 					"\t'm'   \t\tMeter\n"
 					"\t'mi'  \t\tStatute mile\n"
@@ -672,7 +683,7 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'mn'  \t\tMinute\n"
 					"\t'sec' \t\tSecond\n\n"
 					"Pressure:\n"
-					"\t'Pa'  \t\tPascal\n"
+					"\t'Pa'  \t\t\tPascal\n"
 					"\t'atm' \t\tAtmosphere\n"
 					"\t'mmHg'\t\tmm of Mercury\n\n"
 					"Force:\n"
@@ -807,10 +818,16 @@ static GnmValue *
 gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         /* Weight and mass constants */
-#define one_g_to_sg     0.00006852205001
-#define one_g_to_lbm    0.002204622915
-#define one_g_to_u      6.02217e+23
-#define one_g_to_ozm    0.035273972
+#define one_g_to_cwt    one_g_to_lbm/100  /* exact relative definition */
+#define one_g_to_grain  one_g_to_lbm*7000 /* exact relative definition */
+#define one_g_to_uk_cwt one_g_to_lbm/112  /* exact relative definition */
+#define one_g_to_uk_ton one_g_to_lbm/2240 /* exact relative definition */
+#define one_g_to_stone  one_g_to_lbm/14   /* exact relative definition */
+#define one_g_to_ton    one_g_to_lbm/2000 /* exact relative definition */
+#define one_g_to_sg     GNM_const (0.00006852205001)
+#define one_g_to_lbm    1/GNM_const (453.59237) /* exact definition */
+#define one_g_to_u      GNM_const (6.02217e+23)
+#define one_g_to_ozm    one_g_to_lbm*16   /* exact relative definition */
 
 	/* Distance constants */
 #define one_m_to_mi     (one_m_to_yd / 1760)
@@ -889,10 +906,21 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	static const eng_convert_unit_t weight_units[] = {
 	        { "g",    1.0 },
+		{ "brton",one_g_to_uk_ton },
+		{ "cwt",  one_g_to_cwt },
+		{ "grain",one_g_to_grain },
+		{ "hweight",one_g_to_uk_cwt },
+		{ "LTON",one_g_to_uk_ton },
 		{ "sg",   one_g_to_sg },
+		{ "shweight",one_g_to_cwt },
 		{ "lbm",  one_g_to_lbm },
+		{ "lcwt", one_g_to_uk_cwt },
 		{ "u",    one_g_to_u },
+		{ "uk_cwt",one_g_to_uk_cwt },
+		{ "uk_ton",one_g_to_uk_ton },
 		{ "ozm",  one_g_to_ozm },
+		{ "stone",one_g_to_stone },
+		{ "ton",  one_g_to_ton },
 		{ NULL,   0.0 }
 	};
 
