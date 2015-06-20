@@ -1927,6 +1927,7 @@ BC_R(trendlimits)(XLChartHandler const *handle,
 	double min, max;
 	gboolean skip_invalid;
 
+	XL_CHECK_CONDITION_VAL (s->currentSeries, FALSE);
 	XL_CHECK_CONDITION_VAL (q->length >= 17, FALSE);
 	min = GSF_LE_GET_DOUBLE (q->data);
 	max = GSF_LE_GET_DOUBLE (q->data + 8);

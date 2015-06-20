@@ -1,5 +1,8 @@
 2015-06-20  Morten Welinder  <terra@gnome.org>
 
+	* ms-chart.c (trendlimits): Bail if we don't have a series.  Fixes
+	#751253.
+
 	* ms-excel-read.c (sst_read_string): Handle errors from
 	excel_get_chars.  Fixes #751254.
 
