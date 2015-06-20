@@ -692,7 +692,7 @@ static void xlsx_chart_ring (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 xlsx_chart_bar_dir (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static const EnumVal const dirs[] = {
+	static const EnumVal dirs[] = {
 		{ "bar",	 TRUE },
 		{ "col",	 FALSE },
 		{ NULL, 0 }
