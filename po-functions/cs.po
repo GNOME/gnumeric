@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-06-17 03:32+0000\n"
+"POT-Creation-Date: 2015-06-20 04:04+0000\n"
 "PO-Revision-Date: 2015-06-18 11:49+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -165,7 +165,7 @@ msgstr "Pokud @{i} není ani „i“ ani „j“, COMPLEX vrátí #HODNOTA!."
 #: ../plugins/fn-eng/functions.c:415 ../plugins/fn-eng/functions.c:442
 #: ../plugins/fn-eng/functions.c:465 ../plugins/fn-eng/functions.c:488
 #: ../plugins/fn-eng/functions.c:511 ../plugins/fn-eng/functions.c:531
-#: ../plugins/fn-eng/functions.c:1114 ../plugins/fn-eng/functions.c:1137
+#: ../plugins/fn-eng/functions.c:1142 ../plugins/fn-eng/functions.c:1165
 #: ../plugins/fn-info/functions.c:97 ../plugins/fn-info/functions.c:1285
 #: ../plugins/fn-info/functions.c:1351 ../plugins/fn-info/functions.c:1440
 #: ../plugins/fn-info/functions.c:1458 ../plugins/fn-info/functions.c:1480
@@ -1211,7 +1211,7 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:467 ../plugins/fn-date/functions.c:810
 #: ../plugins/fn-date/functions.c:1032 ../plugins/fn-date/functions.c:1322
 #: ../plugins/fn-eng/functions.c:213 ../plugins/fn-eng/functions.c:317
-#: ../plugins/fn-eng/functions.c:386 ../plugins/fn-eng/functions.c:734
+#: ../plugins/fn-eng/functions.c:386 ../plugins/fn-eng/functions.c:745
 #: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:435
 #: ../plugins/fn-math/functions.c:1083 ../plugins/fn-math/functions.c:1110
 #: ../plugins/fn-math/functions.c:1486 ../plugins/fn-math/functions.c:1506
@@ -2721,8 +2721,8 @@ msgstr ""
 msgid "CONVERT:a converted measurement"
 msgstr "CONVERT:převedená míra"
 
-#: ../plugins/fn-eng/functions.c:644 ../plugins/fn-eng/functions.c:1090
-#: ../plugins/fn-eng/functions.c:1156 ../plugins/fn-math/functions.c:228
+#: ../plugins/fn-eng/functions.c:644 ../plugins/fn-eng/functions.c:1118
+#: ../plugins/fn-eng/functions.c:1184 ../plugins/fn-math/functions.c:228
 #: ../plugins/fn-math/functions.c:247 ../plugins/fn-math/functions.c:269
 #: ../plugins/fn-math/functions.c:310 ../plugins/fn-math/functions.c:328
 #: ../plugins/fn-math/functions.c:354 ../plugins/fn-math/functions.c:373
@@ -2781,11 +2781,22 @@ msgid ""
 "@{from} and @{to} can be any of the following:\n"
 "\n"
 "Weight and mass:\n"
+"\t'brton'\t\tImperial ton\n"
+"\t'cwt'\t\t\tU.S. (short) hundredweight\n"
 "\t'g'  \t\t\tGram\n"
+"\t'grain'\t\tGrain\n"
+"\t'hweight'\t\tImperial (long) hundredweight\n"
+"\t'LTON'\t\tImperial ton\n"
 "\t'sg' \t\t\tSlug\n"
+"\t'shweight'\tU.S. (short) hundredweight\n"
 "\t'lbm'\t\tPound\n"
+"\t'lcwt'\t\tImperial  (long) hundredweight\n"
 "\t'u'  \t\t\tU (atomic mass)\n"
+"\t'uk_cwt'\t\tImperial  (long) hundredweight\n"
+"\t'uk_ton'\t\tImperial ton\n"
 "\t'ozm'\t\tOunce\n"
+"\t'stone'\t\tStone\n"
+"\t'ton'\t\t\tTon\n"
 "\n"
 "Distance:\n"
 "\t'm'   \t\tMeter\n"
@@ -2807,7 +2818,7 @@ msgid ""
 "\t'sec' \t\tSecond\n"
 "\n"
 "Pressure:\n"
-"\t'Pa'  \t\tPascal\n"
+"\t'Pa'  \t\t\tPascal\n"
 "\t'atm' \t\tAtmosphere\n"
 "\t'mmHg'\t\tmm of Mercury\n"
 "\n"
@@ -2876,11 +2887,22 @@ msgstr ""
 "@{from} a @{to} mohou být jedno z následujícího:\n"
 "\n"
 "Váha a hmota:\n"
+"\t„brton“\t\tImperial ton\n"
+"\t„cwt“\t\t\tAmerická (krátká) hundredweight\n"
 "\t„g“  \t\tGram\n"
+"\t„grain“\t\tGrain\n"
+"\t„hweight“\t\tImperiální (dlouhá) hundredweight\n"
+"\t„LTON“\t\tImperiální (dlouhá) tuna\n"
 "\t„sg“ \t\tSlug\n"
+"\t„shweight“\tAmerická (krátká) hundredweight\n"
 "\t„lbm“\t\tLibra\n"
+"\t„lcwt“\t\tImperiální (dlouhá) hundredweight\n"
 "\t„u“  \t\tU (atomová hmotnost)\n"
+"\t„uk_cwt“\t\tImperiální (dlouhá) hundredweight\n"
+"\t„uk_ton“\t\tImperiální (dlouhá) tuna\n"
 "\t„ozm“\t\tUnce\n"
+"\t„stone“\t\tKrátká tuna\n"
+"\t„ton“\t\t\tTuna\n"
 "\n"
 "Vydálenost:\n"
 "\t„m“   \t\tMetr\n"
@@ -2968,28 +2990,28 @@ msgstr ""
 "\t„z“  \tzepto \t\t1E-21\n"
 "\t„y“  \tyocto \t\t1E-24"
 
-#: ../plugins/fn-eng/functions.c:733
+#: ../plugins/fn-eng/functions.c:744
 msgid "This function is Excel compatible (except \"picapt\")."
 msgstr "Tato funkce je kompatibilní s aplikací Excel (vyjma „picapt“)."
 
-#: ../plugins/fn-eng/functions.c:1058
+#: ../plugins/fn-eng/functions.c:1086
 msgid "ERF:Gauss error function"
 msgstr "ERF:Gaussova chybová funkce"
 
-#: ../plugins/fn-eng/functions.c:1059
+#: ../plugins/fn-eng/functions.c:1087
 msgid "lower:lower limit of the integral, defaults to 0"
 msgstr "lower:dolní limit integrálu, výchozí je 0"
 
-#: ../plugins/fn-eng/functions.c:1060
+#: ../plugins/fn-eng/functions.c:1088
 msgid "upper:upper limit of the integral"
 msgstr "upper:horní limit integrálu"
 
-#: ../plugins/fn-eng/functions.c:1061
+#: ../plugins/fn-eng/functions.c:1089
 msgid ""
 "ERF returns 2/sqrt(π)* integral from @{lower} to @{upper} of exp(-t*t) dt"
 msgstr "ERF vrací 2:√n . integrál od @{lower} do @{upper} z exp(-t.t) dt"
 
-#: ../plugins/fn-eng/functions.c:1062
+#: ../plugins/fn-eng/functions.c:1090
 msgid ""
 "This function is Excel compatible if two arguments are supplied and neither "
 "is negative."
@@ -2997,55 +3019,55 @@ msgstr ""
 "Tato funkce je kompatibilní s aplikací Excel, pokud jsou poskytnuty dva "
 "argumenty a žádný není záporný."
 
-#: ../plugins/fn-eng/functions.c:1067 ../plugins/fn-eng/functions.c:1094
+#: ../plugins/fn-eng/functions.c:1095 ../plugins/fn-eng/functions.c:1122
 msgid "wiki:en:Error_function"
 msgstr "wiki:en:Error_function"
 
-#: ../plugins/fn-eng/functions.c:1089
+#: ../plugins/fn-eng/functions.c:1117
 msgid "ERFC:Complementary Gauss error function"
 msgstr "ERFC:Komplementární Gaussova chybová funkce"
 
-#: ../plugins/fn-eng/functions.c:1091
+#: ../plugins/fn-eng/functions.c:1119
 msgid "ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt"
 msgstr "ERFC vrací 2:√π . integral od @{x} do ∞ z exp(-t.t) dt"
 
-#: ../plugins/fn-eng/functions.c:1109
+#: ../plugins/fn-eng/functions.c:1137
 msgid "DELTA:Kronecker delta function"
 msgstr "DELTA:Kroneckerova funkce delta"
 
-#: ../plugins/fn-eng/functions.c:1110 ../plugins/fn-eng/functions.c:1133
+#: ../plugins/fn-eng/functions.c:1138 ../plugins/fn-eng/functions.c:1161
 msgid "x0:number"
 msgstr "x0:číslo"
 
-#: ../plugins/fn-eng/functions.c:1111 ../plugins/fn-eng/functions.c:1134
+#: ../plugins/fn-eng/functions.c:1139 ../plugins/fn-eng/functions.c:1162
 msgid "x1:number, defaults to 0"
 msgstr "x1:číslo, výchozí je 0"
 
-#: ../plugins/fn-eng/functions.c:1112
+#: ../plugins/fn-eng/functions.c:1140
 msgid "DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise."
 msgstr "DELTA vrací 1, když @{x1} = @{x0} a 0 v ostatních případech."
 
-#: ../plugins/fn-eng/functions.c:1113 ../plugins/fn-eng/functions.c:1136
+#: ../plugins/fn-eng/functions.c:1141 ../plugins/fn-eng/functions.c:1164
 msgid "If either argument is non-numeric, #VALUE! is returned."
 msgstr "Pokud je některý z argumentů nečíselný, je vráceno #HODNOTA!."
 
-#: ../plugins/fn-eng/functions.c:1132
+#: ../plugins/fn-eng/functions.c:1160
 msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
 msgstr "GESTEP:skoková funkce vyhodnocující číslo @{x0} s prahem @{x1}"
 
-#: ../plugins/fn-eng/functions.c:1135
+#: ../plugins/fn-eng/functions.c:1163
 msgid "GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise."
 msgstr "GESTEP vrací 1, když je @{x1} ≤ @{x0} a 0 v ostatních případech."
 
-#: ../plugins/fn-eng/functions.c:1155
+#: ../plugins/fn-eng/functions.c:1183
 msgid "HEXREP:hexadecimal representation of numeric value"
 msgstr "HEXREP:šestnáctková podoba číselné hodnoty"
 
-#: ../plugins/fn-eng/functions.c:1157
+#: ../plugins/fn-eng/functions.c:1185
 msgid "HEXREP returns a hexadecimal string representation of @{x}."
 msgstr "HEXREP vrací řetězec s šestnáctkovou podobou čísla @{x}."
 
-#: ../plugins/fn-eng/functions.c:1158
+#: ../plugins/fn-eng/functions.c:1186
 msgid ""
 "This is a function meant for debugging.  The layout of the result may change "
 "and even depend on how Gnumeric was compiled."
@@ -3053,19 +3075,19 @@ msgstr ""
 "Tato funkce je určena pro ladění. Formát výsledku se může měnit a je závislý "
 "i na tom, jak je aplikace Gnumeric přeložena."
 
-#: ../plugins/fn-eng/functions.c:1186
+#: ../plugins/fn-eng/functions.c:1214
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
 msgstr "INVSUMINV:převrácená hodnota součtu převrácených hodnot argumentů"
 
-#: ../plugins/fn-eng/functions.c:1187
+#: ../plugins/fn-eng/functions.c:1215
 msgid "x0:non-negative number"
 msgstr "x0:nezáporné číslo"
 
-#: ../plugins/fn-eng/functions.c:1188
+#: ../plugins/fn-eng/functions.c:1216
 msgid "x1:non-negative number"
 msgstr "x1:nezáporné číslo"
 
-#: ../plugins/fn-eng/functions.c:1189
+#: ../plugins/fn-eng/functions.c:1217
 msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
@@ -3073,7 +3095,7 @@ msgstr ""
 "Pokud je některý z argumentů záporný, je vrácena hodnota #HODNOTA!.\n"
 "Pokud je některý z argumentů nulový, je vrácena nula."
 
-#: ../plugins/fn-eng/functions.c:1191
+#: ../plugins/fn-eng/functions.c:1219
 msgid ""
 "INVSUMINV sum calculates the reciprocal (the inverse) of the sum of "
 "reciprocals (inverses) of all its arguments."
@@ -10105,8 +10127,8 @@ msgid ""
 "PERCENTRANK:rank of a data point in a data set (Hyndman-Fan method 7: N-1 "
 "basis)"
 msgstr ""
-"PERCENTRANK:procentuální poloha referenčního bodu v množině dat "
-"(Hyndmanova-Fanova metoda 7: základ N-1)"
+"PERCENTRANK:procentuální poloha referenčního bodu v množině dat (Hyndmanova-"
+"Fanova metoda 7: základ N-1)"
 
 #: ../plugins/fn-stat/functions.c:2834 ../plugins/fn-stat/functions.c:2933
 msgid "array:range of numeric values"
@@ -10152,10 +10174,10 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2932
 msgid ""
-"PERCENTRANK_EXC:rank of a data point in a data set (Hyndman-Fan method 6: N"
+"PERCENTRANK.EXC:rank of a data point in a data set (Hyndman-Fan method 6: N"
 "+1 basis)"
 msgstr ""
-"PERCENTRANK_EXC:procentuální poloha referenčního bodu v množině dat "
+"PERCENTRANK.EXC:procentuální poloha referenčního bodu v množině dat "
 "(Hyndmanova-Fanova metoda 6: základ N+1)"
 
 #: ../plugins/fn-stat/functions.c:3029
