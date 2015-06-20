@@ -1,5 +1,15 @@
 2015-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (gnumeric_convert): add more distance,
+	pressure, and force units; use convert_temp
+	(help_convert): add more distance, pressure, force and
+	temperature units
+	(temp_types): new
+	(convert_temp_unit): new
+	(convert_temp): new
+
+2015-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (gnumeric_convert): add more mass units
 	(help_convert): add more mass units
 

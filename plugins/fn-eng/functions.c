@@ -668,12 +668,18 @@ static GnmFuncHelp const help_convert[] = {
 					"Distance:\n"
 					"\t'm'   \t\tMeter\n"
 					"\t'mi'  \t\tStatute mile\n"
+					"\t'survey_mi'  \t\tU.S. survey mile\n"
 					"\t'Nmi' \t\tNautical mile\n"
 					"\t'in'  \t\t\tInch\n"
 					"\t'ft'  \t\t\tFoot\n"
 					"\t'yd'  \t\tYard\n"
+					"\t'ell'  \t\tEnglish Ell\n"
 					"\t'ang' \t\tAngstrom\n"
+					"\t'ly' \t\tLight-Year\n"
+					"\t'pc' \t\tParsec\n"
+					"\t'parsec' \t\tParsec\n"
 					"\t'Pica'\t\tPica Points\n"
+					"\t'Picapt'\t\tPica Points\n"
 					"\t'picapt'\t\tPica Points\n"
 					"\t'pica'\t\tPica\n\n"
 					"Time:\n"
@@ -684,11 +690,15 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'sec' \t\tSecond\n\n"
 					"Pressure:\n"
 					"\t'Pa'  \t\t\tPascal\n"
+					"\t'psi' \t\t\tPSI\n"
 					"\t'atm' \t\tAtmosphere\n"
+					"\t'Pa'  \t\t\tPascal\n"
 					"\t'mmHg'\t\tmm of Mercury\n\n"
+					"\t'Torr'\t\tTorr\n\n"
 					"Force:\n"
 					"\t'N'   \t\t\tNewton\n"
 					"\t'dyn' \t\tDyne\n"
+					"\t'pond' \t\t\tPond\n\n"
 					"\t'lbf' \t\t\tPound force\n\n"
 					"Energy:\n"
 					"\t'J'    \t\t\tJoule\n"
@@ -710,7 +720,9 @@ static GnmFuncHelp const help_convert[] = {
 					"Temperature:\n"
 					"\t'C'    \t\tDegree Celsius\n"
 					"\t'F'    \t\tDegree Fahrenheit\n"
-					"\t'K'    \t\tDegree Kelvin\n\n"
+					"\t'K'    \t\tKelvin\n\n"
+					"\t'Rank' \t\tDegree Rankine\n\n"
+					"\t'Reau' \t\tDegree Réaumur\n\n"					
 					"Liquid measure:\n"
 					"\t'tsp'  \t\tTeaspoon\n"
 					"\t'tbs'  \t\tTablespoon\n"
@@ -814,28 +826,122 @@ convert (eng_convert_unit_t const units[],
 	return FALSE;
 }
 
+typedef enum {
+	temp_invalid = 0,
+	temp_K,
+	temp_C,
+	temp_F,
+	temp_Rank,
+	temp_Reau
+} temp_types;
+
+static temp_types
+convert_temp_unit (char const *unit) {
+	if (0 == strcmp (unit, "K"))
+		return temp_K;
+	else if (0 == strcmp (unit, "C"))
+		return temp_C;
+	else if (0 == strcmp (unit, "F"))
+		return temp_F;
+	else if (0 == strcmp (unit, "Reau"))
+		return temp_Reau;
+	else if (0 == strcmp (unit, "Rank"))
+		return temp_Rank;
+	return temp_invalid;
+}
+
+static gboolean
+convert_temp (char const *from_unit, char const *to_unit, gnm_float n, GnmValue **v, GnmEvalPos const *ep)
+{
+	/* Temperature constants */
+	const gnm_float C_K_offset = GNM_const (273.15);
+
+	temp_types from_unit_type = convert_temp_unit (from_unit);
+	temp_types to_unit_type = convert_temp_unit (to_unit);
+
+	gnm_float nO = n;
+
+	if ((from_unit_type == temp_invalid) || (to_unit_type == temp_invalid))
+		return FALSE;
+
+	/* Convert from from_unit to K */
+	switch (from_unit_type) {
+	case temp_C:
+		n += C_K_offset;
+		break;
+	case temp_F:
+		n = (n - 32) * 5 / 9 + C_K_offset;
+		break;
+	case temp_Rank:
+		n = n * 5/9;
+		break;
+	case temp_Reau:
+		n = n * 5/4 + C_K_offset;
+		break;
+	default:
+		break;
+	}
+
+	/* temperatures below 0K do not exist */
+	if (n < 0.) {
+		*v = value_new_error_NUM (ep);
+		return TRUE;
+	}
+
+	if (from_unit_type == to_unit_type) {
+		*v = value_new_float (nO);
+		return TRUE;
+	}
+	
+	/* Convert from K to to_unit */
+	switch (to_unit_type) {
+	case temp_C:
+		n -= C_K_offset;
+		break;
+	case temp_F:
+		n = (n - C_K_offset) * 9/5 + 32;
+		break;
+	case temp_Rank:
+		n = n * 9/5;
+		break;
+	case temp_Reau:
+		n = (n - C_K_offset) * 4/5;
+		break;
+	default:
+		break;
+	}
+
+	*v = value_new_float (n);
+	
+	return TRUE;
+}
+
 static GnmValue *
 gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         /* Weight and mass constants */
-#define one_g_to_cwt    one_g_to_lbm/100  /* exact relative definition */
-#define one_g_to_grain  one_g_to_lbm*7000 /* exact relative definition */
-#define one_g_to_uk_cwt one_g_to_lbm/112  /* exact relative definition */
-#define one_g_to_uk_ton one_g_to_lbm/2240 /* exact relative definition */
-#define one_g_to_stone  one_g_to_lbm/14   /* exact relative definition */
-#define one_g_to_ton    one_g_to_lbm/2000 /* exact relative definition */
+#define one_g_to_cwt    (one_g_to_lbm/100)  /* exact relative definition */
+#define one_g_to_grain  (one_g_to_lbm*7000) /* exact relative definition */
+#define one_g_to_uk_cwt (one_g_to_lbm/112)  /* exact relative definition */
+#define one_g_to_uk_ton (one_g_to_lbm/2240) /* exact relative definition */
+#define one_g_to_stone  (one_g_to_lbm/14)   /* exact relative definition */
+#define one_g_to_ton    (one_g_to_lbm/2000) /* exact relative definition */
 #define one_g_to_sg     GNM_const (0.00006852205001)
-#define one_g_to_lbm    1/GNM_const (453.59237) /* exact definition */
+#define one_g_to_lbm    (1/GNM_const (453.59237)) /* exact definition */
 #define one_g_to_u      GNM_const (6.02217e+23)
-#define one_g_to_ozm    one_g_to_lbm*16   /* exact relative definition */
+#define one_g_to_ozm    (one_g_to_lbm*16)   /* exact relative definition */
 
 	/* Distance constants */
 #define one_m_to_mi     (one_m_to_yd / 1760)
+#define one_m_to_survey_mi (1 / GNM_const (1609.347218694))
 #define one_m_to_Nmi    (1 / GNM_const (1852.0))
 #define one_m_to_in     (10000 / GNM_const (254.0))
 #define one_m_to_ft     (one_m_to_in / 12)
 #define one_m_to_yd     (one_m_to_ft / 3)
+#define one_m_to_ell    (one_m_to_in / 45)
 #define one_m_to_ang    GNM_const (1e10)
+#define one_m_to_ly     (1 / GNM_const (9460730472580800))
+#define one_m_to_pc     (GNM_const (1e-16)/GNM_const (3.0856776))
 #define one_m_to_pica   236.2204724409449
 #define one_m_to_Pica   one_m_to_pica * 12
 
@@ -848,10 +954,14 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* Pressure constants */
 #define one_Pa_to_atm   0.9869233e-5
 #define one_Pa_to_mmHg  0.00750061708
+#define one_Pa_to_psi   0.000145037738
+#define one_Pa_to_Torr  (GNM_const (760)/GNM_const (101325))
 
 	/* Force constants */
 #define one_N_to_dyn    100000
 #define one_N_to_lbf    0.224808924
+#define one_N_to_pond   0.00010197
+
 
 	/* Power constants */
 #define one_HP_to_W     745.701
@@ -869,9 +979,6 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	/* Magnetism constants */
 #define one_T_to_ga     10000
-
-	/* Temperature constants */
-	const gnm_float C_K_offset = GNM_const (273.15);
 
 	/* Liquid measure constants */
 #define one_tsp_to_tbs  (GNM_const (1.0) / 3)
@@ -927,12 +1034,18 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	static const eng_convert_unit_t distance_units[] = {
 	        { "m",    1.0 },
 		{ "mi",   one_m_to_mi },
+		{ "survey_mi", one_m_to_survey_mi},
 		{ "Nmi",  one_m_to_Nmi },
 		{ "in",   one_m_to_in },
 		{ "ft",   one_m_to_ft },
 		{ "yd",   one_m_to_yd },
+		{ "ell",  one_m_to_ell },
 		{ "ang",  one_m_to_ang },
+		{ "pc",   one_m_to_pc },
+		{ "parsec", one_m_to_pc },
+		{ "ly",   one_m_to_ly },
 		{ "Pica", one_m_to_Pica },
+		{ "Picapt", one_m_to_Pica },
 		{ "picapt", one_m_to_Pica },
 		{ "pica", one_m_to_pica },
 		{ NULL,   0.0 }
@@ -949,14 +1062,17 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	static const eng_convert_unit_t pressure_units[] = {
 	        { "Pa",   1.0 },
+		{ "psi",  one_Pa_to_psi },
 		{ "atm",  one_Pa_to_atm },
 		{ "mmHg", one_Pa_to_mmHg },
+		{ "Torr", one_Pa_to_Torr },
 		{ NULL,   0.0 }
 	};
 
 	static const eng_convert_unit_t force_units[] = {
 	        { "N",    1.0 },
 		{ "dyn",  one_N_to_dyn },
+		{ "pond", one_N_to_pond },
 		{ "lbf",  one_N_to_lbf },
 		{ NULL,   0.0 }
 	};
@@ -1031,20 +1147,8 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	from_unit = value_peek_string (argv[1]);
 	to_unit = value_peek_string (argv[2]);
 
-	if (strcmp (from_unit, "C") == 0 && strcmp (to_unit, "F") == 0)
-	        return value_new_float (n * 9 / 5 + 32);
-	else if (strcmp (from_unit, "F") == 0 && strcmp (to_unit, "C") == 0)
-	        return value_new_float ((n - 32) * 5 / 9);
-	else if (strcmp (from_unit, "F") == 0 && strcmp (to_unit, "F") == 0)
-	        return value_new_float (n);
-	else if (strcmp (from_unit, "F") == 0 && strcmp (to_unit, "K") == 0)
-	        return value_new_float ((n - 32) * 5 / 9 + C_K_offset);
-	else if (strcmp (from_unit, "K") == 0 && strcmp (to_unit, "F") == 0)
-	        return value_new_float ((n - C_K_offset) * 9 / 5 + 32);
-	else if (strcmp (from_unit, "C") == 0 && strcmp (to_unit, "K") == 0)
-	        return value_new_float (n + C_K_offset);
-	else if (strcmp (from_unit, "K") == 0 && strcmp (to_unit, "C") == 0)
-	        return value_new_float (n - C_K_offset);
+	if (convert_temp (from_unit, to_unit, n, &v, ei->pos))
+	        return v;
 
 	if (convert (weight_units, prefixes, from_unit, to_unit, n, &v,
 		     ei->pos))

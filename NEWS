@@ -5,10 +5,11 @@ Andreas:
 	* Improve import/export of page layout from/to ODF.
 	* Improve function import to ODF. [#750627]
 	* Add CONFIDENCE.T, MODE.MULT, PERCENTILE.EXC, PERCENTRANK.EXC
-	and QUARTILE.EXC.
+	  and QUARTILE.EXC.
 	* Fuzzed file fixes.  [#751060]
 	* Fix ODF import of named expressions. [#750627]
-	* Import reference unions from ODF.[#750627]
+	* Import reference unions from ODF. [#750627]
+	* Improve CONVERT function.
 
 Jean:
 	* Fix xlsx import of plot area manual layout. [#748016]
