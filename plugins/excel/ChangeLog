@@ -29,6 +29,8 @@
 
 2015-06-20  Morten Welinder  <terra@gnome.org>
 
+	* ms-chart.c (ai): Avoid expression leak on broken file.
+
 	* xlsx-read.c (attr_uint): Typo.
 
 	* xls-read-pivot.c (xls_read_pivot_cache): Don't trust large

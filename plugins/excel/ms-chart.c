@@ -372,12 +372,15 @@ BC_R(ai)(XLChartHandler const *handle,
 		if (texpr != NULL) {
 			Sheet *sheet = ms_container_sheet (s->container.parent);
 
-			g_return_val_if_fail (sheet != NULL, FALSE);
-			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
-
-			s->currentSeries->data [purpose].data = (purpose == GOG_MS_DIM_LABELS)
-				? gnm_go_data_scalar_new_expr (sheet, texpr)
-				: gnm_go_data_vector_new_expr (sheet, texpr);
+			if (sheet && s->currentSeries)
+				s->currentSeries->data [purpose].data = (purpose == GOG_MS_DIM_LABELS)
+					? gnm_go_data_scalar_new_expr (sheet, texpr)
+					: gnm_go_data_vector_new_expr (sheet, texpr);
+			else {
+				gnm_expr_top_unref (texpr);
+				g_return_val_if_fail (sheet != NULL, FALSE);
+				g_return_val_if_fail (s->currentSeries != NULL, TRUE);
+			}
 		}
 	} else if (ref_type == 1 && purpose != GOG_MS_DIM_LABELS &&
 		   s->currentSeries &&
