@@ -1,3 +1,7 @@
+2015-06-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (ms_excel_chart_read): initialize XLChartReadState::is_contour.
+
 2015-06-20  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (attr_uint): Typo.

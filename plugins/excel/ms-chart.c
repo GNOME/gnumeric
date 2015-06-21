@@ -3572,6 +3572,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	state.has_a_grid    = FALSE;
 	state.label	    = NULL;
 	state.text	    = NULL;
+	state.is_contour	= FALSE;
 	state.is_surface	= FALSE;
 	state.cur_role = -1;
 	state.parent_index = 0;
