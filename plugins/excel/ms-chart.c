@@ -211,6 +211,7 @@ static gboolean
 BC_R(3dbarshape)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 	d (0, {
 		guint16 const type = GSF_LE_GET_GUINT16 (q->data);
 		switch (type) {
@@ -231,34 +232,39 @@ static gboolean
 BC_R(3d)(XLChartHandler const *handle,
 	 XLChartReadState *s, BiffQuery *q)
 {
-		guint16 const rotation = GSF_LE_GET_GUINT16 (q->data);	/* 0-360 */
-		guint16 const elevation = GSF_LE_GET_GUINT16 (q->data+2);	/* -90 - 90 */
-		guint16 const distance = GSF_LE_GET_GUINT16 (q->data+4);	/* 0 - 100 */
-		guint16 const height = GSF_LE_GET_GUINT16 (q->data+6);
-		guint16 const depth = GSF_LE_GET_GUINT16 (q->data+8);
-		guint16 const gap = GSF_LE_GET_GUINT16 (q->data+10);
-		guint8 const flags = GSF_LE_GET_GUINT8 (q->data+12);
-		guint8 const zero = GSF_LE_GET_GUINT8 (q->data+13);
+	guint16 rotation, elevation, distance, height, depth, gap;
+	guint8 flags, zero;
+	gboolean use_perspective, cluster, auto_scale, walls_2d;
 
-		gboolean const use_perspective = (flags&0x01) ? TRUE :FALSE;
-		gboolean const cluster = (flags&0x02) ? TRUE :FALSE;
-		gboolean const auto_scale = (flags&0x04) ? TRUE :FALSE;
-		gboolean const walls_2d = (flags&0x20) ? TRUE :FALSE;
+	XL_CHECK_CONDITION_VAL (q->length >= 14, TRUE);
+	rotation = GSF_LE_GET_GUINT16 (q->data);	/* 0-360 */
+	elevation = GSF_LE_GET_GUINT16 (q->data+2);	/* -90 - 90 */
+	distance = GSF_LE_GET_GUINT16 (q->data+4);	/* 0 - 100 */
+	height = GSF_LE_GET_GUINT16 (q->data+6);
+	depth = GSF_LE_GET_GUINT16 (q->data+8);
+	gap = GSF_LE_GET_GUINT16 (q->data+10);
+	flags = GSF_LE_GET_GUINT8 (q->data+12);
+	zero = GSF_LE_GET_GUINT8 (q->data+13);
 
-		g_return_val_if_fail (zero == 0, FALSE); /* just warn for now */
+	use_perspective = (flags&0x01) ? TRUE :FALSE;
+	cluster = (flags&0x02) ? TRUE :FALSE;
+	auto_scale = (flags&0x04) ? TRUE :FALSE;
+	walls_2d = (flags&0x20) ? TRUE :FALSE;
 
-		if (s->plot == NULL && s->is_surface) {
-			s->is_contour = elevation == 90 && distance == 0;
-			if (s->chart != NULL && !s->is_contour) {
-				GogObject *box = gog_object_get_child_by_name (GOG_OBJECT (s->chart), "3D-Box");
-				if (!box)
-					box = gog_object_add_by_name (GOG_OBJECT (s->chart), "3D-Box", NULL);
-				g_object_set (G_OBJECT (box), "theta", ((elevation > 0)? elevation: -elevation), NULL);
-				/* FIXME: use other parameters */
-			}
+	g_return_val_if_fail (zero == 0, FALSE); /* just warn for now */
+
+	if (s->plot == NULL && s->is_surface) {
+		s->is_contour = elevation == 90 && distance == 0;
+		if (s->chart != NULL && !s->is_contour) {
+			GogObject *box = gog_object_get_child_by_name (GOG_OBJECT (s->chart), "3D-Box");
+			if (!box)
+				box = gog_object_add_by_name (GOG_OBJECT (s->chart), "3D-Box", NULL);
+			g_object_set (G_OBJECT (box), "theta", ((elevation > 0)? elevation: -elevation), NULL);
+			/* FIXME: use other parameters */
 		}
-		/* at this point, we don't know if data can be converted to a
-		gnumeric matrix, so we cannot create the plot here. */
+	}
+	/* at this point, we don't know if data can be converted to a
+	gnumeric matrix, so we cannot create the plot here. */
 
 
 	d (1, {
@@ -288,12 +294,17 @@ static gboolean
 BC_R(ai)(XLChartHandler const *handle,
 	 XLChartReadState *s, BiffQuery *q)
 {
-	guint8 const purpose = GSF_LE_GET_GUINT8 (q->data);
-	guint8 const ref_type = GSF_LE_GET_GUINT8 (q->data + 1);
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data + 2);
-	guint16 const length = GSF_LE_GET_GUINT16 (q->data + 6);
+	guint8 purpose, ref_type, flags, length;
+	int top_state;
 
-	int top_state = BC_R(top_state) (s, 0);
+	XL_CHECK_CONDITION_VAL (q->length >= 8, TRUE);
+
+	purpose = GSF_LE_GET_GUINT8 (q->data);
+	ref_type = GSF_LE_GET_GUINT8 (q->data + 1);
+	flags = GSF_LE_GET_GUINT16 (q->data + 2);
+	length = GSF_LE_GET_GUINT16 (q->data + 6);
+
+	top_state = BC_R(top_state) (s, 0);
 
 	XL_CHECK_CONDITION_VAL (q->length - 8 >= length, TRUE);
 
@@ -389,6 +400,7 @@ static gboolean
 BC_R(alruns)(XLChartHandler const *handle,
 	     XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length >= 4, TRUE);
 #if 0
 	int length = GSF_LE_GET_GUINT16 (q->data);
 	guint8 const *in = (q->data + 2);
@@ -418,9 +430,14 @@ static gboolean
 BC_R(area)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
+	guint16 flags;
 	char const *type = "normal";
-	gboolean in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x04));
+	gboolean in_3d;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
+
+	flags = GSF_LE_GET_GUINT16 (q->data);
+	in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x04));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = (GogPlot*) gog_plot_new_by_name ("GogAreaPlot");
@@ -446,10 +463,15 @@ static gboolean
 BC_R(areaformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const pattern = GSF_LE_GET_GUINT16 (q->data+8);
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+10);
-	gboolean const auto_format = (flags & 0x01) ? TRUE : FALSE;
-	gboolean const invert_if_negative = flags & 0x02;
+	guint16 pattern, flags;
+	gboolean auto_format, invert_if_negative;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 12, TRUE);
+
+	pattern = GSF_LE_GET_GUINT16 (q->data+8);
+	flags = GSF_LE_GET_GUINT16 (q->data+10);
+	auto_format = (flags & 0x01) ? TRUE : FALSE;
+	invert_if_negative = flags & 0x02;
 
 	d (0, {
 		g_printerr ("pattern = %d;\n", pattern);
@@ -500,11 +522,12 @@ static gboolean
 BC_R(attachedlabel)(XLChartHandler const *handle,
 		    XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 	d (3,{
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
 	gboolean const show_value = (flags&0x01) ? TRUE : FALSE;
 	gboolean const show_percent = (flags&0x02) ? TRUE : FALSE;
-	gboolean const show_label_prercent = (flags&0x04) ? TRUE : FALSE;
+	gboolean const show_label_percent = (flags&0x04) ? TRUE : FALSE;
 	gboolean const smooth_line = (flags&0x08) ? TRUE : FALSE;
 	gboolean const show_label = (flags&0x10) ? TRUE : FALSE;
 
@@ -512,7 +535,7 @@ BC_R(attachedlabel)(XLChartHandler const *handle,
 		g_printerr ("Show Value;\n");
 	if (show_percent)
 		g_printerr ("Show as Percentage;\n");
-	if (show_label_prercent)
+	if (show_label_percent)
 		g_printerr ("Show as Label Percentage;\n");
 	if (smooth_line)
 		g_printerr ("Smooth line;\n");
@@ -534,7 +557,9 @@ static gboolean
 BC_R(axesused)(XLChartHandler const *handle,
 	       XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const num_axis = GSF_LE_GET_GUINT16 (q->data);
+	guint16 num_axis;
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
+	num_axis = GSF_LE_GET_GUINT16 (q->data);
 	XL_CHECK_CONDITION_VAL(1 <= num_axis && num_axis <= 2, TRUE);
 	d (0, g_printerr ("There are %hu axis.\n", num_axis););
 	return FALSE;
@@ -553,7 +578,11 @@ BC_R(axis)(XLChartHandler const *handle,
 		"X-Axis", "Y-Axis", "Z-Axis"
 	};
 
-	guint16 const axis_type = GSF_LE_GET_GUINT16 (q->data);
+	guint16 axis_type;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
+
+	axis_type = GSF_LE_GET_GUINT16 (q->data);
 
 	g_return_val_if_fail (axis_type < G_N_ELEMENTS (ms_axis), TRUE);
 	g_return_val_if_fail (s->axis == NULL, TRUE);
@@ -689,6 +718,8 @@ static gboolean
 BC_R(axisparent)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length == 18, TRUE);
+	/* hmm, what we do here is not conform to the documentation, anyway, we don't do anything useful */
 	d (1, {
 	guint16 const index = GSF_LE_GET_GUINT16 (q->data);	/* 1 or 2 */
 	/* Measured in 1/4000ths of the chart width */
@@ -710,11 +741,17 @@ BC_R(bar)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
 {
 	char const *type = "normal";
-	int overlap_percentage = -GSF_LE_GET_GINT16 (q->data); /* dipsticks */
-	int gap_percentage = GSF_LE_GET_GINT16 (q->data+2);
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
-	gboolean horizontal = (flags & 0x01) != 0;
-	gboolean in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x08));
+	int overlap_percentage, gap_percentage;
+	guint16 flags;
+	gboolean horizontal, in_3d;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 6, TRUE);
+
+	overlap_percentage = -GSF_LE_GET_GINT16 (q->data); /* dipsticks */
+	gap_percentage = GSF_LE_GET_GINT16 (q->data+2);
+	flags = GSF_LE_GET_GUINT16 (q->data+4);
+	horizontal = (flags & 0x01) != 0;
+	in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x08));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = (GogPlot*) gog_plot_new_by_name ("GogBarColPlot");
@@ -754,6 +791,8 @@ static gboolean
 BC_R(boppop)(XLChartHandler const *handle,
 	     XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length >= 18, TRUE);
+
 #if 0
 	guint8 const type = GSF_LE_GET_GUINT8 (q->data); /* 0-2 */
 	gboolean const use_default_split = (GSF_LE_GET_GUINT8 (q->data+1) == 1);
@@ -789,7 +828,9 @@ static gboolean
 BC_R(catserrange)(XLChartHandler const *handle,
 		  XLChartReadState *s, BiffQuery *q)
 {
-	gint16 const flags = GSF_LE_GET_GUINT16 (q->data + 6);
+	guint flags;
+	XL_CHECK_CONDITION_VAL (q->length >= 8, TRUE);
+	flags = GSF_LE_GET_GUINT16 (q->data + 6);
 	if (((flags & 2) != 0) ^ ((flags & 4) != 0)) {
 		if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_X)
 			s->axis_cross_at_max = TRUE;
@@ -806,7 +847,7 @@ static gboolean
 BC_R(chart)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
-	XL_CHECK_CONDITION_VAL (q->length >= 16, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 16, TRUE);
 
 	d (1, {
 	/* Fixed point 2 bytes fraction 2 bytes integer */
@@ -834,7 +875,7 @@ BC_R(chartformat)(XLChartHandler const *handle,
 {
 	guint16 flags, z_order;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 4, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 4, TRUE);
 
 	flags = GSF_LE_GET_GUINT16 (q->data+16);
 	z_order = GSF_LE_GET_GUINT16 (q->data+18);
@@ -877,7 +918,7 @@ BC_R(chartline)(XLChartHandler const *handle,
 {
 	guint16 type;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 	type = GSF_LE_GET_GUINT16 (q->data);
 	XL_CHECK_CONDITION_VAL (type <= 2, FALSE);
 
@@ -907,7 +948,7 @@ static gboolean
 BC_R(dat)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
 {
-	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 
 #if 0
 	gint16 const flags = GSF_LE_GET_GUINT16 (q->data);
@@ -963,7 +1004,7 @@ BC_R(defaulttext)(XLChartHandler const *handle,
 {
 	guint16	tmp;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 	tmp = GSF_LE_GET_GUINT16 (q->data);
 
 	d (2, g_printerr ("applicability = %hd\n", tmp););
@@ -984,7 +1025,7 @@ static gboolean
 BC_R(dropbar)(XLChartHandler const *handle,
 	      XLChartReadState *s, BiffQuery *q)
 {
-	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 
 	/* NOTE : The docs lie.  values > 100 seem legal.  My guess based on
 	 * the ui is 500.
@@ -1001,15 +1042,19 @@ static gboolean
 BC_R(fbi)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
 {
+	guint16 x_basis, y_basis, applied_height, scale_basis, index;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 10, TRUE);
+
 	/*
 	 * TODO TODO TODO : Work on appropriate scales.
 	 * Is any of this useful other than the index ?
 	 */
-	guint16 const x_basis = GSF_LE_GET_GUINT16 (q->data);
-	guint16 const y_basis = GSF_LE_GET_GUINT16 (q->data+2);
-	guint16 const applied_height = GSF_LE_GET_GUINT16 (q->data+4);
-	guint16 const scale_basis = GSF_LE_GET_GUINT16 (q->data+6);
-	guint16 const index = GSF_LE_GET_GUINT16 (q->data+8);
+	x_basis = GSF_LE_GET_GUINT16 (q->data);
+	y_basis = GSF_LE_GET_GUINT16 (q->data+2);
+	applied_height = GSF_LE_GET_GUINT16 (q->data+4);
+	scale_basis = GSF_LE_GET_GUINT16 (q->data+6);
+	index = GSF_LE_GET_GUINT16 (q->data+8);
 
 	d (2,
 		gsf_mem_dump (q->data, q->length);
@@ -1027,7 +1072,7 @@ BC_R(fontx)(XLChartHandler const *handle,
 	GOFont const *gfont;
 	guint16 fno;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 	fno = GSF_LE_GET_GUINT16 (q->data);
 	font = excel_font_get (s->container.importer, fno);
 	if (!font)
@@ -1210,7 +1255,11 @@ static gboolean
 BC_R(ifmt)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
-	GOFormat *fmt = ms_container_get_fmt (&s->container,
+	GOFormat *fmt;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
+
+	fmt = ms_container_get_fmt (&s->container,
 		GSF_LE_GET_GUINT16 (q->data));
 
 	if (fmt != NULL) {
@@ -1245,7 +1294,7 @@ BC_R(legend)(XLChartHandler const *handle,
 	guint16 XL_pos;
 	GogObjectPosition pos;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 17, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 17, TRUE);
 
 	XL_pos = GSF_LE_GET_GUINT8 (q->data+16);
 
@@ -1281,7 +1330,11 @@ static gboolean
 BC_R(legendxn)(XLChartHandler const *handle,
 	       XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+2);
+	guint16 flags;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 4, TRUE);
+
+	flags = GSF_LE_GET_GUINT16 (q->data+2);
 	if ((flags & 1) && s->currentSeries != NULL)
 		s->currentSeries->has_legend = FALSE;
 	return FALSE;
@@ -1293,9 +1346,14 @@ static gboolean
 BC_R(line)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
+	guint16 flags;
 	char const *type = "normal";
-	gboolean in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x04));
+	gboolean in_3d;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
+
+	flags = GSF_LE_GET_GUINT16 (q->data);
+	in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x04));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = (GogPlot*) gog_plot_new_by_name ("GogLinePlot");
@@ -1336,7 +1394,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	guint16 flags;
 	guint16 pattern;
 
-	XL_CHECK_CONDITION_VAL (q->length >= (BC_R(ver)(s) >= MS_BIFF_V8 ? 12 : 10), FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= (BC_R(ver)(s) >= MS_BIFF_V8 ? 12 : 10), TRUE);
 
 	flags = GSF_LE_GET_GUINT16 (q->data + 8);
 	pattern = GSF_LE_GET_GUINT16 (q->data + 4);
@@ -1449,7 +1507,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	guint16 flags;
 	gboolean auto_marker;
 
-	XL_CHECK_CONDITION_VAL (q->length >= (BC_R(ver)(s) >= MS_BIFF_V8 ? 20 : 8), FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= (BC_R(ver)(s) >= MS_BIFF_V8 ? 20 : 8), TRUE);
 
 	shape = GSF_LE_GET_GUINT16 (q->data+8);
 	flags = GSF_LE_GET_GUINT16 (q->data+10);
@@ -1495,10 +1553,12 @@ static gboolean
 BC_R(objectlink)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const purpose = GSF_LE_GET_GUINT16 (q->data);
+	guint16 purpose;
 	GogObject *label = NULL;
 
+	XL_CHECK_CONDITION_VAL (q->length >= 6, TRUE);
 
+	purpose = GSF_LE_GET_GUINT16 (q->data);
 	if (purpose != 4 && s->text == NULL && s->label == NULL)
 		return FALSE;
 
@@ -1553,7 +1613,7 @@ BC_R(objectlink)(XLChartHandler const *handle,
 
 	d (2, {
 	guint16 const series_num = GSF_LE_GET_GUINT16 (q->data+2);
-	guint16 const pt_num = GSF_LE_GET_GUINT16 (q->data+2);
+	guint16 const pt_num = GSF_LE_GET_GUINT16 (q->data+4);
 
 	switch (purpose) {
 	case 1 : g_printerr ("TEXT is chart title\n"); break;
@@ -1585,10 +1645,16 @@ static gboolean
 BC_R(pie)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
 {
-	double initial_angle = GSF_LE_GET_GUINT16 (q->data);
-	double center_size = GSF_LE_GET_GUINT16 (q->data+2); /* 0-100 */
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
-	gboolean in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x01));
+	double initial_angle, center_size;
+	guint16 flags;
+	gboolean in_3d;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 6, TRUE);
+
+	initial_angle = GSF_LE_GET_GUINT16 (q->data);
+	center_size = GSF_LE_GET_GUINT16 (q->data+2); /* 0-100 */
+	flags = GSF_LE_GET_GUINT16 (q->data+4);
+	in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x01));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = (GogPlot*) gog_plot_new_by_name ((center_size == 0) ? "GogPiePlot" : "GogRingPlot");
@@ -1616,7 +1682,11 @@ static gboolean
 BC_R(pieformat)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
-	unsigned separation = GSF_LE_GET_GUINT16 (q->data); /* 0-500 */
+	unsigned separation;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
+
+	separation = GSF_LE_GET_GUINT16 (q->data); /* 0-500 */
 
 	/* we only support the default right now.  Also, XL sets this for _all_ types
 	 * rather than just pies. */
@@ -1650,6 +1720,7 @@ static gboolean
 BC_R(plotgrowth)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length >= 8, TRUE);
 	d (2, {
 	/* Docs say these are longs
 	 * But it appears that only 2 lsb are valid ??
@@ -1816,12 +1887,16 @@ static gboolean
 BC_R(serauxerrbar)(XLChartHandler const *handle,
 		   XLChartReadState *s, BiffQuery *q)
 {
-	guint8 const type = GSF_LE_GET_GUINT8  (q->data);
-	guint8 const src = GSF_LE_GET_GUINT8  (q->data+1);
-	guint8 const teetop = GSF_LE_GET_GUINT8  (q->data+2);
-	guint8 const num = GSF_LE_GET_GUINT16  (q->data+12);
-	/* next octet must be 1 */
+	guint8 type, src, teetop, num;
 	double val;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 14, TRUE);
+
+	type = GSF_LE_GET_GUINT8  (q->data);
+	src = GSF_LE_GET_GUINT8  (q->data+1);
+	teetop = GSF_LE_GET_GUINT8  (q->data+2);
+	num = GSF_LE_GET_GUINT16  (q->data+12);
+	/* next octet must be 1 */
 
 	d (1, {
 		switch (type) {
@@ -1861,13 +1936,19 @@ static gboolean
 BC_R(serauxtrend)(XLChartHandler const *handle,
 		  XLChartReadState *s, BiffQuery *q)
 {
-	guint8 const type = GSF_LE_GET_GUINT8  (q->data);
-	guint8 const order = GSF_LE_GET_GUINT8  (q->data+1);
-	double const intercept = GSF_LE_GET_DOUBLE (q->data+2);
-	gboolean const equation = GSF_LE_GET_GUINT8  (q->data+10);
-	gboolean const r2 = GSF_LE_GET_GUINT8  (q->data+11);
-	double const forecast = GSF_LE_GET_DOUBLE (q->data+12);
-	double const backcast = GSF_LE_GET_DOUBLE (q->data+20);
+	guint8 type, order;
+	double intercept, forecast, backcast;
+	gboolean equation, r2;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 28, TRUE);
+
+	type = GSF_LE_GET_GUINT8  (q->data);
+	order = GSF_LE_GET_GUINT8  (q->data+1);
+	intercept = GSF_LE_GET_DOUBLE (q->data+2);
+	equation = GSF_LE_GET_GUINT8  (q->data+10);
+	r2 = GSF_LE_GET_GUINT8  (q->data+11);
+	forecast = GSF_LE_GET_DOUBLE (q->data+12);
+	backcast = GSF_LE_GET_DOUBLE (q->data+20);
 	d (1, {
 		switch (type) {
 		case 0: g_printerr ("type: polynomial\n"); break;
@@ -1904,7 +1985,11 @@ static gboolean
 BC_R(serfmt)(XLChartHandler const *handle,
 	     XLChartReadState *s, BiffQuery *q)
 {
-	guint8 const flags = GSF_LE_GET_GUINT8  (q->data);
+	guint8 flags;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
+
+	flags = GSF_LE_GET_GUINT8  (q->data);
 	if (flags & 1) {
 	    if (s->currentSeries)
 		s->currentSeries->interpolation = GO_LINE_INTERPOLATION_SPLINE;
@@ -1927,8 +2012,8 @@ BC_R(trendlimits)(XLChartHandler const *handle,
 	double min, max;
 	gboolean skip_invalid;
 
-	XL_CHECK_CONDITION_VAL (s->currentSeries, FALSE);
-	XL_CHECK_CONDITION_VAL (q->length >= 17, FALSE);
+	XL_CHECK_CONDITION_VAL (s->currentSeries, TRUE);
+	XL_CHECK_CONDITION_VAL (q->length >= 17, TRUE);
 	min = GSF_LE_GET_DOUBLE (q->data);
 	max = GSF_LE_GET_DOUBLE (q->data + 8);
 	skip_invalid = GSF_LE_GET_GUINT8 (q->data + 16);
@@ -2016,10 +2101,10 @@ BC_R(seriestext)(XLChartHandler const *handle,
 	char *str;
 	GnmValue *value;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 3, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 3, TRUE);
 	id = GSF_LE_GET_GUINT16 (q->data);	/* must be 0 */
 	slen = GSF_LE_GET_GUINT8 (q->data + 2);
-	XL_CHECK_CONDITION_VAL (id == 0, FALSE);
+	XL_CHECK_CONDITION_VAL (id == 0, TRUE);
 
 	if (slen == 0)
 		return FALSE;
@@ -2056,7 +2141,7 @@ BC_R(serparent)(XLChartHandler const *handle,
 {
 	guint16 index;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 	index = GSF_LE_GET_GUINT16 (q->data) - 1;
 	d (1, g_printerr ("Parent series index is %hd\n", index););
 	s->parent_index = index;
@@ -2072,8 +2157,8 @@ BC_R(sertocrt)(XLChartHandler const *handle,
 {
 	guint16 index;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
-	XL_CHECK_CONDITION_VAL (s->currentSeries != NULL, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
+	XL_CHECK_CONDITION_VAL (s->currentSeries != NULL, TRUE);
 	index = GSF_LE_GET_GUINT16 (q->data);
 
 	s->currentSeries->chart_group = index;
@@ -2098,16 +2183,19 @@ static gboolean
 BC_R(shtprops)(XLChartHandler const *handle,
 	       XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
-	guint8 tmp;
-	gboolean const manual_format		= (flags&0x01) ? TRUE : FALSE;
-	gboolean const only_plot_visible_cells	= (flags&0x02) ? TRUE : FALSE;
-	gboolean const dont_size_with_window	= (flags&0x04) ? TRUE : FALSE;
-	gboolean const has_pos_record		= (flags&0x08) ? TRUE : FALSE;
+	guint16 flags;
+	gboolean manual_format, only_plot_visible_cells, dont_size_with_window,
+		has_pos_record;
 	gboolean ignore_pos_record = FALSE;
+	guint8 tmp;
 	MSChartBlank blanks;
 
 	XL_CHECK_CONDITION_VAL (q->length >= 4, TRUE);
+	flags = GSF_LE_GET_GUINT16 (q->data);
+	manual_format		= (flags&0x01) ? TRUE : FALSE;
+	only_plot_visible_cells	= (flags&0x02) ? TRUE : FALSE;
+	dont_size_with_window	= (flags&0x04) ? TRUE : FALSE;
+	has_pos_record		= (flags&0x08) ? TRUE : FALSE;
 	tmp = GSF_LE_GET_GUINT16 (q->data+2);
 	g_return_val_if_fail (tmp < MS_CHART_BLANK_MAX, TRUE);
 	blanks = tmp;
@@ -2137,7 +2225,7 @@ static gboolean
 BC_R(siindex)(XLChartHandler const *handle,
 	      XLChartReadState *s, BiffQuery *q)
 {
-	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 	/* UNDOCUMENTED : Docs says this is long
 	 * Biff record is only length 2 */
 	s->cur_role = GSF_LE_GET_GUINT16 (q->data);
@@ -2150,7 +2238,7 @@ static gboolean
 BC_R(surf)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
-	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 
 	/* TODO : implement wireframe (aka use-color) */
 #if 0
@@ -2194,7 +2282,7 @@ BC_R(text)(XLChartHandler const *handle,
 	};
 	unsigned tmp;
 #endif
-	XL_CHECK_CONDITION_VAL (q->length >= 8, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 8, TRUE);
 
 	BC_R(get_style) (s);
 
@@ -2242,7 +2330,7 @@ BC_R(tick)(XLChartHandler const *handle,
 {
 	guint16 major, minor, label, flags;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 26, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 26, TRUE);
 
 	major = GSF_LE_GET_GUINT8 (q->data);
 	minor = GSF_LE_GET_GUINT8 (q->data+1);
@@ -2344,7 +2432,7 @@ BC_R(units)(XLChartHandler const *handle,
 {
 	guint16 type;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, TRUE);
 
 	/* Irrelevant */
 	type = GSF_LE_GET_GUINT16 (q->data);
@@ -2385,11 +2473,15 @@ static gboolean
 BC_R(valuerange)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+40);
-	gboolean log_scale = flags & 0x20;
+	guint16 flags;
+	gboolean log_scale;
 	double cross;
 	Sheet *sheet = ms_container_sheet (s->container.parent);
 
+	XL_CHECK_CONDITION_VAL (q->length >= 42, TRUE);
+
+	flags = GSF_LE_GET_GUINT16 (q->data+40);
+	log_scale =  flags & 0x20;
 	if (log_scale) {
 		g_object_set (s->axis, "map-name", "Log", NULL);
 		d (1, g_printerr ("Log scaled;\n"););

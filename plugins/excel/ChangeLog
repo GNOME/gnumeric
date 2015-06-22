@@ -1,5 +1,17 @@
 2015-06-22  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-chart.c (3dbarshape), (3d), (ai), (alruns), (area),
+	(areaformat), (attachedlabel), (axesused), (axis), (axisparent),
+	(bar), (boppop), (catserrange), (chart), (chartformat),
+	(chartline), (dat), (defaulttext), (dropbar), (fbi), (fontx),
+	(ifmt), (legend), (legendxn), (line), (lineformat), (markerformat),
+	(objectlink), (pie), (pieformat), (plotgrowth), (serauxerrbar),
+	(serauxtrend), (serfmt), (trendlimits), (seriestext), (serparent),
+	(sertocrt), (shtprops), (siindex), (surf), (text), (tick), (units),
+	(valuerange): fix data size checks.
+
+2015-06-22  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-excel-read.c (excel_read_PANE): check data size. [#751271]
 
 2015-06-22  Jean Brefort  <jean.brefort@normalesup.org>
