@@ -2876,7 +2876,7 @@ not_a_matrix:
 
 		if (!s->is_surface) {
 			unsigned k = 0, l = s->series->len, added_plots = 0, n;
-			if (s->dropbar) {
+			if (l > 0 && s->dropbar) {
 				GogObject *plot = GOG_OBJECT (gog_plot_new_by_name ("GogDropBarPlot"));
 				if (s->has_extra_dataformat){
 					g_object_set (G_OBJECT (plot), "plot-group", "GogStockPlot", NULL);
@@ -2884,31 +2884,38 @@ not_a_matrix:
 				l--;
 				while (eseries = g_ptr_array_index (s->series, l),
 							eseries->chart_group != s->plot_counter)
-					l--;
+					if (l != 0)
+						l--;
+					else
+						eseries = NULL;
 				gog_object_add_by_name (GOG_OBJECT (s->chart), "Plot", plot);
 				gog_object_reorder (plot, TRUE, FALSE);
 				added_plots++;
 				series = gog_plot_new_series (GOG_PLOT (plot));
 				g_object_set (plot, "gap_percentage", s->dropbar_width, NULL);
-				if (eseries->data [GOG_MS_DIM_CATEGORIES].data != NULL) {
-					gog_series_set_XL_dim (series, GOG_MS_DIM_CATEGORIES,
-						eseries->data [GOG_MS_DIM_CATEGORIES].data, NULL);
-					eseries->data [GOG_MS_DIM_CATEGORIES].data = NULL;
+				if (eseries) {
+					if (eseries->data [GOG_MS_DIM_CATEGORIES].data != NULL) {
+						gog_series_set_XL_dim (series, GOG_MS_DIM_CATEGORIES,
+							eseries->data [GOG_MS_DIM_CATEGORIES].data, NULL);
+						eseries->data [GOG_MS_DIM_CATEGORIES].data = NULL;
+					}
+					if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
+						gog_series_set_XL_dim (series, GOG_MS_DIM_END,
+							eseries->data [GOG_MS_DIM_VALUES].data, NULL);
+						eseries->data [GOG_MS_DIM_VALUES].data = NULL;
+					} else
+						eseries->extra_dim = GOG_MS_DIM_END;
 				}
-				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
-					gog_series_set_XL_dim (series, GOG_MS_DIM_END,
-						eseries->data [GOG_MS_DIM_VALUES].data, NULL);
-					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
-				} else
-					eseries->extra_dim = GOG_MS_DIM_END;
 				while (eseries = g_ptr_array_index (s->series, k++),
-							eseries->chart_group != s->plot_counter);
-				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
-					gog_series_set_XL_dim (series, GOG_MS_DIM_START,
-						eseries->data [GOG_MS_DIM_VALUES].data, NULL);
-					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
-				} else
-					eseries->extra_dim = GOG_MS_DIM_START;
+							eseries && eseries->chart_group != s->plot_counter);
+				if (eseries) {
+					if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
+						gog_series_set_XL_dim (series, GOG_MS_DIM_START,
+							eseries->data [GOG_MS_DIM_VALUES].data, NULL);
+						eseries->data [GOG_MS_DIM_VALUES].data = NULL;
+					} else
+						eseries->extra_dim = GOG_MS_DIM_START;
+				}
 				g_object_set (G_OBJECT (series),
 					"style", s->dropbar_style,
 					NULL);
@@ -2926,32 +2933,36 @@ not_a_matrix:
 					gog_object_reorder (plot, TRUE, FALSE);
 				series = gog_plot_new_series (GOG_PLOT (plot));
 				while (eseries = g_ptr_array_index (s->series, k++),
-							eseries->chart_group != s->plot_counter);
-				if (eseries->data [GOG_MS_DIM_CATEGORIES].data != NULL) {
-					gog_series_set_XL_dim (series, GOG_MS_DIM_CATEGORIES,
-						eseries->data [GOG_MS_DIM_CATEGORIES].data, NULL);
-					eseries->data [GOG_MS_DIM_CATEGORIES].data = NULL;
+							eseries && eseries->chart_group != s->plot_counter);
+				if (eseries != NULL) {
+					if (eseries->data [GOG_MS_DIM_CATEGORIES].data != NULL) {
+						gog_series_set_XL_dim (series, GOG_MS_DIM_CATEGORIES,
+							eseries->data [GOG_MS_DIM_CATEGORIES].data, NULL);
+						eseries->data [GOG_MS_DIM_CATEGORIES].data = NULL;
+					}
+					if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
+						gog_series_set_XL_dim (series, GOG_MS_DIM_HIGH,
+							eseries->data [GOG_MS_DIM_VALUES].data, NULL);
+						eseries->data [GOG_MS_DIM_VALUES].data = NULL;
+					} else
+						eseries->extra_dim = GOG_MS_DIM_HIGH;
 				}
-				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
-					gog_series_set_XL_dim (series, GOG_MS_DIM_HIGH,
-						eseries->data [GOG_MS_DIM_VALUES].data, NULL);
-					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
-				} else
-					eseries->extra_dim = GOG_MS_DIM_HIGH;
 				while (eseries = g_ptr_array_index (s->series, k++),
-							eseries->chart_group != s->plot_counter);
-				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
-					gog_series_set_XL_dim (series, GOG_MS_DIM_LOW,
-						eseries->data [GOG_MS_DIM_VALUES].data, NULL);
-					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
-				} else
-					eseries->extra_dim = GOG_MS_DIM_LOW;
-				if (s->chartline_style[1]) {
-					g_object_set (G_OBJECT (series),
-						      "style", s->chartline_style[1],
-						      NULL);
-					g_object_unref (s->chartline_style[1]);
-					s->chartline_style[1] = NULL;
+							eseries && eseries->chart_group != s->plot_counter);
+				if (eseries != NULL) {
+					if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
+						gog_series_set_XL_dim (series, GOG_MS_DIM_LOW,
+							eseries->data [GOG_MS_DIM_VALUES].data, NULL);
+						eseries->data [GOG_MS_DIM_VALUES].data = NULL;
+					} else
+						eseries->extra_dim = GOG_MS_DIM_LOW;
+					if (s->chartline_style[1]) {
+						g_object_set (G_OBJECT (series),
+								  "style", s->chartline_style[1],
+								  NULL);
+						g_object_unref (s->chartline_style[1]);
+						s->chartline_style[1] = NULL;
+					}
 				}
 			}
 			for (i = k ; i < l; i++ ) {

@@ -1,3 +1,7 @@
+2015-06-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end): skip NULL excel series. [#751270]
+
 2015-06-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (ms_excel_chart_read): initialize XLChartReadState::is_contour.
