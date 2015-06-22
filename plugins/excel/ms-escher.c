@@ -2085,6 +2085,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		gboolean (*handler)(MSEscherState *state,
 				    MSEscherHeader *container) = NULL;
 		gboolean needs_free;
+		guint32 datalen;
 
 		guint8 const *data = ms_escher_get_data (state, h.offset,
 			COMMON_HEADER_LEN, &needs_free);
@@ -2096,9 +2097,16 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 
 		tmp	= GSF_LE_GET_GUINT16 (data + 0);
 		h.fbt	= GSF_LE_GET_GUINT16 (data + 2);
+		datalen = GSF_LE_GET_GUINT32 (data + 4);
+
+		if (datalen >= 0xfffffff0) {
+			g_warning ("Crazy data length in escher record");
+			ms_escher_header_release (&h);
+			return TRUE;
+		}
 
 		/* Include the length of this header in the record size */
-		h.len	   = GSF_LE_GET_GUINT32 (data + 4) + COMMON_HEADER_LEN;
+		h.len	   = datalen + COMMON_HEADER_LEN;
 		h.ver      = tmp & 0x0f;
 		h.instance = (tmp >> 4) & 0xfff;
 

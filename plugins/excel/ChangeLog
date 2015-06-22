@@ -1,3 +1,8 @@
+2015-06-22  Morten Welinder  <terra@gnome.org>
+
+	* ms-escher.c (ms_escher_read_container): Catch crazy length field
+	causing a loop.  Fixes #751258.
+
 2015-06-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (3dbarshape), (3d), (ai), (alruns), (area),
