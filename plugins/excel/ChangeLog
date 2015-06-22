@@ -1,5 +1,9 @@
 2015-06-22  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-excel-read.c (excel_read_PANE): check data size. [#751271]
+
+2015-06-22  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c (end): skip NULL excel series. [#751270]
 
 2015-06-21  Jean Brefort  <jean.brefort@normalesup.org>

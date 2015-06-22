@@ -5033,6 +5033,7 @@ excel_read_ITERATION (BiffQuery *q, GnmXLImporter *importer)
 static void
 excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 {
+	XL_CHECK_CONDITION (q->length == 10);
 	if (esheet->freeze_panes) {
 		guint16 x = GSF_LE_GET_GUINT16 (q->data + 0);
 		guint16 y = GSF_LE_GET_GUINT16 (q->data + 2);
