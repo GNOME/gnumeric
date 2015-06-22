@@ -666,7 +666,7 @@ mps_fill_sheet (MpsState *state)
 
 	/* ---------------------------------------- */
 
-	{
+	if (state->rows->len > 0) {
 		int x = OBJ_BASE_COL;
 		int y = OBJ_BASE_ROW;
 		MpsRow *row = g_ptr_array_index (state->rows, 0);

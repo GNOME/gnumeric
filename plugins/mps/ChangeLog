@@ -1,3 +1,7 @@
+2015-06-22  Morten Welinder  <terra@gnome.org>
+
+	* mps.c (mps_fill_sheet): Handle no-rows case.
+
 2015-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.22
