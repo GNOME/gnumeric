@@ -1,5 +1,10 @@
 2015-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (gnumeric_convert): add more volume units
+	(help_convert): add more volume units
+
+2015-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (gnumeric_convert): add more distance,
 	pressure, and force units; use convert_temp
 	(help_convert): add more distance, pressure, force and

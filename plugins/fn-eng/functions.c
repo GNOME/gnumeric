@@ -723,15 +723,47 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'K'    \t\tKelvin\n\n"
 					"\t'Rank' \t\tDegree Rankine\n\n"
 					"\t'Reau' \t\tDegree Réaumur\n\n"					
-					"Liquid measure:\n"
+					"Volume (liquid measure):\n"
 					"\t'tsp'  \t\tTeaspoon\n"
+					"\t'tspm'  \t\tTeaspoon (modern, metric)\n"
 					"\t'tbs'  \t\tTablespoon\n"
 					"\t'oz'   \t\tFluid ounce\n"
 					"\t'cup'  \t\tCup\n"
 					"\t'pt'   \t\tPint\n"
+					"\t'us_pt'\t\tU.S. pint\n"
+					"\t'uk_pt'\t\tImperial pint (U.K.)\n"
 					"\t'qt'   \t\tQuart\n"
+					"\t'uk_qt'   \t\tImperial quart\n"
 					"\t'gal'  \t\tGallon\n"
+					"\t'uk_gal'  \t\tImperial gallon\n"
+					"\t'GRT'  \t\tRegistered ton\n"
+					"\t'regton' \t\tRegistered ton\n"
+					"\t'MTON' \t\tMeasurement ton (freight ton)\n"
 					"\t'l'    \t\t\tLiter\n\n"
+					"\t'L'    \t\t\tLiter\n\n"
+					"\t'lt'   \t\t\tLiter\n\n"
+					"\t'ang3' \t\tCubic Angstrom\n\n"
+					"\t'ang^3' \t\tCubic Angstrom\n\n"
+					"\t'barrel' \t\tU.S. oil barrel (bbl)\n\n"
+					"\t'bushel' \t\tU.S. bushel\n\n"
+					"\t'ft3' \t\tCubic feet\n\n"
+					"\t'ft^3' \t\tCubic feet\n\n"
+					"\t'in3' \t\tCubic inch\n\n"
+					"\t'in^3' \t\tCubic inch\n\n"
+					"\t'ly3' \t\tCubic light-year\n\n"
+					"\t'ly^3' \t\tCubic light-year\n\n"
+					"\t'm3' \t\tCubic meter\n\n"
+					"\t'm^3' \t\tCubic meter\n\n"
+					"\t'mi3' \t\tCubic mile\n\n"
+					"\t'mi^3' \t\tCubic mile\n\n"
+					"\t'yd3' \t\tCubic yard\n\n"
+					"\t'yd^3' \t\tCubic yard\n\n"
+					"\t'Nmi3' \t\tCubic nautical mile\n\n"
+					"\t'Nmi^3' \t\tCubic nautical mile\n\n"
+					"\t'Picapt3' \t\tCubic Pica\n\n"
+					"\t'Picapt^3' \t\tCubic Pica\n\n"
+					"\t'Pica3' \t\tCubic Pica\n\n"
+					"\t'Pica^3' \t\tCubic Pica\n\n"
 					"For metric units any of the following prefixes can be used:\n"
 					"\t'Y'  \tyotta \t\t1E+24\n"
 					"\t'Z'  \tzetta \t\t1E+21\n"
@@ -940,7 +972,7 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 #define one_m_to_yd     (one_m_to_ft / 3)
 #define one_m_to_ell    (one_m_to_in / 45)
 #define one_m_to_ang    GNM_const (1e10)
-#define one_m_to_ly     (1 / GNM_const (9460730472580800))
+#define one_m_to_ly     (1 / GNM_const (9.4607304725808E15))
 #define one_m_to_pc     (GNM_const (1e-16)/GNM_const (3.0856776))
 #define one_m_to_pica   236.2204724409449
 #define one_m_to_Pica   one_m_to_pica * 12
@@ -981,13 +1013,31 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 #define one_T_to_ga     10000
 
 	/* Liquid measure constants */
+#define one_l_to_uk_gal (GNM_const (1.0) / GNM_const (4.54609))
+#define one_tsp_to_tspm (one_tsp_to_l/GNM_const (0.005))
 #define one_tsp_to_tbs  (GNM_const (1.0) / 3)
 #define one_tsp_to_oz   (GNM_const (1.0) / 6)
 #define one_tsp_to_cup  (GNM_const (1.0) / 48)
 #define one_tsp_to_pt   (GNM_const (1.0) / 96)
+#define one_tsp_to_uk_pt (one_tsp_to_l * one_l_to_uk_gal * 8)
 #define one_tsp_to_qt   (GNM_const (1.0) / 192)
+#define one_tsp_to_uk_qt (one_tsp_to_l * one_l_to_uk_gal * 2)
 #define one_tsp_to_gal  (GNM_const (1.0) / 768)
-#define one_tsp_to_l    0.004929994
+#define one_tsp_to_uk_gal (one_tsp_to_l * one_l_to_uk_gal)
+#define one_tsp_to_l    GNM_const (0.004928921593749999)
+#define one_tsp_to_ang3 (one_tsp_to_l * GNM_const (1E-27))
+#define one_tsp_to_barrel (one_tsp_to_gal / 42)
+#define one_tsp_to_bushel (one_tsp_to_gal / GNM_const (9.3092))
+#define one_tsp_to_grt  (one_tsp_to_cubic_ft / 100)
+#define one_tsp_to_mton  (one_tsp_to_cubic_ft / 40)
+#define one_tsp_to_cubic_m  (one_tsp_to_l / 1000)
+#define one_tsp_to_cubic_ft (one_tsp_to_cubic_m * one_m_to_ft * one_m_to_ft * one_m_to_ft)
+#define one_tsp_to_cubic_in (one_tsp_to_cubic_m * one_m_to_in * one_m_to_in * one_m_to_in)
+#define one_tsp_to_cubic_ly (one_tsp_to_cubic_m * one_m_to_ly * one_m_to_ly * one_m_to_ly)
+#define one_tsp_to_cubic_mi (one_tsp_to_cubic_m * one_m_to_mi * one_m_to_mi * one_m_to_mi)
+#define one_tsp_to_cubic_yd (one_tsp_to_cubic_m * one_m_to_yd * one_m_to_yd * one_m_to_yd)
+#define one_tsp_to_cubic_Nmi (one_tsp_to_cubic_m * one_m_to_Nmi * one_m_to_Nmi * one_m_to_Nmi)
+#define one_tsp_to_cubic_Pica (one_tsp_to_cubic_m * one_m_to_Pica * one_m_to_Pica * one_m_to_Pica)
 
 	/* Prefixes */
 #define yotta  GNM_const (1e+24)
@@ -1105,13 +1155,45 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	static const eng_convert_unit_t liquid_units[] = {
 	        { "tsp",  1.0 },
+		{ "tspm", one_tsp_to_tspm },
 		{ "tbs",  one_tsp_to_tbs },
 		{ "oz",   one_tsp_to_oz },
 		{ "cup",  one_tsp_to_cup },
 		{ "pt",   one_tsp_to_pt },
 		{ "qt",   one_tsp_to_qt },
+		{ "uk_qt", one_tsp_to_uk_qt },
 		{ "gal",  one_tsp_to_gal },
+		{ "uk_gal", one_tsp_to_uk_gal },
+		{ "us_pt",one_tsp_to_pt },
+		{ "uk_pt",one_tsp_to_uk_pt },
 		{ "l",    one_tsp_to_l },
+		{ "L",    one_tsp_to_l },
+		{ "lt",   one_tsp_to_l },
+		{ "ang3", one_tsp_to_ang3 },
+		{ "ang^3", one_tsp_to_ang3 },
+		{ "bushel", one_tsp_to_bushel },
+		{ "barrel", one_tsp_to_barrel },
+		{ "GRT", one_tsp_to_grt },
+		{ "regton", one_tsp_to_grt },
+		{ "MTON", one_tsp_to_mton },
+		{ "ft3", one_tsp_to_cubic_ft},
+		{ "ft^3", one_tsp_to_cubic_ft},
+		{ "in3", one_tsp_to_cubic_in},
+		{ "in^3", one_tsp_to_cubic_in},
+		{ "ly3", one_tsp_to_cubic_ly},
+		{ "ly^3", one_tsp_to_cubic_ly},
+		{ "m3", one_tsp_to_cubic_m},
+		{ "m^3", one_tsp_to_cubic_m},
+		{ "mi3", one_tsp_to_cubic_mi},
+		{ "mi^3", one_tsp_to_cubic_mi},
+		{ "yd3", one_tsp_to_cubic_yd},
+		{ "yd^3", one_tsp_to_cubic_yd},
+		{ "Nmi3", one_tsp_to_cubic_Nmi},
+		{ "Nmi^3", one_tsp_to_cubic_Nmi},
+		{ "Pica3", one_tsp_to_cubic_Pica},
+		{ "Pica^3", one_tsp_to_cubic_Pica},
+		{ "Picapt3", one_tsp_to_cubic_Pica},
+		{ "Picapt^3", one_tsp_to_cubic_Pica},
 		{ NULL,   0.0 }
 	};
 
