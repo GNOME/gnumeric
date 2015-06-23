@@ -428,9 +428,8 @@ gnm_xml_in_cur_sheet (GsfXMLIn const *xin)
 }
 
 static void
-gnm_xml_finish_obj (GsfXMLIn *xin)
+gnm_xml_finish_obj (GsfXMLIn *xin, XMLSaxParseState *state)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	GnmCellRegion *cr = state->clipboard;
 
 	if (cr) {
@@ -2439,7 +2438,9 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 			doc = gsf_xml_in_doc_new (dtd, NULL);
 			gnm_xml_in_doc_dispose_on_exit (&doc);
 		}
-		gsf_xml_in_push_state (xin, doc, NULL,
+		/* we need to pas state there because xin->user_state might have
+			 changed, see #751217 */
+		gsf_xml_in_push_state (xin, doc, state,
 			(GsfXMLInExtDtor) gnm_xml_finish_obj, attrs);
 	}
 }
@@ -2455,7 +2456,7 @@ xml_sax_object_start (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	gnm_xml_finish_obj (xin);
+	gnm_xml_finish_obj (xin, xin->user_state);
 	/*
 	 * WARNING: the object is not completely finished at this
 	 * time.  Any handler installed by gog_object_sax_push_parser

@@ -1,3 +1,8 @@
+2015-06-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/xml-sax-read.c (gnm_xml_finish_obj), (xml_sax_read_obj),
+	(xml_sax_object_end): ensure we always use the right state. [#751217]
+
 2015-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* samples/excel/engfuns.xls: update to use correct lbm->g conversion
