@@ -1073,21 +1073,38 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{from} and @{to} can be any of the following:
 
 Weight and mass:
+	'brton'		Imperial ton
+	'cwt'			U.S. (short) hundredweight
 	'g'  			Gram
+	'grain'		Grain
+	'hweight'		Imperial (long) hundredweight
+	'LTON'		Imperial ton
 	'sg' 			Slug
+	'shweight'	U.S. (short) hundredweight
 	'lbm'		Pound
+	'lcwt'		Imperial  (long) hundredweight
 	'u'  			U (atomic mass)
+	'uk_cwt'		Imperial  (long) hundredweight
+	'uk_ton'		Imperial ton
 	'ozm'		Ounce
+	'stone'		Stone
+	'ton'			Ton
 
 Distance:
 	'm'   		Meter
 	'mi'  		Statute mile
+	'survey_mi'  		U.S. survey mile
 	'Nmi' 		Nautical mile
 	'in'  			Inch
 	'ft'  			Foot
 	'yd'  		Yard
+	'ell'  		English Ell
 	'ang' 		Angstrom
+	'ly' 		Light-Year
+	'pc' 		Parsec
+	'parsec' 		Parsec
 	'Pica'		Pica Points
+	'Picapt'		Pica Points
 	'picapt'		Pica Points
 	'pica'		Pica
 
@@ -1099,13 +1116,19 @@ Time:
 	'sec' 		Second
 
 Pressure:
-	'Pa'  		Pascal
+	'Pa'  			Pascal
+	'psi' 			PSI
 	'atm' 		Atmosphere
+	'Pa'  			Pascal
 	'mmHg'		mm of Mercury
+
+	'Torr'		Torr
 
 Force:
 	'N'   			Newton
 	'dyn' 		Dyne
+	'pond' 			Pond
+
 	'lbf' 			Pound force
 
 Energy:
@@ -1121,6 +1144,7 @@ Energy:
 
 Power:
 	'HP'   		Horsepower
+	'PS'   		Pferdestärke
 	'W'    		Watt
 
 Magnetism:
@@ -1130,17 +1154,77 @@ Magnetism:
 Temperature:
 	'C'    		Degree Celsius
 	'F'    		Degree Fahrenheit
-	'K'    		Degree Kelvin
+	'K'    		Kelvin
 
-Liquid measure:
+	'Rank' 		Degree Rankine
+
+	'Reau' 		Degree Réaumur
+
+Volume (liquid measure):
 	'tsp'  		Teaspoon
+	'tspm'  		Teaspoon (modern, metric)
 	'tbs'  		Tablespoon
 	'oz'   		Fluid ounce
 	'cup'  		Cup
 	'pt'   		Pint
+	'us_pt'		U.S. pint
+	'uk_pt'		Imperial pint (U.K.)
 	'qt'   		Quart
+	'uk_qt'   		Imperial quart
 	'gal'  		Gallon
+	'uk_gal'  		Imperial gallon
+	'GRT'  		Registered ton
+	'regton' 		Registered ton
+	'MTON' 		Measurement ton (freight ton)
 	'l'    			Liter
+
+	'L'    			Liter
+
+	'lt'   			Liter
+
+	'ang3' 		Cubic Angstrom
+
+	'ang^3' 		Cubic Angstrom
+
+	'barrel' 		U.S. oil barrel (bbl)
+
+	'bushel' 		U.S. bushel
+
+	'ft3' 		Cubic feet
+
+	'ft^3' 		Cubic feet
+
+	'in3' 		Cubic inch
+
+	'in^3' 		Cubic inch
+
+	'ly3' 		Cubic light-year
+
+	'ly^3' 		Cubic light-year
+
+	'm3' 		Cubic meter
+
+	'm^3' 		Cubic meter
+
+	'mi3' 		Cubic mile
+
+	'mi^3' 		Cubic mile
+
+	'yd3' 		Cubic yard
+
+	'yd^3' 		Cubic yard
+
+	'Nmi3' 		Cubic nautical mile
+
+	'Nmi^3' 		Cubic nautical mile
+
+	'Picapt3' 		Cubic Pica
+
+	'Picapt^3' 		Cubic Pica
+
+	'Pica3' 		Cubic Pica
+
+	'Pica^3' 		Cubic Pica
 
 For metric units any of the following prefixes can be used:
 	'Y'  	yotta 		1E+24
@@ -4440,7 +4524,18 @@ The successive use of the simulation tool also requires that you give to the too
 @{size}: sample size
 @NOTE=This function requires the usually unknown population standard deviation. If @{size} is non-integer it is truncated. If @{size} < 0 this function returns a #NUM! error. If @{size} is 0 this function returns a #DIV/0! error.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=AVERAGE
+@SEEALSO=AVERAGE,CONFIDENCE.T
+
+@CATEGORY=Statistics
+@FUNCTION=CONFIDENCE.T
+@SHORTDESC=margin of error of a confidence interval for the population mean using the Student's t-distribution
+@SYNTAX=CONFIDENCE.T(alpha,stddev,size)
+@ARGUMENTDESCRIPTION=@{alpha}: significance level
+@{stddev}: sample standard deviation
+@{size}: sample size
+@NOTE=If @{stddev} < 0 or = 0 this function returns a #NUM! error. If @{size} is non-integer it is truncated. If @{size} < 1 this function returns a #NUM! error. If @{size} is 1 this function returns a #DIV/0! error.
+@EXCEL=This function is Excel compatible.
+@SEEALSO=AVERAGE,CONFIDENCE
 
 @CATEGORY=Statistics
 @FUNCTION=CORREL
@@ -4916,7 +5011,18 @@ Any extra statistical information is written below m and b in the result array. 
 @DESCRIPTION=Strings and empty cells are simply ignored.
 If the data set does not contain any duplicates this function returns a #N/A error.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=AVERAGE,MEDIAN
+@SEEALSO=AVERAGE,MEDIAN,MODE.MULT
+
+@CATEGORY=Statistics
+@FUNCTION=MODE.MULT
+@SHORTDESC=most common numbers in the dataset
+@SYNTAX=MODE.MULT(number1,number2,…)
+@ARGUMENTDESCRIPTION=@{number1}: first value
+@{number2}: second value
+@DESCRIPTION=Strings and empty cells are simply ignored.
+If the data set does not contain any duplicates this function returns a #N/A error.
+@EXCEL=This function is Excel compatible.
+@SEEALSO=AVERAGE,MEDIAN,MODE
 
 @CATEGORY=Statistics
 @FUNCTION=NEGBINOMDIST
@@ -5000,7 +5106,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=PERCENTILE
-@SHORTDESC=determines the  100*@{k}-th percentile of the given data points
+@SHORTDESC=determines the 100*@{k}-th percentile of the given data points (Hyndman-Fan method 7: N-1 basis)
 @SYNTAX=PERCENTILE(array,k)
 @ARGUMENTDESCRIPTION=@{array}: data points
 @{k}: which percentile to calculate
@@ -5009,14 +5115,34 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SEEALSO=QUARTILE
 
 @CATEGORY=Statistics
+@FUNCTION=PERCENTILE.EXC
+@SHORTDESC=determines the 100*@{k}-th percentile of the given data points (Hyndman-Fan method 6: N+1 basis)
+@SYNTAX=PERCENTILE.EXC(array,k)
+@ARGUMENTDESCRIPTION=@{array}: data points
+@{k}: which percentile to calculate
+@NOTE=If @{array} is empty, this function returns a #NUM! error. If @{k} < 0 or @{k} > 1, this function returns a #NUM! error.
+@EXCEL=This function is Excel compatible.
+@SEEALSO=PERCENTILE,QUARTILE,QUARTILE.EXC
+
+@CATEGORY=Statistics
 @FUNCTION=PERCENTRANK
-@SHORTDESC=rank of a data point in a data set
+@SHORTDESC=rank of a data point in a data set (Hyndman-Fan method 7: N-1 basis)
 @SYNTAX=PERCENTRANK(array,x,significance)
 @ARGUMENTDESCRIPTION=@{array}: range of numeric values
 @{x}: data point to be ranked
 @{significance}: number of significant digits, defaults to 3
 @NOTE=If @{array} contains no data points, this function returns a #NUM! error. If @{significance} is less than one, this function returns a #NUM! error. If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns a #NUM! error. If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL
+
+@CATEGORY=Statistics
+@FUNCTION=PERCENTRANK.EXC
+@SHORTDESC=rank of a data point in a data set (Hyndman-Fan method 6: N+1 basis)
+@SYNTAX=PERCENTRANK.EXC(array,x,significance)
+@ARGUMENTDESCRIPTION=@{array}: range of numeric values
+@{x}: data point to be ranked
+@{significance}: number of significant digits, defaults to 3
+@NOTE=If @{array} contains no data points, this function returns a #NUM! error. If @{significance} is less than one, this function returns a #NUM! error. If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns a #NUM! error. If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
+@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,PERCENTILE.EXC,QUARTILE,QUARTILE.EXC,SMALL
 
 @CATEGORY=Statistics
 @FUNCTION=PERMUT
@@ -5063,13 +5189,23 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=QUARTILE
-@SHORTDESC=the @{k}-th quartile of the data points
+@SHORTDESC=the @{k}-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)
 @SYNTAX=QUARTILE(array,quart)
 @ARGUMENTDESCRIPTION=@{array}: data points
 @{quart}: a number from 0 to 4, indicating which quartile to calculate
 @NOTE=If @{array} is empty, this function returns a #NUM! error. If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @{quart} = 0, the smallest value of @{array} to be returned. If @{quart} is not an integer, it is truncated.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL
+@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE.EXC,SMALL
+
+@CATEGORY=Statistics
+@FUNCTION=QUARTILE.EXC
+@SHORTDESC=the @{k}-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)
+@SYNTAX=QUARTILE.EXC(array,quart)
+@ARGUMENTDESCRIPTION=@{array}: data points
+@{quart}: a number from 1 to 3, indicating which quartile to calculate
+@NOTE=If @{array} is empty, this function returns a #NUM! error. If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @{quart} = 0, the smallest value of @{array} to be returned. If @{quart} is not an integer, it is truncated.
+@EXCEL=This function is Excel compatible.
+@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,PERCENTILE.EXC,QUARTILE,SMALL
 
 @CATEGORY=Statistics
 @FUNCTION=R.DBETA

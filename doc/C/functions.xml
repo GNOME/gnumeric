@@ -3946,21 +3946,38 @@
         <para><parameter>from</parameter> and <parameter>to</parameter> can be any of the following:</para>
         <para/>
         <para>Weight and mass:</para>
+        <para>	'brton'		Imperial ton</para>
+        <para>	'cwt'			U.S. (short) hundredweight</para>
         <para>	'g'  			Gram</para>
+        <para>	'grain'		Grain</para>
+        <para>	'hweight'		Imperial (long) hundredweight</para>
+        <para>	'LTON'		Imperial ton</para>
         <para>	'sg' 			Slug</para>
+        <para>	'shweight'	U.S. (short) hundredweight</para>
         <para>	'lbm'		Pound</para>
+        <para>	'lcwt'		Imperial  (long) hundredweight</para>
         <para>	'u'  			U (atomic mass)</para>
+        <para>	'uk_cwt'		Imperial  (long) hundredweight</para>
+        <para>	'uk_ton'		Imperial ton</para>
         <para>	'ozm'		Ounce</para>
+        <para>	'stone'		Stone</para>
+        <para>	'ton'			Ton</para>
         <para/>
         <para>Distance:</para>
         <para>	'm'   		Meter</para>
         <para>	'mi'  		Statute mile</para>
+        <para>	'survey_mi'  		U.S. survey mile</para>
         <para>	'Nmi' 		Nautical mile</para>
         <para>	'in'  			Inch</para>
         <para>	'ft'  			Foot</para>
         <para>	'yd'  		Yard</para>
+        <para>	'ell'  		English Ell</para>
         <para>	'ang' 		Angstrom</para>
+        <para>	'ly' 		Light-Year</para>
+        <para>	'pc' 		Parsec</para>
+        <para>	'parsec' 		Parsec</para>
         <para>	'Pica'		Pica Points</para>
+        <para>	'Picapt'		Pica Points</para>
         <para>	'picapt'		Pica Points</para>
         <para>	'pica'		Pica</para>
         <para/>
@@ -3972,13 +3989,19 @@
         <para>	'sec' 		Second</para>
         <para/>
         <para>Pressure:</para>
-        <para>	'Pa'  		Pascal</para>
+        <para>	'Pa'  			Pascal</para>
+        <para>	'psi' 			PSI</para>
         <para>	'atm' 		Atmosphere</para>
+        <para>	'Pa'  			Pascal</para>
         <para>	'mmHg'		mm of Mercury</para>
+        <para/>
+        <para>	'Torr'		Torr</para>
         <para/>
         <para>Force:</para>
         <para>	'N'   			Newton</para>
         <para>	'dyn' 		Dyne</para>
+        <para>	'pond' 			Pond</para>
+        <para/>
         <para>	'lbf' 			Pound force</para>
         <para/>
         <para>Energy:</para>
@@ -3994,6 +4017,7 @@
         <para/>
         <para>Power:</para>
         <para>	'HP'   		Horsepower</para>
+        <para>	'PS'   		Pferdestärke</para>
         <para>	'W'    		Watt</para>
         <para/>
         <para>Magnetism:</para>
@@ -4003,17 +4027,77 @@
         <para>Temperature:</para>
         <para>	'C'    		Degree Celsius</para>
         <para>	'F'    		Degree Fahrenheit</para>
-        <para>	'K'    		Degree Kelvin</para>
+        <para>	'K'    		Kelvin</para>
         <para/>
-        <para>Liquid measure:</para>
+        <para>	'Rank' 		Degree Rankine</para>
+        <para/>
+        <para>	'Reau' 		Degree Réaumur</para>
+        <para/>
+        <para>Volume (liquid measure):</para>
         <para>	'tsp'  		Teaspoon</para>
+        <para>	'tspm'  		Teaspoon (modern, metric)</para>
         <para>	'tbs'  		Tablespoon</para>
         <para>	'oz'   		Fluid ounce</para>
         <para>	'cup'  		Cup</para>
         <para>	'pt'   		Pint</para>
+        <para>	'us_pt'		U.S. pint</para>
+        <para>	'uk_pt'		Imperial pint (U.K.)</para>
         <para>	'qt'   		Quart</para>
+        <para>	'uk_qt'   		Imperial quart</para>
         <para>	'gal'  		Gallon</para>
+        <para>	'uk_gal'  		Imperial gallon</para>
+        <para>	'GRT'  		Registered ton</para>
+        <para>	'regton' 		Registered ton</para>
+        <para>	'MTON' 		Measurement ton (freight ton)</para>
         <para>	'l'    			Liter</para>
+        <para/>
+        <para>	'L'    			Liter</para>
+        <para/>
+        <para>	'lt'   			Liter</para>
+        <para/>
+        <para>	'ang3' 		Cubic Angstrom</para>
+        <para/>
+        <para>	'ang^3' 		Cubic Angstrom</para>
+        <para/>
+        <para>	'barrel' 		U.S. oil barrel (bbl)</para>
+        <para/>
+        <para>	'bushel' 		U.S. bushel</para>
+        <para/>
+        <para>	'ft3' 		Cubic feet</para>
+        <para/>
+        <para>	'ft^3' 		Cubic feet</para>
+        <para/>
+        <para>	'in3' 		Cubic inch</para>
+        <para/>
+        <para>	'in^3' 		Cubic inch</para>
+        <para/>
+        <para>	'ly3' 		Cubic light-year</para>
+        <para/>
+        <para>	'ly^3' 		Cubic light-year</para>
+        <para/>
+        <para>	'm3' 		Cubic meter</para>
+        <para/>
+        <para>	'm^3' 		Cubic meter</para>
+        <para/>
+        <para>	'mi3' 		Cubic mile</para>
+        <para/>
+        <para>	'mi^3' 		Cubic mile</para>
+        <para/>
+        <para>	'yd3' 		Cubic yard</para>
+        <para/>
+        <para>	'yd^3' 		Cubic yard</para>
+        <para/>
+        <para>	'Nmi3' 		Cubic nautical mile</para>
+        <para/>
+        <para>	'Nmi^3' 		Cubic nautical mile</para>
+        <para/>
+        <para>	'Picapt3' 		Cubic Pica</para>
+        <para/>
+        <para>	'Picapt^3' 		Cubic Pica</para>
+        <para/>
+        <para>	'Pica3' 		Cubic Pica</para>
+        <para/>
+        <para>	'Pica^3' 		Cubic Pica</para>
         <para/>
         <para>For metric units any of the following prefixes can be used:</para>
         <para>	'Y'  	yotta 		1E+24</para>
@@ -15315,7 +15399,46 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-function-AVERAGE"><function>AVERAGE</function></link>.
+        <para><link linkend="gnumeric-function-AVERAGE"><function>AVERAGE</function></link>,
+        <link linkend="gnumeric-function-CONFIDENCE.T"><function>CONFIDENCE.T</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-CONFIDENCE.T">
+      <refmeta>
+        <refentrytitle>
+          <function>CONFIDENCE.T</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>CONFIDENCE.T</function>
+        </refname>
+        <refpurpose>
+        margin of error of a confidence interval for the population mean using the Student's t-distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>CONFIDENCE.T</function>(<parameter>alpha</parameter>,<parameter>stddev</parameter>,<parameter>size</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>alpha</parameter>: significance level</para>
+        <para><parameter>stddev</parameter>: sample standard deviation</para>
+        <para><parameter>size</parameter>: sample size</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>stddev</parameter> &lt; 0 or = 0 this function returns a #NUM! error. If <parameter>size</parameter> is non-integer it is truncated. If <parameter>size</parameter> &lt; 1 this function returns a #NUM! error. If <parameter>size</parameter> is 1 this function returns a #DIV/0! error.</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-AVERAGE"><function>AVERAGE</function></link>,
+        <link linkend="gnumeric-function-CONFIDENCE"><function>CONFIDENCE</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -17019,7 +17142,47 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-function-AVERAGE"><function>AVERAGE</function></link>,
-        <link linkend="gnumeric-function-MEDIAN"><function>MEDIAN</function></link>.
+        <link linkend="gnumeric-function-MEDIAN"><function>MEDIAN</function></link>,
+        <link linkend="gnumeric-function-MODE.MULT"><function>MODE.MULT</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-MODE.MULT">
+      <refmeta>
+        <refentrytitle>
+          <function>MODE.MULT</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>MODE.MULT</function>
+        </refname>
+        <refpurpose>
+        most common numbers in the dataset
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MODE.MULT</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>…)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>number1</parameter>: first value</para>
+        <para><parameter>number2</parameter>: second value</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>Strings and empty cells are simply ignored.</para>
+        <para>If the data set does not contain any duplicates this function returns a #N/A error.</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-AVERAGE"><function>AVERAGE</function></link>,
+        <link linkend="gnumeric-function-MEDIAN"><function>MEDIAN</function></link>,
+        <link linkend="gnumeric-function-MODE"><function>MODE</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -17330,7 +17493,7 @@
           <function>PERCENTILE</function>
         </refname>
         <refpurpose>
-        determines the  100*<parameter>k</parameter>-th percentile of the given data points
+        determines the 100*<parameter>k</parameter>-th percentile of the given data points (Hyndman-Fan method 7: N-1 basis)
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -17355,6 +17518,44 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-PERCENTILE.EXC">
+      <refmeta>
+        <refentrytitle>
+          <function>PERCENTILE.EXC</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>PERCENTILE.EXC</function>
+        </refname>
+        <refpurpose>
+        determines the 100*<parameter>k</parameter>-th percentile of the given data points (Hyndman-Fan method 6: N+1 basis)
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>PERCENTILE.EXC</function>(<parameter>array</parameter>,<parameter>k</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>array</parameter>: data points</para>
+        <para><parameter>k</parameter>: which percentile to calculate</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>array</parameter> is empty, this function returns a #NUM! error. If <parameter>k</parameter> &lt; 0 or <parameter>k</parameter> &gt; 1, this function returns a #NUM! error.</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-PERCENTILE"><function>PERCENTILE</function></link>,
+        <link linkend="gnumeric-function-QUARTILE"><function>QUARTILE</function></link>,
+        <link linkend="gnumeric-function-QUARTILE.EXC"><function>QUARTILE.EXC</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-PERCENTRANK">
       <refmeta>
         <refentrytitle>
@@ -17366,7 +17567,7 @@
           <function>PERCENTRANK</function>
         </refname>
         <refpurpose>
-        rank of a data point in a data set
+        rank of a data point in a data set (Hyndman-Fan method 7: N-1 basis)
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -17390,6 +17591,47 @@
         <link linkend="gnumeric-function-MIN"><function>MIN</function></link>,
         <link linkend="gnumeric-function-PERCENTILE"><function>PERCENTILE</function></link>,
         <link linkend="gnumeric-function-QUARTILE"><function>QUARTILE</function></link>,
+        <link linkend="gnumeric-function-SMALL"><function>SMALL</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-PERCENTRANK.EXC">
+      <refmeta>
+        <refentrytitle>
+          <function>PERCENTRANK.EXC</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>PERCENTRANK.EXC</function>
+        </refname>
+        <refpurpose>
+        rank of a data point in a data set (Hyndman-Fan method 6: N+1 basis)
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>PERCENTRANK.EXC</function>(<parameter>array</parameter>,<parameter>x</parameter>,<parameter>significance</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>array</parameter>: range of numeric values</para>
+        <para><parameter>x</parameter>: data point to be ranked</para>
+        <para><parameter>significance</parameter>: number of significant digits, defaults to 3</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>array</parameter> contains no data points, this function returns a #NUM! error. If <parameter>significance</parameter> is less than one, this function returns a #NUM! error. If <parameter>x</parameter> exceeds the largest value or is less than the smallest value in <parameter>array</parameter>, this function returns a #NUM! error. If <parameter>x</parameter> does not match any of the values in <parameter>array</parameter> or <parameter>x</parameter> matches more than once, this function interpolates the returned value.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-LARGE"><function>LARGE</function></link>,
+        <link linkend="gnumeric-function-MAX"><function>MAX</function></link>,
+        <link linkend="gnumeric-function-MEDIAN"><function>MEDIAN</function></link>,
+        <link linkend="gnumeric-function-MIN"><function>MIN</function></link>,
+        <link linkend="gnumeric-function-PERCENTILE"><function>PERCENTILE</function></link>,
+        <link linkend="gnumeric-function-PERCENTILE.EXC"><function>PERCENTILE.EXC</function></link>,
+        <link linkend="gnumeric-function-QUARTILE"><function>QUARTILE</function></link>,
+        <link linkend="gnumeric-function-QUARTILE.EXC"><function>QUARTILE.EXC</function></link>,
         <link linkend="gnumeric-function-SMALL"><function>SMALL</function></link>.
       </para>
       </refsect1>
@@ -17554,7 +17796,7 @@
           <function>QUARTILE</function>
         </refname>
         <refpurpose>
-        the <parameter>k</parameter>-th quartile of the data points
+        the <parameter>k</parameter>-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -17580,6 +17822,50 @@
         <link linkend="gnumeric-function-MEDIAN"><function>MEDIAN</function></link>,
         <link linkend="gnumeric-function-MIN"><function>MIN</function></link>,
         <link linkend="gnumeric-function-PERCENTILE"><function>PERCENTILE</function></link>,
+        <link linkend="gnumeric-function-QUARTILE.EXC"><function>QUARTILE.EXC</function></link>,
+        <link linkend="gnumeric-function-SMALL"><function>SMALL</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-QUARTILE.EXC">
+      <refmeta>
+        <refentrytitle>
+          <function>QUARTILE.EXC</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>QUARTILE.EXC</function>
+        </refname>
+        <refpurpose>
+        the <parameter>k</parameter>-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>QUARTILE.EXC</function>(<parameter>array</parameter>,<parameter>quart</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>array</parameter>: data points</para>
+        <para><parameter>quart</parameter>: a number from 1 to 3, indicating which quartile to calculate</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>array</parameter> is empty, this function returns a #NUM! error. If <parameter>quart</parameter> &lt; 0 or <parameter>quart</parameter> &gt; 4, this function returns a #NUM! error. If <parameter>quart</parameter> = 0, the smallest value of <parameter>array</parameter> to be returned. If <parameter>quart</parameter> is not an integer, it is truncated.</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-LARGE"><function>LARGE</function></link>,
+        <link linkend="gnumeric-function-MAX"><function>MAX</function></link>,
+        <link linkend="gnumeric-function-MEDIAN"><function>MEDIAN</function></link>,
+        <link linkend="gnumeric-function-MIN"><function>MIN</function></link>,
+        <link linkend="gnumeric-function-PERCENTILE"><function>PERCENTILE</function></link>,
+        <link linkend="gnumeric-function-PERCENTILE.EXC"><function>PERCENTILE.EXC</function></link>,
+        <link linkend="gnumeric-function-QUARTILE"><function>QUARTILE</function></link>,
         <link linkend="gnumeric-function-SMALL"><function>SMALL</function></link>.
       </para>
       </refsect1>
