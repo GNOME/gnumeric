@@ -1,3 +1,7 @@
+2015-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* samples/excel/engfuns.xls: update to use correct lbm->g conversion
+
 2015-06-20  Morten Welinder  <terra@gnome.org>
 
 	* src/go-data-cache.c (go_data_cache_records_set_size): Check for
