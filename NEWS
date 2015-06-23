@@ -36,6 +36,7 @@ Morten:
 	* Fix xls save problem with characters outside codepage.  [#750856]
 	* Fix named expression problem.  [#751056]
 	* Fix xlsx namespace problem.  [#751120]
+	* Protect database functions against malformed database.  [#751392]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.22

@@ -1,3 +1,8 @@
+2015-06-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (database_value_range_function): Database must be a
+	cell range.  Fixes #751392.
+
 2015-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.22
