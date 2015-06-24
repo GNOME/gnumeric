@@ -954,7 +954,7 @@ dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (0 == strcmp (attrs[i], "ID"))
 			id = strtoul (attrs[i+1], NULL, 10);
 	if (!desc ||
-	    id > state->data->len || g_ptr_array_index (state->data, id) == NULL)
+	    id >= state->data->len || g_ptr_array_index (state->data, id) == NULL)
 		return;
 	if (0 == strcmp (name, "values"))
 		type = GOG_MS_DIM_VALUES;

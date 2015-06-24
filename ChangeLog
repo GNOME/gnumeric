@@ -1,3 +1,7 @@
+2015-06-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-graph.c (dim_start): fix index test. [#751383]
+
 2015-06-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/xml-sax-read.c (gnm_xml_finish_obj), (xml_sax_read_obj),
