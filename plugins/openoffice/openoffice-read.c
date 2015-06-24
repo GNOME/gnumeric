@@ -3317,23 +3317,6 @@ odf_oo_cell_style_new (GnmStyle *style)
 	return oostyle;
 }
 
-static GnmStyle *
-odf_gnm_style_ref (GnmStyle *style)
-{
-	gnm_style_ref (style);
-	return style;
-}
-
-static OOCellStyle *
-odf_oo_cell_style_copy (OOCellStyle *oostyle)
-{
-	OOCellStyle *new = odf_oo_cell_style_new (oostyle->style);
-	new->styles = go_slist_map (oostyle->styles, (GOMapFunc)odf_gnm_style_ref);
-	new->conditions = go_slist_map (oostyle->conditions, (GOMapFunc)g_strdup);
-	new->bases = go_slist_map (oostyle->bases, (GOMapFunc)g_strdup);
-	return new;
-}
-
 static void
 odf_oo_cell_style_unref (OOCellStyle *oostyle)
 {
@@ -3353,9 +3336,19 @@ odf_oo_cell_style_ref (OOCellStyle *oostyle)
 	return oostyle;
 }
 
+static OOCellStyle *
+odf_oo_cell_style_copy (OOCellStyle *oostyle)
+{
+	OOCellStyle *new = odf_oo_cell_style_new (oostyle->style);
+	new->styles = go_slist_map (oostyle->styles, (GOMapFunc)odf_oo_cell_style_ref);
+	new->conditions = go_slist_map (oostyle->conditions, (GOMapFunc)g_strdup);
+	new->bases = go_slist_map (oostyle->bases, (GOMapFunc)g_strdup);
+	return new;
+}
+
 static void
 odf_oo_cell_style_attach_condition (OOCellStyle *oostyle, OOCellStyle *cstyle,
-				gchar const *condition, gchar const *base)
+				    gchar const *condition, gchar const *base)
 {
 	g_return_if_fail (oostyle != NULL);
 	g_return_if_fail (cstyle != NULL);
