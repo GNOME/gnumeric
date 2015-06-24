@@ -3017,7 +3017,7 @@ not_a_matrix:
 				g_object_unref (s->dropbar_style);
 				s->dropbar_style = NULL;
 			}
-			if (s->hilo) {
+			if (l > 0 && s->hilo) {
 				GogObject *plot = GOG_OBJECT (gog_plot_new_by_name ("GogMinMaxPlot"));
 				if (s->has_extra_dataformat) {
 					g_object_set (G_OBJECT (plot), "plot-group", "GogStockPlot", NULL);
@@ -3690,6 +3690,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	state.xaxis = NULL;
 	state.interpolation = GO_LINE_INTERPOLATION_LINEAR;
 	state.error = FALSE;
+	state.style_element = -1;
 
 	if (NULL != (state.sog = sog)) {
 		state.graph = sheet_object_graph_get_gog (sog);

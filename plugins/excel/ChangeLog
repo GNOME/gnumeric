@@ -1,3 +1,8 @@
+2015-06-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end), (ms_excel_chart_read): don't use unexisting series and
+	initialize XLChartReadState::style_element. Fixes #751384.
+
 2015-06-22  Morten Welinder  <terra@gnome.org>
 
 	* ms-escher.c (ms_escher_read_container): Catch crazy length field
