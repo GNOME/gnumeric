@@ -1,3 +1,7 @@
+2015-06-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end): more unexisting series issues. See #751270, comment #2
+
 2015-06-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (end), (ms_excel_chart_read): don't use unexisting series and

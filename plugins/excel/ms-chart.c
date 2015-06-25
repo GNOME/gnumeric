@@ -2981,8 +2981,10 @@ not_a_matrix:
 							eseries->chart_group != s->plot_counter)
 					if (l != 0)
 						l--;
-					else
+					else {
 						eseries = NULL;
+							break;
+					}
 				gog_object_add_by_name (GOG_OBJECT (s->chart), "Plot", plot);
 				gog_object_reorder (plot, TRUE, FALSE);
 				added_plots++;
@@ -3002,7 +3004,11 @@ not_a_matrix:
 						eseries->extra_dim = GOG_MS_DIM_END;
 				}
 				while (eseries = g_ptr_array_index (s->series, k++),
-							eseries && eseries->chart_group != s->plot_counter);
+							eseries && eseries->chart_group != s->plot_counter)
+					if (k == s->series->len) {
+						eseries = NULL;
+						break;
+					}
 				if (eseries) {
 					if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
 						gog_series_set_XL_dim (series, GOG_MS_DIM_START,
@@ -3028,7 +3034,11 @@ not_a_matrix:
 					gog_object_reorder (plot, TRUE, FALSE);
 				series = gog_plot_new_series (GOG_PLOT (plot));
 				while (eseries = g_ptr_array_index (s->series, k++),
-							eseries && eseries->chart_group != s->plot_counter);
+							eseries && eseries->chart_group != s->plot_counter)
+					if (k == s->series->len) {
+						eseries = NULL;
+						break;
+					}
 				if (eseries != NULL) {
 					if (eseries->data [GOG_MS_DIM_CATEGORIES].data != NULL) {
 						gog_series_set_XL_dim (series, GOG_MS_DIM_CATEGORIES,
@@ -3042,8 +3052,15 @@ not_a_matrix:
 					} else
 						eseries->extra_dim = GOG_MS_DIM_HIGH;
 				}
-				while (eseries = g_ptr_array_index (s->series, k++),
-							eseries && eseries->chart_group != s->plot_counter);
+				if (k == s->series->len)
+					eseries = NULL;
+				else while (eseries = g_ptr_array_index (s->series, k++),
+							eseries && eseries->chart_group != s->plot_counter) {
+					if (k == s->series->len) {
+						eseries = NULL;
+						break;
+					}
+				}
 				if (eseries != NULL) {
 					if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
 						gog_series_set_XL_dim (series, GOG_MS_DIM_LOW,
