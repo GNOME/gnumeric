@@ -452,7 +452,7 @@ value_new_array_empty (guint cols, guint rows)
 	for (x = 0; x < cols; x++) {
 		v->vals[x] = g_new (GnmValue *, rows);
 		for (y = 0; y < rows; y++)
-			v->vals[x][y] = NULL;
+			v->vals[x][y] = value_new_empty ();
 	}
 	return (GnmValue *)v;
 }

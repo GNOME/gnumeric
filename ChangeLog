@@ -1,3 +1,10 @@
+2015-06-26  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (value_new_array_empty): Store value_new_empty(),
+	not NULL, in the slots.  We can make this change because
+	value_new_empty() is a singleton that does not need to be
+	released.  Fixes #751502.
+
 2015-06-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-graph.c (dim_start): fix index test. [#751383]

@@ -1080,7 +1080,7 @@ bin_array_iter_b (GnmEvalPos const *ep,
 	iter_info.a = a;
 	iter_info.b = b;
 
-	/* b must be a cellrange or array, it can not be NULL */
+	/* b must be a cellrange or array, it cannot be NULL */
 	iter_info.res = value_new_array_empty (
 		value_area_get_width  (b, ep),
 		value_area_get_height (b, ep));
@@ -1597,6 +1597,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		return gnm_expr_range_op (expr, pos, flags);
 	}
 
+	g_assert_not_reached ();
 	return value_new_error (pos, _("Unknown evaluation error"));
 }
 
