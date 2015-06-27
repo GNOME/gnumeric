@@ -3580,7 +3580,10 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name")) {
 			oostyle = g_hash_table_lookup (state->styles.cell, attrs[1]);
-			style = odf_style_from_oo_cell_style (xin, oostyle);
+			if (oostyle) 
+				style = odf_style_from_oo_cell_style (xin, oostyle);
+			else
+				oo_warning (xin, "The cell style with name <%s> is missing", CXML2C (attrs[01]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			col_info = g_hash_table_lookup (state->styles.col, attrs[1]);
 		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
@@ -3705,7 +3708,10 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name")) {
 			oostyle = g_hash_table_lookup (state->styles.cell, attrs[1]);
-			style = odf_style_from_oo_cell_style (xin, oostyle);
+			if (oostyle) 
+				style = odf_style_from_oo_cell_style (xin, oostyle);
+			else
+				oo_warning (xin, "The cell style with name <%s> is missing", CXML2C (attrs[01]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			row_info = g_hash_table_lookup (state->styles.row, attrs[1]);
 		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count, 0,
@@ -4580,6 +4586,51 @@ oo_hatch (GsfXMLIn *xin, xmlChar const **attrs)
 
 }
 
+static void odf_style_set_align_h (GnmStyle *style, gint h_align_is_valid, gboolean repeat_content,
+				   int text_align, int gnm_halign);
+
+static void
+odf_free_cur_style (OOParseState *state)
+{
+	switch (state->cur_style.type) {
+	case OO_STYLE_CELL :
+		if (state->cur_style.cells != NULL) {
+			odf_style_set_align_h (state->cur_style.cells->style,
+					       state->h_align_is_valid,
+					       state->repeat_content,
+					       state->text_align, state->gnm_halign);
+			odf_oo_cell_style_unref (state->cur_style.cells);
+			state->cur_style.cells = NULL;
+		}
+		break;
+	case OO_STYLE_COL :
+	case OO_STYLE_ROW :
+		if (state->cur_style.requires_disposal)
+			g_free (state->cur_style.col_rows);
+		state->cur_style.col_rows = NULL;
+		break;
+	case OO_STYLE_SHEET :
+		if (state->cur_style.requires_disposal)
+			oo_sheet_style_free (state->cur_style.sheets);
+		state->cur_style.sheets = NULL;
+		break;
+	case OO_STYLE_CHART :
+	case OO_STYLE_GRAPHICS :
+		if (state->cur_style.requires_disposal)
+			oo_chart_style_free (state->chart.cur_graph_style);
+		state->chart.cur_graph_style = NULL;
+		break;
+	case OO_STYLE_TEXT:
+		pango_attr_list_unref (state->cur_style.text);
+		state->cur_style.text = NULL;
+		break;
+	default :
+		break;
+	}
+	state->cur_style.type = OO_STYLE_UNKNOWN;
+	state->cur_style.requires_disposal = FALSE;
+}
+
 static void
 oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -4605,7 +4656,8 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	int tmp;
 	OOChartStyle *cur_style;
 
-	g_return_if_fail (state->cur_style.type == OO_STYLE_UNKNOWN);
+	if (state->cur_style.type != OO_STYLE_UNKNOWN)
+		odf_free_cur_style (state);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "family", style_types, &tmp))
@@ -4731,51 +4783,11 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
-static void odf_style_set_align_h (GnmStyle *style, gint h_align_is_valid, gboolean repeat_content,
-				   int text_align, int gnm_halign);
-
 static void
 oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-
-	switch (state->cur_style.type) {
-	case OO_STYLE_CELL :
-		if (state->cur_style.cells != NULL) {
-			odf_style_set_align_h (state->cur_style.cells->style,
-					       state->h_align_is_valid,
-					       state->repeat_content,
-					       state->text_align, state->gnm_halign);
-			odf_oo_cell_style_unref (state->cur_style.cells);
-			state->cur_style.cells = NULL;
-		}
-		break;
-	case OO_STYLE_COL :
-	case OO_STYLE_ROW :
-		if (state->cur_style.requires_disposal)
-			g_free (state->cur_style.col_rows);
-		state->cur_style.col_rows = NULL;
-		break;
-	case OO_STYLE_SHEET :
-		if (state->cur_style.requires_disposal)
-			oo_sheet_style_free (state->cur_style.sheets);
-		state->cur_style.sheets = NULL;
-		break;
-	case OO_STYLE_CHART :
-	case OO_STYLE_GRAPHICS :
-		if (state->cur_style.requires_disposal)
-			oo_chart_style_free (state->chart.cur_graph_style);
-		state->chart.cur_graph_style = NULL;
-		break;
-	case OO_STYLE_TEXT:
-		pango_attr_list_unref (state->cur_style.text);
-		state->cur_style.text = NULL;
-		break;
-	default :
-		break;
-	}
-	state->cur_style.type = OO_STYLE_UNKNOWN;
-	state->cur_style.requires_disposal = FALSE;
+	odf_free_cur_style (state);
 }
 
 static GOFormat *
@@ -13699,6 +13711,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_free (state.default_style.rows);
 	g_free (state.default_style.columns);
 	oo_chart_style_free (state.default_style.graphics);
+	odf_free_cur_style (&state);
 	g_hash_table_destroy (state.styles.sheet);
 	g_hash_table_destroy (state.styles.text);
 	g_hash_table_destroy (state.styles.col);
