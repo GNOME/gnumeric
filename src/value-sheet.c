@@ -91,17 +91,12 @@ value_area_get_width (GnmValue const *v, GnmEvalPos const *ep)
 	g_return_val_if_fail (v, 0);
 
 	if (VALUE_IS_CELLRANGE (v)) {
-		GnmRangeRef const *r = &v->v_range.cell;
-		int ans = r->b.col - r->a.col;
+		GnmRange r;
+		Sheet *start_sheet, *end_sheet;
 
-		if (r->a.col_relative) {
-			if (!r->b.col_relative)
-				ans -= ep->eval.col;
-		} else if (r->b.col_relative)
-			ans += ep->eval.col;
-		if (ans < 0)
-			ans = -ans;
-		return ans + 1;
+		g_return_val_if_fail (ep, 0);
+		gnm_rangeref_normalize (&v->v_range.cell, ep, &start_sheet, &end_sheet, &r);
+		return range_width (&r);
 	} else if (VALUE_IS_ARRAY (v))
 		return v->v_array.x;
 	return 1;
@@ -113,18 +108,12 @@ value_area_get_height (GnmValue const *v, GnmEvalPos const *ep)
 	g_return_val_if_fail (v, 0);
 
 	if (VALUE_IS_CELLRANGE (v)) {
-		GnmRangeRef const *r = &v->v_range.cell;
-		int ans = r->b.row - r->a.row;
+		GnmRange r;
+		Sheet *start_sheet, *end_sheet;
 
-		if (r->a.row_relative) {
-			if (!r->b.row_relative)
-				ans -= ep->eval.row;
-		} else if (r->b.row_relative)
-			ans += ep->eval.row;
-
-		if (ans < 0)
-			ans = -ans;
-		return ans + 1;
+		g_return_val_if_fail (ep, 0);
+		gnm_rangeref_normalize (&v->v_range.cell, ep, &start_sheet, &end_sheet, &r);
+		return range_height (&r);
 	} else if (VALUE_IS_ARRAY (v))
 		return v->v_array.y;
 	return 1;

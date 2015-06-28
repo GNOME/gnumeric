@@ -1,5 +1,8 @@
 2015-06-28  Morten Welinder  <terra@gnome.org>
 
+	* src/value-sheet.c (value_area_get_width, value_area_get_height):
+	Use the same normalization as value_area_foreach.  Fixes #751390.
+
 	* src/stf.c (clear_stray_NULs): Also truncate invalid UTF-8.
 	Fixes #751577.
 
