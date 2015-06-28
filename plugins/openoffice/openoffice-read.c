@@ -7037,12 +7037,14 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean overlap_set = FALSE;
 	gboolean percentage_set = FALSE;
 	char const *interpolation = NULL;
+	gboolean local_style = FALSE;
 
 
 	g_return_if_fail (style != NULL ||
 			  state->default_style.cells != NULL);
 
 	if (style == NULL && state->default_style.cells != NULL) {
+		local_style = TRUE;
 		style = g_new0 (OOChartStyle, 1);
 	}
 
@@ -7548,7 +7550,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			(style->plot_props,
 			 oo_prop_new_bool ("default-style-has-lines", draw_stroke_set && draw_stroke));	
 
-	if (state->chart.cur_graph_style == NULL && state->default_style.cells != NULL) {
+	if (local_style) {
 		/* odf_apply_style_props (xin, style->style_props, state->default_style.cells, TRUE);*/
 		/* We should apply the styles to this GnmStyle */
 		oo_chart_style_free (style);
@@ -8309,6 +8311,8 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 		 (GDestroyNotify) g_free,
 		 (GDestroyNotify) g_free);
 
+	odf_free_cur_style (state);
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href")) {
 			name_start = CXML2C (attrs[1]);
@@ -8357,9 +8361,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	state->object_name = NULL;
 	g_free (name);
 
-	if (state->cur_style.type == OO_STYLE_CHART)
-		state->cur_style.type = OO_STYLE_UNKNOWN;
-	state->chart.cur_graph_style = NULL;
+	odf_free_cur_style (state);
 
 	for (i = 0; i < OO_CHART_STYLE_INHERITANCE; i++)
 		state->chart.i_plot_styles[i] = NULL;

@@ -1,5 +1,10 @@
 2015-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_style_prop_chart): fix handling of current
+	styles
+
+2015-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_col_start): warn if column style is missing
 	(oo_row_start): warn if row style is missing
 	(odf_free_cur_style): new (extracted from oo_style_end)
