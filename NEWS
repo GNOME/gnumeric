@@ -39,6 +39,7 @@ Morten:
 	* Fix named expression problem.  [#751056]
 	* Fix xlsx namespace problem.  [#751120]
 	* Protect database functions against malformed database.  [#751392]
+	* Fix csv problem with invalid UTF-8 data.  [#751577]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.22

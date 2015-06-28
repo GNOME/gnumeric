@@ -383,6 +383,7 @@ clear_stray_NULs (GOIOContext *context, GString *utf8data)
 {
 	char *cpointer, *endpointer;
 	int null_chars = 0;
+	char const *valid_end;
 
 	cpointer = utf8data->str;
 	endpointer = utf8data->str + utf8data->len;
@@ -405,6 +406,11 @@ clear_stray_NULs (GOIOContext *context, GString *utf8data)
 		msg = g_strdup_printf (format, null_chars);
 		stf_warning (context, msg);
 		g_free (msg);
+	}
+
+	if (!g_utf8_validate (utf8data->str, utf8data->len, &valid_end)) {
+		g_string_truncate (utf8data, valid_end - utf8data->str);
+		stf_warning (context, _("The file contains invalid UTF-8 encoded characters and has been truncated"));
 	}
 }
 

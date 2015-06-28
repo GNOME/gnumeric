@@ -1,3 +1,8 @@
+2015-06-28  Morten Welinder  <terra@gnome.org>
+
+	* src/stf.c (clear_stray_NULs): Also truncate invalid UTF-8.
+	Fixes #751577.
+
 2015-06-26  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (value_new_array_empty): Store value_new_empty(),
