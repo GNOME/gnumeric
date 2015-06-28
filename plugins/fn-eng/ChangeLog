@@ -1,5 +1,11 @@
 2015-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (gnumeric_convert): add more units and prefixes
+	(help_convert): add more units and prefixes
+	(get_constant_of_unit): allow prefixes with length > 1
+
+2015-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (gnumeric_convert): add more volume units
 	(help_convert): add more volume units
 

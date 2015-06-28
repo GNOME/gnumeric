@@ -668,15 +668,15 @@ static GnmFuncHelp const help_convert[] = {
 					"Distance:\n"
 					"\t'm'   \t\tMeter\n"
 					"\t'mi'  \t\tStatute mile\n"
-					"\t'survey_mi'  \t\tU.S. survey mile\n"
+					"\t'survey_mi' \tU.S. survey mile\n"
 					"\t'Nmi' \t\tNautical mile\n"
 					"\t'in'  \t\t\tInch\n"
 					"\t'ft'  \t\t\tFoot\n"
 					"\t'yd'  \t\tYard\n"
-					"\t'ell'  \t\tEnglish Ell\n"
+					"\t'ell' \t\t\tEnglish Ell\n"
 					"\t'ang' \t\tAngstrom\n"
-					"\t'ly' \t\tLight-Year\n"
-					"\t'pc' \t\tParsec\n"
+					"\t'ly' \t\t\tLight-Year\n"
+					"\t'pc' \t\t\tParsec\n"
 					"\t'parsec' \t\tParsec\n"
 					"\t'Pica'\t\tPica Points\n"
 					"\t'Picapt'\t\tPica Points\n"
@@ -693,12 +693,12 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'psi' \t\t\tPSI\n"
 					"\t'atm' \t\tAtmosphere\n"
 					"\t'Pa'  \t\t\tPascal\n"
-					"\t'mmHg'\t\tmm of Mercury\n\n"
-					"\t'Torr'\t\tTorr\n\n"
+					"\t'mmHg'\t\tmm of Mercury\n"
+					"\t'Torr'\t\t\tTorr\n\n"
 					"Force:\n"
 					"\t'N'   \t\t\tNewton\n"
 					"\t'dyn' \t\tDyne\n"
-					"\t'pond' \t\t\tPond\n\n"
+					"\t'pond' \t\tPond\n"
 					"\t'lbf' \t\t\tPound force\n\n"
 					"Energy:\n"
 					"\t'J'    \t\t\tJoule\n"
@@ -720,8 +720,8 @@ static GnmFuncHelp const help_convert[] = {
 					"Temperature:\n"
 					"\t'C'    \t\tDegree Celsius\n"
 					"\t'F'    \t\tDegree Fahrenheit\n"
-					"\t'K'    \t\tKelvin\n\n"
-					"\t'Rank' \t\tDegree Rankine\n\n"
+					"\t'K'    \t\tKelvin\n"
+					"\t'Rank' \t\tDegree Rankine\n"
 					"\t'Reau' \t\tDegree Réaumur\n\n"					
 					"Volume (liquid measure):\n"
 					"\t'tsp'  \t\tTeaspoon\n"
@@ -739,31 +739,66 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'GRT'  \t\tRegistered ton\n"
 					"\t'regton' \t\tRegistered ton\n"
 					"\t'MTON' \t\tMeasurement ton (freight ton)\n"
-					"\t'l'    \t\t\tLiter\n\n"
-					"\t'L'    \t\t\tLiter\n\n"
-					"\t'lt'   \t\t\tLiter\n\n"
-					"\t'ang3' \t\tCubic Angstrom\n\n"
-					"\t'ang^3' \t\tCubic Angstrom\n\n"
-					"\t'barrel' \t\tU.S. oil barrel (bbl)\n\n"
-					"\t'bushel' \t\tU.S. bushel\n\n"
-					"\t'ft3' \t\tCubic feet\n\n"
-					"\t'ft^3' \t\tCubic feet\n\n"
-					"\t'in3' \t\tCubic inch\n\n"
-					"\t'in^3' \t\tCubic inch\n\n"
-					"\t'ly3' \t\tCubic light-year\n\n"
-					"\t'ly^3' \t\tCubic light-year\n\n"
-					"\t'm3' \t\tCubic meter\n\n"
-					"\t'm^3' \t\tCubic meter\n\n"
-					"\t'mi3' \t\tCubic mile\n\n"
-					"\t'mi^3' \t\tCubic mile\n\n"
-					"\t'yd3' \t\tCubic yard\n\n"
-					"\t'yd^3' \t\tCubic yard\n\n"
-					"\t'Nmi3' \t\tCubic nautical mile\n\n"
-					"\t'Nmi^3' \t\tCubic nautical mile\n\n"
-					"\t'Picapt3' \t\tCubic Pica\n\n"
-					"\t'Picapt^3' \t\tCubic Pica\n\n"
-					"\t'Pica3' \t\tCubic Pica\n\n"
+					"\t'l'    \t\t\tLiter\n"
+					"\t'L'    \t\tLiter\n"
+					"\t'lt'   \t\t\tLiter\n"
+					"\t'ang3' \t\tCubic Angstrom\n"
+					"\t'ang^3' \t\tCubic Angstrom\n"
+					"\t'barrel' \t\tU.S. oil barrel (bbl)\n"
+					"\t'bushel' \t\tU.S. bushel\n"
+					"\t'ft3' \t\t\tCubic feet\n"
+					"\t'ft^3' \t\tCubic feet\n"
+					"\t'in3' \t\tCubic inch\n"
+					"\t'in^3' \t\tCubic inch\n"
+					"\t'ly3' \t\t\tCubic light-year\n"
+					"\t'ly^3' \t\tCubic light-year\n"
+					"\t'm3' \t\tCubic meter\n"
+					"\t'm^3' \t\tCubic meter\n"
+					"\t'mi3' \t\tCubic mile\n"
+					"\t'mi^3' \t\tCubic mile\n"
+					"\t'yd3' \t\tCubic yard\n"
+					"\t'yd^3' \t\tCubic yard\n"
+					"\t'Nmi3' \t\tCubic nautical mile\n"
+					"\t'Nmi^3' \t\tCubic nautical mile\n"
+					"\t'Picapt3' \t\tCubic Pica\n"
+					"\t'Picapt^3' \tCubic Pica\n"
+					"\t'Pica3' \t\tCubic Pica\n"
 					"\t'Pica^3' \t\tCubic Pica\n\n"
+					"Area:\n"
+					"\t'uk_acre' \t\tInternational acre\n"
+					"\t'us_acre' \t\tU.S. survey/statute acre\n"
+					"\t'ang2' \t\tSquare angstrom\n"
+					"\t'ang^2' \t\tSquare angstrom\n"
+					"\t'ar' \t\t\tAre\n"
+					"\t'ha' \t\t\tHectare\n"
+					"\t'in2' \t\tSquare inches\n"
+					"\t'in^2' \t\tSquare inches\n"
+					"\t'ly2' \t\t\tSquare light-year\n"
+					"\t'ly^2' \t\tSquare light-year\n"
+					"\t'm2' \t\tSquare meter\n"
+					"\t'm^2' \t\tSquare meter\n"
+					"\t'Morgen' \t\tMorgen (North German Confederation)\n"
+					"\t'mi2' \t\tSquare miles\n"
+					"\t'mi^2' \t\tSquare miles\n"
+					"\t'Nmi2' \t\tSquare nautical miles\n"
+					"\t'Nmi^2' \t\tSquare nautical miles\n"
+					"\t'Picapt2' \t\tSquare Pica\n"
+					"\t'Picapt^2' \tSquare Pica\n"
+					"\t'Pica2' \t\tSquare Pica\n"
+					"\t'Pica^2' \t\tSquare Pica\n"
+					"\t'yd2' \t\tSquare yards\n"
+					"\t'yd^2' \t\tSquare yards\n\n"
+					"Bits and Bytes:\n"
+					"\t'bit' \t\t\tBit\n"
+					"\t'byte' \t\tByte\n\n"
+					"Speed:\n"
+					"\t'admkn' \t\tAdmiralty knot\n"
+					"\t'kn' \t\t\tknot\n"
+					"\t'm/h' \t\tMeters per hour\n"
+					"\t'm/hr' \t\tMeters per hour\n"
+					"\t'm/s' \t\tMeters per second\n"
+					"\t'm/sec' \t\tMeters per second\n"
+					"\t'mph' \t\tMiles per hour\n\n"
 					"For metric units any of the following prefixes can be used:\n"
 					"\t'Y'  \tyotta \t\t1E+24\n"
 					"\t'Z'  \tzetta \t\t1E+21\n"
@@ -772,24 +807,34 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'T'  \ttera  \t\t1E+12\n"
 					"\t'G'  \tgiga  \t\t1E+09\n"
 					"\t'M'  \tmega  \t\t1E+06\n"
-					"\t'k'  \tkilo  \t\t1E+03\n"
+					"\t'k'  \tkilo  \t\t\t1E+03\n"
 					"\t'h'  \thecto \t\t1E+02\n"
 					"\t'e'  \tdeca (deka)\t1E+01\n"
 					"\t'd'  \tdeci  \t\t1E-01\n"
 					"\t'c'  \tcenti \t\t1E-02\n"
-					"\t'm'  \tmilli \t\t1E-03\n"
+					"\t'm'  \tmilli \t\t\t1E-03\n"
 					"\t'u'  \tmicro \t\t1E-06\n"
 					"\t'n'  \tnano  \t\t1E-09\n"
 					"\t'p'  \tpico  \t\t1E-12\n"
 					"\t'f'  \tfemto \t\t1E-15\n"
 					"\t'a'  \tatto  \t\t1E-18\n"
 					"\t'z'  \tzepto \t\t1E-21\n"
-					"\t'y'  \tyocto \t\t1E-24") },
+					"\t'y'  \tyocto \t\t1E-24\n\n"
+					"For bits and bytes any of the following prefixes can be also be used:\n"
+					"\t'Yi'  \tyobi \t\t2^80\n"
+					"\t'Zi'  \tzebi \t\t\t2^70\n"
+					"\t'Ei'  \texbi \t\t2^60\n"
+					"\t'Pi'  \tpebi \t\t2^50\n"
+					"\t'Ti'  \ttebi \t\t\t2^40\n"
+					"\t'Gi'  \tgibi \t\t\t2^30\n"
+					"\t'Mi'  \tmebi \t\t2^20\n"
+					"\t'ki'  \tkibi \t\t\t2^10") },
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible (except \"picapt\").") },
  	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CONVERT(3,\"lbm\",\"g\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=CONVERT(5.8,\"m\",\"in\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=CONVERT(7.9,\"cal\",\"J\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=CONVERT(3,\"Yibyte\",\"bit\")" },
         { GNM_FUNC_HELP_END}
 };
 
@@ -815,12 +860,14 @@ get_constant_of_unit(const eng_convert_unit_t units[],
 		}
 
 	if (prefixes != NULL)
-	        for (i = 0; prefixes[i].str != NULL; i++)
-		        if (strncmp (unit_name, prefixes[i].str, 1) == 0) {
+	        for (i = 0; prefixes[i].str != NULL; i++) {
+			int prefix_length = strlen (prefixes[i].str);
+		        if (strncmp (unit_name, prefixes[i].str, prefix_length) == 0) {
 			        *prefix = prefixes[i].c;
-				unit_name++;
+				unit_name += prefix_length;
 				break;
 			}
+		}
 
 	for (i = 0; units[i].str != NULL; i++)
 	        if (strcmp (unit_name, units[i].str) == 0) {
@@ -1039,6 +1086,31 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 #define one_tsp_to_cubic_Nmi (one_tsp_to_cubic_m * one_m_to_Nmi * one_m_to_Nmi * one_m_to_Nmi)
 #define one_tsp_to_cubic_Pica (one_tsp_to_cubic_m * one_m_to_Pica * one_m_to_Pica * one_m_to_Pica)
 
+	/* Bits and Bytes */
+#define one_byte_to_bit 8
+
+	/* Area constants */
+#define one_m2_to_uk_acre     (1/GNM_const (4046.8564224))
+#define one_m2_to_us_acre     (1/(4046 + GNM_const (13525426.)/15499969))
+#define one_m2_to_ang2        (one_m_to_ang * one_m_to_ang)
+#define one_m2_to_ar          GNM_const (0.01)
+#define one_m2_to_ha          (one_m2_to_ar / hecto)
+#define one_m2_to_ft2         (one_m_to_ft * one_m_to_ft)
+#define one_m2_to_in2         (one_m_to_in * one_m_to_in)
+#define one_m2_to_ly2         (one_m_to_ly * one_m_to_ly)
+#define one_m2_to_mi2         (one_m_to_mi * one_m_to_mi)
+#define one_m2_to_Nmi2        (one_m_to_Nmi * one_m_to_Nmi)
+#define one_m2_to_yd2         (one_m_to_yd * one_m_to_yd)
+#define one_m2_to_Pica2       (one_m_to_Pica * one_m_to_Pica)
+#define one_m2_to_Morgen      (one_m2_to_ha * 4)
+
+	/* Speed constants */
+#define one_mh_to_kn          one_m_to_Nmi
+#define one_mh_to_admkn       (1/GNM_const (1853.184))
+#define one_mh_to_msec        (GNM_const (1.0)/(60*60))
+#define one_mh_to_mph          one_m_to_mi
+
+
 	/* Prefixes */
 #define yotta  GNM_const (1e+24)
 #define zetta  GNM_const (1e+21)
@@ -1060,6 +1132,16 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 #define atto   GNM_const (1e-18)
 #define zepto  GNM_const (1e-21)
 #define yocto  GNM_const (1e-24)
+
+	/* Binary Prefixes */
+#define yobi  (zebi * kibi)
+#define zebi  (exbi * kibi)
+#define exbi  (pebi * kibi)
+#define pebi  (tebi * kibi)
+#define tebi  (gibi * kibi)
+#define gibi  (mebi * kibi)
+#define mebi  (kibi * kibi)
+#define kibi  GNM_const (1024.0)
 
 	static const eng_convert_unit_t weight_units[] = {
 	        { "g",    1.0 },
@@ -1197,6 +1279,52 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		{ NULL,   0.0 }
 	};
 
+	static const eng_convert_unit_t information_units[] = {
+	        { "byte",    1.0 },
+		{ "bit",  one_byte_to_bit},
+		{ NULL,   0.0 }
+	};
+
+	static const eng_convert_unit_t speed_units[] = {
+		{ "m/h", 1.0 },
+		{ "m/hr", 1.0 },
+		{ "admkn", one_mh_to_admkn },
+		{ "kn", one_mh_to_kn },
+		{ "m/s", one_mh_to_msec },
+		{ "m/sec", one_mh_to_msec },
+		{ "mph", one_mh_to_mph },
+		{ NULL,   0.0 }
+	};
+
+	static const eng_convert_unit_t area_units[] = {
+		{ "m2", 1.0 },
+		{ "m^2", 1.0 },
+		{ "uk_acre", one_m2_to_uk_acre },
+		{ "us_acre", one_m2_to_us_acre },
+		{ "ang2", one_m2_to_ang2 },
+		{ "ang^2", one_m2_to_ang2 },
+		{ "ar", one_m2_to_ar },
+		{ "ha", one_m2_to_ha },
+		{ "in2", one_m2_to_in2 },
+		{ "in^2", one_m2_to_in2 },
+		{ "ft2", one_m2_to_ft2 },
+		{ "ft^2", one_m2_to_ft2 },
+		{ "ly2", one_m2_to_ly2 },
+		{ "ly^2", one_m2_to_ly2 },
+		{ "mi2", one_m2_to_mi2 },
+		{ "mi^2", one_m2_to_mi2 },
+		{ "Nmi2", one_m2_to_Nmi2 },
+		{ "Nmi^2", one_m2_to_Nmi2 },
+		{ "yd2", one_m2_to_yd2 },
+		{ "yd^2", one_m2_to_yd2 },
+		{ "Picapt2", one_m2_to_Pica2 },
+		{ "Picapt^2", one_m2_to_Pica2 },
+		{ "Pica2", one_m2_to_Pica2 },
+		{ "Pica^2", one_m2_to_Pica2 },
+		{ "Morgen", one_m2_to_Morgen },
+		{ NULL,   0.0 }
+	};
+
 	static const eng_convert_unit_t prefixes[] = {
 	        { "Y", yotta },
 	        { "Z", zetta },
@@ -1218,6 +1346,17 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	        { "a", atto },
 	        { "z", zepto },
 	        { "y", yocto },
+		{ NULL,0.0 }
+	};
+	static const eng_convert_unit_t binary_prefixes[] = {
+	        { "Yi", yobi },
+	        { "Zi", zebi },
+	        { "Ei", exbi },
+	        { "Pi", pebi },
+	        { "Ti", tebi },
+	        { "Gi", gibi },
+	        { "Mi", mebi },
+	        { "ki", kibi },
 		{ NULL,0.0 }
 	};
 
@@ -1259,7 +1398,16 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (convert (liquid_units, prefixes, from_unit, to_unit, n, &v,
 		     ei->pos))
 	        return v;
-	if (convert (magnetism_units, prefixes, from_unit, to_unit, n, &v,
+	if (convert (information_units, prefixes, from_unit, to_unit, n, &v,
+		     ei->pos))
+	        return v;
+	if (convert (information_units, binary_prefixes, from_unit, to_unit, n, &v,
+		     ei->pos))
+	        return v;
+	if (convert (speed_units, prefixes, from_unit, to_unit, n, &v,
+		     ei->pos))
+	        return v;
+	if (convert (area_units, prefixes, from_unit, to_unit, n, &v,
 		     ei->pos))
 	        return v;
 
