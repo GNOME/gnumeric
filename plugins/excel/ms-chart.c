@@ -3215,15 +3215,17 @@ not_a_matrix:
 	}
 
 	case BIFF_CHART_dropbar :
-		if (s->dropbar_style == NULL) {
-			/* automatic styles are very different in that case between
-			excel and gnumeric, so set appropriate auto* to FALSE */
-			s->style->fill.auto_back = FALSE;
-			s->style->fill.auto_fore = FALSE;
-			s->dropbar_style = s->style;
-		} else
-		g_object_unref (s->style);
-		s->style = NULL;
+		if (s->style != NULL) {
+			if (s->dropbar_style == NULL) {
+				/* automatic styles are very different in that case between
+				excel and gnumeric, so set appropriate auto* to FALSE */
+				s->style->fill.auto_back = FALSE;
+				s->style->fill.auto_fore = FALSE;
+				s->dropbar_style = s->style;
+			} else
+				g_object_unref (s->style);
+			s->style = NULL;
+		}
 		break;
 
 	case BIFF_CHART_chart : {

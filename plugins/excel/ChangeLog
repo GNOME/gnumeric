@@ -1,3 +1,7 @@
+2015-06-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end): fuzzed file fix. [#751758]
+
 2015-06-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (end): more unexisting series issues. See #751270, comment #2
