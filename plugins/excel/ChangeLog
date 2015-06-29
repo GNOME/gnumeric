@@ -1,5 +1,10 @@
 2015-06-29  Morten Welinder  <terra@gnome.org>
 
+	* ms-formula-read.c (excel_parse_formula1): Survive bogus array
+	constant.  Fixes #751659.
+
+2015-06-29  Morten Welinder  <terra@gnome.org>
+
 	* ms-excel-read.c (excel_read_CF): Plug leak when reading fuzzed
 	file.
 

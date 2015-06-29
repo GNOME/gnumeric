@@ -1434,8 +1434,12 @@ excel_parse_formula1 (MSContainer const *container,
 			if (ver >= MS_BIFF_V8) {
 				cols++;
 				rows++;
-			} else if (cols == 0)
-				cols = 256;
+			} else {
+				if (cols == 0)
+					cols = 256;
+				if (rows == 0)
+					rows = 1; /* ??? */
+			}
 
 			v = value_new_array (cols, rows);
 
