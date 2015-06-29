@@ -1,3 +1,8 @@
+2015-06-28  Morten Welinder  <terra@gnome.org>
+
+	* lotus-formula.c (get_cellref): Limit references to sheet size.
+	Fixes #751579.
+
 2015-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.22

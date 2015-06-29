@@ -522,27 +522,26 @@ make_function (LotusState *state, GnmExprList **stack, guint8 const *data, const
 	return (f->handler) (stack, f, data, orig);
 }
 
-static gint16
-sign_extend (guint16 num)
-{
-	return (gint16)(num << 3) / 8;
-}
-
-/* FIXME: dodgy stuff, hacked for now */
 static void
 get_cellref (GnmCellRef *ref, guint8 const *dataa, guint8 const *datab,
 	     const GnmParsePos *orig)
 {
 	guint16 i;
+	GnmSheetSize const *ss = gnm_sheet_get_size (orig->sheet);
 
 	ref->sheet = NULL;
+
 	i = GSF_LE_GET_GUINT16 (dataa);
-	ref->col = sign_extend (i & 0x1fff);
 	ref->col_relative = (i & 0x8000) != 0;
+	ref->col = (i & 0xfff) % ss->max_cols;
+	if (ref->col_relative && (i & 0x1000))
+		ref->col = -ref->col;
 
 	i = GSF_LE_GET_GUINT16 (datab);
-	ref->row = sign_extend (i & 0x1fff);
 	ref->row_relative = (i & 0x8000) != 0;
+	ref->row = (i & 0xfff) % ss->max_rows;
+	if (ref->row_relative && (i & 0x1000))
+		ref->row = -ref->row;
 
 #if FORMULA_DEBUG > 0
 	g_printerr ("0x%x 0x%x -> (%d, %d)\n",
