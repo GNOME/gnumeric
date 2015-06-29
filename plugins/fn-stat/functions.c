@@ -4296,13 +4296,26 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float expres[2];
 	gboolean constp = FALSE;
 
-	res = collect_float_pairs (argv[0], argv[1], ei->pos,
-				   COLLECT_IGNORE_BLANKS |
-				   COLLECT_IGNORE_STRINGS |
-				   COLLECT_IGNORE_BOOLS,
-				   &ys, &xs, &n, &constp);
-	if (res)
-		return res;
+	if (argv[1]) {
+		res = collect_float_pairs (argv[0], argv[1], ei->pos,
+					   COLLECT_IGNORE_BLANKS |
+					   COLLECT_IGNORE_STRINGS |
+					   COLLECT_IGNORE_BOOLS,
+					   &ys, &xs, &n, &constp);
+		if (res)
+			return res;
+	} else {
+		ys = collect_floats_value (argv[0], ei->pos,
+					   COLLECT_IGNORE_BLANKS |
+					   COLLECT_IGNORE_STRINGS |
+					   COLLECT_IGNORE_BOOLS,
+					   &n, &res);
+		if (res)
+			return res;
+		xs = g_new (gnm_float, n);
+		for (i = 0; i < n; i++)
+			xs[i] = i + 1;
+	}
 
 	if (argv[2] != NULL) {
 		nxs = collect_floats_value (argv[2], ei->pos,

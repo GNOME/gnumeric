@@ -1,3 +1,8 @@
+2015-06-29  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_growth): Properly handle that the second
+	argument has a default.  Fixes #751658.
+
 2015-06-18  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (help_percentrank_exc): Fix function name.
