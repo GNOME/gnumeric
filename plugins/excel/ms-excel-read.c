@@ -5176,9 +5176,9 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 	guint32 flags;
 	guint16 flags2;
 	unsigned offset;
-	GnmStyleCond *cond;
+	GnmStyleCond *cond = NULL;
 	GnmStyleCondOp cop;
-	GnmStyle *overlay;
+	GnmStyle *overlay = NULL;
 
 	XL_CHECK_CONDITION (q->length >= 12);
 
@@ -5278,7 +5278,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 	if (flags & 0x02000000) { /* number format */
 		gboolean ignore = (flags & 0x00080000) != 0;
 
-		XL_CHECK_CONDITION (q->length >= offset + 2);
+		XL_CHECK_CONDITION_FULL (q->length >= offset + 2, goto fail;);
 
 		if (flags2 & 1) {
 			/* Format as string */
@@ -5302,7 +5302,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 		guint8  tmp8, font_flags;
 		guint8 const *data = q->data + offset;
 
-		XL_CHECK_CONDITION (q->length >= offset + 64 + 54);
+		XL_CHECK_CONDITION_FULL (q->length >= offset + 64 + 54, goto fail;);
 
 		if (data[0] && GSF_LE_GET_GUINT16 (data + 116) > 0) {
 			char *font = excel_biff_text_1
@@ -5378,7 +5378,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 	if (flags & 0x08000000) { /* alignment block */
 		guint16 d1, d2;
 
-		XL_CHECK_CONDITION (q->length >= offset + 8);
+		XL_CHECK_CONDITION_FULL (q->length >= offset + 8, goto fail;);
 		d1 = GSF_LE_GET_GUINT16 (q->data + offset);
 		d2 = GSF_LE_GET_GUINT16 (q->data + offset + 2);
 
@@ -5412,7 +5412,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 	if (flags & 0x10000000) { /* borders */
 		guint32 d0, d1;
 
-		XL_CHECK_CONDITION (q->length >= offset + 8);
+		XL_CHECK_CONDITION_FULL (q->length >= offset + 8, goto fail;);
 		d0 = GSF_LE_GET_GUINT32 (q->data + offset);
 		d1 = GSF_LE_GET_GUINT32 (q->data + offset + 4);
 
@@ -5449,7 +5449,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 		guint32 background_flags;
 		int pattern = 0;
 
-		XL_CHECK_CONDITION (q->length >= offset + 4);
+		XL_CHECK_CONDITION_FULL (q->length >= offset + 4, goto fail;);
 		background_flags = GSF_LE_GET_GUINT32 (q->data + offset);
 
 		if (0 == (flags & 0x10000))
@@ -5472,7 +5472,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 		offset += 2;
 	}
 
-	XL_CHECK_CONDITION (q->length == offset + expr0_len + expr1_len);
+	XL_CHECK_CONDITION_FULL (q->length == offset + expr0_len + expr1_len, goto fail;);
 
 	d (1, gnm_style_dump (overlay););
 
@@ -5480,6 +5480,13 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 	gnm_style_unref (overlay);
 	gnm_style_conditions_insert (sc, cond, -1);
 	gnm_style_cond_free (cond);
+	return;
+
+fail:
+	if (cond)
+		gnm_style_cond_free (cond);
+	if (overlay)
+		gnm_style_unref (overlay);
 }
 
 static void

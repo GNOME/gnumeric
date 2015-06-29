@@ -1,3 +1,8 @@
+2015-06-29  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_CF): Plug leak when reading fuzzed
+	file.
+
 2015-06-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (end): fuzzed file fix. [#751758]
