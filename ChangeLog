@@ -1,3 +1,8 @@
+2015-06-29  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (function_iterate_argument_values): Improve name
+	handling.  Part of #751660.
+
 2015-06-28  Morten Welinder  <terra@gnome.org>
 
 	* src/value-sheet.c (value_area_get_width, value_area_get_height):

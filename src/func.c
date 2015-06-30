@@ -2317,13 +2317,16 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 		/* need to drill down into names to handle things like
 		 * sum(name)  with name := (A:A,B:B) */
 		while (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_NAME) {
-			expr = expr->name.name->texpr->expr;
+			GnmExprTop const *texpr = expr->name.name->texpr;
+			expr = texpr ? texpr->expr : NULL;
 			if (expr == NULL) {
 				if (strict)
 					return value_new_error_REF (ep);
-				continue;
+				break;
 			}
 		}
+		if (!expr)
+			continue;
 
 		/* Handle sets as a special case */
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_SET) {

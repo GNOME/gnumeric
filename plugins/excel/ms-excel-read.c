@@ -2806,7 +2806,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 		dt->c_in.col = GSF_LE_GET_GUINT16 (q->data + 10);
 		dt->r_in.row = GSF_LE_GET_GUINT16 (q->data + 12);
 		dt->r_in.col = GSF_LE_GET_GUINT16 (q->data + 14);
-		g_hash_table_insert (esheet->tables, &dt->table.start, dt);
+		g_hash_table_replace (esheet->tables, &dt->table.start, dt);
 
 		args = gnm_expr_list_append (args, gnm_expr_new_cellref (
 									 gnm_cellref_init (&ref, NULL,
