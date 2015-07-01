@@ -1,3 +1,8 @@
+2015-06-30  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_eval): Don't crash if an empty array makes
+	it all the way here.
+
 2015-06-29  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (function_iterate_argument_values): Improve name

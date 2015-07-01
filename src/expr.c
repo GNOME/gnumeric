@@ -1473,7 +1473,9 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		}
 		if (VALUE_IS_ARRAY (res) &&
 		    !(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
-			a = value_dup (res->v_array.vals[0][0]);
+			a = (res->v_array.x > 0 && res->v_array.y > 0)
+				? value_dup (res->v_array.vals[0][0])
+				: value_new_error_REF (pos);
 			value_release (res);
 			return a;
 		}

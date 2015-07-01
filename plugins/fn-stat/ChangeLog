@@ -1,3 +1,8 @@
+2015-06-30  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_growth): Fix check for no results.  Fixes
+	reopened #751659.
+
 2015-06-29  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_growth): Properly handle that the second

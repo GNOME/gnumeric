@@ -4333,7 +4333,7 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	affine = argv[3] ? value_get_as_checked_bool (argv[3]) : TRUE;
 
-	if (n <= 0) {
+	if (nnx <= 0) {
 		res = value_new_error_NUM (ei->pos);
 		goto out;
 	}
