@@ -748,6 +748,7 @@ xls_read_SXVIEW (BiffQuery *q, ExcelReadSheet *esheet)
 	name = go_string_new_nocopy (
 		excel_get_text (imp, q->data + 44, name_len,
 			       &len, NULL, q->length - 44));
+	len = MIN (len, q->length - 44);
 	data_field_name = go_string_new_nocopy (
 		excel_get_text (imp, q->data + 44 + len, data_field_name_len,
 				&len, NULL, q->length - 44 - len));
