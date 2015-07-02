@@ -621,10 +621,12 @@ read_pre_biff8_read_expr (BiffQuery *q, MSContainer *c, MSObj *obj,
 {
 	if (total_len <= 0)
 		return data;
+	XL_CHECK_CONDITION_VAL (total_len <= q->length - (data - q->data), data);
+
 	ms_obj_read_expr (obj, MS_OBJ_ATTR_LINKED_TO_CELL, c,
 		  data, data + total_len);
 	data += total_len;	/* use total_len not the stated expression len */
-	if (((data - q->data) & 1))
+	if (((data - q->data) & 1) && data < q->data + q->length)
 		data++; /* pad to word bound */
 	return data;
 }
@@ -636,21 +638,22 @@ read_pre_biff8_read_name_and_fmla (BiffQuery *q, MSContainer *c, MSObj *obj,
 	guint8 const *data;
 	gboolean fmla_len;
 
-	XL_CHECK_CONDITION_VAL (q->length >= offset + 2, NULL);
-	data = q->data + offset;
+	XL_CHECK_CONDITION_VAL (q->length >= 28, NULL);
 	fmla_len = GSF_LE_GET_GUINT16 (q->data+26);
 	XL_CHECK_CONDITION_VAL (q->length >= offset + 2 + fmla_len, NULL);
+
+	data = q->data + offset;
 
 	if (has_name) {
 		guint8 const *last = q->data + q->length;
 		unsigned len = *data++;
 		char *str;
 
-		g_return_val_if_fail (data + len <= last, NULL);
+		g_return_val_if_fail (last - data >= len, NULL);
 
 		str = excel_get_chars (c->importer, data, len, FALSE, NULL);
 		data += len;
-		if (((data - q->data) & 1))
+		if (((data - q->data) & 1) && data < last)
 			data++; /* pad to word bound */
 
 		ms_obj_attr_bag_insert (obj->attrs,

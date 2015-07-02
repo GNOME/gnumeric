@@ -1,3 +1,7 @@
+2015-07-02  Morten Welinder  <terra@gnome.org>
+
+	* ms-obj.c (read_pre_biff8_read_expr): Check record length.
+
 2015-07-01  Morten Welinder  <terra@gnome.org>
 
 	* xls-read-pivot.c (xls_read_SXVIEW): Protect against underflow in
