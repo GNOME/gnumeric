@@ -6,7 +6,7 @@ Andreas:
 	* Improve function import to ODF. [#750627]
 	* Add CONFIDENCE.T, MODE.MULT, PERCENTILE.EXC, PERCENTRANK.EXC
 	  and QUARTILE.EXC.
-	* Fuzzed file fixes.  [#751060] [#751501]
+	* Fuzzed file fixes.  [#751060] [#751501] [#751851]
 	* Fix ODF import of named expressions. [#750627]
 	* Import reference unions from ODF. [#750627]
 	* Improve CONVERT function.

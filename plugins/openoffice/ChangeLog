@@ -1,3 +1,8 @@
+2015-07-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_series_reg_equation): Do not asssume that
+	the specified style exists.
+
 2015-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_style_prop_chart): fix handling of current

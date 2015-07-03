@@ -9551,16 +9551,19 @@ od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
 	if (style_name != NULL) {
 		OOChartStyle *chart_style = g_hash_table_lookup
 			(state->chart.graph_styles, style_name);
-		GOStyle *style =
-			go_styled_object_get_style (GO_STYLED_OBJECT (equation));
-		if (style != NULL) {
-			style = go_style_dup (style);
-			odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
-			go_styled_object_set_style (GO_STYLED_OBJECT (equation), style);
-			g_object_unref (style);
-		}
-		/* In the moment we don't need this. */
-/* 		oo_prop_list_apply (chart_style->plot_props, G_OBJECT (equation)); */
+		if (chart_style) {
+			GOStyle *style =
+				go_styled_object_get_style (GO_STYLED_OBJECT (equation));
+			if (style != NULL) {
+				style = go_style_dup (style);
+				odf_apply_style_props (xin, chart_style->style_props, style, TRUE);
+				go_styled_object_set_style (GO_STYLED_OBJECT (equation), style);
+				g_object_unref (style);
+			}
+			/* In the moment we don't need this. */
+			/* 		oo_prop_list_apply (chart_style->plot_props, G_OBJECT (equation)); */
+		} else
+			oo_warning (xin, _("The chart style \"%s\" is not defined!"), style_name);
 	}
 }
 
