@@ -1,3 +1,8 @@
+2015-07-03  Morten Welinder  <terra@gnome.org>
+
+	* src/func-builtin.c (gnumeric_table): Return #REF! outside array
+	context.
+
 2015-06-30  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_eval): Don't crash if an empty array makes

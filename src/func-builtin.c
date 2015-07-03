@@ -128,11 +128,12 @@ gnumeric_table_link (GnmFuncEvalInfo *ei, gboolean qlink)
 	if (!qlink)
 		return DEPENDENT_NO_FLAG;
 
+	if (!eval_pos_is_array_context (ei->pos))
+		return DEPENDENT_IGNORE_ARGS;
+
 	rr.a.col_relative = rr.a.row_relative =
 	rr.b.col_relative = rr.b.row_relative = FALSE;
 	rr.a.sheet = rr.b.sheet = dep->sheet;
-
-	g_return_val_if_fail (eval_pos_is_array_context (ei->pos), DEPENDENT_IGNORE_ARGS);
 
 	g_return_val_if_fail (ei->pos->eval.col > 0, DEPENDENT_IGNORE_ARGS);
 	rr.a.col = rr.b.col = ei->pos->eval.col - 1;
@@ -162,7 +163,8 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	if (argc != 2 ||
 	    ei->pos->eval.col < 1 ||
-	    ei->pos->eval.row < 1)
+	    ei->pos->eval.row < 1 ||
+	    !eval_pos_is_array_context (ei->pos))
 		return value_new_error_REF (ei->pos);
 
 	for (x = 0; x < 2 ; x++) {
