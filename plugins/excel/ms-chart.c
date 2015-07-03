@@ -2760,34 +2760,36 @@ BC_R(end)(XLChartHandler const *handle,
 					goto not_a_matrix;
 
 				value = gnm_expr_top_get_range (texpr);
-				if (col == -1) {
-					as_col = value->v_range.cell.a.col == value->v_range.cell.b.col;
-					row = row_start = value->v_range.cell.a.row;
-					col = col_start = value->v_range.cell.a.col;
-					if (as_col) {
-						last = value->v_range.cell.b.row;
-					}
-					else {
-						if (value->v_range.cell.a.row != value->v_range.cell.b.row) {
-							is_matrix = FALSE;
-							value_release (value);
-							break;
+				if (value) {
+					if (col == -1) {
+						as_col = value->v_range.cell.a.col == value->v_range.cell.b.col;
+						row = row_start = value->v_range.cell.a.row;
+						col = col_start = value->v_range.cell.a.col;
+						if (as_col) {
+							last = value->v_range.cell.b.row;
 						}
-						last = value->v_range.cell.b.col;
+						else {
+							if (value->v_range.cell.a.row != value->v_range.cell.b.row) {
+								is_matrix = FALSE;
+								value_release (value);
+								break;
+							}
+							last = value->v_range.cell.b.col;
+						}
+					} else if ((as_col && (value->v_range.cell.a.col != col ||
+							value->v_range.cell.b.col != col ||
+							value->v_range.cell.a.row != row ||
+							value->v_range.cell.b.row != last)) ||
+							(! as_col && (value->v_range.cell.a.col != col ||
+							value->v_range.cell.b.col != last ||
+							value->v_range.cell.a.row != row ||
+							value->v_range.cell.b.row != row))) {
+						is_matrix = FALSE;
+						value_release (value);
+						break;
 					}
-				} else if ((as_col && (value->v_range.cell.a.col != col ||
-						value->v_range.cell.b.col != col ||
-						value->v_range.cell.a.row != row ||
-						value->v_range.cell.b.row != last)) ||
-						(! as_col && (value->v_range.cell.a.col != col ||
-						value->v_range.cell.b.col != last ||
-						value->v_range.cell.a.row != row ||
-						value->v_range.cell.b.row != row))) {
-					is_matrix = FALSE;
 					value_release (value);
-					break;
 				}
-				value_release (value);
 
 				cur = eseries->data [GOG_MS_DIM_LABELS].data;
 				if (cur) {

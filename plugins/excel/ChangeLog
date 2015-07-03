@@ -1,5 +1,9 @@
 2015-07-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-chart.c (end): protect against missing value. Fixes #751908.
+
+2015-07-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c (end): fix Y and Z axes exchange in 3D plots. Fixes #751744.
 
 2015-07-02  Morten Welinder  <terra@gnome.org>
