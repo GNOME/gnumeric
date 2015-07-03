@@ -4169,7 +4169,7 @@ oo_add_text_to_cell (OOParseState *state, char const *str, PangoAttrList *attrs)
 	if (state->curr_cell == NULL)
 		return;
 
-	if (VALUE_IS_STRING (state->curr_cell->value)) {
+	if ((NULL != state->curr_cell->value) && VALUE_IS_STRING (state->curr_cell->value)) {
 		GOFormat *fmt = state->curr_cell->value->v_str.fmt;
 		start = strlen (state->curr_cell->value->v_str.val->str);
 		if (fmt != NULL)
