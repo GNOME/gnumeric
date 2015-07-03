@@ -2678,26 +2678,36 @@ BC_R(end)(XLChartHandler const *handle,
 			gboolean as_col = FALSE; /* makes gcc happy */
 			GOData *cur;
 			int row_start = 0, col_start = 0, row = 0, col = -1, last = 0;
-			GSList *axisY, *axisZ, *l;
+			GSList *axisY, *axisZ, *l, *contributors, *ptr;
 
 			/* exchange axis */
 			l = axisY = gog_chart_get_axes (s->chart, GOG_AXIS_Y);
 			axisZ = gog_chart_get_axes (s->chart, GOG_AXIS_Z);
 			while (l) {
+				contributors = g_slist_copy ((GSList*) gog_axis_contributors (GOG_AXIS (l->data)));
+				gog_axis_clear_contributors (GOG_AXIS (l->data));
 				gog_object_clear_parent (GOG_OBJECT (l->data));
 				g_object_set (G_OBJECT (l->data), "type",
 					((s->is_contour)? GOG_AXIS_PSEUDO_3D: GOG_AXIS_Z), NULL);
 				gog_object_add_by_name (GOG_OBJECT (s->chart),
 					((s->is_contour)? "Pseudo-3D-Axis": "Z-Axis"),
 					GOG_OBJECT (l->data));
+				for (ptr = contributors; ptr != NULL; ptr = ptr->next)
+					gog_axis_add_contributor (GOG_AXIS (l->data), GOG_OBJECT (ptr->data));
+				g_slist_free (contributors);
 				l = l->next;
 			}
 			g_slist_free (axisY);
 			l = axisZ;
 			while (l) {
+				contributors = g_slist_copy ((GSList*) gog_axis_contributors (GOG_AXIS (l->data)));
+				gog_axis_clear_contributors (GOG_AXIS (l->data));
 				gog_object_clear_parent (GOG_OBJECT (l->data));
 				g_object_set (G_OBJECT (l->data), "type", GOG_AXIS_Y, NULL);
 				gog_object_add_by_name (GOG_OBJECT (s->chart), "Y-Axis", GOG_OBJECT (l->data));
+				for (ptr = contributors; ptr != NULL; ptr = ptr->next)
+					gog_axis_add_contributor (GOG_AXIS (l->data), GOG_OBJECT (ptr->data));
+				g_slist_free (contributors);
 				l = l->next;
 			}
 			g_slist_free (axisZ);
