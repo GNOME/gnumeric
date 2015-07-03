@@ -3094,14 +3094,17 @@ gnumeric_percentile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				     COLLECT_SORT,
 				     &n, &result);
 	if (!result) {
-		gnm_float p = value_get_as_float (argv[1]);
-		gnm_float res;
-		gnm_float fr = (p * (n + 1) - 1)/(n-1);
-
-		if (gnm_range_fractile_inter_sorted (data, n, &res, fr))
+		if (n > 1) {
+			gnm_float p = value_get_as_float (argv[1]);
+			gnm_float res;
+			gnm_float fr = (p * (n + 1) - 1)/(n-1);
+			
+			if (gnm_range_fractile_inter_sorted (data, n, &res, fr))
+				result = value_new_error_NUM (ei->pos);
+			else
+				result = value_new_float (res);
+		} else
 			result = value_new_error_NUM (ei->pos);
-		else
-			result = value_new_float (res);
 	}
 
 	g_free (data);
@@ -3180,16 +3183,19 @@ gnumeric_quartile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				     COLLECT_SORT,
 				     &n, &result);
 	if (!result) {
-		gnm_float q = gnm_fake_floor (value_get_as_float (argv[1]));
-		gnm_float res;
-		gnm_float fr = ((q / 4.0) * (n + 1) - 1)/(n-1);
-
-		if (gnm_range_fractile_inter_sorted (data, n, &res, fr))
-			result = value_new_error_NUM (ei->pos);
-		else
-			result = value_new_float (res);
+		if (n > 1) {
+			gnm_float q = gnm_fake_floor (value_get_as_float (argv[1]));
+			gnm_float res;
+			gnm_float fr = ((q / 4.0) * (n + 1) - 1)/(n-1);
+			
+			if (gnm_range_fractile_inter_sorted (data, n, &res, fr))
+				result = value_new_error_NUM (ei->pos);
+			else
+				result = value_new_float (res);
+		} else
+			result = value_new_error_NUM (ei->pos);	
 	}
-
+	
 	g_free (data);
 	return result;
 }

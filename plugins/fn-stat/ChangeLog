@@ -1,3 +1,8 @@
+2015-07-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_quartile_exc): avoid division by 0
+	(gnumeric_percentile_exc): ditto
+
 2015-06-30  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_growth): Fix check for no results.  Fixes
