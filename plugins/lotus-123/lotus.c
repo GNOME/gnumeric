@@ -1627,6 +1627,10 @@ lotus_read_old (LotusState *state, record_t *r)
 			GnmParsePos pp;
 			GnmValue *v = NULL;
 
+			if (state->sheet == NULL) {
+				g_printerr ("Assertion state->sheet != NULL failed\n");
+				break;
+			}
 			if (r->len < (15 + len))
 				break;
 
