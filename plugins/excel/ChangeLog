@@ -1,5 +1,10 @@
 2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-excel-read.c (excel_read_sheet), (excel_read_BOF): don't leak charts,
+	see #751578.
+
+2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-escher.c (ms_escher_read_container): protect against wrong record
 	length. Fixes #751249.
 

@@ -6875,10 +6875,14 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			 * jump to the chart handler which then starts parsing
 			 * at the NEXT record.
 			 */
-		case BIFF_CHART_units :
+		case BIFF_CHART_units : {
+			SheetObject *obj = sheet_object_graph_new (NULL);
 			ms_excel_chart_read (q, sheet_container (esheet),
-					     sheet_object_graph_new (NULL), NULL);
+					     obj, NULL);
+			sheet_object_set_sheet (obj, esheet->sheet);
+			g_object_unref (obj);
 			break;
+		}
 		case BIFF_SXVIEW: xls_read_SXVIEW (q, esheet); break;
 		case BIFF_SXVD : xls_read_SXVD (q, esheet); break;
 		case BIFF_SXVDEX : break; /* pulled in with SXVD */
@@ -7106,10 +7110,13 @@ excel_read_BOF (BiffQuery	 *q,
 			ms_container_realize_objs (sheet_container (esheet));
 			/* reverse the sheet objects satck order */
 			esheet->sheet->sheet_objects = g_slist_reverse (esheet->sheet->sheet_objects);
-		} else
+		} else {
+			SheetObject *obj = sheet_object_graph_new (NULL);
 			ms_excel_chart_read (q, sheet_container (esheet),
-					     sheet_object_graph_new (NULL),
-					     esheet->sheet);
+					     obj, esheet->sheet);
+			sheet_object_set_sheet (obj, esheet->sheet);
+			g_object_unref (obj);
+		}
 
 	} else if (ver->type == MS_BIFF_TYPE_VBModule ||
 		   ver->type == MS_BIFF_TYPE_Macrosheet) {
