@@ -3422,7 +3422,10 @@ xl_chart_import_trend_line (XLChartReadState *state, XLChartSeries *series)
 {
 	GogTrendLine *rc;
 	Sheet *sheet;
-	XLChartSeries *parent = g_ptr_array_index (state->series, series->reg_parent);
+	XLChartSeries *parent;
+
+	XL_CHECK_CONDITION ((unsigned) series->reg_parent < state->series->len);
+	parent = g_ptr_array_index (state->series, series->reg_parent);
 
 	XL_CHECK_CONDITION (parent != NULL && parent->series != NULL);
 

@@ -15,7 +15,7 @@ Jean:
 	* Fix xlsx import of plot area manual layout. [#748016]
 	* Fix out of bounds read. [#749121]
 	* Fuzzed file fixes.  [#750042] [#751217] [#751270] [#751271]
-	   [#751383] [#751384] [#751758] [751744] [751908]
+	  [#751383] [#751384] [#751758] [#751744] [#751908] [#751920]
 
 Morten:
 	* Fix import/export of graph backplane.
