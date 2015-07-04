@@ -1618,6 +1618,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 		if (ms_biff_query_peek_next (q, &opcode) &&
 		    opcode == BIFF_FONT_COLOR) {
 			ms_biff_query_next (q);
+			XL_CHECK_CONDITION (q->length >= 2);
 			fd->color_idx  = GSF_LE_GET_GUINT16 (q->data);
 		} else
 			fd->color_idx  = 0x7f;

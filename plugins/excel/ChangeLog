@@ -1,3 +1,7 @@
+2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-excel-read.c (excel_read_FONT): don't read missing data. [#751909]
+
 2015-07-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (end): protect against missing value. Fixes #751945.
