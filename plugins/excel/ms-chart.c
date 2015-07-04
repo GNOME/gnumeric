@@ -2745,25 +2745,27 @@ BC_R(end)(XLChartHandler const *handle,
 				cat_expr = gnm_go_data_get_expr (eseries->data [GOG_MS_DIM_CATEGORIES].data);
 				if (!gnm_expr_top_is_rangeref (cat_expr))
 					goto not_a_matrix;
-				value = gnm_expr_top_get_range (cat_expr);
-				as_col = value->v_range.cell.a.col == value->v_range.cell.b.col;
-				row = row_start = value->v_range.cell.a.row;
-				col = col_start = value->v_range.cell.a.col;
-				if (as_col) {
-					col++;
-					row_start--;
-					last = value->v_range.cell.b.row;
-				}
-				else {
-					if (value->v_range.cell.a.row != value->v_range.cell.b.row) {
-						value_release (value);
-						goto not_a_matrix;
+				if ((value = gnm_expr_top_get_range (cat_expr))) {
+					as_col = value->v_range.cell.a.col == value->v_range.cell.b.col;
+					row = row_start = value->v_range.cell.a.row;
+					col = col_start = value->v_range.cell.a.col;
+					if (as_col) {
+						col++;
+						row_start--;
+						last = value->v_range.cell.b.row;
 					}
-					row++;
-					col_start --;
-					last = value->v_range.cell.b.col;
-				}
-				value_release (value);
+					else {
+						if (value->v_range.cell.a.row != value->v_range.cell.b.row) {
+							value_release (value);
+							goto not_a_matrix;
+						}
+						row++;
+						col_start --;
+						last = value->v_range.cell.b.col;
+					}
+					value_release (value);
+				} else
+					goto not_a_matrix;
 			}
 			/* verify that all series are adjacent, have same categories and
 			same lengths */
