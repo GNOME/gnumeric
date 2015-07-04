@@ -4951,7 +4951,7 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 		     const char *description,
 		     ColRowInsDelFunc opposite)
 {
-	
+
 	GnmRange kill_zone;    /* The range whose contents will be lost.  */
 	GnmRange move_zone;    /* The range whose contents will be moved.  */
 	GnmRange change_zone;  /* The union of kill_zone and move_zone.  */

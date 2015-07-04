@@ -122,7 +122,7 @@ fake_gtk_icon_theme_add_resource_path (GtkIconTheme G_GNUC_UNUSED *theme,
 				       const char *path)
 {
 	walk_resource_path (path, 0, -1);
-}		       
+}
 
 #endif
 

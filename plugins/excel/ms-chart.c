@@ -1765,21 +1765,28 @@ BC_R(pos)(XLChartHandler const *handle,
 static void
 set_radial_axes (XLChartReadState *s)
 {
-	GSList *l, *cur;
+	GSList *l, *cur, *contrib, *ptr;
 
 	l = gog_chart_get_axes (s->chart, GOG_AXIS_X);
 	for (cur = l; cur; cur = cur->next) {
 		GogObject *axis = cur->data;
 
+		contrib = g_slist_copy ((GSList *) gog_axis_contributors (GOG_AXIS (axis)));
+		gog_axis_clear_contributors (GOG_AXIS (axis));
 		if (gog_object_is_deletable (axis))
 			gog_object_clear_parent (axis);
-		else
+		else {
+			g_slist_free (contrib);
 			continue;
+		}
 
 		g_object_set (G_OBJECT (axis), "type",
 			      GOG_AXIS_CIRCULAR, NULL);
 		gog_object_add_by_name (GOG_OBJECT (s->chart),
 					"Circular-Axis", axis);
+		for (ptr= contrib; ptr != NULL; ptr = ptr->next)
+			gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (axis));
+		g_slist_free (contrib);
 	}
 	g_slist_free (l);
 
@@ -1787,15 +1794,22 @@ set_radial_axes (XLChartReadState *s)
 	for (cur = l; cur; cur = cur->next) {
 		GogObject *axis = cur->data;
 
+		contrib = g_slist_copy ((GSList *) gog_axis_contributors (GOG_AXIS (axis)));
+		gog_axis_clear_contributors (GOG_AXIS (axis));
 		if (gog_object_is_deletable (axis))
 			gog_object_clear_parent (axis);
-		else
+		else {
+			g_slist_free (contrib);
 			continue;
+		}
 
 		g_object_set (G_OBJECT (axis), "type",
 			      GOG_AXIS_RADIAL, NULL);
 		gog_object_add_by_name (GOG_OBJECT (s->chart),
 					"Radial-Axis", axis);
+		for (ptr= contrib; ptr != NULL; ptr = ptr->next)
+			gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (axis));
+		g_slist_free (contrib);
 	}
 	g_slist_free (l);
 }
@@ -2686,14 +2700,19 @@ BC_R(end)(XLChartHandler const *handle,
 			while (l) {
 				contributors = g_slist_copy ((GSList*) gog_axis_contributors (GOG_AXIS (l->data)));
 				gog_axis_clear_contributors (GOG_AXIS (l->data));
-				gog_object_clear_parent (GOG_OBJECT (l->data));
+				if (gog_object_is_deletable (GOG_OBJECT (l->data)))
+					gog_object_clear_parent (GOG_OBJECT (l->data));
+				else {
+					g_slist_free (contributors);
+					continue;
+				}
 				g_object_set (G_OBJECT (l->data), "type",
 					((s->is_contour)? GOG_AXIS_PSEUDO_3D: GOG_AXIS_Z), NULL);
 				gog_object_add_by_name (GOG_OBJECT (s->chart),
 					((s->is_contour)? "Pseudo-3D-Axis": "Z-Axis"),
 					GOG_OBJECT (l->data));
 				for (ptr = contributors; ptr != NULL; ptr = ptr->next)
-					gog_axis_add_contributor (GOG_AXIS (l->data), GOG_OBJECT (ptr->data));
+					gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (l->data));
 				g_slist_free (contributors);
 				l = l->next;
 			}
@@ -2702,11 +2721,16 @@ BC_R(end)(XLChartHandler const *handle,
 			while (l) {
 				contributors = g_slist_copy ((GSList*) gog_axis_contributors (GOG_AXIS (l->data)));
 				gog_axis_clear_contributors (GOG_AXIS (l->data));
-				gog_object_clear_parent (GOG_OBJECT (l->data));
+				if (gog_object_is_deletable (GOG_OBJECT (l->data)))
+					gog_object_clear_parent (GOG_OBJECT (l->data));
+				else {
+					g_slist_free (contributors);
+					continue;
+				}
 				g_object_set (G_OBJECT (l->data), "type", GOG_AXIS_Y, NULL);
 				gog_object_add_by_name (GOG_OBJECT (s->chart), "Y-Axis", GOG_OBJECT (l->data));
 				for (ptr = contributors; ptr != NULL; ptr = ptr->next)
-					gog_axis_add_contributor (GOG_AXIS (l->data), GOG_OBJECT (ptr->data));
+					gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (l->data));
 				g_slist_free (contributors);
 				l = l->next;
 			}
@@ -2937,8 +2961,14 @@ not_a_matrix:
 						GSList *l = gog_chart_get_axes (s->chart, i), *cur;
 						for (cur = l; cur; cur = cur->next) {
 							GogObject *axis = cur->data;
-							gog_object_clear_parent (axis);
-							g_object_unref (axis);
+							/* first remove contributors otherwise we'll end
+							 * with invalid pointers */
+							gog_axis_clear_contributors (GOG_AXIS (axis));
+							/* remove only if there are no more contributors */
+							if (gog_object_is_deletable (axis)) {
+								gog_object_clear_parent (axis);
+								g_object_unref (axis);
+							}
 						}
 						g_slist_free (l);
 					}

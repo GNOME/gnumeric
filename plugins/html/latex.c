@@ -1585,18 +1585,18 @@ latex_table_file_save_impl (WorkbookView const *wb_view, GsfOutput *output, gboo
 		if (all || ri->visible) {
 			if (ri->needs_respan)
 				row_calc_spans ((ColRowInfo *) ri, row, current_sheet);
-			
+
 			for (col = total_range.start.col; col <= total_range.end.col; col++) {
 				/* Get the cell. */
 				cell = sheet_cell_get (current_sheet, col, row);
-				
+
 				/* Check if we are not the first cell in the row.*/
 				if (col != total_range.start.col)
 					gsf_output_printf (output, "\t&");
-				
+
 				if (gnm_cell_is_empty (cell))
 					continue;
-				
+
 				latex2e_table_write_cell(output, cell);
 			}
 			gsf_output_printf (output, "\\\\\n");

@@ -665,7 +665,7 @@ gnumeric_mode_mult (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	int n;
 	gboolean constp;
 
-	vals = collect_floats (argc, argv, ei->pos, 
+	vals = collect_floats (argc, argv, ei->pos,
 			       COLLECT_IGNORE_STRINGS |
 			       COLLECT_IGNORE_BOOLS |
 			       COLLECT_IGNORE_BLANKS,
@@ -673,14 +673,14 @@ gnumeric_mode_mult (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			       NULL, &constp);
 	if (!vals)
 		return error;
-	
+
 	if (n <= 1)
 		result = value_new_error_NA (ei->pos);
 	else {
 		GHashTable *h;
 		int i;
 		int dups = 0;
-			
+
 		h = g_hash_table_new_full ((GHashFunc)gnm_float_hash,
 					   (GCompareFunc)gnm_float_equal,
 					   NULL,
@@ -689,7 +689,7 @@ gnumeric_mode_mult (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			gpointer rval;
 			gboolean found = g_hash_table_lookup_extended (h, &vals[i], NULL, &rval);
 			int *pdups;
-				
+
 			if (found) {
 				pdups = (int *)rval;
 				(*pdups)++;
@@ -698,7 +698,7 @@ gnumeric_mode_mult (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				*pdups = 1;
 				g_hash_table_insert (h, (gpointer)(vals + i), pdups);
 			}
-				
+
 			if (*pdups > dups)
 				dups = *pdups;
 		}
@@ -707,7 +707,7 @@ gnumeric_mode_mult (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			result = value_new_error_NA (ei->pos);
 		else {
 			GList *keys, *l;
-			
+
 			g_hash_table_foreach_remove (h, gnumeric_mode_mult_rm, &dups);
 			keys = g_hash_table_get_keys (h);
 
@@ -719,9 +719,9 @@ gnumeric_mode_mult (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				value_array_set (result, 0, i++, value_new_float (*((gnm_float *)(l->data))));
 		}
 
-		g_hash_table_destroy (h);			
+		g_hash_table_destroy (h);
 	}
-	
+
 	if (!constp) g_free (vals);
 
 	return result;
@@ -3098,7 +3098,7 @@ gnumeric_percentile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gnm_float p = value_get_as_float (argv[1]);
 			gnm_float res;
 			gnm_float fr = (p * (n + 1) - 1)/(n-1);
-			
+
 			if (gnm_range_fractile_inter_sorted (data, n, &res, fr))
 				result = value_new_error_NUM (ei->pos);
 			else
@@ -3187,15 +3187,15 @@ gnumeric_quartile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gnm_float q = gnm_fake_floor (value_get_as_float (argv[1]));
 			gnm_float res;
 			gnm_float fr = ((q / 4.0) * (n + 1) - 1)/(n-1);
-			
+
 			if (gnm_range_fractile_inter_sorted (data, n, &res, fr))
 				result = value_new_error_NUM (ei->pos);
 			else
 				result = value_new_float (res);
 		} else
-			result = value_new_error_NUM (ei->pos);	
+			result = value_new_error_NUM (ei->pos);
 	}
-	
+
 	g_free (data);
 	return result;
 }

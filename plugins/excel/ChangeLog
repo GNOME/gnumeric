@@ -1,5 +1,9 @@
 2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-chart.c (set_radial_axes), (end): make axis type change more secure.
+
+2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c (xl_chart_import_trend_line): add check for array index in
 	xl_chart_import_trend_line(). Fixes #751920.
 

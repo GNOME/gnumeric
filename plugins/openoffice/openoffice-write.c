@@ -2892,10 +2892,10 @@ odf_write_multi_chart_frame_size (GnmOOExport *state, SheetObject *so, GogObject
 
 	sheet_object_anchor_to_pts (anchor, sheet, abs_pts);
 	sheet_object_anchor_to_offset_pts (anchor, sheet, off_pts);
-	
+
 	res_pts[0] = off_pts[0] + ((tc == 0) ? 0 : (xpos * (abs_pts[2]-abs_pts[0])/tc));
 	res_pts[1] = off_pts[1] + ((tr == 0) ? 0 : (ypos * (abs_pts[3]-abs_pts[1])/tr));
-	res_pts[2] = off_pts[0] + ((tc == 0) ? (abs_pts[2]-abs_pts[0]) : 
+	res_pts[2] = off_pts[0] + ((tc == 0) ? (abs_pts[2]-abs_pts[0]) :
 				   ((xpos + columns) * (abs_pts[2]-abs_pts[0])/tc));
 	res_pts[3] = off_pts[1] + ((tr == 0) ? (abs_pts[3]-abs_pts[1]) :
 				   ((ypos + rows) * (abs_pts[3]-abs_pts[1])/tr));
@@ -2959,7 +2959,7 @@ odf_write_graph (GnmOOExport *state, SheetObject *so, char const *name)
 			gboolean multichart = (NULL != list->next);
 			char *series_name = odf_graph_get_series (state, graph, &pp);
 			guint i = 0, total_rows, total_columns;
-			
+
 			if (multichart) {
 				total_columns = gog_graph_num_cols (graph);
 				total_rows = gog_graph_num_rows (graph);
@@ -3028,7 +3028,7 @@ odf_write_image (GnmOOExport *state, SheetObject *so, char const *name)
 			if (image_name)
 				gsf_xml_out_add_cstr (state->xml, DRAW "name", image_name);
 			g_object_unref (image);
-		}	
+		}
 
 		fullname = g_strdup_printf ("Pictures/%s.%s", name, image_type);
 
@@ -3193,7 +3193,7 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_start_element (state->xml, DRAW "line");
 	if (style_name != NULL)
 		gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
-	z = g_slist_length (state->sheet->sheet_objects) - 
+	z = g_slist_length (state->sheet->sheet_objects) -
 		sheet_object_get_stacking (so);
 	gsf_xml_out_add_int (state->xml, DRAW "z-index", z);
 
@@ -5598,7 +5598,7 @@ odf_write_page_layout (GnmOOExport *state, GnmPrintInformation *pi,
 			if (x > 0)
 				gsf_xml_out_add_int (state->xml, GNMSTYLE "scale-to-X", x);
 			if (y > 0)
-				gsf_xml_out_add_int (state->xml, GNMSTYLE "scale-to-Y", y);			
+				gsf_xml_out_add_int (state->xml, GNMSTYLE "scale-to-Y", y);
 		} else {
 			/* ODF 1.2 only allows us to specify the total number of pages. */
 			int x = pi->scaling.dim.cols;
@@ -6231,7 +6231,7 @@ static void
 odf_write_graph_manifest (SheetObject *graph, char const *name, GnmOOExport *state)
 {
 	guint i, n = odf_n_charts (state, graph);
-	
+
 	for (i = 0; i < n; i++) {
 		char *realname = g_strdup_printf ("%s-%i", name, i);
 		char *fullname = g_strdup_printf ("%s/", realname);
@@ -6429,7 +6429,7 @@ odf_write_data_element_range (GnmOOExport *state,  GnmParsePos *pp, GnmExprTop c
 		for (i = 0; i < expr->set.argc; i++) {
 			GnmExpr const *expr_arg = expr->set.argv[i];
 			if ((GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CONSTANT &&
-			     VALUE_IS_CELLRANGE (expr_arg->constant.value)) || 
+			     VALUE_IS_CELLRANGE (expr_arg->constant.value)) ||
 			    (GNM_EXPR_GET_OPER (expr_arg) == GNM_EXPR_OP_CELLREF)) {
 				char *str = gnm_expr_as_string (expr_arg, pp, state->conv);
 				if (gstr->len > 0)
@@ -6498,10 +6498,10 @@ odf_write_data_attribute (GnmOOExport *state, GOData const *data, GnmParsePos *p
 		if (NULL != c_attribute) {
 			GnmValue const *v = gnm_expr_top_get_constant (texpr);
 			if (NULL != v && VALUE_IS_STRING (v))
-				gsf_xml_out_add_cstr (state->xml, c_attribute, 
+				gsf_xml_out_add_cstr (state->xml, c_attribute,
 						      value_peek_string (v));
 			if (NULL != v && VALUE_IS_FLOAT (v))
-				go_xml_out_add_double (state->xml, c_attribute, 
+				go_xml_out_add_double (state->xml, c_attribute,
 						       value_get_as_float (v));
 		}
 	}
@@ -6618,9 +6618,9 @@ odf_write_attached_axes (GnmOOExport *state, GogObject *series)
 			if (NULL != axis) {
 				id = gog_object_get_id (GOG_OBJECT (axis));
 				odf_write_attached_axis (state, "Y-Axis", id);
-			}				
+			}
 		}
-	}			
+	}
 }
 
 
@@ -6877,7 +6877,7 @@ odf_write_min_max_series (GnmOOExport *state, GSList const *orig_series, char co
 				}
 			}
 			if (NULL != class)
-				gsf_xml_out_add_cstr_unchecked (state->xml, CHART "class", class);	
+				gsf_xml_out_add_cstr_unchecked (state->xml, CHART "class", class);
 		}
 		gsf_xml_out_end_element (state->xml); /* </chart:series> */
 	}
@@ -7120,7 +7120,7 @@ odf_write_axis_position (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 							  GNMSTYLE "axis-position-expression",
 							  CHART "axis-position");
 			else
-				gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "0");	
+				gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "0");
 		}
 		g_free (pos_str);
 	}
@@ -7165,7 +7165,7 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 	if (user_defined) {
 		go_xml_out_add_double (state->xml, CHART "minimum", tmp);
 		if (state->with_extension)
-			odf_add_expr (state, GOG_OBJECT (axis), 0, 
+			odf_add_expr (state, GOG_OBJECT (axis), 0,
 				      GNMSTYLE "chart-minimum-expression", NULL);
 	}
 	tmp = gog_axis_get_entry
@@ -7173,8 +7173,8 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 	if (user_defined) {
 		go_xml_out_add_double (state->xml, CHART "maximum", tmp);
 		if (state->with_extension)
-			odf_add_expr (state, GOG_OBJECT (axis), 1, 
-				      GNMSTYLE "chart-maximum-expression", NULL);		
+			odf_add_expr (state, GOG_OBJECT (axis), 1,
+				      GNMSTYLE "chart-maximum-expression", NULL);
 	}
 
 	interval = gog_dataset_get_dim (GOG_DATASET(axis),2);
@@ -7210,7 +7210,7 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 		odf_write_plot_style_bool
 			(state->xml, axis,
 			 "invert-axis", GNMSTYLE "reverse-direction");
-	
+
 	odf_write_axisline_style (state, style, axis);
 }
 
@@ -7260,7 +7260,7 @@ static void
 odf_write_axislines (GnmOOExport *state, GogObject const *axis)
 {
 	g_return_if_fail (axis != NULL);
-	
+
 	if (state->with_extension) {
 		GogObjectRole const *role;
 		role = gog_object_find_role_by_name (axis, "AxisLine");
@@ -7278,7 +7278,7 @@ odf_write_axislines (GnmOOExport *state, GogObject const *axis)
 			}
 			g_slist_free (lines);
 		}
-		
+
 	}
 }
 
@@ -7617,14 +7617,14 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 				g_free (s);
 				s = odf_go_color_to_string (go_marker_get_fill_color (style->marker.mark));
 				gsf_xml_out_add_cstr (state->xml, GNMSTYLE "marker-fill-colour", s);
-				g_free (s);				
+				g_free (s);
 			}
 		} else if (state->with_extension)
 			odf_add_bool (state->xml, GNMSTYLE "auto-color", style->fill.auto_fore);
 		if (state->with_extension && (style->interesting_fields & GO_STYLE_MARKER)) {
-			odf_add_bool (state->xml, GNMSTYLE "auto-marker-outline-colour", 
+			odf_add_bool (state->xml, GNMSTYLE "auto-marker-outline-colour",
 				      style->marker.auto_outline_color);
-			odf_add_bool (state->xml, GNMSTYLE "auto-marker-fill-colour", 
+			odf_add_bool (state->xml, GNMSTYLE "auto-marker-fill-colour",
 				      style->marker.auto_fill_color);
 		}
 	} else {
@@ -7735,7 +7735,7 @@ odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject c
 		odf_add_bool (state->xml, CHART "link-data-style-to-source", fmt == NULL);
 	}
 
-	odf_write_fill_type (state, obj); 
+	odf_write_fill_type (state, obj);
 
 	func = g_hash_table_lookup (state->chart_props_hash, type);
 	if (func != NULL)
@@ -7758,7 +7758,7 @@ odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject c
 			if (GOG_IS_SERIES (obj)) {
 				GogPlot *plot =	gog_series_get_plot (GOG_SERIES (obj));
 				gboolean has_marker = TRUE;
-				
+
 				if (gnm_object_has_readable_prop
 				    (plot, "default-style-has-markers",
 				     G_TYPE_BOOLEAN, &has_marker)) {
@@ -7886,7 +7886,7 @@ odf_write_axis_full (GnmOOExport *state,
 
 	str = g_string_new (NULL);
 	children = gog_object_get_children (chart, gog_object_find_role_by_name (chart, axis_role));
-	
+
 	for (l = children; l != NULL; l = l->next) {
 		GogObject const *axis = l->data;
 		if (axis != NULL) {
@@ -8310,7 +8310,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		if (0 == strcmp ("GogBarColPlot", plot_type)) {
 			gboolean b;
 
-			if (gnm_object_has_readable_prop 
+			if (gnm_object_has_readable_prop
 			    (second_plot, "horizontal",
 			     G_TYPE_BOOLEAN, &b) && b)
 				plot_type = "GogBarPlot";
@@ -8326,7 +8326,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 			g_printerr ("Encountered unknown chart type %s\n", plot_type);
 			this_second_plot = &plots[0];
 		}
-		
+
 		series = gog_plot_get_series (GOG_PLOT (second_plot));
 
 		this_second_plot->odf_write_series (state, series, this_second_plot->odf_plot_type);
@@ -8472,7 +8472,7 @@ odf_write_plot_style_affine (GsfXMLOut *xml, GogObject const *plot, float interc
 	if (gnm_object_has_readable_prop (plot, "affine", G_TYPE_BOOLEAN, &b)) {
 		odf_add_bool (xml, GNMSTYLE "regression-affine", b);
 		odf_add_bool (xml, LOEXT "regression-force-intercept", !b);
-		go_xml_out_add_double (xml, LOEXT "regression-intercept-value", intercept);	
+		go_xml_out_add_double (xml, LOEXT "regression-intercept-value", intercept);
 	}
 }
 
@@ -8675,7 +8675,7 @@ odf_write_graphs (SheetObject *so, char const *name, GnmOOExport *state)
 		GogObject const	*chart = chart_list->data;
 		chartname = g_strdup_printf ("%s-%i", name, n);
 		g_hash_table_remove_all (state->xl_styles);
-		
+
 		state->object_name = chartname;
 
 		child = gsf_outfile_new_child_full
@@ -8748,7 +8748,7 @@ odf_write_graphs (SheetObject *so, char const *name, GnmOOExport *state)
 								"compression-level", GSF_ZIP_DEFLATED,
 								NULL);
 			if (NULL != sec_child) {
-				if (!gog_graph_export_image (graph, GO_IMAGE_FORMAT_SVG, 
+				if (!gog_graph_export_image (graph, GO_IMAGE_FORMAT_SVG,
 							     sec_child, 100., 100.))
 					g_print ("Failed to create svg image of graph.\n");
 				gsf_output_close (sec_child);

@@ -862,7 +862,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 			if (0 == strcmp (val_string, "solid")) {
 				style->fill.type = GO_STYLE_FILL_PATTERN;
 				style->fill.auto_type = FALSE;
-				style->fill.pattern.pattern = (gnm_foreground_solid) ? 
+				style->fill.pattern.pattern = (gnm_foreground_solid) ?
 					GO_PATTERN_FOREGROUND_SOLID : GO_PATTERN_SOLID;
 				fill_type = OO_FILL_TYPE_SOLID;
 			} else if (0 == strcmp (val_string, "hatch")) {
@@ -886,7 +886,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 			GdkRGBA rgba;
 			gchar const *color = g_value_get_string (&prop->value);
 			if (gdk_rgba_parse (&rgba, color)) {
-				guint a; 
+				guint a;
 				if (gnm_foreground_solid) {
 					a = GO_COLOR_UINT_A (style->fill.pattern.fore);
 					go_color_from_gdk_rgba (&rgba, &style->fill.pattern.fore);
@@ -1019,7 +1019,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 		else if (0 == strcmp (prop->name, "gnm-auto-font")) {
 			gnm_auto_font_set = TRUE;
 			gnm_auto_font = g_value_get_boolean (&prop->value);
-		} 
+		}
 	}
 
 	if (desc_changed)
@@ -3082,8 +3082,8 @@ odf_complete_control_setup (OOParseState *state, object_offset_t const *ob_off)
 
 	if ((oc->t == sheet_widget_checkbox_get_type () ||
 	     oc->t == sheet_widget_radio_button_get_type ()) && oc->current_state != NULL)
-		g_object_set (G_OBJECT (so), "active", 
-			      strcmp (oc->current_state, "checked") == 0 || 
+		g_object_set (G_OBJECT (so), "active",
+			      strcmp (oc->current_state, "checked") == 0 ||
 			      strcmp (oc->current_state, "true") == 0, NULL);
 	if (oc->linked_cell) {
 		GnmParsePos pp;
@@ -3580,7 +3580,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name")) {
 			oostyle = g_hash_table_lookup (state->styles.cell, attrs[1]);
-			if (oostyle) 
+			if (oostyle)
 				style = odf_style_from_oo_cell_style (xin, oostyle);
 			else
 				oo_warning (xin, "The cell style with name <%s> is missing", CXML2C (attrs[01]));
@@ -3708,7 +3708,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name")) {
 			oostyle = g_hash_table_lookup (state->styles.cell, attrs[1]);
-			if (oostyle) 
+			if (oostyle)
 				style = odf_style_from_oo_cell_style (xin, oostyle);
 			else
 				oo_warning (xin, "The cell style with name <%s> is missing", CXML2C (attrs[01]));
@@ -5898,7 +5898,7 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 		pi->scaling.type = PRINT_SCALE_FIT_PAGES;
 	} else {
 		pi->scaling.type = PRINT_SCALE_PERCENTAGE;
-		pi->scaling.percentage.x = pi->scaling.percentage.y = scale_to;		
+		pi->scaling.percentage.x = pi->scaling.percentage.y = scale_to;
 	}
 
 	if (gnm_style_print && pi->comment_placement != GNM_PRINT_COMMENTS_NONE)
@@ -6825,7 +6825,7 @@ odf_apply_expression (GsfXMLIn *xin, gint dim, GObject *obj, gchar const *expres
 	if (expr != NULL) {
 		data = gnm_go_data_scalar_new_expr (state->pos.sheet, expr);
 		gog_dataset_set_dim (GOG_DATASET (obj), dim, data, NULL);
-	} 
+	}
 }
 
 static void
@@ -7124,7 +7124,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					(style->axis_props,
 					 oo_prop_new_string ("pos-str",
 							     "low"));
-			else if (0 == strcmp (CXML2C(attrs[1]), "end")) 
+			else if (0 == strcmp (CXML2C(attrs[1]), "end"))
 				style->axis_props = g_slist_prepend
 					(style->axis_props,
 					 oo_prop_new_string ("pos-str",
@@ -7164,8 +7164,8 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_prop_new_double ("center-size", ftmp));
 		else if (oo_attr_angle (xin, attrs, OO_NS_CHART,
 					"angle-offset", &tmp))
-			style->plot_props = g_slist_prepend 
-				(style->plot_props, oo_prop_new_double ("plot-initial-angle", 
+			style->plot_props = g_slist_prepend
+				(style->plot_props, oo_prop_new_double ("plot-initial-angle",
 									(double) odf_scale_initial_angle (tmp)));
 		else if (oo_attr_bool (xin, attrs, OO_NS_CHART,
 					 "reverse-direction", &btmp))
@@ -7548,7 +7548,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	if (!default_style_has_lines_set)
 		style->plot_props = g_slist_prepend
 			(style->plot_props,
-			 oo_prop_new_bool ("default-style-has-lines", draw_stroke_set && draw_stroke));	
+			 oo_prop_new_bool ("default-style-has-lines", draw_stroke_set && draw_stroke));
 
 	if (local_style) {
 		/* odf_apply_style_props (xin, style->style_props, state->default_style.cells, TRUE);*/
@@ -8057,7 +8057,7 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 		cell_base.start.col = cell_base.start.row = 0;
 		range_ensure_sanity (&cell_base, state->pos.sheet);
 	}
-	
+
 	sheet_object_anchor_init (&state->chart.anchor, &cell_base, frame_offset,
 				  GOD_ANCHOR_DIR_DOWN_RIGHT, mode);
 	state->chart.so = NULL;
@@ -8697,7 +8697,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 			axis_type = tmp;
 		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "id", &gnm_id, 1, INT_MAX))
 		 	;
-	
+
 	if (gnm_id == 0) {
 		switch (axis_type) {
 		case GOG_AXIS_X:
@@ -8739,7 +8739,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 				break;
 			}
 		}
-		g_slist_free (axes);	
+		g_slist_free (axes);
 	}
 	if (NULL == state->chart.axis)
 		g_print ("Did not find axis with type %i and id %i.\n", axis_type, gnm_id);
@@ -9018,7 +9018,7 @@ static gchar const
 	case OO_PLOT_SCATTER_COLOUR: return "GogXYColorPlot";	break;
 	case OO_PLOT_XL_SURFACE: return "XLSurfacePlot";	break;
 	case OO_PLOT_BOX: return "GogBoxPlot";	break;
-	case OO_PLOT_UNKNOWN: 
+	case OO_PLOT_UNKNOWN:
 	default:
 		return "GogLinePlot";
 		/* It is simpler to create a plot than to check that we don't have one */
@@ -9032,7 +9032,7 @@ oo_prop_list_has_double (GSList *props, double *d, char const *tag)
 	GSList *ptr;
 	for (ptr = props; ptr; ptr = ptr->next) {
 		OOProp *prop = ptr->data;
-		if (0 == strcmp (prop->name, tag)) { 
+		if (0 == strcmp (prop->name, tag)) {
 			*d = g_value_get_double (&prop->value);
 			return TRUE;
 		}
@@ -9045,14 +9045,14 @@ static GogPlot *odf_create_plot (OOParseState *state,  OOPlotType *oo_type)
 {
 	GogPlot *plot;
 	gchar const *type;
-	
+
 	type = odf_find_plot_type (state, oo_type);
 	plot = gog_plot_new_by_name (type);
-	
+
 	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
 		"Plot", GOG_OBJECT (plot));
 
-	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL) 
+	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL)
 		oo_prop_list_apply (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA]->
 				    plot_props, G_OBJECT (plot));
 
@@ -9120,7 +9120,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.named_axes = g_hash_table_new_full
 		(g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		NULL);	
+		NULL);
 	if (NULL != source_range_str) {
 		GnmParsePos pp;
 		GnmEvalPos  ep;
@@ -9431,7 +9431,7 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 			src = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "cell-range-expression"))
 			cell_range_expression = attrs[1];
-	
+
 	switch (state->chart.plot_type) {
 	case OO_PLOT_BUBBLE:
 	case OO_PLOT_SCATTER_COLOUR:
@@ -9448,7 +9448,7 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 		dim = GOG_MS_DIM_CATEGORIES;
 		break;
 	}
-	oo_plot_assign_dim (xin, (cell_range_expression != NULL) ? cell_range_expression : src, dim, name, 
+	oo_plot_assign_dim (xin, (cell_range_expression != NULL) ? cell_range_expression : src, dim, name,
 			    cell_range_expression != NULL);
 	state->chart.domain_count++;
 }
@@ -9683,10 +9683,10 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 				if (expr != NULL) {
 					data = gnm_go_data_scalar_new_expr (state->pos.sheet, expr);
 					gog_dataset_set_dim (GOG_DATASET (regression), -1, data, NULL);
-				}	
+				}
 			} else if (regression_name_c != NULL) {
 				GOData *data;
-				data = gnm_go_data_scalar_new_expr 
+				data = gnm_go_data_scalar_new_expr
 					(state->pos.sheet, gnm_expr_top_new_constant
 					 (value_new_string (regression_name_c)));
 				gog_dataset_set_dim (GOG_DATASET (regression), -1, data, NULL);
@@ -11444,11 +11444,11 @@ oo_named_expr_preparse (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->object_name == NULL)
 		/* We do not need to define global names during preparsing. */
 		return;
-	
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
-			name = CXML2C (attrs[1]);	
-	
+			name = CXML2C (attrs[1]);
+
 	if (name != NULL)
 		state->named_expression_names= g_slist_prepend (state->named_expression_names, g_strdup (name));
 }

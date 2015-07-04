@@ -134,7 +134,7 @@ text_to_cell_region (WBCGtk *wbcg,
 	if (!data) {
 		/*
 		 * See Redhat #1160975.
-		 * 
+		 *
 		 * I'm unsure why someone get NULL here, but this is better
 		 * than a crash.
 		 */

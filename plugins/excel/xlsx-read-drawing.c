@@ -1378,7 +1378,7 @@ xlsx_get_trend_eq (XLSXReadState *state)
 	}
 
 	return eq;
-}	
+}
 
 
 static void

@@ -359,7 +359,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 			/* FIXME: export image */
 		case GO_STYLE_FILL_NONE:
 			gsf_xml_out_simple_element (xml, "a:noFill", NULL);
-			break;			
+			break;
 		case GO_STYLE_FILL_PATTERN: {
 			const char *pattname = NULL;
 			ext_fill_auto_pattern = TRUE;

@@ -197,7 +197,7 @@ xlsx_CT_pivotTableDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 	(void)compact;
 	(void)outline;
 	(void)gridDropZones;
-	
+
 	state->pivot.field_count = 0;
 	state->pivot.slicer = g_object_new (GNM_SHEET_SLICER_TYPE,
 		"name",		name,
@@ -431,7 +431,7 @@ xlsx_CT_PivotField (GsfXMLIn *xin, xmlChar const **attrs)
 	(void)compact;
 	(void)hiddenLevel;
 	(void)showDropDowns;
-	
+
 #if 0
 	"rankBy" type="xsd:unsignedInt"
 	"numFmtId" type="ST_NumFmtId"

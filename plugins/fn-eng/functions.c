@@ -722,7 +722,7 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'F'    \t\tDegree Fahrenheit\n"
 					"\t'K'    \t\tKelvin\n"
 					"\t'Rank' \t\tDegree Rankine\n"
-					"\t'Reau' \t\tDegree Réaumur\n\n"					
+					"\t'Reau' \t\tDegree Réaumur\n\n"
 					"Volume (liquid measure):\n"
 					"\t'tsp'  \t\tTeaspoon\n"
 					"\t'tspm'  \t\tTeaspoon (modern, metric)\n"
@@ -971,7 +971,7 @@ convert_temp (char const *from_unit, char const *to_unit, gnm_float n, GnmValue 
 		*v = value_new_float (nO);
 		return TRUE;
 	}
-	
+
 	/* Convert from K to to_unit */
 	switch (to_unit_type) {
 	case temp_C:
@@ -991,7 +991,7 @@ convert_temp (char const *from_unit, char const *to_unit, gnm_float n, GnmValue 
 	}
 
 	*v = value_new_float (n);
-	
+
 	return TRUE;
 }
 
