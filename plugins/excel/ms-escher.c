@@ -2099,7 +2099,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		h.fbt	= GSF_LE_GET_GUINT16 (data + 2);
 		datalen = GSF_LE_GET_GUINT32 (data + 4);
 
-		if (datalen >= 0xfffffff0) {
+		if (h.offset > state->end_offset || datalen >= MIN (0xfffffff0, (unsigned) (state->end_offset - h.offset))) {
 			g_warning ("Crazy data length in escher record");
 			ms_escher_header_release (&h);
 			return TRUE;

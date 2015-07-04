@@ -1,5 +1,10 @@
 2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-escher.c (ms_escher_read_container): protect against wrong record
+	length. Fixes #751249.
+
+2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c (set_radial_axes), (end): make axis type change more secure.
 
 2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
