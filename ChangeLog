@@ -1,3 +1,8 @@
+2015-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/value.c (value_compare_real): handle two empty values however
+	they appear
+
 2015-07-03  Morten Welinder  <terra@gnome.org>
 
 	* src/func-builtin.c (gnumeric_table): Return #REF! outside array

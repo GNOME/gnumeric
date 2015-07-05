@@ -1360,7 +1360,9 @@ value_compare_real (GnmValue const *a, GnmValue const *b,
 
 	switch (PAIR (ta,tb)) {
 	case CPAIR (VALUE_EMPTY,VALUE_EMPTY):
-		g_assert_not_reached(); /* Should have hit trivial case.  */
+		/* In most cases this is handled by the trivial case. */
+		/* We can get here if one of a and b is NULL and the  */
+		/* is not but contains an empty value.                */
 		return IS_EQUAL;
 
 	/* ---------------------------------------- */
