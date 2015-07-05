@@ -4295,7 +4295,7 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float *ys, *xs, *nxs;
 	int i, n, nnx;
-	GnmValue *res;
+	GnmValue *res = NULL;
 	int dim = 1;
 	gboolean affine;
 	GORegressionResult regres;

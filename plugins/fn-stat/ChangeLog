@@ -1,3 +1,7 @@
+2015-07-05  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_growth): Fix error handling.  #751970.
+
 2015-07-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_quartile_exc): avoid division by 0
