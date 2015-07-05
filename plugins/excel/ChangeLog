@@ -1,3 +1,9 @@
+2015-07-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end): one more NULL value issue. [#751969]
+	* ms-excel-read.c (sst_read_string): fix test with undsigned integer.
+	Fixs #751968.
+
 2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-excel-read.c (excel_read_FONT): don't read missing data. [#751909]

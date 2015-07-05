@@ -2827,16 +2827,18 @@ BC_R(end)(XLChartHandler const *handle,
 					if (!gnm_expr_top_is_rangeref (texpr))
 						goto not_a_matrix;
 					value = gnm_expr_top_get_range (texpr);
-					if ((as_col && (value->v_range.cell.a.col != col ||
-							value->v_range.cell.a.row != row_start)) ||
-							(! as_col && (value->v_range.cell.a.col != col_start ||
-							value->v_range.cell.a.row != row))) {
-						is_matrix = FALSE;
+					if (value) {
+						if ((as_col && (value->v_range.cell.a.col != col ||
+								value->v_range.cell.a.row != row_start)) ||
+								(! as_col && (value->v_range.cell.a.col != col_start ||
+								value->v_range.cell.a.row != row))) {
+							is_matrix = FALSE;
+							value_release (value);
+							break;
+						}
 						value_release (value);
-						break;
+						has_labels = TRUE;
 					}
-					value_release (value);
-					has_labels = TRUE;
 				}
 				cur = eseries->data [GOG_MS_DIM_CATEGORIES].data;
 				if (cur && cat_expr &&

@@ -1,3 +1,7 @@
+2015-07-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-graph.c (vector_end): fix array overflow. [#751971]
+
 2015-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/value.c (value_compare_real): handle two empty values however

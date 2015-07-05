@@ -1283,7 +1283,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 				pango_attr_list_unref (txo_run.accum);
 				return offset;
 			}
-			if ((q->length - offset) >= 4) {
+			if ((q->length >= offset + 4)) {
 				guint16 o = GSF_LE_GET_GUINT16 (q->data + offset);
 				size_t l = strlen (res_str);
 				txo_run.last = g_utf8_offset_to_pointer (res_str, MIN (o, l)) - res_str;

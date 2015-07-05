@@ -850,7 +850,7 @@ vector_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
 	GuppiReadState *state = (GuppiReadState *) xin->user_state;
 	GOData *data;
-	if (state->cur_index > 255)
+	if (state->cur_index >= state->max_data)
 		return;
 	data = g_object_new (GNM_GO_DATA_VECTOR_TYPE, NULL);
 	go_data_unserialize (data, xin->content->str, (void*) state->convs);
