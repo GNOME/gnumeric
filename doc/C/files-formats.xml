@@ -45,8 +45,8 @@
   <entry>application/x-applix-spreadsheet</entry>
 </row>
 <row>
-  <entry><link linkend="file-format-csv">Comma Separated Values</link></entry>
-  <entry><literal>.csv</literal></entry> 
+  <entry><link linkend="file-format-csv">Comma/Tab/Semicolon Separated Values</link></entry>
+  <entry><literal>.csv</literal>/<literal>.tsv</literal></entry> 
   <entry></entry>
   <entry></entry>
   <entry>YES</entry>
@@ -235,15 +235,6 @@
   <entry></entry>
   <entry></entry>
   <entry>application/x-sylk</entry>
-</row>
-<row>
-  <entry><link linkend="file-format-tab">Tab Separated Values</link></entry>
-  <entry><literal>.tsv</literal> / <literal>.tab</literal></entry> 
-  <entry></entry>
-  <entry></entry>
-  <entry>YES</entry>
-  <entry>YES</entry>
-  <entry>text/plain</entry>
 </row>
 <row>
   <entry><link linkend="file-format-text">Text Formats</link></entry>
@@ -678,33 +669,37 @@ gunzip Book1.text.gz
 
 
   <sect2 id="file-format-csv">
-    <title>Comma Separated Value (CSV) File Format</title>
+    <title>Comma/Tab/Semicolon Separated Value (CSV/TSV) File Formats</title>
 
 <!-- TODO: explain locale prob- CSV file comma vs. decimal separator -->
 
     <para>
-      The Comma Separated Value (CSV) file format is a common
-      structuring strategy for text format files. In CSV flies, each
+      The Comma Separated Value (CSV) and Tab Separated Value (TSV) file
+      formats are a common
+      structuring strategy for text format files. In these files, each
       line in the file represents a row of data and, within each line
       of the file, the different data fields are separated from one
-      another using a comma. &gnum; handles CSV files through the text
-      importer and exporter but this format is given its own
-      definition in this document because it is such a common format.
+      another using a separator character, often a comma, semicolon or tab.
+      &gnum; handles CSV and TSV files through the text
+      importer and exporter but these formats are given their own
+      definitions in this document because they are considered very common
+      formats.
     </para>
 
     <para>
-      &gnum; will automatically open CSV format files separating each
-      row into columns based on the presence of comma characters in
+      &gnum; will automatically open CSV and TSV format files separating each
+      row into columns based on the presence of appropriate separator
+      characters in
       the file. If the automatic import leads to any errors, these can
       generally be corrected by using the "Text Import (configurable)"
       file format instead. Selecting that file format will launch the
       <interface>Text Import</interface> druid which allows the user
-      to import CSV format files while specifying in greater detail
+      to import CSV and TSV format files while specifying in greater detail
       the settings of the import configuration parameters. See the
       section on <link linkend="sect-file-textImport">importing text
       files</link> or the section on <link
       linkend="sect-file-textExport">exporting text files</link> for
-      an explanation of how to open or save CSV files through the
+      an explanation of how to open or save CSV and TSV files through the
       <interface>Text Import</interface> druid.
     </para>
 
@@ -715,13 +710,13 @@ gunzip Book1.text.gz
 	    <entry>
 	      <emphasis role="bold">Name:</emphasis>
 	    </entry>
-	    <entry>Comma Separated Value, CSV</entry>
+	    <entry>Comma/Semicolon/Tab Separated Value, CSV/TSV</entry>
 	  </row>
 	  <row>
 	    <entry>
 	      <emphasis role="bold">Extensions:</emphasis>
 	    </entry>
-	    <entry>.csv, .txt</entry>
+	    <entry>.csv, .tsv, .txt</entry>
 	  </row>
 	  <row>
 	    <entry>
@@ -1635,7 +1630,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	    <entry>
 	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Import only.</entry>
+	    <entry>Import only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -2528,7 +2523,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	    <entry>
 	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Import only.</entry>
+	    <entry>Import only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -2974,7 +2969,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	    <entry>
 	      <emphasis role="bold">Import / Export:</emphasis>
 	    </entry>
-	    <entry>Import only.</entry>
+	    <entry>Import only</entry>
 	  </row>
 	</tbody>
       </tgroup>
@@ -3019,150 +3014,6 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 
 
   </sect2>
-
-
-
-
-
-
-
-
-
-
-  <sect2 id="file-format-tab">
-    <title>Tab Separated Value File Format</title>
-
-    <para>
-      The Tab Separated Value file format is a common structuring
-      strategy for text format files. In tab separated value flies,
-      each line in the file represents a row of data and, within each
-      line of the file, the different data fields are separated from
-      one another using a tab spacing. &gnum; handles tab separated
-      value files through the text importer and exporter but this
-      format is given its own definition in this document because it
-      is such a common format.
-    </para>
-
-    <para>
-      &gnum; will automatically open Tab Separated Value format files
-      separating each row into columns based on the presence of tab
-      characters in the file. If the automatic import leads to any
-      errors, these can generally be corrected by using the "Text
-      Import (configurable)" file format instead. Selecting that file
-      format will launch the <interface>Text Import</interface> druid
-      which allows the user to import Tab Separated Value format files
-      while specifying in greater detail the settings of the import
-      configuration parameters. See the section on <link
-      linkend="sect-file-textImport">importing text files</link> or
-      the section on <link linkend="sect-file-textExport">exporting
-      text files</link> for an explanation of how to open or save Tab
-      Separated Value format files through the <interface>Text
-      Import</interface> druid.
-    </para>
-
-    <informaltable frame='all'>
-      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
-        <tbody>
-	  <row>
-	    <entry>
-	      <emphasis role="bold">Name:</emphasis>
-	    </entry>
-	    <entry>Tab Separated Value</entry>
-	  </row>
-	  <row>
-	    <entry>
-	      <emphasis role="bold">Extensions:</emphasis>
-	    </entry>
-	    <entry><literal>.tsv</literal> / <literal>.tab</literal></entry>
-	  </row>
-	  <row>
-	    <entry>
-	      <emphasis role="bold">Compatible Programs:</emphasis>
-            </entry>
-	    <entry>Multiple</entry>
-	  </row>
-	  <row>
-	    <entry>
-	      <emphasis role="bold">Import / Export:</emphasis>
-	    </entry>
-	    <entry>Both</entry>
-	  </row>
-	</tbody>
-      </tgroup>
-    </informaltable>
-
-    <variablelist>
-      <!-- <title></title> -->
-      <varlistentry>
-        <term>
-	  <emphasis role="bold">Limitations</emphasis>
-	</term>
-	<listitem>
-	  <para>
-	    The tab separated value file format is only useful for the
-            exchange of cell data and cannot be used for sheet objects
-            like graphical plots. This file format cannot save the
-            formatting of cell contents, backgrounds or borders.
-	  </para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-        <term>
-	  <emphasis role="bold">Plugin</emphasis>
-	</term>
-	<listitem>
-	    <para>
-	    Supported by the core &gnum; program.
-	  </para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-        <term>
-	  <emphasis role="bold">Format Details</emphasis>
-	</term>
-	<listitem>
-	  <para>
-	    Tab separated value files are simple text files where each
-	    row of the text file represents one row in the spreadsheet
-	    and where the cells within a row are separated from each
-	    other by a comma.
-	  </para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-        <term>
-	  <emphasis role="bold">Further Processing</emphasis>
-	</term>
-	<listitem>
-	  <para>
-	    Tab separated value files can be processed using any tool
-            which operates on text files. The tab separated value
-            format is also common as a format which can be opened by
-            applications.
-	  </para>
-	</listitem>
-      </varlistentry>
-
-    </variablelist>
-
-    <para>
-      <emphasis role="italic">See the section on </emphasis>
-      <link linkend="file-format-text">Text Formats</link>
-    </para>
-
-  </sect2>
-
-
-
-
-
-
-
-
-
 
   <sect2 id="file-format-text">
     <title>Text File Formats</title>
