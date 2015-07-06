@@ -7062,7 +7062,9 @@ excel_read_BOF (BiffQuery	 *q,
 	if (ver->type == MS_BIFF_TYPE_Workbook) {
 		gnm_xl_importer_set_version (importer, ver->version);
 		if (ver->version >= MS_BIFF_V8) {
-			guint32 ver = GSF_LE_GET_GUINT32 (q->data + 4);
+			guint32 ver;
+			XL_CHECK_CONDITION (q->length >= 8);
+			ver = GSF_LE_GET_GUINT32 (q->data + 4);
 			if (ver == 0x4107cd18)
 				version_desc = "Excel 2000 ?";
 			else
