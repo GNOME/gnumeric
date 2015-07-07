@@ -250,7 +250,15 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		    !gnm_cell_expr_is_linked (in[x]))
 			dependent_link (&in[x]->base);
 
-	for (x = 0 ; x < 3 ; x++)
+	for (x = 0 ; x < 3 ; x++) {
+		int y;
+		for (y = x + 1; y < 3; y++) {
+			if (in[x] == in[y]) {
+				in[y] = NULL;
+				break;
+			}
+		}
+
 		if (in[x]) {
 			dependent_queue_recalc (&in[x]->base);
 
@@ -261,6 +269,8 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			}
 			gnm_app_recalc_clear_caches ();
 		}
+	}
+
 	for (x = 0 ; x < 3 ; x++)
 		if (in[x])
 			gnm_cell_eval (in[x]);
