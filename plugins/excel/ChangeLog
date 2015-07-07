@@ -1,3 +1,8 @@
+2015-07-07  Morten Welinder  <terra@gnome.org>
+
+	* ms-biff.c (ms_biff_query_bound_check): When we span records --
+	unhandled -- signal that as an error.  Fixes #752080.
+
 2015-07-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-excel-read.c (excel_read_BOF): fuzzed file issue. [#751989]

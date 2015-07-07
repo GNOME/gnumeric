@@ -80,6 +80,7 @@ ms_biff_query_bound_check (BiffQuery *q, guint32 offset, unsigned len)
 
 	if ((offset + len) > q->length) {
 		g_warning ("supposedly atomic item of len %u sst spans CONTINUEs, we are screwed", len);
+		return (guint32)-1;
 	}
 	return offset;
 }
