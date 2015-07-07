@@ -510,8 +510,13 @@ ms_escher_read_Blip (MSEscherState *state, MSEscherHeader *h)
 		else			/* DIB  data, with 1 byte header */
 			type = "dib";
 		offset++;
-		data = ms_escher_get_data (state, h->offset + offset,
-			h->len - offset, &needs_free);
+		if (h->len < offset) {
+			data = NULL;
+			g_warning ("Invalid Blip in escher stream");
+		} else
+			data = ms_escher_get_data (state, h->offset + offset,
+						   h->len - offset,
+						   &needs_free);
 		if (data)
 			blip = ms_escher_blip_new ((guint8 *)data,
 						   h->len - offset,
