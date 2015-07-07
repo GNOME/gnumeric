@@ -221,8 +221,9 @@ database_float_range_function (GnmFuncEvalInfo *ei,
 	if (fieldno < 0)
 		return value_new_error_NUM (ei->pos);
 
-	/* I don't like this -- minimal fix for now.  509427.  */
-	if (!VALUE_IS_CELLRANGE (criteria))
+	/* I don't like this -- minimal fix for now.  509427 and 751988.  */
+	if (!VALUE_IS_CELLRANGE (criteria) ||
+	    !VALUE_IS_CELLRANGE (database))
 		return value_new_error_NUM (ei->pos);
 
 	criterias = parse_database_criteria (ei->pos, database, criteria);
