@@ -1,5 +1,8 @@
 2015-07-07  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_parse_name): Handle non-local Print_Area.
+	Fixes #752081.
+
 	* ms-biff.c (ms_biff_query_bound_check): When we span records --
 	unhandled -- signal that as an error.  Fixes #752080.
 

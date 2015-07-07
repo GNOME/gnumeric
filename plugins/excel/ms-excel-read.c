@@ -3686,7 +3686,6 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 	if (0 == strcmp (name, "Print_Area")) {
 		GnmValue *val = gnm_expr_get_range (texpr->expr);
 		if (val != NULL && VALUE_IS_CELLRANGE (val)) {
-			GnmEvalPos ep;
 			int height, width;
 
 			if (sheet == NULL) {
@@ -3697,9 +3696,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 				   name for the sheet it specifies.  This
 				   triggers on the file from 632050.  */
 				gnm_rangeref_normalize_pp (value_get_rangeref (val),
-
 							   &pp,
-
 							   &start_sheet,
 							   &end_sheet,
 							   &dest);
@@ -3711,13 +3708,17 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 				}
 			}
 
-			eval_pos_init_sheet (&ep, sheet);
-			height = value_area_get_height (val, &ep);
-			width = value_area_get_width (val, &ep);
-			if (height == gnm_sheet_get_max_rows (sheet) &&
-			    width == gnm_sheet_get_max_cols (sheet)) {
-				gnm_expr_top_unref (texpr);
-				texpr = NULL;
+			if (sheet) {
+				GnmRange r;
+
+				range_init_rangeref (&r, value_get_rangeref (val));
+				height = range_height (&r);
+				width = range_width (&r);
+				if (height == gnm_sheet_get_max_rows (sheet) &&
+				    width == gnm_sheet_get_max_cols (sheet)) {
+					gnm_expr_top_unref (texpr);
+					texpr = NULL;
+				}
 			}
 		}
 		value_release (val);
