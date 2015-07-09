@@ -1,3 +1,8 @@
+2015-07-09  Morten Welinder  <terra@gnome.org>
+
+	* src/position.c (gnm_cellpos_init_cellref_ss): Do a full modulo
+	operation.  Fixes #752124.
+
 2015-07-06  Morten Welinder  <terra@gnome.org>
 
 	* src/func-builtin.c (gnumeric_table): Avoid FMR.  Fixes #752021.

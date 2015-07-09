@@ -434,6 +434,20 @@ gnm_cellref_get_row (GnmCellRef const *ref, GnmEvalPos const *ep)
 	return ref->row;
 }
 
+static int
+modulo (int i, int max)
+{
+	if (i < 0) {
+		i %= max;
+		if (i < 0)
+			i += max;
+	} else if (i >= max)
+		i %= max;
+
+	return i;
+}
+
+
 void
 gnm_cellpos_init_cellref_ss (GnmCellPos *res, GnmCellRef const *cell_ref,
 			     GnmCellPos const *pos, GnmSheetSize const *ss)
@@ -443,23 +457,13 @@ gnm_cellpos_init_cellref_ss (GnmCellPos *res, GnmCellRef const *cell_ref,
 
 	if (cell_ref->col_relative) {
 		int col = cell_ref->col + pos->col;
-		int max = ss->max_cols;
-		if (col < 0)
-			col += max;
-		else if (col >= max)
-			col -= max;
-		res->col = col;
+		res->col = modulo (col, ss->max_cols);
 	} else
 		res->col = cell_ref->col;
 
 	if (cell_ref->row_relative) {
 		int row = cell_ref->row + pos->row;
-		int max = ss->max_rows;
-		if (row < 0)
-			row += max;
-		else if (row >= max)
-			row -= max;
-		res->row = row;
+		res->row = modulo (row, ss->max_rows);
 	} else
 		res->row = cell_ref->row;
 }
