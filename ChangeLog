@@ -1,3 +1,8 @@
+2015-07-14  Morten Welinder  <terra@gnome.org>
+
+	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: Fix typo.
+	#752259.
+
 2015-07-09  Morten Welinder  <terra@gnome.org>
 
 	* src/position.c (gnm_cellpos_init_cellref_ss): Do a full modulo

@@ -227,7 +227,7 @@
     </key>
     <key name="margin-gtk-right" type="d">
       <default>72</default>
-      <_summary>Default Bottom Margin</_summary>
+      <_summary>Default Right Margin</_summary>
       <_description>This value gives the default number of points from the right of a page to the right of the body. Please use the Print Setup dialog to edit this value.</_description>
     </key>
     <key name="paper" type="s">
