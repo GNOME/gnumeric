@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-06-28 22:24+0000\n"
-"PO-Revision-Date: 2015-07-19 07:59+0100\n"
+"PO-Revision-Date: 2015-07-20 10:13+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@openmailbox.com>\n"
 "Language-Team: Português <palbuquerque73@openmailbox.com>\n"
 "Language: pt\n"
@@ -4130,56 +4130,60 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1889
 msgid "DURATION:the (Macaulay) duration of a security"
-msgstr ""
+msgstr "DURAÇÃO: a duração (Macaulay) de uma segurança"
 
 #: ../plugins/fn-financial/functions.c:1892
 #: ../plugins/fn-financial/functions.c:3240
 msgid "coupon:annual coupon rate"
-msgstr ""
+msgstr "cupão: taxa anual do cupão"
 
 #: ../plugins/fn-financial/functions.c:1896
 msgid "DURATION calculates the (Macaulay) duration of a security."
-msgstr ""
+msgstr "DURAÇÃO calcula a duração (Macaulay) de uma segurança."
 
 #: ../plugins/fn-financial/functions.c:1935
 msgid "G_DURATION:the duration of a investment"
-msgstr ""
+msgstr "DURAÇÃO.G: a duração de um investimento"
 
 #: ../plugins/fn-financial/functions.c:1939
 msgid ""
 "G_DURATION calculates the number of periods needed for an investment to "
 "attain a desired value."
 msgstr ""
+"DURAÇÃO.G calcula o número de períodos necessário para que um investimento "
+"obtenha um valor desejado."
 
 #: ../plugins/fn-financial/functions.c:1940
 msgid "G_DURATION is the OpenFormula function PDURATION."
-msgstr ""
+msgstr "DURAÇÃO.G é a função OpenFormula DURAÇÃOP."
 
 #: ../plugins/fn-financial/functions.c:1969
 msgid "FVSCHEDULE:future value"
-msgstr ""
+msgstr "VFPLANO: valor futuro"
 
 #: ../plugins/fn-financial/functions.c:1970
 msgid "principal:initial value"
-msgstr ""
+msgstr "principal: valor inicial"
 
 #: ../plugins/fn-financial/functions.c:1971
 msgid "schedule:range of interest rates"
-msgstr ""
+msgstr "plano: intervalo de taxas de juro"
 
 #: ../plugins/fn-financial/functions.c:1972
 msgid ""
 "FVSCHEDULE calculates the future value of @{principal} after applying a "
 "range of interest rates with compounding."
 msgstr ""
+"VFPLANO calcula o valor futuro de @{principal} após aplicar um intervalo de "
+"taxas de juro com composição."
 
 #: ../plugins/fn-financial/functions.c:2005
 msgid "EURO:equivalent of 1 EUR"
-msgstr ""
+msgstr "EURO: equivalente a 1 EUR"
 
 #: ../plugins/fn-financial/functions.c:2006
 msgid "currency:three-letter currency code"
-msgstr ""
+msgstr "moeda: código de três letras para a moeda"
 
 #: ../plugins/fn-financial/functions.c:2007
 msgid ""
@@ -4187,6 +4191,8 @@ msgid ""
 "of the national currencies that were replaced by the Euro on its "
 "introduction."
 msgstr ""
+"EURO calcula a quantia de moeda nacional correspondente a 1 € para qualquer "
+"moeda nacional que foi substituída pelo euro na sua introdução."
 
 #: ../plugins/fn-financial/functions.c:2008
 msgid ""
@@ -4196,37 +4202,44 @@ msgid ""
 "(Malta), NLG (The Netherlands), PTE (Portugal), SIT (Slovenia), or SKK "
 "(Slovakia)."
 msgstr ""
+"@{moeda} tem de ser uma das ATS (Áustria), BEF (Bélgica), CYP (Chipre), DEM "
+"(Alemanha), EEK (Estónia), ESP (Espanha), EUR (Euro), FIM (Finlândia), FRF "
+"(França), GRD (Grécia), IEP (Irlanda), ITL (Itália), LUF (Luxemburgo), MTL "
+"(Malta), NLG (Holanda), PTE (Portugal), SIT (Eslovénia), ou SKK (Eslováquia)."
 
 #: ../plugins/fn-financial/functions.c:2027
 #: ../plugins/fn-financial/functions.c:2211
 msgid "This function is not likely to be useful anymore."
-msgstr ""
+msgstr "Esta função não deverá voltar a ser útil."
 
 #: ../plugins/fn-financial/functions.c:2202
 msgid "EUROCONVERT:pre-Euro amount from one currency to another"
-msgstr ""
+msgstr "CONVERSOREURO: conversor de moeda pré-euro"
 
 #: ../plugins/fn-financial/functions.c:2203
 msgid "n:amount"
-msgstr ""
+msgstr "n: quantia"
 
 #: ../plugins/fn-financial/functions.c:2204
 msgid "source:three-letter source currency code"
-msgstr ""
+msgstr "origem: código de três letras para a moeda de origem"
 
 #: ../plugins/fn-financial/functions.c:2205
 msgid "target:three-letter target currency code"
-msgstr ""
+msgstr "destino: código de três letras para a moeda de destino"
 
 #: ../plugins/fn-financial/functions.c:2206
 msgid "full_precision:whether to provide the full precision; defaults to false"
-msgstr ""
+msgstr "precisão_total: se fornecer precisão total; predefinição é FALSO"
 
 #: ../plugins/fn-financial/functions.c:2207
 msgid ""
 "triangulation_precision:number of digits (at least 3) to be rounded to after "
 "conversion of the source currency to euro; defaults to no rounding"
 msgstr ""
+"precisão_triangulação: número de dígitos (pelo menos 3) para serem "
+"arredondados após a conversão da moeda de origem para euro; a predefinição é "
+"sem arredondamento."
 
 #: ../plugins/fn-financial/functions.c:2208
 msgid ""
@@ -4234,6 +4247,8 @@ msgid ""
 "@{target}.  The rates used are the official ones used on the introduction of "
 "the Euro."
 msgstr ""
+"CONVERSOREURO converte @{n} unidades de moeda @{origem} para a moeda "
+"@{destino}. As taxas são as oficiais usadas na introdução do Euro."
 
 #: ../plugins/fn-financial/functions.c:2209
 msgid ""
@@ -4241,26 +4256,32 @@ msgid ""
 "result is rounded to 0 or 2 decimals depending on the target currency; "
 "defaults to false."
 msgstr ""
+"Se @{precisão_total} for VERDADEIRO, o resultado não é arredondado, caso "
+"contrário é arredondado para 0 ou duas casa decimais, dependendo da moda "
+"destino. A predefinição é FALSO."
 
 #: ../plugins/fn-financial/functions.c:2210
 msgid ""
 "@{source} and @{target} must be one of the currencies listed for the EURO "
 "function."
 msgstr ""
+"@{origem} e @{destino} têm de ser uma das moedas listadas para a função EURO."
 
 #: ../plugins/fn-financial/functions.c:2254
 msgid "PRICE:price of a security"
-msgstr ""
+msgstr "PREÇO: preço de uma segurança"
 
 #: ../plugins/fn-financial/functions.c:2262
 msgid ""
 "PRICE calculates the price per $100 face value of a security that pays "
 "periodic interest."
 msgstr ""
+"PREÇO calcula o preço por valor facial de 100€ de uma segurança que paga "
+"juros periódicos."
 
 #: ../plugins/fn-financial/functions.c:2304
 msgid "YIELD:yield of a security"
-msgstr ""
+msgstr "LUCRO: lucro de uma segurança"
 
 #: ../plugins/fn-financial/functions.c:2308
 #: ../plugins/fn-financial/functions.c:2416
@@ -4268,98 +4289,110 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2653
 #: ../plugins/fn-financial/functions.c:2826
 msgid "price:price of security"
-msgstr ""
+msgstr "preço: preço da segurança"
 
 #: ../plugins/fn-financial/functions.c:2312
 msgid "YIELD calculates the yield of a security that pays periodic interest."
-msgstr ""
+msgstr "LUCRO calcula o lucro de uma segurança que paga juros periódicos."
 
 #: ../plugins/fn-financial/functions.c:2413
 msgid "YIELDDISC:yield of a discounted security"
-msgstr ""
+msgstr "LUCRODESC: lucro de uma segurança descontada"
 
 #: ../plugins/fn-financial/functions.c:2419
 msgid "YIELDDISC calculates the yield of a discounted security."
-msgstr ""
+msgstr "LUCRODESC calcula o lucro de uma segurança descontada."
 
 #: ../plugins/fn-financial/functions.c:2458
 msgid "YIELDMAT:yield of a security"
-msgstr ""
+msgstr "LUCROVENC: lucro de uma segurança"
 
 #: ../plugins/fn-financial/functions.c:2465
 msgid ""
 "YIELDMAT calculates the yield of a security for which the interest is paid "
 "at maturity date."
 msgstr ""
+"LUCROVENC calcula lucro de uma segurança para a qual o juro é pago na data "
+"de vencimento."
 
 #: ../plugins/fn-financial/functions.c:2497
 msgid "ODDFPRICE:price of a security that has an odd first period"
-msgstr ""
+msgstr "PREÇOPRIMINC: preço de uma segurança que tem um primeiro período ímpar"
 
 #: ../plugins/fn-financial/functions.c:2501
 #: ../plugins/fn-financial/functions.c:2651
 msgid "first_interest:first interest date"
-msgstr ""
+msgstr "primeiro_juro: data do primeiro juro"
 
 #: ../plugins/fn-financial/functions.c:2507
 msgid ""
 "ODDFPRICE calculates the price per $100 face value of a security that pays "
 "periodic interest, but has an odd first period."
 msgstr ""
+"PREÇOPRIMINC calcula o preço por valor facial de 100€ de uma segurança que "
+"paga juros periódicos, mas que tem um primeiro período ímpar."
 
 #: ../plugins/fn-financial/functions.c:2647
 msgid "ODDFYIELD:yield of a security that has an odd first period"
-msgstr ""
+msgstr "LUCROPRIMINC: lucro de uma segurança que tem um primeiro período ímpar"
 
 #: ../plugins/fn-financial/functions.c:2657
 msgid ""
 "ODDFYIELD calculates the yield of a security that pays periodic interest, "
 "but has an odd first period."
 msgstr ""
+"LUCROPRIMINC calcula o lucro de uma segurança que paga juros periódicos, mas "
+"que tem um primeiro período ímpar."
 
 #: ../plugins/fn-financial/functions.c:2743
 msgid "ODDLPRICE:price of a security that has an odd last period"
-msgstr ""
+msgstr "PREÇOÚLTINC: preço de uma segurança que tem um último período ímpar"
 
 #: ../plugins/fn-financial/functions.c:2746
 #: ../plugins/fn-financial/functions.c:2824
 msgid "last_interest:last interest date"
-msgstr ""
+msgstr "último_juro: data do último juro"
 
 #: ../plugins/fn-financial/functions.c:2752
 msgid ""
 "ODDLPRICE calculates the price per $100 face value of a security that pays "
 "periodic interest, but has an odd last period."
 msgstr ""
+"PREÇOÚLTINC calcula o preço por valor facial de 100€ de uma segurança que "
+"paga juros periódicos, mas que tem um último período ímpar"
 
 #: ../plugins/fn-financial/functions.c:2821
 msgid "ODDLYIELD:yield of a security that has an odd last period"
-msgstr ""
+msgstr "LUCROÚLTINC: lucro de uma segurança que tem um último período ímpar"
 
 #: ../plugins/fn-financial/functions.c:2830
 msgid ""
 "ODDLYIELD calculates the yield of a security that pays periodic interest, "
 "but has an odd last period."
 msgstr ""
+"LUCROÚLTINC calcula o lucro de uma segurança que paga juros periódicos, mas "
+"que tem um último período ímpar."
 
 #: ../plugins/fn-financial/functions.c:2899
 msgid "AMORDEGRC:depreciation of an asset using French accounting conventions"
 msgstr ""
+"AMORDEGRC: desvalorização de um ativo usando as convenções contabilísticas "
+"francesas"
 
 #: ../plugins/fn-financial/functions.c:2901
 #: ../plugins/fn-financial/functions.c:2957
 msgid "purchase_date:date of purchase"
-msgstr ""
+msgstr "data_compra: data de aquisição"
 
 #: ../plugins/fn-financial/functions.c:2902
 #: ../plugins/fn-financial/functions.c:2958
 msgid "first_period:end of first period"
-msgstr ""
+msgstr "primeiro_período: final do primeiro período"
 
 #: ../plugins/fn-financial/functions.c:2905
 #: ../plugins/fn-financial/functions.c:2961
 msgid "rate:depreciation rate"
-msgstr ""
+msgstr "taxa: taxa de desvalorização"
 
 #: ../plugins/fn-financial/functions.c:2908
 msgid ""
@@ -4369,6 +4402,11 @@ msgid ""
 "depreciation coefficient is applied in the calculation depending on the life "
 "of the assets."
 msgstr ""
+"AMORDEGRC calcula a desvalorização de um ativo usando as convenções "
+"contabilísticas francesas. Ativos comprados no meio de um período levam em "
+"conta desvalorização pré-taxada. É semelhante a AMORLINC, exceto que um "
+"coeficiente de desvalorização é aplicado no cálculo dependendo da vida útil "
+"dos ativos."
 
 #: ../plugins/fn-financial/functions.c:2912
 msgid ""
@@ -4378,6 +4416,11 @@ msgid ""
 "2.0 for an expected lifetime of at least 5 years but at most 6 years,\n"
 "2.5 for an expected lifetime of more than 6 years."
 msgstr ""
+"Os coeficentes usados são:\n"
+"1.0 para uma vida útil inferior a 3 anos,\n"
+"1.5 para uma vida útil de pelo menos 3 anos, mas inferior a 5 anos,\n"
+"2.0 para uma vida útil de pelo menos 5 e no máximo 6 anos,\n"
+"2.5 para uma vida útil de mais de 6 anos."
 
 #: ../plugins/fn-financial/functions.c:2917
 msgid ""
@@ -4385,14 +4428,19 @@ msgid ""
 "a possible total depreciation exceeding the difference of @{cost} - "
 "@{salvage}."
 msgstr ""
+"São aplicadas regras especiais de desvalorização aos dois últimos períodos, "
+"resultando numa possível desvalorização total excedendo a diferença entre "
+"@{custo} - @{residual}."
 
 #: ../plugins/fn-financial/functions.c:2919
 msgid "Named for AMORtissement DEGRessif Comptabilite."
-msgstr ""
+msgstr "Asim chamado por AMORtissement DEGRessif Comptabilite."
 
 #: ../plugins/fn-financial/functions.c:2955
 msgid "AMORLINC:depreciation of an asset using French accounting conventions"
 msgstr ""
+"AMORLINC: desvalorização de um ativo usando as convenções contabilísticas "
+"francesas"
 
 #: ../plugins/fn-financial/functions.c:2964
 msgid ""
@@ -4400,14 +4448,17 @@ msgid ""
 "conventions. Assets purchased in the middle of a period take prorated "
 "depreciation into account. "
 msgstr ""
+"AMORLINC calcula a desvalorização de um ativo usando as convenções "
+"contabilísticas francesas. Ativos comprados no meio de um período levam em "
+"conta desvalorização pré-taxada."
 
 #: ../plugins/fn-financial/functions.c:2966
 msgid "Named for AMORtissement LINeaire Comptabilite."
-msgstr ""
+msgstr "Assim chamado por AMORtissement LINeaire Comptabilite."
 
 #: ../plugins/fn-financial/functions.c:3001
 msgid "COUPDAYBS:number of days from coupon period to settlement"
-msgstr ""
+msgstr "CUPDIASINLIQ: número de dias desde o período do cupão até à liquidação"
 
 #: ../plugins/fn-financial/functions.c:3006
 #: ../plugins/fn-financial/functions.c:3030
@@ -4416,119 +4467,134 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3104
 #: ../plugins/fn-financial/functions.c:3130
 msgid "eom:end-of-month flag"
-msgstr ""
+msgstr "fdm: bandeira de fim de mês"
 
 #: ../plugins/fn-financial/functions.c:3007
 msgid ""
 "COUPDAYBS calculates the number of days from the beginning of the coupon "
 "period to the settlement date."
 msgstr ""
+"CUPDIASINLIQ calcula o número de dias desde o início do período do cupão até "
+"à data de liquidação."
 
 #: ../plugins/fn-financial/functions.c:3025
 msgid "COUPDAYS:number of days in the coupon period of the settlement date"
-msgstr ""
+msgstr "CUPDIAS: número de dias no período do cupão da data de liquidação"
 
 #: ../plugins/fn-financial/functions.c:3031
 msgid ""
 "COUPDAYS calculates the number of days in the coupon period of the "
 "settlement date."
 msgstr ""
+"CUPDIAS calcula o número de dias no período do cupão da data de liquidação."
 
 #: ../plugins/fn-financial/functions.c:3049
 msgid ""
 "COUPDAYSNC:number of days from the settlement date to the next coupon period"
 msgstr ""
+"CUPDIASPRÓX: número de dias da data de liquidação até ao próximo período de "
+"cupão"
 
 #: ../plugins/fn-financial/functions.c:3055
 msgid ""
 "COUPDAYSNC calculates number of days from the settlement date to the next "
 "coupon period."
 msgstr ""
+"CUPDIASPRÓX calcula o número de dias da data de liquidação até ao próximo "
+"período de cupão."
 
 #: ../plugins/fn-financial/functions.c:3073
 msgid "COUPNCD:the next coupon date after settlement"
-msgstr ""
+msgstr "CUPDATAPRÓX: a próxima data de cupão após liquidação"
 
 #: ../plugins/fn-financial/functions.c:3079
 msgid "COUPNCD calculates the coupon date following settlement."
-msgstr ""
+msgstr "CUPDATAPRÓX calcula a data de cupão após liquidação."
 
 #: ../plugins/fn-financial/functions.c:3099
 msgid "COUPPCD:the last coupon date before settlement"
-msgstr ""
+msgstr "CUPDATAANT: a última data de cupão antes da liquidação"
 
 #: ../plugins/fn-financial/functions.c:3105
 msgid "COUPPCD calculates the coupon date preceding settlement."
-msgstr ""
+msgstr "CUPDATAANT calcula a data de cupão antes da liquidação."
 
 #: ../plugins/fn-financial/functions.c:3125
 msgid "COUPNUM:number of coupons"
-msgstr ""
+msgstr "CUPNÚM: número de cupões"
 
 #: ../plugins/fn-financial/functions.c:3131
 msgid ""
 "COUPNUM calculates the number of coupons to be paid between the settlement "
 "and maturity dates, rounded up."
 msgstr ""
+"CUPNÚM calcula o número de cupões a serem pagos entre as datas de liquidação "
+"e vencimento, arredondado."
 
 #: ../plugins/fn-financial/functions.c:3149
 msgid "CUMIPMT:cumulative interest payment"
-msgstr ""
+msgstr "PGTOJURACUM: pagamento de juros acumulados"
 
 #: ../plugins/fn-financial/functions.c:3150
 #: ../plugins/fn-financial/functions.c:3194
 msgid "rate:interest rate per period"
-msgstr ""
+msgstr "taxa: taxa de juro por período"
 
 #: ../plugins/fn-financial/functions.c:3153
 #: ../plugins/fn-financial/functions.c:3197
 #: ../plugins/fn-financial/functions.c:3288
 msgid "start_period:first period to accumulate for"
-msgstr ""
+msgstr "período_inicial: primeiro período para acumular"
 
 #: ../plugins/fn-financial/functions.c:3154
 #: ../plugins/fn-financial/functions.c:3198
 #: ../plugins/fn-financial/functions.c:3289
 msgid "end_period:last period to accumulate for"
-msgstr ""
+msgstr "período_final: último período para acumular"
 
 #: ../plugins/fn-financial/functions.c:3156
 msgid ""
 "CUMIPMT calculates the cumulative interest paid on a loan from "
 "@{start_period} to @{end_period}."
 msgstr ""
+"PGTOJURACUM calcula os juros acumulados pagos num empréstimo desde @{período:"
+"inicial} até @{período_final}."
 
 #: ../plugins/fn-financial/functions.c:3193
 msgid "CUMPRINC:cumulative principal"
-msgstr ""
+msgstr "PGTOCAPACUM: principal acumulado"
 
 #: ../plugins/fn-financial/functions.c:3200
 msgid ""
 "CUMPRINC calculates the cumulative principal paid on a loan from "
 "@{start_period} to @{end_period}."
 msgstr ""
+"PGTOCAPACUM calcula o pagamento principal acumulado num empréstimo desde "
+"@{período:inicial} até @{período_final}."
 
 #: ../plugins/fn-financial/functions.c:3237
 msgid "MDURATION:the modified (Macaulay) duration of a security"
-msgstr ""
+msgstr "DURAÇÃOM: a duração modificada (Macaulay) de uma segurança"
 
 #: ../plugins/fn-financial/functions.c:3244
 msgid "MDURATION calculates the modified (Macaulay) duration of a security."
-msgstr ""
+msgstr "DURAÇÃOM calcula a duração modificada (Macaulay) de uma segurança."
 
 #: ../plugins/fn-financial/functions.c:3284
 msgid "VDB:depreciation of an asset"
-msgstr ""
+msgstr "DBV: desvalorização de um ativo"
 
 #: ../plugins/fn-financial/functions.c:3291
 msgid "no_switch:do not switch to straight-line depreciation"
-msgstr ""
+msgstr "não_mudar: não mudar para desvalorização direta"
 
 #: ../plugins/fn-financial/functions.c:3292
 msgid ""
 "VDB calculates the depreciation of an asset for a given period range using "
 "the variable-rate declining balance method."
 msgstr ""
+"DBV calcula a desvalorização de um ativo num dado período usando o método de "
+"balanço descendente de taxa variável."
 
 #: ../plugins/fn-financial/functions.c:3293
 msgid ""
@@ -4536,10 +4602,12 @@ msgid ""
 "depreciation when depreciation is greater than the declining balance "
 "calculation."
 msgstr ""
+"Se @{não_mudar} for FALSO, o cálculo muda para a desvalorização direta "
+"quando a desvalorização é maior que o cálculo de balanço descendente."
 
 #: ../plugins/fn-hebrew-date/functions.c:92
 msgid "HDATE:Hebrew date"
-msgstr ""
+msgstr "DATA.HEBRAICA: data hebraica"
 
 #: ../plugins/fn-hebrew-date/functions.c:93
 #: ../plugins/fn-hebrew-date/functions.c:162
@@ -4548,7 +4616,7 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:289
 #: ../plugins/fn-hebrew-date/functions.c:316
 msgid "year:Gregorian year of date, defaults to the current year"
-msgstr ""
+msgstr "ano: ano gregoriano da data, predefinido como o ano atual"
 
 #: ../plugins/fn-hebrew-date/functions.c:94
 #: ../plugins/fn-hebrew-date/functions.c:163
@@ -4557,7 +4625,7 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:290
 #: ../plugins/fn-hebrew-date/functions.c:317
 msgid "month:Gregorian month of year, defaults to the current month"
-msgstr ""
+msgstr "mês: mês gregoriano da data, predefinido como o mês atual"
 
 #: ../plugins/fn-hebrew-date/functions.c:95
 #: ../plugins/fn-hebrew-date/functions.c:164
@@ -4566,57 +4634,57 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:291
 #: ../plugins/fn-hebrew-date/functions.c:318
 msgid "day:Gregorian day of month, defaults to the current day"
-msgstr ""
+msgstr "dia: dia gregoriano da data, predefinido como o dia atual"
 
 #: ../plugins/fn-hebrew-date/functions.c:127
 msgid "DATE2HDATE:Hebrew date"
-msgstr ""
+msgstr "DATA.PARA.DATA.HEBRAICA: data hebraica"
 
 #: ../plugins/fn-hebrew-date/functions.c:128
 #: ../plugins/fn-hebrew-date/functions.c:203
 #: ../plugins/fn-hebrew-date/functions.c:342
 msgid "date:Gregorian date, defaults to today"
-msgstr ""
+msgstr "data: data gregoriana,  predefinida como hoje"
 
 #: ../plugins/fn-hebrew-date/functions.c:161
 msgid "HDATE_HEB:Hebrew date in Hebrew"
-msgstr ""
+msgstr "DATA.HEBRAICA.HEB: data em Hebreu"
 
 #: ../plugins/fn-hebrew-date/functions.c:202
 msgid "DATE2HDATE_HEB:Hebrew date in Hebrew"
-msgstr ""
+msgstr "DATA.PARA.DATA.HEBRAICA.HEB: data hebraica em Hebreu"
 
 #: ../plugins/fn-hebrew-date/functions.c:234
 msgid "HDATE_MONTH:Hebrew month of Gregorian date"
-msgstr ""
+msgstr "MÊS.DATA.HEBRAICA: mês hebraico de data gregoriana"
 
 #: ../plugins/fn-hebrew-date/functions.c:261
 msgid "HDATE_DAY:Hebrew day of Gregorian date"
-msgstr ""
+msgstr "DIA.DATA.HEBRAICA: dia hebraico de data gregoriana"
 
 #: ../plugins/fn-hebrew-date/functions.c:288
 msgid "HDATE_YEAR:Hebrew year of Gregorian date"
-msgstr ""
+msgstr "ANO.DATA.HEBRAICA: ano hebraico de data gregoriana"
 
 #: ../plugins/fn-hebrew-date/functions.c:315
 msgid "HDATE_JULIAN:Julian day number for given Gregorian date"
-msgstr ""
+msgstr "JULIANO.DATA: número de dia juliano para uma dada data gregoriana"
 
 #: ../plugins/fn-hebrew-date/functions.c:341
 msgid "DATE2JULIAN:Julian day number for given Gregorian date"
-msgstr ""
+msgstr "DATA.PARA.JULIANO: número de dia juliano para uma dada data gregoriana"
 
 #: ../plugins/fn-info/functions.c:68
 msgid "CELL:information of @{type} about @{cell}"
-msgstr ""
+msgstr "CÉLULA: informação de @{tipo} sobre a @{célula}"
 
 #: ../plugins/fn-info/functions.c:69
 msgid "type:string specifying the type of information requested"
-msgstr ""
+msgstr "tipo: cadeia especificando o tipo de informação pretendida"
 
 #: ../plugins/fn-info/functions.c:70
 msgid "cell:cell reference"
-msgstr ""
+msgstr "célula: referência de célula"
 
 #: ../plugins/fn-info/functions.c:71
 msgid ""
@@ -4650,28 +4718,28 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1173
 msgid "EXPRESSION:expression in @{cell} as a string"
-msgstr ""
+msgstr "EXPRESSÃO: expressão em @{célula} como cadeia"
 
 #: ../plugins/fn-info/functions.c:1174
 msgid "cell:a cell reference"
-msgstr ""
+msgstr "célula: referência de célula"
 
 #: ../plugins/fn-info/functions.c:1175
 msgid "If @{cell} contains no expression, EXPRESSION returns empty."
-msgstr ""
+msgstr "Se @{célula} não contiver uma expressão, devolve vazio."
 
 #: ../plugins/fn-info/functions.c:1210
 msgid "GET.FORMULA:the formula in @{cell} as a string"
-msgstr ""
+msgstr "OBTER.FÓRMULA: a fórmula em @{célula} como cadeia"
 
 #: ../plugins/fn-info/functions.c:1211 ../plugins/fn-info/functions.c:1253
 #: ../plugins/fn-info/functions.c:1816
 msgid "cell:the referenced cell"
-msgstr ""
+msgstr "célula: referência de célula"
 
 #: ../plugins/fn-info/functions.c:1212
 msgid "GET.FORMULA is the OpenFormula function FORMULA."
-msgstr ""
+msgstr "OBTER.FÓRMULA corresponde à função OpenFormula FÓRMULA."
 
 #: ../plugins/fn-info/functions.c:1213
 msgid ""
@@ -4679,35 +4747,40 @@ msgid ""
 "GET.FORMULA(A2) yields '=B1+B2' and\n"
 "GET.FORMULA(A1) yields ''."
 msgstr ""
+"Se A1 estiver vazia e A2 contiver =B1+B2, então\n"
+"GET.FORMULA(A2) devolve '=B1+B2' e\n"
+"GET.FORMULA(A1) devolve ''."
 
 #: ../plugins/fn-info/functions.c:1252
 msgid "ISFORMULA:TRUE if @{cell} contains a formula"
-msgstr ""
+msgstr "ÉFÓRMULA: VERDADEIRO se @{célula} contiver uma fórmula"
 
 #: ../plugins/fn-info/functions.c:1254
 msgid "ISFORMULA is OpenFormula compatible."
-msgstr ""
+msgstr "ÉFÓRMULA é compatível OpenFormula."
 
 #: ../plugins/fn-info/functions.c:1283
 msgid "COUNTBLANK:the number of blank cells in @{range}"
-msgstr ""
+msgstr "CONTAR.VAZIO: o número de células vazias no @{intervalo}"
 
 #: ../plugins/fn-info/functions.c:1284
 msgid "range:a cell range"
-msgstr ""
+msgstr "intervalo: um intervalo de células"
 
 #: ../plugins/fn-info/functions.c:1286
 msgid "COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20."
-msgstr ""
+msgstr "CONTAR.VAZIO(A1:A20) devolve o número de células vazias em A1:A20."
 
 #: ../plugins/fn-info/functions.c:1338
 msgid ""
 "INFO:information about the current operating environment according to @{type}"
 msgstr ""
+"INFORMAÇÃO: informação acerca do ambiente de operação atual de acordo com o "
+"@{tipo}"
 
 #: ../plugins/fn-info/functions.c:1340
 msgid "type:string giving the type of information requested"
-msgstr ""
+msgstr "tipo: cadeia com o tipo de informação pretendida"
 
 #: ../plugins/fn-info/functions.c:1341
 msgid ""
@@ -4735,7 +4808,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1438
 msgid "ISERROR:TRUE if @{value} is any error value"
-msgstr ""
+msgstr "É.ERRO: VERDADEIRO se @{valor} for um valor de erro"
 
 #: ../plugins/fn-info/functions.c:1439 ../plugins/fn-info/functions.c:1457
 #: ../plugins/fn-info/functions.c:1479 ../plugins/fn-info/functions.c:1569
@@ -4743,23 +4816,24 @@ msgstr ""
 #: ../plugins/fn-info/functions.c:1642 ../plugins/fn-info/functions.c:1681
 #: ../plugins/fn-info/functions.c:1702 ../plugins/fn-info/functions.c:1752
 msgid "value:a value"
-msgstr ""
+msgstr "valor: um valor"
 
 #: ../plugins/fn-info/functions.c:1456
 msgid "ISNA:TRUE if @{value} is the #N/A error value"
-msgstr ""
+msgstr "É.NÃO.DISP: VERDADEIRO se @{valor} for o valor de erro #N/D!."
 
 #: ../plugins/fn-info/functions.c:1478
 msgid "ISERR:TRUE if @{value} is any error value except #N/A"
 msgstr ""
+"É.ERROS: VERDADEIRO se @{valor} for qualquer valor de erro exceto \"N/D!."
 
 #: ../plugins/fn-info/functions.c:1497
 msgid "ERROR.TYPE:the type of @{error}"
-msgstr ""
+msgstr "TIPO.ERRO: o tipo de @{erro}"
 
 #: ../plugins/fn-info/functions.c:1498
 msgid "error:an error"
-msgstr ""
+msgstr "erro: um erro"
 
 #: ../plugins/fn-info/functions.c:1499
 msgid ""
@@ -4773,88 +4847,92 @@ msgid ""
 "\t#NUM!    \t6\n"
 "\t#N/A     \t\t7"
 msgstr ""
-"ERROR.TYPE devolve um número de erro correspondente ao valor de erro "
-"correspondente.  Os números de erro para os valores de erro são:\n"
+"TIPO.ERRO devolve um número de erro correspondente ao valor de erro "
+"indicado. Os números de erro dos valores de erro são:\n"
 "\n"
 "\t#DIV/0!  \t\t2\n"
 "\t#VALOR!  \t3\n"
 "\t#REF!    \t\t4\n"
 "\t#NOME?   \t5\n"
 "\t#NUM!    \t6\n"
-"\t#N/A     \t\t7"
+"\t#N/D     \t\t7"
 
 #: ../plugins/fn-info/functions.c:1533
 msgid "NA:the error value #N/A"
-msgstr ""
+msgstr "NÃO.DISP: o valor de erro #N/D!."
 
 #: ../plugins/fn-info/functions.c:1551
 msgid "ERROR:the error with the given @{name}"
-msgstr ""
+msgstr "ERRO: o erro com o @{nome} indicado"
 
 #: ../plugins/fn-info/functions.c:1552
 msgid "name:string"
-msgstr ""
+msgstr "nome: cadeia"
 
 #: ../plugins/fn-info/functions.c:1568
 msgid "ISBLANK:TRUE if @{value} is blank"
-msgstr ""
+msgstr "É.CÉL.VAZIA: VERADEIRO se @{valor} estiver vazio"
 
 #: ../plugins/fn-info/functions.c:1570
 msgid ""
 "This function checks if a value is blank.  Empty cells are blank, but empty "
 "strings are not."
 msgstr ""
+"Esta função verifica se um valor está vazio. Células vazias devolvem "
+"VERDADEIRO mas cadeias vazias não."
 
 #: ../plugins/fn-info/functions.c:1585
 msgid "ISEVEN:TRUE if @{n} is even"
-msgstr ""
+msgstr "É.PAR: VERDADEIRO se @{n} for par"
 
 #: ../plugins/fn-info/functions.c:1586 ../plugins/fn-info/functions.c:1660
 #: ../plugins/fn-math/functions.c:1320
 msgid "n:number"
-msgstr ""
+msgstr "n: número"
 
 #: ../plugins/fn-info/functions.c:1606
 msgid "ISLOGICAL:TRUE if @{value} is a logical value"
-msgstr ""
+msgstr "É.LÓGICO: VERDADEIRO se @{valor} for um valor lógico"
 
 #: ../plugins/fn-info/functions.c:1608
 msgid "This function checks if a value is either TRUE or FALSE."
-msgstr ""
+msgstr "Esta função verifica se um valor é VERDADEIRO ou FALSO."
 
 #: ../plugins/fn-info/functions.c:1624
 msgid "ISNONTEXT:TRUE if @{value} is not text"
-msgstr ""
+msgstr "É.NÃO.TEXTO: VERDADEIRO se @{valor} não for texto"
 
 #: ../plugins/fn-info/functions.c:1641
 msgid "ISNUMBER:TRUE if @{value} is a number"
-msgstr ""
+msgstr "É.NÚM: VERDADEIRO se @{valor} for um número"
 
 #: ../plugins/fn-info/functions.c:1643
 msgid ""
 "This function checks if a value is a number.  Neither TRUE nor FALSE are "
 "numbers for this purpose."
 msgstr ""
+"Esta função verifica se um valor é um número. Nem VERDADEIRO nem FALSO são "
+"números nesta avaliação."
 
 #: ../plugins/fn-info/functions.c:1659
 msgid "ISODD:TRUE if @{n} is odd"
-msgstr ""
+msgstr "ÉÍMPAR: VERDADEIRO se @{n} for ímpar"
 
 #: ../plugins/fn-info/functions.c:1680
 msgid "ISREF:TRUE if @{value} is a reference"
-msgstr ""
+msgstr "É.REF: VERDADEIRO se @{valor} for uma referência"
 
 #: ../plugins/fn-info/functions.c:1682
 msgid "This function checks if a value is a cell reference."
-msgstr ""
+msgstr "Esta função verifica se um valor é uma referência de célula."
 
 #: ../plugins/fn-info/functions.c:1701
 msgid "ISTEXT:TRUE if @{value} is text"
-msgstr ""
+msgstr "É.TEXTO: VERDADEIRO se @{valor} for texto"
 
 #: ../plugins/fn-info/functions.c:1719
 msgid "N:@{text} converted to a number"
-msgstr ""
+msgstr "N: @{texto} convertido num número"
 
 #: ../plugins/fn-info/functions.c:1720 ../plugins/fn-string/functions.c:366
 #: ../plugins/fn-string/functions.c:582 ../plugins/fn-string/functions.c:623
@@ -4862,19 +4940,19 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:1019 ../plugins/fn-string/functions.c:1066
 #: ../plugins/fn-string/functions.c:1099 ../plugins/fn-string/functions.c:1415
 msgid "text:string"
-msgstr ""
+msgstr "texto: cadeia"
 
 #: ../plugins/fn-info/functions.c:1721
 msgid "If @{text} contains non-numerical text, 0 is returned."
-msgstr ""
+msgstr "Se @{texto} contiver texto não numérico devolve 0."
 
 #: ../plugins/fn-info/functions.c:1724
 msgid "=N(\"eleven\")"
-msgstr ""
+msgstr "=N(\"onze\")"
 
 #: ../plugins/fn-info/functions.c:1751
 msgid "TYPE:a number indicating the data type of @{value}"
-msgstr ""
+msgstr "TIPO: um número indicando o tipo de dados de @{valor}"
 
 #: ../plugins/fn-info/functions.c:1753
 msgid ""
@@ -4885,66 +4963,77 @@ msgid ""
 "16 \t= error\n"
 "64 \t= array"
 msgstr ""
+"TYPE returns a number indicating the data type of @{value}:\n"
+"1  \t= número\n"
+"2  \t= texto\n"
+"4  \t= lógico\n"
+"16 \t= erro\n"
+"64 \t= matriz"
 
 #: ../plugins/fn-info/functions.c:1792
 msgid "GETENV:the value of execution environment variable @{name}"
-msgstr ""
+msgstr "OBTER.AMB: o valor da variável de ambiente @{nome}"
 
 #: ../plugins/fn-info/functions.c:1793
 msgid "name:the name of the environment variable"
-msgstr ""
+msgstr "nome: o nome da variável de ambiente"
 
 #: ../plugins/fn-info/functions.c:1794
 msgid "If a variable called @{name} does not exist, #N/A! will be returned."
-msgstr ""
+msgstr "Se a variável @{nome} não existir, devolve #N/D!."
 
 #: ../plugins/fn-info/functions.c:1795
 msgid "Variable names are case sensitive."
-msgstr ""
+msgstr "Nomes de variáveis são sensíveis a maiúsculas."
 
 #: ../plugins/fn-info/functions.c:1815
 msgid "GET.LINK:the target of the hyperlink attached to @{cell} as a string"
 msgstr ""
+"OBTER.LIGAÇÃO:o destino da hiperligação anexada a @{célula} como cadeia"
 
 #: ../plugins/fn-info/functions.c:1817
 msgid ""
 "The value return is not updated automatically when the link attached to "
 "@{cell} changes but requires a recalculation."
 msgstr ""
+"O valor devolvido não é atualizado automaticamente quando a ligação anexada "
+"a @{célula} é alterada, requer um recálculo."
 
 #: ../plugins/fn-logical/functions.c:44
 msgid "AND:logical conjunction"
-msgstr ""
+msgstr "E: conjunção lógica"
 
 #: ../plugins/fn-logical/functions.c:45 ../plugins/fn-logical/functions.c:124
 #: ../plugins/fn-logical/functions.c:178
 msgid "b0:logical value"
-msgstr ""
+msgstr "b0: valor lógico"
 
 #: ../plugins/fn-logical/functions.c:46 ../plugins/fn-logical/functions.c:125
 #: ../plugins/fn-logical/functions.c:179
 msgid "b1:logical value"
-msgstr ""
+msgstr "b1: valor lógico"
 
 #: ../plugins/fn-logical/functions.c:47
 msgid "AND calculates the logical conjunction of its arguments @{b0},@{b1},..."
-msgstr ""
+msgstr "E calcula a conjunção lógica dos seus argumentos @{b0}, @{b1},..."
 
 #: ../plugins/fn-logical/functions.c:48 ../plugins/fn-logical/functions.c:127
 #: ../plugins/fn-logical/functions.c:181
 msgid ""
 "If an argument is numerical, zero is considered FALSE and anything else TRUE."
 msgstr ""
+"Se um dos argumentos for numérico, zero é considerado FALSO e todos os "
+"outros VERDADEIRO."
 
 #: ../plugins/fn-logical/functions.c:49 ../plugins/fn-logical/functions.c:102
 #: ../plugins/fn-logical/functions.c:128 ../plugins/fn-logical/functions.c:182
 msgid "Strings and empty values are ignored."
-msgstr ""
+msgstr "Cadeias e valores vazios são ignorados."
 
 #: ../plugins/fn-logical/functions.c:50 ../plugins/fn-logical/functions.c:129
 #: ../plugins/fn-logical/functions.c:183
 msgid "If no logical values are provided, then the error #VALUE! is returned."
-msgstr ""
+msgstr "Se não forem indicados valores lógicos, é devolvido #VALOR!."
 
 #: ../plugins/fn-logical/functions.c:51 ../plugins/fn-logical/functions.c:130
 #: ../plugins/fn-logical/functions.c:184
@@ -4952,122 +5041,132 @@ msgid ""
 "This function is strict: if any argument is an error, the result will be the "
 "first such error."
 msgstr ""
+"Esta função é estrita: se algum dos argumentos for um erro, o resultado será "
+"o primeiro desses erros."
 
 #: ../plugins/fn-logical/functions.c:57
 msgid "wiki:en:Logical_conjunction"
-msgstr ""
+msgstr "wiki:pt:Valor_lógico"
 
 #: ../plugins/fn-logical/functions.c:98
 msgid "NOT:logical negation"
-msgstr ""
+msgstr "NÃO: negação lógica"
 
 #: ../plugins/fn-logical/functions.c:99
 msgid "b:logical value"
-msgstr ""
+msgstr "b valor lógico"
 
 #: ../plugins/fn-logical/functions.c:100
 msgid "NOT calculates the logical negation of its argument."
-msgstr ""
+msgstr "NÃO calcula a negação lógica do seu argumento."
 
 #: ../plugins/fn-logical/functions.c:101
 msgid ""
 "If the argument is numerical, zero is considered FALSE and anything else "
 "TRUE."
 msgstr ""
+"Se o argumento for numérico, zero é considerado FALSO e todos os outros "
+"VERDADEIRO."
 
 #: ../plugins/fn-logical/functions.c:107
 msgid "wiki:en:Negation"
-msgstr ""
+msgstr "wiki:pt:Valor_lógico"
 
 #: ../plugins/fn-logical/functions.c:123
 msgid "OR:logical disjunction"
-msgstr ""
+msgstr "OU: disjunção lógica"
 
 #: ../plugins/fn-logical/functions.c:126
 msgid "OR calculates the logical disjunction of its arguments @{b0},@{b1},..."
-msgstr ""
+msgstr "OU calcula a disjunção lógica dos seus argumentos @{b0}, @{b1},..."
 
 #: ../plugins/fn-logical/functions.c:136
 msgid "wiki:en:Logical_disjunction"
-msgstr ""
+msgstr "wiki:pt:Valor_lógico"
 
 #: ../plugins/fn-logical/functions.c:177
 msgid "XOR:logical exclusive disjunction"
-msgstr ""
+msgstr "OU.EXCLUSIVO: disjunção lógica exclusiva"
 
 #: ../plugins/fn-logical/functions.c:180
 msgid ""
 "XOR calculates the logical exclusive disjunction of its arguments @{b0},"
 "@{b1},..."
 msgstr ""
+"OU.EXCLUSIVO calcula a disjunção lógica exclusiva dos seus argumentos @{b0}, "
+"@{b1},..."
 
 #: ../plugins/fn-logical/functions.c:189
 msgid "wiki:en:Exclusive_disjunction"
-msgstr ""
+msgstr "wiki:pt:Valor_lógico"
 
 #: ../plugins/fn-logical/functions.c:230
 msgid "IFERROR:test for error"
-msgstr ""
+msgstr "SE.ERRO: testa erros"
 
 #: ../plugins/fn-logical/functions.c:231
 msgid "x:value to test for error"
-msgstr ""
+msgstr "x: valor a testar"
 
 #: ../plugins/fn-logical/functions.c:232 ../plugins/fn-logical/functions.c:250
 msgid "y:alternate value"
-msgstr ""
+msgstr "y: valor alternativo"
 
 #: ../plugins/fn-logical/functions.c:233
 msgid ""
 "This function returns the first value, unless that is an error, in which "
 "case it returns the second."
 msgstr ""
+"Esta função devolve o primeiro valor, a não ser que seja erro, caso em que "
+"devolve o segundo."
 
 #: ../plugins/fn-logical/functions.c:248
 msgid "IFNA:test for #NA! error"
-msgstr ""
+msgstr "SE.NÃO.DISP: testa o erro #N/D!"
 
 #: ../plugins/fn-logical/functions.c:249
 msgid "x:value to test for #NA! error"
-msgstr ""
+msgstr "x: valor a testar"
 
 #: ../plugins/fn-logical/functions.c:251
 msgid ""
 "This function returns the first value, unless that is #NA!, in which case it "
 "returns the second."
 msgstr ""
+"Esta função devolve o primeiro valor, a não ser que seja #N/D!, caso em que "
+"devolve o segundo."
 
 #: ../plugins/fn-logical/functions.c:267
 msgid "TRUE:the value TRUE"
-msgstr ""
+msgstr "VERDADEIRO: o valor verdadeiro"
 
 #: ../plugins/fn-logical/functions.c:268
 msgid "TRUE returns the value TRUE."
-msgstr ""
+msgstr "VERDADEIRO devolve o valor VERDADEIRO."
 
 #: ../plugins/fn-logical/functions.c:272 ../plugins/fn-logical/functions.c:290
 msgid "wiki:en:Logical_value"
-msgstr ""
+msgstr "wiki:pt:Valor_lógico"
 
 #: ../plugins/fn-logical/functions.c:285
 msgid "FALSE:the value FALSE"
-msgstr ""
+msgstr "FALSO: o valor FALSO"
 
 #: ../plugins/fn-logical/functions.c:286
 msgid "FALSE returns the value FALSE."
-msgstr ""
+msgstr "FALSO devolve o valor FALSO."
 
 #: ../plugins/fn-lookup/functions.c:808
 msgid "ADDRESS:cell address as text"
-msgstr ""
+msgstr "ENDEREÇO: endereço da célula como texto"
 
 #: ../plugins/fn-lookup/functions.c:809
 msgid "row_num:row number"
-msgstr ""
+msgstr "num_lin: número da linha"
 
 #: ../plugins/fn-lookup/functions.c:810
 msgid "col_num:column number"
-msgstr ""
+msgstr "num_col: número da coluna"
 
 #: ../plugins/fn-lookup/functions.c:811
 msgid ""
@@ -5075,84 +5174,95 @@ msgid ""
 "row relative and column absolute, and 4 for a relative reference; defaults "
 "to 1"
 msgstr ""
+"num_abs: 1 para absoluto, 2 para linha absoluta e coluna relativa, 3 para "
+"linha relativa e coluna absoluta e 4 para referência relativa; a "
+"predefinição é 1"
 
 #: ../plugins/fn-lookup/functions.c:814
 msgid ""
 "a1:if TRUE, an A1-style reference is provided, otherwise an R1C1-style "
 "reference; defaults to TRUE"
 msgstr ""
+"a1: se VERDADEIRO, é dada uma referênci de estilo A1, senão é de estilo "
+"R1C1; predefinido como VERDADEIRO"
 
 #: ../plugins/fn-lookup/functions.c:816
 msgid "text:name of the worksheet, defaults to no sheet"
-msgstr ""
+msgstr "texto: nome da folha, predefinição é sem folha"
 
 #: ../plugins/fn-lookup/functions.c:817
 msgid "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!"
-msgstr ""
+msgstr "Se @{num_lin} ou @{num_col} forem menores que 1, devolve #VALOR!."
 
 #: ../plugins/fn-lookup/functions.c:819
 msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
-msgstr ""
+msgstr "Se @{num_abs} for maior que 4, devolve #VALOR!."
 
 #: ../plugins/fn-lookup/functions.c:906
 msgid "AREAS:number of areas in @{reference}"
-msgstr ""
+msgstr "ÁREAS: número de áreas na @{referência}"
 
 #: ../plugins/fn-lookup/functions.c:907
 msgid "reference:range"
-msgstr ""
+msgstr "referência: intervalo"
 
 #: ../plugins/fn-lookup/functions.c:974
 msgid "CHOOSE:the (@{index}+1)th argument"
-msgstr ""
+msgstr "ESCOLHER: o (@{índice}+1)º argumento"
 
 #: ../plugins/fn-lookup/functions.c:975
 msgid "index:positive number"
-msgstr ""
+msgstr "índice: número positivo"
 
 #: ../plugins/fn-lookup/functions.c:976
 msgid "value1:first value"
-msgstr ""
+msgstr "valor1: primeiro valor"
 
 #: ../plugins/fn-lookup/functions.c:977
 msgid "value2:second value"
-msgstr ""
+msgstr "valor 2: segundo valor"
 
 #: ../plugins/fn-lookup/functions.c:978
 msgid "CHOOSE returns its (@{index}+1)th argument."
-msgstr ""
+msgstr "ESCOLHER devolve o seu (@{índice}+1)º argumento."
 
 #: ../plugins/fn-lookup/functions.c:979
 msgid ""
 "@{index} is truncated to an integer. If @{index} < 1 or the truncated "
 "@{index} > number of values, CHOOSE returns #VALUE!"
 msgstr ""
+"@{índice} é truncado num inteiro. Se @{índice} < 1 ou @{índice} truncado > "
+"que o número de valores, devolve #VALOR!."
 
 #: ../plugins/fn-lookup/functions.c:1021
 msgid "VLOOKUP:search the first column of @{range} for @{value}"
-msgstr ""
+msgstr "PROCURA.VERT: procura na primeira coluna do @{intervalo} por @{valor}"
 
 #: ../plugins/fn-lookup/functions.c:1022 ../plugins/fn-lookup/functions.c:1090
 msgid "value:search value"
-msgstr ""
+msgstr "valor: valor a procurar"
 
 #: ../plugins/fn-lookup/functions.c:1023 ../plugins/fn-lookup/functions.c:1091
 msgid "range:range to search"
-msgstr ""
+msgstr "intervalo: intervalo onde procurar"
 
 #: ../plugins/fn-lookup/functions.c:1024
 msgid "column:1-based column offset indicating the return values"
-msgstr ""
+msgstr "coluna: desvio baseado em 1 da coluna, indicando os valores a devolver"
 
 #: ../plugins/fn-lookup/functions.c:1025 ../plugins/fn-lookup/functions.c:1093
 msgid ""
 "approximate:if false, an exact match of @{value} must be found; defaults to "
 "TRUE"
 msgstr ""
+"aproximado: se FALSO, tem de ser encontrado um valor exato de @{valor}; "
+"predefinido como VERDADEIRO"
 
 #: ../plugins/fn-lookup/functions.c:1027
 msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
 msgstr ""
+"como_índice: se VERDADEIRO, é devolvido o desvio baseado em 0 da coluna; "
+"predefinido como FALSO"
 
 #: ../plugins/fn-lookup/functions.c:1029
 msgid ""
@@ -5162,29 +5272,38 @@ msgid ""
 "less than or equal to @{value}. If @{as_index} is true the 0-based row "
 "offset is returned."
 msgstr ""
+"A função PROCURA.VERT encontra a linha no @{intervalo} que tenha uma "
+"primeira célula semelhante a @{valor}. Se @{aproximado não for VERDADEIRO, "
+"procura a linha com o valor exato. Se não, procura a última linha com um "
+"valor menor que ou igual a @{valor}. Se @{como_índice} for VERDADEIRO é "
+"devolvido o valor de linha com desvio 0."
 
 #: ../plugins/fn-lookup/functions.c:1036 ../plugins/fn-lookup/functions.c:1104
 msgid ""
 "If @{approximate} is true, then the values must be sorted in order of "
 "ascending value."
 msgstr ""
+"Se @{aproximado} for VERDADEIRO, os valores devem ser ordenados em ordem "
+"ascendente de valor."
 
 #: ../plugins/fn-lookup/functions.c:1038
 msgid "VLOOKUP returns #REF! if @{column} falls outside @{range}."
-msgstr ""
+msgstr "PROCURA.VERT devolve #REF! se @{coluna} estiver fora do @{intervalo}."
 
 #: ../plugins/fn-lookup/functions.c:1089
 msgid "HLOOKUP:search the first row of @{range} for @{value}"
-msgstr ""
+msgstr "PROCURA.HORIZ: procura na primeira linha do @{intervalo} por @{valor}"
 
 #: ../plugins/fn-lookup/functions.c:1092
 msgid "row:1-based row offset indicating the return values "
-msgstr ""
+msgstr "linha: desvio baseado em 1 da linha, indicando os valores a devolver"
 
 #: ../plugins/fn-lookup/functions.c:1095
 msgid ""
 "as_index:if true, the 0-based column offset is returned; defaults to FALSE"
 msgstr ""
+"como_índice: se VERDADEIRO, é devolvido o desvio baseado em 0 da coluna; "
+"predefinido como FALSO"
 
 #: ../plugins/fn-lookup/functions.c:1097
 msgid ""
@@ -5194,28 +5313,35 @@ msgid ""
 "value less than or equal to @{value}. If @{as_index} is true the 0-based "
 "column offset is returned."
 msgstr ""
+"A função PROCURA.HORIZ encontra a linha no @{intervalo} que tenha uma "
+"primeira célula semelhante a @{valor}. Se @{aproximado não for VERDADEIRO, "
+"procura a coluna com o valor exato. Se não, procura a última coluna com um "
+"valor menor que ou igual a @{valor}. Se @{como_índice} for VERDADEIRO é "
+"devolvido o valor de coluna com desvio 0."
 
 #: ../plugins/fn-lookup/functions.c:1106
 msgid "HLOOKUP returns #REF! if @{row} falls outside @{range}."
-msgstr ""
+msgstr "PROCURA.HORIZ devolve #REF! se @{linha} estiver fora do @{intervalo}."
 
 #: ../plugins/fn-lookup/functions.c:1157
 msgid ""
 "LOOKUP:contents of @{vector2} at the corresponding location to @{value} in "
 "@{vector1}"
 msgstr ""
+"PROCURA: conteúdo de @{vetor2} na correspondente localização de @{valor} no "
+"@{vetor1}"
 
 #: ../plugins/fn-lookup/functions.c:1159
 msgid "value:value to look up"
-msgstr ""
+msgstr "valor: valor a procurar"
 
 #: ../plugins/fn-lookup/functions.c:1160
 msgid "vector1:range to search:"
-msgstr ""
+msgstr "vetor1: intervalo a procurar"
 
 #: ../plugins/fn-lookup/functions.c:1161
 msgid "vector2:range of return values"
-msgstr ""
+msgstr "vetor2: intervalo de valores a devolver"
 
 #: ../plugins/fn-lookup/functions.c:1162
 msgid ""
@@ -5223,196 +5349,224 @@ msgid ""
 "@{vector1}, otherwise the first column. If @{vector2} is omitted the return "
 "value is taken from the last row or column of @{vector1}."
 msgstr ""
+"Se @{vetor1} tiver mais linhas que colunas, PROCURA procura na primeira "
+"linha de @{vetor1}, senão na primeira coluna. Se @{vetor2} for omitido, o "
+"valor devolvido é obtido da última linha ou coluna de {vetor1}."
 
 #: ../plugins/fn-lookup/functions.c:1166
 msgid ""
 "If LOOKUP can't find @{value} it uses the largest value less than @{value}."
 msgstr ""
+"Se PROCURA não encontrar @{valor}, usará o maior valor menor que @{valor}."
 
 #: ../plugins/fn-lookup/functions.c:1168
 msgid "The data must be sorted."
-msgstr ""
+msgstr "Os dados têm de estar ordenados."
 
 #: ../plugins/fn-lookup/functions.c:1169
 msgid "If @{value} is smaller than the first value it returns #N/A."
-msgstr ""
+msgstr "Se @{valor} for menor que o primeiro valor, devolve #N/D!."
 
 #: ../plugins/fn-lookup/functions.c:1170
 msgid ""
 "If the corresponding location does not exist in @{vector2}, it returns #N/A."
 msgstr ""
+"Se a localização correspondente não existir em @{vetor2}, devolve #N/D!."
 
 #: ../plugins/fn-lookup/functions.c:1257
 msgid "MATCH:the index of @{seek} in @{vector}"
-msgstr ""
+msgstr "CORRESP: o índice de @{procura} em @{vetor}"
 
 #: ../plugins/fn-lookup/functions.c:1258
 msgid "seek:value to find"
-msgstr ""
+msgstr "procura: o valor a procurar"
 
 #: ../plugins/fn-lookup/functions.c:1259
 msgid "vector:n by 1 or 1 by n range to be searched"
-msgstr ""
+msgstr "vetor: intervalo n por 1 ou 1 por n onde procurar"
 
 #: ../plugins/fn-lookup/functions.c:1260
 msgid ""
 "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the "
 "first value = @{seek}, or-1 to find the smallest value ≥ @{seek}"
 msgstr ""
+"tipo: +1 (predefinição) para procurar o maior valor ≤ @{procura}, 0 para "
+"procurar o primeiro valor = @{procura} ou-1 para procurar o menor valor ≥ "
+"@{procura}"
 
 #: ../plugins/fn-lookup/functions.c:1263
 msgid "MATCH searches @{vector} for @{seek} and returns the 1-based index."
-msgstr ""
+msgstr "CORRESP procura em @{vetor} por @{procura} e devolve o índice 1."
 
 #: ../plugins/fn-lookup/functions.c:1264
 msgid ""
 " For @{type} = -1 the data must be sorted in descending order; for @{type} = "
 "+1 the data must be sorted in ascending order."
 msgstr ""
+"Para @{tipo} = 1, os dados têm de estar em ordem descendente; para @{tipo} = "
+"-1, têm de estar em ordem ascendente."
 
 #: ../plugins/fn-lookup/functions.c:1266
 msgid "If @{seek} could not be found, #N/A is returned."
-msgstr ""
+msgstr "Se @{procura} não for encontrada, devolve #N/D!."
 
 #: ../plugins/fn-lookup/functions.c:1267
 msgid "If @{vector} is neither n by 1 nor 1 by n, #N/A is returned."
-msgstr ""
+msgstr "Se @{vetor} não for nem n por 1 nem 1 por n, devolve #N/D!."
 
 #: ../plugins/fn-lookup/functions.c:1311
 msgid "INDIRECT:contents of the cell pointed to by the @{ref_text} string"
-msgstr ""
+msgstr "INDIRETO: conteúdo da célula apontada por @{ref_texto}"
 
 #: ../plugins/fn-lookup/functions.c:1312
 msgid "ref_text:textual reference"
-msgstr ""
+msgstr "ref_texto: referência textual"
 
 #: ../plugins/fn-lookup/functions.c:1313
 msgid ""
 "format:if true, @{ref_text} is given in A1-style, otherwise it is given in "
 "R1C1 style; defaults to true"
 msgstr ""
+"formato: se VERDADEIRO, @{ref_texto} é dada em estilo A1, senão é dada em "
+"estilo R1C1; predefinido como VERDADEIRO"
 
 #: ../plugins/fn-lookup/functions.c:1315
 msgid ""
 "If @{ref_text} is not a valid reference in the style determined by "
 "@{format}, INDIRECT returns #REF!"
 msgstr ""
+"Se @{ref_texto} não for uma referência válida no estilo determinado por "
+"@{formato}, devolve #REF!."
 
 #: ../plugins/fn-lookup/functions.c:1349
 msgid "INDEX:reference to a cell in the given @{array}"
-msgstr ""
+msgstr "ÍNDICE: referência a uma célula na @{matriz} indicada"
 
 #: ../plugins/fn-lookup/functions.c:1350
 msgid "array:cell or inline array"
-msgstr ""
+msgstr "matriz: célula ou matriz em linha"
 
 #: ../plugins/fn-lookup/functions.c:1351
 msgid "row:desired row, defaults to 1"
-msgstr ""
+msgstr "linha: linha desejada, predefinida como 1"
 
 #: ../plugins/fn-lookup/functions.c:1352
 msgid "col:desired column, defaults to 1"
-msgstr ""
+msgstr "coluna: coluna desejada, predefinida como 1"
 
 #: ../plugins/fn-lookup/functions.c:1353
 msgid "area:from which area to select a cell, defaults to 1"
-msgstr ""
+msgstr "área: de que área selecionar uma célula, predefinida como 1"
 
 #: ../plugins/fn-lookup/functions.c:1354
 msgid ""
 "INDEX gives a reference to a cell in the given @{array}. The cell is "
 "selected by @{row} and @{col}, which count the rows and columns in the array."
 msgstr ""
+"ÍNDICE dá uma referência a uma célula na @{matriz}indicada. A célula é "
+"selecionada por @{linha} e @{coluna}, o que conta as linhas e colunas na "
+"matriz."
 
 #: ../plugins/fn-lookup/functions.c:1359
 msgid ""
 "If the reference falls outside the range of @{array}, INDEX returns #REF!"
-msgstr ""
+msgstr "Se a referência estiver fora da @{matriz}, devolve #REF!."
 
 #: ../plugins/fn-lookup/functions.c:1361
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
 msgstr ""
+"Vamos presumir que as células A1, A2, ..., A5 contêm os números 11,4, 17,3, "
+"21,3 25,9 e 40,1. Assim, ÍNDICE(A1:A5,4,1,1) é igual a 25,9"
 
 #: ../plugins/fn-lookup/functions.c:1450
 msgid "COLUMN:vector of column numbers"
-msgstr ""
+msgstr "COLUNA: vetor de números de coluna"
 
 #: ../plugins/fn-lookup/functions.c:1451 ../plugins/fn-lookup/functions.c:1603
 msgid "x:reference, defaults to the position of the current expression"
-msgstr ""
+msgstr "x: referência, predefinida como a posição da expressão atual"
 
 #: ../plugins/fn-lookup/functions.c:1452
 msgid ""
 "COLUMN function returns a Nx1 array containing the sequence of integers from "
 "the first column to the last column of @{x}."
 msgstr ""
+"A função COLUNA devolve uma matriz Nx1 contendo a sequência de inteiros "
+"desde a primeira até à última coluna de @{x}."
 
 #: ../plugins/fn-lookup/functions.c:1455 ../plugins/fn-lookup/functions.c:1607
 msgid ""
 "If @{x} is neither an array nor a reference nor a range, returns #VALUE!"
 msgstr ""
+"Se @{x} nao for uma matriz, uma referência ou um intervalo, devolve #VALOR!."
 
 #: ../plugins/fn-lookup/functions.c:1459
 msgid "column() in G13 equals 7."
-msgstr ""
+msgstr "COLUNA() em G13 é igual a 7."
 
 #: ../plugins/fn-lookup/functions.c:1499
 msgid "COLUMNNUMBER:column number for the given column called @{name}"
-msgstr ""
+msgstr "NÚM.COLUNA: número de coluna para a coluna indicada chamada @{nome}"
 
 #: ../plugins/fn-lookup/functions.c:1500
 msgid "name:column name such as \"IV\""
-msgstr ""
+msgstr "nome: nome da coluna, tal como \"IV\""
 
 #: ../plugins/fn-lookup/functions.c:1501
 msgid "If @{name} is invalid, COLUMNNUMBER returns #VALUE!"
-msgstr ""
+msgstr "Se @{nome} for inválido, devolve #VALOR!."
 
 #: ../plugins/fn-lookup/functions.c:1526
 msgid "COLUMNS:number of columns in @{reference}"
-msgstr ""
+msgstr "COLUNAS: número de colunas em @{referência}"
 
 #: ../plugins/fn-lookup/functions.c:1527
 msgid "reference:array or area"
-msgstr ""
+msgstr "referência: matriz ou área"
 
 #: ../plugins/fn-lookup/functions.c:1528
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, COLUMNS "
 "returns #VALUE!"
-msgstr ""
+msgstr "Se @{referência} não for nem matriz nem área, devolve #VALOR!."
 
 #: ../plugins/fn-lookup/functions.c:1544
 msgid "OFFSET:an offset cell range"
-msgstr ""
+msgstr "DESVIO: um desvio de intervalo de células"
 
 #: ../plugins/fn-lookup/functions.c:1545
 msgid "range:reference or range"
-msgstr ""
+msgstr "intervalo: referência ou intervalo"
 
 #: ../plugins/fn-lookup/functions.c:1546
 msgid "row:number of rows to offset @{range}"
-msgstr ""
+msgstr "linha: número de linhas a desviar @intervalo}"
 
 #: ../plugins/fn-lookup/functions.c:1547
 msgid "col:number of columns to offset @{range}"
-msgstr ""
+msgstr "coluna: número de colunas a desviar @{intervalo}"
 
 #: ../plugins/fn-lookup/functions.c:1548
 msgid "height:height of the offset range, defaults to height of @{range}"
 msgstr ""
+"altura: altura do intervalo desviado, predefinido para a altura de "
+"@{intervalo}"
 
 #: ../plugins/fn-lookup/functions.c:1549
 msgid "width:width of the offset range, defaults to width of @{range}"
 msgstr ""
+"largura: largura do intervalo desviado, predefinido para a largura de "
+"@{intervalo}"
 
 #: ../plugins/fn-lookup/functions.c:1550
 msgid ""
 "OFFSET returns the cell range starting at offset (@{row},@{col}) from "
 "@{range} of height @{height} and width @{width}."
 msgstr ""
+"DESVIO devolve o intervalo de células começado no desvio (@{linha},"
+"@{coluna}) de @{intervalo}, de altura @{altura} e largura @{largura}."
 
 #: ../plugins/fn-lookup/functions.c:1553
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
