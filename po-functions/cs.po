@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-06-20 04:04+0000\n"
-"PO-Revision-Date: 2015-06-18 11:49+0200\n"
+"POT-Creation-Date: 2015-06-28 22:24+0000\n"
+"PO-Revision-Date: 2015-07-22 09:20+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -165,7 +165,7 @@ msgstr "Pokud @{i} není ani „i“ ani „j“, COMPLEX vrátí #HODNOTA!."
 #: ../plugins/fn-eng/functions.c:415 ../plugins/fn-eng/functions.c:442
 #: ../plugins/fn-eng/functions.c:465 ../plugins/fn-eng/functions.c:488
 #: ../plugins/fn-eng/functions.c:511 ../plugins/fn-eng/functions.c:531
-#: ../plugins/fn-eng/functions.c:1142 ../plugins/fn-eng/functions.c:1165
+#: ../plugins/fn-eng/functions.c:1476 ../plugins/fn-eng/functions.c:1499
 #: ../plugins/fn-info/functions.c:97 ../plugins/fn-info/functions.c:1285
 #: ../plugins/fn-info/functions.c:1351 ../plugins/fn-info/functions.c:1440
 #: ../plugins/fn-info/functions.c:1458 ../plugins/fn-info/functions.c:1480
@@ -709,7 +709,7 @@ msgstr ""
 "<30\n"
 ">40     \t>46000\n"
 
-#: ../plugins/fn-database/functions.c:323
+#: ../plugins/fn-database/functions.c:324
 msgid ""
 "DAVERAGE:average of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -717,23 +717,23 @@ msgstr ""
 "DAVERAGE:průměr z hodnot v poli @{field} v databázi @{database} náležejících "
 "záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:332
+#: ../plugins/fn-database/functions.c:333
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333."
 msgstr "DAVERAGE(A1:C7;\"Plat\";A9:A11) rovná se 42296,3333."
 
-#: ../plugins/fn-database/functions.c:333
+#: ../plugins/fn-database/functions.c:334
 msgid "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39."
 msgstr "DAVERAGE(A1:C7;\"Věk\";A9:A11) rovná se 39."
 
-#: ../plugins/fn-database/functions.c:334
+#: ../plugins/fn-database/functions.c:335
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5."
 msgstr "DAVERAGE(A1:C7;\"Plat\";A9:B11) rovná se 40782,5."
 
-#: ../plugins/fn-database/functions.c:335
+#: ../plugins/fn-database/functions.c:336
 msgid "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36."
 msgstr "DAVERAGE(A1:C7;\"Věk\";A9:B11) rovná se 36."
 
-#: ../plugins/fn-database/functions.c:359
+#: ../plugins/fn-database/functions.c:360
 msgid ""
 "DCOUNT:count of numbers in @{field} in @{database} belonging to records that "
 "match @{criteria}"
@@ -741,19 +741,19 @@ msgstr ""
 "DCOUNT:počet čísel v poli @{field} v databázi @{database} náležejících "
 "záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:368
+#: ../plugins/fn-database/functions.c:369
 msgid "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3."
 msgstr "DCOUNT(A1:C7;\"Plat\";A9:A11) rovná se 3."
 
-#: ../plugins/fn-database/functions.c:369
+#: ../plugins/fn-database/functions.c:370
 msgid "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2."
 msgstr "DCOUNT(A1:C7;\"Plat\";A9:B11) rovná se 2."
 
-#: ../plugins/fn-database/functions.c:370
+#: ../plugins/fn-database/functions.c:371
 msgid "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0."
 msgstr "DCOUNT(A1:C7;\"Jméno\";A9:B11) rovná se 0."
 
-#: ../plugins/fn-database/functions.c:394
+#: ../plugins/fn-database/functions.c:395
 msgid ""
 "DCOUNTA:count of cells with data in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -761,19 +761,19 @@ msgstr ""
 "DCOUNT:počet buněk s daty v poli @{field} v databázi @{database} "
 "náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:403
+#: ../plugins/fn-database/functions.c:404
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3."
 msgstr "DCOUNTA(A1:C7;\"Plat\";A9:A11) rovná se 3."
 
-#: ../plugins/fn-database/functions.c:404
+#: ../plugins/fn-database/functions.c:405
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2."
 msgstr "DCOUNTA(A1:C7;\"Plat\";A9:B11) rovná se 2."
 
-#: ../plugins/fn-database/functions.c:405
+#: ../plugins/fn-database/functions.c:406
 msgid "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2."
 msgstr "DCOUNTA(A1:C7;\"Jméno\";A9:B11) rovná se 2."
 
-#: ../plugins/fn-database/functions.c:426
+#: ../plugins/fn-database/functions.c:427
 msgid ""
 "DGET:a value from @{field} in @{database} belonging to records that match "
 "@{criteria}"
@@ -781,24 +781,24 @@ msgstr ""
 "DGET:hodnota z pole @{field} v databázi @{database} náležejících záznamům, "
 "které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:435
+#: ../plugins/fn-database/functions.c:436
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
 msgstr ""
 "Pokud žádný ze záznamů nevyhovuje podmínkám, funkce DGET vrací #HODNOTA!."
 
-#: ../plugins/fn-database/functions.c:436
+#: ../plugins/fn-database/functions.c:437
 msgid "If more than one record match the conditions, DGET returns #NUM!"
 msgstr "Pokud podmínkám vyhovuje více záznamů, funkce DGET vrací #ČÍSLO!."
 
-#: ../plugins/fn-database/functions.c:437
+#: ../plugins/fn-database/functions.c:438
 msgid "DGET(A1:C7, \"Salary\", A9:A10) equals 34323."
 msgstr "DGET(A1:C7;\"Plat\";A9:A10) rovná se 34323."
 
-#: ../plugins/fn-database/functions.c:438
+#: ../plugins/fn-database/functions.c:439
 msgid "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\"."
 msgstr "DGET(A1:C7;\"Jméno\";A9:A10) rovná se \"Karel\"."
 
-#: ../plugins/fn-database/functions.c:467
+#: ../plugins/fn-database/functions.c:468
 msgid ""
 "DMAX:largest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
@@ -806,19 +806,19 @@ msgstr ""
 "DMAX:největší číslo v poli @{field} v databázi @{database} náležejících "
 "záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:476
+#: ../plugins/fn-database/functions.c:477
 msgid "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242."
 msgstr "DMAX(A1:C7;\"Plat\";A9:A11) rovná se 47242."
 
-#: ../plugins/fn-database/functions.c:477
+#: ../plugins/fn-database/functions.c:478
 msgid "DMAX(A1:C7, \"Age\", A9:A11) equals 45."
 msgstr "DMAX(A1:C7;\"Věk\";A9:A11) rovná se 45."
 
-#: ../plugins/fn-database/functions.c:478
+#: ../plugins/fn-database/functions.c:479
 msgid "DMAX(A1:C7, \"Age\", A9:B11) equals 43."
 msgstr "DMAX(A1:C7;\"Věk\";A9:B11) rovná se 43."
 
-#: ../plugins/fn-database/functions.c:503
+#: ../plugins/fn-database/functions.c:504
 msgid ""
 "DMIN:smallest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
@@ -826,15 +826,15 @@ msgstr ""
 "DMIN:nejmenší číslo v poli @{field} v databázi @{database} náležejících "
 "záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:512
+#: ../plugins/fn-database/functions.c:513
 msgid "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323."
 msgstr "DMIN(A1:C7;\"Plat\";A9:B11) rovná se 34323."
 
-#: ../plugins/fn-database/functions.c:513
+#: ../plugins/fn-database/functions.c:514
 msgid "DMIN(A1:C7, \"Age\", A9:B11) equals 29."
 msgstr "DMIN(A1:C7;\"Věk\";A9:B11) rovná se 29."
 
-#: ../plugins/fn-database/functions.c:536
+#: ../plugins/fn-database/functions.c:537
 msgid ""
 "DPRODUCT:product of all values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -842,11 +842,11 @@ msgstr ""
 "DPRODUCT:součin všech hodnot v poli @{field} v databázi @{database} "
 "náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:545
+#: ../plugins/fn-database/functions.c:546
 msgid "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247."
 msgstr "DPRODUCT(A1:C7;\"Věk\";A9:B11) rovná se 1247."
 
-#: ../plugins/fn-database/functions.c:569
+#: ../plugins/fn-database/functions.c:570
 msgid ""
 "DSTDEV:sample standard deviation of the values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
@@ -854,15 +854,15 @@ msgstr ""
 "DSTDEV:výběrová směrodatná odchylka hodnot v poli @{field} v databázi "
 "@{database} náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:578
+#: ../plugins/fn-database/functions.c:579
 msgid "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949."
 msgstr "DSTDEV(A1:C7;\"Věk\";A9:B11) rovná se 9,89949."
 
-#: ../plugins/fn-database/functions.c:579
+#: ../plugins/fn-database/functions.c:580
 msgid "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506."
 msgstr "DSTDEV(A1:C7;\"Plat\";A9:B11) rovná se 9135,112506."
 
-#: ../plugins/fn-database/functions.c:602
+#: ../plugins/fn-database/functions.c:603
 msgid ""
 "DSTDEVP:standard deviation of the population of values in @{field} in "
 "@{database} belonging to records that match @{criteria}"
@@ -870,15 +870,15 @@ msgstr ""
 "DSTDEVP:směrodatná odchylka souboru hodnot v poli @{field} v databázi "
 "@{database} náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:612
+#: ../plugins/fn-database/functions.c:613
 msgid "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7."
 msgstr "DSTDEVP(A1:C7;\"Věk\";A9:B11) rovná se 7."
 
-#: ../plugins/fn-database/functions.c:613
+#: ../plugins/fn-database/functions.c:614
 msgid "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5."
 msgstr "DSTDEVP(A1:C7;\"Plat\";A9:B11) rovná se 6459,5."
 
-#: ../plugins/fn-database/functions.c:636
+#: ../plugins/fn-database/functions.c:637
 msgid ""
 "DSUM:sum of the values in @{field} in @{database} belonging to records that "
 "match @{criteria}"
@@ -886,15 +886,15 @@ msgstr ""
 "DSUM:součet hodnot v poli @{field} v databázi @{database} náležejících "
 "záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:645
+#: ../plugins/fn-database/functions.c:646
 msgid "DSUM(A1:C7, \"Age\", A9:B11) equals 72."
 msgstr "DSUM(A1:C7;\"Věk\";A9:B11) rovná se 72."
 
-#: ../plugins/fn-database/functions.c:646
+#: ../plugins/fn-database/functions.c:647
 msgid "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565."
 msgstr "DSUM(A1:C7;\"Plat\";A9:B11) rovná se 81565."
 
-#: ../plugins/fn-database/functions.c:670
+#: ../plugins/fn-database/functions.c:671
 msgid ""
 "DVAR:sample variance of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -902,15 +902,15 @@ msgstr ""
 "DVAR:výběrový rozptyl hodnot v poli @{field} v databázi @{database} "
 "náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:679
+#: ../plugins/fn-database/functions.c:680
 msgid "DVAR(A1:C7, \"Age\", A9:B11) equals 98."
 msgstr "DVAR(A1:C7;\"Věk\";A9:B11) rovná se 98."
 
-#: ../plugins/fn-database/functions.c:680
+#: ../plugins/fn-database/functions.c:681
 msgid "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5."
 msgstr "DVAR(A1:C7;\"Plat\";A9:B11) rovná se 83450280,5."
 
-#: ../plugins/fn-database/functions.c:703
+#: ../plugins/fn-database/functions.c:704
 msgid ""
 "DVARP:variance of the population of values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
@@ -918,27 +918,27 @@ msgstr ""
 "DVARP:rozptyl souboru hodnot v poli @{field} v databázi @{database} "
 "náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:713
+#: ../plugins/fn-database/functions.c:714
 msgid "DVARP(A1:C7, \"Age\", A9:B11) equals 49."
 msgstr "DVARP(A1:C7;\"Věk\";A9:B11) rovná se 49."
 
-#: ../plugins/fn-database/functions.c:714
+#: ../plugins/fn-database/functions.c:715
 msgid "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25."
 msgstr "DVARP(A1:C7;\"Plat\";A9:B11) rovná se 41725140.25."
 
-#: ../plugins/fn-database/functions.c:737
+#: ../plugins/fn-database/functions.c:738
 msgid "GETPIVOTDATA:summary data from a pivot table"
 msgstr "GETPIVOTDATA:souhrnná data z kontingenční tabulky"
 
-#: ../plugins/fn-database/functions.c:738
+#: ../plugins/fn-database/functions.c:739
 msgid "pivot_table:cell range containing the pivot table"
 msgstr "pivot_table:rozsah buněk obsahující kontingenční tabulku"
 
-#: ../plugins/fn-database/functions.c:739
+#: ../plugins/fn-database/functions.c:740
 msgid "field_name:name of the field for which the summary data is requested"
 msgstr "field_name:název pole, pro které jsou požadována souhrnná data"
 
-#: ../plugins/fn-database/functions.c:740
+#: ../plugins/fn-database/functions.c:741
 msgid "If the summary data is unavailable, GETPIVOTDATA returns #REF!"
 msgstr ""
 "Pokud nejsou souhrnná data k dispozici, funkce GETPIVOTDATA vrací #ODKAZ!."
@@ -1211,7 +1211,7 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:467 ../plugins/fn-date/functions.c:810
 #: ../plugins/fn-date/functions.c:1032 ../plugins/fn-date/functions.c:1322
 #: ../plugins/fn-eng/functions.c:213 ../plugins/fn-eng/functions.c:317
-#: ../plugins/fn-eng/functions.c:386 ../plugins/fn-eng/functions.c:745
+#: ../plugins/fn-eng/functions.c:386 ../plugins/fn-eng/functions.c:833
 #: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:435
 #: ../plugins/fn-math/functions.c:1083 ../plugins/fn-math/functions.c:1110
 #: ../plugins/fn-math/functions.c:1486 ../plugins/fn-math/functions.c:1506
@@ -2721,8 +2721,8 @@ msgstr ""
 msgid "CONVERT:a converted measurement"
 msgstr "CONVERT:převedená míra"
 
-#: ../plugins/fn-eng/functions.c:644 ../plugins/fn-eng/functions.c:1118
-#: ../plugins/fn-eng/functions.c:1184 ../plugins/fn-math/functions.c:228
+#: ../plugins/fn-eng/functions.c:644 ../plugins/fn-eng/functions.c:1452
+#: ../plugins/fn-eng/functions.c:1518 ../plugins/fn-math/functions.c:228
 #: ../plugins/fn-math/functions.c:247 ../plugins/fn-math/functions.c:269
 #: ../plugins/fn-math/functions.c:310 ../plugins/fn-math/functions.c:328
 #: ../plugins/fn-math/functions.c:354 ../plugins/fn-math/functions.c:373
@@ -2777,6 +2777,113 @@ msgstr ""
 "Pokud jsou @{from} a @{to} rozdílných typů, funkce CONVERT vrací #N/A!."
 
 #: ../plugins/fn-eng/functions.c:650
+#, fuzzy
+#| msgid ""
+#| "@{from} and @{to} can be any of the following:\n"
+#| "\n"
+#| "Weight and mass:\n"
+#| "\t'brton'\t\tImperial ton\n"
+#| "\t'cwt'\t\t\tU.S. (short) hundredweight\n"
+#| "\t'g'  \t\t\tGram\n"
+#| "\t'grain'\t\tGrain\n"
+#| "\t'hweight'\t\tImperial (long) hundredweight\n"
+#| "\t'LTON'\t\tImperial ton\n"
+#| "\t'sg' \t\t\tSlug\n"
+#| "\t'shweight'\tU.S. (short) hundredweight\n"
+#| "\t'lbm'\t\tPound\n"
+#| "\t'lcwt'\t\tImperial  (long) hundredweight\n"
+#| "\t'u'  \t\t\tU (atomic mass)\n"
+#| "\t'uk_cwt'\t\tImperial  (long) hundredweight\n"
+#| "\t'uk_ton'\t\tImperial ton\n"
+#| "\t'ozm'\t\tOunce\n"
+#| "\t'stone'\t\tStone\n"
+#| "\t'ton'\t\t\tTon\n"
+#| "\n"
+#| "Distance:\n"
+#| "\t'm'   \t\tMeter\n"
+#| "\t'mi'  \t\tStatute mile\n"
+#| "\t'Nmi' \t\tNautical mile\n"
+#| "\t'in'  \t\t\tInch\n"
+#| "\t'ft'  \t\t\tFoot\n"
+#| "\t'yd'  \t\tYard\n"
+#| "\t'ang' \t\tAngstrom\n"
+#| "\t'Pica'\t\tPica Points\n"
+#| "\t'picapt'\t\tPica Points\n"
+#| "\t'pica'\t\tPica\n"
+#| "\n"
+#| "Time:\n"
+#| "\t'yr'  \t\t\tYear\n"
+#| "\t'day' \t\tDay\n"
+#| "\t'hr'  \t\t\tHour\n"
+#| "\t'mn'  \t\tMinute\n"
+#| "\t'sec' \t\tSecond\n"
+#| "\n"
+#| "Pressure:\n"
+#| "\t'Pa'  \t\t\tPascal\n"
+#| "\t'atm' \t\tAtmosphere\n"
+#| "\t'mmHg'\t\tmm of Mercury\n"
+#| "\n"
+#| "Force:\n"
+#| "\t'N'   \t\t\tNewton\n"
+#| "\t'dyn' \t\tDyne\n"
+#| "\t'lbf' \t\t\tPound force\n"
+#| "\n"
+#| "Energy:\n"
+#| "\t'J'    \t\t\tJoule\n"
+#| "\t'e'    \t\tErg\n"
+#| "\t'c'    \t\tThermodynamic calorie\n"
+#| "\t'cal'  \t\tIT calorie\n"
+#| "\t'eV'   \t\tElectron volt\n"
+#| "\t'HPh'  \t\tHorsepower-hour\n"
+#| "\t'Wh'   \t\tWatt-hour\n"
+#| "\t'flb'  \t\tFoot-pound\n"
+#| "\t'BTU'  \t\tBTU\n"
+#| "\n"
+#| "Power:\n"
+#| "\t'HP'   \t\tHorsepower\n"
+#| "\t'PS'   \t\tPferdestärke\n"
+#| "\t'W'    \t\tWatt\n"
+#| "\n"
+#| "Magnetism:\n"
+#| "\t'T'    \t\tTesla\n"
+#| "\t'ga'   \t\tGauss\n"
+#| "\n"
+#| "Temperature:\n"
+#| "\t'C'    \t\tDegree Celsius\n"
+#| "\t'F'    \t\tDegree Fahrenheit\n"
+#| "\t'K'    \t\tDegree Kelvin\n"
+#| "\n"
+#| "Liquid measure:\n"
+#| "\t'tsp'  \t\tTeaspoon\n"
+#| "\t'tbs'  \t\tTablespoon\n"
+#| "\t'oz'   \t\tFluid ounce\n"
+#| "\t'cup'  \t\tCup\n"
+#| "\t'pt'   \t\tPint\n"
+#| "\t'qt'   \t\tQuart\n"
+#| "\t'gal'  \t\tGallon\n"
+#| "\t'l'    \t\t\tLiter\n"
+#| "\n"
+#| "For metric units any of the following prefixes can be used:\n"
+#| "\t'Y'  \tyotta \t\t1E+24\n"
+#| "\t'Z'  \tzetta \t\t1E+21\n"
+#| "\t'E'  \texa   \t\t1E+18\n"
+#| "\t'P'  \tpeta  \t\t1E+15\n"
+#| "\t'T'  \ttera  \t\t1E+12\n"
+#| "\t'G'  \tgiga  \t\t1E+09\n"
+#| "\t'M'  \tmega  \t\t1E+06\n"
+#| "\t'k'  \tkilo  \t\t1E+03\n"
+#| "\t'h'  \thecto \t\t1E+02\n"
+#| "\t'e'  \tdeca (deka)\t1E+01\n"
+#| "\t'd'  \tdeci  \t\t1E-01\n"
+#| "\t'c'  \tcenti \t\t1E-02\n"
+#| "\t'm'  \tmilli \t\t1E-03\n"
+#| "\t'u'  \tmicro \t\t1E-06\n"
+#| "\t'n'  \tnano  \t\t1E-09\n"
+#| "\t'p'  \tpico  \t\t1E-12\n"
+#| "\t'f'  \tfemto \t\t1E-15\n"
+#| "\t'a'  \tatto  \t\t1E-18\n"
+#| "\t'z'  \tzepto \t\t1E-21\n"
+#| "\t'y'  \tyocto \t\t1E-24"
 msgid ""
 "@{from} and @{to} can be any of the following:\n"
 "\n"
@@ -2801,12 +2908,18 @@ msgid ""
 "Distance:\n"
 "\t'm'   \t\tMeter\n"
 "\t'mi'  \t\tStatute mile\n"
+"\t'survey_mi' \tU.S. survey mile\n"
 "\t'Nmi' \t\tNautical mile\n"
 "\t'in'  \t\t\tInch\n"
 "\t'ft'  \t\t\tFoot\n"
 "\t'yd'  \t\tYard\n"
+"\t'ell' \t\t\tEnglish Ell\n"
 "\t'ang' \t\tAngstrom\n"
+"\t'ly' \t\t\tLight-Year\n"
+"\t'pc' \t\t\tParsec\n"
+"\t'parsec' \t\tParsec\n"
 "\t'Pica'\t\tPica Points\n"
+"\t'Picapt'\t\tPica Points\n"
 "\t'picapt'\t\tPica Points\n"
 "\t'pica'\t\tPica\n"
 "\n"
@@ -2819,12 +2932,16 @@ msgid ""
 "\n"
 "Pressure:\n"
 "\t'Pa'  \t\t\tPascal\n"
+"\t'psi' \t\t\tPSI\n"
 "\t'atm' \t\tAtmosphere\n"
+"\t'Pa'  \t\t\tPascal\n"
 "\t'mmHg'\t\tmm of Mercury\n"
+"\t'Torr'\t\t\tTorr\n"
 "\n"
 "Force:\n"
 "\t'N'   \t\t\tNewton\n"
 "\t'dyn' \t\tDyne\n"
+"\t'pond' \t\tPond\n"
 "\t'lbf' \t\t\tPound force\n"
 "\n"
 "Energy:\n"
@@ -2850,17 +2967,89 @@ msgid ""
 "Temperature:\n"
 "\t'C'    \t\tDegree Celsius\n"
 "\t'F'    \t\tDegree Fahrenheit\n"
-"\t'K'    \t\tDegree Kelvin\n"
+"\t'K'    \t\tKelvin\n"
+"\t'Rank' \t\tDegree Rankine\n"
+"\t'Reau' \t\tDegree Réaumur\n"
 "\n"
-"Liquid measure:\n"
+"Volume (liquid measure):\n"
 "\t'tsp'  \t\tTeaspoon\n"
+"\t'tspm'  \t\tTeaspoon (modern, metric)\n"
 "\t'tbs'  \t\tTablespoon\n"
 "\t'oz'   \t\tFluid ounce\n"
 "\t'cup'  \t\tCup\n"
 "\t'pt'   \t\tPint\n"
+"\t'us_pt'\t\tU.S. pint\n"
+"\t'uk_pt'\t\tImperial pint (U.K.)\n"
 "\t'qt'   \t\tQuart\n"
+"\t'uk_qt'   \t\tImperial quart\n"
 "\t'gal'  \t\tGallon\n"
+"\t'uk_gal'  \t\tImperial gallon\n"
+"\t'GRT'  \t\tRegistered ton\n"
+"\t'regton' \t\tRegistered ton\n"
+"\t'MTON' \t\tMeasurement ton (freight ton)\n"
 "\t'l'    \t\t\tLiter\n"
+"\t'L'    \t\tLiter\n"
+"\t'lt'   \t\t\tLiter\n"
+"\t'ang3' \t\tCubic Angstrom\n"
+"\t'ang^3' \t\tCubic Angstrom\n"
+"\t'barrel' \t\tU.S. oil barrel (bbl)\n"
+"\t'bushel' \t\tU.S. bushel\n"
+"\t'ft3' \t\t\tCubic feet\n"
+"\t'ft^3' \t\tCubic feet\n"
+"\t'in3' \t\tCubic inch\n"
+"\t'in^3' \t\tCubic inch\n"
+"\t'ly3' \t\t\tCubic light-year\n"
+"\t'ly^3' \t\tCubic light-year\n"
+"\t'm3' \t\tCubic meter\n"
+"\t'm^3' \t\tCubic meter\n"
+"\t'mi3' \t\tCubic mile\n"
+"\t'mi^3' \t\tCubic mile\n"
+"\t'yd3' \t\tCubic yard\n"
+"\t'yd^3' \t\tCubic yard\n"
+"\t'Nmi3' \t\tCubic nautical mile\n"
+"\t'Nmi^3' \t\tCubic nautical mile\n"
+"\t'Picapt3' \t\tCubic Pica\n"
+"\t'Picapt^3' \tCubic Pica\n"
+"\t'Pica3' \t\tCubic Pica\n"
+"\t'Pica^3' \t\tCubic Pica\n"
+"\n"
+"Area:\n"
+"\t'uk_acre' \t\tInternational acre\n"
+"\t'us_acre' \t\tU.S. survey/statute acre\n"
+"\t'ang2' \t\tSquare angstrom\n"
+"\t'ang^2' \t\tSquare angstrom\n"
+"\t'ar' \t\t\tAre\n"
+"\t'ha' \t\t\tHectare\n"
+"\t'in2' \t\tSquare inches\n"
+"\t'in^2' \t\tSquare inches\n"
+"\t'ly2' \t\t\tSquare light-year\n"
+"\t'ly^2' \t\tSquare light-year\n"
+"\t'm2' \t\tSquare meter\n"
+"\t'm^2' \t\tSquare meter\n"
+"\t'Morgen' \t\tMorgen (North German Confederation)\n"
+"\t'mi2' \t\tSquare miles\n"
+"\t'mi^2' \t\tSquare miles\n"
+"\t'Nmi2' \t\tSquare nautical miles\n"
+"\t'Nmi^2' \t\tSquare nautical miles\n"
+"\t'Picapt2' \t\tSquare Pica\n"
+"\t'Picapt^2' \tSquare Pica\n"
+"\t'Pica2' \t\tSquare Pica\n"
+"\t'Pica^2' \t\tSquare Pica\n"
+"\t'yd2' \t\tSquare yards\n"
+"\t'yd^2' \t\tSquare yards\n"
+"\n"
+"Bits and Bytes:\n"
+"\t'bit' \t\t\tBit\n"
+"\t'byte' \t\tByte\n"
+"\n"
+"Speed:\n"
+"\t'admkn' \t\tAdmiralty knot\n"
+"\t'kn' \t\t\tknot\n"
+"\t'm/h' \t\tMeters per hour\n"
+"\t'm/hr' \t\tMeters per hour\n"
+"\t'm/s' \t\tMeters per second\n"
+"\t'm/sec' \t\tMeters per second\n"
+"\t'mph' \t\tMiles per hour\n"
 "\n"
 "For metric units any of the following prefixes can be used:\n"
 "\t'Y'  \tyotta \t\t1E+24\n"
@@ -2870,19 +3059,29 @@ msgid ""
 "\t'T'  \ttera  \t\t1E+12\n"
 "\t'G'  \tgiga  \t\t1E+09\n"
 "\t'M'  \tmega  \t\t1E+06\n"
-"\t'k'  \tkilo  \t\t1E+03\n"
+"\t'k'  \tkilo  \t\t\t1E+03\n"
 "\t'h'  \thecto \t\t1E+02\n"
 "\t'e'  \tdeca (deka)\t1E+01\n"
 "\t'd'  \tdeci  \t\t1E-01\n"
 "\t'c'  \tcenti \t\t1E-02\n"
-"\t'm'  \tmilli \t\t1E-03\n"
+"\t'm'  \tmilli \t\t\t1E-03\n"
 "\t'u'  \tmicro \t\t1E-06\n"
 "\t'n'  \tnano  \t\t1E-09\n"
 "\t'p'  \tpico  \t\t1E-12\n"
 "\t'f'  \tfemto \t\t1E-15\n"
 "\t'a'  \tatto  \t\t1E-18\n"
 "\t'z'  \tzepto \t\t1E-21\n"
-"\t'y'  \tyocto \t\t1E-24"
+"\t'y'  \tyocto \t\t1E-24\n"
+"\n"
+"For bits and bytes any of the following prefixes can be also be used:\n"
+"\t'Yi'  \tyobi \t\t2^80\n"
+"\t'Zi'  \tzebi \t\t\t2^70\n"
+"\t'Ei'  \texbi \t\t2^60\n"
+"\t'Pi'  \tpebi \t\t2^50\n"
+"\t'Ti'  \ttebi \t\t\t2^40\n"
+"\t'Gi'  \tgibi \t\t\t2^30\n"
+"\t'Mi'  \tmebi \t\t2^20\n"
+"\t'ki'  \tkibi \t\t\t2^10"
 msgstr ""
 "@{from} a @{to} mohou být jedno z následujícího:\n"
 "\n"
@@ -2907,13 +3106,19 @@ msgstr ""
 "Vydálenost:\n"
 "\t„m“   \t\tMetr\n"
 "\t„“mi  \t\tStatutární míle\n"
+"\t'survey_mi' \tAmerická zeměměřičská míle\n"
 "\t„Nmi“ \t\tNámořní míle\n"
 "\t„in“  \t\tPalec\n"
 "\t„ft“  \t\tStopa\n"
 "\t„yd“  \t\tYard\n"
+"\t'ell' \t\t\tAnglický ell\n"
 "\t„ang“ \t\tAngstrom\n"
-"\t„Pica“\t\tBody Pica\n"
-"\t„picapt“\tBody Pica\n"
+"\t'ly' \t\t\tSvětelný rok\n"
+"\t'pc' \t\t\tParsek\n"
+"\t'parsec' \t\tParsek\n"
+"\t„Pica“\t\tBody pica\n"
+"\t„Picapt“\tBody pica\n"
+"\t„picapt“\tBody pica\n"
 "\t„pica“\t\tPica\n"
 "\n"
 "Čas:\n"
@@ -2925,12 +3130,16 @@ msgstr ""
 "\n"
 "Síla:\n"
 "\t„Pa“  \t\tPascal\n"
+"\t'psi' \t\t\tPSI (Libry na čtvereční palec)\n"
 "\t„atm“ \t\tAtmosféra\n"
+"\t'Pa'  \t\t\tPascal\n"
+"\t'mmHg'\t\tMilimetr rtuťového sloupce\n"
 "\t„mmHg“\tTorr\n"
 "\n"
 "Síla:\n"
 "\t„N“   \t\tNewton\n"
 "\t„dyn“ \t\tDyne\n"
+"\t'pond' \t\tPond\n"
 "\t„lbf“ \t\tLibrová síla\n"
 "\n"
 "Energie:\n"
@@ -2957,16 +3166,88 @@ msgstr ""
 "\t„C“    \t\tStupeň Celsiusa\n"
 "\t„F“    \t\tStupeň Fahrenheita\n"
 "\t„K“    \t\tStupeň Kelvina\n"
+"\t'Rank' \t\tStupeň Rankina\n"
+"\t'Reau' \t\tStupeň Réaumura\n"
 "\n"
-"Měření kapalin:\n"
+"Objem:\n"
 "\t„tsp“  \t\tTeaspoon\n"
+"\t„tspm“  \t\tTablespoon (moderní, metrický)\n"
 "\t„tbs“  \t\tTablespoon\n"
 "\t„oz“   \t\tKapalná unce\n"
 "\t„cup“  \t\tCup\n"
 "\t„pt“   \t\tPinta\n"
+"\t'us_pt'\t\tAmerická pinta\n"
+"\t'uk_pt'\t\tImperiální (britská) pinta\n"
 "\t„qt“   \t\tQuarta\n"
+"\t'uk_qt'   \t\tImperiální quarta\n"
 "\t„gal“  \t\tGallon\n"
+"\t'uk_gal'  \t\tImperiální gallon\n"
+"\t'GRT'  \t\tRegistrovaná tuna\n"
+"\t'regton' \t\tRegistrovaná tuna\n"
+"\t'MTON' \t\Nákladní tuna\n"
 "\t„l“    \t\tLitr\n"
+"\t'L'    \t\tLitr\n"
+"\t'lt'   \t\t\tLitr\n"
+"\t'ang3' \t\tKubický angstrom\n"
+"\t'ang^3' \t\tKubický angstrom\n"
+"\t'barrel' \t\tAmerický ropný barel (bbl)\n"
+"\t'bushel' \t\tAmerický bushel\n"
+"\t'ft3' \t\t\tKrychlová stopa\n"
+"\t'ft^3' \t\Krychlová stopa\n"
+"\t'in3' \t\Krychlový palec\n"
+"\t'in^3' \t\tKrychlový palec\n"
+"\t'ly3' \t\t\tKrychlový světelný rok\n"
+"\t'ly^3' \t\tKrychlový světelný rok\n"
+"\t'm3' \t\tKrychlový metr\n"
+"\t'm^3' \t\tKrychlový metr\n"
+"\t'mi3' \t\tKrychlová míle\n"
+"\t'mi^3' \t\tKrychlová míle\n"
+"\t'yd3' \t\tKrychlový yard\n"
+"\t'yd^3' \t\Krychlový yard\n"
+"\t'Nmi3' \t\tKrychlová námořní míle\n"
+"\t'Nmi^3' \t\tKrychlová námořní míle\n"
+"\t'Picapt3' \t\tKrychlová pica\n"
+"\t'Picapt^3' \tKrychlová pica\n"
+"\t'Pica3' \t\tKrychlová pica\n"
+"\t'Pica^3' \t\tKrychlová pica\n"
+"\n"
+"Plocha:\n"
+"\t'uk_acre' \t\tAkr\n"
+"\t'us_acre' \t\tAmerický zeměměřičský akr\n"
+"\t'ang2' \t\tČtverečný angstrom\n"
+"\t'ang^2' \t\Čtverečný angstrom\n"
+"\t'ar' \t\t\tAr\n"
+"\t'ha' \t\t\tHektar\n"
+"\t'in2' \t\tČtverečný palec\n"
+"\t'in^2' \t\tČtverečný palec\n"
+"\t'ly2' \t\t\tČtverečný světelný rok\n"
+"\t'ly^2' \t\tČtverečný světelný rok\n"
+"\t'm2' \t\tČtverečný metr\n"
+"\t'm^2' \t\tČtverečný metr\n"
+"\t'Morgen' \t\tJitro (Severoněmecký spolek)\n"
+"\t'mi2' \t\tČtverečná míle\n"
+"\t'mi^2' \t\tČtverečná míle\n"
+"\t'Nmi2' \t\tČtverečná námořní míle\n"
+"\t'Nmi^2' \t\tČtverečná námořní míle\n"
+"\t'Picapt2' \t\tČtverečná pica\n"
+"\t'Picapt^2' \tČtverečná pica\n"
+"\t'Pica2' \t\tČtverečná pica\n"
+"\t'Pica^2' \t\tČtverečná pica\n"
+"\t'yd2' \t\tČtverečný yard\n"
+"\t'yd^2' \t\tČtverečný yard\n"
+"\n"
+"Informace:\n"
+"\t'bit' \t\t\tBit\n"
+"\t'byte' \t\tBajt\n"
+"\n"
+"Rychlost:\n"
+"\t'admkn' \t\tNámořní uzel\n"
+"\t'kn' \t\t\tUzel\n"
+"\t'm/h' \t\tMetry za hodinu\n"
+"\t'm/hr' \t\tMetry za hodinu\n"
+"\t'm/s' \t\tMetry za sekundu\n"
+"\t'm/sec' \t\tMetry za sekundu\n"
+"\t'mph' \t\tMíle za hodinu\n"
 "\n"
 "Pro metrické jednotky lze použít následující předpony:\n"
 "\t„Y“  \tyotta \t\t1E+24\n"
@@ -2990,28 +3271,28 @@ msgstr ""
 "\t„z“  \tzepto \t\t1E-21\n"
 "\t„y“  \tyocto \t\t1E-24"
 
-#: ../plugins/fn-eng/functions.c:744
+#: ../plugins/fn-eng/functions.c:832
 msgid "This function is Excel compatible (except \"picapt\")."
 msgstr "Tato funkce je kompatibilní s aplikací Excel (vyjma „picapt“)."
 
-#: ../plugins/fn-eng/functions.c:1086
+#: ../plugins/fn-eng/functions.c:1420
 msgid "ERF:Gauss error function"
 msgstr "ERF:Gaussova chybová funkce"
 
-#: ../plugins/fn-eng/functions.c:1087
+#: ../plugins/fn-eng/functions.c:1421
 msgid "lower:lower limit of the integral, defaults to 0"
 msgstr "lower:dolní limit integrálu, výchozí je 0"
 
-#: ../plugins/fn-eng/functions.c:1088
+#: ../plugins/fn-eng/functions.c:1422
 msgid "upper:upper limit of the integral"
 msgstr "upper:horní limit integrálu"
 
-#: ../plugins/fn-eng/functions.c:1089
+#: ../plugins/fn-eng/functions.c:1423
 msgid ""
 "ERF returns 2/sqrt(π)* integral from @{lower} to @{upper} of exp(-t*t) dt"
 msgstr "ERF vrací 2:√n . integrál od @{lower} do @{upper} z exp(-t.t) dt"
 
-#: ../plugins/fn-eng/functions.c:1090
+#: ../plugins/fn-eng/functions.c:1424
 msgid ""
 "This function is Excel compatible if two arguments are supplied and neither "
 "is negative."
@@ -3019,55 +3300,55 @@ msgstr ""
 "Tato funkce je kompatibilní s aplikací Excel, pokud jsou poskytnuty dva "
 "argumenty a žádný není záporný."
 
-#: ../plugins/fn-eng/functions.c:1095 ../plugins/fn-eng/functions.c:1122
+#: ../plugins/fn-eng/functions.c:1429 ../plugins/fn-eng/functions.c:1456
 msgid "wiki:en:Error_function"
 msgstr "wiki:en:Error_function"
 
-#: ../plugins/fn-eng/functions.c:1117
+#: ../plugins/fn-eng/functions.c:1451
 msgid "ERFC:Complementary Gauss error function"
 msgstr "ERFC:Komplementární Gaussova chybová funkce"
 
-#: ../plugins/fn-eng/functions.c:1119
+#: ../plugins/fn-eng/functions.c:1453
 msgid "ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt"
 msgstr "ERFC vrací 2:√π . integral od @{x} do ∞ z exp(-t.t) dt"
 
-#: ../plugins/fn-eng/functions.c:1137
+#: ../plugins/fn-eng/functions.c:1471
 msgid "DELTA:Kronecker delta function"
 msgstr "DELTA:Kroneckerova funkce delta"
 
-#: ../plugins/fn-eng/functions.c:1138 ../plugins/fn-eng/functions.c:1161
+#: ../plugins/fn-eng/functions.c:1472 ../plugins/fn-eng/functions.c:1495
 msgid "x0:number"
 msgstr "x0:číslo"
 
-#: ../plugins/fn-eng/functions.c:1139 ../plugins/fn-eng/functions.c:1162
+#: ../plugins/fn-eng/functions.c:1473 ../plugins/fn-eng/functions.c:1496
 msgid "x1:number, defaults to 0"
 msgstr "x1:číslo, výchozí je 0"
 
-#: ../plugins/fn-eng/functions.c:1140
+#: ../plugins/fn-eng/functions.c:1474
 msgid "DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise."
 msgstr "DELTA vrací 1, když @{x1} = @{x0} a 0 v ostatních případech."
 
-#: ../plugins/fn-eng/functions.c:1141 ../plugins/fn-eng/functions.c:1164
+#: ../plugins/fn-eng/functions.c:1475 ../plugins/fn-eng/functions.c:1498
 msgid "If either argument is non-numeric, #VALUE! is returned."
 msgstr "Pokud je některý z argumentů nečíselný, je vráceno #HODNOTA!."
 
-#: ../plugins/fn-eng/functions.c:1160
+#: ../plugins/fn-eng/functions.c:1494
 msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
 msgstr "GESTEP:skoková funkce vyhodnocující číslo @{x0} s prahem @{x1}"
 
-#: ../plugins/fn-eng/functions.c:1163
+#: ../plugins/fn-eng/functions.c:1497
 msgid "GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise."
 msgstr "GESTEP vrací 1, když je @{x1} ≤ @{x0} a 0 v ostatních případech."
 
-#: ../plugins/fn-eng/functions.c:1183
+#: ../plugins/fn-eng/functions.c:1517
 msgid "HEXREP:hexadecimal representation of numeric value"
 msgstr "HEXREP:šestnáctková podoba číselné hodnoty"
 
-#: ../plugins/fn-eng/functions.c:1185
+#: ../plugins/fn-eng/functions.c:1519
 msgid "HEXREP returns a hexadecimal string representation of @{x}."
 msgstr "HEXREP vrací řetězec s šestnáctkovou podobou čísla @{x}."
 
-#: ../plugins/fn-eng/functions.c:1186
+#: ../plugins/fn-eng/functions.c:1520
 msgid ""
 "This is a function meant for debugging.  The layout of the result may change "
 "and even depend on how Gnumeric was compiled."
@@ -3075,19 +3356,19 @@ msgstr ""
 "Tato funkce je určena pro ladění. Formát výsledku se může měnit a je závislý "
 "i na tom, jak je aplikace Gnumeric přeložena."
 
-#: ../plugins/fn-eng/functions.c:1214
+#: ../plugins/fn-eng/functions.c:1548
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
 msgstr "INVSUMINV:převrácená hodnota součtu převrácených hodnot argumentů"
 
-#: ../plugins/fn-eng/functions.c:1215
+#: ../plugins/fn-eng/functions.c:1549
 msgid "x0:non-negative number"
 msgstr "x0:nezáporné číslo"
 
-#: ../plugins/fn-eng/functions.c:1216
+#: ../plugins/fn-eng/functions.c:1550
 msgid "x1:non-negative number"
 msgstr "x1:nezáporné číslo"
 
-#: ../plugins/fn-eng/functions.c:1217
+#: ../plugins/fn-eng/functions.c:1551
 msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
@@ -3095,7 +3376,7 @@ msgstr ""
 "Pokud je některý z argumentů záporný, je vrácena hodnota #HODNOTA!.\n"
 "Pokud je některý z argumentů nulový, je vrácena nula."
 
-#: ../plugins/fn-eng/functions.c:1219
+#: ../plugins/fn-eng/functions.c:1553
 msgid ""
 "INVSUMINV sum calculates the reciprocal (the inverse) of the sum of "
 "reciprocals (inverses) of all its arguments."
