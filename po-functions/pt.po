@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-06-28 22:24+0000\n"
-"PO-Revision-Date: 2015-07-21 09:35+0100\n"
+"PO-Revision-Date: 2015-07-22 08:25+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@openmailbox.com>\n"
 "Language-Team: Português <palbuquerque73@openmailbox.com>\n"
 "Language: pt\n"
@@ -6846,105 +6846,112 @@ msgstr "Então SOMAXMY2(A1:A5,B1:B5) devolve 409."
 
 #: ../plugins/fn-math/functions.c:2642
 msgid "SERIESSUM:sum of a power series at @{x}"
-msgstr ""
+msgstr "SOMASÉRIE: soma de uma série de potências em @{x}"
 
 #: ../plugins/fn-math/functions.c:2643
 msgid "x:number where to evaluate the power series"
-msgstr ""
+msgstr "x: número onde avaliar a série de potências"
 
 #: ../plugins/fn-math/functions.c:2644
 msgid "n:non-negative integer, exponent of the lowest term of the series"
-msgstr ""
+msgstr "n: inteiro não negativo, expoente do termo mais baixo da série"
 
 #: ../plugins/fn-math/functions.c:2645
 msgid "m:increment to each exponent"
-msgstr ""
+msgstr "m: incremento de cada expoente"
 
 #: ../plugins/fn-math/functions.c:2646
 msgid "coeff:coefficients of the power series"
-msgstr ""
+msgstr "coef: coeficientes da série de potências"
 
 #: ../plugins/fn-math/functions.c:2648
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
 "2.98, 3.42, and 4.33."
 msgstr ""
+"Vamos assumir que as células A1, A2, ..., A5 contêm os números 1.23, 2.32, "
+"2.98, 3.42, e 4.33."
 
 #: ../plugins/fn-math/functions.c:2649
 msgid "Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"
-msgstr ""
+msgstr "Então SOMASÉRIE(2,1,2.23,A1:A5) devolve 5056.37439843926"
 
 #: ../plugins/fn-math/functions.c:2700
 msgid "MINVERSE:the inverse matrix of @{matrix}"
-msgstr ""
+msgstr "MATRIZ.INVERSA: a matriz inversa de @{matriz}"
 
 #: ../plugins/fn-math/functions.c:2701 ../plugins/fn-math/functions.c:2990
 msgid "matrix:a square matrix"
-msgstr ""
+msgstr "matriz: uma matriz quadrada"
 
 #: ../plugins/fn-math/functions.c:2702
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
-msgstr ""
+msgstr "Se @{matriz} não for invertível, devolve #NUM!."
 
 #: ../plugins/fn-math/functions.c:2703
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
 msgstr ""
+"Se @{matriz} não tiver um número igual de linhas e colunas, devolve #VALOR!."
 
 #: ../plugins/fn-math/functions.c:2737
 msgid "MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}"
-msgstr ""
+msgstr "PSEUDO.MATRIZ.INVERSA: a pseudo matrix inversa de @{matriz}"
 
 #: ../plugins/fn-math/functions.c:2738
 msgid "matrix:a matrix"
-msgstr ""
+msgstr "matriz: uma matriz"
 
 #: ../plugins/fn-math/functions.c:2739
 msgid "threshold:a relative size threshold for discarding eigenvalues"
-msgstr ""
+msgstr "limite: um limite de tamanho relativo para descartar autovalores"
 
 #: ../plugins/fn-math/functions.c:2774
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite "
 "@{matrix}"
 msgstr ""
+"CHOLESKY:a decomposição Cholesky da @{matriz} simétrica positiva definida"
 
 #: ../plugins/fn-math/functions.c:2775
 msgid "matrix:a symmetric positive definite matrix"
-msgstr ""
+msgstr "matriz: uma matriz de simétrica positiva definida"
 
 #: ../plugins/fn-math/functions.c:2776
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
 msgstr ""
+"Se o algoritmo Cholesky-Banachiewicz aplicado a @{matrix} falhar, devolve "
+"#NUM!"
 
 #: ../plugins/fn-math/functions.c:2777
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
 msgstr ""
+"Se @{matriz} não tiver um número igual de linhas e colunas, devolve #VALOR!."
 
 #: ../plugins/fn-math/functions.c:2852
 msgid "MUNIT:the @{n} by @{n} identity matrix"
-msgstr ""
+msgstr "MUNIT:a matriz identidade @{n} por @{n}"
 
 #: ../plugins/fn-math/functions.c:2853
 msgid "n:size of the matrix"
-msgstr ""
+msgstr "n: tamanho da matriz"
 
 #: ../plugins/fn-math/functions.c:2890
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
-msgstr ""
+msgstr "MATRIZ.MULT: a matriz produto de @matriz1} e @{matriz2}"
 
 #: ../plugins/fn-math/functions.c:2891
 msgid "mat1:a matrix"
-msgstr ""
+msgstr "matriz1: uma matriz"
 
 #: ../plugins/fn-math/functions.c:2892
 msgid "mat2:a matrix"
-msgstr ""
+msgstr "matriz2: uma matriz"
 
 #: ../plugins/fn-math/functions.c:2893
 msgid ""
@@ -6953,30 +6960,34 @@ msgid ""
 "the number of rows is the same as in @{mat1}), and the number of columns is "
 "the same as in (@{mat2})."
 msgstr ""
+"O número de colunas na @{matriz1} tem de ser uigual ao número de linhas da "
+"@{matriz2} ou será devolvido #VLALOR!. O resultado de MATRIZ.MULT é uma "
+"matriz, em que o número de linhas é o mesmo de @{matriz1} e o número de "
+"colunas é o mesmo de @{matriz2}."
 
 #: ../plugins/fn-math/functions.c:2933
 msgid "LINSOLVE:solve linear equation"
-msgstr ""
+msgstr "RESOLVE.EQ: resolve a equação linear"
 
 #: ../plugins/fn-math/functions.c:2934 ../plugins/fn-stat/functions.c:3500
 msgid "A:a matrix"
-msgstr ""
+msgstr "a: uma matriz"
 
 #: ../plugins/fn-math/functions.c:2935
 msgid "B:a matrix"
-msgstr ""
+msgstr "b: uma matriz"
 
 #: ../plugins/fn-math/functions.c:2937
 msgid "Solves the equation @{A}*X=@{B} and returns X."
-msgstr ""
+msgstr "Resolve a equação @{a}+X=@{b} e devolve X."
 
 #: ../plugins/fn-math/functions.c:2938
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
-msgstr ""
+msgstr "Se a matriz @{a} for singular, devolve #VALOR!."
 
 #: ../plugins/fn-math/functions.c:2989
 msgid "MDETERM:the determinant of the matrix @{matrix}"
-msgstr ""
+msgstr "MATRIZ.DETERM: a determinante da matriz @{matriz}"
 
 #: ../plugins/fn-math/functions.c:2991
 msgid ""
@@ -6984,97 +6995,110 @@ msgid ""
 "2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then "
 "MDETERM(A1:D4) yields 148."
 msgstr ""
+"Vamos assumir que A1,...,A4 contêm os números 2, 3, 7, e 3; B1,..., B4 4, 2, "
+"4, e 1; C1,...,C4 9, 4, 3; e 2; e D1,...,D4 7, 3, 6, e 5. Então MATRIZ."
+"DETERM(A1:D4) devolve 148."
 
 #: ../plugins/fn-math/functions.c:3021
 msgid "SUMPRODUCT:multiplies components and adds the results"
-msgstr ""
+msgstr "ISOMARPRODUTO: multiplica componentes e adiciona os resultados"
 
 #: ../plugins/fn-math/functions.c:3023 ../plugins/fn-math/functions.c:3046
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
 msgstr ""
+"Multiplica entradas de dados correspondentes nas matrizes ou intervalos "
+"indicados e devolve a soma desses produtos."
 
 #: ../plugins/fn-math/functions.c:3026
 msgid "If an entry is not numeric, the value zero is used instead."
-msgstr ""
+msgstr "Se uma entrada não for numérica, é usado o valor 0."
 
 #: ../plugins/fn-math/functions.c:3027 ../plugins/fn-math/functions.c:3050
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
 msgstr ""
+"Se as matrizes ou intervalos não tiverem as mesmas dimensões, devolve "
+"#VALOR!."
 
 #: ../plugins/fn-math/functions.c:3029
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
 msgstr ""
+"Esta função ignora valores logicos, logo usar ISOMARPRODUTO(A1:A5>0) não "
+"funciona. Use antes ISOMARPRODUTO(--(A1:A5>0))"
 
 #: ../plugins/fn-math/functions.c:3038
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
-msgstr ""
+msgstr "Esta função não é compativel com OpenFormula. Use antes SOMARPRODUTO."
 
 #: ../plugins/fn-math/functions.c:3044
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
-msgstr ""
+msgstr "SOMARPRODUTO:  multiplica componentes e adiciona os resultados"
 
 #: ../plugins/fn-math/functions.c:3049
 msgid "If an entry is not numeric or logical, the value zero is used instead."
-msgstr ""
+msgstr "Se uma entrada não for numérica ou lógica, é usado o valor 0."
 
 #: ../plugins/fn-math/functions.c:3052
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
+"Esta função difere de ISOMARPRODUTO porque leva em conta valores lógicos."
 
 #: ../plugins/fn-math/functions.c:3053
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
-msgstr ""
+msgstr "Esta função não é compatível com Excel. Use antes ISOMARPRODUTO."
 
 #: ../plugins/fn-math/functions.c:3188
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
-msgstr ""
+msgstr "EIGEN: autovalores e autovetores da @{matriz} simétrica"
 
 #: ../plugins/fn-math/functions.c:3189
 msgid "matrix:a symmetric matrix"
-msgstr ""
+msgstr "matriz: uma matriz simétrica"
 
 #: ../plugins/fn-math/functions.c:3190
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
-msgstr ""
+msgstr "Se @{matriz}não for simétrica, devolve #NUM!."
 
 #: ../plugins/fn-math/functions.c:3191
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
 msgstr ""
+"Se @{matriz} não tiver o mesmo número de linhas e colunas, devolve #VALOR!."
 
 #: ../plugins/fn-numtheory/numtheory.c:219
 msgid "NT_OMEGA:Number of distinct prime factors"
-msgstr ""
+msgstr "NT_OMEGA: número de fatores primos distintos"
 
 #: ../plugins/fn-numtheory/numtheory.c:221
 msgid "Returns the number of distinct prime factors without multiplicity."
-msgstr ""
+msgstr "Devolve o número de fatores primos distintos sem multiplicidade."
 
 #: ../plugins/fn-numtheory/numtheory.c:252
 msgid "NT_PHI:Euler's totient function"
-msgstr ""
+msgstr "NT_PHI: função totiente de Euler"
 
 #: ../plugins/fn-numtheory/numtheory.c:254
 msgid ""
 "Euler's totient function gives the number of integers less than or equal to "
 "@{n} that are relatively prime (coprime) to @{n}."
 msgstr ""
+"A função totiente de Euler dá o número de inteiros menor ou igual a @{n} que "
+"são relativamente primos (coprimos) com respeito a @{n}"
 
 #: ../plugins/fn-numtheory/numtheory.c:257
 msgid "wiki:en:Euler's_totient_function"
-msgstr ""
+msgstr "wiki:pt:Função_totiente_de_Euler"
 
 #: ../plugins/fn-numtheory/numtheory.c:286
 msgid "NT_MU:Möbius mu function"
-msgstr ""
+msgstr "NT_MU: função &micro; de Möbius"
 
 #: ../plugins/fn-numtheory/numtheory.c:289
 msgid ""
@@ -7084,96 +7108,90 @@ msgid ""
 "factors, it returns 1. If @{n} = 1, NT_MU returns 1."
 msgstr ""
 "A função NT_MU (função Möbius mu) devolve 0  se @{n} for divisível pelo "
-"quadrado de um primo. Caso contrário devolve: \n"
-"\n"
-"  -1 se @n tiver um número ímpar de fatores primos diferentes .\n"
-"   1 se @n tiver um número par de fatores primos diferentes .\n"
-"\n"
-"* Se @n=1 NT_MU devolve 1.\n"
-"\n"
-"@EXAMPLES=\n"
-"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
+"quadrado de um primo. Caso contrário devolve: -1 se @n tiver um número ímpar "
+"de fatores primos diferentes 1 se @n tiver um número par de fatores primos "
+"diferentes. Se @{n} = 1, devolve 1."
 
 #: ../plugins/fn-numtheory/numtheory.c:296
 msgid "wiki:en:Möbius_function"
-msgstr ""
+msgstr "wiki:pt:Função_de_Möbius"
 
 #: ../plugins/fn-numtheory/numtheory.c:297
 msgid "wolfram:MoebiusFunction.html"
-msgstr ""
+msgstr "wolfram:MoebiusFunction.html"
 
 #: ../plugins/fn-numtheory/numtheory.c:327
 msgid "NT_D:number of divisors"
-msgstr ""
+msgstr "NT_D: número de divisores"
 
 #: ../plugins/fn-numtheory/numtheory.c:329
 msgid "NT_D calculates the number of divisors of @{n}."
-msgstr ""
+msgstr "NT_D calcula o número de divisores de @{n}."
 
 #: ../plugins/fn-numtheory/numtheory.c:359
 msgid "NT_SIGMA:sigma function"
-msgstr ""
+msgstr "NT_SIGMA: função sigma"
 
 #: ../plugins/fn-numtheory/numtheory.c:361
 msgid "NT_SIGMA calculates the sum of the divisors of @{n}."
-msgstr ""
+msgstr "NT_SIGMA calcula a soma dos divisores de @{n}."
 
 #: ../plugins/fn-numtheory/numtheory.c:364
 msgid "wiki:en:Divisor_function"
-msgstr ""
+msgstr "wiki:pt:Função_divisor"
 
 #: ../plugins/fn-numtheory/numtheory.c:393
 msgid "ITHPRIME:@{i}th prime"
-msgstr ""
+msgstr "IÉSIMO.PRIMO: o @{i}º primo"
 
 #: ../plugins/fn-numtheory/numtheory.c:394
 msgid "i:positive integer"
-msgstr ""
+msgstr "i: inteiro positivo"
 
 #: ../plugins/fn-numtheory/numtheory.c:395
 msgid "ITHPRIME finds the @{i}th prime."
-msgstr ""
+msgstr "IÉSIMO.PRIMO encontra o @{i}º primo."
 
 #: ../plugins/fn-numtheory/numtheory.c:419
 msgid "ISPRIME:whether @{n} is prime"
-msgstr ""
+msgstr "É.PRIMO: se @{n} é primo"
 
 #: ../plugins/fn-numtheory/numtheory.c:421
 msgid "ISPRIME returns TRUE if @{n} is prime and FALSE otherwise."
-msgstr ""
+msgstr "É.PRIMO devolve VERDADEIRO se @{n} for primo, senão devolve FALSO."
 
 #: ../plugins/fn-numtheory/numtheory.c:424
 msgid "wolfram:PrimeNumber.html"
-msgstr ""
+msgstr "wolfram:PrimeNumber.html"
 
 #: ../plugins/fn-numtheory/numtheory.c:475
 msgid "PFACTOR:smallest prime factor"
-msgstr ""
+msgstr "FATORP: o menor fator primo"
 
 #: ../plugins/fn-numtheory/numtheory.c:477
 msgid "PFACTOR finds the smallest prime factor of its argument."
-msgstr ""
+msgstr "FATORP encontra o fator primo mais pequeno do seu argumento."
 
 #: ../plugins/fn-numtheory/numtheory.c:478
 msgid ""
 "The argument @{n} must be at least 2. Otherwise a #VALUE! error is returned."
-msgstr ""
+msgstr "O argumento @{n} tem de ser pelo menos 2. Senão devolve #VALOR!."
 
 #: ../plugins/fn-numtheory/numtheory.c:506
 msgid "NT_PI:number of primes upto @{n}"
-msgstr ""
+msgstr "NT_PI: número de primos até @{n}"
 
 #: ../plugins/fn-numtheory/numtheory.c:508
 msgid "NT_PI returns the number of primes less than or equal to @{n}."
-msgstr ""
+msgstr "NT_PI devolve o número de primos menores ou iguais a @{n}."
 
 #: ../plugins/fn-numtheory/numtheory.c:511
 msgid "wolfram:PrimeCountingFunction.html"
-msgstr ""
+msgstr "wolfram:PrimeCountingFunction.html"
 
 #: ../plugins/fn-numtheory/numtheory.c:537
 msgid "BITOR:bitwise or"
-msgstr ""
+msgstr "OUBITWISE: ou bitwise"
 
 #: ../plugins/fn-numtheory/numtheory.c:538
 #: ../plugins/fn-numtheory/numtheory.c:562
@@ -7181,74 +7199,85 @@ msgstr ""
 #: ../plugins/fn-numtheory/numtheory.c:611
 #: ../plugins/fn-numtheory/numtheory.c:641
 msgid "a:non-negative integer"
-msgstr ""
+msgstr "a: inteiro não negativo"
 
 #: ../plugins/fn-numtheory/numtheory.c:539
 #: ../plugins/fn-numtheory/numtheory.c:563
 #: ../plugins/fn-numtheory/numtheory.c:587
 msgid "b:non-negative integer"
-msgstr ""
+msgstr "b: inteiro não negativo"
 
 #: ../plugins/fn-numtheory/numtheory.c:540
 msgid ""
 "BITOR returns the bitwise or of the binary representations of its arguments."
 msgstr ""
+"OUBITWISE devolve o ou bitwise das representações binárias dos seus "
+"argumentos."
 
 #: ../plugins/fn-numtheory/numtheory.c:561
 msgid "BITXOR:bitwise exclusive or"
-msgstr ""
+msgstr "OUEXBITWISE: ou exclusivo bitwaise"
 
 #: ../plugins/fn-numtheory/numtheory.c:564
 msgid ""
 "BITXOR returns the bitwise exclusive or of the binary representations of its "
 "arguments."
 msgstr ""
+"OUEXBITWISE devolve o ou exclusivo bitwise das representações binárias dos "
+"seus argumentos."
 
 #: ../plugins/fn-numtheory/numtheory.c:585
 msgid "BITAND:bitwise and"
-msgstr ""
+msgstr "EBITWISE: e bitwise"
 
 #: ../plugins/fn-numtheory/numtheory.c:588
 msgid ""
 "BITAND returns the bitwise and of the binary representations of its "
 "arguments."
 msgstr ""
+"EBITWISE devolve o e bitwise das representações binárias dos seus argumentos."
 
 #: ../plugins/fn-numtheory/numtheory.c:610
 msgid "BITLSHIFT:bit-shift to the left"
-msgstr ""
+msgstr "BITDESQ: bit deslocado à esquerda"
 
 #: ../plugins/fn-numtheory/numtheory.c:613
 msgid ""
 "BITLSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the left."
 msgstr ""
+"BITDESQ devolve as representações binárias de @{a} deslocado @{n} posições à "
+"esquerda."
 
 #: ../plugins/fn-numtheory/numtheory.c:614
 msgid ""
 "If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) "
 "positions."
 msgstr ""
+"Se @{n} for negativo, BITDESQ desloca os bits à direita ABS(@{n}) posições."
 
 #: ../plugins/fn-numtheory/numtheory.c:640
 msgid "BITRSHIFT:bit-shift to the right"
-msgstr ""
+msgstr "BITDDIR: bit deslocado à direita"
 
 #: ../plugins/fn-numtheory/numtheory.c:643
 msgid ""
 "BITRSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the right."
 msgstr ""
+"BITDDIR devolve as representações binárias de @{a} deslocado @{n} posições à "
+"direita."
 
 #: ../plugins/fn-numtheory/numtheory.c:644
 msgid ""
 "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) "
 "positions."
 msgstr ""
+"Se @{n} for negativo, BITDDIR desloca os bits à esquerda ABS(@{n}) posições."
 
 #: ../plugins/fn-r/functions.c:19
 msgid "R.DNORM:probability density function of the normal distribution"
-msgstr ""
+msgstr "R.DNORM: função de densidade da probabilidade da distribuição normal"
 
 #: ../plugins/fn-r/functions.c:20 ../plugins/fn-r/functions.c:44
 #: ../plugins/fn-r/functions.c:96 ../plugins/fn-r/functions.c:120
@@ -7268,17 +7297,17 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1221 ../plugins/fn-r/functions.c:1277
 #: ../plugins/fn-r/functions.c:1301
 msgid "x:observation"
-msgstr ""
+msgstr "x: observação"
 
 #: ../plugins/fn-r/functions.c:21 ../plugins/fn-r/functions.c:45
 #: ../plugins/fn-r/functions.c:71
 msgid "mu:mean of the distribution"
-msgstr ""
+msgstr "mu: média da distribuição"
 
 #: ../plugins/fn-r/functions.c:22 ../plugins/fn-r/functions.c:46
 #: ../plugins/fn-r/functions.c:72
 msgid "sigma:standard deviation of the distribution"
-msgstr ""
+msgstr "sigma: desvio padrão da distribuição"
 
 #: ../plugins/fn-r/functions.c:23 ../plugins/fn-r/functions.c:99
 #: ../plugins/fn-r/functions.c:175 ../plugins/fn-r/functions.c:251
@@ -7290,17 +7319,19 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1066 ../plugins/fn-r/functions.c:1199
 #: ../plugins/fn-r/functions.c:1280
 msgid "give_log:if true, log of the result will be returned instead"
-msgstr ""
+msgstr "dar_registo: se VERDADEIRO, será devolvido o registo do resultado"
 
 #: ../plugins/fn-r/functions.c:24
 msgid ""
 "This function returns the probability density function of the normal "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"normal."
 
 #: ../plugins/fn-r/functions.c:43
 msgid "R.PNORM:cumulative distribution function of the normal distribution"
-msgstr ""
+msgstr "R.PNORM: função de distribuição cumulativa da distribuição normal"
 
 #: ../plugins/fn-r/functions.c:47 ../plugins/fn-r/functions.c:73
 #: ../plugins/fn-r/functions.c:123 ../plugins/fn-r/functions.c:149
@@ -7324,6 +7355,8 @@ msgid ""
 "lower_tail:if true (the default), the lower tail of the distribution is "
 "considered"
 msgstr ""
+"cauda_baixa: se VERDADEIRO (predefinição), é considerada a cauda baixa da "
+"distribuição"
 
 #: ../plugins/fn-r/functions.c:48 ../plugins/fn-r/functions.c:74
 #: ../plugins/fn-r/functions.c:124 ../plugins/fn-r/functions.c:150
@@ -7347,16 +7380,20 @@ msgid ""
 "log_p:if true, the natural logarithm of the probability is given or "
 "returned; defaults to false"
 msgstr ""
+"log_p: se VERDADEIRO, o logaritmo natural da probabilidade é dado ou "
+"devolvido; predefinido como FALSO"
 
 #: ../plugins/fn-r/functions.c:49
 msgid ""
 "This function returns the cumulative distribution function of the normal "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição "
+"normal."
 
 #: ../plugins/fn-r/functions.c:69
 msgid "R.QNORM:probability quantile function of the normal distribution"
-msgstr ""
+msgstr "R.QNORM: função de probalilidade da distribuição normal"
 
 #: ../plugins/fn-r/functions.c:70 ../plugins/fn-r/functions.c:146
 #: ../plugins/fn-r/functions.c:222 ../plugins/fn-r/functions.c:298
@@ -7368,58 +7405,67 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1141 ../plugins/fn-r/functions.c:1169
 #: ../plugins/fn-r/functions.c:1249 ../plugins/fn-r/functions.c:1327
 msgid "p:probability or natural logarithm of the probability"
-msgstr ""
+msgstr "p: probabilidade ou logaritmo natural da probabilidade"
 
 #: ../plugins/fn-r/functions.c:75
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the normal distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição normal."
 
 #: ../plugins/fn-r/functions.c:95
 msgid "R.DLNORM:probability density function of the log-normal distribution"
 msgstr ""
+"R.DLNORM: função de densidade da probabilidade da distribuição log-normal"
 
 #: ../plugins/fn-r/functions.c:97 ../plugins/fn-r/functions.c:121
 #: ../plugins/fn-r/functions.c:147
 msgid "logmean:mean of the underlying normal distribution"
-msgstr ""
+msgstr "médialog: média da distribuição normal subjacente"
 
 #: ../plugins/fn-r/functions.c:98 ../plugins/fn-r/functions.c:122
 #: ../plugins/fn-r/functions.c:148
 msgid "logsd:standard deviation of the underlying normal distribution"
-msgstr ""
+msgstr "dplog: desvio padrão da distribuição normal subjacente"
 
 #: ../plugins/fn-r/functions.c:100
 msgid ""
 "This function returns the probability density function of the log-normal "
 "distribution."
 msgstr ""
+"Esta função devolve a função da densidade da probabilidade da distribuição "
+"log-normal"
 
 #: ../plugins/fn-r/functions.c:119
 msgid ""
 "R.PLNORM:cumulative distribution function of the log-normal distribution"
-msgstr ""
+msgstr "R.PLNORM: função de distribuição cumulativa da distribuição log-normal"
 
 #: ../plugins/fn-r/functions.c:125
 msgid ""
 "This function returns the cumulative distribution function of the log-normal "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição log-"
+"normal"
 
 #: ../plugins/fn-r/functions.c:145
 msgid "R.QLNORM:probability quantile function of the log-normal distribution"
-msgstr ""
+msgstr "R.QLNORM: função de probalilidade da distribuição log-normal"
 
 #: ../plugins/fn-r/functions.c:151
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the log-normal distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição log-normal."
 
 #: ../plugins/fn-r/functions.c:171
 msgid "R.DGAMMA:probability density function of the gamma distribution"
-msgstr ""
+msgstr "R.DGAMA: função de densidade da probabilidade da distribuição gama"
 
 #: ../plugins/fn-r/functions.c:173 ../plugins/fn-r/functions.c:197
 #: ../plugins/fn-r/functions.c:223 ../plugins/fn-r/functions.c:544
@@ -7428,7 +7474,7 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1250 ../plugins/fn-r/functions.c:1279
 #: ../plugins/fn-r/functions.c:1303 ../plugins/fn-r/functions.c:1329
 msgid "shape:the shape parameter of the distribution"
-msgstr ""
+msgstr "forma: o parâmetro forma da distribuição"
 
 #: ../plugins/fn-r/functions.c:174 ../plugins/fn-r/functions.c:198
 #: ../plugins/fn-r/functions.c:224 ../plugins/fn-r/functions.c:545
@@ -7439,307 +7485,362 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1198 ../plugins/fn-r/functions.c:1224
 #: ../plugins/fn-r/functions.c:1252
 msgid "scale:the scale parameter of the distribution"
-msgstr ""
+msgstr "escala: o parâmetro escala da distribuição"
 
 #: ../plugins/fn-r/functions.c:176
 msgid ""
 "This function returns the probability density function of the gamma "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"gama."
 
 #: ../plugins/fn-r/functions.c:195
 msgid "R.PGAMMA:cumulative distribution function of the gamma distribution"
-msgstr ""
+msgstr "R.PGAMA: função de distribuição cumulativa da distribuição gama"
 
 #: ../plugins/fn-r/functions.c:201
 msgid ""
 "This function returns the cumulative distribution function of the gamma "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição gama"
 
 #: ../plugins/fn-r/functions.c:221
 msgid "R.QGAMMA:probability quantile function of the gamma distribution"
-msgstr ""
+msgstr "R.QGAMA: função de probalilidade da distribuição gama"
 
 #: ../plugins/fn-r/functions.c:227
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the gamma distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição gama."
 
 #: ../plugins/fn-r/functions.c:247
 msgid "R.DBETA:probability density function of the beta distribution"
-msgstr ""
+msgstr "R.DBETA: função de densidade da probabilidade da distribuição beta"
 
 #: ../plugins/fn-r/functions.c:249 ../plugins/fn-r/functions.c:273
 #: ../plugins/fn-r/functions.c:299
 msgid "a:the first shape parameter of the distribution"
-msgstr ""
+msgstr "a: o primeiro parâmetro forma da distribuição"
 
 #: ../plugins/fn-r/functions.c:250 ../plugins/fn-r/functions.c:274
 #: ../plugins/fn-r/functions.c:300
 msgid "b:the second scale parameter of the distribution"
-msgstr ""
+msgstr "b: o segundo parâmetro forma da distribuição"
 
 #: ../plugins/fn-r/functions.c:252
 msgid ""
 "This function returns the probability density function of the beta "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"beta."
 
 #: ../plugins/fn-r/functions.c:271
 msgid "R.PBETA:cumulative distribution function of the beta distribution"
-msgstr ""
+msgstr "R.PBETA: função de distribuição cumulativa da distribuição beta"
 
 #: ../plugins/fn-r/functions.c:277
 msgid ""
 "This function returns the cumulative distribution function of the beta "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição beta."
 
 #: ../plugins/fn-r/functions.c:297
 msgid "R.QBETA:probability quantile function of the beta distribution"
-msgstr ""
+msgstr "R.QBETA: função de probalilidade da distribuição beta"
 
 #: ../plugins/fn-r/functions.c:303
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the beta distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição beta."
 
 #: ../plugins/fn-r/functions.c:323
 msgid "R.DT:probability density function of the Student t distribution"
-msgstr ""
+msgstr "R.DT: função de densidade da probabilidade da distribuição Student-t"
 
 #: ../plugins/fn-r/functions.c:325 ../plugins/fn-r/functions.c:347
 #: ../plugins/fn-r/functions.c:371 ../plugins/fn-r/functions.c:1278
 #: ../plugins/fn-r/functions.c:1302 ../plugins/fn-r/functions.c:1328
 msgid "n:the number of degrees of freedom of the distribution"
-msgstr ""
+msgstr "n: o número de graus de liberdade da distribuição"
 
 #: ../plugins/fn-r/functions.c:327
 msgid ""
 "This function returns the probability density function of the Student t "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"Student-t."
 
 #: ../plugins/fn-r/functions.c:345
 msgid "R.PT:cumulative distribution function of the Student t distribution"
-msgstr ""
+msgstr "R.PT: função de distribuição cumulativa da distribuição Student t"
 
 #: ../plugins/fn-r/functions.c:350
 msgid ""
 "This function returns the cumulative distribution function of the Student t "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição "
+"Student t"
 
 #: ../plugins/fn-r/functions.c:369
 msgid "R.QT:probability quantile function of the Student t distribution"
-msgstr ""
+msgstr "R.QT: função de probalilidade da distribuição Student t"
 
 #: ../plugins/fn-r/functions.c:374
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Student t distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição Student t."
 
 #: ../plugins/fn-r/functions.c:393
 msgid "R.DF:probability density function of the F distribution"
-msgstr ""
+msgstr "R.DF: função de densidade da probabilidade da distribuição F"
 
 #: ../plugins/fn-r/functions.c:395 ../plugins/fn-r/functions.c:419
 #: ../plugins/fn-r/functions.c:445
 msgid "n1:the first number of degrees of freedom of the distribution"
-msgstr ""
+msgstr "n1: o primeiro número de graus de lberdade da distribuição"
 
 #: ../plugins/fn-r/functions.c:396 ../plugins/fn-r/functions.c:420
 #: ../plugins/fn-r/functions.c:446
 msgid "n2:the second number of degrees of freedom of the distribution"
-msgstr ""
+msgstr "n2: o segundo número de graus de lberdade da distribuição"
 
 #: ../plugins/fn-r/functions.c:398
 msgid ""
 "This function returns the probability density function of the F distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição F."
 
 #: ../plugins/fn-r/functions.c:417
 msgid "R.PF:cumulative distribution function of the F distribution"
-msgstr ""
+msgstr "R.PF: função de distribuição cumulativa da distribuição F"
 
 #: ../plugins/fn-r/functions.c:423
 msgid ""
 "This function returns the cumulative distribution function of the F "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição F."
 
 #: ../plugins/fn-r/functions.c:443
 msgid "R.QF:probability quantile function of the F distribution"
-msgstr ""
+msgstr "R.QF: função de probalilidade da distribuição F"
 
 #: ../plugins/fn-r/functions.c:449
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the F distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição F."
 
 #: ../plugins/fn-r/functions.c:469
 msgid "R.DCHISQ:probability density function of the chi-square distribution"
 msgstr ""
+"R.DCHIQ: função de densidade da probabilidade da distribuição chi quadrado"
 
 #: ../plugins/fn-r/functions.c:471 ../plugins/fn-r/functions.c:494
 #: ../plugins/fn-r/functions.c:519 ../plugins/fn-r/functions.c:1115
 #: ../plugins/fn-r/functions.c:1143
 msgid "df:the number of degrees of freedom of the distribution"
-msgstr ""
+msgstr "gl: o número de graus de liberdade da distribuição"
 
 #: ../plugins/fn-r/functions.c:473
 msgid ""
 "This function returns the probability density function of the chi-square "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"chi quadrado."
 
 #: ../plugins/fn-r/functions.c:474
 msgid ""
 "A two argument invocation R.DCHISQ(@{x},@{df}) is exported to OpenFormula as "
 "CHISQDIST(@{x},@{df},FALSE())."
 msgstr ""
+"Uma invocação de dois argumentos de R.DCHIQ(@{x},@{df}) é exportada para "
+"OpenFormula como DIST.CHI.QUAD(@{x},@{df},FALSO())."
 
 #: ../plugins/fn-r/functions.c:492
 msgid ""
 "R.PCHISQ:cumulative distribution function of the chi-square distribution"
 msgstr ""
+"R.PCHIQ: função de distribuição cumulativa da distribuição chi quadrado"
 
 #: ../plugins/fn-r/functions.c:497
 msgid ""
 "This function returns the cumulative distribution function of the chi-square "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição chi "
+"quadrado."
 
 #: ../plugins/fn-r/functions.c:498
 msgid ""
 "A two argument invocation R.PCHISQ(@{x},@{df}) is exported to OpenFormula as "
 "CHISQDIST(@{x},@{df})."
 msgstr ""
+"Uma invocação de dois argumentos de R.PCHIQ(@{x},@{df}) é exportada para "
+"OpenFormula como DIST.CHI.QUAD(@{x},@{df})."
 
 #: ../plugins/fn-r/functions.c:517
 msgid "R.QCHISQ:probability quantile function of the chi-square distribution"
-msgstr ""
+msgstr "R.QCHIQ: função de probalilidade da distribuição chi quadrado"
 
 #: ../plugins/fn-r/functions.c:522
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the chi-square distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição chi quadrado."
 
 #: ../plugins/fn-r/functions.c:523
 msgid ""
 "A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula as "
 "CHISQINV(@{p},@{df})."
 msgstr ""
+"Uma invocação de dois argumentos de R.QCHIQ(@{p},@{df}) é exportada para "
+"OpenFormula como INV.CHI.QUAD(@{p},@{df})."
 
 #: ../plugins/fn-r/functions.c:542
 msgid "R.DWEIBULL:probability density function of the Weibull distribution"
 msgstr ""
+"R.DWEIBULL: função de densidade da probabilidade da distribuição Weibull"
 
 #: ../plugins/fn-r/functions.c:547
 msgid ""
 "This function returns the probability density function of the Weibull "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"Weibull."
 
 #: ../plugins/fn-r/functions.c:566
 msgid "R.PWEIBULL:cumulative distribution function of the Weibull distribution"
-msgstr ""
+msgstr "R.PWEIBULL: função de distribuição cumulativa da distribuição Weibull"
 
 #: ../plugins/fn-r/functions.c:572
 msgid ""
 "This function returns the cumulative distribution function of the Weibull "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição "
+"Weibull."
 
 #: ../plugins/fn-r/functions.c:592
 msgid "R.QWEIBULL:probability quantile function of the Weibull distribution"
-msgstr ""
+msgstr "R.QWEIBULL: função de probalilidade da distribuição Weibull"
 
 #: ../plugins/fn-r/functions.c:598
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Weibull distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição Weibull."
 
 #: ../plugins/fn-r/functions.c:618
 msgid "R.DPOIS:probability density function of the Poisson distribution"
-msgstr ""
+msgstr "R.DPOIS: função de densidade da probabilidade da distribuição Poisson"
 
 #: ../plugins/fn-r/functions.c:620 ../plugins/fn-r/functions.c:642
 #: ../plugins/fn-r/functions.c:666
 msgid "lambda:the mean of the distribution"
-msgstr ""
+msgstr "lâmbda: a média da distribuição"
 
 #: ../plugins/fn-r/functions.c:622
 msgid ""
 "This function returns the probability density function of the Poisson "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"Poisson."
 
 #: ../plugins/fn-r/functions.c:640
 msgid "R.PPOIS:cumulative distribution function of the Poisson distribution"
-msgstr ""
+msgstr "R.PPOIS: função de distribuição cumulativa da distribuição Poisson"
 
 #: ../plugins/fn-r/functions.c:645
 msgid ""
 "This function returns the cumulative distribution function of the Poisson "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição "
+"Poisson."
 
 #: ../plugins/fn-r/functions.c:664
 msgid "R.QPOIS:probability quantile function of the Poisson distribution"
-msgstr ""
+msgstr "R.QPOIS: função de probalilidade da distribuição Poisson"
 
 #: ../plugins/fn-r/functions.c:669
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Poisson distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição Poisson."
 
 #: ../plugins/fn-r/functions.c:688
 msgid "R.DEXP:probability density function of the exponential distribution"
 msgstr ""
+"R.DEXP: função de densidade da probabilidade da distribuição exponencial"
 
 #: ../plugins/fn-r/functions.c:692
 msgid ""
 "This function returns the probability density function of the exponential "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"exponencial."
 
 #: ../plugins/fn-r/functions.c:710
 msgid "R.PEXP:cumulative distribution function of the exponential distribution"
-msgstr ""
+msgstr "R.PEXP: função de distribuição cumulativa da distribuição exponencial"
 
 #: ../plugins/fn-r/functions.c:715
 msgid ""
 "This function returns the cumulative distribution function of the "
 "exponential distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição "
+"exponencial."
 
 #: ../plugins/fn-r/functions.c:734
 msgid "R.QEXP:probability quantile function of the exponential distribution"
-msgstr ""
+msgstr "R.QEXP: função de probalilidade da distribuição exponencial"
 
 #: ../plugins/fn-r/functions.c:739
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the exponential distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição exponencial."
 
 #: ../plugins/fn-r/functions.c:758
 msgid "R.DBINOM:probability density function of the binomial distribution"
 msgstr ""
+"R.DBINOM: função de densidade da probabilidade da distribuição binomial"
 
 #: ../plugins/fn-r/functions.c:760 ../plugins/fn-r/functions.c:784
 #: ../plugins/fn-r/functions.c:810
 msgid "n:the number of trials"
-msgstr ""
+msgstr "n: número de tentativas"
 
 #: ../plugins/fn-r/functions.c:761 ../plugins/fn-r/functions.c:785
 #: ../plugins/fn-r/functions.c:811 ../plugins/fn-r/functions.c:837
@@ -7747,70 +7848,84 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:994 ../plugins/fn-r/functions.c:1016
 #: ../plugins/fn-r/functions.c:1040
 msgid "psuc:the probability of success in each trial"
-msgstr ""
+msgstr "psuc: probabilidade de sucesso em cada tentativa"
 
 #: ../plugins/fn-r/functions.c:763
 msgid ""
 "This function returns the probability density function of the binomial "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"binomial."
 
 #: ../plugins/fn-r/functions.c:782
 msgid "R.PBINOM:cumulative distribution function of the binomial distribution"
-msgstr ""
+msgstr "R.PBINOM: função de distribuição cumulativa da distribuição binomial"
 
 #: ../plugins/fn-r/functions.c:788
 msgid ""
 "This function returns the cumulative distribution function of the binomial "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição "
+"binomial."
 
 #: ../plugins/fn-r/functions.c:808
 msgid "R.QBINOM:probability quantile function of the binomial distribution"
-msgstr ""
+msgstr "R.QBINOM: função de probalilidade da distribuição binomial"
 
 #: ../plugins/fn-r/functions.c:814
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the binomial distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição binomial."
 
 #: ../plugins/fn-r/functions.c:834
 msgid ""
 "R.DNBINOM:probability density function of the negative binomial distribution"
 msgstr ""
+"R.DNBINOM: função de densidade da probabilidade da distribuição binomial "
+"negativa"
 
 #: ../plugins/fn-r/functions.c:835 ../plugins/fn-r/functions.c:859
 msgid "x:observation (number of failures)"
-msgstr ""
+msgstr "x: observação (número de falhas)"
 
 #: ../plugins/fn-r/functions.c:836 ../plugins/fn-r/functions.c:860
 #: ../plugins/fn-r/functions.c:886
 msgid "n:required number of successes"
-msgstr ""
+msgstr "n: número de sucessos requerido"
 
 #: ../plugins/fn-r/functions.c:839
 msgid ""
 "This function returns the probability density function of the negative "
 "binomial distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"binomial negativa."
 
 #: ../plugins/fn-r/functions.c:858
 msgid ""
 "R.PNBINOM:cumulative distribution function of the negative binomial "
 "distribution"
 msgstr ""
+"R.PNBINOM: função de distribuição cumulativa da distribuição binomial "
+"negativa"
 
 #: ../plugins/fn-r/functions.c:864
 msgid ""
 "This function returns the cumulative distribution function of the negative "
 "binomial distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição "
+"binomial negativa."
 
 #: ../plugins/fn-r/functions.c:884
 msgid ""
 "R.QNBINOM:probability quantile function of the negative binomial distribution"
-msgstr ""
+msgstr "R.QNBINOM: função de probalilidade da distribuição binomial negativa"
 
 #: ../plugins/fn-r/functions.c:890
 msgid ""
@@ -7818,134 +7933,161 @@ msgid ""
 "of the cumulative distribution function, of the negative binomial "
 "distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição binomial negativa."
 
 #: ../plugins/fn-r/functions.c:910
 msgid ""
 "R.DHYPER:probability density function of the hypergeometric distribution"
 msgstr ""
+"R.DHIPER: função de densidade da probabilidade da distribuição "
+"hipergeométrica"
 
 #: ../plugins/fn-r/functions.c:912 ../plugins/fn-r/functions.c:938
 #: ../plugins/fn-r/functions.c:966
 msgid "r:the number of red balls"
-msgstr ""
+msgstr "r: o número de bolas vermelhas"
 
 #: ../plugins/fn-r/functions.c:913 ../plugins/fn-r/functions.c:939
 #: ../plugins/fn-r/functions.c:967
 msgid "b:the number of black balls"
-msgstr ""
+msgstr "b: o número de bolas pretas"
 
 #: ../plugins/fn-r/functions.c:914 ../plugins/fn-r/functions.c:940
 #: ../plugins/fn-r/functions.c:968
 msgid "n:the number of balls drawn"
-msgstr ""
+msgstr "n: o número de bolas desenhadas"
 
 #: ../plugins/fn-r/functions.c:916
 msgid ""
 "This function returns the probability density function of the hypergeometric "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"hipergeométrica"
 
 #: ../plugins/fn-r/functions.c:936
 msgid ""
 "R.PHYPER:cumulative distribution function of the hypergeometric distribution"
 msgstr ""
+"R.PHIPER: função de distribuição cumulativa da distribuição hipergeométrica"
 
 #: ../plugins/fn-r/functions.c:943
 msgid ""
 "This function returns the cumulative distribution function of the "
 "hypergeometric distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição "
+"hipergeométrica."
 
 #: ../plugins/fn-r/functions.c:964
 msgid ""
 "R.QHYPER:probability quantile function of the hypergeometric distribution"
-msgstr ""
+msgstr "R.QHYPER: função de probalilidade da distribuição hipergeométrica"
 
 #: ../plugins/fn-r/functions.c:971
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the hypergeometric distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição hipergeométrica."
 
 #: ../plugins/fn-r/functions.c:992
 msgid "R.DGEOM:probability density function of the geometric distribution"
 msgstr ""
+"R.DGEOM: função de densidade da probabilidade da distribuição geométrica"
 
 #: ../plugins/fn-r/functions.c:996
 msgid ""
 "This function returns the probability density function of the geometric "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"geométrica."
 
 #: ../plugins/fn-r/functions.c:1014
 msgid "R.PGEOM:cumulative distribution function of the geometric distribution"
-msgstr ""
+msgstr "R.PGEOM: função de distribuição cumulativa da distribuição geométrica"
 
 #: ../plugins/fn-r/functions.c:1019
 msgid ""
 "This function returns the cumulative distribution function of the geometric "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição "
+"geométrica."
 
 #: ../plugins/fn-r/functions.c:1038
 msgid "R.QGEOM:probability quantile function of the geometric distribution"
-msgstr ""
+msgstr "R.QGEOM: função de probalilidade da distribuição geométrica"
 
 #: ../plugins/fn-r/functions.c:1043
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the geometric distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição geométrica."
 
 #: ../plugins/fn-r/functions.c:1062
 msgid "R.DCAUCHY:probability density function of the Cauchy distribution"
-msgstr ""
+msgstr "R.DCAUCHY: função de densidade da probabilidade da distribuição Cauchy"
 
 #: ../plugins/fn-r/functions.c:1064 ../plugins/fn-r/functions.c:1088
 #: ../plugins/fn-r/functions.c:1170
 msgid "location:the center of the distribution"
-msgstr ""
+msgstr "localização: o centro da distribuição"
 
 #: ../plugins/fn-r/functions.c:1067
 msgid ""
 "This function returns the probability density function of the Cauchy "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"Cauchy."
 
 #: ../plugins/fn-r/functions.c:1086
 msgid "R.PCAUCHY:cumulative distribution function of the Cauchy distribution"
-msgstr ""
+msgstr "R.PCAUCHY: função de distribuição cumulativa da distribuição Cauchy"
 
 #: ../plugins/fn-r/functions.c:1092
 msgid ""
 "This function returns the cumulative distribution function of the Cauchy "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição "
+"Cauchy."
 
 #: ../plugins/fn-r/functions.c:1112
 msgid ""
 "R.PTUKEY:cumulative distribution function of the Studentized range "
 "distribution"
 msgstr ""
+"R.PTUKEY: função de distribuição cumulativa da distribuição de intervalo "
+"Studentized"
 
 #: ../plugins/fn-r/functions.c:1114 ../plugins/fn-r/functions.c:1142
 msgid "nmeans:the number of means"
-msgstr ""
+msgstr "nmédias: número de médias"
 
 #: ../plugins/fn-r/functions.c:1116 ../plugins/fn-r/functions.c:1144
 msgid "nranges:the number of ranges; default is 1"
-msgstr ""
+msgstr "nint: número de intervalos; predefinido como 1"
 
 #: ../plugins/fn-r/functions.c:1119
 msgid ""
 "This function returns the cumulative distribution function of the "
 "Studentized range distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição de "
+"intervalo Studentized."
 
 #: ../plugins/fn-r/functions.c:1140
 msgid ""
 "R.QTUKEY:probability quantile function of the Studentized range distribution"
 msgstr ""
+"R.QTUKEY: função de probalilidade da distribuição de intervalo Studentized"
 
 #: ../plugins/fn-r/functions.c:1147
 msgid ""
@@ -7953,215 +8095,247 @@ msgid ""
 "of the cumulative distribution function, of the Studentized range "
 "distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição de intervalo Studentized."
 
 #: ../plugins/fn-r/functions.c:1168
 msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution"
-msgstr ""
+msgstr "R.QCAUCHY: função de probalilidade da distribuição Cauchy"
 
 #: ../plugins/fn-r/functions.c:1174
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Cauchy distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição Cauchy."
 
 #: ../plugins/fn-r/functions.c:1194
 msgid "R.DSNORM:probability density function of the skew-normal distribution"
 msgstr ""
+"R.DSNORM: função de densidade da probabilidade da distribuição de inclinação "
+"normal"
 
 #: ../plugins/fn-r/functions.c:1197 ../plugins/fn-r/functions.c:1223
 #: ../plugins/fn-r/functions.c:1251
 msgid "location:the location parameter of the distribution"
-msgstr ""
+msgstr "localização: o parâmetro de localização da distribuição"
 
 #: ../plugins/fn-r/functions.c:1200
 msgid ""
 "This function returns the probability density function of the skew-normal "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"de inclinação normal."
 
 #: ../plugins/fn-r/functions.c:1220
 msgid ""
 "R.PSNORM:cumulative distribution function of the skew-normal distribution"
 msgstr ""
+"R.PSNORM: função de distribuição cumulativa da distribuição de inclinação "
+"normal"
 
 #: ../plugins/fn-r/functions.c:1227
 msgid ""
 "This function returns the cumulative distribution function of the skew-"
 "normal distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição de "
+"inclinação normal."
 
 #: ../plugins/fn-r/functions.c:1248
 msgid "R.QSNORM:probability quantile function of the skew-normal distribution"
-msgstr ""
+msgstr "R.QSNORM: função de probalilidade da distribuição de inclinação normal"
 
 #: ../plugins/fn-r/functions.c:1255
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the skew-normal distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição de inclinação normal."
 
 #: ../plugins/fn-r/functions.c:1276
 msgid "R.DST:probability density function of the skew-t distribution"
 msgstr ""
+"R.DST: função de densidade da probabilidade da distribuição de inclinação t"
 
 #: ../plugins/fn-r/functions.c:1281
 msgid ""
 "This function returns the probability density function of the skew-t "
 "distribution."
 msgstr ""
+"Esta função devolve a função de densidade da probabilidade da distribuição "
+"de inclinação t."
 
 #: ../plugins/fn-r/functions.c:1300
 msgid "R.PST:cumulative distribution function of the skew-t distribution"
 msgstr ""
+"R.PST: função de distribuição cumulativa da distribuição de inclinação t"
 
 #: ../plugins/fn-r/functions.c:1306
 msgid ""
 "This function returns the cumulative distribution function of the skew-t "
 "distribution."
 msgstr ""
+"Esta função devolve a função de distribuição cumulativa da distribuição de "
+"inclinação t"
 
 #: ../plugins/fn-r/functions.c:1326
 msgid "R.QST:probability quantile function of the skew-t distribution"
-msgstr ""
+msgstr "R.QST: função de probalilidade da distribuição de inclinação t"
 
 #: ../plugins/fn-r/functions.c:1332
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the skew-t distribution."
 msgstr ""
+"Esta função devolve o inverso da função de distribuição cumulativa da "
+"distribuição de inclinação t."
 
 #: ../plugins/fn-random/functions.c:47
 msgid "RAND:a random number between zero and one"
-msgstr ""
+msgstr "ALEATÓRIO: um número aleatório entre 0 e 1"
 
 #: ../plugins/fn-random/functions.c:64
 msgid ""
 "RANDUNIFORM:random variate from the uniform distribution from @{a} to @{b}"
 msgstr ""
+"ALEATÓRIOUNIF: variação aleatória da distribuição uniforme de @{a} a @{b}"
 
 #: ../plugins/fn-random/functions.c:65
 msgid "a:lower limit of the uniform distribution"
-msgstr ""
+msgstr "a: limite inferior da distribuição uniforme"
 
 #: ../plugins/fn-random/functions.c:66
 msgid "b:upper limit of the uniform distribution"
-msgstr ""
+msgstr "b: limite superior da distribuição uniforme"
 
 #: ../plugins/fn-random/functions.c:67
 msgid "If @{a} > @{b} RANDUNIFORM returns #NUM!"
-msgstr ""
+msgstr "Se @{a} > @{b} devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:89
 msgid "RANDDISCRETE:random variate from a finite discrete distribution"
-msgstr ""
+msgstr "ALEATÓRIODISC: variação aleatória  da distribuição finita discreta"
 
 #: ../plugins/fn-random/functions.c:90
 msgid "val_range:possible values of the random variable"
-msgstr ""
+msgstr "int_val: valores possíveis da variável aleatória"
 
 #: ../plugins/fn-random/functions.c:91
 msgid ""
 "prob_range:probabilities of the corresponding values in @{val_range}, "
 "defaults to equal probabilities"
 msgstr ""
+"int_prob: probabilidades dos valores correspondentes em @{int_val}; "
+"predefinido como probabilidades iguais"
 
 #: ../plugins/fn-random/functions.c:93
 msgid ""
 "RANDDISCRETE returns one of the values in the @{val_range}. The "
 "probabilities for each value are given in the @{prob_range}."
 msgstr ""
+"ALEATÓRIODISC devolve um dos valores em @{int_val}. As probabilidades para "
+"cada valor são dadas em @{int_prob}."
 
 #: ../plugins/fn-random/functions.c:95
 msgid ""
 "If the sum of all values in @{prob_range} is not one, RANDDISCRETE returns "
 "#NUM!"
 msgstr ""
+"Se a soma de todos os valores em @{int_prob} não for um, devolve #NUM!."
 
 #: ../plugins/fn-random/functions.c:96
 msgid ""
 "If @{val_range} and @{prob_range} are not the same size, RANDDISCRETE "
 "returns #NUM!"
 msgstr ""
+"Se @{int_val} e @{int_prob} não tiverem o mesmo tamanho, devolve #NUM!."
 
 #: ../plugins/fn-random/functions.c:97
 msgid ""
 "If @{val_range} or @{prob_range} is not a range, RANDDISCRETE returns #VALUE!"
-msgstr ""
+msgstr "Se @{int_val} ou @{int_prob} não forem um intervalo, devolve #VALOR!."
 
 #: ../plugins/fn-random/functions.c:175
 msgid "RANDEXP:random variate from an exponential distribution"
-msgstr ""
+msgstr "ALEATÓRIOEXP: variação aleatória da distribuição exponencial"
 
 #: ../plugins/fn-random/functions.c:176
 msgid "b:parameter of the exponential distribution"
-msgstr ""
+msgstr "b: parâmetro da distribuição exponencial"
 
 #: ../plugins/fn-random/functions.c:194
 msgid "RANDPOISSON:random variate from a Poisson distribution"
-msgstr ""
+msgstr "ALEATÓRIOPOISSON: variação aleatória da distribuição Poisson"
 
 #: ../plugins/fn-random/functions.c:195
 msgid "λ:parameter of the Poisson distribution"
-msgstr ""
+msgstr "λ: parâmetro da distribuição Poisson"
 
 #: ../plugins/fn-random/functions.c:196
 msgid "If @{λ} < 0 RANDPOISSON returns #NUM!"
-msgstr ""
+msgstr "Se @{λ} < 0 devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:218
 msgid "RANDBINOM:random variate from a binomial distribution"
-msgstr ""
+msgstr "ALEATÓRIOBINOM: variação aleatória da distribuição binomial"
 
 #: ../plugins/fn-random/functions.c:219 ../plugins/fn-random/functions.c:276
 #: ../plugins/fn-random/functions.c:582
 msgid "p:probability of success in a single trial"
-msgstr ""
+msgstr "p: probabilidade de sucesso numa única tentativa"
 
 #: ../plugins/fn-random/functions.c:220
 msgid "n:number of trials"
-msgstr ""
+msgstr "n: número de tentativas"
 
 #: ../plugins/fn-random/functions.c:221
 msgid "If @{p} < 0 or @{p} > 1 RANDBINOM returns #NUM!"
-msgstr ""
+msgstr "Se @{p} < 0 ou @{p} > 1 DEVOLVE #NUM!"
 
 #: ../plugins/fn-random/functions.c:222
 msgid "If @{n} < 0 RANDBINOM returns #NUM!"
-msgstr ""
+msgstr "sE @{n} < 0 DEVOLVE #NUM!"
 
 #: ../plugins/fn-random/functions.c:244
 msgid ""
 "RANDBETWEEN:a random integer number between and including @{bottom} and "
 "@{top}"
 msgstr ""
+"ALEATÓRIOENTRE: um número inteiro aleatório entre e incluindo @{último} e "
+"@{primeiro}"
 
 #: ../plugins/fn-random/functions.c:246
 msgid "bottom:lower limit"
-msgstr ""
+msgstr "último: limite inferior"
 
 #: ../plugins/fn-random/functions.c:247
 msgid "top:upper limit"
-msgstr ""
+msgstr "primeiro: limite superior"
 
 #: ../plugins/fn-random/functions.c:248
 msgid "If @{bottom} > @{top}, RANDBETWEEN returns #NUM!"
-msgstr ""
+msgstr "Se @{último} > @{primeiro}, devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:275
 msgid "RANDNEGBINOM:random variate from a negative binomial distribution"
 msgstr ""
+"ALEATÓRIONEGBINOM: variação aleatória da distribuição binomial negativa"
 
 #: ../plugins/fn-random/functions.c:277
 msgid "n:number of failures"
-msgstr ""
+msgstr "n: número de falhas"
 
 #: ../plugins/fn-random/functions.c:278
 msgid "If @{p} < 0 or @{p} > 1 RANDNEGBINOM returns #NUM!"
-msgstr ""
+msgstr "Se @{p} < 0 ou @{p} > 1 devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:279
 msgid "If @{n} < 1 RANDNEGBINOM returns #NUM!"
-msgstr ""
+msgstr "Se @{n} < 1 devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:300
 msgid "RANDBERNOULLI:random variate from a Bernoulli distribution"
