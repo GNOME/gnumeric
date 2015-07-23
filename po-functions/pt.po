@@ -1,7 +1,7 @@
 # Copyright © 2001, 2002, 2003, 2004, 2005 gnumeric
 # Distributed under the same licence as the gnumeric package
 # Duarte Loreto <happyguy_pt@hotmail.com>, 2001, 2002, 2003, 2004, 2005
-# Pedro Albuquerque <palbuquerque73@openmailbox.com>, 2015.
+# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
 #
 msgid ""
 msgstr ""
@@ -9,9 +9,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-06-28 22:24+0000\n"
-"PO-Revision-Date: 2015-07-22 08:25+0100\n"
-"Last-Translator: Pedro Albuquerque <palbuquerque73@openmailbox.com>\n"
-"Language-Team: Português <palbuquerque73@openmailbox.com>\n"
+"PO-Revision-Date: 2015-07-23 08:19+0100\n"
+"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7098,7 +7098,7 @@ msgstr "wiki:pt:Função_totiente_de_Euler"
 
 #: ../plugins/fn-numtheory/numtheory.c:286
 msgid "NT_MU:Möbius mu function"
-msgstr "NT_MU: função &micro; de Möbius"
+msgstr "NT_MU: função μ de Möbius"
 
 #: ../plugins/fn-numtheory/numtheory.c:289
 msgid ""
@@ -8339,298 +8339,309 @@ msgstr "Se @{n} < 1 devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:300
 msgid "RANDBERNOULLI:random variate from a Bernoulli distribution"
-msgstr ""
+msgstr "ALEATÓRIOBERNOULLI: variação aleatória da distribuição Bernoulli"
 
 #: ../plugins/fn-random/functions.c:301 ../plugins/fn-stat/functions.c:1014
 msgid "p:probability of success"
-msgstr ""
+msgstr "p probabilidade de sucesso"
 
 #: ../plugins/fn-random/functions.c:302
 msgid "If @{p} < 0 or @{p} > 1 RANDBERNOULLI returns #NUM!"
-msgstr ""
+msgstr "Se @{p} < 0 ou @{p} > 1 devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:324
 msgid "RANDNORM:random variate from a normal distribution"
-msgstr ""
+msgstr "ALEATÓRIONORMAL: variação aleatória da distribuição normal"
 
 #: ../plugins/fn-random/functions.c:325
 msgid "μ:mean of the distribution"
-msgstr ""
+msgstr "μ: média da distribuição"
 
 #: ../plugins/fn-random/functions.c:326 ../plugins/fn-random/functions.c:374
 msgid "σ:standard deviation of the distribution"
-msgstr ""
+msgstr "σ: desvio padrão da distribuição"
 
 #: ../plugins/fn-random/functions.c:327
 msgid "If @{σ} < 0, RANDNORM returns #NUM!"
-msgstr ""
+msgstr "Se @{σ} < 0, devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:349
 msgid "RANDCAUCHY:random variate from a Cauchy or Lorentz distribution"
-msgstr ""
+msgstr "ALEATÓRIOCAUCHY: variação aleatória da distribuição Cauchy ou Lorentz"
 
 #: ../plugins/fn-random/functions.c:350
 msgid "a:scale parameter of the distribution"
-msgstr ""
+msgstr "a: parâmetro escala da distribuição"
 
 #: ../plugins/fn-random/functions.c:351
 msgid "If @{a} < 0 RANDCAUCHY returns #NUM!"
-msgstr ""
+msgstr "Se @{a} < 0 devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:372
 msgid "RANDLOGNORM:random variate from a lognormal distribution"
-msgstr ""
+msgstr "ALEATÓRIOLOGNORM: : variação aleatória da distribuição log-normal"
 
 #: ../plugins/fn-random/functions.c:373
 msgid "ζ:parameter of the lognormal distribution"
-msgstr ""
+msgstr "ζ: parâmetro da distribuição log-normal"
 
 #: ../plugins/fn-random/functions.c:375
 msgid "If @{σ} < 0, RANDLOGNORM returns #NUM!"
-msgstr ""
+msgstr "Se @{σ} < 0, devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:394
 msgid "RANDWEIBULL:random variate from a Weibull distribution"
-msgstr ""
+msgstr "ALEATÓRIOWEIBULL: variação aleatória da distribuição Weibull"
 
 #: ../plugins/fn-random/functions.c:395
 msgid "a:parameter of the Weibull distribution"
-msgstr ""
+msgstr "a: parâmetro da distribuição Weibull"
 
 #: ../plugins/fn-random/functions.c:396
 msgid "b:parameter of the Weibull distribution"
-msgstr ""
+msgstr "b: parâmetro da distribuição Weibull"
 
 #: ../plugins/fn-random/functions.c:415
 msgid "RANDLAPLACE:random variate from a Laplace distribution"
-msgstr ""
+msgstr "ALEATÓRIOLAPLACE: variação aleatória da distribuição Laplace"
 
 #: ../plugins/fn-random/functions.c:416
 msgid "a:parameter of the Laplace distribution"
-msgstr ""
+msgstr "a: parâmetro da distribuição Laplace"
 
 #: ../plugins/fn-random/functions.c:434
 msgid "RANDRAYLEIGH:random variate from a Rayleigh distribution"
-msgstr ""
+msgstr "ALEATÓRIORAYLEIGH: variação aleatória da distribuição Rayleigh"
 
 #: ../plugins/fn-random/functions.c:435 ../plugins/fn-random/functions.c:455
 msgid "σ:scale parameter of the Rayleigh distribution"
-msgstr ""
+msgstr "σ: parâmetro escala da distribuição Rayleigh"
 
 #: ../plugins/fn-random/functions.c:453
 msgid ""
 "RANDRAYLEIGHTAIL:random variate from the tail of a Rayleigh distribution"
 msgstr ""
+"ALEATÓRIOCAUDARAYLEIGH: variação aleatória da cauda da distribuição Rayleigh"
 
 #: ../plugins/fn-random/functions.c:454 ../plugins/fn-random/functions.c:793
 msgid "a:lower limit of the tail"
-msgstr ""
+msgstr "a: limite inferior da cauda"
 
 #: ../plugins/fn-random/functions.c:474
 msgid "RANDGAMMA:random variate from a Gamma distribution"
-msgstr ""
+msgstr "ALEATÓRIOGAMA: variação aleatória da distribuição Gama"
 
 #: ../plugins/fn-random/functions.c:475
 msgid "a:shape parameter of the Gamma distribution"
-msgstr ""
+msgstr "a: parâmetro forma da distribuição Gama"
 
 #: ../plugins/fn-random/functions.c:476
 msgid "b:scale parameter of the Gamma distribution"
-msgstr ""
+msgstr "b: parâmetro escala da distribuição Gama"
 
 #: ../plugins/fn-random/functions.c:477
 msgid "If @{a} ≤ 0, RANDGAMMA returns #NUM!"
-msgstr ""
+msgstr "Se @{a} ≤ 0, devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:499
 msgid "RANDPARETO:random variate from a Pareto distribution"
-msgstr ""
+msgstr "ALEATÓRIOPARETO: variação aleatória da distribuição Pareto"
 
 #: ../plugins/fn-random/functions.c:500
 msgid "a:parameter of the Pareto distribution"
-msgstr ""
+msgstr "a: parâmetro da distrobuição Pareto"
 
 #: ../plugins/fn-random/functions.c:501
 msgid "b:parameter of the Pareto distribution"
-msgstr ""
+msgstr "b: parâmetro da distribuição Pareto"
 
 #: ../plugins/fn-random/functions.c:520
 msgid "RANDFDIST:random variate from an F distribution"
-msgstr ""
+msgstr "ALEATÓRIODISTF: variação aleatória da distribuição F"
 
 #: ../plugins/fn-random/functions.c:521
 msgid "df1:numerator degrees of freedom"
-msgstr ""
+msgstr "gl1: numerador de graus de liberdade"
 
 #: ../plugins/fn-random/functions.c:522
 msgid "df2:denominator degrees of freedom"
-msgstr ""
+msgstr "gl2: denominador de graus de liberdade"
 
 #: ../plugins/fn-random/functions.c:541
 msgid "RANDBETA:random variate from a Beta distribution"
-msgstr ""
+msgstr "ALEATÓRIOBETA:: variação aleatória da distribuição Beta"
 
 #: ../plugins/fn-random/functions.c:542
 msgid "a:parameter of the Beta distribution"
-msgstr ""
+msgstr "a: parâmetro da distribuição Beta"
 
 #: ../plugins/fn-random/functions.c:543
 msgid "b:parameter of the Beta distribution"
-msgstr ""
+msgstr "b: parâmetro da distribuição Beta"
 
 #: ../plugins/fn-random/functions.c:562
 msgid "RANDLOGISTIC:random variate from a logistic distribution"
-msgstr ""
+msgstr "ALEATÓRIOLOGGÍST: variação aleatória da distribuição logística"
 
 #: ../plugins/fn-random/functions.c:563
 msgid "a:parameter of the logistic distribution"
-msgstr ""
+msgstr "a: parâmetro da distribuição logística"
 
 #: ../plugins/fn-random/functions.c:581
 msgid "RANDGEOM:random variate from a geometric distribution"
-msgstr ""
+msgstr "ALEATÓRIOGEOM: variação aleatória da distribuição geométrica"
 
 #: ../plugins/fn-random/functions.c:583
 msgid "If @{p} < 0 or @{p} > 1 RANDGEOM returns #NUM!"
-msgstr ""
+msgstr "Se @{p} < 0 ou @{p} > 1, devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:604
 msgid "RANDHYPERG:random variate from a hypergeometric distribution"
-msgstr ""
+msgstr "ALEATÓRIOHIPERG: variação aleatória da distribuição hipergeométrica"
 
 #: ../plugins/fn-random/functions.c:605
 msgid "n1:number of objects of type 1"
-msgstr ""
+msgstr "n1: número de objetos de tipo 1"
 
 #: ../plugins/fn-random/functions.c:606
 msgid "n2:number of objects of type 2"
-msgstr ""
+msgstr "n2: número de objetos de tipo 2"
 
 #: ../plugins/fn-random/functions.c:607
 msgid "t:total number of objects selected"
-msgstr ""
+msgstr "t: total de objetos selecionados"
 
 #: ../plugins/fn-random/functions.c:629
 msgid "RANDLOG:random variate from a logarithmic distribution"
-msgstr ""
+msgstr "ALEATÓRIOLOG: variação aleatória da distribuição logarítmica"
 
 #: ../plugins/fn-random/functions.c:630 ../plugins/fn-stat/functions.c:559
 #: ../plugins/fn-stat/functions.c:1082 ../plugins/fn-stat/functions.c:1140
 #: ../plugins/fn-stat/functions.c:1332 ../plugins/fn-stat/functions.c:1622
 #: ../plugins/fn-stat/functions.c:2002
 msgid "p:probability"
-msgstr ""
+msgstr "p: probabilidade"
 
 #: ../plugins/fn-random/functions.c:631
 msgid "If @{p} < 0 or @{p} > 1 RANDLOG returns #NUM!"
-msgstr ""
+msgstr "Se @{p} < 0 ou @{p} > 1, devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:652
 msgid "RANDCHISQ:random variate from a Chi-square distribution"
-msgstr ""
+msgstr "ALEATÓRIOCHIQ: variação aleatória da distribuição chi quadrado"
 
 #: ../plugins/fn-random/functions.c:653 ../plugins/fn-random/functions.c:672
 #: ../plugins/fn-random/functions.c:942
 msgid "df:degrees of freedom"
-msgstr ""
+msgstr "gl: graus de liberdade"
 
 #: ../plugins/fn-random/functions.c:671
 msgid "RANDTDIST:random variate from a Student t distribution"
-msgstr ""
+msgstr "ALEATÓRIODISTT: variação aleatória da distribuição Student t"
 
 #: ../plugins/fn-random/functions.c:690
 msgid "RANDGUMBEL:random variate from a Gumbel distribution"
-msgstr ""
+msgstr "ALEATÓRIOGUMBEL: variação aleatória da distribuição Gumbel"
 
 #: ../plugins/fn-random/functions.c:691
 msgid "a:parameter of the Gumbel distribution"
-msgstr ""
+msgstr "a: parâmetro da distribuição Gumbel"
 
 #: ../plugins/fn-random/functions.c:692
 msgid "b:parameter of the Gumbel distribution"
-msgstr ""
+msgstr "b: parâmetro da distribuição Gumbel"
 
 #: ../plugins/fn-random/functions.c:693
 msgid "type:type of the Gumbel distribution, defaults to 1"
-msgstr ""
+msgstr "tipo: tipo da distribuição Gumbel, predefinido como 1"
 
 #: ../plugins/fn-random/functions.c:694
 msgid "If @{type} is neither 1 nor 2, RANDGUMBEL returns #NUM!"
-msgstr ""
+msgstr "Se @{tipo} não for nem 1 nem 2, devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:719
 msgid "RANDLEVY:random variate from a Lévy distribution"
-msgstr ""
+msgstr "ALEATÓRIOLEVY: variação aleatória da distribuição Levy"
 
 #: ../plugins/fn-random/functions.c:720
 msgid "c:parameter of the Lévy distribution"
-msgstr ""
+msgstr "c: parâmetro da distribuição Levy"
 
 #: ../plugins/fn-random/functions.c:721
 msgid "α:parameter of the Lévy distribution"
-msgstr ""
+msgstr "α: parâmetro da distribuição Levy"
 
 #: ../plugins/fn-random/functions.c:722
 msgid "β:parameter of the Lévy distribution, defaults to 0"
-msgstr ""
+msgstr "β: parâmetro da distribuição Levy, predefinido como 0"
 
 #: ../plugins/fn-random/functions.c:723
 msgid ""
 "For @{α} = 1, @{β}=0, the Lévy distribution reduces to the Cauchy (or "
 "Lorentzian) distribution."
 msgstr ""
+"Para @{α} = 1, @{β}=0, a distribuição Lévy reduz-se à distribuição Cauchy "
+"(ou Lorentziana)."
 
 #: ../plugins/fn-random/functions.c:725
 msgid ""
 "For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal "
 "distribution."
 msgstr ""
+"Para @{α} = 2, @{β}=0, a distribuição Lévy reduz-se à distribuição normal."
 
 #: ../plugins/fn-random/functions.c:727
 msgid "If @{α} ≤ 0 or @{α} > 2, RANDLEVY returns #NUM!"
-msgstr ""
+msgstr "Se @{α} ≤ 0 ou @{α} > 2, devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:728
 msgid "If @{β} < -1 or @{β} > 1, RANDLEVY returns #NUM!"
-msgstr ""
+msgstr "Se @{β} < -1 ou @{β} > 1, devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:751
 msgid "RANDEXPPOW:random variate from an exponential power distribution"
 msgstr ""
+"ALEATÓRIOPOTEXP: variação aleatória da distribuição de potência exponencial"
 
 #: ../plugins/fn-random/functions.c:752
 msgid "a:scale parameter of the exponential power distribution"
-msgstr ""
+msgstr "a: parâmetro escala da distribuição de potência exponencial"
 
 #: ../plugins/fn-random/functions.c:753
 msgid "b:exponent of the exponential power distribution"
-msgstr ""
+msgstr "b: expoente da distribuição de potência exponencial"
 
 #: ../plugins/fn-random/functions.c:754
 msgid ""
 "For @{b} = 1 the exponential power distribution reduces to the Laplace "
 "distribution."
 msgstr ""
+"Para @{b} = 1, a distribuição de potência exponencial reduz-se à "
+"distribuição Laplace."
 
 #: ../plugins/fn-random/functions.c:756
 msgid ""
 "For @{b} = 2 the exponential power distribution reduces to the normal "
 "distribution with σ = a/sqrt(2)"
 msgstr ""
+"Para @{b} = 2 a distribuição de potência exponencial reduz-se à distribuição "
+"normal com σ = a/RAIZQ(2)"
 
 #: ../plugins/fn-random/functions.c:776
 msgid "RANDLANDAU:random variate from the Landau distribution"
-msgstr ""
+msgstr "ALEATÓRIOLANDAU: variação aleatória da distribuição Landau"
 
 #: ../plugins/fn-random/functions.c:792
 msgid ""
 "RANDNORMTAIL:random variate from the upper tail of a normal distribution "
 "with mean 0"
 msgstr ""
+"ALEATÓRIOCAUDANORMAL: variação aleatória da cauda superior da distribuição "
+"normal com média 0"
 
 #: ../plugins/fn-random/functions.c:794
 msgid "σ:standard deviation of the normal distribution"
-msgstr ""
+msgstr "σ: desvio padrão da distribuição normal"
 
 #: ../plugins/fn-random/functions.c:795
 msgid ""
@@ -8638,20 +8649,25 @@ msgid ""
 "(Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, "
 "3rd ed, p139, 586 (exercise 11)."
 msgstr ""
+"O método é baseado no famoso algoritmo retângulo-cunha-cauda de Marsaglia's "
+"(Ann Math Stat 32, 894-899 (1961)), com este aspeto explicado em Knuth, v2, "
+"3ª ed, p139, 586 (exercício 11)."
 
 #: ../plugins/fn-random/functions.c:816
 msgid ""
 "SIMTABLE:one of the values in the given argument list depending on the round "
 "number of the simulation tool"
 msgstr ""
+"TABELASIM: um dos valores da lista de argumentos indicada, dependendo do "
+"número de execuções da ferramenta de simulação"
 
 #: ../plugins/fn-random/functions.c:818
 msgid "d1:first value"
-msgstr ""
+msgstr "d1: primeiro valor"
 
 #: ../plugins/fn-random/functions.c:819
 msgid "d2:second value"
-msgstr ""
+msgstr "d2: segundo valor"
 
 #: ../plugins/fn-random/functions.c:820
 msgid ""
@@ -8673,40 +8689,44 @@ msgid ""
 "stored, and when the round is completed, descriptive statistical information "
 "is created according to the values."
 msgstr ""
-"SIMTABLE devolve um dos valores na lista de argumentos indicada dependendo "
+"TABELASIM devolve um dos valores na lista de argumentos indicada dependendo "
 "no número de execuções da ferramenta de simulação. Quando a ferramenta de "
-"simulação não está ativa, SIMTABLE devolve @d1.\n"
-"Com a ferramenta de simulação e a função SIMTABLE pode testar variáveis de "
-"decisão especificadas. Cada função SIMTABLE contém os valores possíveis de "
+"simulação não está ativa, TABELASIM devolve @d1.\n"
+"Com a ferramenta de simulação e a função TABELASIM pode testar variáveis de "
+"decisão especificadas. Cada função TABELASIM contém os valores possíveis de "
 "uma variável de simulação. Na maioria dos modelos de simulação válidos "
 "deverá ter o mesmo número de valores @dN para todas as variáveis de decisão. "
 "Se a simulação for executada mais vezes do que o número de valores "
-"definidos, SIMTABLE devolve o erro #N/A! (por ex. se A1 contém "
-"`=SIMTABLE(1)' e A2 `=SIMTABLE(1,2)', A1 conterá o erro #N/A! à segunda "
-"execução).\n"
+"definidos, TABELASIM devolve #N/D! (por ex. se A1 contém \"=TABELASIM(1)\" e "
+"A2 \"=TABELASIM(1,2)\", A1 conterá o erro #N/D! à segunda execução).\n"
 "A utilização sucessiva da ferramenta de simulação também requer que passe à "
-"ferramenta pelo menos uma variável de entrada contendo RAND() ou qualquer "
-"outra função RAND<nome distribuição>(). Em cada execução, a ferramenta de "
-"simulação itera o dado número de vezes todas as variáveis de entrada para as "
-"reavaliar. A cada iteração, os valores das variáveis de saída são "
-"armazenados e, quando a execução termina, informação descritiva estatística "
-"é criada de acordo com os valores."
+"ferramenta pelo menos uma variável de entrada contendo ALEATÓRIO() ou "
+"qualquer outra função ALEATÓRIO<nome distribuicao>(). Em cada execução, a "
+"ferramenta de simulação itera o dado número de vezes todas as variáveis de "
+"entrada para as reavaliar. A cada iteração, os valores das variáveis de "
+"saída são armazenados e, quando a execução termina, informação descritiva "
+"estatística é criada de acordo com os valores."
 
 #: ../plugins/fn-random/functions.c:884
 msgid "RANDSNORM:random variate from a skew-normal distribution"
 msgstr ""
+"ALEATÓRIONORMALI: variação aleatória da distribuição de inclinação normal"
 
 #: ../plugins/fn-random/functions.c:885
 msgid "𝛼:shape parameter of the skew-normal distribution, defaults to 0"
 msgstr ""
+"𝛼: parâmetro forma da distribuição de inclinação normal, predefinido como 0"
 
 #: ../plugins/fn-random/functions.c:887
 msgid "𝜉:location parameter of the skew-normal distribution, defaults to 0"
 msgstr ""
+"𝜉: parâmetro localização da distribuição de inclinação normal, predefinido "
+"como 0"
 
 #: ../plugins/fn-random/functions.c:889
 msgid "𝜔:scale parameter of the skew-normal distribution, defaults to 1"
 msgstr ""
+"𝜔: parâmetro escala da distribuição de inclinação normal, predefinido como 1"
 
 #: ../plugins/fn-random/functions.c:891
 msgid ""
@@ -8718,46 +8738,59 @@ msgid ""
 "if the sign of @{𝛼} changes, the density is reflected on the opposite side "
 "of the vertical axis."
 msgstr ""
+"As variações aleatórias são desenhadas a partir de uma distribuição de "
+"inclinação normal com parâmetro forma @{𝛼}. Quando @{𝛼} = 0, a inclinação "
+"desaparece e obtemos a densidade normal padrão; se @{𝛼} aumentar (em valor "
+"absoluto), a inclinação da distribuição aumenta; quando @{𝛼} se aproxima de "
+"infinito, a densidade converge para a chamada função de densidade semi-"
+"normal (ou normal dobrada); se o sinal de @{𝛼} se alterar, a densidade é "
+"refletida no lado oposto do eixo vertical."
 
 #: ../plugins/fn-random/functions.c:901
 msgid ""
 "The mean of a skew-normal distribution with location parameter @{𝜉}=0 is not "
 "0."
 msgstr ""
+"A média da distribuição de inclinação normal com parâmetro de localização "
+"@{𝜉} = 0 não é 0."
 
 #: ../plugins/fn-random/functions.c:903
 msgid ""
 "The standard deviation of a skew-normal distribution with scale parameter "
 "@{𝜔}=1 is not 1."
 msgstr ""
+"O desvio padrão de uma distribuição de inclinação normal com parâmetro de "
+"escala @{𝜔}=1 não é 1."
 
 #: ../plugins/fn-random/functions.c:905
 msgid "The skewness of a skew-normal distribution is in general not @{𝛼}."
 msgstr ""
+"A inclinação de uma distribuição de inclinação normal não é geralmente @{𝛼}."
 
 #: ../plugins/fn-random/functions.c:906
 msgid "If @{𝜔} < 0, RANDSNORM returns #NUM!"
-msgstr ""
+msgstr "Se @{𝜔} < 0, devolve #NUM!"
 
 #: ../plugins/fn-random/functions.c:941
 msgid "RANDSTDIST:random variate from a skew-t distribution"
-msgstr ""
+msgstr "ALEATÓRIODISTT: variação aleatória da distribuição de inclinação t"
 
 #: ../plugins/fn-random/functions.c:943
 msgid "𝛼:shape parameter of the skew-t distribution, defaults to 0"
 msgstr ""
+"𝛼: parâmetro forma da da distribuição de inclinação t, predefinido como 0"
 
 #: ../plugins/fn-random/functions.c:944
 msgid "The mean of a skew-t distribution is not 0."
-msgstr ""
+msgstr "A média da da distribuição de inclinação t não é 0."
 
 #: ../plugins/fn-random/functions.c:945
 msgid "The standard deviation of a skew-t distribution is not 1."
-msgstr ""
+msgstr "O desvio padrão da da distribuição de inclinação t não é 1."
 
 #: ../plugins/fn-random/functions.c:946
 msgid "The skewness of a skew-t distribution is in general not @{𝛼}."
-msgstr ""
+msgstr "A inclinação da da distribuição de inclinação t não é geralmente @{𝛼}."
 
 #: ../plugins/fn-stat/functions.c:48
 msgid ""
@@ -8766,58 +8799,48 @@ msgid ""
 "value zero (0). If the argument evaluates to TRUE, it is counted as one (1). "
 "Note that empty cells are not counted."
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(valor1, valor2, ...)\n"
-"@DESCRIPTION=SUMA calcula a soma de todos os valores e células referenciadas "
-"na lista de argumentos.  Números, texto e valores lógicos são também "
-"incluidos nos cálculos.  Se a célula contiver texto ou o argumento for "
-"avaliado para FALSO, será contabilizado como sendo o valor zero (0). Se o "
-"argumento for avaliado como VERDADEIRO, será contabilizado como um (1).\n"
-"\n"
-"@EXAMPLES=\n"
-"Vamos assumir que as células A1, A2, ..., A5 contêm os números 11, 15, 17, "
-"21, e 43. Então\n"
-"SUMA(A1:A5) igual a 107.\n"
-"\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
+"Números, texto e valores lógicos são também incluídos nos cálculos. Se a "
+"célula contiver texto ou o argumento for avaliado como FALSO, será contado "
+"como valor zero (0). Se o argumento for avaliado como VERDADEIRO, será "
+"contado como um (1). Note que células vazias não são contadas."
 
 #: ../plugins/fn-stat/functions.c:53
 msgid "VARP:variance of an entire population"
-msgstr ""
+msgstr "VARP: variância de uma população inteira"
 
 #: ../plugins/fn-stat/functions.c:54 ../plugins/fn-stat/functions.c:79
 #: ../plugins/fn-stat/functions.c:108 ../plugins/fn-stat/functions.c:135
 #: ../plugins/fn-stat/functions.c:2727 ../plugins/fn-stat/functions.c:2756
 #: ../plugins/fn-stat/functions.c:2782 ../plugins/fn-stat/functions.c:2809
 msgid "area1:first cell area"
-msgstr ""
+msgstr "área1: a primeira área de células"
 
 #: ../plugins/fn-stat/functions.c:55 ../plugins/fn-stat/functions.c:80
 #: ../plugins/fn-stat/functions.c:109 ../plugins/fn-stat/functions.c:136
 #: ../plugins/fn-stat/functions.c:2728 ../plugins/fn-stat/functions.c:2757
 #: ../plugins/fn-stat/functions.c:2783 ../plugins/fn-stat/functions.c:2810
 msgid "area2:second cell area"
-msgstr ""
+msgstr "área2: a segunda área de células"
 
 #: ../plugins/fn-stat/functions.c:56
 msgid "VARP is also known as the N-variance."
-msgstr ""
+msgstr "VARP também é conhecida como variância N."
 
 #: ../plugins/fn-stat/functions.c:59 ../plugins/fn-stat/functions.c:88
 msgid "wiki:en:Variance"
-msgstr ""
+msgstr "wiki:pt:Variância"
 
 #: ../plugins/fn-stat/functions.c:60 ../plugins/fn-stat/functions.c:89
 msgid "wolfram:Variance.html"
-msgstr ""
+msgstr "wolfram:Variance.html"
 
 #: ../plugins/fn-stat/functions.c:78
 msgid "VAR:sample variance of the given sample"
-msgstr ""
+msgstr "VAR: variância amostra da amostra indicada"
 
 #: ../plugins/fn-stat/functions.c:81
 msgid "VAR is also known as the N-1-variance."
-msgstr ""
+msgstr "VAR também é conhecida por variância N-1."
 
 #: ../plugins/fn-stat/functions.c:82 ../plugins/fn-stat/functions.c:2732
 msgid ""
@@ -8826,103 +8849,111 @@ msgid ""
 "variance is an unbiased estimator of the variance of the population from "
 "which the sample is drawn."
 msgstr ""
+"Uma vez que a variância N-1 inclui a correção de Bessel e considerando que a "
+"variância N calculada por VARPA ou VARP não, sob condições razoáveis a "
+"variância N-1 é uma estimativa da variância da população da qual a amostra é "
+"tirada."
 
 #: ../plugins/fn-stat/functions.c:107
 msgid "STDEV:sample standard deviation of the given sample"
-msgstr ""
+msgstr "DESVPAD: desvio padrão da amostra indicada"
 
 #: ../plugins/fn-stat/functions.c:110
 msgid "STDEV is also known as the N-1-standard deviation."
-msgstr ""
+msgstr "DESVPAD é também conhecido como desvio padrão N-1."
 
 #: ../plugins/fn-stat/functions.c:111
 msgid ""
 "To obtain the population standard deviation of a whole population use STDEVP."
-msgstr ""
+msgstr "Para obter o desvio padrão de uma população inteira, use DESVPADP."
 
 #: ../plugins/fn-stat/functions.c:115 ../plugins/fn-stat/functions.c:141
 msgid "wiki:en:Standard_deviation"
-msgstr ""
+msgstr "wiki:pt:Desvio_padrão"
 
 #: ../plugins/fn-stat/functions.c:116 ../plugins/fn-stat/functions.c:142
 msgid "wolfram:StandardDeviation.html"
-msgstr ""
+msgstr "wolfram:StandardDeviation.html"
 
 #: ../plugins/fn-stat/functions.c:134
 msgid "STDEVP:population standard deviation of the given population"
-msgstr ""
+msgstr "DESVPADP: desvio padrão da população inteira indicada"
 
 #: ../plugins/fn-stat/functions.c:137 ../plugins/fn-stat/functions.c:2811
 msgid "This is also known as the N-standard deviation"
-msgstr ""
+msgstr "É também conhecido como desvio padrão N"
 
 #: ../plugins/fn-stat/functions.c:160
 msgid "RANK:rank of a number in a list of numbers"
-msgstr ""
+msgstr "ORDEM: ordem de um número numa lista de números"
 
 #: ../plugins/fn-stat/functions.c:161 ../plugins/fn-stat/functions.c:213
 msgid "x:number whose rank you want to find"
-msgstr ""
+msgstr "x: número cuja ordem quer encontrar"
 
 #: ../plugins/fn-stat/functions.c:163 ../plugins/fn-stat/functions.c:215
 msgid "order:0 (descending order) or non-zero (ascending order); defaults to 0"
-msgstr ""
+msgstr "ordem: 0 (descendente) ou não zero (ascendente); predefinido como 0"
 
 #: ../plugins/fn-stat/functions.c:164
 msgid "In case of a tie, RANK returns the largest possible rank."
-msgstr ""
+msgstr "Em caso de empate, ORDEM devolve a ordem máxima possível."
 
 #: ../plugins/fn-stat/functions.c:166
 msgid ""
 "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, "
 "25.9, and 25.9."
 msgstr ""
+"Vamos assumir que as células A1, A2, …, A5 contêm os números 11,4, 17,3, "
+"21,3, 25,9, e 25,9."
 
 #: ../plugins/fn-stat/functions.c:167
 msgid "Then RANK(17.3,A1:A5) equals 4."
-msgstr ""
+msgstr "Então ORDEM(17,3,A1:A5) é igual a 4."
 
 #: ../plugins/fn-stat/functions.c:168
 msgid "Then RANK(25.9,A1:A5) equals 1."
-msgstr ""
+msgstr "Então ORDEM(25,9,A1:A5) é igual a 1."
 
 #: ../plugins/fn-stat/functions.c:212
 msgid "RANK.AVG:rank of a number in a list of numbers"
-msgstr ""
+msgstr "ORDEM.MÉDIA: ordem de um número numa lista de números"
 
 #: ../plugins/fn-stat/functions.c:216
 msgid "In case of a tie, RANK returns the average rank."
-msgstr ""
+msgstr "Em caso de empate, ORDEM.MÉDIA devolve a ordem média."
 
 #: ../plugins/fn-stat/functions.c:217
 msgid "This function is Excel 2010 compatible."
-msgstr ""
+msgstr "Esta função é compatível com Excel."
 
 #: ../plugins/fn-stat/functions.c:218
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 25.9."
 msgstr ""
+"Vamos assumir que as células A1, A2, …, A5 contêm os números 11,4, 17,3, "
+"21,3, 25,9, e 25,9."
 
 #: ../plugins/fn-stat/functions.c:219
 msgid "Then RANK.AVG(17.3,A1:A5) equals 4."
-msgstr ""
+msgstr "Então ORDEM(17,3,A1:A5) é igual a 4."
 
 #: ../plugins/fn-stat/functions.c:220
 msgid "Then RANK.AVG(25.9,A1:A5) equals 1.5."
-msgstr ""
+msgstr "Então ORDEM(25,9,A1:A5) é igual a 1,5."
 
 #: ../plugins/fn-stat/functions.c:270
 msgid "TRIMMEAN:mean of the interior of a data set"
-msgstr ""
+msgstr "MÉDIA.INT: média do interior de um conjunto de dados"
 
 #: ../plugins/fn-stat/functions.c:271
 msgid "ref:list of numbers whose mean you want to calculate"
-msgstr ""
+msgstr "ref: lista de números que quer calcular"
 
 #: ../plugins/fn-stat/functions.c:272
 msgid "fraction:fraction of the data set excluded from the mean"
-msgstr ""
+msgstr "fração: fração do conjunto de dados excluída da média"
 
 #: ../plugins/fn-stat/functions.c:273
 msgid ""
@@ -8931,6 +8962,10 @@ msgid ""
 "avoid a bias, the number of points to be excluded is always rounded down to "
 "the nearest even number."
 msgstr ""
+"Se @{fração}=0,2 e o conjunto de dados contiver 40 números, são excluídos 8 "
+"números do conjunto (40 x 0,2); os 4 maiores e os 4 menores. Para evitar "
+"conflitos, o número de pontos a excluir é sempre arredondado para o número "
+"par mais próximo."
 
 #: ../plugins/fn-stat/functions.c:276 ../plugins/fn-stat/functions.c:788
 #: ../plugins/fn-stat/functions.c:2368 ../plugins/fn-stat/functions.c:2411
@@ -8941,24 +8976,28 @@ msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1."
 msgstr ""
+"Vamos assumir que as células A1, A2, …, A5 contêm os números 11,4, 17,3, "
+"21,3, 25,9, e 40,1."
 
 #: ../plugins/fn-stat/functions.c:277
 msgid ""
 "Then TRIMMEAN(A1:A5,0.2) equals 23.2 and TRIMMEAN(A1:A5,0.4) equals 21.5."
 msgstr ""
+"Então MÉDIA.INT(A1:A5,0.2) é igual a 23.2 e MÉDIA.INT(A1:A5,0.4) é igual a "
+"21.5."
 
 #: ../plugins/fn-stat/functions.c:319
 msgid "COVAR:covariance of two data sets"
-msgstr ""
+msgstr "COVAR: covariância de dois conjuntos de dados"
 
 #: ../plugins/fn-stat/functions.c:320 ../plugins/fn-stat/functions.c:350
 #: ../plugins/fn-stat/functions.c:380
 msgid "array1:first data set"
-msgstr ""
+msgstr "matriz1: o primeiro conjunto de dados"
 
 #: ../plugins/fn-stat/functions.c:321 ../plugins/fn-stat/functions.c:351
 msgid "array2:set data set"
-msgstr ""
+msgstr "matriz2: o segundo conjunto de dados"
 
 #: ../plugins/fn-stat/functions.c:322 ../plugins/fn-stat/functions.c:352
 #: ../plugins/fn-stat/functions.c:382 ../plugins/fn-stat/functions.c:610
@@ -8968,7 +9007,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2190 ../plugins/fn-stat/functions.c:2209
 #: ../plugins/fn-stat/functions.c:2233
 msgid "Strings and empty cells are simply ignored."
-msgstr ""
+msgstr "Cadeias e células vazias são simplesmente ignoradas."
 
 #: ../plugins/fn-stat/functions.c:324 ../plugins/fn-stat/functions.c:354
 #: ../plugins/fn-stat/functions.c:384 ../plugins/fn-stat/functions.c:2540
@@ -8980,64 +9019,69 @@ msgid ""
 "21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, "
 "and 42.7."
 msgstr ""
+"Vamos assumir que as células A1, A2, …, A5 contêm os números 11,4, 17,3, "
+"21,3, 25,9, e 40,1, e as células B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, e "
+"42.7."
 
 #: ../plugins/fn-stat/functions.c:327 ../plugins/fn-stat/functions.c:357
 msgid "Then COVAR(A1:A5,B1:B5) equals 65.858."
-msgstr ""
+msgstr "Então COVAR(A1:A5,B1:B5) é igual a 65,858."
 
 #: ../plugins/fn-stat/functions.c:329 ../plugins/fn-stat/functions.c:359
 msgid "wiki:en:Covariance"
-msgstr ""
+msgstr "wiki:pt:Covariância"
 
 #: ../plugins/fn-stat/functions.c:330 ../plugins/fn-stat/functions.c:360
 #: ../plugins/fn-stat/functions.c:390
 msgid "wolfram:Covariance.html"
-msgstr ""
+msgstr "wolfram:Covariance.html"
 
 #: ../plugins/fn-stat/functions.c:349
 msgid "COVARIANCE.S:sample covariance of two data sets"
-msgstr ""
+msgstr "COVARIÂNCIA.S: covariância de dois conjuntos de dados"
 
 #: ../plugins/fn-stat/functions.c:379
 msgid "CORREL:Pearson correlation coefficient of two data sets"
-msgstr ""
+msgstr "CORREL: coeficiente de correlação Pearson de dois conjuntos de dados"
 
 #: ../plugins/fn-stat/functions.c:381
 msgid "array2:second data set"
-msgstr ""
+msgstr "matriz 2: o segundo conjunto de dados"
 
 #: ../plugins/fn-stat/functions.c:387
 msgid "Then CORREL(A1:A5,B1:B5) equals 0.996124788."
-msgstr ""
+msgstr "Então CORREL(A1:A5,B1:B5) é igual a 0.996124788."
 
 #: ../plugins/fn-stat/functions.c:389
 msgid "wiki:en:CorrelationCoefficient.html"
-msgstr ""
+msgstr "wiki:pt:Coeficiente_de_correlação_de_Pearson"
 
 #: ../plugins/fn-stat/functions.c:409
 msgid ""
 "NEGBINOMDIST:probability mass function of the negative binomial distribution"
 msgstr ""
+"DIST.BIN.NEG: função de probabilidade em massa da distribuição binomial "
+"negativa"
 
 #: ../plugins/fn-stat/functions.c:410
 msgid "f:number of failures"
-msgstr ""
+msgstr "f: número de falhas"
 
 #: ../plugins/fn-stat/functions.c:411
 msgid "t:threshold number of successes"
-msgstr ""
+msgstr "t: número limite de sucessos"
 
 #: ../plugins/fn-stat/functions.c:412
 msgid "p:probability of a success"
-msgstr ""
+msgstr "p: probabilidade de sucesso"
 
 #: ../plugins/fn-stat/functions.c:413
 msgid "If @{f} or @{t} is a non-integer it is truncated."
-msgstr ""
+msgstr "Se @{f} ou @{t} não forem inteiros, é truncado."
 
 #: ../plugins/fn-stat/functions.c:414
 msgid "If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Se (@{f} + @{t} -1) <= 0, devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:415 ../plugins/fn-stat/functions.c:1016
 #: ../plugins/fn-stat/functions.c:1085 ../plugins/fn-stat/functions.c:1337
@@ -9045,39 +9089,42 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1693 ../plugins/fn-stat/functions.c:1754
 #: ../plugins/fn-stat/functions.c:4729
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{p} < 0 ou @{p} > 1, devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:438
 msgid ""
 "NORMSDIST:cumulative distribution function of the standard normal "
 "distribution"
 msgstr ""
+"DIST.NORMP: função de distribuição cumulativa da distribuição normal padrão"
 
 #: ../plugins/fn-stat/functions.c:441
 msgid "NORMSDIST is the OpenFormula function LEGACY.NORMSDIST."
-msgstr ""
+msgstr "DIST.NORMP é a função OpenFormula LEGACY.NORMSDIST."
 
 #: ../plugins/fn-stat/functions.c:444 ../plugins/fn-stat/functions.c:488
 msgid "wiki:en:Normal_distribution"
-msgstr ""
+msgstr "wiki:pt:Distribuição_normal"
 
 #: ../plugins/fn-stat/functions.c:445 ../plugins/fn-stat/functions.c:489
 msgid "wolfram:NormalDistribution.html"
-msgstr ""
+msgstr "wolfram:NormalDistribution.html"
 
 #: ../plugins/fn-stat/functions.c:460
 msgid ""
 "SNORM.DIST.RANGE:probability of the standard normal distribution over an "
 "interval"
 msgstr ""
+"DIST.NORMP.INT: probabilidade da distribuição normal padrão sobre um "
+"intervalo"
 
 #: ../plugins/fn-stat/functions.c:461
 msgid "x1:start of the interval"
-msgstr ""
+msgstr "x1: início do intervalo"
 
 #: ../plugins/fn-stat/functions.c:462
 msgid "x2:end of the interval"
-msgstr ""
+msgstr "x2: fim do intervalo"
 
 #: ../plugins/fn-stat/functions.c:463
 msgid ""
@@ -9085,90 +9132,98 @@ msgid ""
 "standard normal distribution; that is the integral over the probability "
 "density function from @{x1} to @{x2}."
 msgstr ""
+"Esta função devolve a probabilidade cumulativa sobre um intervalo da "
+"distribuição normal padrão; é o integral sobre a função de densidade de "
+"probabilidade de @{x1} a @{x2}."
 
 #: ../plugins/fn-stat/functions.c:464
 msgid "If @{x1}>@{x2}, this function returns a negative value."
-msgstr ""
+msgstr "Se @{x1}>@{x2}, devolve um valor negativo."
 
 #: ../plugins/fn-stat/functions.c:481
 msgid ""
 "NORMSINV:inverse of the cumulative distribution function of the standard "
 "normal distribution"
 msgstr ""
+"INV.NORMP: inverso da função de distribuição cumulativa da distribuição "
+"normal padrão"
 
 #: ../plugins/fn-stat/functions.c:482
 msgid "p:given probability"
-msgstr ""
+msgstr "p: probabilidade indicada"
 
 #: ../plugins/fn-stat/functions.c:483
 msgid "If @{p} < 0 or @{p} > 1 this function returns #NUM! error."
-msgstr ""
+msgstr "Se @{p} < 0 ou @{p} > 1 devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:485
 msgid "NORMSINV is the OpenFormula function LEGACY.NORMSINV."
-msgstr ""
+msgstr "INV.NORMP é a função OpenFormula LEGACY.NORMSINV"
 
 #: ../plugins/fn-stat/functions.c:508
 msgid "OWENT:Owen's T function"
-msgstr ""
+msgstr "OWENT: função T de Owen"
 
 #: ../plugins/fn-stat/functions.c:509
 msgid "h:number"
-msgstr ""
+msgstr "h: número"
 
 #: ../plugins/fn-stat/functions.c:528
 msgid ""
 "LOGNORMDIST:cumulative distribution function of the lognormal distribution"
 msgstr ""
+"DIST.NORMALLOG: função de distribuição cumulativa da distribuição log-normal"
 
 #: ../plugins/fn-stat/functions.c:530 ../plugins/fn-stat/functions.c:560
 msgid "mean:mean"
-msgstr ""
+msgstr "média: média"
 
 #: ../plugins/fn-stat/functions.c:531 ../plugins/fn-stat/functions.c:561
 msgid "stddev:standard deviation"
-msgstr ""
+msgstr "desvpad: desvio padrão"
 
 #: ../plugins/fn-stat/functions.c:532
 msgid "If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error."
-msgstr ""
+msgstr "Se @{stddev} = 0 devolve #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:533
 msgid ""
 "If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! "
 "error."
-msgstr ""
+msgstr "Se @{x} <= 0, @{mean} < 0 ou @{stddev} <= 0 devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:537 ../plugins/fn-stat/functions.c:566
 msgid "wiki:en:Log-normal_distribution"
-msgstr ""
+msgstr "wki:pt:Distribuição_normal"
 
 #: ../plugins/fn-stat/functions.c:538 ../plugins/fn-stat/functions.c:567
 msgid "wolfram:LogNormalDistribution.html"
-msgstr ""
+msgstr "wolfram:LogNormalDistribution.html"
 
 #: ../plugins/fn-stat/functions.c:558
 msgid ""
 "LOGINV:inverse of the cumulative distribution function of the lognormal "
 "distribution"
 msgstr ""
+"INVLOG: inverso da função de distribuição cumulativa da distribuição log-"
+"normal"
 
 #: ../plugins/fn-stat/functions.c:562
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns #NUM! error."
-msgstr ""
+msgstr "Se @{p} < 0 ou @{p} > 1 ou @{desvpad} <= 0 devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:589
 msgid "FISHERINV:inverse of the Fisher transformation"
-msgstr ""
+msgstr "FISHERINV: inverso da transformação Fisher"
 
 #: ../plugins/fn-stat/functions.c:591
 msgid "If @{x} is a non-number this function returns a #VALUE! error."
-msgstr ""
+msgstr "Se @{x} não for número, devolve #VALOR!."
 
 #: ../plugins/fn-stat/functions.c:607
 msgid "MODE:first most common number in the dataset"
-msgstr ""
+msgstr "MODA: o primeiro número mais comum num conjunto de dados"
 
 #: ../plugins/fn-stat/functions.c:608 ../plugins/fn-stat/functions.c:635
 #: ../plugins/fn-stat/functions.c:733 ../plugins/fn-stat/functions.c:759
@@ -9181,7 +9236,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2653 ../plugins/fn-stat/functions.c:2677
 #: ../plugins/fn-stat/functions.c:2702
 msgid "number1:first value"
-msgstr ""
+msgstr "num1: o primeiro valor"
 
 #: ../plugins/fn-stat/functions.c:609 ../plugins/fn-stat/functions.c:636
 #: ../plugins/fn-stat/functions.c:734 ../plugins/fn-stat/functions.c:760
@@ -9194,139 +9249,152 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2654 ../plugins/fn-stat/functions.c:2678
 #: ../plugins/fn-stat/functions.c:2703
 msgid "number2:second value"
-msgstr ""
+msgstr "num2: o segundo valor"
 
 #: ../plugins/fn-stat/functions.c:611 ../plugins/fn-stat/functions.c:638
 msgid ""
 "If the data set does not contain any duplicates this function returns a #N/A "
 "error."
-msgstr ""
+msgstr "Se o conjunto não contiver duplicados, devolve #N/D!."
 
 #: ../plugins/fn-stat/functions.c:615 ../plugins/fn-stat/functions.c:642
 msgid "wiki:en:Mode_(statistics)"
-msgstr ""
+msgstr "wiki:pt:Moda_(estatística)"
 
 #: ../plugins/fn-stat/functions.c:616 ../plugins/fn-stat/functions.c:643
 msgid "wolfram:Mode.html"
-msgstr ""
+msgstr "wolfram:Mode.html"
 
 #: ../plugins/fn-stat/functions.c:634
 msgid "MODE.MULT:most common numbers in the dataset"
-msgstr ""
+msgstr "MODA.MULT: números mais comuns num conjunto de dados"
 
 #: ../plugins/fn-stat/functions.c:732
 msgid "HARMEAN:harmonic mean"
-msgstr ""
+msgstr "MÉDIA.HARMÓNICA: média harmónica"
 
 #: ../plugins/fn-stat/functions.c:735
 msgid ""
 "The harmonic mean of N data points is N divided by the sum of the "
 "reciprocals of the data points)."
 msgstr ""
+"A média harmónica de N pontos de dados é N dividido pela soma dos recíprocos "
+"dos pontos de dados."
 
 #: ../plugins/fn-stat/functions.c:739
 msgid "wiki:en:Harmonic_mean"
-msgstr ""
+msgstr "wiki:pt:Média_harmônica"
 
 #: ../plugins/fn-stat/functions.c:740
 msgid "wolfram:HarmonicMean.html"
-msgstr ""
+msgstr "wolfram:HarmonicMean.html"
 
 #: ../plugins/fn-stat/functions.c:758
 msgid "GEOMEAN:geometric mean"
-msgstr ""
+msgstr "MÉDIA.GEOMÉTRICA: média geométrica"
 
 #: ../plugins/fn-stat/functions.c:761
 msgid ""
 "The geometric mean is equal to the Nth root of the product of the N values."
-msgstr ""
+msgstr "A média geométrica é igual à raiz N do produto de N valores."
 
 #: ../plugins/fn-stat/functions.c:765
 msgid "wiki:en:Geometric_mean"
-msgstr ""
+msgstr "wiki:pt:Média_geométrica"
 
 #: ../plugins/fn-stat/functions.c:766
 msgid "wolfram:GeometricMean.html"
-msgstr ""
+msgstr "wolfram:GeometricMean.html"
 
 #: ../plugins/fn-stat/functions.c:784
 msgid "COUNT:total number of integer or floating point arguments passed"
-msgstr ""
+msgstr "CONTAR: total de argumentos inteiros ou de vírgula flutuante passados"
 
 #: ../plugins/fn-stat/functions.c:789
 msgid "Then COUNT(A1:A5) equals 5."
-msgstr ""
+msgstr "Então CONTAR(A1:A5) é igual a 5."
 
 #: ../plugins/fn-stat/functions.c:809
 msgid "COUNTA:number of arguments passed not including empty cells"
-msgstr ""
+msgstr "CONTAR.VAL: número de argumentos passados não incluindo células vazias"
 
 #: ../plugins/fn-stat/functions.c:813
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, \"missing\", \"missing\", 25.9, and 40.1."
 msgstr ""
+"Vamos assumir que as células A1, A2, ..., A5 conttêm números e cadeias 11,4, "
+"\"faltam\", \"faltam\", 25,9, e 40,1."
 
 #: ../plugins/fn-stat/functions.c:814
 msgid "Then COUNTA(A1:A5) equals 5."
-msgstr ""
+msgstr "Então CONTAR.VAL(A1:A5) é igual a 5."
 
 #: ../plugins/fn-stat/functions.c:834
 msgid "AVERAGE:average of all the numeric values and cells"
-msgstr ""
+msgstr "MÉDIA: média de todos os valores numéricos e células"
 
 #: ../plugins/fn-stat/functions.c:840
 msgid "wiki:en:Arithmetic_mean"
-msgstr ""
+msgstr "wiki:pt:Média_aritmética"
 
 #: ../plugins/fn-stat/functions.c:841
 msgid "wolfram:ArithmeticMean.html"
-msgstr ""
+msgstr "wolfram:ArithmeticMean.html"
 
 #: ../plugins/fn-stat/functions.c:859
 msgid ""
 "MIN:smallest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr ""
+"MÍNIMO: o menor valor, com os números negativos sendo inferiores aos "
+"positivos"
 
 #: ../plugins/fn-stat/functions.c:893
 msgid ""
 "MAX:largest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr ""
+"MÁXIMO: o maior valor, com os números negativos sendo inferiores aos "
+"positivos"
 
 #: ../plugins/fn-stat/functions.c:927
 msgid "SKEW:unbiased estimate for skewness of a distribution"
-msgstr ""
+msgstr "INCLINAÇÃO: estimativa para a distorção de uma distribuição"
 
 #: ../plugins/fn-stat/functions.c:931
 msgid ""
 "This is only meaningful if the underlying distribution really has a third "
 "moment.  The skewness of a symmetric (e.g., normal) distribution is zero."
 msgstr ""
+"Este é o único significado se a distribuição subjacente tem um terceiro "
+"momento. A inclinação de uma distribuição simétrica (ou seja, normal), é "
+"zero."
 
 #: ../plugins/fn-stat/functions.c:934
 msgid ""
 "If less than three numbers are given, this function returns a #DIV/0! error."
-msgstr ""
+msgstr "Se forem indicados menos de três números, devolve #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:955
 msgid "SKEWP:population skewness of a data set"
-msgstr ""
+msgstr "INCLINAÇÃOP: inclinação da população de um conjunto de dados"
 
 #: ../plugins/fn-stat/functions.c:959
 msgid "If less than two numbers are given, SKEWP returns a #DIV/0! error."
-msgstr ""
+msgstr "Se forem indicados menos de dois números, devolve #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:979
 msgid ""
 "EXPONDIST:probability density or cumulative distribution function of the "
 "exponential distribution"
 msgstr ""
+"DISTEXPON: função de densidade da probabilidade ou da distribuição "
+"cumulativa da distribuição exponencial"
 
 #: ../plugins/fn-stat/functions.c:981
 msgid "y:scale parameter"
-msgstr ""
+msgstr "y: parâmetro escala"
 
 #: ../plugins/fn-stat/functions.c:982 ../plugins/fn-stat/functions.c:1052
 #: ../plugins/fn-stat/functions.c:1292 ../plugins/fn-stat/functions.c:1721
@@ -9335,118 +9403,129 @@ msgid ""
 "cumulative:whether to evaluate the density function or the cumulative "
 "distribution function"
 msgstr ""
+"cumulativo: se avaliar a função de densidade de probabilidade ou a da "
+"distribuição cumulativa"
 
 #: ../plugins/fn-stat/functions.c:983
 msgid ""
 "If @{cumulative} is false it will return:\t@{y} * exp (-@{y}*@{x}),otherwise "
 "it will return\t1 - exp (-@{y}*@{x})."
 msgstr ""
+"Se @{cumulativo} for FALSO devolve:\t@{y} * EXP(-@{y}*@{x}), senão devolve"
+"\t1 - EXP(-@{y}*@{x})."
 
 #: ../plugins/fn-stat/functions.c:986
 msgid "If @{x} < 0 or @{y} <= 0 this will return an error."
-msgstr ""
+msgstr "Se @{x} < 0 ou @{y} <= 0 devolve um erro."
 
 #: ../plugins/fn-stat/functions.c:1012
 msgid "BERNOULLI:probability mass function of a Bernoulli distribution"
 msgstr ""
+"BERNOULLI: função de probabilidade em massa de uma distribuição Bernoulli"
 
 #: ../plugins/fn-stat/functions.c:1013
 msgid "k:integer"
-msgstr ""
+msgstr "k: inteiro"
 
 #: ../plugins/fn-stat/functions.c:1015
 msgid "If @{k} != 0 and @{k} != 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{k} != 0 e @{k} != 1 devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1048
 msgid ""
 "GAMMADIST:probability density or cumulative distribution function of the "
 "gamma distribution"
 msgstr ""
+"DISTGAMA: função de densidade da probabilidade ou da distribuição cumulativa "
+"da distribuição gama"
 
 #: ../plugins/fn-stat/functions.c:1050 ../plugins/fn-stat/functions.c:1083
 #: ../plugins/fn-stat/functions.c:1255 ../plugins/fn-stat/functions.c:1290
 #: ../plugins/fn-stat/functions.c:1333 ../plugins/fn-stat/functions.c:1934
 msgid "alpha:scale parameter"
-msgstr ""
+msgstr "alfa: parâmetro de escala"
 
 #: ../plugins/fn-stat/functions.c:1051 ../plugins/fn-stat/functions.c:1084
 #: ../plugins/fn-stat/functions.c:1256 ../plugins/fn-stat/functions.c:1291
 #: ../plugins/fn-stat/functions.c:1334 ../plugins/fn-stat/functions.c:1935
 msgid "beta:scale parameter"
-msgstr ""
+msgstr "beta: parâmetro de escala"
 
 #: ../plugins/fn-stat/functions.c:1053 ../plugins/fn-stat/functions.c:1460
 #: ../plugins/fn-stat/functions.c:1940 ../plugins/fn-stat/functions.c:2160
 msgid "If @{x} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{x} < 0 devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1054 ../plugins/fn-stat/functions.c:1260
 #: ../plugins/fn-stat/functions.c:1297 ../plugins/fn-stat/functions.c:1338
 msgid "If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{alpha} <= 0 ou @{beta} <= 0, devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1081
 msgid "GAMMAINV:inverse of the cumulative gamma distribution"
-msgstr ""
+msgstr "INVGAMA: o inverso da distribuição gama cumulativa"
 
 #: ../plugins/fn-stat/functions.c:1086 ../plugins/fn-stat/functions.c:1941
 msgid "If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{alpha} <= 0 ou @{beta} <= 0 devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1111
 msgid "CHIDIST:survival function of the chi-squared distribution"
-msgstr ""
+msgstr "DIST.CHI: função de sobrevivência da distribuição chi quadrado"
 
 #: ../plugins/fn-stat/functions.c:1113 ../plugins/fn-stat/functions.c:1141
 #: ../plugins/fn-stat/functions.c:1368 ../plugins/fn-stat/functions.c:1420
 msgid "dof:number of degrees of freedom"
-msgstr ""
+msgstr "gdl: número de gras de liberdade"
 
 #: ../plugins/fn-stat/functions.c:1114 ../plugins/fn-stat/functions.c:1142
 #: ../plugins/fn-stat/functions.c:1370 ../plugins/fn-stat/functions.c:1459
 #: ../plugins/fn-stat/functions.c:1625
 msgid "The survival function is 1 minus the cumulative distribution function."
 msgstr ""
+"A função de sobrevivência é 1 menos a função de distribuição cumulativa."
 
 #: ../plugins/fn-stat/functions.c:1115
 msgid "If @{dof} is non-integer it is truncated."
-msgstr ""
+msgstr "Se @{gdl} não for inteiro, é truncado."
 
 #: ../plugins/fn-stat/functions.c:1116 ../plugins/fn-stat/functions.c:1371
 msgid "If @{dof} < 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{gdl} < 1 devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1118
 msgid ""
 "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
 msgstr ""
+"DIST.CHI(@{x},@{gdl}) é a função OpenFormula LEGACY.CHIDIST(@{x},@{gdl})."
 
 #: ../plugins/fn-stat/functions.c:1139
 msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
 msgstr ""
+"INV.CHI: o inverso da função de sobrevivência da distribuição chi quadrado"
 
 #: ../plugins/fn-stat/functions.c:1143 ../plugins/fn-stat/functions.c:1424
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{p} < 0 ou @{p} > 1 ou @{gdl} < 1 devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1145
 msgid ""
 "CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof})."
 msgstr ""
+"INV.CHI(@{x},@{gdl}) é a função OpenFormula LEGACY.CHIINV(@{x},@{gdl})."
 
 #: ../plugins/fn-stat/functions.c:1166
 msgid "CHITEST:p value of the Goodness of Fit Test"
-msgstr ""
+msgstr "TESTE.CHI: valor p do teste chi-quadrado de Pearson"
 
 #: ../plugins/fn-stat/functions.c:1167
 msgid "actual_range:observed data"
-msgstr ""
+msgstr "int_atual: dados observados"
 
 #: ../plugins/fn-stat/functions.c:1168
 msgid "theoretical_range:expected values"
-msgstr ""
+msgstr "int_teórico: valores esperados"
 
 #: ../plugins/fn-stat/functions.c:1169
 msgid ""
@@ -9455,55 +9534,61 @@ msgid ""
 "the expected values were calculated from the observed value in a test of "
 "independence or test of homogeneity."
 msgstr ""
+"Se o intervalo atual não for n por 1 ou 1 por n, mas sim n por m, então "
+"TESTE.CHI usa (n-1) vezes (m-1) como graus de liberdade. Isto é útil se os "
+"valores esperados foram calculados a partir do valor observado num teste de "
+"independência ou de homogeneidade."
 
 #: ../plugins/fn-stat/functions.c:1175
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
-msgstr ""
+msgstr "TESTE.CHI é a função OpenFormula LEGACY.CHITEST."
 
 #: ../plugins/fn-stat/functions.c:1253
 msgid "BETADIST:cumulative distribution function of the beta distribution"
-msgstr ""
+msgstr "DISTBETA: função de distribuição cumulativa da distribuição Beta"
 
 #: ../plugins/fn-stat/functions.c:1257 ../plugins/fn-stat/functions.c:1294
 #: ../plugins/fn-stat/functions.c:1335
 msgid "a:optional lower bound, defaults to 0"
-msgstr ""
+msgstr "a: limite inferior opcional, predefinido como 0"
 
 #: ../plugins/fn-stat/functions.c:1258 ../plugins/fn-stat/functions.c:1295
 #: ../plugins/fn-stat/functions.c:1336
 msgid "b:optional upper bound, defaults to 1"
-msgstr ""
+msgstr "b: limite superior opcional, predefinido como 1"
 
 #: ../plugins/fn-stat/functions.c:1259 ../plugins/fn-stat/functions.c:1296
 msgid "If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{x} < @{a} ou @{x} > @{b} devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1261 ../plugins/fn-stat/functions.c:1298
 #: ../plugins/fn-stat/functions.c:1339
 msgid "If @{a} >= @{b} this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{a} >= @{b} devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1288
 msgid "BETA.DIST:cumulative distribution function of the beta distribution"
-msgstr ""
+msgstr "DIST.BETA: função de distribuição cumulativa da distribuição Beta"
 
 #: ../plugins/fn-stat/functions.c:1331
 msgid ""
 "BETAINV:inverse of the cumulative distribution function of the beta "
 "distribution"
 msgstr ""
+"BETA.ACUM.INV: o inverso da função de distribuição cumulativa da "
+"distribuição Beta"
 
 #: ../plugins/fn-stat/functions.c:1366
 msgid "TDIST:survival function of the Student t-distribution"
-msgstr ""
+msgstr "DISTT: função de sobrevivência da distribuição Student t"
 
 #: ../plugins/fn-stat/functions.c:1369
 msgid "tails:1 or 2"
-msgstr ""
+msgstr "caudas: 1 ou 2"
 
 #: ../plugins/fn-stat/functions.c:1372
 msgid "If @{tails} is neither 1 or 2 this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{caudas não for nem 1 nem 2, devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1373
 msgid ""
@@ -9511,24 +9596,28 @@ msgid ""
 "g., NORMSDIST.  This is a common source of mistakes, but necessary for "
 "compatibility."
 msgstr ""
+"A parametrização desta função é diferente da usada para, por exemplo, DIST."
+"NORMP. Esta é uma fonte comum de erros, mas necessária para compatibilidade."
 
 #: ../plugins/fn-stat/functions.c:1376
 msgid "This function is Excel compatible for non-negative @{x}."
-msgstr ""
+msgstr "Esta função é compatível com Excel pra @{x} não negativo."
 
 #: ../plugins/fn-stat/functions.c:1418
 msgid "TINV:two tailed inverse of the Student t-distribution"
-msgstr ""
+msgstr "INVT: inverso de duas caudas da distribuição Student t"
 
 #: ../plugins/fn-stat/functions.c:1419
 msgid "p:probability in both tails"
-msgstr ""
+msgstr "p: probabilidade nas duas caudas"
 
 #: ../plugins/fn-stat/functions.c:1421
 msgid ""
 "This function returns the non-negative value x such that the area under the "
 "Student t density with @{dof} degrees of freedom to the right of x is @{p}/2."
 msgstr ""
+"Esta função devolve o valor x não negativo tal que a área sob a densidade "
+"Student t com @{gdl} graus de liberdade à direita de x seja @{p}/2."
 
 #: ../plugins/fn-stat/functions.c:1426
 msgid ""
@@ -9536,6 +9625,8 @@ msgid ""
 "g., NORMSINV.  This is a common source of mistakes, but necessary for "
 "compatibility."
 msgstr ""
+"A parametrização desta função é diferente da usada para, por exemplo, INV."
+"NORMP. Esta é uma fonte comum de erros, mas necessária para compatibilidade."
 
 #: ../plugins/fn-stat/functions.c:1455
 msgid "FDIST:survival function of the F distribution"
