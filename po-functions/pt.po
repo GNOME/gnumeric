@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-06-28 22:24+0000\n"
-"PO-Revision-Date: 2015-07-24 08:04+0100\n"
+"PO-Revision-Date: 2015-07-25 09:15+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
@@ -10685,11 +10685,11 @@ msgid ""
 "LOGREG returns an array having two columns and one row. m is given in the "
 "first column and b in the second. "
 msgstr ""
-"A função REGLOG transforma os seus xs em z= LN(x) e aplica o método \"menos "
-"quadrados\" para acomodar a equação linear y = m * z + b aos seus ys e zs "
-"--- equivalente a acomodar a equação y = m * ln(x) + b para ys e xs. REGLOG "
-"devolve uma matriz com duas colunas e uma linha. m é indicado na primeira "
-"coluna e b na segunda."
+"A função REGLOG transforma os seus xs em z= LN(x) e aplica o método dos "
+"quadrados mínimos para acomodar a equação linear y = m * z + b aos seus ys e "
+"zs --- equivalente a acomodar a equação y = m * ln(x) + b para ys e xs. "
+"REGLOG devolve uma matriz com duas colunas e uma linha. m é indicado na "
+"primeira coluna e b na segunda."
 
 #: ../plugins/fn-stat/functions.c:3826
 msgid ""
@@ -10720,7 +10720,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:3929
 msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
 msgstr ""
-"SERV.LOG: logaritmo de \"menos quadrados\" (usando um método de teste e erro)"
+"SERV.LOG: logaritmo de quadrados mínimos (usando um método de teste e erro)"
 
 #: ../plugins/fn-stat/functions.c:3933
 msgid ""
@@ -10729,7 +10729,7 @@ msgid ""
 "The graph of the equation is a logarithmic curve moved horizontally by c and "
 "possibly mirrored across the y-axis (if sign = -1)."
 msgstr ""
-"A função SERV.LOG aplica o método \"menos quadrados\" para acomodar a "
+"A função SERV.LOG aplica o método dos quadrados mínimos para acomodar a "
 "equação logarítmica y = a + b * LN(SINAL * (x - c)) ,   SINAL = +1 ou -1 aos "
 "seus dados. O gráfico da equação é uma curva logarítmica movida "
 "horizontalmente por c e possivelmente espelhada pelo eixo y (se SINAL = -1)."
@@ -10778,12 +10778,16 @@ msgid ""
 "TREND:estimates future values of a given data set using a least squares "
 "approximation"
 msgstr ""
+"TENDÊNCIA: estima valores futuros de um dado conjunto de dados usando a "
+"aproximação dos quadrados mínimos"
 
 #: ../plugins/fn-stat/functions.c:4027
 msgid ""
 "new_xs:array of x-values for which to estimate the y-values; defaults to "
 "@{known_xs}"
 msgstr ""
+"xs_novos: matriz de valores x para os quais estimar valores y, predefinido "
+"como @{xs_conhecidos}"
 
 #: ../plugins/fn-stat/functions.c:4031
 msgid ""
@@ -10791,28 +10795,34 @@ msgid ""
 "25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and "
 "42.7."
 msgstr ""
+"Vamos assumir que as células A1, A2, …, A5 contêm os números 11,4, 17,3, "
+"21,3, 25,9, e 40,1 e as células B1, B2, ... B5 23,2, 25,8, 29,9, 33,5, e "
+"42,7."
 
 #: ../plugins/fn-stat/functions.c:4034
 msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
-msgstr ""
+msgstr "Então TREND(A1:A5,B1:B5) é igual a {12,1, 15,7, 21,6, 26,7, 39,7}."
 
 #: ../plugins/fn-stat/functions.c:4171
 msgid "LOGEST:exponential least square fit"
-msgstr ""
+msgstr "PROJ.LOG; exponencial dos quadrados mínimos"
 
 #: ../plugins/fn-stat/functions.c:4173
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
 msgstr ""
+"xs_conhecidos: valores x conhecidos, predefinida como matriz {1, 2, 3, …}"
 
 #: ../plugins/fn-stat/functions.c:4176
 msgid ""
 "LOGEST function applies the “least squares” method to fit an exponential "
 "curve of the form\ty = b * m{1}^x{1} * m{2}^x{2}... to your data."
 msgstr ""
+"A função PROJ.LOG aplica o método dos quadrados mínimos para acomodar uma "
+"curva exponencial de forma\ty = b * m{1}^x{1} * m{2}^x{2}... aos seus dados."
 
 #: ../plugins/fn-stat/functions.c:4180
 msgid "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
-msgstr ""
+msgstr "PROJ.LOG devole uma matriz { m{n},m{n-1}, ...,m{1},b }."
 
 #: ../plugins/fn-stat/functions.c:4181
 msgid ""
@@ -10824,43 +10834,60 @@ msgid ""
 "contains the F-observed value and the degrees of freedom.  The last row "
 "contains the regression sum of squares and the residual sum of squares."
 msgstr ""
+"A informação estatística extra é escrita abaixo dos coeficientes da linha de "
+"regressão na matriz resultante. Esta informação extra consiste em quatro "
+"linhas de dados: na 1ª estão os valores de erro padrão para os coeficientes "
+"m1, (m2,...), b. Na 2ª está R² e o erro padrão para a estimativa y. Na 3ª "
+"está o valor F observado e os graus de liberdade. Na 4ª a soma dos quadrados "
+"da regressão e a soma residual dos quadrados."
 
 #: ../plugins/fn-stat/functions.c:4269
 msgid "GROWTH:exponential growth prediction"
-msgstr ""
+msgstr "CRESCIMENTO: previsão de crescimento exponencial"
 
 #: ../plugins/fn-stat/functions.c:4272
 msgid ""
 "new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
 msgstr ""
+"novos_xs: valores x para os quais estimar novos y, predefinido como "
+"@{xs_conhecidos}"
 
 #: ../plugins/fn-stat/functions.c:4274
 msgid ""
 "GROWTH function applies the “least squares” method to fit an exponential "
 "curve to your data and predicts the exponential growth by using this curve."
 msgstr ""
+"A função CRESCIMENTO aplica o método dos quadrados mínimos para acomodar uma "
+"curva exponencial aos seus dados e prevê o crescimento exponencial usando "
+"esta curva."
 
 #: ../plugins/fn-stat/functions.c:4279
 msgid ""
 "GROWTH returns an array having one column and a row for each data point in "
 "@{new_xs}."
 msgstr ""
+"CRESCIMENTO devolve uma matriz com uma coluna e uma linha para cada ponto de "
+"dados em @{novos_xs}."
 
 #: ../plugins/fn-stat/functions.c:4357
 msgid ""
 "FORECAST:estimates a future value according to existing values using simple "
 "linear regression"
 msgstr ""
+"PREVISÃO: estima um valor futuro de acordo com valores existentes, usando "
+"uma regressão linear simples"
 
 #: ../plugins/fn-stat/functions.c:4359
 msgid "x:x-value whose matching y-value should be forecast"
-msgstr ""
+msgstr "x: valor x cujo correspondente valor y deverá ser a previsão"
 
 #: ../plugins/fn-stat/functions.c:4362
 msgid ""
 "This function estimates a future value according to existing values using "
 "simple linear regression."
 msgstr ""
+"Esta função estima um valor futuro de acordo com valores existentes, usando "
+"uma regressão linear simples"
 
 #: ../plugins/fn-stat/functions.c:4364 ../plugins/fn-stat/functions.c:4421
 #: ../plugins/fn-stat/functions.c:4474
@@ -10868,42 +10895,44 @@ msgid ""
 "If @{known_xs} or @{known_ys} contains no data entries or different number "
 "of data entries, this function returns a #N/A error."
 msgstr ""
+"Se @{xs_conhecidos} ou @{ys_conhecidos} não contiverem dados ou tiverem "
+"tamanhos diferentes, devolve #N/D!"
 
 #: ../plugins/fn-stat/functions.c:4366
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns a #DIV/0 "
 "error."
-msgstr ""
+msgstr "Se a variância de @xs_conhecidos} for zero, devolve #DIV/0."
 
 #: ../plugins/fn-stat/functions.c:4372
 msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
-msgstr ""
+msgstr "Então PREVISÃO(7,A1:A5,B1:B5) é igual a -10,859397661."
 
 #: ../plugins/fn-stat/functions.c:4418
 msgid "INTERCEPT:the intercept of a linear regression line"
-msgstr ""
+msgstr "INTERCETAR: a interceção de uma linha de regressão linear"
 
 #: ../plugins/fn-stat/functions.c:4423 ../plugins/fn-stat/functions.c:4476
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns #DIV/0 "
 "error."
-msgstr ""
+msgstr "Se a variância de @xs_conhecidos} for zero, devolve #DIV/0."
 
 #: ../plugins/fn-stat/functions.c:4429
 msgid "Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212."
-msgstr ""
+msgstr "Então INTERCETAR(A1:A5,B1:B5) é igual a -20,785117212."
 
 #: ../plugins/fn-stat/functions.c:4470
 msgid "SLOPE:the slope of a linear regression line"
-msgstr ""
+msgstr "DECLIVE: o declive de uma linha de regressão linear"
 
 #: ../plugins/fn-stat/functions.c:4481
 msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
-msgstr ""
+msgstr "Então DECLIVE(A1:A5,B1:B5) é igual a 1,417959936."
 
 #: ../plugins/fn-stat/functions.c:4522
 msgid "SUBTOTAL:the subtotal of the given list of arguments"
-msgstr ""
+msgstr "SUBTOTAL: o subtotal da lista de argumentos indicada"
 
 #: ../plugins/fn-stat/functions.c:4523
 msgid ""
@@ -10921,20 +10950,34 @@ msgid ""
 "\t10   VAR\n"
 "\t11   VARP"
 msgstr ""
+"num_função: determina que função a usar, de acordo com a tabela seguinte:\n"
+"\t1   MÉDIA\n"
+"\t2   CONTAR\n"
+"\t3   CONTAR.VAL\n"
+"\t4   MÁXIMO\n"
+"\t5   MÍNIMO\n"
+"\t6   PRODUTO\n"
+"\t7   DESVPAD\n"
+"\t8   DESVPADP\n"
+"\t9   SOMA\n"
+"\t10   VAR\n"
+"\t11   VARP"
 
 #: ../plugins/fn-stat/functions.c:4536
 msgid "ref1:first value"
-msgstr ""
+msgstr "ref1: primeiro valor"
 
 #: ../plugins/fn-stat/functions.c:4537
 msgid "ref2:second value"
-msgstr ""
+msgstr "ref2: segundo valor"
 
 #: ../plugins/fn-stat/functions.c:4539
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, "
 "and 39."
 msgstr ""
+"Vamos assumir que as células A1, A2, ..., A5 contêm os números 23, 27, 28, "
+"33, and 39."
 
 #: ../plugins/fn-stat/functions.c:4540
 msgid ""
@@ -10942,75 +10985,86 @@ msgid ""
 "SUBTOTAL(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150."
 "SUBTOTAL(11,A1:A5) equals 30.4."
 msgstr ""
+"Então SUBTOTAL(1,A1:A5) é igual a 30. SUBTOTAL(6,A1:A5) é igual a 22378356. "
+"SUBTOTAL(7,A1:A5) é igual a 6.164414003. SUBTOTAL(9,A1:A5) é igual a 150. "
+"SUBTOTAL(11,A1:A5) é igual a 30,4."
 
 #: ../plugins/fn-stat/functions.c:4612
 msgid "CRONBACH:Cronbach's alpha"
-msgstr ""
+msgstr "CRONBACH: alfa de Cronbach"
 
 #: ../plugins/fn-stat/functions.c:4613
 msgid "ref1:first data set"
-msgstr ""
+msgstr "ref1: primeiro conjunto de dados"
 
 #: ../plugins/fn-stat/functions.c:4614
 msgid "ref2:second data set"
-msgstr ""
+msgstr "ref2: segundo conjunto de dados"
 
 #: ../plugins/fn-stat/functions.c:4724
 msgid ""
 "GEOMDIST:probability mass or cumulative distribution function of the "
 "geometric distribution"
 msgstr ""
+"DISTGEOM: função de massa de probabilidade ou de distribuição cumulativa da "
+"distribuição geométrica"
 
 #: ../plugins/fn-stat/functions.c:4725
 msgid "k:number of trials"
-msgstr ""
+msgstr "k: número de tentativas"
 
 #: ../plugins/fn-stat/functions.c:4726
 msgid "p:probability of success in any trial"
-msgstr ""
+msgstr "p: probabilidade de sucesso em cada tentativa"
 
 #: ../plugins/fn-stat/functions.c:4728
 msgid "If @{k} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Se @{k} < 0 devolve #NUM!."
 
 #: ../plugins/fn-stat/functions.c:4755
 msgid "LOGISTIC:probability density function of the logistic distribution"
 msgstr ""
+"LOGÍSTICA: função de densidade da probabilidade da distribuição logística"
 
 #: ../plugins/fn-stat/functions.c:4786
 msgid "PARETO:probability density function of the Pareto distribution"
-msgstr ""
+msgstr "PARETO: função de densidade da probabilidade da distribuição Pareto"
 
 #: ../plugins/fn-stat/functions.c:4788
 msgid "a:exponent"
-msgstr ""
+msgstr "a: expoente"
 
 #: ../plugins/fn-stat/functions.c:4789 ../plugins/fn-stat/functions.c:4882
 msgid "b:scale parameter"
-msgstr ""
+msgstr "b: parâmetro de escala"
 
 #: ../plugins/fn-stat/functions.c:4820
 msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgstr ""
+"RAYLEIGH: função de densidade da probabilidade da distribuição Rayleigh"
 
 #: ../plugins/fn-stat/functions.c:4822 ../plugins/fn-stat/functions.c:4843
 msgid "sigma:scale parameter"
-msgstr ""
+msgstr "sigma: parâmetro de escala"
 
 #: ../plugins/fn-stat/functions.c:4840
 msgid ""
 "RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution"
 msgstr ""
+"CAUDARAYLEIGH: função de densidade da probabilidade da distribuição de cauda "
+"Rayleigh"
 
 #: ../plugins/fn-stat/functions.c:4842
 msgid "a:lower limit"
-msgstr ""
+msgstr "a: limite inferior"
 
 #: ../plugins/fn-stat/functions.c:4878
 msgid ""
 "EXPPOWDIST:the probability density function of the Exponential Power "
 "distribution"
 msgstr ""
+"DIST.PTO.EXP: função de densidade da probabilidade da distribuição de "
+"potência exponencial"
 
 #: ../plugins/fn-stat/functions.c:4884
 msgid ""
@@ -11019,59 +11073,55 @@ msgid ""
 "product starts to wear out after a period of steady or even improving "
 "reliability."
 msgstr ""
-"@FUNCTION=EXPPOWDIST\n"
-"@SYNTAX=EXPPOWDIST(x,a,b)\n"
-"@DESCRIPTION=EXPPOWDIST devolve a probabilidade de densidade p(x) em @x para "
-"uma distribuição de Potencia Exponencial com parâmetro de escala @a e "
-"expoente @b.\n"
-"\n"
-"@EXAMPLES=\n"
-"EXPPOWDIST(0.4,1,2).\n"
-"\n"
-"@SEEALSO=RANDEXPPOW"
+"Esta distribuição tem sido recomendada para análise vitalícia quando se "
+"pretende uma função de perigo em forma de U. Isto corresponde a falha rápida "
+"uma vez que o produto se comece a desgastar após um período estável ou mesmo "
+"de melhoria."
 
 #: ../plugins/fn-stat/functions.c:4912
 msgid "LAPLACE:probability density function of the Laplace distribution"
-msgstr ""
+msgstr "LAPLACE: função de densidade da probabilidade da distribuição Laplace"
 
 #: ../plugins/fn-stat/functions.c:4914
 msgid "a:mean"
-msgstr ""
+msgstr "a: média"
 
 #: ../plugins/fn-stat/functions.c:4935
 msgid ""
 "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} "
 "objects with repetition allowed"
 msgstr ""
+"PERMUTARA: o número de permutações de objetos @{y} escolhidos de objetos "
+"@{x} com repetição permitida"
 
 #: ../plugins/fn-stat/functions.c:4936
 msgid "x:total number of objects"
-msgstr ""
+msgstr "x: total de objetos"
 
 #: ../plugins/fn-stat/functions.c:4937
 msgid "y:number of selected objects"
-msgstr ""
+msgstr "y: número de objetos selecionados"
 
 #: ../plugins/fn-stat/functions.c:4938
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
-msgstr ""
+msgstr "Se tanto @{x} como @{y} forem iguais a 0, devolve 1."
 
 #: ../plugins/fn-stat/functions.c:4939
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
-msgstr ""
+msgstr "Se @{x} < 0 ou @{y} < 0, devolve #NUM!"
 
 #: ../plugins/fn-stat/functions.c:4940
 msgid "If @{x} or @{y} are not integers, they are truncated"
-msgstr ""
+msgstr "Se @{x} ou @{y} não forem inteiros, serão truncados"
 
 #: ../plugins/fn-stat/functions.c:4968
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
-msgstr ""
+msgstr "TESTELKS: teste de normalidade de Lilliefors (Kolmogorov-Smirnov)"
 
 #: ../plugins/fn-stat/functions.c:4969 ../plugins/fn-stat/functions.c:5086
 #: ../plugins/fn-stat/functions.c:5170 ../plugins/fn-stat/functions.c:5255
 msgid "x:array of sample values"
-msgstr ""
+msgstr "x: matriz de valores simples"
 
 #: ../plugins/fn-stat/functions.c:4970
 msgid ""
@@ -11079,18 +11129,21 @@ msgid ""
 "Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of "
 "the test, and the third the number of observations in the sample."
 msgstr ""
+"Esta função devolve uma matriz com os valore p do teste de Lilliefors "
+"(Kolmogorov-Smirnov) na primeira linha, a estatística do teste na segunda e "
+"o número de observações na amostra na terceira."
 
 #: ../plugins/fn-stat/functions.c:4972
 msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
-msgstr ""
+msgstr "Se houver menos de 5 valores amostra, devolve #VALOR!."
 
 #: ../plugins/fn-stat/functions.c:4974
 msgid "wiki:en:Lilliefors_test"
-msgstr ""
+msgstr "wiki:pt:Teste_Kolmogorov-Smirnov"
 
 #: ../plugins/fn-stat/functions.c:5085
 msgid "SFTEST:Shapiro-Francia Test of Normality"
-msgstr ""
+msgstr "TESTESF: teste de normalidade Shapiro-Francia"
 
 #: ../plugins/fn-stat/functions.c:5087
 msgid ""
@@ -11098,16 +11151,19 @@ msgid ""
 "Shapiro-Francia Test, the second row the test statistic of the test, and the "
 "third the number of observations in the sample."
 msgstr ""
+"Esta função devolve uma matriz com os valore p do teste de Shapiro-Francia "
+"na primeira linha, a estatística do teste na segunda e o número de "
+"observações na amostra na terceira."
 
 #: ../plugins/fn-stat/functions.c:5089
 msgid ""
 "If there are less than 5 or more than 5000 sample values, SFTEST returns "
 "#VALUE!"
-msgstr ""
+msgstr "Se houver menos de 5 ou mais de 5000 valores amostra, devolve #VALOR!."
 
 #: ../plugins/fn-stat/functions.c:5169
 msgid "CVMTEST:Cramér-von Mises Test of Normality"
-msgstr ""
+msgstr "TESTECVM: teste de normalidade Cramér-von Mises"
 
 #: ../plugins/fn-stat/functions.c:5171
 msgid ""
@@ -11115,18 +11171,21 @@ msgid ""
 "Cramér-von Mises Test, the second row the test statistic of the test, and "
 "the third the number of observations in the sample."
 msgstr ""
+"Esta função devolve uma matriz com os valore p do teste de Cramér-von Mises "
+"na primeira linha, a estatística do teste na segunda e o número de "
+"observações na amostra na terceira."
 
 #: ../plugins/fn-stat/functions.c:5173
 msgid "If there are less than 8 sample values, CVMTEST returns #VALUE!"
-msgstr ""
+msgstr "Se houver menos de 8 valores amostra, devolve #VALOR!."
 
 #: ../plugins/fn-stat/functions.c:5175
 msgid "wiki:en:Cramér–von-Mises_criterion"
-msgstr ""
+msgstr "wiki:pt:Teste_de_normalidade"
 
 #: ../plugins/fn-stat/functions.c:5254
 msgid "ADTEST:Anderson-Darling Test of Normality"
-msgstr ""
+msgstr "TESTEAD: teste de normalidade Anderson-Darling"
 
 #: ../plugins/fn-stat/functions.c:5256
 msgid ""
@@ -11134,36 +11193,43 @@ msgid ""
 "Anderson-Darling Test, the second row the test statistic of the test, and "
 "the third the number of observations in the sample."
 msgstr ""
+"Esta função devolve uma matriz com os valore p do teste de Anderson-Darling "
+"na primeira linha, a estatística do teste na segunda e o número de "
+"observações na amostra na terceira."
 
 #: ../plugins/fn-stat/functions.c:5258
 msgid "If there are less than 8 sample values, ADTEST returns #VALUE!"
-msgstr ""
+msgstr "Se houver menos de 8 valores amostra, devolve #VALOR!."
 
 #: ../plugins/fn-stat/functions.c:5260
 msgid "wiki:en:Anderson–Darling_test"
-msgstr ""
+msgstr "wiki:pt:Teste_de_normalidade"
 
 #: ../plugins/fn-string/functions.c:56
 msgid "CHAR:the CP1252 (Windows-1252) character for the code point @{x}"
-msgstr ""
+msgstr "CARÁCTER: o carácter CP1252 (Windows-1252) para o ponto de código @{x}"
 
 #: ../plugins/fn-string/functions.c:57
 msgid "x:code point"
-msgstr ""
+msgstr "x: ponto de código"
 
 #: ../plugins/fn-string/functions.c:58
 msgid "CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}."
 msgstr ""
+"CARÁCTER(@{x}  devolve o carácter CP1252 (Windows-1252) para o ponto de "
+"código @{x}"
 
 #: ../plugins/fn-string/functions.c:59
 msgid "@{x} must be in the range 1 to 255."
-msgstr ""
+msgstr "@{x} tem de estar entre 1 e 255."
 
 #: ../plugins/fn-string/functions.c:60 ../plugins/fn-string/functions.c:136
 msgid ""
 "CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not "
 "an ANSI standard."
 msgstr ""
+"CP1252 (Windows-1252) também é conhecida como \"página de código ANSI\", mas "
+"não é uma norma ANSI."
 
 #: ../plugins/fn-string/functions.c:62
 msgid ""
@@ -11171,101 +11237,115 @@ msgid ""
 "all of its printable characters. It also contains all of ISO-8859-15's "
 "printable characters (but partially at different positions.)"
 msgstr ""
+"CP1252 (Windows-1252) baseia-se num rascunho da norma ISO-8859-1 e contém "
+"todos os seus caracteres imprimíveis. Também contém todos os caracteres "
+"imprimíveis da norma ISO-8859-15 (mas parte deles em posições diferentes)."
 
 #: ../plugins/fn-string/functions.c:66 ../plugins/fn-string/functions.c:138
 msgid ""
 "In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching "
 "characters."
 msgstr ""
+"Na CP1252 (Windows-1252), 129, 141, 143, 144 e 157 não têm caracteres "
+"correspondentes."
 
 #: ../plugins/fn-string/functions.c:67 ../plugins/fn-string/functions.c:139
 msgid ""
 "For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have "
 "CODE(CHAR(@{x}))=@{x}."
 msgstr ""
+"Para @{x} de 1 até 255 exceto 129, 141, 143, 144 e 157 temos "
+"CÓDIGO(CARÁCTER(@{x}))=@{x}."
 
 #: ../plugins/fn-string/functions.c:105
 msgid ""
 "UNICHAR:the Unicode character represented by the Unicode code point @{x}"
-msgstr ""
+msgstr "CARACTUNI: o carácter Unicode representado pelo ponto de código @{x}"
 
 #: ../plugins/fn-string/functions.c:106
 msgid "x:Unicode code point"
-msgstr ""
+msgstr "x: ponto de código Unicode"
 
 #: ../plugins/fn-string/functions.c:133
 msgid "CODE:the CP1252 (Windows-1252) code point for the character @{c}"
-msgstr ""
+msgstr "CÓDIGO:  o carácter CP1252 (Windows-1252) para o ponto de código @{c}"
 
 #: ../plugins/fn-string/functions.c:134 ../plugins/fn-string/functions.c:179
 msgid "c:character"
-msgstr ""
+msgstr "c: carácter"
 
 #: ../plugins/fn-string/functions.c:135
 msgid "@{c} must be a valid CP1252 (Windows-1252) character."
-msgstr ""
+msgstr "@{c} tem de ser um carácter CP1252 (Windows-1252) válido."
 
 #: ../plugins/fn-string/functions.c:137
 msgid ""
 "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains "
 "all of its printable characters (but partially at different positions.)"
 msgstr ""
+"CP1252 (Windows-1252) baseia-se num rascunho da norma ISO-8859-1 e contém "
+"todos os seus caracteres imprimíveis (mas parte deles em posições "
+"diferentes)."
 
 #: ../plugins/fn-string/functions.c:178
 msgid "UNICODE:the Unicode code point for the character @{c}"
-msgstr ""
+msgstr "UNICODE:o ponto de código Unicode para o carácter @{c}"
 
 #: ../plugins/fn-string/functions.c:244
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
-msgstr ""
+msgstr "EXACT:VERDADEIRO se @{cadeia1} for exatamente igual a @{cadeia2}"
 
 #: ../plugins/fn-string/functions.c:245
 msgid "string1:first string"
-msgstr ""
+msgstr "cadeia1: a primeira cadeia"
 
 #: ../plugins/fn-string/functions.c:246
 msgid "string2:second string"
-msgstr ""
+msgstr "cadeia2: a segunda cadeia"
 
 #: ../plugins/fn-string/functions.c:264
 msgid "LEN:the number of characters of the string @{s}"
-msgstr ""
+msgstr "COMPRIMENTO: o número de caracteres da cadeia @{c}"
 
 #: ../plugins/fn-string/functions.c:265 ../plugins/fn-string/functions.c:282
 #: ../plugins/fn-string/functions.c:300 ../plugins/fn-string/functions.c:332
 #: ../plugins/fn-string/functions.c:384 ../plugins/fn-string/functions.c:424
 #: ../plugins/fn-string/functions.c:511 ../plugins/fn-string/functions.c:547
 msgid "s:the string"
-msgstr ""
+msgstr "c: a cadeia"
 
 #: ../plugins/fn-string/functions.c:281
 msgid "LENB:the number of bytes in the string @{s}"
-msgstr ""
+msgstr "COMPRIMENTOB: o número de bytes da cadeia @{c}"
 
 #: ../plugins/fn-string/functions.c:299
 msgid "LEFT:the first @{num_chars} characters of the string @{s}"
-msgstr ""
+msgstr "ESQUERDA: os primeiros @{num_car} caracteres da cadeia @{c}"
 
 #: ../plugins/fn-string/functions.c:301 ../plugins/fn-string/functions.c:512
 msgid "num_chars:the number of characters to return (defaults to 1)"
-msgstr ""
+msgstr "num_car: o número de caracteres a devolver, predefinido como 1"
 
 #: ../plugins/fn-string/functions.c:302
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned first "
 "characters are from the right of the string."
 msgstr ""
+"Se a cadeia @{c} estiver escrita da direita para a esquerda, os caracteres "
+"devolvidos são da direita da cadeia."
 
 #: ../plugins/fn-string/functions.c:331
 msgid ""
 "LEFTB:the first characters  of the string @{s} comprising at most "
 "@{num_bytes} bytes"
 msgstr ""
+"ESQUERDAB: os primeiros caracteres da cadeia @{c} compreendendo no máximo "
+"@num_bytes} bytes"
 
 #: ../plugins/fn-string/functions.c:333 ../plugins/fn-string/functions.c:426
 #: ../plugins/fn-string/functions.c:548
 msgid "num_bytes:the maximum number of bytes to return (defaults to 1)"
-msgstr ""
+msgstr "num_bytes: o máximo número de bytes a devolver, predefinido como 1."
 
 #: ../plugins/fn-string/functions.c:334 ../plugins/fn-string/functions.c:427
 #: ../plugins/fn-string/functions.c:549 ../plugins/fn-string/functions.c:894
@@ -11274,12 +11354,16 @@ msgid ""
 "The semantics of this function is subject to change as various applications "
 "implement it."
 msgstr ""
+"A semântica desta função é assunto a alterar dado que muitas aplicações a "
+"implementam."
 
 #: ../plugins/fn-string/functions.c:335
 msgid ""
 "If the string is in a right-to-left script, the returned first characters "
 "are from the right of the string."
 msgstr ""
+"Se a cadeia estiver escrita da direita para a esquerda, os caracteres "
+"devolvidos são da direita da cadeia."
 
 #: ../plugins/fn-string/functions.c:336 ../plugins/fn-string/functions.c:428
 #: ../plugins/fn-string/functions.c:472 ../plugins/fn-string/functions.c:551
@@ -11288,6 +11372,8 @@ msgid ""
 "While this function is syntactically Excel compatible, the differences in "
 "the underlying text encoding will usually yield different results."
 msgstr ""
+"Ainda que a função seja sintaticamente compatível com Excel, as diferenças "
+"entre a codificação de texto subjacente resultarão em diferentes valores."
 
 #: ../plugins/fn-string/functions.c:337 ../plugins/fn-string/functions.c:430
 #: ../plugins/fn-string/functions.c:474 ../plugins/fn-string/functions.c:552
@@ -11296,261 +11382,295 @@ msgid ""
 "While this function is OpenFormula compatible, most of its behavior is, at "
 "this time, implementation specific."
 msgstr ""
+"Ainda que esta função seja compatível com OpenFormula, a maioria do seu "
+"comportamento, de momento, é específico da implementação."
 
 #: ../plugins/fn-string/functions.c:365
 msgid "LOWER:a lower-case version of the string @{text}"
-msgstr ""
+msgstr "MINÚSCULAS: uma versão em minúsculas da cadeia @{texto}"
 
 #: ../plugins/fn-string/functions.c:383
 msgid ""
 "MID:the substring of the string @{s} starting at position @{position} "
 "consisting of @{length} characters"
 msgstr ""
+"CENTRO: a subcadeia de @{c} começando em @{posição}, com @{comprimento} "
+"caracteres"
 
 #: ../plugins/fn-string/functions.c:385
 msgid "position:the starting position"
-msgstr ""
+msgstr "posição: a posição inicial"
 
 #: ../plugins/fn-string/functions.c:386
 msgid "length:the number of characters to return"
-msgstr ""
+msgstr "comprimento: número de caracteres a devolver"
 
 #: ../plugins/fn-string/functions.c:423
 msgid ""
 "MIDB:the characters following the first @{start_pos} bytes comprising at "
 "most @{num_bytes} bytes"
 msgstr ""
+"CENTROB: os caracteres a seguir aos primeiros @{pos_inicial} bytes, com o "
+"máximo de @{num_bytes} bytes"
 
 #: ../plugins/fn-string/functions.c:425
 msgid "start_pos:the number of the byte with which to start (defaults to 1)"
 msgstr ""
+"pos_inicial: o número de bytes com os quais começar, predefinido como 1"
 
 #: ../plugins/fn-string/functions.c:467
 msgid ""
 "FINDB:first byte position of @{string1} in @{string2} following byte "
 "position @{start}"
 msgstr ""
+"LOCALIZARB: primeira posição de byte da @{cadeia1} na @{cadeia2} a seguir à "
+"posição {início}"
 
 #: ../plugins/fn-string/functions.c:468 ../plugins/fn-string/functions.c:696
 msgid "string1:search string"
-msgstr ""
+msgstr "cadeia1: cadeia a procurar"
 
 #: ../plugins/fn-string/functions.c:469 ../plugins/fn-string/functions.c:697
 msgid "string2:search field"
-msgstr ""
+msgstr "cadeia2: cadeia onde procurar"
 
 #: ../plugins/fn-string/functions.c:470 ../plugins/fn-string/functions.c:1350
 msgid "start:starting byte position, defaults to 1"
-msgstr ""
+msgstr "início: posição de byte inicial, predefinida como 1"
 
 #: ../plugins/fn-string/functions.c:471 ../plugins/fn-string/functions.c:699
 msgid "This search is case-sensitive."
-msgstr ""
+msgstr "Esta procura é sensível a maiúsculas."
 
 #: ../plugins/fn-string/functions.c:510
 msgid "RIGHT:the last @{num_chars} characters of the string @{s}"
-msgstr ""
+msgstr "DIREITA: os últimos {num_car} da cadeia @c}"
 
 #: ../plugins/fn-string/functions.c:513 ../plugins/fn-string/functions.c:550
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned last "
 "characters are from the left of the string."
 msgstr ""
+"Se a cadeia estiver escrita da direita para a esquerda, os caracteres "
+"devolvidos são da esquerda da cadeia."
 
 #: ../plugins/fn-string/functions.c:546
 msgid ""
 "RIGHTB:the last characters of the string @{s} comprising at most "
 "@{num_bytes} bytes"
 msgstr ""
+"DIREITAB: os últimos caracteres da cadeia @{c} compreendendo no máximo "
+"@num_bytes} bytes"
 
 #: ../plugins/fn-string/functions.c:581
 msgid "UPPER:an upper-case version of the string @{text}"
-msgstr ""
+msgstr "MAIÚSCULAS: uma versão em maiúsculas da cadeia @{texto}"
 
 #: ../plugins/fn-string/functions.c:600
 msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
-msgstr ""
+msgstr "CONCATENAR: a concatenação das cadeias @{c1}, @{c2},…"
 
 #: ../plugins/fn-string/functions.c:601
 msgid "s1:first string"
-msgstr ""
+msgstr "c1: a primeira cadeia"
 
 #: ../plugins/fn-string/functions.c:602
 msgid "s2:second string"
-msgstr ""
+msgstr "c2: a segunda cadeia"
 
 #: ../plugins/fn-string/functions.c:622
 msgid "REPT:@{num} repetitions of string @{text}"
-msgstr ""
+msgstr "REPT: @{num} repetições da cadeia @{texto}"
 
 #: ../plugins/fn-string/functions.c:624
 msgid "num:non-negative integer"
-msgstr ""
+msgstr "num: inteiro não negativo"
 
 #: ../plugins/fn-string/functions.c:666
 msgid "CLEAN:@{text} with any non-printable characters removed"
-msgstr ""
+msgstr "LIMPAR: remove todos os caracteres não imprimíveis de @{texto}"
 
 #: ../plugins/fn-string/functions.c:668
 msgid ""
 "CLEAN removes non-printable characters from its argument leaving only "
 "regular characters and white-space."
 msgstr ""
+"LIMPAR remove todos os caracteres não imprimíveis do seu argumento, deixando "
+"só caracteres regulares e espaços."
 
 #: ../plugins/fn-string/functions.c:695
 msgid ""
 "FIND:first position of @{string1} in @{string2} following position @{start}"
 msgstr ""
+"LOCALIZAR: primeiraposição de @{cadeia1} na @{cadeia2} depois da posição "
+"@{início}"
 
 #: ../plugins/fn-string/functions.c:698 ../plugins/fn-string/functions.c:1307
 msgid "start:starting position, defaults to 1"
-msgstr ""
+msgstr "início: posição inicial, predefinida como 1"
 
 #: ../plugins/fn-string/functions.c:733
 msgid "FIXED:formatted string representation of @{num}"
-msgstr ""
+msgstr "FIXO: representação de @{num} como cadeia formatada"
 
 #: ../plugins/fn-string/functions.c:734 ../plugins/fn-string/functions.c:1232
 msgid "num:number"
-msgstr ""
+msgstr "num: número"
 
 #: ../plugins/fn-string/functions.c:735
 msgid "decimals:number of decimals"
-msgstr ""
+msgstr "decimais: número de casas decimais"
 
 #: ../plugins/fn-string/functions.c:736
 msgid ""
 "no_commas:TRUE if no thousand separators should be used, defaults to FALSE"
 msgstr ""
+"sem_pontos: VERDADEIRO se não se deve usar separador dos milhares, "
+"predefinido como FALSO"
 
 #: ../plugins/fn-string/functions.c:793
 msgid "PROPER:@{text} with initial of each word capitalised"
 msgstr ""
+"INICIAL.MAIÚSCULA: @{texto} com a letra inicial de cada palavra em maiúsculas"
 
 #: ../plugins/fn-string/functions.c:835
 msgid ""
 "REPLACE:string @{old} with @{num} characters starting at @{start} replaced "
 "by @{new}"
 msgstr ""
+"SUBSTITUIR: cadeia @{antiga} com @{num} caracteres, começando em @{início} "
+"substituída por @nova}"
 
 #: ../plugins/fn-string/functions.c:837 ../plugins/fn-string/functions.c:888
 msgid "old:original text"
-msgstr ""
+msgstr "antiga: texto original"
 
 #: ../plugins/fn-string/functions.c:838
 msgid "start:starting position"
-msgstr ""
+msgstr "início: posição inicial"
 
 #: ../plugins/fn-string/functions.c:839
 msgid "num:number of characters to be replaced"
-msgstr ""
+msgstr "num: número de caracteres a substituir"
 
 #: ../plugins/fn-string/functions.c:840 ../plugins/fn-string/functions.c:891
 #: ../plugins/fn-string/functions.c:1160
 msgid "new:replacement string"
-msgstr ""
+msgstr "nova: cadeia de substituição"
 
 #: ../plugins/fn-string/functions.c:886
 msgid ""
 "REPLACEB:string @{old} with up to @{num} bytes starting at @{start} replaced "
 "by @{new}"
 msgstr ""
+"SUBSTITUIRB: cadeia @{antiga} com até @{num} bytes, começando em @{início} "
+"substituída por @nova}"
 
 #: ../plugins/fn-string/functions.c:889
 msgid "start:starting byte position"
-msgstr ""
+msgstr "início: posição de byte inicial"
 
 #: ../plugins/fn-string/functions.c:890
 msgid "num:number of bytes to be replaced"
-msgstr ""
+msgstr "num: número de bytes a substituir"
 
 #: ../plugins/fn-string/functions.c:892
 msgid ""
 "REPLACEB replaces the string of valid unicode characters starting at the "
 "byte @{start} and ending at @{start}+@{num}-1 with the string @{new}."
 msgstr ""
+"SUBSTITUIRB substitui a cadeia de caracteres Unicode válidos começando no "
+"byte @{início} e terminando  em @{início}+@{num}-1 pela cadeia @{nova}"
 
 #: ../plugins/fn-string/functions.c:941
 msgid "T:@{value} if and only if @{value} is text, otherwise empty"
-msgstr ""
+msgstr "T: @{valor} se e só se @{valor} for texto, senão vazia"
 
 #: ../plugins/fn-string/functions.c:942
 msgid "value:original value"
-msgstr ""
+msgstr "valor: valor original"
 
 #: ../plugins/fn-string/functions.c:964
 msgid "TEXT:@{value} as a string formatted as @{format}"
-msgstr ""
+msgstr "TEXTO: @{valor} como cadeia formatada como @{formato}"
 
 #: ../plugins/fn-string/functions.c:965
 msgid "value:value to be formatted"
-msgstr ""
+msgstr "valor: valor a formatar"
 
 #: ../plugins/fn-string/functions.c:966
 msgid "format:desired format"
-msgstr ""
+msgstr "formato: formato desejado"
 
 #: ../plugins/fn-string/functions.c:1018
 msgid "TRIM:@{text} with only single spaces between words"
-msgstr ""
+msgstr "COMPRIMIR: @{texto} com espaços só entre as palavras"
 
 #: ../plugins/fn-string/functions.c:1065
 msgid "VALUE:numeric value of @{text}"
-msgstr ""
+msgstr "VALOR: valor numérico de @{texto}"
 
 #: ../plugins/fn-string/functions.c:1098
 msgid "NUMBERVALUE:numeric value of @{text}"
-msgstr ""
+msgstr "VALORNUMÉRICO: valor numérico de @{texto}"
 
 #: ../plugins/fn-string/functions.c:1100
 msgid "separator:decimal separator"
-msgstr ""
+msgstr "separador: separador decimal"
 
 #: ../plugins/fn-string/functions.c:1101
 msgid ""
 "If @{text} does not look like a decimal number, NUMBERVALUE returns the "
 "value VALUE would return (ignoring the given @{separator})."
 msgstr ""
+"Se @{texto} não se parecer com um número decimal, VALORNUMÉRICO devolve o "
+"mesmo que VALOR devolveria (ignorando o @{separador} indicado."
 
 #: ../plugins/fn-string/functions.c:1157
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
 msgstr ""
+"SUBST: @{texto} com todas as ocorrências de @{antiga} substituídas por "
+"@{nova}"
 
 #: ../plugins/fn-string/functions.c:1158 ../plugins/fn-string/functions.c:1542
 msgid "text:original text"
-msgstr ""
+msgstr "texto: texto original"
 
 #: ../plugins/fn-string/functions.c:1159
 msgid "old:string to be replaced"
-msgstr ""
+msgstr "antiga: cadeia a substituir"
 
 #: ../plugins/fn-string/functions.c:1161
 msgid ""
 "num:if @{num} is specified and a number only the @{num}th occurrence of "
 "@{old} is replaced"
 msgstr ""
+"num: se @{num} for especificado e um número só, a @{num}ª ocorrência de "
+"@{antiga} é substituída"
 
 #: ../plugins/fn-string/functions.c:1231
 msgid "DOLLAR:@{num} formatted as currency"
-msgstr ""
+msgstr "MOEDA: @{num} formatado como moeda"
 
 #: ../plugins/fn-string/functions.c:1233
 msgid "decimals:decimals"
-msgstr ""
+msgstr "decimais: casas decimais"
 
 #: ../plugins/fn-string/functions.c:1303
 msgid ""
 "SEARCH:the location of the @{search} string within @{text} after position "
 "@{start}"
 msgstr ""
+"PROCURAR: a localização da cadeia @{procura} dentro de @{texto} após a "
+"posição @{início}"
 
 #: ../plugins/fn-string/functions.c:1305 ../plugins/fn-string/functions.c:1348
 msgid "search:search string"
-msgstr ""
+msgstr "procura: cadeia a procurar"
 
 #: ../plugins/fn-string/functions.c:1306 ../plugins/fn-string/functions.c:1349
 msgid "text:search field"
-msgstr ""
+msgstr "texto: cadeia onde procurar"
 
 #: ../plugins/fn-string/functions.c:1308 ../plugins/fn-string/functions.c:1351
 msgid ""
@@ -11559,82 +11679,106 @@ msgid ""
 "string including the empty string. To search for * or ?, precede the symbol "
 "with ~."
 msgstr ""
+"@{procura}pode conter asteriscos (*) e pontos de interrogação (?). Um ponto "
+"de interrogação corresponde a qualquer caracter único e um asterisco "
+"corresponde a qualquer cadeia, incluindo a vazia. Para procurar por * ou ? "
+"anteceda o símbolo com um til (~)."
 
 #: ../plugins/fn-string/functions.c:1313 ../plugins/fn-string/functions.c:1356
 msgid "This search is not case sensitive."
-msgstr ""
+msgstr "Esta procura não é sensível a maiúsculas."
 
 #: ../plugins/fn-string/functions.c:1314
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
-msgstr ""
+msgstr "Se @{procura} não for encontrada, devolve #VALOR!"
 
 #: ../plugins/fn-string/functions.c:1315
 msgid ""
 "If @{start} is less than one or it is greater than the length of @{text}, "
 "SEARCH returns #VALUE!"
 msgstr ""
+"Se @{início}for menor que 1 ou maior que o comprimento de @{texto}, devolve "
+"#VALOR!."
 
 #: ../plugins/fn-string/functions.c:1346
 msgid ""
 "SEARCHB:the location of the @{search} string within @{text} after byte "
 "position @{start}"
 msgstr ""
+"PROCURARB: a localização da cadeia @{procura} dentro de @{texto} após a "
+"posição de byte @{início}"
 
 #: ../plugins/fn-string/functions.c:1357
 msgid "If @{search} is not found, SEARCHB returns #VALUE!"
-msgstr ""
+msgstr "Se @{procura} não for encontrada, devolve #VALOR!"
 
 #: ../plugins/fn-string/functions.c:1358
 msgid ""
 "If @{start} is less than one or it is greater than the byte length of "
 "@{text}, SEARCHB returns #VALUE!"
 msgstr ""
+"Se @{início}for menor que 1 ou maior que o comprimento em bytes de @{texto}, "
+"devolve #VALOR!."
 
 #: ../plugins/fn-string/functions.c:1414
 msgid ""
 "ASC:text with full-width katakana and ASCII characters converted to half-"
 "width"
 msgstr ""
+"ASC: texto de largura completa, katakana ou ASCII, convertido para meia "
+"largura"
 
 #: ../plugins/fn-string/functions.c:1416
 msgid ""
 "ASC converts full-width katakana and ASCII characters to half-width "
 "equivalent characters, copying all others. "
 msgstr ""
+"ASC converte texto de largura completa, katakana ou ASCII, para o "
+"equivalente de meia largura, copiando todos os outros."
 
 #: ../plugins/fn-string/functions.c:1417 ../plugins/fn-string/functions.c:1545
 msgid ""
 "The distinction between half-width and full-width characters is described in "
 "http://www.unicode.org/reports/tr11/."
 msgstr ""
+"A distinção entre caracteres de meia largura e largura completa é descrita "
+"em http://www.unicode.org/reports/tr11/."
 
 #: ../plugins/fn-string/functions.c:1418 ../plugins/fn-string/functions.c:1547
 msgid "For most strings, this function has the same effect as in Excel."
 msgstr ""
+"Para a maioria das cadeias, esta função tem o mesmo efeito que em Excel."
 
 #: ../plugins/fn-string/functions.c:1419
 msgid ""
 "While in obsolete encodings ASC used to translate between 2-byte and 1-byte "
 "characters, this is not the case in UTF-8."
 msgstr ""
+"Ainda que em codificações obsoletas, ASC seja usada para traduzir entre "
+"caracteres de 1 e 2 bytes, este não é o caso em UTF-8."
 
 #: ../plugins/fn-string/functions.c:1541
 msgid ""
 "JIS:text with half-width katakana and ASCII characters converted to full-"
 "width"
 msgstr ""
+"JIS: texto de meia largura, katakana ou ASCII, convertido em largura completa"
 
 #: ../plugins/fn-string/functions.c:1543
 msgid ""
 "JIS converts half-width katakana and ASCII characters to full-width "
 "equivalent characters, copying all others. "
 msgstr ""
+"JIS converte texto de meia largura, katakana ou ASCII, para o equivalente de "
+"largura completa, copiando todos os outros."
 
 #: ../plugins/fn-string/functions.c:1548
 msgid ""
 "While in obsolete encodings JIS used to translate between 1-byte and 2-byte "
 "characters, this is not the case in UTF-8."
 msgstr ""
+"Ainda que em codificações obsoletas, JIS seja usada para traduzir entre "
+"caracteres de 1 e 2 bytes, este não é o caso em UTF-8."
 
 #: ../plugins/fn-tsa/functions.c:93
 msgid ""
@@ -11646,41 +11790,53 @@ msgid ""
 "4: natural cubic spline;\n"
 "5: natural cubic spline with averaging."
 msgstr ""
+"Possíveis métodos de interpolação são:\n"
+"0: linear;\n"
+"1: linear com média;\n"
+"2: escada;\n"
+"3: escada com média;\n"
+"4: curva cúbica natural;\n"
+"5: curva cúbica natural com média."
 
 #: ../plugins/fn-tsa/functions.c:380
 msgid ""
 "INTERPOLATION:interpolated values corresponding to the given abscissa targets"
 msgstr ""
+"INTERPOLAÇÃO: valores interpolados correspondentes a um dado eixo das "
+"abcissas destino"
 
 #: ../plugins/fn-tsa/functions.c:381
 msgid "abscissae:abscissae of the given data points"
-msgstr ""
+msgstr "abcissa: abcissa dos pontos de dados indicados"
 
 #: ../plugins/fn-tsa/functions.c:382
 msgid "ordinates:ordinates of the given data points"
-msgstr ""
+msgstr "ordenadas: ordenadas dos pontos de dados indicados"
 
 #: ../plugins/fn-tsa/functions.c:383
 msgid "targets:abscissae of the interpolated data"
-msgstr ""
+msgstr "destinos: abcissa dos dados interpolados"
 
 #: ../plugins/fn-tsa/functions.c:384
 msgid "interpolation:method of interpolation, defaults to 0 ('linear')"
-msgstr ""
+msgstr "interpolação: método de interpolação, predefinido como 0 (linear)"
 
 #: ../plugins/fn-tsa/functions.c:385 ../plugins/fn-tsa/functions.c:574
 msgid "The output consists always of one column of numbers."
-msgstr ""
+msgstr "A saída consiste sempre numa coluna de números."
 
 #: ../plugins/fn-tsa/functions.c:387
 msgid ""
 "The @{abscissae} should be given in increasing order. If the @{abscissae} is "
 "not in increasing order the INTERPOLATION function is significantly slower."
 msgstr ""
+"A @{abcissa} deve ser dada em ordem crescente. Se assim não for, a função "
+"torna-se significativamente mais lenta."
 
 #: ../plugins/fn-tsa/functions.c:389
 msgid "If any two @{abscissae} values are equal an error is returned."
 msgstr ""
+"Se quaisquer dois valores de @{abcissa} forem iguais, é devolvido um erro."
 
 #: ../plugins/fn-tsa/functions.c:390
 msgid ""
@@ -11691,41 +11847,50 @@ msgid ""
 "average heights of the interpolation function on the intervals determined by "
 "consecutive target values."
 msgstr ""
+"Se qualquer um dos métodos de interpolação 1, 3 ou 5 for usado, o número de "
+"valores devolvidos é menor que o número de destinos e os valores destino tên "
+"de ser indicados em ordem crescente. Os valores devolvidos são a média de "
+"alturas da função de interpolação nos intervalos determinados por valores "
+"destino consecutivos."
 
 #: ../plugins/fn-tsa/functions.c:397 ../plugins/fn-tsa/functions.c:581
 msgid "Strings and empty cells in @{abscissae} and @{ordinates} are ignored."
-msgstr ""
+msgstr "Cadeias e células vazias em @{abcissa} e @{ordenadas} são ignoradas."
 
 #: ../plugins/fn-tsa/functions.c:398 ../plugins/fn-tsa/functions.c:582
 msgid ""
 "If several target data are provided they must be in the same column in "
 "consecutive cells."
 msgstr ""
+"Se vários dados destino forem fornecidos, têm de estar na mesma coluna em "
+"células consecutivas"
 
 #: ../plugins/fn-tsa/functions.c:567
 msgid "PERIODOGRAM:periodogram of the given data"
-msgstr ""
+msgstr "GRÁF.PERÍODO: gráfico de período dos dados indicados"
 
 #: ../plugins/fn-tsa/functions.c:568
 msgid "ordinates:ordinates of the given data"
-msgstr ""
+msgstr "ordenada: ordenadas dos dados indicados"
 
 #: ../plugins/fn-tsa/functions.c:569
 msgid "filter:windowing function to  be used, defaults to no filter"
-msgstr ""
+msgstr "filtro: função de janelas a usar, predefinida como sem filtro"
 
 #: ../plugins/fn-tsa/functions.c:570
 msgid ""
 "abscissae:abscissae of the given data, defaults to regularly spaced abscissae"
 msgstr ""
+"abcissa: abcissa dos dados indicados, predefinida como abcissa espaçada "
+"regularmente"
 
 #: ../plugins/fn-tsa/functions.c:571
 msgid "interpolation:method of interpolation, defaults to none"
-msgstr ""
+msgstr "interpolação: método de interpolação, predefinido como nenhum"
 
 #: ../plugins/fn-tsa/functions.c:572
 msgid "number:number of interpolated data points"
-msgstr ""
+msgstr "num: número de pontos de dados interpolados"
 
 #: ../plugins/fn-tsa/functions.c:573
 msgid ""
@@ -11733,6 +11898,9 @@ msgid ""
 "less than the number of targets and the targets values must be given in "
 "increasing order."
 msgstr ""
+"Se for usado um método de interpolação, o número de valores devolvidos é um "
+"a menos que o número de destinos e os valores destino têm de ser dados em "
+"ordem crescente."
 
 #: ../plugins/fn-tsa/functions.c:576
 msgid ""
@@ -11742,58 +11910,74 @@ msgid ""
 "2: Hahn (cosine window)\n"
 "3: Welch (parabolic window)"
 msgstr ""
+"Possíveis funções de janela são:\n"
+"0: sem filtro (janela retangular)\n"
+"1: Bartlett (janela triangular)\n"
+"2: Hahn (janela cosseno)\n"
+"3: Welch (janela parabólica)"
 
 #: ../plugins/fn-tsa/functions.c:826
 msgid "FOURIER:Fourier or inverse Fourier transform"
-msgstr ""
+msgstr "FOURIER: transformação Fourier ou transformação inversa Fourier"
 
 #: ../plugins/fn-tsa/functions.c:827 ../plugins/fn-tsa/functions.c:923
 msgid "Sequence:the data sequence to be transformed"
-msgstr ""
+msgstr "sequência: a sequ^encia de dados a transformar"
 
 #: ../plugins/fn-tsa/functions.c:828
 msgid ""
 "Inverse:if true, the inverse Fourier transform is calculated, defaults to "
 "false"
 msgstr ""
+"inverso: se VERDADEIRO, é calculada a transformação inversa, predefinido "
+"como FALSO"
 
 #: ../plugins/fn-tsa/functions.c:829
 msgid ""
 "Separate:if true, the real and imaginary parts are given separately, "
 "defaults to false"
 msgstr ""
+"separado: se VERDADEIRO, as partes reais e imaginárias são dadas "
+"separadamente, predefinido como FALSO"
 
 #: ../plugins/fn-tsa/functions.c:830
 msgid ""
 "This array function returns the Fourier or inverse Fourier transform of the "
 "given data sequence."
 msgstr ""
+"Esta função de matriz devolve a transformação de Fourier ou a transformação "
+"inversa de Fourier da sequência de dados indicada."
 
 #: ../plugins/fn-tsa/functions.c:831
 msgid ""
 "The output consists of one column of complex numbers if @{Separate} is false "
 "and of two columns of real numbers if @{Separate} is true."
 msgstr ""
+"A saída consiste numa coluna de números complexos se @{separado} for falso e "
+"duas colunas de números reais se @{separado} for verdadeiro."
 
 #: ../plugins/fn-tsa/functions.c:832
 msgid ""
 "If @{Separate} is true the first output column contains the real parts and "
 "the second column the imaginary parts."
 msgstr ""
+"Se @{separado} for verdadeiro, a primeira coluna contém as partes reais e a "
+"segunda, as partes imaginárias."
 
 #: ../plugins/fn-tsa/functions.c:833 ../plugins/fn-tsa/functions.c:927
 msgid ""
 "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns "
 "#VALUE!"
 msgstr ""
+"Se @{sequência} não for uma matriz nem n por 1 nem 1 por n, devolve #VALOR!"
 
 #: ../plugins/fn-tsa/functions.c:922
 msgid "HPFILTER:Hodrick Prescott Filter"
-msgstr ""
+msgstr "FILTROHP: filtro Hodrick-Prescott"
 
 #: ../plugins/fn-tsa/functions.c:924
 msgid "λ:filter parameter λ, defaults to 1600"
-msgstr ""
+msgstr "λ: parâmetro de filtro λ, predefinido como 1600"
 
 #: ../plugins/fn-tsa/functions.c:925
 msgid ""
@@ -11801,54 +11985,61 @@ msgid ""
 "applying the Hodrick Prescott Filter with parameter @{λ} to the given data "
 "sequence."
 msgstr ""
+"Esta função de matriz devolve a tendência e componentes cíclicos obtidos ao "
+"aplicar o filtro Hodrick-Prescott com parâmetro @{λ} à sequência de dados "
+"indicada."
 
 #: ../plugins/fn-tsa/functions.c:926
 msgid ""
 "The output consists of two columns of numbers, the first containing the "
 "trend component, the second the cyclical component."
 msgstr ""
+"A saida consiste em duas colunas de números, a primeira contendo o "
+"componente tendência, a segunda o componente cíclico."
 
 #: ../plugins/fn-tsa/functions.c:928
 msgid ""
 "If @{Sequence} contains less than 6 numerical values, this function returns "
 "#VALUE!"
 msgstr ""
+"Se @{sequência} contiver menos de 6 valores numéricos,, devolve #VALOR!."
 
 #: ../plugins/gda/plugin-gda.c:374
 msgid "EXECSQL:result of executing @{sql} in the libgda data source @{dsn}"
 msgstr ""
+"EXECSQL:resultado da execução de @{sql} na origem de dados libgda @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:376 ../plugins/gda/plugin-gda.c:452
 msgid "dsn:libgda data source"
-msgstr ""
+msgstr "dsn: origem de dados libgda"
 
 #: ../plugins/gda/plugin-gda.c:377 ../plugins/gda/plugin-gda.c:453
 msgid "username:user name to access @{dsn}"
-msgstr ""
+msgstr "utilizador: nome de utilizador para aceder a @dsn}"
 
 #: ../plugins/gda/plugin-gda.c:378 ../plugins/gda/plugin-gda.c:454
 msgid "password:password to access @{dsn} as @{username}"
-msgstr ""
+msgstr "senha: senha para aceder a @dsn} como @{utilizador}"
 
 #: ../plugins/gda/plugin-gda.c:379
 msgid "sql:SQL command"
-msgstr ""
+msgstr "sql: comando SQL"
 
 #: ../plugins/gda/plugin-gda.c:380 ../plugins/gda/plugin-gda.c:456
 msgid "Before using EXECSQL, you need to set up a libgda data source."
-msgstr ""
+msgstr "Antes de usar EXECSQL, tem de definir uma origem de dados libgda."
 
 #: ../plugins/gda/plugin-gda.c:451
 msgid "READDBTABLE:all rows of the table @{table} in @{dsn}"
-msgstr ""
+msgstr "LERTABELABD: todas as linhas da @{tabela} em @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:455
 msgid "table:SQL table to retrieve"
-msgstr ""
+msgstr "tabela: tabela SQL a obter"
 
 #: ../plugins/sample_datasource/sample_datasource.c:274
 msgid "ATL_LAST:sample real-time data source"
-msgstr ""
+msgstr "ATL_ÚLTIMA: origem de dados exemplo em tempo real"
 
 #: ../plugins/sample_datasource/sample_datasource.c:275
 msgid "tag:tag to watch"
@@ -11860,7 +12051,7 @@ msgid ""
 "string tag and monitors the named pipe ~/atl for changes to the value of "
 "that tag."
 msgstr ""
-"ATL_LAST é uma implementação exemplo de uma origem de dados em tempo real. "
+"ATL_ÚLTIMA é uma implementação exemplo de uma origem de dados em tempo real. "
 "Obtém uma etiqueta de texto e monitoriza alterações no canal ~/atl  ao valor "
 "dessa etiqueta."
 
