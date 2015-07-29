@@ -1,3 +1,7 @@
+2015-07-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.23
+
 2015-07-07  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_parse_name): Handle non-local Print_Area.

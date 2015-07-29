@@ -1,3 +1,7 @@
+2015-07-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.23
+
 2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* lotus.c (lotus_read_old): don't access a NULL sheet. Fixes #751946.

@@ -1,3 +1,7 @@
+2015-07-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.23
+
 2015-06-5  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ods-ext-schema.patch: add new attributes
