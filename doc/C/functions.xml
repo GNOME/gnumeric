@@ -3966,15 +3966,15 @@
         <para>Distance:</para>
         <para>	'm'   		Meter</para>
         <para>	'mi'  		Statute mile</para>
-        <para>	'survey_mi'  		U.S. survey mile</para>
+        <para>	'survey_mi' 	U.S. survey mile</para>
         <para>	'Nmi' 		Nautical mile</para>
         <para>	'in'  			Inch</para>
         <para>	'ft'  			Foot</para>
         <para>	'yd'  		Yard</para>
-        <para>	'ell'  		English Ell</para>
+        <para>	'ell' 			English Ell</para>
         <para>	'ang' 		Angstrom</para>
-        <para>	'ly' 		Light-Year</para>
-        <para>	'pc' 		Parsec</para>
+        <para>	'ly' 			Light-Year</para>
+        <para>	'pc' 			Parsec</para>
         <para>	'parsec' 		Parsec</para>
         <para>	'Pica'		Pica Points</para>
         <para>	'Picapt'		Pica Points</para>
@@ -3994,14 +3994,12 @@
         <para>	'atm' 		Atmosphere</para>
         <para>	'Pa'  			Pascal</para>
         <para>	'mmHg'		mm of Mercury</para>
-        <para/>
-        <para>	'Torr'		Torr</para>
+        <para>	'Torr'			Torr</para>
         <para/>
         <para>Force:</para>
         <para>	'N'   			Newton</para>
         <para>	'dyn' 		Dyne</para>
-        <para>	'pond' 			Pond</para>
-        <para/>
+        <para>	'pond' 		Pond</para>
         <para>	'lbf' 			Pound force</para>
         <para/>
         <para>Energy:</para>
@@ -4028,9 +4026,7 @@
         <para>	'C'    		Degree Celsius</para>
         <para>	'F'    		Degree Fahrenheit</para>
         <para>	'K'    		Kelvin</para>
-        <para/>
         <para>	'Rank' 		Degree Rankine</para>
-        <para/>
         <para>	'Reau' 		Degree Réaumur</para>
         <para/>
         <para>Volume (liquid measure):</para>
@@ -4050,54 +4046,68 @@
         <para>	'regton' 		Registered ton</para>
         <para>	'MTON' 		Measurement ton (freight ton)</para>
         <para>	'l'    			Liter</para>
-        <para/>
-        <para>	'L'    			Liter</para>
-        <para/>
+        <para>	'L'    		Liter</para>
         <para>	'lt'   			Liter</para>
-        <para/>
         <para>	'ang3' 		Cubic Angstrom</para>
-        <para/>
         <para>	'ang^3' 		Cubic Angstrom</para>
-        <para/>
         <para>	'barrel' 		U.S. oil barrel (bbl)</para>
-        <para/>
         <para>	'bushel' 		U.S. bushel</para>
-        <para/>
-        <para>	'ft3' 		Cubic feet</para>
-        <para/>
+        <para>	'ft3' 			Cubic feet</para>
         <para>	'ft^3' 		Cubic feet</para>
-        <para/>
         <para>	'in3' 		Cubic inch</para>
-        <para/>
         <para>	'in^3' 		Cubic inch</para>
-        <para/>
-        <para>	'ly3' 		Cubic light-year</para>
-        <para/>
+        <para>	'ly3' 			Cubic light-year</para>
         <para>	'ly^3' 		Cubic light-year</para>
-        <para/>
         <para>	'm3' 		Cubic meter</para>
-        <para/>
         <para>	'm^3' 		Cubic meter</para>
-        <para/>
         <para>	'mi3' 		Cubic mile</para>
-        <para/>
         <para>	'mi^3' 		Cubic mile</para>
-        <para/>
         <para>	'yd3' 		Cubic yard</para>
-        <para/>
         <para>	'yd^3' 		Cubic yard</para>
-        <para/>
         <para>	'Nmi3' 		Cubic nautical mile</para>
-        <para/>
         <para>	'Nmi^3' 		Cubic nautical mile</para>
-        <para/>
         <para>	'Picapt3' 		Cubic Pica</para>
-        <para/>
-        <para>	'Picapt^3' 		Cubic Pica</para>
-        <para/>
+        <para>	'Picapt^3' 	Cubic Pica</para>
         <para>	'Pica3' 		Cubic Pica</para>
-        <para/>
         <para>	'Pica^3' 		Cubic Pica</para>
+        <para/>
+        <para>Area:</para>
+        <para>	'uk_acre' 		International acre</para>
+        <para>	'us_acre' 		U.S. survey/statute acre</para>
+        <para>	'ang2' 		Square angstrom</para>
+        <para>	'ang^2' 		Square angstrom</para>
+        <para>	'ar' 			Are</para>
+        <para>	'ha' 			Hectare</para>
+        <para>	'in2' 		Square inches</para>
+        <para>	'in^2' 		Square inches</para>
+        <para>	'ly2' 			Square light-year</para>
+        <para>	'ly^2' 		Square light-year</para>
+        <para>	'm2' 		Square meter</para>
+        <para>	'm^2' 		Square meter</para>
+        <para>	'Morgen' 		Morgen (North German Confederation)</para>
+        <para>	'mi2' 		Square miles</para>
+        <para>	'mi^2' 		Square miles</para>
+        <para>	'Nmi2' 		Square nautical miles</para>
+        <para>	'Nmi^2' 		Square nautical miles</para>
+        <para>	'Picapt2' 		Square Pica</para>
+        <para>	'Picapt^2' 	Square Pica</para>
+        <para>	'Pica2' 		Square Pica</para>
+        <para>	'Pica^2' 		Square Pica</para>
+        <para>	'yd2' 		Square yards</para>
+        <para>	'yd^2' 		Square yards</para>
+        <para/>
+        <para>Bits and Bytes:</para>
+        <para>	'bit' 			Bit</para>
+        <para>	'byte' 		Byte</para>
+        <para/>
+        <para>Speed:</para>
+        <para>	'admkn' 		Admiralty knot</para>
+        <para>	'kn' 			knot</para>
+        <para>	'm/h' 		Meters per hour</para>
+        <para>	'm/hr' 		Meters per hour</para>
+        <para>	'm/s' 		Meters per second</para>
+        <para>	'm/sec' 		Meters per second</para>
+        <para>	'mph' 		Miles per hour</para>
         <para/>
         <para>For metric units any of the following prefixes can be used:</para>
         <para>	'Y'  	yotta 		1E+24</para>
@@ -4107,12 +4117,12 @@
         <para>	'T'  	tera  		1E+12</para>
         <para>	'G'  	giga  		1E+09</para>
         <para>	'M'  	mega  		1E+06</para>
-        <para>	'k'  	kilo  		1E+03</para>
+        <para>	'k'  	kilo  			1E+03</para>
         <para>	'h'  	hecto 		1E+02</para>
         <para>	'e'  	deca (deka)	1E+01</para>
         <para>	'd'  	deci  		1E-01</para>
         <para>	'c'  	centi 		1E-02</para>
-        <para>	'm'  	milli 		1E-03</para>
+        <para>	'm'  	milli 			1E-03</para>
         <para>	'u'  	micro 		1E-06</para>
         <para>	'n'  	nano  		1E-09</para>
         <para>	'p'  	pico  		1E-12</para>
@@ -4120,6 +4130,16 @@
         <para>	'a'  	atto  		1E-18</para>
         <para>	'z'  	zepto 		1E-21</para>
         <para>	'y'  	yocto 		1E-24</para>
+        <para/>
+        <para>For bits and bytes any of the following prefixes can be also be used:</para>
+        <para>	'Yi'  	yobi 		2^80</para>
+        <para>	'Zi'  	zebi 			2^70</para>
+        <para>	'Ei'  	exbi 		2^60</para>
+        <para>	'Pi'  	pebi 		2^50</para>
+        <para>	'Ti'  	tebi 			2^40</para>
+        <para>	'Gi'  	gibi 			2^30</para>
+        <para>	'Mi'  	mebi 		2^20</para>
+        <para>	'ki'  	kibi 			2^10</para>
       </refsect1>
       <refsect1>
         <title>Note</title>

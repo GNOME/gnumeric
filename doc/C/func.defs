@@ -1093,15 +1093,15 @@ Weight and mass:
 Distance:
 	'm'   		Meter
 	'mi'  		Statute mile
-	'survey_mi'  		U.S. survey mile
+	'survey_mi' 	U.S. survey mile
 	'Nmi' 		Nautical mile
 	'in'  			Inch
 	'ft'  			Foot
 	'yd'  		Yard
-	'ell'  		English Ell
+	'ell' 			English Ell
 	'ang' 		Angstrom
-	'ly' 		Light-Year
-	'pc' 		Parsec
+	'ly' 			Light-Year
+	'pc' 			Parsec
 	'parsec' 		Parsec
 	'Pica'		Pica Points
 	'Picapt'		Pica Points
@@ -1121,14 +1121,12 @@ Pressure:
 	'atm' 		Atmosphere
 	'Pa'  			Pascal
 	'mmHg'		mm of Mercury
-
-	'Torr'		Torr
+	'Torr'			Torr
 
 Force:
 	'N'   			Newton
 	'dyn' 		Dyne
-	'pond' 			Pond
-
+	'pond' 		Pond
 	'lbf' 			Pound force
 
 Energy:
@@ -1155,9 +1153,7 @@ Temperature:
 	'C'    		Degree Celsius
 	'F'    		Degree Fahrenheit
 	'K'    		Kelvin
-
 	'Rank' 		Degree Rankine
-
 	'Reau' 		Degree Réaumur
 
 Volume (liquid measure):
@@ -1177,54 +1173,68 @@ Volume (liquid measure):
 	'regton' 		Registered ton
 	'MTON' 		Measurement ton (freight ton)
 	'l'    			Liter
-
-	'L'    			Liter
-
+	'L'    		Liter
 	'lt'   			Liter
-
 	'ang3' 		Cubic Angstrom
-
 	'ang^3' 		Cubic Angstrom
-
 	'barrel' 		U.S. oil barrel (bbl)
-
 	'bushel' 		U.S. bushel
-
-	'ft3' 		Cubic feet
-
+	'ft3' 			Cubic feet
 	'ft^3' 		Cubic feet
-
 	'in3' 		Cubic inch
-
 	'in^3' 		Cubic inch
-
-	'ly3' 		Cubic light-year
-
+	'ly3' 			Cubic light-year
 	'ly^3' 		Cubic light-year
-
 	'm3' 		Cubic meter
-
 	'm^3' 		Cubic meter
-
 	'mi3' 		Cubic mile
-
 	'mi^3' 		Cubic mile
-
 	'yd3' 		Cubic yard
-
 	'yd^3' 		Cubic yard
-
 	'Nmi3' 		Cubic nautical mile
-
 	'Nmi^3' 		Cubic nautical mile
-
 	'Picapt3' 		Cubic Pica
-
-	'Picapt^3' 		Cubic Pica
-
+	'Picapt^3' 	Cubic Pica
 	'Pica3' 		Cubic Pica
-
 	'Pica^3' 		Cubic Pica
+
+Area:
+	'uk_acre' 		International acre
+	'us_acre' 		U.S. survey/statute acre
+	'ang2' 		Square angstrom
+	'ang^2' 		Square angstrom
+	'ar' 			Are
+	'ha' 			Hectare
+	'in2' 		Square inches
+	'in^2' 		Square inches
+	'ly2' 			Square light-year
+	'ly^2' 		Square light-year
+	'm2' 		Square meter
+	'm^2' 		Square meter
+	'Morgen' 		Morgen (North German Confederation)
+	'mi2' 		Square miles
+	'mi^2' 		Square miles
+	'Nmi2' 		Square nautical miles
+	'Nmi^2' 		Square nautical miles
+	'Picapt2' 		Square Pica
+	'Picapt^2' 	Square Pica
+	'Pica2' 		Square Pica
+	'Pica^2' 		Square Pica
+	'yd2' 		Square yards
+	'yd^2' 		Square yards
+
+Bits and Bytes:
+	'bit' 			Bit
+	'byte' 		Byte
+
+Speed:
+	'admkn' 		Admiralty knot
+	'kn' 			knot
+	'm/h' 		Meters per hour
+	'm/hr' 		Meters per hour
+	'm/s' 		Meters per second
+	'm/sec' 		Meters per second
+	'mph' 		Miles per hour
 
 For metric units any of the following prefixes can be used:
 	'Y'  	yotta 		1E+24
@@ -1234,12 +1244,12 @@ For metric units any of the following prefixes can be used:
 	'T'  	tera  		1E+12
 	'G'  	giga  		1E+09
 	'M'  	mega  		1E+06
-	'k'  	kilo  		1E+03
+	'k'  	kilo  			1E+03
 	'h'  	hecto 		1E+02
 	'e'  	deca (deka)	1E+01
 	'd'  	deci  		1E-01
 	'c'  	centi 		1E-02
-	'm'  	milli 		1E-03
+	'm'  	milli 			1E-03
 	'u'  	micro 		1E-06
 	'n'  	nano  		1E-09
 	'p'  	pico  		1E-12
@@ -1247,6 +1257,16 @@ For metric units any of the following prefixes can be used:
 	'a'  	atto  		1E-18
 	'z'  	zepto 		1E-21
 	'y'  	yocto 		1E-24
+
+For bits and bytes any of the following prefixes can be also be used:
+	'Yi'  	yobi 		2^80
+	'Zi'  	zebi 			2^70
+	'Ei'  	exbi 		2^60
+	'Pi'  	pebi 		2^50
+	'Ti'  	tebi 			2^40
+	'Gi'  	gibi 			2^30
+	'Mi'  	mebi 		2^20
+	'ki'  	kibi 			2^10
 @NOTE=If @{from} and @{to} are different types, CONVERT returns #N/A!
 @EXCEL=This function is Excel compatible (except "picapt").
 @ODF=This function is OpenFormula compatible.

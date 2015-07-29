@@ -1301,7 +1301,7 @@
   <entry> <literal>.sylk</literal> / <literal>.slk</literal></entry> 
 </row>
 <row>
-  <entry><link linkend="file-format-tab">Tab Separated Values</link></entry>
+  <entry><link linkend="file-format-csv">Tab Separated Values</link></entry>
   <entry><literal>.tsv</literal> / <literal>.tab</literal></entry> 
 </row>
 <row>
