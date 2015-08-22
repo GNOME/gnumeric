@@ -1,5 +1,8 @@
 Gnumeric 1.12.24
 
+Jean:
+	* Fix printing of sheet objects with one cell or absolute anchors. [#753961]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.23
 

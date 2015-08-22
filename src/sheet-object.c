@@ -757,38 +757,60 @@ sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl)
 		SheetObjectAnchor const *anchor;
 		double x = 0., y = 0., width, height, cell_width, cell_height;
 		anchor = sheet_object_get_anchor (so);
-		cell_width = sheet_col_get_distance_pts (so->sheet,
-					anchor->cell_bound.start.col,
-					anchor->cell_bound.start.col + 1);
-		cell_height = sheet_row_get_distance_pts (so->sheet,
-					anchor->cell_bound.start.row,
-					anchor->cell_bound.start.row + 1);
-		x = cell_width * anchor->offset[0];
-
-		y = cell_height * anchor->offset[1];
-		cell_width = sheet_col_get_distance_pts (so->sheet,
-					anchor->cell_bound.end.col,
-					anchor->cell_bound.end.col + 1);
-		cell_height = sheet_row_get_distance_pts (so->sheet,
-					anchor->cell_bound.end.row,
-					anchor->cell_bound.end.row + 1);
-
-		if (rtl) {
-			x = cell_width * (1 - anchor->offset[2]);
-		}
-		if (sheet_object_can_resize (so)) {
-			width = sheet_col_get_distance_pts (so->sheet,
+		if (anchor->mode == GNM_SO_ANCHOR_ABSOLUTE) {
+			x = anchor->offset[0];
+			y = anchor->offset[1];
+			if (sheet_object_can_resize (so)) {
+				width = anchor->offset[2];
+				height = anchor->offset[3];
+			} else
+				sheet_object_default_size ((SheetObject *) so, &width, &height);
+			if (rtl)
+				x = -x - width;
+		} else {
+			cell_width = sheet_col_get_distance_pts (so->sheet,
 						anchor->cell_bound.start.col,
-						anchor->cell_bound.end.col + 1);
-			height = sheet_row_get_distance_pts (so->sheet,
+						anchor->cell_bound.start.col + 1);
+			cell_height = sheet_row_get_distance_pts (so->sheet,
 						anchor->cell_bound.start.row,
-						anchor->cell_bound.end.row + 1);
-			width -= x;
-			height -= y;
-			width -= cell_width * (1. - anchor->offset[2]);
-			height -= cell_height * (1 - anchor->offset[3]);
-		} else
-			sheet_object_default_size ((SheetObject *) so, &width, &height);
+						anchor->cell_bound.start.row + 1);
+			x = cell_width * anchor->offset[0];
+
+			y = cell_height * anchor->offset[1];
+			if (anchor->mode == GNM_SO_ANCHOR_TWO_CELLS) {
+				cell_width = sheet_col_get_distance_pts (so->sheet,
+							anchor->cell_bound.end.col,
+							anchor->cell_bound.end.col + 1);
+				cell_height = sheet_row_get_distance_pts (so->sheet,
+							anchor->cell_bound.end.row,
+							anchor->cell_bound.end.row + 1);
+
+				if (rtl)
+					x = cell_width  * (1 - anchor->offset[2]);
+
+				if (sheet_object_can_resize (so)) {
+					width = sheet_col_get_distance_pts (so->sheet,
+								anchor->cell_bound.start.col,
+								anchor->cell_bound.end.col + 1);
+					height = sheet_row_get_distance_pts (so->sheet,
+								anchor->cell_bound.start.row,
+								anchor->cell_bound.end.row + 1);
+					width -= x;
+					height -= y;
+					width -= cell_width * (1. - ((rtl)? anchor->offset[0]: anchor->offset[2]));
+					height -= cell_height * (1 - anchor->offset[3]);
+				} else
+					sheet_object_default_size ((SheetObject *) so, &width, &height);
+			} else {
+				if (sheet_object_can_resize (so)) {
+					width = anchor->offset[2];
+					height = anchor->offset[3];
+				} else
+					sheet_object_default_size ((SheetObject *) so, &width, &height);
+				if (rtl)
+					x = cell_width  * (1 - anchor->offset[0]) - width;
+			}
+		}
 
 		/* we don't need to save/restore cairo, the caller must do it */
 		cairo_translate (cr, x, y);

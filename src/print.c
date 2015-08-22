@@ -221,10 +221,12 @@ gnm_print_sheet_objects (cairo_t *cr,
 		/* move to top left */
 		if (sheet->text_is_rtl) {
 			double tr_x, tr_y;
-			tr_x =  base_x - 0.5 /* because of leading gridline */
-				- sheet_col_get_distance_pts (sheet, 0, r->end.col+1)
-				+ sheet_col_get_distance_pts (sheet, 0,
-							      range->start.col);
+			tr_x =  (so->anchor.mode != GNM_SO_ANCHOR_ABSOLUTE)?
+						base_x - 0.5 /* because of leading gridline */
+						- sheet_col_get_distance_pts (sheet, 0, r->end.col+1)
+						+ sheet_col_get_distance_pts (sheet, 0,
+							      range->start.col):
+						base_x - 0.5;
 			tr_y =  base_y + 0.5
 				+ sheet_row_get_distance_pts (sheet, 0, r->start.row)
 				- sheet_row_get_distance_pts (sheet, 0,

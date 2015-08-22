@@ -1,3 +1,9 @@
+2015-08-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/print.c (gnm_print_sheet_objects): fix printing of sheet objects
+	with one cell or absolute anchors. [#753961]
+	* src/sheet-object.c (sheet_object_draw_cairo):
+
 2015-07-28  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
