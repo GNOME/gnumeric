@@ -957,7 +957,7 @@ sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 	int col, row;
 	double x, y, tmp = 0;
 	ColRowInfo const *ci;
-	if (anchor->mode == GNM_SO_ANCHOR_ABSOLUTE) {
+/*	if (anchor->mode == GNM_SO_ANCHOR_ABSOLUTE) {
 		anchor->cell_bound.start.col = 0;
 		anchor->cell_bound.start.row = 0;
 		anchor->cell_bound.end.col = 0;
@@ -967,7 +967,7 @@ sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 		anchor->offset[2] = res_pts[2] - res_pts[0];
 		anchor->offset[3] = res_pts[3] - res_pts[1];
 		return;
-	}
+	}*/
 	/* find end column */
 	col = x = 0;
 	do {
@@ -985,7 +985,8 @@ sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 		x -= tmp;
 	}
 	anchor->cell_bound.start.col = col;
-	anchor->offset[0] = (res_pts[0] - x) / tmp;
+	anchor->offset[0] = (anchor->mode == GNM_SO_ANCHOR_ABSOLUTE)?
+		res_pts[0]: (res_pts[0] - x) / tmp;
 	/* find start row */
 	row = y = 0;
 	do {
@@ -1003,14 +1004,15 @@ sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 		y -= tmp;
 	}
 	anchor->cell_bound.start.row = row;
-	anchor->offset[1] = (res_pts[1] - y) / tmp;
-	if (anchor->mode == GNM_SO_ANCHOR_ONE_CELL) {
+	anchor->offset[1] = (anchor->mode == GNM_SO_ANCHOR_ABSOLUTE)?
+		res_pts[1]: (res_pts[1] - y) / tmp;
+/*	if (anchor->mode == GNM_SO_ANCHOR_ONE_CELL) {
 		anchor->cell_bound.end.col = col;
 		anchor->cell_bound.end.row = row;
 		anchor->offset[2] = res_pts[2] - res_pts[0];
 		anchor->offset[3] = res_pts[3] - res_pts[1];
 		return;
-	}
+	}*/
 
 	/* find end column */
 	do {
@@ -1028,7 +1030,8 @@ sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 		x -= tmp;
 	}
 	anchor->cell_bound.end.col = col;
-	anchor->offset[2] = (res_pts[2] - x) / tmp;
+	anchor->offset[2] = (anchor->mode == GNM_SO_ANCHOR_TWO_CELLS)?
+		(res_pts[2] - x) / tmp: res_pts[2] - res_pts[0];
 	/* find end row */
 	do {
 		ci = sheet_row_get_info (sheet, row);
@@ -1045,7 +1048,8 @@ sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 		y -= tmp;
 	}
 	anchor->cell_bound.end.row = row;
-	anchor->offset[3] = (res_pts[3] - y) / tmp;
+	anchor->offset[3] = (anchor->mode == GNM_SO_ANCHOR_TWO_CELLS)?
+		(res_pts[3] - y) / tmp: res_pts[3] - res_pts[1];
 }
 
 void

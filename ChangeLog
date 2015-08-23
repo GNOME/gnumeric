@@ -1,3 +1,10 @@
+2015-08-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/print.c (gnm_print_sheet_objects): a better fix for sheet objects
+	printing, but still not perfect.
+	* src/sheet-object.c (sheet_object_pts_to_anchor): ditto.
+	* src/xml-sax-write.c (xml_write_objects): ditto.
+
 2015-08-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/print.c (gnm_print_sheet_objects): fix printing of sheet objects

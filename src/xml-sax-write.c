@@ -1250,19 +1250,6 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 		SheetObjectClass *klass = GNM_SO_CLASS (G_OBJECT_GET_CLASS (so));
 		GnmRange cell_bound = so->anchor.cell_bound;
 
-		switch (so->anchor.mode) {
-		case GNM_SO_ANCHOR_TWO_CELLS:
-			break;
-		case GNM_SO_ANCHOR_ONE_CELL:
-			cell_bound.end = cell_bound.start;
-			break;
-		case GNM_SO_ANCHOR_ABSOLUTE:
-			range_init (&cell_bound, 0, 0, 0, 0);
-			break;
-		default:
-			g_assert_not_reached ();
-		}
-
 		if (needs_container) {
 			needs_container = FALSE;
 			gsf_xml_out_start_element (state->output, GNM "Objects");
@@ -1277,8 +1264,7 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 		gsf_xml_out_start_element (state->output, tmp);
 		if (so->name)
 			gsf_xml_out_add_cstr (state->output, "Name", so->name);
-		if (so->anchor.mode != GNM_SO_ANCHOR_ABSOLUTE)
-			gsf_xml_out_add_cstr (state->output, "ObjectBound", range_as_string (&cell_bound));
+		gsf_xml_out_add_cstr (state->output, "ObjectBound", range_as_string (&cell_bound));
 		if (so->anchor.mode != GNM_SO_ANCHOR_TWO_CELLS)
 			gsf_xml_out_add_enum (state->output,
 					      "AnchorMode",
