@@ -492,6 +492,12 @@ sheet_object_update_bounds (SheetObject *so, GnmCellPos const *pos)
 	    so->anchor.cell_bound.end.row < pos->row)
 		return;
 
+	if (so->anchor.mode != GNM_SO_ANCHOR_TWO_CELLS) {
+		double x[4];
+		sheet_object_anchor_to_pts (&so->anchor, so->sheet, x);
+		sheet_object_pts_to_anchor (&so->anchor, so->sheet, x);
+	}
+
 	switch (so->anchor.mode) {
 	default:
 	case GNM_SO_ANCHOR_TWO_CELLS:
@@ -581,6 +587,12 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 
 	g_object_ref (so);
 	sheet->sheet_objects = g_slist_prepend (sheet->sheet_objects, so);
+	/* Update object bounds for absolute and one cell anchored objects */
+	if (so->anchor.mode != GNM_SO_ANCHOR_TWO_CELLS) {
+		double x[4];
+		sheet_object_anchor_to_pts (&so->anchor, sheet, x);
+		sheet_object_pts_to_anchor (&so->anchor, sheet, x);
+	}
 	/* FIXME : add a flag to sheet to have sheet_update do this */
 	sheet_objects_max_extent (sheet);
 
@@ -957,17 +969,6 @@ sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 	int col, row;
 	double x, y, tmp = 0;
 	ColRowInfo const *ci;
-/*	if (anchor->mode == GNM_SO_ANCHOR_ABSOLUTE) {
-		anchor->cell_bound.start.col = 0;
-		anchor->cell_bound.start.row = 0;
-		anchor->cell_bound.end.col = 0;
-		anchor->cell_bound.end.row = 0;
-		anchor->offset[0] = res_pts[0];
-		anchor->offset[1] = res_pts[1];
-		anchor->offset[2] = res_pts[2] - res_pts[0];
-		anchor->offset[3] = res_pts[3] - res_pts[1];
-		return;
-	}*/
 	/* find end column */
 	col = x = 0;
 	do {
@@ -1006,13 +1007,6 @@ sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 	anchor->cell_bound.start.row = row;
 	anchor->offset[1] = (anchor->mode == GNM_SO_ANCHOR_ABSOLUTE)?
 		res_pts[1]: (res_pts[1] - y) / tmp;
-/*	if (anchor->mode == GNM_SO_ANCHOR_ONE_CELL) {
-		anchor->cell_bound.end.col = col;
-		anchor->cell_bound.end.row = row;
-		anchor->offset[2] = res_pts[2] - res_pts[0];
-		anchor->offset[3] = res_pts[3] - res_pts[1];
-		return;
-	}*/
 
 	/* find end column */
 	do {

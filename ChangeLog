@@ -1,3 +1,10 @@
+2015-08-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object.c (sheet_object_update_bounds),
+	(sheet_object_set_sheet), (sheet_object_pts_to_anchor): make sure that
+	the objects bounds are always updated. Really fix printing.
+	* src/xml-sax-write.c (xml_write_objects): revert previous change.
+
 2015-08-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/print.c (gnm_print_sheet_objects): a better fix for sheet objects
