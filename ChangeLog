@@ -1,3 +1,8 @@
+2015-09-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object.c (cb_so_snap_to_grid): fixed for one cell and absolute
+	anchors. [#754792]
+
 2015-08-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object.c (sheet_object_update_bounds),

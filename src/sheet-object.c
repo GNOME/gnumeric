@@ -135,8 +135,16 @@ cb_so_snap_to_grid (SheetObject *so, SheetControl *sc)
 {
 	SheetObjectAnchor *snapped =
 		sheet_object_anchor_dup	(sheet_object_get_anchor (so));
+	GnmSOAnchorMode mode = snapped->mode;
+	snapped->mode = GNM_SO_ANCHOR_TWO_CELLS;
 	snapped->offset[0] = snapped->offset[1] = 0.;
 	snapped->offset[2] = snapped->offset[3] = 1.;
+	if (mode != GNM_SO_ANCHOR_TWO_CELLS) {
+		double pts[4];
+		sheet_object_anchor_to_pts (snapped, so->sheet, pts);
+		snapped->mode = mode;
+		sheet_object_pts_to_anchor (snapped, so->sheet, pts);
+	}
 	cmd_objects_move (sc_wbc (sc),
 		g_slist_prepend (NULL, so),
 		g_slist_prepend (NULL, snapped),
