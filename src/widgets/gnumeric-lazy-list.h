@@ -66,7 +66,7 @@ struct _GnumericLazyListClass
 };
 
 
-GType             gnumeric_lazy_list_get_type (void) G_GNUC_CONST;
+GType             gnumeric_lazy_list_get_type (void);
 GnumericLazyList *gnumeric_lazy_list_new (GnumericLazyListValueGetFunc get_value,
 					  gpointer user_data,
 					  gint n_rows,

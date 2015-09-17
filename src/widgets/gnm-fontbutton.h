@@ -65,7 +65,7 @@ struct _GnmFontButtonClass {
 };
 
 
-GType                 gnm_font_button_get_type       (void) G_GNUC_CONST;
+GType                 gnm_font_button_get_type       (void);
 GtkWidget            *gnm_font_button_new            (void);
 GtkWidget            *gnm_font_button_new_with_font  (const gchar   *fontname);
 
