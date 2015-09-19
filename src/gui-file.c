@@ -652,7 +652,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, GnmFileSaveAsStyle type,
 		if (!ext) ext = "txt";
 
 		basename = go_basename_from_uri (wb_uri);
-		dot = strchr (basename, '.');
+		dot = strrchr (basename, '.');
 		if (dot) *dot = 0;
 		newname = g_strconcat (basename, ".", ext, NULL);
 

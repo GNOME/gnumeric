@@ -1,3 +1,8 @@
+2015-09-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gui-file.c (gui_file_save_as): just change the extension not more
+	when the original filename has several dots. [ubuntu #1497344]
+
 2015-09-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object.c (cb_so_snap_to_grid): fixed for one cell and absolute

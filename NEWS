@@ -3,6 +3,7 @@ Gnumeric 1.12.24
 Jean:
 	* Fix printing of sheet objects with one cell or absolute anchors. [#753961]
 	* Fix snap to grid for one cell or basolute anchored objects. [#754792]
+	* On export, just change the extension, not more. [ubuntu #1497344]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.23
