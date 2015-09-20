@@ -1,3 +1,7 @@
+2015-09-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.24
+
 2015-09-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gui-file.c (gui_file_save_as): just change the extension not more
