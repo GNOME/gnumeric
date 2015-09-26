@@ -156,73 +156,81 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	GnmCell       *in[3], *x_iter, *y_iter;
 	GnmValue      *val[3], *res;
 	GnmCellPos     pos;
+	GnmEvalPos const *ep = ei->pos;
 	int x, y;
 
 	/* evaluation clears the dynamic deps */
 	gnumeric_table_link (ei, TRUE);
 
 	if (argc != 2 ||
-	    ei->pos->eval.col < 1 ||
-	    ei->pos->eval.row < 1 ||
-	    !eval_pos_is_array_context (ei->pos))
-		return value_new_error_REF (ei->pos);
+	    ep->eval.col < 1 ||
+	    ep->eval.row < 1 ||
+	    !eval_pos_is_array_context (ep))
+		return value_new_error_REF (ep);
 
 	for (x = 0; x < 2 ; x++) {
 		GnmExpr const *arg = argv[x];
+		in[x] = NULL;
 		val[x] = NULL;
-		if (NULL != arg && GNM_EXPR_GET_OPER (arg) == GNM_EXPR_OP_CELLREF) {
+
+		if (arg && GNM_EXPR_GET_OPER (arg) == GNM_EXPR_OP_CELLREF) {
 			gnm_cellpos_init_cellref (&pos,	&arg->cellref.ref,
-						  &ei->pos->eval, ei->pos->sheet);
-			in[x] = sheet_cell_get (ei->pos->sheet, pos.col, pos.row);
+						  &ep->eval, ep->sheet);
+			in[x] = sheet_cell_get (ep->sheet, pos.col, pos.row);
 			if (NULL == in[x])
-				in[x] = sheet_cell_fetch (ei->pos->sheet, pos.col, pos.row);
+				in[x] = sheet_cell_fetch (ep->sheet, pos.col, pos.row);
 			else {
-				val[x] = in[x]->value;
+				val[x] = value_dup (in[x]->value);
 				if (gnm_cell_has_expr (in[x]) &&
 				    gnm_cell_expr_is_linked (in[x]))
-					dependent_unlink (&in[x]->base);
+					dependent_unlink (GNM_CELL_TO_DEP (in[x]));
 			}
-		} else
-			in[x] = NULL;
+		}
 	}
 
+	in[2] = NULL;
 	val[2] = NULL;
 	if (NULL != in[0] && NULL != in[1]) {
-		in[2] = sheet_cell_get (ei->pos->sheet,
-			ei->pos->eval.col - 1, ei->pos->eval.row - 1);
+		in[2] = sheet_cell_get (ep->sheet,
+					ep->eval.col - 1, ep->eval.row - 1);
 		if (NULL == in[2])
-			in[2] = sheet_cell_fetch (ei->pos->sheet,
-				ei->pos->eval.col - 1, ei->pos->eval.row - 1);
+			in[2] = sheet_cell_fetch (ep->sheet,
+				ep->eval.col - 1, ep->eval.row - 1);
 		else
 			val[2] = value_dup (in[2]->value);
-	} else
-		in[2] = NULL;
+	}
 
-	res = value_new_array (ei->pos->array->cols, ei->pos->array->rows);
-	for (x = ei->pos->array->cols ; x-- > 0 ; ) {
-		x_iter = sheet_cell_get (ei->pos->sheet,
-			x + ei->pos->eval.col, ei->pos->eval.row-1);
+	res = value_new_array (ep->array->cols, ep->array->rows);
+	for (x = ep->array->cols ; x-- > 0 ; ) {
+		x_iter = sheet_cell_get (ep->sheet,
+			x + ep->eval.col, ep->eval.row-1);
 		if (NULL == x_iter)
 			continue;
+		gnm_cell_eval (x_iter);
 		if (NULL != in[0]) {
-			gnm_cell_eval (x_iter);
-			in[0]->value = value_dup (x_iter->value);
-			dependent_queue_recalc (&in[0]->base);
+			GnmValue *v0 = value_dup (x_iter->value);
+			value_release (in[0]->value);
+			in[0]->value = v0;
+			dependent_queue_recalc (GNM_CELL_TO_DEP (in[0]));
 			gnm_app_recalc_clear_caches ();
-		} else
+		} else {
+			value_release (val[0]);
 			val[0] = value_dup (x_iter->value);
+		}
 
-		for (y = ei->pos->array->rows ; y-- > 0 ; ) {
+		for (y = ep->array->rows ; y-- > 0 ; ) {
 			g_signal_emit_by_name (gnm_app_get_app (), "recalc-finished");
-			y_iter = sheet_cell_get (ei->pos->sheet,
-				ei->pos->eval.col-1, y + ei->pos->eval.row);
+			y_iter = sheet_cell_get (ep->sheet,
+				ep->eval.col-1, y + ep->eval.row);
 			if (NULL == y_iter)
 				continue;
 			gnm_cell_eval (y_iter);
 			if (NULL != in[1]) {
-				/* not a leak, val[] holds the original */
-				in[1]->value = value_dup (y_iter->value);
-				dependent_queue_recalc (&in[1]->base);
+				GnmValue *v1 = value_dup (in[1]->value);
+				GnmValue *vy = value_dup (y_iter->value);
+				value_release (in[1]->value);
+				in[1]->value = vy;
+				dependent_queue_recalc (GNM_CELL_TO_DEP (in[1]));
 				gnm_app_recalc_clear_caches ();
 				if (NULL != in[0]) {
 					gnm_cell_eval (in[2]);
@@ -232,15 +240,14 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 					value_array_set (res, x, y, value_dup (x_iter->value));
 				}
 				value_release (in[1]->value);
+				in[1]->value = v1;
 			} else
 				value_array_set (res, x, y, value_dup (y_iter->value));
 		}
-		if (NULL == in[0]) {
-			value_release (x_iter->value);
-			x_iter->value = val[0];
-			val[0] = NULL;
-		} else
+		if (in[0]) {
 			value_release (in[0]->value);
+			in[0]->value = value_dup (val[0]);
+		}
 	}
 	if (NULL != in[2])
 		value_release (in[2]->value);
@@ -260,20 +267,28 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		}
 
 		if (in[x]) {
-			dependent_queue_recalc (&in[x]->base);
+			gboolean had_cell = (val[x] != NULL);
+
+			value_release (in[x]->value);
+			in[x]->value = val[x];
+			val[x] = NULL;
+
+			dependent_queue_recalc (GNM_CELL_TO_DEP (in[x]));
 
 			/* always assign, we still point at a released value */
-			if (NULL == (in[x]->value = val[x])) {
-				sheet_cell_remove (ei->pos->sheet, in[x], FALSE, FALSE);
+			if (!had_cell) {
+				sheet_cell_remove (ep->sheet, in[x], FALSE, FALSE);
 				in[x] = NULL;
 			}
 			gnm_app_recalc_clear_caches ();
 		}
 	}
 
-	for (x = 0 ; x < 3 ; x++)
+	for (x = 0 ; x < 3 ; x++) {
 		if (in[x])
 			gnm_cell_eval (in[x]);
+		value_release (val[x]);
+	}
 
 	return res;
 }
