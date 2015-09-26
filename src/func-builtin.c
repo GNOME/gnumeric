@@ -260,10 +260,8 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	for (x = 0 ; x < 3 ; x++) {
 		int y;
 		for (y = x + 1; y < 3; y++) {
-			if (in[x] == in[y]) {
+			if (in[x] == in[y])
 				in[y] = NULL;
-				break;
-			}
 		}
 
 		if (in[x]) {

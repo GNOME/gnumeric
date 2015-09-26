@@ -2,6 +2,7 @@
 
 	* src/func-builtin.c (gnumeric_table): Don't try to be smart and
 	avoid value copying.  Fixes #752181.
+	(gnumeric_table): Handle repeated cells.  Fixes #752178.
 
 2015-09-20  Morten Welinder <terra@gnome.org>
 
