@@ -41,7 +41,7 @@
 # Sven Rodelstein <srodelstein@math.concordia.ab.ca>, 2009.
 # Niko <n.iko@snafu.de>, 2010.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2011.
-# Christian Kirbach <christian.kirbach@gmail.com>, 2009, 2010, 2011, 2012, 2013.
+# Christian Kirbach <christian.kirbach@gmail.com>, 2009, 2010, 2011, 2012, 2013, 2015.
 #
 msgid ""
 msgstr ""
@@ -9199,7 +9199,7 @@ msgid ""
 "Each column in the text is separated by a &apos;separation&apos; character, "
 "e.g. a semicolon."
 msgstr ""
-"Die Spalten im Text sind durch ein &aposTrennzeichen&apos, z.B. einem "
+"Die Spalten im Text sind durch ein &apos;Trennzeichen&apos;, z.B. einem "
 "Semikolon, unterteilt."
 
 #: ../src/dialogs/dialog-stf.ui.h:22
