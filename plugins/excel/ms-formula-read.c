@@ -1756,7 +1756,11 @@ excel_parse_formula1 (MSContainer const *container,
 					sheet = nexpr->pos.sheet;
 					if (sheet == NULL)
 						sheet = ms_container_sheet (container);
+				} else if (sheet == XL_EXTERNSHEET_MAGIC_DELETED) {
+					/* What?  Happens for #752179.  */
+					sheet = NULL;
 				}
+
 				name = gnm_expr_new_name (nexpr, sheet, NULL);
 			}
 
