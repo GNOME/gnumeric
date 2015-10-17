@@ -4001,6 +4001,11 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 				sheet = excel_externsheet_v7 (&importer->container, sheet_index);
 		}
 
+		if (sheet == XL_EXTERNSHEET_MAGIC_SELFREF)
+			sheet = esheet ? esheet->sheet : NULL;
+		else if (sheet == XL_EXTERNSHEET_MAGIC_DELETED)
+			sheet = NULL;
+
 		/* do we have a stub from a forward decl ? */
 		if (importer->num_name_records < importer->names->len)
 			nexpr = g_ptr_array_index (importer->names, importer->num_name_records);

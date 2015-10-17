@@ -1,5 +1,8 @@
 2015-10-17  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_NAME): Handle deleted and selfref
+	sheet.
+
 	* ms-formula-read.c (excel_parse_formula1): Handle deleted sheet.
 
 2015-09-20  Morten Welinder <terra@gnome.org>

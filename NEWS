@@ -2,7 +2,7 @@ Gnumeric 1.12.25
 
 Morten:
 	* Fix TABLE problems.  [#752181]  [#752178]
-	* Fuzzed file fixes.  [#752179]
+	* Fuzzed file fixes.  [#752179]  [#752180]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.24
