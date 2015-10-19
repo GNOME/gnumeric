@@ -1,3 +1,8 @@
+2015-10-19  Morten Welinder  <terra@gnome.org>
+
+	* src/func-builtin.c (gnumeric_table): Make sure to invalidate
+	in[2].  Fixes #752182.
+
 2015-09-25  Morten Welinder  <terra@gnome.org>
 
 	* src/func-builtin.c (gnumeric_table): Don't try to be smart and

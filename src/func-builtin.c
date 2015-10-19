@@ -249,8 +249,10 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			in[0]->value = value_dup (val[0]);
 		}
 	}
-	if (NULL != in[2])
+	if (NULL != in[2]) {
 		value_release (in[2]->value);
+		in[2]->value = NULL;
+	}
 	for (x = 0 ; x < 2 ; x++)
 		if (in[x] &&
 		    gnm_cell_has_expr (in[x]) &&
