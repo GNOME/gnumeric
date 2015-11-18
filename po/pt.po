@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: 2.10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-07-15 08:45+0000\n"
-"PO-Revision-Date: 2015-07-15 10:42+0100\n"
-"Last-Translator: Pedro Albuquerque <palbuquerque73o@gmail.com>\n"
+"POT-Creation-Date: 2015-09-19 21:17+0000\n"
+"PO-Revision-Date: 2015-10-19 15:19+0100\n"
+"Last-Translator: Tiago S. <almosthumane@portugalmail.pt>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:455
@@ -2951,7 +2951,6 @@ msgstr ""
 "editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:86
-#| msgid "Default Left Margin"
 msgid "Default Right Margin"
 msgstr "Margem direita predefinida"
 
@@ -4087,12 +4086,15 @@ msgid "Sorting %s"
 msgstr "A ordenar %s"
 
 #: ../src/commands.c:2352
+#| msgid ""
+#| "Are you sure that you want to hide all columns? If you do so you can "
+#| "unhide them with the 'Format→Column→Unhide' menu item."
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
-"them with the 'Format→Column→Unhide' menu item."
+"them with the 'Format,olumn→Unhide' menu item."
 msgstr ""
-"Tem a certeza que quer ocultar todas as colunas? Se o fizer, pode utilizar o "
-"menu Formatar->Coluna->Mostrar para desfazer esta ação."
+"Tem a certeza que quer ocultar todas as colunas? Se o fizer, pode desfazer "
+"esta ação com Formatar->Coluna->Mostrar ."
 
 #: ../src/commands.c:2356
 msgid ""
@@ -4600,8 +4602,9 @@ msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Algoritmo Simplex para solução (LP Solve)."
 
 #: ../src/dialogs/dialog-about.c:79
-msgid "Jean Bréfort"
-msgstr "Jean Bréfort"
+#| msgid "Jean Bréfort"
+msgid "Jean Brßort"
+msgstr "Jean Brßort"
 
 #: ../src/dialogs/dialog-about.c:80
 msgid "Core charting engine."
@@ -9968,7 +9971,7 @@ msgstr "Co_Luna de censura"
 msgid "Censored record labels from:"
 msgstr "Rótulos de registo censurados de:"
 
-#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1531
+#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1546
 msgid "to:"
 msgstr "para:"
 
@@ -11262,13 +11265,13 @@ msgstr "Novo nome:"
 msgid "Resize Sheet"
 msgstr "Redimensionar folha"
 
-#. Number of 'Columns' in sheet
+#. Number of
 #: ../src/dialogs/sheet-resize.ui.h:3
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Colunas"
 
-#. Number of 'Rows' in sheet
+#. Number of
 #: ../src/dialogs/sheet-resize.ui.h:5
 msgctxt "sheetsize"
 msgid "Rows"
@@ -12344,7 +12347,7 @@ msgid "_Move"
 msgstr "_Mover"
 
 #: ../src/item-cursor.c:827 ../src/sheet-control-gui.c:2169
-#: ../src/sheet-object.c:250 ../src/sheet-object.c:269
+#: ../src/sheet-object.c:258 ../src/sheet-object.c:277
 #: ../src/wbc-gtk-actions.c:2036
 msgid "_Copy"
 msgstr "_Copiar"
@@ -12630,15 +12633,15 @@ msgstr "Opção inválida do exportador PDF"
 msgid "PDF export"
 msgstr "Exportador PDF"
 
-#: ../src/print.c:685
+#: ../src/print.c:700
 msgid "Even one cell is too large for this page."
 msgstr "Mesmo uma célula é demasiado grande para esta página."
 
-#: ../src/print.c:976
+#: ../src/print.c:991
 msgid "Print Selection"
 msgstr "Imprimir seleção"
 
-#: ../src/print.c:1230
+#: ../src/print.c:1245
 msgid ""
 "You have chosen more than 1000 pages to preview. This may take a long time. "
 "Do you really want to proceed?"
@@ -12646,80 +12649,80 @@ msgstr ""
 "Escolheu mais de 1000 páginas para antever. Isto pode levar muito tempo. "
 "Quer realmente continuar?"
 
-#: ../src/print.c:1317
+#: ../src/print.c:1332
 msgid "Preparing to preview"
 msgstr "A preparar antevisão"
 
-#: ../src/print.c:1318
+#: ../src/print.c:1333
 msgid "Preparing to print"
 msgstr "A preparar impressão"
 
-#: ../src/print.c:1408
+#: ../src/print.c:1423
 #, c-format
 msgid "Creating preview of page %3d"
 msgstr "A criar antevisão da págna %3d"
 
-#: ../src/print.c:1409
+#: ../src/print.c:1424
 #, c-format
 msgid "Printing page %3d"
 msgstr "A imprimir a página %3d"
 
-#: ../src/print.c:1413
+#: ../src/print.c:1428
 #, c-format
 msgid "Creating preview of page %3d of %3d page"
 msgid_plural "Creating preview of page %3d of %3d pages"
 msgstr[0] "A criar antevisão da página %3d de %3d página"
 msgstr[1] "A criar antevisão da página %3d de %3d páginas"
 
-#: ../src/print.c:1416
+#: ../src/print.c:1431
 #, c-format
 msgid "Printing page %3d of %3d page"
 msgid_plural "Printing page %3d of %3d pages"
 msgstr[0] "A imprimir a página %3d de %3d página"
 msgstr[1] "A imprimir a página %3d de %3d páginas"
 
-#: ../src/print.c:1482
+#: ../src/print.c:1497
 msgid "_All workbook sheets"
 msgstr "_Todas as folhas do livro"
 
-#: ../src/print.c:1487
+#: ../src/print.c:1502
 msgid "Also print _hidden sheets"
 msgstr "Imprimir também folhas _Ocultas"
 
-#: ../src/print.c:1495
+#: ../src/print.c:1510
 msgid "A_ctive workbook sheet"
 msgstr "_Folha ativa"
 
-#: ../src/print.c:1500
+#: ../src/print.c:1515
 msgid "_Workbook sheets:"
 msgstr "Folhas ddo _Livro:"
 
-#: ../src/print.c:1505
+#: ../src/print.c:1520
 msgid "Current _selection only"
 msgstr "_Só seleção atual"
 
-#: ../src/print.c:1513
+#: ../src/print.c:1528
 msgid "_Ignore defined print area"
 msgstr "_Ignorar área de impressão definida"
 
-#: ../src/print.c:1520
+#: ../src/print.c:1535
 msgid "from:"
 msgstr "de:"
 
-#: ../src/print.c:1544
+#: ../src/print.c:1559
 msgid "Ignore all _manual page breaks"
 msgstr "Ignorar todas as quebras de página _Manuais"
 
-#: ../src/print.c:1844
+#: ../src/print.c:1859
 #, c-format
 msgid "Failed to create temporary file for printing: %s"
 msgstr "Falha ao criar ficheiro temporário para impressão: %s"
 
-#: ../src/print.c:1862
+#: ../src/print.c:1877
 msgid "Gnumeric Print Range"
 msgstr "Intervalo de impressão do Gnumeric"
 
-#: ../src/print.c:1878
+#: ../src/print.c:1893
 msgid "Print to File"
 msgstr "Imprimir para ficheiro"
 
@@ -12764,7 +12767,7 @@ msgid_plural "Remove %d Links"
 msgstr[0] "Remover %d ligação"
 msgstr[1] "Remover %d ligações"
 
-#: ../src/sheet-control-gui.c:2167 ../src/sheet-object.c:268
+#: ../src/sheet-control-gui.c:2167 ../src/sheet-object.c:276
 #: ../src/wbc-gtk-actions.c:2066
 msgid "Cu_t"
 msgstr "Cor_Tar"
@@ -13030,43 +13033,43 @@ msgstr ""
 "Já existe uma região unida que intersecta\n"
 "%s!%s"
 
-#: ../src/sheet-object.c:143
+#: ../src/sheet-object.c:151
 msgid "Snap object to grid"
 msgstr "Ajustar objeto à grelha"
 
-#: ../src/sheet-object.c:259
+#: ../src/sheet-object.c:267
 msgid "Size _& Position"
 msgstr "Tamanho _& Posição"
 
-#: ../src/sheet-object.c:260
+#: ../src/sheet-object.c:268
 msgid "_Snap to Grid"
 msgstr "_Ajustar à grelha"
 
-#: ../src/sheet-object.c:261
+#: ../src/sheet-object.c:269
 msgid "_Order"
 msgstr "_Ordem"
 
-#: ../src/sheet-object.c:262
+#: ../src/sheet-object.c:270
 msgid "Pul_l to Front"
 msgstr "_Puxar para a frente"
 
-#: ../src/sheet-object.c:263
+#: ../src/sheet-object.c:271
 msgid "Pull _Forward"
 msgstr "Puxar mais para a _Frente"
 
-#: ../src/sheet-object.c:264
+#: ../src/sheet-object.c:272
 msgid "Push _Backward"
 msgstr "_Empurrar para trás"
 
-#: ../src/sheet-object.c:265
+#: ../src/sheet-object.c:273
 msgid "Pus_h to Back"
 msgstr "Empurrar mais para _Trás"
 
-#: ../src/sheet-object.c:270 ../src/wbc-gtk-actions.c:1956
+#: ../src/sheet-object.c:278 ../src/wbc-gtk-actions.c:1956
 msgid "_Delete"
 msgstr "_Eliminar"
 
-#: ../src/sheet-object.c:272 ../src/wbc-gtk-actions.c:2022
+#: ../src/sheet-object.c:280 ../src/wbc-gtk-actions.c:2022
 msgid "Print"
 msgstr "Imprimir"
 
@@ -17685,12 +17688,15 @@ msgstr ""
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnumeric-expr-entry.c:972
+#| msgid ""
+#| "\n"
+#| "\t<i>⇧F4 to select</i>"
 msgid ""
 "\n"
-"\t<i>⇧F4 to select</i>"
+"\t<i> to select</i>"
 msgstr ""
 "\n"
-"\t<i>⇧F4 para selecionar</i>"
+"\t<i> para selecionar</i>"
 
 #: ../src/widgets/gnumeric-expr-entry.c:2644
 #, c-format
@@ -17764,8 +17770,9 @@ msgid "A single selection is required."
 msgstr "É necessária uma única seleção."
 
 #: ../src/workbook-cmd-format.c:180
-msgid "An n⨯1 or 1⨯n selection is required."
-msgstr "É necessária uma seleção n⨯1 ou 1⨯n."
+#| msgid "An n⨯1 or 1⨯n selection is required."
+msgid "An n or 1⨯n selection is required."
+msgstr "É necessária uma seleção n ou 1⨯n."
 
 #: ../src/workbook-cmd-format.c:187
 msgid "There is no point in sorting a single cell."
