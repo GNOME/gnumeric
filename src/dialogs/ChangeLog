@@ -1,3 +1,7 @@
+2015-11-19  Morten Welinder <terra@gnome.org>
+
+	* recent.ui: Fix tooltip for open button
+
 2015-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.24
