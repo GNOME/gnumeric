@@ -5314,6 +5314,17 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SEEALSO=R.PGEOM,R.QGEOM
 
 @CATEGORY=Statistics
+@FUNCTION=R.DGUMBEL
+@SHORTDESC=probability density function of the Gumbel distribution
+@SYNTAX=R.DGUMBEL(x,mu,beta,give_log)
+@ARGUMENTDESCRIPTION=@{x}: observation
+@{mu}: the location parameter of freedom of the distribution
+@{beta}: the scale parameter of freedom of the distribution
+@{give_log}: if true, log of the result will be returned instead
+@DESCRIPTION=This function returns the probability density function of the Gumbel distribution.
+@SEEALSO=R.PGUMBEL,R.QGUMBEL
+
+@CATEGORY=Statistics
 @FUNCTION=R.DHYPER
 @SHORTDESC=probability density function of the hypergeometric distribution
 @SYNTAX=R.DHYPER(x,r,b,n,give_log)
@@ -5505,6 +5516,18 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @{log_p}: if true, the natural logarithm of the probability is given or returned; defaults to false
 @DESCRIPTION=This function returns the cumulative distribution function of the geometric distribution.
 @SEEALSO=R.DGEOM,R.QGEOM
+
+@CATEGORY=Statistics
+@FUNCTION=R.PGUMBEL
+@SHORTDESC=cumulative distribution function of the Gumbel distribution
+@SYNTAX=R.PGUMBEL(x,mu,beta,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{x}: observation
+@{mu}: the location parameter of freedom of the distribution
+@{beta}: the scale parameter of freedom of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered
+@{log_p}: if true, the natural logarithm of the probability is given or returned; defaults to false
+@DESCRIPTION=This function returns the cumulative distribution function of the Gumbel distribution.
+@SEEALSO=R.DGUMBEL,R.QGUMBEL
 
 @CATEGORY=Statistics
 @FUNCTION=R.PHYPER
@@ -5720,6 +5743,18 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @{log_p}: if true, the natural logarithm of the probability is given or returned; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the geometric distribution.
 @SEEALSO=R.DGEOM,R.PGEOM
+
+@CATEGORY=Statistics
+@FUNCTION=R.QGUMBEL
+@SHORTDESC=probability quantile function of the Gumbel distribution
+@SYNTAX=R.QGUMBEL(p,mu,beta,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
+@{mu}: the location parameter of freedom of the distribution
+@{beta}: the scale parameter of freedom of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered
+@{log_p}: if true, the natural logarithm of the probability is given or returned; defaults to false
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Gumbel distribution.
+@SEEALSO=R.DGUMBEL,R.PGUMBEL
 
 @CATEGORY=Statistics
 @FUNCTION=R.QHYPER

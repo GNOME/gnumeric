@@ -18171,6 +18171,41 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-R.DGUMBEL">
+      <refmeta>
+        <refentrytitle>
+          <function>R.DGUMBEL</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.DGUMBEL</function>
+        </refname>
+        <refpurpose>
+        probability density function of the Gumbel distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.DGUMBEL</function>(<parameter>x</parameter>,<parameter>mu</parameter>,<parameter>beta</parameter>,<parameter>give_log</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>mu</parameter>: the location parameter of freedom of the distribution</para>
+        <para><parameter>beta</parameter>: the scale parameter of freedom of the distribution</para>
+        <para><parameter>give_log</parameter>: if true, log of the result will be returned instead</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the probability density function of the Gumbel distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.PGUMBEL"><function>R.PGUMBEL</function></link>,
+        <link linkend="gnumeric-function-R.QGUMBEL"><function>R.QGUMBEL</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-R.DHYPER">
       <refmeta>
         <refentrytitle>
@@ -18772,6 +18807,42 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-R.DGEOM"><function>R.DGEOM</function></link>,
         <link linkend="gnumeric-function-R.QGEOM"><function>R.QGEOM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-R.PGUMBEL">
+      <refmeta>
+        <refentrytitle>
+          <function>R.PGUMBEL</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.PGUMBEL</function>
+        </refname>
+        <refpurpose>
+        cumulative distribution function of the Gumbel distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.PGUMBEL</function>(<parameter>x</parameter>,<parameter>mu</parameter>,<parameter>beta</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>mu</parameter>: the location parameter of freedom of the distribution</para>
+        <para><parameter>beta</parameter>: the scale parameter of freedom of the distribution</para>
+        <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the cumulative distribution function of the Gumbel distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.DGUMBEL"><function>R.DGUMBEL</function></link>,
+        <link linkend="gnumeric-function-R.QGUMBEL"><function>R.QGUMBEL</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -19421,6 +19492,42 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-R.DGEOM"><function>R.DGEOM</function></link>,
         <link linkend="gnumeric-function-R.PGEOM"><function>R.PGEOM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-R.QGUMBEL">
+      <refmeta>
+        <refentrytitle>
+          <function>R.QGUMBEL</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.QGUMBEL</function>
+        </refname>
+        <refpurpose>
+        probability quantile function of the Gumbel distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.QGUMBEL</function>(<parameter>p</parameter>,<parameter>mu</parameter>,<parameter>beta</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>p</parameter>: probability or natural logarithm of the probability</para>
+        <para><parameter>mu</parameter>: the location parameter of freedom of the distribution</para>
+        <para><parameter>beta</parameter>: the scale parameter of freedom of the distribution</para>
+        <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Gumbel distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.DGUMBEL"><function>R.DGUMBEL</function></link>,
+        <link linkend="gnumeric-function-R.PGUMBEL"><function>R.PGUMBEL</function></link>.
       </para>
       </refsect1>
     </refentry>

@@ -1,3 +1,9 @@
+2015-11-20  Morten Welinder  <terra@gnome.org>
+
+	* generate: Bring this up to date.  Sort functions in C file.
+
+	* extra.c: Add Gumbel distribution.
+
 2015-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.24

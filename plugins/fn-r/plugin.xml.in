@@ -19,6 +19,7 @@
 				<function name="r.df"/>
 				<function name="r.dgamma"/>
 				<function name="r.dgeom"/>
+				<function name="r.dgumbel"/>
 				<function name="r.dhyper"/>
 				<function name="r.dlnorm"/>
 				<function name="r.dnbinom"/>
@@ -36,6 +37,7 @@
 				<function name="r.pf"/>
 				<function name="r.pgamma"/>
 				<function name="r.pgeom"/>
+				<function name="r.pgumbel"/>
 				<function name="r.phyper"/>
 				<function name="r.plnorm"/>
 				<function name="r.pnbinom"/>
@@ -54,6 +56,7 @@
 				<function name="r.qf"/>
 				<function name="r.qgamma"/>
 				<function name="r.qgeom"/>
+				<function name="r.qgumbel"/>
 				<function name="r.qhyper"/>
 				<function name="r.qlnorm"/>
 				<function name="r.qnbinom"/>

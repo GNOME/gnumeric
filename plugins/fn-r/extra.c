@@ -279,3 +279,53 @@ qst (gnm_float p, gnm_float n, gnm_float shape,
 
 /* ------------------------------------------------------------------------- */
 
+gnm_float
+dgumbel (gnm_float x, gnm_float mu, gnm_float beta, gboolean give_log)
+{
+	gnm_float z, lp;
+
+	if (!(beta > 0) || gnm_isnan (mu) || gnm_isnan (beta) || gnm_isnan (x))
+		return gnm_nan;
+
+	z = (x - mu) / beta;
+	lp = -(z + gnm_exp (-z));
+	return give_log ? lp - gnm_log (beta) : gnm_exp (lp) / beta;
+}
+
+gnm_float
+pgumbel (gnm_float x, gnm_float mu, gnm_float beta, gboolean lower_tail, gboolean log_p)
+{
+	gnm_float z, lp;
+
+	if (!(beta > 0) || gnm_isnan (mu) || gnm_isnan (beta) || gnm_isnan (x))
+		return gnm_nan;
+
+	z = (x - mu) / beta;
+	lp = -gnm_exp (-z);
+	if (lower_tail)
+		return log_p ? lp : gnm_exp (lp);
+	else
+		return log_p ? swap_log_tail (lp) : 0 - gnm_expm1 (lp);
+}
+
+gnm_float
+qgumbel (gnm_float p, gnm_float mu, gnm_float beta, gboolean lower_tail, gboolean log_p)
+{
+	if (!(beta > 0) ||
+	    gnm_isnan (mu) || gnm_isnan (beta) || gnm_isnan (p) ||
+	    (log_p ? p > 0 : (p < 0 || p > 1)))
+		return gnm_nan;
+
+	if (log_p) {
+		if (!lower_tail)
+			p = swap_log_tail (p);
+	} else {
+		if (lower_tail)
+			p = gnm_log (p);
+		else
+			p = gnm_log1p (-p);
+	}
+
+	/* We're now in the log_p, lower_tail case.  */
+	return mu - beta * gnm_log (-p);
+}

@@ -143,6 +143,13 @@ my %defaults;
 	    'df' => "the number of degrees of freedom $of",
 	    @common })];
     $defaults{'ptukey:nranges'} = $defaults{'qtukey:nranges'} = 1;
+
+    $funcs{'dgumbel'} = $funcs{'pgumbel'} = $funcs{'qgumbel'} =
+	[\&distribution,
+	 'Gumbel',
+	 ({ 'mu' => "the location parameter of freedom $of",
+	    'beta' => "the scale parameter of freedom $of",
+	    @common })];
 }
 
 
@@ -173,8 +180,12 @@ my %type_setter =
 my $mathfunch = $0;
 $mathfunch =~ s|[^/]+$|../../src/mathfunc.h|;
 
+my $dpqh = $0;
+$dpqh =~ s|[^/]+$|../../src/sf-dpq.h|;
+
+
 my $funcdefs = "";
-my @funcnames = ();
+my %functions;
 
 my $emitted = "";
 
@@ -191,7 +202,7 @@ my $emitted = "";
        "#include \"extra.h\"\n\n" .
        "GNM_PLUGIN_MODULE_HEADER;\n\n");
 
-foreach my $header ($mathfunch, "extra.h") {
+foreach my $header ($mathfunch, $dpqh, "extra.h") {
     local (*HEADER);
     open (HEADER, "<$header") or die "$0: Cannot read $header: $!\n";
     while (<HEADER>) {
@@ -201,14 +212,18 @@ foreach my $header ($mathfunch, "extra.h") {
 	    my $restype = $1;
 	    my $func = $2;
 	    next unless exists $funcs{$func};
-	    my ($handler,@args) = @{ $funcs{$func} };
-
-	    &$handler ($func, $restype, $_, @args);
-	    push @funcnames, "r.$func";
+	    $functions{$func} = [$restype,$_];
 	}
     }
     close (HEADER);
 }
+
+foreach my $func (sort { &cfileorder($a,$b) } keys %functions) {
+    my ($restype,$proto) = @{$functions{$func}};
+    my ($handler,@args) = @{ $funcs{$func} };
+    &$handler ($func, $restype, $proto, @args);
+}
+
 
 &emit_line ();
 
@@ -230,7 +245,15 @@ foreach my $header ($mathfunch, "extra.h") {
        "};\n");
 &emit_dump ("functions.c");
 
-&create_plugin_xml_in (@funcnames);
+&create_plugin_xml_in (keys %functions);
+
+# -----------------------------------------------------------------------------
+
+sub cfileorder {
+    my ($a,$b) = @_;
+    return ((substr($a,1) cmp substr($b,1)) ||
+	    (substr($a,0,1) cmp substr($b,0,1)));
+}
 
 # -----------------------------------------------------------------------------
 
@@ -411,11 +434,12 @@ sub create_plugin_xml_in {
 	   "\t\t<attribute name=\"module_file\" value=\"rstat\"/>\n" .
 	   "\t</loader>\n" .
 	   "\t<services>\n" .
-	   "\t\t<service type=\"function_group\" id=\"stat\">\n" .
+	   "\t\t<service type=\"function_group\" id=\"rstat\">\n" .
 	   "\t\t\t<_category>Statistics</_category>\n" .
-	   "\t\t\t<functions textdomain=\"gnumeric-functions\">\n");
+	   "\t\t\t<functions textdomain=\"gnumeric-VERSION-functions\">\n");
 
-    foreach my $rfunc (sort @funcnames) {
+    foreach my $func (sort @funcnames) {
+	my $rfunc = "r.$func";
 	&emit ("\t\t\t\t<function name=\"$rfunc\"/>\n");
     }
 

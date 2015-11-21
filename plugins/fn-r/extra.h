@@ -16,5 +16,9 @@ gnm_float dst (gnm_float x, gnm_float n, gnm_float shape, gboolean give_log);
 gnm_float pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean log_p);
 gnm_float qst (gnm_float p, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean log_p);
 
+/* The Gumbel distribution */
+gnm_float dgumbel (gnm_float x, gnm_float mu, gnm_float beta, gboolean give_log);
+gnm_float pgumbel (gnm_float x, gnm_float mu, gnm_float beta, gboolean lower_tail, gboolean log_p);
+gnm_float qgumbel (gnm_float p, gnm_float mu, gnm_float beta, gboolean lower_tail, gboolean log_p);
 
 #endif
