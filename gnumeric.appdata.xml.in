@@ -15,4 +15,8 @@ files with Microsoft Excel and programs supporting the ODS standard.</_p>
 <screenshot type="default">https://git.gnome.org/browse/gnumeric-web/plain/screenshots/gnumeric-sample.png</screenshot>
 </screenshots>
 <updatecontact>gnumeric-list@gnome.org</updatecontact>
+  <kudos>
+    <kudo>HiDpiIcon</kudo>
+    <kudo>ModernToolkit</kudo>
+  </kudos>
 </application>
