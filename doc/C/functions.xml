@@ -14812,8 +14812,8 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>a</parameter>: parameter of the Weibull distribution</para>
-        <para><parameter>b</parameter>: parameter of the Weibull distribution</para>
+        <para><parameter>a</parameter>: scale parameter of the Weibull distribution</para>
+        <para><parameter>b</parameter>: shape parameter of the Weibull distribution</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

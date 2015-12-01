@@ -4366,8 +4366,8 @@ For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal distributio
 @FUNCTION=RANDWEIBULL
 @SHORTDESC=random variate from a Weibull distribution
 @SYNTAX=RANDWEIBULL(a,b)
-@ARGUMENTDESCRIPTION=@{a}: parameter of the Weibull distribution
-@{b}: parameter of the Weibull distribution
+@ARGUMENTDESCRIPTION=@{a}: scale parameter of the Weibull distribution
+@{b}: shape parameter of the Weibull distribution
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers

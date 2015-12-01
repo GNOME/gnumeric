@@ -392,8 +392,8 @@ gnumeric_randlognorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_randweibull[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDWEIBULL:random variate from a Weibull distribution") },
-        { GNM_FUNC_HELP_ARG, F_("a:parameter of the Weibull distribution") },
-        { GNM_FUNC_HELP_ARG, F_("b:parameter of the Weibull distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:scale parameter of the Weibull distribution") },
+        { GNM_FUNC_HELP_ARG, F_("b:shape parameter of the Weibull distribution") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDWEIBULL(1,2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDWEIBULL(1,2)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
