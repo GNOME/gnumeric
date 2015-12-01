@@ -5,6 +5,7 @@ Morten:
 	* Fuzzed file fixes.  [#752179]  [#752180]
 	* Add R.DGUMBEL, R.PGUMBEL, R.QGUMBEL.
 	* Fix conditional format problem.  [#750271]
+	* Test also RANDWEIBULL.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.24

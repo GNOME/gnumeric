@@ -25,6 +25,7 @@
 #include "mathfunc.h"
 #include "gnm-random.h"
 #include "sf-dpq.h"
+#include "sf-gamma.h"
 #include "rangefunc.h"
 
 #include <gsf/gsf-input-stdio.h>
@@ -2194,6 +2195,89 @@ test_random_randlog (int N)
 }
 
 static void
+test_random_randweibull (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float shape = 1 / (0.0001 + gnm_pow (random_01 () / 2, 2));
+	gnm_float scale = 2 * random_01 ();
+	gnm_float mean_target = scale * gnm_gamma (1 + 1 / shape);
+	gnm_float var_target = scale * scale  *
+		(gnm_gamma (1 + 2 / shape) -
+		 gnm_pow (gnm_gamma (1 + 1 / shape), 2));
+	/* See https://en.wikipedia.org/wiki/Weibull_distribution */
+	gnm_float skew_target =
+		(gnm_gamma (1 + 3 / shape) * gnm_pow (scale, 3) -
+		 3 * mean_target * var_target -
+		 gnm_pow (mean_target, 3)) /
+		gnm_pow (var_target, 1.5);
+	gnm_float kurt_target = gnm_nan; /* Complicated */
+	char *expr;
+	gnm_float T;
+	int i;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
+
+	expr = g_strdup_printf ("=RANDWEIBULL(%.10" GNM_FORMAT_f ",%.10" GNM_FORMAT_f ")", scale, shape);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 0 && gnm_finite (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(var >= 0 && gnm_finite (var))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (skew)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	/* Fractile test */
+	for (i = 1; i < nf; i++)
+		fractiles[i] = qweibull (i / (double)nf, shape, scale, TRUE, FALSE);
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
+		ok = FALSE;
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+
+	g_free (vals);
+}
+
+static void
 test_random (void)
 {
 	const char *test_name = "test_random";
@@ -2223,6 +2307,7 @@ test_random (void)
 	test_random_randpoisson (High_N);
 	test_random_randgeom (High_N);
 	test_random_randlog (N);
+	test_random_randweibull (N);
 
 #if 0
 	test_random_randexppow (N);
@@ -2237,7 +2322,6 @@ test_random (void)
 	test_random_randrayleigh (N);
 	test_random_randrayleightail (N);
 	test_random_randstdist (N);
-	test_random_randweibull (N);
 #endif
 
 	mark_test_end (test_name);
