@@ -1393,16 +1393,14 @@ style_dep_unrender (GnmDependent *dep, const char *what)
 	sheet_redraw_region (sheet,
 			     pos->col, pos->row,
 			     pos->col, pos->row);
-
-
 }
 
 static void
 style_dep_eval (GnmDependent *dep)
 {
 	/*
-	 * It is possible that the cell has been rendered between we ::changed
-	 * was called.
+	 * It is possible that the cell has been rendered between ::changed
+	 * was called and now.
 	 */
 	style_dep_unrender (dep, "being evaluated");
 }

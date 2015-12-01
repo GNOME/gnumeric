@@ -45,6 +45,7 @@
 #include "cell.h"
 #include "position.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "expr-name.h"
 #include "print-info.h"
 #include "value.h"
@@ -1752,6 +1753,60 @@ xml_sax_condition_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->cond = NULL;
 }
 
+/*
+ * We have saving expressions relative to A1.  This means that we read
+ * see a relative reference to a cell above as R[65535]C.  This function
+ * patches that to R[-1]C.
+ *
+ * We ought to fix the format, but then old Gnumerics couldn't read new
+ * files.  In fact, if we just added a "Position" attribute then we would
+ * get silent corruption.
+ */
+static GnmExpr const *
+cond_patchup (GnmExpr const *expr, GnmExprWalk *data)
+{
+	XMLSaxParseState *state = data->user;
+	GnmCellPos const *pos = &state->style_range.start;
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CELLREF) {
+		GnmCellPos tpos;
+		GnmCellRef const *oref = &expr->cellref.ref;
+		GnmCellRef tref = *oref;
+		gnm_cellpos_init_cellref (&tpos, &expr->cellref.ref,
+					  pos, state->sheet);
+		if (tref.col_relative)
+			tref.col = tpos.col - pos->col;
+		if (tref.row_relative)
+			tref.row = tpos.row - pos->row;
+		if (gnm_cellref_equal (&tref, oref))
+			return NULL;
+		return gnm_expr_new_cellref (&tref);
+	} else if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT &&
+		   VALUE_IS_CELLRANGE (expr->constant.value)) {
+		GnmRangeRef const *oref = value_get_rangeref (expr->constant.value);
+		GnmRangeRef tref = *oref;
+		GnmRange trange;
+		Sheet *start_sheet, *end_sheet;
+		GnmEvalPos ep;
+
+		eval_pos_init_pos (&ep, state->sheet, pos);
+		gnm_rangeref_normalize (oref, &ep, &start_sheet, &end_sheet,
+					&trange);
+		if (tref.a.col_relative)
+			tref.a.col = trange.start.col - pos->col;
+		if (tref.a.row_relative)
+			tref.a.row = trange.start.row - pos->row;
+		if (tref.b.col_relative)
+			tref.b.col = trange.end.col - pos->col;
+		if (tref.b.row_relative)
+			tref.b.row = trange.end.row - pos->row;
+		if (gnm_rangeref_equal (&tref, oref))
+			return NULL;
+		return gnm_expr_new_constant (value_new_cellrange_unsafe (&tref.a, &tref.b));
+	}
+
+	return NULL;
+}
+
 static void
 xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -1760,16 +1815,23 @@ xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int const i = xin->node->user_data.v_int;
 	GnmExprTop const *texpr;
 	GnmParsePos pos;
+	GnmExpr const *patched_expr;
 
 	g_return_if_fail (gnm_style_cond_get_expr (state->cond, i) == NULL);
 
+	parse_pos_init_sheet (&pos, state->sheet);
 	texpr = gnm_expr_parse_str (xin->content->str,
-				    parse_pos_init_sheet (&pos, state->sheet),
+				    &pos,
 				    GNM_EXPR_PARSE_DEFAULT,
 				    state->convs,
 				    NULL);
-
 	g_return_if_fail (texpr != NULL);
+
+	patched_expr = gnm_expr_walk (texpr->expr, cond_patchup, state);
+	if (patched_expr) {
+		gnm_expr_top_unref (texpr);
+		texpr = gnm_expr_top_new (patched_expr);
+	}
 
 	gnm_style_cond_set_expr (state->cond, texpr, i);
 	gnm_expr_top_unref (texpr);
