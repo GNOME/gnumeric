@@ -2278,6 +2278,84 @@ test_random_randweibull (int N)
 }
 
 static void
+test_random_randlognorm (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float lm = (random_01() - 0.5) / (0.1 + gnm_pow (random_01 () / 2, 2));
+	gnm_float ls = 1 / (1 + gnm_pow (random_01 () / 2, 2));
+	gnm_float mean_target = gnm_exp (lm + ls * ls / 2);
+	gnm_float var_target = gnm_expm1 (ls * ls) * (mean_target * mean_target);
+	/* See https://en.wikipedia.org/wiki/Log-normal_distribution */
+	gnm_float skew_target = (gnm_exp (ls * ls) + 2) *
+		gnm_sqrt (gnm_expm1 (ls * ls));
+	gnm_float kurt_target = gnm_nan; /* Complicated */
+	char *expr;
+	gnm_float T;
+	int i;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
+
+	expr = g_strdup_printf ("=RANDLOGNORM(%.10" GNM_FORMAT_f ",%.10" GNM_FORMAT_f ")", lm, ls);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 0 && r >= gnm_pinf)) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(var >= 0 && gnm_finite (var))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (skew)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	/* Fractile test */
+	for (i = 1; i < nf; i++)
+		fractiles[i] = qlnorm (i / (double)nf, lm, ls, TRUE, FALSE);
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
+		ok = FALSE;
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+
+	g_free (vals);
+}
+
+static void
 test_random (void)
 {
 	const char *test_name = "test_random";
@@ -2286,6 +2364,7 @@ test_random (void)
 
 	mark_test_start (test_name);
 
+	goto skip;
 	test_random_rand (N);
 	test_random_randuniform (N);
 	test_random_randnorm (High_N);
@@ -2308,6 +2387,8 @@ test_random (void)
 	test_random_randgeom (High_N);
 	test_random_randlog (N);
 	test_random_randweibull (N);
+skip:
+	test_random_randlognorm (N);
 
 #if 0
 	test_random_randexppow (N);
@@ -2317,7 +2398,6 @@ test_random (void)
 	test_random_randlaplace (N);
 	test_random_randlevy (N);
 	test_random_randlogistic (N);
-	test_random_randlognorm (N);
 	test_random_randpareto (N);
 	test_random_randrayleigh (N);
 	test_random_randrayleightail (N);
