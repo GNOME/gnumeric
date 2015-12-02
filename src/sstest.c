@@ -2364,7 +2364,6 @@ test_random (void)
 
 	mark_test_start (test_name);
 
-	goto skip;
 	test_random_rand (N);
 	test_random_randuniform (N);
 	test_random_randnorm (High_N);
@@ -2387,7 +2386,6 @@ test_random (void)
 	test_random_randgeom (High_N);
 	test_random_randlog (N);
 	test_random_randweibull (N);
-skip:
 	test_random_randlognorm (N);
 
 #if 0
