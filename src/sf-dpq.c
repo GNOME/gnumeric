@@ -221,6 +221,7 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 {
 	gboolean have_xlow = gnm_finite (xlow);
 	gboolean have_xhigh = gnm_finite (xhigh);
+	gboolean check_left = TRUE;
 	gnm_float step;
 	int i;
 
@@ -253,16 +254,31 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 		g_printerr ("x=%.20g  e=%.20g\n", x0, ex0);
 #endif
 		if (!lower_tail) ex0 = -ex0;
-		if (ex0 <= 0)
-			xlow = x0, have_xlow = TRUE;
-		if (ex0 >= 0)
+
+		if (ex0 == 0)
+			return x0;
+		else if (ex0 < 0)
+			xlow = x0, have_xlow = TRUE, check_left = FALSE;
+		else if (ex0 > 0)
 			xhigh = x0, have_xhigh = TRUE, step = -gnm_abs (step);
 
 		if (i > 1 && have_xlow && have_xhigh) {
 			gnm_float xmid = gnm_floor ((xlow + xhigh) / 2);
 			if (xmid - xlow < 0.5 ||
-			    xmid - xlow < gnm_abs (xlow) * GNM_EPSILON)
+			    xmid - xlow < gnm_abs (xlow) * GNM_EPSILON) {
+				if (check_left) {
+					/*
+					 * The lower edge of the support might
+					 * have a probability higher than what
+					 * we are looking for.
+					 */
+					gnm_float e = pfunc (xlow, shape, lower_tail, log_p) - p;
+					if (!lower_tail) e = -e;
+					if (e >= 0)
+						return xhigh = xlow;
+				}
 				return xhigh;
+			}
 			x0 = xmid;
 		} else {
 			gnm_float x1 = x0 + step;

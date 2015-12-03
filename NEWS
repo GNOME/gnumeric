@@ -6,6 +6,7 @@ Morten:
 	* Add R.DGUMBEL, R.PGUMBEL, R.QGUMBEL.
 	* Fix conditional format problem.  [#750271]
 	* Test also RANDWEIBULL and RANDLOGNORM.
+	* Fix problem with R.QHYPER
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.24

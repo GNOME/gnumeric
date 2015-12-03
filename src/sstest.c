@@ -563,6 +563,22 @@ rand_fractile_test (gnm_float const *vals, int N, int nf,
 		g_printerr (".\n");
 	}
 
+	for (i = 1; i < nf - 1; i++) {
+		if (!(fractiles[i] <= fractiles[i + 1])) {
+			g_printerr ("Severe fractile ordering problem.\n");
+			return FALSE;
+		}
+
+		if (probs && !(probs[i] <= probs[i + 1])) {
+			g_printerr ("Severe cumulative probabilities ordering problem.\n");
+			return FALSE;
+		}
+	}
+	if (probs && (probs[1] < 0 || probs[nf - 1] > 1)) {
+		g_printerr ("Severe cumulative probabilities range problem.\n");
+		return FALSE;
+	}
+
 	for (i = 0; i <= nf; i++)
 		fractilecount[i] = 0;
 
@@ -1002,6 +1018,8 @@ test_random_randnorm (int N)
 	char *expr;
 	gnm_float T;
 	int i;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
 
 	expr = g_strdup_printf ("=RANDNORM(%.10" GNM_FORMAT_g ",%.10" GNM_FORMAT_g ")",
 				mean_target, var_target);
@@ -1028,6 +1046,12 @@ test_random_randnorm (int N)
 		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
+
+	/* Fractile test */
+	for (i = 1; i < nf; i++)
+		fractiles[i] = qnorm (i / (double)nf, mean_target, gnm_sqrt (var_target), TRUE, FALSE);
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
+		ok = FALSE;
 
 	if (adtest < 0.05) {
 		g_printerr ("Anderson Darling Test rejected [%.10" GNM_FORMAT_g "]\n", adtest);
@@ -1816,6 +1840,8 @@ test_random_randhyperg (int N)
 	gnm_float param_nb = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 4)));
 	gnm_float s = param_nr + param_nb;
 	gnm_float param_n = gnm_floor (random_01 () * (s + 1));
+	param_nr = 3, param_nb = 99, param_n = 13;
+
 	gnm_float mean_target = param_n * param_nr / s;
 	gnm_float var_target = s > 1
 		? mean_target * (param_nb / s) * (s - param_n) / (s - 1)
@@ -2361,46 +2387,53 @@ test_random (void)
 	const char *test_name = "test_random";
 	const int N = 20000;
 	const int High_N = 200000;
+	const char *single = g_getenv ("SSTEST_RANDOM");
 
 	mark_test_start (test_name);
 
-	test_random_rand (N);
-	test_random_randuniform (N);
-	test_random_randnorm (High_N);
-	test_random_randsnorm (High_N);
-	test_random_randexp (N);
-	test_random_randgamma (N);
-	test_random_randbeta (N);
-	test_random_randtdist (N);
-	test_random_randfdist (N);
-	test_random_randchisq (N);
-	test_random_randcauchy (N);
+#define CHECK1(NAME,C) \
+	do { if (!single || strcmp(single,#NAME) == 0) test_random_ ## NAME (C); } while (0)
 
-	test_random_randbernoulli (N);
-	test_random_randdiscrete (N);
-	test_random_randbinom (N);
-	test_random_randnegbinom (High_N);
-	test_random_randhyperg (High_N);
-	test_random_randbetween (N);
-	test_random_randpoisson (High_N);
-	test_random_randgeom (High_N);
-	test_random_randlog (N);
-	test_random_randweibull (N);
-	test_random_randlognorm (N);
-
+	/* Continuous */
+	CHECK1 (rand, N);
+	CHECK1 (randuniform, N);
+	CHECK1 (randbeta, N);
+	CHECK1 (randcauchy, N);
+	CHECK1 (randchisq, N);
+	CHECK1 (randexp, N);
+	CHECK1 (randfdist, N);
+	CHECK1 (randgamma, N);
+	CHECK1 (randlog, N);
+	CHECK1 (randlognorm, N);
+	CHECK1 (randnorm, High_N);
+	CHECK1 (randsnorm, High_N);
+	CHECK1 (randtdist, N);
+	CHECK1 (randweibull, N);
 #if 0
-	test_random_randexppow (N);
-	test_random_randnormtail (N);
-	test_random_randgumbel (N);
-	test_random_randlandau (N);
-	test_random_randlaplace (N);
-	test_random_randlevy (N);
-	test_random_randlogistic (N);
-	test_random_randpareto (N);
-	test_random_randrayleigh (N);
-	test_random_randrayleightail (N);
-	test_random_randstdist (N);
+	CHECK1 (randexppow, N);
+	CHECK1 (randgumbel, N);
+	CHECK1 (randlandau, N);
+	CHECK1 (randlaplace, N);
+	CHECK1 (randlevy, N);
+	CHECK1 (randlogistic, N);
+	CHECK1 (randnormtail, N);
+	CHECK1 (randpareto, N);
+	CHECK1 (randrayleigh, N);
+	CHECK1 (randrayleightail, N);
+	CHECK1 (randstdist, N);
 #endif
+
+	/* Discrete */
+	CHECK1 (randbernoulli, N);
+	CHECK1 (randbetween, N);
+	CHECK1 (randbinom, N);
+	CHECK1 (randdiscrete, N);
+	CHECK1 (randgeom, High_N);
+	CHECK1 (randhyperg, High_N);
+	CHECK1 (randnegbinom, High_N);
+	CHECK1 (randpoisson, High_N);
+
+#undef CHECK1
 
 	mark_test_end (test_name);
 }
