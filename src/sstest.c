@@ -1840,8 +1840,6 @@ test_random_randhyperg (int N)
 	gnm_float param_nb = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 4)));
 	gnm_float s = param_nr + param_nb;
 	gnm_float param_n = gnm_floor (random_01 () * (s + 1));
-	param_nr = 3, param_nb = 99, param_n = 13;
-
 	gnm_float mean_target = param_n * param_nr / s;
 	gnm_float var_target = s > 1
 		? mean_target * (param_nb / s) * (s - param_n) / (s - 1)
