@@ -2328,7 +2328,7 @@ test_random_randlognorm (int N)
 	ok = TRUE;
 	for (i = 0; i < N; i++) {
 		gnm_float r = vals[i];
-		if (!(r >= 0 && r >= gnm_pinf)) {
+		if (!(r >= 0 && r <= gnm_pinf)) {
 			g_printerr ("Range failure.\n");
 			ok = FALSE;
 			break;
