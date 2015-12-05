@@ -2,26 +2,26 @@
 # Copyright © 2001, 2002, 2003, 2004, 2005 gnumeric
 # Distributed under the same licence as the gnumeric package
 # Duarte Loreto <happyguy_pt@hotmail.com>, 2001, 2002, 2003, 2004, 2005
-# Pedro Albuquerque <palbuquerque73o@gmail.com>, 2015.
+# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-09-19 21:17+0000\n"
-"PO-Revision-Date: 2015-10-19 15:19+0100\n"
-"Last-Translator: Tiago S. <almosthumane@portugalmail.pt>\n"
-"Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
+"POT-Creation-Date: 2015-11-21 01:33+0000\n"
+"PO-Revision-Date: 2015-12-05 08:54+0000\n"
+"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\\n\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:455
+#: ../src/func-builtin.c:470
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -99,7 +99,7 @@ msgstr "Importa folhas de cálculo versão 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7192
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7197
 #: ../plugins/openoffice/openoffice-read.c:13605 ../src/xml-sax-read.c:3404
 msgid "Reading file..."
 msgstr "A ler ficheiro..."
@@ -265,11 +265,11 @@ msgstr ""
 "Ligações OLE ainda não são suportadas.\n"
 "Nome \"%s\" será perdido.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6317
+#: ../plugins/excel/ms-excel-read.c:6322
 msgid "external references"
 msgstr "referências externas"
 
-#: ../plugins/excel/ms-excel-read.c:6356
+#: ../plugins/excel/ms-excel-read.c:6361
 msgid "No password supplied"
 msgstr "Nenhuma senha indicada"
 
@@ -974,7 +974,7 @@ msgstr "Funções lógicas"
 msgid "Functions for manipulating truth values"
 msgstr "Funções para gerir valores verdadeiros"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:463
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:478
 msgid "Logic"
 msgstr "Lógica"
 
@@ -998,7 +998,7 @@ msgstr "Funções matemáticas"
 msgid "Mathematical Functions"
 msgstr "Funções matemáticas"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:450
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:465
 msgid "Mathematics"
 msgstr "Matemática"
 
@@ -4086,9 +4086,6 @@ msgid "Sorting %s"
 msgstr "A ordenar %s"
 
 #: ../src/commands.c:2352
-#| msgid ""
-#| "Are you sure that you want to hide all columns? If you do so you can "
-#| "unhide them with the 'Format→Column→Unhide' menu item."
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format,olumn→Unhide' menu item."
@@ -4602,7 +4599,6 @@ msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Algoritmo Simplex para solução (LP Solve)."
 
 #: ../src/dialogs/dialog-about.c:79
-#| msgid "Jean Bréfort"
 msgid "Jean Brßort"
 msgstr "Jean Brßort"
 
@@ -10561,7 +10557,7 @@ msgstr "Remover seleção de todos os documentos para gravação"
 msgid "_Discard All"
 msgstr "_Descartar todas"
 
-#: ../src/dialogs/quit.ui.h:7 ../src/dialogs/recent.ui.h:4
+#: ../src/dialogs/quit.ui.h:7
 msgid "Discard changes in all files"
 msgstr "Descartar alterações em todos os ficheiros"
 
@@ -10585,7 +10581,7 @@ msgstr "Grava os documentos selecionados e sai"
 msgid "Save"
 msgstr "Gravar"
 
-#: ../src/dialogs/quit.ui.h:13 ../src/dialogs/recent.ui.h:5
+#: ../src/dialogs/quit.ui.h:13
 msgid "Save document"
 msgstr "Grava o documento"
 
@@ -10593,7 +10589,7 @@ msgstr "Grava o documento"
 msgid "Save?"
 msgstr "Gravar?"
 
-#: ../src/dialogs/quit.ui.h:15 ../src/dialogs/recent.ui.h:6
+#: ../src/dialogs/quit.ui.h:15 ../src/dialogs/recent.ui.h:5
 msgid "Document"
 msgstr "Documento"
 
@@ -10665,7 +10661,12 @@ msgstr "Só existentes"
 msgid "Gnumeric files only"
 msgstr "Só ficheiros do Gnumeric"
 
-#: ../src/dialogs/recent.ui.h:7
+#: ../src/dialogs/recent.ui.h:4
+#| msgid "Save document"
+msgid "Open document"
+msgstr "Abrir documento"
+
+#: ../src/dialogs/recent.ui.h:6
 msgid "Last Used"
 msgstr "Última utilização"
 
@@ -11940,26 +11941,26 @@ msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr "VERSÃO_GNUMERIC devolve a versão do Gnumeric como cadeia."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:285
+#: ../src/func-builtin.c:300
 msgid "IF:conditional expression"
 msgstr "SE: expressão condicional"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:287
+#: ../src/func-builtin.c:302
 msgid "cond:condition"
 msgstr "cond: condição"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:289
+#: ../src/func-builtin.c:304
 msgid "trueval:value to use if condition is true"
 msgstr "valverd: valor a usar se a condição for verdadeira"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:291
+#: ../src/func-builtin.c:306
 msgid "falseval:value to use if condition is false"
 msgstr "valfals: valor a usar se a condição for falsa"
 
-#: ../src/func-builtin.c:292
+#: ../src/func-builtin.c:307
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will "
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
@@ -17688,9 +17689,6 @@ msgstr ""
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnumeric-expr-entry.c:972
-#| msgid ""
-#| "\n"
-#| "\t<i>⇧F4 to select</i>"
 msgid ""
 "\n"
 "\t<i> to select</i>"
@@ -17770,7 +17768,6 @@ msgid "A single selection is required."
 msgstr "É necessária uma única seleção."
 
 #: ../src/workbook-cmd-format.c:180
-#| msgid "An n⨯1 or 1⨯n selection is required."
 msgid "An n or 1⨯n selection is required."
 msgstr "É necessária uma seleção n ou 1⨯n."
 
