@@ -541,7 +541,7 @@ dialog_about (WBCGtk *wbcg)
 	w = g_object_new (GTK_TYPE_ABOUT_DIALOG,
 			  "title", _("About Gnumeric"),
 			  "version", GNM_VERSION_FULL,
-			  "website", "http://www.gnumeric.org/",
+			  "website", PACKAGE_URL,
 			  "website-label", _("Visit the Gnumeric website"),
 			  "logo-icon-name", "gnumeric",
 			  "copyright", _("Copyright \xc2\xa9 1998-2015"),
