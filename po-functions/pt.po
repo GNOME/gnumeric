@@ -9,15 +9,15 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-12-01 15:49+0000\n"
-"PO-Revision-Date: 2015-12-05 08:46+0000\n"
-"Last-Translator:  <>\n"
+"PO-Revision-Date: 2015-12-05 08:53+0000\n"
+"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\\n\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
 msgid ""
@@ -147,7 +147,8 @@ msgstr "Se @{i} não for \"i\" nem \"j\", COMPLEXO devolve #VALOR!"
 #: ../plugins/fn-complex/functions.c:421 ../plugins/fn-complex/functions.c:447
 #: ../plugins/fn-complex/functions.c:472 ../plugins/fn-complex/functions.c:499
 #: ../plugins/fn-complex/functions.c:526 ../plugins/fn-complex/functions.c:561
-#: ../plugins/fn-complex/functions.c:593 ../plugins/fn-complex/functions.c:1076
+#: ../plugins/fn-complex/functions.c:593
+#: ../plugins/fn-complex/functions.c:1076
 #: ../plugins/fn-complex/functions.c:1186
 #: ../plugins/fn-complex/functions.c:1216
 #: ../plugins/fn-complex/functions.c:1285 ../plugins/fn-date/functions.c:84
@@ -7750,21 +7751,27 @@ msgstr ""
 "distribuição geométrica."
 
 #: ../plugins/fn-r/functions.c:612
+#| msgid "R.DBETA:probability density function of the beta distribution"
 msgid "R.DGUMBEL:probability density function of the Gumbel distribution"
 msgstr ""
 "R.DGUMBEL: função de densidade da probabilidade da distribuição de Gumbel"
 
 #: ../plugins/fn-r/functions.c:614 ../plugins/fn-r/functions.c:638
 #: ../plugins/fn-r/functions.c:664
+#| msgid "location:the location parameter of the distribution"
 msgid "mu:the location parameter of freedom of the distribution"
 msgstr "mu: o parâmetro de localização da liberdade da distribuição"
 
 #: ../plugins/fn-r/functions.c:615 ../plugins/fn-r/functions.c:639
 #: ../plugins/fn-r/functions.c:665
+#| msgid "scale:the scale parameter of the distribution"
 msgid "beta:the scale parameter of freedom of the distribution"
 msgstr "beta: o parâmetro escala da liberdade da distribuição"
 
 #: ../plugins/fn-r/functions.c:617
+#| msgid ""
+#| "This function returns the probability density function of the beta "
+#| "distribution."
 msgid ""
 "This function returns the probability density function of the Gumbel "
 "distribution."
@@ -7773,10 +7780,14 @@ msgstr ""
 "de Gumbel."
 
 #: ../plugins/fn-r/functions.c:636
+#| msgid "R.PBETA:cumulative distribution function of the beta distribution"
 msgid "R.PGUMBEL:cumulative distribution function of the Gumbel distribution"
 msgstr "R.PGUMBEL: função de distribuição cumulativa da distribuição de Gumbel"
 
 #: ../plugins/fn-r/functions.c:642
+#| msgid ""
+#| "This function returns the cumulative distribution function of the beta "
+#| "distribution."
 msgid ""
 "This function returns the cumulative distribution function of the Gumbel "
 "distribution."
@@ -7785,16 +7796,21 @@ msgstr ""
 "Gumbel."
 
 #: ../plugins/fn-r/functions.c:662
+#| msgid "R.QBETA:probability quantile function of the beta distribution"
 msgid "R.QGUMBEL:probability quantile function of the Gumbel distribution"
-msgstr "R.QGUMBEL: função de probabilidade da distribuição de Gumbel"
+msgstr ""
+"R.QGUMBEL: função de quantil de probalilidade da distribuição de Gumbel"
 
 #: ../plugins/fn-r/functions.c:668
+#| msgid ""
+#| "This function returns the probability quantile function, i.e., the "
+#| "inverse of the cumulative distribution function, of the beta distribution."
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Gumbel distribution."
 msgstr ""
-"Esta função devolve a função quantil da probabilidade, p.ex. o inverso da "
-"função de distribuição cumulativa da distribuição Gumbel."
+"Esta função devolve a função do quantil da probabilidade i.e., o inverso da "
+"função de distribuição cumulativa da distribuição de Gumbel."
 
 #: ../plugins/fn-r/functions.c:688
 msgid ""
@@ -8444,16 +8460,14 @@ msgid "RANDWEIBULL:random variate from a Weibull distribution"
 msgstr "ALEATÓRIOWEIBULL: variação aleatória da distribuição Weibull"
 
 #: ../plugins/fn-random/functions.c:395
-#, fuzzy
 #| msgid "a:parameter of the Weibull distribution"
 msgid "a:scale parameter of the Weibull distribution"
-msgstr "a: parâmetro da distribuição Weibull"
+msgstr "a: parâmetro escala da distribuição Weibull"
 
 #: ../plugins/fn-random/functions.c:396
-#, fuzzy
 #| msgid "b:parameter of the Weibull distribution"
 msgid "b:shape parameter of the Weibull distribution"
-msgstr "b: parâmetro da distribuição Weibull"
+msgstr "b: parâmetro forma da distribuição Weibull"
 
 #: ../plugins/fn-random/functions.c:415
 msgid "RANDLAPLACE:random variate from a Laplace distribution"
