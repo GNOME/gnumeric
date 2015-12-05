@@ -1,3 +1,8 @@
+2015-12-05  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-dpq.c (prayleigh, qrayleigh): New functions.
+	(drayleigh): Define in terms of dweibull.
+
 2015-12-03  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-dpq.c (discpfuncinverter): Fix problem at left edge of

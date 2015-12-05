@@ -639,18 +639,41 @@ qhyper (gnm_float p, gnm_float NR, gnm_float NB, gnm_float n,
 gnm_float
 drayleigh (gnm_float x, gnm_float scale, gboolean give_log)
 {
-	if (scale <= 0)
-		return gnm_nan;
+	return dweibull (x, 2, M_SQRT2gnum * scale, give_log);
+}
 
-	if (x <= 0)
-		return R_D__0;
-	else {
-		gnm_float p = dnorm (x, 0, scale, give_log);
-		gnm_float f = M_SQRT_2PI * x / scale;
-		return give_log
-			? p + gnm_log (f)
-			: p * f;
-	}
+/* ------------------------------------------------------------------------ */
+/**
+ * prayleigh:
+ * @x: observation
+ * @scale: scale parameter
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the Rayleigh distribution.
+ */
+
+gnm_float
+prayleigh (gnm_float x, gnm_float scale, gboolean lower_tail, gboolean log_p)
+{
+	return pweibull (x, 2, M_SQRT2gnum * scale, lower_tail, log_p);
+}
+
+
+/**
+ * qrayleigh:
+ * @p: probability
+ * @scale: scale parameter
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: the observation with cumulative probability @p for the
+ * Rayleigh distribution.
+ */
+gnm_float
+qrayleigh (gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_p)
+{
+	return qweibull (p, 2, M_SQRT2gnum * scale, lower_tail, log_p);
 }
 
 /* ------------------------------------------------------------------------ */
