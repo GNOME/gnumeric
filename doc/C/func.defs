@@ -5380,6 +5380,16 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SEEALSO=R.PPOIS,R.QPOIS
 
 @CATEGORY=Statistics
+@FUNCTION=R.DRAYLEIGH
+@SHORTDESC=probability density function of the Rayleigh distribution
+@SYNTAX=R.DRAYLEIGH(x,scale,give_log)
+@ARGUMENTDESCRIPTION=@{x}: observation
+@{scale}: the scale parameter of the distribution
+@{give_log}: if true, log of the result will be returned instead
+@DESCRIPTION=This function returns the probability density function of the Rayleigh distribution.
+@SEEALSO=R.PRAYLEIGH,R.QRAYLEIGH
+
+@CATEGORY=Statistics
 @FUNCTION=R.DSNORM
 @SHORTDESC=probability density function of the skew-normal distribution
 @SYNTAX=R.DSNORM(x,shape,location,scale,give_log)
@@ -5588,6 +5598,17 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @{log_p}: if true, the natural logarithm of the probability is given or returned; defaults to false
 @DESCRIPTION=This function returns the cumulative distribution function of the Poisson distribution.
 @SEEALSO=R.DPOIS,R.QPOIS
+
+@CATEGORY=Statistics
+@FUNCTION=R.PRAYLEIGH
+@SHORTDESC=cumulative distribution function of the Rayleigh distribution
+@SYNTAX=R.PRAYLEIGH(x,scale,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{x}: observation
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered
+@{log_p}: if true, the natural logarithm of the probability is given or returned; defaults to false
+@DESCRIPTION=This function returns the cumulative distribution function of the Rayleigh distribution.
+@SEEALSO=R.DRAYLEIGH,R.QRAYLEIGH
 
 @CATEGORY=Statistics
 @FUNCTION=R.PSNORM
@@ -5815,6 +5836,17 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @{log_p}: if true, the natural logarithm of the probability is given or returned; defaults to false
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Poisson distribution.
 @SEEALSO=R.DPOIS,R.PPOIS
+
+@CATEGORY=Statistics
+@FUNCTION=R.QRAYLEIGH
+@SHORTDESC=probability quantile function of the Rayleigh distribution
+@SYNTAX=R.QRAYLEIGH(p,scale,lower_tail,log_p)
+@ARGUMENTDESCRIPTION=@{p}: probability or natural logarithm of the probability
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered
+@{log_p}: if true, the natural logarithm of the probability is given or returned; defaults to false
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Rayleigh distribution.
+@SEEALSO=R.DRAYLEIGH,R.PRAYLEIGH
 
 @CATEGORY=Statistics
 @FUNCTION=R.QSNORM

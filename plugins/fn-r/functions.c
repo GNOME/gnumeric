@@ -1064,6 +1064,76 @@ gnumeric_r_qpois (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 /* ------------------------------------------------------------------------- */
 
+static GnmFuncHelp const help_r_drayleigh[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.DRAYLEIGH:probability density function of the Rayleigh distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
+	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the Rayleigh distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.PRAYLEIGH,R.QRAYLEIGH" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_drayleigh (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float x = value_get_as_float (args[0]);
+	gnm_float scale = value_get_as_float (args[1]);
+	gboolean give_log = args[2] ? value_get_as_checked_bool (args[2]) : FALSE;
+
+	return value_new_float (drayleigh (x, scale, give_log));
+}
+
+/* ------------------------------------------------------------------------- */
+
+static GnmFuncHelp const help_r_prayleigh[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.PRAYLEIGH:cumulative distribution function of the Rayleigh distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
+	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
+	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the Rayleigh distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.DRAYLEIGH,R.QRAYLEIGH" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_prayleigh (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float x = value_get_as_float (args[0]);
+	gnm_float scale = value_get_as_float (args[1]);
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
+
+	return value_new_float (prayleigh (x, scale, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
+static GnmFuncHelp const help_r_qrayleigh[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.QRAYLEIGH:probability quantile function of the Rayleigh distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("p:probability or natural logarithm of the probability") },
+	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
+	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Rayleigh distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.DRAYLEIGH,R.PRAYLEIGH" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_qrayleigh (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float p = value_get_as_float (args[0]);
+	gnm_float scale = value_get_as_float (args[1]);
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
+
+	return value_new_float (qrayleigh (p, scale, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
 static GnmFuncHelp const help_r_dsnorm[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DSNORM:probability density function of the skew-normal distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
@@ -1729,6 +1799,27 @@ GnmFuncDescriptor const rstat_functions[] = {
 		"ff|bb",
 		help_r_qpois,
 		gnumeric_r_qpois, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.drayleigh",
+		"ff|b",
+		help_r_drayleigh,
+		gnumeric_r_drayleigh, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.prayleigh",
+		"ff|bb",
+		help_r_prayleigh,
+		gnumeric_r_prayleigh, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.qrayleigh",
+		"ff|bb",
+		help_r_qrayleigh,
+		gnumeric_r_qrayleigh, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{

@@ -18381,6 +18381,40 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-R.DRAYLEIGH">
+      <refmeta>
+        <refentrytitle>
+          <function>R.DRAYLEIGH</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.DRAYLEIGH</function>
+        </refname>
+        <refpurpose>
+        probability density function of the Rayleigh distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.DRAYLEIGH</function>(<parameter>x</parameter>,<parameter>scale</parameter>,<parameter>give_log</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
+        <para><parameter>give_log</parameter>: if true, log of the result will be returned instead</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the probability density function of the Rayleigh distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.PRAYLEIGH"><function>R.PRAYLEIGH</function></link>,
+        <link linkend="gnumeric-function-R.QRAYLEIGH"><function>R.QRAYLEIGH</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-R.DSNORM">
       <refmeta>
         <refentrytitle>
@@ -19023,6 +19057,41 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-R.DPOIS"><function>R.DPOIS</function></link>,
         <link linkend="gnumeric-function-R.QPOIS"><function>R.QPOIS</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-R.PRAYLEIGH">
+      <refmeta>
+        <refentrytitle>
+          <function>R.PRAYLEIGH</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.PRAYLEIGH</function>
+        </refname>
+        <refpurpose>
+        cumulative distribution function of the Rayleigh distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.PRAYLEIGH</function>(<parameter>x</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
+        <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the cumulative distribution function of the Rayleigh distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.DRAYLEIGH"><function>R.DRAYLEIGH</function></link>,
+        <link linkend="gnumeric-function-R.QRAYLEIGH"><function>R.QRAYLEIGH</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -19708,6 +19777,41 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-R.DPOIS"><function>R.DPOIS</function></link>,
         <link linkend="gnumeric-function-R.PPOIS"><function>R.PPOIS</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-R.QRAYLEIGH">
+      <refmeta>
+        <refentrytitle>
+          <function>R.QRAYLEIGH</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.QRAYLEIGH</function>
+        </refname>
+        <refpurpose>
+        probability quantile function of the Rayleigh distribution
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.QRAYLEIGH</function>(<parameter>p</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>p</parameter>: probability or natural logarithm of the probability</para>
+        <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
+        <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
+        <para><parameter>log_p</parameter>: if true, the natural logarithm of the probability is given or returned; defaults to false</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Rayleigh distribution.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-R.DRAYLEIGH"><function>R.DRAYLEIGH</function></link>,
+        <link linkend="gnumeric-function-R.PRAYLEIGH"><function>R.PRAYLEIGH</function></link>.
       </para>
       </refsect1>
     </refentry>

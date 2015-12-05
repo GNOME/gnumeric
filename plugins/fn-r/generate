@@ -150,6 +150,11 @@ my %defaults;
 	 ({ 'mu' => "the location parameter of freedom $of",
 	    'beta' => "the scale parameter of freedom $of",
 	    @common })];
+
+    $funcs{'drayleigh'} = $funcs{'prayleigh'} = $funcs{'qrayleigh'} =
+	[\&distribution,
+	 'Rayleigh',
+	 ({ @common })];
 }
 
 

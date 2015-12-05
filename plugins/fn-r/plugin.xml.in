@@ -25,6 +25,7 @@
 				<function name="r.dnbinom"/>
 				<function name="r.dnorm"/>
 				<function name="r.dpois"/>
+				<function name="r.drayleigh"/>
 				<function name="r.dsnorm"/>
 				<function name="r.dst"/>
 				<function name="r.dt"/>
@@ -43,6 +44,7 @@
 				<function name="r.pnbinom"/>
 				<function name="r.pnorm"/>
 				<function name="r.ppois"/>
+				<function name="r.prayleigh"/>
 				<function name="r.psnorm"/>
 				<function name="r.pst"/>
 				<function name="r.pt"/>
@@ -62,6 +64,7 @@
 				<function name="r.qnbinom"/>
 				<function name="r.qnorm"/>
 				<function name="r.qpois"/>
+				<function name="r.qrayleigh"/>
 				<function name="r.qsnorm"/>
 				<function name="r.qst"/>
 				<function name="r.qt"/>
