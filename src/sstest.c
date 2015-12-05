@@ -2380,6 +2380,82 @@ test_random_randlognorm (int N)
 }
 
 static void
+test_random_randrayleigh (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float ls = 1 / (1 + gnm_pow (random_01 () / 2, 2));
+	gnm_float mean_target = ls * gnm_sqrt (M_PIgnum / 2);
+	gnm_float var_target = (4 - M_PIgnum) / 2 * ls * ls;
+	gnm_float skew_target = 2 * gnm_sqrt (M_PIgnum) * (M_PIgnum - 3) /
+		gnm_pow (4 - M_PIgnum, 1.5);
+	gnm_float kurt_target = gnm_nan; /* Complicated */
+	char *expr;
+	gnm_float T;
+	int i;
+	gnm_float fractiles[10];
+	const int nf = G_N_ELEMENTS (fractiles);
+
+	expr = g_strdup_printf ("=RANDRAYLEIGH(%.10" GNM_FORMAT_f ")", ls);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 0 && gnm_finite (r))) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+
+	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
+	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
+		g_printerr ("Mean failure.\n");
+		ok = FALSE;
+	}
+
+	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
+	if (!(var >= 0 && gnm_finite (var))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Var failure.\n");
+		ok = FALSE;
+	}
+
+	T = skew_target;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
+	if (!gnm_finite (skew)) {
+		/* That is a very simplistic test! */
+		g_printerr ("Skew failure.\n");
+		ok = FALSE;
+	}
+
+	T = kurt_target;
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
+	if (!(kurt >= -3 && gnm_finite (kurt))) {
+		/* That is a very simplistic test! */
+		g_printerr ("Kurt failure.\n");
+		ok = FALSE;
+	}
+
+	/* Fractile test */
+	for (i = 1; i < nf; i++)
+		fractiles[i] = qrayleigh (i / (double)nf, ls, TRUE, FALSE);
+	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
+		ok = FALSE;
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+
+	g_free (vals);
+}
+
+static void
 test_random (void)
 {
 	const char *test_name = "test_random";
@@ -2407,6 +2483,7 @@ test_random (void)
 	CHECK1 (randsnorm, High_N);
 	CHECK1 (randtdist, N);
 	CHECK1 (randweibull, N);
+	CHECK1 (randrayleigh, N);
 #if 0
 	CHECK1 (randexppow, N);
 	CHECK1 (randgumbel, N);
@@ -2416,7 +2493,6 @@ test_random (void)
 	CHECK1 (randlogistic, N);
 	CHECK1 (randnormtail, N);
 	CHECK1 (randpareto, N);
-	CHECK1 (randrayleigh, N);
 	CHECK1 (randrayleightail, N);
 	CHECK1 (randstdist, N);
 #endif
