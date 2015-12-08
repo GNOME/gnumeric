@@ -40,6 +40,23 @@ enum {
 /* ------------------------------------------------------------------------- */
 
 static void
+cb_selected (GtkTreeModel *model,
+             G_GNUC_UNUSED GtkTreePath *path,
+             GtkTreeIter *iter,
+             WBCGtk *wbcg)
+{
+	char *uri = NULL;
+	GtkRecentInfo *info;
+	gtk_tree_model_get (model, iter, RECENT_COL_INFO, &info, -1);
+	uri = g_strdup (gtk_recent_info_get_uri (info));
+	gtk_recent_info_unref (info);
+	if (uri) {
+		gui_file_read (wbcg, uri, NULL, NULL);
+		g_free (uri);
+	}
+}
+
+static void
 cb_response (GtkWidget *dialog,
 	     gint response_id,
 	     WBCGtk *wbcg)
@@ -49,27 +66,10 @@ cb_response (GtkWidget *dialog,
 	GtkTreeSelection *tsel = gtk_tree_view_get_selection (tv);
 
 	switch (response_id) {
-	case GTK_RESPONSE_OK: {
-		GtkTreeModel *model;
-		GtkTreeIter iter;
-		char *uri = NULL;
-
-		if (gtk_tree_selection_get_selected (tsel, &model, &iter)) {
-			GtkRecentInfo *info;
-			gtk_tree_model_get (model, &iter, RECENT_COL_INFO, &info, -1);
-			uri = g_strdup (gtk_recent_info_get_uri (info));
-			gtk_recent_info_unref (info);
-		}
-
+	case GTK_RESPONSE_OK:
+		gtk_tree_selection_selected_foreach (tsel, (GtkTreeSelectionForeachFunc) cb_selected, wbcg);
 		gtk_widget_destroy (dialog);
-
-		if (uri) {
-			gui_file_read (wbcg, uri, NULL, NULL);
-			g_free (uri);
-		}
-
 		break;
-	}
 
 	default:
 		gtk_widget_destroy (dialog);
@@ -118,6 +118,18 @@ cb_key_press (GtkWidget *widget, GdkEventKey *event)
   return FALSE;
 }
 
+static gboolean
+cb_button_press (GtkWidget *w, GdkEventButton *ev, WBCGtk *wbcg)
+{
+	if (ev->type == GDK_2BUTTON_PRESS && ev->button == 1) {
+		GtkWidget *dlg = gtk_widget_get_toplevel (w);
+		if (GTK_IS_DIALOG (dlg)) {
+			cb_response (dlg, GTK_RESPONSE_OK, wbcg);
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
 
 static void
 url_renderer_func (GtkTreeViewColumn *tree_column,
@@ -293,6 +305,8 @@ dialog_recent_used (WBCGtk *wbcg)
 		GtkWidget *w;
 		int width, height, vsep;
 		PangoLayout *layout;
+		GtkTreeView *tv;
+		GtkTreeSelection *tsel;
 
 		w = GTK_WIDGET (wbcg_toplevel (wbcg));
 		layout = gtk_widget_create_pango_layout (w, "Mg19");
@@ -302,12 +316,18 @@ dialog_recent_used (WBCGtk *wbcg)
 		g_signal_connect (w, "key-press-event",
 				  G_CALLBACK (cb_key_press),
 				  NULL);
+		g_signal_connect (w, "button-press-event",
+				  G_CALLBACK (cb_button_press),
+				  wbcg);
 
 		pango_layout_get_pixel_size (layout, &width, &height);
 		gtk_widget_set_size_request (go_gtk_builder_get_widget (gui, "docs_scrolledwindow"),
 					     width * 60 / 4,
 					     (2 * height + vsep) * (5 + 1));
 		g_object_unref (layout);
+		tv = GTK_TREE_VIEW (gtk_builder_get_object (gui, "docs_treeview"));
+		tsel = gtk_tree_view_get_selection (tv);
+		gtk_tree_selection_set_mode (tsel, GTK_SELECTION_MULTIPLE);
 	}
 
 	g_signal_connect_swapped (gtk_builder_get_object (gui, "existing_only_button"),

@@ -1,3 +1,9 @@
+2015-12-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-recent.c (cb_selected), (cb_response), (cb_button_press),
+	(dialog_recent_used): add support for multiple selesction and double
+	click. [#759160]
+
 2015-11-19  Morten Welinder <terra@gnome.org>
 
 	* recent.ui: Fix tooltip for open button

@@ -1,5 +1,9 @@
 Gnumeric 1.12.25
 
+Jean:
+	* Add support in recent files dialog for multiple selesction and double
+	click. [#759160]
+
 Morten:
 	* Fix TABLE problems.  [#752181]  [#752178]  [#752182]
 	* Fuzzed file fixes.  [#752179]  [#752180]
