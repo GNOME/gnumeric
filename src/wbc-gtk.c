@@ -128,17 +128,36 @@ set_uifilename (char const *name, GtkActionEntry const *actions, int nb)
 	extra_actions_nb = nb;
 }
 
+/**
+ * wbcg_find_action:
+ * @wbcg: the workbook control gui
+ * @name: name of action
+ *
+ * Returns: (transfer none): The action with the given name
+ **/
+GtkAction *
+wbcg_find_action (WBCGtk *wbcg, const char *name)
+{
+	GtkAction *a;
+
+	a = gtk_action_group_get_action (wbcg->actions, name);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->permanent_actions, name);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->semi_permanent_actions, name);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->data_only_actions, name);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->font_actions, name);
+
+	return a;
+}
+
 static void
-wbc_gtk_set_action_sensitivity (WBCGtk const *wbcg,
+wbc_gtk_set_action_sensitivity (WBCGtk *wbcg,
 				char const *action, gboolean sensitive)
 {
-	GtkAction *a = gtk_action_group_get_action (wbcg->actions, action);
-	if (a == NULL)
-		a = gtk_action_group_get_action (wbcg->permanent_actions, action);
-	if (a == NULL)
-		a = gtk_action_group_get_action (wbcg->semi_permanent_actions, action);
-	if (a == NULL)
-		a = gtk_action_group_get_action (wbcg->data_only_actions, action);
+	GtkAction *a = wbcg_find_action (wbcg, action);
 	g_object_set (G_OBJECT (a), "sensitive", sensitive, NULL);
 }
 
@@ -146,16 +165,13 @@ wbc_gtk_set_action_sensitivity (WBCGtk const *wbcg,
  * handling it at this end ?  That stuff should be done in the undo/redo code
  **/
 static void
-wbc_gtk_set_action_label (WBCGtk const *wbcg,
+wbc_gtk_set_action_label (WBCGtk *wbcg,
 			  char const *action,
 			  char const *prefix,
 			  char const *suffix,
 			  char const *new_tip)
 {
-	GtkAction *a = gtk_action_group_get_action (wbcg->actions, action);
-
-	if (!a)
-		a = gtk_action_group_get_action (wbcg->semi_permanent_actions, action);
+	GtkAction *a = wbcg_find_action (wbcg, action);
 
 	if (prefix != NULL) {
 		char *text;
@@ -176,16 +192,10 @@ wbc_gtk_set_action_label (WBCGtk const *wbcg,
 }
 
 static void
-wbc_gtk_set_toggle_action_state (WBCGtk const *wbcg,
+wbc_gtk_set_toggle_action_state (WBCGtk *wbcg,
 				 char const *action, gboolean state)
 {
-	GtkAction *a = gtk_action_group_get_action (wbcg->actions, action);
-	if (a == NULL)
-		a = gtk_action_group_get_action (wbcg->font_actions, action);
-	if (a == NULL)
-		a = gtk_action_group_get_action (wbcg->toolbar.actions, action);
-	if (a == NULL)
-		a = gtk_action_group_get_action (wbcg->semi_permanent_actions, action);
+	GtkAction *a = wbcg_find_action (wbcg, action);
 	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (a), state);
 }
 
@@ -1099,7 +1109,8 @@ disconnect_sheet_signals (SheetControlGUI *scg)
 	g_printerr ("Disconnecting all for %s with scg=%p\n", sheet->name_unquoted, scg);
 #endif
 
-	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_direction_change, gtk_action_group_get_action (wbcg->actions, "SheetDirection"));
+	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_direction_change,
+					      wbcg_find_action (wbcg, "SheetDirection"));
 	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
 	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_visibility_change, scg);
 }
@@ -1163,7 +1174,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 			  "signal::notify::name", cb_sheet_tab_change, scg->label,
 			  "signal::notify::tab-foreground", cb_sheet_tab_change, scg->label,
 			  "signal::notify::tab-background", cb_sheet_tab_change, scg->label,
-			  "signal::notify::text-is-rtl", cb_sheet_direction_change, gtk_action_group_get_action (wbcg->actions, "SheetDirection"),
+			  "signal::notify::text-is-rtl", cb_sheet_direction_change, wbcg_find_action (wbcg, "SheetDirection"),
 			  NULL);
 
 	if (wbcg_ui_update_begin (wbcg)) {
@@ -4173,7 +4184,7 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	/* disable statusbar by default going to fullscreen */
 	wbcg->hide_for_fullscreen =
 		g_slist_prepend (wbcg->hide_for_fullscreen,
-				 gtk_action_group_get_action (wbcg->semi_permanent_actions, "ViewStatusbar"));
+				 wbcg_find_action (wbcg, "ViewStatusbar"));
 	g_assert (wbcg->hide_for_fullscreen->data);
 }
 

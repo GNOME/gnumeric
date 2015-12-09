@@ -1948,6 +1948,28 @@ static GNM_ACTION_DEF (cb_insert_menu)
 	gtk_action_set_sensitive (action, go_components_get_mime_types () != NULL && scg && scg_sheet (scg)->sheet_type == GNM_SHEET_DATA);
 }
 
+#define TOGGLE_HANDLER(flag,property)					\
+static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
+{									\
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));		\
+									\
+	if (!wbcg->updating_ui) {					\
+		Sheet *sheet = wbcg_cur_sheet (wbcg);			\
+		go_object_toggle (sheet, property);			\
+		sheet_update (sheet);					\
+	}								\
+}
+
+TOGGLE_HANDLER (display_formulas, "display-formulas")
+TOGGLE_HANDLER (hide_zero, "display-zeros")
+TOGGLE_HANDLER (hide_grid, "display-grid")
+TOGGLE_HANDLER (hide_col_header, "display-column-header")
+TOGGLE_HANDLER (hide_row_header, "display-row-header")
+TOGGLE_HANDLER (display_outlines, "display-outlines")
+TOGGLE_HANDLER (outline_symbols_below, "display-outlines-below")
+TOGGLE_HANDLER (outline_symbols_right, "display-outlines-right")
+TOGGLE_HANDLER (use_r1c1, "use-r1c1")
+
 /* Actions that are always sensitive */
 static GnmActionEntry const permanent_actions[] = {
 	{ .name = "MenuFile",
@@ -2250,6 +2272,8 @@ static GnmActionEntry const data_only_actions[] = {
 	},
 };
 
+#define FULLSCREEN_ACCEL "F11"
+
 static GnmActionEntry const semi_permanent_actions[] = {
 	/* Edit -> Sheet */
 	{ .name = "SheetReorder",
@@ -2309,9 +2333,25 @@ static GnmActionEntry const semi_permanent_actions[] = {
 	  .tooltip = N_("Modify the view properties"),
 	  .callback = G_CALLBACK (cb_workbook_attr)
 	},
+
+	{ .name = "ViewStatusbar",
+	  .toggle = TRUE,
+	  .label = N_("View _Statusbar"),
+	  .tooltip = N_("Toggle visibility of statusbar"),
+	  .callback = G_CALLBACK (cb_view_statusbar),
+	  .is_active = TRUE
+	},
+
+	{ .name = "ViewFullScreen",
+	  .toggle = TRUE,
+	  .icon = "view-fullscreen",
+	  .label = N_("F_ull Screen"),
+	  .accelerator = FULLSCREEN_ACCEL,
+	  .tooltip = N_("Switch to or from full screen mode"),
+	  .callback = G_CALLBACK (cb_view_fullscreen)
+	},
 };
 
-#define FULLSCREEN_ACCEL "F11"
 #define ZOOM_IN_ACCEL NULL
 #define ZOOM_OUT_ACCEL NULL
 
@@ -2754,23 +2794,20 @@ static GnmActionEntry const actions[] = {
 	  .callback = G_CALLBACK (cb_format_cells)
 	},
 	{ .name = "FormatCellsCond",
-	  .label = N_("_Conditional Formatting..."), .accelerator = NULL,
-	  .tooltip =
-	  N_("Modify the conditional formatting of the selected cells"),
+	  .label = N_("_Conditional Formatting..."),
+	  .tooltip = N_("Modify the conditional formatting of the selected cells"),
 	  .callback = G_CALLBACK (cb_format_cells_cond)
 	},
 	{ .name = "FormatCellsFitHeight",
 	  .icon = "gnumeric-row-size",
-	  .label = N_("Auto Fit _Height"), .accelerator = NULL,
-	  .tooltip =
-	  N_("Ensure rows are just tall enough to display content of selection"),
+	  .label = N_("Auto Fit _Height"),
+	  .tooltip = N_("Ensure rows are just tall enough to display content of selection"),
 	  .callback = G_CALLBACK (cb_format_cells_auto_fit_height)
 	},
 	{ .name = "FormatCellsFitWidth",
 	  .icon = "gnumeric-column-size",
-	  .label = N_("Auto Fit _Width"), .accelerator = NULL,
-	  .tooltip =
-	  N_("Ensure columns are just wide enough to display content of selection"),
+	  .label = N_("Auto Fit _Width"),
+	  .tooltip = N_("Ensure columns are just wide enough to display content of selection"),
 	  .callback = G_CALLBACK (cb_format_cells_auto_fit_width)
 	},
 
@@ -3258,24 +3295,21 @@ static GnmActionEntry const actions[] = {
 	},
 	{ .name = "InsertFormula",
 	  .icon = "gnumeric-formulaguru",
-	  .label = N_("_Function..."), .accelerator = NULL,
-	  .tooltip =
-	  N_("Edit a function in the current cell"),
+	  .label = N_("_Function..."),
+	  .tooltip = N_("Edit a function in the current cell"),
 	  .callback = G_CALLBACK (cb_formula_guru)
 	},
 
 	{ .name = "SortAscending",
 	  .icon = "view-sort-ascending",
-	  .label = N_("Sort Ascending"), .accelerator = NULL,
-	  .tooltip =
-	  N_("Sort the selected region in ascending order based on the first column selected"),
+	  .label = N_("Sort Ascending"),
+	  .tooltip = N_("Sort the selected region in ascending order based on the first column selected"),
 	  .callback = G_CALLBACK (cb_sort_ascending)
 	},
 	{ .name = "SortDescending",
 	  .icon = "view-sort-descending",
-	  .label = N_("Sort Descending"), .accelerator = NULL,
-	  .tooltip =
-	  N_("Sort the selected region in descending order based on the first column selected"),
+	  .label = N_("Sort Descending"),
+	  .tooltip = N_("Sort the selected region in descending order based on the first column selected"),
 	  .callback = G_CALLBACK (cb_sort_descending)
 	},
 
@@ -3468,135 +3502,196 @@ static GnmActionEntry const actions[] = {
 	  .tooltip = N_("Increase the indent, and align the contents to the left"),
 	  .callback = G_CALLBACK (cb_format_inc_indent)
 	},
-};
 
-#define TOGGLE_HANDLER(flag,property)					\
-static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
-{									\
-	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));		\
-									\
-	if (!wbcg->updating_ui) {					\
-		Sheet *sheet = wbcg_cur_sheet (wbcg);			\
-		go_object_toggle (sheet, property);			\
-		sheet_update (sheet);					\
-	}								\
-}
+	/* ---------------------------------------- */
 
-TOGGLE_HANDLER (display_formulas, "display-formulas")
-TOGGLE_HANDLER (hide_zero, "display-zeros")
-TOGGLE_HANDLER (hide_grid, "display-grid")
-TOGGLE_HANDLER (hide_col_header, "display-column-header")
-TOGGLE_HANDLER (hide_row_header, "display-row-header")
-TOGGLE_HANDLER (display_outlines, "display-outlines")
-TOGGLE_HANDLER (outline_symbols_below, "display-outlines-below")
-TOGGLE_HANDLER (outline_symbols_right, "display-outlines-right")
-TOGGLE_HANDLER (use_r1c1, "use-r1c1")
-
-static GtkToggleActionEntry const toggle_actions[] = {
-	{ "SheetDisplayOutlines", NULL, N_("Display _Outlines"),
-		"<control>8", N_("Toggle whether or not to display outline groups"),
-		G_CALLBACK (cb_sheet_pref_display_outlines) },
-	{ "SheetOutlineBelow", NULL, N_("Outlines _Below"),
-		NULL, N_("Toggle whether to display row outlines on top or bottom"),
-		G_CALLBACK (cb_sheet_pref_outline_symbols_below) },
-	{ "SheetOutlineRight", NULL, N_("Outlines _Right"),
-		NULL, N_("Toggle whether to display column outlines on the left or right"),
-		G_CALLBACK (cb_sheet_pref_outline_symbols_right) },
-	{ "SheetDisplayFormulas", "gnumeric-formulaguru",
-	  N_("Display _Formul\303\246"),
-	  "<control>quoteleft",
-	  N_("Display the value of a formula or the formula itself"),
-		G_CALLBACK (cb_sheet_pref_display_formulas) },
-	{ "SheetHideZeros", NULL, N_("_Hide Zeros"),
-		NULL, N_("Toggle whether or not to display zeros as blanks"),
-		G_CALLBACK (cb_sheet_pref_hide_zero) },
-	{ "SheetHideGridlines", NULL, N_("Hide _Gridlines"),
-		NULL, N_("Toggle whether or not to display gridlines"),
-		G_CALLBACK (cb_sheet_pref_hide_grid) },
-	{ "SheetHideColHeader", NULL, N_("Hide _Column Headers"),
-		NULL, N_("Toggle whether or not to display column headers"),
-		G_CALLBACK (cb_sheet_pref_hide_col_header) },
-	{ "SheetHideRowHeader", NULL, N_("Hide _Row Headers"),
-		NULL, N_("Toggle whether or not to display row headers"),
-		G_CALLBACK (cb_sheet_pref_hide_row_header) },
+	{ .name = "SheetDisplayOutlines",
+	  .toggle = TRUE,
+	  .label = N_("Display _Outlines"),
+	  .accelerator = "<control>8",
+	  .tooltip = N_("Toggle whether or not to display outline groups"),
+	  .callback = G_CALLBACK (cb_sheet_pref_display_outlines)
+	},
+	{ .name = "SheetOutlineBelow",
+	  .toggle = TRUE,
+	  .label = N_("Outlines _Below"),
+	  .tooltip = N_("Toggle whether to display row outlines on top or bottom"),
+	  .callback = G_CALLBACK (cb_sheet_pref_outline_symbols_below)
+	},
+	{ .name = "SheetOutlineRight",
+	  .toggle = TRUE,
+	  .label = N_("Outlines _Right"),
+	  .tooltip = N_("Toggle whether to display column outlines on the left or right"),
+	  .callback = G_CALLBACK (cb_sheet_pref_outline_symbols_right)
+	},
+	{ .name = "SheetDisplayFormulas",
+	  .toggle = TRUE,
+	  .icon = "gnumeric-formulaguru",
+	  .label = N_("Display _Formul\303\246"),
+	  .accelerator = "<control>quoteleft",
+	  .tooltip = N_("Display the value of a formula or the formula itself"),
+	  .callback = G_CALLBACK (cb_sheet_pref_display_formulas)
+	},
+	{ .name = "SheetHideZeros",
+	  .toggle = TRUE,
+	  .label = N_("_Hide Zeros"),
+	  .tooltip = N_("Toggle whether or not to display zeros as blanks"),
+	  .callback = G_CALLBACK (cb_sheet_pref_hide_zero)
+	},
+	{ .name = "SheetHideGridlines",
+	  .toggle = TRUE,
+	  .label = N_("Hide _Gridlines"),
+	  .tooltip = N_("Toggle whether or not to display gridlines"),
+	  .callback = G_CALLBACK (cb_sheet_pref_hide_grid)
+	},
+	{ .name = "SheetHideColHeader",
+	  .toggle = TRUE,
+	  .label = N_("Hide _Column Headers"),
+	  .tooltip = N_("Toggle whether or not to display column headers"),
+	  .callback = G_CALLBACK (cb_sheet_pref_hide_col_header)
+	},
+	{ .name = "SheetHideRowHeader",
+	  .toggle = TRUE,
+	  .label = N_("Hide _Row Headers"),
+	  .tooltip = N_("Toggle whether or not to display row headers"),
+	  .callback = G_CALLBACK (cb_sheet_pref_hide_row_header)
+	},
 
 	/* TODO : Make this a sub menu when we have more convention types */
-	{ "SheetUseR1C1", NULL, N_("Use R1C1 N_otation "),
-		NULL, N_("Display addresses as R1C1 or A1"),
-		G_CALLBACK (cb_sheet_pref_use_r1c1) },
+	{ .name = "SheetUseR1C1",
+	  .toggle = TRUE,
+	  .label = N_("Use R1C1 N_otation "),
+	  .tooltip = N_("Display addresses as R1C1 or A1"),
+	  .callback = G_CALLBACK (cb_sheet_pref_use_r1c1)
+	},
 
-	{ "AlignLeft", "format-justify-left",
-		N_("_Left Align"), NULL,
-		N_("Align left"), G_CALLBACK (cb_align_left), FALSE },
-	{ "AlignCenter", "format-justify-center",
-		N_("_Center"), NULL,
-		N_("Center horizontally"), G_CALLBACK (cb_align_center), FALSE },
-	{ "AlignRight", "format-justify-right",
-		N_("_Right Align"), NULL,
-		N_("Align right"), G_CALLBACK (cb_align_right), FALSE },
-	{ "CenterAcrossSelection", "gnumeric-center-across-selection",
-		N_("_Center Across Selection"), NULL,
-		N_("Center horizontally across the selection"),
-		G_CALLBACK (cb_center_across_selection), FALSE },
-	{ "MergeAndCenter", NULL,
-		N_("_Merge and Center"), NULL,
-		N_("Merge the selection into 1 cell, and center horizontally."),
-		G_CALLBACK (cb_merge_and_center), FALSE },
+	{ .name = "AlignLeft",
+	  .toggle = TRUE,
+	  .icon = "format-justify-left",
+	  .label = N_("_Left Align"),
+	  .tooltip = N_("Align left"),
+	  .callback = G_CALLBACK (cb_align_left)
+	},
+	{ .name = "AlignCenter",
+	  .toggle = TRUE,
+	  .icon = "format-justify-center",
+	  .label = N_("_Center"),
+	  .tooltip = N_("Center horizontally"),
+	  .callback = G_CALLBACK (cb_align_center)
+	},
+	{ .name = "AlignRight",
+	  .toggle = TRUE,
+	  .icon = "format-justify-right",
+	  .label = N_("_Right Align"),
+	  .tooltip = N_("Align right"),
+	  .callback = G_CALLBACK (cb_align_right)
+	},
+	{ .name = "CenterAcrossSelection",
+	  .toggle = TRUE,
+	  .icon = "gnumeric-center-across-selection",
+	  .label = N_("_Center Across Selection"),
+	  .tooltip = N_("Center horizontally across the selection"),
+	  .callback = G_CALLBACK (cb_center_across_selection)
+	},
+	{ .name = "MergeAndCenter",
+	  .toggle = TRUE,
+	  .label = N_("_Merge and Center"),
+	  .tooltip = N_("Merge the selection into 1 cell, and center horizontally."),
+	  .callback = G_CALLBACK (cb_merge_and_center)
+	},
 #warning "Add justify"
 #warning "h/v distributed?"
 
 #warning "Get vertical alignment icons"
-	{ "AlignTop", NULL,
-		N_("Align _Top"), NULL,
-		N_("Align Top"), G_CALLBACK (cb_align_top), FALSE },
-	{ "AlignVCenter", NULL,
-		N_("_Vertically Center"), NULL,
-		N_("Vertically Center"), G_CALLBACK (cb_align_vcenter), FALSE },
-	{ "AlignBottom", NULL,
-		N_("Align _Bottom"), NULL,
-		N_("Align Bottom"), G_CALLBACK (cb_align_bottom), FALSE },
+	{ .name = "AlignTop",
+	  .toggle = TRUE,
+	  .label = N_("Align _Top"),
+	  .tooltip = N_("Align Top"),
+	  .callback = G_CALLBACK (cb_align_top)
+	},
+	{ .name = "AlignVCenter",
+	  .toggle = TRUE,
+	  .label = N_("_Vertically Center"),
+	  .tooltip = N_("Vertically Center"),
+	  .callback = G_CALLBACK (cb_align_vcenter)
+	},
+	{ .name = "AlignBottom",
+	  .toggle = TRUE,
+	  .label = N_("Align _Bottom"),
+	  .tooltip = N_("Align Bottom"),
+	  .callback = G_CALLBACK (cb_align_bottom)
+	},
 };
 
-static GtkToggleActionEntry const semi_permanent_toggle_actions[] = {
-	{ "ViewStatusbar", NULL,
-		N_("View _Statusbar"), NULL,
-		N_("Toggle visibility of statusbar"),
-		G_CALLBACK (cb_view_statusbar), TRUE },
-
-	{ "ViewFullScreen", "view-fullscreen",
-		N_("F_ull Screen"), FULLSCREEN_ACCEL,
-		N_("Switch to or from full screen mode"),
-		G_CALLBACK (cb_view_fullscreen), FALSE }
-};
-
-static GtkToggleActionEntry const font_toggle_actions[] = {
-	{ "FontBold", "format-text-bold",
-		N_("_Bold"), "<control>b",	/* ALSO "<control>2" */
-		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },
-	{ "FontItalic", "format-text-italic",
-		N_("_Italic"), "<control>i",	/* ALSO "<control>3" */
-		N_("Italic"), G_CALLBACK (cb_font_italic), FALSE },
-	{ "FontUnderline", "format-text-underline",
-		N_("_Underline"), "<control>u",	/* ALSO "<control>4" */
-		N_("Underline"), G_CALLBACK (cb_font_underline), FALSE },
-	{ "FontDoubleUnderline", "stock_text_underlined-double",	/* from icon theme */
-		N_("_Double Underline"), "<control><shift>d",
-		N_("Double Underline"), G_CALLBACK (cb_font_double_underline), FALSE },
-	{ "FontSingleLowUnderline", NULL,	/* from icon theme */
-		N_("_Single Low Underline"), "<control><shift>l",
-		N_("Single Low Underline"), G_CALLBACK (cb_font_underline_low), FALSE },
-	{ "FontDoubleLowUnderline", NULL,	/* from icon theme */
-		N_("Double _Low Underline"), NULL,
-		N_("Double Low Underline"), G_CALLBACK (cb_font_double_underline_low), FALSE },
-	{ "FontStrikeThrough", "format-text-strikethrough",
-		N_("_Strikethrough"), "<control>5",
-		N_("Strikethrough"), G_CALLBACK (cb_font_strikethrough), FALSE },
-	{ "FontSuperscript", "gnumeric-superscript",
-		N_("Su_perscript"), "<control>asciicircum",
-		N_("Superscript"), G_CALLBACK (cb_font_superscript), FALSE },
-	{ "FontSubscript", "gnumeric-subscript",
-		N_("Subscrip_t"), "<control>underscore",
-		N_("Subscript"), G_CALLBACK (cb_font_subscript), FALSE }
+static GnmActionEntry const font_actions[] = {
+	{ .name = "FontBold",
+	  .toggle = TRUE,
+	  .icon = "format-text-bold",
+	  .label = N_("_Bold"),
+	  .accelerator = "<control>b",	/* ALSO "<control>2" */
+	  .tooltip = N_("Bold"),
+	  .callback = G_CALLBACK (cb_font_bold),
+	  .is_active = FALSE },
+	{ .name = "FontItalic",
+	  .toggle = TRUE,
+	  .icon = "format-text-italic",
+	  .label = N_("_Italic"),
+	  .accelerator = "<control>i",	/* ALSO "<control>3" */
+	  .tooltip = N_("Italic"),
+	  .callback = G_CALLBACK (cb_font_italic),
+	  .is_active = FALSE },
+	{ .name = "FontUnderline",
+	  .toggle = TRUE,
+	  .icon = "format-text-underline",
+	  .label = N_("_Underline"),
+	  .accelerator = "<control>u",	/* ALSO "<control>4" */
+	  .tooltip = N_("Underline"),
+	  .callback = G_CALLBACK (cb_font_underline),
+	  .is_active = FALSE },
+	{ .name = "FontDoubleUnderline",
+	  .toggle = TRUE,
+	  .icon = "stock_text_underlined-double",	/* from icon theme */
+	  .label = N_("_Double Underline"),
+	  .accelerator = "<control><shift>d",
+	  .tooltip = N_("Double Underline"),
+	  .callback = G_CALLBACK (cb_font_double_underline),
+	  .is_active = FALSE },
+	{ .name = "FontSingleLowUnderline",
+	  .toggle = TRUE,
+	  .label = N_("_Single Low Underline"),
+	  .accelerator = "<control><shift>l",
+	  .tooltip = N_("Single Low Underline"),
+	  .callback = G_CALLBACK (cb_font_underline_low),
+	  .is_active = FALSE },
+	{ .name = "FontDoubleLowUnderline",
+	  .toggle = TRUE,
+	  .label = N_("Double _Low Underline"),
+	  .tooltip = N_("Double Low Underline"),
+	  .callback = G_CALLBACK (cb_font_double_underline_low),
+	  .is_active = FALSE },
+	{ .name = "FontStrikeThrough",
+	  .toggle = TRUE,
+	  .icon = "format-text-strikethrough",
+	  .label = N_("_Strikethrough"),
+	  .accelerator = "<control>5",
+	  .tooltip = N_("Strikethrough"),
+	  .callback = G_CALLBACK (cb_font_strikethrough),
+	  .is_active = FALSE },
+	{ .name = "FontSuperscript",
+	  .toggle = TRUE,
+	  .icon = "gnumeric-superscript",
+	  .label = N_("Su_perscript"),
+	  .accelerator = "<control>asciicircum",
+	  .tooltip = N_("Superscript"),
+	  .callback = G_CALLBACK (cb_font_superscript),
+	  .is_active = FALSE },
+	{ .name = "FontSubscript",
+	  .toggle = TRUE,
+	  .icon = "gnumeric-subscript",
+	  .label = N_("Subscrip_t"),
+	  .accelerator = "<control>underscore",
+	  .tooltip = N_("Subscript"),
+	  .callback = G_CALLBACK (cb_font_subscript), .is_active = FALSE }
 };
 
 /****************************************************************************/
@@ -4357,30 +4452,21 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 	unsigned i;
 
 	wbcg->permanent_actions = gtk_action_group_new ("PermanentActions");
-	gtk_action_group_set_translation_domain (wbcg->permanent_actions, GETTEXT_PACKAGE);
 	wbcg->actions = gtk_action_group_new ("Actions");
-	gtk_action_group_set_translation_domain (wbcg->actions, GETTEXT_PACKAGE);
 	wbcg->font_actions = gtk_action_group_new ("FontActions");
-	gtk_action_group_set_translation_domain (wbcg->font_actions, GETTEXT_PACKAGE);
 	wbcg->data_only_actions = gtk_action_group_new ("DataOnlyActions");
-	gtk_action_group_set_translation_domain (wbcg->data_only_actions, GETTEXT_PACKAGE);
 	wbcg->semi_permanent_actions = gtk_action_group_new ("SemiPermanentActions");
-	gtk_action_group_set_translation_domain (wbcg->semi_permanent_actions, GETTEXT_PACKAGE);
 
 	gnm_action_group_add_actions (wbcg->permanent_actions,
 		permanent_actions, G_N_ELEMENTS (permanent_actions), wbcg);
 	gnm_action_group_add_actions (wbcg->actions,
 		actions, G_N_ELEMENTS (actions), wbcg);
-	gtk_action_group_add_toggle_actions (wbcg->actions,
-		toggle_actions, G_N_ELEMENTS (toggle_actions), wbcg);
-	gtk_action_group_add_toggle_actions (wbcg->font_actions,
-		font_toggle_actions, G_N_ELEMENTS (font_toggle_actions), wbcg);
+	gnm_action_group_add_actions (wbcg->font_actions,
+		font_actions, G_N_ELEMENTS (font_actions), wbcg);
 	gnm_action_group_add_actions (wbcg->data_only_actions,
 		data_only_actions, G_N_ELEMENTS (data_only_actions), wbcg);
 	gnm_action_group_add_actions (wbcg->semi_permanent_actions,
 		semi_permanent_actions, G_N_ELEMENTS (semi_permanent_actions), wbcg);
-	gtk_action_group_add_toggle_actions (wbcg->semi_permanent_actions,
-		semi_permanent_toggle_actions, G_N_ELEMENTS (semi_permanent_toggle_actions), wbcg);
 
 	wbc_gtk_init_alignments (wbcg);
 	wbc_gtk_init_color_fore (wbcg);
@@ -4392,12 +4478,10 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 	wbcg->font_name_vaction = wbc_gtk_init_font_name (wbcg, FALSE);
 
 	for (i = G_N_ELEMENTS (toggles); i-- > 0 ; ) {
-		GtkAction *act = gtk_action_group_get_action (
-			(toggles[i].is_font ? wbcg->font_actions : wbcg->actions),
-			toggles[i].name);
-		G_STRUCT_MEMBER (GtkToggleAction *, wbcg, toggles[i].offset) = GTK_TOGGLE_ACTION (act);
+		GtkAction *act = wbcg_find_action (wbcg, toggles[i].name);
+		G_STRUCT_MEMBER (GtkToggleAction *, wbcg, toggles[i].offset) =
+			(GtkToggleAction*) (act);
 	}
-
 
 	if (gnm_debug_flag ("actions")) {
 		list_actions (wbcg->permanent_actions);

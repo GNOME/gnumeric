@@ -168,6 +168,8 @@ void     wbcg_font_action_set_font_desc (GtkAction *act, PangoFontDescription *d
 
 gboolean wbc_gtk_load_templates (WBCGtk *gtk);
 
+GtkAction *wbcg_find_action (WBCGtk *wbcg, const char *name);
+
 G_MODULE_EXPORT void set_uifilename (char const *name, GtkActionEntry const *actions, int nb);
 
 G_END_DECLS

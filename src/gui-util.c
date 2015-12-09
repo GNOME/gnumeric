@@ -1297,13 +1297,22 @@ gnm_action_group_add_actions (GtkActionGroup *group,
 
 	for (i = 0; i < n; i++) {
 		GnmActionEntry const *entry = actions + i;
+		const char *name = entry->name;
 		const char *label =
 			gnm_ag_translate (entry->label, entry->label_context);
 		const char *tip =
 			gnm_ag_translate (entry->tooltip, NULL);
 		GtkAction *a;
 
-		a = gtk_action_new (entry->name, label, tip, NULL);
+		if (entry->toggle) {
+			GtkToggleAction *ta =
+				gtk_toggle_action_new (name, label, tip, NULL);
+			gtk_toggle_action_set_active (ta, entry->is_active);
+			a = GTK_ACTION (ta);
+		} else {
+			a = gtk_action_new (name, label, tip, NULL);
+		}
+
 		g_object_set (a, "icon-name", entry->icon, NULL);
 
 		if (entry->callback) {

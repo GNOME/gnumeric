@@ -168,12 +168,14 @@ typedef struct
 	const gchar *name;
 	const gchar *icon;
 	const gchar *label;
+	const gchar *label_context;
 	const gchar *accelerator;
 	const gchar *tooltip;
 	GCallback callback;
 
-	/* Members beyond GtkActionEntry. */
-	const gchar *label_context;
+	/* Fields for toggles.  */
+	guint toggle : 1;
+	guint is_active : 1;
 } GnmActionEntry;
 
 void gnm_action_group_add_actions (GtkActionGroup *group,

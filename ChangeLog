@@ -1,7 +1,10 @@
 2015-12-09  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbcg_find_action): New function to look in
+	multiple places for an action.
+
 	* src/gui-util.c (gnm_action_group_add_actions): Handle
-	translation context.
+	translation context.  Also handle toggle actions.
 
 2015-12-08  Morten Welinder  <terra@gnome.org>
 
