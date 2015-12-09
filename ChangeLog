@@ -1,3 +1,8 @@
+2015-12-09  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnm_action_group_add_actions): Handle
+	translation context.
+
 2015-12-08  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c (actions): Use GnmActionEntry and C99

@@ -177,8 +177,7 @@ typedef struct
 } GnmActionEntry;
 
 void gnm_action_group_add_actions (GtkActionGroup *group,
-				   GnmActionEntry *permanent_actions,
-				   size_t n,
+				   GnmActionEntry const *actions, size_t n,
 				   gpointer user);
 
 

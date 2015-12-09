@@ -1280,18 +1280,42 @@ gnm_widget_measure_string (GtkWidget *w, const char *s)
 	return len;
 }
 
+static const char *
+gnm_ag_translate (const char *s, const char *ctxt)
+{
+	return ctxt
+		? g_dpgettext2 (NULL, ctxt, s)
+		: _(s);
+}
+
 void
 gnm_action_group_add_actions (GtkActionGroup *group,
-			      GnmActionEntry *permanent_actions,
-			      size_t n,
+			      GnmActionEntry const *actions, size_t n,
 			      gpointer user)
 {
-	/* Realy dumb implementation for now.  */
+	unsigned i;
 
-	while (n > 0) {
-		GtkActionEntry *a = (GtkActionEntry *)permanent_actions;
-		gtk_action_group_add_actions (group, a, 1, user);
-		permanent_actions++;
-		n--;
+	for (i = 0; i < n; i++) {
+		GnmActionEntry const *entry = actions + i;
+		const char *label =
+			gnm_ag_translate (entry->label, entry->label_context);
+		const char *tip =
+			gnm_ag_translate (entry->tooltip, NULL);
+		GtkAction *a;
+
+		a = gtk_action_new (entry->name, label, tip, NULL);
+		g_object_set (a, "icon-name", entry->icon, NULL);
+
+		if (entry->callback) {
+			GClosure *closure =
+				g_cclosure_new (entry->callback, user, NULL);
+			g_signal_connect_closure (a, "activate", closure,
+						  FALSE);
+		}
+
+		gtk_action_group_add_action_with_accel (group,
+							a,
+							entry->accelerator);
+		g_object_unref (a);
 	}
 }

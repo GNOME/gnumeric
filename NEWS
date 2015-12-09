@@ -12,6 +12,7 @@ Morten:
 	* Test also RANDWEIBULL and RANDLOGNORM.
 	* Fix problem with R.QHYPER
 	* Add R.DRAYLEIGH, R.PRAYLEIGH, R.QRAYLEIGH.
+	* Fix GUI translation problems.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.24
