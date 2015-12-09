@@ -164,6 +164,8 @@ void	 wbc_gtk_init_editline	(WBCGtk *wbcg);
 void	 wbc_gtk_init_actions	(WBCGtk *wbcg);
 void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
 
+void     wbcg_font_action_set_font_desc (GtkAction *act, PangoFontDescription *desc);
+
 gboolean wbc_gtk_load_templates (WBCGtk *gtk);
 
 G_MODULE_EXPORT void set_uifilename (char const *name, GtkActionEntry const *actions, int nb);

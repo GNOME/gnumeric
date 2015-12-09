@@ -67,6 +67,7 @@
 #include "print-info.h"
 #include "gnm-pane-impl.h"
 #include "gutils.h"
+#include "widgets/gnm-fontbutton.h"
 
 #include <goffice/goffice.h>
 #include <goffice/component/goffice-component.h>
@@ -76,6 +77,7 @@
 #include <gsf/gsf-input.h>
 #include <string.h>
 #include <glib/gstdio.h>
+#include <errno.h>
 
 static gboolean
 cb_cleanup_sendto (gpointer path)
@@ -2972,9 +2974,698 @@ wbc_gtk_init_alignments (WBCGtk *wbcg)
 
 /****************************************************************************/
 
+static void
+cb_custom_color_created (GOActionComboColor *caction, GtkWidget *dialog, WBCGtk *wbcg)
+{
+	wbc_gtk_attach_guru (wbcg, dialog);
+	wbcg_set_transient (wbcg, GTK_WINDOW (dialog));
+}
+
+static void
+cb_fore_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
+{
+	WorkbookControl *wbc = GNM_WBC (wbcg);
+	GnmStyle *mstyle;
+	GOColor   c;
+	gboolean  is_default;
+
+	if (wbcg->updating_ui)
+		return;
+	c = go_action_combo_color_get_color (a, &is_default);
+
+	if (wbcg_is_editing (wbcg)) {
+		wbcg_edit_add_markup (wbcg, go_color_to_pango (c, TRUE));
+		return;
+	}
+
+	mstyle = gnm_style_new ();
+	gnm_style_set_font_color (mstyle, is_default
+		? style_color_auto_font ()
+		: gnm_color_new_go (c));
+	cmd_selection_format (wbc, mstyle, NULL, _("Set Foreground Color"));
+}
+
+static void
+wbc_gtk_init_color_fore (WBCGtk *gtk)
+{
+	GnmColor *sc_auto_font = style_color_auto_font ();
+	GOColor default_color = sc_auto_font->go_color;
+	style_color_unref (sc_auto_font);
+
+	gtk->fore_color = go_action_combo_color_new ("ColorFore", "gnumeric-font",
+		_("Automatic"),	default_color, NULL); /* set group to view */
+	go_action_combo_color_set_allow_alpha (gtk->fore_color, TRUE);
+	g_object_set (G_OBJECT (gtk->fore_color),
+		      "label", _("Foreground"),
+		      "tooltip", _("Foreground"),
+		      NULL);
+	g_signal_connect (G_OBJECT (gtk->fore_color),
+		"combo-activate",
+		G_CALLBACK (cb_fore_color_changed), gtk);
+	g_signal_connect (G_OBJECT (gtk->fore_color),
+		"display-custom-dialog",
+		G_CALLBACK (cb_custom_color_created), gtk);
+	gtk_action_group_add_action (gtk->font_actions,
+		GTK_ACTION (gtk->fore_color));
+}
+
+static void
+cb_back_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
+{
+	WorkbookControl *wbc = GNM_WBC (wbcg);
+	GnmStyle *mstyle;
+	GOColor   c;
+	gboolean  is_default;
+
+	if (wbcg->updating_ui)
+		return;
+
+	c = go_action_combo_color_get_color (a, &is_default);
+
+	mstyle = gnm_style_new ();
+	if (!is_default) {
+		/* We need to have a pattern of at least solid to draw a background colour */
+		if (!gnm_style_is_element_set  (mstyle, MSTYLE_PATTERN) ||
+		    gnm_style_get_pattern (mstyle) < 1)
+			gnm_style_set_pattern (mstyle, 1);
+
+		gnm_style_set_back_color (mstyle, gnm_color_new_go (c));
+	} else
+		gnm_style_set_pattern (mstyle, 0);	/* Set background to NONE */
+	cmd_selection_format (wbc, mstyle, NULL, _("Set Background Color"));
+}
+
+static void
+wbc_gtk_init_color_back (WBCGtk *gtk)
+{
+	gtk->back_color = go_action_combo_color_new ("ColorBack", "gnumeric-bucket",
+		_("Clear Background"), 0, NULL);
+	g_object_set (G_OBJECT (gtk->back_color),
+		      "label", _("Background"),
+		      "tooltip", _("Background"),
+		      NULL);
+	g_object_connect (G_OBJECT (gtk->back_color),
+		"signal::combo-activate", G_CALLBACK (cb_back_color_changed), gtk,
+		"signal::display-custom-dialog", G_CALLBACK (cb_custom_color_created), gtk,
+		NULL);
+	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->back_color));
+}
+
+/****************************************************************************/
+
+static GOActionComboPixmapsElement const border_combo_info[] = {
+	{ N_("Left"),			"gnumeric-format-border-left",			11 },
+	{ N_("Clear Borders"),		"gnumeric-format-border-none",			12 },
+	{ N_("Right"),			"gnumeric-format-border-right",			13 },
+
+	{ N_("All Borders"),		"gnumeric-format-border-all",			21 },
+	{ N_("Outside Borders"),	"gnumeric-format-border-outside",		22 },
+	{ N_("Thick Outside Borders"),	"gnumeric-format-border-thick-outside",		23 },
+
+	{ N_("Bottom"),			"gnumeric-format-border-bottom",		31 },
+	{ N_("Double Bottom"),		"gnumeric-format-border-double-bottom",		32 },
+	{ N_("Thick Bottom"),		"gnumeric-format-border-thick-bottom",		33 },
+
+	{ N_("Top and Bottom"),		"gnumeric-format-border-top-n-bottom",		41 },
+	{ N_("Top and Double Bottom"),	"gnumeric-format-border-top-n-double-bottom",	42 },
+	{ N_("Top and Thick Bottom"),	"gnumeric-format-border-top-n-thick-bottom",	43 },
+
+	{ NULL, NULL}
+};
+
+static void
+cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
+{
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
+	int i;
+	int index = go_action_combo_pixmaps_get_selected (a, NULL);
+
+	/* Init the list */
+	for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
+		borders[i] = NULL;
+
+	switch (index) {
+	case 11 : /* left */
+		borders[GNM_STYLE_BORDER_LEFT] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
+			 sheet_style_get_auto_pattern_color (sheet),
+			 gnm_style_border_get_orientation (GNM_STYLE_BORDER_LEFT));
+		break;
+
+	case 12 : /* none */
+		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
+			borders[i] = gnm_style_border_ref (gnm_style_border_none ());
+		break;
+
+	case 13 : /* right */
+		borders[GNM_STYLE_BORDER_RIGHT] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
+			 sheet_style_get_auto_pattern_color (sheet),
+			 gnm_style_border_get_orientation (GNM_STYLE_BORDER_RIGHT));
+		break;
+
+	case 21 : /* all */
+		for (i = GNM_STYLE_BORDER_HORIZ; i <= GNM_STYLE_BORDER_VERT; ++i)
+			borders[i] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
+				sheet_style_get_auto_pattern_color (sheet),
+				gnm_style_border_get_orientation (i));
+		/* fall through */
+
+	case 22 : /* outside */
+		for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_RIGHT; ++i)
+			borders[i] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
+				sheet_style_get_auto_pattern_color (sheet),
+				gnm_style_border_get_orientation (i));
+		break;
+
+	case 23 : /* thick_outside */
+		for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_RIGHT; ++i)
+			borders[i] = gnm_style_border_fetch (GNM_STYLE_BORDER_THICK,
+				sheet_style_get_auto_pattern_color (sheet),
+				gnm_style_border_get_orientation (i));
+		break;
+
+	case 41 : /* top_n_bottom */
+	case 42 : /* top_n_double_bottom */
+	case 43 : /* top_n_thick_bottom */
+		borders[GNM_STYLE_BORDER_TOP] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
+			sheet_style_get_auto_pattern_color (sheet),
+			gnm_style_border_get_orientation (GNM_STYLE_BORDER_TOP));
+	    /* Fall through */
+
+	case 31 : /* bottom */
+	case 32 : /* double_bottom */
+	case 33 : /* thick_bottom */
+	{
+		int const tmp = index % 10;
+		GnmStyleBorderType const t =
+		    (tmp == 1) ? GNM_STYLE_BORDER_THIN :
+		    (tmp == 2) ? GNM_STYLE_BORDER_DOUBLE
+		    : GNM_STYLE_BORDER_THICK;
+
+		borders[GNM_STYLE_BORDER_BOTTOM] = gnm_style_border_fetch (t,
+			sheet_style_get_auto_pattern_color (sheet),
+			gnm_style_border_get_orientation (GNM_STYLE_BORDER_BOTTOM));
+		break;
+	}
+
+	default :
+		g_warning ("Unknown border preset selected (%d)", index);
+		return;
+	}
+
+	cmd_selection_format (wbc, NULL, borders, _("Set Borders"));
+}
+
+static void
+wbc_gtk_init_borders (WBCGtk *wbcg)
+{
+	wbcg->borders = go_action_combo_pixmaps_new ("BorderSelector", border_combo_info, 3, 4);
+	g_object_set (G_OBJECT (wbcg->borders),
+		      "label", _("Borders"),
+		      "tooltip", _("Borders"),
+		      NULL);
+#if 0
+	go_combo_pixmaps_select (wbcg->borders, 1); /* default to none */
+#endif
+	g_signal_connect (G_OBJECT (wbcg->borders),
+		"combo-activate",
+		G_CALLBACK (cb_border_activated), wbcg);
+	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->borders));
+}
+
+/****************************************************************************/
+
+static void
+cb_chain_sensitivity (GtkAction *src, G_GNUC_UNUSED GParamSpec *pspec,
+		      GtkAction *action)
+{
+	gboolean old_val = gtk_action_get_sensitive (action);
+	gboolean new_val = gtk_action_get_sensitive (src);
+	if ((new_val != 0) == (old_val != 0))
+		return;
+	if (new_val)
+		gtk_action_connect_accelerator (action);
+	else
+		gtk_action_disconnect_accelerator (action);
+	g_object_set (action, "sensitive", new_val, NULL);
+}
+
+
+static void
+create_undo_redo (GOActionComboStack **haction, char const *hname,
+		  GCallback hcb,
+		  GtkAction **vaction, char const *vname,
+		  GCallback vcb,
+		  WBCGtk *gtk,
+		  char const *tooltip,
+		  char const *icon_name,
+		  char const *accel, const char *alt_accel)
+{
+	*haction = g_object_new
+		(go_action_combo_stack_get_type (),
+		 "name", hname,
+		 "tooltip", tooltip,
+		 "icon-name", icon_name,
+		 "sensitive", FALSE,
+		 "visible-vertical", FALSE,
+		 NULL);
+	gtk_action_group_add_action_with_accel
+		(gtk->semi_permanent_actions,
+		 GTK_ACTION (*haction),
+		 accel);
+	g_signal_connect (G_OBJECT (*haction), "activate", hcb, gtk);
+
+	*vaction = g_object_new
+		(GTK_TYPE_ACTION,
+		 "name", vname,
+		 "tooltip", tooltip,
+		 "icon-name", icon_name,
+		 "sensitive", FALSE,
+		 "visible-horizontal", FALSE,
+		 NULL);
+	gtk_action_group_add_action_with_accel
+		(gtk->semi_permanent_actions,
+		 GTK_ACTION (*vaction),
+		 alt_accel);
+	g_signal_connect_swapped (G_OBJECT (*vaction), "activate", vcb, gtk);
+
+	g_signal_connect (G_OBJECT (*haction), "notify::sensitive",
+		G_CALLBACK (cb_chain_sensitivity), *vaction);
+}
+
+
+static void
+cb_undo_activated (GOActionComboStack *a, WorkbookControl *wbc)
+{
+	unsigned n = workbook_find_command (wb_control_get_workbook (wbc), TRUE,
+		go_action_combo_stack_selection (a));
+	while (n-- > 0)
+		command_undo (wbc);
+}
+
+static void
+cb_redo_activated (GOActionComboStack *a, WorkbookControl *wbc)
+{
+	unsigned n = workbook_find_command (wb_control_get_workbook (wbc), FALSE,
+		go_action_combo_stack_selection (a));
+	while (n-- > 0)
+		command_redo (wbc);
+}
+
+static void
+wbc_gtk_init_undo_redo (WBCGtk *gtk)
+{
+	create_undo_redo (
+		&gtk->redo_haction, "Redo", G_CALLBACK (cb_redo_activated),
+		&gtk->redo_vaction, "VRedo", G_CALLBACK (command_redo),
+		gtk, _("Redo the undone action"),
+		"edit-redo", "<control>y", "<control><shift>z");
+	create_undo_redo (
+		&gtk->undo_haction, "Undo", G_CALLBACK (cb_undo_activated),
+		&gtk->undo_vaction, "VUndo", G_CALLBACK (command_undo),
+		gtk, _("Undo the last action"),
+		"edit-undo", "<control>z", NULL);
+}
+
+/****************************************************************************/
+
+static GNM_ACTION_DEF (cb_zoom_activated)
+{
+	WorkbookControl *wbc = (WorkbookControl *)wbcg;
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	char const *new_zoom;
+	int factor;
+	char *end;
+
+	if (sheet == NULL || wbcg->updating_ui || wbcg->snotebook == NULL)
+		return;
+
+	new_zoom = go_action_combo_text_get_entry (wbcg->zoom_haction);
+
+	errno = 0; /* strtol sets errno, but does not clear it.  */
+	factor = strtol (new_zoom, &end, 10);
+	if (new_zoom != end && errno != ERANGE && factor == (gnm_float)factor)
+		/* The GSList of sheet passed to cmd_zoom will be freed by cmd_zoom,
+		 * and the sheet will force an update of the zoom combo to keep the
+		 * display consistent
+		 */
+		cmd_zoom (wbc, g_slist_append (NULL, sheet), factor / 100.);
+}
+
+static GNM_ACTION_DEF (cb_vzoom_activated)
+{
+	dialog_zoom (wbcg, wbcg_cur_sheet (wbcg));
+}
+
+static void
+wbc_gtk_init_zoom (WBCGtk *wbcg)
+{
+#warning TODO : Add zoom to selection
+	static char const * const preset_zoom [] = {
+		"200%",
+		"150%",
+		"100%",
+		"75%",
+		"50%",
+		"25%",
+		NULL
+	};
+	int i;
+
+	/* ----- horizontal ----- */
+
+	wbcg->zoom_haction =
+		g_object_new (go_action_combo_text_get_type (),
+			      "name", "Zoom",
+			      "label", _("_Zoom"),
+			      "visible-vertical", FALSE,
+			      "tooltip", _("Zoom"),
+			      "stock-id", "zoom-in",
+			      NULL);
+	go_action_combo_text_set_width (wbcg->zoom_haction, "10000%");
+	for (i = 0; preset_zoom[i] != NULL ; ++i)
+		go_action_combo_text_add_item (wbcg->zoom_haction,
+					       preset_zoom[i]);
+
+	g_signal_connect (G_OBJECT (wbcg->zoom_haction),
+		"activate",
+		G_CALLBACK (cb_zoom_activated), wbcg);
+	gtk_action_group_add_action (wbcg->actions,
+				     GTK_ACTION (wbcg->zoom_haction));
+
+	/* ----- vertical ----- */
+
+	wbcg->zoom_vaction =
+		g_object_new (GTK_TYPE_ACTION,
+			      "name", "VZoom",
+			      "tooltip", _("Zoom"),
+			      "icon-name", "zoom-in",
+			      "visible-horizontal", FALSE,
+			      NULL);
+	g_signal_connect (G_OBJECT (wbcg->zoom_vaction),
+			  "activate",
+			  G_CALLBACK (cb_vzoom_activated), wbcg);
+	gtk_action_group_add_action (wbcg->actions,
+				     GTK_ACTION (wbcg->zoom_vaction));
+
+	/* ----- chain ----- */
+
+	g_signal_connect (G_OBJECT (wbcg->zoom_haction), "notify::sensitive",
+		G_CALLBACK (cb_chain_sensitivity), wbcg->zoom_vaction);
+}
+
+/****************************************************************************/
+
+typedef struct { GtkAction base; } GnmFontAction;
+typedef struct { GtkActionClass base; } GnmFontActionClass;
+
+static PangoFontDescription *
+gnm_font_action_get_font_desc (GtkAction *act)
+{
+	PangoFontDescription *desc =
+		g_object_get_data (G_OBJECT (act), "font-data");
+	return desc;
+}
+
+void
+wbcg_font_action_set_font_desc (GtkAction *act, PangoFontDescription *desc)
+{
+	PangoFontDescription *old_desc;
+	GSList *p;
+
+	old_desc = g_object_get_data (G_OBJECT (act), "font-data");
+	if (!old_desc) {
+		old_desc = pango_font_description_new ();
+		g_object_set_data_full (G_OBJECT (act),
+					"font-data", old_desc,
+					(GDestroyNotify)pango_font_description_free);
+	}
+	pango_font_description_merge (old_desc, desc, TRUE);
+
+	for (p = gtk_action_get_proxies (act); p; p = p->next) {
+		GtkWidget *w = p->data;
+		GtkWidget *child;
+		GtkFontChooser *chooser;
+
+		if (!GTK_IS_BIN (w))
+			continue;
+
+		child = gtk_bin_get_child (GTK_BIN (w));
+		if (!GTK_IS_FONT_CHOOSER (child))
+			continue;
+
+		chooser = GTK_FONT_CHOOSER (child);
+		gtk_font_chooser_set_font_desc (chooser, old_desc);
+	}
+}
+
+static void
+cb_font_set (GtkFontChooser *chooser, GtkAction *act)
+{
+	PangoFontDescription *desc = gtk_font_chooser_get_font_desc (chooser);
+	wbcg_font_action_set_font_desc (act, desc);
+	pango_font_description_free (desc);
+	gtk_action_activate (act);
+}
+
+static void
+cb_font_button_screen_changed (GtkWidget *widget)
+{
+/* Doesn't look right */
+#if 0
+	GdkScreen *screen = gtk_widget_get_screen (widget);
+
+	if (screen) {
+		int w = gnm_widget_measure_string (widget,
+						   "XXMonospace | 99XX");
+		gtk_widget_set_size_request (widget, w, -1);
+	}
+#endif
+}
+
+/* Filter to ignore non-scalable fonts. */
+static gboolean
+cb_font_filter (G_GNUC_UNUSED const PangoFontFamily *family,
+		const PangoFontFace *face_,
+		gpointer user)
+{
+	PangoFontFace *face = (PangoFontFace*)face_;
+	int n_sizes;
+	int *sizes = NULL;
+	static int debug = -1;
+
+	pango_font_face_list_sizes (face, &sizes, &n_sizes);
+	g_free (sizes);
+
+	if (debug == -1)
+		debug = gnm_debug_flag ("fonts");
+
+	if (n_sizes > 0 && debug) {
+		PangoFontDescription *desc = pango_font_face_describe (face);
+		char *s = pango_font_description_to_string (desc);
+		g_printerr ("Ignoring bitmap face %s\n", s);
+		g_free (s);
+		pango_font_description_free (desc);
+	}
+
+	return n_sizes == 0;
+}
+
+static GtkWidget *
+gnm_font_action_create_tool_item (GtkAction *action)
+{
+	GtkWidget *item = g_object_new
+		(GTK_TYPE_TOOL_ITEM,
+		 NULL);
+	GtkWidget *but = g_object_new
+		(gnm_font_button_get_type(),
+		 "dialog-type", GO_TYPE_FONT_SEL_DIALOG,
+		 "show-preview-entry", TRUE,
+		 "show-style", FALSE,
+		 "relief", gtk_tool_item_get_relief_style (GTK_TOOL_ITEM (item)),
+		 "focus-on-click", FALSE,
+		 NULL);
+	if (0) gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER (but),
+					  cb_font_filter,
+					  NULL,
+					  NULL);
+	gtk_widget_show_all (but);
+	gtk_container_add (GTK_CONTAINER (item), but);
+	g_signal_connect (but,
+			  "font-set", G_CALLBACK (cb_font_set),
+			  action);
+	g_signal_connect (but,
+			  "screen-changed",
+			  G_CALLBACK (cb_font_button_screen_changed),
+			  action);
+	return item;
+}
+
+static void
+gnm_font_action_class_init (GObjectClass *gobject_class)
+{
+	GtkActionClass *act = GTK_ACTION_CLASS (gobject_class);
+
+	act->toolbar_item_type = GTK_TYPE_MENU_TOOL_BUTTON;
+	act->create_tool_item = gnm_font_action_create_tool_item;
+}
+
+static
+GSF_CLASS (GnmFontAction, gnm_font_action,
+	   gnm_font_action_class_init, NULL, GTK_TYPE_ACTION)
+#if 0
+	;
+#endif
+#define GNM_FONT_ACTION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), gnm_font_action_get_type(), GnmFontAction))
+
+static void
+cb_font_changed (GtkAction *act, WBCGtk *gtk)
+{
+	PangoFontDescription *desc = gnm_font_action_get_font_desc (act);
+	const char *family = pango_font_description_get_family (desc);
+	int size = pango_font_description_get_size (desc);
+
+	/*
+	 * Ignore events during destruction.  This is an attempt at avoiding
+	 * https://bugzilla.redhat.com/show_bug.cgi?id=803904 for which we
+	 * blame gtk.
+	 */
+	if (gtk->snotebook == NULL)
+		return;
+
+	if (wbcg_is_editing (WBC_GTK (gtk))) {
+		wbcg_edit_add_markup (WBC_GTK (gtk),
+				      pango_attr_family_new (family));
+		wbcg_edit_add_markup (WBC_GTK (gtk),
+				      pango_attr_size_new (size));
+	} else {
+		GnmStyle *style = gnm_style_new ();
+		char *font_name = pango_font_description_to_string (desc);
+		char *title = g_strdup_printf (_("Setting Font %s"), font_name);
+		g_free (font_name);
+
+		gnm_style_set_font_name (style, family);
+		gnm_style_set_font_size (style, size / (double)PANGO_SCALE);
+
+		cmd_selection_format (GNM_WBC (gtk), style, NULL, title);
+		g_free (title);
+	}
+}
+
+static void
+cb_font_name_vaction_response (GtkDialog *dialog,
+			       gint       response_id,
+			       GtkAction *act)
+{
+	WBCGtk *wbcg = g_object_get_data (G_OBJECT (act), "wbcg");
+
+	if (response_id == GTK_RESPONSE_OK) {
+		PangoFontDescription *desc = gtk_font_chooser_get_font_desc
+			(GTK_FONT_CHOOSER (dialog));
+		wbcg_font_action_set_font_desc (act, desc);
+		pango_font_description_free (desc);
+		cb_font_changed (act, wbcg);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+
+static void
+cb_font_name_vaction_clicked (GtkAction *act, WBCGtk *wbcg)
+{
+	GtkFontChooser *font_dialog;
+	const char *key = "font-name-dialog";
+
+	if (gnm_dialog_raise_if_exists (wbcg, key))
+		return;
+
+	font_dialog = g_object_new (GO_TYPE_FONT_SEL_DIALOG, NULL);
+	gtk_font_chooser_set_font_desc (font_dialog,
+					gnm_font_action_get_font_desc (act));
+	g_signal_connect (font_dialog, "response",
+			  G_CALLBACK (cb_font_name_vaction_response),
+			  act);
+
+	gtk_window_present (GTK_WINDOW (font_dialog));
+
+	gnm_keyed_dialog (wbcg, GTK_WINDOW (font_dialog), key);
+}
+
+static GtkAction *
+wbc_gtk_init_font_name (WBCGtk *gtk, gboolean horiz)
+{
+	GtkAction *act = g_object_new
+		(horiz ? gnm_font_action_get_type () : GTK_TYPE_ACTION,
+		 "visible-vertical", !horiz,
+		 "visible-horizontal", horiz,
+		 "name", (horiz ? "FontName" : "VFontName"),
+		 "tooltip", _("Change font"),
+		 "icon-name", "gnumeric-font",
+		 NULL);
+
+	g_object_set_data (G_OBJECT (act), "wbcg", gtk);
+
+	g_signal_connect (G_OBJECT (act),
+			  "activate",
+			  (horiz
+			   ? G_CALLBACK (cb_font_changed)
+			   : G_CALLBACK (cb_font_name_vaction_clicked)),
+			  gtk);
+
+	gtk_action_group_add_action (gtk->font_actions, act);
+
+	return act;
+}
+
+/****************************************************************************/
+
+static void
+list_actions (GtkActionGroup *group)
+{
+	GList *actions, *l;
+
+	if (!group)
+		return;
+
+	actions = gtk_action_group_list_actions (group);
+	for (l = actions; l; l = l->next) {
+		GtkAction *act = l->data;
+		const char *name = gtk_action_get_name (act);
+		g_printerr ("Action %s\n", name);
+	}
+
+	g_list_free (actions);
+}
+
 void
 wbc_gtk_init_actions (WBCGtk *wbcg)
 {
+	static struct {
+		char const *name;
+		gboolean    is_font;
+		unsigned    offset;
+	} const toggles[] = {
+		{ "FontBold",		   TRUE, G_STRUCT_OFFSET (WBCGtk, font.bold) },
+		{ "FontItalic",		   TRUE, G_STRUCT_OFFSET (WBCGtk, font.italic) },
+		{ "FontUnderline",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.underline) },
+		{ "FontDoubleUnderline",   TRUE, G_STRUCT_OFFSET (WBCGtk, font.d_underline) },
+		{ "FontSingleLowUnderline",TRUE, G_STRUCT_OFFSET (WBCGtk, font.sl_underline) },
+		{ "FontDoubleLowUnderline",TRUE, G_STRUCT_OFFSET (WBCGtk, font.dl_underline) },
+		{ "FontSuperscript",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.superscript) },
+		{ "FontSubscript",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.subscript) },
+		{ "FontStrikeThrough",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.strikethrough) },
+
+		{ "AlignLeft",		   FALSE, G_STRUCT_OFFSET (WBCGtk, h_align.left) },
+		{ "AlignCenter",	   FALSE, G_STRUCT_OFFSET (WBCGtk, h_align.center) },
+		{ "AlignRight",		   FALSE, G_STRUCT_OFFSET (WBCGtk, h_align.right) },
+		{ "CenterAcrossSelection", FALSE, G_STRUCT_OFFSET (WBCGtk, h_align.center_across_selection) },
+		{ "AlignTop",		   FALSE, G_STRUCT_OFFSET (WBCGtk, v_align.top) },
+		{ "AlignVCenter",	   FALSE, G_STRUCT_OFFSET (WBCGtk, v_align.center) },
+		{ "AlignBottom",	   FALSE, G_STRUCT_OFFSET (WBCGtk, v_align.bottom) }
+	};
+	unsigned i;
+
 	wbcg->permanent_actions = gtk_action_group_new ("PermanentActions");
 	gtk_action_group_set_translation_domain (wbcg->permanent_actions, GETTEXT_PACKAGE);
 	wbcg->actions = gtk_action_group_new ("Actions");
@@ -3002,4 +3693,31 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 		semi_permanent_toggle_actions, G_N_ELEMENTS (semi_permanent_toggle_actions), wbcg);
 
 	wbc_gtk_init_alignments (wbcg);
+	wbc_gtk_init_color_fore (wbcg);
+	wbc_gtk_init_color_back (wbcg);
+	wbc_gtk_init_borders (wbcg);
+	wbc_gtk_init_undo_redo (wbcg);
+	wbc_gtk_init_zoom (wbcg);
+	wbcg->font_name_haction = wbc_gtk_init_font_name (wbcg, TRUE);
+	wbcg->font_name_vaction = wbc_gtk_init_font_name (wbcg, FALSE);
+
+	for (i = G_N_ELEMENTS (toggles); i-- > 0 ; ) {
+		GtkAction *act = gtk_action_group_get_action (
+			(toggles[i].is_font ? wbcg->font_actions : wbcg->actions),
+			toggles[i].name);
+		G_STRUCT_MEMBER (GtkToggleAction *, wbcg, toggles[i].offset) = GTK_TOGGLE_ACTION (act);
+	}
+
+
+	if (gnm_debug_flag ("actions")) {
+		list_actions (wbcg->permanent_actions);
+		list_actions (wbcg->actions);
+		list_actions (wbcg->font_actions);
+		list_actions (wbcg->data_only_actions);
+		list_actions (wbcg->semi_permanent_actions);
+		list_actions (wbcg->file_history.actions);
+		list_actions (wbcg->toolbar.actions);
+		list_actions (wbcg->windows.actions);
+		list_actions (wbcg->templates.actions);
+	}
 }
