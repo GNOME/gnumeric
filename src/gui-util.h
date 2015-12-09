@@ -145,6 +145,8 @@ gnm_cell_renderer_text_copy_background_to_cairo (GtkCellRendererText *crt,
  * in some other way.  (So why do we have them in the first place?  To ensure
  * the user interface is as consistent as possible.)
  */
+#define GNM_STOCK_LABEL_CONTEXT "Stock label"
+
 #define GNM_STOCK_OPEN g_dpgettext2(GETTEXT_PACKAGE, "Stock label", GNM_N_STOCK_OPEN)
 #define GNM_N_STOCK_OPEN NC_("Stock label", "_Open")
 
@@ -159,6 +161,26 @@ gnm_cell_renderer_text_copy_background_to_cairo (GtkCellRendererText *crt,
 
 #define GNM_STOCK_OK g_dpgettext2(GETTEXT_PACKAGE, "Stock label", GNM_N_STOCK_OK)
 #define GNM_N_STOCK_OK NC_("Stock label", "_OK")
+
+
+typedef struct
+{
+	const gchar *name;
+	const gchar *icon;
+	const gchar *label;
+	const gchar *accelerator;
+	const gchar *tooltip;
+	GCallback callback;
+
+	/* Members beyond GtkActionEntry. */
+	const gchar *label_context;
+} GnmActionEntry;
+
+void gnm_action_group_add_actions (GtkActionGroup *group,
+				   GnmActionEntry *permanent_actions,
+				   size_t n,
+				   gpointer user);
+
 
 G_END_DECLS
 

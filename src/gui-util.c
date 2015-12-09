@@ -1279,3 +1279,19 @@ gnm_widget_measure_string (GtkWidget *w, const char *s)
 
 	return len;
 }
+
+void
+gnm_action_group_add_actions (GtkActionGroup *group,
+			      GnmActionEntry *permanent_actions,
+			      size_t n,
+			      gpointer user)
+{
+	/* Realy dumb implementation for now.  */
+
+	while (n > 0) {
+		GtkActionEntry *a = (GtkActionEntry *)permanent_actions;
+		gtk_action_group_add_actions (group, a, 1, user);
+		permanent_actions++;
+		n--;
+	}
+}

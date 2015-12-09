@@ -1,5 +1,11 @@
 2015-12-08  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk-actions.c (actions): Use GnmActionEntry and C99
+	syntax.
+
+	* src/gui-util.c (gnm_action_group_add_actions): New function,
+	currently quite dumb.
+
 	* configure.ac (CC): Insist on c99.
 
 2015-12-05  Morten Welinder  <terra@gnome.org>

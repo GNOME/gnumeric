@@ -1949,244 +1949,495 @@ static GNM_ACTION_DEF (cb_insert_menu)
 }
 
 /* Actions that are always sensitive */
-static GtkActionEntry const permanent_actions[] = {
-	{ "MenuFile",		NULL, N_("_File"), NULL, NULL, G_CALLBACK (cb_file_menu) },
-	{ "MenuFileNewFromTemplate", "document-new",
-		  N_("New From Template"), "" },
-	{ "MenuEdit",		NULL, N_("_Edit") },
-		{ "MenuEditClear",	"edit-clear", N_("C_lear") },
-		{ "MenuEditDelete",	"edit-delete", N_("_Delete") },
-		{ "MenuEditItems",	NULL, N_("_Modify") },
-		{ "MenuEditSheet",	NULL, N_("S_heet") },
-		{ "MenuEditSelect",	NULL, N_("_Select") },
-	{ "MenuView",		NULL, N_("_View") },
-		{ "MenuViewWindows",		NULL, N_("_Windows") },
-		{ "MenuViewToolbars",		NULL, N_("_Toolbars") },
-	{ "MenuInsert",		NULL, N_("_Insert"), NULL, NULL, G_CALLBACK (cb_insert_menu)  },
-		{ "MenuInsertObject",		NULL, N_("_Object") },
-		{ "MenuInsertSpecial",		NULL, N_("S_pecial") },
-		{ "MenuInsertFormulaWrap", "gnumeric-formulaguru",
-		  N_("Func_tion Wrapper") },
-	{ "MenuFormat",		NULL, N_("F_ormat") },
-		{ "MenuFormatCells",		NULL, N_("_Cells") },
-		{ "MenuFormatText",		NULL, N_("_Text") },
-	               { "MenuFormatTextUnderline",  NULL, N_("_Underline") },
-		{ "MenuFormatColumn",		NULL, N_("C_olumn") },
-		{ "MenuFormatRow",		NULL, N_("_Row") },
-		{ "MenuFormatSheet",		NULL, N_("_Sheet") },
-	{ "MenuTools",		NULL, N_("_Tools") },
-		{ "MenuToolsScenarios",	NULL,	N_("Sce_narios") },
-	{ "MenuStatistics",		NULL, N_("_Statistics") },
-		{ "MenuStatisticsDescriptive",	NULL, N_("_Descriptive Statistics") },
-			{ "MenuToolFrequencies",	NULL,	N_("Fre_quency Tables") },
-		{ "MenuStatisticsTimeSeries",	NULL, N_("De_pendent Observations") },
-			{ "MenuToolForecast",	NULL,	N_("F_orecast") },
-		{ "MenuStatisticsOneSample",	NULL,	N_("_One Sample Tests") },
-			{ "MenuToolOneMedian",	NULL,	N_("Claims About a Me_dian") },
-		{ "MenuStatisticsTwoSamples",	NULL,	N_("_Two Sample Tests") },
-			{ "MenuToolTwoMedians",	NULL,	N_("Claims About Two Me_dians") },
-			{ "MenuToolTTest",	NULL,	N_("Claims About Two _Means") },
-		{ "MenuStatisticsMultipleSamples",	NULL,	N_("_Multiple Sample Tests") },
-			{ "MenuANOVA",	NULL,	N_("_ANOVA") },
-			{ "MenuContingencyTests",	NULL,	N_("Contin_gency Table") },
-	{ "MenuData",		NULL, N_("_Data") },
-		{ "MenuFilter",		NULL,	N_("_Filter") },
-		{ "MenuEditFill",	NULL, N_("F_ill") },
-	                { "MenuRandomGenerator",	NULL, N_("_Random Generators") },
-		{ "MenuOutline",	NULL,	N_("_Group and Outline") },
-		{ "MenuExternalData",	NULL,	N_("Import _Data") },
-		{ "MenuExportData",	NULL,	N_("E_xport Data") },
-		{ "MenuSlicer",		NULL,	N_("Data S_licer") },
-	{ "MenuHelp",	NULL,	N_("_Help") },
+static GnmActionEntry const permanent_actions[] = {
+	{ .name = "MenuFile",
+	  .label = N_("_File"),
+	  .callback = G_CALLBACK (cb_file_menu)
+	},
+	{ .name = "MenuFileNewFromTemplate",
+	  .icon = "document-new",
+	  .label = N_("New From Template")
+	},
+	{ .name = "FileNew",
+	  .icon = "document-new",
+	  .label = N_("_New"),
+	  .accelerator = "<control>n",
+	  .tooltip = N_("Create a new workbook"),
+	  .callback = G_CALLBACK (cb_file_new)
+	},
+	{ .name = "FileOpen",
+	  .icon = "document-open",
+	  .label = GNM_N_STOCK_OPEN,
+	  .label_context = GNM_STOCK_LABEL_CONTEXT,
+	  .accelerator = "<control>o",
+	  .tooltip = N_("Open a file"),
+	  .callback = G_CALLBACK (cb_file_open)
+	},
+	{ .name = "FileSave",
+	  .icon = "document-save",
+	  .label = GNM_N_STOCK_SAVE,
+	  .label_context = GNM_STOCK_LABEL_CONTEXT,
+	  .accelerator = "<control>s",
+	  .tooltip = N_("Save the current workbook"),
+	  .callback = G_CALLBACK (cb_file_save)
+	},
+	{ .name = "FileSaveAs",
+	  .icon = "document-save-as",
+	  .label = GNM_N_STOCK_SAVE_AS,
+	  .label_context = GNM_STOCK_LABEL_CONTEXT,
+	  .accelerator = "<control><shift>s",
+	  .tooltip = N_("Save the current workbook with a different name"),
+	  .callback = G_CALLBACK (cb_file_save_as)
+	},
+	{ .name = "FileSend",
+	  .icon = "gnumeric-link-email",
+	  .label = N_("Sen_d To..."),
+	  .tooltip = N_("Send the current file via email"),
+	  .callback = G_CALLBACK (cb_file_sendto)
+	},
+	{ .name = "FilePageSetup",
+	  .icon = "document-page-setup",
+	  .label = N_("Page Set_up..."),
+	  .tooltip = N_("Setup the page settings for your current printer"),
+	  .callback = G_CALLBACK (cb_file_page_setup)
+	},
+	{ .name = "FilePrintPreview",
+	  .icon = "document-print-preview",
+	  .label = N_("Print Pre_view"),
+	  .tooltip = N_("Print preview"),
+	  .callback = G_CALLBACK (cb_file_print_preview)
+	},
+	{ .name = "FilePrint",
+	  .icon = "document-print",
+	  .label = N_("Print"),
+	  .accelerator = "<control>p",
+	  .tooltip = N_("Print the current file"),
+	  .callback = G_CALLBACK (cb_file_print)
+	},
+	{ .name = "FilePrintArea",
+	  .label = N_("Print Area & Breaks")
+	},
+	{ .name = "FileHistoryFull",
+	  .label = N_("Full _History..."),
+	  .tooltip = N_("Access previously used file"),
+	  .callback = G_CALLBACK (cb_file_history_full)
+	},
+	{ .name = "FileClose",
+	  .icon = "window-close",
+	  .label = N_("_Close"),
+	  .accelerator = "<control>w",
+	  .tooltip = N_("Close the current file"),
+	  .callback = G_CALLBACK (cb_file_close)
+	},
+	{ .name = "FileQuit",
+	  .icon = "application-exit",
+	  .label = N_("_Quit"),
+	  .accelerator = "<control>q",
+	  .tooltip = N_("Quit the application"),
+	  .callback = G_CALLBACK (cb_file_quit)
+	},
+	/* ---------------------------------------- */
+	{ .name = "MenuEdit",
+	  .label = N_("_Edit")
+	},
+	{ .name = "MenuEditClear",
+	  .icon = "edit-clear",
+	  .label = N_("C_lear")
+	},
+	{ .name = "MenuEditDelete",
+	  .icon = "edit-delete",
+	  .label = N_("_Delete")
+	},
+	{ .name = "MenuEditItems",
+	  .label = N_("_Modify")
+	},
+	{ .name = "MenuEditSheet",
+	  .label = N_("S_heet")
+	},
+	{ .name = "MenuEditSelect",
+	  .label = N_("_Select")
+	},
 
-	{ "FileNew", "document-new", N_("_New"),
-		"<control>n", N_("Create a new workbook"),
-		G_CALLBACK (cb_file_new) },
-	{ "FileOpen", "document-open", GNM_N_STOCK_OPEN,
-		"<control>o", N_("Open a file"),
-		G_CALLBACK (cb_file_open) },
-	{ "FileSave", "document-save", GNM_N_STOCK_SAVE,
-		"<control>s", N_("Save the current workbook"),
-		G_CALLBACK (cb_file_save) },
-	{ "FileSaveAs", "document-save-as", GNM_N_STOCK_SAVE_AS,
-		"<control><shift>s", N_("Save the current workbook with a different name"),
-		G_CALLBACK (cb_file_save_as) },
-	{ "FileSend", "gnumeric-link-email", N_("Sen_d To..."),
-		NULL, N_("Send the current file via email"),
-		G_CALLBACK (cb_file_sendto) },
-	{ "FilePrintArea",      NULL, N_("Print Area & Breaks")},
-	{ "FilePageSetup", "document-page-setup", N_("Page Set_up..."),
-		NULL, N_("Setup the page settings for your current printer"),
-		G_CALLBACK (cb_file_page_setup) },
-	{ "FilePrintPreview", "document-print-preview", N_("Print Pre_view"),
-		NULL, N_("Print preview"),
-		G_CALLBACK (cb_file_print_preview) },
-	{ "FilePrint", "document-print", N_("Print"),
-		"<control>p", N_("Print the current file"),
-		G_CALLBACK (cb_file_print) },
+	{ .name = "EditCopy",
+	  .icon = "edit-copy",
+	  .label = N_("_Copy"),
+	  .accelerator = "<control>c",
+	  .tooltip = N_("Copy the selection"),
+	  .callback = G_CALLBACK (cb_edit_copy)
+	},
 
-	{ "FileHistoryFull", NULL, N_("Full _History..."),
-		NULL, N_("Access previously used file"),
-		G_CALLBACK (cb_file_history_full) },
-	{ "FileClose", "window-close", N_("_Close"),
-		"<control>w", N_("Close the current file"),
-		G_CALLBACK (cb_file_close) },
-	{ "FileQuit", "application-exit", N_("_Quit"),
-		"<control>q", N_("Quit the application"),
-		G_CALLBACK (cb_file_quit) },
+	/* ---------------------------------------- */
+	{ .name = "MenuView",
+	  .label = N_("_View")
+	},
+	{ .name = "MenuViewWindows",
+	  .label = N_("_Windows")
+	},
+	{ .name = "MenuViewToolbars",
+	  .label = N_("_Toolbars")
+	},
+	/* ---------------------------------------- */
+	{ .name = "MenuInsert",
+	  .label = N_("_Insert"),
+	  .callback = G_CALLBACK (cb_insert_menu)
+	},
+	{ .name = "MenuInsertObject",
+	  .label = N_("_Object")
+	},
+	{ .name = "MenuInsertSpecial",
+	  .label = N_("S_pecial")
+	},
+	{ .name = "MenuInsertFormulaWrap",
+	  .icon = "gnumeric-formulaguru",
+	  .label = N_("Func_tion Wrapper")
+	},
+	{ .name = "InsertNames",
+	  .label = N_("_Name..."),
+	  .accelerator = "F3",
+	  .tooltip = N_("Insert a defined name"),
+	  .callback = G_CALLBACK (cb_paste_names)
+	},
+	/* ---------------------------------------- */
+	{ .name = "MenuFormat",
+	  .label = N_("F_ormat")
+	},
+	{ .name = "MenuFormatCells",
+	  .label = N_("_Cells")
+	},
+	{ .name = "MenuFormatText",
+	  .label = N_("_Text")
+	},
+	{ .name = "MenuFormatTextUnderline",
+	  .label = N_("_Underline")
+	},
+	{ .name = "MenuFormatColumn",
+	  .label = N_("C_olumn")
+	},
+	{ .name = "MenuFormatRow",
+	  .label = N_("_Row")
+	},
+	{ .name = "MenuFormatSheet",
+	  .label = N_("_Sheet")
+	},
+	/* ---------------------------------------- */
+	{ .name = "MenuTools",
+	  .label = N_("_Tools")
+	},
+	{ .name = "MenuToolsScenarios",
+	  .label = N_("Sce_narios")
+	},
+	/* ---------------------------------------- */
+	{ .name = "MenuStatistics",
+	  .label = N_("_Statistics")
+	},
+	{ .name = "MenuStatisticsDescriptive",
+	  .label = N_("_Descriptive Statistics")
+	},
+	{ .name = "MenuToolFrequencies",
+	  .label = N_("Fre_quency Tables")
+	},
+	{ .name = "MenuStatisticsTimeSeries",
+	  .label = N_("De_pendent Observations")
+	},
+	{ .name = "MenuToolForecast",
+	  .label = N_("F_orecast")
+	},
+	{ .name = "MenuStatisticsOneSample",
+	  .label = N_("_One Sample Tests")
+	},
+	{ .name = "MenuToolOneMedian",
+	  .label = N_("Claims About a Me_dian")
+	},
+	{ .name = "MenuStatisticsTwoSamples",
+	  .label = N_("_Two Sample Tests")
+	},
+	{ .name = "MenuToolTwoMedians",
+	  .label = N_("Claims About Two Me_dians")
+	},
+	{ .name = "MenuToolTTest",
+	  .label = N_("Claims About Two _Means")
+	},
+	{ .name = "MenuStatisticsMultipleSamples",
+	  .label = N_("_Multiple Sample Tests")
+	},
+	{ .name = "MenuANOVA",
+	  .label = N_("_ANOVA")
+	},
+	{ .name = "MenuContingencyTests",
+	  .label = N_("Contin_gency Table")
+	},
+	/* ---------------------------------------- */
+	{ .name = "MenuData",
+	  .label = N_("_Data")
+	},
+	{ .name = "MenuFilter",
+	  .label = N_("_Filter")
+	},
+	{ .name = "MenuEditFill",
+	  .label = N_("F_ill")
+	},
+	{ .name = "MenuRandomGenerator",
+	  .label = N_("_Random Generators")
+	},
+	{ .name = "MenuOutline",
+	  .label = N_("_Group and Outline")
+	},
+	{ .name = "MenuExternalData",
+	  .label = N_("Import _Data")
+	},
+	{ .name = "MenuExportData",
+	  .label = N_("E_xport Data")
+	},
+	{ .name = "MenuSlicer",
+	  .label = N_("Data S_licer")
+	},
+	/* ---------------------------------------- */
+	{ .name = "MenuHelp",
+	  .label = N_("_Help")
+	},
 
-	{ "EditCopy", "edit-copy", N_("_Copy"),
-		"<control>c", N_("Copy the selection"),
-		G_CALLBACK (cb_edit_copy) },
-
-	{ "InsertNames", NULL, N_("_Name..."),
-	        "F3", N_("Insert a defined name"),
-	        G_CALLBACK (cb_paste_names) },
-
-	{ "HelpDocs", "help-browser", N_("_Contents"),
-		"F1", N_("Open a viewer for Gnumeric's documentation"),
-		G_CALLBACK (cb_help_docs) },
-	{ "HelpFunctions", "gnumeric-formulaguru", N_("_Functions"),
-		NULL, N_("Functions help"),
-		G_CALLBACK (cb_help_function) },
-	{ "HelpWeb", NULL, N_("Gnumeric on the _Web"),
-		NULL, N_("Browse to Gnumeric's website"),
-		G_CALLBACK (cb_help_web) },
-	{ "HelpIRC", NULL, N_("_Live Assistance"),
-		NULL, N_("See if anyone is available to answer questions"),
-		G_CALLBACK (cb_help_irc) },
-	{ "HelpBug", NULL, N_("Report a _Problem"),
-		NULL, N_("Report problem"),
-		G_CALLBACK (cb_help_bug) },
-	{ "HelpAbout", "help-about", N_("_About"),
-		NULL, N_("About this application"),
-		G_CALLBACK (cb_help_about) },
+	{ .name = "HelpDocs",
+	  .icon = "help-browser",
+	  .label = N_("_Contents"),
+	  .accelerator = "F1",
+	  .tooltip = N_("Open a viewer for Gnumeric's documentation"),
+	  .callback = G_CALLBACK (cb_help_docs)
+	},
+	{ .name = "HelpFunctions",
+	  .icon = "gnumeric-formulaguru",
+	  .label = N_("_Functions"),
+	  .tooltip = N_("Functions help"),
+	  .callback = G_CALLBACK (cb_help_function)
+	},
+	{ .name = "HelpWeb",
+	  .label = N_("Gnumeric on the _Web"),
+	  .tooltip = N_("Browse to Gnumeric's website"),
+	  .callback = G_CALLBACK (cb_help_web)
+	},
+	{ .name = "HelpIRC",
+	  .label = N_("_Live Assistance"),
+	  .tooltip = N_("See if anyone is available to answer questions"),
+	  .callback = G_CALLBACK (cb_help_irc)
+	},
+	{ .name = "HelpBug",
+	  .label = N_("Report a _Problem"),
+	  .tooltip = N_("Report problem"),
+	  .callback = G_CALLBACK (cb_help_bug)
+	},
+	{ .name = "HelpAbout",
+	  .icon = "help-about",
+	  .label = N_("_About"),
+	  .tooltip = N_("About this application"),
+	  .callback = G_CALLBACK (cb_help_about)
+	},
 };
 
 /* actions that are sensitive only in data sheets */
-static GtkActionEntry const data_only_actions[] = {
-	{ "EditCut", "edit-cut", N_("Cu_t"),
-		"<control>x", N_("Cut the selection"),
-		G_CALLBACK (cb_edit_cut) },
-	{ "EditPaste", "edit-paste", N_("_Paste"),
-		"<control>v", N_("Paste the clipboard"),
-		G_CALLBACK (cb_edit_paste) },
+static GnmActionEntry const data_only_actions[] = {
+	{ .name = "EditCut",
+	  .icon = "edit-cut",
+	  .label = N_("Cu_t"),
+	  .accelerator = "<control>x",
+	  .tooltip = N_("Cut the selection"),
+	  .callback = G_CALLBACK (cb_edit_cut)
+	},
+	{ .name = "EditPaste",
+	  .icon = "edit-paste",
+	  .label = N_("_Paste"),
+	  .accelerator = "<control>v",
+	  .tooltip = N_("Paste the clipboard"),
+	  .callback = G_CALLBACK (cb_edit_paste)
+	},
 };
 
-static GtkActionEntry const semi_permanent_actions[] = {
-/* Edit -> Sheet */
-	{ "SheetReorder", NULL, N_("_Manage Sheets..."),
-		NULL, N_("Manage the sheets in this workbook"),
-		G_CALLBACK (cb_sheet_order) },
-	{ "InsertSheet", NULL, N_("_Insert"),
-		NULL, N_("Insert a new sheet"),
-		G_CALLBACK (wbcg_insert_sheet) },
-    /* ICK A DUPLICATE : we have no way to override a label on one proxy */
-	{ "SheetInsert", NULL, N_("_Sheet"),
-		NULL, N_("Insert a new sheet"),
-		G_CALLBACK (wbcg_insert_sheet) },
-	{ "InsertSheetAtEnd", NULL, N_("_Append"),
-		NULL, N_("Append a new sheet"),
-		G_CALLBACK (wbcg_append_sheet) },
-	{ "EditDuplicateSheet", NULL, N_("_Duplicate"),
-		NULL, N_("Make a copy of the current sheet"),
-		G_CALLBACK (wbcg_clone_sheet) },
-	{ "SheetRemove", NULL, N_("_Remove"),
-		NULL, N_("Irrevocably remove an entire sheet"),
-		G_CALLBACK (cb_sheet_remove) },
-	{ "SheetChangeName", NULL, N_("Re_name..."),
-		NULL, N_("Rename the current sheet"),
-		G_CALLBACK (cb_sheet_name) },
-	{ "SheetResize", NULL, N_("Resize..."),
-		NULL, N_("Change the size of the current sheet"),
-		G_CALLBACK (cb_sheet_resize) },
+static GnmActionEntry const semi_permanent_actions[] = {
+	/* Edit -> Sheet */
+	{ .name = "SheetReorder",
+	  .label = N_("_Manage Sheets..."),
+	  .tooltip = N_("Manage the sheets in this workbook"),
+	  .callback = G_CALLBACK (cb_sheet_order)
+	},
+	{ .name = "InsertSheet",
+	  .label = N_("_Insert"),
+	  .tooltip = N_("Insert a new sheet"),
+	  .callback = G_CALLBACK (wbcg_insert_sheet)
+	},
+	/* ICK A DUPLICATE : we have no way to override a label on one proxy */
+	{ .name = "SheetInsert",
+	  .label = N_("_Sheet"),
+	  .tooltip = N_("Insert a new sheet"),
+	  .callback = G_CALLBACK (wbcg_insert_sheet)
+	},
+	{ .name = "InsertSheetAtEnd",
+	  .label = N_("_Append"),
+	  .tooltip = N_("Append a new sheet"),
+	  .callback = G_CALLBACK (wbcg_append_sheet)
+	},
+	{ .name = "EditDuplicateSheet",
+	  .label = N_("_Duplicate"),
+	  .tooltip = N_("Make a copy of the current sheet"),
+	  .callback = G_CALLBACK (wbcg_clone_sheet)
+	},
+	{ .name = "SheetRemove",
+	  .label = N_("_Remove"),
+	  .tooltip = N_("Irrevocably remove an entire sheet"),
+	  .callback = G_CALLBACK (cb_sheet_remove)
+	},
+	{ .name = "SheetChangeName",
+	  .label = N_("Re_name..."),
+	  .tooltip = N_("Rename the current sheet"),
+	  .callback = G_CALLBACK (cb_sheet_name)
+	},
+	{ .name = "SheetResize",
+	  .label = N_("Resize..."),
+	  .tooltip = N_("Change the size of the current sheet"),
+	  .callback = G_CALLBACK (cb_sheet_resize)
+	},
 
-/* View */
-	{ "ViewNew", "document-new", N_("_New View..."),
-		NULL, N_("Create a new view of the workbook"),
-		G_CALLBACK (cb_view_new) },
+	/* View */
+	{ .name = "ViewNew",
+	  .icon = "document-new",
+	  .label = N_("_New View..."),
+	  .tooltip = N_("Create a new view of the workbook"),
+	  .callback = G_CALLBACK (cb_view_new)
+	},
 
-/* Format */
-	{ "FormatWorkbook", "document-properties", N_("View _Properties..."),
-		NULL, N_("Modify the view properties"),
-		G_CALLBACK (cb_workbook_attr) },
+	/* Format */
+	{ .name = "FormatWorkbook",
+	  .icon = "document-properties",
+	  .label = N_("View _Properties..."),
+	  .tooltip = N_("Modify the view properties"),
+	  .callback = G_CALLBACK (cb_workbook_attr)
+	},
 };
 
 #define FULLSCREEN_ACCEL "F11"
 #define ZOOM_IN_ACCEL NULL
 #define ZOOM_OUT_ACCEL NULL
 
-static GtkActionEntry const actions[] = {
+static GnmActionEntry const actions[] = {
 /* File */
-	{ "FileMetaData", "document-properties", N_("Document Proper_ties..."),
-		NULL, N_("Edit document properties"),
-		G_CALLBACK (cb_doc_meta_data) },
+	{ .name = "FileMetaData",
+	  .icon = "document-properties",
+	  .label = N_("Document Proper_ties..."),
+	  .tooltip = N_("Edit document properties"),
+	  .callback = G_CALLBACK (cb_doc_meta_data)
+	},
 
 /* File->PrintArea */
-        { "FilePrintAreaSet", NULL, N_("Set Print Area"),
-                NULL, N_("Use the current selection as print area"),
-                G_CALLBACK (cb_file_print_area_set)},
-        { "FilePrintAreaClear", NULL, N_("Clear Print Area"),
-                NULL, N_("Undefine the print area"),
-                G_CALLBACK (cb_file_print_area_clear)},
-        { "FilePrintAreaShow", NULL, N_("Show Print Area"),
-                NULL, N_("Select the print area"),
-                G_CALLBACK (cb_file_print_area_show)},
-        { "FilePrintAreaToggleColPageBreak", NULL, N_("Set Column Page Break"),
-                NULL, N_("Split the page to the left of this column"),
-                G_CALLBACK (cb_file_print_area_toggle_col)},
-        { "FilePrintAreaToggleRowPageBreak", NULL, N_("Set Row Page Break"),
-                NULL, N_("Split the page above this row"),
-                G_CALLBACK (cb_file_print_area_toggle_row)},
-        { "FilePrintAreaClearAllPageBreak", NULL, N_("Clear All Page Breaks"),
-                NULL, N_("Remove all manual pagebreaks from this sheet"),
-                G_CALLBACK (cb_file_print_area_clear_pagebreaks)},
+        { .name = "FilePrintAreaSet",
+	  .label = N_("Set Print Area"),
+	  .tooltip = N_("Use the current selection as print area"),
+	  .callback = G_CALLBACK (cb_file_print_area_set)
+	},
+        { .name = "FilePrintAreaClear",
+	  .label = N_("Clear Print Area"),
+	  .tooltip = N_("Undefine the print area"),
+	  .callback = G_CALLBACK (cb_file_print_area_clear)
+	},
+        { .name = "FilePrintAreaShow",
+	  .label = N_("Show Print Area"),
+	  .tooltip = N_("Select the print area"),
+	  .callback = G_CALLBACK (cb_file_print_area_show)
+	},
+        { .name = "FilePrintAreaToggleColPageBreak",
+	  .label = N_("Set Column Page Break"),
+	  .tooltip = N_("Split the page to the left of this column"),
+	  .callback = G_CALLBACK (cb_file_print_area_toggle_col)
+	},
+        { .name = "FilePrintAreaToggleRowPageBreak",
+	  .label = N_("Set Row Page Break"),
+	  .tooltip = N_("Split the page above this row"),
+	  .callback = G_CALLBACK (cb_file_print_area_toggle_row)
+	},
+        { .name = "FilePrintAreaClearAllPageBreak",
+	  .label = N_("Clear All Page Breaks"),
+	  .tooltip = N_("Remove all manual pagebreaks from this sheet"),
+	  .callback = G_CALLBACK (cb_file_print_area_clear_pagebreaks)
+	},
 
 /* Edit -> Clear */
-	{ "EditClearAll", "edit-clear", N_("_All"),
-		NULL, N_("Clear the selected cells' formats, comments, and contents"),
-		G_CALLBACK (cb_edit_clear_all) },
-	{ "EditClearFormats", NULL, N_("_Formats & Hyperlinks"),
-		NULL, N_("Clear the selected cells' formats and hyperlinks"),
-		G_CALLBACK (cb_edit_clear_formats) },
-	{ "EditClearComments", "gnumeric-comment-delete", N_("Co_mments"),
-		NULL, N_("Delete the selected cells' comments"),
-		G_CALLBACK (cb_edit_clear_comments) },
-	{ "EditClearContent", "edit-clear", N_("_Contents"),
-		NULL, N_("Clear the selected cells' contents"),
-		G_CALLBACK (cb_edit_clear_content) },
-	{ "EditClearAllFiltered", "edit-clear", N_("A_ll Filtered Rows"),
-		NULL, N_("Clear the selected cells' formats, comments, and contents in the filtered rows"),
-		G_CALLBACK (cb_edit_clear_all_filtered) },
-	{ "EditClearFormatsFiltered", NULL, N_("F_ormats & Hyperlinks in Filtered Rows"),
-		NULL, N_("Clear the selected cells' formats and hyperlinks in the filtered rows"),
-		G_CALLBACK (cb_edit_clear_formats_filtered) },
-	{ "EditClearCommentsFiltered", "gnumeric-comment-delete", N_("Comme_nts in Filtered Rows"),
-		NULL, N_("Delete the selected cells' comments in the filtered rows"),
-		G_CALLBACK (cb_edit_clear_comments_filtered) },
-	{ "EditClearContentFiltered", "edit-clear", N_("Content_s of Filtered Rows"),
-		NULL, N_("Clear the selected cells' contents in the filtered rows"),
-		G_CALLBACK (cb_edit_clear_content_filtered) },
+	{ .name = "EditClearAll",
+	  .icon = "edit-clear",
+	  .label = N_("_All"),
+	  .tooltip = N_("Clear the selected cells' formats, comments, and contents"),
+	  .callback = G_CALLBACK (cb_edit_clear_all)
+	},
+	{ .name = "EditClearFormats",
+	  .label = N_("_Formats & Hyperlinks"),
+	  .tooltip = N_("Clear the selected cells' formats and hyperlinks"),
+	  .callback = G_CALLBACK (cb_edit_clear_formats)
+	},
+	{ .name = "EditClearComments",
+	  .icon = "gnumeric-comment-delete",
+	  .label = N_("Co_mments"),
+	  .tooltip = N_("Delete the selected cells' comments"),
+	  .callback = G_CALLBACK (cb_edit_clear_comments)
+	},
+	{ .name = "EditClearContent",
+	  .icon = "edit-clear",
+	  .label = N_("_Contents"),
+	  .tooltip = N_("Clear the selected cells' contents"),
+	  .callback = G_CALLBACK (cb_edit_clear_content)
+	},
+	{ .name = "EditClearAllFiltered",
+	  .icon = "edit-clear",
+	  .label = N_("A_ll Filtered Rows"),
+	  .tooltip = N_("Clear the selected cells' formats, comments, and contents in the filtered rows"),
+	  .callback = G_CALLBACK (cb_edit_clear_all_filtered)
+	},
+	{ .name = "EditClearFormatsFiltered",
+	  .label = N_("F_ormats & Hyperlinks in Filtered Rows"),
+	  .tooltip = N_("Clear the selected cells' formats and hyperlinks in the filtered rows"),
+	  .callback = G_CALLBACK (cb_edit_clear_formats_filtered)
+	},
+	{ .name = "EditClearCommentsFiltered",
+	  .icon = "gnumeric-comment-delete",
+	  .label = N_("Comme_nts in Filtered Rows"),
+	  .tooltip = N_("Delete the selected cells' comments in the filtered rows"),
+	  .callback = G_CALLBACK (cb_edit_clear_comments_filtered)
+	},
+	{ .name = "EditClearContentFiltered",
+	  .icon = "edit-clear",
+	  .label = N_("Content_s of Filtered Rows"),
+	  .tooltip = N_("Clear the selected cells' contents in the filtered rows"),
+	  .callback = G_CALLBACK (cb_edit_clear_content_filtered)
+	},
 
 /* Edit -> Delete */
 	/*Translators: Delete "Rows"*/
-	{ "EditDeleteRows", "gnumeric-row-delete", N_("_Rows"),
-		NULL, N_("Delete the row(s) containing the selected cells"),
-		G_CALLBACK (cb_edit_delete_rows) },
+	{ .name = "EditDeleteRows",
+	  .icon = "gnumeric-row-delete",
+	  .label = N_("_Rows"),
+	  .tooltip = N_("Delete the row(s) containing the selected cells"),
+	  .callback = G_CALLBACK (cb_edit_delete_rows)
+	},
 	/*Translators: Delete "Columns"*/
-	{ "EditDeleteColumns", "gnumeric-column-delete", N_("_Columns"),
-		NULL, N_("Delete the column(s) containing the selected cells"),
-		G_CALLBACK (cb_edit_delete_columns) },
-	{ "EditDeleteCells", NULL, N_("C_ells..."),
-		  "<control>minus", N_("Delete the selected cells, shifting others into their place"),
-		  G_CALLBACK (cb_edit_delete_cells) },
-	{ "EditClearHyperlinks", "gnumeric-link-delete", N_("_Hyperlinks"),
-		NULL, N_("Delete the selected cells' hyperlinks"),
-		G_CALLBACK (cb_edit_delete_links) },
+	{ .name = "EditDeleteColumns",
+	  .icon = "gnumeric-column-delete",
+	  .label = N_("_Columns"),
+	  .tooltip = N_("Delete the column(s) containing the selected cells"),
+	  .callback = G_CALLBACK (cb_edit_delete_columns)
+	},
+	{ .name = "EditDeleteCells",
+	  .label = N_("C_ells..."),
+	  .accelerator = "<control>minus",
+	  .tooltip = N_("Delete the selected cells, shifting others into their place"),
+	  .callback = G_CALLBACK (cb_edit_delete_cells)
+	},
+	{ .name = "EditClearHyperlinks",
+	  .icon = "gnumeric-link-delete",
+	  .label = N_("_Hyperlinks"),
+	  .tooltip = N_("Delete the selected cells' hyperlinks"),
+	  .callback = G_CALLBACK (cb_edit_delete_links)
+	},
 	/* A duplicate that should not go into the menus, used only for the accelerator */
-	{ "EditDeleteCellsXL", NULL, N_("C_ells..."),
-		  "<control>KP_Subtract", N_("Delete the selected cells, shifting others into their place"),
-		  G_CALLBACK (cb_edit_delete_cells) },
+	{ .name = "EditDeleteCellsXL",
+	  .label = N_("C_ells..."),
+	  .accelerator = "<control>KP_Subtract",
+	  .tooltip = N_("Delete the selected cells, shifting others into their place"),
+	  .callback = G_CALLBACK (cb_edit_delete_cells)
+	},
 
 /* Edit -> Select */
 
@@ -2195,589 +2446,1028 @@ static GtkActionEntry const actions[] = {
 	 *		gnm-pane.c:gnm_pane_key_mode_sheet
 	 *	with the rest of the key movement and rangeselection.
 	 *	Otherwise input methods would steal them */
-	{ "EditSelectAll", NULL, N_("_All"),
-		"<control><shift>space", N_("Select all cells in the spreadsheet"),
-		G_CALLBACK (cb_edit_select_all) },
-	{ "EditSelectColumn", NULL, N_("_Column"),
-		"<control>space", N_("Select an entire column"),
-		G_CALLBACK (cb_edit_select_col) },
-	{ "EditSelectRow", NULL, N_("_Row"),
-		"<shift>space", N_("Select an entire row"),
-		G_CALLBACK (cb_edit_select_row) },
+	{ .name = "EditSelectAll",
+	  .label = N_("_All"),
+	  .accelerator = "<control><shift>space",
+	  .tooltip = N_("Select all cells in the spreadsheet"),
+	  .callback = G_CALLBACK (cb_edit_select_all)
+	},
+	{ .name = "EditSelectColumn",
+	  .label = N_("_Column"),
+	  .accelerator = "<control>space",
+	  .tooltip = N_("Select an entire column"),
+	  .callback = G_CALLBACK (cb_edit_select_col)
+	},
+	{ .name = "EditSelectRow",
+	  .label = N_("_Row"),
+	  .accelerator = "<shift>space",
+	  .tooltip = N_("Select an entire row"),
+	  .callback = G_CALLBACK (cb_edit_select_row)
+	},
 
-	{ "EditSelectArray", NULL, N_("Arra_y"),
-		"<control>slash", N_("Select an array of cells"),
-		G_CALLBACK (cb_edit_select_array) },
-	{ "EditSelectDepends", NULL, N_("_Depends"),
-		"<control>bracketright", N_("Select all the cells that depend on the current edit cell"),
-		G_CALLBACK (cb_edit_select_depends) },
-	{ "EditSelectInputs", NULL, N_("_Inputs"),
-		"<control>bracketleft", N_("Select all the cells are used by the current edit cell"),
-		G_CALLBACK (cb_edit_select_inputs) },
+	{ .name = "EditSelectArray",
+	  .label = N_("Arra_y"),
+	  .accelerator = "<control>slash",
+	  .tooltip = N_("Select an array of cells"),
+	  .callback = G_CALLBACK (cb_edit_select_array)
+	},
+	{ .name = "EditSelectDepends",
+	  .label = N_("_Depends"),
+	  .accelerator = "<control>bracketright",
+	  .tooltip = N_("Select all the cells that depend on the current edit cell"),
+	  .callback = G_CALLBACK (cb_edit_select_depends)
+	},
+	{ .name = "EditSelectInputs",
+	  .label = N_("_Inputs"),
+	  .accelerator = "<control>bracketleft",
+	  .tooltip = N_("Select all the cells are used by the current edit cell"),
+	  .callback = G_CALLBACK (cb_edit_select_inputs)
+	},
 
-	{ "EditSelectObject", NULL, N_("Next _Object"),
-	  "<control>Tab", N_("Select the next sheet object"),
-		G_CALLBACK (cb_edit_select_object) },
+	{ .name = "EditSelectObject",
+	  .label = N_("Next _Object"),
+	  .accelerator = "<control>Tab",
+	  .tooltip = N_("Select the next sheet object"),
+	  .callback = G_CALLBACK (cb_edit_select_object)
+	},
 
-	{ "EditGotoTop", "go-top", N_("Go to Top"),
-		NULL, N_("Go to the top of the data"),
-		G_CALLBACK (cb_edit_goto_top) },
-	{ "EditGotoBottom", "go-bottom", N_("Go to Bottom"),
-		NULL, N_("Go to the bottom of the data"),
-		G_CALLBACK (cb_edit_goto_bottom) },
-	{ "EditGotoFirst", "go-first", N_("Go to First"),
-		NULL, N_("Go to the first data cell"),
-		G_CALLBACK (cb_edit_goto_first) },
-	{ "EditGotoLast", "go-last", N_("Go to Last"),
-		NULL, N_("Go to the last data cell"),
-		G_CALLBACK (cb_edit_goto_last) },
-	{ "EditGoto", "go-jump", N_("_Go to Cell..."),
-		"<control>g", N_("Jump to a specified cell"),
-		G_CALLBACK (cb_edit_goto) },
+	{ .name = "EditGotoTop",
+	  .icon = "go-top",
+	  .label = N_("Go to Top"),
+	  .tooltip = N_("Go to the top of the data"),
+	  .callback = G_CALLBACK (cb_edit_goto_top)
+	},
+	{ .name = "EditGotoBottom",
+	  .icon = "go-bottom",
+	  .label = N_("Go to Bottom"),
+	  .tooltip = N_("Go to the bottom of the data"),
+	  .callback = G_CALLBACK (cb_edit_goto_bottom)
+	},
+	{ .name = "EditGotoFirst",
+	  .icon = "go-first",
+	  .label = N_("Go to First"),
+	  .tooltip = N_("Go to the first data cell"),
+	  .callback = G_CALLBACK (cb_edit_goto_first)
+	},
+	{ .name = "EditGotoLast",
+	  .icon = "go-last",
+	  .label = N_("Go to Last"),
+	  .tooltip = N_("Go to the last data cell"),
+	  .callback = G_CALLBACK (cb_edit_goto_last)
+	},
+	{ .name = "EditGoto",
+	  .icon = "go-jump",
+	  .label = N_("_Go to Cell..."),
+	  .accelerator = "<control>g",
+	  .tooltip = N_("Jump to a specified cell"),
+	  .callback = G_CALLBACK (cb_edit_goto)
+	},
 	/* This is a navigational aid that is not supposed to appear */
 	/* in the menu */
-	{ "EditGotoCellIndicator", NULL, "Go to Current Cell Indicator",
-		"<shift><control>g", "Go to Current Cell Indicator",
-		G_CALLBACK (cb_edit_goto_cell_indicator) },
+	{ .name = "EditGotoCellIndicator",
+	  .label = N_("Go to Current Cell Indicator"),
+	  .accelerator = "<shift><control>g",
+	  .tooltip = N_("Go to Current Cell Indicator"),
+	  .callback = G_CALLBACK (cb_edit_goto_cell_indicator)
+	},
 
 /* Edit */
-	{ "Repeat", NULL, N_("Repeat"),
-		"F4", N_("Repeat the previous action"),
-		G_CALLBACK (cb_repeat) },
-	{ "EditPasteSpecial", "edit-paste", N_("P_aste Special..."),
-		"<shift><control>v", N_("Paste with optional filters and transformations"),
-		G_CALLBACK (cb_edit_paste_special) },
+	{ .name = "Repeat",
+	  .label = N_("Repeat"),
+	  .accelerator = "F4",
+	  .tooltip = N_("Repeat the previous action"),
+	  .callback = G_CALLBACK (cb_repeat)
+	},
+	{ .name = "EditPasteSpecial",
+	  .icon = "edit-paste",
+	  .label = N_("P_aste Special..."),
+	  .accelerator = "<shift><control>v",
+	  .tooltip = N_("Paste with optional filters and transformations"),
+	  .callback = G_CALLBACK (cb_edit_paste_special)
+	},
 
-	{ "EditComment", "gnumeric-comment-edit", N_("Co_mment..."),
-		NULL, N_("Edit the selected cell's comment"),
-		G_CALLBACK (cb_insert_comment) },
-	{ "EditHyperlink", "gnumeric-link-edit", N_("Hyper_link..."),
-		"<control>K", N_("Edit the selected cell's hyperlink"),
-		G_CALLBACK (cb_insert_hyperlink) },
+	{ .name = "EditComment",
+	  .icon = "gnumeric-comment-edit",
+	  .label = N_("Co_mment..."),
+	  .tooltip = N_("Edit the selected cell's comment"),
+	  .callback = G_CALLBACK (cb_insert_comment)
+	},
+	{ .name = "EditHyperlink",
+	  .icon = "gnumeric-link-edit",
+	  .label = N_("Hyper_link..."),
+	  .accelerator = "<control>K",
+	  .tooltip = N_("Edit the selected cell's hyperlink"),
+	  .callback = G_CALLBACK (cb_insert_hyperlink)
+	},
 #if 0
-	{ "EditGenerateName", NULL,  N_("_Auto generate names..."),
-		NULL, N_("Use the current selection to create names"),
-		G_CALLBACK (cb_auto_generate__named_expr) },
+	{ .name = "EditGenerateName",
+	  .label = N_("_Auto generate names..."),
+	  .tooltip = N_("Use the current selection to create names"),
+	  .callback = G_CALLBACK (cb_auto_generate__named_expr)
+	},
 #endif
 
-	{ "EditFind", "edit-find", N_("S_earch..."),
-		"<control>f", N_("Search for something"),
-		G_CALLBACK (cb_edit_search) },
-	{ "EditReplace", "edit-find-replace", N_("Search _& Replace..."),
-		"<control>h", N_("Search for something and replace it with something else"),
-		G_CALLBACK (cb_edit_search_replace) },
+	{ .name = "EditFind",
+	  .icon = "edit-find",
+	  .label = N_("S_earch..."),
+	  .accelerator = "<control>f",
+	  .tooltip = N_("Search for something"),
+	  .callback = G_CALLBACK (cb_edit_search)
+	},
+	{ .name = "EditReplace",
+	  .icon = "edit-find-replace",
+	  .label = N_("Search _& Replace..."),
+	  .accelerator = "<control>h",
+	  .tooltip = N_("Search for something and replace it with something else"),
+	  .callback = G_CALLBACK (cb_edit_search_replace)
+	},
 
-	{ "EditRecalc", NULL, N_("Recalculate"),
-		"F9", N_("Recalculate the spreadsheet"),
-		G_CALLBACK (cb_edit_recalc) },
+	{ .name = "EditRecalc",
+	  .label = N_("Recalculate"),
+	  .accelerator = "F9",
+	  .tooltip = N_("Recalculate the spreadsheet"),
+	  .callback = G_CALLBACK (cb_edit_recalc)
+	},
 
-	{ "EditPreferences", "preferences-system", N_("Preferences..."),
-		NULL, N_("Change Gnumeric Preferences"),
-		G_CALLBACK (cb_file_preferences) },
+	{ .name = "EditPreferences",
+	  .icon = "preferences-system",
+	  .label = N_("Preferences..."),
+	  .tooltip = N_("Change Gnumeric Preferences"),
+	  .callback = G_CALLBACK (cb_file_preferences)
+	},
 
 /* View */
-	{ "ViewFreezeThawPanes", NULL, N_("_Freeze Panes"),
-		NULL, N_("Freeze the top left of the sheet"),
-		G_CALLBACK (cb_view_freeze_panes) },
-	{ "ViewZoom", "zoom-fit-best" /* dubious */, N_("_Zoom..."),
-		NULL, N_("Zoom the spreadsheet in or out"),
-		G_CALLBACK (cb_view_zoom) },
-	{ "ViewZoomIn", "zoom-in", N_("Zoom _In"),
-		ZOOM_IN_ACCEL, N_("Increase the zoom to make things larger"),
-		G_CALLBACK (cb_view_zoom_in) },
-	{ "ViewZoomOut", "zoom-out", N_("Zoom _Out"),
-		ZOOM_OUT_ACCEL, N_("Decrease the zoom to make things smaller"),
-		G_CALLBACK (cb_view_zoom_out) },
+	{ .name = "ViewFreezeThawPanes",
+	  .label = N_("_Freeze Panes"),
+	  .tooltip = N_("Freeze the top left of the sheet"),
+	  .callback = G_CALLBACK (cb_view_freeze_panes)
+	},
+	{ .name = "ViewZoom",
+	  .icon = "zoom-fit-best", /* dubious */
+	  .label = N_("_Zoom..."),
+	  .tooltip = N_("Zoom the spreadsheet in or out"),
+	  .callback = G_CALLBACK (cb_view_zoom)
+	},
+	{ .name = "ViewZoomIn",
+	  .icon = "zoom-in",
+	  .label = N_("Zoom _In"),
+	  .accelerator = ZOOM_IN_ACCEL,
+	  .tooltip = N_("Increase the zoom to make things larger"),
+	  .callback = G_CALLBACK (cb_view_zoom_in)
+	},
+	{ .name = "ViewZoomOut",
+	  .icon = "zoom-out",
+	  .label = N_("Zoom _Out"),
+	  .accelerator = ZOOM_OUT_ACCEL,
+	  .tooltip = N_("Decrease the zoom to make things smaller"),
+	  .callback = G_CALLBACK (cb_view_zoom_out)
+	},
 
 /* Insert */
-	{ "InsertCells", NULL, N_("C_ells..."),
-		"<control>plus", N_("Insert new cells"),
-		G_CALLBACK (cb_insert_cells) },
+	{ .name = "InsertCells",
+	  .label = N_("C_ells..."),
+	  .accelerator = "<control>plus",
+	  .tooltip = N_("Insert new cells"),
+	  .callback = G_CALLBACK (cb_insert_cells)
+	},
 	/* A duplicate that should not go into the menus, used only for the accelerator */
-	{ "InsertCellsXL", NULL, N_("C_ells..."),
-		"<control>KP_Add", N_("Insert new cells"),
-		G_CALLBACK (cb_insert_cells) },
+	{ .name = "InsertCellsXL",
+	  .label = N_("C_ells..."),
+	  .accelerator = "<control>KP_Add",
+	  .tooltip = N_("Insert new cells"),
+	  .callback = G_CALLBACK (cb_insert_cells)
+	},
 	/*Translators: Insert "Columns"*/
-	{ "InsertColumns", "gnumeric-column-add", N_("_Columns"),
-		NULL, N_("Insert new columns"),
-		G_CALLBACK (cb_insert_cols) },
+	{ .name = "InsertColumns",
+	  .icon = "gnumeric-column-add",
+	  .label = N_("_Columns"),
+	  .tooltip = N_("Insert new columns"),
+	  .callback = G_CALLBACK (cb_insert_cols)
+	},
 	/*Translators: Insert "Rows"*/
-	{ "InsertRows", "gnumeric-row-add", N_("_Rows"),
-		NULL, N_("Insert new rows"),
-		G_CALLBACK (cb_insert_rows) },
+	{ .name = "InsertRows",
+	  .icon = "gnumeric-row-add",
+	  .label = N_("_Rows"),
+	  .tooltip = N_("Insert new rows"),
+	  .callback = G_CALLBACK (cb_insert_rows)
+	},
 
-	{ "ChartGuru", "gnumeric-graphguru", N_("C_hart..."),
-		NULL, N_("Insert a Chart"),
-		G_CALLBACK (cb_launch_chart_guru) },
-	{ "NewGOComponent", "New Goffice_Component", N_("_New..."),
-		NULL, N_("Insert a new Goffice component object"),
-		G_CALLBACK (cb_launch_go_component_new) },
-	{ "GOComponentFromFile", "New Goffice_Component from a file", N_("_From File..."),
-		NULL, N_("Insert a new Goffice component object from a file"),
-		G_CALLBACK (cb_launch_go_component_from_file) },
-	{ "InsertImage", "insert-image", N_("_Image..."),
-		NULL, N_("Insert an image"),
-		G_CALLBACK (cb_insert_image) },
+	{ .name = "ChartGuru",
+	  .icon = "gnumeric-graphguru",
+	  .label = N_("C_hart..."),
+	  .tooltip = N_("Insert a Chart"),
+	  .callback = G_CALLBACK (cb_launch_chart_guru)
+	},
+	{ .name = "NewGOComponent",
+	  .icon = "New Goffice_Component",
+	  .label = N_("_New..."),
+	  .tooltip = N_("Insert a new Goffice component object"),
+	  .callback = G_CALLBACK (cb_launch_go_component_new)
+	},
+	{ .name = "GOComponentFromFile",
+	  .icon = "New Goffice_Component from a file",
+	  .label = N_("_From File..."),
+	  .tooltip = N_("Insert a new Goffice component object from a file"),
+	  .callback = G_CALLBACK (cb_launch_go_component_from_file)
+	},
+	{ .name = "InsertImage",
+	  .icon = "insert-image",
+	  .label = N_("_Image..."),
+	  .tooltip = N_("Insert an image"),
+	  .callback = G_CALLBACK (cb_insert_image)
+	},
 
-	{ "InsertComment", "gnumeric-comment-add", N_("Co_mment..."),
-		NULL, N_("Insert a comment"),
-		G_CALLBACK (cb_insert_comment) },
-	{ "InsertHyperlink", "gnumeric-link-add", N_("Hyper_link..."),
-		"<control>K", N_("Insert a Hyperlink"),
-		G_CALLBACK (cb_insert_hyperlink) },
-	{ "InsertSortDecreasing", "view-sort-descending", N_("Sort (_Descending)"),
-		NULL, N_("Wrap with SORT (descending)"),
-		G_CALLBACK (cb_insert_sort_descending) },
-	{ "InsertSortIncreasing", "view-sort-ascending", N_("Sort (_Ascending)"),
-		NULL, N_("Wrap with SORT (ascending)"),
-		G_CALLBACK (cb_insert_sort_ascending) },
+	{ .name = "InsertComment",
+	  .icon = "gnumeric-comment-add",
+	  .label = N_("Co_mment..."),
+	  .tooltip = N_("Insert a comment"),
+	  .callback = G_CALLBACK (cb_insert_comment)
+	},
+	{ .name = "InsertHyperlink",
+	  .icon = "gnumeric-link-add",
+	  .label = N_("Hyper_link..."),
+	  .accelerator = "<control>K",
+	  .tooltip = N_("Insert a Hyperlink"),
+	  .callback = G_CALLBACK (cb_insert_hyperlink)
+	},
+	{ .name = "InsertSortDecreasing",
+	  .icon = "view-sort-descending",
+	  .label = N_("Sort (_Descending)"),
+	  .tooltip = N_("Wrap with SORT (descending)"),
+	  .callback = G_CALLBACK (cb_insert_sort_descending)
+	},
+	{ .name = "InsertSortIncreasing",
+	  .icon = "view-sort-ascending",
+	  .label = N_("Sort (_Ascending)"),
+	  .tooltip = N_("Wrap with SORT (ascending)"),
+	  .callback = G_CALLBACK (cb_insert_sort_ascending)
+	},
 
 /* Insert -> Special */
-	{ "InsertCurrentDate", NULL, N_("Current _Date"),
-		"<control>semicolon", N_("Insert the current date into the selected cell(s)"),
-		G_CALLBACK (cb_insert_current_date) },
+	{ .name = "InsertCurrentDate",
+	  .label = N_("Current _Date"),
+	  .accelerator = "<control>semicolon",
+	  .tooltip = N_("Insert the current date into the selected cell(s)"),
+	  .callback = G_CALLBACK (cb_insert_current_date)
+	},
 
-	{ "InsertCurrentTime", NULL, N_("Current _Time"),
-		"<control>colon", N_("Insert the current time into the selected cell(s)"),
-		G_CALLBACK (cb_insert_current_time) },
+	{ .name = "InsertCurrentTime",
+	  .label = N_("Current _Time"),
+	  .accelerator = "<control>colon",
+	  .tooltip = N_("Insert the current time into the selected cell(s)"),
+	  .callback = G_CALLBACK (cb_insert_current_time)
+	},
 
-	{ "InsertCurrentDateTime", NULL, N_("Current D_ate and Time"),
-		"<control>period", N_("Insert the current date and time into the selected cell(s)"),
-		G_CALLBACK (cb_insert_current_date_time) },
+	{ .name = "InsertCurrentDateTime",
+	  .label = N_("Current D_ate and Time"),
+	  .accelerator = "<control>period",
+	  .tooltip = N_("Insert the current date and time into the selected cell(s)"),
+	  .callback = G_CALLBACK (cb_insert_current_date_time)
+	},
 
 /* Insert -> Name */
-	{ "EditNames", NULL, N_("_Names..."),
-		"<control>F3", N_("Edit defined names for expressions"),
-		G_CALLBACK (cb_define_name) },
+	{ .name = "EditNames",
+	  .label = N_("_Names..."),
+	  .accelerator = "<control>F3",
+	  .tooltip = N_("Edit defined names for expressions"),
+	  .callback = G_CALLBACK (cb_define_name)
+	},
 
 /* Format */
-	{ "FormatAuto", NULL, N_("_Autoformat..."),
-		NULL, N_("Format a region of cells according to a pre-defined template"),
-		G_CALLBACK (cb_autoformat) },
-	{ "SheetDirection", "format-text-direction-ltr", N_("Direction"),
-		NULL, N_("Toggle sheet direction, left-to-right vs right-to-left"),
-		G_CALLBACK (cb_direction) },
+	{ .name = "FormatAuto",
+	  .label = N_("_Autoformat..."),
+	  .tooltip = N_("Format a region of cells according to a pre-defined template"),
+	  .callback = G_CALLBACK (cb_autoformat)
+	},
+	{ .name = "SheetDirection",
+	  .icon = "format-text-direction-ltr",
+	  .label = N_("Direction"),
+	  .tooltip = N_("Toggle sheet direction, left-to-right vs right-to-left"),
+	  .callback = G_CALLBACK (cb_direction)
+	},
 
 /* Format -> Cells */
-	{ "FormatCells", NULL, N_("_Format..."),
-	  "<control>1", N_("Modify the formatting of the selected cells"),
-	  G_CALLBACK (cb_format_cells) },
-	{ "FormatCellsCond", NULL, N_("_Conditional Formatting..."), NULL,
+	{ .name = "FormatCells",
+	  .label = N_("_Format..."),
+	  .accelerator = "<control>1",
+	  .tooltip = N_("Modify the formatting of the selected cells"),
+	  .callback = G_CALLBACK (cb_format_cells)
+	},
+	{ .name = "FormatCellsCond",
+	  .label = N_("_Conditional Formatting..."), .accelerator = NULL,
+	  .tooltip =
 	  N_("Modify the conditional formatting of the selected cells"),
-	  G_CALLBACK (cb_format_cells_cond) },
-	{ "FormatCellsFitHeight", "gnumeric-row-size", N_("Auto Fit _Height"), NULL,
+	  .callback = G_CALLBACK (cb_format_cells_cond)
+	},
+	{ .name = "FormatCellsFitHeight",
+	  .icon = "gnumeric-row-size",
+	  .label = N_("Auto Fit _Height"), .accelerator = NULL,
+	  .tooltip =
 	  N_("Ensure rows are just tall enough to display content of selection"),
-	  G_CALLBACK (cb_format_cells_auto_fit_height) },
-	{ "FormatCellsFitWidth", "gnumeric-column-size", N_("Auto Fit _Width"), NULL,
+	  .callback = G_CALLBACK (cb_format_cells_auto_fit_height)
+	},
+	{ .name = "FormatCellsFitWidth",
+	  .icon = "gnumeric-column-size",
+	  .label = N_("Auto Fit _Width"), .accelerator = NULL,
+	  .tooltip =
 	  N_("Ensure columns are just wide enough to display content of selection"),
-	  G_CALLBACK (cb_format_cells_auto_fit_width) },
+	  .callback = G_CALLBACK (cb_format_cells_auto_fit_width)
+	},
 
 
 /* Format -> Col */
-	{ "ColumnSize", "gnumeric-column-size", N_("_Width..."),
-		NULL, N_("Change width of the selected columns"),
-		G_CALLBACK (cb_set_column_width) },
-	{ "ColumnAutoSize", "gnumeric-column-size", N_("_Auto Fit Width"),
-		NULL, N_("Ensure columns are just wide enough to display their content"),
-		G_CALLBACK (cb_format_column_auto_fit) },
-	{ "ColumnHide", "gnumeric-column-hide", N_("_Hide"),
-		"<control>0", N_("Hide the selected columns"),
-		G_CALLBACK (cb_format_column_hide) },
-	{ "ColumnUnhide", "gnumeric-column-unhide", N_("_Unhide"),
-		"<control>parenright", N_("Make any hidden columns in the selection visible"),
-		G_CALLBACK (cb_format_column_unhide) },
-	{ "ColumnDefaultSize", "gnumeric-column-size", N_("_Standard Width"),
-		NULL, N_("Change the default column width"),
-		G_CALLBACK (cb_format_column_std_width) },
+	{ .name = "ColumnSize",
+	  .icon = "gnumeric-column-size",
+	  .label = N_("_Width..."),
+	  .tooltip = N_("Change width of the selected columns"),
+	  .callback = G_CALLBACK (cb_set_column_width)
+	},
+	{ .name = "ColumnAutoSize",
+	  .icon = "gnumeric-column-size",
+	  .label = N_("_Auto Fit Width"),
+	  .tooltip = N_("Ensure columns are just wide enough to display their content"),
+	  .callback = G_CALLBACK (cb_format_column_auto_fit)
+	},
+	{ .name = "ColumnHide",
+	  .icon = "gnumeric-column-hide",
+	  .label = N_("_Hide"),
+	  .accelerator = "<control>0",
+	  .tooltip = N_("Hide the selected columns"),
+	  .callback = G_CALLBACK (cb_format_column_hide)
+	},
+	{ .name = "ColumnUnhide",
+	  .icon = "gnumeric-column-unhide",
+	  .label = N_("_Unhide"),
+	  .accelerator = "<control>parenright",
+	  .tooltip = N_("Make any hidden columns in the selection visible"),
+	  .callback = G_CALLBACK (cb_format_column_unhide)
+	},
+	{ .name = "ColumnDefaultSize",
+	  .icon = "gnumeric-column-size",
+	  .label = N_("_Standard Width"),
+	  .tooltip = N_("Change the default column width"),
+	  .callback = G_CALLBACK (cb_format_column_std_width)
+	},
 
 /* Format -> Row */
-	{ "RowSize", "gnumeric-row-size", N_("H_eight..."),
-		NULL, N_("Change height of the selected rows"),
-		G_CALLBACK (cb_set_row_height) },
-	{ "RowAutoSize", "gnumeric-row-size", N_("_Auto Fit Height"),
-		NULL, N_("Ensure rows are just tall enough to display their content"),
-		G_CALLBACK (cb_format_row_auto_fit) },
-	{ "RowHide", "gnumeric-row-hide", N_("_Hide"),
-		"<control>9", N_("Hide the selected rows"),
-		G_CALLBACK (cb_format_row_hide) },
-	{ "RowUnhide", "gnumeric-row-unhide", N_("_Unhide"),
-		"<control>parenleft", N_("Make any hidden rows in the selection visible"),
-		G_CALLBACK (cb_format_row_unhide) },
-	{ "RowDefaultSize", "gnumeric-row-size", N_("_Standard Height"),
-		NULL, N_("Change the default row height"),
-		G_CALLBACK (cb_format_row_std_height) },
+	{ .name = "RowSize",
+	  .icon = "gnumeric-row-size",
+	  .label = N_("H_eight..."),
+	  .tooltip = N_("Change height of the selected rows"),
+	  .callback = G_CALLBACK (cb_set_row_height)
+	},
+	{ .name = "RowAutoSize",
+	  .icon = "gnumeric-row-size",
+	  .label = N_("_Auto Fit Height"),
+	  .tooltip = N_("Ensure rows are just tall enough to display their content"),
+	  .callback = G_CALLBACK (cb_format_row_auto_fit)
+	},
+	{ .name = "RowHide",
+	  .icon = "gnumeric-row-hide",
+	  .label = N_("_Hide"),
+	  .accelerator = "<control>9",
+	  .tooltip = N_("Hide the selected rows"),
+	  .callback = G_CALLBACK (cb_format_row_hide)
+	},
+	{ .name = "RowUnhide",
+	  .icon = "gnumeric-row-unhide",
+	  .label = N_("_Unhide"),
+	  .accelerator = "<control>parenleft",
+	  .tooltip = N_("Make any hidden rows in the selection visible"),
+	  .callback = G_CALLBACK (cb_format_row_unhide)
+	},
+	{ .name = "RowDefaultSize",
+	  .icon = "gnumeric-row-size",
+	  .label = N_("_Standard Height"),
+	  .tooltip = N_("Change the default row height"),
+	  .callback = G_CALLBACK (cb_format_row_std_height)
+	},
 
 /* Tools */
-	{ "ToolsPlugins", NULL, N_("_Plug-ins..."),
-		NULL, N_("Manage available plugin modules"),
-		G_CALLBACK (cb_tools_plugins) },
-	{ "ToolsAutoCorrect", NULL, N_("Auto _Correct..."),
-		NULL, N_("Automatically perform simple spell checking"),
-		G_CALLBACK (cb_tools_autocorrect) },
-	{ "ToolsAutoSave", NULL, N_("_Auto Save..."),
-		NULL, N_("Automatically save the current document at regular intervals"),
-		G_CALLBACK (cb_tools_auto_save) },
-	{ "ToolsGoalSeek", NULL, N_("_Goal Seek..."),
-		NULL, N_("Iteratively recalculate to find a target value"),
-		G_CALLBACK (cb_tools_goal_seek) },
-	{ "ToolsSolver", NULL, N_("_Solver..."),
-		NULL, N_("Iteratively recalculate with constraints to approach a target value"),
-		G_CALLBACK (cb_tools_solver) },
-	{ "ToolsSimulation", NULL, N_("Si_mulation..."),
-		NULL, N_("Test decision alternatives by using Monte Carlo "
-			 "simulation to find out probable outputs and risks related to them"),
-		G_CALLBACK (cb_tools_simulation) },
+	{ .name = "ToolsPlugins",
+	  .label = N_("_Plug-ins..."),
+	  .tooltip = N_("Manage available plugin modules"),
+	  .callback = G_CALLBACK (cb_tools_plugins)
+	},
+	{ .name = "ToolsAutoCorrect",
+	  .label = N_("Auto _Correct..."),
+	  .tooltip = N_("Automatically perform simple spell checking"),
+	  .callback = G_CALLBACK (cb_tools_autocorrect)
+	},
+	{ .name = "ToolsAutoSave",
+	  .label = N_("_Auto Save..."),
+	  .tooltip = N_("Automatically save the current document at regular intervals"),
+	  .callback = G_CALLBACK (cb_tools_auto_save)
+	},
+	{ .name = "ToolsGoalSeek",
+	  .label = N_("_Goal Seek..."),
+	  .tooltip = N_("Iteratively recalculate to find a target value"),
+	  .callback = G_CALLBACK (cb_tools_goal_seek)
+	},
+	{ .name = "ToolsSolver",
+	  .label = N_("_Solver..."),
+	  .tooltip = N_("Iteratively recalculate with constraints to approach a target value"),
+	  .callback = G_CALLBACK (cb_tools_solver)
+	},
+	{ .name = "ToolsSimulation",
+	  .label = N_("Si_mulation..."),
+	  .tooltip = N_("Test decision alternatives by using Monte Carlo "
+		   "simulation to find out probable outputs and risks related to them"),
+	  .callback = G_CALLBACK (cb_tools_simulation)
+	},
 
 /* Tools -> Scenarios */
-	{ "ToolsScenarios", NULL, N_("_View..."),
-		NULL, N_("View, delete and report different scenarios"),
-                G_CALLBACK (cb_tools_scenarios) },
-	{ "ToolsScenarioAdd", NULL, N_("_Add..."),
-		NULL, N_("Add a new scenario"),
-                G_CALLBACK (cb_tools_scenario_add) },
+	{ .name = "ToolsScenarios",
+	  .label = N_("_View..."),
+	  .tooltip = N_("View, delete and report different scenarios"),
+	  .callback = G_CALLBACK (cb_tools_scenarios)
+	},
+	{ .name = "ToolsScenarioAdd",
+	  .label = N_("_Add..."),
+	  .tooltip = N_("Add a new scenario"),
+	  .callback = G_CALLBACK (cb_tools_scenario_add)
+	},
 
 /* Statistics */
 
-	{ "ToolsSampling", NULL, N_("_Sampling..."),
-		NULL, N_("Periodic and random samples"),
-		G_CALLBACK (cb_tools_sampling) },
+	{ .name = "ToolsSampling",
+	  .label = N_("_Sampling..."),
+	  .tooltip = N_("Periodic and random samples"),
+	  .callback = G_CALLBACK (cb_tools_sampling)
+	},
 
 /* Statistics -> Descriptive*/
 
-	{ "ToolsCorrelation", NULL, N_("_Correlation..."),
-		NULL, N_("Pearson Correlation"),
-		G_CALLBACK (cb_tools_correlation) },
-	{ "ToolsCovariance", NULL, N_("Co_variance..."),
-		NULL, N_("Covariance"),
-		G_CALLBACK (cb_tools_covariance) },
-	{ "ToolsDescStatistics", NULL, N_("_Descriptive Statistics..."),
-		NULL, N_("Various summary statistics"),
-		G_CALLBACK (cb_tools_desc_statistics) },
+	{ .name = "ToolsCorrelation",
+	  .label = N_("_Correlation..."),
+	  .tooltip = N_("Pearson Correlation"),
+	  .callback = G_CALLBACK (cb_tools_correlation)
+	},
+	{ .name = "ToolsCovariance",
+	  .label = N_("Co_variance..."),
+	  .tooltip = N_("Covariance"),
+	  .callback = G_CALLBACK (cb_tools_covariance)
+	},
+	{ .name = "ToolsDescStatistics",
+	  .label = N_("_Descriptive Statistics..."),
+	  .tooltip = N_("Various summary statistics"),
+	  .callback = G_CALLBACK (cb_tools_desc_statistics)
+	},
 
 /* Statistics -> Descriptive -> Frequencies */
 
-	{ "ToolsFrequency", NULL, N_("Fre_quency Tables..."),
-		NULL, N_("Frequency tables for non-numeric data"),
-		G_CALLBACK (cb_tools_frequency) },
-	{ "ToolsHistogram", NULL, N_("_Histogram..."),
-		NULL, N_("Various frequency tables for numeric data"),
-		G_CALLBACK (cb_tools_histogram) },
-	{ "ToolsRanking", NULL, N_("Ranks And _Percentiles..."),
-		NULL, N_("Ranks, placements and percentiles"),
-		G_CALLBACK (cb_tools_ranking) },
+	{ .name = "ToolsFrequency",
+	  .label = N_("Fre_quency Tables..."),
+	  .tooltip = N_("Frequency tables for non-numeric data"),
+	  .callback = G_CALLBACK (cb_tools_frequency)
+	},
+	{ .name = "ToolsHistogram",
+	  .label = N_("_Histogram..."),
+	  .tooltip = N_("Various frequency tables for numeric data"),
+	  .callback = G_CALLBACK (cb_tools_histogram)
+	},
+	{ .name = "ToolsRanking",
+	  .label = N_("Ranks And _Percentiles..."),
+	  .tooltip = N_("Ranks, placements and percentiles"),
+	  .callback = G_CALLBACK (cb_tools_ranking)
+	},
 
 /* Statistics -> DependentObservations */
 
-	{ "ToolsFourier", NULL, N_("_Fourier Analysis..."),
-		NULL, N_("Fourier Analysis"),
-		G_CALLBACK (cb_tools_fourier) },
-	{ "ToolsPrincipalComponents", NULL,
-	        N_("Principal Components Analysis..."),
-		NULL, N_("Principal Components Analysis"),
-		G_CALLBACK (cb_tools_principal_components) },
+	{ .name = "ToolsFourier",
+	  .label = N_("_Fourier Analysis..."),
+	  .tooltip = N_("Fourier Analysis"),
+	  .callback = G_CALLBACK (cb_tools_fourier)
+	},
+	{ .name = "ToolsPrincipalComponents",
+	  .label =
+	  N_("Principal Components Analysis..."),
+	  .tooltip = N_("Principal Components Analysis"),
+	  .callback = G_CALLBACK (cb_tools_principal_components)
+	},
 /* Statistics -> DependentObservations -> Forecast*/
 
-	{ "ToolsExpSmoothing", NULL, N_("_Exponential Smoothing..."),
-		NULL, N_("Exponential smoothing..."),
-		G_CALLBACK (cb_tools_exp_smoothing) },
-	{ "ToolsAverage", NULL, N_("_Moving Average..."),
-		NULL, N_("Moving average..."),
-		G_CALLBACK (cb_tools_average) },
-	{ "ToolsRegression", NULL, N_("_Regression..."),
-		NULL, N_("Regression Analysis"),
-		G_CALLBACK (cb_tools_regression) },
-	{ "ToolsKaplanMeier", NULL, N_("_Kaplan-Meier Estimates..."),
-		NULL, N_("Creation of Kaplan-Meier Survival Curves"),
-		G_CALLBACK (cb_tools_kaplan_meier) },
+	{ .name = "ToolsExpSmoothing",
+	  .label = N_("_Exponential Smoothing..."),
+	  .tooltip = N_("Exponential smoothing..."),
+	  .callback = G_CALLBACK (cb_tools_exp_smoothing)
+	},
+	{ .name = "ToolsAverage",
+	  .label = N_("_Moving Average..."),
+	  .tooltip = N_("Moving average..."),
+	  .callback = G_CALLBACK (cb_tools_average)
+	},
+	{ .name = "ToolsRegression",
+	  .label = N_("_Regression..."),
+	  .tooltip = N_("Regression Analysis"),
+	  .callback = G_CALLBACK (cb_tools_regression)
+	},
+	{ .name = "ToolsKaplanMeier",
+	  .label = N_("_Kaplan-Meier Estimates..."),
+	  .tooltip = N_("Creation of Kaplan-Meier Survival Curves"),
+	  .callback = G_CALLBACK (cb_tools_kaplan_meier)
+	},
 
 /* Statistics -> OneSample */
 
-	{ "ToolsNormalityTests", NULL, N_("_Normality Tests..."),
-		NULL, N_("Testing a sample for normality"),
-		G_CALLBACK (cb_tools_normality_tests) },
-	{ "ToolsOneMeanTest", NULL, N_("Claims About a _Mean..."),
-	        NULL, N_("Testing the value of a mean"),
-	        G_CALLBACK (cb_tools_one_mean_test) },
+	{ .name = "ToolsNormalityTests",
+	  .label = N_("_Normality Tests..."),
+	  .tooltip = N_("Testing a sample for normality"),
+	  .callback = G_CALLBACK (cb_tools_normality_tests)
+	},
+	{ .name = "ToolsOneMeanTest",
+	  .label = N_("Claims About a _Mean..."),
+	  .tooltip = N_("Testing the value of a mean"),
+	  .callback = G_CALLBACK (cb_tools_one_mean_test)
+	},
 
 /* Statistics -> OneSample -> OneMedian*/
 
-	{ "ToolsOneMedianSignTest", NULL, N_("_Sign Test..."),
-		NULL, N_("Testing the value of a median"),
-		G_CALLBACK (cb_tools_sign_test_one_median) },
-	{ "ToolsOneMedianWilcoxonSignedRank", NULL, N_("_Wilcoxon Signed Rank Test..."),
-		NULL, N_("Testing the value of a median"),
-		G_CALLBACK (cb_tools_wilcoxon_signed_rank_one_median) },
+	{ .name = "ToolsOneMedianSignTest",
+	  .label = N_("_Sign Test..."),
+	  .tooltip = N_("Testing the value of a median"),
+	  .callback = G_CALLBACK (cb_tools_sign_test_one_median)
+	},
+	{ .name = "ToolsOneMedianWilcoxonSignedRank",
+	  .label = N_("_Wilcoxon Signed Rank Test..."),
+	  .tooltip = N_("Testing the value of a median"),
+	  .callback = G_CALLBACK (cb_tools_wilcoxon_signed_rank_one_median)
+	},
 
 /* Statistics -> TwoSamples */
 
-	{ "ToolsFTest", NULL, N_("Claims About Two _Variances"),
-		NULL, N_("Comparing two population variances"),
-		G_CALLBACK (cb_tools_ftest) },
+	{ .name = "ToolsFTest",
+	  .label = N_("Claims About Two _Variances"),
+	  .tooltip = N_("Comparing two population variances"),
+	  .callback = G_CALLBACK (cb_tools_ftest)
+	},
 
 /* Statistics -> TwoSamples -> Two Means*/
 
-	{ "ToolTTestPaired", NULL, N_("_Paired Samples..."),
-		NULL, N_("Comparing two population means for two paired samples"),
-		G_CALLBACK (cb_tools_ttest_paired) },
+	{ .name = "ToolTTestPaired",
+	  .label = N_("_Paired Samples..."),
+	  .tooltip = N_("Comparing two population means for two paired samples"),
+	  .callback = G_CALLBACK (cb_tools_ttest_paired)
+	},
 
-	{ "ToolTTestEqualVar", NULL, N_("Unpaired Samples, _Equal Variances..."),
-		NULL, N_("Comparing two population means for two unpaired samples from populations with equal variances"),
-		G_CALLBACK (cb_tools_ttest_equal_var) },
+	{ .name = "ToolTTestEqualVar",
+	  .label = N_("Unpaired Samples, _Equal Variances..."),
+	  .tooltip = N_("Comparing two population means for two unpaired samples from populations with equal variances"),
+	  .callback = G_CALLBACK (cb_tools_ttest_equal_var)
+	},
 
-	{ "ToolTTestUnequalVar", NULL, N_("Unpaired Samples, _Unequal Variances..."),
-		NULL, N_("Comparing two population means for two unpaired samples from populations with unequal variances"),
-		G_CALLBACK (cb_tools_ttest_unequal_var) },
+	{ .name = "ToolTTestUnequalVar",
+	  .label = N_("Unpaired Samples, _Unequal Variances..."),
+	  .tooltip = N_("Comparing two population means for two unpaired samples from populations with unequal variances"),
+	  .callback = G_CALLBACK (cb_tools_ttest_unequal_var)
+	},
 
-	{ "ToolZTest", NULL, N_("Unpaired Samples, _Known Variances..."),
-		NULL, N_("Comparing two population means from populations with known variances"),
-		G_CALLBACK (cb_tools_ztest) },
+	{ .name = "ToolZTest",
+	  .label = N_("Unpaired Samples, _Known Variances..."),
+	  .tooltip = N_("Comparing two population means from populations with known variances"),
+	  .callback = G_CALLBACK (cb_tools_ztest)
+	},
 
 /* Statistics -> TwoSamples -> Two Medians*/
 
-	{ "ToolsTwoMedianSignTest", NULL, N_("_Sign Test..."),
-		NULL, N_("Comparing the values of two medians of paired observations"),
-		G_CALLBACK (cb_tools_sign_test_two_medians) },
-	{ "ToolsTwoMedianWilcoxonSignedRank", NULL, N_("_Wilcoxon Signed Rank Test..."),
-		NULL, N_("Comparing the values of two medians of paired observations"),
-		G_CALLBACK (cb_tools_wilcoxon_signed_rank_two_medians) },
-	{ "ToolsTwoMedianWilcoxonMannWhitney", NULL, N_("Wilcoxon-_Mann-Whitney Test..."),
-		NULL, N_("Comparing the values of two medians of unpaired observations"),
-		G_CALLBACK (cb_tools_wilcoxon_mann_whitney) },
+	{ .name = "ToolsTwoMedianSignTest",
+	  .label = N_("_Sign Test..."),
+	  .tooltip = N_("Comparing the values of two medians of paired observations"),
+	  .callback = G_CALLBACK (cb_tools_sign_test_two_medians)
+	},
+	{ .name = "ToolsTwoMedianWilcoxonSignedRank",
+	  .label = N_("_Wilcoxon Signed Rank Test..."),
+	  .tooltip = N_("Comparing the values of two medians of paired observations"),
+	  .callback = G_CALLBACK (cb_tools_wilcoxon_signed_rank_two_medians)
+	},
+	{ .name = "ToolsTwoMedianWilcoxonMannWhitney",
+	  .label = N_("Wilcoxon-_Mann-Whitney Test..."),
+	  .tooltip = N_("Comparing the values of two medians of unpaired observations"),
+	  .callback = G_CALLBACK (cb_tools_wilcoxon_mann_whitney)
+	},
 
 /* Statistics -> MultipleSamples */
 
 /* Statistics -> MultipleSamples -> ANOVA*/
 
-	{ "ToolsANOVAoneFactor", NULL, N_("_One Factor..."),
-		NULL, N_("One Factor Analysis of Variance..."),
-		G_CALLBACK (cb_tools_anova_one_factor) },
-	{ "ToolsANOVAtwoFactor", NULL, N_("_Two Factor..."),
-		NULL, N_("Two Factor Analysis of Variance..."),
-		G_CALLBACK (cb_tools_anova_two_factor) },
+	{ .name = "ToolsANOVAoneFactor",
+	  .label = N_("_One Factor..."),
+	  .tooltip = N_("One Factor Analysis of Variance..."),
+	  .callback = G_CALLBACK (cb_tools_anova_one_factor)
+	},
+	{ .name = "ToolsANOVAtwoFactor",
+	  .label = N_("_Two Factor..."),
+	  .tooltip = N_("Two Factor Analysis of Variance..."),
+	  .callback = G_CALLBACK (cb_tools_anova_two_factor)
+	},
 
 /* Statistics -> MultipleSamples -> ContingencyTable*/
 
-	{ "ToolsHomogeneity", NULL, N_("Test of _Homogeneity..."),
-		NULL, N_("Chi Squared Test of Homogeneity..."),
-		G_CALLBACK (cb_tools_chi_square_homogeneity) },
-	{ "ToolsIndependence", NULL, N_("Test of _Independence..."),
-		NULL, N_("Chi Squared Test of Independence..."),
-		G_CALLBACK (cb_tools_chi_square_independence) },
+	{ .name = "ToolsHomogeneity",
+	  .label = N_("Test of _Homogeneity..."),
+	  .tooltip = N_("Chi Squared Test of Homogeneity..."),
+	  .callback = G_CALLBACK (cb_tools_chi_square_homogeneity)
+	},
+	{ .name = "ToolsIndependence",
+	  .label = N_("Test of _Independence..."),
+	  .tooltip = N_("Chi Squared Test of Independence..."),
+	  .callback = G_CALLBACK (cb_tools_chi_square_independence)
+	},
 
 /* Data */
-	{ "DataSort", "view-sort-ascending", N_("_Sort..."),
-		NULL, N_("Sort the selected region"),
-		G_CALLBACK (cb_data_sort) },
-	{ "DataShuffle", NULL, N_("Sh_uffle..."),
-		NULL, N_("Shuffle cells, rows or columns"),
-		G_CALLBACK (cb_data_shuffle) },
-	{ "DataValidate", NULL, N_("_Validate..."),
-		NULL, N_("Validate input with preset criteria"),
-		G_CALLBACK (cb_data_validate) },
-	{ "DataTextToColumns", NULL, N_("T_ext to Columns..."),
-		NULL, N_("Parse the text in the selection into data"),
-		G_CALLBACK (cb_data_text_to_columns) },
-	{ "DataConsolidate", NULL, N_("_Consolidate..."),
-		NULL, N_("Consolidate regions using a function"),
-		G_CALLBACK (cb_data_consolidate) },
-	{ "DataTable", NULL, N_("_Table..."),
-		NULL, N_("Create a Data Table to evaluate a function with multiple inputs"),
-		G_CALLBACK (cb_data_table) },
-	{ "DataExport", NULL, N_("E_xport into Other Format..."),
-		NULL, N_("Export the current workbook or sheet"),
-		G_CALLBACK (cb_data_export) },
-	{ "DataExportText", NULL, N_("Export as _Text File..."),
-		NULL, N_("Export the current sheet as a text file"),
-		G_CALLBACK (cb_data_export_text) },
-	{ "DataExportCSV", NULL, N_("Export as _CSV File..."),
-		NULL, N_("Export the current sheet as a csv file"),
-		G_CALLBACK (cb_data_export_csv) },
-	{ "DataExportRepeat", NULL, N_("Repeat Export"),
-		"<control>E", N_("Repeat the last data export"),
-		G_CALLBACK (cb_data_export_repeat) },
+	{ .name = "DataSort",
+	  .icon = "view-sort-ascending",
+	  .label = N_("_Sort..."),
+	  .tooltip = N_("Sort the selected region"),
+	  .callback = G_CALLBACK (cb_data_sort)
+	},
+	{ .name = "DataShuffle",
+	  .label = N_("Sh_uffle..."),
+	  .tooltip = N_("Shuffle cells, rows or columns"),
+	  .callback = G_CALLBACK (cb_data_shuffle)
+	},
+	{ .name = "DataValidate",
+	  .label = N_("_Validate..."),
+	  .tooltip = N_("Validate input with preset criteria"),
+	  .callback = G_CALLBACK (cb_data_validate)
+	},
+	{ .name = "DataTextToColumns",
+	  .label = N_("T_ext to Columns..."),
+	  .tooltip = N_("Parse the text in the selection into data"),
+	  .callback = G_CALLBACK (cb_data_text_to_columns)
+	},
+	{ .name = "DataConsolidate",
+	  .label = N_("_Consolidate..."),
+	  .tooltip = N_("Consolidate regions using a function"),
+	  .callback = G_CALLBACK (cb_data_consolidate)
+	},
+	{ .name = "DataTable",
+	  .label = N_("_Table..."),
+	  .tooltip = N_("Create a Data Table to evaluate a function with multiple inputs"),
+	  .callback = G_CALLBACK (cb_data_table)
+	},
+	{ .name = "DataExport",
+	  .label = N_("E_xport into Other Format..."),
+	  .tooltip = N_("Export the current workbook or sheet"),
+	  .callback = G_CALLBACK (cb_data_export)
+	},
+	{ .name = "DataExportText",
+	  .label = N_("Export as _Text File..."),
+	  .tooltip = N_("Export the current sheet as a text file"),
+	  .callback = G_CALLBACK (cb_data_export_text)
+	},
+	{ .name = "DataExportCSV",
+	  .label = N_("Export as _CSV File..."),
+	  .tooltip = N_("Export the current sheet as a csv file"),
+	  .callback = G_CALLBACK (cb_data_export_csv)
+	},
+	{ .name = "DataExportRepeat",
+	  .label = N_("Repeat Export"),
+	  .accelerator = "<control>E",
+	  .tooltip = N_("Repeat the last data export"),
+	  .callback = G_CALLBACK (cb_data_export_repeat)
+	},
 
 /* Data -> Fill */
-	{ "EditFillAutofill", NULL, N_("Auto_fill"),
-		NULL, N_("Automatically fill the current selection"),
-		G_CALLBACK (cb_edit_fill_autofill) },
-	{ "ToolsMerge", NULL, N_("_Merge..."),
-		NULL, N_("Merges columnar data into a sheet creating duplicate sheets for each row"),
-		G_CALLBACK (cb_tools_merge) },
-	{ "ToolsTabulate", NULL, N_("_Tabulate Dependency..."),
-		NULL, N_("Make a table of a cell's value as a function of other cells"),
-		G_CALLBACK (cb_tools_tabulate) },
-	{ "EditFillSeries", NULL, N_("_Series..."),
-		NULL, N_("Fill according to a linear or exponential series"),
-		G_CALLBACK (cb_edit_fill_series) },
-	{ "RandomGeneratorUncorrelated", NULL, N_("_Uncorrelated..."),
-		NULL, N_("Generate random numbers of a selection of distributions"),
-		G_CALLBACK (cb_tools_random_generator_uncorrelated) },
-	{ "RandomGeneratorCorrelated", NULL, N_("_Correlated..."),
-		NULL, N_("Generate variates for correlated normal distributed random variables"),
-		G_CALLBACK (cb_tools_random_generator_correlated) },
-	{ "CopyDown", NULL, N_("Fill Downwards"), "<control>D",
-	  N_("Copy the content from the top row to the cells below"), G_CALLBACK (cb_copydown) },
-	{ "CopyRight", NULL, N_("Fill to Right"), "<control>R",
-	  N_("Copy the content from the left column to the cells on the right"), G_CALLBACK (cb_copyright) },
+	{ .name = "EditFillAutofill",
+	  .label = N_("Auto_fill"),
+	  .tooltip = N_("Automatically fill the current selection"),
+	  .callback = G_CALLBACK (cb_edit_fill_autofill)
+	},
+	{ .name = "ToolsMerge",
+	  .label = N_("_Merge..."),
+	  .tooltip = N_("Merges columnar data into a sheet creating duplicate sheets for each row"),
+	  .callback = G_CALLBACK (cb_tools_merge)
+	},
+	{ .name = "ToolsTabulate",
+	  .label = N_("_Tabulate Dependency..."),
+	  .tooltip = N_("Make a table of a cell's value as a function of other cells"),
+	  .callback = G_CALLBACK (cb_tools_tabulate)
+	},
+	{ .name = "EditFillSeries",
+	  .label = N_("_Series..."),
+	  .tooltip = N_("Fill according to a linear or exponential series"),
+	  .callback = G_CALLBACK (cb_edit_fill_series)
+	},
+	{ .name = "RandomGeneratorUncorrelated",
+	  .label = N_("_Uncorrelated..."),
+	  .tooltip = N_("Generate random numbers of a selection of distributions"),
+	  .callback = G_CALLBACK (cb_tools_random_generator_uncorrelated)
+	},
+	{ .name = "RandomGeneratorCorrelated",
+	  .label = N_("_Correlated..."),
+	  .tooltip = N_("Generate variates for correlated normal distributed random variables"),
+	  .callback = G_CALLBACK (cb_tools_random_generator_correlated)
+	},
+	{ .name = "CopyDown",
+	  .label = N_("Fill Downwards"),
+	  .accelerator = "<control>D",
+	  .tooltip = N_("Copy the content from the top row to the cells below"),
+	  .callback = G_CALLBACK (cb_copydown)
+	},
+	{ .name = "CopyRight",
+	  .label = N_("Fill to Right"),
+	  .accelerator = "<control>R",
+	  .tooltip = N_("Copy the content from the left column to the cells on the right"),
+	  .callback = G_CALLBACK (cb_copyright)
+	},
 
 
 /* Data -> Outline */
-	{ "DataOutlineHideDetail", "gnumeric-detail-hide", N_("_Hide Detail"),
-		NULL, N_("Collapse an outline group"),
-		G_CALLBACK (cb_data_hide_detail) },
-	{ "DataOutlineShowDetail", "gnumeric-detail-show", N_("_Show Detail"),
-		NULL, N_("Uncollapse an outline group"),
-		G_CALLBACK (cb_data_show_detail) },
-	{ "DataOutlineGroup", "gnumeric-group", N_("_Group..."),
-		"<shift><alt>Right", N_("Add an outline group"),
-		G_CALLBACK (cb_data_group) },
-	{ "DataOutlineUngroup", "gnumeric-ungroup", N_("_Ungroup..."),
-		"<shift><alt>Left", N_("Remove an outline group"),
-		G_CALLBACK (cb_data_ungroup) },
+	{ .name = "DataOutlineHideDetail",
+	  .icon = "gnumeric-detail-hide",
+	  .label = N_("_Hide Detail"),
+	  .tooltip = N_("Collapse an outline group"),
+	  .callback = G_CALLBACK (cb_data_hide_detail)
+	},
+	{ .name = "DataOutlineShowDetail",
+	  .icon = "gnumeric-detail-show",
+	  .label = N_("_Show Detail"),
+	  .tooltip = N_("Uncollapse an outline group"),
+	  .callback = G_CALLBACK (cb_data_show_detail)
+	},
+	{ .name = "DataOutlineGroup",
+	  .icon = "gnumeric-group",
+	  .label = N_("_Group..."),
+	  .accelerator = "<shift><alt>Right",
+	  .tooltip = N_("Add an outline group"),
+	  .callback = G_CALLBACK (cb_data_group)
+	},
+	{ .name = "DataOutlineUngroup",
+	  .icon = "gnumeric-ungroup",
+	  .label = N_("_Ungroup..."),
+	  .accelerator = "<shift><alt>Left",
+	  .tooltip = N_("Remove an outline group"),
+	  .callback = G_CALLBACK (cb_data_ungroup)
+	},
 
 /* Data -> Filter */
-	{ "DataAutoFilter", "gnumeric-autofilter", N_("Add _Auto Filter"),
-		NULL, N_("Add or remove a filter"),
-		G_CALLBACK (cb_auto_filter) },
-	{ "DataFilterShowAll", NULL, N_("_Clear Advanced Filter"),
-		NULL, N_("Show all rows hidden by an advanced filter"),
-		G_CALLBACK (cb_show_all) },
-	{ "DataFilterAdvancedfilter", NULL, N_("Advanced _Filter..."),
-		NULL, N_("Filter data with given criteria"),
-		G_CALLBACK (cb_data_filter) },
+	{ .name = "DataAutoFilter",
+	  .icon = "gnumeric-autofilter",
+	  .label = N_("Add _Auto Filter"),
+	  .tooltip = N_("Add or remove a filter"),
+	  .callback = G_CALLBACK (cb_auto_filter)
+	},
+	{ .name = "DataFilterShowAll",
+	  .label = N_("_Clear Advanced Filter"),
+	  .tooltip = N_("Show all rows hidden by an advanced filter"),
+	  .callback = G_CALLBACK (cb_show_all)
+	},
+	{ .name = "DataFilterAdvancedfilter",
+	  .label = N_("Advanced _Filter..."),
+	  .tooltip = N_("Filter data with given criteria"),
+	  .callback = G_CALLBACK (cb_data_filter)
+	},
 /* Data -> External */
-	{ "DataImportText", NULL, N_("Import _Text File..."),
-		NULL, N_("Import data from a text file"),
-		G_CALLBACK (cb_data_import_text) },
-	{ "DataImportOther", NULL, N_("Import _Other File..."),
-		NULL, N_("Import data from a file"),
-		G_CALLBACK (cb_data_import_other) },
+	{ .name = "DataImportText",
+	  .label = N_("Import _Text File..."),
+	  .tooltip = N_("Import data from a text file"),
+	  .callback = G_CALLBACK (cb_data_import_text)
+	},
+	{ .name = "DataImportOther",
+	  .label = N_("Import _Other File..."),
+	  .tooltip = N_("Import data from a file"),
+	  .callback = G_CALLBACK (cb_data_import_other)
+	},
 
 /* Data -> Data Slicer */
 	/* label and tip are context dependent, see wbcg_menu_state_update */
-	{ "DataSlicer", NULL, N_("Add _Data Slicer"),
-		NULL, N_("Create a data slicer"),
-		G_CALLBACK (cb_data_slicer_create) },
-	{ "DataSlicerRefresh", NULL, N_("_Refresh"),
-		NULL, N_("Regenerate a data slicer from the source data"),
-		G_CALLBACK (cb_data_slicer_refresh) },
-	{ "DataSlicerEdit", NULL, N_("_Edit Data Slicer..."),
-		NULL, N_("Adjust a data slicer"),
-		G_CALLBACK (cb_data_slicer_edit) },
+	{ .name = "DataSlicer",
+	  .label = N_("Add _Data Slicer"),
+	  .tooltip = N_("Create a data slicer"),
+	  .callback = G_CALLBACK (cb_data_slicer_create)
+	},
+	{ .name = "DataSlicerRefresh",
+	  .label = N_("_Refresh"),
+	  .tooltip = N_("Regenerate a data slicer from the source data"),
+	  .callback = G_CALLBACK (cb_data_slicer_refresh)
+	},
+	{ .name = "DataSlicerEdit",
+	  .label = N_("_Edit Data Slicer..."),
+	  .tooltip = N_("Adjust a data slicer"),
+	  .callback = G_CALLBACK (cb_data_slicer_edit)
+	},
 
 /* Standard Toolbar */
-	{ "AutoSum", "gnumeric-autosum", N_("Sum"),
-		"<alt>equal", N_("Sum into the current cell"),
-		G_CALLBACK (cb_autosum) },
-	{ "InsertFormula", "gnumeric-formulaguru", N_("_Function..."), NULL,
-		N_("Edit a function in the current cell"),
-		G_CALLBACK (cb_formula_guru) },
+	{ .name = "AutoSum",
+	  .icon = "gnumeric-autosum",
+	  .label = N_("Sum"),
+	  .accelerator = "<alt>equal",
+	  .tooltip = N_("Sum into the current cell"),
+	  .callback = G_CALLBACK (cb_autosum)
+	},
+	{ .name = "InsertFormula",
+	  .icon = "gnumeric-formulaguru",
+	  .label = N_("_Function..."), .accelerator = NULL,
+	  .tooltip =
+	  N_("Edit a function in the current cell"),
+	  .callback = G_CALLBACK (cb_formula_guru)
+	},
 
-	{ "SortAscending", "view-sort-ascending", N_("Sort Ascending"), NULL,
-		N_("Sort the selected region in ascending order based on the first column selected"),
-		G_CALLBACK (cb_sort_ascending) },
-	{ "SortDescending", "view-sort-descending", N_("Sort Descending"), NULL,
-		N_("Sort the selected region in descending order based on the first column selected"),
-		G_CALLBACK (cb_sort_descending) },
+	{ .name = "SortAscending",
+	  .icon = "view-sort-ascending",
+	  .label = N_("Sort Ascending"), .accelerator = NULL,
+	  .tooltip =
+	  N_("Sort the selected region in ascending order based on the first column selected"),
+	  .callback = G_CALLBACK (cb_sort_ascending)
+	},
+	{ .name = "SortDescending",
+	  .icon = "view-sort-descending",
+	  .label = N_("Sort Descending"), .accelerator = NULL,
+	  .tooltip =
+	  N_("Sort the selected region in descending order based on the first column selected"),
+	  .callback = G_CALLBACK (cb_sort_descending)
+	},
 
 /* Object Toolbar */
-	{ "CreateFrame", "gnumeric-object-frame", N_("Frame"),
-		NULL, N_("Create a frame"),
-		G_CALLBACK (cmd_create_frame) },
-	{ "CreateCheckbox", "gnumeric-object-checkbox", N_("Checkbox"),
-		NULL, N_("Create a checkbox"),
-		G_CALLBACK (cmd_create_checkbox) },
-	{ "CreateScrollbar", "gnumeric-object-scrollbar", N_("Scrollbar"),
-		NULL, N_("Create a scrollbar"),
-		G_CALLBACK (cmd_create_scrollbar) },
-	{ "CreateSlider", "gnumeric-object-slider", N_("Slider"),
-		NULL, N_("Create a slider"),
-		G_CALLBACK (cmd_create_slider) },
-	{ "CreateSpinButton", "gnumeric-object-spinbutton", N_("SpinButton"),
-		NULL, N_("Create a spin button"),
-		G_CALLBACK (cmd_create_spinbutton) },
-	{ "CreateList", "gnumeric-object-list", N_("List"),
-		NULL, N_("Create a list"),
-		G_CALLBACK (cmd_create_list) },
-	{ "CreateCombo", "gnumeric-object-combo", N_("Combo Box"),
-		NULL, N_("Create a combo box"),
-		G_CALLBACK (cmd_create_combo) },
-	{ "CreateLine", "gnumeric-object-line", N_("Line"),
-		NULL, N_("Create a line object"),
-		G_CALLBACK (cmd_create_line) },
-	{ "CreateArrow", "gnumeric-object-arrow", N_("Arrow"),
-		NULL, N_("Create an arrow object"),
-		G_CALLBACK (cmd_create_arrow) },
-	{ "CreateRectangle", "gnumeric-object-rectangle", N_("Rectangle"),
-		NULL, N_("Create a rectangle object"),
-		G_CALLBACK (cmd_create_rectangle) },
-	{ "CreateEllipse", "gnumeric-object-ellipse", N_("Ellipse"),
-		NULL, N_("Create an ellipse object"),
-		G_CALLBACK (cmd_create_ellipse) },
-	{ "CreateButton", "gnumeric-object-button", N_("Button"),
-		NULL, N_("Create a button"),
-		G_CALLBACK (cmd_create_button) },
-	{ "CreateRadioButton", "gnumeric-object-radiobutton", N_("RadioButton"),
-		NULL, N_("Create a radio button"),
-		G_CALLBACK (cmd_create_radiobutton) },
+	{ .name = "CreateFrame",
+	  .icon = "gnumeric-object-frame",
+	  .label = N_("Frame"),
+	  .tooltip = N_("Create a frame"),
+	  .callback = G_CALLBACK (cmd_create_frame)
+	},
+	{ .name = "CreateCheckbox",
+	  .icon = "gnumeric-object-checkbox",
+	  .label = N_("Checkbox"),
+	  .tooltip = N_("Create a checkbox"),
+	  .callback = G_CALLBACK (cmd_create_checkbox)
+	},
+	{ .name = "CreateScrollbar",
+	  .icon = "gnumeric-object-scrollbar",
+	  .label = N_("Scrollbar"),
+	  .tooltip = N_("Create a scrollbar"),
+	  .callback = G_CALLBACK (cmd_create_scrollbar)
+	},
+	{ .name = "CreateSlider",
+	  .icon = "gnumeric-object-slider",
+	  .label = N_("Slider"),
+	  .tooltip = N_("Create a slider"),
+	  .callback = G_CALLBACK (cmd_create_slider)
+	},
+	{ .name = "CreateSpinButton",
+	  .icon = "gnumeric-object-spinbutton",
+	  .label = N_("SpinButton"),
+	  .tooltip = N_("Create a spin button"),
+	  .callback = G_CALLBACK (cmd_create_spinbutton)
+	},
+	{ .name = "CreateList",
+	  .icon = "gnumeric-object-list",
+	  .label = N_("List"),
+	  .tooltip = N_("Create a list"),
+	  .callback = G_CALLBACK (cmd_create_list)
+	},
+	{ .name = "CreateCombo",
+	  .icon = "gnumeric-object-combo",
+	  .label = N_("Combo Box"),
+	  .tooltip = N_("Create a combo box"),
+	  .callback = G_CALLBACK (cmd_create_combo)
+	},
+	{ .name = "CreateLine",
+	  .icon = "gnumeric-object-line",
+	  .label = N_("Line"),
+	  .tooltip = N_("Create a line object"),
+	  .callback = G_CALLBACK (cmd_create_line)
+	},
+	{ .name = "CreateArrow",
+	  .icon = "gnumeric-object-arrow",
+	  .label = N_("Arrow"),
+	  .tooltip = N_("Create an arrow object"),
+	  .callback = G_CALLBACK (cmd_create_arrow)
+	},
+	{ .name = "CreateRectangle",
+	  .icon = "gnumeric-object-rectangle",
+	  .label = N_("Rectangle"),
+	  .tooltip = N_("Create a rectangle object"),
+	  .callback = G_CALLBACK (cmd_create_rectangle)
+	},
+	{ .name = "CreateEllipse",
+	  .icon = "gnumeric-object-ellipse",
+	  .label = N_("Ellipse"),
+	  .tooltip = N_("Create an ellipse object"),
+	  .callback = G_CALLBACK (cmd_create_ellipse)
+	},
+	{ .name = "CreateButton",
+	  .icon = "gnumeric-object-button",
+	  .label = N_("Button"),
+	  .tooltip = N_("Create a button"),
+	  .callback = G_CALLBACK (cmd_create_button)
+	},
+	{ .name = "CreateRadioButton",
+	  .icon = "gnumeric-object-radiobutton",
+	  .label = N_("RadioButton"),
+	  .tooltip = N_("Create a radio button"),
+	  .callback = G_CALLBACK (cmd_create_radiobutton)
+	},
 
 /* Format toolbar */
-	{ "FormatMergeCells", "gnumeric-cells-merge", N_("Merge"),
-		NULL, N_("Merge a range of cells"),
-		G_CALLBACK (cb_merge_cells) },
-	{ "FormatUnmergeCells", "gnumeric-cells-split", N_("Unmerge"),
-		NULL, N_("Split merged ranges of cells"),
-		G_CALLBACK (cb_unmerge_cells) },
+	{ .name = "FormatMergeCells",
+	  .icon = "gnumeric-cells-merge",
+	  .label = N_("Merge"),
+	  .tooltip = N_("Merge a range of cells"),
+	  .callback = G_CALLBACK (cb_merge_cells)
+	},
+	{ .name = "FormatUnmergeCells",
+	  .icon = "gnumeric-cells-split",
+	  .label = N_("Unmerge"),
+	  .tooltip = N_("Split merged ranges of cells"),
+	  .callback = G_CALLBACK (cb_unmerge_cells)
+	},
 
-	{ "FormatAsGeneral", NULL, N_("General"),
-		"<control>asciitilde", N_("Format the selection as General"),
-		G_CALLBACK (cb_format_as_general) },
-	{ "FormatAsNumber", NULL, N_("Number"),
-		"<control>exclam", N_("Format the selection as numbers"),
-		G_CALLBACK (cb_format_as_number) },
-	{ "FormatAsCurrency", NULL, N_("Currency"),
-		"<control>dollar", N_("Format the selection as currency"),
-		G_CALLBACK (cb_format_as_currency) },
-	{ "FormatAsAccounting", "gnumeric-format-accounting", N_("Accounting"),
-		NULL, N_("Format the selection as accounting"),
-		G_CALLBACK (cb_format_as_accounting) },
-	{ "FormatAsPercentage", "gnumeric-format-percentage", N_("Percentage"),
-		"<control>percent", N_("Format the selection as percentage"),
-		G_CALLBACK (cb_format_as_percentage) },
-	{ "FormatAsScientific", NULL, N_("Scientific"),
-		"<control>asciicircum", N_("Format the selection as scientific"),
-		G_CALLBACK (cb_format_as_scientific) },
-	{ "FormatAsDate", NULL, N_("Date"),
-		"<control>numbersign", N_("Format the selection as date"),
-		G_CALLBACK (cb_format_as_date) },
-	{ "FormatAsTime", NULL, N_("Time"),
-		"<control>at", N_("Format the selection as time"),
-		G_CALLBACK (cb_format_as_time) },
-	{ "FormatAddBorders", NULL, N_("AddBorders"),
-		"<control>ampersand", N_("Add a border around the selection"),
-		G_CALLBACK (cb_format_add_borders) },
-	{ "FormatClearBorders", NULL, N_("ClearBorders"),
-		"<control>underscore", N_("Clear the border around the selection"),
-		G_CALLBACK (cb_format_clear_borders) },
+	{ .name = "FormatAsGeneral",
+	  .label = N_("General"),
+	  .accelerator = "<control>asciitilde",
+	  .tooltip = N_("Format the selection as General"),
+	  .callback = G_CALLBACK (cb_format_as_general)
+	},
+	{ .name = "FormatAsNumber",
+	  .label = N_("Number"),
+	  .accelerator = "<control>exclam",
+	  .tooltip = N_("Format the selection as numbers"),
+	  .callback = G_CALLBACK (cb_format_as_number)
+	},
+	{ .name = "FormatAsCurrency",
+	  .label = N_("Currency"),
+	  .accelerator = "<control>dollar",
+	  .tooltip = N_("Format the selection as currency"),
+	  .callback = G_CALLBACK (cb_format_as_currency)
+	},
+	{ .name = "FormatAsAccounting",
+	  .icon = "gnumeric-format-accounting",
+	  .label = N_("Accounting"),
+	  .tooltip = N_("Format the selection as accounting"),
+	  .callback = G_CALLBACK (cb_format_as_accounting)
+	},
+	{ .name = "FormatAsPercentage",
+	  .icon = "gnumeric-format-percentage",
+	  .label = N_("Percentage"),
+	  .accelerator = "<control>percent",
+	  .tooltip = N_("Format the selection as percentage"),
+	  .callback = G_CALLBACK (cb_format_as_percentage)
+	},
+	{ .name = "FormatAsScientific",
+	  .label = N_("Scientific"),
+	  .accelerator = "<control>asciicircum",
+	  .tooltip = N_("Format the selection as scientific"),
+	  .callback = G_CALLBACK (cb_format_as_scientific)
+	},
+	{ .name = "FormatAsDate",
+	  .label = N_("Date"),
+	  .accelerator = "<control>numbersign",
+	  .tooltip = N_("Format the selection as date"),
+	  .callback = G_CALLBACK (cb_format_as_date)
+	},
+	{ .name = "FormatAsTime",
+	  .label = N_("Time"),
+	  .accelerator = "<control>at",
+	  .tooltip = N_("Format the selection as time"),
+	  .callback = G_CALLBACK (cb_format_as_time)
+	},
+	{ .name = "FormatAddBorders",
+	  .label = N_("AddBorders"),
+	  .accelerator = "<control>ampersand",
+	  .tooltip = N_("Add a border around the selection"),
+	  .callback = G_CALLBACK (cb_format_add_borders)
+	},
+	{ .name = "FormatClearBorders",
+	  .label = N_("ClearBorders"),
+	  .accelerator = "<control>underscore",
+	  .tooltip = N_("Clear the border around the selection"),
+	  .callback = G_CALLBACK (cb_format_clear_borders)
+	},
 
-	{ "FormatWithThousands", "gnumeric-format-thousand-separator", N_("Thousands Separator"),
-		NULL, N_("Set the format of the selected cells to include a thousands separator"),
-		G_CALLBACK (cb_format_with_thousands) },
-	{ "FormatIncreasePrecision", "gnumeric-format-precision-increase", N_("Increase Precision"),
-		NULL, N_("Increase the number of decimals displayed"),
-		G_CALLBACK (cb_format_inc_precision) },
-	{ "FormatDecreasePrecision", "gnumeric-format-precision-decrease", N_("Decrease Precision"),
-		NULL, N_("Decrease the number of decimals displayed"),
-		G_CALLBACK (cb_format_dec_precision) },
+	{ .name = "FormatWithThousands",
+	  .icon = "gnumeric-format-thousand-separator",
+	  .label = N_("Thousands Separator"),
+	  .tooltip = N_("Set the format of the selected cells to include a thousands separator"),
+	  .callback = G_CALLBACK (cb_format_with_thousands)
+	},
+	{ .name = "FormatIncreasePrecision",
+	  .icon = "gnumeric-format-precision-increase",
+	  .label = N_("Increase Precision"),
+	  .tooltip = N_("Increase the number of decimals displayed"),
+	  .callback = G_CALLBACK (cb_format_inc_precision)
+	},
+	{ .name = "FormatDecreasePrecision",
+	  .icon = "gnumeric-format-precision-decrease",
+	  .label = N_("Decrease Precision"),
+	  .tooltip = N_("Decrease the number of decimals displayed"),
+	  .callback = G_CALLBACK (cb_format_dec_precision)
+	},
 
 	/* Gtk marks these accelerators as invalid because they use Tab
 	 * enable them manually in gnm-pane.c */
-	{ "FormatDecreaseIndent", "format-indent-less", NULL,
-		"<control><alt><shift>Tab", N_("Decrease the indent, and align the contents to the left"),
-		G_CALLBACK (cb_format_dec_indent) },
-	{ "FormatIncreaseIndent", "format-indent-more", NULL,
-		"<control><alt>Tab", N_("Increase the indent, and align the contents to the left"),
-		G_CALLBACK (cb_format_inc_indent) },
+	{ .name = "FormatDecreaseIndent",
+	  .icon = "format-indent-less",
+	  .accelerator = "<control><alt><shift>Tab",
+	  .tooltip = N_("Decrease the indent, and align the contents to the left"),
+	  .callback = G_CALLBACK (cb_format_dec_indent)
+	},
+	{ .name = "FormatIncreaseIndent",
+	  .icon = "format-indent-more",
+	  .accelerator = "<control><alt>Tab",
+	  .tooltip = N_("Increase the indent, and align the contents to the left"),
+	  .callback = G_CALLBACK (cb_format_inc_indent)
+	},
 };
 
 #define TOGGLE_HANDLER(flag,property)					\
@@ -3677,17 +4367,17 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 	wbcg->semi_permanent_actions = gtk_action_group_new ("SemiPermanentActions");
 	gtk_action_group_set_translation_domain (wbcg->semi_permanent_actions, GETTEXT_PACKAGE);
 
-	gtk_action_group_add_actions (wbcg->permanent_actions,
+	gnm_action_group_add_actions (wbcg->permanent_actions,
 		permanent_actions, G_N_ELEMENTS (permanent_actions), wbcg);
-	gtk_action_group_add_actions (wbcg->actions,
+	gnm_action_group_add_actions (wbcg->actions,
 		actions, G_N_ELEMENTS (actions), wbcg);
 	gtk_action_group_add_toggle_actions (wbcg->actions,
 		toggle_actions, G_N_ELEMENTS (toggle_actions), wbcg);
 	gtk_action_group_add_toggle_actions (wbcg->font_actions,
 		font_toggle_actions, G_N_ELEMENTS (font_toggle_actions), wbcg);
-	gtk_action_group_add_actions (wbcg->data_only_actions,
+	gnm_action_group_add_actions (wbcg->data_only_actions,
 		data_only_actions, G_N_ELEMENTS (data_only_actions), wbcg);
-	gtk_action_group_add_actions (wbcg->semi_permanent_actions,
+	gnm_action_group_add_actions (wbcg->semi_permanent_actions,
 		semi_permanent_actions, G_N_ELEMENTS (semi_permanent_actions), wbcg);
 	gtk_action_group_add_toggle_actions (wbcg->semi_permanent_actions,
 		semi_permanent_toggle_actions, G_N_ELEMENTS (semi_permanent_toggle_actions), wbcg);
