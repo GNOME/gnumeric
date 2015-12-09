@@ -2016,7 +2016,7 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "FilePageSetup", "document-page-setup", N_("Page Set_up..."),
 		NULL, N_("Setup the page settings for your current printer"),
 		G_CALLBACK (cb_file_page_setup) },
-	{ "FilePrintPreview", GTK_STOCK_PRINT_PREVIEW, NULL,
+	{ "FilePrintPreview", "document-print-preview", N_("Print Pre_view"),
 		NULL, N_("Print preview"),
 		G_CALLBACK (cb_file_print_preview) },
 	{ "FilePrint", "document-print", N_("Print"),
