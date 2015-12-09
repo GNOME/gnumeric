@@ -79,6 +79,11 @@ AC_CANONICAL_HOST
 
 AC_ISC_POSIX
 AC_PROG_CC
+AC_PROG_CC_C99
+if test "$ac_cv_prog_cc_c99" = no; then
+	AC_MSG_ERROR([*** c99 is required])
+fi
+
 AC_PROG_YACC
 AM_PROG_LEX
 AC_PROG_LN_S

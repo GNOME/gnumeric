@@ -1,3 +1,7 @@
+2015-12-08  Morten Welinder  <terra@gnome.org>
+
+	* configure.ac (CC): Insist on c99.
+
 2015-12-05  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-dpq.c (prayleigh, qrayleigh): New functions.
