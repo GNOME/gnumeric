@@ -1,3 +1,8 @@
+2015-12-10  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnm_action_group_add_action): New wrapper to
+	ensure actions get accel paths.
+
 2015-12-09  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_find_action): New function to look in

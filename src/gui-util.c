@@ -1328,3 +1328,13 @@ gnm_action_group_add_actions (GtkActionGroup *group,
 		g_object_unref (a);
 	}
 }
+
+void
+gnm_action_group_add_action (GtkActionGroup *group, GtkAction *act)
+{
+	/*
+	 * See the docs for gtk_action_group_add_action as to why we don't
+	 * call just that.
+	 */
+	gtk_action_group_add_action_with_accel (group, act, NULL);
+}

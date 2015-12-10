@@ -1943,7 +1943,7 @@ static GNM_ACTION_DEF (cb_file_menu)
 
 static GNM_ACTION_DEF (cb_insert_menu)
 {
-	GtkAction *action = gtk_action_group_get_action (wbcg->permanent_actions, "MenuInsertObject");
+	GtkAction *action = wbcg_find_action (wbcg, "MenuInsertObject");
 	SheetControlGUI	*scg = wbcg_cur_scg (wbcg);
 	gtk_action_set_sensitive (action, go_components_get_mime_types () != NULL && scg && scg_sheet (scg)->sheet_type == GNM_SHEET_DATA);
 }
@@ -3743,7 +3743,7 @@ wbc_gtk_init_alignments (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (wbcg->halignment),
 		"activate",
 		G_CALLBACK (cb_halignment_activated), wbcg);
-	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->halignment));
+	gnm_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->halignment));
 
 	wbcg->valignment = go_action_combo_pixmaps_new ("VAlignmentSelector",
 						       valignment_combo_info, 1, 3);
@@ -3754,7 +3754,7 @@ wbc_gtk_init_alignments (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (wbcg->valignment),
 		"activate",
 		G_CALLBACK (cb_valignment_activated), wbcg);
-	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->valignment));
+	gnm_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->valignment));
 }
 
 /****************************************************************************/
@@ -3810,7 +3810,7 @@ wbc_gtk_init_color_fore (WBCGtk *gtk)
 	g_signal_connect (G_OBJECT (gtk->fore_color),
 		"display-custom-dialog",
 		G_CALLBACK (cb_custom_color_created), gtk);
-	gtk_action_group_add_action (gtk->font_actions,
+	gnm_action_group_add_action (gtk->font_actions,
 		GTK_ACTION (gtk->fore_color));
 }
 
@@ -3853,7 +3853,7 @@ wbc_gtk_init_color_back (WBCGtk *gtk)
 		"signal::combo-activate", G_CALLBACK (cb_back_color_changed), gtk,
 		"signal::display-custom-dialog", G_CALLBACK (cb_custom_color_created), gtk,
 		NULL);
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->back_color));
+	gnm_action_group_add_action (gtk->actions, GTK_ACTION (gtk->back_color));
 }
 
 /****************************************************************************/
@@ -3975,7 +3975,7 @@ wbc_gtk_init_borders (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (wbcg->borders),
 		"combo-activate",
 		G_CALLBACK (cb_border_activated), wbcg);
-	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->borders));
+	gnm_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->borders));
 }
 
 /****************************************************************************/
@@ -4135,7 +4135,7 @@ wbc_gtk_init_zoom (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (wbcg->zoom_haction),
 		"activate",
 		G_CALLBACK (cb_zoom_activated), wbcg);
-	gtk_action_group_add_action (wbcg->actions,
+	gnm_action_group_add_action (wbcg->actions,
 				     GTK_ACTION (wbcg->zoom_haction));
 
 	/* ----- vertical ----- */
@@ -4150,7 +4150,7 @@ wbc_gtk_init_zoom (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (wbcg->zoom_vaction),
 			  "activate",
 			  G_CALLBACK (cb_vzoom_activated), wbcg);
-	gtk_action_group_add_action (wbcg->actions,
+	gnm_action_group_add_action (wbcg->actions,
 				     GTK_ACTION (wbcg->zoom_vaction));
 
 	/* ----- chain ----- */
@@ -4398,7 +4398,7 @@ wbc_gtk_init_font_name (WBCGtk *gtk, gboolean horiz)
 			   : G_CALLBACK (cb_font_name_vaction_clicked)),
 			  gtk);
 
-	gtk_action_group_add_action (gtk->font_actions, act);
+	gnm_action_group_add_action (gtk->font_actions, act);
 
 	return act;
 }

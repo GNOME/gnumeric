@@ -181,6 +181,7 @@ typedef struct
 void gnm_action_group_add_actions (GtkActionGroup *group,
 				   GnmActionEntry const *actions, size_t n,
 				   gpointer user);
+void gnm_action_group_add_action (GtkActionGroup *group, GtkAction *act);
 
 
 G_END_DECLS
