@@ -5076,7 +5076,7 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 	sheet_objects_relocate (&reloc_info, FALSE, pundo);
 
 	/* 9. Move merges.  */
-	gnm_sheet_merge_relocate (&reloc_info);
+	gnm_sheet_merge_relocate (&reloc_info, pundo);
 
 	/* 10. Move filters.  */
 	gnm_sheet_filter_insdel_colrow (sheet, is_cols, is_insert, pos, count, pundo);
@@ -5367,7 +5367,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 
 	/* 7. Move objects in the range */
 	sheet_objects_relocate (rinfo, TRUE, pundo);
-	gnm_sheet_merge_relocate (rinfo);
+	gnm_sheet_merge_relocate (rinfo, pundo);
 
 	/* 8. Notify sheet of pending update */
 	sheet_flag_recompute_spans (rinfo->origin_sheet);

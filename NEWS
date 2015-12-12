@@ -13,6 +13,7 @@ Morten:
 	* Fix problem with R.QHYPER
 	* Add R.DRAYLEIGH, R.PRAYLEIGH, R.QRAYLEIGH.
 	* Fix GUI translation problems.
+	* Fix bug with merged cells.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.24

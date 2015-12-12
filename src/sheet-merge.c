@@ -301,6 +301,34 @@ gnm_sheet_merge_is_corner (Sheet const *sheet, GnmCellPos const *pos)
 	return g_hash_table_lookup (sheet->hash_merged, pos);
 }
 
+static void
+cb_restore_merge (Sheet *sheet, GSList *restore)
+{
+	GSList *l;
+	for (l = restore; l; l = l->next) {
+		GnmRange const *r = l->data;
+		GnmRange const *r2 = g_hash_table_lookup (sheet->hash_merged,
+							  &r->start);
+		if (r2 && range_equal (r, r2))
+			continue;
+
+		// The only reason for r2 to be different from r is that we
+		// clipped.  Moving the clipped region back didn't restore
+		// the old state, so we'll have to remove the merge and
+		// create a new.
+		if (r2)
+			gnm_sheet_merge_remove (sheet, r2, NULL);
+
+		gnm_sheet_merge_add (sheet, r, FALSE, NULL);
+	}
+}
+
+static void
+cb_restore_list_free (GSList *restore)
+{
+	g_slist_free_full (restore, g_free);
+}
+
 /**
  * gnm_sheet_merge_relocate:
  * @ri: Descriptor of what is moving.
@@ -308,9 +336,9 @@ gnm_sheet_merge_is_corner (Sheet const *sheet, GnmCellPos const *pos)
  * Shifts merged regions that need to move.
  */
 void
-gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri)
+gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri, GOUndo **pundo)
 {
-	GSList   *ptr, *copy, *to_move = NULL;
+	GSList   *ptr, *copy, *to_move = NULL, *restore = NULL;
 	GnmRange	 dest;
 	gboolean change_sheets;
 
@@ -337,13 +365,26 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 	for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
 		GnmRange const *r = ptr->data;
 		if (range_contains (&ri->origin, r->start.col, r->start.row)) {
-			GnmRange tmp = *r;
+			GnmRange r2 = *r;
 
-			/* Toss any merges that would be clipped. */
+			if (pundo)
+				restore = g_slist_prepend (restore, gnm_range_dup (r));
+
+			/*
+			 * Toss any merges that would be clipped to a null
+			 * range or a single cell.
+			 */
 			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
-			if (!range_translate (&tmp, ri->target_sheet,
-					      ri->col_offset, ri->row_offset))
-				to_move = g_slist_prepend (to_move, gnm_range_dup (&tmp));
+			range_translate (&r2, ri->target_sheet,
+					 ri->col_offset, ri->row_offset);
+			range_ensure_sanity (&r2, ri->target_sheet);
+
+			if (range_is_singleton (&r2) ||
+			    r2.start.col > r2.end.col ||
+			    r2.start.row > r2.end.row)
+				continue;
+
+			to_move = g_slist_prepend (to_move, gnm_range_dup (&r2));
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row))
 			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
@@ -357,6 +398,15 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 		g_free (dest);
 	}
 	g_slist_free (to_move);
+
+	if (restore) {
+		GOUndo *u = go_undo_binary_new
+			(ri->origin_sheet, restore,
+			 (GOUndoBinaryFunc)cb_restore_merge,
+			 NULL,
+			 (GFreeFunc)cb_restore_list_free);
+		*pundo = go_undo_combine (*pundo, u);
+	}
 }
 
 /**
