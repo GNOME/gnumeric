@@ -1,3 +1,8 @@
+2015-12-12  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnm_compare_strings): Don't make assumptions of
+	signedness of "char" type.
+
 2015-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.24
