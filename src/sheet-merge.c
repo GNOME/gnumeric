@@ -338,7 +338,7 @@ cb_restore_list_free (GSList *restore)
 void
 gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri, GOUndo **pundo)
 {
-	GSList   *ptr, *copy, *to_move = NULL, *restore = NULL;
+	GSList   *ptr, *copy, *reapply = NULL, *restore = NULL;
 	GnmRange	 dest;
 	gboolean change_sheets;
 
@@ -364,40 +364,53 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri, GOUndo **pundo)
 	copy = g_slist_copy (ri->origin_sheet->list_merged);
 	for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
 		GnmRange const *r = ptr->data;
+		GnmRange r0 = *r; // Copy because removal invalidates r
+		GnmRange r2 = *r;
+		gboolean needs_restore = FALSE;
+		gboolean needs_reapply = FALSE;
+
 		if (range_contains (&ri->origin, r->start.col, r->start.row)) {
-			GnmRange r2 = *r;
-
-			if (pundo)
-				restore = g_slist_prepend (restore, gnm_range_dup (r));
-
-			/*
-			 * Toss any merges that would be clipped to a null
-			 * range or a single cell.
-			 */
-			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
 			range_translate (&r2, ri->target_sheet,
 					 ri->col_offset, ri->row_offset);
 			range_ensure_sanity (&r2, ri->target_sheet);
 
-			if (range_is_singleton (&r2) ||
-			    r2.start.col > r2.end.col ||
-			    r2.start.row > r2.end.row)
-				continue;
-
-			to_move = g_slist_prepend (to_move, gnm_range_dup (&r2));
+			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
+			if (range_is_singleton (&r2))
+				needs_restore = TRUE;
+			else if (r2.start.col <= r2.end.col &&
+				 r2.start.row <= r2.end.row) {
+				needs_restore = TRUE;
+				needs_reapply = TRUE;
+			} else {
+				// Completely deleted.
+			}
+		} else if (range_contains (&ri->origin, r->end.col, r->end.row)) {
+			r2.end.col += ri->col_offset;
+			r2.end.row += ri->row_offset;
+			range_ensure_sanity (&r2, ri->target_sheet);
+			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
+			needs_restore = TRUE;
+			needs_reapply = !range_is_singleton (&r2);
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row))
 			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
+
+		if (needs_reapply)
+			reapply = g_slist_prepend (reapply,
+						   gnm_range_dup (&r2));
+		if (needs_restore && pundo)
+			restore = g_slist_prepend (restore,
+						   gnm_range_dup (&r0));
 	}
 	g_slist_free (copy);
 
-	/* move the ranges after removing the previous content in case of overlap */
-	for (ptr = to_move ; ptr != NULL ; ptr = ptr->next) {
+	// Reapply surviving, changed ranges.
+	for (ptr = reapply ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange *dest = ptr->data;
 		gnm_sheet_merge_add (ri->target_sheet, dest, TRUE, NULL);
 		g_free (dest);
 	}
-	g_slist_free (to_move);
+	g_slist_free (reapply);
 
 	if (restore) {
 		GOUndo *u = go_undo_binary_new
