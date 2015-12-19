@@ -149,6 +149,8 @@ wbcg_find_action (WBCGtk *wbcg, const char *name)
 		a = gtk_action_group_get_action (wbcg->data_only_actions, name);
 	if (a == NULL)
 		a = gtk_action_group_get_action (wbcg->font_actions, name);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->toolbar.actions, name);
 
 	return a;
 }

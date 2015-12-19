@@ -1,3 +1,7 @@
+2015-12-19  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbcg_find_action): Search toolbar actions too.
+
 2015-12-13  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-merge.c (gnm_sheet_merge_relocate): Handle extending
