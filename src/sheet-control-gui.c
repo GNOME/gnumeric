@@ -397,6 +397,8 @@ scg_resize (SheetControlGUI *scg, G_GNUC_UNUSED gboolean force_scroll)
 		int const b = scg_colrow_distance_get (scg, FALSE,
 						       tl->row, br->row) + t;
 		int i;
+		int fw = MIN (scg->screen_width, r - l);
+		int fh = MIN (scg->screen_height, b - t);
 
 		/* pane 0 has already been done */
 		for (i = scg->active_panes; i-- > 1 ; ) {
@@ -410,7 +412,10 @@ scg_resize (SheetControlGUI *scg, G_GNUC_UNUSED gboolean force_scroll)
 		}
 
 		if (scg->pane[1]) {
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]), r - l, -1);
+			if (gnm_debug_flag ("frozen-panes"))
+				g_printerr ("Pane 1: %d\n", r - l);
+
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]), fw, -1);
 			/* The item_bar_calcs should be equal */
 			/* FIXME : The canvas gets confused when the initial scroll
 			 * region is set too early in its life cycle.
@@ -418,18 +423,25 @@ scg_resize (SheetControlGUI *scg, G_GNUC_UNUSED gboolean force_scroll)
 			 * However, we really should track the bug eventually.
 			 */
 			h = gnm_item_bar_calc_size (scg->pane[1]->col.item);
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]->col.canvas), r - l, h);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]->col.canvas), fw, h);
 		}
 
 		if (scg->pane[3]) {
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]), -1,    b - t);
+			if (gnm_debug_flag ("frozen-panes"))
+				g_printerr ("Pane 2: %d\n", b - t);
+
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]), -1, fh);
 			/* The item_bar_calcs should be equal */
 			w = gnm_item_bar_calc_size (scg->pane[3]->row.item);
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]->row.canvas), w, b - t);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]->row.canvas), w, fh);
 		}
 
-		if (scg->pane[2])
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[2]), r - l, b - t);
+		if (scg->pane[2]) {
+			if (gnm_debug_flag ("frozen-panes"))
+				g_printerr ("Pane 3: %d %d\n", r - l, b - t);
+
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[2]), fw, fh);
+		}
 	}
 
 	SCG_FOREACH_PANE (scg, pane, {
@@ -723,6 +735,10 @@ scg_init (SheetControlGUI *scg)
 
 	scg->im.item = NULL;
 	scg->im.timer = 0;
+
+	// These shouldn't matter and will be overwritten
+	scg->screen_width = 1920;
+	scg->screen_height = 1200;
 }
 
 /*************************************************************************/
@@ -3869,16 +3885,31 @@ scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
 }
 
 
+static void
+scg_screen_changed (GtkWidget *widget, G_GNUC_UNUSED GdkScreen *prev)
+{
+	SheetControlGUI *scg = (SheetControlGUI *)widget;
+	GdkScreen *screen = gtk_widget_get_screen (widget);
+
+	if (screen) {
+		scg->screen_width = gdk_screen_get_width (screen);
+		scg->screen_height = gdk_screen_get_height (screen);
+	}
+}
 
 static void
 scg_class_init (GObjectClass *object_class)
 {
 	SheetControlClass *sc_class = SHEET_CONTROL_CLASS (object_class);
+	GtkWidgetClass *wclass = (GtkWidgetClass *)object_class;
 
 	g_return_if_fail (sc_class != NULL);
 
 	scg_parent_class = g_type_class_peek_parent (object_class);
+
 	object_class->finalize = scg_finalize;
+
+	wclass->screen_changed = scg_screen_changed;
 
 	sc_class->resize                   = scg_resize_virt;
 	sc_class->redraw_all               = scg_redraw_all;

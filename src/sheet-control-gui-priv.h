@@ -35,6 +35,7 @@ struct _SheetControlGUI {
 	GtkAdjustment	*va, *ha;	/* Adjustments */
 	int              vpos, hpos;    /* Handle positions */
 	guint		 pane_drag_handler;
+	int              screen_width, screen_height;
 
 	/* SheetObject support */
 	GHashTable	 *selected_objects;

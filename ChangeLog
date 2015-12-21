@@ -1,3 +1,10 @@
+2015-12-20  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_screen_changed): New handler to get
+	screen size.
+	(scg_resize): Limit frozen zones to screen size.  Not idea, but
+	better than crashing.
+
 2015-12-19  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_find_action): Search toolbar actions too.
