@@ -14,6 +14,7 @@ Morten:
 	* Add R.DRAYLEIGH, R.PRAYLEIGH, R.QRAYLEIGH.
 	* Fix GUI translation problems.
 	* Fix bugs with merged cells.  [#504004]
+	* Make builds more reproducible.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.24

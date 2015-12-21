@@ -98,7 +98,7 @@ sub embed {
 
     if ($docompress) {
 	my $zdata;
-	gzip \$data => \$zdata
+	gzip \$data => \$zdata, TIME => 0,
 	    or die "gzip failed: $GzipError\n";
 	$data = $zdata;
     }
