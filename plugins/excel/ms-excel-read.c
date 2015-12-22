@@ -807,7 +807,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	case MSOT_COMBO: {
 		ExcelReadSheet *esheet = (ExcelReadSheet *)container;
 
-		if (!obj->combo_in_autofilter)
+		if (!obj->auto_combo)
 			so = g_object_new (sheet_widget_combo_get_type (), NULL);
 
 		/* ok, there are combos to go with the autofilter it can stay */

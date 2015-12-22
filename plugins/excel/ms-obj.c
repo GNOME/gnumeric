@@ -365,7 +365,7 @@ ms_obj_new (MSObjAttrBag *attrs)
 	obj->id = -1;
 	obj->gnum_obj = NULL;
 	obj->attrs = (attrs != NULL) ? attrs : ms_obj_attr_bag_new ();
-	obj->combo_in_autofilter	= FALSE;
+	obj->auto_combo	= FALSE;
 	obj->is_linked			= FALSE;
 	obj->comment_pos.col = obj->comment_pos.row = -1;
 
@@ -871,7 +871,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		break;
 	case MSOT_COMBO:
 /* 110 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2, cbfmla3, fmla3 */
-		obj->combo_in_autofilter =
+		obj->auto_combo =
 			(GSF_LE_GET_GUINT16 (q->data + 8) & 0x8000) ? TRUE : FALSE;
 		break;
 	default :
@@ -1108,7 +1108,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			break;
 
 		case GR_LISTBOX_DATA :
-			if (!obj->combo_in_autofilter)
+			if (!obj->auto_combo)
 				ms_obj_read_expr (obj, MS_OBJ_ATTR_INPUT_FROM, c,
 					data+6, data + data_len_left);
 
@@ -1142,7 +1142,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			/* Undocumented.  It appears that combos for filters are marked
 			 * with flag 0x100
 			 */
-			obj->combo_in_autofilter =
+			obj->auto_combo =
 				(obj->excel_type == 0x14) && (options & 0x100);
 
 #ifndef NO_DEBUG_EXCEL

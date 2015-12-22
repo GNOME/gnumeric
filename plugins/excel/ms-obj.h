@@ -169,7 +169,7 @@ struct _MSObj {
 
 	/* a kludge for now until the indicator and the box have distinct objects */
 	GnmCellPos	 comment_pos;
-	gboolean	 combo_in_autofilter;
+	gboolean	 auto_combo;
 	gboolean	 is_linked;
 	MSObjAttrBag	*attrs;
 };
