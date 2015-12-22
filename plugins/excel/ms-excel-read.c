@@ -5742,9 +5742,9 @@ excel_read_DVAL (BiffQuery *q, ExcelReadSheet *esheet)
 	drop_down_id  = GSF_LE_GET_GUINT32 (q->data + 10);
 	dv_count      = GSF_LE_GET_GUINT32 (q->data + 14);
 
-	d (5, if (options & 0x1) g_printerr ("DV input window is closed"););
-	d (5, if (options & 0x2) g_printerr ("DV input window is pinned"););
-	d (5, if (options & 0x4) g_printerr ("DV info has been cached ??"););
+	d (5, if (options & 0x1) g_printerr ("DV input window is closed\n"););
+	d (5, if (options & 0x2) g_printerr ("DV input window is pinned\n"););
+	d (5, if (options & 0x4) g_printerr ("DV info has been cached ??\n"););
 
 	for (i = 0 ; i < dv_count ; i++) {
 		guint16 next;
