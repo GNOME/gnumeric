@@ -1131,7 +1131,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			break;
 
 		case GR_COMMON_OBJ_DATA : {
-			guint16 const options =GSF_LE_GET_GUINT16 (data+8);
+			guint16 const options = GSF_LE_GET_GUINT16 (data+8);
 
 			/* Multiple objects in 1 record ?? */
 			XL_CHECK_CONDITION_VAL (obj->excel_type == -1, TRUE);
@@ -1139,9 +1139,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			obj->excel_type = GSF_LE_GET_GUINT16(data+4);
 			obj->id = GSF_LE_GET_GUINT16(data+6);
 
-			/* Undocumented.  It appears that combos for filters are marked
-			 * with flag 0x100
-			 */
+			// "P" flag in FtCmo.
 			obj->auto_combo =
 				(obj->excel_type == 0x14) && (options & 0x100);
 
@@ -1375,18 +1373,24 @@ ms_objv8_write_scrollbar_old (BiffPut *bp)
 }
 
 void
-ms_objv8_write_listbox (BiffPut *bp, gboolean filtered)
+ms_objv8_write_listbox (BiffPut *bp, guint8 lct, gboolean filtered)
 {
 	static guint8 const data[] = {
-		0x13, 0,
+		0x13, 0, // GR_LISTBOX_DATA
 		0xee, 0x1f,	/* totally contradicts docs, see above */
-		0, 0, 0, 0, 1, 0, 1, 3, 0, 0, 2, 0,
-		8, 0, 0x57, 0, 0, 0, 0, 0
+		0, 0, // Formula?
+		3, 0, // # lines
+		0, 0, // Nothing selected
+		1,    // Flags (fUseCB)
+		6,    // lct
+		0, 0, // iEdit
+		2, 0, 8, 0, 0x40, 0, 0, 0, 0, 0 // LbsDropData
 	};
 	guint8 buf[sizeof data];
 	memcpy (buf, data, sizeof data);
 	if (filtered)
 		GSF_LE_SET_GUINT16 (buf + 14, 0xa);
+	GSF_LE_SET_GUINT8 (buf + 11, lct);
 	ms_biff_put_var_write (bp, buf, sizeof data);
 }
 

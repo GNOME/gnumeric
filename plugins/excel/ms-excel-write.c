@@ -4276,7 +4276,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 			ms_objv8_write_common (bp,
 				esheet->cur_obj, MSOT_COMBO, 0x2101);
 			ms_objv8_write_scrollbar_old (bp);
-			ms_objv8_write_listbox (bp, cond != NULL); /* acts as an end */
+			ms_objv8_write_listbox (bp, 3, cond != NULL); /* acts as an end */
 		} else {
 			data = ms_biff_put_len_next (bp, BIFF_OBJ, sizeof std_obj_v7);
 			memcpy (data, std_obj_v7, sizeof std_obj_v7);

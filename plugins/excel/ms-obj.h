@@ -169,7 +169,7 @@ struct _MSObj {
 
 	/* a kludge for now until the indicator and the box have distinct objects */
 	GnmCellPos	 comment_pos;
-	gboolean	 auto_combo;
+	gboolean	 auto_combo;  /* Filter, Validation, ... */
 	gboolean	 is_linked;
 	MSObjAttrBag	*attrs;
 };
@@ -182,7 +182,7 @@ char  *ms_read_TXO   (BiffQuery *q, MSContainer *c, PangoAttrList **markup);
 
 void ms_objv8_write_common	(BiffPut *bp, int id, int type, guint16 flags);
 void ms_objv8_write_scrollbar_old (BiffPut *bp);
-void ms_objv8_write_listbox	(BiffPut *bp, gboolean filtered);
+void ms_objv8_write_listbox	(BiffPut *bp, guint8 lct, gboolean filtered);
 
 void ms_objv8_write_note	(BiffPut *bp);
 
