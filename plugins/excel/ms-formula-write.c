@@ -1018,6 +1018,7 @@ excel_write_formula (ExcelWriteState *ewb, GnmExprTop const *texpr,
 	PolishData pd;
 	unsigned start;
 	guint32 len;
+	XLOpType target = XL_ROOT;
 
 	g_return_val_if_fail (ewb, 0);
 	g_return_val_if_fail (texpr, 0);
@@ -1047,6 +1048,11 @@ excel_write_formula (ExcelWriteState *ewb, GnmExprTop const *texpr,
 		pd.context = CTXT_NAME_OBJ;
 		pd.use_name_variant = TRUE;
 		break;
+	case EXCEL_CALLED_FROM_VALIDATION_LIST:
+		pd.context = CTXT_ARRAY;
+		pd.use_name_variant = TRUE;
+		target = XL_REF;
+		break;
 	case EXCEL_CALLED_FROM_CONDITION:
 	case EXCEL_CALLED_FROM_VALIDATION:
 	default:
@@ -1055,7 +1061,7 @@ excel_write_formula (ExcelWriteState *ewb, GnmExprTop const *texpr,
 	}
 
 	start = ewb->bp->curpos;
-	write_node (&pd, texpr->expr, 0, XL_ROOT);
+	write_node (&pd, texpr->expr, 0, target);
 	len = ewb->bp->curpos - start;
 
 	write_arrays (&pd);

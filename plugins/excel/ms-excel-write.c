@@ -1476,6 +1476,7 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 	guint8 data[8];
 	int col, row;
 	GnmRange const *r;
+	ExcelFuncContext context = EXCEL_CALLED_FROM_VALIDATION;
 
 	ms_biff_put_var_next (bp, BIFF_DV);
 
@@ -1485,7 +1486,7 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 		case GNM_VALIDATION_TYPE_ANY:		options = 0; break;
 		case GNM_VALIDATION_TYPE_AS_INT:		options = 1; break;
 		case GNM_VALIDATION_TYPE_AS_NUMBER:		options = 2; break;
-		case GNM_VALIDATION_TYPE_IN_LIST:		options = 3; break;
+		case GNM_VALIDATION_TYPE_IN_LIST:		options = 3; context = EXCEL_CALLED_FROM_VALIDATION_LIST; break;
 		case GNM_VALIDATION_TYPE_AS_DATE:		options = 4; break;
 		case GNM_VALIDATION_TYPE_AS_TIME:		options = 5; break;
 		case GNM_VALIDATION_TYPE_TEXT_LENGTH:	options = 6; break;
@@ -1554,7 +1555,7 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 		guint16 len = excel_write_formula (esheet->ewb,
 				vip->v->deps[0].texpr,
 				esheet->gnum_sheet, col, row,
-				EXCEL_CALLED_FROM_VALIDATION);
+				context);
 		unsigned end_pos = bp->curpos;
 		ms_biff_put_var_seekto (bp, pos-4);
 		GSF_LE_SET_GUINT16 (data, len);
@@ -1570,7 +1571,7 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 		guint16 len = excel_write_formula (esheet->ewb,
 				vip->v->deps[1].texpr,
 				esheet->gnum_sheet, col, row,
-				EXCEL_CALLED_FROM_VALIDATION);
+				context);
 		unsigned end_pos = bp->curpos;
 		ms_biff_put_var_seekto (bp, pos-4);
 		GSF_LE_SET_GUINT16 (data, len);

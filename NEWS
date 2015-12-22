@@ -16,6 +16,7 @@ Morten:
 	* Fix bugs with merged cells.  [#504004]
 	* Make builds more reproducible.
 	* Improve ssdiff for validation.
+	* Fix problem with xls export of list validation.  [#557555]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.24
