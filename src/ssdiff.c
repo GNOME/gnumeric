@@ -29,6 +29,7 @@
 #include "mstyle.h"
 #include "xml-sax.h"
 #include "hlink.h"
+#include "input-msg.h"
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-input.h>
@@ -430,6 +431,53 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 	  gsf_xml_out_end_element (state->xml);			\
   } while (0)
 
+#define DO_INTS(what,fun,oobj,nobj)					\
+  do {									\
+  	  int oi = (oobj) ? (fun) (oobj) : 0;			\
+	  int ni = (nobj) ? (fun) (nobj) : 0;			\
+	  if (oi != ni || !(oobj) != !(nobj)) {				\
+		  gsf_xml_out_start_element (state->xml, (what));	\
+		  if (oobj) gsf_xml_out_add_int (state->xml, "Old", oi); \
+		  if (nobj) gsf_xml_out_add_int (state->xml, "New", ni); \
+		  gsf_xml_out_end_element (state->xml);			\
+	  }								\
+  } while (0)
+
+#define DO_STRINGS(what,fun,oobj,nobj)					\
+  do {									\
+	  const char *ostr = (oobj) ? (fun) (oobj) : NULL;		\
+	  const char *nstr = (nobj) ? (fun) (nobj) : NULL;		\
+	  if (g_strcmp0 (ostr, nstr)) {					\
+		  gsf_xml_out_start_element (state->xml, (what));	\
+		  if (ostr) gsf_xml_out_add_cstr (state->xml, "Old", ostr); \
+		  if (nstr) gsf_xml_out_add_cstr (state->xml, "New", nstr); \
+		  gsf_xml_out_end_element (state->xml);			\
+	  }								\
+  } while (0)
+
+static const char *
+cb_validation_message (GnmValidation const *v)
+{
+	return v->msg ? v->msg->str : NULL;
+}
+
+static const char *
+cb_validation_title (GnmValidation const *v)
+{
+	return v->title ? v->title->str : NULL;
+}
+
+static gboolean
+cb_validation_allow_blank (GnmValidation const *v)
+{
+	return v->allow_blank;
+}
+
+static gboolean
+cb_validation_use_dropdown (GnmValidation const *v)
+{
+	return v->use_dropdown;
+}
 
 static void
 xml_style_changed (GnmDiffState *state, GnmRange const *r,
@@ -621,9 +669,37 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 			break;
 		}
 
-		case MSTYLE_VALIDATION:
-		case MSTYLE_INPUT_MSG:
+		case MSTYLE_VALIDATION: {
+			GnmValidation const *ov = gnm_style_get_validation (os);
+			GnmValidation const *nv = gnm_style_get_validation (ns);
+			gsf_xml_out_start_element (state->xml, "Validation");
+			DO_STRINGS ("Message", cb_validation_message, ov, nv);
+			DO_STRINGS ("Title", cb_validation_title, ov, nv);
+			DO_INTS ("AllowBlank", cb_validation_allow_blank, ov, nv);
+			DO_INTS ("UseDropdown", cb_validation_use_dropdown, ov, nv);
+			gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "<!-- Difference might be spurious -->");
+			gsf_xml_out_end_element (state->xml); /* </Validation> */
+			break;
+		}
+
+		case MSTYLE_INPUT_MSG: {
+			GnmInputMsg const *om = gnm_style_get_input_msg (os);
+			GnmInputMsg const *nm = gnm_style_get_input_msg (ns);
+
+			gsf_xml_out_start_element (state->xml, "InputMessage");
+			DO_STRINGS ("Message", gnm_input_msg_get_msg, om, nm);
+			DO_STRINGS ("Title", gnm_input_msg_get_title, om, nm);
+			gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "<!-- Difference might be spurious -->");
+			gsf_xml_out_end_element (state->xml); /* </InputMessage> */
+			break;
+		}
+
 		case MSTYLE_CONDITIONS:
+			gsf_xml_out_start_element (state->xml, "Conditions");
+			gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "<!-- Difference might be spurious -->");
+			gsf_xml_out_end_element (state->xml); /* </Conditions> */
+			break;
+
 		default:
 			gsf_xml_out_start_element (state->xml, "Other");
 			gsf_xml_out_end_element (state->xml); /* </Other> */

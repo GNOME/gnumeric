@@ -15,6 +15,7 @@ Morten:
 	* Fix GUI translation problems.
 	* Fix bugs with merged cells.  [#504004]
 	* Make builds more reproducible.
+	* Improve ssdiff for validation.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.24
