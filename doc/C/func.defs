@@ -3311,7 +3311,7 @@ The depreciation coefficient used is:
 @SHORTDESC=nearest multiple of @{significance} whose absolute value is at least ABS(@{x})
 @SYNTAX=CEILING(x,significance)
 @ARGUMENTDESCRIPTION=@{x}: number
-@{significance}: base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)
+@{significance}: base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} < 0)
 @DESCRIPTION=CEILING(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at least ABS(@{x}).
 @NOTE=If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error. If @{x} and @{significance} have different signs, CEILING returns a #NUM! error.
 @EXCEL=This function is Excel compatible.
@@ -3488,7 +3488,7 @@ The depreciation coefficient used is:
 @SHORTDESC=nearest multiple of @{significance} whose absolute value is at most ABS(@{x})
 @SYNTAX=FLOOR(x,significance)
 @ARGUMENTDESCRIPTION=@{x}: number
-@{significance}: base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)
+@{significance}: base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} < 0)
 @DESCRIPTION=FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at most ABS(@{x})
 @EXCEL=This function is Excel compatible.
 @ODF=FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1).

@@ -10781,7 +10781,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>x</parameter>: number</para>
-        <para><parameter>significance</parameter>: base multiple (defaults to 1 for <parameter>x</parameter> &gt; 0 and -1 for <parameter>x</parameter> &lt;0)</para>
+        <para><parameter>significance</parameter>: base multiple (defaults to 1 for <parameter>x</parameter> &gt; 0 and -1 for <parameter>x</parameter> &lt; 0)</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -11489,7 +11489,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>x</parameter>: number</para>
-        <para><parameter>significance</parameter>: base multiple (defaults to 1 for <parameter>x</parameter> &gt; 0 and -1 for <parameter>x</parameter> &lt;0)</para>
+        <para><parameter>significance</parameter>: base multiple (defaults to 1 for <parameter>x</parameter> &gt; 0 and -1 for <parameter>x</parameter> &lt; 0)</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
