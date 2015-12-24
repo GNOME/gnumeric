@@ -903,3 +903,11 @@
    Memcheck:Cond
    fun:go_cairo_convert_data_to_pixbuf
 }
+
+{
+   Leak/gobject_init_ctor
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:gobject_init_ctor
+}
