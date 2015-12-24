@@ -1,6 +1,5 @@
 # Gnumeric Czech translation
 # Copyright (c) 1999, 2000, 2001, 2002 The Free Software Foundation
-#
 # Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013, 2014, 2015.
 #
 msgid ""
@@ -8,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-12-05 19:45+0000\n"
-"PO-Revision-Date: 2015-12-09 10:22+0100\n"
+"POT-Creation-Date: 2015-12-24 01:21+0000\n"
+"PO-Revision-Date: 2015-12-24 10:37+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -17,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
 msgid ""
@@ -244,18 +243,18 @@ msgstr "Pokud @{i} není ani „i“ ani „j“, COMPLEX vrátí #HODNOTA!."
 #: ../plugins/fn-stat/functions.c:3444 ../plugins/fn-stat/functions.c:4387
 #: ../plugins/fn-stat/functions.c:4444 ../plugins/fn-stat/functions.c:4492
 #: ../plugins/fn-stat/functions.c:4557 ../plugins/fn-string/functions.c:68
-#: ../plugins/fn-string/functions.c:140 ../plugins/fn-string/functions.c:247
-#: ../plugins/fn-string/functions.c:266 ../plugins/fn-string/functions.c:283
-#: ../plugins/fn-string/functions.c:303 ../plugins/fn-string/functions.c:367
-#: ../plugins/fn-string/functions.c:387 ../plugins/fn-string/functions.c:514
-#: ../plugins/fn-string/functions.c:583 ../plugins/fn-string/functions.c:603
-#: ../plugins/fn-string/functions.c:625 ../plugins/fn-string/functions.c:669
-#: ../plugins/fn-string/functions.c:700 ../plugins/fn-string/functions.c:738
-#: ../plugins/fn-string/functions.c:795 ../plugins/fn-string/functions.c:841
-#: ../plugins/fn-string/functions.c:943 ../plugins/fn-string/functions.c:967
-#: ../plugins/fn-string/functions.c:1020 ../plugins/fn-string/functions.c:1067
-#: ../plugins/fn-string/functions.c:1163 ../plugins/fn-string/functions.c:1234
-#: ../plugins/fn-string/functions.c:1317
+#: ../plugins/fn-string/functions.c:140 ../plugins/fn-string/functions.c:251
+#: ../plugins/fn-string/functions.c:270 ../plugins/fn-string/functions.c:287
+#: ../plugins/fn-string/functions.c:307 ../plugins/fn-string/functions.c:371
+#: ../plugins/fn-string/functions.c:391 ../plugins/fn-string/functions.c:518
+#: ../plugins/fn-string/functions.c:587 ../plugins/fn-string/functions.c:607
+#: ../plugins/fn-string/functions.c:629 ../plugins/fn-string/functions.c:673
+#: ../plugins/fn-string/functions.c:704 ../plugins/fn-string/functions.c:742
+#: ../plugins/fn-string/functions.c:799 ../plugins/fn-string/functions.c:845
+#: ../plugins/fn-string/functions.c:947 ../plugins/fn-string/functions.c:971
+#: ../plugins/fn-string/functions.c:1024 ../plugins/fn-string/functions.c:1071
+#: ../plugins/fn-string/functions.c:1167 ../plugins/fn-string/functions.c:1238
+#: ../plugins/fn-string/functions.c:1321
 msgid "This function is Excel compatible."
 msgstr "Tato funkce je kompatibilní s aplikací Excel."
 
@@ -1217,9 +1216,9 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:2190 ../plugins/fn-math/functions.c:2854
 #: ../plugins/fn-math/functions.c:3054 ../plugins/fn-stat/functions.c:1695
 #: ../plugins/fn-stat/functions.c:2598 ../plugins/fn-stat/functions.c:4960
-#: ../plugins/fn-string/functions.c:304 ../plugins/fn-string/functions.c:388
-#: ../plugins/fn-string/functions.c:515 ../plugins/fn-string/functions.c:1104
-#: ../plugins/fn-string/functions.c:1420 ../plugins/fn-string/functions.c:1550
+#: ../plugins/fn-string/functions.c:308 ../plugins/fn-string/functions.c:392
+#: ../plugins/fn-string/functions.c:519 ../plugins/fn-string/functions.c:1108
+#: ../plugins/fn-string/functions.c:1424 ../plugins/fn-string/functions.c:1554
 msgid "This function is OpenFormula compatible."
 msgstr "Tato funkce je kompatibilní s OpenFormula."
 
@@ -1481,8 +1480,8 @@ msgid ""
 "January 1 of a year is sometimes in week 52 or 53 of the previous year.  "
 "Similarly, December 31 is sometimes in week 1 of the following year."
 msgstr ""
-"1. leden je někdy v 52. nebo 53. týdnu předchozího roku. Podobně je někdy "
-"31. prosinec v 1. týdnu následujícího roku."
+"1. leden je někdy v 52. nebo 53. týdnu předchozího roku. Podobně je někdy "
+"31. prosinec v 1. týdnu následujícího roku."
 
 #: ../plugins/fn-date/functions.c:1214
 msgid "ISOYEAR:year corresponding to the ISO week number"
@@ -2142,7 +2141,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1497
 msgid "@{time2} ≥ @{time1}"
-msgstr "@{time2} ≥ @{time1}"
+msgstr "@{time2} ≥ @{time1}"
 
 #: ../plugins/fn-derivatives/options.c:1563
 msgid "OPT_EXTENDIBLE_WRITER:theoretical price of extendible writer options"
@@ -2185,7 +2184,7 @@ msgid ""
 "OPT_2_ASSET_CORRELATION:theoretical price of options on 2 assets with "
 "correlation @{rho}"
 msgstr ""
-"OPT_2_ASSET_CORRELATION:teoretická cena opce na 2 aktiva s korelací @{rho}"
+"OPT_2_ASSET_CORRELATION:teoretická cena opce na 2 aktiva s korelací @{rho}"
 
 #: ../plugins/fn-derivatives/options.c:1617
 msgid "spot1:spot price of the underlying asset of the first option"
@@ -2242,10 +2241,10 @@ msgid ""
 "@{strike2},0) if @{spot1} > @{strike1} or 0 otherwise. The payoff for a put "
 "is max (@{strike2} - @{spot2}, 0) if @{spot1} < @{strike1} or 0 otherwise."
 msgstr ""
-"OPT_2_ASSET_CORRELATION modeluje teoretickou cenu opce na 2 aktiva s "
-"korelací @{rho}. Výnos pro kupní opci je max(@{spot2} - @{strike2}, 0), když "
-"je @{spot1} > @{strike1} nebo 0 v ostatních případech. Výnos pro prodejní "
-"opci je max (@{strike2} - @{spot2}, 0), když je @{spot1} < @{strike1} nebo 0 "
+"OPT_2_ASSET_CORRELATION modeluje teoretickou cenu opce na 2 aktiva s "
+"korelací @{rho}. Výnos pro kupní opci je max(@{spot2} - @{strike2}, 0), když "
+"je @{spot1} > @{strike1} nebo 0 v ostatních případech. Výnos pro prodejní "
+"opci je max (@{strike2} - @{spot2}, 0), když je @{spot1} < @{strike1} nebo 0 "
 "v ostatních případech."
 
 #: ../plugins/fn-derivatives/options.c:1665
@@ -4932,11 +4931,11 @@ msgstr "ISTEXT:PRAVDA, když je @{value} text"
 msgid "N:@{text} converted to a number"
 msgstr "N:@{text} převedený na číslo"
 
-#: ../plugins/fn-info/functions.c:1720 ../plugins/fn-string/functions.c:366
-#: ../plugins/fn-string/functions.c:582 ../plugins/fn-string/functions.c:623
-#: ../plugins/fn-string/functions.c:667 ../plugins/fn-string/functions.c:794
-#: ../plugins/fn-string/functions.c:1019 ../plugins/fn-string/functions.c:1066
-#: ../plugins/fn-string/functions.c:1099 ../plugins/fn-string/functions.c:1415
+#: ../plugins/fn-info/functions.c:1720 ../plugins/fn-string/functions.c:370
+#: ../plugins/fn-string/functions.c:586 ../plugins/fn-string/functions.c:627
+#: ../plugins/fn-string/functions.c:671 ../plugins/fn-string/functions.c:798
+#: ../plugins/fn-string/functions.c:1023 ../plugins/fn-string/functions.c:1070
+#: ../plugins/fn-string/functions.c:1103 ../plugins/fn-string/functions.c:1419
 msgid "text:string"
 msgstr "text:řetězec"
 
@@ -5991,9 +5990,9 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:735 ../plugins/fn-math/functions.c:1136
 msgid ""
-"significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)"
+"significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} < 0)"
 msgstr ""
-"significance:základ násobku (výchozí je 1 pro @{x} > 0 a -1 pro @{x} <0)"
+"significance:základ násobku (výchozí je 1 pro @{x} > 0 a -1 pro @{x} < 0)"
 
 #: ../plugins/fn-math/functions.c:736
 msgid ""
@@ -7862,8 +7861,7 @@ msgid ""
 "of the cumulative distribution function, of the log-normal distribution."
 msgstr ""
 "Tato funkce vrací pravděpodobnostní kvantilovou funkci, což je inverzní "
-"funkce k hromadné distribuční funkci, pro logaritmicko-normální "
-"rozdělení."
+"funkce k hromadné distribuční funkci, pro logaritmicko-normální rozdělení."
 
 #: ../plugins/fn-r/functions.c:846
 msgid ""
@@ -8186,8 +8184,7 @@ msgid ""
 "distribution."
 msgstr ""
 "Tato funkce vrací pravděpodobnostní kvantilovou funkci, což je inverzní "
-"funkce k hromadné distribuční funkci, pro Studentovo intervalové "
-"rozdělení."
+"funkce k hromadné distribuční funkci, pro Studentovo intervalové rozdělení."
 
 #: ../plugins/fn-r/functions.c:1422
 msgid "R.DWEIBULL:probability density function of the Weibull distribution"
@@ -10815,7 +10812,7 @@ msgid ""
 "There might be cases in which the returned fit is not the best possible."
 msgstr ""
 "Jde o nelineární přibližování metodou postupných aproximací. Přesnost „c“ "
-"je: šířka x-range -> zaokrouhlena na nejbližší nižší (10^celé číslo), krát "
+"je: šířka x‐range -> zaokrouhlena na nejbližší nižší (10^celé číslo), krát "
 "0,000001. Mohou nastat případy, u kterých nebude výsledné přizpůsobení "
 "nejlepší možné."
 
@@ -10846,7 +10843,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4040
 msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
-msgstr "Potom se TREND(A1:A5;B1:B5) rovná {12,1; 15,7; 21,6; 26,7; 39,7}."
+msgstr "Potom se TREND(A1:A5; B1:B5) rovná {12,1; 15,7; 21,6; 26,7; 39,7}."
 
 #: ../plugins/fn-stat/functions.c:4177
 msgid "LOGEST:exponential least square fit"
@@ -10862,7 +10859,7 @@ msgid ""
 "curve of the form\ty = b * m{1}^x{1} * m{2}^x{2}... to your data."
 msgstr ""
 "Funkce LOGEST používá metodu „nejmenších čtverců“ k napasování exponenciální "
-"křivky ve formě\ty = b * m{1}^x{1} * m{2}^x{2}… na vaše data."
+"křivky ve formě\ty = b * m{1}^x{1} * m{2}^x{2}… na vaše data."
 
 #: ../plugins/fn-stat/functions.c:4186
 msgid "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
@@ -10950,7 +10947,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4391
 msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
-msgstr "Potom se FORECAST(7;A1:A5;B1:B5) rovná -10,859397661."
+msgstr "Potom se FORECAST(7; A1:A5; B1:B5) rovná -10,859397661."
 
 #: ../plugins/fn-stat/functions.c:4437
 msgid "INTERCEPT:the intercept of a linear regression line"
@@ -10965,7 +10962,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4448
 msgid "Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212."
-msgstr "Potom se INTERCEPT(A1:A5;B1:B5) rovná -20,785117212."
+msgstr "Potom se INTERCEPT(A1:A5; B1:B5) rovná -20,785117212."
 
 #: ../plugins/fn-stat/functions.c:4489
 msgid "SLOPE:the slope of a linear regression line"
@@ -10973,7 +10970,7 @@ msgstr "SLOPE:směrnice lineární regresní přímky"
 
 #: ../plugins/fn-stat/functions.c:4500
 msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
-msgstr "Potom se SLOPE(A1:A5;B1:B5) rovná 1,417959936."
+msgstr "Potom se SLOPE(A1:A5; B1:B5) rovná 1,417959936."
 
 #: ../plugins/fn-stat/functions.c:4541
 msgid "SUBTOTAL:the subtotal of the given list of arguments"
@@ -11030,9 +11027,9 @@ msgid ""
 "SUBTOTAL(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150."
 "SUBTOTAL(11,A1:A5) equals 30.4."
 msgstr ""
-"Potom se SUBTOTAL(1;A1:A5) rovná 30. SUBTOTAL(6;A1:A5) se rovná 22378356. "
-"SUBTOTAL(7;A1:A5) se rovná 6,164414003. SUBTOTAL(9;A1:A5) se rovná 150. "
-"SUBTOTAL(11;A1:A5) se rovná 30,4."
+"Potom se SUBTOTAL(1; A1:A5) rovná 30. SUBTOTAL(6; A1:A5) se rovná 22378356. "
+"SUBTOTAL(7; A1:A5) se rovná 6,164414003. SUBTOTAL(9; A1:A5) se rovná 150. "
+"SUBTOTAL(11; A1:A5) se rovná 30,4."
 
 #: ../plugins/fn-stat/functions.c:4631
 msgid "CRONBACH:Cronbach's alpha"
@@ -11064,7 +11061,7 @@ msgstr "p:pravděpodobnost úspěchu v kterémkoliv pokusu"
 
 #: ../plugins/fn-stat/functions.c:4747
 msgid "If @{k} < 0 this function returns a #NUM! error."
-msgstr "Pokud je @{k} < 0, tak tato funkce vrací chybu #ČÍSLO!."
+msgstr "Pokud je @{k} < 0, tak tato funkce vrací chybu #ČÍSLO!."
 
 #: ../plugins/fn-stat/functions.c:4774
 msgid "LOGISTIC:probability density function of the logistic distribution"
@@ -11115,7 +11112,7 @@ msgid ""
 "reliability."
 msgstr ""
 "Toto rozdělení bylo doporučováno pro analýzu doby přežití, kdy je žádoucí "
-"riziková funkce U-tvaru. To odpovídá rychlému selhání, jakmile se produkt "
+"riziková funkce U‐tvaru. To odpovídá rychlému selhání, jakmile se produkt "
 "začne opotřebovávat po skončení období stability nebo i po zlepšení "
 "spolehlivosti."
 
@@ -11132,7 +11129,7 @@ msgid ""
 "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} "
 "objects with repetition allowed"
 msgstr ""
-"PERMUTATIONA:počet variací (respektive permutací pro @{y} = @{x}) @{y} "
+"PERMUTATIONA:počet variací (respektive permutací pro @{y} = @{x}) @{y} "
 "objektů vybíraných z @{x} objektů s opakováním"
 
 #: ../plugins/fn-stat/functions.c:4955
@@ -11149,7 +11146,7 @@ msgstr "Pokud se hodnoty @{x} i @{y} rovnají 0, funkce PERMUTATIONA vrací 1."
 
 #: ../plugins/fn-stat/functions.c:4958
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
-msgstr "Pokud je @{x} < 0 nebo @{y} < 0, funkce PERMUTATIONA vrací #ČÍSLO!."
+msgstr "Pokud je @{x} < 0 nebo @{y} < 0, funkce PERMUTATIONA vrací #ČÍSLO!."
 
 #: ../plugins/fn-stat/functions.c:4959
 msgid "If @{x} or @{y} are not integers, they are truncated"
@@ -11177,7 +11174,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4991
 msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
-msgstr "Pokud je méně než 5 hodnot vzorků, funkce LKSTEST vrací #HODNOTA!."
+msgstr "Pokud je méně než 5 hodnot vzorků, funkce LKSTEST vrací #HODNOTA!."
 
 #: ../plugins/fn-stat/functions.c:4993
 msgid "wiki:en:Lilliefors_test"
@@ -11221,7 +11218,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:5192
 msgid "If there are less than 8 sample values, CVMTEST returns #VALUE!"
-msgstr "Pokud je méně než 8 hodnot vzorků, funkce CVMTEST vrací #HODNOTA!."
+msgstr "Pokud je méně než 8 hodnot vzorků, funkce CVMTEST vrací #HODNOTA!."
 
 #: ../plugins/fn-stat/functions.c:5194
 msgid "wiki:en:Cramér–von-Mises_criterion"
@@ -11251,7 +11248,7 @@ msgstr "wiki:en:Anderson–Darling_test"
 
 #: ../plugins/fn-string/functions.c:56
 msgid "CHAR:the CP1252 (Windows-1252) character for the code point @{x}"
-msgstr "CHAR:znak CP1252 (Windows-1252) pro kódovou pozici @{x}"
+msgstr "CHAR:znak CP1252 (Windows‑1252) pro kódovou pozici @{x}"
 
 #: ../plugins/fn-string/functions.c:57
 msgid "x:code point"
@@ -11271,7 +11268,7 @@ msgid ""
 "CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not "
 "an ANSI standard."
 msgstr ""
-"CP1252 (Windows-1252) je rovněž známo jako „kódová stránka ANSI“, ale "
+"CP1252 (Windows‑1252) je rovněž známo jako „kódová stránka ANSI“, ale "
 "standard ANSI to není."
 
 #: ../plugins/fn-string/functions.c:62
@@ -11280,16 +11277,16 @@ msgid ""
 "all of its printable characters. It also contains all of ISO-8859-15's "
 "printable characters (but partially at different positions.)"
 msgstr ""
-"CP1252 (Windows-1252) vychází z dřívějšího návrhu ISO-8859-1 a obsahuje "
+"CP1252 (Windows‑1252) vychází z dřívějšího návrhu ISO‑8859‑1 a obsahuje "
 "všechny jeho tisknutelné znaky. Rovněž obsahuje všechny tisknutelné znaky z "
-"ISO-8859-15 (ale částečně na jiných pozicích)."
+"ISO‑8859‑15 (ale částečně na jiných pozicích)."
 
 #: ../plugins/fn-string/functions.c:66 ../plugins/fn-string/functions.c:138
 msgid ""
 "In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching "
 "characters."
 msgstr ""
-"V CP1252 (Windows-1252) nemají 129, 141, 143, 144 a 157 odpovídající znaky."
+"V CP1252 (Windows‑1252) nemají 129, 141, 143, 144 a 157 odpovídající znaky."
 
 #: ../plugins/fn-string/functions.c:67 ../plugins/fn-string/functions.c:139
 msgid ""
@@ -11297,7 +11294,7 @@ msgid ""
 "CODE(CHAR(@{x}))=@{x}."
 msgstr ""
 "Pro všechna @{x} od 1 do 255, vyjma 129, 141, 143, 144 a 157 platí "
-"CODE(CHAR(@{x}))=@{x}."
+"CODE(CHAR(@{x})) = @{x}."
 
 #: ../plugins/fn-string/functions.c:105
 msgid ""
@@ -11310,7 +11307,7 @@ msgstr "x:kódová pozice Unikódu"
 
 #: ../plugins/fn-string/functions.c:133
 msgid "CODE:the CP1252 (Windows-1252) code point for the character @{c}"
-msgstr "CODE:kódová pozice CP1252 (Windows-1252) pro znak @{c}"
+msgstr "CODE:kódová pozice CP1252 (Windows‑1252) pro znak @{c}"
 
 #: ../plugins/fn-string/functions.c:134 ../plugins/fn-string/functions.c:179
 msgid "c:character"
@@ -11318,56 +11315,56 @@ msgstr "c:znak"
 
 #: ../plugins/fn-string/functions.c:135
 msgid "@{c} must be a valid CP1252 (Windows-1252) character."
-msgstr "@{c} musí být platný znak CP1252 (Windows-1252)."
+msgstr "@{c} musí být platný znak CP1252 (Windows‑1252)."
 
 #: ../plugins/fn-string/functions.c:137
 msgid ""
 "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains "
 "all of its printable characters (but partially at different positions.)"
 msgstr ""
-"CP1252 (Windows-1252) vychází z dřívějšího návrhu ISO-8859-1 a obsahuje "
+"CP1252 (Windows‑1252) vychází z dřívějšího návrhu ISO‑8859‑1 a obsahuje "
 "všechny jeho tisknutelné znaky (ale částečně na jiných pozicích)."
 
 #: ../plugins/fn-string/functions.c:178
 msgid "UNICODE:the Unicode code point for the character @{c}"
 msgstr "UNICODE:kódová pozice Unikódu pro znak @{c}"
 
-#: ../plugins/fn-string/functions.c:244
+#: ../plugins/fn-string/functions.c:248
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
 msgstr "EXACT:PRAVDA, pokud se @{string1} přesně shoduje s @{string2}"
 
-#: ../plugins/fn-string/functions.c:245
+#: ../plugins/fn-string/functions.c:249
 msgid "string1:first string"
 msgstr "string1:první řetězec"
 
-#: ../plugins/fn-string/functions.c:246
+#: ../plugins/fn-string/functions.c:250
 msgid "string2:second string"
 msgstr "string2:druhý řetězec"
 
-#: ../plugins/fn-string/functions.c:264
+#: ../plugins/fn-string/functions.c:268
 msgid "LEN:the number of characters of the string @{s}"
 msgstr "LEN:počet znaků řetězce @{s}"
 
-#: ../plugins/fn-string/functions.c:265 ../plugins/fn-string/functions.c:282
-#: ../plugins/fn-string/functions.c:300 ../plugins/fn-string/functions.c:332
-#: ../plugins/fn-string/functions.c:384 ../plugins/fn-string/functions.c:424
-#: ../plugins/fn-string/functions.c:511 ../plugins/fn-string/functions.c:547
+#: ../plugins/fn-string/functions.c:269 ../plugins/fn-string/functions.c:286
+#: ../plugins/fn-string/functions.c:304 ../plugins/fn-string/functions.c:336
+#: ../plugins/fn-string/functions.c:388 ../plugins/fn-string/functions.c:428
+#: ../plugins/fn-string/functions.c:515 ../plugins/fn-string/functions.c:551
 msgid "s:the string"
 msgstr "s:řetězec"
 
-#: ../plugins/fn-string/functions.c:281
+#: ../plugins/fn-string/functions.c:285
 msgid "LENB:the number of bytes in the string @{s}"
 msgstr "LENB:počet bajtů řetězce @{s}"
 
-#: ../plugins/fn-string/functions.c:299
+#: ../plugins/fn-string/functions.c:303
 msgid "LEFT:the first @{num_chars} characters of the string @{s}"
 msgstr "LEFT:prvních @{num_chars} znaků z řetězce @{s}"
 
-#: ../plugins/fn-string/functions.c:301 ../plugins/fn-string/functions.c:512
+#: ../plugins/fn-string/functions.c:305 ../plugins/fn-string/functions.c:516
 msgid "num_chars:the number of characters to return (defaults to 1)"
 msgstr "num_chars:počet znaků, které se mají vrátit (výchozí je 1)"
 
-#: ../plugins/fn-string/functions.c:302
+#: ../plugins/fn-string/functions.c:306
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned first "
 "characters are from the right of the string."
@@ -11375,20 +11372,20 @@ msgstr ""
 "Pokud je řetězec @{s} ve skriptu zprava-doleva, vrácené první znaky jsou z "
 "pravé strany řetězce."
 
-#: ../plugins/fn-string/functions.c:331
+#: ../plugins/fn-string/functions.c:335
 msgid ""
 "LEFTB:the first characters  of the string @{s} comprising at most "
 "@{num_bytes} bytes"
 msgstr "LEFTB:první znaky řetězce @{s} tvořící maximálně @{num_bytes} bajtů"
 
-#: ../plugins/fn-string/functions.c:333 ../plugins/fn-string/functions.c:426
-#: ../plugins/fn-string/functions.c:548
+#: ../plugins/fn-string/functions.c:337 ../plugins/fn-string/functions.c:430
+#: ../plugins/fn-string/functions.c:552
 msgid "num_bytes:the maximum number of bytes to return (defaults to 1)"
 msgstr "num_bytes:maximální počet bajtů, které se mají vrátit (výchozí je 1)"
 
-#: ../plugins/fn-string/functions.c:334 ../plugins/fn-string/functions.c:427
-#: ../plugins/fn-string/functions.c:549 ../plugins/fn-string/functions.c:894
-#: ../plugins/fn-string/functions.c:1360
+#: ../plugins/fn-string/functions.c:338 ../plugins/fn-string/functions.c:431
+#: ../plugins/fn-string/functions.c:553 ../plugins/fn-string/functions.c:898
+#: ../plugins/fn-string/functions.c:1364
 msgid ""
 "The semantics of this function is subject to change as various applications "
 "implement it."
@@ -11396,7 +11393,7 @@ msgstr ""
 "Sémantika této funkce má sklony se měnit s každou jednotlivou aplikací, "
 "která ji implementuje."
 
-#: ../plugins/fn-string/functions.c:335
+#: ../plugins/fn-string/functions.c:339
 msgid ""
 "If the string is in a right-to-left script, the returned first characters "
 "are from the right of the string."
@@ -11404,9 +11401,9 @@ msgstr ""
 "Pokud je řetězec ve skriptu zprava-doleva, vrácené první znaky jsou z pravé "
 "strany řetězce."
 
-#: ../plugins/fn-string/functions.c:336 ../plugins/fn-string/functions.c:428
-#: ../plugins/fn-string/functions.c:472 ../plugins/fn-string/functions.c:551
-#: ../plugins/fn-string/functions.c:895 ../plugins/fn-string/functions.c:1361
+#: ../plugins/fn-string/functions.c:340 ../plugins/fn-string/functions.c:432
+#: ../plugins/fn-string/functions.c:476 ../plugins/fn-string/functions.c:555
+#: ../plugins/fn-string/functions.c:899 ../plugins/fn-string/functions.c:1365
 msgid ""
 "While this function is syntactically Excel compatible, the differences in "
 "the underlying text encoding will usually yield different results."
@@ -11414,9 +11411,9 @@ msgstr ""
 "Ačkoliv je tato funkce syntakticky kompatibilní s aplikací Excel, rozdíly v "
 "kódování základního textu přinesou obvykle rozdílné výsledky."
 
-#: ../plugins/fn-string/functions.c:337 ../plugins/fn-string/functions.c:430
-#: ../plugins/fn-string/functions.c:474 ../plugins/fn-string/functions.c:552
-#: ../plugins/fn-string/functions.c:897 ../plugins/fn-string/functions.c:1363
+#: ../plugins/fn-string/functions.c:341 ../plugins/fn-string/functions.c:434
+#: ../plugins/fn-string/functions.c:478 ../plugins/fn-string/functions.c:556
+#: ../plugins/fn-string/functions.c:901 ../plugins/fn-string/functions.c:1367
 msgid ""
 "While this function is OpenFormula compatible, most of its behavior is, at "
 "this time, implementation specific."
@@ -11424,11 +11421,11 @@ msgstr ""
 "Ačkoliv je tato funkce kompatibilní s OpenFormula, většina jejího chování je "
 "v současnosti specifická pro implementaci."
 
-#: ../plugins/fn-string/functions.c:365
+#: ../plugins/fn-string/functions.c:369
 msgid "LOWER:a lower-case version of the string @{text}"
 msgstr "LOWER:řetězec @{text} ve verzi s malými písmeny"
 
-#: ../plugins/fn-string/functions.c:383
+#: ../plugins/fn-string/functions.c:387
 msgid ""
 "MID:the substring of the string @{s} starting at position @{position} "
 "consisting of @{length} characters"
@@ -11436,15 +11433,15 @@ msgstr ""
 "MID:podřetězec řetězce @{s} začínající na pozici @{position} sestávající z "
 "@{length} znaků"
 
-#: ../plugins/fn-string/functions.c:385
+#: ../plugins/fn-string/functions.c:389
 msgid "position:the starting position"
 msgstr "position:počáteční pozice"
 
-#: ../plugins/fn-string/functions.c:386
+#: ../plugins/fn-string/functions.c:390
 msgid "length:the number of characters to return"
 msgstr "length:počet znaků, které se mají vrátit"
 
-#: ../plugins/fn-string/functions.c:423
+#: ../plugins/fn-string/functions.c:427
 msgid ""
 "MIDB:the characters following the first @{start_pos} bytes comprising at "
 "most @{num_bytes} bytes"
@@ -11452,11 +11449,11 @@ msgstr ""
 "MIDB:znaky následující po prvních @{start_pos} bajtech a tvořící maximálně "
 "@{num_bytes} bajtů"
 
-#: ../plugins/fn-string/functions.c:425
+#: ../plugins/fn-string/functions.c:429
 msgid "start_pos:the number of the byte with which to start (defaults to 1)"
 msgstr "start_pos:počet bajtů, od kterých se má začít (výchozí je 1)"
 
-#: ../plugins/fn-string/functions.c:467
+#: ../plugins/fn-string/functions.c:471
 msgid ""
 "FINDB:first byte position of @{string1} in @{string2} following byte "
 "position @{start}"
@@ -11464,27 +11461,27 @@ msgstr ""
 "FINDB:pozice prvního bajtu řetězce @{string1} v řetězci @{string2} od pozice "
 "bajtu @{start}"
 
-#: ../plugins/fn-string/functions.c:468 ../plugins/fn-string/functions.c:696
+#: ../plugins/fn-string/functions.c:472 ../plugins/fn-string/functions.c:700
 msgid "string1:search string"
 msgstr "string1:hledaný řetězec"
 
-#: ../plugins/fn-string/functions.c:469 ../plugins/fn-string/functions.c:697
+#: ../plugins/fn-string/functions.c:473 ../plugins/fn-string/functions.c:701
 msgid "string2:search field"
 msgstr "string2:prohledávané pole"
 
-#: ../plugins/fn-string/functions.c:470 ../plugins/fn-string/functions.c:1350
+#: ../plugins/fn-string/functions.c:474 ../plugins/fn-string/functions.c:1354
 msgid "start:starting byte position, defaults to 1"
 msgstr "start:pozice počátečního bajtu, výchozí je 1"
 
-#: ../plugins/fn-string/functions.c:471 ../plugins/fn-string/functions.c:699
+#: ../plugins/fn-string/functions.c:475 ../plugins/fn-string/functions.c:703
 msgid "This search is case-sensitive."
 msgstr "Při tomto hledání se rozlišuje velikost písmen."
 
-#: ../plugins/fn-string/functions.c:510
+#: ../plugins/fn-string/functions.c:514
 msgid "RIGHT:the last @{num_chars} characters of the string @{s}"
 msgstr "RIGHT:posledních @{num_chars} znaků z řetězce @{s}"
 
-#: ../plugins/fn-string/functions.c:513 ../plugins/fn-string/functions.c:550
+#: ../plugins/fn-string/functions.c:517 ../plugins/fn-string/functions.c:554
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned last "
 "characters are from the left of the string."
@@ -11492,41 +11489,41 @@ msgstr ""
 "Pokud je řetězec @{s} ve skriptu zprava-doleva, vrácené poslední znaky jsou "
 "z levé strany řetězce."
 
-#: ../plugins/fn-string/functions.c:546
+#: ../plugins/fn-string/functions.c:550
 msgid ""
 "RIGHTB:the last characters of the string @{s} comprising at most "
 "@{num_bytes} bytes"
 msgstr "LEFTB:poslední znaky řetězce @{s} tvořící maximálně @{num_bytes} bajtů"
 
-#: ../plugins/fn-string/functions.c:581
+#: ../plugins/fn-string/functions.c:585
 msgid "UPPER:an upper-case version of the string @{text}"
 msgstr "LOWER:řetězec @{text} ve verzi s velkými písmeny"
 
-#: ../plugins/fn-string/functions.c:600
+#: ../plugins/fn-string/functions.c:604
 msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
 msgstr "CONCATENATE:spojování řetězců @{s1}, @{s2},…"
 
-#: ../plugins/fn-string/functions.c:601
+#: ../plugins/fn-string/functions.c:605
 msgid "s1:first string"
 msgstr "s1:první řetězec"
 
-#: ../plugins/fn-string/functions.c:602
+#: ../plugins/fn-string/functions.c:606
 msgid "s2:second string"
 msgstr "s2:druhý řetězec"
 
-#: ../plugins/fn-string/functions.c:622
+#: ../plugins/fn-string/functions.c:626
 msgid "REPT:@{num} repetitions of string @{text}"
 msgstr "REPT:@{num} opakování řetězce @{text}"
 
-#: ../plugins/fn-string/functions.c:624
+#: ../plugins/fn-string/functions.c:628
 msgid "num:non-negative integer"
 msgstr "num:nezáporné celé číslo"
 
-#: ../plugins/fn-string/functions.c:666
+#: ../plugins/fn-string/functions.c:670
 msgid "CLEAN:@{text} with any non-printable characters removed"
 msgstr "CLEAN:@{text} s odstraněnými netisknutelnými znaky"
 
-#: ../plugins/fn-string/functions.c:668
+#: ../plugins/fn-string/functions.c:672
 msgid ""
 "CLEAN removes non-printable characters from its argument leaving only "
 "regular characters and white-space."
@@ -11534,41 +11531,41 @@ msgstr ""
 "CLEAN odstraňuje netisknutelné znaky ze svého argumentu, přičemž ponechá "
 "pouze řádné znaky a bílé znaky."
 
-#: ../plugins/fn-string/functions.c:695
+#: ../plugins/fn-string/functions.c:699
 msgid ""
 "FIND:first position of @{string1} in @{string2} following position @{start}"
 msgstr ""
 "FIND:první pozice řetězce @{string1} v řetězci @{string2} následující za "
 "pozicí @{start}"
 
-#: ../plugins/fn-string/functions.c:698 ../plugins/fn-string/functions.c:1307
+#: ../plugins/fn-string/functions.c:702 ../plugins/fn-string/functions.c:1311
 msgid "start:starting position, defaults to 1"
 msgstr "start:počáteční poloha, výchozí je 1"
 
-#: ../plugins/fn-string/functions.c:733
+#: ../plugins/fn-string/functions.c:737
 msgid "FIXED:formatted string representation of @{num}"
 msgstr "FIXED:naformátovaný řetězec představující číslo @{num}"
 
-#: ../plugins/fn-string/functions.c:734 ../plugins/fn-string/functions.c:1232
+#: ../plugins/fn-string/functions.c:738 ../plugins/fn-string/functions.c:1236
 msgid "num:number"
 msgstr "num:počet"
 
-#: ../plugins/fn-string/functions.c:735
+#: ../plugins/fn-string/functions.c:739
 msgid "decimals:number of decimals"
 msgstr "decimals:počet desetinných míst"
 
-#: ../plugins/fn-string/functions.c:736
+#: ../plugins/fn-string/functions.c:740
 msgid ""
 "no_commas:TRUE if no thousand separators should be used, defaults to FALSE"
 msgstr ""
 "no_commas:PRAVDA, pokud se nemají použít oddělovače tisíců, výchozí je "
 "NEPRAVDA"
 
-#: ../plugins/fn-string/functions.c:793
+#: ../plugins/fn-string/functions.c:797
 msgid "PROPER:@{text} with initial of each word capitalised"
 msgstr "PROPER:@{text} s prvními písmeny každého slova převedenými na velké"
 
-#: ../plugins/fn-string/functions.c:835
+#: ../plugins/fn-string/functions.c:839
 msgid ""
 "REPLACE:string @{old} with @{num} characters starting at @{start} replaced "
 "by @{new}"
@@ -11576,24 +11573,24 @@ msgstr ""
 "REPLACE:řetězec @{old} s @{num} znaky, počínaje od @{start}, nahrazenými za "
 "@{new}"
 
-#: ../plugins/fn-string/functions.c:837 ../plugins/fn-string/functions.c:888
+#: ../plugins/fn-string/functions.c:841 ../plugins/fn-string/functions.c:892
 msgid "old:original text"
 msgstr "old:původní text"
 
-#: ../plugins/fn-string/functions.c:838
+#: ../plugins/fn-string/functions.c:842
 msgid "start:starting position"
 msgstr "start:počáteční poloha"
 
-#: ../plugins/fn-string/functions.c:839
+#: ../plugins/fn-string/functions.c:843
 msgid "num:number of characters to be replaced"
 msgstr "num:počet znaků, které se mají nahradit"
 
-#: ../plugins/fn-string/functions.c:840 ../plugins/fn-string/functions.c:891
-#: ../plugins/fn-string/functions.c:1160
+#: ../plugins/fn-string/functions.c:844 ../plugins/fn-string/functions.c:895
+#: ../plugins/fn-string/functions.c:1164
 msgid "new:replacement string"
 msgstr "new:nahrazující řetězec"
 
-#: ../plugins/fn-string/functions.c:886
+#: ../plugins/fn-string/functions.c:890
 msgid ""
 "REPLACEB:string @{old} with up to @{num} bytes starting at @{start} replaced "
 "by @{new}"
@@ -11601,60 +11598,60 @@ msgstr ""
 "REPLACE:řetězec @{old} s maximálně @{num} bajty, počínaje od @{start}, "
 "nahrazenými za @{new}"
 
-#: ../plugins/fn-string/functions.c:889
+#: ../plugins/fn-string/functions.c:893
 msgid "start:starting byte position"
 msgstr "start:pozice počátečního bajtu"
 
-#: ../plugins/fn-string/functions.c:890
+#: ../plugins/fn-string/functions.c:894
 msgid "num:number of bytes to be replaced"
 msgstr "num:počet bajtů, které mají být nahrazeny"
 
-#: ../plugins/fn-string/functions.c:892
+#: ../plugins/fn-string/functions.c:896
 msgid ""
 "REPLACEB replaces the string of valid unicode characters starting at the "
 "byte @{start} and ending at @{start}+@{num}-1 with the string @{new}."
 msgstr ""
 "REPLACEB nahrazuje řetězec platných unikódových znaků počínaje bajtem "
-"@{start} a konče na @{start}+@{num}-1 řetězcem @{new}."
+"@{start} a konče na @{start} + @{num} - 1 řetězcem @{new}."
 
-#: ../plugins/fn-string/functions.c:941
+#: ../plugins/fn-string/functions.c:945
 msgid "T:@{value} if and only if @{value} is text, otherwise empty"
 msgstr ""
 "T:@{value}, když a jen když je @{value} text, v jiném případě prázdný řetězec"
 
-#: ../plugins/fn-string/functions.c:942
+#: ../plugins/fn-string/functions.c:946
 msgid "value:original value"
 msgstr "value:původní hodnota"
 
-#: ../plugins/fn-string/functions.c:964
+#: ../plugins/fn-string/functions.c:968
 msgid "TEXT:@{value} as a string formatted as @{format}"
 msgstr "TEXT:@{value} jako řetězec formátovaný jako @{format}"
 
-#: ../plugins/fn-string/functions.c:965
+#: ../plugins/fn-string/functions.c:969
 msgid "value:value to be formatted"
 msgstr "value:hodnota, která má být naformátována"
 
-#: ../plugins/fn-string/functions.c:966
+#: ../plugins/fn-string/functions.c:970
 msgid "format:desired format"
 msgstr "format:požadovaný formát"
 
-#: ../plugins/fn-string/functions.c:1018
+#: ../plugins/fn-string/functions.c:1022
 msgid "TRIM:@{text} with only single spaces between words"
 msgstr "TRIM:@{text} s pouze jednoduchými mezerami mezi slovy"
 
-#: ../plugins/fn-string/functions.c:1065
+#: ../plugins/fn-string/functions.c:1069
 msgid "VALUE:numeric value of @{text}"
 msgstr "VALUE:číselná hodnota z řetězce @{text}"
 
-#: ../plugins/fn-string/functions.c:1098
+#: ../plugins/fn-string/functions.c:1102
 msgid "NUMBERVALUE:numeric value of @{text}"
 msgstr "NUMBERVALUE:číselná hodnota z řetězce @{text}"
 
-#: ../plugins/fn-string/functions.c:1100
+#: ../plugins/fn-string/functions.c:1104
 msgid "separator:decimal separator"
 msgstr "separator:desetinný oddělovač"
 
-#: ../plugins/fn-string/functions.c:1101
+#: ../plugins/fn-string/functions.c:1105
 msgid ""
 "If @{text} does not look like a decimal number, NUMBERVALUE returns the "
 "value VALUE would return (ignoring the given @{separator})."
@@ -11663,19 +11660,19 @@ msgstr ""
 "hodnotu, kterou by vrátila funkce VALUE (ignoruje se zadaný oddělovač "
 "@{separator})."
 
-#: ../plugins/fn-string/functions.c:1157
+#: ../plugins/fn-string/functions.c:1161
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
 msgstr "SUBSTITUTE:@{text} se všemi výskyty @{old} nahrazenými za @{new}"
 
-#: ../plugins/fn-string/functions.c:1158 ../plugins/fn-string/functions.c:1542
+#: ../plugins/fn-string/functions.c:1162 ../plugins/fn-string/functions.c:1546
 msgid "text:original text"
 msgstr "text:původní text"
 
-#: ../plugins/fn-string/functions.c:1159
+#: ../plugins/fn-string/functions.c:1163
 msgid "old:string to be replaced"
 msgstr "old:řetězec, který má být nahrazen"
 
-#: ../plugins/fn-string/functions.c:1161
+#: ../plugins/fn-string/functions.c:1165
 msgid ""
 "num:if @{num} is specified and a number only the @{num}th occurrence of "
 "@{old} is replaced"
@@ -11683,30 +11680,30 @@ msgstr ""
 "num:pokud je zadána hodnota @{num} a jedná se o číslo, je nahrazen jen "
 "@{num}-tý výskyt @{old}"
 
-#: ../plugins/fn-string/functions.c:1231
+#: ../plugins/fn-string/functions.c:1235
 msgid "DOLLAR:@{num} formatted as currency"
 msgstr "DOLLAR:číslo @{num} naformátované jako měna"
 
-#: ../plugins/fn-string/functions.c:1233
+#: ../plugins/fn-string/functions.c:1237
 msgid "decimals:decimals"
 msgstr "decimals:desetinná místa"
 
-#: ../plugins/fn-string/functions.c:1303
+#: ../plugins/fn-string/functions.c:1307
 msgid ""
 "SEARCH:the location of the @{search} string within @{text} after position "
 "@{start}"
 msgstr ""
 "SEARCH:umístění řetězce @{search} v rámci textu @{text} za pozicí @{start}"
 
-#: ../plugins/fn-string/functions.c:1305 ../plugins/fn-string/functions.c:1348
+#: ../plugins/fn-string/functions.c:1309 ../plugins/fn-string/functions.c:1352
 msgid "search:search string"
 msgstr "search:hledaný řetězec"
 
-#: ../plugins/fn-string/functions.c:1306 ../plugins/fn-string/functions.c:1349
+#: ../plugins/fn-string/functions.c:1310 ../plugins/fn-string/functions.c:1353
 msgid "text:search field"
 msgstr "text:prohledávané pole"
 
-#: ../plugins/fn-string/functions.c:1308 ../plugins/fn-string/functions.c:1351
+#: ../plugins/fn-string/functions.c:1312 ../plugins/fn-string/functions.c:1355
 msgid ""
 "@{search} may contain wildcard characters (*) and question marks (?). A "
 "question mark matches any single character, and a wildcard matches any "
@@ -11717,15 +11714,15 @@ msgstr ""
 "odpovídá jednomu znaku a hvězdička libovolnému řetězci včetně prázdného. "
 "Pokud chcete nají * nebo ?, předřaďte jim symbol ~."
 
-#: ../plugins/fn-string/functions.c:1313 ../plugins/fn-string/functions.c:1356
+#: ../plugins/fn-string/functions.c:1317 ../plugins/fn-string/functions.c:1360
 msgid "This search is not case sensitive."
 msgstr "Toto hledání nerozlišuje velikost písmen."
 
-#: ../plugins/fn-string/functions.c:1314
+#: ../plugins/fn-string/functions.c:1318
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
 msgstr "Pokud není @{search} nalezeno, funkce SEARCH vrací #HODNOTA!."
 
-#: ../plugins/fn-string/functions.c:1315
+#: ../plugins/fn-string/functions.c:1319
 msgid ""
 "If @{start} is less than one or it is greater than the length of @{text}, "
 "SEARCH returns #VALUE!"
@@ -11733,7 +11730,7 @@ msgstr ""
 "Pokud je @{start} menší než jedna nebo větší než délka textu @{text}, funkce "
 "SEARCH vrací #HODNOTA!."
 
-#: ../plugins/fn-string/functions.c:1346
+#: ../plugins/fn-string/functions.c:1350
 msgid ""
 "SEARCHB:the location of the @{search} string within @{text} after byte "
 "position @{start}"
@@ -11741,11 +11738,11 @@ msgstr ""
 "SEARCHB:umístění řetězce @{search} v rámci textu @{text} za pozicí @{start} "
 "počítané v bajtech"
 
-#: ../plugins/fn-string/functions.c:1357
+#: ../plugins/fn-string/functions.c:1361
 msgid "If @{search} is not found, SEARCHB returns #VALUE!"
 msgstr "Pokud není @{search} nalezeno, funkce SEARCHB vrací #HODNOTA!."
 
-#: ../plugins/fn-string/functions.c:1358
+#: ../plugins/fn-string/functions.c:1362
 msgid ""
 "If @{start} is less than one or it is greater than the byte length of "
 "@{text}, SEARCHB returns #VALUE!"
@@ -11753,14 +11750,14 @@ msgstr ""
 "Pokud je @{start} menší než jedna nebo je větší než délka @{text} v bajtech, "
 "funkce SEARCHB vrací #HODNOTA!."
 
-#: ../plugins/fn-string/functions.c:1414
+#: ../plugins/fn-string/functions.c:1418
 msgid ""
 "ASC:text with full-width katakana and ASCII characters converted to half-"
 "width"
 msgstr ""
 "ASC:text se znaky katakana a ASCII plné-šířky převedenými na poloviční-šířku"
 
-#: ../plugins/fn-string/functions.c:1416
+#: ../plugins/fn-string/functions.c:1420
 msgid ""
 "ASC converts full-width katakana and ASCII characters to half-width "
 "equivalent characters, copying all others. "
@@ -11768,7 +11765,7 @@ msgstr ""
 "ASC převádí katakanu a znaky ASCII plné-šířky na odpovídající znaky "
 "poloviční-šířky, vše ostatní se zkopíruje."
 
-#: ../plugins/fn-string/functions.c:1417 ../plugins/fn-string/functions.c:1545
+#: ../plugins/fn-string/functions.c:1421 ../plugins/fn-string/functions.c:1549
 msgid ""
 "The distinction between half-width and full-width characters is described in "
 "http://www.unicode.org/reports/tr11/."
@@ -11776,11 +11773,11 @@ msgstr ""
 "Rozdíl mezi znaky poloviční-šířky a plné-šířky je popsán v http://www."
 "unicode.org/reports/tr11/ (odkaz je v angličtině)."
 
-#: ../plugins/fn-string/functions.c:1418 ../plugins/fn-string/functions.c:1547
+#: ../plugins/fn-string/functions.c:1422 ../plugins/fn-string/functions.c:1551
 msgid "For most strings, this function has the same effect as in Excel."
 msgstr "Pro více řetězců má tato funkce stejný efekt, jako v aplikaci Excel."
 
-#: ../plugins/fn-string/functions.c:1419
+#: ../plugins/fn-string/functions.c:1423
 msgid ""
 "While in obsolete encodings ASC used to translate between 2-byte and 1-byte "
 "characters, this is not the case in UTF-8."
@@ -11788,14 +11785,14 @@ msgstr ""
 "Zatímco v zastaralém kódování funkce ASC používala převod mezi 2bajtovými a "
 "1bajtovými znaky, v UTF-8 tomu tak není."
 
-#: ../plugins/fn-string/functions.c:1541
+#: ../plugins/fn-string/functions.c:1545
 msgid ""
 "JIS:text with half-width katakana and ASCII characters converted to full-"
 "width"
 msgstr ""
 "JIS:text se znaky katakana a ASCII poloviční-šířky převedenými na plnou-šířku"
 
-#: ../plugins/fn-string/functions.c:1543
+#: ../plugins/fn-string/functions.c:1547
 msgid ""
 "JIS converts half-width katakana and ASCII characters to full-width "
 "equivalent characters, copying all others. "
@@ -11803,7 +11800,7 @@ msgstr ""
 "JIS převádí znaky katakana a ASCII poloviční-šířky na odpovídající znaky "
 "plné-šířky, vše ostatní se zkopíruje."
 
-#: ../plugins/fn-string/functions.c:1548
+#: ../plugins/fn-string/functions.c:1552
 msgid ""
 "While in obsolete encodings JIS used to translate between 1-byte and 2-byte "
 "characters, this is not the case in UTF-8."
@@ -12005,7 +12002,7 @@ msgid ""
 "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns "
 "#VALUE!"
 msgstr ""
-"Pokud @{Sequence} není pole ani n krát 1, ani 1 krát n, tak tato funkce "
+"Pokud @{Sequence} není pole ani n krát 1, ani 1 krát n, tak tato funkce "
 "vrací #HODNOTA!."
 
 #: ../plugins/fn-tsa/functions.c:922
@@ -12038,7 +12035,7 @@ msgid ""
 "If @{Sequence} contains less than 6 numerical values, this function returns "
 "#VALUE!"
 msgstr ""
-"Pokud @{Sequence} obsahuje méně než 6 číselných hodnot, tak tato funkce "
+"Pokud @{Sequence} obsahuje méně než 6 číselných hodnot, tak tato funkce "
 "vrací #HODNOTA!."
 
 #: ../plugins/gda/plugin-gda.c:374
