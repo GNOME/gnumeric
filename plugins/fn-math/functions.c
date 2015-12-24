@@ -732,7 +732,7 @@ gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_ceiling[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CEILING:nearest multiple of @{significance} whose absolute value is at least ABS(@{x})")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
-	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)")},
+	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} < 0)")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("CEILING(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at least ABS(@{x}).")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} and @{significance} have different signs, CEILING returns a #NUM! error.")},
@@ -1133,7 +1133,7 @@ gnumeric_combina (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_floor[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FLOOR:nearest multiple of @{significance} whose absolute value is at most ABS(@{x})") },
 	{ GNM_FUNC_HELP_ARG, F_("x:number") },
-	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)") },
+	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} < 0)") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
 			"FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at most ABS(@{x})") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
