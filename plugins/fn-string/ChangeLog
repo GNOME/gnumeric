@@ -1,3 +1,7 @@
+2015-12-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.25
+
 2015-12-12  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnm_compare_strings): Don't make assumptions of
