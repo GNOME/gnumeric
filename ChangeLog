@@ -1,3 +1,9 @@
+2015-12-26  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (foreach_tile_r): Rename from foreach_tile.
+	(foreach_tile): New top-level function taking few parameters.  All
+	callers changed.
+
 2015-12-25  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

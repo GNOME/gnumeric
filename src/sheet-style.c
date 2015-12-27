@@ -1192,14 +1192,15 @@ drill_down:
  * the range supplied to foreach_tile and even beyond the sheet.
  */
 typedef void (*ForeachTileFunc) (GnmStyle *style,
-				 int corner_col, int corner_row, int width, int height,
+				 int corner_col, int corner_row,
+				 int width, int height,
 				 GnmRange const *apply_to, gpointer user);
 static void
-foreach_tile (CellTile *tile, int level,
-	      int corner_col, int corner_row,
-	      GnmRange const *apply_to,
-	      ForeachTileFunc handler,
-	      gpointer user)
+foreach_tile_r (CellTile *tile, int level,
+		int corner_col, int corner_row,
+		GnmRange const *apply_to,
+		ForeachTileFunc handler,
+		gpointer user)
 {
 	int const width = tile_widths[level+1];
 	int const height = tile_heights[level+1];
@@ -1279,7 +1280,7 @@ foreach_tile (CellTile *tile, int level,
 						 corner_row + r * h,
 						 w, h, apply_to, user);
 				} else {
-					foreach_tile (
+					foreach_tile_r (
 						tile->ptr_matrix.ptr[c + r*TILE_SIZE_COL],
 						level-1, cc, cr, apply_to, handler, user);
 				}
@@ -1290,6 +1291,15 @@ foreach_tile (CellTile *tile, int level,
 	default:
 		g_warning ("Adaptive Quad Tree corruption !");
 	}
+}
+
+static void
+foreach_tile (Sheet const *sheet, GnmRange const *apply_to,
+	      ForeachTileFunc handler, gpointer user)
+{
+	foreach_tile_r (sheet->style_data->styles,
+			sheet->tile_top_level, 0, 0,
+			apply_to, handler, user);
 }
 
 /*
@@ -1690,9 +1700,7 @@ sheet_style_get_row2 (Sheet const *sheet, int row)
 
 	range_init_rows (&r, sheet, row, row);
 
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, &r,
-		      cb_get_row, res);
+	foreach_tile (sheet, &r, cb_get_row, res);
 
 	return res;
 }
@@ -2014,9 +2022,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 
 	user.accum = *style;
 	user.conflicts = 0; /* no conflicts yet */
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, r,
-		      (ForeachTileFunc)cb_find_conflicts, &user);
+	foreach_tile (sheet, r, (ForeachTileFunc)cb_find_conflicts, &user);
 
 	/* copy over the diagonals */
 	for (i = GNM_STYLE_BORDER_REV_DIAG ; i <= GNM_STYLE_BORDER_DIAG ; i++) {
@@ -2226,9 +2232,7 @@ sheet_style_get_extent (Sheet const *sheet, GnmRange *res)
 	GnmRange r;
 
 	range_init_full_sheet (&r, sheet);
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, &r,
-		      cb_style_extent, res);
+	foreach_tile (sheet, &r, cb_style_extent, res);
 }
 
 struct cb_nondefault_extent {
@@ -2270,9 +2274,7 @@ sheet_style_get_nondefault_extent (Sheet const *sheet, GnmRange *extent,
 	struct cb_nondefault_extent user;
 	user.res = extent;
 	user.col_defaults = col_defaults;
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, src,
-		      cb_nondefault_extent, &user);
+	foreach_tile (sheet, src, cb_nondefault_extent, &user);
 }
 
 struct cb_is_default {
@@ -2306,9 +2308,7 @@ sheet_style_is_default (Sheet const *sheet, const GnmRange *r, GnmStyle **col_de
 	user.res = TRUE;
 	user.col_defaults = col_defaults;
 
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, r,
-		      cb_is_default, &user);
+	foreach_tile (sheet, r, cb_is_default, &user);
 
 	return user.res;
 }
@@ -2352,9 +2352,7 @@ sheet_style_get_nondefault_rows (Sheet const *sheet, GnmStyle **col_defaults)
 	user.res = g_new0 (guint8, gnm_sheet_get_max_rows (sheet));
 	user.col_defaults = col_defaults;
 
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, &r,
-		      cb_get_nondefault, &user);
+	foreach_tile (sheet, &r, cb_get_nondefault, &user);
 
 	return user.res;
 }
@@ -2414,9 +2412,7 @@ sheet_style_most_common (Sheet const *sheet, gboolean is_col)
 	cmc.h = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
 	cmc.l = colrow_max (is_col, sheet);
 	cmc.is_col = is_col;
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, &r,
-		      cb_most_common, &cmc);
+	foreach_tile (sheet, &r, cb_most_common, &cmc);
 
 	max = g_new0 (int, cmc.l);
 	res = g_new0 (GnmStyle *, cmc.l);
@@ -2862,9 +2858,7 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 	data.style_filter = style_filter;
 	data.sheet_size = gnm_sheet_get_size (sheet);
 
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, r,
-		      cb_style_list_add_node, &data);
+	foreach_tile (sheet, r, cb_style_list_add_node, &data);
 
 	sheet_area = (guint64)range_height (r) * range_width (r);
 	if (data.style_filter ? (data.area > sheet_area) : (data.area != sheet_area))
@@ -3127,9 +3121,7 @@ sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r != NULL, NULL);
 
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, r,
-		      cb_find_link, &res);
+	foreach_tile (sheet, r, cb_find_link, &res);
 	return res;
 }
 
