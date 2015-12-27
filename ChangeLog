@@ -1,5 +1,9 @@
 2015-12-26  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-control-gui.c (sheet_control_gui_new): Hook up screen
+	change here (on the grid).
+	(scg_class_init): Not here.  We're not derived from GtkWidget.
+
 	* src/sheet-style.c (foreach_tile_r): Rename from foreach_tile.
 	(foreach_tile): New top-level function taking few parameters.  All
 	callers changed.

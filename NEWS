@@ -1,5 +1,8 @@
 Gnumeric 1.12.26
 
+Morten:
+	* Fix potential crasher on showing initial window.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.25
 

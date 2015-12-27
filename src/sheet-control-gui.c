@@ -1565,6 +1565,18 @@ sheet_object_key_pressed (G_GNUC_UNUSED GtkWidget *w, GdkEventKey *event, SheetC
 	return TRUE;
 }
 
+static void
+cb_screen_changed (GtkWidget *widget, G_GNUC_UNUSED GdkScreen *prev,
+		   SheetControlGUI *scg)
+{
+	GdkScreen *screen = gtk_widget_get_screen (widget);
+
+	if (screen) {
+		scg->screen_width = gdk_screen_get_width (screen);
+		scg->screen_height = gdk_screen_get_height (screen);
+	}
+}
+
 SheetControlGUI *
 sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 {
@@ -1764,6 +1776,11 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		  : NULL),
 		 NULL);
 	g_object_ref (scg->label);
+
+	g_signal_connect (G_OBJECT (scg->grid),
+			  "screen-changed",
+			  G_CALLBACK (cb_screen_changed),
+			  scg);
 
 	return scg;
 }
@@ -3886,30 +3903,15 @@ scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
 
 
 static void
-scg_screen_changed (GtkWidget *widget, G_GNUC_UNUSED GdkScreen *prev)
-{
-	SheetControlGUI *scg = (SheetControlGUI *)widget;
-	GdkScreen *screen = gtk_widget_get_screen (widget);
-
-	if (screen) {
-		scg->screen_width = gdk_screen_get_width (screen);
-		scg->screen_height = gdk_screen_get_height (screen);
-	}
-}
-
-static void
 scg_class_init (GObjectClass *object_class)
 {
 	SheetControlClass *sc_class = SHEET_CONTROL_CLASS (object_class);
-	GtkWidgetClass *wclass = (GtkWidgetClass *)object_class;
 
 	g_return_if_fail (sc_class != NULL);
 
 	scg_parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->finalize = scg_finalize;
-
-	wclass->screen_changed = scg_screen_changed;
 
 	sc_class->resize                   = scg_resize_virt;
 	sc_class->redraw_all               = scg_redraw_all;
