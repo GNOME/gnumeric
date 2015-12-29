@@ -1,3 +1,11 @@
+2015-12-28  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (convert): When separating sheets, move current
+	sheet to the front.  See bug #694408.
+
+	* src/stf-export.c (gnm_stf_file_saver_save): If we add current
+	sheet, remove it at the end.
+
 2015-12-28  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

@@ -803,6 +803,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		if (ssconvert_one_file_per_sheet) {
 			GSList *ptr, *sheets;
 			char *template;
+
 			res = 0;
 
 			template = strchr (outarg, '%')
@@ -813,8 +814,21 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 			for (ptr = sheets; ptr; ptr = ptr->next) {
 				Sheet *sheet = ptr->data;
 				char *tmpfile =	resolve_template (template, sheet);
+				int oldn = sheet->index_in_wb;
+
+				/*
+				 * HACK: (bug 694408).
+				 *
+				 * We don't have a good way of specifying the
+				 * sheet.  Move it to the front and select
+				 * it.  That will at least make cvs and txt
+				 * exporters reliable find it.
+				 */
+				workbook_sheet_move (sheet, -oldn);
 				wb_view_sheet_focus (wbv, sheet);
+
 				res = !wb_view_save_as (wbv, fs, tmpfile, cc);
+				workbook_sheet_move (sheet, +oldn);
 				g_free (tmpfile);
 				if (res)
 					break;

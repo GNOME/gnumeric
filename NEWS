@@ -1,5 +1,8 @@
 Gnumeric 1.12.27
 
+Morten:
+	* Teach ssconvert to split sheets into separate .txt files [#694408]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.26
 

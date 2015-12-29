@@ -605,7 +605,7 @@ GSF_CLASS (GnmStfExport, gnm_stf_export,
  * gnm_stf_get_stfe:
  * @obj: #GObject with a #GnmStfExport attached as data.
  *
- * If non is found, a new one is created ans attached to @obj.
+ * If none is found, a new one is created and attached to @obj.
  * Returns: (transfer none): the #GnmStfExport.
  **/
 GnmStfExport *
@@ -665,6 +665,7 @@ gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *conte
 	Workbook *wb = wb_view_get_workbook (wbv);
 	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (wb));
 	GsfOutput *dummy_sink;
+	gboolean nosheets;
 
 	/* TODO: move this GUI dependent code out of this
 	 * filesaver into gui-file.c. After this, remove includes (see above). */
@@ -677,7 +678,8 @@ gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *conte
 		}
 	}
 
-	if (!stfe->sheet_list)
+	nosheets = (stfe->sheet_list == NULL);
+	if (nosheets)
 		gnm_stf_export_options_sheet_list_add
 			(stfe, wb_view_cur_sheet (wbv));
 
@@ -690,6 +692,9 @@ gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *conte
 	dummy_sink = gsf_output_memory_new ();
 	g_object_set (G_OBJECT (stfe), "sink", dummy_sink, NULL);
 	g_object_unref (dummy_sink);
+
+	if (nosheets)
+		gnm_stf_export_options_sheet_list_clear (stfe);
 }
 
 static gboolean
