@@ -109,6 +109,8 @@
 #define CALCEXT  "calcext:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
+#define MAX_FONT_SIZE 144 /* The largest font size we are storing at the moment */
+
 typedef struct {
 	GsfXMLOut *xml;
 	GsfOutfile *outfile;
@@ -435,7 +437,18 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 	case PANGO_ATTR_FAMILY :
 		break; /* ignored */
 	case PANGO_ATTR_SIZE :
-		break; /* ignored */
+		{
+			char * str;
+			gint size = ((PangoAttrInt *)a)->value/PANGO_SCALE;
+			if (size > MAX_FONT_SIZE)
+				size = MAX_FONT_SIZE;
+			str = g_strdup_printf ("AC-size%i", size);
+			spans += 1;
+			gsf_xml_out_start_element (state->xml, TEXT "span");
+			gsf_xml_out_add_cstr (state->xml, TEXT "style-name", str);
+			g_free (str);
+		}
+		break;
 	case PANGO_ATTR_RISE:
 		gsf_xml_out_start_element (state->xml, TEXT "span");
 		if (((PangoAttrInt *)a)->value != 0) {
@@ -1860,6 +1873,16 @@ odf_write_character_styles (GnmOOExport *state)
 		odf_start_style (state->xml, str, "text");
 		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
 		odf_add_font_weight (state, i);
+		gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+		gsf_xml_out_end_element (state->xml); /* </style:style> */
+		g_free (str);
+	}
+	for (i = 1; i <= MAX_FONT_SIZE; i+=1) {
+		char * str = g_strdup_printf ("AC-size%i", i);
+		odf_start_style (state->xml, str, "text");
+		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+		odf_add_pt (state->xml, FOSTYLE "font-size", (double) i);
+		odf_add_pt (state->xml, STYLE "font-size-asian", (double) i);
 		gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
 		gsf_xml_out_end_element (state->xml); /* </style:style> */
 		g_free (str);

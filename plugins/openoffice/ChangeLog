@@ -1,5 +1,10 @@
 2015-12-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_attrs_as_string): handle font size
+	(odf_write_character_styles): write font size styles
+
+2015-12-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_style_prop_text): read font-size
 
 2015-12-28  Morten Welinder <terra@gnome.org>
