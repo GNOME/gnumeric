@@ -7598,6 +7598,7 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	PangoAttribute *attr;
 	int	  tmp;
+	gnm_float size = -1.0;
 	int underline_type = 0;
 	int underline_style = 0;
 	gboolean underline_bold = FALSE;
@@ -7605,7 +7606,12 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 
 	g_return_if_fail (state->cur_style.text != NULL);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_font_weight (xin, attrs, &tmp)) {
+		if (NULL != oo_attr_distance (xin, attrs, OO_NS_FO, "font-size", &size) && size >= 0.) {
+			attr = pango_attr_size_new ((int) gnm_floor (size * PANGO_SCALE + 0.5));
+			attr->start_index = 0;
+			attr->end_index = 0;
+			pango_attr_list_insert (state->cur_style.text, attr);			;
+		} else if (oo_attr_font_weight (xin, attrs, &tmp)) {
 			attr = pango_attr_weight_new (tmp);
 			attr->start_index = 0;
 			attr->end_index = 0;

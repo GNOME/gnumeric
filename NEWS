@@ -1,5 +1,8 @@
 Gnumeric 1.12.27
 
+Andreas:
+	* Read rich-text font-size from ODF files. [part of #759983]
+
 Morten:
 	* Teach ssconvert to split sheets into separate .txt files [#694408]
 
