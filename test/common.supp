@@ -911,3 +911,14 @@
    ...
    fun:gobject_init_ctor
 }
+
+{
+   pixman_strangeness
+   Memcheck:Cond
+   fun:core_combine_over_u_sse2_mask
+   fun:sse2_combine_over_u
+   fun:general_composite_rect
+   fun:pixman_image_composite32
+   fun:_inplace_spans
+   fun:blit_a8
+}
