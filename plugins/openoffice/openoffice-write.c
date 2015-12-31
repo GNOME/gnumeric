@@ -6126,6 +6126,12 @@ odf_write_ooo_settings (GnmOOExport *state)
 		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ZoomValue");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
+		gsf_xml_out_add_int (state->xml, NULL, (int) gnm_floor (sheet->last_zoom_factor_used * 100. + 0.5));
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ShowGrid");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "boolean");
 		odf_add_bool (state->xml, NULL, !sheet->hide_grid);
