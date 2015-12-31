@@ -2,6 +2,7 @@ Gnumeric 1.12.27
 
 Andreas:
 	* Read/write rich-text font-size from ODF files. [#759983]
+	* Read zoom values from LO generated ODF files.
 
 Morten:
 	* Teach ssconvert to split sheets into separate .txt files [#694408]

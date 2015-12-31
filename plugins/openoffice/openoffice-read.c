@@ -11314,6 +11314,10 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_BOOLEAN))
 				g_object_set (sheet, "display-zeros", g_value_get_boolean (item), NULL);
 
+			item = g_hash_table_lookup (hash, "ZoomValue");
+			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
+				g_object_set (sheet, "zoom-factor",  g_value_get_int (item)/100., NULL);			
+
 			item = g_hash_table_lookup (hash, "HorizontalSplitMode");
 			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
 				vsm = g_value_get_int (item);
