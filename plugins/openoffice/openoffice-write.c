@@ -109,8 +109,6 @@
 #define CALCEXT  "calcext:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
-#define MAX_FONT_SIZE 144 /* The largest font size we are storing at the moment */
-
 typedef struct {
 	GsfXMLOut *xml;
 	GsfOutfile *outfile;
@@ -142,6 +140,7 @@ typedef struct {
 	GHashTable *images;
 	GHashTable *controls;
 	GHashTable *text_colours;
+	GHashTable *font_sizes;
 
 	gboolean with_extension;
 	int odf_version;
@@ -440,13 +439,12 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 		{
 			char * str;
 			gint size = ((PangoAttrInt *)a)->value/PANGO_SCALE;
-			if (size > MAX_FONT_SIZE)
-				size = MAX_FONT_SIZE;
-			str = g_strdup_printf ("AC-size%i", size);
+			str = g_strdup_printf ("NS-font-size%i", size);
 			spans += 1;
 			gsf_xml_out_start_element (state->xml, TEXT "span");
 			gsf_xml_out_add_cstr (state->xml, TEXT "style-name", str);
-			g_free (str);
+			g_hash_table_insert (state->font_sizes,
+					     str, GINT_TO_POINTER (size));
 		}
 		break;
 	case PANGO_ATTR_RISE:
@@ -1864,6 +1862,23 @@ odf_write_text_colours (char const *name, G_GNUC_UNUSED gpointer data, GnmOOExpo
 }
 
 static void
+odf_write_font_sizes (gpointer key, gpointer value, gpointer user_data)
+{
+	GnmOOExport *state = user_data;
+	gint i = GPOINTER_TO_INT (value);
+	char * str = key;
+	char *display = g_strdup_printf ("Font Size %ipt", i);
+	odf_start_style (state->xml, str, "text");
+	gsf_xml_out_add_cstr (state->xml, STYLE "display-name", display);
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	odf_add_pt (state->xml, FOSTYLE "font-size", (double) i);
+	odf_add_pt (state->xml, STYLE "font-size-asian", (double) i);
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+	g_free (display);
+}
+
+static void
 odf_write_character_styles (GnmOOExport *state)
 {
 	int i;
@@ -1873,16 +1888,6 @@ odf_write_character_styles (GnmOOExport *state)
 		odf_start_style (state->xml, str, "text");
 		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
 		odf_add_font_weight (state, i);
-		gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
-		gsf_xml_out_end_element (state->xml); /* </style:style> */
-		g_free (str);
-	}
-	for (i = 1; i <= MAX_FONT_SIZE; i+=1) {
-		char * str = g_strdup_printf ("AC-size%i", i);
-		odf_start_style (state->xml, str, "text");
-		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
-		odf_add_pt (state->xml, FOSTYLE "font-size", (double) i);
-		odf_add_pt (state->xml, STYLE "font-size-asian", (double) i);
 		gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
 		gsf_xml_out_end_element (state->xml); /* </style:style> */
 		g_free (str);
@@ -5450,6 +5455,12 @@ odf_write_office_styles (GnmOOExport *state)
 		 state);
 
 	gnm_hash_table_foreach_ordered
+		(state->font_sizes,
+		 (GHFunc) odf_write_font_sizes,
+		 by_key_str,
+		 state);
+
+	gnm_hash_table_foreach_ordered
 		(state->text_colours,
 		 (GHFunc) odf_write_text_colours,
 		 by_key_str,
@@ -8827,7 +8838,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 		{ odf_write_mimetype,	"mimetype",        TRUE  },
 
 		{ odf_write_content,	"content.xml",     FALSE },
-		{ odf_write_styles,	"styles.xml",      FALSE },
+		{ odf_write_styles,	"styles.xml",      FALSE }, /* must follow content */
 		{ odf_write_meta,	"meta.xml",        FALSE },
 		{ odf_write_settings,	"settings.xml",    FALSE },
 	};
@@ -8897,6 +8908,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	state.text_colours = g_hash_table_new_full (g_str_hash, g_str_equal,
 						    (GDestroyNotify) g_free,
 						    (GDestroyNotify) g_free);
+	state.font_sizes = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
 	state.col_styles = NULL;
 	state.row_styles = NULL;
 
@@ -9014,6 +9026,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	g_hash_table_unref (state.graph_fill_images);
 	g_hash_table_unref (state.arrow_markers);
 	g_hash_table_unref (state.text_colours);
+	g_hash_table_unref (state.font_sizes);
 	g_slist_free_full (state.col_styles,  col_row_styles_free);
 	g_slist_free_full (state.row_styles,  col_row_styles_free);
 	if (state.default_style_region)

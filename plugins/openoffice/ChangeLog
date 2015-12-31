@@ -1,5 +1,13 @@
 2015-12-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_attrs_as_string): use named text style for
+	font size
+	(odf_write_font_sizes): new
+	(odf_write_character_styles): do not write font sizes as automatic styles
+	(openoffice_file_save_real): initialize and clear new font-size hash
+
+2015-12-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_ooo_settings): write ZoomValue
 
 2015-12-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
