@@ -1,3 +1,8 @@
+2016-01-01  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_date_text_append): Colons don't need
+	quoting.
+
 2015-12-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_attrs_as_string): use named text style for
