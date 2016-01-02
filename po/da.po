@@ -5873,23 +5873,20 @@ msgid "Cell value is not between x and y (incl.)."
 msgstr ""
 
 #: ../src/dialogs/dialog-cell-format-cond.c:732
-#, fuzzy
 msgid "Set conditional formatting"
-msgstr "Formatering per kolonne"
+msgstr "Sæt betinget formatering"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:748
-#, fuzzy
 msgid "Clear conditional formatting"
-msgstr "Formatering per kolonne"
+msgstr "Slet betinget formatering"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:780
 msgid "Remove condition from conditional formatting"
-msgstr ""
+msgstr "Slet betingelse fra betinget formatering"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:812
-#, fuzzy
 msgid "Expand conditional formatting"
-msgstr "Eksponentiel udjævning"
+msgstr "Udvid betinget formatering"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:861
 msgid ""
@@ -10364,7 +10361,7 @@ msgstr "3"
 
 #: ../src/dialogs/normality-tests.ui.h:1
 msgid "Normality Tests"
-msgstr ""
+msgstr "Normalitetstests"
 
 #: ../src/dialogs/normality-tests.ui.h:11 ../src/tools/analysis-normality.c:63
 msgid "Anderson-Darling Test"
@@ -15807,7 +15804,6 @@ msgid "F_ill"
 msgstr "_Udfyld"
 
 #: ../src/wbc-gtk-actions.c:2202
-#, fuzzy
 msgid "_Random Generators"
 msgstr "Generering af tilfældige tal"
 
@@ -15925,7 +15921,6 @@ msgid "Irrevocably remove an entire sheet"
 msgstr "Fjern uigenkaldeligt et helt ark"
 
 #: ../src/wbc-gtk-actions.c:2311
-#, fuzzy
 msgid "Re_name..."
 msgstr "_Omdøb..."
 
@@ -16441,7 +16436,6 @@ msgstr "Skift tekstretning mellem venstre-mod-højre og højre-mod-venstre"
 
 # navneord, er knyttet til næste tekst
 #: ../src/wbc-gtk-actions.c:2791
-#, fuzzy
 msgid "_Format..."
 msgstr "_Formater"
 
@@ -16450,9 +16444,8 @@ msgid "Modify the formatting of the selected cells"
 msgstr "Ændr de markerede cellers formatering"
 
 #: ../src/wbc-gtk-actions.c:2797
-#, fuzzy
 msgid "_Conditional Formatting..."
-msgstr "Eksponentiel udjævning"
+msgstr "Betinget formatering"
 
 #: ../src/wbc-gtk-actions.c:2798
 #, fuzzy
@@ -16839,11 +16832,11 @@ msgstr "Sorterer det markerede område"
 
 #: ../src/wbc-gtk-actions.c:3122
 msgid "Sh_uffle..."
-msgstr ""
+msgstr "Bland..."
 
 #: ../src/wbc-gtk-actions.c:3123
 msgid "Shuffle cells, rows or columns"
-msgstr ""
+msgstr "Bland celler, rækker eller kolonner"
 
 #: ../src/wbc-gtk-actions.c:3127
 msgid "_Validate..."
