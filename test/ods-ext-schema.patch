@@ -1,5 +1,5 @@
---- ods-schema/OpenDocument-v1.2-os-schema.rng	2015-01-28 18:46:19.155715877 -0500
-+++ ods-schema/OpenDocument-v1.2-os-ext-schema.rng	2016-01-01 19:44:25.464059435 -0500
+--- ods-schema/OpenDocument-v1.2-os-schema.rng	2015-04-08 21:49:54.000000000 -0600
++++ ods-schema/OpenDocument-v1.2-os-ext-schema.rng	2016-01-01 19:47:48.204868483 -0700
 @@ -62,6 +62,12 @@
  	xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"
  	xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0"
@@ -253,20 +253,25 @@
  			<optional>
  				<attribute name="number:style">
  					<choice>
-@@ -13047,7 +13137,11 @@
+@@ -13047,7 +13137,16 @@
  	</define>
  	<define name="number-am-pm">
  		<element name="number:am-pm">
 -			<empty/>
 +			<optional>
-+				<attribute name="gnm:style">
++				<attribute name="gnm:am-suffix">
++					<ref name="string"/>
++				</attribute>
++			</optional>
++			<optional>
++				<attribute name="gnm:pm-suffix">
 +					<ref name="string"/>
 +				</attribute>
 +			</optional>
  		</element>
  	</define>
  	<define name="number-boolean-style">
-@@ -13097,7 +13191,15 @@
+@@ -13097,7 +13196,15 @@
  	</define>
  	<define name="number-text">
  		<element name="number:text">
@@ -283,7 +288,7 @@
  		</element>
  	</define>
  	<define name="number-text-content">
-@@ -13169,6 +13271,11 @@
+@@ -13169,6 +13276,11 @@
  					</choice>
  				</attribute>
  			</optional>
@@ -295,7 +300,7 @@
  		</interleave>
  	</define>
  	<define name="common-auto-reorder-attlist">
-@@ -13203,6 +13310,11 @@
+@@ -13203,6 +13315,11 @@
  				</attribute>
  			</optional>
  			<optional>
@@ -307,7 +312,7 @@
  				<attribute name="number:grouping">
  					<ref name="boolean"/>
  				</attribute>
-@@ -14101,6 +14213,22 @@
+@@ -14101,6 +14218,22 @@
  					<ref name="string"/>
  				</attribute>
  			</optional>
@@ -330,7 +335,7 @@
  		</interleave>
  	</define>
  	<define name="draw-stroke-dash">
-@@ -14383,6 +14511,21 @@
+@@ -14383,6 +14516,21 @@
  					<ref name="boolean"/>
  				</attribute>
  			</optional>
@@ -352,7 +357,7 @@
  		</interleave>
  	</define>
  	<define name="style-page-layout-properties-elements">
-@@ -14874,11 +15017,33 @@
+@@ -14874,11 +15022,33 @@
  				</attribute>
  			</optional>
  			<optional>
@@ -386,7 +391,7 @@
  				<attribute name="style:text-line-through-mode">
  					<ref name="lineMode"/>
  				</attribute>
-@@ -15090,6 +15255,18 @@
+@@ -15090,6 +15260,18 @@
  	<define name="style-paragraph-properties-attlist">
  		<interleave>
  			<optional>
@@ -405,7 +410,7 @@
  				<attribute name="fo:line-height">
  					<choice>
  						<value>normal</value>
-@@ -15461,14 +15638,21 @@
+@@ -15461,14 +15643,21 @@
  		</optional>
  	</define>
  	<define name="common-background-color-attlist">
@@ -434,7 +439,7 @@
  	</define>
  	<define name="style-background-image">
  		<optional>
-@@ -15564,6 +15748,36 @@
+@@ -15564,6 +15753,36 @@
  				<ref name="string"/>
  			</attribute>
  		</optional>
@@ -471,7 +476,7 @@
  	</define>
  	<define name="common-border-line-width-attlist">
  		<optional>
-@@ -15904,6 +16118,37 @@
+@@ -15904,6 +16123,37 @@
  					<ref name="boolean"/>
  				</attribute>
  			</optional>
@@ -509,7 +514,7 @@
  		</interleave>
  	</define>
  	<define name="style-table-properties-elements">
-@@ -16004,6 +16249,11 @@
+@@ -16004,6 +16254,11 @@
  				</attribute>
  			</optional>
  			<optional>
@@ -521,7 +526,7 @@
  				<attribute name="style:text-align-source">
  					<choice>
  						<value>fix</value>
-@@ -16028,6 +16278,16 @@
+@@ -16028,6 +16283,16 @@
  			<ref name="common-background-color-attlist"/>
  			<ref name="common-border-attlist"/>
  			<optional>
@@ -538,7 +543,7 @@
  				<attribute name="style:diagonal-tl-br">
  					<ref name="string"/>
  				</attribute>
-@@ -16104,6 +16364,16 @@
+@@ -16104,6 +16369,16 @@
  					<ref name="boolean"/>
  				</attribute>
  			</optional>
@@ -555,7 +560,7 @@
  		</interleave>
  	</define>
  	<define name="common-style-direction-attlist">
-@@ -17060,6 +17330,46 @@
+@@ -17060,6 +17335,46 @@
  					<ref name="nonNegativeInteger"/>
  				</attribute>
  			</optional>
@@ -602,7 +607,7 @@
  		</interleave>
  	</define>
  	<define name="style-graphic-fill-properties-attlist">
-@@ -17388,6 +17698,10 @@
+@@ -17388,6 +17703,10 @@
  						<value>none</value>
  						<value>cubic-spline</value>
  						<value>b-spline</value>
@@ -613,7 +618,7 @@
  					</choice>
  				</attribute>
  			</optional>
-@@ -17661,6 +17975,10 @@
+@@ -17661,6 +17980,10 @@
  						<value>logarithmic</value>
  						<value>exponential</value>
  						<value>power</value>
@@ -624,7 +629,7 @@
  					</choice>
  				</attribute>
  			</optional>
-@@ -17697,6 +18015,62 @@
+@@ -17697,6 +18020,62 @@
  					<ref name="boolean"/>
  				</attribute>
  			</optional>
@@ -687,7 +692,7 @@
  		</interleave>
  	</define>
  	<define name="labelPositions">
-@@ -18124,4 +18498,85 @@
+@@ -18124,4 +18503,85 @@
  			</element>
  		</zeroOrMore>
  	</define>

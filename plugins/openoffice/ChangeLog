@@ -1,5 +1,10 @@
 2016-01-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_date_am_pm): read new foreign attributes
+	gnm:am-suffix and gnm:pm-suffix
+
+2016-01-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_date_am_pm): read new foreign attribute
 	gnm:style
 

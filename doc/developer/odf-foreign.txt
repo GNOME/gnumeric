@@ -10,8 +10,8 @@ Part 1: In ODF 1.0 and 1.1 files only.
 gnm:no-integer-part
 An attribute to <number:fraction> determining whether an integer portion is shown or not. Defaults to "false" (i.e. an integer part is shown.)
 
-gnm:style
-An attribute to <number:am-pm> with possible values short and long determining whether the am/pm prefix is a/p or AM/PM.)
+gnm:am-suffix gnm:pm-suffix
+Attributes to <number:am-pm> determining the suffixes to be used.)
 
 2) Attributes added by Gnumeric:
 

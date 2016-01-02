@@ -1,5 +1,10 @@
 2016-01-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* odf-foreign.txt: replace gnm:style attribute with
+	gnm:am-suffix and gnm:pm-suffix
+
+2016-01-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* odf-foreign.txt: add gnm:style attribute
 
 2015-12-28  Morten Welinder <terra@gnome.org>

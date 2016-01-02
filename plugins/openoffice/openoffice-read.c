@@ -5021,15 +5021,29 @@ static void
 oo_date_am_pm (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	gboolean is_short = FALSE;
-
+	gchar const *am_suffix = "AM";
+	gchar const *pm_suffix = "PM";
+	
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "style"))
-			is_short = attr_eq (attrs[1], "short");
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "am-suffix"))
+			am_suffix = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "pm-suffix"))
+			pm_suffix = CXML2C (attrs[1]);
 
-	if (state->cur_format.accum != NULL)
-		g_string_append (state->cur_format.accum, is_short ? "a/p" : "AM/PM");
-
+	if (strlen (am_suffix) > 2 || (*am_suffix != 'a' && *am_suffix != 'A') ||
+	    (*(am_suffix + 1) != 'm' && *(am_suffix + 1) != 'M' && *(am_suffix + 1) != 0))
+		am_suffix = "AM";
+	if (strlen (pm_suffix) > 2 || (*pm_suffix != 'p' && *pm_suffix != 'P') ||
+	    (*(pm_suffix + 1) != 'm' && *(pm_suffix + 1) != 'M' && *(pm_suffix + 1) != 0))
+		pm_suffix = "PM";
+	if (strlen (am_suffix) != strlen (pm_suffix))
+		pm_suffix = am_suffix = "AM";
+	
+	if (state->cur_format.accum != NULL) {
+		g_string_append (state->cur_format.accum, am_suffix);
+		g_string_append_c (state->cur_format.accum, '/');
+		g_string_append (state->cur_format.accum, pm_suffix);
+	}
 }
 
 static void
