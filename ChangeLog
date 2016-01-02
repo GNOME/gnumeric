@@ -1,5 +1,8 @@
 2016-01-02  Morten Welinder  <terra@gnome.org>
 
+	* src/go-data-cache.c (go_data_cache_records_set_size): Check for
+	zero record size.  Fixes #760087.
+
 	* src/mathfunc.c (pow1p): Handle nan.  Fixes #760085.
 
 2016-01-01  Morten Welinder  <terra@gnome.org>

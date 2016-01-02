@@ -49,6 +49,7 @@ go_data_cache_records_set_size (GODataCache *cache, unsigned int n)
 {
 	int expand;
 
+	g_return_if_fail (cache->record_size > 0);
 	g_return_if_fail (n < G_MAXUINT / cache->record_size);
 
 	expand = n - cache->records_allocated;
