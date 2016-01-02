@@ -160,7 +160,7 @@ gnm_style_cond_free (GnmStyleCond *cond)
 
 	g_return_if_fail (cond != NULL);
 
-	/* Be very delicate, this is called for invalid conditions too */
+	/* Be very careful: this is called for invalid conditions too */
 	if (cond->overlay)
 		gnm_style_unref (cond->overlay);
 	for (ui = 0; ui < 2; ui++)
@@ -686,9 +686,10 @@ GSF_CLASS (GnmStyleConditions, gnm_style_conditions,
 /**
  * gnm_style_conditions_new :
  *
- * Convenience tool to create a GnmStyleCondition.  straight g_object_new will work too.
+ * Convenience tool to create a GnmStyleCondition.  Straight g_object_new
+ * will work too.
  *
- * Returns a GnmStyleConditions that the caller is resoinsible for.
+ * Returns a GnmStyleConditions that the caller is responsible for.
  **/
 GnmStyleConditions  *
 gnm_style_conditions_new (Sheet *sheet)
@@ -887,7 +888,7 @@ gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 			g_ptr_array_index (sc->conditions, i);
 		GnmStyle const *overlay = cond->overlay;
 		GnmStyle *merge = gnm_style_new_merged (base, overlay);
-		/* We only draw a background colour is the pattern != 0 */
+		/* We only draw a background colour if the pattern != 0 */
 		if (merge->pattern == 0 &&
 		     elem_is_set (overlay, MSTYLE_COLOR_BACK) &&
 		    !elem_is_set (overlay, MSTYLE_PATTERN))
