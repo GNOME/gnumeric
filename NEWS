@@ -8,7 +8,7 @@ Andreas:
 Morten:
 	* Teach ssconvert to split sheets into separate .txt files [#694408]
 	* Improve test suite.
-	* Fuzzed file fix.  [#760046]
+	* Fuzzed file fixes.  [#760046]  [#760085]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.26

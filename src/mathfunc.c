@@ -4968,7 +4968,8 @@ pow1p (gnm_float x, gnm_float y)
 	 * and (2) when |x|>1/2 and we have no better algorithm.
 	 */
 
-	if ((x + 1) - x == 1 || gnm_abs (x) > 0.5)
+	if ((x + 1) - x == 1 || gnm_abs (x) > 0.5 ||
+	    gnm_isnan (x) || gnm_isnan (y))
 		return gnm_pow (1 + x, y);
 	else if (y < 0)
 		return 1 / pow1p (x, -y);

@@ -1,3 +1,7 @@
+2016-01-02  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (pow1p): Handle nan.  Fixes #760085.
+
 2016-01-01  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (gnm_sheet_constructed): Chain ->constructed early.
