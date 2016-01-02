@@ -40,7 +40,7 @@ if (!-r $schema) {
 if (!-r $schema_ext) {
     print STDERR "Cannot find extended conformance schema\n";
     $schema_ext = undef;
-    # This is not a schema supplies by oasis
+    # This is not a schema supplied by oasis
     $suggest_download = 1;
 }
 if (!-r $schema_manifest) {
