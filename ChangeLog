@@ -1,3 +1,8 @@
+2016-01-01  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-name.c (expr_name_add): Improve check for circular name
+	defintion.  Fixes #760046.
+
 2015-12-28  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (convert): When separating sheets, move current

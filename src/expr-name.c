@@ -711,7 +711,16 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 
 	fake_name.str = name;
 
-	if (texpr != NULL && expr_name_check_for_loop (name, texpr)) {
+	if (gnm_debug_flag ("names")) {
+		char *str = gnm_expr_top_as_string (texpr, pp, NULL);
+		g_printerr ("Adding Name=[%s] texpr=[%s] stub=[%s]\n",
+			    name, str, stub ? expr_name_name (stub) : "-");
+		g_free (str);
+	}
+
+	if (texpr != NULL &&
+	    (expr_name_check_for_loop (name, texpr) ||
+	     (stub && expr_name_check_for_loop (expr_name_name (stub), texpr)))) {
 		gnm_expr_top_unref (texpr);
 		if (error_msg)
 			*error_msg = g_strdup_printf (_("'%s' has a circular reference"), name);
