@@ -4930,7 +4930,7 @@ expmx2h (gnm_float x)
 {
 	x = gnm_abs (x);
 
-	if (x < 5)
+	if (x < 5 || gnm_isnan (x))
 		return gnm_exp (-0.5 * x * x);
 	else if (x >= GNM_MAX_EXP * M_LN2gnum + 10)
 		return 0;

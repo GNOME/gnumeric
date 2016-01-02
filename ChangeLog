@@ -1,5 +1,7 @@
 2016-01-02  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (expmx2h): Explicitly handle nan, just in case.
+
 	* src/go-data-cache.c (go_data_cache_records_set_size): Check for
 	zero record size.  Fixes #760087.
 
