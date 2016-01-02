@@ -507,7 +507,6 @@ ms_biff_query_next (BiffQuery *q)
 	 */
 	switch (q->opcode) {
 	case BIFF_BG_PIC:
-	case BIFF_BOUNDSHEET:
 	case BIFF_CF:
 	case BIFF_CODENAME:
 	case BIFF_CONDFMT:
@@ -538,8 +537,11 @@ ms_biff_query_next (BiffQuery *q)
 	case BIFF_SUPBOOK:
 		auto_continue = TRUE;
 		break;
-	case BIFF_CONTINUE:
 
+	case BIFF_BOUNDSHEET:
+		// Needs access to non_decrypted_data
+	case BIFF_CONTINUE:
+		// Eh?
 	case BIFF_TXO:
 		/*
 		 * The continuation of the string part seems to repeat the
