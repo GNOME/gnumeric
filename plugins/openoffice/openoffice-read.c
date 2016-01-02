@@ -5021,8 +5021,14 @@ static void
 oo_date_am_pm (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+	gboolean is_short = FALSE;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "style"))
+			is_short = attr_eq (attrs[1], "short");
+
 	if (state->cur_format.accum != NULL)
-		g_string_append (state->cur_format.accum, "AM/PM");
+		g_string_append (state->cur_format.accum, is_short ? "a/p" : "AM/PM");
 
 }
 

@@ -1,3 +1,8 @@
+2016-01-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_date_am_pm): read new foreign attribute
+	gnm:style
+
 2016-01-01  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_date_text_append): Colons don't need
