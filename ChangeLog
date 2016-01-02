@@ -1,5 +1,7 @@
 2016-01-01  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (gnm_sheet_constructed): Chain ->constructed early.
+
 	* src/expr-name.c (expr_name_add): Improve check for circular name
 	defintion.  Fixes #760046.
 

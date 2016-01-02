@@ -673,6 +673,9 @@ gnm_sheet_constructed (GObject *obj)
 {
 	Sheet *sheet = SHEET (obj);
 
+	if (parent_class->constructed)
+		parent_class->constructed (obj);
+
 	/* Now sheet_type, max_cols, and max_rows have been set.  */
 	sheet->being_constructed = FALSE;
 
@@ -723,9 +726,6 @@ gnm_sheet_constructed (GObject *obj)
 	}
 
 	sheet_scale_changed (sheet, TRUE, TRUE);
-
-	if (parent_class->constructed)
-		parent_class->constructed (obj);
 }
 
 static guint
