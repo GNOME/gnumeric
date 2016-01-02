@@ -207,6 +207,7 @@ my @full_corpus =
      "$samples/cell-comment-tests.gnumeric",
      "$samples/colrow-tests.gnumeric",
      "$samples/cond-format-tests.gnumeric",
+     "$samples/format-tests.gnumeric",
      "$samples/formula-tests.gnumeric",
      "$samples/graph-tests.gnumeric",
      "$samples/merge-tests.gnumeric",
