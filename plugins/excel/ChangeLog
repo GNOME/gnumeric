@@ -1,5 +1,8 @@
 2016-01-02  Morten Welinder  <terra@gnome.org>
 
+	* ms-formula-read.c (excel_parse_formula1): Check for recursive
+	shared formulae.  Fixes #760043.
+
 	* ms-biff.c (ms_biff_query_next): Don't handle CONTINUE records
 	for BOUNDSHEET.  Fixes #760089.
 

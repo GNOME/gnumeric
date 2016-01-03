@@ -2860,6 +2860,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 		sf->data = data_len > 0 ? g_memdup (data, data_len + array_data_len) : NULL;
 		sf->data_len = data_len;
 		sf->array_data_len = array_data_len;
+		sf->being_parsed = FALSE;
 
 		d (1, g_printerr ("Shared formula, extent %s\n", range_as_string (&r)););
 

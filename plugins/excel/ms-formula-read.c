@@ -1081,6 +1081,13 @@ excel_parse_formula1 (MSContainer const *container,
 				return NULL;
 			}
 
+			if (sf->being_parsed) {
+				g_warning ("Recursive shared formula, key = %s\n",
+					   cellpos_as_string (&top_left));
+				parse_list_free (&stack);
+				return NULL;
+			}
+
 			if (sf->is_array) {
 				if (array_element != NULL)
 					*array_element = TRUE;
@@ -1092,10 +1099,11 @@ excel_parse_formula1 (MSContainer const *container,
 			}
 
 			d (0, g_printerr ("Parse shared formula\n"););
+			sf->being_parsed = TRUE;
 			expr = excel_parse_formula1 (container, esheet, fn_col, fn_row,
 						     sf->data, sf->data_len, sf->array_data_len,
 						     TRUE, array_element);
-
+			sf->being_parsed = FALSE;
 			parse_list_push (&stack, expr);
 			ptg_length = length; /* Force it to be the only token */
 			break;

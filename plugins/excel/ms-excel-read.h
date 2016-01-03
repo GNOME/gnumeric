@@ -57,6 +57,7 @@ typedef struct {
 	guint8 *data;
 	guint32 data_len, array_data_len;
 	gboolean is_array;
+	gboolean being_parsed;
 } XLSharedFormula;
 
 typedef struct {
