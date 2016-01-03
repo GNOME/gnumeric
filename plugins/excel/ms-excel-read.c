@@ -888,17 +888,17 @@ excel_sheet_new (GnmXLImporter *importer, char const *sheet_name, GnmSheetType t
 
 	ExcelReadSheet *esheet = g_new (ExcelReadSheet, 1);
 	Sheet *sheet;
+	char *real_name;
 
-	sheet = workbook_sheet_by_name (importer->wb, sheet_name);
-	if (sheet == NULL) {
-		sheet = sheet_new_with_type (importer->wb, sheet_name, type,
-					     XLS_MaxCol,
-					     (importer->ver >= MS_BIFF_V8
-					      ? XLS_MaxRow_V8
-					      : XLS_MaxRow_V7));
-		workbook_sheet_attach (importer->wb, sheet);
-		d (1, g_printerr ("Adding sheet '%s'\n", sheet_name););
-	}
+	real_name = workbook_sheet_get_free_name (importer->wb, sheet_name, FALSE, TRUE);
+	sheet = sheet_new_with_type (importer->wb, real_name, type,
+				     XLS_MaxCol,
+				     (importer->ver >= MS_BIFF_V8
+				      ? XLS_MaxRow_V8
+				      : XLS_MaxRow_V7));
+	workbook_sheet_attach (importer->wb, sheet);
+	d (1, g_printerr ("Adding sheet '%s'\n", real_name););
+	g_free (real_name);
 
 	/* Flag a respan here in case nothing else does */
 	sheet_flag_recompute_spans (sheet);
@@ -1524,9 +1524,11 @@ excel_read_BOUNDSHEET (BiffQuery *q, GnmXLImporter *importer)
 	 * It appears that if the name is null it defaults to Sheet%d?
 	 * However, we have only one test case and no docs.
 	 */
-	if (bs->name == NULL)
+	if (bs->name == NULL || bs->name[0] == 0) {
+		g_free (bs->name);
 		bs->name = g_strdup_printf (default_name,
-					    importer->boundsheet_sheet_by_index->len);
+					    importer->boundsheet_sheet_by_index->len + 1);
+	}
 
 	switch (bs->type) {
 	case MS_BIFF_TYPE_Worksheet :
@@ -3184,6 +3186,7 @@ excel_sheet_destroy (ExcelReadSheet *esheet)
 {
 	if (esheet == NULL)
 		return;
+
 	if (esheet->shared_formulae != NULL) {
 		g_hash_table_destroy (esheet->shared_formulae);
 		esheet->shared_formulae = NULL;
@@ -3913,6 +3916,7 @@ excel_prepare_autofilter (GnmXLImporter *importer, GnmNamedExpr *nexpr)
 					if (esheet->sheet == r.sheet) {
 						g_return_if_fail (esheet->filter == NULL);
 						esheet->filter = filter;
+						break;
 					}
 				}
 			}

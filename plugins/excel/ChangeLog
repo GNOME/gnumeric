@@ -1,3 +1,8 @@
+2016-01-03  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_sheet_new): Always create a new sheet.
+	Fixes #760103.
+
 2016-01-02  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula1): Check for recursive
