@@ -885,34 +885,44 @@ excel_sheet_new (GnmXLImporter *importer, char const *sheet_name, GnmSheetType t
 		&ms_sheet_get_fmt,
 		NULL
 	};
-
-	ExcelReadSheet *esheet = g_new (ExcelReadSheet, 1);
+	int rows = (importer->ver >= MS_BIFF_V8 ? XLS_MaxRow_V8 : XLS_MaxRow_V7);
+	ExcelReadSheet *esheet;
 	Sheet *sheet;
-	char *real_name;
 
-	real_name = workbook_sheet_get_free_name (importer->wb, sheet_name, FALSE, TRUE);
-	sheet = sheet_new_with_type (importer->wb, real_name, type,
-				     XLS_MaxCol,
-				     (importer->ver >= MS_BIFF_V8
-				      ? XLS_MaxRow_V8
-				      : XLS_MaxRow_V7));
-	workbook_sheet_attach (importer->wb, sheet);
-	d (1, g_printerr ("Adding sheet '%s'\n", real_name););
-	g_free (real_name);
+	sheet = workbook_sheet_by_name (importer->wb, sheet_name);
+	if (sheet) {
+		unsigned ui;
+
+		for (ui = 0; ui < importer->excel_sheets->len; ui++) {
+			ExcelReadSheet *es = g_ptr_array_index (importer->excel_sheets, ui);
+			if (es->sheet == sheet) {
+				g_warning ("Duplicate definition of sheet %s\n", sheet_name);
+				return NULL;
+			}
+		}
+	} else {
+		sheet = sheet_new_with_type (importer->wb, sheet_name, type,
+					     XLS_MaxCol, rows);
+		workbook_sheet_attach (importer->wb, sheet);
+		d (1, g_printerr ("Adding sheet '%s'\n", sheet_name););
+	}
 
 	/* Flag a respan here in case nothing else does */
 	sheet_flag_recompute_spans (sheet);
 
+	esheet = g_new (ExcelReadSheet, 1);
 	esheet->sheet	= sheet;
 	esheet->filter	= NULL;
 	esheet->freeze_panes = FALSE;
 	esheet->active_pane  = 3; /* The default */
-	esheet->shared_formulae	= g_hash_table_new_full (
-							 (GHashFunc)&gnm_cellpos_hash, (GCompareFunc)&gnm_cellpos_equal,
-							 NULL, (GDestroyNotify) &excel_shared_formula_free);
-	esheet->tables		= g_hash_table_new_full (
-							 (GHashFunc)&gnm_cellpos_hash, (GCompareFunc)&gnm_cellpos_equal,
-							 NULL, (GDestroyNotify) g_free);
+	esheet->shared_formulae	= g_hash_table_new_full
+		((GHashFunc)&gnm_cellpos_hash,
+		 (GCompareFunc)&gnm_cellpos_equal,
+		 NULL, (GDestroyNotify) &excel_shared_formula_free);
+	esheet->tables = g_hash_table_new_full
+		((GHashFunc)&gnm_cellpos_hash,
+		 (GCompareFunc)&gnm_cellpos_equal,
+		 NULL, (GDestroyNotify) g_free);
 	esheet->biff2_prev_xf_index = -1;
 
 	excel_init_margins (esheet);

@@ -1,5 +1,8 @@
 2016-01-04  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_sheet_new): Undo last change.  Fix
+	#760103 differently.
+
 	* ms-obj.c (ms_obj_read_biff8_obj): Fuzzed file fixes.  Fixes
 	#760101 and #760105.
 
