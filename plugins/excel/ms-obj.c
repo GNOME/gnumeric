@@ -995,6 +995,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		 */
 		guint16 len = GSF_LE_GET_GUINT16(data+2);
 
+		XL_CHECK_CONDITION_VAL (data_len_left >= 4 + len, TRUE);
+
 		/* 1st record must be COMMON_OBJ*/
 		XL_CHECK_CONDITION_VAL (obj->excel_type >= 0 ||
 				      record_type == GR_COMMON_OBJ_DATA,

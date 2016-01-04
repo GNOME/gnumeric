@@ -1,6 +1,7 @@
 2016-01-04  Morten Welinder  <terra@gnome.org>
 
-	* ms-obj.c (ms_obj_read_biff8_obj): Fuzzed file fix.  #760101.
+	* ms-obj.c (ms_obj_read_biff8_obj): Fuzzed file fixes.  Fixes
+	#760101 and #760105.
 
 2016-01-03  Morten Welinder  <terra@gnome.org>
 
