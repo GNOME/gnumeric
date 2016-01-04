@@ -1375,14 +1375,19 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 		       GnmStyle *style)
 {
 	ReplacementStyle rs;
+	GnmRange r;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
+	g_return_if_fail (range_is_sane (range));
+
+	r = *range;
+	range_ensure_sanity (&r, sheet);
 
 	rstyle_ctor_style (&rs, style, sheet);
 	cell_tile_apply (&sheet->style_data->styles,
 			 sheet->tile_top_level, 0, 0,
-			 range, &rs);
+			 &r, &rs);
 	rstyle_dtor (&rs);
 }
 
@@ -1761,14 +1766,19 @@ void
 sheet_style_apply_range (Sheet *sheet, GnmRange const *range, GnmStyle *pstyle)
 {
 	ReplacementStyle rs;
+	GnmRange r;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
+	g_return_if_fail (range_is_sane (range));
+
+	r = *range;
+	range_ensure_sanity (&r, sheet);
 
 	rstyle_ctor_pstyle (&rs, pstyle, sheet);
 	cell_tile_apply (&sheet->style_data->styles,
 			 sheet->tile_top_level, 0, 0,
-			 range, &rs);
+			 &r, &rs);
 	rstyle_dtor (&rs);
 }
 

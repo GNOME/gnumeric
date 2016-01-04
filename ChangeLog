@@ -1,3 +1,8 @@
+2016-01-03  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (sheet_style_apply_range)
+	(sheet_style_set_range): Ensure sanity of range.  Fixes #760102.
+
 2016-01-02  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (expmx2h): Explicitly handle nan, just in case.
