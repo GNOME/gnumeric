@@ -1,3 +1,7 @@
+2016-01-04  Morten Welinder  <terra@gnome.org>
+
+	* ms-obj.c (ms_obj_read_biff8_obj): Fuzzed file fix.  #760101.
+
 2016-01-03  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_sheet_new): Always create a new sheet.

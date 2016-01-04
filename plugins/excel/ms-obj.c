@@ -1131,7 +1131,11 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			break;
 
 		case GR_COMMON_OBJ_DATA : {
-			guint16 const options = GSF_LE_GET_GUINT16 (data+8);
+			guint16 options;
+
+			XL_CHECK_CONDITION_VAL (data_len_left >= 10, TRUE);
+
+			options = GSF_LE_GET_GUINT16 (data+8);
 
 			/* Multiple objects in 1 record ?? */
 			XL_CHECK_CONDITION_VAL (obj->excel_type == -1, TRUE);
