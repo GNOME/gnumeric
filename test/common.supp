@@ -907,7 +907,6 @@
 {
    Leak/gobject_init_ctor
    Memcheck:Leak
-   match-leak-kinds: possible
    ...
    fun:gobject_init_ctor
 }
