@@ -1379,7 +1379,12 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
-	g_return_if_fail (range_is_sane (range));
+
+	if (range->start.col > range->end.col ||
+	    range->start.row > range->end.row) {
+		gnm_style_unref (style);
+		return;
+	}
 
 	r = *range;
 	range_ensure_sanity (&r, sheet);
@@ -1770,7 +1775,12 @@ sheet_style_apply_range (Sheet *sheet, GnmRange const *range, GnmStyle *pstyle)
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
-	g_return_if_fail (range_is_sane (range));
+
+	if (range->start.col > range->end.col ||
+	    range->start.row > range->end.row) {
+		gnm_style_unref (pstyle);
+		return;
+	}
 
 	r = *range;
 	range_ensure_sanity (&r, sheet);

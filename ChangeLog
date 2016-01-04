@@ -1,3 +1,8 @@
+2016-01-04  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (sheet_style_apply_range)
+	(sheet_style_set_range): Silently ignore inverted ranges.
+
 2016-01-03  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (sheet_style_apply_range)
