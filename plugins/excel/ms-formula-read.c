@@ -1314,7 +1314,7 @@ excel_parse_formula1 (MSContainer const *container,
 
 			str = excel_get_text (container->importer, cur+1,
 					      char_len, &byte_len, NULL,
-					      len_left - 1);
+					      len_left - 2);
 			ptg_length = 1 + byte_len;
 
 			if (str != NULL) {

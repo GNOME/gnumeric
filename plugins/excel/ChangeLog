@@ -1,3 +1,8 @@
+2016-01-05  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula1): Fix string length
+	capping.  Fixes #760106.
+
 2016-01-04  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_sheet_new): Undo last change.  Fix
