@@ -995,7 +995,10 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		 */
 		guint16 len = GSF_LE_GET_GUINT16(data+2);
 
-		XL_CHECK_CONDITION_VAL (data_len_left >= 4 + len, TRUE);
+		// The would-be "len" field has different meaning for
+		// GR_LISTBOX_DATA.
+		if (record_type != GR_LISTBOX_DATA)
+			XL_CHECK_CONDITION_VAL (data_len_left >= 4 + len, TRUE);
 
 		/* 1st record must be COMMON_OBJ*/
 		XL_CHECK_CONDITION_VAL (obj->excel_type >= 0 ||
