@@ -4026,7 +4026,7 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 			nexpr = g_ptr_array_index (importer->names, importer->num_name_records);
 
 		XL_NEED_BYTES (expr_len);
-		array_data_len = expr_len ? q->length - (data - q->data) : 0;
+		array_data_len = expr_len ? q->length - (data - q->data) - expr_len : 0;
 		nexpr = excel_parse_name (importer, sheet,
 					  name, data, expr_len,
 					  array_data_len, TRUE, nexpr);

@@ -1530,6 +1530,7 @@ excel_parse_formula1 (MSContainer const *container,
 					default :
 						g_printerr ("FIXME: Duff array item type %d @ %s%d:%d,%d\n",
 							val_type, col_name(fn_col), fn_row+1, lpx, lpy);
+						CHECK_FORMULA_ARRAY_LEN(8);
 						gsf_mem_dump (array_data-1, 9);
 						elem = value_new_empty ();
 					}

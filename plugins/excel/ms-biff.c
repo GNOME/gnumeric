@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-biff.c: MS Excel Biff support...
  *
@@ -8,6 +7,7 @@
  *
  * (C) 1998-2001 Michael Meeks
  * (C) 2002-2005 Jody Goldberg
+ * (C) 2016 Morten Welinder
  **/
 
 #include <gnumeric-config.h>
@@ -493,8 +493,16 @@ ms_biff_query_next (BiffQuery *q)
 			q->data[k] = tmp ^ q->xor_key[offset];
 			offset = (offset + 1) % 16;
 		}
-	} else
+	} else {
 		q->non_decrypted_data = q->data;
+#if 0
+		// Turn this on to debug memory access beyond record
+		// end.
+		q->non_decrypted_data_malloced = q->data_malloced;
+		q->data = g_memdup (q->data, q->length);
+		q->data_malloced = TRUE;
+#endif
+	}
 
 #if BIFF_DEBUG > 2
 	ms_biff_query_dump (q);

@@ -1,3 +1,11 @@
+2016-01-07  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_NAME): Fix computation of array
+	length.  Fixes #760104.
+
+	* ms-formula-read.c (excel_parse_formula1): Check that
+	non-parsable data is actually there before dumping it.
+
 2016-01-05  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula1): Fix string length
