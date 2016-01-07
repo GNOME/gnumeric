@@ -1,3 +1,7 @@
+2016-01-06  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (ebd0): Fix problem with overflow.  [#760230]
+
 2016-01-04  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (sheet_style_apply_range)

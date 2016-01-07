@@ -240,8 +240,8 @@ static const float bd0_scale[128 + 1][4] = {
 static void
 ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 {
-	gnm_float r, f, fg, M1;
-	int e;
+	gnm_float r, r1, r2, f, fg, M1;
+	int e, e1, e2;
 	int i, j;
 	const int Sb = 10;
 	const double S = 1u << Sb;
@@ -257,8 +257,10 @@ ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 	g_printerr ("x=%.20g  M=%.20g\n", x, M);
 #endif
 
-	/* FIXME: handle overflow/underflow in division below */
-	r = gnm_frexp (M / x, &e);
+	r1 = gnm_frexp (M, &e1);
+	r2 = gnm_frexp (x, &e2);
+	r = gnm_frexp (r1 / r2, &e);
+	e += (e1 - e2);
 	i = gnm_floor ((r - 0.5) * (2 * N) + 0.5);
 	g_assert (i >= 0 && i <= N);
 	f = gnm_floor (S / (0.5 + i / (2.0 * N)) + 0.5);
