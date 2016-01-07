@@ -2806,14 +2806,19 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	xls_read_range8 (&r, q->data);
 
 	if (opcode == BIFF_TABLE_v0 || opcode == BIFF_TABLE_v2) {
-		XLDataTable *dt = g_new0 (XLDataTable, 1);
+		XLDataTable *dt;
 		GnmExprList *args = NULL;
 		GnmCellRef   ref;
-		guint16 const flags = GSF_LE_GET_GUINT16 (q->data + 6);
+		guint16 flags;
+
+		XL_CHECK_CONDITION_VAL (q->length >= 16, NULL);
+
+		flags = GSF_LE_GET_GUINT16 (q->data + 6);
 
 		d (2, { range_dump (&r, " <-- contains data table\n");
 				gsf_mem_dump (q->data, q->length); });
 
+		dt = g_new0 (XLDataTable, 1);
 		dt->table = r;
 		dt->c_in.row = GSF_LE_GET_GUINT16 (q->data + 8);
 		dt->c_in.col = GSF_LE_GET_GUINT16 (q->data + 10);
@@ -2821,18 +2826,23 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 		dt->r_in.col = GSF_LE_GET_GUINT16 (q->data + 14);
 		g_hash_table_replace (esheet->tables, &dt->table.start, dt);
 
-		args = gnm_expr_list_append (args, gnm_expr_new_cellref (
-									 gnm_cellref_init (&ref, NULL,
-											   dt->c_in.col - r.start.col,
-											   dt->c_in.row - r.start.row, TRUE)));
+		args = gnm_expr_list_append
+			(args,
+			 gnm_expr_new_cellref
+			 (gnm_cellref_init (&ref, NULL,
+					    dt->c_in.col - r.start.col,
+					    dt->c_in.row - r.start.row, TRUE)));
 		if (flags & 0x8) {
-			args = gnm_expr_list_append (args, gnm_expr_new_cellref (
-										 gnm_cellref_init (&ref, NULL,
-												   dt->r_in.col - r.start.col,
-												   dt->r_in.row - r.start.row, TRUE)));
+			args = gnm_expr_list_append
+				(args,
+				 gnm_expr_new_cellref
+				 (gnm_cellref_init (&ref, NULL,
+						    dt->r_in.col - r.start.col,
+						    dt->r_in.row - r.start.row, TRUE)));
 		} else {
 			GnmExpr	const *missing = gnm_expr_new_constant (value_new_empty ());
-			args = (flags & 4) ? gnm_expr_list_append (args, missing)
+			args = (flags & 4)
+				? gnm_expr_list_append (args, missing)
 				: gnm_expr_list_prepend (args, missing);
 		}
 		texpr = gnm_expr_top_new (gnm_expr_new_funcall (gnm_func_lookup ("table", NULL), args));

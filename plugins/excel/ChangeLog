@@ -1,5 +1,8 @@
 2016-01-07  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_formula_shared): Length check for v0.
+	Fixes #760231.
+
 	* ms-chart.c (ms_excel_chart_read): Initialize .legend to NULL.
 	Fixes #760229.
 
