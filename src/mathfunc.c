@@ -248,21 +248,25 @@ ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 	const int N = G_N_ELEMENTS(bd0_scale) - 1;
 	const double e4 = GNM_EPSILON * GNM_EPSILON * GNM_EPSILON * GNM_EPSILON;
 
+	if (gnm_isnan (x) || gnm_isnan (M)) {
+		*yl = *yh = x;
+		return;
+	}
+
 	*yl = *yh = 0;
 
 	if (x == M) return;
-	if (x < M * e4) { PAIR_ADD(M, *yh, *yl); return; }
+	if (x < M * e4) { ADD1(M); return; }
 	if (M == 0) { *yh = gnm_pinf; return; }
 
 	if (M < x * e4) {
-		PAIR_ADD(x * (gnm_log(x) - 1), *yh, *yl);
-		PAIR_ADD(-x * gnm_log(M), *yh, *yl);
+		ADD1(x * (gnm_log(x) - 1));
+		ADD1(-x * gnm_log(M));
 		return;
 	}
 
 #ifdef DEBUG_EBD0
 	g_printerr ("x=%.20g  M=%.20g\n", x, M);
-	g_printerr ("x/M=%.20g\n", x / M);
 #endif
 
 	r = gnm_frexp (M / x, &e);
@@ -293,21 +297,23 @@ ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 	 */
 
 	for (j = G_N_ELEMENTS(bd0_scale[i]) - 1; j >= 0; j--) {
-		PAIR_ADD(x * bd0_scale[i][j], *yh, *yl);       /* Handles x*log(fg*2^e) */
-		PAIR_ADD(-x * e * bd0_scale[0][j], *yh, *yl);  /* Handles x*log(1/2^e) */
+		ADD1(x * bd0_scale[i][j]);      /* Handles x*log(fg*2^e) */
+		ADD1(-x * e * bd0_scale[0][j]); /* Handles x*log(1/2^e) */
 	}
 
-	PAIR_ADD(M, *yh, *yl);
+	ADD1(M);
 	M1 = gnm_floor (M + 0.5);
-	PAIR_ADD(-M1 * fg, *yh, *yl);
-	PAIR_ADD(-(M-M1) * fg, *yh, *yl);
+	ADD1(-M1 * fg);
+	ADD1(-(M-M1) * fg);
 
-	PAIR_ADD(-x * log1pmx ((M * fg - x) / x), *yh, *yl);
+	ADD1(-x * log1pmx ((M * fg - x) / x));
 
 #ifdef DEBUG_EBD0
 	g_printerr ("res=%.20g + %.20g\n", *yh, *yl);
 #endif
 }
+
+#undef ADD1
 
 /* Legacy function.  */
 static gnm_float
