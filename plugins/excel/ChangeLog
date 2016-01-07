@@ -1,5 +1,8 @@
 2016-01-07  Morten Welinder  <terra@gnome.org>
 
+	* ms-chart.c (ms_excel_chart_read): Initialize .legend to NULL.
+	Fixes #760229.
+
 	* ms-excel-read.c (excel_read_NAME): Fix computation of array
 	length.  Fixes #760104.
 

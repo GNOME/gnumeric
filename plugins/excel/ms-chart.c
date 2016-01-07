@@ -3781,6 +3781,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	state.plot  = NULL;
 	state.axis  = NULL;
 	state.style = NULL;
+	state.legend = NULL;
 	for (i = 0; i < 3; i++)
 		state.chartline_style[i] = NULL;
 	state.dropbar_style = NULL;
