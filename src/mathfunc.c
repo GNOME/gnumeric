@@ -240,27 +240,32 @@ static const float bd0_scale[128 + 1][4] = {
 static void
 ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 {
-	gnm_float r, r1, r2, f, fg, M1;
-	int e, e1, e2;
+	gnm_float r, f, fg, M1;
+	int e;
 	int i, j;
 	const int Sb = 10;
 	const double S = 1u << Sb;
 	const int N = G_N_ELEMENTS(bd0_scale) - 1;
+	const double e4 = GNM_EPSILON * GNM_EPSILON * GNM_EPSILON * GNM_EPSILON;
 
 	*yl = *yh = 0;
 
 	if (x == M) return;
-	if (x == 0) { PAIR_ADD(M, *yh, *yl); return; }
+	if (x < M * e4) { PAIR_ADD(M, *yh, *yl); return; }
 	if (M == 0) { *yh = gnm_pinf; return; }
+
+	if (M < x * e4) {
+		PAIR_ADD(x * (gnm_log(x) - 1), *yh, *yl);
+		PAIR_ADD(-x * gnm_log(M), *yh, *yl);
+		return;
+	}
 
 #ifdef DEBUG_EBD0
 	g_printerr ("x=%.20g  M=%.20g\n", x, M);
+	g_printerr ("x/M=%.20g\n", x / M);
 #endif
 
-	r1 = gnm_frexp (M, &e1);
-	r2 = gnm_frexp (x, &e2);
-	r = gnm_frexp (r1 / r2, &e);
-	e += (e1 - e2);
+	r = gnm_frexp (M / x, &e);
 	i = gnm_floor ((r - 0.5) * (2 * N) + 0.5);
 	g_assert (i >= 0 && i <= N);
 	f = gnm_floor (S / (0.5 + i / (2.0 * N)) + 0.5);
