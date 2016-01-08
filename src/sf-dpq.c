@@ -639,7 +639,21 @@ qhyper (gnm_float p, gnm_float NR, gnm_float NB, gnm_float n,
 gnm_float
 drayleigh (gnm_float x, gnm_float scale, gboolean give_log)
 {
-	return dweibull (x, 2, M_SQRT2gnum * scale, give_log);
+	// This is tempting, but has lower precision since sqrt(2)
+	// is inexact.
+	//
+	// return dweibull (x, 2, M_SQRT2gnum * scale, give_log);
+
+	if (scale <= 0)
+		return gnm_nan;
+	if (x <= 0)
+		return R_D__0;
+	else {
+		gnm_float p = dnorm (x, 0, scale, give_log);
+		return give_log
+			? p + gnm_log (x / scale) + M_LN_SQRT_2PI
+			: p * x / scale * M_SQRT_2PI;
+	}
 }
 
 /* ------------------------------------------------------------------------ */
