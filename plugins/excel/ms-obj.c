@@ -1065,6 +1065,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			break;
 
 		case GR_SCROLLBAR :
+			XL_CHECK_CONDITION_VAL (data_len_left >= 20, TRUE);
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
 					GSF_LE_GET_GUINT16 (data+8)));

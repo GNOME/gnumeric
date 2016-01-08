@@ -1,5 +1,8 @@
 2016-01-07  Morten Welinder  <terra@gnome.org>
 
+	* ms-obj.c (ms_obj_read_biff8_obj): Add missing length check for
+	scroll bars.  Fixes #760232.
+
 	* ms-excel-read.c (excel_formula_shared): Length check for v0.
 	Fixes #760231.
 
