@@ -10367,6 +10367,39 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-AGM">
+      <refmeta>
+        <refentrytitle>
+          <function>AGM</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>AGM</function>
+        </refname>
+        <refpurpose>
+        the arithmetic-geometric mean
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>AGM</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>a</parameter>: value</para>
+        <para><parameter>b</parameter>: value</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para><function>AGM</function> computes the arithmetic-geometric mean of the two values.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-AVERAGE"><function>AVERAGE</function></link>,
+        <link linkend="gnumeric-function-GEOMEAN"><function>GEOMEAN</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-ARABIC">
       <refmeta>
         <refentrytitle>

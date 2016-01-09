@@ -16,6 +16,7 @@
 				<function name="acosh"/>
 				<function name="acot"/>
 				<function name="acoth"/>
+				<function name="agm"/>
 				<function name="arabic"/>
 				<function name="asin"/>
 				<function name="asinh"/>

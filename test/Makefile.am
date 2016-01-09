@@ -38,7 +38,7 @@ TESTS =	t1000-statfuns.pl			\
 	t1009-lookfuns.pl			\
 	t1010-bitwise.pl			\
 	t1011-yalta2008.pl			\
-	t1012-burkhardt.pl			\
+	t1012-burkardt.pl			\
 	t1013-crlibm.pl				\
 	t1100-chitest.pl			\
 	t1101-ftest.pl				\

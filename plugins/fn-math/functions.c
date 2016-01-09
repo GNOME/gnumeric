@@ -450,6 +450,27 @@ gnumeric_atan2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	return value_new_float (gnm_atan2 (y, x));
 }
+/***************************************************************************/
+
+static GnmFuncHelp const help_agm[] = {
+	{ GNM_FUNC_HELP_NAME, F_("AGM:the arithmetic-geometric mean") },
+	{ GNM_FUNC_HELP_ARG, F_("a:value")},
+	{ GNM_FUNC_HELP_ARG, F_("b:value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("AGM computes the arithmetic-geometric mean of the two values.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=AGM(1,4)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=AGM(0.5,1)" },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,GEOMEAN"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_agm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float a = value_get_as_float (argv[0]);
+	gnm_float b = value_get_as_float (argv[1]);
+
+	return value_new_float (agm (a, b));
+}
 
 /***************************************************************************/
 
@@ -3288,12 +3309,15 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "acosh",   "f",     help_acosh,
 	  gnumeric_acosh, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "acot",     "f",     help_acot,
+	{ "acot",    "f",     help_acot,
 	  gnumeric_acot, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "acoth",     "f",     help_acoth,
+	{ "acoth",   "f",     help_acoth,
 	  gnumeric_acoth, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "agm",     "ff",    help_agm,
+	  gnumeric_agm, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "arabic",       "S",             help_arabic,
 	  gnumeric_arabic, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

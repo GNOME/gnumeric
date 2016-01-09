@@ -18,6 +18,7 @@ typedef enum {
 	GT_DD_D,
 	GT_DDD_D,
 	GT_DI_D,
+	GT_I_D,
 	GT_ID_D,
 	GT_IDI_D,
 	GT_IID_D,
@@ -62,6 +63,10 @@ test_func (const char *func_name,
 		case GT_DI_D:
 			generator (&n_data, &xd[0], &xi[1], &yd);
 			types = "DI:D";
+			break;
+		case GT_I_D:
+			generator (&n_data, &xi[0], &yd);
+			types = "I:D";
 			break;
 		case GT_ID_D:
 			generator (&n_data, &xi[0], &xd[1], &yd);
@@ -192,6 +197,7 @@ main (int argc, char **argv)
 
 	test_func ("acos", arccos_values, GT_D_D, NULL);
 	test_func ("acosh", arccosh_values, GT_D_D, NULL);
+	test_func ("agm", agm_values, GT_DD_D, NULL);
 	test_func ("asin", arcsin_values, GT_D_D, NULL);
 	test_func ("asinh", arcsinh_values, GT_D_D, NULL);
 	test_func ("atan", arctan_values, GT_D_D, NULL);
@@ -233,8 +239,9 @@ main (int argc, char **argv)
 
 	test_func ("r.pf", f_cdf_values, GT_IID_D, "312");
 	// f_noncentral_cdf_values ( int *n_data, int *n1, int *n2, double *lambda,
-	test_func ("fact", factorial_values, GT_I_I, NULL);
-	test_func ("factdouble", factorial2_values, GT_I_I, NULL);
+	test_func ("fact", i4_factorial_values, GT_I_I, NULL);
+	test_func ("fact", r8_factorial_values, GT_I_D, NULL);
+	test_func ("factdouble", i4_factorial2_values, GT_I_I, NULL);
 	// factorial_rising_values ( int *n_data, int *m, int *n, int *fmn )
 	// fresnel_cos_values ( int *n_data, double *x, double *fx )
 	// fresnel_sin_values ( int *n_data, double *x, double *fx )
@@ -305,7 +312,8 @@ main (int argc, char **argv)
 	// partition_distinct_count_values ( int *n_data, int *n, int *c )
 	test_func ("nt_phi", phi_values, GT_I_I, NULL);
 	if (do_slow) test_func ("nt_pi", pi_values, GT_I_I, NULL);
-	test_func ("pochhammer", pochhammer_values, GT_DD_D, NULL);
+	test_func ("pochhammer", i4_rise_values, GT_II_I, NULL);
+	test_func ("pochhammer", r8_rise_values, GT_DI_D, NULL);
 	test_func ("r.ppois", poisson_cdf_values, GT_DI_D, "21");
 	// polylogarithm_values ( int *n_data, int *n, double *z, double *fx )
 	// prandtl_values ( int *n_data, double *tc, double *p, double *pr )

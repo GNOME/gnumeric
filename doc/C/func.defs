@@ -3208,6 +3208,15 @@ The depreciation coefficient used is:
 @SEEALSO=COTH,TANH
 
 @CATEGORY=Mathematics
+@FUNCTION=AGM
+@SHORTDESC=the arithmetic-geometric mean
+@SYNTAX=AGM(a,b)
+@ARGUMENTDESCRIPTION=@{a}: value
+@{b}: value
+@DESCRIPTION=AGM computes the arithmetic-geometric mean of the two values.
+@SEEALSO=AVERAGE,GEOMEAN
+
+@CATEGORY=Mathematics
 @FUNCTION=ARABIC
 @SHORTDESC=the Roman numeral @{roman} as number
 @SYNTAX=ARABIC(roman)

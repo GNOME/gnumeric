@@ -4965,6 +4965,53 @@ expmx2h (gnm_float x)
 /* ------------------------------------------------------------------------- */
 
 /**
+ * agm:
+ * @a: a number
+ * @b: a number
+ *
+ * Returns: The arithmetic-geometric mean of @a and @b.
+ */
+gnm_float
+agm (gnm_float a, gnm_float b)
+{
+	gnm_float ab = a * b;
+	gnm_float scale = 1;
+	int i;
+
+	if (a < 0 || b < 0 || gnm_isnan (ab))
+		return gnm_nan;
+
+	if (a == gnm_pinf || b == gnm_pinf)
+		return gnm_pinf;
+	if (a == 0 || b == 0)
+		return 0;
+
+	if (ab == 0 || ab == gnm_pinf) {
+		// Underflow or overflow
+		int ea, eb;
+		(void)gnm_frexp (a, &ea);
+		(void)gnm_frexp (b, &eb);
+		scale = gnm_ldexp (1, -(ea + eb) / 2);
+		a *= scale;
+		b *= scale;
+	}
+
+	for (i = 1; i < 20; i++) {
+		gnm_float am = (a + b) / 2;
+		gnm_float gm = gnm_sqrt (a * b);
+		a = am;
+		b = gm;
+		if (gnm_abs (a - b) < a * GNM_EPSILON)
+			break;
+	}
+	if (i == 20)
+		g_warning ("AGM failed to converge.");
+
+	return a / scale;
+}
+
+
+/**
  * pow1p:
  * @x: a number
  * @y: a number
