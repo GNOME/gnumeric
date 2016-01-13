@@ -3049,9 +3049,10 @@ not_a_matrix:
 					} else
 						eseries->extra_dim = GOG_MS_DIM_END;
 				}
-				while (eseries = g_ptr_array_index (s->series, k++),
-							eseries && eseries->chart_group != s->plot_counter)
-					if (k == s->series->len) {
+				eseries = NULL;
+				while (k < l && (eseries = g_ptr_array_index (s->series, k++),
+							eseries && eseries->chart_group != s->plot_counter))
+					if (k == l) {
 						eseries = NULL;
 						break;
 					}
@@ -3079,9 +3080,10 @@ not_a_matrix:
 				for (n = 0; n <= added_plots; n++)
 					gog_object_reorder (plot, TRUE, FALSE);
 				series = gog_plot_new_series (GOG_PLOT (plot));
-				while (eseries = g_ptr_array_index (s->series, k++),
-							eseries && eseries->chart_group != s->plot_counter)
-					if (k == s->series->len) {
+				eseries = NULL;
+				while (k < l && (eseries = g_ptr_array_index (s->series, k++),
+							eseries && eseries->chart_group != s->plot_counter))
+					if (k == l) {
 						eseries = NULL;
 						break;
 					}

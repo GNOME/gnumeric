@@ -1,3 +1,7 @@
+2016-01-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end): Add missing array length check. Fixes #760546.
+
 2016-01-07  Morten Welinder  <terra@gnome.org>
 
 	* ms-obj.c (ms_obj_read_biff8_obj): Add missing length check for

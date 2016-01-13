@@ -5,6 +5,9 @@ Andreas:
 	* Read/write zoom values to/from ODF files in LO compatible way. [#700013]
 	* Read new attribute to am/pm element in ODF import. [#760043]
 
+Jean:
+	* Fuzzed file fixes.  [#760546]
+
 Morten:
 	* Teach ssconvert to split sheets into separate .txt files [#694408]
 	* Improve test suite.
