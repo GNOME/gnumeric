@@ -1,5 +1,8 @@
 2016-01-13  Morten Welinder  <terra@gnome.org>
 
+	* src/sstest.c (test_random_randsnorm)
+	(test_random_randbernoulli): Print expected stats.
+
 	* src/xml-sax-read.c (xml_sax_filter_condition): Ensure o0 and op1
 	are sane.  Fixes #760544.
 

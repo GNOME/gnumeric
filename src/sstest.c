@@ -916,21 +916,28 @@ test_random_randbernoulli (int N)
 	}
 
 	T = p;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (mean - p) > 0.01) {
 		g_printerr ("Mean failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
+
 	T = p * (1 - p);
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (var - T) > 0.01) {
 		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
+
 	T = (q - p) / gnm_sqrt (p * q);
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (skew - T) > 0.05) {
 		g_printerr ("Skew failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
+
 	T = (1 - 6 * p * q) / (p * q);
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (kurt - T) > 0.10) {
 		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
@@ -1107,22 +1114,29 @@ test_random_randsnorm (int N)
 	}
 
 	T = mean_target;
+	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (mean - T) > 0.01) {
 		g_printerr ("Mean failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
+
 	T = var_target;
+	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (var - T) > 0.01) {
 		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
+
 	T = mean_target/gnm_sqrt(var_target);
 	T = T*T*T*(4-M_PIgnum)/2;
+	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (skew - T) > 0.05) {
 		g_printerr ("Skew failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
+
 	T = 2*(M_PIgnum - 3)*mean_target*mean_target*mean_target*mean_target/(var_target*var_target);
+	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (kurt - T) > 0.15) {
 		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
