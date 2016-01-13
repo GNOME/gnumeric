@@ -2299,7 +2299,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *val0 = NULL;
 	char const *val1 = NULL;
 	GnmValueType vtype0 = VALUE_EMPTY, vtype1 = VALUE_EMPTY;
-	GnmFilterOp op0, op1;
+	GnmFilterOp op0 = GNM_FILTER_UNUSED, op1 = GNM_FILTER_UNUSED;
 	GnmFilterCondition *cond = NULL;
 	gboolean top = TRUE, items = TRUE, is_and = FALSE;
 	int i, tmp, cond_num = 0;

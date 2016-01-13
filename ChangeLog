@@ -1,3 +1,8 @@
+2016-01-13  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_filter_condition): Ensure o0 and op1
+	are sane.  Fixes #760544.
+
 2016-01-08  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-dpq.c (drayleigh): Undo last change and improve accuracy.
