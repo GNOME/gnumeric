@@ -1,3 +1,8 @@
+2016-01-14  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula1): Add missing length
+	check.  Fixes #760545.
+
 2016-01-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (end): Add missing array length check. Fixes #760546.

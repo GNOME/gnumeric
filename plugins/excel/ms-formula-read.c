@@ -838,7 +838,7 @@ undo_save_hacks (GnmExpr const *e)
 
 
 /**
- * ms_excel_dump_cellname : internal utility to dump the current location safely.
+ * ms_excel_dump_cellname: internal utility to dump the current location safely.
  */
 static void
 ms_excel_dump_cellname (GnmXLImporter const *importer, ExcelReadSheet const *esheet,
@@ -1092,7 +1092,7 @@ excel_parse_formula1 (MSContainer const *container,
 				if (array_element != NULL)
 					*array_element = TRUE;
 				else
-					g_warning ("EXCEL : unexpected array\n");
+					g_warning ("EXCEL: unexpected array\n");
 
 				parse_list_free (&stack);
 				return NULL;
@@ -1131,7 +1131,7 @@ excel_parse_formula1 (MSContainer const *container,
 			} else if (array_element != NULL) {
 				*array_element = TRUE;
 			} else {
-				g_warning ("EXCEL : unexpected table\n");
+				g_warning ("EXCEL: unexpected table\n");
 			}
 
 			parse_list_free (&stack);
@@ -1240,13 +1240,13 @@ excel_parse_formula1 (MSContainer const *container,
 				/* Ignore cached result */
 				d (2, g_printerr ("ATTR IF\n"););
 
-			/* AttrChoose : stores table of inputs */
+			/* AttrChoose: stores table of inputs */
 			} else if (grbit & 0x04) {
 				/* Ignore the optimzation to specify which arg to use */
 				d (2, g_printerr ("ATTR CHOOSE\n"););
 				ptg_length = 2 * ((w + 1) /* args */ + 1 /* count */) + 1;
 
-			/* AttrGoto : bytes/words to skip during _evaluation_.
+			/* AttrGoto: bytes/words to skip during _evaluation_.
 			 * We still need to parse them */
 			} else if (grbit & 0x08) {
 				d (2, g_printerr ("ATTR GOTO\n"););
@@ -1262,7 +1262,7 @@ excel_parse_formula1 (MSContainer const *container,
 			} else if (grbit & 0x40) {
 				guint8 num_space = GSF_LE_GET_GUINT8 (cur+2);
 				guint8 attrs     = GSF_LE_GET_GUINT8 (cur+1);
-				if (attrs == 0) /* bitFSpace : ignore it for now */
+				if (attrs == 0) /* bitFSpace: ignore it for now */
 					;
 				else
 					d (2, g_printerr ("Redundant whitespace in formula 0x%x count %d\n", attrs, num_space););
@@ -1330,44 +1330,44 @@ excel_parse_formula1 (MSContainer const *container,
 		case FORMULA_PTG_EXTENDED: { /* Extended Ptgs for Biff8 */
 			CHECK_FORMULA_LEN(1);
 			switch ((eptg = GSF_LE_GET_GUINT8 (cur))) {
-			default :
-				g_warning ("EXCEL : unknown ePtg type %02x", eptg);
+			default:
+				g_warning ("EXCEL: unknown ePtg type %02x", eptg);
 				break;
 
-			case 0x00 : /* Reserved */
-			case 0x04 : /* Reserved */
-			case 0x05 : /* Reserved */
-			case 0x08 : /* Reserved */
-			case 0x09 : /* Reserved */
-			case 0x11 : /* Reserved */
-			case 0x12 : /* Reserved */
-			case 0x13 : /* Reserved */
-			case 0x14 : /* Reserved */
-			case 0x15 : /* Reserved */
-			case 0x16 : /* Reserved */
-			case 0x17 : /* Reserved */
-			case 0x18 : /* Reserved */
-			case 0x1b : /* Reserved */
-			case 0x1c : /* Reserved */
-			case 0x1e : /* reserved */
-			case 0x19 : /* Invalid */
-			case 0x1a : /* Invalid */
-				g_warning ("EXCEL : unexpected ePtg type %02x", eptg);
+			case 0x00: /* Reserved */
+			case 0x04: /* Reserved */
+			case 0x05: /* Reserved */
+			case 0x08: /* Reserved */
+			case 0x09: /* Reserved */
+			case 0x11: /* Reserved */
+			case 0x12: /* Reserved */
+			case 0x13: /* Reserved */
+			case 0x14: /* Reserved */
+			case 0x15: /* Reserved */
+			case 0x16: /* Reserved */
+			case 0x17: /* Reserved */
+			case 0x18: /* Reserved */
+			case 0x1b: /* Reserved */
+			case 0x1c: /* Reserved */
+			case 0x1e: /* reserved */
+			case 0x19: /* Invalid */
+			case 0x1a: /* Invalid */
+				g_warning ("EXCEL: unexpected ePtg type %02x", eptg);
 				break;
 
-			case 0x02 : /* eptgElfRw,	No,  Ref */
-			case 0x03 : /* eptgElfCol,	No,  Ref */
-			case 0x06 : /* eptgElfRwV,	No,  Value */
-			case 0x07 : /* eptgElfColV,	No,  Value */
-			case 0x0c : /* eptgElfRwS,	Yes, Ref */
-			case 0x0d : /* eptgElfColS,	Yes, Ref */
-			case 0x0e : /* eptgElfRwSV,	Yes, Value */
-			case 0x0f : /* eptgElfColSV,	Yes, Value */
+			case 0x02: /* eptgElfRw,	No,  Ref */
+			case 0x03: /* eptgElfCol,	No,  Ref */
+			case 0x06: /* eptgElfRwV,	No,  Value */
+			case 0x07: /* eptgElfColV,	No,  Value */
+			case 0x0c: /* eptgElfRwS,	Yes, Ref */
+			case 0x0d: /* eptgElfColS,	Yes, Ref */
+			case 0x0e: /* eptgElfRwSV,	Yes, Value */
+			case 0x0f: /* eptgElfColSV,	Yes, Value */
 			{
-				/* WARNING : No documentation for this.  However this seems
+				/* WARNING: No documentation for this.  However this seems
 				 * to make sense.
 				 *
-				 * NOTE :
+				 * NOTE:
 				 * I cheat here.
 				 * This reference is really to the entire row/col
 				 * left/below the specified cell.
@@ -1384,6 +1384,7 @@ excel_parse_formula1 (MSContainer const *container,
 				 * x is an eptgElfColV.  I replace that with a2
 				 */
 				GnmCellRef ref;
+				CHECK_FORMULA_LEN(5);
 				getRefV8 (&ref,
 					  GSF_LE_GET_GUINT16 (cur + 1),
 					  GSF_LE_GET_GUINT16 (cur + 3),
@@ -1394,32 +1395,36 @@ excel_parse_formula1 (MSContainer const *container,
 					ref.col = ref.col_relative ? 0 : fn_col;
 
 				parse_list_push (&stack, gnm_expr_new_cellref (&ref));
-				ptg_length += 4;
 				break;
 			}
 
-			case 0x01 : ptg_length += 4;	/* eptgElfLel,		No,  Err */
+			case 0x01:
+				ptg_length += 4;	/* eptgElfLel,		No,  Err */
 				parse_list_push (&stack,
 					xl_expr_err (esheet, fn_col, fn_row,
 						     "undocumented extended ptg 1", "#REF!"));
 				break;
-			case 0x0a : ptg_length += 13;	/* eptgRadical,		No,  Ref */
+			case 0x0a:
+				ptg_length += 13;	/* eptgRadical,		No,  Ref */
 				parse_list_push (&stack,
 					xl_expr_err (esheet, fn_col, fn_row,
 						     "undocumented extended ptg 0xA", "#REF!"));
 				break;
-			case 0x0b : ptg_length += 13;	/* eptgRadicalS,	Yes, Ref */
+			case 0x0b:
+				ptg_length += 13;	/* eptgRadicalS,	Yes, Ref */
 				parse_list_push (&stack,
 					xl_expr_err (esheet, fn_col, fn_row,
 						     "undocumented extended ptg 0xB", "#REF!"));
 				break;
-			case 0x10 : ptg_length += 4;	/* eptgElfRadicalLel, No, Err */
+			case 0x10:
+				ptg_length += 4;	/* eptgElfRadicalLel, No, Err */
 				/* does not seem to put anything on the stack */
 				gnm_expr_free (
 					xl_expr_err (esheet, fn_col, fn_row,
 						     "undocumented extended ptg 0x10", "#REF!"));
 				break;
-			case 0x1d : ptg_length += 4;	/* eptgSxName, No, Value */
+			case 0x1d:
+				ptg_length += 4;	/* eptgSxName, No, Value */
 				parse_list_push (&stack,
 					xl_expr_err (esheet, fn_col, fn_row,
 						     "undocumented extended ptg 0x1D", "#REF!"));
@@ -1527,7 +1532,7 @@ excel_parse_formula1 (MSContainer const *container,
 						array_data += 8;
 						break;
 
-					default :
+					default:
 						g_printerr ("FIXME: Duff array item type %d @ %s%d:%d,%d\n",
 							val_type, col_name(fn_col), fn_row+1, lpx, lpy);
 						CHECK_FORMULA_ARRAY_LEN(8);
@@ -1692,8 +1697,8 @@ excel_parse_formula1 (MSContainer const *container,
 			break;
 		}
 
-		case FORMULA_PTG_MEM_AREA :
-		case FORMULA_PTG_MEM_ERR :
+		case FORMULA_PTG_MEM_AREA:
+		case FORMULA_PTG_MEM_ERR:
 			/* ignore this, we handle at run time */
 			CHECK_FORMULA_LEN(6);
 			break;
@@ -1837,12 +1842,12 @@ excel_parse_formula1 (MSContainer const *container,
 			break;
 		}
 
-		case FORMULA_PTG_REF_ERR_3D :
+		case FORMULA_PTG_REF_ERR_3D:
 			CHECK_FORMULA_LEN(ver >= MS_BIFF_V8 ? 6 : 17);
 			parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			break;
 
-		case FORMULA_PTG_AREA_ERR_3D :
+		case FORMULA_PTG_AREA_ERR_3D:
 			CHECK_FORMULA_LEN(ver >= MS_BIFF_V8 ? 10 : 20);
 			parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			break;
@@ -1853,7 +1858,7 @@ excel_parse_formula1 (MSContainer const *container,
 			 * seem to have a an extra 2 zero bytes at the end
 			 **/
 			if (len_left > 2) {
-				g_warning ("EXCEL : Unhandled PTG 0x%x.", ptg);
+				g_warning ("EXCEL: Unhandled PTG 0x%x.", ptg);
 				error = TRUE;
 				ptg_length = 1;
 			}
@@ -1866,7 +1871,7 @@ excel_parse_formula1 (MSContainer const *container,
  length_error:
 
 	if (error) {
-		g_printerr ("formula data : %s\n", (shared?" (shared)":"(NOT shared)"));
+		g_printerr ("formula data: %s\n", (shared?" (shared)":"(NOT shared)"));
 		gsf_mem_dump (mem, length);
 
 		parse_list_free (&stack);
