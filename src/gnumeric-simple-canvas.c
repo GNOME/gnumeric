@@ -54,7 +54,7 @@ gnm_simple_canvas_new (SheetControlGUI *scg)
 }
 
 void
-gnm_simple_canvas_ungrab (GocItem *item, guint32 etime)
+gnm_simple_canvas_ungrab (GocItem *item)
 {
 	GnmSimpleCanvas *gcanvas = GNM_SIMPLE_CANVAS(item->canvas);
 

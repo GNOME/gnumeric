@@ -669,7 +669,7 @@ item_cursor_selection_motion (GocItem *item, double x_, double y_)
 
 	button = ic->drag_button;
 	ic->drag_button = -1;
-	gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
+	gnm_simple_canvas_ungrab (item);
 
 	scg_special_cursor_start (ic->scg, style, button);
 	special_cursor = pane->cursor.special;
@@ -1149,7 +1149,7 @@ item_cursor_button2_pressed (GocItem *item, int button, double x_, double y_)
 			return TRUE;
 
 		ic->drag_button = -1;
-		gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
+		gnm_simple_canvas_ungrab (item);
 
 		if (sheet_is_region_empty (sheet, &ic->pos))
 			return TRUE;
@@ -1364,7 +1364,7 @@ item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, 
 
 		/* Double clicks may have already released the drag prep */
 		if (ic->drag_button >= 0) {
-			gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
+			gnm_simple_canvas_ungrab (item);
 			ic->drag_button = -1;
 		}
 		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (wbcg),
@@ -1376,7 +1376,7 @@ item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, 
 			return TRUE;
 
 		gnm_pane_slide_stop (GNM_PANE (item->canvas));
-		gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
+		gnm_simple_canvas_ungrab (item);
 		item_cursor_do_drop (ic, event);
 
 		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (wbcg),
@@ -1392,7 +1392,7 @@ item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, 
 		SheetControlGUI *scg = ic->scg;
 
 		gnm_pane_slide_stop (GNM_PANE (item->canvas));
-		gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
+		gnm_simple_canvas_ungrab (item);
 
 		cmd_autofill (scg_wbc (scg), scg_sheet (scg), default_increment,
 			      ic->pos.start.col, ic->pos.start.row,

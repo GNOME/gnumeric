@@ -22,7 +22,7 @@ typedef struct {
 GType		 gnm_simple_canvas_get_type (void);
 GocCanvas	*gnm_simple_canvas_new      (SheetControlGUI *scg);
 
-void gnm_simple_canvas_ungrab (GocItem *item, guint32 etime);
+void gnm_simple_canvas_ungrab (GocItem *item);
 int  gnm_simple_canvas_grab   (GocItem *item, unsigned int event_mask,
 			       GdkCursor *cursor, guint32 etime);
 

@@ -1176,7 +1176,7 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 	}
 
 	ig->selecting = GNM_ITEM_GRID_NO_SELECTION;
-	gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
+	gnm_simple_canvas_ungrab (item);
 
 	if (selecting == GNM_ITEM_GRID_SELECTING_FORMULA_RANGE)
 		gnm_expr_entry_signal_update (

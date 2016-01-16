@@ -1160,7 +1160,7 @@ cb_pane_drag_end (GtkWidget *widget, GdkDragContext *context,
 	/* ungrab any grabbed item */
 	GocItem *item = goc_canvas_get_grabbed_item (GOC_CANVAS (source_pane));
 	if (item)
-		gnm_simple_canvas_ungrab (item, gtk_get_current_event_time ());
+		gnm_simple_canvas_ungrab (item);
 	/* sync the ctrl-pts with the object in case the drag was canceled. */
 	gnm_pane_objects_drag (source_pane, NULL,
 		source_pane->drag.origin_x,
@@ -2680,7 +2680,7 @@ control_point_button_released (GocItem *item, int button, G_GNUC_UNUSED double x
 	so  = g_object_get_data (G_OBJECT (item), "so");
 	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
 	pane->drag.button = 0;
-	gnm_simple_canvas_ungrab (item, gdk_event_get_time (event));
+	gnm_simple_canvas_ungrab (item);
 	gnm_pane_slide_stop (pane);
 	control_point_set_cursor (scg, item);
 	if (idx == 8)

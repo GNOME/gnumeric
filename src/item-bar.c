@@ -1116,7 +1116,7 @@ item_bar_button_released (GocItem *item, int button, double x, double y)
 {
 	GnmItemBar *ib = GNM_ITEM_BAR (item);
 	if (item == goc_canvas_get_grabbed_item (item->canvas))
-		gnm_simple_canvas_ungrab (item, 0);
+		gnm_simple_canvas_ungrab (item);
 
 	if (ib->colrow_being_resized >= 0) {
 		if (ib->has_resize_guides)
