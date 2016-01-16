@@ -17,6 +17,7 @@ Morten:
 	  [#760104] [#760229] [#760231] [#760232] [#760544] [#760545]
 	* Fix R.DBINOM extreme-value case.  [#760230]
 	* New function AGM.
+	* Fix canvas problem leaving grab in place.  [#760639]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.26

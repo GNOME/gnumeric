@@ -1,3 +1,8 @@
+2016-01-16  Morten Welinder  <terra@gnome.org>
+
+	* src/item-bar.c (item_bar_button_pressed): Handle multiple clicks
+	without regrabbing the focus.  See #760639.
+
 2016-01-13  Morten Welinder  <terra@gnome.org>
 
 	* src/sstest.c (test_random_randsnorm)

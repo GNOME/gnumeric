@@ -869,14 +869,18 @@ colrow_tip_setlabel (GnmItemBar *ib, gboolean const is_cols, int size_pixels)
 static void
 item_bar_resize_stop (GnmItemBar *ib, int new_size)
 {
-	if (new_size != 0 && ib->colrow_being_resized >= 0)
-		scg_colrow_size_set (ib->pane->simple.scg,
-				     ib->is_col_header,
-				     ib->colrow_being_resized, new_size);
-	ib->colrow_being_resized = -1;
-	ib->has_resize_guides = FALSE;
-	scg_size_guide_stop (ib->pane->simple.scg);
-
+	if (ib->colrow_being_resized != -1) {
+		if (new_size != 0)
+			scg_colrow_size_set (ib->pane->simple.scg,
+					     ib->is_col_header,
+					     ib->colrow_being_resized,
+					     new_size);
+		ib->colrow_being_resized = -1;
+	}
+	if (ib->has_resize_guides) {
+		ib->has_resize_guides = FALSE;
+		scg_size_guide_stop (ib->pane->simple.scg);
+	}
 	if (ib->tip != NULL) {
 		gtk_widget_destroy (gtk_widget_get_toplevel (ib->tip));
 		ib->tip = NULL;
@@ -934,6 +938,12 @@ item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
 	GdkEventButton *bevent = &event->button;
 	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
+
+	if (ib->colrow_being_resized != -1 || ib->start_selection != -1) {
+		// This happens with repeated clicks on colrow divider.
+		// Ignore it.  Definitely don't regrab.
+		return TRUE;
+	}
 
 	if (button > 3)
 		return FALSE;
@@ -1104,9 +1114,10 @@ item_bar_motion (GocItem *item, double x_, double y_)
 static gboolean
 item_bar_button_released (GocItem *item, int button, double x, double y)
 {
-	GnmItemBar	*ib = GNM_ITEM_BAR (item);
+	GnmItemBar *ib = GNM_ITEM_BAR (item);
 	if (item == goc_canvas_get_grabbed_item (item->canvas))
 		gnm_simple_canvas_ungrab (item, 0);
+
 	if (ib->colrow_being_resized >= 0) {
 		if (ib->has_resize_guides)
 			item_bar_resize_stop (ib, ib->colrow_resize_size);
