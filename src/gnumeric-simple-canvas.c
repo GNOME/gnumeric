@@ -4,8 +4,11 @@
 #include "gnumeric-simple-canvas.h"
 
 #include "sheet-control-gui-priv.h"
+#include "gutils.h"
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
+
+static gboolean debug_canvas_grab;
 
 static GtkWidgetClass const *parent;
 static gint
@@ -34,6 +37,7 @@ gnm_simple_canvas_class_init (GtkWidgetClass *klass)
 	parent = g_type_class_peek_parent (klass);
 	klass->key_press_event	 = gnm_simple_canvas_key_press;
 	klass->key_release_event = gnm_simple_canvas_key_release;
+	debug_canvas_grab = gnm_debug_flag ("canvas-grab");
 }
 
 GSF_CLASS (GnmSimpleCanvas, gnm_simple_canvas,
@@ -57,6 +61,8 @@ gnm_simple_canvas_ungrab (GocItem *item, guint32 etime)
 	g_return_if_fail (gcanvas != NULL);
 
 	gcanvas->scg->grab_stack--;
+	if (debug_canvas_grab)
+		g_printerr ("Grab dec to %d\n", gcanvas->scg->grab_stack);
 	goc_item_ungrab (item);
 }
 
@@ -72,6 +78,8 @@ gnm_simple_canvas_grab (GocItem *item, unsigned int event_mask,
 	g_return_val_if_fail (gcanvas != NULL, TRUE);
 
 	gcanvas->scg->grab_stack++;
+	if (debug_canvas_grab)
+		g_printerr ("Grab inc to %d\n", gcanvas->scg->grab_stack);
 	goc_item_grab (item);
 
 	return res;
