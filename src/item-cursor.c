@@ -651,7 +651,6 @@ item_cursor_selection_motion (GocItem *item, double x_, double y_)
 	int style, button;
 	gint64 x = x_ * canvas->pixels_per_unit, y = y_ * canvas->pixels_per_unit;
 	GnmItemCursor *special_cursor;
-	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
 
 	if (ic->drag_button < 0) {
 		item_cursor_set_cursor (canvas, ic, x, y);
@@ -714,9 +713,7 @@ item_cursor_selection_motion (GocItem *item, double x_, double y_)
 
 	scg_special_cursor_bound_set (ic->scg, &ic->pos);
 
-	gnm_simple_canvas_grab (GOC_ITEM (special_cursor),
-		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
-		NULL, gdk_event_get_time (event));
+	gnm_simple_canvas_grab (GOC_ITEM (special_cursor));
 	gnm_pane_slide_init (pane);
 
 	goc_item_bounds_changed (GOC_ITEM (ic));
@@ -1111,9 +1108,7 @@ item_cursor_button_pressed (GocItem *item, int button, double x_, double y_)
 
 			ic->drag_button = button;
 			ic->drag_button_state = bevent->state;
-			gnm_simple_canvas_grab (item,
-				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
-				NULL, gdk_event_get_time (event));
+			gnm_simple_canvas_grab (item);
 		} else
 			scg_context_menu (ic->scg, event, FALSE, FALSE);
 		return TRUE;

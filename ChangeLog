@@ -2,6 +2,8 @@
 
 	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_ungrab): Drop
 	unused time argument.  All callers changed.
+	(gnm_simple_canvas_grab): Remove unused arguments and return
+	value.  All callers changed.
 
 	* src/item-bar.c (item_bar_button_pressed): Handle multiple clicks
 	without regrabbing the focus.  See #760639.

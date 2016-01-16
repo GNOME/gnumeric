@@ -946,9 +946,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 		else
 			scg_rangesel_bound (scg, pos.col, pos.row, pos.col, pos.row);
 		gnm_pane_slide_init (pane);
-		gnm_simple_canvas_grab (item,
-			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-			NULL, gdk_event_get_time (event));
+		gnm_simple_canvas_grab (item);
 		return TRUE;
 	}
 
@@ -959,9 +957,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 		scg_rangesel_start (scg, pos.col, pos.row, pos.col, pos.row);
 		ig->selecting = GNM_ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnm_pane_slide_init (pane);
-		gnm_simple_canvas_grab (item,
-			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-			NULL, gdk_event_get_time (event));
+		gnm_simple_canvas_grab (item);
 		return TRUE;
 	}
 
@@ -1026,9 +1022,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 		ig->last_click_time = gdk_event_get_time (event);
 		ig->selecting = GNM_ITEM_GRID_SELECTING_CELL_RANGE;
 		gnm_pane_slide_init (pane);
-		gnm_simple_canvas_grab (item,
-			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-			NULL, gdk_event_get_time (event));
+		gnm_simple_canvas_grab (item);
 		break;
 	}
 
@@ -1148,7 +1142,6 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 	SheetControlGUI *scg = ig->scg;
 	Sheet *sheet = scg_sheet (scg);
 	ItemGridSelectionType selecting = ig->selecting;
-	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
 
 	if (button != 1 && button != 2)
 		return FALSE;

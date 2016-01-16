@@ -66,21 +66,15 @@ gnm_simple_canvas_ungrab (GocItem *item)
 	goc_item_ungrab (item);
 }
 
-/* FIXME this funtion has been simplified a lot, if it really works like that
- we should remove unused args and not return anything except void */
-int
-gnm_simple_canvas_grab (GocItem *item, unsigned int event_mask,
-			GdkCursor *cursor, guint32 etime)
+void
+gnm_simple_canvas_grab (GocItem *item)
 {
 	GnmSimpleCanvas *gcanvas = GNM_SIMPLE_CANVAS(item->canvas);
-	int res = 0;
 
-	g_return_val_if_fail (gcanvas != NULL, TRUE);
+	g_return_if_fail (gcanvas != NULL);
 
 	gcanvas->scg->grab_stack++;
 	if (debug_canvas_grab)
 		g_printerr ("Grab inc to %d\n", gcanvas->scg->grab_stack);
 	goc_item_grab (item);
-
-	return res;
 }

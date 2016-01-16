@@ -1012,11 +1012,7 @@ item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 		ib->start_selection = element;
 		gnm_pane_slide_init (pane);
 	}
-	gnm_simple_canvas_grab
-		(item,
-		 GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-		 ib->change_cursor,
-		 gdk_event_get_time (event));
+	gnm_simple_canvas_grab (item);
 	return TRUE;
 }
 

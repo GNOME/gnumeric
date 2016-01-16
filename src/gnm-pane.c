@@ -2597,13 +2597,11 @@ gnm_pane_object_start_resize (GnmPane *pane, int button, guint64 x, gint64 y,
 			      SheetObject *so, int drag_type, gboolean is_creation)
 {
 	GocItem **ctrl_pts;
-	GdkEvent *event;
 
 	g_return_if_fail (GNM_IS_SO (so));
 	g_return_if_fail (0 <= drag_type);
 	g_return_if_fail (drag_type < 9);
 
-	event = goc_canvas_get_cur_event (GOC_CANVAS (pane));
 	ctrl_pts = g_hash_table_lookup (pane->drag.ctrl_pts, so);
 
 	g_return_if_fail (NULL != ctrl_pts);
@@ -2613,11 +2611,7 @@ gnm_pane_object_start_resize (GnmPane *pane, int button, guint64 x, gint64 y,
 					 NULL, NULL, NULL);
 		return;
 	}
-	gnm_simple_canvas_grab (ctrl_pts[drag_type],
-		GDK_POINTER_MOTION_MASK |
-		GDK_BUTTON_PRESS_MASK |
-		GDK_BUTTON_RELEASE_MASK,
-		NULL, gdk_event_get_time (event));
+	gnm_simple_canvas_grab (ctrl_pts[drag_type]);
 	pane->drag.created_objects = is_creation;
 	pane->drag.button = button;
 	pane->drag.last_x = pane->drag.origin_x = x;
@@ -2670,7 +2664,6 @@ static gboolean
 control_point_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	GnmPane *pane = GNM_PANE (item->canvas);
-	GdkEvent *event = goc_canvas_get_cur_event (item->canvas);
 	SheetControlGUI *scg = pane->simple.scg;
 	SheetObject *so;
 	int idx;
