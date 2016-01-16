@@ -4,6 +4,7 @@ Andreas:
 	* Read/write rich-text font-size from ODF files. [#759983]
 	* Read/write zoom values to/from ODF files in LO compatible way. [#700013]
 	* Read new attribute to am/pm element in ODF import. [#760043]
+	* Fix NETWORKDAYS. [#760576]
 
 Jean:
 	* Fuzzed file fixes.  [#760546]

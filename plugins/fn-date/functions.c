@@ -1017,8 +1017,32 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return value_new_error_VALUE (ei->pos);
 }
 
-/***************************************************************************/
+/**************************************************************************
+networkdays:
 
+in OpenFormula 1.2:
+The optional 4th parameter Workdays can be used to specify a different definition for the standard
+work week by passing in a list of numbers which define which days of the week are workdays
+(indicated by 0) or not (indicated by non-zero) in order Sunday, Monday,...,Saturday. So, the
+default definition of the work week excludes Saturday and Sunday and is: {1;0;0;0;0;0;1}. To
+define the work week as excluding Friday and Saturday, the third parameter would be:
+{0;0;0;0;0;1;1}.
+
+In the implementation, we are using g_date_get_weekday which returns
+ typedef enum
+{
+  G_DATE_BAD_WEEKDAY  = 0,
+  G_DATE_MONDAY       = 1,
+  G_DATE_TUESDAY      = 2,
+  G_DATE_WEDNESDAY    = 3,
+  G_DATE_THURSDAY     = 4,
+  G_DATE_FRIDAY       = 5,
+  G_DATE_SATURDAY     = 6,
+  G_DATE_SUNDAY       = 7
+} GDateWeekday;
+Since Sunday here is 7 rather than a 0 we need to make appropriate adjustments. 
+
+***************************************************************************/
 static GnmFuncHelp const help_networkdays[] = {
         { GNM_FUNC_HELP_NAME, F_("NETWORKDAYS:number of workdays in range") },
         { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
@@ -1026,31 +1050,73 @@ static GnmFuncHelp const help_networkdays[] = {
         { GNM_FUNC_HELP_ARG, F_("holidays:array of holidays")},
         { GNM_FUNC_HELP_ARG, F_("weekend:array of 0s and 1s, indicating whether a weekday "
 				"(S, M, T, W, T, F, S) is on the weekend, defaults to {1,0,0,0,0,0,1}")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} skipping weekends and @{holidays} in the process.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} "
+					"skipping weekends and @{holidays} in the process.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If an entry of @{weekend} is non-zero, the corresponding weekday is not a work day.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if the last argument is omitted.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15))" },
-        { GNM_FUNC_HELP_EXAMPLES, "=NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15),,{FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE})" },
+        { GNM_FUNC_HELP_EXAMPLES, "=NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15),,{0, 0, 0, 1, 1, 0, 0})" },
         { GNM_FUNC_HELP_SEEALSO, "WORKDAY"},
 	{ GNM_FUNC_HELP_END }
 };
 
+static int 
+networkdays_calc (GDate start_date, int start_serial, int end_serial,
+		  int n_non_weekend, gnm_float *weekends, int nholidays, gnm_float *holidays)
+{
+	int res = 0;
+	int old_start_serial = start_serial;
+	GDateWeekday weekday;
+	int i, weeks;
+	int h = 0;
+
+	weekday = g_date_get_weekday (&start_date);
+	if (weekday == G_DATE_BAD_WEEKDAY)
+		return -1;
+	if (weekday == G_DATE_SUNDAY)
+		weekday = 0;
+
+	weeks = (end_serial - start_serial)/7;
+	start_serial = start_serial + weeks * 7;
+	res = weeks * n_non_weekend;
+
+	for (i = start_serial; i <= end_serial; i++) {
+		if (!weekends[weekday])
+			res++;
+		weekday = (weekday + 1) % 7;
+	}
+
+	/*
+	 * we may have included holidays.
+	 */
+
+	while (h < nholidays && holidays[h] <= end_serial) {
+		if (holidays[h] >= old_start_serial)
+			res--;
+		h++;
+	}
+
+	return res;
+}
+
 static GnmValue *
 gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int start_serial, old_start_serial;
-	int end_serial, old_end_serial;
-	int res = 0;
-	GDate start_date, trouble;
+	int start_serial;
+	int end_serial;
+	int res, total_res = 0;
+	GDate start_date, trouble_mar, trouble_feb, end_date;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 	gnm_float *holidays = NULL;
 	gnm_float *weekends = NULL;
 	gnm_float const default_weekends[] = {1.,0.,0.,0.,0.,0.,1.};
 	int nholidays, nweekends, n_non_weekend = 0;
-	int i, weeks;
+	int i;
 	GDateWeekday weekday;
-	int h = 0;
+	gboolean includes_bad_day = FALSE;
+
+	/* Check the date period*/
 
 	start_serial = datetime_value_to_serial (argv[0], conv);
 	end_serial = datetime_value_to_serial (argv[1], conv);
@@ -1062,29 +1128,24 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		end_serial = tmp;
 	}
 
+	/* Make sure that start and end serial are valid */
 	if (start_serial <= 0 || end_serial <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	go_date_serial_to_g (&start_date, start_serial, conv);
 	if (!g_date_valid (&start_date))
 		goto bad;
+	go_date_serial_to_g (&end_date, end_serial, conv);
+	if (!g_date_valid (&end_date))
+		goto bad;
 
-	old_end_serial = end_serial;
-	old_start_serial = start_serial;
-
-	g_date_set_dmy (&trouble, 1, 3, 1900);
-	if (g_date_compare (&start_date, &trouble) < 0) {
-		GDate end_date;
-		go_date_serial_to_g (&end_date, end_serial, conv);
-		g_date_set_dmy (&trouble, 28, 2, 1900);
-		if (!g_date_valid (&end_date) || g_date_compare (&trouble, &end_date) < 0) {
-			/* time period includes 1900/2/29 */
-			end_serial--;
-		}
+	g_date_set_dmy (&trouble_mar, 1, 3, 1900);
+	if (g_date_compare (&start_date, &trouble_mar) < 0) {
+		g_date_set_dmy (&trouble_feb, 28, 2, 1900);
+		includes_bad_day =  (!g_date_valid (&end_date) || g_date_compare (&trouble_feb, &end_date) < 0);
 	}
 
-
-	weekday = g_date_get_weekday (&start_date);
+	/* get the weekend info */
 
 	if (argv[3]) {
 		GnmValue *result = NULL;
@@ -1104,6 +1165,8 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		nweekends = 7;
 	}
 
+	/* If everything is a weekend we know the answer already */
+
 	for (i = 0; i < 7; i++)
 		if (weekends[i] == 0)
 			n_non_weekend++;
@@ -1112,6 +1175,8 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			g_free (weekends);
 		return value_new_int (0);
 	}
+
+	/* Now get the holiday info */
 
 	if (argv[2]) {
 		int j;
@@ -1141,7 +1206,13 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			go_date_serial_to_g (&hol, hserial, conv);
 			if (!g_date_valid (&hol))
 				goto bad;
-			if (weekends[g_date_get_weekday (&hol) % 7] != 0.)
+			weekday = g_date_get_weekday (&hol);
+			if (weekday == G_DATE_BAD_WEEKDAY)
+				goto bad;
+			if (weekday == G_DATE_SUNDAY)
+				weekday = 0;
+			/* We skip holidays that are on the weekend */
+			if (weekends[weekday] != 0.)
 				continue;
 			holidays[j++] = hserial;
 		}
@@ -1151,31 +1222,30 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		nholidays = 0;
 	}
 
-	weeks = (end_serial - start_serial)/7;
-	start_serial = start_serial + weeks * 7;
-	res = weeks * n_non_weekend;
-
-	for (i = start_serial; i <= end_serial; i++) {
-		if (!weekends[weekday])
-			res++;
-		weekday = (weekday + 1) % 7;
-	}
-
-	/*
-	 * we may have included holidays.
-	 */
-
-	while (h < nholidays && holidays[h] <= old_end_serial) {
-		if (holidays[h] >= old_start_serial)
-			res--;
-		h++;
+	if (includes_bad_day) {
+		total_res = networkdays_calc (start_date, start_serial, 
+					      go_date_g_to_serial (&trouble_feb, conv),
+					      n_non_weekend, weekends, nholidays, holidays);
+		if (total_res < 0)
+			goto bad;
+		res = networkdays_calc (trouble_mar, go_date_g_to_serial (&trouble_mar, conv), 
+					end_serial,
+					n_non_weekend, weekends, nholidays, holidays);
+		if (res < 0)
+			goto bad;
+		total_res += res;
+	} else {
+		total_res = networkdays_calc (start_date, start_serial, end_serial,
+					n_non_weekend, weekends, nholidays, holidays);
+		if (total_res < 0)
+			goto bad;
 	}
 
 	if (weekends != default_weekends)
 		g_free (weekends);
 	g_free (holidays);
 
-	return value_new_int (res);
+	return value_new_int (total_res);
 
  bad:
 	if (weekends != default_weekends)
