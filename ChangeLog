@@ -1,3 +1,7 @@
+2016-01-20  Morten Welinder  <terra@gnome.org>
+
+	* src/complex.h: Namespace.  Mostly for macros.
+
 2016-01-16  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_ungrab): Drop

@@ -19,7 +19,7 @@
 /* ------------------------------------------------------------------------- */
 
 char *
-complex_to_string (complex_t const *src, char imunit)
+gnm_complex_to_string (gnm_complex const *src, char imunit)
 {
 	char *re_buffer = NULL;
 	char *im_buffer = NULL;
@@ -86,7 +86,7 @@ complex_to_string (complex_t const *src, char imunit)
 } while (0)
 
 /**
- * complex_from_string:
+ * gnm_complex_from_string:
  * @dst: return location
  * @src: string to parse
  * @imunit: (out): return location of imaginary unit.
@@ -100,7 +100,7 @@ complex_to_string (complex_t const *src, char imunit)
  * (2) We do not allow a thousands separator as in "1,000i".
  */
 int
-complex_from_string (complex_t *dst, char const *src, char *imunit)
+gnm_complex_from_string (gnm_complex *dst, char const *src, char *imunit)
 {
 	gnm_float x, y;
 	char *end;
@@ -124,7 +124,7 @@ complex_from_string (complex_t *dst, char const *src, char *imunit)
 
 	/* Case: "42", "+42", "-42", ...  */
 	if (*src == 0) {
-		complex_real (dst, x);
+		gnm_complex_real (dst, x);
 		*imunit = 'i';
 		return 0;
 	}
@@ -134,7 +134,7 @@ complex_from_string (complex_t *dst, char const *src, char *imunit)
 		*imunit = *src++;
 		EAT_SPACES (src);
 		if (*src == 0) {
-			complex_init (dst, 0, x);
+			gnm_complex_init (dst, 0, x);
 			return 0;
 		} else
 			return -1;
@@ -161,7 +161,7 @@ complex_from_string (complex_t *dst, char const *src, char *imunit)
 		*imunit = *src++;
 		EAT_SPACES (src);
 		if (*src == 0) {
-			complex_init (dst, x, y);
+			gnm_complex_init (dst, x, y);
 			return 0;
 		}
 	}
@@ -172,7 +172,7 @@ complex_from_string (complex_t *dst, char const *src, char *imunit)
 /* ------------------------------------------------------------------------- */
 
 int
-complex_invalid_p (complex_t const *src)
+gnm_complex_invalid_p (gnm_complex const *src)
 {
 	return !(gnm_finite (src->re) && gnm_finite (src->im));
 }

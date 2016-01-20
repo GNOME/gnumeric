@@ -105,14 +105,14 @@ enum {
 /**************************************************************************/
 
 static void
-gnm_fourier_fft (complex_t const *in, int n, int skip, complex_t **fourier, gboolean inverse)
+gnm_fourier_fft (gnm_complex const *in, int n, int skip, gnm_complex **fourier, gboolean inverse)
 {
-	complex_t  *fourier_1, *fourier_2;
+	gnm_complex  *fourier_1, *fourier_2;
 	int        i;
 	int        nhalf = n / 2;
 	gnm_float argstep;
 
-	*fourier = g_new (complex_t, n);
+	*fourier = g_new (gnm_complex, n);
 
 	if (n == 1) {
 		(*fourier)[0] = in[0];
@@ -124,16 +124,16 @@ gnm_fourier_fft (complex_t const *in, int n, int skip, complex_t **fourier, gboo
 
 	argstep = (inverse ? M_PIgnum : -M_PIgnum) / nhalf;
 	for (i = 0; i < nhalf; i++) {
-		complex_t dir, tmp;
+		gnm_complex dir, tmp;
 
-		complex_from_polar (&dir, 1, argstep * i);
-		complex_mul (&tmp, &fourier_2[i], &dir);
+		gnm_complex_from_polar (&dir, 1, argstep * i);
+		gnm_complex_mul (&tmp, &fourier_2[i], &dir);
 
-		complex_add (&((*fourier)[i]), &fourier_1[i], &tmp);
-		complex_scale_real (&((*fourier)[i]), 0.5);
+		gnm_complex_add (&((*fourier)[i]), &fourier_1[i], &tmp);
+		gnm_complex_scale_real (&((*fourier)[i]), 0.5);
 
-		complex_sub (&((*fourier)[i + nhalf]), &fourier_1[i], &tmp);
-		complex_scale_real (&((*fourier)[i + nhalf]), 0.5);
+		gnm_complex_sub (&((*fourier)[i + nhalf]), &fourier_1[i], &tmp);
+		gnm_complex_scale_real (&((*fourier)[i + nhalf]), 0.5);
 	}
 
 	g_free (fourier_1);
@@ -597,7 +597,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue const * const Pt = argv[0];
 	int i;
 	GSList *missing0 = NULL, *missing1 = NULL;
-	complex_t *in, *out = NULL;
+	gnm_complex *in, *out = NULL;
 
 	int const cols = value_area_get_width (Pt, ep);
 	int const rows = value_area_get_height (Pt, ep);
@@ -795,7 +795,7 @@ no_absc:
 	}
 
 	/* Transform and return the result */
-	in = g_new0 (complex_t, nb);
+	in = g_new0 (gnm_complex, nb);
 	for (i = 0; i < n0; i++){
 		in[i].re = ord[i];
 	}
@@ -848,7 +848,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue const * const Pt = argv[0];
 	int i;
 	GSList *missing0 = NULL;
-	complex_t *in, *out = NULL;
+	gnm_complex *in, *out = NULL;
 
 	int const cols = value_area_get_width (Pt, ep);
 	int const rows = value_area_get_height (Pt, ep);
@@ -890,7 +890,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		nb *= 2;
 
 	/* Transform and return the result */
-	in = g_new0 (complex_t, nb);
+	in = g_new0 (gnm_complex, nb);
 	for (i = 0; i < n0; i++)
 		in[i].re = ord[i];
 	g_free (ord);
@@ -901,7 +901,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		res = value_new_array_empty (1 , nb);
 		for (i = 0; i < nb; i++)
 			res->v_array.vals[0][i] = value_new_string_nocopy
-				(complex_to_string (&(out[i]), 'i'));
+				(gnm_complex_to_string (&(out[i]), 'i'));
 		g_free (out);
 	} else if (out && sep_columns) {
 		res = value_new_array_empty (2 , nb);

@@ -10,9 +10,9 @@ gnm_float stirlerr(gnm_float n);
 gnm_float gnm_gamma (gnm_float x);
 gnm_float gnm_fact (gnm_float x);
 int       qfactf (gnm_float x, GnmQuad *mant, int *exp2);
-void complex_gamma (complex_t *dst, complex_t const *src);
-void complex_fact (complex_t *dst, complex_t const *src);
-void complex_igamma (complex_t *dst, complex_t const  *a, complex_t const *z,
+void complex_gamma (gnm_complex *dst, gnm_complex const *src);
+void complex_fact (gnm_complex *dst, gnm_complex const *src);
+void complex_igamma (gnm_complex *dst, gnm_complex const  *a, gnm_complex const *z,
 		     gboolean lower, gboolean regularized);
 
 gnm_float gnm_lbeta (gnm_float a, gnm_float b);

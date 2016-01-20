@@ -71,23 +71,23 @@
  ***********************************************************************/
 
 static inline void
-gsl_complex_mul_imag (complex_t const *a, gnm_float y, complex_t *res)
+gsl_complex_mul_imag (gnm_complex const *a, gnm_float y, gnm_complex *res)
 {                               /* z=a*iy */
-        complex_init (res, -y * GSL_IMAG (a), y * GSL_REAL (a));
+        gnm_complex_init (res, -y * GSL_IMAG (a), y * GSL_REAL (a));
 }
 
 void
-gsl_complex_inverse (complex_t const *a, complex_t *res)
+gsl_complex_inverse (gnm_complex const *a, gnm_complex *res)
 {                               /* z=1/a */
-        gnm_float s = 1.0 / complex_mod (a);
+        gnm_float s = 1.0 / gnm_complex_mod (a);
 
-	complex_init (res, (GSL_REAL (a) * s) * s, -(GSL_IMAG (a) * s) * s);
+	gnm_complex_init (res, (GSL_REAL (a) * s) * s, -(GSL_IMAG (a) * s) * s);
 }
 
 void
-gsl_complex_negative (complex_t const *a, complex_t *res)
+gsl_complex_negative (gnm_complex const *a, gnm_complex *res)
 {
-	complex_init (res, -GSL_REAL (a), -GSL_IMAG (a));
+	gnm_complex_init (res, -GSL_REAL (a), -GSL_IMAG (a));
 }
 
 /**********************************************************************
@@ -95,21 +95,21 @@ gsl_complex_negative (complex_t const *a, complex_t *res)
  **********************************************************************/
 
 static void
-gsl_complex_arcsin_real (gnm_float a, complex_t *res)
+gsl_complex_arcsin_real (gnm_float a, gnm_complex *res)
 {                               /* z = arcsin(a) */
          if (gnm_abs (a) <= 1.0) {
-	         complex_init (res, gnm_asin (a), 0.0);
+	         gnm_complex_init (res, gnm_asin (a), 0.0);
 	 } else {
 	         if (a < 0.0) {
-		         complex_init (res, -M_PI_2gnum, gnm_acosh (-a));
+		         gnm_complex_init (res, -M_PI_2gnum, gnm_acosh (-a));
 		 } else {
-		         complex_init (res, M_PI_2gnum, -gnm_acosh (a));
+		         gnm_complex_init (res, M_PI_2gnum, -gnm_acosh (a));
 		 }
 	 }
 }
 
 void
-gsl_complex_arcsin (complex_t const *a, complex_t *res)
+gsl_complex_arcsin (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arcsin(a) */
         gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
@@ -158,27 +158,27 @@ gsl_complex_arcsin (complex_t const *a, complex_t *res)
 		        imag = gnm_log (A + gnm_sqrt (A * A - 1));
 		}
 
-		complex_init (res, (R >= 0) ? real : -real, (I >= 0) ?
+		gnm_complex_init (res, (R >= 0) ? real : -real, (I >= 0) ?
 			      imag : -imag);
 	}
 }
 
 static void
-gsl_complex_arccos_real (gnm_float a, complex_t *res)
+gsl_complex_arccos_real (gnm_float a, gnm_complex *res)
 {                               /* z = arccos(a) */
         if (gnm_abs (a) <= 1.0) {
-	        complex_init (res, gnm_acos (a), 0);
+	        gnm_complex_init (res, gnm_acos (a), 0);
 	} else {
 	        if (a < 0.0) {
-		        complex_init (res, M_PIgnum, -gnm_acosh (-a));
+		        gnm_complex_init (res, M_PIgnum, -gnm_acosh (-a));
 		} else {
-		        complex_init (res, 0, gnm_acosh (a));
+		        gnm_complex_init (res, 0, gnm_acosh (a));
 		}
 	}
 }
 
 void
-gsl_complex_arccos (complex_t const *a, complex_t *res)
+gsl_complex_arccos (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arccos(a) */
         gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
@@ -228,18 +228,18 @@ gsl_complex_arccos (complex_t const *a, complex_t *res)
 		        imag = gnm_log (A + gnm_sqrt (A * A - 1));
 		}
 
-		complex_init (res, (R >= 0) ? real : M_PIgnum - real, (I >= 0) ?
+		gnm_complex_init (res, (R >= 0) ? real : M_PIgnum - real, (I >= 0) ?
 			      -imag : imag);
 	}
 }
 
 void
-gsl_complex_arctan (complex_t const *a, complex_t *res)
+gsl_complex_arctan (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arctan(a) */
         gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
 	if (I == 0) {
-	        complex_init (res, gnm_atan (R), 0);
+	        gnm_complex_init (res, gnm_atan (R), 0);
 	} else {
 	        /* FIXME: This is a naive implementation which does not fully
 		 * take into account cancellation errors, overflow, underflow
@@ -263,14 +263,14 @@ gsl_complex_arctan (complex_t const *a, complex_t *res)
 		}
 		if (R == 0) {
 		        if (I > 1) {
-			        complex_init (res, M_PI_2gnum, imag);
+			        gnm_complex_init (res, M_PI_2gnum, imag);
 			} else if (I < -1) {
-			        complex_init (res, -M_PI_2gnum, imag);
+			        gnm_complex_init (res, -M_PI_2gnum, imag);
 			} else {
-			        complex_init (res, 0, imag);
+			        gnm_complex_init (res, 0, imag);
 			}
 		} else {
-		        complex_init (res, 0.5 * gnm_atan2 (2 * R,
+		        gnm_complex_init (res, 0.5 * gnm_atan2 (2 * R,
 							    ((1 + r) * (1 - r))),
 				      imag);
 		}
@@ -278,24 +278,24 @@ gsl_complex_arctan (complex_t const *a, complex_t *res)
 }
 
 void
-gsl_complex_arcsec (complex_t const *a, complex_t *res)
+gsl_complex_arcsec (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arcsec(a) */
         gsl_complex_inverse (a, res);
 	gsl_complex_arccos (res, res);
 }
 
 void
-gsl_complex_arccsc (complex_t const *a, complex_t *res)
+gsl_complex_arccsc (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arccsc(a) */
         gsl_complex_inverse (a, res);
 	gsl_complex_arcsin (res, res);
 }
 
 void
-gsl_complex_arccot (complex_t const *a, complex_t *res)
+gsl_complex_arccot (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arccot(a) */
         if (GSL_REAL (a) == 0.0 && GSL_IMAG (a) == 0.0) {
-	        complex_init (res, M_PI_2gnum, 0);
+	        gnm_complex_init (res, M_PI_2gnum, 0);
 	} else {
 	        gsl_complex_inverse (a, res);
 		gsl_complex_arctan (res, res);
@@ -307,23 +307,23 @@ gsl_complex_arccot (complex_t const *a, complex_t *res)
  **********************************************************************/
 
 void
-gsl_complex_sinh (complex_t const *a, complex_t *res)
+gsl_complex_sinh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = sinh(a) */
         gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
-	complex_init (res, gnm_sinh (R) * gnm_cos (I), cosh (R) * gnm_sin (I));
+	gnm_complex_init (res, gnm_sinh (R) * gnm_cos (I), cosh (R) * gnm_sin (I));
 }
 
 void
-gsl_complex_cosh (complex_t const *a, complex_t *res)
+gsl_complex_cosh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = cosh(a) */
         gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
-	complex_init (res, cosh (R) * gnm_cos (I), gnm_sinh (R) * gnm_sin (I));
+	gnm_complex_init (res, cosh (R) * gnm_cos (I), gnm_sinh (R) * gnm_sin (I));
 }
 
 void
-gsl_complex_tanh (complex_t const *a, complex_t *res)
+gsl_complex_tanh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = tanh(a) */
         gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
@@ -332,7 +332,7 @@ gsl_complex_tanh (complex_t const *a, complex_t *res)
 			 gnm_pow (gnm_cos (I), 2.0) +
 			 gnm_pow (gnm_sinh (R), 2.0);
 
-		 complex_init (res, gnm_sinh (R) * cosh (R) / D,
+		 gnm_complex_init (res, gnm_sinh (R) * cosh (R) / D,
 			       0.5 * gnm_sin (2 * I) / D);
 	} else {
 	         gnm_float D =
@@ -340,27 +340,27 @@ gsl_complex_tanh (complex_t const *a, complex_t *res)
 			 gnm_pow (gnm_sinh (R), 2.0);
 		 gnm_float F = 1 + gnm_pow (gnm_cos (I) / gnm_sinh (R), 2.0);
 
-		 complex_init (res, 1.0 / (gnm_tanh (R) * F),
+		 gnm_complex_init (res, 1.0 / (gnm_tanh (R) * F),
 			       0.5 * gnm_sin (2 * I) / D);
 	}
 }
 
 void
-gsl_complex_sech (complex_t const *a, complex_t *res)
+gsl_complex_sech (gnm_complex const *a, gnm_complex *res)
 {                               /* z = sech(a) */
         gsl_complex_cosh (a, res);
 	gsl_complex_inverse (res, res);
 }
 
 void
-gsl_complex_csch (complex_t const *a, complex_t *res)
+gsl_complex_csch (gnm_complex const *a, gnm_complex *res)
 {                               /* z = csch(a) */
         gsl_complex_sinh (a, res);
 	gsl_complex_inverse (res, res);
 }
 
 void
-gsl_complex_coth (complex_t const *a, complex_t *res)
+gsl_complex_coth (gnm_complex const *a, gnm_complex *res)
 {                               /* z = coth(a) */
         gsl_complex_tanh (a, res);
 	gsl_complex_inverse (res, res);
@@ -371,7 +371,7 @@ gsl_complex_coth (complex_t const *a, complex_t *res)
  **********************************************************************/
 
 void
-gsl_complex_arcsinh (complex_t const *a, complex_t *res)
+gsl_complex_arcsinh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arcsinh(a) */
         gsl_complex_mul_imag (a, 1.0, res);
 	gsl_complex_arcsin (res, res);
@@ -379,25 +379,25 @@ gsl_complex_arcsinh (complex_t const *a, complex_t *res)
 }
 
 void
-gsl_complex_arccosh (complex_t const *a, complex_t *res)
+gsl_complex_arccosh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arccosh(a) */
         gsl_complex_arccos (a, res);
 	gsl_complex_mul_imag (res, GSL_IMAG (res) > 0 ? -1.0 : 1.0, res);
 }
 
 static void
-gsl_complex_arctanh_real (gnm_float a, complex_t *res)
+gsl_complex_arctanh_real (gnm_float a, gnm_complex *res)
 {                               /* z = arctanh(a) */
         if (a > -1.0 && a < 1.0) {
-	        complex_init (res, gnm_atanh (a), 0);
+	        gnm_complex_init (res, gnm_atanh (a), 0);
 	} else {
-	        complex_init (res, gnm_atanh (1 / a),
+	        gnm_complex_init (res, gnm_atanh (1 / a),
 			      (a < 0) ? M_PI_2gnum : -M_PI_2gnum);
 	}
 }
 
 void
-gsl_complex_arctanh (complex_t const *a, complex_t *res)
+gsl_complex_arctanh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arctanh(a) */
         if (GSL_IMAG (a) == 0.0) {
 	        gsl_complex_arctanh_real (GSL_REAL (a), res);
@@ -409,21 +409,21 @@ gsl_complex_arctanh (complex_t const *a, complex_t *res)
 }
 
 void
-gsl_complex_arcsech (complex_t const *a, complex_t *res)
+gsl_complex_arcsech (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arcsech(a); */
         gsl_complex_inverse (a, res);
 	gsl_complex_arccosh (res, res);
 }
 
 void
-gsl_complex_arccsch (complex_t const *a, complex_t *res)
+gsl_complex_arccsch (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arccsch(a); */
         gsl_complex_inverse (a, res);
 	gsl_complex_arcsinh (res, res);
 }
 
 void
-gsl_complex_arccoth (complex_t const *a, complex_t *res)
+gsl_complex_arccoth (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arccoth(a); */
         gsl_complex_inverse (a, res);
 	gsl_complex_arctanh (res, res);

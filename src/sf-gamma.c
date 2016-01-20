@@ -1187,116 +1187,116 @@ static const guint32 lanczos_denom[G_N_ELEMENTS(lanczos_num)] = {
 };
 
 void
-complex_gamma (complex_t *dst, complex_t const *src)
+complex_gamma (gnm_complex *dst, gnm_complex const *src)
 {
-	if (complex_real_p (src)) {
-		complex_init (dst, gnm_gamma (src->re), 0);
+	if (gnm_complex_real_p (src)) {
+		gnm_complex_init (dst, gnm_gamma (src->re), 0);
 	} else if (src->re < 0) {
 		/* Gamma(z) = pi / (sin(pi*z) * Gamma(-z+1)) */
-		complex_t a, b, mz;
+		gnm_complex a, b, mz;
 
-		complex_init (&mz, -src->re, -src->im);
+		gnm_complex_init (&mz, -src->re, -src->im);
 		complex_fact (&a, &mz);
 
-		complex_init (&b,
+		gnm_complex_init (&b,
 			      M_PIgnum * gnm_fmod (src->re, 2),
 			      M_PIgnum * src->im);
 		/* Hmm... sin overflows when b.im is large.  */
-		complex_sin (&b, &b);
+		gnm_complex_sin (&b, &b);
 
-		complex_mul (&a, &a, &b);
+		gnm_complex_mul (&a, &a, &b);
 
-		complex_init (&b, M_PIgnum, 0);
+		gnm_complex_init (&b, M_PIgnum, 0);
 
-		complex_div (dst, &b, &a);
+		gnm_complex_div (dst, &b, &a);
 	} else {
-		complex_t zmh, zmhd2, zmhpg, f, f2, p, q, pq;
+		gnm_complex zmh, zmhd2, zmhpg, f, f2, p, q, pq;
 		int i;
 
 		i = G_N_ELEMENTS(lanczos_num) - 1;
-		complex_init (&p, lanczos_num[i], 0);
-		complex_init (&q, lanczos_denom[i], 0);
+		gnm_complex_init (&p, lanczos_num[i], 0);
+		gnm_complex_init (&q, lanczos_denom[i], 0);
 		while (--i >= 0) {
-			complex_mul (&p, &p, src);
+			gnm_complex_mul (&p, &p, src);
 			p.re += lanczos_num[i];
-			complex_mul (&q, &q, src);
+			gnm_complex_mul (&q, &q, src);
 			q.re += lanczos_denom[i];
 		}
-		complex_div (&pq, &p, &q);
+		gnm_complex_div (&pq, &p, &q);
 
-		complex_init (&zmh, src->re - 0.5, src->im);
-		complex_init (&zmhpg, zmh.re + lanczos_g, zmh.im);
-		complex_init (&zmhd2, zmh.re * 0.5, zmh.im * 0.5);
-		complex_pow (&f, &zmhpg, &zmhd2);
+		gnm_complex_init (&zmh, src->re - 0.5, src->im);
+		gnm_complex_init (&zmhpg, zmh.re + lanczos_g, zmh.im);
+		gnm_complex_init (&zmhd2, zmh.re * 0.5, zmh.im * 0.5);
+		gnm_complex_pow (&f, &zmhpg, &zmhd2);
 
 		zmh.re = -zmh.re; zmh.im = -zmh.im;
-		complex_exp (&f2, &zmh);
-		complex_mul (&f2, &f, &f2);
-		complex_mul (&f2, &f2, &f);
+		gnm_complex_exp (&f2, &zmh);
+		gnm_complex_mul (&f2, &f, &f2);
+		gnm_complex_mul (&f2, &f2, &f);
 
-		complex_mul (dst, &f2, &pq);
+		gnm_complex_mul (dst, &f2, &pq);
 	}
 }
 
 /* ------------------------------------------------------------------------- */
 
 void
-complex_fact (complex_t *dst, complex_t const *src)
+complex_fact (gnm_complex *dst, gnm_complex const *src)
 {
-	if (complex_real_p (src)) {
-		complex_init (dst, gnm_fact (src->re), 0);
+	if (gnm_complex_real_p (src)) {
+		gnm_complex_init (dst, gnm_fact (src->re), 0);
 	} else {
 		/*
 		 * This formula is valid for all arguments except zero
 		 * which we conveniently handled above.
 		 */
-		complex_t gz;
+		gnm_complex gz;
 		complex_gamma (&gz, src);
-		complex_mul (dst, &gz, src);
+		gnm_complex_mul (dst, &gz, src);
 	}
 }
 
 /* ------------------------------------------------------------------------- */
 
 static void
-igamma_cf (complex_t *dst, const complex_t *a, const complex_t *z)
+igamma_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 {
-	complex_t A0, A1, B0, B1;
+	gnm_complex A0, A1, B0, B1;
 	int i;
 	const gboolean debug_cf = FALSE;
 
-	complex_init (&A0, 1, 0);
-	complex_init (&A1, 0, 0);
-	complex_init (&B0, 0, 0);
-	complex_init (&B1, 1, 0);
+	gnm_complex_init (&A0, 1, 0);
+	gnm_complex_init (&A1, 0, 0);
+	gnm_complex_init (&B0, 0, 0);
+	gnm_complex_init (&B1, 1, 0);
 
 	for (i = 1; i < 100; i++) {
-		complex_t ai, bi, t1, t2, c1, c2, A2, B2;
+		gnm_complex ai, bi, t1, t2, c1, c2, A2, B2;
 		gnm_float m;
 		const gnm_float BIG = GNM_const(18446744073709551616.0);
 
 		if (i == 1)
-			complex_init (&ai, 1, 0);
+			gnm_complex_init (&ai, 1, 0);
 		else if (i & 1) {
 			gnm_float f = (i >> 1);
-			complex_init (&ai, z->re * f, z->im * f);
+			gnm_complex_init (&ai, z->re * f, z->im * f);
 		} else {
-			complex_t f;
-			complex_init (&f, -(a->re + ((i >> 1) - 1)), -a->im);
-			complex_mul (&ai, &f, z);
+			gnm_complex f;
+			gnm_complex_init (&f, -(a->re + ((i >> 1) - 1)), -a->im);
+			gnm_complex_mul (&ai, &f, z);
 		}
-		complex_init (&bi, a->re + (i - 1), a->im);
+		gnm_complex_init (&bi, a->re + (i - 1), a->im);
 
 		/* Update A. */
-		complex_mul (&t1, &bi, &A1);
-		complex_mul (&t2, &ai, &A0);
-		complex_add (&A2, &t1, &t2);
+		gnm_complex_mul (&t1, &bi, &A1);
+		gnm_complex_mul (&t2, &ai, &A0);
+		gnm_complex_add (&A2, &t1, &t2);
 		A0 = A1; A1 = A2;
 
 		/* Update B. */
-		complex_mul (&t1, &bi, &B1);
-		complex_mul (&t2, &ai, &B0);
-		complex_add (&B2, &t1, &t2);
+		gnm_complex_mul (&t1, &bi, &B1);
+		gnm_complex_mul (&t2, &ai, &B0);
+		gnm_complex_add (&B2, &t1, &t2);
 		B0 = B1; B1 = B2;
 
 		/* Rescale */
@@ -1315,13 +1315,13 @@ igamma_cf (complex_t *dst, const complex_t *a, const complex_t *z)
 		}
 
 		/* Check for convergence */
-		complex_mul (&t1, &A1, &B0);
-		complex_mul (&t2, &A0, &B1);
-		complex_sub (&c1, &t1, &t2);
+		gnm_complex_mul (&t1, &A1, &B0);
+		gnm_complex_mul (&t2, &A0, &B1);
+		gnm_complex_sub (&c1, &t1, &t2);
 
-		complex_mul (&c2, &B0, &B1);
+		gnm_complex_mul (&c2, &B0, &B1);
 
-		complex_div (&t1, &A1, &B1);
+		gnm_complex_div (&t1, &A1, &B1);
 		if (debug_cf) {
 			g_printerr ("  a : %.20g + %.20g I\n", ai.re, ai.im);
 			g_printerr ("  b : %.20g + %.20g I\n", bi.re, bi.im);
@@ -1330,7 +1330,7 @@ igamma_cf (complex_t *dst, const complex_t *a, const complex_t *z)
 			g_printerr ("%3d : %.20g + %.20g I\n", i, t1.re, t1.im);
 		}
 
-		if (complex_mod (&c1) <= complex_mod (&c2) * (16 * GNM_EPSILON))
+		if (gnm_complex_mod (&c1) <= gnm_complex_mod (&c2) * (16 * GNM_EPSILON))
 			break;
 	}
 
@@ -1341,31 +1341,31 @@ igamma_cf (complex_t *dst, const complex_t *a, const complex_t *z)
 		return;
 	}
 
-	complex_div (dst, &A1, &B1);
+	gnm_complex_div (dst, &A1, &B1);
 }
 
 
 void
-complex_igamma (complex_t *dst, const complex_t *a, const complex_t *z,
+complex_igamma (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z,
 		gboolean lower, gboolean regularized)
 {
-	complex_t res, f, mz;
+	gnm_complex res, f, mz;
 
-	if (complex_zero_p (a)) {
+	if (gnm_complex_zero_p (a)) {
 		if (!lower && !regularized)
 			complex_gamma (dst, z);
 		else
-			complex_init (dst, lower ? 0 : 1, 0);
+			gnm_complex_init (dst, lower ? 0 : 1, 0);
 		return;
 	}
 
-	if (complex_real_p (a) && a->re >= 0 &&
-	    complex_real_p (z) && z->re >= 0) {
-		complex_init (&res, pgamma (z->re, a->re, 1, lower, FALSE), 0);
+	if (gnm_complex_real_p (a) && a->re >= 0 &&
+	    gnm_complex_real_p (z) && z->re >= 0) {
+		gnm_complex_init (&res, pgamma (z->re, a->re, 1, lower, FALSE), 0);
 		if (!regularized) {
-			complex_t g;
+			gnm_complex g;
 			complex_gamma (&g, a);
-			complex_mul (&res, &res, &g);
+			gnm_complex_mul (&res, &res, &g);
 		}
 		*dst = res;
 		return;
@@ -1379,24 +1379,24 @@ complex_igamma (complex_t *dst, const complex_t *a, const complex_t *z,
 	 */
 
        	mz.re = -z->re, mz.im = -z->im;
-	complex_exp (&f, &mz);
-	complex_mul (&res, &res, &f);
-	complex_pow (&f, z, a);
-	complex_mul (&res, &res, &f);
+	gnm_complex_exp (&f, &mz);
+	gnm_complex_mul (&res, &res, &f);
+	gnm_complex_pow (&f, z, a);
+	gnm_complex_mul (&res, &res, &f);
 
 	if (!regularized && lower) {
 		/* Nothing */
 	} else {
-		complex_t g;
+		gnm_complex g;
 		complex_gamma (&g, a);
 
 		if (regularized) {
-			complex_div (&res, &res, &g);
+			gnm_complex_div (&res, &res, &g);
 			if (!lower)
 				res.re = 1 - res.re;
 		} else {
 			/* !lower here */
-			complex_sub (&res, &g, &res);
+			gnm_complex_sub (&res, &g, &res);
 		}
 	}
 

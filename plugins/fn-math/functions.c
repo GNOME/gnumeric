@@ -1032,10 +1032,10 @@ gnumeric_igamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gboolean lower = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
 	gboolean reg = argv[3] ? value_get_as_checked_bool (argv[3]) : TRUE;
 	gboolean re = argv[4] ? value_get_as_checked_bool (argv[4]) : TRUE;
-	complex_t ig, ca, cz;
+	gnm_complex ig, ca, cz;
 
-	complex_init (&ca, a, 0);
-	complex_init (&cz, z, 0);
+	gnm_complex_init (&ca, a, 0);
+	gnm_complex_init (&cz, z, 0);
 	complex_igamma (&ig, &ca, &cz, lower, reg);
 
 	return value_new_float (re ? ig.re : ig.im);
