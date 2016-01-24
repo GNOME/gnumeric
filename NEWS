@@ -15,6 +15,7 @@ Morten:
 	* Fuzzed file fixes.  [#760046] [#760085] [#760087] [#760089]
 	  [#760043] [#760103] [#760102] [#760101] [#760105] [#760106]
 	  [#760104] [#760229] [#760231] [#760232] [#760544] [#760545]
+	  [#761023]
 	* Fix R.DBINOM extreme-value case.  [#760230]
 	* New function AGM.
 	* Fix canvas problem leaving grab in place.  [#760639]

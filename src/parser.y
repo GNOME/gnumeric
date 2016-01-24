@@ -1260,6 +1260,8 @@ yylex (void)
 			state->ptr = g_utf8_next_char (state->ptr);
 		} while (g_unichar_isdigit (c));
 		is_number = TRUE;
+		if (c == 0)
+			state->ptr--;
 	}
 
 	if (is_number) {
