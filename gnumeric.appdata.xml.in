@@ -19,4 +19,5 @@ files with Microsoft Excel and programs supporting the ODS standard.</_p>
     <kudo>HiDpiIcon</kudo>
     <kudo>ModernToolkit</kudo>
   </kudos>
+  <project_group>GNOME</project_group>
 </application>
