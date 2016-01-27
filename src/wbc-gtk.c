@@ -2192,9 +2192,40 @@ cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
 /******************************************************************************/
 
 static void
+dump_size_tree (GtkWidget *w, gpointer indent_)
+{
+	int indent = GPOINTER_TO_INT (indent_);
+	int h1, h2;
+	GtkAllocation a;
+
+	g_printerr ("%*s", indent, "");
+	if (gtk_widget_get_name (w))
+		g_printerr ("\"%s\" ", gtk_widget_get_name (w));
+
+	gtk_widget_get_preferred_height (w, &h1, &h2);
+	gtk_widget_get_allocation (w, &a);
+
+	g_printerr ("%s %p viz=%d act=%dx%d minheight=%d natheight=%d\n",
+		    g_type_name_from_instance ((GTypeInstance *)w), w,
+		    gtk_widget_get_visible (w),
+		    a.width, a.height,
+		    h1, h2);
+
+	if (GTK_IS_CONTAINER (w)) {
+		gtk_container_foreach (GTK_CONTAINER (w),
+				       dump_size_tree,
+				       GINT_TO_POINTER (indent + 2));
+	}
+}
+
+
+static void
 cb_workbook_debug_info (WBCGtk *wbcg)
 {
 	Workbook *wb = wb_control_get_workbook (GNM_WBC (wbcg));
+
+	if (gnm_debug_flag ("notebook-size"))
+		dump_size_tree (GTK_WIDGET (wbcg_toplevel (wbcg)), GINT_TO_POINTER (0));
 
 	if (gnm_debug_flag ("deps")) {
 		dependents_dump (wb);
@@ -2818,7 +2849,8 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 
 	/* Dependency debugger */
 	debug_button = GET_GUI_ITEM ("debug_button");
-	if (gnm_debug_flag ("deps") ||
+	if (gnm_debug_flag ("notebook-size") ||
+	    gnm_debug_flag ("deps") ||
 	    gnm_debug_flag ("expr-sharer") ||
 	    gnm_debug_flag ("style-optimize") ||
 	    gnm_debug_flag ("name-collections")) {
@@ -3549,27 +3581,6 @@ cb_tcm_hide (GtkWidget *widget, GtkWidget *box)
 }
 
 static void
-dump_size_tree (GtkWidget *w, gpointer indent_)
-{
-	int indent = GPOINTER_TO_INT (indent_);
-	int h1, h2;
-
-	g_printerr ("%*s", indent, "");
-	if (gtk_widget_get_name (w))
-		g_printerr ("\"%s\" ", gtk_widget_get_name (w));
-
-	gtk_widget_get_preferred_height (w, &h1, &h2);
-	g_printerr ("%s %p %d %d\n", g_type_name_from_instance ((GTypeInstance *)w), w, h1, h2);
-
-	if (GTK_IS_CONTAINER (w)) {
-		gtk_container_foreach (GTK_CONTAINER (w),
-				       dump_size_tree,
-				       GINT_TO_POINTER (indent + 2));
-	}
-}
-
-
-static void
 toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEvent *event)
 {
 	GtkWidget *box = gtk_widget_get_parent (GTK_WIDGET (tb));
@@ -3703,6 +3714,9 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		const struct ToolbarInfo *ti;
 		GtkWidget *box;
 		GtkPositionType pos = gnm_conf_get_toolbar_position (name);
+
+		// See bug 761142.  This isn't supposed to be necessary.
+		gtk_style_context_invalidate (gtk_widget_get_style_context (w));
 
 		if (gnm_conf_get_detachable_toolbars ()) {
 			box = gtk_handle_box_new ();

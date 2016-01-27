@@ -19,6 +19,7 @@ Morten:
 	* Fix R.DBINOM extreme-value case.  [#760230]
 	* New function AGM.
 	* Fix canvas problem leaving grab in place.  [#760639]
+	* Work around gtk+ bug causing growing windows.  [#761142]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.26
