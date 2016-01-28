@@ -7,7 +7,9 @@ Andreas:
 	* Fix NETWORKDAYS. [#760576]
 
 Jean:
-	* Fuzzed file fixes.  [#760546]
+	* Fuzzed file fix.  [#760546]
+	* Fix data labels when the source is a range with several rows and
+	 columns. [#761048]
 
 Morten:
 	* Teach ssconvert to split sheets into separate .txt files [#694408]
@@ -15,11 +17,9 @@ Morten:
 	* Fuzzed file fixes.  [#760046] [#760085] [#760087] [#760089]
 	  [#760043] [#760103] [#760102] [#760101] [#760105] [#760106]
 	  [#760104] [#760229] [#760231] [#760232] [#760544] [#760545]
-	  [#761023]
 	* Fix R.DBINOM extreme-value case.  [#760230]
 	* New function AGM.
 	* Fix canvas problem leaving grab in place.  [#760639]
-	* Work around gtk+ bug causing growing windows.  [#761142]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.26

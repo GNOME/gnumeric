@@ -929,6 +929,28 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 		}
 		if (vec->strs && vec->strs->len > i)
 			v = g_ptr_array_index (vec->strs, i);
+	} else if (VALUE_IS_CELLRANGE (vec->val)) {
+		Sheet *start_sheet, *end_sheet;
+		GnmRange r;
+		if (vec->strs == NULL)
+			vec->strs = g_ptr_array_new ();
+		gnm_rangeref_normalize (&vec->val->v_range.cell,
+			eval_pos_init_dep (&ep, &vec->dep),
+			&start_sheet, &end_sheet, &r);
+
+		/* clip here rather than relying on sheet_foreach
+		 * because that only clips if we ignore blanks */
+		if (r.end.row > start_sheet->rows.max_used)
+			r.end.row = start_sheet->rows.max_used;
+		if (r.end.col > start_sheet->cols.max_used)
+			r.end.col = start_sheet->cols.max_used;
+
+		if (r.start.col <= r.end.col && r.start.row <= r.end.row)
+			sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
+				r.start.col, r.start.row, r.end.col, r.end.row,
+				(CellIterFunc)cb_assign_string, vec->strs);
+		if (vec->strs && vec->strs->len > i)
+			v = g_ptr_array_index (vec->strs, i);
 	}
 	if (vec->as_col)
 		j = 0;

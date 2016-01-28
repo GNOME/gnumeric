@@ -1,3 +1,7 @@
+2016-01-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_get_str): fix for a range value. [#761048]
+
 2016-01-27  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_add_menus_toolbars): Work around gtk+ bug with
