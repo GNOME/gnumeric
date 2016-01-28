@@ -5160,7 +5160,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @ARGUMENTDESCRIPTION=@{array}: range of numeric values
 @{x}: data point to be ranked
 @{significance}: number of significant digits, defaults to 3
-@NOTE=If @{array} contains no data points, this function returns a #NUM! error. If @{significance} is less than zero, this function returns a #NUM! error. If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns a #NUM! error. If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
+@NOTE=If @{array} contains no data points, this function returns a #NUM! error. If @{significance} is less than one, this function returns a #NUM! error. If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns a #NUM! error. If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL
 
 @CATEGORY=Statistics
@@ -5170,7 +5170,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @ARGUMENTDESCRIPTION=@{array}: range of numeric values
 @{x}: data point to be ranked
 @{significance}: number of significant digits, defaults to 3
-@NOTE=If @{array} contains no data points, this function returns a #NUM! error. If @{significance} is less than zero, this function returns a #NUM! error. If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns a #NUM! error. If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
+@NOTE=If @{array} contains no data points, this function returns a #NUM! error. If @{significance} is less than one, this function returns a #NUM! error. If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns a #NUM! error. If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,PERCENTILE.EXC,QUARTILE,QUARTILE.EXC,SMALL
 
 @CATEGORY=Statistics
