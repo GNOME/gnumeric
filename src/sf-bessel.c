@@ -1212,11 +1212,6 @@ bessel_j_series (gnm_float x, gnm_float v)
 		break;
 	}
 
-	// Clamp won't affect whether we get 0 or inf.
-	e = CLAMP (e, G_MININT, G_MAXINT);
-	qt.h = gnm_ldexp (qt.h, (int)e);
-	qt.l = gnm_ldexp (qt.l, (int)e);
-
 	qs = qt;
 	s = gnm_quad_value (&qs);
 	if (gnm_finite (s) && s != 0) {
@@ -1228,7 +1223,7 @@ bessel_j_series (gnm_float x, gnm_float v)
 		if (v < 0) {
 			// Terms can get suddenly big for k ~ -v.
 			gnm_float ltn0 = -v * (1 - M_LN2gnum + gnm_log (x / -v));
-			if (ltn0 - gnm_log (s) < gnm_log (GNM_EPSILON) - 10)
+			if (ltn0 - (gnm_log (s) + e * M_LN2gnum) < gnm_log (GNM_EPSILON) - 10)
 				mink = (int)(-v) + 5;
 		}
 
@@ -1251,6 +1246,13 @@ bessel_j_series (gnm_float x, gnm_float v)
 				break;
 		}
 	}
+
+	// We scale here at the end to avoid intermediate overflow
+	// and underflow.
+
+	// Clamp won't affect whether we get 0 or inf.
+	e = CLAMP (e, G_MININT, G_MAXINT);
+	s = gnm_ldexp (s, (int)e);
 
 	gnm_quad_end (state);
 
@@ -2259,12 +2261,12 @@ static gnm_float
 y_via_j_series (gnm_float nu, const gnm_float *args)
 {
 	gnm_float x = args[0];
-	gnm_float Jnu = bessel_j_series (x, nu);
-	gnm_float Jmnu = bessel_j_series (x, -nu);
 	gnm_float c = gnm_cospi (nu);
 	gnm_float s = gnm_sinpi (nu);
-	gnm_float Ynu = (Jnu * c - Jmnu) / s;
-	if (0) g_printerr ("via: %.20g %.20g %.20g %.20g %.20g\n", x, nu, Jnu, Jmnu, Ynu);
+	gnm_float c_Jnu = c == 0 ? 0 : c * bessel_j_series (x, nu);
+	gnm_float Jmnu = bessel_j_series (x, -nu);
+	gnm_float Ynu = (c_Jnu - Jmnu) / s;
+	if (0) g_printerr ("via: %.20g %.20g %.20g %.20g %.20g\n", x, nu, c_Jnu, Jmnu, Ynu);
 	return Ynu;
 }
 
@@ -2296,7 +2298,7 @@ hankel1_A1 (gnm_complex *res, gnm_float x, gnm_float nu)
 		gnm_float Jmnu = bessel_j_series (x, -nu);
 		gnm_float c = gnm_cospi (nu);
 		gnm_float s = gnm_sinpi (nu);
-		Ynu = (Jnu * c - Jmnu) / s;
+		Ynu = ((c == 0 ? 0 : Jnu * c) - Jmnu) / s;
 	} else {
 		size_t N = 6;
 		gnm_float dnu = 1e-3;
