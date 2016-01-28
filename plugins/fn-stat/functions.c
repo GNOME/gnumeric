@@ -2867,6 +2867,11 @@ gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (result)
 		goto done;
 
+	if (n == 0) {
+		result = value_new_error_NUM (ei->pos);
+		goto done;
+	}
+
 	n_equal = n_smaller = n_larger = 0;
 	x_larger = x_smaller = 42;
 	for (i = 0; i < n; i++) {
@@ -2966,6 +2971,11 @@ gnumeric_percentrank_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (result)
 		goto done;
 
+	if (n == 0) {
+		result = value_new_error_NUM (ei->pos);
+		goto done;
+	}
+
 	n_equal = n_smaller = n_larger = 0;
 	x_larger = x_smaller = 42;
 	for (i = 0; i < n; i++) {
@@ -3003,7 +3013,6 @@ gnumeric_percentrank_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			result = value_new_error_DIV0 (ei->pos);
 			goto done;
 		}
-
 
 		if (n_equal > 0)
 			r = (n_smaller + 1) / (gnm_float)(n + 1);
