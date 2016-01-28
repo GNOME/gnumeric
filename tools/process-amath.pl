@@ -134,6 +134,9 @@ my %invalid_tests =
      'besselj(13.323691936314223032,1)' => 1,
      'bessely(13.36109747387276348,0)' => 1,
      'bessely(14.89744212833672538,1)' => 1,
+
+     # Overflow, not zero
+     'bessely(1.5,-1700.5)' => 1,
     );
 
 sub def_expr_handler {
@@ -232,7 +235,7 @@ sub output_test {
     my ($gfunc,$expr,$res) = @_;
 
     my $gfunc0 = ($gfunc eq $last_func) ? '' : $gfunc;
-    $res = "=$res" if $res =~ m{/};
+    $res = "=$res" if $res =~ m{[*/]};
 
     my $N = 1 + @test_lines;
     push @test_lines, "\"$gfunc0\",\"=$expr\",\"$res\",\"=IF(B$N=C$N,\"\"\"\",IF(C$N=0,-LOG10(ABS(B$N)),-LOG10(ABS((B$N-C$N)/C$N))))\"";
