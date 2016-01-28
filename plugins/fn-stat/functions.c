@@ -2836,7 +2836,7 @@ static GnmFuncHelp const help_percentrank[] = {
 	{ GNM_FUNC_HELP_ARG, F_("significance:number of significant digits, defaults to 3")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} contains no data points, this function returns a #NUM! "
 				 "error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{significance} is less than one, this function returns a #NUM! "
+	{ GNM_FUNC_HELP_NOTE, F_("If @{significance} is less than zero, this function returns a #NUM! "
 				 "error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} exceeds the largest value or is less than the smallest "
 				 "value in @{array}, this function returns a #NUM! error.") },
@@ -2935,7 +2935,7 @@ static GnmFuncHelp const help_percentrank_exc[] = {
 	{ GNM_FUNC_HELP_ARG, F_("significance:number of significant digits, defaults to 3")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} contains no data points, this function returns a #NUM! "
 				 "error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{significance} is less than one, this function returns a #NUM! "
+	{ GNM_FUNC_HELP_NOTE, F_("If @{significance} is less than zero, this function returns a #NUM! "
 				 "error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} exceeds the largest value or is less than the smallest "
 				 "value in @{array}, this function returns a #NUM! error.") },
