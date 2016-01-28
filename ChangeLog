@@ -4,6 +4,9 @@
 
 2016-01-27  Morten Welinder  <terra@gnome.org>
 
+	* src/sf-bessel.c (gnm_bessel_j, gnm_bessel_y): New
+	implementation.
+
 	* src/wbc-gtk.c (cb_add_menus_toolbars): Work around gtk+ bug with
 	css styling.
 

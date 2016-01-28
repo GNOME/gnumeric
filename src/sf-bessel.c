@@ -11,16 +11,19 @@
 #define MATHLIB_WARNING2 g_warning
 #define MATHLIB_WARNING4 g_warning
 
-static gboolean bessel_j_series_domain (gnm_float x, gnm_float v);
-static gnm_float bessel_j_series (gnm_float x, gnm_float alpha);
-
-static gnm_float bessel_y_ex(gnm_float x, gnm_float alpha, gnm_float *by);
 static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo);
-static gnm_float bessel_y(gnm_float x, gnm_float alpha);
 
 static inline int imin2 (int x, int y) { return MIN (x, y); }
 static inline int imax2 (int x, int y) { return MAX (x, y); }
 static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
+
+static gnm_float
+gnm_cbrt (gnm_float x)
+{
+	gnm_float ar = gnm_pow (gnm_abs (x), 1.0 / 3.0);
+	return x < 0 ? 0 - ar : ar;
+}
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -626,583 +629,6 @@ L230:
 }
 
 /* ------------------------------------------------------------------------ */
-/* Imported src/nmath/bessel_j.c from R.  */
-/*
- *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998-2012 Ross Ihaka and the R Core team.
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, a copy is available at
- *  http://www.r-project.org/Licenses/
- */
-
-/*  DESCRIPTION --> see below */
-
-
-/* From http://www.netlib.org/specfun/rjbesl	Fortran translated by f2c,...
- *	------------------------------=#----	Martin Maechler, ETH Zurich
- * Additional code for nu == alpha < 0  MM
- */
-
-#ifndef MATHLIB_STANDALONE
-#endif
-
-#define min0(x, y) (((x) <= (y)) ? (x) : (y))
-
-static void J_bessel(gnm_float *x, gnm_float *alpha, long *nb,
-		     gnm_float *b, long *ncalc);
-
-static gnm_float bessel_j(gnm_float x, gnm_float alpha)
-{
-    long nb, ncalc;
-    gnm_float na, *bj;
-#ifndef MATHLIB_STANDALONE
-    const void *vmax;
-#endif
-
-#ifdef IEEE_754
-    /* NaNs propagated correctly */
-    if (gnm_isnan(x) || gnm_isnan(alpha)) return x + alpha;
-#endif
-    if (x < 0) {
-	ML_ERROR(ME_RANGE);
-	return gnm_nan;
-    }
-    na = gnm_floor(alpha);
-    if (alpha < 0) {
-	/* Using Abramowitz & Stegun  9.1.2
-	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_j(x, -alpha) * gnm_cospi(alpha) +
-	       ((alpha == na) ? 0 :
-	       bessel_y(x, -alpha) * gnm_sinpi(alpha)));
-    }
-    if (bessel_j_series_domain (x, alpha))
-	    return bessel_j_series (x, alpha);
-
-    nb = 1 + (long)na; /* nb-1 <= alpha < nb */
-    alpha -= (gnm_float)(nb-1);
-#ifdef MATHLIB_STANDALONE
-    bj = (gnm_float *) calloc(nb, sizeof(gnm_float));
-    if (!bj) MATHLIB_ERROR("%s", ("bessel_j allocation error"));
-#else
-    vmax = vmaxget();
-    bj = (gnm_float *) R_alloc((size_t) nb, sizeof(gnm_float));
-#endif
-    J_bessel(&x, &alpha, &nb, bj, &ncalc);
-    if(ncalc != nb) {/* error input */
-      if(ncalc < 0)
-	MATHLIB_WARNING4(("bessel_j(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
-			 x, ncalc, nb, alpha);
-      else
-	MATHLIB_WARNING2(("bessel_j(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
-			 x, alpha+(gnm_float)nb-1);
-    }
-    x = bj[nb-1];
-#ifdef MATHLIB_STANDALONE
-    free(bj);
-#else
-    vmaxset(vmax);
-#endif
-    return x;
-}
-
-/* modified version of bessel_j that accepts a work array instead of
-   allocating one. */
-static gnm_float bessel_j_ex(gnm_float x, gnm_float alpha, gnm_float *bj)
-{
-    long nb, ncalc;
-    gnm_float na;
-
-#ifdef IEEE_754
-    /* NaNs propagated correctly */
-    if (gnm_isnan(x) || gnm_isnan(alpha)) return x + alpha;
-#endif
-    if (x < 0) {
-	ML_ERROR(ME_RANGE);
-	return gnm_nan;
-    }
-    na = gnm_floor(alpha);
-    if (alpha < 0) {
-	/* Using Abramowitz & Stegun  9.1.2
-	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_j_ex(x, -alpha, bj) * gnm_cospi(alpha) +
-	       ((alpha == na) ? 0 :
-		bessel_y_ex(x, -alpha, bj) * gnm_sinpi(alpha)));
-    }
-    nb = 1 + (long)na; /* nb-1 <= alpha < nb */
-    alpha -= (gnm_float)(nb-1);
-    J_bessel(&x, &alpha, &nb, bj, &ncalc);
-    if(ncalc != nb) {/* error input */
-      if(ncalc < 0)
-	MATHLIB_WARNING4(("bessel_j(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
-			 x, ncalc, nb, alpha);
-      else
-	MATHLIB_WARNING2(("bessel_j(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
-			 x, alpha+(gnm_float)nb-1);
-    }
-    x = bj[nb-1];
-    return x;
-}
-
-static void J_bessel(gnm_float *x, gnm_float *alpha, long *nb,
-		     gnm_float *b, long *ncalc)
-{
-/*
- Calculates Bessel functions J_{n+alpha} (x)
- for non-negative argument x, and non-negative order n+alpha, n = 0,1,..,nb-1.
-
-  Explanation of variables in the calling sequence.
-
- X     - Non-negative argument for which J's are to be calculated.
- ALPHA - Fractional part of order for which
-	 J's are to be calculated.  0 <= ALPHA < 1.
- NB    - Number of functions to be calculated, NB >= 1.
-	 The first function calculated is of order ALPHA, and the
-	 last is of order (NB - 1 + ALPHA).
- B     - Output vector of length NB.  If RJBESL
-	 terminates normally (NCALC=NB), the vector B contains the
-	 functions J/ALPHA/(X) through J/NB-1+ALPHA/(X).
- NCALC - Output variable indicating possible errors.
-	 Before using the vector B, the user should check that
-	 NCALC=NB, i.e., all orders have been calculated to
-	 the desired accuracy.	See the following
-
-	 ****************************************************************
-
- Error return codes
-
-    In case of an error,  NCALC != NB, and not all J's are
-    calculated to the desired accuracy.
-
-    NCALC < 0:	An argument is out of range. For example,
-       NBES <= 0, ALPHA < 0 or > 1, or X is too large.
-       In this case, b[1] is set to zero, the remainder of the
-       B-vector is not calculated, and NCALC is set to
-       MIN(NB,0)-1 so that NCALC != NB.
-
-    NB > NCALC > 0: Not all requested function values could
-       be calculated accurately.  This usually occurs because NB is
-       much larger than ABS(X).	 In this case, b[N] is calculated
-       to the desired accuracy for N <= NCALC, but precision
-       is lost for NCALC < N <= NB.  If b[N] does not vanish
-       for N > NCALC (because it is too small to be represented),
-       and b[N]/b[NCALC] = 10^(-K), then only the first NSIG - K
-       significant figures of b[N] can be trusted.
-
-
-  Acknowledgement
-
-	This program is based on a program written by David J. Sookne
-	(2) that computes values of the Bessel functions J or I of float
-	argument and long order.  Modifications include the restriction
-	of the computation to the J Bessel function of non-negative float
-	argument, the extension of the computation to arbitrary positive
-	order, and the elimination of most underflow.
-
-  References:
-
-	Olver, F.W.J., and Sookne, D.J. (1972)
-	"A Note on Backward Recurrence Algorithms";
-	Math. Comp. 26, 941-947.
-
-	Sookne, D.J. (1973)
-	"Bessel Functions of Real Argument and Integer Order";
-	NBS Jour. of Res. B. 77B, 125-132.
-
-  Latest modification: March 19, 1990
-
-  Author: W. J. Cody
-	  Applied Mathematics Division
-	  Argonne National Laboratory
-	  Argonne, IL  60439
- *******************************************************************
- */
-
-/* ---------------------------------------------------------------------
-  Mathematical constants
-
-   PI2	  = 2 / PI
-   TWOPI1 = first few significant digits of 2 * PI
-   TWOPI2 = (2*PI - TWOPI1) to working precision, i.e.,
-	    TWOPI1 + TWOPI2 = 2 * PI to extra precision.
- --------------------------------------------------------------------- */
-    const static gnm_float pi2 = GNM_const(.636619772367581343075535);
-    const static gnm_float twopi1 = GNM_const(6.28125);
-    const static gnm_float twopi2 =  GNM_const(.001935307179586476925286767);
-
-/*---------------------------------------------------------------------
- *  Factorial(N)
- *--------------------------------------------------------------------- */
-/* removed array fact */
-
-    /* Local variables */
-    long nend, intx, nbmx, i, j, k, l, m, n, nstart;
-
-    gnm_float nu, twonu, capp, capq, pold, vcos, test, vsin;
-    gnm_float p, s, t, z, alpem, halfx, aa, bb, cc, psave, plast;
-    gnm_float tover, t1, alp2em, em, en, xc, xk, xm, psavel, gnu, xin, sum;
-
-
-    /* Parameter adjustment */
-    --b;
-
-    nu = *alpha;
-    twonu = nu + nu;
-
-    /*-------------------------------------------------------------------
-      Check for out of range arguments.
-      -------------------------------------------------------------------*/
-    if (*nb > 0 && *x >= 0. && 0. <= nu && nu < 1.) {
-
-	*ncalc = *nb;
-	if(*x > xlrg_BESS_IJ) {
-	    ML_ERROR(ME_RANGE);
-	    /* indeed, the limit is 0,
-	     * but the cutoff happens too early */
-	    for(i=1; i <= *nb; i++)
-		b[i] = 0.; /*was gnm_pinf (really nonsense) */
-	    return;
-	}
-	intx = (long) (*x);
-	/* Initialize result array to zero. */
-	for (i = 1; i <= *nb; ++i)
-	    b[i] = 0.;
-
-	/*===================================================================
-	  Branch into  3 cases :
-	  1) use 2-term ascending series for small X
-	  2) use asymptotic form for large X when NB is not too large
-	  3) use recursion otherwise
-	  ===================================================================*/
-
-	if (*x < rtnsig_BESS) {
-	  /* ---------------------------------------------------------------
-	     Two-term ascending series for small X.
-	     --------------------------------------------------------------- */
-	    alpem = 1. + nu;
-
-	    halfx = (*x > enmten_BESS) ? .5 * *x :  0.;
-	    aa	  = (nu != 0.)	  ? gnm_pow(halfx, nu) / (nu * gnm_gamma(nu)) : 1.;
-	    bb	  = (*x + 1. > 1.)? -halfx * halfx : 0.;
-	    b[1] = aa + aa * bb / alpem;
-	    if (*x != 0. && b[1] == 0.)
-		*ncalc = 0;
-
-	    if (*nb != 1) {
-		if (*x <= 0.) {
-		    for (n = 2; n <= *nb; ++n)
-			b[n] = 0.;
-		}
-		else {
-		    /* ----------------------------------------------
-		       Calculate higher order functions.
-		       ---------------------------------------------- */
-		    if (bb == 0.)
-			tover = (enmten_BESS + enmten_BESS) / *x;
-		    else
-			tover = enmten_BESS / bb;
-		    cc = halfx;
-		    for (n = 2; n <= *nb; ++n) {
-			aa /= alpem;
-			alpem += 1.;
-			aa *= cc;
-			if (aa <= tover * alpem)
-			    aa = 0.;
-
-			b[n] = aa + aa * bb / alpem;
-			if (b[n] == 0. && *ncalc > n)
-			    *ncalc = n - 1;
-		    }
-		}
-	    }
-	} else if (*x > 25. && *nb <= intx + 1) {
-	    /* ------------------------------------------------------------
-	       Asymptotic series for X > 25 (and not too large nb)
-	       ------------------------------------------------------------ */
-	    xc = gnm_sqrt(pi2 / *x);
-	    xin = 1 / (64 * *x * *x);
-	    if (*x >= 130.)	m = 4;
-	    else if (*x >= 35.) m = 8;
-	    else		m = 11;
-	    xm = 4. * (gnm_float) m;
-	    /* ------------------------------------------------
-	       Argument reduction for SIN and COS routines.
-	       ------------------------------------------------ */
-	    t = gnm_trunc(*x / (twopi1 + twopi2) + .5);
-	    z = (*x - t * twopi1) - t * twopi2 - (nu + .5) / pi2;
-	    vsin = gnm_sin(z);
-	    vcos = gnm_cos(z);
-	    gnu = twonu;
-	    for (i = 1; i <= 2; ++i) {
-		s = (xm - 1. - gnu) * (xm - 1. + gnu) * xin * .5;
-		t = (gnu - (xm - 3.)) * (gnu + (xm - 3.));
-		t1= (gnu - (xm + 1.)) * (gnu + (xm + 1.));
-		k = m + m;
-		capp = s * t / gnm_fact(k);
-		capq = s * t1/ gnm_fact(k + 1);
-		xk = xm;
-		for (; k >= 4; k -= 2) {/* k + 2(j-2) == 2m */
-		    xk -= 4.;
-		    s = (xk - 1. - gnu) * (xk - 1. + gnu);
-		    t1 = t;
-		    t = (gnu - (xk - 3.)) * (gnu + (xk - 3.));
-		    capp = (capp + 1. / gnm_fact(k - 2)) * s * t  * xin;
-		    capq = (capq + 1. / gnm_fact(k - 1)) * s * t1 * xin;
-
-		}
-		capp += 1.;
-		capq = (capq + 1.) * (gnu * gnu - 1.) * (.125 / *x);
-		b[i] = xc * (capp * vcos - capq * vsin);
-		if (*nb == 1)
-		    return;
-
-		/* vsin <--> vcos */ t = vsin; vsin = -vcos; vcos = t;
-		gnu += 2.;
-	    }
-	    /* -----------------------------------------------
-	       If  NB > 2, compute J(X,ORDER+I)	for I = 2, NB-1
-	       ----------------------------------------------- */
-	    if (*nb > 2)
-		for (gnu = twonu + 2., j = 3; j <= *nb; j++, gnu += 2.)
-		    b[j] = gnu * b[j - 1] / *x - b[j - 2];
-	}
-	else {
-	    /* rtnsig_BESS <= x && ( x <= 25 || intx+1 < *nb ) :
-	       --------------------------------------------------------
-	       Use recurrence to generate results.
-	       First initialize the calculation of P*S.
-	       -------------------------------------------------------- */
-	    nbmx = *nb - intx;
-	    n = intx + 1;
-	    en = (gnm_float)(n + n) + twonu;
-	    plast = 1.;
-	    p = en / *x;
-	    /* ---------------------------------------------------
-	       Calculate general significance test.
-	       --------------------------------------------------- */
-	    test = ensig_BESS + ensig_BESS;
-	    if (nbmx >= 3) {
-		/* ------------------------------------------------------------
-		   Calculate P*S until N = NB-1.  Check for possible overflow.
-		   ---------------------------------------------------------- */
-		tover = enten_BESS / ensig_BESS;
-		nstart = intx + 2;
-		nend = *nb - 1;
-		en = (gnm_float) (nstart + nstart) - 2. + twonu;
-		for (k = nstart; k <= nend; ++k) {
-		    n = k;
-		    en += 2.;
-		    pold = plast;
-		    plast = p;
-		    p = en * plast / *x - pold;
-		    if (p > tover) {
-			/* -------------------------------------------
-			   To avoid overflow, divide P*S by TOVER.
-			   Calculate P*S until ABS(P) > 1.
-			   -------------------------------------------*/
-			tover = enten_BESS;
-			p /= tover;
-			plast /= tover;
-			psave = p;
-			psavel = plast;
-			nstart = n + 1;
-			do {
-			    ++n;
-			    en += 2.;
-			    pold = plast;
-			    plast = p;
-			    p = en * plast / *x - pold;
-			} while (p <= 1.);
-
-			bb = en / *x;
-			/* -----------------------------------------------
-			   Calculate backward test and find NCALC,
-			   the highest N such that the test is passed.
-			   ----------------------------------------------- */
-			test = pold * plast * (.5 - .5 / (bb * bb));
-			test /= ensig_BESS;
-			p = plast * tover;
-			--n;
-			en -= 2.;
-			nend = min0(*nb,n);
-			for (l = nstart; l <= nend; ++l) {
-			    pold = psavel;
-			    psavel = psave;
-			    psave = en * psavel / *x - pold;
-			    if (psave * psavel > test) {
-				*ncalc = l - 1;
-				goto L190;
-			    }
-			}
-			*ncalc = nend;
-			goto L190;
-		    }
-		}
-		n = nend;
-		en = (gnm_float) (n + n) + twonu;
-		/* -----------------------------------------------------
-		   Calculate special significance test for NBMX > 2.
-		   -----------------------------------------------------*/
-		test = fmax2(test, gnm_sqrt(plast * ensig_BESS) * gnm_sqrt(p + p));
-	    }
-	    /* ------------------------------------------------
-	       Calculate P*S until significance test passes. */
-	    do {
-		++n;
-		en += 2.;
-		pold = plast;
-		plast = p;
-		p = en * plast / *x - pold;
-	    } while (p < test);
-
-L190:
-	    /*---------------------------------------------------------------
-	      Initialize the backward recursion and the normalization sum.
-	      --------------------------------------------------------------- */
-	    ++n;
-	    en += 2.;
-	    bb = 0.;
-	    aa = 1. / p;
-	    m = n / 2;
-	    em = (gnm_float)m;
-	    m = (n << 1) - (m << 2);/* = 2 n - 4 (n/2)
-				       = 0 for even, 2 for odd n */
-	    if (m == 0)
-		sum = 0.;
-	    else {
-		alpem = em - 1. + nu;
-		alp2em = em + em + nu;
-		sum = aa * alpem * alp2em / em;
-	    }
-	    nend = n - *nb;
-	    /* if (nend > 0) */
-	    /* --------------------------------------------------------
-	       Recur backward via difference equation, calculating
-	       (but not storing) b[N], until N = NB.
-	       -------------------------------------------------------- */
-	    for (l = 1; l <= nend; ++l) {
-		--n;
-		en -= 2.;
-		cc = bb;
-		bb = aa;
-		aa = en * bb / *x - cc;
-		m = m ? 0 : 2; /* m = 2 - m failed on gcc4-20041019 */
-		if (m != 0) {
-		    em -= 1.;
-		    alp2em = em + em + nu;
-		    if (n == 1)
-			break;
-
-		    alpem = em - 1. + nu;
-		    if (alpem == 0.)
-			alpem = 1.;
-		    sum = (sum + aa * alp2em) * alpem / em;
-		}
-	    }
-	    /*--------------------------------------------------
-	      Store b[NB].
-	      --------------------------------------------------*/
-	    b[n] = aa;
-	    if (nend >= 0) {
-		if (*nb <= 1) {
-		    if (nu + 1. == 1.)
-			alp2em = 1.;
-		    else
-			alp2em = nu;
-		    sum += b[1] * alp2em;
-		    goto L250;
-		}
-		else {/*-- nb >= 2 : ---------------------------
-			Calculate and store b[NB-1].
-			----------------------------------------*/
-		    --n;
-		    en -= 2.;
-		    b[n] = en * aa / *x - bb;
-		    if (n == 1)
-			goto L240;
-
-		    m = m ? 0 : 2; /* m = 2 - m failed on gcc4-20041019 */
-		    if (m != 0) {
-			em -= 1.;
-			alp2em = em + em + nu;
-			alpem = em - 1. + nu;
-			if (alpem == 0.)
-			    alpem = 1.;
-			sum = (sum + b[n] * alp2em) * alpem / em;
-		    }
-		}
-	    }
-
-	    /* if (n - 2 != 0) */
-	    /* --------------------------------------------------------
-	       Calculate via difference equation and store b[N],
-	       until N = 2.
-	       -------------------------------------------------------- */
-	    for (n = n-1; n >= 2; n--) {
-		en -= 2.;
-		b[n] = en * b[n + 1] / *x - b[n + 2];
-		m = m ? 0 : 2; /* m = 2 - m failed on gcc4-20041019 */
-		if (m != 0) {
-		    em -= 1.;
-		    alp2em = em + em + nu;
-		    alpem = em - 1. + nu;
-		    if (alpem == 0.)
-			alpem = 1.;
-		    sum = (sum + b[n] * alp2em) * alpem / em;
-		}
-	    }
-	    /* ---------------------------------------
-	       Calculate b[1].
-	       -----------------------------------------*/
-	    b[1] = 2. * (nu + 1.) * b[2] / *x - b[3];
-
-L240:
-	    em -= 1.;
-	    alp2em = em + em + nu;
-	    if (alp2em == 0.)
-		alp2em = 1.;
-	    sum += b[1] * alp2em;
-
-L250:
-	    /* ---------------------------------------------------
-	       Normalize.  Divide all b[N] by sum.
-	       ---------------------------------------------------*/
-/*	    if (nu + 1. != 1.) poor test */
-	    if(gnm_abs(nu) > 1e-15)
-		sum *= (gnm_gamma(nu) * gnm_pow(.5* *x, -nu));
-
-	    aa = enmten_BESS;
-	    if (sum > 1.)
-		aa *= sum;
-	    for (n = 1; n <= *nb; ++n) {
-		if (gnm_abs(b[n]) < aa)
-		    b[n] = 0.;
-		else
-		    b[n] /= sum;
-	    }
-	}
-
-    }
-    else {
-      /* Error return -- X, NB, or ALPHA is out of range : */
-	b[1] = 0.;
-	*ncalc = min0(*nb,0) - 1;
-    }
-}
-/* Cleaning up done by tools/import-R:  */
-#undef min0
-
-/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/bessel_k.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
@@ -1730,558 +1156,31 @@ L420:
 }
 
 /* ------------------------------------------------------------------------ */
-/* Imported src/nmath/bessel_y.c from R.  */
-/*
- *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998-2012 Ross Ihaka and the R Core team.
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, a copy is available at
- *  http://www.r-project.org/Licenses/
- */
-
-/*  DESCRIPTION --> see below */
-
-
-/* From http://www.netlib.org/specfun/rybesl	Fortran translated by f2c,...
- *	------------------------------=#----	Martin Maechler, ETH Zurich
- */
-
-#ifndef MATHLIB_STANDALONE
-#endif
-
-#define min0(x, y) (((x) <= (y)) ? (x) : (y))
-
-static void Y_bessel(gnm_float *x, gnm_float *alpha, long *nb,
-		     gnm_float *by, long *ncalc);
-
-static gnm_float bessel_y(gnm_float x, gnm_float alpha)
-{
-    long nb, ncalc;
-    gnm_float na, *by;
-#ifndef MATHLIB_STANDALONE
-    const void *vmax;
-#endif
-
-#ifdef IEEE_754
-    /* NaNs propagated correctly */
-    if (gnm_isnan(x) || gnm_isnan(alpha)) return x + alpha;
-#endif
-    if (x < 0) {
-	ML_ERROR(ME_RANGE);
-	return gnm_nan;
-    }
-    na = gnm_floor(alpha);
-
-    if (alpha != na &&
-	bessel_j_series_domain (x, alpha) &&
-	bessel_j_series_domain (x, -alpha)) {
-	    gnm_float s = gnm_sinpi (alpha);
-	    gnm_float c = gnm_cospi (alpha);
-	    return ((c ? bessel_j_series (x, alpha) * c : 0) - bessel_j_series (x, -alpha)) / s;
-    }
-
-    if (alpha < 0) {
-	/* Using Abramowitz & Stegun  9.1.2
-	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_y(x, -alpha) * gnm_cospi(alpha) -
-	       ((alpha == na) ? 0 :
-		bessel_j(x, -alpha) * gnm_sinpi(alpha)));
-    }
-    nb = 1+ (long)na;/* nb-1 <= alpha < nb */
-    alpha -= (gnm_float)(nb-1);
-#ifdef MATHLIB_STANDALONE
-    by = (gnm_float *) calloc(nb, sizeof(gnm_float));
-    if (!by) MATHLIB_ERROR("%s", ("bessel_y allocation error"));
-#else
-    vmax = vmaxget();
-    by = (gnm_float *) R_alloc((size_t) nb, sizeof(gnm_float));
-#endif
-    Y_bessel(&x, &alpha, &nb, by, &ncalc);
-    if(ncalc != nb) {/* error input */
-	if(ncalc == -1) {
-            free(by);
-	    return gnm_pinf;
-	} else if(ncalc < -1)
-	    MATHLIB_WARNING4(("bessel_y(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
-			     x, ncalc, nb, alpha);
-	else /* ncalc >= 0 */
-	    MATHLIB_WARNING2(("bessel_y(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
-			     x, alpha+(gnm_float)nb-1);
-    }
-    x = by[nb-1];
-#ifdef MATHLIB_STANDALONE
-    free(by);
-#else
-    vmaxset(vmax);
-#endif
-    return x;
-}
-
-/* modified version of bessel_y that accepts a work array instead of
-   allocating one. */
-static gnm_float bessel_y_ex(gnm_float x, gnm_float alpha, gnm_float *by)
-{
-    long nb, ncalc;
-    gnm_float na;
-
-#ifdef IEEE_754
-    /* NaNs propagated correctly */
-    if (gnm_isnan(x) || gnm_isnan(alpha)) return x + alpha;
-#endif
-    if (x < 0) {
-	ML_ERROR(ME_RANGE);
-	return gnm_nan;
-    }
-    na = gnm_floor(alpha);
-    if (alpha < 0) {
-	/* Using Abramowitz & Stegun  9.1.2
-	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_y_ex(x, -alpha, by) * gnm_cospi(alpha) -
-	       ((alpha == na) ? 0 :
-		bessel_j_ex(x, -alpha, by) * gnm_sinpi(alpha)));
-    }
-    nb = 1+ (long)na;/* nb-1 <= alpha < nb */
-    alpha -= (gnm_float)(nb-1);
-    Y_bessel(&x, &alpha, &nb, by, &ncalc);
-    if(ncalc != nb) {/* error input */
-	if(ncalc == -1)
-	    return gnm_pinf;
-	else if(ncalc < -1)
-	    MATHLIB_WARNING4(("bessel_y(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
-			     x, ncalc, nb, alpha);
-	else /* ncalc >= 0 */
-	    MATHLIB_WARNING2(("bessel_y(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
-			     x, alpha+(gnm_float)nb-1);
-    }
-    x = by[nb-1];
-    return x;
-}
-
-static void Y_bessel(gnm_float *x, gnm_float *alpha, long *nb,
-		     gnm_float *by, long *ncalc)
-{
-/* ----------------------------------------------------------------------
-
- This routine calculates Bessel functions Y_(N+ALPHA) (X)
- for non-negative argument X, and non-negative order N+ALPHA.
-
-
- Explanation of variables in the calling sequence
-
- X     - Non-negative argument for which
-	 Y's are to be calculated.
- ALPHA - Fractional part of order for which
-	 Y's are to be calculated.  0 <= ALPHA < 1.0.
- NB    - Number of functions to be calculated, NB > 0.
-	 The first function calculated is of order ALPHA, and the
-	 last is of order (NB - 1 + ALPHA).
- BY    - Output vector of length NB.	If the
-	 routine terminates normally (NCALC=NB), the vector BY
-	 contains the functions Y(ALPHA,X), ... , Y(NB-1+ALPHA,X),
-	 If (0 < NCALC < NB), BY(I) contains correct function
-	 values for I <= NCALC, and contains the ratios
-	 Y(ALPHA+I-1,X)/Y(ALPHA+I-2,X) for the rest of the array.
- NCALC - Output variable indicating possible errors.
-	 Before using the vector BY, the user should check that
-	 NCALC=NB, i.e., all orders have been calculated to
-	 the desired accuracy.	See error returns below.
-
-
- *******************************************************************
-
- Error returns
-
-  In case of an error, NCALC != NB, and not all Y's are
-  calculated to the desired accuracy.
-
-  NCALC < -1:  An argument is out of range. For example,
-	NB <= 0, IZE is not 1 or 2, or IZE=1 and ABS(X) >=
-	XMAX.  In this case, BY[0] = 0.0, the remainder of the
-	BY-vector is not calculated, and NCALC is set to
-	MIN0(NB,0)-2  so that NCALC != NB.
-  NCALC = -1:  Y(ALPHA,X) >= XINF.  The requested function
-	values are set to 0.0.
-  1 < NCALC < NB: Not all requested function values could
-	be calculated accurately.  BY(I) contains correct function
-	values for I <= NCALC, and the remaining NB-NCALC
-	array elements contain 0.0.
-
-
- Intrinsic functions required are:
-
-     DBLE, EXP, INT, MAX, MIN, REAL, SQRT
-
-
- Acknowledgement
-
-	This program draws heavily on Temme's Algol program for Y(a,x)
-	and Y(a+1,x) and on Campbell's programs for Y_nu(x).	Temme's
-	scheme is used for  x < THRESH, and Campbell's scheme is used
-	in the asymptotic region.  Segments of code from both sources
-	have been translated into Fortran 77, merged, and heavily modified.
-	Modifications include parameterization of machine dependencies,
-	use of a new approximation for ln(gamma(x)), and built-in
-	protection against over/underflow.
-
- References: "Bessel functions J_nu(x) and Y_nu(x) of float
-	      order and float argument," Campbell, J. B.,
-	      Comp. Phy. Comm. 18, 1979, pp. 133-142.
-
-	     "On the numerical evaluation of the ordinary
-	      Bessel function of the second kind," Temme,
-	      N. M., J. Comput. Phys. 21, 1976, pp. 343-350.
-
-  Latest modification: March 19, 1990
-
-  Modified by: W. J. Cody
-	       Applied Mathematics Division
-	       Argonne National Laboratory
-	       Argonne, IL  60439
- ----------------------------------------------------------------------*/
-
-
-/* ----------------------------------------------------------------------
-  Mathematical constants
-    FIVPI = 5*PI
-    PIM5 = 5*PI - 15
- ----------------------------------------------------------------------*/
-    const static gnm_float fivpi = GNM_const(15.707963267948966192);
-    const static gnm_float pim5	=   GNM_const(.70796326794896619231);
-
-    /*----------------------------------------------------------------------
-      Coefficients for Chebyshev polynomial expansion of
-      1/gamma(1-x), abs(x) <= .5
-      ----------------------------------------------------------------------*/
-    const static gnm_float ch[21] = { GNM_const(-6.7735241822398840964e-24),
-	    GNM_const(-6.1455180116049879894e-23),GNM_const(2.9017595056104745456e-21),
-	    GNM_const(1.3639417919073099464e-19),GNM_const(2.3826220476859635824e-18),
-	    GNM_const(-9.0642907957550702534e-18),GNM_const(-1.4943667065169001769e-15),
-	    GNM_const(-3.3919078305362211264e-14),GNM_const(-1.7023776642512729175e-13),
-	    GNM_const(9.1609750938768647911e-12),GNM_const(2.4230957900482704055e-10),
-	    GNM_const(1.7451364971382984243e-9),GNM_const(-3.3126119768180852711e-8),
-	    GNM_const(-8.6592079961391259661e-7),GNM_const(-4.9717367041957398581e-6),
-	    GNM_const(7.6309597585908126618e-5),GNM_const(.0012719271366545622927),
-	    GNM_const(.0017063050710955562222),GNM_const(-.07685284084478667369),
-	    GNM_const(-.28387654227602353814),GNM_const(.92187029365045265648) };
-
-    /* Local variables */
-    long i, k, na;
-
-    gnm_float alfa, div, ddiv, even, gamma, term, cosmu, sinmu,
-	b, c, d, e, f, g, h, p, q, r, s, d1, d2, q0, pa,pa1, qa,qa1,
-	en, en1, nu, ex,  ya,ya1, twobyx, den, odd, aye, dmu, x2, xna;
-
-    en1 = ya = ya1 = 0;		/* -Wall */
-
-    ex = *x;
-    nu = *alpha;
-    if (*nb > 0 && 0. <= nu && nu < 1.) {
-	if(ex < GNM_MIN || ex > xlrg_BESS_Y) {
-	    /* Warning is not really appropriate, give
-	     * proper limit:
-	     * ML_ERROR(ME_RANGE); */
-	    *ncalc = *nb;
-	    if(ex > xlrg_BESS_Y)  by[0]= 0.; /*was gnm_pinf */
-	    else if(ex < GNM_MIN) by[0]=gnm_ninf;
-	    for(i=0; i < *nb; i++)
-		by[i] = by[0];
-	    return;
-	}
-	xna = gnm_trunc(nu + .5);
-	na = (long) xna;
-	if (na == 1) {/* <==>  .5 <= *alpha < 1	 <==>  -5. <= nu < 0 */
-	    nu -= xna;
-	}
-	if (nu == -.5) {
-	    p = M_SQRT_2dPI / gnm_sqrt(ex);
-	    ya = p * gnm_sin(ex);
-	    ya1 = -p * gnm_cos(ex);
-	} else if (ex < 3.) {
-	    /* -------------------------------------------------------------
-	       Use Temme's scheme for small X
-	       ------------------------------------------------------------- */
-	    b = ex * .5;
-	    d = -gnm_log(b);
-	    f = nu * d;
-	    e = gnm_pow(b, -nu);
-	    if (gnm_abs(nu) < M_eps_sinc)
-		c = M_1_PI;
-	    else
-		c = nu / gnm_sin(nu * M_PIgnum);
-
-	    /* ------------------------------------------------------------
-	       Computation of gnm_sinh(f)/f
-	       ------------------------------------------------------------ */
-	    if (gnm_abs(f) < 1.) {
-		x2 = f * f;
-		en = 19.;
-		s = 1.;
-		for (i = 1; i <= 9; ++i) {
-		    s = s * x2 / en / (en - 1.) + 1.;
-		    en -= 2.;
-		}
-	    } else {
-		s = (e - GNM_const(1.) / e) * .5 / f;
-	    }
-	    /* --------------------------------------------------------
-	       Computation of 1/gamma(1-a) using Chebyshev polynomials */
-	    x2 = nu * nu * 8.;
-	    aye = ch[0];
-	    even = 0.;
-	    alfa = ch[1];
-	    odd = 0.;
-	    for (i = 3; i <= 19; i += 2) {
-		even = -(aye + aye + even);
-		aye = -even * x2 - aye + ch[i - 1];
-		odd = -(alfa + alfa + odd);
-		alfa = -odd * x2 - alfa + ch[i];
-	    }
-	    even = (even * .5 + aye) * x2 - aye + ch[20];
-	    odd = (odd + alfa) * 2.;
-	    gamma = odd * nu + even;
-	    /* End of computation of 1/gamma(1-a)
-	       ----------------------------------------------------------- */
-	    g = e * gamma;
-	    e = (e + GNM_const(1.) / e) * .5;
-	    f = 2. * c * (odd * e + even * s * d);
-	    e = nu * nu;
-	    p = g * c;
-	    q = M_1_PI / g;
-	    c = nu * M_PI_2gnum;
-	    if (gnm_abs(c) < M_eps_sinc)
-		r = 1.;
-	    else
-		r = gnm_sin(c) / c;
-
-	    r = M_PIgnum * c * r * r;
-	    c = 1.;
-	    d = -b * b;
-	    h = 0.;
-	    ya = f + r * q;
-	    ya1 = p;
-	    en = 1.;
-
-	    while (gnm_abs(g / (1. + gnm_abs(ya))) +
-		   gnm_abs(h / (1. + gnm_abs(ya1))) > GNM_EPSILON) {
-		f = (f * en + p + q) / (en * en - e);
-		c *= (d / en);
-		p /= en - nu;
-		q /= en + nu;
-		g = c * (f + r * q);
-		h = c * p - en * g;
-		ya += g;
-		ya1+= h;
-		en += 1.;
-	    }
-	    ya = -ya;
-	    ya1 = -ya1 / b;
-	} else if (ex < thresh_BESS_Y) {
-	    /* --------------------------------------------------------------
-	       Use Temme's scheme for moderate X :  3 <= x < 16
-	       -------------------------------------------------------------- */
-	    c = (.5 - nu) * (.5 + nu);
-	    b = ex + ex;
-	    e = ex * M_1_PI * gnm_cos(nu * M_PIgnum) / GNM_EPSILON;
-	    e *= e;
-	    p = 1.;
-	    q = -ex;
-	    r = 1. + ex * ex;
-	    s = r;
-	    en = 2.;
-	    while (r * en * en < e) {
-		en1 = en + 1.;
-		d = (en - 1. + c / en) / s;
-		p = (en + en - p * d) / en1;
-		q = (-b + q * d) / en1;
-		s = p * p + q * q;
-		r *= s;
-		en = en1;
-	    }
-	    f = p / s;
-	    p = f;
-	    g = -q / s;
-	    q = g;
-L220:
-	    en -= 1.;
-	    if (en > 0.) {
-		r = en1 * (2. - p) - 2.;
-		s = b + en1 * q;
-		d = (en - 1. + c / en) / (r * r + s * s);
-		p = d * r;
-		q = d * s;
-		e = f + 1.;
-		f = p * e - g * q;
-		g = q * e + p * g;
-		en1 = en;
-		goto L220;
-	    }
-	    f = 1. + f;
-	    d = f * f + g * g;
-	    pa = f / d;
-	    qa = -g / d;
-	    d = nu + .5 - p;
-	    q += ex;
-	    pa1 = (pa * q - qa * d) / ex;
-	    qa1 = (qa * q + pa * d) / ex;
-	    b = ex - M_PI_2gnum * (nu + .5);
-	    c = gnm_cos(b);
-	    s = gnm_sin(b);
-	    d = M_SQRT_2dPI / gnm_sqrt(ex);
-	    ya = d * (pa * s + qa * c);
-	    ya1 = d * (qa1 * s - pa1 * c);
-	} else { /* x > thresh_BESS_Y */
-	    /* ----------------------------------------------------------
-	       Use Campbell's asymptotic scheme.
-	       ---------------------------------------------------------- */
-	    na = 0;
-	    d1 = gnm_trunc(ex / fivpi);
-	    i = (long) d1;
-	    dmu = ex - 15. * d1 - d1 * pim5 - (*alpha + .5) * M_PI_2gnum;
-	    if (i - (i / 2 << 1) == 0) {
-		cosmu = gnm_cos(dmu);
-		sinmu = gnm_sin(dmu);
-	    } else {
-		cosmu = -gnm_cos(dmu);
-		sinmu = -gnm_sin(dmu);
-	    }
-	    ddiv = 8. * ex;
-	    dmu = *alpha;
-	    den = gnm_sqrt(ex);
-	    for (k = 1; k <= 2; ++k) {
-		p = cosmu;
-		cosmu = sinmu;
-		sinmu = -p;
-		d1 = (2. * dmu - 1.) * (2. * dmu + 1.);
-		d2 = 0.;
-		div = ddiv;
-		p = 0.;
-		q = 0.;
-		q0 = d1 / div;
-		term = q0;
-		for (i = 2; i <= 20; ++i) {
-		    d2 += 8.;
-		    d1 -= d2;
-		    div += ddiv;
-		    term = -term * d1 / div;
-		    p += term;
-		    d2 += 8.;
-		    d1 -= d2;
-		    div += ddiv;
-		    term *= (d1 / div);
-		    q += term;
-		    if (gnm_abs(term) <= GNM_EPSILON) {
-			break;
-		    }
-		}
-		p += 1.;
-		q += q0;
-		if (k == 1)
-		    ya = M_SQRT_2dPI * (p * cosmu - q * sinmu) / den;
-		else
-		    ya1 = M_SQRT_2dPI * (p * cosmu - q * sinmu) / den;
-		dmu += 1.;
-	    }
-	}
-	if (na == 1) {
-	    h = 2. * (nu + 1.) / ex;
-	    if (h > 1.) {
-		if (gnm_abs(ya1) > GNM_MAX / h) {
-		    h = 0.;
-		    ya = 0.;
-		}
-	    }
-	    h = h * ya1 - ya;
-	    ya = ya1;
-	    ya1 = h;
-	}
-
-	/* ---------------------------------------------------------------
-	   Now have first one or two Y's
-	   --------------------------------------------------------------- */
-	by[0] = ya;
-	*ncalc = 1;
-	if(*nb > 1) {
-	    by[1] = ya1;
-	    if (ya1 != 0.) {
-		aye = 1. + *alpha;
-		twobyx = GNM_const(2.) / ex;
-		*ncalc = 2;
-		for (i = 2; i < *nb; ++i) {
-		    if (twobyx < 1.) {
-			if (gnm_abs(by[i - 1]) * twobyx >= GNM_MAX / aye)
-			    goto L450;
-		    } else {
-			if (gnm_abs(by[i - 1]) >= GNM_MAX / aye / twobyx)
-			    goto L450;
-		    }
-		    by[i] = twobyx * aye * by[i - 1] - by[i - 2];
-		    aye += 1.;
-		    ++(*ncalc);
-		}
-	    }
-	}
-L450:
-	for (i = *ncalc; i < *nb; ++i)
-	    by[i] = gnm_ninf;/* was 0 */
-
-    } else {
-	by[0] = 0.;
-	*ncalc = min0(*nb,0) - 1;
-    }
-}
-
-/* Cleaning up done by tools/import-R:  */
-#undef min0
-
-/* ------------------------------------------------------------------------ */
 
 static gboolean
 bessel_j_series_domain (gnm_float x, gnm_float v)
 {
-	/*
-	 * The series is valid for all possible values of x and v,
-	 * but it isn't efficient for all.
-	 */
+	// The taylor series is valid for all possible values of x and v,
+	// but it isn't efficient and practical for all.
+	//
+	// Since bessel_j is used for computing BesselY when v is not an
+	// integer, we need the domain to be independent of the sign of v
+	// for such v.
+	//
+	// That is a bit of a problem because when v < -0.5 and close
+	// to an integer, |v+k| will get close to 0 and the terms will
+	// suddenly jump in size.  The jump will not be larger than a
+	// factor of 2^53, so as long as [-v]! is much larger than that
+	// we do not have a problem.
 
-	if (v <= -0.999) {
-		/*
-		 * For negative v we must ensure that nothing crazy
-		 * happens when |v+k| reaches its minimum.
-		 */
-		gnm_float rv = gnm_floor (v + 0.5);
-		if (gnm_abs (v - rv) * v * v < 1)
-			return FALSE;
-
-		/*
-		 * The above condition ensure that at most one term
-		 * increases relative to the prior term and that the
-		 * next term undoes all of that increase.
-		 */
-	}
-
-	/* For small x, the factorials will dominate quickly.  */
-	if (gnm_abs (x) < 4)
-		return TRUE;
-
-	/*
-	 * The factorials also dominate immediately if x*x/4<|v|.
-	 * We must not go too far beyond that.
-	 */
-	if (x * x / 16 > gnm_abs (v))
+	if (v < 0 && v == gnm_floor (v))
 		return FALSE;
 
-	return TRUE;
+	// For non-negative v, the factorials will dominate after the
+	// k'th term if x*x/4 < c*k(v+k).  Let's require two bit decreases
+	// (c=0.25) from k=10.  We ignore the sign of v, see above.
+
+	return (x * x / 4 < 0.25 * 10 * (gnm_abs (v) + 10));
 }
 
 
@@ -2313,13 +1212,25 @@ bessel_j_series (gnm_float x, gnm_float v)
 		break;
 	}
 
+	// Clamp won't affect whether we get 0 or inf.
+	e = CLAMP (e, G_MININT, G_MAXINT);
+	qt.h = gnm_ldexp (qt.h, (int)e);
+	qt.l = gnm_ldexp (qt.l, (int)e);
+
 	qs = qt;
 	s = gnm_quad_value (&qs);
 	if (gnm_finite (s) && s != 0) {
-		int k;
+		int k, mink = 5;
 		GnmQuad qxh2;
 
 		gnm_quad_mul (&qxh2, &qxh, &qxh);
+
+		if (v < 0) {
+			// Terms can get suddenly big for k ~ -v.
+			gnm_float ltn0 = -v * (1 - M_LN2gnum + gnm_log (x / -v));
+			if (ltn0 - gnm_log (s) < gnm_log (GNM_EPSILON) - 10)
+				mink = (int)(-v) + 5;
+		}
 
 		for (k = 1; k < 200; k++) {
 			GnmQuad qa, qb;
@@ -2335,18 +1246,1172 @@ bessel_j_series (gnm_float x, gnm_float v)
 				break;
 			gnm_quad_add (&qs, &qs, &qt);
 			s = gnm_quad_value (&qs);
-			if (k > 5 &&
-			    gnm_abs (t) <= GNM_EPSILON / 1024 * gnm_abs (s) &&
-			    gnm_abs (k + v) > 2)
+			if (k >= mink &&
+			    gnm_abs (t) <= GNM_EPSILON / 1024 * gnm_abs (s))
 				break;
 		}
 	}
 
-	s = gnm_ldexp (s, (int)CLAMP (e, G_MININT, G_MAXINT));
-
 	gnm_quad_end (state);
 
 	return s;
+}
+
+/* ------------------------------------------------------------------------ */
+
+static const gnm_float legendre20_roots[(20 + 1) / 2] = {
+	GNM_const(0.0765265211334973),
+	GNM_const(0.2277858511416451),
+	GNM_const(0.3737060887154195),
+	GNM_const(0.5108670019508271),
+	GNM_const(0.6360536807265150),
+	GNM_const(0.7463319064601508),
+	GNM_const(0.8391169718222188),
+	GNM_const(0.9122344282513259),
+	GNM_const(0.9639719272779138),
+	GNM_const(0.9931285991850949)
+};
+
+static const gnm_float legendre20_wts[(20 + 1) / 2] = {
+	GNM_const(0.1527533871307258),
+	GNM_const(0.1491729864726037),
+	GNM_const(0.1420961093183820),
+	GNM_const(0.1316886384491766),
+	GNM_const(0.1181945319615184),
+	GNM_const(0.1019301198172404),
+	GNM_const(0.0832767415767048),
+	GNM_const(0.0626720483341091),
+	GNM_const(0.0406014298003869),
+	GNM_const(0.0176140071391521)
+};
+
+static const gnm_float legendre33_roots[(33 + 1) / 2] = {
+	GNM_const(0.0000000000000000),
+	GNM_const(0.0936310658547334),
+	GNM_const(0.1864392988279916),
+	GNM_const(0.2776090971524970),
+	GNM_const(0.3663392577480734),
+	GNM_const(0.4518500172724507),
+	GNM_const(0.5333899047863476),
+	GNM_const(0.6102423458363790),
+	GNM_const(0.6817319599697428),
+	GNM_const(0.7472304964495622),
+	GNM_const(0.8061623562741665),
+	GNM_const(0.8580096526765041),
+	GNM_const(0.9023167677434336),
+	GNM_const(0.9386943726111684),
+	GNM_const(0.9668229096899927),
+	GNM_const(0.9864557262306425),
+	GNM_const(0.9974246942464552)
+};
+
+static const gnm_float legendre33_wts[(33 + 1) / 2] = {
+	GNM_const(0.0937684461602100),
+	GNM_const(0.0933564260655961),
+	GNM_const(0.0921239866433168),
+	GNM_const(0.0900819586606386),
+	GNM_const(0.0872482876188443),
+	GNM_const(0.0836478760670387),
+	GNM_const(0.0793123647948867),
+	GNM_const(0.0742798548439541),
+	GNM_const(0.0685945728186567),
+	GNM_const(0.0623064825303175),
+	GNM_const(0.0554708466316636),
+	GNM_const(0.0481477428187117),
+	GNM_const(0.0404015413316696),
+	GNM_const(0.0323003586323290),
+	GNM_const(0.0239155481017495),
+	GNM_const(0.0153217015129347),
+	GNM_const(0.0066062278475874)
+};
+
+static const gnm_float legendre45_roots[(45 + 1) / 2] = {
+	GNM_const(0.0000000000000000),
+	GNM_const(0.0689869801631442),
+	GNM_const(0.1376452059832530),
+	GNM_const(0.2056474897832637),
+	GNM_const(0.2726697697523776),
+	GNM_const(0.3383926542506022),
+	GNM_const(0.4025029438585419),
+	GNM_const(0.4646951239196351),
+	GNM_const(0.5246728204629161),
+	GNM_const(0.5821502125693532),
+	GNM_const(0.6368533944532233),
+	GNM_const(0.6885216807712006),
+	GNM_const(0.7369088489454904),
+	GNM_const(0.7817843125939062),
+	GNM_const(0.8229342205020863),
+	GNM_const(0.8601624759606642),
+	GNM_const(0.8932916717532418),
+	GNM_const(0.9221639367190004),
+	GNM_const(0.9466416909956291),
+	GNM_const(0.9666083103968947),
+	GNM_const(0.9819687150345405),
+	GNM_const(0.9926499984472037),
+	GNM_const(0.9986036451819367)
+};
+
+static const gnm_float legendre45_wts[(45 + 1) / 2] = {
+	GNM_const(0.0690418248292320),
+	GNM_const(0.0688773169776613),
+	GNM_const(0.0683845773786697),
+	GNM_const(0.0675659541636075),
+	GNM_const(0.0664253484498425),
+	GNM_const(0.0649681957507234),
+	GNM_const(0.0632014400738199),
+	GNM_const(0.0611335008310665),
+	GNM_const(0.0587742327188417),
+	GNM_const(0.0561348787597865),
+	GNM_const(0.0532280167312690),
+	GNM_const(0.0500674992379520),
+	GNM_const(0.0466683877183734),
+	GNM_const(0.0430468807091650),
+	GNM_const(0.0392202367293025),
+	GNM_const(0.0352066922016090),
+	GNM_const(0.0310253749345155),
+	GNM_const(0.0266962139675777),
+	GNM_const(0.0222398475505787),
+	GNM_const(0.0176775352579376),
+	GNM_const(0.0130311049915828),
+	GNM_const(0.0083231892962182),
+	GNM_const(0.0035826631552836)
+};
+
+typedef void (*ComplexIntegrand) (gnm_complex *res, gnm_float x,
+				  const gnm_float *args);
+
+static void
+complex_legendre_integral (gnm_complex *res, size_t N,
+			   gnm_float L, gnm_float H,
+			   ComplexIntegrand f, const gnm_float *args)
+{
+	const gnm_float *roots;
+	const gnm_float *wts;
+	gnm_float m = (L + H) / 2;
+	gnm_float s = (H - L) / 2;
+	size_t i;
+
+	switch (N) {
+	case 20:
+		roots = legendre20_roots;
+		wts = legendre20_wts;
+		break;
+	case 33:
+		roots = legendre33_roots;
+		wts = legendre33_wts;
+		break;
+	case 45:
+		roots = legendre45_roots;
+		wts = legendre45_wts;
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+	if (N & 1)
+		g_assert (roots[0] == 0.0);
+
+	gnm_complex_init (res, 0, 0);
+	for (i = 0; i < (N + 1) / 2; i++) {
+		gnm_float r = roots[i];
+		gnm_float w = wts[i];
+		int neg;
+		for (neg = 0; neg <= 1; neg++) {
+			gnm_float u = neg ? m - s * r : m + s * r;
+			gnm_complex dI;
+			f (&dI, u, args);
+			gnm_complex_scale_real (&dI, w);
+			gnm_complex_add (res, res, &dI);
+			if (i == 0 && (N & 1))
+				break;
+		}
+	}
+	res->re *= s;
+	res->im *= s;
+}
+
+// Trapezoid rule integraion for a complex function defined on a finite
+// interval.  This breaks the interval into N uniform pieces.
+static void
+complex_trapezoid_integral (gnm_complex *res, size_t N,
+			    gnm_float L, gnm_float H,
+			    ComplexIntegrand f, const gnm_float *args)
+{
+	gnm_float s = (H - L) / N;
+	size_t i;
+
+	gnm_complex_init (res, 0, 0);
+	for (i = 0; i <= N; i++) {
+		gnm_float u = L + i * s;
+		gnm_complex dI;
+		f (&dI, u, args);
+		if (i == 0 || i == N) {
+			dI.re /= 2;
+			dI.im /= 2;
+		}
+		gnm_complex_add (res, res, &dI);
+	}
+	res->re *= s;
+	res->im *= s;
+}
+
+// Shrink integration range to exclude vanishing outer parts.
+static void
+complex_shink_integral_range (gnm_float *L, gnm_float *H, gnm_float refx,
+			      ComplexIntegrand f,
+			      const gnm_float *args)
+{
+	gnm_complex y;
+	gnm_float refy, limL = refx, limH = refx;
+	gboolean first;
+	gboolean debug = FALSE;
+
+	g_return_if_fail (*L <= *H);
+	g_return_if_fail (*L <= refx && refx <= *H);
+
+	f (&y, refx, args);
+	refy = gnm_complex_mod (&y) * GNM_EPSILON;
+
+	g_return_if_fail (!gnm_isnan (refy));
+
+	if (debug)
+		g_printerr ("Initial range: (%g,%g)  refx=%g  refy=%g\n",
+			    *L, *H, refx, refy);
+
+	first = TRUE;
+	while (limL - *L > GNM_EPSILON) {
+		gnm_float testx = first ? *L : (limL + *L) / 2;
+		gnm_float testy;
+
+		f (&y, testx, args);
+		testy = gnm_complex_mod (&y);
+
+		first = FALSE;
+		if (testy <= refy) {
+			*L = testx;
+			if (testy >= refy / 16)
+				break;
+			continue;
+		} else
+			limL = testx;
+	}
+
+	first = TRUE;
+	while (*H - limH > GNM_EPSILON) {
+		gnm_float testx = first ? *H : (*H + limH) / 2;
+		gnm_float testy;
+
+		f (&y, testx, args);
+		testy = gnm_complex_mod (&y);
+
+		first = FALSE;
+		if (testy <= refy) {
+			*H = testx;
+			if (testy >= refy / 16)
+				break;
+			continue;
+		} else
+			limH = testx;
+	}
+
+	if (debug)
+		g_printerr ("Shrunk range: (%g,%g)\n", *L, *H);
+}
+
+typedef gnm_float (*Interpolant) (gnm_float x, const gnm_float *args);
+
+static gnm_float
+chebyshev_interpolant (size_t N, gnm_float L, gnm_float H, gnm_float x0,
+		       Interpolant f, const gnm_float *args)
+{
+	size_t i, j, k;
+	gnm_float *coeffs = g_new (gnm_float, N);
+	gnm_float m = (L + H) / 2;
+	gnm_float s = (H - L) / 2;
+	gnm_float x0n = (x0 - m) / s;
+	gnm_float res, dip1, dip2, di;
+
+	for (j = 0; j < N; j++) {
+		gnm_float cj = 0;
+		for (k = 0; k < N; k++) {
+			gnm_float zj = gnm_cospi ((k + 0.5) / N);
+			gnm_float xj = m + s * zj;
+			gnm_float fxj = f (xj, args);
+			cj += fxj * gnm_cospi (j * (k + 0.5) / N);
+		}
+		coeffs[j] = cj * 2.0 / N;
+	}
+
+	dip1 = 0.0;
+	di = 0.0;
+
+	for (i = N - 1; i >= 1; i--) {
+		dip2 = dip1;
+		dip1 = di;
+		di = 2.0 * x0n * dip1 - dip2 + coeffs[i];
+	}
+	res = x0n * di - dip1 + 0.5 * coeffs[0];
+
+	g_free (coeffs);
+
+	if (0) g_printerr ("--> f(%g) = %.20g\n", x0, res);
+
+	return res;
+}
+
+
+// Coefficient for the debye polynomial u_n
+// Lowest coefficent will be for x^n
+// Highest coefficent will be for x^(3n)
+// Every second coefficent is zero and left out.
+// The count of coefficents will thus be n+1.
+static const gnm_float *
+debye_u_coeffs (size_t n)
+{
+	static gnm_float **coeffs = NULL;
+	static size_t nalloc = 0;
+
+	if (n >= nalloc) {
+		size_t i;
+		coeffs = g_renew (gnm_float *, coeffs, n + 1);
+		for (i = nalloc; i <= n; i++) {
+			gnm_float *c = coeffs[i] = g_new0 (gnm_float, i + 1);
+			gnm_float *l;
+			size_t j;
+
+			if (i == 0) {
+				c[0] = 1;
+				continue;
+			} else if (i == 1) {
+				c[0] = 1 / 8.0;
+				c[1] = -5 / 24.0;
+				continue;
+			}
+
+			l = coeffs[i - 1];
+
+			for (j = i; j <= 3 * i; j += 2) {
+				gnm_float k = 0;
+
+				// .5tt u_[i-1]'
+				if (j < 3 * i)
+					k += 0.5 * (j-1) * l[((j-1)-(i-1)) / 2];
+
+				// -.5tttt u[i-1]'
+				if (j > i)
+					k -= 0.5 * (j-3) * l[((j-3)-(i-1)) / 2];
+
+				// 1/8*Int[u[i-1]]
+				if (j < 3 * i)
+					k += 0.125 * l[((j-1)-(i-1)) / 2] / j;
+
+
+				// -5/8*Int[tt*u[i-1]]
+				if (j > i)
+					k -= 0.625 * l[((j-3)-(i-1)) / 2] / j;
+
+				c[(j - i) / 2] = k;
+
+				if (0)
+					g_printerr ("Debye u_%d : %g * x^%d\n",
+						    (int)i, k, (int)j);
+			}
+		}
+		nalloc = n + 1;
+	}
+
+	return coeffs[n];
+}
+
+static void
+debye_u (gnm_complex *res, size_t n, gnm_float p, gboolean qip)
+{
+	const gnm_float *coeffs = debye_u_coeffs (n);
+	gnm_float pn = gnm_pow (p, n);
+	gnm_float pp = qip ? -p * p : p * p;
+	gnm_float s = 0;
+	int i;
+
+	for (i = 3 * n; i >= (int)n; i -= 2)
+		s = s * pp + coeffs[(i - n) / 2];
+
+	switch (qip ? n % 4 : 0) {
+	case 0:
+		gnm_complex_init (res, s * pn, 0);
+		break;
+	case 1:
+		gnm_complex_init (res, 0, s * pn);
+		break;
+	case 2:
+		gnm_complex_init (res, s * -pn, 0);
+		break;
+	case 3:
+		gnm_complex_init (res, 0, s * -pn);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+
+static gnm_float
+gnm_sinv_m_v_cosv (gnm_float v, gnm_float sinv)
+{
+	// Deviation: Matviyenko uses direct formula for this for all v.
+
+	if (v >= 1)
+		return sinv - v * gnm_cos (v);
+	else {
+		gnm_float r = 0, t = -v;
+		gnm_float vv = v * v;
+		int i;
+
+		for (i = 3; i < 100; i += 2) {
+			t = -t * vv / (i * (i == 3 ? 1 : i - 3));
+			r += t;
+			if (gnm_abs (t) <= gnm_abs (r) * (GNM_EPSILON / 16))
+				break;
+		}
+
+		if (0) {
+			gnm_float ref = sinv - v * gnm_cos (v);
+			g_printerr ("XXX: %g %g %g -- %g\n",
+				    v, ref, r, r - ref);
+		}
+
+		return r;
+	}
+}
+
+static gnm_float
+gnm_sinhumu (gnm_float u)
+{
+	if (!gnm_finite (u))
+		return u;
+	else if (gnm_abs (u) >= 1)
+		return gnm_sinh (u) - u;
+	else {
+		gnm_float uu = u * u;
+		size_t i;
+		gnm_float s = 0;
+		gnm_float t = u;
+
+		for (i = 3; i < 100; i += 2) {
+			t *= uu / ((i - 1) * i);
+			s += t;
+			if (gnm_abs (t) <= gnm_abs (s) * (GNM_EPSILON / 16))
+				break;
+		}
+		return s;
+	}
+}
+
+/* ------------------------------------------------------------------------ */
+
+static void
+debye_u_sum (gnm_complex *res, gnm_float x, gnm_float nu,
+	     size_t N, gboolean qalt, gboolean qip)
+{
+	size_t n;
+	gnm_float f;
+	gnm_float sqdiff = gnm_abs (x * x - nu * nu);
+	gnm_float diff2 = gnm_sqrt (sqdiff);
+	gnm_float p = nu / diff2;
+
+	(void)debye_u_coeffs (N);
+
+	gnm_complex_init (res, 0, 0);
+	f = 1;
+	for (n = 0; n <= N; n++) {
+		gnm_complex t;
+		if (nu == 0) {
+			// lim(p/nu,nu->0) = 1/x
+			gnm_float q = debye_u_coeffs (n)[0] / gnm_pow (x, n);
+			if (qip && (n & 2)) q = -q;
+			if (qalt && (n & 1)) q = -q;
+			if (qip && (n & 1))
+				gnm_complex_init (&t, 0, q);
+			else
+				gnm_complex_init (&t, q, 0);
+		} else {
+			debye_u (&t, n, p, qip);
+			gnm_complex_scale_real (&t, f);
+			f /= nu;
+			if (qalt) f = -f;
+		}
+		gnm_complex_add (res, res, &t);
+	}
+}
+
+static void
+debye_29_eta1 (gnm_float x, gnm_float nu,
+	       gnm_float *r1a, gnm_float *r1b, gnm_float *rpi)
+{
+	static const gnm_float c[] = {
+		/*  2 */ 1 / (gnm_float)2,
+		/*  4 */ 1 / (gnm_float)24,
+		/*  6 */ 1 / (gnm_float)80,
+		/*  8 */ 5 / (gnm_float)896,
+		/* 10 */ 7 / (gnm_float)2304,
+		/* 12 */ 21 / (gnm_float)11264,
+		/* 14 */ 33 / (gnm_float)26624,
+		/* 16 */ 143 / (gnm_float)163840,
+		/* 18 */ 715 / (gnm_float)1114112,
+		/* 20 */ 2431 / (gnm_float)4980736
+	};
+
+	gnm_float q = nu / x;
+
+	// Deviation: we improve this formula for small nu / x by computing
+	// eta1 in three parts such that eta1 = (*r1a + *r1b + Pi * *rpi)
+	// with *r1a small and no rounding errors on the others.
+
+	if (q < 0.1) {
+		gnm_float r  = 0;
+		gnm_float qq = q * q;
+		unsigned ci;
+		*rpi = -nu / 2 - 0.25;
+
+		for (ci = G_N_ELEMENTS(c); ci-- > 0; )
+			r = r * qq + c[ci];
+		*r1a = r * q * nu;
+		*r1b = x;
+	} else {
+		*r1a = gnm_sqrt (x * x - nu * nu) - nu * gnm_acos (nu / x);
+		*r1b = 0;
+		*rpi = -0.25;
+	}
+}
+
+static void
+debye_29 (gnm_complex *res, gnm_float x, gnm_float nu, size_t N)
+{
+	gnm_float sqdiff = x * x - nu * nu;
+	gnm_float eta1a, eta1b, eta1pi;
+	gnm_float f1 = gnm_sqrt (2 / M_PIgnum) / gnm_pow (sqdiff, 0.25);
+	gnm_complex sum, f12, f3;
+
+	debye_29_eta1 (x, nu, &eta1a, &eta1b, &eta1pi);
+
+	gnm_complex_from_polar (&f12, f1, eta1a);
+	if (eta1b) {
+		gnm_complex_from_polar (&f3, 1, eta1b);
+		gnm_complex_mul (&f12, &f12, &f3);
+	}
+	gnm_complex_init (&f3, gnm_cospi (eta1pi), gnm_sinpi (eta1pi));
+	gnm_complex_mul (&f12, &f12, &f3);
+	debye_u_sum (&sum, x, nu, N, TRUE, TRUE);
+	gnm_complex_mul (res, &f12, &sum);
+
+	if (0)
+		g_printerr ("D29(%g,%g) = %.20g + %.20g*i\n", x, nu, res->re, res->im);
+}
+
+static gnm_float
+debye_32 (gnm_float x, gnm_float nu, gnm_float eta2, size_t N)
+{
+	gnm_float sqdiff = nu * nu - x * x;
+	gnm_float f = gnm_exp (-eta2) /
+		(gnm_sqrt (2 * M_PIgnum) * gnm_pow (sqdiff, 0.25));
+	gnm_float res;
+	gnm_complex sum;
+
+	debye_u_sum (&sum, x, nu, N, FALSE, FALSE);
+	res = f * sum.re;
+
+	if (0)
+		g_printerr ("D32(%g,%g) = %.20g\n", x, nu, res);
+
+	return res;
+}
+
+static gnm_float
+debye_33 (gnm_float x, gnm_float nu, gnm_float eta2, size_t N)
+{
+	gnm_float sqdiff = nu * nu - x * x;
+	gnm_float f = - gnm_sqrt (2 / M_PIgnum) * gnm_exp (eta2) /
+		gnm_pow (sqdiff, 0.25);
+	gnm_float res;
+	gnm_complex sum;
+
+	debye_u_sum (&sum, x, nu, N, TRUE, FALSE);
+	res = f * sum.re;
+
+	if (0)
+		g_printerr ("D33(%g,%g) = %.20g\n", x, nu, res);
+
+	return res;
+}
+
+static gnm_float
+integral_83_coshum1 (gnm_float d, gnm_float sinv, gnm_float cosv,
+		     gnm_float sinbeta, gnm_float cosbeta)
+{
+	gnm_float r = 0, todd, teven, dd, cotv;
+	int i;
+
+	if (gnm_abs (d) > 0.1)
+		return (d * cosbeta - (sinv - sinbeta)) / sinv;
+
+	cotv = cosv / sinv;
+	dd = d * d;
+	teven = 1;
+	todd = d;
+	for (i = 2; i < 100; i++) {
+		gnm_float t;
+		if (i & 1) {
+			todd *= -dd / (i == 3 ? 3 : i * (i - 3));
+			t = todd * cotv;
+		} else {
+			teven *= -dd / (i * (i - 3));
+			t = teven;
+		}
+		r += t;
+		if (gnm_abs (t) <= gnm_abs (r) * (GNM_EPSILON / 16))
+			break;
+	}
+
+	if (0) {
+		gnm_float ref = (d * cosbeta - (sinv - sinbeta)) / sinv;
+		g_printerr ("coshum1(d=%g): %g %g\n", d, ref, r);
+	}
+
+	return r;
+}
+
+static gnm_float
+integral_83_cosdiff (gnm_float d, gnm_float v,
+		     gnm_float sinbeta, gnm_float cosbeta)
+{
+	gnm_float s = 0;
+	gnm_float t = 1;
+	size_t i;
+	gboolean debug = FALSE;
+
+	g_return_val_if_fail (gnm_abs (d) < 1, gnm_nan);
+
+	for (i = 1; i < 100; i += 2) {
+		t *= -d / i;
+		s += sinbeta * t;
+		t *= d / (i + 1);
+		s += cosbeta * t;
+		if (gnm_abs (t) <= gnm_abs (s) * (GNM_EPSILON / 16))
+			break;
+	}
+
+	if (debug) {
+		gnm_float ref = gnm_cos (v) - cosbeta;
+		g_printerr ("cosdiff(d=%g): %g %g\n", d, ref, s);
+	}
+
+	return s;
+}
+
+static void
+integral_83_integrand (gnm_complex *res, gnm_float v, gnm_float const *args)
+{
+	gnm_float x = args[0];
+	gnm_float nu = args[1];
+	gnm_float beta = args[2];
+	gnm_float du_dv, phi1, xphi1;
+	gnm_float sinv = gnm_sin (v);
+	gboolean debug = FALSE;
+
+	if (sinv <= 0) {
+		// Either end
+		du_dv = gnm_nan;
+		phi1 = gnm_ninf;
+	} else {
+		gnm_float vmbeta = v - beta;
+		gnm_float cosv = gnm_cos (v);
+		gnm_float cosbeta = nu / x;
+		gnm_float sinbeta = gnm_sqrt (1 - cosbeta * cosbeta);
+		gnm_float coshum1 = integral_83_coshum1 (vmbeta, sinv, cosv,
+							 sinbeta, cosbeta);
+		gnm_float sinhu = gnm_sqrt (coshum1 * (coshum1 + 2));
+		// Deviation: use coshum1 here to avoid cancellation
+		gnm_float u = gnm_log1p (sinhu + coshum1);
+		gnm_float du = (gnm_sin (v - beta) -
+				(v - beta) * cosbeta * cosv);
+		// Erratum: fix sign of u.  See Watson 8.32
+		if (v < beta)
+			u = -u, sinhu = -sinhu;
+		if (gnm_abs (vmbeta) < 0.1) {
+			phi1 = integral_83_cosdiff (vmbeta, v, sinbeta, cosbeta) * sinhu +
+				gnm_sinhumu (u) * cosbeta;
+		} else {
+			phi1 = cosv * sinhu - cosbeta * u;
+		}
+		du_dv =  du ? du / (sinhu * sinv * sinv) : 0;
+		if (debug) {
+			g_printerr ("beta = %g\n", beta);
+			g_printerr ("v-beta = %g\n", v-beta);
+			g_printerr ("phi1 = %g\n", phi1);
+			g_printerr ("du_dv = %g\n", du_dv);
+			g_printerr ("coshum1 = %g\n", coshum1);
+			g_printerr ("sinhu = %g\n", sinhu);
+		}
+	}
+
+	xphi1 = x * phi1;
+	if (xphi1 == gnm_ninf) {
+		// "exp" wins.
+		gnm_complex_init (res, 0, 0);
+	} else {
+		gnm_float exphi1 = gnm_exp (xphi1);
+		gnm_complex_init (res, du_dv * exphi1, exphi1);
+	}
+
+	if (debug)
+		g_printerr ("i83(%g) = %.20g + %.20g*i\n", v, res->re, res->im);
+}
+
+static void
+integral_83_alt_integrand (gnm_complex *res, gnm_float t, gnm_float const *args)
+{
+	// v = t^vpow; dv/dt = vpow*t^(vpow-1)
+	gnm_float vpow = args[3];
+	integral_83_integrand (res, gnm_pow (t, vpow), args);
+	gnm_complex_scale_real (res, vpow * gnm_pow (t, vpow - 1));
+}
+
+static void
+integral_83 (gnm_complex *res, gnm_float x, gnm_float nu, size_t N,
+	     gnm_float vpow)
+{
+	// -i/Pi * exp(i*(x*sin(beta)-nu*beta)) *
+	//    Integrate[(du/dv+i)*exp(x*phi1),{v,0,Pi}]
+	//
+	// beta = acos(nu/x)
+	// u = acosh((sin(beta)+(v-beta)*cos(beta))/sin(v))
+	// du/dv = (sin(v-beta)-(v-beta)*cos(beta)*cos(v)) /
+	//            (sinh(u)*sin^2(v))
+	// phi1 = cos(v)*sinh(u) - cos(beta)*u
+	//
+	// When vpow is not 1 we change variable as v=t^vpow numerically.
+	// (I.e., the trapezoid points will be evenly spaced in t-space
+	// instead of v-space.)
+
+	// x >= 9 && nu < x - 1.5*crbt(x)
+
+	gnm_complex I, f1, f2;
+	gnm_float beta = gnm_acos (nu / x);
+	gnm_float xsinbeta = gnm_sqrt (x * x - nu * nu);
+	gnm_float refx = beta;
+	gnm_float L = 0;
+	gnm_float H = M_PIgnum;
+	gnm_float args[4] = { x, nu, beta, vpow };
+	ComplexIntegrand integrand;
+
+	complex_shink_integral_range (&L, &H, refx,
+				      integral_83_integrand, args);
+
+	if (vpow != 1) {
+		L = gnm_pow (L, 1 / vpow);
+		H = gnm_pow (H, 1 / vpow);
+		integrand = integral_83_alt_integrand;
+	} else {
+		// We could use the indirect path above, but let's go direct
+		integrand = integral_83_integrand;
+	}
+
+	complex_trapezoid_integral (&I, N, L, H, integrand, args);
+
+	gnm_complex_from_polar (&f1, 1, xsinbeta - nu * beta);
+	gnm_complex_init (&f2, 0, -1 / M_PIgnum);
+	gnm_complex_mul (&I, &I, &f1);
+	gnm_complex_mul (res, &I, &f2);
+
+	if (0)
+		g_printerr ("I83(%g,%g) = %.20g + %.20g*i\n",
+			    x, nu, res->re, res->im);
+
+}
+
+static void
+integral_105_126_integrand (gnm_complex *res, gnm_float u, gnm_float const *args)
+{
+	gnm_float x = args[0];
+	gnm_float nu = args[1];
+	gnm_complex_init (res, gnm_exp (x * gnm_sinh (u) - nu * u), 0);
+}
+
+static void
+integral_105_126 (gnm_complex *res, gnm_float x, gnm_float nu, gboolean qH0)
+{
+	// -i/Pi * Integrate[Exp[x*Sinh[u]-nu*u],{u,-Infinity,H}]
+	// where H is either 0 or alpha, see below.
+
+	// Deviation: the analysis doesn't seem to consider the case where
+	// nu < x which occurs for (126).  In that case the integrand takes
+	// its maximum at 0.
+
+	gnm_float args[2] = { x, nu };
+	gnm_complex I;
+	gnm_float refx = (nu < x) ? 0 : -gnm_acosh (nu / x);
+	// For the nu~x case, we have sinh(u)-u = u^3/6 + ...
+	gnm_float L = refx - MAX (gnm_cbrt (6 * 50 / ((nu + x) / 2)), 50.0 / MIN (nu, x));
+	gnm_float H = qH0 ? 0 : -refx;
+
+	complex_shink_integral_range (&L, &H, refx,
+				      integral_105_126_integrand, args);
+
+	complex_legendre_integral (&I, 45, L, H,
+				   integral_105_126_integrand, args);
+
+	gnm_complex_init (res, 0, I.re / -M_PIgnum);
+
+	if (0)
+		g_printerr ("I105(%g,%g) = %.20g * i\n", x, nu, res->im);
+}
+
+static void
+integral_106_integrand (gnm_complex *res, gnm_float v, gnm_float const *args)
+{
+	gnm_float x = args[0];
+	gnm_float nu = args[1];
+
+	gnm_float sinv = gnm_sin (v);
+	gnm_float coshalpha = nu / x;
+	gnm_float coshu = coshalpha * (v ? (v / sinv) : 1);
+	// FIXME: u and sinhu are dubious, numerically
+	gnm_float u = gnm_acosh (coshu);
+	gnm_float sinhu = gnm_sinh (u);
+	gnm_float xphi3 = x * sinhu * gnm_cos (v) - nu * u;
+	gnm_float exphi3 = gnm_exp (xphi3);
+
+	gnm_float num = nu * gnm_sinv_m_v_cosv (v, sinv);
+	gnm_float den = x * sinv * sinv * sinhu;
+	gnm_float du_dv = v ? num / den : 0;
+
+	gnm_complex_init (res, exphi3 * du_dv, exphi3);
+
+	if (0) {
+		g_printerr ("u=%g\n", u);
+		g_printerr ("coshalpha=%g\n", coshalpha);
+		g_printerr ("cosh(u)=%g\n", coshu);
+		g_printerr ("sinh(u)=%g\n", sinhu);
+		g_printerr ("xphi3=%g\n", xphi3);
+		g_printerr ("i106(%g) = %.20g + %.20g*i\n", v, res->re, res->im);
+	}
+}
+
+static void
+integral_106 (gnm_complex *res, gnm_float x, gnm_float nu)
+{
+	// -i/Pi * Integrate[Exp[x*phi3[v]]*(i+du/dv),{v,0,Pi}]
+	//
+	// alpha = acosh(nu/x)
+	// u(v) = acosh(nu/x * v/sin(v))
+	// du/dv = cosh(alpha)*(sin(v)-v*cos(v))/(sin^2(v)*sinh(u(v)))
+	// phi3(v) = sinh(u)*cos(v) - cosh(alpha)*u(v)
+
+	// Note: 2 < x < nu.
+
+	gnm_complex I, mipi;
+	gnm_float L = 0, H = M_PIgnum;
+	gnm_float args[2] = { x, nu };
+
+	complex_shink_integral_range (&L, &H, 0, integral_106_integrand, args);
+
+	complex_legendre_integral (&I, 45, L, H,
+				   integral_106_integrand, args);
+
+	gnm_complex_init (&mipi, 0, -1 / M_PIgnum);
+	gnm_complex_mul (res, &I, &mipi);
+
+	if (0)
+		g_printerr ("I106(%g,%g) = %.20g + %.20g*i\n", x, nu, res->re, res->im);
+}
+
+static gnm_float
+integral_127_u (gnm_float v)
+{
+	static const gnm_float c[] = {
+		GNM_const(0.57735026918962576451),
+		GNM_const(0.025660011963983367312),
+		GNM_const(0.0014662863979419067035),
+		GNM_const(0.000097752426529460446901),
+		GNM_const(7.4525058224720927532e-6),
+		GNM_const(6.1544207267743329429e-7),
+		GNM_const(5.2905118464628039046e-8),
+		GNM_const(4.6529126736818620163e-9),
+		GNM_const(4.1606321535886269061e-10),
+		GNM_const(3.7712142304302013266e-11),
+		GNM_const(3.4567362099184451359e-12),
+		GNM_const(3.1977726302920313260e-13),
+		GNM_const(2.9808441172607163378e-14),
+		GNM_const(2.7965280211260193677e-15)
+	};
+	unsigned ci;
+	gnm_float vv, u = 0;
+
+	if (v >= 1)
+		return acosh (v / gnm_sin (v));
+
+	// Above formula will suffer from cancellation
+	vv = v * v;
+	for (ci = G_N_ELEMENTS(c); ci-- > 0; )
+		u = u * vv + c[ci];
+	u *= v;
+
+	if (0) {
+		gnm_float ref = acosh (v / gnm_sin (v));
+		g_printerr ("XXX: %g %g\n", ref, u);
+	}
+
+	return u;
+}
+
+static gnm_float
+integral_127_u_m_sinhu_cos_v (gnm_float v, gnm_float u, gnm_float sinhu)
+{
+	static const gnm_float c[] = {
+		/*  3 */ GNM_const(0.25660011963983367312),
+		/*  5 */ GNM_const(0.0),
+		/*  7 */ GNM_const(0.00097752426529460446901),
+		/*  9 */ GNM_const(0.000072409204836637368075),
+		/* 11 */ GNM_const(7.4478039260541292877e-6),
+		/* 13 */ GNM_const(7.4130822294291683120e-7),
+		/* 15 */ GNM_const(7.4423844019777464899e-8),
+		/* 17 */ GNM_const(7.4866591579915856176e-9),
+		/* 19 */ GNM_const(7.5416412192891756316e-10),
+		/* 21 */ GNM_const(7.6048685642328096017e-11),
+		/* 23 */ GNM_const(7.6748139912232122716e-12),
+		/* 25 */ GNM_const(7.7502621827532506438e-13),
+		/* 27 */ GNM_const(7.8302824791617646275e-14),
+		/* 29 */ GNM_const(7.9141968028287716142e-15),
+		/* 31 */ GNM_const(8.0015150114119176413e-16),
+		/* 33 */ GNM_const(8.0918754232915038797e-17),
+		/* 35 */ GNM_const(8.1850043476015809121e-18)
+	};
+	unsigned ci;
+	gnm_float vv, r = 0;
+
+	if (v >= 1)
+		return u - sinhu * gnm_cos (v);
+
+	// Above formula will suffer from cancellation
+	vv = v * v;
+	for (ci = G_N_ELEMENTS(c); ci-- > 0; )
+		r = r * vv + c[ci];
+	r *= v * vv;
+
+	if (0) {
+		gnm_float ref = u - sinhu * gnm_cos (v);
+		g_printerr ("XXX: %g %g %g\n", ref, r, ref - r);
+	}
+
+	return r;
+}
+
+static void
+integral_127_integrand (gnm_complex *res, gnm_float v, gnm_float const *args)
+{
+	gnm_float x = args[0];
+	gnm_float nu = args[1];
+
+	gnm_float u = integral_127_u (v);
+	// Deviation: Matviyenko uses taylor expansion for sinh for u < 1.
+	// There is no need, assuming a reasonable sinh implementation.
+	gnm_float sinhu = gnm_sinh (u);
+	gnm_float diff = integral_127_u_m_sinhu_cos_v (v, u, sinhu);
+	gnm_float sinv = gnm_sin (v);
+	gnm_float num = gnm_sinv_m_v_cosv (v, sinv);
+	gnm_float den = sinv * sinv * sinhu;
+	gnm_float du_dv = v ? num / den : 0;
+
+	gnm_complex xphi4, exphi4, i_du_dv;
+
+	gnm_complex_init (&xphi4, x * -diff + (x - nu) * u, (x - nu) * v);
+	gnm_complex_exp (&exphi4, &xphi4);
+	gnm_complex_init (&i_du_dv, du_dv, 1);
+	gnm_complex_mul (res, &exphi4, &i_du_dv);
+}
+
+static void
+integral_127 (gnm_complex *res, gnm_float x, gnm_float nu)
+{
+	// -i/Pi * Integrate[Exp[x*phi4[v]]*(i+du/dv),{v,0,Pi}]
+	//
+	// tau = 1-nu/x
+	// u(v) = acosh(v/sin(v))
+	// du/dv = (sin(v)-v*cos(v))/(sin^2(v)*sinh(u(v)))
+	// phi4(v) = sinh(u)*cos(v) - u(v) + tau(u(v) + i * v)
+
+	gnm_complex I, mipi;
+	gnm_float L = 0, H = M_PIgnum;
+	gnm_float args[2] = { x, nu };
+
+	complex_shink_integral_range (&L, &H, 0,
+				      integral_127_integrand, args);
+
+	complex_legendre_integral (&I, 33, L, H,
+				   integral_127_integrand, args);
+
+	gnm_complex_init (&mipi, 0, -1 / M_PIgnum);
+	gnm_complex_mul (res, &I, &mipi);
+
+	if (0)
+		g_printerr ("I127(%g,%g) = %.20g + %.20g*i\n", x, nu, res->re, res->im);
+}
+
+static gnm_float
+y_via_j_series (gnm_float nu, const gnm_float *args)
+{
+	gnm_float x = args[0];
+	gnm_float Jnu = bessel_j_series (x, nu);
+	gnm_float Jmnu = bessel_j_series (x, -nu);
+	gnm_float c = gnm_cospi (nu);
+	gnm_float s = gnm_sinpi (nu);
+	gnm_float Ynu = (Jnu * c - Jmnu) / s;
+	if (0) g_printerr ("via: %.20g %.20g %.20g %.20g %.20g\n", x, nu, Jnu, Jmnu, Ynu);
+	return Ynu;
+}
+
+static void
+hankel1_B1 (gnm_complex *res, gnm_float x, gnm_float nu, size_t N)
+{
+	debye_29 (res, x, nu, N);
+}
+
+static void
+hankel1_B2 (gnm_complex *res, gnm_float x, gnm_float nu, size_t N)
+{
+	gnm_float q = nu / x;
+	gnm_float d = gnm_sqrt (q * q - 1);
+	gnm_float eta2 = nu * gnm_log (q + d) - gnm_sqrt (nu * nu - x * x);
+
+	res->re = debye_32 (x, nu, eta2, N);
+	res->im = debye_33 (x, nu, eta2, N);
+}
+
+static void
+hankel1_A1 (gnm_complex *res, gnm_float x, gnm_float nu)
+{
+	gnm_float rnu = gnm_floor (nu + 0.5);
+	gnm_float Jnu = bessel_j_series (x, nu);
+	gnm_float Ynu;
+
+	if (gnm_abs (nu - rnu) > 5e-4) {
+		gnm_float Jmnu = bessel_j_series (x, -nu);
+		gnm_float c = gnm_cospi (nu);
+		gnm_float s = gnm_sinpi (nu);
+		Ynu = (Jnu * c - Jmnu) / s;
+	} else {
+		size_t N = 6;
+		gnm_float dnu = 1e-3;
+		gnm_float args[1] = { x };
+		Ynu = chebyshev_interpolant (N, rnu - dnu, rnu + dnu, nu,
+					     y_via_j_series, args);
+	}
+	gnm_complex_init (res, Jnu, Ynu);
+}
+
+static void
+hankel1_A2 (gnm_complex *res, gnm_float x, gnm_float nu)
+{
+	gnm_complex I1, I2;
+	integral_105_126 (&I1, x, nu, FALSE);
+	integral_106 (&I2, x, nu);
+	gnm_complex_add (res, &I1, &I2);
+}
+
+static void
+hankel1_A3 (gnm_complex *res, gnm_float x, gnm_float nu, gnm_float g)
+{
+	// Deviation: Matviyenko says to change variable to v = t^4 for g < 5.
+	// That works wonders for BesselJ[9,12.5], but is too sudden for
+	// BesselJ[1,10].  Instead, gradually move from power of 1 to power
+	// of 4.  The was the power is lowered is ad hoc.
+	//
+	// Also, we up the number of points from 37 to 47.
+
+	if (g > 5)
+		integral_83 (res, x, nu, 25, 1);
+	else if (g > 4)
+		integral_83 (res, x, nu, 47, 2);
+	else if (g > 3)
+		integral_83 (res, x, nu, 47, 3);
+	else
+		integral_83 (res, x, nu, 47, 4);
+}
+
+static void
+hankel1_A4 (gnm_complex *res, gnm_float x, gnm_float nu)
+{
+	gnm_complex J1, J2;
+	// Deviation: when Matviyenko says that (126) is the same as (105)
+	// with alpha=0, he is glossing over the finer points.  When he should
+	// have said is that the alpha in the limit is replaced by 0 and
+	// that the cosh(alpha) inside is replaced textually by nu/x.  (We may
+	// have nu<x and alpha isn't even defined in that case.)
+	integral_105_126 (&J1, x, nu, TRUE);
+	integral_127 (&J2, x, nu);
+	gnm_complex_add (res, &J1, &J2);
+}
+
+/* ------------------------------------------------------------------------ */
+
+// This follows "On the Evaluation of Bessel Functions" by Gregory Matviyenko.
+// Research report YALEU/DCS/RR-903, Yale, Dept. of Comp. Sci., 1992.
+//
+// Note: there are a few deviations are fixes in this code.  These are marked
+// with "deviation" or "erratum".
+
+static void
+hankel1 (gnm_complex *res, gnm_float x, gnm_float nu)
+{
+	gnm_float cbrtx, g;
+
+	gnm_complex_init (res, gnm_nan, gnm_nan);
+	if (gnm_isnan (x) || gnm_isnan (nu))
+		return;
+
+	g_return_if_fail (x >= 0);
+
+	// Deviation: make this work for negative nu also.
+	if (nu < 0) {
+		gnm_complex Hmnu, r;
+
+		hankel1 (&Hmnu, x, -nu);
+		if (0) g_printerr ("H_{%g,%g} = %.20g + %.20g * i\n", -nu, x, Hmnu.re, Hmnu.im);
+		gnm_complex_init (&r, gnm_cospi (-nu), gnm_sinpi (-nu));
+		gnm_complex_mul (res, &Hmnu, &r);
+		return;
+	}
+
+	cbrtx = gnm_cbrt (x);
+	g = gnm_abs (x - nu) / cbrtx;
+
+	if (x >= 17 && g >= 6.5) {
+		// Algorithm B
+		size_t N;
+		if (g < 7)
+			N = 17;
+		else if (g < 10)
+			N = 13;
+		else if (g < 23)
+			N = 9;
+		else
+			N = 5;
+
+		if (nu < x)
+			hankel1_B1 (res, x, nu, N);
+		else
+			hankel1_B2 (res, x, nu, N);
+	} else {
+		// Algorithm A
+		// Deviation: we use the series on a wider domain as our
+		// series code uses quad precision.
+		if (bessel_j_series_domain (x, nu))
+			hankel1_A1 (res, x, nu);
+		else if (nu > x && g > 1.5)
+			hankel1_A2 (res, x, nu);
+		else if (x >= 9 && nu < x && g > 1.5)
+			hankel1_A3 (res, x, nu, g);
+		else
+			hankel1_A4 (res, x, nu);
+	}
 }
 
 /* ------------------------------------------------------------------------ */
@@ -2368,15 +2433,21 @@ gnm_bessel_i (gnm_float x, gnm_float alpha)
 gnm_float
 gnm_bessel_j (gnm_float x, gnm_float alpha)
 {
+	if (gnm_isnan (x) || gnm_isnan (alpha))
+		return x + alpha;
+
 	if (x < 0) {
 		if (alpha != gnm_floor (alpha))
 			return gnm_nan;
 
 		return gnm_fmod (alpha, 2) == 0
-			? bessel_j (-x, alpha)  /* Even for even alpha */
-			: 0 - bessel_j (-x, alpha);  /* Odd for odd alpha */
-	} else
-		return bessel_j (x, alpha);
+			? gnm_bessel_j (-x, alpha)  /* Even for even alpha */
+			: 0 - gnm_bessel_j (-x, alpha);  /* Odd for odd alpha */
+	} else {
+		gnm_complex H1;
+		hankel1 (&H1, x, alpha);
+		return H1.re;
+	}
 }
 
 gnm_float
@@ -2388,7 +2459,21 @@ gnm_bessel_k (gnm_float x, gnm_float alpha)
 gnm_float
 gnm_bessel_y (gnm_float x, gnm_float alpha)
 {
-	return bessel_y (x, alpha);
+	if (gnm_isnan (x) || gnm_isnan (alpha))
+		return x + alpha;
+
+	if (x < 0) {
+		if (alpha != gnm_floor (alpha))
+			return gnm_nan;
+
+		return gnm_fmod (alpha, 2) == 0
+			? gnm_bessel_y (-x, alpha)  /* Even for even alpha */
+			: 0 - gnm_bessel_y (-x, alpha);  /* Odd for odd alpha */
+	} else {
+		gnm_complex H1;
+		hankel1 (&H1, x, alpha);
+		return H1.im;
+	}
 }
 
 /* ------------------------------------------------------------------------- */
