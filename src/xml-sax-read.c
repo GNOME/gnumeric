@@ -2332,15 +2332,20 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		go_io_warning (state->context, _("Missing filter type"));
 	} else if (0 == g_ascii_strcasecmp (type, "expr")) {
 		GnmValue *v0 = NULL, *v1 = NULL;
-		if (val0 != NULL && vtype0 != VALUE_EMPTY)
+		if (val0 && vtype0 != VALUE_EMPTY && op0 != GNM_FILTER_UNUSED)
 			v0 = value_new_from_string (vtype0, val0, NULL, FALSE);
-		if (val1 != NULL && vtype1 != VALUE_EMPTY)
+		if (val1 && vtype1 != VALUE_EMPTY && op1 != GNM_FILTER_UNUSED)
 			v1 = value_new_from_string (vtype1, val1, NULL, FALSE);
 		if (v0 && v1)
 			cond = gnm_filter_condition_new_double (
 				op0, v0, is_and, op1, v1);
-		else if (v0)
+		else if (v0 && op0)
 			cond = gnm_filter_condition_new_single (op0, v0);
+		else {
+			go_io_warning (state->context, _("Malformed sheet filter condition"));
+			value_release (v0);
+			value_release (v1);
+		}
 	} else if (0 == g_ascii_strcasecmp (type, "blanks")) {
 		cond = gnm_filter_condition_new_single (
 			GNM_FILTER_OP_BLANKS, NULL);

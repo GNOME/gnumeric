@@ -1,5 +1,8 @@
 2016-01-29  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-read.c (xml_sax_filter_condition): Leak fix and warn
+	about broken sheet filter.
+
 	* src/sheet-filter.c (gnm_filter_condition_new_single)
 	(gnm_filter_condition_new_double): Plug leak on error.
 	(gnm_filter_op_needs_value): Handle GNM_FILTER_UNUSED.
