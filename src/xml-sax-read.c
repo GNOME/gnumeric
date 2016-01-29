@@ -2307,7 +2307,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (NULL == state->filter) return;
 
-	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2)
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
 		if (attr_eq (attrs[i], "Type"))   type = CXML2C (attrs[i + 1]);
 		else if (gnm_xml_attr_int (attrs+i, "Index", &cond_num)) ;
 		else if (gnm_xml_attr_bool (attrs, "Top", &top)) ;
@@ -2326,6 +2326,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_eq (attrs[i], "ValueType1")) val1 = CXML2C (attrs[i + 1]);
 		else if (gnm_xml_attr_int (attrs+i, "Value0", &tmp)) vtype0 = tmp;
 		else if (gnm_xml_attr_int (attrs+i, "Value1", &tmp)) vtype1 = tmp;
+	}
 
 	if (NULL == type) {
 		go_io_warning (state->context, _("Missing filter type"));

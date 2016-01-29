@@ -1,6 +1,13 @@
+2016-01-29  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-filter.c (gnm_filter_condition_new_single)
+	(gnm_filter_condition_new_double): Plug leak on error.
+	(gnm_filter_op_needs_value): Handle GNM_FILTER_UNUSED.
+
 2016-01-28  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/graph.c (gnm_go_data_vector_get_str): fix for a range value. [#761048]
+	* src/graph.c (gnm_go_data_vector_get_str): fix for a range
+	value. [#761048]
 
 2016-01-27  Morten Welinder  <terra@gnome.org>
 
