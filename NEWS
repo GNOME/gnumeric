@@ -24,6 +24,7 @@ Morten:
 	* Work around gtk+ bug causing growing windows.  [#761142]
 	* Improve BESSELJ and BESSELY.
 	* Improve BETA accuracy.
+	* Fix problem with database functions.  [#761305]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.26

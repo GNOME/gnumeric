@@ -1,3 +1,8 @@
+2016-01-30  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (find_column_of_field): Insist that the database be
+	a cell range, not an array.
+
 2016-01-29  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-bessel.c (gnm_bessel_i): Use series for small x.

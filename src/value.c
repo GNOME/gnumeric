@@ -1676,6 +1676,11 @@ find_column_of_field (GnmEvalPos const *ep,
 	int   begin_col, end_col, row, n, column;
 	int   offset;
 
+	// I'm not certain we shoul demand this, but the code clearly wants
+	// it.
+	if (!VALUE_IS_CELLRANGE (database))
+		return -1;
+
 	offset = database->v_range.cell.a.col;
 
 	if (VALUE_IS_FLOAT (field))
