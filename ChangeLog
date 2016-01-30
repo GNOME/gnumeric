@@ -1,5 +1,9 @@
 2016-01-29  Morten Welinder  <terra@gnome.org>
 
+	* src/sf-bessel.c (gnm_bessel_i): Use series for small x.
+	(bessel_ij_series): Rename from bessel_j_series and extend to
+	handle i also.
+
 	* src/sf-gamma.c (qbetaf): Improve accuracy in the case where one
 	argument is less than one.
 

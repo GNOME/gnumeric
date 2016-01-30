@@ -1158,7 +1158,7 @@ L420:
 /* ------------------------------------------------------------------------ */
 
 static gboolean
-bessel_j_series_domain (gnm_float x, gnm_float v)
+bessel_ij_series_domain (gnm_float x, gnm_float v)
 {
 	// The taylor series is valid for all possible values of x and v,
 	// but it isn't efficient and practical for all.
@@ -1185,7 +1185,7 @@ bessel_j_series_domain (gnm_float x, gnm_float v)
 
 
 static gnm_float
-bessel_j_series (gnm_float x, gnm_float v)
+bessel_ij_series (gnm_float x, gnm_float v, gboolean qj)
 {
 	GnmQuad qv, qxh, qfv, qs, qt;
 	int efv;
@@ -1232,8 +1232,9 @@ bessel_j_series (gnm_float x, gnm_float v)
 			gnm_float t;
 
 			gnm_quad_mul (&qt, &qt, &qxh2);
-			gnm_quad_init (&qa, -k);
-			gnm_quad_sub (&qb, &qv, &qa);
+			gnm_quad_init (&qa, k);
+			gnm_quad_add (&qb, &qv, &qa);
+			gnm_quad_init (&qa, qj ? -k : k);
 			gnm_quad_mul (&qa, &qa, &qb);
 			gnm_quad_div (&qt, &qt, &qa);
 			t = gnm_quad_value (&qt);
@@ -2263,8 +2264,8 @@ y_via_j_series (gnm_float nu, const gnm_float *args)
 	gnm_float x = args[0];
 	gnm_float c = gnm_cospi (nu);
 	gnm_float s = gnm_sinpi (nu);
-	gnm_float c_Jnu = c == 0 ? 0 : c * bessel_j_series (x, nu);
-	gnm_float Jmnu = bessel_j_series (x, -nu);
+	gnm_float c_Jnu = c == 0 ? 0 : c * bessel_ij_series (x, nu, TRUE);
+	gnm_float Jmnu = bessel_ij_series (x, -nu, TRUE);
 	gnm_float Ynu = (c_Jnu - Jmnu) / s;
 	if (0) g_printerr ("via: %.20g %.20g %.20g %.20g %.20g\n", x, nu, c_Jnu, Jmnu, Ynu);
 	return Ynu;
@@ -2291,11 +2292,11 @@ static void
 hankel1_A1 (gnm_complex *res, gnm_float x, gnm_float nu)
 {
 	gnm_float rnu = gnm_floor (nu + 0.5);
-	gnm_float Jnu = bessel_j_series (x, nu);
+	gnm_float Jnu = bessel_ij_series (x, nu, TRUE);
 	gnm_float Ynu;
 
 	if (gnm_abs (nu - rnu) > 5e-4) {
-		gnm_float Jmnu = bessel_j_series (x, -nu);
+		gnm_float Jmnu = bessel_ij_series (x, -nu, TRUE);
 		gnm_float c = gnm_cospi (nu);
 		gnm_float s = gnm_sinpi (nu);
 		Ynu = ((c == 0 ? 0 : Jnu * c) - Jmnu) / s;
@@ -2405,7 +2406,7 @@ hankel1 (gnm_complex *res, gnm_float x, gnm_float nu)
 		// Algorithm A
 		// Deviation: we use the series on a wider domain as our
 		// series code uses quad precision.
-		if (bessel_j_series_domain (x, nu))
+		if (bessel_ij_series_domain (x, nu))
 			hankel1_A1 (res, x, nu);
 		else if (nu > x && g > 1.5)
 			hankel1_A2 (res, x, nu);
@@ -2421,6 +2422,12 @@ hankel1 (gnm_complex *res, gnm_float x, gnm_float nu)
 gnm_float
 gnm_bessel_i (gnm_float x, gnm_float alpha)
 {
+	if (gnm_isnan (x) || gnm_isnan (alpha))
+		return x + alpha;
+
+	if (bessel_ij_series_domain (x, alpha))
+		return bessel_ij_series (x, alpha, FALSE);
+
 	if (x < 0) {
 		if (alpha != gnm_floor (alpha))
 			return gnm_nan;
