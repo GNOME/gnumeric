@@ -17634,7 +17634,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>array</parameter> contains no data points, this function returns a #NUM! error. If <parameter>significance</parameter> is less than one, this function returns a #NUM! error. If <parameter>x</parameter> exceeds the largest value or is less than the smallest value in <parameter>array</parameter>, this function returns a #NUM! error. If <parameter>x</parameter> does not match any of the values in <parameter>array</parameter> or <parameter>x</parameter> matches more than once, this function interpolates the returned value.</para>
+        <para>If <parameter>array</parameter> contains no data points, this function returns a #NUM! error. If <parameter>significance</parameter> is less than one, this function returns a #NUM! error. If <parameter>x</parameter> exceeds the largest value or is less than the smallest value in <parameter>array</parameter>, this function returns an #N/A! error. If <parameter>x</parameter> does not match any of the values in <parameter>array</parameter> or <parameter>x</parameter> matches more than once, this function interpolates the returned value.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17673,7 +17673,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>array</parameter> contains no data points, this function returns a #NUM! error. If <parameter>significance</parameter> is less than one, this function returns a #NUM! error. If <parameter>x</parameter> exceeds the largest value or is less than the smallest value in <parameter>array</parameter>, this function returns a #NUM! error. If <parameter>x</parameter> does not match any of the values in <parameter>array</parameter> or <parameter>x</parameter> matches more than once, this function interpolates the returned value.</para>
+        <para>If <parameter>array</parameter> contains no data points, this function returns a #NUM! error. If <parameter>significance</parameter> is less than one, this function returns a #NUM! error. If <parameter>x</parameter> exceeds the largest value or is less than the smallest value in <parameter>array</parameter>, this function returns an #N/A! error. If <parameter>x</parameter> does not match any of the values in <parameter>array</parameter> or <parameter>x</parameter> matches more than once, this function interpolates the returned value.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

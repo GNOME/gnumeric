@@ -2839,7 +2839,7 @@ static GnmFuncHelp const help_percentrank[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{significance} is less than one, this function returns a #NUM! "
 				 "error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} exceeds the largest value or is less than the smallest "
-				 "value in @{array}, this function returns a #NUM! error.") },
+				 "value in @{array}, this function returns an #N/A! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} does not match any of the values in @{array} or @{x} matches "
 				 "more than once, this function interpolates the returned value.") },
 	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"},
@@ -2943,7 +2943,7 @@ static GnmFuncHelp const help_percentrank_exc[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{significance} is less than one, this function returns a #NUM! "
 				 "error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} exceeds the largest value or is less than the smallest "
-				 "value in @{array}, this function returns a #NUM! error.") },
+				 "value in @{array}, this function returns an #N/A! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} does not match any of the values in @{array} or @{x} matches "
 				 "more than once, this function interpolates the returned value.") },
 	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,PERCENTILE.EXC,QUARTILE,QUARTILE.EXC,SMALL"},
