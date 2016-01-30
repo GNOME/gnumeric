@@ -589,24 +589,28 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 static PangoFontDescription *
 get_font (void)
 {
-	/* Note: Under gnumeric, we appear to get a proper font using */
-	/*       GtkStyleContext. Under ssconvert, some seem to get a */
-	/*       proper font using GtkStyleContext, some don't. Those */
-	/*       get one using the Gsettings. The 'sans 10' is just   */
-	/*       insurance */
-	PangoFontDescription *desc;
+	// Note: Under gnumeric, we get a proper font using GtkStyleContext.
+	// Under ssconvert, we try GSettings.
+	// The 'sans 10' is just insurance
 
-	GtkStyleContext *style = gtk_style_context_new ();
-	GtkWidgetPath *path = gtk_widget_path_new ();
+	PangoFontDescription *desc;
 	PangoFontMask mask;
 	int size = 0;
 
-	gtk_style_context_set_path (style, path);
-	gtk_widget_path_unref (path);
+	if (gdk_screen_get_default ()) {
+		// Without a default screen, the following will crash
+		// with newer gtk+.
+		GtkStyleContext *style = gtk_style_context_new ();
+		GtkWidgetPath *path = gtk_widget_path_new ();
 
-	gtk_style_context_get (style, GTK_STATE_FLAG_NORMAL,
-			       GTK_STYLE_PROPERTY_FONT, &desc, NULL);
-	g_object_unref (style);
+		gtk_style_context_set_path (style, path);
+		gtk_widget_path_unref (path);
+
+		gtk_style_context_get (style, GTK_STATE_FLAG_NORMAL,
+				       GTK_STYLE_PROPERTY_FONT, &desc, NULL);
+		g_object_unref (style);
+	} else
+		desc = pango_font_description_new ();
 
 	mask = pango_font_description_get_set_fields (desc);
 	if ((mask & PANGO_FONT_MASK_SIZE) != 0)

@@ -1,5 +1,8 @@
 2016-01-30  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object-widget.c (get_font): Under ssconvert, don't try
+	GtkStyleContext.  Another ABI changes causes that to crash.
+
 	* src/value.c (find_column_of_field): Insist that the database be
 	a cell range, not an array.
 
