@@ -1,5 +1,8 @@
 2016-01-29  Morten Welinder  <terra@gnome.org>
 
+	* src/sf-gamma.c (qbetaf): Improve accuracy in the case where one
+	argument is less than one.
+
 	* src/xml-sax-read.c (xml_sax_filter_condition): Leak fix and warn
 	about broken sheet filter.
 

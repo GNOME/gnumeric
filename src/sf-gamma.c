@@ -8,6 +8,7 @@
 #define ML_ERROR(cause) do { } while(0)
 
 static int qgammaf (gnm_float x, GnmQuad *mant, int *exp2);
+static void pochhammer_small_n (gnm_float x, gnm_float n, GnmQuad *res);
 
 
 /* Compute  gnm_log(gamma(a+1))  accurately also for small a (0 < a < 0.5). */
@@ -512,6 +513,24 @@ qbetaf (gnm_float a, gnm_float b, GnmQuad *mant, int *exp2)
 	if (ab <= 0 && ab == gnm_floor (ab)) {
 		gnm_quad_init (mant, 0);
 		*exp2 = 0;
+		return 0;
+	}
+
+	if (b > a) {
+		gnm_float s = a;
+		a = b;
+		b = s;
+	}
+
+	if (a > 20 && gnm_abs (b) < 1) {
+		void *state;
+		if (qgammaf (b, &mb, &eb))
+			return 1;
+		state = gnm_quad_start ();
+		pochhammer_small_n (a, b, &ma);
+		gnm_quad_div (mant, &mb, &ma);
+		gnm_quad_end (state);
+		*exp2 = eb;
 		return 0;
 	}
 

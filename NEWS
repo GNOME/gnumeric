@@ -23,6 +23,7 @@ Morten:
 	* Fix canvas problem leaving grab in place.  [#760639]
 	* Work around gtk+ bug causing growing windows.  [#761142]
 	* Improve BESSELJ and BESSELY.
+	* Improve BETA accuracy.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.26
