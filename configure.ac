@@ -85,7 +85,15 @@ if test "$ac_cv_prog_cc_c99" = no; then
 fi
 
 AC_PROG_YACC
+if test "x$ac_cv_prog_YACC" = x; then
+	AC_MSG_ERROR([*** bison or equivalent is required])
+fi
+
 AM_PROG_LEX
+if test "x$ac_cv_prog_LEX" = x; then
+	AC_MSG_ERROR([*** flex or equivalent is required])
+fi
+
 AC_PROG_LN_S
 AC_HEADER_STDC
 

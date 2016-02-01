@@ -26,6 +26,8 @@ Morten:
 	* Improve BETA accuracy.
 	* Fix problem with database functions.  [#761305]
 	* Fix font problem for ssconvert to pdf.  [#761296]
+	* Fix bison check.  [#761398]
+
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.26
