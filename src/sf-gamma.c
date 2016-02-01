@@ -1277,11 +1277,16 @@ complex_fact (gnm_complex *dst, gnm_complex const *src)
 
 /* ------------------------------------------------------------------------- */
 
-static void
-igamma_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
+typedef void (*GnmComplexContinuedFraction) (gnm_complex *ai, gnm_complex *bi,
+					     size_t i, const gnm_complex *args);
+
+static gboolean
+gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
+				GnmComplexContinuedFraction cf,
+				gnm_complex const *args)
 {
 	gnm_complex A0, A1, B0, B1;
-	int i;
+	size_t i;
 	const gboolean debug_cf = FALSE;
 
 	gnm_complex_init (&A0, 1, 0);
@@ -1289,22 +1294,12 @@ igamma_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 	gnm_complex_init (&B0, 0, 0);
 	gnm_complex_init (&B1, 1, 0);
 
-	for (i = 1; i < 100; i++) {
+	for (i = 1; i < N; i++) {
 		gnm_complex ai, bi, t1, t2, c1, c2, A2, B2;
 		gnm_float m;
 		const gnm_float BIG = GNM_const(18446744073709551616.0);
 
-		if (i == 1)
-			gnm_complex_init (&ai, 1, 0);
-		else if (i & 1) {
-			gnm_float f = (i >> 1);
-			gnm_complex_init (&ai, z->re * f, z->im * f);
-		} else {
-			gnm_complex f;
-			gnm_complex_init (&f, -(a->re + ((i >> 1) - 1)), -a->im);
-			gnm_complex_mul (&ai, &f, z);
-		}
-		gnm_complex_init (&bi, a->re + (i - 1), a->im);
+		cf (&ai, &bi, i, args);
 
 		/* Update A. */
 		gnm_complex_mul (&t1, &bi, &A1);
@@ -1346,21 +1341,60 @@ igamma_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 			g_printerr ("  b : %.20g + %.20g I\n", bi.re, bi.im);
 			g_printerr ("  A : %.20g + %.20g I\n", A1.re, A1.im);
 			g_printerr ("  B : %.20g + %.20g I\n", B1.re, B1.im);
-			g_printerr ("%3d : %.20g + %.20g I\n", i, t1.re, t1.im);
+			g_printerr ("%3zd : %.20g + %.20g I\n", i, t1.re, t1.im);
 		}
 
 		if (gnm_complex_mod (&c1) <= gnm_complex_mod (&c2) * (16 * GNM_EPSILON))
 			break;
 	}
 
-	if (i == 100) {
+	if (i == N) {
+		g_printerr ("continued fraction failed to converge.\n");
 		/* Make the failure obvious. */
 		dst->re = dst->im = gnm_nan;
-		g_printerr ("igamma_cf not converged\n");
-		return;
+		return FALSE;
 	}
 
 	gnm_complex_div (dst, &A1, &B1);
+	return TRUE;
+}
+
+static void
+igamma_upper_coefs (gnm_complex *ai, gnm_complex *bi, size_t i,
+		    gnm_complex const *args)
+{
+	gnm_complex const *a = args + 0;
+	gnm_complex const *z = args + 1;
+
+	if (i == 1)
+		gnm_complex_real (ai, 1);
+	else if (i & 1) {
+		gnm_float f = (i >> 1);
+		gnm_complex_init (ai, z->re * f, z->im * f);
+	} else {
+		gnm_complex f;
+		gnm_complex_init (&f, -(a->re + ((i >> 1) - 1)), -a->im);
+		gnm_complex_mul (ai, &f, z);
+	}
+
+	gnm_complex_init (bi, a->re + (i - 1), a->im);
+}
+
+static void
+igamma_upper_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
+{
+	gnm_complex args[2] = { *a, *z };
+	gnm_complex f, mz, res;
+
+	(void)gnm_complex_continued_fraction (&res, 100, igamma_upper_coefs, args);
+
+	// FIXME: The following should be handled without creating big numbers.
+
+       	mz.re = -z->re, mz.im = -z->im;
+	gnm_complex_exp (&f, &mz);
+	gnm_complex_mul (&res, &res, &f);
+	gnm_complex_pow (&f, z, a);
+	gnm_complex_mul (dst, &res, &f);
 }
 
 
@@ -1368,7 +1402,8 @@ void
 complex_igamma (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z,
 		gboolean lower, gboolean regularized)
 {
-	gnm_complex res, f, mz;
+	gnm_complex res;
+	gboolean have_lower, have_regularized;
 
 	if (gnm_complex_zero_p (a)) {
 		if (!lower && !regularized)
@@ -1381,43 +1416,31 @@ complex_igamma (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z,
 	if (gnm_complex_real_p (a) && a->re >= 0 &&
 	    gnm_complex_real_p (z) && z->re >= 0) {
 		gnm_complex_init (&res, pgamma (z->re, a->re, 1, lower, FALSE), 0);
-		if (!regularized) {
-			gnm_complex g;
-			complex_gamma (&g, a);
-			gnm_complex_mul (&res, &res, &g);
-		}
-		*dst = res;
-		return;
+		have_lower = lower;
+		have_regularized = FALSE;
+		goto fixup;
 	}
 
-	igamma_cf (&res, a, z);
+	igamma_upper_cf (&res, a, z);
+	have_lower = FALSE;
+	have_regularized = FALSE;
 
-	/*
-	 * FIXME: The following three blocks should be handled without
-	 * creating big numbers.
-	 */
-
-       	mz.re = -z->re, mz.im = -z->im;
-	gnm_complex_exp (&f, &mz);
-	gnm_complex_mul (&res, &res, &f);
-	gnm_complex_pow (&f, z, a);
-	gnm_complex_mul (&res, &res, &f);
-
-	if (!regularized && lower) {
-		/* Nothing */
-	} else {
+fixup:
+	// Fixup to the desired form as needed.  This is not ideal.
+	// 1. Regularizing here is too late due to overflow.
+	// 2. Upper/lower switch can have cancellation
+	if (regularized != have_regularized) {
 		gnm_complex g;
 		complex_gamma (&g, a);
 
-		if (regularized) {
+		if (have_regularized)
+			gnm_complex_mul (&res, &res, &g);
+		else
 			gnm_complex_div (&res, &res, &g);
-			if (!lower)
-				res.re = 1 - res.re;
-		} else {
-			/* !lower here */
-			gnm_complex_sub (&res, &g, &res);
-		}
 	}
+
+	if (lower != have_lower)
+		res.re = 1 - res.re;
 
 	*dst = res;
 }

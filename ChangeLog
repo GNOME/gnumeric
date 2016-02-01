@@ -1,3 +1,8 @@
+2016-01-31  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-gamma.c (igamma_upper_cf): Extract generic code for
+	complex continued fractions.
+
 2016-01-30  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c (get_font): Under ssconvert, don't try
