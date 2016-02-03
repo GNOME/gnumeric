@@ -27,7 +27,7 @@ Morten:
 	* Fix problem with database functions.  [#761305]
 	* Fix font problem for ssconvert to pdf.  [#761296]
 	* Fix bison check.  [#761398]
-
+	* Improve IMIGAMMA coverage.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.26

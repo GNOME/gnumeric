@@ -1,3 +1,10 @@
+2016-02-02  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-gamma.c (complex_igamma): Try asymptotic expansion.
+	(gamma_error_factor): Extend to all positive numbers.
+	(pochhammer_small_n): Allow any x > 1.
+	(qbetaf): Use pochhammer_small_n as long as a > 1 and |b| < 1.
+
 2016-02-01  Morten Welinder  <terra@gnome.org>
 
 	* configure.ac (yacc, lex): Fail if the required program isn't

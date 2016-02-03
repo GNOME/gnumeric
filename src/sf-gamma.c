@@ -522,7 +522,7 @@ qbetaf (gnm_float a, gnm_float b, GnmQuad *mant, int *exp2)
 		b = s;
 	}
 
-	if (a > 20 && gnm_abs (b) < 1) {
+	if (a > 1 && gnm_abs (b) < 1) {
 		void *state;
 		if (qgammaf (b, &mb, &eb))
 			return 1;
@@ -621,7 +621,7 @@ gnm_lbeta3 (gnm_float a, gnm_float b, int *sign)
  *
  *   Gamma(x) = sqrt(2Pi) * x^(x-1/2) * exp(-x) * E(x)
  *
- * x should be >20 and the result is, roughly, 1+1/(12x).
+ * x should be >0 and the result is, roughly, 1+1/(12x).
  */
 static void
 gamma_error_factor (GnmQuad *res, const GnmQuad *x)
@@ -648,20 +648,64 @@ gamma_error_factor (GnmQuad *res, const GnmQuad *x)
 		GNM_const(86684309913600.),
 		GNM_const(514904800886784000.)
 	};
-	GnmQuad zn;
+	GnmQuad zn, xpn;
 	int i;
+	gnm_float xval = gnm_quad_value (x);
+	int n;
+
+	g_return_if_fail (xval > 0);
+
+	// We want x >= 20 for the asymptotic expansion
+	n = (xval < 20) ? (int)gnm_floor (21 - xval) : 0;
+	gnm_quad_init (&xpn, n);
+	gnm_quad_add (&xpn, &xpn, x);
 
 	gnm_quad_init (&zn, 1);
 	*res = zn;
 
 	for (i = 0; i < (int)G_N_ELEMENTS (num); i++) {
 		GnmQuad t, c;
-		gnm_quad_mul (&zn, &zn, x);
+		gnm_quad_mul (&zn, &zn, &xpn);
 		gnm_quad_init (&c, den[i]);
 		gnm_quad_mul (&t, &zn, &c);
 		gnm_quad_init (&c, num[i]);
 		gnm_quad_div (&t, &c, &t);
 		gnm_quad_add (res, res, &t);
+	}
+
+	if (n > 0) {
+		int i;
+		GnmQuad en, xxn, xph;
+
+		// Gamma(x) = sqrt(2Pi) * x^(x-1/2) * exp(-x) * E(x)
+		// Gamma(x+n) = sqrt(2Pi) * (x+n)^(x+n-1/2) * exp(-x-n) * E(x+n)
+
+		// E(x+n) / E(x) =
+		// Gamma(x+n)/Gamma(x) * (x^(x-1/2) * exp(-x)) / ((x+n)^(x+n-1/2) * exp(-x-n)) =
+		// (x*(x+1)*...*(x+n-1)) * exp(n) * (x/(x+n))^(x-1/2) / (x+n)^n =
+		// ((x+1)*...*(x+n-1)) * exp(n) * (x/(x+n))^(x+1/2) / (x+n)^(n-1) =
+		// ((x+1)/(x+n)*...*(x+n-1)/(x+n)) * exp(n) * (x/(x+n))^(x+1/2)
+
+		for (i = 1; i < n; i++) {
+			// *= (x+i)/(x+n)
+			GnmQuad xpi;
+			gnm_quad_init (&xpi, i);
+			gnm_quad_add (&xpi, &xpi, x);
+			gnm_quad_div (res, res, &xpi);
+			gnm_quad_mul (res, res, &xpn);
+		}
+
+		// /= exp(n)
+		gnm_quad_init (&en, n);
+		gnm_quad_exp (&en, NULL, &en);
+		gnm_quad_div (res, res, &en);
+
+		// /= (x/(x+n))^(x+1/2)
+		gnm_quad_init (&xph, 0.5);
+		gnm_quad_add (&xph, &xph, x);
+		gnm_quad_div (&xxn, x, &xpn);
+		gnm_quad_pow (&xxn, NULL, &xxn, &xph);
+		gnm_quad_div (res, res, &xxn);
 	}
 }
 
@@ -674,7 +718,7 @@ pochhammer_small_n (gnm_float x, gnm_float n, GnmQuad *res)
 	gnm_float r;
 	gboolean debug = FALSE;
 
-	g_return_if_fail (x >= 20);
+	g_return_if_fail (x >= 1);
 	g_return_if_fail (gnm_abs (n) <= 1);
 
 	/*
@@ -1277,6 +1321,23 @@ complex_fact (gnm_complex *dst, gnm_complex const *src)
 
 /* ------------------------------------------------------------------------- */
 
+// D(a,z) := z^a * exp(-z) / Gamma (a + 1)
+static void
+complex_temme_D (gnm_complex *res, gnm_complex const *a, gnm_complex const *z)
+{
+	gnm_complex t, ez, fa;
+
+	// The idea here is to control intermediate sizes and to avoid
+	// accuracy problems caused by exp and pow.  For now, do neither.
+
+	gnm_complex_pow (&t, z, a);
+	gnm_complex_exp (&ez, z);
+	gnm_complex_div (&t, &t, &ez);
+	complex_gamma (&fa, a);
+	gnm_complex_div (res, &t, &fa);
+}
+
+
 typedef void (*GnmComplexContinuedFraction) (gnm_complex *ai, gnm_complex *bi,
 					     size_t i, const gnm_complex *args);
 
@@ -1397,6 +1458,56 @@ igamma_upper_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 	gnm_complex_mul (dst, &res, &f);
 }
 
+static gboolean
+igamma_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
+{
+	gnm_float am = gnm_complex_mod (a);
+	gnm_float zm = gnm_complex_mod (z);
+	gnm_float n0;
+	gnm_complex s, t, am1;
+	gboolean debug = TRUE;
+	size_t i;
+
+	if (am >= zm)
+		return FALSE;
+
+	// Things start to diverge here
+	n0 = a->re + gnm_sqrt (zm * zm - a->im * a->im);
+	(void)n0;
+
+	// FIXME: Verify this condition for whether we have enough
+	// precision at term n0
+	if (2 * zm < GNM_MANT_DIG * M_LN2gnum)
+		return FALSE;
+
+	gnm_complex_real (&s, 0);
+
+	gnm_complex_init (&am1, a->re - 1, a->im);
+	complex_temme_D (&t, &am1, z);
+
+	for (i = 0; i < 100; i++) {
+		gnm_complex api;
+
+		gnm_complex_add (&s, &s, &t);
+
+		if (gnm_complex_mod (&t) <= gnm_complex_mod (&s) * (16 * GNM_EPSILON)) {
+			if (debug)
+				g_printerr ("igamma_asymp converged.\n");
+			*dst = s;
+			return TRUE;
+		}
+
+		gnm_complex_div (&t, &t, z);
+		gnm_complex_init (&api, a->re + i, a->im);
+		gnm_complex_mul (&t, &t, &api);
+	}
+
+	if (debug)
+		g_printerr ("igamma_asymp failed to converge.\n");
+
+	return FALSE;
+}
+
 
 void
 complex_igamma (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z,
@@ -1418,6 +1529,12 @@ complex_igamma (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z,
 		gnm_complex_init (&res, pgamma (z->re, a->re, 1, lower, FALSE), 0);
 		have_lower = lower;
 		have_regularized = FALSE;
+		goto fixup;
+	}
+
+	if (igamma_asymp (&res, a, z)) {
+		have_lower = TRUE;
+		have_regularized = TRUE;
 		goto fixup;
 	}
 
