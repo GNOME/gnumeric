@@ -1465,7 +1465,7 @@ igamma_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 	gnm_float zm = gnm_complex_mod (z);
 	gnm_float n0;
 	gnm_complex s, t, am1;
-	gboolean debug = TRUE;
+	gboolean debug = FALSE;
 	size_t i;
 
 	if (am >= zm)
