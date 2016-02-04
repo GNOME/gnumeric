@@ -1,3 +1,11 @@
+2016-02-04  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-gamma.c (complex_temme_D): Fix factorial computation.
+	(gnm_complex_continued_fraction): Fail if we would otherwise try
+	to rescale by 0.  Fix termination condition.
+	(igamma_asymp): Fix term update.
+	(complex_igamma): Fix flavour fixup.
+
 2016-02-02  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-gamma.c (complex_igamma): Try asymptotic expansion.

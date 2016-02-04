@@ -1333,7 +1333,7 @@ complex_temme_D (gnm_complex *res, gnm_complex const *a, gnm_complex const *z)
 	gnm_complex_pow (&t, z, a);
 	gnm_complex_exp (&ez, z);
 	gnm_complex_div (&t, &t, &ez);
-	complex_gamma (&fa, a);
+	complex_fact (&fa, a);
 	gnm_complex_div (res, &t, &fa);
 }
 
@@ -1379,14 +1379,19 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 		if (m >= BIG || m <= 1 / BIG) {
 			int e;
 			gnm_float s;
+
+			if (m == 0)
+				return FALSE;
+
 			(void)frexp (m, &e);
+			if (debug_cf)
+				g_printerr ("rescale by 2^%d\n", -e);
+
 			s = ldexp (1, -e);
 			A0.re *= s; A0.im *= s;
 			A1.re *= s; A1.im *= s;
 			B0.re *= s; B0.im *= s;
 			B1.re *= s; B1.im *= s;
-			if (debug_cf)
-				g_printerr ("rescale\n");
 		}
 
 		/* Check for convergence */
@@ -1405,7 +1410,7 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 			g_printerr ("%3zd : %.20g + %.20g I\n", i, t1.re, t1.im);
 		}
 
-		if (gnm_complex_mod (&c1) <= gnm_complex_mod (&c2) * (16 * GNM_EPSILON))
+		if (gnm_complex_mod (&c1) <= gnm_complex_mod (&c2) * (GNM_EPSILON /2))
 			break;
 	}
 
@@ -1421,7 +1426,7 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 }
 
 static void
-igamma_upper_coefs (gnm_complex *ai, gnm_complex *bi, size_t i,
+igamma_lower_coefs (gnm_complex *ai, gnm_complex *bi, size_t i,
 		    gnm_complex const *args)
 {
 	gnm_complex const *a = args + 0;
@@ -1430,8 +1435,9 @@ igamma_upper_coefs (gnm_complex *ai, gnm_complex *bi, size_t i,
 	if (i == 1)
 		gnm_complex_real (ai, 1);
 	else if (i & 1) {
-		gnm_float f = (i >> 1);
-		gnm_complex_init (ai, z->re * f, z->im * f);
+		gnm_complex f;
+		gnm_complex_real (&f, i >> 1);
+		gnm_complex_mul (ai, &f, z);
 	} else {
 		gnm_complex f;
 		gnm_complex_init (&f, -(a->re + ((i >> 1) - 1)), -a->im);
@@ -1441,13 +1447,14 @@ igamma_upper_coefs (gnm_complex *ai, gnm_complex *bi, size_t i,
 	gnm_complex_init (bi, a->re + (i - 1), a->im);
 }
 
-static void
-igamma_upper_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
+static gboolean
+igamma_lower_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 {
 	gnm_complex args[2] = { *a, *z };
 	gnm_complex f, mz, res;
 
-	(void)gnm_complex_continued_fraction (&res, 100, igamma_upper_coefs, args);
+	if (!gnm_complex_continued_fraction (&res, 100, igamma_lower_coefs, args))
+		return FALSE;
 
 	// FIXME: The following should be handled without creating big numbers.
 
@@ -1456,6 +1463,8 @@ igamma_upper_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 	gnm_complex_mul (&res, &res, &f);
 	gnm_complex_pow (&f, z, a);
 	gnm_complex_mul (dst, &res, &f);
+
+	return TRUE;
 }
 
 static gboolean
@@ -1473,6 +1482,8 @@ igamma_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 
 	// Things start to diverge here
 	n0 = a->re + gnm_sqrt (zm * zm - a->im * a->im);
+	if (debug)
+		g_printerr ("n0=%g\n", n0);
 	(void)n0;
 
 	// FIXME: Verify this condition for whether we have enough
@@ -1490,7 +1501,12 @@ igamma_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 
 		gnm_complex_add (&s, &s, &t);
 
-		if (gnm_complex_mod (&t) <= gnm_complex_mod (&s) * (16 * GNM_EPSILON)) {
+		if (debug) {
+			g_printerr ("%3zd: t=%.20g + %.20g * I\n", i, t.re, t.im);
+			g_printerr ("   : s=%.20g + %.20g * I\n", s.re, s.im);
+		}
+
+		if (gnm_complex_mod (&t) <= gnm_complex_mod (&s) * GNM_EPSILON) {
 			if (debug)
 				g_printerr ("igamma_asymp converged.\n");
 			*dst = s;
@@ -1498,7 +1514,7 @@ igamma_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 		}
 
 		gnm_complex_div (&t, &t, z);
-		gnm_complex_init (&api, a->re + i, a->im);
+		gnm_complex_init (&api, a->re - (i + 1), a->im);
 		gnm_complex_mul (&t, &t, &api);
 	}
 
@@ -1513,51 +1529,65 @@ void
 complex_igamma (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z,
 		gboolean lower, gboolean regularized)
 {
-	gnm_complex res;
-	gboolean have_lower, have_regularized;
+	gnm_complex res, ga;
+	gboolean have_lower, have_regularized, have_ga = FALSE;
 
-	if (gnm_complex_zero_p (a)) {
-		if (!lower && !regularized)
-			complex_gamma (dst, z);
-		else
-			gnm_complex_init (dst, lower ? 0 : 1, 0);
-		return;
+	if (regularized && gnm_complex_real_p (a) &&
+	    a->re <= 0 && a->re == gnm_floor (a->re)) {
+		gnm_complex_real (&res, 0);
+		have_lower = FALSE;
+		have_regularized = TRUE;
+		goto fixup;
 	}
 
 	if (gnm_complex_real_p (a) && a->re >= 0 &&
 	    gnm_complex_real_p (z) && z->re >= 0) {
 		gnm_complex_init (&res, pgamma (z->re, a->re, 1, lower, FALSE), 0);
 		have_lower = lower;
-		have_regularized = FALSE;
-		goto fixup;
-	}
-
-	if (igamma_asymp (&res, a, z)) {
-		have_lower = TRUE;
 		have_regularized = TRUE;
 		goto fixup;
 	}
 
-	igamma_upper_cf (&res, a, z);
-	have_lower = FALSE;
-	have_regularized = FALSE;
+	if (igamma_asymp (&res, a, z)) {
+		have_lower = FALSE;
+		have_regularized = TRUE;
+		goto fixup;
+	}
+
+	if (0 && igamma_lower_cf (&res, a, z)) {
+		have_lower = TRUE;
+		have_regularized = FALSE;
+		goto fixup;
+	}
+
+	gnm_complex_init (dst, gnm_nan, gnm_nan);
+	return;
 
 fixup:
 	// Fixup to the desired form as needed.  This is not ideal.
 	// 1. Regularizing here is too late due to overflow.
 	// 2. Upper/lower switch can have cancellation
 	if (regularized != have_regularized) {
-		gnm_complex g;
-		complex_gamma (&g, a);
+		complex_gamma (&ga, a);
+		have_ga = TRUE;
 
 		if (have_regularized)
-			gnm_complex_mul (&res, &res, &g);
+			gnm_complex_mul (&res, &res, &ga);
 		else
-			gnm_complex_div (&res, &res, &g);
+			gnm_complex_div (&res, &res, &ga);
+		have_regularized = TRUE;
 	}
 
-	if (lower != have_lower)
-		res.re = 1 - res.re;
+	if (lower != have_lower) {
+		if (have_regularized) {
+			res.re = 1 - res.re;
+			res.im = 0 - res.im;
+		} else {
+			if (!have_ga)
+				complex_gamma (&ga, a);
+			gnm_complex_sub (&res, &ga, &res);
+		}
+	}
 
 	*dst = res;
 }
