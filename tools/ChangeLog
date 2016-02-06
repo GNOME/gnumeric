@@ -1,3 +1,7 @@
+2016-02-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.27
+
 2016-01-09  Morten Welinder  <terra@gnome.org>
 
 	* process-burkardt.c: Add agm.  Fix bit-rot.
