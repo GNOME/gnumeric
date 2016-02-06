@@ -2339,7 +2339,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		if (v0 && v1)
 			cond = gnm_filter_condition_new_double (
 				op0, v0, is_and, op1, v1);
-		else if (v0 && op0)
+		else if (v0)
 			cond = gnm_filter_condition_new_single (op0, v0);
 		else {
 			go_io_warning (state->context, _("Malformed sheet filter condition"));
