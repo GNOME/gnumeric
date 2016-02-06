@@ -17,6 +17,7 @@ G_BEGIN_DECLS
 #define gnm_complex_div go_complex_divl
 #define gnm_complex_mod go_complex_modl
 #define gnm_complex_angle go_complex_anglel
+#define gnm_complex_angle_pi go_complex_angle_pil
 #define gnm_complex_real go_complex_reall
 #define gnm_complex_real_p go_complex_real_pl
 #define gnm_complex_zero_p go_complex_zero_pl
@@ -31,6 +32,7 @@ G_BEGIN_DECLS
 #define gnm_complex_scale_real go_complex_scale_reall
 #define gnm_complex_to_polar go_complex_to_polarl
 #define gnm_complex_from_polar go_complex_from_polarl
+#define gnm_complex_from_polar_pi go_complex_from_polar_pil
 #else
 #define gnm_complex GOComplex
 #define gnm_complex_init go_complex_init
@@ -40,6 +42,7 @@ G_BEGIN_DECLS
 #define gnm_complex_div go_complex_div
 #define gnm_complex_mod go_complex_mod
 #define gnm_complex_angle go_complex_angle
+#define gnm_complex_angle_pi go_complex_angle_pi
 #define gnm_complex_real go_complex_real
 #define gnm_complex_real_p go_complex_real_p
 #define gnm_complex_zero_p go_complex_zero_p
@@ -54,6 +57,7 @@ G_BEGIN_DECLS
 #define gnm_complex_scale_real go_complex_scale_real
 #define gnm_complex_to_polar go_complex_to_polar
 #define gnm_complex_from_polar go_complex_from_polar
+#define gnm_complex_from_polar_pi go_complex_from_polar_pi
 #endif
 
 /* ------------------------------------------------------------------------- */

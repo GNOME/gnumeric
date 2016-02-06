@@ -1,3 +1,11 @@
+2016-02-06  Morten Welinder  <terra@gnome.org>
+
+	* configure.ac (goffice): Require latest for
+	go_complex_from_polar_pi.
+
+	* src/sf-gamma.c (complex_igamma): Apply fixup for upper gamma
+	when x<0 and a is real.
+
 2016-02-04  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-gamma.c (complex_temme_D): Fix factorial computation.

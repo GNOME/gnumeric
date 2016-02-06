@@ -1468,7 +1468,7 @@ igamma_lower_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 }
 
 static gboolean
-igamma_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
+igamma_upper_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 {
 	gnm_float am = gnm_complex_mod (a);
 	gnm_float zm = gnm_complex_mod (z);
@@ -1508,7 +1508,7 @@ igamma_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 
 		if (gnm_complex_mod (&t) <= gnm_complex_mod (&s) * GNM_EPSILON) {
 			if (debug)
-				g_printerr ("igamma_asymp converged.\n");
+				g_printerr ("igamma_upper_asymp converged.\n");
 			*dst = s;
 			return TRUE;
 		}
@@ -1519,18 +1519,46 @@ igamma_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 	}
 
 	if (debug)
-		g_printerr ("igamma_asymp failed to converge.\n");
+		g_printerr ("igamma_upper_asymp failed to converge.\n");
 
 	return FALSE;
 }
 
+static void
+fixup_upper_real (gnm_complex *res, gnm_complex const *a, gnm_complex const *z)
+{
+	// This assumes we have an upper gamma regularized result.
+	//
+	// It appears that upper algorithms have trouble with negative real z
+	// (for example, such z being outside the allowed domain) in some cases.
+	
+
+	if (gnm_complex_real_p (z) && z->re < 0 &&
+	    gnm_complex_real_p (a) && a->re != gnm_floor (a->re)) {
+		// Everything in the lower power series is real expect z^a
+		// which is not.  So...
+		// 1. Flip to lower gamma
+		// 2. Assume modulus is correct
+		// 3. Use exact angle for lower gamma
+		// 4. Flip back to upper gamma
+		gnm_complex lres = *res;
+		lres.re = 1 - lres.re;
+
+		gnm_complex_from_polar_pi (res,
+					   gnm_complex_mod (&lres),
+					   a->re);
+		res->re = 1 - res->re;
+		res->im = 0 - res->im;
+	}
+}
 
 void
 complex_igamma (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z,
 		gboolean lower, gboolean regularized)
 {
 	gnm_complex res, ga;
-	gboolean have_lower, have_regularized, have_ga = FALSE;
+	gboolean have_lower, have_regularized;
+	gboolean have_ga = FALSE;
 
 	if (regularized && gnm_complex_real_p (a) &&
 	    a->re <= 0 && a->re == gnm_floor (a->re)) {
@@ -1548,13 +1576,14 @@ complex_igamma (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z,
 		goto fixup;
 	}
 
-	if (igamma_asymp (&res, a, z)) {
+	if (igamma_upper_asymp (&res, a, z)) {
 		have_lower = FALSE;
 		have_regularized = TRUE;
+		fixup_upper_real (&res, a, z);
 		goto fixup;
 	}
 
-	if (0 && igamma_lower_cf (&res, a, z)) {
+	if (igamma_lower_cf (&res, a, z)) {
 		have_lower = TRUE;
 		have_regularized = FALSE;
 		goto fixup;
