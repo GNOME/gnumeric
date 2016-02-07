@@ -293,6 +293,9 @@ xlsx_rpr_latin (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GOStyle *style = state->cur_style;
 
+	if (!GO_IS_STYLED_OBJECT (state->cur_obj) || !style)
+		return;
+
 	for (; attrs && *attrs; attrs += 2) {
 		if (strcmp (attrs[0], "typeface") == 0) {
 			PangoFontDescription *desc = pango_font_description_copy (style->font.font->desc);

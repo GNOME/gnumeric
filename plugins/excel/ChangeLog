@@ -1,3 +1,8 @@
+2016-02-07  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_rpr_latin): Check that null style.
+	Fixes #761663.
+
 2016-02-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.27
