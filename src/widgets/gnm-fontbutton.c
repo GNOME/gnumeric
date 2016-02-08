@@ -1151,7 +1151,7 @@ gnm_font_button_create_inside (GnmFontButton *font_button)
 {
   GtkWidget *widget;
 
-  gtk_widget_push_composite_child ();
+  //gtk_widget_push_composite_child ();
 
   widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
@@ -1169,7 +1169,7 @@ gnm_font_button_create_inside (GnmFontButton *font_button)
 
   gtk_widget_show_all (widget);
 
-  gtk_widget_pop_composite_child ();
+  //gtk_widget_pop_composite_child ();
 
   return widget;
 }
