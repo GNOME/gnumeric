@@ -1,7 +1,8 @@
 Gnumeric 1.12.28
 
 Morten:
-	* Fuzzed file fixes.  [#761663]
+	* Fuzzed file fixes.  [#761663] [#761727]
+	* Plug leak.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.27

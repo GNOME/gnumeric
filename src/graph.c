@@ -493,7 +493,7 @@ gnm_go_data_vector_eval (GnmDependent *dep)
 		vec->markup = NULL;
 	}
 	if (vec->strs) {
-		g_ptr_array_free (vec->strs, FALSE);
+		g_ptr_array_free (vec->strs, TRUE);
 		vec->strs = NULL;
 	}
 	go_data_emit_changed (GO_DATA (vec));
@@ -515,7 +515,7 @@ gnm_go_data_vector_finalize (GObject *obj)
 		vec->markup = NULL;
 	}
 	if (vec->strs) {
-		g_ptr_array_free (vec->strs, FALSE);
+		g_ptr_array_free (vec->strs, TRUE);
 		vec->strs = NULL;
 	}
 

@@ -2245,7 +2245,14 @@ static void
 xlsx_chart_layout_target (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	state->chart_pos_target = !(attrs[1] && strcmp (attrs[1], "inner"));
+	static const EnumVal choices[] = {
+		{ "outer",	FALSE },
+		{ "inner",	TRUE },
+		{ NULL, 0 }
+	};
+	int choice = FALSE;
+	(void)simple_enum (xin, attrs, choices, &choice);
+	state->chart_pos_target = choice;
 }
 
 static void
