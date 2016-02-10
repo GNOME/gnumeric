@@ -1,6 +1,6 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include <tools/gnm-solver.h>
+#include "boot.h"
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"
