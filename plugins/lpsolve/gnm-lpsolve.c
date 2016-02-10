@@ -1,6 +1,6 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include <tools/gnm-solver.h>
+#include "boot.h"
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"
@@ -301,9 +301,27 @@ gnm_lpsolve_stop (GnmSolver *sol, GError *err, GnmLPSolve *lp)
 	return TRUE;
 }
 
-gboolean
-lpsolve_solver_factory_functional (GnmSolverFactory *factory,
-				   WBCGtk *wbcg);
+GnmSolver *
+lpsolve_solver_create (GnmSolverParameters *params)
+{
+	GnmSolver *res = g_object_new (GNM_SUB_SOLVER_TYPE,
+				       "params", params,
+				       NULL);
+	GnmLPSolve *lp = g_new0 (GnmLPSolve, 1);
+
+	lp->parent = GNM_SUB_SOLVER (res);
+
+	g_signal_connect (res, "prepare", G_CALLBACK (gnm_lpsolve_prepare), lp);
+	g_signal_connect (res, "start", G_CALLBACK (gnm_lpsolve_start), lp);
+	g_signal_connect (res, "stop", G_CALLBACK (gnm_lpsolve_stop), lp);
+	g_signal_connect (res, "child-exit", G_CALLBACK (gnm_lpsolve_child_exit), lp);
+
+	g_object_set_data_full (G_OBJECT (res), PRIVATE_KEY, lp,
+				(GDestroyNotify)gnm_lpsolve_final);
+
+	return res;
+}
+
 
 gboolean
 lpsolve_solver_factory_functional (GnmSolverFactory *factory,
@@ -337,27 +355,8 @@ lpsolve_solver_factory_functional (GnmSolverFactory *factory,
 	return FALSE;
 }
 
-
-GnmSolver *
-lpsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params);
-
 GnmSolver *
 lpsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 {
-	GnmSolver *res = g_object_new (GNM_SUB_SOLVER_TYPE,
-				       "params", params,
-				       NULL);
-	GnmLPSolve *lp = g_new0 (GnmLPSolve, 1);
-
-	lp->parent = GNM_SUB_SOLVER (res);
-
-	g_signal_connect (res, "prepare", G_CALLBACK (gnm_lpsolve_prepare), lp);
-	g_signal_connect (res, "start", G_CALLBACK (gnm_lpsolve_start), lp);
-	g_signal_connect (res, "stop", G_CALLBACK (gnm_lpsolve_stop), lp);
-	g_signal_connect (res, "child-exit", G_CALLBACK (gnm_lpsolve_child_exit), lp);
-
-	g_object_set_data_full (G_OBJECT (res), PRIVATE_KEY, lp,
-				(GDestroyNotify)gnm_lpsolve_final);
-
-	return res;
+	return lpsolve_solver_create (params);
 }

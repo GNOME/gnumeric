@@ -323,7 +323,16 @@ glpk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	GError *err = NULL;
 	GString *prg;
 	GnmLocale *locale;
+	GnmSolver *sol = NULL;
 	GnmSubSolver *ssol = g_object_get_data (G_OBJECT (fs), "solver");
+
+	if (!ssol) {
+		// Create a temporary solver just functional enough to
+		// write the program
+		Sheet *sheet = wb_view_cur_sheet (wb_view);
+		sol = glpk_solver_create (sheet->solver_parameters);
+		ssol = GNM_SUB_SOLVER (sol);
+	}
 
 	go_io_progress_message (io_context,
 				_("Writing glpk file..."));
@@ -347,4 +356,7 @@ fail:
 	go_io_progress_unset (io_context);
 	if (err)
 		g_error_free (err);
+
+	if (sol)
+		g_object_unref (sol);
 }

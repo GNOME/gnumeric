@@ -1,3 +1,9 @@
+2016-02-10  Morten Welinder  <terra@gnome.org>
+
+	* glpk-write.c (glpk_file_save):  Handle the situation where
+	there is no assigned solver -- i.e., plain ssconvert -- by
+	creating a temporary.
+
 2016-02-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.27

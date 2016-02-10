@@ -304,9 +304,26 @@ gnm_glpk_stop (GnmSolver *sol, GError *err, GnmGlpk *lp)
 	return TRUE;
 }
 
-gboolean
-glpk_solver_factory_functional (GnmSolverFactory *factory,
-				WBCGtk *wbcg);
+GnmSolver *
+glpk_solver_create (GnmSolverParameters *params)
+{
+	GnmSolver *res = g_object_new (GNM_SUB_SOLVER_TYPE,
+				       "params", params,
+				       NULL);
+	GnmGlpk *lp = g_new0 (GnmGlpk, 1);
+
+	lp->parent = GNM_SUB_SOLVER (res);
+
+	g_signal_connect (res, "prepare", G_CALLBACK (gnm_glpk_prepare), lp);
+	g_signal_connect (res, "start", G_CALLBACK (gnm_glpk_start), lp);
+	g_signal_connect (res, "stop", G_CALLBACK (gnm_glpk_stop), lp);
+	g_signal_connect (res, "child-exit", G_CALLBACK (gnm_glpk_child_exit), lp);
+
+	g_object_set_data_full (G_OBJECT (res), PRIVATE_KEY, lp,
+				(GDestroyNotify)gnm_glpk_final);
+
+	return res;
+}
 
 gboolean
 glpk_solver_factory_functional (GnmSolverFactory *factory,
@@ -340,27 +357,8 @@ glpk_solver_factory_functional (GnmSolverFactory *factory,
 	return FALSE;
 }
 
-
-GnmSolver *
-glpk_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params);
-
 GnmSolver *
 glpk_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 {
-	GnmSolver *res = g_object_new (GNM_SUB_SOLVER_TYPE,
-				       "params", params,
-				       NULL);
-	GnmGlpk *lp = g_new0 (GnmGlpk, 1);
-
-	lp->parent = GNM_SUB_SOLVER (res);
-
-	g_signal_connect (res, "prepare", G_CALLBACK (gnm_glpk_prepare), lp);
-	g_signal_connect (res, "start", G_CALLBACK (gnm_glpk_start), lp);
-	g_signal_connect (res, "stop", G_CALLBACK (gnm_glpk_stop), lp);
-	g_signal_connect (res, "child-exit", G_CALLBACK (gnm_glpk_child_exit), lp);
-
-	g_object_set_data_full (G_OBJECT (res), PRIVATE_KEY, lp,
-				(GDestroyNotify)gnm_glpk_final);
-
-	return res;
+	return glpk_solver_create (params);
 }
