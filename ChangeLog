@@ -1,3 +1,9 @@
+2016-02-10  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_scroll_wheel): Use shift modifier with scroll
+	wheel for horizontal motion instead of alt.  Window managers tend
+	to eat the latter.
+
 2016-02-08  Morten Welinder  <terra@gnome.org>
 
 	* src/graph.c (gnm_go_data_vector_eval)

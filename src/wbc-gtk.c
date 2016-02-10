@@ -2314,7 +2314,7 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 	    event->direction == GDK_SCROLL_SMOOTH)
 		return FALSE;
 
-	if ((event->state & GDK_MOD1_MASK))
+	if ((event->state & GDK_SHIFT_MASK))
 		go_horiz = !go_horiz;
 
 	if ((event->state & GDK_CONTROL_MASK)) {	/* zoom */
@@ -2334,8 +2334,6 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 		if (0 <= zoom && zoom <= 390)
 			cmd_zoom (GNM_WBC (wbcg), g_slist_append (NULL, sheet),
 				  (double) (zoom + 10) / 100);
-	} else if ((event->state & GDK_SHIFT_MASK)) {
-		/* XL sort of shows/hides groups */
 	} else if (go_horiz) {
 		int col = (pane->last_full.col - pane->first.col) / 4;
 		if (col < 1)
