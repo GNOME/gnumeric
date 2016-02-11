@@ -227,7 +227,10 @@ GtkDialog#stf-import fixed-format-ruler {
 /* Extra space around multiple toolbars adds up quickly so avoid it. */
 
 GtkBox.toolbarzone GtkToolbar {
-  padding: 0;
+  padding: 0px;
+}
+GtkBox.toolbarzone GtkToolbar * {
+  padding: 1px;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -1,5 +1,11 @@
 2016-02-10  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric.css (toolbarzone): Set padding for toolbar children
+	to 1px.  While that may be a sligh increase for certain
+	themes/gtk+ versions, it is a large decrease for others, notably
+	what comes with an out-of-the-box OpenSuSE leap.  Override in
+	~/.config/gtk-3.0/gtk.css if need be.
+
 	* src/wbc-gtk.c (cb_scroll_wheel): Use shift modifier with scroll
 	wheel for horizontal motion instead of alt.  Window managers tend
 	to eat the latter.
