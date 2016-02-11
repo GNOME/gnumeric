@@ -5,6 +5,7 @@ Morten:
 	* Plug leak.
 	* Fix problems with ssconvert to lp/cplex formats.
 	* Add sensitivity report to solver.  (lpsolve only for now.)
+	* Fix bounds problem with cplex exporter.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.27

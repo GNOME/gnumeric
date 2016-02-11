@@ -124,6 +124,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 	GnmSolverParameters *sp = sol->params;
 	GString *prg = NULL;
 	GString *constraints = g_string_new (NULL);
+	GString *bounds = g_string_new (NULL);
 	GString *binaries = g_string_new (NULL);
 	GString *integers = g_string_new (NULL);
 	GString *objfunc = g_string_new (NULL);
@@ -160,7 +161,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 	/* ---------------------------------------- */
 
 	progress = 3;
-	if (sp->options.assume_non_negative) progress++;
+	/* assume_non_negative */ progress++;
 	if (sp->options.assume_discrete) progress++;
 	progress += g_slist_length (sp->constraints);
 
@@ -196,12 +197,15 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 
 	/* ---------------------------------------- */
 
-	if (sp->options.assume_non_negative) {
+	{
 		unsigned ui;
 		for (ui = 0; ui < input_cells->len; ui++) {
 			GnmCell *cell = g_ptr_array_index (input_cells, ui);
-			g_string_append_printf (constraints, " %s >= 0\n",
-						glpk_var_name (ssol, cell));
+			const char *name = glpk_var_name (ssol, cell);
+			if (sp->options.assume_non_negative)
+				g_string_append_printf (bounds, " %s >= 0\n", name);
+			else
+				g_string_append_printf (bounds, " %s free\n", name);
 		}
 		go_io_count_progress_update (io_context, 1);
 	}
@@ -298,8 +302,13 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 				"\\ Created by Gnumeric %s\n\n",
 				GNM_VERSION_FULL);
 	go_string_append_gstring (prg, objfunc);
+
 	g_string_append (prg, "\nSubject to\n");
 	go_string_append_gstring (prg, constraints);
+
+	g_string_append (prg, "\nBounds\n");
+	go_string_append_gstring (prg, bounds);
+
 	if (integers->len > 0) {
 		g_string_append (prg, "\nGeneral\n");
 		go_string_append_gstring (prg, integers);
@@ -313,6 +322,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 fail:
 	g_string_free (objfunc, TRUE);
 	g_string_free (constraints, TRUE);
+	g_string_free (bounds, TRUE);
 	g_string_free (integers, TRUE);
 	g_string_free (binaries, TRUE);
 	g_free (x1);

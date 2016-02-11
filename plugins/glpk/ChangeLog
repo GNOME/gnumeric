@@ -3,6 +3,8 @@
 	* glpk-write.c (glpk_file_save):  Handle the situation where
 	there is no assigned solver -- i.e., plain ssconvert -- by
 	creating a temporary.
+	(glpk_create_program): Create a bounds section explicitly as
+	otherwise a lower limit of 0 is assumed.
 
 2016-02-06  Morten Welinder <terra@gnome.org>
 
