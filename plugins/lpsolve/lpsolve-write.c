@@ -213,6 +213,7 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 		const char *op = NULL;
 		const char *type = NULL;
 		int i;
+		int cidx = 0;
 		gnm_float cl, cr;
 		GnmCell *lhs, *rhs;
 
@@ -240,7 +241,7 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 		     gnm_solver_constraint_get_part (c, sp, i,
 						     &lhs, &cl,
 						     &rhs, &cr);
-		     i++) {
+		     i++, cidx++) {
 			if (type) {
 				g_string_append (declarations, type);
 				g_string_append_c (declarations, ' ');
@@ -248,6 +249,12 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 				g_string_append (declarations, ";\n");
 			} else {
 				gboolean ok;
+
+				char *name = g_strdup_printf ("CONSTR_%d", cidx);
+				g_string_append (constraints, name);
+				g_string_append (constraints, ": ");
+				gnm_sub_solver_name_constraint (ssol, cidx, name);
+				g_free (name);
 
 				ok = lpsolve_affine_func
 					(constraints, lhs, ssol,

@@ -1,5 +1,12 @@
 2016-02-10  Morten Welinder  <terra@gnome.org>
 
+	* lpsolve-write.c (lpsolve_create_program): Name constraints to
+	avoid a clash between default names ("Rn") and cell names.
+
+	* gnm-lpsolve.c (cb_read_stdout): Plug leak.  Read sensitivity
+	results.
+	(gnm_lpsolve_start): Run with -S6 get get sensitivity results.
+
 	* lpsolve-write.c (lpsolve_file_save): Handle the situation where
 	there is no assigned solver -- i.e., plain ssconvert -- by
 	creating a temporary.

@@ -1,5 +1,9 @@
 2016-02-10  Morten Welinder  <terra@gnome.org>
 
+	* gnm-solver.c (gnm_solver_create_program_report): Split from
+	gnm_solver_create_report and fix naming of constraints.
+	(gnm_solver_create_sensitivity_report): New function.
+
 	* dao.c (dao_autofit_rows): New function.
 	(dao_autofit_these_columns): Simply use colrow_autofit.  Don't
 	shrink any columns.

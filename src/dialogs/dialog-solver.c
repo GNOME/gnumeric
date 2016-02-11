@@ -431,6 +431,7 @@ extract_settings (SolverState *state)
 	GET_BOOL_ENTRY ("non_neg_button", options.assume_non_negative);
 	GET_BOOL_ENTRY ("all_int_button", options.assume_discrete);
 	GET_BOOL_ENTRY ("program", options.program_report);
+	GET_BOOL_ENTRY ("sensitivity", options.sensitivity_report);
 
 	g_free (param->options.scenario_name);
 	param->options.scenario_name = g_strdup
@@ -682,7 +683,7 @@ static void
 create_report (GnmSolver *sol, SolverState *state)
 {
 	Sheet *sheet = state->sheet;
-	char *base = g_strdup_printf ("%s Report", sheet->name_unquoted);
+	char *base = g_strdup_printf (_("%s %%s Report"), sheet->name_unquoted);
 	gnm_solver_create_report (sol, base);
 	g_free (base);
 }
@@ -769,14 +770,11 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 		gnm_solver_store_result (sol);
 		redo = clipboard_copy_range_undo (sr.sheet, &sr.range);
 
-		if (param->options.program_report) {
+		if (param->options.program_report ||
+		    param->options.sensitivity_report) {
 			Workbook *wb = param->sheet->workbook;
 			GOUndo *undo_report, *redo_report;
 
-			/* This is a bit of overkill -- it just removes the
-			   sheet that create_report will add.  However, if
-			   in the future we add multiple sheets then this
-			   should still be good.  */
 			undo_report = go_undo_binary_new
 				(wb,
 				 workbook_sheet_state_new (wb),
@@ -1147,6 +1145,7 @@ dialog_init (SolverState *state)
 	INIT_BOOL_ENTRY ("non_neg_button", options.assume_non_negative);
 	INIT_BOOL_ENTRY ("all_int_button", options.assume_discrete);
 	INIT_BOOL_ENTRY ("program", options.program_report);
+	INIT_BOOL_ENTRY ("sensitivity", options.sensitivity_report);
 
 	input = gnm_solver_param_get_input (param);
 	if (input != NULL)

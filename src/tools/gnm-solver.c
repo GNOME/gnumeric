@@ -401,6 +401,39 @@ gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet)
 	return g_string_free (buf, FALSE);
 }
 
+char *
+gnm_solver_constraint_part_as_str (GnmSolverConstraint const *c, int i,
+				   GnmSolverParameters *sp)
+{
+	const char * const type_str[] =	{
+		"\xe2\x89\xa4" /* "<=" */,
+		"\xe2\x89\xa5" /* ">=" */,
+		"=",
+		N_("Int"),
+		N_("Bool")
+	};
+	const char *type = type_str[c->type];
+	gboolean translate = (c->type >= GNM_SOLVER_INTEGER);
+	GString *buf;
+	gnm_float cl, cr;
+	GnmCell *lhs, *rhs;
+
+	if (!gnm_solver_constraint_get_part (c, sp, i, &lhs, &cl, &rhs, &cr))
+		return NULL;
+
+	buf = g_string_new (NULL);
+
+	g_string_append (buf, cell_name (lhs));
+	g_string_append_c (buf, ' ');
+	g_string_append (buf, translate ? _(type) : type);
+	if (gnm_solver_constraint_has_rhs (c)) {
+		g_string_append_c (buf, ' ');
+		g_string_append (buf, cell_name (rhs));
+	}
+
+	return g_string_free (buf, FALSE);
+}
+
 /* ------------------------------------------------------------------------- */
 
 enum {
@@ -466,6 +499,7 @@ gnm_solver_param_equal (GnmSolverParameters const *a,
             a->options.assume_discrete != b->options.assume_discrete ||
             a->options.automatic_scaling != b->options.automatic_scaling ||
             a->options.program_report != b->options.program_report ||
+            a->options.sensitivity_report != b->options.sensitivity_report ||
             a->options.add_scenario != b->options.add_scenario ||
 	    strcmp (a->options.scenario_name, b->options.scenario_name) ||
 	    a->options.gradient_order != b->options.gradient_order)
@@ -775,6 +809,7 @@ enum {
 	SOL_PROP_REASON,
 	SOL_PROP_PARAMS,
 	SOL_PROP_RESULT,
+	SOL_PROP_SENSITIVITY,
 	SOL_PROP_STARTTIME,
 	SOL_PROP_ENDTIME,
 	SOL_PROP_FLIP_SIGN
@@ -836,6 +871,10 @@ gnm_solver_get_property (GObject *object, guint property_id,
 		g_value_set_object (value, sol->result);
 		break;
 
+	case SOL_PROP_SENSITIVITY:
+		g_value_set_object (value, sol->sensitivity);
+		break;
+
 	case SOL_PROP_STARTTIME:
 		g_value_set_double (value, sol->starttime);
 		break;
@@ -881,6 +920,13 @@ gnm_solver_set_property (GObject *object, guint property_id,
 		GnmSolverResult *r = g_value_dup_object (value);
 		if (sol->result) g_object_unref (sol->result);
 		sol->result = r;
+		break;
+	}
+
+	case SOL_PROP_SENSITIVITY: {
+		GnmSolverSensitivity *s = g_value_dup_object (value);
+		if (sol->sensitivity) g_object_unref (sol->sensitivity);
+		sol->sensitivity = s;
 		break;
 	}
 
@@ -1488,8 +1534,8 @@ print_vector (const char *name, const gnm_float *v, int n)
 	g_printerr ("\n");
 }
 
-void
-gnm_solver_create_report (GnmSolver *solver, const char *name)
+static void
+gnm_solver_create_program_report (GnmSolver *solver, const char *name)
 {
 	GnmSolverParameters *params = solver->params;
 	int R = 0;
@@ -1616,7 +1662,7 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 						     &rhs, &cr);
 		     i++) {
 			gnm_float slack = 0;
-			char *ctxt = gnm_solver_constraint_as_str (c, params->sheet);
+			char *ctxt = gnm_solver_constraint_part_as_str (c, i, params);
 			dao_set_cell (dao, 1, R, ctxt);
 			g_free (ctxt);
 
@@ -1667,59 +1713,151 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 
 	/* ---------------------------------------- */
 
-	if (gnm_solver_has_solution (solver) &&
-	    gnm_debug_flag ("solver-sensitivity")) {
+	dao_autofit_columns (dao);
+	dao_redraw_respan (dao);
+
+	dao_free (dao);
+}
+
+static void
+gnm_solver_create_sensitivity_report (GnmSolver *solver, const char *name)
+{
+	GnmSolverParameters *params = solver->params;
+	GnmSolverSensitivity *sols = solver->sensitivity;
+	int R = 0;
+	data_analysis_output_t *dao;
+	GSList *l;
+
+	if (!sols)
+		return;
+
+	dao = dao_init_new_sheet (NULL);
+	dao->sheet = params->sheet;
+	dao_prepare_output (NULL, dao, name);
+
+	/* ---------------------------------------- */
+
+	if (solver->input_cells->len > 0) {
 		unsigned ui;
-		const int N = 500;
-		gnm_float const *xs0 = solver->result->solution;
 
-		if (gnm_solver_debug ()) {
-			gnm_float *g = gnm_solver_compute_gradient (solver, xs0);
-			print_vector ("Computed gradient", g, solver->input_cells->len);
-			g_free (g);
-		}
+		ADD_HEADER (_("Variables"));
 
-		gnm_solver_set_vars (solver, xs0);
+		dao_set_cell (dao, 1, R, _("Cell"));
+		dao_set_cell (dao, 2, R, _("Final\nValue"));
+		dao_set_cell (dao, 3, R, _("Reduced\nCost"));
+		dao_set_cell (dao, 4, R, _("Lower\nLimit"));
+		dao_set_cell (dao, 5, R, _("Upper\nLimit"));
+		dao_set_align (dao, 1, R, 5, R, GNM_HALIGN_CENTER, GNM_VALIGN_BOTTOM);
+		dao_autofit_these_rows (dao, R, R);
+		R++;
 
 		for (ui = 0; ui < solver->input_cells->len; ui++) {
-			char *txt;
-			int i, j;
-			gnm_float x0, y0, x, y;
 			GnmCell *cell = g_ptr_array_index (solver->input_cells, ui);
+			gnm_float L = sols->vars[ui].low;
+			gnm_float H = sols->vars[ui].high;
+			gnm_float red = sols->vars[ui].reduced_cost;
+			gnm_float s = solver->result->solution[ui];
+
+			char *cname = gnm_solver_cell_name (cell, params->sheet);
+			dao_set_cell (dao, 1, R, cname);
+			g_free (cname);
+			dao_set_cell_value (dao, 2, R, value_new_float (s));
+			add_value_or_special (dao, 3, R, red);
+			add_value_or_special (dao, 4, R, L);
+			add_value_or_special (dao, 5, R, H);
 
 			R++;
-			txt = g_strdup_printf (_("Neighborhood for %s\n"),
-					       cell_name (cell));
-			ADD_HEADER (txt);
-			g_free (txt);
+		}
 
-			x0 = xs0[ui];
-			y0 = solver->result->value;
+		R++;
+	}
 
-			x = x0;
-			for (i = 0; i < N; i++)
-				for (j = 0; j < 10; j++)
-					x = nextafter (x, gnm_ninf);
+	/* ---------------------------------------- */
 
-			for (i = -N; i <= +N; i++) {
-				gnm_solver_set_var (solver, ui, x);
-				y = gnm_solver_get_target_value (solver);
+	ADD_HEADER (_("Constraints"));
 
-				add_value_or_special (dao, 1, R, x - x0);
-				add_value_or_special (dao, 2, R, y - y0);
-				R++;
+	if (params->constraints) {
+		dao_set_cell (dao, 1, R, _("Constraint"));
+		dao_set_cell (dao, 2, R, _("Shadow\nPrice"));
+		dao_set_cell (dao, 3, R, _("Constraint\nLHS"));
+		dao_set_cell (dao, 4, R, _("Constraint\nRHS"));
+		dao_set_cell (dao, 5, R, _("Lower\nLimit"));
+		dao_set_cell (dao, 6, R, _("Upper\nLimit"));
+		dao_set_align (dao, 1, R, 6, R, GNM_HALIGN_CENTER, GNM_VALIGN_BOTTOM);
+		dao_autofit_these_rows (dao, R, R);
+	} else {
+		dao_set_cell (dao, 1, R, _("No constraints"));
+	}
+	R++;
 
-				for (j = 0; j < 10; j++)
-					x = nextafter (x, gnm_pinf);
+	for (l = params->constraints; l; l = l->next) {
+		GnmSolverConstraint *c = l->data;
+		int i, cidx = 0;
+		gnm_float cl, cr;
+		GnmCell *lhs, *rhs;
+
+		for (i = 0;
+		     gnm_solver_constraint_get_part (c, params, i,
+						     &lhs, &cl,
+						     &rhs, &cr);
+		     i++, cidx++) {
+			char *ctxt;
+
+			switch (c->type) {
+			case GNM_SOLVER_INTEGER:
+			case GNM_SOLVER_BOOLEAN:
+				continue;
+			default:
+				; // Nothing
 			}
-			gnm_solver_set_var (solver, ui, x0);
+
+			ctxt = gnm_solver_constraint_part_as_str (c, i, params);
+			dao_set_cell (dao, 1, R, ctxt);
+			g_free (ctxt);
+
+			if (lhs) {
+				gnm_cell_eval (lhs);
+				cl = value_get_as_float (lhs->value);
+			}
+			if (rhs) {
+				gnm_cell_eval (rhs);
+				cr = value_get_as_float (rhs->value);
+			}
+
+			add_value_or_special (dao, 2, R, sols->constraints[cidx].shadow_price);
+			add_value_or_special (dao, 3, R, cl);
+			add_value_or_special (dao, 4, R, cr);
+			add_value_or_special (dao, 5, R, sols->constraints[cidx].low);
+			add_value_or_special (dao, 6, R, sols->constraints[cidx].high);
+
+			R++;
 		}
 	}
 
 	/* ---------------------------------------- */
+
+	dao_autofit_columns (dao);
 	dao_redraw_respan (dao);
 
 	dao_free (dao);
+}
+
+void
+gnm_solver_create_report (GnmSolver *solver, const char *base)
+{
+	GnmSolverParameters *params = solver->params;
+
+	if (params->options.program_report) {
+		char *name = g_strdup_printf (base, _("Program"));
+		gnm_solver_create_program_report (solver, name);
+		g_free (name);
+	}
+
+	if (params->options.sensitivity_report) {
+		char *name = g_strdup_printf (base, _("Sensitivity"));
+		gnm_solver_create_sensitivity_report (solver, name);
+		g_free (name);
+	}
 }
 
 #undef AT_LIMIT
@@ -2211,6 +2349,14 @@ gnm_solver_class_init (GObjectClass *object_class)
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE));
 
+	g_object_class_install_property (object_class, SOL_PROP_SENSITIVITY,
+		g_param_spec_object ("sensitivity",
+				     P_("Sensitivity"),
+				     P_("Sensitivity results"),
+				     GNM_SOLVER_SENSITIVITY_TYPE,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
+
 	g_object_class_install_property (object_class, SOL_PROP_STARTTIME,
 		g_param_spec_double ("starttime",
 				     P_("Start Time"),
@@ -2296,6 +2442,133 @@ GSF_CLASS (GnmSolverResult, gnm_solver_result,
 
 /* ------------------------------------------------------------------------- */
 
+static GObjectClass *gnm_solver_sensitivity_parent_class;
+
+enum {
+	SOLS_PROP_0,
+	SOLS_PROP_SOLVER
+};
+
+static void
+gnm_solver_sensitivity_constructed (GObject *obj)
+{
+	GnmSolverSensitivity *sols = GNM_SOLVER_SENSITIVITY (obj);
+	GnmSolver *sol = sols->solver;
+	GnmSolverParameters *sp = sol->params;
+	const int n = sol->input_cells->len;
+	int i, cn;
+	GSList *l;
+
+	/* Chain to parent first */
+	gnm_solver_sensitivity_parent_class->constructed (obj);
+
+	sols->vars = g_new (struct GnmSolverSensitivityVars_, n);
+	for (i = 0; i < n; i++) {
+		sols->vars[i].low = gnm_nan;
+		sols->vars[i].high = gnm_nan;
+		sols->vars[i].reduced_cost = gnm_nan;
+	}
+
+	cn = 0;
+	for (l = sp->constraints; l; l = l->next) {
+		GnmSolverConstraint *c = l->data;
+		int i;
+		gnm_float cl, cr;
+		GnmCell *lhs, *rhs;
+
+		for (i = 0;
+		     gnm_solver_constraint_get_part (c, sp, i,
+						     &lhs, &cl,
+						     &rhs, &cr);
+		     i++) {
+			cn++;
+		}
+	}
+	sols->constraints = g_new (struct GnmSolverSensitivityConstraints_, cn);
+	for (i = 0; i < cn; i++) {
+		sols->constraints[i].low = gnm_nan;
+		sols->constraints[i].high = gnm_nan;
+		sols->constraints[i].shadow_price = gnm_nan;
+	}
+}
+
+static void
+gnm_solver_sensitivity_finalize (GObject *obj)
+{
+	GnmSolverSensitivity *r = GNM_SOLVER_SENSITIVITY (obj);
+	g_free (r->vars);
+	g_free (r->constraints);
+	gnm_solver_sensitivity_parent_class->finalize (obj);
+}
+
+static void
+gnm_solver_sensitivity_get_property (GObject *object, guint property_id,
+				     GValue *value, GParamSpec *pspec)
+{
+	GnmSolverSensitivity *sols = (GnmSolverSensitivity *)object;
+
+	switch (property_id) {
+	case SOLS_PROP_SOLVER:
+		g_value_set_object (value, sols->solver);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_solver_sensitivity_set_property (GObject *object, guint property_id,
+				     GValue const *value, GParamSpec *pspec)
+{
+	GnmSolverSensitivity *sols = (GnmSolverSensitivity *)object;
+
+	switch (property_id) {
+	case SOLS_PROP_SOLVER:
+		/* We hold no ref.  */
+		sols->solver = g_value_get_object (value);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_solver_sensitivity_class_init (GObjectClass *object_class)
+{
+	gnm_solver_sensitivity_parent_class =
+		g_type_class_peek_parent (object_class);
+
+	object_class->finalize = gnm_solver_sensitivity_finalize;
+	object_class->constructed = gnm_solver_sensitivity_constructed;
+	object_class->set_property = gnm_solver_sensitivity_set_property;
+	object_class->get_property = gnm_solver_sensitivity_get_property;
+
+	g_object_class_install_property
+		(object_class, SOLS_PROP_SOLVER,
+		 g_param_spec_object ("solver",
+				      P_("Solver"),
+				      P_("Solver"),
+				      GNM_SOLVER_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_CONSTRUCT_ONLY |
+				      G_PARAM_READWRITE));
+}
+
+GSF_CLASS (GnmSolverSensitivity, gnm_solver_sensitivity,
+	   gnm_solver_sensitivity_class_init, NULL, G_TYPE_OBJECT)
+
+GnmSolverSensitivity *
+gnm_solver_sensitivity_new (GnmSolver *sol)
+{
+	return g_object_new (GNM_SOLVER_SENSITIVITY_TYPE, "solver", sol, NULL);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static GObjectClass *gnm_sub_solver_parent_class;
 
 enum {
@@ -2351,6 +2624,9 @@ gnm_sub_solver_clear (GnmSubSolver *subsol)
 
 	if (subsol->name_from_cell)
 		g_hash_table_remove_all (subsol->name_from_cell);
+
+	if (subsol->constraint_from_name)
+		g_hash_table_remove_all (subsol->constraint_from_name);
 }
 
 static void
@@ -2380,6 +2656,9 @@ gnm_sub_solver_finalize (GObject *obj)
 	g_hash_table_destroy (subsol->name_from_cell);
 	subsol->name_from_cell = NULL;
 
+	g_hash_table_destroy (subsol->constraint_from_name);
+	subsol->constraint_from_name = NULL;
+
 	gnm_sub_solver_parent_class->finalize (obj);
 }
 
@@ -2396,6 +2675,10 @@ gnm_sub_solver_init (GnmSubSolver *subsol)
 				       g_free, NULL);
 	subsol->name_from_cell =
 		g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	subsol->constraint_from_name =
+		g_hash_table_new_full (g_str_hash, g_str_equal,
+				       g_free, NULL);
 }
 
 static void
@@ -2554,6 +2837,34 @@ gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
 {
 	return g_hash_table_lookup (subsol->name_from_cell, (gpointer)cell);
 }
+
+const char *
+gnm_sub_solver_name_constraint (GnmSubSolver *subsol,
+				int cidx,
+				const char *name)
+{
+	char *name_copy = g_strdup (name);
+
+	g_hash_table_insert (subsol->constraint_from_name,
+			     name_copy,
+			     GINT_TO_POINTER (cidx));
+
+	return name_copy;
+}
+
+int
+gnm_sub_solver_find_constraint (GnmSubSolver *subsol, const char *name)
+{
+	gpointer idx;
+
+	if (g_hash_table_lookup_extended (subsol->constraint_from_name,
+					  (gpointer)name,
+					  NULL, &idx))
+		return GPOINTER_TO_INT (idx);
+	else
+		return -1;
+}
+
 
 char *
 gnm_sub_solver_locate_binary (const char *binary, const char *solver,

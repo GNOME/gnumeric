@@ -7,6 +7,7 @@ G_BEGIN_DECLS
 
 typedef struct GnmComplete_             GnmComplete;
 typedef struct GnmScenario_             GnmScenario;
+typedef struct GnmSolver_     		GnmSolver;
 typedef struct GnmSolverConstraint_     GnmSolverConstraint;
 typedef struct GnmSolverFactory_        GnmSolverFactory;
 typedef struct GnmSolverParameters_	GnmSolverParameters;

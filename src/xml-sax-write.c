@@ -1087,6 +1087,8 @@ xml_write_solver (GnmOutputXML *state)
 		param->options.automatic_scaling);
 	gsf_xml_out_add_bool (state->output, "ProgramR",
 		param->options.program_report);
+	gsf_xml_out_add_bool (state->output, "SensitivityR",
+		param->options.sensitivity_report);
 
 	for (ptr = param->constraints; ptr != NULL ; ptr = ptr->next) {
 		GnmSolverConstraint const *c = ptr->data;

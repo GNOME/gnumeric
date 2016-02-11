@@ -13,11 +13,14 @@
 #define SOLVER_PROGRAM "lp_solve"
 #define SOLVER_URL "http://sourceforge.net/projects/lpsolve/"
 #define PRIVATE_KEY "::lpsolve::"
+#define SOLVER_INF 1e30
 
 typedef struct {
 	GnmSubSolver *parent;
 	GnmSolverResult *result;
-	enum { SEC_UNKNOWN, SEC_VALUES } section;
+	GnmSolverSensitivity *sensitivity;
+	enum { SEC_UNKNOWN, SEC_VALUES,
+	       SEC_LIMITS, SEC_DUAL_LIMITS } section;
 } GnmLPSolve;
 
 static void
@@ -28,6 +31,11 @@ gnm_lpsolve_cleanup (GnmLPSolve *lp)
 	if (lp->result) {
 		g_object_unref (lp->result);
 		lp->result = NULL;
+	}
+
+	if (lp->sensitivity) {
+		g_object_unref (lp->sensitivity);
+		lp->sensitivity = NULL;
 	}
 }
 
@@ -61,13 +69,17 @@ static GnmSolverResult *
 gnm_lpsolve_start_solution (GnmLPSolve *lp)
 {
 	int n;
+	GnmSolver *sol;
 
 	g_return_val_if_fail (lp->result == NULL, NULL);
 
-	n = GNM_SOLVER (lp->parent)->input_cells->len;
+	sol = GNM_SOLVER (lp->parent);
+	n = sol->input_cells->len;
 
 	lp->result = g_object_new (GNM_SOLVER_RESULT_TYPE, NULL);
 	lp->result->solution = g_new0 (gnm_float, n);
+
+	lp->sensitivity = gnm_solver_sensitivity_new (sol);
 
 	return lp->result;
 }
@@ -80,6 +92,44 @@ gnm_lpsolve_flush_solution (GnmLPSolve *lp)
 		g_object_unref (lp->result);
 		lp->result = NULL;
 	}
+	g_clear_object (&lp->sensitivity);
+}
+
+
+static char **
+my_strsplit (const char *line)
+{
+	GPtrArray *res = g_ptr_array_new ();
+
+	while (1) {
+		const char *end;
+
+		while (g_ascii_isspace (*line))
+			line++;
+
+		if (!*line)
+			break;
+
+		end = line;
+		while (*end && !g_ascii_isspace (*end))
+			end++;
+
+		g_ptr_array_add (res, g_strndup (line, end - line));
+		line = end;
+	}
+	g_ptr_array_add (res, NULL);
+
+	return (char **)g_ptr_array_free (res, FALSE);
+}
+
+static double
+fixup_inf (double v)
+{
+	if (v <= -SOLVER_INF)
+		return go_ninf;
+	if (v >= +SOLVER_INF)
+		return go_pinf;
+	return v;
 }
 
 
@@ -91,11 +141,18 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 	size_t obj_line_len = sizeof (obj_line_prefix) - 1;
 	const char val_header_line[] = "Actual values of the variables:";
 	size_t val_header_len = sizeof (val_header_line) - 1;
+	const char limit_header_line[] = "Objective function limits:";
+	size_t limit_header_len = sizeof (limit_header_line) - 1;
+	const char dual_limit_header_line[] = "Dual values with from - till limits:";
+	size_t dual_limit_header_len = sizeof (dual_limit_header_line) - 1;
+	gchar *line = NULL;
 
 	do {
 		GIOStatus status;
-		gchar *line = NULL;
 		gsize tpos;
+
+		g_free (line);
+		line = NULL;
 
 		status = g_io_channel_read_line (channel,
 						 &line, NULL, &tpos,
@@ -105,7 +162,7 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 
 		line[tpos] = 0;
 
-		if (line[0] == 0 || g_ascii_isspace (line[0]))
+		if (line[0] == 0)
 			lp->section = SEC_UNKNOWN;
 		else if (lp->section == SEC_UNKNOWN &&
 			 !strncmp (line, obj_line_prefix, obj_line_len)) {
@@ -117,6 +174,12 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 		} else if (lp->section == SEC_UNKNOWN &&
 			   !strncmp (line, val_header_line, val_header_len)) {
 			lp->section = SEC_VALUES;
+		} else if (lp->section == SEC_UNKNOWN &&
+			   !strncmp (line, limit_header_line, limit_header_len)) {
+			lp->section = SEC_LIMITS;
+		} else if (lp->section == SEC_UNKNOWN &&
+			   !strncmp (line, dual_limit_header_line, dual_limit_header_len)) {
+			lp->section = SEC_DUAL_LIMITS;
 		} else if (lp->section == SEC_VALUES && lp->result) {
 			GnmSolverResult *r = lp->result;
 			double v;
@@ -140,9 +203,87 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 
 			v = g_ascii_strtod (space + 1, NULL);
 			r->solution[idx] = v;
+		} else if (lp->section == SEC_LIMITS) {
+			double low, high;
+			GnmCell *cell;
+			int idx;
+			gchar **items;
+
+			if (g_ascii_isspace (line[0]))
+				continue;
+
+			items = my_strsplit (line);
+
+			if (g_strv_length (items) != 4)
+				goto bad_limit;
+
+			cell = gnm_sub_solver_find_cell (lp->parent, items[0]);
+			idx = gnm_solver_cell_index (sol, cell);
+			if (idx < 0)
+				goto bad_limit;
+
+			low = fixup_inf (g_ascii_strtod (items[1], NULL));
+			high = fixup_inf (g_ascii_strtod (items[2], NULL));
+
+			lp->sensitivity->vars[idx].low = low;
+			lp->sensitivity->vars[idx].high = high;
+
+			g_strfreev (items);
+
+			continue;
+
+		bad_limit:
+			g_printerr ("Strange limit line in output: %s\n",
+				    line);
+			lp->section = SEC_UNKNOWN;
+			g_strfreev (items);
+		} else if (lp->section == SEC_DUAL_LIMITS) {
+			double dual, low, high;
+			GnmCell *cell;
+			int idx, cidx;
+			gchar **items;
+
+			if (g_ascii_isspace (line[0]))
+				continue;
+
+			items = my_strsplit (line);
+
+			if (g_strv_length (items) != 4)
+				goto bad_dual;
+
+			cell = gnm_sub_solver_find_cell (lp->parent, items[0]);
+			idx = gnm_solver_cell_index (sol, cell);
+
+			cidx = (idx == -1)
+				? gnm_sub_solver_find_constraint (lp->parent, items[0])
+				: -1;
+
+			dual = fixup_inf (g_ascii_strtod (items[1], NULL));
+			low = fixup_inf (g_ascii_strtod (items[2], NULL));
+			high = fixup_inf (g_ascii_strtod (items[3], NULL));
+
+			if (idx >= 0) {
+				lp->sensitivity->vars[idx].reduced_cost = dual;
+			} else if (cidx >= 0) {
+				lp->sensitivity->constraints[cidx].low = low;
+				lp->sensitivity->constraints[cidx].high = high;
+				lp->sensitivity->constraints[cidx].shadow_price = dual;
+			} else {
+				// Ignore
+			}
+
+			g_strfreev (items);
+			continue;
+
+		bad_dual:
+			g_printerr ("Strange dual limit line in output: %s\n",
+				    line);
+			lp->section = SEC_UNKNOWN;
+			g_strfreev (items);
 		}
-		g_free (line);
 	} while (1);
+
+	g_free (line);
 
 	return TRUE;
 }
@@ -166,6 +307,9 @@ gnm_lpsolve_child_exit (GnmSubSolver *subsol, gboolean normal, int code,
 			gnm_sub_solver_flush (subsol);
 			if (lp->result)
 				lp->result->quality = GNM_SOLVER_RESULT_OPTIMAL;
+			g_object_set (lp->parent,
+				      "sensitivity", lp->sensitivity,
+				      NULL);
 			gnm_lpsolve_flush_solution (lp);
 			break;
 
@@ -249,7 +393,7 @@ gnm_lpsolve_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 {
 	GnmSubSolver *subsol = GNM_SUB_SOLVER (sol);
 	gboolean ok;
-	gchar *argv[5];
+	gchar *argv[6];
 	int argc = 0;
 	GnmSolverParameters *param = sol->params;
 	const char *binary;
@@ -265,6 +409,7 @@ gnm_lpsolve_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 	argv[argc++] = (gchar *)(param->options.automatic_scaling
 				 ? "-s1"
 				 : "-s0");
+	argv[argc++] = (gchar *)"-S6";
 	argv[argc++] = subsol->program_filename;
 	argv[argc] = NULL;
 	g_assert (argc < (int)G_N_ELEMENTS (argv));

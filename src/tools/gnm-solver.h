@@ -98,6 +98,8 @@ void gnm_solver_constraint_side_as_str (GnmSolverConstraint const *c,
 					Sheet const *sheet,
 					GString *buf, gboolean lhs);
 char *gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet);
+char *gnm_solver_constraint_part_as_str (GnmSolverConstraint const *c, int i,
+					 GnmSolverParameters *sp);
 
 /* ------------------------------------------------------------------------- */
 
@@ -110,6 +112,7 @@ typedef struct {
 	gboolean            assume_discrete;
 	gboolean            automatic_scaling;
 	gboolean            program_report;
+	gboolean            sensitivity_report;
 	gboolean            add_scenario;
 	gchar               *scenario_name;
 	unsigned            gradient_order;
@@ -186,13 +189,42 @@ typedef struct {
 GType gnm_solver_result_get_type (void);
 
 /* ------------------------------------------------------------------------- */
+
+#define GNM_SOLVER_SENSITIVITY_TYPE   (gnm_solver_sensitivity_get_type ())
+#define GNM_SOLVER_SENSITIVITY(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SOLVER_SENSITIVITY_TYPE, GnmSolverSensitivity))
+
+typedef struct {
+	GObject parent;
+
+	GnmSolver *solver;
+
+	struct GnmSolverSensitivityVars_ {
+		gnm_float low, high;      //  Allowable range
+		gnm_float reduced_cost;
+	} *vars;
+
+	struct GnmSolverSensitivityConstraints_ {
+		gnm_float low, high;      //  Allowable range
+		gnm_float shadow_price;
+	} *constraints;
+} GnmSolverSensitivity;
+
+typedef struct {
+	GObjectClass parent_class;
+} GnmSolverSensitivityClass;
+
+GType gnm_solver_sensitivity_get_type (void);
+
+GnmSolverSensitivity *gnm_solver_sensitivity_new (GnmSolver *sol);
+
+/* ------------------------------------------------------------------------- */
 /* Generic Solver class. */
 
 #define GNM_SOLVER_TYPE        (gnm_solver_get_type ())
 #define GNM_SOLVER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SOLVER_TYPE, GnmSolver))
 #define GNM_IS_SOLVER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SOLVER_TYPE))
 
-typedef struct {
+struct GnmSolver_ {
 	GObject parent;
 
 	GnmSolverStatus status;
@@ -200,6 +232,7 @@ typedef struct {
 
 	GnmSolverParameters *params;
 	GnmSolverResult *result;
+	GnmSolverSensitivity *sensitivity;
 	double starttime, endtime;
 	gboolean flip_sign;
 
@@ -210,7 +243,7 @@ typedef struct {
 	gnm_float *min;
 	gnm_float *max;
 	guint8 *discrete;
-} GnmSolver;
+};
 
 typedef struct {
 	GObjectClass parent_class;
@@ -295,6 +328,8 @@ typedef struct {
 	GHashTable *cell_from_name;
 	GHashTable *name_from_cell;
 
+	GHashTable *constraint_from_name;
+
 	GPid child_pid;
 	guint child_watch;
 
@@ -331,6 +366,11 @@ const char *gnm_sub_solver_name_cell (GnmSubSolver *subsol,
 GnmCell *gnm_sub_solver_find_cell (GnmSubSolver *subsol, const char *name);
 const char *gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
 					  GnmCell const *cell);
+
+const char *gnm_sub_solver_name_constraint (GnmSubSolver *subsol,
+					    int cidx,
+					    const char *name);
+int gnm_sub_solver_find_constraint (GnmSubSolver *subsol, const char *name);
 
 char *gnm_sub_solver_locate_binary (const char *binary, const char *solver,
 				    const char *url,

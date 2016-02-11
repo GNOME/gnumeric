@@ -4,6 +4,7 @@ Morten:
 	* Fuzzed file fixes.  [#761663] [#761727]
 	* Plug leak.
 	* Fix problems with ssconvert to lp/cplex formats.
+	* Add sensitivity report to solver.  (lpsolve only for now.)
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.27
