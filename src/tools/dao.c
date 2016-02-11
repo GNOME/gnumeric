@@ -81,6 +81,7 @@ dao_init (data_analysis_output_t *dao,
 	dao->rows              = 1;
 	dao->sheet             = NULL;
 	dao->autofit_flag      = TRUE;
+	dao->autofit_noshrink  = TRUE;
 	dao->clear_outputrange = TRUE;
 	dao->retain_format     = FALSE;
 	dao->retain_comments   = FALSE;
@@ -622,67 +623,65 @@ dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
 
 
 /**
- * autofit_column:
- * @dao:
- * @col:
- *
- * fits a column to the content
- *
- *
- **/
-static void
-dao_autofit_column (data_analysis_output_t *dao, int col)
-{
-        int ideal_size, actual_col;
-
-	actual_col = dao->start_col + col;
-
-	ideal_size = sheet_col_size_fit_pixels (dao->sheet, actual_col,
-						0, gnm_sheet_get_last_row (dao->sheet),
-						FALSE);
-	if (ideal_size == 0)
-	        return;
-
-	sheet_col_set_size_pixels (dao->sheet, actual_col, ideal_size, TRUE);
-	sheet_recompute_spans_for_col (dao->sheet, col);
-}
-
-/**
  * dao_autofit_these_columns:
  * @dao:
  * @from_col:
  * @to_col:
  *
- * fits all columns to their content
- *
- *
+ * Fits the specified columns to their content
  **/
 void
 dao_autofit_these_columns (data_analysis_output_t *dao, int from_col, int to_col)
 {
-	int i;
+	GnmRange r;
 
 	if (!dao->autofit_flag)
 		return;
-	for (i = from_col; i <= to_col; i++)
-		dao_autofit_column (dao,i);
+
+	range_init_cols (&r, dao->sheet,
+			 from_col + dao->start_col,
+			 to_col + dao->start_col);
+
+	colrow_autofit (dao->sheet, &r, TRUE,
+			FALSE, dao->autofit_noshrink, FALSE,
+			NULL, NULL);
 }
 
 /**
- * autofit_columns:
+ * dao_autofit_columns:
  * @dao:
- * @from:
- * @to:
  *
  * fits all columns to their content
- *
- *
  **/
 void
 dao_autofit_columns (data_analysis_output_t *dao)
 {
 	dao_autofit_these_columns (dao, 0, dao->cols - 1);
 }
+
+void
+dao_autofit_these_rows (data_analysis_output_t *dao, int from_row, int to_row)
+{
+	GnmRange r;
+
+	if (!dao->autofit_flag)
+		return;
+
+	range_init_rows (&r, dao->sheet,
+			 from_row + dao->start_row,
+			 to_row + dao->start_row);
+
+	colrow_autofit (dao->sheet, &r, FALSE,
+			FALSE, dao->autofit_noshrink, FALSE,
+			NULL, NULL);
+}
+
+void
+dao_autofit_rows (data_analysis_output_t *dao)
+{
+	dao_autofit_these_rows (dao, 0, dao->rows - 1);
+}
+
 
 /**
  * dao_set_style:
