@@ -73,6 +73,7 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	int pstat, dstat;
 	gnm_float val;
 	GnmSolverResult *result;
+	GnmSolverSensitivity *sensitivity;
 	gboolean has_integer;
 	GSList *l;
 
@@ -96,6 +97,8 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 
 	result = g_object_new (GNM_SOLVER_RESULT_TYPE, NULL);
 	result->solution = g_new0 (gnm_float, sol->input_cells->len);
+
+	sensitivity = gnm_solver_sensitivity_new (sol);
 
 	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 		goto fail;
@@ -150,11 +153,15 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 			goto fail;
 
 		result->solution[idx] = pval;
+		if (!has_integer)
+			sensitivity->vars[idx].reduced_cost = dval;
 	}
 
 	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
 	g_object_set (subsol, "result", result, NULL);
 	g_object_unref (result);
+	g_object_set (subsol, "sensitivity", sensitivity, NULL);
+	g_object_unref (sensitivity);
 
 	g_object_unref (tl);
 	return;

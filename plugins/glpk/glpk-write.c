@@ -220,6 +220,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 		GnmSolverConstraint *c = l->data;
 		const char *op = NULL;
 		int i;
+		int cidx = 0;
 		gnm_float cl, cr;
 		GnmCell *lhs, *rhs;
 		GString *type = NULL;
@@ -248,15 +249,22 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 		     gnm_solver_constraint_get_part (c, sp, i,
 						     &lhs, &cl,
 						     &rhs, &cr);
-		     i++) {
+		     i++, cidx++) {
 			if (type) {
 				g_string_append_printf
 					(type, " %s\n",
 					 glpk_var_name (ssol, lhs));
 			} else {
 				gboolean ok;
+				char *name;
 
 				g_string_append_c (constraints, ' ');
+
+				name = g_strdup_printf ("C_%d", cidx);
+				gnm_sub_solver_name_constraint (ssol, cidx, name);
+				g_string_append (constraints, name);
+				g_string_append (constraints, ": ");
+				g_free (name);
 
 				ok = glpk_affine_func
 					(constraints, lhs, ssol,
