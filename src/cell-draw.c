@@ -42,8 +42,7 @@ cell_draw_simplify_cb (PangoAttribute *attribute,
 static void
 cell_draw_simplify_attributes (GnmRenderedValue *rv)
 {
-	PangoAttrList *pal = pango_attr_list_ref
-		(pango_layout_get_attributes (rv->layout));
+	PangoAttrList *pal = pango_layout_get_attributes (rv->layout);
 	gboolean recalc_height = FALSE;
 	pango_attr_list_unref
 		(pango_attr_list_filter
