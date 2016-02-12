@@ -558,6 +558,8 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 
 	gnm_solver_store_result (sol);
 
+	gnm_solver_create_report (sol, "Solver");
+
  done:
 	if (sol)
 		g_object_unref (sol);
