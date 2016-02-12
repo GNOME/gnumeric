@@ -22,6 +22,7 @@
 typedef struct {
 	GnmSubSolver *parent;
 	char *result_filename;
+	char *ranges_filename;
 } GnmGlpk;
 
 static void
@@ -32,6 +33,11 @@ gnm_glpk_cleanup (GnmGlpk *lp)
 		g_unlink (lp->result_filename);
 		g_free (lp->result_filename);
 		lp->result_filename = NULL;
+	}
+	if (lp->ranges_filename) {
+		g_unlink (lp->ranges_filename);
+		g_free (lp->ranges_filename);
+		lp->ranges_filename = NULL;
 	}
 }
 
@@ -61,21 +67,56 @@ write_program (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 				  err);
 }
 
+static char **
+my_strsplit (const char *line)
+{
+	GPtrArray *res = g_ptr_array_new ();
+
+	while (1) {
+		const char *end;
+
+		while (g_ascii_isspace (*line))
+			line++;
+
+		if (!*line)
+			break;
+
+		end = line;
+		while (*end && !g_ascii_isspace (*end))
+			end++;
+
+		g_ptr_array_add (res, g_strndup (line, end - line));
+		line = end;
+	}
+	g_ptr_array_add (res, NULL);
+
+	return (char **)g_ptr_array_free (res, FALSE);
+}
+
+static gnm_float
+parse_number (const char *s)
+{
+	if (strcmp (s, ".") == 0)
+		return 0;
+	return g_ascii_strtod (s, NULL);
+}
+
 static void
 gnm_glpk_read_solution (GnmGlpk *lp)
 {
 	GnmSubSolver *subsol = lp->parent;
 	GnmSolver *sol = GNM_SOLVER (subsol);
 	GsfInput *input;
-	GsfInputTextline *tl;
+	GsfInputTextline *tl = NULL;
 	const char *line;
 	unsigned rows, cols, c, r;
 	int pstat, dstat;
 	gnm_float val;
-	GnmSolverResult *result;
-	GnmSolverSensitivity *sensitivity;
+	GnmSolverResult *result = NULL;
+	GnmSolverSensitivity *sensitivity = NULL;
 	gboolean has_integer;
 	GSList *l;
+	enum { SEC_UNKNOWN, SEC_ROWS, SEC_COLUMNS } state;
 
 	/*
 	 * glpsol's output format is different if there are any integer
@@ -90,8 +131,7 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 
 	input = gsf_input_stdio_new (lp->result_filename, NULL);
 	if (!input)
-		return;
-
+		goto fail;
 	tl = GSF_INPUT_TEXTLINE (gsf_input_textline_new (input));
 	g_object_unref (input);
 
@@ -132,10 +172,22 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 		goto fail;
 	}
 
-	for (r = 1; r <= rows; r++) {
+	for (r = 0; r < rows; r++) {
+		gnm_float pval, dval;
+		unsigned rstat;
+		unsigned cidx = r;
+
 		if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 			goto fail;
-		/* Ignore the line */
+
+		if (has_integer)
+			continue;
+
+		if (sscanf (line, "%u %" GNM_SCANF_g " %" GNM_SCANF_g,
+			    &rstat, &pval, &dval) != 3)
+			goto fail;
+
+		sensitivity->constraints[cidx].shadow_price = dval;
 	}
 
 	for (c = 0; c < cols; c++) {
@@ -157,18 +209,99 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 			sensitivity->vars[idx].reduced_cost = dval;
 	}
 
+	g_object_unref (tl);
+	tl = NULL;
+
+	// ----------------------------------------
+
+	if (!lp->ranges_filename)
+		goto done;
+
+	input = gsf_input_stdio_new (lp->ranges_filename, NULL);
+	if (!input)
+		goto fail;
+	tl = GSF_INPUT_TEXTLINE (gsf_input_textline_new (input));
+	g_object_unref (input);
+
+	state = SEC_UNKNOWN;
+	// We are reading a file intended for human consumption.
+	// That is unfortunately because it implies rounding, for example.
+	// The information does not appear to be available elsewhere.
+
+	while ((line = gsf_input_textline_utf8_gets (tl)) != NULL) {
+		gchar **items, **items2 = NULL;
+		int len, len2 = 0;
+
+		if (g_str_has_prefix (line, "   No. Row name")) {
+			state = SEC_ROWS;
+			continue;
+		} else if (g_str_has_prefix (line, "   No. Column name")) {
+			state = SEC_COLUMNS;
+			continue;
+		} else if (g_ascii_isalpha (line[0])) {
+			state = SEC_UNKNOWN;
+			continue;
+		}
+
+		if (state == SEC_UNKNOWN)
+			continue;
+
+		items = my_strsplit (line);
+		len = g_strv_length (items);
+
+		if (len == 10 && g_ascii_isdigit (items[0][0])) {
+			line = gsf_input_textline_utf8_gets (tl);
+			if (line) {
+				items2 = my_strsplit (line);
+				len2 = g_strv_length (items2);
+			}
+		}
+
+		if (len == 10 && len2 == 6 && state == SEC_COLUMNS) {
+			gnm_float low = parse_number (items[7]);
+			gnm_float high = parse_number (items2[3]);
+			GnmCell const *cell = gnm_sub_solver_find_cell (lp->parent, items[1]);
+			int idx = gnm_solver_cell_index (sol, cell);
+			if (idx >= 0) {
+				sensitivity->vars[idx].low = low;
+				sensitivity->vars[idx].high = high;
+			}
+		}
+
+		if (len == 10 && len2 == 6 && state == SEC_ROWS) {
+			gnm_float low = parse_number (items[6]);
+			gnm_float high = parse_number (items2[2]);
+			int cidx = gnm_sub_solver_find_constraint (lp->parent, items[1]);
+			if (cidx >= 0) {
+				sensitivity->constraints[cidx].low = low;
+				sensitivity->constraints[cidx].high = high;
+			}
+		}
+		
+		g_strfreev (items);
+		g_strfreev (items2);
+
+	}
+
+	g_object_unref (tl);
+
+	// ----------------------------------------
+done:
 	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
 	g_object_set (subsol, "result", result, NULL);
 	g_object_unref (result);
 	g_object_set (subsol, "sensitivity", sensitivity, NULL);
 	g_object_unref (sensitivity);
 
-	g_object_unref (tl);
 	return;
 
 fail:
-	g_object_unref (tl);
-	g_object_unref (result);
+	if (tl)
+		g_object_unref (tl);
+	if (result)
+		g_object_unref (result);
+	if (sensitivity)
+		g_object_unref (sensitivity);
 	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_ERROR);
 }
 
@@ -238,8 +371,17 @@ gnm_glpk_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 			     _("Failed to create file for solution"));
 		goto fail;
 	}
-
 	close (fd);
+
+	if (sol->params->options.sensitivity_report) {
+		fd = g_file_open_tmp ("program-XXXXXX.ran", &lp->ranges_filename, err);
+		if (fd == -1) {
+			g_set_error (err, G_FILE_ERROR, 0,
+				     _("Failed to create file for sensitivity report"));
+			goto fail;
+		}
+		close (fd);
+	}
 
 	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_PREPARED);
 
@@ -257,7 +399,7 @@ gnm_glpk_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 {
 	GnmSubSolver *subsol = GNM_SUB_SOLVER (sol);
 	gboolean ok;
-	gchar *argv[7];
+	gchar *argv[9];
 	int argc = 0;
 	GnmSolverParameters *param = sol->params;
 	const char *binary;
@@ -274,6 +416,10 @@ gnm_glpk_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 				 : "--noscale");
 	argv[argc++] = (gchar *)"--write";
 	argv[argc++] = lp->result_filename;
+	if (lp->ranges_filename) {
+		argv[argc++] = (gchar *)"--ranges";
+		argv[argc++] = lp->ranges_filename;
+	}
 	argv[argc++] = (gchar *)"--cpxlp";
 	argv[argc++] = subsol->program_filename;
 	argv[argc] = NULL;
