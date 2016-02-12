@@ -570,7 +570,7 @@ update_obj_value (SolverState *state)
 						 r->value);
 	} else {
 		valtxt = NULL;
-		txt = g_strdup ("");
+		txt = "";
 	}
 
 	gtk_label_set_text (GTK_LABEL (state->run.objective_value_widget),
