@@ -839,6 +839,11 @@ gnm_solver_dispose (GObject *obj)
 		sol->result = NULL;
 	}
 
+	if (sol->sensitivity) {
+		g_object_unref (sol->sensitivity);
+		sol->sensitivity = NULL;
+	}
+
 	if (sol->params) {
 		g_object_unref (sol->params);
 		sol->params = NULL;
