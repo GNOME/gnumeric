@@ -1252,7 +1252,7 @@ static const guint32 lanczos_denom[G_N_ELEMENTS(lanczos_num)] = {
 gnm_complex
 gnm_complex_gamma (gnm_complex src)
 {
-	if (gnm_complex_real_p (&src)) {
+	if (GNM_CREALP (src)) {
 		return GNM_CREAL (gnm_gamma (src.re));
 	} else if (src.re < 0) {
 		/* Gamma(z) = pi / (sin(pi*z) * Gamma(-z+1)) */
@@ -1287,7 +1287,7 @@ gnm_complex_gamma (gnm_complex src)
 gnm_complex
 gnm_complex_fact (gnm_complex src)
 {
-	if (gnm_complex_real_p (&src)) {
+	if (GNM_CREALP (src)) {
 		return GNM_CREAL (gnm_fact (src.re));
 	} else {
 		// This formula is valid for all arguments except zero
@@ -1324,10 +1324,8 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 	size_t i;
 	const gboolean debug_cf = FALSE;
 
-	gnm_complex_init (&A0, 1, 0);
-	gnm_complex_init (&A1, 0, 0);
-	gnm_complex_init (&B0, 0, 0);
-	gnm_complex_init (&B1, 1, 0);
+	A0 = B1 = GNM_CREAL (1);
+	A1 = B0 = GNM_CREAL (0);
 
 	for (i = 1; i < N; i++) {
 		gnm_complex ai, bi, t1, t2, c1, c2, A2, B2;
@@ -1337,15 +1335,15 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 		cf (&ai, &bi, i, args);
 
 		/* Update A. */
-		gnm_complex_mul (&t1, &bi, &A1);
-		gnm_complex_mul (&t2, &ai, &A0);
-		gnm_complex_add (&A2, &t1, &t2);
+		t1 = GNM_CMUL (bi, A1);
+		t2 = GNM_CMUL (ai, A0);
+		A2 = GNM_CADD (t1, t2);
 		A0 = A1; A1 = A2;
 
 		/* Update B. */
-		gnm_complex_mul (&t1, &bi, &B1);
-		gnm_complex_mul (&t2, &ai, &B0);
-		gnm_complex_add (&B2, &t1, &t2);
+		t1 = GNM_CMUL (bi, B1);
+		t2 = GNM_CMUL (ai, B0);
+		B2 = GNM_CADD (t1, t2);
 		B0 = B1; B1 = B2;
 
 		/* Rescale */
@@ -1362,20 +1360,20 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 				g_printerr ("rescale by 2^%d\n", -e);
 
 			s = ldexp (1, -e);
-			A0.re *= s; A0.im *= s;
-			A1.re *= s; A1.im *= s;
-			B0.re *= s; B0.im *= s;
-			B1.re *= s; B1.im *= s;
+			A0 = GNM_CSCALE (A0, s);
+			A1 = GNM_CSCALE (A1, s);
+			B0 = GNM_CSCALE (B0, s);
+			A1 = GNM_CSCALE (B1, s);
 		}
 
 		/* Check for convergence */
-		gnm_complex_mul (&t1, &A1, &B0);
-		gnm_complex_mul (&t2, &A0, &B1);
-		gnm_complex_sub (&c1, &t1, &t2);
+		t1 = GNM_CMUL (A1, B0);
+		t2 = GNM_CMUL (A0, B1);
+		c1 = GNM_CSUB (t1, t2);
 
-		gnm_complex_mul (&c2, &B0, &B1);
+		c2 = GNM_CMUL (B0, B1);
 
-		gnm_complex_div (&t1, &A1, &B1);
+		t1 = GNM_CDIV (A1, B1);
 		if (debug_cf) {
 			g_printerr ("  a : %.20g + %.20g I\n", ai.re, ai.im);
 			g_printerr ("  b : %.20g + %.20g I\n", bi.re, bi.im);
@@ -1384,18 +1382,18 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 			g_printerr ("%3zd : %.20g + %.20g I\n", i, t1.re, t1.im);
 		}
 
-		if (gnm_complex_mod (&c1) <= gnm_complex_mod (&c2) * (GNM_EPSILON /2))
+		if (GNM_CABS (c1) <= GNM_CABS (c2) * (GNM_EPSILON /2))
 			break;
 	}
 
 	if (i == N) {
 		g_printerr ("continued fraction failed to converge.\n");
-		/* Make the failure obvious. */
-		dst->re = dst->im = gnm_nan;
+		// Make the failure obvious.
+		*dst = GNM_CMAKE (gnm_nan, gnm_nan);
 		return FALSE;
 	}
 
-	gnm_complex_div (dst, &A1, &B1);
+	*dst = GNM_CDIV (A1, B1);
 	return TRUE;
 }
 
@@ -1422,18 +1420,13 @@ static gboolean
 igamma_lower_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 {
 	gnm_complex args[2] = { *a, *z };
-	gnm_complex f, mz, res;
+	gnm_complex res;
 
 	if (!gnm_complex_continued_fraction (&res, 100, igamma_lower_coefs, args))
 		return FALSE;
 
 	// FIXME: The following should be handled without creating big numbers.
-
-       	mz.re = -z->re, mz.im = -z->im;
-	gnm_complex_exp (&f, &mz);
-	gnm_complex_mul (&res, &res, &f);
-	gnm_complex_pow (&f, z, a);
-	gnm_complex_mul (dst, &res, &f);
+	*dst = GNM_CMUL3 (res, GNM_CEXP (GNM_CNEG (*z)), GNM_CPOW (*z, *a));
 
 	return TRUE;
 }
@@ -1441,10 +1434,10 @@ igamma_lower_cf (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 static gboolean
 igamma_upper_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z)
 {
-	gnm_float am = gnm_complex_mod (a);
-	gnm_float zm = gnm_complex_mod (z);
+	gnm_float am = GNM_CABS (*a);
+	gnm_float zm = GNM_CABS (*z);
 	gnm_float n0;
-	gnm_complex s, t, am1;
+	gnm_complex s, t;
 	gboolean debug = FALSE;
 	size_t i;
 
@@ -1462,31 +1455,27 @@ igamma_upper_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z
 	if (2 * zm < GNM_MANT_DIG * M_LN2gnum)
 		return FALSE;
 
-	gnm_complex_real (&s, 0);
+	s = GNM_CREAL (0);
 
-	gnm_complex_init (&am1, a->re - 1, a->im);
-	t = complex_temme_D (am1, *z);
+	t = complex_temme_D (GNM_CSUB (*a, GNM_CREAL (1)), *z);
 
 	for (i = 0; i < 100; i++) {
-		gnm_complex api;
-
-		gnm_complex_add (&s, &s, &t);
+		s = GNM_CADD (s, t);
 
 		if (debug) {
 			g_printerr ("%3zd: t=%.20g + %.20g * I\n", i, t.re, t.im);
 			g_printerr ("   : s=%.20g + %.20g * I\n", s.re, s.im);
 		}
 
-		if (gnm_complex_mod (&t) <= gnm_complex_mod (&s) * GNM_EPSILON) {
+		if (GNM_CABS (t) <= GNM_CABS (s) * GNM_EPSILON) {
 			if (debug)
 				g_printerr ("igamma_upper_asymp converged.\n");
 			*dst = s;
 			return TRUE;
 		}
 
-		gnm_complex_div (&t, &t, z);
-		gnm_complex_init (&api, a->re - (i + 1), a->im);
-		gnm_complex_mul (&t, &t, &api);
+		t = GNM_CDIV (t, *z);
+		t = GNM_CMUL (t, GNM_CSUB (*a, GNM_CREAL (i + 1)));
 	}
 
 	if (debug)
@@ -1502,24 +1491,18 @@ fixup_upper_real (gnm_complex *res, gnm_complex const *a, gnm_complex const *z)
 	//
 	// It appears that upper algorithms have trouble with negative real z
 	// (for example, such z being outside the allowed domain) in some cases.
-	
 
-	if (gnm_complex_real_p (z) && z->re < 0 &&
-	    gnm_complex_real_p (a) && a->re != gnm_floor (a->re)) {
+	if (GNM_CREALP (*z) && z->re < 0 &&
+	    GNM_CREALP (*a) && a->re != gnm_floor (a->re)) {
 		// Everything in the lower power series is real expect z^a
 		// which is not.  So...
 		// 1. Flip to lower gamma
 		// 2. Assume modulus is correct
 		// 3. Use exact angle for lower gamma
 		// 4. Flip back to upper gamma
-		gnm_complex lres = *res;
-		lres.re = 1 - lres.re;
-
-		gnm_complex_from_polar_pi (res,
-					   gnm_complex_mod (&lres),
-					   a->re);
-		res->re = 1 - res->re;
-		res->im = 0 - res->im;
+		gnm_complex lres = GNM_CSUB (GNM_CREAL (1), *res);
+		*res = GNM_CPOLARPI (GNM_CABS (lres), a->re);
+		*res = GNM_CSUB (GNM_CREAL (1), *res);
 	}
 }
 
@@ -1531,16 +1514,16 @@ gnm_complex_igamma (gnm_complex a, gnm_complex z,
 	gboolean have_lower, have_regularized;
 	gboolean have_ga = FALSE;
 
-	if (regularized && gnm_complex_real_p (&a) &&
+	if (regularized && GNM_CREALP (a) &&
 	    a.re <= 0 && a.re == gnm_floor (a.re)) {
-		gnm_complex_real (&res, 0);
+		res = GNM_CREAL (0);
 		have_lower = FALSE;
 		have_regularized = TRUE;
 		goto fixup;
 	}
 
-	if (gnm_complex_real_p (&a) && a.re >= 0 &&
-	    gnm_complex_real_p (&z) && z.re >= 0) {
+	if (GNM_CREALP (a) && a.re >= 0 &&
+	    GNM_CREALP (z) && z.re >= 0) {
 		res = GNM_CREAL (pgamma (z.re, a.re, 1, lower, FALSE));
 		have_lower = lower;
 		have_regularized = TRUE;
@@ -1579,7 +1562,7 @@ fixup:
 
 	if (lower != have_lower) {
 		if (have_regularized) {
-			res = GNM_CMAKE (1 - res.re, 0 - res.im);
+			res = GNM_CSUB (GNM_CREAL (1), res);
 		} else {
 			if (!have_ga)
 				ga = gnm_complex_gamma (a);

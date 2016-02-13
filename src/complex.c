@@ -124,7 +124,7 @@ gnm_complex_from_string (gnm_complex *dst, char const *src, char *imunit)
 
 	/* Case: "42", "+42", "-42", ...  */
 	if (*src == 0) {
-		gnm_complex_real (dst, x);
+		*dst = GNM_CREAL (x);
 		*imunit = 'i';
 		return 0;
 	}
@@ -134,7 +134,7 @@ gnm_complex_from_string (gnm_complex *dst, char const *src, char *imunit)
 		*imunit = *src++;
 		EAT_SPACES (src);
 		if (*src == 0) {
-			gnm_complex_init (dst, 0, x);
+			*dst = GNM_CMAKE (0, x);
 			return 0;
 		} else
 			return -1;
@@ -161,7 +161,7 @@ gnm_complex_from_string (gnm_complex *dst, char const *src, char *imunit)
 		*imunit = *src++;
 		EAT_SPACES (src);
 		if (*src == 0) {
-			gnm_complex_init (dst, x, y);
+			*dst = GNM_CMAKE (x, y);
 			return 0;
 		}
 	}

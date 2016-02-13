@@ -99,6 +99,20 @@ static inline gnm_complex GNM_CMAKE (gnm_float re, gnm_float im)
 	return res;
 }
 #define GNM_CREAL(r) (GNM_CMAKE((r),0))
+#define GNM_CREALP(c) (GNM_CIM((c)) == 0)
+
+static inline gnm_complex GNM_CPOLAR (gnm_float mod, gnm_float angle)
+{
+	gnm_complex res;
+	gnm_complex_from_polar (&res, mod, angle);
+	return res;
+}
+static inline gnm_complex GNM_CPOLARPI (gnm_float mod, gnm_float angle)
+{
+	gnm_complex res;
+	gnm_complex_from_polar_pi (&res, mod, angle);
+	return res;
+}
 static inline gnm_float GNM_CARG (gnm_complex c) { return gnm_complex_angle (&c); }
 static inline gnm_float GNM_CARGPI (gnm_complex c) { return gnm_complex_angle_pi (&c); }
 static inline gnm_float GNM_CABS (gnm_complex c) { return gnm_complex_mod (&c); }

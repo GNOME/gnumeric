@@ -66,7 +66,7 @@ value_new_complex (gnm_complex const *c, char imunit)
 {
 	if (gnm_complex_invalid_p (c))
 		return value_new_error_NUM (NULL);
-	else if (gnm_complex_real_p (c))
+	else if (GNM_CREALP (*c))
 		return value_new_float (c->re);
 	else
 		return value_new_string_nocopy (gnm_complex_to_string (c, imunit));
@@ -1219,7 +1219,7 @@ gnumeric_improduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	p.type = Improduct;
 	p.imunit = 'j';
-	gnm_complex_real (&p.res, 1);
+	p.res = GNM_CREAL (1);
 
 	v = function_iterate_argument_values
 		(ei->pos, callback_function_imoper, &p,
@@ -1253,7 +1253,7 @@ gnumeric_imsum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	p.type = Imsum;
 	p.imunit = 'j';
-	gnm_complex_real (&p.res, 0);
+	p.res = GNM_CREAL (0);
 
 	v = function_iterate_argument_values
 		(ei->pos, callback_function_imoper, &p,

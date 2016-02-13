@@ -126,14 +126,12 @@ gnm_fourier_fft (gnm_complex const *in, int n, int skip, gnm_complex **fourier, 
 	for (i = 0; i < nhalf; i++) {
 		gnm_complex dir, tmp;
 
-		gnm_complex_from_polar (&dir, 1, argstep * i);
-		gnm_complex_mul (&tmp, &fourier_2[i], &dir);
+		dir = GNM_CPOLAR (1, argstep * i);
+		tmp = GNM_CMUL (fourier_2[i], dir);
 
-		gnm_complex_add (&((*fourier)[i]), &fourier_1[i], &tmp);
-		gnm_complex_scale_real (&((*fourier)[i]), 0.5);
+		(*fourier)[i] = GNM_CSCALE (GNM_CADD (fourier_1[i], tmp), 0.5);
 
-		gnm_complex_sub (&((*fourier)[i + nhalf]), &fourier_1[i], &tmp);
-		gnm_complex_scale_real (&((*fourier)[i + nhalf]), 0.5);
+		(*fourier)[i + nhalf] = GNM_CSCALE (GNM_CSUB (fourier_1[i], tmp), 0.5);
 	}
 
 	g_free (fourier_1);

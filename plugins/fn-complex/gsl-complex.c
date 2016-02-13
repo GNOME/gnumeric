@@ -79,7 +79,7 @@ gsl_complex_mul_imag (gnm_complex const *a, gnm_float y, gnm_complex *res)
 void
 gsl_complex_inverse (gnm_complex const *a, gnm_complex *res)
 {                               /* z=1/a */
-        gnm_float s = 1.0 / gnm_complex_mod (a);
+        gnm_float s = 1.0 / GNM_CABS (*a);
 
 	gnm_complex_init (res, (GSL_REAL (a) * s) * s, -(GSL_IMAG (a) * s) * s);
 }
