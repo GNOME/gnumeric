@@ -106,6 +106,8 @@ static inline gnm_float GNM_CABS (gnm_complex c) { return gnm_complex_mod (&c); 
 #define GNM_CADD(c1,c2) (gnm_complex_f2_ (gnm_complex_add, (c1), (c2)))
 #define GNM_CSUB(c1,c2) (gnm_complex_f2_ (gnm_complex_sub, (c1), (c2)))
 #define GNM_CMUL(c1,c2) (gnm_complex_f2_ (gnm_complex_mul, (c1), (c2)))
+#define GNM_CMUL3(c1,c2,c3) GNM_CMUL(GNM_CMUL(c1,c2),c3)
+#define GNM_CMUL4(c1,c2,c3,c4) GNM_CMUL(GNM_CMUL(GNM_CMUL(c1,c2),c3),c4)
 #define GNM_CDIV(c1,c2) (gnm_complex_f2_ (gnm_complex_div, (c1), (c2)))
 #define GNM_CPOW(c1,c2) (gnm_complex_f2_ (gnm_complex_pow, (c1), (c2)))
 
