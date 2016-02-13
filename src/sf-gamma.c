@@ -1249,21 +1249,20 @@ static const guint32 lanczos_denom[G_N_ELEMENTS(lanczos_num)] = {
 	13339535, 2637558, 357423, 32670, 1925, 66, 1
 };
 
-void
-complex_gamma (gnm_complex *dst, gnm_complex const *src)
+gnm_complex
+gnm_complex_gamma (gnm_complex src)
 {
-	if (gnm_complex_real_p (src)) {
-		gnm_complex_init (dst, gnm_gamma (src->re), 0);
-	} else if (src->re < 0) {
+	if (gnm_complex_real_p (&src)) {
+		return GNM_CREAL (gnm_gamma (src.re));
+	} else if (src.re < 0) {
 		/* Gamma(z) = pi / (sin(pi*z) * Gamma(-z+1)) */
-		gnm_complex a, b, mz;
+		gnm_complex a, b;
 
-		gnm_complex_init (&mz, -src->re, -src->im);
-		a = gnm_complex_fact (mz);
+		a = gnm_complex_fact (GNM_CNEG (src));
 
 		gnm_complex_init (&b,
-			      M_PIgnum * gnm_fmod (src->re, 2),
-			      M_PIgnum * src->im);
+			      M_PIgnum * gnm_fmod (src.re, 2),
+			      M_PIgnum * src.im);
 		/* Hmm... sin overflows when b.im is large.  */
 		gnm_complex_sin (&b, &b);
 
@@ -1271,7 +1270,7 @@ complex_gamma (gnm_complex *dst, gnm_complex const *src)
 
 		gnm_complex_init (&b, M_PIgnum, 0);
 
-		gnm_complex_div (dst, &b, &a);
+		return GNM_CDIV (b, a);
 	} else {
 		gnm_complex zmh, zmhd2, zmhpg, f, f2, p, q, pq;
 		int i;
@@ -1280,14 +1279,14 @@ complex_gamma (gnm_complex *dst, gnm_complex const *src)
 		gnm_complex_init (&p, lanczos_num[i], 0);
 		gnm_complex_init (&q, lanczos_denom[i], 0);
 		while (--i >= 0) {
-			gnm_complex_mul (&p, &p, src);
+			gnm_complex_mul (&p, &p, &src);
 			p.re += lanczos_num[i];
-			gnm_complex_mul (&q, &q, src);
+			gnm_complex_mul (&q, &q, &src);
 			q.re += lanczos_denom[i];
 		}
 		gnm_complex_div (&pq, &p, &q);
 
-		gnm_complex_init (&zmh, src->re - 0.5, src->im);
+		gnm_complex_init (&zmh, src.re - 0.5, src.im);
 		gnm_complex_init (&zmhpg, zmh.re + lanczos_g, zmh.im);
 		gnm_complex_init (&zmhd2, zmh.re * 0.5, zmh.im * 0.5);
 		gnm_complex_pow (&f, &zmhpg, &zmhd2);
@@ -1297,7 +1296,7 @@ complex_gamma (gnm_complex *dst, gnm_complex const *src)
 		gnm_complex_mul (&f2, &f, &f2);
 		gnm_complex_mul (&f2, &f2, &f);
 
-		gnm_complex_mul (dst, &f2, &pq);
+		return GNM_CMUL (f2, pq);
 	}
 }
 
@@ -1309,13 +1308,9 @@ gnm_complex_fact (gnm_complex src)
 	if (gnm_complex_real_p (&src)) {
 		return GNM_CREAL (gnm_fact (src.re));
 	} else {
-		/*
-		 * This formula is valid for all arguments except zero
-		 * which we conveniently handled above.
-		 */
-		gnm_complex gz;
-		complex_gamma (&gz, &src);
-		return GNM_CMUL (gz, src);
+		// This formula is valid for all arguments except zero
+		// which we conveniently handled above.
+		return GNM_CMUL (gnm_complex_gamma (src), src);
 	}
 }
 
@@ -1597,7 +1592,7 @@ fixup:
 	// 1. Regularizing here is too late due to overflow.
 	// 2. Upper/lower switch can have cancellation
 	if (regularized != have_regularized) {
-		complex_gamma (&ga, a);
+		ga = gnm_complex_gamma (*a);
 		have_ga = TRUE;
 
 		if (have_regularized)
@@ -1613,7 +1608,7 @@ fixup:
 			res.im = 0 - res.im;
 		} else {
 			if (!have_ga)
-				complex_gamma (&ga, a);
+				ga = gnm_complex_gamma (*a);
 			gnm_complex_sub (&res, &ga, &res);
 		}
 	}
