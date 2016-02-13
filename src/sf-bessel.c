@@ -1413,7 +1413,7 @@ complex_legendre_integral (gnm_complex *res, size_t N,
 	if (N & 1)
 		g_assert (roots[0] == 0.0);
 
-	gnm_complex_init (res, 0, 0);
+	*res = GNM_CREAL (0);
 	for (i = 0; i < (N + 1) / 2; i++) {
 		gnm_float r = roots[i];
 		gnm_float w = wts[i];
@@ -1423,7 +1423,7 @@ complex_legendre_integral (gnm_complex *res, size_t N,
 			gnm_complex dI;
 			f (&dI, u, args);
 			gnm_complex_scale_real (&dI, w);
-			gnm_complex_add (res, res, &dI);
+			*res = GNM_CADD (*res, dI);
 			if (i == 0 && (N & 1))
 				break;
 		}
@@ -1442,19 +1442,16 @@ complex_trapezoid_integral (gnm_complex *res, size_t N,
 	gnm_float s = (H - L) / N;
 	size_t i;
 
-	gnm_complex_init (res, 0, 0);
+	*res = GNM_CREAL (0);
 	for (i = 0; i <= N; i++) {
 		gnm_float u = L + i * s;
 		gnm_complex dI;
 		f (&dI, u, args);
-		if (i == 0 || i == N) {
-			dI.re /= 2;
-			dI.im /= 2;
-		}
-		gnm_complex_add (res, res, &dI);
+		if (i == 0 || i == N)
+			dI = GNM_CSCALE (dI, 0.5);
+		*res = GNM_CADD (*res, dI);
 	}
-	res->re *= s;
-	res->im *= s;
+	*res = GNM_CSCALE (*res, s);
 }
 
 // Shrink integration range to exclude vanishing outer parts.
@@ -1472,7 +1469,7 @@ complex_shink_integral_range (gnm_float *L, gnm_float *H, gnm_float refx,
 	g_return_if_fail (*L <= refx && refx <= *H);
 
 	f (&y, refx, args);
-	refy = gnm_complex_mod (&y) * GNM_EPSILON;
+	refy = GNM_CABS (y) * GNM_EPSILON;
 
 	g_return_if_fail (!gnm_isnan (refy));
 
@@ -1486,7 +1483,7 @@ complex_shink_integral_range (gnm_float *L, gnm_float *H, gnm_float refx,
 		gnm_float testy;
 
 		f (&y, testx, args);
-		testy = gnm_complex_mod (&y);
+		testy = GNM_CABS (y);
 
 		first = FALSE;
 		if (testy <= refy) {
@@ -1504,7 +1501,7 @@ complex_shink_integral_range (gnm_float *L, gnm_float *H, gnm_float refx,
 		gnm_float testy;
 
 		f (&y, testx, args);
-		testy = gnm_complex_mod (&y);
+		testy = GNM_CABS (y);
 
 		first = FALSE;
 		if (testy <= refy) {
@@ -1625,8 +1622,8 @@ debye_u_coeffs (size_t n)
 	return coeffs[n];
 }
 
-static void
-debye_u (gnm_complex *res, size_t n, gnm_float p, gboolean qip)
+static gnm_complex
+debye_u (size_t n, gnm_float p, gboolean qip)
 {
 	const gnm_float *coeffs = debye_u_coeffs (n);
 	gnm_float pn = gnm_pow (p, n);
@@ -1638,18 +1635,10 @@ debye_u (gnm_complex *res, size_t n, gnm_float p, gboolean qip)
 		s = s * pp + coeffs[(i - n) / 2];
 
 	switch (qip ? n % 4 : 0) {
-	case 0:
-		gnm_complex_init (res, s * pn, 0);
-		break;
-	case 1:
-		gnm_complex_init (res, 0, s * pn);
-		break;
-	case 2:
-		gnm_complex_init (res, s * -pn, 0);
-		break;
-	case 3:
-		gnm_complex_init (res, 0, s * -pn);
-		break;
+	case 0: return GNM_CREAL (s * pn);
+	case 1: return GNM_CMAKE (0, s * pn);
+	case 2: return GNM_CREAL (s * -pn);
+	case 3: return GNM_CMAKE (0, s * -pn);
 	default:
 		g_assert_not_reached ();
 	}
@@ -1722,7 +1711,7 @@ debye_u_sum (gnm_complex *res, gnm_float x, gnm_float nu,
 
 	(void)debye_u_coeffs (N);
 
-	gnm_complex_init (res, 0, 0);
+	*res = GNM_CREAL (0);
 	f = 1;
 	for (n = 0; n <= N; n++) {
 		gnm_complex t;
@@ -1732,16 +1721,16 @@ debye_u_sum (gnm_complex *res, gnm_float x, gnm_float nu,
 			if (qip && (n & 2)) q = -q;
 			if (qalt && (n & 1)) q = -q;
 			if (qip && (n & 1))
-				gnm_complex_init (&t, 0, q);
+				t = GNM_CMAKE (0, q);
 			else
-				gnm_complex_init (&t, q, 0);
+				t = GNM_CREAL (q);
 		} else {
-			debye_u (&t, n, p, qip);
-			gnm_complex_scale_real (&t, f);
+			t = debye_u (n, p, qip);
+			t = GNM_CSCALE (t, f);
 			f /= nu;
 			if (qalt) f = -f;
 		}
-		gnm_complex_add (res, res, &t);
+		*res = GNM_CADD (*res, t);
 	}
 }
 
@@ -1791,19 +1780,16 @@ debye_29 (gnm_complex *res, gnm_float x, gnm_float nu, size_t N)
 	gnm_float sqdiff = x * x - nu * nu;
 	gnm_float eta1a, eta1b, eta1pi;
 	gnm_float f1 = gnm_sqrt (2 / M_PIgnum) / gnm_pow (sqdiff, 0.25);
-	gnm_complex sum, f12, f3;
+	gnm_complex sum, f12;
 
 	debye_29_eta1 (x, nu, &eta1a, &eta1b, &eta1pi);
 
-	gnm_complex_from_polar (&f12, f1, eta1a);
-	if (eta1b) {
-		gnm_complex_from_polar (&f3, 1, eta1b);
-		gnm_complex_mul (&f12, &f12, &f3);
-	}
-	gnm_complex_init (&f3, gnm_cospi (eta1pi), gnm_sinpi (eta1pi));
-	gnm_complex_mul (&f12, &f12, &f3);
+	f12 = GNM_CPOLAR (f1, eta1a);
+	if (eta1b)
+		f12 = GNM_CMUL (f12, GNM_CPOLAR (1, eta1b));
+	f12 = GNM_CMUL (f12, GNM_CPOLARPI (1, eta1pi));
 	debye_u_sum (&sum, x, nu, N, TRUE, TRUE);
-	gnm_complex_mul (res, &f12, &sum);
+	*res = GNM_CMUL (f12, sum);
 
 	if (0)
 		g_printerr ("D29(%g,%g) = %.20g + %.20g*i\n", x, nu, res->re, res->im);
@@ -1958,7 +1944,7 @@ integral_83_integrand (gnm_complex *res, gnm_float v, gnm_float const *args)
 	xphi1 = x * phi1;
 	if (xphi1 == gnm_ninf) {
 		// "exp" wins.
-		gnm_complex_init (res, 0, 0);
+		*res = GNM_CREAL (0);
 	} else {
 		gnm_float exphi1 = gnm_exp (xphi1);
 		gnm_complex_init (res, du_dv * exphi1, exphi1);
@@ -1996,7 +1982,7 @@ integral_83 (gnm_complex *res, gnm_float x, gnm_float nu, size_t N,
 
 	// x >= 9 && nu < x - 1.5*crbt(x)
 
-	gnm_complex I, f1, f2;
+	gnm_complex I, f1;
 	gnm_float beta = gnm_acos (nu / x);
 	gnm_float xsinbeta = gnm_sqrt (x * x - nu * nu);
 	gnm_float refx = beta;
@@ -2019,10 +2005,9 @@ integral_83 (gnm_complex *res, gnm_float x, gnm_float nu, size_t N,
 
 	complex_trapezoid_integral (&I, N, L, H, integrand, args);
 
-	gnm_complex_from_polar (&f1, 1, xsinbeta - nu * beta);
-	gnm_complex_init (&f2, 0, -1 / M_PIgnum);
-	gnm_complex_mul (&I, &I, &f1);
-	gnm_complex_mul (res, &I, &f2);
+	f1 = GNM_CPOLAR (1, xsinbeta - nu * beta);
+	I = GNM_CMUL (I, f1);
+	*res = GNM_CMUL (I, GNM_CMAKE (0, -1 / M_PIgnum));
 
 	if (0)
 		g_printerr ("I83(%g,%g) = %.20g + %.20g*i\n",
@@ -2035,7 +2020,7 @@ integral_105_126_integrand (gnm_complex *res, gnm_float u, gnm_float const *args
 {
 	gnm_float x = args[0];
 	gnm_float nu = args[1];
-	gnm_complex_init (res, gnm_exp (x * gnm_sinh (u) - nu * u), 0);
+	*res = GNM_CREAL (gnm_exp (x * gnm_sinh (u) - nu * u));
 }
 
 static void
@@ -2061,7 +2046,7 @@ integral_105_126 (gnm_complex *res, gnm_float x, gnm_float nu, gboolean qH0)
 	complex_legendre_integral (&I, 45, L, H,
 				   integral_105_126_integrand, args);
 
-	gnm_complex_init (res, 0, I.re / -M_PIgnum);
+	*res = GNM_CMAKE (0, I.re / -M_PIgnum);
 
 	if (0)
 		g_printerr ("I105(%g,%g) = %.20g * i\n", x, nu, res->im);
@@ -2110,7 +2095,7 @@ integral_106 (gnm_complex *res, gnm_float x, gnm_float nu)
 
 	// Note: 2 < x < nu.
 
-	gnm_complex I, mipi;
+	gnm_complex I;
 	gnm_float L = 0, H = M_PIgnum;
 	gnm_float args[2] = { x, nu };
 
@@ -2119,8 +2104,7 @@ integral_106 (gnm_complex *res, gnm_float x, gnm_float nu)
 	complex_legendre_integral (&I, 45, L, H,
 				   integral_106_integrand, args);
 
-	gnm_complex_init (&mipi, 0, -1 / M_PIgnum);
-	gnm_complex_mul (res, &I, &mipi);
+	*res = GNM_CMUL (I, GNM_CMAKE (0, -1 / M_PIgnum));
 
 	if (0)
 		g_printerr ("I106(%g,%g) = %.20g + %.20g*i\n", x, nu, res->re, res->im);
@@ -2226,9 +2210,9 @@ integral_127_integrand (gnm_complex *res, gnm_float v, gnm_float const *args)
 	gnm_complex xphi4, exphi4, i_du_dv;
 
 	gnm_complex_init (&xphi4, x * -diff + (x - nu) * u, (x - nu) * v);
-	gnm_complex_exp (&exphi4, &xphi4);
+	exphi4 = GNM_CEXP (xphi4);
 	gnm_complex_init (&i_du_dv, du_dv, 1);
-	gnm_complex_mul (res, &exphi4, &i_du_dv);
+	*res = GNM_CMUL (exphi4, i_du_dv);
 }
 
 static void
@@ -2252,7 +2236,7 @@ integral_127 (gnm_complex *res, gnm_float x, gnm_float nu)
 				   integral_127_integrand, args);
 
 	gnm_complex_init (&mipi, 0, -1 / M_PIgnum);
-	gnm_complex_mul (res, &I, &mipi);
+	*res = GNM_CMUL (I, mipi);
 
 	if (0)
 		g_printerr ("I127(%g,%g) = %.20g + %.20g*i\n", x, nu, res->re, res->im);
@@ -2307,7 +2291,7 @@ hankel1_A1 (gnm_complex *res, gnm_float x, gnm_float nu)
 		Ynu = chebyshev_interpolant (N, rnu - dnu, rnu + dnu, nu,
 					     y_via_j_series, args);
 	}
-	gnm_complex_init (res, Jnu, Ynu);
+	*res = GNM_CMAKE (Jnu, Ynu);
 }
 
 static void
@@ -2316,7 +2300,7 @@ hankel1_A2 (gnm_complex *res, gnm_float x, gnm_float nu)
 	gnm_complex I1, I2;
 	integral_105_126 (&I1, x, nu, FALSE);
 	integral_106 (&I2, x, nu);
-	gnm_complex_add (res, &I1, &I2);
+	*res = GNM_CADD (I1, I2);
 }
 
 static void
@@ -2350,7 +2334,7 @@ hankel1_A4 (gnm_complex *res, gnm_float x, gnm_float nu)
 	// have nu<x and alpha isn't even defined in that case.)
 	integral_105_126 (&J1, x, nu, TRUE);
 	integral_127 (&J2, x, nu);
-	gnm_complex_add (res, &J1, &J2);
+	*res = GNM_CADD (J1, J2);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -2379,7 +2363,7 @@ hankel1 (gnm_complex *res, gnm_float x, gnm_float nu)
 		hankel1 (&Hmnu, x, -nu);
 		if (0) g_printerr ("H_{%g,%g} = %.20g + %.20g * i\n", -nu, x, Hmnu.re, Hmnu.im);
 		gnm_complex_init (&r, gnm_cospi (-nu), gnm_sinpi (-nu));
-		gnm_complex_mul (res, &Hmnu, &r);
+		*res = GNM_CMUL (Hmnu, r);
 		return;
 	}
 
