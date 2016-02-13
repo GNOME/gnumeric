@@ -1,5 +1,7 @@
 2016-02-12  Morten Welinder  <terra@gnome.org>
 
+	* src/complex.h: Add a direct-value interface.
+
 	* src/ssconvert.c (run_solver): Also create solver reports as
 	indicated in options.
 

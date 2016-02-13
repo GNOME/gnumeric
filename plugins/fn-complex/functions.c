@@ -44,7 +44,6 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-
 /* Converts a complex number string into its coefficients.  Returns 0 if ok,
  * 1 if an error occurred.
  */
@@ -52,13 +51,13 @@ static int
 value_get_as_complex (GnmValue const *val, gnm_complex *res, char *imunit)
 {
 	if (VALUE_IS_NUMBER (val)) {
-		gnm_complex_real (res, value_get_as_float (val));
+		*res = GNM_CREAL (value_get_as_float (val));
 		*imunit = 'i';
 		return 0;
 	} else {
 		return gnm_complex_from_string (res,
-					    value_peek_string (val),
-					    imunit);
+						value_peek_string (val),
+						imunit);
 	}
 }
 
@@ -72,6 +71,13 @@ value_new_complex (gnm_complex const *c, char imunit)
 	else
 		return value_new_string_nocopy (gnm_complex_to_string (c, imunit));
 }
+
+static GnmValue *
+value_new_complexv (gnm_complex c, char imunit)
+{
+	return value_new_complex (&c, imunit);
+}
+
 
 /***************************************************************************/
 
@@ -89,13 +95,9 @@ static GnmFuncHelp const help_complex[] = {
 static GnmValue *
 gnumeric_complex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c;
-	char const *suffix;
-
-	gnm_complex_init (&c,
-		      value_get_as_float (argv[0]),
-		      value_get_as_float (argv[1]));
-	suffix = argv[2] ? value_peek_string (argv[2]) : "i";
+	gnm_complex c = GNM_CMAKE (value_get_as_float (argv[0]),
+				   value_get_as_float (argv[1]));
+	char const *suffix = argv[2] ? value_peek_string (argv[2]) : "i";
 
 	if (strcmp (suffix, "i") != 0 && strcmp (suffix, "j") != 0)
 		return value_new_error_VALUE (ei->pos);
@@ -151,7 +153,7 @@ gnumeric_imabs (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnm_complex_mod (&c));
+	return value_new_float (GNM_CABS (c));
 }
 
 /***************************************************************************/
@@ -196,14 +198,13 @@ static GnmFuncHelp const help_imconjugate[] = {
 static GnmValue *
 gnumeric_imconjugate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_conj (&res, &c);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CCONJ (c), imunit);
 }
 
 /***************************************************************************/
@@ -219,14 +220,13 @@ static GnmFuncHelp const help_iminv[] = {
 static GnmValue *
 gnumeric_iminv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_inverse (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CINV (c), imunit);
 }
 
 /***************************************************************************/
@@ -242,14 +242,13 @@ static GnmFuncHelp const help_imneg[] = {
 static GnmValue *
 gnumeric_imneg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_negative (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CNEG (c), imunit);
 }
 
 /***************************************************************************/
@@ -268,14 +267,13 @@ static GnmFuncHelp const help_imcos[] = {
 static GnmValue *
 gnumeric_imcos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_cos (&res, &c);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CCOS (c), imunit);
 }
 
 /***************************************************************************/
@@ -294,14 +292,13 @@ static GnmFuncHelp const help_imtan[] = {
 static GnmValue *
 gnumeric_imtan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_tan (&res, &c);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CTAN (c), imunit);
 }
 
 /***************************************************************************/
@@ -320,15 +317,13 @@ static GnmFuncHelp const help_imsec[] = {
 static GnmValue *
 gnumeric_imsec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_cos (&res, &c);
-	gsl_complex_inverse (&res, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CINV (GNM_CCOS (c)), imunit);
 }
 
 /***************************************************************************/
@@ -346,15 +341,13 @@ static GnmFuncHelp const help_imcsc[] = {
 static GnmValue *
 gnumeric_imcsc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_sin (&res, &c);
-	gsl_complex_inverse (&res, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CINV (GNM_CSIN (c)), imunit);
 }
 
 /***************************************************************************/
@@ -373,15 +366,13 @@ static GnmFuncHelp const help_imcot[] = {
 static GnmValue *
 gnumeric_imcot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_tan (&res, &c);
-	gsl_complex_inverse (&res, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CINV (GNM_CTAN (c)), imunit);
 }
 
 /***************************************************************************/
@@ -401,14 +392,13 @@ static GnmFuncHelp const help_imexp[] = {
 static GnmValue *
 gnumeric_imexp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_exp (&res, &c);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CEXP (c), imunit);
 }
 
 /***************************************************************************/
@@ -432,7 +422,7 @@ gnumeric_imargument (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnm_complex_angle (&c));
+	return value_new_float (GNM_CARG (c));
 }
 
 /***************************************************************************/
@@ -453,14 +443,13 @@ static GnmFuncHelp const help_imln[] = {
 static GnmValue *
 gnumeric_imln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_ln (&res, &c);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CLN (c), imunit);
 }
 
 /***************************************************************************/
@@ -479,15 +468,13 @@ static GnmFuncHelp const help_imlog2[] = {
 static GnmValue *
 gnumeric_imlog2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_ln (&res, &c);
-	gnm_complex_scale_real (&res, 1 / M_LN2gnum);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CSCALE (GNM_CLN (c), 1 / M_LN2gnum), imunit);
 }
 
 /***************************************************************************/
@@ -505,15 +492,13 @@ static GnmFuncHelp const help_imlog10[] = {
 static GnmValue *
 gnumeric_imlog10 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_ln (&res, &c);
-	gnm_complex_scale_real (&res, 1 / M_LN10gnum);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CSCALE (GNM_CLN (c), 1 / M_LN10gnum), imunit);
 }
 
 /***************************************************************************/
@@ -532,7 +517,7 @@ static GnmFuncHelp const help_impower[] = {
 static GnmValue *
 gnumeric_impower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex a, b, res;
+	gnm_complex a, b;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &a, &imunit))
@@ -544,11 +529,7 @@ gnumeric_impower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (gnm_complex_zero_p (&a) && gnm_complex_zero_p (&b))
 		return value_new_error_DIV0 (ei->pos);
 
-	gnm_complex_pow (&res, &a, &b);
-	if (gnm_complex_invalid_p (&res))
-		return value_new_error_NUM (ei->pos);
-
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CPOW (a, b), imunit);
 }
 
 /***************************************************************************/
@@ -568,7 +549,7 @@ static GnmFuncHelp const help_imdiv[] = {
 static GnmValue *
 gnumeric_imdiv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex a, b, res;
+	gnm_complex a, b;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &a, &imunit))
@@ -580,8 +561,7 @@ gnumeric_imdiv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (gnm_complex_zero_p (&b))
 		return value_new_error_DIV0 (ei->pos);
 
-	gnm_complex_div (&res, &a, &b);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CDIV (a, b), imunit);
 }
 
 /***************************************************************************/
@@ -599,14 +579,13 @@ static GnmFuncHelp const help_imsin[] = {
 static GnmValue *
 gnumeric_imsin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_sin (&res, &c);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CSIN (c), imunit);
 }
 
 /***************************************************************************/
@@ -623,14 +602,13 @@ static GnmFuncHelp const help_imsinh[] = {
 static GnmValue *
 gnumeric_imsinh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_sinh (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CSINH (c), imunit);
 }
 
 /***************************************************************************/
@@ -648,14 +626,13 @@ static GnmFuncHelp const help_imcosh[] = {
 static GnmValue *
 gnumeric_imcosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_cosh (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CCOSH (c), imunit);
 }
 
 /***************************************************************************/
@@ -673,14 +650,13 @@ static GnmFuncHelp const help_imtanh[] = {
 static GnmValue *
 gnumeric_imtanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_tanh (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CTANH (c), imunit);
 }
 
 /***************************************************************************/
@@ -697,14 +673,13 @@ static GnmFuncHelp const help_imsech[] = {
 static GnmValue *
 gnumeric_imsech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_sech (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CSECH (c), imunit);
 }
 
 /***************************************************************************/
@@ -722,14 +697,13 @@ static GnmFuncHelp const help_imcsch[] = {
 static GnmValue *
 gnumeric_imcsch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_csch (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CCSCH (c), imunit);
 }
 
 /***************************************************************************/
@@ -746,14 +720,13 @@ static GnmFuncHelp const help_imcoth[] = {
 static GnmValue *
 gnumeric_imcoth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_coth (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CCOTH (c), imunit);
 }
 
 /***************************************************************************/
@@ -773,14 +746,13 @@ static GnmFuncHelp const help_imarcsin[] = {
 static GnmValue *
 gnumeric_imarcsin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arcsin (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCSIN (c), imunit);
 }
 
 /***************************************************************************/
@@ -800,14 +772,13 @@ static GnmFuncHelp const help_imarccos[] = {
 static GnmValue *
 gnumeric_imarccos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arccos (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCCOS (c), imunit);
 }
 
 /***************************************************************************/
@@ -827,14 +798,13 @@ static GnmFuncHelp const help_imarctan[] = {
 static GnmValue *
 gnumeric_imarctan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arctan (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCTAN (c), imunit);
 }
 
 /***************************************************************************/
@@ -851,14 +821,13 @@ static GnmFuncHelp const help_imarcsec[] = {
 static GnmValue *
 gnumeric_imarcsec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arcsec (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCSEC (c), imunit);
 }
 
 /***************************************************************************/
@@ -876,14 +845,13 @@ static GnmFuncHelp const help_imarccsc[] = {
 static GnmValue *
 gnumeric_imarccsc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arccsc (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCCSC (c), imunit);
 }
 
 /***************************************************************************/
@@ -900,14 +868,13 @@ static GnmFuncHelp const help_imarccot[] = {
 static GnmValue *
 gnumeric_imarccot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arccot (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCCOT (c), imunit);
 }
 
 /***************************************************************************/
@@ -927,14 +894,13 @@ static GnmFuncHelp const help_imarcsinh[] = {
 static GnmValue *
 gnumeric_imarcsinh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arcsinh (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCSINH (c), imunit);
 }
 
 /***************************************************************************/
@@ -955,14 +921,13 @@ static GnmFuncHelp const help_imarccosh[] = {
 static GnmValue *
 gnumeric_imarccosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arccosh (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCCOSH (c), imunit);
 }
 
 /***************************************************************************/
@@ -983,14 +948,13 @@ static GnmFuncHelp const help_imarctanh[] = {
 static GnmValue *
 gnumeric_imarctanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arctanh (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCTANH (c), imunit);
 }
 
 /***************************************************************************/
@@ -1007,14 +971,13 @@ static GnmFuncHelp const help_imarcsech[] = {
 static GnmValue *
 gnumeric_imarcsech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arcsech (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCSECH (c), imunit);
 }
 
 /***************************************************************************/
@@ -1032,14 +995,13 @@ static GnmFuncHelp const help_imarccsch[] = {
 static GnmValue *
 gnumeric_imarccsch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arccsch (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCCSCH (c), imunit);
 }
 
 /***************************************************************************/
@@ -1057,14 +1019,13 @@ static GnmFuncHelp const help_imarccoth[] = {
 static GnmValue *
 gnumeric_imarccoth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
-	char      imunit;
+	gnm_complex c;
+	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gsl_complex_arccoth (&c, &res);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CARCCOTH (c), imunit);
 }
 
 /***************************************************************************/
@@ -1083,14 +1044,13 @@ static GnmFuncHelp const help_imsqrt[] = {
 static GnmValue *
 gnumeric_imsqrt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_sqrt (&res, &c);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CSQRT (c), imunit);
 }
 
 /***************************************************************************/
@@ -1193,7 +1153,7 @@ static GnmFuncHelp const help_imsub[] = {
 static GnmValue *
 gnumeric_imsub (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex a, b, res;
+	gnm_complex a, b;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &a, &imunit))
@@ -1202,8 +1162,7 @@ gnumeric_imsub (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (value_get_as_complex (argv[1], &b, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	gnm_complex_sub (&res, &a, &b);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (GNM_CSUB (a, b), imunit);
 }
 
 /***************************************************************************/
@@ -1225,7 +1184,7 @@ typedef enum {
 } eng_imoper_type_t;
 
 typedef struct {
-	gnm_complex         res;
+	gnm_complex       res;
 	char              imunit;
 	eng_imoper_type_t type;
 } eng_imoper_t;
@@ -1243,10 +1202,10 @@ callback_function_imoper (GnmEvalPos const *ep, GnmValue const *value, void *clo
 
 	switch (result->type) {
 	case Improduct:
-		gnm_complex_mul (&result->res, &result->res, &c);
+		result->res = GNM_CMUL (result->res, c);
 	        break;
 	case Imsum:
-		gnm_complex_add (&result->res, &result->res, &c);
+		result->res = GNM_CADD (result->res, c);
 	        break;
 	default:
 		abort ();
@@ -1272,7 +1231,7 @@ gnumeric_improduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	if (v != NULL)
 		return v;
 
-	return value_new_complex (&p.res, p.imunit);
+	return value_new_complexv (p.res, p.imunit);
 }
 
 /***************************************************************************/
@@ -1306,7 +1265,7 @@ gnumeric_imsum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	if (v != NULL)
 		return v;
 
-	return value_new_complex (&p.res, p.imunit);
+	return value_new_complexv (p.res, p.imunit);
 }
 
 /***************************************************************************/

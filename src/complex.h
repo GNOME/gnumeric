@@ -69,6 +69,65 @@ int gnm_complex_from_string (gnm_complex *dst, char const *src, char *imunit);
 int gnm_complex_invalid_p (gnm_complex const *src);
 
 /* ------------------------------------------------------------------------- */
+// Value interface
+
+static inline gnm_complex
+gnm_complex_f1_ (void (*f) (gnm_complex *, gnm_complex const *),
+		 gnm_complex a1)
+{
+	gnm_complex res;
+	f (&res, &a1);
+	return res;
+}
+
+static inline gnm_complex
+gnm_complex_f2_ (void (*f) (gnm_complex *, gnm_complex const *, gnm_complex const *),
+		 gnm_complex a1, gnm_complex a2)
+{
+	gnm_complex res;
+	f (&res, &a1, &a2);
+	return res;
+}
+
+#define GNM_CRE(c) (+(c).re)
+#define GNM_CIM(c) (+(c).re)
+static inline gnm_complex GNM_CMAKE (gnm_float re, gnm_float im)
+{
+	gnm_complex res;
+	res.re = re;
+	res.im = im;
+	return res;
+}
+#define GNM_CREAL(r) (GNM_CMAKE((r),0))
+static inline gnm_float GNM_CARG (gnm_complex c) { return gnm_complex_angle (&c); }
+static inline gnm_float GNM_CARGPI (gnm_complex c) { return gnm_complex_angle_pi (&c); }
+static inline gnm_float GNM_CABS (gnm_complex c) { return gnm_complex_mod (&c); }
+
+#define GNM_CADD(c1,c2) (gnm_complex_f2_ (gnm_complex_add, (c1), (c2)))
+#define GNM_CSUB(c1,c2) (gnm_complex_f2_ (gnm_complex_sub, (c1), (c2)))
+#define GNM_CMUL(c1,c2) (gnm_complex_f2_ (gnm_complex_mul, (c1), (c2)))
+#define GNM_CDIV(c1,c2) (gnm_complex_f2_ (gnm_complex_div, (c1), (c2)))
+#define GNM_CPOW(c1,c2) (gnm_complex_f2_ (gnm_complex_pow, (c1), (c2)))
+
+#define GNM_CCONJ(c1) (gnm_complex_f1_ (gnm_complex_conj, (c1)))
+#define GNM_CSQRT(c1) (gnm_complex_f1_ (gnm_complex_sqrt, (c1)))
+#define GNM_CEXP(c1) (gnm_complex_f1_ (gnm_complex_exp, (c1)))
+#define GNM_CLN(c1)  (gnm_complex_f1_ (gnm_complex_ln, (c1)))
+#define GNM_CSIN(c1) (gnm_complex_f1_ (gnm_complex_sin, (c1)))
+#define GNM_CCOS(c1) (gnm_complex_f1_ (gnm_complex_cos, (c1)))
+#define GNM_CTAN(c1) (gnm_complex_f1_ (gnm_complex_tan, (c1)))
+#define GNM_CINV(c1) (GNM_CDIV (GNM_CREAL (1), (c1)))
+static inline gnm_complex GNM_CNEG(gnm_complex c)
+{
+	return GNM_CMAKE (-c.re, -c.im);
+}
+
+static inline gnm_complex GNM_CSCALE(gnm_complex c, gnm_float s)
+{
+	return GNM_CMAKE (c.re * s, c.im * s);
+}
+
+/* ------------------------------------------------------------------------- */
 
 G_END_DECLS
 

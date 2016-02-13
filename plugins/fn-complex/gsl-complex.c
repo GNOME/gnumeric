@@ -84,12 +84,6 @@ gsl_complex_inverse (gnm_complex const *a, gnm_complex *res)
 	gnm_complex_init (res, (GSL_REAL (a) * s) * s, -(GSL_IMAG (a) * s) * s);
 }
 
-void
-gsl_complex_negative (gnm_complex const *a, gnm_complex *res)
-{
-	gnm_complex_init (res, -GSL_REAL (a), -GSL_IMAG (a));
-}
-
 /**********************************************************************
  * Inverse Complex Trigonometric Functions
  **********************************************************************/
