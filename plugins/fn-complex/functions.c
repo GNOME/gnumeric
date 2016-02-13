@@ -1068,14 +1068,13 @@ static GnmFuncHelp const help_imfact[] = {
 static GnmValue *
 gnumeric_imfact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex c, res;
+	gnm_complex c;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	complex_fact (&res, &c);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (gnm_complex_fact (c), imunit);
 }
 
 /***************************************************************************/

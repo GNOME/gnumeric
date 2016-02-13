@@ -1259,7 +1259,7 @@ complex_gamma (gnm_complex *dst, gnm_complex const *src)
 		gnm_complex a, b, mz;
 
 		gnm_complex_init (&mz, -src->re, -src->im);
-		complex_fact (&a, &mz);
+		a = gnm_complex_fact (mz);
 
 		gnm_complex_init (&b,
 			      M_PIgnum * gnm_fmod (src->re, 2),
@@ -1303,19 +1303,19 @@ complex_gamma (gnm_complex *dst, gnm_complex const *src)
 
 /* ------------------------------------------------------------------------- */
 
-void
-complex_fact (gnm_complex *dst, gnm_complex const *src)
+gnm_complex
+gnm_complex_fact (gnm_complex src)
 {
-	if (gnm_complex_real_p (src)) {
-		gnm_complex_init (dst, gnm_fact (src->re), 0);
+	if (gnm_complex_real_p (&src)) {
+		return GNM_CREAL (gnm_fact (src.re));
 	} else {
 		/*
 		 * This formula is valid for all arguments except zero
 		 * which we conveniently handled above.
 		 */
 		gnm_complex gz;
-		complex_gamma (&gz, src);
-		gnm_complex_mul (dst, &gz, src);
+		complex_gamma (&gz, &src);
+		return GNM_CMUL (gz, src);
 	}
 }
 
@@ -1333,7 +1333,7 @@ complex_temme_D (gnm_complex *res, gnm_complex const *a, gnm_complex const *z)
 	gnm_complex_pow (&t, z, a);
 	gnm_complex_exp (&ez, z);
 	gnm_complex_div (&t, &t, &ez);
-	complex_fact (&fa, a);
+	fa = gnm_complex_fact (*a);
 	gnm_complex_div (res, &t, &fa);
 }
 
