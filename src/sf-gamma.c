@@ -1256,47 +1256,29 @@ gnm_complex_gamma (gnm_complex src)
 		return GNM_CREAL (gnm_gamma (src.re));
 	} else if (src.re < 0) {
 		/* Gamma(z) = pi / (sin(pi*z) * Gamma(-z+1)) */
-		gnm_complex a, b;
-
-		a = gnm_complex_fact (GNM_CNEG (src));
-
-		gnm_complex_init (&b,
-			      M_PIgnum * gnm_fmod (src.re, 2),
-			      M_PIgnum * src.im);
+		gnm_complex b = GNM_CMAKE (M_PIgnum * gnm_fmod (src.re, 2),
+					   M_PIgnum * src.im);
 		/* Hmm... sin overflows when b.im is large.  */
-		gnm_complex_sin (&b, &b);
-
-		gnm_complex_mul (&a, &a, &b);
-
-		gnm_complex_init (&b, M_PIgnum, 0);
-
-		return GNM_CDIV (b, a);
+		return GNM_CDIV (GNM_CREAL (M_PIgnum),
+				 GNM_CMUL (gnm_complex_fact (GNM_CNEG (src)), GNM_CSIN (b)));
 	} else {
-		gnm_complex zmh, zmhd2, zmhpg, f, f2, p, q, pq;
+		gnm_complex zmh, f, p, q;
 		int i;
 
 		i = G_N_ELEMENTS(lanczos_num) - 1;
-		gnm_complex_init (&p, lanczos_num[i], 0);
-		gnm_complex_init (&q, lanczos_denom[i], 0);
+		p = GNM_CREAL (lanczos_num[i]);
+		q = GNM_CREAL (lanczos_denom[i]);
 		while (--i >= 0) {
-			gnm_complex_mul (&p, &p, &src);
+			p = GNM_CMUL (p, src);
 			p.re += lanczos_num[i];
-			gnm_complex_mul (&q, &q, &src);
+			q = GNM_CMUL (q, src);
 			q.re += lanczos_denom[i];
 		}
-		gnm_complex_div (&pq, &p, &q);
 
-		gnm_complex_init (&zmh, src.re - 0.5, src.im);
-		gnm_complex_init (&zmhpg, zmh.re + lanczos_g, zmh.im);
-		gnm_complex_init (&zmhd2, zmh.re * 0.5, zmh.im * 0.5);
-		gnm_complex_pow (&f, &zmhpg, &zmhd2);
+		zmh = GNM_CMAKE (src.re - 0.5, src.im);
+		f = GNM_CPOW (GNM_CADD (zmh, GNM_CREAL (lanczos_g)), GNM_CSCALE (zmh, 0.5));
 
-		zmh.re = -zmh.re; zmh.im = -zmh.im;
-		gnm_complex_exp (&f2, &zmh);
-		gnm_complex_mul (&f2, &f, &f2);
-		gnm_complex_mul (&f2, &f2, &f);
-
-		return GNM_CMUL (f2, pq);
+		return GNM_CMUL4 (f, GNM_CEXP (GNM_CNEG (zmh)), f, GNM_CDIV (p, q));
 	}
 }
 
@@ -1317,19 +1299,16 @@ gnm_complex_fact (gnm_complex src)
 /* ------------------------------------------------------------------------- */
 
 // D(a,z) := z^a * exp(-z) / Gamma (a + 1)
-static void
-complex_temme_D (gnm_complex *res, gnm_complex const *a, gnm_complex const *z)
+static gnm_complex 
+complex_temme_D (gnm_complex a, gnm_complex z)
 {
-	gnm_complex t, ez, fa;
+	gnm_complex t;
 
 	// The idea here is to control intermediate sizes and to avoid
 	// accuracy problems caused by exp and pow.  For now, do neither.
 
-	gnm_complex_pow (&t, z, a);
-	gnm_complex_exp (&ez, z);
-	gnm_complex_div (&t, &t, &ez);
-	fa = gnm_complex_fact (*a);
-	gnm_complex_div (res, &t, &fa);
+	t = GNM_CDIV (GNM_CPOW (z, a), GNM_CEXP (z));
+	return GNM_CDIV (t, gnm_complex_fact (a));
 }
 
 
@@ -1428,18 +1407,15 @@ igamma_lower_coefs (gnm_complex *ai, gnm_complex *bi, size_t i,
 	gnm_complex const *z = args + 1;
 
 	if (i == 1)
-		gnm_complex_real (ai, 1);
+		*ai = GNM_CREAL (1);
 	else if (i & 1) {
-		gnm_complex f;
-		gnm_complex_real (&f, i >> 1);
-		gnm_complex_mul (ai, &f, z);
+		*ai = GNM_CSCALE (*z, i >> 1);
 	} else {
-		gnm_complex f;
-		gnm_complex_init (&f, -(a->re + ((i >> 1) - 1)), -a->im);
-		gnm_complex_mul (ai, &f, z);
+		gnm_complex f = GNM_CMAKE (-(a->re + ((i >> 1) - 1)), -a->im);
+		*ai = GNM_CMUL (f, *z);
 	}
 
-	gnm_complex_init (bi, a->re + (i - 1), a->im);
+	*bi = GNM_CMAKE (a->re + (i - 1), a->im);
 }
 
 static gboolean
@@ -1489,7 +1465,7 @@ igamma_upper_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z
 	gnm_complex_real (&s, 0);
 
 	gnm_complex_init (&am1, a->re - 1, a->im);
-	complex_temme_D (&t, &am1, z);
+	t = complex_temme_D (am1, *z);
 
 	for (i = 0; i < 100; i++) {
 		gnm_complex api;
@@ -1547,73 +1523,71 @@ fixup_upper_real (gnm_complex *res, gnm_complex const *a, gnm_complex const *z)
 	}
 }
 
-void
-complex_igamma (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z,
-		gboolean lower, gboolean regularized)
+gnm_complex
+gnm_complex_igamma (gnm_complex a, gnm_complex z,
+		    gboolean lower, gboolean regularized)
 {
 	gnm_complex res, ga;
 	gboolean have_lower, have_regularized;
 	gboolean have_ga = FALSE;
 
-	if (regularized && gnm_complex_real_p (a) &&
-	    a->re <= 0 && a->re == gnm_floor (a->re)) {
+	if (regularized && gnm_complex_real_p (&a) &&
+	    a.re <= 0 && a.re == gnm_floor (a.re)) {
 		gnm_complex_real (&res, 0);
 		have_lower = FALSE;
 		have_regularized = TRUE;
 		goto fixup;
 	}
 
-	if (gnm_complex_real_p (a) && a->re >= 0 &&
-	    gnm_complex_real_p (z) && z->re >= 0) {
-		gnm_complex_init (&res, pgamma (z->re, a->re, 1, lower, FALSE), 0);
+	if (gnm_complex_real_p (&a) && a.re >= 0 &&
+	    gnm_complex_real_p (&z) && z.re >= 0) {
+		res = GNM_CREAL (pgamma (z.re, a.re, 1, lower, FALSE));
 		have_lower = lower;
 		have_regularized = TRUE;
 		goto fixup;
 	}
 
-	if (igamma_upper_asymp (&res, a, z)) {
+	if (igamma_upper_asymp (&res, &a, &z)) {
 		have_lower = FALSE;
 		have_regularized = TRUE;
-		fixup_upper_real (&res, a, z);
+		fixup_upper_real (&res, &a, &z);
 		goto fixup;
 	}
 
-	if (igamma_lower_cf (&res, a, z)) {
+	if (igamma_lower_cf (&res, &a, &z)) {
 		have_lower = TRUE;
 		have_regularized = FALSE;
 		goto fixup;
 	}
 
-	gnm_complex_init (dst, gnm_nan, gnm_nan);
-	return;
+	return GNM_CMAKE (gnm_nan, gnm_nan);
 
 fixup:
 	// Fixup to the desired form as needed.  This is not ideal.
 	// 1. Regularizing here is too late due to overflow.
 	// 2. Upper/lower switch can have cancellation
 	if (regularized != have_regularized) {
-		ga = gnm_complex_gamma (*a);
+		ga = gnm_complex_gamma (a);
 		have_ga = TRUE;
 
 		if (have_regularized)
-			gnm_complex_mul (&res, &res, &ga);
+			res = GNM_CMUL (res, ga);
 		else
-			gnm_complex_div (&res, &res, &ga);
+			res = GNM_CDIV (res, ga);
 		have_regularized = TRUE;
 	}
 
 	if (lower != have_lower) {
 		if (have_regularized) {
-			res.re = 1 - res.re;
-			res.im = 0 - res.im;
+			res = GNM_CMAKE (1 - res.re, 0 - res.im);
 		} else {
 			if (!have_ga)
-				ga = gnm_complex_gamma (*a);
-			gnm_complex_sub (&res, &ga, &res);
+				ga = gnm_complex_gamma (a);
+			res = GNM_CSUB (ga, res);
 		}
 	}
 
-	*dst = res;
+	return res;
 }
 
 /* ------------------------------------------------------------------------- */

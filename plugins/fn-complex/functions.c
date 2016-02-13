@@ -1120,7 +1120,7 @@ static GnmFuncHelp const help_imigamma[] = {
 static GnmValue *
 gnumeric_imigamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_complex res, a, z;
+	gnm_complex a, z;
 	char imunit;
 	gboolean lower = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
 	gboolean reg = argv[3] ? value_get_as_checked_bool (argv[3]) : TRUE;
@@ -1130,8 +1130,7 @@ gnumeric_imigamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (value_get_as_complex (argv[1], &z, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	complex_igamma (&res, &a, &z, lower, reg);
-	return value_new_complex (&res, imunit);
+	return value_new_complexv (gnm_complex_igamma (a, z, lower, reg), imunit);
 }
 
 /***************************************************************************/

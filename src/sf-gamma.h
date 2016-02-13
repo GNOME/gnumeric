@@ -12,8 +12,8 @@ gnm_float gnm_fact (gnm_float x);
 int       qfactf (gnm_float x, GnmQuad *mant, int *exp2);
 gnm_complex gnm_complex_gamma (gnm_complex src);
 gnm_complex gnm_complex_fact (gnm_complex src);
-void complex_igamma (gnm_complex *dst, gnm_complex const  *a, gnm_complex const *z,
-		     gboolean lower, gboolean regularized);
+gnm_complex gnm_complex_igamma (gnm_complex a, gnm_complex z,
+				gboolean lower, gboolean regularized);
 
 gnm_float gnm_lbeta (gnm_float a, gnm_float b);
 gnm_float gnm_beta (gnm_float a, gnm_float b);
