@@ -90,7 +90,7 @@ gnm_complex_f2_ (void (*f) (gnm_complex *, gnm_complex const *, gnm_complex cons
 }
 
 #define GNM_CRE(c) (+(c).re)
-#define GNM_CIM(c) (+(c).re)
+#define GNM_CIM(c) (+(c).im)
 static inline gnm_complex GNM_CMAKE (gnm_float re, gnm_float im)
 {
 	gnm_complex res;
@@ -100,6 +100,10 @@ static inline gnm_complex GNM_CMAKE (gnm_float re, gnm_float im)
 }
 #define GNM_CREAL(r) (GNM_CMAKE((r),0))
 #define GNM_CREALP(c) (GNM_CIM((c)) == 0)
+#define GNM_C0 (GNM_CREAL (0))
+#define GNM_C1 (GNM_CREAL (1))
+#define GNM_CI (GNM_CMAKE (0, 1))
+#define GNM_CNAN (GNM_CMAKE (gnm_nan, gnm_nan))
 
 static inline gnm_complex GNM_CPOLAR (gnm_float mod, gnm_float angle)
 {
@@ -132,7 +136,7 @@ static inline gnm_float GNM_CABS (gnm_complex c) { return gnm_complex_mod (&c); 
 #define GNM_CSIN(c1) (gnm_complex_f1_ (gnm_complex_sin, (c1)))
 #define GNM_CCOS(c1) (gnm_complex_f1_ (gnm_complex_cos, (c1)))
 #define GNM_CTAN(c1) (gnm_complex_f1_ (gnm_complex_tan, (c1)))
-#define GNM_CINV(c1) (GNM_CDIV (GNM_CREAL (1), (c1)))
+#define GNM_CINV(c1) (GNM_CDIV (GNM_C1, (c1)))
 static inline gnm_complex GNM_CNEG(gnm_complex c)
 {
 	return GNM_CMAKE (-c.re, -c.im);
@@ -141,6 +145,11 @@ static inline gnm_complex GNM_CNEG(gnm_complex c)
 static inline gnm_complex GNM_CSCALE(gnm_complex c, gnm_float s)
 {
 	return GNM_CMAKE (c.re * s, c.im * s);
+}
+
+static inline gnm_complex GNM_CEXPPI(gnm_complex c)
+{
+	return GNM_CPOLARPI (gnm_exp (c.re), c.im);
 }
 
 /* ------------------------------------------------------------------------- */

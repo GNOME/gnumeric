@@ -1324,8 +1324,8 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 	size_t i;
 	const gboolean debug_cf = FALSE;
 
-	A0 = B1 = GNM_CREAL (1);
-	A1 = B0 = GNM_CREAL (0);
+	A0 = B1 = GNM_C1;
+	A1 = B0 = GNM_C0;
 
 	for (i = 1; i < N; i++) {
 		gnm_complex ai, bi, t1, t2, c1, c2, A2, B2;
@@ -1389,7 +1389,7 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 	if (i == N) {
 		g_printerr ("continued fraction failed to converge.\n");
 		// Make the failure obvious.
-		*dst = GNM_CMAKE (gnm_nan, gnm_nan);
+		*dst = GNM_CNAN;
 		return FALSE;
 	}
 
@@ -1405,7 +1405,7 @@ igamma_lower_coefs (gnm_complex *ai, gnm_complex *bi, size_t i,
 	gnm_complex const *z = args + 1;
 
 	if (i == 1)
-		*ai = GNM_CREAL (1);
+		*ai = GNM_C1;
 	else if (i & 1) {
 		*ai = GNM_CSCALE (*z, i >> 1);
 	} else {
@@ -1455,9 +1455,9 @@ igamma_upper_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z
 	if (2 * zm < GNM_MANT_DIG * M_LN2gnum)
 		return FALSE;
 
-	s = GNM_CREAL (0);
+	s = GNM_C0;
 
-	t = complex_temme_D (GNM_CSUB (*a, GNM_CREAL (1)), *z);
+	t = complex_temme_D (GNM_CSUB (*a, GNM_C1), *z);
 
 	for (i = 0; i < 100; i++) {
 		s = GNM_CADD (s, t);
@@ -1485,24 +1485,24 @@ igamma_upper_asymp (gnm_complex *dst, const gnm_complex *a, const gnm_complex *z
 }
 
 static void
-fixup_upper_real (gnm_complex *res, gnm_complex const *a, gnm_complex const *z)
+fixup_upper_real (gnm_complex *res, gnm_complex a, gnm_complex z)
 {
 	// This assumes we have an upper gamma regularized result.
 	//
 	// It appears that upper algorithms have trouble with negative real z
 	// (for example, such z being outside the allowed domain) in some cases.
 
-	if (GNM_CREALP (*z) && z->re < 0 &&
-	    GNM_CREALP (*a) && a->re != gnm_floor (a->re)) {
+	if (GNM_CREALP (z) && z.re < 0 &&
+	    GNM_CREALP (a) && a.re != gnm_floor (a.re)) {
 		// Everything in the lower power series is real expect z^a
 		// which is not.  So...
 		// 1. Flip to lower gamma
 		// 2. Assume modulus is correct
 		// 3. Use exact angle for lower gamma
 		// 4. Flip back to upper gamma
-		gnm_complex lres = GNM_CSUB (GNM_CREAL (1), *res);
-		*res = GNM_CPOLARPI (GNM_CABS (lres), a->re);
-		*res = GNM_CSUB (GNM_CREAL (1), *res);
+		gnm_complex lres = GNM_CSUB (GNM_C1, *res);
+		*res = GNM_CPOLARPI (GNM_CABS (lres), a.re);
+		*res = GNM_CSUB (GNM_C1, *res);
 	}
 }
 
@@ -1516,7 +1516,7 @@ gnm_complex_igamma (gnm_complex a, gnm_complex z,
 
 	if (regularized && GNM_CREALP (a) &&
 	    a.re <= 0 && a.re == gnm_floor (a.re)) {
-		res = GNM_CREAL (0);
+		res = GNM_C0;
 		have_lower = FALSE;
 		have_regularized = TRUE;
 		goto fixup;
@@ -1533,7 +1533,7 @@ gnm_complex_igamma (gnm_complex a, gnm_complex z,
 	if (igamma_upper_asymp (&res, &a, &z)) {
 		have_lower = FALSE;
 		have_regularized = TRUE;
-		fixup_upper_real (&res, &a, &z);
+		fixup_upper_real (&res, a, z);
 		goto fixup;
 	}
 
@@ -1543,7 +1543,8 @@ gnm_complex_igamma (gnm_complex a, gnm_complex z,
 		goto fixup;
 	}
 
-	return GNM_CMAKE (gnm_nan, gnm_nan);
+	// Failure of all sub-methods.
+	return GNM_CNAN;
 
 fixup:
 	// Fixup to the desired form as needed.  This is not ideal.
@@ -1562,7 +1563,7 @@ fixup:
 
 	if (lower != have_lower) {
 		if (have_regularized) {
-			res = GNM_CSUB (GNM_CREAL (1), res);
+			res = GNM_CSUB (GNM_C1, res);
 		} else {
 			if (!have_ga)
 				ga = gnm_complex_gamma (a);
