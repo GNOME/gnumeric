@@ -1249,18 +1249,24 @@ static const guint32 lanczos_denom[G_N_ELEMENTS(lanczos_num)] = {
 	13339535, 2637558, 357423, 32670, 1925, 66, 1
 };
 
+/**
+ * gnm_complex_gamma:
+ * @z: a complex number
+ *
+ * Returns: (transfer full): the Gamma function evaluated at @z.
+ */
 gnm_complex
-gnm_complex_gamma (gnm_complex src)
+gnm_complex_gamma (gnm_complex z)
 {
-	if (GNM_CREALP (src)) {
-		return GNM_CREAL (gnm_gamma (src.re));
-	} else if (src.re < 0) {
+	if (GNM_CREALP (z)) {
+		return GNM_CREAL (gnm_gamma (z.re));
+	} else if (z.re < 0) {
 		/* Gamma(z) = pi / (sin(pi*z) * Gamma(-z+1)) */
-		gnm_complex b = GNM_CMAKE (M_PIgnum * gnm_fmod (src.re, 2),
-					   M_PIgnum * src.im);
+		gnm_complex b = GNM_CMAKE (M_PIgnum * gnm_fmod (z.re, 2),
+					   M_PIgnum * z.im);
 		/* Hmm... sin overflows when b.im is large.  */
 		return GNM_CDIV (GNM_CREAL (M_PIgnum),
-				 GNM_CMUL (gnm_complex_fact (GNM_CNEG (src)), GNM_CSIN (b)));
+				 GNM_CMUL (gnm_complex_fact (GNM_CNEG (z)), GNM_CSIN (b)));
 	} else {
 		gnm_complex zmh, f, p, q;
 		int i;
@@ -1269,13 +1275,13 @@ gnm_complex_gamma (gnm_complex src)
 		p = GNM_CREAL (lanczos_num[i]);
 		q = GNM_CREAL (lanczos_denom[i]);
 		while (--i >= 0) {
-			p = GNM_CMUL (p, src);
+			p = GNM_CMUL (p, z);
 			p.re += lanczos_num[i];
-			q = GNM_CMUL (q, src);
+			q = GNM_CMUL (q, z);
 			q.re += lanczos_denom[i];
 		}
 
-		zmh = GNM_CMAKE (src.re - 0.5, src.im);
+		zmh = GNM_CMAKE (z.re - 0.5, z.im);
 		f = GNM_CPOW (GNM_CADD (zmh, GNM_CREAL (lanczos_g)), GNM_CSCALE (zmh, 0.5));
 
 		return GNM_CMUL4 (f, GNM_CEXP (GNM_CNEG (zmh)), f, GNM_CDIV (p, q));
@@ -1284,15 +1290,21 @@ gnm_complex_gamma (gnm_complex src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_complex_fact:
+ * @z: a complex number
+ *
+ * Returns: (transfer full): the factorial function evaluated at @z.
+ */
 gnm_complex
-gnm_complex_fact (gnm_complex src)
+gnm_complex_fact (gnm_complex z)
 {
-	if (GNM_CREALP (src)) {
-		return GNM_CREAL (gnm_fact (src.re));
+	if (GNM_CREALP (z)) {
+		return GNM_CREAL (gnm_fact (z.re));
 	} else {
 		// This formula is valid for all arguments except zero
 		// which we conveniently handled above.
-		return GNM_CMUL (gnm_complex_gamma (src), src);
+		return GNM_CMUL (gnm_complex_gamma (z), z);
 	}
 }
 
@@ -1506,6 +1518,16 @@ fixup_upper_real (gnm_complex *res, gnm_complex a, gnm_complex z)
 	}
 }
 
+/**
+ * gnm_complex_igamma:
+ * @a: a complex number
+ * @z: a complex number
+ * @lower: determines if upper or lower incomplete gamma is desired.
+ * @regularized: determines if the result should be normalized by Gamma(@a).
+ *
+ * Returns: (transfer full): the incomplete gamma function evaluated at
+ * @a and @z.
+ */
 gnm_complex
 gnm_complex_igamma (gnm_complex a, gnm_complex z,
 		    gboolean lower, gboolean regularized)
