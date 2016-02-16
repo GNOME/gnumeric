@@ -178,24 +178,3 @@ gnm_complex_invalid_p (gnm_complex const *src)
 }
 
 /* ------------------------------------------------------------------------- */
-
-static gnm_complex *
-dup_complex (gnm_complex *src)
-{
-	return g_memdup (src, sizeof (*src));
-}
-
-GType
-gnm_complex_get_type (void)
-{
-	static GType t = 0;
-
-	if (t == 0)
-		t = g_boxed_type_register_static
-			("gnm_complex",
-			 (GBoxedCopyFunc)dup_complex,
-			 (GBoxedFreeFunc)g_free);
-	return t;
-}
-
-/* ------------------------------------------------------------------------- */

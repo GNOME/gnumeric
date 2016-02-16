@@ -9,7 +9,7 @@
 G_BEGIN_DECLS
 
 #ifdef GNM_WITH_LONG_DOUBLE
-typedef GOComplexl gnm_complex;
+#define gnm_complex GOComplexl
 #define gnm_complex_init go_complex_initl
 #define gnm_complex_add go_complex_addl
 #define gnm_complex_sub go_complex_subl
@@ -34,7 +34,7 @@ typedef GOComplexl gnm_complex;
 #define gnm_complex_from_polar go_complex_from_polarl
 #define gnm_complex_from_polar_pi go_complex_from_polar_pil
 #else
-typedef GOComplex gnm_complex;
+#define gnm_complex GOComplex
 #define gnm_complex_init go_complex_init
 #define gnm_complex_add go_complex_add
 #define gnm_complex_sub go_complex_sub
@@ -67,8 +67,6 @@ char *gnm_complex_to_string (gnm_complex const *src, char imunit);
 int gnm_complex_from_string (gnm_complex *dst, char const *src, char *imunit);
 
 int gnm_complex_invalid_p (gnm_complex const *src);
-
-GType gnm_complex_get_type (void);
 
 /* ------------------------------------------------------------------------- */
 // Value interface
