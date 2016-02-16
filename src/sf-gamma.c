@@ -1363,7 +1363,7 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 			A0 = GNM_CSCALE (A0, s);
 			A1 = GNM_CSCALE (A1, s);
 			B0 = GNM_CSCALE (B0, s);
-			A1 = GNM_CSCALE (B1, s);
+			B1 = GNM_CSCALE (B1, s);
 		}
 
 		/* Check for convergence */
