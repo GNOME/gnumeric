@@ -882,10 +882,11 @@ unquote (char *dst, char const *src, int n)
 {
 	while (n-- > 0)
 		if (*src == '\\' && src[1]) {
-			int n = g_utf8_skip [*(guchar *)(++src)];
-			strncpy (dst, src, n);
-			dst += n;
-			src += n;
+			int l = g_utf8_skip [*(guchar *)(++src)];
+			strncpy (dst, src, l);
+			dst += l;
+			src += l;
+			n -= l;
 		} else
 			*dst++ = *src++;
 	*dst = 0;

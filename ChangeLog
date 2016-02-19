@@ -1,3 +1,8 @@
+2016-02-18  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (unquote): Properly account backslashes.  Fixes
+	#762278.
+
 2016-02-12  Morten Welinder  <terra@gnome.org>
 
 	* src/complex.h: Add a direct-value interface.

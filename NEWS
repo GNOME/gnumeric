@@ -1,7 +1,7 @@
 Gnumeric 1.12.28
 
 Morten:
-	* Fuzzed file fixes.  [#761663] [#761727]
+	* Fuzzed file fixes.  [#761663] [#761727] [#762278]
 	* Plug leaks.
 	* Fix problems with ssconvert to lp/cplex formats.
 	* Add sensitivity report to solver.
