@@ -100,10 +100,16 @@ static inline gnm_complex GNM_CMAKE (gnm_float re, gnm_float im)
 }
 #define GNM_CREAL(r) (GNM_CMAKE((r),0))
 #define GNM_CREALP(c) (GNM_CIM((c)) == 0)
+#define GNM_CZEROP(c) (GNM_CEQ((c),GNM_C0))
 #define GNM_C0 (GNM_CREAL (0))
 #define GNM_C1 (GNM_CREAL (1))
 #define GNM_CI (GNM_CMAKE (0, 1))
 #define GNM_CNAN (GNM_CMAKE (gnm_nan, gnm_nan))
+
+static inline gboolean GNM_CEQ(gnm_complex c1, gnm_complex c2)
+{
+	return c1.re == c2.re && c1.im == c2.im;
+}
 
 static inline gnm_complex GNM_CPOLAR (gnm_float mod, gnm_float angle)
 {
@@ -145,6 +151,11 @@ static inline gnm_complex GNM_CNEG(gnm_complex c)
 static inline gnm_complex GNM_CSCALE(gnm_complex c, gnm_float s)
 {
 	return GNM_CMAKE (c.re * s, c.im * s);
+}
+static inline gnm_complex GNM_CLDEXP(gnm_complex c, gnm_float e)
+{
+	int ie = (int)CLAMP (e, G_MININT, G_MAXINT);
+	return GNM_CMAKE (gnm_ldexp (c.re, ie), gnm_ldexp (c.im, ie));
 }
 
 static inline gnm_complex GNM_CEXPPI(gnm_complex c)

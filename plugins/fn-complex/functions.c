@@ -526,7 +526,7 @@ gnumeric_impower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (value_get_as_complex (argv[1], &b, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	if (gnm_complex_zero_p (&a) && gnm_complex_zero_p (&b))
+	if (GNM_CZEROP (a) && GNM_CZEROP (b))
 		return value_new_error_DIV0 (ei->pos);
 
 	return value_new_complexv (GNM_CPOW (a, b), imunit);
@@ -558,7 +558,7 @@ gnumeric_imdiv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (value_get_as_complex (argv[1], &b, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	if (gnm_complex_zero_p (&b))
+	if (GNM_CZEROP (b))
 		return value_new_error_DIV0 (ei->pos);
 
 	return value_new_complexv (GNM_CDIV (a, b), imunit);
