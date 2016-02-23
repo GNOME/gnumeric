@@ -468,7 +468,7 @@ gnm_gamma (gnm_float x)
 	int e;
 
 	switch (qgammaf (x, &r, &e)) {
-	case 0: return ldexp (gnm_quad_value (&r), e);
+	case 0: return gnm_ldexp (gnm_quad_value (&r), e);
 	case 1: return gnm_pinf;
 	default: return gnm_nan;
 	}
@@ -489,7 +489,7 @@ gnm_fact (gnm_float x)
 	int e;
 
 	switch (qfactf (x, &r, &e)) {
-	case 0: return ldexp (gnm_quad_value (&r), e);
+	case 0: return gnm_ldexp (gnm_quad_value (&r), e);
 	case 1: return gnm_pinf;
 	default: return gnm_nan;
 	}
@@ -561,7 +561,7 @@ gnm_beta (gnm_float a, gnm_float b)
 	int e;
 
 	switch (qbetaf (a, b, &r, &e)) {
-	case 0: return ldexp (gnm_quad_value (&r), e);
+	case 0: return gnm_ldexp (gnm_quad_value (&r), e);
 	case 1: return gnm_pinf;
 	default: return gnm_nan;
 	}
@@ -1371,7 +1371,7 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 			if (debug_cf)
 				g_printerr ("rescale by 2^%d\n", -e);
 
-			s = ldexp (1, -e);
+			s = gnm_ldexp (1, -e);
 			A0 = GNM_CSCALE (A0, s);
 			A1 = GNM_CSCALE (A1, s);
 			B0 = GNM_CSCALE (B0, s);
