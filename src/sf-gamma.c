@@ -454,6 +454,14 @@ gnm_float gnm_lbeta(gnm_float a, gnm_float b)
 
 /* ------------------------------------------------------------------------ */
 
+gnm_float
+gnm_gammax (gnm_float x, int *exp2)
+{
+	GnmQuad r;
+	(void) qgammaf (x, &r, exp2);
+	return gnm_quad_value (&r);
+}
+
 /**
  * gnm_gamma:
  * @x: a number
@@ -464,17 +472,20 @@ gnm_float gnm_lbeta(gnm_float a, gnm_float b)
 gnm_float
 gnm_gamma (gnm_float x)
 {
-	GnmQuad r;
 	int e;
-
-	switch (qgammaf (x, &r, &e)) {
-	case 0: return gnm_ldexp (gnm_quad_value (&r), e);
-	case 1: return gnm_pinf;
-	default: return gnm_nan;
-	}
+	gnm_float r = gnm_gammax (x, &e);
+	return gnm_ldexp (r, e);
 }
 
 /* ------------------------------------------------------------------------- */
+
+gnm_float
+gnm_factx (gnm_float x, int *exp2)
+{
+	GnmQuad r;
+	(void)qfactf (x, &r, exp2);
+	return gnm_quad_value (&r);
+}
 
 /**
  * gnm_fact:
@@ -485,14 +496,9 @@ gnm_gamma (gnm_float x)
 gnm_float
 gnm_fact (gnm_float x)
 {
-	GnmQuad r;
 	int e;
-
-	switch (qfactf (x, &r, &e)) {
-	case 0: return gnm_ldexp (gnm_quad_value (&r), e);
-	case 1: return gnm_pinf;
-	default: return gnm_nan;
-	}
+	gnm_float r = gnm_factx (x, &e);
+	return gnm_ldexp (r, e);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -948,17 +954,20 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 	void *state;
 	gboolean res = 0;
 
-	if (gnm_isnan (x))
-		return 2;
+	*exp2 = 0;
 
-	if (x >= G_MAXINT / 2)
+	if (gnm_isnan (x) || (x < 0 && x == gnm_floor (x))) {
+		mant->h = mant->l = gnm_nan;
+		return 2;
+	}
+
+	if (x >= G_MAXINT / 2) {
+		mant->h = mant->l = gnm_pinf;
 		return 1;
+	}
 
 	if (x == gnm_floor (x)) {
-		/* Integer or infinite.  */
-		if (x < 0)
-			return 2;
-
+		/* 0, 1, 2, ...  */
 		if (!qfacti ((int)x, mant, exp2))
 			return 0;
 	}
@@ -1000,9 +1009,10 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 		/* (y/e)^y */
 		gnm_quad_div (&f2, &y, &gnm_quad_e);
 		gnm_quad_pow (&f2, &ef2, &f2, &y);
-		if (ef2 > G_MAXINT || ef2 < G_MININT)
+		if (ef2 > G_MAXINT || ef2 < G_MININT) {
 			res = 1;
-		else
+			f2.h = f2.l = gnm_pinf;
+		} else
 			*exp2 += (int)ef2;
 		if (debug) g_printerr ("f2=%.20g\n", gnm_quad_value (&f2));
 
@@ -1042,6 +1052,7 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 		}
 
 		if (qfacti ((int)w, &mFw, &eFw)) {
+			mant->h = mant->l = gnm_pinf;
 			res = 1;
 		} else {
 			GnmQuad r;
@@ -1066,9 +1077,11 @@ qgammaf (gnm_float x, GnmQuad *mant, int *exp2)
 {
 	if (x < -1.5 || x > 0.5)
 		return qfactf (x - 1, mant, exp2);
-	else if (gnm_isnan (x) || x == 0)
+	else if (gnm_isnan (x) || x == gnm_floor (x)) {
+		*exp2 = 0;
+		mant->h = mant->l = gnm_nan;
 		return 2;
-	else {
+	} else {
 		void *state = gnm_quad_start ();
 		GnmQuad qx;
 
@@ -1252,21 +1265,29 @@ static const guint32 lanczos_denom[G_N_ELEMENTS(lanczos_num)] = {
 /**
  * gnm_complex_gamma:
  * @z: a complex number
+ * @exp2: (out) (allow-none): Return location for power of 2.
  *
  * Returns: (transfer full): the Gamma function evaluated at @z.
  */
 gnm_complex
-gnm_complex_gamma (gnm_complex z)
+gnm_complex_gamma (gnm_complex z, int *exp2)
 {
+	if (exp2)
+		*exp2 = 0;
+
 	if (GNM_CREALP (z)) {
-		return GNM_CREAL (gnm_gamma (z.re));
+		return GNM_CREAL (exp2 ? gnm_gammax (z.re, exp2) : gnm_gamma (z.re));
 	} else if (z.re < 0) {
 		/* Gamma(z) = pi / (sin(pi*z) * Gamma(-z+1)) */
 		gnm_complex b = GNM_CMAKE (M_PIgnum * gnm_fmod (z.re, 2),
 					   M_PIgnum * z.im);
 		/* Hmm... sin overflows when b.im is large.  */
-		return GNM_CDIV (GNM_CREAL (M_PIgnum),
-				 GNM_CMUL (gnm_complex_fact (GNM_CNEG (z)), GNM_CSIN (b)));
+		gnm_complex res = GNM_CDIV (GNM_CREAL (M_PIgnum),
+					    GNM_CMUL (gnm_complex_fact (GNM_CNEG (z), exp2),
+						      GNM_CSIN (b)));
+		if (exp2)
+			*exp2 = -*exp2;
+		return res;
 	} else {
 		gnm_complex zmh, f, p, q;
 		int i;
@@ -1282,7 +1303,8 @@ gnm_complex_gamma (gnm_complex z)
 		}
 
 		zmh = GNM_CMAKE (z.re - 0.5, z.im);
-		f = GNM_CPOW (GNM_CADD (zmh, GNM_CREAL (lanczos_g)), GNM_CSCALE (zmh, 0.5));
+		f = GNM_CPOW (GNM_CADD (zmh, GNM_CREAL (lanczos_g)),
+			      GNM_CSCALE (zmh, 0.5));
 
 		return GNM_CMUL4 (f, GNM_CEXP (GNM_CNEG (zmh)), f, GNM_CDIV (p, q));
 	}
@@ -1293,18 +1315,22 @@ gnm_complex_gamma (gnm_complex z)
 /**
  * gnm_complex_fact:
  * @z: a complex number
+ * @exp2: (out) (allow-none): Return location for power of 2.
  *
  * Returns: (transfer full): the factorial function evaluated at @z.
  */
 gnm_complex
-gnm_complex_fact (gnm_complex z)
+gnm_complex_fact (gnm_complex z, int *exp2)
 {
+	if (exp2)
+		*exp2 = 0;
+
 	if (GNM_CREALP (z)) {
-		return GNM_CREAL (gnm_fact (z.re));
+		return GNM_CREAL (exp2 ? gnm_factx (z.re, exp2) : gnm_fact (z.re));
 	} else {
 		// This formula is valid for all arguments except zero
 		// which we conveniently handled above.
-		return GNM_CMUL (gnm_complex_gamma (z), z);
+		return GNM_CMUL (gnm_complex_gamma (z, exp2), z);
 	}
 }
 
@@ -1320,7 +1346,7 @@ complex_temme_D (gnm_complex a, gnm_complex z)
 	// accuracy problems caused by exp and pow.  For now, do neither.
 
 	t = GNM_CDIV (GNM_CPOW (z, a), GNM_CEXP (z));
-	return GNM_CDIV (t, gnm_complex_fact (a));
+	return GNM_CDIV (t, gnm_complex_fact (a, NULL));
 }
 
 
@@ -1573,7 +1599,7 @@ fixup:
 	// 1. Regularizing here is too late due to overflow.
 	// 2. Upper/lower switch can have cancellation
 	if (regularized != have_regularized) {
-		ga = gnm_complex_gamma (a);
+		ga = gnm_complex_gamma (a, NULL);
 		have_ga = TRUE;
 
 		if (have_regularized)
@@ -1588,7 +1614,7 @@ fixup:
 			res = GNM_CSUB (GNM_C1, res);
 		} else {
 			if (!have_ga)
-				ga = gnm_complex_gamma (a);
+				ga = gnm_complex_gamma (a, NULL);
 			res = GNM_CSUB (ga, res);
 		}
 	}

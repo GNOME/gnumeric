@@ -1074,7 +1074,7 @@ gnumeric_imfact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_complexv (gnm_complex_fact (c), imunit);
+	return value_new_complexv (gnm_complex_fact (c, NULL), imunit);
 }
 
 /***************************************************************************/
@@ -1098,7 +1098,7 @@ gnumeric_imgamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_complexv (gnm_complex_gamma (c), imunit);
+	return value_new_complexv (gnm_complex_gamma (c, NULL), imunit);
 }
 
 /***************************************************************************/

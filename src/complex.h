@@ -29,6 +29,7 @@ G_BEGIN_DECLS
 #define gnm_complex_cos go_complex_cosl
 #define gnm_complex_tan go_complex_tanl
 #define gnm_complex_pow go_complex_powl
+#define gnm_complex_powx go_complex_powxl
 #define gnm_complex_scale_real go_complex_scale_reall
 #define gnm_complex_to_polar go_complex_to_polarl
 #define gnm_complex_from_polar go_complex_from_polarl
@@ -54,6 +55,7 @@ G_BEGIN_DECLS
 #define gnm_complex_cos go_complex_cos
 #define gnm_complex_tan go_complex_tan
 #define gnm_complex_pow go_complex_pow
+#define gnm_complex_powx go_complex_powx
 #define gnm_complex_scale_real go_complex_scale_real
 #define gnm_complex_to_polar go_complex_to_polar
 #define gnm_complex_from_polar go_complex_from_polar
@@ -134,6 +136,12 @@ static inline gnm_float GNM_CABS (gnm_complex c) { return gnm_complex_mod (&c); 
 #define GNM_CMUL4(c1,c2,c3,c4) GNM_CMUL(GNM_CMUL(GNM_CMUL(c1,c2),c3),c4)
 #define GNM_CDIV(c1,c2) (gnm_complex_f2_ (gnm_complex_div, (c1), (c2)))
 #define GNM_CPOW(c1,c2) (gnm_complex_f2_ (gnm_complex_pow, (c1), (c2)))
+static inline gnm_complex GNM_CPOWX(gnm_complex c1, gnm_complex c2, gnm_float *e)
+{
+	gnm_complex res;
+	gnm_complex_powx (&res, e, &c1, &c2);
+	return res;
+}
 
 #define GNM_CCONJ(c1) (gnm_complex_f1_ (gnm_complex_conj, (c1)))
 #define GNM_CSQRT(c1) (gnm_complex_f1_ (gnm_complex_sqrt, (c1)))
