@@ -1,3 +1,7 @@
+2016-03-02  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-bessel.c: Return complex numbers by value, not reference.
+
 2016-02-23  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-gamma.c: Properly use gnm_ldexp, not ldexp.
