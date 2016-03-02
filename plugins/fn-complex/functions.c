@@ -1219,7 +1219,7 @@ gnumeric_improduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	p.type = Improduct;
 	p.imunit = 'j';
-	p.res = GNM_CREAL (1);
+	p.res = GNM_C1;
 
 	v = function_iterate_argument_values
 		(ei->pos, callback_function_imoper, &p,
@@ -1253,7 +1253,7 @@ gnumeric_imsum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	p.type = Imsum;
 	p.imunit = 'j';
-	p.res = GNM_CREAL (0);
+	p.res = GNM_C0;
 
 	v = function_iterate_argument_values
 		(ei->pos, callback_function_imoper, &p,
