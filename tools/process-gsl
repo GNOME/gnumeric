@@ -1,0 +1,153 @@
+#!/usr/bin/perl -w
+
+# This script processes the test cases from gsl
+
+use strict;
+
+my $dir = $ARGV[0];
+die "$0: missing gsl directory\n" unless (defined $dir) && -d $dir;
+
+my @complex_files = ('results.h', 'results1.h', 'results2.h', 'results_real.h');
+
+# -----------------------------------------------------------------------------
+
+my $last_func = '';
+my @test_lines = ();
+
+sub output_test {
+    my ($gfunc,$expr,$res) = @_;
+
+    my $gfunc0 = ($gfunc eq $last_func) ? '' : $gfunc;
+
+    $expr = "=$expr";
+    $res = "=$res" if $res =~ /[*^]/;
+
+    my $N = 1 + @test_lines;
+    my $line = "\"$gfunc0\",\"$expr\",\"$res\"";
+    foreach my $F ('IMREAL', 'IMAGINARY', 'IMABS', 'IMARGUMENT') {
+	$line .= ",\"=IF($F(B$N)=$F(C$N),\"\"\"\",IF($F(C$N)=0,-LOG10(ABS($F(B$N))),-LOG10(ABS(($F(B$N)-$F(C$N))/$F(C$N)))))\"";
+    }
+    push @test_lines, $line;
+
+    $last_func = $gfunc;
+}
+
+# -----------------------------------------------------------------------------
+
+sub format1 {
+    my ($z) = @_;
+    if ($z =~ /i/) {
+	return "\"\"$z\"\"";
+    } else {
+	return $z;
+    }
+}
+
+# -----------------------------------------------------------------------------
+
+my $func_no = 0;
+
+sub flush_func {
+    my ($gfunc, $first_row, $last_row) = @_;
+    return unless $first_row <= $last_row;
+    my $count = $last_row - $first_row + 1;
+
+    my $line = "$gfunc,$count";
+    foreach my $C ('D', 'E', 'F', 'G') {
+	$line .= ",\"=min($C${first_row}:$C${last_row},99)\"";
+    }
+    $test_lines[$func_no + 3] = $line;
+    $func_no++;
+}
+
+my @funcs = (
+    ['arg', 'imargument'],
+    ['abs', 'imabs'],
+    ['pow', 'impower'],
+    ['sqrt', 'imsqrt'],
+    ['sqrt_real', 'imsqrt'],
+    ['log', 'imln'],
+    ['log10', 'imlog10'],
+    ['exp', 'imexp'],
+    ['sin', 'imsin'],
+    ['cos', 'imcos'],
+    ['tan', 'imtan'],
+    ['arcsin', 'imarcsin'],
+    ['arcsin_real', 'imarcsin'],
+    ['arccos', 'imarccos'],
+    ['arccos_real', 'imarccos'],
+    ['arctan', 'imarctan'],
+    ['sinh', 'imsinh'],
+    ['cosh', 'imcosh'],
+    ['tanh', 'imtanh'],
+    ['arcsinh', 'imarcsinh'],
+    ['arccosh', 'imarccosh'],
+    ['arccosh_real', 'imarccosh'],
+    ['arctanh', 'imarctanh'],
+    ['arctanh_real', 'imarctanh'],
+    ['csc', 'imcsc'],
+    ['sec', 'imsec'],
+    ['cot', 'imcot'],
+    ['arccsc', 'imarccsc'],
+    ['arccsc_real', 'imarccsc'],
+    ['arcsec', 'imarcsec'],
+    ['arcsec_real', 'imarcsec'],
+    ['arccot', 'imarccot'],
+    ['csch', 'imcsch'],
+    ['sech', 'imsech'],
+    ['coth', 'imcoth'],
+    ['arccsch', 'imarccsch'],
+    ['arcsech', 'imarcsech'],
+    ['arccoth', 'imarccoth'],
+    );
+
+my %gfunc_func;
+foreach (@funcs) { $gfunc_func{$_->[1]}{$_->[0]} = 1; }
+
+push @test_lines, ("") x (10 + scalar keys %gfunc_func);
+
+foreach my $gfunc (sort keys %gfunc_func) {
+    my $first_row = @test_lines + 1;
+
+    foreach my $f (@complex_files) {
+	my $fn = "$dir/complex/$f";
+	open (*SRC, "< $fn") or die "$0: cannot read $fn: $!\n";
+
+	while (<SRC>) {
+	    chomp;
+	    s/\s*\},?$//;
+	    s/^\s*\{\s*//g;
+	    s/FN\s*\(([a-zA-Z0-9_]+)\)\s*,\s*//;
+	    my $func = $1;
+	    next unless exists $gfunc_func{$gfunc}{$func};
+
+	    s/(ARG|RES)\s*\(([-+.0-9eE]+)\s*,\s*([-+.0-9eE]+)\s*\)/$2+$3i/g;
+	    s/\+-/-/g;
+
+	    # Vanity changes
+	    s/[eE]\+?0+(i?)\b/$1/g;
+	    s/\b0\.0*(i?)\b/0$1/g;
+	    s/\+0i\b//g;
+
+	    my @items = split (/, */);
+	    my $res = pop @items;
+	    my $expr = "$gfunc(" . join (",", map { &format1 ($_) } @items) . ")";
+
+	    &output_test ($gfunc, $expr, $res);
+	}
+
+	close (*SRC);
+    }
+    &flush_func ($gfunc, $first_row, scalar @test_lines);
+}
+
+{
+    my $r0 = 3;
+    my $r1 = $func_no + 3;
+    $test_lines[0] = "\"Function\",\"Number of Tests\",\"Real Accuracy\",\"Imaginary Accuracy\",\"Modulus Accuracy\",\"Argument Accuracy\"";
+    $test_lines[1] = "\"\",\"\",\"=min(C${r0}:C${r1})\",\"=min(D${r0}:D${r1})\",\"=min(E${r0}:E${r1})\",\"=min(F${r0}:F${r1})\"";
+}
+
+foreach (@test_lines) {
+    print "$_\n";
+}

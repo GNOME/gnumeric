@@ -1,3 +1,8 @@
+2016-03-05  Morten Welinder  <terra@gnome.org>
+
+	* process-gsl: New tool for importing test cases from gsl.
+	Complex number tests only for now.
+
 2016-02-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.27
