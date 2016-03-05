@@ -6,6 +6,7 @@ Morten:
 	* Fix problems with ssconvert to lp/cplex formats.
 	* Add sensitivity report to solver.
 	* Fix bounds problem with cplex exporter.
+	* Fix IMARCCOSH(1).
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.27

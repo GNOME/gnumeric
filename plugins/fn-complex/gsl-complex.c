@@ -375,8 +375,12 @@ gsl_complex_arcsinh (gnm_complex const *a, gnm_complex *res)
 void
 gsl_complex_arccosh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arccosh(a) */
-        gsl_complex_arccos (a, res);
-	gsl_complex_mul_imag (res, GSL_IMAG (res) > 0 ? -1.0 : 1.0, res);
+	if (GSL_IMAG (a) == 0 && GSL_REAL (a) == 1)
+		*res = GNM_C0;
+	else {
+		gsl_complex_arccos (a, res);
+		gsl_complex_mul_imag (res, GSL_IMAG (res) > 0 ? -1.0 : 1.0, res);
+	}
 }
 
 static void

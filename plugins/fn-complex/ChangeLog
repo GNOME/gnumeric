@@ -1,3 +1,8 @@
+2016-03-05  Morten Welinder  <terra@gnome.org>
+
+	* gsl-complex.c (gsl_complex_arccosh): Return +0, not -0 for
+	argument 1.  Reported upstream.
+
 2016-02-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.27
