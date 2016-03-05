@@ -10,7 +10,7 @@ my $file = "gsl.gnumeric";
 &test_sheet_calc ("$samples/$file", "C2:F2",
 		  sub {
 		      foreach my $a (split (',')) {
-			  return 0 unless $a > 14.4;
+			  return 0 unless $a > 15;
 		      }
 		      return 1;
 		  });
