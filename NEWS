@@ -7,6 +7,7 @@ Morten:
 	* Add sensitivity report to solver.
 	* Fix bounds problem with cplex exporter.
 	* Fix IMARCCOSH(1).
+	* Add more tests for complex number evaluation.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.27
