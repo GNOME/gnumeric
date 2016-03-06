@@ -2103,7 +2103,7 @@ integral_127_u (gnm_float v)
 	gnm_float vv, u = 0;
 
 	if (v >= 1)
-		return acosh (v / gnm_sin (v));
+		return gnm_acosh (v / gnm_sin (v));
 
 	// Above formula will suffer from cancellation
 	vv = v * v;
@@ -2112,7 +2112,7 @@ integral_127_u (gnm_float v)
 	u *= v;
 
 	if (0) {
-		gnm_float ref = acosh (v / gnm_sin (v));
+		gnm_float ref = gnm_acosh (v / gnm_sin (v));
 		g_printerr ("XXX: %g %g\n", ref, u);
 	}
 

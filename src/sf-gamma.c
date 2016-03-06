@@ -1393,7 +1393,7 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 			if (m == 0)
 				return FALSE;
 
-			(void)frexp (m, &e);
+			(void)gnm_frexp (m, &e);
 			if (debug_cf)
 				g_printerr ("rescale by 2^%d\n", -e);
 

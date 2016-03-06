@@ -782,7 +782,7 @@ no_absc:
 		case FILTER_HANN:
 			factor = 2. * M_PIgnum / n0;
 			for (i = 0; i < n0; i++)
-				ord[i] *= 0.5 * (1 - cos (factor * i));
+				ord[i] *= 0.5 * (1 - gnm_cos (factor * i));
 			break;
 		case FILTER_WELCH:
 			factor = n0 / 2.;

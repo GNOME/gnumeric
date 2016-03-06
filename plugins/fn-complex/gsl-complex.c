@@ -305,7 +305,7 @@ gsl_complex_sinh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = sinh(a) */
         gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
-	*res = GNM_CMAKE (gnm_sinh (R) * gnm_cos (I), cosh (R) * gnm_sin (I));
+	*res = GNM_CMAKE (gnm_sinh (R) * gnm_cos (I), gnm_cosh (R) * gnm_sin (I));
 }
 
 void
@@ -313,7 +313,7 @@ gsl_complex_cosh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = cosh(a) */
         gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
-	*res = GNM_CMAKE (cosh (R) * gnm_cos (I), gnm_sinh (R) * gnm_sin (I));
+	*res = GNM_CMAKE (gnm_cosh (R) * gnm_cos (I), gnm_sinh (R) * gnm_sin (I));
 }
 
 void
@@ -326,7 +326,7 @@ gsl_complex_tanh (gnm_complex const *a, gnm_complex *res)
 			 gnm_pow (gnm_cos (I), 2.0) +
 			 gnm_pow (gnm_sinh (R), 2.0);
 
-		 *res = GNM_CMAKE (gnm_sinh (R) * cosh (R) / D,
+		 *res = GNM_CMAKE (gnm_sinh (R) * gnm_cosh (R) / D,
 			       0.5 * gnm_sin (2 * I) / D);
 	} else {
 	         gnm_float D =
