@@ -8,6 +8,7 @@ Morten:
 	* Fix bounds problem with cplex exporter.
 	* Fix IMARCCOSH(1).
 	* Add more tests for complex number evaluation.
+	* Improve accuracy of IMLOG10.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.27

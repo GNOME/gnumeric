@@ -498,7 +498,7 @@ gnumeric_imlog10 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_complexv (GNM_CSCALE (GNM_CLN (c), 1 / M_LN10gnum), imunit);
+	return value_new_complexv (GNM_CSCALE (GNM_CLN (c), M_LN10INVgnum), imunit);
 }
 
 /***************************************************************************/
