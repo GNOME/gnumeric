@@ -61,6 +61,7 @@
 #include <expr.h>
 #include <value.h>
 #include <mathfunc.h>
+#include <sf-trig.h>
 
 
 #define GSL_REAL(x) GNM_CRE(*(x))
@@ -389,7 +390,7 @@ gsl_complex_arctanh_real (gnm_float a, gnm_complex *res)
         if (a > -1.0 && a < 1.0) {
 	        *res = GNM_CMAKE (gnm_atanh (a), 0);
 	} else {
-	        *res = GNM_CMAKE (gnm_atanh (1 / a),
+	        *res = GNM_CMAKE (gnm_acoth (a),
 			      (a < 0) ? M_PI_2gnum : -M_PI_2gnum);
 	}
 }

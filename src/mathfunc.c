@@ -2005,7 +2005,7 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
     }
     else if (ndf < 1 + eps) { /* df ~= 1  (df < 1 excluded above): Cauchy */
 	if(P > 0)
-	    q = 1/gnm_tan(P * M_PI_2gnum);
+	    q = gnm_cotpi(P / 2);
 
 	else { /* P = 0, but maybe p_ = gnm_exp(p) ! */
 	    if(log_p) q = M_1_PI * gnm_exp(-R_D_Lval(p));/* cot(e) ~ 1/e */
