@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeri"
 "c&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-12 03:24+0000\n"
-"PO-Revision-Date: 2016-02-21 07:48+0200\n"
+"POT-Creation-Date: 2016-02-21 06:56+0000\n"
+"PO-Revision-Date: 2016-03-20 11:22+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Project-Style: gnome\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:470
 msgid "Gnumeric"
-msgstr "Gnuov brojevnik"
+msgstr "Gnumerik"
 
 #: ../gnumeric.desktop.in.h:2
 msgid "Spreadsheet"
@@ -32,7 +32,7 @@ msgstr "Tabelarni proračun"
 #. Keep in sync with .desktop file
 #: ../gnumeric.desktop.in.h:3 ../src/main-application.c:318
 msgid "Gnumeric Spreadsheet"
-msgstr "Tabelarni proračun Gnuov brojevnik"
+msgstr "Tabelarni proračun Gnumerik"
 
 #: ../gnumeric.desktop.in.h:4
 msgid "Calculation, Analysis, and Visualization of Information"
@@ -46,8 +46,7 @@ msgstr "tablice; tabelarni proračun;"
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
 msgstr ""
-"Gnuov brojevnik je program tabelarnog proračuna za međudejstvenu obradu "
-"podataka."
+"Gnumerik je program tabelarnog proračuna za međudejstvenu obradu podataka."
 
 #: ../gnumeric.appdata.xml.in.h:2
 msgid ""
@@ -55,10 +54,9 @@ msgid ""
 "a wide selection of statistical analysis tools. Gnumeric can share files "
 "with Microsoft Excel and programs supporting the ODS standard."
 msgstr ""
-"Gnuov brojevnik ima za cilj da obezbedi proračune velike tačnosti, obilne "
-"grafikone, i veliki izbor alata statističke analize. Gnuov brojevnik može da "
-"razmenjuje datoteke sa Majkrosoft Ekselom i programima koji podržavaju ODS "
-"standard."
+"Gnumerik ima za cilj da obezbedi proračune velike tačnosti, obilne grafikone, "
+"i veliki izbor alata statističke analize. Gnumerik može da razmenjuje "
+"datoteke sa Majkrosoft Ekselom i programima koji podržavaju ODS standard."
 
 #: ../plugins/applix/applix-read.c:124
 msgid "Parse error while reading Applix file."
@@ -476,7 +474,7 @@ msgstr "Naišao sam na atribute „refreshedDate“ i „refreshedDateIso“!"
 #: ../plugins/excel/xlsx-read-pivot.c:1294
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
-msgstr "Preskačem neispravnu grupu polja obrtanja za polje „%s“ zbog : %s"
+msgstr "Preskačem neispravnu grupu polja stožera za polje „%s“ zbog : %s"
 
 #: ../plugins/excel/xlsx-read.c:362
 #, c-format
@@ -964,7 +962,7 @@ msgstr "Nepoznata vrsta_podatka"
 
 #: ../plugins/fn-info/functions.c:1693
 msgid "Invalid number of arguments"
-msgstr "Pogrešan broj argumenata"
+msgstr "Neispravan broj argumenata"
 
 #: ../plugins/fn-info/plugin.xml.in.h:1
 msgid "Information Functions"
@@ -1106,7 +1104,7 @@ msgstr "Greška: ne mogu da otvorim vezu ka %s"
 
 #: ../plugins/gda/plugin-gda.c:408
 msgid "Format: execSQL(dsn,user,password,sql)"
-msgstr "Zapis: izvrSKuL(dsn,korisnik,lozinka,skul)"
+msgstr "Zapis: izvršSKuL(dsn,korisnik,lozinka,skul)"
 
 #: ../plugins/gda/plugin-gda.c:428 ../plugins/gda/plugin-gda.c:507
 msgid "More than one statement in SQL string"
@@ -1119,7 +1117,7 @@ msgstr "Zapis: čitaj tabelu baze podataka(dsn,korisnik,lozinka,tabela)"
 #: ../plugins/gda/plugin-gda.c:536 ../plugins/gnome-db/plugin-gnomedb.c:20
 #, c-format
 msgid "Could not run GNOME database configuration tool ('%s')"
-msgstr "Ne mogu da pokrenem Gnuov alat za podešavanje baza podataka („%s“)"
+msgstr "Ne mogu da pokrenem Gnomov alat za podešavanje baza podataka („%s“)"
 
 #: ../plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for retrieval of data from a database."
@@ -1150,7 +1148,6 @@ msgstr "Nisam uspeo da napravim datoteku za rešenje"
 
 #: ../plugins/glpk/gnm-glpk.c:380
 #, c-format
-#| msgid "Failed to create file for solution"
 msgid "Failed to create file for sensitivity report"
 msgstr "Nisam uspeo da napravim datoteku za izveštaj osetljivosti"
 
@@ -1160,8 +1157,8 @@ msgid ""
 "The %s program was not found.  You can either install it or use another "
 "solver. For more information see %s"
 msgstr ""
-"Program „%s“ nije pronađen.  Možete da ga instalirate ili da koristite neki "
-"drugi rešavač. Za više podataka pogledajte „%s“"
+"Nema programa „%s“.  Možete da ga instalirate ili da koristite neki drugi "
+"rešavač. Za više podataka pogledajte „%s“"
 
 #: ../plugins/glpk/plugin.xml.in.h:1
 msgid "GLPK Linear Program Solver Interface"
@@ -1181,7 +1178,7 @@ msgstr "GLPK"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:1
 msgid "GNOME-DB"
-msgstr "Gnuova BP"
+msgstr "Gnomova BP"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:2
 msgid "Database UI services plugin"
@@ -1402,7 +1399,7 @@ msgstr "Čita LP programe sačuvane u MPS obliku (*.mps)"
 
 #: ../plugins/mps/plugin.xml.in.h:3
 msgid "Linear and integer program (*.mps) file format"
-msgstr "Oblik datoteke (*.mps) linearnog i celobrojnog programa"
+msgstr "Format datoteke (*.mps) linearnog i celobrojnog programa"
 
 #: ../plugins/nlsolve/gnm-nlsolve.c:100
 #, c-format
@@ -1686,8 +1683,8 @@ msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
 msgstr ""
-"Gnuov brojevnik ne podržava drugačiji izgled za leve stranice. Ovaj izgled "
-"se zanemaruje."
+"Gnumerik ne podržava drugačiji izgled za leve stranice. Ovaj izgled se "
+"zanemaruje."
 
 #. For OOO_VER_1 this may be acceptable
 #: ../plugins/openoffice/openoffice-read.c:6002
@@ -1701,7 +1698,7 @@ msgstr "Naiđoh na glavni stil stranice bez naziva!"
 #: ../plugins/openoffice/openoffice-read.c:6301
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
-msgstr "Naiđoh na nepoznat stil ivice Gnuovog brojevnika „%s“."
+msgstr "Naiđoh na nepoznat stil ivice Gnumerika „%s“."
 
 #: ../plugins/openoffice/openoffice-read.c:6640
 #, c-format
@@ -1749,7 +1746,7 @@ msgstr "Neispravan opseg BP „%s“"
 
 #: ../plugins/openoffice/openoffice-read.c:7884
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
-msgstr "Gnuov brojevnik ne podržava uslove „'or'-ed“ samopropusnika."
+msgstr "Gnumerik ne podržava uslove „'or'-ed“ samoizdvajanja."
 
 #: ../plugins/openoffice/openoffice-read.c:8081
 #, c-format
@@ -1762,8 +1759,8 @@ msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
 "has been dropped."
 msgstr ""
-"Linije objekta lista Gnuovog brojevnika ne podržavaju priloženi tekst. Tekst "
-"„%s“ je odbačen."
+"Linije objekta lista Gnumerika ne podržavaju priloženi tekst. Tekst „%s“ je "
+"odbačen."
 
 #: ../plugins/openoffice/openoffice-read.c:8180
 #: ../plugins/openoffice/openoffice-read.c:8219
@@ -1794,8 +1791,8 @@ msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
-"Gnuov brojevnik ne podržava nesamostalne jednačine odstupanja. Umesto toga "
-"koristim samostalnu jednačinu."
+"Gnumerik ne podržava nesamostalne jednačine odstupanja. Umesto toga koristim "
+"samostalnu jednačinu."
 
 #: ../plugins/openoffice/openoffice-read.c:9592
 #, c-format
@@ -1869,7 +1866,7 @@ msgid ""
 "Gnumeric's maximum supported sheet size"
 msgstr ""
 "Veličina lista od %i stupca i %i reda korišćena u ovoj datoteci premašuje "
-"najveću podržanu veličinu lista Gnuovog brojevnika."
+"najveću podržanu veličinu lista Gnumerika."
 
 #: ../plugins/openoffice/openoffice-read.c:11552
 #, c-format
@@ -1966,8 +1963,7 @@ msgstr "Zapis otvorenog dokumenta"
 
 #: ../plugins/openoffice/plugin.xml.in.h:2
 msgid "Open Document Format as used by OpenOffice, Lotus Symphony, etc."
-msgstr ""
-"Zapis otvorenog dokumenta koji koriste Open ofis, Lotus Simfonija, itd."
+msgstr "Zapis otvorenog dokumenta koji koriste Open ofis, Lotus Simfonija, itd."
 
 #: ../plugins/openoffice/plugin.xml.in.h:3
 msgid "Open Document Format (*.sxc, *.ods)"
@@ -2199,7 +2195,7 @@ msgstr "Primerak priključka Pitona koji obezbeđuje neke (beskorisne) funkcije.
 
 #: ../plugins/py-func/plugin.xml.in.h:3
 msgid "Python"
-msgstr "Pajton"
+msgstr "Piton"
 
 #: ../plugins/python-loader/gnm-py-interpreter.c:254
 msgid "Default interpreter"
@@ -2224,7 +2220,7 @@ msgstr "*** Tumač: %s\n"
 
 #: ../plugins/python-loader/py-console.c:160
 msgid "Gnumeric Python console"
-msgstr "Pitonova konzola Gnuovog brojevnika"
+msgstr "Pitonova konzola Gnumerika"
 
 #: ../plugins/python-loader/py-console.c:169
 msgid "E_xecute in:"
@@ -2393,13 +2389,11 @@ msgstr "Opšta greška uvoza SC-a"
 #, c-format
 msgid ""
 "The cell in row %i and column %i is beyond Gnumeric's maximum sheet size."
-msgstr ""
-"Polje u %i. redu i %i. koloni je izvan najveće veličine lista Gnuovog "
-"brojevnika."
+msgstr "Polje u %i. redu i %i. koloni je izvan najveće veličine lista Gnumerika."
 
 #: ../plugins/sc/sc.c:387
 msgid "The sheet is wider than Gnumeric can handle."
-msgstr "List je preširok za Gnuovog brojevnika."
+msgstr "List je preširok za Gnumerika."
 
 #: ../plugins/sc/sc.c:450
 msgid "Encountered precision dependent format without set precision."
@@ -2475,7 +2469,7 @@ msgstr "Uvozi datoteke Iks baze"
 
 #: ../plugins/xbase/plugin.xml.in.h:3
 msgid "Xbase (*.dbf) file format"
-msgstr "Oblik datoteke Iks baze (*.dbf)"
+msgstr "Zapis datoteke Iks baze (*.dbf)"
 
 #: ../plugins/xbase/xbase.c:189
 msgid "Failed to read DBF header."
@@ -2604,30 +2598,30 @@ msgstr "Ovaj spisak sadrži sve dodatne direktorijume koji sadrže priključke."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:26
 msgid "List of Extra Autoformat Directories."
-msgstr "Spisak dodatnih direktorijuma samooblikovanja."
+msgstr "Spisak dodatnih direktorijuma samoformatiranja."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:27
 msgid ""
 "This list contains all extra directories containing autoformat templates."
 msgstr ""
 "Ovaj spisak sadrži sve dodatne direktorijume koji sadrže šablone "
-"samooblikovanja."
+"samoformatiranja."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:28
 msgid "System Directory for Autoformats"
-msgstr "Sistemski direktorijum za samooblikovanja"
+msgstr "Sistemski direktorijum za samoformatiranja"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:29
 msgid "This directory contains the pre-installed autoformat templates."
-msgstr "Ovaj direktorijum sadrži preinstalirane šablone samooblikovanja."
+msgstr "Ovaj direktorijum sadrži preinstalirane šablone samoformatiranja."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:30
 msgid "User Directory for Autoformats"
-msgstr "Korisnički direktorijum za samooblikovanja"
+msgstr "Korisnički direktorijum za samoformatiranja"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:31
 msgid "The main directory for user specific autoformat templates."
-msgstr "Glavni direktorijum za posebne korisničke šablone samooblikovanja."
+msgstr "Glavni direktorijum za posebne korisničke šablone samoformatiranja."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:32
 msgid "Apply print-setup to all sheets"
@@ -2993,7 +2987,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:92
 msgid "Header/Footer Format (Left Portion)"
-msgstr "Oblik zaglavlja/podnožja (levi deo)"
+msgstr "Format zaglavlja/podnožja (levi deo)"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:93
 msgid "Please use the Print Setup dialog to edit this value."
@@ -3001,11 +2995,11 @@ msgstr "Da izmenite ovu vrednost koristite prozorče podešavanja štampe."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:94
 msgid "Header/Footer Format (Middle Portion)"
-msgstr "Oblik zaglavlja/podnožja (srednji deo)"
+msgstr "Format zaglavlja/podnožja (srednji deo)"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:95
 msgid "Header/Footer Format (Right Portion)"
-msgstr "Oblik zaglavlja/podnožja (desni deo)"
+msgstr "Format zaglavlja/podnožja (desni deo)"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:96
 #: ../src/dialogs/dialog-preferences.c:1082
@@ -3369,26 +3363,26 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:35
 msgid "Format toolbar visible"
-msgstr "Vidljivost trake alata oblikovanja"
+msgstr "Vidljivost trake alata formatiranja"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:36
 msgid ""
 "This variable determines whether the format toolbar should be visible "
 "initially."
 msgstr ""
-"Ova promenljiva određuje da li traka alata oblikovanja treba da bude vidljiva "
+"Ova promenljiva određuje da li traka alata formatiranja treba da bude vidljiva "
 "prilikom pokretanja."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:37
 msgid "Format toolbar position"
-msgstr "Položaj trake alata oblikovanja"
+msgstr "Položaj trake alata formatiranja"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:38
 msgid ""
 "This variable determines where the format toolbar should be shown. 0 is "
 "left, 1 is right, 2 is top."
 msgstr ""
-"Ova promenljiva određuje gde treba da bude prikazana traka alata oblikovanja. "
+"Ova promenljiva određuje gde treba da bude prikazana traka alata formatiranja. "
 "0 — levo, 1 — desno, 2 — gore."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:39
@@ -3560,7 +3554,7 @@ msgstr "Početni faktor uvećanja za nove radne sveske."
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:67
 #: ../src/dialogs/dialog-preferences.c:969
 msgid "Default Compression Level For Gnumeric Files"
-msgstr "Osnovni nivo sažimanja za datoteke Gnuovog brojevnika"
+msgstr "Osnovni nivo sažimanja za datoteke Gnumerika"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:68
 msgid ""
@@ -3568,14 +3562,14 @@ msgid ""
 "by Gnumeric when saving files in the default file format. 0 is minimal "
 "compression while 9 is maximal compression."
 msgstr ""
-"Ovaj ceo broj (između 0 i 9) navodi veličinu sažimanja koju primenjuje Gnuov "
-"brojevnik kada čuva datoteke u osnovnom obliku. 0 znači da se ne primenjuje "
+"Ovaj ceo broj (između 0 i 9) navodi veličinu sažimanja koju primenjuje "
+"Gnumerik kada čuva datoteke u osnovnom zapisu. 0 znači da se ne primenjuje "
 "sažimanje, dok 9 predstavlja najveći stepen sažimanja."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:69
 #: ../src/dialogs/dialog-preferences.c:985
 msgid "Warn When Exporting Into Single Sheet Format"
-msgstr "Upozori kada izvoziš u oblik jednog lista"
+msgstr "Upozori kada izvoziš u zapis jednog lista"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:70
 msgid ""
@@ -3583,7 +3577,7 @@ msgid ""
 "whether the user will be warned if only a single sheet of a multi-sheet "
 "workbook is being saved."
 msgstr ""
-"Neki oblici datoteka mogu da sadrže samo jedan list. Ova promenljiva određuje "
+"Neki zapisi datoteka mogu da sadrže samo jedan list. Ova promenljiva određuje "
 "da li će korisnik biti upozoren ako je sačuvan samo jedan list u radnoj "
 "svesci sa više listova."
 
@@ -3598,9 +3592,9 @@ msgid ""
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
-"Pre nego što se bude pisalo preko postojeće datoteke, Gnuov brojevnik će "
-"prikazati prozorče upozorenja. Postavljanje ove opcije će učiniti da dugme "
-"prepisivanja bude osnovno dugme u tom prozorčetu."
+"Pre nego što se bude pisalo preko postojeće datoteke, Gnumerik će prikazati "
+"prozorče upozorenja. Postavljanje ove opcije će učiniti da dugme prepisivanja "
+"bude osnovno dugme u tom prozorčetu."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
 msgid "List of file savers with disabled extension check."
@@ -3640,8 +3634,8 @@ msgid ""
 "preserve-formats checkbox in the sort dialog."
 msgstr ""
 "Postavljanje ove opcije će dovesti do toga da će dugmići za ređanje na traci "
-"alata da očuvaju oblike polja prilikom ređanja i odrediće početno stanje kućice "
-"za štikliranje u prozorčetu za ređanje."
+"alata da očuvaju formate polja prilikom ređanja i odrediće početno stanje "
+"kućice za štikliranje u prozorčetu za ređanje."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
 #: ../src/dialogs/dialog-preferences.c:821 ../src/wbc-gtk-actions.c:3305
@@ -3680,9 +3674,9 @@ msgid ""
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
 "applications, like Xterm or Emacs, which set only the PRIMARY selection."
 msgstr ""
-"Kada je izabrano, Gnuov brojevnik će dati prednost savremenom izboru OSTAVE "
-"nad starim PRIMARNIM izborima. Poništite izbor ako radite u starijim "
-"programima, kao što su Iksterm i Emaks, koji podešavaju samo PRIMARNI izbor."
+"Kada je izabrano, Gnumerik će dati prednost savremenom izboru OSTAVE nad "
+"starim PRIMARNIM izborima. Poništite izbor ako radite u starijim programima, "
+"kao što su Iksterm i Emaks, koji podešavaju samo PRIMARNI izbor."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:1
 #: ../src/dialogs/dialog-preferences.c:991
@@ -3729,7 +3723,7 @@ msgstr "Uobičajena alatnica"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:2
 msgid "FormatToolbar"
-msgstr "Alatnica oblika"
+msgstr "Alatnica formata"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:3
 msgid "ObjectToolbar"
@@ -4013,19 +4007,19 @@ msgstr "Sam uklapam red %s"
 #, c-format
 msgid "Setting width of column %s to %d pixel"
 msgid_plural "Setting width of column %s to %d pixels"
-msgstr[0] "Postavljam širinu kolone %s na %d tačku"
-msgstr[1] "Postavljam širinu kolone %s na %d tačke"
-msgstr[2] "Postavljam širinu kolone %s na %d tačaka"
-msgstr[3] "Postavljam širinu kolone %s na %d tačku"
+msgstr[0] "Postavljam širinu kolone %s na %d piksel"
+msgstr[1] "Postavljam širinu kolone %s na %d piksela"
+msgstr[2] "Postavljam širinu kolone %s na %d piksela"
+msgstr[3] "Postavljam širinu kolone %s na %d piksel"
 
 #: ../src/commands.c:2040
 #, c-format
 msgid "Setting height of row %s to %d pixel"
 msgid_plural "Setting height of row %s to %d pixels"
-msgstr[0] "Postavljam visinu vrste %s na %d tačku"
-msgstr[1] "Postavljam visinu vrste %s na %d tačke"
-msgstr[2] "Postavljam visinu vrste %s na %d tačaka"
-msgstr[3] "Postavljam visinu vrste %s na %d tačku"
+msgstr[0] "Postavljam visinu vrste %s na %d piksel"
+msgstr[1] "Postavljam visinu vrste %s na %d piksela"
+msgstr[2] "Postavljam visinu vrste %s na %d piksela"
+msgstr[3] "Postavljam visinu vrste %s na %d piksel"
 
 #: ../src/commands.c:2045
 #, c-format
@@ -4051,19 +4045,19 @@ msgstr "Sam uklapam redove %s"
 #, c-format
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
-msgstr[0] "Postavljam širinu kolona %s na %d tačku"
-msgstr[1] "Postavljam širinu kolona %s na %d tačke"
-msgstr[2] "Postavljam širinu kolona %s na %d tačaka"
-msgstr[3] "Postavljam širinu kolona %s na %d tačku"
+msgstr[0] "Postavljam širinu kolona %s na %d piksel"
+msgstr[1] "Postavljam širinu kolona %s na %d piksela"
+msgstr[2] "Postavljam širinu kolona %s na %d piksela"
+msgstr[3] "Postavljam širinu kolona %s na %d piksel"
 
 #: ../src/commands.c:2060
 #, c-format
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
-msgstr[0] "Postavljam visinu redova %s na %d tačku"
-msgstr[1] "Postavljam visinu redova %s na %d tačke"
-msgstr[2] "Postavljam visinu redova %s na %d tačaka"
-msgstr[3] "Postavljam visinu redova %s na %d tačku"
+msgstr[0] "Postavljam visinu redova %s na %d piksel"
+msgstr[1] "Postavljam visinu redova %s na %d piksela"
+msgstr[2] "Postavljam visinu redova %s na %d piksela"
+msgstr[3] "Postavljam visinu redova %s na %d piksel"
 
 #: ../src/commands.c:2066
 #, c-format
@@ -4236,7 +4230,7 @@ msgstr "Sam ispunjavam %s"
 #: ../src/commands.c:3752
 #, c-format
 msgid "Autoformatting %s"
-msgstr "Sam oblikujem %s"
+msgstr "Sam formatiram „%s“"
 
 #: ../src/commands.c:3871
 #, c-format
@@ -4464,16 +4458,16 @@ msgstr "Podesi doterivanje"
 
 #: ../src/commands.c:7784
 msgid "Add Filter"
-msgstr "Dodaj propusnik"
+msgstr "Dodaj filter"
 
 #: ../src/commands.c:7800 ../src/wbc-gtk.c:1632
 #, c-format
 msgid "Auto Filter blocked by %s"
-msgstr "%s je blokirao samopropusnika"
+msgstr "%s je blokirao autofilter"
 
 #: ../src/commands.c:7805 ../src/commands.c:7832 ../src/commands.c:7841
 msgid "AutoFilter"
-msgstr "Samopropusnik"
+msgstr "Autofilter"
 
 #: ../src/commands.c:7833
 msgid "Requires more than 1 row"
@@ -4481,27 +4475,27 @@ msgstr "Zahteva više od jednog reda"
 
 #: ../src/commands.c:7842
 msgid "Unable to create Autofilter"
-msgstr "Ne mogu da napravim samopropusnik"
+msgstr "Ne mogu da napravim autofilter"
 
 #: ../src/commands.c:7865
 #, c-format
 msgid "Add Autofilter to %s"
-msgstr "Dodaj samopropusnik u %s"
+msgstr "Dodaj autofilter u %s"
 
 #: ../src/commands.c:7866
 #, c-format
 msgid "Extend Autofilter to %s"
-msgstr "Raširi samopropusnik u %s"
+msgstr "Raširi autofilter u %s"
 
 #: ../src/commands.c:7879
 #, c-format
 msgid "Remove Autofilter from %s"
-msgstr "Ukloni samopropusnik iz %s"
+msgstr "Ukloni autofilter iz %s"
 
 #: ../src/commands.c:7909
 #, c-format
 msgid "Change filter condition for %s"
-msgstr "Izmeni uslove propusnika za %s"
+msgstr "Izmeni uslove filtera za %s"
 
 #: ../src/commands.c:7978 ../src/wbc-gtk-actions.c:2394
 msgid "Clear All Page Breaks"
@@ -4923,7 +4917,7 @@ msgstr "Aleksander Kirilov"
 
 #: ../src/dialogs/dialog-about.c:435
 msgid "Gnumeric is the result of"
-msgstr "Gnuov brojevnik je rezultat"
+msgstr "Gnumerik je rezultat"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:441
@@ -4956,11 +4950,11 @@ msgstr "Naš cilj je vaše zadovoljstvo!"
 
 #: ../src/dialogs/dialog-about.c:542
 msgid "About Gnumeric"
-msgstr "O Gnuovom brojevniku"
+msgstr "O Gnumeriku"
 
 #: ../src/dialogs/dialog-about.c:545
 msgid "Visit the Gnumeric website"
-msgstr "Posetite veb sajt Gnuovog brojevnika"
+msgstr "Posetite veb sajt Gnumerika"
 
 #: ../src/dialogs/dialog-about.c:547
 msgid "Copyright © 1998-2015"
@@ -4976,16 +4970,16 @@ msgstr "Opseg spiska je neispravan."
 
 #: ../src/dialogs/dialog-advanced-filter.c:81
 msgid "The criteria range is invalid."
-msgstr "Merni opseg je netačan."
+msgstr "Opseg kriterijuma je neispravan."
 
 #: ../src/dialogs/dialog-advanced-filter.c:89
 #: ../src/dialogs/dialog-simulation.c:88
 msgid "The output range is invalid."
-msgstr "Izlazni opseg je netačan."
+msgstr "Izlazni opseg je neispravan."
 
 #: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:249
 msgid "The given criteria are invalid."
-msgstr "Zadata merila su netačna."
+msgstr "Zadati kriterijumi su neispravni."
 
 #: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:247
 msgid "No matching records were found."
@@ -5002,11 +4996,11 @@ msgstr "Došlo je do neočekivane greške: %d."
 
 #: ../src/dialogs/dialog-advanced-filter.c:210
 msgid "Could not create the Advanced Filter dialog."
-msgstr "Ne mogu da napravim prozorče naprednog propusnika."
+msgstr "Ne mogu da napravim prozorče naprednog filtera."
 
 #: ../src/dialogs/dialog-advanced-filter.c:217 ../src/dialogs/dao.ui.h:7
 msgid "Filter _in-place"
-msgstr "Propusti _na-mestu"
+msgstr "Izdvoj _na-mestu"
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:144
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:99
@@ -5025,7 +5019,7 @@ msgstr "Propusti _na-mestu"
 #: ../src/dialogs/dialog-analysis-tools.c:3723
 #: ../src/dialogs/dialog-shuffle.c:74
 msgid "The input range is invalid."
-msgstr "Ulazni opseg je netačan."
+msgstr "Ulazni opseg je neispravan."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:154
 msgid "The input range is too small."
@@ -5063,7 +5057,7 @@ msgstr "Izlazna osobenost je neispravna."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:218
 msgid "Could not create the Chi Squared Tests tool dialog."
-msgstr "Ne mogu da napravim prozorče za alatku „Probe ki-a na kvadrat“."
+msgstr "Ne mogu da napravim prozorče za alatku „Testovi ki-a na kvadrat“."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:113
 msgid "The categories range is not valid."
@@ -5133,7 +5127,7 @@ msgstr "Ne mogu da napravim prozorče Kaplan Mejerovog alata."
 
 #: ../src/dialogs/dialog-analysis-tool-normality.c:202
 msgid "Could not create the Normality Test Tool dialog."
-msgstr "Ne mogu da napravim prozorče za alatku „Proba normalnosti“."
+msgstr "Ne mogu da napravim prozorče za alatku „Test normalnosti“."
 
 #: ../src/dialogs/dialog-analysis-tool-one-mean.c:90
 msgid "The predicted mean should be a number."
@@ -5147,7 +5141,7 @@ msgstr "Prvi ulazni opseg je neispravan."
 
 #: ../src/dialogs/dialog-analysis-tool-one-mean.c:225
 msgid "Could not create the Student-t Test Tool dialog."
-msgstr "Ne mogu da napravim prozorče za alatku „Studentova-t proba“."
+msgstr "Ne mogu da napravim prozorče za alatku „Studentov-t test“."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:131
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:149
@@ -5174,15 +5168,15 @@ msgstr "Ulazni opsezi nemaju isti oblik."
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:258
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:406
 msgid "Could not create the Sign Test Tool dialog."
-msgstr "Ne mogu da napravim prozorče za alatku „Provera znaka“."
+msgstr "Ne mogu da napravim prozorče za alatku „Test znaka“."
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:87
 msgid "The input range for variable 1 is invalid."
-msgstr "Ulazni opseg za promenljivu 1 je netačan."
+msgstr "Ulazni opseg za promenljivu 1 je neispravan."
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:92
 msgid "The input range for variable 2 is invalid."
-msgstr "Ulazni opseg za promenljivu 2 je netačan."
+msgstr "Ulazni opseg za promenljivu 2 je neispravan."
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:189
 msgid "Could not create the Wilcoxon-Mann-Whitney Analysis Tool dialog."
@@ -5255,11 +5249,11 @@ msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:1617
 msgid "Could not create the Mean Tests Tool dialog."
-msgstr "Ne mogu da napravim prozorče za alatku „Provere srednje vrednosti“."
+msgstr "Ne mogu da napravim prozorče za alatku „Testovi srednje vrednosti“."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1807
 msgid "Could not create the FTest Tool dialog."
-msgstr "Ne mogu da napravim prozorče za alatku „FTest“."
+msgstr "Ne mogu da napravim prozorče za alatku „F-test“."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1870
 msgid "The requested number of samples is invalid."
@@ -5685,19 +5679,19 @@ msgstr "Broj"
 
 #: ../src/dialogs/dialog-cell-format.c:1670
 msgid "None          (silently accept invalid input)"
-msgstr "Propusti          (ćutke prihvati netačan ulaz)"
+msgstr "Propusti          (ćutke prihvati neispravan ulaz)"
 
 #: ../src/dialogs/dialog-cell-format.c:1674
 msgid "Stop            (never allow invalid input)"
-msgstr "Zaustavi            (nikad ne dozvoli netačan ulaz)"
+msgstr "Zaustavi            (nikad ne dozvoli neispravan ulaz)"
 
 #: ../src/dialogs/dialog-cell-format.c:1678
 msgid "Warning     (accept/discard invalid input)"
-msgstr "Upozori     (prihvati/odbaci netačan ulaz)"
+msgstr "Upozori     (prihvati/odbaci neispravan ulaz)"
 
 #: ../src/dialogs/dialog-cell-format.c:1682
 msgid "Information (allow invalid input)"
-msgstr "Obavesti (dozvoli netačan unos)"
+msgstr "Obavesti (dozvoli neispravan unos)"
 
 #: ../src/dialogs/dialog-cell-format.c:1722 ../src/dialogs/data-slicer.ui.h:2
 msgid "Source"
@@ -5705,7 +5699,7 @@ msgstr "Izvor"
 
 #: ../src/dialogs/dialog-cell-format.c:1723
 msgid "Criteria"
-msgstr "Merilo"
+msgstr "Kriterijum"
 
 #: ../src/dialogs/dialog-cell-format.c:1738
 #: ../src/dialogs/dialog-cell-format.c:1747 ../src/dialogs/so-scrollbar.ui.h:4
@@ -5724,7 +5718,8 @@ msgstr "Vrednost:"
 
 #: ../src/dialogs/dialog-cell-format.c:2081
 msgid "The validation criteria are unusable. Disable validation?"
-msgstr "Merilo ispravnosti je neupotrebljivo. Da isključim proveru ispravnosti?"
+msgstr ""
+"Kriterijum ispravnosti je neupotrebljiv. Da isključim proveru ispravnosti?"
 
 #: ../src/dialogs/dialog-cell-format.c:2287 ../src/dialogs/cell-format.ui.h:17
 msgid "Format Cells"
@@ -5754,7 +5749,7 @@ msgid ""
 "You did not add the defined conditional format. Do you really want to close "
 "the conditional formatting dialog?"
 msgstr ""
-"Niste dodali određeno uslovno oblikovanje. Da li zaista želite da zatvorite "
+"Niste dodali određeno uslovno formatiranje. Da li zaista želite da zatvorite "
 "prozorče uslovnog oblikovanja?"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:242
@@ -6049,7 +6044,7 @@ msgstr "Ne mogu da napravim prozorče za učvršćivanje."
 
 #: ../src/dialogs/dialog-data-slicer.c:140
 msgid "Filter"
-msgstr "Propusnik"
+msgstr "Filter"
 
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
@@ -6272,7 +6267,7 @@ msgstr "Sve funkcije"
 
 #: ../src/dialogs/dialog-function-select.c:511
 msgid "Recently Used"
-msgstr "Skoro korišćeni"
+msgstr "Skoro korišćene"
 
 #: ../src/dialogs/dialog-function-select.c:517
 msgid "In Use"
@@ -6289,7 +6284,7 @@ msgstr "Argumenti:"
 
 #: ../src/dialogs/dialog-function-select.c:767
 msgid "Note: "
-msgstr "Beleška: "
+msgstr "Napomena: "
 
 #: ../src/dialogs/dialog-function-select.c:780
 msgid "Examples:"
@@ -6322,7 +6317,7 @@ msgstr "ODF (Open formula): "
 
 #: ../src/dialogs/dialog-function-select.c:1358
 msgid "Gnumeric Function Help Browser"
-msgstr "Preglednik pomoći funkcija Gnuovog brojevnika"
+msgstr "Preglednik pomoći funkcija Gnumerika"
 
 #: ../src/dialogs/dialog-function-select.c:1362
 msgid "Paste Function Name dialog"
@@ -6346,7 +6341,7 @@ msgstr "Polje imenovano u „Promenom polja“ ne sme da sadrži formulu."
 
 #: ../src/dialogs/dialog-goal-seek.c:382
 msgid "The value given in 'To Value:' is not valid."
-msgstr "Vrednost data u polju „Na vrednost:“ je netačna."
+msgstr "Vrednost data u polju „Na vrednost:“ je neispravna."
 
 #: ../src/dialogs/dialog-goal-seek.c:427
 #, c-format
@@ -6406,11 +6401,11 @@ msgstr "Otvori spoljnu datoteku sa navedenim nazivom"
 
 #: ../src/dialogs/dialog-hyperlink.c:317
 msgid "Email Link"
-msgstr "Veza el. pošte"
+msgstr "Veza e-pošte"
 
 #: ../src/dialogs/dialog-hyperlink.c:319
 msgid "Prepare an email"
-msgstr "Pripremi el. poštu"
+msgstr "Pripremi e-poštu"
 
 #: ../src/dialogs/dialog-hyperlink.c:322
 msgid "Web Link"
@@ -6583,11 +6578,11 @@ msgstr "Osnovni broj kolona u listu"
 
 #: ../src/dialogs/dialog-preferences.c:884
 msgid "By default, mark cells with spreadsheet functions"
-msgstr "Po osnovi, označi polja sa tabelarnim funkcijama"
+msgstr "Podrazumevano, označi polja sa tabelarnim funkcijama"
 
 #: ../src/dialogs/dialog-preferences.c:889
 msgid "By default, mark cells with truncated content"
-msgstr "Po osnovi, označi polja sa skraćenim sadržajem"
+msgstr "Podrazumevano, označi polja sa skraćenim sadržajem"
 
 #: ../src/dialogs/dialog-preferences.c:975
 msgid "Default autosave frequency in seconds"
@@ -6759,7 +6754,7 @@ msgstr "Štampaj na kraju"
 #: ../src/dialogs/dialog-printer-setup.c:2389
 #, c-format
 msgid "%.0f pixels wide by %.0f pixels tall"
-msgstr "%.0f tačaka širine puta %.0f tačaka visine"
+msgstr "%.0f piksela širine puta %.0f piksela visine"
 
 #: ../src/dialogs/dialog-printer-setup.c:2392
 #, c-format
@@ -7261,11 +7256,11 @@ msgstr "Ne mogu da napravim prozorče za mešanje podataka."
 
 #: ../src/dialogs/dialog-simulation.c:70
 msgid "The input variable range is invalid."
-msgstr "Ulazni opseg promenljivih je netačan."
+msgstr "Ulazni opseg promenljivih je neispravan."
 
 #: ../src/dialogs/dialog-simulation.c:80
 msgid "The output variable range is invalid."
-msgstr "Izlazni opseg promenljivih je netačan."
+msgstr "Izlazni opseg promenljivih je neispravan."
 
 #: ../src/dialogs/dialog-simulation.c:153
 msgid "Simulations"
@@ -7307,7 +7302,7 @@ msgstr "Najveća vrednost"
 
 #: ../src/dialogs/dialog-simulation.c:317
 msgid "Invalid variable range was given"
-msgstr "Zadat je netačan opseg promenljivih"
+msgstr "Zadat je neispravan opseg promenljivih"
 
 #: ../src/dialogs/dialog-simulation.c:331
 msgid ""
@@ -7343,7 +7338,7 @@ msgid ""
 "solver for Gnumeric?"
 msgstr ""
 "Tražite temu za vaše istraživanje? Možda biste želeli da napišete rešavač za "
-"Gnuovog brojevnika?"
+"Gnumerika?"
 
 #: ../src/dialogs/dialog-solver.c:457
 msgid "Changing solver parameters"
@@ -7395,7 +7390,6 @@ msgstr "Otkazano"
 
 #: ../src/dialogs/dialog-solver.c:686
 #, c-format
-#| msgid "Report"
 msgid "%s %%s Report"
 msgstr "%s %%s izveštaj"
 
@@ -7512,8 +7506,7 @@ msgstr "Samo uklapanje"
 #: ../src/dialogs/dialog-stf-format-page.c:625
 #, c-format
 msgid "If this checkbox is selected, column %i will be imported into Gnumeric."
-msgstr ""
-"Ukoliko je ova kućica označena, kolona %i će biti uvezena u Gnuov brojevnik."
+msgstr "Ukoliko je ova kućica označena, kolona %i će biti uvezena u Gnumerik."
 
 #: ../src/dialogs/dialog-stf-format-page.c:633
 msgid ""
@@ -7645,7 +7638,7 @@ msgstr "Označavači polja"
 #: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:287
 #: ../src/tools/filter.c:290
 msgid "Advanced Filter"
-msgstr "Napredni prpopusnik"
+msgstr "Napredni filter"
 
 #: ../src/dialogs/advanced-filter.ui.h:2
 msgid "_List range:"
@@ -7653,7 +7646,7 @@ msgstr "Opseg _spiska:"
 
 #: ../src/dialogs/advanced-filter.ui.h:3
 msgid "_Criteria range:"
-msgstr "Opseg _merila:"
+msgstr "Opseg _kriterijuma:"
 
 #: ../src/dialogs/advanced-filter.ui.h:4
 msgid "_Unique records only"
@@ -7809,7 +7802,7 @@ msgstr "_Alfa: "
 #: ../src/dialogs/autofilter-expression.ui.h:1
 #: ../src/dialogs/autofilter-top10.ui.h:1
 msgid "Gnumeric : AutoFilter"
-msgstr "Gnuov brojevnik : Samostalni propusnik"
+msgstr "Gnumerik : Autofilter"
 
 #: ../src/dialogs/autofilter-expression.ui.h:2
 msgid "Show rows where:"
@@ -8377,7 +8370,7 @@ msgstr "_Zaštićena radne sveska"
 
 #: ../src/dialogs/cell-format.ui.h:96
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr "<span weight=\"bold\">Merilo</span>"
+msgstr "<span weight=\"bold\">Kriterijum</span>"
 
 #: ../src/dialogs/cell-format.ui.h:97
 msgid "Allo_w:"
@@ -8445,9 +8438,9 @@ msgid ""
 "fore and background colors will remain in the original location. Uncheck "
 "this checkbox to have these formats move with the content. "
 msgstr ""
-"Kada je izabrano ova kućica, oblikovane polja kao što su ivice, hiperveze, "
+"Kada je izabrana ova kućica, formatiranje polja kao što su ivice, hiperveze, "
 "boja pročelja i začelja će ostati na prvobitnom mestu. Poništite ovu kućicu da "
-"bi se ova oblikovanja premestila sa sadržajem. "
+"bi se ova formatiranja premestila sa sadržajem. "
 
 #: ../src/dialogs/cell-sort.ui.h:7
 msgid "Sort range has a _header"
@@ -8506,8 +8499,8 @@ msgid ""
 "Adds any fields in the range box to the left to the sort criteria or allows "
 "selection of fields from a menu."
 msgstr ""
-"Dodaje bilo koja polja u okvir opsega na levo od merila ređanja ili dopušta "
-"izbor polja iz izbornika."
+"Dodaje bilo koja polja u okvir opsega na levo od kriterijuma ređanja ili "
+"dopušta izbor polja iz izbornika."
 
 #: ../src/dialogs/chi-squared.ui.h:1
 msgid "Contingency Table Analysis"
@@ -8519,11 +8512,11 @@ msgstr "Tabela _slučajnosti:"
 
 #: ../src/dialogs/chi-squared.ui.h:12
 msgid "Test of _Homogeneity"
-msgstr "Proba _istovrsnosti"
+msgstr "Test _istovrsnosti"
 
 #: ../src/dialogs/chi-squared.ui.h:13
 msgid "Test of _Independence"
-msgstr "Proba _nezavisnosti"
+msgstr "Test _nezavisnosti"
 
 #: ../src/dialogs/colrow.ui.h:1
 msgid "Group/Ungroup"
@@ -8547,7 +8540,7 @@ msgstr "Širina kolone"
 
 #: ../src/dialogs/col-width.ui.h:2
 msgid "_Column width in pixels:"
-msgstr "_Širina kolone u tačkama:"
+msgstr "_Širina kolone u pikselima:"
 
 #: ../src/dialogs/col-width.ui.h:3
 msgid "Column width in points:"
@@ -8710,7 +8703,7 @@ msgstr "_Unesi u polja:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
 msgid "DataSlicer Guru : Gnumeric"
-msgstr "Znalac delioca podataka : Gnuov brojevnik"
+msgstr "Znalac delioca podataka : Gnumerik"
 
 #: ../src/dialogs/data-slicer.ui.h:3
 msgid "_Format"
@@ -8807,11 +8800,11 @@ msgstr "_K:"
 
 #: ../src/dialogs/descriptive-stats.ui.h:17
 msgid "Kth _Smallest"
-msgstr "K-ti naj_manji"
+msgstr "Naj_manji K-ti"
 
 #: ../src/dialogs/descriptive-stats.ui.h:18
 msgid "Kth _Largest"
-msgstr "K-ti naj_veći"
+msgstr "Naj_veći K-ti"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:1
 msgid "Unix (linefeed)"
@@ -9916,7 +9909,7 @@ msgstr "Opseg _cilja:"
 
 #: ../src/dialogs/hyperlink.ui.h:4
 msgid "Email _Address:"
-msgstr "Adresa _el. pošte:"
+msgstr "Adresa _e-pošte:"
 
 #: ../src/dialogs/hyperlink.ui.h:5
 msgid "_Subject:"
@@ -10016,7 +10009,7 @@ msgstr "Prikaži vremena opstanka medijane"
 
 #: ../src/dialogs/kaplan-meier.ui.h:15
 msgid "Perform Log-Rank (Mantel-Haenszel) Test"
-msgstr "Izvrši Log-rank (Mantel-Hanšelovu) probu"
+msgstr "Izvrši Log-rank (Mantel-Hanšelov) test"
 
 #: ../src/dialogs/kaplan-meier.ui.h:16 ../src/dialogs/regression.ui.h:13
 #: ../src/dialogs/sampling.ui.h:23
@@ -10097,7 +10090,7 @@ msgstr "0.05"
 
 #: ../src/dialogs/mean-tests.ui.h:22 ../src/dialogs/sign-test-two.ui.h:11
 msgid "_Test"
-msgstr "_Isprobaj"
+msgstr "_Testiraj"
 
 #: ../src/dialogs/merge.ui.h:1
 msgid "Merge..."
@@ -10155,7 +10148,7 @@ msgstr "3"
 
 #: ../src/dialogs/normality-tests.ui.h:1
 msgid "Normality Tests"
-msgstr "Probe normalnosti"
+msgstr "Testovi normalnosti"
 
 #: ../src/dialogs/normality-tests.ui.h:11 ../src/tools/analysis-normality.c:63
 msgid "Anderson-Darling Test"
@@ -10167,7 +10160,7 @@ msgstr "Kramer-von Mizeov test"
 
 #: ../src/dialogs/normality-tests.ui.h:13 ../src/tools/analysis-normality.c:77
 msgid "Lilliefors (Kolmogorov-Smirnov) Test"
-msgstr "Liljeforsova (Kolmogorova-Smirnova) proba"
+msgstr "Liljeforsov (Kolmogorov-Smirnov) test"
 
 #: ../src/dialogs/normality-tests.ui.h:14 ../src/tools/analysis-normality.c:83
 msgid "Shapiro-Francia Test"
@@ -10180,7 +10173,7 @@ msgstr "Napravi običan nacrt verovatnoće"
 #: ../src/dialogs/normality-tests.ui.h:17 ../src/dialogs/one-mean-test.ui.h:13
 #: ../src/dialogs/sign-test.ui.h:15 ../src/dialogs/variance-tests.ui.h:8
 msgid "Test"
-msgstr "Isprobaj"
+msgstr "Testiraj"
 
 #: ../src/dialogs/one-mean-test.ui.h:1
 msgid "Claims About a Mean"
@@ -10301,8 +10294,7 @@ msgstr "Direktorijum priključaka:"
 
 #: ../src/dialogs/plugin-manager.ui.h:6
 msgid "Do _not activate this plugin next time I start Gnumeric"
-msgstr ""
-"Ne pokreći _ovaj priključak kada sledeći put pokrenem Gnuovog brojevnika"
+msgstr "Ne pokreći _ovaj priključak kada sledeći put pokrenem Gnumerika"
 
 #: ../src/dialogs/plugin-manager.ui.h:7
 msgid ""
@@ -10324,7 +10316,7 @@ msgstr "Direktorijumi"
 
 #: ../src/dialogs/preferences.ui.h:1
 msgid "Gnumeric Preferences"
-msgstr "Postavke Gnuovog brojevnika"
+msgstr "Postavke Gnumerika"
 
 #: ../src/dialogs/principal-components.ui.h:1
 #: ../src/tools/analysis-principal-components.c:223
@@ -10668,7 +10660,7 @@ msgstr "Samo postojeće"
 
 #: ../src/dialogs/recent.ui.h:3
 msgid "Gnumeric files only"
-msgstr "Samo datoteke Gnuovog brojevnika"
+msgstr "Samo datoteke Gnumerika"
 
 #: ../src/dialogs/recent.ui.h:4
 msgid "Open document"
@@ -10717,7 +10709,7 @@ msgstr "Visina reda"
 
 #: ../src/dialogs/row-height.ui.h:2
 msgid "_Row height in pixels:"
-msgstr "Visina _reda u tačkicama:"
+msgstr "Visina _reda u pikselima:"
 
 #: ../src/dialogs/row-height.ui.h:3
 msgid "Row height in points:"
@@ -11178,11 +11170,11 @@ msgstr "Veličina i položaj"
 
 #: ../src/dialogs/sheetobject-size.ui.h:2
 msgid "_Width in pixels:"
-msgstr "_Širina u tačkicama:"
+msgstr "_Širina u pikselima:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:3
 msgid "_Height in pixels:"
-msgstr "_Visina u tačkicama:"
+msgstr "_Visina u pikselima:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:4
 msgid "Object position relative to its current position:"
@@ -11190,11 +11182,11 @@ msgstr "Položaj objekta u odnosu na njegov tekući položaj:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:5
 msgid "_x-Offset in pixels:"
-msgstr "_h-pomeraj u tačkicama:"
+msgstr "_h-pomeraj u pikselima:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:6
 msgid "_y-Offset in pixels:"
-msgstr "_u-pomeraj u tačkicama:"
+msgstr "_u-pomeraj u pikselima:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:8
 msgid ""
@@ -11336,7 +11328,7 @@ msgstr "Proba znaka"
 #: ../src/tools/analysis-signed-rank-test.c:578
 #: ../src/tools/analysis-signed-rank-test.c:581
 msgid "Wilcoxon Signed Rank Test"
-msgstr "Proba Vilkoksonovog potpisanog ranga"
+msgstr "Test Vilkoksonovog potpisanog ranga"
 
 #: ../src/dialogs/sign-test-two.ui.h:8
 msgid "Hypothesized _difference of medians:"
@@ -11344,7 +11336,7 @@ msgstr "Pretpostavljena _razlika medijana:"
 
 #: ../src/dialogs/sign-test.ui.h:1
 msgid "Testing 1 Median"
-msgstr "Isprobavam 1 medijanu"
+msgstr "Testiram 1 medijanu"
 
 #: ../src/dialogs/sign-test.ui.h:13
 msgid "_Predicted Median:"
@@ -11607,7 +11599,6 @@ msgid "P_rogram"
 msgstr "_Program"
 
 #: ../src/dialogs/solver.ui.h:36
-#| msgid "Case Sensitive"
 msgid "_Sensitivity"
 msgstr "_Osetljivost"
 
@@ -11849,7 +11840,7 @@ msgstr "Neispravna datoteka šablona: %s"
 
 #: ../src/format-template.c:540
 msgid "Error while opening autoformat template"
-msgstr "Greška prilikom otvaranja šablona samooblikovanja"
+msgstr "Greška prilikom otvaranja šablona samoformatiranja"
 
 #: ../src/format-template.c:740
 #, c-format
@@ -11879,14 +11870,10 @@ msgstr "Oblast za rezultat je premala.  Treba da bude barem %s puta %s"
 msgid "The target region is too small.  It should be at least %d column wide"
 msgid_plural ""
 "The target region is too small.  It should be at least %d columns wide"
-msgstr[0] ""
-"Oblast za rezultat je premala.  Treba da bude široka barem %d kolonu"
-msgstr[1] ""
-"Oblast za rezultat je premala.  Treba da bude široka barem %d kolone"
-msgstr[2] ""
-"Oblast za rezultat je premala.  Treba da bude široka barem %d kolona"
-msgstr[3] ""
-"Oblast za rezultat je premala.  Treba da bude široka barem %d kolonu"
+msgstr[0] "Oblast za rezultat je premala.  Treba da bude široka barem %d kolonu"
+msgstr[1] "Oblast za rezultat je premala.  Treba da bude široka barem %d kolone"
+msgstr[2] "Oblast za rezultat je premala.  Treba da bude široka barem %d kolona"
+msgstr[3] "Oblast za rezultat je premala.  Treba da bude široka barem %d kolonu"
 
 #: ../src/format-template.c:755
 #, c-format
@@ -11895,14 +11882,13 @@ msgid_plural ""
 "The target region is too small.  It should be at least %d rows high"
 msgstr[0] "Oblast za rezultat je premala.  Treba da bude visoka barem %d red"
 msgstr[1] "Oblast za rezultat je premala.  Treba da bude visoka barem %d reda"
-msgstr[2] ""
-"Oblast za rezultat je premala.  Treba da bude visoka barem %d redova"
+msgstr[2] "Oblast za rezultat je premala.  Treba da bude visoka barem %d redova"
 msgstr[3] "Oblast za rezultat je premala.  Treba da bude visoka barem %d red"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:44
 msgid "SUM:sum of the given values"
-msgstr "ZBIR:zbir datih vrednosti"
+msgstr "SUM:zbir datih vrednosti"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:46
@@ -11913,7 +11899,7 @@ msgstr "vrednost:spisak vrednosti za dodavanje"
 msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
-msgstr "ZBIR računa zbir svih vrednosti i polja upućenih iz spiska argumenata."
+msgstr "„SUM“ računa zbir svih vrednosti i polja upućenih iz spiska argumenata."
 
 #: ../src/func-builtin.c:48 ../src/func-builtin.c:75
 msgid "This function is Excel compatible."
@@ -11926,7 +11912,7 @@ msgstr "Ova funkcija je saglasna sa Otvorenom formulom."
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:70
 msgid "PRODUCT:product of the given values"
-msgstr "PROIZVOD:proizvod datih vrednosti"
+msgstr "PRODUCT:proizvod datih vrednosti"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:72
@@ -11938,7 +11924,8 @@ msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
 msgstr ""
-"PROIZVOD računa proizvod svih vrednosti i polja upućenih iz spiska argumenata."
+"„PRODUCT“ računa proizvod svih vrednosti i polja upućenih iz spiska "
+"argumenata."
 
 #: ../src/func-builtin.c:74
 msgid "If all cells are empty, the result will be 0."
@@ -11947,16 +11934,16 @@ msgstr "Ako su sva polja prazna, rezultat će biti 0."
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:107
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
-msgstr "IZDANJE_GNUMERIKA:tekuće izdanje Gnuovog brojevnika"
+msgstr "GNUMERIC_VERSION:tekuće izdanje Gnumerika"
 
 #: ../src/func-builtin.c:108
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
-msgstr "IZDANJE_GNUMERIKA ispisuje izdanje gnumerika kao nisku."
+msgstr "„GNUMERIC_VERSION“ ispisuje izdanje gnumerika kao nisku."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:300
 msgid "IF:conditional expression"
-msgstr "AKO:izraz uslova"
+msgstr "IF:izraz uslova"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:302
@@ -11971,7 +11958,7 @@ msgstr "tačna-vrednost:vrednost za korišćenje ako je uslov tačan"
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:306
 msgid "falseval:value to use if condition is false"
-msgstr "netačna-vrednost:vrednost za korišćenje ako je uslov netačan"
+msgstr "netačna-vrednost:vrednost za korišćenje ako je uslov neispravan"
 
 #: ../src/func-builtin.c:307
 msgid ""
@@ -12075,7 +12062,7 @@ msgid ""
 "%d x %d pixels"
 msgstr ""
 "%.1f x %.1f tačaka\n"
-"%d x %d tačkica"
+"%d x %d piksela"
 
 #: ../src/gnm-plugin.c:130
 msgid "Missing function category name."
@@ -12339,10 +12326,10 @@ msgstr "Visina"
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
-msgstr[0] "(%d tačkica)"
-msgstr[1] "(%d tačkice)"
-msgstr[2] "(%d tačkica)"
-msgstr[3] "(%d tačkica)"
+msgstr[0] "(%d piksel)"
+msgstr[1] "(%d piksela)"
+msgstr[2] "(%d piksela)"
+msgstr[3] "(%d piksel)"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
 #: ../src/item-bar.c:855
@@ -12409,7 +12396,7 @@ msgstr "Prevuci da premestiš"
 
 #: ../src/libgnumeric.c:142
 msgid "Display Gnumeric's version"
-msgstr "Prikazuje izdanje Gnuovog brojevnika"
+msgstr "Prikazuje izdanje Gnumerika"
 
 #: ../src/libgnumeric.c:151
 msgid "Set the root library directory"
@@ -12436,11 +12423,11 @@ msgstr ""
 
 #: ../src/libgnumeric.c:198
 msgid "Gnumeric Options"
-msgstr "Opcije Gnuovog brojevnika"
+msgstr "Opcije Gnumerika"
 
 #: ../src/libgnumeric.c:198
 msgid "Show Gnumeric Options"
-msgstr "Prikazuje opcije Gnuovog brojevnika"
+msgstr "Prikazuje opcije Gnumerika"
 
 #: ../src/main-application.c:64
 msgid "Specify the size and location of the initial window"
@@ -12482,7 +12469,7 @@ msgstr "Izlazi odmah nakon učitavanja izabranih knjiga"
 msgid "[FILE ...]"
 msgstr "[DATOTEKA ...]"
 
-#: ../src/main-application.c:170 ../src/ssconvert.c:882 ../src/ssdiff.c:1108
+#: ../src/main-application.c:170 ../src/ssconvert.c:884 ../src/ssdiff.c:1108
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -12531,7 +12518,7 @@ msgstr "Nepoznat list „%s“"
 #: ../src/parser.y:655
 #, c-format
 msgid "() is an invalid expression"
-msgstr "() je netačan izraz"
+msgstr "() je neispravan izraz"
 
 #: ../src/parser.y:687
 #, c-format
@@ -12601,11 +12588,11 @@ msgstr "Neočekivani znak %c"
 #: ../src/print-info.c:230 ../src/print-info.c:233 ../src/print-info.c:234
 #: ../src/print-info.c:347
 msgid "Page &[PAGE]"
-msgstr "Strana &[PAGE]"
+msgstr "Stranica &[PAGE]"
 
 #: ../src/print-info.c:231 ../src/print-info.c:236
 msgid "Page &[PAGE] of &[PAGES]"
-msgstr "Strana &[PAGE] od &[PAGES]"
+msgstr "Stranica &[PAGE] od &[PAGES]"
 
 #: ../src/print-info.c:232 ../src/print-info.c:233 ../src/print-info.c:234
 #: ../src/print-info.c:236 ../src/print-info.c:340
@@ -12743,7 +12730,7 @@ msgstr "Nisam uspeo da napravim privremenu datoteku za štampanje: %s"
 
 #: ../src/print.c:1877
 msgid "Gnumeric Print Range"
-msgstr "Opseg štampanja Gnuovog brojevnika"
+msgstr "Opseg štampanja Gnumerika"
 
 #: ../src/print.c:1893
 msgid "Print to File"
@@ -13262,7 +13249,7 @@ msgid ""
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 msgstr ""
-"Ovo je posebno izdanje Gnuovog brojevnika.  Prevedeno je sa\n"
+"Ovo je posebno izdanje Gnumerika.  Prevedeno je sa\n"
 "podrškom za veoma veliki broj kolona.  Pristup koloni\n"
 "pod nazivom „TAČNO“ može dovesti do sukoba sa konstantom istog\n"
 "naziva.  Očekujte čudne stvari."
@@ -13322,7 +13309,7 @@ msgstr "Biva malko opširniji za vreme razgovora"
 
 #: ../src/ssconvert.c:80 ../src/ssindex.c:66
 msgid "Optionally specify an encoding for imported content"
-msgstr "Naknadno navodi kodiranje za uvezeni sadržaj"
+msgstr "Izborno navodi kodiranje za uvezeni sadržaj"
 
 #: ../src/ssconvert.c:81 ../src/ssindex.c:67
 msgid "ENCODING"
@@ -13330,7 +13317,7 @@ msgstr "KODIRANJE"
 
 #: ../src/ssconvert.c:87
 msgid "Optionally specify which importer to use"
-msgstr "Naknadno navodi koji uvoznik će biti korišćen"
+msgstr "Izborno navodi koji uvoznik će biti korišćen"
 
 #: ../src/ssconvert.c:94
 msgid "List the available importers"
@@ -13386,7 +13373,7 @@ msgstr "Pokreće rešavač"
 
 #: ../src/ssconvert.c:177
 msgid "Tool test specs"
-msgstr "Odredbe alata probe"
+msgstr "Odredbe alata testa"
 
 #: ../src/ssconvert.c:230
 msgid "Cannot parse export options."
@@ -13415,12 +13402,12 @@ msgstr "Nisam uspeo da stvorim rešavača"
 msgid "Solver ran, but failed"
 msgstr "Rešavač radi, ali je pao"
 
-#: ../src/ssconvert.c:565
+#: ../src/ssconvert.c:567
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Rešavač: %s\n"
 
-#: ../src/ssconvert.c:661
+#: ../src/ssconvert.c:663
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13429,7 +13416,7 @@ msgstr ""
 "Nepoznat izvoznik „%s“.\n"
 "Pokušajte „--list-exporters“ da vidite spisak mogućnosti.\n"
 
-#: ../src/ssconvert.c:681
+#: ../src/ssconvert.c:683
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13438,7 +13425,7 @@ msgstr ""
 "Ne mogu da pogodim izvoznika za „%s“.\n"
 "Pokušajte „--list-exporters“ da vidite spisak mogućnosti.\n"
 
-#: ../src/ssconvert.c:693
+#: ../src/ssconvert.c:695
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13447,7 +13434,7 @@ msgstr ""
 "Potreban je naziv izlazne datoteke ili izričita vrsta izvoza.\n"
 "Pokušajte „--list-exporters“ da vidite spisak mogućnosti.\n"
 
-#: ../src/ssconvert.c:703
+#: ../src/ssconvert.c:705
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13456,12 +13443,12 @@ msgstr ""
 "Nepoznat uvoznik „%s“.\n"
 "Pokušajte „--list-importers“ da vidite spisak mogućnosti.\n"
 
-#: ../src/ssconvert.c:727
+#: ../src/ssconvert.c:729
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Nisam uspeo da učitam „%s“\n"
 
-#: ../src/ssconvert.c:841
+#: ../src/ssconvert.c:843
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13472,11 +13459,11 @@ msgstr ""
 "Samo tekući list će biti sačuvan.  Da zaobiđete ovo ograničenje, koristite „-"
 "S“.\n"
 
-#: ../src/ssconvert.c:870 ../src/ssconvert.c:921
+#: ../src/ssconvert.c:872 ../src/ssconvert.c:923
 msgid "INFILE [OUTFILE]"
 msgstr "ULDATOTEKA [IZLDATOTEKA]"
 
-#: ../src/ssconvert.c:889
+#: ../src/ssconvert.c:891
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13487,7 +13474,7 @@ msgstr ""
 "putanja do podataka := „%s“\n"
 "putanja do biblioteka := „%s“\n"
 
-#: ../src/ssconvert.c:919 ../src/ssdiff.c:1165 ../src/ssindex.c:268
+#: ../src/ssconvert.c:921 ../src/ssdiff.c:1165 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Upotreba: %s [OPCIJA...] %s\n"
@@ -13905,37 +13892,35 @@ msgstr "Samostalni izraz"
 #. remain since these are Excel-style format strings
 #: ../src/tools/analysis-chi-squared.c:65
 msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
-msgstr ""
-"[>=5]\"Proba nezavisnosti\";[<5][Crveno]\"Neispravna proba nezavisnosti\""
+msgstr "[>=5]\"Test nezavisnosti\";[<5][Crveno]\"Neispravan test nezavisnosti\""
 
 #: ../src/tools/analysis-chi-squared.c:66
 msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
-msgstr ""
-"[>=5]\"Proba istovrsnosti\";[<5][Crveno]\"Neispravna proba istovrsnosti\""
+msgstr "[>=5]\"Test istovrsnosti\";[<5][Crveno]\"Neispravan test istovrsnosti\""
 
 #: ../src/tools/analysis-chi-squared.c:69
 msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
-msgstr "/Statistika probe/Stepeni slobode/p-vrednost/Kritična vrednost"
+msgstr "/Statistika testa/Stepeni slobode/p-vrednost/Kritična vrednost"
 
 #: ../src/tools/analysis-chi-squared.c:178
 #, c-format
 msgid "Test of Independence (%s)"
-msgstr "Proba nezavisnosti (%s)"
+msgstr "Test nezavisnosti (%s)"
 
 #: ../src/tools/analysis-chi-squared.c:179
 #, c-format
 msgid "Test of Homogeneity (%s)"
-msgstr "Proba istovrsnosti (%s)"
+msgstr "Test istovrsnosti (%s)"
 
 #: ../src/tools/analysis-chi-squared.c:190
 #: ../src/tools/analysis-chi-squared.c:195
 msgid "Test of Independence"
-msgstr "Proba nezavisnosti"
+msgstr "Test nezavisnosti"
 
 #: ../src/tools/analysis-chi-squared.c:191
 #: ../src/tools/analysis-chi-squared.c:196
 msgid "Test of Homogeneity"
-msgstr "Proba istovrsnosti"
+msgstr "Test istovrsnosti"
 
 #: ../src/tools/analysis-exp-smoothing.c:114
 #: ../src/tools/analysis-exp-smoothing.c:290
@@ -14100,7 +14085,7 @@ msgstr "Medijana"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
 msgid "/Log-Rank Test/Statistic/Degrees of Freedom/p-Value"
-msgstr "/Log-rank proba/Statistika/Stepeni slobode/p-vrednost"
+msgstr "/Log-rank test/Statistika/Stepeni slobode/p-vrednost"
 
 #: ../src/tools/analysis-kaplan-meier.c:657
 #, c-format
@@ -14118,7 +14103,7 @@ msgid ""
 "the sample size must be at\n"
 "least 8."
 msgstr ""
-"Za Anderson-Darlingovu probu\n"
+"Za Anderson-Darlingov test\n"
 "veličina uzorka mora biti\n"
 "najmanje 8."
 
@@ -14128,7 +14113,7 @@ msgid ""
 "the sample size must be at\n"
 "least 8."
 msgstr ""
-"Za Kramer-von Mizesovu probu\n"
+"Za Kramer-von Mizesov test\n"
 "veličina uzorka mora biti\n"
 "najmanje 8."
 
@@ -14137,7 +14122,7 @@ msgid ""
 "For the Lilliefors (Kolmogorov-Smirnov) Test\n"
 "the sample size must be at least 5."
 msgstr ""
-"Za Liljeforsovu (Kolmogorovu-Smirnovu) probu\n"
+"Za Liljeforsov (Kolmogorov-Smirnov) test\n"
 "veličina uzorka mora biti najmanje 5."
 
 #: ../src/tools/analysis-normality.c:84
@@ -14146,7 +14131,7 @@ msgid ""
 "the sample size must be at\n"
 "least 5 and at most 5000."
 msgstr ""
-"Za Šapiro-Franća probu\n"
+"Za Šapiro-Franća test\n"
 "veličina uzorka mora biti\n"
 "najmanje 5 a najviše 5000."
 
@@ -14172,25 +14157,25 @@ msgstr "Moguće normalno"
 #: ../src/tools/analysis-normality.c:192
 #, c-format
 msgid "Normality Test (%s)"
-msgstr "Proba normalnosti (%s)"
+msgstr "Test normalnosti (%s)"
 
 #: ../src/tools/analysis-normality.c:203 ../src/tools/analysis-normality.c:206
 msgid "Normality Test"
-msgstr "Proba normalnosti"
+msgstr "Test normalnosti"
 
 #: ../src/tools/analysis-one-mean-test.c:69
 msgid ""
 "/Student-t Test/N/Observed Mean/Hypothesized Mean/Observed Variance/Test "
 "Statistic/df/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
-"/Student-t proba/N/Posmatrana srednja vrednost/Pretpostavljena srednja vrednost/"
-"Posmatrana varijansa/Statistika probe/df/α/P(T≤t) jednostrani/P(T≤t) "
-"dvostrani"
+"/Studentov-t test/N/Posmatrana srednja vrednost/Pretpostavljena srednja "
+"vrednost/Posmatrana varijansa/Statistika testa/df/α/P(T≤t) jednostrani/P(T≤t)"
+" dvostrani"
 
 #: ../src/tools/analysis-one-mean-test.c:157
 #, c-format
 msgid "Student-t Test (%s)"
-msgstr "Proba studenta-t (%s)"
+msgstr "Studentov-t test (%s)"
 
 #: ../src/tools/analysis-one-mean-test.c:168
 #: ../src/tools/analysis-one-mean-test.c:171
@@ -14234,7 +14219,7 @@ msgid ""
 "/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-tailed/"
 "P(T≤t) two-tailed"
 msgstr ""
-"/Proba znaka/Medijana/Predviđena medijana/Statistika probe/N/α/P(T≤t) "
+"/Test znaka/Medijana/Predviđena medijana/Statistika testa/N/α/P(T≤t) "
 "jednostrani/P(T≤t) dvostrani"
 
 #: ../src/tools/analysis-sign-test.c:216
@@ -14242,21 +14227,21 @@ msgid ""
 "/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-tailed/"
 "P(T≤t) two-tailed"
 msgstr ""
-"/Proba znaka/Medijana/Predviđena razlika/Statistika probe/N/α/P(T≤t) "
+"/Test znaka/Medijana/Predviđena razlika/Statistika testa/N/α/P(T≤t) "
 "jednostrani/P(T≤t) dvostrani"
 
 #: ../src/tools/analysis-sign-test.c:353 ../src/tools/analysis-sign-test.c:382
 #, c-format
 msgid "Sign Test (%s)"
-msgstr "Proba znaka (%s)"
+msgstr "Test znaka (%s)"
 
 #: ../src/tools/analysis-signed-rank-test.c:79
 msgid ""
 "/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test Statistic/α/"
 "P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
-"/Proba Vilkoksonovog potpisanog ranga/Medijana/Predviđena medijana//N/S−/S+/"
-"Statistika probe/α/P(T≤t) jednostrani/P(T≤t) dvostrani"
+"/Test Vilkoksonovog potpisanog ranga/Medijana/Predviđena medijana//N/S−/S+/"
+"Statistika testa/α/P(T≤t) jednostrani/P(T≤t) dvostrani"
 
 #: ../src/tools/analysis-signed-rank-test.c:235
 #: ../src/tools/analysis-signed-rank-test.c:503
@@ -14274,19 +14259,19 @@ msgid ""
 "tailed"
 msgstr ""
 "/Proba Vilkoksonovog potpisanog ranga/Medijana/Razlika posmatrane medijane/"
-"Razlika predviđene medijane/N/S−/S+/Statistika probe/α/P(T≤t) jednostrani/"
-"P(T≤t) dvostrani"
+"Razlika predviđene medijane/N/S−/S+/Statistika testa/α/P(T≤t) "
+"jednostrani/P(T≤t) dvostrani"
 
 #: ../src/tools/analysis-signed-rank-test.c:539
 #: ../src/tools/analysis-signed-rank-test.c:568
 #, c-format
 msgid "Wilcoxon Signed Rank Test (%s)"
-msgstr "Proba Vilkoksonovog potpisanog ranga (%s)"
+msgstr "Test Vilkoksonovog potpisanog ranga (%s)"
 
 #: ../src/tools/analysis-tools.c:185
 #, c-format
 msgid "Bin %i"
-msgstr "Bin %i"
+msgstr "Blok %i"
 
 #: ../src/tools/analysis-tools.c:189
 #, c-format
@@ -14369,11 +14354,11 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:1585
 #, c-format
 msgid "z-Test (%s)"
-msgstr "z-proba (%s)"
+msgstr "z-test (%s)"
 
 #: ../src/tools/analysis-tools.c:1595 ../src/tools/analysis-tools.c:1598
 msgid "z-Test"
-msgstr "z-proba"
+msgstr "z-test"
 
 #: ../src/tools/analysis-tools.c:1649
 msgid ""
@@ -14389,13 +14374,13 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:1877
 #, c-format
 msgid "t-Test, paired (%s)"
-msgstr "t-proba, upareno (%s)"
+msgstr "t-test, upareno (%s)"
 
 #: ../src/tools/analysis-tools.c:1887 ../src/tools/analysis-tools.c:1890
 #: ../src/tools/analysis-tools.c:2187 ../src/tools/analysis-tools.c:2190
 #: ../src/tools/analysis-tools.c:2480 ../src/tools/analysis-tools.c:2483
 msgid "t-Test"
-msgstr "t-proba"
+msgstr "t-test"
 
 #: ../src/tools/analysis-tools.c:1928
 msgid ""
@@ -14411,7 +14396,7 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:2177 ../src/tools/analysis-tools.c:2470
 #, c-format
 msgid "t-Test (%s)"
-msgstr "t-proba (%s)"
+msgstr "t-test (%s)"
 
 #: ../src/tools/analysis-tools.c:2225
 msgid ""
@@ -14426,7 +14411,7 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:2519 ../src/tools/analysis-tools.c:2768
 #: ../src/tools/analysis-tools.c:2771
 msgid "F-Test"
-msgstr "F-proba"
+msgstr "F-test"
 
 #: ../src/tools/analysis-tools.c:2520
 msgid ""
@@ -14440,7 +14425,7 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:2758
 #, c-format
 msgid "F-Test (%s)"
-msgstr "F-proba (%s)"
+msgstr "F-test (%s)"
 
 #: ../src/tools/analysis-tools.c:2903
 msgid ""
@@ -14646,7 +14631,7 @@ msgstr ""
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:352
 #, c-format
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
-msgstr "Vilkokson-Man-Vitnijeva proba (%s)"
+msgstr "Vilkokson-Man-Vitnijev test (%s)"
 
 #: ../src/tools/dao.c:183
 msgid "New Sheet"
@@ -14658,7 +14643,7 @@ msgstr "Nova radna sveska"
 
 #: ../src/tools/dao.c:1004
 msgid "Gnumeric "
-msgstr "Gnuov brojevnik "
+msgstr "Gnumerik "
 
 #: ../src/tools/dao.c:1010
 msgid "Worksheet:"
@@ -14683,12 +14668,12 @@ msgstr "Izdvojene"
 
 #: ../src/tools/filter.c:199
 msgid "/Advanced Filter:/Source Range:/Criteria Range:"
-msgstr "/Napredni propusnik:/Opseg izvora:/Opseg merila:"
+msgstr "/Napredni filter:/Opseg izvora:/Opseg kriterijuma:"
 
 #: ../src/tools/filter.c:269
 #, c-format
 msgid "Advanced Filter (%s)"
-msgstr "Napredni propusnik (%s)"
+msgstr "Napredni filter (%s)"
 
 #: ../src/tools/gnm-solver.c:624
 #, c-format
@@ -14781,7 +14766,6 @@ msgid "No constraints"
 msgstr "Bez ograničenja"
 
 #: ../src/tools/gnm-solver.c:1751
-#| msgid "Value"
 msgid ""
 "Final\n"
 "Value"
@@ -14798,7 +14782,6 @@ msgstr ""
 "cena"
 
 #: ../src/tools/gnm-solver.c:1753 ../src/tools/gnm-solver.c:1789
-#| msgid "Lower Limit (95%)"
 msgid ""
 "Lower\n"
 "Limit"
@@ -14807,7 +14790,6 @@ msgstr ""
 "ograničenje"
 
 #: ../src/tools/gnm-solver.c:1754 ../src/tools/gnm-solver.c:1790
-#| msgid "Upper Limit (95%)"
 msgid ""
 "Upper\n"
 "Limit"
@@ -14824,7 +14806,6 @@ msgstr ""
 "senke"
 
 #: ../src/tools/gnm-solver.c:1787
-#| msgid "Constraint"
 msgid ""
 "Constraint\n"
 "LHS"
@@ -14833,7 +14814,6 @@ msgstr ""
 "leve strane"
 
 #: ../src/tools/gnm-solver.c:1788
-#| msgid "Constraint"
 msgid ""
 "Constraint\n"
 "RHS"
@@ -14842,12 +14822,10 @@ msgstr ""
 "desne strane"
 
 #: ../src/tools/gnm-solver.c:1856
-#| msgid "P_rogram"
 msgid "Program"
 msgstr "Program"
 
 #: ../src/tools/gnm-solver.c:1862
-#| msgid "Case Sensitive"
 msgid "Sensitivity"
 msgstr "Osetljivost"
 
@@ -14869,8 +14847,8 @@ msgid ""
 "\n"
 "Would you like to locate it yourself?"
 msgstr ""
-"Gnuov brojevnik ne može da pronađe program <i>%s</i> potreban <i>%s</i> "
-"rešavaču.  Za više podataka pogledajte %s.\n"
+"Gnumerik ne može da pronađe program <i>%s</i> potreban <i>%s</i> rešavaču.  "
+"Za više podataka pogledajte %s.\n"
 "\n"
 "Da li želite sami da ga pronađete?"
 
@@ -15104,7 +15082,7 @@ msgstr "Posebna formula za potvrđivanje"
 
 #: ../src/validation.c:452
 msgid "Gnumeric: Validation"
-msgstr "Gnuov brojevnik: Provera ispravnosti"
+msgstr "Gnumerik: Provera ispravnosti"
 
 #: ../src/validation.c:515
 #, c-format
@@ -15364,7 +15342,7 @@ msgstr "Poša_lji..."
 
 #: ../src/wbc-gtk-actions.c:2017
 msgid "Send the current file via email"
-msgstr "Pošaljite tekuću datoteku el. poštom"
+msgstr "Pošaljite tekuću datoteku e-poštom"
 
 #: ../src/wbc-gtk-actions.c:2022
 msgid "Page Set_up..."
@@ -15524,7 +15502,7 @@ msgstr "_Prognoza"
 
 #: ../src/wbc-gtk-actions.c:2168
 msgid "_One Sample Tests"
-msgstr "Probe _jednog uzorka"
+msgstr "Testovi _jednog uzorka"
 
 #: ../src/wbc-gtk-actions.c:2171
 msgid "Claims About a Me_dian"
@@ -15532,7 +15510,7 @@ msgstr "Tvrdnja o me_dijani"
 
 #: ../src/wbc-gtk-actions.c:2174
 msgid "_Two Sample Tests"
-msgstr "Probe _dva uzorka"
+msgstr "Testovi _dva uzorka"
 
 #: ../src/wbc-gtk-actions.c:2177
 msgid "Claims About Two Me_dians"
@@ -15544,7 +15522,7 @@ msgstr "Tvrdnja o dve srednje _vrednosti"
 
 #: ../src/wbc-gtk-actions.c:2183
 msgid "_Multiple Sample Tests"
-msgstr "Probe _više uzoraka"
+msgstr "Testovi _više uzoraka"
 
 #: ../src/wbc-gtk-actions.c:2186
 msgid "_ANOVA"
@@ -15562,7 +15540,7 @@ msgstr "Po_daci"
 
 #: ../src/wbc-gtk-actions.c:2196
 msgid "_Filter"
-msgstr "_Propusnik"
+msgstr "_Izdvoj"
 
 #: ../src/wbc-gtk-actions.c:2199
 msgid "F_ill"
@@ -15598,7 +15576,7 @@ msgstr "_Sadržaj"
 
 #: ../src/wbc-gtk-actions.c:2225
 msgid "Open a viewer for Gnumeric's documentation"
-msgstr "Otvori pregledač za dokumentaciju Gnuovog brojevnika"
+msgstr "Otvori pregledač za dokumentaciju Gnumerika"
 
 #: ../src/wbc-gtk-actions.c:2230
 msgid "_Functions"
@@ -15610,7 +15588,7 @@ msgstr "Pomoć funkcija"
 
 #: ../src/wbc-gtk-actions.c:2235
 msgid "Gnumeric on the _Web"
-msgstr "_Veb stranica Gnuovog brojevnika"
+msgstr "_Veb stranica Gnumerika"
 
 #: ../src/wbc-gtk-actions.c:2236
 msgid "Browse to Gnumeric's website"
@@ -15798,38 +15776,38 @@ msgstr "Očistite sadržaj izabranih polja"
 
 #: ../src/wbc-gtk-actions.c:2425
 msgid "A_ll Filtered Rows"
-msgstr "Sve propuštene _redove"
+msgstr "Sve izdvojene _redove"
 
 #: ../src/wbc-gtk-actions.c:2426
 msgid ""
 "Clear the selected cells' formats, comments, and contents in the filtered "
 "rows"
 msgstr ""
-"Očistite oblikovanja, napomene i sadržaj izabranih polja u propuštenim redovima"
+"Očistite oblikovanja, napomene i sadržaj izabranih polja u izdvojenim redovima"
 
 #: ../src/wbc-gtk-actions.c:2430
 msgid "F_ormats & Hyperlinks in Filtered Rows"
-msgstr "Oblikovanja i _hiperveze u propuštenim redovima"
+msgstr "Oblikovanja i _hiperveze u izdvojenim redovima"
 
 #: ../src/wbc-gtk-actions.c:2431
 msgid "Clear the selected cells' formats and hyperlinks in the filtered rows"
-msgstr "Očistite oblikovanja i hiperveze izabranih polja u propuštenim redovima"
+msgstr "Očistite oblikovanja i hiperveze izabranih polja u izdvojenim redovima"
 
 #: ../src/wbc-gtk-actions.c:2436
 msgid "Comme_nts in Filtered Rows"
-msgstr "_Napomene u propuštenim redovima"
+msgstr "_Napomene u izdvojenim redovima"
 
 #: ../src/wbc-gtk-actions.c:2437
 msgid "Delete the selected cells' comments in the filtered rows"
-msgstr "Obrišite napomene izabranih polja u propuštenim redovima"
+msgstr "Obrišite napomene izabranih polja u izdvojenim redovima"
 
 #: ../src/wbc-gtk-actions.c:2442
 msgid "Content_s of Filtered Rows"
-msgstr "_Sadržaj u propuštenim redovima"
+msgstr "_Sadržaj u izdvojenim redovima"
 
 #: ../src/wbc-gtk-actions.c:2443
 msgid "Clear the selected cells' contents in the filtered rows"
-msgstr "Obrišite sadržaj izabranih polja u propuštenim redovima"
+msgstr "Obrišite sadržaj izabranih polja u izdvojenim redovima"
 
 #: ../src/wbc-gtk-actions.c:2451 ../src/wbc-gtk-actions.c:2690
 msgid "_Rows"
@@ -15970,7 +15948,7 @@ msgstr "_Ubaci posebno..."
 
 #: ../src/wbc-gtk-actions.c:2585
 msgid "Paste with optional filters and transformations"
-msgstr "Ubaci sa posebnim propusnicima i preobražajima"
+msgstr "Ubaci sa izbornim filterima i preobražajima"
 
 #: ../src/wbc-gtk-actions.c:2591 ../src/wbc-gtk-actions.c:2722
 msgid "Co_mment..."
@@ -16026,7 +16004,7 @@ msgstr "Postavke..."
 
 #: ../src/wbc-gtk-actions.c:2635
 msgid "Change Gnumeric Preferences"
-msgstr "Izmenite postavke Gnuovog brojevnika"
+msgstr "Izmenite postavke Gnumerika"
 
 #: ../src/wbc-gtk-actions.c:2641 ../src/wbc-gtk.c:1602
 msgid "_Freeze Panes"
@@ -16303,7 +16281,7 @@ msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
-"Zamene odluke probe korišćenjem simulacije Monte Karlo za nalaženje mogućih "
+"Zamene odluke testa korišćenjem simulacije Monte Karlo za nalaženje mogućih "
 "izlaza i rizika koji se odnose na njih"
 
 #: ../src/wbc-gtk-actions.c:2918
@@ -16416,11 +16394,11 @@ msgstr "Napravite Kaplan-Mejerove krive opstanka"
 
 #: ../src/wbc-gtk-actions.c:3011
 msgid "_Normality Tests..."
-msgstr "Probe _normalnosti..."
+msgstr "Testovi _normalnosti..."
 
 #: ../src/wbc-gtk-actions.c:3012
 msgid "Testing a sample for normality"
-msgstr "Isprobajte uzorak za normalnostima"
+msgstr "Testirajte uzorak za normalnostima"
 
 #: ../src/wbc-gtk-actions.c:3016
 msgid "Claims About a _Mean..."
@@ -16428,19 +16406,19 @@ msgstr "Tvrdnja o srednjoj _vrednosti..."
 
 #: ../src/wbc-gtk-actions.c:3017
 msgid "Testing the value of a mean"
-msgstr "Isprobajte vrednost srednje vrednosti"
+msgstr "Testirajte vrednost srednje vrednosti"
 
 #: ../src/wbc-gtk-actions.c:3024 ../src/wbc-gtk-actions.c:3071
 msgid "_Sign Test..."
-msgstr "_Proba znaka..."
+msgstr "_Test znaka..."
 
 #: ../src/wbc-gtk-actions.c:3025 ../src/wbc-gtk-actions.c:3030
 msgid "Testing the value of a median"
-msgstr "Isprobajte vrednost medijane"
+msgstr "Testirajte vrednost medijane"
 
 #: ../src/wbc-gtk-actions.c:3029 ../src/wbc-gtk-actions.c:3076
 msgid "_Wilcoxon Signed Rank Test..."
-msgstr "Proba _Vilkoksonovog potpisanog ranga..."
+msgstr "Test _Vilkoksonovog potpisanog ranga..."
 
 #: ../src/wbc-gtk-actions.c:3037
 msgid "Claims About Two _Variances"
@@ -16498,7 +16476,7 @@ msgstr "Uporedite vrednosti dve medijane uparenih osmatranja"
 
 #: ../src/wbc-gtk-actions.c:3081
 msgid "Wilcoxon-_Mann-Whitney Test..."
-msgstr "Vilkokson-_Man-Vitnijeva proba..."
+msgstr "Vilkokson-_Man-Vitnijev test..."
 
 #: ../src/wbc-gtk-actions.c:3082
 msgid "Comparing the values of two medians of unpaired observations"
@@ -16522,19 +16500,19 @@ msgstr "Analiza varijanse sa dva faktora..."
 
 #: ../src/wbc-gtk-actions.c:3104
 msgid "Test of _Homogeneity..."
-msgstr "Proba _istovrsnosti..."
+msgstr "Test _istovrsnosti..."
 
 #: ../src/wbc-gtk-actions.c:3105
 msgid "Chi Squared Test of Homogeneity..."
-msgstr "Proba istovrsnosti ki-a na kvadrat..."
+msgstr "Test istovrsnosti ki-a na kvadrat..."
 
 #: ../src/wbc-gtk-actions.c:3109
 msgid "Test of _Independence..."
-msgstr "Proba _nezavisnosti..."
+msgstr "Test _nezavisnosti..."
 
 #: ../src/wbc-gtk-actions.c:3110
 msgid "Chi Squared Test of Independence..."
-msgstr "Proba nezavisnosti ki-a na kvadrat..."
+msgstr "Test nezavisnosti ki-a na kvadrat..."
 
 #: ../src/wbc-gtk-actions.c:3117
 msgid "_Sort..."
@@ -16558,7 +16536,7 @@ msgstr "_Potvrdi..."
 
 #: ../src/wbc-gtk-actions.c:3128
 msgid "Validate input with preset criteria"
-msgstr "Potvrdite ulaz pod zadatim merilom"
+msgstr "Potvrdite ulaz pod zadatim kriterijumom"
 
 #: ../src/wbc-gtk-actions.c:3132
 msgid "T_ext to Columns..."
@@ -16716,27 +16694,27 @@ msgstr "Uklonite uokvirenu grupu"
 
 #: ../src/wbc-gtk-actions.c:3244 ../src/wbc-gtk.c:1644
 msgid "Add _Auto Filter"
-msgstr "Dodaj _samopropusnik"
+msgstr "Dodaj _autofilter"
 
 #: ../src/wbc-gtk-actions.c:3245
 msgid "Add or remove a filter"
-msgstr "Dodajte ili uklonite propusnik"
+msgstr "Dodajte ili uklonite filter"
 
 #: ../src/wbc-gtk-actions.c:3249
 msgid "_Clear Advanced Filter"
-msgstr "_Očisti napredni propusnik"
+msgstr "_Očisti napredni filter"
 
 #: ../src/wbc-gtk-actions.c:3250
 msgid "Show all rows hidden by an advanced filter"
-msgstr "Prikažite sve redove skrivene naprednim propusnikom"
+msgstr "Prikažite sve redove skrivene naprednim filterom"
 
 #: ../src/wbc-gtk-actions.c:3254
 msgid "Advanced _Filter..."
-msgstr "Napredni _propusnik..."
+msgstr "Napredni _filter..."
 
 #: ../src/wbc-gtk-actions.c:3255
 msgid "Filter data with given criteria"
-msgstr "Propusti podatke sa datim merilom"
+msgstr "Izdvoj podatke sa datim kriterijumom"
 
 #: ../src/wbc-gtk-actions.c:3260
 msgid "Import _Text File..."
@@ -17403,7 +17381,7 @@ msgstr "Izaberi (poređano)"
 
 #: ../src/wbc-gtk.c:1311
 msgid " - Gnumeric"
-msgstr " — Gnuov brojevnik"
+msgstr " — Gnumerik"
 
 #: ../src/wbc-gtk.c:1470
 msgid "Invalid format"
@@ -17436,27 +17414,27 @@ msgstr "Odmrzni gornji levi deo tabele"
 #: ../src/wbc-gtk.c:1622
 #, c-format
 msgid "Extend _Auto Filter to %s"
-msgstr "Raširi _samopropusnik u %s"
+msgstr "Raširi _autofilter u %s"
 
 #: ../src/wbc-gtk.c:1624
 msgid "Extend the existing filter."
-msgstr "Raširite postojeći propusnik."
+msgstr "Raširite postojeći filter."
 
 #: ../src/wbc-gtk.c:1634
 msgid "The selection intersects an existing auto filter."
-msgstr "Izbor preseca postojećeg samostalnog propusnika."
+msgstr "Izbor preseca postojeći autofilter."
 
 #: ../src/wbc-gtk.c:1643
 msgid "Remove _Auto Filter"
-msgstr "Ukloni _samopropusnik"
+msgstr "Ukloni _autofilter"
 
 #: ../src/wbc-gtk.c:1646
 msgid "Remove a filter"
-msgstr "Uklonite propusnik"
+msgstr "Uklonite filter"
 
 #: ../src/wbc-gtk.c:1647
 msgid "Add a filter"
-msgstr "Dodaj propusnik"
+msgstr "Dodaj filter"
 
 #: ../src/wbc-gtk.c:1715
 #, c-format
@@ -17988,25 +17966,24 @@ msgstr "Datoteka ima nepostojan element popisa naziva lista."
 #: ../src/xml-sax-read.c:2291
 #, c-format
 msgid "Unknown filter operator \"%s\""
-msgstr "Nepoznat operater propusnika „%s“"
+msgstr "Nepoznat operater filtera „%s“"
 
 #: ../src/xml-sax-read.c:2332
 msgid "Missing filter type"
-msgstr "Nedostaje vrsta propusnika"
+msgstr "Nedostaje vrsta filtera"
 
 #: ../src/xml-sax-read.c:2345
-#| msgid "Change filter condition for %s"
 msgid "Malformed sheet filter condition"
-msgstr "Loš uslov propusnika lista"
+msgstr "Loš uslov filtera lista"
 
 #: ../src/xml-sax-read.c:2359
 #, c-format
 msgid "Unknown filter type \"%s\""
-msgstr "Nepoznata vrsta propusnika „%s“"
+msgstr "Nepoznata vrsta filtera „%s“"
 
 #: ../src/xml-sax-read.c:2380
 msgid "Invalid filter, missing Area"
-msgstr "Neispravan propusnik, nedostaje oblast"
+msgstr "Neispravan filter, nedostaje oblast"
 
 #: ../src/xml-sax-read.c:2445
 #, c-format
@@ -18015,11 +17992,11 @@ msgstr "Nepodržana vrsta objekta „%s“"
 
 #: ../src/xml-sax-read.c:3757 ../src/xml-sax-write.c:1698
 msgid "Gnumeric XML (*.gnumeric)"
-msgstr "IksML Gnuovog brojevnika (*.gnumeric)"
+msgstr "IksML Gnumerika (*.gnumeric)"
 
 #: ../src/xml-sax-write.c:1710
 msgid "Gnumeric XML uncompressed (*.xml)"
-msgstr "Neraspakovan IksML Gnuovog brojevnika (*.xml)"
+msgstr "Neraspakovan IksML Gnumerika (*.xml)"
 
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "A button like template"
@@ -18049,7 +18026,7 @@ msgstr "Šablon nalik dugmetu"
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:3
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
 msgid "Gnumeric Team"
-msgstr "Ekipa Gnuovog brojevnika"
+msgstr "Ekipa Gnumerika"
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:2
 msgid "A 3D list template"
