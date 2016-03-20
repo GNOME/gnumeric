@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-12 03:24+0000\n"
-"PO-Revision-Date: 2016-03-15 08:15+0100\n"
+"POT-Creation-Date: 2016-03-20 11:25+0000\n"
+"PO-Revision-Date: 2016-03-21 00:14+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
@@ -1142,7 +1142,6 @@ msgstr "Nem sikerült fájlt létrehozni a megoldáshoz"
 
 #: ../plugins/glpk/gnm-glpk.c:380
 #, c-format
-#| msgid "Failed to create file for solution"
 msgid "Failed to create file for sensitivity report"
 msgstr "Nem sikerült fájlt létrehozni az érzékenységi jelentéshez"
 
@@ -2987,7 +2986,6 @@ msgstr ""
 "beállítás párbeszédablakot."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:86
-#| msgid "Default Left Margin"
 msgid "Default Right Margin"
 msgstr "Alapértelmezett jobb margó"
 
@@ -4147,9 +4145,6 @@ msgid "Sorting %s"
 msgstr "%s rendezése"
 
 #: ../src/commands.c:2352
-#| msgid ""
-#| "Are you sure that you want to hide all columns? If you do so you can "
-#| "unhide them with the 'Format→Column→Unhide' menu item."
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format,olumn→Unhide' menu item."
@@ -4662,7 +4657,6 @@ msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Szimplex algoritmus a Solver programhoz (LP Solve)."
 
 #: ../src/dialogs/dialog-about.c:79
-#| msgid "Jean Bréfort"
 msgid "Jean Brßort"
 msgstr "Jean Brßort"
 
@@ -5009,7 +5003,7 @@ msgstr "A problémákat a http://bugzilla.gnome.org címen jelentse."
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:513 ../src/dialogs/dialog-about.c:519
 msgid "We aim to please!"
-msgstr ""
+msgstr "Célunk, hogy elégedett legyen!"
 
 #: ../src/dialogs/dialog-about.c:542
 msgid "About Gnumeric"
@@ -6688,7 +6682,7 @@ msgstr "Kiterjesztés-ellenőrzés letiltása a beállítható szövegexportál�
 
 #: ../src/dialogs/dialog-preferences.c:1052
 msgid "Enter _Moves Selection"
-msgstr ""
+msgstr "Az Enter _mozgatja a kijelölést"
 
 #: ../src/dialogs/dialog-preferences.c:1115
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
@@ -7480,7 +7474,6 @@ msgstr "Megszakítva"
 
 #: ../src/dialogs/dialog-solver.c:686
 #, c-format
-#| msgid "Report"
 msgid "%s %%s Report"
 msgstr "%s %%s jelentés"
 
@@ -10107,7 +10100,7 @@ msgstr "_Beállítások"
 
 #: ../src/dialogs/mean-tests.ui.h:1
 msgid "Claims About Two Means"
-msgstr ""
+msgstr "Állítások a két középértékről"
 
 #: ../src/dialogs/mean-tests.ui.h:2 ../src/dialogs/sign-test-two.ui.h:2
 #: ../src/dialogs/variance-tests.ui.h:2
@@ -10266,7 +10259,7 @@ msgstr "Próba"
 
 #: ../src/dialogs/one-mean-test.ui.h:1
 msgid "Claims About a Mean"
-msgstr ""
+msgstr "Állítások egy középértékről"
 
 #: ../src/dialogs/one-mean-test.ui.h:11
 msgid "_Predicted Mean:"
@@ -10752,7 +10745,6 @@ msgid "Gnumeric files only"
 msgstr "Csak Gnumeric fájlok"
 
 #: ../src/dialogs/recent.ui.h:4
-#| msgid "Save document"
 msgid "Open document"
 msgstr "Dokumentum megnyitása"
 
@@ -11414,7 +11406,7 @@ msgstr "_Terület"
 
 #: ../src/dialogs/sign-test-two.ui.h:1
 msgid "Claims About Two Medians (Paired Samples)"
-msgstr ""
+msgstr "Állítások két mediánról (páros minták)"
 
 #: ../src/dialogs/sign-test-two.ui.h:6 ../src/dialogs/sign-test.ui.h:11
 #: ../src/tools/analysis-sign-test.c:364 ../src/tools/analysis-sign-test.c:367
@@ -11699,7 +11691,6 @@ msgid "P_rogram"
 msgstr "_Program"
 
 #: ../src/dialogs/solver.ui.h:36
-#| msgid "Case Sensitive"
 msgid "_Sensitivity"
 msgstr "É_rzékenység"
 
@@ -11816,7 +11807,7 @@ msgstr ""
 
 #: ../src/dialogs/variance-tests.ui.h:1
 msgid "Claims About Two Variances"
-msgstr ""
+msgstr "Állítások két szórásnégyzetről"
 
 #: ../src/dialogs/view.ui.h:1
 msgid "Create New View"
@@ -12563,7 +12554,7 @@ msgstr "Azonnali kilépés a kijelölt könyvek betöltése után"
 msgid "[FILE ...]"
 msgstr "[FÁJL …]"
 
-#: ../src/main-application.c:170 ../src/ssconvert.c:882 ../src/ssdiff.c:1108
+#: ../src/main-application.c:170 ../src/ssconvert.c:884 ../src/ssdiff.c:1108
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -13319,7 +13310,7 @@ msgstr "Nullák megjelenítése"
 
 #: ../src/sheet.c:908
 msgid "Control whether zeros are shown are blanked out."
-msgstr ""
+msgstr "Azt vezérli, hogy a nullák megjelenjenek-e vagy üresek legyenek."
 
 #: ../src/sheet.c:913
 msgid "Display Grid"
@@ -13463,12 +13454,12 @@ msgstr "Nem sikerült megoldót létrehozni"
 msgid "Solver ran, but failed"
 msgstr "A megoldó futott, de meghiúsult"
 
-#: ../src/ssconvert.c:565
+#: ../src/ssconvert.c:567
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Megoldó: %s\n"
 
-#: ../src/ssconvert.c:661
+#: ../src/ssconvert.c:663
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13478,7 +13469,7 @@ msgstr ""
 "Próbálja a --list-exporters kapcsolót a lehetőségek listájának "
 "megtekintéséhez.\n"
 
-#: ../src/ssconvert.c:681
+#: ../src/ssconvert.c:683
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13488,7 +13479,7 @@ msgstr ""
 "Próbálja a --list-exporters kapcsolót a lehetőségek listájának "
 "megtekintéséhez.\n"
 
-#: ../src/ssconvert.c:693
+#: ../src/ssconvert.c:695
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13498,7 +13489,7 @@ msgstr ""
 "Próbálja a --list-exporters kapcsolót a lehetőségek listájának "
 "megtekintéséhez.\n"
 
-#: ../src/ssconvert.c:703
+#: ../src/ssconvert.c:705
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13508,12 +13499,12 @@ msgstr ""
 "Próbálja a --list-importers kapcsolót a lehetőségek listájának "
 "megtekintéséhez.\n"
 
-#: ../src/ssconvert.c:727
+#: ../src/ssconvert.c:729
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "%s betöltése sikertelen\n"
 
-#: ../src/ssconvert.c:841
+#: ../src/ssconvert.c:843
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13524,11 +13515,11 @@ msgstr ""
 "Csak a jelenlegi munkalap lesz elmentve. A korlátozás megkerüléséhez "
 "használja a -S kapcsolót.\n"
 
-#: ../src/ssconvert.c:870 ../src/ssconvert.c:921
+#: ../src/ssconvert.c:872 ../src/ssconvert.c:923
 msgid "INFILE [OUTFILE]"
 msgstr "BEFÁJL [KIFÁJL]"
 
-#: ../src/ssconvert.c:889
+#: ../src/ssconvert.c:891
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13539,7 +13530,7 @@ msgstr ""
 "adatkönyvtár := „%s”\n"
 "programkönyvtár := „%s”\n"
 
-#: ../src/ssconvert.c:919 ../src/ssdiff.c:1165 ../src/ssindex.c:268
+#: ../src/ssconvert.c:921 ../src/ssdiff.c:1165 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Használat: %s [KAPCSOLÓ…] %s\n"
@@ -13550,7 +13541,7 @@ msgstr "Kimenet küldése fájlba"
 
 #: ../src/ssdiff.c:63
 msgid "Output copy highlighting differences"
-msgstr ""
+msgstr "Kimenet másolása az eltérések kiemelésével"
 
 #: ../src/ssdiff.c:70
 msgid "Output in xml format"
@@ -14099,36 +14090,36 @@ msgstr "Gyakorisági táblázat"
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:179
 msgid "\"to below\" * General"
-msgstr ""
+msgstr "\"legalább\" * General"
 
 #: ../src/tools/analysis-histogram.c:179
 msgid "\"up to\" * General"
-msgstr ""
+msgstr "\"legfeljebb\" * General"
 
 #. translator note: only translate the
 #. "to" and "\xe2\x88\x9e" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:267
 msgid "\"to\" * \"∞\""
-msgstr ""
+msgstr "\"eddig\" * \"∞\""
 
 #. translator note: only translate the
 #. "from" and "above" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:280
 msgid "\"from\" * General"
-msgstr ""
+msgstr "\"ettől\" * General"
 
 #: ../src/tools/analysis-histogram.c:280
 msgid "\"above\" * General"
-msgstr ""
+msgstr "\"fölött\" * General"
 
 #. translator note: only translate the
 #. "from" and "\xe2\x88\x92\xe2\x88\x9e" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:287
 msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
-msgstr ""
+msgstr "\"ettől\" * \"−∞\";\"ettől\" * \"−∞\""
 
 #: ../src/tools/analysis-histogram.c:444
 #, c-format
@@ -14833,7 +14824,6 @@ msgid "No constraints"
 msgstr "Nincsenek megszorítások"
 
 #: ../src/tools/gnm-solver.c:1751
-#| msgid "Value"
 msgid ""
 "Final\n"
 "Value"
@@ -14850,7 +14840,6 @@ msgstr ""
 "költség"
 
 #: ../src/tools/gnm-solver.c:1753 ../src/tools/gnm-solver.c:1789
-#| msgid "Lower Limit (95%)"
 msgid ""
 "Lower\n"
 "Limit"
@@ -14859,7 +14848,6 @@ msgstr ""
 "határ"
 
 #: ../src/tools/gnm-solver.c:1754 ../src/tools/gnm-solver.c:1790
-#| msgid "Upper Limit (95%)"
 msgid ""
 "Upper\n"
 "Limit"
@@ -14876,7 +14864,6 @@ msgstr ""
 "ár"
 
 #: ../src/tools/gnm-solver.c:1787
-#| msgid "Constraint"
 msgid ""
 "Constraint\n"
 "LHS"
@@ -14885,7 +14872,6 @@ msgstr ""
 "LHS"
 
 #: ../src/tools/gnm-solver.c:1788
-#| msgid "Constraint"
 msgid ""
 "Constraint\n"
 "RHS"
@@ -14894,12 +14880,10 @@ msgstr ""
 "RHS"
 
 #: ../src/tools/gnm-solver.c:1856
-#| msgid "P_rogram"
 msgid "Program"
 msgstr "Program"
 
 #: ../src/tools/gnm-solver.c:1862
-#| msgid "Case Sensitive"
 msgid "Sensitivity"
 msgstr "Érzékenység"
 
@@ -15424,7 +15408,6 @@ msgid "Setup the page settings for your current printer"
 msgstr "Oldalbeállítások módosítása a jelenlegi nyomtatónál"
 
 #: ../src/wbc-gtk-actions.c:2028
-#| msgid "Print preview"
 msgid "Print Pre_view"
 msgstr "Nyomtatási _kép"
 
@@ -15578,7 +15561,7 @@ msgstr "_Egymintás próbák"
 
 #: ../src/wbc-gtk-actions.c:2171
 msgid "Claims About a Me_dian"
-msgstr ""
+msgstr "Állítások egy me_diánról"
 
 #: ../src/wbc-gtk-actions.c:2174
 msgid "_Two Sample Tests"
@@ -15586,11 +15569,11 @@ msgstr "_Kétmintás próbák"
 
 #: ../src/wbc-gtk-actions.c:2177
 msgid "Claims About Two Me_dians"
-msgstr ""
+msgstr "Állítások két me_diánról"
 
 #: ../src/wbc-gtk-actions.c:2180
 msgid "Claims About Two _Means"
-msgstr ""
+msgstr "Állítások két _középértékről"
 
 #: ../src/wbc-gtk-actions.c:2183
 msgid "_Multiple Sample Tests"
@@ -16479,7 +16462,7 @@ msgstr "Egy minta próbája a normalitáshoz"
 
 #: ../src/wbc-gtk-actions.c:3016
 msgid "Claims About a _Mean..."
-msgstr ""
+msgstr "Állítások egy _középértékről…"
 
 #: ../src/wbc-gtk-actions.c:3017
 msgid "Testing the value of a mean"
@@ -16499,7 +16482,7 @@ msgstr "_Wilcoxon-féle előjeles rangpróba…"
 
 #: ../src/wbc-gtk-actions.c:3037
 msgid "Claims About Two _Variances"
-msgstr ""
+msgstr "Állítások két _szórásnégyzetről"
 
 #: ../src/wbc-gtk-actions.c:3038
 msgid "Comparing two population variances"
@@ -17823,9 +17806,6 @@ msgstr ""
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnumeric-expr-entry.c:972
-#| msgid ""
-#| "\n"
-#| "\t<i>⇧F4 to select</i>"
 msgid ""
 "\n"
 "\t<i> to select</i>"
@@ -17905,7 +17885,6 @@ msgid "A single selection is required."
 msgstr "Egyedülálló kijelölés szükséges."
 
 #: ../src/workbook-cmd-format.c:180
-#| msgid "An n⨯1 or 1⨯n selection is required."
 msgid "An n or 1⨯n selection is required."
 msgstr "Egy n vagy 1⨯n méretű kijelölés szükséges."
 
@@ -18054,7 +18033,6 @@ msgid "Missing filter type"
 msgstr "Hiányzó szűrőtípus"
 
 #: ../src/xml-sax-read.c:2345
-#| msgid "Change filter condition for %s"
 msgid "Malformed sheet filter condition"
 msgstr "Helytelenül formázott munkalap szűrőfeltétel"
 
