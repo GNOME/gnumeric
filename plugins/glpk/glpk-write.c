@@ -134,6 +134,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 	gsize progress;
 	GPtrArray *old = NULL;
 	gnm_float *x1 = NULL, *x2 = NULL;
+	int cidx = 0;
 
 	/* ---------------------------------------- */
 
@@ -224,7 +225,6 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 		GnmSolverConstraint *c = l->data;
 		const char *op = NULL;
 		int i;
-		int cidx = 0;
 		gnm_float cl, cr;
 		GnmCell *lhs, *rhs;
 		GString *type = NULL;
