@@ -9,5 +9,5 @@ use GnumericTest;
 my $mode = ((shift @ARGV) || "check");
 
 &message ("Check the mps importer.");
-&test_importer ("$samples/solver/blend.mps", "62f3d23b545b8a40e4891cd8f645167a71cd387d", $mode);
-&test_importer ("$samples/solver/afiro.mps", "e07455f4fcfba514b29aa43c550556f48fd19fe1", $mode);
+&test_importer ("$samples/solver/blend.mps", "265ed42b7541b772a62ced0726cb39f023d96b12", $mode);
+&test_importer ("$samples/solver/afiro.mps", "c68c4cb622d6fed19555f72225e09cd9f9683226", $mode);

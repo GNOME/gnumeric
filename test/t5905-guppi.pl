@@ -9,4 +9,4 @@ use GnumericTest;
 my $mode = ((shift @ARGV) || "check");
 
 &message ("Check the mps importer.");
-&test_importer ("$samples/b66666-guppi.gnumeric", "4efa15c01d6c907ef13b2098d650129647447e97", $mode);
+&test_importer ("$samples/b66666-guppi.gnumeric", "4d452f7e2978f7e537d17b1464687a888f74a538", $mode);
