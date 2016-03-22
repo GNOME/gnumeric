@@ -1,3 +1,7 @@
+2016-03-22  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c (dialog_about): Update copyright year.
+
 2016-02-11  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (update_obj_value): Plug leak.
