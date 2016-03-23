@@ -1,3 +1,7 @@
+2016-03-22  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.28
+
 2016-02-10  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_create_program_report): Split from
