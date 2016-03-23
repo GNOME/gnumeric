@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-20 11:25+0000\n"
-"PO-Revision-Date: 2016-03-21 00:14+0100\n"
+"POT-Creation-Date: 2016-03-22 22:38+0000\n"
+"PO-Revision-Date: 2016-03-23 08:37+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
@@ -5014,8 +5014,9 @@ msgid "Visit the Gnumeric website"
 msgstr "A Gnumeric weblapjának megtekintése"
 
 #: ../src/dialogs/dialog-about.c:547
-msgid "Copyright © 1998-2015"
-msgstr "Copyright © 1998-2015"
+#| msgid "Copyright © 1998-2015"
+msgid "Copyright © 1998-2016"
+msgstr "Copyright © 1998-2016"
 
 #: ../src/dialogs/dialog-about.c:548
 msgid "Free, Fast, Accurate - Pick Any Three!"
