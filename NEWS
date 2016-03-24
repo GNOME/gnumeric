@@ -2,6 +2,7 @@ Gnumeric 1.12.29
 
 Morten:
 	* Documentation fixes for complex numbers.
+	* Fix rare RANDBETWEEN problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.28

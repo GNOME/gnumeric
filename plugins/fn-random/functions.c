@@ -258,15 +258,22 @@ gnumeric_randbetween (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float bottom = value_get_as_float (argv[0]);
 	gnm_float top = value_get_as_float (argv[1]);
+	gnm_float choices;
 
 	if (bottom > top)
 		return value_new_error_NUM (ei->pos);
 
-	/* Bottom is ceiled, top floored.  Neither is truncated.  */
+	// Bottom is ceiled, top floored.  We do this on the limits, not the
+	// resulting random number, in order to ensure all integers in the
+	// range have the same probability.  Tests show that Excel 2013 does
+	// the same thing.
 	bottom = gnm_ceil (bottom);
 	top = gnm_floor (top);
 
-	return value_new_float (bottom + gnm_floor ((top + 1.0 - bottom) * random_01 ()));
+	// Rounding alert: adding 1 could add 2 after rounding.
+	choices = gnm_ceil ((top - bottom) + 0.875);
+
+	return value_new_float (bottom + gnm_floor (choices * random_01 ()));
 }
 
 /***************************************************************************/
