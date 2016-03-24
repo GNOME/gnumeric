@@ -164,6 +164,22 @@ my %odf_note =
      'dchisq' => 'A two argument invocation R.DCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df},FALSE()).',
     );
 
+my %test_status = ();
+my @burkardt_tests =
+    ('pbeta', 'pbinom', 'pcauchy', 'pchisq', 'pexp',
+     'pf', 'pgamma', 'pgeom', 'phyper', 'dhyper', 'plnorm',
+     'pnbinom', 'pnorm', 'ppois', 'pt', 'pweibull', );
+my @amath_tests =
+    ('dbeta', 'dbinom', 'dcauchy', 'dchisq', 'dexp', 'df', 'dgamma',
+     'dhyper', 'dlnorm', 'dnbinom', 'dnorm', 'dpois', 'dt',
+     'dweibull', 'pbeta', 'pbinom', 'pcauchy', 'pchisq', 'pexp', 'pf',
+     'pgamma', 'phyper', 'plnorm', 'pnbinom', 'pnorm', 'ppois', 'pt',
+     'pweibull', 'qbeta', 'qcauchy', 'qchisq', 'qexp', 'qf', 'qgamma',
+     'qlnorm', 'qnorm', 'qt', 'qweibull');
+foreach (@burkardt_tests, @amath_tests) {
+    $test_status{$_} = 'EXHAUSTIVE';
+}
+
 my %type_getter =
     ('gnm_float' => 'value_get_as_float',
      'gboolean' => 'value_get_as_checked_bool',
@@ -366,12 +382,14 @@ sub distribution {
 
     my $arglist = join (",", map { $_->[1] } @args);
 
+    my $test_status = $test_status{$func} || 'NO_TESTSUITE';
+
     $funcdefs .= ("\t{\n" .
 		  "\t\t\"r.$func\",\n" .
 		  "\t\t\"$typespec\",\n" .
 		  "\t\thelp_r_$func,\n" .
 		  "\t\tgnumeric_r_$func, NULL, NULL, NULL,\n" .
-		  "\t\tGNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,\n" .
+		  "\t\tGNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_$test_status,\n" .
 		  "\t},\n");
 }
 
