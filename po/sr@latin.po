@@ -1,6 +1,8 @@
 # Serbian translation of gnumeric.
 # Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003—2016.
 # This file is distributed under the same license as the gnumeric package.
+#
+# Translators: 
 # Slobodan Sredojević <ssl@uns.ns.ac.yu>
 # Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2012—2016.
 msgid ""
@@ -8,10 +10,10 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeri"
 "c&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-21 06:56+0000\n"
-"PO-Revision-Date: 2016-03-20 11:22+0200\n"
+"POT-Creation-Date: 2016-03-22 22:38+0000\n"
+"PO-Revision-Date: 2016-03-25 11:32+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: Serbian <gnom@prevod.org>\n"
+"Language-Team: Serbian <>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1963,7 +1965,8 @@ msgstr "Zapis otvorenog dokumenta"
 
 #: ../plugins/openoffice/plugin.xml.in.h:2
 msgid "Open Document Format as used by OpenOffice, Lotus Symphony, etc."
-msgstr "Zapis otvorenog dokumenta koji koriste Open ofis, Lotus Simfonija, itd."
+msgstr ""
+"Zapis otvorenog dokumenta koji koriste Open ofis, Lotus Simfonija, itd."
 
 #: ../plugins/openoffice/plugin.xml.in.h:3
 msgid "Open Document Format (*.sxc, *.ods)"
@@ -2389,7 +2392,8 @@ msgstr "Opšta greška uvoza SC-a"
 #, c-format
 msgid ""
 "The cell in row %i and column %i is beyond Gnumeric's maximum sheet size."
-msgstr "Polje u %i. redu i %i. koloni je izvan najveće veličine lista Gnumerika."
+msgstr ""
+"Polje u %i. redu i %i. koloni je izvan najveće veličine lista Gnumerika."
 
 #: ../plugins/sc/sc.c:387
 msgid "The sheet is wider than Gnumeric can handle."
@@ -4957,8 +4961,9 @@ msgid "Visit the Gnumeric website"
 msgstr "Posetite veb sajt Gnumerika"
 
 #: ../src/dialogs/dialog-about.c:547
-msgid "Copyright © 1998-2015"
-msgstr "Autorska prava © 1998-2015"
+#| msgid "Copyright © 1998-2015"
+msgid "Copyright © 1998-2016"
+msgstr "Autorska prava © 1998-2016"
 
 #: ../src/dialogs/dialog-about.c:548
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -11870,10 +11875,14 @@ msgstr "Oblast za rezultat je premala.  Treba da bude barem %s puta %s"
 msgid "The target region is too small.  It should be at least %d column wide"
 msgid_plural ""
 "The target region is too small.  It should be at least %d columns wide"
-msgstr[0] "Oblast za rezultat je premala.  Treba da bude široka barem %d kolonu"
-msgstr[1] "Oblast za rezultat je premala.  Treba da bude široka barem %d kolone"
-msgstr[2] "Oblast za rezultat je premala.  Treba da bude široka barem %d kolona"
-msgstr[3] "Oblast za rezultat je premala.  Treba da bude široka barem %d kolonu"
+msgstr[0] ""
+"Oblast za rezultat je premala.  Treba da bude široka barem %d kolonu"
+msgstr[1] ""
+"Oblast za rezultat je premala.  Treba da bude široka barem %d kolone"
+msgstr[2] ""
+"Oblast za rezultat je premala.  Treba da bude široka barem %d kolona"
+msgstr[3] ""
+"Oblast za rezultat je premala.  Treba da bude široka barem %d kolonu"
 
 #: ../src/format-template.c:755
 #, c-format
@@ -11882,7 +11891,8 @@ msgid_plural ""
 "The target region is too small.  It should be at least %d rows high"
 msgstr[0] "Oblast za rezultat je premala.  Treba da bude visoka barem %d red"
 msgstr[1] "Oblast za rezultat je premala.  Treba da bude visoka barem %d reda"
-msgstr[2] "Oblast za rezultat je premala.  Treba da bude visoka barem %d redova"
+msgstr[2] ""
+"Oblast za rezultat je premala.  Treba da bude visoka barem %d redova"
 msgstr[3] "Oblast za rezultat je premala.  Treba da bude visoka barem %d red"
 
 #. xgettext : see po-functions/README.translators
@@ -13892,11 +13902,13 @@ msgstr "Samostalni izraz"
 #. remain since these are Excel-style format strings
 #: ../src/tools/analysis-chi-squared.c:65
 msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
-msgstr "[>=5]\"Test nezavisnosti\";[<5][Crveno]\"Neispravan test nezavisnosti\""
+msgstr ""
+"[>=5]\"Test nezavisnosti\";[<5][Crveno]\"Neispravan test nezavisnosti\""
 
 #: ../src/tools/analysis-chi-squared.c:66
 msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
-msgstr "[>=5]\"Test istovrsnosti\";[<5][Crveno]\"Neispravan test istovrsnosti\""
+msgstr ""
+"[>=5]\"Test istovrsnosti\";[<5][Crveno]\"Neispravan test istovrsnosti\""
 
 #: ../src/tools/analysis-chi-squared.c:69
 msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
@@ -14169,8 +14181,8 @@ msgid ""
 "Statistic/df/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
 "/Studentov-t test/N/Posmatrana srednja vrednost/Pretpostavljena srednja "
-"vrednost/Posmatrana varijansa/Statistika testa/df/α/P(T≤t) jednostrani/P(T≤t)"
-" dvostrani"
+"vrednost/Posmatrana varijansa/Statistika testa/df/α/P(T≤t) jednostrani/"
+"P(T≤t) dvostrani"
 
 #: ../src/tools/analysis-one-mean-test.c:157
 #, c-format
@@ -14259,8 +14271,8 @@ msgid ""
 "tailed"
 msgstr ""
 "/Proba Vilkoksonovog potpisanog ranga/Medijana/Razlika posmatrane medijane/"
-"Razlika predviđene medijane/N/S−/S+/Statistika testa/α/P(T≤t) "
-"jednostrani/P(T≤t) dvostrani"
+"Razlika predviđene medijane/N/S−/S+/Statistika testa/α/P(T≤t) jednostrani/"
+"P(T≤t) dvostrani"
 
 #: ../src/tools/analysis-signed-rank-test.c:539
 #: ../src/tools/analysis-signed-rank-test.c:568
