@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-12 03:24+0000\n"
-"PO-Revision-Date: 2016-03-15 10:52+0100\n"
+"POT-Creation-Date: 2016-03-22 22:38+0000\n"
+"PO-Revision-Date: 2016-03-30 17:49+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -4974,8 +4974,8 @@ msgid "Visit the Gnumeric website"
 msgstr "Navštívit webové stránky Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:547
-msgid "Copyright © 1998-2015"
-msgstr "Copyright © 1998 – 2015"
+msgid "Copyright © 1998-2016"
+msgstr "Copyright © 1998 – 2016"
 
 #: ../src/dialogs/dialog-about.c:548
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -12461,7 +12461,7 @@ msgstr "Skončit hned po načtení vybraných sešitů"
 msgid "[FILE ...]"
 msgstr "[SOUBOR…]"
 
-#: ../src/main-application.c:170 ../src/ssconvert.c:882 ../src/ssdiff.c:1108
+#: ../src/main-application.c:170 ../src/ssconvert.c:884 ../src/ssdiff.c:1108
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -13376,12 +13376,12 @@ msgstr "Nelze vytvořit řešitele"
 msgid "Solver ran, but failed"
 msgstr "Řešitel běžel, ale selhal"
 
-#: ../src/ssconvert.c:565
+#: ../src/ssconvert.c:567
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Řešitel: %s\n"
 
-#: ../src/ssconvert.c:661
+#: ../src/ssconvert.c:663
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13390,7 +13390,7 @@ msgstr ""
 "Neznámý export „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:681
+#: ../src/ssconvert.c:683
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13399,7 +13399,7 @@ msgstr ""
 "Není možné odhadnout export, který se má použít pro „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:693
+#: ../src/ssconvert.c:695
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13408,7 +13408,7 @@ msgstr ""
 "Je vyžadován název výstupního souboru nebo explicitní typ exportu.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:703
+#: ../src/ssconvert.c:705
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13417,12 +13417,12 @@ msgstr ""
 "Neznámý import „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-importers.\n"
 
-#: ../src/ssconvert.c:727
+#: ../src/ssconvert.c:729
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Načtení %s selhalo\n"
 
-#: ../src/ssconvert.c:841
+#: ../src/ssconvert.c:843
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13432,11 +13432,11 @@ msgstr ""
 "Zvolený export (%s) nepodporuje ukládání více listů do jednoho souboru.\n"
 "Bude uložen jen aktuální list. Pro obejití tohoto omezení použijte -S.\n"
 
-#: ../src/ssconvert.c:870 ../src/ssconvert.c:921
+#: ../src/ssconvert.c:872 ../src/ssconvert.c:923
 msgid "INFILE [OUTFILE]"
 msgstr "VSTUPNÍ_SOUBOR [VÝSTUPNÍ_SOUBOR]"
 
-#: ../src/ssconvert.c:889
+#: ../src/ssconvert.c:891
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13447,7 +13447,7 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/ssconvert.c:919 ../src/ssdiff.c:1165 ../src/ssindex.c:268
+#: ../src/ssconvert.c:921 ../src/ssdiff.c:1165 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Použití: %s [PŘEPÍNAČ…] %s\n"
