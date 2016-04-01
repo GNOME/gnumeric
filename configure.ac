@@ -196,6 +196,7 @@ AC_ARG_WITH(gtk, AS_HELP_STRING([--without-gtk], [Build without UI]))
 if test "x$with_gtk" = xno; then
 	ui_msg="None (Gtk disabled by request)"
 	gnumeric_with_gtk=false
+	AC_MSG_ERROR([configuration without gtk+ currently does not work])
 else
 	dnl We shouldn't silently default to --without-gtk.
 	dnl If the requirements are not met, fail.
