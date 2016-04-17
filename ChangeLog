@@ -1,3 +1,8 @@
+2016-04-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_load_len): return a nul length if the
+	value is an error.
+
 2016-03-22  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

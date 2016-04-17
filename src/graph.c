@@ -596,6 +596,10 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 			vec->as_col = (vec->val->v_array.y > vec->val->v_array.x);
 			break;
 		}
+		case VALUE_ERROR :
+			new_len = 0;
+			break;
+
 		default :
 			new_len = 1;
 			vec->as_col = TRUE;
