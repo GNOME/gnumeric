@@ -499,7 +499,11 @@ if $try_paradox; then
 fi
 
 if test "x$paradox_msg" = xyes; then
-	enable_paradox=true
+	SAVE_LIBS="$LIBS"
+	LIBS="$LIBS $PARADOX_LIBS"
+	AC_CHECK_FUNC(PX_open_gsf,[ enable_paradox=true ],)
+	LIBS="$SAVE_LIBS"
+	unset SAVE_LIBS
 fi
 AM_CONDITIONAL(WITH_PARADOX, $enable_paradox)
 AC_SUBST(PARADOX_LIBS)
