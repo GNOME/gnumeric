@@ -1,5 +1,8 @@
 Gnumeric 1.12.29
 
+Jean:
+	* Fix array reading in plots using matrix data. [#765483]
+
 Morten:
 	* Documentation fixes for complex numbers.
 	* Fix rare RANDBETWEEN problem.

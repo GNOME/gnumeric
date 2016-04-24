@@ -1333,7 +1333,7 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 		minimum = G_MAXDOUBLE;
 		for (col = 0; col < size.columns; col ++)
 			for (row = 0; row < size.rows; row++) {
-				v = mat->val->v_array.vals[row][col];
+				v = mat->val->v_array.vals[col][row];
 				cur = col * size.rows + row;
 				if (VALUE_IS_EMPTY_OR_ERROR (v)) {
 					vals[row * size.columns + col] = go_nan;
