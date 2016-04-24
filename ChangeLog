@@ -1,6 +1,12 @@
+2016-04-24  Morten Welinder  <terra@gnome.org>
+
+	* src/value-sheet.c (value_area_get_x_y): Use
+	gnm_rangeref_normalize.  Do full wrap-around.
+
 2016-04-24  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/graph.c (gnm_go_data_matrix_load_values): fix array reading. [#765483]
+	* src/graph.c (gnm_go_data_matrix_load_values): fix array
+	reading. [#765483]
 
 2016-04-17  Jean Brefort  <jean.brefort@normalesup.org>
 

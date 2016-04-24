@@ -164,58 +164,26 @@ value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 				      NULL);
 		return v->v_array.vals [x][y];
 	} else if (VALUE_IS_CELLRANGE (v)) {
-		GnmCellRef const * const a = &v->v_range.cell.a;
-		GnmCellRef const * const b = &v->v_range.cell.b;
-		int a_col = a->col;
-		int a_row = a->row;
-		int b_col = b->col;
-		int b_row = b->row;
+		GnmRange r;
+		Sheet *start_sheet, *end_sheet;
 		GnmCell *cell;
-		Sheet *sheet;
 
-		/* Handle relative references */
-		if (a->col_relative)
-			a_col += ep->eval.col;
-		if (a->row_relative)
-			a_row += ep->eval.row;
-		if (b->col_relative)
-			b_col += ep->eval.col;
-		if (b->row_relative)
-			b_row += ep->eval.row;
+		gnm_rangeref_normalize (&v->v_range.cell, ep,
+					&start_sheet, &end_sheet,
+					&r);
+		if (start_sheet != end_sheet)
+			return NULL;
 
-		/* Handle inverted references */
-		if (a_row > b_row) {
-			int tmp = a_row;
-			a_row = b_row;
-			b_row = tmp;
-		}
-		if (a_col > b_col) {
-			int tmp = a_col;
-			a_col = b_col;
-			b_col = tmp;
-		}
-
-		a_col += x;
-		a_row += y;
-
-		/*
-		 * FIXME FIXME FIXME
-		 * This should return NA but some of the math functions may
-		 * rely on this for now.
-		 */
-		g_return_val_if_fail (a_row<=b_row, NULL);
-		g_return_val_if_fail (a_col<=b_col, NULL);
-
-		sheet = eval_sheet (a->sheet, ep->sheet);
-
-		g_return_val_if_fail (IS_SHEET (sheet), NULL);
+		// Full wrap-around
+		x = (r.start.col + x) % gnm_sheet_get_max_cols (start_sheet);
+		y = (r.start.row + y) % gnm_sheet_get_max_rows (start_sheet);
 
 		/* Speedup */
-		if (sheet->cols.max_used < a_col ||
-		    sheet->rows.max_used < a_row)
+		if (start_sheet->cols.max_used < x ||
+		    start_sheet->rows.max_used < y)
 			return value_new_empty ();
 
-		cell = sheet_cell_get (sheet, a_col, a_row);
+		cell = sheet_cell_get (start_sheet, x, y);
 		if (cell != NULL) {
 			gnm_cell_eval (cell);
 			return cell->value;

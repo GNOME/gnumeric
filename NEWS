@@ -7,6 +7,7 @@ Morten:
 	* Documentation fixes for complex numbers.
 	* Fix rare RANDBETWEEN problem.
 	* Test suite improvements.
+	* Fix value-area problem.  [#765438]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.28
