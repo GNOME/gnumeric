@@ -1,3 +1,9 @@
+2016-04-26  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_cell_val_end): Be slightly more relaxed about
+	the syntax of references to the shared strings table.  Fixes
+	#765544.
+
 2016-03-22  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.28

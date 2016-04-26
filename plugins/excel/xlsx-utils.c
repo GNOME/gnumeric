@@ -746,3 +746,18 @@ XLSXGradientInfo xlsx_gradient_info[GO_GRADIENT_MAX] = {
 };
 
 /*****************************************************************************/
+// Like strtol, but a little more relaxed.  For now that means...
+// * Consumes spaces at the end
+
+long
+xlsx_relaxed_strtol (const char *s, char **endp, int base)
+{
+	char *end;
+	long res = strtol (s, &end, base);
+	if (endp) {
+		while (s != end && g_ascii_isspace (*end))
+			end++;
+		*endp = end;
+	}
+	return res;
+}

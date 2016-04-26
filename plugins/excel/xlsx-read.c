@@ -1288,7 +1288,7 @@ xlsx_cell_val_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			state->val = value_new_float (gnm_strto (xin->content->str, &end));
 		break;
 	case XLXS_TYPE_SST_STR :
-		i = strtol (xin->content->str, &end, 10);
+		i = xlsx_relaxed_strtol (xin->content->str, &end, 10);
 		if (end != xin->content->str && *end == '\0' &&
 		    0 <= i  && i < (int)state->sst->len) {
 			entry = &g_array_index (state->sst, XLSXStr, i);

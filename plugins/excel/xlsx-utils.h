@@ -95,4 +95,8 @@ extern XLSXGradientInfo xlsx_gradient_info[GO_GRADIENT_MAX];
 
 /*****************************************************************************/
 
+long xlsx_relaxed_strtol (const char *s, char **endp, int base);
+
+/*****************************************************************************/
+
 #endif /* GNM_XLSX_UTILS_H */
