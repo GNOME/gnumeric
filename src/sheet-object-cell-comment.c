@@ -70,7 +70,7 @@ comment_view_reload_style (CommentView *cv)
 	GtkStyleContext *context;
 
 	context = goc_item_get_style_context (item);
-	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
 				     &cv->comment_indicator_color);
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (pane));

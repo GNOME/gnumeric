@@ -2111,7 +2111,7 @@ gnm_pane_size_guide_start (GnmPane *pane,
 	gtk_style_context_add_class (context, colrow_class);
 	if (is_colrow_resize)
 		gtk_style_context_add_class (context, "end");
-	gtk_style_context_get_color (context, GTK_STATE_FLAG_SELECTED, &rgba);
+	gnm_style_context_get_color (context, GTK_STATE_FLAG_SELECTED, &rgba);
 	go_color_from_gdk_rgba (&rgba, &style->line.color);
 
 	if (is_colrow_resize) {
@@ -2125,7 +2125,7 @@ gnm_pane_size_guide_start (GnmPane *pane,
 		gtk_style_context_add_class (context, guide_class);
 		gtk_style_context_add_class (context, colrow_class);
 		gtk_style_context_add_class (context, "start");
-		gtk_style_context_get_color (context, GTK_STATE_FLAG_SELECTED, &rgba);
+		gnm_style_context_get_color (context, GTK_STATE_FLAG_SELECTED, &rgba);
 		go_color_from_gdk_rgba (&rgba, &style->line.color);
 		style->line.width = width;
 	}
@@ -2961,7 +2961,7 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 			style->line.width = 0.;
 			style->line.auto_color = FALSE;
 			style->line.color = 0;
-			gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &rgba);
+			gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &rgba);
 			go_color_from_gdk_rgba (&rgba, &style->line.fore);
 			go_styled_object_set_style (GO_STYLED_OBJECT (item),
 						    style);

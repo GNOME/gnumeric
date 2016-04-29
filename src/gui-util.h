@@ -183,6 +183,9 @@ void gnm_action_group_add_actions (GtkActionGroup *group,
 				   gpointer user);
 void gnm_action_group_add_action (GtkActionGroup *group, GtkAction *act);
 
+void gnm_style_context_get_color (GtkStyleContext *context,
+				  GtkStateFlags state,
+				  GdkRGBA *color);
 
 G_END_DECLS
 

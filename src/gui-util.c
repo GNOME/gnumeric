@@ -1338,3 +1338,18 @@ gnm_action_group_add_action (GtkActionGroup *group, GtkAction *act)
 	 */
 	gtk_action_group_add_action_with_accel (group, act, NULL);
 }
+
+void
+gnm_style_context_get_color (GtkStyleContext *context,
+			     GtkStateFlags state,
+			     GdkRGBA *color)
+{
+	// As-of gtk+ 3.20 we have to set the context state to the state
+	// we are querying for.  This ought to work before gtk+ 3.20 too.
+	gtk_style_context_save (context);
+	gtk_style_context_set_state (context, state);
+	gtk_style_context_get_color (context,
+				     gtk_style_context_get_state (context),
+				     color);
+	gtk_style_context_restore (context);
+}

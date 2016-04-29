@@ -160,7 +160,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	}
 
 	/* set the default color */
-	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &fcolor);
+	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &fcolor);
 	gdk_cairo_set_source_rgba (cr, &fcolor);
 	color = go_color_from_gdk_rgba (&fcolor, NULL);
 

@@ -109,7 +109,7 @@ ig_reload_style (GnmItemGrid *ig)
 
 	gtk_style_context_save (context);
 	gtk_style_context_add_region (context, "function-marker", 0);
-	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
 				     &ig->function_marker_color);
 	gtk_style_context_get_border_color (context, state,
 					    &ig->function_marker_border_color);
@@ -117,7 +117,7 @@ ig_reload_style (GnmItemGrid *ig)
 
 	gtk_style_context_save (context);
 	gtk_style_context_add_region (context, "pane-divider", 0);
-	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
 				     &ig->pane_divider_color);
 	gtk_style_context_get_border (context, GTK_STATE_FLAG_NORMAL, &border);
 	ig->pane_divider_width = border.top;  /* Hack? */

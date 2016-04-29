@@ -267,7 +267,7 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	y -= height / 2;
 
 	cr = r->cr;
-	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &color);
+	gnm_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &color);
 	color.alpha = alpha;
 	gdk_cairo_set_source_rgba (cr, &color);
 	cairo_move_to (cr, x / (double)PANGO_SCALE, y / (double)PANGO_SCALE);

@@ -113,15 +113,16 @@ ib_reload_color_style (GnmItemBar *ib)
 	GtkStyleContext *context = goc_item_get_style_context (item);
 	unsigned ui;
 
-	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
 				     &ib->grouping_color);
 
 	for (ui = 0; ui < G_N_ELEMENTS (selection_type_flags); ui++) {
 		GtkStateFlags state = selection_type_flags[ui];
-		gtk_style_context_get_color
+		gnm_style_context_get_color
 			(context, state, &ib->selection_colors[ui]);
 	}
 }
+
 
 static void
 ib_reload_sizing_style (GnmItemBar *ib)
@@ -353,7 +354,7 @@ ib_draw_cell (GnmItemBar const * const ib, cairo_t *cr,
 		if (1) {
 			GdkRGBA c;
 
-			gtk_style_context_get_color (ctxt, selection_type_flags[type], &c);
+			gnm_style_context_get_color (ctxt, selection_type_flags[type], &c);
 			gdk_cairo_set_source_rgba (cr, &c);
 		} else {
 			gdk_cairo_set_source_rgba (cr, &ib->selection_colors[type]);

@@ -9,6 +9,7 @@ Morten:
 	* Test suite improvements.
 	* Fix value-area problem.  [#765438]
 	* Make xlsx shared strings parsing more robust.  [#765544]
+	* Dead kittens.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.28

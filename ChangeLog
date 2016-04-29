@@ -1,3 +1,8 @@
+2016-04-29  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnm_style_context_get_color): Fix function
+	wrapping gtk_style_context_get_color which changed API.
+
 2016-04-24  Morten Welinder  <terra@gnome.org>
 
 	* src/value-sheet.c (value_area_get_x_y): Use
