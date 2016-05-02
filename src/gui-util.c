@@ -1270,7 +1270,12 @@ gnm_widget_measure_string (GtkWidget *w, const char *s)
 
 	ctxt = gtk_widget_get_style_context (w);
 
+	// As-of gtk+ 3.20 we have to set the context state to the state
+	// we are querying for.  This ought to work before gtk+ 3.20 too.
+	gtk_style_context_save (ctxt);
+	gtk_style_context_set_state (ctxt, state);
 	gtk_style_context_get (ctxt, state, "font", &desc, NULL);
+	gtk_style_context_restore (ctxt);
 
 	len = go_pango_measure_string
 		(gtk_widget_get_pango_context (w), desc, s);
