@@ -132,7 +132,13 @@ gnm_notebook_button_ensure_layout (GnmNotebookButton *nbb)
 		}
 		attrs_active = pango_attr_list_copy (attrs);
 
+		// As-of gtk+ 3.20 we have to set the context state to the state
+		// we are querying for.  This ought to work before gtk+ 3.20
+		// too.
+		gtk_style_context_save (context);
+
 		/* Normal */
+		gtk_style_context_set_state (context, GTK_STATE_FLAG_NORMAL);
 		gtk_style_context_get (context, GTK_STATE_FLAG_NORMAL,
 				       "font", &desc, NULL);
 		attr = pango_attr_font_desc_new (desc);
@@ -144,6 +150,7 @@ gnm_notebook_button_ensure_layout (GnmNotebookButton *nbb)
 		pango_attr_list_unref (attrs);
 
 		/* Active */
+		gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
 		gtk_style_context_get (context, GTK_STATE_FLAG_ACTIVE,
 				       "font", &desc, NULL);
 		attr = pango_attr_font_desc_new (desc);
@@ -153,6 +160,8 @@ gnm_notebook_button_ensure_layout (GnmNotebookButton *nbb)
 		pango_font_description_free (desc);
 		pango_layout_set_attributes (nbb->layout_active, attrs_active);
 		pango_attr_list_unref (attrs_active);
+
+		gtk_style_context_restore (context);
 	}
 
 	pango_layout_get_extents (nbb->layout, NULL, &nbb->logical);
@@ -207,10 +216,16 @@ gnm_notebook_button_get_preferred_height (GtkWidget *widget,
 {
 	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (widget);
 	GtkBorder padding;
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
 
-	gtk_style_context_get_padding (gtk_widget_get_style_context (widget),
+	// As-of gtk+ 3.20 we have to set the context state to the state
+	// we are querying for.  This ought to work before gtk+ 3.20 too.
+	gtk_style_context_save (ctxt);
+	gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
+	gtk_style_context_get_padding (ctxt,
 				       GTK_STATE_FLAG_NORMAL,
 				       &padding);
+	gtk_style_context_restore (ctxt);
 
 	gnm_notebook_button_ensure_layout (nbb);
 
@@ -228,10 +243,16 @@ gnm_notebook_button_get_preferred_width (GtkWidget *widget,
 {
 	GnmNotebookButton *nbb = GNM_NOTEBOOK_BUTTON (widget);
 	GtkBorder padding;
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
 
-	gtk_style_context_get_padding (gtk_widget_get_style_context (widget),
+	// As-of gtk+ 3.20 we have to set the context state to the state
+	// we are querying for.  This ought to work before gtk+ 3.20 too.
+	gtk_style_context_save (ctxt);
+	gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
+	gtk_style_context_get_padding (ctxt,
 				       GTK_STATE_FLAG_NORMAL,
 				       &padding);
+	gtk_style_context_restore (ctxt);
 
 	gnm_notebook_button_ensure_layout (nbb);
 
