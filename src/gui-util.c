@@ -1478,6 +1478,13 @@ create_context_for_path (GtkWidgetPath   *path,
 }
 #endif
 
+/**
+ * gnm_style_context_from_selector:
+ * @parent: (allow-none): style context for container
+ * @selector: a css selector
+ *
+ * Returns: (transfer full): a new style context.
+ */
 GtkStyleContext *
 gnm_style_context_from_selector (GtkStyleContext *parent,
 				 const char      *selector)
