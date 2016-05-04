@@ -340,7 +340,9 @@ ib_draw_cell (GnmItemBar const * const ib, cairo_t *cr,
 	cairo_save (cr);
 
 	gtk_style_context_save (ctxt);
-	//gtk_style_context_set_state (ctxt, selection_type_flags[type]);
+#if !GTK_CHECK_VERSION(3,20,0)
+	gtk_style_context_set_state (ctxt, selection_type_flags[type]);
+#endif
 	gtk_render_background (ctxt, cr, rect->x, rect->y,
 			       rect->width + 1, rect->height + 1);
 
@@ -1204,6 +1206,13 @@ gnm_item_bar_init (GnmItemBar *ib)
 	ib->has_resize_guides = FALSE;
 	ib->pango.item = NULL;
 	ib->pango.glyphs = pango_glyph_string_new ();
+
+#if !GTK_CHECK_VERSION(3,20,0)
+	/* Style-wise we are a button.  */
+	gtk_style_context_add_class
+		(goc_item_get_style_context (GOC_ITEM (ib)),
+		 GTK_STYLE_CLASS_BUTTON);
+#endif
 }
 
 static void
