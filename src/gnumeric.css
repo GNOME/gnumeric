@@ -234,3 +234,28 @@ GtkBox.toolbarzone GtkToolbar * {
 }
 
 /* ------------------------------------------------------------------------- */
+/* Styles for Gtk+ 3.20 and later */
+/* ------------------------------------------------------------------------- */
+/* See bug 765921 as to why we duplicate the selectors.  */
+
+button.itembar, button.itembar * {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* The whole column/row selected. */
+button:active.itembar, button:active.itembar * {
+  color: red;
+  font-weight: bold;
+}
+
+/* Some, but not all, of a column/row selected. */
+button:hover.itembar, button:hover.itembar * {
+  color: red;
+  font-weight: bold;
+}
+
+
+/* ------------------------------------------------------------------------- */

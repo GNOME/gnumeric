@@ -60,6 +60,7 @@ struct _GnmItemBar {
 	PangoFont *selection_fonts[3];
 	int selection_font_ascents[3];
 	PangoRectangle selection_logical_sizes[3];
+	GtkStyleContext *styles[3];
 
 	GdkRGBA grouping_color;
 
@@ -105,6 +106,11 @@ static const GtkStateFlags selection_type_flags[3] = {
 	GTK_STATE_FLAG_ACTIVE
 };
 
+static const char * const selection_styles[3] = {
+	"button.itembar",
+	"button.itembar:hover",
+	"button.itembar:active"
+};
 
 static void
 ib_reload_color_style (GnmItemBar *ib)
@@ -133,7 +139,6 @@ ib_reload_sizing_style (GnmItemBar *ib)
 	double const zoom_factor = sheet->last_zoom_factor_used;
 	gboolean const char_label =
 		ib->is_col_header && !sheet->convs->r1c1_addresses;
-	GtkStyleContext *context = goc_item_get_style_context (item);
 	unsigned ui;
 	PangoContext *pcontext =
 		gtk_widget_get_pango_context (GTK_WIDGET (item->canvas));
@@ -141,15 +146,25 @@ ib_reload_sizing_style (GnmItemBar *ib)
 	PangoAttrList *attr_list;
 	GList *item_list;
 
-	gtk_style_context_save (context);
 	for (ui = 0; ui < G_N_ELEMENTS (selection_type_flags); ui++) {
 		GtkStateFlags state = selection_type_flags[ui];
 		PangoFontDescription *desc;
 		PangoRectangle ink_rect;
 		const char *long_name;
+		GtkStyleContext *context;
 
+		g_clear_object (&ib->styles[ui]);
+#if GTK_CHECK_VERSION(3,20,0)
+		context = gnm_style_context_from_selector (NULL, selection_styles[ui]);
+#else
+		context = g_object_ref (goc_item_get_style_context (item));
+#endif
+
+		ib->styles[ui] = context;
+		gtk_style_context_save (context);
+#if !GTK_CHECK_VERSION(3,20,0)
 		gtk_style_context_set_state (context, state);
-
+#endif
 		gtk_style_context_get (context, state, "font", &desc, NULL);
 		pango_font_description_set_size (desc,
 						 zoom_factor * pango_font_description_get_size (desc));
@@ -187,12 +202,13 @@ ib_reload_sizing_style (GnmItemBar *ib)
 			 strlen (long_name));
 		pango_layout_get_extents (layout, NULL,
 					  &ib->selection_logical_sizes[ui]);
+
+		if (state == GTK_STATE_FLAG_NORMAL)
+			gtk_style_context_get_padding (context, state,
+						       &ib->padding);
+
+		gtk_style_context_restore (context);
 	}
-
-	gtk_style_context_get_padding (context, GTK_STATE_FLAG_NORMAL,
-				       &ib->padding);
-
-	gtk_style_context_restore (context);
 
 	attr_list = pango_attr_list_new ();
 	item_list = pango_itemize (pcontext, "A", 0, 1, attr_list, NULL);
@@ -317,14 +333,14 @@ ib_draw_cell (GnmItemBar const * const ib, cairo_t *cr,
 	      ColRowSelectionType const type,
 	      char const * const str, GocRect *rect)
 {
-	GtkStyleContext *ctxt = goc_item_get_style_context (GOC_ITEM (ib));
+	GtkStyleContext *ctxt = ib->styles[type];
 
 	g_return_if_fail ((size_t)type < G_N_ELEMENTS (selection_type_flags));
 
 	cairo_save (cr);
 
 	gtk_style_context_save (ctxt);
-	gtk_style_context_set_state (ctxt, selection_type_flags[type]);
+	//gtk_style_context_set_state (ctxt, selection_type_flags[type]);
 	gtk_render_background (ctxt, cr, rect->x, rect->y,
 			       rect->width + 1, rect->height + 1);
 
@@ -334,6 +350,7 @@ ib_draw_cell (GnmItemBar const * const ib, cairo_t *cr,
 		PangoFont *font = ib->selection_fonts[type];
 		int ascent = ib->selection_font_ascents[type];
 		int w, h;
+		GdkRGBA c;
 
 		g_return_if_fail (font != NULL);
 		g_object_unref (ib->pango.item->analysis.font);
@@ -351,14 +368,8 @@ ib_draw_cell (GnmItemBar const * const ib, cairo_t *cr,
 				 rect->width - 2, rect->height - 2);
 		cairo_clip (cr);
 
-		if (1) {
-			GdkRGBA c;
-
-			gnm_style_context_get_color (ctxt, selection_type_flags[type], &c);
-			gdk_cairo_set_source_rgba (cr, &c);
-		} else {
-			gdk_cairo_set_source_rgba (cr, &ib->selection_colors[type]);
-		}
+		gtk_style_context_get_color (ctxt, selection_type_flags[type], &c);
+		gdk_cairo_set_source_rgba (cr, &c);
 
 		cairo_translate (cr,
 				 rect->x + ib->padding.left +
@@ -1150,6 +1161,7 @@ static void
 item_bar_dispose (GObject *obj)
 {
 	GnmItemBar *ib = GNM_ITEM_BAR (obj);
+	unsigned ui;
 
 	ib_dispose_fonts (ib);
 
@@ -1166,6 +1178,8 @@ item_bar_dispose (GObject *obj)
 		pango_item_free (ib->pango.item);
 		ib->pango.item = NULL;
 	}
+	for (ui = 0; ui < G_N_ELEMENTS(ib->styles); ui++)
+		g_clear_object (&ib->styles[ui]);
 
 	G_OBJECT_CLASS (parent_class)->dispose (obj);
 }
@@ -1190,11 +1204,6 @@ gnm_item_bar_init (GnmItemBar *ib)
 	ib->has_resize_guides = FALSE;
 	ib->pango.item = NULL;
 	ib->pango.glyphs = pango_glyph_string_new ();
-
-	/* Style-wise we are a button.  */
-	gtk_style_context_add_class
-		(goc_item_get_style_context (GOC_ITEM (ib)),
-		 GTK_STYLE_CLASS_BUTTON);
 }
 
 static void

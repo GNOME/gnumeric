@@ -187,6 +187,9 @@ void gnm_style_context_get_color (GtkStyleContext *context,
 				  GtkStateFlags state,
 				  GdkRGBA *color);
 
+GtkStyleContext * gnm_style_context_from_selector (GtkStyleContext *parent,
+						   const char      *selector);
+
 G_END_DECLS
 
 #endif /* _GNM_GUI_UTIL_H_ */
