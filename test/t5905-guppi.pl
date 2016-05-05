@@ -8,5 +8,5 @@ use GnumericTest;
 # See test_importer comments for mode definitions.
 my $mode = ((shift @ARGV) || "check");
 
-&message ("Check the mps importer.");
-&test_importer ("$samples/b66666-guppi.gnumeric", "4d452f7e2978f7e537d17b1464687a888f74a538", $mode);
+&message ("Check the guppi graph importer.");
+&test_importer ("$samples/b66666-guppi.gnumeric", "4f9552b87482dfa330ed251dffef467939478244", $mode);
