@@ -592,6 +592,14 @@
 }
 
 {
+   Leak/FcConfigSubstituteWithPat/2
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:FcConfigSubstituteWithPat
+}
+
+{
    Leak/g_type_class_ref1
    Memcheck:Leak
    fun:malloc
@@ -920,4 +928,14 @@
    fun:pixman_image_composite32
    fun:_inplace_spans
    fun:blit_a8
+}
+
+{
+   gio_source_leak
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:g_socket_create_source
+   ...
+   fun:g_simple_async_result_complete
 }
