@@ -1,3 +1,7 @@
+2016-05-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.29
+
 2016-04-29  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnm_style_context_get_color): Fix function

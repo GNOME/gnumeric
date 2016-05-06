@@ -721,11 +721,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>z</parameter> is not a valid complex number, #VALUE! is returned.</para>
-      </refsect1>
-      <refsect1>
-        <title>Microsoft Excel Compatibility</title>
-        <para>This function is Excel compatible.</para>
+        <para>If <parameter>z</parameter> is not a valid complex number, #VALUE! is returned. If <parameter>z</parameter> is 0, 0 is returned.  This is different from Excel which returns an error.</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-function-IMCONJUGATE">

@@ -181,8 +181,7 @@
 @SYNTAX=IMARGUMENT(z)
 @ARGUMENTDESCRIPTION=@{z}: a complex number
 @DESCRIPTION=The argument theta of a complex number is its angle in radians from the real axis.
-@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
-@EXCEL=This function is Excel compatible.
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned. If @{z} is 0, 0 is returned.  This is different from Excel which returns an error.
 
 @CATEGORY=Complex
 @FUNCTION=IMCONJUGATE
