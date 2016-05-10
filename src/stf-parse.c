@@ -1394,6 +1394,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	unsigned int row, colhigh = 0;
 	GStringChunk *lines_chunk;
 	GPtrArray *lines;
+	size_t nformats;
 
 	SETUP_LOCALE_SWITCH;
 
@@ -1408,6 +1409,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 		data_end = data + strlen (data);
 	lines_chunk = g_string_chunk_new (100 * 1024);
 	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end);
+	nformats = parseoptions->formats->len;
 	for (row = 0; row < lines->len; row++) {
 		GPtrArray *line = g_ptr_array_index (lines, row);
 		unsigned int col, targetcol = 0;
@@ -1421,7 +1423,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 					GnmValue *v;
 					GnmCellCopy *cc;
 
-					if (col < parseoptions->formats->len)
+					if (col < nformats)
 						fmt = g_ptr_array_index (parseoptions->formats, col);
 					v = format_match (text, fmt, date_conv);
 					if (!v)
