@@ -64,7 +64,7 @@ typedef struct {
 	/* Page members that are created at run-time */
 	GOLocaleSel	  *locale_selector;
 	RenderData_t      *renderdata;
-	GPtrArray         *formats; /* Contains GnmFormat* */
+	GPtrArray         *formats; /* Contains GOFormat* */
 	int                index;
 	gboolean           manual_change;
 	gboolean           sublist_select;

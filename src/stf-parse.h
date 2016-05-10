@@ -44,14 +44,12 @@ typedef struct {
 	/* Fixed width related */
 	GArray              *splitpositions;        /* Positions where text will be split vertically */
 
-	int                  rowcount;              /* Number of rows parsed */
-	int                  colcount;              /* Number of columns parsed */
         gboolean             *col_autofit_array;    /* 0/1 array indicating  */
 	                                            /* which col widths to autofit  */
         gboolean             *col_import_array;     /* 0/1 array indicating  */
 	                                            /* which cols to import  */
 	unsigned int         col_import_array_len;
-	GPtrArray            *formats       ;       /* Contains GnmFormat *s */
+	GPtrArray            *formats;              /* Contains GOFormat *s */
 	gboolean             cols_exceeded;         /* This is set to TRUE if */
 	                                            /* we tried to import more than */
 	                                            /* SHEET_MAX_COLS columns */

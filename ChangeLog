@@ -1,3 +1,8 @@
+2016-05-10  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.h (struct StfParseOptions_t): Remove unused struct
+	members.  Doc fix.
+
 2016-05-06  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
