@@ -159,7 +159,7 @@ stf_parse_options_new (void)
 	parseoptions->col_autofit_array = NULL;
 	parseoptions->col_import_array = NULL;
 	parseoptions->col_import_array_len = 0;
-	parseoptions->formats = NULL;
+	parseoptions->formats = g_ptr_array_new_with_free_func ((GDestroyNotify)go_format_unref);
 
 	parseoptions->cols_exceeded = FALSE;
 	parseoptions->rows_exceeded = FALSE;
@@ -199,15 +199,7 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 
 	stf_parse_options_clear_line_terminator (parseoptions);
 
-	if (parseoptions->formats) {
-		unsigned int ui;
-		GPtrArray *formats = parseoptions->formats;
-
-		for (ui = 0; ui < formats->len; ui++)
-			go_format_unref (g_ptr_array_index (formats, ui));
-		g_ptr_array_free (formats, TRUE);
-		parseoptions->formats = NULL;
-	}
+	g_ptr_array_free (parseoptions->formats, TRUE);
 
 	g_free (parseoptions);
 }
@@ -1504,6 +1496,7 @@ dump_guessed_options (const StfParseOptions_t *res)
 {
 	GSList *l;
 	char ubuffer[6 + 1];
+	unsigned ui;
 
 	g_printerr ("Guessed format:\n");
 	switch (res->parsetype) {
@@ -1538,6 +1531,11 @@ dump_guessed_options (const StfParseOptions_t *res)
 			g_printerr (" dos");
 	}
 	g_printerr ("\n");
+
+	for (ui = 0; ui < res->formats->len; ui++) {
+		GOFormat const *fmt = g_ptr_array_index (res->formats, ui);
+		g_printerr ("  fmt.%d = %s\n", ui, go_format_as_XL (fmt));
+	}
 }
 
 /**
@@ -1595,8 +1593,11 @@ stf_parse_options_guess (char const *data)
 		}
 	}
 
-	if (1) {
-		/* Separated */
+	// For now, always separated:
+	stf_parse_options_set_type (res, PARSE_TYPE_CSV);
+
+	switch (res->parsetype) {
+	case PARSE_TYPE_CSV: {
 		gboolean dups =
 			res->sep.chr &&
 			strchr (res->sep.chr, ' ') != NULL;
@@ -1604,19 +1605,26 @@ stf_parse_options_guess (char const *data)
 			res->sep.chr &&
 			strchr (res->sep.chr, ' ') != NULL;
 
-		stf_parse_options_set_type (res, PARSE_TYPE_CSV);
 		stf_parse_options_set_trim_spaces (res, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
 		stf_parse_options_csv_set_indicator_2x_is_single (res, TRUE);
 		stf_parse_options_csv_set_duplicates (res, dups);
 		stf_parse_options_csv_set_trim_seps (res, trim);
 
 		stf_parse_options_csv_set_stringindicator (res, '"');
-	} else {
-		/* Fixed-width */
+		break;
+	}
+
+	case PARSE_TYPE_FIXED:
+		break;
+
+	default:
+		g_assert_not_reached ();
 	}
 
 	stf_parse_general_free (lines);
 	g_string_chunk_free (lines_chunk);
+
+	stf_parse_options_guess_formats (res, data);
 
 	if (gnm_debug_flag ("stf"))
 		dump_guessed_options (res);
@@ -1710,8 +1718,24 @@ stf_parse_options_guess_csv (char const *data)
 	stf_parse_general_free (lines);
 	g_string_chunk_free (lines_chunk);
 
+	stf_parse_options_guess_formats (res, data);
+
 	if (gnm_debug_flag ("stf"))
 		dump_guessed_options (res);
 
 	return res;
+}
+
+
+/**
+ * stf_parse_options_guess_formats:
+ * @data: the CSV input data.
+ *
+ **/
+void
+stf_parse_options_guess_formats (StfParseOptions_t *po, char const *data)
+{
+
+	g_ptr_array_set_size (po->formats, 0);
+
 }

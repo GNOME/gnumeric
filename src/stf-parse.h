@@ -64,6 +64,8 @@ void                stf_parse_options_free                            (StfParseO
 
 StfParseOptions_t  *stf_parse_options_guess                           (char const *data);
 StfParseOptions_t  *stf_parse_options_guess_csv                       (char const *data);
+void                stf_parse_options_guess_formats                   (StfParseOptions_t *po,
+								       char const *data);
 
 /* MANIPULATION of stf options struct */
 

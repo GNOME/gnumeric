@@ -200,7 +200,6 @@ cb_format_clicked (GtkButton *widget, gpointer _i)
 	StfDialogData *pagedata =
 		g_object_get_data (G_OBJECT (widget), "pagedata");
 	gint result;
-	GOFormat *sf;
 	GtkWidget *dialog = gtk_dialog_new_with_buttons
 		(_("Format Selector"),
 		 GTK_WINDOW (pagedata->dialog),
@@ -211,34 +210,35 @@ cb_format_clicked (GtkButton *widget, gpointer _i)
 	GOFormatSel *format_selector
 		= GO_FORMAT_SEL (go_format_sel_new_full (TRUE));
 	GtkWidget *w = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-	GtkTreeViewColumn* column;
-	GtkWidget *format_label;
 
-	sf = g_ptr_array_index (pagedata->format.formats, i);
-	go_format_sel_set_style_format (format_selector, sf);
+	go_format_sel_set_style_format (format_selector, g_ptr_array_index (pagedata->format.formats, i));
 	go_format_sel_set_locale (format_selector, pagedata->locale);
 	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (format_selector),
 			    FALSE, TRUE, 5);
 	gtk_widget_show (GTK_WIDGET (format_selector));
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
-	switch (result)
-		{
-		case GTK_RESPONSE_ACCEPT:
-			column = stf_preview_get_column (pagedata->format.renderdata, i);
-			format_label = g_object_get_data (G_OBJECT (column),
-							  "formatlabel");
-			sf = g_ptr_array_index (pagedata->format.formats, i);
-			go_format_unref (sf);
+	switch (result) {
+	case GTK_RESPONSE_ACCEPT: {
+		GOFormat *sf;
+		GtkTreeViewColumn* column = stf_preview_get_column (pagedata->format.renderdata, i);
+		GtkWidget *format_label = g_object_get_data (G_OBJECT (column),
+							     "formatlabel");
 
-			sf = go_format_ref (go_format_sel_get_fmt (format_selector));
-			gtk_button_set_label (GTK_BUTTON (format_label),
-					      go_format_sel_format_classification (sf));
-			g_ptr_array_index (pagedata->format.formats, i) = sf;
-			format_page_update_preview (pagedata);
-		default:
-			break;
-		}
+		sf = g_ptr_array_index (pagedata->format.formats, i);
+		go_format_unref (sf);
+
+		sf = go_format_ref (go_format_sel_get_fmt (format_selector));
+		gtk_button_set_label (GTK_BUTTON (format_label),
+				      go_format_sel_format_classification (sf));
+		g_ptr_array_index (pagedata->format.formats, i) = sf;
+
+		format_page_update_preview (pagedata);
+		break;
+	}
+	default:
+		break;
+	}
 	gtk_widget_destroy (dialog);
 	return;
 }
@@ -346,22 +346,20 @@ cb_popup_menu_extend_format (GtkWidget *widget, gpointer data)
 {
 	StfDialogData *pagedata = data;
 	guint index = pagedata->format.index;
-	GOFormat *colformat = g_ptr_array_index
-		(pagedata->format.formats, pagedata->format.index);
+	GPtrArray *formats = pagedata->format.formats;
+	GOFormat *colformat = g_ptr_array_index (formats, pagedata->format.index);
 
-	for (index++; index < pagedata->format.formats->len; index++) {
-		GOFormat *sf = g_ptr_array_index
-			(pagedata->format.formats, index);
+	for (index++; index < formats->len; index++) {
+		GOFormat *sf = g_ptr_array_index (formats, index);
 		GtkTreeViewColumn* column =
 			stf_preview_get_column (pagedata->format.renderdata,
 						index);
 		GtkWidget *w = g_object_get_data (G_OBJECT (column),
 						  "formatlabel");
 		go_format_unref (sf);
-		g_ptr_array_index (pagedata->format.formats, index)
-			= go_format_ref (colformat);
+		g_ptr_array_index (formats, index) = go_format_ref (colformat);
 		gtk_button_set_label (GTK_BUTTON (w),
-				    go_format_sel_format_classification (colformat));
+				      go_format_sel_format_classification (colformat));
 	}
 
 	format_page_update_preview (data);
@@ -725,12 +723,8 @@ void
 stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 {
 	GPtrArray *formats = pagedata->format.formats;
-	if (formats) {
-		unsigned int ui;
-		for (ui = 0; ui < formats->len; ui++)
-			go_format_unref (g_ptr_array_index (formats, ui));
+	if (formats)
 		g_ptr_array_free (formats, TRUE);
-	}
 
 	stf_preview_free (pagedata->format.renderdata);
 	g_free (pagedata->format.col_import_array);
@@ -779,8 +773,8 @@ stf_dialog_format_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 	pagedata->format.renderdata =
 		stf_preview_new (pagedata->format.format_data_container,
 				 workbook_date_conv (wb_control_get_workbook (GNM_WBC (pagedata->wbcg))));
-	pagedata->format.formats          = g_ptr_array_new ();
-	pagedata->format.index         = -1;
+	pagedata->format.formats = g_ptr_array_new_with_free_func ((GDestroyNotify)go_format_unref);
+	pagedata->format.index = -1;
 	pagedata->format.manual_change = FALSE;
 
 	/* Update widgets before connecting signals, see #333407.  */

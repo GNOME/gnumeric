@@ -328,8 +328,12 @@ stf_dialog (WBCGtk *wbcg,
 		dialogresult->parseoptions->locale = pagedata.locale;
 		pagedata.locale = NULL;
 
-		dialogresult->parseoptions->formats = pagedata.format.formats;
-		pagedata.format.formats = NULL;
+		if (pagedata.format.formats) {
+			g_ptr_array_free (dialogresult->parseoptions->formats, TRUE);
+			dialogresult->parseoptions->formats = pagedata.format.formats;
+			pagedata.format.formats = NULL;
+		} else
+			g_ptr_array_set_size (dialogresult->parseoptions->formats, 0);
 		dialogresult->parseoptions->col_import_array
 			=  pagedata.format.col_import_array;
 		dialogresult->parseoptions->col_import_array_len

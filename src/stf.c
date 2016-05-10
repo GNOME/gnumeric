@@ -143,10 +143,6 @@ stf_apply_formats (StfParseOptions_t *parseoptions,
 	unsigned int ui;
 	GnmRange range;
 
-	/* If we didn't use the stf dialog, then formats will be NULL */
-	if (parseoptions->formats == NULL)
-		return;
-
 	range.start.col = col;
 	range.start.row = start_row;
 	range.end.col   = col;
