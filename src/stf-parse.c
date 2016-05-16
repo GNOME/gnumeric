@@ -43,6 +43,9 @@
 #include "number-match.h"
 #include "gutils.h"
 #include "parse-util.h"
+#include "number-match.h"
+#include "gnm-format.h"
+#include "ranges.h"
 #include <goffice/goffice.h>
 
 #include <stdlib.h>
@@ -124,6 +127,13 @@ compare_terminator (char const *s, StfParseOptions_t *parseoptions)
  * STF PARSE OPTIONS : StfParseOptions related
  *******************************************************************************************************/
 
+static void
+gnm_g_string_free (GString *s)
+{
+	if (s) g_string_free (s, TRUE);
+}
+
+
 /**
  * stf_parse_options_new:
  *
@@ -160,6 +170,9 @@ stf_parse_options_new (void)
 	parseoptions->col_import_array = NULL;
 	parseoptions->col_import_array_len = 0;
 	parseoptions->formats = g_ptr_array_new_with_free_func ((GDestroyNotify)go_format_unref);
+	parseoptions->formats_decimal = g_ptr_array_new_with_free_func ((GDestroyNotify)gnm_g_string_free);
+	parseoptions->formats_thousand = g_ptr_array_new_with_free_func ((GDestroyNotify)gnm_g_string_free);
+	parseoptions->formats_curr = g_ptr_array_new_with_free_func ((GDestroyNotify)gnm_g_string_free);
 
 	parseoptions->cols_exceeded = FALSE;
 	parseoptions->rows_exceeded = FALSE;
@@ -200,6 +213,9 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 	stf_parse_options_clear_line_terminator (parseoptions);
 
 	g_ptr_array_free (parseoptions->formats, TRUE);
+	g_ptr_array_free (parseoptions->formats_decimal, TRUE);
+	g_ptr_array_free (parseoptions->formats_thousand, TRUE);
+	g_ptr_array_free (parseoptions->formats_curr, TRUE);
 
 	g_free (parseoptions);
 }
@@ -1298,6 +1314,30 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	if (lines == NULL)
 		result = FALSE;
 
+	col = start_col;
+	for (lcol = 0; lcol < parseoptions->formats->len; lcol++) {
+		GOFormat const *fmt = g_ptr_array_index (parseoptions->formats, lcol);
+		GnmStyle *mstyle;
+		gboolean want_col =
+			(parseoptions->col_import_array == NULL ||
+			 parseoptions->col_import_array_len <= lcol ||
+			 parseoptions->col_import_array[lcol]);
+		if (!want_col || col >= gnm_sheet_get_max_cols (sheet))
+			continue;
+
+		if (fmt && !go_format_is_general (fmt)) {
+			GnmRange r;
+			int end_row = MIN (start_row + (int)lines->len - 1,
+					   gnm_sheet_get_last_row (sheet));
+
+			range_init (&r, col, start_row, col, end_row);
+			mstyle = gnm_style_new ();
+			gnm_style_set_format (mstyle, fmt);
+			sheet_apply_style (sheet, &r, mstyle);
+		}
+		col++;
+	}
+
 	START_LOCALE_SWITCH;
 	for (row = start_row, lrow = 0;
 	     result && lrow < lines->len;
@@ -1319,6 +1359,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 		line = g_ptr_array_index (lines, lrow);
 
 		for (lcol = 0; lcol < line->len; lcol++) {
+			char const *text = g_ptr_array_index (line, lcol);
 			gboolean want_col =
 				(parseoptions->col_import_array == NULL ||
 				 parseoptions->col_import_array_len <= lcol ||
@@ -1335,10 +1376,22 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 					parseoptions->cols_exceeded = TRUE;
 				}
 				break;
-			} else {
-				char const *text = g_ptr_array_index (line, lcol);
-				if (text && *text) {
-					GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+			}
+			if (text && *text) {
+				GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+				if (lcol < parseoptions->formats_decimal->len &&
+				    g_ptr_array_index (parseoptions->formats_decimal, lcol)) {
+					GOFormatFamily fam;
+					GnmValue *v = format_match_decimal_number_with_locale
+						(text, &fam,
+						 g_ptr_array_index (parseoptions->formats_curr, lcol),
+						 g_ptr_array_index (parseoptions->formats_thousand, lcol),
+						 g_ptr_array_index (parseoptions->formats_decimal, lcol));
+					if (!v)
+						v = value_new_string (text);
+					sheet_cell_set_value (cell, v);
+				} else {
+
 					stf_cell_set_text (cell, text);
 				}
 			}
@@ -1523,18 +1576,31 @@ dump_guessed_options (const StfParseOptions_t *res)
 	g_printerr ("  line terminators =");
 	for (l = res->terminator; l; l = l->next) {
 		const char *t = l->data;
-		if (strcmp (t, "\n"))
+		if (strcmp (t, "\n") == 0)
 			g_printerr (" unix");
-		else if (strcmp (t, "\r"))
+		else if (strcmp (t, "\r") == 0)
 			g_printerr (" mac");
-		else if (strcmp (t, "\r\n"))
+		else if (strcmp (t, "\r\n") == 0)
 			g_printerr (" dos");
+		else
+			g_printerr (" other");
 	}
 	g_printerr ("\n");
 
 	for (ui = 0; ui < res->formats->len; ui++) {
 		GOFormat const *fmt = g_ptr_array_index (res->formats, ui);
+		const GString *decimal = ui < res->formats_decimal->len
+			? g_ptr_array_index (res->formats_decimal, ui)
+			: NULL;
+		const GString *thousand = ui < res->formats_thousand->len
+			? g_ptr_array_index (res->formats_thousand, ui)
+			: NULL;
+
 		g_printerr ("  fmt.%d = %s\n", ui, go_format_as_XL (fmt));
+		if (decimal)
+			g_printerr ("  fmt.%d.dec = %s\n", ui, decimal->str);
+		if (thousand)
+			g_printerr ("  fmt.%d.thou = %s\n", ui, thousand->str);
 	}
 }
 
@@ -1726,16 +1792,251 @@ stf_parse_options_guess_csv (char const *data)
 	return res;
 }
 
+typedef enum {
+	STF_GUESS_DATE_DMY = 1,
+	STF_GUESS_DATE_MDY = 2,
+	STF_GUESS_DATE_YMD = 4,
+
+	STF_GUESS_NUMBER_DEC_POINT = 0x10,
+	STF_GUESS_NUMBER_DEC_COMMA = 0x20,
+	STF_GUESS_NUMBER_DEC_EITHER = 0x30,
+
+	STF_GUESS_ALL = 0x37
+} StfGuessFormats;
+
+static void
+do_check_date (const char *data, StfGuessFormats flag,
+	       gboolean mbd, gboolean ybm,
+	       unsigned *possible,
+	       GODateConventions const *date_conv)
+{
+	GnmValue *v;
+	gboolean this_mbd, this_ybm;
+	int imbd;
+
+	if (!(*possible & flag))
+		return;
+
+	v = format_match_datetime (data, date_conv, mbd, TRUE, FALSE);
+	if (!v || !VALUE_FMT (v))
+		goto fail;
+
+	imbd = go_format_month_before_day (VALUE_FMT (v));
+	this_mbd = (imbd >= 1);
+	this_ybm = (imbd == 2);
+	if (mbd != this_mbd || ybm != this_ybm)
+		goto fail;
+
+	goto done;
+
+fail:
+	*possible &= ~flag;
+done:
+	value_release (v);
+}
+
+
+static void
+do_check_number (const char *data, StfGuessFormats flag,
+		 const GString *dec, const GString *thousand, const GString *curr,
+		 unsigned *possible, int *decimals)
+{
+	GnmValue *v;
+	GOFormatFamily family;
+	const char *pthou;
+
+	v = format_match_decimal_number_with_locale (data, &family, curr, thousand, dec);
+	if (!v)
+		goto fail;
+
+	if (*decimals != -2) {
+		const char *pdec = strstr (data, dec->str);
+		int this_decimals = 0;
+		if (pdec) {
+			pdec += dec->len;
+			while (g_ascii_isdigit (*pdec)) {
+				pdec++;
+				this_decimals++;
+			}
+		}
+		if (*decimals == -1)
+			*decimals = this_decimals;
+		else if (*decimals != this_decimals)
+			*decimals = -2;
+	}
+
+	pthou = strstr (data, thousand->str);
+	if (pthou) {
+		const char *p;
+		int digits = 0;
+		for (p = data; p < pthou; p = g_utf8_next_char (p))
+			if (g_unichar_isdigit (g_utf8_get_char (p)))
+				digits++;
+		// "-.222" implies that "." is not a thousands separator.
+		// "12345,555" implies that "," is not a thousands separator.
+		if (digits == 0 || digits > 3)
+			goto fail;
+	}
+
+	goto done;
+
+fail:
+	*possible &= ~flag;
+done:
+	value_release (v);
+}
+
 
 /**
  * stf_parse_options_guess_formats:
  * @data: the CSV input data.
  *
+ * This function attempts to recognize data formats on a column-by-column
+ * basis under the assumption that the data in a text file will generally
+ * use the same data formats.
+ *
+ * This is useful because not all values give sufficient information by
+ * themselves to tell what format the data is in.  For example, "1/2/2000"
+ * is likely to be a date in year 2000, but it is not clear if it is in
+ * January or February.  If another value in the same column is "31/1/1999"
+ * then it is likely that the former date was in February.
+ *
+ * Likewise, a value of "123,456" could mean either 1.23456e5 or 1.23456e2.
+ * A later value of "111,200.22" would clear up the confusion.
+ *
  **/
 void
 stf_parse_options_guess_formats (StfParseOptions_t *po, char const *data)
 {
+	GStringChunk *lines_chunk;
+	GPtrArray *lines;
+	unsigned lno, col, colcount, sline;
+	GODateConventions const *date_conv = go_date_conv_from_str ("Lotus:1900");
+	GString *s_comma = g_string_new (",");
+	GString *s_dot = g_string_new (".");
+	GString *s_dollar = g_string_new ("$");
+	gboolean debug = gnm_debug_flag ("stf");
 
 	g_ptr_array_set_size (po->formats, 0);
+	g_ptr_array_set_size (po->formats_decimal, 0);
+	g_ptr_array_set_size (po->formats_thousand, 0);
+	g_ptr_array_set_size (po->formats_curr, 0);
 
+	lines_chunk = g_string_chunk_new (100 * 1024);
+	lines = stf_parse_general (po, lines_chunk, data, data + strlen (data));
+
+	colcount = 0;
+	for (lno = 0; lno < lines->len; lno++) {
+		GPtrArray *line = g_ptr_array_index (lines, lno);
+		colcount = MAX (colcount, line->len);
+	}
+
+	// Ignore first line unless it is the only one
+	sline = MIN ((int)lines->len - 1, 1);
+
+	g_ptr_array_set_size (po->formats, colcount);
+	g_ptr_array_set_size (po->formats_decimal, colcount);
+	g_ptr_array_set_size (po->formats_thousand, colcount);
+	g_ptr_array_set_size (po->formats_curr, colcount);
+	for (col = 0; col < colcount; col++) {
+		unsigned possible = STF_GUESS_ALL;
+		GOFormat *fmt = NULL;
+		gboolean seen_dot = FALSE;
+		gboolean seen_comma = FALSE;
+		int decimals = -1; // -1: unset; -2: inconsistent; >=0: count
+
+		for (lno = sline; possible && lno < lines->len; lno++) {
+			GPtrArray *line = g_ptr_array_index (lines, lno);
+			const char *data = g_ptr_array_index (line, col);
+			unsigned prev_possible = possible;
+
+			if (*data == 0 || data[0] == '\'')
+				continue;
+
+			do_check_date (data, STF_GUESS_DATE_DMY, FALSE, FALSE, &possible, date_conv);
+			do_check_date (data, STF_GUESS_DATE_MDY, TRUE, FALSE, &possible, date_conv);
+			do_check_date (data, STF_GUESS_DATE_YMD, TRUE, TRUE, &possible, date_conv);
+
+			if ((possible & STF_GUESS_NUMBER_DEC_EITHER) == STF_GUESS_NUMBER_DEC_EITHER) {
+				const char *pdot = strstr (data, s_dot->str);
+				const char *pcomma = strstr (data, s_comma->str);
+				if (pdot && pcomma) {
+					// Both -- last one is the decimal separator
+					if (pdot > pcomma)
+						possible &= ~STF_GUESS_NUMBER_DEC_COMMA;
+					else
+						possible &= ~STF_GUESS_NUMBER_DEC_POINT;
+				} else if (pdot && strstr (pdot + s_dot->len, s_dot->str)) {
+					// Two dots so they are thousands separators
+					possible &= ~STF_GUESS_NUMBER_DEC_POINT;
+				} else if (pcomma && strstr (pcomma + s_comma->len, s_comma->str)) {
+					// Two commas so they are thousands separators
+					possible &= ~STF_GUESS_NUMBER_DEC_COMMA;
+				}
+
+				seen_dot = seen_dot || (pdot != 0);
+				seen_comma = seen_comma || (pcomma != 0);
+			}
+			do_check_number (data, STF_GUESS_NUMBER_DEC_POINT, s_dot, s_comma, s_dollar, &possible, &decimals);
+			do_check_number (data, STF_GUESS_NUMBER_DEC_COMMA, s_comma, s_dot, s_dollar, &possible, &decimals);
+
+			if (possible != prev_possible && debug)
+				g_printerr ("col=%d; after [%s] possible=0x%x\n", col, data, possible);
+		}
+
+		if ((possible & STF_GUESS_NUMBER_DEC_EITHER) == STF_GUESS_NUMBER_DEC_EITHER &&
+		    !seen_dot && !seen_comma) {
+			// It doesn't matter what the separators are
+			possible &= ~STF_GUESS_NUMBER_DEC_COMMA;
+		}
+
+		switch (possible) {
+		case STF_GUESS_DATE_DMY:
+			fmt = go_format_new_from_XL ("d-mmm-yyyy");
+			break;
+		case STF_GUESS_DATE_MDY:
+			fmt = go_format_new_from_XL ("m/d/yyyy");
+			break;
+		case STF_GUESS_DATE_YMD:
+			fmt = go_format_new_from_XL ("yyyy-mm-dd");
+			break;
+		case STF_GUESS_NUMBER_DEC_POINT:
+			g_ptr_array_index (po->formats_decimal, col) = g_string_new (".");
+			g_ptr_array_index (po->formats_thousand, col) = g_string_new (",");
+			g_ptr_array_index (po->formats_curr, col) = g_string_new (s_dollar->str);
+			if (decimals > 0) {
+				// Don't set format if decimals is zero
+				GString *fmt_str = g_string_new (NULL);
+				go_format_generate_number_str (fmt_str, 1, decimals, seen_comma, FALSE, FALSE, "", "");
+				fmt = go_format_new_from_XL (fmt_str->str);
+				g_string_free (fmt_str, TRUE);
+			}
+			break;
+		case STF_GUESS_NUMBER_DEC_COMMA:
+			g_ptr_array_index (po->formats_decimal, col) = g_string_new (",");
+			g_ptr_array_index (po->formats_thousand, col) = g_string_new (".");
+			g_ptr_array_index (po->formats_curr, col) = g_string_new (s_dollar->str);
+			if (decimals > 0) {
+				// Don't set format if decimals is zero
+				GString *fmt_str = g_string_new (NULL);
+				go_format_generate_number_str (fmt_str, 1, decimals, seen_dot, FALSE, FALSE, "", "");
+				fmt = go_format_new_from_XL (fmt_str->str);
+				g_string_free (fmt_str, TRUE);
+			}
+			break;
+		default:
+			break;
+		}
+
+		if (!fmt)
+			fmt = go_format_ref (go_format_general ());
+		g_ptr_array_index (po->formats, col) = fmt;
+	}
+
+	stf_parse_general_free (lines);
+	g_string_chunk_free (lines_chunk);
+
+	g_string_free (s_dot, TRUE);
+	g_string_free (s_comma, TRUE);
+	g_string_free (s_dollar, TRUE);
 }

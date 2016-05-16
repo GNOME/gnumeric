@@ -136,40 +136,10 @@ stf_preparse (GOIOContext *context, GsfInput *input, size_t *data_len)
 	return data;
 }
 
-static void
-stf_apply_formats (StfParseOptions_t *parseoptions,
-		   Sheet *sheet, int col, int start_row, int end_row)
-{
-	unsigned int ui;
-	GnmRange range;
-
-	range.start.col = col;
-	range.start.row = start_row;
-	range.end.col   = col;
-	range.end.row   = end_row;
-
-	for (ui = 0; ui < parseoptions->formats->len; ui++) {
-		if (parseoptions->col_import_array == NULL ||
-		    parseoptions->col_import_array_len <= ui ||
-		    parseoptions->col_import_array[ui]) {
-			GnmStyle *style = gnm_style_new ();
-			GOFormat *sf = g_ptr_array_index
-				(parseoptions->formats, ui);
-			gnm_style_set_format (style, sf);
-			sheet_style_apply_range (sheet, &range, style);
-			range.start.col++;
-			range.end.col++;
-		}
-	}
-}
-
 static gboolean
 stf_store_results (DialogStfResult_t *dialogresult,
 		   Sheet *sheet, int start_col, int start_row)
 {
-	stf_apply_formats (dialogresult->parseoptions,
-			   sheet, start_col, start_row,
-			   start_row + dialogresult->rowcount - 1);
 	return stf_parse_sheet (dialogresult->parseoptions,
 				dialogresult->text, NULL, sheet,
 				start_col, start_row);

@@ -602,9 +602,11 @@ format_page_update_preview (StfDialogData *pagedata)
 				*check_autofit = gtk_check_button_new_with_label (_("Auto fit"));
 			char * label_text = g_strdup_printf
 				(pagedata->format.col_header, i+1);
-			GOFormat const *gf = go_format_general ();
+			GOFormat const *fmt = i < (int)pagedata->parseoptions->formats->len
+				? g_ptr_array_index (pagedata->parseoptions->formats, i)
+				: go_format_general ();
 			GtkWidget *format_label = gtk_button_new_with_label
-				(go_format_sel_format_classification (gf));
+				(go_format_sel_format_classification (fmt));
 			GtkWidget *format_icon
 				= gtk_image_new_from_stock (GTK_STOCK_INFO, GTK_ICON_SIZE_BUTTON);
 
@@ -702,17 +704,22 @@ void
 stf_dialog_format_page_prepare (StfDialogData *data)
 {
 	GOFormat *general = go_format_general ();
+	GPtrArray *formats = data->parseoptions->formats;
 
 	/* Set the trim.  */
 	format_page_trim_menu_changed (NULL, data);
 
 	/* If necessary add new items (non-visual) */
-	while ((int)data->format.formats->len < data->format.renderdata->colcount)
-		g_ptr_array_add (data->format.formats, go_format_ref (general));
+	while ((int)data->format.formats->len < data->format.renderdata->colcount) {
+		GOFormat const *fmt =
+			data->format.formats->len < formats->len
+			? g_ptr_array_index (formats, data->format.formats->len)
+			: general;
+		g_ptr_array_add (data->format.formats, go_format_ref (fmt));
+	}
 
 	data->format.manual_change = TRUE;
 	activate_column (data, 0);
-
 }
 
 /*************************************************************************************************

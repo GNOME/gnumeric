@@ -16,6 +16,12 @@ GnmValue   *format_match_decimal_number_with_locale
 				 GString const *curr, GString const *thousand,
 				 GString const *decimal);
 
+GnmValue *format_match_datetime (char const *text,
+				 GODateConventions const *date_conv,
+				 gboolean month_before_day,
+				 gboolean add_format,
+				 gboolean presume_date);
+
 G_END_DECLS
 
 #endif /* _GNM_NUMBER_MATCH_H_ */

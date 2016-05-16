@@ -49,7 +49,12 @@ typedef struct {
         gboolean             *col_import_array;     /* 0/1 array indicating  */
 	                                            /* which cols to import  */
 	unsigned int         col_import_array_len;
+
 	GPtrArray            *formats;              /* Contains GOFormat *s */
+	GPtrArray            *formats_decimal;      /* Contains GString *s */
+	GPtrArray            *formats_thousand;     /* Contains GString *s */
+	GPtrArray            *formats_curr;         /* Contains GString *s */
+
 	gboolean             cols_exceeded;         /* This is set to TRUE if */
 	                                            /* we tried to import more than */
 	                                            /* SHEET_MAX_COLS columns */

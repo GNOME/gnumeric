@@ -637,7 +637,7 @@ valid_dmy (int d, int m, int y)
 }
 
 
-static GnmValue *
+GnmValue *
 format_match_datetime (char const *text,
 		       GODateConventions const *date_conv,
 		       gboolean month_before_day,

@@ -1,5 +1,8 @@
 Gnumeric 1.12.30
 
+Morten:
+	* Improve format guessing for csv and txt files.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.29
 
