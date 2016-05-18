@@ -64,6 +64,9 @@ TESTS =	t1000-statfuns.pl			\
 	t5903-sylk.pl				\
 	t5904-mps.pl				\
 	t5905-guppi.pl				\
+	t5910-csv-date-dmy.pl			\
+	t5911-csv-date-mdy.pl			\
+	t5912-csv-date-ymd.pl			\
 	t6000-statfuns.pl			\
 	t6001-mathfuns.pl			\
 	t6002-objs.pl				\
