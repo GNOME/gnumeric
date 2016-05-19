@@ -10,6 +10,7 @@ $| = 1;
 @GnumericTest::ISA = qw (Exporter);
 @GnumericTest::EXPORT = qw(test_sheet_calc test_valgrind
                            test_importer test_exporter test_roundtrip
+                           test_csv_format_guessing
 			   test_ssindex sstest test_command message subtest
 			   $ssconvert $sstest $ssdiff $topsrc $top_builddir
 			   $subtests $samples corpus $PERL);
@@ -497,6 +498,43 @@ sub test_exporter {
 
 # -----------------------------------------------------------------------------
 
+sub test_csv_format_guessing {
+    my (%args) = @_;
+    my $data = $args{'data'};
+
+    my $keep = 0;
+
+    my $datafn = "test-data.csv";
+    &junkfile ($datafn) unless $keep;
+    &write_file ($datafn, $data);
+
+    my $outfn = "test-data.gnumeric";
+    &junkfile ($outfn) unless $keep;
+
+    local $ENV{'GNM_DEBUG'} = 'stf';
+    my $cmd = &quotearg ($ssconvert, $datafn, $outfn);
+    print STDERR "# $cmd\n" if $verbose;
+    my $out = `$cmd 2>&1`;
+
+    if ($out !~ m/^\s*fmt\.0\s*=\s*(\S+)\s*$/m) {
+	die "Failed to guess any format\n";
+    }
+    my $guessed = $1;
+
+    local $_ = $guessed;
+    if (!&{$args{'format'}} ($_)) {
+	foreach (split ("\n", $data)) {
+	    print "| $_\n";
+	}
+	die "Guessed wrong format: $guessed\n";
+    }
+
+    &removejunk ($outfn) unless $keep;
+    &removejunk ($datafn) unless $keep;
+}
+
+# -----------------------------------------------------------------------------
+
 # The BIFF formats leave us with a msole:codepage property
 my $drop_codepage_filter =
     "$PERL -p -e '\$_ = \"\" if m{<meta:user-defined meta:name=.msole:codepage.}'";
@@ -750,6 +788,7 @@ sub test_ssindex {
     if (&$test ($_)) {
 	print STDERR "Pass\n";
     } else {
+      FAIL:
 	die "Fail\n";
     }
 }

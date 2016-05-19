@@ -9,7 +9,8 @@
 # 2xxx: Internal sstest
 #
 # 5xxx: Importers
-# 59xx:   Minor formats
+# 5800:   csv
+# 59xx:   Minor formats with import-db
 #
 # 6xxx: Exporters
 # 69xx:   Minor formats
@@ -58,15 +59,13 @@ TESTS =	t1000-statfuns.pl			\
 	t2003-random-generators.pl		\
 	t2004-insdel-colrow.pl			\
 	t2800-style-optimizer.pl		\
+	t5800-csv-date.pl			\
 	t5900-sc.pl				\
 	t5901-qpro.pl				\
 	t5902-applix.pl				\
 	t5903-sylk.pl				\
 	t5904-mps.pl				\
 	t5905-guppi.pl				\
-	t5910-csv-date-dmy.pl			\
-	t5911-csv-date-mdy.pl			\
-	t5912-csv-date-ymd.pl			\
 	t6000-statfuns.pl			\
 	t6001-mathfuns.pl			\
 	t6002-objs.pl				\
@@ -160,7 +159,7 @@ TESTS =	t1000-statfuns.pl			\
 SUPPS = common.supp gui.supp t8003-valgrind-pdf.supp
 
 import-db:
-	for t in $(srcdir)/t5[0-9][0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
+	for t in $(srcdir)/t59[0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
 
 
 EXTRA_DIST = GnumericTest.pm $(SUPPS) normalize-gnumeric ods-ext-schema.patch $(TESTS)
