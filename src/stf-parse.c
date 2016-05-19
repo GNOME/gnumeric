@@ -1845,6 +1845,9 @@ do_check_number (const char *data, StfGuessFormats flag,
 	GOFormatFamily family;
 	const char *pthou;
 
+	if (!(*possible & flag))
+		return;
+
 	v = format_match_decimal_number_with_locale (data, &family, curr, thousand, dec);
 	if (!v)
 		goto fail;
@@ -1868,13 +1871,18 @@ do_check_number (const char *data, StfGuessFormats flag,
 	pthou = strstr (data, thousand->str);
 	if (pthou) {
 		const char *p;
-		int digits = 0;
-		for (p = data; p < pthou; p = g_utf8_next_char (p))
-			if (g_unichar_isdigit (g_utf8_get_char (p)))
+		int digits = 0, nonzero_digits = 0;
+		for (p = data; p < pthou; p = g_utf8_next_char (p)) {
+			if (g_unichar_isdigit (g_utf8_get_char (p))) {
 				digits++;
+				if (*p != '0')
+					nonzero_digits++;
+			}
+		}
 		// "-.222" implies that "." is not a thousands separator.
+		// "0.222" implies that "." is not a thousands separator.
 		// "12345,555" implies that "," is not a thousands separator.
-		if (digits == 0 || digits > 3)
+		if (nonzero_digits == 0 || digits > 3)
 			goto fail;
 	}
 
@@ -1943,7 +1951,8 @@ stf_parse_options_guess_formats (StfParseOptions_t *po, char const *data)
 		GOFormat *fmt = NULL;
 		gboolean seen_dot = FALSE;
 		gboolean seen_comma = FALSE;
-		int decimals = -1; // -1: unset; -2: inconsistent; >=0: count
+		int decimals_if_point = -1; // -1: unset; -2: inconsistent; >=0: count
+		int decimals_if_comma = -1; // -1: unset; -2: inconsistent; >=0: count
 
 		for (lno = sline; possible && lno < lines->len; lno++) {
 			GPtrArray *line = g_ptr_array_index (lines, lno);
@@ -1977,8 +1986,12 @@ stf_parse_options_guess_formats (StfParseOptions_t *po, char const *data)
 				seen_dot = seen_dot || (pdot != 0);
 				seen_comma = seen_comma || (pcomma != 0);
 			}
-			do_check_number (data, STF_GUESS_NUMBER_DEC_POINT, s_dot, s_comma, s_dollar, &possible, &decimals);
-			do_check_number (data, STF_GUESS_NUMBER_DEC_COMMA, s_comma, s_dot, s_dollar, &possible, &decimals);
+			do_check_number (data, STF_GUESS_NUMBER_DEC_POINT,
+					 s_dot, s_comma, s_dollar,
+					 &possible, &decimals_if_point);
+			do_check_number (data, STF_GUESS_NUMBER_DEC_COMMA,
+					 s_comma, s_dot, s_dollar,
+					 &possible, &decimals_if_comma);
 
 			if (possible != prev_possible && debug)
 				g_printerr ("col=%d; after [%s] possible=0x%x\n", col, data, possible);
@@ -2004,10 +2017,10 @@ stf_parse_options_guess_formats (StfParseOptions_t *po, char const *data)
 			g_ptr_array_index (po->formats_decimal, col) = g_string_new (".");
 			g_ptr_array_index (po->formats_thousand, col) = g_string_new (",");
 			g_ptr_array_index (po->formats_curr, col) = g_string_new (s_dollar->str);
-			if (decimals > 0) {
+			if (decimals_if_point > 0) {
 				// Don't set format if decimals is zero
 				GString *fmt_str = g_string_new (NULL);
-				go_format_generate_number_str (fmt_str, 1, decimals, seen_comma, FALSE, FALSE, "", "");
+				go_format_generate_number_str (fmt_str, 1, decimals_if_point, seen_comma, FALSE, FALSE, "", "");
 				fmt = go_format_new_from_XL (fmt_str->str);
 				g_string_free (fmt_str, TRUE);
 			}
@@ -2016,10 +2029,10 @@ stf_parse_options_guess_formats (StfParseOptions_t *po, char const *data)
 			g_ptr_array_index (po->formats_decimal, col) = g_string_new (",");
 			g_ptr_array_index (po->formats_thousand, col) = g_string_new (".");
 			g_ptr_array_index (po->formats_curr, col) = g_string_new (s_dollar->str);
-			if (decimals > 0) {
+			if (decimals_if_comma > 0) {
 				// Don't set format if decimals is zero
 				GString *fmt_str = g_string_new (NULL);
-				go_format_generate_number_str (fmt_str, 1, decimals, seen_dot, FALSE, FALSE, "", "");
+				go_format_generate_number_str (fmt_str, 1, decimals_if_comma, seen_dot, FALSE, FALSE, "", "");
 				fmt = go_format_new_from_XL (fmt_str->str);
 				g_string_free (fmt_str, TRUE);
 			}
