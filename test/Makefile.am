@@ -60,6 +60,7 @@ TESTS =	t1000-statfuns.pl			\
 	t2004-insdel-colrow.pl			\
 	t2800-style-optimizer.pl		\
 	t5800-csv-date.pl			\
+	t5801-csv-number.pl			\
 	t5900-sc.pl				\
 	t5901-qpro.pl				\
 	t5902-applix.pl				\

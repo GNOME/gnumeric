@@ -521,12 +521,43 @@ sub test_csv_format_guessing {
     }
     my $guessed = $1;
 
-    local $_ = $guessed;
-    if (!&{$args{'format'}} ($_)) {
+    my $ok;
+    {
+	local $_ = $guessed;
+	$ok = &{$args{'format'}} ($_);
+    }
+
+    if ($verbose || !$ok) {
+	print STDERR "Data:\n";
 	foreach (split ("\n", $data)) {
-	    print "| $_\n";
+	    print STDERR "| $_\n";
 	}
-	die "Guessed wrong format: $guessed\n";
+	print STDERR "Result:\n";
+	foreach (split ("\n", $out)) {
+	    print STDERR "| $_\n";
+	}
+    }
+
+    die "Guessed wrong format: $guessed\n" unless $ok;
+
+    if (exists $args{'decimal'}) {
+	if ($out !~ m/^\s*fmt\.0\.dec\s*=\s*(\S+)\s*$/m) {
+	    die "Failed to guess any decimal separator\n";
+	}
+	my $guessed = $1;
+	my $ok = ($1 eq $args{'decimal'});
+
+	die "Guessed wrong decimal separator: $guessed\n" unless $ok;
+    }
+
+    if (exists $args{'thousand'}) {
+	if ($out !~ m/^\s*fmt\.0\.thou\s*=\s*(\S+)\s*$/m) {
+	    die "Failed to guess any thousands separator\n";
+	}
+	my $guessed = $1;
+	my $ok = ($1 eq $args{'thousand'});
+
+	die "Guessed wrong thousands separator: $guessed\n" unless $ok;
     }
 
     &removejunk ($outfn) unless $keep;
