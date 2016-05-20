@@ -15,10 +15,38 @@ use GnumericTest;
 DATA
 
 &test_csv_format_guessing
+    (data => <<DATA, format => sub { return $_ eq '0.00'; }, decimal => ',' );
+"Values"
+"123,45"
+"1,45"
+DATA
+
+&test_csv_format_guessing
     (data => <<DATA, format => sub { return $_ eq 'General'; }, decimal => '.' );
 "Values"
 "123.456"
 "1.45"
+DATA
+
+&test_csv_format_guessing
+    (data => <<DATA, format => sub { return $_ eq 'General'; }, decimal => ',' );
+"Values"
+"123,456"
+"1,45"
+DATA
+
+&test_csv_format_guessing
+    (data => <<DATA, format => sub { return $_ eq 'General'; }, decimal => '.', thousand => ',' );
+"Values"
+"123,456"
+"1.45"
+DATA
+
+&test_csv_format_guessing
+    (data => <<DATA, format => sub { return $_ eq 'General'; }, decimal => ',', thousand => '.' );
+"Values"
+"123.456"
+"1,45"
 DATA
 
 &test_csv_format_guessing
