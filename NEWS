@@ -2,6 +2,7 @@ Gnumeric 1.12.30
 
 Morten:
 	* Improve format guessing for csv and txt files.
+	* Fix DCOUNT and DCOUNTA with missing field.  [#767290]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.29

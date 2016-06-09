@@ -102,19 +102,23 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 	int    row, first_row, last_row;
 	gboolean add_flag;
 	GnmCell *cell;
+	int fake_col;
 
 	cells = NULL;
 	/* TODO : Why ignore the first row ?  What if there is no header ? */
 	first_row = database->v_range.cell.a.row + 1;
 	last_row  = database->v_range.cell.b.row;
+	fake_col = database->v_range.cell.a.col;
 
 	for (row = first_row; row <= last_row; row++) {
-		cell = sheet_cell_get (sheet, col, row);
+		cell = (col == -1)
+			? sheet_cell_fetch (sheet, fake_col, row)
+			: sheet_cell_get (sheet, col, row);
 
 		if (cell != NULL)
 			gnm_cell_eval (cell);
 
-		if (gnm_cell_is_empty (cell))
+		if (col != -1 && gnm_cell_is_empty (cell))
 			continue;
 
 		add_flag = TRUE;
@@ -161,14 +165,17 @@ database_find_values (Sheet *sheet, GnmValue const *database,
 	GnmValue **res2 = NULL;
 	void *res;
 
-	if (flags & ~(COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_BLANKS)) {
+	if (flags & ~(COLLECT_IGNORE_STRINGS |
+		      COLLECT_IGNORE_BOOLS |
+		      COLLECT_IGNORE_BLANKS |
+		      COLLECT_IGNORE_ERRORS)) {
 		g_warning ("unsupported flags in database_find_values %x", flags);
 	}
 
 	/* FIXME: expand and sanitise this call later.  */
 	cells = find_cells_that_match (sheet, database, col, criterias);
-
 	cellcount = g_slist_length (cells);
+
 	/* Allocate memory -- one extra to make sure we don't get NULL.  */
 	if (floats)
 		res = res1 = g_new (gnm_float, cellcount + 1);
@@ -183,6 +190,8 @@ database_find_values (Sheet *sheet, GnmValue const *database,
 		if ((flags & COLLECT_IGNORE_BOOLS) && VALUE_IS_BOOLEAN (value))
 			continue;
 		if ((flags & COLLECT_IGNORE_BLANKS) && VALUE_IS_EMPTY (value))
+			continue;
+		if ((flags & COLLECT_IGNORE_ERRORS) && VALUE_IS_ERROR (value))
 			continue;
 		if (floats)
 			res1[count++] = value_get_as_float (value);
@@ -270,7 +279,8 @@ database_value_range_function (GnmFuncEvalInfo *ei,
 			       value_range_function_t func,
 			       CollectFlags flags,
 			       GnmStdError zero_count_error,
-			       GnmStdError func_error)
+			       GnmStdError func_error,
+			       gboolean allow_missing_field)
 {
 	int fieldno;
 	GSList *criterias = NULL;
@@ -285,9 +295,14 @@ database_value_range_function (GnmFuncEvalInfo *ei,
 	    !VALUE_IS_CELLRANGE (database))
 		return value_new_error_NUM (ei->pos);
 
-	fieldno = find_column_of_field (ei->pos, database, field);
-	if (fieldno < 0)
-		return value_new_error_NUM (ei->pos);
+	if (allow_missing_field && VALUE_IS_EMPTY (field)) {
+		flags = 0;
+		fieldno = -1;
+	} else {
+		fieldno = find_column_of_field (ei->pos, database, field);
+		if (fieldno < 0)
+			return value_new_error_NUM (ei->pos);
+	}
 
 	criterias = parse_database_criteria (ei->pos, database, criteria);
 	if (criterias == NULL)
@@ -374,20 +389,29 @@ static GnmFuncHelp const help_dcount[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
+static int
+range_count (G_GNUC_UNUSED GnmValue **xs, int n, GnmValue **res)
+{
+	*res = value_new_int (n);
+	return 0;
+}
+
 
 static GnmValue *
 gnumeric_dcount (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return database_float_range_function (ei,
+	return database_value_range_function (ei,
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      gnm_range_count,
+					      range_count,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
-					      COLLECT_IGNORE_BLANKS,
+					      COLLECT_IGNORE_BLANKS |
+					      COLLECT_IGNORE_ERRORS,
 					      GNM_ERROR_UNKNOWN,
-					      GNM_ERROR_NUM);
+					      GNM_ERROR_NUM,
+					      TRUE);
 }
 
 /***************************************************************************/
@@ -412,14 +436,15 @@ static GnmFuncHelp const help_dcounta[] = {
 static GnmValue *
 gnumeric_dcounta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return database_float_range_function (ei,
+	return database_value_range_function (ei,
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      gnm_range_count,
+					      range_count,
 					      COLLECT_IGNORE_BLANKS,
 					      GNM_ERROR_UNKNOWN,
-					      GNM_ERROR_NUM);
+					      GNM_ERROR_NUM,
+					      TRUE);
 }
 
 /***************************************************************************/
@@ -462,7 +487,8 @@ gnumeric_dget (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      range_first,
 					      COLLECT_IGNORE_BLANKS,
 					      GNM_ERROR_VALUE,
-					      GNM_ERROR_NUM);
+					      GNM_ERROR_NUM,
+					      FALSE);
 }
 
 static GnmFuncHelp const help_dmax[] = {

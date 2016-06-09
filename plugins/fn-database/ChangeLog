@@ -1,3 +1,14 @@
+2016-06-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (database_find_values): Accept also
+	COLLECT_IGNORE_ERRORS.
+	(gnumeric_dcount): Use database_value_range_function; ignore
+	errors.
+	(gnumeric_dcounta): Use database_value_range_function.
+	(database_value_range_function): Add flag to control whether a
+	missing field is allowed.  Clear all flags in that case.
+	(find_cells_that_match): Handle missing field.  Poorly.
+
 2016-05-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.29
