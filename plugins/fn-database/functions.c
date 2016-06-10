@@ -172,6 +172,8 @@ database_find_values (Sheet *sheet, GnmValue const *database,
 		g_warning ("unsupported flags in database_find_values %x", flags);
 	}
 
+	*error = NULL;
+
 	/* FIXME: expand and sanitise this call later.  */
 	cells = find_cells_that_match (sheet, database, col, criterias);
 	cellcount = g_slist_length (cells);
@@ -193,15 +195,22 @@ database_find_values (Sheet *sheet, GnmValue const *database,
 			continue;
 		if ((flags & COLLECT_IGNORE_ERRORS) && VALUE_IS_ERROR (value))
 			continue;
-		if (floats)
+		if (floats) {
+			if (VALUE_IS_ERROR (value)) {
+				// We're strict.
+				*error = value_dup (value);
+				g_free (res);
+				res = NULL;
+				break;
+			}
 			res1[count++] = value_get_as_float (value);
-		else
+		} else {
 			res2[count++] = value;
+		}
 	}
 
 	*pcount = count;
 	g_slist_free (cells);
-	*error = NULL;
 	return res;
 }
 
