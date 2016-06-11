@@ -1563,7 +1563,7 @@ criteria_test_unequal (GnmValue const *x, GnmCriteria *crit)
 		g_assert_not_reached ();
 	case CRIT_NULL:
 	case CRIT_WRONGTYPE:
-		return FALSE;
+		return TRUE;
 	case CRIT_FLOAT:
 		return xf != yf;
 	case CRIT_STRING:
@@ -1645,6 +1645,10 @@ static gboolean
 criteria_test_match (GnmValue const *x, GnmCriteria *crit)
 {
 	if (!crit->has_rx)
+		return FALSE;
+
+	// Only strings are matched
+	if (!VALUE_IS_STRING (x))
 		return FALSE;
 
 	return go_regexec (&crit->rx, value_peek_string (x), 0, NULL, 0) ==
@@ -1828,7 +1832,7 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 		len = 1;
 	} else {
 		res->fun = criteria_test_match;
-		res->has_rx = (gnm_regcomp_XL (&res->rx, criteria, GO_REG_ICASE, TRUE, TRUE) == GO_REG_OK);
+		res->has_rx = (gnm_regcomp_XL (&res->rx, criteria, GO_REG_ICASE, FALSE, FALSE) == GO_REG_OK);
 		len = 0;
 	}
 

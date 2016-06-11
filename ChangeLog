@@ -1,6 +1,11 @@
 2016-06-11  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (find_rows_that_match): Fix blank handling.
+	(criteria_test_unequal): Wrong type means unequal.
+	(criteria_test_match): Only match strings.
+	(parse_criteria): Don't anchor matches.  This is the right thing
+	to do for DSUM and friends.  Hopefully this doesn't break anything
+	else.
 
 2016-05-19  Morten Welinder  <terra@gnome.org>
 
