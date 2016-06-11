@@ -103,6 +103,7 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 	gboolean add_flag;
 	GnmCell *cell;
 	int fake_col;
+	GnmValue const *empty = value_new_empty ();
 
 	cells = NULL;
 	/* TODO : Why ignore the first row ?  What if there is no header ? */
@@ -134,8 +135,7 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 					cond->column, row);
 				if (tmp != NULL)
 					gnm_cell_eval (tmp);
-				if (gnm_cell_is_empty (tmp) ||
-				    !cond->fun (tmp->value, cond)) {
+				if (!cond->fun (tmp ? tmp->value : empty, cond)) {
 					add_flag = FALSE;
 					break;
 				}

@@ -1958,6 +1958,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 	gboolean   add_flag;
 	char const *t1, *t2;
 	GnmCell   *test_cell;
+	GnmValue const *empty = value_new_empty ();
 
 	for (row = first_row; row <= last_row; row++) {
 		add_flag = TRUE;
@@ -1970,8 +1971,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				test_cell = sheet_cell_get (sheet, cond->column, row);
 				if (test_cell != NULL)
 					gnm_cell_eval (test_cell);
-				if (gnm_cell_is_empty (test_cell) ||
-				    !cond->fun (test_cell->value, cond)) {
+				if (!cond->fun (test_cell ? test_cell->value : empty, cond)) {
 					add_flag = FALSE;
 					break;
 				}

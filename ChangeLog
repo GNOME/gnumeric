@@ -1,3 +1,7 @@
+2016-06-11  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (find_rows_that_match): Fix blank handling.
+
 2016-05-19  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_guess_formats): Separate
