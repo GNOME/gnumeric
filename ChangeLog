@@ -6,6 +6,11 @@
 	(parse_criteria): Don't anchor matches.  This is the right thing
 	to do for DSUM and friends.  Hopefully this doesn't break anything
 	else.
+	(criteria_inspect_values): Strings are incompatible with
+	non-strings.
+	(criteria_test_less, criteria_test_less_or_equal)
+	(criteria_test_greater, criteria_test_greater_or_equal): handle
+	strings.
 
 2016-05-19  Morten Welinder  <terra@gnome.org>
 

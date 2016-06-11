@@ -1501,7 +1501,11 @@ criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
 		return CRIT_FLOAT;
 
 	case VALUE_EMPTY:
+		return CRIT_WRONGTYPE;
+
 	case VALUE_STRING:
+		if (!VALUE_IS_STRING (x))
+			return CRIT_WRONGTYPE;
 		return CRIT_STRING;
 
 	default:
@@ -1577,14 +1581,17 @@ static gboolean
 criteria_test_less (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
+	GnmValue const *y = crit->x;
 
 	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
 	case CRIT_WRONGTYPE:
-	case CRIT_STRING:
 		return FALSE;
+	case CRIT_STRING:
+		return g_utf8_collate (value_peek_string (x),
+				       value_peek_string (y)) < 0;
 	case CRIT_FLOAT:
 		return xf < yf;
 	}
@@ -1594,14 +1601,17 @@ static gboolean
 criteria_test_greater (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
+	GnmValue const *y = crit->x;
 
 	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
 	case CRIT_WRONGTYPE:
-	case CRIT_STRING:
 		return FALSE;
+	case CRIT_STRING:
+		return g_utf8_collate (value_peek_string (x),
+				       value_peek_string (y)) > 0;
 	case CRIT_FLOAT:
 		return xf > yf;
 	}
@@ -1611,14 +1621,17 @@ static gboolean
 criteria_test_less_or_equal (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
+	GnmValue const *y = crit->x;
 
 	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
 	case CRIT_WRONGTYPE:
-	case CRIT_STRING:
 		return FALSE;
+	case CRIT_STRING:
+		return g_utf8_collate (value_peek_string (x),
+				       value_peek_string (y)) <= 0;
 	case CRIT_FLOAT:
 		return xf <= yf;
 	}
@@ -1628,14 +1641,17 @@ static gboolean
 criteria_test_greater_or_equal (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
+	GnmValue const *y = crit->x;
 
 	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
 	case CRIT_WRONGTYPE:
-	case CRIT_STRING:
 		return FALSE;
+	case CRIT_STRING:
+		return g_utf8_collate (value_peek_string (x),
+				       value_peek_string (y)) >= 0;
 	case CRIT_FLOAT:
 		return xf >= yf;
 	}
