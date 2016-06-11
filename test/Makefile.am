@@ -43,6 +43,7 @@ TESTS =	t1000-statfuns.pl			\
 	t1013-crlibm.pl				\
 	t1014-gsl.pl				\
 	t1015-complex.pl			\
+	t1016-database.pl			\
 	t1100-chitest.pl			\
 	t1101-ftest.pl				\
 	t1102-ttest.pl				\
