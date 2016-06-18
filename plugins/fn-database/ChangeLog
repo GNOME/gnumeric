@@ -1,3 +1,7 @@
+2016-06-17  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.30
+
 2016-06-11  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (find_cells_that_match): Fix blank handling.
