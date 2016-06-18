@@ -1848,7 +1848,7 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 		len = 1;
 	} else {
 		res->fun = criteria_test_match;
-		res->has_rx = (gnm_regcomp_XL (&res->rx, criteria, GO_REG_ICASE, FALSE, FALSE) == GO_REG_OK);
+		res->has_rx = (gnm_regcomp_XL (&res->rx, criteria, GO_REG_ICASE, TRUE, FALSE) == GO_REG_OK);
 		len = 0;
 	}
 
