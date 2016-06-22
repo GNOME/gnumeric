@@ -1590,8 +1590,8 @@ criteria_test_less (GnmValue const *x, GnmCriteria *crit)
 	case CRIT_WRONGTYPE:
 		return FALSE;
 	case CRIT_STRING:
-		return g_utf8_collate (value_peek_string (x),
-				       value_peek_string (y)) < 0;
+		return go_utf8_collate_casefold (value_peek_string (x),
+						 value_peek_string (y)) < 0;
 	case CRIT_FLOAT:
 		return xf < yf;
 	}
@@ -1610,8 +1610,8 @@ criteria_test_greater (GnmValue const *x, GnmCriteria *crit)
 	case CRIT_WRONGTYPE:
 		return FALSE;
 	case CRIT_STRING:
-		return g_utf8_collate (value_peek_string (x),
-				       value_peek_string (y)) > 0;
+		return go_utf8_collate_casefold (value_peek_string (x),
+						 value_peek_string (y)) > 0;
 	case CRIT_FLOAT:
 		return xf > yf;
 	}
@@ -1630,8 +1630,8 @@ criteria_test_less_or_equal (GnmValue const *x, GnmCriteria *crit)
 	case CRIT_WRONGTYPE:
 		return FALSE;
 	case CRIT_STRING:
-		return g_utf8_collate (value_peek_string (x),
-				       value_peek_string (y)) <= 0;
+		return go_utf8_collate_casefold (value_peek_string (x),
+						 value_peek_string (y)) <= 0;
 	case CRIT_FLOAT:
 		return xf <= yf;
 	}
@@ -1650,8 +1650,8 @@ criteria_test_greater_or_equal (GnmValue const *x, GnmCriteria *crit)
 	case CRIT_WRONGTYPE:
 		return FALSE;
 	case CRIT_STRING:
-		return g_utf8_collate (value_peek_string (x),
-				       value_peek_string (y)) >= 0;
+		return go_utf8_collate_casefold (value_peek_string (x),
+						 value_peek_string (y)) >= 0;
 	case CRIT_FLOAT:
 		return xf >= yf;
 	}
@@ -1809,7 +1809,8 @@ free_criterias (GSList *criterias)
  * "pattern"
  **/
 GnmCriteria *
-parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
+parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv,
+		gboolean anchor_end)
 {
 	int len;
 	char const *criteria;
@@ -1848,7 +1849,7 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 		len = 1;
 	} else {
 		res->fun = criteria_test_match;
-		res->has_rx = (gnm_regcomp_XL (&res->rx, criteria, GO_REG_ICASE, TRUE, FALSE) == GO_REG_OK);
+		res->has_rx = (gnm_regcomp_XL (&res->rx, criteria, GO_REG_ICASE, TRUE, anchor_end) == GO_REG_OK);
 		len = 0;
 	}
 
@@ -1870,7 +1871,7 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 
 static GSList *
 parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
-		      int   *field_ind)
+		      int   *field_ind, gboolean anchor_end)
 {
 	GSList *criterias = NULL;
 	GODateConventions const *date_conv =
@@ -1889,7 +1890,8 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 			if (gnm_cell_is_empty (cell))
 				continue;
 
-			cond = parse_criteria (cell->value, date_conv);
+			cond = parse_criteria (cell->value, date_conv,
+					       anchor_end);
 			cond->column = (field_ind != NULL)
 				? field_ind[j - b_col]
 				: j - b_col;
@@ -1951,7 +1953,8 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
 	}
 
 	return parse_criteria_range (sheet, b_col, b_row + 1,
-				     e_col, e_row, field_ind);
+				     e_col, e_row, field_ind,
+				     FALSE);
 }
 
 /**

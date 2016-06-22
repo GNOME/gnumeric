@@ -552,7 +552,7 @@ gnumeric_countif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	        return value_new_error_VALUE (ei->pos);
 
 	res.count = 0;
-	res.crit = parse_criteria (argv[1], date_conv);
+	res.crit = parse_criteria (argv[1], date_conv, TRUE);
 	problem = sheet_foreach_cell_in_range
 		(sheet, res.crit->iter_flags,
 		 r->cell.a.col, r->cell.a.row, r->cell.b.col, r->cell.b.row,
@@ -670,7 +670,7 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	res.sum = 0;
 	res.count = 0;
-	res.crit = parse_criteria (argv[1], date_conv);
+	res.crit = parse_criteria (argv[1], date_conv, TRUE);
 	problem = sheet_foreach_cell_in_range
 		(start_sheet, res.crit->iter_flags,
 		 rs.start.col, rs.start.row, rs.end.col, rs.end.row,
@@ -735,7 +735,7 @@ gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	res.sum = 0.;
 	res.count = 0;
-	res.crit = parse_criteria (argv[1], date_conv);
+	res.crit = parse_criteria (argv[1], date_conv, TRUE);
 	problem = sheet_foreach_cell_in_range
 		(start_sheet, res.crit->iter_flags,
 		 rs.start.col, rs.start.row, rs.end.col, rs.end.row,

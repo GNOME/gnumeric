@@ -1,3 +1,11 @@
+2016-06-21  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (criteria_test_greater_or_equal): Use case-folding
+	comparisons for strings.
+	(parse_criteria, parse_criteria_range): Add argument controlling
+	whether to anchor matching at end of string.
+	(parse_database_criteria): Don't anchor here.
+
 2016-06-17  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

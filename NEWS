@@ -1,5 +1,10 @@
 Gnumeric 1.12.31
 
+Morten:
+	* Fix case issues for database functions.
+	* Anchor COUNTIF criteria at end too.
+	* Add tests for COUNTIF.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.30
 
