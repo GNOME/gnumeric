@@ -1,3 +1,7 @@
+2016-06-24  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (theme_dtd): Ignore miter specs.
+
 2016-06-17  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.30
