@@ -71,12 +71,12 @@
     <key name="n-rows" type="i">
       <default>65536</default>
       <_summary>Default Number of rows in a sheet</_summary>
-      <_description>The number of rows in each sheet. This setting will be used only in a new gnumeric session.</_description>
+      <_description>The number of rows in each sheet. This setting will be used only in a new Gnumeric session.</_description>
     </key>
     <key name="n-cols" type="i">
       <default>256</default>
       <_summary>Default Number of columns in a sheet</_summary>
-      <_description>The number of columns in each sheet. This setting will be used only in a new gnumeric session.</_description>
+      <_description>The number of columns in each sheet. This setting will be used only in a new Gnumeric session.</_description>
     </key>
     <key name="autosave-time" type="i">
       <default>0</default>
@@ -175,7 +175,7 @@
     <key name="recalclag" type="i">
       <default>200</default>
       <_summary>Auto Expression Recalculation Lag</_summary>
-      <_description>If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to accumulate more changes before each recalculation. If `lag' is positive, then whenever a change appears, gnumeric waits `lag' milliseconds and then recalculates; if more changes appear during that period, they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of |lag| milliseconds.</_description>
+      <_description>If `lag' is 0, Gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow Gnumeric to accumulate more changes before each recalculation. If `lag' is positive, then whenever a change appears, Gnumeric waits `lag' milliseconds and then recalculates; if more changes appear during that period, they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of |lag| milliseconds.</_description>
     </key>
     <key name="transitionkeys" type="b">
       <default>false</default>
@@ -219,7 +219,7 @@
     <key name="def-overwrite" type="b">
       <default>false</default>
       <_summary>Default To Overwriting Files</_summary>
-      <_description>Before an existing file is being overwritten, gnumeric will present a warning dialog. Setting this option will make the overwrite button in that dialog the default button.</_description>
+      <_description>Before an existing file is being overwritten, Gnumeric will present a warning dialog. Setting this option will make the overwrite button in that dialog the default button.</_description>
     </key>
     <key name="extension-check-disabled" type="as">
       <default>[]</default>
