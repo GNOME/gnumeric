@@ -1956,7 +1956,7 @@ stf_parse_options_guess_formats (StfParseOptions_t *po, char const *data)
 
 		for (lno = sline; possible && lno < lines->len; lno++) {
 			GPtrArray *line = g_ptr_array_index (lines, lno);
-			const char *data = g_ptr_array_index (line, col);
+			const char *data = col < line->len ? g_ptr_array_index (line, col) : "";
 			unsigned prev_possible = possible;
 
 			if (*data == 0 || data[0] == '\'')
