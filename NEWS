@@ -4,6 +4,7 @@ Morten:
 	* Fix case issues for database functions.
 	* Anchor COUNTIF criteria at end too.
 	* Add tests for COUNTIF.
+	* Fix inter-process paste crash.  [#768164]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.30

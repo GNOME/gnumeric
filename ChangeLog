@@ -1,3 +1,8 @@
+2016-06-29  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (std_expr_name_handler): Fix workbook confusion
+	related to sheet-local names.  [#768164]
+
 2016-06-28  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_guess_formats): Handle lines

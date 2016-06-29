@@ -1271,8 +1271,11 @@ std_expr_name_handler (GnmConventionsOut *out, GnmExprName const *name)
 	}
 
 	if (name->optional_scope != NULL) {
-		if (name->optional_scope->workbook != out->pp->wb) {
-			char *rel_uri = wb_rel_uri (name->optional_wb_scope, out->pp->wb);
+		Workbook *out_wb = out->pp->wb
+			? out->pp->wb
+			: out->pp->sheet->workbook;
+		if (name->optional_scope->workbook != out_wb) {
+			char *rel_uri = wb_rel_uri (name->optional_scope->workbook, out_wb);
 			g_string_append_c (target, '[');
 			g_string_append (target, rel_uri);
 			g_string_append_c (target, ']');
