@@ -1,3 +1,7 @@
+2016-06-29  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.31
+
 2016-06-21  Morten Welinder  <terra@gnome.org>
 
 	* t1017-countif.pl: New test.

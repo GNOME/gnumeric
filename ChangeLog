@@ -1,3 +1,7 @@
+2016-06-29  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.31
+
 2016-06-29  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (std_expr_name_handler): Fix workbook confusion
