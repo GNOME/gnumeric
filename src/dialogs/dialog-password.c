@@ -57,7 +57,7 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 	entry = g_object_new (GTK_TYPE_ENTRY,
 			      "visibility", FALSE,
 			      "width-request", 1, NULL);
-	gtk_box_pack_start (GTK_BOX (pwb), gtk_label_new (_("Password :")),
+	gtk_box_pack_start (GTK_BOX (pwb), gtk_label_new (_("Password:")),
 			    FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (pwb), entry, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vb), pwb, FALSE, FALSE, 0);
