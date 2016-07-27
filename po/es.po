@@ -14,14 +14,15 @@
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Nicolás Satragno <nsatragno@gnome.org>, 2012.
 # Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012, 2013, 2014.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-23 20:22-0500\n"
-"PO-Revision-Date: 2015-12-01 15:00+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gnumeric&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2016-07-21 20:19+0000\n"
+"PO-Revision-Date: 2016-07-27 13:09+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -104,8 +105,8 @@ msgstr "Importa hojas de cálculo de la versión 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7197
-#: ../plugins/openoffice/openoffice-read.c:13605 ../src/xml-sax-read.c:3466
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7222
+#: ../plugins/openoffice/openoffice-read.c:13635 ../src/xml-sax-read.c:3473
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -215,46 +216,46 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Contenido no válido del elemento «ss:data», se recibió «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:13769 ../src/xml-sax-read.c:3483
+#: ../plugins/openoffice/openoffice-read.c:13799 ../src/xml-sax-read.c:3490
 msgid "XML document not well formed!"
 msgstr "El documento XML no está bien formado."
 
-#: ../plugins/excel/ms-excel-read.c:1374 ../src/value.c:67
+#: ../plugins/excel/ms-excel-read.c:1384 ../src/value.c:67
 msgid "#UNKNOWN!"
 msgstr "#DESCONOCIDO"
 
-#: ../plugins/excel/ms-excel-read.c:1474 ../plugins/excel/ms-excel-read.c:1485
+#: ../plugins/excel/ms-excel-read.c:1484 ../plugins/excel/ms-excel-read.c:1495
 #: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:544
 #, c-format
 msgid "Sheet%d"
 msgstr "Hoja%d"
 
-#: ../plugins/excel/ms-excel-read.c:1489
+#: ../plugins/excel/ms-excel-read.c:1499
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1493
+#: ../plugins/excel/ms-excel-read.c:1503
 #, c-format
 msgid "Chart%d"
 msgstr "Cuadro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1496
+#: ../plugins/excel/ms-excel-read.c:1506
 #, c-format
 msgid "Module%d"
 msgstr "Módulo%d"
 
-#: ../plugins/excel/ms-excel-read.c:3676
+#: ../plugins/excel/ms-excel-read.c:3700
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Falló al analizar el nombre «%s»"
 
-#: ../plugins/excel/ms-excel-read.c:3837
+#: ../plugins/excel/ms-excel-read.c:3861
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Expresión incorrecta para el nombre «%s»: el contenido se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3842
+#: ../plugins/excel/ms-excel-read.c:3866
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -263,7 +264,7 @@ msgstr ""
 "Los enlaces DDE aún no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3846
+#: ../plugins/excel/ms-excel-read.c:3870
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -272,50 +273,50 @@ msgstr ""
 "Los enlaces OLE aún no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6322
+#: ../plugins/excel/ms-excel-read.c:6347
 msgid "external references"
 msgstr "referencias externas"
 
-#: ../plugins/excel/ms-excel-read.c:6361
+#: ../plugins/excel/ms-excel-read.c:6386
 msgid "No password supplied"
 msgstr "No se introdujo ninguna contraseña"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6119 ../src/print-info.c:670
+#: ../plugins/openoffice/openoffice-read.c:6139 ../src/print-info.c:670
 msgid "TAB"
 msgstr "PESTAÑA"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6165 ../src/print-info.c:671
+#: ../plugins/openoffice/openoffice-read.c:6185 ../src/print-info.c:671
 msgid "PAGE"
 msgstr "PÁGINA"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6172 ../src/print-info.c:672
+#: ../plugins/openoffice/openoffice-read.c:6192 ../src/print-info.c:672
 msgid "PAGES"
 msgstr "PÁGINAS"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6151 ../src/print-info.c:673
+#: ../plugins/openoffice/openoffice-read.c:6171 ../src/print-info.c:673
 msgid "DATE"
 msgstr "FECHA"
 
 #: ../plugins/excel/ms-excel-util.c:703
-#: ../plugins/openoffice/openoffice-read.c:6158 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:6178 ../src/print-info.c:674
 msgid "TIME"
 msgstr "HORA"
 
 #: ../plugins/excel/ms-excel-util.c:704
-#: ../plugins/openoffice/openoffice-read.c:6199
-#: ../plugins/openoffice/openoffice-read.c:6206 ../src/main-application.c:80
+#: ../plugins/openoffice/openoffice-read.c:6219
+#: ../plugins/openoffice/openoffice-read.c:6226 ../src/main-application.c:80
 #: ../src/main-application.c:86 ../src/main-application.c:92
 #: ../src/main-application.c:98 ../src/print-info.c:675 ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "ARCHIVO"
 
 #: ../plugins/excel/ms-excel-util.c:705
-#: ../plugins/openoffice/openoffice-read.c:6197
-#: ../plugins/openoffice/openoffice-read.c:6202 ../src/print-info.c:676
+#: ../plugins/openoffice/openoffice-read.c:6217
+#: ../plugins/openoffice/openoffice-read.c:6222 ../src/print-info.c:676
 msgid "PATH"
 msgstr "RUTA"
 
@@ -325,7 +326,7 @@ msgstr "CELDA"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:708
-#: ../plugins/openoffice/openoffice-read.c:6250 ../src/print-info.c:678
+#: ../plugins/openoffice/openoffice-read.c:6270 ../src/print-info.c:678
 msgid "TITLE"
 msgstr "TÍTULO"
 
@@ -444,21 +445,21 @@ msgstr "Leyendo propiedades extendidas..."
 msgid "Reading custom properties..."
 msgstr "Leyendo propiedades personalizadas..."
 
-#: ../plugins/excel/xlsx-read-drawing.c:356
+#: ../plugins/excel/xlsx-read-drawing.c:359
 #, c-format
 msgid "Invalid number '%s' for node %s"
 msgstr "Número «%s» no válido para el nodo %s"
 
-#: ../plugins/excel/xlsx-read-drawing.c:471
+#: ../plugins/excel/xlsx-read-drawing.c:474
 #, c-format
 msgid "Unknown color '%s'"
 msgstr "Color «%s» desconocido"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3151
+#: ../plugins/excel/xlsx-read-drawing.c:3161
 msgid "Dropping missing object"
 msgstr "Soltando objeto faltante"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3154
+#: ../plugins/excel/xlsx-read-drawing.c:3164
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Soltando objeto con ancla incompleta %2x"
@@ -502,9 +503,9 @@ msgid "Unsigned integer '%s' is out of range, for attribute %s"
 msgstr "El entero «%s» está fuera de rango, para el atributo %s"
 
 #: ../plugins/excel/xlsx-read.c:530
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid unsigned integer '%s' for attribute %s"
-msgstr "Entero «%s» no válido para el atributo %s"
+msgstr "Entero sin signo «%s» no válido para el atributo %s"
 
 #: ../plugins/excel/xlsx-read.c:586
 #, c-format
@@ -642,23 +643,23 @@ msgstr "Leyendo la hoja «%s»..."
 msgid "Reading comments..."
 msgstr "Leyendo comentarios…"
 
-#: ../plugins/excel/xlsx-read.c:5139
+#: ../plugins/excel/xlsx-read.c:5143
 msgid "Reading shared strings..."
 msgstr "Leyendo cadenas compartidas…"
 
-#: ../plugins/excel/xlsx-read.c:5148
+#: ../plugins/excel/xlsx-read.c:5152
 msgid "Reading theme..."
 msgstr "Leyendo tema…"
 
-#: ../plugins/excel/xlsx-read.c:5157
+#: ../plugins/excel/xlsx-read.c:5161
 msgid "Reading styles..."
 msgstr "Leyendo estilos…"
 
-#: ../plugins/excel/xlsx-read.c:5162
+#: ../plugins/excel/xlsx-read.c:5166
 msgid "Reading workbook..."
 msgstr "Leyendo libro de trabajo…"
 
-#: ../plugins/excel/xlsx-read.c:5172
+#: ../plugins/excel/xlsx-read.c:5176
 msgid "No workbook stream found."
 msgstr "No se ha encontrado ningún flujo de libro de trabajo."
 
@@ -730,11 +731,11 @@ msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
 msgstr "El módulo «%s» no contiene (el símbolo «register_actual_excel4v»)."
 
 #: ../plugins/excelplugins/excelplugins.c:992
-#, fuzzy, c-format
+#, c-format
 msgid "No loadable worksheet functions found in XLL/DLL/SO file %s."
 msgstr ""
-"No se encontró ninguna función de hoja de trabajo cargable en el archivo XLL/"
-"DLL/SO %s."
+"No se encontró ninguna función de hoja de trabajo que se pueda cargar en el "
+"archivo XLL/DLL/SO %s."
 
 #. xgettext : %lu gives the number of functions. This is input to ngettext.
 #: ../plugins/excelplugins/excelplugins.c:996
@@ -1131,26 +1132,32 @@ msgstr ""
 msgid "Data Bases..."
 msgstr "Base de datos..."
 
-#: ../plugins/glpk/glpk-write.c:143 ../plugins/lpsolve/lpsolve-write.c:145
+#: ../plugins/glpk/glpk-write.c:145 ../plugins/lpsolve/lpsolve-write.c:145
 #, c-format
 msgid "Only linear programs are handled."
 msgstr ""
 
-#: ../plugins/glpk/glpk-write.c:329
+#: ../plugins/glpk/glpk-write.c:356
 msgid "Writing glpk file..."
 msgstr "Escribiendo archivo glpk…"
 
-#: ../plugins/glpk/gnm-glpk.c:54
+#: ../plugins/glpk/gnm-glpk.c:60
 #, c-format
 msgid "The GLPK exporter is not available."
 msgstr "El exportador GLPK no está disponible."
 
-#: ../plugins/glpk/gnm-glpk.c:231
+#: ../plugins/glpk/gnm-glpk.c:371
 #, c-format
 msgid "Failed to create file for solution"
 msgstr "Falló al crear el archivo para la solución"
 
-#: ../plugins/glpk/gnm-glpk.c:285 ../plugins/lpsolve/gnm-lpsolve.c:282
+#: ../plugins/glpk/gnm-glpk.c:380
+#, fuzzy, c-format
+#| msgid "Failed to create file for solution"
+msgid "Failed to create file for sensitivity report"
+msgstr "Falló al crear el archivo para la solución"
+
+#: ../plugins/glpk/gnm-glpk.c:438 ../plugins/lpsolve/gnm-lpsolve.c:427
 #, c-format
 msgid ""
 "The %s program was not found.  You can either install it or use another "
@@ -1281,12 +1288,12 @@ msgstr "Importar archivos Lotus 123"
 msgid "Lotus 123 (*.wk1, *.wks, *.123)"
 msgstr "Lotus 123 (*.wk1, *.wks *.123)"
 
-#: ../plugins/lpsolve/gnm-lpsolve.c:50
+#: ../plugins/lpsolve/gnm-lpsolve.c:58
 #, c-format
 msgid "The LPSolve exporter is not available."
 msgstr "El exportador LPSolve no está disponible."
 
-#: ../plugins/lpsolve/lpsolve-write.c:314
+#: ../plugins/lpsolve/lpsolve-write.c:330
 msgid "Writing lpsolve file..."
 msgstr "Escribiendo archivo lpsolve…"
 
@@ -1357,23 +1364,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Nombre de columna no válido, %s, en la sección rhs/rangos"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:592
+#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1785
 msgid "Constraint"
 msgstr "Restricción"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1510
-#: ../src/tools/gnm-solver.c:1555 ../src/tools/gnm-solver.c:1599
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1561
+#: ../src/tools/gnm-solver.c:1606 ../src/tools/gnm-solver.c:1650
 msgid "Value"
 msgstr "Valor"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1511
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1562
 msgid "Type"
 msgstr "Tipo"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1600
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1651
 msgid "Limit"
 msgstr "Límite"
 
@@ -1496,7 +1503,7 @@ msgid "Unable to open '%s'."
 msgstr "No se pudo abrir «%s»."
 
 #: ../plugins/openoffice/openoffice-read.c:1131
-#: ../plugins/openoffice/openoffice-read.c:8427
+#: ../plugins/openoffice/openoffice-read.c:8453
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "No se pudo cargar el archivo «%s»."
@@ -1543,8 +1550,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "La expresión «%s» no empieza con un carácter reconocido"
 
 #: ../plugins/openoffice/openoffice-read.c:2385
-#: ../plugins/openoffice/openoffice-write.c:5182
-#: ../plugins/openoffice/openoffice-write.c:5194 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-write.c:5210
+#: ../plugins/openoffice/openoffice-write.c:5222 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "celda"
 
@@ -1586,7 +1593,7 @@ msgid "Content past the maximum number of rows (%i) supported."
 msgstr "El contenido excedió el número máximo de filas soportadas (%i)."
 
 #: ../plugins/openoffice/openoffice-read.c:3847
-#: ../plugins/openoffice/openoffice-read.c:6233
+#: ../plugins/openoffice/openoffice-read.c:6253
 msgid "Missing expression"
 msgstr "Falta la expresión"
 
@@ -1657,33 +1664,33 @@ msgid "Duplicate default chart/graphics style encountered."
 msgstr "Se encontró un estilo de cuadro/gráficos predeterminado duplicado."
 
 # ¿Será mejor "sin nombre" o "desconocido"?
-#: ../plugins/openoffice/openoffice-read.c:5221
+#: ../plugins/openoffice/openoffice-read.c:5241
 msgid "Unnamed date style ignored."
 msgstr "Se ignoró un estilo de fecha sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:5609
+#: ../plugins/openoffice/openoffice-read.c:5629
 #, c-format
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr "Archivo corrupto: condición de formato de número no válido [%s]."
 
-#: ../plugins/openoffice/openoffice-read.c:5627
+#: ../plugins/openoffice/openoffice-read.c:5647
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Archivo corrupto: se ignoró un estilo de número sin nombre. "
 
-#: ../plugins/openoffice/openoffice-read.c:5649
+#: ../plugins/openoffice/openoffice-read.c:5669
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Este archivo parece corrupto, faltan los formatos requeridos."
 
-#: ../plugins/openoffice/openoffice-read.c:5718
+#: ../plugins/openoffice/openoffice-read.c:5738
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Papel del archivo ODF: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:5930
+#: ../plugins/openoffice/openoffice-read.c:5950
 msgid "Missing page layout identifier"
 msgstr "Falta el identificador del diseño de página"
 
-#: ../plugins/openoffice/openoffice-read.c:5957
+#: ../plugins/openoffice/openoffice-read.c:5977
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
@@ -1692,35 +1699,35 @@ msgstr ""
 "estilo se ignora."
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:5982
+#: ../plugins/openoffice/openoffice-read.c:6002
 msgid "Master page style without page layout encountered!"
 msgstr "Se encontró un estilo de página maestra sin disposición de página."
 
-#: ../plugins/openoffice/openoffice-read.c:5988
+#: ../plugins/openoffice/openoffice-read.c:6008
 msgid "Master page style without name encountered!"
 msgstr "Se encontró un estilo de página maestra sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:6281
+#: ../plugins/openoffice/openoffice-read.c:6301
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Se encontró un estilo de borde de Gnumeric «%s» desconocido."
 
-#: ../plugins/openoffice/openoffice-read.c:6620
+#: ../plugins/openoffice/openoffice-read.c:6640
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Tipo de salto «%s» desconocido, el predeterminado es NINGUNO"
 
-#: ../plugins/openoffice/openoffice-read.c:6705
+#: ../plugins/openoffice/openoffice-read.c:6725
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "No se puede analizar el color «%s» de la pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:6716
+#: ../plugins/openoffice/openoffice-read.c:6736
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "No se puede analizar el color «%s» del texto de la pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:7237
+#: ../plugins/openoffice/openoffice-read.c:7257
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1729,36 +1736,36 @@ msgstr ""
 "Se encontró un tipo de interpolación desconocido: «%s», en su lugar se usará "
 "una spline cúbica de Bezier."
 
-#: ../plugins/openoffice/openoffice-read.c:7246
+#: ../plugins/openoffice/openoffice-read.c:7266
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Se encontró un tipo de interpolación desconocido: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7745
+#: ../plugins/openoffice/openoffice-read.c:7771
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 
-#: ../plugins/openoffice/openoffice-read.c:7761
+#: ../plugins/openoffice/openoffice-read.c:7787
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "La expresión «%s» tiene un espacio de nombres desconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:7824
+#: ../plugins/openoffice/openoffice-read.c:7850
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Rango de BD «%s» no válido"
 
-#: ../plugins/openoffice/openoffice-read.c:7858
+#: ../plugins/openoffice/openoffice-read.c:7884
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr "Gnumeric no soporta condiciones de autofiltro «o» -ed."
 
-#: ../plugins/openoffice/openoffice-read.c:8055
+#: ../plugins/openoffice/openoffice-read.c:8081
 #, c-format
 msgid "Moving sheet object from column %i and row %i"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8120
+#: ../plugins/openoffice/openoffice-read.c:8146
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1767,14 +1774,14 @@ msgstr ""
 "Las líneas de objetos de la hoja de Gnumeric no soportan texto adjunto. El "
 "texto «%s» se ha soltado."
 
-#: ../plugins/openoffice/openoffice-read.c:8154
-#: ../plugins/openoffice/openoffice-read.c:8193
+#: ../plugins/openoffice/openoffice-read.c:8180
+#: ../plugins/openoffice/openoffice-read.c:8219
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr ""
 "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:8159
+#: ../plugins/openoffice/openoffice-read.c:8185
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1783,19 +1790,19 @@ msgstr ""
 "Tipo de valor «%s» no válido anunciado por el atributo «form:value» en el "
 "elemento «form:value-range»."
 
-#: ../plugins/openoffice/openoffice-read.c:8612
+#: ../plugins/openoffice/openoffice-read.c:8638
 msgid "Unable to determine manual position for a chart component!"
 msgstr ""
 "No se puede determinar la posición del manual para un componente del cuadro."
 
-#: ../plugins/openoffice/openoffice-read.c:8874
+#: ../plugins/openoffice/openoffice-read.c:8900
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 "No hay datos suficientes en el rango proporcionado (%s) para todas las "
 "solicitudes"
 
-#: ../plugins/openoffice/openoffice-read.c:9547
+#: ../plugins/openoffice/openoffice-read.c:9573
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1803,53 +1810,53 @@ msgstr ""
 "Gnumeric no soporta ecuaciones con regresión no-automática. En su lugar, se "
 "usará una ecuación automática."
 
-#: ../plugins/openoffice/openoffice-read.c:9566
+#: ../plugins/openoffice/openoffice-read.c:9592
 #, c-format
 msgid "The chart style \"%s\" is not defined!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9734
+#: ../plugins/openoffice/openoffice-read.c:9760
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Se encontraron líneas de caída en un argumento que no los soporta."
 
-#: ../plugins/openoffice/openoffice-read.c:9862
+#: ../plugins/openoffice/openoffice-read.c:9888
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 "Se encontró un tipo de gráfico desconocido, intentando crear una dibujo de "
 "líneas."
 
-#: ../plugins/openoffice/openoffice-read.c:9917
-#: ../plugins/openoffice/openoffice-read.c:9958
-#: ../plugins/openoffice/openoffice-read.c:9988
-#: ../plugins/openoffice/openoffice-read.c:10020
+#: ../plugins/openoffice/openoffice-read.c:9943
+#: ../plugins/openoffice/openoffice-read.c:9984
+#: ../plugins/openoffice/openoffice-read.c:10014
+#: ../plugins/openoffice/openoffice-read.c:10046
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr "Falta el estilo del cuadro con nombre «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:10138
+#: ../plugins/openoffice/openoffice-read.c:10164
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 "Se encontró un título no soportado y se convirtió en un cuadro de texto."
 
-#: ../plugins/openoffice/openoffice-read.c:10211
+#: ../plugins/openoffice/openoffice-read.c:10237
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr "Bucle infinito encontrado al analizar la fórmula «%s» del nombre «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:10414
+#: ../plugins/openoffice/openoffice-read.c:10440
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "No se puede analizar la fórmula «%s» («%s») del nombre «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:10419
+#: ../plugins/openoffice/openoffice-read.c:10445
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "No se puede analizar la fórmula «%s» («%s») del nombre «%s»"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:10503
-#: ../plugins/openoffice/openoffice-read.c:10506
+#: ../plugins/openoffice/openoffice-read.c:10529
+#: ../plugins/openoffice/openoffice-read.c:10532
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
@@ -1858,19 +1865,19 @@ msgstr ""
 "Se encontró una forma personalizada de tipo %s no soportada y se convirtió "
 "en un rectángulo."
 
-#: ../plugins/openoffice/openoffice-read.c:10509
+#: ../plugins/openoffice/openoffice-read.c:10535
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 "Se encontró una forma personalizada no soportada y se convirtió en un "
 "rectángulo."
 
-#: ../plugins/openoffice/openoffice-read.c:10851
+#: ../plugins/openoffice/openoffice-read.c:10877
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "El atributo «%s» tiene el valor «%s» no soportado."
 
-#: ../plugins/openoffice/openoffice-read.c:11489
+#: ../plugins/openoffice/openoffice-read.c:11519
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
@@ -1879,12 +1886,12 @@ msgstr ""
 "El tamaño de hoja de columnas %i y filas %i usadas en este archivo exceden "
 "el tamaño de hoja máximo soportado por Gnumeric"
 
-#: ../plugins/openoffice/openoffice-read.c:11522
+#: ../plugins/openoffice/openoffice-read.c:11552
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_EN_ARCHIVO_CORRUPTO"
 
-#: ../plugins/openoffice/openoffice-read.c:11527
+#: ../plugins/openoffice/openoffice-read.c:11557
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1893,79 +1900,79 @@ msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:11537
+#: ../plugins/openoffice/openoffice-read.c:11567
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "HOJA_EN_ARCHIVO_CORRUPTO"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:11543
+#: ../plugins/openoffice/openoffice-read.c:11573
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Este archivo está corrupto con una hoja sin nombre, ahora nombrada «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:13453
+#: ../plugins/openoffice/openoffice-read.c:13483
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconocido para el archivo openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:13463
+#: ../plugins/openoffice/openoffice-read.c:13493
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:13471
+#: ../plugins/openoffice/openoffice-read.c:13501
 msgid "No stream named styles.xml found."
 msgstr "No se encontró ningún flujo llamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:13615
+#: ../plugins/openoffice/openoffice-read.c:13645
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadatos no válidos «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:13678
+#: ../plugins/openoffice/openoffice-read.c:13708
 msgid "settings.xml stream is malformed!"
 msgstr "El flujo settings.xml está mal formado."
 
-#: ../plugins/openoffice/openoffice-write.c:5175
-#: ../plugins/openoffice/openoffice-write.c:5187
+#: ../plugins/openoffice/openoffice-write.c:5203
+#: ../plugins/openoffice/openoffice-write.c:5215
 msgid "tab"
 msgstr "pestaña"
 
-#: ../plugins/openoffice/openoffice-write.c:5176
-#: ../plugins/openoffice/openoffice-write.c:5188
+#: ../plugins/openoffice/openoffice-write.c:5204
+#: ../plugins/openoffice/openoffice-write.c:5216
 msgid "page"
 msgstr "página"
 
-#: ../plugins/openoffice/openoffice-write.c:5177
-#: ../plugins/openoffice/openoffice-write.c:5189
+#: ../plugins/openoffice/openoffice-write.c:5205
+#: ../plugins/openoffice/openoffice-write.c:5217
 msgid "pages"
 msgstr "páginas"
 
-#: ../plugins/openoffice/openoffice-write.c:5178
-#: ../plugins/openoffice/openoffice-write.c:5190
+#: ../plugins/openoffice/openoffice-write.c:5206
+#: ../plugins/openoffice/openoffice-write.c:5218
 msgid "date"
 msgstr "fecha"
 
-#: ../plugins/openoffice/openoffice-write.c:5179
-#: ../plugins/openoffice/openoffice-write.c:5191
+#: ../plugins/openoffice/openoffice-write.c:5207
+#: ../plugins/openoffice/openoffice-write.c:5219
 msgid "time"
 msgstr "hora"
 
-#: ../plugins/openoffice/openoffice-write.c:5180
-#: ../plugins/openoffice/openoffice-write.c:5192 ../src/ssconvert.c:104
+#: ../plugins/openoffice/openoffice-write.c:5208
+#: ../plugins/openoffice/openoffice-write.c:5220 ../src/ssconvert.c:104
 #: ../src/ssdiff.c:57
 msgid "file"
 msgstr "archivo"
 
-#: ../plugins/openoffice/openoffice-write.c:5181
-#: ../plugins/openoffice/openoffice-write.c:5193
+#: ../plugins/openoffice/openoffice-write.c:5209
+#: ../plugins/openoffice/openoffice-write.c:5221
 msgid "path"
 msgstr "ruta"
 
-#: ../plugins/openoffice/openoffice-write.c:8884
+#: ../plugins/openoffice/openoffice-write.c:8925
 msgid "Writing Sheets..."
 msgstr "Escribiendo hojas…"
 
-#: ../plugins/openoffice/openoffice-write.c:8925
+#: ../plugins/openoffice/openoffice-write.c:8966
 msgid "Writing Sheet Objects..."
 msgstr "Escribiendo objetos de hojas…"
 
@@ -2036,7 +2043,7 @@ msgid "Could not allocate memory for %d. field name."
 msgstr "No se pudo reservar memoria para el nombre del campo %d."
 
 #: ../plugins/paradox/paradox.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "%d. field specification ended unexpectedly."
 msgstr "La especificación del campo %d finalizó inesperadamente."
 
@@ -2989,9 +2996,8 @@ msgstr ""
 "impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:86
-#, fuzzy
 msgid "Default Right Margin"
-msgstr "Margen izquierdo predeterminado"
+msgstr "Margen derecho predeterminado"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:87
 msgid ""
@@ -3350,9 +3356,12 @@ msgid "Default Number of rows in a sheet"
 msgstr "El número predeterminado de filas en una hoja"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
+#| msgid ""
+#| "The number of rows in each sheet. This setting will be used only in a new "
+#| "gnumeric session."
 msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
-"gnumeric session."
+"Gnumeric session."
 msgstr ""
 "El número de filas en cada hoja. Esta configuración se usará solo en una "
 "sesión nueva de Gnumeric."
@@ -3362,9 +3371,12 @@ msgid "Default Number of columns in a sheet"
 msgstr "Número predeterminado de columnas en una hoja"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:24
+#| msgid ""
+#| "The number of columns in each sheet. This setting will be used only in a "
+#| "new gnumeric session."
 msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
-"gnumeric session."
+"Gnumeric session."
 msgstr ""
 "El número de columnas en cada hoja. Esta configuración sólo se usará en una "
 "sesión nueva de Gnumeric."
@@ -3546,19 +3558,27 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Retardo del recálculo automático de expresiones"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
+#| msgid ""
+#| "If `lag' is 0, gnumeric recalculates all auto expressions immediately "
+#| "after every change. Non-zero values of `lag' allow gnumeric to accumulate "
+#| "more changes before each recalculation. If `lag' is positive, then "
+#| "whenever a change appears, gnumeric waits `lag' milliseconds and then "
+#| "recalculates; if more changes appear during that period, they are also "
+#| "processed at that time. If `lag' is negative, then recalculation happens "
+#| "only after a quiet period of |lag| milliseconds."
 msgid ""
-"If `lag' is 0, gnumeric recalculates all auto expressions immediately after "
-"every change. Non-zero values of `lag' allow gnumeric to accumulate more "
+"If `lag' is 0, Gnumeric recalculates all auto expressions immediately after "
+"every change. Non-zero values of `lag' allow Gnumeric to accumulate more "
 "changes before each recalculation. If `lag' is positive, then whenever a "
-"change appears, gnumeric waits `lag' milliseconds and then recalculates; if "
+"change appears, Gnumeric waits `lag' milliseconds and then recalculates; if "
 "more changes appear during that period, they are also processed at that "
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milliseconds."
 msgstr ""
-"Si «retardo» es 0, gnumeric recalcula todas las expresiones automáticas "
+"Si «retardo» es 0, Gnumeric recalcula todas las expresiones automáticas "
 "inmediatamente después de cada cambio. Los valores de «retardo» distintos de "
-"cero permiten a gnumeric acumular más cambios antes de cada recálculo. Si el "
-"«retardo» es positivo, entonces siempre que aparezca un cambio, gnumeric "
+"cero permiten a Gnumeric acumular más cambios antes de cada recálculo. Si el "
+"«retardo» es positivo, entonces siempre que aparezca un cambio, Gnumeric "
 "espera un «retardo» en milisegundos y después recalcula; si aparecen más "
 "cambios durante ese periodo, se procesan también en ese tiempo. Si el "
 "«retardo» es negativo, entonces el recálculo ocurre sólo después de un "
@@ -3651,14 +3671,18 @@ msgid "Default To Overwriting Files"
 msgstr "Sobrescribir archivos de manera predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
+#| msgid ""
+#| "Before an existing file is being overwritten, gnumeric will present a "
+#| "warning dialog. Setting this option will make the overwrite button in "
+#| "that dialog the default button."
 msgid ""
-"Before an existing file is being overwritten, gnumeric will present a "
+"Before an existing file is being overwritten, Gnumeric will present a "
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
-"Antes de que un archivo existente se sobrescriba, gnumeric mostrará un "
-"diálogo de advertencia. Al poner esta opción hará que el botón sobrescribir "
-"de ese diálogo sea el botón predeterminado."
+"Antes de que un archivo existente se sobrescriba, Gnumeric mostrará un "
+"diálogo de advertencia. Al activar esta opción hará que el botón "
+"sobrescribir de ese diálogo sea el botón predeterminado."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
 msgid "List of file savers with disabled extension check."
@@ -4137,10 +4161,9 @@ msgid "Sorting %s"
 msgstr "Ordenando %s"
 
 #: ../src/commands.c:2352
-#, fuzzy
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
-"them with the 'Format→Column→Unhide' menu item."
+"them with the 'Format,olumn→Unhide' menu item."
 msgstr ""
 "¿Está seguro de que quiere ocultar todas las columnas? Si lo hace puede "
 "mostrarlas con el elemento del menú «Formato→Columna→Mostrar»."
@@ -4267,7 +4290,7 @@ msgstr "¿Realmente quiere pegar las %s copias?"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3273 ../src/commands.c:3429 ../src/commands.c:3430
-#: ../src/item-cursor.c:1029 ../src/wbc-gtk-actions.c:582
+#: ../src/item-cursor.c:1026 ../src/wbc-gtk-actions.c:582
 msgid "Autofill"
 msgstr "Autollenado"
 
@@ -4503,7 +4526,7 @@ msgstr "Configurar botón de radio"
 msgid "Configure Checkbox"
 msgstr "Configurar casilla de verificación"
 
-#: ../src/commands.c:7753 ../src/sheet-object-widget.c:1776
+#: ../src/commands.c:7753 ../src/sheet-object-widget.c:1780
 msgid "Configure Adjustment"
 msgstr "Configurar ajuste"
 
@@ -4651,8 +4674,7 @@ msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Algoritmo símplex para resolutor (LP Solve)."
 
 #: ../src/dialogs/dialog-about.c:79
-#, fuzzy
-msgid "Jean Bréfort"
+msgid "Jean Brßort"
 msgstr "Jean Brßort"
 
 #: ../src/dialogs/dialog-about.c:80
@@ -5009,8 +5031,9 @@ msgid "Visit the Gnumeric website"
 msgstr "Ir al sitio web de Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:547
-msgid "Copyright © 1998-2015"
-msgstr "Copyright © 1998-2015"
+#| msgid "Copyright © 1998-2015"
+msgid "Copyright © 1998-2016"
+msgstr "Copyright © 1998-2016"
 
 #: ../src/dialogs/dialog-about.c:548
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -5681,7 +5704,7 @@ msgid "An error occurred while reading the category list"
 msgstr "Ha ocurrido un error al leer la lista de categorías"
 
 #: ../src/dialogs/dialog-autosave.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to save the workbook %s?"
 msgstr "¿Quiere guardar el libro de trabajo %s?"
 
@@ -6119,14 +6142,14 @@ msgstr "Filtro"
 
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2290
+#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2307
 #: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2885
 msgid "Row"
 msgstr "Fila"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2282
+#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2299
 #: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2886
 msgid "Column"
 msgstr "Columna"
@@ -6442,8 +6465,8 @@ msgstr "Hoja"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2271 ../src/tools/gnm-solver.c:1509
-#: ../src/tools/gnm-solver.c:1554
+#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1560
+#: ../src/tools/gnm-solver.c:1605 ../src/tools/gnm-solver.c:1750
 msgid "Cell"
 msgstr "Celda"
 
@@ -6552,7 +6575,8 @@ msgstr ""
 "antes de que puedan abrirse."
 
 #: ../src/dialogs/dialog-password.c:60
-msgid "Password :"
+#| msgid "Password :"
+msgid "Password:"
 msgstr "Contraseña:"
 
 #: ../src/dialogs/dialog-plugin-manager.c:270
@@ -7361,16 +7385,16 @@ msgid "Run on"
 msgstr "Ejecutar en"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4053
+#: ../src/wbc-gtk.c:4065
 msgid "Min"
 msgstr "Mínimo"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4055
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4067
 msgid "Average"
 msgstr "Promedio"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4054
+#: ../src/wbc-gtk.c:4066
 msgid "Max"
 msgstr "Máximo"
 
@@ -7415,75 +7439,81 @@ msgstr ""
 "¿Busca un tema para su tesis? ¿Quizá podría escribir un resolutor para "
 "Gnumeric?"
 
-#: ../src/dialogs/dialog-solver.c:456
+#: ../src/dialogs/dialog-solver.c:457
 msgid "Changing solver parameters"
 msgstr "Cambiando parámetros del resolutor"
 
-#: ../src/dialogs/dialog-solver.c:550 ../src/tools/gnm-solver.c:1536
+#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1587
 msgid "Feasible"
 msgstr "Factible"
 
-#: ../src/dialogs/dialog-solver.c:554 ../src/tools/gnm-solver.c:1539
+#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1590
 msgid "Optimal"
 msgstr "Óptimo"
 
-#: ../src/dialogs/dialog-solver.c:558
+#: ../src/dialogs/dialog-solver.c:559
 msgid "Infeasible"
 msgstr "Inviable"
 
-#: ../src/dialogs/dialog-solver.c:562
+#: ../src/dialogs/dialog-solver.c:563
 msgid "Unbounded"
 msgstr "Sin límites"
 
-#: ../src/dialogs/dialog-solver.c:592
+#: ../src/dialogs/dialog-solver.c:593
 msgid "Ready"
 msgstr "Listo"
 
-#: ../src/dialogs/dialog-solver.c:595
+#: ../src/dialogs/dialog-solver.c:596
 msgid "Preparing"
 msgstr "Preparando"
 
-#: ../src/dialogs/dialog-solver.c:598
+#: ../src/dialogs/dialog-solver.c:599
 msgid "Prepared"
 msgstr "Preparado"
 
-#: ../src/dialogs/dialog-solver.c:601
+#: ../src/dialogs/dialog-solver.c:602
 msgid "Running"
 msgstr "Ejecutando"
 
-#: ../src/dialogs/dialog-solver.c:605
+#: ../src/dialogs/dialog-solver.c:606
 msgid "Done"
 msgstr "Hecho"
 
-#: ../src/dialogs/dialog-solver.c:609 ../src/gui-util.c:1050
+#: ../src/dialogs/dialog-solver.c:610 ../src/gui-util.c:1050
 msgid "Error"
 msgstr "Error"
 
-#: ../src/dialogs/dialog-solver.c:612
+#: ../src/dialogs/dialog-solver.c:613
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: ../src/dialogs/dialog-solver.c:711
+#: ../src/dialogs/dialog-solver.c:686
+#, fuzzy, c-format
+#| msgid "Report"
+msgid "%s %%s Report"
+msgstr "Informe"
+
+#: ../src/dialogs/dialog-solver.c:712
 msgid "The chosen solver is not functional."
 msgstr "El resolutor seleccionado no es funcional."
 
-#: ../src/dialogs/dialog-solver.c:800
+#: ../src/dialogs/dialog-solver.c:798
 msgid "Running solver"
 msgstr "Ejecutando resolutor"
 
-#: ../src/dialogs/dialog-solver.c:837
+#: ../src/dialogs/dialog-solver.c:835
 msgid "Optimal solution created by solver.\n"
 msgstr "Solución óptima creada por el resolutor.\n"
 
-#: ../src/dialogs/dialog-solver.c:841
+#: ../src/dialogs/dialog-solver.c:839
 msgid "Feasible solution created by solver.\n"
 msgstr "Solución factible creada por el resolutor.\n"
 
-#: ../src/dialogs/dialog-solver.c:1110
+#: ../src/dialogs/dialog-solver.c:1108
 msgid "Subject to the Constraints:"
 msgstr "Sujeto a las restricciones:"
 
-#: ../src/dialogs/dialog-solver.c:1268
+#: ../src/dialogs/dialog-solver.c:1267
 msgid "Could not create the Solver dialog."
 msgstr "No se pudo crear el diálogo del resolutor."
 
@@ -7538,36 +7568,36 @@ msgid_plural "A maximum of %d columns can be imported."
 msgstr[0] "Se puede importar un máximo de %d columna."
 msgstr[1] "Se puede importar un máximo de %d columnas."
 
-#: ../src/dialogs/dialog-stf-format-page.c:205
+#: ../src/dialogs/dialog-stf-format-page.c:204
 msgid "Format Selector"
 msgstr "Selector de formato"
 
-#: ../src/dialogs/dialog-stf-format-page.c:387
+#: ../src/dialogs/dialog-stf-format-page.c:385
 msgid "Ignore all columns on right"
 msgstr "Ignorar todas las columnas de la derecha"
 
-#: ../src/dialogs/dialog-stf-format-page.c:388
+#: ../src/dialogs/dialog-stf-format-page.c:386
 msgid "Ignore all columns on left"
 msgstr "Ignorar todas las columnas de la izquierda"
 
-#: ../src/dialogs/dialog-stf-format-page.c:389
+#: ../src/dialogs/dialog-stf-format-page.c:387
 msgid "Import all columns on right"
 msgstr "Importar todas las columnas a la derecha"
 
-#: ../src/dialogs/dialog-stf-format-page.c:390
+#: ../src/dialogs/dialog-stf-format-page.c:388
 msgid "Import all columns on left"
 msgstr "Importar todas las columnas a la izquierda"
 
-#: ../src/dialogs/dialog-stf-format-page.c:391
+#: ../src/dialogs/dialog-stf-format-page.c:389
 msgid "Copy format to right"
 msgstr "Copiar formato a la derecha"
 
-#: ../src/dialogs/dialog-stf-format-page.c:593
+#: ../src/dialogs/dialog-stf-format-page.c:591
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "Un máximo de %d columnas puede ser importado."
 
-#: ../src/dialogs/dialog-stf-format-page.c:604
+#: ../src/dialogs/dialog-stf-format-page.c:602
 msgid "Auto fit"
 msgstr "Autoajustar"
 
@@ -7586,7 +7616,7 @@ msgstr ""
 "Si se selecciona esta casilla de verificación, la anchura de la columna se "
 "ajustará a la entrada más larga"
 
-#: ../src/dialogs/dialog-stf-format-page.c:757
+#: ../src/dialogs/dialog-stf-format-page.c:758
 #: ../src/dialogs/dialog-stf-preview.h:25
 #: ../src/tools/analysis-exp-smoothing.c:153
 #: ../src/tools/analysis-exp-smoothing.c:329
@@ -8249,12 +8279,12 @@ msgid "Diagonal"
 msgstr "Diagonal"
 
 #. start sub menu
-#: ../src/dialogs/cell-format.ui.h:42 ../src/sheet-control-gui.c:2251
+#: ../src/dialogs/cell-format.ui.h:42 ../src/sheet-control-gui.c:2268
 #: ../src/wbc-gtk-actions.c:3862
 msgid "Left"
 msgstr "Izquierda"
 
-#: ../src/dialogs/cell-format.ui.h:43 ../src/sheet-control-gui.c:2254
+#: ../src/dialogs/cell-format.ui.h:43 ../src/sheet-control-gui.c:2271
 #: ../src/wbc-gtk-actions.c:3864
 msgid "Right"
 msgstr "Derecha"
@@ -8794,11 +8824,13 @@ msgid "Format"
 msgstr "Formato"
 
 #: ../src/dialogs/data-table.ui.h:2
-msgid "_Row Input :"
+#| msgid "_Row Input :"
+msgid "_Row Input:"
 msgstr "_Fila de entrada:"
 
 #: ../src/dialogs/data-table.ui.h:3
-msgid "Co_lumn Input :"
+#| msgid "Co_lumn Input :"
+msgid "Co_lumn Input:"
 msgstr "Co_lumna de entrada:"
 
 #: ../src/dialogs/define-name.ui.h:1
@@ -10173,7 +10205,7 @@ msgid "Merge..."
 msgstr "Combinar…"
 
 #. start sub menu
-#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2272
+#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2289
 msgid "_Merge"
 msgstr "_Combinar"
 
@@ -11346,13 +11378,13 @@ msgstr "Nombre nuevo:"
 msgid "Resize Sheet"
 msgstr "Redimensionar hoja"
 
-#. Number of 'Columns' in sheet
+#. Number of
 #: ../src/dialogs/sheet-resize.ui.h:3
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Columnas"
 
-#. Number of 'Rows' in sheet
+#. Number of
 #: ../src/dialogs/sheet-resize.ui.h:5
 msgctxt "sheetsize"
 msgid "Rows"
@@ -11439,7 +11471,8 @@ msgstr "Variables de entrada:"
 msgid "Output variables:"
 msgstr "Variables de salida:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1552
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1603
+#: ../src/tools/gnm-solver.c:1748
 msgid "Variables"
 msgstr "Variables"
 
@@ -11522,8 +11555,9 @@ msgid "List Properties"
 msgstr "Propiedades de lista"
 
 #: ../src/dialogs/so-list.ui.h:2
-msgid "_Link :"
-msgstr "_Enlace :"
+#| msgid "_Link :"
+msgid "_Link:"
+msgstr "_Enlace:"
 
 #: ../src/dialogs/so-list.ui.h:3
 msgid "As value"
@@ -11534,8 +11568,9 @@ msgid "As index"
 msgstr "Como índice"
 
 #: ../src/dialogs/so-list.ui.h:5
-msgid "_Content :"
-msgstr "_Contenido :"
+#| msgid "_Content :"
+msgid "_Content:"
+msgstr "_Contenido:"
 
 #: ../src/dialogs/solver.ui.h:1
 msgid "≤"
@@ -11550,10 +11585,12 @@ msgid "="
 msgstr "="
 
 #: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:386
+#: ../src/tools/gnm-solver.c:412
 msgid "Int"
 msgstr "Entero"
 
 #: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:387
+#: ../src/tools/gnm-solver.c:413
 msgid "Bool"
 msgstr "Bool"
 
@@ -11638,7 +11675,8 @@ msgid "Re_place"
 msgstr "Rem_plazar"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1595
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1646
+#: ../src/tools/gnm-solver.c:1782
 msgid "Constraints"
 msgstr "Restricciones"
 
@@ -11678,42 +11716,47 @@ msgid "P_rogram"
 msgstr "P_rograma"
 
 #: ../src/dialogs/solver.ui.h:36
+#| msgid "Case Sensitive"
+msgid "_Sensitivity"
+msgstr "_Sensibilidad"
+
+#: ../src/dialogs/solver.ui.h:37
 msgid "Reports"
 msgstr "Informes"
 
-#: ../src/dialogs/solver.ui.h:37
+#: ../src/dialogs/solver.ui.h:38
 msgid "_Do not create scenarios"
 msgstr "_No crear escenarios"
 
-#: ../src/dialogs/solver.ui.h:38
+#: ../src/dialogs/solver.ui.h:39
 msgid "_Create a scenario if the optimal solution is found"
 msgstr "_Crear un escenario si se encuentra la solución óptima"
 
-#: ../src/dialogs/solver.ui.h:39
+#: ../src/dialogs/solver.ui.h:40
 msgid "_Name: "
 msgstr "_Nombre: "
 
-#: ../src/dialogs/solver.ui.h:40
+#: ../src/dialogs/solver.ui.h:41
 msgid "Scenarios"
 msgstr "Escenarios"
 
-#: ../src/dialogs/solver.ui.h:41
+#: ../src/dialogs/solver.ui.h:42
 msgid "Solver Status:"
 msgstr "Estado del resolutor:"
 
-#: ../src/dialogs/solver.ui.h:42
+#: ../src/dialogs/solver.ui.h:43
 msgid "Problem Status:"
 msgstr "Estado del problema:"
 
-#: ../src/dialogs/solver.ui.h:43
+#: ../src/dialogs/solver.ui.h:44
 msgid "Objective Value:"
 msgstr "Valor objetivo:"
 
-#: ../src/dialogs/solver.ui.h:44
+#: ../src/dialogs/solver.ui.h:45
 msgid "Elapsed Time:"
 msgstr "Tiempo transcurrido:"
 
-#: ../src/dialogs/solver.ui.h:45
+#: ../src/dialogs/solver.ui.h:46
 msgid "Results"
 msgstr "Resultados"
 
@@ -11721,7 +11764,7 @@ msgstr "Resultados"
 msgid "Radiobutton Properties"
 msgstr "Propiedades del botón de opción"
 
-#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1928
+#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1932
 msgid "Scrollbar Properties"
 msgstr "Propiedades de barra de desplazamiento"
 
@@ -11887,17 +11930,17 @@ msgstr ""
 "Esta casilla determina si las pequeñas flechas rojas indican que el "
 "contenido se truncó en esa dirección."
 
-#: ../src/expr-name.c:717
+#: ../src/expr-name.c:726
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "«%s» tiene una referencia circular"
 
-#: ../src/expr-name.c:745 ../src/expr-name.c:992
+#: ../src/expr-name.c:754 ../src/expr-name.c:1001
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "«%s» ya está definido en la hoja"
 
-#: ../src/expr-name.c:746 ../src/expr-name.c:993
+#: ../src/expr-name.c:755 ../src/expr-name.c:1002
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "«%s» ya está definido en el libro de trabajo"
@@ -12385,16 +12428,16 @@ msgstr "No se puede activar el URL «%s»"
 msgid "Unable to open '%s'"
 msgstr "No se puede abrir «%s»"
 
-#: ../src/item-bar.c:845
+#: ../src/item-bar.c:859
 msgid "Width:"
 msgstr "Anchura:"
 
-#: ../src/item-bar.c:845
+#: ../src/item-bar.c:859
 msgid "Height"
 msgstr "Altura"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
-#: ../src/item-bar.c:850
+#: ../src/item-bar.c:864
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
@@ -12402,65 +12445,65 @@ msgstr[0] "(%d píxel)"
 msgstr[1] "(%d píxeles)"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
-#: ../src/item-bar.c:855
+#: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pt"
 msgstr "%d.00 pt"
 
-#: ../src/item-bar.c:855
+#: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pts"
 msgstr "%d.00 pts"
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
-#: ../src/item-bar.c:859
+#: ../src/item-bar.c:873
 #, c-format
 msgid "%.2f pts"
 msgstr "%.2f pts"
 
-#: ../src/item-cursor.c:824
+#: ../src/item-cursor.c:821
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../src/item-cursor.c:827 ../src/sheet-control-gui.c:2185
+#: ../src/item-cursor.c:824 ../src/sheet-control-gui.c:2202
 #: ../src/sheet-object.c:258 ../src/sheet-object.c:277
 #: ../src/wbc-gtk-actions.c:2085
 msgid "_Copy"
 msgstr "_Copiar"
 
-#: ../src/item-cursor.c:830
+#: ../src/item-cursor.c:827
 msgid "Copy _Formats"
 msgstr "Copiar _formatos"
 
-#: ../src/item-cursor.c:832
+#: ../src/item-cursor.c:829
 msgid "Copy _Values"
 msgstr "Copiar _valores"
 
-#: ../src/item-cursor.c:837
+#: ../src/item-cursor.c:834
 msgid "Shift _Down and Copy"
 msgstr "Desplazar hacia _abajo y copiar"
 
-#: ../src/item-cursor.c:839
+#: ../src/item-cursor.c:836
 msgid "Shift _Right and Copy"
 msgstr "Desplazar hacia la _derecha y copiar"
 
-#: ../src/item-cursor.c:841
+#: ../src/item-cursor.c:838
 msgid "Shift Dow_n and Move"
 msgstr "Desplaza hacia _abajo y mover"
 
-#: ../src/item-cursor.c:843
+#: ../src/item-cursor.c:840
 msgid "Shift Righ_t and Move"
 msgstr "Desplazar hacia la de_recha y mover"
 
-#: ../src/item-cursor.c:848
+#: ../src/item-cursor.c:845
 msgid "C_ancel"
 msgstr "C_ancelar"
 
-#: ../src/item-cursor.c:1107
+#: ../src/item-cursor.c:1104
 msgid "Drag to autofill"
 msgstr "Arrastrar para autorrellenar"
 
-#: ../src/item-cursor.c:1110
+#: ../src/item-cursor.c:1107
 msgid "Drag to move"
 msgstr "Arrastrar para mover"
 
@@ -12540,7 +12583,7 @@ msgstr "Salir inmediatamente después de cargar los libros seleccionados"
 msgid "[FILE ...]"
 msgstr "[ARCHIVO  …]"
 
-#: ../src/main-application.c:170 ../src/ssconvert.c:868 ../src/ssdiff.c:1108
+#: ../src/main-application.c:170 ../src/ssconvert.c:884 ../src/ssdiff.c:1108
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -12611,7 +12654,7 @@ msgstr "Libro de trabajo «%s» desconocido"
 msgid "Unknown workbook"
 msgstr "Libro de trabajo desconocido"
 
-#: ../src/parser.y:1089 ../src/parser.y:1367
+#: ../src/parser.y:1089 ../src/parser.y:1369
 #, c-format
 msgid "Could not find matching closing quote"
 msgstr "No coinciden las comillas de cierre"
@@ -12621,37 +12664,37 @@ msgstr "No coinciden las comillas de cierre"
 msgid "Sheet name is required"
 msgstr "Se requiere el nombre de la hoja"
 
-#: ../src/parser.y:1282 ../src/parser.y:1291 ../src/parser.y:1315
+#: ../src/parser.y:1284 ../src/parser.y:1293 ../src/parser.y:1317
 #, c-format
 msgid "The number is out of range"
 msgstr "El número se encuentra fuera de rango"
 
-#: ../src/parser.y:1349
+#: ../src/parser.y:1351
 #, c-format
 msgid "Improperly formatted error token"
 msgstr "Señal de error formateada inapropiadamente"
 
-#: ../src/parser.y:1606
+#: ../src/parser.y:1608
 #, c-format
 msgid "Multiple expressions are not supported in this context"
 msgstr "En este contexto no se soportan múltiples expresiones"
 
-#: ../src/parser.y:1629
+#: ../src/parser.y:1631
 #, c-format
 msgid "Could not find matching opening parenthesis"
 msgstr "No coinciden los paréntesis abiertos"
 
-#: ../src/parser.y:1633
+#: ../src/parser.y:1635
 #, c-format
 msgid "Could not find matching closing parenthesis"
 msgstr "No coinciden los paréntesis de cierre"
 
-#: ../src/parser.y:1637
+#: ../src/parser.y:1639
 #, c-format
 msgid "Invalid expression"
 msgstr "Expresión no válida"
 
-#: ../src/parser.y:1641
+#: ../src/parser.y:1643
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Señal %c inesperada"
@@ -12686,7 +12729,7 @@ msgstr "Ruta"
 msgid "Title"
 msgstr "Título"
 
-#: ../src/print-info.c:891 ../src/stf-export.c:706
+#: ../src/print-info.c:891 ../src/stf-export.c:711
 #, c-format
 msgid "There is no such sheet"
 msgstr "No existe dicha hoja"
@@ -12837,149 +12880,149 @@ msgstr "%dQ"
 msgid "(empty)"
 msgstr "(vacía)"
 
-#: ../src/sheet-control-gui.c:2097 ../src/wbc-gtk-actions.c:380
+#: ../src/sheet-control-gui.c:2114 ../src/wbc-gtk-actions.c:380
 #, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
 msgstr[0] "Quitar %d enlace"
 msgstr[1] "Quitar %d enlaces"
 
-#: ../src/sheet-control-gui.c:2183 ../src/sheet-object.c:276
+#: ../src/sheet-control-gui.c:2200 ../src/sheet-object.c:276
 #: ../src/wbc-gtk-actions.c:2261
 msgid "Cu_t"
 msgstr "Cor_tar"
 
-#: ../src/sheet-control-gui.c:2187 ../src/wbc-gtk-actions.c:2268
+#: ../src/sheet-control-gui.c:2204 ../src/wbc-gtk-actions.c:2268
 msgid "_Paste"
 msgstr "_Pegar"
 
-#: ../src/sheet-control-gui.c:2189
+#: ../src/sheet-control-gui.c:2206
 msgid "Paste _Special"
 msgstr "Pegado _especial"
 
-#: ../src/sheet-control-gui.c:2194
+#: ../src/sheet-control-gui.c:2211
 msgid "_Insert Cells..."
 msgstr "_Insertar celdas…"
 
-#: ../src/sheet-control-gui.c:2197
+#: ../src/sheet-control-gui.c:2214
 msgid "_Delete Cells..."
 msgstr "_Eliminar celdas…"
 
-#: ../src/sheet-control-gui.c:2200
+#: ../src/sheet-control-gui.c:2217
 msgid "_Insert Column(s)"
 msgstr "_Insertar columna(s)"
 
-#: ../src/sheet-control-gui.c:2204
+#: ../src/sheet-control-gui.c:2221
 msgid "_Delete Column(s)"
 msgstr "Eliminar _columna(s)"
 
-#: ../src/sheet-control-gui.c:2208
+#: ../src/sheet-control-gui.c:2225
 msgid "_Insert Row(s)"
 msgstr "_Insertar fila(s)"
 
-#: ../src/sheet-control-gui.c:2212
+#: ../src/sheet-control-gui.c:2229
 msgid "_Delete Row(s)"
 msgstr "_Eliminar fila(s)"
 
-#: ../src/sheet-control-gui.c:2217
+#: ../src/sheet-control-gui.c:2234
 msgid "Clear Co_ntents"
 msgstr "Limpiar el co_ntenido"
 
-#: ../src/sheet-control-gui.c:2222
+#: ../src/sheet-control-gui.c:2239
 msgid "Add _Comment..."
 msgstr "Añadir _co_mentario…"
 
-#: ../src/sheet-control-gui.c:2224
+#: ../src/sheet-control-gui.c:2241
 msgid "Edit Co_mment..."
 msgstr "Editar co_mentario…"
 
-#: ../src/sheet-control-gui.c:2226
+#: ../src/sheet-control-gui.c:2243
 msgid "_Remove Comments"
 msgstr "_Quitar comentarios"
 
-#: ../src/sheet-control-gui.c:2229
+#: ../src/sheet-control-gui.c:2246
 msgid "Add _Hyperlink..."
 msgstr "Añadir _hiperenlace…"
 
-#: ../src/sheet-control-gui.c:2232
+#: ../src/sheet-control-gui.c:2249
 msgid "Edit _Hyperlink..."
 msgstr "Editar _hiperenlace…"
 
-#: ../src/sheet-control-gui.c:2235
+#: ../src/sheet-control-gui.c:2252
 msgid "_Remove Hyperlink"
 msgstr "_Quitar hiperenlace"
 
-#: ../src/sheet-control-gui.c:2241
+#: ../src/sheet-control-gui.c:2258
 msgid "_Edit DataSlicer"
 msgstr "_Editar DataSlicer"
 
-#: ../src/sheet-control-gui.c:2244
+#: ../src/sheet-control-gui.c:2261
 msgid "_Refresh DataSlicer"
 msgstr "_Actualizar DataSlicer"
 
-#: ../src/sheet-control-gui.c:2248
+#: ../src/sheet-control-gui.c:2265
 msgid "DataSlicer Field _Order "
 msgstr "_Orden de campo DataSlicer"
 
-#: ../src/sheet-control-gui.c:2257
+#: ../src/sheet-control-gui.c:2274
 msgid "Up"
 msgstr "Arriba"
 
-#: ../src/sheet-control-gui.c:2260
+#: ../src/sheet-control-gui.c:2277
 msgid "Down"
 msgstr "Abajo"
 
 #. end sub menu
-#: ../src/sheet-control-gui.c:2267
+#: ../src/sheet-control-gui.c:2284
 msgid "_Format All Cells..."
 msgstr "_Formatear todas las celdas…"
 
-#: ../src/sheet-control-gui.c:2269
+#: ../src/sheet-control-gui.c:2286
 msgid "C_onditional Formatting..."
 msgstr "Fomato c_ondicional..."
 
-#: ../src/sheet-control-gui.c:2274
+#: ../src/sheet-control-gui.c:2291
 msgid "_Unmerge"
 msgstr "_Separar"
 
-#: ../src/sheet-control-gui.c:2276 ../src/wbc-gtk-actions.c:2809
+#: ../src/sheet-control-gui.c:2293 ../src/wbc-gtk-actions.c:2809
 msgid "Auto Fit _Width"
 msgstr "Autoajustar _anchura"
 
-#: ../src/sheet-control-gui.c:2277 ../src/wbc-gtk-actions.c:2803
+#: ../src/sheet-control-gui.c:2294 ../src/wbc-gtk-actions.c:2803
 msgid "Auto Fit _Height"
 msgstr "Autoajustar _altura"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2283 ../src/wbc-gtk-actions.c:2818
+#: ../src/sheet-control-gui.c:2300 ../src/wbc-gtk-actions.c:2818
 msgid "_Width..."
 msgstr "_Anchura…"
 
-#: ../src/sheet-control-gui.c:2284 ../src/wbc-gtk-actions.c:2824
+#: ../src/sheet-control-gui.c:2301 ../src/wbc-gtk-actions.c:2824
 msgid "_Auto Fit Width"
 msgstr "_Autoajustar anchura"
 
-#: ../src/sheet-control-gui.c:2285 ../src/sheet-control-gui.c:2293
+#: ../src/sheet-control-gui.c:2302 ../src/sheet-control-gui.c:2310
 #: ../src/wbc-gtk-actions.c:2830 ../src/wbc-gtk-actions.c:2864
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: ../src/sheet-control-gui.c:2286 ../src/sheet-control-gui.c:2294
+#: ../src/sheet-control-gui.c:2303 ../src/sheet-control-gui.c:2311
 #: ../src/wbc-gtk-actions.c:2837 ../src/wbc-gtk-actions.c:2871
 msgid "_Unhide"
 msgstr "_Mostrar"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2291
+#: ../src/sheet-control-gui.c:2308
 msgid "Hei_ght..."
 msgstr "A_ltura…"
 
-#: ../src/sheet-control-gui.c:2292 ../src/wbc-gtk-actions.c:2858
+#: ../src/sheet-control-gui.c:2309 ../src/wbc-gtk-actions.c:2858
 msgid "_Auto Fit Height"
 msgstr "_Autoajustar altura"
 
 #. xgettext : %d gives the number of links. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2427
+#: ../src/sheet-control-gui.c:2444
 #, c-format
 msgid "_Remove %d Link"
 msgid_plural "_Remove %d Links"
@@ -12987,70 +13030,70 @@ msgstr[0] "_Quitar %d enlace"
 msgstr[1] "_Quitar %d enlaces"
 
 #. xgettext : %d gives the number of comments. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2432
+#: ../src/sheet-control-gui.c:2449
 #, c-format
 msgid "_Remove %d Comment"
 msgid_plural "_Remove %d Comments"
 msgstr[0] "Quitar %d comentario"
 msgstr[1] "_Quitar %d comentarios"
 
-#: ../src/sheet-control-gui.c:2435
+#: ../src/sheet-control-gui.c:2452
 #, c-format
 msgid "_Insert %d Cell..."
 msgid_plural "_Insert %d Cells..."
 msgstr[0] "_Insertar %d celda…"
 msgstr[1] "_Insertar %d celdas…"
 
-#: ../src/sheet-control-gui.c:2437
+#: ../src/sheet-control-gui.c:2454
 #, c-format
 msgid "_Delete %d Cell..."
 msgid_plural "_Delete %d Cells..."
 msgstr[0] "_Eliminar %d celda…"
 msgstr[1] "_Eliminar %d celdas…"
 
-#: ../src/sheet-control-gui.c:2443
+#: ../src/sheet-control-gui.c:2460
 #, c-format
 msgid "_Insert %d Column"
 msgid_plural "_Insert %d Columns"
 msgstr[0] "_Insertar %d columna"
 msgstr[1] "_Insertar %d columnas"
 
-#: ../src/sheet-control-gui.c:2445
+#: ../src/sheet-control-gui.c:2462
 #, c-format
 msgid "_Delete %d Column"
 msgid_plural "_Delete %d Columns"
 msgstr[0] "_Eliminar %d columna"
 msgstr[1] "_Eliminar %d columnas"
 
-#: ../src/sheet-control-gui.c:2448
+#: ../src/sheet-control-gui.c:2465
 #, c-format
 msgid "_Format %d Column"
 msgid_plural "_Format %d Columns"
 msgstr[0] "_Formatear %d columna"
 msgstr[1] "_Formatear %d columnas"
 
-#: ../src/sheet-control-gui.c:2455
+#: ../src/sheet-control-gui.c:2472
 #, c-format
 msgid "_Insert %d Row"
 msgid_plural "_Insert %d Rows"
 msgstr[0] "_Insertar %d fila"
 msgstr[1] "_Insertar %d filas"
 
-#: ../src/sheet-control-gui.c:2457
+#: ../src/sheet-control-gui.c:2474
 #, c-format
 msgid "_Delete %d Row"
 msgid_plural "_Delete %d Rows"
 msgstr[0] "_Eliminar %d fila"
 msgstr[1] "_Eliminar %d filas"
 
-#: ../src/sheet-control-gui.c:2461
+#: ../src/sheet-control-gui.c:2478
 #, c-format
 msgid "_Format %d Row"
 msgid_plural "_Format %d Rows"
 msgstr[0] "_Formatear %d fila"
 msgstr[1] "_Formatear %d filas"
 
-#: ../src/sheet-control-gui.c:2468
+#: ../src/sheet-control-gui.c:2485
 #, c-format
 msgid "_Format %d Cell..."
 msgid_plural "_Format %d Cells"
@@ -13058,7 +13101,7 @@ msgstr[0] "_Formatear %d celda…"
 msgstr[1] "_Formatear %d celdas…"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2914
+#: ../src/sheet-control-gui.c:2931
 #, c-format
 msgid "Duplicate %d Object"
 msgid_plural "Duplicate %d Objects"
@@ -13066,7 +13109,7 @@ msgstr[0] "Duplicar %d objeto"
 msgstr[1] "Duplicar %d objetos"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2917
+#: ../src/sheet-control-gui.c:2934
 #, c-format
 msgid "Insert %d Object"
 msgid_plural "Insert %d Objects"
@@ -13074,7 +13117,7 @@ msgstr[0] "Insertar %d objeto"
 msgstr[1] "Insertar %d objetos"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2921
+#: ../src/sheet-control-gui.c:2938
 #, c-format
 msgid "Move %d Object"
 msgid_plural "Move %d Objects"
@@ -13082,7 +13125,7 @@ msgstr[0] "Mover %d objeto"
 msgstr[1] "Mover %d objetos"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2924
+#: ../src/sheet-control-gui.c:2941
 #, c-format
 msgid "Resize %d Object"
 msgid_plural "Resize %d Objects"
@@ -13090,7 +13133,7 @@ msgstr[0] "Redimensionar %d objeto"
 msgstr[1] "Redimensionar %d objetos"
 
 #. xgettext: this is a by-line for cell comments
-#: ../src/sheet-control-gui.c:3163
+#: ../src/sheet-control-gui.c:3180
 #, c-format
 msgid "By %s:"
 msgstr "Por %s:"
@@ -13204,68 +13247,68 @@ msgstr ""
 msgid "Frame"
 msgstr "Marco"
 
-#: ../src/sheet-object-widget.c:896 ../src/wbc-gtk-actions.c:3385
+#: ../src/sheet-object-widget.c:900 ../src/wbc-gtk-actions.c:3385
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "Button"
 msgstr "Botón"
 
-#: ../src/sheet-object-widget.c:926
+#: ../src/sheet-object-widget.c:930
 msgid "Pressed Button"
 msgstr "Botón pulsado"
 
-#: ../src/sheet-object-widget.c:941
+#: ../src/sheet-object-widget.c:945
 msgid "Released Button"
 msgstr "Botón soltado"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1440
+#: ../src/sheet-object-widget.c:1444
 msgid "Change widget"
 msgstr "Cambiar widget"
 
-#: ../src/sheet-object-widget.c:1777
+#: ../src/sheet-object-widget.c:1781
 msgid "Adjustment Properties"
 msgstr "Propiedades de ajuste"
 
-#: ../src/sheet-object-widget.c:1927
+#: ../src/sheet-object-widget.c:1931
 msgid "Configure Scrollbar"
 msgstr "Configurar barra de desplazamiento"
 
-#: ../src/sheet-object-widget.c:2033
+#: ../src/sheet-object-widget.c:2037
 msgid "Configure Spinbutton"
 msgstr "Configurar botón incremental"
 
-#: ../src/sheet-object-widget.c:2034
+#: ../src/sheet-object-widget.c:2038
 msgid "Spinbutton Properties"
 msgstr "Propiedades de botón incremental"
 
-#: ../src/sheet-object-widget.c:2140
+#: ../src/sheet-object-widget.c:2144
 msgid "Configure Slider"
 msgstr "Configurar deslizador"
 
-#: ../src/sheet-object-widget.c:2141
+#: ../src/sheet-object-widget.c:2145
 msgid "Slider Properties"
 msgstr "Propiedades del deslizador"
 
-#: ../src/sheet-object-widget.c:2343
+#: ../src/sheet-object-widget.c:2347
 #, c-format
 msgid "CheckBox %d"
 msgstr "Casilla %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:2388
+#: ../src/sheet-object-widget.c:2392
 msgid "Clicking checkbox"
 msgstr "Pulsando casilla"
 
-#: ../src/sheet-object-widget.c:2937 ../src/wbc-gtk-actions.c:3391
+#: ../src/sheet-object-widget.c:2941 ../src/wbc-gtk-actions.c:3391
 msgid "RadioButton"
 msgstr "Botón de opción"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:2984
+#: ../src/sheet-object-widget.c:2988
 msgid "Clicking radiobutton"
 msgstr "Pulsando botón de opción"
 
-#: ../src/sheet-object-widget.c:3478
+#: ../src/sheet-object-widget.c:3482
 msgid "Clicking in list"
 msgstr "Pulsando en la lista"
 
@@ -13440,12 +13483,12 @@ msgstr "Falló al crear resolutor"
 msgid "Solver ran, but failed"
 msgstr "Se ejecutó el resolutor, pero falló"
 
-#: ../src/ssconvert.c:565
+#: ../src/ssconvert.c:567
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Resolutor: %s\n"
 
-#: ../src/ssconvert.c:661
+#: ../src/ssconvert.c:663
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13454,7 +13497,7 @@ msgstr ""
 "Exportador desconocido «%s».\n"
 "Pruebe con --list-exporters para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:681
+#: ../src/ssconvert.c:683
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13463,7 +13506,7 @@ msgstr ""
 "No se pudo adivinar el exportador que usar para «%s».\n"
 "Pruebe --list-exporters para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:693
+#: ../src/ssconvert.c:695
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13473,7 +13516,7 @@ msgstr ""
 "explícito.\n"
 "Pruebe --list-exportes para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:703
+#: ../src/ssconvert.c:705
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13482,12 +13525,12 @@ msgstr ""
 "Importador desconocido «%s».\n"
 "Pruebe con --list-importers para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:727
+#: ../src/ssconvert.c:729
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Falló al cargar %s\n"
 
-#: ../src/ssconvert.c:827
+#: ../src/ssconvert.c:843
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13499,11 +13542,11 @@ msgstr ""
 "Sólo se guardará la hoja actual.  Para superar esta limitación, use -S.\n"
 "\n"
 
-#: ../src/ssconvert.c:856 ../src/ssconvert.c:907
+#: ../src/ssconvert.c:872 ../src/ssconvert.c:923
 msgid "INFILE [OUTFILE]"
 msgstr "ARCHIVO_ENTRADA [ARCHIVO_SALIDA]"
 
-#: ../src/ssconvert.c:875
+#: ../src/ssconvert.c:891
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13514,7 +13557,7 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#: ../src/ssconvert.c:905 ../src/ssdiff.c:1165 ../src/ssindex.c:268
+#: ../src/ssconvert.c:921 ../src/ssdiff.c:1165 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uso: %s [OPCIÓN…] %s\n"
@@ -13732,29 +13775,29 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#: ../src/stf-export.c:687
+#: ../src/stf-export.c:689
 msgid "Error while trying to export file as text"
 msgstr "Error al intentar exportar el archivo como texto"
 
-#: ../src/stf-export.c:724
+#: ../src/stf-export.c:729
 msgid "eol must be one of unix, mac, and windows"
 msgstr "eol debe ser de unix, mac y windows"
 
-#: ../src/stf-export.c:744
+#: ../src/stf-export.c:749
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
 msgstr "Valor no válido para la opción %s: «%s»"
 
-#: ../src/stf-export.c:746
+#: ../src/stf-export.c:751
 msgid "Invalid option for stf exporter"
 msgstr "Opción no válida para el exportador stf"
 
-#: ../src/stf-export.c:777
+#: ../src/stf-export.c:782
 msgid "Text (configurable)"
 msgstr "Texto (configurable)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1318
+#: ../src/stf-parse.c:1350
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -13763,7 +13806,7 @@ msgstr ""
 "ignorarán."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1340
+#: ../src/stf-parse.c:1373
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -13775,28 +13818,28 @@ msgstr ""
 msgid "Error while trying to read file"
 msgstr "Error al intentar leer el archivo"
 
-#: ../src/stf.c:229
+#: ../src/stf.c:195
 msgid "This importer can only be used with a GUI."
 msgstr "Este importador sólo se puede usar con una IGU."
 
-#: ../src/stf.c:323 ../src/stf.c:358
+#: ../src/stf.c:289 ../src/stf.c:324
 msgid "Text to Columns"
 msgstr "Texto a columnas"
 
-#: ../src/stf.c:328
+#: ../src/stf.c:294
 #, c-format
 msgid "Only one column of input data can be parsed at a time"
 msgstr "Sólo se puede analizar a la vez una columna de datos de entrada"
 
-#: ../src/stf.c:353
+#: ../src/stf.c:319
 msgid "There is no data to convert"
 msgstr "No hay datos que convertir"
 
-#: ../src/stf.c:373
+#: ../src/stf.c:339
 msgid "Error while trying to parse data into sheet"
 msgstr "Error al analizar los datos en la hoja"
 
-#: ../src/stf.c:401
+#: ../src/stf.c:367
 #, c-format
 msgid "The file contains %d NULL character. It has been changed to a space."
 msgid_plural ""
@@ -13804,37 +13847,37 @@ msgid_plural ""
 msgstr[0] "El archivo contiene %d caracter NULL. Se cambió a un espacio."
 msgstr[1] "El archivo contiene %d caracteres NULL. Se cambiaron a espacios."
 
-#: ../src/stf.c:413
+#: ../src/stf.c:379
 #, fuzzy
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
 msgstr "El archivo contiene %d caracter NULL. Se cambió a un espacio."
 
-#: ../src/stf.c:459
+#: ../src/stf.c:425
 msgid "That file is not in the given encoding."
 msgstr "Ese archivo no está en la codificación dada."
 
-#: ../src/stf.c:504
+#: ../src/stf.c:470
 msgid "Some data did not fit on the sheet and was dropped."
 msgstr "Algunos datos no se ajustaban en la hoja y se dejaron."
 
-#: ../src/stf.c:516
+#: ../src/stf.c:482
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Error de análisis al analizar datos dentro de la hoja."
 
-#: ../src/stf.c:551
+#: ../src/stf.c:517
 msgid "Error while trying to write CSV file"
 msgstr "Error al intentar escribir el archivo CSV"
 
-#: ../src/stf.c:649
+#: ../src/stf.c:615
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Valores separados por comas o tabuladores (CSV/TSV)"
 
-#: ../src/stf.c:657
+#: ../src/stf.c:623
 msgid "Text import (configurable)"
 msgstr "Importar texto (configurable)"
 
-#: ../src/stf.c:671
+#: ../src/stf.c:637
 msgid "Comma separated values (CSV)"
 msgstr "Valores separados por comas (CSV)"
 
@@ -14677,23 +14720,23 @@ msgstr ""
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
 msgstr "Prueba de Wilcoxon-Mann-Whitney (%s)"
 
-#: ../src/tools/dao.c:182
+#: ../src/tools/dao.c:183
 msgid "New Sheet"
 msgstr "Hoja nueva"
 
-#: ../src/tools/dao.c:185
+#: ../src/tools/dao.c:186
 msgid "New Workbook"
 msgstr "Libro de trabajo nuevo"
 
-#: ../src/tools/dao.c:1005
+#: ../src/tools/dao.c:1004
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:1011
+#: ../src/tools/dao.c:1010
 msgid "Worksheet:"
 msgstr "Hoja de trabajo:"
 
-#: ../src/tools/dao.c:1018
+#: ../src/tools/dao.c:1017
 msgid "Report Created: "
 msgstr "Informe creado: "
 
@@ -14719,112 +14762,174 @@ msgstr "/Filtro avanzado:/Rango de fuente:/Rango de criterio:"
 msgid "Advanced Filter (%s)"
 msgstr "Filtro avanzado (%s)"
 
-#: ../src/tools/gnm-solver.c:590
+#: ../src/tools/gnm-solver.c:624
 #, c-format
 msgid "Invalid solver target"
 msgstr "Objetivo de resolutor no válido"
 
-#: ../src/tools/gnm-solver.c:602
+#: ../src/tools/gnm-solver.c:636
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr ""
 "La celda objetivo, %s, debería contener una fórmula que de como resultado un "
 "número."
 
-#: ../src/tools/gnm-solver.c:612
+#: ../src/tools/gnm-solver.c:646
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Rango de entrada del resolutor no válido"
 
-#: ../src/tools/gnm-solver.c:623
+#: ../src/tools/gnm-solver.c:657
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "La celda de entrada %s contiene una fórmula."
 
-#: ../src/tools/gnm-solver.c:638
+#: ../src/tools/gnm-solver.c:672
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "La restricción del resolutor #%d no es válida."
 
-#: ../src/tools/gnm-solver.c:1022
+#: ../src/tools/gnm-solver.c:1073
 msgid "Timeout"
 msgstr "Tiempo de espera"
 
-#: ../src/tools/gnm-solver.c:1231
+#: ../src/tools/gnm-solver.c:1282
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Falló al crear archivo para el programa lineal"
 
-#: ../src/tools/gnm-solver.c:1240
+#: ../src/tools/gnm-solver.c:1291
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Falló al crear archivo del programa lineal"
 
-#: ../src/tools/gnm-solver.c:1260
+#: ../src/tools/gnm-solver.c:1311
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Falló al guardar el programa lineal"
 
-#: ../src/tools/gnm-solver.c:1508
+#: ../src/tools/gnm-solver.c:1559
 msgid "Target"
 msgstr "Objetivo"
 
-#: ../src/tools/gnm-solver.c:1512
+#: ../src/tools/gnm-solver.c:1563
 msgid "Status"
 msgstr "Estado"
 
-#: ../src/tools/gnm-solver.c:1525
+#: ../src/tools/gnm-solver.c:1576
 msgid "Minimize"
 msgstr "Mínimizar"
 
-#: ../src/tools/gnm-solver.c:1528
+#: ../src/tools/gnm-solver.c:1579
 msgid "Maximize"
 msgstr "Máximizar"
 
-#: ../src/tools/gnm-solver.c:1556
+#: ../src/tools/gnm-solver.c:1607
 msgid "Lower"
 msgstr "Inferior"
 
-#: ../src/tools/gnm-solver.c:1557
+#: ../src/tools/gnm-solver.c:1608
 msgid "Upper"
 msgstr "Superior"
 
-#: ../src/tools/gnm-solver.c:1558 ../src/tools/gnm-solver.c:1601
+#: ../src/tools/gnm-solver.c:1609 ../src/tools/gnm-solver.c:1652
 msgid "Slack"
 msgstr "Débil"
 
-#: ../src/tools/gnm-solver.c:1580
+#: ../src/tools/gnm-solver.c:1631
 msgid "At limit"
 msgstr "Al límite"
 
-#: ../src/tools/gnm-solver.c:1583
+#: ../src/tools/gnm-solver.c:1634
 msgid "Outside bounds"
 msgstr "Límites exteriores"
 
-#: ../src/tools/gnm-solver.c:1598
+#: ../src/tools/gnm-solver.c:1649
 msgid "Condition"
 msgstr "Condición"
 
-#: ../src/tools/gnm-solver.c:1603
+#: ../src/tools/gnm-solver.c:1654 ../src/tools/gnm-solver.c:1794
 msgid "No constraints"
 msgstr "Sin restricciones"
 
-#: ../src/tools/gnm-solver.c:1691
-#, c-format
-msgid "Neighborhood for %s\n"
+#: ../src/tools/gnm-solver.c:1751
+#| msgid "Value"
+msgid ""
+"Final\n"
+"Value"
+msgstr ""
+"Valor\n"
+"Final"
+
+#: ../src/tools/gnm-solver.c:1752
+msgid ""
+"Reduced\n"
+"Cost"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:2157
+#: ../src/tools/gnm-solver.c:1753 ../src/tools/gnm-solver.c:1789
+#| msgid "Lower Limit (95%)"
+msgid ""
+"Lower\n"
+"Limit"
+msgstr ""
+"Límite\n"
+"inferior"
+
+#: ../src/tools/gnm-solver.c:1754 ../src/tools/gnm-solver.c:1790
+#| msgid "Upper Limit (95%)"
+msgid ""
+"Upper\n"
+"Limit"
+msgstr ""
+"Límite\n"
+"superior"
+
+#: ../src/tools/gnm-solver.c:1786
+msgid ""
+"Shadow\n"
+"Price"
+msgstr ""
+
+#: ../src/tools/gnm-solver.c:1787
+#| msgid "Constraint"
+msgid ""
+"Constraint\n"
+"LHS"
+msgstr ""
+"Restricción\n"
+"LHS"
+
+#: ../src/tools/gnm-solver.c:1788
+#| msgid "Constraint"
+msgid ""
+"Constraint\n"
+"RHS"
+msgstr ""
+"Restricción\n"
+"RHS"
+
+#: ../src/tools/gnm-solver.c:1856
+#| msgid "P_rogram"
+msgid "Program"
+msgstr "Programa"
+
+#: ../src/tools/gnm-solver.c:1862
+#| msgid "Case Sensitive"
+msgid "Sensitivity"
+msgstr "Sensibilidad"
+
+#: ../src/tools/gnm-solver.c:2300
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "La celda objetivo no evaluó a un número."
 
-#: ../src/tools/gnm-solver.c:2165
+#: ../src/tools/gnm-solver.c:2308
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:2576
+#: ../src/tools/gnm-solver.c:2892
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14837,24 +14942,24 @@ msgstr ""
 "\n"
 "¿Le gustaría encontrarlo usted mismo?"
 
-#: ../src/tools/gnm-solver.c:2580
+#: ../src/tools/gnm-solver.c:2896
 #, c-format
 msgid "Unable to locate %s"
 msgstr "No se puede encontrar %s"
 
-#: ../src/tools/gnm-solver.c:2596
+#: ../src/tools/gnm-solver.c:2912
 #, c-format
 msgid "Locate the %s program"
 msgstr "Encontrar el programa %s"
 
-#: ../src/tools/gnm-solver.c:2987
+#: ../src/tools/gnm-solver.c:3303
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Los valores iniciales no satisfacen las restricciones."
 
-#: ../src/tools/gnm-solver.c:3078
+#: ../src/tools/gnm-solver.c:3394
 msgid "Iteration limit exceeded"
-msgstr ""
+msgstr "Superado el límite de iteraciones"
 
 #: ../src/tools/random-generator-cor.c:63
 msgid "Cholesky Decomposition of the Covariance Matrix"
@@ -14959,7 +15064,7 @@ msgstr "Curtosis"
 msgid "Range"
 msgstr "Rango"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4056
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4068
 msgid "Count"
 msgstr "Cuenta"
 
@@ -15334,9 +15439,8 @@ msgid "Setup the page settings for your current printer"
 msgstr "Establecer la configuración de la página para la impresora actual"
 
 #: ../src/wbc-gtk-actions.c:2028
-#, fuzzy
 msgid "Print Pre_view"
-msgstr "Imprimir vista previa"
+msgstr "_Vista previa de impresión"
 
 #: ../src/wbc-gtk-actions.c:2029
 msgid "Print preview"
@@ -15873,7 +15977,7 @@ msgstr "Siguiente _objeto"
 msgid "Select the next sheet object"
 msgstr "Seleccionar el siguiente objeto de la hoja"
 
-#: ../src/wbc-gtk-actions.c:2536 ../src/wbc-gtk.c:2743
+#: ../src/wbc-gtk-actions.c:2536 ../src/wbc-gtk.c:2772
 msgid "Go to Top"
 msgstr "Ir al principio"
 
@@ -15881,7 +15985,7 @@ msgstr "Ir al principio"
 msgid "Go to the top of the data"
 msgstr "Ir al principio de los datos"
 
-#: ../src/wbc-gtk-actions.c:2542 ../src/wbc-gtk.c:2744
+#: ../src/wbc-gtk-actions.c:2542 ../src/wbc-gtk.c:2773
 msgid "Go to Bottom"
 msgstr "Ir al final"
 
@@ -15889,7 +15993,7 @@ msgstr "Ir al final"
 msgid "Go to the bottom of the data"
 msgstr "Ir al final de los datos"
 
-#: ../src/wbc-gtk-actions.c:2548 ../src/wbc-gtk.c:2745
+#: ../src/wbc-gtk-actions.c:2548 ../src/wbc-gtk.c:2774
 msgid "Go to First"
 msgstr "Ir a la primera"
 
@@ -15897,7 +16001,7 @@ msgstr "Ir a la primera"
 msgid "Go to the first data cell"
 msgstr "Ir a la primera celda de datos"
 
-#: ../src/wbc-gtk-actions.c:2554 ../src/wbc-gtk.c:2746
+#: ../src/wbc-gtk-actions.c:2554 ../src/wbc-gtk.c:2775
 msgid "Go to Last"
 msgstr "Ir a la última"
 
@@ -16753,7 +16857,7 @@ msgstr "_Editar rodaja de datos…"
 msgid "Adjust a data slicer"
 msgstr "Ajustar una rodaja de datos"
 
-#: ../src/wbc-gtk-actions.c:3291 ../src/wbc-gtk.c:4052
+#: ../src/wbc-gtk-actions.c:3291 ../src/wbc-gtk.c:4064
 #: ../src/workbook-view.c:1033
 msgid "Sum"
 msgstr "Suma"
@@ -17100,7 +17204,6 @@ msgid "_Merge and Center"
 msgstr "_Combinar y centrar"
 
 #: ../src/wbc-gtk-actions.c:3599
-#, fuzzy
 msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Combinar la selección en 1 celda, y centrar horizontalmente."
 
@@ -17511,27 +17614,27 @@ msgstr "Introducir en los rangos seleccionados"
 msgid "Enter in selected ranges as array"
 msgstr "Introducir en los rangos seleccionados como matriz"
 
-#: ../src/wbc-gtk.c:2479
+#: ../src/wbc-gtk.c:2508
 msgid "END"
 msgstr "FIN"
 
-#: ../src/wbc-gtk.c:2748
+#: ../src/wbc-gtk.c:2777
 msgid "Go to Cell..."
 msgstr "Ir a la celda …"
 
-#: ../src/wbc-gtk.c:2810
+#: ../src/wbc-gtk.c:2839
 msgid "Accept change in multiple cells"
 msgstr "Aceptar cambio en múltiples celdas"
 
-#: ../src/wbc-gtk.c:2881 ../src/wbc-gtk.c:2901
+#: ../src/wbc-gtk.c:2911 ../src/wbc-gtk.c:2931
 msgid "_Re-Edit"
 msgstr "_Reeditar"
 
-#: ../src/wbc-gtk.c:2883 ../src/wbc-gtk.c:2890
+#: ../src/wbc-gtk.c:2913 ../src/wbc-gtk.c:2920
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: ../src/wbc-gtk.c:2888 ../src/wbc-gtk.c:2903
+#: ../src/wbc-gtk.c:2918 ../src/wbc-gtk.c:2933
 msgid "_Accept"
 msgstr "_Aceptar"
 
@@ -17541,62 +17644,62 @@ msgstr "_Aceptar"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3263
+#: ../src/wbc-gtk.c:3293
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "En el menú «%s», la clave «%s» se usa tanto para «%s» como para «%s»."
 
-#: ../src/wbc-gtk.c:3586
+#: ../src/wbc-gtk.c:3595
 msgid "Display above sheets"
 msgstr "Mostrar sobre las hojas"
 
-#: ../src/wbc-gtk.c:3587
+#: ../src/wbc-gtk.c:3596
 msgid "Display to the left of sheets"
 msgstr "Mostrar a la izquierda de las hojas"
 
-#: ../src/wbc-gtk.c:3588
+#: ../src/wbc-gtk.c:3597
 msgid "Display to the right of sheets"
 msgstr "Mostrar a la derecha de las hojas"
 
-#: ../src/wbc-gtk.c:3617
+#: ../src/wbc-gtk.c:3626
 msgid "Hide"
 msgstr "Ocultar"
 
-#: ../src/wbc-gtk.c:3683
+#: ../src/wbc-gtk.c:3692
 msgid "Standard Toolbar"
 msgstr "Barra de herramientas estándar"
 
-#: ../src/wbc-gtk.c:3684
+#: ../src/wbc-gtk.c:3693
 msgid "Format Toolbar"
 msgstr "Barra de herramientas de formato"
 
-#: ../src/wbc-gtk.c:3685
+#: ../src/wbc-gtk.c:3694
 msgid "Object Toolbar"
 msgstr "Barra de herramientas de objeto"
 
-#: ../src/wbc-gtk.c:3699
+#: ../src/wbc-gtk.c:3708
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Mostrar/ocultar barra de herramientas %s"
 
-#: ../src/wbc-gtk.c:4113
+#: ../src/wbc-gtk.c:4125
 #, c-format
 msgid "Content of %s"
 msgstr "Contenido de %s"
 
-#: ../src/wbc-gtk.c:4128
+#: ../src/wbc-gtk.c:4140
 msgid "Use Maximum Precision"
 msgstr "Usar precisión máxima"
 
-#: ../src/wbc-gtk.c:4140
+#: ../src/wbc-gtk.c:4152
 msgid "Insert Formula Below"
 msgstr "Insertar fórmula debajo."
 
-#: ../src/wbc-gtk.c:4146
+#: ../src/wbc-gtk.c:4158
 msgid "Insert Formula to Side"
 msgstr "Insertar fórmula al lado."
 
-#: ../src/wbc-gtk.c:4229
+#: ../src/wbc-gtk.c:4241
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
@@ -17743,13 +17846,12 @@ msgstr ""
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnumeric-expr-entry.c:972
-#, fuzzy
 msgid ""
 "\n"
-"\t<i>⇧F4 to select</i>"
+"\t<i> to select</i>"
 msgstr ""
 "\n"
-"\t<i>para seleccionar</i>"
+"\t<i> para seleccionar</i>"
 
 #: ../src/widgets/gnumeric-expr-entry.c:2644
 #, c-format
@@ -17823,9 +17925,8 @@ msgid "A single selection is required."
 msgstr "Se requiere una selección simple."
 
 #: ../src/workbook-cmd-format.c:180
-#, fuzzy
-msgid "An n⨯1 or 1⨯n selection is required."
-msgstr "Se requiere una selección n⨯1 o 1⨯n."
+msgid "An n or 1⨯n selection is required."
+msgstr "Se requiere una selección n o 1⨯n."
 
 #: ../src/workbook-cmd-format.c:187
 msgid "There is no point in sorting a single cell."
@@ -17967,29 +18068,35 @@ msgstr "El archivo tiene un elemento SheetNameIndex inconsistente."
 msgid "Unknown filter operator \"%s\""
 msgstr "Operador de filtro «%s» desconocido"
 
-#: ../src/xml-sax-read.c:2331
+#: ../src/xml-sax-read.c:2332
 msgid "Missing filter type"
 msgstr "Falta tipo de filtro"
 
-#: ../src/xml-sax-read.c:2353
+#: ../src/xml-sax-read.c:2345
+#, fuzzy
+#| msgid "Change filter condition for %s"
+msgid "Malformed sheet filter condition"
+msgstr "Cambiar condición del filtro para %s"
+
+#: ../src/xml-sax-read.c:2359
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Tipo de filtro «%s» desconocido"
 
-#: ../src/xml-sax-read.c:2374
+#: ../src/xml-sax-read.c:2380
 msgid "Invalid filter, missing Area"
 msgstr "Filtro no válido, falta el área"
 
-#: ../src/xml-sax-read.c:2439
+#: ../src/xml-sax-read.c:2445
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Tipo de objeto «%s» no soportado"
 
-#: ../src/xml-sax-read.c:3750 ../src/xml-sax-write.c:1696
+#: ../src/xml-sax-read.c:3757 ../src/xml-sax-write.c:1698
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1708
+#: ../src/xml-sax-write.c:1710
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr "Gnumeric XML sin comprimir (*.xml)"
 
