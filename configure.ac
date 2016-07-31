@@ -2,6 +2,8 @@
 dnl We require Automake 1.7.2, which requires Autoconf 2.54.
 dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 AC_PREREQ(2.54)
+AC_CONFIG_MACRO_DIR([m4])
+AX_IS_RELEASE([git-directory])
 
 m4_define([gnumeric_version_epoch], [1])
 m4_define([gnumeric_version_major], [12])
@@ -69,6 +71,9 @@ AH_BOTTOM([/* Don't include gnumeric-features.h, it's a subset of gnumeric-confi
 AM_MAINTAINER_MODE([enable])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+
+AX_REQUIRE_DEFINED([GTK_DOC_CHECK])
+GTK_DOC_CHECK
 
 dnl We use a LINGUAS file, so we need intltool >= 0.35:
 IT_PROG_INTLTOOL([0.35.0])
@@ -266,10 +271,6 @@ AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
 AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource$ac_exeext, gdk-pixbuf-csource$ac_exeext)
 
 ## this should come after `AC_PROG_CC'
-ifdef([GNOME_COMPILE_WARNINGS],
-	[GNOME_COMPILE_WARNINGS] CFLAGS="$CFLAGS $WARN_CFLAGS",
-	[]
-)
 set_more_warnings=yes
 if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 	dnl Clang needs this option, or else it will appear to support any
@@ -285,7 +286,8 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 	AC_MSG_RESULT($has_unknown_warning_option)
 	CFLAGS="$SAVE_CFLAGS"
 
-	warning_options="-Wsign-compare -Wpointer-arith \
+	warning_options="-Wall -Werror=init-self -Werror=missing-include-dirs \
+			 -Wsign-compare -Werror=pointer-arith \
 			 -Wchar-subscripts -Wwrite-strings \
 			 -Wdeclaration-after-statement -Wnested-externs \
 			 -Wmissing-noreturn \

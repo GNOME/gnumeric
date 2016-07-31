@@ -3,21 +3,10 @@
 
 PKG_NAME="Gnumeric"
 
-REQUIRED_AUTOMAKE_VERSION=1.9.0
-REQUIRED_LIBTOOL_VERSION=1.4.3
+test -n "$srcdir" || srcdir=$(dirname "$0")
+test -n "$srcdir" || srcdir=.
 
-# We use the XGETTEXT_KEYWORDS variable, thus we require:
-REQUIRED_INTLTOOL_VERSION=0.29
-
-# We require Automake 1.7.2, which requires Autoconf 2.54.
-# (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
-REQUIRED_AUTOCONF_VERSION=2.54
-
-USE_GNOME2_MACROS=1
-USE_COMMON_DOC_BUILD=yes
-
-srcdir=`dirname $0`
-test -z "$srcdir" && srcdir=.
+olddir=$(pwd)
 
 (test -f $srcdir/configure.ac \
   && test -d $srcdir/src \
@@ -27,29 +16,14 @@ test -z "$srcdir" && srcdir=.
     exit 1
 }
 
-ifs_save="$IFS"; IFS=":"
-for dir in $PATH ; do
-  IFS="$ifs_save"
-  test -z "$dir" && dir=.
-  if test -f "$dir/gnome-autogen.sh" ; then
-    gnome_autogen="$dir/gnome-autogen.sh"
-    gnome_datadir=`echo $dir | sed -e 's,/bin$,/share,'`
-    break
-  fi
-done
+cd $srcdir
+aclocal --install || exit 1
+glib-gettextize --force --copy || exit 1
+gtkdocize --copy || exit 1
+intltoolize --force --copy --automake || exit 1
+autoreconf --verbose --force --install || exit 1
+cd $olddir
 
-if test -z "$gnome_autogen" ; then
-  echo "You need to install the gnome-common module and make"
-  echo "sure the gnome-autogen.sh script is in your \$PATH."
-  exit 1
-fi
-
-GNOME_DATADIR="$gnome_datadir"
-
-# Dont't run configure yet, ...
-GNM_NOCONFIGURE=$NOCONFIGURE
-NOCONFIGURE=1
-. $gnome_autogen
 
 # We have our own copy of Makefile.in.in generated October 2008.
 # One of the reasons why we need a local copy is that
@@ -79,9 +53,13 @@ xml_file_name='^((schemas|templates)/.+|[^/]+)\.in$|\.(glade|xml)(\.in)?$'
   egrep "$xml_file_name" $srcdir/po/POTFILES.in
 ) >$srcdir/po-functions/POTFILES.skip
 
-# ... and then proceed.
-if test "x$GNM_NOCONFIGURE" = x; then
-    printbold Running $srcdir/configure $conf_flags "$@" ...
-    $srcdir/configure $conf_flags "$@" \
-        && echo Now type \`make\' to compile $PKG_NAME || exit 1
+
+if [ "$NOCONFIGURE" = "" ]; then
+        $srcdir/configure "$@" || exit 1
+
+        if [ "$1" = "--help" ]; then exit 0 else
+                echo "Now type 'make' to compile $PKG_NAME" || exit 1
+        fi
+else
+        echo "Skipping configure process."
 fi
