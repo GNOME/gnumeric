@@ -11,15 +11,15 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-22 22:38+0000\n"
-"PO-Revision-Date: 2016-03-23 08:37+0100\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"POT-Creation-Date: 2016-07-10 09:46+0000\n"
+"PO-Revision-Date: 2016-07-31 13:59+0200\n"
+"Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
@@ -638,23 +638,23 @@ msgstr "„%s” munkalap olvasása…"
 msgid "Reading comments..."
 msgstr "Megjegyzések olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:5139
+#: ../plugins/excel/xlsx-read.c:5143
 msgid "Reading shared strings..."
 msgstr "Osztott szövegek olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:5148
+#: ../plugins/excel/xlsx-read.c:5152
 msgid "Reading theme..."
 msgstr "Téma olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:5157
+#: ../plugins/excel/xlsx-read.c:5161
 msgid "Reading styles..."
 msgstr "Stílusok olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:5162
+#: ../plugins/excel/xlsx-read.c:5166
 msgid "Reading workbook..."
 msgstr "Munkafüzet olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:5172
+#: ../plugins/excel/xlsx-read.c:5176
 msgid "No workbook stream found."
 msgstr "Nem található munkafüzet adatfolyam."
 
@@ -1121,7 +1121,7 @@ msgstr "Adatbázis-függvények adatok lekéréséhez egy adatbázisból."
 msgid "Data Bases..."
 msgstr "Adatbázisok…"
 
-#: ../plugins/glpk/glpk-write.c:144 ../plugins/lpsolve/lpsolve-write.c:145
+#: ../plugins/glpk/glpk-write.c:145 ../plugins/lpsolve/lpsolve-write.c:145
 #, c-format
 msgid "Only linear programs are handled."
 msgstr "Csak lineáris programok vannak kezelve."
@@ -3351,9 +3351,9 @@ msgstr "Sorok alapértelmezett száma egy munkalapon"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
 msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
-"gnumeric session."
+"Gnumeric session."
 msgstr ""
-"A sorok száma az egyes munkalapokon. Ez a beállítás csak egy új gnumeric "
+"A sorok száma az egyes munkalapokon. Ez a beállítás csak egy új Gnumeric "
 "munkamenetben lesz használva."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:23
@@ -3363,9 +3363,9 @@ msgstr "Oszlopok alapértelmezett száma egy munkalapon"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:24
 msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
-"gnumeric session."
+"Gnumeric session."
 msgstr ""
-"Az oszlopok száma az egyes munkalapokon. Ez a beállítás csak egy új gnumeric "
+"Az oszlopok száma az egyes munkalapokon. Ez a beállítás csak egy új Gnumeric "
 "munkamenetben lesz használva."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:25
@@ -3550,17 +3550,17 @@ msgstr "Kifejezések automatikus újraszámolásának késleltetése"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
 msgid ""
-"If `lag' is 0, gnumeric recalculates all auto expressions immediately after "
-"every change. Non-zero values of `lag' allow gnumeric to accumulate more "
+"If `lag' is 0, Gnumeric recalculates all auto expressions immediately after "
+"every change. Non-zero values of `lag' allow Gnumeric to accumulate more "
 "changes before each recalculation. If `lag' is positive, then whenever a "
-"change appears, gnumeric waits `lag' milliseconds and then recalculates; if "
+"change appears, Gnumeric waits `lag' milliseconds and then recalculates; if "
 "more changes appear during that period, they are also processed at that "
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milliseconds."
 msgstr ""
-"Ha a „késleltetés” 0, akkor a gnumeric minden változás után azonnal "
+"Ha a „késleltetés” 0, akkor a Gnumeric minden változás után azonnal "
 "újraszámol minden automatikus kifejezést. A „késleltetés” nem nulla értékei "
-"több változás felhalmozását teszik lehetővé a gnumeric számára az egyes "
+"több változás felhalmozását teszik lehetővé a Gnumeric számára az egyes "
 "újraszámolások előtt. Ha „késleltetés” pozitív, akkor amikor változás "
 "történik, a gnumeric „késleltetés” ezredmásodpercet vár, és aztán "
 "újraszámol. Ha ezalatt az időszak alatt több változás történik, akkor azok "
@@ -3656,11 +3656,11 @@ msgstr "Fájlok felülírása alapértelmezetten"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
 msgid ""
-"Before an existing file is being overwritten, gnumeric will present a "
+"Before an existing file is being overwritten, Gnumeric will present a "
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
-"Egy meglévő fájl felülírása előtt a gnumeric egy figyelmeztetés "
+"Egy meglévő fájl felülírása előtt a Gnumeric egy figyelmeztetés "
 "párbeszédablakot fog megjeleníteni. Ezen lehetőség beállítása a felülírás "
 "gombot fogja alapértelmezett gombbá tenni abban a párbeszédablakban."
 
@@ -5014,7 +5014,6 @@ msgid "Visit the Gnumeric website"
 msgstr "A Gnumeric weblapjának megtekintése"
 
 #: ../src/dialogs/dialog-about.c:547
-#| msgid "Copyright © 1998-2015"
 msgid "Copyright © 1998-2016"
 msgstr "Copyright © 1998-2016"
 
@@ -6567,7 +6566,7 @@ msgstr ""
 "mielőtt meg lehetne nyitni azokat."
 
 #: ../src/dialogs/dialog-password.c:60
-msgid "Password :"
+msgid "Password:"
 msgstr "Jelszó:"
 
 #: ../src/dialogs/dialog-plugin-manager.c:270
@@ -7552,36 +7551,36 @@ msgid_plural "A maximum of %d columns can be imported."
 msgstr[0] "%d oszlop maximuma importálható."
 msgstr[1] "%d oszlop maximuma importálható."
 
-#: ../src/dialogs/dialog-stf-format-page.c:205
+#: ../src/dialogs/dialog-stf-format-page.c:204
 msgid "Format Selector"
 msgstr "Formátumválasztó"
 
-#: ../src/dialogs/dialog-stf-format-page.c:387
+#: ../src/dialogs/dialog-stf-format-page.c:385
 msgid "Ignore all columns on right"
 msgstr "Minden jobbra lévő oszlop mellőzése"
 
-#: ../src/dialogs/dialog-stf-format-page.c:388
+#: ../src/dialogs/dialog-stf-format-page.c:386
 msgid "Ignore all columns on left"
 msgstr "Minden balra lévő oszlop mellőzése"
 
-#: ../src/dialogs/dialog-stf-format-page.c:389
+#: ../src/dialogs/dialog-stf-format-page.c:387
 msgid "Import all columns on right"
 msgstr "Minden jobbra lévő oszlop importálása"
 
-#: ../src/dialogs/dialog-stf-format-page.c:390
+#: ../src/dialogs/dialog-stf-format-page.c:388
 msgid "Import all columns on left"
 msgstr "Minden balra lévő oszlop importálása"
 
-#: ../src/dialogs/dialog-stf-format-page.c:391
+#: ../src/dialogs/dialog-stf-format-page.c:389
 msgid "Copy format to right"
 msgstr "Formátum másolás jobbra"
 
-#: ../src/dialogs/dialog-stf-format-page.c:593
+#: ../src/dialogs/dialog-stf-format-page.c:591
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "%d oszlop maximuma importálható."
 
-#: ../src/dialogs/dialog-stf-format-page.c:604
+#: ../src/dialogs/dialog-stf-format-page.c:602
 msgid "Auto fit"
 msgstr "Automatikus méretezés"
 
@@ -7600,7 +7599,7 @@ msgstr ""
 "Ha ez a jelölőnégyzet be van jelölve, akkor az oszlop szélessége igazítva "
 "lesz a leghosszabb bejegyzéshez."
 
-#: ../src/dialogs/dialog-stf-format-page.c:757
+#: ../src/dialogs/dialog-stf-format-page.c:758
 #: ../src/dialogs/dialog-stf-preview.h:25
 #: ../src/tools/analysis-exp-smoothing.c:153
 #: ../src/tools/analysis-exp-smoothing.c:329
@@ -8806,11 +8805,11 @@ msgid "Format"
 msgstr "Formátum"
 
 #: ../src/dialogs/data-table.ui.h:2
-msgid "_Row Input :"
+msgid "_Row Input:"
 msgstr "_Sor bemenet:"
 
 #: ../src/dialogs/data-table.ui.h:3
-msgid "Co_lumn Input :"
+msgid "Co_lumn Input:"
 msgstr "_Oszlop bemenet:"
 
 #: ../src/dialogs/define-name.ui.h:1
@@ -11532,7 +11531,7 @@ msgid "List Properties"
 msgstr "Lista tulajdonságai"
 
 #: ../src/dialogs/so-list.ui.h:2
-msgid "_Link :"
+msgid "_Link:"
 msgstr "_Hivatkozás:"
 
 #: ../src/dialogs/so-list.ui.h:3
@@ -11544,7 +11543,7 @@ msgid "As index"
 msgstr "Indexként"
 
 #: ../src/dialogs/so-list.ui.h:5
-msgid "_Content :"
+msgid "_Content:"
 msgstr "_Tartalom:"
 
 #: ../src/dialogs/solver.ui.h:1
@@ -12401,16 +12400,16 @@ msgstr "Nem lehet bekapcsolni a(z) „%s” URL-t"
 msgid "Unable to open '%s'"
 msgstr "Nem nyitható meg: „%s”"
 
-#: ../src/item-bar.c:845
+#: ../src/item-bar.c:859
 msgid "Width:"
 msgstr "Szélesség:"
 
-#: ../src/item-bar.c:845
+#: ../src/item-bar.c:859
 msgid "Height"
 msgstr "Magasság"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
-#: ../src/item-bar.c:850
+#: ../src/item-bar.c:864
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
@@ -12418,18 +12417,18 @@ msgstr[0] "(%d képpont)"
 msgstr[1] "(%d képpont)"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
-#: ../src/item-bar.c:855
+#: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pt"
 msgstr "%d.00 pont"
 
-#: ../src/item-bar.c:855
+#: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pts"
 msgstr "%d.00 pont"
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
-#: ../src/item-bar.c:859
+#: ../src/item-bar.c:873
 #, c-format
 msgid "%.2f pts"
 msgstr "%.2f pont"
@@ -13771,7 +13770,7 @@ msgid "Text (configurable)"
 msgstr "Szöveg (beállítható)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1318
+#: ../src/stf-parse.c:1350
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -13780,7 +13779,7 @@ msgstr ""
 "kívül lesznek hagyva."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1340
+#: ../src/stf-parse.c:1373
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -13792,28 +13791,28 @@ msgstr ""
 msgid "Error while trying to read file"
 msgstr "Hiba a fájl olvasási kísérlete közben"
 
-#: ../src/stf.c:229
+#: ../src/stf.c:195
 msgid "This importer can only be used with a GUI."
 msgstr "Ezt az importálót csak grafikus felülettel lehet használni."
 
-#: ../src/stf.c:323 ../src/stf.c:358
+#: ../src/stf.c:289 ../src/stf.c:324
 msgid "Text to Columns"
 msgstr "Szövegből oszlopok"
 
-#: ../src/stf.c:328
+#: ../src/stf.c:294
 #, c-format
 msgid "Only one column of input data can be parsed at a time"
 msgstr "A bemeneti adatoknak egyszerre csak egy oszlopa dolgozható fel"
 
-#: ../src/stf.c:353
+#: ../src/stf.c:319
 msgid "There is no data to convert"
 msgstr "Nincs átalakítandó adat"
 
-#: ../src/stf.c:373
+#: ../src/stf.c:339
 msgid "Error while trying to parse data into sheet"
 msgstr "Hiba az adatok munkalapra való feldolgozása közben"
 
-#: ../src/stf.c:401
+#: ../src/stf.c:367
 #, c-format
 msgid "The file contains %d NULL character. It has been changed to a space."
 msgid_plural ""
@@ -13822,37 +13821,37 @@ msgstr[0] "A fájl %d NULL karaktert tartalmaz. Meg lett változtatva szóközre
 msgstr[1] ""
 "A fájl %d NULL karaktert tartalmaz. Meg lettek változtatva szóközökre."
 
-#: ../src/stf.c:413
+#: ../src/stf.c:379
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
 msgstr ""
 "A fájl érvénytelen UTF-8 kódolású karaktereket tartalmaz és csonkítva lett"
 
-#: ../src/stf.c:459
+#: ../src/stf.c:425
 msgid "That file is not in the given encoding."
 msgstr "Az a fájl nincs a megadott kódolásban."
 
-#: ../src/stf.c:504
+#: ../src/stf.c:470
 msgid "Some data did not fit on the sheet and was dropped."
 msgstr "Néhány adat nem fért el a munkalapon és el lett dobva."
 
-#: ../src/stf.c:516
+#: ../src/stf.c:482
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Feldolgozási hiba az adatok munkalapra való feldolgozása közben"
 
-#: ../src/stf.c:551
+#: ../src/stf.c:517
 msgid "Error while trying to write CSV file"
 msgstr "Hiba a CSV-fájl írási kísérlete közben"
 
-#: ../src/stf.c:649
+#: ../src/stf.c:615
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Vesszővel vagy tabulátorral elválasztott értékek (CSV/TSV)"
 
-#: ../src/stf.c:657
+#: ../src/stf.c:623
 msgid "Text import (configurable)"
 msgstr "Szövegimportálás (beállítható)"
 
-#: ../src/stf.c:671
+#: ../src/stf.c:637
 msgid "Comma separated values (CSV)"
 msgstr "Vesszővel elválasztott értékek (CSV)"
 
