@@ -31,7 +31,7 @@ cd $olddir
 # SVN, so this file cannot depend on the versions of the tools which the
 # developers have installed.
 #
-printbold "Creating po/Makefile.in.in and po-functions/Makefile.in.in."
+echo "Creating po/Makefile.in.in and po-functions/Makefile.in.in."
 rm -f $srcdir/po/Makefile.in.in $srcdir/po-functions/Makefile.in.in
 cp $srcdir/po/Makefile.in.in.own $srcdir/po/Makefile.in.in
 sed '/^\(GETTEXT_PACKAGE\|subdir\) =/s/[ 	]*$/-functions/
@@ -41,7 +41,7 @@ XGETTEXT_KEYWORDS = --keyword --keyword=F_
 /^EXTRA_DISTFILES/s/ LINGUAS//
 ' $srcdir/po/Makefile.in.in >$srcdir/po-functions/Makefile.in.in
 
-printbold "Creating po-functions/POTFILES.{in,skip}."
+echo "Creating po-functions/POTFILES.{in,skip}."
 rm -f $srcdir/po-functions/POTFILES.in $srcdir/po-functions/POTFILES.skip
 # This regex matches names of XML files:
 xml_file_name='^((schemas|templates)/.+|[^/]+)\.in$|\.(glade|xml)(\.in)?$'
