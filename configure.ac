@@ -72,7 +72,7 @@ AM_MAINTAINER_MODE([enable])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-AX_REQUIRE_DEFINED([GTK_DOC_CHECK])
+dnl AX_REQUIRE_DEFINED([GTK_DOC_CHECK])
 GTK_DOC_CHECK
 
 dnl We use a LINGUAS file, so we need intltool >= 0.35:
