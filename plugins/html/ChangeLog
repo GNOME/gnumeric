@@ -1,3 +1,8 @@
+2016-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* latexhtml.c (write_sheet): make the html4.0 fragment work like
+	html4.0 and validate also in an xhtml context
+
 2016-06-29  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.31

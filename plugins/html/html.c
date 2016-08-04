@@ -663,10 +663,9 @@ write_sheet (GsfOutput *output, Sheet *sheet,
 
 	switch (version) {
 	case HTML40:
-		gsf_output_puts (output, "<p><table cellspacing=\"0\" cellpadding=\"3\">\n");
-		break;
+	case HTML40F:
 	case XHTML:
-		gsf_output_puts (output, "<p /><table cellspacing=\"0\" cellpadding=\"3\">\n");
+		gsf_output_puts (output, "<p></p><table cellspacing=\"0\" cellpadding=\"3\">\n");
 		break;
 	default:
 		gsf_output_puts (output, "<p><table border=\"1\">\n");
