@@ -35,7 +35,6 @@
 #include "func.h"
 #include "expr.h"
 #include "position.h"
-#include "rangefunc.h"
 #include "tools.h"
 #include "value.h"
 #include "cell.h"
