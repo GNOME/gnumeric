@@ -15,6 +15,7 @@
 				<function name="char"/>
 				<function name="clean"/>
 				<function name="code"/>
+				<function name="concat"/>
 				<function name="concatenate"/>
 				<function name="dollar"/>
 				<function name="exact"/>

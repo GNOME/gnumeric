@@ -6,6 +6,10 @@ Andreas:
 Jean:
 	* Fix  paradox plugin build with pxlib-0.6.7. [#769319]
 
+Morten:
+	* Avoid gnome-common dependency.
+	* New function CONCAT.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.31
 

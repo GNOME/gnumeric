@@ -601,13 +601,13 @@ gnumeric_upper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_concatenate[] = {
-        { GNM_FUNC_HELP_NAME, F_("CONCATENATE:the concatenation of the strings @{s1}, @{s2},\xe2\x80\xa6")},
-        { GNM_FUNC_HELP_ARG, F_("s1:first string")},
-        { GNM_FUNC_HELP_ARG, F_("s2:second string")},
+	{ GNM_FUNC_HELP_NAME, F_("CONCATENATE:the concatenation of the strings @{s1}, @{s2},\xe2\x80\xa6")},
+	{ GNM_FUNC_HELP_ARG, F_("s1:first string")},
+	{ GNM_FUNC_HELP_ARG, F_("s2:second string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=CONCATENATE(\"aa\",\"bb\")" },
-        { GNM_FUNC_HELP_SEEALSO, "LEFT,MID,RIGHT"},
-        { GNM_FUNC_HELP_END}
+	{ GNM_FUNC_HELP_EXAMPLES, "=CONCATENATE(\"aa\",\"bb\")" },
+	{ GNM_FUNC_HELP_SEEALSO, "LEFT,MID,RIGHT"},
+	{ GNM_FUNC_HELP_END}
 };
 
 
@@ -618,6 +618,23 @@ gnumeric_concatenate (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv
 				      range_concatenate,
 				      COLLECT_IGNORE_BLANKS,
 				      GNM_ERROR_VALUE);
+}
+
+static GnmFuncHelp const help_concat[] = {
+	{ GNM_FUNC_HELP_NAME, F_("CONCAT:the concatenation of the strings @{s1}, @{s2},\xe2\x80\xa6")},
+	{ GNM_FUNC_HELP_ARG, F_("s1:first string")},
+	{ GNM_FUNC_HELP_ARG, F_("s2:second string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=CONCAT(\"aa\",\"bb\")" },
+	{ GNM_FUNC_HELP_NOTE, F_("This function is identical to CONCATENATE") },
+	{ GNM_FUNC_HELP_SEEALSO, "LEFT,MID,RIGHT"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_concat (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	return gnumeric_concatenate (ei, argc, argv);
 }
 
 /***************************************************************************/
@@ -1673,6 +1690,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "unicode",    "S",                         help_unicode,
 	  gnumeric_unicode, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
+        { "concat", NULL,               help_concat,
+	  NULL, gnumeric_concat, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "concatenate", NULL,               help_concatenate,
 	  NULL, gnumeric_concatenate, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
