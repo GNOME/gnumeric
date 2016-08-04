@@ -1036,6 +1036,7 @@ GnmValue *
 string_range_function (int argc, GnmExprConstPtr const *argv,
 		       GnmFuncEvalInfo *ei,
 		       string_range_function_t func,
+		       gpointer user,
 		       CollectFlags flags,
 		       GnmStdError func_error)
 {
@@ -1048,7 +1049,7 @@ string_range_function (int argc, GnmExprConstPtr const *argv,
 	if (!vals)
 		return error;
 
-	err = func (vals, &res);
+	err = func (vals, &res, user);
 
 	collect_strings_free (vals);
 

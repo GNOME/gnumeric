@@ -19,7 +19,7 @@
  * Returns: non-zero on error.
  */
 int
-range_concatenate (GPtrArray *data, char **res)
+range_concatenate (GPtrArray *data, char **res, gpointer user)
 {
 	unsigned ui;
 	size_t len = 0;

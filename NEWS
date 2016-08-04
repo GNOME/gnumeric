@@ -9,6 +9,7 @@ Jean:
 Morten:
 	* Avoid gnome-common dependency.
 	* New function CONCAT.
+	* New function TEXTJOIN.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.31

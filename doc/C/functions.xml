@@ -22398,6 +22398,40 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-TEXTJOIN">
+      <refmeta>
+        <refentrytitle>
+          <function>TEXTJOIN</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>TEXTJOIN</function>
+        </refname>
+        <refpurpose>
+        the concatenation of the strings <parameter>s1</parameter>, <parameter>s2</parameter>,… delimited by <parameter>del</parameter>
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>TEXTJOIN</function>(<parameter>del</parameter>,<parameter>blank</parameter>,<parameter>s1</parameter>,<parameter>s2</parameter>,<parameter/>…)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>del</parameter>: delimiter</para>
+        <para><parameter>blank</parameter>: ignore blanks</para>
+        <para><parameter>s1</parameter>: first string</para>
+        <para><parameter>s2</parameter>: second string</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-CONCATENATE"><function>CONCATENATE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-TRIM">
       <refmeta>
         <refentrytitle>

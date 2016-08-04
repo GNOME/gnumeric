@@ -1,3 +1,11 @@
+2016-08-04  Morten Welinder  <terra@gnome.org>
+
+	* src/rangefunc-strings.c (range_concatenate): Add (unused) user
+	pointer.
+
+	* src/collect.c (string_range_function): Add user pointer.  Caller
+	changed.
+
 2016-06-29  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

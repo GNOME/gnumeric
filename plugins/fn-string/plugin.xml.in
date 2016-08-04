@@ -42,6 +42,7 @@
 				<function name="substitute"/>
 				<function name="t"/>
 				<function name="text"/>
+				<function name="textjoin"/>
 				<function name="trim"/>
 				<function name="unichar"/>
 				<function name="unicode"/>

@@ -33,7 +33,7 @@ typedef enum {
 typedef int (*float_range_function_t) (gnm_float const *xs, int n, gnm_float *res);
 typedef int (*float_range_function2_t) (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res);
 typedef int (*float_range_function2d_t) (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res, gpointer data);
-typedef int (*string_range_function_t) (GPtrArray *xs, char**res);
+typedef int (*string_range_function_t) (GPtrArray *xs, char**res, gpointer user);
 
 gnm_float *collect_floats_value (GnmValue const *val,
 				 GnmEvalPos const *ep,
@@ -75,6 +75,7 @@ GnmValue *float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 GnmValue *string_range_function (int argc, GnmExprConstPtr const *argv,
 				 GnmFuncEvalInfo *ei,
 				 string_range_function_t func,
+				 gpointer user,
 				 CollectFlags flags,
 				 GnmStdError func_error);
 

@@ -616,6 +616,7 @@ gnumeric_concatenate (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv
 {
 	return string_range_function (argc, argv, ei,
 				      range_concatenate,
+				      NULL,
 				      COLLECT_IGNORE_BLANKS,
 				      GNM_ERROR_VALUE);
 }
@@ -635,6 +636,87 @@ static GnmValue *
 gnumeric_concat (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return gnumeric_concatenate (ei, argc, argv);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_textjoin[] = {
+	{ GNM_FUNC_HELP_NAME, F_("TEXTJOIN:the concatenation of the strings @{s1}, @{s2},\xe2\x80\xa6 delimited by @del")},
+	{ GNM_FUNC_HELP_ARG, F_("del:delimiter")},
+	{ GNM_FUNC_HELP_ARG, F_("blank:ignore blanks")},
+	{ GNM_FUNC_HELP_ARG, F_("s1:first string")},
+	{ GNM_FUNC_HELP_ARG, F_("s2:second string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TEXTJOIN(\"::\",FALSE,\"aa\",\"bb\")" },
+	{ GNM_FUNC_HELP_SEEALSO, "CONCATENATE"},
+	{ GNM_FUNC_HELP_END}
+};
+
+struct cb_textjoin {
+	char *delim;
+	gboolean ignore_blanks;
+};
+
+static int
+range_textjoin (GPtrArray *data, char **pres, gpointer user_)
+{
+	struct cb_textjoin *user = user_;
+	GString *res = g_string_new (NULL);
+	gboolean first = TRUE;
+	unsigned ui;
+
+	for (ui = 0; ui < data->len; ui++) {
+		const char *s = g_ptr_array_index (data, ui);
+
+		if (s[0] == 0 && user->ignore_blanks)
+			continue;
+
+		if (first)
+			first = FALSE;
+		else
+			g_string_append (res, user->delim);
+
+		g_string_append (res, s);
+	}
+
+	*pres = g_string_free (res, FALSE);
+	return 0;
+}
+
+static GnmValue *
+gnumeric_textjoin (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	GnmValue *v;
+	gboolean err;
+	struct cb_textjoin data;
+
+	data.delim = NULL;
+
+	if (argc < 3)
+		return value_new_error_VALUE (ei->pos);
+
+	v = gnm_expr_eval (argv[0], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	if (VALUE_IS_ERROR (v))
+		goto done;
+	data.delim = value_get_as_string (v);
+	value_release (v);
+
+	v = gnm_expr_eval (argv[1], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	if (VALUE_IS_ERROR (v))
+		goto done;
+	data.ignore_blanks = value_get_as_bool (v, &err); // What about err?
+	value_release (v);
+
+	v = string_range_function (argc - 2, argv + 2, ei,
+				   range_textjoin,
+				   &data,
+				   data.ignore_blanks ? COLLECT_IGNORE_BLANKS : 0,
+				   GNM_ERROR_VALUE);
+
+done:
+	g_free (data.delim);
+
+	return v;
 }
 
 /***************************************************************************/
@@ -1771,6 +1853,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "text",       "Ss",           help_text,
 	  gnumeric_text, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "textjoin", NULL, help_textjoin,
+	  NULL, gnumeric_textjoin, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "trim",       "S",                         help_trim,
 	  gnumeric_trim, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

@@ -6578,6 +6578,17 @@ The distinction between half-width and full-width characters is described in htt
 @SEEALSO=DOLLAR,FIXED,VALUE
 
 @CATEGORY=String
+@FUNCTION=TEXTJOIN
+@SHORTDESC=the concatenation of the strings @{s1}, @{s2},… delimited by @del
+@SYNTAX=TEXTJOIN(del,blank,s1,s2,…)
+@ARGUMENTDESCRIPTION=@{del}: delimiter
+@{blank}: ignore blanks
+@{s1}: first string
+@{s2}: second string
+@EXCEL=This function is Excel compatible.
+@SEEALSO=CONCATENATE
+
+@CATEGORY=String
 @FUNCTION=TRIM
 @SHORTDESC=@{text} with only single spaces between words
 @SYNTAX=TRIM(text)
