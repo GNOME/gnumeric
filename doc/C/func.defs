@@ -6579,7 +6579,7 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=String
 @FUNCTION=TEXTJOIN
-@SHORTDESC=the concatenation of the strings @{s1}, @{s2},… delimited by @del
+@SHORTDESC=the concatenation of the strings @{s1}, @{s2},… delimited by @{del}
 @SYNTAX=TEXTJOIN(del,blank,s1,s2,…)
 @ARGUMENTDESCRIPTION=@{del}: delimiter
 @{blank}: ignore blanks

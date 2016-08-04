@@ -641,7 +641,7 @@ gnumeric_concat (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_textjoin[] = {
-	{ GNM_FUNC_HELP_NAME, F_("TEXTJOIN:the concatenation of the strings @{s1}, @{s2},\xe2\x80\xa6 delimited by @del")},
+	{ GNM_FUNC_HELP_NAME, F_("TEXTJOIN:the concatenation of the strings @{s1}, @{s2},\xe2\x80\xa6 delimited by @{del}")},
 	{ GNM_FUNC_HELP_ARG, F_("del:delimiter")},
 	{ GNM_FUNC_HELP_ARG, F_("blank:ignore blanks")},
 	{ GNM_FUNC_HELP_ARG, F_("s1:first string")},
