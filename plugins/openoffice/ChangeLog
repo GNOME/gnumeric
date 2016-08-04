@@ -1,3 +1,8 @@
+2016-08-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_expr_func_handler): export TEXTJOIN and
+	CONCAT with com.microsoft prefix.
+
 2016-06-29  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.31

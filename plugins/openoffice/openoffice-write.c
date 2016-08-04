@@ -2239,7 +2239,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		/* ORG.GNUMERIC. So we need not list gnumeric unique names or those that  */
 		/* come from unknown plugins                                              */
 
-		/* The following are functions that exist in OpenFormula or with anbother */
+		/* The following are functions that exist in OpenFormula or with another */
 		/* known prefix. This listing is */
 		/* alphabetical by the second entry, the OpenFormula or foreign name (w/o prefix). */
 
@@ -2299,6 +2299,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "COMBIN","COMBIN" },
 		{ "COMBINA","COMBINA" },
 		{ "COMPLEX","COMPLEX" },
+		{ "CONCAT","COM.MICROSOFT.CONCAT" },
 		{ "CONCATENATE","CONCATENATE" },
 		{ "CONFIDENCE","CONFIDENCE" },
 		{ "CONVERT","CONVERT" },
@@ -2604,6 +2605,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "TBILLPRICE","TBILLPRICE" },
 		{ "TBILLYIELD","TBILLYIELD" },
 		{ "TEXT","TEXT" },
+		{ "TEXTJOIN","COM.MICROSOFT.TEXTJOIN" },
 		{ "ODF.TIME","TIME" },
 		{ "TIMEVALUE","TIMEVALUE" },
 		{ "TINV","TINV" },
