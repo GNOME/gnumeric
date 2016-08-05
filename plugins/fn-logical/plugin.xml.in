@@ -18,6 +18,7 @@
 				<function name="iferror"/>
 				<function name="ifna"/>
 				<function name="ifs"/>
+				<function name="switch"/>
 				<function name="true"/>
 				<function name="false"/>
 			</functions>

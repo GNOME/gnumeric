@@ -2598,6 +2598,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "SUMX2MY2","SUMX2MY2" },
 		{ "SUMX2PY2","SUMX2PY2" },
 		{ "SUMXMY2","SUMXMY2" },
+		{ "SWITCH", "SWITCH" },
 		{ "SYD","SYD" },
 		{ "T","T" },
 		{ "TAN","TAN" },

@@ -2928,7 +2928,7 @@ The depreciation coefficient used is:
 @{value1}: value if @{condition1} is true
 @{cond2}: condition
 @{value2}: value if @{condition2} is true
-@DESCRIPTION=This function returns the after the first true contional.  If no conditional is true, #VALUE! is returned.
+@DESCRIPTION=This function returns the value after the first true contional.  If no conditional is true, #VALUE! is returned.
 @SEEALSO=IF
 
 @CATEGORY=Logic
@@ -2951,6 +2951,18 @@ The depreciation coefficient used is:
 @NOTE=If an argument is numerical, zero is considered FALSE and anything else TRUE. Strings and empty values are ignored. If no logical values are provided, then the error #VALUE! is returned. This function is strict: if any argument is an error, the result will be the first such error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=AND,XOR,NOT,IF
+
+@CATEGORY=Logic
+@FUNCTION=SWITCH
+@SHORTDESC=multi-branch selector
+@SYNTAX=SWITCH(ref,choice1,value1,choice2,value2,…)
+@ARGUMENTDESCRIPTION=@{ref}: value
+@{choice1}: first choice value
+@{value1}: first result value
+@{choice2}: second choice value
+@{value2}: second result value
+@DESCRIPTION=This function compares the reference value, @{ref}, against the choice values, @{choice1} etc., and returns the corresponding result value when it finds a match.  The choices may be followed by a default value to use.  If there are no choices that match and no default value, #NA! is return.
+@SEEALSO=IF,IFS
 
 @CATEGORY=Logic
 @FUNCTION=TRUE

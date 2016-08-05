@@ -9324,7 +9324,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>This function returns the after the first true contional.  If no conditional is true, #VALUE! is returned.</para>
+        <para>This function returns the value after the first true contional.  If no conditional is true, #VALUE! is returned.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -9413,6 +9413,42 @@
         <link linkend="gnumeric-function-XOR"><function>XOR</function></link>,
         <link linkend="gnumeric-function-NOT"><function>NOT</function></link>,
         <link linkend="gnumeric-function-IF"><function>IF</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-SWITCH">
+      <refmeta>
+        <refentrytitle>
+          <function>SWITCH</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>SWITCH</function>
+        </refname>
+        <refpurpose>
+        multi-branch selector
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SWITCH</function>(<parameter>ref</parameter>,<parameter>choice1</parameter>,<parameter>value1</parameter>,<parameter>choice2</parameter>,<parameter>value2</parameter>,<parameter/>…)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>ref</parameter>: value</para>
+        <para><parameter>choice1</parameter>: first choice value</para>
+        <para><parameter>value1</parameter>: first result value</para>
+        <para><parameter>choice2</parameter>: second choice value</para>
+        <para><parameter>value2</parameter>: second result value</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function compares the reference value, <parameter>ref</parameter>, against the choice values, <parameter>choice1</parameter> etc., and returns the corresponding result value when it finds a match.  The choices may be followed by a default value to use.  If there are no choices that match and no default value, #NA! is return.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-IF"><function>IF</function></link>,
+        <link linkend="gnumeric-function-IFS"><function>IFS</function></link>.
       </para>
       </refsect1>
     </refentry>

@@ -270,7 +270,7 @@ static GnmFuncHelp const help_ifs[] = {
 	{ GNM_FUNC_HELP_ARG, F_("value1:value if @{condition1} is true") },
 	{ GNM_FUNC_HELP_ARG, F_("cond2:condition") },
 	{ GNM_FUNC_HELP_ARG, F_("value2:value if @{condition2} is true") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the after the first true contional.  If no conditional is true, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the value after the first true contional.  If no conditional is true, #VALUE! is returned.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IFS(false,1/0,true,42)" },
 	{ GNM_FUNC_HELP_SEEALSO, "IF" },
 	{ GNM_FUNC_HELP_END }
@@ -279,7 +279,7 @@ static GnmFuncHelp const help_ifs[] = {
 static GnmValue *
 gnumeric_ifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-	int a = 0;
+	int a;
 
 	for (a = 0; a + 1 <= argc; a += 2) {
 		GnmValue *v;
@@ -304,6 +304,65 @@ gnumeric_ifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	// No match
 	return value_new_error_VALUE (ei->pos);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_switch[] = {
+	{ GNM_FUNC_HELP_NAME, F_("SWITCH:multi-branch selector") },
+	{ GNM_FUNC_HELP_ARG, F_("ref:value") },
+	{ GNM_FUNC_HELP_ARG, F_("choice1:first choice value") },
+	{ GNM_FUNC_HELP_ARG, F_("value1:first result value") },
+	{ GNM_FUNC_HELP_ARG, F_("choice2:second choice value") },
+	{ GNM_FUNC_HELP_ARG, F_("value2:second result value") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function compares the reference value, @{ref}, against the choice values, @{choice1} etc., and returns the corresponding result value when it finds a match.  The choices may be followed by a default value to use.  If there are no choices that match and no default value, #NA! is return.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=SWITCH(WEEKDAY(TODAY()),0,\"Sunday\",1,\"Saturday\",\"not weekend\")" },
+	{ GNM_FUNC_HELP_SEEALSO, "IF,IFS" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_switch (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	int a;
+	GnmValue *res = NULL;
+	GnmValue *ref;
+
+	if (argc < 1)
+		return value_new_error_VALUE (ei->pos);
+
+	ref = gnm_expr_eval (argv[0], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	if (VALUE_IS_ERROR (ref))
+		return ref;
+
+	for (a = 1; !res && a + 1 <= argc; a += 2) {
+		GnmValue *v;
+
+		v = gnm_expr_eval (argv[a], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		// Strict in case arguments
+		if (VALUE_IS_ERROR (v)) {
+			res = v;
+			break;
+		}
+
+		// Docs are unclear on what kind of equality
+		if (value_equal (v, ref))
+			res = gnm_expr_eval (argv[a + 1], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+
+		value_release (v);
+	}
+
+	if (res == NULL) {
+		// No match
+		if (a < argc)
+			res = gnm_expr_eval (argv[a], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		else
+			res = value_new_error_NA (ei->pos);
+	}
+
+	value_release (ref);
+
+	return res;
 }
 
 /***************************************************************************/
@@ -366,6 +425,9 @@ GnmFuncDescriptor const logical_functions[] = {
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "ifs", NULL,  help_ifs,
 	  NULL, gnumeric_ifs, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "switch", NULL,  help_switch,
+	  NULL, gnumeric_switch, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "true", "", help_true, gnumeric_true,
 	  NULL, NULL, NULL,

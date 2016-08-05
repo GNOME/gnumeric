@@ -11,6 +11,7 @@ Morten:
 	* New function CONCAT.
 	* New function TEXTJOIN.
 	* New function IFS.
+	* New function SWITCH.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.31
