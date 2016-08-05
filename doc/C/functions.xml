@@ -9298,6 +9298,40 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-IFS">
+      <refmeta>
+        <refentrytitle>
+          <function>IFS</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>IFS</function>
+        </refname>
+        <refpurpose>
+        multi-branch conditional
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>IFS</function>(<parameter>cond1</parameter>,<parameter>value1</parameter>,<parameter>cond2</parameter>,<parameter>value2</parameter>,<parameter/>…)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>cond1</parameter>: condition</para>
+        <para><parameter>value1</parameter>: value if <parameter>condition1</parameter> is true</para>
+        <para><parameter>cond2</parameter>: condition</para>
+        <para><parameter>value2</parameter>: value if <parameter>condition2</parameter> is true</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the after the first true contional.  If no conditional is true, #VALUE! is returned.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-IF"><function>IF</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-NOT">
       <refmeta>
         <refentrytitle>

@@ -263,6 +263,51 @@ gnumeric_ifna (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 /***************************************************************************/
+
+static GnmFuncHelp const help_ifs[] = {
+	{ GNM_FUNC_HELP_NAME, F_("IFS:multi-branch conditional") },
+	{ GNM_FUNC_HELP_ARG, F_("cond1:condition") },
+	{ GNM_FUNC_HELP_ARG, F_("value1:value if @{condition1} is true") },
+	{ GNM_FUNC_HELP_ARG, F_("cond2:condition") },
+	{ GNM_FUNC_HELP_ARG, F_("value2:value if @{condition2} is true") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the after the first true contional.  If no conditional is true, #VALUE! is returned.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=IFS(false,1/0,true,42)" },
+	{ GNM_FUNC_HELP_SEEALSO, "IF" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_ifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	int a = 0;
+
+	for (a = 0; a + 1 <= argc; a += 2) {
+		GnmValue *v;
+		gboolean err, c;
+
+		v = gnm_expr_eval (argv[a], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		// Strict in conditional arguments
+		if (VALUE_IS_ERROR (v))
+			return v;
+
+		// Docs says to err on any non-boolean, but until tests
+		// verify that, we use regular boolean interpretation
+		c = value_get_as_bool (v, &err);
+		value_release (v);
+		if (err)
+			break;
+
+		if (c)
+			// Flags?
+			return gnm_expr_eval (argv[a + 1], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	}
+
+	// No match
+	return value_new_error_VALUE (ei->pos);
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_true[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TRUE:the value TRUE") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("TRUE returns the value TRUE.") },
@@ -319,6 +364,9 @@ GnmFuncDescriptor const logical_functions[] = {
 	  gnumeric_ifna, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE,  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
+	{ "ifs", NULL,  help_ifs,
+	  NULL, gnumeric_ifs, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "true", "", help_true, gnumeric_true,
 	  NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,

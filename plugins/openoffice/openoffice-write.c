@@ -2405,6 +2405,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "IF","IF" },
 		{ "IFERROR","IFERROR" },
 		{ "IFNA","IFNA" },
+		{ "IFS","IFS" },
 		{ "IMABS","IMABS" },
 		{ "IMAGINARY","IMAGINARY" },
 		{ "IMARGUMENT","IMARGUMENT" },

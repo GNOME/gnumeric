@@ -2921,6 +2921,17 @@ The depreciation coefficient used is:
 @SEEALSO=IF,ISERROR
 
 @CATEGORY=Logic
+@FUNCTION=IFS
+@SHORTDESC=multi-branch conditional
+@SYNTAX=IFS(cond1,value1,cond2,value2,…)
+@ARGUMENTDESCRIPTION=@{cond1}: condition
+@{value1}: value if @{condition1} is true
+@{cond2}: condition
+@{value2}: value if @{condition2} is true
+@DESCRIPTION=This function returns the after the first true contional.  If no conditional is true, #VALUE! is returned.
+@SEEALSO=IF
+
+@CATEGORY=Logic
 @FUNCTION=NOT
 @SHORTDESC=logical negation
 @SYNTAX=NOT(b)

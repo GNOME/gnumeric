@@ -17,6 +17,7 @@
 				<function name="not"/>
 				<function name="iferror"/>
 				<function name="ifna"/>
+				<function name="ifs"/>
 				<function name="true"/>
 				<function name="false"/>
 			</functions>
