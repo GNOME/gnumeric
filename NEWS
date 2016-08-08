@@ -12,6 +12,8 @@ Morten:
 	* New function TEXTJOIN.
 	* New function IFS.
 	* New function SWITCH.
+	* New function SUMIFS.
+	* New function AVERAGEIFS.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.31

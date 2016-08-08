@@ -49,11 +49,205 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-
 #define FUNCTION_A_DESC   GNM_FUNC_HELP_DESCRIPTION, F_("Numbers, text and logical values are "	\
 							"included in the calculation too. If the cell contains text or " \
 							"the argument evaluates to FALSE, it is counted as value zero (0). " \
 							"If the argument evaluates to TRUE, it is counted as one (1).")
+
+/***************************************************************************/
+
+static GnmValue *
+ifs_func (GPtrArray *data, GPtrArray *crits, GnmValue const *vals,
+	  float_range_function_t fun, GnmStdError err,
+	  GnmEvalPos const *ep, CollectFlags flags)
+{
+	int sx, sy, x, y;
+	unsigned ui, N = 0, nalloc = 0;
+	gnm_float *xs = NULL;
+	GnmValue *res = NULL;
+	gnm_float fres;
+
+	g_return_val_if_fail (data->len == crits->len, NULL);
+
+	if (flags & ~(COLLECT_IGNORE_STRINGS |
+		      COLLECT_IGNORE_BOOLS |
+		      COLLECT_IGNORE_BLANKS |
+		      COLLECT_IGNORE_ERRORS)) {
+		g_warning ("unsupported flags in ifs_func %x", flags);
+	}
+
+	sx = value_area_get_width (vals, ep);
+	sy = value_area_get_height (vals, ep);
+	for (ui = 0; ui < data->len; ui++) {
+		GnmValue const *datai = g_ptr_array_index (data, ui);
+		if (value_area_get_width (datai, ep) != sx ||
+		    value_area_get_height (datai, ep) != sy)
+			return value_new_error_VALUE (ep);
+	}
+
+	for (y = 0; y < sy; y++) {
+		for (x = 0; x < sy; x++) {
+			GnmValue const *v;
+			gboolean match = TRUE;
+
+			for (ui = 0; match && ui < crits->len; ui++) {
+				GnmCriteria *crit = g_ptr_array_index (crits, ui);
+				GnmValue const *datai = g_ptr_array_index (data, ui);
+				v = value_area_get_x_y (datai, x, y, ep);
+
+				match = crit->fun (v, crit);
+			}
+			if (!match)
+				continue;
+
+			// Match.  Maybe collect the data point.
+
+			v = value_area_get_x_y (vals, x, y, ep);
+			if ((flags & COLLECT_IGNORE_STRINGS) && VALUE_IS_STRING (v))
+				continue;
+			if ((flags & COLLECT_IGNORE_BOOLS) && VALUE_IS_BOOLEAN (v))
+				continue;
+			if ((flags & COLLECT_IGNORE_BLANKS) && VALUE_IS_EMPTY (v))
+				continue;
+			if ((flags & COLLECT_IGNORE_ERRORS) && VALUE_IS_ERROR (v))
+				continue;
+
+			if (VALUE_IS_ERROR (v)) {
+				res = value_dup (v);
+				goto out;
+			}
+
+			if (N >= nalloc) {
+				nalloc = (2 * nalloc) + 100;
+				xs = g_renew (gnm_float, xs, nalloc);
+			}
+			xs[N++] = value_get_as_float (v);
+		}
+	}
+
+	if (fun (xs, N, &fres)) {
+		res = value_new_error_std (ep, err);
+	} else
+		res = value_new_float (fres);
+
+out:
+	g_free (xs);
+	return res;
+}
+
+static GnmValue *
+oldstyle_if_func (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
+		  float_range_function_t fun, GnmStdError err)
+{
+	GPtrArray *crits = g_ptr_array_new_with_free_func ((GDestroyNotify)free_criteria);
+	GPtrArray *data = g_ptr_array_new ();
+	GODateConventions const *date_conv =
+		workbook_date_conv (ei->pos->sheet->workbook);
+	GnmValue *res;
+	gboolean insanity;
+	GnmValue const *vals;
+
+	g_ptr_array_add (data, (gpointer)(argv[0]));
+	g_ptr_array_add (crits, parse_criteria (argv[1], date_conv, TRUE));
+
+	if (argv[2]) {
+		vals = argv[2];
+		insanity = (value_area_get_width (vals, ei->pos) != value_area_get_width (argv[0], ei->pos) ||
+			    value_area_get_height (vals, ei->pos) != value_area_get_height (argv[0], ei->pos));
+		if (insanity) {
+			// The value area is the wrong size, but this function
+			// is *documented* to use an area of the right size
+			// with the same starting point.  That's absolutely
+			// insane -- for starters, we are tracking the wrong
+			// dependents.
+
+			// For now, bail.
+			res = value_new_error_VALUE (ei->pos);
+			goto out;
+		}
+	} else {
+		vals = argv[0];
+		insanity = FALSE;
+	}
+
+	res = ifs_func (data, crits, vals,
+			fun, err, ei->pos,
+			COLLECT_IGNORE_STRINGS |
+			COLLECT_IGNORE_BLANKS |
+			COLLECT_IGNORE_BOOLS);
+
+out:
+	g_ptr_array_free (data, TRUE);
+	g_ptr_array_free (crits, TRUE);
+
+	return res;
+}
+
+static GnmValue *
+newstyle_if_func (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv,
+		  float_range_function_t fun, GnmStdError err)
+{
+	GPtrArray *crits = g_ptr_array_new_with_free_func ((GDestroyNotify)free_criteria);
+	GPtrArray *data = g_ptr_array_new_with_free_func ((GDestroyNotify)value_release);
+	GODateConventions const *date_conv =
+		workbook_date_conv (ei->pos->sheet->workbook);
+	GnmValue *res;
+	GnmValue *vals = NULL;
+	int i;
+
+	if ((argc & 1) == 0) {
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
+	}
+
+	vals = gnm_expr_eval (argv[0], ei->pos,
+			      GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+			      GNM_EXPR_EVAL_WANT_REF);
+	if (VALUE_IS_ERROR (vals)) {
+		res = value_dup (vals);
+		goto out;
+	}
+	if (!VALUE_IS_CELLRANGE (vals)) {
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
+	}
+
+	for (i = 1; i + 1 < argc; i += 2) {
+		GnmValue *area, *crit;
+
+		area = gnm_expr_eval (argv[i], ei->pos,
+				      GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+				      GNM_EXPR_EVAL_WANT_REF);
+		if (VALUE_IS_ERROR (area)) {
+			res = area;
+			goto out;
+		}
+		g_ptr_array_add (data, area);
+
+		crit = gnm_expr_eval (argv[i + 1], ei->pos,
+				      GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		if (VALUE_IS_ERROR (crit)) {
+			res = crit;
+			goto out;
+		}
+
+		g_ptr_array_add (crits, parse_criteria (crit, date_conv, TRUE));
+		value_release (crit);
+	}
+
+	res = ifs_func (data, crits, vals,
+			fun, err, ei->pos,
+			COLLECT_IGNORE_STRINGS |
+			COLLECT_IGNORE_BLANKS |
+			COLLECT_IGNORE_BOOLS);
+
+out:
+	g_ptr_array_free (data, TRUE);
+	g_ptr_array_free (crits, TRUE);
+	value_release (vals);
+
+	return res;
+}
 
 /***************************************************************************/
 
@@ -578,108 +772,31 @@ static GnmFuncHelp const help_sumif[] = {
 				 "is resized (retaining the top-left corner)"
 				 " to match the size of @{range}.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_SEEALSO, "SUM,COUNTIF"},
+	{ GNM_FUNC_HELP_SEEALSO, "SUM,SUMIFS,COUNTIF"},
 	{ GNM_FUNC_HELP_END}
 };
-
-typedef struct {
-	GnmCriteria *crit;
-	Sheet *target_sheet;
-	int offset_col, offset_row;
-	gnm_float sum;
-	int count;
-} SumIfClosure;
-
-static GnmValue *
-cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
-{
-	GnmCell *cell = iter->cell;
-	GnmValue *v;
-
-	if (cell) {
-		gnm_cell_eval (cell);
-		v = cell->value;
-	} else
-		v = value_new_empty ();  /* Never released */
-
-	if (!VALUE_IS_EMPTY (v) && !VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
-		return NULL;
-
-	if (!res->crit->fun (v, res->crit))
-		return NULL;
-
-	if (NULL != res->target_sheet) {
-		GnmCell *cell = sheet_cell_get
-			(res->target_sheet,
-			 iter->pp.eval.col + res->offset_col,
-			 iter->pp.eval.row + res->offset_row);
-		if (!cell)
-			return NULL;
-
-		gnm_cell_eval (cell);
-		v = cell->value;
-	}
-
-	if (!VALUE_IS_FLOAT (v))
-		return NULL;
-
-	res->sum += value_get_as_float (v);
-	res->count++;
-
-	return NULL;
-}
 
 static GnmValue *
 gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmRange rs;
-	Sheet *start_sheet, *end_sheet;
-	SumIfClosure res;
-	GnmValue *problem;
-	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+	return oldstyle_if_func (ei, argv, gnm_range_sum, GNM_ERROR_DIV0);
+}
 
-	/* XL has some limitations on @range that we currently emulate, but do
-	 * not need to.
-	 * 1) @range must be a range, arrays are not supported
-	 * 2) @range can not be 3d */
-	if (!VALUE_IS_CELLRANGE (argv[0]) ||
-	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])) ||
-	    (argv[2] != NULL && !VALUE_IS_CELLRANGE (argv[2])))
-	        return value_new_error_VALUE (ei->pos);
+/***************************************************************************/
 
-	gnm_rangeref_normalize (&argv[0]->v_range.cell, ei->pos,
-				&start_sheet, &end_sheet,
-				&rs);
-	if (start_sheet != end_sheet)
-		return value_new_error_VALUE (ei->pos);
+static GnmFuncHelp const help_sumifs[] = {
+	{ GNM_FUNC_HELP_NAME, F_("SUMIFS:sum of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria")},
+	{ GNM_FUNC_HELP_ARG, F_("range1:cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("criteria1:condition for a cell to be included")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "SUM,SUMIF"},
+	{ GNM_FUNC_HELP_END}
+};
 
-	if (argv[2]) {
-		GnmRange ra;
-		/* See 557782.  */
-		gnm_rangeref_normalize (&argv[2]->v_range.cell, ei->pos,
-					&res.target_sheet, &end_sheet,
-					&ra);
-		if (res.target_sheet != end_sheet)
-			return value_new_error_VALUE (ei->pos);
-
-		res.offset_col = ra.start.col - rs.start.col;
-		res.offset_row = ra.start.row - rs.start.row;
-	} else
-		res.target_sheet = NULL;
-
-	res.sum = 0;
-	res.count = 0;
-	res.crit = parse_criteria (argv[1], date_conv, TRUE);
-	problem = sheet_foreach_cell_in_range
-		(start_sheet, res.crit->iter_flags,
-		 rs.start.col, rs.start.row, rs.end.col, rs.end.row,
-		 (CellIterFunc) &cb_sumif, &res);
-	free_criteria (res.crit);
-
-	if (NULL != problem)
-	        return value_new_error_VALUE (ei->pos);
-	return value_new_float (res.sum);
+static GnmValue *
+gnumeric_sumifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	return newstyle_if_func (ei, argc, argv, gnm_range_sum, GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -697,57 +814,26 @@ static GnmFuncHelp const help_averageif[] = {
 static GnmValue *
 gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmRange rs;
-	Sheet *start_sheet, *end_sheet;
-	SumIfClosure res;
-	GnmValue *problem;
-	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
-
-	/* XL has some limitations on @range that we currently emulate, but do
-	 * not need to.
-	 * 1) @range must be a range, arrays are not supported
-	 * 2) @range can not be 3d */
-	if (!VALUE_IS_CELLRANGE (argv[0]) ||
-	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])) ||
-	    (argv[2] != NULL && !VALUE_IS_CELLRANGE (argv[2])))
-	        return value_new_error_VALUE (ei->pos);
-
-	gnm_rangeref_normalize (&argv[0]->v_range.cell, ei->pos,
-				&start_sheet, &end_sheet,
-				&rs);
-	if (start_sheet != end_sheet)
-		return value_new_error_VALUE (ei->pos);
-
-	if (argv[2]) {
-		GnmRange ra;
-		/* See 557782.  */
-		gnm_rangeref_normalize (&argv[2]->v_range.cell, ei->pos,
-					&res.target_sheet, &end_sheet,
-					&ra);
-		if (res.target_sheet != end_sheet)
-			return value_new_error_VALUE (ei->pos);
-
-		res.offset_col = ra.start.col - rs.start.col;
-		res.offset_row = ra.start.row - rs.start.row;
-	} else
-		res.target_sheet = NULL;
-
-	res.sum = 0.;
-	res.count = 0;
-	res.crit = parse_criteria (argv[1], date_conv, TRUE);
-	problem = sheet_foreach_cell_in_range
-		(start_sheet, res.crit->iter_flags,
-		 rs.start.col, rs.start.row, rs.end.col, rs.end.row,
-		 (CellIterFunc) &cb_sumif, &res);
-	free_criteria (res.crit);
-
-	if (NULL != problem)
-	        return value_new_error_VALUE (ei->pos);
-	if (res.count == 0)
-		return value_new_error_DIV0 (ei->pos);
-	return value_new_float (res.sum/res.count);
+	return oldstyle_if_func (ei, argv, gnm_range_average, GNM_ERROR_DIV0);
 }
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_averageifs[] = {
+	{ GNM_FUNC_HELP_NAME, F_("AVERAGEIFS:average of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria")},
+	{ GNM_FUNC_HELP_ARG, F_("range1:cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("criteria1:condition for a cell to be included")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,AVERAGEIF"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_averageifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	return newstyle_if_func (ei, argc, argv, gnm_range_sum, GNM_ERROR_DIV0);
+}
+
 /***************************************************************************/
 
 static GnmFuncHelp const help_ceiling[] = {
@@ -3533,9 +3619,17 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "sumif",   "rS|r",  help_sumif,
 	  gnumeric_sumif, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "sumifs", NULL,  help_sumifs,
+	  NULL, gnumeric_sumifs, NULL, NULL,
+	  GNM_FUNC_SIMPLE,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "averageif",   "rS|r",  help_averageif,
 	  gnumeric_averageif, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "averageifs", NULL,  help_averageifs,
+	  NULL, gnumeric_averageifs, NULL, NULL,
+	  GNM_FUNC_SIMPLE,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "sumproduct", NULL,  help_sumproduct,
 	  NULL, gnumeric_sumproduct, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

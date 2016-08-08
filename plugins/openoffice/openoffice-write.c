@@ -2266,7 +2266,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "AVERAGE","AVERAGE" },
 		{ "AVERAGEA","AVERAGEA" },
 		{ "AVERAGEIF","AVERAGEIF" },
-		/* { "ODF.AVERAGEIFS","AVERAGEIFS" },  not implemented */
+		{ "AVERAGEIFS","AVERAGEIFS" },
 		{ "BINOM.DIST.RANGE","B" },
 		{ "BASE","BASE" },
 		{ "BESSELI","BESSELI" },
@@ -2592,7 +2592,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "SUBTOTAL","SUBTOTAL" },
 		{ "SUM","SUM" },
 		{ "SUMIF","SUMIF" },
-		/* { "SUMIFS","SUMIFS" },  not implemented */
+		{ "SUMIFS","SUMIFS" },
 		{ "ODF.SUMPRODUCT","SUMPRODUCT" },
 		{ "SUMSQ","SUMSQ" },
 		{ "SUMX2MY2","SUMX2MY2" },

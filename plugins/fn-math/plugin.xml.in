@@ -24,6 +24,7 @@
 				<function name="atan2"/>
 				<function name="atanh"/>
 				<function name="averageif"/>
+				<function name="averageifs"/>
 				<function name="beta"/>
 				<function name="betaln"/>
 				<function name="ceil"/>
@@ -94,6 +95,7 @@
 				<function name="sqrtpi"/>
 				<function name="suma"/>
 				<function name="sumif"/>
+				<function name="sumifs"/>
 				<function name="sumproduct"/>
 				<function name="sumsq"/>
 				<function name="sumx2my2"/>

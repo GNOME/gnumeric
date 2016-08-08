@@ -192,8 +192,6 @@ value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 		return value_new_empty ();
 	} else
 		return v;
-
-	return NULL;
 }
 
 typedef struct {

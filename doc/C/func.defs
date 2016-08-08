@@ -3309,6 +3309,15 @@ The depreciation coefficient used is:
 @SEEALSO=SUMIF,COUNTIF
 
 @CATEGORY=Mathematics
+@FUNCTION=AVERAGEIFS
+@SHORTDESC=average of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria
+@SYNTAX=AVERAGEIFS(range1,criteria1,…)
+@ARGUMENTDESCRIPTION=@{range1}: cell area
+@{criteria1}: condition for a cell to be included
+@EXCEL=This function is Excel compatible.
+@SEEALSO=AVERAGE,AVERAGEIF
+
+@CATEGORY=Mathematics
 @FUNCTION=BETA
 @SHORTDESC=Euler beta function
 @SYNTAX=BETA(x,y)
@@ -3961,7 +3970,16 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @{actual_range}: cell area, defaults to @{range}
 @NOTE=If the @{actual_range} has a size that differs from the size of @{range}, @{actual_range} is resized (retaining the top-left corner) to match the size of @{range}.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=SUM,COUNTIF
+@SEEALSO=SUM,SUMIFS,COUNTIF
+
+@CATEGORY=Mathematics
+@FUNCTION=SUMIFS
+@SHORTDESC=sum of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria
+@SYNTAX=SUMIFS(range1,criteria1,…)
+@ARGUMENTDESCRIPTION=@{range1}: cell area
+@{criteria1}: condition for a cell to be included
+@EXCEL=This function is Excel compatible.
+@SEEALSO=SUM,SUMIF
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMPRODUCT

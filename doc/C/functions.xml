@@ -10747,6 +10747,39 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-AVERAGEIFS">
+      <refmeta>
+        <refentrytitle>
+          <function>AVERAGEIFS</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>AVERAGEIFS</function>
+        </refname>
+        <refpurpose>
+        average of the cells in <parameter>actual_range</parameter> for which the corresponding cells in the range meet the given criteria
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>AVERAGEIFS</function>(<parameter>range1</parameter>,<parameter>criteria1</parameter>,<parameter/>…)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>range1</parameter>: cell area</para>
+        <para><parameter>criteria1</parameter>: condition for a cell to be included</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-AVERAGE"><function>AVERAGE</function></link>,
+        <link linkend="gnumeric-function-AVERAGEIF"><function>AVERAGEIF</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-BETA">
       <refmeta>
         <refentrytitle>
@@ -13262,7 +13295,41 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-function-SUM"><function>SUM</function></link>,
+        <link linkend="gnumeric-function-SUMIFS"><function>SUMIFS</function></link>,
         <link linkend="gnumeric-function-COUNTIF"><function>COUNTIF</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-SUMIFS">
+      <refmeta>
+        <refentrytitle>
+          <function>SUMIFS</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>SUMIFS</function>
+        </refname>
+        <refpurpose>
+        sum of the cells in <parameter>actual_range</parameter> for which the corresponding cells in the range meet the given criteria
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SUMIFS</function>(<parameter>range1</parameter>,<parameter>criteria1</parameter>,<parameter/>…)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>range1</parameter>: cell area</para>
+        <para><parameter>criteria1</parameter>: condition for a cell to be included</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-SUM"><function>SUM</function></link>,
+        <link linkend="gnumeric-function-SUMIF"><function>SUMIF</function></link>.
       </para>
       </refsect1>
     </refentry>
