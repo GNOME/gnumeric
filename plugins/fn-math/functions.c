@@ -33,6 +33,7 @@
 #include <rangefunc.h>
 #include <collect.h>
 #include <value.h>
+#include <criteria.h>
 #include <expr.h>
 #include <position.h>
 #include <regression.h>

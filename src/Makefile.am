@@ -108,6 +108,7 @@ libspreadsheet_la_SOURCES =			\
 	cell-draw.c				\
 	cellspan.c				\
 	clipboard.c				\
+	criteria.c				\
 	cmd-edit.c				\
 	collect.c				\
 	colrow.c				\

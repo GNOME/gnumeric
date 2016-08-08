@@ -34,6 +34,7 @@
 #include <ranges.h>
 #include <value.h>
 #include <selection.h>
+#include <criteria.h>
 
 #include "filter.h"
 #include "analysis-tools.h"

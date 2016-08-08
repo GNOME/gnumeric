@@ -30,6 +30,7 @@
 #include <sheet.h>
 #include <workbook.h>
 #include <value.h>
+#include <criteria.h>
 #include <collect.h>
 #include <rangefunc.h>
 #include <gnm-i18n.h>
