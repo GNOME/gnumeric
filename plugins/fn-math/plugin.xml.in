@@ -39,6 +39,7 @@
 				<function name="coth"/>
 				<function name="cotpi"/>
 				<function name="countif"/>
+				<function name="countifs"/>
 				<function name="csc"/>
 				<function name="csch"/>
 				<function name="degrees"/>

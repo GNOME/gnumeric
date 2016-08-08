@@ -3441,6 +3441,15 @@ The depreciation coefficient used is:
 @SEEALSO=COUNT,SUMIF
 
 @CATEGORY=Mathematics
+@FUNCTION=COUNTIFS
+@SHORTDESC=count of the cells meeting the given @{criteria}
+@SYNTAX=COUNTIFS(range,criteria,…)
+@ARGUMENTDESCRIPTION=@{range}: cell area
+@{criteria}: condition for a cell to be counted
+@EXCEL=This function is Excel compatible.
+@SEEALSO=COUNT,SUMIF
+
+@CATEGORY=Mathematics
 @FUNCTION=CSC
 @SHORTDESC=the cosecant of @{x}
 @SYNTAX=CSC(x)

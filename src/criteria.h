@@ -9,6 +9,7 @@
 #include <cell.h>
 #include <gutils.h>
 #include <workbook.h>
+#include <collect.h>
 #include <goffice/goffice.h>
 
 #include <string.h>
@@ -47,6 +48,10 @@ GSList *parse_database_criteria (GnmEvalPos const *ep,
 				 GnmValue const *database, GnmValue const *criteria);
 int     find_column_of_field	(GnmEvalPos const *ep,
 				 GnmValue const *database, GnmValue const *field);
+
+GnmValue *gnm_ifs_func (GPtrArray *data, GPtrArray *crits, GnmValue const *vals,
+			float_range_function_t fun, GnmStdError err,
+			GnmEvalPos const *ep, CollectFlags flags);
 
 
 G_END_DECLS

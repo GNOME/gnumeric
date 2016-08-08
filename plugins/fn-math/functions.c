@@ -58,87 +58,9 @@ GNM_PLUGIN_MODULE_HEADER;
 /***************************************************************************/
 
 static GnmValue *
-ifs_func (GPtrArray *data, GPtrArray *crits, GnmValue const *vals,
-	  float_range_function_t fun, GnmStdError err,
-	  GnmEvalPos const *ep, CollectFlags flags)
-{
-	int sx, sy, x, y;
-	unsigned ui, N = 0, nalloc = 0;
-	gnm_float *xs = NULL;
-	GnmValue *res = NULL;
-	gnm_float fres;
-
-	g_return_val_if_fail (data->len == crits->len, NULL);
-
-	if (flags & ~(COLLECT_IGNORE_STRINGS |
-		      COLLECT_IGNORE_BOOLS |
-		      COLLECT_IGNORE_BLANKS |
-		      COLLECT_IGNORE_ERRORS)) {
-		g_warning ("unsupported flags in ifs_func %x", flags);
-	}
-
-	sx = value_area_get_width (vals, ep);
-	sy = value_area_get_height (vals, ep);
-	for (ui = 0; ui < data->len; ui++) {
-		GnmValue const *datai = g_ptr_array_index (data, ui);
-		if (value_area_get_width (datai, ep) != sx ||
-		    value_area_get_height (datai, ep) != sy)
-			return value_new_error_VALUE (ep);
-	}
-
-	for (y = 0; y < sy; y++) {
-		for (x = 0; x < sy; x++) {
-			GnmValue const *v;
-			gboolean match = TRUE;
-
-			for (ui = 0; match && ui < crits->len; ui++) {
-				GnmCriteria *crit = g_ptr_array_index (crits, ui);
-				GnmValue const *datai = g_ptr_array_index (data, ui);
-				v = value_area_get_x_y (datai, x, y, ep);
-
-				match = crit->fun (v, crit);
-			}
-			if (!match)
-				continue;
-
-			// Match.  Maybe collect the data point.
-
-			v = value_area_get_x_y (vals, x, y, ep);
-			if ((flags & COLLECT_IGNORE_STRINGS) && VALUE_IS_STRING (v))
-				continue;
-			if ((flags & COLLECT_IGNORE_BOOLS) && VALUE_IS_BOOLEAN (v))
-				continue;
-			if ((flags & COLLECT_IGNORE_BLANKS) && VALUE_IS_EMPTY (v))
-				continue;
-			if ((flags & COLLECT_IGNORE_ERRORS) && VALUE_IS_ERROR (v))
-				continue;
-
-			if (VALUE_IS_ERROR (v)) {
-				res = value_dup (v);
-				goto out;
-			}
-
-			if (N >= nalloc) {
-				nalloc = (2 * nalloc) + 100;
-				xs = g_renew (gnm_float, xs, nalloc);
-			}
-			xs[N++] = value_get_as_float (v);
-		}
-	}
-
-	if (fun (xs, N, &fres)) {
-		res = value_new_error_std (ep, err);
-	} else
-		res = value_new_float (fres);
-
-out:
-	g_free (xs);
-	return res;
-}
-
-static GnmValue *
 oldstyle_if_func (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
-		  float_range_function_t fun, GnmStdError err)
+		  float_range_function_t fun, GnmStdError err,
+		  CollectFlags flags)
 {
 	GPtrArray *crits = g_ptr_array_new_with_free_func ((GDestroyNotify)free_criteria);
 	GPtrArray *data = g_ptr_array_new ();
@@ -171,11 +93,9 @@ oldstyle_if_func (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
 		insanity = FALSE;
 	}
 
-	res = ifs_func (data, crits, vals,
-			fun, err, ei->pos,
-			COLLECT_IGNORE_STRINGS |
-			COLLECT_IGNORE_BLANKS |
-			COLLECT_IGNORE_BOOLS);
+	res = gnm_ifs_func (data, crits, vals,
+			    fun, err, ei->pos,
+			    flags);
 
 out:
 	g_ptr_array_free (data, TRUE);
@@ -186,7 +106,8 @@ out:
 
 static GnmValue *
 newstyle_if_func (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv,
-		  float_range_function_t fun, GnmStdError err)
+		  float_range_function_t fun, GnmStdError err,
+		  gboolean no_data)
 {
 	GPtrArray *crits = g_ptr_array_new_with_free_func ((GDestroyNotify)free_criteria);
 	GPtrArray *data = g_ptr_array_new_with_free_func ((GDestroyNotify)value_release);
@@ -195,25 +116,28 @@ newstyle_if_func (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv,
 	GnmValue *res;
 	GnmValue *vals = NULL;
 	int i;
+	int cstart = no_data ? 0 : 1;
 
-	if ((argc & 1) == 0) {
+	if ((argc - cstart) & 1) {
 		res = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
-	vals = gnm_expr_eval (argv[0], ei->pos,
-			      GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
-			      GNM_EXPR_EVAL_WANT_REF);
-	if (VALUE_IS_ERROR (vals)) {
-		res = value_dup (vals);
-		goto out;
-	}
-	if (!VALUE_IS_CELLRANGE (vals)) {
-		res = value_new_error_VALUE (ei->pos);
-		goto out;
+	if (!no_data) {
+		vals = gnm_expr_eval (argv[0], ei->pos,
+				      GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+				      GNM_EXPR_EVAL_WANT_REF);
+		if (VALUE_IS_ERROR (vals)) {
+			res = value_dup (vals);
+			goto out;
+		}
+		if (!VALUE_IS_CELLRANGE (vals)) {
+			res = value_new_error_VALUE (ei->pos);
+			goto out;
+		}
 	}
 
-	for (i = 1; i + 1 < argc; i += 2) {
+	for (i = cstart; i + 1 < argc; i += 2) {
 		GnmValue *area, *crit;
 
 		area = gnm_expr_eval (argv[i], ei->pos,
@@ -223,6 +147,8 @@ newstyle_if_func (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv,
 			res = area;
 			goto out;
 		}
+		if (no_data && !vals)
+			vals = value_dup (area);
 		g_ptr_array_add (data, area);
 
 		crit = gnm_expr_eval (argv[i + 1], ei->pos,
@@ -236,11 +162,19 @@ newstyle_if_func (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv,
 		value_release (crit);
 	}
 
-	res = ifs_func (data, crits, vals,
-			fun, err, ei->pos,
-			COLLECT_IGNORE_STRINGS |
-			COLLECT_IGNORE_BLANKS |
-			COLLECT_IGNORE_BOOLS);
+	if (!vals) {
+		// COUNTIFS with no arguments.
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
+	}
+
+	res = gnm_ifs_func (data, crits, vals,
+			    fun, err, ei->pos,
+			    (no_data
+			     ? 0
+			     : COLLECT_IGNORE_STRINGS |
+			     COLLECT_IGNORE_BLANKS |
+			     COLLECT_IGNORE_BOOLS));
 
 out:
 	g_ptr_array_free (data, TRUE);
@@ -698,66 +632,36 @@ static GnmFuncHelp const help_countif[] = {
 	{ GNM_FUNC_HELP_END}
 };
 
-typedef struct {
-	GnmCriteria *crit;
-	int count;
-} CountIfClosure;
-
-static GnmValue *
-cb_countif (GnmCellIter const *iter, CountIfClosure *res)
-{
-	GnmCell *cell = iter->cell;
-	GnmValue *v;
-
-	if (cell) {
-		gnm_cell_eval (cell);
-		v = cell->value;
-	} else
-		v = value_new_empty ();  /* Never released */
-
-	if (!VALUE_IS_EMPTY (v) && !VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
-		return NULL;
-
-	if (!res->crit->fun (v, res->crit))
-		return NULL;
-
-	res->count++;
-
-	return NULL;
-}
-
 static GnmValue *
 gnumeric_countif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmValueRange const *r = &argv[0]->v_range;
-	Sheet		*sheet;
-	GnmValue        *problem;
-	CountIfClosure   res;
-	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+	GnmValue const * argv3[3];
 
-	/* XL has some limitations on @range that we currently emulate, but do
-	 * not need to.
-	 * 1) @range must be a range, arrays are not supported
-	 * 2) @range can not be 3d */
-	if (!VALUE_IS_CELLRANGE (argv[0]) ||
-	    ((sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) != r->cell.b.sheet &&
-	     r->cell.b.sheet != NULL) ||
-	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])))
-	        return value_new_error_VALUE (ei->pos);
+	argv3[0] = argv[0];
+	argv3[1] = argv[1];
+	argv3[2] = NULL;
 
-	res.count = 0;
-	res.crit = parse_criteria (argv[1], date_conv, TRUE);
-	problem = sheet_foreach_cell_in_range
-		(sheet, res.crit->iter_flags,
-		 r->cell.a.col, r->cell.a.row, r->cell.b.col, r->cell.b.row,
-		 (CellIterFunc) &cb_countif, &res);
-	free_criteria (res.crit);
+	return oldstyle_if_func (ei, argv3, gnm_range_count, GNM_ERROR_DIV0,
+				 0);
+}
 
-	if (NULL != problem)
-	        return value_new_error_VALUE (ei->pos);
+/***************************************************************************/
 
-	return value_new_int (res.count);
+static GnmFuncHelp const help_countifs[] = {
+	{ GNM_FUNC_HELP_NAME, F_("COUNTIFS:count of the cells meeting the given @{criteria}")},
+	{ GNM_FUNC_HELP_ARG, F_("range:cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("criteria:condition for a cell to be counted")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "COUNT,SUMIF"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_countifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	return newstyle_if_func (ei, argc, argv,
+				 gnm_range_count, GNM_ERROR_DIV0,
+				 TRUE);
 }
 
 /***************************************************************************/
@@ -780,7 +684,10 @@ static GnmFuncHelp const help_sumif[] = {
 static GnmValue *
 gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return oldstyle_if_func (ei, argv, gnm_range_sum, GNM_ERROR_DIV0);
+	return oldstyle_if_func (ei, argv, gnm_range_sum, GNM_ERROR_DIV0,
+				 COLLECT_IGNORE_STRINGS |
+				 COLLECT_IGNORE_BLANKS |
+				 COLLECT_IGNORE_BOOLS);
 }
 
 /***************************************************************************/
@@ -798,7 +705,9 @@ static GnmFuncHelp const help_sumifs[] = {
 static GnmValue *
 gnumeric_sumifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-	return newstyle_if_func (ei, argc, argv, gnm_range_sum, GNM_ERROR_DIV0);
+	return newstyle_if_func (ei, argc, argv,
+				 gnm_range_sum, GNM_ERROR_DIV0,
+				 FALSE);
 }
 
 /***************************************************************************/
@@ -816,7 +725,10 @@ static GnmFuncHelp const help_averageif[] = {
 static GnmValue *
 gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return oldstyle_if_func (ei, argv, gnm_range_average, GNM_ERROR_DIV0);
+	return oldstyle_if_func (ei, argv, gnm_range_average, GNM_ERROR_DIV0,
+				 COLLECT_IGNORE_STRINGS |
+				 COLLECT_IGNORE_BLANKS |
+				 COLLECT_IGNORE_BOOLS);
 }
 
 /***************************************************************************/
@@ -835,7 +747,8 @@ static GnmValue *
 gnumeric_averageifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return newstyle_if_func (ei, argc, argv,
-				 gnm_range_average, GNM_ERROR_DIV0);
+				 gnm_range_average, GNM_ERROR_DIV0,
+				 FALSE);
 }
 
 /***************************************************************************/
@@ -854,7 +767,8 @@ static GnmValue *
 gnumeric_minifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return newstyle_if_func (ei, argc, argv,
-				 gnm_range_min, GNM_ERROR_DIV0);
+				 gnm_range_min, GNM_ERROR_DIV0,
+				 FALSE);
 }
 
 /***************************************************************************/
@@ -873,7 +787,8 @@ static GnmValue *
 gnumeric_maxifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return newstyle_if_func (ei, argc, argv,
-				 gnm_range_max, GNM_ERROR_DIV0);
+				 gnm_range_max, GNM_ERROR_DIV0,
+				 FALSE);
 }
 
 /***************************************************************************/
@@ -3490,10 +3405,13 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_coth, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
-/* MS Excel puts this in statistical */
 	{ "countif", "rS",  help_countif,
 	  gnumeric_countif, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "countifs", NULL,  help_countifs,
+	  NULL, gnumeric_countifs, NULL, NULL,
+	  GNM_FUNC_SIMPLE,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
 	{ "ceil",    "f",     help_ceil,
 	  gnumeric_ceil, NULL, NULL, NULL,

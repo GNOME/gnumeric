@@ -1,5 +1,8 @@
 2016-08-08  Morten Welinder  <terra@gnome.org>
 
+	* src/criteria.c (criteria_inspect_values): Add flag for string
+	coercion.  Only the equality test wants that.
+
 	* src/value.c (criteria_inspect_values): Floats don't match
 	errors.
 

@@ -8,16 +8,12 @@ Jean:
 
 Morten:
 	* Avoid gnome-common dependency.
-	* New function CONCAT.
-	* New function TEXTJOIN.
-	* New function IFS.
-	* New function SWITCH.
-	* New function SUMIFS.
-	* New function AVERAGEIFS.
-	* New function MINIFS.
-	* New function MAXIFS.
+	* New text functions CONCAT, TEXTJOIN.
+	* New selection functions IFS, SWITCH.
+	* New aggregation functions SUMIFS, AVERAGEIFS, MINIFS, MAXIFS, COUNTIFS.
 	* Fix criteria function issue with errors in the selector area.
 	* Fix corner case for MINA and MAXA.
+	* Fix criteria matching of numbers against strings.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.31

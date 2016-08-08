@@ -11261,6 +11261,39 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-COUNTIFS">
+      <refmeta>
+        <refentrytitle>
+          <function>COUNTIFS</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>COUNTIFS</function>
+        </refname>
+        <refpurpose>
+        count of the cells meeting the given <parameter>criteria</parameter>
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COUNTIFS</function>(<parameter>range</parameter>,<parameter>criteria</parameter>,<parameter/>…)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>range</parameter>: cell area</para>
+        <para><parameter>criteria</parameter>: condition for a cell to be counted</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-COUNT"><function>COUNT</function></link>,
+        <link linkend="gnumeric-function-SUMIF"><function>SUMIF</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-CSC">
       <refmeta>
         <refentrytitle>

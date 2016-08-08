@@ -4,9 +4,8 @@ typedef enum { CRIT_NULL, CRIT_FLOAT, CRIT_WRONGTYPE, CRIT_STRING } CritType;
 
 static CritType
 criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
-			 GnmCriteria *crit)
+			 GnmCriteria *crit, gboolean coerce_to_float)
 {
-	GnmValue *vx;
 	GnmValue const *y = crit->x;
 
 	if (x == NULL || y == NULL)
@@ -34,7 +33,8 @@ criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
 		g_warning ("This should not happen.  Please report.");
 		return CRIT_WRONGTYPE;
 
-	case VALUE_FLOAT:
+	case VALUE_FLOAT: {
+		GnmValue *vx;
 		*yr = value_get_as_float (y);
 
 		if (VALUE_IS_BOOLEAN (x) || VALUE_IS_ERROR (x))
@@ -43,6 +43,9 @@ criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
 			*xr = value_get_as_float (x);
 			return CRIT_FLOAT;
 		}
+
+		if (!coerce_to_float)
+			return CRIT_WRONGTYPE;
 
 		vx = format_match (value_peek_string (x), NULL, crit->date_conv);
 		if (VALUE_IS_EMPTY (vx) ||
@@ -55,6 +58,7 @@ criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
 		value_release (vx);
 		return CRIT_FLOAT;
 	}
+	}
 }
 
 
@@ -64,7 +68,7 @@ criteria_test_equal (GnmValue const *x, GnmCriteria *crit)
 	gnm_float xf, yf;
 	GnmValue const *y = crit->x;
 
-	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit, TRUE)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -84,7 +88,7 @@ criteria_test_unequal (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
 
-	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit, FALSE)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -105,7 +109,7 @@ criteria_test_less (GnmValue const *x, GnmCriteria *crit)
 	gnm_float xf, yf;
 	GnmValue const *y = crit->x;
 
-	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit, FALSE)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -125,7 +129,7 @@ criteria_test_greater (GnmValue const *x, GnmCriteria *crit)
 	gnm_float xf, yf;
 	GnmValue const *y = crit->x;
 
-	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit, FALSE)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -145,7 +149,7 @@ criteria_test_less_or_equal (GnmValue const *x, GnmCriteria *crit)
 	gnm_float xf, yf;
 	GnmValue const *y = crit->x;
 
-	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit, FALSE)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -165,7 +169,7 @@ criteria_test_greater_or_equal (GnmValue const *x, GnmCriteria *crit)
 	gnm_float xf, yf;
 	GnmValue const *y = crit->x;
 
-	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit, FALSE)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -566,6 +570,87 @@ filter_row:
 	}
 
 	return g_slist_reverse (rows);
+}
+
+/****************************************************************************/
+
+GnmValue *
+gnm_ifs_func (GPtrArray *data, GPtrArray *crits, GnmValue const *vals,
+	      float_range_function_t fun, GnmStdError err,
+	      GnmEvalPos const *ep, CollectFlags flags)
+{
+	int sx, sy, x, y;
+	unsigned ui, N = 0, nalloc = 0;
+	gnm_float *xs = NULL;
+	GnmValue *res = NULL;
+	gnm_float fres;
+
+	g_return_val_if_fail (data->len == crits->len, NULL);
+
+	if (flags & ~(COLLECT_IGNORE_STRINGS |
+		      COLLECT_IGNORE_BOOLS |
+		      COLLECT_IGNORE_BLANKS |
+		      COLLECT_IGNORE_ERRORS)) {
+		g_warning ("unsupported flags in gnm_ifs_func %x", flags);
+	}
+
+	sx = value_area_get_width (vals, ep);
+	sy = value_area_get_height (vals, ep);
+	for (ui = 0; ui < data->len; ui++) {
+		GnmValue const *datai = g_ptr_array_index (data, ui);
+		if (value_area_get_width (datai, ep) != sx ||
+		    value_area_get_height (datai, ep) != sy)
+			return value_new_error_VALUE (ep);
+	}
+
+	for (y = 0; y < sy; y++) {
+		for (x = 0; x < sx; x++) {
+			GnmValue const *v;
+			gboolean match = TRUE;
+
+			for (ui = 0; match && ui < crits->len; ui++) {
+				GnmCriteria *crit = g_ptr_array_index (crits, ui);
+				GnmValue const *datai = g_ptr_array_index (data, ui);
+				v = value_area_get_x_y (datai, x, y, ep);
+
+				match = crit->fun (v, crit);
+			}
+			if (!match)
+				continue;
+
+			// Match.  Maybe collect the data point.
+
+			v = value_area_get_x_y (vals, x, y, ep);
+			if ((flags & COLLECT_IGNORE_STRINGS) && VALUE_IS_STRING (v))
+				continue;
+			if ((flags & COLLECT_IGNORE_BOOLS) && VALUE_IS_BOOLEAN (v))
+				continue;
+			if ((flags & COLLECT_IGNORE_BLANKS) && VALUE_IS_EMPTY (v))
+				continue;
+			if ((flags & COLLECT_IGNORE_ERRORS) && VALUE_IS_ERROR (v))
+				continue;
+
+			if (VALUE_IS_ERROR (v)) {
+				res = value_dup (v);
+				goto out;
+			}
+
+			if (N >= nalloc) {
+				nalloc = (2 * nalloc) + 100;
+				xs = g_renew (gnm_float, xs, nalloc);
+			}
+			xs[N++] = value_get_as_float (v);
+		}
+	}
+
+	if (fun (xs, N, &fres)) {
+		res = value_new_error_std (ep, err);
+	} else
+		res = value_new_float (fres);
+
+out:
+	g_free (xs);
+	return res;
 }
 
 /****************************************************************************/
