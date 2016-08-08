@@ -14,6 +14,7 @@ Morten:
 	* Fix criteria function issue with errors in the selector area.
 	* Fix corner case for MINA and MAXA.
 	* Fix criteria matching of numbers against strings.
+	* Test suite improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.31
