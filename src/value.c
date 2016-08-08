@@ -1515,7 +1515,7 @@ criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
 	case VALUE_FLOAT:
 		*yr = value_get_as_float (y);
 
-		if (VALUE_IS_BOOLEAN (x))
+		if (VALUE_IS_BOOLEAN (x) || VALUE_IS_ERROR (x))
 			return CRIT_WRONGTYPE;
 		else if (VALUE_IS_FLOAT (x)) {
 			*xr = value_get_as_float (x);
