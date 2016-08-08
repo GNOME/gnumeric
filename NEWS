@@ -17,6 +17,7 @@ Morten:
 	* New function MINIFS.
 	* New function MAXIFS.
 	* Fix criteria function issue with errors in the selector area.
+	* Fix corner case for MINA and MAXA.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.31

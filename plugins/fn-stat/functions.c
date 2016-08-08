@@ -2687,7 +2687,7 @@ static GnmValue *
 gnumeric_maxa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     gnm_range_max,
+				     range_max0,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS |
@@ -2712,7 +2712,7 @@ static GnmValue *
 gnumeric_mina (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     gnm_range_min,
+				     range_min0,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS |
