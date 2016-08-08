@@ -14,6 +14,7 @@ Morten:
 	* New function SWITCH.
 	* New function SUMIFS.
 	* New function AVERAGEIFS.
+	* Fix criteria function issue with errors in the selector area.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.31
