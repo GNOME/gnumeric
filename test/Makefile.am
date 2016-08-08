@@ -45,6 +45,7 @@ TESTS =	t1000-statfuns.pl			\
 	t1015-complex.pl			\
 	t1016-database.pl			\
 	t1017-countif.pl			\
+	t1018-ifs-funcs.pl			\
 	t1100-chitest.pl			\
 	t1101-ftest.pl				\
 	t1102-ttest.pl				\
