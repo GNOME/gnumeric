@@ -786,6 +786,7 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_sumifs[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SUMIFS:sum of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria")},
+	{ GNM_FUNC_HELP_ARG, F_("actual_range:cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("range1:cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("criteria1:condition for a cell to be included")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -821,6 +822,7 @@ gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_averageifs[] = {
 	{ GNM_FUNC_HELP_NAME, F_("AVERAGEIFS:average of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria")},
+	{ GNM_FUNC_HELP_ARG, F_("actual_range:cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("range1:cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("criteria1:condition for a cell to be included")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -831,7 +833,46 @@ static GnmFuncHelp const help_averageifs[] = {
 static GnmValue *
 gnumeric_averageifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-	return newstyle_if_func (ei, argc, argv, gnm_range_sum, GNM_ERROR_DIV0);
+	return newstyle_if_func (ei, argc, argv,
+				 gnm_range_average, GNM_ERROR_DIV0);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_minifs[] = {
+	{ GNM_FUNC_HELP_NAME, F_("MINIFS:minimum of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria")},
+	{ GNM_FUNC_HELP_ARG, F_("actual_range:cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("range1:cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("criteria1:condition for a cell to be included")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "MIN,MAXIFS"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_minifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	return newstyle_if_func (ei, argc, argv,
+				 gnm_range_min, GNM_ERROR_DIV0);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_maxifs[] = {
+	{ GNM_FUNC_HELP_NAME, F_("MAXIFS:maximum of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria")},
+	{ GNM_FUNC_HELP_ARG, F_("actual_range:cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("range1:cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("criteria1:condition for a cell to be included")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "MIN,MINIFS"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_maxifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	return newstyle_if_func (ei, argc, argv,
+				 gnm_range_max, GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -3628,6 +3669,14 @@ GnmFuncDescriptor const math_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "averageifs", NULL,  help_averageifs,
 	  NULL, gnumeric_averageifs, NULL, NULL,
+	  GNM_FUNC_SIMPLE,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "minifs", NULL,  help_minifs,
+	  NULL, gnumeric_minifs, NULL, NULL,
+	  GNM_FUNC_SIMPLE,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "maxifs", NULL,  help_maxifs,
+	  NULL, gnumeric_maxifs, NULL, NULL,
 	  GNM_FUNC_SIMPLE,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "sumproduct", NULL,  help_sumproduct,

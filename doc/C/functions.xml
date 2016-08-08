@@ -10762,10 +10762,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>AVERAGEIFS</function>(<parameter>range1</parameter>,<parameter>criteria1</parameter>,<parameter/>…)</synopsis>
+        <synopsis><function>AVERAGEIFS</function>(<parameter>actual_range</parameter>,<parameter>range1</parameter>,<parameter>criteria1</parameter>,<parameter/>…)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
+        <para><parameter>actual_range</parameter>: cell area</para>
         <para><parameter>range1</parameter>: cell area</para>
         <para><parameter>criteria1</parameter>: condition for a cell to be included</para>
       </refsect1>
@@ -12162,6 +12163,40 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-MAXIFS">
+      <refmeta>
+        <refentrytitle>
+          <function>MAXIFS</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>MAXIFS</function>
+        </refname>
+        <refpurpose>
+        maximum of the cells in <parameter>actual_range</parameter> for which the corresponding cells in the range meet the given criteria
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MAXIFS</function>(<parameter>actual_range</parameter>,<parameter>range1</parameter>,<parameter>criteria1</parameter>,<parameter/>…)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>actual_range</parameter>: cell area</para>
+        <para><parameter>range1</parameter>: cell area</para>
+        <para><parameter>criteria1</parameter>: condition for a cell to be included</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-MIN"><function>MIN</function></link>,
+        <link linkend="gnumeric-function-MINIFS"><function>MINIFS</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-MDETERM">
       <refmeta>
         <refentrytitle>
@@ -12191,6 +12226,40 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-MMULT"><function>MMULT</function></link>,
         <link linkend="gnumeric-function-MINVERSE"><function>MINVERSE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-MINIFS">
+      <refmeta>
+        <refentrytitle>
+          <function>MINIFS</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>MINIFS</function>
+        </refname>
+        <refpurpose>
+        minimum of the cells in <parameter>actual_range</parameter> for which the corresponding cells in the range meet the given criteria
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MINIFS</function>(<parameter>actual_range</parameter>,<parameter>range1</parameter>,<parameter>criteria1</parameter>,<parameter/>…)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>actual_range</parameter>: cell area</para>
+        <para><parameter>range1</parameter>: cell area</para>
+        <para><parameter>criteria1</parameter>: condition for a cell to be included</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-MIN"><function>MIN</function></link>,
+        <link linkend="gnumeric-function-MAXIFS"><function>MAXIFS</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -13315,10 +13384,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>SUMIFS</function>(<parameter>range1</parameter>,<parameter>criteria1</parameter>,<parameter/>…)</synopsis>
+        <synopsis><function>SUMIFS</function>(<parameter>actual_range</parameter>,<parameter>range1</parameter>,<parameter>criteria1</parameter>,<parameter/>…)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
+        <para><parameter>actual_range</parameter>: cell area</para>
         <para><parameter>range1</parameter>: cell area</para>
         <para><parameter>criteria1</parameter>: condition for a cell to be included</para>
       </refsect1>

@@ -65,7 +65,9 @@
 				<function name="log"/>
 				<function name="log10"/>
 				<function name="log2"/>
+				<function name="maxifs"/>
 				<function name="mdeterm"/>
+				<function name="minifs"/>
 				<function name="minverse"/>
 				<function name="mmult"/>
 				<function name="mod"/>

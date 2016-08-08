@@ -3311,8 +3311,9 @@ The depreciation coefficient used is:
 @CATEGORY=Mathematics
 @FUNCTION=AVERAGEIFS
 @SHORTDESC=average of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria
-@SYNTAX=AVERAGEIFS(range1,criteria1,…)
-@ARGUMENTDESCRIPTION=@{range1}: cell area
+@SYNTAX=AVERAGEIFS(actual_range,range1,criteria1,…)
+@ARGUMENTDESCRIPTION=@{actual_range}: cell area
+@{range1}: cell area
 @{criteria1}: condition for a cell to be included
 @EXCEL=This function is Excel compatible.
 @SEEALSO=AVERAGE,AVERAGEIF
@@ -3671,12 +3672,32 @@ The depreciation coefficient used is:
 @SEEALSO=EXP,LOG10,LOG
 
 @CATEGORY=Mathematics
+@FUNCTION=MAXIFS
+@SHORTDESC=maximum of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria
+@SYNTAX=MAXIFS(actual_range,range1,criteria1,…)
+@ARGUMENTDESCRIPTION=@{actual_range}: cell area
+@{range1}: cell area
+@{criteria1}: condition for a cell to be included
+@EXCEL=This function is Excel compatible.
+@SEEALSO=MIN,MINIFS
+
+@CATEGORY=Mathematics
 @FUNCTION=MDETERM
 @SHORTDESC=the determinant of the matrix @{matrix}
 @SYNTAX=MDETERM(matrix)
 @ARGUMENTDESCRIPTION=@{matrix}: a square matrix
 @EXCEL=This function is Excel compatible.
 @SEEALSO=MMULT,MINVERSE
+
+@CATEGORY=Mathematics
+@FUNCTION=MINIFS
+@SHORTDESC=minimum of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria
+@SYNTAX=MINIFS(actual_range,range1,criteria1,…)
+@ARGUMENTDESCRIPTION=@{actual_range}: cell area
+@{range1}: cell area
+@{criteria1}: condition for a cell to be included
+@EXCEL=This function is Excel compatible.
+@SEEALSO=MIN,MAXIFS
 
 @CATEGORY=Mathematics
 @FUNCTION=MINVERSE
@@ -3975,8 +3996,9 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @CATEGORY=Mathematics
 @FUNCTION=SUMIFS
 @SHORTDESC=sum of the cells in @{actual_range} for which the corresponding cells in the range meet the given criteria
-@SYNTAX=SUMIFS(range1,criteria1,…)
-@ARGUMENTDESCRIPTION=@{range1}: cell area
+@SYNTAX=SUMIFS(actual_range,range1,criteria1,…)
+@ARGUMENTDESCRIPTION=@{actual_range}: cell area
+@{range1}: cell area
 @{criteria1}: condition for a cell to be included
 @EXCEL=This function is Excel compatible.
 @SEEALSO=SUM,SUMIF
