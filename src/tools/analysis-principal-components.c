@@ -59,6 +59,7 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 
 	int data_points;
 	GnmExprList *and_args = NULL;
+	GnmEvalPos ep;
 
 	if (!dao_cell_is_visible (dao, l, 9 + 3 * l)) {
 		dao_set_bold (dao, 0, 0, 0, 0);
@@ -107,8 +108,11 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 	for (i = 1, inputdata = info->input; inputdata != NULL; i++, inputdata = inputdata->next)
 		analysis_tools_write_label (inputdata->data, dao, info, 0, 9 + 2 * l + i, i);
 
-	data_points = value_area_get_width (info->input->data, NULL) *
-		value_area_get_height (info->input->data, NULL);
+	eval_pos_init_sheet (&ep,
+			     ((GnmValue *)(info->input->data))->v_range.cell.a.sheet);
+	data_points = value_area_get_width (info->input->data, &ep) *
+		value_area_get_height (info->input->data, &ep);
+
 	for (i = 0; i < l; i++)
 		and_args = gnm_expr_list_prepend
 			(and_args,

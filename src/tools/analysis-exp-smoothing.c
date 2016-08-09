@@ -130,6 +130,10 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 		guint delta_y = 1;
 		gint row;
 		Sheet *sheet;
+		GnmEvalPos ep;
+
+		sheet = val->v_range.cell.a.sheet;
+		eval_pos_init_sheet (&ep, sheet);
 
 		dao_set_italic (dao, col, 0, col, 0);
 		if (info->base.labels) {
@@ -155,16 +159,15 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 
 		switch (info->base.group_by) {
 		case GROUPED_BY_ROW:
-			height = value_area_get_width (val, NULL);
+			height = value_area_get_width (val, &ep);
 			mover = &x;
 			break;
 		default:
-			height = value_area_get_height (val, NULL);
+			height = value_area_get_height (val, &ep);
 			mover = &y;
 			break;
 		}
 
-		sheet = val->v_range.cell.a.sheet;
 		expr_input = gnm_expr_new_constant (val);
 
 		if (plot != NULL) {
@@ -306,6 +309,10 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 		guint delta_y = 1;
 		gint row;
 		Sheet *sheet;
+		GnmEvalPos ep;
+
+		sheet = val->v_range.cell.a.sheet;
+		eval_pos_init_sheet (&ep, sheet);
 
 		dao_set_italic (dao, col, 0, col, 0);
 		if (info->base.labels) {
@@ -331,16 +338,15 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 
 		switch (info->base.group_by) {
 		case GROUPED_BY_ROW:
-			height = value_area_get_width (val, NULL);
+			height = value_area_get_width (val, &ep);
 			mover = &x;
 			break;
 		default:
-			height = value_area_get_height (val, NULL);
+			height = value_area_get_height (val, &ep);
 			mover = &y;
 			break;
 		}
 
-		sheet = val->v_range.cell.a.sheet;
 		expr_input = gnm_expr_new_constant (val);
 
 		if (plot != NULL) {
@@ -494,6 +500,10 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 		guint delta_y = 1;
 		gint row;
 		Sheet *sheet;
+		GnmEvalPos ep;
+
+		sheet = val->v_range.cell.a.sheet;
+		eval_pos_init_sheet (&ep, sheet);
 
 		dao_set_italic (dao, col, 0, col, 0);
 		if (info->base.labels) {
@@ -519,16 +529,15 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 
 		switch (info->base.group_by) {
 		case GROUPED_BY_ROW:
-			height = value_area_get_width (val, NULL);
+			height = value_area_get_width (val, &ep);
 			mover = &x;
 			break;
 		default:
-			height = value_area_get_height (val, NULL);
+			height = value_area_get_height (val, &ep);
 			mover = &y;
 			break;
 		}
 
-		sheet = val->v_range.cell.a.sheet;
 		expr_input = gnm_expr_new_constant (val);
 
 		if (plot != NULL) {
@@ -751,6 +760,9 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 		GnmExpr const *expr_linest_intercept;
 		GnmExpr const *expr_linest_slope;
 		gint height;
+		GnmEvalPos ep;
+
+		eval_pos_init_sheet (&ep, val->v_range.cell.a.sheet);
 
 		if (dao_cell_is_visible (dao, col+3, 1))
 		{
@@ -784,14 +796,14 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 
 			switch (info->base.group_by) {
 			case GROUPED_BY_ROW:
-				height = value_area_get_width (val, NULL);
+				height = value_area_get_width (val, &ep);
 				expr_input = gnm_expr_new_constant (val);
 				expr_index = gnm_expr_new_funcall3 (fd_index, gnm_expr_copy (expr_input),
 								    gnm_expr_new_constant (value_new_int (1)),
 								    make_cellref (-1 - col, 0));
 				break;
 			default:
-				height = value_area_get_height (val, NULL);
+				height = value_area_get_height (val, &ep);
 				expr_input = gnm_expr_new_constant (val);
 				expr_index = gnm_expr_new_funcall3 (fd_index, gnm_expr_copy (expr_input),
 								    make_cellref (-1 - col, 0),
@@ -1073,6 +1085,9 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 		GnmExpr const *expr_linest_slope;
 		gint height, starting_length, i;
 		GnmExprList *args = NULL;
+		GnmEvalPos ep;
+
+		eval_pos_init_sheet (&ep, val->v_range.cell.a.sheet);
 
 		if (dao_cell_is_visible (dao, col+3, 1))
 		{
@@ -1106,14 +1121,14 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 
 			switch (info->base.group_by) {
 			case GROUPED_BY_ROW:
-				height = value_area_get_width (val, NULL);
+				height = value_area_get_width (val, &ep);
 				expr_input = gnm_expr_new_constant (val);
 				expr_index = gnm_expr_new_funcall3 (fd_index, gnm_expr_copy (expr_input),
 								    gnm_expr_new_constant (value_new_int (1)),
 								    make_cellref (-1 - col, 0));
 				break;
 			default:
-				height = value_area_get_height (val, NULL);
+				height = value_area_get_height (val, &ep);
 				expr_input = gnm_expr_new_constant (val);
 				expr_index = gnm_expr_new_funcall3 (fd_index, gnm_expr_copy (expr_input),
 								    make_cellref (-1 - col, 0),

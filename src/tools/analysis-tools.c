@@ -1189,6 +1189,9 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_input = NULL;
 		char const *format = NULL;
 		guint offset = info->periodic ? ((info->offset == 0) ? info->period : info->offset): 0;
+		GnmEvalPos ep;
+
+		eval_pos_init_sheet (&ep, val->v_range.cell.a.sheet);
 
 		dao_set_italic (dao, col, 0, col + info->number - 1, 0);
 
@@ -1231,8 +1234,8 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 
 		if (info->periodic) {
 			guint i;
-			gint height = value_area_get_height (val, NULL);
-			gint width = value_area_get_width (val, NULL);
+			gint height = value_area_get_height (val, &ep);
+			gint width = value_area_get_width (val, &ep);
 			GnmExpr const *expr_period;
 
 			for (i=0; i < info->size; i++, offset += info->period) {
@@ -1327,10 +1330,14 @@ analysis_tool_sampling_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_ou
 		if (info->periodic) {
 			info->size = 1;
 			for (l = info->base.input; l; l = l->next) {
+				GnmEvalPos ep;
 				GnmValue *val = ((GnmValue *)l->data);
-				gint size = (value_area_get_width (val, NULL) *
-					     value_area_get_height (val, NULL));
-				guint usize = (size > 0) ? size : 1;
+				gint size;
+				guint usize;
+				eval_pos_init_sheet (&ep, val->v_range.cell.a.sheet);
+				size = (value_area_get_width (val, &ep) *
+					     value_area_get_height (val, &ep));
+				usize = (size > 0) ? size : 1;
 
 				if (info->offset == 0)
 					usize = usize/info->period;
@@ -3716,6 +3723,9 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		guint delta_y = 1;
 		gint row, base;
 		Sheet *sheet;
+		GnmEvalPos ep;
+
+		eval_pos_init_sheet (&ep, val->v_range.cell.a.sheet);
 
 		if (info->base.labels) {
 			val_c = value_dup (val);
@@ -3746,12 +3756,12 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 
 		switch (info->base.group_by) {
 		case GROUPED_BY_ROW:
-			height = value_area_get_width (val, NULL);
+			height = value_area_get_width (val, &ep);
 			mover = &x;
 			delta_mover = &delta_x;
 			break;
 		default:
-			height = value_area_get_height (val, NULL);
+			height = value_area_get_height (val, &ep);
 			mover = &y;
 			delta_mover = &delta_y;
 			break;
