@@ -18386,6 +18386,9 @@ msgstr "En knaplignende skabelon"
 msgid "Gnumeric Team"
 msgstr "Gnumericholdet"
 
+msgid "The Gnumeric Team"
+msgstr "Gnumericholdet"
+
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:2
 msgid "A 3D list template"
 msgstr ""
