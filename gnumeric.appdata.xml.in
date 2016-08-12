@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2014 Morten Welinder <terra@gnome.org> -->
+<!-- Copyright 2014-2016 Morten Welinder <terra@gnome.org> -->
 <application>
+<_name>The Gnumeric Spreadsheet</_name>
 <id type="desktop">gnumeric.desktop</id>
 <metadata_license>CC0-1.0</metadata_license>
 <!-- No idea what the SPDX ID for this is.  -->
@@ -11,6 +12,7 @@
 and a wide selection of statistical analysis tools.  Gnumeric can share
 files with Microsoft Excel and programs supporting the ODS standard.</_p>
 </description>
+<_summary>A High-Precision Spreadsheet Program</_summary>
 <url type="homepage">http://www.gnumeric.org/</url>
 <screenshots>
 <screenshot type="default">https://git.gnome.org/browse/gnumeric-web/plain/screenshots/gnumeric-sample.png</screenshot>
