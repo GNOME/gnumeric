@@ -18,6 +18,7 @@
 # 7xxx: Features
 # 70xx:   Goal seek
 # 71xx:   Solver
+# 72xx:   Analysis tools
 #
 # 8xxx: Runs with valgrind and similar tools.
 # 80xx:   Valgrind
@@ -139,6 +140,7 @@ TESTS =	t1000-statfuns.pl			\
 	t7145-solver-Eckerle4.pl		\
 	t7146-solver-Rat43.pl			\
 	t7147-solver-Bennett5.pl		\
+	t7200-regression.pl			\
 	t8000-valgrind.pl			\
 	t8001-valgrind-xls.pl			\
 	t8002-valgrind-gnumeric.pl		\
