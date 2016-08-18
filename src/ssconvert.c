@@ -571,6 +571,7 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 
 #define GET_ARG(conv_,name_,def_) (g_hash_table_lookup_extended(args,(name_),NULL,&arg) ? conv_((const char *)arg) : (def_))
 #define RANGE_ARG(s_) value_new_cellrange_str(sheet,(s_))
+#define RANGE_LIST_ARG(s_) g_slist_prepend (NULL, value_new_cellrange_str(sheet,(s_)))
 #define SHEET_ARG(s_) workbook_sheet_by_name(wb,(s_))
 
 static void
@@ -627,6 +628,17 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 
 		engine = analysis_tool_regression_engine;
 		specs = data;
+	} else if (g_str_equal (tool, "anova")) {
+		analysis_tools_data_anova_single_t *data =
+			g_new0 (analysis_tools_data_anova_single_t, 1);
+
+		data->base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
+		data->base.labels = GET_ARG (atoi, "labels", FALSE);
+		data->base.group_by = GET_ARG ((group_by_t), "grouped-by", GROUPED_BY_COL);
+		data->alpha = GET_ARG (atof, "alpha", 0.05);
+
+		engine = analysis_tool_anova_single_engine;
+		specs = data;
 	} else {
 		g_printerr ("no test for tool \"%s\"\n", tool);
 		return;
@@ -641,6 +653,7 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 
 #undef GET_ARG
 #undef RANGE_ARG
+#undef RANGE_LISTARG
 #undef SHEET_ARG
 
 static int

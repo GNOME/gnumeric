@@ -141,6 +141,7 @@ TESTS =	t1000-statfuns.pl			\
 	t7146-solver-Rat43.pl			\
 	t7147-solver-Bennett5.pl		\
 	t7200-regression.pl			\
+	t7201-anova.pl				\
 	t8000-valgrind.pl			\
 	t8001-valgrind-xls.pl			\
 	t8002-valgrind-gnumeric.pl		\

@@ -12,6 +12,7 @@ $| = 1;
                            test_importer test_exporter test_roundtrip
                            test_csv_format_guessing
 			   test_ssindex sstest test_command message subtest
+                           test_tool
 			   $ssconvert $sstest $ssdiff $topsrc $top_builddir
 			   $subtests $samples corpus $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
@@ -828,6 +829,39 @@ sub test_ssindex {
 }
 
 # -----------------------------------------------------------------------------
+
+sub test_tool {
+    my ($file,$tool,$tool_args,$range,$test) = @_;
+
+    &report_skip ("file $file does not exist") unless -r $file;
+
+    my @args;
+    push @args, "--export-range=$range" if defined $range;
+    push @args, "--tool-test=$tool";
+    for (my $i = 0; $i + 1 < @$tool_args; $i += 2) {
+	my $k = $tool_args->[$i];
+	my $v = $tool_args->[$i + 1];
+	push @args, "--tool-test=$k:$v";
+    }
+
+    my $tmp = "tool.csv";
+    &junkfile ($tmp);
+
+    my $cmd = &quotearg ($ssconvert, @args, $file, $tmp);
+    print STDERR "# $cmd\n" if $GnumericTest::verbose;
+    my $code = system ($cmd);
+    &system_failure ($ssconvert, $code) if $code;
+    my $actual = &read_file ($tmp);
+
+    &removejunk ($tmp);
+
+    if (&$test ($actual)) {
+	print STDERR "Pass\n";
+    } else {
+	&GnumericTest::dump_indented ($actual);
+	die "Fail\n";
+    }
+}
 
 sub quotearg {
     return join (' ', map { &quotearg1 ($_) } @_);

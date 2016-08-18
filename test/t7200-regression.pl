@@ -10,34 +10,11 @@ my $expected;
 
 &message ("Check regression tool.");
 my $file = "$samples/tool-tests.gnumeric";
-&GnumericTest::report_skip ("file $file does not exist") unless -r $file;
 
-my %args = 
-    ('x' => 'Data!A1:A30',
-     'y' => 'Data!B1:B30',
-    );
-
-my @args = ('--export-range=A1:G18', '--tool-test=regression');
-foreach my $k (sort keys %args) {
-    my $v = $args{$k};
-    push @args, "--tool-test=$k:$v";
-}
-
-my $tmp = "tool.txt";
-&GnumericTest::junkfile ($tmp);
-
-my $cmd = &GnumericTest::quotearg ($ssconvert, @args, $file, $tmp);
-print STDERR "# $cmd\n" if $GnumericTest::verbose;
-system ($cmd);
-my $actual = &GnumericTest::read_file ($tmp);
-
-if ($actual ne $expected) {
-    &GnumericTest::dump_indented ($actual);
-    die "Fail\n";
-} else {
-    print STDERR "Pass\n";
-}
-
+&GnumericTest::test_tool ($file, 'regression',
+			  ['x' => 'Data!A1:A30', 'y' => 'Data!B1:B30'],
+			  'A1:G18',
+			  sub { $_[0] eq $expected; });
 
 __DATA__
 "SUMMARY OUTPUT",,"Response Variable","Column 2",,,
