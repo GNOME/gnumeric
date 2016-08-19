@@ -237,6 +237,7 @@ libspreadsheet_include_HEADERS = 	\
 	complete-sheet.h			\
 	complex.h				\
 	consolidate.h				\
+	criteria.h				\
 	dependent.h				\
 	expr.h					\
 	expr-impl.h				\
