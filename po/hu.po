@@ -1,4 +1,4 @@
-# Hungarian translation of gnumeric.
+# Hungarian translation for gnumeric.
 # Copyright (C) 2000-2016 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
 #
@@ -10,16 +10,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-07-10 09:46+0000\n"
-"PO-Revision-Date: 2016-07-31 13:59+0200\n"
-"Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
+"product=gnumeric&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2016-08-12 22:29+0000\n"
+"PO-Revision-Date: 2016-08-19 21:46+0200\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Lokalize 1.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
@@ -45,13 +45,18 @@ msgid "Spreadsheet;"
 msgstr "Munkafüzet;"
 
 #: ../gnumeric.appdata.xml.in.h:1
+#| msgid "Gnumeric Spreadsheet"
+msgid "The Gnumeric Spreadsheet"
+msgstr "A Gnumeric táblázatkezelő"
+
+#: ../gnumeric.appdata.xml.in.h:2
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
 msgstr ""
-"A Gnumeric az adatok interaktív manipulálásához készült munkafüzet "
+"A Gnumeric az adatok interaktív manipulálásához készült táblázatkezelő "
 "alkalmazás."
 
-#: ../gnumeric.appdata.xml.in.h:2
+#: ../gnumeric.appdata.xml.in.h:3
 msgid ""
 "Gnumeric aims to provide high-accuracy computations, expressive graphs, and "
 "a wide selection of statistical analysis tools. Gnumeric can share files "
@@ -61,6 +66,15 @@ msgstr ""
 "statisztikai elemző eszközök széles választékának biztosítása. A Gnumeric "
 "képes megosztani a fájlokat Microsoft Excel és az ODS szabványt támogató "
 "programokkal."
+
+#: ../gnumeric.appdata.xml.in.h:4
+msgid "A High-Precision Spreadsheet Program"
+msgstr "Egy nagy pontosságú táblázatkezelő program"
+
+#: ../gnumeric.appdata.xml.in.h:5
+#| msgid "Gnumeric Team"
+msgid "The Gnumeric Team"
+msgstr "A Gnumeric csapat"
 
 #: ../plugins/applix/applix-read.c:124
 msgid "Parse error while reading Applix file."
@@ -102,7 +116,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7222
-#: ../plugins/openoffice/openoffice-read.c:13635 ../src/xml-sax-read.c:3473
+#: ../plugins/openoffice/openoffice-read.c:13638 ../src/xml-sax-read.c:3473
 msgid "Reading file..."
 msgstr "Fájl olvasása…"
 
@@ -210,7 +224,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Az ss:data elem tartalma érvénytelen, „%s” érkezett."
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:13799 ../src/xml-sax-read.c:3490
+#: ../plugins/openoffice/openoffice-read.c:13802 ../src/xml-sax-read.c:3490
 msgid "XML document not well formed!"
 msgstr "Az XML-dokumentum nem megfelelően formázott!"
 
@@ -1538,8 +1552,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "A(z) „%s” kifejezés nem felismert karakterrel kezdődik"
 
 #: ../plugins/openoffice/openoffice-read.c:2385
-#: ../plugins/openoffice/openoffice-write.c:5210
-#: ../plugins/openoffice/openoffice-write.c:5222 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-write.c:5216
+#: ../plugins/openoffice/openoffice-write.c:5228 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "cella"
 
@@ -1899,68 +1913,68 @@ msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Ez a fájl sérült egy névtelen munkalappal, ami most így lett elnevezve: „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:13483
+#: ../plugins/openoffice/openoffice-read.c:13486
 msgid "Unknown mimetype for openoffice file."
 msgstr "Ismeretlen MIME-típus az openoffice fájlnál."
 
-#: ../plugins/openoffice/openoffice-read.c:13493
+#: ../plugins/openoffice/openoffice-read.c:13496
 msgid "No stream named content.xml found."
 msgstr "Nem található content.xml nevű adatfolyam."
 
-#: ../plugins/openoffice/openoffice-read.c:13501
+#: ../plugins/openoffice/openoffice-read.c:13504
 msgid "No stream named styles.xml found."
 msgstr "Nem található styles.xml nevű adatfolyam."
 
-#: ../plugins/openoffice/openoffice-read.c:13645
+#: ../plugins/openoffice/openoffice-read.c:13648
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Érvénytelen metaadatok: „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:13708
+#: ../plugins/openoffice/openoffice-read.c:13711
 msgid "settings.xml stream is malformed!"
 msgstr "A settings.xml adatfolyam helytelenül formázott!"
 
-#: ../plugins/openoffice/openoffice-write.c:5203
-#: ../plugins/openoffice/openoffice-write.c:5215
+#: ../plugins/openoffice/openoffice-write.c:5209
+#: ../plugins/openoffice/openoffice-write.c:5221
 msgid "tab"
 msgstr "lap"
 
-#: ../plugins/openoffice/openoffice-write.c:5204
-#: ../plugins/openoffice/openoffice-write.c:5216
+#: ../plugins/openoffice/openoffice-write.c:5210
+#: ../plugins/openoffice/openoffice-write.c:5222
 msgid "page"
 msgstr "oldal"
 
-#: ../plugins/openoffice/openoffice-write.c:5205
-#: ../plugins/openoffice/openoffice-write.c:5217
+#: ../plugins/openoffice/openoffice-write.c:5211
+#: ../plugins/openoffice/openoffice-write.c:5223
 msgid "pages"
 msgstr "oldal"
 
-#: ../plugins/openoffice/openoffice-write.c:5206
-#: ../plugins/openoffice/openoffice-write.c:5218
+#: ../plugins/openoffice/openoffice-write.c:5212
+#: ../plugins/openoffice/openoffice-write.c:5224
 msgid "date"
 msgstr "dátum"
 
-#: ../plugins/openoffice/openoffice-write.c:5207
-#: ../plugins/openoffice/openoffice-write.c:5219
+#: ../plugins/openoffice/openoffice-write.c:5213
+#: ../plugins/openoffice/openoffice-write.c:5225
 msgid "time"
 msgstr "idő"
 
-#: ../plugins/openoffice/openoffice-write.c:5208
-#: ../plugins/openoffice/openoffice-write.c:5220 ../src/ssconvert.c:104
+#: ../plugins/openoffice/openoffice-write.c:5214
+#: ../plugins/openoffice/openoffice-write.c:5226 ../src/ssconvert.c:104
 #: ../src/ssdiff.c:57
 msgid "file"
 msgstr "fájl"
 
-#: ../plugins/openoffice/openoffice-write.c:5209
-#: ../plugins/openoffice/openoffice-write.c:5221
+#: ../plugins/openoffice/openoffice-write.c:5215
+#: ../plugins/openoffice/openoffice-write.c:5227
 msgid "path"
 msgstr "útvonal"
 
-#: ../plugins/openoffice/openoffice-write.c:8925
+#: ../plugins/openoffice/openoffice-write.c:8931
 msgid "Writing Sheets..."
 msgstr "Munkalapok írása…"
 
-#: ../plugins/openoffice/openoffice-write.c:8966
+#: ../plugins/openoffice/openoffice-write.c:8972
 msgid "Writing Sheet Objects..."
 msgstr "Munkalapobjektumok írása…"
 
@@ -5034,11 +5048,11 @@ msgstr "A feltételtartomány érvénytelen."
 msgid "The output range is invalid."
 msgstr "A kimeneti tartomány érvénytelen."
 
-#: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:249
+#: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:250
 msgid "The given criteria are invalid."
 msgstr "A megadott feltételek érvénytelenek."
 
-#: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:247
+#: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:248
 msgid "No matching records were found."
 msgstr "Nem találhatók illeszkedő rekordok."
 
@@ -5046,7 +5060,7 @@ msgstr "Nem találhatók illeszkedő rekordok."
 #: ../src/dialogs/dialog-analysis-tools.c:670
 #: ../src/dialogs/dialog-analysis-tools.c:790
 #: ../src/dialogs/dialog-analysis-tools.c:2214
-#: ../src/dialogs/dialog-analysis-tools.c:3683 ../src/tools/filter.c:252
+#: ../src/dialogs/dialog-analysis-tools.c:3683 ../src/tools/filter.c:253
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Váratlan hiba történt: %d."
@@ -6131,14 +6145,14 @@ msgstr "Szűrő"
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2307
-#: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2885
+#: ../src/tools/analysis-tools.c:222 ../src/tools/analysis-tools.c:2891
 msgid "Row"
 msgstr "Sor"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2299
-#: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2886
+#: ../src/tools/analysis-tools.c:222 ../src/tools/analysis-tools.c:2892
 msgid "Column"
 msgstr "Oszlop"
 
@@ -7601,13 +7615,13 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-format-page.c:758
 #: ../src/dialogs/dialog-stf-preview.h:25
-#: ../src/tools/analysis-exp-smoothing.c:153
-#: ../src/tools/analysis-exp-smoothing.c:329
-#: ../src/tools/analysis-exp-smoothing.c:517
-#: ../src/tools/analysis-exp-smoothing.c:781
-#: ../src/tools/analysis-exp-smoothing.c:1103
+#: ../src/tools/analysis-exp-smoothing.c:157
+#: ../src/tools/analysis-exp-smoothing.c:336
+#: ../src/tools/analysis-exp-smoothing.c:527
+#: ../src/tools/analysis-exp-smoothing.c:793
+#: ../src/tools/analysis-exp-smoothing.c:1118
 #: ../src/tools/analysis-frequency.c:149 ../src/tools/analysis-histogram.c:323
-#: ../src/tools/analysis-tools.c:1220 ../src/tools/analysis-tools.c:3742
+#: ../src/tools/analysis-tools.c:1222 ../src/tools/analysis-tools.c:3751
 #, c-format
 msgid "Column %d"
 msgstr "%d. oszlop"
@@ -7713,8 +7727,8 @@ msgstr "Automatikus kiegészítés"
 msgid "Cell Markers"
 msgstr "Cellajelölők"
 
-#: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:287
-#: ../src/tools/filter.c:290
+#: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:288
+#: ../src/tools/filter.c:291
 msgid "Advanced Filter"
 msgstr "Speciális szűrő"
 
@@ -8146,8 +8160,8 @@ msgid "Date"
 msgstr "Dátum"
 
 #: ../src/dialogs/cell-format.ui.h:6 ../src/dialogs/hf-config.ui.h:10
-#: ../src/tools/analysis-exp-smoothing.c:728
-#: ../src/tools/analysis-exp-smoothing.c:1048
+#: ../src/tools/analysis-exp-smoothing.c:737
+#: ../src/tools/analysis-exp-smoothing.c:1060
 #: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:3454
 msgid "Time"
 msgstr "Idő"
@@ -8722,13 +8736,13 @@ msgstr "VAR"
 msgid "VARP"
 msgstr "VARP"
 
-#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:695
-#: ../src/tools/analysis-tools.c:698
+#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:694
+#: ../src/tools/analysis-tools.c:697
 msgid "Correlation"
 msgstr "Korreláció"
 
-#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:750
-#: ../src/tools/analysis-tools.c:753 ../src/wbc-gtk-actions.c:2945
+#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:749
+#: ../src/tools/analysis-tools.c:752 ../src/wbc-gtk-actions.c:2945
 msgid "Covariance"
 msgstr "Kovariancia"
 
@@ -8844,8 +8858,8 @@ msgstr "_Sor(ok) törlése"
 msgid "Delete _column(s)"
 msgstr "_Oszlop(ok) törlése"
 
-#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1140
-#: ../src/tools/analysis-tools.c:1143
+#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1139
+#: ../src/tools/analysis-tools.c:1142
 msgid "Descriptive Statistics"
 msgstr "Leíró statisztika"
 
@@ -9529,12 +9543,12 @@ msgstr "6. oldal"
 
 #: ../src/dialogs/exp-smoothing.ui.h:1
 #: ../src/tools/analysis-exp-smoothing.c:113
-#: ../src/tools/analysis-exp-smoothing.c:289
-#: ../src/tools/analysis-exp-smoothing.c:472
-#: ../src/tools/analysis-exp-smoothing.c:713
-#: ../src/tools/analysis-exp-smoothing.c:1033
-#: ../src/tools/analysis-exp-smoothing.c:1397
-#: ../src/tools/analysis-exp-smoothing.c:1400
+#: ../src/tools/analysis-exp-smoothing.c:292
+#: ../src/tools/analysis-exp-smoothing.c:478
+#: ../src/tools/analysis-exp-smoothing.c:722
+#: ../src/tools/analysis-exp-smoothing.c:1045
+#: ../src/tools/analysis-exp-smoothing.c:1412
+#: ../src/tools/analysis-exp-smoothing.c:1415
 msgid "Exponential Smoothing"
 msgstr "Exponenciális simítás"
 
@@ -10187,8 +10201,8 @@ msgstr "_Egyesítés"
 msgid "Merge _Range:"
 msgstr "_Tartomány egyesítése:"
 
-#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3988
-#: ../src/tools/analysis-tools.c:3991
+#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3997
+#: ../src/tools/analysis-tools.c:4000
 msgid "Moving Average"
 msgstr "Mozgóátlag"
 
@@ -10401,8 +10415,8 @@ msgid "Gnumeric Preferences"
 msgstr "A Gnumeric beállításai"
 
 #: ../src/dialogs/principal-components.ui.h:1
-#: ../src/tools/analysis-principal-components.c:223
-#: ../src/tools/analysis-principal-components.c:226
+#: ../src/tools/analysis-principal-components.c:227
+#: ../src/tools/analysis-principal-components.c:230
 #: ../src/wbc-gtk-actions.c:2982
 msgid "Principal Components Analysis"
 msgstr "Főkomponens-elemzés"
@@ -10752,8 +10766,8 @@ msgstr "Dokumentum megnyitása"
 msgid "Last Used"
 msgstr "Legutóbb használt"
 
-#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3598
-#: ../src/tools/analysis-tools.c:3601
+#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3604
+#: ../src/tools/analysis-tools.c:3607
 msgid "Regression"
 msgstr "Regresszió"
 
@@ -13863,12 +13877,12 @@ msgstr "Varianciaanalízis: kéttényezős, ismétlések nélkül"
 msgid "/Summary/Count/Sum/Average/Variance"
 msgstr "/Összegzés/Darab/Összeg/Átlag/Szórásnégyzet"
 
-#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:179
+#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:178
 #, c-format
 msgid "Row %i"
 msgstr "%i. sor"
 
-#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:182
+#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:181
 #, c-format
 msgid "Column %i"
 msgstr "%i. oszlop"
@@ -13884,7 +13898,7 @@ msgid "/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Variáció forrása/Sorok/Oszlopok/Hiba/Összesen"
 
 #: ../src/tools/analysis-anova.c:250 ../src/tools/analysis-anova.c:609
-#: ../src/tools/analysis-tools.c:4263
+#: ../src/tools/analysis-tools.c:4272
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-érték/F kritikus"
 
@@ -13985,41 +13999,41 @@ msgid "Test of Homogeneity"
 msgstr "Homogenitás próbája"
 
 #: ../src/tools/analysis-exp-smoothing.c:114
-#: ../src/tools/analysis-exp-smoothing.c:290
-#: ../src/tools/analysis-exp-smoothing.c:474
-#: ../src/tools/analysis-exp-smoothing.c:715
-#: ../src/tools/analysis-exp-smoothing.c:1035
+#: ../src/tools/analysis-exp-smoothing.c:293
+#: ../src/tools/analysis-exp-smoothing.c:480
+#: ../src/tools/analysis-exp-smoothing.c:724
+#: ../src/tools/analysis-exp-smoothing.c:1047
 msgid "\"α =\" * 0.000"
 msgstr "\"α =\" * 0,000"
 
-#: ../src/tools/analysis-exp-smoothing.c:153
-#: ../src/tools/analysis-exp-smoothing.c:329
-#: ../src/tools/analysis-exp-smoothing.c:517
-#: ../src/tools/analysis-exp-smoothing.c:781
-#: ../src/tools/analysis-exp-smoothing.c:1103
+#: ../src/tools/analysis-exp-smoothing.c:157
+#: ../src/tools/analysis-exp-smoothing.c:336
+#: ../src/tools/analysis-exp-smoothing.c:527
+#: ../src/tools/analysis-exp-smoothing.c:793
+#: ../src/tools/analysis-exp-smoothing.c:1118
 #: ../src/tools/analysis-frequency.c:146 ../src/tools/analysis-histogram.c:320
-#: ../src/tools/analysis-tools.c:1217 ../src/tools/analysis-tools.c:3739
+#: ../src/tools/analysis-tools.c:1219 ../src/tools/analysis-tools.c:3748
 #, c-format
 msgid "Row %d"
 msgstr "%d. sor"
 
-#: ../src/tools/analysis-exp-smoothing.c:205
-#: ../src/tools/analysis-exp-smoothing.c:386
-#: ../src/tools/analysis-exp-smoothing.c:603
-#: ../src/tools/analysis-exp-smoothing.c:922
-#: ../src/tools/analysis-exp-smoothing.c:1286
-#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3914
+#: ../src/tools/analysis-exp-smoothing.c:208
+#: ../src/tools/analysis-exp-smoothing.c:392
+#: ../src/tools/analysis-exp-smoothing.c:612
+#: ../src/tools/analysis-exp-smoothing.c:934
+#: ../src/tools/analysis-exp-smoothing.c:1301
+#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3923
 msgid "Standard Error"
 msgstr "Standard hiba"
 
-#: ../src/tools/analysis-exp-smoothing.c:478
-#: ../src/tools/analysis-exp-smoothing.c:719
-#: ../src/tools/analysis-exp-smoothing.c:1039
+#: ../src/tools/analysis-exp-smoothing.c:484
+#: ../src/tools/analysis-exp-smoothing.c:728
+#: ../src/tools/analysis-exp-smoothing.c:1051
 msgid "\"γ =\" * 0.000"
 msgstr "\"γ =\" * 0,000"
 
-#: ../src/tools/analysis-exp-smoothing.c:639
-#: ../src/tools/analysis-exp-smoothing.c:642
+#: ../src/tools/analysis-exp-smoothing.c:648
+#: ../src/tools/analysis-exp-smoothing.c:651
 msgid ""
 "Holt's trend corrected exponential\n"
 "smoothing requires at least 2\n"
@@ -14029,18 +14043,18 @@ msgstr ""
 "simítás legalább 2 kimeneti oszlopot igényel\n"
 "minden egyes adathalmazhoz."
 
-#: ../src/tools/analysis-exp-smoothing.c:723
-#: ../src/tools/analysis-exp-smoothing.c:1043
+#: ../src/tools/analysis-exp-smoothing.c:732
+#: ../src/tools/analysis-exp-smoothing.c:1055
 msgid "\"δ =\" * 0.000"
 msgstr "\"δ =\" * 0,000"
 
-#: ../src/tools/analysis-exp-smoothing.c:758
-#: ../src/tools/analysis-exp-smoothing.c:1080
+#: ../src/tools/analysis-exp-smoothing.c:770
+#: ../src/tools/analysis-exp-smoothing.c:1095
 msgid "/Level/Trend/Seasonal Adjustment"
 msgstr "/Szint/Trend/Szezonális igazítás"
 
-#: ../src/tools/analysis-exp-smoothing.c:953
-#: ../src/tools/analysis-exp-smoothing.c:956
+#: ../src/tools/analysis-exp-smoothing.c:965
+#: ../src/tools/analysis-exp-smoothing.c:968
 msgid ""
 "The additive Holt-Winters exponential\n"
 "smoothing method requires at least 4\n"
@@ -14050,8 +14064,8 @@ msgstr ""
 "simítás módszer legalább 4 kimeneti oszlopot\n"
 "igényel minden egyes adathalmazhoz."
 
-#: ../src/tools/analysis-exp-smoothing.c:1324
-#: ../src/tools/analysis-exp-smoothing.c:1327
+#: ../src/tools/analysis-exp-smoothing.c:1339
+#: ../src/tools/analysis-exp-smoothing.c:1342
 msgid ""
 "The multiplicative Holt-Winters exponential\n"
 "smoothing method requires at least 4\n"
@@ -14061,7 +14075,7 @@ msgstr ""
 "simítás módszer legalább 4 kimeneti oszlopot\n"
 "igényel minden egyes adathalmazhoz."
 
-#: ../src/tools/analysis-exp-smoothing.c:1369
+#: ../src/tools/analysis-exp-smoothing.c:1384
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Exponenciális simítás (%s)"
@@ -14071,7 +14085,7 @@ msgid "/Frequency Table/Category"
 msgstr "/Gyakorisági táblázat/Kategória"
 
 #: ../src/tools/analysis-frequency.c:152 ../src/tools/analysis-histogram.c:326
-#: ../src/tools/analysis-tools.c:1223
+#: ../src/tools/analysis-tools.c:1225
 #, c-format
 msgid "Area %d"
 msgstr "%d. terület"
@@ -14241,32 +14255,32 @@ msgstr "Student-féle t-próba (%s)"
 msgid "Student-t Test"
 msgstr "Student-féle t-próba"
 
-#: ../src/tools/analysis-principal-components.c:67
+#: ../src/tools/analysis-principal-components.c:68
 msgid "Principal components analysis has insufficient space."
 msgstr "A főkomponens-elemzésnek nincs elegendő helye."
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
-#: ../src/tools/analysis-principal-components.c:98
+#: ../src/tools/analysis-principal-components.c:99
 msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
 msgstr "\"Főkomponens-elemzés\";[Red]\"A főkomponens-elemzés érvénytelen.\""
 
-#: ../src/tools/analysis-principal-components.c:104
-#: ../src/tools/analysis-tools.c:722
+#: ../src/tools/analysis-principal-components.c:105
+#: ../src/tools/analysis-tools.c:721
 msgid "Covariances"
 msgstr "Kovarianciák"
 
-#: ../src/tools/analysis-principal-components.c:128
+#: ../src/tools/analysis-principal-components.c:132
 msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr "/Darab/Középérték/Szórásnégyzet//Sajátértékek/Sajátvektorok"
 
-#: ../src/tools/analysis-principal-components.c:133
+#: ../src/tools/analysis-principal-components.c:137
 msgid "Percent of Trace"
 msgstr "Nyom százaléka"
 
-#: ../src/tools/analysis-principal-components.c:211
+#: ../src/tools/analysis-principal-components.c:215
 #, c-format
 msgid "Principal Components Analysis (%s)"
 msgstr "Főkomponens-elemzés (%s)"
@@ -14325,31 +14339,31 @@ msgstr ""
 msgid "Wilcoxon Signed Rank Test (%s)"
 msgstr "Wilcoxon-féle előjeles rangpróba (%s)"
 
-#: ../src/tools/analysis-tools.c:185
+#: ../src/tools/analysis-tools.c:184
 #, c-format
 msgid "Bin %i"
 msgstr "%i. tár"
 
-#: ../src/tools/analysis-tools.c:189
+#: ../src/tools/analysis-tools.c:188
 #, c-format
 msgid "Area %i"
 msgstr "%i. terület"
 
-#: ../src/tools/analysis-tools.c:274
+#: ../src/tools/analysis-tools.c:273
 #, c-format
 msgid "Variable %i"
 msgstr "%i. változó"
 
-#: ../src/tools/analysis-tools.c:667
+#: ../src/tools/analysis-tools.c:666
 msgid "Correlations"
 msgstr "Korrelációk"
 
-#: ../src/tools/analysis-tools.c:679
+#: ../src/tools/analysis-tools.c:678
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Korreláció (%s)"
 
-#: ../src/tools/analysis-tools.c:734
+#: ../src/tools/analysis-tools.c:733
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Kovariancia (%s)"
@@ -14361,7 +14375,7 @@ msgstr "Kovariancia (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:836
+#: ../src/tools/analysis-tools.c:835
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -14369,36 +14383,36 @@ msgstr ""
 "/Középérték/Standard hiba/Medián/Módusz/Szórás/Minta szórásnégyzet/"
 "Csúcsosság/Ferdeség/Tartomány/Minimum/Maximum/Összeg/Darab"
 
-#: ../src/tools/analysis-tools.c:970
+#: ../src/tools/analysis-tools.c:969
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% CI a középértéknél ettől/eddig"
 
-#: ../src/tools/analysis-tools.c:1101
+#: ../src/tools/analysis-tools.c:1100
 #, c-format
 msgid "Largest (%d)"
 msgstr "Legnagyobb (%d)"
 
-#: ../src/tools/analysis-tools.c:1108
+#: ../src/tools/analysis-tools.c:1107
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Legkisebb (%d)"
 
-#: ../src/tools/analysis-tools.c:1125
+#: ../src/tools/analysis-tools.c:1124
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Leíró statisztika (%s)"
 
-#: ../src/tools/analysis-tools.c:1320
+#: ../src/tools/analysis-tools.c:1322
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Mintavételezés (%s)"
 
-#: ../src/tools/analysis-tools.c:1354 ../src/tools/analysis-tools.c:1357
+#: ../src/tools/analysis-tools.c:1360 ../src/tools/analysis-tools.c:1363
 msgid "Sample"
 msgstr "Minta"
 
-#: ../src/tools/analysis-tools.c:1398
+#: ../src/tools/analysis-tools.c:1404
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -14408,16 +14422,16 @@ msgstr ""
 "eltérés/Megfigyelt középérték eltérés/z/P (Z<=z) egyoldali/z kritikus "
 "egyoldali/P (Z<=z) kétoldali/z kritikus kétoldali"
 
-#: ../src/tools/analysis-tools.c:1585
+#: ../src/tools/analysis-tools.c:1591
 #, c-format
 msgid "z-Test (%s)"
 msgstr "z-próba (%s)"
 
-#: ../src/tools/analysis-tools.c:1595 ../src/tools/analysis-tools.c:1598
+#: ../src/tools/analysis-tools.c:1601 ../src/tools/analysis-tools.c:1604
 msgid "z-Test"
 msgstr "z-próba"
 
-#: ../src/tools/analysis-tools.c:1649
+#: ../src/tools/analysis-tools.c:1655
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -14428,18 +14442,18 @@ msgstr ""
 "df/t statisztika/P (T<=t) egyoldali/t kritikus egyoldali/P (T<=t) kétoldali/"
 "t kritikus kétoldali"
 
-#: ../src/tools/analysis-tools.c:1877
+#: ../src/tools/analysis-tools.c:1883
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "t-próba, páros (%s)"
 
-#: ../src/tools/analysis-tools.c:1887 ../src/tools/analysis-tools.c:1890
-#: ../src/tools/analysis-tools.c:2187 ../src/tools/analysis-tools.c:2190
-#: ../src/tools/analysis-tools.c:2480 ../src/tools/analysis-tools.c:2483
+#: ../src/tools/analysis-tools.c:1893 ../src/tools/analysis-tools.c:1896
+#: ../src/tools/analysis-tools.c:2193 ../src/tools/analysis-tools.c:2196
+#: ../src/tools/analysis-tools.c:2486 ../src/tools/analysis-tools.c:2489
 msgid "t-Test"
 msgstr "t-próba"
 
-#: ../src/tools/analysis-tools.c:1928
+#: ../src/tools/analysis-tools.c:1934
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -14450,12 +14464,12 @@ msgstr ""
 "statisztika/P (T<=t) egyoldali/t kritikus egyoldali/P (T<=t) kétoldali/t "
 "kritikus kétoldali"
 
-#: ../src/tools/analysis-tools.c:2177 ../src/tools/analysis-tools.c:2470
+#: ../src/tools/analysis-tools.c:2183 ../src/tools/analysis-tools.c:2476
 #, c-format
 msgid "t-Test (%s)"
 msgstr "t-próba (%s)"
 
-#: ../src/tools/analysis-tools.c:2225
+#: ../src/tools/analysis-tools.c:2231
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -14465,12 +14479,12 @@ msgstr ""
 "Megfigyelt középérték eltérés/df/t statisztika/P (T<=t) egyoldali/t kritikus "
 "egyoldali/P (T<=t) kétoldali/t kritikus kétoldali"
 
-#: ../src/tools/analysis-tools.c:2519 ../src/tools/analysis-tools.c:2768
-#: ../src/tools/analysis-tools.c:2771
+#: ../src/tools/analysis-tools.c:2525 ../src/tools/analysis-tools.c:2774
+#: ../src/tools/analysis-tools.c:2777
 msgid "F-Test"
 msgstr "F-próba"
 
-#: ../src/tools/analysis-tools.c:2520
+#: ../src/tools/analysis-tools.c:2526
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -14479,12 +14493,12 @@ msgstr ""
 "jobboldali/P (f<=F) baloldali/F kritikus baloldali/P kétoldali/F kritikus "
 "kétoldali"
 
-#: ../src/tools/analysis-tools.c:2758
+#: ../src/tools/analysis-tools.c:2764
 #, c-format
 msgid "F-Test (%s)"
 msgstr "F-próba (%s)"
 
-#: ../src/tools/analysis-tools.c:2903
+#: ../src/tools/analysis-tools.c:2909
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -14493,29 +14507,29 @@ msgstr ""
 "Kiigazított R^2/Megfigyelések//Varianciaanalízis//Regresszió/Maradék/"
 "Összesen///Metszési pont"
 
-#: ../src/tools/analysis-tools.c:2922
+#: ../src/tools/analysis-tools.c:2928
 msgid "Response Variable"
 msgstr "Válaszváltozó"
 
-#: ../src/tools/analysis-tools.c:2956
+#: ../src/tools/analysis-tools.c:2962
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/F szignifikanciája"
 
-#: ../src/tools/analysis-tools.c:2963
+#: ../src/tools/analysis-tools.c:2969
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr "/Együtthatók/Standard hiba/t-statisztika/p-érték"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2969
+#: ../src/tools/analysis-tools.c:2975
 msgid "\"Lower\" 0%"
 msgstr "\"Alsó\" 0%"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2971
+#: ../src/tools/analysis-tools.c:2977
 msgid "\"Upper\" 0%"
 msgstr "\"Felső\" 0%"
 
-#: ../src/tools/analysis-tools.c:2980
+#: ../src/tools/analysis-tools.c:2986
 msgid ""
 "Probability of observing a t-statistic\n"
 "whose absolute value is at least as large\n"
@@ -14529,7 +14543,7 @@ msgstr ""
 "értéke azt feltételezve, hogy a nullhipotézis\n"
 "valójában igaz."
 
-#: ../src/tools/analysis-tools.c:2987
+#: ../src/tools/analysis-tools.c:2993
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -14542,11 +14556,11 @@ msgstr ""
 "változata. Azaz a modell által magyarázott\n"
 "négyzetek összegének az aránya."
 
-#: ../src/tools/analysis-tools.c:3295
+#: ../src/tools/analysis-tools.c:3301
 msgid "Constant"
 msgstr "Állandó"
 
-#: ../src/tools/analysis-tools.c:3300
+#: ../src/tools/analysis-tools.c:3306
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
@@ -14554,106 +14568,106 @@ msgstr ""
 "/Előrejelzés//Maradék/Tőkeáttétel/Belsőleg studentizált/Külsőleg "
 "studentizált/p-érték"
 
-#: ../src/tools/analysis-tools.c:3462
+#: ../src/tools/analysis-tools.c:3468
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/ÖSSZEGZŐ KIMENET//Független változó//Megfigyelések"
 
-#: ../src/tools/analysis-tools.c:3467
+#: ../src/tools/analysis-tools.c:3473
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/ÖSSZEGZŐ KIMENET//Válaszváltozó//Megfigyelések"
 
-#: ../src/tools/analysis-tools.c:3473
+#: ../src/tools/analysis-tools.c:3479
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Válaszváltozó/R^2/Dőlés/Metszési pont/F/F szignifikanciája"
 
-#: ../src/tools/analysis-tools.c:3479
+#: ../src/tools/analysis-tools.c:3485
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Független változó/R^2/Dőlés/Metszési pont/F/F szignifikanciája"
 
-#: ../src/tools/analysis-tools.c:3560
+#: ../src/tools/analysis-tools.c:3566
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regresszió (%s)"
 
-#: ../src/tools/analysis-tools.c:3975
+#: ../src/tools/analysis-tools.c:3984
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Mozgóátlag (%s)"
 
-#: ../src/tools/analysis-tools.c:4033
+#: ../src/tools/analysis-tools.c:4042
 msgid "Ranks & Percentiles"
 msgstr "Rangok és percentilisek"
 
-#: ../src/tools/analysis-tools.c:4044
+#: ../src/tools/analysis-tools.c:4053
 msgid "Point"
 msgstr "Pont"
 
-#: ../src/tools/analysis-tools.c:4045
+#: ../src/tools/analysis-tools.c:4054
 msgid "Rank"
 msgstr "Rang"
 
-#: ../src/tools/analysis-tools.c:4046
+#: ../src/tools/analysis-tools.c:4055
 msgid "Percentile Rank"
 msgstr "Percentilis rang"
 
-#: ../src/tools/analysis-tools.c:4138
+#: ../src/tools/analysis-tools.c:4147
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Rangok (%s)"
 
-#: ../src/tools/analysis-tools.c:4150 ../src/tools/analysis-tools.c:4153
+#: ../src/tools/analysis-tools.c:4159 ../src/tools/analysis-tools.c:4162
 msgid "Ranks"
 msgstr "Rangok"
 
-#: ../src/tools/analysis-tools.c:4185
+#: ../src/tools/analysis-tools.c:4194
 msgid "Anova: Single Factor"
 msgstr "Varianciaanalízis: egytényezős"
 
-#: ../src/tools/analysis-tools.c:4186 ../src/tools/simulation.c:336
+#: ../src/tools/analysis-tools.c:4195 ../src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "ÖSSZEGZÉS"
 
-#: ../src/tools/analysis-tools.c:4189
+#: ../src/tools/analysis-tools.c:4198
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Csoportok/Darab/Összeg/Átlag/Szórásnégyzet"
 
-#: ../src/tools/analysis-tools.c:4257
+#: ../src/tools/analysis-tools.c:4266
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 "/Varianciaanalízis/Variáció forrása/Csoportok között/Csoportokon belül/"
 "Összesen"
 
-#: ../src/tools/analysis-tools.c:4475
+#: ../src/tools/analysis-tools.c:4484
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Egytényezős varianciaanalízis (%s)"
 
-#: ../src/tools/analysis-tools.c:4486
+#: ../src/tools/analysis-tools.c:4495
 msgid "Anova"
 msgstr "Varianciaanalízis"
 
-#: ../src/tools/analysis-tools.c:4489
+#: ../src/tools/analysis-tools.c:4498
 msgid "Single Factor ANOVA"
 msgstr "Egytényezős varianciaanalízis"
 
-#: ../src/tools/analysis-tools.c:4521
+#: ../src/tools/analysis-tools.c:4530
 msgid "Inverse Fourier Transform"
 msgstr "Inverz Fourier-transzformáció"
 
-#: ../src/tools/analysis-tools.c:4522
+#: ../src/tools/analysis-tools.c:4531
 msgid "Fourier Transform"
 msgstr "Fourier-transzformáció"
 
-#: ../src/tools/analysis-tools.c:4530
+#: ../src/tools/analysis-tools.c:4539
 msgid "/Real/Imaginary"
 msgstr "/Valós/Képzetes"
 
-#: ../src/tools/analysis-tools.c:4578
+#: ../src/tools/analysis-tools.c:4587
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourier-sor (%s)"
 
-#: ../src/tools/analysis-tools.c:4590 ../src/tools/analysis-tools.c:4593
+#: ../src/tools/analysis-tools.c:4599 ../src/tools/analysis-tools.c:4602
 msgid "Fourier Series"
 msgstr "Fourier-sor"
 
@@ -14721,15 +14735,15 @@ msgstr "Kevert"
 msgid "Fill Series (%s)"
 msgstr "Sorok kitöltése (%s)"
 
-#: ../src/tools/filter.c:137
+#: ../src/tools/filter.c:138
 msgid "Filtered"
 msgstr "Szűrt"
 
-#: ../src/tools/filter.c:199
+#: ../src/tools/filter.c:200
 msgid "/Advanced Filter:/Source Range:/Criteria Range:"
 msgstr "/Speciális szűrő:/Forrástartomány:/Feltételtartomány:"
 
-#: ../src/tools/filter.c:269
+#: ../src/tools/filter.c:270
 #, c-format
 msgid "Advanced Filter (%s)"
 msgstr "Speciális szűrő (%s)"
@@ -18247,5 +18261,3 @@ msgstr "Lila listasablon"
 msgid "A simple list template"
 msgstr "Egy egyszerű listasablon"
 
-#~ msgid "Neighborhood for %s\n"
-#~ msgstr "%s szomszédsága\n"
