@@ -270,56 +270,6 @@ AC_SUBST(GLIB_COMPILE_RESOURCES)
 AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
 AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource$ac_exeext, gdk-pixbuf-csource$ac_exeext)
 
-## this should come after `AC_PROG_CC'
-set_more_warnings=yes
-if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
-	dnl Clang needs this option, or else it will appear to support any
-	dnl warning option, only to spew warnings about them later.
-	uwoption="-Werror=unknown-warning-option"
-	SAVE_CFLAGS="$CFLAGS"
-	CFLAGS="$CFLAGS $uwoption"
-	AC_MSG_CHECKING([whether gcc understands $uwoption])
-	AC_COMPILE_IFELSE(
-		[AC_LANG_PROGRAM([], [])],
-		[has_unknown_warning_option=yes],
-		[has_unknown_warning_option=no; uwoption=""])
-	AC_MSG_RESULT($has_unknown_warning_option)
-	CFLAGS="$SAVE_CFLAGS"
-
-	warning_options="-Wall -Werror=init-self -Werror=missing-include-dirs \
-			 -Wsign-compare -Werror=pointer-arith \
-			 -Wchar-subscripts -Wwrite-strings \
-			 -Wdeclaration-after-statement -Wnested-externs \
-			 -Wmissing-noreturn \
-			 -Werror=missing-prototypes -Werror=nested-externs \
-			 -Werror=implicit-function-declaration \
-			 -Wmissing-declarations -Wno-pointer-sign \
-			 -Werror=format-security -Wbitwise -Wcast-to-as \
-			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
-			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign \
-			 -Wstrict-prototypes -Wno-error=format-nonliteral "
-	for option in $warning_options ; do
-		SAVE_CFLAGS="$CFLAGS"
-		CFLAGS="$CFLAGS $uwoption $option"
-		AC_MSG_CHECKING([whether gcc understands $option])
-		dnl Include a system header so we ignore Werror=... flags
-		dnl that cause trouble.
-		AC_COMPILE_IFELSE(
-			[AC_LANG_PROGRAM([[#include <stdio.h>]], [])],
-			[has_option=yes],
-			[has_option=no])
-		CFLAGS="$SAVE_CFLAGS"
-		if test $has_option = yes; then
-			CFLAGS="$CFLAGS $option"
-		fi
-		AC_MSG_RESULT($has_option)
-		unset has_option
-		unset SAVE_CFLAGS
-	done
-	unset option
-fi
-AC_SUBST(WARN_CFLAGS)
-
 AC_ARG_ENABLE(component,
   AS_HELP_STRING([--disable-component], [Do not build the goffice component]),
   [], [enable_component=yes])
@@ -421,6 +371,7 @@ if test $works_without_bsd_source = no ; then
 		AC_MSG_ERROR([M_PI is not available])
 	fi
 fi
+
 
 AC_SUBST(GUILE_LIBS)
 AC_SUBST(GUILE_INCS)
@@ -644,7 +595,27 @@ if test $ac_cv_func_lgamma = no; then
 	)
 fi
 
-if test "x$with_win32" = "xyes"; then
+cos_works=yes
+AC_MSG_CHECKING([cos is reliable])
+AC_RUN_IFELSE(
+	[AC_LANG_PROGRAM([[
+			#include <stdlib.h>
+			#include <math.h>
+		]],
+		[[
+			const char *s = "1.5689793435451356";
+			double x = atof (s);
+			double c = cos (x);
+			int ok = (c > 0 && c < 0.05);
+			return ok ? 0 : 1;
+		]])],
+	[AC_MSG_RESULT(yes)
+	 cos_works=yes],
+	[AC_MSG_RESULT(no)
+	 cos_works=no],
+	[AC_MSG_RESULT(assuming it is)])
+
+if test "x$with_win32" = "xyes" -o "x$cos_works" = "xno"; then
    AC_DEFINE(GNM_REDUCES_TRIG_RANGE, 1,
 	[Define if Gnumeric reduces the argument range of sin/cos/tan]
 	)
@@ -720,6 +691,56 @@ AC_ARG_WITH(long_double,
 		)
 	fi]
 )
+
+## this should come after `AC_PROG_CC'
+set_more_warnings=yes
+if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
+	dnl Clang needs this option, or else it will appear to support any
+	dnl warning option, only to spew warnings about them later.
+	uwoption="-Werror=unknown-warning-option"
+	SAVE_CFLAGS="$CFLAGS"
+	CFLAGS="$CFLAGS $uwoption"
+	AC_MSG_CHECKING([whether gcc understands $uwoption])
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM([], [])],
+		[has_unknown_warning_option=yes],
+		[has_unknown_warning_option=no; uwoption=""])
+	AC_MSG_RESULT($has_unknown_warning_option)
+	CFLAGS="$SAVE_CFLAGS"
+
+	warning_options="-Wall -Werror=init-self -Werror=missing-include-dirs \
+			 -Wsign-compare -Werror=pointer-arith \
+			 -Wchar-subscripts -Wwrite-strings \
+			 -Wdeclaration-after-statement -Wnested-externs \
+			 -Wmissing-noreturn \
+			 -Werror=missing-prototypes -Werror=nested-externs \
+			 -Werror=implicit-function-declaration \
+			 -Wmissing-declarations -Wno-pointer-sign \
+			 -Werror=format-security -Wbitwise -Wcast-to-as \
+			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
+			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign \
+			 -Wstrict-prototypes -Wno-error=format-nonliteral "
+	for option in $warning_options ; do
+		SAVE_CFLAGS="$CFLAGS"
+		CFLAGS="$CFLAGS $uwoption $option"
+		AC_MSG_CHECKING([whether gcc understands $option])
+		dnl Include a system header so we ignore Werror=... flags
+		dnl that cause trouble.
+		AC_COMPILE_IFELSE(
+			[AC_LANG_PROGRAM([[#include <stdio.h>]], [])],
+			[has_option=yes],
+			[has_option=no])
+		CFLAGS="$SAVE_CFLAGS"
+		if test $has_option = yes; then
+			CFLAGS="$CFLAGS $option"
+		fi
+		AC_MSG_RESULT($has_option)
+		unset has_option
+		unset SAVE_CFLAGS
+	done
+	unset option
+fi
+AC_SUBST(WARN_CFLAGS)
 
 dnl **************************************************
 dnl * Check for GSettings
