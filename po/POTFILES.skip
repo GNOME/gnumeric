@@ -29,3 +29,8 @@ src/go-val.c
 schemas/org.gnome.gnumeric.dialogs.gschema.xml.in
 schemas/org.gnome.gnumeric.gschema.xml.in
 schemas/org.gnome.gnumeric.plugin.gschema.xml.in
+
+# Distcheck is confused
+sub/schemas/org.gnome.gnumeric.dialogs.gschema.xml.in
+sub/schemas/org.gnome.gnumeric.gschema.xml.in
+sub/schemas/org.gnome.gnumeric.plugin.gschema.xml.in
