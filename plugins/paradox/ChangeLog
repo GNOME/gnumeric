@@ -1,3 +1,7 @@
+2016-08-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.32
+
 2016-07-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* px.h: fix build with pxlib-0.6.7. [#769319]
