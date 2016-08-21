@@ -1,3 +1,8 @@
+2016-08-21  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (value_get_as_gstring): Let a negative
+	decimal_digits mean "shortest round-tripping string".
+
 2016-08-20  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

@@ -924,9 +924,12 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 		return;
 
 	case VALUE_FLOAT:
-		g_string_append_printf (target, "%.*" GNM_FORMAT_g,
-					conv->output.decimal_digits,
-					v->v_float.val);
+		if (conv->output.decimal_digits < 0)
+			go_dtoa (target, "!" GNM_FORMAT_g, v->v_float.val);
+		else
+			g_string_append_printf (target, "%.*" GNM_FORMAT_g,
+						conv->output.decimal_digits,
+						v->v_float.val);
 		return;
 
 	case VALUE_ARRAY: {
