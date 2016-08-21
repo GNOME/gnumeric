@@ -35,8 +35,16 @@
 #include <errno.h>
 
 static gboolean sstest_show_version = FALSE;
+static gboolean sstest_fast = FALSE;
 
 static GOptionEntry const sstest_options [] = {
+	{
+		"fast", 'f',
+		0, G_OPTION_ARG_NONE, &sstest_fast,
+		N_("Run fewer iterations"),
+		NULL
+	},
+
 	{
 		"version", 'V',
 		0, G_OPTION_ARG_NONE, &sstest_show_version,
@@ -2473,8 +2481,8 @@ static void
 test_random (void)
 {
 	const char *test_name = "test_random";
-	const int N = 20000;
-	const int High_N = 200000;
+	const int N = sstest_fast ? 2000 : 20000;
+	const int High_N = N * 10;
 	const char *single = g_getenv ("SSTEST_RANDOM");
 
 	mark_test_start (test_name);

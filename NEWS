@@ -1,5 +1,8 @@
 Gnumeric 1.12.33
 
+Morten:
+	* Speed up sstest part of test suite.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.32
 

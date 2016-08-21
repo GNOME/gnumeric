@@ -12,4 +12,4 @@ chomp $pango;
 &GnumericTest::report_skip ("Pango version $pango is buggy")
     if $pango eq '1.24.2';
 
-&test_valgrind ("$sstest all >/dev/null 2>&1", 1);
+&test_valgrind ("$sstest --fast all >/dev/null 2>&1", 1);
