@@ -1,19 +1,18 @@
 # Serbian translation of gnumeric.
 # Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003—2016.
 # This file is distributed under the same license as the gnumeric package.
-#
-# Translators: 
+# Translators:
 # Slobodan Sredojević <ssl@uns.ns.ac.yu>
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2012—2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeri"
-"c&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-22 22:38+0000\n"
-"PO-Revision-Date: 2016-03-25 11:32+0200\n"
+"c&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2016-08-12 22:29+0000\n"
+"PO-Revision-Date: 2016-08-23 21:25+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: Serbian <>\n"
+"Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,12 +44,17 @@ msgid "Spreadsheet;"
 msgstr "таблице; табеларни прорачун;"
 
 #: ../gnumeric.appdata.xml.in.h:1
+#| msgid "Gnumeric Spreadsheet"
+msgid "The Gnumeric Spreadsheet"
+msgstr "Табеларни прорачун Гнумерик"
+
+#: ../gnumeric.appdata.xml.in.h:2
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
 msgstr ""
 "Гнумерик је програм табеларног прорачуна за међудејствену обраду података."
 
-#: ../gnumeric.appdata.xml.in.h:2
+#: ../gnumeric.appdata.xml.in.h:3
 msgid ""
 "Gnumeric aims to provide high-accuracy computations, expressive graphs, and "
 "a wide selection of statistical analysis tools. Gnumeric can share files "
@@ -59,6 +63,15 @@ msgstr ""
 "Гнумерик има за циљ да обезбеди прорачуне велике тачности, обилне графиконе, "
 "и велики избор алата статистичке анализе. Гнумерик може да размењује "
 "датотеке са Мајкрософт Екселом и програмима који подржавају ОДС стандард."
+
+#: ../gnumeric.appdata.xml.in.h:4
+msgid "A High-Precision Spreadsheet Program"
+msgstr "Програм табеларног прорачуна високе тачности"
+
+#: ../gnumeric.appdata.xml.in.h:5
+#| msgid "Gnumeric Team"
+msgid "The Gnumeric Team"
+msgstr "Екипа Гнумерика"
 
 #: ../plugins/applix/applix-read.c:124
 msgid "Parse error while reading Applix file."
@@ -100,7 +113,7 @@ msgid "Applix (*.as)"
 msgstr "Апликс (*.as)"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7222
-#: ../plugins/openoffice/openoffice-read.c:13635 ../src/xml-sax-read.c:3473
+#: ../plugins/openoffice/openoffice-read.c:13638 ../src/xml-sax-read.c:3473
 msgid "Reading file..."
 msgstr "Читам датотеку..."
 
@@ -206,7 +219,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Неисправан садржај елемента „сс:подаци“, примих „%s“"
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:13799 ../src/xml-sax-read.c:3490
+#: ../plugins/openoffice/openoffice-read.c:13802 ../src/xml-sax-read.c:3490
 msgid "XML document not well formed!"
 msgstr "ИксМЛ документ није добро обликован!"
 
@@ -644,23 +657,23 @@ msgstr "Читам лист „%s“..."
 msgid "Reading comments..."
 msgstr "Читам напомене..."
 
-#: ../plugins/excel/xlsx-read.c:5139
+#: ../plugins/excel/xlsx-read.c:5143
 msgid "Reading shared strings..."
 msgstr "Читам дељене ниске..."
 
-#: ../plugins/excel/xlsx-read.c:5148
+#: ../plugins/excel/xlsx-read.c:5152
 msgid "Reading theme..."
 msgstr "Читам тему..."
 
-#: ../plugins/excel/xlsx-read.c:5157
+#: ../plugins/excel/xlsx-read.c:5161
 msgid "Reading styles..."
 msgstr "Читам стилове..."
 
-#: ../plugins/excel/xlsx-read.c:5162
+#: ../plugins/excel/xlsx-read.c:5166
 msgid "Reading workbook..."
 msgstr "Читам радну свеску..."
 
-#: ../plugins/excel/xlsx-read.c:5172
+#: ../plugins/excel/xlsx-read.c:5176
 msgid "No workbook stream found."
 msgstr "Није пронађен ток радне свеске."
 
@@ -1129,7 +1142,7 @@ msgstr "Функције за добављање података из базе 
 msgid "Data Bases..."
 msgstr "Базе података..."
 
-#: ../plugins/glpk/glpk-write.c:144 ../plugins/lpsolve/lpsolve-write.c:145
+#: ../plugins/glpk/glpk-write.c:145 ../plugins/lpsolve/lpsolve-write.c:145
 #, c-format
 msgid "Only linear programs are handled."
 msgstr "Ради се само са линеарним програмима."
@@ -1544,8 +1557,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "Израз „%s“ не почиње познатим знаком"
 
 #: ../plugins/openoffice/openoffice-read.c:2385
-#: ../plugins/openoffice/openoffice-write.c:5210
-#: ../plugins/openoffice/openoffice-write.c:5222 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-write.c:5216
+#: ../plugins/openoffice/openoffice-write.c:5228 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "поље"
 
@@ -1894,68 +1907,68 @@ msgstr "ЛИСТ_У_ОШТЕЋЕНОЈ_ДАТОТЕЦИ"
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Ова датотека је оштећена безименим листом сада названим „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:13483
+#: ../plugins/openoffice/openoffice-read.c:13486
 msgid "Unknown mimetype for openoffice file."
 msgstr "Непозната миме врста за датотеку опенофиса."
 
-#: ../plugins/openoffice/openoffice-read.c:13493
+#: ../plugins/openoffice/openoffice-read.c:13496
 msgid "No stream named content.xml found."
 msgstr "Није пронађен ток под називом „content.xml“."
 
-#: ../plugins/openoffice/openoffice-read.c:13501
+#: ../plugins/openoffice/openoffice-read.c:13504
 msgid "No stream named styles.xml found."
 msgstr "Није пронађен ток под називом „styles.xml“."
 
-#: ../plugins/openoffice/openoffice-read.c:13645
+#: ../plugins/openoffice/openoffice-read.c:13648
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Неисправни метаподаци „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:13708
+#: ../plugins/openoffice/openoffice-read.c:13711
 msgid "settings.xml stream is malformed!"
 msgstr "Ток „settings.xml“ је лоше обликован!"
 
-#: ../plugins/openoffice/openoffice-write.c:5203
-#: ../plugins/openoffice/openoffice-write.c:5215
+#: ../plugins/openoffice/openoffice-write.c:5209
+#: ../plugins/openoffice/openoffice-write.c:5221
 msgid "tab"
 msgstr "табулатор"
 
-#: ../plugins/openoffice/openoffice-write.c:5204
-#: ../plugins/openoffice/openoffice-write.c:5216
+#: ../plugins/openoffice/openoffice-write.c:5210
+#: ../plugins/openoffice/openoffice-write.c:5222
 msgid "page"
 msgstr "страница"
 
-#: ../plugins/openoffice/openoffice-write.c:5205
-#: ../plugins/openoffice/openoffice-write.c:5217
+#: ../plugins/openoffice/openoffice-write.c:5211
+#: ../plugins/openoffice/openoffice-write.c:5223
 msgid "pages"
 msgstr "странице"
 
-#: ../plugins/openoffice/openoffice-write.c:5206
-#: ../plugins/openoffice/openoffice-write.c:5218
+#: ../plugins/openoffice/openoffice-write.c:5212
+#: ../plugins/openoffice/openoffice-write.c:5224
 msgid "date"
 msgstr "датум"
 
-#: ../plugins/openoffice/openoffice-write.c:5207
-#: ../plugins/openoffice/openoffice-write.c:5219
+#: ../plugins/openoffice/openoffice-write.c:5213
+#: ../plugins/openoffice/openoffice-write.c:5225
 msgid "time"
 msgstr "време"
 
-#: ../plugins/openoffice/openoffice-write.c:5208
-#: ../plugins/openoffice/openoffice-write.c:5220 ../src/ssconvert.c:104
+#: ../plugins/openoffice/openoffice-write.c:5214
+#: ../plugins/openoffice/openoffice-write.c:5226 ../src/ssconvert.c:104
 #: ../src/ssdiff.c:57
 msgid "file"
 msgstr "датотека"
 
-#: ../plugins/openoffice/openoffice-write.c:5209
-#: ../plugins/openoffice/openoffice-write.c:5221
+#: ../plugins/openoffice/openoffice-write.c:5215
+#: ../plugins/openoffice/openoffice-write.c:5227
 msgid "path"
 msgstr "путања"
 
-#: ../plugins/openoffice/openoffice-write.c:8925
+#: ../plugins/openoffice/openoffice-write.c:8931
 msgid "Writing Sheets..."
 msgstr "Пишем листове..."
 
-#: ../plugins/openoffice/openoffice-write.c:8966
+#: ../plugins/openoffice/openoffice-write.c:8972
 msgid "Writing Sheet Objects..."
 msgstr "Пишем објекте листа..."
 
@@ -3296,24 +3309,30 @@ msgid "Default Number of rows in a sheet"
 msgstr "Основни број редова у листу"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
+#| msgid ""
+#| "The number of rows in each sheet. This setting will be used only in a new "
+#| "gnumeric session."
 msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
-"gnumeric session."
+"Gnumeric session."
 msgstr ""
 "Број редова у сваком листу. Ово подешавање ће бити коришћено само у новој "
-"гнумериковој сесији."
+"Гнумериковој сесији."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:23
 msgid "Default Number of columns in a sheet"
 msgstr "Основни број колона у листу"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:24
+#| msgid ""
+#| "The number of columns in each sheet. This setting will be used only in a "
+#| "new gnumeric session."
 msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
-"gnumeric session."
+"Gnumeric session."
 msgstr ""
 "Број колона у сваком листу. Ово подешавање ће бити коришћено само у новој "
-"гнумериковој сесији."
+"Гнумериковој сесији."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:25
 msgid "Autosave frequency"
@@ -3488,19 +3507,27 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Одлагање прерачунавања самосталног израза"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
+#| msgid ""
+#| "If `lag' is 0, gnumeric recalculates all auto expressions immediately "
+#| "after every change. Non-zero values of `lag' allow gnumeric to accumulate "
+#| "more changes before each recalculation. If `lag' is positive, then "
+#| "whenever a change appears, gnumeric waits `lag' milliseconds and then "
+#| "recalculates; if more changes appear during that period, they are also "
+#| "processed at that time. If `lag' is negative, then recalculation happens "
+#| "only after a quiet period of |lag| milliseconds."
 msgid ""
-"If `lag' is 0, gnumeric recalculates all auto expressions immediately after "
-"every change. Non-zero values of `lag' allow gnumeric to accumulate more "
+"If `lag' is 0, Gnumeric recalculates all auto expressions immediately after "
+"every change. Non-zero values of `lag' allow Gnumeric to accumulate more "
 "changes before each recalculation. If `lag' is positive, then whenever a "
-"change appears, gnumeric waits `lag' milliseconds and then recalculates; if "
+"change appears, Gnumeric waits `lag' milliseconds and then recalculates; if "
 "more changes appear during that period, they are also processed at that "
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milliseconds."
 msgstr ""
-"Ако је „одлагање“ 0, гнумерик прерачунава све самосталне изразе одмах након "
-"сваке измене. Не-нулта вредност „одлагања“ омогућава гнумерику да накупи "
+"Ако је „одлагање“ 0, Гнумерик прерачунава све самосталне изразе одмах након "
+"сваке измене. Не-нулта вредност „одлагања“ омогућава Гнумерику да накупи "
 "више измена пре сваког прерачунавања. Ако је „одлагање“ позитивно, тада кад "
-"год се појаве измене, гнумерик ће сачекати милисекунде „одлагања“ а затим ће "
+"год се појаве измене, Гнумерик ће сачекати милисекунде „одлагања“ а затим ће "
 "прерачунати; ако се појави више измена у том времену, исте бивају "
 "прерачунате за то време. Ако је „одлагање“ негативно, тада прерачунавања "
 "бивају обављена након периода мировања од |одлагање| милисекунде."
@@ -3591,8 +3618,12 @@ msgid "Default To Overwriting Files"
 msgstr "Препиши датотеке по основи"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
+#| msgid ""
+#| "Before an existing file is being overwritten, gnumeric will present a "
+#| "warning dialog. Setting this option will make the overwrite button in "
+#| "that dialog the default button."
 msgid ""
-"Before an existing file is being overwritten, gnumeric will present a "
+"Before an existing file is being overwritten, Gnumeric will present a "
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
@@ -4961,7 +4992,6 @@ msgid "Visit the Gnumeric website"
 msgstr "Посетите веб сајт Гнумерика"
 
 #: ../src/dialogs/dialog-about.c:547
-#| msgid "Copyright © 1998-2015"
 msgid "Copyright © 1998-2016"
 msgstr "Ауторска права © 1998-2016"
 
@@ -4982,11 +5012,11 @@ msgstr "Опсег критеријума је неисправан."
 msgid "The output range is invalid."
 msgstr "Излазни опсег је неисправан."
 
-#: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:249
+#: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:250
 msgid "The given criteria are invalid."
 msgstr "Задати критеријуми су неисправни."
 
-#: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:247
+#: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:248
 msgid "No matching records were found."
 msgstr "Одговарајући записи нису пронађени."
 
@@ -4994,7 +5024,7 @@ msgstr "Одговарајући записи нису пронађени."
 #: ../src/dialogs/dialog-analysis-tools.c:670
 #: ../src/dialogs/dialog-analysis-tools.c:790
 #: ../src/dialogs/dialog-analysis-tools.c:2214
-#: ../src/dialogs/dialog-analysis-tools.c:3683 ../src/tools/filter.c:252
+#: ../src/dialogs/dialog-analysis-tools.c:3683 ../src/tools/filter.c:253
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Дошло је до неочекиване грешке: %d."
@@ -6054,14 +6084,14 @@ msgstr "Филтер"
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2307
-#: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2885
+#: ../src/tools/analysis-tools.c:222 ../src/tools/analysis-tools.c:2891
 msgid "Row"
 msgstr "Ред"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2299
-#: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2886
+#: ../src/tools/analysis-tools.c:222 ../src/tools/analysis-tools.c:2892
 msgid "Column"
 msgstr "Колона"
 
@@ -6484,8 +6514,9 @@ msgstr ""
 "да би могле бити отворене."
 
 #: ../src/dialogs/dialog-password.c:60
-msgid "Password :"
-msgstr "Лозинка :"
+#| msgid "Password :"
+msgid "Password:"
+msgstr "Лозинка:"
 
 #: ../src/dialogs/dialog-plugin-manager.c:270
 msgid "Select Directory"
@@ -7474,37 +7505,37 @@ msgstr[1] "Највише %d колоне могу бити увезене."
 msgstr[2] "Највише %d колона може бити увезено."
 msgstr[3] "Највише %d колона може бити увезена."
 
-#: ../src/dialogs/dialog-stf-format-page.c:205
+#: ../src/dialogs/dialog-stf-format-page.c:204
 msgid "Format Selector"
 msgstr "Бирач записа"
 
-#: ../src/dialogs/dialog-stf-format-page.c:387
+#: ../src/dialogs/dialog-stf-format-page.c:385
 msgid "Ignore all columns on right"
 msgstr "Занемари све колоне десно"
 
-#: ../src/dialogs/dialog-stf-format-page.c:388
+#: ../src/dialogs/dialog-stf-format-page.c:386
 msgid "Ignore all columns on left"
 msgstr "Занемари све колоне лево"
 
-#: ../src/dialogs/dialog-stf-format-page.c:389
+#: ../src/dialogs/dialog-stf-format-page.c:387
 msgid "Import all columns on right"
 msgstr "Увези све колоне десно"
 
-#: ../src/dialogs/dialog-stf-format-page.c:390
+#: ../src/dialogs/dialog-stf-format-page.c:388
 msgid "Import all columns on left"
 msgstr "Увези све колоне лево"
 
-#: ../src/dialogs/dialog-stf-format-page.c:391
+#: ../src/dialogs/dialog-stf-format-page.c:389
 msgid "Copy format to right"
 msgstr "Умножи запис десно"
 
 # bug: plural-forms
-#: ../src/dialogs/dialog-stf-format-page.c:593
+#: ../src/dialogs/dialog-stf-format-page.c:591
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "Могуће је увести највише %d колона."
 
-#: ../src/dialogs/dialog-stf-format-page.c:604
+#: ../src/dialogs/dialog-stf-format-page.c:602
 msgid "Auto fit"
 msgstr "Само уклапање"
 
@@ -7521,15 +7552,15 @@ msgstr ""
 "Уколико је ова кућица означена, ширина колоне ће бити дотерана на најдужу "
 "ставку."
 
-#: ../src/dialogs/dialog-stf-format-page.c:757
+#: ../src/dialogs/dialog-stf-format-page.c:758
 #: ../src/dialogs/dialog-stf-preview.h:25
-#: ../src/tools/analysis-exp-smoothing.c:153
-#: ../src/tools/analysis-exp-smoothing.c:329
-#: ../src/tools/analysis-exp-smoothing.c:517
-#: ../src/tools/analysis-exp-smoothing.c:781
-#: ../src/tools/analysis-exp-smoothing.c:1103
+#: ../src/tools/analysis-exp-smoothing.c:157
+#: ../src/tools/analysis-exp-smoothing.c:336
+#: ../src/tools/analysis-exp-smoothing.c:527
+#: ../src/tools/analysis-exp-smoothing.c:793
+#: ../src/tools/analysis-exp-smoothing.c:1118
 #: ../src/tools/analysis-frequency.c:149 ../src/tools/analysis-histogram.c:323
-#: ../src/tools/analysis-tools.c:1220 ../src/tools/analysis-tools.c:3742
+#: ../src/tools/analysis-tools.c:1222 ../src/tools/analysis-tools.c:3751
 #, c-format
 msgid "Column %d"
 msgstr "Колона %d"
@@ -7640,8 +7671,8 @@ msgstr "Самодопуњавање"
 msgid "Cell Markers"
 msgstr "Означавачи поља"
 
-#: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:287
-#: ../src/tools/filter.c:290
+#: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:288
+#: ../src/tools/filter.c:291
 msgid "Advanced Filter"
 msgstr "Напредни филтер"
 
@@ -8073,8 +8104,8 @@ msgid "Date"
 msgstr "Датум"
 
 #: ../src/dialogs/cell-format.ui.h:6 ../src/dialogs/hf-config.ui.h:10
-#: ../src/tools/analysis-exp-smoothing.c:728
-#: ../src/tools/analysis-exp-smoothing.c:1048
+#: ../src/tools/analysis-exp-smoothing.c:737
+#: ../src/tools/analysis-exp-smoothing.c:1060
 #: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:3454
 msgid "Time"
 msgstr "Време"
@@ -8648,13 +8679,13 @@ msgstr "ПРОМ"
 msgid "VARP"
 msgstr "ПРОМП"
 
-#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:695
-#: ../src/tools/analysis-tools.c:698
+#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:694
+#: ../src/tools/analysis-tools.c:697
 msgid "Correlation"
 msgstr "Корелација"
 
-#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:750
-#: ../src/tools/analysis-tools.c:753 ../src/wbc-gtk-actions.c:2945
+#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:749
+#: ../src/tools/analysis-tools.c:752 ../src/wbc-gtk-actions.c:2945
 msgid "Covariance"
 msgstr "Коваријанса"
 
@@ -8731,12 +8762,14 @@ msgid "Format"
 msgstr "Обликуј"
 
 #: ../src/dialogs/data-table.ui.h:2
-msgid "_Row Input :"
-msgstr "Улаз _реда :"
+#| msgid "_Row Input :"
+msgid "_Row Input:"
+msgstr "Улаз _реда:"
 
 #: ../src/dialogs/data-table.ui.h:3
-msgid "Co_lumn Input :"
-msgstr "Улаз _колоне :"
+#| msgid "Co_lumn Input :"
+msgid "Co_lumn Input:"
+msgstr "Улаз _колоне:"
 
 #: ../src/dialogs/define-name.ui.h:1
 msgid "Define Names"
@@ -8770,8 +8803,8 @@ msgstr "Уклони _врсту(е)"
 msgid "Delete _column(s)"
 msgstr "Уклони _колону(е)"
 
-#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1140
-#: ../src/tools/analysis-tools.c:1143
+#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1139
+#: ../src/tools/analysis-tools.c:1142
 msgid "Descriptive Statistics"
 msgstr "Описна статистика"
 
@@ -9452,12 +9485,12 @@ msgstr "страница 6"
 
 #: ../src/dialogs/exp-smoothing.ui.h:1
 #: ../src/tools/analysis-exp-smoothing.c:113
-#: ../src/tools/analysis-exp-smoothing.c:289
-#: ../src/tools/analysis-exp-smoothing.c:472
-#: ../src/tools/analysis-exp-smoothing.c:713
-#: ../src/tools/analysis-exp-smoothing.c:1033
-#: ../src/tools/analysis-exp-smoothing.c:1397
-#: ../src/tools/analysis-exp-smoothing.c:1400
+#: ../src/tools/analysis-exp-smoothing.c:292
+#: ../src/tools/analysis-exp-smoothing.c:478
+#: ../src/tools/analysis-exp-smoothing.c:722
+#: ../src/tools/analysis-exp-smoothing.c:1045
+#: ../src/tools/analysis-exp-smoothing.c:1412
+#: ../src/tools/analysis-exp-smoothing.c:1415
 msgid "Exponential Smoothing"
 msgstr "Експоненцијално ублажавање"
 
@@ -10110,8 +10143,8 @@ msgstr "_Стопи"
 msgid "Merge _Range:"
 msgstr "Стопи _опсег:"
 
-#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3988
-#: ../src/tools/analysis-tools.c:3991
+#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3997
+#: ../src/tools/analysis-tools.c:4000
 msgid "Moving Average"
 msgstr "Клизни просек"
 
@@ -10324,8 +10357,8 @@ msgid "Gnumeric Preferences"
 msgstr "Поставке Гнумерика"
 
 #: ../src/dialogs/principal-components.ui.h:1
-#: ../src/tools/analysis-principal-components.c:223
-#: ../src/tools/analysis-principal-components.c:226
+#: ../src/tools/analysis-principal-components.c:227
+#: ../src/tools/analysis-principal-components.c:230
 #: ../src/wbc-gtk-actions.c:2982
 msgid "Principal Components Analysis"
 msgstr "Анализа главних састојака"
@@ -10675,8 +10708,8 @@ msgstr "Отвори документ"
 msgid "Last Used"
 msgstr "Коришћено"
 
-#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3598
-#: ../src/tools/analysis-tools.c:3601
+#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3604
+#: ../src/tools/analysis-tools.c:3607
 msgid "Regression"
 msgstr "Одступање"
 
@@ -11444,8 +11477,9 @@ msgid "List Properties"
 msgstr "Својства списка"
 
 #: ../src/dialogs/so-list.ui.h:2
-msgid "_Link :"
-msgstr "_Повежи :"
+#| msgid "_Link :"
+msgid "_Link:"
+msgstr "_Повежи:"
 
 #: ../src/dialogs/so-list.ui.h:3
 msgid "As value"
@@ -11456,8 +11490,9 @@ msgid "As index"
 msgstr "Као индекс"
 
 #: ../src/dialogs/so-list.ui.h:5
-msgid "_Content :"
-msgstr "_Садржај :"
+#| msgid "_Content :"
+msgid "_Content:"
+msgstr "_Садржај:"
 
 #: ../src/dialogs/solver.ui.h:1
 msgid "≤"
@@ -12323,16 +12358,16 @@ msgstr "Не могу да покренем адресу „%s“"
 msgid "Unable to open '%s'"
 msgstr "Не могу да отворим „%s“"
 
-#: ../src/item-bar.c:845
+#: ../src/item-bar.c:859
 msgid "Width:"
 msgstr "Ширина:"
 
-#: ../src/item-bar.c:845
+#: ../src/item-bar.c:859
 msgid "Height"
 msgstr "Висина"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
-#: ../src/item-bar.c:850
+#: ../src/item-bar.c:864
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
@@ -12342,18 +12377,18 @@ msgstr[2] "(%d пиксела)"
 msgstr[3] "(%d пиксел)"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
-#: ../src/item-bar.c:855
+#: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pt"
 msgstr "%d.00 тчк"
 
-#: ../src/item-bar.c:855
+#: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pts"
 msgstr "%d.00 тчка"
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
-#: ../src/item-bar.c:859
+#: ../src/item-bar.c:873
 #, c-format
 msgid "%.2f pts"
 msgstr "%.2f тчка"
@@ -13722,7 +13757,7 @@ msgid "Text (configurable)"
 msgstr "Текст (подесиво)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1318
+#: ../src/stf-parse.c:1350
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -13731,7 +13766,7 @@ msgstr ""
 "бити занемарени."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1340
+#: ../src/stf-parse.c:1373
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -13743,28 +13778,28 @@ msgstr ""
 msgid "Error while trying to read file"
 msgstr "Грешка при покушају читања датотеке"
 
-#: ../src/stf.c:229
+#: ../src/stf.c:195
 msgid "This importer can only be used with a GUI."
 msgstr "Овај увозник може бити коришћен само са графичким сучељем."
 
-#: ../src/stf.c:323 ../src/stf.c:358
+#: ../src/stf.c:289 ../src/stf.c:324
 msgid "Text to Columns"
 msgstr "Рашчлани текст"
 
-#: ../src/stf.c:328
+#: ../src/stf.c:294
 #, c-format
 msgid "Only one column of input data can be parsed at a time"
 msgstr "Само 1 колона улазних података може бити обрађена у једном тренутку"
 
-#: ../src/stf.c:353
+#: ../src/stf.c:319
 msgid "There is no data to convert"
 msgstr "Нема података за претварање"
 
-#: ../src/stf.c:373
+#: ../src/stf.c:339
 msgid "Error while trying to parse data into sheet"
 msgstr "Грешка при покушају обраде података у листу"
 
-#: ../src/stf.c:401
+#: ../src/stf.c:367
 #, c-format
 msgid "The file contains %d NULL character. It has been changed to a space."
 msgid_plural ""
@@ -13774,36 +13809,36 @@ msgstr[1] "Датотека садржи %d НИШТАВНА знака. Про�
 msgstr[2] "Датотека садржи %d НИШТАВНИХ знакова. Промењени су у размаке."
 msgstr[3] "Датотека садржи %d НИШТАВАН знак. Промењен је у размак."
 
-#: ../src/stf.c:413
+#: ../src/stf.c:379
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
 msgstr "Датотека садржи неисправне УТФ-8 кодиране знакове и стога је скраћена"
 
-#: ../src/stf.c:459
+#: ../src/stf.c:425
 msgid "That file is not in the given encoding."
 msgstr "Та датотека није у датом кодирању."
 
-#: ../src/stf.c:504
+#: ../src/stf.c:470
 msgid "Some data did not fit on the sheet and was dropped."
 msgstr "Неки подаци нису стали на лист и одбачени су."
 
-#: ../src/stf.c:516
+#: ../src/stf.c:482
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Грешка обраде при покушају рашчлањивања података на лист"
 
-#: ../src/stf.c:551
+#: ../src/stf.c:517
 msgid "Error while trying to write CSV file"
 msgstr "Грешка при покушају писања ЦСВ датотеке"
 
-#: ../src/stf.c:649
+#: ../src/stf.c:615
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Вредности раздвојене зарезом или табулатором (CSV/TSV)"
 
-#: ../src/stf.c:657
+#: ../src/stf.c:623
 msgid "Text import (configurable)"
 msgstr "Увоз текста (подесиво)"
 
-#: ../src/stf.c:671
+#: ../src/stf.c:637
 msgid "Comma separated values (CSV)"
 msgstr "Вредности раздвојене зарезом (CSV)"
 
@@ -13815,12 +13850,12 @@ msgstr "АНОВА: Са два фактора без понављања"
 msgid "/Summary/Count/Sum/Average/Variance"
 msgstr "/Сажетак/Бројање/Збир/Просек/Варијанса"
 
-#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:179
+#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:178
 #, c-format
 msgid "Row %i"
 msgstr "Ред %i"
 
-#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:182
+#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:181
 #, c-format
 msgid "Column %i"
 msgstr "Колона %i"
@@ -13834,7 +13869,7 @@ msgid "/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Извор варијансе/Редови/Колоне/Грешка/Укупно"
 
 #: ../src/tools/analysis-anova.c:250 ../src/tools/analysis-anova.c:609
-#: ../src/tools/analysis-tools.c:4263
+#: ../src/tools/analysis-tools.c:4272
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/СС/дф/МС/Ф/П-вредност/Ф критично"
 
@@ -13935,41 +13970,41 @@ msgid "Test of Homogeneity"
 msgstr "Тест истоврсности"
 
 #: ../src/tools/analysis-exp-smoothing.c:114
-#: ../src/tools/analysis-exp-smoothing.c:290
-#: ../src/tools/analysis-exp-smoothing.c:474
-#: ../src/tools/analysis-exp-smoothing.c:715
-#: ../src/tools/analysis-exp-smoothing.c:1035
+#: ../src/tools/analysis-exp-smoothing.c:293
+#: ../src/tools/analysis-exp-smoothing.c:480
+#: ../src/tools/analysis-exp-smoothing.c:724
+#: ../src/tools/analysis-exp-smoothing.c:1047
 msgid "\"α =\" * 0.000"
 msgstr "\"α =\" * 0.000"
 
-#: ../src/tools/analysis-exp-smoothing.c:153
-#: ../src/tools/analysis-exp-smoothing.c:329
-#: ../src/tools/analysis-exp-smoothing.c:517
-#: ../src/tools/analysis-exp-smoothing.c:781
-#: ../src/tools/analysis-exp-smoothing.c:1103
+#: ../src/tools/analysis-exp-smoothing.c:157
+#: ../src/tools/analysis-exp-smoothing.c:336
+#: ../src/tools/analysis-exp-smoothing.c:527
+#: ../src/tools/analysis-exp-smoothing.c:793
+#: ../src/tools/analysis-exp-smoothing.c:1118
 #: ../src/tools/analysis-frequency.c:146 ../src/tools/analysis-histogram.c:320
-#: ../src/tools/analysis-tools.c:1217 ../src/tools/analysis-tools.c:3739
+#: ../src/tools/analysis-tools.c:1219 ../src/tools/analysis-tools.c:3748
 #, c-format
 msgid "Row %d"
 msgstr "Ред %d"
 
-#: ../src/tools/analysis-exp-smoothing.c:205
-#: ../src/tools/analysis-exp-smoothing.c:386
-#: ../src/tools/analysis-exp-smoothing.c:603
-#: ../src/tools/analysis-exp-smoothing.c:922
-#: ../src/tools/analysis-exp-smoothing.c:1286
-#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3914
+#: ../src/tools/analysis-exp-smoothing.c:208
+#: ../src/tools/analysis-exp-smoothing.c:392
+#: ../src/tools/analysis-exp-smoothing.c:612
+#: ../src/tools/analysis-exp-smoothing.c:934
+#: ../src/tools/analysis-exp-smoothing.c:1301
+#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3923
 msgid "Standard Error"
 msgstr "Уобичајена грешка"
 
-#: ../src/tools/analysis-exp-smoothing.c:478
-#: ../src/tools/analysis-exp-smoothing.c:719
-#: ../src/tools/analysis-exp-smoothing.c:1039
+#: ../src/tools/analysis-exp-smoothing.c:484
+#: ../src/tools/analysis-exp-smoothing.c:728
+#: ../src/tools/analysis-exp-smoothing.c:1051
 msgid "\"γ =\" * 0.000"
 msgstr "„γ =“ * 0.000"
 
-#: ../src/tools/analysis-exp-smoothing.c:639
-#: ../src/tools/analysis-exp-smoothing.c:642
+#: ../src/tools/analysis-exp-smoothing.c:648
+#: ../src/tools/analysis-exp-smoothing.c:651
 msgid ""
 "Holt's trend corrected exponential\n"
 "smoothing requires at least 2\n"
@@ -13980,18 +14015,18 @@ msgstr ""
 "захтева најмање 2 излазне\n"
 "колоне за сваки скуп података."
 
-#: ../src/tools/analysis-exp-smoothing.c:723
-#: ../src/tools/analysis-exp-smoothing.c:1043
+#: ../src/tools/analysis-exp-smoothing.c:732
+#: ../src/tools/analysis-exp-smoothing.c:1055
 msgid "\"δ =\" * 0.000"
 msgstr "„δ =“ * 0.000"
 
-#: ../src/tools/analysis-exp-smoothing.c:758
-#: ../src/tools/analysis-exp-smoothing.c:1080
+#: ../src/tools/analysis-exp-smoothing.c:770
+#: ../src/tools/analysis-exp-smoothing.c:1095
 msgid "/Level/Trend/Seasonal Adjustment"
 msgstr "/Ниво/Наклоност/Сезонско дотеривање"
 
-#: ../src/tools/analysis-exp-smoothing.c:953
-#: ../src/tools/analysis-exp-smoothing.c:956
+#: ../src/tools/analysis-exp-smoothing.c:965
+#: ../src/tools/analysis-exp-smoothing.c:968
 msgid ""
 "The additive Holt-Winters exponential\n"
 "smoothing method requires at least 4\n"
@@ -14002,8 +14037,8 @@ msgstr ""
 "најмање 4 излазне колоне за сваки\n"
 "скуп података."
 
-#: ../src/tools/analysis-exp-smoothing.c:1324
-#: ../src/tools/analysis-exp-smoothing.c:1327
+#: ../src/tools/analysis-exp-smoothing.c:1339
+#: ../src/tools/analysis-exp-smoothing.c:1342
 msgid ""
 "The multiplicative Holt-Winters exponential\n"
 "smoothing method requires at least 4\n"
@@ -14014,7 +14049,7 @@ msgstr ""
 "најмање 4 излазне колоне за сваки\n"
 "скуп података."
 
-#: ../src/tools/analysis-exp-smoothing.c:1369
+#: ../src/tools/analysis-exp-smoothing.c:1384
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Експоненцијално ублажавање (%s)"
@@ -14024,7 +14059,7 @@ msgid "/Frequency Table/Category"
 msgstr "/Табела учесталости/Категорија"
 
 #: ../src/tools/analysis-frequency.c:152 ../src/tools/analysis-histogram.c:326
-#: ../src/tools/analysis-tools.c:1223
+#: ../src/tools/analysis-tools.c:1225
 #, c-format
 msgid "Area %d"
 msgstr "Област %d"
@@ -14194,13 +14229,13 @@ msgstr "Студентов-т тест (%s)"
 msgid "Student-t Test"
 msgstr "Студентов-т тест"
 
-#: ../src/tools/analysis-principal-components.c:67
+#: ../src/tools/analysis-principal-components.c:68
 msgid "Principal components analysis has insufficient space."
 msgstr "Анализа главних састојака нема довољно простора."
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
-#: ../src/tools/analysis-principal-components.c:98
+#: ../src/tools/analysis-principal-components.c:99
 msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
@@ -14208,20 +14243,20 @@ msgstr ""
 "\"Анализа главних састојака\";[Црвено]\"Анализа главних састојака је "
 "неисправна.\""
 
-#: ../src/tools/analysis-principal-components.c:104
-#: ../src/tools/analysis-tools.c:722
+#: ../src/tools/analysis-principal-components.c:105
+#: ../src/tools/analysis-tools.c:721
 msgid "Covariances"
 msgstr "Коваријансе"
 
-#: ../src/tools/analysis-principal-components.c:128
+#: ../src/tools/analysis-principal-components.c:132
 msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr "/Бројање/Средња вредност/Варијанса//Лична вредност/Лични вектор"
 
-#: ../src/tools/analysis-principal-components.c:133
+#: ../src/tools/analysis-principal-components.c:137
 msgid "Percent of Trace"
 msgstr "Проценат трага"
 
-#: ../src/tools/analysis-principal-components.c:211
+#: ../src/tools/analysis-principal-components.c:215
 #, c-format
 msgid "Principal Components Analysis (%s)"
 msgstr "Анализа главних састојака (%s)"
@@ -14280,31 +14315,31 @@ msgstr ""
 msgid "Wilcoxon Signed Rank Test (%s)"
 msgstr "Тест Вилкоксоновог потписаног ранга (%s)"
 
-#: ../src/tools/analysis-tools.c:185
+#: ../src/tools/analysis-tools.c:184
 #, c-format
 msgid "Bin %i"
 msgstr "Блок %i"
 
-#: ../src/tools/analysis-tools.c:189
+#: ../src/tools/analysis-tools.c:188
 #, c-format
 msgid "Area %i"
 msgstr "Област %i"
 
-#: ../src/tools/analysis-tools.c:274
+#: ../src/tools/analysis-tools.c:273
 #, c-format
 msgid "Variable %i"
 msgstr "Променљива %i"
 
-#: ../src/tools/analysis-tools.c:667
+#: ../src/tools/analysis-tools.c:666
 msgid "Correlations"
 msgstr "Корелације"
 
-#: ../src/tools/analysis-tools.c:679
+#: ../src/tools/analysis-tools.c:678
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Корелација (%s)"
 
-#: ../src/tools/analysis-tools.c:734
+#: ../src/tools/analysis-tools.c:733
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Коваријанса (%s)"
@@ -14316,7 +14351,7 @@ msgstr "Коваријанса (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:836
+#: ../src/tools/analysis-tools.c:835
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -14324,36 +14359,36 @@ msgstr ""
 "/Средња вредност/Стандардна грешка/Медијана/Мод/Стандардно одступање/"
 "Варијанса узорка/Закривљеност/Одступање/Опсег/Најмање/Највише/Збир/Број"
 
-#: ../src/tools/analysis-tools.c:970
+#: ../src/tools/analysis-tools.c:969
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% ЦИ за средњу вредност од/до"
 
-#: ../src/tools/analysis-tools.c:1101
+#: ../src/tools/analysis-tools.c:1100
 #, c-format
 msgid "Largest (%d)"
 msgstr "Највећи (%d)"
 
-#: ../src/tools/analysis-tools.c:1108
+#: ../src/tools/analysis-tools.c:1107
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Најмањи (%d)"
 
-#: ../src/tools/analysis-tools.c:1125
+#: ../src/tools/analysis-tools.c:1124
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Описна статистика (%s)"
 
-#: ../src/tools/analysis-tools.c:1320
+#: ../src/tools/analysis-tools.c:1322
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Узорковање (%s)"
 
-#: ../src/tools/analysis-tools.c:1354 ../src/tools/analysis-tools.c:1357
+#: ../src/tools/analysis-tools.c:1360 ../src/tools/analysis-tools.c:1363
 msgid "Sample"
 msgstr "Узорак"
 
-#: ../src/tools/analysis-tools.c:1398
+#: ../src/tools/analysis-tools.c:1404
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -14363,16 +14398,16 @@ msgstr ""
 "вредности/Посматрана разлика средње вредности/з/П (З<=з) једнострано/з "
 "критично једнострано/П (З<=з) двострано/з критично двострано"
 
-#: ../src/tools/analysis-tools.c:1585
+#: ../src/tools/analysis-tools.c:1591
 #, c-format
 msgid "z-Test (%s)"
 msgstr "з-тест (%s)"
 
-#: ../src/tools/analysis-tools.c:1595 ../src/tools/analysis-tools.c:1598
+#: ../src/tools/analysis-tools.c:1601 ../src/tools/analysis-tools.c:1604
 msgid "z-Test"
 msgstr "з-тест"
 
-#: ../src/tools/analysis-tools.c:1649
+#: ../src/tools/analysis-tools.c:1655
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -14383,18 +14418,18 @@ msgstr ""
 "разлика/дф/т подаци/П (Т<=т) једнострано/т критично једнострано/П (Т<=т) "
 "двострано/т критично двострано"
 
-#: ../src/tools/analysis-tools.c:1877
+#: ../src/tools/analysis-tools.c:1883
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "т-тест, упарено (%s)"
 
-#: ../src/tools/analysis-tools.c:1887 ../src/tools/analysis-tools.c:1890
-#: ../src/tools/analysis-tools.c:2187 ../src/tools/analysis-tools.c:2190
-#: ../src/tools/analysis-tools.c:2480 ../src/tools/analysis-tools.c:2483
+#: ../src/tools/analysis-tools.c:1893 ../src/tools/analysis-tools.c:1896
+#: ../src/tools/analysis-tools.c:2193 ../src/tools/analysis-tools.c:2196
+#: ../src/tools/analysis-tools.c:2486 ../src/tools/analysis-tools.c:2489
 msgid "t-Test"
 msgstr "т-тест"
 
-#: ../src/tools/analysis-tools.c:1928
+#: ../src/tools/analysis-tools.c:1934
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -14405,12 +14440,12 @@ msgstr ""
 "(Т<=т) једнострано/т критично једнострано/П (Т<=т) двострано/т критично "
 "двострано"
 
-#: ../src/tools/analysis-tools.c:2177 ../src/tools/analysis-tools.c:2470
+#: ../src/tools/analysis-tools.c:2183 ../src/tools/analysis-tools.c:2476
 #, c-format
 msgid "t-Test (%s)"
 msgstr "т-тест (%s)"
 
-#: ../src/tools/analysis-tools.c:2225
+#: ../src/tools/analysis-tools.c:2231
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -14420,12 +14455,12 @@ msgstr ""
 "Посматрана разлика средње вредности/дф/т подаци/П (Т<=т) једнострано/т "
 "критично једнострано/П (Т<=т) двострано/т критично двострано"
 
-#: ../src/tools/analysis-tools.c:2519 ../src/tools/analysis-tools.c:2768
-#: ../src/tools/analysis-tools.c:2771
+#: ../src/tools/analysis-tools.c:2525 ../src/tools/analysis-tools.c:2774
+#: ../src/tools/analysis-tools.c:2777
 msgid "F-Test"
 msgstr "Ф-тест"
 
-#: ../src/tools/analysis-tools.c:2520
+#: ../src/tools/analysis-tools.c:2526
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -14434,12 +14469,12 @@ msgstr ""
 "десни крај/П (ф<=Ф) леви крај/Ф критични леви крај/П двострано/Ф критично "
 "двострано"
 
-#: ../src/tools/analysis-tools.c:2758
+#: ../src/tools/analysis-tools.c:2764
 #, c-format
 msgid "F-Test (%s)"
 msgstr "Ф-тест (%s)"
 
-#: ../src/tools/analysis-tools.c:2903
+#: ../src/tools/analysis-tools.c:2909
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -14447,29 +14482,29 @@ msgstr ""
 "/ИЗЛАЗ САЖЕТКА//Статистика одступања/Вишеструко Р/Р^2/Стандардна грешка/"
 "Дотерано Р^2/Осматрања//АНОВА//Одступање/Остатак/Укупно///Пресретање"
 
-#: ../src/tools/analysis-tools.c:2922
+#: ../src/tools/analysis-tools.c:2928
 msgid "Response Variable"
 msgstr "Променљива одговора"
 
-#: ../src/tools/analysis-tools.c:2956
+#: ../src/tools/analysis-tools.c:2962
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/дф/СС/МС/Ф/Значење за Ф"
 
-#: ../src/tools/analysis-tools.c:2963
+#: ../src/tools/analysis-tools.c:2969
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr "/Коефицијенти/Стандардна грешка/т-статистика/п-вредност"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2969
+#: ../src/tools/analysis-tools.c:2975
 msgid "\"Lower\" 0%"
 msgstr "\"Доње\" 0%"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2971
+#: ../src/tools/analysis-tools.c:2977
 msgid "\"Upper\" 0%"
 msgstr "\"Горње\" 0%"
 
-#: ../src/tools/analysis-tools.c:2980
+#: ../src/tools/analysis-tools.c:2986
 msgid ""
 "Probability of observing a t-statistic\n"
 "whose absolute value is at least as large\n"
@@ -14483,7 +14518,7 @@ msgstr ""
 "т-статистике, под претпоставком да је\n"
 "нулта хипотеза у ствари истинита."
 
-#: ../src/tools/analysis-tools.c:2987
+#: ../src/tools/analysis-tools.c:2993
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -14497,11 +14532,11 @@ msgstr ""
 "тако је, то је однос збира\n"
 "квадрата које објашњава модел."
 
-#: ../src/tools/analysis-tools.c:3295
+#: ../src/tools/analysis-tools.c:3301
 msgid "Constant"
 msgstr "Константа"
 
-#: ../src/tools/analysis-tools.c:3300
+#: ../src/tools/analysis-tools.c:3306
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
@@ -14509,104 +14544,104 @@ msgstr ""
 "/Предвиђање//Остатак/Полуге/Студентирано изнутра/Студентирано споља/п-"
 "вредност"
 
-#: ../src/tools/analysis-tools.c:3462
+#: ../src/tools/analysis-tools.c:3468
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/ИЗЛАЗ САЖЕТКА//Независна променљива//Осматрања"
 
-#: ../src/tools/analysis-tools.c:3467
+#: ../src/tools/analysis-tools.c:3473
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/ИЗЛАЗ САЖЕТКА//Променљива одговора//Осматрања"
 
-#: ../src/tools/analysis-tools.c:3473
+#: ../src/tools/analysis-tools.c:3479
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Променљива одговора/Р^2/Нагиб/Пресретање/Ф/Значење за Ф"
 
-#: ../src/tools/analysis-tools.c:3479
+#: ../src/tools/analysis-tools.c:3485
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Независна променљива/Р^2/Нагиб/Пресретање/Ф/Значење за Ф"
 
-#: ../src/tools/analysis-tools.c:3560
+#: ../src/tools/analysis-tools.c:3566
 #, c-format
 msgid "Regression (%s)"
 msgstr "Одступање (%s)"
 
-#: ../src/tools/analysis-tools.c:3975
+#: ../src/tools/analysis-tools.c:3984
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Клизни просек (%s)"
 
-#: ../src/tools/analysis-tools.c:4033
+#: ../src/tools/analysis-tools.c:4042
 msgid "Ranks & Percentiles"
 msgstr "Рангови и проценти"
 
-#: ../src/tools/analysis-tools.c:4044
+#: ../src/tools/analysis-tools.c:4053
 msgid "Point"
 msgstr "Тачка"
 
-#: ../src/tools/analysis-tools.c:4045
+#: ../src/tools/analysis-tools.c:4054
 msgid "Rank"
 msgstr "Ранг"
 
-#: ../src/tools/analysis-tools.c:4046
+#: ../src/tools/analysis-tools.c:4055
 msgid "Percentile Rank"
 msgstr "Ранг процента"
 
-#: ../src/tools/analysis-tools.c:4138
+#: ../src/tools/analysis-tools.c:4147
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Рангови (%s)"
 
-#: ../src/tools/analysis-tools.c:4150 ../src/tools/analysis-tools.c:4153
+#: ../src/tools/analysis-tools.c:4159 ../src/tools/analysis-tools.c:4162
 msgid "Ranks"
 msgstr "Рангови"
 
-#: ../src/tools/analysis-tools.c:4185
+#: ../src/tools/analysis-tools.c:4194
 msgid "Anova: Single Factor"
 msgstr "Анова: један фактор"
 
-#: ../src/tools/analysis-tools.c:4186 ../src/tools/simulation.c:336
+#: ../src/tools/analysis-tools.c:4195 ../src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "ИЗВЕШТАЈ"
 
-#: ../src/tools/analysis-tools.c:4189
+#: ../src/tools/analysis-tools.c:4198
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Групе/Бројање/Збир/Просек/Варијанса"
 
-#: ../src/tools/analysis-tools.c:4257
+#: ../src/tools/analysis-tools.c:4266
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/АНОВА/Извор варијансе/Између група/Унутар група/Укупно"
 
-#: ../src/tools/analysis-tools.c:4475
+#: ../src/tools/analysis-tools.c:4484
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "АНОВА са једним чиниоцем (%s)"
 
-#: ../src/tools/analysis-tools.c:4486
+#: ../src/tools/analysis-tools.c:4495
 msgid "Anova"
 msgstr "Анова"
 
-#: ../src/tools/analysis-tools.c:4489
+#: ../src/tools/analysis-tools.c:4498
 msgid "Single Factor ANOVA"
 msgstr "АНОВА једног чиниоца"
 
-#: ../src/tools/analysis-tools.c:4521
+#: ../src/tools/analysis-tools.c:4530
 msgid "Inverse Fourier Transform"
 msgstr "Обрнути Фуријеви редови"
 
-#: ../src/tools/analysis-tools.c:4522
+#: ../src/tools/analysis-tools.c:4531
 msgid "Fourier Transform"
 msgstr "Фуријеови редови"
 
-#: ../src/tools/analysis-tools.c:4530
+#: ../src/tools/analysis-tools.c:4539
 msgid "/Real/Imaginary"
 msgstr "/Реални/Имагинарни"
 
-#: ../src/tools/analysis-tools.c:4578
+#: ../src/tools/analysis-tools.c:4587
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Фуријеов низ (%s)"
 
-#: ../src/tools/analysis-tools.c:4590 ../src/tools/analysis-tools.c:4593
+#: ../src/tools/analysis-tools.c:4599 ../src/tools/analysis-tools.c:4602
 msgid "Fourier Series"
 msgstr "Фуријеов низ"
 
@@ -14674,15 +14709,15 @@ msgstr "Насумично"
 msgid "Fill Series (%s)"
 msgstr "Попуни низ (%s)"
 
-#: ../src/tools/filter.c:137
+#: ../src/tools/filter.c:138
 msgid "Filtered"
 msgstr "Издвојене"
 
-#: ../src/tools/filter.c:199
+#: ../src/tools/filter.c:200
 msgid "/Advanced Filter:/Source Range:/Criteria Range:"
 msgstr "/Напредни филтер:/Опсег извора:/Опсег критеријума:"
 
-#: ../src/tools/filter.c:269
+#: ../src/tools/filter.c:270
 #, c-format
 msgid "Advanced Filter (%s)"
 msgstr "Напредни филтер (%s)"
