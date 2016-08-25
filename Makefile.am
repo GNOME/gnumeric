@@ -72,18 +72,6 @@ dist-hook:
 	mkdir $(distdir)/samples/excel
 	cp $(srcdir)/samples/excel/*.xls $(distdir)/samples/excel/.
 
-## It seems the following overrides can be simplified:
-## distcleancheck_listfiles = find . -type f -print | grep -v 'omf\.out' | grep -v '^\./doc'
-## distuninstallcheck_listfiles = find . -type f -print | grep -v '^\./var/scrollkeeper' | grep -v 'omf' | grep -v 'figures'
-
-# xmldocs.make is screwed:
-distcleancheck_listfiles = \
-  find . -type f -print -o -path ./doc -prune
-
-# We are not able to uninstall the scrollkeeper files:
-distuninstallcheck_listfiles = \
-  find . -type f -print -o -path */var/scrollkeeper -prune
-
 ## If I understand this correctly, this hack is needed only --with-perl:
 if WITH_PERL
 # disable the check because the old perl plugin is hard to clean

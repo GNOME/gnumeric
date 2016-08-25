@@ -2,6 +2,7 @@ Gnumeric 1.12.33
 
 Morten:
 	* Speed up sstest part of test suite.
+	* Bring documentation build into the 21 century.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.32

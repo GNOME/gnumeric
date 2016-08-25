@@ -931,8 +931,7 @@ AC_SUBST(GNM_PY_CFLAGS)
 AC_SUBST(GNM_PY_LDFLAGS)
 AC_SUBST(GNM_PY_LIBADD)
 
-AC_CHECK_PROG(SCROLLKEEPER_PREINSTALL,scrollkeeper-preinstall,yes,no)
-AM_CONDITIONAL(WITH_SCROLLKEEPER, test "x$SCROLLKEEPER_PREINSTALL" = xyes -a "x$with_win32" != "xyes")
+YELP_HELP_INIT
 
 # Support for PDF docs
 AC_ARG_ENABLE(pdfdocs,
@@ -1155,9 +1154,6 @@ src/tools/Makefile
 src/cut-n-paste-code/Makefile
 doc/Makefile
 doc/C/Makefile
-doc/C/figures/Makefile
-doc/C/figures/icons/Makefile
-doc/developer/Makefile
 plugins/Makefile
 plugins/fn-christian-date/Makefile
 plugins/fn-complex/Makefile

@@ -1,79 +1,46 @@
-SUBDIRS = figures
-lang = C
-locale = C
-entities =  \
-     about-authors.xml \
-     about-history.xml \
-     about-license.xml \
-     analysis-complexNumbers.xml \
-     analysis-goalseek.xml \
-     analysis-overview.xml \
-     analysis-scenarios.xml \
-     analysis-simulation.xml \
-     analysis-solver.xml \
-     analysis-statistical.xml \
-     appendix-glossary.xml \
-     appendix-keybindings.xml \
-     bugs.xml \
-     compiling.xml \
-     configuration-localization.xml \
-     configuration-overview.xml \
-     configuration-plugins.xml \
-     configuration-preferences.xml \
-     configuration-toolbars.xml \
-     data-commentNlink.xml \
-     data-delete.xml \
-     data-entry-advanced.xml \
-     data-entry-external.xml \
-     data-entry.xml \
-     data-format.xml \
-     data-format-conditional.xml \
-     data-generate.xml \
-     data-insert.xml \
-     data-modify.xml \
-     data-filter.xml \
-     data-move-copy.xml \
-     data-overview.xml \
-     data-selections.xml \
-     data-types.xml \
-     documenting.xml \
-     extending-functions.xml \
-     extending-overview.xml \
-     extending-plugins.xml \
-     extending-python.xml \
-     files-formats.xml \
-     files-email.xml \
-     files-opening.xml \
-     files-overview.xml \
-     files-saving.xml \
-     files-ssconvert.xml \
-     files-textopen.xml \
-     files-textsave.xml \
-     getting-involved.xml \
-     graphics-drawings.xml \
-     graphics-images.xml \
-     graphics-overview.xml \
-     graphics-plots.xml \
-     graphics-widgets.xml \
-     gui-menus.xml \
-     gui-mouse.xml \
-     gui-other-elements.xml \
-     gui-overview.xml \
-     gui-toolbars.xml \
-     installing.xml \
-     legal.xml \
-     manual-usage.xml \
-     morehelp.xml \
-     printing.xml \
-     quick-start.xml \
-     welcome.xml \
-     workbooks.xml \
-     worksheets.xml
-#	functions.xml	# added in gnumeric-doc.make
+# Note: all xml files and media files are handled from ../Makefile.am
 
-figdir = figures
+noinst_DATA=
+EXTRA_DIST=
 
-include $(top_srcdir)/doc/gnumeric-doc.make
+if ENABLE_PDFDOCS
+noinst_DATA += gnumeric.pdf
+endif
+
+if ENABLE_PDF_VIA_DBCONTEXT
+gnumeric.pdf:
+	env TEXINPUTS=$(srcdir):.: dbcontext -t tex -Pfo.setup=1 -I . \
+		-P imagedata.default.scale='scale=600' \
+		-o gnumeric.tex $(srcdir)/gnumeric.xml
+	sed -i -e 's/\xE2\xA8\x89/\\ensuremath{\\times}/' gnumeric.tex
+	sed -i -e 's/\\begin{verbatim}\([^_]*\)\\end{verbatim}/\\texttt{\1}/g' gnumeric.tex
+	sed -i -e 's/\\texttt{\\emph{\\small{\(.*\)}}}:/\\texttt{\\emph{\1}}:/g' gnumeric.tex
+	sed -i -e 's/ *>{} */\\ensuremath{{}>{}}/g' gnumeric.tex
+	sed -i -e 's/ *<{} */\\ensuremath{{}<{}}/g' gnumeric.tex
+	sed -i -e 's/\\makeglossary/\\makeglossary\n\\setlength{\\headheight}{36pt}/g' gnumeric.tex
+	env TEXMFCNF=$(srcdir): \
+		TEXINPUTS=$(srcdir):/usr/share/texmf/tex/context/dbcontext/style: \
+		texexec --pdf --mode=A4 --verbose gnumeric.tex
+endif
+
+if ENABLE_PDF_VIA_DBLATEX
+gnumeric.pdf:
+	dblatex -t tex -Pfo.setup=1 -I . \
+		-P imagedata.default.scale='scale=0.6' \
+		-P latex.encoding=utf8 \
+		-P latex.output.revhistory=0 \
+		-o gnumeric.tex $(srcdir)/gnumeric.xml
+	sed -i -e 's/\xE2\xA8\x89/\\ensuremath{\\times}/' gnumeric.tex
+	sed -i -e 's/\\begin{verbatim}\([^_]*\)\\end{verbatim}/\\texttt{\1}/g' gnumeric.tex
+	sed -i -e 's/\texttt{\emph{\small{\(.*\)}}}:/\texttt{\emph{\1}}:/g' gnumeric.tex
+	sed -i -e 's/ *>{} */\\ensuremath{{}>{}}/g' gnumeric.tex
+	sed -i -e 's/ *<{} */\\ensuremath{{}<{}}/g' gnumeric.tex
+	sed -i -e 's/\\makeglossary/\\makeglossary\n\\setlength{\\headheight}{36pt}\n\\input{textdefs.tex}/g' gnumeric.tex
+	for runs in $$(seq 1 4); do \
+		env TEXINPUTS=$(srcdir): \
+			pdflatex -interaction nonstopmode gnumeric.tex ; \
+	done
+endif
 
 manpagedir   = $(mandir)/man1
 manpage_DATA = gnumeric.1 ssconvert.1 ssindex.1 ssgrep.1 ssdiff.1
@@ -91,9 +58,6 @@ gnumeric.chm: gnumeric.hhmap
 	cp chm/gnumeric.chm .
 
 endif
-
-# from gnumeric-doc.make
-dist-hook: validate
 
 EXTRA_DIST += $(manpage_DATA) \
 	gnumeric-docbook-2-htmlhelp.xsl gnumeric-C.omf
