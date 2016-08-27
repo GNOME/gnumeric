@@ -1,4 +1,4 @@
-Working in Gnumeric
+Working on Gnumeric
 -------------------
 
    When writing Gnumeric our priorities are
@@ -9,8 +9,8 @@ Working in Gnumeric
 	and a distant
 	4) Fast
 
-    When you submit code to me for inclusion in Gnumeric, or when you modify
-the sources directly on the CVS repository, please keep those things in mind.
+    When you submit code to me for inclusion in Gnumeric, or when you commit
+code directly to the Git repository, please keep those things in mind.
 While performance is important please note that we do not want to hand tune
 code to shave milliseconds at this point.  Well designed algorithms and data
 strucutures are fertile areas for development, obfuscated code to make a loop
@@ -18,7 +18,7 @@ strucutures are fertile areas for development, obfuscated code to make a loop
 
 	- Clarity of design and function are paramount
 	- Make sure your code does not generate warnings at all.
-	- Please follow the coding style used Gnumeric.
+	- Please follow the coding style used by Gnumeric.
 
 The Gnumeric coding style.
 --------------------------
