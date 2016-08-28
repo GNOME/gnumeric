@@ -6,7 +6,7 @@ EXTRA_DIST=
 @YELP_HELP_RULES@
 
 HELP_ID=gnumeric
-HELP_LINGUAS=
+HELP_LINGUAS=de
 HELP_FILES=gnumeric.xml
 
 HELP_EXTRA=					\
