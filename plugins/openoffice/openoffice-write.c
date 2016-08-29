@@ -5649,7 +5649,7 @@ odf_write_page_layout (GnmOOExport *state, GnmPrintInformation *pi,
 		break;
 	}
 	case PRINT_SCALE_PERCENTAGE:
-		odf_add_percent (state->xml, STYLE "scale-to", pi->scaling.percentage.x);
+		odf_add_percent (state->xml, STYLE "scale-to", pi->scaling.percentage.x/100);
 		break;
 	default:
 		odf_add_percent (state->xml, STYLE "scale-to", 1.);

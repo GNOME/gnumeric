@@ -5918,7 +5918,7 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 		pi->scaling.type = PRINT_SCALE_FIT_PAGES;
 	} else {
 		pi->scaling.type = PRINT_SCALE_PERCENTAGE;
-		pi->scaling.percentage.x = pi->scaling.percentage.y = scale_to;
+		pi->scaling.percentage.x = pi->scaling.percentage.y = scale_to * 100;
 	}
 
 	if (gnm_style_print && pi->comment_placement != GNM_PRINT_COMMENTS_NONE)
