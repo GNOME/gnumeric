@@ -1112,6 +1112,7 @@ pref_copypaste_page_initializer (PrefState *state,
 				 page, row++,
 				 gnm_conf_set_cut_and_paste_prefer_clipboard,
 				 gnm_conf_get_cut_and_paste_prefer_clipboard,
+				 /* xgettext : see https://en.wikipedia.org/wiki/X_Window_selection#Clipboard */
 				 _("Prefer CLIPBOARD Over PRIMARY Selection"));
 
 	gtk_widget_show_all (page);
