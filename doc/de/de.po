@@ -6,21 +6,21 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
-"POT-Creation-Date: 2016-08-27 12:58+0000\n"
-"PO-Revision-Date: 2016-08-28 21:44+0200\n"
+"POT-Creation-Date: 2016-08-28 19:55+0000\n"
+"PO-Revision-Date: 2016-09-03 22:39+0200\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr ""
+msgstr "Mario Blättermann <mario.blaettermann@gmail.com>, 2016"
 
 #. (itstool) path: imagedata
 #. This is a reference to an external file such as an image or video. When
@@ -4052,16 +4052,18 @@ msgstr "GNOME-Dokumentationsprojekt"
 #: C/gnumeric.xml:2
 msgid "Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License (GFDL), Version 1.1 or any later version published by the Free Software Foundation with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. You can find a copy of the GFDL at this <ulink type=\"help\" url=\"ghelp:fdl\">link</ulink> or in the file COPYING-DOCS distributed with this manual."
 msgstr ""
+"Das vorliegende Dokument kann gemäß den Bedingungen der GNU Free Documentation License (GFDL), Version 1.1 oder jeder späteren, von der Free Software Foundation veröffentlichten Version ohne unveränderbare Abschnitte sowie ohne Texte auf dem vorderen und hinteren Buchdeckel kopiert, verteilt und/oder modifiziert werden. Eine Kopie der GFDL finden Sie unter diesem <ulink type=\\\"help\\\" url=\\\"ghelp:fdl\\\">Link</ulink> oder in der mit diesem "
+"Handbuch gelieferten Datei COPYING-DOCS."
 
 #. (itstool) path: legalnotice/para
 #: C/gnumeric.xml:12
 msgid "This manual is part of a collection of GNOME manuals distributed under the GFDL. If you want to distribute this manual separately from the collection, you can do so by adding a copy of the license to the manual, as described in section 6 of the license."
-msgstr ""
+msgstr "Das vorliegende Handbuch ist Teil einer Reihe von GNOME-Handbüchern, die unter der GFDL verteilt werden. Wenn Sie dieses Handbuch separat verteilen möchten, können Sie dies tun, indem Sie dem Handbuch eine Kopie der Lizenz, wie in Abschnitt 6 der Lizenz beschrieben, hinzufügen."
 
 #. (itstool) path: legalnotice/para
 #: C/gnumeric.xml:19
 msgid "Many of the names used by companies to distinguish their products and services are claimed as trademarks. Where those names appear in any GNOME documentation, and the members of the GNOME Documentation Project are made aware of those trademarks, then the names are in capital letters or initial capital letters."
-msgstr ""
+msgstr "Bei vielen der von Firmen zur Unterscheidung ihrer Produkte und Dienstleistungen verwendeten Namen handelt es sich um Marken. An den Stellen, an denen derartige Namen in einer GNOME-Dokumentation vorkommen und wenn die Mitglieder des GNOME-Dokumentationsprojekts über diese Marken informiert wurden, sind die Namen in Großbuchstaben oder mit großen Anfangsbuchstaben geschrieben."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:35
@@ -4069,6 +4071,9 @@ msgid ""
 "DOCUMENT IS PROVIDED ON AN \"AS IS\" BASIS, WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, WITHOUT LIMITATION, WARRANTIES THAT THE DOCUMENT OR MODIFIED VERSION OF THE DOCUMENT IS FREE OF DEFECTS MERCHANTABLE, FIT FOR A PARTICULAR PURPOSE OR NON-INFRINGING. THE ENTIRE RISK AS TO THE QUALITY, ACCURACY, AND PERFORMANCE OF THE DOCUMENT OR MODIFIED VERSION OF THE DOCUMENT IS WITH YOU. SHOULD ANY DOCUMENT OR MODIFIED VERSION PROVE "
 "DEFECTIVE IN ANY RESPECT, YOU (NOT THE INITIAL WRITER, AUTHOR OR ANY CONTRIBUTOR) ASSUME THE COST OF ANY NECESSARY SERVICING, REPAIR OR CORRECTION. THIS DISCLAIMER OF WARRANTY CONSTITUTES AN ESSENTIAL PART OF THIS LICENSE. NO USE OF ANY DOCUMENT OR MODIFIED VERSION OF THE DOCUMENT IS AUTHORIZED HEREUNDER EXCEPT UNDER THIS DISCLAIMER; AND"
 msgstr ""
+"DAS DOKUMENT WIRD »WIE VORLIEGEND« GELIEFERT, OHNE JEGLICHE GEWÄHRLEISTUNG, WEDER AUSDRÜCKLICH NOCH STILLSCHWEIGEND, EINSCHLIESSLICH, ABER NICHT BESCHRÄNKT AUF, GEWÄHRLEISTUNGEN, DASS DAS DOKUMENT ODER EINE MODIFIZIERTE VERSION DES DOKUMENTS FREI VON HANDELSÜBLICHEN FEHLERN UND FÜR EINEN BESTIMMTEN ZWECK GEEIGNET IST UND KEINE RECHTE DRITTER VERLETZT. JEGLICHES RISIKO IN BEZUG AUF DIE QUALITÄT, GENAUIGKEIT UND LEISTUNG DES DOKUMENTS ODER EINER "
+"MODIFIZIERTEN VERSION DES DOKUMENTS TRAGEN SIE. SOLLTE SICH EIN DOKUMENT ODER EINE MODIFIZIERTE VERSION DAVON IN IRGENDEINER WEISE ALS FEHLERHAFT ERWEISEN, TRAGEN SIE (NICHT DER URSPRÜNGLICHE VERFASSER, AUTOR ODER EIN MITWIRKENDER) DIE KOSTEN FÜR JEGLICHE ERFORDERLICHE SERVICE-, REPARATUR- UND KORREKTURMASSNAHMEN: DIESE BESCHRÄNKUNG DER GEWÄHRLEISTUNG IST WESENTLICHER BESTANDTEIL DIESER LIZENZ. JEDE VERWENDUNG EINES DOKUMENTS ODER EINER MODIFIZIERTEN "
+"VERSION DES DOKUMENTS UNTERLIEGT DIESER BESCHRÄNKUNG; UND"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:55
@@ -4076,11 +4081,13 @@ msgid ""
 "UNDER NO CIRCUMSTANCES AND UNDER NO LEGAL THEORY, WHETHER IN TORT (INCLUDING NEGLIGENCE), CONTRACT, OR OTHERWISE, SHALL THE AUTHOR, INITIAL WRITER, ANY CONTRIBUTOR, OR ANY DISTRIBUTOR OF THE DOCUMENT OR MODIFIED VERSION OF THE DOCUMENT, OR ANY SUPPLIER OF ANY OF SUCH PARTIES, BE LIABLE TO ANY PERSON FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF GOODWILL, WORK "
 "STOPPAGE, COMPUTER FAILURE OR MALFUNCTION, OR ANY AND ALL OTHER DAMAGES OR LOSSES ARISING OUT OF OR RELATING TO USE OF THE DOCUMENT AND MODIFIED VERSIONS OF THE DOCUMENT, EVEN IF SUCH PARTY SHALL HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGES."
 msgstr ""
+"UNTER KEINEN UMSTÄNDEN UND GEMÄSS KEINER RECHTSLEHRE, WEDER AUFGRUND VON UNERLAUBTEN HANDLUNGEN (EINSCHLIESSLICH FAHRLÄSSIGKEIT), VERTRÄGEN ODER SONSTIGEM, KANN DER AUTOR, DER URSPRÜNGLICHE VERFASSER, EIN MITWIRKENDER ODER EIN VERTEILER DES DOKUMENTS ODER EINER MODIFIZIERTEN VERSION DES DOKUMENTS ODER EIN LIEFERANT EINER DIESER PARTEIEN VON EINER PERSON FÜR DIREKTE, INDIREKTE, BESONDERE, ZUFÄLLIGE ODER ALS FOLGE AUFGETRETENE SCHÄDEN IRGENDEINER ART, "
+"EINSCHLIESSLICH, ABER NICHT BESCHRÄNKT AUF, SCHÄDEN DURCH GESCHÄFTSWERTVERLUSTE, ARBEITSAUSFÄLLE, COMPUTERAUSFÄLLE ODER FUNKTIONSSTÖRUNGEN ODER JEGLICHE ANDERE SCHÄDEN ODER VERLUSTE, DIE DURCH ODER IM ZUSAMMENHANG MIT DER VERWENDUNG DES DOKUMENTS ODER EINER MODIFIZIERTEN VERSION DES DOKUMENTS ENTSTANDEN SIND, SELBST WENN DIESE PARTEI ÜBER MÖGLICHE SCHÄDEN INFORMIERT WORDEN SEIN SOLLTE, HAFTBAR GEMACHT WERDEN."
 
 #. (itstool) path: legalnotice/para
 #: C/gnumeric.xml:28
 msgid "DOCUMENT AND MODIFIED VERSIONS OF THE DOCUMENT ARE PROVIDED UNDER THE TERMS OF THE GNU FREE DOCUMENTATION LICENSE WITH THE FURTHER UNDERSTANDING THAT: <_:orderedlist-1/>"
-msgstr ""
+msgstr "DAS DOKUMENT UND MODIFIZIERTE VERSIONEN DES DOKUMENTS WERDEN GEMÄSS DEN BEDINGUNGEN DER GNU FREE DOCUMENTATION LICENSE MIT DER FOLGENDEN VEREINBARUNG BEREITGESTELLT: <_:orderedlist-1/>"
 
 #. (itstool) path: authorgroup/author
 #: C/gnumeric.xml:252
@@ -4190,32 +4197,32 @@ msgstr "Das Gnumeric-Team"
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:368
 msgid "<revnumber>Gnumeric Manual: Version 1.12</revnumber> <date>July 2012</date> <_:revdescription-1/>"
-msgstr ""
+msgstr "<revnumber>Gnumeric-Handbuch: Version 1.12</revnumber> <date>Juli 2012</date> <_:revdescription-1/>"
 
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:376
 msgid "<revnumber>Gnumeric Manual: Version 1.8</revnumber> <date>November 2007</date> <_:revdescription-1/>"
-msgstr ""
+msgstr "<revnumber>Gnumeric-Handbuch: Version 1.8</revnumber> <date>November 2007</date> <_:revdescription-1/>"
 
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:384
 msgid "<revnumber>Gnumeric Manual: Version 1.4</revnumber> <date>November 2004</date> <_:revdescription-1/>"
-msgstr ""
+msgstr "<revnumber>Gnumeric-Handbuch: Version 1.4</revnumber> <date>November 2004</date> <_:revdescription-1/>"
 
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:392
 msgid "<revnumber>Gnumeric Manual: Version 1.2</revnumber> <date>September 2002</date> <_:revdescription-1/>"
-msgstr ""
+msgstr "<revnumber>Gnumeric-Handbuch: Version 1.2</revnumber> <date>September 2002</date> <_:revdescription-1/>"
 
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:400
 msgid "<revnumber>Gnumeric Manual: Version 1.0</revnumber> <date>January 2002</date> <_:revdescription-1/>"
-msgstr ""
+msgstr "<revnumber>Gnumeric-Handbuch: Version 1.0</revnumber> <date>Januar 2002</date> <_:revdescription-1/>"
 
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:408
 msgid "<revnumber>Gnumeric Manual: Earlier Versions</revnumber> <date>1998-2001</date> <_:revdescription-1/>"
-msgstr ""
+msgstr "<revnumber>Gnumeric-Handbuch: Frühere Versionen</revnumber> <date>1998-2001</date> <_:revdescription-1/>"
 
 #. (itstool) path: bookinfo/releaseinfo
 #: C/gnumeric.xml:418
@@ -4230,7 +4237,7 @@ msgstr "Rückmeldungen"
 #. (itstool) path: legalnotice/para
 #: C/gnumeric.xml:422
 msgid "To report a bug or make a suggestion regarding the <application>Gnumeric</application> application or this manual, follow the directions in <xref linkend=\"chapter-bugs\"/>."
-msgstr ""
+msgstr "Wenn Sie Fehler finden oder Vorschläge zur Anwendung <application>Gnumeric</application> oder zu diesem Handbuch haben, folgen Sie den Anweisungen in <xref linkend=\"chapter-bugs\"/>."
 
 #. (itstool) path: chapter/title
 #: C/gnumeric.xml:450
@@ -5050,7 +5057,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:85
 msgid "Starting Gnumeric from the GNOME desktop"
-msgstr ""
+msgstr "Gnumeric in der GNOME-Arbeitsumgebung starten"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:87
@@ -5084,7 +5091,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:136
 msgid "Starting Gnumeric from a *NIX terminal"
-msgstr ""
+msgstr "Gnumeric aus einem *NIX-Terminal starten"
 
 #. (itstool) path: para/screen
 #: C/gnumeric.xml:143
@@ -5093,6 +5100,8 @@ msgid ""
 "\n"
 "gnumeric &amp;"
 msgstr ""
+"\n"
+"gnumeric &amp;"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:138
@@ -5315,7 +5324,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:438
 msgid "Data in Gnumeric"
-msgstr ""
+msgstr "Daten in Gnumeric"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:440
@@ -5402,7 +5411,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:577
 msgid "Data input"
-msgstr ""
+msgstr "Dateneingabe"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:579
@@ -5536,7 +5545,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:790
 msgid "Entering a formula"
-msgstr ""
+msgstr "Eingeben einer Formel"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:792
@@ -5559,6 +5568,8 @@ msgid ""
 "\n"
 "=3+4-1"
 msgstr ""
+"\n"
+"=3+4-1"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:817
@@ -5615,7 +5626,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:918
 msgid "Cell Formats"
-msgstr ""
+msgstr "Zellenformate"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:920
@@ -6283,7 +6294,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Menus"
-msgstr ""
+msgstr "Menüs"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:8
@@ -6293,7 +6304,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:15
 msgid "Using Menus"
-msgstr ""
+msgstr "Verwendung von Menüs"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:17
@@ -9127,7 +9138,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:320
 msgid "Syntax"
-msgstr ""
+msgstr "Syntax"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:322
@@ -9181,7 +9192,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:381
 msgid "Using Functions"
-msgstr ""
+msgstr "Verwendung von Funktionen"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:383
@@ -9191,7 +9202,7 @@ msgstr ""
 #. (itstool) path: example/title
 #: C/gnumeric.xml:395
 msgid "Basic Function syntax"
-msgstr ""
+msgstr "Grundlegende Syntax von Funktionen"
 
 #. (itstool) path: example/programlisting
 #: C/gnumeric.xml:396
@@ -9201,6 +9212,9 @@ msgid ""
 "FUNCTIONNAME(ARGUMENTS)\n"
 "        "
 msgstr ""
+"\n"
+"FUNKTIONSNAME(ARGUMENTE)\n"
+"        "
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:391
@@ -9233,6 +9247,17 @@ msgid ""
 "=3+4*MIN(A1,A2,B6)\n"
 "\t  "
 msgstr ""
+"\n"
+"=SUM(A1,A2,A4,B5)\n"
+"\t    \n"
+"=AVERAGE(A1:A16)\n"
+"\t    \n"
+"=EXP(1)\n"
+"\t    \n"
+"=PI()\n"
+"\t    \n"
+"=3+4*MIN(A1,A2,B6)\n"
+"\t  "
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:415
@@ -9271,6 +9296,11 @@ msgid ""
 "=COS(A2)*SIN(A2)\n"
 "        "
 msgstr ""
+"\n"
+"=A1+EXP(B1)-(C3/C4)\n"
+"      \n"
+"=COS(A2)*SIN(A2)\n"
+"        "
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:465
@@ -9686,7 +9716,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:936
 msgid "<code>#DIV/0!</code>"
-msgstr ""
+msgstr "<code>#DIV/0!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:937
@@ -9696,7 +9726,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:940
 msgid "<code>#N/A</code>"
-msgstr ""
+msgstr "<code>#N/A</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:941
@@ -9706,7 +9736,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:946
 msgid "<code>#NAME?</code>"
-msgstr ""
+msgstr "<code>#NAME?</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:947
@@ -9716,7 +9746,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:950
 msgid "<code>#NULL!</code>"
-msgstr ""
+msgstr "<code>#NULL!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:951
@@ -9726,7 +9756,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:955
 msgid "<code>#NUM!</code>"
-msgstr ""
+msgstr "<code>#NUM!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:956
@@ -9736,7 +9766,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:960
 msgid "<code>#REF!</code>"
-msgstr ""
+msgstr "<code>#REF!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:961
@@ -9746,7 +9776,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:964
 msgid "<code>#UNKNOWN!</code>"
-msgstr ""
+msgstr "<code>#UNKNOWN!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:965
@@ -9756,7 +9786,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:969
 msgid "<code>#VALUE!</code>"
-msgstr ""
+msgstr "<code>#VALUE!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:970
@@ -9869,7 +9899,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:143
 msgid "<keycap>Ctrl+K</keycap>"
-msgstr ""
+msgstr "<keycap>Ctrl+K</keycap>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:144
@@ -9894,7 +9924,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:172
 msgid "Entering Text Data"
-msgstr ""
+msgstr "Eingeben von Textdaten"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:174
@@ -9913,7 +9943,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:204
 msgid "Entering Number Data"
-msgstr ""
+msgstr "Eingeben von numerischen Daten"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:206
@@ -9923,7 +9953,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:222
 msgid "Entering Boolean Data"
-msgstr ""
+msgstr "Eingeben von booleschen Werten (Wahrheitswerten)"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:224
@@ -9933,7 +9963,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:234
 msgid "Entering Formulas"
-msgstr ""
+msgstr "eingeben von Formeln"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:236
@@ -10902,7 +10932,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:153
 msgid "Copying a Selection to the Clipboard"
-msgstr ""
+msgstr "Kopieren einer Auswahl in die Zwischenablage"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:162
@@ -10934,7 +10964,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:204
 msgid "Pasting the Clipboard"
-msgstr ""
+msgstr "Einfügen der Zwischenablage"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:211
@@ -11338,7 +11368,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:298
 msgid "<guilabel>Text</guilabel>"
-msgstr ""
+msgstr "<guilabel>Text</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:299
@@ -11373,602 +11403,602 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:348 C/gnumeric.xml:537 C/gnumeric.xml:19 C/gnumeric.xml:979 C/gnumeric.xml:1238
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:349 C/gnumeric.xml:538
 msgid "Sample"
-msgstr ""
+msgstr "Beispiel"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:354 C/gnumeric.xml:543 C/gnumeric.xml:349
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:355 C/gnumeric.xml:544
 msgid "36068.755"
-msgstr ""
+msgstr "36068.755"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:359
 msgid "m/d/yy"
-msgstr ""
+msgstr "m/d/yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:360
 msgid "d/m/yy"
-msgstr ""
+msgstr "d/m/yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:361
 msgid "9/30/98"
-msgstr ""
+msgstr "9/30/98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:362
 msgid "30/9/98"
-msgstr ""
+msgstr "30/9/98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:365
 msgid "m/d/yyyy"
-msgstr ""
+msgstr "m/d/yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:366
 msgid "d/m/yyyy"
-msgstr ""
+msgstr "d/m/yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:367
 msgid "9/30/1998"
-msgstr ""
+msgstr "9/30/1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:368
 msgid "30/9/1998"
-msgstr ""
+msgstr "30/9/1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:371
 msgid "d-mmm-yy"
-msgstr ""
+msgstr "d-mmm-yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:372
 msgid "mmm-d-yy"
-msgstr ""
+msgstr "mmm-d-yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:373
 msgid "30-Sep-98"
-msgstr ""
+msgstr "30-Sep-98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:374
 msgid "Sep-30-98"
-msgstr ""
+msgstr "Sep-30-98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:377
 msgid "d-mmm-yyyy"
-msgstr ""
+msgstr "d-mmm-yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:378
 msgid "mmm-d-yyyy"
-msgstr ""
+msgstr "mmm-d-yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:379
 msgid "30-Sep-199"
-msgstr ""
+msgstr "30-Sep-199"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:380
 msgid "Sep-30-9198"
-msgstr ""
+msgstr "Sep-30-9198"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:383
 msgid "d-mmm"
-msgstr ""
+msgstr "d-mmm"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:384
 msgid "mmm-d"
-msgstr ""
+msgstr "mmm-d"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:385
 msgid "30-Sep"
-msgstr ""
+msgstr "30-Sep"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:386
 msgid "Sep-30"
-msgstr ""
+msgstr "Sep-30"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:389
 msgid "d-mm"
-msgstr ""
+msgstr "d-mm"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:390
 msgid "mm-d"
-msgstr ""
+msgstr "mm-d"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:391
 msgid "30-09"
-msgstr ""
+msgstr "30-09"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:392
 msgid "09-30"
-msgstr ""
+msgstr "09-30"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:395
 msgid "mmm/d"
-msgstr ""
+msgstr "mmm/d"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:396
 msgid "d/mmm"
-msgstr ""
+msgstr "d/mmm"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:397
 msgid "Sep/30"
-msgstr ""
+msgstr "Sep/30"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:398
 msgid "30/Sep"
-msgstr ""
+msgstr "30/Sep"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:401
 msgid "mm/d"
-msgstr ""
+msgstr "mm/d"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:402
 msgid "d/mm"
-msgstr ""
+msgstr "d/mm"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:403
 msgid "09/30"
-msgstr ""
+msgstr "09/30"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:404
 msgid "30/09"
-msgstr ""
+msgstr "30/09"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:407
 msgid "mm/dd/yy"
-msgstr ""
+msgstr "mm/dd/yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:408
 msgid "dd/mm/yy"
-msgstr ""
+msgstr "dd/mm/yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:409
 msgid "09/30/98"
-msgstr ""
+msgstr "09/30/98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:410
 msgid "30/09/98"
-msgstr ""
+msgstr "30/09/98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:413
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "mm/dd/yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:414
 msgid "dd/mm/yyyy"
-msgstr ""
+msgstr "dd/mm/yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:415
 msgid "09/30/1998"
-msgstr ""
+msgstr "09/30/1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:416
 msgid "30/09/1998"
-msgstr ""
+msgstr "30/09/1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:419
 msgid "mmm/dd/yy"
-msgstr ""
+msgstr "mmm/dd/yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:420
 msgid "dd/mmm/yy"
-msgstr ""
+msgstr "dd/mmm/yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:421
 msgid "Sep/30/98"
-msgstr ""
+msgstr "Sep/30/98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:422
 msgid "30/Sep/98"
-msgstr ""
+msgstr "30/Sep/98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:425
 msgid "mmm/dd/yyyy"
-msgstr ""
+msgstr "mmm/dd/yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:426
 msgid "dd/mmm/yyyy"
-msgstr ""
+msgstr "dd/mmm/yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:427
 msgid "Sep/30/1998"
-msgstr ""
+msgstr "Sep/30/1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:428
 msgid "30/Sep/1998"
-msgstr ""
+msgstr "30/Sep/1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:431
 msgid "mmm/ddd/yy"
-msgstr ""
+msgstr "mmm/ddd/yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:432
 msgid "ddd/mmm/yy"
-msgstr ""
+msgstr "ddd/mmm/yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:433
 msgid "Sep/Wed/98"
-msgstr ""
+msgstr "Sep/Wed/98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:434
 msgid "Wed/Sep/98"
-msgstr ""
+msgstr "Wed/Sep/98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:437
 msgid "mmm/ddd/yyyy"
-msgstr ""
+msgstr "mmm/ddd/yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:438
 msgid "ddd/mmm/yyyy"
-msgstr ""
+msgstr "ddd/mmm/yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:439
 msgid "Sep/Wed/1998"
-msgstr ""
+msgstr "Sep/Wed/1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:440
 msgid "Wed/Sep/1998"
-msgstr ""
+msgstr "Wed/Sep/1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:443
 msgid "mm/ddd/yy"
-msgstr ""
+msgstr "mm/ddd/yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:444
 msgid "ddd/mm/yy"
-msgstr ""
+msgstr "ddd/mm/yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:445
 msgid "09/Wed/98"
-msgstr ""
+msgstr "09/Wed/98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:446
 msgid "Wed/09/98"
-msgstr ""
+msgstr "Wed/09/98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:449
 msgid "mm/ddd/yyyy"
-msgstr ""
+msgstr "mm/ddd/yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:450
 msgid "ddd/mm/yyyy"
-msgstr ""
+msgstr "ddd/mm/yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:451
 msgid "09/Wed/1998"
-msgstr ""
+msgstr "09/Wed/1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:452
 msgid "Wed/09/1998"
-msgstr ""
+msgstr "Wed/09/1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:455
 msgid "mmm-yy"
-msgstr ""
+msgstr "mmm-yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:456
 msgid "Sep-98"
-msgstr ""
+msgstr "Sep-98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:459
 msgid "mmm-yyyy"
-msgstr ""
+msgstr "mmm-yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:460
 msgid "Sep-1998"
-msgstr ""
+msgstr "Sep-1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:464
 msgid "mmmm-yy"
-msgstr ""
+msgstr "mmmm-yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:465
 msgid "September-98"
-msgstr ""
+msgstr "September-98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:468
 msgid "mmmm-yyyy"
-msgstr ""
+msgstr "mmmm-yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:469
 msgid "September-1998"
-msgstr ""
+msgstr "September-1998"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:472 C/gnumeric.xml:567
 msgid "d/m/yy h:mm"
-msgstr ""
+msgstr "d/m/yy h:mm"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:473 C/gnumeric.xml:563
 msgid "m/d/yy h:mm"
-msgstr ""
+msgstr "m/d/yy h:mm"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:474 C/gnumeric.xml:564
 msgid "9/30/98 18:07"
-msgstr ""
+msgstr "9/30/98 18:07"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:475
 msgid "30/9/98 187:07"
-msgstr ""
+msgstr "30/9/98 187:07"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:478
 msgid "d/m/yyyy h:mm"
-msgstr ""
+msgstr "d/m/yyyy h:mm"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:479
 msgid "m/d/yyyy h:mm"
-msgstr ""
+msgstr "m/d/yyyy h:mm"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:480
 msgid "9/30/1998 18:07"
-msgstr ""
+msgstr "9/30/1998 18:07"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:481
 msgid "30/9/1998 187:07"
-msgstr ""
+msgstr "30/9/1998 187:07"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:484
 msgid "yyyy/mm/d"
-msgstr ""
+msgstr "yyyy/mm/d"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:485 C/gnumeric.xml:493
 msgid "1998/09/30"
-msgstr ""
+msgstr "1998/09/30"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:488
 msgid "yyyy/mmm/d"
-msgstr ""
+msgstr "yyyy/mmm/d"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:489 C/gnumeric.xml:497
 msgid "1998/Sep/30"
-msgstr ""
+msgstr "1998/Sep/30"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:492
 msgid "yyyy/mm/dd"
-msgstr ""
+msgstr "yyyy/mm/dd"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:496
 msgid "yyyy/mmm/dd"
-msgstr ""
+msgstr "yyyy/mmm/dd"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:500
 msgid "yyyy-mm-d"
-msgstr ""
+msgstr "yyyy-mm-d"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:501 C/gnumeric.xml:509
 msgid "1998-09-30"
-msgstr ""
+msgstr "1998-09-30"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:504 C/gnumeric.xml:512
 msgid "yyyy-mmm-d"
-msgstr ""
+msgstr "yyyy-mmm-d"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:505
 msgid "1998-Sep-3"
-msgstr ""
+msgstr "1998-Sep-3"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:508
 msgid "yyyy-mm-dd"
-msgstr ""
+msgstr "yyyy-mm-dd"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:513
 msgid "1998-Sep-30"
-msgstr ""
+msgstr "1998-Sep-30"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:516
 msgid "yy"
-msgstr ""
+msgstr "yy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:517
 msgid "98"
-msgstr ""
+msgstr "98"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:520
 msgid "yyyy"
-msgstr ""
+msgstr "yyyy"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:521
 msgid "1998"
-msgstr ""
+msgstr "1998"
 
 #. (itstool) path: table/title
 #: C/gnumeric.xml:529
 msgid "Examples of Time Formats"
-msgstr ""
+msgstr "Beispiele für Zeitformate"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:547
 msgid "h:mm AM/PM"
-msgstr ""
+msgstr "h:mm AM/PM"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:548
 msgid "6:07 PM"
-msgstr ""
+msgstr "6:07 PM"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:551
 msgid "h:mm:ss AM/PM"
-msgstr ""
+msgstr "h:mm:ss AM/PM"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:552
 msgid "6:07:12 PM"
-msgstr ""
+msgstr "6:07:12 PM"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:555
 msgid "h:mm"
-msgstr ""
+msgstr "h:mm"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:556
 msgid "18:07"
-msgstr ""
+msgstr "18:07"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:559
 msgid "h:mm:ss"
-msgstr ""
+msgstr "h:mm:ss"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:560
 msgid "18:07:12"
-msgstr ""
+msgstr "18:07:12"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:568
 msgid "30/9/98 18:07"
-msgstr ""
+msgstr "30/9/98 18:07"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:571
 msgid "mm:ss"
-msgstr ""
+msgstr "mm:ss"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:572
 msgid "07:12"
-msgstr ""
+msgstr "07:12"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:575
 msgid "[h]:mm:ss"
-msgstr ""
+msgstr "[h]:mm:ss"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:576
 msgid "865650:07:12"
-msgstr ""
+msgstr "865650:07:12"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:579
 msgid "[h]:mm"
-msgstr ""
+msgstr "[h]:mm"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:580
 msgid "865650:07"
-msgstr ""
+msgstr "865650:07"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:583
 msgid "[mm]:ss"
-msgstr ""
+msgstr "[mm]:ss"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:584
 msgid "51939007:12"
-msgstr ""
+msgstr "51939007:12"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:587
 msgid "[ss]"
-msgstr ""
+msgstr "[ss]"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:588
 msgid "3116340432"
-msgstr ""
+msgstr "3116340432"
 
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:597
@@ -12927,42 +12957,42 @@ msgstr ""
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:44
 msgid "B12: =B13*min(B16,B20)"
-msgstr ""
+msgstr "B12: =B13*min(B16,B20)"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:45
 msgid "C12: =C13*B16"
-msgstr ""
+msgstr "C12: =C13*B16"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:46
 msgid "D12: =D13*max(0,B16-B20)"
-msgstr ""
+msgstr "D12: =D13*max(0,B16-B20)"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:47
 msgid "E12: =B12-C12+D12"
-msgstr ""
+msgstr "E12: =B12-C12+D12"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:48
 msgid "B13: 0.5"
-msgstr ""
+msgstr "B13: 0.5"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:49
 msgid "C13: 0.33"
-msgstr ""
+msgstr "C13: 0.33"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:50
 msgid "D13: 0.05"
-msgstr ""
+msgstr "D13: 0.05"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:51
 msgid "B16: 50"
-msgstr ""
+msgstr "B16: 50"
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:55 C/gnumeric.xml:577
@@ -12992,32 +13022,32 @@ msgstr ""
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:78
 msgid "B4: 0.35"
-msgstr ""
+msgstr "B4: 0.35"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:79
 msgid "B5: 0.45"
-msgstr ""
+msgstr "B5: 0.45"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:80
 msgid "B6: 0.2"
-msgstr ""
+msgstr "B6: 0.2"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:81
 msgid "C4: 0.35"
-msgstr ""
+msgstr "C4: 0.35"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:82
 msgid "C5: 0.8"
-msgstr ""
+msgstr "C5: 0.8"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:83
 msgid "C6: 1.0"
-msgstr ""
+msgstr "C6: 1.0"
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:88
@@ -13044,27 +13074,27 @@ msgstr ""
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:114 C/gnumeric.xml:275
 msgid "<emphasis>A</emphasis>"
-msgstr ""
+msgstr "<emphasis>A</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:117 C/gnumeric.xml:278
 msgid "<emphasis>B</emphasis>"
-msgstr ""
+msgstr "<emphasis>B</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:120 C/gnumeric.xml:281
 msgid "<emphasis>C</emphasis>"
-msgstr ""
+msgstr "<emphasis>C</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:123 C/gnumeric.xml:284
 msgid "<emphasis>D</emphasis>"
-msgstr ""
+msgstr "<emphasis>D</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:129
 msgid "<emphasis>11</emphasis>"
-msgstr ""
+msgstr "<emphasis>11</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:132 C/gnumeric.xml:330
@@ -13089,152 +13119,152 @@ msgstr ""
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:146
 msgid "<emphasis>12</emphasis>"
-msgstr ""
+msgstr "<emphasis>12</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:149 C/gnumeric.xml:357
 msgid "40"
-msgstr ""
+msgstr "40"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:152 C/gnumeric.xml:360 C/gnumeric.xml:396
 msgid "0.03"
-msgstr ""
+msgstr "0.03"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:155 C/gnumeric.xml:363 C/gnumeric.xml:399
 msgid "0.1"
-msgstr ""
+msgstr "0.1"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:158 C/gnumeric.xml:366 C/gnumeric.xml:402
 msgid "0.44"
-msgstr ""
+msgstr "0.44"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:163
 msgid "<emphasis>13</emphasis>"
-msgstr ""
+msgstr "<emphasis>13</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:166 C/gnumeric.xml:384
 msgid "50"
-msgstr ""
+msgstr "50"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:169
 msgid "0.05"
-msgstr ""
+msgstr "0.05"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:172
 msgid "0.18"
-msgstr ""
+msgstr "0.18"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:175
 msgid "0.22"
-msgstr ""
+msgstr "0.22"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:180
 msgid "<emphasis>14</emphasis>"
-msgstr ""
+msgstr "<emphasis>14</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:183 C/gnumeric.xml:411
 msgid "60"
-msgstr ""
+msgstr "60"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:186 C/gnumeric.xml:237
 msgid "0.15"
-msgstr ""
+msgstr "0.15"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:189
 msgid "0.4"
-msgstr ""
+msgstr "0.4"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:192 C/gnumeric.xml:209
 msgid "0.16"
-msgstr ""
+msgstr "0.16"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:197
 msgid "<emphasis>15</emphasis>"
-msgstr ""
+msgstr "<emphasis>15</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:200 C/gnumeric.xml:438
 msgid "70"
-msgstr ""
+msgstr "70"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:203 C/gnumeric.xml:206
 msgid "0.2"
-msgstr ""
+msgstr "0.2"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:214
 msgid "<emphasis>16</emphasis>"
-msgstr ""
+msgstr "<emphasis>16</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:217 C/gnumeric.xml:465
 msgid "80"
-msgstr ""
+msgstr "80"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:220
 msgid "0.35"
-msgstr ""
+msgstr "0.35"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:223 C/gnumeric.xml:387 C/gnumeric.xml:423 C/gnumeric.xml:953
 msgid "0.08"
-msgstr ""
+msgstr "0.08"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:226
 msgid "0.06"
-msgstr ""
+msgstr "0.06"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:231
 msgid "<emphasis>17</emphasis>"
-msgstr ""
+msgstr "<emphasis>17</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:234 C/gnumeric.xml:492
 msgid "90"
-msgstr ""
+msgstr "90"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:240 C/gnumeric.xml:1035
 msgid "0.04"
-msgstr ""
+msgstr "0.04"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:243 C/gnumeric.xml:257 C/gnumeric.xml:260 C/gnumeric.xml:369 C/gnumeric.xml:372 C/gnumeric.xml:375
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:248
 msgid "<emphasis>18</emphasis>"
-msgstr ""
+msgstr "<emphasis>18</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:251 C/gnumeric.xml:519
 msgid "100"
-msgstr ""
+msgstr "100"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:254
 msgid "0.07"
-msgstr ""
+msgstr "0.07"
 
 #. (itstool) path: table/title
 #: C/gnumeric.xml:267
@@ -13244,22 +13274,22 @@ msgstr ""
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:287
 msgid "<emphasis>E</emphasis>"
-msgstr ""
+msgstr "<emphasis>E</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:290
 msgid "<emphasis>F</emphasis>"
-msgstr ""
+msgstr "<emphasis>F</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:293
 msgid "<emphasis>G</emphasis>"
-msgstr ""
+msgstr "<emphasis>G</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:300
 msgid "<emphasis>21</emphasis>"
-msgstr ""
+msgstr "<emphasis>21</emphasis>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:305
@@ -13269,108 +13299,108 @@ msgstr ""
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:315
 msgid "Values"
-msgstr ""
+msgstr "Werte"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:327
 msgid "<emphasis>22</emphasis>"
-msgstr ""
+msgstr "<emphasis>22</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:354
 msgid "<emphasis>23</emphasis>"
-msgstr ""
+msgstr "<emphasis>23</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:381
 msgid "<emphasis>24</emphasis>"
-msgstr ""
+msgstr "<emphasis>24</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:390 C/gnumeric.xml:426
 msgid "0.28"
-msgstr ""
+msgstr "0.28"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:393 C/gnumeric.xml:429
 msgid "0.66"
-msgstr ""
+msgstr "0.66"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:408
 msgid "<emphasis>25</emphasis>"
-msgstr ""
+msgstr "<emphasis>25</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:414 C/gnumeric.xml:450
 msgid "0.23"
-msgstr ""
+msgstr "0.23"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:417 C/gnumeric.xml:453
 msgid "0.68"
-msgstr ""
+msgstr "0.68"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:420 C/gnumeric.xml:456
 msgid "0.82"
-msgstr ""
+msgstr "0.82"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:435
 msgid "<emphasis>26</emphasis>"
-msgstr ""
+msgstr "<emphasis>26</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:441 C/gnumeric.xml:477
 msgid "0.43"
-msgstr ""
+msgstr "0.43"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:444 C/gnumeric.xml:480
 msgid "0.88"
-msgstr ""
+msgstr "0.88"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:447 C/gnumeric.xml:483
 msgid "0.94"
-msgstr ""
+msgstr "0.94"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:462
 msgid "<emphasis>27</emphasis>"
-msgstr ""
+msgstr "<emphasis>27</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:468 C/gnumeric.xml:504
 msgid "0.78"
-msgstr ""
+msgstr "0.78"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:471 C/gnumeric.xml:507
 msgid "0.96"
-msgstr ""
+msgstr "0.96"
 
 #. (itstool) path: entry/para
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:474 C/gnumeric.xml:498 C/gnumeric.xml:510 C/gnumeric.xml:522 C/gnumeric.xml:534 C/gnumeric.xml:430
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:489
 msgid "<emphasis>28</emphasis>"
-msgstr ""
+msgstr "<emphasis>28</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:495 C/gnumeric.xml:531
 msgid "0.93"
-msgstr ""
+msgstr "0.93"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:516
 msgid "<emphasis>29</emphasis>"
-msgstr ""
+msgstr "<emphasis>29</emphasis>"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:543
@@ -13400,7 +13430,7 @@ msgstr ""
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:566
 msgid "B17: =rand()"
-msgstr ""
+msgstr "B17: =rand()"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:567
@@ -13410,7 +13440,7 @@ msgstr ""
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:568
 msgid "B18: =rand()"
-msgstr ""
+msgstr "B18: =rand()"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:569
@@ -13420,7 +13450,7 @@ msgstr ""
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:570
 msgid "B21: =E12"
-msgstr ""
+msgstr "B21: =E12"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:571
@@ -13789,12 +13819,12 @@ msgstr ""
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:809 C/gnumeric.xml:872
 msgid "$R$"
-msgstr ""
+msgstr "$R$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:810 C/gnumeric.xml:873
 msgid "R"
-msgstr ""
+msgstr "R"
 
 #. (itstool) path: informalequation/alt
 #: C/gnumeric.xml:814
@@ -13831,7 +13861,7 @@ msgstr ""
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:832
 msgid "Θ"
-msgstr ""
+msgstr "Θ"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:825
@@ -13853,12 +13883,12 @@ msgstr ""
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:846 C/gnumeric.xml:889
 msgid "$R_0$"
-msgstr ""
+msgstr "$R_0$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:847 C/gnumeric.xml:890
 msgid "R<subscript>0</subscript>"
-msgstr ""
+msgstr "R<subscript>0</subscript>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:844
@@ -13868,22 +13898,22 @@ msgstr ""
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:852
 msgid "$S_0^2$"
-msgstr ""
+msgstr "$S_0^2$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:853
 msgid "S<subscript>0</subscript><superscript>2</superscript>"
-msgstr ""
+msgstr "S<subscript>0</subscript><superscript>2</superscript>"
 
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:856
 msgid "$S_0$"
-msgstr ""
+msgstr "$S_0$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:857
 msgid "S<subscript>0</subscript>"
-msgstr ""
+msgstr "S<subscript>0</subscript>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:850
@@ -13893,22 +13923,22 @@ msgstr ""
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:863 C/gnumeric.xml:897 C/gnumeric.xml:971
 msgid "$z_{\\alpha/2}$"
-msgstr ""
+msgstr "$z_{\\alpha/2}$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:864 C/gnumeric.xml:898 C/gnumeric.xml:972
 msgid "z<subscript>α/2</subscript>"
-msgstr ""
+msgstr "z<subscript>α/2</subscript>"
 
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:868
 msgid "$(1-(\\alpha/2))$"
-msgstr ""
+msgstr "$(1-(\\alpha/2))$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:869
 msgid "(1-(α/2))"
-msgstr ""
+msgstr "(1-(α/2))"
 
 #. (itstool) path: equation/title
 #: C/gnumeric.xml:876
@@ -13928,12 +13958,12 @@ msgstr ""
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:893
 msgid "$t_{\\alpha/2, R_0}$"
-msgstr ""
+msgstr "$t_{\\alpha/2, R_0}$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:894
 msgid "t<subscript>α/2, R<subscript>0</subscript></subscript>"
-msgstr ""
+msgstr "t<subscript>α/2, R<subscript>0</subscript></subscript>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:861
@@ -13945,12 +13975,12 @@ msgstr ""
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:906 C/gnumeric.xml:962
 msgid "$\\epsilon = 0.05$"
-msgstr ""
+msgstr "$\\epsilon = 0.05$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:907 C/gnumeric.xml:963
 msgid "ε=0.05"
-msgstr ""
+msgstr "ε=0.05"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:904
@@ -13980,17 +14010,17 @@ msgstr ""
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:933
 msgid "59.19"
-msgstr ""
+msgstr "59.19"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:936
 msgid "152.4"
-msgstr ""
+msgstr "152.4"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:939
 msgid "0.64"
-msgstr ""
+msgstr "0.64"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:944 C/gnumeric.xml:1026
@@ -14000,32 +14030,32 @@ msgstr ""
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:947
 msgid "7.85"
-msgstr ""
+msgstr "7.85"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:950
 msgid "2.51"
-msgstr ""
+msgstr "2.51"
 
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:967
 msgid "$\\alpha = 0.05$"
-msgstr ""
+msgstr "$\\alpha = 0.05$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:968
 msgid "α=0.05"
-msgstr ""
+msgstr "α=0.05"
 
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:975
 msgid "$z_{\\alpha/2}=1.96$"
-msgstr ""
+msgstr "$z_{\\alpha/2}=1.96$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:976
 msgid "z<subscript>α/2=1.96</subscript>"
-msgstr ""
+msgstr "z<subscript>α/2=1.96</subscript>"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:960
@@ -14035,22 +14065,22 @@ msgstr ""
 #. (itstool) path: informalequation/alt
 #: C/gnumeric.xml:981
 msgid "$R \\geq \\left(\\frac{1.96 \\times \\sqrt{2.51}}{0.05}\\right)^2 \\geq 3856.8$"
-msgstr ""
+msgstr "$R \\geq \\left(\\frac{1.96 \\times \\sqrt{2.51}}{0.05}\\right)^2 \\geq 3856.8$"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:979
 msgid "<_:informalequation-1/>."
-msgstr ""
+msgstr "<_:informalequation-1/>."
 
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:988
 msgid "$\\epsilon \\leq 0.05$"
-msgstr ""
+msgstr "$\\epsilon \\leq 0.05$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:989
 msgid "ε &lt;=0.05"
-msgstr ""
+msgstr "ε &lt;=0.05"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:986
@@ -14060,27 +14090,27 @@ msgstr ""
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:1015
 msgid "59.11"
-msgstr ""
+msgstr "59.11"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:1018
 msgid "163.9"
-msgstr ""
+msgstr "163.9"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:1021
 msgid "0.34"
-msgstr ""
+msgstr "0.34"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:1029
 msgid "7.72"
-msgstr ""
+msgstr "7.72"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:1032
 msgid "2.88"
-msgstr ""
+msgstr "2.88"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:1040
@@ -14144,6 +14174,11 @@ msgid ""
 "    -0.3x + 4y - 2z + 1.2m\n"
 "    "
 msgstr ""
+"\n"
+"    3x + y - 5z\n"
+"    -3.23x + 0.33y\n"
+"    -0.3x + 4y - 2z + 1.2m\n"
+"    "
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:30
@@ -16223,12 +16258,12 @@ msgstr ""
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:2367
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:2368
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #. (itstool) path: example/para
 #: C/gnumeric.xml:2364
@@ -16248,7 +16283,7 @@ msgstr ""
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:2386
 msgid "ξ1"
-msgstr ""
+msgstr "ξ1"
 
 #. (itstool) path: example/para
 #: C/gnumeric.xml:2382
@@ -46817,7 +46852,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:20126 C/gnumeric.xml:20131
 msgid "<function>R.QST</function>"
-msgstr ""
+msgstr "<function>R.QST</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:20134
@@ -46844,7 +46879,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:20162 C/gnumeric.xml:20167
 msgid "<function>R.QT</function>"
-msgstr ""
+msgstr "<function>R.QT</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:20170
@@ -46871,7 +46906,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:20197 C/gnumeric.xml:20202
 msgid "<function>R.QTUKEY</function>"
-msgstr ""
+msgstr "<function>R.QTUKEY</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:20205
@@ -46898,7 +46933,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:20233 C/gnumeric.xml:20238
 msgid "<function>R.QWEIBULL</function>"
-msgstr ""
+msgstr "<function>R.QWEIBULL</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:20241
@@ -46925,7 +46960,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:20269 C/gnumeric.xml:20274
 msgid "<function>RANK</function>"
-msgstr ""
+msgstr "<function>RANK</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:20277 C/gnumeric.xml:20315
@@ -47234,7 +47269,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:20680 C/gnumeric.xml:20685
 msgid "<function>SSMEDIAN</function>"
-msgstr ""
+msgstr "<function>SSMEDIAN</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:20688
@@ -47496,73 +47531,73 @@ msgstr ""
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20972
 msgid "1 AVERAGE"
-msgstr ""
+msgstr "1 AVERAGE"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20973
 msgid "2 COUNT"
-msgstr ""
+msgstr "2 COUNT"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20974
 msgid "3 COUNTA"
-msgstr ""
+msgstr "3 COUNTA"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20975
 msgid "4 MAX"
-msgstr ""
+msgstr "4 MAX"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20976
 msgid "5 MIN"
-msgstr ""
+msgstr "5 MIN"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20977
 msgid "6 PRODUCT"
-msgstr ""
+msgstr "6 PRODUCT"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20978
 msgid "7 STDEV"
-msgstr ""
+msgstr "7 STDEV"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20979
 msgid "8 STDEVP"
-msgstr ""
+msgstr "8 STDEVP"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20980
 msgid "9 SUM"
-msgstr ""
+msgstr "9 SUM"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20981
 msgid "10 VAR"
-msgstr ""
+msgstr "10 VAR"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20982
 msgid "11 VARP"
-msgstr ""
+msgstr "11 VARP"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20983
 msgid "<parameter>ref1</parameter>: first value"
-msgstr ""
+msgstr "<parameter>ref1</parameter>: erster Wert"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20984
 msgid "<parameter>ref2</parameter>: second value"
-msgstr ""
+msgstr "<parameter>ref2</parameter>: zweiter Wert"
 
 #. (itstool) path: refmeta/refentrytitle
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:20999 C/gnumeric.xml:21004
 msgid "<function>TDIST</function>"
-msgstr ""
+msgstr "<function>TDIST</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:21007
@@ -47578,7 +47613,7 @@ msgstr ""
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:21018
 msgid "<parameter>tails</parameter>: 1 or 2"
-msgstr ""
+msgstr "<parameter>tails</parameter>: 1 oder 2"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:21023
@@ -47599,7 +47634,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:21038 C/gnumeric.xml:21043
 msgid "<function>TINV</function>"
-msgstr ""
+msgstr "<function>TINV</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:21046
@@ -47921,7 +47956,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:21446 C/gnumeric.xml:21451
 msgid "<function>ASC</function>"
-msgstr ""
+msgstr "<function>ASC</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:21454
@@ -47963,7 +47998,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:21490 C/gnumeric.xml:21495
 msgid "<function>CHAR</function>"
-msgstr ""
+msgstr "<function>CHAR</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:21498
@@ -47974,7 +48009,7 @@ msgstr ""
 #: C/gnumeric.xml:21503
 #, no-wrap
 msgid "<function>CHAR</function>(<parameter>x</parameter>)"
-msgstr ""
+msgstr "<function>CHAR</function>(<parameter>x</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:21507
@@ -47989,7 +48024,7 @@ msgstr ""
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:21512
 msgid "<parameter>x</parameter> must be in the range 1 to 255."
-msgstr ""
+msgstr "<parameter>x</parameter> muss im Bereich zwischen 1 und 255 liegen."
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:21513 C/gnumeric.xml:21580
@@ -48015,7 +48050,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:21529 C/gnumeric.xml:21534
 msgid "<function>CLEAN</function>"
-msgstr ""
+msgstr "<function>CLEAN</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:21537
@@ -48026,7 +48061,7 @@ msgstr ""
 #: C/gnumeric.xml:21541
 #, no-wrap
 msgid "<function>CLEAN</function>(<parameter>text</parameter>)"
-msgstr ""
+msgstr "<function>CLEAN</function>(<parameter>text</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:21549
@@ -48037,7 +48072,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:21558 C/gnumeric.xml:21563
 msgid "<function>CODE</function>"
-msgstr ""
+msgstr "<function>CODE</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:21566
@@ -48048,12 +48083,12 @@ msgstr ""
 #: C/gnumeric.xml:21571
 #, no-wrap
 msgid "<function>CODE</function>(<parameter>c</parameter>)"
-msgstr ""
+msgstr "<function>CODE</function>(<parameter>c</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:21575 C/gnumeric.xml:22756
 msgid "<parameter>c</parameter>: character"
-msgstr ""
+msgstr "<parameter>c</parameter>: Zeichen"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:21579
@@ -48079,7 +48114,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:21596 C/gnumeric.xml:21601
 msgid "<function>CONCAT</function>"
-msgstr ""
+msgstr "<function>CONCAT</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:21604 C/gnumeric.xml:21642
@@ -48128,7 +48163,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:21668 C/gnumeric.xml:21673
 msgid "<function>DOLLAR</function>"
-msgstr ""
+msgstr "<function>DOLLAR</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:21676
@@ -48160,7 +48195,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:21701 C/gnumeric.xml:21706
 msgid "<function>EXACT</function>"
-msgstr ""
+msgstr "<function>EXACT</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:21709
@@ -48480,7 +48515,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22090 C/gnumeric.xml:22095
 msgid "<function>MID</function>"
-msgstr ""
+msgstr "<function>MID</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22098
@@ -48514,7 +48549,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22133 C/gnumeric.xml:22138
 msgid "<function>MIDB</function>"
-msgstr ""
+msgstr "<function>MIDB</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22141
@@ -48525,7 +48560,7 @@ msgstr ""
 #: C/gnumeric.xml:22146
 #, no-wrap
 msgid "<function>MIDB</function>(<parameter>s</parameter>,<parameter>start_pos</parameter>,<parameter>num_bytes</parameter>)"
-msgstr ""
+msgstr "<function>MIDB</function>(<parameter>s</parameter>,<parameter>start_pos</parameter>,<parameter>num_bytes</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22151
@@ -48548,7 +48583,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22180 C/gnumeric.xml:22185
 msgid "<function>NUMBERVALUE</function>"
-msgstr ""
+msgstr "<function>NUMBERVALUE</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22188 C/gnumeric.xml:22807
@@ -48580,7 +48615,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22216 C/gnumeric.xml:22221
 msgid "<function>PROPER</function>"
-msgstr ""
+msgstr "<function>PROPER</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22224
@@ -48591,7 +48626,7 @@ msgstr ""
 #: C/gnumeric.xml:22228
 #, no-wrap
 msgid "<function>PROPER</function>(<parameter>text</parameter>)"
-msgstr ""
+msgstr "<function>PROPER</function>(<parameter>text</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22240
@@ -48602,7 +48637,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22247 C/gnumeric.xml:22252
 msgid "<function>REPLACE</function>"
-msgstr ""
+msgstr "<function>REPLACE</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22255
@@ -48644,7 +48679,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22284 C/gnumeric.xml:22289
 msgid "<function>REPLACEB</function>"
-msgstr ""
+msgstr "<function>REPLACEB</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22292
@@ -48676,7 +48711,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22333 C/gnumeric.xml:22338
 msgid "<function>REPT</function>"
-msgstr ""
+msgstr "<function>REPT</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22341
@@ -48687,12 +48722,12 @@ msgstr ""
 #: C/gnumeric.xml:22345
 #, no-wrap
 msgid "<function>REPT</function>(<parameter>text</parameter>,<parameter>num</parameter>)"
-msgstr ""
+msgstr "<function>REPT</function>(<parameter>text</parameter>,<parameter>num</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22350
 msgid "<parameter>num</parameter>: non-negative integer"
-msgstr ""
+msgstr "<parameter>num</parameter>: nicht-negative Ganzzahl"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22358 C/gnumeric.xml:22671
@@ -48703,7 +48738,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22364 C/gnumeric.xml:22369
 msgid "<function>RIGHT</function>"
-msgstr ""
+msgstr "<function>RIGHT</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22372
@@ -48714,7 +48749,7 @@ msgstr ""
 #: C/gnumeric.xml:22377
 #, no-wrap
 msgid "<function>RIGHT</function>(<parameter>s</parameter>,<parameter>num_chars</parameter>)"
-msgstr ""
+msgstr "<function>RIGHT</function>(<parameter>s</parameter>,<parameter>num_chars</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22386
@@ -48732,7 +48767,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22410 C/gnumeric.xml:22415
 msgid "<function>RIGHTB</function>"
-msgstr ""
+msgstr "<function>RIGHTB</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22418
@@ -48761,7 +48796,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22456 C/gnumeric.xml:22461
 msgid "<function>SEARCH</function>"
-msgstr ""
+msgstr "<function>SEARCH</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22464
@@ -48772,7 +48807,7 @@ msgstr ""
 #: C/gnumeric.xml:22469
 #, no-wrap
 msgid "<function>SEARCH</function>(<parameter>search</parameter>,<parameter>text</parameter>,<parameter>start</parameter>)"
-msgstr ""
+msgstr "<function>SEARCH</function>(<parameter>search</parameter>,<parameter>text</parameter>,<parameter>start</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22473 C/gnumeric.xml:22515
@@ -48803,7 +48838,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22498 C/gnumeric.xml:22503
 msgid "<function>SEARCHB</function>"
-msgstr ""
+msgstr "<function>SEARCHB</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22506
@@ -48814,7 +48849,7 @@ msgstr ""
 #: C/gnumeric.xml:22511
 #, no-wrap
 msgid "<function>SEARCHB</function>(<parameter>search</parameter>,<parameter>text</parameter>,<parameter>start</parameter>)"
-msgstr ""
+msgstr "<function>SEARCHB</function>(<parameter>search</parameter>,<parameter>text</parameter>,<parameter>start</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22525
@@ -48830,7 +48865,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22544 C/gnumeric.xml:22549
 msgid "<function>SUBSTITUTE</function>"
-msgstr ""
+msgstr "<function>SUBSTITUTE</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22552
@@ -48841,12 +48876,12 @@ msgstr ""
 #: C/gnumeric.xml:22556
 #, no-wrap
 msgid "<function>SUBSTITUTE</function>(<parameter>text</parameter>,<parameter>old</parameter>,<parameter>new</parameter>,<parameter>num</parameter>)"
-msgstr ""
+msgstr "<function>SUBSTITUTE</function>(<parameter>text</parameter>,<parameter>old</parameter>,<parameter>new</parameter>,<parameter>num</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22561
 msgid "<parameter>old</parameter>: string to be replaced"
-msgstr ""
+msgstr "<parameter>old</parameter>: zu ersetzende Zeichenkette"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22563
@@ -48862,7 +48897,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22578 C/gnumeric.xml:22583
 msgid "<function>T</function>"
-msgstr ""
+msgstr "<function>T</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22586
@@ -48873,7 +48908,7 @@ msgstr ""
 #: C/gnumeric.xml:22590
 #, no-wrap
 msgid "<function>T</function>(<parameter>value</parameter>)"
-msgstr ""
+msgstr "<function>T</function>(<parameter>value</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22594
@@ -48889,7 +48924,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22610 C/gnumeric.xml:22615
 msgid "<function>TEXT</function>"
-msgstr ""
+msgstr "<function>TEXT</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22618
@@ -48900,17 +48935,17 @@ msgstr ""
 #: C/gnumeric.xml:22622
 #, no-wrap
 msgid "<function>TEXT</function>(<parameter>value</parameter>,<parameter>format</parameter>)"
-msgstr ""
+msgstr "<function>TEXT</function>(<parameter>value</parameter>,<parameter>format</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22626
 msgid "<parameter>value</parameter>: value to be formatted"
-msgstr ""
+msgstr "<parameter>value</parameter>: zu formatierender Wert"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22627
 msgid "<parameter>format</parameter>: desired format"
-msgstr ""
+msgstr "<parameter>format</parameter>: gewünschtes Format"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22635
@@ -48921,7 +48956,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22643 C/gnumeric.xml:22648
 msgid "<function>TEXTJOIN</function>"
-msgstr ""
+msgstr "<function>TEXTJOIN</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22651
@@ -48948,7 +48983,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22677 C/gnumeric.xml:22682
 msgid "<function>TRIM</function>"
-msgstr ""
+msgstr "<function>TRIM</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22685
@@ -48959,7 +48994,7 @@ msgstr ""
 #: C/gnumeric.xml:22689
 #, no-wrap
 msgid "<function>TRIM</function>(<parameter>text</parameter>)"
-msgstr ""
+msgstr "<function>TRIM</function>(<parameter>text</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22701
@@ -48970,7 +49005,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22710 C/gnumeric.xml:22715
 msgid "<function>UNICHAR</function>"
-msgstr ""
+msgstr "<function>UNICHAR</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22718
@@ -48981,7 +49016,7 @@ msgstr ""
 #: C/gnumeric.xml:22723
 #, no-wrap
 msgid "<function>UNICHAR</function>(<parameter>x</parameter>)"
-msgstr ""
+msgstr "<function>UNICHAR</function>(<parameter>x</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22727
@@ -48997,7 +49032,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22739 C/gnumeric.xml:22744
 msgid "<function>UNICODE</function>"
-msgstr ""
+msgstr "<function>UNICODE</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22747
@@ -49008,7 +49043,7 @@ msgstr ""
 #: C/gnumeric.xml:22752
 #, no-wrap
 msgid "<function>UNICODE</function>(<parameter>c</parameter>)"
-msgstr ""
+msgstr "<function>UNICODE</function>(<parameter>c</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22760
@@ -49019,7 +49054,7 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22768 C/gnumeric.xml:22773
 msgid "<function>UPPER</function>"
-msgstr ""
+msgstr "<function>UPPER</function>"
 
 #. (itstool) path: refnamediv/refpurpose
 #: C/gnumeric.xml:22776
@@ -49030,7 +49065,7 @@ msgstr ""
 #: C/gnumeric.xml:22781
 #, no-wrap
 msgid "<function>UPPER</function>(<parameter>text</parameter>)"
-msgstr ""
+msgstr "<function>UPPER</function>(<parameter>text</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22793
@@ -49041,13 +49076,13 @@ msgstr ""
 #. (itstool) path: refnamediv/refname
 #: C/gnumeric.xml:22799 C/gnumeric.xml:22804
 msgid "<function>VALUE</function>"
-msgstr ""
+msgstr "<function>VALUE</function>"
 
 #. (itstool) path: refsynopsisdiv/synopsis
 #: C/gnumeric.xml:22812
 #, no-wrap
 msgid "<function>VALUE</function>(<parameter>text</parameter>)"
-msgstr ""
+msgstr "<function>VALUE</function>(<parameter>text</parameter>)"
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:22824
