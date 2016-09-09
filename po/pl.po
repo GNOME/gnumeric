@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 14:53+0200\n"
-"PO-Revision-Date: 2016-08-19 14:54+0200\n"
+"POT-Creation-Date: 2016-09-09 03:32+0200\n"
+"PO-Revision-Date: 2016-09-09 03:33+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -1467,7 +1467,7 @@ msgstr "Nieprawidłowy atrybut „%s”, oczekiwano procentu, otrzymano „%s”
 #: ../plugins/openoffice/openoffice-read.c:783
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
-msgstr "Nieprawidłowy atrybut „%s”', oczekiwano koloru, otrzymano „%s”"
+msgstr "Nieprawidłowy atrybut „%s”, oczekiwano koloru, otrzymano „%s”"
 
 #: ../plugins/openoffice/openoffice-read.c:1061
 #, c-format
@@ -1559,7 +1559,7 @@ msgstr "komórka"
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
-msgstr "Warunek walidacji „%s” nie jest obsługiwany. Został zmieniona na „%s”."
+msgstr "Warunek walidacji „%s” nie jest obsługiwany. Został zmieniony na „%s”."
 
 #: ../plugins/openoffice/openoffice-read.c:2824
 #, c-format
@@ -1972,7 +1972,7 @@ msgstr "Format OpenDocument"
 #: ../plugins/openoffice/plugin.xml.in.h:2
 msgid "Open Document Format as used by OpenOffice, Lotus Symphony, etc."
 msgstr ""
-"Format OpenDocument jak używany przez programy OpenOffice, Lotus Symphony, "
+"Format OpenDocument jak używany przez programy OpenOffice, Lotus Symphony "
 "itp."
 
 #: ../plugins/openoffice/plugin.xml.in.h:3
@@ -2412,7 +2412,7 @@ msgstr ""
 
 #: ../plugins/sc/sc.c:387
 msgid "The sheet is wider than Gnumeric can handle."
-msgstr "Arkusz jest szerszy niż program Gnumeric może obsłużyć."
+msgstr "Arkusz jest szerszy, niż program Gnumeric może obsłużyć."
 
 #: ../plugins/sc/sc.c:450
 msgid "Encountered precision dependent format without set precision."
@@ -2589,7 +2589,7 @@ msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
 msgstr ""
-"Ta lista zwiera wszystkie wtyczki, które powinny być automatycznie "
+"Ta lista zawiera wszystkie wtyczki, które powinny być automatycznie "
 "aktywowane."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:20
@@ -3033,7 +3033,7 @@ msgid ""
 msgstr ""
 "Niektóre okna zawierają tylko jedno pole wpisu umożliwiające zaznaczanie "
 "zakresu w zeszycie. Ustawienie tej zmiennej na „TRUE” kieruje zaznaczenia do "
-"tego wpisu nawet, jeśli wpis nie jest aktywny."
+"tego wpisu, nawet jeśli wpis nie jest aktywny."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:98
 msgid "Text Export String Indicator"
@@ -3169,7 +3169,7 @@ msgid ""
 "Search &amp; Replace keeps strings as strings even if they look like numbers "
 "as default"
 msgstr ""
-"Wyszukiwanie i zastępowanie domyślnie zachowuje ciągi jako ciągi nawet, "
+"Wyszukiwanie i zastępowanie domyślnie zachowuje ciągi jako ciągi, nawet "
 "jeśli wyglądają jak liczby"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:129
@@ -4100,7 +4100,7 @@ msgstr "Automatyczne dopasowywanie szerokości %s"
 msgid "Autofitting height of %s"
 msgstr "Automatyczne dopasowywanie wysokości %s"
 
-#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1226
+#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1227
 msgid "Sorting"
 msgstr "Sortowanie"
 
@@ -6100,7 +6100,7 @@ msgstr "Utwórz tablicę danych"
 msgid ""
 "The selection must have more than 1 column and row to create a Data Table."
 msgstr ""
-"Zaznaczenie musi mieć więcej niż 1 kolumnę i rząd aby utworzyć tablicę "
+"Zaznaczenie musi mieć więcej niż 1 kolumnę i rząd, aby utworzyć tablicę "
 "danych."
 
 #: ../src/dialogs/dialog-data-table.c:159
@@ -6621,73 +6621,74 @@ msgstr ""
 msgid "Enter _Moves Selection"
 msgstr "_Enter przenosi zaznaczenie"
 
-#: ../src/dialogs/dialog-preferences.c:1115
+#. xgettext : see https://en.wikipedia.org/wiki/X_Window_selection#Clipboard
+#: ../src/dialogs/dialog-preferences.c:1116
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
 msgstr "Preferowanie „SCHOWKA” nad „PODSTAWOWE” zaznaczanie"
 
-#: ../src/dialogs/dialog-preferences.c:1140
+#: ../src/dialogs/dialog-preferences.c:1141
 msgid "Capitalize _names of days"
-msgstr "_Nazwy dni z wielkiej litery"
+msgstr "_Nazwy dni wielką literą"
 
-#: ../src/dialogs/dialog-preferences.c:1163
+#: ../src/dialogs/dialog-preferences.c:1164
 msgid "Correct _TWo INitial CApitals"
 msgstr "Poprawianie _DWóch POczątkowych WIelkich LIter"
 
-#: ../src/dialogs/dialog-preferences.c:1167
+#: ../src/dialogs/dialog-preferences.c:1168
 msgid "Do _not correct:"
 msgstr "_Bez poprawiania:"
 
-#: ../src/dialogs/dialog-preferences.c:1190
+#: ../src/dialogs/dialog-preferences.c:1191
 msgid "Capitalize _first letter of sentence"
-msgstr "_Zdanie z wielkiej litery"
+msgstr "_Zdanie wielką literą"
 
-#: ../src/dialogs/dialog-preferences.c:1194
+#: ../src/dialogs/dialog-preferences.c:1195
 msgid "Do _not capitalize after:"
 msgstr "_Bez wielkiej litery po:"
 
-#: ../src/dialogs/dialog-preferences.c:1216
+#: ../src/dialogs/dialog-preferences.c:1217
 msgid "Auto Correct"
 msgstr "Automatyczna korekta"
 
-#: ../src/dialogs/dialog-preferences.c:1217
+#: ../src/dialogs/dialog-preferences.c:1218
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
 #: ../src/widgets/gnm-fontbutton.c:1158
 msgid "Font"
 msgstr "Czcionka"
 
-#: ../src/dialogs/dialog-preferences.c:1218
+#: ../src/dialogs/dialog-preferences.c:1219
 msgid "Files"
 msgstr "Pliki"
 
-#: ../src/dialogs/dialog-preferences.c:1219
+#: ../src/dialogs/dialog-preferences.c:1220
 msgid "Tools"
 msgstr "Narzędzia"
 
-#: ../src/dialogs/dialog-preferences.c:1220
+#: ../src/dialogs/dialog-preferences.c:1221
 msgid "Undo"
 msgstr "Cofanie"
 
-#: ../src/dialogs/dialog-preferences.c:1221
+#: ../src/dialogs/dialog-preferences.c:1222
 msgid "Windows"
 msgstr "Okna"
 
-#: ../src/dialogs/dialog-preferences.c:1222
+#: ../src/dialogs/dialog-preferences.c:1223
 msgid "Header/Footer"
 msgstr "Nagłówek/stopka"
 
-#: ../src/dialogs/dialog-preferences.c:1224
+#: ../src/dialogs/dialog-preferences.c:1225
 msgid "Copy and Paste"
 msgstr "Kopiowanie i wklejanie"
 
-#: ../src/dialogs/dialog-preferences.c:1227
+#: ../src/dialogs/dialog-preferences.c:1228
 msgid "Screen"
 msgstr "Ekran"
 
-#: ../src/dialogs/dialog-preferences.c:1228
+#: ../src/dialogs/dialog-preferences.c:1229
 msgid "INitial CApitals"
 msgstr "POczątkowe WIelkie LItery"
 
-#: ../src/dialogs/dialog-preferences.c:1229
+#: ../src/dialogs/dialog-preferences.c:1230
 msgid "First Letter"
 msgstr "Pierwsza litera"
 
@@ -8105,7 +8106,7 @@ msgstr "Niestandardowe"
 
 #: ../src/dialogs/cell-format.ui.h:9
 msgid "min <= val <= max         (between)"
-msgstr "minimum <= wartość <= maksimum (w zakresie)"
+msgstr "minimum <= wartość <= maksimum (w zakresie)"
 
 #: ../src/dialogs/cell-format.ui.h:10
 msgid "val <= min || max <= val (not between)"
@@ -9181,7 +9182,7 @@ msgstr "_Niestandardowy"
 
 #: ../src/dialogs/dialog-stf.ui.h:42
 msgid "Custom separator, this can be any character."
-msgstr "Niestandardowy separator, może nim być dowolny znak."
+msgstr "Niestandardowy separator. Może nim być dowolny znak."
 
 #: ../src/dialogs/dialog-stf.ui.h:43
 msgid "S_ee two separators as one"
@@ -10847,7 +10848,7 @@ msgstr "Nie przeprowadza tego zastąpienia"
 
 #: ../src/dialogs/search-replace.ui.h:4
 msgid "Perform this replacement"
-msgstr "Przeprowadza te zastąpienie"
+msgstr "Przeprowadza to zastąpienie"
 
 #: ../src/dialogs/search-replace.ui.h:6
 msgid "Location"
@@ -11022,7 +11023,7 @@ msgid ""
 "When set, string values will remain as such after replacement, even if they "
 "look like numbers or expressions"
 msgstr ""
-"Gdy ustawione, wartości ciągu pozostaną takimi po zastąpieniu nawet, jeśli "
+"Gdy ustawione, wartości ciągu pozostaną takimi po zastąpieniu, nawet jeśli "
 "wyglądają jak liczby lub wyrażenia"
 
 #: ../src/dialogs/search-replace.ui.h:50
@@ -11590,7 +11591,7 @@ msgstr "Maksymalna liczba _iteracji:"
 
 #: ../src/dialogs/solver.ui.h:28
 msgid "Max _Time (sec.):"
-msgstr "Maksymalny _czas (w sekundach):"
+msgstr "Maksymalny _czas (w sekundach):"
 
 #: ../src/dialogs/solver.ui.h:29
 msgid "The maximum number of steps allowed for the solver"
@@ -11732,7 +11733,7 @@ msgstr "_Widoczny"
 msgid ""
 "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
-"Użyj dolne jako pierwsze źródło, prawe jako drugie, a wiele arkuszy jako "
+"Użyj dolnego jako pierwsze źródło, prawego jako drugie, a wiele arkuszy jako "
 "trzecie"
 
 #: ../src/dialogs/variance-tests.ui.h:1
@@ -11993,7 +11994,7 @@ msgid ""
 "and return the last argument."
 msgstr ""
 "Ta funkcja zwraca warunek. Jeśli wynikiem jest prawda, to oceni i zwróci "
-"drugi parametr. W przeciwnym przypadku, oceni i zwróci ostatni parametr."
+"drugi parametr. W przeciwnym przypadku oceni i zwróci ostatni parametr."
 
 #: ../src/func.c:312
 #, c-format
@@ -12252,8 +12253,8 @@ msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
 "location '<b>%s</b>' using the '<b>%s</b>' exporter?"
 msgstr ""
-"Wyeksportować <b>bieżący arkusz</b> tego zeszytu do położenia „<b>%s</b>” "
-"używając eksportera „<b>%s</b>”?"
+"Wyeksportować <b>bieżący arkusz</b> tego zeszytu do położenia „<b>%s</b>” za "
+"pomocą eksportera „<b>%s</b>”?"
 
 #: ../src/gui-file.c:795
 #, c-format
@@ -12261,7 +12262,7 @@ msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
 "'<b>%s</b>' exporter?"
 msgstr ""
-"Wyeksportować ten zeszyt do położenia „<b>%s</b>” używając eksportera „<b>"
+"Wyeksportować ten zeszyt do położenia „<b>%s</b>” za pomocą eksportera „<b>"
 "%s</b>”?"
 
 #: ../src/gui-file.c:822
@@ -14620,7 +14621,7 @@ msgid ""
 "at least 15 observations in each\n"
 "population, and few if any ties."
 msgstr ""
-"Ta wartość p jest obliczona używając\n"
+"Ta wartość p jest obliczona za pomocą\n"
 "normalnego przybliżenia, zatem jest\n"
 "to ważne tylko dla dużych próbek o\n"
 "co najmniej 15 obserwacjach w każdej\n"
@@ -15236,7 +15237,7 @@ msgid ""
 "%s"
 msgstr ""
 "Nie można uruchomić przeglądarki pomocy (%s).\n"
-"Systemowy komunikat błędu: \n"
+"Systemowy komunikat o błędzie: \n"
 "\n"
 "%s"
 
