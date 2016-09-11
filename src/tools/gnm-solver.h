@@ -243,6 +243,10 @@ struct GnmSolver_ {
 	gnm_float *min;
 	gnm_float *max;
 	guint8 *discrete;
+
+	// Analytic gradient
+	int gradient_status; // 0: not tried; 1: ok; 2: fail
+	GPtrArray *gradient;
 };
 
 typedef struct {
@@ -297,6 +301,7 @@ void gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs);
 GPtrArray *gnm_solver_save_vars (GnmSolver *sol);
 void gnm_solver_restore_vars (GnmSolver *sol, GPtrArray *vals);
 
+gboolean gnm_solver_has_analytic_gradient (GnmSolver *sol);
 gnm_float *gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs);
 
 gnm_float gnm_solver_line_search (GnmSolver *sol,
