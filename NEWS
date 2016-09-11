@@ -6,6 +6,7 @@ Andreas:
 Morten:
 	* Speed up sstest part of test suite.
 	* Bring documentation build into the 21 century.
+	* Non-linear solver improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.32
