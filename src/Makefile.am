@@ -121,6 +121,7 @@ libspreadsheet_la_SOURCES =			\
 	consolidate.c				\
 	dependent.c				\
 	expr.c					\
+	expr-deriv.c				\
 	expr-name.c				\
 	file-autoft.c				\
 	format-template.c			\
@@ -240,6 +241,7 @@ libspreadsheet_include_HEADERS = 	\
 	criteria.h				\
 	dependent.h				\
 	expr.h					\
+	expr-deriv.h				\
 	expr-impl.h				\
 	expr-name.h				\
 	file-autoft.h				\
