@@ -244,10 +244,27 @@ newton_improve (GnmNlsolve *nl, gnm_float *xs, gnm_float *y, gnm_float ymax)
 	if (ok) {
 		int i;
 		gnm_float y2, *xs2 = g_new (gnm_float, n);
-		gnm_float f, best_f = -1;
+		gnm_float best_f = 42;
+		// We try these step sizes.  We really should not need
+		// negative, but if H isn't positive definite it might
+		// work.
+		static const gnm_float fs[] = {
+			1.0, 0.5, 1.0 / 16,
+			-1.0, -1.0 / 16,
+		};
+		unsigned ui;
+
+		if (nl->debug) {
+			int i;
+			for (i = 0; i < n; i++)
+				print_vector (NULL, H[i], n);
+			print_vector ("d", d, n);
+			print_vector ("g", g, n);
+		}
 
 		ok = FALSE;
-		for (f = 1; f > 1e-4; f /= 2) {
+		for (ui = 0 ; ui < G_N_ELEMENTS (fs); ui++) {
+			gnm_float f = fs[ui];
 			int i;
 			for (i = 0; i < n; i++)
 				xs2[i] = xs[i] - f * d[i];
@@ -266,7 +283,7 @@ newton_improve (GnmNlsolve *nl, gnm_float *xs, gnm_float *y, gnm_float ymax)
 			}
 		}
 
-		if (best_f > 0) {
+		if (best_f != 42) {
 			for (i = 0; i < n; i++)
 				xs[i] = xs[i] - best_f * d[i];
 			*y = ymax;
@@ -347,6 +364,12 @@ rosenbrock_iter (GnmNlsolve *nl)
 				g_printerr ("Tentative move rejected\n");
 			rosenbrock_tentative_end (nl, FALSE);
 		}
+	}
+
+	if (isol->iterations % 100 == 0 &&
+	    gnm_solver_has_analytic_gradient (sol)) {
+		if (newton_improve (nl, isol->xk, &isol->yk, isol->yk))
+			return TRUE;
 	}
 
 	if (isol->iterations % 20 == 0) {
