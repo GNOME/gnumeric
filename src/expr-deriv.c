@@ -32,6 +32,15 @@
 
 /* ------------------------------------------------------------------------- */
 
+static GHashTable *deriv_handlers;
+
+struct DerivInfo {
+	GnmExprDerivHandler handler;
+	GnmExprDerivFlags flags;
+};
+
+/* ------------------------------------------------------------------------- */
+
 struct GnmExprDeriv_ {
 	GnmEvalPos var;
 };
@@ -48,7 +57,6 @@ gnm_expr_deriv_info_free (GnmExprDeriv *deriv)
 	g_free (deriv);
 }
 
-
 void
 gnm_expr_deriv_info_set_var (GnmExprDeriv *deriv, GnmEvalPos const *var)
 {
@@ -64,6 +72,17 @@ gnm_value_deriv (GnmValue const *v)
 		return gnm_expr_new_constant (value_new_float (0));
 	else
 		return NULL;
+}
+
+static gboolean
+is_any_const (GnmExpr const *e, gnm_float *c)
+{
+	GnmValue const *v = gnm_expr_get_constant (e);
+	if (v && VALUE_IS_FLOAT (v)) {
+		*c = value_get_as_float (v);
+		return TRUE;
+	} else
+		return FALSE;
 }
 
 static gboolean
@@ -106,6 +125,12 @@ madd (GnmExpr const *l, gboolean copyl, GnmExpr const *r, gboolean copyr)
 static GnmExpr const *
 mneg (GnmExpr const *l, gboolean copyl)
 {
+	gnm_float x;
+	if (is_any_const (l, &x)) {
+		if (!copyl) gnm_expr_free (l);
+		return gnm_expr_new_constant (value_new_float (-x));
+	}
+
 	if (copyl) l = gnm_expr_copy (l);
 	return gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG, l);
 }
@@ -154,6 +179,11 @@ mmul (GnmExpr const *l, gboolean copyl, GnmExpr const *r, gboolean copyr)
 		return l;
 	}
 
+	if (is_const (l, -1)) {
+		if (!copyl) gnm_expr_free (l);
+		return mneg (r, copyr);
+	}
+
 	if (copyl) l = gnm_expr_copy (l);
 	if (copyr) r = gnm_expr_copy (r);
 	return gnm_expr_new_binary (l, GNM_EXPR_OP_MULT, r);
@@ -197,11 +227,6 @@ mexp (GnmExpr const *l, gboolean copyl, GnmExpr const *r, gboolean copyr)
 	return gnm_expr_new_binary (l, GNM_EXPR_OP_EXP, r);
 }
 
-static GnmExpr const *
-gnm_expr_deriv (GnmExpr const *expr,
-		GnmEvalPos const *ep,
-		GnmExprDeriv *info);
-
 /* ------------------------------------------------------------------------- */
 
 struct cb_arg_collect {
@@ -230,7 +255,7 @@ cb_arg_collect (GnmCellIter const *iter, gpointer user_)
 }
 
 // Collect all arguments and expand range arguments into individual cells.
-static GnmExprList *
+GnmExprList *
 gnm_expr_deriv_collect (GnmExpr const *expr,
 			GnmEvalPos const *ep,
 			GnmExprDeriv *info)
@@ -260,63 +285,6 @@ gnm_expr_deriv_collect (GnmExpr const *expr,
 	return user.args;
 }
 
-
-static GnmExpr const *
-gnm_expr_deriv_sum (GnmExpr const *expr,
-		    GnmEvalPos const *ep,
-		    GnmExprDeriv *info)
-{
-	GnmExprList *l, *args = gnm_expr_deriv_collect (expr, ep, info);
-	GnmFunc *fsum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gboolean bad = FALSE;
-
-	for (l = args; l; l = l->next) {
-		GnmExpr const *e = l->data;
-		GnmExpr const *d = gnm_expr_deriv (e, ep, info);
-		if (d) {
-			gnm_expr_free (e);
-			l->data = (gpointer)d;
-		} else {
-			bad = TRUE;
-			break;
-		}
-	}
-
-	if (bad) {
-		for (l = args; l; l = l->next)
-			gnm_expr_free (l->data);
-		gnm_expr_list_free (args);
-		return NULL;
-	} else
-		return gnm_expr_new_funcall (fsum, args);
-}
-
-static GnmExpr const *
-gnm_expr_deriv_sumsq (GnmExpr const *expr,
-		      GnmEvalPos const *ep,
-		      GnmExprDeriv *info)
-{
-	GnmExprList *l, *args = gnm_expr_deriv_collect (expr, ep, info);
-	GnmExpr const *res;
-	GnmExpr const *sqsum;
-	GnmFunc *fsum = gnm_func_lookup_or_add_placeholder ("SUM");
-
-	for (l = args; l; l = l->next) {
-		GnmExpr const *e = l->data;
-		GnmExpr const *ee = gnm_expr_new_binary
-			(e,
-			 GNM_EXPR_OP_EXP,
-			 gnm_expr_new_constant (value_new_int (2)));
-		l->data = (gpointer)ee;
-	}
-
-	sqsum = gnm_expr_new_funcall (fsum, args);
-	res = gnm_expr_deriv (sqsum, ep, info);
-	gnm_expr_free (sqsum);
-
-	return res;
-}
-
 /* ------------------------------------------------------------------------- */
 
 #define MAYBE_FREE(e) do { if (e) gnm_expr_free (e); } while (0)
@@ -335,7 +303,7 @@ gnm_expr_deriv_sumsq (GnmExpr const *expr,
 #define COMMON_BINARY_END }
 
 
-static GnmExpr const *
+GnmExpr const *
 gnm_expr_deriv (GnmExpr const *expr,
 		GnmEvalPos const *ep,
 		GnmExprDeriv *info)
@@ -357,6 +325,7 @@ gnm_expr_deriv (GnmExpr const *expr,
 	case GNM_EXPR_OP_LTE:
 	case GNM_EXPR_OP_NOT_EQUAL:
 	case GNM_EXPR_OP_CAT:
+	case GNM_EXPR_OP_PERCENTAGE:
 		// Bail
 		return NULL;
 
@@ -364,12 +333,9 @@ gnm_expr_deriv (GnmExpr const *expr,
 	case GNM_EXPR_OP_UNARY_PLUS:
 		return gnm_expr_deriv (expr->unary.value, ep, info);
 
-	case GNM_EXPR_OP_UNARY_NEG:
-	case GNM_EXPR_OP_PERCENTAGE: {
+	case GNM_EXPR_OP_UNARY_NEG: {
 		GnmExpr const *d = gnm_expr_deriv (expr->unary.value, ep, info);
-		return d
-			? gnm_expr_new_unary (op, d)
-			: NULL;
+		return d ? mneg (d, 0) : NULL;
 	}
 
 	case GNM_EXPR_OP_ADD: {
@@ -404,35 +370,50 @@ gnm_expr_deriv (GnmExpr const *expr,
 
 	case GNM_EXPR_OP_EXP: {
 		COMMON_BINARY_START
+		GnmFunc *fln = gnm_func_lookup ("ln", NULL);
 		GnmValue const *vb = gnm_expr_get_constant (b);
 		if (vb && VALUE_IS_FLOAT (vb)) {
 			GnmExpr const *bm1 = gnm_expr_new_constant (value_new_float (value_get_as_float (vb) - 1));
 			GnmExpr const *t1 = mexp (a, 1, bm1, 0);
 			gnm_expr_free (db);
 			return mmul (mmul (b, 1, t1, 0), 0, da, 0);
-		} else {
+		} else if (fln) {
 			// a^b = exp(b*log(a))
 			// (a^b)' = a^b * (a'*b/a + b'*ln(a))
 			GnmExpr const *t1 = mdiv (mmul (da, 0, b, 1), 0, a, 1);
-			GnmFunc *fln = gnm_func_lookup_or_add_placeholder ("LN");
 			GnmExpr const *t2 = mmul
 				(db, 0,
 				 gnm_expr_new_funcall1 (fln, gnm_expr_copy (a)), 0);
 			GnmExpr const *s = madd (t1, 0, t2, 0);
 			return mmul (expr, 1, s, 0);
-		}
+		} else
+			return NULL;
 		COMMON_BINARY_END
 	}
 
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmFunc *f = gnm_expr_get_func_def (expr);
-		const char *fname = gnm_func_get_name (f, FALSE);
-		// Hacks ohoy!
-		if (g_str_equal (fname, "sumsq"))
-			return gnm_expr_deriv_sumsq (expr, ep, info);
-		if (g_str_equal (fname, "sum"))
-			return gnm_expr_deriv_sum (expr, ep, info);
-		return NULL;
+		struct DerivInfo const *di = deriv_handlers
+			? g_hash_table_lookup (deriv_handlers, f)
+			: NULL;
+		GnmExpr const *res = di
+			? di->handler (expr, ep, info)
+			: NULL;
+		if (!res)
+			return NULL;
+
+		if (di->flags & GNM_EXPR_DERIV_CHAIN) {
+			GnmExpr const *e2 = expr->func.argc == 1
+				? gnm_expr_deriv (expr->func.argv[0], ep, info)
+				: NULL;
+			if (!e2) {
+				gnm_expr_free (res);
+				return NULL;
+			}
+			res = mmul (res, 0, e2, 0);
+		}
+
+		return res;
 	}
 
 	case GNM_EXPR_OP_CONSTANT:
@@ -508,6 +489,10 @@ gnm_expr_top_deriv (GnmExprTop const *texpr,
 {
 	GnmExpr const *expr;
 
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (ep != NULL, NULL);
+	g_return_val_if_fail (info != NULL, NULL);
+
 	expr = gnm_expr_deriv (texpr->expr, ep, info);
 	if (gnm_debug_flag ("deriv")) {
 		GnmParsePos pp;
@@ -527,7 +512,7 @@ gnm_expr_top_deriv (GnmExprTop const *texpr,
 			g_free (s);
 		}
 	}
-	
+
 	return gnm_expr_top_new (expr);
 }
 
@@ -558,11 +543,15 @@ gnm_expr_cell_deriv (GnmCell *y, GnmCell *x)
 gnm_float
 gnm_expr_cell_deriv_value (GnmCell *y, GnmCell *x)
 {
-	GnmExprTop const *dydx = gnm_expr_cell_deriv (y, x);
+	GnmExprTop const *dydx;
 	GnmValue *v;
 	gnm_float res;
 	GnmEvalPos ep;
 
+	g_return_val_if_fail (y != NULL, gnm_nan);
+	g_return_val_if_fail (x != NULL, gnm_nan);
+
+	dydx = gnm_expr_cell_deriv (y, x);
 	if (!dydx)
 		return gnm_nan;
 
@@ -573,8 +562,45 @@ gnm_expr_cell_deriv_value (GnmCell *y, GnmCell *x)
 	value_release (v);
 	gnm_expr_top_unref (dydx);
 
-	return res;	
+	return res;
 }
 
+/* ------------------------------------------------------------------------- */
+
+void
+gnm_expr_deriv_install_handler (GnmFunc *func, GnmExprDerivHandler h,
+				GnmExprDerivFlags flags)
+{
+	struct DerivInfo *data;
+
+	if (!deriv_handlers) {
+		deriv_handlers = g_hash_table_new_full
+			(g_direct_hash, g_direct_equal,
+			 NULL, g_free);
+	}
+
+	data = g_new (struct DerivInfo, 1);
+	data->handler = h;
+	data->flags = flags;
+
+	g_hash_table_replace (deriv_handlers, func, data);
+}
+
+void
+gnm_expr_deriv_uninstall_handler (GnmFunc *func)
+{
+	g_hash_table_remove (deriv_handlers, func);
+}
+
+/* ------------------------------------------------------------------------- */
+
+void
+_gnm_expr_deriv_shutdown (void)
+{
+	if (deriv_handlers) {
+		g_hash_table_destroy (deriv_handlers);
+		deriv_handlers = NULL;
+	}
+}
 
 /* ------------------------------------------------------------------------- */

@@ -30,6 +30,7 @@
 #include <value.h>
 #include <selection.h>
 #include <expr.h>
+#include <expr-deriv.h>
 #include <expr-impl.h>
 #include <sheet.h>
 #include <cell.h>
@@ -61,6 +62,36 @@ gnumeric_sum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_VALUE);
+}
+
+static GnmExpr const *
+gnumeric_sum_deriv (GnmExpr const *expr,
+		    GnmEvalPos const *ep,
+		    GnmExprDeriv *info)
+{
+	GnmExprList *l, *args = gnm_expr_deriv_collect (expr, ep, info);
+	GnmFunc *fsum = gnm_expr_get_func_def (expr);
+	gboolean bad = FALSE;
+
+	for (l = args; l; l = l->next) {
+		GnmExpr const *e = l->data;
+		GnmExpr const *d = gnm_expr_deriv (e, ep, info);
+		if (d) {
+			gnm_expr_free (e);
+			l->data = (gpointer)d;
+		} else {
+			bad = TRUE;
+			break;
+		}
+	}
+
+	if (bad) {
+		for (l = args; l; l = l->next)
+			gnm_expr_free (l->data);
+		gnm_expr_list_free (args);
+		return NULL;
+	} else
+		return gnm_expr_new_funcall (fsum, args);
 }
 
 /***************************************************************************/
@@ -478,6 +509,10 @@ func_builtin_init (void)
 	gname = N_("Logic");
 	logic_group = gnm_func_group_fetch (gname, _(gname));
 	gnm_func_add (logic_group, builtins + i++, textdomain);
+
+	gnm_expr_deriv_install_handler (gnm_func_lookup ("sum", NULL),
+					gnumeric_sum_deriv,
+					GNM_EXPR_DERIV_NO_CHAIN);
 }
 
 static void

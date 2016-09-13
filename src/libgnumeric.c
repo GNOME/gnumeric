@@ -50,6 +50,7 @@
 #include "clipboard.h"
 #include "value.h"
 #include "expr.h"
+#include "expr-deriv.h"
 #include "parse-util.h"
 #include "rendered-value.h"
 #include "gnumeric-conf.h"
@@ -385,6 +386,7 @@ gnm_shutdown (void)
 	dependent_types_shutdown ();
 	clipboard_shutdown ();
 	gnm_sheet_cell_shutdown ();
+	_gnm_expr_deriv_shutdown ();
 	_gnm_expr_shutdown ();
 	parse_util_shutdown ();
 	value_shutdown ();

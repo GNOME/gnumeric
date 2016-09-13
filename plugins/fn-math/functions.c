@@ -35,6 +35,7 @@
 #include <value.h>
 #include <criteria.h>
 #include <expr.h>
+#include <expr-deriv.h>
 #include <position.h>
 #include <regression.h>
 #include <gnm-i18n.h>
@@ -968,6 +969,13 @@ gnumeric_exp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return value_new_float (gnm_exp (value_get_as_float (argv[0])));
 }
 
+static GnmExpr const *
+gnumeric_exp_deriv (GnmExpr const *expr, GnmEvalPos const *ep,
+		      GnmExprDeriv *info)
+{
+	return gnm_expr_copy (expr);
+}
+
 /***************************************************************************/
 
 static GnmFuncHelp const help_expm1[] = {
@@ -1702,6 +1710,31 @@ gnumeric_sumsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_VALUE);
+}
+
+static GnmExpr const *
+gnumeric_sumsq_deriv (GnmExpr const *expr, GnmEvalPos const *ep,
+		      GnmExprDeriv *info)
+{
+	GnmExprList *l, *args = gnm_expr_deriv_collect (expr, ep, info);
+	GnmExpr const *res;
+	GnmExpr const *sqsum;
+	GnmFunc *fsum = gnm_func_lookup_or_add_placeholder ("SUM");
+
+	for (l = args; l; l = l->next) {
+		GnmExpr const *e = l->data;
+		GnmExpr const *ee = gnm_expr_new_binary
+			(e,
+			 GNM_EXPR_OP_EXP,
+			 gnm_expr_new_constant (value_new_int (2)));
+		l->data = (gpointer)ee;
+	}
+
+	sqsum = gnm_expr_new_funcall (fsum, args);
+	res = gnm_expr_deriv (sqsum, ep, info);
+	gnm_expr_free (sqsum);
+
+	return res;
 }
 
 /***************************************************************************/
@@ -3660,3 +3693,20 @@ GnmFuncDescriptor const math_functions[] = {
 #endif
 	{NULL}
 };
+
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+{
+	gnm_expr_deriv_install_handler (gnm_func_lookup ("sumsq", NULL),
+					gnumeric_sumsq_deriv,
+					GNM_EXPR_DERIV_NO_CHAIN);
+	gnm_expr_deriv_install_handler (gnm_func_lookup ("exp", NULL),
+					gnumeric_exp_deriv,
+					GNM_EXPR_DERIV_CHAIN);
+}
+
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+{
+	gnm_expr_deriv_uninstall_handler (gnm_func_lookup ("sumsq", NULL));
+}
