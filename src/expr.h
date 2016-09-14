@@ -84,6 +84,7 @@ GnmExpr const *gnm_expr_new_range_ctor  (GnmExpr const *l, GnmExpr const *r);
 
 GnmValue      *gnm_expr_get_range    (GnmExpr const *expr);
 GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
+GnmExpr const *gnm_expr_get_func_arg (GnmExpr const *expr, int i);
 
 void	  gnm_expr_free              (GnmExpr const *expr);
 GnmExpr const *gnm_expr_copy         (GnmExpr const *expr);

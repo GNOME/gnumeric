@@ -254,7 +254,14 @@ cb_arg_collect (GnmCellIter const *iter, gpointer user_)
 	return NULL;
 }
 
-// Collect all arguments and expand range arguments into individual cells.
+/**
+ * gnm_expr_deriv_collect:
+ * @expr: expression
+ * @ep: evaluation position
+ * @info: extra information, not currently used
+ *
+ * Returns: (transfer full): list of expressions expanded from @expr
+ */
 GnmExprList *
 gnm_expr_deriv_collect (GnmExpr const *expr,
 			GnmEvalPos const *ep,
@@ -403,9 +410,8 @@ gnm_expr_deriv (GnmExpr const *expr,
 			return NULL;
 
 		if (di->flags & GNM_EXPR_DERIV_CHAIN) {
-			GnmExpr const *e2 = expr->func.argc == 1
-				? gnm_expr_deriv (expr->func.argv[0], ep, info)
-				: NULL;
+			GnmExpr const *e2 =
+				gnm_expr_deriv (gnm_expr_get_func_arg (expr, 0), ep, info);
 			if (!e2) {
 				gnm_expr_free (res);
 				return NULL;
@@ -567,6 +573,12 @@ gnm_expr_cell_deriv_value (GnmCell *y, GnmCell *x)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_expr_deriv_install_handler:
+ * @func: the function being given a handler
+ * @h: (scope async): #GnmExprDerivHandler
+ * @flags: 
+ */
 void
 gnm_expr_deriv_install_handler (GnmFunc *func, GnmExprDerivHandler h,
 				GnmExprDerivFlags flags)

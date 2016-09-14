@@ -2272,6 +2272,16 @@ gnm_expr_get_func_def (GnmExpr const *expr)
 	return expr->func.func;
 }
 
+GnmExpr const *
+gnm_expr_get_func_arg (GnmExpr const *expr, int i)
+{
+	g_return_val_if_fail (expr != NULL, NULL);
+	g_return_val_if_fail (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL, NULL);
+	g_return_val_if_fail (i >= 0 && i < expr->func.argc, NULL);
+
+	return expr->func.argv[i];
+}
+
 
 static void
 cellref_boundingbox (GnmCellRef const *cr, Sheet const *sheet, GnmRange *bound)

@@ -1316,6 +1316,15 @@ gnumeric_ln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return value_new_float (gnm_log (t));
 }
 
+static GnmExpr const *
+gnumeric_ln_deriv (GnmExpr const *expr, GnmEvalPos const *ep,
+		   GnmExprDeriv *info)
+{
+	return gnm_expr_new_binary (gnm_expr_new_constant (value_new_int (1)),
+				    GNM_EXPR_OP_DIV,
+				    gnm_expr_copy (gnm_expr_get_func_arg (expr, 0)));
+}
+
 /***************************************************************************/
 
 static GnmFuncHelp const help_ln1p[] = {
@@ -3703,10 +3712,15 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gnm_expr_deriv_install_handler (gnm_func_lookup ("exp", NULL),
 					gnumeric_exp_deriv,
 					GNM_EXPR_DERIV_CHAIN);
+	gnm_expr_deriv_install_handler (gnm_func_lookup ("ln", NULL),
+					gnumeric_ln_deriv,
+					GNM_EXPR_DERIV_CHAIN);
 }
 
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gnm_expr_deriv_uninstall_handler (gnm_func_lookup ("sumsq", NULL));
+	gnm_expr_deriv_uninstall_handler (gnm_func_lookup ("exp", NULL));
+	gnm_expr_deriv_uninstall_handler (gnm_func_lookup ("ln", NULL));
 }
