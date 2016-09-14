@@ -574,6 +574,17 @@ filter_row:
 
 /****************************************************************************/
 
+/**
+ * gnm_ifs_func:
+ * @data: (element-type GnmValue):
+ * @crits: (element-type GnmCriteria): criteria
+ * @vals:
+ * @fun: (scope call): function to evaluate on filtered data
+ * @err: error value in case @fun fails.
+ * @ep: evaluation position
+ * @flags:
+ */
+
 GnmValue *
 gnm_ifs_func (GPtrArray *data, GPtrArray *crits, GnmValue const *vals,
 	      float_range_function_t fun, GnmStdError err,
