@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-22 22:38+0000\n"
-"PO-Revision-Date: 2016-03-30 17:49+0200\n"
+"product=gnumeric&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2016-08-25 11:11+0000\n"
+"PO-Revision-Date: 2016-09-15 09:43+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -50,11 +50,15 @@ msgid "Spreadsheet;"
 msgstr "tabulkový kalkulátor;tabulky;výpočty;"
 
 #: ../gnumeric.appdata.xml.in.h:1
+msgid "The Gnumeric Spreadsheet"
+msgstr "Tabulkový kalkulátor Gnumeric"
+
+#: ../gnumeric.appdata.xml.in.h:2
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
 msgstr "Gnumeric je tabulkový kalkulátor služící k interaktivní práci s daty."
 
-#: ../gnumeric.appdata.xml.in.h:2
+#: ../gnumeric.appdata.xml.in.h:3
 msgid ""
 "Gnumeric aims to provide high-accuracy computations, expressive graphs, and "
 "a wide selection of statistical analysis tools. Gnumeric can share files "
@@ -63,6 +67,14 @@ msgstr ""
 "Zaměřuje se na poskytování velmi přesných výpočtů, názorné grafy a rozsáhlý "
 "výběr nástrojů pro statistickou analýzu. Gnumeric umí sdílet soubory s "
 "aplikací Microsoft Excel a programy podporujícími standardní formát ODS."
+
+#: ../gnumeric.appdata.xml.in.h:4
+msgid "A High-Precision Spreadsheet Program"
+msgstr "Tabulkový kalkulátor s vysokou přesností výpočtů"
+
+#: ../gnumeric.appdata.xml.in.h:5
+msgid "The Gnumeric Team"
+msgstr "Tým Gnumeric"
 
 #: ../plugins/applix/applix-read.c:124
 msgid "Parse error while reading Applix file."
@@ -104,7 +116,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7222
-#: ../plugins/openoffice/openoffice-read.c:13635 ../src/xml-sax-read.c:3473
+#: ../plugins/openoffice/openoffice-read.c:13638 ../src/xml-sax-read.c:3473
 msgid "Reading file..."
 msgstr "Načítá se soubor…"
 
@@ -212,7 +224,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Neplatný obsah prvku ss:data, obdrženo „%s“"
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:13799 ../src/xml-sax-read.c:3490
+#: ../plugins/openoffice/openoffice-read.c:13802 ../src/xml-sax-read.c:3490
 msgid "XML document not well formed!"
 msgstr "Dokument XML není syntakticky správný!"
 
@@ -641,23 +653,23 @@ msgstr "Načítá se list „%s“…"
 msgid "Reading comments..."
 msgstr "Načítají se komentáře…"
 
-#: ../plugins/excel/xlsx-read.c:5139
+#: ../plugins/excel/xlsx-read.c:5143
 msgid "Reading shared strings..."
 msgstr "Načítají se sdílené texty…"
 
-#: ../plugins/excel/xlsx-read.c:5148
+#: ../plugins/excel/xlsx-read.c:5152
 msgid "Reading theme..."
 msgstr "Načítá se motiv…"
 
-#: ../plugins/excel/xlsx-read.c:5157
+#: ../plugins/excel/xlsx-read.c:5161
 msgid "Reading styles..."
 msgstr "Načítají se styly…"
 
-#: ../plugins/excel/xlsx-read.c:5162
+#: ../plugins/excel/xlsx-read.c:5166
 msgid "Reading workbook..."
 msgstr "Načítá se sešit…"
 
-#: ../plugins/excel/xlsx-read.c:5172
+#: ../plugins/excel/xlsx-read.c:5176
 msgid "No workbook stream found."
 msgstr "Nebyl nalezen žádný proud pro sešit."
 
@@ -1123,7 +1135,7 @@ msgstr "Databázové funkce pro získávání dat z databází."
 msgid "Data Bases..."
 msgstr "Databáze…"
 
-#: ../plugins/glpk/glpk-write.c:144 ../plugins/lpsolve/lpsolve-write.c:145
+#: ../plugins/glpk/glpk-write.c:145 ../plugins/lpsolve/lpsolve-write.c:145
 #, c-format
 msgid "Only linear programs are handled."
 msgstr "Zpracovávány jsou jen lineární programy."
@@ -1538,8 +1550,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "Výraz „%s“ nezačíná správným znakem"
 
 #: ../plugins/openoffice/openoffice-read.c:2385
-#: ../plugins/openoffice/openoffice-write.c:5210
-#: ../plugins/openoffice/openoffice-write.c:5222 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-write.c:5216
+#: ../plugins/openoffice/openoffice-write.c:5228 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "buňka"
 
@@ -1888,68 +1900,68 @@ msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Tento soubor je poškozen s nepojmenovaným listem, nyní pojmenovaným „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:13483
+#: ../plugins/openoffice/openoffice-read.c:13486
 msgid "Unknown mimetype for openoffice file."
 msgstr "Neznámý typ MIME pro soubor OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:13493
+#: ../plugins/openoffice/openoffice-read.c:13496
 msgid "No stream named content.xml found."
 msgstr "Nebyl nalezen proud pojmenovaný content.xml"
 
-#: ../plugins/openoffice/openoffice-read.c:13501
+#: ../plugins/openoffice/openoffice-read.c:13504
 msgid "No stream named styles.xml found."
 msgstr "Nebyl nalezen proud pojmenovaný styles.xml"
 
-#: ../plugins/openoffice/openoffice-read.c:13645
+#: ../plugins/openoffice/openoffice-read.c:13648
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Neplatná metadata „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:13708
+#: ../plugins/openoffice/openoffice-read.c:13711
 msgid "settings.xml stream is malformed!"
 msgstr "Proud settings.xml je poškozen!"
 
-#: ../plugins/openoffice/openoffice-write.c:5203
-#: ../plugins/openoffice/openoffice-write.c:5215
+#: ../plugins/openoffice/openoffice-write.c:5209
+#: ../plugins/openoffice/openoffice-write.c:5221
 msgid "tab"
 msgstr "list"
 
-#: ../plugins/openoffice/openoffice-write.c:5204
-#: ../plugins/openoffice/openoffice-write.c:5216
+#: ../plugins/openoffice/openoffice-write.c:5210
+#: ../plugins/openoffice/openoffice-write.c:5222
 msgid "page"
 msgstr "strana"
 
-#: ../plugins/openoffice/openoffice-write.c:5205
-#: ../plugins/openoffice/openoffice-write.c:5217
+#: ../plugins/openoffice/openoffice-write.c:5211
+#: ../plugins/openoffice/openoffice-write.c:5223
 msgid "pages"
 msgstr "stran"
 
-#: ../plugins/openoffice/openoffice-write.c:5206
-#: ../plugins/openoffice/openoffice-write.c:5218
+#: ../plugins/openoffice/openoffice-write.c:5212
+#: ../plugins/openoffice/openoffice-write.c:5224
 msgid "date"
 msgstr "datum"
 
-#: ../plugins/openoffice/openoffice-write.c:5207
-#: ../plugins/openoffice/openoffice-write.c:5219
+#: ../plugins/openoffice/openoffice-write.c:5213
+#: ../plugins/openoffice/openoffice-write.c:5225
 msgid "time"
 msgstr "čas"
 
-#: ../plugins/openoffice/openoffice-write.c:5208
-#: ../plugins/openoffice/openoffice-write.c:5220 ../src/ssconvert.c:104
+#: ../plugins/openoffice/openoffice-write.c:5214
+#: ../plugins/openoffice/openoffice-write.c:5226 ../src/ssconvert.c:104
 #: ../src/ssdiff.c:57
 msgid "file"
 msgstr "soubor"
 
-#: ../plugins/openoffice/openoffice-write.c:5209
-#: ../plugins/openoffice/openoffice-write.c:5221
+#: ../plugins/openoffice/openoffice-write.c:5215
+#: ../plugins/openoffice/openoffice-write.c:5227
 msgid "path"
 msgstr "cesta"
 
-#: ../plugins/openoffice/openoffice-write.c:8925
+#: ../plugins/openoffice/openoffice-write.c:8931
 msgid "Writing Sheets..."
 msgstr "Zapisují se listy…"
 
-#: ../plugins/openoffice/openoffice-write.c:8966
+#: ../plugins/openoffice/openoffice-write.c:8972
 msgid "Writing Sheet Objects..."
 msgstr "Zapisují se objekty listů…"
 
@@ -3314,10 +3326,10 @@ msgstr "Výchozí počet řádků v listu"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
 msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
-"gnumeric session."
+"Gnumeric session."
 msgstr ""
 "Počet řádků na každém z listů. Toto nastavení se použije pouze v nových "
-"sezeních gnumeric."
+"sezeních Gnumeric."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:23
 msgid "Default Number of columns in a sheet"
@@ -3326,10 +3338,10 @@ msgstr "Výchozí počet sloupců v listu"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:24
 msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
-"gnumeric session."
+"Gnumeric session."
 msgstr ""
 "Počet sloupců na každém z listů. Toto nastavení se použije pouze v nových "
-"sezeních gnumeric."
+"sezeních Gnumeric."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:25
 msgid "Autosave frequency"
@@ -3505,16 +3517,16 @@ msgstr "Prodleva automatického přepočítávání výrazů"
 # FIXME: s/milleseconds/milliseconds/
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
 msgid ""
-"If `lag' is 0, gnumeric recalculates all auto expressions immediately after "
-"every change. Non-zero values of `lag' allow gnumeric to accumulate more "
+"If `lag' is 0, Gnumeric recalculates all auto expressions immediately after "
+"every change. Non-zero values of `lag' allow Gnumeric to accumulate more "
 "changes before each recalculation. If `lag' is positive, then whenever a "
-"change appears, gnumeric waits `lag' milliseconds and then recalculates; if "
+"change appears, Gnumeric waits `lag' milliseconds and then recalculates; if "
 "more changes appear during that period, they are also processed at that "
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milliseconds."
 msgstr ""
-"Je-li „lag“ 0, gnumeric přepočítává všechny automatické výrazy hned po každé "
-"změně. Nenulové hodnoty „lag“ umožňují aplikaci gnumeric nashromáždit více "
+"Je-li „lag“ 0, Gnumeric přepočítává všechny automatické výrazy hned po každé "
+"změně. Nenulové hodnoty „lag“ umožňují aplikaci Gnumeric nashromáždit více "
 "změn před každým přepočítáním. Je-li „lag“ kladné, tak bude při každé změně "
 "čekat „lag“ milisekund a pak přepočítávat; pokud se v té době objeví více "
 "změn, jsou v té době také zpracovány. Je-li „lag“ záporné, přepočítává se "
@@ -3608,7 +3620,7 @@ msgstr "Výchozí je přepisovat soubory"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
 msgid ""
-"Before an existing file is being overwritten, gnumeric will present a "
+"Before an existing file is being overwritten, Gnumeric will present a "
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
@@ -4994,11 +5006,11 @@ msgstr "Oblast kritérií je neplatná."
 msgid "The output range is invalid."
 msgstr "Výstupní oblast je neplatná."
 
-#: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:249
+#: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:250
 msgid "The given criteria are invalid."
 msgstr "Zadané kritérium je neplatné."
 
-#: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:247
+#: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:248
 msgid "No matching records were found."
 msgstr "Nenalezeny žádné odpovídající záznamy."
 
@@ -5006,7 +5018,7 @@ msgstr "Nenalezeny žádné odpovídající záznamy."
 #: ../src/dialogs/dialog-analysis-tools.c:670
 #: ../src/dialogs/dialog-analysis-tools.c:790
 #: ../src/dialogs/dialog-analysis-tools.c:2214
-#: ../src/dialogs/dialog-analysis-tools.c:3683 ../src/tools/filter.c:252
+#: ../src/dialogs/dialog-analysis-tools.c:3683 ../src/tools/filter.c:253
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Nastala neočekávaná chyba: %d."
@@ -6052,14 +6064,14 @@ msgstr "Filtr"
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2307
-#: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2885
+#: ../src/tools/analysis-tools.c:222 ../src/tools/analysis-tools.c:2891
 msgid "Row"
 msgstr "Řádek"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2299
-#: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2886
+#: ../src/tools/analysis-tools.c:222 ../src/tools/analysis-tools.c:2892
 msgid "Column"
 msgstr "Sloupec"
 
@@ -6482,7 +6494,7 @@ msgstr ""
 "heslo, aby mohly být otevřeny."
 
 #: ../src/dialogs/dialog-password.c:60
-msgid "Password :"
+msgid "Password:"
 msgstr "Heslo:"
 
 #: ../src/dialogs/dialog-plugin-manager.c:270
@@ -7389,10 +7401,9 @@ msgid "Cancelled"
 msgstr "Zrušeno"
 
 #: ../src/dialogs/dialog-solver.c:686
-#, fuzzy, c-format
-#| msgid "Report"
+#, c-format
 msgid "%s %%s Report"
-msgstr "Výkaz"
+msgstr "Výstupní sestava %s %%s"
 
 #: ../src/dialogs/dialog-solver.c:712
 msgid "The chosen solver is not functional."
@@ -7470,36 +7481,36 @@ msgstr[0] "Může být importován maximálně %d sloupec."
 msgstr[1] "Mohou být importovány maximálně %d sloupce."
 msgstr[2] "Může být importováno maximálně %d sloupeců."
 
-#: ../src/dialogs/dialog-stf-format-page.c:205
+#: ../src/dialogs/dialog-stf-format-page.c:204
 msgid "Format Selector"
 msgstr "Výběr formátu"
 
-#: ../src/dialogs/dialog-stf-format-page.c:387
+#: ../src/dialogs/dialog-stf-format-page.c:385
 msgid "Ignore all columns on right"
 msgstr "Ignorovat všechny sloupce vpravo"
 
-#: ../src/dialogs/dialog-stf-format-page.c:388
+#: ../src/dialogs/dialog-stf-format-page.c:386
 msgid "Ignore all columns on left"
 msgstr "Ignorovat všechny sloupce vlevo"
 
-#: ../src/dialogs/dialog-stf-format-page.c:389
+#: ../src/dialogs/dialog-stf-format-page.c:387
 msgid "Import all columns on right"
 msgstr "Importovat všechny sloupce vpravo"
 
-#: ../src/dialogs/dialog-stf-format-page.c:390
+#: ../src/dialogs/dialog-stf-format-page.c:388
 msgid "Import all columns on left"
 msgstr "Importovat všechny sloupce vlevo"
 
-#: ../src/dialogs/dialog-stf-format-page.c:391
+#: ../src/dialogs/dialog-stf-format-page.c:389
 msgid "Copy format to right"
 msgstr "Kopírovat formát doprava"
 
-#: ../src/dialogs/dialog-stf-format-page.c:593
+#: ../src/dialogs/dialog-stf-format-page.c:591
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "Může být importováno maximálně %d sloupců."
 
-#: ../src/dialogs/dialog-stf-format-page.c:604
+#: ../src/dialogs/dialog-stf-format-page.c:602
 msgid "Auto fit"
 msgstr "Automatické přizpůsobení"
 
@@ -7518,15 +7529,15 @@ msgstr ""
 "Je-li toto zaškrtávací pole vybráno, bude šířka sloupce automaticky "
 "přizpůsobena nejdelšímu záznamu."
 
-#: ../src/dialogs/dialog-stf-format-page.c:757
+#: ../src/dialogs/dialog-stf-format-page.c:758
 #: ../src/dialogs/dialog-stf-preview.h:25
-#: ../src/tools/analysis-exp-smoothing.c:153
-#: ../src/tools/analysis-exp-smoothing.c:329
-#: ../src/tools/analysis-exp-smoothing.c:517
-#: ../src/tools/analysis-exp-smoothing.c:781
-#: ../src/tools/analysis-exp-smoothing.c:1103
+#: ../src/tools/analysis-exp-smoothing.c:157
+#: ../src/tools/analysis-exp-smoothing.c:336
+#: ../src/tools/analysis-exp-smoothing.c:527
+#: ../src/tools/analysis-exp-smoothing.c:793
+#: ../src/tools/analysis-exp-smoothing.c:1118
 #: ../src/tools/analysis-frequency.c:149 ../src/tools/analysis-histogram.c:323
-#: ../src/tools/analysis-tools.c:1220 ../src/tools/analysis-tools.c:3742
+#: ../src/tools/analysis-tools.c:1222 ../src/tools/analysis-tools.c:3751
 #, c-format
 msgid "Column %d"
 msgstr "Sloupec %d"
@@ -7633,8 +7644,8 @@ msgstr "Automatické doplňování"
 msgid "Cell Markers"
 msgstr "Značky buněk"
 
-#: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:287
-#: ../src/tools/filter.c:290
+#: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:288
+#: ../src/tools/filter.c:291
 msgid "Advanced Filter"
 msgstr "Pokročilý filtr"
 
@@ -8066,8 +8077,8 @@ msgid "Date"
 msgstr "Datum"
 
 #: ../src/dialogs/cell-format.ui.h:6 ../src/dialogs/hf-config.ui.h:10
-#: ../src/tools/analysis-exp-smoothing.c:728
-#: ../src/tools/analysis-exp-smoothing.c:1048
+#: ../src/tools/analysis-exp-smoothing.c:737
+#: ../src/tools/analysis-exp-smoothing.c:1060
 #: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:3454
 msgid "Time"
 msgstr "Čas"
@@ -8639,13 +8650,13 @@ msgstr "VÝBĚROVÝ ROZPTYL"
 msgid "VARP"
 msgstr "VÝBĚROVÝ ROZPTYL SOUBORU"
 
-#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:695
-#: ../src/tools/analysis-tools.c:698
+#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:694
+#: ../src/tools/analysis-tools.c:697
 msgid "Correlation"
 msgstr "Korelace"
 
-#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:750
-#: ../src/tools/analysis-tools.c:753 ../src/wbc-gtk-actions.c:2945
+#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:749
+#: ../src/tools/analysis-tools.c:752 ../src/wbc-gtk-actions.c:2945
 msgid "Covariance"
 msgstr "Kovariance"
 
@@ -8722,11 +8733,11 @@ msgid "Format"
 msgstr "Formát"
 
 #: ../src/dialogs/data-table.ui.h:2
-msgid "_Row Input :"
+msgid "_Row Input:"
 msgstr "Vstupní řá_dek:"
 
 #: ../src/dialogs/data-table.ui.h:3
-msgid "Co_lumn Input :"
+msgid "Co_lumn Input:"
 msgstr "Vstupní s_loupec:"
 
 #: ../src/dialogs/define-name.ui.h:1
@@ -8761,8 +8772,8 @@ msgstr "Odst_ranit řádky"
 msgid "Delete _column(s)"
 msgstr "Odstranit sloup_ce"
 
-#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1140
-#: ../src/tools/analysis-tools.c:1143
+#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1139
+#: ../src/tools/analysis-tools.c:1142
 msgid "Descriptive Statistics"
 msgstr "Popisná statistika"
 
@@ -9441,12 +9452,12 @@ msgstr "strana 6"
 
 #: ../src/dialogs/exp-smoothing.ui.h:1
 #: ../src/tools/analysis-exp-smoothing.c:113
-#: ../src/tools/analysis-exp-smoothing.c:289
-#: ../src/tools/analysis-exp-smoothing.c:472
-#: ../src/tools/analysis-exp-smoothing.c:713
-#: ../src/tools/analysis-exp-smoothing.c:1033
-#: ../src/tools/analysis-exp-smoothing.c:1397
-#: ../src/tools/analysis-exp-smoothing.c:1400
+#: ../src/tools/analysis-exp-smoothing.c:292
+#: ../src/tools/analysis-exp-smoothing.c:478
+#: ../src/tools/analysis-exp-smoothing.c:722
+#: ../src/tools/analysis-exp-smoothing.c:1045
+#: ../src/tools/analysis-exp-smoothing.c:1412
+#: ../src/tools/analysis-exp-smoothing.c:1415
 msgid "Exponential Smoothing"
 msgstr "Exponenciální vyhlazení"
 
@@ -10099,8 +10110,8 @@ msgstr "_Sloučit"
 msgid "Merge _Range:"
 msgstr "Slučovaná _oblast:"
 
-#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3988
-#: ../src/tools/analysis-tools.c:3991
+#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3997
+#: ../src/tools/analysis-tools.c:4000
 msgid "Moving Average"
 msgstr "Klouzavý průměr"
 
@@ -10314,8 +10325,8 @@ msgid "Gnumeric Preferences"
 msgstr "Přepínače aplikace Gnumeric"
 
 #: ../src/dialogs/principal-components.ui.h:1
-#: ../src/tools/analysis-principal-components.c:223
-#: ../src/tools/analysis-principal-components.c:226
+#: ../src/tools/analysis-principal-components.c:227
+#: ../src/tools/analysis-principal-components.c:230
 #: ../src/wbc-gtk-actions.c:2982
 msgid "Principal Components Analysis"
 msgstr "Analýza hlavních komponent"
@@ -10665,8 +10676,8 @@ msgstr "Otevřít dokument"
 msgid "Last Used"
 msgstr "Naposledy použité"
 
-#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3598
-#: ../src/tools/analysis-tools.c:3601
+#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3604
+#: ../src/tools/analysis-tools.c:3607
 msgid "Regression"
 msgstr "Regrese"
 
@@ -11436,7 +11447,7 @@ msgid "List Properties"
 msgstr "Vlastnosti seznamu"
 
 #: ../src/dialogs/so-list.ui.h:2
-msgid "_Link :"
+msgid "_Link:"
 msgstr "_Odkaz:"
 
 #: ../src/dialogs/so-list.ui.h:3
@@ -11448,7 +11459,7 @@ msgid "As index"
 msgstr "Jako index"
 
 #: ../src/dialogs/so-list.ui.h:5
-msgid "_Content :"
+msgid "_Content:"
 msgstr "_Obsah:"
 
 #: ../src/dialogs/solver.ui.h:1
@@ -12306,16 +12317,16 @@ msgstr "Nelze aktivovat adresu URL „%s“"
 msgid "Unable to open '%s'"
 msgstr "Nelze otevřít „%s“"
 
-#: ../src/item-bar.c:845
+#: ../src/item-bar.c:859
 msgid "Width:"
 msgstr "Šířka:"
 
-#: ../src/item-bar.c:845
+#: ../src/item-bar.c:859
 msgid "Height"
 msgstr "Výška"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
-#: ../src/item-bar.c:850
+#: ../src/item-bar.c:864
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
@@ -12324,18 +12335,18 @@ msgstr[1] "(%d pixely)"
 msgstr[2] "(%d pixelů)"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
-#: ../src/item-bar.c:855
+#: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pt"
 msgstr "%d,00 pt"
 
-#: ../src/item-bar.c:855
+#: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pts"
 msgstr "%d,00 pt"
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
-#: ../src/item-bar.c:859
+#: ../src/item-bar.c:873
 #, c-format
 msgid "%.2f pts"
 msgstr "%.2f pt"
@@ -12461,7 +12472,7 @@ msgstr "Skončit hned po načtení vybraných sešitů"
 msgid "[FILE ...]"
 msgstr "[SOUBOR…]"
 
-#: ../src/main-application.c:170 ../src/ssconvert.c:884 ../src/ssdiff.c:1108
+#: ../src/main-application.c:170 ../src/ssconvert.c:897 ../src/ssdiff.c:1108
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -13381,7 +13392,7 @@ msgstr "Řešitel běžel, ale selhal"
 msgid "Solver: %s\n"
 msgstr "Řešitel: %s\n"
 
-#: ../src/ssconvert.c:663
+#: ../src/ssconvert.c:676
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13390,7 +13401,7 @@ msgstr ""
 "Neznámý export „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:683
+#: ../src/ssconvert.c:696
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13399,7 +13410,7 @@ msgstr ""
 "Není možné odhadnout export, který se má použít pro „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:695
+#: ../src/ssconvert.c:708
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13408,7 +13419,7 @@ msgstr ""
 "Je vyžadován název výstupního souboru nebo explicitní typ exportu.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:705
+#: ../src/ssconvert.c:718
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13417,12 +13428,12 @@ msgstr ""
 "Neznámý import „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-importers.\n"
 
-#: ../src/ssconvert.c:729
+#: ../src/ssconvert.c:742
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Načtení %s selhalo\n"
 
-#: ../src/ssconvert.c:843
+#: ../src/ssconvert.c:856
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13432,11 +13443,11 @@ msgstr ""
 "Zvolený export (%s) nepodporuje ukládání více listů do jednoho souboru.\n"
 "Bude uložen jen aktuální list. Pro obejití tohoto omezení použijte -S.\n"
 
-#: ../src/ssconvert.c:872 ../src/ssconvert.c:923
+#: ../src/ssconvert.c:885 ../src/ssconvert.c:936
 msgid "INFILE [OUTFILE]"
 msgstr "VSTUPNÍ_SOUBOR [VÝSTUPNÍ_SOUBOR]"
 
-#: ../src/ssconvert.c:891
+#: ../src/ssconvert.c:904
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13447,7 +13458,7 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/ssconvert.c:921 ../src/ssdiff.c:1165 ../src/ssindex.c:268
+#: ../src/ssconvert.c:934 ../src/ssdiff.c:1165 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Použití: %s [PŘEPÍNAČ…] %s\n"
@@ -13685,7 +13696,7 @@ msgid "Text (configurable)"
 msgstr "Text (nastavitelný)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1318
+#: ../src/stf-parse.c:1350
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -13694,7 +13705,7 @@ msgstr ""
 "ignorovány."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1340
+#: ../src/stf-parse.c:1373
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -13706,28 +13717,28 @@ msgstr ""
 msgid "Error while trying to read file"
 msgstr "Chyba při pokusu o čtení souboru"
 
-#: ../src/stf.c:229
+#: ../src/stf.c:195
 msgid "This importer can only be used with a GUI."
 msgstr "Tento import je možné použít poze v grafickém rozhraní."
 
-#: ../src/stf.c:323 ../src/stf.c:358
+#: ../src/stf.c:289 ../src/stf.c:324
 msgid "Text to Columns"
 msgstr "Text do sloupců"
 
-#: ../src/stf.c:328
+#: ../src/stf.c:294
 #, c-format
 msgid "Only one column of input data can be parsed at a time"
 msgstr "Najednou lze zpracovat pouze jeden sloupec vstupních dat"
 
-#: ../src/stf.c:353
+#: ../src/stf.c:319
 msgid "There is no data to convert"
 msgstr "Nejsou žádná data pro konverzi"
 
-#: ../src/stf.c:373
+#: ../src/stf.c:339
 msgid "Error while trying to parse data into sheet"
 msgstr "Chyba při pokusu o zpracování dat do listu"
 
-#: ../src/stf.c:401
+#: ../src/stf.c:367
 #, c-format
 msgid "The file contains %d NULL character. It has been changed to a space."
 msgid_plural ""
@@ -13736,36 +13747,36 @@ msgstr[0] "Soubor obsahuje %d prázdný znak NULL. Bude změněn na mezeru."
 msgstr[1] "Soubor obsahuje %d prázdné znaky NULL. Budou změněny na mezery."
 msgstr[2] "Soubor obsahuje %d prázdných znaků NULL. Budou změněny na mezery."
 
-#: ../src/stf.c:413
+#: ../src/stf.c:379
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
 msgstr "Soubor obsahuje neplatné znaky kódované v UTF-8 a bude oříznut"
 
-#: ../src/stf.c:459
+#: ../src/stf.c:425
 msgid "That file is not in the given encoding."
 msgstr "Tento soubor není v daném kódování."
 
-#: ../src/stf.c:504
+#: ../src/stf.c:470
 msgid "Some data did not fit on the sheet and was dropped."
 msgstr "Některá data nepasují do listu a budou zahozena."
 
-#: ../src/stf.c:516
+#: ../src/stf.c:482
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Chyba zpracování při pokusu o zpracování dat do listu"
 
-#: ../src/stf.c:551
+#: ../src/stf.c:517
 msgid "Error while trying to write CSV file"
 msgstr "Chyba při pokusu zapsat soubor CSV"
 
-#: ../src/stf.c:649
+#: ../src/stf.c:615
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Hodnoty oddělené čárkou nebo tabelátorem (CSV/TSV)"
 
-#: ../src/stf.c:657
+#: ../src/stf.c:623
 msgid "Text import (configurable)"
 msgstr "Import textu (nastavitelný)"
 
-#: ../src/stf.c:671
+#: ../src/stf.c:637
 msgid "Comma separated values (CSV)"
 msgstr "Hodnoty oddělené čárkou (CSV)"
 
@@ -13777,12 +13788,12 @@ msgstr "Analýza rozptylu: Dva faktory bez opakování"
 msgid "/Summary/Count/Sum/Average/Variance"
 msgstr "/Souhrn/Počet/Součet/Průměr/Rozptyl"
 
-#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:179
+#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:178
 #, c-format
 msgid "Row %i"
 msgstr "Řádek %i"
 
-#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:182
+#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:181
 #, c-format
 msgid "Column %i"
 msgstr "Sloupec %i"
@@ -13797,7 +13808,7 @@ msgid "/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Zdroj variability/Řádky/Sloupce/Chyba/Celkem"
 
 #: ../src/tools/analysis-anova.c:250 ../src/tools/analysis-anova.c:609
-#: ../src/tools/analysis-tools.c:4263
+#: ../src/tools/analysis-tools.c:4272
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-hodnota/kritická hodnota F"
 
@@ -13896,41 +13907,41 @@ msgid "Test of Homogeneity"
 msgstr "Test homogenity"
 
 #: ../src/tools/analysis-exp-smoothing.c:114
-#: ../src/tools/analysis-exp-smoothing.c:290
-#: ../src/tools/analysis-exp-smoothing.c:474
-#: ../src/tools/analysis-exp-smoothing.c:715
-#: ../src/tools/analysis-exp-smoothing.c:1035
+#: ../src/tools/analysis-exp-smoothing.c:293
+#: ../src/tools/analysis-exp-smoothing.c:480
+#: ../src/tools/analysis-exp-smoothing.c:724
+#: ../src/tools/analysis-exp-smoothing.c:1047
 msgid "\"α =\" * 0.000"
 msgstr "\"α =\" * 0.000"
 
-#: ../src/tools/analysis-exp-smoothing.c:153
-#: ../src/tools/analysis-exp-smoothing.c:329
-#: ../src/tools/analysis-exp-smoothing.c:517
-#: ../src/tools/analysis-exp-smoothing.c:781
-#: ../src/tools/analysis-exp-smoothing.c:1103
+#: ../src/tools/analysis-exp-smoothing.c:157
+#: ../src/tools/analysis-exp-smoothing.c:336
+#: ../src/tools/analysis-exp-smoothing.c:527
+#: ../src/tools/analysis-exp-smoothing.c:793
+#: ../src/tools/analysis-exp-smoothing.c:1118
 #: ../src/tools/analysis-frequency.c:146 ../src/tools/analysis-histogram.c:320
-#: ../src/tools/analysis-tools.c:1217 ../src/tools/analysis-tools.c:3739
+#: ../src/tools/analysis-tools.c:1219 ../src/tools/analysis-tools.c:3748
 #, c-format
 msgid "Row %d"
 msgstr "Řádek %d"
 
-#: ../src/tools/analysis-exp-smoothing.c:205
-#: ../src/tools/analysis-exp-smoothing.c:386
-#: ../src/tools/analysis-exp-smoothing.c:603
-#: ../src/tools/analysis-exp-smoothing.c:922
-#: ../src/tools/analysis-exp-smoothing.c:1286
-#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3914
+#: ../src/tools/analysis-exp-smoothing.c:208
+#: ../src/tools/analysis-exp-smoothing.c:392
+#: ../src/tools/analysis-exp-smoothing.c:612
+#: ../src/tools/analysis-exp-smoothing.c:934
+#: ../src/tools/analysis-exp-smoothing.c:1301
+#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3923
 msgid "Standard Error"
 msgstr "Směrodatná chyba"
 
-#: ../src/tools/analysis-exp-smoothing.c:478
-#: ../src/tools/analysis-exp-smoothing.c:719
-#: ../src/tools/analysis-exp-smoothing.c:1039
+#: ../src/tools/analysis-exp-smoothing.c:484
+#: ../src/tools/analysis-exp-smoothing.c:728
+#: ../src/tools/analysis-exp-smoothing.c:1051
 msgid "\"γ =\" * 0.000"
 msgstr "\"γ =\" * 0.000"
 
-#: ../src/tools/analysis-exp-smoothing.c:639
-#: ../src/tools/analysis-exp-smoothing.c:642
+#: ../src/tools/analysis-exp-smoothing.c:648
+#: ../src/tools/analysis-exp-smoothing.c:651
 msgid ""
 "Holt's trend corrected exponential\n"
 "smoothing requires at least 2\n"
@@ -13940,18 +13951,18 @@ msgstr ""
 "trendů vyžaduje nejméně 2 výstupní\n"
 "sloupce pro každou množinu dat."
 
-#: ../src/tools/analysis-exp-smoothing.c:723
-#: ../src/tools/analysis-exp-smoothing.c:1043
+#: ../src/tools/analysis-exp-smoothing.c:732
+#: ../src/tools/analysis-exp-smoothing.c:1055
 msgid "\"δ =\" * 0.000"
 msgstr "\"δ =\" * 0.000"
 
-#: ../src/tools/analysis-exp-smoothing.c:758
-#: ../src/tools/analysis-exp-smoothing.c:1080
+#: ../src/tools/analysis-exp-smoothing.c:770
+#: ../src/tools/analysis-exp-smoothing.c:1095
 msgid "/Level/Trend/Seasonal Adjustment"
 msgstr "/Úroveň/Trend/Sezónní přizpůsobení"
 
-#: ../src/tools/analysis-exp-smoothing.c:953
-#: ../src/tools/analysis-exp-smoothing.c:956
+#: ../src/tools/analysis-exp-smoothing.c:965
+#: ../src/tools/analysis-exp-smoothing.c:968
 msgid ""
 "The additive Holt-Winters exponential\n"
 "smoothing method requires at least 4\n"
@@ -13961,8 +13972,8 @@ msgstr ""
 "exponenciálního vyhlazení vyžaduje nejméně\n"
 "4 výstupní sloupce pro každou množinu dat."
 
-#: ../src/tools/analysis-exp-smoothing.c:1324
-#: ../src/tools/analysis-exp-smoothing.c:1327
+#: ../src/tools/analysis-exp-smoothing.c:1339
+#: ../src/tools/analysis-exp-smoothing.c:1342
 msgid ""
 "The multiplicative Holt-Winters exponential\n"
 "smoothing method requires at least 4\n"
@@ -13972,7 +13983,7 @@ msgstr ""
 "exponenciálního vyhlazení vyžaduje nejméně\n"
 "4 výstupní sloupce pro každou množinu dat."
 
-#: ../src/tools/analysis-exp-smoothing.c:1369
+#: ../src/tools/analysis-exp-smoothing.c:1384
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Exponenciální vyhlazení (%s)"
@@ -13982,7 +13993,7 @@ msgid "/Frequency Table/Category"
 msgstr "/Frekvenční tabulka/Kategorie"
 
 #: ../src/tools/analysis-frequency.c:152 ../src/tools/analysis-histogram.c:326
-#: ../src/tools/analysis-tools.c:1223
+#: ../src/tools/analysis-tools.c:1225
 #, c-format
 msgid "Area %d"
 msgstr "Oblast %d"
@@ -14152,13 +14163,13 @@ msgstr "Studentův t-test (%s)"
 msgid "Student-t Test"
 msgstr "Studentův t-test"
 
-#: ../src/tools/analysis-principal-components.c:67
+#: ../src/tools/analysis-principal-components.c:68
 msgid "Principal components analysis has insufficient space."
 msgstr "Analýza hlavních komponent nemá dostatek místa."
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
-#: ../src/tools/analysis-principal-components.c:98
+#: ../src/tools/analysis-principal-components.c:99
 msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
@@ -14166,20 +14177,20 @@ msgstr ""
 "\"Analýza hlavních komponent\";[Red]\"Analýza hlavních komponent je neplatná."
 "\""
 
-#: ../src/tools/analysis-principal-components.c:104
-#: ../src/tools/analysis-tools.c:722
+#: ../src/tools/analysis-principal-components.c:105
+#: ../src/tools/analysis-tools.c:721
 msgid "Covariances"
 msgstr "Kovariance"
 
-#: ../src/tools/analysis-principal-components.c:128
+#: ../src/tools/analysis-principal-components.c:132
 msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr "/Počet/Střední hodnota/Rozptyl//Vlastní hodnoty/Vlastní vektory"
 
-#: ../src/tools/analysis-principal-components.c:133
+#: ../src/tools/analysis-principal-components.c:137
 msgid "Percent of Trace"
 msgstr "Procenta sledování:"
 
-#: ../src/tools/analysis-principal-components.c:211
+#: ../src/tools/analysis-principal-components.c:215
 #, c-format
 msgid "Principal Components Analysis (%s)"
 msgstr "Analýza hlavních komponent (%s)"
@@ -14239,31 +14250,31 @@ msgstr ""
 msgid "Wilcoxon Signed Rank Test (%s)"
 msgstr "Wilcoxonův jednovýběrový test (%s)"
 
-#: ../src/tools/analysis-tools.c:185
+#: ../src/tools/analysis-tools.c:184
 #, c-format
 msgid "Bin %i"
 msgstr "Třída %i"
 
-#: ../src/tools/analysis-tools.c:189
+#: ../src/tools/analysis-tools.c:188
 #, c-format
 msgid "Area %i"
 msgstr "Oblast %i"
 
-#: ../src/tools/analysis-tools.c:274
+#: ../src/tools/analysis-tools.c:273
 #, c-format
 msgid "Variable %i"
 msgstr "Proměnná %i"
 
-#: ../src/tools/analysis-tools.c:667
+#: ../src/tools/analysis-tools.c:666
 msgid "Correlations"
 msgstr "Korelace"
 
-#: ../src/tools/analysis-tools.c:679
+#: ../src/tools/analysis-tools.c:678
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Korelace (%s)"
 
-#: ../src/tools/analysis-tools.c:734
+#: ../src/tools/analysis-tools.c:733
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Kovariance (%s)"
@@ -14275,7 +14286,7 @@ msgstr "Kovariance (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:836
+#: ../src/tools/analysis-tools.c:835
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -14283,36 +14294,36 @@ msgstr ""
 "/Střední hodnota/Směrodatná chyba/Medián/Modus/Směrodatná odchylka/Rozptyl "
 "vzorku/Špičatost/Šikmost/Interval/Minimum/Maximum/Součet/Počet"
 
-#: ../src/tools/analysis-tools.c:970
+#: ../src/tools/analysis-tools.c:969
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "//%%%s%%%% IS pro střední hodnotu od/do"
 
-#: ../src/tools/analysis-tools.c:1101
+#: ../src/tools/analysis-tools.c:1100
 #, c-format
 msgid "Largest (%d)"
 msgstr "Největší (%d)"
 
-#: ../src/tools/analysis-tools.c:1108
+#: ../src/tools/analysis-tools.c:1107
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Nejmenší (%d)"
 
-#: ../src/tools/analysis-tools.c:1125
+#: ../src/tools/analysis-tools.c:1124
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Popisná statistika (%s)"
 
-#: ../src/tools/analysis-tools.c:1320
+#: ../src/tools/analysis-tools.c:1322
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Vzorkování (%s)"
 
-#: ../src/tools/analysis-tools.c:1354 ../src/tools/analysis-tools.c:1357
+#: ../src/tools/analysis-tools.c:1360 ../src/tools/analysis-tools.c:1363
 msgid "Sample"
 msgstr "Vzorek"
 
-#: ../src/tools/analysis-tools.c:1398
+#: ../src/tools/analysis-tools.c:1404
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -14323,16 +14334,16 @@ msgstr ""
 "kritická hodnota z pro jednostrannou alternativu/P (Z<=z) pro oboustrannou "
 "alternativu/kritická hodnota z pro oboustrannou alternativu"
 
-#: ../src/tools/analysis-tools.c:1585
+#: ../src/tools/analysis-tools.c:1591
 #, c-format
 msgid "z-Test (%s)"
 msgstr "z-test (%s)"
 
-#: ../src/tools/analysis-tools.c:1595 ../src/tools/analysis-tools.c:1598
+#: ../src/tools/analysis-tools.c:1601 ../src/tools/analysis-tools.c:1604
 msgid "z-Test"
 msgstr "z-test"
 
-#: ../src/tools/analysis-tools.c:1649
+#: ../src/tools/analysis-tools.c:1655
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -14344,18 +14355,18 @@ msgstr ""
 "jednostrannou alternativu/P (T<=t) pro oboustrannou alternativu/kritická "
 "hodnota t pro oboustrannou alternativu"
 
-#: ../src/tools/analysis-tools.c:1877
+#: ../src/tools/analysis-tools.c:1883
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "t-test, párový (%s)"
 
-#: ../src/tools/analysis-tools.c:1887 ../src/tools/analysis-tools.c:1890
-#: ../src/tools/analysis-tools.c:2187 ../src/tools/analysis-tools.c:2190
-#: ../src/tools/analysis-tools.c:2480 ../src/tools/analysis-tools.c:2483
+#: ../src/tools/analysis-tools.c:1893 ../src/tools/analysis-tools.c:1896
+#: ../src/tools/analysis-tools.c:2193 ../src/tools/analysis-tools.c:2196
+#: ../src/tools/analysis-tools.c:2486 ../src/tools/analysis-tools.c:2489
 msgid "t-Test"
 msgstr "t-test"
 
-#: ../src/tools/analysis-tools.c:1928
+#: ../src/tools/analysis-tools.c:1934
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -14367,12 +14378,12 @@ msgstr ""
 "alternativu/P (T<=t) pro oboustrannou alternativu/kritická hodnota t pro "
 "oboustrannou alternativu"
 
-#: ../src/tools/analysis-tools.c:2177 ../src/tools/analysis-tools.c:2470
+#: ../src/tools/analysis-tools.c:2183 ../src/tools/analysis-tools.c:2476
 #, c-format
 msgid "t-Test (%s)"
 msgstr "t-Test (%s)"
 
-#: ../src/tools/analysis-tools.c:2225
+#: ../src/tools/analysis-tools.c:2231
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -14384,12 +14395,12 @@ msgstr ""
 "(T<=t) pro oboustrannou alternativu/kritická hodnota t pro oboustrannou "
 "alternativu"
 
-#: ../src/tools/analysis-tools.c:2519 ../src/tools/analysis-tools.c:2768
-#: ../src/tools/analysis-tools.c:2771
+#: ../src/tools/analysis-tools.c:2525 ../src/tools/analysis-tools.c:2774
+#: ../src/tools/analysis-tools.c:2777
 msgid "F-Test"
 msgstr "F-test"
 
-#: ../src/tools/analysis-tools.c:2520
+#: ../src/tools/analysis-tools.c:2526
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -14399,12 +14410,12 @@ msgstr ""
 "levostrannou alternativu/kritická hodnota F pro levostrannou alternativu/P "
 "pro oboustrannou alternativu/kritická hodnota F pro oboustrannou alternativu"
 
-#: ../src/tools/analysis-tools.c:2758
+#: ../src/tools/analysis-tools.c:2764
 #, c-format
 msgid "F-Test (%s)"
 msgstr "F-test (%s)"
 
-#: ../src/tools/analysis-tools.c:2903
+#: ../src/tools/analysis-tools.c:2909
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -14413,29 +14424,29 @@ msgstr ""
 "Modifikované R^2/Pozorování//Analýza rozptylu//Regrese/Reziduum/Celkem///"
 "Průsečík"
 
-#: ../src/tools/analysis-tools.c:2922
+#: ../src/tools/analysis-tools.c:2928
 msgid "Response Variable"
 msgstr "Závislá proměnná:"
 
-#: ../src/tools/analysis-tools.c:2956
+#: ../src/tools/analysis-tools.c:2962
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Významnost F"
 
-#: ../src/tools/analysis-tools.c:2963
+#: ../src/tools/analysis-tools.c:2969
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr "/Koeficienty/Směrodatná chyba/t-statistika/p-hodnota"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2969
+#: ../src/tools/analysis-tools.c:2975
 msgid "\"Lower\" 0%"
 msgstr "\"Méně než\" 0%"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2971
+#: ../src/tools/analysis-tools.c:2977
 msgid "\"Upper\" 0%"
 msgstr "\"Více než\" 0%"
 
-#: ../src/tools/analysis-tools.c:2980
+#: ../src/tools/analysis-tools.c:2986
 msgid ""
 "Probability of observing a t-statistic\n"
 "whose absolute value is at least as large\n"
@@ -14449,7 +14460,7 @@ msgstr ""
 "t-statistiky, za předpokladu, že prázdné\n"
 "předpoklady jsou fakticky pravdivé."
 
-#: ../src/tools/analysis-tools.c:2987
+#: ../src/tools/analysis-tools.c:2993
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -14462,11 +14473,11 @@ msgstr ""
 "tendence, tj. jak moc je součet druhých\n"
 "mocnin modelem vysvětlen."
 
-#: ../src/tools/analysis-tools.c:3295
+#: ../src/tools/analysis-tools.c:3301
 msgid "Constant"
 msgstr "Konstanta"
 
-#: ../src/tools/analysis-tools.c:3300
+#: ../src/tools/analysis-tools.c:3306
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
@@ -14474,105 +14485,105 @@ msgstr ""
 "/Odhad//Reziduum/Vzdálené/Interně studentizovaná/Externě studentizovaná/p-"
 "hodnota"
 
-#: ../src/tools/analysis-tools.c:3462
+#: ../src/tools/analysis-tools.c:3468
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/SOUHRNNÝ VÝSTUP//Nezávislá proměnná://Pozorování:"
 
-#: ../src/tools/analysis-tools.c:3467
+#: ../src/tools/analysis-tools.c:3473
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/SOUHRNNÝ VÝSTUP//Závislá proměnná://Pozorování:"
 
-#: ../src/tools/analysis-tools.c:3473
+#: ../src/tools/analysis-tools.c:3479
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Závislá proměnná/R^2/Strmost/Průsečík/F/Významnost F"
 
-#: ../src/tools/analysis-tools.c:3479
+#: ../src/tools/analysis-tools.c:3485
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Nezávislá proměnná/R^2/Strmost/Průsečík/F/Významnost F"
 
-#: ../src/tools/analysis-tools.c:3560
+#: ../src/tools/analysis-tools.c:3566
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regrese (%s)"
 
-#: ../src/tools/analysis-tools.c:3975
+#: ../src/tools/analysis-tools.c:3984
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Klouzavý průměr (%s)"
 
-#: ../src/tools/analysis-tools.c:4033
+#: ../src/tools/analysis-tools.c:4042
 msgid "Ranks & Percentiles"
 msgstr "Pořadí a percentily"
 
-#: ../src/tools/analysis-tools.c:4044
+#: ../src/tools/analysis-tools.c:4053
 msgid "Point"
 msgstr "Hodnota"
 
-#: ../src/tools/analysis-tools.c:4045
+#: ../src/tools/analysis-tools.c:4054
 msgid "Rank"
 msgstr "Pořadí"
 
-#: ../src/tools/analysis-tools.c:4046
+#: ../src/tools/analysis-tools.c:4055
 msgid "Percentile Rank"
 msgstr "Percentilové pořadí"
 
-#: ../src/tools/analysis-tools.c:4138
+#: ../src/tools/analysis-tools.c:4147
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Pořadí (%s)"
 
-#: ../src/tools/analysis-tools.c:4150 ../src/tools/analysis-tools.c:4153
+#: ../src/tools/analysis-tools.c:4159 ../src/tools/analysis-tools.c:4162
 msgid "Ranks"
 msgstr "Pořadí"
 
-#: ../src/tools/analysis-tools.c:4185
+#: ../src/tools/analysis-tools.c:4194
 msgid "Anova: Single Factor"
 msgstr "Analýza rozptylu: Jeden faktor"
 
-#: ../src/tools/analysis-tools.c:4186 ../src/tools/simulation.c:336
+#: ../src/tools/analysis-tools.c:4195 ../src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "SOUHRN"
 
-#: ../src/tools/analysis-tools.c:4189
+#: ../src/tools/analysis-tools.c:4198
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Skupiny/Počet/Součet/Průměr/Rozptyl"
 
-#: ../src/tools/analysis-tools.c:4257
+#: ../src/tools/analysis-tools.c:4266
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 "/Analýza rozptylu/Zdroj variability/Mezi skupinami/V rámci skupin/Celkem"
 
-#: ../src/tools/analysis-tools.c:4475
+#: ../src/tools/analysis-tools.c:4484
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Jednofaktorová analýza rozptylu (%s)"
 
-#: ../src/tools/analysis-tools.c:4486
+#: ../src/tools/analysis-tools.c:4495
 msgid "Anova"
 msgstr "Analýza rozptylu"
 
-#: ../src/tools/analysis-tools.c:4489
+#: ../src/tools/analysis-tools.c:4498
 msgid "Single Factor ANOVA"
 msgstr "Jednofaktorová analýza rozptylu"
 
-#: ../src/tools/analysis-tools.c:4521
+#: ../src/tools/analysis-tools.c:4530
 msgid "Inverse Fourier Transform"
 msgstr "Inverzní Fourierova transformace"
 
-#: ../src/tools/analysis-tools.c:4522
+#: ../src/tools/analysis-tools.c:4531
 msgid "Fourier Transform"
 msgstr "Fourierova transformace"
 
-#: ../src/tools/analysis-tools.c:4530
+#: ../src/tools/analysis-tools.c:4539
 msgid "/Real/Imaginary"
 msgstr "/Reálná část/Imaginární část"
 
-#: ../src/tools/analysis-tools.c:4578
+#: ../src/tools/analysis-tools.c:4587
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourierovy řady (%s)"
 
-#: ../src/tools/analysis-tools.c:4590 ../src/tools/analysis-tools.c:4593
+#: ../src/tools/analysis-tools.c:4599 ../src/tools/analysis-tools.c:4602
 msgid "Fourier Series"
 msgstr "Fourierovy řady"
 
@@ -14640,15 +14651,15 @@ msgstr "Zamícháno"
 msgid "Fill Series (%s)"
 msgstr "Vyplnit řadu (%s)"
 
-#: ../src/tools/filter.c:137
+#: ../src/tools/filter.c:138
 msgid "Filtered"
 msgstr "Filtrováno"
 
-#: ../src/tools/filter.c:199
+#: ../src/tools/filter.c:200
 msgid "/Advanced Filter:/Source Range:/Criteria Range:"
 msgstr "/Pokročilý filtr:/Zdrojová oblast:/Oblast kritérií:"
 
-#: ../src/tools/filter.c:269
+#: ../src/tools/filter.c:270
 #, c-format
 msgid "Advanced Filter (%s)"
 msgstr "Pokročilý filtr (%s)"
