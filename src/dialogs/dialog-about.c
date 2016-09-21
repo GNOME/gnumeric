@@ -76,7 +76,7 @@ static struct {
 		N_("Functions and X-Base importing.") },
 	{ N_("Michel Berkelaar"),		GNM_ANALYTICS,
 		N_("Simplex algorithm for Solver (LP Solve).") },
-	{ N_("Jean Br\xc3\xa9""fort"),		GNM_CORE | GNM_FEATURE_HACKER,
+	{ N_("Jean Br\303\251fort"),		GNM_CORE | GNM_FEATURE_HACKER,
 		N_("Core charting engine.") },
 	{ N_("Grandma Chema Celorio"),	GNM_FEATURE_HACKER|GNM_USABILITY|GNM_QA,
 		N_("Quality Assurance and sheet copy.") },

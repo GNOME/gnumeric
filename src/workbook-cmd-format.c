@@ -177,8 +177,8 @@ workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
 	if (range_height (cl.r) > 1 && range_width (cl.r) > 1) {
 		go_cmd_context_error_invalid
 			(GO_CMD_CONTEXT (wbc), _("Wrap SORT"),
-			 _("An n\xe2\xa8\xaf""1 or 1\xe2\xa8\xaf"
-			   "n selection is required."));
+			 _("An n\342\250\2571 or 1\342\250\257n "
+			   "selection is required."));
 		return;
 	}
 	if (range_height (cl.r) == 1 && range_width (cl.r) == 1) {

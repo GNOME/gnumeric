@@ -2351,11 +2351,11 @@ cmd_selection_colrow_hide (WorkbookControl *wbc,
 			gchar const *text = is_cols ?
 				_("Are you sure that you want to hide all columns? "
 				  "If you do so you can unhide them with the "
-				  "'Format\xe2\x86\x92""Column\xe2\x86\x92Unhide' "
+				  "'Format\342\206\222Column\342\206\222Unhide' "
 				  "menu item.") :
 				_("Are you sure that you want to hide all rows? "
 				  "If you do so you can unhide them with the "
-				  "'Format\xe2\x86\x92Row\xe2\x86\x92Unhide' "
+				  "'Format\342\206\222Row\342\206\222Unhide' "
 				  "menu item.");
 			if (!go_gtk_query_yes_no (wbcg_toplevel (WBC_GTK (wbc)),
 						  FALSE, "%s", text)) {
