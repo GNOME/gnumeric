@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2016-08-12 22:29+0000\n"
-"PO-Revision-Date: 2016-08-19 21:46+0200\n"
+"POT-Creation-Date: 2016-09-21 16:18+0000\n"
+"PO-Revision-Date: 2016-09-21 20:30+0200\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:470
+#: ../src/func-builtin.c:501
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -45,7 +45,6 @@ msgid "Spreadsheet;"
 msgstr "Munkafüzet;"
 
 #: ../gnumeric.appdata.xml.in.h:1
-#| msgid "Gnumeric Spreadsheet"
 msgid "The Gnumeric Spreadsheet"
 msgstr "A Gnumeric táblázatkezelő"
 
@@ -72,7 +71,6 @@ msgid "A High-Precision Spreadsheet Program"
 msgstr "Egy nagy pontosságú táblázatkezelő program"
 
 #: ../gnumeric.appdata.xml.in.h:5
-#| msgid "Gnumeric Team"
 msgid "The Gnumeric Team"
 msgstr "A Gnumeric csapat"
 
@@ -994,7 +992,7 @@ msgstr "Logikai függvények"
 msgid "Functions for manipulating truth values"
 msgstr "Igazságértékek kezelésére szolgáló függvények"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:478
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:509
 msgid "Logic"
 msgstr "Logika"
 
@@ -1018,7 +1016,7 @@ msgstr "Matematikai függvények"
 msgid "Mathematical Functions"
 msgstr "Matematikai függvények"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:465
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:496
 msgid "Mathematics"
 msgstr "Matematika"
 
@@ -1366,23 +1364,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Érvénytelen sornév, %s, az rhs/tartomány szakaszban"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1785
+#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1792
 msgid "Constraint"
 msgstr "Megszorítás"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1561
-#: ../src/tools/gnm-solver.c:1606 ../src/tools/gnm-solver.c:1650
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1568
+#: ../src/tools/gnm-solver.c:1613 ../src/tools/gnm-solver.c:1657
 msgid "Value"
 msgstr "Érték"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1562
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1569
 msgid "Type"
 msgstr "Típus"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1651
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1658
 msgid "Limit"
 msgstr "Határ"
 
@@ -4149,7 +4147,7 @@ msgstr "%s szélességének automatikus méretezése"
 msgid "Autofitting height of %s"
 msgstr "%s magasságának automatikus méretezése"
 
-#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1226
+#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1227
 msgid "Sorting"
 msgstr "Rendezés"
 
@@ -4159,9 +4157,12 @@ msgid "Sorting %s"
 msgstr "%s rendezése"
 
 #: ../src/commands.c:2352
+#| msgid ""
+#| "Are you sure that you want to hide all columns? If you do so you can "
+#| "unhide them with the 'Format,olumn→Unhide' menu item."
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
-"them with the 'Format,olumn→Unhide' menu item."
+"them with the 'Format→Column→Unhide' menu item."
 msgstr ""
 "Biztosan el szeretne rejteni minden oszlopot? Ha ezt szeretné, akkor "
 "előhozhatja azokat a „Formátum→Oszlop→Előhozás” menüponttal."
@@ -4671,8 +4672,9 @@ msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Szimplex algoritmus a Solver programhoz (LP Solve)."
 
 #: ../src/dialogs/dialog-about.c:79
-msgid "Jean Brßort"
-msgstr "Jean Brßort"
+#| msgid "Jean Brßort"
+msgid "Jean Bréfort"
+msgstr "Jean Bréfort"
 
 #: ../src/dialogs/dialog-about.c:80
 msgid "Core charting engine."
@@ -6470,8 +6472,8 @@ msgstr "Munkalap"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1560
-#: ../src/tools/gnm-solver.c:1605 ../src/tools/gnm-solver.c:1750
+#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1567
+#: ../src/tools/gnm-solver.c:1612 ../src/tools/gnm-solver.c:1757
 msgid "Cell"
 msgstr "Cella"
 
@@ -6698,73 +6700,74 @@ msgstr "Kiterjesztés-ellenőrzés letiltása a beállítható szövegexportál�
 msgid "Enter _Moves Selection"
 msgstr "Az Enter _mozgatja a kijelölést"
 
-#: ../src/dialogs/dialog-preferences.c:1115
+#. xgettext : see https://en.wikipedia.org/wiki/X_Window_selection#Clipboard
+#: ../src/dialogs/dialog-preferences.c:1116
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
 msgstr "VÁGÓLAP előnyben részesítése az ELSŐDLEGES kijelöléssel szemben"
 
-#: ../src/dialogs/dialog-preferences.c:1140
+#: ../src/dialogs/dialog-preferences.c:1141
 msgid "Capitalize _names of days"
 msgstr "A napok _nevei nagy kezdőbetűvel legyenek"
 
-#: ../src/dialogs/dialog-preferences.c:1163
+#: ../src/dialogs/dialog-preferences.c:1164
 msgid "Correct _TWo INitial CApitals"
 msgstr "_KÉt KEzdő NAgybetű javítása"
 
-#: ../src/dialogs/dialog-preferences.c:1167
+#: ../src/dialogs/dialog-preferences.c:1168
 msgid "Do _not correct:"
 msgstr "_Ne javítsa:"
 
-#: ../src/dialogs/dialog-preferences.c:1190
+#: ../src/dialogs/dialog-preferences.c:1191
 msgid "Capitalize _first letter of sentence"
 msgstr "A mon_dat első betűje nagybetűs legyen"
 
-#: ../src/dialogs/dialog-preferences.c:1194
+#: ../src/dialogs/dialog-preferences.c:1195
 msgid "Do _not capitalize after:"
 msgstr "_Ne legyen nagy kezdőbetű ez után:"
 
-#: ../src/dialogs/dialog-preferences.c:1216
+#: ../src/dialogs/dialog-preferences.c:1217
 msgid "Auto Correct"
 msgstr "Automatikus javítás"
 
-#: ../src/dialogs/dialog-preferences.c:1217
+#: ../src/dialogs/dialog-preferences.c:1218
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
 #: ../src/widgets/gnm-fontbutton.c:1158
 msgid "Font"
 msgstr "Betűkészlet"
 
-#: ../src/dialogs/dialog-preferences.c:1218
+#: ../src/dialogs/dialog-preferences.c:1219
 msgid "Files"
 msgstr "Fájlok"
 
-#: ../src/dialogs/dialog-preferences.c:1219
+#: ../src/dialogs/dialog-preferences.c:1220
 msgid "Tools"
 msgstr "Eszközök"
 
-#: ../src/dialogs/dialog-preferences.c:1220
+#: ../src/dialogs/dialog-preferences.c:1221
 msgid "Undo"
 msgstr "Visszavonás"
 
-#: ../src/dialogs/dialog-preferences.c:1221
+#: ../src/dialogs/dialog-preferences.c:1222
 msgid "Windows"
 msgstr "Ablakok"
 
-#: ../src/dialogs/dialog-preferences.c:1222
+#: ../src/dialogs/dialog-preferences.c:1223
 msgid "Header/Footer"
 msgstr "Fejléc/lábléc"
 
-#: ../src/dialogs/dialog-preferences.c:1224
+#: ../src/dialogs/dialog-preferences.c:1225
 msgid "Copy and Paste"
 msgstr "Másolás és beillesztés"
 
-#: ../src/dialogs/dialog-preferences.c:1227
+#: ../src/dialogs/dialog-preferences.c:1228
 msgid "Screen"
 msgstr "Képernyő"
 
-#: ../src/dialogs/dialog-preferences.c:1228
+#: ../src/dialogs/dialog-preferences.c:1229
 msgid "INitial CApitals"
 msgstr "KÉt KEzdő NAgybetű"
 
-#: ../src/dialogs/dialog-preferences.c:1229
+#: ../src/dialogs/dialog-preferences.c:1230
 msgid "First Letter"
 msgstr "Első betű"
 
@@ -7442,11 +7445,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr "Megoldó paramétereinek megváltoztatása"
 
-#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1587
+#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1594
 msgid "Feasible"
 msgstr "Megvalósítható"
 
-#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1590
+#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1597
 msgid "Optimal"
 msgstr "Optimális"
 
@@ -11461,8 +11464,8 @@ msgstr "Bemeneti változók:"
 msgid "Output variables:"
 msgstr "Kimeneti változók:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1603
-#: ../src/tools/gnm-solver.c:1748
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1610
+#: ../src/tools/gnm-solver.c:1755
 msgid "Variables"
 msgstr "Változók"
 
@@ -11572,13 +11575,13 @@ msgstr "≥"
 msgid "="
 msgstr "="
 
-#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:386
-#: ../src/tools/gnm-solver.c:412
+#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:387
+#: ../src/tools/gnm-solver.c:413
 msgid "Int"
 msgstr "Egész"
 
-#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:387
-#: ../src/tools/gnm-solver.c:413
+#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:388
+#: ../src/tools/gnm-solver.c:414
 msgid "Bool"
 msgstr "Logikai"
 
@@ -11663,8 +11666,8 @@ msgid "Re_place"
 msgstr "_Csere"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1646
-#: ../src/tools/gnm-solver.c:1782
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1653
+#: ../src/tools/gnm-solver.c:1789
 msgid "Constraints"
 msgstr "Megszorítások"
 
@@ -11988,16 +11991,16 @@ msgstr[0] "A célterület túl kicsi. Legalább %d sor magasságúnak kell lenni
 msgstr[1] "A célterület túl kicsi. Legalább %d sor magasságúnak kell lennie."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:44
+#: ../src/func-builtin.c:45
 msgid "SUM:sum of the given values"
 msgstr "SUM:a megadott értékek összege"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:46
+#: ../src/func-builtin.c:47
 msgid "values:a list of values to add"
 msgstr "értékek:a hozzáadandó értékek listája"
 
-#: ../src/func-builtin.c:47
+#: ../src/func-builtin.c:48
 msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
@@ -12005,25 +12008,25 @@ msgstr ""
 "A SUM kiszámítja az argumentumlistában szereplő összes érték és "
 "cellahivatkozás összegét."
 
-#: ../src/func-builtin.c:48 ../src/func-builtin.c:75
+#: ../src/func-builtin.c:49 ../src/func-builtin.c:106
 msgid "This function is Excel compatible."
 msgstr "Ez a függvény Excel kompatibilis."
 
-#: ../src/func-builtin.c:49 ../src/func-builtin.c:76
+#: ../src/func-builtin.c:50 ../src/func-builtin.c:107
 msgid "This function is OpenFormula compatible."
 msgstr "Ez a függvény OpenFormula kompatibilis."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:70
+#: ../src/func-builtin.c:101
 msgid "PRODUCT:product of the given values"
 msgstr "PRODUCT:a megadott értékek szorzata"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:72
+#: ../src/func-builtin.c:103
 msgid "values:a list of values to multiply"
 msgstr "értékek:az összeszorzandó értékek listája"
 
-#: ../src/func-builtin.c:73
+#: ../src/func-builtin.c:104
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
@@ -12031,41 +12034,41 @@ msgstr ""
 "A PRODUCT kiszámítja az argumentumlistában szereplő összes érték és "
 "cellahivatkozás szorzatát."
 
-#: ../src/func-builtin.c:74
+#: ../src/func-builtin.c:105
 msgid "If all cells are empty, the result will be 0."
 msgstr "Ha az összes cella üres, akkor az eredmény 0 lesz."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:107
+#: ../src/func-builtin.c:138
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION:a Gnumeric jelenlegi verziója"
 
-#: ../src/func-builtin.c:108
+#: ../src/func-builtin.c:139
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr ""
 "A GNUMERIC_VERSION visszaadja a Gnumeric jelenlegi verzióját szövegként."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:300
+#: ../src/func-builtin.c:331
 msgid "IF:conditional expression"
 msgstr "IF:feltételes kifejezés"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:302
+#: ../src/func-builtin.c:333
 msgid "cond:condition"
 msgstr "felt:feltétel"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:304
+#: ../src/func-builtin.c:335
 msgid "trueval:value to use if condition is true"
 msgstr "igazérték:a használandó érték, ha a feltétel igaz"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:306
+#: ../src/func-builtin.c:337
 msgid "falseval:value to use if condition is false"
 msgstr "hamisérték:a használandó érték, ha a feltétel hamis"
 
-#: ../src/func-builtin.c:307
+#: ../src/func-builtin.c:338
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will "
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
@@ -12493,23 +12496,23 @@ msgstr "Húzás az automatikus kitöltéshez"
 msgid "Drag to move"
 msgstr "Húzás az áthelyezéshez"
 
-#: ../src/libgnumeric.c:142
+#: ../src/libgnumeric.c:143
 msgid "Display Gnumeric's version"
 msgstr "A Gnumeric verziójának megjelenítése"
 
-#: ../src/libgnumeric.c:151
+#: ../src/libgnumeric.c:152
 msgid "Set the root library directory"
 msgstr "A gyökér programkönyvár mappájának beállítása"
 
-#: ../src/libgnumeric.c:152 ../src/libgnumeric.c:158
+#: ../src/libgnumeric.c:153 ../src/libgnumeric.c:159
 msgid "DIR"
 msgstr "KVT"
 
-#: ../src/libgnumeric.c:157
+#: ../src/libgnumeric.c:158
 msgid "Adjust the root data directory"
 msgstr "A gyökér adatkönyvtár módosítása"
 
-#: ../src/libgnumeric.c:174
+#: ../src/libgnumeric.c:175
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12520,11 +12523,11 @@ msgstr ""
 "adatkönyvtár := „%s”\n"
 "programkönyvtár := „%s”\n"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 msgid "Gnumeric Options"
 msgstr "Gnumeric beállításai"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 msgid "Show Gnumeric Options"
 msgstr "Gnumeric beállításainak megjelenítése"
 
@@ -12568,7 +12571,7 @@ msgstr "Azonnali kilépés a kijelölt könyvek betöltése után"
 msgid "[FILE ...]"
 msgstr "[FÁJL …]"
 
-#: ../src/main-application.c:170 ../src/ssconvert.c:884 ../src/ssdiff.c:1108
+#: ../src/main-application.c:170 ../src/ssconvert.c:897 ../src/ssdiff.c:1108
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -13473,7 +13476,7 @@ msgstr "A megoldó futott, de meghiúsult"
 msgid "Solver: %s\n"
 msgstr "Megoldó: %s\n"
 
-#: ../src/ssconvert.c:663
+#: ../src/ssconvert.c:676
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13483,7 +13486,7 @@ msgstr ""
 "Próbálja a --list-exporters kapcsolót a lehetőségek listájának "
 "megtekintéséhez.\n"
 
-#: ../src/ssconvert.c:683
+#: ../src/ssconvert.c:696
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13493,7 +13496,7 @@ msgstr ""
 "Próbálja a --list-exporters kapcsolót a lehetőségek listájának "
 "megtekintéséhez.\n"
 
-#: ../src/ssconvert.c:695
+#: ../src/ssconvert.c:708
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13503,7 +13506,7 @@ msgstr ""
 "Próbálja a --list-exporters kapcsolót a lehetőségek listájának "
 "megtekintéséhez.\n"
 
-#: ../src/ssconvert.c:705
+#: ../src/ssconvert.c:718
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13513,12 +13516,12 @@ msgstr ""
 "Próbálja a --list-importers kapcsolót a lehetőségek listájának "
 "megtekintéséhez.\n"
 
-#: ../src/ssconvert.c:729
+#: ../src/ssconvert.c:742
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "%s betöltése sikertelen\n"
 
-#: ../src/ssconvert.c:843
+#: ../src/ssconvert.c:856
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13529,11 +13532,11 @@ msgstr ""
 "Csak a jelenlegi munkalap lesz elmentve. A korlátozás megkerüléséhez "
 "használja a -S kapcsolót.\n"
 
-#: ../src/ssconvert.c:872 ../src/ssconvert.c:923
+#: ../src/ssconvert.c:885 ../src/ssconvert.c:936
 msgid "INFILE [OUTFILE]"
 msgstr "BEFÁJL [KIFÁJL]"
 
-#: ../src/ssconvert.c:891
+#: ../src/ssconvert.c:904
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13544,7 +13547,7 @@ msgstr ""
 "adatkönyvtár := „%s”\n"
 "programkönyvtár := „%s”\n"
 
-#: ../src/ssconvert.c:921 ../src/ssdiff.c:1165 ../src/ssindex.c:268
+#: ../src/ssconvert.c:934 ../src/ssdiff.c:1165 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Használat: %s [KAPCSOLÓ…] %s\n"
@@ -14748,96 +14751,96 @@ msgstr "/Speciális szűrő:/Forrástartomány:/Feltételtartomány:"
 msgid "Advanced Filter (%s)"
 msgstr "Speciális szűrő (%s)"
 
-#: ../src/tools/gnm-solver.c:624
+#: ../src/tools/gnm-solver.c:625
 #, c-format
 msgid "Invalid solver target"
 msgstr "Érvénytelen megoldócél"
 
-#: ../src/tools/gnm-solver.c:636
+#: ../src/tools/gnm-solver.c:637
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr ""
 "A célcellának (%s) olyan képletet kell tartalmaznia, amely számmá értékeli ki"
 
-#: ../src/tools/gnm-solver.c:646
+#: ../src/tools/gnm-solver.c:647
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Érvénytelen megoldó bemeneti tartomány"
 
-#: ../src/tools/gnm-solver.c:657
+#: ../src/tools/gnm-solver.c:658
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "A(z) %s bemeneti cella képletet tartalmaz"
 
-#: ../src/tools/gnm-solver.c:672
+#: ../src/tools/gnm-solver.c:673
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "A(z) #%d. megoldó megszorítás érvénytelen"
 
-#: ../src/tools/gnm-solver.c:1073
+#: ../src/tools/gnm-solver.c:1080
 msgid "Timeout"
 msgstr "Időtúllépés"
 
-#: ../src/tools/gnm-solver.c:1282
+#: ../src/tools/gnm-solver.c:1289
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Nem sikerült fájlt létrehozni a lineáris programhoz"
 
-#: ../src/tools/gnm-solver.c:1291
+#: ../src/tools/gnm-solver.c:1298
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Nem sikerült létrehozni a lineáris programfájlt"
 
-#: ../src/tools/gnm-solver.c:1311
+#: ../src/tools/gnm-solver.c:1318
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Nem sikerült elmenteni a lineáris programot"
 
-#: ../src/tools/gnm-solver.c:1559
+#: ../src/tools/gnm-solver.c:1566
 msgid "Target"
 msgstr "Cél"
 
-#: ../src/tools/gnm-solver.c:1563
+#: ../src/tools/gnm-solver.c:1570
 msgid "Status"
 msgstr "Állapot"
 
-#: ../src/tools/gnm-solver.c:1576
+#: ../src/tools/gnm-solver.c:1583
 msgid "Minimize"
 msgstr "Minimalizálás"
 
-#: ../src/tools/gnm-solver.c:1579
+#: ../src/tools/gnm-solver.c:1586
 msgid "Maximize"
 msgstr "Maximalizálás"
 
-#: ../src/tools/gnm-solver.c:1607
+#: ../src/tools/gnm-solver.c:1614
 msgid "Lower"
 msgstr "Alsó"
 
-#: ../src/tools/gnm-solver.c:1608
+#: ../src/tools/gnm-solver.c:1615
 msgid "Upper"
 msgstr "Felső"
 
-#: ../src/tools/gnm-solver.c:1609 ../src/tools/gnm-solver.c:1652
+#: ../src/tools/gnm-solver.c:1616 ../src/tools/gnm-solver.c:1659
 msgid "Slack"
 msgstr "Maradék"
 
-#: ../src/tools/gnm-solver.c:1631
+#: ../src/tools/gnm-solver.c:1638
 msgid "At limit"
 msgstr "Határnál"
 
-#: ../src/tools/gnm-solver.c:1634
+#: ../src/tools/gnm-solver.c:1641
 msgid "Outside bounds"
 msgstr "Külső határok"
 
-#: ../src/tools/gnm-solver.c:1649
+#: ../src/tools/gnm-solver.c:1656
 msgid "Condition"
 msgstr "Feltétel"
 
-#: ../src/tools/gnm-solver.c:1654 ../src/tools/gnm-solver.c:1794
+#: ../src/tools/gnm-solver.c:1661 ../src/tools/gnm-solver.c:1801
 msgid "No constraints"
 msgstr "Nincsenek megszorítások"
 
-#: ../src/tools/gnm-solver.c:1751
+#: ../src/tools/gnm-solver.c:1758
 msgid ""
 "Final\n"
 "Value"
@@ -14845,7 +14848,7 @@ msgstr ""
 "Végső\n"
 "érték"
 
-#: ../src/tools/gnm-solver.c:1752
+#: ../src/tools/gnm-solver.c:1759
 msgid ""
 "Reduced\n"
 "Cost"
@@ -14853,7 +14856,7 @@ msgstr ""
 "Csökkentett\n"
 "költség"
 
-#: ../src/tools/gnm-solver.c:1753 ../src/tools/gnm-solver.c:1789
+#: ../src/tools/gnm-solver.c:1760 ../src/tools/gnm-solver.c:1796
 msgid ""
 "Lower\n"
 "Limit"
@@ -14861,7 +14864,7 @@ msgstr ""
 "Alsó\n"
 "határ"
 
-#: ../src/tools/gnm-solver.c:1754 ../src/tools/gnm-solver.c:1790
+#: ../src/tools/gnm-solver.c:1761 ../src/tools/gnm-solver.c:1797
 msgid ""
 "Upper\n"
 "Limit"
@@ -14869,7 +14872,7 @@ msgstr ""
 "Felső\n"
 "határ"
 
-#: ../src/tools/gnm-solver.c:1786
+#: ../src/tools/gnm-solver.c:1793
 msgid ""
 "Shadow\n"
 "Price"
@@ -14877,7 +14880,7 @@ msgstr ""
 "Árnyék\n"
 "ár"
 
-#: ../src/tools/gnm-solver.c:1787
+#: ../src/tools/gnm-solver.c:1794
 msgid ""
 "Constraint\n"
 "LHS"
@@ -14885,7 +14888,7 @@ msgstr ""
 "Megszorítás\n"
 "LHS"
 
-#: ../src/tools/gnm-solver.c:1788
+#: ../src/tools/gnm-solver.c:1795
 msgid ""
 "Constraint\n"
 "RHS"
@@ -14893,26 +14896,26 @@ msgstr ""
 "Megszorítás\n"
 "RHS"
 
-#: ../src/tools/gnm-solver.c:1856
+#: ../src/tools/gnm-solver.c:1863
 msgid "Program"
 msgstr "Program"
 
-#: ../src/tools/gnm-solver.c:1862
+#: ../src/tools/gnm-solver.c:1869
 msgid "Sensitivity"
 msgstr "Érzékenység"
 
-#: ../src/tools/gnm-solver.c:2300
+#: ../src/tools/gnm-solver.c:2364
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "A célcella nem értékelte ki számmá."
 
-#: ../src/tools/gnm-solver.c:2308
+#: ../src/tools/gnm-solver.c:2372
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr ""
 "Nem úgy tűnik, hogy a célcella lineárisan függene a bemeneti celláktól."
 
-#: ../src/tools/gnm-solver.c:2892
+#: ../src/tools/gnm-solver.c:2956
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14925,22 +14928,22 @@ msgstr ""
 "\n"
 "Szeretné saját maga megkeresni?"
 
-#: ../src/tools/gnm-solver.c:2896
+#: ../src/tools/gnm-solver.c:2960
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Nem található: %s"
 
-#: ../src/tools/gnm-solver.c:2912
+#: ../src/tools/gnm-solver.c:2976
 #, c-format
 msgid "Locate the %s program"
 msgstr "A(z) %s program megkeresése"
 
-#: ../src/tools/gnm-solver.c:3303
+#: ../src/tools/gnm-solver.c:3367
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "A kezdeti értékek nem felelnek meg a megszorításoknak."
 
-#: ../src/tools/gnm-solver.c:3394
+#: ../src/tools/gnm-solver.c:3458
 msgid "Iteration limit exceeded"
 msgstr "Ismételgetési korlát túllépve"
 
@@ -17820,12 +17823,15 @@ msgstr ""
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnumeric-expr-entry.c:972
+#| msgid ""
+#| "\n"
+#| "\t<i> to select</i>"
 msgid ""
 "\n"
-"\t<i> to select</i>"
+"\t<i>⇧F4 to select</i>"
 msgstr ""
 "\n"
-"\t<i> a kijelöléshez</i>"
+"\t<i>⇧F4 a kijelöléshez</i>"
 
 #: ../src/widgets/gnumeric-expr-entry.c:2644
 #, c-format
@@ -17899,8 +17905,9 @@ msgid "A single selection is required."
 msgstr "Egyedülálló kijelölés szükséges."
 
 #: ../src/workbook-cmd-format.c:180
-msgid "An n or 1⨯n selection is required."
-msgstr "Egy n vagy 1⨯n méretű kijelölés szükséges."
+#| msgid "An n or 1⨯n selection is required."
+msgid "An n⨯1 or 1⨯n selection is required."
+msgstr "Egy n⨯1 vagy 1⨯n méretű kijelölés szükséges."
 
 #: ../src/workbook-cmd-format.c:187
 msgid "There is no point in sorting a single cell."
