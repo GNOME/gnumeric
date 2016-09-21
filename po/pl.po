@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-09 03:32+0200\n"
-"PO-Revision-Date: 2016-09-09 03:33+0200\n"
+"POT-Creation-Date: 2016-09-21 18:14+0200\n"
+"PO-Revision-Date: 2016-09-21 18:15+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:470
+#: ../src/func-builtin.c:501
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -996,7 +996,7 @@ msgstr "Funkcje logiczne"
 msgid "Functions for manipulating truth values"
 msgstr "Funkcje do manipulacji wartościami prawdy"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:478
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:509
 msgid "Logic"
 msgstr "Logika"
 
@@ -1020,7 +1020,7 @@ msgstr "Funkcje matematyczne"
 msgid "Mathematical Functions"
 msgstr "Funkcje matematyczne"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:465
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:496
 msgid "Mathematics"
 msgstr "Matematyka"
 
@@ -1365,23 +1365,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Nieprawidłowa nazwa rzędu, %s, w sekcji rhs/zakresach"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1785
+#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1792
 msgid "Constraint"
 msgstr "Ograniczenie"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1561
-#: ../src/tools/gnm-solver.c:1606 ../src/tools/gnm-solver.c:1650
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1568
+#: ../src/tools/gnm-solver.c:1613 ../src/tools/gnm-solver.c:1657
 msgid "Value"
 msgstr "Wartość"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1562
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1569
 msgid "Type"
 msgstr "Typ"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1651
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1658
 msgid "Limit"
 msgstr "Ograniczenie"
 
@@ -4112,7 +4112,7 @@ msgstr "Sortowanie %s"
 #: ../src/commands.c:2352
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
-"them with the 'Format,olumn→Unhide' menu item."
+"them with the 'Format→Column→Unhide' menu item."
 msgstr ""
 "Na pewno ukryć wszystkie kolumny? Można je potem odkryć za pomocą menu "
 "„Format→Kolumna→Odkryj”."
@@ -4621,8 +4621,8 @@ msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Algorytm simpleksowy dla solvera (LPSolve)."
 
 #: ../src/dialogs/dialog-about.c:79
-msgid "Jean Brßort"
-msgstr "Jean Brßort"
+msgid "Jean Bréfort"
+msgstr "Jean Bréfort"
 
 #: ../src/dialogs/dialog-about.c:80
 msgid "Core charting engine."
@@ -6394,8 +6394,8 @@ msgstr "Arkusz"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1560
-#: ../src/tools/gnm-solver.c:1605 ../src/tools/gnm-solver.c:1750
+#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1567
+#: ../src/tools/gnm-solver.c:1612 ../src/tools/gnm-solver.c:1757
 msgid "Cell"
 msgstr "Komórka"
 
@@ -7369,11 +7369,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr "Zmienianie parametrów solvera"
 
-#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1587
+#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1594
 msgid "Feasible"
 msgstr "Wykonalny"
 
-#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1590
+#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1597
 msgid "Optimal"
 msgstr "Optymalny"
 
@@ -11378,8 +11378,8 @@ msgstr "Zmienne wejściowe:"
 msgid "Output variables:"
 msgstr "Zmienne wyjściowe:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1603
-#: ../src/tools/gnm-solver.c:1748
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1610
+#: ../src/tools/gnm-solver.c:1755
 msgid "Variables"
 msgstr "Zmienne"
 
@@ -11489,13 +11489,13 @@ msgstr "≥"
 msgid "="
 msgstr "="
 
-#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:386
-#: ../src/tools/gnm-solver.c:412
+#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:387
+#: ../src/tools/gnm-solver.c:413
 msgid "Int"
 msgstr "Całkowita"
 
-#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:387
-#: ../src/tools/gnm-solver.c:413
+#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:388
+#: ../src/tools/gnm-solver.c:414
 msgid "Bool"
 msgstr "Boole"
 
@@ -11580,8 +11580,8 @@ msgid "Re_place"
 msgstr "_Zastąp"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1646
-#: ../src/tools/gnm-solver.c:1782
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1653
+#: ../src/tools/gnm-solver.c:1789
 msgid "Constraints"
 msgstr "Ograniczenia"
 
@@ -11911,16 +11911,16 @@ msgstr[2] ""
 "Obszar docelowy jest za mały. Powinien on mieć co najmniej %d rzędów"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:44
+#: ../src/func-builtin.c:45
 msgid "SUM:sum of the given values"
 msgstr "SUM:suma podanych wartości"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:46
+#: ../src/func-builtin.c:47
 msgid "values:a list of values to add"
 msgstr "wartości:lista wartości do dodania"
 
-#: ../src/func-builtin.c:47
+#: ../src/func-builtin.c:48
 msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
@@ -11928,25 +11928,25 @@ msgstr ""
 "SUM oblicza sumę wszystkich wartości i komórek przywołanych w liście "
 "parametrów."
 
-#: ../src/func-builtin.c:48 ../src/func-builtin.c:75
+#: ../src/func-builtin.c:49 ../src/func-builtin.c:106
 msgid "This function is Excel compatible."
 msgstr "Ta funkcja jest zgodna z programem Excel."
 
-#: ../src/func-builtin.c:49 ../src/func-builtin.c:76
+#: ../src/func-builtin.c:50 ../src/func-builtin.c:107
 msgid "This function is OpenFormula compatible."
 msgstr "Ta funkcja jest zgodna ze standardem OpenFormula."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:70
+#: ../src/func-builtin.c:101
 msgid "PRODUCT:product of the given values"
 msgstr "PRODUCT:iloczyn podanych wartości"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:72
+#: ../src/func-builtin.c:103
 msgid "values:a list of values to multiply"
 msgstr "wartości:lista wartości do pomnożenia"
 
-#: ../src/func-builtin.c:73
+#: ../src/func-builtin.c:104
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
@@ -11954,40 +11954,40 @@ msgstr ""
 "PRODUCT oblicza iloczyn wszystkich wartości i komórek przywołanych w liście "
 "parametrów."
 
-#: ../src/func-builtin.c:74
+#: ../src/func-builtin.c:105
 msgid "If all cells are empty, the result will be 0."
 msgstr "Jeśli wszystkie komórki są puste, wynikiem będzie 0."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:107
+#: ../src/func-builtin.c:138
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION:obecna wersja programu Gnumeric"
 
-#: ../src/func-builtin.c:108
+#: ../src/func-builtin.c:139
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr "GNUMERIC_VERSION zwraca wersję programu Gnumeric jako ciąg."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:300
+#: ../src/func-builtin.c:331
 msgid "IF:conditional expression"
 msgstr "IF:wyrażenie warunkowe"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:302
+#: ../src/func-builtin.c:333
 msgid "cond:condition"
 msgstr "warunek:warunek"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:304
+#: ../src/func-builtin.c:335
 msgid "trueval:value to use if condition is true"
 msgstr "prawda:wartość używana, jeśli warunek jest prawdą"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:306
+#: ../src/func-builtin.c:337
 msgid "falseval:value to use if condition is false"
 msgstr "fałsz:wartość używana, jeśli warunek jest fałszem"
 
-#: ../src/func-builtin.c:307
+#: ../src/func-builtin.c:338
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will "
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
@@ -12419,23 +12419,23 @@ msgstr "Przeciągnij, aby wypełnić automatycznie"
 msgid "Drag to move"
 msgstr "Przeciągnij, aby przenieść"
 
-#: ../src/libgnumeric.c:142
+#: ../src/libgnumeric.c:143
 msgid "Display Gnumeric's version"
 msgstr "Wyświetla wersję programu Gnumeric"
 
-#: ../src/libgnumeric.c:151
+#: ../src/libgnumeric.c:152
 msgid "Set the root library directory"
 msgstr "Ustawia główny katalog bibliotek"
 
-#: ../src/libgnumeric.c:152 ../src/libgnumeric.c:158
+#: ../src/libgnumeric.c:153 ../src/libgnumeric.c:159
 msgid "DIR"
 msgstr "KATALOG"
 
-#: ../src/libgnumeric.c:157
+#: ../src/libgnumeric.c:158
 msgid "Adjust the root data directory"
 msgstr "Ustawia główny katalog danych"
 
-#: ../src/libgnumeric.c:174
+#: ../src/libgnumeric.c:175
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12446,11 +12446,11 @@ msgstr ""
 "Katalog z danymi := „%s”\n"
 "Katalog z bibliotekami := „%s”\n"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 msgid "Gnumeric Options"
 msgstr "Opcje programu Gnumeric"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 msgid "Show Gnumeric Options"
 msgstr "Wyświetla opcje programu Gnumeric"
 
@@ -14686,95 +14686,95 @@ msgstr "/Zaawansowany filtr:/Źródło zakresu:/Zakres kryteriów:"
 msgid "Advanced Filter (%s)"
 msgstr "Zaawansowany filtr (%s)"
 
-#: ../src/tools/gnm-solver.c:624
+#: ../src/tools/gnm-solver.c:625
 #, c-format
 msgid "Invalid solver target"
 msgstr "Nieprawidłowy cel solvera"
 
-#: ../src/tools/gnm-solver.c:636
+#: ../src/tools/gnm-solver.c:637
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "Komórka docelowa %s musi zawierać formułę, która zwróci liczbę"
 
-#: ../src/tools/gnm-solver.c:646
+#: ../src/tools/gnm-solver.c:647
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Nieprawidłowy zakres wejściowy solvera"
 
-#: ../src/tools/gnm-solver.c:657
+#: ../src/tools/gnm-solver.c:658
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Komórka wejściowa %s zawiera formułę"
 
-#: ../src/tools/gnm-solver.c:672
+#: ../src/tools/gnm-solver.c:673
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Ograniczenie solvera #%d jest nieprawidłowe"
 
-#: ../src/tools/gnm-solver.c:1073
+#: ../src/tools/gnm-solver.c:1080
 msgid "Timeout"
 msgstr "Ograniczenie czasu"
 
-#: ../src/tools/gnm-solver.c:1282
+#: ../src/tools/gnm-solver.c:1289
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Utworzenie pliku dla programu liniowego się nie powiodło"
 
-#: ../src/tools/gnm-solver.c:1291
+#: ../src/tools/gnm-solver.c:1298
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Utworzenie pliku programu liniowego się nie powiodło"
 
-#: ../src/tools/gnm-solver.c:1311
+#: ../src/tools/gnm-solver.c:1318
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Zapisanie programu liniowego się nie powiodło"
 
-#: ../src/tools/gnm-solver.c:1559
+#: ../src/tools/gnm-solver.c:1566
 msgid "Target"
 msgstr "Cel"
 
-#: ../src/tools/gnm-solver.c:1563
+#: ../src/tools/gnm-solver.c:1570
 msgid "Status"
 msgstr "Stan"
 
-#: ../src/tools/gnm-solver.c:1576
+#: ../src/tools/gnm-solver.c:1583
 msgid "Minimize"
 msgstr "Zminimalizuj"
 
-#: ../src/tools/gnm-solver.c:1579
+#: ../src/tools/gnm-solver.c:1586
 msgid "Maximize"
 msgstr "Zmaksymalizuj"
 
-#: ../src/tools/gnm-solver.c:1607
+#: ../src/tools/gnm-solver.c:1614
 msgid "Lower"
 msgstr "Dolne"
 
-#: ../src/tools/gnm-solver.c:1608
+#: ../src/tools/gnm-solver.c:1615
 msgid "Upper"
 msgstr "Górne"
 
-#: ../src/tools/gnm-solver.c:1609 ../src/tools/gnm-solver.c:1652
+#: ../src/tools/gnm-solver.c:1616 ../src/tools/gnm-solver.c:1659
 msgid "Slack"
 msgstr "Luźny"
 
-#: ../src/tools/gnm-solver.c:1631
+#: ../src/tools/gnm-solver.c:1638
 msgid "At limit"
 msgstr "Na granicy"
 
-#: ../src/tools/gnm-solver.c:1634
+#: ../src/tools/gnm-solver.c:1641
 msgid "Outside bounds"
 msgstr "Zewnętrzne krawędzie"
 
-#: ../src/tools/gnm-solver.c:1649
+#: ../src/tools/gnm-solver.c:1656
 msgid "Condition"
 msgstr "Warunek"
 
-#: ../src/tools/gnm-solver.c:1654 ../src/tools/gnm-solver.c:1794
+#: ../src/tools/gnm-solver.c:1661 ../src/tools/gnm-solver.c:1801
 msgid "No constraints"
 msgstr "Brak ograniczeń"
 
-#: ../src/tools/gnm-solver.c:1751
+#: ../src/tools/gnm-solver.c:1758
 msgid ""
 "Final\n"
 "Value"
@@ -14782,7 +14782,7 @@ msgstr ""
 "Ostateczna\n"
 "wartość"
 
-#: ../src/tools/gnm-solver.c:1752
+#: ../src/tools/gnm-solver.c:1759
 msgid ""
 "Reduced\n"
 "Cost"
@@ -14790,7 +14790,7 @@ msgstr ""
 "Zmniejszony\n"
 "koszt"
 
-#: ../src/tools/gnm-solver.c:1753 ../src/tools/gnm-solver.c:1789
+#: ../src/tools/gnm-solver.c:1760 ../src/tools/gnm-solver.c:1796
 msgid ""
 "Lower\n"
 "Limit"
@@ -14798,7 +14798,7 @@ msgstr ""
 "Dolne\n"
 "ograniczenie"
 
-#: ../src/tools/gnm-solver.c:1754 ../src/tools/gnm-solver.c:1790
+#: ../src/tools/gnm-solver.c:1761 ../src/tools/gnm-solver.c:1797
 msgid ""
 "Upper\n"
 "Limit"
@@ -14806,7 +14806,7 @@ msgstr ""
 "Górne\n"
 "ograniczenie"
 
-#: ../src/tools/gnm-solver.c:1786
+#: ../src/tools/gnm-solver.c:1793
 msgid ""
 "Shadow\n"
 "Price"
@@ -14814,7 +14814,7 @@ msgstr ""
 "Zacieniowana\n"
 "cena"
 
-#: ../src/tools/gnm-solver.c:1787
+#: ../src/tools/gnm-solver.c:1794
 msgid ""
 "Constraint\n"
 "LHS"
@@ -14822,7 +14822,7 @@ msgstr ""
 "Ograniczenie\n"
 "LHS"
 
-#: ../src/tools/gnm-solver.c:1788
+#: ../src/tools/gnm-solver.c:1795
 msgid ""
 "Constraint\n"
 "RHS"
@@ -14830,25 +14830,25 @@ msgstr ""
 "Ograniczenie\n"
 "RHS"
 
-#: ../src/tools/gnm-solver.c:1856
+#: ../src/tools/gnm-solver.c:1863
 msgid "Program"
 msgstr "Program"
 
-#: ../src/tools/gnm-solver.c:1862
+#: ../src/tools/gnm-solver.c:1869
 msgid "Sensitivity"
 msgstr "Rozróżnianie"
 
-#: ../src/tools/gnm-solver.c:2300
+#: ../src/tools/gnm-solver.c:2364
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "Komórka docelowa nie zwraca liczby."
 
-#: ../src/tools/gnm-solver.c:2308
+#: ../src/tools/gnm-solver.c:2372
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr "Komórka docelowa nie zależy liniowo od komórek wejściowych."
 
-#: ../src/tools/gnm-solver.c:2892
+#: ../src/tools/gnm-solver.c:2956
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14861,22 +14861,22 @@ msgstr ""
 "\n"
 "Odnaleźć go ręcznie?"
 
-#: ../src/tools/gnm-solver.c:2896
+#: ../src/tools/gnm-solver.c:2960
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Nie można odnaleźć %s"
 
-#: ../src/tools/gnm-solver.c:2912
+#: ../src/tools/gnm-solver.c:2976
 #, c-format
 msgid "Locate the %s program"
 msgstr "Znajdź program %s"
 
-#: ../src/tools/gnm-solver.c:3303
+#: ../src/tools/gnm-solver.c:3367
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Wartości początkowe nie zaspokajają ograniczeń."
 
-#: ../src/tools/gnm-solver.c:3394
+#: ../src/tools/gnm-solver.c:3458
 msgid "Iteration limit exceeded"
 msgstr "Przekroczono ograniczenie iteracji"
 
@@ -17746,10 +17746,10 @@ msgstr ""
 #: ../src/widgets/gnumeric-expr-entry.c:972
 msgid ""
 "\n"
-"\t<i> to select</i>"
+"\t<i>⇧F4 to select</i>"
 msgstr ""
 "\n"
-"\t<i> wybierze</i>"
+"\t<i>⇧F4 wybierze</i>"
 
 #: ../src/widgets/gnumeric-expr-entry.c:2644
 #, c-format
@@ -17823,8 +17823,8 @@ msgid "A single selection is required."
 msgstr "Wymagane jest pojedyncze zaznaczenie."
 
 #: ../src/workbook-cmd-format.c:180
-msgid "An n or 1⨯n selection is required."
-msgstr "Wymagane jest zaznaczenie n lub 1⨯n."
+msgid "An n⨯1 or 1⨯n selection is required."
+msgstr "Wymagane jest zaznaczenie n⨯1 lub 1⨯n."
 
 #: ../src/workbook-cmd-format.c:187
 msgid "There is no point in sorting a single cell."
