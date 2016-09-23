@@ -3,25 +3,26 @@
 # Distributed under the same licence as the gnumeric package
 # Duarte Loreto <happyguy_pt@hotmail.com>, 2001, 2002, 2003, 2004, 2005
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
+# Tiago Santos <tiagofsantos81@sapo.pt>, 2014 - 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-06-26 22:49+0000\n"
-"PO-Revision-Date: 2016-06-28 21:13+0100\n"
+"product=gnumeric&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2016-09-21 16:18+0000\n"
+"PO-Revision-Date: 2016-09-23 21:15+0100\n"
 "Last-Translator: Tiago Santos <tiagofsantos81@sapo.pt>\n"
-"Language-Team: Português <palbuquerque73@gmail.com>\n"
+"Language-Team: Português\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\\n;\n"
-"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:470
+#: ../src/func-builtin.c:501
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -43,13 +44,17 @@ msgid "Spreadsheet;"
 msgstr "Folha de cálculo;"
 
 #: ../gnumeric.appdata.xml.in.h:1
+msgid "The Gnumeric Spreadsheet"
+msgstr "A folha de cálculo Gnumeric"
+
+#: ../gnumeric.appdata.xml.in.h:2
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
 msgstr ""
 "O Gnumeric é uma aplicação de folha de cálculo para manipulação interativa "
 "de dados."
 
-#: ../gnumeric.appdata.xml.in.h:2
+#: ../gnumeric.appdata.xml.in.h:3
 msgid ""
 "Gnumeric aims to provide high-accuracy computations, expressive graphs, and "
 "a wide selection of statistical analysis tools. Gnumeric can share files "
@@ -59,6 +64,14 @@ msgstr ""
 "expressivos e uma vasta seleção de ferramentas análise estatística. Pode "
 "partilhar ficheiros com o Microsoft Excel e programas que suportem o padrão "
 "ODS."
+
+#: ../gnumeric.appdata.xml.in.h:4
+msgid "A High-Precision Spreadsheet Program"
+msgstr "Uma aplicação de folha de cálculo de alta precisão"
+
+#: ../gnumeric.appdata.xml.in.h:5
+msgid "The Gnumeric Team"
+msgstr "A equipa do Gnumeric"
 
 #: ../plugins/applix/applix-read.c:124
 msgid "Parse error while reading Applix file."
@@ -100,7 +113,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7222
-#: ../plugins/openoffice/openoffice-read.c:13635 ../src/xml-sax-read.c:3473
+#: ../plugins/openoffice/openoffice-read.c:13638 ../src/xml-sax-read.c:3473
 msgid "Reading file..."
 msgstr "A ler ficheiro..."
 
@@ -208,7 +221,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Conteúdo inválido do elemento ss:data, obtido \"%s\""
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:13799 ../src/xml-sax-read.c:3490
+#: ../plugins/openoffice/openoffice-read.c:13802 ../src/xml-sax-read.c:3490
 msgid "XML document not well formed!"
 msgstr "Documento XML não está bem formado!"
 
@@ -974,7 +987,7 @@ msgstr "Funções lógicas"
 msgid "Functions for manipulating truth values"
 msgstr "Funções para gerir valores verdadeiros"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:478
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:509
 msgid "Logic"
 msgstr "Lógica"
 
@@ -998,7 +1011,7 @@ msgstr "Funções matemáticas"
 msgid "Mathematical Functions"
 msgstr "Funções matemáticas"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:465
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:496
 msgid "Mathematics"
 msgstr "Matemática"
 
@@ -1057,8 +1070,8 @@ msgid "Functions for manipulating strings"
 msgstr "Funções para gerir texto"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
-#: ../src/dialogs/dialog-doc-metadata.c:1863
-#: ../src/dialogs/dialog-search.c:153 ../src/func.c:1707
+#: ../src/dialogs/dialog-doc-metadata.c:1863 ../src/dialogs/dialog-search.c:153
+#: ../src/func.c:1707
 msgid "String"
 msgstr "Cadeia"
 
@@ -1137,7 +1150,6 @@ msgstr "Falha ao criar ficheiro para a solução"
 
 #: ../plugins/glpk/gnm-glpk.c:380
 #, c-format
-#| msgid "Failed to create file for solution"
 msgid "Failed to create file for sensitivity report"
 msgstr "Falha ao criar ficheiro para o relatório de sensibilidade"
 
@@ -1347,23 +1359,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Nome de linha %s inválido, na seção rhs/intervalos"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1785
+#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1792
 msgid "Constraint"
 msgstr "Restrição"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1561
-#: ../src/tools/gnm-solver.c:1606 ../src/tools/gnm-solver.c:1650
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1568
+#: ../src/tools/gnm-solver.c:1613 ../src/tools/gnm-solver.c:1657
 msgid "Value"
 msgstr "Valor"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1562
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1569
 msgid "Type"
 msgstr "Tipo"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1651
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1658
 msgid "Limit"
 msgstr "Limite"
 
@@ -1532,8 +1544,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "Expressão \"%s\" não se inicia com um carácter reconhecido"
 
 #: ../plugins/openoffice/openoffice-read.c:2385
-#: ../plugins/openoffice/openoffice-write.c:5210
-#: ../plugins/openoffice/openoffice-write.c:5222 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-write.c:5216
+#: ../plugins/openoffice/openoffice-write.c:5228 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "célula"
 
@@ -1885,68 +1897,68 @@ msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Este ficheiro está corrompido com uma folha sem nome, agora chamada \"%s\"."
 
-#: ../plugins/openoffice/openoffice-read.c:13483
+#: ../plugins/openoffice/openoffice-read.c:13486
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconhecido para ficheiro openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:13493
+#: ../plugins/openoffice/openoffice-read.c:13496
 msgid "No stream named content.xml found."
 msgstr "Não foi encontrado nenhum fluxo chamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:13501
+#: ../plugins/openoffice/openoffice-read.c:13504
 msgid "No stream named styles.xml found."
 msgstr "Não foi encontrado nenhum fluxo chamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:13645
+#: ../plugins/openoffice/openoffice-read.c:13648
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadados \"%s\" inválidos"
 
-#: ../plugins/openoffice/openoffice-read.c:13708
+#: ../plugins/openoffice/openoffice-read.c:13711
 msgid "settings.xml stream is malformed!"
 msgstr "Fluxo settings.xml está mal formado!"
 
-#: ../plugins/openoffice/openoffice-write.c:5203
-#: ../plugins/openoffice/openoffice-write.c:5215
+#: ../plugins/openoffice/openoffice-write.c:5209
+#: ../plugins/openoffice/openoffice-write.c:5221
 msgid "tab"
 msgstr "tab"
 
-#: ../plugins/openoffice/openoffice-write.c:5204
-#: ../plugins/openoffice/openoffice-write.c:5216
+#: ../plugins/openoffice/openoffice-write.c:5210
+#: ../plugins/openoffice/openoffice-write.c:5222
 msgid "page"
 msgstr "página"
 
-#: ../plugins/openoffice/openoffice-write.c:5205
-#: ../plugins/openoffice/openoffice-write.c:5217
+#: ../plugins/openoffice/openoffice-write.c:5211
+#: ../plugins/openoffice/openoffice-write.c:5223
 msgid "pages"
 msgstr "páginas"
 
-#: ../plugins/openoffice/openoffice-write.c:5206
-#: ../plugins/openoffice/openoffice-write.c:5218
+#: ../plugins/openoffice/openoffice-write.c:5212
+#: ../plugins/openoffice/openoffice-write.c:5224
 msgid "date"
 msgstr "data"
 
-#: ../plugins/openoffice/openoffice-write.c:5207
-#: ../plugins/openoffice/openoffice-write.c:5219
+#: ../plugins/openoffice/openoffice-write.c:5213
+#: ../plugins/openoffice/openoffice-write.c:5225
 msgid "time"
 msgstr "hora"
 
-#: ../plugins/openoffice/openoffice-write.c:5208
-#: ../plugins/openoffice/openoffice-write.c:5220 ../src/ssconvert.c:104
+#: ../plugins/openoffice/openoffice-write.c:5214
+#: ../plugins/openoffice/openoffice-write.c:5226 ../src/ssconvert.c:104
 #: ../src/ssdiff.c:57
 msgid "file"
 msgstr "ficheiro"
 
-#: ../plugins/openoffice/openoffice-write.c:5209
-#: ../plugins/openoffice/openoffice-write.c:5221
+#: ../plugins/openoffice/openoffice-write.c:5215
+#: ../plugins/openoffice/openoffice-write.c:5227
 msgid "path"
 msgstr "caminho"
 
-#: ../plugins/openoffice/openoffice-write.c:8925
+#: ../plugins/openoffice/openoffice-write.c:8931
 msgid "Writing Sheets..."
 msgstr "A escrever folhas..."
 
-#: ../plugins/openoffice/openoffice-write.c:8966
+#: ../plugins/openoffice/openoffice-write.c:8972
 msgid "Writing Sheet Objects..."
 msgstr "A escrever objetos de folhas..."
 
@@ -3312,9 +3324,6 @@ msgid "Default Number of rows in a sheet"
 msgstr "Número predefinido de linhas numa folha"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
-#| msgid ""
-#| "The number of rows in each sheet. This setting will be used only in a new "
-#| "gnumeric session."
 msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
 "Gnumeric session."
@@ -3327,9 +3336,6 @@ msgid "Default Number of columns in a sheet"
 msgstr "Número predefinido de colunas numa folha"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:24
-#| msgid ""
-#| "The number of columns in each sheet. This setting will be used only in a "
-#| "new gnumeric session."
 msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
 "Gnumeric session."
@@ -3510,14 +3516,6 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Atraso no recálculo automático de expressões"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
-#| msgid ""
-#| "If `lag' is 0, gnumeric recalculates all auto expressions immediately "
-#| "after every change. Non-zero values of `lag' allow gnumeric to accumulate "
-#| "more changes before each recalculation. If `lag' is positive, then "
-#| "whenever a change appears, gnumeric waits `lag' milliseconds and then "
-#| "recalculates; if more changes appear during that period, they are also "
-#| "processed at that time. If `lag' is negative, then recalculation happens "
-#| "only after a quiet period of |lag| milliseconds."
 msgid ""
 "If `lag' is 0, Gnumeric recalculates all auto expressions immediately after "
 "every change. Non-zero values of `lag' allow Gnumeric to accumulate more "
@@ -3622,10 +3620,6 @@ msgid "Default To Overwriting Files"
 msgstr "Sobreposição de ficheiros por predefinição"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
-#| msgid ""
-#| "Before an existing file is being overwritten, gnumeric will present a "
-#| "warning dialog. Setting this option will make the overwrite button in "
-#| "that dialog the default button."
 msgid ""
 "Before an existing file is being overwritten, Gnumeric will present a "
 "warning dialog. Setting this option will make the overwrite button in that "
@@ -4100,7 +4094,7 @@ msgstr "A autodimensionar largura de %s"
 msgid "Autofitting height of %s"
 msgstr "A autodimensionar altura de %s"
 
-#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1226
+#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1227
 msgid "Sorting"
 msgstr "A ordenar"
 
@@ -4112,7 +4106,7 @@ msgstr "A ordenar %s"
 #: ../src/commands.c:2352
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
-"them with the 'Format,olumn→Unhide' menu item."
+"them with the 'Format→Column→Unhide' menu item."
 msgstr ""
 "Tem a certeza que quer ocultar todas as colunas? Se o fizer, pode desfazer "
 "esta ação com Formatar->Coluna->Mostrar ."
@@ -4297,9 +4291,8 @@ msgstr "Eliminar objeto"
 #: ../src/dialogs/dialog-doc-metadata.c:1912
 #: ../src/dialogs/dialog-formula-guru.c:894
 #: ../src/dialogs/dialog-function-select.c:1253
-#: ../src/dialogs/dialog-scenarios.c:523
-#: ../src/dialogs/dialog-simulation.c:216 ../src/dialogs/dialog-zoom.c:196
-#: ../src/format-template.c:218
+#: ../src/dialogs/dialog-scenarios.c:523 ../src/dialogs/dialog-simulation.c:216
+#: ../src/dialogs/dialog-zoom.c:196 ../src/format-template.c:218
 msgid "Name"
 msgstr "Nome"
 
@@ -4623,8 +4616,8 @@ msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Algoritmo Simplex para solução (LP Solve)."
 
 #: ../src/dialogs/dialog-about.c:79
-msgid "Jean Brßort"
-msgstr "Jean Brßort"
+msgid "Jean Bréfort"
+msgstr "Jean Bréfort"
 
 #: ../src/dialogs/dialog-about.c:80
 msgid "Core charting engine."
@@ -4980,7 +4973,6 @@ msgid "Visit the Gnumeric website"
 msgstr "Navege até à página do Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:547
-#| msgid "Copyright © 1998-2015"
 msgid "Copyright © 1998-2016"
 msgstr "Copyright © 1998-2016"
 
@@ -5001,11 +4993,11 @@ msgstr "O intervalo de critério é inválido."
 msgid "The output range is invalid."
 msgstr "O intervalo de saída é inválido."
 
-#: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:249
+#: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:250
 msgid "The given criteria are invalid."
 msgstr "Os critérios indicados são inválidos."
 
-#: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:247
+#: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:248
 msgid "No matching records were found."
 msgstr "Não foram encontrados registos equivalentes."
 
@@ -5013,7 +5005,7 @@ msgstr "Não foram encontrados registos equivalentes."
 #: ../src/dialogs/dialog-analysis-tools.c:670
 #: ../src/dialogs/dialog-analysis-tools.c:790
 #: ../src/dialogs/dialog-analysis-tools.c:2214
-#: ../src/dialogs/dialog-analysis-tools.c:3683 ../src/tools/filter.c:252
+#: ../src/dialogs/dialog-analysis-tools.c:3683 ../src/tools/filter.c:253
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Ocorreu um erro inesperado: %d."
@@ -5355,13 +5347,11 @@ msgstr "Variáveis _Y:"
 msgid "_X variable:"
 msgstr "Variável _X:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2387
-#: ../src/dialogs/regression.ui.h:5
+#: ../src/dialogs/dialog-analysis-tools.c:2387 ../src/dialogs/regression.ui.h:5
 msgid "_X variables:"
 msgstr "Variáveis _X:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2389
-#: ../src/dialogs/regression.ui.h:6
+#: ../src/dialogs/dialog-analysis-tools.c:2389 ../src/dialogs/regression.ui.h:6
 msgid "_Y variable:"
 msgstr "Variável _Y:"
 
@@ -5532,8 +5522,7 @@ msgid "Column %s (\"%s\")"
 msgstr "Coluna %s (\"%s\")"
 
 #: ../src/dialogs/dialog-autofilter.c:393
-#: ../src/dialogs/dialog-autofilter.c:493
-#: ../src/dialogs/dialog-cell-sort.c:137
+#: ../src/dialogs/dialog-autofilter.c:493 ../src/dialogs/dialog-cell-sort.c:137
 #, c-format
 msgid "Column %s"
 msgstr "Coluna %s"
@@ -6076,14 +6065,14 @@ msgstr "Filtro"
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2307
-#: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2885
+#: ../src/tools/analysis-tools.c:222 ../src/tools/analysis-tools.c:2891
 msgid "Row"
 msgstr "Linha"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2299
-#: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2886
+#: ../src/tools/analysis-tools.c:222 ../src/tools/analysis-tools.c:2892
 msgid "Column"
 msgstr "Coluna"
 
@@ -6398,8 +6387,8 @@ msgstr "Folha"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1560
-#: ../src/tools/gnm-solver.c:1605 ../src/tools/gnm-solver.c:1750
+#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1567
+#: ../src/tools/gnm-solver.c:1612 ../src/tools/gnm-solver.c:1757
 msgid "Cell"
 msgstr "Célula"
 
@@ -6509,7 +6498,7 @@ msgstr ""
 "senha antes de serem abertos."
 
 #: ../src/dialogs/dialog-password.c:60
-msgid "Password :"
+msgid "Password:"
 msgstr "Senha:"
 
 #: ../src/dialogs/dialog-plugin-manager.c:270
@@ -6626,73 +6615,74 @@ msgstr "Desativar verificação de extensão no exportador de texto configuráve
 msgid "Enter _Moves Selection"
 msgstr "Enter _Move a seleção"
 
-#: ../src/dialogs/dialog-preferences.c:1115
+#. xgettext : see https://en.wikipedia.org/wiki/X_Window_selection#Clipboard
+#: ../src/dialogs/dialog-preferences.c:1116
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
 msgstr "Preferir ÁREA DE TRANSFERÊNCIA em relação à seleção PRIMÁRIA"
 
-#: ../src/dialogs/dialog-preferences.c:1140
+#: ../src/dialogs/dialog-preferences.c:1141
 msgid "Capitalize _names of days"
 msgstr "Maiúsculas em _Nomes de dias"
 
-#: ../src/dialogs/dialog-preferences.c:1163
+#: ../src/dialogs/dialog-preferences.c:1164
 msgid "Correct _TWo INitial CApitals"
 msgstr "Corrigir 2 _MAiúsculas INiciais"
 
-#: ../src/dialogs/dialog-preferences.c:1167
+#: ../src/dialogs/dialog-preferences.c:1168
 msgid "Do _not correct:"
 msgstr "_Não corrigir:"
 
-#: ../src/dialogs/dialog-preferences.c:1190
+#: ../src/dialogs/dialog-preferences.c:1191
 msgid "Capitalize _first letter of sentence"
 msgstr "Maiúscula na primeira letra da _Frase"
 
-#: ../src/dialogs/dialog-preferences.c:1194
+#: ../src/dialogs/dialog-preferences.c:1195
 msgid "Do _not capitalize after:"
 msgstr "_Sem maiúsculas após:"
 
-#: ../src/dialogs/dialog-preferences.c:1216
+#: ../src/dialogs/dialog-preferences.c:1217
 msgid "Auto Correct"
 msgstr "Correção automática"
 
-#: ../src/dialogs/dialog-preferences.c:1217
+#: ../src/dialogs/dialog-preferences.c:1218
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
 #: ../src/widgets/gnm-fontbutton.c:1158
 msgid "Font"
 msgstr "Letra"
 
-#: ../src/dialogs/dialog-preferences.c:1218
+#: ../src/dialogs/dialog-preferences.c:1219
 msgid "Files"
 msgstr "Ficheiros"
 
-#: ../src/dialogs/dialog-preferences.c:1219
+#: ../src/dialogs/dialog-preferences.c:1220
 msgid "Tools"
 msgstr "Ferramentas"
 
-#: ../src/dialogs/dialog-preferences.c:1220
+#: ../src/dialogs/dialog-preferences.c:1221
 msgid "Undo"
 msgstr "Desfazer"
 
-#: ../src/dialogs/dialog-preferences.c:1221
+#: ../src/dialogs/dialog-preferences.c:1222
 msgid "Windows"
 msgstr "Janelas"
 
-#: ../src/dialogs/dialog-preferences.c:1222
+#: ../src/dialogs/dialog-preferences.c:1223
 msgid "Header/Footer"
 msgstr "Cabeçalho/Rodapé"
 
-#: ../src/dialogs/dialog-preferences.c:1224
+#: ../src/dialogs/dialog-preferences.c:1225
 msgid "Copy and Paste"
 msgstr "Copiar e colar"
 
-#: ../src/dialogs/dialog-preferences.c:1227
+#: ../src/dialogs/dialog-preferences.c:1228
 msgid "Screen"
 msgstr "Ecrã"
 
-#: ../src/dialogs/dialog-preferences.c:1228
+#: ../src/dialogs/dialog-preferences.c:1229
 msgid "INitial CApitals"
 msgstr "MAiúsculas INiciais"
 
-#: ../src/dialogs/dialog-preferences.c:1229
+#: ../src/dialogs/dialog-preferences.c:1230
 msgid "First Letter"
 msgstr "Primeira Letra"
 
@@ -7369,11 +7359,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr "A alterar parâmetros da solução"
 
-#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1587
+#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1594
 msgid "Feasible"
 msgstr "Exequível"
 
-#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1590
+#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1597
 msgid "Optimal"
 msgstr "Ótimo"
 
@@ -7415,7 +7405,6 @@ msgstr "Cancelado"
 
 #: ../src/dialogs/dialog-solver.c:686
 #, c-format
-#| msgid "Report"
 msgid "%s %%s Report"
 msgstr "Relatório %s %%s"
 
@@ -7544,13 +7533,13 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-format-page.c:758
 #: ../src/dialogs/dialog-stf-preview.h:25
-#: ../src/tools/analysis-exp-smoothing.c:153
-#: ../src/tools/analysis-exp-smoothing.c:329
-#: ../src/tools/analysis-exp-smoothing.c:517
-#: ../src/tools/analysis-exp-smoothing.c:781
-#: ../src/tools/analysis-exp-smoothing.c:1103
+#: ../src/tools/analysis-exp-smoothing.c:157
+#: ../src/tools/analysis-exp-smoothing.c:336
+#: ../src/tools/analysis-exp-smoothing.c:527
+#: ../src/tools/analysis-exp-smoothing.c:793
+#: ../src/tools/analysis-exp-smoothing.c:1118
 #: ../src/tools/analysis-frequency.c:149 ../src/tools/analysis-histogram.c:323
-#: ../src/tools/analysis-tools.c:1220 ../src/tools/analysis-tools.c:3742
+#: ../src/tools/analysis-tools.c:1222 ../src/tools/analysis-tools.c:3751
 #, c-format
 msgid "Column %d"
 msgstr "Coluna %d"
@@ -7658,8 +7647,8 @@ msgstr "Conclusão automática"
 msgid "Cell Markers"
 msgstr "Marcadores de célula"
 
-#: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:287
-#: ../src/tools/filter.c:290
+#: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:288
+#: ../src/tools/filter.c:291
 msgid "Advanced Filter"
 msgstr "Filtros avançados"
 
@@ -8091,8 +8080,8 @@ msgid "Date"
 msgstr "Data"
 
 #: ../src/dialogs/cell-format.ui.h:6 ../src/dialogs/hf-config.ui.h:10
-#: ../src/tools/analysis-exp-smoothing.c:728
-#: ../src/tools/analysis-exp-smoothing.c:1048
+#: ../src/tools/analysis-exp-smoothing.c:737
+#: ../src/tools/analysis-exp-smoothing.c:1060
 #: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:3454
 msgid "Time"
 msgstr "Hora"
@@ -8665,13 +8654,13 @@ msgstr "VAR"
 msgid "VARP"
 msgstr "VARP"
 
-#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:695
-#: ../src/tools/analysis-tools.c:698
+#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:694
+#: ../src/tools/analysis-tools.c:697
 msgid "Correlation"
 msgstr "Correlação"
 
-#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:750
-#: ../src/tools/analysis-tools.c:753 ../src/wbc-gtk-actions.c:2945
+#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:749
+#: ../src/tools/analysis-tools.c:752 ../src/wbc-gtk-actions.c:2945
 msgid "Covariance"
 msgstr "Covariância"
 
@@ -8748,12 +8737,12 @@ msgid "Format"
 msgstr "Formato"
 
 #: ../src/dialogs/data-table.ui.h:2
-msgid "_Row Input :"
-msgstr "Entrada de _Linha:"
+msgid "_Row Input:"
+msgstr "Ent_rada de linha:"
 
 #: ../src/dialogs/data-table.ui.h:3
-msgid "Co_lumn Input :"
-msgstr "Entrada de _coluna:"
+msgid "Co_lumn Input:"
+msgstr "Entrada de co_luna:"
 
 #: ../src/dialogs/define-name.ui.h:1
 msgid "Define Names"
@@ -8787,8 +8776,8 @@ msgstr "Eliminar _Linha(s)"
 msgid "Delete _column(s)"
 msgstr "Eliminar _Coluna(s)"
 
-#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1140
-#: ../src/tools/analysis-tools.c:1143
+#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1139
+#: ../src/tools/analysis-tools.c:1142
 msgid "Descriptive Statistics"
 msgstr "Estatística descritiva"
 
@@ -9470,12 +9459,12 @@ msgstr "página 6"
 
 #: ../src/dialogs/exp-smoothing.ui.h:1
 #: ../src/tools/analysis-exp-smoothing.c:113
-#: ../src/tools/analysis-exp-smoothing.c:289
-#: ../src/tools/analysis-exp-smoothing.c:472
-#: ../src/tools/analysis-exp-smoothing.c:713
-#: ../src/tools/analysis-exp-smoothing.c:1033
-#: ../src/tools/analysis-exp-smoothing.c:1397
-#: ../src/tools/analysis-exp-smoothing.c:1400
+#: ../src/tools/analysis-exp-smoothing.c:292
+#: ../src/tools/analysis-exp-smoothing.c:478
+#: ../src/tools/analysis-exp-smoothing.c:722
+#: ../src/tools/analysis-exp-smoothing.c:1045
+#: ../src/tools/analysis-exp-smoothing.c:1412
+#: ../src/tools/analysis-exp-smoothing.c:1415
 msgid "Exponential Smoothing"
 msgstr "Suavização exponencial"
 
@@ -10128,8 +10117,8 @@ msgstr "_Unir"
 msgid "Merge _Range:"
 msgstr "_Unir intervalo:"
 
-#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3988
-#: ../src/tools/analysis-tools.c:3991
+#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3997
+#: ../src/tools/analysis-tools.c:4000
 msgid "Moving Average"
 msgstr "Média móvel"
 
@@ -10342,8 +10331,8 @@ msgid "Gnumeric Preferences"
 msgstr "Preferências do Gnumeric"
 
 #: ../src/dialogs/principal-components.ui.h:1
-#: ../src/tools/analysis-principal-components.c:223
-#: ../src/tools/analysis-principal-components.c:226
+#: ../src/tools/analysis-principal-components.c:227
+#: ../src/tools/analysis-principal-components.c:230
 #: ../src/wbc-gtk-actions.c:2982
 msgid "Principal Components Analysis"
 msgstr "Análise dos componentes principais"
@@ -10693,8 +10682,8 @@ msgstr "Abrir documento"
 msgid "Last Used"
 msgstr "Última utilização"
 
-#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3598
-#: ../src/tools/analysis-tools.c:3601
+#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3604
+#: ../src/tools/analysis-tools.c:3607
 msgid "Regression"
 msgstr "Regressão"
 
@@ -11381,8 +11370,8 @@ msgstr "Variáveis de entrada:"
 msgid "Output variables:"
 msgstr "Variáveis de saída:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1603
-#: ../src/tools/gnm-solver.c:1748
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1610
+#: ../src/tools/gnm-solver.c:1755
 msgid "Variables"
 msgstr "Variáveis"
 
@@ -11465,8 +11454,8 @@ msgid "List Properties"
 msgstr "Propriedades da lista"
 
 #: ../src/dialogs/so-list.ui.h:2
-msgid "_Link :"
-msgstr "Ligação:"
+msgid "_Link:"
+msgstr "_Ligação:"
 
 #: ../src/dialogs/so-list.ui.h:3
 msgid "As value"
@@ -11477,7 +11466,7 @@ msgid "As index"
 msgstr "Como índice"
 
 #: ../src/dialogs/so-list.ui.h:5
-msgid "_Content :"
+msgid "_Content:"
 msgstr "_Conteúdo:"
 
 #: ../src/dialogs/solver.ui.h:1
@@ -11492,13 +11481,13 @@ msgstr "≥"
 msgid "="
 msgstr "="
 
-#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:386
-#: ../src/tools/gnm-solver.c:412
+#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:387
+#: ../src/tools/gnm-solver.c:413
 msgid "Int"
 msgstr "Int"
 
-#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:387
-#: ../src/tools/gnm-solver.c:413
+#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:388
+#: ../src/tools/gnm-solver.c:414
 msgid "Bool"
 msgstr "Lógico"
 
@@ -11583,8 +11572,8 @@ msgid "Re_place"
 msgstr "_Substituir:"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1646
-#: ../src/tools/gnm-solver.c:1782
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1653
+#: ../src/tools/gnm-solver.c:1789
 msgid "Constraints"
 msgstr "Restrições"
 
@@ -11915,16 +11904,16 @@ msgstr[1] ""
 "altura"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:44
+#: ../src/func-builtin.c:45
 msgid "SUM:sum of the given values"
 msgstr "SOMA: soma dos valore indicados"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:46
+#: ../src/func-builtin.c:47
 msgid "values:a list of values to add"
 msgstr "valores: uma lista de valores a adicionar"
 
-#: ../src/func-builtin.c:47
+#: ../src/func-builtin.c:48
 msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
@@ -11932,25 +11921,25 @@ msgstr ""
 "Soma calcula a soma de todos os valores e células refenciados na lista de "
 "argumentos."
 
-#: ../src/func-builtin.c:48 ../src/func-builtin.c:75
+#: ../src/func-builtin.c:49 ../src/func-builtin.c:106
 msgid "This function is Excel compatible."
 msgstr "Esta função é compatível com Excel."
 
-#: ../src/func-builtin.c:49 ../src/func-builtin.c:76
+#: ../src/func-builtin.c:50 ../src/func-builtin.c:107
 msgid "This function is OpenFormula compatible."
 msgstr "Esta função é compatível com OpenFormula."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:70
+#: ../src/func-builtin.c:101
 msgid "PRODUCT:product of the given values"
 msgstr "PRODUTO: produto dos valores indicados"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:72
+#: ../src/func-builtin.c:103
 msgid "values:a list of values to multiply"
 msgstr "valores: uma lista de valores a multiplicar"
 
-#: ../src/func-builtin.c:73
+#: ../src/func-builtin.c:104
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
@@ -11958,40 +11947,40 @@ msgstr ""
 "PRODUTO calcula o produto de todos os valores e células referenciados na "
 "lista de argumentos."
 
-#: ../src/func-builtin.c:74
+#: ../src/func-builtin.c:105
 msgid "If all cells are empty, the result will be 0."
 msgstr "Se todas as células estiverem vazias, o resultado será 0."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:107
+#: ../src/func-builtin.c:138
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "VERSÃO_GNUMERIC: a versão atual do Gnumeric"
 
-#: ../src/func-builtin.c:108
+#: ../src/func-builtin.c:139
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr "VERSÃO_GNUMERIC devolve a versão do Gnumeric como cadeia."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:300
+#: ../src/func-builtin.c:331
 msgid "IF:conditional expression"
 msgstr "SE: expressão condicional"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:302
+#: ../src/func-builtin.c:333
 msgid "cond:condition"
 msgstr "cond: condição"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:304
+#: ../src/func-builtin.c:335
 msgid "trueval:value to use if condition is true"
 msgstr "valverd: valor a usar se a condição for verdadeira"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:306
+#: ../src/func-builtin.c:337
 msgid "falseval:value to use if condition is false"
 msgstr "valfals: valor a usar se a condição for falsa"
 
-#: ../src/func-builtin.c:307
+#: ../src/func-builtin.c:338
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will "
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
@@ -12420,23 +12409,23 @@ msgstr "Arrastar para encher automaticamente"
 msgid "Drag to move"
 msgstr "Arrastar para mover"
 
-#: ../src/libgnumeric.c:142
+#: ../src/libgnumeric.c:143
 msgid "Display Gnumeric's version"
 msgstr "Mostrar versão do Gnumeric"
 
-#: ../src/libgnumeric.c:151
+#: ../src/libgnumeric.c:152
 msgid "Set the root library directory"
 msgstr "Define a pasta raiz de bibliotecas"
 
-#: ../src/libgnumeric.c:152 ../src/libgnumeric.c:158
+#: ../src/libgnumeric.c:153 ../src/libgnumeric.c:159
 msgid "DIR"
 msgstr "PASTA"
 
-#: ../src/libgnumeric.c:157
+#: ../src/libgnumeric.c:158
 msgid "Adjust the root data directory"
 msgstr "Ajusta a pasta raiz de dados"
 
-#: ../src/libgnumeric.c:174
+#: ../src/libgnumeric.c:175
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12447,11 +12436,11 @@ msgstr ""
 "pasta de dados := \"%s\"\n"
 "pasta de bibliotecas := \"%s\"\n"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 msgid "Gnumeric Options"
 msgstr "Opções do Gnumeric"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 msgid "Show Gnumeric Options"
 msgstr "Mostrar as opções do Gnumeric"
 
@@ -12495,7 +12484,7 @@ msgstr "Sair imediatamente após carregar os livros selecionados"
 msgid "[FILE ...]"
 msgstr "[FICHEIRO...]"
 
-#: ../src/main-application.c:170 ../src/ssconvert.c:884 ../src/ssdiff.c:1108
+#: ../src/main-application.c:170 ../src/ssconvert.c:897 ../src/ssdiff.c:1108
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -13400,7 +13389,7 @@ msgstr "A solução foi executada mas falhou"
 msgid "Solver: %s\n"
 msgstr "Solução: %s\n"
 
-#: ../src/ssconvert.c:663
+#: ../src/ssconvert.c:676
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13409,7 +13398,7 @@ msgstr ""
 "Exportador desconhecido \"%s\".\n"
 "Tente --list-exporters para ver uma lista de possibilidades.\n"
 
-#: ../src/ssconvert.c:683
+#: ../src/ssconvert.c:696
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13418,7 +13407,7 @@ msgstr ""
 "Impossível deduzir o exportador a utilizar para \"%s\"\n"
 "Tente --list-exporters para ver uma lista de possibilidades.\n"
 
-#: ../src/ssconvert.c:695
+#: ../src/ssconvert.c:708
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13428,7 +13417,7 @@ msgstr ""
 "exportação.\n"
 "Tente --list-exporters para ver uma lista de possibilidades.\n"
 
-#: ../src/ssconvert.c:705
+#: ../src/ssconvert.c:718
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13437,12 +13426,12 @@ msgstr ""
 "Importador desconhecido \"%s\".\n"
 "Tente --list-importers para ver uma lista de possibilidades.\n"
 
-#: ../src/ssconvert.c:729
+#: ../src/ssconvert.c:742
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Falhou o carregamento de %s\n"
 
-#: ../src/ssconvert.c:843
+#: ../src/ssconvert.c:856
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13453,11 +13442,11 @@ msgstr ""
 "ficheiro.\n"
 "Só a folha atual será gravada. Para contornar esta limitação use -S.\n"
 
-#: ../src/ssconvert.c:872 ../src/ssconvert.c:923
+#: ../src/ssconvert.c:885 ../src/ssconvert.c:936
 msgid "INFILE [OUTFILE]"
 msgstr "FICHENTRADA [FICHSAIDA]"
 
-#: ../src/ssconvert.c:891
+#: ../src/ssconvert.c:904
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13468,7 +13457,7 @@ msgstr ""
 "pasta de dados := \"%s\"\n"
 "pasta de bibliotecas := \"%s\"\n"
 
-#: ../src/ssconvert.c:921 ../src/ssdiff.c:1165 ../src/ssindex.c:268
+#: ../src/ssconvert.c:934 ../src/ssdiff.c:1165 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uso: %s [OPÇÃO...] %s\n"
@@ -13800,12 +13789,12 @@ msgstr "ANOVA: dois-fatores sem replicação"
 msgid "/Summary/Count/Sum/Average/Variance"
 msgstr "/Resumo/Contagem/Soma/Média/Variância"
 
-#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:179
+#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:178
 #, c-format
 msgid "Row %i"
 msgstr "Linha %i"
 
-#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:182
+#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:181
 #, c-format
 msgid "Column %i"
 msgstr "Coluna %i"
@@ -13819,7 +13808,7 @@ msgid "/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Origem da variância/Linhas/Colunas/Erro/Total"
 
 #: ../src/tools/analysis-anova.c:250 ../src/tools/analysis-anova.c:609
-#: ../src/tools/analysis-tools.c:4263
+#: ../src/tools/analysis-tools.c:4272
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-valor/F crítico"
 
@@ -13922,41 +13911,41 @@ msgid "Test of Homogeneity"
 msgstr "Teste de homogeneidade"
 
 #: ../src/tools/analysis-exp-smoothing.c:114
-#: ../src/tools/analysis-exp-smoothing.c:290
-#: ../src/tools/analysis-exp-smoothing.c:474
-#: ../src/tools/analysis-exp-smoothing.c:715
-#: ../src/tools/analysis-exp-smoothing.c:1035
+#: ../src/tools/analysis-exp-smoothing.c:293
+#: ../src/tools/analysis-exp-smoothing.c:480
+#: ../src/tools/analysis-exp-smoothing.c:724
+#: ../src/tools/analysis-exp-smoothing.c:1047
 msgid "\"α =\" * 0.000"
 msgstr "\"α =\" * 0.000"
 
-#: ../src/tools/analysis-exp-smoothing.c:153
-#: ../src/tools/analysis-exp-smoothing.c:329
-#: ../src/tools/analysis-exp-smoothing.c:517
-#: ../src/tools/analysis-exp-smoothing.c:781
-#: ../src/tools/analysis-exp-smoothing.c:1103
+#: ../src/tools/analysis-exp-smoothing.c:157
+#: ../src/tools/analysis-exp-smoothing.c:336
+#: ../src/tools/analysis-exp-smoothing.c:527
+#: ../src/tools/analysis-exp-smoothing.c:793
+#: ../src/tools/analysis-exp-smoothing.c:1118
 #: ../src/tools/analysis-frequency.c:146 ../src/tools/analysis-histogram.c:320
-#: ../src/tools/analysis-tools.c:1217 ../src/tools/analysis-tools.c:3739
+#: ../src/tools/analysis-tools.c:1219 ../src/tools/analysis-tools.c:3748
 #, c-format
 msgid "Row %d"
 msgstr "Linha %d"
 
-#: ../src/tools/analysis-exp-smoothing.c:205
-#: ../src/tools/analysis-exp-smoothing.c:386
-#: ../src/tools/analysis-exp-smoothing.c:603
-#: ../src/tools/analysis-exp-smoothing.c:922
-#: ../src/tools/analysis-exp-smoothing.c:1286
-#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3914
+#: ../src/tools/analysis-exp-smoothing.c:208
+#: ../src/tools/analysis-exp-smoothing.c:392
+#: ../src/tools/analysis-exp-smoothing.c:612
+#: ../src/tools/analysis-exp-smoothing.c:934
+#: ../src/tools/analysis-exp-smoothing.c:1301
+#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3923
 msgid "Standard Error"
 msgstr "Erro padrão"
 
-#: ../src/tools/analysis-exp-smoothing.c:478
-#: ../src/tools/analysis-exp-smoothing.c:719
-#: ../src/tools/analysis-exp-smoothing.c:1039
+#: ../src/tools/analysis-exp-smoothing.c:484
+#: ../src/tools/analysis-exp-smoothing.c:728
+#: ../src/tools/analysis-exp-smoothing.c:1051
 msgid "\"γ =\" * 0.000"
 msgstr "\"γ =\" * 0.000"
 
-#: ../src/tools/analysis-exp-smoothing.c:639
-#: ../src/tools/analysis-exp-smoothing.c:642
+#: ../src/tools/analysis-exp-smoothing.c:648
+#: ../src/tools/analysis-exp-smoothing.c:651
 msgid ""
 "Holt's trend corrected exponential\n"
 "smoothing requires at least 2\n"
@@ -13966,18 +13955,18 @@ msgstr ""
 "de Holt corrigida requer pelo menos\n"
 "2 colunas para cada conjunto de dados."
 
-#: ../src/tools/analysis-exp-smoothing.c:723
-#: ../src/tools/analysis-exp-smoothing.c:1043
+#: ../src/tools/analysis-exp-smoothing.c:732
+#: ../src/tools/analysis-exp-smoothing.c:1055
 msgid "\"δ =\" * 0.000"
 msgstr "\"δ =\" * 0.000"
 
-#: ../src/tools/analysis-exp-smoothing.c:758
-#: ../src/tools/analysis-exp-smoothing.c:1080
+#: ../src/tools/analysis-exp-smoothing.c:770
+#: ../src/tools/analysis-exp-smoothing.c:1095
 msgid "/Level/Trend/Seasonal Adjustment"
 msgstr "/Nível/Tendência/Ajuste sazonal"
 
-#: ../src/tools/analysis-exp-smoothing.c:953
-#: ../src/tools/analysis-exp-smoothing.c:956
+#: ../src/tools/analysis-exp-smoothing.c:965
+#: ../src/tools/analysis-exp-smoothing.c:968
 msgid ""
 "The additive Holt-Winters exponential\n"
 "smoothing method requires at least 4\n"
@@ -13987,8 +13976,8 @@ msgstr ""
 "aditiva Holt-Winters requer pelo menos\n"
 "4 colunas para cada conjunto de dados."
 
-#: ../src/tools/analysis-exp-smoothing.c:1324
-#: ../src/tools/analysis-exp-smoothing.c:1327
+#: ../src/tools/analysis-exp-smoothing.c:1339
+#: ../src/tools/analysis-exp-smoothing.c:1342
 msgid ""
 "The multiplicative Holt-Winters exponential\n"
 "smoothing method requires at least 4\n"
@@ -13998,7 +13987,7 @@ msgstr ""
 "multiplicativa Holt-Winters requer pelo menos\n"
 "4 colunas para cada conjunto de dados."
 
-#: ../src/tools/analysis-exp-smoothing.c:1369
+#: ../src/tools/analysis-exp-smoothing.c:1384
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Suavização exponencial (%s)"
@@ -14008,7 +13997,7 @@ msgid "/Frequency Table/Category"
 msgstr "/Tabela de frequência/Categoria"
 
 #: ../src/tools/analysis-frequency.c:152 ../src/tools/analysis-histogram.c:326
-#: ../src/tools/analysis-tools.c:1223
+#: ../src/tools/analysis-tools.c:1225
 #, c-format
 msgid "Area %d"
 msgstr "Área %d"
@@ -14177,13 +14166,13 @@ msgstr "Teste Student-t (%s)"
 msgid "Student-t Test"
 msgstr "Teste Student t"
 
-#: ../src/tools/analysis-principal-components.c:67
+#: ../src/tools/analysis-principal-components.c:68
 msgid "Principal components analysis has insufficient space."
 msgstr "Análise de componentes principais não tem espaço sufuciente."
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
-#: ../src/tools/analysis-principal-components.c:98
+#: ../src/tools/analysis-principal-components.c:99
 msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
@@ -14191,20 +14180,20 @@ msgstr ""
 "\"Análise de componentes principais\";[vermelho]\"Análise de componentes "
 "principais é inválida.\""
 
-#: ../src/tools/analysis-principal-components.c:104
-#: ../src/tools/analysis-tools.c:722
+#: ../src/tools/analysis-principal-components.c:105
+#: ../src/tools/analysis-tools.c:721
 msgid "Covariances"
 msgstr "Covariâncias"
 
-#: ../src/tools/analysis-principal-components.c:128
+#: ../src/tools/analysis-principal-components.c:132
 msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr "/Contagem/Média/Variância/Valores Eigen/Vetores Eigen"
 
-#: ../src/tools/analysis-principal-components.c:133
+#: ../src/tools/analysis-principal-components.c:137
 msgid "Percent of Trace"
 msgstr "Percentagem de rasto"
 
-#: ../src/tools/analysis-principal-components.c:211
+#: ../src/tools/analysis-principal-components.c:215
 #, c-format
 msgid "Principal Components Analysis (%s)"
 msgstr "Análise de componentes principais (%s)"
@@ -14263,31 +14252,31 @@ msgstr ""
 msgid "Wilcoxon Signed Rank Test (%s)"
 msgstr "Teste de posição assinada Wilcoxon (%s)"
 
-#: ../src/tools/analysis-tools.c:185
+#: ../src/tools/analysis-tools.c:184
 #, c-format
 msgid "Bin %i"
 msgstr "Bin %i"
 
-#: ../src/tools/analysis-tools.c:189
+#: ../src/tools/analysis-tools.c:188
 #, c-format
 msgid "Area %i"
 msgstr "Área %i"
 
-#: ../src/tools/analysis-tools.c:274
+#: ../src/tools/analysis-tools.c:273
 #, c-format
 msgid "Variable %i"
 msgstr "Variável %i"
 
-#: ../src/tools/analysis-tools.c:667
+#: ../src/tools/analysis-tools.c:666
 msgid "Correlations"
 msgstr "Correlações"
 
-#: ../src/tools/analysis-tools.c:679
+#: ../src/tools/analysis-tools.c:678
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Correlação (%s)"
 
-#: ../src/tools/analysis-tools.c:734
+#: ../src/tools/analysis-tools.c:733
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Covariância (%s)"
@@ -14299,7 +14288,7 @@ msgstr "Covariância (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:836
+#: ../src/tools/analysis-tools.c:835
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -14307,36 +14296,36 @@ msgstr ""
 "/Média/Erro padrão/Mediana/Modo/Desvio padrão/Variância da amostra/Kurtosis/"
 "Enviesamento/Intervalo/Mínimo/Máximo/Soma/Contagem"
 
-#: ../src/tools/analysis-tools.c:970
+#: ../src/tools/analysis-tools.c:969
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% IC para a média de/para"
 
-#: ../src/tools/analysis-tools.c:1101
+#: ../src/tools/analysis-tools.c:1100
 #, c-format
 msgid "Largest (%d)"
 msgstr "Maior (%d)"
 
-#: ../src/tools/analysis-tools.c:1108
+#: ../src/tools/analysis-tools.c:1107
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Menor (%d)"
 
-#: ../src/tools/analysis-tools.c:1125
+#: ../src/tools/analysis-tools.c:1124
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Estatísticas descritivas (%s)"
 
-#: ../src/tools/analysis-tools.c:1320
+#: ../src/tools/analysis-tools.c:1322
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Amostragem (%s)"
 
-#: ../src/tools/analysis-tools.c:1354 ../src/tools/analysis-tools.c:1357
+#: ../src/tools/analysis-tools.c:1360 ../src/tools/analysis-tools.c:1363
 msgid "Sample"
 msgstr "Amostra"
 
-#: ../src/tools/analysis-tools.c:1398
+#: ../src/tools/analysis-tools.c:1404
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -14346,16 +14335,16 @@ msgstr ""
 "média observada/z/P (Z<=z) uma-cauda/z uma-cauda crítica/P (Z<=z) duas-"
 "caudas/z duas-caudas críticas"
 
-#: ../src/tools/analysis-tools.c:1585
+#: ../src/tools/analysis-tools.c:1591
 #, c-format
 msgid "z-Test (%s)"
 msgstr "z-Teste (%s)"
 
-#: ../src/tools/analysis-tools.c:1595 ../src/tools/analysis-tools.c:1598
+#: ../src/tools/analysis-tools.c:1601 ../src/tools/analysis-tools.c:1604
 msgid "z-Test"
 msgstr "z-Teste"
 
-#: ../src/tools/analysis-tools.c:1649
+#: ../src/tools/analysis-tools.c:1655
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -14365,18 +14354,18 @@ msgstr ""
 "Diferença média observada/Variância das diferenças/df/t Estat/P (T<=t) uma-"
 "cauda/t uma-cauda crítica/P (T<=t) duas-caudas/t duas-caudas críticas"
 
-#: ../src/tools/analysis-tools.c:1877
+#: ../src/tools/analysis-tools.c:1883
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "t-Teste, irmanado (%s)"
 
-#: ../src/tools/analysis-tools.c:1887 ../src/tools/analysis-tools.c:1890
-#: ../src/tools/analysis-tools.c:2187 ../src/tools/analysis-tools.c:2190
-#: ../src/tools/analysis-tools.c:2480 ../src/tools/analysis-tools.c:2483
+#: ../src/tools/analysis-tools.c:1893 ../src/tools/analysis-tools.c:1896
+#: ../src/tools/analysis-tools.c:2193 ../src/tools/analysis-tools.c:2196
+#: ../src/tools/analysis-tools.c:2486 ../src/tools/analysis-tools.c:2489
 msgid "t-Test"
 msgstr "t-Teste"
 
-#: ../src/tools/analysis-tools.c:1928
+#: ../src/tools/analysis-tools.c:1934
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -14386,12 +14375,12 @@ msgstr ""
 "hipotética/Diferença média observada/df/t Estat/P (T<=t) uma-cauda/t uma-"
 "cauda crítica/P (T<=t) duas-caudas/t duas-caudas críticas"
 
-#: ../src/tools/analysis-tools.c:2177 ../src/tools/analysis-tools.c:2470
+#: ../src/tools/analysis-tools.c:2183 ../src/tools/analysis-tools.c:2476
 #, c-format
 msgid "t-Test (%s)"
 msgstr "t-Teste (%s)"
 
-#: ../src/tools/analysis-tools.c:2225
+#: ../src/tools/analysis-tools.c:2231
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -14401,12 +14390,12 @@ msgstr ""
 "observada/df/t Estat/P (T<=t) uma-cauda/t uma-cauda crítica/P (T<=t) duas-"
 "caudas/t duas-caudas críticas"
 
-#: ../src/tools/analysis-tools.c:2519 ../src/tools/analysis-tools.c:2768
-#: ../src/tools/analysis-tools.c:2771
+#: ../src/tools/analysis-tools.c:2525 ../src/tools/analysis-tools.c:2774
+#: ../src/tools/analysis-tools.c:2777
 msgid "F-Test"
 msgstr "F-Teste"
 
-#: ../src/tools/analysis-tools.c:2520
+#: ../src/tools/analysis-tools.c:2526
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -14415,12 +14404,12 @@ msgstr ""
 "crítica/P (f<=F) cauda-esquerda/F cauda-esquerda crítica/P duas-caudas/F "
 "duas-caudas críticas"
 
-#: ../src/tools/analysis-tools.c:2758
+#: ../src/tools/analysis-tools.c:2764
 #, c-format
 msgid "F-Test (%s)"
 msgstr "F-Teste (%s)"
 
-#: ../src/tools/analysis-tools.c:2903
+#: ../src/tools/analysis-tools.c:2909
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -14428,29 +14417,29 @@ msgstr ""
 "/RESUMO RESULTADO//Estatísticas de regressão/R Múltiplo/R^2//Erro padrão/R^2 "
 "ajustado/Observações//ANOVA//Regressão/Residual/Total///Intercepção"
 
-#: ../src/tools/analysis-tools.c:2922
+#: ../src/tools/analysis-tools.c:2928
 msgid "Response Variable"
 msgstr "Variável de resposta"
 
-#: ../src/tools/analysis-tools.c:2956
+#: ../src/tools/analysis-tools.c:2962
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Significância de F"
 
-#: ../src/tools/analysis-tools.c:2963
+#: ../src/tools/analysis-tools.c:2969
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr "/Coeficientes/Erro padrão/t Estat/Valor P"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2969
+#: ../src/tools/analysis-tools.c:2975
 msgid "\"Lower\" 0%"
 msgstr "\"Inferior\" 0%"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2971
+#: ../src/tools/analysis-tools.c:2977
 msgid "\"Upper\" 0%"
 msgstr "\"Superior\" 0%"
 
-#: ../src/tools/analysis-tools.c:2980
+#: ../src/tools/analysis-tools.c:2986
 msgid ""
 "Probability of observing a t-statistic\n"
 "whose absolute value is at least as large\n"
@@ -14464,7 +14453,7 @@ msgstr ""
 "atualmente observada, presumindo que a\n"
 "hipótese nula é de fato verdadeira."
 
-#: ../src/tools/analysis-tools.c:2987
+#: ../src/tools/analysis-tools.c:2993
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -14478,11 +14467,11 @@ msgstr ""
 "é, a proporção da soma dos quadrados\n"
 "explicada pelo modelo."
 
-#: ../src/tools/analysis-tools.c:3295
+#: ../src/tools/analysis-tools.c:3301
 msgid "Constant"
 msgstr "Constante"
 
-#: ../src/tools/analysis-tools.c:3300
+#: ../src/tools/analysis-tools.c:3306
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
@@ -14490,104 +14479,104 @@ msgstr ""
 "/Previsão//Residual/Alavancas/Estudado internamente/Estudado externamente/"
 "Valor P"
 
-#: ../src/tools/analysis-tools.c:3462
+#: ../src/tools/analysis-tools.c:3468
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/RESUMO RESULTADO//Variável independente//Observações"
 
-#: ../src/tools/analysis-tools.c:3467
+#: ../src/tools/analysis-tools.c:3473
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/RESUMO RESULTADO//Variável de resposta//Observações"
 
-#: ../src/tools/analysis-tools.c:3473
+#: ../src/tools/analysis-tools.c:3479
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Variável de resposta/R^2/Declive/Interceptar/F/Significância de F"
 
-#: ../src/tools/analysis-tools.c:3479
+#: ../src/tools/analysis-tools.c:3485
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Variável independente/R^2/Declive/Interceptar/F/Significância de F"
 
-#: ../src/tools/analysis-tools.c:3560
+#: ../src/tools/analysis-tools.c:3566
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regressão (%s)"
 
-#: ../src/tools/analysis-tools.c:3975
+#: ../src/tools/analysis-tools.c:3984
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Média móvel (%s)"
 
-#: ../src/tools/analysis-tools.c:4033
+#: ../src/tools/analysis-tools.c:4042
 msgid "Ranks & Percentiles"
 msgstr "Nível e percentil"
 
-#: ../src/tools/analysis-tools.c:4044
+#: ../src/tools/analysis-tools.c:4053
 msgid "Point"
 msgstr "Ponto"
 
-#: ../src/tools/analysis-tools.c:4045
+#: ../src/tools/analysis-tools.c:4054
 msgid "Rank"
 msgstr "Nível"
 
-#: ../src/tools/analysis-tools.c:4046
+#: ../src/tools/analysis-tools.c:4055
 msgid "Percentile Rank"
 msgstr "Nível de percentil"
 
-#: ../src/tools/analysis-tools.c:4138
+#: ../src/tools/analysis-tools.c:4147
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Níveis (%s)"
 
-#: ../src/tools/analysis-tools.c:4150 ../src/tools/analysis-tools.c:4153
+#: ../src/tools/analysis-tools.c:4159 ../src/tools/analysis-tools.c:4162
 msgid "Ranks"
 msgstr "Níveis"
 
-#: ../src/tools/analysis-tools.c:4185
+#: ../src/tools/analysis-tools.c:4194
 msgid "Anova: Single Factor"
 msgstr "Anova: fator único"
 
-#: ../src/tools/analysis-tools.c:4186 ../src/tools/simulation.c:336
+#: ../src/tools/analysis-tools.c:4195 ../src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "RESUMO"
 
-#: ../src/tools/analysis-tools.c:4189
+#: ../src/tools/analysis-tools.c:4198
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupos/Contagem/Soma/Média/Variância"
 
-#: ../src/tools/analysis-tools.c:4257
+#: ../src/tools/analysis-tools.c:4266
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Origem da variância/Entre grupos/Dentro de grupos/Total"
 
-#: ../src/tools/analysis-tools.c:4475
+#: ../src/tools/analysis-tools.c:4484
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "ANOVA de fator único (%s)"
 
-#: ../src/tools/analysis-tools.c:4486
+#: ../src/tools/analysis-tools.c:4495
 msgid "Anova"
 msgstr "Anova"
 
-#: ../src/tools/analysis-tools.c:4489
+#: ../src/tools/analysis-tools.c:4498
 msgid "Single Factor ANOVA"
 msgstr "ANOVA de fator único"
 
-#: ../src/tools/analysis-tools.c:4521
+#: ../src/tools/analysis-tools.c:4530
 msgid "Inverse Fourier Transform"
 msgstr "Transformação inversa de Fourier"
 
-#: ../src/tools/analysis-tools.c:4522
+#: ../src/tools/analysis-tools.c:4531
 msgid "Fourier Transform"
 msgstr "Transformação de Fourier"
 
-#: ../src/tools/analysis-tools.c:4530
+#: ../src/tools/analysis-tools.c:4539
 msgid "/Real/Imaginary"
 msgstr "/Real/Imaginário"
 
-#: ../src/tools/analysis-tools.c:4578
+#: ../src/tools/analysis-tools.c:4587
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Séries de Fourier (%s)"
 
-#: ../src/tools/analysis-tools.c:4590 ../src/tools/analysis-tools.c:4593
+#: ../src/tools/analysis-tools.c:4599 ../src/tools/analysis-tools.c:4602
 msgid "Fourier Series"
 msgstr "Séries de Fourier"
 
@@ -14655,110 +14644,109 @@ msgstr "Baralhado"
 msgid "Fill Series (%s)"
 msgstr "Séries de preenchimento (%s)"
 
-#: ../src/tools/filter.c:137
+#: ../src/tools/filter.c:138
 msgid "Filtered"
 msgstr "Filtrado"
 
-#: ../src/tools/filter.c:199
+#: ../src/tools/filter.c:200
 msgid "/Advanced Filter:/Source Range:/Criteria Range:"
 msgstr "/Filtro avançado:/Intervalo origem:/Intervalo critério:"
 
-#: ../src/tools/filter.c:269
+#: ../src/tools/filter.c:270
 #, c-format
 msgid "Advanced Filter (%s)"
 msgstr "Filtro avançado (%s)"
 
-#: ../src/tools/gnm-solver.c:624
+#: ../src/tools/gnm-solver.c:625
 #, c-format
 msgid "Invalid solver target"
 msgstr "Alvo da solução inválido"
 
-#: ../src/tools/gnm-solver.c:636
+#: ../src/tools/gnm-solver.c:637
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr ""
 "A célula alvo, %s, deverá conter uma fórmula que seja avaliada como número"
 
-#: ../src/tools/gnm-solver.c:646
+#: ../src/tools/gnm-solver.c:647
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Intervalo de entrada da solução inválido"
 
-#: ../src/tools/gnm-solver.c:657
+#: ../src/tools/gnm-solver.c:658
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "A célula de entrada %s contém uma fórmula"
 
-#: ../src/tools/gnm-solver.c:672
+#: ../src/tools/gnm-solver.c:673
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "A restrição nº %d da solução é inválida"
 
-#: ../src/tools/gnm-solver.c:1073
+#: ../src/tools/gnm-solver.c:1080
 msgid "Timeout"
 msgstr "Expiração"
 
-#: ../src/tools/gnm-solver.c:1282
+#: ../src/tools/gnm-solver.c:1289
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Falha ao criar ficheiro para programa linear"
 
-#: ../src/tools/gnm-solver.c:1291
+#: ../src/tools/gnm-solver.c:1298
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Falha ao criar ficheiro de programa linear"
 
-#: ../src/tools/gnm-solver.c:1311
+#: ../src/tools/gnm-solver.c:1318
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Falha ao gravar programa linear"
 
-#: ../src/tools/gnm-solver.c:1559
+#: ../src/tools/gnm-solver.c:1566
 msgid "Target"
 msgstr "Alvo"
 
-#: ../src/tools/gnm-solver.c:1563
+#: ../src/tools/gnm-solver.c:1570
 msgid "Status"
 msgstr "Estado"
 
-#: ../src/tools/gnm-solver.c:1576
+#: ../src/tools/gnm-solver.c:1583
 msgid "Minimize"
 msgstr "Minimizar"
 
-#: ../src/tools/gnm-solver.c:1579
+#: ../src/tools/gnm-solver.c:1586
 msgid "Maximize"
 msgstr "Maximizar"
 
-#: ../src/tools/gnm-solver.c:1607
+#: ../src/tools/gnm-solver.c:1614
 msgid "Lower"
 msgstr "Inferior"
 
-#: ../src/tools/gnm-solver.c:1608
+#: ../src/tools/gnm-solver.c:1615
 msgid "Upper"
 msgstr "Superior"
 
-#: ../src/tools/gnm-solver.c:1609 ../src/tools/gnm-solver.c:1652
+#: ../src/tools/gnm-solver.c:1616 ../src/tools/gnm-solver.c:1659
 msgid "Slack"
 msgstr "Folga"
 
-#: ../src/tools/gnm-solver.c:1631
+#: ../src/tools/gnm-solver.c:1638
 msgid "At limit"
 msgstr "No limite"
 
-#: ../src/tools/gnm-solver.c:1634
+#: ../src/tools/gnm-solver.c:1641
 msgid "Outside bounds"
 msgstr "Fora dos limites"
 
-#: ../src/tools/gnm-solver.c:1649
+#: ../src/tools/gnm-solver.c:1656
 msgid "Condition"
 msgstr "Condição"
 
-#: ../src/tools/gnm-solver.c:1654 ../src/tools/gnm-solver.c:1794
+#: ../src/tools/gnm-solver.c:1661 ../src/tools/gnm-solver.c:1801
 msgid "No constraints"
 msgstr "Sem restrições"
 
-#: ../src/tools/gnm-solver.c:1751
-#| msgid "Final Value"
+#: ../src/tools/gnm-solver.c:1758
 msgid ""
 "Final\n"
 "Value"
@@ -14766,8 +14754,7 @@ msgstr ""
 "Valor\n"
 "Final"
 
-#: ../src/tools/gnm-solver.c:1752
-#| msgid "Reduced"
+#: ../src/tools/gnm-solver.c:1759
 msgid ""
 "Reduced\n"
 "Cost"
@@ -14775,8 +14762,7 @@ msgstr ""
 "Custo\n"
 "Reduzido"
 
-#: ../src/tools/gnm-solver.c:1753 ../src/tools/gnm-solver.c:1789
-#| msgid "Lower Limit (95%)"
+#: ../src/tools/gnm-solver.c:1760 ../src/tools/gnm-solver.c:1796
 msgid ""
 "Lower\n"
 "Limit"
@@ -14784,8 +14770,7 @@ msgstr ""
 "Limite\n"
 "Inferior"
 
-#: ../src/tools/gnm-solver.c:1754 ../src/tools/gnm-solver.c:1790
-#| msgid "Upper Limit (95%)"
+#: ../src/tools/gnm-solver.c:1761 ../src/tools/gnm-solver.c:1797
 msgid ""
 "Upper\n"
 "Limit"
@@ -14793,8 +14778,7 @@ msgstr ""
 "Limite\n"
 "Superior"
 
-#: ../src/tools/gnm-solver.c:1786
-#| msgid "Shadow"
+#: ../src/tools/gnm-solver.c:1793
 msgid ""
 "Shadow\n"
 "Price"
@@ -14802,8 +14786,7 @@ msgstr ""
 "Preço\n"
 "Sombra"
 
-#: ../src/tools/gnm-solver.c:1787
-#| msgid "Constraint"
+#: ../src/tools/gnm-solver.c:1794
 msgid ""
 "Constraint\n"
 "LHS"
@@ -14811,8 +14794,7 @@ msgstr ""
 "Restrição\n"
 "LHS"
 
-#: ../src/tools/gnm-solver.c:1788
-#| msgid "Constraint"
+#: ../src/tools/gnm-solver.c:1795
 msgid ""
 "Constraint\n"
 "RHS"
@@ -14820,27 +14802,25 @@ msgstr ""
 "Restrição\n"
 "RHS"
 
-#: ../src/tools/gnm-solver.c:1856
-#| msgid "P_rogram"
+#: ../src/tools/gnm-solver.c:1863
 msgid "Program"
 msgstr "Programa"
 
-#: ../src/tools/gnm-solver.c:1862
-#| msgid "_Sensitivity"
+#: ../src/tools/gnm-solver.c:1869
 msgid "Sensitivity"
 msgstr "Sensibilidade"
 
-#: ../src/tools/gnm-solver.c:2300
+#: ../src/tools/gnm-solver.c:2364
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "Célula alvo não foi avaliada como número."
 
-#: ../src/tools/gnm-solver.c:2308
+#: ../src/tools/gnm-solver.c:2372
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr "A célula alvo não parece depender linearmente das células de entrada."
 
-#: ../src/tools/gnm-solver.c:2892
+#: ../src/tools/gnm-solver.c:2956
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14853,22 +14833,22 @@ msgstr ""
 "\n"
 "Quer localizá-lo manualmente?"
 
-#: ../src/tools/gnm-solver.c:2896
+#: ../src/tools/gnm-solver.c:2960
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Impossível localizar %s"
 
-#: ../src/tools/gnm-solver.c:2912
+#: ../src/tools/gnm-solver.c:2976
 #, c-format
 msgid "Locate the %s program"
 msgstr "Localizar o programa %s"
 
-#: ../src/tools/gnm-solver.c:3303
+#: ../src/tools/gnm-solver.c:3367
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Os valores iniciais não satisfazem a restrição."
 
-#: ../src/tools/gnm-solver.c:3394
+#: ../src/tools/gnm-solver.c:3458
 msgid "Iteration limit exceeded"
 msgstr "Limite de iterações excedido"
 
@@ -17748,10 +17728,10 @@ msgstr ""
 #: ../src/widgets/gnumeric-expr-entry.c:972
 msgid ""
 "\n"
-"\t<i> to select</i>"
+"\t<i>⇧F4 to select</i>"
 msgstr ""
 "\n"
-"\t<i> para selecionar</i>"
+"\t<i> ⇧F4 para selecionar</i>"
 
 #: ../src/widgets/gnumeric-expr-entry.c:2644
 #, c-format
@@ -17825,8 +17805,8 @@ msgid "A single selection is required."
 msgstr "É necessária uma única seleção."
 
 #: ../src/workbook-cmd-format.c:180
-msgid "An n or 1⨯n selection is required."
-msgstr "É necessária uma seleção n ou 1⨯n."
+msgid "An n⨯1 or 1⨯n selection is required."
+msgstr "É necessária uma seleção n⨯1 ou 1⨯n."
 
 #: ../src/workbook-cmd-format.c:187
 msgid "There is no point in sorting a single cell."
@@ -17973,7 +17953,6 @@ msgid "Missing filter type"
 msgstr "Tipo de filtro em falta."
 
 #: ../src/xml-sax-read.c:2345
-#| msgid "Change filter condition for %s"
 msgid "Malformed sheet filter condition"
 msgstr "Condição de filtragem malformada."
 
@@ -23321,9 +23300,6 @@ msgstr "Um modelo simples de lista"
 
 #~ msgid "_Shaped Object"
 #~ msgstr "Ob_jecto de Formato"
-
-#~ msgid "About the Gnumeric spreadsheet program"
-#~ msgstr "Sobre a aplicação de folha de cálculo Gnumeric"
 
 #~ msgid "C_lear Cells"
 #~ msgstr "_Limpar Células"
