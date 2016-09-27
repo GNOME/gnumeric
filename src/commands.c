@@ -2305,8 +2305,10 @@ static void
 cmd_colrow_hide_finalize (GObject *cmd)
 {
 	CmdColRowHide *me = CMD_COLROW_HIDE (cmd);
-	me->hide = colrow_vis_list_destroy (me->hide);
-	me->show = colrow_vis_list_destroy (me->show);
+	colrow_vis_list_destroy (me->hide);
+	me->hide = NULL;
+	colrow_vis_list_destroy (me->show);
+	me->show = NULL;
 	gnm_command_finalize (cmd);
 }
 
