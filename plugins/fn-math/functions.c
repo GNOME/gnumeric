@@ -2847,7 +2847,7 @@ static GnmFuncHelp const help_mpseudoinverse[] = {
 
 
 static GnmValue *
-gnumeric_mpseudominverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_mpseudoinverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmMatrix *A = NULL;
 	GnmMatrix *B = NULL;
@@ -3681,7 +3681,7 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_minverse, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "mpseudoinverse","A|f", help_mpseudoinverse,
-	  gnumeric_mpseudominverse, NULL, NULL, NULL,
+	  gnumeric_mpseudoinverse, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "linsolve", "AA",  help_linsolve,
 	  gnumeric_linsolve, NULL, NULL, NULL,
