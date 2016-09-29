@@ -43207,7 +43207,7 @@ msgid ""
 msgstr ""
 "průměr z hodnot v poli <parameter>pole</parameter> v databázi "
 "<parameter>databáze</parameter> náležejících záznamům, které odpovídají "
-"kritériu <parameter>kritérium</parameter>\n"
+"kritériu <parameter>kritérium</parameter>"
 
 #. (itstool) path: refsynopsisdiv/synopsis
 #: C/gnumeric.xml:1737
@@ -60589,7 +60589,7 @@ msgstr ""
 "vrátí chybu #ČÍSLO!. Pokud je <parameter>alfa</parameter> ≤ 0 nebo "
 "<parameter>beta</parameter> ≤ 0, tak tato funkce vrátí chybu #ČÍSLO!. Pokud "
 "je <parameter>a</parameter> ≥ <parameter>b</parameter>, tak tato funkce "
-"vrátí chybu #ČÍSLO!.\n"
+"vrátí chybu #ČÍSLO!."
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:15332
