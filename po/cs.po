@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2016-08-25 11:11+0000\n"
-"PO-Revision-Date: 2016-09-15 09:43+0200\n"
+"POT-Creation-Date: 2016-09-21 16:18+0000\n"
+"PO-Revision-Date: 2016-09-29 18:48+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -28,7 +28,7 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:470
+#: ../src/func-builtin.c:501
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -996,7 +996,7 @@ msgstr "Logické funkce"
 msgid "Functions for manipulating truth values"
 msgstr "Funkce pro práci s pravdivostními hodnotami"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:478
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:509
 msgid "Logic"
 msgstr "Logické"
 
@@ -1020,7 +1020,7 @@ msgstr "Matematické funkce"
 msgid "Mathematical Functions"
 msgstr "Matematické funkce"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:465
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:496
 msgid "Mathematics"
 msgstr "Matematické"
 
@@ -1365,23 +1365,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Neplatný název řádku, %s, v sekci RHS/RANGES"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1785
+#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1792
 msgid "Constraint"
 msgstr "Omezení"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1561
-#: ../src/tools/gnm-solver.c:1606 ../src/tools/gnm-solver.c:1650
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1568
+#: ../src/tools/gnm-solver.c:1613 ../src/tools/gnm-solver.c:1657
 msgid "Value"
 msgstr "Hodnota"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1562
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1569
 msgid "Type"
 msgstr "Typ"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1651
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1658
 msgid "Limit"
 msgstr "Limit"
 
@@ -4102,7 +4102,7 @@ msgstr "Automatická šířka %s"
 msgid "Autofitting height of %s"
 msgstr "Automatická výška %s"
 
-#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1226
+#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1227
 msgid "Sorting"
 msgstr "Seřadit"
 
@@ -4112,13 +4112,9 @@ msgid "Sorting %s"
 msgstr "Seřadit %s"
 
 #: ../src/commands.c:2352
-#, fuzzy
-#| msgid ""
-#| "Are you sure that you want to hide all columns? If you do so you can "
-#| "unhide them with the 'Format→Column→Unhide' menu item."
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
-"them with the 'Format,olumn→Unhide' menu item."
+"them with the 'Format→Column→Unhide' menu item."
 msgstr ""
 "Opravdu chcete skrýt všechny sloupce? Pokud tak učiníte, můžete je opět "
 "zobrazit přes položku nabídky „Formát→Sloupec→Zviditelnit“."
@@ -4627,9 +4623,7 @@ msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Simplexový algoritmus pro řešitele (LP Solve)"
 
 #: ../src/dialogs/dialog-about.c:79
-#, fuzzy
-#| msgid "Jean Bréfort"
-msgid "Jean Brßort"
+msgid "Jean Bréfort"
 msgstr "Jean Bréfort"
 
 #: ../src/dialogs/dialog-about.c:80
@@ -6385,8 +6379,8 @@ msgstr "List"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1560
-#: ../src/tools/gnm-solver.c:1605 ../src/tools/gnm-solver.c:1750
+#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1567
+#: ../src/tools/gnm-solver.c:1612 ../src/tools/gnm-solver.c:1757
 msgid "Cell"
 msgstr "Buňka"
 
@@ -6610,73 +6604,74 @@ msgstr "Vypnout kontrolu rozšíření pro nastavitelné exporty textu"
 msgid "Enter _Moves Selection"
 msgstr "Enter _přesouvá zaměření"
 
-#: ../src/dialogs/dialog-preferences.c:1115
+#. xgettext : see https://en.wikipedia.org/wiki/X_Window_selection#Clipboard
+#: ../src/dialogs/dialog-preferences.c:1116
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
 msgstr "Upřednostnit výběr CLIPBOARD před PRIMARY"
 
-#: ../src/dialogs/dialog-preferences.c:1140
+#: ../src/dialogs/dialog-preferences.c:1141
 msgid "Capitalize _names of days"
 msgstr "První písmeno _názvů dní měnit na velké"
 
-#: ../src/dialogs/dialog-preferences.c:1163
+#: ../src/dialogs/dialog-preferences.c:1164
 msgid "Correct _TWo INitial CApitals"
 msgstr "Opravova_t DVě PRvní PÍsmena VElká"
 
-#: ../src/dialogs/dialog-preferences.c:1167
+#: ../src/dialogs/dialog-preferences.c:1168
 msgid "Do _not correct:"
 msgstr "_Neopravovat:"
 
-#: ../src/dialogs/dialog-preferences.c:1190
+#: ../src/dialogs/dialog-preferences.c:1191
 msgid "Capitalize _first letter of sentence"
 msgstr "První písmeno _věty měnit na velké"
 
-#: ../src/dialogs/dialog-preferences.c:1194
+#: ../src/dialogs/dialog-preferences.c:1195
 msgid "Do _not capitalize after:"
 msgstr "Neměnit na velké písmeno _po:"
 
-#: ../src/dialogs/dialog-preferences.c:1216
+#: ../src/dialogs/dialog-preferences.c:1217
 msgid "Auto Correct"
 msgstr "Automatické opravy"
 
-#: ../src/dialogs/dialog-preferences.c:1217
+#: ../src/dialogs/dialog-preferences.c:1218
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
 #: ../src/widgets/gnm-fontbutton.c:1158
 msgid "Font"
 msgstr "Písmo"
 
-#: ../src/dialogs/dialog-preferences.c:1218
+#: ../src/dialogs/dialog-preferences.c:1219
 msgid "Files"
 msgstr "Soubory"
 
-#: ../src/dialogs/dialog-preferences.c:1219
+#: ../src/dialogs/dialog-preferences.c:1220
 msgid "Tools"
 msgstr "Nástroje"
 
-#: ../src/dialogs/dialog-preferences.c:1220
+#: ../src/dialogs/dialog-preferences.c:1221
 msgid "Undo"
 msgstr "Zpět"
 
-#: ../src/dialogs/dialog-preferences.c:1221
+#: ../src/dialogs/dialog-preferences.c:1222
 msgid "Windows"
 msgstr "Okna"
 
-#: ../src/dialogs/dialog-preferences.c:1222
+#: ../src/dialogs/dialog-preferences.c:1223
 msgid "Header/Footer"
 msgstr "Záhlaví/zápatí"
 
-#: ../src/dialogs/dialog-preferences.c:1224
+#: ../src/dialogs/dialog-preferences.c:1225
 msgid "Copy and Paste"
 msgstr "Kopírovat a vložit"
 
-#: ../src/dialogs/dialog-preferences.c:1227
+#: ../src/dialogs/dialog-preferences.c:1228
 msgid "Screen"
 msgstr "Obrazovka"
 
-#: ../src/dialogs/dialog-preferences.c:1228
+#: ../src/dialogs/dialog-preferences.c:1229
 msgid "INitial CApitals"
 msgstr "POčáteční VElká PÍsmena"
 
-#: ../src/dialogs/dialog-preferences.c:1229
+#: ../src/dialogs/dialog-preferences.c:1230
 msgid "First Letter"
 msgstr "První písmeno"
 
@@ -7356,11 +7351,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr "Změna parametrů řešitele"
 
-#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1587
+#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1594
 msgid "Feasible"
 msgstr "Přijatelné"
 
-#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1590
+#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1597
 msgid "Optimal"
 msgstr "Optimální"
 
@@ -11363,8 +11358,8 @@ msgstr "Vstupní proměnné:"
 msgid "Output variables:"
 msgstr "Výstupní proměnné:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1603
-#: ../src/tools/gnm-solver.c:1748
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1610
+#: ../src/tools/gnm-solver.c:1755
 msgid "Variables"
 msgstr "Proměnné"
 
@@ -11474,13 +11469,13 @@ msgstr "≥"
 msgid "="
 msgstr "="
 
-#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:386
-#: ../src/tools/gnm-solver.c:412
+#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:387
+#: ../src/tools/gnm-solver.c:413
 msgid "Int"
 msgstr "Celé číslo"
 
-#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:387
-#: ../src/tools/gnm-solver.c:413
+#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:388
+#: ../src/tools/gnm-solver.c:414
 msgid "Bool"
 msgstr "Pravdivostní hodnota"
 
@@ -11565,8 +11560,8 @@ msgid "Re_place"
 msgstr "Na_hradit"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1646
-#: ../src/tools/gnm-solver.c:1782
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1653
+#: ../src/tools/gnm-solver.c:1789
 msgid "Constraints"
 msgstr "Omezení"
 
@@ -11891,41 +11886,41 @@ msgstr[1] "Cílová oblast je příliš malá. Měla by být vysoká alespoň %d
 msgstr[2] "Cílová oblast je příliš malá. Měla by být vysoká alespoň %d řádků"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:44
+#: ../src/func-builtin.c:45
 msgid "SUM:sum of the given values"
 msgstr "SUM:součet zadaných hodnot"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:46
+#: ../src/func-builtin.c:47
 msgid "values:a list of values to add"
 msgstr "values:seznam hodnot, které se mají sečíst"
 
-#: ../src/func-builtin.c:47
+#: ../src/func-builtin.c:48
 msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
 msgstr ""
 "SUM spočítá součet všech hodnost a buněk odkazovaných v seznamu argumentů."
 
-#: ../src/func-builtin.c:48 ../src/func-builtin.c:75
+#: ../src/func-builtin.c:49 ../src/func-builtin.c:106
 msgid "This function is Excel compatible."
 msgstr "Tato funkce je kompatibilní s aplikací Excel."
 
-#: ../src/func-builtin.c:49 ../src/func-builtin.c:76
+#: ../src/func-builtin.c:50 ../src/func-builtin.c:107
 msgid "This function is OpenFormula compatible."
 msgstr "Tato funkce je kompatibilní se standardem OpenFormula."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:70
+#: ../src/func-builtin.c:101
 msgid "PRODUCT:product of the given values"
 msgstr "PRODUCT:součin zadaných hodnot"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:72
+#: ../src/func-builtin.c:103
 msgid "values:a list of values to multiply"
 msgstr "values:seznam hodnot, které se mají vynásobit"
 
-#: ../src/func-builtin.c:73
+#: ../src/func-builtin.c:104
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
@@ -11933,40 +11928,40 @@ msgstr ""
 "PRODUCT vypočítá součin všech hodnot a buněk odkazovaných v seznamu "
 "argumentů."
 
-#: ../src/func-builtin.c:74
+#: ../src/func-builtin.c:105
 msgid "If all cells are empty, the result will be 0."
 msgstr "Pokud jsou všechny buňky prázdné, bude výsledkem 0."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:107
+#: ../src/func-builtin.c:138
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION:aktuální verze aplikace Gnumeric"
 
-#: ../src/func-builtin.c:108
+#: ../src/func-builtin.c:139
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr "GNUMERIC_VERSION vrací verzi aplikace Gnumeric v podobě textu."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:300
+#: ../src/func-builtin.c:331
 msgid "IF:conditional expression"
 msgstr "IF:podmíněný výraz"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:302
+#: ../src/func-builtin.c:333
 msgid "cond:condition"
 msgstr "cond:podmínka"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:304
+#: ../src/func-builtin.c:335
 msgid "trueval:value to use if condition is true"
 msgstr "trueval:hodnota, která se použije, když je podmínka splněna"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:306
+#: ../src/func-builtin.c:337
 msgid "falseval:value to use if condition is false"
 msgstr "falseval:hodnota, která se použije, když není podmínka splněna"
 
-#: ../src/func-builtin.c:307
+#: ../src/func-builtin.c:338
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will "
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
@@ -12397,23 +12392,23 @@ msgstr "Táhnout pro automatické vyplnění"
 msgid "Drag to move"
 msgstr "Táhnout pro přesunutí"
 
-#: ../src/libgnumeric.c:142
+#: ../src/libgnumeric.c:143
 msgid "Display Gnumeric's version"
 msgstr "Zobrazit verzi aplikace Gnumeric"
 
-#: ../src/libgnumeric.c:151
+#: ../src/libgnumeric.c:152
 msgid "Set the root library directory"
 msgstr "Nastavit kořenovou složku knihoven"
 
-#: ../src/libgnumeric.c:152 ../src/libgnumeric.c:158
+#: ../src/libgnumeric.c:153 ../src/libgnumeric.c:159
 msgid "DIR"
 msgstr "SLOŽKA"
 
-#: ../src/libgnumeric.c:157
+#: ../src/libgnumeric.c:158
 msgid "Adjust the root data directory"
 msgstr "Upravit kořenovou složku dat"
 
-#: ../src/libgnumeric.c:174
+#: ../src/libgnumeric.c:175
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12424,11 +12419,11 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 msgid "Gnumeric Options"
 msgstr "Volby aplikace Gnumeric"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 msgid "Show Gnumeric Options"
 msgstr "Zobrazit volby aplikace Gnumeric"
 
@@ -14664,95 +14659,95 @@ msgstr "/Pokročilý filtr:/Zdrojová oblast:/Oblast kritérií:"
 msgid "Advanced Filter (%s)"
 msgstr "Pokročilý filtr (%s)"
 
-#: ../src/tools/gnm-solver.c:624
+#: ../src/tools/gnm-solver.c:625
 #, c-format
 msgid "Invalid solver target"
 msgstr "Neplatná cílová oblast řešitele"
 
-#: ../src/tools/gnm-solver.c:636
+#: ../src/tools/gnm-solver.c:637
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "Cílová buňka, %s, musí obsahovat vzorec, jehož výsledkem je číslo"
 
-#: ../src/tools/gnm-solver.c:646
+#: ../src/tools/gnm-solver.c:647
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Neplatná vstupní oblast řešitele"
 
-#: ../src/tools/gnm-solver.c:657
+#: ../src/tools/gnm-solver.c:658
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Vstupní buňka %s obsahuje vzorec"
 
-#: ../src/tools/gnm-solver.c:672
+#: ../src/tools/gnm-solver.c:673
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Omezení č. %d v řešiteli je neplatné"
 
-#: ../src/tools/gnm-solver.c:1073
+#: ../src/tools/gnm-solver.c:1080
 msgid "Timeout"
 msgstr "Časový limit"
 
-#: ../src/tools/gnm-solver.c:1282
+#: ../src/tools/gnm-solver.c:1289
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Selhalo vytvoření souboru pro lineární program"
 
-#: ../src/tools/gnm-solver.c:1291
+#: ../src/tools/gnm-solver.c:1298
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Selhalo vytvoření souboru lineárního programu"
 
-#: ../src/tools/gnm-solver.c:1311
+#: ../src/tools/gnm-solver.c:1318
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Selhalo uložení lineárního programu"
 
-#: ../src/tools/gnm-solver.c:1559
+#: ../src/tools/gnm-solver.c:1566
 msgid "Target"
 msgstr "Cíl"
 
-#: ../src/tools/gnm-solver.c:1563
+#: ../src/tools/gnm-solver.c:1570
 msgid "Status"
 msgstr "Stav"
 
-#: ../src/tools/gnm-solver.c:1576
+#: ../src/tools/gnm-solver.c:1583
 msgid "Minimize"
 msgstr "Minimalizace"
 
-#: ../src/tools/gnm-solver.c:1579
+#: ../src/tools/gnm-solver.c:1586
 msgid "Maximize"
 msgstr "Maximalizace"
 
-#: ../src/tools/gnm-solver.c:1607
+#: ../src/tools/gnm-solver.c:1614
 msgid "Lower"
 msgstr "Dolní"
 
-#: ../src/tools/gnm-solver.c:1608
+#: ../src/tools/gnm-solver.c:1615
 msgid "Upper"
 msgstr "Horní"
 
-#: ../src/tools/gnm-solver.c:1609 ../src/tools/gnm-solver.c:1652
+#: ../src/tools/gnm-solver.c:1616 ../src/tools/gnm-solver.c:1659
 msgid "Slack"
 msgstr "Volné"
 
-#: ../src/tools/gnm-solver.c:1631
+#: ../src/tools/gnm-solver.c:1638
 msgid "At limit"
 msgstr "V limitu"
 
-#: ../src/tools/gnm-solver.c:1634
+#: ../src/tools/gnm-solver.c:1641
 msgid "Outside bounds"
 msgstr "Mimo omezení"
 
-#: ../src/tools/gnm-solver.c:1649
+#: ../src/tools/gnm-solver.c:1656
 msgid "Condition"
 msgstr "Podmínka"
 
-#: ../src/tools/gnm-solver.c:1654 ../src/tools/gnm-solver.c:1794
+#: ../src/tools/gnm-solver.c:1661 ../src/tools/gnm-solver.c:1801
 msgid "No constraints"
 msgstr "Bez omezení"
 
-#: ../src/tools/gnm-solver.c:1751
+#: ../src/tools/gnm-solver.c:1758
 msgid ""
 "Final\n"
 "Value"
@@ -14760,7 +14755,7 @@ msgstr ""
 "Konečná\n"
 "hodnota"
 
-#: ../src/tools/gnm-solver.c:1752
+#: ../src/tools/gnm-solver.c:1759
 msgid ""
 "Reduced\n"
 "Cost"
@@ -14768,7 +14763,7 @@ msgstr ""
 "Snížená\n"
 "cena"
 
-#: ../src/tools/gnm-solver.c:1753 ../src/tools/gnm-solver.c:1789
+#: ../src/tools/gnm-solver.c:1760 ../src/tools/gnm-solver.c:1796
 msgid ""
 "Lower\n"
 "Limit"
@@ -14776,7 +14771,7 @@ msgstr ""
 "Dolní\n"
 "omezení"
 
-#: ../src/tools/gnm-solver.c:1754 ../src/tools/gnm-solver.c:1790
+#: ../src/tools/gnm-solver.c:1761 ../src/tools/gnm-solver.c:1797
 msgid ""
 "Upper\n"
 "Limit"
@@ -14784,7 +14779,7 @@ msgstr ""
 "Horní\n"
 "omezení"
 
-#: ../src/tools/gnm-solver.c:1786
+#: ../src/tools/gnm-solver.c:1793
 msgid ""
 "Shadow\n"
 "Price"
@@ -14792,7 +14787,7 @@ msgstr ""
 "Šedá\n"
 "cena"
 
-#: ../src/tools/gnm-solver.c:1787
+#: ../src/tools/gnm-solver.c:1794
 msgid ""
 "Constraint\n"
 "LHS"
@@ -14800,7 +14795,7 @@ msgstr ""
 "Omezení\n"
 "zleva"
 
-#: ../src/tools/gnm-solver.c:1788
+#: ../src/tools/gnm-solver.c:1795
 msgid ""
 "Constraint\n"
 "RHS"
@@ -14808,25 +14803,25 @@ msgstr ""
 "Omezení\n"
 "zprava"
 
-#: ../src/tools/gnm-solver.c:1856
+#: ../src/tools/gnm-solver.c:1863
 msgid "Program"
 msgstr "Program"
 
-#: ../src/tools/gnm-solver.c:1862
+#: ../src/tools/gnm-solver.c:1869
 msgid "Sensitivity"
 msgstr "Citlivost"
 
-#: ../src/tools/gnm-solver.c:2300
+#: ../src/tools/gnm-solver.c:2364
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "Cílová buňka nebyla vyhodnocena jako číslo."
 
-#: ../src/tools/gnm-solver.c:2308
+#: ../src/tools/gnm-solver.c:2372
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr "Nezdá se, že by cílová buňka lineárně závisela na vstupních buňkách."
 
-#: ../src/tools/gnm-solver.c:2892
+#: ../src/tools/gnm-solver.c:2956
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14839,22 +14834,22 @@ msgstr ""
 "\n"
 "Přejete si jej najít sami?"
 
-#: ../src/tools/gnm-solver.c:2896
+#: ../src/tools/gnm-solver.c:2960
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Nelze najít „%s“"
 
-#: ../src/tools/gnm-solver.c:2912
+#: ../src/tools/gnm-solver.c:2976
 #, c-format
 msgid "Locate the %s program"
 msgstr "Vyhledání programu %s"
 
-#: ../src/tools/gnm-solver.c:3303
+#: ../src/tools/gnm-solver.c:3367
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Výchozí hodnoty nesplňují omezení."
 
-#: ../src/tools/gnm-solver.c:3394
+#: ../src/tools/gnm-solver.c:3458
 msgid "Iteration limit exceeded"
 msgstr "Dosažen limit iterací"
 
@@ -17718,13 +17713,9 @@ msgstr ""
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnumeric-expr-entry.c:972
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\t<i>⇧F4 to select</i>"
 msgid ""
 "\n"
-"\t<i> to select</i>"
+"\t<i>⇧F4 to select</i>"
 msgstr ""
 "\n"
 "\t<i>⇧F4 vybere</i>"
@@ -17801,9 +17792,7 @@ msgid "A single selection is required."
 msgstr "Je požadován výběr jediné buňky."
 
 #: ../src/workbook-cmd-format.c:180
-#, fuzzy
-#| msgid "An n⨯1 or 1⨯n selection is required."
-msgid "An n or 1⨯n selection is required."
+msgid "An n⨯1 or 1⨯n selection is required."
 msgstr "Je požadován výběr n×1 nebo 1×n."
 
 #: ../src/workbook-cmd-format.c:187
@@ -18169,5 +18158,3 @@ msgstr "Šablona fialového seznamu"
 msgid "A simple list template"
 msgstr "Šablona jednoduchého seznamu"
 
-#~ msgid "Neighborhood for %s\n"
-#~ msgstr "Sousedství pro %s\n"
