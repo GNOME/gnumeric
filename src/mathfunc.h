@@ -125,10 +125,10 @@ gnm_float qtukey(gnm_float p, gnm_float nmeans, gnm_float df, gnm_float nranges,
 
 /* Matrix functions. */
 
-typedef struct {
+struct GnmMatrix_ {
 	gnm_float **data;   /* [y][x] */
 	int cols, rows;
-} GnmMatrix;
+};
 
 GnmMatrix *gnm_matrix_new (int rows, int cols); /* Note the order: y then x. */
 void gnm_matrix_free (GnmMatrix *m);

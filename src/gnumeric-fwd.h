@@ -56,6 +56,7 @@ typedef struct _GnmItemBar		GnmItemBar;
 typedef struct _GnmItemCursor		GnmItemCursor;
 typedef struct _GnmItemEdit		GnmItemEdit;
 typedef struct _GnmItemGrid		GnmItemGrid;
+typedef struct GnmMatrix_               GnmMatrix;
 typedef struct _GnmNamedExpr		GnmNamedExpr;
 typedef struct _GnmNamedExprCollection	GnmNamedExprCollection;
 typedef struct _GnmPane			GnmPane;
