@@ -2906,20 +2906,19 @@ gnm_matrix_cholesky  (GnmMatrix const *A, GnmMatrix *B)
 	return TRUE;
 }
 
-static gboolean
-symmetric (GnmMatrix const *m)
+static void
+make_symmetric (GnmMatrix *m)
 {
 	int c, r;
 
-	if (m->cols != m->rows)
-		return FALSE;
+	g_return_if_fail (m->cols == m->rows);
 
-	for (c = 0; c < m->cols; ++c)
-		for (r = c + 1; r < m->rows; ++r)
-			if (m->data[r][c] != m->data[c][r])
-				return FALSE;
-
-	return TRUE;
+	for (c = 0; c < m->cols; ++c) {
+		for (r = c + 1; r < m->rows; ++r) {
+			gnm_float a = (m->data[r][c] + m->data[c][r]) / 2;
+			m->data[r][c] = m->data[c][r] = a;
+		}
+	}
 }
 
 static GnmValue *
@@ -2932,10 +2931,11 @@ gnumeric_cholesky (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
 	if (!A) goto out;
 
-	if (A->cols != A->rows || gnm_matrix_is_empty (A) || !symmetric (A)) {
+	if (A->cols != A->rows || gnm_matrix_is_empty (A)) {
 		res = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
+	make_symmetric (A);
 
 	B = gnm_matrix_new (A->rows, A->cols);
 
@@ -3291,7 +3291,7 @@ gnumeric_odf_sumproduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *a
 static GnmFuncHelp const help_eigen[] = {
 	{ GNM_FUNC_HELP_NAME, F_("EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}")},
 	{ GNM_FUNC_HELP_ARG, F_("matrix:a symmetric matrix")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} is not symmetric, EIGEN returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} is not symmetric, matching off-diagonal cells will be averaged on the assumption that the non-symmetry is caused by unimportant rounding errors.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} does not contain an equal number of columns and rows, EIGEN returns #VALUE!") },
 	{ GNM_FUNC_HELP_END}
 };
@@ -3316,7 +3316,7 @@ compare_gnumeric_eigen_ev (const void *a, const void *b)
 	else if (gnm_abs (ea) < gnm_abs (eb))
 		return +1;
 
-	/* Then by value (still descending.  */
+	/* Then by value, i.e., sign, still descending.  */
 	if (ea > eb)
 		return -1;
 	else if (ea < eb)
@@ -3338,11 +3338,12 @@ gnumeric_eigen (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
 	if (!A) goto out;
 
-	if (A->cols != A->rows || gnm_matrix_is_empty (A) || !symmetric (A)) {
+	if (A->cols != A->rows || gnm_matrix_is_empty (A)) {
 		res = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
+	make_symmetric (A);
 	EIG = gnm_matrix_new (A->rows, A->cols);
 	eigenvalues = g_new0 (gnm_float, A->cols);
 
