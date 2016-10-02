@@ -1542,7 +1542,7 @@ static GnmFuncHelp const help_xnpv[] = {
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
         { GNM_FUNC_HELP_ARG, F_("dates:dates of cash flow")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("XNPV calculates the net present value of a cash flow at irregular times") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("XNPV calculates the net present value of a cash flow at irregular times.") },
 	TYPE_HELP,
         { GNM_FUNC_HELP_SEEALSO, "NPV"},
 	{ GNM_FUNC_HELP_END }

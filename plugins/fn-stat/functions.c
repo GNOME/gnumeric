@@ -213,7 +213,7 @@ static GnmFuncHelp const help_rank_avg[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:number whose rank you want to find")},
 	{ GNM_FUNC_HELP_ARG, F_("ref:list of numbers")},
 	{ GNM_FUNC_HELP_ARG, F_("order:0 (descending order) or non-zero (ascending order); defaults to 0")},
-	{ GNM_FUNC_HELP_NOTE, F_("In case of a tie, RANK returns the average rank.")},
+	{ GNM_FUNC_HELP_NOTE, F_("In case of a tie, RANK.AVG returns the average rank.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel 2010 compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 25.9.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then RANK.AVG(17.3,A1:A5) equals 4.")},
@@ -3962,7 +3962,7 @@ static GnmFuncHelp const help_logfit[] = {
 				 "= a + b * ln(sign * (x - c)) "
 				 "or rearrange it to "
 				 "= (exp((y - a) / b)) / sign + c "
-				 "to compute unknown y's or x's, respectively. ")},
+				 "to compute unknown y's or x's, respectively.")},
 	{ GNM_FUNC_HELP_NOTE, F_("This is non-linear fitting by trial-and-error. "
 				 "The accuracy of `c' is: width of x-range -> rounded to the "
 				 "next smaller (10^integer), times 0.000001. There might be cases "
@@ -4965,7 +4965,7 @@ static GnmFuncHelp const help_permutationa[] = {
 	{ GNM_FUNC_HELP_ARG, F_("y:number of selected objects")},
 	{ GNM_FUNC_HELP_NOTE, F_("If both @{x} and @{y} equal 0, PERMUTATIONA returns 1.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{y} are not integers, they are truncated") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{y} are not integers, they are truncated.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(2,7)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(2.3,7.6)" },

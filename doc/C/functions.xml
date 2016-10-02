@@ -1123,7 +1123,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(<parameter>a</parameter>)</para>
+        <para>The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(<parameter>a</parameter>).</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8171,7 +8171,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>XNPV</function> calculates the net present value of a cash flow at irregular times</para>
+        <para><function>XNPV</function> calculates the net present value of a cash flow at irregular times.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -17054,7 +17054,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>An error is returned when there are less than 3 different x's or y's, or when the shape of the point cloud is too different from a ``logarithmic'' one. You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, respectively.  This is non-linear fitting by trial-and-error. The accuracy of `c' is: width of x-range -&gt; rounded to the next smaller (10^integer), times 0.000001. There might be cases in which the returned fit is not the best possible.</para>
+        <para>An error is returned when there are less than 3 different x's or y's, or when the shape of the point cloud is too different from a ``logarithmic'' one. You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, respectively. This is non-linear fitting by trial-and-error. The accuracy of `c' is: width of x-range -&gt; rounded to the next smaller (10^integer), times 0.000001. There might be cases in which the returned fit is not the best possible.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17985,7 +17985,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If both <parameter>x</parameter> and <parameter>y</parameter> equal 0, <function>PERMUTATIONA</function> returns 1. If <parameter>x</parameter> &lt; 0 or <parameter>y</parameter> &lt; 0, <function>PERMUTATIONA</function> returns #NUM! If <parameter>x</parameter> or <parameter>y</parameter> are not integers, they are truncated</para>
+        <para>If both <parameter>x</parameter> and <parameter>y</parameter> equal 0, <function>PERMUTATIONA</function> returns 1. If <parameter>x</parameter> &lt; 0 or <parameter>y</parameter> &lt; 0, <function>PERMUTATIONA</function> returns #NUM! If <parameter>x</parameter> or <parameter>y</parameter> are not integers, they are truncated.</para>
       </refsect1>
       <refsect1>
         <title>OpenDocument Format (ODF) Compatibility</title>
@@ -20327,7 +20327,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>In case of a tie, RANK returns the average rank.</para>
+        <para>In case of a tie, RANK.AVG returns the average rank.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
