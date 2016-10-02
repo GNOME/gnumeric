@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
-"POT-Creation-Date: 2016-09-15 22:46+0000\n"
-"PO-Revision-Date: 2016-09-29 18:26+0200\n"
+"POT-Creation-Date: 2016-10-02 07:15+0000\n"
+"PO-Revision-Date: 2016-10-02 12:01+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Gtranslator 2.91.7\n"
 
@@ -5619,6 +5619,12 @@ msgid ""
 "of the GFDL at this <ulink type=\"help\" url=\"ghelp:fdl\">link</ulink> or "
 "in the file COPYING-DOCS distributed with this manual."
 msgstr ""
+"Je povoleno kopírovat, šířit a/nebo upravovat tento dokument za podmínek GNU "
+"Free Documentation License (GFDL) ve verzi 1.1 nebo v jakékoli novější verzi "
+"vydané nadací Free Software Foundation, bez neměnných oddílů, bez textů "
+"předních desek a bez textů zadních desek. Kopii licence GFDL naleznete pod "
+"<ulink type=\"help\" url=\"ghelp:fdl\">tímto odkazem</ulink> nebo v souboru "
+"COPYING-DOCS dodávaném s touto příručkou."
 
 #. (itstool) path: legalnotice/para
 #: C/gnumeric.xml:12
@@ -5628,6 +5634,9 @@ msgid ""
 "you can do so by adding a copy of the license to the manual, as described in "
 "section 6 of the license."
 msgstr ""
+"Tato příručka je součástí sbírky příruček GNOME šířených za podmínek licence "
+"GNU FDL. Pokud chcete tento dokument šířit odděleně od sbírky, musíte "
+"přiložit kopii licence dle popisu v oddílu 6 dané licence."
 
 #. (itstool) path: legalnotice/para
 #: C/gnumeric.xml:19
@@ -5638,6 +5647,11 @@ msgid ""
 "aware of those trademarks, then the names are in capital letters or initial "
 "capital letters."
 msgstr ""
+"Mnoho názvů použitých firmami k zviditelnění produktů nebo služeb jsou "
+"ochranné známky. Na místech, kde jsou tyto názvy v dokumentaci použity, a "
+"členové Dokumentačního projektu GNOME jsou si vědomi skutečnosti, že se "
+"jedná o ochrannou známku, je takovýto název psán velkými písmeny celý nebo s "
+"velkým písmenem na začátku."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:35
@@ -5654,6 +5668,16 @@ msgid ""
 "ESSENTIAL PART OF THIS LICENSE. NO USE OF ANY DOCUMENT OR MODIFIED VERSION "
 "OF THE DOCUMENT IS AUTHORIZED HEREUNDER EXCEPT UNDER THIS DISCLAIMER; AND"
 msgstr ""
+"DOKUMENT JE POSKYTOVÁN V PODOBĚ „JAK JE“, BEZ ZÁRUKY JAKÉHOKOLIV DRUHU, "
+"NEPOSKYTUJÍ SE ANI ODVOZENÉ ZÁRUKY, ZÁRUKY, ŽE DOKUMENT, NEBO JEHO UPRAVENÁ "
+"VERZE, JE BEZCHYBNÝ, NEBO ZÁRUKY PRODEJNOSTI, VHODNOSTI PRO URČITÝ ÚČEL, "
+"NEBO NEPORUŠENOSTI. RIZIKO NEKVALITY, NEPŘESNOSTI A ŠPATNÉHO PROVEDENÍ "
+"DOKUMENTU, NEBO JEHO UPRAVENÉ VERZE, NESETE VY. POKUD JE TENTO DOKUMENT NEBO "
+"JEHO UPRAVENÁ VERZE VADNÁ V JAKÉMKOLIV SMYSLU, VY (NIKOLIV PŮVODCE, AUTOR "
+"NEBO JAKÝKOLIV PŘISPĚVATEL) PŘEBÍRÁTE ODPOVĚDNOST ZA JAKÉKOLIV NÁKLADY NA "
+"NUTNÉ ÚPRAVY, OPRAVY ČI SLUŽBY. TOTO PROHLÁŠENÍ O ZÁRUCE PŘEDSTAVUJE "
+"ZÁKLADNÍ SOUČÁST TÉTO LICENCE. BEZ TOHOTO PROHLÁŠENÍ NENÍ PODLE TÉTO DOHODY "
+"POVOLENO UŽÍVÁNÍ ANI ÚPRAVY TOHOTO DOKUMENTU; DÁLE"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:55
@@ -5669,6 +5693,16 @@ msgid ""
 "VERSIONS OF THE DOCUMENT, EVEN IF SUCH PARTY SHALL HAVE BEEN INFORMED OF THE "
 "POSSIBILITY OF SUCH DAMAGES."
 msgstr ""
+"ZA ŽÁDNÝCH OKOLNOSTÍ A ŽÁDNÝCH PRÁVNÍCH PŘEDPOKLADŮ, AŤ SE JEDNÁ O PŘEČIN "
+"(VČETNĚ NEDBALOSTNÍCH), SMLOUVU NEBO JINÉ, NENÍ AUTOR, PŮVODNÍ PISATEL, "
+"KTERÝKOLIV PŘISPĚVATEL NEBO KTERÝKOLIV DISTRIBUTOR TOHOTO DOKUMENTU NEBO "
+"UPRAVENÉ VERZE DOKUMENTU NEBO KTERÝKOLIV DODAVATEL NĚKTERÉ Z TĚCHTO STRAN "
+"ODPOVĚDNÝ NĚJAKÉ OSOBĚ ZA PŘÍMÉ, NEPŘÍMÉ, SPECIÁLNÍ, NAHODILÉ NEBO NÁSLEDNÉ "
+"ŠKODY JAKÉHOKOLIV CHARAKTERU, VČETNĚ, ALE NEJEN, ZA POŠKOZENÍ ZE ZTRÁTY "
+"DOBRÉHO JMÉNA, PŘERUŠENÍ PRÁCE, PORUCHY NEBO NESPRÁVNÉ FUNKCE POČÍTAČE NEBO "
+"JINÉHO A VŠECH DALŠÍCH ŠKOD NEBO ZTRÁT VYVSTÁVAJÍCÍCH Z NEBO VZTAHUJÍCÍCH SE "
+"K POUŽÍVÁNÍ TOHOTO DOKUMENTU NEBO UPRAVENÝCH VERZÍ DOKUMENTU, I KDYŽ BY "
+"TAKOVÁTO STRANA BYLA INFORMOVANÁ O MOŽNOSTI TAKOVÉHOTO POŠKOZENÍ."
 
 #. (itstool) path: legalnotice/para
 #: C/gnumeric.xml:28
@@ -5677,6 +5711,8 @@ msgid ""
 "OF THE GNU FREE DOCUMENTATION LICENSE WITH THE FURTHER UNDERSTANDING THAT: "
 "<_:orderedlist-1/>"
 msgstr ""
+"DOKUMENT A JEHO UPRAVENÉ VERZE JSOU ŠÍŘENY V SOULADU SE ZNĚNÍM LICENCE GNU "
+"FREE DOCUMENTATION LICENSE S NÁSLEDUJÍCÍM USTANOVENÍM: <_:orderedlist-1/>"
 
 #. (itstool) path: authorgroup/author
 #: C/gnumeric.xml:252
@@ -5790,6 +5826,8 @@ msgid ""
 "<revnumber>Gnumeric Manual: Version 1.12</revnumber> <date>July 2012</date> "
 "<_:revdescription-1/>"
 msgstr ""
+"<revnumber>Příručka k aplikaci Gnumeric: verze 1.12</revnumber> "
+"<date>červenec 2012</date> <_:revdescription-1/>"
 
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:376
@@ -5797,6 +5835,8 @@ msgid ""
 "<revnumber>Gnumeric Manual: Version 1.8</revnumber> <date>November 2007</"
 "date> <_:revdescription-1/>"
 msgstr ""
+"<revnumber>Příručka k aplikaci Gnumeric: verze 1.8</revnumber> "
+"<date>listopad 2007</date> <_:revdescription-1/>"
 
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:384
@@ -5804,6 +5844,8 @@ msgid ""
 "<revnumber>Gnumeric Manual: Version 1.4</revnumber> <date>November 2004</"
 "date> <_:revdescription-1/>"
 msgstr ""
+"<revnumber>Příručka k aplikaci Gnumeric: verze 1.4</revnumber> "
+"<date>listopad 2004</date> <_:revdescription-1/>"
 
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:392
@@ -5811,6 +5853,8 @@ msgid ""
 "<revnumber>Gnumeric Manual: Version 1.2</revnumber> <date>September 2002</"
 "date> <_:revdescription-1/>"
 msgstr ""
+"<revnumber>Příručka k aplikaci Gnumeric: verze 1.2</revnumber> <date>září "
+"2012</date> <_:revdescription-1/>"
 
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:400
@@ -5818,6 +5862,8 @@ msgid ""
 "<revnumber>Gnumeric Manual: Version 1.0</revnumber> <date>January 2002</"
 "date> <_:revdescription-1/>"
 msgstr ""
+"<revnumber>Příručka k aplikaci Gnumeric: verze 1.0</revnumber> <date>leden "
+"2012</date> <_:revdescription-1/>"
 
 #. (itstool) path: revhistory/revision
 #: C/gnumeric.xml:408
@@ -5825,6 +5871,8 @@ msgid ""
 "<revnumber>Gnumeric Manual: Earlier Versions</revnumber> <date>1998-2001</"
 "date> <_:revdescription-1/>"
 msgstr ""
+"<revnumber>Příručka k aplikaci Gnumeric: prvotní verze</revnumber> "
+"<date>1998 – 2001</date> <_:revdescription-1/>"
 
 #. (itstool) path: bookinfo/releaseinfo
 #: C/gnumeric.xml:418
@@ -5834,7 +5882,7 @@ msgstr "Tato příručka popisuje Gnumeric ve verzi 1.12"
 #. (itstool) path: legalnotice/title
 #: C/gnumeric.xml:421
 msgid "Feedback"
-msgstr ""
+msgstr "Ohlasy"
 
 #. (itstool) path: legalnotice/para
 #: C/gnumeric.xml:422
@@ -5843,6 +5891,9 @@ msgid ""
 "application> application or this manual, follow the directions in <xref "
 "linkend=\"chapter-bugs\"/>."
 msgstr ""
+"Pokud chcete oznámit chybu nebo navrhnout vylepšení vztahující se k aplikaci "
+"<application>Gnumeric</application> nebo této příručce, postupujte dle "
+"instrukcí v <xref linkend=\"chapter-bugs\"/>."
 
 #. (itstool) path: chapter/title
 #: C/gnumeric.xml:450
@@ -5862,6 +5913,16 @@ msgid ""
 "optimization modeling or perform many other tasks involving numbers, dates, "
 "times, names or other data."
 msgstr ""
+"<application>Gnumeric</application> je tabulkový kalkulátor, tzn. počítačový "
+"program používaný k úpravám a analýzám číselných dat. Může vám pomoci se "
+"sledováním informací v seznamech, se zpracování číselných hodnot "
+"uspořádaných ve sloupcích a řádcích, s prováděním a aktualizací složitých "
+"výpočtů pomocí definice jednotlivých kroků výpočtu a změnami příslušných "
+"kroků samostatně, s vytvářením, zobrazením a tiskem grafického znázornění "
+"dat v sloupcových, čárových, koláčových nebo radarových grafech, s "
+"implementací komplexních optimalizačních modelů nebo s řadou dalších jiných "
+"úkolů týkajících se čísel, kalendářových a časových údajů, jmen nebo jiných "
+"dat."
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:26
@@ -5901,6 +5962,12 @@ msgid ""
 "complement of calculation functions, formatting options, graph types and "
 "drawing options."
 msgstr ""
+"Funkce, které tabulkovém kalkulátoru <application>Gnumeric</application> "
+"najdete, z něj dělají univerzální a mocný nástroj. Na snímku obrazovky <xref "
+"linkend=\"fig-gnumeric-power-example\"/> můžete vidět hlavní okno programu a "
+"některé z dostupných funkcí. <_:figure-1/> <application>Gnumeric</"
+"application> má v současnosti podporu všech výpočetních funkcí, "
+"formátovacích voleb, typů grafů a kreslení."
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:56
@@ -5912,6 +5979,11 @@ msgid ""
 "\">GNOME</ulink> project. This manual describes version 1.12 of "
 "<application>Gnumeric</application>."
 msgstr ""
+"Snahou je, aby byl <application>Gnumeric</application> nejlepším dostupným "
+"tabulkovým kalkulátorem. Je vyvíjen již řadu let, takže stačil vyzrát a je "
+"matematicky přesný. Byl vytvořen a je spravován v rámci projektu <ulink type="
+"\"http\" url=\"http://www.gnome.org/\">GNOME</ulink>. Tato příručka jej "
+"popisuje ve verzi 1.12."
 
 #. (itstool) path: note/para
 #: C/gnumeric.xml:66
@@ -5957,6 +6029,10 @@ msgid ""
 "to assess the mathematical correctness of the calculations and to validate "
 "the quality of the file importers."
 msgstr ""
+"<application>Gnumeric</application> prošel intenzivním testováním. Různorodá "
+"skupina uživatelů vyhodnocuje <application>Gnumeric</application> v "
+"nejrůznějších prostředích. K ověření přesnosti matematických výpočtů a k "
+"ověření kvality výsledků importu souborů se používají testovací sešity."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:108
@@ -6001,11 +6077,26 @@ msgid ""
 "transferred smoothly, and allows new formats to be added easily as plug-in "
 "software routines."
 msgstr ""
+"Transparentní přístup k souborům z jiných aplikací a jejich jednotné úpravy "
+"jsou v moderní kanceláři zásadní. Souborový formát <application>Gnumeric</"
+"application> je jednoduše zkomprimovaný soubor XML, který se dá rozbalit do "
+"textové podoby pomocí <application>gunzip</application>, což je komprimační "
+"nástroj z balíčku <application>gzip</application> od GNU. "
+"<application>Gnumeric</application> umí otevírat soubory z řady dobře "
+"známých uzavřených i svobodných tabulkových kalkulátorů, včetně MS "
+"Excel<trademark/>, Lotus 1-2-3<trademark/>, Applix<trademark/>, OpenOffice."
+"org<trademark/>, Psion<trademark/>, Sylk<trademark/>, XBase<trademark/>, "
+"Oleo<trademark/>, PlanPerfect<trademark/>, Quattro Pro<trademark/> a HTML. "
+"Ukládat umí do několika verzí formátů souborů MS Excel<trademark/> a umí "
+"ukládat tabulky do LaTeX <markup>\\longtable</markup> a souborů HTML a roff. "
+"Těží také z široce nastavitelného importu a exportu z a do prostého textu, "
+"což umožňuje hladký přesun dat. Další nové formáty se dají snadno přidat v "
+"podobě zásuvných modulů."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:148
 msgid "<emphasis role=\"bold\">Minimal cost of transition</emphasis>"
-msgstr ""
+msgstr "<emphasis role=\"bold\">Minimální náklady na přechod</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:151
@@ -6015,11 +6106,15 @@ msgid ""
 "that a user's familiarity with other applications will still apply and to "
 "offer new features in an intuitive manner."
 msgstr ""
+"Naučit se pracovat v novém neznámém prostředí je náročné a frustrující. "
+"Proto se <application>Gnumeric</application> snaží vystupovat vůči uživateli "
+"podobně, jako jiné běžně zavedené aplikace, a nové funkce nabízet v "
+"intuitivní podobě."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:161
 msgid "<emphasis role=\"bold\">Extensive feature set</emphasis>"
-msgstr ""
+msgstr "<emphasis role=\"bold\">Rozsáhlá sada funkcí</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:164
@@ -6035,6 +6130,16 @@ msgid ""
 "of the features it offers, leaving features unimplemented until a robust and "
 "complete implementation exists."
 msgstr ""
+"<application>Gnumeric</application> má dostatečně rozsáhlou sadu funkcí, "
+"které se od tabulkového kalkulátoru očekávají, a které uspokojí většinu "
+"uživatelů. I tak jsou ale stále přidávány další nové funkce. Často jsou "
+"citovány statistiky, že většina uživatelů potřebuje akorát 20 % funkcí svého "
+"softwaru. Tato statistika ale neznamená, že potřeba je jen těch 20 % funkcí. "
+"Ve skutečnosti uživatelé používají společných tak 10 % funkcí a ve "
+"zbývajících deseti se jejich požadavky odlišují. <application>Gnumeric</"
+"application> se snaží poskytnou úplnou implementaci funkcí, které nabízí, a "
+"s těmi neimplementovanými vyčkává, dokud je nemá připravené v úplné a "
+"robustní podobě."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:182
@@ -6048,6 +6153,9 @@ msgid ""
 "and is being used by people around the globe with the symbols and date/"
 "monetary conventions appropriate for their local setting."
 msgstr ""
+"<application>Gnumeric</application> byl přeložen do 46 jazyků a je používán "
+"lidmi z celého světa se symboly, kalendářovými daty a měnami v podobě "
+"vyhovující jejich národnímu prostředí."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:194
@@ -6061,6 +6169,9 @@ msgid ""
 "application> can comfortably scale to moderately large loads (1 million "
 "cells) while remaining usable on older hardware."
 msgstr ""
+"Základ architektury je navržený tak, aby <application>Gnumeric</application> "
+"dokázal bez problémů škálovat až na středně velká zatížení (1 milión buněk) "
+"a přitom zůstal použitelný i na starším hardwaru."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:206
@@ -6084,6 +6195,16 @@ msgid ""
 "licensed under the terms of the <ulink type=\"http\" url=\"http://www.gnu."
 "org/copyleft/gpl.html\">GNU GPL</ulink>."
 msgstr ""
+"<application>Gnumeric</application> je <ulink type=\"http\" url=\"http://www."
+"gnu.org/philosophy/free-sw.html\">svobodný software</ulink> v tom smyslu, že "
+"dává uživatelům volnost v používání, změnách a šíření programu. Tato svoboda "
+"je vysvětlená na webových stránkách nadace <ulink type=\"http\" url=\"http://"
+"www.fsf.org\">Free Software Foundation</ulink> v článku <ulink type=\"http\" "
+"url=\"http://www.gnu.org/philosophy/free-sw.html\">filozofie svobodného "
+"softwaru</ulink>. V zájmu zachování této svobody pro všechny jsou ale pro "
+"všechny nutná i jistá pravidla. Proto je <application>Gnumeric</application> "
+"vydáván pod licenční smlouvou, konkrétně pod <ulink type=\"http\" url="
+"\"http://www.gnu.org/copyleft/gpl.html\">GNU GPL</ulink>."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:228
@@ -6095,6 +6216,11 @@ msgid ""
 "spreadsheet, write custom routines or extend <application>Gnumeric</"
 "application> for special needs."
 msgstr ""
+"Jedním z přínosů této svobody je, že kdokoliv má přístup ke zdrojovému kódu, "
+"ze kterého se <application>Gnumeric</application> sestavuje. Tento zdrojový "
+"kód je cíleně udržován a dokumentován tak, aby si jej kdokoliv mohl měnit "
+"pro své potřeby. Můžete si tak tabulkový kalkulátor upravovat, psát si do "
+"něj vlastní funkce nebo jej rozšířit pro speciální potřeby."
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:88
@@ -6102,6 +6228,8 @@ msgid ""
 "<application>Gnumeric</application> is developed with a specific set of "
 "goals in mind. <_:itemizedlist-1/>"
 msgstr ""
+"Při vývoji tabulkového kalkulátoru <application>Gnumeric</application> se "
+"držíme několika základních cílů. <_:itemizedlist-1/>"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:243
@@ -6109,6 +6237,7 @@ msgid ""
 "<emphasis role=\"bold\">The Gnumeric 1.13 Series of Releases for Developers</"
 "emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Série vydání Gnumeric 1.13 pro vývojáře</emphasis>"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:247
@@ -6125,6 +6254,17 @@ msgid ""
 "report these using the GNOME project's bug reporting interface as detailed "
 "in <xref linkend=\"chapter-bugs\"/>."
 msgstr ""
+"Série vydání <application>Gnumeric</application> 1.13 jsou vývojářská "
+"vydání. Je snahou je udržovat stabilní, ale jednotlivá vydání v této sérii "
+"zahrnují změny a vylepšení, z nich některá jsou velkými zásahy. Proto se "
+"může stát, že některé z nich mohou způsobit pád programu nebo ztrátu dat. "
+"Nepoužívejte toto vydání, pokud nemůžete riskovat ztrátu dat a výsledků "
+"práce. Na druhou stranu, tato vydání často obsahují nové funkce, které se "
+"mohou hodit. Při používání této série vydání svá data často zálohujte, a to "
+"nejen jejich častým ukládáním, ale i jejich přesunem do jiného souboru, a "
+"kontrolujte, že jdou znovu otevřít. Jestliže používáte tuto verzi a narazíte "
+"na nějakou chybu nebo zhroucení, nahlaste to prosím pomocí rozhraní pro "
+"hlášení chyb projektu GNOME, viz <xref linkend=\"chapter-bugs\"/>."
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:280
@@ -6132,17 +6272,21 @@ msgid ""
 "<emphasis role=\"bold\">New features introduced in the Gnumeric 1.12 release "
 "series:</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Nové funkce uvedené v sérii vydání Gnumeric 1.12:</"
+"emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:290
 msgid ""
 "<emphasis role=\"bold\">Improved OpenDocument Format (ODF) support</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Vylepšená podpora formátu OpenDocument Format (ODF)</"
+"emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:293
 msgid "Both ODF import and export have been improved."
-msgstr ""
+msgstr "Vylepšen byl jak import, tak export ODF."
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:285
@@ -6152,6 +6296,9 @@ msgid ""
 "alos includes some other improvements over the versions in the 1.10 series. "
 "<_:itemizedlist-1/>"
 msgstr ""
+"Série 1.12 aplikace <application>Gnumeric</application> je hlavně o přechodu "
+"na verzi 3 knihovny GTK. Přináší oproti sérii verze 1.10 ale i některá "
+"vylepšení. <_:itemizedlist-1/>"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:301
@@ -6159,16 +6306,18 @@ msgid ""
 "<emphasis role=\"bold\">New features introduced in the Gnumeric 1.10 release "
 "series:</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Nové funkce uvedené ve vydání řady Gnumeric 1.10:</"
+"emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:312
 msgid "<emphasis role=\"bold\">Adjustable Sheet Size</emphasis>"
-msgstr ""
+msgstr "<emphasis role=\"bold\">Přizpůsobitelná velikost listu</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:315
 msgid "Sheets are no longer restricted to 256 columns of 65536 rows."
-msgstr ""
+msgstr "Listy již nadále nejsou omezené na 256 sloupců a 65536 řádků."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:320
@@ -6176,6 +6325,8 @@ msgid ""
 "<emphasis role=\"bold\">Improved OpenDocument Format Import and Export</"
 "emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Vylepšený import a export formátu OpenDocument</"
+"emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:323
@@ -6186,6 +6337,11 @@ msgid ""
 "supports nearly all functions in the large group of functions in the current "
 "OpenFormula Draft."
 msgstr ""
+"Byla přidána základní podpora pro formát <ulink type=\"http\" url=\"http://"
+"en.wikipedia.org/wiki/ODF\">OpenDocument Format</ulink> (ODF), se zaměřením "
+"na standardní obsah tabulkového kalkulátoru a grafy. <application>Gnumeric</"
+"application> také podporuje téměř všechny funkce z rozsáhlé skupiny funkcí v "
+"aktuálním návrhu OpenForumula."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:331
@@ -6193,6 +6349,8 @@ msgid ""
 "<emphasis role=\"bold\">Improved Microsoft OfficeOpenXML import and export</"
 "emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Vylepšený import a export Microsoft OfficeOpenXML</"
+"emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:334
@@ -6201,6 +6359,8 @@ msgid ""
 "Ooxml\"> Office Open XML </ulink> (\"OOXML\") format files was significantly "
 "improved."
 msgstr ""
+"Významně byl vylepšen import a export formátu <ulink type=\"http\" url="
+"\"http://en.wikipedia.org/wiki/Ooxml\">Office Open XML</ulink> (OOXML)."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:341
@@ -6214,6 +6374,9 @@ msgid ""
 "when an axis is a date or time axis, reasonable places for tick marks will "
 "now be picked. Trend lines have also been improved"
 msgstr ""
+"Byly přidány nové typy diagramů a pravděpodobnostních diagramů. Navíc, když "
+"je jedna z os představuje datum nebo čas, jsou zvolena pro značky na ose "
+"rozumná místa. Vylepšené bylo také znázorňování trendů."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:351
@@ -6227,6 +6390,8 @@ msgid ""
 "cells. <application>Gnumeric</application>'s conditional formatting supports "
 "an arbitrary number of conditions."
 msgstr ""
+"<application>Gnumeric</application> nyní podporuje podmíněné formátování "
+"buněk. Podporováno je libovolné množství podmínek."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:359
@@ -6241,6 +6406,10 @@ msgid ""
 "from “rather slow” to “instant”. Similar improvements have been implemented "
 "for farms of RANK or PERCENTILE calls."
 msgstr ""
+"Vyhodnocování listů s velkým počtem volání HLOOKUP, což je celkem běžné, "
+"případně podobnými funkcemi, nad stejnou databází bylo vylepšeno z „dosti "
+"pomalé“ na „okamžité.“ Podobného vylepšení doznala také implementace velké "
+"výskyty volání RANK a PERCENTILE."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:370
@@ -6250,12 +6419,13 @@ msgstr "<emphasis role=\"bold\">Snížené nároky na operační paměť</emphas
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:373
 msgid "The memory usage for large sheets has been decreased significantly."
-msgstr ""
+msgstr "Významně byla snížena spotřeba paměti pro rozsáhlé listy."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:377
 msgid "<emphasis role=\"bold\">Added Statistical Analysis Tools</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Přidány nástroje statistické analýzy</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:380
@@ -6265,17 +6435,21 @@ msgid ""
 "Component Analysis, Sign Tests, improved Exponential Smoothing, various "
 "basic non-parametric tests, etc."
 msgstr ""
+"Byly vylepšeny nástroje statistické analýzy a přibylo několik nových, "
+"například Kaplan Meierovy odhady, testy dobré shody, analýzy jistiny, testy "
+"znaménka, vylepšené exponenciální vyhlazování, různé základní neparametrické "
+"testy atd."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:387
 msgid "<emphasis role=\"bold\">Improved Sheet Objects</emphasis>"
-msgstr ""
+msgstr "<emphasis role=\"bold\">Vylepšené objekty listů</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:390
 msgid ""
 "Support for sheet objects (lines, arrows, widgets, …) has been improved."
-msgstr ""
+msgstr "Byla vylepšena podpora pro objekty listů (čáry, šipky, widgety, …)."
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:306
@@ -6283,6 +6457,8 @@ msgid ""
 "The 1.10 series of <application>Gnumeric</application> includes numerous "
 "improvements over the versions in the 1.8 series. <_:itemizedlist-1/>"
 msgstr ""
+"Série vydání <application>Gnumeric</application> 1.10 zahrnuje oproti sérii "
+"1.8 řadu vylepšení. <_:itemizedlist-1/>"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:398
@@ -6290,11 +6466,13 @@ msgid ""
 "<emphasis role=\"bold\">New features introduced in the Gnumeric 1.8 release "
 "series:</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Nové funkce uvedené ve vydání série Gnumeric 1.8:</"
+"emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:409
 msgid "<emphasis role=\"bold\">Improved .gnumeric and export</emphasis>"
-msgstr ""
+msgstr "<emphasis role=\"bold\">Vylepšen formát .gnumeric a export</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:412
@@ -6303,6 +6481,9 @@ msgid ""
 "default for parsing <literal>.gnumeric</literal> files. The schema was "
 "improved and additional features were added."
 msgstr ""
+"<application>Gnumeric</application> nyní využívá pro zpracování souborů "
+"<literal>.gnumeric</literal> jako výchozí rychlejší analyzátor založený na "
+"SAX. Bylo vylepšeno schéma a přibyly nové vlastnosti."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:419
@@ -6320,21 +6501,26 @@ msgid ""
 "added, focussing on standard spreadsheet content. Charts and embedded "
 "objects are not yet supported."
 msgstr ""
+"Byla přidána podpora pro import a export formátu <ulink type=\"http\" url="
+"\"http://en.wikipedia.org/wiki/Ooxml\">Offce Open XML</ulink> (OOXML), se "
+"zaměřením na standardní obsah tabulek. Grafy a vložené objekty zatím "
+"podporované nejsou."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:430
 msgid "<emphasis role=\"bold\">New value formatting engine</emphasis>"
-msgstr ""
+msgstr "<emphasis role=\"bold\">Nové jádro pro formátování hodnot</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:433
 msgid "Improved compatibility and performance."
-msgstr ""
+msgstr "Byla vylepšena kompatibilita a výkon."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:438
 msgid "<emphasis role=\"bold\">Use new Gtk based Printing</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Použití nového tisku založeného na Gtk</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:441
@@ -6342,16 +6528,21 @@ msgid ""
 "The printing infrastructure was changed to use Gtk based printing instead of "
 "the deprecated libgnomeprint libraries."
 msgstr ""
+"Infrastruktura pro tisk byla změněna tak, aby využívala tisk z Gtk namísto "
+"zastaralých knihoven libgnomeprint."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:447
 msgid "<emphasis role=\"bold\">Improved in-cell drop downs</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Vylepšené rozbalovací seznamy v buňkách</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:450
 msgid "In cell validation lists, and improved finger feel for autofilters."
 msgstr ""
+"Seznamy pro ověřování platnosti přímo v buňkách a vylepšená odezva "
+"automatických filtrů."
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:403
@@ -6359,6 +6550,8 @@ msgid ""
 "The 1.8 series of <application>Gnumeric</application> includes numerous "
 "improvements over the versions in the 1.6 series. <_:itemizedlist-1/>"
 msgstr ""
+"Série vydání <application>Gnumeric</application> 1.8 zahrnuje oproti sérii "
+"1.6 řadu vylepšení. <_:itemizedlist-1/>"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:457
@@ -6366,6 +6559,8 @@ msgid ""
 "<emphasis role=\"bold\">New features introduced in the Gnumeric 1.6 release "
 "series:</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Nové funkce uvedené v sírii vydání "
+"<application>Gnumeric</application> 1.6:</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:468
@@ -6378,6 +6573,8 @@ msgid ""
 "Several new types of charts have been added, and many features, such as "
 "regression lines, have been added."
 msgstr ""
+"Bylo přidáno několik nových typů grafů a přibyla řada funkcí, jako třeba "
+"regresivní křivky."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:478
@@ -6395,12 +6592,19 @@ msgid ""
 "and reverse cumulative density functions to <application>Gnumeric</"
 "application>. The new function names mirror their R counterparts."
 msgstr ""
+"Přestože již <application>Gnumeric</application> 1.4 byl nejlepším dostupným "
+"zdrojem pro přesné statistické výpočty, <application>Gnumeric</application> "
+"1.6 je ještě lepší. Aby tomu tak bylo, pokračujeme s naší spoluprací na "
+"pozadí s projektem R. Přidali jsme také nový zásuvný modul podporující "
+"jednotně nazvané funkce pro hustotu pravděpodobnosti, hromadnou hustotu a "
+"reverzní hromadné hustoty. Nové funkce jsou obrazy svých protějšků v R."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:493 C/gnumeric.xml:528
 msgid ""
 "<emphasis role=\"bold\">The Port to Microsoft Operating Systems</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Port pro operační systémy firmy Microsoft</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:496
@@ -6410,11 +6614,17 @@ msgid ""
 "slightly more like a native application. The build might still have a few "
 "rough edges, but those are being worked on."
 msgstr ""
+"Náš port pro „Windows“ je nyní dostatečně vyzrálý pro každodenní použití. "
+"Byla vylepšena podpora motivů u vlastních widgetů, takže "
+"<application>Gnumeric</application> teď vypadá a působí více jako přirozená "
+"aplikace pro Windows. Sestavení sice ještě potřebuje uhladit některé hrany, "
+"ale pracuje se na tom."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:505
 msgid "<emphasis role=\"bold\">Right-to-Left Support: </emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Podpora pro písma psaná zprava doleva:</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:508
@@ -6422,6 +6632,8 @@ msgid ""
 "We now support right-to-left orientation of the sheets as well as for text "
 "within cells."
 msgstr ""
+"Nyní je podporována orientace zprava doleva, jak pro celé listy, tak pro "
+"jednotlivé buňky."
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:462
@@ -6429,6 +6641,8 @@ msgid ""
 "The 1.6 series of <application>Gnumeric</application> included numerous "
 "improvements over the versions in the 1.4 series. <_:itemizedlist-1/>"
 msgstr ""
+"Série vydání <application>Gnumeric</application> 1.6 zahrnuje oproti sérii "
+"1.4 řadu vylepšení. <_:itemizedlist-1/>"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:516
@@ -6436,6 +6650,8 @@ msgid ""
 "<emphasis role=\"bold\">New features introduced in the Gnumeric 1.4 release "
 "series:</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Nové funkce uvedené ve vydání série Gnumeric 1.4:</"
+"emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:531
@@ -6444,6 +6660,9 @@ msgid ""
 "libraries will enable the application to be run on the series of operating "
 "systems sold by Microsoft and colloquially known as \"Windows\"."
 msgstr ""
+"Přesun základů aplikace <application>Gnumeric</application> na knihovny GTK+ "
+"umožní aplikaci běžet na řadě operačních systémů od firmy Microsoft společně "
+"označovaných názvem „Windows“."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:540
@@ -6458,6 +6677,10 @@ msgid ""
 "are constantly being evaluated and improved. Updated versions of the solver "
 "libraries (lp_solve and GLPK) were added."
 msgstr ""
+"Správnost analytických nástrojů v tabulkovém kalkulátoru "
+"<application>Gnumeric</application> je hlavním cílem týmu. Přesnost a "
+"správnost analytických nástrojů je průběžně vyhodnocována a vylepšována. "
+"Byly přidány vylepšené knihovny řešitele (lp_solve a GLPK)."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:553
@@ -6474,6 +6697,12 @@ msgid ""
 "and there are a wider selection of markers. There is also support for "
 "formatting individual points in a plot."
 msgstr ""
+"Grafický systém je významně vylepšený pomocí nových typů grafů, jako jsou "
+"radarové grafy. Je tu také nová podpora pro chybové sloupce a doplňující "
+"styly. Grafy také vypadají na obrazovce mnohem ostřeji díky vyladění pixelů. "
+"Osy teď podporují různá mapování (logaritmické, inverzní) a je zde širší "
+"výběr značek. Objevila se také podpora pro formátování jednotlivých bodů "
+"grafu."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:568
@@ -6487,12 +6716,16 @@ msgid ""
 "single cell to contain text with mixed formatting including bold, italic and "
 "other formats."
 msgstr ""
+"V této verzi byla přidána možnost používat formátovaný text. Díky tomu může "
+"samostatná buňka obsahovat text se smíšeným formátováním, jako je tučné "
+"písmo, kurzíva a další."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:579
 msgid ""
 "<emphasis role=\"bold\">Improved Microsoft Excel Compatibility</emphasis>"
 msgstr ""
+"<emphasis role=\"bold\">Vylepšená kompatibilita s Microsoft Excel</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:582
@@ -6506,6 +6739,15 @@ msgid ""
 "compatibility accelerator keys were added to simplify transition, and "
 "improve the finger feel. There is better support for hyperlinks."
 msgstr ""
+"Souborový formát používaný sešity Microsof Excel<trademark/> je běžně "
+"používán k výměně tabulkových dokumentů. Vývojářský tým "
+"<application>Gnumeric</application> strávil značné úsilí zpětným "
+"inženýrstvím nad tímto formátem souborů, aby zajistil, že aplikace "
+"<application>Gnumeric</application> umí číst a zapisovat soubory v tomto "
+"formátu. Toto vydání nyní podporuje všechny podoby „vzorce array“ a přidává "
+"podporu pro grafy, formátovaný text a obrázky. Pro zjednodušení přechodu "
+"bylo přidáno daleko víc klávesových zkratek a vylepšena odezva. Je tu také "
+"lepší podpora pro hypertextové odkazy."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:596
@@ -6518,6 +6760,9 @@ msgid ""
 "Using <application>Pango</application> throughout the printing subsystem "
 "improves the consistency between on screen and resulting paper."
 msgstr ""
+"Používání knihovny <application>Pango</application> v celém tiskovém "
+"podsystému zlepšuje jednotnost mezi výsledným zobrazením na obrazovce a na "
+"papíře."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:606
@@ -6549,6 +6794,26 @@ msgid ""
 "EFFECT, NOMINAL, MIRR, IRR, XNPV, NPV, PMT, RATE, PV, FV, IPMT, PPMT, ZTEST, "
 "EXPM1, LN1P."
 msgstr ""
+"Tato verze <application>Gnumericu</application> obsahuje 470 tabulkových "
+"funkcí, včetně všech funkcí ze severoamerické edice Microsoft Excel 2000™. "
+"Tato verze zahrnuje také řadu nových funkcí a statistických rutin "
+"importovaných ze statistického jazyka <application><ulink type=\"http\" url="
+"\"http://www.r-project.org/\">R</ulink></application>, z <ulink type=\"http"
+"\" url=\"http://www.gnu.org/software/gsl/\">GNU Scientific Library</ulink> a "
+"z dalších zdrojů. Generovaní náhodných čísel bylo aktualizováno, aby "
+"zahrnovalo rozložení beta, Cauchyho, chí-kvadrát, mocninné F, gama, "
+"geometrické, Laplaceova, Levyho alpha-stabilní logaritmické, logistické, "
+"logaritmické normální, Paretova, Rayleighova, T, Gumbelova I typu, Gumbelova "
+"II typu, Weibull Gaussova, Landauova a rovnoměrné. Rutiny pro oceňování "
+"finančních derivátů bylo rozšířeny o modely Black-Scholesův (a citlivostní), "
+"Garman Kohlagenův, Merton Jump Diffusion, Bjerkusandův a Stenslandův "
+"(americké opce), s posunutým začátkem, s jednoduchým a komplexním výběrem, "
+"směnných opcí, opcí na rozpětí a nejpříznivější výplaty. Řešitel byl "
+"vylepšen o nové lineární a kvadratické programové rutiny. Jsou tu vylepšení "
+"v T-testu, Z-testu a F-testu. Větší přesnost získaly GEOMDIST, BINOMDIST, "
+"BETADIST, BETAINV, FINV, CAUCHY, FDIST, FTEST, HYPGEOMDIST, ERF, FISHER, "
+"EFFECT, NOMINAL, MIRR, IRR, XNPV, NPV, PMT, RATE, PV, FV, IPMT, PPMT, ZTEST, "
+"EXPM1, LN1P."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:639
@@ -6581,6 +6846,12 @@ msgid ""
 "remove all dependencies in the core code on GNOME libraries although a "
 "version with the more complete features included in GNOME will still exist."
 msgstr ""
+"Jedním z hlavních cílů vývojářské série je předělat <application>Gnumeric</"
+"application>, aby pracoval čistě jen s knihovnami GTK+. Tyto knihovny, "
+"počínaje vydáním 2.4.0 mají všechny funkce potřebné pro základ aplikace "
+"<application>Gnumeric</application>. Tím se odstraní všechny závislosti na "
+"kódu knihoven GNOME, i když verze se složitějšími funkcemi, které jsou "
+"součástí GNOME, stále existuje."
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:521
@@ -6657,6 +6928,10 @@ msgid ""
 "explains the basics of spreadsheets in general and <application>Gnumeric</"
 "application> in particular."
 msgstr ""
+"Jestli jste v počítačích nebo tabulkových kalkulátorech začátečníci, zkuste "
+"se kouknout na kapitolu <xref linkend=\"chapter-quick-start\"/>, která "
+"vysvětluje základy práce s tabulkovými kalkulátory, jak obecně, tak se "
+"zaměřením na <application>Gnumeric</application>."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:22
@@ -6672,6 +6947,10 @@ msgid ""
 "given below to try to figure out where your question might be answered, and "
 "then go directly to that section."
 msgstr ""
+"Najít rychle nápovědu ke konkrétní otázce nemusí být vůbec jednoduché. "
+"Doporučujeme si nejprve přečíst vysvětlení k obsahu jednotlivých kapitol, "
+"které je poskytnuto níže, abyste si mohli zkusit udělat představu, kde by se "
+"odpověď dala najít a pak k této kapitole zamířit."
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:5
@@ -6722,6 +7001,10 @@ msgid ""
 "for each of the menus, menu entries, toolbar buttons and other elements of "
 "the graphical user interface."
 msgstr ""
+"Tato kapitola popisuje všechny části aplikace <application>Gnumeric</"
+"application>, se kterými může uživatel pracovat. Poskytuje vysvětlení "
+"jednotlivých nabídek, vstupů, nástrojových tlačítek a dalších prvků "
+"grafického uživatelského rozhraní."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:81
@@ -6759,6 +7042,9 @@ msgid ""
 "<application>Gnumeric</application> including linear algebra calculations, "
 "the goal seek tool, simulation analysis, and scenarios."
 msgstr ""
+"Tato kapitola vysvětluje pokročilé analytické nástroje dostupné v "
+"<application>Gnumericu</application>, včetně výpočtů lineární algebry, "
+"hledání cílů, simulačních analýz a scénářů."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:110
@@ -6833,6 +7119,8 @@ msgid ""
 "<xref linkend=\"chapter-worksheets\"/>: <emphasis role=\"bold\">Using "
 "Worksheets</emphasis>"
 msgstr ""
+"<xref linkend=\"chapter-worksheets\"/>: <emphasis role=\"bold\">Používání "
+"pracovních listů</emphasis>"
 
 #. (itstool) path: listitem/para
 #. (itstool) path: chapter/para
@@ -6851,6 +7139,8 @@ msgid ""
 "<xref linkend=\"chapter-workbooks\"/>: <emphasis role=\"bold\">Workbook "
 "Settings</emphasis>"
 msgstr ""
+"<xref linkend=\"chapter-workbooks\"/>: <emphasis role=\"bold\">Nastavení "
+"pracovních sešitů</emphasis>"
 
 #. (itstool) path: listitem/para
 #. (itstool) path: chapter/para
@@ -6881,6 +7171,9 @@ msgid ""
 "<application>Gnumeric</application> including the startup behaviour and "
 "default locale (language and number display)."
 msgstr ""
+"Tato kapitola vysvětluje, jak změnit výchozí chování <application>Gnumericu</"
+"application>, včetně chování při spuštění a výchozího národního prostředí "
+"(jazyk a zobrazování čísel)."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:203
@@ -6926,6 +7219,8 @@ msgid ""
 "<xref linkend=\"chapter-morehelp\"/>: <emphasis role=\"bold\">Getting More "
 "Help</emphasis>"
 msgstr ""
+"<xref linkend=\"chapter-morehelp\"/>: <emphasis role=\"bold\">Získání další "
+"nápovědy</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:235
@@ -6960,6 +7255,8 @@ msgid ""
 "<xref linkend=\"chapter-extending\"/>: <emphasis role=\"bold\">Extending "
 "Gnumeric</emphasis>"
 msgstr ""
+"<xref linkend=\"chapter-extending\"/>: <emphasis role=\"bold\">Rozšiřování "
+"Gnumericu</emphasis>"
 
 #. (itstool) path: listitem/para
 #. (itstool) path: chapter/para
@@ -7153,7 +7450,7 @@ msgstr "Spuštění Gnumericu z jiného uživatelského prostředí *NIXového t
 #. (itstool) path: textobject/para
 #: C/gnumeric.xml:120
 msgid "This image depicts the menu icon of Gnumeric."
-msgstr ""
+msgstr "Obrázek vyobrazuje ikonu Gnumeric z menu."
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:105
@@ -7175,6 +7472,8 @@ msgid ""
 "On UNIX-like operating systems, <application>Gnumeric</application> requires "
 "the X window system to run."
 msgstr ""
+"V operačních systémech UNIXového typu vyžaduje <application>Gnumeric</"
+"application> funkční X Window System."
 
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:136
@@ -7208,6 +7507,8 @@ msgid ""
 "On UNIX-like operating systems, you must be running the X window system to "
 "run <application>Gnumeric</application>."
 msgstr ""
+"Aby šel <application>Gnumeric</application> spustit v operačních systémech "
+"UNIXového typu, musí v nich běžet X Window System."
 
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:158
@@ -7223,6 +7524,11 @@ msgid ""
 "an entry which will launch <application>Gnumeric</application>. The actual "
 "location of the menu item depends on the choices made during installation."
 msgstr ""
+"<application>Gnumeric</application> je možné, počínaje verzí 1.4, spustit "
+"jako přirozenou aplikaci v operačních systémech Microsoft Windows. V těchto "
+"operačních systémech by menu <guilabel>Start</guilabel> mělo obsahovat "
+"položku, kterou se <application>Gnumeric</application> spustí. Skutečné "
+"umístění v menu závisí na volbách provedených během instalace."
 
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:170
@@ -42700,7 +43006,7 @@ msgstr ""
 #: C/gnumeric.xml:1126
 msgid ""
 "The regularized incomplete gamma function is the unregularized incomplete "
-"gamma function divided by gamma(<parameter>a</parameter>)"
+"gamma function divided by gamma(<parameter>a</parameter>)."
 msgstr ""
 "Regulovaná neúplná funkce gama je neregulovaná neúplná funkce gama podělená "
 "gamma(<parameter>a</parameter>)."
@@ -51863,7 +52169,7 @@ msgstr "<function>XNPV</function>(<parameter>úrok</parameter>,<parameter>hodnot
 #: C/gnumeric.xml:8174
 msgid ""
 "<function>XNPV</function> calculates the net present value of a cash flow at "
-"irregular times"
+"irregular times."
 msgstr ""
 "<function>XNPV</function> vypočítá čistou současnou hodnotu peněžního toku v "
 "nepravidelných časech."
@@ -63847,7 +64153,7 @@ msgid ""
 "<function>PERMUTATIONA</function> returns 1. If <parameter>x</parameter> "
 "&lt; 0 or <parameter>y</parameter> &lt; 0, <function>PERMUTATIONA</function> "
 "returns #NUM! If <parameter>x</parameter> or <parameter>y</parameter> are "
-"not integers, they are truncated"
+"not integers, they are truncated."
 msgstr ""
 "Pokud se hodnoty <parameter>x</parameter> i <parameter>y</parameter> rovnají "
 "0, funkce PERMUTATIONA vrátí 1. Pokud je <function>x</function> &lt 0 nebo "
@@ -66565,7 +66871,7 @@ msgstr "<function>RANK.AVG</function>(<parameter>x</parameter>,<parameter>odkaz<
 
 #. (itstool) path: refsect1/para
 #: C/gnumeric.xml:20330
-msgid "In case of a tie, RANK returns the average rank."
+msgid "In case of a tie, RANK.AVG returns the average rank."
 msgstr ""
 "V případě více stejných čísel vrátí funkce <function>RANK.AVG</function> "
 "průměrné pořadí."
