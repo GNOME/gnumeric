@@ -309,7 +309,7 @@ gboolean gnm_solver_has_analytic_gradient (GnmSolver *sol);
 gnm_float *gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs);
 
 gboolean gnm_solver_has_analytic_hessian (GnmSolver *sol);
-gnm_float *gnm_solver_compute_hessian (GnmSolver *sol, gnm_float const *xs);
+GnmMatrix *gnm_solver_compute_hessian (GnmSolver *sol, gnm_float const *xs);
 
 gnm_float gnm_solver_line_search (GnmSolver *sol,
 				  gnm_float const *x0, gnm_float const *dir,

@@ -9,6 +9,7 @@
 #include "rangefunc.h"
 #include "ranges.h"
 #include "gutils.h"
+#include "mathfunc.h"
 #include "gnm-solver.h"
 #include "workbook-view.h"
 #include "workbook-control.h"
@@ -2143,29 +2144,37 @@ gnm_solver_has_analytic_hessian (GnmSolver *sol)
  * will be n+(n-1)+...+2+1 elements long containing the triangular
  * Hessian.  Use symmetry to obtain the full Hessian.
  */
-gnm_float *
+GnmMatrix *
 gnm_solver_compute_hessian (GnmSolver *sol, gnm_float const *xs)
 {
-	int i, hlen;
-	gnm_float *H;
+	int i, j, k;
+	GnmMatrix *H;
 	GnmEvalPos ep;
+	int const n = sol->input_cells->len;
 
 	if (!gnm_solver_has_analytic_hessian (sol))
 		return NULL;
 
 	gnm_solver_set_vars (sol, xs);
 
-	hlen = sol->hessian->len;
-	H = g_new (gnm_float, hlen);
+	H = gnm_matrix_new (n, n);
 	eval_pos_init_cell (&ep, sol->target);
-	for (i = 0; i < hlen; i++) {
-		GnmExprTop const *te = g_ptr_array_index (sol->hessian, i);
-		GnmValue *v = gnm_expr_top_eval
-			(te, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-		H[i] = VALUE_IS_NUMBER (v) ? value_get_as_float (v) : gnm_nan;
-		if (sol->flip_sign)
-			H[i] = 0 - H[i];
-		value_release (v);
+	for (i = k = 0; i < n; i++) {
+		for (j = i; j < n; j++, k++) {
+			GnmExprTop const *te =
+				g_ptr_array_index (sol->hessian, k);
+			GnmValue *v = gnm_expr_top_eval
+				(te, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+			gnm_float x = VALUE_IS_NUMBER (v)
+				? value_get_as_float (v)
+				: gnm_nan;
+			if (sol->flip_sign)
+				x = 0 - x;
+			value_release (v);
+
+			H->data[i][j] = x;
+			H->data[j][i] = x;
+		}
 	}
 
 	return H;
