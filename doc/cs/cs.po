@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "POT-Creation-Date: 2016-10-02 07:15+0000\n"
-"PO-Revision-Date: 2016-10-02 12:01+0200\n"
+"PO-Revision-Date: 2016-10-02 14:37+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -6982,6 +6982,12 @@ msgid ""
 "started with <application>Gnumeric</application> and provides background for "
 "the more detailed explanations given in the rest of the manual."
 msgstr ""
+"Nejlepší způsob, jak se naučit používat <application>Gnumeric</application> "
+"je program prostě prozkoumat. Tato kapitola vám pomůže začít zkoušet nové "
+"věci a sledovat, co se stane. Vysvětluje obecné základy tabulkových "
+"kalkulátorů a <application>Gnumeric</application> konkrétně. Snaží se pomoci "
+"novým uživatelům začít <application>Gnumeric</application> používat a "
+"poskytuje znalosti pro další podrobnější výklad ve zbytku příručky."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:67
@@ -7025,6 +7031,11 @@ msgid ""
 "advanced analysis is described in <xref linkend=\"chapter-advanced-analysis"
 "\"/>."
 msgstr ""
+"Tato kapitola vysvětluje základní funkcionalitu tabulkového kalkulátoru "
+"<application>Gnumeric</application>, včetně základních typů dat, se kterými "
+"pracuje, způsobů vkládání, úprav a formátování dat a základních nástrojů pro "
+"analýzu těchto dat. Pokročilejší analytické nástroje jsou popsané v <xref "
+"linkend=\"chapter-advanced-analysis\"/>."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:97
@@ -7061,6 +7072,8 @@ msgid ""
 "This chapter explains how to use <application>Gnumeric</application>'s "
 "linear programming Solver."
 msgstr ""
+"Tato kapitola vysvětluje, jak používat v <application>Gnumericu</"
+"application> lineární programování v Řešiteli."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:121
@@ -7078,6 +7091,10 @@ msgid ""
 "<application>Gnumeric</application> including tools to create descriptive "
 "statistics, as well as parametric and non-parametric hypotheses tests."
 msgstr ""
+"Tato kapitola vysvětluje různé nástroje statistické analýzy, které jsou "
+"dostupné v <application>Gnumericu</application>, včetně nástrojů pro "
+"vytváření deskriptivní statistiky a parametrických i neparametrických testů "
+"hypotéz."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:134
@@ -7097,6 +7114,10 @@ msgid ""
 "external files, graphical user interface widgets which interact with "
 "worksheet data, and simple drawing elements."
 msgstr ""
+"Tato kapitola vysvětluje, jak v <application>Gnumericu</application> přidat "
+"do pracovního listu grafické prvky, včetně obrázků z externích souborů, "
+"widgetů grafického uživatelského rozhraní pro interakci s daty v sešitě a "
+"jednoduchých kreslených prvků."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:148
@@ -7112,6 +7133,8 @@ msgid ""
 "This chapter explains how to add data graphs to a <application>Gnumeric</"
 "application> worksheet, that can be used to plot worksheet data."
 msgstr ""
+"Tato kapitola vysvětluje, jak v <application>Gnumericu</application> přidat "
+"do pracovního listu grafy znázorňující data v grafické podobě."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:159
@@ -7132,6 +7155,10 @@ msgid ""
 "worksheet contents, how to manipulate entire worksheets and how to protect "
 "worksheet contents."
 msgstr ""
+"Tato kapitola vysvětluje používání pracovních listů v "
+"<application>Gnumericu</application>, a jak s nimi zacházet. Kapitola "
+"vysvětluje, jak se po listu pohybovat, jak měnit vzhled a uspořádání jeho "
+"obsahu, jak s ním pracovat jako s celkem, a jak chránit jeho obsah."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:174
@@ -7153,6 +7180,11 @@ msgid ""
 "<application>Gnumeric</application> program itself are called `preferences' "
 "and are explained in <xref linkend=\"chapter-configuring\"/>."
 msgstr ""
+"Tato kapitola vysvětluje obsah pracovního sešitu <application>Gnumeric</"
+"application>, který není součástí pracovního listu. Týká se to i několika "
+"nastavení, která platí pro sešit a ukládají se do souborů "
+"<application>Gnumeric</application>. Nastavení , která platí pro program "
+"jako celek, se nazývají předvolby a jsou vysvětlená v <application>."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:191
@@ -7195,6 +7227,12 @@ msgid ""
 "data to text files, send data to others via electronic mail, and convert "
 "files from one format to another."
 msgstr ""
+"Tato kapitola vysvětluje, jak v <application>Gnumericu</application> "
+"používat soubory. Poskytuje rozšířující popis formátů souborů používaných v "
+"<application>Gnumericu</application>. Vysvětluje také, jako otevírat "
+"soubory, importovat data z textových souborů, ukládat soubory, exportovat "
+"data do textových souborů, posílat data ostatním přes e-mail a jak převádět "
+"soubory z jednoho formátu do jiného."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:218
@@ -7212,6 +7250,10 @@ msgid ""
 "<application>Gnumeric</application> to a printer directly or into Postscript "
 "or PDF (both are page description languages)."
 msgstr ""
+"Tato kapitola vysvětluje, jak z <application>Gnumericu</application> "
+"tisknout pracovní listy, tabulky a grafy buď přímo na tiskárnu nebo do "
+"souborů ve formátu Postscript nebo PDF (obojí jsou speciální jazyky pro "
+"grafický popis stránky)."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:231
@@ -7230,6 +7272,10 @@ msgid ""
 "list, and the internet relay chat (IRC) discussion channel. The chapter also "
 "explains how to tell the project about a problem with the program."
 msgstr ""
+"Tato kapitola popisuje zdroje další nápovědy, která je uživatelům dostupná, "
+"včetně webových stránek <application>Gnumeric</application>, poštovní "
+"konference a diskuzního kanálu na IRC. Vysvětluje také, jak projektu říci o "
+"problémech s programem."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:246
@@ -7248,6 +7294,9 @@ msgid ""
 "application> so that the problem can be fixed. The same procedure can be "
 "used to file a report requesting an enhancement or a new feature."
 msgstr ""
+"Tato kapitola popisuje, jak hlásit problémy s aplikací "
+"<application>Gnumeric</application>, aby je vývojáři mohli opravit. Stejným "
+"způsobem můžete také zadávat přání o vylepšení nebo nové funkce."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:298
@@ -7266,6 +7315,9 @@ msgid ""
 "application> to provide extra functionality. Because <application>Gnumeric</"
 "application> is Free Software this is quite easy to do."
 msgstr ""
+"Tato kapitola vysvětluje, jak <application>Gnumeric</application> rozšířit, "
+"aby poskytoval další funkcionalitu. Protože se jedná o svobodný software, je "
+"to vcelku snadné."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:350
@@ -7282,6 +7334,8 @@ msgid ""
 "This appendix provides a list of all the functions which are currently "
 "defined in <application>Gnumeric</application>."
 msgstr ""
+"Tento rejstřík poskytuje seznam všech funkcí, které jsou v tabulkovém "
+"kalkulátoru <application>Gnumeric</application> v současnosti definované."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:361
@@ -7341,6 +7395,9 @@ msgid ""
 "\"help\" url=\"ghelp:user-guide\">the GNOME Desktop User Guide</ulink> for "
 "help in getting started with computers."
 msgstr ""
+"Jestliže používáte uživatelské prostředí GNOME, můžete si přečíst <ulink "
+"type=\"help\" url=\"ghelp:user-guide\">Uživatelskou příručku k prostředí "
+"GNOME</ulink>, která vám pomůže s počítačem začít."
 
 #. (itstool) path: note/para
 #: C/gnumeric.xml:507
@@ -7729,6 +7786,8 @@ msgid ""
 "For a detailed explanation of each of these elements, see <xref linkend="
 "\"sect-gui-overview\"/>."
 msgstr ""
+"Podrobné vysvětlení těchto jednotlivých prvků viz <xref linkend=\"sect-gui-"
+"overview\"/>."
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:357
@@ -7736,6 +7795,8 @@ msgid ""
 "By default, <application>Gnumeric</application> opens a workbook with three "
 "worksheets and a file name of <filename>Book1.gnumeric</filename>."
 msgstr ""
+"Jako výchozí otevírá <application>Gnumeric</application> pracovní sešit se "
+"třemi listy a názvem souboru <filename>Sešit1.gnumeric</filename>."
 
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:371
@@ -7816,7 +7877,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:438
 msgid "Data in Gnumeric"
-msgstr ""
+msgstr "Data v Gnumericu"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:440
@@ -7887,6 +7948,8 @@ msgid ""
 "For more advanced information on the types of data usable in "
 "<application>Gnumeric</application>, see <xref linkend=\"sect-data-types\"/>."
 msgstr ""
+"Pokročilejší informace o typech dat, které <application>Gnumeric</"
+"application> používá, najdete v <xref linkend=\"sect-data-types\"/>."
 
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:510
@@ -7911,7 +7974,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:528
 msgid "Moving the selection box"
-msgstr ""
+msgstr "Přesun vybraného bloku"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:529
@@ -7964,7 +8027,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:577
 msgid "Data input"
-msgstr ""
+msgstr "Vstup dat"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:579
@@ -8142,6 +8205,8 @@ msgid ""
 "You can input percentage values simply by appending the percent symbol (%) "
 "to the value."
 msgstr ""
+"Procentuální hodnoty můžete zadat jednoduše tak, že za číselnou hodnotu "
+"přidáte symbol procent (%)."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:755
@@ -8164,7 +8229,7 @@ msgstr ""
 #: C/gnumeric.xml:773
 msgid ""
 "For more information on numbers, see <xref linkend=\"sect-data-numbers\"/>."
-msgstr ""
+msgstr "Více informací o číslech viz <xref linkend=\"sect-data-numbers\"/>."
 
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:781
@@ -8223,6 +8288,8 @@ msgid ""
 "A valid formula can be a simple arithmetic expression such as <_:screen-1/> "
 "which uses a formula to make the cell equal to the value 6."
 msgstr ""
+"Platným vzorce může být jednoduchý aritmetický výraz, jako například <_:"
+"screen-1/>, který způsobí, že buňka bude rovna hodnotě 6."
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:825
@@ -8376,7 +8443,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:971
 msgid "Formatting the Display and Entry Data Types"
-msgstr ""
+msgstr "Formátování zobrazení a zadávání typů dat"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:973
@@ -8532,6 +8599,8 @@ msgid ""
 "There are several operations which cannot be performed with odd shaped or "
 "discontinuous groups of cells."
 msgstr ""
+"Existuje několik operací, které nelze provádět na výběru buněk s "
+"nepravidelným tvarem nebo v nesouvislém celku."
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:1132
@@ -8543,7 +8612,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:1142
 msgid "Moving Cell Contents, Inserting New Cells or Deleting Cells"
-msgstr ""
+msgstr "Přesun obsahu buněk, vkládání nových buněk a mazání buněk"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:1144
@@ -8646,7 +8715,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:1241
 msgid "Inserting and Deleting Cells"
-msgstr ""
+msgstr "Vkládání a mazání buněk"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:1243
@@ -8739,6 +8808,8 @@ msgid ""
 "You can re-order worksheets from the <guilabel>Manage Sheets</guilabel> "
 "dialog."
 msgstr ""
+"V dialogovém okně <guilabel>Správa listů</guilabel> můžete měnit pořadí "
+"listů."
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:1331
@@ -8845,7 +8916,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:1431
 msgid "Gnumeric with the data used in this example."
-msgstr ""
+msgstr "<application>Gnumeric</application> s daty použitými v tomto příkladu."
 
 #. (itstool) path: textobject/para
 #: C/gnumeric.xml:1439
@@ -8883,7 +8954,7 @@ msgstr ""
 #. (itstool) path: textobject/para
 #: C/gnumeric.xml:1481
 msgid "This image shows the toolbar graphing button."
-msgstr ""
+msgstr "Obrázek ukazující nástrojové tlačítko pro grafy."
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:1473
@@ -8931,6 +9002,8 @@ msgid ""
 "The simple graph should look like <xref linkend=\"fig-quick-graph-colGraph\"/"
 ">."
 msgstr ""
+"Tento jednoduchý graf by měl vypadat nějak jako <xref linkend=\"fig-quick-"
+"graph-colGraph\"/>."
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:1537
@@ -8947,7 +9020,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:1557
 msgid "Modifying the Simple Graph"
-msgstr ""
+msgstr "Úprava jednoduchého grafu"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:1559
@@ -8961,12 +9034,13 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:1568
 msgid "The context menu which appears on a graph object."
-msgstr ""
+msgstr "Kontextová nabídka, která se objeví na objektu grafu."
 
 #. (itstool) path: textobject/para
 #: C/gnumeric.xml:1576
 msgid "This screenshot depicts the context menu applicable to graphs."
 msgstr ""
+"Tento snímek obrazovky znázorňuje kontextovou nabídku použitelnou u grafů."
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:1585
@@ -8992,7 +9066,7 @@ msgstr ""
 #. (itstool) path: procedure/title
 #: C/gnumeric.xml:1606
 msgid "Adding a title and legend to the simple graph"
-msgstr ""
+msgstr "Přidání názvu a popisu do jednoduchého grafu"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:1609
@@ -9078,7 +9152,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:1714 C/gnumeric.xml:787 C/gnumeric.xml:396
 msgid "Printing"
-msgstr ""
+msgstr "Tisk"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:1716
@@ -9132,7 +9206,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:1767
 msgid "File Opening and Saving"
-msgstr ""
+msgstr "Otevírání a ukládání souborů"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:1769
@@ -9165,7 +9239,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:1810
 msgid "Auto Save dialog"
-msgstr ""
+msgstr "Dialogové okno automatického ukládání"
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:1812
@@ -9174,6 +9248,9 @@ msgid ""
 "\"/> </imageobject> <textobject> <phrase>The autosave dialog box.</phrase> </"
 "textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/dialog-autosave.png\" format=\"PNG"
+"\"/></imageobject> <textobject><phrase>Dialogové okno automatického ukládání."
+"</phrase></textobject>"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:1803
@@ -9421,7 +9498,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:15
 msgid "Using Menus"
-msgstr ""
+msgstr "Používání nabídek"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:17
@@ -9480,7 +9557,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:67
 msgid "Menubar"
-msgstr ""
+msgstr "Nabídková lišta"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:69
@@ -9493,7 +9570,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:77
 msgid "The Gnumeric menubar."
-msgstr ""
+msgstr "Nabídková lišta v Gnumericu."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:79
@@ -9502,6 +9579,9 @@ msgid ""
 "<textobject> <phrase>An image of the <application>Gnumeric</application> "
 "menubar.</phrase> </textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menubar.png\"/></imageobject> "
+"<textobject><phrase>Obrázek s nabídkovou lištou <application>Gnumeric</"
+"application>.</phrase></textobject>"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:91
@@ -9538,7 +9618,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:131
 msgid "File Menu"
-msgstr ""
+msgstr "Nabídka Soubor"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:133
@@ -9554,7 +9634,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:144
 msgid "The <guimenu>File</guimenu> menu."
-msgstr ""
+msgstr "Nabídka <guimenu>Soubor</guimenu>."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:146
@@ -9563,6 +9643,9 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of the File menu.</phrase> </"
 "textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menu-file-labelled.png\"/></"
+"imageobject> <textobject><phrase>Obrázek s nabídkou Soubor.</phrase></"
+"textobject>"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:157 C/gnumeric.xml:505 C/gnumeric.xml:1093
@@ -9650,7 +9733,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:264
 msgid "<emphasis role=\"bold\">3</emphasis> Printing operations."
-msgstr ""
+msgstr "<emphasis role=\"bold\">3</emphasis> Tiskové operace."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:269
@@ -9721,7 +9804,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:354
 msgid "<emphasis role=\"bold\">4</emphasis> Miscellaneous Operations."
-msgstr ""
+msgstr "<emphasis role=\"bold\">4</emphasis> Různorodé operace."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:361
@@ -9746,7 +9829,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:388
 msgid "<emphasis role=\"bold\">5</emphasis> Recently used files."
-msgstr ""
+msgstr "<emphasis role=\"bold\">5</emphasis> Nedávno použité soubory."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:395
@@ -9810,7 +9893,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:481
 msgid "Edit Menu"
-msgstr ""
+msgstr "Nabídka Upravit"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:483
@@ -9825,7 +9908,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:492
 msgid "The <guimenu>Edit</guimenu> menu."
-msgstr ""
+msgstr "Nabídka <guimenu>Upravit</guimenu>."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:494
@@ -9834,6 +9917,9 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of the Edit menu.</phrase> </"
 "textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menu-edit-labelled.png\"/></"
+"imageobject> <textobject><phrase>Obrázek s nabídkou Upravit.</phrase></"
+"textobject>"
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:514
@@ -9962,7 +10048,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:657
 msgid "The Paste Special Dialog"
-msgstr ""
+msgstr "Dialogové okno speciálního vložení."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:659
@@ -9971,6 +10057,9 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of the Paste Special Dialog.</"
 "phrase> </textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menu-edit-paste-special.png\"/></"
+"imageobject> <textobject><phrase>Obrázek s dialogovým okem Vložení jinak.</"
+"phrase></textobject>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:672
@@ -10094,7 +10183,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:796
 msgid "The Delete Cells Dialog"
-msgstr ""
+msgstr "Dialogové okno mazání buněk"
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:798
@@ -10103,6 +10192,9 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of the Delete Cells Dialog.</"
 "phrase> </textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menu-edit-delete-cells.png\"/></"
+"imageobject> <textobject><phrase>Obrázek s dialogovým oknem Odstranění buněk."
+"</phrase></textobject>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:809
@@ -10215,7 +10307,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:940
 msgid "The Select Submenu"
-msgstr ""
+msgstr "Podnabídka Vybrat"
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:942
@@ -10224,6 +10316,9 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of the Select Submenu.</phrase> </"
 "textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menu-edit-select.png\"/></"
+"imageobject> <textobject><phrase>Obrázek s podnabídkou Vybrat.</phrase></"
+"textobject>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:956
@@ -10319,7 +10414,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:1070
 msgid "View Menu"
-msgstr ""
+msgstr "Nabídka Zobrazit"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:1075
@@ -10329,7 +10424,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:1080
 msgid "The <guimenu>View</guimenu> menu."
-msgstr ""
+msgstr "Nabídka <guimenu>View</guimenu>."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:1082
@@ -10338,6 +10433,9 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of the View menu.</phrase> </"
 "textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menu-view-labelled.png\"/></"
+"imageobject> <textobject><phrase>Obrázek s nabídkou Zobrazit.</phrase></"
+"textobject>"
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:1102
@@ -10541,7 +10639,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:1307
 msgid "<emphasis role=\"bold\">3</emphasis>"
-msgstr ""
+msgstr "<emphasis role=\"bold\">3</emphasis>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:1311 C/gnumeric.xml:1936
@@ -10553,7 +10651,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:1325
 msgid "Insert Menu"
-msgstr ""
+msgstr "Nabídka Vložit"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:1327
@@ -10563,7 +10661,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:1332
 msgid "The <guimenu>Insert</guimenu> menu."
-msgstr ""
+msgstr "Nabídka <guimenu>Vložit</guimenu>."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:1334
@@ -10572,6 +10670,9 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of the Insert menu.</phrase> </"
 "textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menu-insert-labelled.png\"/></"
+"imageobject> <textobject><phrase>Obrázek s nabídkou Vložit.</phrase></"
+"textobject>"
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:1352
@@ -10736,7 +10837,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:1575
 msgid "Format Menu"
-msgstr ""
+msgstr "Nabídka Formát"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:1577
@@ -10833,7 +10934,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:1681
 msgid "The <guimenu>Column</guimenu> Submenu."
-msgstr ""
+msgstr "Podnabídka <guimenu>Sloupec</guimenu>."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:1683
@@ -10951,7 +11052,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:1811
 msgid "<guimenu>Sheet</guimenu> Submenu"
-msgstr ""
+msgstr "Podnabídka <guimenu>List</guimenu>"
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:1813
@@ -10960,11 +11061,14 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of the Sheet submenu.</phrase> </"
 "textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menu-format-sheet.png\"/></"
+"imageobject> <textobject><phrase>Obrázek s podnabídkou List.</phrase></"
+"textobject>"
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:1827
 msgid "<emphasis role=\"bold\">1</emphasis> Sheet Management"
-msgstr ""
+msgstr "<emphasis role=\"bold\">1</emphasis> Správa listů"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:1832
@@ -11106,7 +11210,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:1990
 msgid "Tools Menu"
-msgstr ""
+msgstr "Nabídka Nástroje"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:1992
@@ -11116,7 +11220,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:1994
 msgid "The <guimenu>Tools</guimenu> menu."
-msgstr ""
+msgstr "Nabídka <guimenu>Nástroje</guimenu>."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:1996
@@ -11125,11 +11229,14 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of the Tools menu.</phrase> </"
 "textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menu-tools-labelled.png\"/></"
+"imageobject> <textobject><phrase>Obrázek s nabídkou Nástroje.</phrase></"
+"textobject>"
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:2013
 msgid "<emphasis role=\"bold\">1</emphasis> Automatic tools"
-msgstr ""
+msgstr "<emphasis role=\"bold\">1</emphasis> Automatické nástroje"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:2018
@@ -11241,7 +11348,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:2154
 msgid "Statistics Menu"
-msgstr ""
+msgstr "Nabídka Statistika"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:2156
@@ -11251,7 +11358,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:2158
 msgid "The <guimenu>Statistics</guimenu> menu."
-msgstr ""
+msgstr "Nabídka <guimenu>Statistika</guimenu>."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:2160
@@ -11272,7 +11379,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:2178
 msgid "Data Menu"
-msgstr ""
+msgstr "Nabídka Data"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:2180
@@ -11282,7 +11389,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:2185
 msgid "The <guimenu>Data</guimenu> menu."
-msgstr ""
+msgstr "Nabídka <guimenu>Data</guimenu>."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:2187
@@ -11486,7 +11593,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:2435
 msgid "Help Menu"
-msgstr ""
+msgstr "Nabídka Nápověda"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:2437
@@ -11496,7 +11603,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:2442
 msgid "The <guimenu>Help</guimenu> menu."
-msgstr ""
+msgstr "Nabídka <guimenu>Nápověda</guimenu>."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:2444
@@ -11764,6 +11871,9 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of the context menu on embedded "
 "objects.</phrase> </textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/menu-context-object.png\"/></"
+"imageobject> <textobject><phrase>Obrázek s kontextovou nabídkou na vloženém "
+"objektu.</phrase></textobject>"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:2717
@@ -11877,12 +11987,12 @@ msgstr ""
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:2821 C/gnumeric.xml:2822
 msgid "The Context Menu for Toolbars"
-msgstr ""
+msgstr "Kontextová nabídka pro nástrojové lišty"
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:2824
 msgid "The Context Menu for Toolbars."
-msgstr ""
+msgstr "Kontextová nabídka pro nástrojové lišty."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:2826
@@ -11953,7 +12063,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:47
 msgid "General Toolbar Behavior"
-msgstr ""
+msgstr "Obecné chování nástrojové lišty"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:49
@@ -11992,7 +12102,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:92
 msgid "The Standard Toolbar"
-msgstr ""
+msgstr "Standardní nástrojová lišta"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:94
@@ -12953,7 +13063,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:82 C/gnumeric.xml:451 C/gnumeric.xml:601
 msgid "The <guibutton>Cancel</guibutton> Button"
-msgstr ""
+msgstr "Tlačítko <guibutton>Zrušit</guibutton>"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:84
@@ -13014,7 +13124,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:168
 msgid "The Cell Grid"
-msgstr ""
+msgstr "Buňka mřížky"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:170
@@ -13088,7 +13198,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:231
 msgid "The Column and Row Headers"
-msgstr ""
+msgstr "Záhlaví sloupců a řádků"
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:240
@@ -13102,6 +13212,9 @@ msgid ""
 "\"PNG\"/> </imageobject> <textobject> <phrase>An image of the column labels."
 "</phrase> </textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/worksheet-cols-1.png\" format=\"PNG"
+"\"/></imageobject> <textobject><phrase>Obrázek s popisky sloupců.</phrase></"
+"textobject>"
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:258
@@ -13130,7 +13243,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:276
 msgid "The Scrollbars"
-msgstr ""
+msgstr "Posuvníky"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:279
@@ -13173,7 +13286,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:333
 msgid "The Information Area"
-msgstr ""
+msgstr "Informační oblast"
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:341
@@ -13215,7 +13328,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:374
 msgid "The File Status Indicator"
-msgstr ""
+msgstr "Indikátor stavu souboru"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:376
@@ -13261,7 +13374,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "The Mouse Pointers used by Gnumeric"
-msgstr ""
+msgstr "Ukazatele myši používané v Gnumericu"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:4
@@ -13465,7 +13578,7 @@ msgstr ""
 #. (itstool) path: chapter/title
 #: C/gnumeric.xml:546
 msgid "Working with Data"
-msgstr ""
+msgstr "Práce s daty"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:548
@@ -13605,7 +13718,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:75
 msgid "Boolean"
-msgstr ""
+msgstr "Pravdivostní hodnoty"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:77
@@ -13619,7 +13732,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:89
 msgid "Formulas"
-msgstr ""
+msgstr "Vzorce"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:91
@@ -13651,7 +13764,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:126
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:128
@@ -13826,7 +13939,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:320
 msgid "Syntax"
-msgstr ""
+msgstr "Syntax"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:322
@@ -13835,11 +13948,14 @@ msgid ""
 "(=) as the first character. Everything following this equals sign is "
 "evaluated as a formula."
 msgstr ""
+"Vzorce se od normálních dat rozlišují tím, že začínají jako prvním znakem "
+"symbolem rovnítka (=). Vše, co následuje za ním, je vyhodnocováno jako "
+"vzorec."
 
 #. (itstool) path: tip/title
 #: C/gnumeric.xml:329
 msgid "Alternate Beginnings for Formulas"
-msgstr ""
+msgstr "Alternativní začátky vzorců"
 
 #. (itstool) path: tip/para
 #: C/gnumeric.xml:331
@@ -13854,7 +13970,7 @@ msgstr ""
 #. (itstool) path: example/title
 #: C/gnumeric.xml:348
 msgid "Examples of standard operators"
-msgstr ""
+msgstr "Příklady standardních operátorů"
 
 #. (itstool) path: example/programlisting
 #: C/gnumeric.xml:349
@@ -13874,6 +13990,19 @@ msgid ""
 "=(5*5)+(49/7)   returns 32.\n"
 "        "
 msgstr ""
+"\n"
+"=5+5            vrací 10.\n"
+"\t\n"
+"=5-4            vrací 1.\n"
+"\t\n"
+"=-5             vrací -5.\n"
+"\t\n"
+"=5*5            vrací 25.\n"
+"\n"
+"=(5*5)+11       vrací 36.\n"
+"\t\n"
+"=(5*5)+(49/7)   vrací 32.\n"
+"        "
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:341
@@ -13883,6 +14012,10 @@ msgid ""
 "*, and /, just as you would expect. +,- can be placed in front of numbers to "
 "indicate sign, as well. <_:example-1/>"
 msgstr ""
+"Nejjednodušší vzorce používají prostě standardní matematické operátory a "
+"symboly. Sčítání, odčítání, násobení a dělení jsou představovány pomocí +, "
+"-, * a / tak, jak jste na počítači zvyklí. + a - můžete přidat také před "
+"číslo, abyste tím určili jeho znaménko. <_:example-1/>"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:365
@@ -13898,7 +14031,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:381
 msgid "Using Functions"
-msgstr ""
+msgstr "Používání funkcí"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:383
@@ -13912,7 +14045,7 @@ msgstr ""
 #. (itstool) path: example/title
 #: C/gnumeric.xml:395
 msgid "Basic Function syntax"
-msgstr ""
+msgstr "Základní syntaxe funkcí"
 
 #. (itstool) path: example/programlisting
 #: C/gnumeric.xml:396
@@ -13922,6 +14055,9 @@ msgid ""
 "FUNCTIONNAME(ARGUMENTS)\n"
 "        "
 msgstr ""
+"\n"
+"NÁZEVFUNKCE(ARGUMENTY)\n"
+"        "
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:391
@@ -13942,7 +14078,7 @@ msgstr ""
 #. (itstool) path: example/title
 #: C/gnumeric.xml:419 C/gnumeric.xml:636
 msgid "Some examples of function syntax"
-msgstr ""
+msgstr "Pár příkladů syntaxe funkcí"
 
 #. (itstool) path: example/programlisting
 #: C/gnumeric.xml:420
@@ -13984,7 +14120,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:443
 msgid "Cell Referencing"
-msgstr ""
+msgstr "Odkazování na buňky"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:445
@@ -14040,7 +14176,7 @@ msgstr ""
 #. (itstool) path: sect4/title
 #: C/gnumeric.xml:483
 msgid "Absolute cell referencing"
-msgstr ""
+msgstr "Absolutní odkazy na buňky"
 
 #. (itstool) path: sect4/para
 #: C/gnumeric.xml:485
@@ -14069,7 +14205,7 @@ msgstr ""
 #. (itstool) path: example/title
 #: C/gnumeric.xml:507
 msgid "Relative References"
-msgstr ""
+msgstr "Relativní odkazy na buňky"
 
 #. (itstool) path: example/para
 #: C/gnumeric.xml:508
@@ -14098,7 +14234,7 @@ msgstr ""
 #. (itstool) path: example/title
 #: C/gnumeric.xml:530
 msgid "Cell referencing examples"
-msgstr ""
+msgstr "Příklady odkazů na buňky"
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:537
@@ -14166,7 +14302,7 @@ msgstr ""
 #. (itstool) path: sect4/title
 #: C/gnumeric.xml:595
 msgid "References using R1C1 Notation"
-msgstr ""
+msgstr "Odkazování pomocí notace R1C1"
 
 #. (itstool) path: sect4/para
 #: C/gnumeric.xml:596
@@ -14196,7 +14332,7 @@ msgstr ""
 #. (itstool) path: sect4/title
 #: C/gnumeric.xml:618
 msgid "Referencing multiple cells"
-msgstr ""
+msgstr "Odkazování na více buněk"
 
 #. (itstool) path: sect4/para
 #: C/gnumeric.xml:620
@@ -14208,7 +14344,7 @@ msgstr ""
 #. (itstool) path: sect5/title
 #: C/gnumeric.xml:627
 msgid "Multiple individual cells"
-msgstr ""
+msgstr "Více jednotlivých buněk"
 
 #. (itstool) path: sect5/para
 #: C/gnumeric.xml:629
@@ -14240,11 +14376,14 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of a worksheet with a function.</"
 "phrase> </textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/cells-1.png\" format=\"PNG\"/></"
+"imageobject> <textobject><phrase>Obrázek s pracovním listem s funkcí.</"
+"phrase></textobject>"
 
 #. (itstool) path: sect5/title
 #: C/gnumeric.xml:659
 msgid "Referencing a continuous region of cells"
-msgstr ""
+msgstr "Odkazování na souvislou oblast buněk"
 
 #. (itstool) path: sect5/para
 #: C/gnumeric.xml:661
@@ -14260,11 +14399,13 @@ msgid ""
 "The ':' operator is used to indicate a range of cells. The basic syntax is "
 "upper left corner:bottom right corner."
 msgstr ""
+"Operátor „:“ se používá k určení rozsahu buněk. Základní syntax je levý "
+"horní roh:pravý dolní roh."
 
 #. (itstool) path: example/title
 #: C/gnumeric.xml:674 C/gnumeric.xml:709
 msgid "Referencing blocks of cells"
-msgstr ""
+msgstr "Odkazování na blok buněk"
 
 #. (itstool) path: example/programlisting
 #: C/gnumeric.xml:675
@@ -14293,11 +14434,14 @@ msgid ""
 "imageobject> <textobject> <phrase>An image of a worksheet with a function "
 "referencing a block of cells.</phrase> </textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/cells-2.png\" format=\"PNG\"/></"
+"imageobject> <textobject><phrase>Obrázek s pracovním listem s funkcí "
+"odkazující se na blok buněk.</phrase></textobject>"
 
 #. (itstool) path: sect5/title
 #: C/gnumeric.xml:699
 msgid "Referencing non-continuous regions"
-msgstr ""
+msgstr "Odkazování na nesouvislou oblast"
 
 #. (itstool) path: sect5/para
 #: C/gnumeric.xml:701
@@ -14325,7 +14469,7 @@ msgstr ""
 #. (itstool) path: sect4/title
 #: C/gnumeric.xml:720
 msgid "Referencing cells on other sheets"
-msgstr ""
+msgstr "Odkazování na buňky v jiném listu"
 
 #. (itstool) path: sect4/para
 #: C/gnumeric.xml:722
@@ -14356,7 +14500,7 @@ msgstr ""
 #. (itstool) path: example/title
 #: C/gnumeric.xml:746
 msgid "Referencing cells in other sheets"
-msgstr ""
+msgstr "Odkazování na buňky v jiných listech"
 
 #. (itstool) path: example/programlisting
 #: C/gnumeric.xml:747
@@ -14368,11 +14512,16 @@ msgid ""
 "=SUM(Sheet1!A1:A5)\n"
 "        "
 msgstr ""
+"\n"
+"='List 0'!A1+'List 3'!A5\n"
+"\n"
+"=SUM(List!A1:A5)\n"
+"        "
 
 #. (itstool) path: sect4/title
 #: C/gnumeric.xml:757
 msgid "Referencing cells on other files"
-msgstr ""
+msgstr "Odkazování na buňky v jiných souborech"
 
 #. (itstool) path: sect4/para
 #: C/gnumeric.xml:759
@@ -14388,7 +14537,7 @@ msgstr ""
 #. (itstool) path: example/title
 #: C/gnumeric.xml:769
 msgid "Referencing cells in other files"
-msgstr ""
+msgstr "Odkazování na buňky v jiných souborech"
 
 #. (itstool) path: example/programlisting
 #: C/gnumeric.xml:770
@@ -14400,11 +14549,16 @@ msgid ""
 "=CEIL( [First Version.gnumeric]'Sheet 1'!E20 )\n"
 "        "
 msgstr ""
+"\n"
+"=[Název souboru]'List 0'!A1\n"
+"\n"
+"=CEIL( [První verze.gnumeric]'List 1'!E20 )\n"
+"        "
 
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:785
 msgid "Names"
-msgstr ""
+msgstr "Názvy"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:787
@@ -14418,7 +14572,7 @@ msgstr ""
 #. (itstool) path: example/title
 #: C/gnumeric.xml:794
 msgid "Examples of name usage"
-msgstr ""
+msgstr "Příklady použití názvu"
 
 #. (itstool) path: example/para
 #: C/gnumeric.xml:796
@@ -14486,7 +14640,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:849
 msgid "Database Formulas"
-msgstr ""
+msgstr "Databázové vzorce"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:850
@@ -14583,27 +14737,27 @@ msgstr ""
 #: C/gnumeric.xml:2320 C/gnumeric.xml:2505 C/gnumeric.xml:2729
 #: C/gnumeric.xml:2940 C/gnumeric.xml:2979 C/gnumeric.xml:3134
 msgid "Name"
-msgstr ""
+msgstr "název"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:931
 msgid "Normal Use"
-msgstr ""
+msgstr "normální použití"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:936
 msgid "<code>#DIV/0!</code>"
-msgstr ""
+msgstr "<code>#DĚLENÍ/0!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:937
 msgid "Division by zero occurred."
-msgstr ""
+msgstr "Vyskytlo se dělení nulou."
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:940
 msgid "<code>#N/A</code>"
-msgstr ""
+msgstr "<code>#N/A</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:941
@@ -14613,7 +14767,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:946
 msgid "<code>#NAME?</code>"
-msgstr ""
+msgstr "<code>#NÁZEV?</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:947
@@ -14623,7 +14777,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:950
 msgid "<code>#NULL!</code>"
-msgstr ""
+msgstr "<code>#NULL!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:951
@@ -14635,7 +14789,7 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:955
 msgid "<code>#NUM!</code>"
-msgstr ""
+msgstr "<code>#ČÍSLO!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:956
@@ -14647,17 +14801,17 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:960
 msgid "<code>#REF!</code>"
-msgstr ""
+msgstr "<code>#ODKAZ!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:961
 msgid "An invalid cell address or reference was encountered."
-msgstr ""
+msgstr "Vyskytla se neplatná adresa nebo odkaz na buňku."
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:964
 msgid "<code>#UNKNOWN!</code>"
-msgstr ""
+msgstr "<code>#NEZNÁMÝ!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:965
@@ -14669,18 +14823,19 @@ msgstr ""
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:969
 msgid "<code>#VALUE!</code>"
-msgstr ""
+msgstr "<code>#HODNOTA!</code>"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:970
 msgid ""
 "A formula could not be evaluated because the wrong type of argument was used."
 msgstr ""
+"Vzorec není možné vyhodnotit, protože byl použit nesprávný typ argumentu."
 
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Data Entry"
-msgstr ""
+msgstr "Zadávání dat"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:4
@@ -14723,7 +14878,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:42
 msgid "Data Entry by Editing Cells."
-msgstr ""
+msgstr "Zadávání dat úpravou buněk."
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:44
@@ -14736,7 +14891,7 @@ msgstr ""
 #. (itstool) path: procedure/title
 #: C/gnumeric.xml:52
 msgid "Simple Data Entry"
-msgstr ""
+msgstr "Jednoduché zadávání dat"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:54
@@ -14790,7 +14945,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:111
 msgid "Advanced Editing Mode"
-msgstr ""
+msgstr "Režim pokročilých úprav"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:113
@@ -14820,7 +14975,7 @@ msgstr "<keycap>Backspace</keycap>"
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:135
 msgid "Delete the character to the left of the cursor."
-msgstr ""
+msgstr "Smazat znak nalevo od kurzoru."
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:139
@@ -14830,7 +14985,7 @@ msgstr "<keycap>kurzorové klávesy</keycap>"
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:140
 msgid "Move the cursor appropriately."
-msgstr ""
+msgstr "Příslušně přesunou kurzor."
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:143
@@ -14840,7 +14995,7 @@ msgstr "<keycap>Ctrl+K</keycap>"
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:144
 msgid "Delete to the end of the line"
-msgstr ""
+msgstr "Smazat do konce řádku"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:130
@@ -14867,7 +15022,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:172
 msgid "Entering Text Data"
-msgstr ""
+msgstr "Zadávání textových dat"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:174
@@ -14896,7 +15051,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:204
 msgid "Entering Number Data"
-msgstr ""
+msgstr "Zadávání číselných dat"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:206
@@ -14911,7 +15066,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:222
 msgid "Entering Boolean Data"
-msgstr ""
+msgstr "Zadávání pravdivostních dat"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:224
@@ -14923,7 +15078,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:234
 msgid "Entering Formulas"
-msgstr ""
+msgstr "Zadávání vzorců"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:236
@@ -14993,7 +15148,7 @@ msgstr ""
 #. (itstool) path: procedure/title
 #: C/gnumeric.xml:305
 msgid "Using the mouse to enter cell references"
-msgstr ""
+msgstr "Používání myši pro zadávání odkazů na buňky"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:307
@@ -15037,12 +15192,12 @@ msgstr ""
 #. (itstool) path: procedure/title
 #: C/gnumeric.xml:339
 msgid "Using the keyboard to enter cell references"
-msgstr ""
+msgstr "Používání klávesnice pro zadávání odkazů na buňky"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:342
 msgid "Select a cell to enter a formula into. For example A1."
-msgstr ""
+msgstr "Vyberte buňku, kterou chcete vložit do vzorce. Například A1."
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:347
@@ -15100,7 +15255,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:406
 msgid "Entering Errors"
-msgstr ""
+msgstr "Zadávání chyb"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:408
@@ -15123,7 +15278,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Advanced Data Entry"
-msgstr ""
+msgstr "Pokročilé zadávání dat"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:4
@@ -15160,7 +15315,7 @@ msgstr ""
 #. (itstool) path: procedure/title
 #: C/gnumeric.xml:31
 msgid "Data entry into a region"
-msgstr ""
+msgstr "Zadávání dat do oblasti"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:34
@@ -15189,7 +15344,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:69
 msgid "Entering a Regular Sequence"
-msgstr ""
+msgstr "Zadávání pravidelných řad"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:71
@@ -15306,7 +15461,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:189
 msgid "Weekday Names"
-msgstr ""
+msgstr "Názvy dnů v týdnu"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:191
@@ -15316,7 +15471,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:197
 msgid "Weekday Abbreviations"
-msgstr ""
+msgstr "Zkratky dnů v týdnu"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:199
@@ -15326,7 +15481,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:205
 msgid "Month Names"
-msgstr ""
+msgstr "Názvy měsíců"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:207
@@ -15346,17 +15501,17 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:221
 msgid "Strings with Numbers"
-msgstr ""
+msgstr "Řetězce s čísly"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:223
 msgid "Item1, Item2, etc"
-msgstr ""
+msgstr "Položka1, Položka2, atd."
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:229
 msgid "Dates"
-msgstr ""
+msgstr "Datum"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:231
@@ -15496,19 +15651,19 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:349
 msgid "Using a Format Template"
-msgstr ""
+msgstr "Používání šablon formátu"
 
 #. (itstool) path: sect2/para
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:351 C/gnumeric.xml:15 C/gnumeric.xml:159 C/gnumeric.xml:167
 #: C/gnumeric.xml:176 C/gnumeric.xml:185 C/gnumeric.xml:194
 msgid "This section has not yet been written."
-msgstr ""
+msgstr "Tento oddíl zatím nebyl napsán."
 
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:359
 msgid "Generating Random Number Sequences"
-msgstr ""
+msgstr "Generování řad náhodných čísel"
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:362
@@ -15749,7 +15904,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:13
 msgid "Obtaining Data from External Files"
-msgstr ""
+msgstr "Získávání dat z externích souborů"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:15
@@ -15816,12 +15971,12 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:79
 msgid "Getting Data from a Database"
-msgstr ""
+msgstr "Získávání dat z databáze"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:81
 msgid "This has not yet been written."
-msgstr ""
+msgstr "Tohle zatím nebylo napsáno."
 
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:88
@@ -15868,7 +16023,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:24
 msgid "Simple Selections"
-msgstr ""
+msgstr "Jednoduché výběry"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:26
@@ -15889,7 +16044,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:40
 msgid "A selected cell."
-msgstr ""
+msgstr "Vybraná buňka."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:42
@@ -15925,7 +16080,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:81
 msgid "Selecting Multiple Cells"
-msgstr ""
+msgstr "Vybírání více buněk"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:83
@@ -15940,7 +16095,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:92
 msgid "A multi-cell selection"
-msgstr ""
+msgstr "Výběr více buněk"
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:94
@@ -15953,7 +16108,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:107
 msgid "Continuous selections"
-msgstr ""
+msgstr "Souvislé výběry"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:109
@@ -15990,7 +16145,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:144
 msgid "Discontinuous selections"
-msgstr ""
+msgstr "Nesouvislé výběry"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:146
@@ -16010,7 +16165,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:162
 msgid "A discontinuous selection of cells."
-msgstr ""
+msgstr "Nesouvislý výběr buněk."
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:164
@@ -16023,7 +16178,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:179
 msgid "Advanced methods of Selection"
-msgstr ""
+msgstr "Pokročilé postupy výběru"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:181
@@ -16054,6 +16209,9 @@ msgid ""
 "> </imageobject> <textobject> <phrase>An image of a selected row.</phrase> </"
 "textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/selection-8.png\" format=\"PNG\"/"
+"></imageobject> <textobject><phrase>Obrázek s vybraným řádkem.</phrase></"
+"textobject>"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:211
@@ -16075,6 +16233,9 @@ msgid ""
 "> </imageobject> <textobject> <phrase>An image of a selected column.</"
 "phrase> </textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/selection-9.png\" format=\"PNG\"/"
+"></imageobject> <textobject><phrase>Obrázek s vybraným sloupcem.</phrase></"
+"textobject>"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:232
@@ -16096,6 +16257,9 @@ msgid ""
 "> </imageobject> <textobject> <phrase>An image of an entire worksheet "
 "selected.</phrase> </textobject>"
 msgstr ""
+"<imageobject><imagedata fileref=\"figures/selection-10.png\" format=\"PNG\"/"
+"></imageobject> <textobject><phrase>Obrázek s vybraným celým pracovním "
+"sešitem.</phrase></textobject>"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:253
@@ -16103,6 +16267,8 @@ msgid ""
 "The following list summaries keyboard shortcuts which can be used to select "
 "large cell blocks."
 msgstr ""
+"Následující seznam shrnuje klávesové zkratky, které můžete použit k výběru "
+"rozsáhlých bloků buněk."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:260
@@ -16117,6 +16283,8 @@ msgid ""
 "<keycombo><keycap>Ctrl</keycap><keycap>Arrow</keycap></keycombo> : Jump to "
 "the end of the current region."
 msgstr ""
+"<keycombo><keycap>Ctrl</keycap><keycap>šipka</keycap></keycombo>: Skočit na "
+"konec aktuální oblasti."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:274
@@ -16124,6 +16292,8 @@ msgid ""
 "<keycombo><keycap>Alt</keycap><keycap>Space</keycap></keycombo> : Select "
 "current row."
 msgstr ""
+"<keycombo><keycap>Alt</keycap><keycap>mezerník</keycap></keycombo>: Vybrat "
+"aktuální řádek."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:281
@@ -16131,6 +16301,8 @@ msgid ""
 "<keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> : Select "
 "current column."
 msgstr ""
+"<keycombo><keycap>Ctrl</keycap><keycap>mezerník</keycap></keycombo>  Vybrat "
+"aktuální sloupec."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:288
@@ -16138,6 +16310,8 @@ msgid ""
 "<keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo> : Select the "
 "entire sheet."
 msgstr ""
+"<keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo> : Vybrat celý "
+"list."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:295
@@ -16149,7 +16323,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Moving and Copying Data"
-msgstr ""
+msgstr "Přesun a kopírování dat"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:4
@@ -16189,7 +16363,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:35
 msgid "Simple Copy and Move"
-msgstr ""
+msgstr "Jednoduché kopírování a přesun"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:37
@@ -16224,7 +16398,7 @@ msgstr ""
 #. (itstool) path: step/para
 #: C/gnumeric.xml:66
 msgid "Release the mouse button."
-msgstr ""
+msgstr "Uvolněte tlačítko myši."
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:70
@@ -16239,7 +16413,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:82
 msgid "Cut, Copy and Paste"
-msgstr ""
+msgstr "Vyjmout, kopírovat a vložit"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:84
@@ -16261,6 +16435,8 @@ msgid ""
 "Use keyboard shortcut <keycombo><keycap>Ctrl</keycap><keycap>X</keycap></"
 "keycombo>."
 msgstr ""
+"Použijte klávesovou zkratku <keycombo><keycap>Ctrl</keycap><keycap>X</"
+"keycap></keycombo>."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:108
@@ -16307,7 +16483,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:153
 msgid "Copying a Selection to the Clipboard"
-msgstr ""
+msgstr "Kopírování výběru do schránky"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:162
@@ -16353,7 +16529,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:204
 msgid "Pasting the Clipboard"
-msgstr ""
+msgstr "Vkládání ze schránky"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:211
@@ -16418,7 +16594,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:275
 msgid "Paste Special"
-msgstr ""
+msgstr "Speciální vkládání"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:277
@@ -16578,23 +16754,23 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Deleting Data"
-msgstr ""
+msgstr "Mazání dat"
 
 #. (itstool) path: note/para
 #: C/gnumeric.xml:5 C/gnumeric.xml:6 C/gnumeric.xml:3231 C/gnumeric.xml:3249
 #: C/gnumeric.xml:3255
 msgid "This section needs to be written."
-msgstr ""
+msgstr "Tento oddíl je potřeba napsat."
 
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:3
 msgid "Inserting New Data Cells"
-msgstr ""
+msgstr "Vkládání nových datových buněk"
 
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Formatting Cells"
-msgstr ""
+msgstr "Formátování buněk"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:4
@@ -16752,7 +16928,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:145
 msgid "<guilabel>General</guilabel>"
-msgstr ""
+msgstr "<guilabel>Obecné</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:146
@@ -16766,7 +16942,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:156
 msgid "<guilabel>Number</guilabel>"
-msgstr ""
+msgstr "<guilabel>Číslo</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:157
@@ -16781,7 +16957,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:167
 msgid "<guilabel>Currency</guilabel>"
-msgstr ""
+msgstr "<guilabel>Měna</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:168
@@ -16797,7 +16973,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:182
 msgid "<guilabel>Accounting</guilabel>"
-msgstr ""
+msgstr "<guilabel>Účetní</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:183
@@ -16810,7 +16986,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:192
 msgid "<guilabel>Date</guilabel>"
-msgstr ""
+msgstr "<guilabel>Datum</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:202
@@ -16878,22 +17054,22 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:246
 msgid "<guilabel> Time</guilabel>"
-msgstr ""
+msgstr "<guilabel>Čas</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:253
 msgid "<guilabel>h</guilabel>: hours."
-msgstr ""
+msgstr "<guilabel>h</guilabel>: hodiny."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:256
 msgid "<guilabel>mm</guilabel>: minutes."
-msgstr ""
+msgstr "<guilabel>mm</guilabel>: minuty."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:259
 msgid "<guilabel>ss</guilabel>: seconds."
-msgstr ""
+msgstr "<guilabel>ss</guilabel>: sekundy."
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:247
@@ -16911,7 +17087,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:273
 msgid "<guilabel>Percentage</guilabel>"
-msgstr ""
+msgstr "<guilabel>Procenta</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:274
@@ -16923,7 +17099,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:280
 msgid "<guilabel>Fractions</guilabel>"
-msgstr ""
+msgstr "<guilabel>Zlomek</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:281
@@ -16935,7 +17111,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:288
 msgid "<guilabel>Scientific</guilabel>"
-msgstr ""
+msgstr "<guilabel>Vědecké</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:289
@@ -16949,7 +17125,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:298
 msgid "<guilabel>Text</guilabel>"
-msgstr ""
+msgstr "<guilabel>Text</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:299
@@ -16977,7 +17153,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:318
 msgid "<guilabel>Custom</guilabel>"
-msgstr ""
+msgstr "<guilabel>Vlastní</guilabel>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:319
@@ -16993,18 +17169,18 @@ msgstr ""
 #. (itstool) path: table/title
 #: C/gnumeric.xml:334
 msgid "Examples of Date Formats"
-msgstr ""
+msgstr "Příklady formátů data"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:348 C/gnumeric.xml:537 C/gnumeric.xml:19 C/gnumeric.xml:979
 #: C/gnumeric.xml:1238
 msgid "Format"
-msgstr ""
+msgstr "formát"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:349 C/gnumeric.xml:538
 msgid "Sample"
-msgstr ""
+msgstr "příklad"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:354 C/gnumeric.xml:543 C/gnumeric.xml:349
@@ -17499,7 +17675,7 @@ msgstr "1998"
 #. (itstool) path: table/title
 #: C/gnumeric.xml:529
 msgid "Examples of Time Formats"
-msgstr ""
+msgstr "Příklady formátů času"
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:547
@@ -17605,7 +17781,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:600 C/gnumeric.xml:607
 msgid "Alignment Tab"
-msgstr ""
+msgstr "Karta Zarovnání"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:601
@@ -17626,12 +17802,12 @@ msgstr ""
 #. (itstool) path: variablelist/title
 #: C/gnumeric.xml:624
 msgid "Horizontal justification options."
-msgstr ""
+msgstr "Volby vodorovného zarovnání."
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:627
 msgid "<guibutton>General</guibutton>"
-msgstr ""
+msgstr "<guibutton>Obecné</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:629
@@ -17643,7 +17819,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:636
 msgid "<guibutton>Left</guibutton>"
-msgstr ""
+msgstr "<guibutton>Vlevo</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:638
@@ -17653,7 +17829,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:643 C/gnumeric.xml:704
 msgid "<guibutton>Center</guibutton>"
-msgstr ""
+msgstr "<guibutton>Na střed</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:645
@@ -17663,7 +17839,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:650
 msgid "<guibutton>Right</guibutton>"
-msgstr ""
+msgstr "<guibutton>Vpravo</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:652
@@ -17673,7 +17849,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:657
 msgid "<guibutton>Fill</guibutton>"
-msgstr ""
+msgstr "<guibutton>Vyplnit</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:659
@@ -17685,7 +17861,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:666 C/gnumeric.xml:720
 msgid "<guibutton>Justify</guibutton>"
-msgstr ""
+msgstr "<guibutton>Rozprostřít</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:668
@@ -17697,7 +17873,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:674
 msgid "<guibutton>Center across selection</guibutton>"
-msgstr ""
+msgstr "<guibutton>Na střed výběru</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:676
@@ -17718,12 +17894,12 @@ msgstr ""
 #. (itstool) path: variablelist/title
 #: C/gnumeric.xml:693
 msgid "Vertical Justification Options"
-msgstr ""
+msgstr "Volby svislého zarovnání"
 
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:696
 msgid "<guibutton>Top</guibutton>"
-msgstr ""
+msgstr "<guibutton>Nahoru</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:698
@@ -17740,7 +17916,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:712
 msgid "<guibutton>Bottom</guibutton>"
-msgstr ""
+msgstr "<guibutton>Dolů</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:714
@@ -17758,12 +17934,12 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:732
 msgid "Font Tab"
-msgstr ""
+msgstr "Karta Písmo"
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:736
 msgid "The Font Tab"
-msgstr ""
+msgstr "Karta Písmo"
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:738
@@ -17862,7 +18038,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:835 C/gnumeric.xml:844
 msgid "Background Tab"
-msgstr ""
+msgstr "Karta Pozadí"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:836
@@ -17924,7 +18100,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:898 C/gnumeric.xml:902
 msgid "Protection Tab"
-msgstr ""
+msgstr "Karta Ochrana"
 
 #. (itstool) path: screenshot/mediaobject
 #: C/gnumeric.xml:904
@@ -18102,7 +18278,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Filtering Data"
-msgstr ""
+msgstr "Filtrování dat"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:4
@@ -18116,7 +18292,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:13
 msgid "Auto Filters"
-msgstr ""
+msgstr "Automatické filtry"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:20
@@ -18153,7 +18329,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:63
 msgid "Advanced Filter"
-msgstr ""
+msgstr "Pokročilý filtr"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:65
@@ -18314,12 +18490,12 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Generating Data"
-msgstr ""
+msgstr "Generování dat"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:8
 msgid "..."
-msgstr ""
+msgstr "…"
 
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:14
@@ -18339,7 +18515,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Comments in Cells"
-msgstr ""
+msgstr "Komentáře v buňkách"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:4
@@ -18747,7 +18923,7 @@ msgstr ""
 #. (itstool) path: chapter/title
 #: C/gnumeric.xml:577
 msgid "Advanced Analysis"
-msgstr ""
+msgstr "Pokročilé analýzy"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:579
@@ -18773,7 +18949,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Analysis using Complex Numbers"
-msgstr ""
+msgstr "Analýzy používající komplexní čísla"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:4
@@ -18832,7 +19008,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:34
 msgid "Results"
-msgstr ""
+msgstr "Výsledky"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:36
@@ -18868,12 +19044,12 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:3
 msgid "Simulation Analysis"
-msgstr ""
+msgstr "Simulační analýzy"
 
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:6
 msgid "Introduction to simulation analysis"
-msgstr ""
+msgstr "Úvod do simulačních analýz"
 
 #. (itstool) path: footnote/para
 #: C/gnumeric.xml:9
@@ -18927,7 +19103,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:22
 msgid "Setting up the simulation model"
-msgstr ""
+msgstr "Nastavení simulačního modelu"
 
 #. (itstool) path: footnote/para
 #: C/gnumeric.xml:25
@@ -19009,7 +19185,7 @@ msgstr "C12: =C13*B16"
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:46
 msgid "D12: =D13*max(0,B16-B20)"
-msgstr ""
+msgstr "D12: =D13*max(0,B16-B20)"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:47
@@ -19019,17 +19195,17 @@ msgstr "E12: =B12-C12+D12"
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:48
 msgid "B13: 0.5"
-msgstr ""
+msgstr "B13: 0,5"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:49
 msgid "C13: 0.33"
-msgstr ""
+msgstr "C13: 0,33"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:50
 msgid "D13: 0.05"
-msgstr ""
+msgstr "D13: 0,05"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:51
@@ -19077,32 +19253,32 @@ msgstr ""
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:78
 msgid "B4: 0.35"
-msgstr ""
+msgstr "B4: 0,35"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:79
 msgid "B5: 0.45"
-msgstr ""
+msgstr "B5: 0,45"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:80
 msgid "B6: 0.2"
-msgstr ""
+msgstr "B6: 0,2"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:81
 msgid "C4: 0.35"
-msgstr ""
+msgstr "C4: 0,35"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:82
 msgid "C5: 0.8"
-msgstr ""
+msgstr "C5: 0,8"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:83
 msgid "C6: 1.0"
-msgstr ""
+msgstr "C6: 1,0"
 
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:88
@@ -19192,17 +19368,17 @@ msgstr "40"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:152 C/gnumeric.xml:360 C/gnumeric.xml:396
 msgid "0.03"
-msgstr ""
+msgstr "0,03"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:155 C/gnumeric.xml:363 C/gnumeric.xml:399
 msgid "0.1"
-msgstr ""
+msgstr "0,1"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:158 C/gnumeric.xml:366 C/gnumeric.xml:402
 msgid "0.44"
-msgstr ""
+msgstr "0,44"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:163
@@ -19217,17 +19393,17 @@ msgstr "50"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:169
 msgid "0.05"
-msgstr ""
+msgstr "0,05"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:172
 msgid "0.18"
-msgstr ""
+msgstr "0,18"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:175
 msgid "0.22"
-msgstr ""
+msgstr "0,22"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:180
@@ -19242,17 +19418,17 @@ msgstr "60"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:186 C/gnumeric.xml:237
 msgid "0.15"
-msgstr ""
+msgstr "0,15"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:189
 msgid "0.4"
-msgstr ""
+msgstr "0,4"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:192 C/gnumeric.xml:209
 msgid "0.16"
-msgstr ""
+msgstr "0,16"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:197
@@ -19267,7 +19443,7 @@ msgstr "70"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:203 C/gnumeric.xml:206
 msgid "0.2"
-msgstr ""
+msgstr "0,2"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:214
@@ -19282,17 +19458,17 @@ msgstr "80"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:220
 msgid "0.35"
-msgstr ""
+msgstr "0,35"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:223 C/gnumeric.xml:387 C/gnumeric.xml:423 C/gnumeric.xml:953
 msgid "0.08"
-msgstr ""
+msgstr "0,08"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:226
 msgid "0.06"
-msgstr ""
+msgstr "0,06"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:231
@@ -19302,12 +19478,12 @@ msgstr "<emphasis>17</emphasis>"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:234 C/gnumeric.xml:492
 msgid "90"
-msgstr ""
+msgstr "90"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:240 C/gnumeric.xml:1035
 msgid "0.04"
-msgstr ""
+msgstr "0,04"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:243 C/gnumeric.xml:257 C/gnumeric.xml:260 C/gnumeric.xml:369
@@ -19328,7 +19504,7 @@ msgstr "100"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:254
 msgid "0.07"
-msgstr ""
+msgstr "0,07"
 
 #. (itstool) path: table/title
 #: C/gnumeric.xml:267
@@ -19383,12 +19559,12 @@ msgstr "<emphasis>24</emphasis>"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:390 C/gnumeric.xml:426
 msgid "0.28"
-msgstr ""
+msgstr "0,28"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:393 C/gnumeric.xml:429
 msgid "0.66"
-msgstr ""
+msgstr "0,66"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:408
@@ -19398,37 +19574,37 @@ msgstr "<emphasis>25</emphasis>"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:414 C/gnumeric.xml:450
 msgid "0.23"
-msgstr ""
+msgstr "0,23"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:417 C/gnumeric.xml:453
 msgid "0.68"
-msgstr ""
+msgstr "0,68"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:420 C/gnumeric.xml:456
 msgid "0.82"
-msgstr ""
+msgstr "0,82"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:435
 msgid "<emphasis>26</emphasis>"
-msgstr ""
+msgstr "<emphasis>26</emphasis>"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:441 C/gnumeric.xml:477
 msgid "0.43"
-msgstr ""
+msgstr "0,43"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:444 C/gnumeric.xml:480
 msgid "0.88"
-msgstr ""
+msgstr "0,88"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:447 C/gnumeric.xml:483
 msgid "0.94"
-msgstr ""
+msgstr "0,94"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:462
@@ -19438,12 +19614,12 @@ msgstr "<emphasis>27</emphasis>"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:468 C/gnumeric.xml:504
 msgid "0.78"
-msgstr ""
+msgstr "0,78"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:471 C/gnumeric.xml:507
 msgid "0.96"
-msgstr ""
+msgstr "0,96"
 
 #. (itstool) path: entry/para
 #. (itstool) path: row/entry
@@ -19460,12 +19636,12 @@ msgstr "<emphasis>28</emphasis>"
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:495 C/gnumeric.xml:531
 msgid "0.93"
-msgstr ""
+msgstr "0,93"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:516
 msgid "<emphasis>29</emphasis>"
-msgstr ""
+msgstr "<emphasis>29</emphasis>"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:543
@@ -20118,7 +20294,7 @@ msgstr ""
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:846 C/gnumeric.xml:889
 msgid "$R_0$"
-msgstr ""
+msgstr "$R_0$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:847 C/gnumeric.xml:890
@@ -20137,7 +20313,7 @@ msgstr ""
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:852
 msgid "$S_0^2$"
-msgstr ""
+msgstr "$S_0^2$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:853
@@ -20147,12 +20323,12 @@ msgstr ""
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:856
 msgid "$S_0$"
-msgstr ""
+msgstr "$S_0$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:857
 msgid "S<subscript>0</subscript>"
-msgstr ""
+msgstr "S<subscript>0</subscript>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:850
@@ -20172,7 +20348,7 @@ msgstr ""
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:864 C/gnumeric.xml:898 C/gnumeric.xml:972
 msgid "z<subscript>α/2</subscript>"
-msgstr ""
+msgstr "z<subscript>α/2</subscript>"
 
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:868
@@ -20267,17 +20443,17 @@ msgstr ""
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:933
 msgid "59.19"
-msgstr ""
+msgstr "59,19"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:936
 msgid "152.4"
-msgstr ""
+msgstr "152,4"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:939
 msgid "0.64"
-msgstr ""
+msgstr "0,64"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:944 C/gnumeric.xml:1026
@@ -20287,12 +20463,12 @@ msgstr ""
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:947
 msgid "7.85"
-msgstr ""
+msgstr "7,85"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:950
 msgid "2.51"
-msgstr ""
+msgstr "2,51"
 
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:967
@@ -20302,7 +20478,7 @@ msgstr ""
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:968
 msgid "α=0.05"
-msgstr ""
+msgstr "α=0,05"
 
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:975
@@ -20339,12 +20515,12 @@ msgstr ""
 #. (itstool) path: inlineequation/alt
 #: C/gnumeric.xml:988
 msgid "$\\epsilon \\leq 0.05$"
-msgstr ""
+msgstr "$\\epsilon \\leq 0.05$"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:989
 msgid "ε &lt;=0.05"
-msgstr ""
+msgstr "ε &lt;=0.05"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:986
@@ -20358,27 +20534,27 @@ msgstr ""
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:1015
 msgid "59.11"
-msgstr ""
+msgstr "59,11"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:1018
 msgid "163.9"
-msgstr ""
+msgstr "163,9"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:1021
 msgid "0.34"
-msgstr ""
+msgstr "0,34"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:1029
 msgid "7.72"
-msgstr ""
+msgstr "7,72"
 
 #. (itstool) path: entry/para
 #: C/gnumeric.xml:1032
 msgid "2.88"
-msgstr ""
+msgstr "2,88"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:1040
@@ -20407,7 +20583,7 @@ msgstr ""
 #. (itstool) path: chapter/title
 #: C/gnumeric.xml:594
 msgid "The Solver"
-msgstr ""
+msgstr "Řešitel"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:596
@@ -20419,7 +20595,7 @@ msgstr ""
 #. (itstool) path: sect1/title
 #: C/gnumeric.xml:2
 msgid "Solver"
-msgstr ""
+msgstr "Řešitel"
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:4
@@ -20454,6 +20630,11 @@ msgid ""
 "    -0.3x + 4y - 2z + 1.2m\n"
 "    "
 msgstr ""
+"\n"
+"    3x + y - 5z\n"
+"    -3,23x + 0,33y\n"
+"    -0,3x + 4y - 2z + 1,2m\n"
+"    "
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:30
@@ -20565,12 +20746,12 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:114
 msgid "Using Solver"
-msgstr ""
+msgstr "Používání Řešitele"
 
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:117
 msgid "Solver Parameters"
-msgstr ""
+msgstr "Parametry Řešitele"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:119
@@ -20744,7 +20925,7 @@ msgstr ""
 #. (itstool) path: sect3/title
 #: C/gnumeric.xml:255
 msgid "Optimization"
-msgstr ""
+msgstr "Optimalizace"
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:257
@@ -20805,7 +20986,7 @@ msgstr ""
 #. (itstool) path: chapter/title
 #: C/gnumeric.xml:606
 msgid "Statistical Analysis"
-msgstr ""
+msgstr "Statistické analýzy"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:608
@@ -20829,7 +21010,7 @@ msgstr ""
 #. (itstool) path: figure/title
 #: C/gnumeric.xml:625
 msgid "Statistical Analysis Tools"
-msgstr ""
+msgstr "Nástroje statistické analýzy"
 
 #. (itstool) path: screenshot/screeninfo
 #: C/gnumeric.xml:627
@@ -23497,12 +23678,12 @@ msgstr ""
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:2367
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:2368
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #. (itstool) path: example/para
 #: C/gnumeric.xml:2364
@@ -23531,7 +23712,7 @@ msgstr ""
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:2386
 msgid "ξ1"
-msgstr ""
+msgstr "ξ1"
 
 #. (itstool) path: example/para
 #: C/gnumeric.xml:2382
@@ -24607,7 +24788,7 @@ msgstr ""
 #. (itstool) path: inlineequation/mathphrase
 #: C/gnumeric.xml:3298
 msgid "P(F≤f)"
-msgstr ""
+msgstr "P(F≤f)"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:3292
@@ -25428,7 +25609,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:37
 msgid "Inserting Images"
-msgstr ""
+msgstr "Vkládání obrázků"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:43
@@ -25500,7 +25681,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:114
 msgid "Saving Images to New Files"
-msgstr ""
+msgstr "Ukládání obrázků do nových souborů"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:116
@@ -25527,7 +25708,7 @@ msgstr ""
 #. (itstool) path: step/title
 #: C/gnumeric.xml:134
 msgid "Open the context menu"
-msgstr ""
+msgstr "Otevřete kontextovou nabídku"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:135
@@ -25555,7 +25736,7 @@ msgstr ""
 #. (itstool) path: step/title
 #: C/gnumeric.xml:157
 msgid "Select the file name and location"
-msgstr ""
+msgstr "Vyberte název a umístění souboru"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:158
@@ -25572,7 +25753,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:176
 msgid "Deleting Images"
-msgstr ""
+msgstr "Mazání obrázků"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:178
@@ -25602,7 +25783,7 @@ msgstr ""
 #. (itstool) path: warning/title
 #: C/gnumeric.xml:13
 msgid "Widgets are currently experimental!"
-msgstr ""
+msgstr "Widgety jsou v současnosti experimentální!"
 
 #. (itstool) path: warning/para
 #: C/gnumeric.xml:14
@@ -25918,7 +26099,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:379
 msgid "Scrollbars."
-msgstr ""
+msgstr "Posuvníky."
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:382
@@ -26151,7 +26332,7 @@ msgstr ""
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:708
 msgid "Lists."
-msgstr ""
+msgstr "Seznamy."
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:710
@@ -26537,7 +26718,7 @@ msgstr ""
 #. (itstool) path: chapter/title
 #: C/gnumeric.xml:666
 msgid "Graphs"
-msgstr ""
+msgstr "Grafy"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:668
@@ -26675,7 +26856,7 @@ msgstr ""
 #. (itstool) path: step/title
 #: C/gnumeric.xml:95
 msgid "Inserting the graph"
-msgstr ""
+msgstr "Vložení grafu"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:98
@@ -26985,7 +27166,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:439 C/gnumeric.xml:589
 msgid "The <guibutton>Help</guibutton> Button"
-msgstr ""
+msgstr "Tlačítko <guibutton>Nápověda</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:443 C/gnumeric.xml:593
@@ -27017,7 +27198,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:478
 msgid "The <guibutton>Insert</guibutton> Button"
-msgstr ""
+msgstr "Tlačítko <guibutton>Vložit</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:482
@@ -27117,7 +27298,7 @@ msgstr ""
 #. (itstool) path: varlistentry/term
 #: C/gnumeric.xml:615
 msgid "The <guibutton>Apply</guibutton> Button"
-msgstr ""
+msgstr "Tlačítko <guibutton>Použít</guibutton>"
 
 #. (itstool) path: listitem/para
 #: C/gnumeric.xml:619
@@ -27402,7 +27583,7 @@ msgstr ""
 #. (itstool) path: step/title
 #: C/gnumeric.xml:937
 msgid "Place the graph"
-msgstr ""
+msgstr "Umístění grafu"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:938
@@ -27421,7 +27602,7 @@ msgstr ""
 #. (itstool) path: step/title
 #: C/gnumeric.xml:955
 msgid "Modifying an existing graph"
-msgstr ""
+msgstr "Úprava stávajícího grafu"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:956
@@ -27438,7 +27619,7 @@ msgstr ""
 #. (itstool) path: step/title
 #: C/gnumeric.xml:970
 msgid "Deleting a graph"
-msgstr ""
+msgstr "Smazání grafu"
 
 #. (itstool) path: step/para
 #: C/gnumeric.xml:971

@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=General\n"
 "POT-Creation-Date: 2016-10-02 07:14+0000\n"
-"PO-Revision-Date: 2016-10-02 11:56+0200\n"
+"PO-Revision-Date: 2016-10-02 14:44+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -4413,7 +4413,7 @@ msgid ""
 "@{salvage}."
 msgstr ""
 "Pro dvě poslední období jsou použita speciální odpisová pravidla, která mají "
-"za následek možné celkové odpisy převyšující rozdíl @{cena} – @{zůstatek}."
+"za následek možné celkové odpisy převyšující rozdíl @{cena} - @{zůstatek}."
 
 #: ../plugins/fn-financial/functions.c:2919
 msgid "Named for AMORtissement DEGRessif Comptabilite."
@@ -5167,7 +5167,7 @@ msgstr "cond2:podmínka"
 
 #: ../plugins/fn-logical/functions.c:272
 msgid "value2:value if @{condition2} is true"
-msgstr "hodnota2: hodnota, když je @{podmínka2} pravdivá"
+msgstr "hodnota2:hodnota, když je @{podmínka2} pravdivá"
 
 #: ../plugins/fn-logical/functions.c:273
 msgid ""
@@ -6231,7 +6231,7 @@ msgstr "EXP:e umocněno na @{x}"
 
 #: ../plugins/fn-math/functions.c:959
 msgid "e is the base of the natural logarithm."
-msgstr "e je základ přirozeného logaritmu"
+msgstr "e je základ přirozeného logaritmu."
 
 #: ../plugins/fn-math/functions.c:982
 msgid "EXPM1:EXP(@{x})-1"
@@ -6423,7 +6423,7 @@ msgstr "základ:základ logaritmu, výchozí je 10"
 
 #: ../plugins/fn-math/functions.c:1262
 msgid "@{base} must be positive and not equal to 1."
-msgstr "@{základ} musí být kladný a nesmí být roven 0."
+msgstr "@{základ} musí být kladný a nesmí být roven 1."
 
 #: ../plugins/fn-math/functions.c:1263
 msgid "If @{x} ≤ 0, LOG returns #NUM! error."
@@ -6498,7 +6498,7 @@ msgstr "LOG2:logaritmus o základu 2 čísla @{x}"
 
 #: ../plugins/fn-math/functions.c:1420
 msgid "If @{x} ≤ 0, LOG2 returns #NUM!"
-msgstr "Pokud je @{x} ≤ 0, funkce LOG2 vrátí #ČÍSLO!"
+msgstr "Pokud je @{x} ≤ 0, funkce LOG2 vrátí #ČÍSLO!."
 
 #: ../plugins/fn-math/functions.c:1440
 msgid "LOG10:the base-10 logarithm of @{x}"
@@ -7168,7 +7168,7 @@ msgid ""
 "Instead use SUMPRODUCT(--(A1:A5>0))"
 msgstr ""
 "Tato funkce ignoruje pravdivostní výrazy, takže SUMPRODUCT(A1:A5>0) nebude "
-"pracovat. Namísto toho použijte SUMPRODUCT(--(A1:A5>0))"
+"pracovat. Namísto toho použijte SUMPRODUCT(--(A1:A5>0))."
 
 #: ../plugins/fn-math/functions.c:3142
 msgid ""
@@ -8990,7 +8990,7 @@ msgstr "oblast2:druhá oblast buněk"
 
 #: ../plugins/fn-stat/functions.c:56
 msgid "VARP is also known as the N-variance."
-msgstr "Funkce VARP je známá také jako N-rozptyl"
+msgstr "Funkce VARP je známá také jako N-rozptyl."
 
 #: ../plugins/fn-stat/functions.c:59 ../plugins/fn-stat/functions.c:88
 msgid "wiki:en:Variance"
