@@ -1,3 +1,8 @@
+2016-10-02  Morten Welinder  <terra@gnome.org>
+
+	* src/libgnumeric.c (gnm_pre_parse_init): Don't pretend the
+	g_mem_set_vtable stuff actually works anymore.
+
 2016-08-21  Morten Welinder  <terra@gnome.org>
 
 	* src/sstest.c (options): Add --fast option.
