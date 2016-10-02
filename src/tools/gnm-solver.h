@@ -247,6 +247,10 @@ struct GnmSolver_ {
 	// Analytic gradient
 	int gradient_status; // 0: not tried; 1: ok; 2: fail
 	GPtrArray *gradient;
+
+	// Analytic Hessian
+	int hessian_status; // 0: not tried; 1: ok; 2: fail
+	GPtrArray *hessian;
 };
 
 typedef struct {
@@ -303,6 +307,9 @@ void gnm_solver_restore_vars (GnmSolver *sol, GPtrArray *vals);
 
 gboolean gnm_solver_has_analytic_gradient (GnmSolver *sol);
 gnm_float *gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs);
+
+gboolean gnm_solver_has_analytic_hessian (GnmSolver *sol);
+gnm_float *gnm_solver_compute_hessian (GnmSolver *sol, gnm_float const *xs);
 
 gnm_float gnm_solver_line_search (GnmSolver *sol,
 				  gnm_float const *x0, gnm_float const *dir,

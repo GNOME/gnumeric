@@ -857,6 +857,12 @@ gnm_solver_dispose (GObject *obj)
 		sol->gradient = NULL;
 	}
 
+	if (sol->hessian) {
+		sol->hessian_status = 0;
+		g_ptr_array_unref (sol->hessian);
+		sol->hessian = NULL;
+	}
+
 	gnm_solver_parent_class->dispose (obj);
 }
 
@@ -1950,6 +1956,12 @@ gnm_solver_restore_vars (GnmSolver *sol, GPtrArray *vals)
 	g_ptr_array_free (vals, TRUE);
 }
 
+/**
+ * gnm_solver_has_analytic_gradient:
+ * @sol: the solver
+ *
+ * Returns: %TRUE if the gradient can be computed analytically.
+ */
 gboolean
 gnm_solver_has_analytic_gradient (GnmSolver *sol)
 {
@@ -1993,6 +2005,8 @@ gnm_solver_compute_gradient_analytically (GnmSolver *sol, gnm_float const *xs)
 		GnmValue *v = gnm_expr_top_eval
 			(te, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		g[i] = VALUE_IS_NUMBER (v) ? value_get_as_float (v) : gnm_nan;
+		if (sol->flip_sign)
+			g[i] = 0 - g[i];
 		value_release (v);
 	}
 
@@ -2065,6 +2079,98 @@ gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs)
 
 	return g;
 }
+
+/**
+ * gnm_solver_has_analytic_hessian:
+ * @sol: the solver
+ *
+ * Returns: %TRUE if the Hessian can be computed analytically.
+ */
+gboolean
+gnm_solver_has_analytic_hessian (GnmSolver *sol)
+{
+	const int n = sol->input_cells->len;
+	int i, j;
+	GnmEvalPos ep;
+	GnmExprDeriv *info;
+
+	if (!gnm_solver_has_analytic_gradient (sol))
+		sol->hessian_status = sol->gradient_status;
+
+	if (sol->hessian_status)
+		return sol->hessian_status == 1;
+
+	sol->hessian_status++;
+	sol->hessian = g_ptr_array_new_with_free_func ((GDestroyNotify)gnm_expr_top_unref);
+
+	eval_pos_init_cell (&ep, sol->target);
+	info = gnm_expr_deriv_info_new ();
+	for (i = 0; i < n && sol->hessian_status == 1; i++) {
+		GnmExprTop const *gi = g_ptr_array_index (sol->gradient, i);
+		for (j = i; j < n; j++) {
+			GnmCell *cell;
+			GnmExprTop const *te;
+			GnmEvalPos var;
+
+			cell = g_ptr_array_index (sol->input_cells, j);
+			eval_pos_init_cell (&var, cell);
+			gnm_expr_deriv_info_set_var (info, &var);
+			te = gnm_expr_top_deriv (gi, &ep, info);
+
+			if (te)
+				g_ptr_array_add (sol->hessian, (gpointer)te);
+			else {
+				if (gnm_solver_debug ())
+					g_printerr ("Unable to compute analytic hessian\n");
+				sol->hessian_status++;
+				break;
+			}
+		}
+	}
+
+	gnm_expr_deriv_info_free (info);
+
+	return sol->hessian_status == 1;
+}
+
+/**
+ * gnm_solver_compute_hessian:
+ * @sol: Solver
+ * @xs: Point to compute Hessian at
+ *
+ * Returns: (transfer full): A vector containing the Hessian.  This
+ * function takes the flip-sign property into account.  The result vector
+ * will be n+(n-1)+...+2+1 elements long containing the triangular
+ * Hessian.  Use symmetry to obtain the full Hessian.
+ */
+gnm_float *
+gnm_solver_compute_hessian (GnmSolver *sol, gnm_float const *xs)
+{
+	int i, hlen;
+	gnm_float *H;
+	GnmEvalPos ep;
+
+	if (!gnm_solver_has_analytic_hessian (sol))
+		return NULL;
+
+	gnm_solver_set_vars (sol, xs);
+
+	hlen = sol->hessian->len;
+	H = g_new (gnm_float, hlen);
+	eval_pos_init_cell (&ep, sol->target);
+	for (i = 0; i < hlen; i++) {
+		GnmExprTop const *te = g_ptr_array_index (sol->hessian, i);
+		GnmValue *v = gnm_expr_top_eval
+			(te, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		H[i] = VALUE_IS_NUMBER (v) ? value_get_as_float (v) : gnm_nan;
+		if (sol->flip_sign)
+			H[i] = 0 - H[i];
+		value_release (v);
+	}
+
+	return H;
+}
+
 
 static gnm_float
 try_step (GnmSolver *sol, gnm_float const *x0, gnm_float const *dir, gnm_float step)
