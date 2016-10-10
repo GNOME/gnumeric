@@ -5,7 +5,7 @@
  * Author:
  *   Andreas J. Guelzow  <aguelzow@pyrshep.ca>
  *
- * (C) Copyright 2010 by Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+ * (C) Copyright 2010, 2016 by Andreas J. Guelzow  <aguelzow@pyrshep.ca>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -381,7 +381,7 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		   (fd_iferror, gnm_expr_new_funcall3
 		    (fd_if, gnm_expr_new_binary
 		     (gnm_expr_copy (expr_diff),
-		      GNM_EXPR_OP_NOT_EQUAL, make_cellref (0,-2)),
+		      GNM_EXPR_OP_NOT_EQUAL, make_cellref (0,-1)),
 		     make_int (1),
 		     make_int (0)),
 		    make_int (0))));

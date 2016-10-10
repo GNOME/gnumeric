@@ -1,3 +1,8 @@
+2016-10-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-signed-rank-test.c (analysis_tool_signed_rank_test_two_engine_run):
+	  ties are based on the predicted mean difference.
+
 2016-10-02  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_compute_hessian): New function to
