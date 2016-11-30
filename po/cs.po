@@ -2684,40 +2684,40 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:40
 msgid "Default Header/Footer Font Size"
-msgstr "Výchozí velikost písma záhlaví/zápatí"
+msgstr "Výchozí velikost fontá záhlaví/zápatí"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:41
 msgid "The default font size for headers and footers."
-msgstr "Výchozí velikost písma pro záhlaví a zápatí."
+msgstr "Výchozí velikost fontu pro záhlaví a zápatí."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:42
 msgid "Default header/footer font name"
-msgstr "Výchozí název písma záhlaví/zápatí"
+msgstr "Výchozí název fontu záhlaví/zápatí"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:43
 msgid "The default font name for headers and footers."
-msgstr "Výchozí název písma pro záhlaví a zápatí."
+msgstr "Výchozí název fontu pro záhlaví a zápatí."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:44
 msgid "The default header/footer font is bold."
-msgstr "Výchozí písmo záhlaví/zápatí je tučné."
+msgstr "Výchozí font záhlaví/zápatí je tučný."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:45
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
-msgstr "Tato hodnota určuje, zda je výchozí písmo pro záhlaví a zápatí tučné."
+msgstr "Tato hodnota určuje, zda je výchozí font pro záhlaví a zápatí tučný."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:46
 msgid "The default header/footer font is italic."
-msgstr "Výchozí písmo záhlaví/zápatí je kurzíva."
+msgstr "Výchozí font záhlaví/zápatí je kurzíva."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:47
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
 msgstr ""
-"Tato hodnota určuje, zda je výchozí písmo pro záhlaví a zápatí kurzíva."
+"Tato hodnota určuje, zda je výchozí font pro záhlaví a zápatí kurzíva."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:48
 msgid "Default Horizontal Centering"
@@ -3215,12 +3215,12 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:1
 msgid "Toolbar Style"
-msgstr "Styl lišty nástrojů"
+msgstr "Styl nástrojové lišty"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:2
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text."
 msgstr ""
-"Styl lišty nástrojů. Platné hodnoty jsou both (obojí), both_horiz (obojí "
+"Styl nástrojové lišty. Platné hodnoty jsou both (obojí), both_horiz (obojí "
 "vodorovně), icon (ikona) a text (text)."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:3
@@ -3278,37 +3278,37 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:11
 msgid "Default Font Size"
-msgstr "Výchozí velikost písma"
+msgstr "Výchozí velikost fontu"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:12
 msgid "The default font size for new workbooks."
-msgstr "Výchozí velikost písma pro nové sešity."
+msgstr "Výchozí velikost fontu pro nové sešity."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:13
 msgid "Default font name"
-msgstr "Výchozí název písma"
+msgstr "Výchozí název fontu"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:14
 msgid "The default font name for new workbooks."
-msgstr "Výchozí název písma pro nové sešity."
+msgstr "Výchozí název fontu pro nové sešity."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:15
 msgid "The default font is bold."
-msgstr "Výchozí písmo je tučné."
+msgstr "Výchozí font je tučný."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:16
 msgid ""
 "This value determines whether the default font for a new workbook is bold."
-msgstr "Tato hodnota určuje, zda je výchozí písmo pro nový sešit tučné."
+msgstr "Tato hodnota určuje, zda je výchozí font pro nový sešit tučný."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:17
 msgid "The default font is italic."
-msgstr "Výchozí písmo je kurzíva."
+msgstr "Výchozí font je kurzíva."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:18
 msgid ""
 "This value determines whether the default font for a new workbook is italic."
-msgstr "Tato hodnota určuje, zda je výchozí písmo pro nový sešit kurzíva."
+msgstr "Tato hodnota určuje, zda je výchozí font pro nový sešit kurzíva."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:19
 #: ../src/dialogs/dialog-preferences.c:862
@@ -3371,72 +3371,72 @@ msgstr "Rozlišení obrazovky ve svislém směru."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:31
 msgid "Standard toolbar visible"
-msgstr "Viditelnost lišty nástrojů Standardní"
+msgstr "Viditelnost nástrojové lišty Standardní"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:32
 msgid ""
 "This variable determines whether the standard toolbar should be visible "
 "initially."
 msgstr ""
-"Tato proměnná určuje, zda má být z počátku viditelná lišta nástrojů "
+"Tato proměnná určuje, zda má být z počátku viditelná nástrojová lišta "
 "Standardní."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:33
 msgid "Standard toolbar position"
-msgstr "Umístění lišty nástrojů Standardní"
+msgstr "Umístění nástrojové lišty Standardní"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:34
 msgid ""
 "This variable determines where the standard toolbar should be shown. 0 is "
 "left, 1 is right, 2 is top."
 msgstr ""
-"Tato proměnná určuje, kde by měla být zobrazena lišta nástrojů Standardní. 0 "
+"Tato proměnná určuje, kde by měla být zobrazena nástrojová lišta Standardní. 0 "
 "je vlevo, 1 vpravo, 2 nahoře."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:35
 msgid "Format toolbar visible"
-msgstr "Viditelnost lišty nástrojů Formát"
+msgstr "Viditelnost nástrojové lišty Formát"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:36
 msgid ""
 "This variable determines whether the format toolbar should be visible "
 "initially."
 msgstr ""
-"Tato proměnná určuje, zda má být z počátku viditelná lišta nástrojů Formát."
+"Tato proměnná určuje, zda má být z počátku viditelná nástrojová lišta Formát."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:37
 msgid "Format toolbar position"
-msgstr "Umístění lišty nástrojů Formát"
+msgstr "Umístění nástrojové lišty Formát"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:38
 msgid ""
 "This variable determines where the format toolbar should be shown. 0 is "
 "left, 1 is right, 2 is top."
 msgstr ""
-"Tato proměnná určuje, kde by měla být zobrazena lišta nástrojů Formát. 0 je "
+"Tato proměnná určuje, kde by měla být zobrazena nástrojová lišta Formát. 0 je "
 "vlevo, 1 vpravo, 2 nahoře."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:39
 msgid "Object toolbar visible"
-msgstr "Viditelnost lišty nástrojů Objekt"
+msgstr "Viditelnost nástrojové lišty Objekt"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:40
 msgid ""
 "This variable determines whether the object toolbar should be visible "
 "initially."
 msgstr ""
-"Tato proměnná určuje, zda má být z počátku viditelná lišta nástrojů Objekt."
+"Tato proměnná určuje, zda má být z počátku viditelná nástrojová lišta Objekt."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:41
 msgid "Object toolbar position"
-msgstr "Umístění lišty nástrojů Objekt"
+msgstr "Umístění nástrojové lišty Objekt"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:42
 msgid ""
 "This variable determines where the object toolbar should be shown. 0 is "
 "left, 1 is right, 2 is top."
 msgstr ""
-"Tato proměnná určuje, kde by měla být zobrazena lišta nástrojů Objekt. 0 je "
+"Tato proměnná určuje, kde by měla být zobrazena nástrojová lišta Objekt. 0 je "
 "vlevo, 1 vpravo, 2 nahoře."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:43
@@ -3753,15 +3753,15 @@ msgstr ""
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:1
 msgid "StandardToolbar"
-msgstr "Lišta nástrojů Standardní"
+msgstr "Nástrojová lišta Standardní"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:2
 msgid "FormatToolbar"
-msgstr "Lišta nástrojů Formát"
+msgstr "Nástrojová lišta Formát"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:3
 msgid "ObjectToolbar"
-msgstr "Lišta nástrojů Objekt"
+msgstr "Nástrojová lišta Objekt"
 
 #: ../src/application.c:298
 msgid "Cut Object"
@@ -4018,7 +4018,7 @@ msgstr "Změnit formát %s"
 #: ../src/commands.c:1979
 #, c-format
 msgid "Setting Font Style of %s"
-msgstr "Nastavit styl písma %s"
+msgstr "Nastavit styl fontu %s"
 
 #: ../src/commands.c:2032
 #, c-format
@@ -6637,7 +6637,7 @@ msgstr "Automatické opravy"
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
 #: ../src/widgets/gnm-fontbutton.c:1158
 msgid "Font"
-msgstr "Písmo"
+msgstr "Font"
 
 #: ../src/dialogs/dialog-preferences.c:1219
 msgid "Files"
@@ -6661,7 +6661,7 @@ msgstr "Záhlaví/zápatí"
 
 #: ../src/dialogs/dialog-preferences.c:1225
 msgid "Copy and Paste"
-msgstr "Kopírovat a vložit"
+msgstr "Kopírování a vkládání"
 
 #: ../src/dialogs/dialog-preferences.c:1228
 msgid "Screen"
@@ -7911,7 +7911,7 @@ msgstr "Použít _ohraničení"
 
 #: ../src/dialogs/autoformat.ui.h:6
 msgid "Apply _Fonts"
-msgstr "Použít _písma"
+msgstr "Použít _fonty"
 
 #: ../src/dialogs/autoformat.ui.h:7
 msgid "Apply _Patterns"
@@ -10317,7 +10317,7 @@ msgstr "Složky"
 
 #: ../src/dialogs/preferences.ui.h:1
 msgid "Gnumeric Preferences"
-msgstr "Přepínače aplikace Gnumeric"
+msgstr "Předvolby aplikace Gnumeric"
 
 #: ../src/dialogs/principal-components.ui.h:1
 #: ../src/tools/analysis-principal-components.c:227
@@ -15407,7 +15407,7 @@ msgstr "_Okna"
 
 #: ../src/wbc-gtk-actions.c:2099
 msgid "_Toolbars"
-msgstr "_Lišty nástrojů"
+msgstr "Nástrojové liš_ty"
 
 #: ../src/wbc-gtk-actions.c:2107
 msgid "_Object"
@@ -15575,7 +15575,7 @@ msgstr "Procházet webové stránky aplikace Gnumeric"
 
 #: ../src/wbc-gtk-actions.c:2240
 msgid "_Live Assistance"
-msgstr "Ž_ivá pomoc"
+msgstr "Po_moc živě"
 
 #: ../src/wbc-gtk-actions.c:2241
 msgid "See if anyone is available to answer questions"
@@ -15583,7 +15583,7 @@ msgstr "Podívat se, jestli je někdo k dispozici, aby odpověděl na dotazy"
 
 #: ../src/wbc-gtk-actions.c:2245
 msgid "Report a _Problem"
-msgstr "Ohlásit _problém"
+msgstr "Nahlásit _problém"
 
 #: ../src/wbc-gtk-actions.c:2246
 msgid "Report problem"
@@ -16822,7 +16822,7 @@ msgstr "Vytvořit rozbalovací seznam"
 
 #: ../src/wbc-gtk-actions.c:3362
 msgid "Create a line object"
-msgstr "Vytvořit objekt čára"
+msgstr "Vytvořit čáru"
 
 #: ../src/wbc-gtk-actions.c:3367
 msgid "Arrow"
@@ -16830,7 +16830,7 @@ msgstr "Šipka"
 
 #: ../src/wbc-gtk-actions.c:3368
 msgid "Create an arrow object"
-msgstr "Vytvořit objekt šipka"
+msgstr "Vytvořit šipku"
 
 #: ../src/wbc-gtk-actions.c:3373
 msgid "Rectangle"
@@ -16838,7 +16838,7 @@ msgstr "Obdélník"
 
 #: ../src/wbc-gtk-actions.c:3374
 msgid "Create a rectangle object"
-msgstr "Vytvořit objekt obdélník"
+msgstr "Vytvořit obdélník"
 
 #: ../src/wbc-gtk-actions.c:3379
 msgid "Ellipse"
@@ -16846,7 +16846,7 @@ msgstr "Elipsa"
 
 #: ../src/wbc-gtk-actions.c:3380
 msgid "Create an ellipse object"
-msgstr "Vytvořit objekt elipsa"
+msgstr "Vytvořit elipsu"
 
 #: ../src/wbc-gtk-actions.c:3386
 msgid "Create a button"
@@ -16866,7 +16866,7 @@ msgstr "Rozdělit"
 
 #: ../src/wbc-gtk-actions.c:3406
 msgid "Split merged ranges of cells"
-msgstr "Rozdělit spojené oblasti buněk"
+msgstr "Rozdělit sloučené oblasti buněk"
 
 #: ../src/wbc-gtk-actions.c:3411
 msgid "General"
@@ -16959,11 +16959,11 @@ msgstr "Snížit počet zobrazovaných desetinných míst"
 
 #: ../src/wbc-gtk-actions.c:3496
 msgid "Decrease the indent, and align the contents to the left"
-msgstr "Snížit odsazení a zarovnat obsah doleva"
+msgstr "Zmenšít odsazení a zarovnat obsah doleva"
 
 #: ../src/wbc-gtk-actions.c:3502
 msgid "Increase the indent, and align the contents to the left"
-msgstr "Zvýšit odsazení a zarovnat obsah doleva"
+msgstr "Zvětšit odsazení a zarovnat obsah doleva"
 
 #: ../src/wbc-gtk-actions.c:3510
 msgid "Display _Outlines"
@@ -16999,7 +16999,7 @@ msgstr "Zobrazovat hodnotu vzorce nebo vzorec samotný"
 
 #: ../src/wbc-gtk-actions.c:3537
 msgid "_Hide Zeros"
-msgstr "Skrývat _nuly"
+msgstr "Skrýt _nuly"
 
 #: ../src/wbc-gtk-actions.c:3538
 msgid "Toggle whether or not to display zeros as blanks"
@@ -17031,11 +17031,11 @@ msgstr "Přepnout zobrazení hlaviček řádků"
 
 #: ../src/wbc-gtk-actions.c:3563
 msgid "Use R1C1 N_otation "
-msgstr "Používat _značení Ř1S1 "
+msgstr "Používat _značení R1C1 "
 
 #: ../src/wbc-gtk-actions.c:3564
 msgid "Display addresses as R1C1 or A1"
-msgstr "Zobrazovat adresy jako Ř1S1 nebo A1"
+msgstr "Zobrazovat adresy jako R1C1 nebo A1"
 
 #: ../src/wbc-gtk-actions.c:3571
 msgid "_Left Align"
@@ -17051,7 +17051,7 @@ msgstr "Na _střed"
 
 #: ../src/wbc-gtk-actions.c:3579 ../src/wbc-gtk-actions.c:3701
 msgid "Center horizontally"
-msgstr "Na střed v_odorovně"
+msgstr "Vodorovně na střed"
 
 #: ../src/wbc-gtk-actions.c:3585
 msgid "_Right Align"
@@ -17103,12 +17103,12 @@ msgstr "Zarovnat dolů"
 
 #: ../src/wbc-gtk-actions.c:3630
 msgid "_Bold"
-msgstr "_Tučné"
+msgstr "_Tučný"
 
 #. ALSO "<control>2"
 #: ../src/wbc-gtk-actions.c:3632 ../src/widgets/gnumeric-text-view.c:330
 msgid "Bold"
-msgstr "Tučné"
+msgstr "Tučný"
 
 #: ../src/wbc-gtk-actions.c:3638
 msgid "_Italic"
@@ -17289,11 +17289,11 @@ msgstr "_Přiblížit"
 #: ../src/wbc-gtk-actions.c:4329
 #, c-format
 msgid "Setting Font %s"
-msgstr "Nastavení písma %s"
+msgstr "Nastavení fontu %s"
 
 #: ../src/wbc-gtk-actions.c:4388
 msgid "Change font"
-msgstr "Změnit písmo"
+msgstr "Změnit font"
 
 #: ../src/wbc-gtk-edit.c:870
 #, c-format
@@ -17536,20 +17536,20 @@ msgstr "Skrýt"
 
 #: ../src/wbc-gtk.c:3692
 msgid "Standard Toolbar"
-msgstr "Lišta nástrojů Standardní"
+msgstr "Nástrojová lišta Standardní"
 
 #: ../src/wbc-gtk.c:3693
 msgid "Format Toolbar"
-msgstr "Lišta nástrojů Formát"
+msgstr "Nástrojová lišta Formát"
 
 #: ../src/wbc-gtk.c:3694
 msgid "Object Toolbar"
-msgstr "Lišta nástrojů Objekt"
+msgstr "Nástrojová lišta Objekt"
 
 #: ../src/wbc-gtk.c:3708
 #, c-format
 msgid "Show/Hide toolbar %s"
-msgstr "Zobrazit/skrýt lištu nástrojů %s"
+msgstr "Zobrazit/skrýt nástrojovou lištu %s"
 
 #: ../src/wbc-gtk.c:4125
 #, c-format
@@ -17607,27 +17607,27 @@ msgstr "Typ dialogového okna"
 
 #: ../src/widgets/gnm-fontbutton.c:465
 msgid "The title of the font chooser dialog"
-msgstr "Záhlaví dialogového okna pro výběr písma"
+msgstr "Záhlaví dialogového okna pro výběr fontu"
 
 #: ../src/widgets/gnm-fontbutton.c:466 ../src/widgets/gnm-fontbutton.c:593
 msgid "Pick a Font"
-msgstr "Výběr písma"
+msgstr "Výběr fontu"
 
 #: ../src/widgets/gnm-fontbutton.c:480
 msgid "Font name"
-msgstr "Název písma"
+msgstr "Název fontu"
 
 #: ../src/widgets/gnm-fontbutton.c:481
 msgid "The name of the selected font"
-msgstr "Název vybraného písma"
+msgstr "Název vybraného fontu"
 
 #: ../src/widgets/gnm-fontbutton.c:497
 msgid "Use font in label"
-msgstr "Použít písmo v popisku"
+msgstr "Použít font v popisku"
 
 #: ../src/widgets/gnm-fontbutton.c:498
 msgid "Whether the label is drawn in the selected font"
-msgstr "Zda je popisek vykreslován vybraným písmem"
+msgstr "Zda je popisek vykreslován vybraným fontem"
 
 #: ../src/widgets/gnm-fontbutton.c:513
 msgid "Use size in label"
@@ -17635,7 +17635,7 @@ msgstr "Použít velikost v popisku"
 
 #: ../src/widgets/gnm-fontbutton.c:514
 msgid "Whether the label is drawn with the selected font size"
-msgstr "Zda je popisek vykreslován vybranou velikostí písma"
+msgstr "Zda je popisek vykreslován vybranou velikostí fontu"
 
 #: ../src/widgets/gnm-fontbutton.c:530
 msgid "Show style"
@@ -17643,7 +17643,7 @@ msgstr "Zobrazit styl"
 
 #: ../src/widgets/gnm-fontbutton.c:531
 msgid "Whether the selected font style is shown in the label"
-msgstr "Zda je vybraný styl písma zobrazen v popisku"
+msgstr "Zda je vybraný styl fontu zobrazen v popisku"
 
 #: ../src/widgets/gnm-fontbutton.c:546
 msgid "Show size"
@@ -17651,7 +17651,7 @@ msgstr "Zobrazit velikost"
 
 #: ../src/widgets/gnm-fontbutton.c:547
 msgid "Whether selected font size is shown in the label"
-msgstr "Zda je vybraná velikost písma zobrazena v popisku"
+msgstr "Zda je vybraná velikost fontu zobrazena v popisku"
 
 #: ../src/widgets/gnm-sheet-slicer-combo-view.c:117
 msgid "<Blank>"
