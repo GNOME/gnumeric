@@ -3065,7 +3065,7 @@ gnumeric_linsolve (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 	}
 
-	regres = gnm_linear_solve_multiple (A->data, B->data, A->rows, B->cols);
+	regres = gnm_linear_solve_multiple (A, B);
 
 	if (regres != GO_REG_ok && regres != GO_REG_near_singular_good) {
 		res = value_new_error_NUM (ei->pos);

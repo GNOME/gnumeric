@@ -1,3 +1,9 @@
+2016-12-08  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_linear_solve): Use proper matrix type.  All
+	callers changed.
+	(gnm_linear_solve_multiple): Ditto.
+
 2016-10-02  Morten Welinder  <terra@gnome.org>
 
 	* src/libgnumeric.c (gnm_pre_parse_init): Don't pretend the

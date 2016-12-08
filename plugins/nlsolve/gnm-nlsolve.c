@@ -7,6 +7,7 @@
 #include "regression.h"
 #include "rangefunc.h"
 #include "workbook.h"
+#include "mathfunc.h"
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -52,6 +53,9 @@ typedef struct {
 	int smallsteps;
 	int tentative;
 	gnm_float *tentative_xk, tentative_yk;
+
+	// Newton state
+	// (nothing right now)
 
 	/* Parameters: */
 	gboolean debug;
@@ -120,11 +124,13 @@ print_vector (const char *name, const gnm_float *v, int n)
 	g_printerr ("\n");
 }
 
+#if 0
 static void
 set_value (GnmNlsolve *nl, int i, gnm_float x)
 {
 	gnm_solver_set_var (nl->sol, i, x);
 }
+#endif
 
 static void
 set_vector (GnmNlsolve *nl, const gnm_float *xs)
@@ -185,126 +191,84 @@ compute_gradient (GnmNlsolve *nl, const gnm_float *xs)
 	return gnm_solver_compute_gradient (nl->sol, xs);
 }
 
-static gnm_float **
-compute_hessian (GnmNlsolve *nl, const gnm_float *xs, const gnm_float *g0)
-{
-	gnm_float **H, *xs2;
-	const int n = nl->n;
-	int i, j;
-
-	H = g_new (gnm_float *, n);
-
-	xs2 = g_memdup (xs, n * sizeof (gnm_float));
-	for (i = 0; i < n; i++) {
-		gnm_float x0 = xs[i];
-		gnm_float dx;
-		const gnm_float *g;
-		gnm_float eps = gnm_pow2 (-25);
-
-		if (x0 == 0)
-			dx = eps;
-		else
-			dx = gnm_abs (x0) * eps;
-
-		xs2[i] = x0 + dx;
-		g = H[i] = compute_gradient (nl, xs2);
-		xs2[i] = x0;
-
-		if (nl->debug) {
-			int j;
-
-			g_printerr ("  Gradient %d ", i);
-			for (j = 0; j < n; j++)
-				g_printerr ("%15.8" GNM_FORMAT_f " ", g[j]);
-			g_printerr ("\n");
-		}
-		for (j = 0; j < n; j++)
-			H[i][j] = (g[j] - g0[j]) / dx;
-
-		set_value (nl, i, x0);
-	}
-
-	g_free (xs2);
-	return H;
-}
-
 static gboolean
-newton_improve (GnmNlsolve *nl, gnm_float *xs, gnm_float *y, gnm_float ymax)
+newton_improve (GnmNlsolve *nl, gnm_float *xs)
 {
 	GnmSolver *sol = nl->sol;
+	GnmIterSolver *isol = nl->isol;
 	const int n = nl->n;
-	gnm_float *g, **H, *d;
+	int i;
+	gnm_float *g, *d, *xs2;
+	GnmMatrix *H;
 	gboolean ok;
 
+	xs2 = g_new (gnm_float, n);
 	g = compute_gradient (nl, xs);
-	H = compute_hessian (nl, xs, g);
+	H = gnm_solver_compute_hessian (sol, xs);
 	d = g_new (gnm_float, n);
-	ok = (gnm_linear_solve (H, g, n, d) == 0);
+	ok = (gnm_linear_solve_posdef (H, g, d) == GO_REG_ok);
+	if (ok) {
+		for (i = 0; i < n; i++)
+			d[i] = 0 - d[i];
+	}
+
+	if (nl->debug) {
+		int i;
+		g_printerr ("Hessian:\n");
+		for (i = 0; i < n; i++)
+			print_vector (NULL, H->data[i], n);
+		print_vector ("g", g, n);
+		if (ok)
+			print_vector ("d", d, n);
+		else
+			g_printerr ("Failed to solve Newton step.\n");
+	}
 
 	if (ok) {
-		int i;
-		gnm_float y2, *xs2 = g_new (gnm_float, n);
-		gnm_float best_f = 42;
-		// We try these step sizes.  We really should not need
-		// negative, but if H isn't positive definite it might
-		// work.
-		static const gnm_float fs[] = {
-			1.0, 0.5, 1.0 / 16,
-			-1.0, -1.0 / 16,
-		};
-		unsigned ui;
+		gnm_float y2, f;
 
-		if (nl->debug) {
-			int i;
-			for (i = 0; i < n; i++)
-				print_vector (NULL, H[i], n);
-			print_vector ("d", d, n);
-			print_vector ("g", g, n);
-		}
+		for (i = 0; i < n; i++)
+			xs2[i] = xs[i] + d[i];
+		set_vector (nl, xs2);
+		y2 = get_value (nl);
 
 		ok = FALSE;
-		for (ui = 0 ; ui < G_N_ELEMENTS (fs); ui++) {
-			gnm_float f = fs[ui];
-			int i;
-			for (i = 0; i < n; i++)
-				xs2[i] = xs[i] - f * d[i];
-			set_vector (nl, xs2);
-			y2 = get_value (nl);
-			if (nl->debug) {
-				print_vector ("xs2", xs2, n);
-				g_printerr ("Obj value %.15" GNM_FORMAT_g "\n",
-					    y2);
-			}
-
-			if (y2 < ymax && gnm_solver_check_constraints (sol)) {
-				best_f = f;
-				ymax = y2;
-				break;
-			}
-		}
-
-		if (best_f != 42) {
-			for (i = 0; i < n; i++)
-				xs[i] = xs[i] - best_f * d[i];
-			*y = ymax;
+		if (y2 < isol->yk && gnm_solver_check_constraints (sol)) {
+			if (nl->debug)
+				g_printerr ("Accepting newton step\n");
+			memcpy (isol->xk, xs2, n * sizeof (gnm_float));
+			isol->yk = y2;
+			set_solution (nl);
 			ok = TRUE;
-		}
+		} else {
+			if (nl->debug)
+				g_printerr ("Full newton step would go to %g\n", y2);
 
-		g_free (xs2);
-	} else {
-		if (nl->debug)
-			g_printerr ("Failed to solve Newton step.\n");
+			f = gnm_solver_line_search
+				(sol, xs, d, FALSE, 0.75, 1, 0.01, &y2);
+
+			if (f > 0 && f < 1 && y2 < isol->yk) {
+				if (nl->debug)
+					g_printerr ("Accepting reduced newton step with f=%g\n", f);
+				for (i = 0; i < n; i++)
+					isol->xk[i] = xs[i] + f * d[i];
+				isol->yk = y2;
+				set_solution (nl);
+				ok = TRUE;
+			}
+		}
 	}
 
 	g_free (d);
 	g_free (g);
-	free_matrix (H, n);
+	gnm_matrix_free (H);
+	g_free (xs2);
 
 	return ok;
 }
 
 static void
-rosenbrock_init (GnmNlsolve *nl)
+nlsolve_init (GnmNlsolve *nl)
 {
 	const int n = nl->n;
 	int i, j;
@@ -366,9 +330,9 @@ rosenbrock_iter (GnmNlsolve *nl)
 		}
 	}
 
-	if (isol->iterations % 100 == 0 &&
-	    gnm_solver_has_analytic_gradient (sol)) {
-		if (newton_improve (nl, isol->xk, &isol->yk, isol->yk))
+	if ((isol->iterations < 20 || isol->iterations % 100 == 0) &&
+	    gnm_solver_has_analytic_hessian (sol)) {
+		if (newton_improve (nl, isol->xk))
 			return TRUE;
 	}
 
@@ -512,26 +476,6 @@ rosenbrock_iter (GnmNlsolve *nl)
 		} else {
 			nl->smallsteps++;
 		}
-
-		if (0 && !nl->tentative && nl->smallsteps > 50) {
-			gnm_float yk = isol->yk;
-
-			nl->tentative = 10;
-			nl->tentative_xk = g_memdup (isol->xk, n * sizeof (gnm_float));
-			nl->tentative_yk = yk;
-
-			for (i = 0; i < 4; i++) {
-				gnm_float ymax = yk +
-					gnm_abs (yk) * (0.10 / (i + 1));
-				if (i > 0)
-					ymax = MIN (ymax, isol->yk);
-				if (!newton_improve (nl, isol->xk, &isol->yk, ymax))
-					break;
-			}
-
-			if (nl->debug)
-				print_vector ("Tentative move to", isol->xk, n);
-		}
 	}
 
 	g_free (x);
@@ -552,7 +496,7 @@ gnm_nlsolve_iterate (GnmSolverIterator *iter, GnmNlsolve *nl)
 	const int n = nl->n;
 
 	if (isol->iterations == 0)
-		rosenbrock_init (nl);
+		nlsolve_init (nl);
 
 	if (nl->debug) {
 		g_printerr ("Iteration %ld at %.15" GNM_FORMAT_g "\n",

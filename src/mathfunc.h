@@ -139,6 +139,21 @@ gboolean gnm_matrix_is_empty (GnmMatrix const *m);
 void gnm_matrix_multiply (GnmMatrix *C, const GnmMatrix *A, const GnmMatrix *B);
 
 gboolean gnm_matrix_eigen (GnmMatrix const *m, GnmMatrix *EIG, gnm_float *eigenvalues);
+
+gboolean gnm_matrix_modified_cholesky (GnmMatrix const *A,
+				       GnmMatrix *L,
+				       gnm_float *D,
+				       gnm_float *E,
+				       int *P);
+
+GORegressionResult gnm_linear_solve_posdef (GnmMatrix const *A, const gnm_float *b,
+					    gnm_float *x);
+
+GORegressionResult gnm_linear_solve (GnmMatrix const *A, const gnm_float *b,
+				     gnm_float *x);
+
+GORegressionResult gnm_linear_solve_multiple (GnmMatrix const *A, GnmMatrix *B);
+
 /* ------------------------------------------------------------------------- */
 
 void mathfunc_init (void);

@@ -48,6 +48,7 @@
 #include <goffice/goffice.h>
 #include <glib/gstdio.h>
 #include <value.h>
+#include <gutils.h>
 
 /* R code wants this, so provide it.  */
 #ifndef IEEE_754
@@ -2493,6 +2494,10 @@ gnm_float qbinom(gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, gb
     }
 }
 
+#if 0
+}
+#endif
+
 /* ------------------------------------------------------------------------ */
 /* Imported src/nmath/dnbinom.c from R.  */
 /*
@@ -2704,6 +2709,9 @@ gnm_float qnbinom(gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, g
     }
 }
 
+#if 0
+}
+#endif
 /* ------------------------------------------------------------------------ */
 /* Imported src/nmath/dbeta.c from R.  */
 /*
@@ -2874,6 +2882,7 @@ gnm_float dhyper(gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean gi
 
     return( (give_log) ? p1 + p2 - p3 : p1*p2/p3 );
 }
+
 
 /* ------------------------------------------------------------------------ */
 /* Imported src/nmath/phyper.c from R.  */
@@ -5332,6 +5341,211 @@ gnm_matrix_eigen (GnmMatrix const *m, GnmMatrix *EIG, gnm_float *eigenvalues)
 	g_free (changed);
 
 	return TRUE;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void
+swap_row_and_col (GnmMatrix *M, int a, int b)
+{
+	gnm_float *r;
+	int i;
+
+	// Swap rows
+	r = M->data[a];
+	M->data[a] = M->data[b];
+	M->data[b] = r;
+
+	// Swap cols
+	for (i = 0; i < M->rows; i++) {
+		gnm_float d = M->data[i][a];
+		M->data[i][a] = M->data[i][b];
+		M->data[i][b] = d;
+	}
+}
+
+
+gboolean
+gnm_matrix_modified_cholesky (GnmMatrix const *A,
+			      GnmMatrix *L,
+			      gnm_float *D,
+			      gnm_float *E,
+			      int *P)
+{
+	int n = A->cols;
+	gnm_float nu, xsi, gam, bsqr, delta;
+	int i, j;
+	GnmMatrix *G, *C;
+
+	g_return_val_if_fail (A->rows == A->cols, FALSE);
+	g_return_val_if_fail (A->rows == L->rows, FALSE);
+	g_return_val_if_fail (A->cols == L->cols, FALSE);
+
+	// Copy A into L; Use G and C as aliases for L.
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			L->data[i][j] = A->data[i][j];
+	G = L;
+	C = G;
+
+	// Init permutation as identity.
+	for (i = 0; i < n; i++)
+		P[i] = i;
+
+	nu = n == 1 ? 1.0 : gnm_sqrt (n * n - 1);
+	gam = xsi = 0;
+	for (i = 0; i < n; i++) {
+		gnm_float aii = gnm_abs (G->data[i][i]);
+		gam = MAX (gam, aii);
+		for (j = i + 1; j < n; j++) {
+			gnm_float aij = gnm_abs (G->data[i][j]);
+			xsi = MAX (xsi, aij);
+		}
+	}
+	bsqr = MAX (MAX (gam, xsi / nu), GNM_EPSILON);
+	delta = MAX (gam + xsi, 1.0) * GNM_EPSILON;
+
+	for (j = 0; j < n; j++) {
+		int q, s;
+		gnm_float theta_j = 0, dj;
+
+		q = j;
+		for (i = j + 1; i < n; i++) {
+			if (gnm_abs (C->data[i][i]) > gnm_abs (C->data[q][q]))
+				q = i;
+		}
+
+		if (j != q) {
+			int a;
+			gnm_float b;
+
+			swap_row_and_col (L, j, q);
+			a = P[j]; P[j] = P[q]; P[q] = a;
+			b = D[j]; D[j] = D[q]; D[q] = b;
+			if (E) { b = E[j]; E[j] = E[q]; E[q] = b; }
+		}
+
+		for (s = 0; s < j; s++)
+			L->data[j][s] = C->data[j][s] / D[s];
+
+		for (i = j + 1; i < n; i++) {
+			int s;
+			gnm_float d = G->data[i][j];
+
+			for (s = 0; s < j; s++)
+				d -= L->data[j][s] * C->data[i][s];
+			C->data[i][j] = d;
+
+			theta_j = MAX (theta_j, gnm_abs (d));
+		}
+
+		dj = MAX (theta_j * theta_j / bsqr, delta);
+		dj = MAX (dj, gnm_abs (C->data[j][j]));
+		D[j] = dj;
+		if (E) E[j] = dj - C->data[j][j];
+
+		for (i = j + 1; i < n; i++) {
+			gnm_float cij = C->data[i][j];
+			C->data[i][i] -= cij * cij / D[j];
+		}
+	}
+
+	for (i = 0; i < n; i++) {
+		for (j = i + 1; j < n; j++)
+			L->data[i][j] = 0;
+		L->data[i][i] = 1;
+	}
+
+	return TRUE;
+}
+
+GORegressionResult
+gnm_linear_solve_posdef (GnmMatrix const *A, const gnm_float *b,
+			 gnm_float *x)
+{
+	int i, j, n;
+	GnmMatrix *L;
+	gnm_float *D, *E;
+	int *P;
+	GORegressionResult res;
+	gboolean ok;
+
+	g_return_val_if_fail (A != NULL, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (A->rows == A->cols, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (b != NULL, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (x != NULL, GO_REG_invalid_dimensions);
+
+	n = A->cols;
+	L = gnm_matrix_new (n, n);
+	D = g_new (gnm_float, n);
+	E = g_new (gnm_float, n);
+	P = g_new (int, n);
+
+	ok = gnm_matrix_modified_cholesky (A, L, D, E, P);
+	if (!ok) {
+		res = GO_REG_invalid_data;
+		goto done;
+	}
+
+	if (gnm_debug_flag ("posdef")) {
+		for (i = 0; i < n; i++)
+			g_printerr ("Posdef E[i] = %g\n", E[P[i]]);
+	}
+
+	// The only information from the above we use is E and P.
+	// However, we reuse the memory for L for A+E
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++)
+			L->data[i][j] = A->data[i][j];
+		L->data[i][i] += E[P[i]];
+	}
+
+	res = gnm_linear_solve (L, b, x);
+
+done:
+	g_free (P);
+	g_free (E);
+	g_free (D);
+	gnm_matrix_free (L);
+
+	return res;
+}
+
+/* ------------------------------------------------------------------------- */
+
+GORegressionResult
+gnm_linear_solve (GnmMatrix const *A, const gnm_float *b,
+		  gnm_float *x)
+{
+	g_return_val_if_fail (A != NULL, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (A->rows == A->cols, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (b != NULL, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (x != NULL, GO_REG_invalid_dimensions);
+
+	return
+#ifdef GNM_WITH_LONG_DOUBLE
+		go_linear_solvel
+#else
+		go_linear_solve
+#endif
+		(A->data, b, A->rows, x);
+}
+
+GORegressionResult
+gnm_linear_solve_multiple (GnmMatrix const *A, GnmMatrix *B)
+{
+	g_return_val_if_fail (A != NULL, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (B != NULL, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (A->rows == A->cols, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (A->rows == B->rows, GO_REG_invalid_dimensions);
+
+	return
+#ifdef GNM_WITH_LONG_DOUBLE
+		go_linear_solve_multiplel
+#else
+		go_linear_solve_multiple
+#endif
+		(A->data, B->data, A->rows, B->cols);
 }
 
 /* ------------------------------------------------------------------------- */
