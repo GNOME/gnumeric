@@ -45,12 +45,18 @@ struct GnmExprDeriv_ {
 	GnmEvalPos var;
 };
 
+/**
+ * gnm_expr_deriv_info_new: (skip)
+ */
 GnmExprDeriv *
 gnm_expr_deriv_info_new (void)
 {
 	return g_new0 (GnmExprDeriv, 1);
 }
 
+/**
+ * gnm_expr_deriv_info_free: (skip)
+ */
 void
 gnm_expr_deriv_info_free (GnmExprDeriv *deriv)
 {
@@ -58,6 +64,9 @@ gnm_expr_deriv_info_free (GnmExprDeriv *deriv)
 }
 
 void
+/**
+ * gnm_expr_deriv_info_set_var: (skip)
+ */
 gnm_expr_deriv_info_set_var (GnmExprDeriv *deriv, GnmEvalPos const *var)
 {
 	deriv->var = *var;
