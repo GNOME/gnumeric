@@ -1752,6 +1752,13 @@ py_Workbook_gui_add (py_Workbook_object *self, PyObject *args)
 }
 
 static PyObject *
+py_Workbook_recalc (py_Workbook_object *self, PyObject *args)
+{
+       workbook_recalc(self->wb);
+       Py_RETURN_NONE;
+}
+
+static PyObject *
 py_Workbook_object_getattr (py_Workbook_object *self, gchar *name)
 {
 	static struct PyMethodDef methods [] = {
@@ -1760,6 +1767,8 @@ py_Workbook_object_getattr (py_Workbook_object *self, gchar *name)
 		{ (char *) "sheet_add",	(PyCFunction) py_Workbook_sheet_add,
 		 METH_VARARGS},
 		{ (char *) "gui_add",	(PyCFunction) py_Workbook_gui_add,
+		 METH_VARARGS},
+		{ (char *) "recalc",    (PyCFunction) py_Workbook_recalc,
 		 METH_VARARGS},
 		{NULL, NULL}
 	};
