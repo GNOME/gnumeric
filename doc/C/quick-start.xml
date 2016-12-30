@@ -1744,7 +1744,7 @@ c:\Program Files\Gnome-Office\gnumeric</screen>
   <para>
     The <guimenuitem>Print...</guimenuitem> menu item or toolbar
     button will open a dialog which allows the user to select whether
-    to print to a printer or to a postscript or PDF file. Various
+    to print to a printer or to a PostScript or PDF file. Various
     printers can be selected and the parameters of the job, such as
     whether to print all the worksheets or only the currently selected
     worksheet, can be altered. Clicking on the

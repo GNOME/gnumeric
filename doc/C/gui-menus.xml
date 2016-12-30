@@ -320,7 +320,7 @@
 		<guimenuitem>Print...</guimenuitem> menu item allows a
 		user to print one or all of the worksheets in a
 		workbook. &gnum; can send files directly to a
-		printer or can print to postscript or portable
+		printer or can print to PostScript or portable
 		document format files. The <guilabel>Print</guilabel>
 		dialog is explained further in <xref
 		linkend="sect-printing" />.

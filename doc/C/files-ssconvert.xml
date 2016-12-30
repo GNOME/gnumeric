@@ -7,7 +7,7 @@
     using a script. &gnum; is distributed along with a program called
     <application>ssconvert</application> which is the program used to
     convert files automatically. All of the file formats supported by
-    &gnum; can be used except for the Postscript and PDF file formats
+    &gnum; can be used except for the PostScript and PDF file formats
     which operate through the printing system.
   </para>
 

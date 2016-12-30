@@ -44,7 +44,7 @@
   <para>
     When printing to a file you may want to change the <guilabel>output name</guilabel> 
     and <guilabel>folder</guilabel> before printing. You can choose between saving a 
-    <keycap>postscript</keycap> or a <keycap>PDF</keycap> file.
+    <keycap>PostScript</keycap> or a <keycap>PDF</keycap> file.
   </para>
  </sect2>
 

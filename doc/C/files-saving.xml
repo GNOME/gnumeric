@@ -1194,7 +1194,7 @@
       the table below skips to the appropriate section of <xref
       linkend="sect-file-formats"/>. The creation of files which
       consist of structured text is described in <xref
-      linkend="sect-file-textExport" />. The creation of Postscript
+      linkend="sect-file-textExport" />. The creation of PostScript
       and Portable Document Format (PDF) files is done through the
       printing mechanism and is described in <xref
       linkend="chapter-printing" />.&gnum; can also export text data
@@ -1289,7 +1289,7 @@
   <entry><literal>.sxc</literal> / <literal>.stc</literal></entry> 
 </row>
 <row>
-  <entry><link linkend="file-format-ps">Postscript</link></entry>
+  <entry><link linkend="file-format-ps">PostScript</link></entry>
   <entry><literal>.ps</literal> / <literal>.eps</literal></entry> 
 </row>
 <row>
