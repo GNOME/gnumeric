@@ -1928,6 +1928,9 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (pi->page_setup == NULL)
 		gnm_print_info_load_defaults (pi);
+	/* In xlsx the default is 1 not 0 */
+	pi->scaling.dim.rows = 1;
+	pi->scaling.dim.cols = 1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_enum (xin, attrs, "orientation", orientation_types, &orient))

@@ -2607,9 +2607,9 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	}
 	if (pi->start_page >= 0)
 		gsf_xml_out_add_int (xml, "firstPageNumber", pi->start_page);
-	if (pi->scaling.dim.rows > 0)
+	if (pi->scaling.dim.rows != 1)
 		gsf_xml_out_add_int (xml, "fitToHeight", pi->scaling.dim.rows);
-	if (pi->scaling.dim.cols > 0)
+	if (pi->scaling.dim.cols != 1)
 		gsf_xml_out_add_int (xml, "fitToWidth", pi->scaling.dim.cols);
 	/* horizontalDpi skipped */
 	/* id skipped */

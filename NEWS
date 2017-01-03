@@ -3,6 +3,7 @@ Gnumeric 1.12.33
 Andreas:
 	* Fix export/import of scaling information to/from ODF.
 	* Fix Wilcoxon Signed Rank Test handling of ties. [#772718]
+	* Fix xlsx export of scale to page information. [#776196]
 
 Morten:
 	* Speed up sstest part of test suite.
