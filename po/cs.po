@@ -1967,7 +1967,7 @@ msgstr "Zapisují se objekty listů…"
 
 #: ../plugins/openoffice/plugin.xml.in.h:1
 msgid "Open Document Format"
-msgstr "Formát Open Document"
+msgstr "Open Document Format"
 
 #: ../plugins/openoffice/plugin.xml.in.h:2
 msgid "Open Document Format as used by OpenOffice, Lotus Symphony, etc."
@@ -5651,7 +5651,7 @@ msgstr "Nelze vytvořit dialogové okno automatického ukládání."
 #: ../src/dialogs/dialog-cell-comment.c:164
 #, c-format
 msgid "Edit Cell Comment (%s)"
-msgstr "Upravit komentář buňky (%s)"
+msgstr "Úprava komentáře buňky (%s)"
 
 #: ../src/dialogs/dialog-cell-comment.c:167
 #, c-format
@@ -6355,7 +6355,7 @@ msgstr "Hodnota zadaná v „Hodnotou:“ není platná."
 #: ../src/dialogs/dialog-goal-seek.c:427
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
-msgstr "Hledání cíle s buňkou %s nalezlo řešení."
+msgstr "Hledání cíle s pomocí buňky %s dospělo k řešení."
 
 #: ../src/dialogs/dialog-goal-seek.c:448
 #, c-format
@@ -6410,7 +6410,7 @@ msgstr "Otevřít externí soubor se zadaným názvem"
 
 #: ../src/dialogs/dialog-hyperlink.c:317
 msgid "Email Link"
-msgstr "Odkaz na e-mail"
+msgstr "E-mailový odkaz"
 
 #: ../src/dialogs/dialog-hyperlink.c:319
 msgid "Prepare an email"
@@ -6418,7 +6418,7 @@ msgstr "Připravit e-mail"
 
 #: ../src/dialogs/dialog-hyperlink.c:322
 msgid "Web Link"
-msgstr "Odkaz na web"
+msgstr "Odkaz na www"
 
 #: ../src/dialogs/dialog-hyperlink.c:324
 msgid "Browse to the specified URL"
@@ -6733,7 +6733,7 @@ msgstr "Výběr formátu času"
 
 #: ../src/dialogs/dialog-printer-setup.c:2177
 msgid "Print as displayed"
-msgstr "Tisknout jak je zobrazena"
+msgstr "Tisknout tak, jak jsou zobrazené"
 
 #: ../src/dialogs/dialog-printer-setup.c:2178
 msgid "Print as spaces"
@@ -7289,11 +7289,11 @@ msgstr "Počet výstupních proměnných"
 
 #: ../src/dialogs/dialog-simulation.c:154
 msgid "Runtime"
-msgstr "Čas běhu"
+msgstr "Doba běhu"
 
 #: ../src/dialogs/dialog-simulation.c:154
 msgid "Run on"
-msgstr "Běžet na"
+msgstr "Běžela v"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
 #: ../src/wbc-gtk.c:4065
@@ -7747,7 +7747,7 @@ msgstr "Řá_dků"
 #: ../src/dialogs/principal-components.ui.h:9 ../src/dialogs/rank.ui.h:9
 #: ../src/dialogs/sampling.ui.h:9 ../src/dialogs/sign-test.ui.h:8
 msgid "_Areas"
-msgstr "Obl_asti"
+msgstr "Obl_astí"
 
 #: ../src/dialogs/anova-one.ui.h:9 ../src/dialogs/anova-two.ui.h:3
 #: ../src/dialogs/chi-squared.ui.h:9 ../src/dialogs/correlation.ui.h:4
@@ -8040,7 +8040,7 @@ msgstr "Zarovnání"
 
 #: ../src/dialogs/cell-format-cond.ui.h:11 ../src/dialogs/cell-format.ui.h:105
 msgid "Validation"
-msgstr "Ověření"
+msgstr "Ověřování"
 
 #: ../src/dialogs/cell-format-cond.ui.h:12
 msgid "Style Overlay:"
@@ -9665,7 +9665,7 @@ msgstr "_Procenta"
 
 #: ../src/dialogs/frequency.ui.h:20
 msgid "Use e_xact comparisons"
-msgstr "Použit _přesné srovnávání"
+msgstr "Použít _přesné srovnávání"
 
 #: ../src/dialogs/frequency.ui.h:21 ../src/dialogs/histogram.ui.h:34
 msgid "_Graphs & Options"
@@ -9829,11 +9829,11 @@ msgstr "Počet hra_nic:"
 
 #: ../src/dialogs/histogram.ui.h:13
 msgid "M_inimum cutoff:"
-msgstr "M_inimální hranice:"
+msgstr "Nejn_ižší hranice:"
 
 #: ../src/dialogs/histogram.ui.h:14
 msgid "Ma_ximum cutoff:"
-msgstr "Ma_ximální hranice:"
+msgstr "N_ejvyšší hranice:"
 
 #: ../src/dialogs/histogram.ui.h:15
 msgid "_Predetermined cutoffs"
@@ -9885,7 +9885,7 @@ msgstr "_Třídy"
 
 #: ../src/dialogs/histogram.ui.h:30
 msgid "Histogram chart"
-msgstr "Graf s histogramem"
+msgstr "Histogramový graf"
 
 #: ../src/dialogs/histogram.ui.h:32
 msgid "C_umulative answers"
@@ -9925,11 +9925,11 @@ msgstr "_Soubor:"
 
 #: ../src/dialogs/hyperlink.ui.h:8
 msgid "Tip:"
-msgstr "Nápověda:"
+msgstr "Vysvětlivka:"
 
 #: ../src/dialogs/hyperlink.ui.h:9
 msgid "Use default tip"
-msgstr "Použít výchozí nápovědu"
+msgstr "Použít výchozí vysvětlivku"
 
 #: ../src/dialogs/insert-cells.ui.h:1
 msgid "Insert cells"
@@ -11409,7 +11409,7 @@ msgstr "Nalézt max."
 
 #: ../src/dialogs/simulation.ui.h:17
 msgid "<b>Summary of results:</b>"
-msgstr "<b>Souhr výsledků:</b>"
+msgstr "<b>Souhrn výsledků:</b>"
 
 #: ../src/dialogs/simulation.ui.h:18 ../src/tools/analysis-anova.c:462
 msgid "Summary"
@@ -11472,12 +11472,12 @@ msgstr "="
 #: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:387
 #: ../src/tools/gnm-solver.c:413
 msgid "Int"
-msgstr "Celé číslo"
+msgstr "celé číslo"
 
 #: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:388
 #: ../src/tools/gnm-solver.c:414
 msgid "Bool"
-msgstr "Pravdivostní hodnota"
+msgstr "pravdivostní hodnota"
 
 #: ../src/dialogs/solver.ui.h:6
 msgid "Solver"
@@ -11567,11 +11567,11 @@ msgstr "Omezení"
 
 #: ../src/dialogs/solver.ui.h:27
 msgid "Max _Iterations:"
-msgstr "Max _iterací:"
+msgstr "Max. _iterací:"
 
 #: ../src/dialogs/solver.ui.h:28
 msgid "Max _Time (sec.):"
-msgstr "Ma_x čas (sekundy):"
+msgstr "Ma_x. čas (sekundy):"
 
 #: ../src/dialogs/solver.ui.h:29
 msgid "The maximum number of steps allowed for the solver"
@@ -14935,7 +14935,7 @@ msgstr "Stř. hodnota"
 
 #: ../src/tools/simulation.c:251
 msgid "Mode"
-msgstr "Režim"
+msgstr "Modus"
 
 #: ../src/tools/simulation.c:252
 msgid "Std. Dev."
@@ -14951,7 +14951,7 @@ msgstr "Šikmost"
 
 #: ../src/tools/simulation.c:255
 msgid "Kurtosis"
-msgstr "Strmost"
+msgstr "Špičatost"
 
 #: ../src/tools/simulation.c:256
 msgid "Range"
@@ -14983,7 +14983,7 @@ msgstr "Výkaz"
 
 #: ../src/tools/simulation.c:389
 msgid "(Input) "
-msgstr "(Vstup)"
+msgstr "(vstup)"
 
 #: ../src/tools/simulation.c:404
 msgid "Maximum time exceeded. Simulation was not completed. "
