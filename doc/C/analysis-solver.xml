@@ -246,7 +246,7 @@
       <para>Select the `Reports' page from the top of the dialog and 
       you will see a checkbox named `Program'. This report gives the 
       model in its mathematical form. Program report is useful for 
-      checking out the correctness of the model.It can also be useful 
+      checking out the correctness of the model. It can also be useful 
       for educational purposes.</para>
 
     </sect3>
@@ -254,14 +254,14 @@
     <sect3 id="sect-advanced-analysis-solver-using-optimize">
       <title>Optimization</title>
 
-      <para>After you have specified the parameters, the constraints
-      and the reporting options it is time to press the `OK' button.
-      If everything went ok, you will see a dialog saying: `Solver
-      found an optimal solution. All constraints and optimality
-      conditions are satisfied.'.  This means that the solver found an
-      optimal solution and the optimal values are now stored into the
-      input variables.  For all models, this, however, does not
-      happen.</para>
+      <para>After you have specified the parameters, the constraints 
+      and the reporting options it is time to press the <guibutton>
+      Solve</guibutton> button. If everything went ok, you will see a 
+      dialog saying: `Solver found an optimal solution. All constraints 
+      and optimality conditions are satisfied.'. This means that the 
+      solver found an optimal solution and the optimal values are now 
+      stored into the input variables.  For all models, this, however, 
+      does not happen.</para>
 
       <para>If a feasible solution cannot be found, the solver reports
       that `A feasible solution could not be found. All specified

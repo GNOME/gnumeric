@@ -471,15 +471,6 @@
 </table>
 	  </para>
 
-	  <para>
-	    An outdated PDF document discussing the &gnum; file format
-	    which should provide a useful starting point was developed
-	    by the JWorkbook project. The file can be downloaded from
-	    <literal><ulink type="http"
-	    url="http://www.jfree.org/jworkbook/gnumeric-xml.pdf">
-	    http://www.jfree.org/jworkbook/gnumeric-xml.pdf</ulink></literal>.
-	  </para>
-
           <para>
 	    An outdated PDF document discussing the &gnum; file format
 	    which should provide a useful starting point was developed

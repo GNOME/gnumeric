@@ -2257,7 +2257,10 @@
 	      <para>
 	        <guimenuitem>Shuffle...</guimenuitem> &mdash; The
 		<guimenuitem>Shuffle...</guimenuitem> menu item opens a
-		submenu that allows various forms of data to be created.
+		dialog that allows users to shuffle a selection. Shuffling
+		means to rearrange the cells in the selection into a random
+		order. The dialog allows users to shuffle the data within a
+		column, within a row, or within an area.
 	      </para>
 	    </listitem>
 
@@ -2265,10 +2268,7 @@
 	      <para>
 	        <guimenuitem>Fill</guimenuitem> &mdash; The
 		<guimenuitem>Fill</guimenuitem> menu item opens a
-		dialog that allows users to shuffle a selection. Shuffling
-		means to rearrange the cells in the selection into a random
-		order. The dialog allows users to shuffle the data within a
-		column, within a row, or within an area.
+		submenu that allows various forms of data to be created.
 	      </para>
 	    </listitem>
 
