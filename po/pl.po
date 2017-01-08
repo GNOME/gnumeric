@@ -1,19 +1,19 @@
 # Polish translation for gnumeric.
-# Copyright © 1999-2016 the gnumeric authors.
+# Copyright © 1999-2017 the gnumeric authors.
 # This file is distributed under the same license as the gnumeric package.
 # Zbigniew Chyla <zbigniew.chyla@gmail.com>, 1999-2002.
 # Artur Flinta <aflinta@at.kernel.pl>, 2003.
 # Wadim Dziedzic <wdziedzic@aviary.pl>, 2008.
 # Robert Wojewódzki <robwoj44@poczta.onet.pl>, 2013.
-# Piotr Drąg <piotrdrag@gmail.com>, 2016.
-# Aviary.pl <community-poland@mozilla.org>, 2016.
+# Piotr Drąg <piotrdrag@gmail.com>, 2016-2017.
+# Aviary.pl <community-poland@mozilla.org>, 2016-2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-21 18:14+0200\n"
-"PO-Revision-Date: 2016-09-21 18:15+0200\n"
+"POT-Creation-Date: 2017-01-08 09:43+0100\n"
+"PO-Revision-Date: 2017-01-08 09:44+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -562,7 +562,7 @@ msgstr "Nieznany kolor motywu %d"
 msgid "Undefined number format id '%s'"
 msgstr "Nieokreślony identyfikator formatu liczby „%s”"
 
-#: ../plugins/excel/xlsx-read.c:1223 ../plugins/excel/xlsx-read.c:3311
+#: ../plugins/excel/xlsx-read.c:1223 ../plugins/excel/xlsx-read.c:3314
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Nieprawidłowy kolor „%s” dla atrybutu rgb"
@@ -602,76 +602,76 @@ msgstr "Papier z pliku XLSX: %i⨉%i pt"
 msgid "Paper from XLSX file, #%i"
 msgstr "Papier z pliku XLSX, #%i"
 
-#: ../plugins/excel/xlsx-read.c:2200
+#: ../plugins/excel/xlsx-read.c:2203
 #: ../plugins/openoffice/openoffice-read.c:2841
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorowanie nieprawidłowej walidacji danych, ponieważ: %s"
 
-#: ../plugins/excel/xlsx-read.c:2723
+#: ../plugins/excel/xlsx-read.c:2726
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorowanie nieobsługiwanego formatu warunkowego typu „%s”"
 
-#: ../plugins/excel/xlsx-read.c:3128
+#: ../plugins/excel/xlsx-read.c:3131
 msgid "Unknown type of hyperlink"
 msgstr "Nieznany typ odnośnika"
 
-#: ../plugins/excel/xlsx-read.c:3171
+#: ../plugins/excel/xlsx-read.c:3174
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 "Wystąpiło nieinterpretowalne rozszerzenie „ext” w przestrzeni nazw „%s”"
 
-#: ../plugins/excel/xlsx-read.c:3180
+#: ../plugins/excel/xlsx-read.c:3183
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 "Wystąpiło nieinterpretowalne rozszerzenie „ext” z brakującą przestrzenią nazw"
 
-#: ../plugins/excel/xlsx-read.c:3642
+#: ../plugins/excel/xlsx-read.c:3645
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorowanie arkusza bez nazwy"
 
-#: ../plugins/excel/xlsx-read.c:3714
+#: ../plugins/excel/xlsx-read.c:3717
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Określenie nazwy się nie powiodło: %s"
 
-#: ../plugins/excel/xlsx-read.c:3776
+#: ../plugins/excel/xlsx-read.c:3779
 msgid "Unable to resolve external relationship"
 msgstr "Nie można rozwiązać zewnętrznych zależności"
 
-#: ../plugins/excel/xlsx-read.c:3970
+#: ../plugins/excel/xlsx-read.c:3973
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Brak części identyfikatora dla arkusza „%s”"
 
-#: ../plugins/excel/xlsx-read.c:3995
+#: ../plugins/excel/xlsx-read.c:3998
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Odczytywanie arkusza „%s”…"
 
-#: ../plugins/excel/xlsx-read.c:4003
+#: ../plugins/excel/xlsx-read.c:4006
 msgid "Reading comments..."
 msgstr "Odczytywanie komentarzy…"
 
-#: ../plugins/excel/xlsx-read.c:5143
+#: ../plugins/excel/xlsx-read.c:5146
 msgid "Reading shared strings..."
 msgstr "Odczytywanie wspólnych ciągów…"
 
-#: ../plugins/excel/xlsx-read.c:5152
+#: ../plugins/excel/xlsx-read.c:5155
 msgid "Reading theme..."
 msgstr "Odczytywanie motywu…"
 
-#: ../plugins/excel/xlsx-read.c:5161
+#: ../plugins/excel/xlsx-read.c:5164
 msgid "Reading styles..."
 msgstr "Odczytywanie stylów…"
 
-#: ../plugins/excel/xlsx-read.c:5166
+#: ../plugins/excel/xlsx-read.c:5169
 msgid "Reading workbook..."
 msgstr "Odczytywanie zeszytu…"
 
-#: ../plugins/excel/xlsx-read.c:5176
+#: ../plugins/excel/xlsx-read.c:5179
 msgid "No workbook stream found."
 msgstr "Nie odnaleziono potoku zeszytu."
 
@@ -1365,23 +1365,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Nieprawidłowa nazwa rzędu, %s, w sekcji rhs/zakresach"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1792
+#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1799
 msgid "Constraint"
 msgstr "Ograniczenie"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1568
-#: ../src/tools/gnm-solver.c:1613 ../src/tools/gnm-solver.c:1657
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1575
+#: ../src/tools/gnm-solver.c:1620 ../src/tools/gnm-solver.c:1664
 msgid "Value"
 msgstr "Wartość"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1569
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1576
 msgid "Type"
 msgstr "Typ"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1658
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1665
 msgid "Limit"
 msgstr "Ograniczenie"
 
@@ -1409,12 +1409,12 @@ msgstr "Odczytuje programy LP przechowywane w formacie MPS (*.mps)"
 msgid "Linear and integer program (*.mps) file format"
 msgstr "Format pliku liniowego i całkowitego programu (*.mps)"
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:100
+#: ../plugins/nlsolve/gnm-nlsolve.c:104
 #, c-format
 msgid "This solver does not handle discrete variables."
 msgstr "Ten solver nie obsługuje dyskretnych zmiennych."
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:107
+#: ../plugins/nlsolve/gnm-nlsolve.c:111
 #, c-format
 msgid "This solver does not handle equality constraints."
 msgstr "Ten solver nie obsługuje ograniczeń równości."
@@ -4109,7 +4109,7 @@ msgstr "Sortowanie"
 msgid "Sorting %s"
 msgstr "Sortowanie %s"
 
-#: ../src/commands.c:2352
+#: ../src/commands.c:2354
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
@@ -4117,7 +4117,7 @@ msgstr ""
 "Na pewno ukryć wszystkie kolumny? Można je potem odkryć za pomocą menu "
 "„Format→Kolumna→Odkryj”."
 
-#: ../src/commands.c:2356
+#: ../src/commands.c:2358
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
@@ -4125,94 +4125,94 @@ msgstr ""
 "Na pewno ukryć wszystkie rzędy? Można je potem odkryć za pomocą menu "
 "„Format→Rząd→Odkryj”."
 
-#: ../src/commands.c:2376
+#: ../src/commands.c:2378
 msgid "Unhide columns"
 msgstr "Odkryj kolumny"
 
-#: ../src/commands.c:2376
+#: ../src/commands.c:2378
 msgid "Hide columns"
 msgstr "Ukryj kolumny"
 
-#: ../src/commands.c:2377
+#: ../src/commands.c:2379
 msgid "Unhide rows"
 msgstr "Odkryj rzędy"
 
-#: ../src/commands.c:2377
+#: ../src/commands.c:2379
 msgid "Hide rows"
 msgstr "Ukryj rzędy"
 
-#: ../src/commands.c:2457
+#: ../src/commands.c:2459
 msgid "Expand columns"
 msgstr "Rozwiń kolumny"
 
-#: ../src/commands.c:2457
+#: ../src/commands.c:2459
 msgid "Collapse columns"
 msgstr "Zwiń kolumny"
 
-#: ../src/commands.c:2458
+#: ../src/commands.c:2460
 msgid "Expand rows"
 msgstr "Rozwiń rzędy"
 
-#: ../src/commands.c:2458
+#: ../src/commands.c:2460
 msgid "Collapse rows"
 msgstr "Zwiń rzędy"
 
-#: ../src/commands.c:2482
+#: ../src/commands.c:2484
 #, c-format
 msgid "Show column outline %d"
 msgstr "Wyświetl obramowanie kolumny %d"
 
-#: ../src/commands.c:2482
+#: ../src/commands.c:2484
 #, c-format
 msgid "Show row outline %d"
 msgstr "Wyświetl obramowanie rzędu %d"
 
-#: ../src/commands.c:2551
+#: ../src/commands.c:2553
 msgid "Those columns are already grouped"
 msgstr "Te kolumny są już zgrupowane"
 
-#: ../src/commands.c:2552
+#: ../src/commands.c:2554
 msgid "Those rows are already grouped"
 msgstr "Te rzędy są już zgrupowane"
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2577
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Te kolumny nie są zgrupowane, nie można ich rozgrupować"
 
-#: ../src/commands.c:2576
+#: ../src/commands.c:2578
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Te rzędy nie są zgrupowane, nie można ich rozgrupować"
 
-#: ../src/commands.c:2589
+#: ../src/commands.c:2591
 #, c-format
 msgid "Group columns %s"
 msgstr "Zgrupuj kolumny %s"
 
-#: ../src/commands.c:2589
+#: ../src/commands.c:2591
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozgrupuj kolumny %s"
 
-#: ../src/commands.c:2591
+#: ../src/commands.c:2593
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Zgrupuj rzędy %d:%d"
 
-#: ../src/commands.c:2591
+#: ../src/commands.c:2593
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozgrupuj rzędy %d:%d"
 
-#: ../src/commands.c:2820
+#: ../src/commands.c:2822
 #, c-format
 msgid "Moving %s"
 msgstr "Przenoszenie %s"
 
-#: ../src/commands.c:2830 ../src/commands.c:3230
+#: ../src/commands.c:2832 ../src/commands.c:3232
 msgid "is beyond sheet boundaries"
 msgstr "przekracza granice arkusza"
 
-#: ../src/commands.c:2888
+#: ../src/commands.c:2890
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -4222,77 +4222,77 @@ msgstr ""
 "Kopiowanie między plikami z różnymi konwencjami daty.\n"
 "Niektóre daty mogły zostać skopiowane niepoprawnie."
 
-#: ../src/commands.c:2922
+#: ../src/commands.c:2924
 msgid "Paste Copy"
 msgstr "Wklej kopiuj"
 
-#: ../src/commands.c:3122
+#: ../src/commands.c:3124
 #, c-format
 msgid "Pasting into %s"
 msgstr "Wklejanie do %s"
 
-#: ../src/commands.c:3216
+#: ../src/commands.c:3218
 #, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr "Na pewno wkleić %s kopii?"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3273 ../src/commands.c:3429 ../src/commands.c:3430
+#: ../src/commands.c:3275 ../src/commands.c:3431 ../src/commands.c:3432
 #: ../src/item-cursor.c:1026 ../src/wbc-gtk-actions.c:582
 msgid "Autofill"
 msgstr "Automatyczne wypełnienie"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3452
+#: ../src/commands.c:3454
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatyczne wypełnianie %s"
 
-#: ../src/commands.c:3752
+#: ../src/commands.c:3754
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatyczne formatowanie %s"
 
-#: ../src/commands.c:3871
+#: ../src/commands.c:3873
 #, c-format
 msgid "Unmerging %s"
 msgstr "Rozdzielanie %s"
 
-#: ../src/commands.c:4040
+#: ../src/commands.c:4042
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Scal i wyśrodkuj %s"
 
-#: ../src/commands.c:4040
+#: ../src/commands.c:4042
 #, c-format
 msgid "Merging %s"
 msgstr "Scalanie %s"
 
 #. Corrected below.
-#: ../src/commands.c:4408 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4410 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr "Znajdź i zastąp"
 
-#: ../src/commands.c:4501
+#: ../src/commands.c:4503
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Ustawianie domyślnej szerokości kolumn na %.2f punktów"
 
-#: ../src/commands.c:4502
+#: ../src/commands.c:4504
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Ustawianie domyślnej wysokości rzędów na %.2f punktów"
 
-#: ../src/commands.c:4613
+#: ../src/commands.c:4615
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Powiększanie %s na %.0f%%"
 
-#: ../src/commands.c:4716
+#: ../src/commands.c:4718
 msgid "Delete Object"
 msgstr "Usuń obiekt"
 
-#: ../src/commands.c:4857 ../src/commands.c:5923
+#: ../src/commands.c:4859 ../src/commands.c:5925
 #: ../src/dialogs/dialog-doc-metadata.c:1912
 #: ../src/dialogs/dialog-formula-guru.c:894
 #: ../src/dialogs/dialog-function-select.c:1253
@@ -4301,240 +4301,240 @@ msgstr "Usuń obiekt"
 msgid "Name"
 msgstr "Nazwa"
 
-#: ../src/commands.c:4857
+#: ../src/commands.c:4859
 msgid "Sheet names must be non-empty."
 msgstr "Nazwa arkusza nie może być pusta."
 
-#: ../src/commands.c:4864
+#: ../src/commands.c:4866
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "Zeszyt nie może mieć dwóch arkuszy o tej samej nazwie."
 
-#: ../src/commands.c:4961
+#: ../src/commands.c:4963
 msgid "Resizing sheet"
 msgstr "Zmienianie rozmiaru arkusza"
 
-#: ../src/commands.c:5114
+#: ../src/commands.c:5116
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Czyszczenie komentarza %s"
 
-#: ../src/commands.c:5115
+#: ../src/commands.c:5117
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Ustawianie komentarza %s"
 
-#: ../src/commands.c:5549
+#: ../src/commands.c:5551
 #, c-format
 msgid "Merging data into %s"
 msgstr "Scalanie danych do %s"
 
-#: ../src/commands.c:5646
+#: ../src/commands.c:5648
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Zmienianie właściwości zeszytu"
 
-#: ../src/commands.c:5720
+#: ../src/commands.c:5722
 msgid "Pull Object to the Front"
 msgstr "Przeciągnij obiekt na przód"
 
-#: ../src/commands.c:5723
+#: ../src/commands.c:5725
 msgid "Pull Object Forward"
 msgstr "Przeciągnij obiekt do przodu"
 
-#: ../src/commands.c:5726
+#: ../src/commands.c:5728
 msgid "Push Object Backward"
 msgstr "Przesuń obiekt do tyłu"
 
-#: ../src/commands.c:5729
+#: ../src/commands.c:5731
 msgid "Push Object to the Back"
 msgstr "Przesuń obiekt na koniec"
 
-#: ../src/commands.c:5859
+#: ../src/commands.c:5861
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Ustawienia strony dla %s"
 
-#: ../src/commands.c:5861
+#: ../src/commands.c:5863
 msgid "Page Setup For All Sheets"
 msgstr "Ustawienia strony dla wszystkich arkuszy"
 
-#: ../src/commands.c:5985 ../src/commands.c:5996
+#: ../src/commands.c:5987 ../src/commands.c:5998
 msgid "Defined Name"
 msgstr "Określona nazwa"
 
-#: ../src/commands.c:5986
+#: ../src/commands.c:5988
 msgid "An empty string is not allowed as defined name."
 msgstr "Pusty ciąg nie jest dozwolony jako określona nazwa."
 
-#: ../src/commands.c:5994
+#: ../src/commands.c:5996
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "„%s” nie jest dozwolone jako określona nazwa."
 
-#: ../src/commands.c:6004
+#: ../src/commands.c:6006
 msgid "has a circular reference"
 msgstr "ma zapętlone odwołanie"
 
-#: ../src/commands.c:6038
+#: ../src/commands.c:6040
 #, c-format
 msgid "Define Name %s"
 msgstr "Określ nazwę %s"
 
-#: ../src/commands.c:6041
+#: ../src/commands.c:6043
 #, c-format
 msgid "Update Name %s"
 msgstr "Zaktualizuj nazwę %s"
 
-#: ../src/commands.c:6134
+#: ../src/commands.c:6136
 #, c-format
 msgid "Remove Name %s"
 msgstr "Usuń nazwę %s"
 
-#: ../src/commands.c:6165
+#: ../src/commands.c:6167
 msgid "Change Scope of Name"
 msgstr "Zmień zakres nazwy"
 
-#: ../src/commands.c:6213
+#: ../src/commands.c:6215
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "Zmień zakres nazwy %s"
 
-#: ../src/commands.c:6271
+#: ../src/commands.c:6273
 msgid "Add scenario"
 msgstr "Dodaj scenariusz"
 
-#: ../src/commands.c:6335
+#: ../src/commands.c:6337
 msgid "Scenario Show"
 msgstr "Pokaz scenariusza"
 
-#: ../src/commands.c:6393
+#: ../src/commands.c:6395
 msgid "Shuffle Data"
 msgstr "Przekładaj dane"
 
 #. FIXME?
-#: ../src/commands.c:6497
+#: ../src/commands.c:6499
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) do kolumn (%s)"
 
-#: ../src/commands.c:6655
+#: ../src/commands.c:6657
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Poszukiwanie celu (%s)"
 
-#: ../src/commands.c:6821
+#: ../src/commands.c:6823
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Zależności tabulacji"
 
-#: ../src/commands.c:6895
+#: ../src/commands.c:6897
 msgid "Reconfigure Graph"
 msgstr "Rekonfiguruj wykres"
 
-#: ../src/commands.c:6965
+#: ../src/commands.c:6967
 msgid "Reconfigure Object"
 msgstr "Rekonfiguruj obiekt"
 
-#: ../src/commands.c:7009
+#: ../src/commands.c:7011
 msgid "Left to Right"
 msgstr "Od lewej do prawej"
 
-#: ../src/commands.c:7009
+#: ../src/commands.c:7011
 msgid "Right to Left"
 msgstr "Od prawej do lewej"
 
-#: ../src/commands.c:7171
+#: ../src/commands.c:7173
 msgid "Changing Hyperlink"
 msgstr "Zmienianie odnośnika"
 
-#: ../src/commands.c:7262
+#: ../src/commands.c:7264
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Zmienianie odnośnika %s"
 
-#: ../src/commands.c:7347
+#: ../src/commands.c:7349
 msgid "Configure List"
 msgstr "Skonfiguruj listę"
 
-#: ../src/commands.c:7418
+#: ../src/commands.c:7420
 msgid "Set Frame Label"
 msgstr "Ustaw etykietę ramki"
 
-#: ../src/commands.c:7489
+#: ../src/commands.c:7491
 msgid "Configure Button"
 msgstr "Skonfiguruj przycisk"
 
-#: ../src/commands.c:7570
+#: ../src/commands.c:7572
 msgid "Configure Radio Button"
 msgstr "Skonfiguruj przycisk radiowy"
 
-#: ../src/commands.c:7646
+#: ../src/commands.c:7648
 msgid "Configure Checkbox"
 msgstr "Skonfiguruj pole wyboru"
 
-#: ../src/commands.c:7753 ../src/sheet-object-widget.c:1780
+#: ../src/commands.c:7755 ../src/sheet-object-widget.c:1780
 msgid "Configure Adjustment"
 msgstr "Skonfiguruj dostosowanie"
 
-#: ../src/commands.c:7784
+#: ../src/commands.c:7786
 msgid "Add Filter"
 msgstr "Dodaj filtr"
 
-#: ../src/commands.c:7800 ../src/wbc-gtk.c:1632
+#: ../src/commands.c:7802 ../src/wbc-gtk.c:1632
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Automatyczny filtr zablokowany przez %s"
 
-#: ../src/commands.c:7805 ../src/commands.c:7832 ../src/commands.c:7841
+#: ../src/commands.c:7807 ../src/commands.c:7834 ../src/commands.c:7843
 msgid "AutoFilter"
 msgstr "Automatyczny filtr"
 
-#: ../src/commands.c:7833
+#: ../src/commands.c:7835
 msgid "Requires more than 1 row"
 msgstr "Wymaga więcej niż 1 rzędu"
 
-#: ../src/commands.c:7842
+#: ../src/commands.c:7844
 msgid "Unable to create Autofilter"
 msgstr "Nie można utworzyć filtru automatycznego"
 
-#: ../src/commands.c:7865
+#: ../src/commands.c:7867
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Dodaj filtr automatyczny do %s"
 
-#: ../src/commands.c:7866
+#: ../src/commands.c:7868
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Rozszerz filtr automatyczny do %s"
 
-#: ../src/commands.c:7879
+#: ../src/commands.c:7881
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Usuń filtr automatyczny z %s"
 
-#: ../src/commands.c:7909
+#: ../src/commands.c:7911
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Zmień warunek filtru dla %s"
 
-#: ../src/commands.c:7978 ../src/wbc-gtk-actions.c:2394
+#: ../src/commands.c:7980 ../src/wbc-gtk-actions.c:2394
 msgid "Clear All Page Breaks"
 msgstr "Wyczyść wszystkie podziały strony"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1567
+#: ../src/commands.c:8007 ../src/wbc-gtk.c:1567
 msgid "Remove Column Page Break"
 msgstr "Usuń podział kolumny strony"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1577
+#: ../src/commands.c:8007 ../src/wbc-gtk.c:1577
 msgid "Remove Row Page Break"
 msgstr "Usuń podział rzędu strony"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1570
+#: ../src/commands.c:8010 ../src/wbc-gtk.c:1570
 msgid "Add Column Page Break"
 msgstr "Dodaj podział kolumny strony"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1580
+#: ../src/commands.c:8010 ../src/wbc-gtk.c:1580
 msgid "Add Row Page Break"
 msgstr "Dodaj podział rzędu strony"
 
@@ -4979,8 +4979,8 @@ msgid "Visit the Gnumeric website"
 msgstr "Witryna programu Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:547
-msgid "Copyright © 1998-2016"
-msgstr "Copyright © 1998-2016"
+msgid "Copyright © 1998-2017"
+msgstr "Copyright © 1998-2017"
 
 #: ../src/dialogs/dialog-about.c:548
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -6394,8 +6394,8 @@ msgstr "Arkusz"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1567
-#: ../src/tools/gnm-solver.c:1612 ../src/tools/gnm-solver.c:1757
+#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1574
+#: ../src/tools/gnm-solver.c:1619 ../src/tools/gnm-solver.c:1764
 msgid "Cell"
 msgstr "Komórka"
 
@@ -7369,11 +7369,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr "Zmienianie parametrów solvera"
 
-#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1594
+#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1601
 msgid "Feasible"
 msgstr "Wykonalny"
 
-#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1597
+#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1604
 msgid "Optimal"
 msgstr "Optymalny"
 
@@ -7579,7 +7579,7 @@ msgstr "Tekst"
 #: ../src/dialogs/dialog-stf-main-page.c:411
 #, c-format
 msgid "Data (from %s)"
-msgstr "Dane (z %s)"
+msgstr "Dane (z %s)"
 
 #: ../src/dialogs/dialog-tabulate.c:176
 msgid "You should introduce a single valid cell as dependency cell"
@@ -9659,7 +9659,7 @@ msgstr "_Maksymalna liczba kategorii:"
 
 #: ../src/dialogs/frequency.ui.h:13
 msgid "_Predetermined categories\t"
-msgstr "_Z góry ustalone kategorie\t"
+msgstr "_Z góry ustalone kategorie\t"
 
 #: ../src/dialogs/frequency.ui.h:14
 msgid "Category _range:"
@@ -11378,8 +11378,8 @@ msgstr "Zmienne wejściowe:"
 msgid "Output variables:"
 msgstr "Zmienne wyjściowe:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1610
-#: ../src/tools/gnm-solver.c:1755
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1617
+#: ../src/tools/gnm-solver.c:1762
 msgid "Variables"
 msgstr "Zmienne"
 
@@ -11489,13 +11489,13 @@ msgstr "≥"
 msgid "="
 msgstr "="
 
-#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:387
-#: ../src/tools/gnm-solver.c:413
+#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:388
+#: ../src/tools/gnm-solver.c:414
 msgid "Int"
 msgstr "Całkowita"
 
-#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:388
-#: ../src/tools/gnm-solver.c:414
+#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:389
+#: ../src/tools/gnm-solver.c:415
 msgid "Bool"
 msgstr "Boole"
 
@@ -11580,8 +11580,8 @@ msgid "Re_place"
 msgstr "_Zastąp"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1653
-#: ../src/tools/gnm-solver.c:1789
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1660
+#: ../src/tools/gnm-solver.c:1796
 msgid "Constraints"
 msgstr "Ograniczenia"
 
@@ -13087,7 +13087,7 @@ msgstr "Przyciągnij obiekt do siatki"
 
 #: ../src/sheet-object.c:267
 msgid "Size _& Position"
-msgstr "Rozmiar _i pozycja"
+msgstr "Rozmiar _i pozycja"
 
 #: ../src/sheet-object.c:268
 msgid "_Snap to Grid"
@@ -14686,95 +14686,95 @@ msgstr "/Zaawansowany filtr:/Źródło zakresu:/Zakres kryteriów:"
 msgid "Advanced Filter (%s)"
 msgstr "Zaawansowany filtr (%s)"
 
-#: ../src/tools/gnm-solver.c:625
+#: ../src/tools/gnm-solver.c:626
 #, c-format
 msgid "Invalid solver target"
 msgstr "Nieprawidłowy cel solvera"
 
-#: ../src/tools/gnm-solver.c:637
+#: ../src/tools/gnm-solver.c:638
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "Komórka docelowa %s musi zawierać formułę, która zwróci liczbę"
 
-#: ../src/tools/gnm-solver.c:647
+#: ../src/tools/gnm-solver.c:648
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Nieprawidłowy zakres wejściowy solvera"
 
-#: ../src/tools/gnm-solver.c:658
+#: ../src/tools/gnm-solver.c:659
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Komórka wejściowa %s zawiera formułę"
 
-#: ../src/tools/gnm-solver.c:673
+#: ../src/tools/gnm-solver.c:674
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Ograniczenie solvera #%d jest nieprawidłowe"
 
-#: ../src/tools/gnm-solver.c:1080
+#: ../src/tools/gnm-solver.c:1087
 msgid "Timeout"
 msgstr "Ograniczenie czasu"
 
-#: ../src/tools/gnm-solver.c:1289
+#: ../src/tools/gnm-solver.c:1296
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Utworzenie pliku dla programu liniowego się nie powiodło"
 
-#: ../src/tools/gnm-solver.c:1298
+#: ../src/tools/gnm-solver.c:1305
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Utworzenie pliku programu liniowego się nie powiodło"
 
-#: ../src/tools/gnm-solver.c:1318
+#: ../src/tools/gnm-solver.c:1325
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Zapisanie programu liniowego się nie powiodło"
 
-#: ../src/tools/gnm-solver.c:1566
+#: ../src/tools/gnm-solver.c:1573
 msgid "Target"
 msgstr "Cel"
 
-#: ../src/tools/gnm-solver.c:1570
+#: ../src/tools/gnm-solver.c:1577
 msgid "Status"
 msgstr "Stan"
 
-#: ../src/tools/gnm-solver.c:1583
+#: ../src/tools/gnm-solver.c:1590
 msgid "Minimize"
 msgstr "Zminimalizuj"
 
-#: ../src/tools/gnm-solver.c:1586
+#: ../src/tools/gnm-solver.c:1593
 msgid "Maximize"
 msgstr "Zmaksymalizuj"
 
-#: ../src/tools/gnm-solver.c:1614
+#: ../src/tools/gnm-solver.c:1621
 msgid "Lower"
 msgstr "Dolne"
 
-#: ../src/tools/gnm-solver.c:1615
+#: ../src/tools/gnm-solver.c:1622
 msgid "Upper"
 msgstr "Górne"
 
-#: ../src/tools/gnm-solver.c:1616 ../src/tools/gnm-solver.c:1659
+#: ../src/tools/gnm-solver.c:1623 ../src/tools/gnm-solver.c:1666
 msgid "Slack"
 msgstr "Luźny"
 
-#: ../src/tools/gnm-solver.c:1638
+#: ../src/tools/gnm-solver.c:1645
 msgid "At limit"
 msgstr "Na granicy"
 
-#: ../src/tools/gnm-solver.c:1641
+#: ../src/tools/gnm-solver.c:1648
 msgid "Outside bounds"
 msgstr "Zewnętrzne krawędzie"
 
-#: ../src/tools/gnm-solver.c:1656
+#: ../src/tools/gnm-solver.c:1663
 msgid "Condition"
 msgstr "Warunek"
 
-#: ../src/tools/gnm-solver.c:1661 ../src/tools/gnm-solver.c:1801
+#: ../src/tools/gnm-solver.c:1668 ../src/tools/gnm-solver.c:1808
 msgid "No constraints"
 msgstr "Brak ograniczeń"
 
-#: ../src/tools/gnm-solver.c:1758
+#: ../src/tools/gnm-solver.c:1765
 msgid ""
 "Final\n"
 "Value"
@@ -14782,7 +14782,7 @@ msgstr ""
 "Ostateczna\n"
 "wartość"
 
-#: ../src/tools/gnm-solver.c:1759
+#: ../src/tools/gnm-solver.c:1766
 msgid ""
 "Reduced\n"
 "Cost"
@@ -14790,7 +14790,7 @@ msgstr ""
 "Zmniejszony\n"
 "koszt"
 
-#: ../src/tools/gnm-solver.c:1760 ../src/tools/gnm-solver.c:1796
+#: ../src/tools/gnm-solver.c:1767 ../src/tools/gnm-solver.c:1803
 msgid ""
 "Lower\n"
 "Limit"
@@ -14798,7 +14798,7 @@ msgstr ""
 "Dolne\n"
 "ograniczenie"
 
-#: ../src/tools/gnm-solver.c:1761 ../src/tools/gnm-solver.c:1797
+#: ../src/tools/gnm-solver.c:1768 ../src/tools/gnm-solver.c:1804
 msgid ""
 "Upper\n"
 "Limit"
@@ -14806,7 +14806,7 @@ msgstr ""
 "Górne\n"
 "ograniczenie"
 
-#: ../src/tools/gnm-solver.c:1793
+#: ../src/tools/gnm-solver.c:1800
 msgid ""
 "Shadow\n"
 "Price"
@@ -14814,7 +14814,7 @@ msgstr ""
 "Zacieniowana\n"
 "cena"
 
-#: ../src/tools/gnm-solver.c:1794
+#: ../src/tools/gnm-solver.c:1801
 msgid ""
 "Constraint\n"
 "LHS"
@@ -14822,7 +14822,7 @@ msgstr ""
 "Ograniczenie\n"
 "LHS"
 
-#: ../src/tools/gnm-solver.c:1795
+#: ../src/tools/gnm-solver.c:1802
 msgid ""
 "Constraint\n"
 "RHS"
@@ -14830,25 +14830,25 @@ msgstr ""
 "Ograniczenie\n"
 "RHS"
 
-#: ../src/tools/gnm-solver.c:1863
+#: ../src/tools/gnm-solver.c:1870
 msgid "Program"
 msgstr "Program"
 
-#: ../src/tools/gnm-solver.c:1869
+#: ../src/tools/gnm-solver.c:1876
 msgid "Sensitivity"
 msgstr "Rozróżnianie"
 
-#: ../src/tools/gnm-solver.c:2364
+#: ../src/tools/gnm-solver.c:2479
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "Komórka docelowa nie zwraca liczby."
 
-#: ../src/tools/gnm-solver.c:2372
+#: ../src/tools/gnm-solver.c:2487
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr "Komórka docelowa nie zależy liniowo od komórek wejściowych."
 
-#: ../src/tools/gnm-solver.c:2956
+#: ../src/tools/gnm-solver.c:3071
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14861,22 +14861,22 @@ msgstr ""
 "\n"
 "Odnaleźć go ręcznie?"
 
-#: ../src/tools/gnm-solver.c:2960
+#: ../src/tools/gnm-solver.c:3075
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Nie można odnaleźć %s"
 
-#: ../src/tools/gnm-solver.c:2976
+#: ../src/tools/gnm-solver.c:3091
 #, c-format
 msgid "Locate the %s program"
 msgstr "Znajdź program %s"
 
-#: ../src/tools/gnm-solver.c:3367
+#: ../src/tools/gnm-solver.c:3482
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Wartości początkowe nie zaspokajają ograniczeń."
 
-#: ../src/tools/gnm-solver.c:3458
+#: ../src/tools/gnm-solver.c:3573
 msgid "Iteration limit exceeded"
 msgstr "Przekroczono ograniczenie iteracji"
 
@@ -15986,7 +15986,7 @@ msgstr "Wyszukuje"
 
 #: ../src/wbc-gtk-actions.c:2619
 msgid "Search _& Replace..."
-msgstr "Znajdź _i zastąp…"
+msgstr "Znajdź _i zastąp…"
 
 #: ../src/wbc-gtk-actions.c:2621
 msgid "Search for something and replace it with something else"
@@ -16071,7 +16071,7 @@ msgstr "Wstawia nowy obiekt składnika GOffice"
 
 #: ../src/wbc-gtk-actions.c:2709
 msgid "_From File..."
-msgstr "_Z pliku…"
+msgstr "_Z pliku…"
 
 #: ../src/wbc-gtk-actions.c:2710
 msgid "Insert a new Goffice component object from a file"
