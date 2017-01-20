@@ -764,6 +764,57 @@ gnm_style_conditions_hash (GnmStyleConditions const *sc)
 
 #undef MIX
 
+/**
+ * gnm_style_conditions_equal:
+ * @sca: first #GnmStyleConditions to compare.
+ * @scb: second #GnmStyleConditions to compare.
+ *
+ * Returns: %TRUE if the conditions are equal.
+ **/
+gboolean
+gnm_style_conditions_equal (GnmStyleConditions const *sca,
+			    GnmStyleConditions const *scb)
+{
+	GPtrArray const *ga, *gb;
+	unsigned ui;
+
+	g_return_val_if_fail (sca != NULL, FALSE);
+	g_return_val_if_fail (scb != NULL, FALSE);
+
+	if (sca->sheet != scb->sheet)
+		return FALSE;
+
+	ga = gnm_style_conditions_details (sca);
+	gb = gnm_style_conditions_details (scb);
+	if (!ga || !gb)
+		return ga == gb;
+	if (ga->len != gb->len)
+		return FALSE;
+
+	for (ui = 0; ui < ga->len; ui++) {
+		GnmStyleCond *ca = g_ptr_array_index (ga, ui);
+		GnmStyleCond *cb = g_ptr_array_index (gb, ui);
+		unsigned oi, N;
+
+		if (ca->op != cb->op)
+			return FALSE;
+
+		if (!gnm_style_equal (ca->overlay, cb->overlay))
+			return FALSE;
+
+		N = gnm_style_cond_op_operands (ca->op);
+		for (oi = 0; oi < N; oi++) {
+			if (ca->deps[oi].sheet != cb->deps[oi].sheet)
+				return FALSE;
+			if (!gnm_expr_top_equal (ca->deps[oi].texpr,
+						 cb->deps[oi].texpr))
+				return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
 
 /**
  * gnm_style_conditions_get_sheet:

@@ -393,11 +393,13 @@ gnm_style_hash (gconstpointer style)
     : (elem == MSTYLE_INPUT_MSG						\
     ? a->input_msg == b->input_msg					\
     : (elem == MSTYLE_CONDITIONS					\
-    ? a->conditions == b->conditions					\
+    ? (a->conditions == b->conditions ||				\
+       (a->conditions &&						\
+	gnm_style_conditions_equal (a->conditions, b->conditions)))	\
     : FALSE)))))))))))))))))))))))))
 
 /*
- * Note: the above is suboptimal from validation and down.
+ * Note: the above is suboptimal for validation, hlink, input_msg.
  *
  * We are comparing pointers (which at least safely matches what we do
  * with the hash), but I think we want proper equality.

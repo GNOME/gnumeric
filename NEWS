@@ -9,6 +9,7 @@ Morten:
 	* Speed up sstest part of test suite.
 	* Bring documentation build into the 21 century.
 	* Non-linear solver improvements.
+	* Avoid atomizing style regions with conditional formats.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.32

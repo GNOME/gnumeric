@@ -1,3 +1,10 @@
+2017-01-19  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (ELEM_IS_EQ): Don't compare conditions by pointer.
+
+	* src/style-conditions.c (gnm_style_conditions_equal): New
+	function.
+
 2016-12-08  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (gnm_linear_solve): Use proper matrix type.  All
