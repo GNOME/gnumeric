@@ -101,22 +101,56 @@ parse_number (const char *s)
 	return g_ascii_strtod (s, NULL);
 }
 
-static void
-gnm_glpk_read_solution (GnmGlpk *lp)
+typedef enum { GLPK_457, GLPK_458, GLPK_UNKNOWN } GlpkFileVersion;
+
+static GlpkFileVersion
+gnm_glpk_detect_version (GnmGlpk *lp,
+			 GsfInputTextline *tl)
+{
+	GnmSubSolver *subsol = lp->parent;
+	gsf_off_t cur = gsf_input_tell (GSF_INPUT (tl));
+	GlpkFileVersion ver = GLPK_UNKNOWN;
+	const char *line;
+	unsigned cols, rows;
+
+	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
+		goto out;
+	if (sscanf (line, "%u %u", &rows, &cols) == 2 &&
+	    cols == g_hash_table_size (subsol->cell_from_name)) {
+		ver = GLPK_457;
+		if (gnm_solver_debug ())
+			g_printerr ("Detected version 4.57 file format\n");
+		goto out;
+	}
+
+	if ((line[0] == 'c' || line[0] == 's') && line[1] == ' ') {
+		ver = GLPK_458;
+		if (gnm_solver_debug ())
+			g_printerr ("Detected version 4.58 file format\n");
+		goto out;
+	}	
+
+out:
+	// Extra seek due to gsf bug
+	gsf_input_seek (GSF_INPUT (tl), cur + 1, G_SEEK_SET);
+	gsf_input_seek (GSF_INPUT (tl), cur, G_SEEK_SET);
+	return ver;
+}
+
+static gboolean
+gnm_glpk_read_solution_457 (GnmGlpk *lp,
+			    GsfInputTextline *tl,
+			    GnmSolverResult *result,
+			    GnmSolverSensitivity *sensitivity)
 {
 	GnmSubSolver *subsol = lp->parent;
 	GnmSolver *sol = GNM_SOLVER (subsol);
-	GsfInput *input;
-	GsfInputTextline *tl = NULL;
 	const char *line;
-	unsigned rows, cols, c, r;
-	int pstat, dstat;
-	gnm_float val;
-	GnmSolverResult *result = NULL;
-	GnmSolverSensitivity *sensitivity = NULL;
+	unsigned cols, rows, c, r;
 	gboolean has_integer;
 	GSList *l;
-	enum { SEC_UNKNOWN, SEC_ROWS, SEC_COLUMNS } state;
+	int pstat, dstat;
+	gnm_float val;
 
 	/*
 	 * glpsol's output format is different if there are any integer
@@ -128,17 +162,6 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 		has_integer = (c->type == GNM_SOLVER_INTEGER ||
 			       c->type == GNM_SOLVER_BOOLEAN);
 	}
-
-	input = gsf_input_stdio_new (lp->result_filename, NULL);
-	if (!input)
-		goto fail;
-	tl = GSF_INPUT_TEXTLINE (gsf_input_textline_new (input));
-	g_object_unref (input);
-
-	result = g_object_new (GNM_SOLVER_RESULT_TYPE, NULL);
-	result->solution = g_new0 (gnm_float, sol->input_cells->len);
-
-	sensitivity = gnm_solver_sensitivity_new (sol);
 
 	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 		goto fail;
@@ -207,6 +230,124 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 		result->solution[idx] = pval;
 		if (!has_integer)
 			sensitivity->vars[idx].reduced_cost = dval;
+	}
+
+	// Success
+	return FALSE;
+
+fail:
+	return TRUE;
+}
+
+#define READ_LINE(tl,line) do { line = gsf_input_textline_utf8_gets (tl); if (!line) goto fail; } while (line[0] == 'c' && (line[1] == 0 || line[1] == ' '))
+
+static gboolean
+gnm_glpk_read_solution_458 (GnmGlpk *lp,
+			    GsfInputTextline *tl,
+			    GnmSolverResult *result,
+			    GnmSolverSensitivity *sensitivity)
+{
+	GnmSubSolver *subsol = lp->parent;
+	const char *line;
+	unsigned cols, rows, c, r;
+	gnm_float val;
+	char pstat, dstat;
+
+	READ_LINE (tl, line);
+
+	if (sscanf (line, "s %*s %u %u %c %c %" GNM_SCANF_g,
+		    &rows, &cols, &pstat, &dstat, &val) != 5)
+		goto fail;
+	if (cols != g_hash_table_size (subsol->cell_from_name))
+		goto fail;
+
+	result->value = val;
+	switch (pstat) {
+	case 'f':
+		result->quality = GNM_SOLVER_RESULT_OPTIMAL;
+		break;
+	case 'u':
+	case 'i':
+	case 'n':
+		result->quality = GNM_SOLVER_RESULT_INFEASIBLE;
+		break;
+	default:
+		goto fail;
+	}
+
+	for (r = 0; r < rows; r++) {
+		gnm_float pval, dval;
+		char rstat;
+		unsigned r1, cidx = r;
+
+		READ_LINE (tl, line);
+
+		if (sscanf (line, "i %d %c %" GNM_SCANF_g " %" GNM_SCANF_g,
+			    &r1, &rstat, &pval, &dval) != 4 ||
+		    r1 != cidx + 1)
+			goto fail;
+		// rstat?
+
+		sensitivity->constraints[cidx].shadow_price = dval;
+	}
+
+	for (c = 0; c < cols; c++) {
+		gnm_float pval, dval;
+		char cstat;
+		unsigned c1, cidx = c;
+
+		READ_LINE (tl, line);
+
+		if (sscanf (line, "j %d %c %" GNM_SCANF_g " %" GNM_SCANF_g,
+			    &c1, &cstat, &pval, &dval) != 4 ||
+		    c1 != cidx + 1)
+			goto fail;
+		// cstat?
+
+		result->solution[cidx] = pval;
+	}
+
+	// Success
+	return FALSE;
+
+fail:
+	return TRUE;
+}
+
+static void
+gnm_glpk_read_solution (GnmGlpk *lp)
+{
+	GnmSubSolver *subsol = lp->parent;
+	GnmSolver *sol = GNM_SOLVER (subsol);
+	GsfInput *input;
+	GsfInputTextline *tl = NULL;
+	const char *line;
+	GnmSolverResult *result = NULL;
+	GnmSolverSensitivity *sensitivity = NULL;
+	enum { SEC_UNKNOWN, SEC_ROWS, SEC_COLUMNS } state;
+
+	input = gsf_input_stdio_new (lp->result_filename, NULL);
+	if (!input)
+		goto fail;
+	tl = GSF_INPUT_TEXTLINE (gsf_input_textline_new (input));
+	g_object_unref (input);
+
+	result = g_object_new (GNM_SOLVER_RESULT_TYPE, NULL);
+	result->solution = g_new0 (gnm_float, sol->input_cells->len);
+
+	sensitivity = gnm_solver_sensitivity_new (sol);
+
+	switch (gnm_glpk_detect_version (lp, tl)) {
+	case GLPK_457:
+		if (gnm_glpk_read_solution_457 (lp, tl, result, sensitivity))
+			goto fail;
+		break;
+	case GLPK_458:
+		if (gnm_glpk_read_solution_458 (lp, tl, result, sensitivity))
+			goto fail;
+		break;
+	default:
+		goto fail;
 	}
 
 	g_object_unref (tl);

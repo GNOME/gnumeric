@@ -1,3 +1,11 @@
+2017-01-22  Morten Welinder  <terra@gnome.org>
+
+	* gnm-glpk.c (gnm_glpk_detect_version): New function.
+	(gnm_glpk_read_solution_457): Extract from gnm_glpk_read_solution.
+	(gnm_glpk_read_solution_458): New function.
+	(gnm_glpk_read_solution): Detect file format version and call
+	appropriate parser.
+
 2016-08-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.32
