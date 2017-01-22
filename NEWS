@@ -14,6 +14,7 @@ Morten:
 	* Non-linear solver improvements.
 	* Avoid atomizing style regions with conditional formats.
 	* Adapt to glpk file format changes.
+	* Fix stf problems with text format.  [#777543]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.32

@@ -1243,7 +1243,7 @@ stf_cell_set_text (GnmCell *cell, char const *text)
 	const GODateConventions *date_conv =
 		workbook_date_conv (cell->base.sheet->workbook);
 
-	if (*text == '=' && text[1] != 0) {
+	if (!go_format_is_text (fmt) && *text == '=' && text[1] != 0) {
 		GnmExprParseFlags flags =
 			GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID;
 		const char *expr_start = text + 1;
@@ -1359,6 +1359,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 		line = g_ptr_array_index (lines, lrow);
 
 		for (lcol = 0; lcol < line->len; lcol++) {
+			GOFormat const *fmt = g_ptr_array_index (parseoptions->formats, lcol);
 			char const *text = g_ptr_array_index (line, lcol);
 			gboolean want_col =
 				(parseoptions->col_import_array == NULL ||
@@ -1379,7 +1380,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 			}
 			if (text && *text) {
 				GnmCell *cell = sheet_cell_fetch (sheet, col, row);
-				if (lcol < parseoptions->formats_decimal->len &&
+				if (!go_format_is_text (fmt) &&
+				    lcol < parseoptions->formats_decimal->len &&
 				    g_ptr_array_index (parseoptions->formats_decimal, lcol)) {
 					GOFormatFamily fam;
 					GnmValue *v = format_match_decimal_number_with_locale

@@ -550,7 +550,13 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 		g_main_context_iteration (NULL, TRUE);
 	}
 
-	if (sol->status != GNM_SOLVER_STATUS_DONE) {
+	switch (sol->status) {
+	case GNM_SOLVER_STATUS_DONE:
+		break;
+	case GNM_SOLVER_STATUS_CANCELLED:
+		g_printerr ("Solver reached time or iteration limit\n");
+		break;
+	default:
 		g_set_error (&err, go_error_invalid (), 0,
 			     _("Solver ran, but failed"));
 		goto done;

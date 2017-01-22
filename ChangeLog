@@ -1,3 +1,10 @@
+2017-01-22  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_cell_set_text): Don't parse "=..." as
+	expression for text formatted cells.
+	(stf_parse_sheet): Don't try number parsing for text formatted
+	columns.  Fixes #777543.
+
 2017-01-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (cb_assign_string), (gnm_go_data_vector_get_str): use cell
