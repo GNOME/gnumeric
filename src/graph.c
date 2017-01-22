@@ -1,5 +1,4 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * graph.c: The gnumeric specific data wrappers for GOffice
  *
@@ -867,16 +866,24 @@ gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 
 }
 
+struct string_closure {
+	GPtrArray *strs;
+	GODateConventions const *date_conv;
+};
+
 static gpointer
-cb_assign_string (GnmCellIter const *iter, GPtrArray *strs)
+cb_assign_string (GnmCellIter const *iter, struct string_closure *closure)
 {
 	GnmValue *v = NULL;
+	char *str = NULL;
 
 	if (iter->cell != NULL) {
 		gnm_cell_eval (iter->cell);
 		v = iter->cell->value;
 	}
-	g_ptr_array_add (strs, v);
+	if (v != NULL)
+		str = format_value (gnm_cell_get_format (iter->cell), v, -1, closure->date_conv);
+	g_ptr_array_add (closure->strs, str);
 
 	return NULL;
 }
@@ -898,63 +905,73 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	eval_pos_init_dep (&ep, &vec->dep);
 	if (VALUE_IS_ARRAY (vec->val)) {
 		/* we need to cache the strings if needed */
-		int len = vec->val->v_array.y * vec->val->v_array.x;
-		int x = 0, y = vec->val->v_array.y;
-		while (len-- > 0) {
-			if (x == 0) {
-				x = vec->val->v_array.x;
-				y--;
-			}
-			x--;
-			v = vec->val->v_array.vals [x][y];
+		if (vec->strs == NULL) {
+			int len = vec->val->v_array.y * vec->val->v_array.x;
+			int x = 0, y = vec->val->v_array.y;
+			struct string_closure closure;
+			closure.strs = vec->strs = g_ptr_array_new_with_free_func (g_free);
+			closure.date_conv = ep.sheet ? workbook_date_conv (ep.sheet->workbook) : NULL;
+			while (len-- > 0) {
+				if (x == 0) {
+					x = vec->val->v_array.x;
+					y--;
+				}
+				x--;
+				v = vec->val->v_array.vals [x][y];
 
-			if (VALUE_IS_CELLRANGE (v)) {
-				/* actually we only need to cache in that case */
-				Sheet *start_sheet, *end_sheet;
-				GnmRange r;
-				if (vec->strs == NULL)
-					vec->strs = g_ptr_array_new ();
-				gnm_rangeref_normalize (&v->v_range.cell,
-					eval_pos_init_dep (&ep, &vec->dep),
-					&start_sheet, &end_sheet, &r);
+				if (VALUE_IS_CELLRANGE (v)) {
+					/* actually we only need to cache in that case */
+					Sheet *start_sheet, *end_sheet;
+					GnmRange r;
+					gnm_rangeref_normalize (&v->v_range.cell,
+						eval_pos_init_dep (&ep, &vec->dep),
+						&start_sheet, &end_sheet, &r);
 
-				/* clip here rather than relying on sheet_foreach
-				 * because that only clips if we ignore blanks */
-				if (r.end.row > start_sheet->rows.max_used)
-					r.end.row = start_sheet->rows.max_used;
-				if (r.end.col > start_sheet->cols.max_used)
-					r.end.col = start_sheet->cols.max_used;
+					/* clip here rather than relying on sheet_foreach
+					 * because that only clips if we ignore blanks */
+					if (r.end.row > start_sheet->rows.max_used)
+						r.end.row = start_sheet->rows.max_used;
+					if (r.end.col > start_sheet->cols.max_used)
+						r.end.col = start_sheet->cols.max_used;
 
-				if (r.start.col <= r.end.col && r.start.row <= r.end.row)
-					sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
-						r.start.col, r.start.row, r.end.col, r.end.row,
-						(CellIterFunc)cb_assign_string, vec->strs);
+					if (r.start.col <= r.end.col && r.start.row <= r.end.row)
+						sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
+							r.start.col, r.start.row, r.end.col, r.end.row,
+							(CellIterFunc)cb_assign_string, &closure);
+				}
 			}
 		}
 		if (vec->strs && vec->strs->len > i)
-			v = g_ptr_array_index (vec->strs, i);
+			ret = g_ptr_array_index (vec->strs, i);
+		if (ret != NULL)
+			return g_strdup (ret);
 	} else if (VALUE_IS_CELLRANGE (vec->val)) {
 		Sheet *start_sheet, *end_sheet;
 		GnmRange r;
-		if (vec->strs == NULL)
-			vec->strs = g_ptr_array_new ();
-		gnm_rangeref_normalize (&vec->val->v_range.cell,
-			eval_pos_init_dep (&ep, &vec->dep),
-			&start_sheet, &end_sheet, &r);
+		if (vec->strs == NULL) {
+			struct string_closure closure;
+			closure.strs = vec->strs = g_ptr_array_new_with_free_func (g_free);
+			closure.date_conv = ep.sheet ? workbook_date_conv (ep.sheet->workbook) : NULL;
+			gnm_rangeref_normalize (&vec->val->v_range.cell,
+				eval_pos_init_dep (&ep, &vec->dep),
+				&start_sheet, &end_sheet, &r);
 
-		/* clip here rather than relying on sheet_foreach
-		 * because that only clips if we ignore blanks */
-		if (r.end.row > start_sheet->rows.max_used)
-			r.end.row = start_sheet->rows.max_used;
-		if (r.end.col > start_sheet->cols.max_used)
-			r.end.col = start_sheet->cols.max_used;
+			/* clip here rather than relying on sheet_foreach
+			 * because that only clips if we ignore blanks */
+			if (r.end.row > start_sheet->rows.max_used)
+				r.end.row = start_sheet->rows.max_used;
+			if (r.end.col > start_sheet->cols.max_used)
+				r.end.col = start_sheet->cols.max_used;
 
-		if (r.start.col <= r.end.col && r.start.row <= r.end.row)
-			sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
-				r.start.col, r.start.row, r.end.col, r.end.row,
-				(CellIterFunc)cb_assign_string, vec->strs);
+			if (r.start.col <= r.end.col && r.start.row <= r.end.row)
+				sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
+					r.start.col, r.start.row, r.end.col, r.end.row,
+					(CellIterFunc)cb_assign_string, &closure);
+		}
 		if (vec->strs && vec->strs->len > i)
-			v = g_ptr_array_index (vec->strs, i);
+			ret = g_ptr_array_index (vec->strs, i);
+		if (ret != NULL)
+			return g_strdup (ret);
 	}
 	if (vec->as_col)
 		j = 0;

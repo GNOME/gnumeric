@@ -1,3 +1,8 @@
+2017-01-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (cb_assign_string), (gnm_go_data_vector_get_str): use cell
+	format when generating the string. [#777338]
+
 2017-01-19  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (ELEM_IS_EQ): Don't compare conditions by pointer.
