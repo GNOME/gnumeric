@@ -394,7 +394,7 @@ gnm_style_hash (gconstpointer style)
     ? a->input_msg == b->input_msg					\
     : (elem == MSTYLE_CONDITIONS					\
     ? (a->conditions == b->conditions ||				\
-       (a->conditions &&						\
+       (a->conditions && b->conditions &&				\
 	gnm_style_conditions_equal (a->conditions, b->conditions)))	\
     : FALSE)))))))))))))))))))))))))
 
