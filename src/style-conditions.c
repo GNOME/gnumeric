@@ -657,6 +657,30 @@ gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
 	return negate ? !res : res;
 }
 
+static gboolean
+gnm_style_cond_equal (GnmStyleCond const *ca, GnmStyleCond const *cb)
+{
+	unsigned oi, N;
+
+	if (ca->op != cb->op)
+		return FALSE;
+
+	if (!gnm_style_equal (ca->overlay, cb->overlay))
+		return FALSE;
+
+	N = gnm_style_cond_op_operands (ca->op);
+	for (oi = 0; oi < N; oi++) {
+		if (ca->deps[oi].sheet != cb->deps[oi].sheet)
+			return FALSE;
+		if (!gnm_expr_top_equal (ca->deps[oi].texpr,
+					 cb->deps[oi].texpr))
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
+
 static void
 gnm_style_conditions_finalize (GObject *obj)
 {
@@ -792,24 +816,10 @@ gnm_style_conditions_equal (GnmStyleConditions const *sca,
 		return FALSE;
 
 	for (ui = 0; ui < ga->len; ui++) {
-		GnmStyleCond *ca = g_ptr_array_index (ga, ui);
-		GnmStyleCond *cb = g_ptr_array_index (gb, ui);
-		unsigned oi, N;
-
-		if (ca->op != cb->op)
+		GnmStyleCond const *ca = g_ptr_array_index (ga, ui);
+		GnmStyleCond const *cb = g_ptr_array_index (gb, ui);
+		if (!gnm_style_cond_equal (ca, cb))
 			return FALSE;
-
-		if (!gnm_style_equal (ca->overlay, cb->overlay))
-			return FALSE;
-
-		N = gnm_style_cond_op_operands (ca->op);
-		for (oi = 0; oi < N; oi++) {
-			if (ca->deps[oi].sheet != cb->deps[oi].sheet)
-				return FALSE;
-			if (!gnm_expr_top_equal (ca->deps[oi].texpr,
-						 cb->deps[oi].texpr))
-				return FALSE;
-		}
 	}
 
 	return TRUE;
