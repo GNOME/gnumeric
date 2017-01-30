@@ -1153,7 +1153,6 @@ src/widgets/Makefile
 src/tools/Makefile
 src/cut-n-paste-code/Makefile
 doc/Makefile
-doc/C/Makefile
 plugins/Makefile
 plugins/fn-christian-date/Makefile
 plugins/fn-complex/Makefile
