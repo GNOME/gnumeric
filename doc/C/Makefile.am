@@ -60,7 +60,7 @@ gnumeric.chm: gnumeric.hhmap
 endif
 
 EXTRA_DIST += $(manpage_DATA) \
-	gnumeric-docbook-2-htmlhelp.xsl gnumeric-C.omf
+	gnumeric-docbook-2-htmlhelp.xsl
 
 if ENABLE_PDFDOCS
 EXTRA_DIST += gnumeric.pdf
