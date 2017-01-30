@@ -1,3 +1,7 @@
+2017-01-30  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.33
+
 2016-08-21  Morten Welinder  <terra@gnome.org>
 
 	* t8050-valgrind-sstest.pl: Use the --fast option for sstest.
