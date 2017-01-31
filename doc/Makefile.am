@@ -527,7 +527,7 @@ HELP_MEDIA= \
 
 install-exec-hook:
 	for d in C $(HELP_LINGUAS); do \
-		helpdir="$(HELP_DIR)/$$d/$(HELP_ID)"; \
+		helpdir="$(DESTDIR)$(HELP_DIR)/$$d/$(HELP_ID)"; \
 		install -d $$helpdir; \
 		$(RM) $$helpdir/index.docbook; \
 		$(LN_S) gnumeric.xml $$helpdir/index.docbook; \
@@ -535,7 +535,7 @@ install-exec-hook:
 
 uninstall-hook:
 	for d in C $(HELP_LINGUAS); do \
-		helpdir="$(HELP_DIR)/$$d/$(HELP_ID)"; \
+		helpdir="$(DESTDIR)$(HELP_DIR)/$$d/$(HELP_ID)"; \
 		$(RM) $$helpdir/index.docbook; \
 	done
 
