@@ -286,7 +286,7 @@
 @{z}: a complex number
 @{lower}: if true (the default), the lower incomplete gamma function, otherwise the upper incomplete gamma function
 @{regularize}: if true (the default), the regularized version of the incomplete gamma function
-@NOTE=The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(@{a})
+@NOTE=The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(@{a}).
 @SEEALSO=GAMMA,IMIGAMMA
 
 @CATEGORY=Complex
@@ -2583,7 +2583,7 @@ The depreciation coefficient used is:
 @ARGUMENTDESCRIPTION=@{rate}: effective annual interest rate
 @{values}: cash flow
 @{dates}: dates of cash flow
-@DESCRIPTION=XNPV calculates the net present value of a cash flow at irregular times
+@DESCRIPTION=XNPV calculates the net present value of a cash flow at irregular times.
 @NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=NPV
 
@@ -3480,7 +3480,7 @@ The depreciation coefficient used is:
 @SHORTDESC=eigenvalues and eigenvectors of the symmetric @{matrix}
 @SYNTAX=EIGEN(matrix)
 @ARGUMENTDESCRIPTION=@{matrix}: a symmetric matrix
-@NOTE=If @{matrix} is not symmetric, EIGEN returns #NUM! If @{matrix} does not contain an equal number of columns and rows, EIGEN returns #VALUE!
+@NOTE=If @{matrix} is not symmetric, matching off-diagonal cells will be averaged on the assumption that the non-symmetry is caused by unimportant rounding errors. If @{matrix} does not contain an equal number of columns and rows, EIGEN returns #VALUE!
 
 @CATEGORY=Mathematics
 @FUNCTION=EVEN
@@ -5007,7 +5007,7 @@ LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }.
 @{known_xs}: known x-values
 @DESCRIPTION=LOGFIT function applies the “least squares” method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).
 LOGFIT returns an array having five columns and one row. `Sign' is given in the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 holds the sum of squared residuals.
-@NOTE=An error is returned when there are less than 3 different x's or y's, or when the shape of the point cloud is too different from a ``logarithmic'' one. You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, respectively.  This is non-linear fitting by trial-and-error. The accuracy of `c' is: width of x-range -> rounded to the next smaller (10^integer), times 0.000001. There might be cases in which the returned fit is not the best possible.
+@NOTE=An error is returned when there are less than 3 different x's or y's, or when the shape of the point cloud is too different from a ``logarithmic'' one. You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, respectively. This is non-linear fitting by trial-and-error. The accuracy of `c' is: width of x-range -> rounded to the next smaller (10^integer), times 0.000001. There might be cases in which the returned fit is not the best possible.
 @SEEALSO=LOGREG,LINEST,LOGEST
 
 @CATEGORY=Statistics
@@ -5260,7 +5260,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SYNTAX=PERMUTATIONA(x,y)
 @ARGUMENTDESCRIPTION=@{x}: total number of objects
 @{y}: number of selected objects
-@NOTE=If both @{x} and @{y} equal 0, PERMUTATIONA returns 1. If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM! If @{x} or @{y} are not integers, they are truncated
+@NOTE=If both @{x} and @{y} equal 0, PERMUTATIONA returns 1. If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM! If @{x} or @{y} are not integers, they are truncated.
 @ODF=This function is OpenFormula compatible.
 @SEEALSO=POWER
 
@@ -6007,7 +6007,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @ARGUMENTDESCRIPTION=@{x}: number whose rank you want to find
 @{ref}: list of numbers
 @{order}: 0 (descending order) or non-zero (ascending order); defaults to 0
-@NOTE=In case of a tie, RANK returns the average rank.
+@NOTE=In case of a tie, RANK.AVG returns the average rank.
 @EXCEL=This function is Excel 2010 compatible.
 @SEEALSO=PERCENTRANK,RANK
 

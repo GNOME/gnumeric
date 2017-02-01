@@ -17,6 +17,8 @@
 use strict;
 use warnings;
 use diagnostics;
+use open IO => ':utf8';
+binmode STDOUT, ':utf8';
 
 #
 # Global state that we need to track
@@ -41,10 +43,10 @@ sub quote_stuff($) {
 	my ($str) = @_;
 
 	# Let's do this one first...
-	$str =~ s/\&/\&amp;/g;
+	$str =~ s/\&/\&amp;/gu;
 
-	$str =~ s/</\&lt;/g;
-	$str =~ s/>/\&gt;/g;
+	$str =~ s/</\&lt;/gu;
+	$str =~ s/>/\&gt;/gu;
 	return $str;
 }
 
@@ -52,9 +54,9 @@ sub markup_stuff($) {
 	my ($str) = @_;
 
 	$str = &quote_stuff ($str);
-	$str =~ s/\b$curfunc\b/<function>$curfunc<\/function>/g;
-	$str =~ s/\@\{([^\}]*)\}/<parameter>$1<\/parameter>/g;
-	$str =~ s/\@(\w*)\b/<parameter>$1<\/parameter>/g;
+	$str =~ s/\b$curfunc\b/<function>$curfunc<\/function>/gu;
+	$str =~ s/\@\{([^}]*)\}/<parameter>$1<\/parameter>/gu;
+	$str =~ s/\@(\w*)\b/<parameter>$1<\/parameter>/gu;
 	return $str;
 }
 
@@ -102,8 +104,8 @@ sub process_category($) {
 
 		# And start on the new one
 		my $cat_id = "CATEGORY_" . $cat;
-		$cat_id =~ s/\s+/_/g;
-		$cat_id =~ s/[^A-Za-z_]//g;
+		$cat_id =~ s/\s+/_/gg;
+		$cat_id =~ s/[^A-Za-z_]//gu;
 		print $ws, "<sect1 id=\"$cat_id\">\n";
 		print $ws, "  <title>", &quote_stuff ($cat), "</title>\n";
 		push @tagstack, ('</sect1>');
@@ -200,7 +202,7 @@ sub process_syntax($) {
 	my ($str) = @_;
 	my $ws = "  " x scalar(@tagstack);
 	$str = &markup_stuff ($str);
-	$str =~ s/([\(\,])(\w*)/$1<parameter>$2<\/parameter>/g;
+	$str =~ s/([\(\,])(\w*)/$1<parameter>$2<\/parameter>/gu;
 	print $ws, "<refsynopsisdiv>\n";
 	print $ws, "  <synopsis>$str</synopsis>\n";
 	print $ws, "</refsynopsisdiv>\n";
@@ -219,8 +221,8 @@ sub process_seealso($) {
 	my ($text) = @_;
 
 	my $linktxt = $text;
-	$linktxt =~ s/\s//g;
-	$linktxt =~ s/\.$//;
+	$linktxt =~ s/\s//gu;
+	$linktxt =~ s/\.$//u;
 	my @links = split (/,/, $linktxt);
 
 	my $ws = "  " x scalar(@tagstack);

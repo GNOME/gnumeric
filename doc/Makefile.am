@@ -539,12 +539,12 @@ uninstall-hook:
 		$(RM) $$helpdir/index.docbook; \
 	done
 
-functions_xml_parts = func.defs func-header.xml func-footer.xml
+functions_xml_parts = func.defs C/func-header.xml C/func-footer.xml
 
-functions.xml: $(gnumeric_docdir)/make-func-list.pl $(functions_xml_parts)
-	(cat $(srcdir)/func-header.xml ;				\
-	 $(PERL) $(gnumeric_docdir)/make-func-list.pl func.defs ;	\
-	 cat $(srcdir)/func-footer.xml					\
+functions.xml: $(srcdir)/make-func-list.pl $(functions_xml_parts)
+	(cat $(srcdir)/C/func-header.xml ;				\
+	 $(PERL) $(srcdir)/make-func-list.pl func.defs ;	\
+	 cat $(srcdir)/C/func-footer.xml				\
 	) >functions.tmp ;						\
 	if xmllint -noent --format --encode "UTF-8" functions.tmp >functions.out ; then	\
 	    mv functions.out $@; rm functions.tmp;					\

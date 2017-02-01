@@ -3667,7 +3667,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BESSELI</function>(<parameter>X</parameter>,<parameter/>α)</synopsis>
+        <synopsis><function>BESSELI</function>(<parameter>X</parameter>,<parameter>α</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -3705,7 +3705,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BESSELJ</function>(<parameter>X</parameter>,<parameter/>α)</synopsis>
+        <synopsis><function>BESSELJ</function>(<parameter>X</parameter>,<parameter>α</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -3743,7 +3743,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BESSELK</function>(<parameter>X</parameter>,<parameter/>α)</synopsis>
+        <synopsis><function>BESSELK</function>(<parameter>X</parameter>,<parameter>α</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -3781,7 +3781,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BESSELY</function>(<parameter>X</parameter>,<parameter/>α)</synopsis>
+        <synopsis><function>BESSELY</function>(<parameter>X</parameter>,<parameter>α</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -11434,7 +11434,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>matrix</parameter> is not symmetric, <function>EIGEN</function> returns #NUM! If <parameter>matrix</parameter> does not contain an equal number of columns and rows, <function>EIGEN</function> returns #VALUE!</para>
+        <para>If <parameter>matrix</parameter> is not symmetric, matching off-diagonal cells will be averaged on the assumption that the non-symmetry is caused by unimportant rounding errors. If <parameter>matrix</parameter> does not contain an equal number of columns and rows, <function>EIGEN</function> returns #VALUE!</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-function-EVEN">
@@ -14605,7 +14605,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>RANDLEVY</function>(<parameter>c</parameter>,<parameter/>α,<parameter/>β)</synopsis>
+        <synopsis><function>RANDLEVY</function>(<parameter>c</parameter>,<parameter>α</parameter>,<parameter>β</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -14701,7 +14701,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>RANDLOGNORM</function>(<parameter/>ζ,<parameter/>σ)</synopsis>
+        <synopsis><function>RANDLOGNORM</function>(<parameter>ζ</parameter>,<parameter>σ</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -14766,7 +14766,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>RANDNORM</function>(<parameter/>μ,<parameter/>σ)</synopsis>
+        <synopsis><function>RANDNORM</function>(<parameter>μ</parameter>,<parameter>σ</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -14798,7 +14798,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>RANDNORMTAIL</function>(<parameter>a</parameter>,<parameter/>σ)</synopsis>
+        <synopsis><function>RANDNORMTAIL</function>(<parameter>a</parameter>,<parameter>σ</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -14858,7 +14858,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>RANDPOISSON</function>(<parameter/>λ)</synopsis>
+        <synopsis><function>RANDPOISSON</function>(<parameter>λ</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -14890,7 +14890,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>RANDRAYLEIGH</function>(<parameter/>σ)</synopsis>
+        <synopsis><function>RANDRAYLEIGH</function>(<parameter>σ</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -14917,7 +14917,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>RANDRAYLEIGHTAIL</function>(<parameter>a</parameter>,<parameter/>σ)</synopsis>
+        <synopsis><function>RANDRAYLEIGHTAIL</function>(<parameter>a</parameter>,<parameter>σ</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -14946,7 +14946,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>RANDSNORM</function>(<parameter/>𝛼,<parameter/>𝜉,<parameter/>𝜔)</synopsis>
+        <synopsis><function>RANDSNORM</function>(<parameter>𝛼</parameter>,<parameter>𝜉</parameter>,<parameter>𝜔</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -14984,7 +14984,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>RANDSTDIST</function>(<parameter>df</parameter>,<parameter/>𝛼)</synopsis>
+        <synopsis><function>RANDSTDIST</function>(<parameter>df</parameter>,<parameter>𝛼</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -20327,7 +20327,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>In case of a tie, RANK.AVG returns the average rank.</para>
+        <para>In case of a tie, <function>RANK.AVG</function> returns the average rank.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -22879,7 +22879,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>HPFILTER</function>(<parameter>Sequence</parameter>,<parameter/>λ)</synopsis>
+        <synopsis><function>HPFILTER</function>(<parameter>Sequence</parameter>,<parameter>λ</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
