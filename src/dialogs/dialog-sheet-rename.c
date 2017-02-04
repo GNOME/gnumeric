@@ -42,14 +42,15 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkWidget *old_name, *new_name;
 	GtkWidget *ok_button, *cancel_button;
+	gint signal_connect_id_cb_dialog_size_allocate;
 } RenameState;
 
 static void
 cb_name_changed (GtkEntry *e, RenameState *state)
 {
-	const char *name = gtk_entry_get_text (e);
-	gboolean valid;
+	const gchar *name = gtk_entry_get_text (e);
 	Sheet *sheet2 = workbook_sheet_by_name (state->sheet->workbook, name);
+	gboolean valid;
 
 	valid = (*name != 0) && (sheet2 == NULL || sheet2 == state->sheet);
 
@@ -59,13 +60,65 @@ cb_name_changed (GtkEntry *e, RenameState *state)
 static void
 cb_ok_clicked (RenameState *state)
 {
-	const char *name = gtk_entry_get_text (GTK_ENTRY (state->new_name));
+	const gchar *name = gtk_entry_get_text (GTK_ENTRY (state->new_name));
 
-	cmd_rename_sheet (GNM_WBC (state->wbcg),
+	if (! cmd_rename_sheet (GNM_WBC (state->wbcg),
 			  state->sheet,
-			  name);
+			  name))
+		gtk_widget_destroy (state->dialog);
+}
 
-	gtk_widget_destroy (state->dialog);
+static void
+gtk_entry_set_size_all_text_visible (GtkEntry *entry)
+{
+	PangoContext *context;
+	PangoFontMetrics *metrics;
+	gint char_width;
+	gint digit_width;
+	gint char_pixels;
+	PangoLayout *pango_layout;
+	gint char_count;
+	gint min_width;
+	gint actual_width;
+
+	/* Logic borrowed from GtkEntry::gtk_entry_measure() */
+	context = gtk_widget_get_pango_context (GTK_WIDGET (entry));
+	metrics = pango_context_get_metrics (context,
+					     pango_context_get_font_description (context),
+					     pango_context_get_language (context));
+
+	char_width = pango_font_metrics_get_approximate_char_width (metrics);
+	digit_width = pango_font_metrics_get_approximate_digit_width (metrics);
+	char_pixels = (MAX (char_width, digit_width) + PANGO_SCALE - 1) / PANGO_SCALE;
+
+	pango_layout = gtk_entry_get_layout (entry);
+	char_count = pango_layout_get_character_count (pango_layout);
+	min_width = char_pixels * char_count;
+	actual_width = gtk_widget_get_allocated_width (GTK_WIDGET (entry));
+
+	if (actual_width < min_width)
+		gtk_entry_set_width_chars (entry, char_count);
+}
+
+static void
+cb_dialog_size_allocate (GtkWidget *dialog, GdkRectangle *allocation, RenameState *state)
+{
+	GdkGeometry hints;
+
+	g_signal_handler_disconnect (G_OBJECT (dialog),
+				     state->signal_connect_id_cb_dialog_size_allocate);
+
+	/* dummy values for min/max_width to not restrict horizontal resizing */
+	hints.min_width = 0;
+	hints.max_width = G_MAXINT;
+	/* do not allow vertial resizing */
+	hints.min_height = allocation->height;
+	hints.max_height = allocation->height;
+	gtk_window_set_geometry_hints (GTK_WINDOW (dialog), (GtkWidget *) NULL,
+				       &hints,
+				       (GdkWindowHints) (GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE));
+
+	gtk_entry_set_size_all_text_visible (GTK_ENTRY (state->new_name));
 }
 
 void
@@ -81,19 +134,26 @@ dialog_sheet_rename (WBCGtk *wbcg, Sheet *sheet)
 		return;
 
 	state = g_new (RenameState, 1);
-	state->wbcg   = wbcg;
+	state->wbcg = wbcg;
 	state->dialog = go_gtk_builder_get_widget (gui, "Rename");
 	state->sheet = sheet;
 	g_return_if_fail (state->dialog != NULL);
+
+	state->signal_connect_id_cb_dialog_size_allocate =
+		g_signal_connect (G_OBJECT (state->dialog),
+				  "size-allocate",
+				  G_CALLBACK (cb_dialog_size_allocate),
+				  state);
 
 	state->old_name = go_gtk_builder_get_widget (gui, "old_name");
 	gtk_entry_set_text (GTK_ENTRY (state->old_name), sheet->name_unquoted);
 
 	state->new_name = go_gtk_builder_get_widget (gui, "new_name");
 	gtk_entry_set_text (GTK_ENTRY (state->new_name), sheet->name_unquoted);
+
 	gtk_editable_select_region (GTK_EDITABLE (state->new_name), 0, -1);
 	gtk_widget_grab_focus (state->new_name);
-	g_signal_connect (state->new_name,
+	g_signal_connect (G_OBJECT (state->new_name),
 			  "changed", G_CALLBACK (cb_name_changed),
 			  state);
 	gnm_editable_enters (GTK_WINDOW (state->dialog), state->new_name);
@@ -115,8 +175,8 @@ dialog_sheet_rename (WBCGtk *wbcg, Sheet *sheet)
 			       RENAME_DIALOG_KEY);
 
 	g_object_set_data_full (G_OBJECT (state->dialog),
-	                        "state", state,
-	                        (GDestroyNotify) g_free);
+				"state", state,
+				(GDestroyNotify) g_free);
 	g_object_unref (gui);
 
 	gtk_widget_show (state->dialog);

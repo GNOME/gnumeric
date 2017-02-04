@@ -17,6 +17,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
+            <property name="margin-top">5</property>
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="label">gtk-cancel</property>
@@ -67,6 +68,8 @@
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="xalign">0.0</property>
+                <property name="margin-end">5</property>
                 <property name="label" translatable="yes">Old Name:</property>
               </object>
               <packing>
@@ -80,6 +83,8 @@
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="xalign">0.0</property>
+                <property name="margin-end">5</property>
                 <property name="label" translatable="yes">New Name:</property>
               </object>
               <packing>
@@ -94,6 +99,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="editable">False</property>
+                <property name="hexpand">True</property>
                 <property name="invisible_char">●</property>
               </object>
               <packing>
@@ -107,6 +113,7 @@
               <object class="GtkEntry" id="new_name">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="invisible_char">●</property>
               </object>
               <packing>
