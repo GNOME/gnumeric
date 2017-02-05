@@ -539,22 +539,22 @@ uninstall-hook:
 		$(RM) $$helpdir/index.docbook; \
 	done
 
-functions_xml_parts = func.defs C/func-header.xml C/func-footer.xml
+functions_xml_parts = C/func.defs C/func-header.xml C/func-footer.xml
 
-functions.xml: $(srcdir)/make-func-list.pl $(functions_xml_parts)
+C/functions.xml: $(srcdir)/make-func-list.pl $(functions_xml_parts)
 	(cat $(srcdir)/C/func-header.xml ;				\
-	 $(PERL) $(srcdir)/make-func-list.pl func.defs ;	\
+	 $(PERL) $(srcdir)/make-func-list.pl C/func.defs ;		\
 	 cat $(srcdir)/C/func-footer.xml				\
 	) >functions.tmp ;						\
 	if xmllint -noent --format --encode "UTF-8" functions.tmp >functions.out ; then	\
 	    mv functions.out $@; rm functions.tmp;					\
 	fi
 
-func.defs: $(top_builddir)/src/gnumeric$(EXEEXT)
+C/func.defs: $(top_builddir)/src/gnumeric$(EXEEXT)
 	LC_ALL="$(locale)" ; export LC_ALL ; $(top_builddir)/src/gnumeric --dump-func-defs="$@"
 
-EXTRA_DIST+=func.defs
-DISTCLEANFILES+=func.defs
+EXTRA_DIST+=C/func.defs
+DISTCLEANFILES+=C/func.defs
 
 EXTRA_DIST+=textdefs.tex
 if ENABLE_PDFDOCS
