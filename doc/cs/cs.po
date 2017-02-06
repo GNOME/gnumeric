@@ -47350,7 +47350,7 @@ msgstr ""
 "'GnumericErrorVALUE', 'MStyle', 'Range', 'TRUE', '__doc__',\n"
 "'__name__', <co id=\"functions\"/>'functions', 'plugin_info', 'workbook_new', 'workbooks'] \n"
 "\n"
-""
+" "
 
 #. (itstool) path: callout/para
 #: C/gnumeric.xml:614
@@ -47441,7 +47441,7 @@ msgstr ""
 "\n"
 "&gt;&gt;&gt; str(a)                                # Úplně skvělé\n"
 "'B3'                                      # JK to zatím nemá zavedené pro dvojice\n"
-""
+" "
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:668
@@ -47480,7 +47480,7 @@ msgstr ""
 "\n"
 "&gt;&gt;&gt; r.get_tuple()\n"
 "(3, 7, 3, 7)\n"
-""
+" "
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:687
