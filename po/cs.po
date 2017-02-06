@@ -2134,7 +2134,7 @@ msgstr "perl_func.pl neexistuje."
 
 #: ../plugins/perl-loader/plugin.xml.in.h:1
 msgid "Perl plugin loader"
-msgstr "Načítání zásuvných modulů v jazyce Perl"
+msgstr "Zavaděč zásuvných modulů v jazyce Perl"
 
 #: ../plugins/perl-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Perl plugins"
@@ -2213,7 +2213,7 @@ msgstr "Výchozí interpretr"
 
 #: ../plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
-msgstr "Načítání zásuvných modulů v jazyce Python"
+msgstr "Zavaděč zásuvných modulů v jazyce Python"
 
 #: ../plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
@@ -12726,7 +12726,7 @@ msgstr "Selhalo vytvoření dočasného souboru pro tisk: %s"
 
 #: ../src/print.c:1877
 msgid "Gnumeric Print Range"
-msgstr "Rozsah tisku Gnumeric"
+msgstr "Rozsah tisku"
 
 #: ../src/print.c:1893
 msgid "Print to File"
