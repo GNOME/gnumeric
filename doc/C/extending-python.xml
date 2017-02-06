@@ -265,7 +265,7 @@
                   <emphasis>$root</emphasis> <literal>dpkg -i
                   gnum*deb</literal> (presuming you don't have other
                   .deb packages beginning with "gnum" lying around
-                  here.
+                  here).
                 </para>
               </step>
 
@@ -276,7 +276,7 @@
             <para>
               You may or may not want to remove those .deb files now:
               <emphasis>$root</emphasis> <literal>rm
-              gnum*deb</literal>)
+              gnum*deb</literal>
             </para>
            </step>
        </procedure>
@@ -515,7 +515,7 @@ git://git.gnome.org/gnumeric gnumeric-head</literal></para></step>
             <para>
               <literal>gnumeric --version</literal> to make sure you
               get the right version name for the following. (You'll
-              have to do this for every new version of Gnumeric!).
+              have to do this for every new version of Gnumeric!)
             </para>
           </step>
 
@@ -605,8 +605,7 @@ git://git.gnome.org/gnumeric gnumeric-head</literal></para></step>
 'GnumericErrorNA', 'GnumericErrorNAME', 'GnumericErrorNULL',
 'GnumericErrorNUM', 'GnumericErrorRECALC', 'GnumericErrorREF',
 'GnumericErrorVALUE', 'MStyle', 'Range', 'TRUE', '__doc__',
-'__name__', <co id="functions"></co>'functions', 'plugin_info', 'workbook_new', 'workbooks'] 
-
+'__name__', <co id="functions"></co>'functions', 'plugin_info', 'workbook_new', 'workbooks']
       </programlisting>
 
       <calloutlist>
@@ -682,7 +681,7 @@ TypeError: Range() argument 1 must be CellPos, not tuple
 
 >>> r.get_tuple()
 (3, 7, 3, 7)
-	  </programlisting>
+       </programlisting>
 
 	  <para>If you
 		evaluate in the context of a plugin (rather than in Default), then

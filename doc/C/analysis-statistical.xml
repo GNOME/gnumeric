@@ -1626,7 +1626,7 @@
 </example>
 
   <figure id="smoothing-example-6">
-    <title>Exponential Smoothing Tool Options (Additive Holt-Winters))</title>
+    <title>Exponential Smoothing Tool Options (Additive Holt-Winters)</title>
     <screenshot>
 	<mediaobject>
             <imageobject>
@@ -2360,7 +2360,7 @@
   </figure>
 
  <example id="usingpcanalysistool">
- <title>Using the Principal Component Analysis Tool Tool</title>
+ <title>Using the Principal Component Analysis Tool</title>
  <para>
     Suppose you want to perform a principal component analysis on the data
     given in <xref linkend="pcanalysis-example-1" /> having the two dimensions (factors) 
@@ -2596,7 +2596,7 @@
      this directly into the entry or clicking in the entry field and 
      then selecting the range on the sheet.</para></listitem>
      <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
-     option since the first row contains a label. (see 
+     option since the first row contains a label (see 
      <xref linkend="normality-example-2" />).</para></listitem>
      <listitem><para> On the test tab of the dialog
      (see <xref linkend="normality-example-3" />) select the

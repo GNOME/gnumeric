@@ -248,7 +248,7 @@
 		cutting,
 		<keycombo><keysym>Ctrl</keysym><keysym>x</keysym></keycombo>,
 		or pasting,
-		<keycombo><keysym>Ctrl</keysym><keysym>x</keysym></keycombo>,
+		<keycombo><keysym>Ctrl</keysym><keysym>v</keysym></keycombo>,
 		all work. The dialog uses filename matching to guess
 		file names based on the files already in the parent
 		folder.

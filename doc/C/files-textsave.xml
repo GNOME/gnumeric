@@ -294,7 +294,7 @@
 		    </para>
 		    <para>
 		      This button allows the user to select a character
-	              to use as a line separator. The "Custom" type
+	              to use as a value separator. The "Custom" type
 	              will active the text entry area to allow the
 	              user to determine a particular character or
 	              character sequence to use to delimit data
