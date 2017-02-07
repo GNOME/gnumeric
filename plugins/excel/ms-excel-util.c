@@ -758,10 +758,14 @@ xls_header_footer_import (GnmPrintHF **phf, const char *txt)
 
 	if (!hf)
 		*phf = hf = gnm_print_hf_new ("", "", "");
-
-	g_free (hf->left_format); hf->left_format = g_strdup ("");
-	g_free (hf->middle_format); hf->middle_format = g_strdup ("");
-	g_free (hf->right_format); hf->right_format = g_strdup ("");
+	else {
+		g_free (hf->left_format);
+		hf->left_format = g_strdup ("");
+		g_free (hf->middle_format);
+		hf->middle_format = g_strdup ("");
+		g_free (hf->right_format);
+		hf->right_format = g_strdup ("");
+	}
 
 	if (!txt)
 		return;

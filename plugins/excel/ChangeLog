@@ -1,3 +1,8 @@
+2017-02-07  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (wrap_sheet_new): New function to ensure we start
+	with blank header and footer.  Fixes #778292.
+
 2017-01-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.33

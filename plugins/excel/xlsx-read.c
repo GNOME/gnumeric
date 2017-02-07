@@ -319,6 +319,23 @@ typedef struct {
 } XLSXPaperDefs;
 
 
+static Sheet *
+wrap_sheet_new (Workbook *wb, char const *name, int columns, int rows)
+{
+	Sheet *sheet = sheet_new_with_type (wb, name, GNM_SHEET_DATA, columns, rows);
+	GnmPrintInformation *pi = sheet->print_info;
+
+	// Force a load of defaults here.
+	gnm_print_info_load_defaults (pi);
+
+	// We have different defaults for header and footer (namely blank)
+	xls_header_footer_import (&pi->header, NULL);
+	xls_header_footer_import (&pi->footer, NULL);
+
+	return sheet;
+}
+
+
 static void
 maybe_update_progress (GsfXMLIn *xin)
 {
@@ -3648,7 +3665,7 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	sheet =  workbook_sheet_by_name (state->wb, name);
 	if (NULL == sheet) {
-		sheet = sheet_new (state->wb, name, XLSX_MaxCol, XLSX_MaxRow);
+		sheet = wrap_sheet_new (state->wb, name, XLSX_MaxCol, XLSX_MaxRow);
 		workbook_sheet_attach (state->wb, sheet);
 	}
 	g_object_set (sheet, "visibility", viz, NULL);
@@ -3794,7 +3811,7 @@ xlsx_read_external_sheetname (GsfXMLIn *xin, xmlChar const **attrs)
 				workbook_sheet_attach
 					(state->external_ref,
 					 state->external_ref_sheet =
-					 sheet_new (state->external_ref, attrs[1], 256, 65536));
+					 wrap_sheet_new (state->external_ref, attrs[1], 256, 65536));
 		}
 }
 static void
