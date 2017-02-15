@@ -971,6 +971,37 @@ indexed_color (G_GNUC_UNUSED XLSXReadState *state, gint idx)
 				  xlsx_default_palette_v8[idx].b);
 }
 
+static gboolean
+themed_color_from_name (XLSXReadState *state, const char *name, GOColor *color)
+{
+	gpointer val;
+	gboolean dark = FALSE; // FIXME: from where?
+	static const struct {
+		const char *name;
+		const char *dark;
+		const char *light;
+	} aliases[] = {
+		{ "tx1", "dk1", "lt1" },
+		{ "tx2", "dk2", "lt2" }
+	};
+	unsigned ui;
+
+	if (g_hash_table_lookup_extended (state->theme_colors_by_name, name, NULL, &val)) {
+		*color = GPOINTER_TO_UINT (val);
+		return TRUE;
+	}
+
+	for (ui = 0; ui < G_N_ELEMENTS (aliases); ui++) {
+		if (strcmp (name, aliases[ui].name) == 0) {
+			name = dark ? aliases[ui].dark : aliases[ui].light;
+			return themed_color_from_name (state, name, color);
+		}
+	}
+
+	return FALSE;
+}
+
+
 static GOColor
 themed_color (GsfXMLIn *xin, gint idx)
 {
@@ -992,10 +1023,9 @@ themed_color (GsfXMLIn *xin, gint idx)
 	 * I'll make the assumption we should work by name rather than
 	 * index. */
 	if (idx >= 0 && idx < (int) G_N_ELEMENTS (theme_elements)) {
-		gpointer color = g_hash_table_lookup (state->theme_colors_by_name,
-						      theme_elements [idx]);
-		if (NULL != color)
-			return GPOINTER_TO_UINT (color);
+		GOColor color;
+		if (themed_color_from_name (state, theme_elements[idx], &color))
+			return color;
 
 		xlsx_warning (xin, _("Unknown theme color %d"), idx);
 	} else {

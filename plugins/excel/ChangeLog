@@ -1,3 +1,10 @@
+2017-02-14  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (themed_color_from_name): New function to handle
+	alias colours tx1 and tx2.
+	(themed_color): Use themed_color_from_name.
+	* xlsx-read-drawing.c (xlsx_draw_color_themed): Ditto.
+
 2017-02-07  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (wrap_sheet_new): New function to ensure we start

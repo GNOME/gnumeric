@@ -3,6 +3,7 @@ Gnumeric 1.12.34
 Morten:
 	* Doc fixes.
 	* Fix xlsx import with missing header/footer. [#778292]
+	* Minor xlsx import improvements with alias colors.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.33

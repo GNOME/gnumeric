@@ -461,16 +461,13 @@ xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 #endif
-
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	const char *colname = simple_string (xin, attrs);
 
 	if (colname) {
-		gpointer val;
-		if (g_hash_table_lookup_extended (state->theme_colors_by_name, colname, NULL, &val)) {
-			state->color = GPOINTER_TO_UINT (val);
+		if (themed_color_from_name (state, colname, &state->color))
 			color_set_helper (state);
-		} else
+		else
 			xlsx_warning (xin, _("Unknown color '%s'"), colname);
 	}
 }
