@@ -169,10 +169,24 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			if (!state->inhibit_text_pop)
 				xlsx_chart_pop_obj (state);
 		}
+	} else if (state->chart_tx != NULL) {
+		/* set the series title */
+		gog_series_set_dim (state->series, -1,
+			gnm_go_data_scalar_new_expr (state->sheet,
+				gnm_expr_top_new_constant (
+					value_new_string (state->chart_tx))), NULL);
 	}
 	g_free (state->chart_tx);
 	state->chart_tx = NULL;
 	state->sp_type &= ~GO_STYLE_FONT;
+}
+
+static void
+xlsx_text_value (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	g_return_if_fail (state->chart_tx == NULL);
+	state->chart_tx = g_strdup (xin->content->str);
 }
 
 static void
@@ -316,7 +330,7 @@ xlsx_body_pr (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 
-	if (GO_IS_STYLED_OBJECT (state->cur_obj) && state->cur_style) {
+	if (GO_IS_STYLED_OBJECT (state->cur_obj) && state->cur_style && !GOG_IS_LEGEND (state->cur_obj)) {
 		for (; attrs && *attrs; attrs += 2) {
 			int val;
 
@@ -2486,6 +2500,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
               GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_YMODE, XL_NS_CHART, "yMode", GSF_XML_NO_CONTENT, FALSE, TRUE,  &xlsx_chart_layout_mode, NULL, 2),
               GSF_XML_IN_NODE (TITLE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_2ND, NULL, NULL),
               GSF_XML_IN_NODE (TITLE, TEXT, XL_NS_CHART, "tx", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, &xlsx_chart_text),
+            GSF_XML_IN_NODE (TEXT, TEXT_VALUE, XL_NS_CHART, "v", GSF_XML_CONTENT, NULL, &xlsx_text_value),
             GSF_XML_IN_NODE (TEXT, TX_RICH, XL_NS_CHART, "rich", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY, XL_NS_CHART, "bodyP", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TEXT_PR_BODY, XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),

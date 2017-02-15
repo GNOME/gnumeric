@@ -1257,7 +1257,37 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 	gsf_xml_out_end_element (xml); /* </c:plotArea> */
 
 	if ((obj = gog_object_get_child_by_name (chart, "Legend"))) {
+		char const *str;
+		unsigned pos = gog_object_get_position_flags (obj, GOG_POSITION_COMPASS);
 		gsf_xml_out_start_element (xml, "c:legend");
+		switch (pos) {
+		case GOG_POSITION_N:
+			str = "t";
+			break;
+		case GOG_POSITION_S:
+			str = "b";
+			break;
+		case GOG_POSITION_W:
+			str = "l";
+			break;
+		case GOG_POSITION_E:
+		default:
+			str = "r";
+			break;
+		case GOG_POSITION_N | GOG_POSITION_E:
+			str = "tr";
+			break;
+		case GOG_POSITION_N | GOG_POSITION_W:
+			str = "tl";
+			break;
+		case GOG_POSITION_S | GOG_POSITION_E:
+			str = "br";
+			break;
+		case GOG_POSITION_S | GOG_POSITION_W:
+			str = "bl";
+			break;
+		}
+		xlsx_write_chart_cstr_unchecked (xml, "c:legendPos", str);
 		gsf_xml_out_end_element (xml); /* </c:legend> */
 	}
 	gsf_xml_out_end_element (xml); /* </c:chart> */

@@ -1,5 +1,11 @@
 2017-02-15  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* xlsx-read-drawing.c (xlsx_chart_text), (xlsx_text_value),
+	(xlsx_body_pr): read text value.
+	* xlsx-write-drawing.c (xlsx_write_one_chart): export legend position.
+
+2017-02-15  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* xlsx-write-drawing.c (xlsx_write_series_dim): Fix xlsx export of chart
 	series names. [#778618]
 
