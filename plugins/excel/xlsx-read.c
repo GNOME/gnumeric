@@ -975,14 +975,16 @@ static gboolean
 themed_color_from_name (XLSXReadState *state, const char *name, GOColor *color)
 {
 	gpointer val;
-	gboolean dark = FALSE; // FIXME: from where?
+	gboolean dark = FALSE; // FIXME: refers to theme; from where?
 	static const struct {
 		const char *name;
-		const char *dark;
-		const char *light;
+		const char *dark;  // Color name when theme is dark
+		const char *light; // Color name when theme is light
 	} aliases[] = {
-		{ "tx1", "dk1", "lt1" },
-		{ "tx2", "dk2", "lt2" }
+		{ "tx1", "lt1", "dk1" },
+		{ "tx2", "lt2", "dk2" },
+		{ "bg1", "dk1", "lt1" },
+		{ "bg2", "dk2", "lt2" }
 	};
 	unsigned ui;
 
@@ -5172,7 +5174,8 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	state.theme_colors_by_name = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, NULL);
 	/* fill in some default colors (when theme is absent */
-	g_hash_table_replace (state.theme_colors_by_name, g_strdup ("bg1"), GUINT_TO_POINTER (GO_COLOR_WHITE));
+	g_hash_table_replace (state.theme_colors_by_name, g_strdup ("lt1"), GUINT_TO_POINTER (GO_COLOR_WHITE));
+	g_hash_table_replace (state.theme_colors_by_name, g_strdup ("dk1"), GUINT_TO_POINTER (GO_COLOR_BLACK));
 	state.pivot.cache_by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) g_object_unref);
 	state.zorder = g_hash_table_new (g_direct_hash, g_direct_equal);
