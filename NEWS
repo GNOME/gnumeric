@@ -1,5 +1,8 @@
 Gnumeric 1.12.34
 
+Jean:
+	* Fix xlsx export of chart series names. [#778618]
+
 Morten:
 	* Doc fixes.
 	* Fix xlsx import with missing header/footer. [#778292]

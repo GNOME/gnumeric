@@ -90,11 +90,15 @@ xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *s
 	int dim;
 	GOData const *dat;
 
-	for (dim = 0; dim < (int) desc->num_dim; dim++)
-		if (desc->dim[dim].ms_type == ms_type)
-			break;
-	if (dim == (int) desc->num_dim)
-		return;
+	if (ms_type == GOG_MS_DIM_LABELS)
+			dim = -1;
+	else {
+		for (dim = 0; dim < (int) desc->num_dim; dim++)
+			if (desc->dim[dim].ms_type == ms_type)
+				break;
+		if (dim == (int) desc->num_dim)
+			return;
+	}	
 	dat = gog_dataset_get_dim (GOG_DATASET (series), dim);
 	if (NULL != dat) {
 		GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
