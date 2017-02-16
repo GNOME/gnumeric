@@ -694,6 +694,27 @@ xlsx_write_chart_text (XLSXWriteState *state, GsfXMLOut *xml,
 	g_free (text);
 }
 
+static void
+xlsx_write_layout (GsfXMLOut *xml, GogObject const *obj)
+{
+	unsigned pos = gog_object_get_position_flags (obj, GOG_POSITION_ANY_MANUAL);
+	if (pos & GOG_POSITION_MANUAL) {
+		/* FIXME: we suppose that the position is relative to start, and not absolute */
+		GogViewAllocation alloc;
+		gsf_xml_out_start_element (xml, "c:layout");
+		gsf_xml_out_start_element (xml, "c:manualLayout");
+		gog_object_get_manual_position ((GogObject *) obj, &alloc);
+		xlsx_write_chart_cstr_unchecked (xml, "c:xMode", "edge");
+		xlsx_write_chart_cstr_unchecked (xml, "c:yMode", "edge");
+		xlsx_write_chart_float (xml, "c:x", alloc.x);
+		xlsx_write_chart_float (xml, "c:y", alloc.y);
+		xlsx_write_chart_float (xml, "c:w", alloc.w);
+		xlsx_write_chart_float (xml, "c:h", alloc.h);
+		gsf_xml_out_end_element (xml); /* </c:manualLayout> */
+		gsf_xml_out_end_element (xml); /* </c:layout> */
+	}
+}
+
 static unsigned
 xlsx_get_axid (XLSXWriteState *state, GogAxis *axis)
 {
@@ -1270,8 +1291,8 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 		case GOG_POSITION_W:
 			str = "l";
 			break;
-		case GOG_POSITION_E:
 		default:
+		case GOG_POSITION_E:
 			str = "r";
 			break;
 		case GOG_POSITION_N | GOG_POSITION_E:
@@ -1288,6 +1309,7 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 			break;
 		}
 		xlsx_write_chart_cstr_unchecked (xml, "c:legendPos", str);
+		xlsx_write_layout (xml, obj);
 		gsf_xml_out_end_element (xml); /* </c:legend> */
 	}
 	gsf_xml_out_end_element (xml); /* </c:chart> */
