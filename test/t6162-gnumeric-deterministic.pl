@@ -39,12 +39,17 @@ foreach my $src (@sources) {
 	    die "Fail\n";
 	}
 
-	push @data, &GnumericTest::read_file ($tmp);
+	my $d = &GnumericTest::read_file ($tmp);
+
+	# Some formats (notably mps) set this to current time.
+	$d =~ s{<meta:creation-date>[0-9-:TZ]+</meta:creation-date>}{};
+
+	push @data, $d;
 	&GnumericTest::removejunk ($tmp);
     }
 
     if ($data[0] ne $data[1]) {
-	print STDERR "Generates output for $src is not deterministic.\n";
+	print STDERR "Generated output for $src is not deterministic.\n";
 	$nbad++;
     } else {
 	$ngood++;
