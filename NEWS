@@ -8,6 +8,7 @@ Morten:
 	* Fix xlsx import with missing header/footer. [#778292]
 	* Minor xlsx import improvements with alias colors.
 	* Test suite improvements.
+	* Improve Excel handling of hyperlinks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.33

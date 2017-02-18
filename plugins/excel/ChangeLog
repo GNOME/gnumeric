@@ -1,5 +1,8 @@
 2017-02-18  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-write.c (excel_write_sheet): Don't write hyperlinks to
+	biff7 and before.  The strings come out wrong.
+
 	* xlsx-write.c (xlsx_write_hlinks): Impose an ordering on links.
 
 2017-02-16  Jean Brefort  <jean.brefort@normalesup.org>

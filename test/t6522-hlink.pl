@@ -4,6 +4,7 @@
 use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
+$GnumericTest::default_subtests = '*,-biff7';
 
 my $file = "$samples/hlink-tests.gnumeric";
 

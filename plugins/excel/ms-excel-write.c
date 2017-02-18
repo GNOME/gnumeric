@@ -5712,7 +5712,10 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	 * things will just ignore them */
 	excel_write_MERGECELLs (ewb->bp, esheet);
 	excel_write_conditions (ewb->bp, esheet);
-	excel_write_HLINKs (ewb->bp, esheet);
+	if (ewb->bp->version >= MS_BIFF_V8) {
+		// We won't write these right pre-v8
+		excel_write_HLINKs (ewb->bp, esheet);
+	}
 	excel_write_DVALs (ewb->bp, esheet);
 	excel_write_SHEETPROTECTION (ewb->bp, esheet->gnum_sheet);
 
