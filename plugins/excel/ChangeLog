@@ -1,3 +1,7 @@
+2017-02-18  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_hlinks): Impose an ordering on links.
+
 2017-02-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-write-drawing.c (xlsx_write_layout), (xlsx_write_one_chart): first

@@ -2097,6 +2097,31 @@ xlsx_write_hlink (GnmHLink const *link, GSList *ranges, XLSXClosure *info)
 	}
 }
 
+static int
+by_hlink_order (gpointer link_a, G_GNUC_UNUSED gpointer val_a,
+		gpointer link_b, G_GNUC_UNUSED gpointer val_b,
+		G_GNUC_UNUSED gpointer user)
+{
+	GnmHLink const *a = link_a;
+	GnmHLink const *b = link_b;
+	int res;
+
+	res = g_strcmp0 (g_type_name (G_OBJECT_TYPE (a)), g_type_name (G_OBJECT_TYPE (b)));
+	if (res)
+		return res;
+
+	res = g_strcmp0 (gnm_hlink_get_target (a), gnm_hlink_get_target (b));
+	if (res)
+		return res;
+
+	res = g_strcmp0 (gnm_hlink_get_tip (a), gnm_hlink_get_tip (b));
+	if (res)
+		return res;
+
+	// Fallback
+	return a < b ? -1 : (a > b ? +1 : 0);
+}
+
 static void
 xlsx_write_hlinks (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED GnmRange const *extent)
 {
@@ -2110,7 +2135,10 @@ xlsx_write_hlinks (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED GnmRange
 			XLSX_MAX_COLS, XLSX_MAX_ROWS);
 
 		gsf_xml_out_start_element (xml, "hyperlinks");
-		g_hash_table_foreach (group, (GHFunc) xlsx_write_hlink, &info);
+		gnm_hash_table_foreach_ordered
+			(group, (GHFunc) xlsx_write_hlink,
+			 by_hlink_order,
+			 &info);
 		gsf_xml_out_end_element (xml); /*  </hyperlinks> */
 
 		g_hash_table_destroy (group);

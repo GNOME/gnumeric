@@ -215,6 +215,7 @@ my @full_corpus =
      "$samples/format-tests.gnumeric",
      "$samples/formula-tests.gnumeric",
      "$samples/graph-tests.gnumeric",
+     "$samples/hlink-tests.gnumeric",
      "$samples/merge-tests.gnumeric",
      "$samples/names-tests.gnumeric",
      "$samples/number-tests.gnumeric",
