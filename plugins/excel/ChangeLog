@@ -1,3 +1,7 @@
+2017-02-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-write-drawing.c (xlsx_write_one_chart): export legend style.
+
 2017-02-18  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_sheet): Don't write hyperlinks to

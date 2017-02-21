@@ -1310,6 +1310,15 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 		}
 		xlsx_write_chart_cstr_unchecked (xml, "c:legendPos", str);
 		xlsx_write_layout (xml, obj);
+		{
+			/* we need to ensure that fill mode is exported even if set to none. */ 
+			XLSXStyleContext sctx;
+			xlsx_style_context_init (&sctx, state);
+			sctx.must_fill_fill = TRUE;
+			xlsx_write_go_style_full
+				(xml, go_styled_object_get_style (GO_STYLED_OBJECT (obj)),
+				&sctx);
+		}
 		gsf_xml_out_end_element (xml); /* </c:legend> */
 	}
 	gsf_xml_out_end_element (xml); /* </c:chart> */
