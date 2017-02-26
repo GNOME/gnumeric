@@ -1,18 +1,18 @@
 # Serbian translation of gnumeric.
-# Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003—2016.
+# Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003—2017.
 # This file is distributed under the same license as the gnumeric package.
 # Translators:
 # Slobodan Sredojević <ssl@uns.ns.ac.yu>
-# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2012—2016.
+# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2012—2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeri"
 "c&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2016-08-12 22:29+0000\n"
-"PO-Revision-Date: 2016-08-23 21:25+0200\n"
+"POT-Creation-Date: 2017-01-03 23:01+0000\n"
+"PO-Revision-Date: 2017-02-25 19:58+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: srpski <gnome-sr@googlegroups.org>\n"
+"Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Project-Style: gnome\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:470
+#: ../src/func-builtin.c:501
 msgid "Gnumeric"
 msgstr "Gnumerik"
 
@@ -44,7 +44,6 @@ msgid "Spreadsheet;"
 msgstr "tablice; tabelarni proračun;"
 
 #: ../gnumeric.appdata.xml.in.h:1
-#| msgid "Gnumeric Spreadsheet"
 msgid "The Gnumeric Spreadsheet"
 msgstr "Tabelarni proračun Gnumerik"
 
@@ -69,7 +68,6 @@ msgid "A High-Precision Spreadsheet Program"
 msgstr "Program tabelarnog proračuna visoke tačnosti"
 
 #: ../gnumeric.appdata.xml.in.h:5
-#| msgid "Gnumeric Team"
 msgid "The Gnumeric Team"
 msgstr "Ekipa Gnumerika"
 
@@ -566,7 +564,7 @@ msgstr "Nepoznata boja teme %d"
 msgid "Undefined number format id '%s'"
 msgstr "Neodređen ib oblika broja „%s“"
 
-#: ../plugins/excel/xlsx-read.c:1223 ../plugins/excel/xlsx-read.c:3311
+#: ../plugins/excel/xlsx-read.c:1223 ../plugins/excel/xlsx-read.c:3314
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Neispravna boja „%s“ za osobinu rgb"
@@ -605,75 +603,75 @@ msgstr "Papir iz IksLSIks datoteke: %i⨉%i tačaka"
 msgid "Paper from XLSX file, #%i"
 msgstr "Papir iz IksLSIks datoteke, br. %i"
 
-#: ../plugins/excel/xlsx-read.c:2200
+#: ../plugins/excel/xlsx-read.c:2203
 #: ../plugins/openoffice/openoffice-read.c:2841
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Zanemarujem proveru neispravnih podataka zato što : %s"
 
-#: ../plugins/excel/xlsx-read.c:2723
+#: ../plugins/excel/xlsx-read.c:2726
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Zanemarujem neobrađeni uslovni zapis vrste „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3128
+#: ../plugins/excel/xlsx-read.c:3131
 msgid "Unknown type of hyperlink"
 msgstr "Nepoznata vrsta hiperveze"
 
-#: ../plugins/excel/xlsx-read.c:3171
+#: ../plugins/excel/xlsx-read.c:3174
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr "Naišao sam na nerazumljivo proširenje „ext“ u prostoru naziva „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3180
+#: ../plugins/excel/xlsx-read.c:3183
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 "Naišao sam na nerazumljivo proširenje „ext“ kojoj nedostaje prostor naziva"
 
-#: ../plugins/excel/xlsx-read.c:3642
+#: ../plugins/excel/xlsx-read.c:3645
 msgid "Ignoring a sheet without a name"
 msgstr "Zanemarujem list bez naziva"
 
-#: ../plugins/excel/xlsx-read.c:3714
+#: ../plugins/excel/xlsx-read.c:3717
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Nisam uspeo da odredim naziv: %s"
 
-#: ../plugins/excel/xlsx-read.c:3776
+#: ../plugins/excel/xlsx-read.c:3779
 msgid "Unable to resolve external relationship"
 msgstr "Ne mogu da rešim spoljni međuodnos"
 
-#: ../plugins/excel/xlsx-read.c:3970
+#: ../plugins/excel/xlsx-read.c:3973
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Nedostaje ib dela za list „%s“"
 
-#: ../plugins/excel/xlsx-read.c:3995
+#: ../plugins/excel/xlsx-read.c:3998
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Čitam list „%s“..."
 
-#: ../plugins/excel/xlsx-read.c:4003
+#: ../plugins/excel/xlsx-read.c:4006
 msgid "Reading comments..."
 msgstr "Čitam napomene..."
 
-#: ../plugins/excel/xlsx-read.c:5143
+#: ../plugins/excel/xlsx-read.c:5146
 msgid "Reading shared strings..."
 msgstr "Čitam deljene niske..."
 
-#: ../plugins/excel/xlsx-read.c:5152
+#: ../plugins/excel/xlsx-read.c:5155
 msgid "Reading theme..."
 msgstr "Čitam temu..."
 
-#: ../plugins/excel/xlsx-read.c:5161
+#: ../plugins/excel/xlsx-read.c:5164
 msgid "Reading styles..."
 msgstr "Čitam stilove..."
 
-#: ../plugins/excel/xlsx-read.c:5166
+#: ../plugins/excel/xlsx-read.c:5169
 msgid "Reading workbook..."
 msgstr "Čitam radnu svesku..."
 
-#: ../plugins/excel/xlsx-read.c:5176
+#: ../plugins/excel/xlsx-read.c:5179
 msgid "No workbook stream found."
 msgstr "Nije pronađen tok radne sveske."
 
@@ -1003,7 +1001,7 @@ msgstr "Logičke funkcije"
 msgid "Functions for manipulating truth values"
 msgstr "Funkcije za obradu istinitosnih vrednosti"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:478
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:509
 msgid "Logic"
 msgstr "Logičke"
 
@@ -1027,7 +1025,7 @@ msgstr "Matematičke funkcije"
 msgid "Mathematical Functions"
 msgstr "Matematičke funkcije"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:465
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:496
 msgid "Mathematics"
 msgstr "Matematika"
 
@@ -1372,23 +1370,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Neispravan naziv reda, %s, u odeljku rhs/opsega"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1785
+#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1799
 msgid "Constraint"
 msgstr "Ograničenje"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1561
-#: ../src/tools/gnm-solver.c:1606 ../src/tools/gnm-solver.c:1650
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1575
+#: ../src/tools/gnm-solver.c:1620 ../src/tools/gnm-solver.c:1664
 msgid "Value"
 msgstr "Vrednost"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1562
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1576
 msgid "Type"
 msgstr "Vrsta"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1651
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1665
 msgid "Limit"
 msgstr "Granica"
 
@@ -1416,12 +1414,12 @@ msgstr "Čita LP programe sačuvane u MPS obliku (*.mps)"
 msgid "Linear and integer program (*.mps) file format"
 msgstr "Format datoteke (*.mps) linearnog i celobrojnog programa"
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:100
+#: ../plugins/nlsolve/gnm-nlsolve.c:104
 #, c-format
 msgid "This solver does not handle discrete variables."
 msgstr "Ovaj rešavač ne radi sa zasebnim promenljivima."
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:107
+#: ../plugins/nlsolve/gnm-nlsolve.c:111
 #, c-format
 msgid "This solver does not handle equality constraints."
 msgstr "Ovaj rešavač ne radi sa ograničenjima jednakosti."
@@ -1881,7 +1879,7 @@ msgid ""
 "Gnumeric's maximum supported sheet size"
 msgstr ""
 "Veličina lista od %i stupca i %i reda korišćena u ovoj datoteci premašuje "
-"najveću podržanu veličinu lista Gnumerika."
+"najveću podržanu veličinu lista Gnumerika"
 
 #: ../plugins/openoffice/openoffice-read.c:11552
 #, c-format
@@ -3309,9 +3307,6 @@ msgid "Default Number of rows in a sheet"
 msgstr "Osnovni broj redova u listu"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
-#| msgid ""
-#| "The number of rows in each sheet. This setting will be used only in a new "
-#| "gnumeric session."
 msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
 "Gnumeric session."
@@ -3324,9 +3319,6 @@ msgid "Default Number of columns in a sheet"
 msgstr "Osnovni broj kolona u listu"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:24
-#| msgid ""
-#| "The number of columns in each sheet. This setting will be used only in a "
-#| "new gnumeric session."
 msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
 "Gnumeric session."
@@ -3507,14 +3499,6 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Odlaganje preračunavanja samostalnog izraza"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
-#| msgid ""
-#| "If `lag' is 0, gnumeric recalculates all auto expressions immediately "
-#| "after every change. Non-zero values of `lag' allow gnumeric to accumulate "
-#| "more changes before each recalculation. If `lag' is positive, then "
-#| "whenever a change appears, gnumeric waits `lag' milliseconds and then "
-#| "recalculates; if more changes appear during that period, they are also "
-#| "processed at that time. If `lag' is negative, then recalculation happens "
-#| "only after a quiet period of |lag| milliseconds."
 msgid ""
 "If `lag' is 0, Gnumeric recalculates all auto expressions immediately after "
 "every change. Non-zero values of `lag' allow Gnumeric to accumulate more "
@@ -3618,10 +3602,6 @@ msgid "Default To Overwriting Files"
 msgstr "Prepiši datoteke po osnovi"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
-#| msgid ""
-#| "Before an existing file is being overwritten, gnumeric will present a "
-#| "warning dialog. Setting this option will make the overwrite button in "
-#| "that dialog the default button."
 msgid ""
 "Before an existing file is being overwritten, Gnumeric will present a "
 "warning dialog. Setting this option will make the overwrite button in that "
@@ -4114,7 +4094,7 @@ msgstr "Sam uklapam širinu za %s"
 msgid "Autofitting height of %s"
 msgstr "Sam uklapam visinu za %s"
 
-#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1226
+#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1227
 msgid "Sorting"
 msgstr "Ređanje"
 
@@ -4123,15 +4103,18 @@ msgstr "Ređanje"
 msgid "Sorting %s"
 msgstr "Ređam %s"
 
-#: ../src/commands.c:2352
+#: ../src/commands.c:2354
+#| msgid ""
+#| "Are you sure that you want to hide all columns? If you do so you can "
+#| "unhide them with the 'Format,olumn→Unhide' menu item."
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
-"them with the 'Format,olumn→Unhide' menu item."
+"them with the 'Format→Column→Unhide' menu item."
 msgstr ""
 "Da li ste sigurni da želite da sakrijete sve kolone? Ako to uradite možete "
 "da ih prikažete pomoću stavke „Oblikovanje→Kolona→Otkrij“ u izborniku."
 
-#: ../src/commands.c:2356
+#: ../src/commands.c:2358
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
@@ -4139,94 +4122,94 @@ msgstr ""
 "Da li ste sigurni da želite da sakrijete sve redove? Ako to uradite možete "
 "da ih prikažete pomoću stavke „Oblikovanje→Red→Otkrij“ u izborniku."
 
-#: ../src/commands.c:2376
+#: ../src/commands.c:2378
 msgid "Unhide columns"
 msgstr "Otkrij kolone"
 
-#: ../src/commands.c:2376
+#: ../src/commands.c:2378
 msgid "Hide columns"
 msgstr "Sakrij kolone"
 
-#: ../src/commands.c:2377
+#: ../src/commands.c:2379
 msgid "Unhide rows"
 msgstr "Otkrij redove"
 
-#: ../src/commands.c:2377
+#: ../src/commands.c:2379
 msgid "Hide rows"
 msgstr "Sakrij redove"
 
-#: ../src/commands.c:2457
+#: ../src/commands.c:2459
 msgid "Expand columns"
 msgstr "Raširi kolone"
 
-#: ../src/commands.c:2457
+#: ../src/commands.c:2459
 msgid "Collapse columns"
 msgstr "Skupi kolone"
 
-#: ../src/commands.c:2458
+#: ../src/commands.c:2460
 msgid "Expand rows"
 msgstr "Raširi redove"
 
-#: ../src/commands.c:2458
+#: ../src/commands.c:2460
 msgid "Collapse rows"
 msgstr "Skupi redove"
 
-#: ../src/commands.c:2482
+#: ../src/commands.c:2484
 #, c-format
 msgid "Show column outline %d"
 msgstr "Prikaži konture kolone %d"
 
-#: ../src/commands.c:2482
+#: ../src/commands.c:2484
 #, c-format
 msgid "Show row outline %d"
 msgstr "Prikaži konture reda %d"
 
-#: ../src/commands.c:2551
+#: ../src/commands.c:2553
 msgid "Those columns are already grouped"
 msgstr "Te kolone su već grupisane"
 
-#: ../src/commands.c:2552
+#: ../src/commands.c:2554
 msgid "Those rows are already grouped"
 msgstr "Ti redovi su već grupisani"
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2577
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Te kolone nisu grupisane, tako da ih ne možete razgrupisati"
 
-#: ../src/commands.c:2576
+#: ../src/commands.c:2578
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Ti redovi nisu grupisani tako da ih ne možete razgrupisati"
 
-#: ../src/commands.c:2589
+#: ../src/commands.c:2591
 #, c-format
 msgid "Group columns %s"
 msgstr "Grupiši kolone %s"
 
-#: ../src/commands.c:2589
+#: ../src/commands.c:2591
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Razgrupiši kolone %s"
 
-#: ../src/commands.c:2591
+#: ../src/commands.c:2593
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Grupiši redove %d:%d"
 
-#: ../src/commands.c:2591
+#: ../src/commands.c:2593
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Razgrupiši redove %d:%d"
 
-#: ../src/commands.c:2820
+#: ../src/commands.c:2822
 #, c-format
 msgid "Moving %s"
 msgstr "Premeštam %s"
 
-#: ../src/commands.c:2830 ../src/commands.c:3230
+#: ../src/commands.c:2832 ../src/commands.c:3232
 msgid "is beyond sheet boundaries"
 msgstr "je izvan okvira lista"
 
-#: ../src/commands.c:2888
+#: ../src/commands.c:2890
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -4236,77 +4219,77 @@ msgstr ""
 "Umnožavam međusobno datoteke sa različitim odredbama datuma.\n"
 "Može se desiti da neki datumi budu netačno umnoženi."
 
-#: ../src/commands.c:2922
+#: ../src/commands.c:2924
 msgid "Paste Copy"
 msgstr "Ubaci umnožak"
 
-#: ../src/commands.c:3122
+#: ../src/commands.c:3124
 #, c-format
 msgid "Pasting into %s"
 msgstr "Ubacujem u %s"
 
-#: ../src/commands.c:3216
+#: ../src/commands.c:3218
 #, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr "Da li stvarno želite da ubacite %s umnoška?"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3273 ../src/commands.c:3429 ../src/commands.c:3430
+#: ../src/commands.c:3275 ../src/commands.c:3431 ../src/commands.c:3432
 #: ../src/item-cursor.c:1026 ../src/wbc-gtk-actions.c:582
 msgid "Autofill"
 msgstr "Samoispunjavanje"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3452
+#: ../src/commands.c:3454
 #, c-format
 msgid "Autofilling %s"
 msgstr "Sam ispunjavam %s"
 
-#: ../src/commands.c:3752
+#: ../src/commands.c:3754
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Sam formatiram „%s“"
 
-#: ../src/commands.c:3871
+#: ../src/commands.c:3873
 #, c-format
 msgid "Unmerging %s"
 msgstr "Razdvajam %s"
 
-#: ../src/commands.c:4040
+#: ../src/commands.c:4042
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Spoji i usredišti %s"
 
-#: ../src/commands.c:4040
+#: ../src/commands.c:4042
 #, c-format
 msgid "Merging %s"
 msgstr "Stapam %s"
 
 #. Corrected below.
-#: ../src/commands.c:4408 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4410 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr "Potraži i zameni"
 
-#: ../src/commands.c:4501
+#: ../src/commands.c:4503
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Postavi osnovnu širinu kolona na %.2f tačke"
 
-#: ../src/commands.c:4502
+#: ../src/commands.c:4504
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Postavi osnovnu visinu redova na %.2f tačke"
 
-#: ../src/commands.c:4613
+#: ../src/commands.c:4615
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Uvećaj %s na %.0f%%"
 
-#: ../src/commands.c:4716
+#: ../src/commands.c:4718
 msgid "Delete Object"
 msgstr "Obriši objekat"
 
-#: ../src/commands.c:4857 ../src/commands.c:5923
+#: ../src/commands.c:4859 ../src/commands.c:5925
 #: ../src/dialogs/dialog-doc-metadata.c:1912
 #: ../src/dialogs/dialog-formula-guru.c:894
 #: ../src/dialogs/dialog-function-select.c:1253
@@ -4315,240 +4298,240 @@ msgstr "Obriši objekat"
 msgid "Name"
 msgstr "Naziv"
 
-#: ../src/commands.c:4857
+#: ../src/commands.c:4859
 msgid "Sheet names must be non-empty."
 msgstr "Nazivi listova ne smeju biti prazni."
 
-#: ../src/commands.c:4864
+#: ../src/commands.c:4866
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "Radna sveska ne može da ima dva lista sa istim nazivom."
 
-#: ../src/commands.c:4961
+#: ../src/commands.c:4963
 msgid "Resizing sheet"
 msgstr "Menjam veličinu lista"
 
-#: ../src/commands.c:5114
+#: ../src/commands.c:5116
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Uklanjam napomenu za %s"
 
-#: ../src/commands.c:5115
+#: ../src/commands.c:5117
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Postavljam napomenu za %s"
 
-#: ../src/commands.c:5549
+#: ../src/commands.c:5551
 #, c-format
 msgid "Merging data into %s"
 msgstr "Stapam podatke u %s"
 
-#: ../src/commands.c:5646
+#: ../src/commands.c:5648
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Menjam svojstva radne sveske"
 
-#: ../src/commands.c:5720
+#: ../src/commands.c:5722
 msgid "Pull Object to the Front"
 msgstr "Gurni objekat napred"
 
-#: ../src/commands.c:5723
+#: ../src/commands.c:5725
 msgid "Pull Object Forward"
 msgstr "Gurni objekat unapred"
 
-#: ../src/commands.c:5726
+#: ../src/commands.c:5728
 msgid "Push Object Backward"
 msgstr "Gurni objekat unazad"
 
-#: ../src/commands.c:5729
+#: ../src/commands.c:5731
 msgid "Push Object to the Back"
 msgstr "Gurni objekat nazad"
 
-#: ../src/commands.c:5859
+#: ../src/commands.c:5861
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Podešavanje strane za %s"
 
-#: ../src/commands.c:5861
+#: ../src/commands.c:5863
 msgid "Page Setup For All Sheets"
 msgstr "Podešavanje strane za sve listove"
 
-#: ../src/commands.c:5985 ../src/commands.c:5996
+#: ../src/commands.c:5987 ../src/commands.c:5998
 msgid "Defined Name"
 msgstr "Određeni naziv"
 
-#: ../src/commands.c:5986
+#: ../src/commands.c:5988
 msgid "An empty string is not allowed as defined name."
 msgstr "Prazna niska nije dopuštena kao određeni naziv."
 
-#: ../src/commands.c:5994
+#: ../src/commands.c:5996
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "„%s“ nije dopušteno kao određeni naziv."
 
-#: ../src/commands.c:6004
+#: ../src/commands.c:6006
 msgid "has a circular reference"
 msgstr "ima kružno upućivanje"
 
-#: ../src/commands.c:6038
+#: ../src/commands.c:6040
 #, c-format
 msgid "Define Name %s"
 msgstr "Odredi naziv %s"
 
-#: ../src/commands.c:6041
+#: ../src/commands.c:6043
 #, c-format
 msgid "Update Name %s"
 msgstr "Osveži naziv %s"
 
-#: ../src/commands.c:6134
+#: ../src/commands.c:6136
 #, c-format
 msgid "Remove Name %s"
 msgstr "Ukloni naziv %s"
 
-#: ../src/commands.c:6165
+#: ../src/commands.c:6167
 msgid "Change Scope of Name"
 msgstr "Izmeni domet naziva"
 
-#: ../src/commands.c:6213
+#: ../src/commands.c:6215
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "Izmeni domet naziva %s"
 
-#: ../src/commands.c:6271
+#: ../src/commands.c:6273
 msgid "Add scenario"
 msgstr "Dodaj scenario"
 
-#: ../src/commands.c:6335
+#: ../src/commands.c:6337
 msgid "Scenario Show"
 msgstr "Prikaz scenarija"
 
-#: ../src/commands.c:6393
+#: ../src/commands.c:6395
 msgid "Shuffle Data"
 msgstr "Izmešaj podatke"
 
 #. FIXME?
-#: ../src/commands.c:6497
+#: ../src/commands.c:6499
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) u kolone (%s)"
 
-#: ../src/commands.c:6655
+#: ../src/commands.c:6657
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Traženje rešenja (%s)"
 
-#: ../src/commands.c:6821
+#: ../src/commands.c:6823
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Tabelarne zavisnosti"
 
-#: ../src/commands.c:6895
+#: ../src/commands.c:6897
 msgid "Reconfigure Graph"
 msgstr "Ponovo podesi grafik"
 
-#: ../src/commands.c:6965
+#: ../src/commands.c:6967
 msgid "Reconfigure Object"
 msgstr "Ponovo podesi objekat"
 
-#: ../src/commands.c:7009
+#: ../src/commands.c:7011
 msgid "Left to Right"
 msgstr "Sa leva na desno"
 
-#: ../src/commands.c:7009
+#: ../src/commands.c:7011
 msgid "Right to Left"
 msgstr "Sa desna na levo"
 
-#: ../src/commands.c:7171
+#: ../src/commands.c:7173
 msgid "Changing Hyperlink"
 msgstr "Menjam hipervezu"
 
-#: ../src/commands.c:7262
+#: ../src/commands.c:7264
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Menjam hipervezu za %s"
 
-#: ../src/commands.c:7347
+#: ../src/commands.c:7349
 msgid "Configure List"
 msgstr "Podesi spisak"
 
-#: ../src/commands.c:7418
+#: ../src/commands.c:7420
 msgid "Set Frame Label"
 msgstr "Postavi natpis okvira"
 
-#: ../src/commands.c:7489
+#: ../src/commands.c:7491
 msgid "Configure Button"
 msgstr "Podesi dugme"
 
-#: ../src/commands.c:7570
+#: ../src/commands.c:7572
 msgid "Configure Radio Button"
 msgstr "Podesi radio dugme"
 
-#: ../src/commands.c:7646
+#: ../src/commands.c:7648
 msgid "Configure Checkbox"
 msgstr "Podesi kućicu za biranje"
 
-#: ../src/commands.c:7753 ../src/sheet-object-widget.c:1780
+#: ../src/commands.c:7755 ../src/sheet-object-widget.c:1780
 msgid "Configure Adjustment"
 msgstr "Podesi doterivanje"
 
-#: ../src/commands.c:7784
+#: ../src/commands.c:7786
 msgid "Add Filter"
 msgstr "Dodaj filter"
 
-#: ../src/commands.c:7800 ../src/wbc-gtk.c:1632
+#: ../src/commands.c:7802 ../src/wbc-gtk.c:1632
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "%s je blokirao autofilter"
 
-#: ../src/commands.c:7805 ../src/commands.c:7832 ../src/commands.c:7841
+#: ../src/commands.c:7807 ../src/commands.c:7834 ../src/commands.c:7843
 msgid "AutoFilter"
 msgstr "Autofilter"
 
-#: ../src/commands.c:7833
+#: ../src/commands.c:7835
 msgid "Requires more than 1 row"
 msgstr "Zahteva više od jednog reda"
 
-#: ../src/commands.c:7842
+#: ../src/commands.c:7844
 msgid "Unable to create Autofilter"
 msgstr "Ne mogu da napravim autofilter"
 
-#: ../src/commands.c:7865
+#: ../src/commands.c:7867
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Dodaj autofilter u %s"
 
-#: ../src/commands.c:7866
+#: ../src/commands.c:7868
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Raširi autofilter u %s"
 
-#: ../src/commands.c:7879
+#: ../src/commands.c:7881
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Ukloni autofilter iz %s"
 
-#: ../src/commands.c:7909
+#: ../src/commands.c:7911
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Izmeni uslove filtera za %s"
 
-#: ../src/commands.c:7978 ../src/wbc-gtk-actions.c:2394
+#: ../src/commands.c:7980 ../src/wbc-gtk-actions.c:2394
 msgid "Clear All Page Breaks"
 msgstr "Očisti sve prelome stranice"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1567
+#: ../src/commands.c:8007 ../src/wbc-gtk.c:1567
 msgid "Remove Column Page Break"
 msgstr "Ukloni prelom kolone stranice"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1577
+#: ../src/commands.c:8007 ../src/wbc-gtk.c:1577
 msgid "Remove Row Page Break"
 msgstr "Ukloni prelom reda stranice"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1570
+#: ../src/commands.c:8010 ../src/wbc-gtk.c:1570
 msgid "Add Column Page Break"
 msgstr "Dodaj prelom kolone stranice"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1580
+#: ../src/commands.c:8010 ../src/wbc-gtk.c:1580
 msgid "Add Row Page Break"
 msgstr "Dodaj prelom reda stranice"
 
@@ -4635,8 +4618,9 @@ msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Simppleks algoritam za rešavača (linearno programiranje)."
 
 #: ../src/dialogs/dialog-about.c:79
-msgid "Jean Brßort"
-msgstr "Žan Brsor"
+#| msgid "Jean Brßort"
+msgid "Jean Bréfort"
+msgstr "Žan Brefor"
 
 #: ../src/dialogs/dialog-about.c:80
 msgid "Core charting engine."
@@ -4992,8 +4976,9 @@ msgid "Visit the Gnumeric website"
 msgstr "Posetite veb sajt Gnumerika"
 
 #: ../src/dialogs/dialog-about.c:547
-msgid "Copyright © 1998-2016"
-msgstr "Autorska prava © 1998-2016"
+#| msgid "Copyright © 1998-2016"
+msgid "Copyright © 1998-2017"
+msgstr "Autorska prava © 1998-2017"
 
 #: ../src/dialogs/dialog-about.c:548
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -5714,11 +5699,11 @@ msgstr "Broj"
 
 #: ../src/dialogs/dialog-cell-format.c:1670
 msgid "None          (silently accept invalid input)"
-msgstr "Propusti          (ćutke prihvati neispravan ulaz)"
+msgstr "Propusti    (ćutke prihvati neispravan ulaz)"
 
 #: ../src/dialogs/dialog-cell-format.c:1674
 msgid "Stop            (never allow invalid input)"
-msgstr "Zaustavi            (nikad ne dozvoli neispravan ulaz)"
+msgstr "Zaustavi    (nikad ne dozvoli neispravan ulaz)"
 
 #: ../src/dialogs/dialog-cell-format.c:1678
 msgid "Warning     (accept/discard invalid input)"
@@ -5726,7 +5711,7 @@ msgstr "Upozori     (prihvati/odbaci neispravan ulaz)"
 
 #: ../src/dialogs/dialog-cell-format.c:1682
 msgid "Information (allow invalid input)"
-msgstr "Obavesti (dozvoli neispravan unos)"
+msgstr "Obavesti    (dozvoli neispravan unos)"
 
 #: ../src/dialogs/dialog-cell-format.c:1722 ../src/dialogs/data-slicer.ui.h:2
 msgid "Source"
@@ -6405,8 +6390,8 @@ msgstr "List"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1560
-#: ../src/tools/gnm-solver.c:1605 ../src/tools/gnm-solver.c:1750
+#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1574
+#: ../src/tools/gnm-solver.c:1619 ../src/tools/gnm-solver.c:1764
 msgid "Cell"
 msgstr "Polje"
 
@@ -6514,7 +6499,6 @@ msgstr ""
 "da bi mogle biti otvorene."
 
 #: ../src/dialogs/dialog-password.c:60
-#| msgid "Password :"
 msgid "Password:"
 msgstr "Lozinka:"
 
@@ -6632,73 +6616,74 @@ msgstr "Isključi proveru proširenja za podesivog izvoznika teksta"
 msgid "Enter _Moves Selection"
 msgstr "Unesi izbor _premeštaja"
 
-#: ../src/dialogs/dialog-preferences.c:1115
+#. xgettext : see https://en.wikipedia.org/wiki/X_Window_selection#Clipboard
+#: ../src/dialogs/dialog-preferences.c:1116
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
 msgstr "Daj prednost OSTAVI nad PRIMARNIM izborom"
 
-#: ../src/dialogs/dialog-preferences.c:1140
+#: ../src/dialogs/dialog-preferences.c:1141
 msgid "Capitalize _names of days"
 msgstr "Koristi velika slova za _dane"
 
-#: ../src/dialogs/dialog-preferences.c:1163
+#: ../src/dialogs/dialog-preferences.c:1164
 msgid "Correct _TWo INitial CApitals"
 msgstr "Ispravi _DVa VElika POčetna SLova"
 
-#: ../src/dialogs/dialog-preferences.c:1167
+#: ../src/dialogs/dialog-preferences.c:1168
 msgid "Do _not correct:"
 msgstr "Ne _ispravljaj:"
 
-#: ../src/dialogs/dialog-preferences.c:1190
+#: ../src/dialogs/dialog-preferences.c:1191
 msgid "Capitalize _first letter of sentence"
 msgstr "Veliko slovo za _prvo slovo u rečenici"
 
-#: ../src/dialogs/dialog-preferences.c:1194
+#: ../src/dialogs/dialog-preferences.c:1195
 msgid "Do _not capitalize after:"
 msgstr "_Ne pretvaraj u velika slova nakon:"
 
-#: ../src/dialogs/dialog-preferences.c:1216
+#: ../src/dialogs/dialog-preferences.c:1217
 msgid "Auto Correct"
 msgstr "Sam ispravi"
 
-#: ../src/dialogs/dialog-preferences.c:1217
+#: ../src/dialogs/dialog-preferences.c:1218
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
 #: ../src/widgets/gnm-fontbutton.c:1158
 msgid "Font"
 msgstr "Pismo"
 
-#: ../src/dialogs/dialog-preferences.c:1218
+#: ../src/dialogs/dialog-preferences.c:1219
 msgid "Files"
 msgstr "Datoteke"
 
-#: ../src/dialogs/dialog-preferences.c:1219
+#: ../src/dialogs/dialog-preferences.c:1220
 msgid "Tools"
 msgstr "Alati"
 
-#: ../src/dialogs/dialog-preferences.c:1220
+#: ../src/dialogs/dialog-preferences.c:1221
 msgid "Undo"
 msgstr "Opozovi"
 
-#: ../src/dialogs/dialog-preferences.c:1221
+#: ../src/dialogs/dialog-preferences.c:1222
 msgid "Windows"
 msgstr "Prozori"
 
-#: ../src/dialogs/dialog-preferences.c:1222
+#: ../src/dialogs/dialog-preferences.c:1223
 msgid "Header/Footer"
 msgstr "Zaglavlje i podnožje"
 
-#: ../src/dialogs/dialog-preferences.c:1224
+#: ../src/dialogs/dialog-preferences.c:1225
 msgid "Copy and Paste"
 msgstr "Umnoži i ubaci"
 
-#: ../src/dialogs/dialog-preferences.c:1227
+#: ../src/dialogs/dialog-preferences.c:1228
 msgid "Screen"
 msgstr "Ekran"
 
-#: ../src/dialogs/dialog-preferences.c:1228
+#: ../src/dialogs/dialog-preferences.c:1229
 msgid "INitial CApitals"
 msgstr "POčetna VElika SLova"
 
-#: ../src/dialogs/dialog-preferences.c:1229
+#: ../src/dialogs/dialog-preferences.c:1230
 msgid "First Letter"
 msgstr "Prvo slovo"
 
@@ -7380,11 +7365,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr "Menjam parametre rešavača"
 
-#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1587
+#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1601
 msgid "Feasible"
 msgstr "Izvodljivo"
 
-#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1590
+#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1604
 msgid "Optimal"
 msgstr "Najbolje"
 
@@ -8762,12 +8747,10 @@ msgid "Format"
 msgstr "Oblikuj"
 
 #: ../src/dialogs/data-table.ui.h:2
-#| msgid "_Row Input :"
 msgid "_Row Input:"
 msgstr "Ulaz _reda:"
 
 #: ../src/dialogs/data-table.ui.h:3
-#| msgid "Co_lumn Input :"
 msgid "Co_lumn Input:"
 msgstr "Ulaz _kolone:"
 
@@ -11393,8 +11376,8 @@ msgstr "Ulazne promenljive:"
 msgid "Output variables:"
 msgstr "Izlazne promenljive:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1603
-#: ../src/tools/gnm-solver.c:1748
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1617
+#: ../src/tools/gnm-solver.c:1762
 msgid "Variables"
 msgstr "Promenljive"
 
@@ -11477,7 +11460,6 @@ msgid "List Properties"
 msgstr "Svojstva spiska"
 
 #: ../src/dialogs/so-list.ui.h:2
-#| msgid "_Link :"
 msgid "_Link:"
 msgstr "_Poveži:"
 
@@ -11490,7 +11472,6 @@ msgid "As index"
 msgstr "Kao indeks"
 
 #: ../src/dialogs/so-list.ui.h:5
-#| msgid "_Content :"
 msgid "_Content:"
 msgstr "_Sadržaj:"
 
@@ -11506,13 +11487,13 @@ msgstr "≥"
 msgid "="
 msgstr "="
 
-#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:386
-#: ../src/tools/gnm-solver.c:412
+#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:388
+#: ../src/tools/gnm-solver.c:414
 msgid "Int"
 msgstr "Ceo"
 
-#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:387
-#: ../src/tools/gnm-solver.c:413
+#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:389
+#: ../src/tools/gnm-solver.c:415
 msgid "Bool"
 msgstr "Logički"
 
@@ -11597,8 +11578,8 @@ msgid "Re_place"
 msgstr "_Zameni"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1646
-#: ../src/tools/gnm-solver.c:1782
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1660
+#: ../src/tools/gnm-solver.c:1796
 msgid "Constraints"
 msgstr "Ograničenja"
 
@@ -11931,40 +11912,40 @@ msgstr[2] ""
 msgstr[3] "Oblast za rezultat je premala.  Treba da bude visoka barem %d red"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:44
+#: ../src/func-builtin.c:45
 msgid "SUM:sum of the given values"
 msgstr "SUM:zbir datih vrednosti"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:46
+#: ../src/func-builtin.c:47
 msgid "values:a list of values to add"
 msgstr "vrednost:spisak vrednosti za dodavanje"
 
-#: ../src/func-builtin.c:47
+#: ../src/func-builtin.c:48
 msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
 msgstr "„SUM“ računa zbir svih vrednosti i polja upućenih iz spiska argumenata."
 
-#: ../src/func-builtin.c:48 ../src/func-builtin.c:75
+#: ../src/func-builtin.c:49 ../src/func-builtin.c:106
 msgid "This function is Excel compatible."
 msgstr "Ova funkcija je saglasna sa Ekselom."
 
-#: ../src/func-builtin.c:49 ../src/func-builtin.c:76
+#: ../src/func-builtin.c:50 ../src/func-builtin.c:107
 msgid "This function is OpenFormula compatible."
 msgstr "Ova funkcija je saglasna sa Otvorenom formulom."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:70
+#: ../src/func-builtin.c:101
 msgid "PRODUCT:product of the given values"
 msgstr "PRODUCT:proizvod datih vrednosti"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:72
+#: ../src/func-builtin.c:103
 msgid "values:a list of values to multiply"
 msgstr "vrednost:spisak vrednosti za množenje"
 
-#: ../src/func-builtin.c:73
+#: ../src/func-builtin.c:104
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
@@ -11972,40 +11953,40 @@ msgstr ""
 "„PRODUCT“ računa proizvod svih vrednosti i polja upućenih iz spiska "
 "argumenata."
 
-#: ../src/func-builtin.c:74
+#: ../src/func-builtin.c:105
 msgid "If all cells are empty, the result will be 0."
 msgstr "Ako su sva polja prazna, rezultat će biti 0."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:107
+#: ../src/func-builtin.c:138
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION:tekuće izdanje Gnumerika"
 
-#: ../src/func-builtin.c:108
+#: ../src/func-builtin.c:139
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr "„GNUMERIC_VERSION“ ispisuje izdanje gnumerika kao nisku."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:300
+#: ../src/func-builtin.c:331
 msgid "IF:conditional expression"
 msgstr "IF:izraz uslova"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:302
+#: ../src/func-builtin.c:333
 msgid "cond:condition"
 msgstr "usl:uslov"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:304
+#: ../src/func-builtin.c:335
 msgid "trueval:value to use if condition is true"
 msgstr "tačna-vrednost:vrednost za korišćenje ako je uslov tačan"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:306
+#: ../src/func-builtin.c:337
 msgid "falseval:value to use if condition is false"
 msgstr "netačna-vrednost:vrednost za korišćenje ako je uslov neispravan"
 
-#: ../src/func-builtin.c:307
+#: ../src/func-builtin.c:338
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will "
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
@@ -12439,23 +12420,23 @@ msgstr "Prevuci da sam ispuniš"
 msgid "Drag to move"
 msgstr "Prevuci da premestiš"
 
-#: ../src/libgnumeric.c:142
+#: ../src/libgnumeric.c:143
 msgid "Display Gnumeric's version"
 msgstr "Prikazuje izdanje Gnumerika"
 
-#: ../src/libgnumeric.c:151
+#: ../src/libgnumeric.c:152
 msgid "Set the root library directory"
 msgstr "Postavlja koreni direktorijum biblioteka"
 
-#: ../src/libgnumeric.c:152 ../src/libgnumeric.c:158
+#: ../src/libgnumeric.c:153 ../src/libgnumeric.c:159
 msgid "DIR"
 msgstr "DIR"
 
-#: ../src/libgnumeric.c:157
+#: ../src/libgnumeric.c:158
 msgid "Adjust the root data directory"
 msgstr "Prilagođava koreni direktorijum podataka"
 
-#: ../src/libgnumeric.c:174
+#: ../src/libgnumeric.c:175
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12466,11 +12447,11 @@ msgstr ""
 "putanja do podataka := „%s“\n"
 "putanja do biblioteka := „%s“\n"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 msgid "Gnumeric Options"
 msgstr "Opcije Gnumerika"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 msgid "Show Gnumeric Options"
 msgstr "Prikazuje opcije Gnumerika"
 
@@ -12514,7 +12495,7 @@ msgstr "Izlazi odmah nakon učitavanja izabranih knjiga"
 msgid "[FILE ...]"
 msgstr "[DATOTEKA ...]"
 
-#: ../src/main-application.c:170 ../src/ssconvert.c:884 ../src/ssdiff.c:1108
+#: ../src/main-application.c:170 ../src/ssconvert.c:897 ../src/ssdiff.c:1108
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -13452,7 +13433,7 @@ msgstr "Rešavač radi, ali je pao"
 msgid "Solver: %s\n"
 msgstr "Rešavač: %s\n"
 
-#: ../src/ssconvert.c:663
+#: ../src/ssconvert.c:676
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13461,7 +13442,7 @@ msgstr ""
 "Nepoznat izvoznik „%s“.\n"
 "Pokušajte „--list-exporters“ da vidite spisak mogućnosti.\n"
 
-#: ../src/ssconvert.c:683
+#: ../src/ssconvert.c:696
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13470,7 +13451,7 @@ msgstr ""
 "Ne mogu da pogodim izvoznika za „%s“.\n"
 "Pokušajte „--list-exporters“ da vidite spisak mogućnosti.\n"
 
-#: ../src/ssconvert.c:695
+#: ../src/ssconvert.c:708
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13479,7 +13460,7 @@ msgstr ""
 "Potreban je naziv izlazne datoteke ili izričita vrsta izvoza.\n"
 "Pokušajte „--list-exporters“ da vidite spisak mogućnosti.\n"
 
-#: ../src/ssconvert.c:705
+#: ../src/ssconvert.c:718
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13488,12 +13469,12 @@ msgstr ""
 "Nepoznat uvoznik „%s“.\n"
 "Pokušajte „--list-importers“ da vidite spisak mogućnosti.\n"
 
-#: ../src/ssconvert.c:729
+#: ../src/ssconvert.c:742
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Nisam uspeo da učitam „%s“\n"
 
-#: ../src/ssconvert.c:843
+#: ../src/ssconvert.c:856
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13504,11 +13485,11 @@ msgstr ""
 "Samo tekući list će biti sačuvan.  Da zaobiđete ovo ograničenje, koristite „-"
 "S“.\n"
 
-#: ../src/ssconvert.c:872 ../src/ssconvert.c:923
+#: ../src/ssconvert.c:885 ../src/ssconvert.c:936
 msgid "INFILE [OUTFILE]"
 msgstr "ULDATOTEKA [IZLDATOTEKA]"
 
-#: ../src/ssconvert.c:891
+#: ../src/ssconvert.c:904
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13519,7 +13500,7 @@ msgstr ""
 "putanja do podataka := „%s“\n"
 "putanja do biblioteka := „%s“\n"
 
-#: ../src/ssconvert.c:921 ../src/ssdiff.c:1165 ../src/ssindex.c:268
+#: ../src/ssconvert.c:934 ../src/ssdiff.c:1165 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Upotreba: %s [OPCIJA...] %s\n"
@@ -14722,97 +14703,97 @@ msgstr "/Napredni filter:/Opseg izvora:/Opseg kriterijuma:"
 msgid "Advanced Filter (%s)"
 msgstr "Napredni filter (%s)"
 
-#: ../src/tools/gnm-solver.c:624
+#: ../src/tools/gnm-solver.c:626
 #, c-format
 msgid "Invalid solver target"
 msgstr "Neispravna meta rešavača"
 
-#: ../src/tools/gnm-solver.c:636
+#: ../src/tools/gnm-solver.c:638
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr ""
 "Polje za rezultat, %s, treba da sadrži formulu koja se procenjuje na broj"
 
-#: ../src/tools/gnm-solver.c:646
+#: ../src/tools/gnm-solver.c:648
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Neispravan ulazni opseg rešavača"
 
-#: ../src/tools/gnm-solver.c:657
+#: ../src/tools/gnm-solver.c:659
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Ulazno polje %s sadrži formulu"
 
-#: ../src/tools/gnm-solver.c:672
+#: ../src/tools/gnm-solver.c:674
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Ograničenje rešavača #%d je neispravno"
 
-#: ../src/tools/gnm-solver.c:1073
+#: ../src/tools/gnm-solver.c:1087
 msgid "Timeout"
 msgstr "Vremenski rok"
 
-#: ../src/tools/gnm-solver.c:1282
+#: ../src/tools/gnm-solver.c:1296
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Nisam uspeo da napravim datoteku za linearni program"
 
-#: ../src/tools/gnm-solver.c:1291
+#: ../src/tools/gnm-solver.c:1305
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Nisam uspeo da napravim datoteku linearnog programa"
 
-#: ../src/tools/gnm-solver.c:1311
+#: ../src/tools/gnm-solver.c:1325
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Nisam uspeo da sačuvam linearni program"
 
 # meta?
-#: ../src/tools/gnm-solver.c:1559
+#: ../src/tools/gnm-solver.c:1573
 msgid "Target"
 msgstr "Meta"
 
-#: ../src/tools/gnm-solver.c:1563
+#: ../src/tools/gnm-solver.c:1577
 msgid "Status"
 msgstr "Stanje"
 
-#: ../src/tools/gnm-solver.c:1576
+#: ../src/tools/gnm-solver.c:1590
 msgid "Minimize"
 msgstr "Umanji"
 
-#: ../src/tools/gnm-solver.c:1579
+#: ../src/tools/gnm-solver.c:1593
 msgid "Maximize"
 msgstr "Uvećaj"
 
-#: ../src/tools/gnm-solver.c:1607
+#: ../src/tools/gnm-solver.c:1621
 msgid "Lower"
 msgstr "Niži"
 
-#: ../src/tools/gnm-solver.c:1608
+#: ../src/tools/gnm-solver.c:1622
 msgid "Upper"
 msgstr "Viši"
 
-#: ../src/tools/gnm-solver.c:1609 ../src/tools/gnm-solver.c:1652
+#: ../src/tools/gnm-solver.c:1623 ../src/tools/gnm-solver.c:1666
 msgid "Slack"
 msgstr "Promenljiv"
 
-#: ../src/tools/gnm-solver.c:1631
+#: ../src/tools/gnm-solver.c:1645
 msgid "At limit"
 msgstr "Na ograničenju"
 
-#: ../src/tools/gnm-solver.c:1634
+#: ../src/tools/gnm-solver.c:1648
 msgid "Outside bounds"
 msgstr "Spoljne granice"
 
-#: ../src/tools/gnm-solver.c:1649
+#: ../src/tools/gnm-solver.c:1663
 msgid "Condition"
 msgstr "Uslov"
 
-#: ../src/tools/gnm-solver.c:1654 ../src/tools/gnm-solver.c:1794
+#: ../src/tools/gnm-solver.c:1668 ../src/tools/gnm-solver.c:1808
 msgid "No constraints"
 msgstr "Bez ograničenja"
 
-#: ../src/tools/gnm-solver.c:1751
+#: ../src/tools/gnm-solver.c:1765
 msgid ""
 "Final\n"
 "Value"
@@ -14820,7 +14801,7 @@ msgstr ""
 "Krajnja\n"
 "vrednost"
 
-#: ../src/tools/gnm-solver.c:1752
+#: ../src/tools/gnm-solver.c:1766
 msgid ""
 "Reduced\n"
 "Cost"
@@ -14828,7 +14809,7 @@ msgstr ""
 "Umanjena\n"
 "cena"
 
-#: ../src/tools/gnm-solver.c:1753 ../src/tools/gnm-solver.c:1789
+#: ../src/tools/gnm-solver.c:1767 ../src/tools/gnm-solver.c:1803
 msgid ""
 "Lower\n"
 "Limit"
@@ -14836,7 +14817,7 @@ msgstr ""
 "Donje\n"
 "ograničenje"
 
-#: ../src/tools/gnm-solver.c:1754 ../src/tools/gnm-solver.c:1790
+#: ../src/tools/gnm-solver.c:1768 ../src/tools/gnm-solver.c:1804
 msgid ""
 "Upper\n"
 "Limit"
@@ -14844,7 +14825,7 @@ msgstr ""
 "Gornje\n"
 "ograničenje"
 
-#: ../src/tools/gnm-solver.c:1786
+#: ../src/tools/gnm-solver.c:1800
 msgid ""
 "Shadow\n"
 "Price"
@@ -14852,7 +14833,7 @@ msgstr ""
 "Cena iz\n"
 "senke"
 
-#: ../src/tools/gnm-solver.c:1787
+#: ../src/tools/gnm-solver.c:1801
 msgid ""
 "Constraint\n"
 "LHS"
@@ -14860,7 +14841,7 @@ msgstr ""
 "Ograničenje sa\n"
 "leve strane"
 
-#: ../src/tools/gnm-solver.c:1788
+#: ../src/tools/gnm-solver.c:1802
 msgid ""
 "Constraint\n"
 "RHS"
@@ -14868,25 +14849,25 @@ msgstr ""
 "Ograničenje sa\n"
 "desne strane"
 
-#: ../src/tools/gnm-solver.c:1856
+#: ../src/tools/gnm-solver.c:1870
 msgid "Program"
 msgstr "Program"
 
-#: ../src/tools/gnm-solver.c:1862
+#: ../src/tools/gnm-solver.c:1876
 msgid "Sensitivity"
 msgstr "Osetljivost"
 
-#: ../src/tools/gnm-solver.c:2300
+#: ../src/tools/gnm-solver.c:2479
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "Ciljno polje nije ocenjeno na broj."
 
-#: ../src/tools/gnm-solver.c:2308
+#: ../src/tools/gnm-solver.c:2487
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr "Ciljno polje izgleda da ne zavisi linearno od ulaznih polja."
 
-#: ../src/tools/gnm-solver.c:2892
+#: ../src/tools/gnm-solver.c:3071
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14899,22 +14880,22 @@ msgstr ""
 "\n"
 "Da li želite sami da ga pronađete?"
 
-#: ../src/tools/gnm-solver.c:2896
+#: ../src/tools/gnm-solver.c:3075
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Ne mogu da pronađem „%s“"
 
-#: ../src/tools/gnm-solver.c:2912
+#: ../src/tools/gnm-solver.c:3091
 #, c-format
 msgid "Locate the %s program"
 msgstr "Pronađite program %s"
 
-#: ../src/tools/gnm-solver.c:3303
+#: ../src/tools/gnm-solver.c:3482
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Početne vrednosti ne zadovoljavaju ograničenja."
 
-#: ../src/tools/gnm-solver.c:3394
+#: ../src/tools/gnm-solver.c:3573
 msgid "Iteration limit exceeded"
 msgstr "Premašena je granica ponavljanja"
 
@@ -17784,12 +17765,15 @@ msgstr ""
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnumeric-expr-entry.c:972
+#| msgid ""
+#| "\n"
+#| "\t<i> to select</i>"
 msgid ""
 "\n"
-"\t<i> to select</i>"
+"\t<i>⇧F4 to select</i>"
 msgstr ""
 "\n"
-"\t<i> da izaberete</i>"
+"\t<i>⇧F4 da izaberete</i>"
 
 #: ../src/widgets/gnumeric-expr-entry.c:2644
 #, c-format
@@ -17863,8 +17847,9 @@ msgid "A single selection is required."
 msgstr "Potreban je jedan izbor."
 
 #: ../src/workbook-cmd-format.c:180
-msgid "An n or 1⨯n selection is required."
-msgstr "Potreban je n ili 1⨯n izbor."
+#| msgid "An n or 1⨯n selection is required."
+msgid "An n⨯1 or 1⨯n selection is required."
+msgstr "Potreban je n⨯1 ili 1⨯n izbor."
 
 #: ../src/workbook-cmd-format.c:187
 msgid "There is no point in sorting a single cell."
