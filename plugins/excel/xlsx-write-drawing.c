@@ -353,9 +353,7 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 		gsf_xml_out_end_element (xml); /* </a:prstGeom> */
 	}
 
-	if ((style->interesting_fields & GO_STYLE_FILL) &&
-	    (style->fill.type != GO_STYLE_FILL_NONE ||
-	     sctx->must_fill_fill)) {
+	if (style->interesting_fields & GO_STYLE_FILL) {
 		switch (style->fill.type) {
 		default:
 			g_warning ("invalid fill type, saving as none");
@@ -1310,15 +1308,7 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 		}
 		xlsx_write_chart_cstr_unchecked (xml, "c:legendPos", str);
 		xlsx_write_layout (xml, obj);
-		{
-			/* we need to ensure that fill mode is exported even if set to none. */ 
-			XLSXStyleContext sctx;
-			xlsx_style_context_init (&sctx, state);
-			sctx.must_fill_fill = TRUE;
-			xlsx_write_go_style_full
-				(xml, go_styled_object_get_style (GO_STYLED_OBJECT (obj)),
-				&sctx);
-		}
+		xlsx_write_go_style (xml, state, go_styled_object_get_style (GO_STYLED_OBJECT (obj)));
 		gsf_xml_out_end_element (xml); /* </c:legend> */
 	}
 	gsf_xml_out_end_element (xml); /* </c:chart> */

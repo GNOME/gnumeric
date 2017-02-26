@@ -1,3 +1,9 @@
+2017-02-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-write-drawing.c (xlsx_write_go_style_full): always export a
+	transparent fill style. [#779160]
+	(xlsx_write_one_chart): simplify legend style export.
+
 2017-02-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-write-drawing.c (xlsx_write_one_chart): export legend style.

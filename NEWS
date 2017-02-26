@@ -2,6 +2,7 @@ Gnumeric 1.12.34
 
 Jean:
 	* Fix xlsx export of chart series names. [#778618]
+	* Always export a transparent fill style in charts. [#779160]
 
 Morten:
 	* Doc fixes.
