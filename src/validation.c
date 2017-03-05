@@ -245,12 +245,12 @@ gnm_validation_op_get_type (void)
  **/
 GnmValidation *
 gnm_validation_new (ValidationStyle style,
-		ValidationType type,
-		ValidationOp op,
-		Sheet *sheet,
-		char const *title, char const *msg,
-		GnmExprTop const *texpr0, GnmExprTop const *texpr1,
-		gboolean allow_blank, gboolean use_dropdown)
+		    ValidationType type,
+		    ValidationOp op,
+		    Sheet *sheet,
+		    char const *title, char const *msg,
+		    GnmExprTop const *texpr0, GnmExprTop const *texpr1,
+		    gboolean allow_blank, gboolean use_dropdown)
 {
 	GnmValidation *v;
 	int nops;
@@ -409,7 +409,7 @@ gnm_validation_set_sheet (GnmValidation *v, Sheet *sheet)
  **/
 void
 gnm_validation_set_expr (GnmValidation *v,
-		     GnmExprTop const *texpr, unsigned indx)
+			 GnmExprTop const *texpr, unsigned indx)
 {
 	g_return_if_fail (indx <= 1);
 
