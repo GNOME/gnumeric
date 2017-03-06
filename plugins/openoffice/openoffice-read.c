@@ -11471,10 +11471,6 @@ oo_named_expr_preparse (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *name      = NULL;
 
-	if (state->object_name == NULL)
-		/* We do not need to define global names during preparsing. */
-		return;
-
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
 			name = CXML2C (attrs[1]);
@@ -11523,6 +11519,29 @@ odf_sheet_suggest_size (GsfXMLIn *xin, int *cols, int *rows)
 	*rows = r;
 }
 
+static void
+odf_create_named_expressions (OOParseState *state, Sheet *sheet)
+{
+	GSList *l;
+	for (l = state->named_expression_names; l != NULL; l = l->next) {
+		char *name = l->data;
+		GnmParsePos   pp;
+
+		parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
+		pp.sheet = sheet;
+		expr_name_add (&pp, name, NULL, NULL, TRUE, NULL);
+	}
+
+	g_slist_free_full (state->named_expression_names, g_free);
+	state->named_expression_names = NULL;
+}
+
+static void
+odf_preparse_spreadsheet_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	odf_create_named_expressions (state, workbook_sheet_by_index (state->pos.wb, 0));
+}
 
 static void
 odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
@@ -11532,7 +11551,6 @@ odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	char *table_name = state->object_name;
 	Sheet *sheet;
 	sheet_order_t *sot = g_new(sheet_order_t, 1);
-	GSList *l;
 
 	cols = state->extent_data.col + 1;
 	rows = state->extent_data.row + 1;
@@ -11583,18 +11601,7 @@ odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	sot->sheet = sheet;
 	state->sheet_order = g_slist_prepend
 		(state->sheet_order, sot);
-
-	for (l = state->named_expression_names; l != NULL; l = l->next) {
-		char *name = l->data;
-		GnmParsePos   pp;
-
-		parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
-		pp.sheet = sheet;
-		expr_name_add (&pp, name, NULL, NULL, TRUE, NULL);
-	}
-
-	g_slist_free_full (state->named_expression_names, g_free);
-	state->named_expression_names = NULL;
+	odf_create_named_expressions (state, sheet);
 }
 
 
@@ -12268,6 +12275,7 @@ GSF_XML_IN_NODE_END
 
 static GsfXMLInNode const opendoc_content_preparse_overrides[] =
 {
+	GSF_XML_IN_NODE (OFFICE_BODY, SPREADSHEET, OO_NS_OFFICE, "spreadsheet", GSF_XML_NO_CONTENT, NULL, &odf_preparse_spreadsheet_end),
 	GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &odf_preparse_table_start, &odf_preparse_table_end),
 	GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &odf_preparse_row_start, &odf_preparse_row_end),
 	GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &odf_preparse_cell_start, NULL),

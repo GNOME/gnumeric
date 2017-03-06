@@ -1,5 +1,8 @@
 Gnumeric 1.12.34
 
+Andreas:
+	* Fix hyperlinks import from ODF. [#779635]
+
 Jean:
 	* Fix xlsx export of chart series names. [#778618]
 	* Always export a transparent fill style in charts. [#779160]
