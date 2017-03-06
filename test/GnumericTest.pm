@@ -874,7 +874,7 @@ sub quotearg1 {
     return "''" if $arg eq '';
     my $res = '';
     while ($arg ne '') {
-	if ($arg =~ m!^([-=/._a-zA-Z0-9]+)!) {
+	if ($arg =~ m!^([-=/._a-zA-Z0-9:]+)!) {
 	    $res .= $1;
 	    $arg = substr ($arg, length $1);
 	} else {
