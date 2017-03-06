@@ -1,3 +1,8 @@
+2017-03-06  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_named_expr_common): Rename from
+	oo_named_expr and use for both preparse and parse.
+
 2017-01-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_named_expr_preparse): we do need to define global expressions during

@@ -482,7 +482,6 @@ struct  _OOParseState {
 		int               rep_cols_to;
 	} print;
 
-	GSList *named_expression_names;
 	char *object_name; /* also used for table during preparsing */
 	OOControl *cur_control;
 
@@ -7727,7 +7726,7 @@ oo_style_prop (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
+oo_named_expr_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean preparse)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *name      = NULL;
@@ -7748,6 +7747,10 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "scope"))
 			scope = CXML2C (attrs[1]);
 
+	if (preparse) {
+		expr_str = "of:=#REF!";
+		base_str = NULL;
+	}
 
 	if (name != NULL && expr_str != NULL) {
 		GnmParsePos   pp;
@@ -7804,6 +7807,12 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 				pp.sheet = state->pos.sheet;
 				if (pp.sheet == NULL && scope != NULL)
 					pp.sheet = workbook_sheet_by_name (pp.wb, scope);
+
+				if (preparse) {
+					gnm_expr_top_unref (texpr);
+					texpr = NULL;
+				}
+
 				expr_name_add (&pp, name, texpr, NULL,
 					       TRUE, NULL);
 			}
@@ -7811,6 +7820,12 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	g_free (range_str);
+}
+
+static void
+oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	oo_named_expr_common (xin, attrs, FALSE);
 }
 
 static void
@@ -11468,15 +11483,7 @@ oo_marker (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_named_expr_preparse (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin->user_state;
-	char const *name      = NULL;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
-			name = CXML2C (attrs[1]);
-
-	if (name != NULL)
-		state->named_expression_names= g_slist_prepend (state->named_expression_names, g_strdup (name));
+	oo_named_expr_common (xin, attrs, TRUE);
 }
 
 static void
@@ -11489,7 +11496,6 @@ odf_preparse_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->extent_data.col = 0;
 	state->extent_data.row = 0;
 	state->object_name = NULL;
-	state->named_expression_names = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
@@ -11520,27 +11526,8 @@ odf_sheet_suggest_size (GsfXMLIn *xin, int *cols, int *rows)
 }
 
 static void
-odf_create_named_expressions (OOParseState *state, Sheet *sheet)
-{
-	GSList *l;
-	for (l = state->named_expression_names; l != NULL; l = l->next) {
-		char *name = l->data;
-		GnmParsePos   pp;
-
-		parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
-		pp.sheet = sheet;
-		expr_name_add (&pp, name, NULL, NULL, TRUE, NULL);
-	}
-
-	g_slist_free_full (state->named_expression_names, g_free);
-	state->named_expression_names = NULL;
-}
-
-static void
 odf_preparse_spreadsheet_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	OOParseState *state = (OOParseState *)xin->user_state;
-	odf_create_named_expressions (state, workbook_sheet_by_index (state->pos.wb, 0));
 }
 
 static void
@@ -11601,7 +11588,6 @@ odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	sot->sheet = sheet;
 	state->sheet_order = g_slist_prepend
 		(state->sheet_order, sot);
-	odf_create_named_expressions (state, sheet);
 }
 
 
