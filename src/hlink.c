@@ -337,6 +337,7 @@ gnm_hlink_cur_wb_get_target (GnmHLink const *lnk)
 	// Use parent class for storage.  Ick!
 	((GnmHLinkClass*)gnm_hlink_cur_wb_parent_class)
 		->set_target ((GnmHLink *)lnk, tgt);
+	g_free (tgt);
 
 	return ((GnmHLinkClass*)gnm_hlink_cur_wb_parent_class)
 		->get_target (lnk);
