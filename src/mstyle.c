@@ -15,6 +15,7 @@
 #include "gnm-style-impl.h"
 #include "sheet-style.h"
 #include "style-conditions.h"
+#include "hlink.h"
 #include "application.h"
 #include "parse-util.h"
 #include "expr.h"
@@ -857,10 +858,17 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 		gnm_style_set_validation (style, new_v);
 	}
 
+	if (elem_is_set (style, MSTYLE_HLINK) &&
+	    style->hlink &&
+	    gnm_hlink_get_sheet (style->hlink) != sheet) {
+		GnmHLink *new_l = gnm_hlink_dup (style->hlink);
+		gnm_hlink_set_sheet (new_l, sheet);
+		gnm_style_set_hlink (style, new_l);
+	}
+
 	if (elem_is_set (style, MSTYLE_CONDITIONS) &&
-	    style->conditions
-	    && gnm_style_conditions_get_sheet (style->conditions) != sheet
-		) {
+	    style->conditions &&
+	    gnm_style_conditions_get_sheet (style->conditions) != sheet) {
 		GnmStyleConditions *new_c = gnm_style_conditions_dup (style->conditions);
 		gnm_style_conditions_set_sheet (new_c, sheet);
 		gnm_style_set_conditions (style, new_c);
@@ -1777,6 +1785,11 @@ gnm_style_get_contents_hidden (GnmStyle const *style)
 	return style->contents_hidden;
 }
 
+/**
+ * gnm_style_set_validation:
+ * @style: #GnmStyle
+ * @v: (transfer full): #GnmValidation
+ **/
 void
 gnm_style_set_validation (GnmStyle *style, GnmValidation *v)
 {
@@ -1803,6 +1816,11 @@ gnm_style_get_validation (GnmStyle const *style)
 	return style->validation;
 }
 
+/**
+ * gnm_style_set_hlink:
+ * @style: #GnmStyle
+ * @link: (transfer full): #GnmHLink
+ **/
 void
 gnm_style_set_hlink (GnmStyle *style, GnmHLink *link)
 {
@@ -1829,6 +1847,11 @@ gnm_style_get_hlink (GnmStyle const *style)
 	return style->hlink;
 }
 
+/**
+ * gnm_style_set_input_msg:
+ * @style: #GnmStyle
+ * @msg: (transfer full): #GnmInputMsg
+ **/
 void
 gnm_style_set_input_msg (GnmStyle *style, GnmInputMsg *msg)
 {
@@ -1855,6 +1878,11 @@ gnm_style_get_input_msg (GnmStyle const *style)
 	return style->input_msg;
 }
 
+/**
+ * gnm_style_set_conditions:
+ * @style: #GnmStyle
+ * @sc: (transfer full): #GnmStyleConditions
+ **/
 void
 gnm_style_set_conditions (GnmStyle *style, GnmStyleConditions *sc)
 {

@@ -1,3 +1,16 @@
+2017-03-05  Morten Welinder  <terra@gnome.org>
+
+	* src/hlink.c (GnmHLinkCurWB): Store location as dependent.
+	(gnm_hlink_cur_wb_activate): Move string parsing from here...
+	(gnm_hlink_cur_wb_set_target): ...to here.  Check name first as
+	value_new_cellrange_str will resolve a name.
+
+	* src/mstyle.c (gnm_style_linked_sheet_changed): Handle changed
+	sheet for hlinks too.
+
+	* src/hlink.c (gnm_hlink_new, gnm_hlink_dup, gnm_hlink_get_sheet)
+	(gnm_hlink_set_sheet): New functions.
+
 2017-01-30  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

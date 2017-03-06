@@ -4291,7 +4291,7 @@ oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
 		else
 			type = gnm_hlink_cur_wb_get_type ();
 
-		hlink = g_object_new (type, NULL);
+		hlink = gnm_hlink_new (type, state->pos.sheet);
 		gnm_hlink_set_target (hlink, link);
 		gnm_hlink_set_tip (hlink, tip);
 		style = gnm_style_new ();

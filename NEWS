@@ -10,6 +10,7 @@ Morten:
 	* Minor xlsx import improvements with alias colors.
 	* Test suite improvements.
 	* Improve Excel handling of hyperlinks.
+	* Hyperlinks improvements.  [#706671]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.33

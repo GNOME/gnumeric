@@ -5918,9 +5918,9 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		XL_NEED_BYTES (len);
 		url = read_utf16_str (len/2, data);
 		if (NULL != url && 0 == g_ascii_strncasecmp (url,  "mailto:", 7))
-			link = g_object_new (gnm_hlink_email_get_type (), NULL);
+			link = gnm_hlink_new (gnm_hlink_email_get_type (), esheet->sheet);
 		else
-			link = g_object_new (gnm_hlink_url_get_type (), NULL);
+			link = gnm_hlink_new (gnm_hlink_url_get_type (), esheet->sheet);
 		gnm_hlink_set_target (link, url);
 		g_free (url);
 
@@ -5954,7 +5954,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 			g_string_append (accum, "..\\");
 		g_string_append (accum, path);
 		g_free (path);
-		link = g_object_new (gnm_hlink_external_get_type (), NULL);
+		link = gnm_hlink_new (gnm_hlink_external_get_type (), esheet->sheet);
 		gnm_hlink_set_target (link, accum->str);
 		g_string_free (accum, TRUE);
 
@@ -5968,12 +5968,12 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 
 		XL_NEED_BYTES (len);
 		path = read_utf16_str (len/2, data);
-		link = g_object_new (gnm_hlink_external_get_type (), NULL);
+		link = gnm_hlink_new (gnm_hlink_external_get_type (), esheet->sheet);
 		gnm_hlink_set_target (link, path);
 		g_free (path);
 
 	} else if ((options & 0x1eb) == 0x008) {
-		link = g_object_new (gnm_hlink_cur_wb_get_type (), NULL);
+		link = gnm_hlink_new (gnm_hlink_cur_wb_get_type (), esheet->sheet);
 		gnm_hlink_set_target (link, mark);
 	} else {
 		g_warning ("Unknown hlink type 0x%x", options);
@@ -5989,10 +5989,9 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 
 	if (link != NULL) {
 		GnmStyle *style = gnm_style_new ();
+		gnm_hlink_set_tip  (link, tip);
 		gnm_style_set_hlink (style, link);
 		sheet_style_apply_range	(esheet->sheet, &r, style);
-		if (tip != NULL)
-			gnm_hlink_set_tip  (link, tip);
 	}
 
 	g_free (tip);

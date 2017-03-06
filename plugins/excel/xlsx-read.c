@@ -3181,11 +3181,9 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 	}
 
-	link = g_object_new (link_type, NULL);
-	if (NULL != target)
-		gnm_hlink_set_target (link, target);
-	if (NULL != tooltip)
-		gnm_hlink_set_tip  (link, tooltip);
+	link = gnm_hlink_new (link_type, state->sheet);
+	gnm_hlink_set_target (link, target);
+	gnm_hlink_set_tip (link, tooltip);
 	style = gnm_style_new ();
 	gnm_style_set_hlink (style, link);
 	sheet_style_apply_range	(state->sheet, &r, style);

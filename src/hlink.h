@@ -19,11 +19,20 @@ G_BEGIN_DECLS
 GnmHLink	*gnm_sheet_hlink_find   (Sheet const *sheet, GnmCellPos const *pos);
 
 GType gnm_hlink_get_type (void);
+
+GnmHLink *gnm_hlink_new (GType typ, Sheet *sheet);
+GnmHLink *gnm_hlink_dup (GnmHLink *lnk);
+
 gboolean         gnm_hlink_activate   (GnmHLink *lnk, WBCGtk *wbcg);
-gchar const	*gnm_hlink_get_target (GnmHLink const *lnk);
+
+const char	*gnm_hlink_get_target (GnmHLink const *lnk);
 void	     	 gnm_hlink_set_target (GnmHLink *lnk, gchar const *url);
-gchar const	*gnm_hlink_get_tip    (GnmHLink const *lnk);
+
+const char	*gnm_hlink_get_tip    (GnmHLink const *lnk);
 void		 gnm_hlink_set_tip    (GnmHLink *lnk, gchar const *tip);
+
+Sheet *gnm_hlink_get_sheet (GnmHLink *lnk);
+void gnm_hlink_set_sheet (GnmHLink *lnk, Sheet *sheet);
 
 GType gnm_hlink_cur_wb_get_type (void);
 GType gnm_hlink_url_get_type (void);

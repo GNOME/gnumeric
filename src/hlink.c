@@ -44,6 +44,8 @@
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GNM_HLINK_TYPE, GnmHLinkClass)
 
+static GObjectClass *gnm_hlink_parent_class;
+
 /*
  * WARNING WARNING WARNING
  *
@@ -81,7 +83,6 @@ gnm_sheet_hlink_find (Sheet const *sheet, GnmCellPos const *pos)
 static void
 gnm_hlink_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GnmHLink *lnk = (GnmHLink *)obj;
 
 	g_free (lnk->target);
@@ -90,15 +91,42 @@ gnm_hlink_finalize (GObject *obj)
 	g_free (lnk->tip);
 	lnk->tip = NULL;
 
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
-	parent_class->finalize (obj);
+	gnm_hlink_parent_class->finalize (obj);
+}
+
+static void
+gnm_hlink_base_set_sheet (GnmHLink *lnk, Sheet *sheet)
+{
+	lnk->sheet = sheet;
+}
+
+static void
+gnm_hlink_base_set_target (GnmHLink *lnk, gchar const *target)
+{
+	gchar *tmp = g_strdup (target);
+	g_free (lnk->target);
+	lnk->target = tmp;
+}
+
+static const char *
+gnm_hlink_base_get_target (GnmHLink const *lnk)
+{
+	return lnk->target;
 }
 
 static void
 gnm_hlink_class_init (GObjectClass *object_class)
 {
+	GnmHLinkClass *hlink_class = (GnmHLinkClass *)object_class;
+
+	gnm_hlink_parent_class = g_type_class_peek_parent (object_class);
+
 	object_class->finalize = gnm_hlink_finalize;
+	hlink_class->set_sheet = gnm_hlink_base_set_sheet;
+	hlink_class->set_target = gnm_hlink_base_set_target;
+	hlink_class->get_target = gnm_hlink_base_get_target;
 }
+
 static void
 gnm_hlink_init (GObject *obj)
 {
@@ -106,29 +134,27 @@ gnm_hlink_init (GObject *obj)
 	lnk->target = NULL;
 	lnk->tip = NULL;
 }
+
 GSF_CLASS_ABSTRACT (GnmHLink, gnm_hlink,
 		    gnm_hlink_class_init, gnm_hlink_init, G_TYPE_OBJECT)
 
-gchar const *
+const char *
 gnm_hlink_get_target (GnmHLink const *lnk)
 {
 	g_return_val_if_fail (GNM_IS_HLINK (lnk), NULL);
-	return lnk->target;
+
+	return GET_CLASS (lnk)->get_target (lnk);
 }
 
 void
 gnm_hlink_set_target (GnmHLink *lnk, gchar const *target)
 {
-	gchar *tmp;
-
 	g_return_if_fail (GNM_IS_HLINK (lnk));
 
-	tmp = g_strdup (target);
-	g_free (lnk->target);
-	lnk->target = tmp;
+	GET_CLASS (lnk)->set_target (lnk, target);
 }
 
-gchar const *
+const char *
 gnm_hlink_get_tip (GnmHLink const *lnk)
 {
 	g_return_val_if_fail (GNM_IS_HLINK (lnk), NULL);
@@ -147,59 +173,190 @@ gnm_hlink_set_tip (GnmHLink *lnk, gchar const *tip)
 	lnk->tip = tmp;
 }
 
+/**
+ * gnm_hlink_get_sheet:
+ * @lnk: link
+ *
+ * Returns: (transfer none): the sheet
+ */
+Sheet *
+gnm_hlink_get_sheet (GnmHLink *lnk)
+{
+	g_return_val_if_fail (GNM_IS_HLINK (lnk), NULL);
+	return lnk->sheet;
+}
+
+void
+gnm_hlink_set_sheet (GnmHLink *lnk, Sheet *sheet)
+{
+	g_return_if_fail (GNM_IS_HLINK (lnk));
+	GET_CLASS (lnk)->set_sheet (lnk, sheet);
+}
+
+GnmHLink *
+gnm_hlink_new (GType typ, Sheet *sheet)
+{
+	GnmHLink *lnk;
+
+	g_return_val_if_fail (typ != 0, NULL);
+	g_return_val_if_fail (g_type_is_a (typ, GNM_HLINK_TYPE), NULL);
+	g_return_val_if_fail (!G_TYPE_IS_ABSTRACT (typ), NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	lnk = g_object_new (typ, NULL);
+	gnm_hlink_set_sheet (lnk, sheet);
+	return lnk;
+}
+
+/**
+ * gnm_hlink_dup:
+ * @lnk: Existing link
+ *
+ * Returns: (transfer full): A duplicate link.
+ */
+GnmHLink *
+gnm_hlink_dup (GnmHLink *lnk)
+{
+	GnmHLink *new_lnk = g_object_new (G_OBJECT_TYPE (lnk), NULL);
+
+	gnm_hlink_set_sheet (new_lnk, lnk->sheet);
+	gnm_hlink_set_target (new_lnk, gnm_hlink_get_target (lnk));
+	gnm_hlink_set_tip (new_lnk, lnk->tip);
+
+	return new_lnk;
+}
+
 /***************************************************************************/
 /* Link to named regions within the current workbook */
 typedef struct { GnmHLinkClass hlink; } GnmHLinkCurWBClass;
 typedef struct {
 	GnmHLink hlink;
+
+	GnmDependent dep;
 } GnmHLinkCurWB;
 #define GNM_HLINK_CUR_WB(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), gnm_hlink_cur_wb_get_type (), GnmHLinkCurWB))
+
+static GObjectClass *gnm_hlink_cur_wb_parent_class;
 
 static gboolean
 gnm_hlink_cur_wb_activate (GnmHLink *lnk, WBCGtk *wbcg)
 {
+	GnmHLinkCurWB *hlcwb = (GnmHLinkCurWB *)lnk;
+	WorkbookControl *wbc = GNM_WBC (wbcg);
+	GnmExprTop const *texpr = hlcwb->dep.texpr;
+	GnmValue *vr;
 	GnmRangeRef const *r;
 	GnmCellPos tmp;
-	Sheet	  *target_sheet;
-	WorkbookControl *wbc = GNM_WBC (wbcg);
-	Sheet	  *sheet = wbcg_cur_sheet (wbcg);
+	Sheet *target_sheet;
 	SheetView *sv;
-	GnmValue *target;
 
-	if (!lnk->target) {
+	if (!texpr) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg),
 			_("Link target"), _("(none)"));
 		return FALSE;
 	}
 
-	target = value_new_cellrange_str (sheet, lnk->target);
-	/* not an address, is it a name ? */
-	if (target == NULL) {
-		GnmParsePos pp;
-		GnmNamedExpr *nexpr = expr_name_lookup (
-			parse_pos_init_sheet (&pp, sheet), lnk->target);
-
-		if (nexpr != NULL)
-			target = gnm_expr_top_get_range (nexpr->texpr);
-	}
-	if (target == NULL) {
+	vr = gnm_expr_top_get_range (texpr);
+	if (!vr) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg),
 			_("Link target"), lnk->target);
 		return FALSE;
 	}
 
-	r = &target->v_range.cell;
+	r = value_get_rangeref (vr);
 	tmp.col = r->a.col;
 	tmp.row = r->a.row;
 
-	target_sheet = r->a.sheet ? r->a.sheet : sheet;
+	target_sheet = r->a.sheet ? r->a.sheet : lnk->sheet;
 	sv = sheet_get_view (target_sheet,  wb_control_view (wbc));
 	sv_selection_set (sv, &tmp, r->a.col, r->a.row, r->b.col, r->b.row);
 	sv_make_cell_visible (sv, r->a.col, r->a.row, FALSE);
-	if (sheet != target_sheet)
+	if (wbcg_cur_sheet (wbcg) != target_sheet)
 		wb_view_sheet_focus (wb_control_view (wbc), target_sheet);
-	value_release (target);
+	value_release (vr);
 	return TRUE;
+}
+
+static void
+gnm_hlink_cur_wb_set_sheet (GnmHLink *lnk, Sheet *sheet)
+{
+	GnmHLinkCurWB *hlcwb = (GnmHLinkCurWB *)lnk;
+	((GnmHLinkClass*)gnm_hlink_cur_wb_parent_class)
+		->set_sheet (lnk, sheet);
+	dependent_managed_set_sheet (&hlcwb->dep, sheet);
+}
+
+static void
+gnm_hlink_cur_wb_set_target (GnmHLink *lnk, const char *target)
+{
+	GnmHLinkCurWB *hlcwb = (GnmHLinkCurWB *)lnk;
+	GnmExprTop const *texpr = NULL;
+
+	((GnmHLinkClass*)gnm_hlink_cur_wb_parent_class)
+		->set_target (lnk, NULL);
+
+	if (target && lnk->sheet) {
+		GnmParsePos pp;
+		GnmNamedExpr *nexpr;
+
+		// Try as name
+		parse_pos_init_sheet (&pp, lnk->sheet);
+		nexpr = expr_name_lookup (&pp, target);
+		if (nexpr != NULL)
+			texpr = gnm_expr_top_new
+				(gnm_expr_new_name (nexpr, NULL, NULL));
+
+		if (!texpr) {
+			// Try as cell range
+			GnmValue *v = value_new_cellrange_str (lnk->sheet, target);
+			if (v)
+				texpr = gnm_expr_top_new_constant (v);
+		}
+	}
+
+	dependent_managed_set_expr (&hlcwb->dep, texpr);
+	if (texpr)
+		gnm_expr_top_unref (texpr);
+}
+
+static const char *
+gnm_hlink_cur_wb_get_target (GnmHLink const *lnk)
+{
+	GnmHLinkCurWB *hlcwb = (GnmHLinkCurWB *)lnk;
+	GnmExprTop const *texpr = hlcwb->dep.texpr;
+	char *tgt = NULL;
+	Sheet *sheet = lnk->sheet;
+
+	if (texpr && sheet) {
+		GnmConventions const *convs = sheet_get_conventions (sheet);
+		GnmParsePos pp;
+		parse_pos_init_sheet (&pp, sheet);
+		tgt = gnm_expr_top_as_string (texpr, &pp, convs);
+	}
+
+	// Use parent class for storage.  Ick!
+	((GnmHLinkClass*)gnm_hlink_cur_wb_parent_class)
+		->set_target ((GnmHLink *)lnk, tgt);
+
+	return ((GnmHLinkClass*)gnm_hlink_cur_wb_parent_class)
+		->get_target (lnk);
+}
+
+static void
+gnm_hlink_cur_wb_init (GObject *obj)
+{
+	GnmHLinkCurWB *hlcwb = (GnmHLinkCurWB *)obj;
+	dependent_managed_init (&hlcwb->dep, NULL);
+}
+
+static void
+gnm_hlink_cur_wb_finalize (GObject *obj)
+{
+	GnmHLinkCurWB *hlcwb = (GnmHLinkCurWB *)obj;
+
+	dependent_managed_set_expr (&hlcwb->dep, NULL);
+
+	gnm_hlink_cur_wb_parent_class->finalize (obj);
 }
 
 static void
@@ -207,11 +364,17 @@ gnm_hlink_cur_wb_class_init (GObjectClass *object_class)
 {
 	GnmHLinkClass *hlink_class = (GnmHLinkClass *) object_class;
 
-	hlink_class->Activate	   = gnm_hlink_cur_wb_activate;
+	gnm_hlink_cur_wb_parent_class = g_type_class_peek_parent (object_class);
+
+	object_class->finalize = gnm_hlink_cur_wb_finalize;
+	hlink_class->Activate = gnm_hlink_cur_wb_activate;
+	hlink_class->set_sheet = gnm_hlink_cur_wb_set_sheet;
+	hlink_class->set_target = gnm_hlink_cur_wb_set_target;
+	hlink_class->get_target = gnm_hlink_cur_wb_get_target;
 }
 
 GSF_CLASS (GnmHLinkCurWB, gnm_hlink_cur_wb,
-	   gnm_hlink_cur_wb_class_init, NULL,
+	   gnm_hlink_cur_wb_class_init, gnm_hlink_cur_wb_init,
 	   GNM_HLINK_TYPE)
 
 /***************************************************************************/

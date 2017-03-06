@@ -386,6 +386,7 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 	wb_control_sheet_focus (GNM_WBC (state->wbcg), state->sheet);
 
 	if (target) {
+		gnm_hlink_set_sheet (state->link, state->sheet);
 		gnm_hlink_set_target (state->link, target);
 		tip = dhl_get_tip (state, target);
 		gnm_hlink_set_tip (state->link, tip);
@@ -444,7 +445,7 @@ dhl_set_type (HyperlinkState *state, GType type)
 {
 	GnmHLink *old = state->link;
 
-	state->link = g_object_new (type, NULL);
+	state->link = gnm_hlink_new (type, state->sheet);
 	if (old != NULL) {
 		gnm_hlink_set_target (state->link, gnm_hlink_get_target (old));
 		gnm_hlink_set_tip (state->link, gnm_hlink_get_tip (old));
@@ -595,20 +596,22 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
         state->dialog = go_gtk_builder_get_widget (state->gui, "hyperlink-dialog");
 
 	state->sheet = sc_sheet (sc);
-	for (ptr = sc_view (sc)->selections; ptr != NULL; ptr = ptr->next)
-		if (NULL != (link = sheet_style_region_contains_link (state->sheet, ptr->data)))
+	for (ptr = sc_view (sc)->selections; ptr != NULL; ptr = ptr->next) {
+		GnmRange const *r = ptr->data;
+		link = sheet_style_region_contains_link (state->sheet, r);
+		if (link)
 			break;
+	}
 
 	/* We are creating a new link since the existing link */
 	/* may be used in many places. */
 	/* We are duplicating it here rather than in an ok handler in case */
-	/* The link is changed for a differnt cell in a different view. */
-	state->link = g_object_new (gnm_hlink_url_get_type (), NULL);
+	/* The link is changed for a differnet cell in a different view. */
 	if (link == NULL) {
-		state->link = g_object_new (gnm_hlink_url_get_type (), NULL);
+		state->link = gnm_hlink_new (gnm_hlink_url_get_type (), state->sheet);
 		state->is_new = TRUE;
 	} else {
-		state->link = g_object_new (G_OBJECT_TYPE (link), NULL);
+		state->link = gnm_hlink_new (G_OBJECT_TYPE (link), state->sheet);
 		state->is_new = FALSE;
 		gnm_hlink_set_target (state->link, gnm_hlink_get_target (link));
 		gnm_hlink_set_tip (state->link, gnm_hlink_get_tip (link));
