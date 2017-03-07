@@ -476,6 +476,52 @@ parse_string_as_value (GnmExpr *str)
 	return str;
 }
 
+static const GnmExpr *
+parser_simple_name (const char *str, Sheet *sheet)
+{
+	GnmExpr const *res;
+	GnmNamedExpr *nexpr;
+
+	if (sheet) {
+		GnmParsePos pp;
+		parse_pos_init_sheet (&pp, sheet);
+		nexpr = expr_name_lookup (&pp, str);
+	} else
+		nexpr = expr_name_lookup (state->pos, str);
+
+	if (nexpr == NULL) {
+		if (state->flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID) {
+			GError *e;
+			e = sheet
+				? g_error_new (1, PERR_UNKNOWN_NAME,
+					       _("Name '%s' does not exist in sheet '%s'"),
+					       str, sheet->name_quoted)
+				: g_error_new (1, PERR_UNKNOWN_NAME,
+					       _("Name '%s' does not exist"),
+					       str);
+			report_err (state, e, state->ptr, 0);
+			res = NULL;
+		} else if (!sheet && state->flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS) {
+			res = gnm_expr_new_constant (value_new_string (str));
+		} else if (state->convs->input.name_validate (str)) {
+			GnmParsePos pp = *state->pos;
+			pp.sheet = sheet;
+			/* Create a place holder */
+			nexpr = expr_name_add (&pp, str, NULL, NULL, TRUE, NULL);
+			res = gnm_expr_new_name (nexpr, sheet, NULL);
+		} else {
+			report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
+							_("'%s' cannot be used as a name"),
+							str),
+				    state->ptr, 0);
+			res = NULL;
+		}
+	} else
+		res = gnm_expr_new_name (nexpr, sheet, NULL);
+
+	return res;
+}
+
 /**
  * parser_simple_val_or_name :
  * @str : An expression with oper constant, whose value is a string.
@@ -492,31 +538,7 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 
 	/* if it is not a simple value see if it is a name */
 	if (v == NULL) {
-		GnmNamedExpr *nexpr = expr_name_lookup (state->pos, str);
-		if (nexpr == NULL) {
-			if (state->flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID) {
-				report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
-								_("Name '%s' does not exist"),
-								str),
-					    state->ptr, 0);
-				res = NULL;
-			} else if (state->flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS) {
-				res = gnm_expr_new_constant (value_new_string (str));
-			} else if (state->convs->input.name_validate (str)) {
-				GnmParsePos pp = *state->pos;
-				pp.sheet = NULL;
-				/* Create a place holder */
-				nexpr = expr_name_add (&pp, str, NULL, NULL, TRUE, NULL);
-				res = gnm_expr_new_name (nexpr, NULL, NULL);
-			} else {
-				report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
-								_("'%s' cannot be used as a name"),
-								str),
-					    state->ptr, 0);
-				res = NULL;
-			}
-		} else
-			res = gnm_expr_new_name (nexpr, NULL, NULL);
+		res = parser_simple_name (str, NULL);
 	} else
 		res = gnm_expr_new_constant (v);
 
@@ -676,21 +698,14 @@ exp:	  CONSTANT 	{ $$ = $1; }
 
 	| function
 	| sheetref STRING {
-		GnmNamedExpr *nexpr = NULL;
 		char const *name = value_peek_string ($2->constant.value);
-		GnmParsePos pos = *state->pos;
+		GnmExpr const *ename = parser_simple_name (name, $1);
 
-		pos.sheet = $1;
-		nexpr = expr_name_lookup (&pos, name);
-		if (nexpr == NULL) {
-			report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
-				_("Name '%s' does not exist in sheet '%s'"),
-						name, pos.sheet->name_quoted),
-				state->ptr, strlen (name));
-			YYERROR;
-		} else {
+		if (ename) {
 			unregister_allocation ($2); gnm_expr_free ($2);
-			$$ = register_expr_allocation (gnm_expr_new_name (nexpr, $1, NULL));
+			$$ = register_expr_allocation (ename);
+		} else {
+			YYERROR;
 		}
 	}
 	| workbookref STRING {

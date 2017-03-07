@@ -1,3 +1,9 @@
+2017-03-07  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (parser_simple_name): Extract from
+	parser_simple_val_or_name.  Extend to handle explicit sheet.
+	("sheetref STRING"): Ise parser_simple_name.
+
 2017-03-06  Morten Welinder  <terra@gnome.org>
 
 	* src/expr-name.c (expr_name_add): Plug leak.

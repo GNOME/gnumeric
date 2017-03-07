@@ -2167,9 +2167,10 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 								    state->convs,
 								    &perr);
 					if (!texpr) {
-						g_warning ("Unparsable expression for %s: %s\n",
+						g_warning ("Unparsable expression for %s: %s (%s)\n",
 							   cell ? cell_name (cell) : "-",
-							   content);
+							   content,
+							   perr.err->message);
 						texpr = gnm_expr_top_new_constant (value_new_string (expr_start));
 					}
 					if (cell) {

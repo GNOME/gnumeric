@@ -15,6 +15,7 @@ Morten:
 	* Improve Excel handling of hyperlinks.
 	* Hyperlinks improvements.  [#706671]
 	* Plug leaks.
+	* Fix issues with sheet-local names.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.33
