@@ -733,7 +733,8 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 	if (nexpr != NULL) {
 		if (texpr == NULL) {
 			/* there was already a placeholder for this */
-			expr_name_ref (nexpr);
+			if (!link_to_container)
+				expr_name_ref (nexpr);
 			return nexpr;
 		}
 

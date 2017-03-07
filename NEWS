@@ -14,6 +14,7 @@ Morten:
 	* Test suite improvements.
 	* Improve Excel handling of hyperlinks.
 	* Hyperlinks improvements.  [#706671]
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.33
