@@ -4287,7 +4287,10 @@ oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
 			type = gnm_hlink_email_get_type ();
 		else if (g_str_has_prefix (link, "file"))
 			type = gnm_hlink_external_get_type ();
-		else
+		else if (g_str_has_prefix (link, "#")) {
+			type = gnm_hlink_cur_wb_get_type ();
+			link++;
+		} else
 			type = gnm_hlink_cur_wb_get_type ();
 
 		hlink = gnm_hlink_new (type, state->pos.sheet);

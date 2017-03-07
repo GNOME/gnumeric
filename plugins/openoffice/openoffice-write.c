@@ -3318,12 +3318,25 @@ odf_write_objects (GnmOOExport *state, GSList *objects)
 static void
 odf_write_link_start (GnmOOExport *state, GnmHLink *link)
 {
+	char const *link_text;
 	if (link == NULL)
 		return;
+	link_text = gnm_hlink_get_target (link);
+
 	gsf_xml_out_start_element (state->xml, TEXT "a");
 	gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
 	gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onRequest");
-	gsf_xml_out_add_cstr (state->xml, XLINK "href", gnm_hlink_get_target (link));
+
+	if (g_str_has_prefix (link_text, "http") ||
+	    g_str_has_prefix (link_text, "mail") ||
+	    g_str_has_prefix (link_text, "file"))
+	        gsf_xml_out_add_cstr (state->xml, XLINK "href", link_text);
+	else {
+		gchar *link_text_complete = g_strconcat ("#",link_text,NULL);
+		gsf_xml_out_add_cstr (state->xml, XLINK "href", link_text_complete);
+		g_free (link_text_complete);
+	}
+
 	gsf_xml_out_add_cstr (state->xml, OFFICE "title", gnm_hlink_get_tip (link));
 }
 
