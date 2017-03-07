@@ -1,5 +1,9 @@
 2017-03-06  Morten Welinder  <terra@gnome.org>
 
+	* openoffice-read.c: Use GSF_XML_2ND where appropriate.
+
+2017-03-06  Morten Welinder  <terra@gnome.org>
+
 	* openoffice-read.c (oo_named_expr_common): Rename from
 	oo_named_expr and use for both preparse and parse.
 

@@ -5022,7 +5022,7 @@ oo_date_am_pm (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gchar const *am_suffix = "AM";
 	gchar const *pm_suffix = "PM";
-	
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "am-suffix"))
 			am_suffix = CXML2C (attrs[1]);
@@ -5037,7 +5037,7 @@ oo_date_am_pm (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 		pm_suffix = "PM";
 	if (strlen (am_suffix) != strlen (pm_suffix))
 		pm_suffix = am_suffix = "AM";
-	
+
 	if (state->cur_format.accum != NULL) {
 		g_string_append (state->cur_format.accum, am_suffix);
 		g_string_append_c (state->cur_format.accum, '/');
@@ -11351,7 +11351,7 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 
 			item = g_hash_table_lookup (hash, "ZoomValue");
 			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
-				g_object_set (sheet, "zoom-factor",  g_value_get_int (item)/100., NULL);			
+				g_object_set (sheet, "zoom-factor",  g_value_get_int (item)/100., NULL);
 
 			item = g_hash_table_lookup (hash, "HorizontalSplitMode");
 			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
@@ -11816,15 +11816,15 @@ GSF_XML_IN_NODE (MASTER_PAGE_HF_P, HF_PAGE_COUNT, OO_NS_TEXT, "page-count", GSF_
 GSF_XML_IN_NODE (MASTER_PAGE_HF_P, HF_FILE_NAME, OO_NS_TEXT, "file-name", GSF_XML_NO_CONTENT, &odf_hf_file, NULL),
 GSF_XML_IN_NODE (MASTER_PAGE_HF_P, HF_EXPRESSION, OO_NS_TEXT, "expression", GSF_XML_NO_CONTENT, &odf_hf_expression, NULL),
 GSF_XML_IN_NODE (MASTER_PAGE_HF_P, TEXT_SPAN,      OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &odf_text_span_start, &odf_text_span_end),
-GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-GSF_XML_IN_NODE (TEXT_SPAN, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-GSF_XML_IN_NODE (TEXT_SPAN, TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-GSF_XML_IN_NODE (TEXT_SPAN, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-GSF_XML_IN_NODE (TEXT_SPAN, HF_SHEET_NAME, OO_NS_TEXT, "sheet-name", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-GSF_XML_IN_NODE (TEXT_SPAN, HF_PAGE_NUMBER, OO_NS_TEXT, "page-number", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-GSF_XML_IN_NODE (TEXT_SPAN, HF_PAGE_COUNT, OO_NS_TEXT, "page-count", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-GSF_XML_IN_NODE (TEXT_SPAN, HF_FILE_NAME, OO_NS_TEXT, "file-name", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-GSF_XML_IN_NODE (TEXT_SPAN, HF_EXPRESSION, OO_NS_TEXT, "expression", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_2ND, NULL, NULL),
+GSF_XML_IN_NODE (TEXT_SPAN, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_2ND, NULL, NULL),
+GSF_XML_IN_NODE (TEXT_SPAN, TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_2ND, NULL, NULL),
+GSF_XML_IN_NODE (TEXT_SPAN, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_2ND, NULL, NULL),
+GSF_XML_IN_NODE (TEXT_SPAN, HF_SHEET_NAME, OO_NS_TEXT, "sheet-name", GSF_XML_2ND, NULL, NULL),
+GSF_XML_IN_NODE (TEXT_SPAN, HF_PAGE_NUMBER, OO_NS_TEXT, "page-number", GSF_XML_2ND, NULL, NULL),
+GSF_XML_IN_NODE (TEXT_SPAN, HF_PAGE_COUNT, OO_NS_TEXT, "page-count", GSF_XML_2ND, NULL, NULL),
+GSF_XML_IN_NODE (TEXT_SPAN, HF_FILE_NAME, OO_NS_TEXT, "file-name", GSF_XML_2ND, NULL, NULL),
+GSF_XML_IN_NODE (TEXT_SPAN, HF_EXPRESSION, OO_NS_TEXT, "expression", GSF_XML_2ND, NULL, NULL),
 
 GSF_XML_IN_NODE_FULL (MASTER_PAGE_HEADER, MASTER_PAGE_HF_R_RIGHT, OO_NS_STYLE, "region-right", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_hf_region, &odf_hf_region_end, 2),
     GSF_XML_IN_NODE (MASTER_PAGE_HF_R_RIGHT, MASTER_PAGE_HF_P, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
@@ -11924,18 +11924,18 @@ GSF_XML_IN_NODE (OFFICE_STYLES, PAGE_MASTER, OO_NS_STYLE, "page-master", GSF_XML
 	    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
-	    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
-	    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
+	    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_2ND, NULL, NULL),
+	    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (TABLE_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, &odf_line, &odf_line_end),
             GSF_XML_IN_NODE (DRAW_LINE, IGNORED_TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* ignore for now */
 	GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", GSF_XML_NO_CONTENT, &oo_covered_cell_start, &oo_covered_cell_end),
-          GSF_XML_IN_NODE (TABLE_COVERED_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, NULL, NULL), 	/* 2nd def */
+          GSF_XML_IN_NODE (TABLE_COVERED_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_2ND, NULL, NULL),
       GSF_XML_IN_NODE (TABLE, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+        GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_2ND, NULL, NULL),
       GSF_XML_IN_NODE (TABLE, TABLE_ROW_GROUP,	      OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW_GROUP, OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+        GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", GSF_XML_2ND, NULL, NULL),
     GSF_XML_IN_NODE (OFFICE_BODY, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
       GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
@@ -12072,16 +12072,16 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE_FULL (TEXT_CONTENT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_text_symbol, NULL, .v_str = "\n"),
 	            GSF_XML_IN_NODE_FULL (TEXT_CONTENT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_SHARED_CONTENT, FALSE, FALSE, odf_text_symbol, NULL, .v_str = "\t"),
 		    GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_SPAN,      OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &odf_text_span_start, &odf_text_span_end),
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_2ND, NULL, NULL),
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_2ND, NULL, NULL),
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_2ND, NULL, NULL),
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_2ND, NULL, NULL),
 		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, &oo_cell_content_link, NULL),
-	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		        GSF_XML_IN_NODE (TEXT_ADDR, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_2ND, NULL, NULL),
+		        GSF_XML_IN_NODE (TEXT_ADDR, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_2ND, NULL, NULL),
+	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_2ND, NULL, NULL),
  	        GSF_XML_IN_NODE (CONTENT_VALIDATION, HELP_MESSAGE, OO_NS_TABLE, "help-message", GSF_XML_NO_CONTENT, &odf_validation_help_message , &odf_validation_help_message_end),
-	            GSF_XML_IN_NODE (HELP_MESSAGE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	            GSF_XML_IN_NODE (HELP_MESSAGE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
  	    GSF_XML_IN_NODE (SPREADSHEET, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, ITERATION, OO_NS_TABLE, "iteration", GSF_XML_NO_CONTENT, &oo_iteration, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, DATE_CONVENTION, OO_NS_TABLE, "null-date", GSF_XML_NO_CONTENT, &oo_date_convention, NULL),
@@ -12099,20 +12099,20 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	          GSF_XML_IN_NODE (CHART_TABLE_COLS, CHART_TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (CHART_TABLE, CHART_TABLE_HROWS, OO_NS_TABLE, "table-header-rows", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (CHART_TABLE_HROWS, CHART_TABLE_HROW, OO_NS_TABLE, "table-header-row", GSF_XML_NO_CONTENT, NULL, NULL),
-	          GSF_XML_IN_NODE (CHART_TABLE_HROWS, CHART_TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+	          GSF_XML_IN_NODE (CHART_TABLE_HROWS, CHART_TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_2ND, NULL, NULL),
 	        GSF_XML_IN_NODE (CHART_TABLE, CHART_TABLE_HCOLS, OO_NS_TABLE, "table-header-columns", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (CHART_TABLE_HCOLS, CHART_TABLE_HCOL, OO_NS_TABLE, "table-header-column", GSF_XML_NO_CONTENT, NULL, NULL),
-	          GSF_XML_IN_NODE (CHART_TABLE_HCOLS, CHART_TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+	          GSF_XML_IN_NODE (CHART_TABLE_HCOLS, CHART_TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_2ND, NULL, NULL),
 
 	      GSF_XML_IN_NODE_FULL (CHART_CHART, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 0),
-	        GSF_XML_IN_NODE (CHART_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
+	        GSF_XML_IN_NODE (CHART_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	      GSF_XML_IN_NODE_FULL (CHART_CHART, CHART_SUBTITLE, OO_NS_CHART, "subtitle", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 1),
-	        GSF_XML_IN_NODE (CHART_SUBTITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
+	        GSF_XML_IN_NODE (CHART_SUBTITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	      GSF_XML_IN_NODE_FULL (CHART_CHART, CHART_FOOTER, OO_NS_CHART, "footer", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 2),
-	        GSF_XML_IN_NODE (CHART_FOOTER, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
+	        GSF_XML_IN_NODE (CHART_FOOTER, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, NULL),
 	        GSF_XML_IN_NODE (CHART_LEGEND, CHART_LEGEND_TITLE, OO_GNUM_NS_EXT, "title", GSF_XML_NO_CONTENT, &oo_chart_title, &oo_chart_title_end),
-		  GSF_XML_IN_NODE (CHART_LEGEND_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
+		  GSF_XML_IN_NODE (CHART_LEGEND_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_PLOT_AREA, OO_NS_CHART, "plot-area", GSF_XML_NO_CONTENT, &oo_plot_area, &oo_plot_area_end),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_SERIES, OO_NS_CHART, "series", GSF_XML_NO_CONTENT, &oo_plot_series, &oo_plot_series_end),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DOMAIN, OO_NS_CHART, "domain", GSF_XML_NO_CONTENT, &oo_series_domain, NULL),
@@ -12122,8 +12122,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (SERIES_REGRESSION, SERIES_REG_EQ, OO_NS_CHART, "equation", GSF_XML_NO_CONTENT,  &od_series_reg_equation, NULL),
 	            GSF_XML_IN_NODE (SERIES_REGRESSION, SERIES_REG_EQ_GNM, OO_GNUM_NS_EXT, "equation", GSF_XML_NO_CONTENT,  &od_series_reg_equation, NULL),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_REGRESSION_MULTIPLE, OO_GNUM_NS_EXT, "regression-curve", GSF_XML_NO_CONTENT,  &od_series_regression, NULL),
-	            GSF_XML_IN_NODE (SERIES_REGRESSION_MULTIPLE, SERIES_REG_EQ, OO_NS_CHART, "equation", GSF_XML_NO_CONTENT,  NULL, NULL),/* 2nd Def */
-	            GSF_XML_IN_NODE (SERIES_REGRESSION_MULTIPLE, SERIES_REG_EQ_GNM, OO_GNUM_NS_EXT, "equation", GSF_XML_NO_CONTENT,  NULL, NULL), /* 2nd Def */
+	            GSF_XML_IN_NODE (SERIES_REGRESSION_MULTIPLE, SERIES_REG_EQ, OO_NS_CHART, "equation", GSF_XML_2ND, NULL, NULL),
+	            GSF_XML_IN_NODE (SERIES_REGRESSION_MULTIPLE, SERIES_REG_EQ_GNM, OO_GNUM_NS_EXT, "equation", GSF_XML_2ND, NULL, NULL),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DROPLINES, OO_GNUM_NS_EXT, "droplines", GSF_XML_NO_CONTENT, &oo_series_droplines, NULL),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_SERIESLINES, OO_GNUM_NS_EXT, "serieslines", GSF_XML_NO_CONTENT, &oo_series_serieslines, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, &oo_chart_wall, NULL),
@@ -12138,7 +12138,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (GNM_CHART_AXIS, GNM_CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
 		  GSF_XML_IN_NODE (GNM_CHART_AXIS, GNM_CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, &od_chart_axis_categories, NULL),
 	          GSF_XML_IN_NODE_FULL (GNM_CHART_AXIS, GNM_CHART_AXIS_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 3),
-	            GSF_XML_IN_NODE (CHART_AXIS_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
+	            GSF_XML_IN_NODE (CHART_AXIS_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	        GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_OOO_COORDINATE_REGION, OO_NS_CHART_OOO, "coordinate-region", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
 	      GSF_XML_IN_NODE (TABLE, SHEET_SELECTIONS, OO_GNUM_NS_EXT, "selections", GSF_XML_NO_CONTENT, &odf_selection, &odf_selection_end),
@@ -12147,72 +12147,72 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (TABLE, TABLE_SHAPES, OO_NS_TABLE, "shapes", GSF_XML_NO_CONTENT, &odf_shapes, &odf_shapes_end),
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CAPTION, OO_NS_DRAW, "caption", GSF_XML_NO_CONTENT, &odf_caption, &od_draw_text_frame_end),
-	            GSF_XML_IN_NODE (DRAW_CAPTION, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	            GSF_XML_IN_NODE (DRAW_CAPTION, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, &odf_custom_shape, &odf_custom_shape_end),
-	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, DRAW_ENHANCED_GEOMETRY, OO_NS_DRAW, "enhanced-geometry", GSF_XML_NO_CONTENT, &odf_custom_shape_enhanced_geometry, NULL),
 	GSF_XML_IN_NODE (DRAW_ENHANCED_GEOMETRY, DRAW_ENHANCED_GEOMETRY_EQUATION, OO_NS_DRAW, "equation", GSF_XML_NO_CONTENT, odf_custom_shape_equation, NULL),
 	GSF_XML_IN_NODE (DRAW_ENHANCED_GEOMETRY, DRAW_ENHANCED_GEOMETRY_HANDLE, OO_NS_DRAW, "handle", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, &odf_ellipse, &od_draw_text_frame_end),
-	            GSF_XML_IN_NODE (DRAW_ELLIPSE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	            GSF_XML_IN_NODE (DRAW_ELLIPSE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, &odf_line, &odf_line_end),
-                    GSF_XML_IN_NODE (DRAW_LINE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+                    GSF_XML_IN_NODE (DRAW_LINE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_RECT, OO_NS_DRAW, "rect", GSF_XML_NO_CONTENT, &odf_rect, &od_draw_text_frame_end),
-	            GSF_XML_IN_NODE (DRAW_RECT, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	            GSF_XML_IN_NODE (DRAW_RECT, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (FORMS, FORM, OO_NS_FORM, "form", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),
 	            GSF_XML_IN_NODE (FORM_PROPERTIES, FORM_PROPERTY, OO_NS_FORM, "property", GSF_XML_NO_CONTENT, &odf_control_property, NULL),
 	              GSF_XML_IN_NODE (FORM_PROPERTIES, FORM_LIST_PROPERTY, OO_NS_FORM, "list-property", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_BUTTON, OO_NS_FORM, "button", GSF_XML_NO_CONTENT, &odf_form_button, &odf_form_control_end),
-	            GSF_XML_IN_NODE (FORM_BUTTON, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	            GSF_XML_IN_NODE (FORM_BUTTON, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_2ND, NULL, NULL),
 	            GSF_XML_IN_NODE (FORM_BUTTON, BUTTON_OFFICE_EVENT_LISTENERS, OO_NS_OFFICE, "event-listeners", GSF_XML_NO_CONTENT, NULL, NULL),
 	              GSF_XML_IN_NODE (BUTTON_OFFICE_EVENT_LISTENERS, BUTTON_EVENT_LISTENER, OO_NS_SCRIPT, "event-listener", GSF_XML_NO_CONTENT, &odf_button_event_listener, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_VALUE_RANGE, OO_NS_FORM, "value-range", GSF_XML_NO_CONTENT, &odf_form_value_range, NULL),
-	            GSF_XML_IN_NODE (FORM_VALUE_RANGE, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	            GSF_XML_IN_NODE (FORM_VALUE_RANGE, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_2ND, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_CHECKBOX, OO_NS_FORM, "checkbox", GSF_XML_NO_CONTENT, &odf_form_checkbox, NULL),
-	            GSF_XML_IN_NODE (FORM_CHECKBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	            GSF_XML_IN_NODE (FORM_CHECKBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_2ND, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_RADIO, OO_NS_FORM, "radio", GSF_XML_NO_CONTENT, &odf_form_radio, NULL),
-	            GSF_XML_IN_NODE (FORM_RADIO, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	            GSF_XML_IN_NODE (FORM_RADIO, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_2ND, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_LISTBOX, OO_NS_FORM, "listbox", GSF_XML_NO_CONTENT, &odf_form_listbox, NULL),
-	            GSF_XML_IN_NODE (FORM_LISTBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	            GSF_XML_IN_NODE (FORM_LISTBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_2ND, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_COMBOBOX, OO_NS_FORM, "combobox", GSF_XML_NO_CONTENT, &odf_form_combobox, NULL),
-	            GSF_XML_IN_NODE (FORM_COMBOBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	            GSF_XML_IN_NODE (FORM_COMBOBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_2ND, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_GENERIC, OO_NS_FORM, "generic-control", GSF_XML_NO_CONTENT, &odf_form_generic, &odf_form_control_end),
-	            GSF_XML_IN_NODE (FORM_GENERIC, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	            GSF_XML_IN_NODE (FORM_GENERIC, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_2ND, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_H_ROWS, OO_NS_TABLE, "table-header-rows", GSF_XML_NO_CONTENT, &odf_table_header_rows, &odf_table_header_rows_end),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COLS, OO_NS_TABLE, "table-columns", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_H_COLS, OO_NS_TABLE, "table-header-columns", GSF_XML_NO_CONTENT, &odf_table_header_cols, &odf_table_header_cols_end),
-	      GSF_XML_IN_NODE (TABLE_H_COLS, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),    /* 2nd def */
-	      GSF_XML_IN_NODE (TABLE_COLS, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),      /* 2nd def */
+	      GSF_XML_IN_NODE (TABLE_H_COLS, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_2ND, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE_COLS, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_2ND, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),
 	      GSF_XML_IN_NODE (TABLE, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (TABLE_ROWS, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	      GSF_XML_IN_NODE (TABLE_H_ROWS, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	      GSF_XML_IN_NODE (TABLE_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	      GSF_XML_IN_NODE (TABLE_H_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	      GSF_XML_IN_NODE (TABLE_ROWS, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_2ND, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE_H_ROWS, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_2ND, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_2ND, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE_H_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_2ND, NULL, NULL),
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &oo_cell_start, &oo_cell_end),
 		  GSF_XML_IN_NODE (TABLE_CELL, DETECTIVE, OO_NS_TABLE, "detective", GSF_XML_NO_CONTENT, NULL, NULL),
 	            GSF_XML_IN_NODE (DETECTIVE, DETECTIVE_OPERATION, OO_NS_TABLE, "operation", GSF_XML_NO_CONTENT, NULL, NULL),
-		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_2ND, NULL, NULL),
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &oo_cell_content_start, &oo_cell_content_end),
-		    GSF_XML_IN_NODE (CELL_TEXT, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_S,   OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT,NULL, NULL ),/* 2nd def */
-		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		    GSF_XML_IN_NODE (CELL_TEXT, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_2ND, NULL, NULL),
+		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_S,   OO_NS_TEXT, "s", GSF_XML_2ND, NULL, NULL),
+		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_2ND, NULL, NULL),
+	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_2ND, NULL, NULL),
+	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_2ND,NULL, NULL ),
+		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_2ND, NULL, NULL),
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),			/* ignore for now */
-		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
-		    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
+		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_2ND, NULL, NULL),
+		    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_CONTROL, OO_NS_DRAW, "control", GSF_XML_NO_CONTENT, &od_draw_control_start, NULL),
-	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_RECT, OO_NS_DRAW, "rect", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_RECT, OO_NS_DRAW, "rect", GSF_XML_2ND, NULL, NULL),
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_2ND, NULL, NULL),
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_2ND, NULL, NULL),
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_2ND, NULL, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
 	            GSF_XML_IN_NODE (DRAW_OBJECT, DRAW_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, NULL),
 
@@ -12220,9 +12220,9 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	              GSF_XML_IN_NODE (DRAW_IMAGE, DRAW_IMAGE_TEXT,OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, SVG_DESC, OO_NS_SVG, "desc", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_TEXT_BOX, OO_NS_DRAW, "text-box", GSF_XML_NO_CONTENT, &od_draw_text_box, od_draw_text_frame_end),
-	            GSF_XML_IN_NODE (DRAW_TEXT_BOX, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	            GSF_XML_IN_NODE (DRAW_TEXT_BOX, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_CELL, CELL_ANNOTATION, OO_NS_OFFICE, "annotation", GSF_XML_NO_CONTENT, &odf_annotation_start, &odf_annotation_end),
-	            GSF_XML_IN_NODE (CELL_ANNOTATION, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	            GSF_XML_IN_NODE (CELL_ANNOTATION, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_AUTHOR, OO_NS_DC, "creator", GSF_XML_CONTENT, NULL, &odf_annotation_author_end),
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_DATE, OO_NS_DC, "date", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -12233,13 +12233,13 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_H_COLS, OO_NS_TABLE, "table-header-columns", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	      GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_H_COLS, OO_NS_TABLE, "table-header-columns", GSF_XML_2ND, NULL, NULL),
+		GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_2ND, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW_GROUP, OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (TABLE, TABLE_ROW_GROUP,	      OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", GSF_XML_2ND, NULL, NULL),
 	  GSF_XML_IN_NODE (TABLE, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
-	  GSF_XML_IN_NODE (SPREADSHEET, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	  GSF_XML_IN_NODE (SPREADSHEET, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_2ND, NULL, NULL),
 	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
 	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
 
@@ -12251,8 +12251,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		   GSF_XML_IN_NODE (FILTER_AND, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, &odf_filter_or, NULL),
                        GSF_XML_IN_NODE (FILTER_OR, FILTER_COND_IGNORE, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, NULL, NULL),
 	               GSF_XML_IN_NODE (FILTER_OR, FILTER_AND_IGNORE, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, NULL, NULL),
-	           GSF_XML_IN_NODE (FILTER_AND, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-                GSF_XML_IN_NODE (FILTER, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	           GSF_XML_IN_NODE (FILTER_AND, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_2ND, NULL, NULL),
+                GSF_XML_IN_NODE (FILTER, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_2ND, NULL, NULL),
 	    GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE_SORT, SORT_BY, OO_NS_TABLE, "sort-by", GSF_XML_NO_CONTENT, NULL, NULL),
 
