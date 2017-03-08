@@ -203,20 +203,20 @@ gboolean cmd_so_set_frame_label (WorkbookControl *wbc, SheetObject *so,
 				 char *old_label, char *new_label);
 
 gboolean cmd_so_set_button (WorkbookControl *wbc, SheetObject *so,
-			    GnmExprTop const *link,
+			    GnmExprTop const *lnk,
 			    char *old_label, char *new_label);
 
 gboolean cmd_so_set_radio_button (WorkbookControl *wbc, SheetObject *so,
-				  GnmExprTop const *link,
+				  GnmExprTop const *lnk,
 				  char *old_label, char *new_label,
 				  GnmValue *old_value, GnmValue *new_value);
 
 gboolean cmd_so_set_checkbox (WorkbookControl *wbc, SheetObject *so,
-			      GnmExprTop const *link,
+			      GnmExprTop const *lnk,
 			      char *old_label, char *new_label);
 
 gboolean cmd_so_set_adjustment (WorkbookControl *wbc, SheetObject *so,
-				GnmExprTop const *link,
+				GnmExprTop const *lnk,
 				gboolean horizontal,
 				int lower, int upper,
 				int step, int page,

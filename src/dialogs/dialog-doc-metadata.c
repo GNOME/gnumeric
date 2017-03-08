@@ -775,7 +775,7 @@ static void
 dialog_doc_metadata_add_prop (DialogDocMetaData *state,
 			      const gchar       *name,
 			      const gchar       *value,
-			      const gchar       *link,
+			      const gchar       *lnk,
 			      GType              val_type)
 {
 	gboolean editable = (val_type != G_TYPE_INVALID)
@@ -783,14 +783,14 @@ dialog_doc_metadata_add_prop (DialogDocMetaData *state,
 	if (value == NULL)
 		value = "";
 
-	if (link == NULL)
-		link = "";
+	if (lnk == NULL)
+		lnk = "";
 
 	/* Append new values in tree view */
 	gtk_tree_store_insert_with_values (state->properties_store, NULL, NULL, G_MAXINT,
 					   0, name,
 					   1, value,
-					   2, link,
+					   2, lnk,
 					   3, editable,
 					   4, val_type,
 					   -1);
@@ -870,7 +870,7 @@ dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
  * @state: dialog main struct
  * @name: property name
  * @value: property value
- * @link: property linked to
+ * @lnk: property linked to
  *
  * Sets a new value to the property in the GsfDocMetaData struct
  *
@@ -879,7 +879,7 @@ static GType
 dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 				  const gchar       *name,
 				  const gchar       *value,
-				  const gchar       *link,
+				  const gchar       *lnk,
 				  GType              type)
 {
 	GsfDocProp *existing_prop = NULL;
@@ -894,11 +894,11 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 		existing_link  = gsf_doc_prop_get_link (existing_prop);
 	}
 
-	if (link != NULL && *link == 0)
-		link = NULL;
+	if (lnk != NULL && *lnk == 0)
+		lnk = NULL;
 	if (value != NULL && *value == 0)
 		value = NULL;
-	if ((value == NULL) && (link == NULL)) {
+	if ((value == NULL) && (lnk == NULL)) {
 		if ((existing_prop == NULL) ||
 		    ((existing_value == NULL) && (existing_link == NULL)))
 			return G_TYPE_INVALID;
@@ -915,12 +915,12 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 
 		if (existing_link!= NULL && *existing_link == 0)
 			existing_link = NULL;
-		if (link == existing_link)
+		if (lnk == existing_link)
 			link_changed = FALSE;
-		else if (link == NULL || existing_link == NULL)
+		else if (lnk == NULL || existing_link == NULL)
 			link_changed = TRUE;
 		else
-			link_changed = (0 != strcmp (link, existing_link));
+			link_changed = (0 != strcmp (lnk, existing_link));
 
 		if (existing_value == NULL)
 			value_changed = (value != NULL);
@@ -959,8 +959,8 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 		gsf_doc_prop_set_val (doc_prop, doc_prop_value);
 	}
 
-	if (link != NULL)
-		gsf_doc_prop_set_link (doc_prop, g_strdup (link));
+	if (lnk != NULL)
+		gsf_doc_prop_set_link (doc_prop, g_strdup (lnk));
 
 	cmd_change_meta_data (GNM_WBC (state->wbcg),
 			      g_slist_prepend (NULL, doc_prop), NULL);
