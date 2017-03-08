@@ -476,7 +476,7 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 		GNM "Diagonal"
 	};
 	GnmValidation const *v;
-	GnmHLink   const *link;
+	GnmHLink   const *lnk;
 	GnmInputMsg const *im;
 	GnmStyleConditions const *sc;
 	GnmStyleBorderType t;
@@ -558,12 +558,12 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 	}
 
 	if (gnm_style_is_element_set (style, MSTYLE_HLINK) &&
-	    NULL != (link = gnm_style_get_hlink (style))) {
+	    NULL != (lnk = gnm_style_get_hlink (style))) {
 		gsf_xml_out_start_element (state->output, GNM "HyperLink");
-		gsf_xml_out_add_cstr (state->output, "type", g_type_name (G_OBJECT_TYPE (link)));
-		gsf_xml_out_add_cstr (state->output, "target", gnm_hlink_get_target (link));
-		if (gnm_hlink_get_tip (link) != NULL)
-			gsf_xml_out_add_cstr (state->output, "tip", gnm_hlink_get_tip (link));
+		gsf_xml_out_add_cstr (state->output, "type", g_type_name (G_OBJECT_TYPE (lnk)));
+		gsf_xml_out_add_cstr (state->output, "target", gnm_hlink_get_target (lnk));
+		if (gnm_hlink_get_tip (lnk) != NULL)
+			gsf_xml_out_add_cstr (state->output, "tip", gnm_hlink_get_tip (lnk));
 		gsf_xml_out_end_element (state->output);
 	}
 

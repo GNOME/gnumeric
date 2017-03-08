@@ -1860,10 +1860,10 @@ xml_sax_hlink (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (NULL != type && NULL != target) {
 		GType typ = g_type_from_name (type);
-		GnmHLink *link = gnm_hlink_new (typ, state->sheet);
-		gnm_hlink_set_target (link, target);
-		gnm_hlink_set_tip (link, tip);
-		gnm_style_set_hlink (state->style, link);
+		GnmHLink *lnk = gnm_hlink_new (typ, state->sheet);
+		gnm_hlink_set_target (lnk, target);
+		gnm_hlink_set_tip (lnk, tip);
+		gnm_style_set_hlink (state->style, lnk);
 	}
 
 	g_free (type);

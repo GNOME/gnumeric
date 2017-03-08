@@ -186,7 +186,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			GnmCellPos pos;
 			GnmStyle *mstyle;
 			GSList *hrefs = NULL;
-			GnmHLink *link = NULL;
+			GnmHLink *lnk = NULL;
 
 			/* Check whether we need to skip merges from above */
 			pos.row = tc->row;
@@ -236,15 +236,15 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 					CXML2C (h_buf->content), h_buf->use);
 				if (strncmp (url, "mailto:",
 					     strlen ("mailto:")) == 0)
-					link = g_object_new (
+					lnk = g_object_new (
 						gnm_hlink_email_get_type (),
 						NULL);
 				else
-					link = g_object_new (
+					lnk = g_object_new (
 						gnm_hlink_url_get_type (),
 						NULL);
-				gnm_hlink_set_target (link, url);
-				gnm_style_set_hlink (mstyle, link);
+				gnm_hlink_set_target (lnk, url);
+				gnm_style_set_hlink (mstyle, lnk);
 				gnm_style_set_font_uline (mstyle,
 							  UNDERLINE_SINGLE);
 				gnm_style_set_font_color (mstyle,

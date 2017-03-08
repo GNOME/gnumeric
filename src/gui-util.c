@@ -701,9 +701,9 @@ gnm_create_popup_menu (GnmPopupMenuElement const *elements,
 }
 
 void
-gnm_init_help_button (GtkWidget *w, char const *link)
+gnm_init_help_button (GtkWidget *w, char const *lnk)
 {
-	go_gtk_help_button_init (w, gnm_sys_data_dir (), "gnumeric", link);
+	go_gtk_help_button_init (w, gnm_sys_data_dir (), "gnumeric", lnk);
 }
 
 char *

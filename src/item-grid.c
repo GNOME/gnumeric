@@ -1060,7 +1060,7 @@ cb_cursor_come_to_rest (GnmItemGrid *ig)
 	Sheet const *sheet = scg_sheet (ig->scg);
 	GocCanvas *canvas = ig->canvas_item.canvas;
 	GnmPane *pane = GNM_PANE (canvas);
-	GnmHLink *link;
+	GnmHLink *lnk;
 	gint64 x, y;
 	GnmCellPos pos;
 	char const *tiptext;
@@ -1072,9 +1072,9 @@ cb_cursor_come_to_rest (GnmItemGrid *ig)
 	pos.col = gnm_pane_find_col (pane, x, NULL);
 	pos.row = gnm_pane_find_row (pane, y, NULL);
 
-	link = gnm_sheet_hlink_find (sheet, &pos);
-	if (link != NULL && (tiptext = gnm_hlink_get_tip (link)) != NULL) {
-		g_return_val_if_fail (link == ig->cur_link, FALSE);
+	lnk = gnm_sheet_hlink_find (sheet, &pos);
+	if (lnk != NULL && (tiptext = gnm_hlink_get_tip (lnk)) != NULL) {
+		g_return_val_if_fail (lnk == ig->cur_link, FALSE);
 
 		if (ig->tip == NULL && strlen (tiptext) > 0) {
 			GtkWidget *cw = GTK_WIDGET (canvas);
@@ -1178,11 +1178,11 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 	if (selecting == GNM_ITEM_GRID_SELECTING_CELL_RANGE && button == 1) {
 		GnmCellPos const *pos = sv_is_singleton_selected (scg_view (scg));
 		if (pos != NULL) {
-			GnmHLink *link;
+			GnmHLink *lnk;
 			/* check for hyper links */
-			link = gnm_sheet_hlink_find (sheet, pos);
-			if (link != NULL)
-				gnm_hlink_activate (link, scg_wbcg (scg));
+			lnk = gnm_sheet_hlink_find (sheet, pos);
+			if (lnk != NULL)
+				gnm_hlink_activate (lnk, scg_wbcg (scg));
 		}
 	}
 	return TRUE;

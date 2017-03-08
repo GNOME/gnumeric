@@ -7478,7 +7478,7 @@ cmd_so_set_button_finalize (GObject *cmd)
 
 gboolean
 cmd_so_set_button (WorkbookControl *wbc,
-		   SheetObject *so, GnmExprTop const *link,
+		   SheetObject *so, GnmExprTop const *lnk,
 		   char *old_label, char *new_label)
 {
 	CmdSOSetButton *me;
@@ -7490,7 +7490,7 @@ cmd_so_set_button (WorkbookControl *wbc,
 	me->cmd.size = 1;
 	me->cmd.cmd_descriptor = g_strdup (_("Configure Button"));
 	me->so = so;
-	me->new_link = link;
+	me->new_link = lnk;
 	me->old_label = old_label;
 	me->new_label = new_label;
 
@@ -7558,7 +7558,7 @@ cmd_so_set_radio_button_finalize (GObject *cmd)
 
 gboolean
 cmd_so_set_radio_button (WorkbookControl *wbc,
-			 SheetObject *so, GnmExprTop const *link,
+			 SheetObject *so, GnmExprTop const *lnk,
 			 char *old_label, char *new_label,
 			 GnmValue *old_value, GnmValue *new_value)
 {
@@ -7571,7 +7571,7 @@ cmd_so_set_radio_button (WorkbookControl *wbc,
 	me->cmd.size = 1;
 	me->cmd.cmd_descriptor = g_strdup (_("Configure Radio Button"));
 	me->so = so;
-	me->new_link = link;
+	me->new_link = lnk;
 	me->old_label = old_label;
 	me->new_label = new_label;
 	me->old_value = old_value;
@@ -7635,7 +7635,7 @@ cmd_so_set_checkbox_finalize (GObject *cmd)
 
 gboolean
 cmd_so_set_checkbox (WorkbookControl *wbc,
-		     SheetObject *so, GnmExprTop const *link,
+		     SheetObject *so, GnmExprTop const *lnk,
 		     char *old_label, char *new_label)
 {
 	CmdSOSetCheckbox *me;
@@ -7647,7 +7647,7 @@ cmd_so_set_checkbox (WorkbookControl *wbc,
 	me->cmd.size = 1;
 	me->cmd.cmd_descriptor = g_strdup (_("Configure Checkbox"));
 	me->so = so;
-	me->new_link = link;
+	me->new_link = lnk;
 	me->old_label = old_label;
 	me->new_label = new_label;
 
@@ -7738,7 +7738,7 @@ cmd_so_set_adjustment_finalize (GObject *cmd)
 
 gboolean
 cmd_so_set_adjustment (WorkbookControl *wbc,
-		       SheetObject *so, GnmExprTop const *link,
+		       SheetObject *so, GnmExprTop const *lnk,
 		       gboolean horizontal,
 		       int lower, int upper,
 		       int step, int page,
@@ -7754,7 +7754,7 @@ cmd_so_set_adjustment (WorkbookControl *wbc,
 	me->cmd.cmd_descriptor = g_strdup ((undo_label == NULL) ?
 					   _("Configure Adjustment") : _(undo_label));
 	me->so = so;
-	me->new_link = link;
+	me->new_link = lnk;
 	me->old_lower = lower;
 	me->old_upper = upper;
 	me->old_step = step;

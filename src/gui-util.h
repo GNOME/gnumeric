@@ -69,7 +69,7 @@ void gnm_create_popup_menu (GnmPopupMenuElement const *elements,
 
 #define gnm_filter_modifiers(a) ((a) & (GDK_MODIFIER_MASK & (~(GDK_LOCK_MASK|GDK_MOD2_MASK|GDK_MOD5_MASK))))
 
-void gnm_init_help_button	(GtkWidget *w, char const *link);
+void gnm_init_help_button	(GtkWidget *w, char const *lnk);
 
 char *gnm_textbuffer_get_text (GtkTextBuffer *buf);
 char *gnm_textview_get_text (GtkTextView *text_view);

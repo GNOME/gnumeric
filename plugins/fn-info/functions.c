@@ -1830,7 +1830,7 @@ gnumeric_get_link (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		GnmCellRef const * a = &v->v_range.cell.a;
 		GnmCellRef const * b = &v->v_range.cell.b;
 		Sheet *sheet;
-		GnmHLink *link;
+		GnmHLink *lnk;
 		GnmCellPos pos;
 
 		if (a->col != b->col || a->row != b->row || a->sheet !=b->sheet)
@@ -1838,10 +1838,10 @@ gnumeric_get_link (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 		sheet = (a->sheet == NULL) ? ei->pos->sheet : a->sheet;
 		gnm_cellpos_init_cellref (&pos, a, &(ei->pos->eval), sheet);
-		link = gnm_sheet_hlink_find (sheet, &pos);
+		lnk = gnm_sheet_hlink_find (sheet, &pos);
 
-		if (link)
-			return value_new_string (gnm_hlink_get_target (link));
+		if (lnk)
+			return value_new_string (gnm_hlink_get_target (lnk));
 	}
 
 	return value_new_empty ();

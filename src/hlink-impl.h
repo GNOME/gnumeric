@@ -15,10 +15,10 @@ struct _GnmHLink {
 typedef struct {
 	GObjectClass obj;
 
-	gboolean (*Activate) (GnmHLink *link, WBCGtk *wbcg);
-	void (*set_sheet) (GnmHLink *link, Sheet *sheet);
-	void (*set_target) (GnmHLink *link, const char *target);
-	const char * (*get_target) (GnmHLink const *link);
+	gboolean (*Activate) (GnmHLink *lnk, WBCGtk *wbcg);
+	void (*set_sheet) (GnmHLink *lnk, Sheet *sheet);
+	void (*set_target) (GnmHLink *lnk, const char *target);
+	const char * (*get_target) (GnmHLink const *lnk);
 } GnmHLinkClass;
 
 G_END_DECLS

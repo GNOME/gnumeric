@@ -3118,9 +3118,9 @@ cb_find_link (GnmStyle *style,
 	      G_GNUC_UNUSED int width, G_GNUC_UNUSED int height,
 	      G_GNUC_UNUSED GnmRange const *apply_to, gpointer user)
 {
-	GnmHLink **link = user;
-	if (*link == NULL)
-		*link = gnm_style_get_hlink (style);
+	GnmHLink **plink = user;
+	if (*plink == NULL)
+		*plink = gnm_style_get_hlink (style);
 }
 
 /**
