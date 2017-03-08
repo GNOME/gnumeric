@@ -3176,7 +3176,7 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 					: g_strdup (url);
 			}
 		}
-	} else if (NULL != target) {
+	} else if (location) {
 		target = g_strdup (location);
 		link_type = gnm_hlink_cur_wb_get_type ();
 	}
