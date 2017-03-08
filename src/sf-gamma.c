@@ -797,14 +797,18 @@ pochhammer_naive (gnm_float x, int n)
 	return r;
 }
 
-
-
-/*
- * Pochhammer's symbol: (x)_n = Gamma(x+n)/Gamma(x).
+/**
+ * pochhammer:
+ * @x: a real number
+ * @n: a real number, often an integer
  *
- * While n is often an integer, that is not a requirement.
+ * This function computes Pochhammer's symbol at @x and @n, i.e.,
+ * Gamma(@x+@n)/Gamma(@x).  This is well defined unless @x or @x+@n is a
+ * non-negative integer.  The ratio has a removable singlularity at @n=0
+ * and the result is 1.
+ *
+ * Returns: Pochhammer's symbol (@x)_@n.
  */
-
 gnm_float
 pochhammer (gnm_float x, gnm_float n)
 {

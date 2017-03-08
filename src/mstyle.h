@@ -152,7 +152,7 @@ void		 gnm_style_set_validation	(GnmStyle *style, GnmValidation *v);
 GnmValidation const *
 		 gnm_style_get_validation	(GnmStyle const *style);
 
-void		 gnm_style_set_hlink		(GnmStyle *style, GnmHLink *link);
+void		 gnm_style_set_hlink		(GnmStyle *style, GnmHLink *lnk);
 GnmHLink	*gnm_style_get_hlink		(GnmStyle const *style);
 
 void		 gnm_style_set_input_msg	(GnmStyle *style, GnmInputMsg *msg);

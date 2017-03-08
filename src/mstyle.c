@@ -1819,17 +1819,19 @@ gnm_style_get_validation (GnmStyle const *style)
 /**
  * gnm_style_set_hlink:
  * @style: #GnmStyle
- * @link: (transfer full): #GnmHLink
+ * @lnk: (transfer full): #GnmHLink
+ *
+ * This sets a link for @style.
  **/
 void
-gnm_style_set_hlink (GnmStyle *style, GnmHLink *link)
+gnm_style_set_hlink (GnmStyle *style, GnmHLink *lnk)
 {
 	g_return_if_fail (style != NULL);
 
 	elem_clear_contents (style, MSTYLE_HLINK);
 	elem_changed (style, MSTYLE_HLINK);
 	elem_set (style, MSTYLE_HLINK);
-	style->hlink = link;
+	style->hlink = lnk;
 }
 
 /**
@@ -1851,6 +1853,8 @@ gnm_style_get_hlink (GnmStyle const *style)
  * gnm_style_set_input_msg:
  * @style: #GnmStyle
  * @msg: (transfer full): #GnmInputMsg
+ *
+ * This sets an input message for @style.
  **/
 void
 gnm_style_set_input_msg (GnmStyle *style, GnmInputMsg *msg)
@@ -1867,7 +1871,8 @@ gnm_style_set_input_msg (GnmStyle *style, GnmInputMsg *msg)
  * gnm_style_get_input_msg:
  * @style: #GnmStyle
  *
- * Returns: (transfer none):
+ * Returns: (transfer none): the currently set input message assuming
+ * that the style has such.
  **/
 GnmInputMsg *
 gnm_style_get_input_msg (GnmStyle const *style)
@@ -1882,6 +1887,8 @@ gnm_style_get_input_msg (GnmStyle const *style)
  * gnm_style_set_conditions:
  * @style: #GnmStyle
  * @sc: (transfer full): #GnmStyleConditions
+ *
+ * This sets conditional style for @style.
  **/
 void
 gnm_style_set_conditions (GnmStyle *style, GnmStyleConditions *sc)
@@ -1898,7 +1905,8 @@ gnm_style_set_conditions (GnmStyle *style, GnmStyleConditions *sc)
  * gnm_style_get_conditions:
  * @style: #GnmStyle
  *
- * Returns: (transfer none):
+ * Returns: (transfer none): the currently set conditional style assuming
+ * that the style has such.
  **/
 GnmStyleConditions *
 gnm_style_get_conditions (GnmStyle const *style)
@@ -2023,6 +2031,13 @@ gnm_style_unlink_dependents (GnmStyle *style, GnmRange const *r)
 }
 
 
+/**
+ * gnm_style_visible_in_blank:
+ * @style: style to query
+ *
+ * Returns: %TRUE if the style is visible, i.e., not transparent.  Specifically
+ * that means if it has a background or a visible border.
+ */
 gboolean
 gnm_style_visible_in_blank (GnmStyle const *style)
 {
@@ -2261,6 +2276,14 @@ gnm_style_dump_border (GnmBorder *border, GnmStyleElement elem)
 		g_printerr ("blank\n");
 }
 
+/**
+ * gnm_style_dump:
+ * @style: style to dump
+ *
+ * This function dumps the given style's contents to stderr.  This is meant
+ * for debug purposes only and doesn't do a very good job for, for example,
+ * conditional style settings.
+ */
 void
 gnm_style_dump (GnmStyle const *style)
 {
