@@ -551,7 +551,7 @@ C/functions.xml: $(srcdir)/make-func-list.pl $(functions_xml_parts)
 	fi
 
 C/func.defs: $(top_builddir)/src/gnumeric$(EXEEXT)
-	LC_ALL="$(locale)" ; export LC_ALL ; $(top_builddir)/src/gnumeric --dump-func-defs="$@"
+	LC_ALL="C" ; export LC_ALL ; $(top_builddir)/src/gnumeric --dump-func-defs="$@"
 
 EXTRA_DIST+=C/func.defs
 DISTCLEANFILES+=C/func.defs
