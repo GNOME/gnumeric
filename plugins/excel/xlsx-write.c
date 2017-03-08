@@ -2067,25 +2067,32 @@ xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED Gnm
 static void
 xlsx_write_hlink (GnmHLink const *lnk, GSList *ranges, XLSXClosure *info)
 {
-	gchar const *target = gnm_hlink_get_target (lnk);
+	gchar *target = g_strdup (gnm_hlink_get_target (lnk));
 	gchar const *rid = NULL;
-	gchar const *location = NULL;
+	gchar *location = NULL;
 	gchar const *tip = gnm_hlink_get_tip (lnk);
 	GType const t = G_OBJECT_TYPE (lnk);
 
-	if (g_type_is_a (t, gnm_hlink_url_get_type ())) {
+	if (target && g_type_is_a (t, gnm_hlink_url_get_type ())) {
 		// URLs, including email.
 
-		// FIXME: An anchor within the url should be extracted into
-		// location
+		char *hash = strchr (target, '#');
+		if (hash) {
+			location = g_strdup (hash + 1);
+			*hash = 0;
+		}
 
 		rid = gsf_outfile_open_pkg_add_extern_rel (
 			GSF_OUTFILE_OPEN_PKG (gsf_xml_out_get_output (info->xml)),
 			target, ns_rel_hlink);
 	} else if (t == gnm_hlink_cur_wb_get_type ()) {
 		location = target;
-	} else
+		target = NULL;
+	} else {
+		g_free (target);
+		g_free (location);
 		return;
+	}
 
 	for (; ranges  != NULL ; ranges = ranges->next) {
 		GnmRange const *range = ranges->data;
@@ -2096,37 +2103,26 @@ xlsx_write_hlink (GnmHLink const *lnk, GSList *ranges, XLSXClosure *info)
 		if (rid)
 			gsf_xml_out_add_cstr (info->xml, "r:id", rid);
 		if (location)
-			gsf_xml_out_add_cstr (info->xml, "location", target);
+			gsf_xml_out_add_cstr (info->xml, "location", location);
 		if (tip)
 			gsf_xml_out_add_cstr (info->xml, "tooltip", tip);
 
 		gsf_xml_out_end_element (info->xml); /*  </hyperlink> */
 	}
+
+	g_free (target);
+	g_free (location);
 }
 
 static int
-by_hlink_order (gpointer link_a, G_GNUC_UNUSED gpointer val_a,
-		gpointer link_b, G_GNUC_UNUSED gpointer val_b,
+by_hlink_order (G_GNUC_UNUSED gpointer link_a, gpointer val_a,
+		G_GNUC_UNUSED gpointer link_b, gpointer val_b,
 		G_GNUC_UNUSED gpointer user)
 {
-	GnmHLink const *a = link_a;
-	GnmHLink const *b = link_b;
-	int res;
+	GList *ranges_a = val_a;
+	GList *ranges_b = val_b;
 
-	res = g_strcmp0 (g_type_name (G_OBJECT_TYPE (a)), g_type_name (G_OBJECT_TYPE (b)));
-	if (res)
-		return res;
-
-	res = g_strcmp0 (gnm_hlink_get_target (a), gnm_hlink_get_target (b));
-	if (res)
-		return res;
-
-	res = g_strcmp0 (gnm_hlink_get_tip (a), gnm_hlink_get_tip (b));
-	if (res)
-		return res;
-
-	// Fallback
-	return a < b ? -1 : (a > b ? +1 : 0);
+	return gnm_range_compare (ranges_a->data, ranges_b->data);
 }
 
 static void

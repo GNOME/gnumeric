@@ -1,5 +1,10 @@
 2017-03-08  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c (by_hlink_order): Simplify order.
+	(xlsx_write_hlink): Properly handle location.
+
+	* ms-excel-util.c (xls_collect_hlinks): Sort ranges.
+
 	* xlsx-read.c (xlsx_CT_HyperLinks): Handle external links with
 	anchors.
 

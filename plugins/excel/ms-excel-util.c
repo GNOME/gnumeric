@@ -923,6 +923,7 @@ xls_collect_hlinks (GnmStyleList *sl, int max_col, int max_row)
 {
 	GHashTable *group = g_hash_table_new_full
 		(g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)g_slist_free);
+	GList *keys, *k;
 
 	for (; sl != NULL ; sl = sl->next) {
 		GnmStyleRegion const *sr = sl->data;
@@ -942,6 +943,18 @@ xls_collect_hlinks (GnmStyleList *sl, int max_col, int max_row)
 		g_hash_table_insert (group, hlink,
 				     g_slist_prepend (ranges, (gpointer)&sr->range));
 	}
+
+	keys = g_hash_table_get_keys (group);
+	for (k = keys; k ; k = k->next) {
+		GnmHLink *hlink = k->data;
+		GSList *ranges = g_hash_table_lookup (group, hlink);
+		GSList *nranges = g_slist_sort (ranges, (GCompareFunc)gnm_range_compare);
+		if (ranges != nranges) {
+			g_hash_table_steal (group, hlink);
+			g_hash_table_insert (group, hlink, nranges);
+		}
+	}
+	g_list_free (keys);
 
 	return group;
 }
