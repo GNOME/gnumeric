@@ -236,13 +236,13 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 					CXML2C (h_buf->content), h_buf->use);
 				if (strncmp (url, "mailto:",
 					     strlen ("mailto:")) == 0)
-					lnk = g_object_new (
+					lnk = gnm_hlink_new (
 						gnm_hlink_email_get_type (),
-						NULL);
+						tc->sheet);
 				else
-					lnk = g_object_new (
+					lnk = gnm_hlink_new (
 						gnm_hlink_url_get_type (),
-						NULL);
+						tc->sheet);
 				gnm_hlink_set_target (lnk, url);
 				gnm_style_set_hlink (mstyle, lnk);
 				gnm_style_set_font_uline (mstyle,
