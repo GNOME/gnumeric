@@ -3133,7 +3133,7 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyle *style;
 	GnmRange r;
 	GType link_type = 0;
-	GnmHLink *link = NULL;
+	GnmHLink *lnk = NULL;
 	xmlChar const *target = NULL;
 	xmlChar const *tooltip = NULL;
 	xmlChar const *extern_id = NULL;
@@ -3181,11 +3181,11 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 	}
 
-	link = gnm_hlink_new (link_type, state->sheet);
-	gnm_hlink_set_target (link, target);
-	gnm_hlink_set_tip (link, tooltip);
+	lnk = gnm_hlink_new (link_type, state->sheet);
+	gnm_hlink_set_target (lnk, target);
+	gnm_hlink_set_tip (lnk, tooltip);
 	style = gnm_style_new ();
-	gnm_style_set_hlink (style, link);
+	gnm_style_set_hlink (style, lnk);
 	sheet_style_apply_range	(state->sheet, &r, style);
 }
 

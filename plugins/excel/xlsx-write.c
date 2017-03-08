@@ -2065,13 +2065,12 @@ xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED Gnm
 }
 
 static void
-xlsx_write_hlink (GnmHLink const *link, GSList *ranges, XLSXClosure *info)
+xlsx_write_hlink (GnmHLink const *lnk, GSList *ranges, XLSXClosure *info)
 {
-	gchar const *target = gnm_hlink_get_target (link);
-	gchar const *location = NULL;
+	gchar const *target = gnm_hlink_get_target (lnk);
 	gchar const *rid = NULL;
-	gchar const *tip;
-	GType const t = G_OBJECT_TYPE (link);
+	gchar const *tip = gnm_hlink_get_tip (lnk);
+	GType const t = G_OBJECT_TYPE (lnk);
 
 	if (t == gnm_hlink_url_get_type () ||
 	    t == gnm_hlink_email_get_type ()) {
@@ -2082,17 +2081,19 @@ xlsx_write_hlink (GnmHLink const *link, GSList *ranges, XLSXClosure *info)
 		return;
 
 	for (; ranges  != NULL ; ranges = ranges->next) {
+		GnmRange const *range = ranges->data;
+
 		gsf_xml_out_start_element (info->xml, "hyperlink");
-		xlsx_add_range (info->xml, "ref", ranges->data);
+		xlsx_add_range (info->xml, "ref", range);
 
 		if (t == gnm_hlink_cur_wb_get_type ())
 			gsf_xml_out_add_cstr (info->xml, "location", target);
 		else if (NULL != rid)
 			gsf_xml_out_add_cstr (info->xml, "r:id", rid);
-		if (NULL != location)
-			gsf_xml_out_add_cstr (info->xml, "tooltip", location);
-		if (NULL != (tip = gnm_hlink_get_tip (link)))
+
+		if (tip)
 			gsf_xml_out_add_cstr (info->xml, "tooltip", tip);
+
 		gsf_xml_out_end_element (info->xml); /*  </hyperlink> */
 	}
 }
