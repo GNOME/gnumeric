@@ -3134,20 +3134,21 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmRange r;
 	GType link_type = 0;
 	GnmHLink *lnk = NULL;
-	xmlChar const *target = NULL;
-	xmlChar const *tooltip = NULL;
-	xmlChar const *extern_id = NULL;
+	char const *location = NULL;
+	char const *tooltip = NULL;
+	char const *extern_id = NULL;
+	char *target = NULL;
 
 	/* <hyperlink ref="A42" r:id="rId1"/> */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_range (xin, attrs, "ref", &r))
 			has_ref = TRUE;
 		else if (0 == strcmp (attrs[0], "location"))
-			target = attrs[1];
+			location = CXML2C (attrs[1]);
 		else if (0 == strcmp (attrs[0], "tooltip"))
-			tooltip = attrs[1];
+			tooltip = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
-			extern_id = attrs[1];
+			extern_id = CXML2C (attrs[1]);
 #if 0 /* ignore "display" on import, it always seems to be the cell content */
 		else if (0 == strcmp (attrs[0], "display"))
 			;
@@ -3157,27 +3158,32 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 	if (!has_ref)
 		return;
 
-	if (NULL != target)
-		link_type = gnm_hlink_cur_wb_get_type ();
-	else if (NULL != extern_id) {
+	if (NULL != extern_id) {
 		GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_id (
 			gsf_xml_in_get_input (xin), extern_id);
 		if (NULL != rel &&
 		    gsf_open_pkg_rel_is_extern (rel) &&
 		    0 == strcmp (gsf_open_pkg_rel_get_type (rel),
 				 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink")) {
-			target = gsf_open_pkg_rel_get_target (rel);
-			if (NULL != target) {
-				if (0 == strncmp (target, "mailto:", 7))
+			const char *url = gsf_open_pkg_rel_get_target (rel);
+			if (url) {
+				if (0 == strncmp (url, "mailto:", 7))
 					link_type = gnm_hlink_email_get_type ();
 				else
 					link_type = gnm_hlink_url_get_type ();
+				target = location
+					? g_strconcat (url, "#", location, NULL)
+					: g_strdup (url);
 			}
 		}
+	} else if (NULL != target) {
+		target = g_strdup (location);
+		link_type = gnm_hlink_cur_wb_get_type ();
 	}
 
 	if (0 == link_type) {
 		xlsx_warning (xin, _("Unknown type of hyperlink"));
+		g_free (target);
 		return;
 	}
 
@@ -3187,6 +3193,7 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 	style = gnm_style_new ();
 	gnm_style_set_hlink (style, lnk);
 	sheet_style_apply_range	(state->sheet, &r, style);
+	g_free (target);
 }
 
 static void

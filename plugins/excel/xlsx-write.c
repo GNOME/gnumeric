@@ -2069,15 +2069,22 @@ xlsx_write_hlink (GnmHLink const *lnk, GSList *ranges, XLSXClosure *info)
 {
 	gchar const *target = gnm_hlink_get_target (lnk);
 	gchar const *rid = NULL;
+	gchar const *location = NULL;
 	gchar const *tip = gnm_hlink_get_tip (lnk);
 	GType const t = G_OBJECT_TYPE (lnk);
 
-	if (t == gnm_hlink_url_get_type () ||
-	    t == gnm_hlink_email_get_type ()) {
+	if (g_type_is_a (t, gnm_hlink_url_get_type ())) {
+		// URLs, including email.
+
+		// FIXME: An anchor within the url should be extracted into
+		// location
+
 		rid = gsf_outfile_open_pkg_add_extern_rel (
 			GSF_OUTFILE_OPEN_PKG (gsf_xml_out_get_output (info->xml)),
 			target, ns_rel_hlink);
-	} else if (t != gnm_hlink_cur_wb_get_type ())
+	} else if (t == gnm_hlink_cur_wb_get_type ()) {
+		location = target;
+	} else
 		return;
 
 	for (; ranges  != NULL ; ranges = ranges->next) {
@@ -2086,11 +2093,10 @@ xlsx_write_hlink (GnmHLink const *lnk, GSList *ranges, XLSXClosure *info)
 		gsf_xml_out_start_element (info->xml, "hyperlink");
 		xlsx_add_range (info->xml, "ref", range);
 
-		if (t == gnm_hlink_cur_wb_get_type ())
-			gsf_xml_out_add_cstr (info->xml, "location", target);
-		else if (NULL != rid)
+		if (rid)
 			gsf_xml_out_add_cstr (info->xml, "r:id", rid);
-
+		if (location)
+			gsf_xml_out_add_cstr (info->xml, "location", target);
 		if (tip)
 			gsf_xml_out_add_cstr (info->xml, "tooltip", tip);
 
