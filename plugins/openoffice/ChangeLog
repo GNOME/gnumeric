@@ -1,6 +1,12 @@
+2017-03-09  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_named_expression): Don't write
+	range-usable-as attribute.
+
 2017-01-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_cell_content_link) local links may be prefixed with #
+	* openoffice-read.c (oo_cell_content_link) local links may be
+	prefixed with #
 	* openoffice-write.c (odf_write_objects) prefix local links with #
 
 2017-03-06  Morten Welinder  <terra@gnome.org>

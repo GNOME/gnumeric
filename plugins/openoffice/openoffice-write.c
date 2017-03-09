@@ -4864,9 +4864,14 @@ odf_write_named_expression (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 		g_free (formula);
 		gnm_expr_top_unref (texpr);
 
+#if 0
+		// This would be the right thing to do per the spec, but
+		// Excel ignores any name that has the attribute.  LO does
+		// not seem to write this.
 		gsf_xml_out_add_cstr_unchecked
 			(state->xml, TABLE "range-usable-as",
 			 "print-range filter repeat-row repeat-column");
+#endif
 
 		if (nexpr->pos.sheet != NULL && state->with_extension
 		    && (state->odf_version < 102))
