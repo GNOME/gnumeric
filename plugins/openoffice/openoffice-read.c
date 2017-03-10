@@ -2145,6 +2145,49 @@ odf_expr_name_validate (const char *name)
 	return TRUE;
 }
 
+/*
+ * This is ugly!  And it's ods' fault.
+ *
+ * On one hand we have function names like ORG.GNUMERIC.LOG2, on the
+ * other we have inter-sheet name references Sheet2.localname
+ * The former is a name, the latter is a sheet name, a sheetsep, and
+ * a name.
+ *
+ * To resolve that, we look ahead for a '('.
+ */
+static char const *
+odf_name_parser (char const *str, GnmConventions const *convs)
+{
+	gunichar uc = g_utf8_get_char (str);
+	const char *firstdot = NULL;
+	int dotcount = 0;
+
+	if (!g_unichar_isalpha (uc) && uc != '_' && uc != '\\')
+		return NULL;
+
+	do {
+		str = g_utf8_next_char (str);
+		uc = g_utf8_get_char (str);
+
+		if (uc == '.') {
+			if (dotcount++ == 0)
+				firstdot = str;
+		}
+	} while (g_unichar_isalnum (uc) ||
+		 (uc == '_' || uc == '?' || uc == '\\' || uc == '.'));
+
+	if (dotcount == 1 && convs->sheet_name_sep == '.') {
+		const char *p = str;
+
+		while (g_unichar_isspace (g_utf8_get_char (p)))
+			p = g_utf8_next_char (p);
+
+		if (*p != '(')
+			return firstdot;
+	}
+
+	return str;
+}
 
 static GnmExpr const *
 oo_func_map_in (GnmConventions const *convs, Workbook *scope,
@@ -2169,7 +2212,8 @@ oo_conventions_new (OOParseState *state, GsfXMLIn *xin)
 	conv->input.string	= odf_strunescape;
 	conv->input.func	= oo_func_map_in;
 	conv->input.range_ref	= oo_expr_rangeref_parse;
-	conv->input.name_validate    = odf_expr_name_validate;
+	conv->input.name        = odf_name_parser;
+	conv->input.name_validate = odf_expr_name_validate;
 	conv->sheet_name_sep	= '.';
 	oconv->state            = state;
 	oconv->xin              = xin;
@@ -2212,7 +2256,7 @@ oo_expr_parse_str_try (GsfXMLIn *xin, char const *str,
 
 	if (state->convs[type] == NULL)
 		oo_load_convention (state, xin, type);
-	return gnm_expr_parse_str (str, pp, flags,
+	return gnm_expr_parse_str (str, pp, flags | GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID,
 				    state->convs[type], perr);
 }
 

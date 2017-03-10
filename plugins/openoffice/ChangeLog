@@ -9,6 +9,8 @@
 	already create it.
 	(odf_preparse_create_sheet): New function extracted from
 	odf_preparse_create_sheet.
+	(odf_name_parser): New function to properly handle references to
+	sheet-local names.
 
 	* openoffice-write.c (odf_write_link_start): Write internal links
 	in the format Sheet1.A4 as both Excel and LO do.
