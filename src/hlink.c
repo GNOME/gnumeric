@@ -417,24 +417,19 @@ gnm_hlink_get_range_target (GnmHLink const *lnk, GnmSheetRange *sr)
 }
 
 
-GnmNamedExpr const *
-gnm_hlink_get_name_target (GnmHLink const *lnk)
+GnmExprTop const *
+gnm_hlink_get_target_expr (GnmHLink const *lnk)
 {
-	GnmHLinkCurWB *hlcwb;
-	GnmExprTop const *texpr;
 
-	g_return_val_if_fail (GNM_IS_HLINK (lnk), FALSE);
+	GnmHLinkCurWB *hlcwb;
+
+	g_return_val_if_fail (GNM_IS_HLINK (lnk), NULL);
 
 	if (!GNM_IS_HLINK_CUR_WB (lnk))
-		return FALSE;
+		return NULL;
 
 	hlcwb = (GnmHLinkCurWB *)lnk;
-	texpr = hlcwb->dep.texpr;
-
-	if (!texpr || GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_NAME)
-		return FALSE;
-
-	return texpr->expr->name.name;
+	return hlcwb->dep.texpr;
 }
 
 

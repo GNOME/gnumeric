@@ -3316,35 +3316,50 @@ odf_write_objects (GnmOOExport *state, GSList *objects)
 }
 
 static void
-odf_write_link_start (GnmOOExport *state, GnmHLink *link)
+odf_write_link_start (GnmOOExport *state, GnmHLink *lnk)
 {
-	char const *link_text;
-	if (link == NULL)
-		return;
-	link_text = gnm_hlink_get_target (link);
+	GType const t = G_OBJECT_TYPE (lnk);
+	char *link_text = NULL;
 
 	gsf_xml_out_start_element (state->xml, TEXT "a");
 	gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
 	gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onRequest");
 
-	if (g_str_has_prefix (link_text, "http") ||
-	    g_str_has_prefix (link_text, "mail") ||
-	    g_str_has_prefix (link_text, "file"))
-	        gsf_xml_out_add_cstr (state->xml, XLINK "href", link_text);
-	else {
-		gchar *link_text_complete = g_strconcat ("#",link_text,NULL);
-		gsf_xml_out_add_cstr (state->xml, XLINK "href", link_text_complete);
-		g_free (link_text_complete);
+	if (g_type_is_a (t, gnm_hlink_url_get_type ())) {
+		// This includes email
+		link_text = g_strdup (gnm_hlink_get_target (lnk));
+	} else if (g_type_is_a (t, gnm_hlink_cur_wb_get_type ())) {
+		GnmExprTop const *texpr = gnm_hlink_get_target_expr (lnk);
+		GnmSheetRange sr;
+
+		if (texpr && GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_NAME) {
+			GnmParsePos pp;
+			char *s;
+			parse_pos_init_sheet (&pp, gnm_hlink_get_sheet (lnk));
+			s = gnm_expr_top_as_string (texpr, &pp, state->conv);
+			link_text = g_strconcat ("#", s, NULL);
+			g_free (s);
+		} else if (gnm_hlink_get_range_target (lnk, &sr)) {
+			link_text = g_strconcat
+				("#",
+				 sr.sheet->name_unquoted, ".",
+				 range_as_string (&sr.range),
+				 NULL);
+		}
+	} else {
+		g_warning ("Unexpected hyperlink type");
 	}
 
-	gsf_xml_out_add_cstr (state->xml, OFFICE "title", gnm_hlink_get_tip (link));
+	gsf_xml_out_add_cstr (state->xml, XLINK "href", link_text ? link_text : "#");
+	g_free (link_text);
+
+	gsf_xml_out_add_cstr (state->xml, OFFICE "title", gnm_hlink_get_tip (lnk));
 }
 
 static void
-odf_write_link_end (GnmOOExport *state, GnmHLink *link)
+odf_write_link_end (GnmOOExport *state, GnmHLink *lnk)
 {
-	if (link != NULL)
-		gsf_xml_out_end_element (state->xml);  /* a */
+	gsf_xml_out_end_element (state->xml);  /* a */
 }
 
 
@@ -3425,7 +3440,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		GnmStyle const *style, GSList *objects)
 {
 	int rows_spanned = 0, cols_spanned = 0;
-	GnmHLink *link = NULL;
+	GnmHLink *lnk = NULL;
 	gboolean col_spanned_fake = FALSE;
 
 	if (merge_range != NULL) {
@@ -3480,7 +3495,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 					      TABLE "content-validation-name", vname);
 			g_free (vname);
 		}
-		link = gnm_style_get_hlink (style);
+		lnk = gnm_style_get_hlink (style);
 	}
 
 	if (cell != NULL) {
@@ -3614,11 +3629,11 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			gboolean white_written = TRUE;
 
 			gsf_xml_out_start_element (state->xml, TEXT "p");
-			odf_write_link_start (state, link);
+			if (lnk) odf_write_link_start (state, lnk);
 			if (*rendered_string != '\0')
 				odf_add_chars (state, rendered_string, strlen (rendered_string),
 					       &white_written);
-			odf_write_link_end (state, link);
+			if (lnk) odf_write_link_end (state, lnk);
 			gsf_xml_out_end_element (state->xml);   /* p */
 			g_free (rendered_string);
 		} else {
@@ -3629,9 +3644,9 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			markup = go_format_get_markup (VALUE_FMT (cell->value));
 
 			gsf_xml_out_start_element (state->xml, TEXT "p");
-			odf_write_link_start (state, link);
+			if (lnk) odf_write_link_start (state, lnk);
 			odf_new_markup (state, markup, str->str);
-			odf_write_link_end (state, link);
+			if (lnk) odf_write_link_end (state, lnk);
 			gsf_xml_out_end_element (state->xml);   /* p */
 
 			g_string_free (str, TRUE);
@@ -4039,21 +4054,21 @@ static void
 odf_write_sheet_control_content (GnmOOExport *state, GnmExprTop const *texpr)
 {
 	if (texpr && gnm_expr_top_is_rangeref (texpr)) {
-		char *link = NULL;
+		char *lnk = NULL;
 		GnmParsePos pp;
 
 		parse_pos_init_sheet (&pp, state->sheet);
-		link = gnm_expr_top_as_string (texpr, &pp, state->conv);
+		lnk = gnm_expr_top_as_string (texpr, &pp, state->conv);
 
 		if (state->odf_version > 101)
 			gsf_xml_out_add_cstr (state->xml,
 					      FORM "source-cell-range",
-					      odf_strip_brackets (link));
+					      odf_strip_brackets (lnk));
 		else
 			gsf_xml_out_add_cstr (state->xml,
 					      GNMSTYLE "source-cell-range",
-					      odf_strip_brackets (link));
-		g_free (link);
+					      odf_strip_brackets (lnk));
+		g_free (lnk);
 		gnm_expr_top_unref (texpr);
 	}
 }
@@ -4062,19 +4077,19 @@ static void
 odf_write_sheet_control_linked_cell (GnmOOExport *state, GnmExprTop const *texpr)
 {
 	if (texpr && gnm_expr_top_is_rangeref (texpr)) {
-		char *link = NULL;
+		char *lnk = NULL;
 		GnmParsePos pp;
 
 		parse_pos_init_sheet (&pp, state->sheet);
-		link = gnm_expr_top_as_string (texpr, &pp, state->conv);
+		lnk = gnm_expr_top_as_string (texpr, &pp, state->conv);
 
 		if (state->odf_version > 101)
 			gsf_xml_out_add_cstr (state->xml, FORM "linked-cell",
-					      odf_strip_brackets (link));
+					      odf_strip_brackets (lnk));
 		else
 			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "linked-cell",
-					      odf_strip_brackets (link));
-		g_free (link);
+					      odf_strip_brackets (lnk));
+		g_free (lnk);
 		gnm_expr_top_unref (texpr);
 	}
 }
@@ -4277,11 +4292,11 @@ odf_write_sheet_control_button (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_add_cstr_unchecked (state->xml, FORM "button-type", "push");
 
 	if (texpr != NULL ) {
-		char *link = NULL, *name = NULL;
+		char *lnk = NULL, *name = NULL;
 		GnmParsePos pp;
 
 		parse_pos_init_sheet (&pp, state->sheet);
-		link = gnm_expr_top_as_string (texpr, &pp, state->conv);
+		lnk = gnm_expr_top_as_string (texpr, &pp, state->conv);
 
 		gsf_xml_out_start_element (state->xml, OFFICE "event-listeners");
 
@@ -4290,7 +4305,7 @@ odf_write_sheet_control_button (GnmOOExport *state, SheetObject *so)
 						"dom:mousedown");
 		gsf_xml_out_add_cstr_unchecked (state->xml, SCRIPT "language",
 						GNMSTYLE "short-macro");
-		name = g_strdup_printf ("set-to-TRUE:%s", odf_strip_brackets (link));
+		name = g_strdup_printf ("set-to-TRUE:%s", odf_strip_brackets (lnk));
 		gsf_xml_out_add_cstr (state->xml, SCRIPT "macro-name", name);
 		g_free (name);
 		gsf_xml_out_end_element (state->xml); /* script:event-listener */
@@ -4300,14 +4315,14 @@ odf_write_sheet_control_button (GnmOOExport *state, SheetObject *so)
 						"dom:mouseup");
 		gsf_xml_out_add_cstr_unchecked (state->xml, SCRIPT "language",
 						GNMSTYLE "short-macro");
-		name = g_strdup_printf ("set-to-FALSE:%s", odf_strip_brackets (link));
+		name = g_strdup_printf ("set-to-FALSE:%s", odf_strip_brackets (lnk));
 		gsf_xml_out_add_cstr (state->xml, SCRIPT "macro-name", name);
 		g_free (name);
 		gsf_xml_out_end_element (state->xml); /* script:event-listener */
 
 		gsf_xml_out_end_element (state->xml); /* office:event-listeners */
 
-		g_free (link);
+		g_free (lnk);
 		gnm_expr_top_unref (texpr);
 
 	}

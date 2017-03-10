@@ -1,3 +1,8 @@
+2017-03-10  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_link_start): Write internal links
+	in the format Sheet1.A4 as both Excel and LO do.
+
 2017-03-09  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_write_named_expression): Don't write

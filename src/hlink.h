@@ -41,7 +41,7 @@ GType gnm_hlink_external_get_type (void);
 
 // For internal links only
 gboolean gnm_hlink_get_range_target (GnmHLink const *lnk, GnmSheetRange *sr);
-GnmNamedExpr const *gnm_hlink_get_name_target (GnmHLink const *lnk);
+GnmExprTop const *gnm_hlink_get_target_expr (GnmHLink const *lnk);
 
 /* Protected. */
 void _gnm_hlink_init (void);
