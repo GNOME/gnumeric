@@ -36,6 +36,7 @@
 #include "position.h"
 #include "expr-name.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "value.h"
 #include "mstyle.h"
 
@@ -236,44 +237,34 @@ typedef struct {
 } GnmHLinkCurWB;
 #define GNM_HLINK_CUR_WB(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), gnm_hlink_cur_wb_get_type (), GnmHLinkCurWB))
 
+#define GNM_IS_HLINK_CUR_WB(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), gnm_hlink_cur_wb_get_type ()))
+
+
 static GObjectClass *gnm_hlink_cur_wb_parent_class;
 
 static gboolean
 gnm_hlink_cur_wb_activate (GnmHLink *lnk, WBCGtk *wbcg)
 {
-	GnmHLinkCurWB *hlcwb = (GnmHLinkCurWB *)lnk;
 	WorkbookControl *wbc = GNM_WBC (wbcg);
-	GnmExprTop const *texpr = hlcwb->dep.texpr;
-	GnmValue *vr;
-	GnmRangeRef const *r;
-	GnmCellPos tmp;
-	Sheet *target_sheet;
 	SheetView *sv;
+	GnmSheetRange sr;
 
-	if (!texpr) {
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg),
-			_("Link target"), _("(none)"));
+	if (!gnm_hlink_get_range_target (lnk, &sr)) {
+		go_cmd_context_error_invalid
+			(GO_CMD_CONTEXT (wbcg),
+			 _("Link target"),
+			 lnk->target ? lnk->target : "-");
 		return FALSE;
 	}
 
-	vr = gnm_expr_top_get_range (texpr);
-	if (!vr) {
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg),
-			_("Link target"), lnk->target);
-		return FALSE;
-	}
+	sv = sheet_get_view (sr.sheet,  wb_control_view (wbc));
+	sv_selection_set (sv, &sr.range.start,
+			  sr.range.start.col, sr.range.start.row,
+			  sr.range.end.col, sr.range.end.row);
+	sv_make_cell_visible (sv, sr.range.start.col, sr.range.start.row, FALSE);
+	if (wbcg_cur_sheet (wbcg) != sr.sheet)
+		wb_view_sheet_focus (wb_control_view (wbc), sr.sheet);
 
-	r = value_get_rangeref (vr);
-	tmp.col = r->a.col;
-	tmp.row = r->a.row;
-
-	target_sheet = r->a.sheet ? r->a.sheet : lnk->sheet;
-	sv = sheet_get_view (target_sheet,  wb_control_view (wbc));
-	sv_selection_set (sv, &tmp, r->a.col, r->a.row, r->b.col, r->b.row);
-	sv_make_cell_visible (sv, r->a.col, r->a.row, FALSE);
-	if (wbcg_cur_sheet (wbcg) != target_sheet)
-		wb_view_sheet_focus (wb_control_view (wbc), target_sheet);
-	value_release (vr);
 	return TRUE;
 }
 
@@ -377,6 +368,76 @@ gnm_hlink_cur_wb_class_init (GObjectClass *object_class)
 GSF_CLASS (GnmHLinkCurWB, gnm_hlink_cur_wb,
 	   gnm_hlink_cur_wb_class_init, gnm_hlink_cur_wb_init,
 	   GNM_HLINK_TYPE)
+#if 0
+;
+#endif
+
+
+/**
+ * gnm_hlink_get_range_target:
+ * @lnk: the hyperlink to query
+ * @sr: location to start link target range
+ *
+ * This function determines the location that a link points to.  It will
+ * resolve names.
+ *
+ * Returns: %TRUE, if the link refers to a range.
+ */
+gboolean
+gnm_hlink_get_range_target (GnmHLink const *lnk, GnmSheetRange *sr)
+{
+	GnmHLinkCurWB *hlcwb;
+	GnmExprTop const *texpr;
+	GnmValue *vr;
+	GnmRangeRef const *r;
+	GnmParsePos pp;
+	Sheet *start_sheet, *end_sheet;
+
+	g_return_val_if_fail (GNM_IS_HLINK (lnk), FALSE);
+
+	if (!GNM_IS_HLINK_CUR_WB (lnk))
+		return FALSE;
+
+	hlcwb = (GnmHLinkCurWB *)lnk;
+	texpr = hlcwb->dep.texpr;
+	if (!texpr)
+		return FALSE;
+	vr = gnm_expr_top_get_range (texpr);
+	if (!vr)
+		return FALSE;
+	r = value_get_rangeref (vr);
+
+	parse_pos_init_sheet (&pp, lnk->sheet);
+	gnm_rangeref_normalize_pp (r, &pp, &start_sheet, &end_sheet,
+				   &sr->range);
+	sr->sheet = start_sheet;
+	value_release (vr);
+
+	return TRUE;
+}
+
+
+GnmNamedExpr const *
+gnm_hlink_get_name_target (GnmHLink const *lnk)
+{
+	GnmHLinkCurWB *hlcwb;
+	GnmExprTop const *texpr;
+
+	g_return_val_if_fail (GNM_IS_HLINK (lnk), FALSE);
+
+	if (!GNM_IS_HLINK_CUR_WB (lnk))
+		return FALSE;
+
+	hlcwb = (GnmHLinkCurWB *)lnk;
+	texpr = hlcwb->dep.texpr;
+
+	if (!texpr || GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_NAME)
+		return FALSE;
+
+	return texpr->expr->name.name;
+}
+
+
 
 /***************************************************************************/
 /* Link to arbitrary urls */

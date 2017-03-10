@@ -560,12 +560,6 @@ gnm_rangeref_get_type (void)
 	return t;
 }
 
-/**
- * gnm_rangeref_normalize:
- *
- * Take a range_ref and normalize it by converting to absolute coords and handling
- * inversions.
- */
 void
 gnm_rangeref_normalize_pp (GnmRangeRef const *ref, GnmParsePos const *pp,
 			   Sheet **start_sheet, Sheet **end_sheet,
@@ -590,6 +584,12 @@ gnm_rangeref_normalize_pp (GnmRangeRef const *ref, GnmParsePos const *pp,
 	range_normalize (dest);
 }
 
+/**
+ * gnm_rangeref_normalize:
+ *
+ * Take a range_ref and normalize it by converting to absolute coords and
+ * handling inversions.
+ */
 void
 gnm_rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
 			Sheet **start_sheet, Sheet **end_sheet, GnmRange *dest)
