@@ -4266,35 +4266,46 @@ static void
 oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	char const *link = NULL;
+	char const *href = NULL;
 	char const *tip = _("Left click once to follow this link.\n"
 			    "Middle click once to select this cell");
 	GnmHLink *hlink = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href"))
-			link = CXML2C (attrs[1]);
+			href = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_OFFICE, "title"))
 			tip = CXML2C (attrs[1]);
 
-	if (link != NULL) {
+	if (href != NULL) {
 		GnmStyle *style;
 		GType type;
+		char *link_text = NULL;
 
-		if (g_str_has_prefix (link, "http"))
+		if (g_str_has_prefix (href, "http"))
 			type = gnm_hlink_url_get_type ();
-		else if (g_str_has_prefix (link, "mail"))
+		else if (g_str_has_prefix (href, "mail"))
 			type = gnm_hlink_email_get_type ();
-		else if (g_str_has_prefix (link, "file"))
+		else if (g_str_has_prefix (href, "file"))
 			type = gnm_hlink_external_get_type ();
-		else if (g_str_has_prefix (link, "#")) {
+		else {
+			char *dot;
 			type = gnm_hlink_cur_wb_get_type ();
-			link++;
-		} else
-			type = gnm_hlink_cur_wb_get_type ();
+			if (href[0] == '#')
+				href++;
+			link_text = g_strdup (href);
+
+			// Switch to Sheet!A1 format quick'n'dirty.
+			dot = strchr (link_text, '.');
+			if (dot)
+				*dot = '!';
+		}
+
+		if (!link_text)
+			link_text = g_strdup (href);
 
 		hlink = gnm_hlink_new (type, state->pos.sheet);
-		gnm_hlink_set_target (hlink, link);
+		gnm_hlink_set_target (hlink, link_text);
 		gnm_hlink_set_tip (hlink, tip);
 		style = gnm_style_new ();
 		gnm_style_set_hlink (style, hlink);
@@ -4303,6 +4314,7 @@ oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
 		sheet_style_apply_pos (state->pos.sheet,
 				       state->pos.eval.col, state->pos.eval.row,
 				       style);
+		g_free (link_text);
 	}
 }
 
