@@ -1399,7 +1399,7 @@ msgstr "Chyba při čtení souboru MPS."
 
 #: ../plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program expression format (MPS) module"
-msgstr "Modul pro formát popisující lineární a celočíselné programy (MPS)"
+msgstr "Modul pro formát lineárních a celočíselných programů (MPS)"
 
 #: ../plugins/mps/plugin.xml.in.h:2
 msgid "Reads LP programs stored in the MPS format (*.mps)"
@@ -8997,11 +8997,11 @@ msgstr "`"
 
 #: ../src/dialogs/dialog-stf.ui.h:4
 msgid "Both sides"
-msgstr "Obě strany"
+msgstr "Na obou stranách"
 
 #: ../src/dialogs/dialog-stf.ui.h:5
 msgid "Neither side"
-msgstr "Ani jedna strana"
+msgstr "Na žádné straně"
 
 #: ../src/dialogs/dialog-stf.ui.h:6
 msgid "On left side only"
@@ -9225,7 +9225,7 @@ msgstr "Pevná"
 
 #: ../src/dialogs/dialog-stf.ui.h:58
 msgid "Trim:"
-msgstr "Ořezat:"
+msgstr "Vynechat:"
 
 #: ../src/dialogs/dialog-stf.ui.h:59
 msgid "Source Locale:"
@@ -11655,7 +11655,7 @@ msgstr "Vlastnosti posuvníku"
 
 #: ../src/dialogs/so-scrollbar.ui.h:6
 msgid "Increment:"
-msgstr "Zvýšení:"
+msgstr "Krok:"
 
 #: ../src/dialogs/so-scrollbar.ui.h:7
 msgid "Page:"
@@ -13075,15 +13075,15 @@ msgstr "Vyzvednout do _popředí"
 
 #: ../src/sheet-object.c:271
 msgid "Pull _Forward"
-msgstr "Vyzvednout _vpřed"
+msgstr "Vyzvednout _výš"
 
 #: ../src/sheet-object.c:272
 msgid "Push _Backward"
-msgstr "Odsunout v_zad"
+msgstr "Odsunout _dál"
 
 #: ../src/sheet-object.c:273
 msgid "Pus_h to Back"
-msgstr "Odsunout do poza_dí"
+msgstr "Odsunout do _pozadí"
 
 #: ../src/sheet-object.c:278 ../src/wbc-gtk-actions.c:2071
 msgid "_Delete"
@@ -13765,7 +13765,7 @@ msgstr "Chyba při pokusu zapsat soubor CSV"
 
 #: ../src/stf.c:615
 msgid "Comma or tab separated values (CSV/TSV)"
-msgstr "Hodnoty oddělené čárkou nebo tabelátorem (CSV/TSV)"
+msgstr "Hodnoty oddělené čárkou nebo tabulátorem (CSV/TSV)"
 
 #: ../src/stf.c:623
 msgid "Text import (configurable)"
