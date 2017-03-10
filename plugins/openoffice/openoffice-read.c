@@ -7762,6 +7762,13 @@ oo_named_expr_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean preparse)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "scope"))
 			scope = CXML2C (attrs[1]);
 
+#if 0
+	g_printerr ("%s: %s [sheet=%s]\n",
+		    (preparse ? "preparse" : "parse"),
+		    name,
+		    state->pos.sheet ? state->pos.sheet->name_unquoted : "-");
+#endif
+
 	if (preparse) {
 		expr_str = "of:=#REF!";
 		base_str = NULL;
@@ -11496,28 +11503,6 @@ oo_marker (GsfXMLIn *xin, xmlChar const **attrs)
 /****************** These are the preparse functions ***********************/
 
 static void
-oo_named_expr_preparse (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	oo_named_expr_common (xin, attrs, TRUE);
-}
-
-static void
-odf_preparse_table_start (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-
-	state->pos.eval.col = 0;
-	state->pos.eval.row = 0;
-	state->extent_data.col = 0;
-	state->extent_data.row = 0;
-	state->object_name = NULL;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
-			state->object_name = g_strdup (CXML2C (attrs[1]));
-}
-
-static void
 odf_sheet_suggest_size (GsfXMLIn *xin, int *cols, int *rows)
 {
 	int c = GNM_MIN_COLS;
@@ -11541,12 +11526,7 @@ odf_sheet_suggest_size (GsfXMLIn *xin, int *cols, int *rows)
 }
 
 static void
-odf_preparse_spreadsheet_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-}
-
-static void
-odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+odf_preparse_create_sheet (GsfXMLIn *xin)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int rows, cols;
@@ -11603,6 +11583,63 @@ odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	sot->sheet = sheet;
 	state->sheet_order = g_slist_prepend
 		(state->sheet_order, sot);
+
+	state->pos.sheet = sheet;
+
+#if 0
+	g_printerr ("Created sheet %s\n", sheet->name_unquoted);
+#endif
+}
+
+
+static void
+oo_named_exprs_preparse (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->pos.sheet == NULL && state->object_name != NULL) {
+		// Create sheet, but not for global name section
+		odf_preparse_create_sheet (xin);
+	}
+}
+
+static void
+oo_named_expr_preparse (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	oo_named_expr_common (xin, attrs, TRUE);
+}
+
+static void
+odf_preparse_table_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	state->pos.eval.col = 0;
+	state->pos.eval.row = 0;
+	state->pos.sheet = NULL;
+	state->extent_data.col = 0;
+	state->extent_data.row = 0;
+	state->object_name = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
+			state->object_name = g_strdup (CXML2C (attrs[1]));
+}
+
+static void
+odf_preparse_spreadsheet_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+}
+
+static void
+odf_preparse_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->pos.sheet == NULL)
+		odf_preparse_create_sheet (xin);
+
+	state->pos.sheet = NULL;
 }
 
 
@@ -12281,6 +12318,7 @@ static GsfXMLInNode const opendoc_content_preparse_overrides[] =
 	GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &odf_preparse_row_start, &odf_preparse_row_end),
 	GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &odf_preparse_cell_start, NULL),
 	GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", GSF_XML_NO_CONTENT, &odf_preparse_covered_cell_start, NULL),
+	GSF_XML_IN_NODE (TABLE, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, &oo_named_exprs_preparse, NULL),
 	GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, &oo_named_expr_preparse, NULL),
 	GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, &oo_named_expr_preparse, NULL),
 	GSF_XML_IN_NODE_END

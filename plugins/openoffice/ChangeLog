@@ -3,6 +3,12 @@
 	* openoffice-read.c (oo_cell_content_link): Handle both #Sheet1.A1
 	and #Sheet1!A1 syntax.  It's an open question what happens when
 	and if sheet names need quoting somehow.
+	(oo_named_exprs_preparse): Create the sheet here (except for
+	global names).
+	(odf_preparse_table_end): Only create the sheet here if we didn't
+	already create it.
+	(odf_preparse_create_sheet): New function extracted from
+	odf_preparse_create_sheet.
 
 	* openoffice-write.c (odf_write_link_start): Write internal links
 	in the format Sheet1.A4 as both Excel and LO do.
