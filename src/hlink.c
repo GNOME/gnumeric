@@ -288,20 +288,21 @@ gnm_hlink_cur_wb_set_target (GnmHLink *lnk, const char *target)
 
 	if (target && lnk->sheet) {
 		GnmParsePos pp;
-		GnmNamedExpr *nexpr;
+		GnmExprParseFlags flags = GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID;
+		GnmConventions const *convs = lnk->sheet->convs;
 
-		// Try as name
 		parse_pos_init_sheet (&pp, lnk->sheet);
-		nexpr = expr_name_lookup (&pp, target);
-		if (nexpr != NULL)
-			texpr = gnm_expr_top_new
-				(gnm_expr_new_name (nexpr, NULL, NULL));
+		texpr = gnm_expr_parse_str (target, &pp, flags, convs, NULL);
 
-		if (!texpr) {
-			// Try as cell range
-			GnmValue *v = value_new_cellrange_str (lnk->sheet, target);
-			if (v)
-				texpr = gnm_expr_top_new_constant (v);
+		if (texpr == NULL || gnm_expr_top_is_err (texpr, GNM_ERROR_REF)) {
+			// Nothing, error
+		} else if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_NAME) {
+			// Nothing, we're good
+		} else {
+			// Allow only ranges and normalize
+			GnmValue *v = gnm_expr_top_get_range (texpr);
+			gnm_expr_top_unref (texpr);
+			texpr = v ? gnm_expr_top_new_constant (v) : NULL;
 		}
 	}
 
