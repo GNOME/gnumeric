@@ -186,7 +186,7 @@ gnm_style_border_none_set_color (GnmColor *color)
 /**
  * gnm_style_border_fetch :
  * @line_type: dash style
- * @color: colour
+ * @color: (transfer full): colour
  * @orientation: Not currently used.
  *
  * Fetches a GnmBorder from the cache, creating one if necessary.  Absorbs
