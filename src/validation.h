@@ -75,6 +75,9 @@ GnmValidation *gnm_validation_new   (ValidationStyle style,
 				     gboolean allow_blank,
 				     gboolean use_dropdown);
 GnmValidation *gnm_validation_dup   (GnmValidation *v);
+gboolean    gnm_validation_equal    (GnmValidation const *a,
+				     GnmValidation const *b,
+				     gboolean relax_sheet);
 
 void        gnm_validation_ref      (GnmValidation const *v);
 void        gnm_validation_unref    (GnmValidation const *v);
@@ -83,7 +86,7 @@ void	    gnm_validation_set_expr (GnmValidation *v,
 				     GnmExprTop const *texpr, unsigned indx);
 GError	   *gnm_validation_is_ok    (GnmValidation const *v);
 
-Sheet      *gnm_validation_get_sheet (GnmValidation *v);
+Sheet      *gnm_validation_get_sheet (GnmValidation const *v);
 void        gnm_validation_set_sheet (GnmValidation *v, Sheet *sheet);
 
 ValidationStatus gnm_validation_eval (WorkbookControl *wbc,

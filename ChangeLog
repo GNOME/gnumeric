@@ -1,5 +1,7 @@
 2017-03-17  Morten Welinder  <terra@gnome.org>
 
+	* src/validation.c (gnm_validation_equal): New function.
+
 	* src/mstyle.c (gnm_style_find_differences): New function.
 
 	* src/ssdiff.c (xml_style_changed): Use

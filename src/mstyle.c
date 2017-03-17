@@ -540,6 +540,14 @@ gnm_style_find_conflicts (GnmStyle *accum, GnmStyle const *overlay,
 	return conflicts;
 }
 
+#define RELAX_CHECK(op_,field_,checker_) do {				\
+	if (diffs & (1u << (op_)) &&				\
+	    elem_is_set (a, (op_)) &&				\
+	    elem_is_set (b, (op_)) &&				\
+	    (checker_) (a->field_, b->field_, relax_sheet))	\
+		diffs &= ~(1u << (op_));			\
+	} while (0)
+
 /**
  * gnm_style_find_differences:
  * @a: A #GnmStyle
@@ -566,11 +574,8 @@ gnm_style_find_differences (GnmStyle const *a, GnmStyle const *b,
 	}
 
 	if (relax_sheet) {
-		if (a->hlink && b->hlink &&
-		    gnm_hlink_equal (a->hlink, b->hlink, relax_sheet))
-			diffs &= ~(1u << MSTYLE_HLINK);
-
-		// FIXME: Validations
+		RELAX_CHECK (MSTYLE_HLINK, hlink, gnm_hlink_equal);
+		RELAX_CHECK (MSTYLE_VALIDATION, validation, gnm_validation_equal);
 
 		// FIXME: Conditions
 	}
@@ -578,6 +583,7 @@ gnm_style_find_differences (GnmStyle const *a, GnmStyle const *b,
 	return diffs;
 }
 
+#undef RELAX_CHECK
 
 static inline void
 gnm_style_clear_pango (GnmStyle *style)

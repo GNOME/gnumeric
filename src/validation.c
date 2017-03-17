@@ -326,6 +326,41 @@ gnm_validation_dup (GnmValidation *v)
 	return dst;
 }
 
+gboolean
+gnm_validation_equal (GnmValidation const *a, GnmValidation const *b,
+		      gboolean relax_sheet)
+{
+	int i;
+
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	if (a == b)
+		return TRUE;
+
+	if (!relax_sheet &&
+	    gnm_validation_get_sheet (a) != gnm_validation_get_sheet (b))
+		return FALSE;
+
+	if (!(g_strcmp0 (a->title ? a->title->str : NULL,
+			 b->title ? b->title->str : NULL) == 0 &&
+	      g_strcmp0 (a->msg ? a->msg->str : NULL,
+			 b->msg ? b->msg->str : NULL) == 0 &&
+	      a->style == b->style &&
+	      a->type == b->type &&
+	      a->op == b->op &&
+	      a->allow_blank == b->allow_blank &&
+	      a->use_dropdown == b->use_dropdown))
+		return FALSE;
+
+	for (i = 0; i < 2; i++)
+		if (!gnm_expr_top_equal (a->deps[i].texpr, b->deps[i].texpr))
+			return FALSE;
+
+	return TRUE;
+}
+
+
 void
 gnm_validation_ref (GnmValidation const *v)
 {
@@ -379,7 +414,7 @@ gnm_validation_get_type (void)
  * Returns: (transfer none): the sheet.
  **/
 Sheet *
-gnm_validation_get_sheet (GnmValidation *v)
+gnm_validation_get_sheet (GnmValidation const *v)
 {
 	g_return_val_if_fail (v != NULL, NULL);
 	return v->deps[0].sheet;

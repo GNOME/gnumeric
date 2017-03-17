@@ -241,6 +241,9 @@ gnm_hlink_equal (GnmHLink const *a, GnmHLink const *b, gboolean relax_sheet)
 	g_return_val_if_fail (GNM_IS_HLINK (a), NULL);
 	g_return_val_if_fail (GNM_IS_HLINK (b), NULL);
 
+	if (a == b)
+		return TRUE;
+
 	if (!relax_sheet && a->sheet != b->sheet)
 		return FALSE;
 
