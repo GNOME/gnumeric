@@ -128,6 +128,8 @@ struct GnmDiffState_ {
 
 	const GnmDiffActions *actions;
 
+	gboolean diff_found;
+
 	GsfOutput *output;
 
 	/* The following for xml mode.  */
@@ -867,17 +869,21 @@ diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 			else if (order > 0)
 				co = NULL;
 			else {
-				if (compare_corresponding_cells (co, cn))
+				if (compare_corresponding_cells (co, cn)) {
+					state->diff_found = TRUE;
 					state->actions->cell_changed (state, co, cn);
+				}
 				io++, in++;
 				continue;
 			}
 		}
 
 		if (co) {
+			state->diff_found = TRUE;
 			state->actions->cell_changed (state, co, NULL);
 			io++;
 		} else if (cn) {
+			state->diff_found = TRUE;
 			state->actions->cell_changed (state, NULL, cn);
 			in++;
 		} else
@@ -890,9 +896,11 @@ diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 
 #define DO_INT(field,attr)						\
 	do {								\
-		if (old_sheet->field != new_sheet->field)		\
+		if (old_sheet->field != new_sheet->field) {		\
+			state->diff_found = TRUE;			\
 			state->actions->sheet_attr_int_changed		\
 				(state, attr, old_sheet->field, new_sheet->field); \
+		}							\
 } while (0)
 
 static void
@@ -901,12 +909,16 @@ diff_sheets_attrs (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 	GnmSheetSize const *os = gnm_sheet_get_size (old_sheet);
 	GnmSheetSize const *ns = gnm_sheet_get_size (new_sheet);
 
-	if (os->max_cols != ns->max_cols)
+	if (os->max_cols != ns->max_cols) {
+		state->diff_found = TRUE;
 		state->actions->sheet_attr_int_changed
 			(state, "Cols", os->max_cols, ns->max_cols);
-	if (os->max_rows != ns->max_rows)
+	}
+	if (os->max_rows != ns->max_rows) {
+		state->diff_found = TRUE;
 		state->actions->sheet_attr_int_changed
 			(state, "Rows", os->max_rows, ns->max_rows);
+	}
 
 	DO_INT (display_formulas, "DisplayFormulas");
 	DO_INT (hide_zero, "HideZero");
@@ -939,6 +951,8 @@ cb_diff_sheets_styles_2 (G_GNUC_UNUSED gpointer key,
 
 	if (gnm_style_find_differences (data->old_style, sr->style, TRUE) == 0)
 		return;
+
+	data->state->diff_found = TRUE;
 
 	data->state->actions->style_changed (data->state, &r,
 					     data->old_sheet, data->new_sheet,
@@ -1053,8 +1067,10 @@ diff (char const *oldfilename, char const *newfilename,
 		}
 	}
 
-	if (sheet_order_changed)
+	if (sheet_order_changed) {
+		state.diff_found = TRUE;
 		state.actions->sheet_order_changed (&state);
+	}
 
 	state.actions->diff_end (&state);
 
@@ -1070,10 +1086,13 @@ out:
 
 	gnm_pop_C_locale (locale);
 
+	if (res == 0)
+		res = state.diff_found ? 1 : 0;
+
 	return res;
 
 error:
-	res = 1;
+	res = 2;
 	goto out;
 }
 
@@ -1159,7 +1178,7 @@ main (int argc, char const **argv)
 		g_printerr (_("Usage: %s [OPTION...] %s\n"),
 			    g_get_prgname (),
 			    _("OLDFILE NEWFILE"));
-		res = 1;
+		res = 2;
 	}
 
 	/* Release cached string. */

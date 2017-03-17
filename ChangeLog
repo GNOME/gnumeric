@@ -1,5 +1,7 @@
 2017-03-17  Morten Welinder  <terra@gnome.org>
 
+	* src/ssdiff.c (main): Exit 2 on error, 1 of diffs, 0 if no diff.
+
 	* src/style-conditions.c (gnm_style_conditions_equal): Add new
 	relax_sheet argument.
 
