@@ -16,6 +16,7 @@
 #include "sheet-style.h"
 #include "style-conditions.h"
 #include "hlink.h"
+#include "input-msg.h"
 #include "application.h"
 #include "parse-util.h"
 #include "expr.h"
@@ -540,11 +541,13 @@ gnm_style_find_conflicts (GnmStyle *accum, GnmStyle const *overlay,
 	return conflicts;
 }
 
+#define GNM_INPUT_MSG_EQUAL3(a,b,r) (gnm_input_msg_equal (a,b))
+
 #define RELAX_CHECK(op_,field_,checker_) do {				\
 	if (diffs & (1u << (op_)) &&				\
 	    elem_is_set (a, (op_)) &&				\
 	    elem_is_set (b, (op_)) &&				\
-	    (checker_) (a->field_, b->field_, relax_sheet))	\
+	    checker_ (a->field_, b->field_, relax_sheet))	\
 		diffs &= ~(1u << (op_));			\
 	} while (0)
 
@@ -576,6 +579,7 @@ gnm_style_find_differences (GnmStyle const *a, GnmStyle const *b,
 	if (relax_sheet) {
 		RELAX_CHECK (MSTYLE_HLINK, hlink, gnm_hlink_equal);
 		RELAX_CHECK (MSTYLE_VALIDATION, validation, gnm_validation_equal);
+		RELAX_CHECK (MSTYLE_INPUT_MSG, input_msg, GNM_INPUT_MSG_EQUAL3);
 
 		// FIXME: Conditions
 	}
@@ -584,6 +588,7 @@ gnm_style_find_differences (GnmStyle const *a, GnmStyle const *b,
 }
 
 #undef RELAX_CHECK
+#undef GNM_INPUT_MSG_EQUAL3
 
 static inline void
 gnm_style_clear_pango (GnmStyle *style)

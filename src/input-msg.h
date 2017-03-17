@@ -16,6 +16,9 @@ GnmInputMsg *gnm_input_msg_new	     (char const *msg, char const *title);
 char const  *gnm_input_msg_get_msg   (GnmInputMsg const *msg);
 char const  *gnm_input_msg_get_title (GnmInputMsg const *msg);
 
+gboolean     gnm_input_msg_equal     (GnmInputMsg const *a,
+				      GnmInputMsg const *b);
+
 G_END_DECLS
 
 #endif /* _GNM_INPUT_MSG_H_ */

@@ -92,6 +92,20 @@ gnm_input_msg_new (char const *msg, char const *title)
 	return res;
 }
 
+gboolean
+gnm_input_msg_equal (GnmInputMsg const *a,
+		     GnmInputMsg const *b)
+{
+	g_return_val_if_fail (GNM_IS_INPUT_MSG (a), FALSE);
+	g_return_val_if_fail (GNM_IS_INPUT_MSG (b), FALSE);
+
+	return (g_strcmp0 (a->title ? a->title->str : NULL,
+			   b->title ? b->title->str : NULL) == 0 &&
+		g_strcmp0 (a->msg ? a->msg->str : NULL,
+			   b->msg ? b->msg->str : NULL) == 0);
+}
+
+
 char const *
 gnm_input_msg_get_msg (GnmInputMsg const *imsg)
 {

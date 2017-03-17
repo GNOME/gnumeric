@@ -674,7 +674,6 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 			DO_STRINGS ("Title", cb_validation_title, ov, nv);
 			DO_INTS ("AllowBlank", cb_validation_allow_blank, ov, nv);
 			DO_INTS ("UseDropdown", cb_validation_use_dropdown, ov, nv);
-			gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "<!-- Difference might be spurious -->");
 			gsf_xml_out_end_element (state->xml); /* </Validation> */
 			break;
 		}
@@ -686,7 +685,6 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 			gsf_xml_out_start_element (state->xml, "InputMessage");
 			DO_STRINGS ("Message", gnm_input_msg_get_msg, om, nm);
 			DO_STRINGS ("Title", gnm_input_msg_get_title, om, nm);
-			gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "<!-- Difference might be spurious -->");
 			gsf_xml_out_end_element (state->xml); /* </InputMessage> */
 			break;
 		}
