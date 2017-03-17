@@ -162,6 +162,7 @@ TESTS =	t1000-statfuns.pl			\
 	t8202-gslice3.pl			\
 	t9000-ssindex.pl			\
 	t9001-ssconvert-resize.pl		\
+	t9002-ssdiff-self.pl			\
 	t9100-number-match.pl			\
 	t9999-epilogue.pl
 
