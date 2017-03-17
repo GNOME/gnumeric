@@ -23,6 +23,8 @@ GType gnm_hlink_get_type (void);
 GnmHLink *gnm_hlink_new (GType typ, Sheet *sheet);
 GnmHLink *gnm_hlink_dup (GnmHLink *lnk);
 
+gboolean  gnm_hlink_equal (GnmHLink const *a, GnmHLink const *b, gboolean relax_sheet);
+
 gboolean         gnm_hlink_activate   (GnmHLink *lnk, WBCGtk *wbcg);
 
 const char	*gnm_hlink_get_target (GnmHLink const *lnk);

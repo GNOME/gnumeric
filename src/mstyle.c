@@ -540,6 +540,45 @@ gnm_style_find_conflicts (GnmStyle *accum, GnmStyle const *overlay,
 	return conflicts;
 }
 
+/**
+ * gnm_style_find_differences:
+ * @a: A #GnmStyle
+ * @b: A #GnmStyle
+ * @relax_sheet: if %TRUE, ignore differences solely caused by being linked into different sheets.
+ *
+ * Determine how two fully-qualified styles differ.
+ *
+ * Returns differences as a bitset of #GnmStyleElement.
+ **/
+unsigned int
+gnm_style_find_differences (GnmStyle const *a, GnmStyle const *b,
+			    gboolean relax_sheet)
+{
+	int i;
+	unsigned int diffs = 0;
+
+	g_assert (MSTYLE_ELEMENT_MAX <= CHAR_BIT * sizeof (diffs));
+
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
+		if (elem_is_set (a, i) != elem_is_set (b, i) ||
+		    (elem_is_set (a, i) && !elem_is_eq (a, b, i)))
+			diffs |= (1u << i);
+	}
+
+	if (relax_sheet) {
+		if (a->hlink && b->hlink &&
+		    gnm_hlink_equal (a->hlink, b->hlink, relax_sheet))
+			diffs &= ~(1u << MSTYLE_HLINK);
+
+		// FIXME: Validations
+
+		// FIXME: Conditions
+	}
+
+	return diffs;
+}
+
+
 static inline void
 gnm_style_clear_pango (GnmStyle *style)
 {

@@ -1,3 +1,15 @@
+2017-03-17  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (gnm_style_find_differences): New function.
+
+	* src/ssdiff.c (xml_style_changed): Use
+	gnm_style_find_differences.
+
+	* src/ssdiff.c (cb_diff_sheets_styles_2): Use relaxed
+	gnm_style_find_differences, not gnm_style_equal.
+
+	* src/hlink.c (gnm_hlink_equal): New function.
+
 2017-03-13  Morten Welinder  <terra@gnome.org>
 
 	* src/hlink.c (gnm_hlink_cur_wb_set_target): Improve parsing of

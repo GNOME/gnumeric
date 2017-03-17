@@ -90,6 +90,9 @@ int         gnm_style_cmp           (GnmStyle const *a, GnmStyle const *b);
 
 unsigned int gnm_style_find_conflicts      (GnmStyle *accum, GnmStyle const *overlay,
 					    unsigned int conflicts);
+unsigned int gnm_style_find_differences    (GnmStyle const *a, GnmStyle const *b,
+					    gboolean relax_sheet);
+
 gboolean     gnm_style_is_complete	   (GnmStyle const *style);
 gboolean     gnm_style_is_element_set	   (GnmStyle const *style, GnmStyleElement elem);
 void         gnm_style_unset_element	   (GnmStyle *style, GnmStyleElement elem);

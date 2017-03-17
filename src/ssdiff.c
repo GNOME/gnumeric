@@ -487,7 +487,6 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 {
 	unsigned int conflicts;
 	GnmStyleElement e;
-	GnmStyle *os_copy;
 
 	xml_close_cells (state);
 
@@ -502,9 +501,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 	gsf_xml_out_add_uint (state->xml, "endCol", r->end.col);
 	gsf_xml_out_add_uint (state->xml, "endRow", r->end.row);
 
-	os_copy = gnm_style_dup (os);
-	conflicts = gnm_style_find_conflicts (os_copy, ns, 0);
-	gnm_style_unref (os_copy);
+	conflicts = gnm_style_find_differences (os, ns, TRUE);
 	for (e = 0; e < MSTYLE_ELEMENT_MAX; e++) {
 		if ((conflicts & (1u << e)) == 0)
 			continue;
@@ -943,7 +940,7 @@ cb_diff_sheets_styles_2 (G_GNUC_UNUSED gpointer key,
 	struct cb_diff_sheets_styles *data = user_data;
 	GnmRange r = sr->range;
 
-	if (gnm_style_equal (data->old_style, sr->style))
+	if (gnm_style_find_differences (data->old_style, sr->style, TRUE) == 0)
 		return;
 
 	data->state->actions->style_changed (data->state, &r,

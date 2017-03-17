@@ -227,6 +227,27 @@ gnm_hlink_dup (GnmHLink *lnk)
 	return new_lnk;
 }
 
+/**
+ * gnm_hlink_equal:
+ * @a: a #GnmHLink
+ * @b: a #GnmHLink
+ * @relax_sheet: if %TRUE, ignore differences solely caused by being linked into different sheets.
+ *
+ * Returns: %TRUE, if links are equal
+ */
+gboolean
+gnm_hlink_equal (GnmHLink const *a, GnmHLink const *b, gboolean relax_sheet)
+{
+	g_return_val_if_fail (GNM_IS_HLINK (a), NULL);
+	g_return_val_if_fail (GNM_IS_HLINK (b), NULL);
+
+	if (!relax_sheet && a->sheet != b->sheet)
+		return FALSE;
+
+	return (g_strcmp0 (a->target, b->target) == 0 &&
+		g_strcmp0 (a->tip, b->tip) == 0);
+}
+
 /***************************************************************************/
 /* Link to named regions within the current workbook */
 typedef struct { GnmHLinkClass hlink; } GnmHLinkCurWBClass;
