@@ -397,7 +397,7 @@ gnm_style_hash (gconstpointer style)
     : (elem == MSTYLE_CONDITIONS					\
     ? (a->conditions == b->conditions ||				\
        (a->conditions && b->conditions &&				\
-	gnm_style_conditions_equal (a->conditions, b->conditions)))	\
+	gnm_style_conditions_equal (a->conditions, b->conditions, FALSE)))	\
     : FALSE)))))))))))))))))))))))))
 
 /*
@@ -580,8 +580,7 @@ gnm_style_find_differences (GnmStyle const *a, GnmStyle const *b,
 		RELAX_CHECK (MSTYLE_HLINK, hlink, gnm_hlink_equal);
 		RELAX_CHECK (MSTYLE_VALIDATION, validation, gnm_validation_equal);
 		RELAX_CHECK (MSTYLE_INPUT_MSG, input_msg, GNM_INPUT_MSG_EQUAL3);
-
-		// FIXME: Conditions
+		RELAX_CHECK (MSTYLE_CONDITIONS, conditions, gnm_style_conditions_equal);
 	}
 
 	return diffs;

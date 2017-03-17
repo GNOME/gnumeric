@@ -16,7 +16,8 @@ Morten:
 	* Hyperlinks improvements.  [#706671]
 	* Plug leaks.
 	* Fix issues with sheet-local names.
-	* ssdiff improvements with hyperlinks, input messages, and validations.
+	* ssdiff improvements with hyperlinks, input messages,
+	  conditional formats, and validations.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.33

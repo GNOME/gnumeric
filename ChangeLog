@@ -1,5 +1,8 @@
 2017-03-17  Morten Welinder  <terra@gnome.org>
 
+	* src/style-conditions.c (gnm_style_conditions_equal): Add new
+	relax_sheet argument.
+
 	* src/validation.c (gnm_validation_equal): New function.
 
 	* src/mstyle.c (gnm_style_find_differences): New function.

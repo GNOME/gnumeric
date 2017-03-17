@@ -658,7 +658,8 @@ gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
 }
 
 static gboolean
-gnm_style_cond_equal (GnmStyleCond const *ca, GnmStyleCond const *cb)
+gnm_style_cond_equal (GnmStyleCond const *ca, GnmStyleCond const *cb,
+		      gboolean relax_sheet)
 {
 	unsigned oi, N;
 
@@ -670,7 +671,7 @@ gnm_style_cond_equal (GnmStyleCond const *ca, GnmStyleCond const *cb)
 
 	N = gnm_style_cond_op_operands (ca->op);
 	for (oi = 0; oi < N; oi++) {
-		if (ca->deps[oi].sheet != cb->deps[oi].sheet)
+		if (!relax_sheet && ca->deps[oi].sheet != cb->deps[oi].sheet)
 			return FALSE;
 		if (!gnm_expr_top_equal (ca->deps[oi].texpr,
 					 cb->deps[oi].texpr))
@@ -792,12 +793,14 @@ gnm_style_conditions_hash (GnmStyleConditions const *sc)
  * gnm_style_conditions_equal:
  * @sca: first #GnmStyleConditions to compare.
  * @scb: second #GnmStyleConditions to compare.
+ * @relax_sheet: if %TRUE, ignore differences solely caused by being linked into different sheets.
  *
  * Returns: %TRUE if the conditions are equal.
  **/
 gboolean
 gnm_style_conditions_equal (GnmStyleConditions const *sca,
-			    GnmStyleConditions const *scb)
+			    GnmStyleConditions const *scb,
+			    gboolean relax_sheet)
 {
 	GPtrArray const *ga, *gb;
 	unsigned ui;
@@ -805,7 +808,7 @@ gnm_style_conditions_equal (GnmStyleConditions const *sca,
 	g_return_val_if_fail (sca != NULL, FALSE);
 	g_return_val_if_fail (scb != NULL, FALSE);
 
-	if (sca->sheet != scb->sheet)
+	if (!relax_sheet && sca->sheet != scb->sheet)
 		return FALSE;
 
 	ga = gnm_style_conditions_details (sca);
@@ -818,7 +821,7 @@ gnm_style_conditions_equal (GnmStyleConditions const *sca,
 	for (ui = 0; ui < ga->len; ui++) {
 		GnmStyleCond const *ca = g_ptr_array_index (ga, ui);
 		GnmStyleCond const *cb = g_ptr_array_index (gb, ui);
-		if (!gnm_style_cond_equal (ca, cb))
+		if (!gnm_style_cond_equal (ca, cb, relax_sheet))
 			return FALSE;
 	}
 

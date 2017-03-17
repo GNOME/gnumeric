@@ -691,7 +691,6 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 
 		case MSTYLE_CONDITIONS:
 			gsf_xml_out_start_element (state->xml, "Conditions");
-			gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "<!-- Difference might be spurious -->");
 			gsf_xml_out_end_element (state->xml); /* </Conditions> */
 			break;
 
