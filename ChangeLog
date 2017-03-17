@@ -1,6 +1,9 @@
 2017-03-17  Morten Welinder  <terra@gnome.org>
 
 	* src/ssdiff.c (main): Exit 2 on error, 1 of diffs, 0 if no diff.
+	(compare_corresponding_cells): Fall back to string comparison.
+	References like Sheet1!A1 should match even if they, obviously,
+	refer to sheets in different workbooks.
 
 	* src/style-conditions.c (gnm_style_conditions_equal): Add new
 	relax_sheet argument.

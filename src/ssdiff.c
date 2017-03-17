@@ -812,8 +812,30 @@ compare_corresponding_cells (GnmCell const *co, GnmCell const *cn)
 
 	if (has_expr != gnm_cell_has_expr (cn))
 		return TRUE;
-	if (has_expr)
-		return !gnm_expr_top_equal (co->base.texpr, cn->base.texpr);
+	if (has_expr) {
+		char *so, *sn;
+		GnmParsePos ppo, ppn;
+		gboolean eq;
+
+		if (gnm_expr_top_equal (co->base.texpr, cn->base.texpr))
+			return FALSE;
+
+		// Not equal, but with references to sheets, that is not
+		// necessary.  Compare as strings.
+
+		parse_pos_init_cell (&ppo, co);
+		so = gnm_expr_top_as_string (co->base.texpr, &ppo, sheet_get_conventions (co->base.sheet));
+
+		parse_pos_init_cell (&ppn, cn);
+		sn = gnm_expr_top_as_string (cn->base.texpr, &ppn, sheet_get_conventions (cn->base.sheet));
+
+		eq = g_strcmp0 (so, sn) == 0;
+
+		g_free (so);
+		g_free (sn);
+
+		return !eq;
+	}
 
 	if (has_value != (cn->value != NULL))
 		return TRUE;

@@ -19,6 +19,7 @@ Morten:
 	* ssdiff improvements with hyperlinks, input messages,
 	  conditional formats, and validations.
 	* Make exit code from ssdiff follow diff's.
+	* Fix ssdiff with inter-sheet references.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.33
