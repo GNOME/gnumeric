@@ -1,3 +1,8 @@
+2017-03-17  Morten Welinder  <terra@gnome.org>
+
+	* dialog-hyperlink.c (dhl_get_tip): Return NULL for default tip so
+	we don't store it.
+
 2017-01-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.33

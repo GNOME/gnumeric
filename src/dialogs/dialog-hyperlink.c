@@ -61,6 +61,8 @@ typedef struct {
 	GnmExprEntry *internal_link_ee;
 	GnmHLink  *link;
 	gboolean   is_new;
+
+	GtkWidget *use_def_widget;
 } HyperlinkState;
 
 static void
@@ -104,14 +106,12 @@ dhl_set_tip (HyperlinkState* state)
 	if (tip != NULL) {
 		char const * const target = gnm_hlink_get_target (state->link);
 		char *default_tip = dhl_get_default_tip (target);
-
-		if (strcmp (tip, default_tip) == 0) {
-			w = go_gtk_builder_get_widget (state->gui, "use-default-tip");
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
-			g_free (default_tip);
+		gboolean is_default = (strcmp (tip, default_tip) == 0);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->use_def_widget),
+					      is_default);
+		g_free (default_tip);
+		if (is_default)
 			return;
-		} else
-			g_free (default_tip);
 	}
 	w = go_gtk_builder_get_widget (state->gui, "use-this-tip");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
@@ -125,10 +125,8 @@ dhl_set_tip (HyperlinkState* state)
 static char *
 dhl_get_tip (HyperlinkState *state, char const *target)
 {
-	GtkWidget *w = go_gtk_builder_get_widget (state->gui, "use-default-tip");
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
-		return dhl_get_default_tip (target);
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->use_def_widget)))
+		return NULL;
 	else {
 		char *tip;
 		GtkTextBuffer *tb = gtk_text_view_get_buffer
@@ -594,6 +592,8 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 	state->sc   = sc;
 	state->gui  = gui;
         state->dialog = go_gtk_builder_get_widget (state->gui, "hyperlink-dialog");
+
+	state->use_def_widget = go_gtk_builder_get_widget (state->gui, "use-default-tip");
 
 	state->sheet = sc_sheet (sc);
 	for (ptr = sc_view (sc)->selections; ptr != NULL; ptr = ptr->next) {
