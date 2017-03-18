@@ -8,10 +8,6 @@ use GnumericTest;
 &message ("Check ssdiff on identical files");
 
 my @sources = &GnumericTest::corpus();
-# Remove stuff that currently fails.  (Not yet investigated.)
-@sources = grep { !/dbfuns\.xls/} @sources;
-@sources = grep { !/operator\.xls/} @sources;
-@sources = grep { !/cellstyle\.xlsx/} @sources;
 
 my $ngood = 0;
 my $nbad = 0;

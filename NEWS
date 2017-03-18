@@ -20,6 +20,7 @@ Morten:
 	  conditional formats, and validations.
 	* Make exit code from ssdiff follow diff's.
 	* Fix ssdiff with inter-sheet references.
+	* Fix style border colour sharing.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.33

@@ -681,14 +681,7 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 	sheet->style_data = g_new (GnmSheetStyleData, 1);
 	sheet->style_data->style_hash = sh_create ();
 
-	{
-		GnmColor *ap = style_color_auto_pattern ();
-#warning "FIXME: Allocating a GnmColor here is dubious."
-		sheet->style_data->auto_pattern_color = g_new (GnmColor, 1);
-		*sheet->style_data->auto_pattern_color = *ap;
-		sheet->style_data->auto_pattern_color->ref_count = 1;
-		style_color_unref (ap);
-	}
+	sheet->style_data->auto_pattern_color = style_color_auto_pattern ();
 
 	default_style =  gnm_style_new_default ();
 #if 0
@@ -833,7 +826,7 @@ sheet_style_shutdown (Sheet *sheet)
 /**
  * sheet_style_set_auto_pattern_color:
  * @sheet: The sheet
- * @grid_color: The color
+ * @grid_color: (transfer full): The color
  *
  * Set the color for rendering auto colored patterns in this sheet.
  * Absorbs a reference to @pattern_color;
@@ -841,17 +834,11 @@ sheet_style_shutdown (Sheet *sheet)
 void
 sheet_style_set_auto_pattern_color (Sheet *sheet, GnmColor *pattern_color)
 {
-	GnmColor *apc;
-	int ref_count;
-
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->style_data != NULL);
 
-	apc = sheet->style_data->auto_pattern_color;
-	ref_count = apc->ref_count;
-	*apc = *pattern_color;
-	apc->is_auto = TRUE;
-	apc->ref_count = ref_count;
+	style_color_unref (sheet->style_data->auto_pattern_color);
+	sheet->style_data->auto_pattern_color = gnm_color_new_auto (pattern_color->go_color);
 	style_color_unref (pattern_color);
 }
 
@@ -859,8 +846,8 @@ sheet_style_set_auto_pattern_color (Sheet *sheet, GnmColor *pattern_color)
  * sheet_style_get_auto_pattern_color:
  * @sheet: the sheet
  *
- * Caller receives a reference to the result.
- * Returns the color for rendering auto colored patterns in this sheet.
+ * Returns: (transfer full): the color for rendering auto colored patterns
+ * in this sheet.
  **/
 GnmColor *
 sheet_style_get_auto_pattern_color (Sheet const *sheet)

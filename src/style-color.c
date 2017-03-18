@@ -21,13 +21,25 @@ static GnmColor *sc_auto_font;
 static GnmColor *sc_auto_pattern;
 
 static GnmColor *
-gnm_color_new_uninterned (GOColor c, gboolean is_auto)
+gnm_color_make (GOColor c, gboolean is_auto)
 {
-	GnmColor *sc = g_new (GnmColor, 1);
+	GnmColor key, *sc;
 
-	sc->go_color = c;
-	sc->is_auto = !!is_auto;
-	sc->ref_count = 1;
+	is_auto = !!is_auto;
+
+	key.go_color = c;
+	key.is_auto = is_auto;
+
+	sc = g_hash_table_lookup (style_color_hash, &key);
+	if (!sc) {
+		sc = g_new (GnmColor, 1);
+		sc->go_color = c;
+		sc->is_auto = is_auto;
+		sc->ref_count = 1;
+
+		g_hash_table_insert (style_color_hash, sc, sc);
+	} else
+		sc->ref_count++;
 
 	return sc;
 }
@@ -77,20 +89,13 @@ gnm_color_new_rgb8 (guint8 red, guint8 green, guint8 blue)
 GnmColor *
 gnm_color_new_go (GOColor c)
 {
-	GnmColor *sc;
-	GnmColor key;
+	return gnm_color_make (c, FALSE);
+}
 
-	key.go_color = c;
-	key.is_auto = FALSE;
-
-	sc = g_hash_table_lookup (style_color_hash, &key);
-	if (!sc) {
-		sc = gnm_color_new_uninterned (c, FALSE);
-		g_hash_table_insert (style_color_hash, sc, sc);
-	} else
-		sc->ref_count++;
-
-	return sc;
+GnmColor *
+gnm_color_new_auto (GOColor c)
+{
+	return gnm_color_make (c, TRUE);
 }
 
 GnmColor *
@@ -130,7 +135,7 @@ GnmColor *
 style_color_auto_font (void)
 {
 	if (!sc_auto_font)
-		sc_auto_font = gnm_color_new_uninterned (GO_COLOR_BLACK, TRUE);
+		sc_auto_font = gnm_color_new_auto (GO_COLOR_BLACK);
 	return style_color_ref (sc_auto_font);
 }
 
@@ -143,7 +148,7 @@ GnmColor *
 style_color_auto_back (void)
 {
 	if (!sc_auto_back)
-		sc_auto_back = gnm_color_new_uninterned (GO_COLOR_WHITE, TRUE);
+		sc_auto_back = gnm_color_new_auto (GO_COLOR_WHITE);
 	return style_color_ref (sc_auto_back);
 }
 
@@ -156,7 +161,7 @@ GnmColor *
 style_color_auto_pattern (void)
 {
 	if (!sc_auto_pattern)
-		sc_auto_pattern = gnm_color_new_uninterned (GO_COLOR_BLACK, TRUE);
+		sc_auto_pattern = gnm_color_new_auto (GO_COLOR_BLACK);
 	return style_color_ref (sc_auto_pattern);
 }
 

@@ -25,6 +25,7 @@ GnmColor *gnm_color_new_rgb8  (guint8 red, guint8 green, guint8 blue);
 GnmColor *gnm_color_new_rgba8 (guint8 red, guint8 green, guint8 blue, guint8 alpha);
 GnmColor *gnm_color_new_pango (PangoColor const *c);
 GnmColor *gnm_color_new_gdk   (GdkRGBA const *c);
+GnmColor *gnm_color_new_auto  (GOColor c);
 GnmColor *style_color_auto_font (void);
 GnmColor *style_color_auto_back (void);
 GnmColor *style_color_auto_pattern (void);

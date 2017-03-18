@@ -1,5 +1,14 @@
 2017-03-17  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c (sheet_style_init_size): Don't hand-create a
+	bogus GnmColor here.  The fake object prevents GnmColor equality
+	from working which in turn prevents GnmBorder equality from
+	working.
+
+	* src/style-color.c (gnm_color_make): Rename from
+	gnm_color_new_uninterned and handle caching here.
+	(gnm_color_new_auto): New function.
+
 	* src/ssdiff.c (main): Exit 2 on error, 1 of diffs, 0 if no diff.
 	(compare_corresponding_cells): Fall back to string comparison.
 	References like Sheet1!A1 should match even if they, obviously,
