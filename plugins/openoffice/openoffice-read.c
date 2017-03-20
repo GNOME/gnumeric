@@ -4311,8 +4311,7 @@ oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *href = NULL;
-	char const *tip = _("Left click once to follow this link.\n"
-			    "Middle click once to select this cell");
+	char const *tip = NULL;
 	GnmHLink *hlink = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
