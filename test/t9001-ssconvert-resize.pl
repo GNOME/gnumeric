@@ -13,7 +13,7 @@ my $tmp = "regress-resize.gnumeric";
 
 # Shrink rows
 &test_command ("$ssconvert --resize=8192x256 $src $tmp", sub { 1 } );
-&test_command ("$ssdiff --xml $src $tmp",
+&test_command ("($ssdiff --xml $src $tmp ; true)",
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -27,7 +27,7 @@ DIFF
 
 # Shrink cols
 &test_command ("$ssconvert --resize=65536x128 $src $tmp", sub { 1 } );
-&test_command ("$ssdiff --xml $src $tmp",
+&test_command ("($ssdiff --xml $src $tmp ; true)",
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -41,7 +41,7 @@ DIFF
 
 # Shrink both
 &test_command ("$ssconvert --resize=8192x128 $src $tmp", sub { 1 } );
-&test_command ("$ssdiff --xml $src $tmp",
+&test_command ("($ssdiff --xml $src $tmp ; true)",
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -56,7 +56,7 @@ DIFF
 
 # Expand rows
 &test_command ("$ssconvert --resize=1048576x256 $src $tmp", sub { 1 } );
-&test_command ("$ssdiff --xml $src $tmp",
+&test_command ("($ssdiff --xml $src $tmp ; true)",
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -70,7 +70,7 @@ DIFF
 
 # Expand cols
 &test_command ("$ssconvert --resize=65536x512 $src $tmp", sub { 1 } );
-&test_command ("$ssdiff --xml $src $tmp",
+&test_command ("($ssdiff --xml $src $tmp ; true)",
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -84,7 +84,7 @@ DIFF
 
 # Expand both
 &test_command ("$ssconvert --resize=1048576x16384 $src $tmp", sub { 1 } );
-&test_command ("$ssdiff --xml $src $tmp",
+&test_command ("($ssdiff --xml $src $tmp ; true)",
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
