@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in.
 
 SUBDIRS =
-EXTRA_DIST=
+EXTRA_DIST=make-func-list.pl
 noinst_DATA=
 DISTCLEANFILES=
 
@@ -550,7 +550,7 @@ C/functions.xml: $(srcdir)/make-func-list.pl $(functions_xml_parts)
 	    mv functions.out $@; rm functions.tmp;					\
 	fi
 
-C/func.defs: $(top_builddir)/src/gnumeric$(EXEEXT)
+C/func.defs: # $(top_builddir)/src/gnumeric$(EXEEXT)
 	LC_ALL="C" ; export LC_ALL ; $(top_builddir)/src/gnumeric --dump-func-defs="$@"
 
 EXTRA_DIST+=C/func.defs
