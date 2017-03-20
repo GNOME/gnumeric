@@ -238,8 +238,8 @@ gnm_hlink_dup (GnmHLink *lnk)
 gboolean
 gnm_hlink_equal (GnmHLink const *a, GnmHLink const *b, gboolean relax_sheet)
 {
-	g_return_val_if_fail (GNM_IS_HLINK (a), NULL);
-	g_return_val_if_fail (GNM_IS_HLINK (b), NULL);
+	g_return_val_if_fail (GNM_IS_HLINK (a), FALSE);
+	g_return_val_if_fail (GNM_IS_HLINK (b), FALSE);
 
 	if (a == b)
 		return TRUE;
