@@ -1100,7 +1100,7 @@ gnm_conf_get_core_defaultfont_size_node (void)
 static struct cb_watch_bool watch_core_file_save_def_overwrite = {
 	0, "core/file/save/def-overwrite",
 	"Default To Overwriting Files",
-	"Before an existing file is being overwritten, gnumeric will present a warning dialog. Setting this option will make the overwrite button in that dialog the default button.",
+	"Before an existing file is being overwritten, Gnumeric will present a warning dialog. Setting this option will make the overwrite button in that dialog the default button.",
 	FALSE,
 };
 
@@ -1399,7 +1399,7 @@ gnm_conf_get_core_gui_editing_function_name_tooltips_node (void)
 static struct cb_watch_int watch_core_gui_editing_recalclag = {
 	0, "core/gui/editing/recalclag",
 	"Auto Expression Recalculation Lag",
-	"If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to accumulate more changes before each recalculation. If `lag' is positive, then whenever a change appears, gnumeric waits `lag' milliseconds and then recalculates; if more changes appear during that period, they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of |lag| milliseconds.",
+	"If `lag' is 0, Gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow Gnumeric to accumulate more changes before each recalculation. If `lag' is positive, then whenever a change appears, Gnumeric waits `lag' milliseconds and then recalculates; if more changes appear during that period, they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of |lag| milliseconds.",
 	-5000, 5000, 200,
 };
 
@@ -1921,7 +1921,7 @@ gnm_conf_get_core_workbook_autosave_time_node (void)
 static struct cb_watch_int watch_core_workbook_n_cols = {
 	0, "core/workbook/n-cols",
 	"Default Number of columns in a sheet",
-	"The number of columns in each sheet. This setting will be used only in a new gnumeric session.",
+	"The number of columns in each sheet. This setting will be used only in a new Gnumeric session.",
 	GNM_MIN_COLS, GNM_MAX_COLS, 256,
 };
 
@@ -1950,7 +1950,7 @@ gnm_conf_get_core_workbook_n_cols_node (void)
 static struct cb_watch_int watch_core_workbook_n_rows = {
 	0, "core/workbook/n-rows",
 	"Default Number of rows in a sheet",
-	"The number of rows in each sheet. This setting will be used only in a new gnumeric session.",
+	"The number of rows in each sheet. This setting will be used only in a new Gnumeric session.",
 	GNM_MIN_ROWS, GNM_MAX_ROWS, 65536,
 };
 
@@ -2979,7 +2979,7 @@ gnm_conf_get_printsetup_margin_gtk_left_node (void)
 
 static struct cb_watch_double watch_printsetup_margin_gtk_right = {
 	0, "printsetup/margin-gtk-right",
-	"Default Bottom Margin",
+	"Default Right Margin",
 	"This value gives the default number of points from the right of a page to the right of the body. Please use the Print Setup dialog to edit this value.",
 	0, 720, 72,
 };
@@ -3882,7 +3882,7 @@ gnm_conf_get_stf_export_encoding_node (void)
 
 static struct cb_watch_enum watch_stf_export_format = {
 	0, "stf/export/format",
-	"Text Export Formating Rule",
+	"Text Export Formatting Rule",
 	"Please use the Text Export dialog to edit this value.",
 	GNM_STF_FORMAT_AUTO,
 };
