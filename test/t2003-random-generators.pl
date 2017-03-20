@@ -6,7 +6,7 @@ use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
 my $user = $ENV{'USER'} || '-';
-my $ignore_failure = !($user eq 'welinder' || $user eq 'aguelzow');
+my $ignore_failure = 1; # !($user eq 'welinder' || $user eq 'aguelzow');
 
 sub expected {
     my ($actual) = @_;
