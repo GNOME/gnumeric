@@ -532,6 +532,19 @@ test_nonascii_numbers (void)
 
 /*-------------------------------------------------------------------------- */
 
+static char *random_summary = NULL;
+
+static void
+add_random_fail (const char *s)
+{
+	if (random_summary) {
+		char *t = g_strconcat (random_summary, ", ", s, NULL);
+		g_free (random_summary);
+		random_summary = t;
+	} else
+		random_summary = g_strdup (s);
+}
+
 static void
 define_cell (Sheet *sheet, int c, int r, const char *expr)
 {
@@ -814,6 +827,8 @@ test_random_rand (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RAND");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -892,6 +907,8 @@ test_random_randuniform (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDUNIFORM");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -952,6 +969,8 @@ test_random_randbernoulli (int N)
 	}
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDBERNOULLI");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1018,6 +1037,8 @@ test_random_randdiscrete (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDDISCRETE");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1088,6 +1109,8 @@ test_random_randnorm (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDNORM");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1152,6 +1175,8 @@ test_random_randsnorm (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDSNORM");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1227,6 +1252,8 @@ test_random_randexp (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDEXP");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1303,6 +1330,8 @@ test_random_randgamma (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDGAMMA");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1381,6 +1410,8 @@ test_random_randbeta (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDBETA");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1456,6 +1487,8 @@ test_random_randtdist (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDTDIST");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1535,6 +1568,8 @@ test_random_randfdist (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDFDIST");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1610,6 +1645,8 @@ test_random_randchisq (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDCHISQ");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1690,6 +1727,8 @@ test_random_randcauchy (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDCAUCHY");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1768,6 +1807,8 @@ test_random_randbinom (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDBINOM");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1847,6 +1888,8 @@ test_random_randnegbinom (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDNEGBINOM");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -1930,6 +1973,8 @@ test_random_randhyperg (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDHYPERG");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -2000,6 +2045,8 @@ test_random_randbetween (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDBETWEEN");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -2077,6 +2124,8 @@ test_random_randpoisson (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDPOISSON");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -2157,6 +2206,8 @@ test_random_randgeom (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDGEOM");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -2235,6 +2286,8 @@ test_random_randlog (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDLOG");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -2318,6 +2371,8 @@ test_random_randweibull (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDWEIBULL");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -2396,6 +2451,8 @@ test_random_randlognorm (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDLOGNORM");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -2472,6 +2529,8 @@ test_random_randrayleigh (int N)
 
 	if (ok)
 		g_printerr ("OK\n");
+	else
+		add_random_fail ("RANDRAYLEIGH");
 	g_printerr ("\n");
 
 	g_free (vals);
@@ -2530,6 +2589,15 @@ test_random (void)
 	CHECK1 (randpoisson, High_N);
 
 #undef CHECK1
+
+	if (!single) {
+		if (random_summary)
+			g_printerr ("SUMMARY: FAIL for %s\n\n", random_summary);
+		else
+			g_printerr ("SUMMARY: OK\n\n");
+	}
+	g_free (random_summary);
+	random_summary = NULL;
 
 	mark_test_end (test_name);
 }
