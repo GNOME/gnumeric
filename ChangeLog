@@ -1,3 +1,7 @@
+2017-03-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.34
+
 2017-03-17  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (sheet_style_init_size): Don't hand-create a

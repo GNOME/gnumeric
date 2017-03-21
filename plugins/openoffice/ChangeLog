@@ -1,3 +1,7 @@
+2017-03-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.34
+
 2017-03-20  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_cell_content_link): Don't reinvent the
